@@ -4,6 +4,7 @@ from pyrogram import Client, filters
 from pyrogram.types import Message
 
 from handlers.utils.random import NONE_CMD, HELLO, REACTIONS, CATCH_REACT
+from handlers.utils.httpx import http
 
 
 @Client.on_message(filters.regex(r"(?i)^Korone, gire um dado$"))
@@ -46,6 +47,18 @@ async def catch_him(c: Client, m: Message):
     reaction = random.choice(REACTIONS)
     await m.reply_text((react + reaction)
                        .format(m.reply_to_message.from_user.first_name))
+
+
+@Client.on_message(filters.regex(r"(?i)^Korone, me conte uma piada$"))
+async def dadjoke(c: Client, m: Message):
+    response = await http.get("https://icanhazdadjoke.com/", headers={"Accept": "application/json"})
+    if response.status_code == 200:
+        dad_joke = (response.json())["joke"]
+    else:
+        await m.reply_text(f"An error occurred: **{response.status_code}**")
+        return
+
+    await m.reply_text(dad_joke)
 
 
 @Client.on_message(filters.regex(r"(?i)^Korone,"))
