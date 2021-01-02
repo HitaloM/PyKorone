@@ -1,3 +1,6 @@
+import os
+import platform
+import pyrogram
 from datetime import datetime
 
 from pyrogram import Client, filters
@@ -16,9 +19,13 @@ async def ping(c: Client, m: Message):
 
 @Client.on_message(filters.command("dev", prefix))
 async def dev(c: Client, m: Message):
+    python_version = platform.python_version()
+    pyrogram_version = pyrogram.__version__ 
     await m.reply_text(
-        """
-<i>Mais informações serão adicionadas neste comando!</i>
+        f"""
+<b>Korone Info:</b>
+<b>Python:</b> <code>{python_version}</code>
+<b>Pyrogram:</b> <code>{pyrogram_version}</code>
 
 Feito com ❤️ por @Hitalo
     """
