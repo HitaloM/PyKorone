@@ -1,0 +1,12 @@
+# Bot token from Bot Father
+TOKEN = ""
+
+# Your API ID and API HASH from https://my.telegram.org/apps
+API_ID = 123123
+API_HASH = ""
+
+# Sudoers (to use some special commands)
+SUDOERS = [918317361]
+
+# Prefixes for commands, e.g: /dev and !dev
+prefix = ["/", "!"]
