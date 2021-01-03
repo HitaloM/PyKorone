@@ -6,6 +6,7 @@ API_ID = 123123
 API_HASH = ""
 
 # Sudoers (to use some special commands)
+OWNER = 918317361
 SUDOERS = [918317361]
 
 # Prefixes for commands, e.g: /dev and !dev

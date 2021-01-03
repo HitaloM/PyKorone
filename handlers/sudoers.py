@@ -19,10 +19,15 @@ import sys
 from pyrogram import Client, filters
 from pyrogram.types import Message
 
-from config import SUDOERS, prefix
+from config import SUDOERS, OWNER, prefix
 
 
 @Client.on_message(filters.command("reboot", prefix) & filters.user(SUDOERS))
 async def restart(c: Client, m: Message):
     await m.reply_text("Reiniciando...")
     os.execl(sys.executable, sys.executable, *sys.argv)
+
+@Client.on_message(filters.command("shutdown", prefix) & filters.user(OWNER))
+async def shutdown(c: Client, m: Message):
+    await m.reply_text("Adeus...")
+    sys.exit()

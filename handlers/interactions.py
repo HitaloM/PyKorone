@@ -21,7 +21,7 @@ from pyrogram.types import Message
 from handlers.utils.random import WHATSUP_REACT
 
 
-@Client.on_message(filters.regex(r"(?i)^Oi$") & filters.reply)
+@Client.on_message(filters.regex(r"(?i)^Oi$"))
 async def hi(c: Client, m: Message):
     if m.chat.type == "private":
         await m.reply_text("Olá ^^")
@@ -30,7 +30,7 @@ async def hi(c: Client, m: Message):
         return
 
 
-@Client.on_message(filters.regex(r"(?i)^Ol(á|a)$") & filters.reply)
+@Client.on_message(filters.regex(r"(?i)^Ol(á|a)$"))
 async def hello(c: Client, m: Message):
     if m.chat.type == "private":
         await m.reply_text("Oi ^^")
@@ -39,7 +39,7 @@ async def hello(c: Client, m: Message):
         return
 
 
-@Client.on_message(filters.regex(r"(?i)^(okay|ok)$") & filters.reply)
+@Client.on_message(filters.regex(r"(?i)^(okay|ok)$"))
 async def okay(c: Client, m: Message):
     if m.chat.type == "private":
         await m.reply_text("Hmm...")

@@ -32,15 +32,16 @@ async def ping(c: Client, m: Message):
     await sent.edit_text(f"<b>Pong!</b> <code>{time}</code>ms")
 
 
-@Client.on_message(filters.command("dev", prefix))
+@Client.on_message(filters.command("py", prefix))
 async def dev(c: Client, m: Message):
     python_version = platform.python_version()
     pyrogram_version = pyrogram.__version__
     await m.reply_text(
         f"""
 <b>Korone Info:</b>
-<b>Python:</b> <code>{python_version}</code>
-<b>Pyrogram:</b> <code>{pyrogram_version}</code>
+- <b>Pyrogram:</b> <code>{c.app_version}</code>
+- <b>Python:</b> <code>{c.device_model}</code>
+- <b>System:</b> <code>{c.system_version}</code>
 
 Feito com ❤️ por @Hitalo
     """

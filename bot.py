@@ -13,15 +13,15 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-import os
 import logging
 from rich.logging import RichHandler
 from rich import print, box
 from rich.panel import Panel
 
 from pyrogram import Client, idle
+from pyrogram.errors.exceptions.bad_request_400 import BadRequest
 
-from config import API_ID, API_HASH, TOKEN
+from config import API_ID, API_HASH, TOKEN, OWNER
 
 # Logging colorized by rich
 FORMAT = "%(message)s"
@@ -48,6 +48,15 @@ client = Client("bot", API_ID, API_HASH,
 text = f":rocket: [bold green]PyKorone Running...[/bold green] :rocket:"
 print(Panel.fit(text, border_style='blue', box=box.ASCII))
 
-if __name__ == "__main__":
-    client.start()
-    idle()
+with client:
+    if __name__ == "__main__":
+        try:
+            client.send_message(OWNER,
+                                f"""<b>PyKorone Started...</b>
+- <b>Pyrogram:</b> <code>{client.app_version}</code>
+- <b>Python:</b> <code>{client.device_model}</code>
+- <b>System:</b> <code>{client.system_version}</code>
+           """)
+        except BadRequest:
+            logging.warning("Cannot send startup message to SUDOERS...")
+        idle()
