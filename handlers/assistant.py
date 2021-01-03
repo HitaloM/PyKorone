@@ -29,13 +29,15 @@ async def give_me_cookie(c: Client, m: Message):
                        .format(m.from_user.first_name))
 
 
-@Client.on_message(filters.regex(r"(?i)^Korone, d(ê|e) um cookie$") & filters.reply)
+@Client.on_message(filters.regex(r"(?i)^Korone, d(ê|e) um cookie$")
+                   & filters.reply)
 async def give_cookie(c: Client, m: Message):
     await m.reply_text(("*dá um cookie à {}* ^^")
                        .format(m.reply_to_message.from_user.first_name))
 
 
-@Client.on_message(filters.regex(r"(?i)^Korone, qual o nome dele$") & filters.reply)
+@Client.on_message(filters.regex(r"(?i)^Korone, qual o nome dele$")
+                   & filters.reply)
 async def tell_name(c: Client, m: Message):
     await m.reply_text(("O nome dele é {}! ^^")
                        .format(m.reply_to_message.from_user.first_name))

@@ -76,8 +76,7 @@ DOGE_REACT = (
 BANHAMMERS = (
     "CAACAgQAAx0CT2XwHwACV-Nf78g1TSCO_mWtKhTbpOdalpdNHAACzwEAAgYlKAMdkZFHZv_nNR4E",
     "CAACAgQAAx0CT2XwHwACWAABX-_J6flwJKzep9rYUQttGXJzcwQAAtEBAAIGJSgDDFVJta1mslAeBA",
-    "CAACAgQAAx0CT2XwHwACWDlf78oRiyeopP7i4rPx_k62hLyOGgACxgEAAgYlKANkSj4WKRcTjx4E"
-)
+    "CAACAgQAAx0CT2XwHwACWDlf78oRiyeopP7i4rPx_k62hLyOGgACxgEAAgYlKANkSj4WKRcTjx4E")
 
 WHATSUP_REACT = (
     "Ah, tudo está bem eu acho ~\nGostaria de um cookie? ❤️",
