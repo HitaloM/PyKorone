@@ -13,13 +13,21 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+import re
 import random
 from datetime import datetime
 
 from pyrogram import Client, filters
 from pyrogram.types import Message
 
-from handlers.utils.random import FUCK_REACT, AYY_REACT, UWU_REACT, DOGE_REACT, BANHAMMERS
+from handlers.utils.random import (
+    FUCK_REACT,
+    AYY_REACT,
+    UWU_REACT,
+    DOGE_REACT,
+    BANHAMMERS,
+    NONE_CMD
+)
 
 
 @Client.on_message(filters.regex(r"(?i)^koto$"))

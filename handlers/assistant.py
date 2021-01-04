@@ -1,10 +1,30 @@
+# This file is part of Korone (Telegram Bot)
+
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as
+# published by the Free Software Foundation, either version 3 of the
+# License, or (at your option) any later version.
+
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
 import random
 
 from pyrogram import Client, filters
 from pyrogram.types import Message
 
-from handlers.utils.random import NONE_CMD, HELLO, REACTIONS, CATCH_REACT
 from handlers.utils.httpx import http
+from handlers.utils.random import (
+    NONE_CMD,
+    HELLO,
+    REACTIONS,
+    CATCH_REACT
+)
 
 
 @Client.on_message(filters.regex(r"(?i)^Korone, gire um dado$"))
@@ -51,7 +71,7 @@ async def catch_him(c: Client, m: Message):
                        .format(m.reply_to_message.from_user.first_name))
 
 
-@Client.on_message(filters.regex(r"(?i)^Korone, me conte uma piada$"))
+@Client.on_message(filters.regex(r"(?i)^Korone, (me |)conte uma piada$"))
 async def dadjoke(c: Client, m: Message):
     response = await http.get("https://icanhazdadjoke.com/", headers={"Accept": "application/json"})
     if response.status_code == 200:

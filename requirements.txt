@@ -1,3 +1,8 @@
+# Core deps
 pyrogram
 tgcrypto
+pyromod
+
+# Plugins deps
 httpx[http2]
+rich

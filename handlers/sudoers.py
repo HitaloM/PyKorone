@@ -27,6 +27,7 @@ async def restart(c: Client, m: Message):
     await m.reply_text("Reiniciando...")
     os.execl(sys.executable, sys.executable, *sys.argv)
 
+
 @Client.on_message(filters.command("shutdown", prefix) & filters.user(OWNER))
 async def shutdown(c: Client, m: Message):
     await m.reply_text("Adeus...")

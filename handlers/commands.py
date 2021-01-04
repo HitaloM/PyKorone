@@ -13,14 +13,17 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+import re
 import platform
 import pyrogram
+import random
 from datetime import datetime
 
 from pyrogram import Client, filters
 from pyrogram.types import Message
 
 from config import prefix
+from handlers.utils.random import NONE_CMD
 
 
 @Client.on_message(filters.command("ping", prefix))
@@ -57,3 +60,11 @@ Oi, eu sou o <b>Korone</b>, um bot interativo que adora participar de grupos!
 Você pode entender como eu funciono com o comando /help
     """
     )
+
+
+@Client.on_message(filters.regex(r'^/\w+') & filters.private, group=-1)
+async def none_command(c: Client, m: Message):
+    if re.match(r'^(\/start|\/py|\/ping|\/reboot|\/shutdown|korone,)', m.text):
+        m.continue_propagation()
+    react = random.choice(NONE_CMD)
+    await m.reply_text(react)

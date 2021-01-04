@@ -91,3 +91,20 @@ WELCOME_REACT = (
     "はい",
     "*se esconde e espiona*"
 )
+
+HEY_REACT = (
+    "Oi oi!\nPosso te ajudar?\nTalvez você queira alguns cookies? ~",
+    "Olá {}!",
+    "Oiiii {}!!",
+    "Konnichiwa!"
+)
+
+INSULTS_REACT = (
+    "Eu te odeio tanto...",
+    "...*ignora*",
+    "Sério??? Pare de me irritar.",
+    "Isso é tudo que você tem? Você pode fazer melhor.",
+    "Por favor {}, pare de ser rude.",
+    "Acho que {} quer morrer o mais cedo possível.",
+    "P-pare com isso! Se não vou te morder."
+)
