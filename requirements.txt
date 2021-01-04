@@ -6,3 +6,4 @@ pyromod
 # Plugins deps
 httpx[http2]
 rich
+wikipedia

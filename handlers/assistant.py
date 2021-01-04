@@ -13,10 +13,13 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+import re
 import random
+import wikipedia
 
 from pyrogram import Client, filters
 from pyrogram.types import Message
+from pyromod.helpers import ikb
 
 from handlers.utils.httpx import http
 from handlers.utils.random import (
@@ -83,13 +86,39 @@ async def dadjoke(c: Client, m: Message):
     await m.reply_text(dad_joke)
 
 
-@Client.on_message(filters.regex(r"(?i)^Korone,"))
-async def unknown_cmd(c: Client, m: Message):
-    react = random.choice(NONE_CMD)
-    await m.reply_text(react)
-
-
 @Client.on_message(filters.regex(r"(?i)^Korone$"))
 async def hello(c: Client, m: Message):
     react = random.choice(HELLO)
     await m.reply_text((react).format(m.from_user.first_name))
+
+
+@Client.on_message(filters.regex(r"(?i)^Korone, o que é (?P<text>.+)"))
+async def wiki(c: Client, m: Message):
+    args = m.matches[0]['text']
+    wikipedia.set_lang("pt")
+    try:
+        pagewiki = wikipedia.page(args)
+    except wikipedia.exceptions.PageError as e:
+        await m.reply_text(f"Nenhum resultado encontrado!\nError: <code>{e}</code>")
+        return
+    except wikipedia.exceptions.DisambiguationError as refer:
+        refer = str(refer).split("\n")
+        if len(refer) >= 6:
+            batas = 6
+        else:
+            batas = len(refer)
+        text = ""
+        for x in range(batas):
+            if x == 0:
+                text += refer[x]+"\n"
+            else:
+                text += "- `"+refer[x]+"`\n"
+        await m.reply_text(text)
+        return
+    except IndexError:
+        return
+    title = pagewiki.title
+    summary = pagewiki.summary[0:500]
+    keyboard = ikb([
+        [('🔧 Ler mais...', wikipedia.page(args).url, 'url')]])
+    await m.reply_text(("<b>{}</b>\n{}...").format(title, summary), reply_markup=keyboard)

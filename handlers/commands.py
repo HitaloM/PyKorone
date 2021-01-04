@@ -15,12 +15,14 @@
 
 import re
 import platform
-import pyrogram
 import random
 from datetime import datetime
 
+import pyromod
+import pyrogram
 from pyrogram import Client, filters
 from pyrogram.types import Message
+from pyromod.helpers import ikb
 
 from config import prefix
 from handlers.utils.random import NONE_CMD
@@ -42,8 +44,9 @@ async def dev(c: Client, m: Message):
     await m.reply_text(
         f"""
 <b>Korone Info:</b>
-- <b>Pyrogram:</b> <code>{c.app_version}</code>
-- <b>Python:</b> <code>{c.device_model}</code>
+- <b>Pyrogram:</b> <code>v{pyrogram.__version__}</code>
+- <b>Pyromod:</b> <code>v{pyromod.__version__}</code>
+- <b>Python:</b> <code>v{platform.python_version()}</code>
 - <b>System:</b> <code>{c.system_version}</code>
 
 Feito com ❤️ por @Hitalo
@@ -53,13 +56,9 @@ Feito com ❤️ por @Hitalo
 
 @Client.on_message(filters.command("start", prefix))
 async def start(c: Client, m: Message):
-    await m.reply_text(
-        """
-Oi, eu sou o <b>Korone</b>, um bot interativo que adora participar de grupos!
-
-Você pode entender como eu funciono com o comando /help
-    """
-    )
+    keyboard = ikb([
+        [('Grupo Off-Topic', 'https://t.me/SpamTherapy', 'url')]])
+    await m.reply_text("Oi, eu sou o <b>Korone</b>, um bot interativo que adora participar de grupos!", reply_markup=keyboard)
 
 
 @Client.on_message(filters.regex(r'^/\w+') & filters.private, group=-1)

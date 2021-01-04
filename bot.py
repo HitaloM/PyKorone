@@ -14,10 +14,13 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import logging
+import platform
 from rich.logging import RichHandler
 from rich import print, box
 from rich.panel import Panel
 
+import pyromod.listen
+import pyrogram
 from pyrogram import Client, idle
 from pyrogram.errors.exceptions.bad_request_400 import BadRequest
 
@@ -53,8 +56,9 @@ with client:
         try:
             client.send_message(OWNER,
                                 f"""<b>PyKorone Started...</b>
-- <b>Pyrogram:</b> <code>{client.app_version}</code>
-- <b>Python:</b> <code>{client.device_model}</code>
+- <b>Pyrogram:</b> <code>v{pyrogram.__version__}</code>
+- <b>Pyromod:</b> <code>v{pyromod.__version__}</code>
+- <b>Python:</b> <code>v{platform.python_version()}</code>
 - <b>System:</b> <code>{client.system_version}</code>
            """)
         except BadRequest:
