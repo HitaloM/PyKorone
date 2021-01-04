@@ -15,15 +15,10 @@
 
 import random
 
-import pyrogram
 from pyrogram import Client, filters
 from pyrogram.types import Message
 
-from handlers.utils.random import (
-    WHATSUP_REACT,
-    HEY_REACT,
-    INSULTS_REACT
-)
+from handlers.utils.random import HEY_REACT, INSULTS_REACT, WHATSUP_REACT
 
 
 @Client.on_message(filters.regex(r"(?i)^(Quem te criou|Quem criou voc(ê|))(\?|)$"))
@@ -32,7 +27,9 @@ async def my_creator(c: Client, m: Message):
 
     if m.chat.type == "private":
         await m.reply_text(text)
-    elif m.reply_to_message and m.reply_to_message.from_user.id == (await c.get_me()).id:
+    elif (
+        m.reply_to_message and m.reply_to_message.from_user.id == (await c.get_me()).id
+    ):
         await m.reply_text(text)
         return
 
@@ -43,7 +40,9 @@ async def okay(c: Client, m: Message):
 
     if m.chat.type == "private":
         await m.reply_text(text)
-    elif m.reply_to_message and m.reply_to_message.from_user.id == (await c.get_me()).id:
+    elif (
+        m.reply_to_message and m.reply_to_message.from_user.id == (await c.get_me()).id
+    ):
         await m.reply_text(text)
         return
 
@@ -54,7 +53,9 @@ async def hello(c: Client, m: Message):
 
     if m.chat.type == "private":
         await m.reply_text((react).format(m.from_user.first_name))
-    elif m.reply_to_message and m.reply_to_message.from_user.id == (await c.get_me()).id:
+    elif (
+        m.reply_to_message and m.reply_to_message.from_user.id == (await c.get_me()).id
+    ):
         await m.reply_text((react).format(m.from_user.first_name))
         return
 
@@ -65,7 +66,9 @@ async def insult(c: Client, m: Message):
 
     if m.chat.type == "private":
         await m.reply_text((react).format(m.from_user.first_name))
-    elif m.reply_to_message and m.reply_to_message.from_user.id == (await c.get_me()).id:
+    elif (
+        m.reply_to_message and m.reply_to_message.from_user.id == (await c.get_me()).id
+    ):
         await m.reply_text((react).format(m.from_user.first_name))
         return
 
@@ -76,22 +79,30 @@ async def all_right(c: Client, m: Message):
 
     if m.chat.type == "private":
         await m.reply_text(react)
-    elif m.reply_to_message and m.reply_to_message.from_user.id == (await c.get_me()).id:
+    elif (
+        m.reply_to_message and m.reply_to_message.from_user.id == (await c.get_me()).id
+    ):
         await m.reply_text(react)
         return
 
 
 @Client.on_message(filters.regex(r"(?i)^Tudo bem Korone\?$"))
-async def all_right(c: Client, m: Message):
+async def all_right_list(c: Client, m: Message):
     try:
-       answer = await m.chat.ask("Estou bem! Você está bem?", filters=filters.user(m.from_user.id), timeout=60)
-       if answer.text.lower().startswith("n"):
-           await answer.reply("Que pena. T-T", quote=True)
-       elif answer.text.lower().startswith("s"):
-           await answer.reply("Que bom! ^^", quote=True)
-       else:
-           await answer.reply("Compreendo! U~U", quote=True)
+        answer = await m.chat.ask(
+            "Estou bem! Você está bem?",
+            filters=filters.user(m.from_user.id),
+            timeout=60,
+        )
+
+        if answer.text.lower().startswith("n"):
+            await answer.reply("Que pena. T-T", quote=True)
+        elif answer.text.lower().startswith("s"):
+            await answer.reply("Que bom! ^^", quote=True)
+        else:
+            await answer.reply("Compreendo! U~U", quote=True)
+
     except BaseException as err:
-       print(err)
-       await m.reply("Fui ignorado... qwq", quote=True)
-       return
+        print(err)
+        await m.reply("Fui ignorado... qwq", quote=True)
+        return

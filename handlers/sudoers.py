@@ -16,10 +16,9 @@
 import os
 import sys
 
+from config import OWNER, SUDOERS, prefix
 from pyrogram import Client, filters
 from pyrogram.types import Message
-
-from config import SUDOERS, OWNER, prefix
 
 
 @Client.on_message(filters.command("reboot", prefix) & filters.user(SUDOERS))

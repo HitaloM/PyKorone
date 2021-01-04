@@ -13,18 +13,18 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-import re
 import platform
 import random
+import re
 from datetime import datetime
 
-import pyromod
 import pyrogram
+import pyromod
+from config import prefix
 from pyrogram import Client, filters
 from pyrogram.types import Message
 from pyromod.helpers import ikb
 
-from config import prefix
 from handlers.utils.random import NONE_CMD
 
 
@@ -39,8 +39,6 @@ async def ping(c: Client, m: Message):
 
 @Client.on_message(filters.command("py", prefix))
 async def dev(c: Client, m: Message):
-    python_version = platform.python_version()
-    pyrogram_version = pyrogram.__version__
     await m.reply_text(
         f"""
 <b>Korone Info:</b>
@@ -56,14 +54,17 @@ Feito com ❤️ por @Hitalo
 
 @Client.on_message(filters.command("start", prefix))
 async def start(c: Client, m: Message):
-    keyboard = ikb([
-        [('Grupo Off-Topic', 'https://t.me/SpamTherapy', 'url')]])
-    await m.reply_text("Oi, eu sou o <b>Korone</b>, um bot interativo que adora participar de grupos!", reply_markup=keyboard)
+    keyboard = ikb([[("Grupo Off-Topic", "https://t.me/SpamTherapy", "url")]])
+    await m.reply_text(
+        "Oi, eu sou o <b>Korone</b>, um bot interativo "
+        "que adora participar de grupos!",
+        reply_markup=keyboard,
+    )
 
 
-@Client.on_message(filters.regex(r'^/\w+') & filters.private, group=-1)
+@Client.on_message(filters.regex(r"^/\w+") & filters.private, group=-1)
 async def none_command(c: Client, m: Message):
-    if re.match(r'^(\/start|\/py|\/ping|\/reboot|\/shutdown|korone,)', m.text):
+    if re.match(r"^(\/start|\/py|\/ping|\/reboot|\/shutdown|korone,)", m.text):
         m.continue_propagation()
     react = random.choice(NONE_CMD)
     await m.reply_text(react)

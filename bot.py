@@ -15,16 +15,16 @@
 
 import logging
 import platform
-from rich.logging import RichHandler
-from rich import print, box
-from rich.panel import Panel
 
-import pyromod.listen
 import pyrogram
+import pyromod.listen
 from pyrogram import Client, idle
 from pyrogram.errors.exceptions.bad_request_400 import BadRequest
+from rich import box, print
+from rich.logging import RichHandler
+from rich.panel import Panel
 
-from config import API_ID, API_HASH, TOKEN, OWNER
+from config import API_HASH, API_ID, OWNER, TOKEN
 
 # Logging colorized by rich
 FORMAT = "%(message)s"
@@ -32,9 +32,8 @@ logging.basicConfig(
     level="INFO",
     format=FORMAT,
     datefmt="[%X]",
-    handlers=[
-        RichHandler(
-            rich_tracebacks=True)])
+    handlers=[RichHandler(rich_tracebacks=True)],
+)
 
 # To avoid some pyrogram annoying log
 logging.getLogger("pyrogram.syncer").setLevel(logging.WARNING)
@@ -42,25 +41,31 @@ logging.getLogger("pyrogram.client").setLevel(logging.WARNING)
 
 log = logging.getLogger("rich")
 
-client = Client("bot", API_ID, API_HASH,
-                bot_token=TOKEN,
-                parse_mode="html",
-                plugins=dict(root="handlers"))
+client = Client(
+    "bot",
+    API_ID,
+    API_HASH,
+    bot_token=TOKEN,
+    parse_mode="html",
+    plugins=dict(root="handlers"),
+)
 
 # Beautiful init with rich
-text = f":rocket: [bold green]PyKorone Running...[/bold green] :rocket:"
-print(Panel.fit(text, border_style='blue', box=box.ASCII))
+text = ":rocket: [bold green]PyKorone Running...[/bold green] :rocket:"
+print(Panel.fit(text, border_style="blue", box=box.ASCII))
 
 with client:
     if __name__ == "__main__":
         try:
-            client.send_message(OWNER,
-                                f"""<b>PyKorone Started...</b>
+            client.send_message(
+                OWNER,
+                f"""<b>PyKorone Started...</b>
 - <b>Pyrogram:</b> <code>v{pyrogram.__version__}</code>
 - <b>Pyromod:</b> <code>v{pyromod.__version__}</code>
 - <b>Python:</b> <code>v{platform.python_version()}</code>
 - <b>System:</b> <code>{client.system_version}</code>
-           """)
+           """,
+            )
         except BadRequest:
             logging.warning("Cannot send startup message to SUDOERS...")
         idle()

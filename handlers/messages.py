@@ -13,7 +13,6 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-import re
 import random
 from datetime import datetime
 
@@ -21,20 +20,21 @@ from pyrogram import Client, filters
 from pyrogram.types import Message
 
 from handlers.utils.random import (
-    FUCK_REACT,
     AYY_REACT,
-    UWU_REACT,
-    DOGE_REACT,
     BANHAMMERS,
-    NONE_CMD
+    DOGE_REACT,
+    FUCK_REACT,
+    UWU_REACT,
 )
 
 
 @Client.on_message(filters.regex(r"(?i)^koto$"))
 async def koto(c: Client, m: Message):
-    await c.send_sticker(chat_id=m.chat.id,
-                         reply_to_message_id=m.message_id,
-                         sticker="CAACAgQAAx0CT2XwHwACWD5f78orS_P4vhpvK29jDz2LE4Ju4QAC2QEAAgYlKAOlyAtKtsFCAAEeBA")
+    await c.send_sticker(
+        chat_id=m.chat.id,
+        reply_to_message_id=m.message_id,
+        sticker="CAACAgQAAx0CT2XwHwACWD5f78orS_P4vhpvK29jDz2LE4Ju4QAC2QEAAgYlKAOlyAtKtsFCAAEeBA",
+    )
 
 
 @Client.on_message(filters.regex(r"(?i)^yee$"))
@@ -128,14 +128,16 @@ async def uwu(c: Client, m: Message):
 @Client.on_message(filters.regex(r"(?i)^banhammer$"))
 async def banhammer(c: Client, m: Message):
     react = random.choice(BANHAMMERS)
-    await c.send_sticker(chat_id=m.chat.id,
-                         reply_to_message_id=m.message_id,
-                         sticker=react)
+    await c.send_sticker(
+        chat_id=m.chat.id, reply_to_message_id=m.message_id, sticker=react
+    )
 
 
 @Client.on_message(filters.regex(r"(?i)^ban$"))
 async def ban_dice(c: Client, m: Message):
-    react = "CAACAgEAAx0CT2XwHwACWb5f8IhBw1kQL4BZ5C-W2xQUb8TmLQACqwADMWm8NnADxrv2ioYwHgQ"
-    await c.send_sticker(chat_id=m.chat.id,
-                         reply_to_message_id=m.message_id,
-                         sticker=react)
+    react = (
+        "CAACAgEAAx0CT2XwHwACWb5f8IhBw1kQL4BZ5C-W2xQUb8TmLQACqwADMWm8NnADxrv2ioYwHgQ"
+    )
+    await c.send_sticker(
+        chat_id=m.chat.id, reply_to_message_id=m.message_id, sticker=react
+    )
