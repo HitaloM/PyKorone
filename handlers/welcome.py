@@ -24,4 +24,4 @@ from handlers.utils.random import WELCOME_REACT
 @Client.on_message(filters.new_chat_members)
 async def uwu(c: Client, m: Message):
     react = random.choice(WELCOME_REACT)
-    await m.reply_text(react)
+    await m.reply_text((react).format(m.reply_to_message.from_user.first_name))

@@ -42,6 +42,14 @@ async def yee(c: Client, m: Message):
     await m.reply_text("o(≧∇≦)o")
 
 
+@Client.on_message(filters.regex(r"(?i)^(tuturu|tutturu)$"))
+async def tutturu(c: Client, m: Message):
+    await m.reply_voice(
+        voice="AwACAgEAAxkDAAICbF_zg6fjeuwvbffAkVFdO2_YHw9ZAALmAAOSG5hHmkWo5sdCqkUeBA",
+        quote=True,
+    )
+
+
 @Client.on_message(filters.regex(r"(?i)(\$php|\<?php)"))
 async def php(c: Client, m: Message):
     await m.reply_text("Isso é P-PHP? TwT\n*se esconde*")

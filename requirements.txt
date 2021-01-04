@@ -7,3 +7,4 @@ pyromod
 httpx[http2]
 rich
 wikipedia
+python-rapidjson

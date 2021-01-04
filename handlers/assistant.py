@@ -13,8 +13,10 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+import io
 import random
 
+import rapidjson as json
 import wikipedia
 from pyrogram import Client, filters
 from pyrogram.types import Message
@@ -122,3 +124,12 @@ async def wiki(c: Client, m: Message):
     await m.reply_text(
         ("<b>{}</b>\n{}...").format(title, summary), reply_markup=keyboard
     )
+
+
+@Client.on_message(filters.regex(r"(?i)^Korone, fa(ç|c)a um dump(\.|)") & filters.reply)
+async def json_dump(c: Client, m: Message):
+    dump = json.dumps(json.loads(str(m)), indent=4, ensure_ascii=False)
+
+    file = io.BytesIO(dump.encode())
+    file.name = f"dump_{m.chat.id}x{m.reply_to_message.from_user.id}.json"
+    await m.reply_document(file)
