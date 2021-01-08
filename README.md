@@ -1,5 +1,5 @@
-# Korone
+# Korone - Telegram Bot
 
-Korone é um bot de interação para grupos, focado principalmente em grupos de anime.
+Korone é um bot para O Telegram de interação em grupos, focado principalmente em grupos de anime.
 
-Feito com Python usando a biblioteca Pyrogram.
+Feito em Python usando [Pyrogram](https://github.com/pyrogram/pyrogram).
