@@ -90,6 +90,16 @@ async def hello(c: Client, m: Message):
     await m.reply_text((react).format(m.from_user.first_name))
 
 
+@Client.on_message(filters.regex(r"(?i)^Korone, qual o link (de convite |)do grupo(\?|)$"))
+async def invitelink(c: Client, m: Message):
+    if m.chat.username is None:
+        chat = m.chat.id
+    else:
+        chat = m.chat.username
+    link = await c.export_chat_invite_link(chat)
+    await m.reply_text(link)
+
+
 @Client.on_message(filters.regex(r"(?i)^Korone, o que é (?P<text>.+)"))
 async def wiki(c: Client, m: Message):
     args = m.matches[0]["text"]
@@ -113,14 +123,14 @@ async def wiki(c: Client, m: Message):
             if x == 0:
                 text += refer[x] + "\n"
             else:
-                text += "- `" + refer[x] + "`\n"
+                text += "- <code>" + refer[x] + "</code>\n"
         await m.reply_text(text)
         return
     except IndexError:
         return
     title = pagewiki.title
     summary = pagewiki.summary[0:500]
-    keyboard = ikb([[("🔧 Ler mais...", wikipedia.page(args).url, "url")]])
+    keyboard = ikb([[("Ler mais...", wikipedia.page(args).url, "url")]])
     await m.reply_text(
         ("<b>{}</b>\n{}...").format(title, summary), reply_markup=keyboard
     )
