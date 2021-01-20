@@ -2,9 +2,10 @@
 pyrogram
 tgcrypto
 pyromod
+rich
 
 # Plugins deps
 httpx[http2]
-rich
 wikipedia
 python-rapidjson
+KanTeX

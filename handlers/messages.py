@@ -50,6 +50,14 @@ async def tutturu(c: Client, m: Message):
     )
 
 
+@Client.on_message(filters.regex(r"(?i)^triggered$"))
+async def triggered(c: Client, m: Message):
+    await m.reply_voice(
+        voice="CgACAgQAAx0ET2XwHwACXX9gCE6VI4wLfStiWuwXeIoNi3t22AACSAcAAh7FEFOeVKDvkRMV5x4E",
+        quote=True,
+    )
+
+
 @Client.on_message(filters.regex(r"(?i)(\$php|\<?php)"))
 async def php(c: Client, m: Message):
     await m.reply_text("Isso é P-PHP? TwT\n*se esconde*")
@@ -82,7 +90,11 @@ async def baka(c: Client, m: Message):
 
 @Client.on_message(filters.regex(r"(?i)^(@|)VegaData$"))
 async def vegano(c: Client, m: Message):
-    await m.reply_text("Eae parças, beeeleza?! ^-^")
+    await m.reply_voice(
+        voice="AwACAgEAAx0ETZVb2AABEOhnYAhMJjsPaTvD6v0nDcU29uAhU0oAAhcBAAJ58kBELrkMROt69u0eBA",
+        caption="Eae parças, beeeleza?! ^-^",
+        quote=True
+    )
 
 
 @Client.on_message(filters.regex(r"(?i)^isso n(ã|a)o funciona$"))

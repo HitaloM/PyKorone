@@ -15,8 +15,10 @@
 
 import platform
 import random
+import kantex
 import re
 from datetime import datetime
+from kantex.html import *
 
 import pyrogram
 import pyromod
@@ -37,19 +39,45 @@ async def ping(c: Client, m: Message):
     await sent.edit_text(f"<b>Pong!</b> <code>{time}</code>ms")
 
 
+@Client.on_message(filters.command("user", prefix) & filters.reply)
+async def user_info(c: Client, m: Message):
+    user_id = m.reply_to_message.from_user.id
+    first_name = m.reply_to_message.from_user.first_name
+    try:
+        last_name = m.reply_to_message.from_user.last_name
+    except Exception:
+        last_name = None
+    username = m.reply_to_message.from_user.username
+    doc = KanTeXDocument(
+          Section(first_name,
+                  SubSection('Geral',
+                             KeyValueItem('id', Code(user_id)),
+                             KeyValueItem('first_name', Code(first_name)),
+                             KeyValueItem('last_name', Code(last_name)),
+                             KeyValueItem('username', Code(username)))))
+    await m.reply_text(doc)
+
+
+@Client.on_message(filters.command("copy", prefix))
+async def copy(c: Client, m: Message):
+    await c.copy_message(
+        chat_id=m.chat.id,
+        from_chat_id=m.chat.id,
+        message_id=m.reply_to_message.message_id
+    )
+
+
 @Client.on_message(filters.command("py", prefix))
 async def dev(c: Client, m: Message):
-    await m.reply_text(
-        f"""
-<b>Korone Info:</b>
-- <b>Pyrogram:</b> <code>v{pyrogram.__version__}</code>
-- <b>Pyromod:</b> <code>v{pyromod.__version__}</code>
-- <b>Python:</b> <code>v{platform.python_version()}</code>
-- <b>System:</b> <code>{c.system_version}</code>
-
-Feito com ❤️ por @Hitalo
-    """
-    )
+    source_url = "git.io/JtmRH"
+    doc = Section("PyKorone Bot",
+                KeyValueItem(Bold('Source'), source_url),
+                KeyValueItem(Bold('Pyrogram version'), pyrogram.__version__),
+                KeyValueItem(Bold('Pyromod version'), pyromod.__version__),
+                KeyValueItem(Bold('Python version'), platform.python_version()),
+                KeyValueItem(Bold('KanTeX version'), kantex.__version__),
+                KeyValueItem(Bold('System version'), c.system_version))
+    await m.reply_text(doc, disable_web_page_preview=True)
 
 
 @Client.on_message(filters.command("start", prefix))
@@ -64,7 +92,7 @@ async def start(c: Client, m: Message):
 
 @Client.on_message(filters.regex(r"^/\w+") & filters.private, group=-1)
 async def none_command(c: Client, m: Message):
-    if re.match(r"^(\/start|\/py|\/ping|\/reboot|\/shutdown|korone,)", m.text):
+    if re.match(r"^(\/start|\/py|\/ping|\/copy|\/reboot|\/copy|\/shutdown|korone,)", m.text):
         m.continue_propagation()
     react = random.choice(NONE_CMD)
     await m.reply_text(react)

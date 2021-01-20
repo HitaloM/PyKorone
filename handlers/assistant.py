@@ -21,6 +21,7 @@ import wikipedia
 from pyrogram import Client, filters
 from pyrogram.types import Message
 from pyromod.helpers import ikb
+from pyrogram.errors.exceptions.bad_request_400 import BadRequest
 
 from handlers.utils.httpx import http
 from handlers.utils.random import CATCH_REACT, HELLO, REACTIONS
@@ -34,11 +35,14 @@ async def dice(c: Client, m: Message):
 
 @Client.on_message(filters.regex(r"(?i)^Korone, remova ele$") & filters.group)
 async def kick(c: Client, m: Message):
-    await c.kick_chat_member(m.chat.id, m.reply_to_message.from_user.id)
-    await m.chat.unban_member(m.reply_to_message.from_user.id)
-    await m.reply_animation(
-        animation="https://media1.giphy.com/media/MZqLlWvzkkMCc/giphy.gif", quote=True
-    )
+    try:
+       await c.kick_chat_member(m.chat.id, m.reply_to_message.from_user.id)
+       await m.chat.unban_member(m.reply_to_message.from_user.id)
+       await m.reply_animation(
+           animation="CgACAgQAAx0ET2XwHwACWb1gCDScpSaFyoNgPa2Ag_yiRo61YQACPwIAAryMhFOFxHV09aPBTR4E", quote=True
+       )
+    except BadRequest:
+        await m.reply_text("Eu n-não posso remover um administrador! >-<")
 
 
 @Client.on_message(filters.regex(r"(?i)^Korone, me d(ê|e) um cookie$"))
@@ -50,6 +54,20 @@ async def give_me_cookie(c: Client, m: Message):
 async def give_cookie(c: Client, m: Message):
     await m.reply_text(
         ("*dá um cookie à {}* ^^").format(m.reply_to_message.from_user.first_name)
+    )
+
+
+@Client.on_message(filters.regex(r"(?i)^Korone, morda(| ele)$") & filters.reply)
+async def bite(c: Client, m: Message):
+    await m.reply_text(
+        ("*morde {}*").format(m.reply_to_message.from_user.first_name)
+    )
+
+
+@Client.on_message(filters.regex(r"(?i)^Korone, me abrace$"))
+async def hug(c: Client, m: Message):
+    await m.reply_text(
+        ("*Abraça com força {}* ^^").format(m.from_user.first_name)
     )
 
 
