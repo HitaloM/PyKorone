@@ -1,11 +1,11 @@
 # Core deps
-pyrogram
-tgcrypto
-pyromod
-rich
+pyrogram==1.1.13
+tgcrypto==1.2.2
+pyromod==1.5
+rich==9.9.0
 
 # Plugins deps
-httpx[http2]
-wikipedia
-python-rapidjson
-KanTeX
+httpx[http2]==0.16.1
+wikipedia==1.4.0
+python-rapidjson==1.0
+KanTeX==0.2.0
