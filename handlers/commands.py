@@ -92,7 +92,7 @@ async def start(c: Client, m: Message):
 
 @Client.on_message(filters.regex(r"^/\w+") & filters.private, group=-1)
 async def none_command(c: Client, m: Message):
-    if re.match(r"^(\/start|\/py|\/ping|\/copy|\/reboot|\/copy|\/shutdown|korone,)", m.text):
+    if re.match(r"^(\/start|\/py|\/ping|\/copy|\/reboot|\/copy|\/upgrade|\/shutdown|korone,)", m.text):
         m.continue_propagation()
     react = random.choice(NONE_CMD)
     await m.reply_text(react)
