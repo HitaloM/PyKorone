@@ -25,6 +25,7 @@ from handlers.utils.random import (
     DOGE_REACT,
     FUCK_REACT,
     UWU_REACT,
+    IMBACK_REACT,
 )
 
 
@@ -37,9 +38,24 @@ async def koto(c: Client, m: Message):
     )
 
 
+@Client.on_message(filters.regex(r"(?i)^(sexo|sex)$"))
+async def sexo(c: Client, m: Message):
+    await c.send_sticker(
+        chat_id=m.chat.id,
+        reply_to_message_id=m.message_id,
+        sticker="CAACAgEAAx0ET2XwHwACXhRgDhGeDumnwAvIoNsqdCXZHEmk0gACdwIAAjFpvDZsvaEGCsVJsB4E",
+    )
+
+
 @Client.on_message(filters.regex(r"(?i)^yee$"))
 async def yee(c: Client, m: Message):
     await m.reply_text("o(≧∇≦)o")
+
+
+@Client.on_message(filters.regex(r"(?i)^(t(o|ô) de volta|voltei)$"))
+async def voltei(c: Client, m: Message):
+    react = random.choice(IMBACK_REACT)
+    await m.reply_text((react).format(m.from_user.first_name))
 
 
 @Client.on_message(filters.regex(r"(?i)^(tuturu|tutturu)$"))

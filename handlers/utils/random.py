@@ -63,6 +63,11 @@ WHATSUP_REACT = (
     "Tudo bem ~\nVocê quer um café? UwU",
 )
 
+IMBACK_REACT = (
+    "*abraça {} feliz!* ^^",
+    "Oi {}!\n*feliz* ^^",
+)
+
 WELCOME_REACT = (
     "Bem vindoooo {}!",
     "Olá {}! Tudo bem? ^^",
