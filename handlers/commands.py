@@ -58,13 +58,26 @@ async def user_info(c: Client, m: Message):
     await m.reply_text(doc)
 
 
-@Client.on_message(filters.command("copy", prefix))
+@Client.on_message(filters.command("copy", prefix) & filters.reply)
 async def copy(c: Client, m: Message):
-    await c.copy_message(
-        chat_id=m.chat.id,
-        from_chat_id=m.chat.id,
-        message_id=m.reply_to_message.message_id
-    )
+    try:
+        await c.copy_message(
+            chat_id=m.chat.id,
+            from_chat_id=m.chat.id,
+            message_id=m.reply_to_message.message_id
+        )
+    except BaseException:
+        return
+
+
+@Client.on_message(filters.command("echo", prefix))
+async def echo(c: Client, m: Message):
+    text = re.sub('^/echo ', '', m.text.html)
+
+    if m.reply_to_message:
+        return await m.reply_to_message.reply(text, quote=True,
+                                              disable_web_page_preview=True)
+    await m.reply(text, disable_web_page_preview=True)
 
 
 @Client.on_message(filters.command("py", prefix))
@@ -82,7 +95,7 @@ async def dev(c: Client, m: Message):
 
 @Client.on_message(filters.regex(r"^/\w+") & filters.private, group=-1)
 async def none_command(c: Client, m: Message):
-    if re.match(r"^(\/start|\/py|\/ping|\/copy|\/help|\/reboot|\/copy|\/upgrade|\/shutdown|korone,)", m.text):
+    if re.match(r"^(\/start|\/py|\/echo|\/ping|\/copy|\/help|\/reboot|\/copy|\/upgrade|\/shutdown|korone,)", m.text):
         m.continue_propagation()
     react = random.choice(NONE_CMD)
     await m.reply_text(react)
