@@ -18,14 +18,7 @@ from pyrogram import Client, filters
 from pyrogram.types import Message, CallbackQuery
 from pyromod.helpers import ikb
 
-help_text = """<b>Aqui estão alguns dos meus comandos:</b>
-• <code>/start</code>: Envia a mensagem inicial do bot.
-• <code>/help</code>: Envia a mensagem de ajuda do bot.
-• <code>/ping</code>: Envia o ping do bot.
-• <code>/py</code>: Envia algumas informações técnicas do bot.
-• <code>/copy</code>: O bot copia a mensagem que você responder com este comando.
-• <code>/user</code>: Obtêm informações básicas de um usuário.
-"""
+help_text = "Por favor, selecione uma categoria para obter ajuda!"
 
 
 @Client.on_message(filters.command("start", prefix) & filters.group)
@@ -57,7 +50,11 @@ async def start(c: Client, m: Message):
 
 @Client.on_message(filters.command("help", prefix) & filters.private)
 async def help_command(c: Client, m: Message):
-    keyboard = ikb([[("<- Voltar", "start_back", "callback_data")]])
+    keyboard = ikb([
+        [("Comandos", "help_cmds"),
+         ("Filtros", "help_regex")],
+        [("<- Voltar", "start_back")]
+    ])
     await m.reply_text(help_text,
                        reply_markup=keyboard,
                        )
@@ -65,15 +62,48 @@ async def help_command(c: Client, m: Message):
 
 @Client.on_callback_query(filters.regex("^help$"))
 async def help(c: Client, m: CallbackQuery):
-    keyboard = ikb([[("<- Voltar", "start_back", "callback_data")]])
+    keyboard = ikb([
+        [("Comandos", "help_cmds"),
+         ("Filtros", "help_regex")],
+        [("<- Voltar", "start_back")]
+    ])
     await m.message.edit_text(help_text,
                               reply_markup=keyboard,
                               )
 
 
+@Client.on_callback_query(filters.regex("^help_regex$"))
+async def help_regex(c: Client, m: CallbackQuery):
+    keyboard = ikb([[("<- Voltar", "help")]])
+    await m.message.edit_text(
+        "<b>O PyKorone também possui alguns filtros com respostas pré-definidas:</b>\n\n"
+        "<b>types:</b>\n"
+        " - <code>messages</code>\n"
+        " - <code>assistant</code>\n"
+        " - <code>interactions</code>\n\n"
+        "Você pode obter ajuda para um tipo de filtro específico usando <code>/help {type}</code>",
+        reply_markup=keyboard,
+    )
+
+
+@Client.on_callback_query(filters.regex("^help_cmds$"))
+async def help_cmds(c: Client, m: CallbackQuery):
+    keyboard = ikb([[("<- Voltar", "help")]])
+    await m.message.edit_text(
+        "<b>Aqui estão alguns dos meus comandos:</b>\n"
+        "• <code>/start</code>: Envia a mensagem inicial do bot.\n"
+        "• <code>/help</code>: Envia a mensagem de ajuda do bot.\n"
+        "• <code>/ping</code>: Envia o ping do bot.\n"
+        "• <code>/py</code>: Envia algumas informações técnicas do bot.\n"
+        "• <code>/copy</code>: O bot copia a mensagem que você responder com este comando.\n"
+        "• <code>/user</code>: Obtêm informações básicas de um usuário.",
+        reply_markup=keyboard,
+    )
+
+
 @Client.on_callback_query(filters.regex("^about$"))
 async def about(c: Client, m: CallbackQuery):
-    keyboard = ikb([[("<- Voltar", "start_back", "callback_data")]])
+    keyboard = ikb([[("<- Voltar", "start_back")]])
     await m.message.edit_text(
         """
 🚮 <b>PyKorone</b> é um bot criado por diversão para o grupo <b>Spam-Therapy</b>. Seu foco é trazer funções legais e um design funcional com tecnologia e criatividade.
