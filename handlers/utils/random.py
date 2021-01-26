@@ -93,3 +93,11 @@ INSULTS_REACT = (
     "Acho que {} quer morrer o mais cedo possível.",
     "P-pare com isso! Se não vou te morder.",
 )
+
+RANDOM_REACT = (
+    REACTIONS,
+    FUCK_REACT,
+    AYY_REACT,
+    UWU_REACT,
+    DOGE_REACT
+)

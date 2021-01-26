@@ -18,7 +18,7 @@ import random
 from pyrogram import Client, filters
 from pyrogram.types import Message
 
-from handlers.utils.random import HEY_REACT, INSULTS_REACT, WHATSUP_REACT
+from handlers.utils.random import HEY_REACT, INSULTS_REACT, RANDOM_REACT, WHATSUP_REACT
 
 
 @Client.on_message(filters.regex(r"(?i)^(Quem te criou|Quem criou voc(ê|))(\?|)$"))
@@ -86,7 +86,7 @@ async def hello(c: Client, m: Message):
         return
 
 
-@Client.on_message(filters.regex(r"(?i)^(Est(ú|u)pido|Puta|Vai se f(o|u)der|Idiota)$"))
+@Client.on_message(filters.regex(r"(?i)^(Est(ú|u)pido|Puta|Vai se f(o|u)der|Idiota)|Ot(á|a)rio|Lixo$"))
 async def insult(c: Client, m: Message):
     react = random.choice(INSULTS_REACT)
 
@@ -132,3 +132,17 @@ async def all_right_list(c: Client, m: Message):
         print(err)
         await m.reply("Fui ignorado... qwq", quote=True)
         return
+
+
+async def random_react_filter(_, __, m) -> bool:
+    return (m.message_id%30) == 0
+    
+filters.random_react_filter = filters.create(random_react_filter)
+
+@Client.on_message(~filters.private & filters.random_react_filter)
+async def random_react(c: Client, m: Message):
+    react = random.choice(RANDOM_REACT)
+    if isinstance(react, tuple):
+        react = random.choice(react)
+        
+    await m.reply_text(react)
