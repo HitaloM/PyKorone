@@ -66,7 +66,7 @@ async def help(c: Client, m: CallbackQuery):
     await m.message.edit_text(
         "<b>Aqui estão alguns dos meus comandos:</b>\n"
         "• <code>/start</code>: Envia a mensagem inicial do bot.\n"
-        "• <code>/help</code>: Envia a mensagem de ajuda do bot.\n",
+        "• <code>/help</code>: Envia a mensagem de ajuda do bot.\n"
         "• <code>/ping</code>: Envia o ping do bot.\n"
         "• <code>/py</code>: Envia algumas informações técnicas do bot.\n"
         "• <code>/copy</code>: O bot copia a mensagem que você responder com este comando.\n"
