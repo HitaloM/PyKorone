@@ -80,16 +80,6 @@ async def dev(c: Client, m: Message):
     await m.reply_text(doc, disable_web_page_preview=True)
 
 
-@Client.on_message(filters.command("start", prefix))
-async def start(c: Client, m: Message):
-    keyboard = ikb([[("Grupo Off-Topic", "https://t.me/SpamTherapy", "url")]])
-    await m.reply_text(
-        "Oi, eu sou o <b>Korone</b>, um bot interativo "
-        "que adora participar de grupos!",
-        reply_markup=keyboard,
-    )
-
-
 @Client.on_message(filters.regex(r"^/\w+") & filters.private, group=-1)
 async def none_command(c: Client, m: Message):
     if re.match(r"^(\/start|\/py|\/ping|\/copy|\/reboot|\/copy|\/upgrade|\/shutdown|korone,)", m.text):
