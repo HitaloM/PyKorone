@@ -16,6 +16,7 @@
 import platform
 import random
 import re
+import rapidjson as json
 from datetime import datetime
 
 import kantex
@@ -28,6 +29,7 @@ from pyrogram import Client, filters
 from pyrogram.types import Message
 
 from handlers.utils.random import NONE_CMD
+from handlers.utils.httpx import http
 
 
 @Client.on_message(filters.command("ping", prefix))
@@ -91,6 +93,13 @@ async def dev(c: Client, m: Message):
                   KeyValueItem(Bold('KanTeX version'), kantex.__version__),
                   KeyValueItem(Bold('System version'), c.system_version))
     await m.reply_text(doc, disable_web_page_preview=True)
+
+
+@Client.on_message(filters.command("cat", prefix))
+async def cat(c: Client, m: Message):
+    response = await http.get("https://api.thecatapi.com/v1/images/search")
+    cats = response.json
+    await m.reply_photo(cats()[0]["url"], caption="Meow!! (^つωฅ^)")
 
 
 @Client.on_message(filters.regex(r"^/\w+") & filters.private, group=-1)
