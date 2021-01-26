@@ -135,9 +135,10 @@ async def all_right_list(c: Client, m: Message):
 
 
 async def random_react_filter(_, __, m) -> bool:
-    return (m.message_id%100) == 0
+    return (m.message_id % 100) == 0
 
 filters.random_react_filter = filters.create(random_react_filter)
+
 
 @Client.on_message(~filters.private & filters.random_react_filter)
 async def random_react(c: Client, m: Message):

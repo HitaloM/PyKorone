@@ -15,17 +15,17 @@
 
 import platform
 import random
-import kantex
 import re
 from datetime import datetime
-from kantex.html import *
 
+import kantex
 import pyrogram
 import pyromod
 from config import prefix
+from kantex.html import (Bold, Code, KanTeXDocument, KeyValueItem, Section,
+                         SubSection)
 from pyrogram import Client, filters
 from pyrogram.types import Message
-from pyromod.helpers import ikb
 
 from handlers.utils.random import NONE_CMD
 
@@ -49,12 +49,12 @@ async def user_info(c: Client, m: Message):
         last_name = None
     username = m.reply_to_message.from_user.username
     doc = KanTeXDocument(
-          Section(first_name,
-                  SubSection('Geral',
-                             KeyValueItem('id', Code(user_id)),
-                             KeyValueItem('first_name', Code(first_name)),
-                             KeyValueItem('last_name', Code(last_name)),
-                             KeyValueItem('username', Code(username)))))
+        Section(first_name,
+                SubSection('Geral',
+                           KeyValueItem('id', Code(user_id)),
+                           KeyValueItem('first_name', Code(first_name)),
+                           KeyValueItem('last_name', Code(last_name)),
+                           KeyValueItem('username', Code(username)))))
     await m.reply_text(doc)
 
 
@@ -71,12 +71,12 @@ async def copy(c: Client, m: Message):
 async def dev(c: Client, m: Message):
     source_url = "git.io/JtmRH"
     doc = Section("PyKorone Bot",
-                KeyValueItem(Bold('Source'), source_url),
-                KeyValueItem(Bold('Pyrogram version'), pyrogram.__version__),
-                KeyValueItem(Bold('Pyromod version'), pyromod.__version__),
-                KeyValueItem(Bold('Python version'), platform.python_version()),
-                KeyValueItem(Bold('KanTeX version'), kantex.__version__),
-                KeyValueItem(Bold('System version'), c.system_version))
+                  KeyValueItem(Bold('Source'), source_url),
+                  KeyValueItem(Bold('Pyrogram version'), pyrogram.__version__),
+                  KeyValueItem(Bold('Pyromod version'), pyromod.__version__),
+                  KeyValueItem(Bold('Python version'), platform.python_version()),
+                  KeyValueItem(Bold('KanTeX version'), kantex.__version__),
+                  KeyValueItem(Bold('System version'), c.system_version))
     await m.reply_text(doc, disable_web_page_preview=True)
 
 
