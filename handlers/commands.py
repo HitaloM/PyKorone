@@ -76,15 +76,15 @@ async def copy(c: Client, m: Message):
 @Client.on_message(filters.command("echo", prefix))
 async def echo(c: Client, m: Message):
     text = re.sub('^/echo ', '', m.text.html)
-
-    if m.reply_to_message:
-        await m.reply_to_message.reply(text, quote=True,
-                                       disable_web_page_preview=True)
-    else:
-        await m.reply(text, disable_web_page_preview=True, quote=False)
+    chat_id = m.chat.id
+    kwargs = {}
+    reply = m.reply_to_message
+    if reply:
+        kwargs['reply_to_message_id'] = reply.message_id
     try:
         await m.delete()
     except: pass
+    await c.send_message(chat_id=chat_id, text=text, **kwargs)
 
 @Client.on_message(filters.command("py", prefix))
 async def dev(c: Client, m: Message):
