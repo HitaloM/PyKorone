@@ -25,6 +25,7 @@ import pyromod
 from config import prefix
 from kantex.html import (Bold, Code, KanTeXDocument, KeyValueItem, Section,
                          SubSection)
+from search_engine_parser import GoogleSearch, BingSearch
 from pyrogram import Client, filters
 from pyrogram.types import Message, Update
 
@@ -109,6 +110,46 @@ async def cat(c: Client, m: Message):
 @Client.on_message(filters.command("about", prefix))
 async def about_cmd(c: Client, m: Message):
     await m.reply_text(about_text, disable_web_page_preview=True)
+
+
+@Client.on_message(filters.cmd("google (?P<search>.+)"))
+async def google(c: Client, m: Message):
+    query = m.matches[0]['search']
+    search_args = (str(query), 1)
+    googsearch = GoogleSearch()
+    gresults = await googsearch.async_search(*search_args)
+    msg = ""
+    for i in range(1, 6):
+        try:
+            title = gresults["titles"][i]
+            link = gresults["links"][i]
+            desc = gresults["descriptions"][i]
+            msg += f"{i}. <a href='{link}'>{title}</a>\n<code>{desc}</code>\n\n"
+        except IndexError:
+            break
+    await m.reply_text("<b>Consulta:</b>\n<code>" + query + "</code>\n\n<b>Resultados:</b>\n" +
+                       msg,
+                       disable_web_page_preview=True)
+
+
+@Client.on_message(filters.cmd("bing (?P<search>.+)"))
+async def bing(c: Client, m: Message):
+    query = m.matches[0]['search']
+    search_args = (str(query), 1)
+    bingsearch = BingSearch()
+    bresults = await bingsearch.async_search(*search_args)
+    msg = ""
+    for i in range(1, 6):
+        try:
+            title = bresults["titles"][i]
+            link = bresults["links"][i]
+            desc = bresults["descriptions"][i]
+            msg += f"{i}. <a href='{link}'>{title}</a>\n<code>{desc}</code>\n\n"
+        except IndexError:
+            break
+    await m.reply_text("<b>Consulta:</b>\n<code>" + query + "</code>\n\n<b>Resultados:</b>\n" +
+                       msg,
+                       disable_web_page_preview=True)
 
 
 # @Client.on_message(filters.regex(r"^/\w+") & filters.private, group=-1)
