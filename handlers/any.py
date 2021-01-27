@@ -16,6 +16,7 @@
 from pyrogram import Client, filters
 from pyrogram.types import Message
 
+
 @Client.on_message(filters.edited)
 async def reject(c: Client, m: Message):
     m.stop_propagation()

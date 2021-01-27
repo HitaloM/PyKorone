@@ -26,7 +26,7 @@ from config import prefix
 from kantex.html import (Bold, Code, KanTeXDocument, KeyValueItem, Section,
                          SubSection)
 from pyrogram import Client, filters
-from pyrogram.types import Message
+from pyrogram.types import Message, Update
 
 from handlers.pm_menu import about_text
 from handlers.utils.random import NONE_CMD
@@ -108,7 +108,7 @@ async def cat(c: Client, m: Message):
 
 @Client.on_message(filters.command("about", prefix))
 async def about_cmd(c: Client, m: Message):
-    await m.reply_text(about_text, disable_web_page_preview=True,)
+    await m.reply_text(about_text, disable_web_page_preview=True)
 
 
 @Client.on_message(filters.regex(r"^/\w+") & filters.private, group=-1)

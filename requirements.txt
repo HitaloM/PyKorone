@@ -9,3 +9,4 @@ httpx[http2]==0.16.1
 wikipedia==1.4.0
 python-rapidjson==1.0
 KanTeX==0.2.0
+git+https://github.com/AndrielFR/aionewton

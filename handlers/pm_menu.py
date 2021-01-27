@@ -104,6 +104,7 @@ async def help_cmds(c: Client, m: CallbackQuery):
         "• <b>/ping</b>: <i>Envia o ping do bot.</i>\n"
         "• <b>/echo</b>: <i>Faz um eco com o que você escrever na frente do comando.</i>\n"
         "• <b>/cat</b>: <i>Envia uma imagem de um gatinho aleatório.</i>\n"
+        "• <b>/math</b>: <i>Um manual para os comandos de expressões matemáticas do bot.</i>"
         "• <b>/py</b>: <i>Envia algumas informações técnicas do bot.</i>\n"
         "• <b>/about</b>: <i>Envia o 'sobre' do bot.</i>\n"
         "• <b>/copy</b>: <i>O bot copia a mensagem que você responder com este comando.</i>\n"
