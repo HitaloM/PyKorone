@@ -81,7 +81,7 @@ async def echo(c: Client, m: Message):
         await m.reply_to_message.reply(text, quote=True,
                                        disable_web_page_preview=True)
     else:
-        await m.reply(text, disable_web_page_preview=True)
+        await m.reply(text, disable_web_page_preview=True, quote=False)
     try:
         await m.delete()
     except: pass
