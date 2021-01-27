@@ -24,107 +24,107 @@ from config import prefix
 done_text = "<b>Expressão:</b> <code>{}</code>\n<b>Resultado:</b> <code>{}</code>"
 
 
-@Client.on_message(filters.command("simplify", prefix))
+@Client.on_message(filters.cmd("simplify (?P<calc>.+)"))
 async def simplify(c: Client, m: Message):
-    calc = re.sub('^/simplify ', '', m.text.html)
+    calc = m.matches[0]['calc']
     result = await aionewton.simplify(calc)
     await m.reply_text((done_text).format(calc, result))
 
 
-@Client.on_message(filters.command("factor", prefix))
+@Client.on_message(filters.cmd("factor (?P<calc>.+)"))
 async def factor(c: Client, m: Message):
-    calc = re.sub('^/factor ', '', m.text.html)
+    calc = m.matches[0]['calc']
     result = await aionewton.factor(calc)
     await m.reply_text((done_text).format(calc, result))
 
 
-@Client.on_message(filters.command("derive", prefix))
+@Client.on_message(filters.cmd("derive (?P<calc>.+)"))
 async def derive(c: Client, m: Message):
-    calc = re.sub('^/derive ', '', m.text.html)
+    calc = m.matches[0]['calc']
     result = await aionewton.derive(calc)
     await m.reply_text((done_text).format(calc, result))
 
 
-@Client.on_message(filters.command("integrate", prefix))
+@Client.on_message(filters.cmd("integrate (?P<calc>.+)"))
 async def integrate(c: Client, m: Message):
-    calc = re.sub('^/integrate ', '', m.text.html)
+    calc = m.matches[0]['calc']
     result = await aionewton.integrate(calc)
     await m.reply_text((done_text).format(calc, result))
 
 
-@Client.on_message(filters.command("zeroes", prefix))
+@Client.on_message(filters.cmd("zeroes (?P<calc>.+)"))
 async def zeroes(c: Client, m: Message):
-    calc = re.sub('^/zeroes ', '', m.text.html)
+    calc = m.matches[0]['calc']
     result = await aionewton.zeroes(calc)
     await m.reply_text((done_text).format(calc, result))
 
 
-@Client.on_message(filters.command("tangent", prefix))
+@Client.on_message(filters.cmd("tangent (?P<calc>.+)"))
 async def tangent(c: Client, m: Message):
-    calc = re.sub('^/tangent ', '', m.text.html)
+    calc = m.matches[0]['calc']
     result = await aionewton.tangent(calc)
     await m.reply_text((done_text).format(calc, result))
 
 
-@Client.on_message(filters.command("area", prefix))
+@Client.on_message(filters.cmd("area (?P<calc>.+)"))
 async def area(c: Client, m: Message):
-    calc = re.sub('^/area ', '', m.text.html)
+    calc = m.matches[0]['calc']
     result = await aionewton.area(calc)
     await m.reply_text((done_text).format(calc, result))
 
 
-@Client.on_message(filters.command("cos", prefix))
+@Client.on_message(filters.cmd("cos (?P<calc>.+)"))
 async def xos(c: Client, m: Message):
-    calc = re.sub('^/cos ', '', m.text.html)
+    calc = m.matches[0]['calc']
     result = await aionewton.cos(calc)
     await m.reply_text((done_text).format(calc, result))
 
 
-@Client.on_message(filters.command("sin", prefix))
+@Client.on_message(filters.cmd("sin (?P<calc>.+)"))
 async def sin(c: Client, m: Message):
-    calc = re.sub('^/sin ', '', m.text.html)
+    calc = m.matches[0]['calc']
     result = await aionewton.sin(calc)
     await m.reply_text((done_text).format(calc, result))
 
 
-@Client.on_message(filters.command("tan", prefix))
+@Client.on_message(filters.cmd("tan (?P<calc>.+)"))
 async def tan(c: Client, m: Message):
-    calc = re.sub('^/tan ', '', m.text.html)
+    calc = m.matches[0]['calc']
     result = await aionewton.tan(calc)
     await m.reply_text((done_text).format(calc, result))
 
 
-@Client.on_message(filters.command("accos", prefix))
+@Client.on_message(filters.cmd("accos (?P<calc>.+)"))
 async def accos(c: Client, m: Message):
-    calc = re.sub('^/accos ', '', m.text.html)
+    calc = m.matches[0]['calc']
     result = await aionewton.accos(calc)
     await m.reply_text((done_text).format(calc, result))
 
 
-@Client.on_message(filters.command("arcsin", prefix))
+@Client.on_message(filters.cmd("arcsin (?P<calc>.+)"))
 async def arcsin(c: Client, m: Message):
-    calc = re.sub('^/arcsin ', '', m.text.html)
+    calc = m.matches[0]['calc']
     result = await aionewton.arcsin(calc)
     await m.reply_text((done_text).format(calc, result))
 
 
-@Client.on_message(filters.command("arctan", prefix))
+@Client.on_message(filters.cmd("arctan (?P<calc>.+)"))
 async def arctan(c: Client, m: Message):
-    calc = re.sub('^/arctan ', '', m.text.html)
+    calc = m.matches[0]['calc']
     result = await aionewton.arctan(calc)
     await m.reply_text((done_text).format(calc, result))
 
 
-@Client.on_message(filters.command("abs", prefix))
+@Client.on_message(filters.cmd("abs (?P<calc>.+)"))
 async def abs(c: Client, m: Message):
-    calc = re.sub('^/abs ', '', m.text.html)
+    calc = m.matches[0]['calc']
     result = await aionewton.abs(calc)
     await m.reply_text((done_text).format(calc, result))
 
 
-@Client.on_message(filters.command("log", prefix))
+@Client.on_message(filters.cmd("log (?P<calc>.+)"))
 async def log(c: Client, m: Message):
-    calc = re.sub('^/log ', '', m.text.html)
+    calc = m.matches[0]['calc']
     result = await aionewton.log(calc)
     await m.reply_text((done_text).format(calc, result))
 

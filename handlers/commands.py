@@ -111,9 +111,9 @@ async def about_cmd(c: Client, m: Message):
     await m.reply_text(about_text, disable_web_page_preview=True)
 
 
-@Client.on_message(filters.regex(r"^/\w+") & filters.private, group=-1)
-async def none_command(c: Client, m: Message):
-    if re.match(r"^(\/start|\/about|\/user|\/cat|\/py|\/echo|\/ping|\/copy|\/help|\/reboot|\/copy|\/upgrade|\/shutdown|korone,)", m.text):
-        m.continue_propagation()
-    react = random.choice(NONE_CMD)
-    await m.reply_text(react)
+# @Client.on_message(filters.regex(r"^/\w+") & filters.private, group=-1)
+# async def none_command(c: Client, m: Message):
+#     if if re.match(r"^(\/start|\/about|\/user|\/cat|\/py|\/echo|\/ping|\/copy|\/help|\/reboot|\/copy|\/upgrade|\/shutdown|korone,)", m.text):
+#         m.continue_propagation()
+#     react = random.choice(NONE_CMD)
+#     await m.reply_text(react)
