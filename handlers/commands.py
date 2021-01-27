@@ -81,7 +81,9 @@ async def echo(c: Client, m: Message):
         return await m.reply_to_message.reply(text, quote=True,
                                               disable_web_page_preview=True)
     await m.reply(text, disable_web_page_preview=True)
-
+    try:
+        await m.delete()
+    except: pass
 
 @Client.on_message(filters.command("py", prefix))
 async def dev(c: Client, m: Message):
