@@ -94,6 +94,11 @@ INSULTS_REACT = (
     "P-pare com isso! Se não vou te morder.",
 )
 
+GODZILLA_REACT = (
+    "CAACAgEAAx0CT2XwHwACZ8VgEalzogHKIB6GOomJcIPMvj69MgACewIAAjFpvDYR3evaimLigx4E",
+    "CAACAgEAAx0ET2XwHwACZ8BgEaiT3myRjGfAT78aIhQF-97E9AACegIAAjFpvDYFlDbmHd0CJR4E"
+)
+
 RANDOM_REACT = (
     REACTIONS,
     FUCK_REACT,

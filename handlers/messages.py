@@ -26,6 +26,7 @@ from handlers.utils.random import (
     FUCK_REACT,
     UWU_REACT,
     IMBACK_REACT,
+    GODZILLA_REACT,
 )
 
 
@@ -174,6 +175,34 @@ async def ban_dice(c: Client, m: Message):
     react = (
         "CAACAgEAAx0CT2XwHwACWb5f8IhBw1kQL4BZ5C-W2xQUb8TmLQACqwADMWm8NnADxrv2ioYwHgQ"
     )
+    await c.send_sticker(
+        chat_id=m.chat.id, reply_to_message_id=m.message_id, sticker=react
+    )
+
+
+@Client.on_message(filters.regex(r"(?i)^(#TeamKong|GCam|GCam Brasil)(\.)?$"))
+async def dont_speak_macaco(c: Client, m: Message):
+    react = (
+        "CAACAgEAAx0ET2XwHwACZ7RgEaeKJJiQThi77Lnqkk0z4EdvkAACeQIAAjFpvDZT3XS9JPmVyh4E"
+    )
+    await c.send_sticker(
+        chat_id=m.chat.id, reply_to_message_id=m.message_id, sticker=react
+    )
+
+
+@Client.on_message(filters.regex(r"(?i)^(Macaco|King Kong|Kong)(\.)?$"))
+async def macaco(c: Client, m: Message):
+    react = (
+        "CAACAgEAAx0CT2XwHwACZ85gEao3lyREsYvlC45rdIs2_BashQACfAIAAjFpvDY9CqNjin13aR4E"
+    )
+    await c.send_sticker(
+        chat_id=m.chat.id, reply_to_message_id=m.message_id, sticker=react
+    )
+
+
+@Client.on_message(filters.regex(r"(?i)^Sopa de (Macaco|Mamaco)(\.)?$"))
+async def sopa_de_macaco(c: Client, m: Message):
+    react = random.choice(GODZILLA_REACT)
     await c.send_sticker(
         chat_id=m.chat.id, reply_to_message_id=m.message_id, sticker=react
     )
