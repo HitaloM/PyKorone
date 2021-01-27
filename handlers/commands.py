@@ -28,6 +28,7 @@ from kantex.html import (Bold, Code, KanTeXDocument, KeyValueItem, Section,
 from pyrogram import Client, filters
 from pyrogram.types import Message
 
+from handlers.pm_menu import about_text
 from handlers.utils.random import NONE_CMD
 from handlers.utils.httpx import http
 
@@ -102,9 +103,14 @@ async def cat(c: Client, m: Message):
     await m.reply_photo(cats()[0]["url"], caption="Meow!! (^つωฅ^)")
 
 
+@Client.on_message(filters.command("about", prefix))
+async def about_cmd(c: Client, m: Message):
+    await m.reply_text(about_text, disable_web_page_preview=True,)
+
+
 @Client.on_message(filters.regex(r"^/\w+") & filters.private, group=-1)
 async def none_command(c: Client, m: Message):
-    if re.match(r"^(\/start|\/py|\/echo|\/ping|\/copy|\/help|\/reboot|\/copy|\/upgrade|\/shutdown|korone,)", m.text):
+    if re.match(r"^(\/start|\/about|\/user|\/cat|\/py|\/echo|\/ping|\/copy|\/help|\/reboot|\/copy|\/upgrade|\/shutdown|korone,)", m.text):
         m.continue_propagation()
     react = random.choice(NONE_CMD)
     await m.reply_text(react)
