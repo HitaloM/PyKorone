@@ -81,8 +81,10 @@ async def echo(c: Client, m: Message):
         kwargs['reply_to_message_id'] = reply.message_id
     try:
         await m.delete()
-    except: pass
+    except BaseException:
+        pass
     await c.send_message(chat_id=chat_id, text=text, **kwargs)
+
 
 @Client.on_message(filters.command("py", prefix))
 async def dev(c: Client, m: Message):

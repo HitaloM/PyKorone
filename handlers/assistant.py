@@ -33,7 +33,8 @@ async def dice(c: Client, m: Message):
     await dicen.reply_text(f"O dado parou no número {dicen.dice.value}")
 
 
-@Client.on_message(filters.regex(r"(?i)^Korone, remova ele(\.)?$") & filters.group)
+@Client.on_message(filters.regex(r"(?i)^Korone, remova ele(\.)?$")
+                   & filters.group)
 async def kick(c: Client, m: Message):
     try:
         await c.kick_chat_member(m.chat.id, m.reply_to_message.from_user.id)
@@ -50,14 +51,16 @@ async def give_me_cookie(c: Client, m: Message):
     await m.reply_text(("*dá um cookie à {}* ^^").format(m.from_user.first_name))
 
 
-@Client.on_message(filters.regex(r"(?i)^Korone, d(ê|e) um cookie(\.)?$") & filters.reply)
+@Client.on_message(filters.regex(r"(?i)^Korone, d(ê|e) um cookie(\.)?$")
+                   & filters.reply)
 async def give_cookie(c: Client, m: Message):
     await m.reply_text(
         ("*dá um cookie à {}* ^^").format(m.reply_to_message.from_user.first_name)
     )
 
 
-@Client.on_message(filters.regex(r"(?i)^Korone, morda(| ele)(\.)?$") & filters.reply)
+@Client.on_message(filters.regex(r"(?i)^Korone, morda(| ele)(\.)?$")
+                   & filters.reply)
 async def bite(c: Client, m: Message):
     await m.reply_text(
         ("*morde {}*").format(m.reply_to_message.from_user.first_name)
@@ -71,14 +74,16 @@ async def hug(c: Client, m: Message):
     )
 
 
-@Client.on_message(filters.regex(r"(?i)^Korone, qual o nome dele(\.)?$") & filters.reply)
+@Client.on_message(filters.regex(r"(?i)^Korone, qual o nome dele(\.)?$")
+                   & filters.reply)
 async def tell_name(c: Client, m: Message):
     await m.reply_text(
         ("O nome dele é {}! ^^").format(m.reply_to_message.from_user.first_name)
     )
 
 
-@Client.on_message(filters.regex(r"(?i)^Korone, pegue ele(\.)?$") & filters.reply)
+@Client.on_message(filters.regex(r"(?i)^Korone, pegue ele(\.)?$")
+                   & filters.reply)
 async def catch_him(c: Client, m: Message):
     react = random.choice(CATCH_REACT)
     reaction = random.choice(REACTIONS)
@@ -154,7 +159,8 @@ async def wiki(c: Client, m: Message):
     )
 
 
-@Client.on_message(filters.regex(r"(?i)^Korone, fa(ç|c)a um dump(\.|)") & filters.reply)
+@Client.on_message(filters.regex(r"(?i)^Korone, fa(ç|c)a um dump(\.|)")
+                   & filters.reply)
 async def json_dump(c: Client, m: Message):
     dump = json.dumps(json.loads(str(m)), indent=4, ensure_ascii=False)
 

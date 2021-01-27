@@ -131,7 +131,7 @@ async def log(c: Client, m: Message):
 @Client.on_message(filters.command("math", prefix))
 async def math_help(c: Client, m: Message):
     await m.reply_text(
-    """
+        """
 <b>Resolva problemas matemáticos complexos usando https://newton.now.sh</b>
 
  - /simplify: simplificar <code>/simplify 2^2+2(2)</code>

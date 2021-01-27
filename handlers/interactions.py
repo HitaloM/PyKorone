@@ -86,7 +86,8 @@ async def hello(c: Client, m: Message):
         return
 
 
-@Client.on_message(filters.regex(r"(?i)^(Est(ú|u)pido|Puta|Vai se f(o|u)der|Idiota|Ot(á|a)rio|Lixo)(\.)?$"))
+@Client.on_message(filters.regex(
+    r"(?i)^(Est(ú|u)pido|Puta|Vai se f(o|u)der|Idiota|Ot(á|a)rio|Lixo)(\.)?$"))
 async def insult(c: Client, m: Message):
     react = random.choice(INSULTS_REACT)
 

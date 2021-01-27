@@ -29,6 +29,7 @@ async def reject(c: Client, m: Message):
 def command_filter(command, *args, **kwargs):
     prefixes = ''.join(prefix)
     _prefix = f"^[{re.escape(prefixes)}]"
-    return filters.regex(_prefix+command, *args, **kwargs)
-    
+    return filters.regex(_prefix + command, *args, **kwargs)
+
+
 filters.cmd = command_filter

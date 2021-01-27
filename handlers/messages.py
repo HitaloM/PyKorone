@@ -132,10 +132,10 @@ async def bruh(c: Client, m: Message):
 @Client.on_message(filters.regex(r"(?i)^(yeet|ainda)(\.)?$"))
 async def yeet(c: Client, m: Message):
     first = datetime.now()
-    yeet = await m.reply_text("<b>Preparando...</b>")
+    t = await m.reply_text("<b>Preparando...</b>")
     second = datetime.now()
     time = (second - first).microseconds / 1000
-    await yeet.edit_text(f"*joga um cookie à <code>{time} m/s</code>*\nAINDA")
+    await t.edit_text(f"*joga um cookie à <code>{time} m/s</code>*\nAINDA")
 
 
 @Client.on_message(filters.regex(r"(?i)^porra(\.)?$"))
