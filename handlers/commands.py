@@ -14,9 +14,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import platform
-import random
 import re
-import rapidjson as json
 from datetime import datetime
 
 import kantex
@@ -27,10 +25,9 @@ from kantex.html import (Bold, Code, KanTeXDocument, KeyValueItem, Section,
                          SubSection)
 from search_engine_parser import GoogleSearch, BingSearch
 from pyrogram import Client, filters
-from pyrogram.types import Message, Update
+from pyrogram.types import Message
 
 from handlers.pm_menu import about_text
-from handlers.utils.random import NONE_CMD
 from handlers.utils.httpx import http
 
 
