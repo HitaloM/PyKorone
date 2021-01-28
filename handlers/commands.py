@@ -88,11 +88,11 @@ async def copy(c: Client, m: Message):
 
 
 @Client.on_message(filters.cmd(
-    command="echo",
+    command="echo (?P<text>.+)",
     action='Fale através do bot.'
 ))
 async def echo(c: Client, m: Message):
-    text = re.sub('^/echo ', '', m.text.html)
+    text  = m.matches[0]['text']
     chat_id = m.chat.id
     kwargs = {}
     reply = m.reply_to_message
