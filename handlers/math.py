@@ -18,8 +18,6 @@ import aionewton
 from pyrogram import Client, filters
 from pyrogram.types import Message
 
-from config import prefix
-
 done_text = "<b>Expressão:</b> <code>{}</code>\n<b>Resultado:</b> <code>{}</code>"
 
 

@@ -15,7 +15,6 @@
 
 import platform
 import html
-import re
 from datetime import datetime
 
 import kantex
