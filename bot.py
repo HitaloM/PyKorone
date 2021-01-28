@@ -18,6 +18,7 @@ import platform
 
 import pyrogram
 import pyromod.listen
+import pyromod.helpers
 from pyrogram import Client, idle
 from pyrogram.errors.exceptions.bad_request_400 import BadRequest
 from rich import box, print

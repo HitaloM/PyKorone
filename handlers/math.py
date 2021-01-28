@@ -128,7 +128,10 @@ async def log(c: Client, m: Message):
     await m.reply_text((done_text).format(calc, result))
 
 
-@Client.on_message(filters.command("math", prefix))
+@Client.on_message(filters.cmd(
+    command="math",
+    action='Manual de uso dos comandos matemáticos do Bot.'
+))
 async def math_help(c: Client, m: Message):
     await m.reply_text(
         """

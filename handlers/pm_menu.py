@@ -13,10 +13,15 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+import html
+import re
+
 from config import prefix
+from pyromod.helpers import ikb
 from pyrogram import Client, filters
 from pyrogram.types import Message, CallbackQuery
-from pyromod.helpers import ikb
+
+from . import COMMANDS_HELP
 
 help_text = "Por favor, selecione uma categoria para obter ajuda!"
 
@@ -29,31 +34,51 @@ about_text = """
 """
 
 
-@Client.on_message(filters.command("start", prefix) & filters.group)
-async def start_group(c: Client, m: Message):
-    keyboard = ikb([
-        [("Clique aqui para obter ajuda!", "http://t.me/PyKoroneBot?start", "url")]
-    ])
-    await m.reply_text(
-        "Oi, eu sou o <b>Korone</b>, um bot interativo "
-        "que adora participar de grupos!\n"
-        "Você pode ver tudo que eu posso fazer clicando no botão abaixo...",
-        reply_markup=keyboard,
-    )
-
-
-@Client.on_message(filters.command("start", prefix) & filters.private)
+@Client.on_message(filters.cmd(
+    command="start",
+    action='Envia a mensagem de inicialização do Bot.'
+))
 async def start(c: Client, m: Message):
-    keyboard = ikb([
-        [("📚 Ajuda", "help"),
-         ("ℹ️ Sobre", "about")],
-        [("👥 Grupo Off-Topic", "https://t.me/SpamTherapy", "url")]
-    ])
+    keyboard = []
+    text = ("Oi, eu sou o <b>Korone</b>, um bot interativo "
+            "que adora participar de grupos!\n")
+    if m.chat.type == 'private':
+        keyboard.append([
+            ("📚 Ajuda", "help_cb"), ("ℹ️ Sobre", "about")
+        ])
+        keyboard.append([
+            ("👥 Grupo Off-Topic", "https://t.me/SpamTherapy", "url")
+        ])
+    else:
+        keyboard.append([
+            ("Clique aqui para obter ajuda!", f"http://t.me/{(await c.get_me()).username}?start", "url")
+        ])
+        text += "Você pode ver tudo que eu posso fazer clicando no botão abaixo..."
     await m.reply_text(
-        "Oi, eu sou o <b>Korone</b>, um bot interativo "
-        "que adora participar de grupos!",
-        reply_markup=keyboard,
+        text,
+        reply_markup=ikb(keyboard),
     )
+
+
+@Client.on_message(filters.cmd("help (?P<module>.+)"))
+async def help_m(c: Client, m: Message):
+    module = m.matches[0]['module']
+    if m.chat.type == 'private':
+        await help_module(m, module)
+        return
+
+
+@Client.on_message(filters.cmd(
+    command="help",
+    action='Envia o menu de ajuda do Bot.'
+) & filters.private)
+async def help(c: Client, m: Message):
+    await help_module(m)
+
+
+@Client.on_callback_query(filters.regex("^help_cb$"))
+async def help_cb(c: Client, m: CallbackQuery):
+    await help_module(m)
 
 
 @Client.on_message(filters.command("help", prefix) & filters.private)
@@ -68,51 +93,83 @@ async def help_command(c: Client, m: Message):
                        )
 
 
-@Client.on_callback_query(filters.regex("^help$"))
-async def help(c: Client, m: CallbackQuery):
-    keyboard = ikb([
-        [("Comandos", "help_cmds"),
-         ("Filtros", "help_regex")],
-        [("⬅️ Voltar", "start_back")]
-    ])
-    await m.message.edit_text(help_text,
-                              reply_markup=keyboard,
-                              )
+async def help_module(m: Message, module: str = None):
+    is_query = isinstance(m, CallbackQuery)
+    text = ''
+    keyboard = []
+    success = False
+    if not module or module == 'start':
+        keyboard.append([
+            ("Comandos", "help_cmds"), ("Filtros", "help_filters")
+        ])
+        keyboard.append([
+            ("⬅️ Voltar", "start_back")
+        ])
+        text = "Por favor, selecione uma categoria para obter ajuda!"
+        success = True
+    else:
+        if module == 'cmds':
+            modules = []
+            for key, value in COMMANDS_HELP.items():
+                if 'commands' in value:
+                    modules.append(key)
+            text = f'Eu tenho atualmente <code>{len(modules)}</code> módulos com comandos, verifique-os usando <code>/help &lt;módulo&gt;</code>.\n'
+            if len(modules) > 0:
+                text += '\n<b>Módulos</b>:'
+                for module_name in modules:
+                    text += f'\n  - <code>{module_name}</code>'
+            success = True
+            keyboard.append([("⬅️ Voltar", "help_start")])
+        elif module == 'filters':
+            modules = []
+            for key, value in COMMANDS_HELP.items():
+                if 'filters' in value:
+                    modules.append(key)
+            text = f'Eu tenho atualmente <code>{len(modules)}</code> módulos com filtros, verifique-os usando <code>/help &lt;módulo&gt;</code>.\n'
+            if len(modules) > 0:
+                text += '\n<b>Módulos</b>:'
+                for module_name in modules:
+                    text += f'\n  - <code>{module_name}</code>'
+            success = True
+            keyboard.append([("⬅️ Voltar", "help_start")])
+        elif module in COMMANDS_HELP.keys():
+            text = f'<b>Módulo</b>: <code>{module}</code>\n'
+            module = COMMANDS_HELP[module]
+            text += f'\n{module["text"]}\n'
+
+            type = 'commands' if 'commands' in module else 'filters'
+            if len(module[type]) > 0:
+                text += f'\n<b>{"Comandos" if type == "commands" else "Filtros"}</b>:'
+                for key, value in module[type].items():
+                    action = value['action']
+                    if len(action) > 0:
+                        regex = ''
+                        if type == 'commands':
+                            regex = key.split()[0]
+                            if '<' in key and '>' in key:
+                                left = key[len(regex):].split('<')[1:]
+                                for field in left:
+                                    regex += ' <' + field.split('>')[0] + '>'
+                        else:
+                            regex = key
+                        text += f'\n  - <code>{"/" if type == "commands" else ""}{html.escape(regex)}</code>: {action}'
+            success = True
+
+    kwargs = {}
+    if len(keyboard) > 0:
+        kwargs['reply_markup'] = ikb(keyboard)
+
+    if success:
+        await (m.edit_message_text if is_query else m.reply)(
+            text,
+            **kwargs
+        )
 
 
-@Client.on_callback_query(filters.regex("^help_regex$"))
-async def help_regex(c: Client, m: CallbackQuery):
-    keyboard = ikb([[("⬅️ Voltar", "help")]])
-    await m.message.edit_text(
-        "<b>O PyKorone também possui alguns filtros com respostas pré-definidas:</b>\n\n"
-        "<b>types:</b>\n"
-        " - <code>messages</code>\n"
-        " - <code>assistant</code>\n"
-        " - <code>interactions</code>\n\n"
-        "Você pode obter ajuda para um tipo de filtro específico usando <code>/help {type}</code>",
-        reply_markup=keyboard,
-    )
-
-
-@Client.on_callback_query(filters.regex("^help_cmds$"))
-async def help_cmds(c: Client, m: CallbackQuery):
-    keyboard = ikb([[("⬅️ Voltar", "help")]])
-    await m.message.edit_text(
-        "<b>Aqui estão alguns dos meus comandos:</b>\n\n"
-        "• <b>/start</b>: <i>Envia a mensagem inicial do bot.</i>\n"
-        "• <b>/help</b>: <i>Envia a mensagem de ajuda do bot.</i>\n"
-        "• <b>/ping</b>: <i>Envia o ping do bot.</i>\n"
-        "• <b>/google</b>: <i>Faça uma pesquisa no Google através do bot.</i>\n"
-        "• <b>/bing</b>: <i>Faça uma pesquisa no Bing através do bot.</i>\n"
-        "• <b>/echo</b>: <i>Faz um eco com o que você escrever na frente do comando.</i>\n"
-        "• <b>/cat</b>: <i>Envia uma imagem de um gatinho aleatório.</i>\n"
-        "• <b>/math</b>: <i>Um manual para os comandos de expressões matemáticas do bot.</i>"
-        "• <b>/py</b>: <i>Envia algumas informações técnicas do bot.</i>\n"
-        "• <b>/about</b>: <i>Envia o 'sobre' do bot.</i>\n"
-        "• <b>/copy</b>: <i>O bot copia a mensagem que você responder com este comando.</i>\n"
-        "• <b>/user</b>: <i>Obtêm informações básicas de um usuário.</i>",
-        reply_markup=keyboard,
-    )
+@Client.on_callback_query(filters.regex('help_(?P<module>.+)'))
+async def on_help_callback(c: Client, cq: CallbackQuery):
+    module = cq.matches[0]['module']
+    await help_module(cq, module)
 
 
 @Client.on_callback_query(filters.regex("^about$"))
@@ -128,7 +185,7 @@ async def about(c: Client, m: CallbackQuery):
 @Client.on_callback_query(filters.regex("^start_back$"))
 async def start_back(c: Client, m: CallbackQuery):
     keyboard = ikb([
-        [("📚 Ajuda", "help"),
+        [("📚 Ajuda", "help_cb"),
          ("ℹ️ Sobre", "about")],
         [("👥 Grupo Off-Topic", "https://t.me/SpamTherapy", "url")]
     ])

@@ -19,9 +19,18 @@ from pyrogram import Client, filters
 from pyrogram.types import Message
 
 from handlers.utils.random import HEY_REACT, INSULTS_REACT, RANDOM_REACT, WHATSUP_REACT
+from handlers import COMMANDS_HELP
+
+COMMANDS_HELP['interactions'] = {
+    'text': 'Use em resposta ao <b>Korone</b>.',
+    'filters': {}
+}
 
 
-@Client.on_message(filters.regex(r"(?i)^(Quem te criou|Quem criou voc(ê|))(\?|)$"))
+@Client.on_message(filters.interaction(
+    filter=r"(Quem te criou|Quem criou voc(ê|)(\?|))",
+    action='Direi quem é meu criador.'
+))
 async def my_creator(c: Client, m: Message):
     text = "Meu criador é o @Hitalo ^^"
 
@@ -34,7 +43,10 @@ async def my_creator(c: Client, m: Message):
         return
 
 
-@Client.on_message(filters.regex(r"(?i)^(okay|ok)$"))
+@Client.on_message(filters.interaction(
+    filter=r"(?i)^(okay|ok)$",
+    action=''
+))
 async def okay(c: Client, m: Message):
     text = "Hmm..."
 

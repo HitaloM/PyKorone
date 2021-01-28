@@ -14,6 +14,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import platform
+import html
 import re
 from datetime import datetime
 
@@ -29,9 +30,18 @@ from pyrogram.types import Message
 
 from handlers.pm_menu import about_text
 from handlers.utils.httpx import http
+from . import COMMANDS_HELP
+
+COMMANDS_HELP['commands'] = {
+    'text': 'Este é meu módulo principal de comandos.',
+    'commands': {}
+}
 
 
-@Client.on_message(filters.command("ping", prefix))
+@Client.on_message(filters.cmd(
+    command="ping",
+    action='Verifique a velocidade de resposta do bot.'
+))
 async def ping(c: Client, m: Message):
     first = datetime.now()
     sent = await m.reply_text("<b>Pong!</b>")
@@ -40,7 +50,10 @@ async def ping(c: Client, m: Message):
     await sent.edit_text(f"<b>Pong!</b> <code>{time}</code>ms")
 
 
-@Client.on_message(filters.command("user", prefix) & filters.reply)
+@Client.on_message(filters.cmd(
+    command="user",
+    action='Retorna algumas informações do usuário.'
+) & filters.reply)
 async def user_info(c: Client, m: Message):
     user_id = m.reply_to_message.from_user.id
     first_name = m.reply_to_message.from_user.first_name
@@ -59,7 +72,10 @@ async def user_info(c: Client, m: Message):
     await m.reply_text(doc)
 
 
-@Client.on_message(filters.command("copy", prefix) & filters.reply)
+@Client.on_message(filters.cmd(
+    command="copy",
+    action='Comando originalmente para testes mas que também é divertido.'
+) & filters.reply)
 async def copy(c: Client, m: Message):
     try:
         await c.copy_message(
@@ -71,7 +87,10 @@ async def copy(c: Client, m: Message):
         return
 
 
-@Client.on_message(filters.command("echo", prefix))
+@Client.on_message(filters.cmd(
+    command="echo",
+    action='Fale através do bot.'
+))
 async def echo(c: Client, m: Message):
     text = re.sub('^/echo ', '', m.text.html)
     chat_id = m.chat.id
@@ -99,19 +118,28 @@ async def dev(c: Client, m: Message):
     await m.reply_text(doc, disable_web_page_preview=True)
 
 
-@Client.on_message(filters.command("cat", prefix))
+@Client.on_message(filters.cmd(
+    command="cat",
+    action='Imagens de gatinhos.'
+))
 async def cat(c: Client, m: Message):
     response = await http.get("https://api.thecatapi.com/v1/images/search")
     cats = response.json
     await m.reply_photo(cats()[0]["url"], caption="Meow!! (^つωฅ^)")
 
 
-@Client.on_message(filters.command("about", prefix))
+@Client.on_message(filters.cmd(
+    command="about",
+    action='Informações sobre o bot.'
+))
 async def about_cmd(c: Client, m: Message):
     await m.reply_text(about_text, disable_web_page_preview=True)
 
 
-@Client.on_message(filters.cmd("google (?P<search>.+)"))
+@Client.on_message(filters.cmd(
+    command="google (?P<search>.+)",
+    action='Faça uma pesquisa no Google através do bot.'
+))
 async def google(c: Client, m: Message):
     query = m.matches[0]['search']
     search_args = (str(query), 1)
@@ -126,12 +154,15 @@ async def google(c: Client, m: Message):
             msg += f"{i}. <a href='{link}'>{title}</a>\n<code>{desc}</code>\n\n"
         except IndexError:
             break
-    await m.reply_text("<b>Consulta:</b>\n<code>" + query + "</code>\n\n<b>Resultados:</b>\n" +
+    await m.reply_text("<b>Consulta:</b>\n<code>" + html.escape(query) + "</code>\n\n<b>Resultados:</b>\n" +
                        msg,
                        disable_web_page_preview=True)
 
 
-@Client.on_message(filters.cmd("bing (?P<search>.+)"))
+@Client.on_message(filters.cmd(
+    command="bing (?P<search>.+)",
+    action='Faça uma pesquisa no Bing através do bot.'
+))
 async def bing(c: Client, m: Message):
     query = m.matches[0]['search']
     search_args = (str(query), 1)
@@ -143,10 +174,10 @@ async def bing(c: Client, m: Message):
             title = bresults["titles"][i]
             link = bresults["links"][i]
             desc = bresults["descriptions"][i]
-            msg += f"{i}. <a href='{link}'>{title}</a>\n<code>{desc}</code>\n\n"
+            msg += f"{i}. <a href='{link}'>{html.escape(title)}</a>\n<code>{html.escape(desc)}</code>\n\n"
         except IndexError:
             break
-    await m.reply_text("<b>Consulta:</b>\n<code>" + query + "</code>\n\n<b>Resultados:</b>\n" +
+    await m.reply_text("<b>Consulta:</b>\n<code>" + html.escape(query) + "</code>\n\n<b>Resultados:</b>\n" +
                        msg,
                        disable_web_page_preview=True)
 

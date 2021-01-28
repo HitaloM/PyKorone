@@ -20,13 +20,29 @@ from pyrogram.types import Message
 
 from config import prefix
 
+from . import COMMANDS_HELP
+
 
 @Client.on_message(filters.edited)
 async def reject(c: Client, m: Message):
     m.stop_propagation()
 
 
-def command_filter(command, *args, **kwargs):
+def interaction_filter(filter, action: str = None, *args, **kwargs):
+    COMMANDS_HELP['interactions']['filters'][filter] = {
+        'action': action or ''
+    }
+    return filters.regex(r"(?i)^{0}(\.|\?)?$".format(filter), *args, **kwargs)
+
+
+filters.interaction = interaction_filter
+
+
+def command_filter(command, action: str = None, *args, **kwargs):
+    if command not in COMMANDS_HELP['commands']['commands'].keys():
+        COMMANDS_HELP['commands']['commands'][command] = {
+            'action': action or ''
+        }
     prefixes = ''.join(prefix)
     _prefix = f"^[{re.escape(prefixes)}]"
     return filters.regex(_prefix + command, *args, **kwargs)
