@@ -151,7 +151,12 @@ async def help_module(m: Message, module: str = None):
                                     regex += ' <' + field.split('>')[0] + '>'
                         else:
                             regex = key
-                        text += f'\n  - <code>{"/" if type == "commands" else ""}{html.escape(regex)}</code>: {action}'
+                        if action == ' ' and type == 'filters':
+                            text += f'\n  - <code>{html.escape(regex)}</code>'
+                        elif action not in [' ', ''] and type == 'filters':
+                            text += f'\n  - <code>{html.escape(regex)}</code>: {action}'
+                        else:
+                            text += f'\n  - <b>{"/" if type == "commands" else ""}{html.escape(regex)}</b>: <i>{action}</i>'
             success = True
 
     kwargs = {}

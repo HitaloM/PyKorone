@@ -28,7 +28,7 @@ COMMANDS_HELP['interactions'] = {
 
 
 @Client.on_message(filters.interaction(
-    filter=r"(Quem te criou|Quem criou voc(ê|)(\?|))",
+    filter=r"(Quem te criou|Quem criou voc(ê|e))",
     action='Direi quem é meu criador.'
 ))
 async def my_creator(c: Client, m: Message):
@@ -44,8 +44,7 @@ async def my_creator(c: Client, m: Message):
 
 
 @Client.on_message(filters.interaction(
-    filter=r"(?i)^(okay|ok)$",
-    action=''
+    filter=r"(okay|ok)",
 ))
 async def okay(c: Client, m: Message):
     text = "Hmm..."
@@ -59,7 +58,9 @@ async def okay(c: Client, m: Message):
         return
 
 
-@Client.on_message(filters.regex(r"(?i)^Voc(e|ê) gosta de caf(é|e)(\?|)$"))
+@Client.on_message(filters.interaction(
+    filter=r"Voc(e|ê) gosta de caf(é|e)",
+))
 async def ulikecoffe(c: Client, m: Message):
     text = "Com certeza! ☕"
 
@@ -72,7 +73,9 @@ async def ulikecoffe(c: Client, m: Message):
         return
 
 
-@Client.on_message(filters.regex(r"(?i)^Voc(e|ê) gosta do Hitalo(\?|)$"))
+@Client.on_message(filters.interaction(
+    filter=r"Voc(e|ê) gosta do Hitalo",
+))
 async def ulikehitalo(c: Client, m: Message):
     text = "Com certeza! Ele é o meu criador..."
 
@@ -85,7 +88,9 @@ async def ulikehitalo(c: Client, m: Message):
         return
 
 
-@Client.on_message(filters.regex(r"(?i)^(Ol(á|a)|Oi|Eae)(\.)$"))
+@Client.on_message(filters.interaction(
+    filter=r"(Ol(á|a)|Oi|Eae)",
+))
 async def hello(c: Client, m: Message):
     react = random.choice(HEY_REACT)
 
@@ -98,8 +103,9 @@ async def hello(c: Client, m: Message):
         return
 
 
-@Client.on_message(filters.regex(
-    r"(?i)^(Est(ú|u)pido|Puta|Vai se f(o|u)der|Idiota|Ot(á|a)rio|Lixo)(\.)?$"))
+@Client.on_message(filters.interaction(
+    filter=r"(Est(ú|u)pido|Puta|Vai se f(o|u)der|Idiota|Ot(á|a)rio|Lixo)",
+))
 async def insult(c: Client, m: Message):
     react = random.choice(INSULTS_REACT)
 
@@ -112,7 +118,9 @@ async def insult(c: Client, m: Message):
         return
 
 
-@Client.on_message(filters.regex(r"(?i)^(Como vai|Tudo bem)(\?|)"))
+@Client.on_message(filters.interaction(
+    filter=r"(Como vai|Tudo bem)",
+))
 async def all_right(c: Client, m: Message):
     react = random.choice(WHATSUP_REACT)
 
@@ -125,7 +133,9 @@ async def all_right(c: Client, m: Message):
         return
 
 
-@Client.on_message(filters.regex(r"(?i)^Tudo bem Korone\?$"))
+@Client.on_message(filters.interaction(
+    filter=r"Tudo bem Korone",
+))
 async def all_right_list(c: Client, m: Message):
     try:
         answer = await m.chat.ask(

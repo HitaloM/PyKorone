@@ -30,7 +30,7 @@ async def reject(c: Client, m: Message):
 
 def interaction_filter(filter, action: str = None, *args, **kwargs):
     COMMANDS_HELP['interactions']['filters'][filter] = {
-        'action': action or ''
+        'action': action or ' '
     }
     return filters.regex(r"(?i)^{0}(\.|\?)?$".format(filter), *args, **kwargs)
 
