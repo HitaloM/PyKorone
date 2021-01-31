@@ -45,14 +45,16 @@ async def dice(c: Client, m: Message):
     filter=r"Korone, remova ele"
 ) & filters.group)
 async def kick(c: Client, m: Message):
-    try:
-        await c.kick_chat_member(m.chat.id, m.reply_to_message.from_user.id)
-        await m.chat.unban_member(m.reply_to_message.from_user.id)
-        await m.reply_animation(
-            animation="CgACAgQAAx0ET2XwHwACWb1gCDScpSaFyoNgPa2Ag_yiRo61YQACPwIAAryMhFOFxHV09aPBTR4E", quote=True
-        )
-    except BadRequest:
-        await m.reply_text("Eu n-não posso remover um administrador! >-<")
+    member = await c.get_chat_member(chat_id=m.chat.id, user_id=m.from_user.id)
+    if member.status in ['administrator', 'creator']:
+        try:
+            await c.kick_chat_member(m.chat.id, m.reply_to_message.from_user.id)
+            await m.chat.unban_member(m.reply_to_message.from_user.id)
+            await m.reply_animation(
+                animation="CgACAgQAAx0ET2XwHwACWb1gCDScpSaFyoNgPa2Ag_yiRo61YQACPwIAAryMhFOFxHV09aPBTR4E", quote=True
+            )
+        except BadRequest:
+            await m.reply_text("Eu n-não posso remover um administrador! >-<")
 
 
 @Client.on_message(filters.assist(
