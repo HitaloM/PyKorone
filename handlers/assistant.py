@@ -32,6 +32,7 @@ COMMANDS_HELP['assistant'] = {
     'filters': {}
 }
 
+
 @Client.on_message(filters.assist(
     filter=r"Korone, gire um dado"
 ))

@@ -91,7 +91,7 @@ async def copy(c: Client, m: Message):
     action='Fale através do bot.'
 ))
 async def echo(c: Client, m: Message):
-    text  = m.matches[0]['text']
+    text = m.matches[0]['text']
     chat_id = m.chat.id
     kwargs = {}
     reply = m.reply_to_message

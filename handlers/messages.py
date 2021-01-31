@@ -32,8 +32,7 @@ from handlers import COMMANDS_HELP
 
 COMMANDS_HELP['messages'] = {
     'text': 'Envie qualquer um desses filtros em um grupo ou no PV do <b>Korone</b>.',
-    'filters': {}
-}
+    'filters': {}}
 
 
 @Client.on_message(filters.msg(
