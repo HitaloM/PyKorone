@@ -112,9 +112,9 @@ async def help_module(m: Message, module: str = None):
             for key, value in COMMANDS_HELP.items():
                 if 'commands' in value:
                     modules.append(key)
-            text = f'Eu tenho atualmente <code>{len(modules)}</code> módulos com comandos, verifique-os usando <code>/help &lt;módulo&gt;</code>.\n'
+            text = f'Eu tenho atualmente <code>{len(modules)}</code> módulo(s) com comandos, verifique-os usando <code>/help &lt;módulo&gt;</code>.\n'
             if len(modules) > 0:
-                text += '\n<b>Módulos</b>:'
+                text += '\n<b>Módulo(s)</b>:'
                 for module_name in modules:
                     text += f'\n  - <code>{module_name}</code>'
             success = True
@@ -124,9 +124,9 @@ async def help_module(m: Message, module: str = None):
             for key, value in COMMANDS_HELP.items():
                 if 'filters' in value:
                     modules.append(key)
-            text = f'Eu tenho atualmente <code>{len(modules)}</code> módulos com filtros, verifique-os usando <code>/help &lt;módulo&gt;</code>.\n'
+            text = f'Eu tenho atualmente <code>{len(modules)}</code> módulo(s) com filtros, verifique-os usando <code>/help &lt;módulo&gt;</code>.\n'
             if len(modules) > 0:
-                text += '\n<b>Módulos</b>:'
+                text += '\n<b>Módulo(s)</b>:'
                 for module_name in modules:
                     text += f'\n  - <code>{module_name}</code>'
             success = True
