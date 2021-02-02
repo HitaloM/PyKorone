@@ -30,14 +30,13 @@ from handlers.utils.random import (
 )
 from handlers import COMMANDS_HELP
 
-COMMANDS_HELP['messages'] = {
-    'text': 'Envie qualquer um desses filtros em um grupo ou no PV do <b>Korone</b>.',
-    'filters': {}}
+COMMANDS_HELP["messages"] = {
+    "text": "Envie qualquer um desses filtros em um grupo ou no PV do <b>Korone</b>.",
+    "filters": {},
+}
 
 
-@Client.on_message(filters.msg(
-    filter=r"koto"
-))
+@Client.on_message(filters.msg(filter=r"koto"))
 async def koto(c: Client, m: Message):
     await c.send_sticker(
         chat_id=m.chat.id,
@@ -46,9 +45,7 @@ async def koto(c: Client, m: Message):
     )
 
 
-@Client.on_message(filters.msg(
-    filter=r"(sexo|sex)"
-))
+@Client.on_message(filters.msg(filter=r"(sexo|sex)"))
 async def sexo(c: Client, m: Message):
     await c.send_sticker(
         chat_id=m.chat.id,
@@ -57,24 +54,18 @@ async def sexo(c: Client, m: Message):
     )
 
 
-@Client.on_message(filters.msg(
-    filter=r"yee"
-))
+@Client.on_message(filters.msg(filter=r"yee"))
 async def yee(c: Client, m: Message):
     await m.reply_text("o(≧∇≦)o")
 
 
-@Client.on_message(filters.msg(
-    filter=r"(t(o|ô) de volta|voltei)"
-))
+@Client.on_message(filters.msg(filter=r"(t(o|ô) de volta|voltei)"))
 async def voltei(c: Client, m: Message):
     react = random.choice(IMBACK_REACT)
     await m.reply_text((react).format(m.from_user.first_name))
 
 
-@Client.on_message(filters.msg(
-    filter=r"(tuturu|tutturu)"
-))
+@Client.on_message(filters.msg(filter=r"(tuturu|tutturu)"))
 async def tutturu(c: Client, m: Message):
     await m.reply_voice(
         voice="AwACAgEAAxkDAAICbF_zg6fjeuwvbffAkVFdO2_YHw9ZAALmAAOSG5hHmkWo5sdCqkUeBA",
@@ -82,9 +73,7 @@ async def tutturu(c: Client, m: Message):
     )
 
 
-@Client.on_message(filters.msg(
-    filter=r"triggered"
-))
+@Client.on_message(filters.msg(filter=r"triggered"))
 async def triggered(c: Client, m: Message):
     await m.reply_voice(
         voice="CgACAgQAAx0ET2XwHwACXX9gCE6VI4wLfStiWuwXeIoNi3t22AACSAcAAh7FEFOeVKDvkRMV5x4E",
@@ -92,83 +81,61 @@ async def triggered(c: Client, m: Message):
     )
 
 
-@Client.on_message(filters.msg(
-    filter=r"(\$php|\<?php)"
-))
+@Client.on_message(filters.msg(filter=r"(\$php|\<?php)"))
 async def php(c: Client, m: Message):
     await m.reply_text("Isso é P-PHP? TwT\n*se esconde*")
 
 
-@Client.on_message(filters.msg(
-    filter=r"rip"
-))
+@Client.on_message(filters.msg(filter=r"rip"))
 async def rip(c: Client, m: Message):
     await m.reply_text("❀◟(ó ̯ ò, )")
 
 
-@Client.on_message(filters.msg(
-    filter=r"f"
-))
+@Client.on_message(filters.msg(filter=r"f"))
 async def press_f(c: Client, m: Message):
     await m.reply_text("F")
 
 
-@Client.on_message(filters.msg(
-    filter=r"python"
-))
+@Client.on_message(filters.msg(filter=r"python"))
 async def python(c: Client, m: Message):
     await m.reply_text("is a snake 🐍")
 
 
-@Client.on_message(filters.msg(
-    filter=r"(sleepy|brb)"
-))
+@Client.on_message(filters.msg(filter=r"(sleepy|brb)"))
 async def sleepy(c: Client, m: Message):
     await m.reply_text(". . . (∪｡∪)｡｡｡zzzZZ")
 
 
-@Client.on_message(filters.msg(
-    filter=r"baka"
-))
+@Client.on_message(filters.msg(filter=r"baka"))
 async def baka(c: Client, m: Message):
     await m.reply_text("Baaaka >3<")
 
 
-@Client.on_message(filters.msg(
-    filter=r"(@|)VegaData"
-))
+@Client.on_message(filters.msg(filter=r"(@|)VegaData"))
 async def vegano(c: Client, m: Message):
     await m.reply_voice(
         voice="AwACAgEAAx0ETZVb2AABEOhnYAhMJjsPaTvD6v0nDcU29uAhU0oAAhcBAAJ58kBELrkMROt69u0eBA",
         caption="Eae parças, beeeleza?! ^-^",
-        quote=True
+        quote=True,
     )
 
 
-@Client.on_message(filters.msg(
-    filter=r"isso n(ã|a)o funciona"
-))
+@Client.on_message(filters.msg(filter=r"isso n(ã|a)o funciona"))
 async def not_working(c: Client, m: Message):
     await m.reply_text("Apenas formate isso.")
 
 
-@Client.on_message(filters.msg(
-    filter=r"grr+"
-))
+@Client.on_message(filters.msg(filter=r"grr+"))
 async def grr(c: Client, m: Message):
     await m.reply_text("😡")
 
 
-@Client.on_message(filters.msg(
-    filter=r"bruh"
-))
+@Client.on_message(filters.msg(filter=r"bruh"))
 async def bruh(c: Client, m: Message):
     await m.reply_text("moment")
 
 
-@Client.on_message(filters.msg(
-    filter=r"(yeet|ainda)"
-))
+@Client.on_message(filters.msg(filter=r"(yeet|ainda)"))
 async def yeet(c: Client, m: Message):
     first = datetime.now()
     t = await m.reply_text("<b>Preparando...</b>")
@@ -177,41 +144,31 @@ async def yeet(c: Client, m: Message):
     await t.edit_text(f"*joga um cookie à <code>{time} m/s</code>*\nAINDA")
 
 
-@Client.on_message(filters.msg(
-    filter=r"porra"
-))
+@Client.on_message(filters.msg(filter=r"porra"))
 async def fuck(c: Client, m: Message):
     react = random.choice(FUCK_REACT)
     await m.reply_text(react)
 
 
-@Client.on_message(filters.msg(
-    filter=r"(doge|doggo)"
-))
+@Client.on_message(filters.msg(filter=r"(doge|doggo)"))
 async def doge(c: Client, m: Message):
     react = random.choice(DOGE_REACT)
     await m.reply_text(react)
 
 
-@Client.on_message(filters.msg(
-    filter=r"ayy"
-))
+@Client.on_message(filters.msg(filter=r"ayy"))
 async def ayy(c: Client, m: Message):
     react = random.choice(AYY_REACT)
     await m.reply_text(react)
 
 
-@Client.on_message(filters.msg(
-    filter=r"uwu"
-))
+@Client.on_message(filters.msg(filter=r"uwu"))
 async def uwu(c: Client, m: Message):
     react = random.choice(UWU_REACT)
     await m.reply_text(react)
 
 
-@Client.on_message(filters.msg(
-    filter=r"banhammer"
-))
+@Client.on_message(filters.msg(filter=r"banhammer"))
 async def banhammer(c: Client, m: Message):
     react = random.choice(BANHAMMERS)
     await c.send_sticker(
@@ -219,9 +176,7 @@ async def banhammer(c: Client, m: Message):
     )
 
 
-@Client.on_message(filters.msg(
-    filter=r"ban"
-))
+@Client.on_message(filters.msg(filter=r"ban"))
 async def ban_dice(c: Client, m: Message):
     react = (
         "CAACAgEAAx0CT2XwHwACWb5f8IhBw1kQL4BZ5C-W2xQUb8TmLQACqwADMWm8NnADxrv2ioYwHgQ"
@@ -231,9 +186,7 @@ async def ban_dice(c: Client, m: Message):
     )
 
 
-@Client.on_message(filters.msg(
-    filter=r"(#TeamKong|GCam|GCam Brasil)"
-))
+@Client.on_message(filters.msg(filter=r"(#TeamKong|GCam|GCam Brasil)"))
 async def dont_speak_macaco(c: Client, m: Message):
     react = (
         "CAACAgEAAx0ET2XwHwACZ7RgEaeKJJiQThi77Lnqkk0z4EdvkAACeQIAAjFpvDZT3XS9JPmVyh4E"
@@ -243,9 +196,7 @@ async def dont_speak_macaco(c: Client, m: Message):
     )
 
 
-@Client.on_message(filters.msg(
-    filter=r"(Macaco|King Kong|Kong)"
-))
+@Client.on_message(filters.msg(filter=r"(Macaco|King Kong|Kong)"))
 async def macaco(c: Client, m: Message):
     react = (
         "CAACAgEAAx0CT2XwHwACZ85gEao3lyREsYvlC45rdIs2_BashQACfAIAAjFpvDY9CqNjin13aR4E"
@@ -255,9 +206,7 @@ async def macaco(c: Client, m: Message):
     )
 
 
-@Client.on_message(filters.msg(
-    filter=r"Sopa de (Macaco|Mamaco)"
-))
+@Client.on_message(filters.msg(filter=r"Sopa de (Macaco|Mamaco)"))
 async def sopa_de_macaco(c: Client, m: Message):
     react = random.choice(GODZILLA_REACT)
     await c.send_sticker(

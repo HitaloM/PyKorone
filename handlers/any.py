@@ -29,9 +29,7 @@ async def reject(c: Client, m: Message):
 
 
 def interaction_filter(filter, action: str = None, *args, **kwargs):
-    COMMANDS_HELP['interactions']['filters'][filter] = {
-        'action': action or ' '
-    }
+    COMMANDS_HELP["interactions"]["filters"][filter] = {"action": action or " "}
     return filters.regex(r"(?i)^{0}(\.|\?)?$".format(filter), *args, **kwargs)
 
 
@@ -39,9 +37,7 @@ filters.interaction = interaction_filter
 
 
 def message_filter(filter, action: str = None, *args, **kwargs):
-    COMMANDS_HELP['messages']['filters'][filter] = {
-        'action': action or ' '
-    }
+    COMMANDS_HELP["messages"]["filters"][filter] = {"action": action or " "}
     return filters.regex(r"(?i)^{0}(\.|\?)?$".format(filter), *args, **kwargs)
 
 
@@ -49,9 +45,7 @@ filters.msg = message_filter
 
 
 def assistant_filter(filter, action: str = None, *args, **kwargs):
-    COMMANDS_HELP['assistant']['filters'][filter] = {
-        'action': action or ' '
-    }
+    COMMANDS_HELP["assistant"]["filters"][filter] = {"action": action or " "}
     return filters.regex(r"(?i)^{0}(\.|\?)?$".format(filter), *args, **kwargs)
 
 
@@ -59,11 +53,9 @@ filters.assist = assistant_filter
 
 
 def command_filter(command, action: str = None, *args, **kwargs):
-    if command not in COMMANDS_HELP['commands']['commands'].keys():
-        COMMANDS_HELP['commands']['commands'][command] = {
-            'action': action or ''
-        }
-    prefixes = ''.join(prefix)
+    if command not in COMMANDS_HELP["commands"]["commands"].keys():
+        COMMANDS_HELP["commands"]["commands"][command] = {"action": action or ""}
+    prefixes = "".join(prefix)
     _prefix = f"^[{re.escape(prefixes)}]"
     return filters.regex(_prefix + command, *args, **kwargs)
 

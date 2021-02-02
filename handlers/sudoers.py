@@ -31,9 +31,11 @@ async def restart(c: Client, m: Message):
 @Client.on_message(filters.command("upgrade", prefix) & filters.user(SUDOERS))
 async def upgrade(c: Client, m: Message):
     sm = await m.reply_text("Atualizando...")
-    proc = await asyncio.create_subprocess_shell("git pull --no-edit",
-                                                 stdout=asyncio.subprocess.PIPE,
-                                                 stderr=asyncio.subprocess.STDOUT)
+    proc = await asyncio.create_subprocess_shell(
+        "git pull --no-edit",
+        stdout=asyncio.subprocess.PIPE,
+        stderr=asyncio.subprocess.STDOUT,
+    )
     stdout = (await proc.communicate())[0]
     if proc.returncode == 0:
         if "Already up to date." in stdout.decode():
@@ -43,7 +45,9 @@ async def upgrade(c: Client, m: Message):
             args = [sys.executable, "bot.py"]
             os.execl(sys.executable, *args)
     else:
-        await sm.edit_text("Atualização falhou (process exited with {proc.returncode}):\n{stdout.decode()}")
+        await sm.edit_text(
+            "Atualização falhou (process exited with {proc.returncode}):\n{stdout.decode()}"
+        )
         proc = await asyncio.create_subprocess_shell("git merge --abort")
         await proc.communicate()
 

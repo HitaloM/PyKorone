@@ -27,82 +27,63 @@ from handlers.utils.httpx import http
 from handlers.utils.random import CATCH_REACT, HELLO, REACTIONS
 from . import COMMANDS_HELP
 
-COMMANDS_HELP['assistant'] = {
-    'text': 'Comandos de assistência do <b>Korone</b>, use em grupos ou PV.',
-    'filters': {}
+COMMANDS_HELP["assistant"] = {
+    "text": "Comandos de assistência do <b>Korone</b>, use em grupos ou PV.",
+    "filters": {},
 }
 
 
-@Client.on_message(filters.assist(
-    filter=r"Korone, gire um dado"
-))
+@Client.on_message(filters.assist(filter=r"Korone, gire um dado"))
 async def dice(c: Client, m: Message):
     dicen = await c.send_dice(m.chat.id, reply_to_message_id=m.message_id)
     await dicen.reply_text(f"O dado parou no número {dicen.dice.value}")
 
 
-@Client.on_message(filters.assist(
-    filter=r"Korone, remova ele"
-) & filters.group)
+@Client.on_message(filters.assist(filter=r"Korone, remova ele") & filters.group)
 async def kick(c: Client, m: Message):
     member = await c.get_chat_member(chat_id=m.chat.id, user_id=m.from_user.id)
-    if member.status in ['administrator', 'creator']:
+    if member.status in ["administrator", "creator"]:
         try:
             await c.kick_chat_member(m.chat.id, m.reply_to_message.from_user.id)
             await m.chat.unban_member(m.reply_to_message.from_user.id)
             await m.reply_animation(
-                animation="CgACAgQAAx0ET2XwHwACWb1gCDScpSaFyoNgPa2Ag_yiRo61YQACPwIAAryMhFOFxHV09aPBTR4E", quote=True
+                animation="CgACAgQAAx0ET2XwHwACWb1gCDScpSaFyoNgPa2Ag_yiRo61YQACPwIAAryMhFOFxHV09aPBTR4E",
+                quote=True,
             )
         except BadRequest:
             await m.reply_text("Eu n-não posso remover um administrador! >-<")
 
 
-@Client.on_message(filters.assist(
-    filter=r"Korone, me d(ê|e) um cookie"
-))
+@Client.on_message(filters.assist(filter=r"Korone, me d(ê|e) um cookie"))
 async def give_me_cookie(c: Client, m: Message):
     await m.reply_text(("*dá um cookie à {}* ^^").format(m.from_user.first_name))
 
 
-@Client.on_message(filters.assist(
-    filter=r"Korone, d(ê|e) um cookie"
-) & filters.reply)
+@Client.on_message(filters.assist(filter=r"Korone, d(ê|e) um cookie") & filters.reply)
 async def give_cookie(c: Client, m: Message):
     await m.reply_text(
         ("*dá um cookie à {}* ^^").format(m.reply_to_message.from_user.first_name)
     )
 
 
-@Client.on_message(filters.assist(
-    filter=r"Korone, morda(| ele)"
-) & filters.reply)
+@Client.on_message(filters.assist(filter=r"Korone, morda(| ele)") & filters.reply)
 async def bite(c: Client, m: Message):
-    await m.reply_text(
-        ("*morde {}*").format(m.reply_to_message.from_user.first_name)
-    )
+    await m.reply_text(("*morde {}*").format(m.reply_to_message.from_user.first_name))
 
 
-@Client.on_message(filters.assist(
-    filter=r"Korone, me abrace"
-))
+@Client.on_message(filters.assist(filter=r"Korone, me abrace"))
 async def hug(c: Client, m: Message):
-    await m.reply_text(
-        ("*Abraça com força {}* ^^").format(m.from_user.first_name)
-    )
+    await m.reply_text(("*Abraça com força {}* ^^").format(m.from_user.first_name))
 
 
-@Client.on_message(filters.assist(
-    filter=r"Korone, qual o nome dele"
-))
+@Client.on_message(filters.assist(filter=r"Korone, qual o nome dele"))
 async def tell_name(c: Client, m: Message):
     await m.reply_text(
         ("O nome dele é {}! ^^").format(m.reply_to_message.from_user.first_name)
     )
 
 
-@Client.on_message(filters.assist(
-    filter=r"Korone, pegue ele"
-) & filters.reply)
+@Client.on_message(filters.assist(filter=r"Korone, pegue ele") & filters.reply)
 async def catch_him(c: Client, m: Message):
     react = random.choice(CATCH_REACT)
     reaction = random.choice(REACTIONS)
@@ -111,9 +92,7 @@ async def catch_him(c: Client, m: Message):
     )
 
 
-@Client.on_message(filters.assist(
-    filter=r"Korone, (me |)conte uma piada"
-))
+@Client.on_message(filters.assist(filter=r"Korone, (me |)conte uma piada"))
 async def dadjoke(c: Client, m: Message):
     response = await http.get(
         "https://icanhazdadjoke.com/", headers={"Accept": "application/json"}
@@ -128,17 +107,13 @@ async def dadjoke(c: Client, m: Message):
     await m.reply_text(dad_joke)
 
 
-@Client.on_message(filters.assist(
-    filter=r"Korone"
-))
+@Client.on_message(filters.assist(filter=r"Korone"))
 async def hello(c: Client, m: Message):
     react = random.choice(HELLO)
     await m.reply_text((react).format(m.from_user.first_name))
 
 
-@Client.on_message(filters.assist(
-    filter=r"Korone, qual o link (de convite |)do grupo"
-))
+@Client.on_message(filters.assist(filter=r"Korone, qual o link (de convite |)do grupo"))
 async def invitelink(c: Client, m: Message):
     if m.chat.username is None:
         chat = m.chat.id
@@ -148,9 +123,7 @@ async def invitelink(c: Client, m: Message):
     await m.reply_text(link)
 
 
-@Client.on_message(filters.assist(
-    filter=r"Korone, o que é (?P<text>.+)"
-))
+@Client.on_message(filters.assist(filter=r"Korone, o que é (?P<text>.+)"))
 async def wiki(c: Client, m: Message):
     args = m.matches[0]["text"]
     wikipedia.set_lang("pt")
@@ -186,9 +159,7 @@ async def wiki(c: Client, m: Message):
     )
 
 
-@Client.on_message(filters.assist(
-    filter=r"Korone, fa(ç|c)a um dump"
-) & filters.reply)
+@Client.on_message(filters.assist(filter=r"Korone, fa(ç|c)a um dump") & filters.reply)
 async def json_dump(c: Client, m: Message):
     dump = json.dumps(json.loads(str(m)), indent=4, ensure_ascii=False)
 
