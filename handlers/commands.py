@@ -131,6 +131,13 @@ async def cat(c: Client, m: Message):
     await m.reply_photo(cats()[0]["url"], caption="Meow!! (^つωฅ^)")
 
 
+@Client.on_message(filters.cmd(command="dog", action="Imagens de cachorrinhos."))
+async def dog(c: Client, m: Message):
+    response = await http.get("https://random.dog/woof.json")
+    dogs = response.json()
+    await m.reply_photo(dogs["url"], caption="Woof!! U・ᴥ・U")
+
+
 @Client.on_message(filters.cmd(command="about", action="Informações sobre o bot."))
 async def about_cmd(c: Client, m: Message):
     await m.reply_text(about_text, disable_web_page_preview=True)
