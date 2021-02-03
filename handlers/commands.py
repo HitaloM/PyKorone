@@ -15,16 +15,19 @@
 
 import platform
 import html
+import re
+import os
 from datetime import datetime
 
 import kantex
+import youtube_dl
 import pyrogram
 import pyromod
 from config import prefix
 from kantex.html import Bold, Code, KanTeXDocument, KeyValueItem, Section, SubSection
 from search_engine_parser import GoogleSearch, BingSearch
 from pyrogram import Client, filters
-from pyrogram.types import Message
+from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton, Message
 
 from handlers.pm_menu import about_text
 from handlers.utils.httpx import http
@@ -34,6 +37,84 @@ COMMANDS_HELP["commands"] = {
     "text": "Este é meu módulo principal de comandos.",
     "commands": {},
 }
+
+ydl = youtube_dl.YoutubeDL(
+    {"outtmpl": "dls/%(title)s.%(ext)s", "format": "140", "noplaylist": True}
+)
+
+
+def pretty_size(size):
+    units = ["B", "KB", "MB", "GB"]
+    unit = 0
+    while size >= 1024:
+        size /= 1024
+        unit += 1
+    return "%0.2f %s" % (size, units[unit])
+
+
+def cleanhtml(raw_html):
+    cleanr = re.compile("<.*?>")
+    cleantext = re.sub(cleanr, "", raw_html)
+    return cleantext
+
+
+def escape_definition(definition):
+    for key, value in definition.items():
+        if isinstance(value, str):
+            definition[key] = html.escape(cleanhtml(value))
+    return definition
+
+
+@Client.on_message(
+    filters.cmd(command="pypi (?P<search>.+)", action="Pesquisa de módulos no PyPI.")
+)
+async def pypi(c: Client, m: Message):
+    text = m.matches[0]["search"]
+    r = await http.get(f"https://pypi.org/pypi/{text}/json")
+    if r.status_code == 200:
+        json = r.json()
+        pypi_info = escape_definition(json["info"])
+        message = (
+            "<b>%s</b> by <i>%s %s</i>\n"
+            "Platform: <b>%s</b>\n"
+            "Version: <b>%s</b>\n"
+            "License: <b>%s</b>\n"
+            "Summary: <b>%s</b>\n"
+            % (
+                pypi_info["name"],
+                pypi_info["author"],
+                f"&lt;{pypi_info['author_email']}&gt;"
+                if pypi_info["author_email"]
+                else "",
+                pypi_info["platform"] or "Not specified",
+                pypi_info["version"],
+                pypi_info["license"] or "None",
+                pypi_info["summary"],
+            )
+        )
+        if pypi_info["home_page"] and pypi_info["home_page"] != "UNKNOWN":
+            kb = InlineKeyboardMarkup(
+                inline_keyboard=[
+                    [
+                        InlineKeyboardButton(
+                            text="Package Home Page", url=pypi_info["home_page"]
+                        )
+                    ]
+                ]
+            )
+        else:
+            kb = None
+        await m.reply_text(
+            message,
+            disable_web_page_preview=True,
+            reply_markup=kb,
+        )
+    else:
+        await m.reply_text(
+            f"Cant find <b>{text}</b> in pypi (Returned code was {r.status_code})",
+            disable_web_page_preview=True,
+        )
+    return
 
 
 @Client.on_message(
@@ -199,6 +280,63 @@ async def bing(c: Client, m: Message):
         + msg,
         disable_web_page_preview=True,
     )
+
+
+@Client.on_message(
+    filters.cmd(
+        command="ytdl (?P<search>.+)", action="Baixe vídeo do YouTube com youtube-dl."
+    )
+)
+async def youtube(c: Client, m: Message):
+    text = m.matches[0]["search"]
+    if text:
+        sent_id = await m.reply_text("Obtendo informações do vídeo...")
+        try:
+            if re.match(
+                r"^(https?://)?(youtu\.be/|(m\.|www\.)?youtube\.com/watch\?v=).+",
+                text,
+            ):
+                yt = ydl.extract_info(text, download=False)
+            else:
+                yt = ydl.extract_info("ytsearch:" + text, download=False)["entries"][0]
+            for f in yt["formats"]:
+                if f["format_id"] == "140":
+                    fsize = f["filesize"] or 0
+            name = yt["title"]
+        except Exception as e:
+            return await sent_id.edit_text("Ocorreu um erro.\n\n" + str(e))
+        if not fsize > 52428800:
+            if " - " in name:
+                performer, title = name.rsplit(" - ", 1)
+            else:
+                performer = yt.get("creator") or yt.get("uploader")
+                title = name
+            await sent_id.edit_text(
+                "Baixando <code>{}</code> do YouTube...\n({})".format(
+                    name, pretty_size(fsize)
+                )
+            )
+            ydl.download(["https://www.youtube.com/watch?v=" + yt["id"]])
+            await sent_id.edit_text("Enviando áudio...")
+            await c.send_chat_action(chat_id=m.chat.id, action="upload_audio")
+            await c.send_audio(
+                chat_id=m.chat.id,
+                audio=open(ydl.prepare_filename(yt), "rb"),
+                performer=performer,
+                title=title,
+                duration=yt["duration"],
+            )
+            os.remove(ydl.prepare_filename(yt))
+            await sent_id.delete()
+        else:
+            await sent_id.edit_text(
+                f"Ow, o arquivo resultante ({pretty_size(fsize)}) ultrapassa o meu limite de 50 MB",
+            )
+
+    else:
+        await m.reply_text("<b>Uso:</b> /ytdl URL do vídeo ou nome")
+
+    return True
 
 
 # @Client.on_message(filters.regex(r"^/\w+") & filters.private, group=-1)
