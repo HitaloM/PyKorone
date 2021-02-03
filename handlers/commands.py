@@ -20,7 +20,6 @@ import os
 from datetime import datetime
 
 import kantex
-import youtube_dl
 import pyrogram
 import pyromod
 from config import prefix
@@ -37,19 +36,6 @@ COMMANDS_HELP["commands"] = {
     "text": "Este é meu módulo principal de comandos.",
     "commands": {},
 }
-
-ydl = youtube_dl.YoutubeDL(
-    {"outtmpl": "dls/%(title)s.%(ext)s", "format": "140", "noplaylist": True}
-)
-
-
-def pretty_size(size):
-    units = ["B", "KB", "MB", "GB"]
-    unit = 0
-    while size >= 1024:
-        size /= 1024
-        unit += 1
-    return "%0.2f %s" % (size, units[unit])
 
 
 def cleanhtml(raw_html):
@@ -345,63 +331,6 @@ async def bing(c: Client, m: Message):
         + msg,
         disable_web_page_preview=True,
     )
-
-
-@Client.on_message(
-    filters.cmd(
-        command="ytdl (?P<search>.+)", action="Baixe vídeo do YouTube com youtube-dl."
-    )
-)
-async def youtube(c: Client, m: Message):
-    text = m.matches[0]["search"]
-    if text:
-        sent_id = await m.reply_text("Obtendo informações do vídeo...")
-        try:
-            if re.match(
-                r"^(https?://)?(youtu\.be/|(m\.|www\.)?youtube\.com/watch\?v=).+",
-                text,
-            ):
-                yt = ydl.extract_info(text, download=False)
-            else:
-                yt = ydl.extract_info("ytsearch:" + text, download=False)["entries"][0]
-            for f in yt["formats"]:
-                if f["format_id"] == "140":
-                    fsize = f["filesize"] or 0
-            name = yt["title"]
-        except Exception as e:
-            return await sent_id.edit_text("Ocorreu um erro.\n\n" + str(e))
-        if not fsize > 52428800:
-            if " - " in name:
-                performer, title = name.rsplit(" - ", 1)
-            else:
-                performer = yt.get("creator") or yt.get("uploader")
-                title = name
-            await sent_id.edit_text(
-                "Baixando <code>{}</code> do YouTube...\n({})".format(
-                    name, pretty_size(fsize)
-                )
-            )
-            ydl.download(["https://www.youtube.com/watch?v=" + yt["id"]])
-            await sent_id.edit_text("Enviando áudio...")
-            await c.send_chat_action(chat_id=m.chat.id, action="upload_audio")
-            await c.send_audio(
-                chat_id=m.chat.id,
-                audio=open(ydl.prepare_filename(yt), "rb"),
-                performer=performer,
-                title=title,
-                duration=yt["duration"],
-            )
-            os.remove(ydl.prepare_filename(yt))
-            await sent_id.delete()
-        else:
-            await sent_id.edit_text(
-                f"Ow, o arquivo resultante ({pretty_size(fsize)}) ultrapassa o meu limite de 50 MB",
-            )
-
-    else:
-        await m.reply_text("<b>Uso:</b> /ytdl URL do vídeo ou nome")
-
-    return True
 
 
 # @Client.on_message(filters.regex(r"^/\w+") & filters.private, group=-1)
