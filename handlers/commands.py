@@ -15,6 +15,7 @@
 
 import platform
 import html
+import re
 from datetime import datetime
 
 import kantex
@@ -24,7 +25,7 @@ from config import prefix
 from kantex.html import Bold, Code, KanTeXDocument, KeyValueItem, Section, SubSection
 from search_engine_parser import GoogleSearch, BingSearch
 from pyrogram import Client, filters
-from pyrogram.types import Message
+from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton, Message
 
 from handlers.pm_menu import about_text
 from handlers.utils.httpx import http
@@ -34,6 +35,71 @@ COMMANDS_HELP["commands"] = {
     "text": "Este é meu módulo principal de comandos.",
     "commands": {},
 }
+
+
+def cleanhtml(raw_html):
+    cleanr = re.compile("<.*?>")
+    cleantext = re.sub(cleanr, "", raw_html)
+    return cleantext
+
+
+def escape_definition(definition):
+    for key, value in definition.items():
+        if isinstance(value, str):
+            definition[key] = html.escape(cleanhtml(value))
+    return definition
+
+
+@Client.on_message(
+    filters.cmd(command="pypi (?P<search>.+)", action="Pesquisa de módulos no PyPI.")
+)
+async def pypi(c: Client, m: Message):
+    text = m.matches[0]["search"]
+    r = await http.get(f"https://pypi.org/pypi/{text}/json")
+    if r.status_code == 200:
+        json = r.json()
+        pypi_info = escape_definition(json["info"])
+        message = (
+            "<b>%s</b> by <i>%s %s</i>\n"
+            "Platform: <b>%s</b>\n"
+            "Version: <b>%s</b>\n"
+            "License: <b>%s</b>\n"
+            "Summary: <b>%s</b>\n"
+            % (
+                pypi_info["name"],
+                pypi_info["author"],
+                f"&lt;{pypi_info['author_email']}&gt;"
+                if pypi_info["author_email"]
+                else "",
+                pypi_info["platform"] or "Not specified",
+                pypi_info["version"],
+                pypi_info["license"] or "None",
+                pypi_info["summary"],
+            )
+        )
+        if pypi_info["home_page"] and pypi_info["home_page"] != "UNKNOWN":
+            kb = InlineKeyboardMarkup(
+                inline_keyboard=[
+                    [
+                        InlineKeyboardButton(
+                            text="Package Home Page", url=pypi_info["home_page"]
+                        )
+                    ]
+                ]
+            )
+        else:
+            kb = None
+        await m.reply_text(
+            message,
+            disable_web_page_preview=True,
+            reply_markup=kb,
+        )
+    else:
+        await m.reply_text(
+            f"Cant find <b>{text}</b> in pypi (Returned code was {r.status_code})",
+            disable_web_page_preview=True,
+        )
+    return
 
 
 @Client.on_message(
