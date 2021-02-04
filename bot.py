@@ -13,6 +13,24 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+import os, sys
+
+# Clean Terminal
+os.system("clear")
+
+# Update requirements
+DGRAY = 'echo -e "\033[1;30m"'
+RESET = 'echo -e "\033[0m"'
+unused_requirements = []
+
+if "--no-update" not in sys.argv:
+    print("\033[0;32mUpdating requirements...\033[0m")
+    os.system(f"{DGRAY}; {sys.executable} -m pip install -Ur requirements.txt; {RESET}")
+    os.system("clear")
+
+print("\033[0m")
+os.system("clear")
+
 import logging
 import platform
 import os
@@ -61,7 +79,6 @@ print(Panel.fit(text, border_style="blue", box=box.ASCII))
 
 async def main():
     await connect_database()
-    os.system("clear")
 
     await client.start()
     client.me = await client.get_me()
