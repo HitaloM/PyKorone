@@ -13,9 +13,22 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+import spamwatch
 from httpx import AsyncClient
+from config import SW_API
 
 http = AsyncClient(http2=True)
+
+# SpamWatch
+spamwatch_api = SW_API
+
+if spamwatch_api == "None":
+    sw = None
+else:
+    try:
+        sw = spamwatch.Client(spamwatch_api)
+    except BaseException:
+        sw = None
 
 
 def pretty_size(size):

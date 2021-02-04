@@ -68,15 +68,6 @@ IMBACK_REACT = (
     "Oi {}!\n*feliz* ^^",
 )
 
-WELCOME_REACT = (
-    "Bem vindoooo {}!",
-    "Olá {}! Tudo bem? ^^",
-    "Bem vindoooo! *^^^*",
-    "Bem vindo {}!\nTenha bons tempos aqui! uwu",
-    "はい",
-    "*se esconde e espiona*",
-)
-
 HEY_REACT = (
     "Oi oi!\nPosso te ajudar?\nTalvez você queira alguns cookies? ~",
     "Olá {}!",

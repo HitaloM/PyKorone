@@ -11,3 +11,6 @@ SUDOERS = [918317361]
 
 # Prefixes for commands, e.g: /dev and !dev
 prefix = ["/", "!"]
+
+# Extras
+SW_API = ""

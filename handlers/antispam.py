@@ -18,10 +18,19 @@ import random
 from pyrogram import Client, filters
 from pyrogram.types import Message
 
-from handlers.utils.random import WELCOME_REACT
+from utils import sw
 
 
 @Client.on_message(filters.new_chat_members)
 async def greetings(c: Client, m: Message):
-    react = random.choice(WELCOME_REACT)
-    await m.reply_text((react).format(m.reply_to_message.from_user.first_name))
+    try:
+        if sw is not None:
+            sw_ban = sw.get_ban(m.reply_to_message.from_user.id)
+            if sw_ban:
+                r = sw_ban.reason
+                fn = m.reply_to_message.from_user.first_name
+                await m.reply_text(
+                    f"O usuário <code>{fn}</code> está banido na @SpamWatch e por isso foi removido!\nMotivo: <code>{r}</code>"
+                )
+    except BaseException:
+        pass
