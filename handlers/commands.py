@@ -29,7 +29,7 @@ from pyrogram import Client, filters
 from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton, Message
 
 from handlers.pm_menu import about_text
-from handlers.utils.httpx import http
+from utils import http
 from . import COMMANDS_HELP
 
 COMMANDS_HELP["commands"] = {

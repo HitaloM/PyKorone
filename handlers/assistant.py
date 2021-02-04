@@ -23,7 +23,7 @@ from pyrogram.types import Message
 from pyromod.helpers import ikb
 from pyrogram.errors.exceptions.bad_request_400 import BadRequest
 
-from handlers.utils.httpx import http
+from utils import http
 from handlers.utils.random import CATCH_REACT, HELLO, REACTIONS
 from . import COMMANDS_HELP
 

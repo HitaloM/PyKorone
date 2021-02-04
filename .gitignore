@@ -2,5 +2,10 @@ config.py
 __pycache__/
 handlers/__pycache__/
 handlers/utils/__pycache__/
-bot.session*
+database/__pycache__/
+database/*.sqlite
+*.sqlite
+dls/
+*.png
+client.session*
 .vscode/

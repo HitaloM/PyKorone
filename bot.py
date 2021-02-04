@@ -15,17 +15,20 @@
 
 import logging
 import platform
+import os
 
 import pyrogram
 import pyromod.listen
 import pyromod.helpers
 from pyrogram import Client, idle
-from pyrogram.errors.exceptions.bad_request_400 import BadRequest
+from pyrogram.errors import BadRequest
+from database import connect_database
+from tortoise import run_async
 from rich import box, print
 from rich.logging import RichHandler
 from rich.panel import Panel
 
-from config import API_HASH, API_ID, OWNER, TOKEN
+from config import API_HASH, API_ID, SUDOERS, TOKEN
 
 # Logging colorized by rich
 FORMAT = "%(message)s"
@@ -43,7 +46,7 @@ logging.getLogger("pyrogram.client").setLevel(logging.WARNING)
 log = logging.getLogger("rich")
 
 client = Client(
-    "bot",
+    "client",
     API_ID,
     API_HASH,
     bot_token=TOKEN,
@@ -55,18 +58,27 @@ client = Client(
 text = ":rocket: [bold green]PyKorone Running...[/bold green] :rocket:"
 print(Panel.fit(text, border_style="blue", box=box.ASCII))
 
-with client:
-    if __name__ == "__main__":
-        try:
-            client.send_message(
-                OWNER,
-                f"""<b>PyKorone Started...</b>
+
+async def main():
+    await connect_database()
+    os.system("clear")
+
+    await client.start()
+    client.me = await client.get_me()
+    start_message = f"""<b>PyKorone Started...</b>
 - <b>Pyrogram:</b> <code>v{pyrogram.__version__}</code>
 - <b>Pyromod:</b> <code>v{pyromod.__version__}</code>
 - <b>Python:</b> <code>v{platform.python_version()}</code>
 - <b>System:</b> <code>{client.system_version}</code>
-           """,
-            )
-        except BadRequest:
-            logging.warning("Cannot send startup message to SUDOERS...")
-        idle()
+           """
+    try:
+        for user in SUDOERS:
+            await client.send_message(chat_id=user, text=start_message)
+    except BaseException:
+        pass
+
+    await idle()
+
+
+if __name__ == "__main__":
+    run_async(main())
