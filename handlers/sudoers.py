@@ -18,8 +18,10 @@ import sys
 import asyncio
 
 from config import OWNER, SUDOERS, prefix
+from pyromod.helpers import ikb
 from pyrogram import Client, filters
-from pyrogram.types import Message
+from pyrogram.types import Message, CallbackQuery
+from typing import Dict
 
 
 @Client.on_message(filters.command("reboot", prefix) & filters.user(SUDOERS))
@@ -28,28 +30,79 @@ async def restart(c: Client, m: Message):
     os.execl(sys.executable, sys.executable, *sys.argv)
 
 
+def parse_commits(log: str) -> Dict:
+    commits = {}
+    last_commit = ""
+    lines = log.split("\n")
+    for line in lines:
+        if line.startswith("commit"):
+            last_commit = line.split()[1]
+            commits[last_commit] = {}
+        if len(line) > 0:
+            if line.startswith("    "):
+                if "title" in commits[last_commit].keys():
+                    commits[last_commit]["message"] = line[4:]
+                else:
+                    commits[last_commit]["title"] = line[4:]
+            else:
+                if ":" in line:
+                    key, value = line.split(": ")
+                    commits[last_commit][key] = value
+    return commits
+
+
 @Client.on_message(filters.command("upgrade", prefix) & filters.user(SUDOERS))
 async def upgrade(c: Client, m: Message):
-    sm = await m.reply_text("Atualizando...")
+    sm = await m.reply_text("Verificando...")
+    await (await asyncio.create_subprocess_shell("git fetch origin")).communicate()
+    proc = await asyncio.create_subprocess_shell(
+        "git log HEAD..origin/main",
+        stdout=asyncio.subprocess.PIPE,
+        stderr=asyncio.subprocess.STDOUT,
+    )
+    stdout = (await proc.communicate())[0].decode()
+    if proc.returncode == 0:
+        if len(stdout) > 0:
+            changelog = "<b>Changelog</b>:\n"
+            commits = parse_commits(stdout)
+            for hash, commit in commits.items():
+                changelog += f"  - [<code>{hash[:7]}</code>] {commit['title']}\n"
+            changelog += f"\n<b>New commits count</b>: <code>{len(commits)}</code>."
+            keyboard = [[("🆕 Atualizar", "upgrade")]]
+            await sm.edit_text(changelog, reply_markup=ikb(keyboard))
+        else:
+            return await sm.edit_text("Não há nada para atualizar.")
+    else:
+        error = ""
+        lines = stdout.split("\n")
+        for line in lines:
+            error += f"<code>{line}</code>\n"
+        await sm.edit_text(
+            f"Falha na atualização (process exited with {proc.returncode}):\n{error}"
+        )
+
+
+@Client.on_callback_query(filters.regex("^upgrade") & filters.user(SUDOERS))
+async def upgrade_cb(c: Client, cq: CallbackQuery):
+    await cq.message.edit_text("Atualizando...")
     proc = await asyncio.create_subprocess_shell(
         "git pull --no-edit",
         stdout=asyncio.subprocess.PIPE,
         stderr=asyncio.subprocess.STDOUT,
     )
-    stdout = (await proc.communicate())[0]
+    stdout = (await proc.communicate())[0].decode()
     if proc.returncode == 0:
-        if "Already up to date." in stdout.decode():
-            await sm.edit_text("Não há nada para atualizar.")
-        else:
-            await sm.edit_text("Reiniciando...")
-            args = [sys.executable, "bot.py"]
-            os.execl(sys.executable, *args)
+        await cq.message.edit_text("Reiniciando...")
+        args = [sys.executable, "-m", "bot"]
+        os.execv(sys.executable, args)
     else:
-        await sm.edit_text(
-            "Atualização falhou (process exited with {proc.returncode}):\n{stdout.decode()}"
+        error = ""
+        lines = stdout.split("\n")
+        for line in lines:
+            error += f"<code>{line}</code>\n"
+        await cq.message.edit_text(
+            f"Atualização falhou (process exited with {proc.returncode}):\n{error}"
         )
-        proc = await asyncio.create_subprocess_shell("git merge --abort")
-        await proc.communicate()
 
 
 @Client.on_message(filters.command("shutdown", prefix) & filters.user(OWNER))
