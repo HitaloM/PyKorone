@@ -93,7 +93,7 @@ async def upgrade_cb(c: Client, cq: CallbackQuery):
     stdout = (await proc.communicate())[0].decode()
     if proc.returncode == 0:
         await cq.message.edit_text("Reiniciando...")
-        args = [sys.executable, "-m", "bot"]
+        args = [sys.executable, "bot.py"]
         os.execv(sys.executable, args)
     else:
         error = ""
