@@ -15,13 +15,96 @@
 
 import os
 import sys
+import traceback
 import asyncio
 
 from config import OWNER, SUDOERS, prefix
 from pyromod.helpers import ikb
 from pyrogram import Client, filters
 from pyrogram.types import Message, CallbackQuery
+from meval import meval
 from typing import Dict
+
+
+@Client.on_message(filters.cmd("(sh(eel)?|term(inal)?) ") & filters.user(SUDOERS))
+async def on_terminal_m(c: Client, m: Message):
+    command = m.text.split()[0]
+    code = m.text[len(command) + 1 :]
+    sm = await m.reply_text("Running...")
+    proc = await asyncio.create_subprocess_shell(
+        code,
+        stdout=asyncio.subprocess.PIPE,
+        stderr=asyncio.subprocess.STDOUT,
+    )
+    stdout = (await proc.communicate())[0]
+    output = ""
+    lines = stdout.decode().split("\n")
+    for line in lines:
+        output += f"<code>{line}</code>\n"
+    output_message = f"<b>Input\n&gt;</b> <code>{code}</code>\n\n"
+    if len(output) > 0:
+        if len(output) > (4096 - len(output_message)):
+            document = io.BytesIO(
+                (output.replace("<code>", "").replace("</code>", "")).encode()
+            )
+            document.name = "output.txt"
+            await c.send_document(chat_id=m.chat.id, document=document)
+        else:
+            output_message += f"<b>Output\n&gt;</b> {output}"
+    await sm.edit_text(output_message)
+
+
+@Client.on_message(filters.cmd("ev(al)? ") & filters.user(SUDOERS))
+async def on_eval_m(c: Client, m: Message):
+    command = m.text.split()[0]
+    eval_code = m.text[len(command) + 1 :]
+    sm = await m.reply_text("Running...")
+    try:
+        stdout = await meval(eval_code, globals(), **locals())
+    except BaseException:
+        error = traceback.format_exc()
+        await sm.edit_text(
+            f"An error occurred while running the code:\n<code>{error}</code>"
+        )
+        return
+    output = ""
+    lines = str(stdout).split("\n")
+    for line in lines:
+        output += f"<code>{line}</code>\n"
+    output_message = f"<b>Input\n&gt;</b> <code>{eval_code}</code>\n\n"
+    if len(output) > 0:
+        if len(output) > (4096 - len(output_message)):
+            document = io.BytesIO(
+                (output.replace("<code>", "").replace("</code>", "")).encode()
+            )
+            document.name = "output.txt"
+            await c.send_document(chat_id=m.chat.id, document=document)
+        else:
+            output_message += f"<b>Output\n&gt;</b> {output}"
+    await sm.edit_text(output_message)
+
+
+@Client.on_message(filters.cmd("ex(ec(ute)?)? ") & filters.user(SUDOERS))
+async def on_execute_m(c: Client, m: Message):
+    command = m.text.split()[0]
+    code = m.text[len(command) + 1 :]
+    sm = await m.reply_text("Running...")
+    function = """
+async def _aexec_(c: Client, m: Message):
+    """
+    for line in code.split("\n"):
+        function += f"\n    {line}"
+    exec(function)
+    try:
+        await locals()["_aexec_"](c, m)
+    except BaseException:
+        error = traceback.format_exc()
+        await sm.edit_text(
+            f"An error occurred while running the code:\n<code>{error}</code>"
+        )
+        return
+    output_message = f"<b>Input\n&gt;</b> <code>{code}</code>\n\n"
+    await sm.edit_text(output_message)
 
 
 @Client.on_message(filters.command("reboot", prefix) & filters.user(SUDOERS))
