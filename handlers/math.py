@@ -138,7 +138,7 @@ async def math_help(c: Client, m: Message):
  - /factor: Fator <code>/factor x^2+2x</code>
  - /derive: derivar <code>/derive x^2+2x</code>
  - /integrate: integrar <code>/integrate x^2+2x</code>
- - /zeros: Encontre 0s <code>/zeroes x^2+2x</code>
+ - /zeroes: Encontre 0s <code>/zeroes x^2+2x</code>
  - /tangent: Encontre Tangente <code>/tangent 2lx^3</code>
  - /area: Área sob a curva <code>/area 2:4lx^3</code>
  - /cos: Cosseno <code>/cos pi</code>
