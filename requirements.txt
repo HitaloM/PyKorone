@@ -12,4 +12,5 @@ python-rapidjson==1.0
 KanTeX==0.2.0
 spamwatch==0.3.0
 search-engine-parser==0.6.2
+meval==2.5
 git+https://github.com/AndrielFR/aionewton
