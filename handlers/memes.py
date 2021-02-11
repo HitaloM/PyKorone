@@ -21,8 +21,37 @@ import urllib.parse
 from pyrogram import Client, filters
 from pyrogram.types import Message
 
+from handlers.utils.random import HUGS_REACT, SHRUGS_REACT, REACTS
 
-@Client.on_message(filters.cmd(command="pat", action="Dar uma batida na cabeça :3"))
+
+@Client.on_message(filters.cmd(command="hug", action="Dar um abraço."))
+async def hug(c: Client, m: Message):
+    react = random.choice(HUGS_REACT)
+    if m.reply_to_message:
+        await m.reply_to_message.reply_text(react)
+    else:
+        await m.reply_text(react)
+
+
+@Client.on_message(filters.cmd(command="shrug", action="Em caso de dúvida."))
+async def shrug(c: Client, m: Message):
+    react = random.choice(SHRUGS_REACT)
+    if m.reply_to_message:
+        await m.reply_to_message.reply_text(react)
+    else:
+        await m.reply_text(react)
+
+
+@Client.on_message(filters.cmd(command="react", action="Reações aleatórias."))
+async def reacts(c: Client, m: Message):
+    react = random.choice(REACTS)
+    if m.reply_to_message:
+        await m.reply_to_message.reply_text(react)
+    else:
+        await m.reply_text(react)
+
+
+@Client.on_message(filters.cmd(command="pat", action="Dar uma batida na cabeça."))
 async def pat(c: Client, m: Message):
     pats = []
     pats = json.loads(
@@ -38,9 +67,14 @@ async def pat(c: Client, m: Message):
         .read()
         .decode("utf-8")
     )
-    await m.reply_photo(
-        f"https://headp.at/pats/{urllib.parse.quote(random.choice(pats))}"
-    )
+    if m.reply_to_message:
+        await m.reply_to_message.reply_photo(
+            f"https://headp.at/pats/{urllib.parse.quote(random.choice(pats))}"
+        )
+    else:
+        await m.reply_photo(
+            f"https://headp.at/pats/{urllib.parse.quote(random.choice(pats))}"
+        )
 
 
 @Client.on_message(
