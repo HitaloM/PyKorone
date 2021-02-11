@@ -179,21 +179,6 @@ SHRUGS_REACT = (
     "乁( ⁰͡  Ĺ̯ ⁰͡ ) ㄏ",
 )
 
-HUGS_REACT = (
-    "⊂(・﹏・⊂)",
-    "⊂(・ヮ・⊂)",
-    "⊂(・▽・⊂)",
-    "(っಠ‿ಠ)っ",
-    "ʕっ•ᴥ•ʔっ",
-    "（っ・∀・）っ",
-    "(っ⇀⑃↼)っ",
-    "(つ´∀｀)つ",
-    "(.づσ▿σ)づ.",
-    "⊂(´・ω・｀⊂)",
-    "(づ￣ ³￣)づ",
-    "(.づ◡﹏◡)づ.",
-)
-
 BANHAMMERS = (
     "CAACAgQAAx0CT2XwHwACV-Nf78g1TSCO_mWtKhTbpOdalpdNHAACzwEAAgYlKAMdkZFHZv_nNR4E",
     "CAACAgQAAx0CT2XwHwACWAABX-_J6flwJKzep9rYUQttGXJzcwQAAtEBAAIGJSgDDFVJta1mslAeBA",
