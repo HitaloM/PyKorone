@@ -86,9 +86,9 @@ async def waifu(c: Client, m: Message):
 
     try:
         if m.reply_to_message:
-            await m.reply_to_message.reply_document(document=image_url)
+            await m.reply_to_message.reply_photo(image_url)
         else:
-            await m.reply_document(document=image_url)
+            await m.reply_photo(image_url)
     except BaseException as e:
         return await m.reply_text(f"Erro!\n{e}")
 
@@ -103,9 +103,9 @@ async def neko(c: Client, m: Message):
 
     try:
         if m.reply_to_message:
-            await m.reply_to_message.reply_document(document=image_url)
+            await m.reply_to_message.reply_photo(image_url)
         else:
-            await m.reply_document(document=image_url)
+            await m.reply_photo(image_url)
     except BaseException as e:
         return await m.reply_text(f"Erro!\n{e}")
 
