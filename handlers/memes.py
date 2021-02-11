@@ -13,8 +13,34 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+import random
+import rapidjson as json
+import urllib.request
+import urllib.parse
+
 from pyrogram import Client, filters
 from pyrogram.types import Message
+
+
+@Client.on_message(filters.cmd(command="pat", action="Dar uma batida na cabeça :3"))
+async def pat(c: Client, m: Message):
+    pats = []
+    pats = json.loads(
+        urllib.request.urlopen(
+            urllib.request.Request(
+                "http://headp.at/js/pats.json",
+                headers={
+                    "User-Agent": "Mozilla/5.0 (X11; U; Linux i686) "
+                    "Gecko/20071127 Firefox/2.0.0.11"
+                },
+            )
+        )
+        .read()
+        .decode("utf-8")
+    )
+    await m.reply_photo(
+        f"https://headp.at/pats/{urllib.parse.quote(random.choice(pats))}"
+    )
 
 
 @Client.on_message(

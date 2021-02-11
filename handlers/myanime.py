@@ -38,10 +38,10 @@ async def animes(c: Client, m: Message):
     if "results" in a.keys():
         pic = f'{a["results"][0]["image_url"]}'
         text = f'<b>{a["results"][0]["title"]}</b>\n'
-        text += f' • <b>Airing:</b> <code>{a["results"][0]["airing"]}</code>\n'
-        text += f' • <b>Type:</b> <code>{a["results"][0]["type"]}</code>\n'
-        text += f' • <b>Episodes:</b> <code>{a["results"][0]["episodes"]}</code>\n'
-        text += f' • <b>Score:</b> <code>{a["results"][0]["score"]}</code>\n'
-        text += f' • <b>Rated:</b> <code>{a["results"][0]["rated"]}</code>\n\n'
-        text += f'<b>Synopsis:</b>\n<i>{a["results"][0]["synopsis"]}</i>'
+        text += f' • <b>Exibição:</b> <code>{a["results"][0]["airing"]}</code>\n'
+        text += f' • <b>Tipo:</b> <code>{a["results"][0]["type"]}</code>\n'
+        text += f' • <b>Episódios:</b> <code>{a["results"][0]["episodes"]}</code>\n'
+        text += f' • <b>Pontuação:</b> <code>{a["results"][0]["score"]}</code>\n'
+        text += f' • <b>Classificação:</b> <code>{a["results"][0]["rated"]}</code>\n\n'
+        text += f'<b>Sinopse:</b>\n<i>{a["results"][0]["synopsis"]}</i>'
         await m.reply_photo(pic, caption=text)
