@@ -13,6 +13,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+import requests
 import platform
 import html
 import re
@@ -24,6 +25,7 @@ import pyrogram
 import pyromod
 from config import prefix
 from kantex.html import Bold, Code, KanTeXDocument, KeyValueItem, Section, SubSection
+from bs4 import BeautifulSoup as bs
 from search_engine_parser import GoogleSearch, BingSearch
 from pyrogram import Client, filters
 from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton, Message
@@ -266,3 +268,30 @@ async def bing(c: Client, m: Message):
         + msg,
         disable_web_page_preview=True,
     )
+
+
+@Client.on_message(
+    filters.cmd(
+        command="stickers (?P<search>.+)",
+        action="Pesquise stickers.",
+    )
+)
+async def cb_sticker(c: Client, m: Message):
+    args = m.matches[0]["search"]
+    if len(args) == 1:
+        await m.reply_text("Me dê algum nome para pesquisar.")
+        return
+
+    text = requests.get("https://combot.org/telegram/stickers?q=" + args).text
+    soup = bs(text, "lxml")
+    results = soup.find_all("a", {"class": "sticker-pack__btn"})
+    titles = soup.find_all("div", "sticker-pack__title")
+    if not results:
+        await m.reply_text("Nenhum resultado encontrado!")
+        return
+
+    reply = f"Stickers for <b>{args}</b>:"
+    for result, title in zip(results, titles):
+        link = result["href"]
+        reply += f"\n - <a href='{link}'>{title.get_text()}</a>"
+    await m.reply_text(reply, disable_web_page_preview=True)
