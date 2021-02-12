@@ -56,20 +56,29 @@ async def animes(c: Client, m: Message):
     )
 )
 async def poke_image(c: Client, m: Message):
+    command = m.text.split()[0]
     text = m.matches[0]["search"]
-    arg = text.split()
+    args = text.split()
     if not text:
         await m.reply_text("Specify a Pokémon name!")
         return
 
-    if len(arg) > 1 and arg[1] == "shiny":
-        type = "front_shiny"
+    type = "front_"
+    if len(args) > 1:
+        type += "_".join(args[1:])
     else:
-        type = "front_default"
+        type += "default"
 
-    r = await http.get("https://pokeapi.co/api/v2/pokemon/" + arg[0])
+    r = await http.get("https://pokeapi.co/api/v2/pokemon/" + args[0])
     if r.status_code == 200:
-        sprite_url = (r.json())["sprites"][type]
+        sprites = (r.json())["sprites"]
+        if type in sprites:
+            sprite_url = sprites[type]
+        else:
+            await m.reply_text(
+                f"<code>Error! Tipo \"{' '.join(args[1:])}\" não encontrado!</code>"
+            )
+            return
     else:
         await m.reply_text(f"<code>Error! {r.status_code}</code>")
         return
