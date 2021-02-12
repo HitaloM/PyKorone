@@ -14,13 +14,17 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import random
+import base64
 import rapidjson as json
+from io import BytesIO
+from PIL import Image
 
 from pyrogram import Client, filters
 from pyrogram.types import Message
 
 from utils import http
 from handlers.utils.random import SHRUGS_REACT, REACTS
+from handlers.utils.thonkify_dict import thonkifydict
 
 NEKO_URL = "https://nekos.life/api/v2/img/"
 
@@ -148,3 +152,53 @@ async def payf(c: Client, m: Message):
         paytext * 2,
     )
     await m.reply_text(pay)
+
+
+@Client.on_message(
+    filters.cmd(command="thonkify (?P<text>.+)", action="Entenda o que é na prática.")
+)
+async def thonkify(c: Client, m: Message):
+    if not m.reply_to_message:
+        msg = m.text.split(None, 1)[1]
+    else:
+        msg = m.reply_to_message.text
+
+    if (len(msg)) > 39:
+        await m.reply_text("Pense você mesmo...")
+        return
+
+    tracking = Image.open(
+        BytesIO(
+            base64.b64decode(
+                "iVBORw0KGgoAAAANSUhEUgAAAAYAAAOACAYAAAAZzQIQAAAALElEQVR4nO3BAQ0AAADCoPdPbQ8HFAAAAAAAAAAAAAAAAAAAAAAAAAAAAPwZV4AAAfA8WFIAAAAASUVORK5CYII="
+            )
+        )
+    )
+
+    for character in msg:
+        if character not in thonkifydict:
+            msg = msg.replace(character, "")
+
+    x = 0
+    y = 896
+    image = Image.new("RGBA", [x, y], (0, 0, 0))
+    for character in msg:
+        value = thonkifydict.get(character)
+        addedimg = Image.new(
+            "RGBA", [x + value.size[0] + tracking.size[0], y], (0, 0, 0)
+        )
+        addedimg.paste(image, [0, 0])
+        addedimg.paste(tracking, [x, 0])
+        addedimg.paste(value, [x + tracking.size[0], 0])
+        image = addedimg
+        x = x + value.size[0] + tracking.size[0]
+
+    maxsize = 1024, 896
+    if image.size[0] > maxsize[0]:
+        image.thumbnail(maxsize, Image.ANTIALIAS)
+
+    with BytesIO() as buffer:
+        buffer.name = "image.webp"
+        image.save(buffer, "PNG")
+        buffer.seek(0)
+        await m.reply_sticker(buffer)

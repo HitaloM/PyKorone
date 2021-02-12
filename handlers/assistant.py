@@ -107,6 +107,21 @@ async def dadjoke(c: Client, m: Message):
     await m.reply_text(dad_joke)
 
 
+@Client.on_message(filters.assist(filter=r"Korone, (me |)conte um fato"))
+async def dadjoke(c: Client, m: Message):
+    response = await http.get(
+        "https://uselessfacts.jsph.pl/random.json", params={"language": "en"}
+    )
+
+    if response.status_code == 200:
+        fact_text = (response.json())["text"].replace("`", "'")
+    else:
+        await m.reply_text(f"An error occurred: **{response.status_code}**")
+        return
+
+    await m.reply_text(fact_text)
+
+
 @Client.on_message(filters.assist(filter=r"Korone"))
 async def hello(c: Client, m: Message):
     react = random.choice(HELLO)
