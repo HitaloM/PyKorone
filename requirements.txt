@@ -6,6 +6,7 @@ rich==9.10.0
 tortoise-orm==0.16.21
 
 # Plugins deps
+pillow==8.1.0
 httpx[http2]==0.16.1
 wikipedia==1.4.0
 python-rapidjson==1.0

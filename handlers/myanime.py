@@ -13,12 +13,14 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+import io
 import rapidjson as json
 
 from pyromod.helpers import ikb
 from pyrogram import Client, filters
 from pyrogram.types import Message
 from urllib.parse import quote as urlencode
+from PIL import Image
 
 from utils import http
 
@@ -45,3 +47,65 @@ async def animes(c: Client, m: Message):
         text += f' • <b>Classificação:</b> <code>{a["results"][0]["rated"]}</code>\n\n'
         text += f'<b>Sinopse:</b>\n<i>{a["results"][0]["synopsis"]}</i>'
         await m.reply_photo(pic, caption=text)
+
+
+@Client.on_message(
+    filters.cmd(
+        command="pokemon (?P<search>.+)",
+        action="Retornar o sprite do Pokémon específico.",
+    )
+)
+async def poke_image(c: Client, m: Message):
+    text = m.matches[0]["search"]
+    arg = text.split()
+    if not text:
+        await m.reply_text("Specify a Pokémon name!")
+        return
+
+    if len(arg) > 1 and arg[1] == "shiny":
+        type = "front_shiny"
+    else:
+        type = "front_default"
+
+    r = await http.get("https://pokeapi.co/api/v2/pokemon/" + arg[0])
+    if r.status_code == 200:
+        sprite_url = (r.json())["sprites"][type]
+    else:
+        await m.reply_text(f"<code>Error! {r.status_code}</code>")
+        return
+
+    if not sprite_url:
+        await m.reply_text("Esse Pokémon não tem um sprite disponível!")
+        return
+
+    r = await http.get(sprite_url)
+    if r.status_code == 200:
+        sprite_io = r.read()
+    else:
+        await m.reply_text(f"<code>Error! {r.status_code}</code>")
+        return
+
+    await m.reply_document(document=pokemon_image_sync(sprite_io))
+
+
+def pokemon_image_sync(sprite_io):
+    sticker_image = Image.open(io.BytesIO(sprite_io))
+    sticker_image = sticker_image.crop(sticker_image.getbbox())
+
+    final_width = 512
+    final_height = 512
+
+    if sticker_image.width > sticker_image.height:
+        final_height = 512 * (sticker_image.height / sticker_image.width)
+    elif sticker_image.width < sticker_image.height:
+        final_width = 512 * (sticker_image.width / sticker_image.height)
+
+    sticker_image = sticker_image.resize(
+        (int(final_width), int(final_height)), Image.NEAREST
+    )
+    sticker_io = io.BytesIO()
+    sticker_image.save(sticker_io, "WebP", quality=99)
+    sticker_io.seek(0)
+    sticker_io.name = "sticker.webp"
+
+    return sticker_io
