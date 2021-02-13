@@ -27,6 +27,7 @@ from handlers.utils.random import (
     UWU_REACT,
     IMBACK_REACT,
     GODZILLA_REACT,
+    THONKI,
 )
 from handlers import COMMANDS_HELP
 
@@ -52,6 +53,12 @@ async def sexo(c: Client, m: Message):
         reply_to_message_id=m.message_id,
         sticker="CAACAgEAAx0ET2XwHwACXhRgDhGeDumnwAvIoNsqdCXZHEmk0gACdwIAAjFpvDZsvaEGCsVJsB4E",
     )
+
+
+@Client.on_message(filters.msg(filter=r"(pensando|thonki)"))
+async def thonki(c: Client, m: Message):
+    react = random.choice(THONKI)
+    await m.reply_sticker(react)
 
 
 @Client.on_message(filters.msg(filter=r"yee"))
@@ -171,9 +178,7 @@ async def uwu(c: Client, m: Message):
 @Client.on_message(filters.msg(filter=r"banhammer"))
 async def banhammer(c: Client, m: Message):
     react = random.choice(BANHAMMERS)
-    await c.send_sticker(
-        chat_id=m.chat.id, reply_to_message_id=m.message_id, sticker=react
-    )
+    await m.reply_sticker(react)
 
 
 @Client.on_message(filters.msg(filter=r"ban"))
@@ -181,9 +186,7 @@ async def ban_dice(c: Client, m: Message):
     react = (
         "CAACAgEAAx0CT2XwHwACWb5f8IhBw1kQL4BZ5C-W2xQUb8TmLQACqwADMWm8NnADxrv2ioYwHgQ"
     )
-    await c.send_sticker(
-        chat_id=m.chat.id, reply_to_message_id=m.message_id, sticker=react
-    )
+    await m.reply_sticker(react)
 
 
 @Client.on_message(filters.msg(filter=r"(#TeamKong|GCam|GCam Brasil)"))
@@ -201,14 +204,10 @@ async def macaco(c: Client, m: Message):
     react = (
         "CAACAgEAAx0CT2XwHwACZ85gEao3lyREsYvlC45rdIs2_BashQACfAIAAjFpvDY9CqNjin13aR4E"
     )
-    await c.send_sticker(
-        chat_id=m.chat.id, reply_to_message_id=m.message_id, sticker=react
-    )
+    await m.reply_sticker(react)
 
 
 @Client.on_message(filters.msg(filter=r"Sopa de (Macaco|Mamaco)"))
 async def sopa_de_macaco(c: Client, m: Message):
     react = random.choice(GODZILLA_REACT)
-    await c.send_sticker(
-        chat_id=m.chat.id, reply_to_message_id=m.message_id, sticker=react
-    )
+    await m.reply_sticker(react)
