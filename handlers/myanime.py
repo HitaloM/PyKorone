@@ -15,6 +15,7 @@
 
 import io
 import rapidjson as json
+from anilistpy import Anime, animeSearch
 
 from pyromod.helpers import ikb
 from pyrogram import Client, filters
@@ -27,8 +28,8 @@ from utils import http
 
 @Client.on_message(
     filters.cmd(
-        command="sanime (?P<search>.+)",
-        action="Pesquise informações de anime pelo MyAnimeList.",
+        command="mal (?P<search>.+)",
+        action="Pesquise informações de animes pelo MyAnimeList.",
     )
 )
 async def animes(c: Client, m: Message):
@@ -47,6 +48,46 @@ async def animes(c: Client, m: Message):
         text += f' • <b>Classificação:</b> <code>{a["results"][0]["rated"]}</code>\n\n'
         text += f'<b>Sinopse:</b>\n<i>{a["results"][0]["synopsis"]}</i>'
         await m.reply_photo(pic, caption=text)
+
+
+@Client.on_message(
+    filters.cmd(
+        command="anilist (?P<search>.+)",
+        action="Pesquise informações de animes pelo AniList.",
+    )
+)
+async def anilist(c: Client, m: Message):
+    query = m.matches[0]["search"]
+
+    try:
+        r = animeSearch(query)
+        a_id = r.id(0)
+        a = Anime(a_id)
+    except BaseException as e:
+        return await m.reply_text(f"Error! <code>{e}</code>")
+
+    d = a.description()
+    if len(d) > 700:
+        d_short = d[0:500] + "..."
+        desc = f"<b>Descrição:</b> {d_short}"
+    else:
+        desc = f"<b>Descrição:</b> {d}"
+
+    g = a.genres()
+    s = a.studios()
+    try:
+        text = f"<b>{r.title(0)}</b> (<code>{a.title('native')}</code>)\n"
+        text += f"<b>Status:</b> <code>{a.status()}</code>\n"
+        text += f"<b>Episódios:</b> <code>{a.episodes()}</code>\n"
+        text += f"<b>Duração:</b> <code>{a.duration()}</code> Por Ep.\n"
+        text += f"<b>Pontuação:</b> <code>{a.averageScore()}</code>\n"
+        text += f"<b>Gêneros:</b> <code>{', '.join(str(x) for x in g)}</code>\n"
+        text += f"<b>Estúdios:</b> <code>{', '.join(str(x) for x in s)}</code>\n"
+        text += f"\n{desc}"
+    except BaseException as e:
+        return await m.reply_text(f"Error! <code>{e}</code>")
+
+    await m.reply_photo(photo=f"https://img.anili.st/media/{a_id}", caption=text)
 
 
 @Client.on_message(

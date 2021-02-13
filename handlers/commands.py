@@ -278,9 +278,6 @@ async def bing(c: Client, m: Message):
 )
 async def cb_sticker(c: Client, m: Message):
     args = m.matches[0]["search"]
-    if len(args) == 1:
-        await m.reply_text("Me dê algum nome para pesquisar.")
-        return
 
     text = requests.get("https://combot.org/telegram/stickers?q=" + args).text
     soup = bs(text, "lxml")
