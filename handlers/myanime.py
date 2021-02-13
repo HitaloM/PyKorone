@@ -114,9 +114,6 @@ async def poke_image(c: Client, m: Message):
     command = m.text.split()[0]
     text = m.matches[0]["search"]
     args = text.split()
-    if not text:
-        await m.reply_text("Specify a Pokémon name!")
-        return
 
     type = "front_"
     if len(args) > 1:

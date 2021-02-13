@@ -18,6 +18,7 @@ import platform
 import html
 import re
 import os
+import io
 from datetime import datetime
 
 import kantex
@@ -26,6 +27,7 @@ import pyromod
 from config import prefix
 from kantex.html import Bold, Code, KanTeXDocument, KeyValueItem, Section, SubSection
 from bs4 import BeautifulSoup as bs
+from PIL import Image
 from search_engine_parser import GoogleSearch, BingSearch
 from pyrogram import Client, filters
 from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton, Message
@@ -292,3 +294,38 @@ async def cb_sticker(c: Client, m: Message):
         link = result["href"]
         reply += f"\n - <a href='{link}'>{title.get_text()}</a>"
     await m.reply_text(reply, disable_web_page_preview=True)
+
+
+@Client.on_message(
+    filters.cmd(
+        command="color (?P<hex>.+)",
+        action="Obtenha uma cor em sticker através do hex ou nome.",
+    )
+)
+async def stickcolor(c: Client, m: Message):
+    args = m.matches[0]["hex"]
+    color_sticker = stickcolorsync(args)
+
+    if color_sticker:
+        await m.reply_sticker(color_sticker)
+    else:
+        await m.reply_text(
+            f"<code>{args}</code> é uma cor inválida, use <code>#hex</code> ou o nome da cor."
+        )
+
+
+def stickcolorsync(color):
+    try:
+        image = Image.new("RGBA", (512, 512), color)
+    except:
+        try:
+            image = Image.new("RGBA", (512, 512), "#" + color)
+        except:
+            return
+
+    image_stream = io.BytesIO()
+    image_stream.name = "sticker.webp"
+    image.save(image_stream, "WebP")
+    image_stream.seek(0)
+
+    return image_stream

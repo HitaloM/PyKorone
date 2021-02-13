@@ -181,6 +181,11 @@ async def banhammer(c: Client, m: Message):
     await m.reply_sticker(react)
 
 
+@Client.on_message(filters.msg(filter=r"/kickme"))
+async def uwu(c: Client, m: Message):
+    await m.reply_text("Idiota... UwU")
+
+
 @Client.on_message(filters.msg(filter=r"ban"))
 async def ban_dice(c: Client, m: Message):
     react = (
