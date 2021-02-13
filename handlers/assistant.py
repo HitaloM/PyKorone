@@ -23,7 +23,7 @@ from pyrogram.types import Message
 from pyromod.helpers import ikb
 from pyrogram.errors.exceptions.bad_request_400 import BadRequest
 
-from utils import http
+from utils import http, translator
 from handlers.utils.random import CATCH_REACT, HELLO, REACTIONS
 from . import COMMANDS_HELP
 
@@ -101,14 +101,14 @@ async def dadjoke(c: Client, m: Message):
     if response.status_code == 200:
         dad_joke = (response.json())["joke"]
     else:
-        await m.reply_text(f"An error occurred: **{response.status_code}**")
+        await m.reply_text(f"Erro! <code>{response.status_code}</code>")
         return
 
     await m.reply_text(dad_joke)
 
 
 @Client.on_message(filters.assist(filter=r"Korone, (me |)conte um fato"))
-async def dadjoke(c: Client, m: Message):
+async def useless_fact(c: Client, m: Message):
     response = await http.get(
         "https://uselessfacts.jsph.pl/random.json", params={"language": "en"}
     )
@@ -116,10 +116,12 @@ async def dadjoke(c: Client, m: Message):
     if response.status_code == 200:
         fact_text = (response.json())["text"].replace("`", "'")
     else:
-        await m.reply_text(f"An error occurred: **{response.status_code}**")
+        await m.reply_text(f"Erro! <code>{response.status_code}</code>")
         return
 
-    await m.reply_text(fact_text)
+    fact_text_pt = translator.translate(fact_text, lang_tgt="pt")
+
+    await m.reply_text(fact_text_pt)
 
 
 @Client.on_message(filters.assist(filter=r"Korone"))

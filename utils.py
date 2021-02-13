@@ -15,7 +15,10 @@
 
 import spamwatch
 from httpx import AsyncClient
+from google_trans_new import google_translator
 from config import SW_API
+
+translator = google_translator()
 
 http = AsyncClient(http2=True)
 

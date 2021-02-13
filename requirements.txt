@@ -15,4 +15,5 @@ spamwatch==0.3.0
 search-engine-parser==0.6.2
 meval==2.5
 anilistpy==0.0.5.1
+google-trans-new==1.1.9
 git+https://github.com/AndrielFR/aionewton
