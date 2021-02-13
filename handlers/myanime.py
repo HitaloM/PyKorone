@@ -75,30 +75,32 @@ async def anilist(c: Client, m: Message):
 
     g = a.genres()
     s = a.studios()
-    try:
-        text = f"<b>{r.title(0)}</b> (<code>{a.title('native')}</code>)\n"
-        text += f"<b>Status:</b> <code>{a.status()}</code>\n"
-        text += f"<b>Episódios:</b> <code>{a.episodes()}</code>\n"
-        text += f"<b>Duração:</b> <code>{a.duration()}</code> Por Ep.\n"
-        text += f"<b>Pontuação:</b> <code>{a.averageScore()}</code>\n"
-        text += f"<b>Gêneros:</b> <code>{', '.join(str(x) for x in g)}</code>\n"
-        text += f"<b>Estúdios:</b> <code>{', '.join(str(x) for x in s)}</code>\n"
-        text += f"<b>Próxima Transmissão:</b> <code>{a.nextAiringEpisode()}</code>\n"
-        text += f"\n{desc}"
-    except BaseException as e:
-        return await m.reply_text(f"Error! <code>{e}</code>")
 
-    keyboard = ikb(
-        [
-            [
-                ("Mais Info", f"https://anilist.co/anime/{a_id}", "url"),
-                ("Trailer 🎬", a.trailerlink(), "url"),
-            ],
-        ]
-    )
+    text = f"<b>{r.title(0)}</b> (<code>{a.title('native')}</code>)\n"
+    text += f"<b>ID:</b> <code>{a_id}</code>\n"
+    text += f"<b>Status:</b> <code>{a.status()}</code>\n"
+    text += f"<b>Episódios:</b> <code>{a.episodes()}</code>\n"
+    text += f"<b>Duração:</b> <code>{a.duration()}</code> Por Ep.\n"
+    text += f"<b>Pontuação:</b> <code>{a.averageScore()}</code>\n"
+    text += f"<b>Gêneros:</b> <code>{', '.join(str(x) for x in g)}</code>\n"
+    text += f"<b>Estúdios:</b> <code>{', '.join(str(x) for x in s)}</code>\n"
+    try:
+        text += f"<b>Próxima transmissão:</b> <code>{a.nextAiringEpisode()}</code>\n"
+    except BaseException:
+        pass
+    text += f"\n{desc}"
+
+    keyboard = [[("Mais Info", f"https://anilist.co/anime/{a_id}", "url")]]
+
+    try:
+        keyboard[0].append(("Trailer 🎬", a.trailerlink(), "url"))
+    except BaseException:
+        pass
 
     await m.reply_photo(
-        photo=f"https://img.anili.st/media/{a_id}", caption=text, reply_markup=keyboard
+        photo=f"https://img.anili.st/media/{a_id}",
+        caption=text,
+        reply_markup=ikb(keyboard),
     )
 
 
