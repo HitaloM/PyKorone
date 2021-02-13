@@ -83,11 +83,23 @@ async def anilist(c: Client, m: Message):
         text += f"<b>Pontuação:</b> <code>{a.averageScore()}</code>\n"
         text += f"<b>Gêneros:</b> <code>{', '.join(str(x) for x in g)}</code>\n"
         text += f"<b>Estúdios:</b> <code>{', '.join(str(x) for x in s)}</code>\n"
+        text += f"<b>Próxima Transmissão:</b> <code>{a.nextAiringEpisode()}</code>\n"
         text += f"\n{desc}"
     except BaseException as e:
         return await m.reply_text(f"Error! <code>{e}</code>")
 
-    await m.reply_photo(photo=f"https://img.anili.st/media/{a_id}", caption=text)
+    keyboard = ikb(
+        [
+            [
+                ("Mais Info", f"https://anilist.co/anime/{a_id}", "url"),
+                ("Trailer 🎬", a.trailerlink(), "url"),
+            ],
+        ]
+    )
+
+    await m.reply_photo(
+        photo=f"https://img.anili.st/media/{a_id}", caption=text, reply_markup=keyboard
+    )
 
 
 @Client.on_message(
