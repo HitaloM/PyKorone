@@ -87,7 +87,7 @@ async def anilist(c: Client, m: Message):
     for i in anime.studios.nodes:
         studio += i.name + ", "
     if len(studio) > 0:
-        studio = studio[:-1]
+        studio = studio[:-2]
     text += f"<b>Estúdios:</b> <code>{studio}</code>\n"
     text += f"\n{desc}"
 
