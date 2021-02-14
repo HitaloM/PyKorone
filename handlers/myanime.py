@@ -14,8 +14,9 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import io
-import rapidjson as json
+import time
 import aioanilist
+import rapidjson as json
 
 from pyromod.helpers import ikb
 from pyrogram import Client, filters
@@ -76,7 +77,6 @@ async def anilist(c: Client, m: Message):
         desc = f"<b>Descrição:</b> {d}"
 
     text = f"<b>{anime.title.romaji}</b> (<code>{anime.title.native}</code>)\n"
-    text += f"<b>ID:</b> <code>{anime.id}</code>\n"
     text += f"<b>Tipo:</b> <code>{anime.format}</code>\n"
     text += f"<b>Status:</b> <code>{anime.status}</code>\n"
     text += f"<b>Episódios:</b> <code>{anime.episodes}</code>\n"
@@ -103,6 +103,35 @@ async def anilist(c: Client, m: Message):
         caption=text,
         reply_markup=ikb(keyboard),
     )
+
+
+@Client.on_message(
+    filters.cmd(
+        command="airing (?P<search>.+)",
+        action="A próxima transmissão de um anime.",
+    )
+)
+async def anime_airing(c: Client, m: Message):
+    query = m.matches[0]["search"]
+
+    try:
+        async with aioanilist.Client() as client:
+            results = await client.search("anime", query, limit=5)
+            anime = await client.get("anime", results[0].id)
+    except IndexError:
+        return await m.reply_text(
+            "Algo deu errado, verifique sua pesquisa e tente novamente!"
+        )
+
+    text = f"<b>{anime.title.romaji}</b> (<code>{anime.title.native}</code>)\n"
+    text += f"<b>ID:</b> <code>{anime.id}</code>\n"
+    text += f"<b>Tipo:</b> <code>{anime.format}</code>\n"
+    if anime.next_airing:
+        text += f"<b>No ar em:</b> <code>{time.strftime('%H:%M:%S - %d/%m/%Y', time.localtime(anime.next_airing.at))}</code>"
+    else:
+        text += f"<b>No ar em:</b> <code>N/A</code>"
+
+    await m.reply_text(text)
 
 
 @Client.on_message(
