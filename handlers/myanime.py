@@ -94,7 +94,7 @@ async def anilist(c: Client, m: Message):
     keyboard = [[("Mais Info", f"https://anilist.co/anime/{anime.id}", "url")]]
 
     try:
-        keyboard[0].append(("Trailer 🎬", "https://youtu.be/" + anime.trailer.id, "url"))
+        keyboard[0].append(("Trailer 🎬", anime.trailer.url, "url"))
     except BaseException:
         pass
 
