@@ -29,31 +29,7 @@ from utils import http
 
 @Client.on_message(
     filters.cmd(
-        command="mal (?P<search>.+)",
-        action="Pesquise informações de animes pelo MyAnimeList.",
-    )
-)
-async def animes(c: Client, m: Message):
-    query = m.matches[0]["search"]
-    query.replace("", "%20")
-    surl = f"https://api.jikan.moe/v3/search/anime?q={urlencode(query)}"
-    r = await http.get(surl)
-    a = r.json()
-    if "results" in a.keys():
-        pic = f'{a["results"][0]["image_url"]}'
-        text = f'<b>{a["results"][0]["title"]}</b>\n'
-        text += f' • <b>Exibição:</b> <code>{a["results"][0]["airing"]}</code>\n'
-        text += f' • <b>Tipo:</b> <code>{a["results"][0]["type"]}</code>\n'
-        text += f' • <b>Episódios:</b> <code>{a["results"][0]["episodes"]}</code>\n'
-        text += f' • <b>Pontuação:</b> <code>{a["results"][0]["score"]}</code>\n'
-        text += f' • <b>Classificação:</b> <code>{a["results"][0]["rated"]}</code>\n\n'
-        text += f'<b>Sinopse:</b>\n<i>{a["results"][0]["synopsis"]}</i>'
-        await m.reply_photo(pic, caption=text)
-
-
-@Client.on_message(
-    filters.cmd(
-        command="anilist (?P<search>.+)",
+        command="anime (?P<search>.+)",
         action="Pesquise informações de animes pelo AniList.",
     )
 )
