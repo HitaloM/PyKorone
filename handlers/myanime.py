@@ -57,7 +57,7 @@ async def animes(c: Client, m: Message):
         action="Pesquise informações de animes pelo AniList.",
     )
 )
-async def anilist(c: Client, m: Message):
+async def anilist_anime(c: Client, m: Message):
     query = m.matches[0]["search"]
 
     try:
@@ -111,7 +111,7 @@ async def anilist(c: Client, m: Message):
         action="A próxima transmissão de um anime.",
     )
 )
-async def anime_airing(c: Client, m: Message):
+async def anilist_airing(c: Client, m: Message):
     query = m.matches[0]["search"]
 
     try:
@@ -132,6 +132,55 @@ async def anime_airing(c: Client, m: Message):
         text += f"<b>No ar em:</b> <code>N/A</code>"
 
     await m.reply_photo(photo=anime.banner, caption=text)
+
+
+@Client.on_message(
+    filters.cmd(
+        command="manga (?P<search>.+)",
+        action="Pesquise informações de mangás pelo AniList.",
+    )
+)
+async def anilist_manga(c: Client, m: Message):
+    query = m.matches[0]["search"]
+
+    try:
+        async with aioanilist.Client() as client:
+            results = await client.search("manga", query, limit=5)
+            manga = await client.get("manga", results[0].id)
+    except IndexError:
+        return await m.reply_text(
+            "Algo deu errado, verifique sua pesquisa e tente novamente!"
+        )
+
+    d = manga.description
+    if len(d) > 700:
+        d_short = d[0:500] + "..."
+        desc = f"<b>Descrição:</b> {d_short}"
+    else:
+        desc = f"<b>Descrição:</b> {d}"
+
+    text = f"<b>{manga.title.romaji}</b> (<code>{manga.title.native}</code>)\n"
+    if manga.start_date.year:
+        text += f"<b>Início:</b> <code>{manga.start_date.year}</code>\n"
+    text += f"<b>Status:</b> <code>{manga.status}</code>\n"
+    if manga.chapters:
+        text += f"<b>Capítulos:</b> <code>{manga.chapters}</code>\n"
+    if manga.volumes:
+        text += f"<b>Volumes:</b> <code>{manga.volumes}</code>\n"
+    text += f"<b>Pontuação:</b> <code>{manga.score.average}</code>\n"
+    text += f"<b>Gêneros:</b> <code>{', '.join(str(x) for x in manga.genres)}</code>\n"
+    text += f"\n{desc}"
+
+    keyboard = [[("Mais Info", f"https://anilist.co/manga/{manga.id}", "url")]]
+
+    if manga.banner:
+        await m.reply_photo(
+            photo=f"https://img.anili.st/media/{manga.id}",
+            caption=text,
+            reply_markup=ikb(keyboard),
+        )
+    else:
+        await m.reply_text(text)
 
 
 @Client.on_message(
