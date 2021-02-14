@@ -119,7 +119,10 @@ async def anilist_airing(c: Client, m: Message):
     else:
         text += f"<b>No ar em:</b> <code>N/A</code>"
 
-    await m.reply_photo(photo=anime.banner, caption=text)
+    if anime.banner:
+        await m.reply_photo(photo=anime.banner, caption=text)
+    else:
+        await m.reply_text(text)
 
 
 @Client.on_message(
