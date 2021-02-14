@@ -15,7 +15,7 @@
 
 import io
 import rapidjson as json
-from anilistpy import Anime, animeSearch
+import aioanilist
 
 from pyromod.helpers import ikb
 from pyrogram import Client, filters
@@ -60,45 +60,46 @@ async def anilist(c: Client, m: Message):
     query = m.matches[0]["search"]
 
     try:
-        r = animeSearch(query)
-        a_id = r.id(0)
-        a = Anime(a_id)
-    except BaseException as e:
-        return await m.reply_text(f"Error! <code>{e}</code>")
+        async with aioanilist.Client() as client:
+            results = await client.search("anime", query, limit=5)
+            anime = await client.get("anime", results[0].id)
+    except IndexError:
+        return await m.reply_text(
+            "Algo deu errado, verifique sua pesquisa e tente novamente!"
+        )
 
-    d = a.description()
+    d = anime.description
     if len(d) > 700:
         d_short = d[0:500] + "..."
         desc = f"<b>Descrição:</b> {d_short}"
     else:
         desc = f"<b>Descrição:</b> {d}"
 
-    g = a.genres()
-    s = a.studios()
-
-    text = f"<b>{r.title(0)}</b> (<code>{a.title('native')}</code>)\n"
-    text += f"<b>ID:</b> <code>{a_id}</code>\n"
-    text += f"<b>Status:</b> <code>{a.status()}</code>\n"
-    text += f"<b>Episódios:</b> <code>{a.episodes()}</code>\n"
-    text += f"<b>Duração:</b> <code>{a.duration()}</code> Por Ep.\n"
-    text += f"<b>Pontuação:</b> <code>{a.averageScore()}</code>\n"
-    text += f"<b>Gêneros:</b> <code>{', '.join(str(x) for x in g)}</code>\n"
-    text += f"<b>Estúdios:</b> <code>{', '.join(str(x) for x in s)}</code>\n"
-    try:
-        text += f"<b>Próxima transmissão:</b> <code>{a.nextAiringEpisode()}</code>\n"
-    except BaseException:
-        pass
+    text = f"<b>{anime.title.romaji}</b> (<code>{anime.title.native}</code>)\n"
+    text += f"<b>ID:</b> <code>{anime.id}</code>\n"
+    text += f"<b>Tipo:</b> <code>{anime.format}</code>\n"
+    text += f"<b>Status:</b> <code>{anime.status}</code>\n"
+    text += f"<b>Episódios:</b> <code>{anime.episodes}</code>\n"
+    text += f"<b>Duração:</b> <code>{anime.duration}</code> Por Ep.\n"
+    text += f"<b>Pontuação:</b> <code>{anime.score.average}</code>\n"
+    text += f"<b>Gêneros:</b> <code>{', '.join(str(x) for x in anime.genres)}</code>\n"
+    studio = ""
+    for i in anime.studios.nodes:
+        studio += i.name + ", "
+    if len(studio) > 0:
+        studio = studio[:-1]
+    text += f"<b>Estúdios:</b> <code>{studio}</code>\n"
     text += f"\n{desc}"
 
-    keyboard = [[("Mais Info", f"https://anilist.co/anime/{a_id}", "url")]]
+    keyboard = [[("Mais Info", f"https://anilist.co/anime/{anime.id}", "url")]]
 
     try:
-        keyboard[0].append(("Trailer 🎬", a.trailerlink(), "url"))
+        keyboard[0].append(("Trailer 🎬", "https://youtu.be/" + anime.trailer.id, "url"))
     except BaseException:
         pass
 
     await m.reply_photo(
-        photo=f"https://img.anili.st/media/{a_id}",
+        photo=f"https://img.anili.st/media/{anime.id}",
         caption=text,
         reply_markup=ikb(keyboard),
     )
