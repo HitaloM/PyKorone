@@ -131,7 +131,7 @@ async def anime_airing(c: Client, m: Message):
     else:
         text += f"<b>No ar em:</b> <code>N/A</code>"
 
-    await m.reply_text(text)
+    await m.reply_photo(photo=anime.banner, caption=text)
 
 
 @Client.on_message(
