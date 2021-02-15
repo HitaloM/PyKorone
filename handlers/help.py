@@ -112,7 +112,7 @@ async def help_module(m: Message, module: str = None):
         success = True
     else:
         if module in ["commands", "filters"]:
-            text = f"Escolha um módulo ou use <code>/help &lt;módulo&gt;</code>.\n"
+            text = "Escolha um módulo ou use <code>/help &lt;módulo&gt;</code>.\n"
             keyboard = [[]]
             index = 0
             for key, value in COMMANDS_HELP.items():
