@@ -22,9 +22,6 @@ from pyrogram.types import Message
 from config import prefix
 
 from . import COMMANDS_HELP
-from . import client
-
-client = None
 
 
 @Client.on_message(filters.edited)
