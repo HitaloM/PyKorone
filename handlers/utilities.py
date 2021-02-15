@@ -219,10 +219,10 @@ async def stickcolor(c: Client, m: Message):
 def stickcolorsync(color):
     try:
         image = Image.new("RGBA", (512, 512), color)
-    except:
+    except BaseException:
         try:
             image = Image.new("RGBA", (512, 512), "#" + color)
-        except:
+        except BaseException:
             return
 
     image_stream = io.BytesIO()

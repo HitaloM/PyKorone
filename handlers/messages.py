@@ -186,7 +186,7 @@ async def banhammer(c: Client, m: Message):
 
 
 @Client.on_message(filters.int(filter=r"/(ban|kick)me", group=GROUP))
-async def uwu(c: Client, m: Message):
+async def kickme(c: Client, m: Message):
     await m.reply_text("Idiota... UwU")
 
 

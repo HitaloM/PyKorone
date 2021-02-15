@@ -45,7 +45,7 @@ async def hug(c: Client, m: Message):
     if r.status_code == 200:
         image_url = (r.json())["url"]
     else:
-        return await m.reply_text(f"Erro!\n**{response.status}**")
+        return await m.reply_text(f"Erro!\n**{r.status}**")
 
     try:
         if m.reply_to_message:
@@ -64,7 +64,7 @@ async def pat(c: Client, m: Message):
     if r.status_code == 200:
         image_url = (r.json())["url"]
     else:
-        return await m.reply_text(f"Erro!\n**{response.status}**")
+        return await m.reply_text(f"Erro!\n**{r.status}**")
 
     try:
         if m.reply_to_message:
@@ -81,7 +81,7 @@ async def slap(c: Client, m: Message):
     if r.status_code == 200:
         image_url = (r.json())["url"]
     else:
-        return await m.reply_text(f"Erro!\n**{response.status}**")
+        return await m.reply_text(f"Erro!\n**{r.status}**")
 
     try:
         if m.reply_to_message:
@@ -100,7 +100,7 @@ async def waifu(c: Client, m: Message):
     if r.status_code == 200:
         image_url = (r.json())["url"]
     else:
-        return await m.reply_text(f"Erro!\n**{response.status}**")
+        return await m.reply_text(f"Erro!\n**{r.status}**")
 
     try:
         if m.reply_to_message:
@@ -117,7 +117,7 @@ async def neko(c: Client, m: Message):
     if r.status_code == 200:
         image_url = (r.json())["url"]
     else:
-        return await m.reply_text(f"Erro!\n**{response.status}**")
+        return await m.reply_text(f"Erro!\n**{r.status}**")
 
     try:
         if m.reply_to_message:

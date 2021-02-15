@@ -22,7 +22,7 @@ from database import Banneds, Chats
 from pyrogram import Client, filters
 from pyrogram.types import Message
 from pyrogram.errors import ChatAdminRequired, UserAdminInvalid
-from kantex.html import *
+from kantex.html import KanTeXDocument, Section, KeyValueItem, Bold, Code
 from typing import List, Union
 
 
