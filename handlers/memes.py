@@ -15,7 +15,6 @@
 
 import random
 import base64
-import rapidjson as json
 from io import BytesIO
 from PIL import Image
 

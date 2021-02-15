@@ -13,12 +13,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-import requests
 import platform
-import html
-import re
-import os
-import io
 from datetime import datetime
 
 import kantex
@@ -26,11 +21,8 @@ import pyrogram
 import pyromod
 from config import prefix
 from kantex.html import Bold, Code, KanTeXDocument, KeyValueItem, Section, SubSection
-from bs4 import BeautifulSoup as bs
-from PIL import Image
-from search_engine_parser import GoogleSearch, BingSearch
 from pyrogram import Client, filters
-from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton, Message
+from pyrogram.types import Message
 
 from utils import http
 from . import COMMANDS_HELP

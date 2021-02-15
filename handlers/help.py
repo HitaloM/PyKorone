@@ -14,8 +14,6 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import html
-
-from config import prefix
 from pyromod.helpers import ikb
 from pyrogram import Client, filters
 from pyrogram.types import Message, CallbackQuery

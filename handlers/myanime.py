@@ -16,12 +16,10 @@
 import io
 import time
 import aioanilist
-import rapidjson as json
 
 from pyromod.helpers import ikb
 from pyrogram import Client, filters
 from pyrogram.types import Message
-from urllib.parse import quote as urlencode
 from PIL import Image
 
 from utils import http
