@@ -181,7 +181,6 @@ async def anilist_manga(c: Client, m: Message):
     )
 )
 async def poke_image(c: Client, m: Message):
-    command = m.text.split()[0]
     text = m.matches[0]["search"]
     args = text.split()
 
