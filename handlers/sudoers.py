@@ -115,7 +115,7 @@ async def restart(c: Client, m: Message):
 
 
 def parse_commits(log: str) -> Dict:
-    commits = {}
+    commits: Dict = {}
     last_commit = ""
     lines = log.split("\n")
     for line in lines:

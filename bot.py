@@ -21,7 +21,6 @@ os.system("clear")
 # Update requirements
 DGRAY = 'echo -e "\033[1;30m"'
 RESET = 'echo -e "\033[0m"'
-unused_requirements = []
 
 if "--no-update" not in sys.argv:
     print("\033[0;32mUpdating requirements...\033[0m")
