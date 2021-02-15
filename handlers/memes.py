@@ -13,6 +13,8 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+import re
+import html
 import random
 import base64
 from io import BytesIO
@@ -23,7 +25,7 @@ from pyrogram.types import Message
 
 from utils import http
 from . import COMMANDS_HELP
-from handlers.utils.random import SHRUGS_REACT, REACTS
+from handlers.utils.random import SHRUGS_REACT, REACTS, PASTAMOJIS
 from handlers.utils.thonkify_dict import thonkifydict
 
 GROUP = "memes"
@@ -125,6 +127,167 @@ async def neko(c: Client, m: Message):
             await m.reply_photo(image_url)
     except BaseException as e:
         return await m.reply_text(f"Erro!\n{e}")
+
+
+@Client.on_message(
+    filters.cmd(
+        command="vapor(\s(?P<text>.+))?",
+        action="Vaporize algo.",
+        group=GROUP,
+    )
+)
+async def vapor(c: Client, m: Message):
+    text = m.matches[0]["text"]
+    if not text:
+        if m.reply_to_message:
+            text = m.reply_to_message.text
+        else:
+            await m.reply_text("Eu preciso de texto...")
+            return
+
+    reply = []
+    for charac in text:
+        if 0x21 <= ord(charac) <= 0x7F:
+            reply.append(chr(ord(charac) + 0xFEE0))
+        elif ord(charac) == 0x20:
+            reply.append(chr(0x3000))
+        else:
+            reply.append(charac)
+
+    vaporized_text = "".join(reply)
+
+    await m.reply_text(f"{html.escape(vaporized_text)}")
+
+
+@Client.on_message(
+    filters.cmd(
+        command="uwu(\s(?P<text>.+))?",
+        action="Nokofique um texto.",
+        group=GROUP,
+    )
+)
+async def nekofy(c: Client, m: Message):
+    args = m.matches[0]["text"]
+    if not args:
+        if m.reply_to_message:
+            args = m.reply_to_message.text
+        else:
+            await m.reply_text("Eu não posso nokoficar o void.")
+            return
+
+    reply = re.sub(r"(r|l)", "w", args)
+    reply = re.sub(r"(R|L)", "W", reply)
+    reply = re.sub(r"n([aeiou])", r"ny\1", reply)
+    reply = re.sub(r"N([aeiouAEIOU])", r"Ny\1", reply)
+    reply = reply.replace("ove", "uv")
+
+    await m.reply_text(f"{html.escape(reply)}")
+
+
+@Client.on_message(
+    filters.cmd(
+        command="cp(\s(?P<text>.+))?",
+        action="Torne algo em um copypasta.",
+        group=GROUP,
+    )
+)
+async def copypasta(c: Client, m: Message):
+    text = m.matches[0]["text"]
+    if not text:
+        if m.reply_to_message:
+            text = m.reply_to_message.text
+        else:
+            await m.reply_text("Eu preciso de texto...")
+            return
+
+    reply = random.choice(PASTAMOJIS)
+    b_char = random.choice(text).lower()
+    for owo in text:
+        if owo == " ":
+            reply += random.choice(PASTAMOJIS)
+        elif owo in PASTAMOJIS:
+            reply += owo
+            reply += random.choice(PASTAMOJIS)
+        elif owo.lower() == b_char:
+            reply += "🅱️"
+        else:
+            reply += owo.upper() if bool(random.getrandbits(1)) else owo.lower()
+    reply += random.choice(PASTAMOJIS)
+
+    await m.reply_text(f"{html.escape(reply)}")
+
+
+@Client.on_message(
+    filters.cmd(
+        command="mock(\s(?P<text>.+))?",
+        action="Mock um texto.",
+        group=GROUP,
+    )
+)
+async def mock(c: Client, m: Message):
+    text = m.matches[0]["text"]
+    if not text:
+        if m.reply_to_message:
+            text = m.reply_to_message.text
+        else:
+            await m.reply_text("Eu preciso de texto...")
+            return
+
+    reply = []
+    for charac in text:
+        if charac.isalpha() and random.randint(0, 1):
+            to_app = charac.upper() if charac.islower() else charac.lower()
+            reply.append(to_app)
+        else:
+            reply.append(charac)
+    mocked_text = "".join(reply)
+
+    await m.reply_text(f"{html.escape(mocked_text)}")
+
+
+@Client.on_message(
+    filters.cmd(
+        command="clap(\s(?P<text>.+))?",
+        action="Palmas.",
+        group=GROUP,
+    )
+)
+async def clap(c: Client, m: Message):
+    text = m.matches[0]["text"]
+    if not text:
+        if m.reply_to_message:
+            text = m.reply_to_message.text
+        else:
+            await m.reply_text("Eu preciso de texto...")
+            return
+
+    clapped_text = re.sub(" ", " 👏 ", text)
+    reply = f"👏 {clapped_text} 👏"
+
+    await m.reply_text(f"{html.escape(reply)}")
+
+
+@Client.on_message(
+    filters.cmd(
+        command="stretch(\s(?P<text>.+))?",
+        action="Estique um texto.",
+        group=GROUP,
+    )
+)
+async def stretch(c: Client, m: Message):
+    text = m.matches[0]["text"]
+    if not text:
+        if m.reply_to_message:
+            text = m.reply_to_message.text
+        else:
+            await m.reply_text("Eu preciso de texto...")
+            return
+
+    reply = re.sub(
+        r"([aeiouAEIOUａｅｉｏｕＡＥＩＯＵаеиоуюяыэё])", (r"\1" * random.randint(3, 10)), text
+    )
+
+    await m.reply_text(f"{html.escape(reply)}")
 
 
 @Client.on_message(

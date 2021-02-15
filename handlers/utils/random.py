@@ -179,6 +179,37 @@ SHRUGS_REACT = (
     "乁( ⁰͡  Ĺ̯ ⁰͡ ) ㄏ",
 )
 
+PASTAMOJIS = [
+    "😂",
+    "😂",
+    "👌",
+    "✌",
+    "💞",
+    "👍",
+    "👌",
+    "💯",
+    "🎶",
+    "👀",
+    "😂",
+    "👓",
+    "👏",
+    "👐",
+    "🍕",
+    "💥",
+    "🍴",
+    "💦",
+    "💦",
+    "🍑",
+    "🍆",
+    "😩",
+    "😏",
+    "👉👌",
+    "👀",
+    "👅",
+    "😩",
+    "🚰",
+]
+
 BANHAMMERS = (
     "CAACAgQAAx0CT2XwHwACV-Nf78g1TSCO_mWtKhTbpOdalpdNHAACzwEAAgYlKAMdkZFHZv_nNR4E",
     "CAACAgQAAx0CT2XwHwACWAABX-_J6flwJKzep9rYUQttGXJzcwQAAtEBAAIGJSgDDFVJta1mslAeBA",
