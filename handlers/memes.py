@@ -359,21 +359,47 @@ async def payf(c: Client, m: Message):
 
 @Client.on_message(
     filters.cmd(
-        command="say (?P<arg>.+) (?P<text>.+)",
-        action="Faça uma vaca ou queijo falar.",
+        command="cowsay (?P<text>.+)",
+        action="Faça uma vaca falar.",
         group=GROUP,
     )
 )
 async def cowsay(c: Client, m: Message):
-    arg = m.matches[0]["arg"]
     text = m.matches[0]["text"]
 
-    if arg == "cow":
-        arg = "default"
-    if arg not in cow.COWACTERS:
-        await m.reply_text(f"<code>{arg}</code> não é suportado!")
-        return
-    cheese = cow.get_cow(arg)
+    cheese = cow.get_cow("default")
+    cheese = cheese()
+
+    await m.reply_text(f"<code>{cheese.milk(html.escape(text))}</code>")
+
+
+@Client.on_message(
+    filters.cmd(
+        command="tuxsay (?P<text>.+)",
+        action="Faça o tux falar.",
+        group=GROUP,
+    )
+)
+async def tuxsay(c: Client, m: Message):
+    text = m.matches[0]["text"]
+
+    cheese = cow.get_cow("tux")
+    cheese = cheese()
+
+    await m.reply_text(f"<code>{cheese.milk(html.escape(text))}</code>")
+
+
+@Client.on_message(
+    filters.cmd(
+        command="daemonsay (?P<text>.+)",
+        action="Faça o daemon falar.",
+        group=GROUP,
+    )
+)
+async def daemonsay(c: Client, m: Message):
+    text = m.matches[0]["text"]
+
+    cheese = cow.get_cow("daemon")
     cheese = cheese()
 
     await m.reply_text(f"<code>{cheese.milk(html.escape(text))}</code>")
