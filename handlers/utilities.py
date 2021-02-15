@@ -14,7 +14,6 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import requests
-import pafy
 import html
 import re
 import io
@@ -187,26 +186,6 @@ async def cb_sticker(c: Client, m: Message):
         link = result["href"]
         reply += f"\n - <a href='{link}'>{title.get_text()}</a>"
     await m.reply_text(reply, disable_web_page_preview=True)
-
-
-@Client.on_message(
-    filters.cmd(
-        command="ytdl (?P<search>.+)",
-        action="Re-upload de vídeos do YouTube.",
-        group=GROUP,
-    )
-)
-async def ytdl(c: Client, m: Message):
-    args = m.matches[0]["search"]
-    video = pafy.new(args)
-    video_stream = video.getbest(preftype="mp4")
-
-    try:
-        await m.reply_video(video_stream.url)
-    except BaseException:
-        await m.reply_text(
-            f"Falha! O vídeo provavelmente é maior que 20MB: <a href='{video_stream.url}'>URL</a>"
-        )
 
 
 @Client.on_message(
