@@ -13,6 +13,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+import time
 import random
 from datetime import datetime
 
@@ -188,6 +189,15 @@ async def banhammer(c: Client, m: Message):
 @Client.on_message(filters.int(filter=r"/(ban|kick)me", group=GROUP))
 async def kickme(c: Client, m: Message):
     await m.reply_text("Idiota... UwU")
+
+
+@Client.on_message(filters.int(filter=r":/", group=GROUP))
+async def kek_anim(c: Client, m: Message):
+    uio = ["/", "\\"]
+    kek = await m.reply_text(":/")
+    for i in range(1, 15):
+        time.sleep(0.3)
+        await kek.edit_text(":" + uio[i % 2])
 
 
 @Client.on_message(filters.int(filter=r"ban", group=GROUP))

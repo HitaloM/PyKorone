@@ -19,6 +19,7 @@ import random
 import base64
 from io import BytesIO
 from PIL import Image
+from cowpy import cow
 
 from pyrogram import Client, filters
 from pyrogram.types import Message
@@ -354,6 +355,28 @@ async def payf(c: Client, m: Message):
         paytext * 2,
     )
     await m.reply_text(pay)
+
+
+@Client.on_message(
+    filters.cmd(
+        command="say (?P<arg>.+) (?P<text>.+)",
+        action="Faça uma vaca ou queijo falar.",
+        group=GROUP,
+    )
+)
+async def cowsay(c: Client, m: Message):
+    arg = m.matches[0]["arg"]
+    text = m.matches[0]["text"]
+
+    if arg == "cow":
+        arg = "default"
+    if arg not in cow.COWACTERS:
+        await m.reply_text(f"<code>{arg}</code> não é suportado!")
+        return
+    cheese = cow.get_cow(arg)
+    cheese = cheese()
+
+    await m.reply_text(f"<code>{cheese.milk(html.escape(text))}</code>")
 
 
 @Client.on_message(
