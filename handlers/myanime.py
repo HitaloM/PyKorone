@@ -15,6 +15,7 @@
 
 import io
 import time
+import jikanpy
 import aioanilist
 
 from pyromod.helpers import ikb
@@ -171,6 +172,28 @@ async def anilist_manga(c: Client, m: Message):
         )
     else:
         await m.reply_text(text)
+
+
+@Client.on_message(
+    filters.cmd(
+        command="upcoming",
+        action="Veja os próximos animes a serem lançados.",
+        group=GROUP,
+    )
+)
+async def upcoming(c: Client, m: Message):
+    jikan = jikanpy.jikan.Jikan()
+    upcoming = jikan.top("anime", page=1, subtype="upcoming")
+
+    upcoming_list = [entry["title"] for entry in upcoming["top"]]
+    upcoming_message = "<b>Próximos animes:</b>\n"
+
+    for entry_num in range(len(upcoming_list)):
+        if entry_num == 10:
+            break
+        upcoming_message += f"<b>{entry_num + 1}.</b> {upcoming_list[entry_num]}\n"
+
+    await m.reply_text(upcoming_message)
 
 
 @Client.on_message(

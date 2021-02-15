@@ -8,7 +8,6 @@ tortoise-orm==0.16.21
 # Plugins deps
 pillow==8.1.0
 httpx[http2]==0.16.1
-wikipedia==1.4.0
 python-rapidjson==1.0
 KanTeX==0.2.0
 spamwatch==0.3.0
@@ -16,5 +15,6 @@ search-engine-parser==0.6.2
 meval==2.5
 google-trans-new==1.1.9
 pafy==0.5.5
+wikipedia-api==0.5.4
 git+https://github.com/PyroBugs/aioanilist
 git+https://github.com/AndrielFR/aionewton
