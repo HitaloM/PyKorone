@@ -32,10 +32,11 @@ about_text = """
 🗂 <b>Links:</b> <a href='https://github.com/HitaloSama/PyKorone'>GitHub</a> | <a href='https://t.me/SpamTherapy'>Chat</a>
 """
 
+
 @Client.on_message(filters.cmd(command="about", action="Informações sobre o bot."))
 async def about_cmd(c: Client, m: Message):
     await m.reply_text(about_text, disable_web_page_preview=True)
-    
+
 
 @Client.on_message(
     filters.cmd(command="start", action="Envia a mensagem de inicialização do Bot.")
@@ -80,8 +81,12 @@ async def help_m(c: Client, m: Message):
     if m.chat.type == "private":
         await help_module(m, module)
     else:
-        keyboard = [[("Ir ao PM", f"https://t.me/{c.me.username}/?start=help_{module}", "url")]]
-        await m.reply_text(text="Para ver isso, vá ao meu PM.", reply_markup=ikb(keyboard))
+        keyboard = [
+            [("Ir ao PM", f"https://t.me/{c.me.username}/?start=help_{module}", "url")]
+        ]
+        await m.reply_text(
+            text="Para ver isso, vá ao meu PM.", reply_markup=ikb(keyboard)
+        )
 
 
 @Client.on_message(
@@ -118,7 +123,12 @@ async def help_module(m: Message, module: str = None):
                         if len(keyboard[index]) == 3:
                             index += 1
                             keyboard.append([])
-                        keyboard[index].append((value["name"] if "name" in value else key.capitalize(), f"help_{key}"))
+                        keyboard[index].append(
+                            (
+                                value["name"] if "name" in value else key.capitalize(),
+                                f"help_{key}",
+                            )
+                        )
             success = True
             keyboard.append([("⬅️ Voltar", "help_start")])
         elif module in COMMANDS_HELP.keys():

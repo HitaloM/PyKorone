@@ -31,7 +31,9 @@ COMMANDS_HELP[GROUP] = {
 }
 
 
-@Client.on_message(filters.int(filter=r"(Quem te criou|Quem criou voc(ê|e))", group=GROUP))
+@Client.on_message(
+    filters.int(filter=r"(Quem te criou|Quem criou voc(ê|e))", group=GROUP)
+)
 async def my_creator(c: Client, m: Message):
     text = "Meu criador é o @Hitalo ^^"
 
@@ -99,7 +101,7 @@ async def hello(c: Client, m: Message):
 @Client.on_message(
     filters.int(
         filter=r"(Est(ú|u)pido|Puta|Vai se f(o|u)der|Idiota|Ot(á|a)rio|Lixo)",
-        group=GROUP
+        group=GROUP,
     )
 )
 async def insult(c: Client, m: Message):

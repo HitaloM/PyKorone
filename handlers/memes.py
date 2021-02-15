@@ -56,7 +56,9 @@ async def hug(c: Client, m: Message):
         return await m.reply_text(f"Erro!\n{e}")
 
 
-@Client.on_message(filters.cmd(command="pat", action="Dar uma batida na cabeça.", group=GROUP))
+@Client.on_message(
+    filters.cmd(command="pat", action="Dar uma batida na cabeça.", group=GROUP)
+)
 async def pat(c: Client, m: Message):
     r = await http.get(NEKO_URL + "pat")
     if r.status_code == 200:
@@ -90,7 +92,9 @@ async def slap(c: Client, m: Message):
         return await m.reply_text(f"Erro!\n{e}")
 
 
-@Client.on_message(filters.cmd(command="waifu", action="Retorna uma waifu.", group=GROUP))
+@Client.on_message(
+    filters.cmd(command="waifu", action="Retorna uma waifu.", group=GROUP)
+)
 async def waifu(c: Client, m: Message):
     r = await http.get(NEKO_URL + "waifu")
     if r.status_code == 200:
@@ -124,7 +128,9 @@ async def neko(c: Client, m: Message):
         return await m.reply_text(f"Erro!\n{e}")
 
 
-@Client.on_message(filters.cmd(command="shrug", action="Em caso de dúvida.", group=GROUP))
+@Client.on_message(
+    filters.cmd(command="shrug", action="Em caso de dúvida.", group=GROUP)
+)
 async def shrug(c: Client, m: Message):
     react = random.choice(SHRUGS_REACT)
     if m.reply_to_message:
@@ -133,7 +139,9 @@ async def shrug(c: Client, m: Message):
         await m.reply_text(react)
 
 
-@Client.on_message(filters.cmd(command="react", action="Reações aleatórias.", group=GROUP))
+@Client.on_message(
+    filters.cmd(command="react", action="Reações aleatórias.", group=GROUP)
+)
 async def reacts(c: Client, m: Message):
     react = random.choice(REACTS)
     if m.reply_to_message:
@@ -144,7 +152,8 @@ async def reacts(c: Client, m: Message):
 
 @Client.on_message(
     filters.cmd(
-        command="f (?P<text>.+)", action="Press F to Pay Respects.",
+        command="f (?P<text>.+)",
+        action="Press F to Pay Respects.",
         group=GROUP,
     )
 )
@@ -169,7 +178,8 @@ async def payf(c: Client, m: Message):
 
 @Client.on_message(
     filters.cmd(
-        command="thonkify (?P<text>.+)", action="Entenda o que é na prática.",
+        command="thonkify (?P<text>.+)",
+        action="Entenda o que é na prática.",
         group=GROUP,
     )
 )

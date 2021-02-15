@@ -43,7 +43,9 @@ async def dice(c: Client, m: Message):
     await dicen.reply_text(f"O dado parou no número {dicen.dice.value}")
 
 
-@Client.on_message(filters.int(filter=r"Korone, remova ele", group=GROUP) & filters.group)
+@Client.on_message(
+    filters.int(filter=r"Korone, remova ele", group=GROUP) & filters.group
+)
 async def kick(c: Client, m: Message):
     member = await c.get_chat_member(chat_id=m.chat.id, user_id=m.from_user.id)
     if member.status in ["administrator", "creator"]:
@@ -63,14 +65,18 @@ async def give_me_cookie(c: Client, m: Message):
     await m.reply_text(("*dá um cookie à {}* ^^").format(m.from_user.first_name))
 
 
-@Client.on_message(filters.int(filter=r"Korone, d(ê|e) um cookie", group=GROUP) & filters.reply)
+@Client.on_message(
+    filters.int(filter=r"Korone, d(ê|e) um cookie", group=GROUP) & filters.reply
+)
 async def give_cookie(c: Client, m: Message):
     await m.reply_text(
         ("*dá um cookie à {}* ^^").format(m.reply_to_message.from_user.first_name)
     )
 
 
-@Client.on_message(filters.int(filter=r"Korone, morda( ele)?", group=GROUP) & filters.reply)
+@Client.on_message(
+    filters.int(filter=r"Korone, morda( ele)?", group=GROUP) & filters.reply
+)
 async def bite(c: Client, m: Message):
     await m.reply_text(("*morde {}*").format(m.reply_to_message.from_user.first_name))
 
@@ -87,7 +93,9 @@ async def tell_name(c: Client, m: Message):
     )
 
 
-@Client.on_message(filters.int(filter=r"Korone, pegue ele", group=GROUP) & filters.reply)
+@Client.on_message(
+    filters.int(filter=r"Korone, pegue ele", group=GROUP) & filters.reply
+)
 async def catch_him(c: Client, m: Message):
     react = random.choice(CATCH_REACT)
     reaction = random.choice(REACTIONS)
@@ -134,7 +142,9 @@ async def hello(c: Client, m: Message):
     await m.reply_text((react).format(m.from_user.first_name))
 
 
-@Client.on_message(filters.int(filter=r"Korone, qual o link (de convite )?do grupo", group=GROUP))
+@Client.on_message(
+    filters.int(filter=r"Korone, qual o link (de convite )?do grupo", group=GROUP)
+)
 async def invitelink(c: Client, m: Message):
     if m.chat.username is None:
         chat = m.chat.id
@@ -180,7 +190,9 @@ async def wiki(c: Client, m: Message):
     )
 
 
-@Client.on_message(filters.int(filter=r"Korone, fa(ç|c)a um dump", group=GROUP) & filters.reply)
+@Client.on_message(
+    filters.int(filter=r"Korone, fa(ç|c)a um dump", group=GROUP) & filters.reply
+)
 async def json_dump(c: Client, m: Message):
     dump = json.dumps(json.loads(str(m)), indent=4, ensure_ascii=False)
 

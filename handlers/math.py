@@ -138,7 +138,8 @@ async def log(c: Client, m: Message):
 
 @Client.on_message(
     filters.cmd(
-        command="math", action="Manual de uso dos meus comandos matemáticos.",
+        command="math",
+        action="Manual de uso dos meus comandos matemáticos.",
         group=GROUP,
     )
 )

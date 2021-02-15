@@ -40,7 +40,9 @@ def int_filter(filter, group: str = "others", action: str = None, *args, **kwarg
 filters.int = int_filter
 
 
-def command_filter(command, group: str = "general", action: str = None, *args, **kwargs):
+def command_filter(
+    command, group: str = "general", action: str = None, *args, **kwargs
+):
     if command not in COMMANDS_HELP[group]["commands"].keys():
         COMMANDS_HELP[group]["commands"][command] = {"action": action or ""}
     prefixes = "".join(prefix)
