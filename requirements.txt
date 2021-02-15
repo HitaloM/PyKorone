@@ -15,5 +15,6 @@ spamwatch==0.3.0
 search-engine-parser==0.6.2
 meval==2.5
 google-trans-new==1.1.9
+pafy==0.5.5
 git+https://github.com/PyroBugs/aioanilist
 git+https://github.com/AndrielFR/aionewton
