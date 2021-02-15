@@ -33,13 +33,11 @@ os.system("clear")
 
 import logging
 import platform
-import os
 
 import pyrogram
 import pyromod.listen
 import pyromod.helpers
 from pyrogram import Client, idle
-from pyrogram.errors import BadRequest
 from database import connect_database
 from tortoise import run_async
 from rich import box, print

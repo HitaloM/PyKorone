@@ -17,7 +17,7 @@ import base64
 from io import BytesIO
 from PIL import Image
 
-thonkifydict = dict()
+thonkifydict = {}
 
 # base64 encoded for async. Images made by @devrism(much thancc)
 

@@ -16,12 +16,10 @@
 import io
 import time
 import aioanilist
-import rapidjson as json
 
 from pyromod.helpers import ikb
 from pyrogram import Client, filters
 from pyrogram.types import Message
-from urllib.parse import quote as urlencode
 from PIL import Image
 
 from utils import http
@@ -117,7 +115,7 @@ async def anilist_airing(c: Client, m: Message):
     if anime.next_airing:
         text += f"<b>No ar em:</b> <code>{time.strftime('%H:%M:%S - %d/%m/%Y', time.localtime(anime.next_airing.at))}</code>"
     else:
-        text += f"<b>No ar em:</b> <code>N/A</code>"
+        text += "<b>No ar em:</b> <code>N/A</code>"
 
     if anime.banner:
         await m.reply_photo(photo=anime.banner, caption=text)
