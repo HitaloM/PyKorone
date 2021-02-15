@@ -27,11 +27,11 @@ from PIL import Image
 from utils import http
 from . import COMMANDS_HELP
 
-GROUP = "myanime"
+GROUP = "animes"
 
 COMMANDS_HELP[GROUP] = {
-    "name": "Anime",
-    "text": "Esse é meu módulo voltado para Otakus, divirta-se.",
+    "name": "Animes",
+    "text": "O módulo dos Otakus!",
     "commands": {},
     "help": True,
 }
