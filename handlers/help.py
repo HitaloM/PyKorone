@@ -174,49 +174,9 @@ async def on_help_callback(c: Client, cq: CallbackQuery):
 
 @Client.on_callback_query(filters.regex("^about$"))
 async def about(c: Client, m: CallbackQuery):
-    keyboard = ikb(
-        [
-            [("Créditos", "credits")],
-            [("⬅️ Voltar", "start_back")],
-        ]
-    )
+    keyboard = ikb([[("⬅️ Voltar", "start_back")]])
     await m.message.edit_text(
         about_text,
-        reply_markup=keyboard,
-        disable_web_page_preview=True,
-    )
-
-
-@Client.on_callback_query(filters.regex("^credits$"))
-async def credits(c: Client, m: CallbackQuery):
-    keyboard = ikb(
-        [
-            [
-                (
-                    "Mais contribuidores...",
-                    "https://github.com/PyroBugs/PyKorone/graphs/contributors",
-                    "url",
-                )
-            ],
-            [
-                (
-                    "⬅️ Voltar",
-                    "about",
-                )
-            ],
-        ]
-    )
-
-    text = "O desenvolvimento do Korone obteve muitas contribuições. "
-    text += "Veja abaixo todas as pessoas que contribuíram no projeto:\n\n"
-    text += "<b>• <a href='https://github.com/HitaloSama'>@HitaloSama</a>:</b> atual dono do bot e líder de desenvolvimento\n"
-    text += "<b>• <a href='https://github.com/AndrielFR'>@AndrielFR</a>:</b> desenvolvedor do bot, criou o sistema do <code>/help</code>, sistema de bans globais e muito mais.\n"
-    text += "<b>• <a href='https://github.com/usernein'>@usernein</a>:</b> pelo sistema de atualização de dependências automático e dicas / correções de erros.\n"
-    text += "<b>• <a href='https://github.com/alissonlauffer'>@alissonlauffer</a>:</b> dicas e ajuda em resolução de erros e permitir que alguns comandos fossem adaptados do @EduuRobot.\n\n"
-    text += "Você pode ver outros contribuidores em nosso repositório no GitHub..."
-
-    await m.message.edit_text(
-        text,
         reply_markup=keyboard,
         disable_web_page_preview=True,
     )
