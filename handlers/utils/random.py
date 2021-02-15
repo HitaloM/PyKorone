@@ -255,8 +255,8 @@ AYY_REACT = ("lmao", "lol")
 
 UWU_REACT = (
     "UWU",
-    "UwU",
-    "uwu" "(・`ω´・)",
+    "uwu",
+    "(・`ω´・)",
     ";;w;;",
     "owo",
     "UwU",
