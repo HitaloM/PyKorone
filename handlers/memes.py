@@ -156,7 +156,10 @@ async def vapor(c: Client, m: Message):
 
     vaporized_text = "".join(reply)
 
-    await m.reply_text(f"{html.escape(vaporized_text)}")
+    if m.reply_to_message:
+        await m.reply_to_message.reply_text(f"{html.escape(vaporized_text)}")
+    else:
+        await m.reply_text(f"{html.escape(vaporized_text)}")
 
 
 @Client.on_message(
@@ -181,7 +184,10 @@ async def nekofy(c: Client, m: Message):
     reply = re.sub(r"N([aeiouAEIOU])", r"Ny\1", reply)
     reply = reply.replace("ove", "uv")
 
-    await m.reply_text(f"{html.escape(reply)}")
+    if m.reply_to_message:
+        await m.reply_to_message.reply_text(f"{html.escape(reply)}")
+    else:
+        await m.reply_text(f"{html.escape(reply)}")
 
 
 @Client.on_message(
@@ -214,7 +220,10 @@ async def copypasta(c: Client, m: Message):
             reply += owo.upper() if bool(random.getrandbits(1)) else owo.lower()
     reply += random.choice(PASTAMOJIS)
 
-    await m.reply_text(f"{html.escape(reply)}")
+    if m.reply_to_message:
+        await m.reply_to_message.reply_text(f"{html.escape(reply)}")
+    else:
+        await m.reply_text(f"{html.escape(reply)}")
 
 
 @Client.on_message(
@@ -242,7 +251,10 @@ async def mock(c: Client, m: Message):
             reply.append(charac)
     mocked_text = "".join(reply)
 
-    await m.reply_text(f"{html.escape(mocked_text)}")
+    if m.reply_to_message:
+        await m.reply_to_message.reply_text(f"{html.escape(mocked_text)}")
+    else:
+        await m.reply_text(f"{html.escape(mocked_text)}")
 
 
 @Client.on_message(
@@ -264,7 +276,10 @@ async def clap(c: Client, m: Message):
     clapped_text = re.sub(" ", " 👏 ", text)
     reply = f"👏 {clapped_text} 👏"
 
-    await m.reply_text(f"{html.escape(reply)}")
+    if m.reply_to_message:
+        await m.reply_to_message.reply_text(f"{html.escape(reply)}")
+    else:
+        await m.reply_text(f"{html.escape(reply)}")
 
 
 @Client.on_message(
@@ -287,7 +302,10 @@ async def stretch(c: Client, m: Message):
         r"([aeiouAEIOUａｅｉｏｕＡＥＩＯＵаеиоуюяыэё])", (r"\1" * random.randint(3, 10)), text
     )
 
-    await m.reply_text(f"{html.escape(reply)}")
+    if m.reply_to_message:
+        await m.reply_to_message.reply_text(f"{html.escape(reply)}")
+    else:
+        await m.reply_text(f"{html.escape(reply)}")
 
 
 @Client.on_message(
