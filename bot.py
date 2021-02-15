@@ -33,7 +33,6 @@ os.system("clear")
 
 import logging
 import platform
-import os
 
 import pyrogram
 import pyromod.listen
