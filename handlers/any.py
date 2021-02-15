@@ -15,12 +15,16 @@
 
 import re
 
+from database import Chats
 from pyrogram import Client, filters
 from pyrogram.types import Message
 
 from config import prefix
 
 from . import COMMANDS_HELP
+from . import client
+
+client = None
 
 
 @Client.on_message(filters.edited)
@@ -28,36 +32,29 @@ async def reject(c: Client, m: Message):
     m.stop_propagation()
 
 
-def interaction_filter(filter, action: str = None, *args, **kwargs):
-    COMMANDS_HELP["interactions"]["filters"][filter] = {"action": action or " "}
-    return filters.regex(r"(?i)^{0}(\.|\?)?$".format(filter), *args, **kwargs)
+def int_filter(filter, group: str = "others", action: str = None, *args, **kwargs):
+    COMMANDS_HELP[group]["filters"][filter] = {"action": action or " "}
+    return filters.regex(r"(?i)^{0}(\.|\?|\!)?$".format(filter), *args, **kwargs)
 
 
-filters.interaction = interaction_filter
+filters.int = int_filter
 
 
-def message_filter(filter, action: str = None, *args, **kwargs):
-    COMMANDS_HELP["messages"]["filters"][filter] = {"action": action or " "}
-    return filters.regex(r"(?i)^{0}(\.|\?)?$".format(filter), *args, **kwargs)
-
-
-filters.msg = message_filter
-
-
-def assistant_filter(filter, action: str = None, *args, **kwargs):
-    COMMANDS_HELP["assistant"]["filters"][filter] = {"action": action or " "}
-    return filters.regex(r"(?i)^{0}(\.|\?)?$".format(filter), *args, **kwargs)
-
-
-filters.assist = assistant_filter
-
-
-def command_filter(command, action: str = None, *args, **kwargs):
-    if command not in COMMANDS_HELP["commands"]["commands"].keys():
-        COMMANDS_HELP["commands"]["commands"][command] = {"action": action or ""}
+def command_filter(command, group: str = "general", action: str = None, *args, **kwargs):
+    if command not in COMMANDS_HELP[group]["commands"].keys():
+        COMMANDS_HELP[group]["commands"][command] = {"action": action or ""}
     prefixes = "".join(prefix)
     _prefix = f"^[{re.escape(prefixes)}]"
     return filters.regex(_prefix + command, *args, **kwargs)
 
 
 filters.cmd = command_filter
+
+
+@Client.on_message(~filters.private & filters.all)
+async def on_all_m(c: Client, m: Message):
+    if await Chats.filter(id=m.chat.id):
+        pass
+    else:
+        await Chats.create(id=m.chat.id, title=m.chat.title)
+    m.continue_propagation()

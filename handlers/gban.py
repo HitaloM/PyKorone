@@ -137,9 +137,7 @@ async def gban_user(c: Client, m: Message, field: str):
         reason = "spam[gban]"
 
     if len(chats_banned) > 0:
-        chats_banned = (
-            ", ".join(chats_banned) if len(chats_banned) < 10 else len(chats_banned)
-        )
+        chats_banned = len(chats_banned)
     else:
         if len(users) > 1:
             chats_banned = "I didn't see them or managed to ban them."
@@ -223,11 +221,7 @@ async def ungban_user(c: Client, m: Message, _users: List[Union[str, int]]):
                 pass
 
     if len(chats_unbanned) > 0:
-        chats_unbanned = (
-            ", ".join(chats_unbanned)
-            if len(chats_unbanned) < 10
-            else len(chats_unbanned)
-        )
+        chats_unbanned = len(chats_unbanned)
     else:
         if len(users) > 1:
             chats_unbanned = "I didn't see them or managed to unban them."

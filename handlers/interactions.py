@@ -21,13 +21,17 @@ from pyrogram.types import Message
 from handlers.utils.random import HEY_REACT, INSULTS_REACT, RANDOM_REACT, WHATSUP_REACT
 from handlers import COMMANDS_HELP
 
-COMMANDS_HELP["interactions"] = {
-    "text": "Use este filtros em resposta ao <b>Korone</b>.",
+GROUP = "interactions"
+
+COMMANDS_HELP[GROUP] = {
+    "name": "Interações",
+    "text": "Use estes filtros em resposta a mim.",
     "filters": {},
+    "help": True,
 }
 
 
-@Client.on_message(filters.interaction(filter=r"(Quem te criou|Quem criou voc(ê|e))"))
+@Client.on_message(filters.int(filter=r"(Quem te criou|Quem criou voc(ê|e))", group=GROUP))
 async def my_creator(c: Client, m: Message):
     text = "Meu criador é o @Hitalo ^^"
 
@@ -40,7 +44,7 @@ async def my_creator(c: Client, m: Message):
         return
 
 
-@Client.on_message(filters.interaction(filter=r"(okay|ok)"))
+@Client.on_message(filters.int(filter=r"(okay|ok)", group=GROUP))
 async def okay(c: Client, m: Message):
     text = "Hmm..."
 
@@ -53,7 +57,7 @@ async def okay(c: Client, m: Message):
         return
 
 
-@Client.on_message(filters.interaction(filter=r"Voc(e|ê) gosta de caf(é|e)"))
+@Client.on_message(filters.int(filter=r"Voc(e|ê) gosta de caf(é|e)", group=GROUP))
 async def ulikecoffe(c: Client, m: Message):
     text = "Com certeza! ☕"
 
@@ -66,7 +70,7 @@ async def ulikecoffe(c: Client, m: Message):
         return
 
 
-@Client.on_message(filters.interaction(filter=r"Voc(e|ê) gosta do Hitalo"))
+@Client.on_message(filters.int(filter=r"Voc(e|ê) gosta do Hitalo", group=GROUP))
 async def ulikehitalo(c: Client, m: Message):
     text = "Com certeza! Ele é o meu criador..."
 
@@ -79,7 +83,7 @@ async def ulikehitalo(c: Client, m: Message):
         return
 
 
-@Client.on_message(filters.interaction(filter=r"(Ol(á|a)|Oi|Eae)"))
+@Client.on_message(filters.int(filter=r"(Ol(á|a)|Oi|Eae)", group=GROUP))
 async def hello(c: Client, m: Message):
     react = random.choice(HEY_REACT)
 
@@ -93,8 +97,9 @@ async def hello(c: Client, m: Message):
 
 
 @Client.on_message(
-    filters.interaction(
-        filter=r"(Est(ú|u)pido|Puta|Vai se f(o|u)der|Idiota|Ot(á|a)rio|Lixo)"
+    filters.int(
+        filter=r"(Est(ú|u)pido|Puta|Vai se f(o|u)der|Idiota|Ot(á|a)rio|Lixo)",
+        group=GROUP
     )
 )
 async def insult(c: Client, m: Message):
@@ -109,7 +114,7 @@ async def insult(c: Client, m: Message):
         return
 
 
-@Client.on_message(filters.interaction(filter=r"(Como vai|Tudo bem)"))
+@Client.on_message(filters.int(filter=r"(Como vai|Tudo bem)", group=GROUP))
 async def all_right(c: Client, m: Message):
     react = random.choice(WHATSUP_REACT)
 
@@ -122,7 +127,7 @@ async def all_right(c: Client, m: Message):
         return
 
 
-@Client.on_message(filters.interaction(filter=r"Tudo bem Korone"))
+@Client.on_message(filters.int(filter=r"Tudo bem Korone", group=GROUP))
 async def all_right_list(c: Client, m: Message):
     try:
         answer = await m.chat.ask(
@@ -144,15 +149,10 @@ async def all_right_list(c: Client, m: Message):
         return
 
 
-async def random_react_filter(_, __, m) -> bool:
-    return (m.message_id % 100) == 0
-
-
-filters.random_react_filter = filters.create(random_react_filter)
-
-
-@Client.on_message(~filters.private & filters.random_react_filter)
+@Client.on_message(~filters.private)
 async def random_react(c: Client, m: Message):
+    if not ((m.message_id % 100) == 0):
+        m.continue_propagation()
     react = random.choice(RANDOM_REACT)
     if isinstance(react, tuple):
         react = random.choice(react)

@@ -32,13 +32,16 @@ from search_engine_parser import GoogleSearch, BingSearch
 from pyrogram import Client, filters
 from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton, Message
 
-from handlers.pm_menu import about_text
 from utils import http
 from . import COMMANDS_HELP
 
-COMMANDS_HELP["commands"] = {
+GROUP = "general"
+
+COMMANDS_HELP[GROUP] = {
+    "name": "Geral",
     "text": "Este é meu módulo principal de comandos.",
     "commands": {},
+    "help": True,
 }
 
 
@@ -207,11 +210,6 @@ async def dog(c: Client, m: Message):
     response = await http.get("https://random.dog/woof.json")
     dogs = response.json()
     await m.reply_photo(dogs["url"], caption="Woof!! U・ᴥ・U")
-
-
-@Client.on_message(filters.cmd(command="about", action="Informações sobre o bot."))
-async def about_cmd(c: Client, m: Message):
-    await m.reply_text(about_text, disable_web_page_preview=True)
 
 
 @Client.on_message(

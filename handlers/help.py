@@ -32,34 +32,46 @@ about_text = """
 🗂 <b>Links:</b> <a href='https://github.com/HitaloSama/PyKorone'>GitHub</a> | <a href='https://t.me/SpamTherapy'>Chat</a>
 """
 
+@Client.on_message(filters.cmd(command="about", action="Informações sobre o bot."))
+async def about_cmd(c: Client, m: Message):
+    await m.reply_text(about_text, disable_web_page_preview=True)
+    
 
 @Client.on_message(
     filters.cmd(command="start", action="Envia a mensagem de inicialização do Bot.")
 )
 async def start(c: Client, m: Message):
-    keyboard = []
-    text = (
-        "Oi, eu sou o <b>Korone</b>, um bot interativo "
-        "que adora participar de grupos!\n"
-    )
-    if m.chat.type == "private":
-        keyboard.append([("📚 Ajuda", "help_cb"), ("ℹ️ Sobre", "about")])
-        keyboard.append([("👥 Grupo Off-Topic", "https://t.me/SpamTherapy", "url")])
+    query = m.text.split()
+    if len(query) > 1:
+        field = query[1]
+        query = field.split("_")
+        if query[0] == "help":
+            module = query[1]
+            await help_module(m, module)
     else:
-        keyboard.append(
-            [
-                (
-                    "Clique aqui para obter ajuda!",
-                    f"http://t.me/{(await c.get_me()).username}?start",
-                    "url",
-                )
-            ]
+        keyboard = []
+        text = (
+            "Oi, eu sou o <b>Korone</b>, um bot interativo "
+            "que adora participar de grupos!\n"
         )
-        text += "Você pode ver tudo que eu posso fazer clicando no botão abaixo..."
-    await m.reply_text(
-        text,
-        reply_markup=ikb(keyboard),
-    )
+        if m.chat.type == "private":
+            keyboard.append([("📚 Ajuda", "help_cb"), ("ℹ️ Sobre", "about")])
+            keyboard.append([("👥 Grupo Off-Topic", "https://t.me/SpamTherapy", "url")])
+        else:
+            keyboard.append(
+                [
+                    (
+                        "Clique aqui para obter ajuda!",
+                        f"http://t.me/{(await c.get_me()).username}?start",
+                        "url",
+                    )
+                ]
+            )
+            text += "Você pode ver tudo que eu posso fazer clicando no botão abaixo..."
+        await m.reply_text(
+            text,
+            reply_markup=ikb(keyboard),
+        )
 
 
 @Client.on_message(filters.cmd("help (?P<module>.+)"))
@@ -67,7 +79,9 @@ async def help_m(c: Client, m: Message):
     module = m.matches[0]["module"]
     if m.chat.type == "private":
         await help_module(m, module)
-        return
+    else:
+        keyboard = [[("Ir ao PM", f"https://t.me/{c.me.username}/?start=help_{module}", "url")]]
+        await m.reply_text(text="Para ver isso, vá ao meu PM.", reply_markup=ikb(keyboard))
 
 
 @Client.on_message(
@@ -83,53 +97,28 @@ async def help_cb(c: Client, m: CallbackQuery):
     await help_module(m)
 
 
-@Client.on_message(filters.command("help", prefix) & filters.private)
-async def help_command(c: Client, m: Message):
-    keyboard = ikb(
-        [
-            [("Comandos", "help_cmds"), ("Filtros", "help_regex")],
-            [("⬅️ Voltar", "start_back")],
-        ]
-    )
-    await m.reply_text(
-        help_text,
-        reply_markup=keyboard,
-    )
-
-
 async def help_module(m: Message, module: str = None):
     is_query = isinstance(m, CallbackQuery)
     text = ""
     keyboard = []
     success = False
     if not module or module == "start":
-        keyboard.append([("Comandos", "help_cmds"), ("Filtros", "help_filters")])
+        keyboard.append([("Comandos", "help_commands"), ("Filtros", "help_filters")])
         keyboard.append([("⬅️ Voltar", "start_back")])
         text = "Por favor, selecione uma categoria para obter ajuda!"
         success = True
     else:
-        if module == "cmds":
-            modules = []
+        if module in ["commands", "filters"]:
+            text = f"Escolha um módulo ou use <code>/help &lt;módulo&gt;</code>.\n"
+            keyboard = [[]]
+            index = 0
             for key, value in COMMANDS_HELP.items():
-                if "commands" in value:
-                    modules.append(key)
-            text = f"Eu tenho atualmente <code>{len(modules)}</code> módulo(s) com comandos, verifique-os usando <code>/help &lt;módulo&gt;</code>.\n"
-            if len(modules) > 0:
-                text += "\n<b>Módulo(s)</b>:"
-                for module_name in modules:
-                    text += f"\n  - <code>{module_name}</code>"
-            success = True
-            keyboard.append([("⬅️ Voltar", "help_start")])
-        elif module == "filters":
-            modules = []
-            for key, value in COMMANDS_HELP.items():
-                if "filters" in value:
-                    modules.append(key)
-            text = f"Eu tenho atualmente <code>{len(modules)}</code> módulo(s) com filtros, verifique-os usando <code>/help &lt;módulo&gt;</code>.\n"
-            if len(modules) > 0:
-                text += "\n<b>Módulo(s)</b>:"
-                for module_name in modules:
-                    text += f"\n  - <code>{module_name}</code>"
+                if module in value:
+                    if "help" in value and value["help"]:
+                        if len(keyboard[index]) == 3:
+                            index += 1
+                            keyboard.append([])
+                        keyboard[index].append((value["name"] if "name" in value else key.capitalize(), f"help_{key}"))
             success = True
             keyboard.append([("⬅️ Voltar", "help_start")])
         elif module in COMMANDS_HELP.keys():
@@ -159,13 +148,14 @@ async def help_module(m: Message, module: str = None):
                         else:
                             text += f'\n  - <b>{"/" if type == "commands" else ""}{html.escape(regex)}</b>: <i>{action}</i>'
             success = True
+            keyboard.append([("⬅️ Voltar", f"help_{type}")])
 
     kwargs = {}
     if len(keyboard) > 0:
         kwargs["reply_markup"] = ikb(keyboard)
 
     if success:
-        await (m.edit_message_text if is_query else m.reply)(text, **kwargs)
+        await (m.edit_message_text if is_query else m.reply_text)(text, **kwargs)
 
 
 @Client.on_callback_query(filters.regex("help_(?P<module>.+)"))

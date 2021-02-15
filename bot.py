@@ -82,6 +82,7 @@ async def main():
 
     await client.start()
     client.me = await client.get_me()
+
     start_message = f"""<b>PyKorone Started...</b>
 - <b>Pyrogram:</b> <code>v{pyrogram.__version__}</code>
 - <b>Pyromod:</b> <code>v{pyromod.__version__}</code>

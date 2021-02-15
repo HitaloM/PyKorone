@@ -25,12 +25,23 @@ from urllib.parse import quote as urlencode
 from PIL import Image
 
 from utils import http
+from . import COMMANDS_HELP
+
+GROUP = "myanime"
+
+COMMANDS_HELP[GROUP] = {
+    "name": "Anime",
+    "text": "Esse é meu módulo voltado para Otakus, divirta-se.",
+    "commands": {},
+    "help": True,
+}
 
 
 @Client.on_message(
     filters.cmd(
         command="anime (?P<search>.+)",
         action="Pesquise informações de animes pelo AniList.",
+        group=GROUP,
     )
 )
 async def anilist_anime(c: Client, m: Message):
@@ -85,6 +96,7 @@ async def anilist_anime(c: Client, m: Message):
     filters.cmd(
         command="airing (?P<search>.+)",
         action="A próxima transmissão de um anime.",
+        group=GROUP,
     )
 )
 async def anilist_airing(c: Client, m: Message):
@@ -114,6 +126,7 @@ async def anilist_airing(c: Client, m: Message):
     filters.cmd(
         command="manga (?P<search>.+)",
         action="Pesquise informações de mangás pelo AniList.",
+        group=GROUP,
     )
 )
 async def anilist_manga(c: Client, m: Message):
@@ -163,6 +176,7 @@ async def anilist_manga(c: Client, m: Message):
     filters.cmd(
         command="pokemon (?P<search>.+)",
         action="Retornar o sprite do Pokémon específico.",
+        group=GROUP,
     )
 )
 async def poke_image(c: Client, m: Message):

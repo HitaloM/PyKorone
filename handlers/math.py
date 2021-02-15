@@ -17,109 +17,119 @@ import aionewton
 
 from pyrogram import Client, filters
 from pyrogram.types import Message
+from . import COMMANDS_HELP
+
+GROUP = "math"
+
+COMMANDS_HELP[GROUP] = {
+    "name": "Matemática",
+    "text": "Esse é meu módulo de matemática, cuidado para não perder a cabeça.",
+    "commands": {},
+    "help": True,
+}
 
 done_text = "<b>Expressão:</b> <code>{}</code>\n<b>Resultado:</b> <code>{}</code>"
 
 
-@Client.on_message(filters.cmd("simplify (?P<calc>.+)"))
+@Client.on_message(filters.cmd("simplify (?P<calc>.+)", group=GROUP))
 async def simplify(c: Client, m: Message):
     calc = m.matches[0]["calc"]
     result = await aionewton.simplify(calc)
     await m.reply_text((done_text).format(calc, result))
 
 
-@Client.on_message(filters.cmd("factor (?P<calc>.+)"))
+@Client.on_message(filters.cmd("factor (?P<calc>.+)", group=GROUP))
 async def factor(c: Client, m: Message):
     calc = m.matches[0]["calc"]
     result = await aionewton.factor(calc)
     await m.reply_text((done_text).format(calc, result))
 
 
-@Client.on_message(filters.cmd("derive (?P<calc>.+)"))
+@Client.on_message(filters.cmd("derive (?P<calc>.+)", group=GROUP))
 async def derive(c: Client, m: Message):
     calc = m.matches[0]["calc"]
     result = await aionewton.derive(calc)
     await m.reply_text((done_text).format(calc, result))
 
 
-@Client.on_message(filters.cmd("integrate (?P<calc>.+)"))
+@Client.on_message(filters.cmd("integrate (?P<calc>.+)", group=GROUP))
 async def integrate(c: Client, m: Message):
     calc = m.matches[0]["calc"]
     result = await aionewton.integrate(calc)
     await m.reply_text((done_text).format(calc, result))
 
 
-@Client.on_message(filters.cmd("zeroes (?P<calc>.+)"))
+@Client.on_message(filters.cmd("zeroes (?P<calc>.+)", group=GROUP))
 async def zeroes(c: Client, m: Message):
     calc = m.matches[0]["calc"]
     result = await aionewton.zeroes(calc)
     await m.reply_text((done_text).format(calc, result))
 
 
-@Client.on_message(filters.cmd("tangent (?P<calc>.+)"))
+@Client.on_message(filters.cmd("tangent (?P<calc>.+)", group=GROUP))
 async def tangent(c: Client, m: Message):
     calc = m.matches[0]["calc"]
     result = await aionewton.tangent(calc)
     await m.reply_text((done_text).format(calc, result))
 
 
-@Client.on_message(filters.cmd("area (?P<calc>.+)"))
+@Client.on_message(filters.cmd("area (?P<calc>.+)", group=GROUP))
 async def area(c: Client, m: Message):
     calc = m.matches[0]["calc"]
     result = await aionewton.area(calc)
     await m.reply_text((done_text).format(calc, result))
 
 
-@Client.on_message(filters.cmd("cos (?P<calc>.+)"))
+@Client.on_message(filters.cmd("cos (?P<calc>.+)", group=GROUP))
 async def xos(c: Client, m: Message):
     calc = m.matches[0]["calc"]
     result = await aionewton.cos(calc)
     await m.reply_text((done_text).format(calc, result))
 
 
-@Client.on_message(filters.cmd("sin (?P<calc>.+)"))
+@Client.on_message(filters.cmd("sin (?P<calc>.+)", group=GROUP))
 async def sin(c: Client, m: Message):
     calc = m.matches[0]["calc"]
     result = await aionewton.sin(calc)
     await m.reply_text((done_text).format(calc, result))
 
 
-@Client.on_message(filters.cmd("tan (?P<calc>.+)"))
+@Client.on_message(filters.cmd("tan (?P<calc>.+)", group=GROUP))
 async def tan(c: Client, m: Message):
     calc = m.matches[0]["calc"]
     result = await aionewton.tan(calc)
     await m.reply_text((done_text).format(calc, result))
 
 
-@Client.on_message(filters.cmd("accos (?P<calc>.+)"))
+@Client.on_message(filters.cmd("accos (?P<calc>.+)", group=GROUP))
 async def accos(c: Client, m: Message):
     calc = m.matches[0]["calc"]
     result = await aionewton.accos(calc)
     await m.reply_text((done_text).format(calc, result))
 
 
-@Client.on_message(filters.cmd("arcsin (?P<calc>.+)"))
+@Client.on_message(filters.cmd("arcsin (?P<calc>.+)", group=GROUP))
 async def arcsin(c: Client, m: Message):
     calc = m.matches[0]["calc"]
     result = await aionewton.arcsin(calc)
     await m.reply_text((done_text).format(calc, result))
 
 
-@Client.on_message(filters.cmd("arctan (?P<calc>.+)"))
+@Client.on_message(filters.cmd("arctan (?P<calc>.+)", group=GROUP))
 async def arctan(c: Client, m: Message):
     calc = m.matches[0]["calc"]
     result = await aionewton.arctan(calc)
     await m.reply_text((done_text).format(calc, result))
 
 
-@Client.on_message(filters.cmd("abs (?P<calc>.+)"))
+@Client.on_message(filters.cmd("abs (?P<calc>.+)", group=GROUP))
 async def abs(c: Client, m: Message):
     calc = m.matches[0]["calc"]
     result = await aionewton.abs(calc)
     await m.reply_text((done_text).format(calc, result))
 
 
-@Client.on_message(filters.cmd("log (?P<calc>.+)"))
+@Client.on_message(filters.cmd("log (?P<calc>.+)", group=GROUP))
 async def log(c: Client, m: Message):
     calc = m.matches[0]["calc"]
     result = await aionewton.log(calc)
@@ -127,7 +137,10 @@ async def log(c: Client, m: Message):
 
 
 @Client.on_message(
-    filters.cmd(command="math", action="Manual de uso dos comandos matemáticos do Bot.")
+    filters.cmd(
+        command="math", action="Manual de uso dos meus comandos matemáticos.",
+        group=GROUP,
+    )
 )
 async def math_help(c: Client, m: Message):
     await m.reply_text(

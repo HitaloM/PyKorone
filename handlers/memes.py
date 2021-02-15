@@ -23,13 +23,23 @@ from pyrogram import Client, filters
 from pyrogram.types import Message
 
 from utils import http
+from . import COMMANDS_HELP
 from handlers.utils.random import SHRUGS_REACT, REACTS
 from handlers.utils.thonkify_dict import thonkifydict
+
+GROUP = "memes"
+
+COMMANDS_HELP[GROUP] = {
+    "name": "Memes",
+    "text": "Esse é meu módulo de memes, divirta-se.",
+    "commands": {},
+    "help": True,
+}
 
 NEKO_URL = "https://nekos.life/api/v2/img/"
 
 
-@Client.on_message(filters.cmd(command="hug", action="Dar um abraço."))
+@Client.on_message(filters.cmd(command="hug", action="Dar um abraço.", group=GROUP))
 async def hug(c: Client, m: Message):
     r = await http.get(NEKO_URL + "hug")
     if r.status_code == 200:
@@ -46,7 +56,7 @@ async def hug(c: Client, m: Message):
         return await m.reply_text(f"Erro!\n{e}")
 
 
-@Client.on_message(filters.cmd(command="pat", action="Dar uma batida na cabeça."))
+@Client.on_message(filters.cmd(command="pat", action="Dar uma batida na cabeça.", group=GROUP))
 async def pat(c: Client, m: Message):
     r = await http.get(NEKO_URL + "pat")
     if r.status_code == 200:
@@ -63,7 +73,7 @@ async def pat(c: Client, m: Message):
         return await m.reply_text(f"Erro!\n{e}")
 
 
-@Client.on_message(filters.cmd(command="slap", action="Dar um tapa."))
+@Client.on_message(filters.cmd(command="slap", action="Dar um tapa.", group=GROUP))
 async def slap(c: Client, m: Message):
     r = await http.get(NEKO_URL + "slap")
     if r.status_code == 200:
@@ -80,7 +90,7 @@ async def slap(c: Client, m: Message):
         return await m.reply_text(f"Erro!\n{e}")
 
 
-@Client.on_message(filters.cmd(command="waifu", action="Retorna uma waifu."))
+@Client.on_message(filters.cmd(command="waifu", action="Retorna uma waifu.", group=GROUP))
 async def waifu(c: Client, m: Message):
     r = await http.get(NEKO_URL + "waifu")
     if r.status_code == 200:
@@ -97,7 +107,7 @@ async def waifu(c: Client, m: Message):
         return await m.reply_text(f"Erro!\n{e}")
 
 
-@Client.on_message(filters.cmd(command="neko", action="Retorna uma Neko."))
+@Client.on_message(filters.cmd(command="neko", action="Retorna uma Neko.", group=GROUP))
 async def neko(c: Client, m: Message):
     r = await http.get(NEKO_URL + "neko")
     if r.status_code == 200:
@@ -114,7 +124,7 @@ async def neko(c: Client, m: Message):
         return await m.reply_text(f"Erro!\n{e}")
 
 
-@Client.on_message(filters.cmd(command="shrug", action="Em caso de dúvida."))
+@Client.on_message(filters.cmd(command="shrug", action="Em caso de dúvida.", group=GROUP))
 async def shrug(c: Client, m: Message):
     react = random.choice(SHRUGS_REACT)
     if m.reply_to_message:
@@ -123,7 +133,7 @@ async def shrug(c: Client, m: Message):
         await m.reply_text(react)
 
 
-@Client.on_message(filters.cmd(command="react", action="Reações aleatórias."))
+@Client.on_message(filters.cmd(command="react", action="Reações aleatórias.", group=GROUP))
 async def reacts(c: Client, m: Message):
     react = random.choice(REACTS)
     if m.reply_to_message:
@@ -133,7 +143,10 @@ async def reacts(c: Client, m: Message):
 
 
 @Client.on_message(
-    filters.cmd(command="f (?P<text>.+)", action="Press F to Pay Respects.")
+    filters.cmd(
+        command="f (?P<text>.+)", action="Press F to Pay Respects.",
+        group=GROUP,
+    )
 )
 async def payf(c: Client, m: Message):
     paytext = m.matches[0]["text"]
@@ -155,7 +168,10 @@ async def payf(c: Client, m: Message):
 
 
 @Client.on_message(
-    filters.cmd(command="thonkify (?P<text>.+)", action="Entenda o que é na prática.")
+    filters.cmd(
+        command="thonkify (?P<text>.+)", action="Entenda o que é na prática.",
+        group=GROUP,
+    )
 )
 async def thonkify(c: Client, m: Message):
     if not m.reply_to_message:
