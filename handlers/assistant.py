@@ -161,7 +161,7 @@ async def wiki_search(c: Client, m: Message):
 
     page = wiki.page(args)
 
-    if page.exists() == False:
+    if page.exists() is False:
         await m.reply_text("Nenhum resultado foi encontrado!")
         return
 

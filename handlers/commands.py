@@ -21,7 +21,7 @@ import kantex
 import pyrogram
 import pyromod
 from config import prefix
-from kantex.html import Bold, Code, KanTeXDocument, KeyValueItem, Section, SubSection
+from kantex.html import Bold, KeyValueItem, Section
 from pyrogram import Client, filters
 from pyrogram.types import Message
 
