@@ -56,7 +56,9 @@ async def kick(c: Client, m: Message):
                 quote=True,
             )
         except BaseException:
-            return await m.reply_text("Eu n-não consegui remover este usuário! >-<\n<b>Erro:</b> <code>{e}</code>")
+            return await m.reply_text(
+                "Eu n-não consegui remover este usuário! >-<\n<b>Erro:</b> <code>{e}</code>"
+            )
 
 
 @Client.on_message(filters.int(filter=r"Korone, me d(ê|e) um cookie", group=GROUP))
