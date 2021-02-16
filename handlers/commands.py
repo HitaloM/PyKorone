@@ -68,7 +68,7 @@ async def user_info(c: Client, m: Message):
     except BaseException as e:
         return await m.reply_text(f"<b>Error!</b>\n<code>{e}</code>")
 
-    text = "<b>Informações do usuário:</b>:"
+    text = "<b>Informações do usuário</b>:"
     text += f"\nID: <code>{user.id}</code>"
     text += f"\nNome: {html.escape(user.first_name)}"
 
@@ -78,7 +78,7 @@ async def user_info(c: Client, m: Message):
     if user.username:
         text += f"\nNome de Usuário: @{html.escape(user.username)}"
 
-    text += f"\nLink de Usuário: <a href='tg://user?id={user.id}'>link</a>"
+    text += f"\nLink de Usuário: {user.mention('link', style='html')}"
 
     if user.id == OWNER:
         text += "\n\nEste é meu dono - Eu nunca faria algo contra ele!"
