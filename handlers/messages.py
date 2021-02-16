@@ -15,7 +15,6 @@
 
 import time
 import random
-from datetime import datetime
 
 from pyrogram import Client, filters
 from pyrogram.types import Message
@@ -145,15 +144,6 @@ async def grr(c: Client, m: Message):
 @Client.on_message(filters.int(filter=r"bruh", group=GROUP))
 async def bruh(c: Client, m: Message):
     await m.reply_text("moment")
-
-
-@Client.on_message(filters.int(filter=r"(yeet|ainda)", group=GROUP))
-async def yeet(c: Client, m: Message):
-    first = datetime.now()
-    t = await m.reply_text("<b>Preparando...</b>")
-    second = datetime.now()
-    time = (second - first).microseconds / 1000
-    await t.edit_text(f"*joga um cookie à <code>{time} m/s</code>*\nAINDA")
 
 
 @Client.on_message(filters.int(filter=r"porra", group=GROUP))

@@ -181,7 +181,7 @@ async def anilist_manga(c: Client, m: Message):
         group=GROUP,
     )
 )
-async def upcoming(c: Client, m: Message):
+async def mal_upcoming(c: Client, m: Message):
     jikan = jikanpy.jikan.Jikan()
     upcoming = jikan.top("anime", page=1, subtype="upcoming")
 

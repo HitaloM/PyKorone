@@ -155,7 +155,7 @@ async def invitelink(c: Client, m: Message):
 
 
 @Client.on_message(filters.int(filter=r"Korone, o que é (?P<text>.+)", group=GROUP))
-async def wiki(c: Client, m: Message):
+async def wiki_search(c: Client, m: Message):
     args = m.matches[0]["text"]
     wiki = wikipediaapi.Wikipedia("pt")
 
