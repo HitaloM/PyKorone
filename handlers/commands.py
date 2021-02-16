@@ -63,7 +63,7 @@ async def user_info(c: Client, m: Message):
         if args:
             user = await c.get_users(f"{args}")
         else:
-            user = await m.reply_to_message.from_user
+            user = m.reply_to_message.from_user
     except BaseException as e:
         return await m.reply_text(f"<b>Error!</b>\n<code>{e}</code>")
 
