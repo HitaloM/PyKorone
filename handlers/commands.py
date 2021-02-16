@@ -13,6 +13,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+import html
 import platform
 from datetime import datetime
 
@@ -25,6 +26,7 @@ from pyrogram import Client, filters
 from pyrogram.types import Message
 
 from utils import http
+from config import SUDOERS, OWNER
 from . import COMMANDS_HELP
 
 GROUP = "general"
@@ -49,30 +51,44 @@ async def ping(c: Client, m: Message):
 
 
 @Client.on_message(
-    filters.cmd(command="user", action="Retorna algumas informações do usuário.")
-    & filters.reply
+    filters.cmd(
+        command="user(\s(?P<text>.+))?",
+        action="Retorna algumas informações do usuário.",
+    )
 )
 async def user_info(c: Client, m: Message):
-    user_id = m.reply_to_message.from_user.id
-    first_name = m.reply_to_message.from_user.first_name
+    args = m.matches[0]["text"]
+
     try:
-        last_name = m.reply_to_message.from_user.last_name
-    except Exception:
-        last_name = None
-    username = m.reply_to_message.from_user.username
-    doc = KanTeXDocument(
-        Section(
-            first_name,
-            SubSection(
-                "Geral",
-                KeyValueItem("id", Code(user_id)),
-                KeyValueItem("first_name", Code(first_name)),
-                KeyValueItem("last_name", Code(last_name)),
-                KeyValueItem("username", Code(username)),
-            ),
-        )
-    )
-    await m.reply_text(doc)
+        if args:
+            user = await c.get_users(f"{args}")
+        else:
+            user = await m.reply_to_message.from_user
+    except BaseException as e:
+        return await m.reply_text(f"<b>Error!</b>\n<code>{e}</code>")
+
+    text = "<b>Informações do usuário:</b>:"
+    text += f"\nID: <code>{user.id}</code>"
+    text += f"\nNome: {html.escape(user.first_name)}"
+
+    if user.last_name:
+        text += f"\nSobrenome: {html.escape(user.last_name)}"
+
+    if user.username:
+        text += f"\nNome de Usuário: @{html.escape(user.username)}"
+
+    text += f"\nLink de Usuário: <a href='tg://user?id={user.id}'>link</a>"
+
+    if user.id == OWNER:
+        text += "\n\nEste é meu dono - Eu nunca faria algo contra ele!"
+    else:
+        if user.id in SUDOERS:
+            text += (
+                "\nEssa pessoa é um dos meus usuários sudo! "
+                "Quase tão poderoso quanto meu dono, então cuidado."
+            )
+
+    await m.reply_text(text)
 
 
 @Client.on_message(
