@@ -21,7 +21,6 @@ import wikipediaapi
 from pyrogram import Client, filters
 from pyrogram.types import Message
 from pyromod.helpers import ikb
-from pyrogram.errors.exceptions.bad_request_400 import BadRequest
 
 from utils import http, translator
 from handlers.utils.random import CATCH_REACT, HELLO, REACTIONS
@@ -56,8 +55,8 @@ async def kick(c: Client, m: Message):
                 animation="CgACAgQAAx0ET2XwHwACWb1gCDScpSaFyoNgPa2Ag_yiRo61YQACPwIAAryMhFOFxHV09aPBTR4E",
                 quote=True,
             )
-        except BadRequest:
-            await m.reply_text("Eu n-não posso remover um administrador! >-<")
+        except BaseException:
+            return await m.reply_text("Eu n-não consegui remover este usuário! >-<\n<b>Erro:</b> <code>{e}</code>")
 
 
 @Client.on_message(filters.int(filter=r"Korone, me d(ê|e) um cookie", group=GROUP))

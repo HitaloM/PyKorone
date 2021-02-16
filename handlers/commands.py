@@ -20,13 +20,12 @@ from datetime import datetime
 import kantex
 import pyrogram
 import pyromod
-from config import prefix
 from kantex.html import Bold, KeyValueItem, Section
 from pyrogram import Client, filters
 from pyrogram.types import Message
 
 from utils import http
-from config import SUDOERS, OWNER
+from config import SUDOERS, OWNER, prefix
 from . import COMMANDS_HELP
 
 GROUP = "general"
