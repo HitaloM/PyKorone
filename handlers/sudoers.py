@@ -38,10 +38,8 @@ async def on_terminal_m(c: Client, m: Message):
         stderr=asyncio.subprocess.STDOUT,
     )
     stdout = (await proc.communicate())[0]
-    output = ""
     lines = stdout.decode().split("\n")
-    for line in lines:
-        output += f"<code>{line}</code>\n"
+    output = "".join(f"<code>{line}</code>\n" for line in lines)
     output_message = f"<b>Input\n&gt;</b> <code>{code}</code>\n\n"
     if len(output) > 0:
         if len(output) > (4096 - len(output_message)):
@@ -68,10 +66,8 @@ async def on_eval_m(c: Client, m: Message):
             f"An error occurred while running the code:\n<code>{error}</code>"
         )
         return
-    output = ""
     lines = str(stdout).split("\n")
-    for line in lines:
-        output += f"<code>{line}</code>\n"
+    output = "".join(f"<code>{line}</code>\n" for line in lines)
     output_message = f"<b>Input\n&gt;</b> <code>{eval_code}</code>\n\n"
     if len(output) > 0:
         if len(output) > (4096 - len(output_message)):
@@ -146,21 +142,18 @@ async def upgrade(c: Client, m: Message):
     )
     stdout = (await proc.communicate())[0].decode()
     if proc.returncode == 0:
-        if len(stdout) > 0:
-            changelog = "<b>Changelog</b>:\n"
-            commits = parse_commits(stdout)
-            for hash, commit in commits.items():
-                changelog += f"  - [<code>{hash[:7]}</code>] {commit['title']}\n"
-            changelog += f"\n<b>New commits count</b>: <code>{len(commits)}</code>."
-            keyboard = [[("🆕 Atualizar", "upgrade")]]
-            await sm.edit_text(changelog, reply_markup=ikb(keyboard))
-        else:
+        if len(stdout) <= 0:
             return await sm.edit_text("Não há nada para atualizar.")
+        changelog = "<b>Changelog</b>:\n"
+        commits = parse_commits(stdout)
+        for hash, commit in commits.items():
+            changelog += f"  - [<code>{hash[:7]}</code>] {commit['title']}\n"
+        changelog += f"\n<b>New commits count</b>: <code>{len(commits)}</code>."
+        keyboard = [[("🆕 Atualizar", "upgrade")]]
+        await sm.edit_text(changelog, reply_markup=ikb(keyboard))
     else:
-        error = ""
         lines = stdout.split("\n")
-        for line in lines:
-            error += f"<code>{line}</code>\n"
+        error = "".join(f"<code>{line}</code>\n" for line in lines)
         await sm.edit_text(
             f"Falha na atualização (process exited with {proc.returncode}):\n{error}"
         )
@@ -180,10 +173,8 @@ async def upgrade_cb(c: Client, cq: CallbackQuery):
         args = [sys.executable, "bot.py"]
         os.execv(sys.executable, args)
     else:
-        error = ""
         lines = stdout.split("\n")
-        for line in lines:
-            error += f"<code>{line}</code>\n"
+        error = "".join(f"<code>{line}</code>\n" for line in lines)
         await cq.message.edit_text(
             f"Atualização falhou (process exited with {proc.returncode}):\n{error}"
         )

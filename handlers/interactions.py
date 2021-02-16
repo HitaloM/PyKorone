@@ -153,7 +153,7 @@ async def all_right_list(c: Client, m: Message):
 
 @Client.on_message(~filters.private)
 async def random_react(c: Client, m: Message):
-    if not ((m.message_id % 100) == 0):
+    if m.message_id % 100 != 0:
         m.continue_propagation()
     react = random.choice(RANDOM_REACT)
     if isinstance(react, tuple):

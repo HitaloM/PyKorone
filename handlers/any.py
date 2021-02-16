@@ -52,8 +52,6 @@ filters.cmd = command_filter
 
 @Client.on_message(~filters.private & filters.all)
 async def on_all_m(c: Client, m: Message):
-    if await Chats.filter(id=m.chat.id):
-        pass
-    else:
+    if not await Chats.filter(id=m.chat.id):
         await Chats.create(id=m.chat.id, title=m.chat.title)
     m.continue_propagation()

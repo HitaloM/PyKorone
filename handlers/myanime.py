@@ -69,9 +69,7 @@ async def anilist_anime(c: Client, m: Message):
     text += f"<b>Duração:</b> <code>{anime.duration}</code> Por Ep.\n"
     text += f"<b>Pontuação:</b> <code>{anime.score.average}</code>\n"
     text += f"<b>Gêneros:</b> <code>{', '.join(str(x) for x in anime.genres)}</code>\n"
-    studio = ""
-    for i in anime.studios.nodes:
-        studio += i.name + ", "
+    studio = "".join(i.name + ", " for i in anime.studios.nodes)
     if len(studio) > 0:
         studio = studio[:-2]
     text += f"<b>Estúdios:</b> <code>{studio}</code>\n"
@@ -208,11 +206,7 @@ async def poke_image(c: Client, m: Message):
     args = text.split()
 
     type = "front_"
-    if len(args) > 1:
-        type += "_".join(args[1:])
-    else:
-        type += "default"
-
+    type += "_".join(args[1:]) if len(args) > 1 else "default"
     r = await http.get("https://pokeapi.co/api/v2/pokemon/" + args[0])
     if r.status_code == 200:
         sprites = (r.json())["sprites"]
