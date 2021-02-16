@@ -145,10 +145,7 @@ async def hello(c: Client, m: Message):
     filters.int(filter=r"Korone, qual o link (de convite )?do grupo", group=GROUP)
 )
 async def invitelink(c: Client, m: Message):
-    if m.chat.username is None:
-        chat = m.chat.id
-    else:
-        chat = m.chat.username
+    chat = m.chat.id if m.chat.username is None else m.chat.username
     link = await c.export_chat_invite_link(chat)
     await m.reply_text(link)
 

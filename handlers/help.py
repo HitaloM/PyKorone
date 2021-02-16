@@ -116,17 +116,16 @@ async def help_module(m: Message, module: str = None):
             keyboard = [[]]
             index = 0
             for key, value in COMMANDS_HELP.items():
-                if module in value:
-                    if "help" in value and value["help"]:
-                        if len(keyboard[index]) == 3:
-                            index += 1
-                            keyboard.append([])
-                        keyboard[index].append(
-                            (
-                                value["name"] if "name" in value else key.capitalize(),
-                                f"help_{key}",
-                            )
+                if module in value and "help" in value and value["help"]:
+                    if len(keyboard[index]) == 3:
+                        index += 1
+                        keyboard.append([])
+                    keyboard[index].append(
+                        (
+                            value["name"] if "name" in value else key.capitalize(),
+                            f"help_{key}",
                         )
+                    )
             success = True
             keyboard.append([("⬅️ Voltar", "help_start")])
         elif module in COMMANDS_HELP.keys():
@@ -159,7 +158,7 @@ async def help_module(m: Message, module: str = None):
             keyboard.append([("⬅️ Voltar", f"help_{type}")])
 
     kwargs = {}
-    if len(keyboard) > 0:
+    if keyboard:
         kwargs["reply_markup"] = ikb(keyboard)
 
     if success:

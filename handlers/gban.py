@@ -86,9 +86,7 @@ async def gban_user(c: Client, m: Message, field: str):
             if item == c.me.id:
                 continue
             field = field[len(item) + 1 :]
-        elif item.startswith("@"):
-            pass
-        else:
+        elif not item.startswith("@"):
             break
         try:
             user = await c.get_users(item)
@@ -103,15 +101,17 @@ async def gban_user(c: Client, m: Message, field: str):
         except BaseException:
             pass
 
-    if not m.chat.type == "private":
+    if m.chat.type != "private":
         async for member in c.iter_chat_members(chat_id=m.chat.id):
             if member.user.id in users:
                 try:
-                    if await c.kick_chat_member(
-                        chat_id=m.chat.id, user_id=member.user.id
+                    if (
+                        await c.kick_chat_member(
+                            chat_id=m.chat.id, user_id=member.user.id
+                        )
+                        and m.chat.title not in chats_banned
                     ):
-                        if m.chat.title not in chats_banned:
-                            chats_banned.append(m.chat.title)
+                        chats_banned.append(m.chat.title)
                 except UserAdminInvalid:
                     pass
                 except ChatAdminRequired:
@@ -121,9 +121,11 @@ async def gban_user(c: Client, m: Message, field: str):
         chats = await Chats.all()
         for chat in chats:
             try:
-                if await c.kick_chat_member(chat_id=chat.id, user_id=user):
-                    if chat.title not in chats_banned:
-                        chats_banned.append(chat.title)
+                if (
+                    await c.kick_chat_member(chat_id=chat.id, user_id=user)
+                    and chat.title not in chats_banned
+                ):
+                    chats_banned.append(chat.title)
             except UserAdminInvalid:
                 pass
             except ChatAdminRequired:
@@ -133,7 +135,7 @@ async def gban_user(c: Client, m: Message, field: str):
     if len(reason) < 1:
         reason = "spam[gban]"
 
-    if len(chats_banned) > 0:
+    if chats_banned:
         chats_banned = len(chats_banned)
     else:
         if len(users) > 1:
@@ -145,9 +147,7 @@ async def gban_user(c: Client, m: Message, field: str):
         doc = "Specify someone."
     elif len(users) > 0:
         for user in users:
-            if await Banneds.filter(id=user):
-                pass
-            else:
+            if not await Banneds.filter(id=user):
                 await Banneds.create(
                     id=user, name=(await c.get_users(user)).first_name or ""
                 )
@@ -176,9 +176,7 @@ async def ungban_user(c: Client, m: Message, _users: List[Union[str, int]]):
             user = int(user)
             if user == c.me.id:
                 continue
-        elif user.startswith("@"):
-            pass
-        else:
+        elif not user.startswith("@"):
             break
         try:
             user = await c.get_users(user)
@@ -191,15 +189,17 @@ async def ungban_user(c: Client, m: Message, _users: List[Union[str, int]]):
         except BaseException:
             pass
 
-    if not m.chat.type == "private":
+    if m.chat.type != "private":
         async for member in c.iter_chat_members(chat_id=m.chat.id):
             if member.user.id in users:
                 try:
-                    if await c.unban_chat_member(
-                        chat_id=m.chat.id, user_id=member.user.id
+                    if (
+                        await c.unban_chat_member(
+                            chat_id=m.chat.id, user_id=member.user.id
+                        )
+                        and m.chat.title not in chats_unbanned
                     ):
-                        if m.chat.title not in chats_unbanned:
-                            chats_unbanned.append(m.chat.title)
+                        chats_unbanned.append(m.chat.title)
                 except UserAdminInvalid:
                     pass
                 except ChatAdminRequired:
@@ -209,15 +209,17 @@ async def ungban_user(c: Client, m: Message, _users: List[Union[str, int]]):
         chats = await Chats.all()
         for chat in chats:
             try:
-                if await c.unban_chat_member(chat_id=chat.id, user_id=user):
-                    if chat.title not in chats_unbanned:
-                        chats_unbanned.append(chat.title)
+                if (
+                    await c.unban_chat_member(chat_id=chat.id, user_id=user)
+                    and chat.title not in chats_unbanned
+                ):
+                    chats_unbanned.append(chat.title)
             except UserAdminInvalid:
                 pass
             except ChatAdminRequired:
                 pass
 
-    if len(chats_unbanned) > 0:
+    if chats_unbanned:
         chats_unbanned = len(chats_unbanned)
     else:
         if len(users) > 1:
