@@ -75,7 +75,7 @@ async def anilist_anime(c: Client, m: Message):
     text += f"<b>Estúdios:</b> <code>{studio}</code>\n"
     text += f"\n{desc}"
 
-    keyboard = [[("Mais Info", f"https://anilist.co/anime/{anime.id}", "url")]]
+    keyboard = [[("Mais Info", anime.url, "url")]]
 
     try:
         keyboard[0].append(("Trailer 🎬", anime.trailer.url, "url"))
@@ -112,8 +112,10 @@ async def anilist_airing(c: Client, m: Message):
     text += f"<b>ID:</b> <code>{anime.id}</code>\n"
     text += f"<b>Tipo:</b> <code>{anime.format}</code>\n"
     if anime.next_airing:
+        text += f"<b>Episódio:</b> <code>{anime.next_airing.episode}</code>\n"
         text += f"<b>No ar em:</b> <code>{time.strftime('%H:%M:%S - %d/%m/%Y', time.localtime(anime.next_airing.at))}</code>"
     else:
+        text += f"<b>Episódio:</b> <code>{anime.episodes}</code>\n"
         text += "<b>No ar em:</b> <code>N/A</code>"
 
     if anime.banner:
@@ -160,7 +162,7 @@ async def anilist_manga(c: Client, m: Message):
     text += f"<b>Gêneros:</b> <code>{', '.join(str(x) for x in manga.genres)}</code>\n"
     text += f"\n{desc}"
 
-    keyboard = [[("Mais Info", f"https://anilist.co/manga/{manga.id}", "url")]]
+    keyboard = [[("Mais Info", manga.url, "url")]]
 
     if manga.banner:
         await m.reply_photo(
