@@ -223,7 +223,7 @@ async def poke_image(c: Client, m: Message):
             )
             return
     else:
-        await m.reply_text(f"<code>Error! {r.status_code}</code>")
+        await m.reply_text(f"<b>Error!</b>\n<code>{r.status_code}</code>")
         return
 
     if not sprite_url:
@@ -234,7 +234,46 @@ async def poke_image(c: Client, m: Message):
     if r.status_code == 200:
         sprite_io = r.read()
     else:
-        await m.reply_text(f"<code>Error! {r.status_code}</code>")
+        await m.reply_text(f"<b>Error!</b>\n<code>{r.status_code}</code>")
+        return
+
+    await m.reply_document(document=pokemon_image_sync(sprite_io))
+
+
+@Client.on_message(
+    filters.cmd(
+        command="pokeitem (?P<search>.+)",
+        action="Retorna o sprite de um item Pokémon específico.",
+        group=GROUP,
+    )
+)
+async def poke_item_image(c: Client, m: Message):
+    text = m.matches[0]["search"]
+    args = text.split()
+
+    type = "_".join(args[1:]) if len(args) > 1 else "default"
+    r = await http.get("https://pokeapi.co/api/v2/item/" + args[0])
+    if r.status_code == 200:
+        sprites = (r.json())["sprites"]
+        if type in sprites:
+            sprite_url = sprites[type]
+        else:
+            await m.reply_text(
+                f"<code>Error! Tipo \"{' '.join(args[1:])}\" não encontrado!</code>"
+            )
+    else:
+        await m.reply_text(f"<b>Error!</b>\n<code>{r.status_code}</code>")
+        return
+
+    if not sprite_url:
+        await m.reply_text("Esse item Pokémon não tem um sprite disponível!")
+        return
+
+    r = await http.get(sprite_url)
+    if r.status_code == 200:
+        sprite_io = r.read()
+    else:
+        await m.reply_text(f"<b>Error!</b>\n<code>{r.status_code}</code>")
         return
 
     await m.reply_document(document=pokemon_image_sync(sprite_io))
