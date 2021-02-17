@@ -198,16 +198,19 @@ async def mal_upcoming(c: Client, m: Message):
 
 @Client.on_message(
     filters.cmd(
-        command="pokemon (?P<search>.+)",
-        action="Retornar o sprite do Pokémon específico.",
+        command="(?P<type>.*)pokemon (?P<search>.+)",
+        action="Retorna o sprite do Pokémon específico, coloque 'back' antes de 'pokemon' para ver na visão traseira.",
         group=GROUP,
     )
 )
 async def poke_image(c: Client, m: Message):
+    type = m.matches[0]["type"]
     text = m.matches[0]["search"]
     args = text.split()
 
-    type = "front_"
+    types = ["back", "front"]
+
+    type = (type if type in types else "front") + "_"
     type += "_".join(args[1:]) if len(args) > 1 else "default"
     r = await http.get("https://pokeapi.co/api/v2/pokemon/" + args[0])
     if r.status_code == 200:
