@@ -13,5 +13,5 @@ meval==2.5
 google-trans-new==1.1.9
 wikipedia-api==0.5.4
 cowpy==1.1.0
-git+https://github.com/PyroBugs/aioanilist
+git+https://github.com/aioanilist/aioanilist
 git+https://github.com/AndrielFR/aionewton
