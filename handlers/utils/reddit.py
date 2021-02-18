@@ -34,7 +34,7 @@ async def titlefetcherfallback(subreddit):
 
 async def bodyfetcherfallback(subreddit):
     async for post in subreddit.random_rising(limit=10):
-        if post.selftext and not post.permalink is post.url:
+        if post.selftext and post.permalink is not post.url:
             return post
 
 
@@ -112,7 +112,7 @@ async def bodyfetcher(m, sub):
 
         body = None
 
-        if post.selftext and not post.permalink is post.url:
+        if post.selftext and post.permalink is not post.url:
             body = post.selftext
             title = post.title
 

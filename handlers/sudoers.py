@@ -201,7 +201,7 @@ async def broadcast(c: Client, m: Message):
                 success.append(chat.id)
             else:
                 fail.append(chat.id)
-        except:
+        except BaseException:
             fail.append(chat.id)
     await sm.edit_text(
         f"Anúncio feito com sucesso! Sua mensagem foi enviada em um total de <code>{len(success)}</code> grupos e falhou o envio em <code>{len(fail)}</code> grupos."
