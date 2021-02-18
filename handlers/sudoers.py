@@ -20,6 +20,7 @@ import traceback
 import asyncio
 
 from config import OWNER, SUDOERS, prefix
+from database import Chats
 from pyromod.helpers import ikb
 from pyrogram import Client, filters
 from pyrogram.types import Message, CallbackQuery
@@ -184,3 +185,24 @@ async def upgrade_cb(c: Client, cq: CallbackQuery):
 async def shutdown(c: Client, m: Message):
     await m.reply_text("Adeus...")
     sys.exit()
+
+
+@Client.on_message(filters.cmd("(broadcast|announcement) ") & filters.user(SUDOERS))
+async def broadcast(c: Client, m: Message):
+    sm = await m.reply_text("Fazendo seu anúncio...")
+    command = m.text.split()[0]
+    text = m.text[len(command) + 1 :]
+    chats = await Chats.all()
+    success = []
+    fail = []
+    for chat in chats:
+        try:
+            if await c.send_message(chat.id, text):
+                success.append(chat.id)
+            else:
+                fail.append(chat.id)
+        except:
+            fail.append(chat.id)
+    await sm.edit_text(
+        f"Anúncio feito com sucesso! Sua mensagem foi enviada em um total de <code>{len(success)}</code> grupos e falhou o envio em <code>{len(fail)}</code> grupos."
+    )
