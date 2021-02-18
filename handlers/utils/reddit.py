@@ -13,7 +13,6 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-import asyncpraw
 from asyncprawcore import exceptions as redex
 
 from utils import REDDIT
