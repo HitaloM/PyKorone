@@ -17,14 +17,14 @@ import spamwatch
 import asyncpraw
 from httpx import AsyncClient
 from google_trans_new import google_translator
-from config import SW_API, REDITT_SECRET, REDDIT_ID
+from config import SW_API, REDDIT_SECRET, REDDIT_ID
 
 translator = google_translator()
 
 http = AsyncClient(http2=True)
 
 REDDIT = asyncpraw.Reddit(
-    client_id=REDITT_SECRET, client_secret=REDITT_SECRET, user_agent="PyKorone"
+    client_id=REDDIT_ID, client_secret=REDDIT_SECRET, user_agent="PyKorone"
 )
 
 # SpamWatch

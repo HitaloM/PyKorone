@@ -14,5 +14,5 @@ prefix = ["/", "!"]
 
 # Extras
 SW_API = ""
-REDITT_SECRET = ""
+REDDIT_SECRET = ""
 REDDIT_ID = ""
