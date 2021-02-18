@@ -24,7 +24,15 @@ from kantex.html import Bold, KeyValueItem, Section
 from pyrogram import Client, filters
 from pyrogram.types import Message
 
-from utils import http
+from utils import REDDIT, http
+from handlers.utils.reddit import (
+    imagefetcherfallback,
+    titlefetcherfallback,
+    bodyfetcherfallback,
+    imagefetcher,
+    titlefetcher,
+    bodyfetcher,
+)
 from config import SUDOERS, OWNER, prefix
 from . import COMMANDS_HELP
 
@@ -179,3 +187,26 @@ async def bird_photo(c: Client, m: Message):
     r = await http.get("http://shibe.online/api/birds")
     bird = r.json()
     await m.reply_photo(bird[0], caption="🐦")
+
+
+@Client.on_message(
+    filters.cmd(
+        command="red(?P<type>.)?(\s(?P<search>.+))?",
+        action="Retorna tópicos do Reddit.",
+        group=GROUP,
+    )
+)
+async def redimg(c: Client, m: Message):
+    fetch_type = type = m.matches[0]["type"]
+    sub = m.matches[0]["search"]
+
+    if not sub:
+        await m.reply_text(f"<b>Use</b>: <code>/red(i|t|b) (nome do subreddit)</code>")
+        return
+
+    if fetch_type == "i":
+        await imagefetcher(m, sub)
+    elif fetch_type == "t":
+        await titlefetcher(m, sub)
+    elif fetch_type == "b":
+        await bodyfetcher(m, sub)

@@ -14,13 +14,18 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import spamwatch
+import asyncpraw
 from httpx import AsyncClient
 from google_trans_new import google_translator
-from config import SW_API
+from config import SW_API, REDITT_SECRET, REDDIT_ID
 
 translator = google_translator()
 
 http = AsyncClient(http2=True)
+
+REDDIT = asyncpraw.Reddit(
+    client_id=REDITT_SECRET, client_secret=REDITT_SECRET, user_agent="PyKorone"
+)
 
 # SpamWatch
 spamwatch_api = SW_API
@@ -32,12 +37,3 @@ else:
         sw = spamwatch.Client(spamwatch_api)
     except BaseException:
         sw = None
-
-
-def pretty_size(size):
-    units = ["B", "KB", "MB", "GB"]
-    unit = 0
-    while size >= 1024:
-        size /= 1024
-        unit += 1
-    return "%0.2f %s" % (size, units[unit])
