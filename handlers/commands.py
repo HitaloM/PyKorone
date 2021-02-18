@@ -24,15 +24,11 @@ from kantex.html import Bold, KeyValueItem, Section
 from pyrogram import Client, filters
 from pyrogram.types import Message
 
-from utils import REDDIT, http
+from utils import http
 from handlers.utils.reddit import (
-    imagefetcherfallback,
-    titlefetcherfallback,
-    bodyfetcherfallback,
     imagefetcher,
     titlefetcher,
-    bodyfetcher,
-)
+    bodyfetcher)
 from config import SUDOERS, OWNER, prefix
 from . import COMMANDS_HELP
 
