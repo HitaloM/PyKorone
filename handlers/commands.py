@@ -197,7 +197,7 @@ async def redimg(c: Client, m: Message):
     sub = m.matches[0]["search"]
 
     if not sub:
-        await m.reply_text(f"<b>Use</b>: <code>/red(i|t|b) (nome do subreddit)</code>")
+        await m.reply_text("<b>Use</b>: <code>/red(i|t|b) (nome do subreddit)</code>")
         return
 
     if fetch_type == "i":
