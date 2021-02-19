@@ -15,6 +15,8 @@
 
 from asyncprawcore import exceptions as redex
 
+from pyromod.helpers import ikb
+
 from utils import REDDIT
 
 VALID_ENDS = (".mp4", ".jpg", ".jpeg", "jpe", ".png", ".gif")
@@ -66,8 +68,10 @@ async def imagefetcher(m, sub):
         await m.reply_text(f"Não encontrei nenhum conteúdo válido em <b>r/{sub}</b>!")
         return
 
+    keyboard = ikb([[(f"r/{sub}", post.url, "url")]])
+
     try:
-        await m.reply_photo(image_url, caption=title)
+        await m.reply_photo(image_url, caption=title, reply_markup=keyboard)
     except BaseException:
         await m.reply_text(
             f"Falha ao baixar conteúdo de <b>r/{sub}</b>!\nTítulo: <b>{title}</b>\nURL: {image_url}"
@@ -90,7 +94,9 @@ async def titlefetcher(m, sub):
         await m.reply_text(f"Não encontrei nenhum conteúdo válido em <b>r/{sub}</b>!")
         return
 
-    await m.reply_text(post.title)
+    keyboard = ikb([[(f"r/{sub}", post.url, "url")]])
+
+    await m.reply_text(post.title, reply_markup=keyboard)
 
 
 async def bodyfetcher(m, sub):
@@ -118,7 +124,9 @@ async def bodyfetcher(m, sub):
         if not body:
             continue
 
-        await m.reply_text(f"<b>{title}</b>\n\n{body}")
+        keyboard = ikb([[(f"r/{sub}", post.url, "url")]])
+
+        await m.reply_text(f"<b>{title}</b>\n\n{body}", reply_markup=keyboard)
         return
 
     await m.reply_text(f"Não encontrei nenhum conteúdo válido em <b>r/{sub}</b>!")
