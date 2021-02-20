@@ -61,9 +61,9 @@ async def kick(c: Client, m: Message):
                 animation="CgACAgQAAx0ET2XwHwACWb1gCDScpSaFyoNgPa2Ag_yiRo61YQACPwIAAryMhFOFxHV09aPBTR4E",
                 quote=True,
             )
-        except BaseException:
+        except BaseException as e:
             return await m.reply_text(
-                "Eu n-não consegui remover este usuário! >-<\n<b>Erro:</b> <code>{e}</code>"
+                f"Eu n-não consegui remover este usuário! >-<\n<b>Erro:</b> <code>{e}</code>"
             )
     else:
         await m.reply_text("Bakayarou! Você não é um administrador...")
