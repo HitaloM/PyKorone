@@ -47,6 +47,12 @@ async def dice(c: Client, m: Message):
 )
 async def kick(c: Client, m: Message):
     member = await c.get_chat_member(chat_id=m.chat.id, user_id=m.from_user.id)
+
+    if member.can_restrict_members is False:
+        return await m.reply_text(
+            "Você não possui a permissão para banir usuários neste grupo!"
+        )
+
     if member.status in ["administrator", "creator"]:
         try:
             await c.kick_chat_member(m.chat.id, m.reply_to_message.from_user.id)
@@ -59,6 +65,8 @@ async def kick(c: Client, m: Message):
             return await m.reply_text(
                 "Eu n-não consegui remover este usuário! >-<\n<b>Erro:</b> <code>{e}</code>"
             )
+    else:
+        await m.reply_text("Bakayarou! Você não é um administrador...")
 
 
 @Client.on_message(filters.int(filter=r"Korone, me d(ê|e) um cookie", group=GROUP))
