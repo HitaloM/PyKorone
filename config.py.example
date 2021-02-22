@@ -1,18 +1,23 @@
 # Bot token from Bot Father
-TOKEN = ""
+TOKEN = "TOKEN_HERE"
 
-# Your API ID and API HASH from https://my.telegram.org/apps
+# Your API ID and API HASH
+# Get it from https://my.telegram.org/apps
 API_ID = 123123
 API_HASH = ""
 
-# Sudoers (to use some special commands)
+# Sudoers IDs (to use some special commands)
 OWNER = 918317361
 SUDOERS = [918317361]
 
-# Prefixes for commands, e.g: /dev and !dev
+# Prefixes for commands, e.g: /start and !start
 prefix = ["/", "!"]
 
-# Extras
+# SpamWatch API used for automatic bans
+# Get it from https:/t.me/SpamWatchBot
 SW_API = ""
+
+# Required to use Reddit-related commands
+# Get it from https://www.reddit.com/prefs/apps
 REDDIT_SECRET = ""
 REDDIT_ID = ""
