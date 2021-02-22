@@ -1,7 +1,7 @@
 pyrogram==1.1.13
 tgcrypto==1.2.2
 pyromod==1.5
-rich==9.11.0
+rich==9.11.1
 tortoise-orm==0.16.21
 pillow==8.1.0
 httpx[http2]==0.16.1
