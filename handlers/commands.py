@@ -24,7 +24,7 @@ from kantex.html import Bold, KeyValueItem, Section
 from pyrogram import Client, filters
 from pyrogram.types import Message
 
-from utils import http
+from utils import http, pretty_size
 from handlers.utils.reddit import imagefetcher, titlefetcher, bodyfetcher
 from config import SUDOERS, OWNER, prefix
 from . import COMMANDS_HELP
@@ -109,6 +109,31 @@ async def copy(c: Client, m: Message):
         )
     except BaseException:
         return
+
+
+@Client.on_message(
+    filters.cmd(
+        command="file",
+        action="Obtenha informações avançadas de um arquivo.",
+    )
+    & filters.reply
+)
+async def file_debug(c: Client, m: Message):
+    doc = m.reply_to_message.document
+
+    if not doc:
+        return await m.reply_text("Este comando funciona apenas com arquivos!")
+
+    file_date = datetime.utcfromtimestamp(doc.date).strftime("%Y-%m-%d %H:%M:%S")
+
+    text = f"<b>file_name</b>: <code>{doc.file_name}</code>\n"
+    text += f"\n<b>file_id</b>: <code>{doc.file_id}</code>"
+    text += f"\n<b>file_unique_id</b>: <code>{doc.file_unique_id}</code>"
+    text += f"\n<b>file_size</b>: <code>{pretty_size(doc.file_size)}</code>"
+    text += f"\n<b>date</b>: <code>{file_date}</code>"
+    text += f"\n<b>mime_type</b>: <code>{doc.mime_type}</code>"
+
+    await m.reply_text(text)
 
 
 @Client.on_message(

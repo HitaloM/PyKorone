@@ -37,3 +37,12 @@ else:
         sw = spamwatch.Client(spamwatch_api)
     except BaseException:
         sw = None
+
+
+def pretty_size(size):
+    units = ["B", "KB", "MB", "GB"]
+    unit = 0
+    while size >= 1024:
+        size /= 1024
+        unit += 1
+    return "%0.2f %s" % (size, units[unit])

@@ -12,11 +12,11 @@ An interaction and fun bot for Telegram groups, having some useful and other use
 
 # Setup
 
-- Clone this repository with 'git clone https://github.com/AmanoTeam/PyKorone'
+- Clone this repository with `git clone https://github.com/AmanoTeam/PyKorone`
 - Go to https://my.telegram.org/apps and create a new app to get your API ID and API HASH.
 - Now create a copy of the `config.py.example` file with the command 'cp config.py.example config.py'
 - Finally fill in all the required fields in the `config.py` (you can see everything well explained in the `config.py.example` file)
-- Now to run the bot use 'python3 bot.py'
+- Now to run the bot use `python3 bot.py`
 
 # Special thanks
 
