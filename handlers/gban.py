@@ -75,7 +75,7 @@ async def gban_user(c: Client, m: Message, field: str):
         except BaseException:
             pass
     else:
-        sent = await m.reply_text(text="Initializing the global ban...")
+        sent = await m.reply_text("Initializing the global ban...")
 
     users = []
     chats_banned = []
@@ -165,11 +165,11 @@ async def gban_user(c: Client, m: Message, field: str):
             )
         )
     if not silent:
-        await sent.edit_text(text=doc)
+        await sent.edit_text(doc)
 
 
 async def ungban_user(c: Client, m: Message, _users: List[Union[str, int]]):
-    sent = await m.reply_text(text="Initializing the global unban...")
+    sent = await m.reply_text("Initializing the global unban...")
 
     chats_unbanned = []
     users = []
@@ -249,4 +249,4 @@ async def ungban_user(c: Client, m: Message, _users: List[Union[str, int]]):
                 KeyValueItem(Bold("Chats unbanneds"), Code(chats_unbanned)),
             )
         )
-    await sent.edit_text(text=doc)
+    await sent.edit_text(doc)

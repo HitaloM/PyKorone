@@ -50,7 +50,7 @@ async def koto(c: Client, m: Message):
     )
 
 
-@Client.on_message(filters.int(filter=r"(sexo|sex)", group=GROUP))
+@Client.on_message(filters.int(filter=r"(sexo+|sex)", group=GROUP))
 async def sexo(c: Client, m: Message):
     await c.send_sticker(
         chat_id=m.chat.id,
