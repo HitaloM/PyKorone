@@ -16,7 +16,7 @@
 import io
 import time
 import jikanpy
-import aioanilist
+from jikanpy import AioJikan
 
 from pyromod.helpers import ikb
 from pyrogram import Client, filters
@@ -182,8 +182,11 @@ async def anilist_manga(c: Client, m: Message):
     )
 )
 async def mal_upcoming(c: Client, m: Message):
-    jikan = jikanpy.jikan.Jikan()
-    upcoming = jikan.top("anime", page=1, subtype="upcoming")
+    async with AioJikan() as jikan:
+        pass
+
+    upcoming = await jikan.top("anime", page=1, subtype="upcoming")
+    await jikan.close()
 
     upcoming_list = [entry["title"] for entry in upcoming["top"]]
     upcoming_message = "<b>Próximos animes:</b>\n"
