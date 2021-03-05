@@ -15,7 +15,7 @@
 
 import io
 import time
-import jikanpy
+import aioanilist
 from jikanpy import AioJikan
 
 from pyromod.helpers import ikb

@@ -28,6 +28,7 @@ from handlers.utils.random import (
     IMBACK_REACT,
     GODZILLA_REACT,
     THONKI,
+    REACTS,
 )
 from handlers import COMMANDS_HELP
 
@@ -70,6 +71,11 @@ async def yee(c: Client, m: Message):
     await m.reply_text("o(≧∇≦)o")
 
 
+@Client.on_message(filters.int(filter=r"eu concordo", group=GROUP))
+async def disagree(c: Client, m: Message):
+    await m.reply_text("Eu discordo...")
+
+
 @Client.on_message(filters.int(filter=r"(t(o|ô) de volta|voltei)", group=GROUP))
 async def voltei(c: Client, m: Message):
     react = random.choice(IMBACK_REACT)
@@ -105,6 +111,24 @@ async def rip(c: Client, m: Message):
 @Client.on_message(filters.int(filter=r"f", group=GROUP))
 async def press_f(c: Client, m: Message):
     await m.reply_text("F")
+
+
+@Client.on_message(filters.int(filter=r"bom dia", group=GROUP))
+async def good_morning(c: Client, m: Message):
+    react = random.choice(REACTS)
+    await m.reply_text("Bom dia! " + react)
+
+
+@Client.on_message(filters.int(filter=r"boa noite", group=GROUP))
+async def good_night(c: Client, m: Message):
+    react = random.choice(REACTS)
+    await m.reply_text("Boa noite! " + react)
+
+
+@Client.on_message(filters.int(filter=r"kkkk+", group=GROUP))
+async def grr(c: Client, m: Message):
+    react = random.choice(AYY_REACT)
+    await m.reply_text(react)
 
 
 @Client.on_message(filters.int(filter=r"python", group=GROUP))
