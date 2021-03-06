@@ -14,6 +14,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import io
+import httpx
 import random
 
 import rapidjson as json
@@ -22,7 +23,6 @@ from pyrogram import Client, filters
 from pyrogram.types import Message
 from pyromod.helpers import ikb
 
-from utils import http, translator
 from handlers.utils.random import CATCH_REACT, HELLO, REACTIONS
 from . import COMMANDS_HELP
 
@@ -115,34 +115,35 @@ async def catch_him(c: Client, m: Message):
 
 @Client.on_message(filters.int(filter=r"Korone, (me )?conte uma piada", group=GROUP))
 async def dadjoke(c: Client, m: Message):
-    response = await http.get(
-        "https://icanhazdadjoke.com/", headers={"Accept": "application/json"}
-    )
+    async with httpx.AsyncClient(http2=True) as http:
+        response = await http.get(
+            "https://icanhazdadjoke.com/", headers={"Accept": "application/json"}
+        )
 
-    if response.status_code == 200:
-        dad_joke = (response.json())["joke"]
-    else:
-        await m.reply_text(f"Erro! <code>{response.status_code}</code>")
-        return
-
+        if response.status_code == 200:
+            dad_joke = (response.json())["joke"]
+        else:
+            await m.reply_text(f"Erro! <code>{response.status_code}</code>")
+            return
+    await http.aclose()
     await m.reply_text(dad_joke)
 
 
 @Client.on_message(filters.int(filter=r"Korone, (me )?conte um fato", group=GROUP))
 async def useless_fact(c: Client, m: Message):
-    response = await http.get(
-        "https://uselessfacts.jsph.pl/random.json", params={"language": "en"}
-    )
+    async with httpx.AsyncClient(http2=True) as http:
+        response = await http.get(
+            "https://uselessfacts.jsph.pl/random.json", params={"language": "en"}
+        )
 
-    if response.status_code == 200:
-        fact_text = (response.json())["text"].replace("`", "'")
-    else:
-        await m.reply_text(f"Erro! <code>{response.status_code}</code>")
-        return
+        if response.status_code == 200:
+            fact_text = (response.json())["text"].replace("`", "'")
+        else:
+            await m.reply_text(f"Erro! <code>{response.status_code}</code>")
+            return
 
-    fact_text_pt = translator.translate(fact_text, lang_tgt="pt")
-
-    await m.reply_text(fact_text_pt)
+    await http.aclose()
+    await m.reply_text(fact_text)
 
 
 @Client.on_message(filters.int(filter=r"Korone", group=GROUP))

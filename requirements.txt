@@ -10,7 +10,6 @@ KanTeX==0.2.0
 spamwatch==0.3.0
 search-engine-parser==0.6.2
 meval==2.5
-google-trans-new==1.1.9
 wikipedia-api==0.5.4
 cowpy==1.1.0
 jikanpy==4.3.1

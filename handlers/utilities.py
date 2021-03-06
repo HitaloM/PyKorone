@@ -13,7 +13,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-import requests
+import httpx
 import html
 import re
 import io
@@ -23,7 +23,6 @@ from search_engine_parser import GoogleSearch, BingSearch
 from pyrogram import Client, filters
 from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton, Message
 
-from utils import http
 from . import COMMANDS_HELP
 
 GROUP = "utils"
@@ -57,7 +56,9 @@ def escape_definition(definition):
 )
 async def pypi(c: Client, m: Message):
     text = m.matches[0]["search"]
-    r = await http.get(f"https://pypi.org/pypi/{text}/json")
+    async with httpx.AsyncClient(http2=True) as http:
+        r = await http.get(f"https://pypi.org/pypi/{text}/json")
+        http.aclose
     if r.status_code == 200:
         json = r.json()
         pypi_info = escape_definition(json["info"])
@@ -172,19 +173,21 @@ async def bing(c: Client, m: Message):
 async def cb_sticker(c: Client, m: Message):
     args = m.matches[0]["search"]
 
-    text = requests.get("https://combot.org/telegram/stickers?q=" + args).text
-    soup = bs(text, "lxml")
+    async with httpx.AsyncClient(http2=True) as http:
+        r = await http.get("https://combot.org/telegram/stickers?page=1&q=" + args)
+        await http.aclose()
+    soup = bs(r.text, "lxml")
     results = soup.find_all("a", {"class": "sticker-pack__btn"})
     titles = soup.find_all("div", "sticker-pack__title")
     if not results:
         await m.reply_text("Nenhum resultado encontrado!")
         return
 
-    reply = f"Stickers for <b>{args}</b>:"
+    text = f"Stickers de <b>{args}</b>:"
     for result, title in zip(results, titles):
         link = result["href"]
-        reply += f"\n - <a href='{link}'>{title.get_text()}</a>"
-    await m.reply_text(reply, disable_web_page_preview=True)
+        text += f"\n - <a href='{link}'>{title.get_text()}</a>"
+    await m.reply_text(text, disable_web_page_preview=True)
 
 
 @Client.on_message(

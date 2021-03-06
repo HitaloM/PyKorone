@@ -15,6 +15,7 @@
 
 import io
 import time
+import httpx
 import aioanilist
 from jikanpy import AioJikan
 
@@ -23,7 +24,6 @@ from pyrogram import Client, filters
 from pyrogram.types import Message
 from PIL import Image
 
-from utils import http
 from . import COMMANDS_HELP
 
 GROUP = "animes"
@@ -215,30 +215,34 @@ async def poke_image(c: Client, m: Message):
 
     type = (type if type in types else "front") + "_"
     type += "_".join(args[1:]) if len(args) > 1 else "default"
-    r = await http.get("https://pokeapi.co/api/v2/pokemon/" + args[0])
-    if r.status_code == 200:
-        sprites = (r.json())["sprites"]
-        if type in sprites:
-            sprite_url = sprites[type]
+    async with httpx.AsyncClient(http2=True) as http:
+        r = await http.get("https://pokeapi.co/api/v2/pokemon/" + args[0])
+        await http.aclose()
+        if r.status_code == 200:
+            sprites = (r.json())["sprites"]
+            if type in sprites:
+                sprite_url = sprites[type]
+            else:
+                await m.reply_text(
+                    f"<code>Error! Tipo \"{' '.join(args[1:])}\" não encontrado!</code>"
+                )
+                return
         else:
-            await m.reply_text(
-                f"<code>Error! Tipo \"{' '.join(args[1:])}\" não encontrado!</code>"
-            )
+            await m.reply_text(f"<b>Error!</b>\n<code>{r.status_code}</code>")
             return
-    else:
-        await m.reply_text(f"<b>Error!</b>\n<code>{r.status_code}</code>")
-        return
 
     if not sprite_url:
         await m.reply_text("Esse Pokémon não tem um sprite disponível!")
         return
 
-    r = await http.get(sprite_url)
-    if r.status_code == 200:
-        sprite_io = r.read()
-    else:
-        await m.reply_text(f"<b>Error!</b>\n<code>{r.status_code}</code>")
-        return
+    async with httpx.AsyncClient(http2=True) as http:
+        r = await http.get(sprite_url)
+        await http.aclose()
+        if r.status_code == 200:
+            sprite_io = r.read()
+        else:
+            await m.reply_text(f"<b>Error!</b>\n<code>{r.status_code}</code>")
+            return
 
     await m.reply_document(document=pokemon_image_sync(sprite_io))
 
@@ -255,29 +259,33 @@ async def poke_item_image(c: Client, m: Message):
     args = text.split()
 
     type = "_".join(args[1:]) if len(args) > 1 else "default"
-    r = await http.get("https://pokeapi.co/api/v2/item/" + args[0])
-    if r.status_code == 200:
-        sprites = (r.json())["sprites"]
-        if type in sprites:
-            sprite_url = sprites[type]
+    async with httpx.AsyncClient(http2=True) as http:
+        r = await http.get("https://pokeapi.co/api/v2/item/" + args[0])
+        await http.aclose()
+        if r.status_code == 200:
+            sprites = (r.json())["sprites"]
+            if type in sprites:
+                sprite_url = sprites[type]
+            else:
+                await m.reply_text(
+                    f"<code>Error! Tipo \"{' '.join(args[1:])}\" não encontrado!</code>"
+                )
         else:
-            await m.reply_text(
-                f"<code>Error! Tipo \"{' '.join(args[1:])}\" não encontrado!</code>"
-            )
-    else:
-        await m.reply_text(f"<b>Error!</b>\n<code>{r.status_code}</code>")
-        return
+            await m.reply_text(f"<b>Error!</b>\n<code>{r.status_code}</code>")
+            return
 
     if not sprite_url:
         await m.reply_text("Esse item Pokémon não tem um sprite disponível!")
         return
 
-    r = await http.get(sprite_url)
-    if r.status_code == 200:
-        sprite_io = r.read()
-    else:
-        await m.reply_text(f"<b>Error!</b>\n<code>{r.status_code}</code>")
-        return
+    async with httpx.AsyncClient(http2=True) as http:
+        r = await http.get(sprite_url)
+        await http.aclose()
+        if r.status_code == 200:
+            sprite_io = r.read()
+        else:
+            await m.reply_text(f"<b>Error!</b>\n<code>{r.status_code}</code>")
+            return
 
     await m.reply_document(document=pokemon_image_sync(sprite_io))
 

@@ -14,6 +14,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import html
+import httpx
 import platform
 from datetime import datetime
 
@@ -24,7 +25,7 @@ from kantex.html import Bold, KeyValueItem, Section
 from pyrogram import Client, filters
 from pyrogram.types import Message
 
-from utils import http, pretty_size
+from utils import pretty_size
 from handlers.utils.reddit import imagefetcher, titlefetcher, bodyfetcher
 from config import SUDOERS, OWNER, prefix
 from . import COMMANDS_HELP
@@ -170,8 +171,10 @@ async def dev(c: Client, m: Message):
 
 @Client.on_message(filters.cmd(command="cat", action="Imagens aleatórias de gatos."))
 async def cat_photo(c: Client, m: Message):
-    r = await http.get("https://api.thecatapi.com/v1/images/search")
-    cat = r.json
+    async with httpx.AsyncClient(http2=True) as http:
+        r = await http.get("https://api.thecatapi.com/v1/images/search")
+        cat = r.json
+    await http.aclose()
     await m.reply_photo(cat()[0]["url"], caption="Meow!! (^つωฅ^)")
 
 
@@ -179,22 +182,28 @@ async def cat_photo(c: Client, m: Message):
     filters.cmd(command="dog", action="Imagens aleatórias de cachorros.")
 )
 async def dog_photo(c: Client, m: Message):
-    r = await http.get("https://random.dog/woof.json")
-    dog = r.json()
+    async with httpx.AsyncClient(http2=True) as http:
+        r = await http.get("https://random.dog/woof.json")
+        dog = r.json()
+    await http.aclose()
     await m.reply_photo(dog["url"], caption="Woof!! U・ᴥ・U")
 
 
 @Client.on_message(filters.cmd(command="fox", action="Imagens aleatórias de raposas."))
 async def fox_photo(c: Client, m: Message):
-    r = await http.get("https://some-random-api.ml/img/fox")
-    fox = r.json()
+    async with httpx.AsyncClient(http2=True) as http:
+        r = await http.get("https://some-random-api.ml/img/fox")
+        fox = r.json()
+    await http.aclose()
     await m.reply_photo(fox["link"], caption="What the fox say?")
 
 
 @Client.on_message(filters.cmd(command="panda", action="Imagens aleatórias de pandas."))
 async def panda_photo(c: Client, m: Message):
-    r = await http.get("https://some-random-api.ml/img/panda")
-    panda = r.json()
+    async with httpx.AsyncClient(http2=True) as http:
+        r = await http.get("https://some-random-api.ml/img/panda")
+        panda = r.json()
+    await http.aclose()
     await m.reply_photo(panda["link"], caption="🐼")
 
 
@@ -202,8 +211,10 @@ async def panda_photo(c: Client, m: Message):
     filters.cmd(command="bird", action="Imagens aleatórias de pássaros.")
 )
 async def bird_photo(c: Client, m: Message):
-    r = await http.get("http://shibe.online/api/birds")
-    bird = r.json()
+    async with httpx.AsyncClient(http2=True) as http:
+        r = await http.get("http://shibe.online/api/birds")
+        bird = r.json()
+    await http.aclose()
     await m.reply_photo(bird[0], caption="🐦")
 
 
