@@ -160,3 +160,4 @@ async def random_react(c: Client, m: Message):
         react = random.choice(react)
 
     await m.reply_text(react, quote=False)
+    m.continue_propagation()
