@@ -1,4 +1,5 @@
 # This file is part of Korone (Telegram Bot)
+# Copyright (C) 2021 AmanoTeam
 
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as
@@ -15,7 +16,6 @@
 
 import spamwatch
 import asyncpraw
-from google_trans_new import google_translator
 from config import SW_API, REDDIT_SECRET, REDDIT_ID
 
 REDDIT = asyncpraw.Reddit(
