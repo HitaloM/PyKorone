@@ -23,12 +23,17 @@ from . import COMMANDS_HELP
 
 help_text = "Por favor, selecione uma categoria para obter ajuda!"
 
+start_text = (
+    "Oi, eu sou o <b>Korone</b>, um bot interativo que adora participar de grupos!"
+)
+
 about_text = """
-🚮 <b>PyKorone</b> é um bot criado por diversão para o grupo <b>Spam-Therapy</b>. Seu foco é trazer funções legais e um design funcional com tecnologia e criatividade.
+🚮 <b>PyKorone</b> é um bot criado por diversão para o grupo <b>Spam-Therapy</b>.
+Seu foco é trazer funções legais e um design funcional com tecnologia e criatividade.
 
-📦 Powered by <a href='https://docs.pyrogram.org/'>Pyrogram</a> with <a href='https://github.com/usernein/pyromod'>Pyromod</a>.
+📦 Alimentado por <a href='https://docs.pyrogram.org/'>Pyrogram</a> com <a href='https://github.com/usernein/pyromod'>Pyromod</a>.
 
-🗂 <b>Links:</b> <a href='https://github.com/HitaloSama/PyKorone'>GitHub</a> | <a href='https://t.me/SpamTherapy'>Chat</a>
+🗂 <b>Links:</b> <a href='https://github.com/AmanoTeam/PyKorone'>GitHub</a> | <a href='https://t.me/SpamTherapy'>Chat</a>
 """
 
 
@@ -50,10 +55,7 @@ async def start(c: Client, m: Message):
             await help_module(m, module)
     else:
         keyboard = []
-        text = (
-            "Oi, eu sou o <b>Korone</b>, um bot interativo "
-            "que adora participar de grupos!\n"
-        )
+        text = start_text
         if m.chat.type == "private":
             keyboard.append([("📚 Ajuda", "help_cb"), ("ℹ️ Sobre", "about")])
             keyboard.append([("👥 Grupo Off-Topic", "https://t.me/SpamTherapy", "url")])
@@ -190,8 +192,4 @@ async def start_back(c: Client, m: CallbackQuery):
             [("👥 Grupo Off-Topic", "https://t.me/SpamTherapy", "url")],
         ]
     )
-    await m.message.edit_text(
-        "Oi, eu sou o <b>Korone</b>, um bot interativo "
-        "que adora participar de grupos!",
-        reply_markup=keyboard,
-    )
+    await m.message.edit_text(start_text, reply_markup=keyboard)
