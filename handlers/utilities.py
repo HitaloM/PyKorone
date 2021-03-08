@@ -168,6 +168,35 @@ async def bing(c: Client, m: Message):
 
 @Client.on_message(
     filters.cmd(
+        command="cleanup",
+        action="Banir contas excluídas do grupo.",
+        group=GROUP,
+    )
+)
+async def cleanup(c: Client, m: Message):
+    member = await c.get_chat_member(chat_id=m.chat.id, user_id=m.from_user.id)
+
+    if member.status in ["administrator", "creator"]:
+        async for t in c.iter_chat_members(chat_id=m.chat.id):
+            if t.user.is_deleted:
+                text = await m.reply_text("Iniciando limpeza...")
+                try:
+                    await c.kick_chat_member(m.chat.id, t.user.id)
+                    await m.chat.unban_member(t.user.id)
+                except BaseException:
+                    return await m.reply_text(
+                        f"Eu n-não consegui remover algum usuário! >-<."
+                    )
+                await text.edit("Removi todas as contas excluídas do grupo!")
+            else:
+                await m.reply_text("Não há contas excluídas no grupo!")
+                return
+    else:
+        await m.reply_text("Bakayarou! Você não é um administrador...")
+
+
+@Client.on_message(
+    filters.cmd(
         command="stickers (?P<search>.+)", action="Pesquise stickers.", group=GROUP
     )
 )
