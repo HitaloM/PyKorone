@@ -3,7 +3,7 @@ tgcrypto==1.2.2
 pyromod==1.5
 rich==9.12.4
 tortoise-orm==0.16.21
-pillow==8.1.1
+pillow==8.1.2
 httpx[http2]==0.17.0
 python-rapidjson==1.0
 KanTeX==0.2.0
