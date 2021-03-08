@@ -177,20 +177,21 @@ async def cleanup(c: Client, m: Message):
     member = await c.get_chat_member(chat_id=m.chat.id, user_id=m.from_user.id)
 
     if member.status in ["administrator", "creator"]:
-        text = await m.reply_text("Iniciando limpeza...")
+        deleted = []
+        sent = await m.reply_text("Iniciando limpeza...")
         async for t in c.iter_chat_members(chat_id=m.chat.id, filter="all"):
             if t.user.is_deleted:
                 try:
                     await c.kick_chat_member(m.chat.id, t.user.id)
-                    await m.chat.unban_member(t.user.id)
+                    deleted.append(t)
                 except BaseException:
-                    return await m.reply_text(
+                    return await sent.edit_text(
                         f"Eu n-não consegui remover algum usuário! >-<."
                     )
-                await text.edit("Removi todas as contas excluídas do grupo!")
-            else:
-                await text.edit("Não há contas excluídas no grupo!")
-                return
+        if len(deleted) > 0:
+            await sent.edit_text("Removi todas as contas excluídas do grupo!")
+        else:
+            await sent.edit_text("Não há contas excluídas no grupo!")
     else:
         await m.reply_text("Bakayarou! Você não é um administrador...")
 
