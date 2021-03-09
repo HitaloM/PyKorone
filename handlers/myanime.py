@@ -17,7 +17,7 @@
 import io
 import time
 import httpx
-import aioanilist
+import anilist
 from jikanpy import AioJikan
 
 from pyromod.helpers import ikb
@@ -48,32 +48,35 @@ async def anilist_anime(c: Client, m: Message):
     query = m.matches[0]["search"]
 
     try:
-        async with aioanilist.Client() as client:
-            results = await client.search("anime", query, limit=5)
-            anime = await client.get("anime", results[0].id)
+        async with anilist.AsyncClient() as client:
+            results = await client.search(query, "anime", 1)
+            anime = await client.get(results[0].id, "anime")
     except IndexError:
         return await m.reply_text(
             "Algo deu errado, verifique sua pesquisa e tente novamente!"
         )
 
-    d = anime.description
-    if len(d) > 700:
-        d_short = d[0:500] + "..."
-        desc = f"<b>Descrição:</b> {d_short}"
+    if len(anime.description) > 700:
+        desc = f"<b>Descrição:</b> <i>{anime.description_short}</i>..."
     else:
-        desc = f"<b>Descrição:</b> {d}"
+        desc = f"<b>Descrição:</b> <i>{anime.description}</i>"
 
     text = f"<b>{anime.title.romaji}</b> (<code>{anime.title.native}</code>)\n"
     text += f"<b>Tipo:</b> <code>{anime.format}</code>\n"
-    text += f"<b>Status:</b> <code>{anime.status}</code>\n"
-    text += f"<b>Episódios:</b> <code>{anime.episodes}</code>\n"
-    text += f"<b>Duração:</b> <code>{anime.duration}</code> Por Ep.\n"
-    text += f"<b>Pontuação:</b> <code>{anime.score.average}</code>\n"
-    text += f"<b>Gêneros:</b> <code>{', '.join(str(x) for x in anime.genres)}</code>\n"
-    studio = "".join(i.name + ", " for i in anime.studios.nodes)
-    if len(studio) > 0:
-        studio = studio[:-2]
-    text += f"<b>Estúdios:</b> <code>{studio}</code>\n"
+    if hasattr(anime, "status"):
+        text += f"<b>Status:</b> <code>{anime.status}</code>\n"
+    if hasattr(anime, "episodes"):
+        text += f"<b>Episódios:</b> <code>{anime.episodes}</code>\n"
+    if hasattr(anime, "duration"):
+        text += f"<b>Duração:</b> <code>{anime.duration}</code> Por Ep.\n"
+    if hasattr(anime.score, "average"):
+        text += f"<b>Pontuação:</b> <code>{anime.score.average}</code>\n"
+    if hasattr(anime, "genres"):
+        text += (
+            f"<b>Gêneros:</b> <code>{', '.join(str(x) for x in anime.genres)}</code>\n"
+        )
+    if hasattr(anime, "studios"):
+        text += f"<b>Estúdios:</b> <code>{', '.join(str(x) for x in anime.studios)}</code>\n"
     text += f"\n{desc}"
 
     keyboard = [[("Mais Info", anime.url, "url")]]
@@ -101,9 +104,9 @@ async def anilist_airing(c: Client, m: Message):
     query = m.matches[0]["search"]
 
     try:
-        async with aioanilist.Client() as client:
-            results = await client.search("anime", query, limit=5)
-            anime = await client.get("anime", results[0].id)
+        async with anilist.AsyncClient() as client:
+            results = await client.search(query, "anime", 1)
+            anime = await client.get(results[0].id, "anime")
     except IndexError:
         return await m.reply_text(
             "Algo deu errado, verifique sua pesquisa e tente novamente!"
@@ -112,14 +115,14 @@ async def anilist_airing(c: Client, m: Message):
     text = f"<b>{anime.title.romaji}</b> (<code>{anime.title.native}</code>)\n"
     text += f"<b>ID:</b> <code>{anime.id}</code>\n"
     text += f"<b>Tipo:</b> <code>{anime.format}</code>\n"
-    if anime.next_airing:
+    if hasattr(anime, "next_airing"):
         text += f"<b>Episódio:</b> <code>{anime.next_airing.episode}</code>\n"
         text += f"<b>No ar em:</b> <code>{time.strftime('%H:%M:%S - %d/%m/%Y', time.localtime(anime.next_airing.at))}</code>"
     else:
         text += f"<b>Episódio:</b> <code>{anime.episodes}</code>\n"
         text += "<b>No ar em:</b> <code>N/A</code>"
 
-    if anime.banner:
+    if hasattr(anime, "banner"):
         await m.reply_photo(photo=anime.banner, caption=text)
     else:
         await m.reply_text(text)
@@ -136,43 +139,43 @@ async def anilist_manga(c: Client, m: Message):
     query = m.matches[0]["search"]
 
     try:
-        async with aioanilist.Client() as client:
-            results = await client.search("manga", query, limit=5)
-            manga = await client.get("manga", results[0].id)
+        async with anilist.AsyncClient() as client:
+            results = await client.search(query, "manga", 1)
+            manga = await client.get(results[0].id, "manga")
     except IndexError:
         return await m.reply_text(
             "Algo deu errado, verifique sua pesquisa e tente novamente!"
         )
 
-    d = manga.description
-    if len(d) > 700:
-        d_short = d[0:500] + "..."
-        desc = f"<b>Descrição:</b> {d_short}"
+    if len(manga.description) > 700:
+        desc = f"<b>Descrição:</b> <i>{manga.description_short}</i>..."
     else:
-        desc = f"<b>Descrição:</b> {d}"
+        desc = f"<b>Descrição:</b> <i>{manga.description}</i>"
 
     text = f"<b>{manga.title.romaji}</b> (<code>{manga.title.native}</code>)\n"
-    if manga.start_date.year:
+    if hasattr(manga.start_date, "year"):
         text += f"<b>Início:</b> <code>{manga.start_date.year}</code>\n"
-    text += f"<b>Status:</b> <code>{manga.status}</code>\n"
-    if manga.chapters:
+    if hasattr(manga, "status"):
+        text += f"<b>Status:</b> <code>{manga.status}</code>\n"
+    if hasattr(manga, "chapters"):
         text += f"<b>Capítulos:</b> <code>{manga.chapters}</code>\n"
-    if manga.volumes:
+    if hasattr(manga, "chapters"):
         text += f"<b>Volumes:</b> <code>{manga.volumes}</code>\n"
-    text += f"<b>Pontuação:</b> <code>{manga.score.average}</code>\n"
-    text += f"<b>Gêneros:</b> <code>{', '.join(str(x) for x in manga.genres)}</code>\n"
+    if hasattr(manga.score, "average"):
+        text += f"<b>Pontuação:</b> <code>{manga.score.average}</code>\n"
+    if hasattr(manga, "genres"):
+        text += (
+            f"<b>Gêneros:</b> <code>{', '.join(str(x) for x in manga.genres)}</code>\n"
+        )
     text += f"\n{desc}"
 
     keyboard = [[("Mais Info", manga.url, "url")]]
 
-    if manga.banner:
-        await m.reply_photo(
-            photo=f"https://img.anili.st/media/{manga.id}",
-            caption=text,
-            reply_markup=ikb(keyboard),
-        )
-    else:
-        await m.reply_text(text)
+    await m.reply_photo(
+        photo=f"https://img.anili.st/media/{manga.id}",
+        caption=text,
+        reply_markup=ikb(keyboard),
+    )
 
 
 @Client.on_message(
