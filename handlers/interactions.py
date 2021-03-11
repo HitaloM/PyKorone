@@ -36,7 +36,7 @@ COMMANDS_HELP[GROUP] = {
     filters.int(filter=r"(Quem te criou|Quem criou voc(ê|e))", group=GROUP)
 )
 async def my_creator(c: Client, m: Message):
-    text = "Meu criador é o @Hitalo ^^"
+    text = "Meu criador se chama Hitalo ^^"
 
     if m.chat.type == "private":
         await m.reply_text(text)
@@ -117,7 +117,7 @@ async def insult(c: Client, m: Message):
         return
 
 
-@Client.on_message(filters.int(filter=r"(Como vai|Tudo bem)", group=GROUP))
+@Client.on_message(filters.int(filter=r"como vai", group=GROUP))
 async def all_right(c: Client, m: Message):
     react = random.choice(WHATSUP_REACT)
 
@@ -130,7 +130,7 @@ async def all_right(c: Client, m: Message):
         return
 
 
-@Client.on_message(filters.int(filter=r"Tudo bem Korone", group=GROUP))
+@Client.on_message(filters.int(filter=r"Korone, tudo bem", group=GROUP))
 async def all_right_list(c: Client, m: Message):
     try:
         answer = await m.chat.ask(
