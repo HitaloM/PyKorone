@@ -72,11 +72,6 @@ async def yee(c: Client, m: Message):
     await m.reply_text("o(≧∇≦)o")
 
 
-@Client.on_message(filters.int(filter=r"eu concordo", group=GROUP))
-async def disagree(c: Client, m: Message):
-    await m.reply_text("Eu discordo...")
-
-
 @Client.on_message(filters.int(filter=r"(t(o|ô) de volta|voltei)", group=GROUP))
 async def voltei(c: Client, m: Message):
     react = random.choice(IMBACK_REACT)
@@ -127,7 +122,7 @@ async def good_night(c: Client, m: Message):
 
 
 @Client.on_message(filters.int(filter=r"kkkk+", group=GROUP))
-async def grr(c: Client, m: Message):
+async def kkkk(c: Client, m: Message):
     react = random.choice(AYY_REACT)
     await m.reply_text(react)
 
