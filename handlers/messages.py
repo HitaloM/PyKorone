@@ -121,12 +121,6 @@ async def good_night(c: Client, m: Message):
     await m.reply_text("Boa noite! " + react)
 
 
-@Client.on_message(filters.int(filter=r"kkkk+", group=GROUP))
-async def kkkk(c: Client, m: Message):
-    react = random.choice(AYY_REACT)
-    await m.reply_text(react)
-
-
 @Client.on_message(filters.int(filter=r"python", group=GROUP))
 async def python(c: Client, m: Message):
     await m.reply_text("is a snake 🐍")
