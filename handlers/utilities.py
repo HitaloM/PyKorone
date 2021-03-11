@@ -185,9 +185,7 @@ async def cleanup(c: Client, m: Message):
                     await c.kick_chat_member(m.chat.id, t.user.id)
                     deleted.append(t)
                 except BaseException:
-                    return await sent.edit_text(
-                        f"Eu n-não consegui remover algum usuário! >-<."
-                    )
+                    pass
         if len(deleted) > 0:
             await sent.edit_text("Removi todas as contas excluídas do grupo!")
         else:
