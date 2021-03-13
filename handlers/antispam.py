@@ -18,6 +18,7 @@
 from pyrogram import Client, filters
 from pyrogram.types import Message
 
+from kantex.html import KanTeXDocument, Section, KeyValueItem, Bold, Code
 from utils import sw
 
 
@@ -27,10 +28,22 @@ async def greetings(c: Client, m: Message):
         if sw is not None:
             sw_ban = sw.get_ban(m.reply_to_message.from_user.id)
             if sw_ban:
-                r = sw_ban.reason
-                fn = m.reply_to_message.from_user.first_name
-                await m.reply_text(
-                    f"O usuário <code>{fn}</code> está banido na @SpamWatch e por isso foi removido!\nMotivo: <code>{r}</code>"
+                reason = sw_ban.reason
+                user = m.reply_to_message.from_user
+                try:
+                    await c.kick_chat_member(m.chat.id, user.id)
+                except BadRequest:
+                    return
+                doc = KanTeXDocument(
+                    Section(
+                        Bold("@SpamWatch Ban"),
+                        KeyValueItem(
+                            Bold("User"),
+                            f"{Mention(user.first_name, user.id)} [{Code(user.id)}]",
+                        ),
+                        KeyValueItem(Bold("Reason"), Code(reason)),
+                    )
                 )
+                await m.reply_text(doc)
     except BaseException:
         pass
