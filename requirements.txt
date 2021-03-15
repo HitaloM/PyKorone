@@ -4,7 +4,7 @@ pyromod==1.5
 rich==9.13.0
 tortoise-orm==0.16.21
 pillow==8.1.2
-httpx[http2]==0.17.0
+httpx[http2]==0.17.1
 python-rapidjson==1.0
 KanTeX==0.2.0
 spamwatch==0.3.0
