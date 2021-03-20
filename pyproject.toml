@@ -48,6 +48,7 @@ asyncpraw = "7.2.0"
 pynewton = "^1.1.0"
 youtube_dl = "2021.3.25"
 wheel = "^0.36.2"
+gpytranslate = "0.3.1"
 
 [tool.poetry.dev-dependencies]
 black = "^20.8b1"
