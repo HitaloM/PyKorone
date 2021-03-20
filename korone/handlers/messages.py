@@ -14,6 +14,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+import html
 import time
 import random
 
@@ -226,6 +227,25 @@ async def macaco(c: Client, m: Message):
         "CAACAgEAAx0CT2XwHwACZ85gEao3lyREsYvlC45rdIs2_BashQACfAIAAjFpvDY9CqNjin13aR4E"
     )
     await m.reply_sticker(react)
+
+
+@Client.on_message(
+    filters.int(filter=r"rt", group=GROUP) & filters.reply & filters.group
+)
+async def rtcommand(c: Client, m: Message):
+    text = None
+    if m.reply_to_message.media:
+        rt_text = m.reply_to_message.caption
+    else:
+        rt_text = m.reply_to_message.text
+    if rt_text is None:
+        return
+
+    text = f"🔃 <b>{html.escape(m.from_user.first_name)}</b> retweetou:\n\n"
+    text += f"👤 <b>{html.escape(m.reply_to_message.from_user.first_name)}</b>:"
+    text += f" <i>{html.escape(rt_text)}</i>"
+
+    await m.reply_text(text, disable_web_page_preview=True)
 
 
 @Client.on_message(filters.int(filter=r"Sopa de (Macaco|Mamaco)", group=GROUP))
