@@ -2,7 +2,7 @@ pyrogram==1.1.13
 tgcrypto==1.2.2
 pyromod==1.5
 rich==9.13.0
-tortoise-orm==0.16.21
+tortoise-orm==0.17.0
 pillow==8.1.2
 httpx[http2]==0.17.1
 python-rapidjson==1.0
