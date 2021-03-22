@@ -59,7 +59,7 @@ async def pypi(c: Client, m: Message):
     text = m.matches[0]["search"]
     async with httpx.AsyncClient(http2=True) as http:
         r = await http.get(f"https://pypi.org/pypi/{text}/json")
-        http.aclose
+        await http.aclose()
     if r.status_code == 200:
         json = r.json()
         pypi_info = escape_definition(json["info"])

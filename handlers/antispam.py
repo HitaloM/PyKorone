@@ -14,11 +14,11 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
 from pyrogram import Client, filters
+from pyrogram.errors import BadRequest
 from pyrogram.types import Message
 
-from kantex.html import KanTeXDocument, Section, KeyValueItem, Bold, Code
+from kantex.html import KanTeXDocument, Section, KeyValueItem, Bold, Code, Mention
 from utils import sw
 
 

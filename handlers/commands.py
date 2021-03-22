@@ -227,7 +227,7 @@ async def bird_photo(c: Client, m: Message):
     )
 )
 async def redimg(c: Client, m: Message):
-    fetch_type = type = m.matches[0]["type"]
+    fetch_type = m.matches[0]["type"]
     sub = m.matches[0]["search"]
 
     if not sub:
@@ -240,19 +240,3 @@ async def redimg(c: Client, m: Message):
         await titlefetcher(m, sub)
     elif fetch_type == "b":
         await bodyfetcher(m, sub)
-
-
-@Client.on_message(
-    filters.cmd(
-        command="year",
-        action="Veja quanto falta para o ano terminar em porcentagem.",
-        group=GROUP,
-    )
-)
-async def year_progress(c: Client, m: Message):
-    day = datetime.now().timetuple().tm_yday
-    t = round((day / 365) * 100, 2)
-    text = "<b>Year Progress:</b>\n"
-    text += f"{'▓'*int(t/100*10)+'░'*(10-int(t/100*10))} "
-    text += f"<code>{t}%</code>"
-    await m.reply_text(text)
