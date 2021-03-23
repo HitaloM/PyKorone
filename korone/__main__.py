@@ -41,12 +41,12 @@ import pyromod
 from pyromod import listen, filters
 from pyromod.helpers import ikb
 from pyrogram import Client, filters, idle
-from korone.database import connect_database
 from tortoise import run_async
 from rich import box, print
 from rich.logging import RichHandler
 from rich.panel import Panel
 
+from korone.database import connect_database
 from korone.config import API_HASH, API_ID, SUDOERS, TOKEN, prefix
 from korone.handlers import COMMANDS_HELP
 

@@ -28,7 +28,7 @@ start_text = """
 Oi <b>{}</b>!
 
 Eu sou o <b>{}</b>, um bot interativo que adora participar de grupos! ^^
-Versão: <code>{}</code>
+<b>Versão:</b> <code>{}</code>
 """
 
 about_text = """
@@ -62,7 +62,9 @@ async def start(c: Client, m: Message):
             await help_module(m, module)
     else:
         keyboard = []
-        text = (start_text).format(m.from_user.first_name, c.me.first_name, korone.__version__)
+        text = (start_text).format(
+            m.from_user.first_name, c.me.first_name, korone.__version__
+        )
         if m.chat.type == "private":
             keyboard.append([("📚 Ajuda", "help_cb"), ("ℹ️ Sobre", "about")])
             keyboard.append([("👥 Grupo Off-Topic", "https://t.me/SpamTherapy", "url")])
@@ -77,7 +79,7 @@ async def start(c: Client, m: Message):
                 ]
             )
             text += (
-                "Você pode ver tudo que eu posso fazer clicando no koroneão abaixo..."
+                "\nVocê pode ver tudo que eu posso fazer clicando no botão abaixo..."
             )
         await m.reply_text(
             text,
@@ -195,7 +197,9 @@ async def about(c: Client, m: CallbackQuery):
 
 @Client.on_callback_query(filters.regex("^start_back$"))
 async def start_back(c: Client, m: CallbackQuery):
-    text = (start_text).format(m.from_user.first_name, c.me.first_name, korone.__version__)
+    text = (start_text).format(
+        m.from_user.first_name, c.me.first_name, korone.__version__
+    )
     keyboard = [
         [("📚 Ajuda", "help_cb"), ("ℹ️ Sobre", "about")],
         [("👥 Grupo Off-Topic", "https://t.me/SpamTherapy", "url")],

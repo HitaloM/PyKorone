@@ -110,7 +110,10 @@ async def _aexec_(c: Client, m: Message):
 @Client.on_message(filters.command("reboot", prefix) & filters.user(SUDOERS))
 async def restart(c: Client, m: Message):
     await m.reply_text("Reiniciando...")
-    os.execl(sys.executable, sys.executable, *sys.argv)
+    args = [sys.executable, "-m", "korone"]
+    if "--no-update" in sys.argv:
+        args.append("--no-update")
+    os.execv(sys.executable, args)
 
 
 def parse_commits(log: str) -> Dict:
@@ -173,7 +176,7 @@ async def upgrade_cb(c: Client, cq: CallbackQuery):
     stdout = (await proc.communicate())[0].decode()
     if proc.returncode == 0:
         await cq.message.edit_text("Reiniciando...")
-        args = [sys.executable, "korone.py"]
+        args = [sys.executable, "-m", "korone"]
         os.execv(sys.executable, args)
     else:
         lines = stdout.split("\n")
