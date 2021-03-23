@@ -28,22 +28,25 @@ start_text = """
 Oi <b>{}</b>!
 
 Eu sou o <b>{}</b>, um bot interativo que adora participar de grupos! ^^
-Versão: <code>korone.__version__</code>
+Versão: <code>{}</code>
 """
 
-about_text = f"""
-🚮 <b>{c.me.first_name}</b> é um bot criado por diversão para o grupo <b>Spam-Therapy</b>.
+about_text = """
+🚮 <b>{}</b> é um bot criado por diversão para o grupo <b>Spam-Therapy</b>.
 Seu foco é trazer funções legais e um design funcional com tecnologia e criatividade.
 
 📦 Powered by <a href='https://docs.pyrogram.org/'>Pyrogram</a> with <a href='https://github.com/usernein/pyromod'>Pyromod</a>.
 
-🗂 <b>Links:</b> <a href='{korone.__source__}'>GitHub</a> | <a href='https://t.me/SpamTherapy'>Chat</a>
+🗂 <b>Links:</b> <a href='{}'>GitHub</a> | <a href='https://t.me/SpamTherapy'>Chat</a>
 """
 
 
 @Client.on_message(filters.cmd(command="about", action="Informações sobre o bot."))
 async def about_cmd(c: Client, m: Message):
-    await m.reply_text(about_text, disable_web_page_preview=True)
+    await m.reply_text(
+        about_text.format(c.me.first_name, korone.__source__),
+        disable_web_page_preview=True,
+    )
 
 
 @Client.on_message(
@@ -59,7 +62,7 @@ async def start(c: Client, m: Message):
             await help_module(m, module)
     else:
         keyboard = []
-        text = (start_text).format(m.from_user.first_name, c.me.first_name)
+        text = (start_text).format(m.from_user.first_name, c.me.first_name, korone.__version__)
         if m.chat.type == "private":
             keyboard.append([("📚 Ajuda", "help_cb"), ("ℹ️ Sobre", "about")])
             keyboard.append([("👥 Grupo Off-Topic", "https://t.me/SpamTherapy", "url")])
@@ -184,7 +187,7 @@ async def on_help_callback(c: Client, cq: CallbackQuery):
 async def about(c: Client, m: CallbackQuery):
     keyboard = c.ikb([[("⬅️ Voltar", "start_back")]])
     await m.message.edit_text(
-        about_text,
+        about_text.format(c.me.first_name, korone.__source__),
         reply_markup=keyboard,
         disable_web_page_preview=True,
     )
@@ -192,7 +195,7 @@ async def about(c: Client, m: CallbackQuery):
 
 @Client.on_callback_query(filters.regex("^start_back$"))
 async def start_back(c: Client, m: CallbackQuery):
-    text = (start_text).format(m.from_user.first_name, c.me.first_name)
+    text = (start_text).format(m.from_user.first_name, c.me.first_name, korone.__version__)
     keyboard = [
         [("📚 Ajuda", "help_cb"), ("ℹ️ Sobre", "about")],
         [("👥 Grupo Off-Topic", "https://t.me/SpamTherapy", "url")],
