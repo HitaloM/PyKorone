@@ -19,8 +19,13 @@ import random
 from pyrogram import Client, filters
 from pyrogram.types import Message
 
-from handlers.utils.random import HEY_REACT, INSULTS_REACT, RANDOM_REACT, WHATSUP_REACT
-from handlers import COMMANDS_HELP
+from bot.handlers.utils.random import (
+    HEY_REACT,
+    INSULTS_REACT,
+    RANDOM_REACT,
+    WHATSUP_REACT,
+)
+from bot.handlers import COMMANDS_HELP
 
 GROUP = "interactions"
 

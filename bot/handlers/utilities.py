@@ -21,10 +21,11 @@ import io
 from bs4 import BeautifulSoup as bs
 from PIL import Image
 from search_engine_parser import GoogleSearch, BingSearch
+
 from pyrogram import Client, filters
 from pyrogram.types import Message
 
-from . import COMMANDS_HELP
+from bot.handlers import COMMANDS_HELP
 
 GROUP = "utils"
 

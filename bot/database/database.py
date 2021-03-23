@@ -14,18 +14,33 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-from database import Chats
-from pyrogram import Client, filters
-from pyrogram.types import Message
+import os
+
+from tortoise import fields
+from tortoise import Tortoise
+from tortoise.models import Model
 
 
-@Client.on_message(filters.edited)
-async def reject(c: Client, m: Message):
-    m.stop_propagation()
+class Chats(Model):
+    id = fields.IntField(pk=True)
+    title = fields.TextField()
 
 
-@Client.on_message(~filters.private & filters.all)
-async def on_all_m(c: Client, m: Message):
-    if not await Chats.filter(id=m.chat.id):
-        await Chats.create(id=m.chat.id, title=m.chat.title)
-    m.continue_propagation()
+class Banneds(Model):
+    id = fields.IntField(pk=True)
+    name = fields.TextField()
+
+
+async def connect_database():
+    await Tortoise.init(
+        {
+            "connections": {
+                "bot_db": os.getenv(
+                    "DATABASE_URL", "sqlite://bot/database/database.sqlite"
+                )
+            },
+            "apps": {"bot": {"models": [__name__], "default_connection": "bot_db"}},
+        }
+    )
+    # Generate the schema
+    await Tortoise.generate_schemas()

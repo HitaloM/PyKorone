@@ -26,9 +26,9 @@ from cowpy import cow
 from pyrogram import Client, filters
 from pyrogram.types import Message
 
-from . import COMMANDS_HELP
-from handlers.utils.random import SHRUGS_REACT, REACTS, PASTAMOJIS
-from handlers.utils.thonkify_dict import thonkifydict
+from bot.handlers import COMMANDS_HELP
+from bot.handlers.utils.random import SHRUGS_REACT, REACTS, PASTAMOJIS
+from bot.handlers.utils.thonkify_dict import thonkifydict
 
 GROUP = "memes"
 

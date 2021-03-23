@@ -19,7 +19,7 @@ import html
 from pyrogram import Client, filters
 from pyrogram.types import Message, CallbackQuery
 
-from . import COMMANDS_HELP
+from bot.handlers import COMMANDS_HELP
 
 help_text = "Por favor, selecione uma categoria para obter ajuda!"
 

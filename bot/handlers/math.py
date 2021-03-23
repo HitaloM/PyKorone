@@ -18,7 +18,8 @@ import aionewton
 
 from pyrogram import Client, filters
 from pyrogram.types import Message
-from . import COMMANDS_HELP
+
+from bot.handlers import COMMANDS_HELP
 
 GROUP = "math"
 

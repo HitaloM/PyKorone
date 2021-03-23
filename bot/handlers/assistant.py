@@ -17,14 +17,14 @@
 import io
 import httpx
 import random
-
 import rapidjson as json
 import wikipediaapi
+
 from pyrogram import Client, filters
 from pyrogram.types import Message
 
-from handlers.utils.random import CATCH_REACT, HELLO, REACTIONS
-from . import COMMANDS_HELP
+from bot.handlers.utils.random import CATCH_REACT, HELLO, REACTIONS
+from bot.handlers import COMMANDS_HELP
 
 GROUP = "assistant"
 

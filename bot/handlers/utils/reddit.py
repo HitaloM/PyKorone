@@ -14,13 +14,15 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+import asyncpraw
 from asyncprawcore import exceptions as redex
 
-from pyromod.helpers import ikb
-
-from utils import REDDIT
-
 VALID_ENDS = (".mp4", ".jpg", ".jpeg", "jpe", ".png", ".gif")
+
+
+REDDIT = asyncpraw.Reddit(
+    client_id=REDDIT_ID, client_secret=REDDIT_SECRET, user_agent="PyKorone"
+)
 
 
 async def imagefetcherfallback(subreddit):
@@ -40,7 +42,7 @@ async def bodyfetcherfallback(subreddit):
             return post
 
 
-async def imagefetcher(m, sub):
+async def imagefetcher(c, m, sub):
     image_url = False
     subreddit = await REDDIT.subreddit(sub)
 
@@ -69,7 +71,7 @@ async def imagefetcher(m, sub):
         await m.reply_text(f"Não encontrei nenhum conteúdo válido em <b>r/{sub}</b>!")
         return
 
-    keyboard = ikb([[(f"r/{sub}", post.url, "url")]])
+    keyboard = c.ikb([[(f"r/{sub}", post.url, "url")]])
 
     try:
         await m.reply_photo(image_url, caption=title, reply_markup=keyboard)
@@ -79,7 +81,7 @@ async def imagefetcher(m, sub):
         )
 
 
-async def titlefetcher(m, sub):
+async def titlefetcher(c, m, sub):
     subreddit = await REDDIT.subreddit(sub)
 
     try:
@@ -95,12 +97,12 @@ async def titlefetcher(m, sub):
         await m.reply_text(f"Não encontrei nenhum conteúdo válido em <b>r/{sub}</b>!")
         return
 
-    keyboard = ikb([[(f"r/{sub}", post.url, "url")]])
+    keyboard = c.ikb([[(f"r/{sub}", post.url, "url")]])
 
     await m.reply_text(post.title, reply_markup=keyboard)
 
 
-async def bodyfetcher(m, sub):
+async def bodyfetcher(c, m, sub):
     subreddit = await REDDIT.subreddit(sub)
 
     for _ in range(10):
@@ -125,7 +127,7 @@ async def bodyfetcher(m, sub):
         if not body:
             continue
 
-        keyboard = ikb([[(f"r/{sub}", post.url, "url")]])
+        keyboard = c.ikb([[(f"r/{sub}", post.url, "url")]])
 
         await m.reply_text(f"<b>{title}</b>\n\n{body}", reply_markup=keyboard)
         return

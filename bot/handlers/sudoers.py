@@ -19,14 +19,15 @@ import io
 import sys
 import traceback
 import asyncio
+from meval import meval
+from typing import Dict
 
-from config import OWNER, SUDOERS, prefix
-from database import Chats
 from pyromod.helpers import ikb
 from pyrogram import Client, filters
 from pyrogram.types import Message, CallbackQuery
-from meval import meval
-from typing import Dict
+
+from bot.config import OWNER, SUDOERS, prefix
+from bot.database import Chats
 
 
 @Client.on_message(filters.cmd("(sh(eel)?|term(inal)?) ") & filters.user(OWNER))

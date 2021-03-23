@@ -14,12 +14,13 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+from kantex.html import KanTeXDocument, Section, KeyValueItem, Bold, Code, Mention
+
 from pyrogram import Client, filters
 from pyrogram.errors import BadRequest
 from pyrogram.types import Message
 
-from kantex.html import KanTeXDocument, Section, KeyValueItem, Bold, Code, Mention
-from utils import sw
+from bot.utils import sw
 
 
 @Client.on_message(filters.new_chat_members)

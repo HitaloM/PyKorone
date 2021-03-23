@@ -41,14 +41,14 @@ import pyromod
 from pyromod import listen, filters
 from pyromod.helpers import ikb
 from pyrogram import Client, filters, idle
-from database import connect_database
+from bot.database import connect_database
 from tortoise import run_async
 from rich import box, print
 from rich.logging import RichHandler
 from rich.panel import Panel
 
-from config import API_HASH, API_ID, SUDOERS, TOKEN, prefix
-from handlers import COMMANDS_HELP
+from bot.config import API_HASH, API_ID, SUDOERS, TOKEN, prefix
+from bot.handlers import COMMANDS_HELP
 
 # Logging colorized by rich
 FORMAT = "%(message)s"
@@ -71,7 +71,7 @@ client = Client(
     API_HASH,
     bot_token=TOKEN,
     parse_mode="html",
-    plugins=dict(root="handlers"),
+    plugins=dict(root="bot/handlers"),
 )
 
 # Beautiful init with rich

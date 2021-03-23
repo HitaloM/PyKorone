@@ -26,10 +26,10 @@ from kantex.html import Bold, KeyValueItem, Section
 from pyrogram import Client, filters
 from pyrogram.types import Message
 
-from utils import pretty_size
-from handlers.utils.reddit import imagefetcher, titlefetcher, bodyfetcher
-from config import SUDOERS, OWNER, prefix
-from . import COMMANDS_HELP
+from bot.utils import pretty_size
+from bot.config import SUDOERS, OWNER, prefix
+from bot.handlers.utils.reddit import imagefetcher, titlefetcher, bodyfetcher
+from bot.handlers import COMMANDS_HELP
 
 GROUP = "general"
 

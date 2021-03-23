@@ -19,12 +19,12 @@ import time
 import httpx
 import anilist
 from jikanpy import AioJikan
+from PIL import Image
 
 from pyrogram import Client, filters
 from pyrogram.types import Message
-from PIL import Image
 
-from . import COMMANDS_HELP
+from bot.handlers import COMMANDS_HELP
 
 GROUP = "animes"
 

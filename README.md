@@ -31,5 +31,5 @@ This repository contains the source code of [@PyKoroneBot](https://t.me/PyKorone
 _If there is anyone I have forgotten to mention please let me know on Telegram: [@Hitalo](https://t.me/Hitalo)_
 
 ## License
- 
+
 [GPLv3](https://github.com/AmanoTeam/PyKorone/blob/main/LICENSE) © 2021 [AmanoTeam](https//github.com/AmanoTeam)
