@@ -39,7 +39,7 @@ COMMANDS_HELP[GROUP] = {
 @Client.on_message(filters.int(filter=r"Korone, gire um dado", group=GROUP))
 async def dice(c: Client, m: Message):
     dicen = await c.send_dice(m.chat.id, reply_to_message_id=m.message_id)
-    await dicen.reply_text(f"O dado parou no número {dicen.dice.value}")
+    await dicen.reply_text(f"O dado parou no número <code>{dicen.dice.value}</code>!")
 
 
 @Client.on_message(

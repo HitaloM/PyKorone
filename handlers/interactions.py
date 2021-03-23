@@ -73,20 +73,7 @@ async def ulikecoffe(c: Client, m: Message):
         return
 
 
-@Client.on_message(filters.int(filter=r"Voc(e|ê) gosta do Hitalo", group=GROUP))
-async def ulikehitalo(c: Client, m: Message):
-    text = "Com certeza! Ele é o meu criador..."
-
-    if m.chat.type == "private":
-        await m.reply_text(text)
-    elif (
-        m.reply_to_message and m.reply_to_message.from_user.id == (await c.get_me()).id
-    ):
-        await m.reply_text(text)
-        return
-
-
-@Client.on_message(filters.int(filter=r"(Ol(á|a)|Oi|Eae)", group=GROUP))
+@Client.on_message(filters.int(filter=r"(Ol(á|a)|Oi|Eae|Hi|Hello|Hey)", group=GROUP))
 async def hello(c: Client, m: Message):
     react = random.choice(HEY_REACT)
 
@@ -117,7 +104,7 @@ async def insult(c: Client, m: Message):
         return
 
 
-@Client.on_message(filters.int(filter=r"como vai", group=GROUP))
+@Client.on_message(filters.int(filter=r"(como vai|tudo bem)", group=GROUP))
 async def all_right(c: Client, m: Message):
     react = random.choice(WHATSUP_REACT)
 
