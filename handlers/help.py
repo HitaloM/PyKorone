@@ -97,7 +97,7 @@ async def help_m(c: Client, m: Message):
     & filters.private
 )
 async def help(c: Client, m: Message):
-    await help_module(m)
+    await help_module(c, m)
 
 
 @Client.on_callback_query(filters.regex("^help_cb$"))
