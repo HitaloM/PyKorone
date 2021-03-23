@@ -20,7 +20,7 @@ from pyrogram import Client, filters
 from pyrogram.errors import BadRequest
 from pyrogram.types import Message
 
-from bot.utils import sw
+from korone.utils import sw
 
 
 @Client.on_message(filters.new_chat_members)

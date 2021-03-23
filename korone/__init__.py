@@ -14,33 +14,10 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-import os
+from .version import __version__
 
-from tortoise import fields
-from tortoise import Tortoise
-from tortoise.models import Model
+__description__ = (
+    "An interactive and multi-function Telegram Bot, made especially for groups."
+)
 
-
-class Chats(Model):
-    id = fields.IntField(pk=True)
-    title = fields.TextField()
-
-
-class Banneds(Model):
-    id = fields.IntField(pk=True)
-    name = fields.TextField()
-
-
-async def connect_database():
-    await Tortoise.init(
-        {
-            "connections": {
-                "bot_db": os.getenv(
-                    "DATABASE_URL", "sqlite://bot/database/database.sqlite"
-                )
-            },
-            "apps": {"bot": {"models": [__name__], "default_connection": "bot_db"}},
-        }
-    )
-    # Generate the schema
-    await Tortoise.generate_schemas()
+DEFAULT_CONFIG_PATH = "config.toml"

@@ -19,7 +19,7 @@ import aionewton
 from pyrogram import Client, filters
 from pyrogram.types import Message
 
-from bot.handlers import COMMANDS_HELP
+from korone.handlers import COMMANDS_HELP
 
 GROUP = "math"
 

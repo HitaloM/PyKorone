@@ -21,8 +21,8 @@ from pyrogram import Client, filters
 from pyrogram.types import Message
 from pyrogram.errors import BadRequest, ChatAdminRequired, UserAdminInvalid
 
-from bot.config import SUDOERS
-from bot.database import Banneds, Chats
+from korone.config import SUDOERS
+from korone.database import Banneds, Chats
 
 
 @Client.on_message(filters.cmd("gban$") & filters.reply & filters.user(SUDOERS))

@@ -26,10 +26,11 @@ from kantex.html import Bold, KeyValueItem, Section
 from pyrogram import Client, filters
 from pyrogram.types import Message
 
-from bot.utils import pretty_size
-from bot.config import SUDOERS, OWNER, prefix
-from bot.handlers.utils.reddit import imagefetcher, titlefetcher, bodyfetcher
-from bot.handlers import COMMANDS_HELP
+from korone import __version__
+from korone.utils import pretty_size
+from korone.config import SUDOERS, OWNER, prefix
+from korone.handlers.utils.reddit import imagefetcher, titlefetcher, bodyfetcher
+from korone.handlers import COMMANDS_HELP
 
 GROUP = "general"
 
@@ -42,7 +43,7 @@ COMMANDS_HELP[GROUP] = {
 
 
 @Client.on_message(
-    filters.cmd(command="ping", action="Verifique a velocidade de resposta do bot.")
+    filters.cmd(command="ping", action="Verifique a velocidade de resposta do korone.")
 )
 async def ping(c: Client, m: Message):
     first = datetime.now()
@@ -139,7 +140,7 @@ async def file_debug(c: Client, m: Message):
 
 
 @Client.on_message(
-    filters.cmd(command="echo (?P<text>.+)", action="Fale através do bot.")
+    filters.cmd(command="echo (?P<text>.+)", action="Fale através do korone.")
 )
 async def echo(c: Client, m: Message):
     text = m.matches[0]["text"]
@@ -161,6 +162,7 @@ async def dev(c: Client, m: Message):
     doc = Section(
         "PyKorone Bot",
         KeyValueItem(Bold("Source"), source_url),
+        KeyValueItem(Bold("Korone version"), version),
         KeyValueItem(Bold("Pyrogram version"), pyrogram.__version__),
         KeyValueItem(Bold("Pyromod version"), pyromod.__version__),
         KeyValueItem(Bold("Python version"), platform.python_version()),

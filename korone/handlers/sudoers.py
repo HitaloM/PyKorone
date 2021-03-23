@@ -26,8 +26,8 @@ from pyromod.helpers import ikb
 from pyrogram import Client, filters
 from pyrogram.types import Message, CallbackQuery
 
-from bot.config import OWNER, SUDOERS, prefix
-from bot.database import Chats
+from korone.config import OWNER, SUDOERS, prefix
+from korone.database import Chats
 
 
 @Client.on_message(filters.cmd("(sh(eel)?|term(inal)?) ") & filters.user(OWNER))
@@ -173,7 +173,7 @@ async def upgrade_cb(c: Client, cq: CallbackQuery):
     stdout = (await proc.communicate())[0].decode()
     if proc.returncode == 0:
         await cq.message.edit_text("Reiniciando...")
-        args = [sys.executable, "bot.py"]
+        args = [sys.executable, "korone.py"]
         os.execv(sys.executable, args)
     else:
         lines = stdout.split("\n")

@@ -20,7 +20,7 @@ import random
 from pyrogram import Client, filters
 from pyrogram.types import Message
 
-from bot.handlers.utils.random import (
+from korone.handlers.utils.random import (
     AYY_REACT,
     BANHAMMERS,
     DOGE_REACT,
@@ -31,7 +31,7 @@ from bot.handlers.utils.random import (
     THONKI,
     REACTS,
 )
-from bot.handlers import COMMANDS_HELP
+from korone.handlers import COMMANDS_HELP
 
 GROUP = "messages"
 

@@ -23,8 +23,8 @@ import wikipediaapi
 from pyrogram import Client, filters
 from pyrogram.types import Message
 
-from bot.handlers.utils.random import CATCH_REACT, HELLO, REACTIONS
-from bot.handlers import COMMANDS_HELP
+from korone.handlers.utils.random import CATCH_REACT, HELLO, REACTIONS
+from korone.handlers import COMMANDS_HELP
 
 GROUP = "assistant"
 

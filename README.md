@@ -3,8 +3,8 @@
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 [![GitHub contributors](https://img.shields.io/github/contributors/AmanoTeam/PyKorone.svg)](https://GitHub.com/AmanoTeam/PyKorone/graphs/contributors/)
 
-> An interaction and fun bot for Telegram groups, having some useful and other useless commands.
-> Created as an experiment and learning bot but being expanded and improved over time.
+> An interaction and fun korone for Telegram groups, having some useful and other useless commands.
+> Created as an experiment and learning korone but being expanded and improved over time.
 
 This repository contains the source code of [@PyKoroneBot](https://t.me/PyKoroneBot) Telegram Bot, along with instructions for hosting your own instance.
 
@@ -12,7 +12,7 @@ This repository contains the source code of [@PyKoroneBot](https://t.me/PyKorone
 
 - Python 3.6 or higher.
 - A [Telegram API Key and API Hash](https://docs.pyrogram.org/intro/setup#api-keys).
-- A [Telegram Bot Token](https://t.me/botfather).
+- A [Telegram Bot Token](https://t.me/koronefather).
 - A Linux distribution (should also work on Windows but has not been tested correctly).
 
 ## Setup
@@ -21,12 +21,12 @@ This repository contains the source code of [@PyKoroneBot](https://t.me/PyKorone
 - Go to https://my.telegram.org/apps and create a new app to get your API ID and API HASH.
 - Now create a copy of the `config.py.example` file with the command 'cp config.py.example config.py'
 - Finally fill in all the required fields in the `config.py` (you can see everything well explained in the `config.py.example` file)
-- Now to run the bot use `python3 bot.py`
+- Now to run the korone use `python3 korone.py`
 
 ## Special thanks
 
 - [@usernein](https://github.com/usernein) - contributed with teachings, ideas and allowed me to use some of his codes.
-- [@AndrielFR](https://github.com/AndrielFR) - one of the main developers of the bot, who helped me in great things, was he who created the 'gban.py' and among other things.
+- [@AndrielFR](https://github.com/AndrielFR) - one of the main developers of the korone, who helped me in great things, was he who created the 'gban.py' and among other things.
 
 _If there is anyone I have forgotten to mention please let me know on Telegram: [@Hitalo](https://t.me/Hitalo)_
 

@@ -25,7 +25,7 @@ from search_engine_parser import GoogleSearch, BingSearch
 from pyrogram import Client, filters
 from pyrogram.types import Message
 
-from bot.handlers import COMMANDS_HELP
+from korone.handlers import COMMANDS_HELP
 
 GROUP = "utils"
 
@@ -102,7 +102,7 @@ async def pypi(c: Client, m: Message):
 @Client.on_message(
     filters.cmd(
         command="google (?P<search>.+)",
-        action="Faça uma pesquisa no Google através do bot.",
+        action="Faça uma pesquisa no Google através do korone.",
         group=GROUP,
     )
 )
@@ -132,7 +132,7 @@ async def google(c: Client, m: Message):
 @Client.on_message(
     filters.cmd(
         command="bing (?P<search>.+)",
-        action="Faça uma pesquisa no Bing através do bot.",
+        action="Faça uma pesquisa no Bing através do korone.",
         group=GROUP,
     )
 )
@@ -196,7 +196,7 @@ async def cb_sticker(c: Client, m: Message):
     args = m.matches[0]["search"]
 
     async with httpx.AsyncClient(http2=True) as http:
-        r = await http.get("https://combot.org/telegram/stickers?page=1&q=" + args)
+        r = await http.get("https://comkorone.org/telegram/stickers?page=1&q=" + args)
         await http.aclose()
     soup = bs(r.text, "lxml")
     results = soup.find_all("a", {"class": "sticker-pack__btn"})

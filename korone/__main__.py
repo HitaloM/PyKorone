@@ -26,7 +26,7 @@ RESET = 'echo -e "\033[0m"'
 
 if "--no-update" not in sys.argv:
     print("\033[0;32mUpdating requirements...\033[0m")
-    os.system(f"{DGRAY}; {sys.executable} -m pip install -Ur requirements.txt; {RESET}")
+    os.system(f"{DGRAY}; {sys.executable} -m pip install . -U; {RESET}")
     os.system("clear")
 
 print("\033[0m")
@@ -41,14 +41,14 @@ import pyromod
 from pyromod import listen, filters
 from pyromod.helpers import ikb
 from pyrogram import Client, filters, idle
-from bot.database import connect_database
+from korone.database import connect_database
 from tortoise import run_async
 from rich import box, print
 from rich.logging import RichHandler
 from rich.panel import Panel
 
-from bot.config import API_HASH, API_ID, SUDOERS, TOKEN, prefix
-from bot.handlers import COMMANDS_HELP
+from korone.config import API_HASH, API_ID, SUDOERS, TOKEN, prefix
+from korone.handlers import COMMANDS_HELP
 
 # Logging colorized by rich
 FORMAT = "%(message)s"
@@ -66,12 +66,12 @@ logging.getLogger("pyrogram.client").setLevel(logging.WARNING)
 log = logging.getLogger("rich")
 
 client = Client(
-    ":memory:",
+    "client",
     API_ID,
     API_HASH,
     bot_token=TOKEN,
     parse_mode="html",
-    plugins=dict(root="bot/handlers"),
+    plugins=dict(root="korone/handlers"),
 )
 
 # Beautiful init with rich

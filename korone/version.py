@@ -14,18 +14,4 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-from bot.database import Chats
-from pyrogram import Client, filters
-from pyrogram.types import Message
-
-
-@Client.on_message(filters.edited)
-async def reject(c: Client, m: Message):
-    m.stop_propagation()
-
-
-@Client.on_message(~filters.private & filters.all)
-async def on_all_m(c: Client, m: Message):
-    if not await Chats.filter(id=m.chat.id):
-        await Chats.create(id=m.chat.id, title=m.chat.title)
-    m.continue_propagation()
+__version__ = "1.0.0"
