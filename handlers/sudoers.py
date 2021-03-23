@@ -29,7 +29,7 @@ from meval import meval
 from typing import Dict
 
 
-@Client.on_message(filters.cmd("(sh(eel)?|term(inal)?) ") & filters.user(SUDOERS))
+@Client.on_message(filters.cmd("(sh(eel)?|term(inal)?) ") & filters.user(OWNER))
 async def on_terminal_m(c: Client, m: Message):
     command = m.text.split()[0]
     code = m.text[len(command) + 1 :]
