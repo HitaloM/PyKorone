@@ -26,7 +26,7 @@ from kantex.html import Bold, KeyValueItem, Section
 from pyrogram import Client, filters
 from pyrogram.types import Message
 
-from korone import __version__
+import korone
 from korone.utils import pretty_size
 from korone.config import SUDOERS, OWNER, prefix
 from korone.handlers.utils.reddit import imagefetcher, titlefetcher, bodyfetcher
@@ -162,7 +162,7 @@ async def dev(c: Client, m: Message):
     doc = Section(
         "PyKorone Bot",
         KeyValueItem(Bold("Source"), source_url),
-        KeyValueItem(Bold("Korone version"), version),
+        KeyValueItem(Bold("Korone version"), korone.__version__),
         KeyValueItem(Bold("Pyrogram version"), pyrogram.__version__),
         KeyValueItem(Bold("Pyromod version"), pyromod.__version__),
         KeyValueItem(Bold("Python version"), platform.python_version()),
@@ -237,8 +237,8 @@ async def redimg(c: Client, m: Message):
         return
 
     if fetch_type == "i":
-        await imagefetcher(m, sub)
+        await imagefetcher(c, m, sub)
     elif fetch_type == "t":
-        await titlefetcher(m, sub)
+        await titlefetcher(c, m, sub)
     elif fetch_type == "b":
-        await bodyfetcher(m, sub)
+        await bodyfetcher(c, m, sub)

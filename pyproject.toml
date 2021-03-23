@@ -1,7 +1,7 @@
 [tool.poetry]
 name = "korone"
 version = "1.0.0"
-description = "An interactive and multi-function Telegram Bot, made especially for groups."
+description = "An interactive and multi-function Telegram bot, made especially for Telegram groups."
 authors = ["Hitalo"]
 license = "GPLv3+"
 readme = "README.md"
@@ -23,7 +23,7 @@ classifiers = [
     "Topic :: Communications :: Chat"
 ]
 
-exclude = ["korone/config.py"]
+exclude = ["korone/config.py", "korone/client.session", "korone/client.session-journal"]
 
 [tool.poetry.urls]
 "Bug Tracker" = "https://github.com/AmanoTeam/PyKorone/issues"

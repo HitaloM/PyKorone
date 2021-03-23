@@ -16,7 +16,7 @@
 
 import spamwatch
 
-from korone.config import SW_API, REDDIT_SECRET, REDDIT_ID
+from korone.config import SW_API
 
 
 # SpamWatch

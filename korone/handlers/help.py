@@ -19,6 +19,7 @@ import html
 from pyrogram import Client, filters
 from pyrogram.types import Message, CallbackQuery
 
+import korone
 from korone.handlers import COMMANDS_HELP
 
 help_text = "Por favor, selecione uma categoria para obter ajuda!"
@@ -26,26 +27,27 @@ help_text = "Por favor, selecione uma categoria para obter ajuda!"
 start_text = """
 Oi <b>{}</b>!
 
-Eu sou o <b>{}</b>, um korone interativo que adora participar de grupos! ^^
+Eu sou o <b>{}</b>, um bot interativo que adora participar de grupos! ^^
+Versão: <code>korone.__version__</code>
 """
 
-about_text = """
-🚮 <b>PyKorone</b> é um korone criado por diversão para o grupo <b>Spam-Therapy</b>.
+about_text = f"""
+🚮 <b>{c.me.first_name}</b> é um bot criado por diversão para o grupo <b>Spam-Therapy</b>.
 Seu foco é trazer funções legais e um design funcional com tecnologia e criatividade.
 
 📦 Powered by <a href='https://docs.pyrogram.org/'>Pyrogram</a> with <a href='https://github.com/usernein/pyromod'>Pyromod</a>.
 
-🗂 <b>Links:</b> <a href='https://github.com/AmanoTeam/PyKorone'>GitHub</a> | <a href='https://t.me/SpamTherapy'>Chat</a>
+🗂 <b>Links:</b> <a href='{korone.__source__}'>GitHub</a> | <a href='https://t.me/SpamTherapy'>Chat</a>
 """
 
 
-@Client.on_message(filters.cmd(command="about", action="Informações sobre o korone."))
+@Client.on_message(filters.cmd(command="about", action="Informações sobre o bot."))
 async def about_cmd(c: Client, m: Message):
     await m.reply_text(about_text, disable_web_page_preview=True)
 
 
 @Client.on_message(
-    filters.cmd(command="start", action="Envia a mensagem de inicialização do Bot.")
+    filters.cmd(command="start", action="Envia a mensagem de inicialização do bot.")
 )
 async def start(c: Client, m: Message):
     query = m.text.split()

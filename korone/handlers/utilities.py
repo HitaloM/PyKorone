@@ -196,7 +196,7 @@ async def cb_sticker(c: Client, m: Message):
     args = m.matches[0]["search"]
 
     async with httpx.AsyncClient(http2=True) as http:
-        r = await http.get("https://comkorone.org/telegram/stickers?page=1&q=" + args)
+        r = await http.get("https://combot.org/telegram/stickers?page=1&q=" + args)
         await http.aclose()
     soup = bs(r.text, "lxml")
     results = soup.find_all("a", {"class": "sticker-pack__btn"})

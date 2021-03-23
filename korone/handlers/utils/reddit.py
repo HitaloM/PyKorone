@@ -17,6 +17,8 @@
 import asyncpraw
 from asyncprawcore import exceptions as redex
 
+from korone.config import REDDIT_ID, REDDIT_SECRET
+
 VALID_ENDS = (".mp4", ".jpg", ".jpeg", "jpe", ".png", ".gif")
 
 

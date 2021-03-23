@@ -14,9 +14,10 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-from korone.database import Chats
 from pyrogram import Client, filters
 from pyrogram.types import Message
+
+from korone.database import Chats
 
 
 @Client.on_message(filters.edited)

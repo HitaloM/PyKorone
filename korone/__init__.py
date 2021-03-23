@@ -16,8 +16,5 @@
 
 from .version import __version__
 
-__description__ = (
-    "An interactive and multi-function Telegram Bot, made especially for groups."
-)
-
-DEFAULT_CONFIG_PATH = "config.toml"
+__description__ = "An interactive and multi-function Telegram bot, made especially for Telegram groups."
+__source__ = "https://github.com/AmanoTeam/PyKorone"
