@@ -20,35 +20,10 @@ from database import Chats
 from pyrogram import Client, filters
 from pyrogram.types import Message
 
-from config import prefix
-
-from . import COMMANDS_HELP
-
 
 @Client.on_message(filters.edited)
 async def reject(c: Client, m: Message):
     m.stop_propagation()
-
-
-def int_filter(filter, group: str = "others", action: str = None, *args, **kwargs):
-    COMMANDS_HELP[group]["filters"][filter] = {"action": action or " "}
-    return filters.regex(r"(?i)^{0}(\.|\?|\!)?$".format(filter), *args, **kwargs)
-
-
-filters.int = int_filter
-
-
-def command_filter(
-    command, group: str = "general", action: str = None, *args, **kwargs
-):
-    if command not in COMMANDS_HELP[group]["commands"].keys():
-        COMMANDS_HELP[group]["commands"][command] = {"action": action or ""}
-    prefixes = "".join(prefix)
-    _prefix = f"^[{re.escape(prefixes)}]"
-    return filters.regex(_prefix + command, *args, **kwargs)
-
-
-filters.cmd = command_filter
 
 
 @Client.on_message(~filters.private & filters.all)

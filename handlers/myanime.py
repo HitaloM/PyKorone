@@ -20,7 +20,6 @@ import httpx
 import anilist
 from jikanpy import AioJikan
 
-from pyromod.helpers import ikb
 from pyrogram import Client, filters
 from pyrogram.types import Message
 from PIL import Image
@@ -89,7 +88,7 @@ async def anilist_anime(c: Client, m: Message):
     await m.reply_photo(
         photo=f"https://img.anili.st/media/{anime.id}",
         caption=text,
-        reply_markup=ikb(keyboard),
+        reply_markup=c.ikb(keyboard),
     )
 
 
@@ -174,7 +173,7 @@ async def anilist_manga(c: Client, m: Message):
     await m.reply_photo(
         photo=f"https://img.anili.st/media/{manga.id}",
         caption=text,
-        reply_markup=ikb(keyboard),
+        reply_markup=c.ikb(keyboard),
     )
 
 

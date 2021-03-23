@@ -32,20 +32,23 @@ if "--no-update" not in sys.argv:
 print("\033[0m")
 os.system("clear")
 
+import re
 import logging
 import platform
 
 import pyrogram
-import pyromod.listen
-import pyromod.helpers
-from pyrogram import Client, idle
+import pyromod
+from pyromod import listen, filters
+from pyromod.helpers import ikb
+from pyrogram import Client, filters, idle
 from database import connect_database
 from tortoise import run_async
 from rich import box, print
 from rich.logging import RichHandler
 from rich.panel import Panel
 
-from config import API_HASH, API_ID, SUDOERS, TOKEN
+from config import API_HASH, API_ID, SUDOERS, TOKEN, prefix
+from handlers import COMMANDS_HELP
 
 # Logging colorized by rich
 FORMAT = "%(message)s"
@@ -76,11 +79,33 @@ text = ":rocket: [bold green]PyKorone Running...[/bold green] :rocket:"
 print(Panel.fit(text, border_style="blue", box=box.ASCII))
 
 
+# monkeypatch
+def int_filter(filter, group: str = "others", action: str = None, *args, **kwargs):
+    COMMANDS_HELP[group]["filters"][filter] = {"action": action or " "}
+    return filters.regex(r"(?i)^{0}(\.|\?|\!)?$".format(filter), *args, **kwargs)
+
+
+def command_filter(
+    command, group: str = "general", action: str = None, *args, **kwargs
+):
+    if command not in COMMANDS_HELP[group]["commands"].keys():
+        COMMANDS_HELP[group]["commands"][command] = {"action": action or ""}
+    prefixes = "".join(prefix)
+    _prefix = f"^[{re.escape(prefixes)}]"
+    return filters.regex(_prefix + command, *args, **kwargs)
+
+
+pyrogram.filters.cmd = command_filter
+pyrogram.filters.int = int_filter
+
+
+# Init client
 async def main():
     await connect_database()
 
     await client.start()
     client.me = await client.get_me()
+    client.ikb = ikb
 
     start_message = f"""<b>PyKorone Started...</b>
 - <b>Pyrogram:</b> <code>v{pyrogram.__version__}</code>

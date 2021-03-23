@@ -22,7 +22,6 @@ import rapidjson as json
 import wikipediaapi
 from pyrogram import Client, filters
 from pyrogram.types import Message
-from pyromod.helpers import ikb
 
 from handlers.utils.random import CATCH_REACT, HELLO, REACTIONS
 from . import COMMANDS_HELP
@@ -173,7 +172,7 @@ async def wiki_search(c: Client, m: Message):
         await m.reply_text("Nenhum resultado foi encontrado!")
         return
 
-    keyboard = ikb([[("Ler mais...", page.fullurl, "url")]])
+    keyboard = c.ikb([[("Ler mais...", page.fullurl, "url")]])
     await m.reply_text(
         ("<b>{}</b>\n{}...").format(page.title, page.summary[0:500]),
         reply_markup=keyboard,

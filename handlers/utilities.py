@@ -22,7 +22,7 @@ from bs4 import BeautifulSoup as bs
 from PIL import Image
 from search_engine_parser import GoogleSearch, BingSearch
 from pyrogram import Client, filters
-from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton, Message
+from pyrogram.types import Message
 
 from . import COMMANDS_HELP
 
@@ -82,21 +82,13 @@ async def pypi(c: Client, m: Message):
             )
         )
         if pypi_info["home_page"] and pypi_info["home_page"] != "UNKNOWN":
-            kb = InlineKeyboardMarkup(
-                inline_keyboard=[
-                    [
-                        InlineKeyboardButton(
-                            text="Package Home Page", url=pypi_info["home_page"]
-                        )
-                    ]
-                ]
-            )
+            keyboard = [[("Package Home Page", pypi_info["home_page"], "url")]]
         else:
-            kb = None
+            keyboard = None
         await m.reply_text(
             message,
             disable_web_page_preview=True,
-            reply_markup=kb,
+            reply_markup=c.ikb(keyboard),
         )
     else:
         await m.reply_text(

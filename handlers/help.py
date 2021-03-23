@@ -15,7 +15,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import html
-from pyromod.helpers import ikb
+
 from pyrogram import Client, filters
 from pyrogram.types import Message, CallbackQuery
 
@@ -57,9 +57,7 @@ async def start(c: Client, m: Message):
             await help_module(m, module)
     else:
         keyboard = []
-        text = (start_text).format(
-            m.from_user.first_name, (await c.get_me()).first_name
-        )
+        text = (start_text).format(m.from_user.first_name, c.me.first_name)
         if m.chat.type == "private":
             keyboard.append([("📚 Ajuda", "help_cb"), ("ℹ️ Sobre", "about")])
             keyboard.append([("👥 Grupo Off-Topic", "https://t.me/SpamTherapy", "url")])
@@ -68,7 +66,7 @@ async def start(c: Client, m: Message):
                 [
                     (
                         "Clique aqui para obter ajuda!",
-                        f"http://t.me/{(await c.get_me()).username}?start",
+                        f"http://t.me/{c.me.username}?start",
                         "url",
                     )
                 ]
@@ -76,7 +74,7 @@ async def start(c: Client, m: Message):
             text += "Você pode ver tudo que eu posso fazer clicando no botão abaixo..."
         await m.reply_text(
             text,
-            reply_markup=ikb(keyboard),
+            reply_markup=c.ikb(keyboard),
         )
 
 
@@ -90,7 +88,7 @@ async def help_m(c: Client, m: Message):
             [("Ir ao PM", f"https://t.me/{c.me.username}/?start=help_{module}", "url")]
         ]
         await m.reply_text(
-            text="Para ver isso, vá ao meu PM.", reply_markup=ikb(keyboard)
+            text="Para ver isso, vá ao meu PM.", reply_markup=c.ikb(keyboard)
         )
 
 
@@ -104,10 +102,10 @@ async def help(c: Client, m: Message):
 
 @Client.on_callback_query(filters.regex("^help_cb$"))
 async def help_cb(c: Client, m: CallbackQuery):
-    await help_module(m)
+    await help_module(c, m)
 
 
-async def help_module(m: Message, module: str = None):
+async def help_module(c: Client, m: Message, module: str = None):
     is_query = isinstance(m, CallbackQuery)
     text = ""
     keyboard = []
@@ -166,7 +164,7 @@ async def help_module(m: Message, module: str = None):
 
     kwargs = {}
     if keyboard:
-        kwargs["reply_markup"] = ikb(keyboard)
+        kwargs["reply_markup"] = c.ikb(keyboard)
 
     if success:
         await (m.edit_message_text if is_query else m.reply_text)(text, **kwargs)
@@ -175,12 +173,12 @@ async def help_module(m: Message, module: str = None):
 @Client.on_callback_query(filters.regex("help_(?P<module>.+)"))
 async def on_help_callback(c: Client, cq: CallbackQuery):
     module = cq.matches[0]["module"]
-    await help_module(cq, module)
+    await help_module(c, cq, module)
 
 
 @Client.on_callback_query(filters.regex("^about$"))
 async def about(c: Client, m: CallbackQuery):
-    keyboard = ikb([[("⬅️ Voltar", "start_back")]])
+    keyboard = c.ikb([[("⬅️ Voltar", "start_back")]])
     await m.message.edit_text(
         about_text,
         reply_markup=keyboard,
@@ -190,11 +188,9 @@ async def about(c: Client, m: CallbackQuery):
 
 @Client.on_callback_query(filters.regex("^start_back$"))
 async def start_back(c: Client, m: CallbackQuery):
-    text = (start_text).format(m.from_user.first_name, (await c.get_me()).first_name)
-    keyboard = ikb(
-        [
-            [("📚 Ajuda", "help_cb"), ("ℹ️ Sobre", "about")],
-            [("👥 Grupo Off-Topic", "https://t.me/SpamTherapy", "url")],
-        ]
-    )
-    await m.message.edit_text(text, reply_markup=keyboard)
+    text = (start_text).format(m.from_user.first_name, c.me.first_name)
+    keyboard = [
+        [("📚 Ajuda", "help_cb"), ("ℹ️ Sobre", "about")],
+        [("👥 Grupo Off-Topic", "https://t.me/SpamTherapy", "url")],
+    ]
+    await m.message.edit_text(text, reply_markup=c.ikb(keyboard))
