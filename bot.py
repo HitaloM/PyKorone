@@ -63,7 +63,7 @@ logging.getLogger("pyrogram.client").setLevel(logging.WARNING)
 log = logging.getLogger("rich")
 
 client = Client(
-    "client",
+    ":memory:",
     API_ID,
     API_HASH,
     bot_token=TOKEN,
