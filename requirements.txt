@@ -1,4 +1,4 @@
-pyrogram==1.2.3
+pyrogram==1.2.4
 tgcrypto==1.2.2
 pyromod==1.5
 rich==9.13.0
