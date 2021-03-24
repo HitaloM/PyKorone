@@ -34,3 +34,7 @@ korone/*.session-journal
 
 # PyCharm project
 .idea/
+
+# misc
+*.png
+dls/

@@ -15,7 +15,10 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import httpx
+import asyncio
 import spamwatch
+from functools import wraps, partial
+from typing import Coroutine, Callable
 
 from korone.config import SW_API
 
@@ -37,6 +40,9 @@ else:
 
 
 # Misc
+loop = asyncio.get_event_loop()
+
+
 def pretty_size(size):
     units = ["B", "KB", "MB", "GB"]
     unit = 0
@@ -44,3 +50,13 @@ def pretty_size(size):
         size /= 1024
         unit += 1
     return "%0.2f %s" % (size, units[unit])
+
+
+def aiowrap(fn: Callable) -> Coroutine:
+    @wraps(fn)
+    def decorator(*args, **kwargs):
+        wrapped = partial(fn, *args, **kwargs)
+
+        return loop.run_in_executor(None, wrapped)
+
+    return decorator

@@ -15,16 +15,20 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import re
+import os
 import io
 import html
-from bs4 import BeautifulSoup as bs
+import time
+import datetime
+import youtube_dl
 from PIL import Image
+from bs4 import BeautifulSoup as bs
 from search_engine_parser import GoogleSearch, BingSearch
 
 from pyrogram import Client, filters
-from pyrogram.types import Message
+from pyrogram.types import Message, CallbackQuery
 
-from korone.utils import http
+from korone.utils import http, aiowrap, pretty_size
 from korone.handlers import COMMANDS_HELP
 
 GROUP = "utils"
@@ -242,3 +246,102 @@ def stickcolorsync(color):
     image_stream.seek(0)
 
     return image_stream
+
+
+@aiowrap
+def extract_info(instance, url, download=True):
+    return instance.extract_info(url, download)
+
+
+@Client.on_message(
+    filters.cmd(
+        command="ytdl (?P<search>.+)",
+        action="Faça o Korone baixar um vídeo do YouTube e enviar no chat atual.",
+        group=GROUP,
+    )
+)
+async def on_ytdl(c: Client, m: Message):
+    url = m.matches[0]["search"]
+    ydl = youtube_dl.YoutubeDL(
+        {"outtmpl": "dls/%(title)s-%(id)s.%(ext)s", "format": "mp4", "noplaylist": True}
+    )
+    if "youtu.be" not in url and "youtube.com" not in url:
+        yt = await extract_info(ydl, "ytsearch:" + url, download=False)
+        yt = yt["entries"][0]
+    else:
+        yt = await extract_info(ydl, url, download=False)
+    keyb = [
+        [
+            ("💿 Áudio", f'_aud.{yt["id"]}|{m.chat.id}'),
+            ("🎬 Vídeo", f'_vid.{yt["id"]}|{m.chat.id}'),
+        ],
+    ]
+    for f in yt["formats"]:
+        if f["format_id"] == "140":
+            fsize = f["filesize"] or 0
+    if not fsize > 2147483648:
+        text = f"🎧 <b>{yt.get('creator') or yt.get('uploader')}</b> - <i>{yt.get('title')}</i>\n"
+        text += f"💾 <code>{pretty_size(fsize)}</code> (min) | ⏳ <code>{datetime.timedelta(seconds=yt.get('duration'))}</code>"
+        await m.reply_text(text, reply_markup=c.ikb(keyb))
+    else:
+        await m.reply_text("O arquivo é muito grande!")
+
+
+@Client.on_callback_query(filters.regex("^(_(vid|aud))"))
+async def cli_ytdl(c, cq: CallbackQuery):
+    data, cid = cq.data.split("|")
+    vid = re.sub(r"^\_(vid|aud)\.", "", data)
+    url = "https://www.youtube.com/watch?v=" + vid
+    edit = await cq.message.edit("Downloading...")
+    if "vid" in data:
+        ydl = youtube_dl.YoutubeDL(
+            {
+                "outtmpl": "dls/%(title)s-%(id)s.%(ext)s",
+                "format": "mp4",
+                "noplaylist": True,
+            }
+        )
+    else:
+        ydl = youtube_dl.YoutubeDL(
+            {
+                "outtmpl": "dls/%(title)s-%(id)s.%(ext)s",
+                "format": "140",
+                "noplaylist": True,
+            }
+        )
+    yt = await extract_info(ydl, url, download=True)
+    a = "Sending..."
+    await cq.message.edit(a)
+    filename = ydl.prepare_filename(yt)
+    ctime = time.time()
+    print(edit)
+    r = await http.get(yt["thumbnail"])
+    with open(f"{ctime}.png", "wb") as f:
+        f.write(r.read())
+    if "vid" in data:
+        await c.send_video(
+            cid,
+            filename,
+            width=int(1920),
+            height=int(1080),
+            caption=yt["title"],
+            duration=yt["duration"],
+            thumb=f"{ctime}.png",
+        )
+    else:
+        if " - " in yt["title"]:
+            performer, title = yt["title"].rsplit(" - ", 1)
+        else:
+            performer = yt.get("creator") or yt.get("uploader")
+            title = yt["title"]
+        await c.send_audio(
+            cid,
+            filename,
+            title=title,
+            performer=performer,
+            duration=yt["duration"],
+            thumb=f"{ctime}.png",
+        )
+    os.remove(filename)
+    os.remove(f"./{ctime}.png")
+    await cq.message.edit("Feito!")
