@@ -16,6 +16,8 @@
 
 from .version import __version__
 
+__license__ = "GNU General Public License v3 or later (GPLv3+)"
+__copyright__ = "Copyright (C) 2021 AmanoTeam <https://github.com/AmanoTeam>"
 __description__ = "An interactive and multi-function Telegram bot, made especially for Telegram groups."
 __source__ = "https://github.com/AmanoTeam/PyKorone"
 __community__ = "https://t.me/SpamTherapy"

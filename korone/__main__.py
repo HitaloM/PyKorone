@@ -35,17 +35,19 @@ os.system("clear")
 import re
 import logging
 import platform
-
-import pyrogram
-import pyromod
-from pyromod import listen, filters
-from pyromod.helpers import ikb
-from pyrogram import Client, filters, idle
 from tortoise import run_async
 from rich import box, print
 from rich.logging import RichHandler
 from rich.panel import Panel
 
+import pyromod
+import pyrogram
+from pyromod import listen, filters
+from pyromod.helpers import ikb
+from pyrogram import Client, filters, idle
+from pyrogram.session import Session
+
+import korone
 from korone.database import connect_database
 from korone.config import API_HASH, API_ID, SUDOERS, TOKEN, prefix
 from korone.handlers import COMMANDS_HELP
@@ -76,6 +78,10 @@ client = Client(
 
 # Beautiful init with rich
 text = ":rocket: [bold green]PyKorone Running...[/bold green] :rocket:"
+text += f"\nKorone v{korone.__version__}"
+text += f"\nPyrogram v{pyrogram.__version__}"
+text += f"\n{korone.__license__}"
+text += f"\n{korone.__copyright__}"
 print(Panel.fit(text, border_style="blue", box=box.ASCII))
 
 
@@ -99,6 +105,10 @@ pyrogram.filters.cmd = command_filter
 pyrogram.filters.int = int_filter
 
 
+# Disable ugly pyrogram notice print
+Session.notice_displayed = True
+
+
 # Init client
 async def main():
     await connect_database()
@@ -107,7 +117,7 @@ async def main():
     client.me = await client.get_me()
     client.ikb = ikb
 
-    start_message = f"""<b>PyKorone Started...</b>
+    start_message = f"""<b>PyKorone <code>v{korone.__version__}</code> started...</b>
 - <b>Pyrogram:</b> <code>v{pyrogram.__version__}</code>
 - <b>Pyromod:</b> <code>v{pyromod.__version__}</code>
 - <b>Python:</b> <code>v{platform.python_version()}</code>

@@ -10,13 +10,11 @@ documentation = "https://github.com/AmanoTeam/PyKorone/blob/main/README.md"
 
 keywords = ["chat", "telegram", "bot", "telegram-bot", "pyrogram", "black", "flake8"]
 classifiers = [
-    "Development Status :: 4 - Beta",
+    "Development Status :: 5 - Production/Stable",
     "Environment :: Console",
     "Framework :: AsyncIO",
-    "Framework :: Flake8",
     "Natural Language :: Portuguese (Brazilian)",
     "License :: OSI Approved :: GNU General Public License v3 or later (GPLv3+)",
-    "Intended Audience :: End Users/Desktop",
     "Operating System :: OS Independent",
     "Topic :: Internet",
     "Topic :: Communications",
