@@ -14,7 +14,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-import aionewton
+import pynewton
 
 from pyrogram import Client, filters
 from pyrogram.types import Message
@@ -36,105 +36,105 @@ done_text = "<b>Expressão:</b> <code>{}</code>\n<b>Resultado:</b> <code>{}</cod
 @Client.on_message(filters.cmd("simplify (?P<calc>.+)", group=GROUP))
 async def simplify(c: Client, m: Message):
     calc = m.matches[0]["calc"]
-    result = await aionewton.simplify(calc)
+    result = await pynewton.simplify(calc)
     await m.reply_text((done_text).format(calc, result))
 
 
 @Client.on_message(filters.cmd("factor (?P<calc>.+)", group=GROUP))
 async def factor(c: Client, m: Message):
     calc = m.matches[0]["calc"]
-    result = await aionewton.factor(calc)
+    result = await pynewton.factor(calc)
     await m.reply_text((done_text).format(calc, result))
 
 
 @Client.on_message(filters.cmd("derive (?P<calc>.+)", group=GROUP))
 async def derive(c: Client, m: Message):
     calc = m.matches[0]["calc"]
-    result = await aionewton.derive(calc)
+    result = await pynewton.derive(calc)
     await m.reply_text((done_text).format(calc, result))
 
 
 @Client.on_message(filters.cmd("integrate (?P<calc>.+)", group=GROUP))
 async def integrate(c: Client, m: Message):
     calc = m.matches[0]["calc"]
-    result = await aionewton.integrate(calc)
+    result = await pynewton.integrate(calc)
     await m.reply_text((done_text).format(calc, result))
 
 
 @Client.on_message(filters.cmd("zeroes (?P<calc>.+)", group=GROUP))
 async def zeroes(c: Client, m: Message):
     calc = m.matches[0]["calc"]
-    result = await aionewton.zeroes(calc)
+    result = await pynewton.zeroes(calc)
     await m.reply_text((done_text).format(calc, result))
 
 
 @Client.on_message(filters.cmd("tangent (?P<calc>.+)", group=GROUP))
 async def tangent(c: Client, m: Message):
     calc = m.matches[0]["calc"]
-    result = await aionewton.tangent(calc)
+    result = await pynewton.tangent(calc)
     await m.reply_text((done_text).format(calc, result))
 
 
 @Client.on_message(filters.cmd("area (?P<calc>.+)", group=GROUP))
 async def area(c: Client, m: Message):
     calc = m.matches[0]["calc"]
-    result = await aionewton.area(calc)
+    result = await pynewton.area(calc)
     await m.reply_text((done_text).format(calc, result))
 
 
 @Client.on_message(filters.cmd("cos (?P<calc>.+)", group=GROUP))
 async def xos(c: Client, m: Message):
     calc = m.matches[0]["calc"]
-    result = await aionewton.cos(calc)
+    result = await pynewton.cos(calc)
     await m.reply_text((done_text).format(calc, result))
 
 
 @Client.on_message(filters.cmd("sin (?P<calc>.+)", group=GROUP))
 async def sin(c: Client, m: Message):
     calc = m.matches[0]["calc"]
-    result = await aionewton.sin(calc)
+    result = await pynewton.sin(calc)
     await m.reply_text((done_text).format(calc, result))
 
 
 @Client.on_message(filters.cmd("tan (?P<calc>.+)", group=GROUP))
 async def tan(c: Client, m: Message):
     calc = m.matches[0]["calc"]
-    result = await aionewton.tan(calc)
+    result = await pynewton.tan(calc)
     await m.reply_text((done_text).format(calc, result))
 
 
 @Client.on_message(filters.cmd("accos (?P<calc>.+)", group=GROUP))
 async def accos(c: Client, m: Message):
     calc = m.matches[0]["calc"]
-    result = await aionewton.accos(calc)
+    result = await pynewton.accos(calc)
     await m.reply_text((done_text).format(calc, result))
 
 
 @Client.on_message(filters.cmd("arcsin (?P<calc>.+)", group=GROUP))
 async def arcsin(c: Client, m: Message):
     calc = m.matches[0]["calc"]
-    result = await aionewton.arcsin(calc)
+    result = await pynewton.arcsin(calc)
     await m.reply_text((done_text).format(calc, result))
 
 
 @Client.on_message(filters.cmd("arctan (?P<calc>.+)", group=GROUP))
 async def arctan(c: Client, m: Message):
     calc = m.matches[0]["calc"]
-    result = await aionewton.arctan(calc)
+    result = await pynewton.arctan(calc)
     await m.reply_text((done_text).format(calc, result))
 
 
 @Client.on_message(filters.cmd("abs (?P<calc>.+)", group=GROUP))
 async def abs(c: Client, m: Message):
     calc = m.matches[0]["calc"]
-    result = await aionewton.abs(calc)
+    result = await pynewton.abs(calc)
     await m.reply_text((done_text).format(calc, result))
 
 
 @Client.on_message(filters.cmd("log (?P<calc>.+)", group=GROUP))
 async def log(c: Client, m: Message):
     calc = m.matches[0]["calc"]
-    result = await aionewton.log(calc)
+    result = await pynewton.log(calc)
     await m.reply_text((done_text).format(calc, result))
 
 

@@ -25,24 +25,6 @@ yarl = ">=1.0,<2.0"
 speedups = ["aiodns", "brotlipy", "cchardet"]
 
 [[package]]
-name = "aionewton"
-version = "1.0.7"
-description = "An asyncio-based wrapper for the newton-api"
-category = "main"
-optional = false
-python-versions = "*"
-develop = false
-
-[package.dependencies]
-aiohttp = ">=2.0.5"
-
-[package.source]
-type = "git"
-url = "https://github.com/AndrielFR/aionewton"
-reference = "master"
-resolved_reference = "0f740851154de0e4f64d7c9f676b0b27eaabeccc"
-
-[[package]]
 name = "aiosqlite"
 version = "0.16.1"
 description = "asyncio bridge to the standard sqlite3 module"
@@ -435,6 +417,17 @@ optional = false
 python-versions = ">=3.5"
 
 [[package]]
+name = "pynewton"
+version = "1.1.0"
+description = "An asyncio-based wrapper for the newton-api"
+category = "main"
+optional = false
+python-versions = ">=3.6,<4.0"
+
+[package.dependencies]
+httpx = {version = ">=0.17.1,<0.18.0", extras = ["http2"]}
+
+[[package]]
 name = "pypika-tortoise"
 version = "0.1.0"
 description = "Forked from pypika and streamline just for tortoise-orm"
@@ -706,7 +699,7 @@ multidict = ">=4.0"
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.9"
-content-hash = "765c00c3c4ce218274bfeaad5235eb93208d4e08b9f8165fbdc30c24402e2233"
+content-hash = "89b8fa344ee616180a84fa0f74dfde94faa132468f7444aadc99acd0418e7f7d"
 
 [metadata.files]
 aiofiles = [
@@ -727,7 +720,6 @@ aiohttp = [
     {file = "aiohttp-3.6.2-py3-none-any.whl", hash = "sha256:460bd4237d2dbecc3b5ed57e122992f60188afe46e7319116da5eb8a9dfedba4"},
     {file = "aiohttp-3.6.2.tar.gz", hash = "sha256:259ab809ff0727d0e834ac5e8a283dc5e3e0ecc30c4d80b3cd17a4139ce1f326"},
 ]
-aionewton = []
 aiosqlite = [
     {file = "aiosqlite-0.16.1-py3-none-any.whl", hash = "sha256:1df802815bb1e08a26c06d5ea9df589bcb8eec56e5f3378103b0f9b223c6703c"},
     {file = "aiosqlite-0.16.1.tar.gz", hash = "sha256:2e915463164efa65b60fd1901aceca829b6090082f03082618afca6fb9c8fdf7"},
@@ -949,6 +941,10 @@ pyflakes = [
 pygments = [
     {file = "Pygments-2.8.1-py3-none-any.whl", hash = "sha256:534ef71d539ae97d4c3a4cf7d6f110f214b0e687e92f9cb9d2a3b0d3101289c8"},
     {file = "Pygments-2.8.1.tar.gz", hash = "sha256:2656e1a6edcdabf4275f9a3640db59fd5de107d88e8663c5d4e9a0fa62f77f94"},
+]
+pynewton = [
+    {file = "pynewton-1.1.0-py3-none-any.whl", hash = "sha256:361fb9e9d702b43e2a12a696e2db9f34a8d857468a9fed94bf18f5e298305ebd"},
+    {file = "pynewton-1.1.0.tar.gz", hash = "sha256:d4bb84daaee71171caf29a98f5e19f65252e55d0a24b1c398818573b303b64b6"},
 ]
 pypika-tortoise = [
     {file = "pypika-tortoise-0.1.0.tar.gz", hash = "sha256:7176e98ff0cf7c311d4ba58f28f1755956265dee2f9781e65e1304a67a3e5aa5"},
