@@ -40,7 +40,7 @@ import pyrogram
 import pyromod
 from pyromod import listen, filters
 from pyromod.helpers import ikb
-from pyrogram import Client, filters, idle
+from pyrogram import Client, idle
 from tortoise import run_async
 from rich import box, print
 from rich.logging import RichHandler
