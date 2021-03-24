@@ -199,7 +199,7 @@ async def cb_sticker(c: Client, m: Message):
 
     r = await http.get("https://combot.org/telegram/stickers?page=1&q=" + args)
     soup = bs(r.text, "lxml")
-    results = soup.find_all("a", {"class": "sticker-pack__btn"})
+    results = set(soup.find_all("a", {"class": "sticker-pack__btn"}))
     titles = soup.find_all("div", "sticker-pack__title")
     if not results:
         await m.reply_text("Nenhum resultado encontrado!")
