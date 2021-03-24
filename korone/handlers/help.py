@@ -37,14 +37,16 @@ Seu foco é trazer funções legais e um design funcional com tecnologia e criat
 
 📦 Powered by <a href='https://docs.pyrogram.org/'>Pyrogram</a> with <a href='https://github.com/usernein/pyromod'>Pyromod</a>.
 
-🗂 <b>Links:</b> <a href='{}'>GitHub</a> | <a href='https://t.me/SpamTherapy'>Chat</a>
+🗂 <b>Links:</b> <a href='{}'>GitHub</a> | <a href='{}'>Chat</a> | <a href='{}'>PyPI</a>
 """
 
 
 @Client.on_message(filters.cmd(command="about", action="Informações sobre o bot."))
 async def about_cmd(c: Client, m: Message):
     await m.reply_text(
-        about_text.format(c.me.first_name, korone.__source__),
+        about_text.format(
+            c.me.first_name, korone.__source__, korone.__community__, korone.__pypi__
+        ),
         disable_web_page_preview=True,
     )
 
@@ -189,7 +191,9 @@ async def on_help_callback(c: Client, cq: CallbackQuery):
 async def about(c: Client, m: CallbackQuery):
     keyboard = c.ikb([[("⬅️ Voltar", "start_back")]])
     await m.message.edit_text(
-        about_text.format(c.me.first_name, korone.__source__),
+        about_text.format(
+            c.me.first_name, korone.__source__, korone.__community__, korone.__pypi__
+        ),
         reply_markup=keyboard,
         disable_web_page_preview=True,
     )

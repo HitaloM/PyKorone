@@ -18,3 +18,5 @@ from .version import __version__
 
 __description__ = "An interactive and multi-function Telegram bot, made especially for Telegram groups."
 __source__ = "https://github.com/AmanoTeam/PyKorone"
+__community__ = "https://t.me/SpamTherapy"
+__pypi__ = "https://pypi.org/project/korone/"
