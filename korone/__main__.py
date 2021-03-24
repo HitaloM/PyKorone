@@ -48,6 +48,7 @@ from pyrogram import Client, filters, idle
 from pyrogram.session import Session
 
 import korone
+from korone.utils import http
 from korone.database import connect_database
 from korone.config import API_HASH, API_ID, SUDOERS, TOKEN, prefix
 from korone.handlers import COMMANDS_HELP
@@ -130,6 +131,7 @@ async def main():
         pass
 
     await idle()
+    await http.aclose()
 
 
 if __name__ == "__main__":

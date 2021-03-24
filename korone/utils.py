@@ -14,9 +14,14 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+import httpx
 import spamwatch
 
 from korone.config import SW_API
+
+# unique session of httpx
+timeout = httpx.Timeout(20)
+http = httpx.AsyncClient(http2=True, timeout=timeout)
 
 
 # SpamWatch

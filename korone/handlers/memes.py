@@ -15,7 +15,6 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import re
-import httpx
 import html
 import random
 import base64
@@ -26,6 +25,7 @@ from cowpy import cow
 from pyrogram import Client, filters
 from pyrogram.types import Message
 
+from korone.utils import http
 from korone.handlers import COMMANDS_HELP
 from korone.handlers.utils.random import SHRUGS_REACT, REACTS, PASTAMOJIS
 from korone.handlers.utils.thonkify_dict import thonkifydict
@@ -44,13 +44,13 @@ NEKO_URL = "https://nekos.life/api/v2/img/"
 
 @Client.on_message(filters.cmd(command="hug", action="Dar um abraço.", group=GROUP))
 async def hug(c: Client, m: Message):
-    async with httpx.AsyncClient(http2=True) as http:
-        r = await http.get(NEKO_URL + "hug")
-        if r.status_code == 200:
-            image_url = (r.json())["url"]
-        else:
-            return await m.reply_text(f"Erro!\n**{r.status}**")
-    await http.aclose()
+    r = await http.get(NEKO_URL + "hug")
+    if r.status_code == 200:
+        image_url = (r.json())["url"]
+    else:
+        await m.reply_text(f"Erro!\n**{r.status}**")
+        return
+
     try:
         if m.reply_to_message:
             await m.reply_to_message.reply_document(document=image_url)
@@ -64,14 +64,13 @@ async def hug(c: Client, m: Message):
     filters.cmd(command="pat", action="Dar uma batida na cabeça.", group=GROUP)
 )
 async def pat(c: Client, m: Message):
-    async with httpx.AsyncClient(http2=True) as http:
-        r = await http.get(NEKO_URL + "pat")
-        if r.status_code == 200:
-            image_url = (r.json())["url"]
-        else:
-            return await m.reply_text(f"Erro!\n**{r.status}**")
+    r = await http.get(NEKO_URL + "pat")
+    if r.status_code == 200:
+        image_url = (r.json())["url"]
+    else:
+        await m.reply_text(f"Erro!\n**{r.status}**")
+        return
 
-    await http.aclose()
     try:
         if m.reply_to_message:
             await m.reply_to_message.reply_document(document=image_url)
@@ -83,14 +82,13 @@ async def pat(c: Client, m: Message):
 
 @Client.on_message(filters.cmd(command="slap", action="Dar um tapa.", group=GROUP))
 async def slap(c: Client, m: Message):
-    async with httpx.AsyncClient(http2=True) as http:
-        r = await http.get(NEKO_URL + "slap")
-        if r.status_code == 200:
-            image_url = (r.json())["url"]
-        else:
-            return await m.reply_text(f"Erro!\n**{r.status}**")
+    r = await http.get(NEKO_URL + "slap")
+    if r.status_code == 200:
+        image_url = (r.json())["url"]
+    else:
+        await m.reply_text(f"Erro!\n**{r.status}**")
+        return
 
-    await http.aclose()
     try:
         if m.reply_to_message:
             await m.reply_to_message.reply_document(document=image_url)
@@ -104,14 +102,13 @@ async def slap(c: Client, m: Message):
     filters.cmd(command="waifu", action="Retorna uma waifu.", group=GROUP)
 )
 async def waifu(c: Client, m: Message):
-    async with httpx.AsyncClient(http2=True) as http:
-        r = await http.get(NEKO_URL + "waifu")
-        if r.status_code == 200:
-            image_url = (r.json())["url"]
-        else:
-            return await m.reply_text(f"Erro!\n**{r.status}**")
+    r = await http.get(NEKO_URL + "waifu")
+    if r.status_code == 200:
+        image_url = (r.json())["url"]
+    else:
+        await m.reply_text(f"Erro!\n**{r.status}**")
+        return
 
-    await http.aclose()
     try:
         if m.reply_to_message:
             await m.reply_to_message.reply_photo(image_url)
@@ -123,14 +120,13 @@ async def waifu(c: Client, m: Message):
 
 @Client.on_message(filters.cmd(command="neko", action="Retorna uma Neko.", group=GROUP))
 async def neko(c: Client, m: Message):
-    async with httpx.AsyncClient(http2=True) as http:
-        r = await http.get(NEKO_URL + "neko")
-        if r.status_code == 200:
-            image_url = (r.json())["url"]
-        else:
-            return await m.reply_text(f"Erro!\n**{r.status}**")
+    r = await http.get(NEKO_URL + "neko")
+    if r.status_code == 200:
+        image_url = (r.json())["url"]
+    else:
+        await m.reply_text(f"Erro!\n**{r.status}**")
+        return
 
-    await http.aclose()
     try:
         if m.reply_to_message:
             await m.reply_to_message.reply_photo(image_url)

@@ -14,10 +14,9 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-import httpx
-import html
 import re
 import io
+import html
 from bs4 import BeautifulSoup as bs
 from PIL import Image
 from search_engine_parser import GoogleSearch, BingSearch
@@ -25,6 +24,7 @@ from search_engine_parser import GoogleSearch, BingSearch
 from pyrogram import Client, filters
 from pyrogram.types import Message
 
+from korone.utils import http
 from korone.handlers import COMMANDS_HELP
 
 GROUP = "utils"
@@ -58,9 +58,7 @@ def escape_definition(definition):
 )
 async def pypi(c: Client, m: Message):
     text = m.matches[0]["search"]
-    async with httpx.AsyncClient(http2=True) as http:
-        r = await http.get(f"https://pypi.org/pypi/{text}/json")
-        await http.aclose()
+    r = await http.get(f"https://pypi.org/pypi/{text}/json")
     if r.status_code == 200:
         json = r.json()
         pypi_info = escape_definition(json["info"])
@@ -195,9 +193,7 @@ async def cleanup(c: Client, m: Message):
 async def cb_sticker(c: Client, m: Message):
     args = m.matches[0]["search"]
 
-    async with httpx.AsyncClient(http2=True) as http:
-        r = await http.get("https://combot.org/telegram/stickers?page=1&q=" + args)
-        await http.aclose()
+    r = await http.get("https://combot.org/telegram/stickers?page=1&q=" + args)
     soup = bs(r.text, "lxml")
     results = soup.find_all("a", {"class": "sticker-pack__btn"})
     titles = soup.find_all("div", "sticker-pack__title")
