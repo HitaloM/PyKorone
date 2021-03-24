@@ -38,7 +38,7 @@ import platform
 
 import pyrogram
 import pyromod
-from pyromod import listen, filters
+from pyromod import filters
 from pyromod.helpers import ikb
 from pyrogram import Client, idle
 from tortoise import run_async
