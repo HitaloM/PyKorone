@@ -8,7 +8,7 @@ readme = "README.md"
 repository = "https://github.com/AmanoTeam/PyKorone"
 documentation = "https://github.com/AmanoTeam/PyKorone/blob/main/README.md"
 
-keywords = ["chat", "telegram", "korone", "telegram-korone", "pyrogram", "black", "flake8"]
+keywords = ["chat", "telegram", "bot", "telegram-bot", "pyrogram", "black", "flake8"]
 classifiers = [
     "Development Status :: 4 - Beta",
     "Environment :: Console",
