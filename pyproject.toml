@@ -30,7 +30,7 @@ exclude = ["korone/config.py", "korone/client.session", "korone/client.session-j
 "Community" = "https://t.me/SpamTherapy"
 
 [tool.poetry.dependencies]
-python = "^3.9"
+python = "^3.6"
 pyrogram = "1.2.4"
 tgcrypto = "1.2.2"
 pyromod = "1.5"

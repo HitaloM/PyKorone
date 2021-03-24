@@ -2,17 +2,21 @@
 
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 [![GitHub contributors](https://img.shields.io/github/contributors/AmanoTeam/PyKorone.svg)](https://GitHub.com/AmanoTeam/PyKorone/graphs/contributors/)
+[![PyPi Package Version](https://img.shields.io/pypi/v/korone.svg?)](https://pypi.python.org/pypi/korone)
+[![PyPi status](https://img.shields.io/pypi/status/korone.svg?)](https://pypi.python.org/pypi/korone)
+[![Supported python versions](https://img.shields.io/pypi/pyversions/korone.svg?)](https://pypi.python.org/pypi/korone)
+[![GPLv3 License](https://img.shields.io/pypi/l/korone.svg?)](https://www.gnu.org/licenses/gpl-3.0)
 
-> An interaction and fun korone for Telegram groups, having some useful and other useless commands.
-> Created as an experiment and learning korone but being expanded and improved over time.
+> An interaction and fun bot for Telegram groups, having some useful and other useless commands.
+> Created as an experiment and learning bot but being expanded and improved over time.
 
-This repository contains the source code of [@PyKoroneBot](https://t.me/PyKoroneBot) Telegram Bot, along with instructions for hosting your own instance.
+This repository contains the source code of [@PyKoroneBot](https://t.me/PyKoroneBot) Telegram bot, along with instructions for hosting your own instance.
 
 ## Requirements
 
-- Python 3.9 or higher.
+- Python 3.6 or higher.
 - A [Telegram API Key and API Hash](https://docs.pyrogram.org/intro/setup#api-keys).
-- A [Telegram Bot Token](https://t.me/koronefather).
+- A [Telegram Bot Token](https://t.me/botfather).
 - A Linux distribution (should also work on Windows but has not been tested correctly).
 
 ## Installation
