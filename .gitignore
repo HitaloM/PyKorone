@@ -1,10 +1,36 @@
-korone/config.py
+# Distribution / packaging
+dist/
+*.egg-info/
+
+# Cache
 korone/__pycache__/
 korone/handlers/__pycache__/
 korone/handlers/utils/__pycache__/
 korone/database/__pycache__/
+
+# tortoise-orm database
 korone/database/*.sqlite
+korone/database/*.sqlite-wal
+korone/database/*.sqlite-shm
+
+# Configuration files
+korone/config.py
+
+# Environments
+.env
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# Telegram sessions
 korone/*.session
 korone/*.session-journal
-.vscode/
-dist/
+
+# Visual Studio Code workspace settings
+.vscode
+
+# PyCharm project
+.idea/

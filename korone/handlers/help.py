@@ -59,7 +59,7 @@ async def start(c: Client, m: Message):
         query = field.split("_")
         if query[0] == "help":
             module = query[1]
-            await help_module(m, module)
+            await help_module(c, m, module)
     else:
         keyboard = []
         text = (start_text).format(
@@ -91,7 +91,7 @@ async def start(c: Client, m: Message):
 async def help_m(c: Client, m: Message):
     module = m.matches[0]["module"]
     if m.chat.type == "private":
-        await help_module(m, module)
+        await help_module(c, m, module)
     else:
         keyboard = [
             [("Ir ao PM", f"https://t.me/{c.me.username}/?start=help_{module}", "url")]
