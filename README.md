@@ -47,6 +47,7 @@ To start the bot, type `python3 -m korone`, you can run the bot without updating
 - [@usernein](https://github.com/usernein) - contributed with teachings, ideas and allowed me to use some of his codes.
 - [@AndrielFR](https://github.com/AndrielFR) - one of the main developers of the korone, who helped me in great things, was he who created the 'gban.py' and among other things.
 - [@kdrag0n](https://github.com/kdrag0n) - this README.md was inspired by the [pyrobud](https://github.com/kdrag0n/pyrobud)
+- [@RianFC](https://github.com/RianFC) - granted permission for the port of [ytdl.py](https://t.me/UserLixoPlugins/63) to the Korone.
 
 _If there is anyone I have forgotten to mention please let me know on Telegram: [@Hitalo](https://t.me/Hitalo)_
 

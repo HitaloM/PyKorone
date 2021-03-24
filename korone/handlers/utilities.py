@@ -292,7 +292,7 @@ async def cli_ytdl(c, cq: CallbackQuery):
     data, cid = cq.data.split("|")
     vid = re.sub(r"^\_(vid|aud)\.", "", data)
     url = "https://www.youtube.com/watch?v=" + vid
-    edit = await cq.message.edit("Downloading...")
+    edit = await cq.message.edit("Baixando...")
     if "vid" in data:
         ydl = youtube_dl.YoutubeDL(
             {
@@ -310,11 +310,10 @@ async def cli_ytdl(c, cq: CallbackQuery):
             }
         )
     yt = await extract_info(ydl, url, download=True)
-    a = "Sending..."
+    a = "Enviando..."
     await cq.message.edit(a)
     filename = ydl.prepare_filename(yt)
     ctime = time.time()
-    print(edit)
     r = await http.get(yt["thumbnail"])
     with open(f"{ctime}.png", "wb") as f:
         f.write(r.read())
