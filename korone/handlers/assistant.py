@@ -120,9 +120,9 @@ async def dadjoke(c: Client, m: Message):
     )
 
     if r.status_code == 200:
-        dad_joke = (response.json())["joke"]
+        dad_joke = (r.json())["joke"]
     else:
-        await m.reply_text(f"Erro! <code>{response.status_code}</code>")
+        await m.reply_text(f"Erro! <code>{r.status_code}</code>")
         return
 
     await m.reply_text(dad_joke)
@@ -135,9 +135,9 @@ async def useless_fact(c: Client, m: Message):
     )
 
     if r.status_code == 200:
-        fact_text = (response.json())["text"].replace("`", "'")
+        fact_text = (r.json())["text"].replace("`", "'")
     else:
-        await m.reply_text(f"Erro! <code>{response.status_code}</code>")
+        await m.reply_text(f"Erro! <code>{r.status_code}</code>")
         return
 
     await m.reply_text(fact_text)
