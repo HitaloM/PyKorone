@@ -2,7 +2,7 @@
 name = "korone"
 version = "1.0.0"
 description = "An interactive and multi-function Telegram bot, made especially for Telegram groups."
-authors = ["Hitalo"]
+authors = ["Hitalo <contact@amanoteam.com>"]
 license = "GPLv3+"
 readme = "README.md"
 repository = "https://github.com/AmanoTeam/PyKorone"
@@ -28,7 +28,7 @@ exclude = ["korone/config.py", "korone/client.session", "korone/client.session-j
 "Community" = "https://t.me/SpamTherapy"
 
 [tool.poetry.dependencies]
-python = "^3.6"
+python = "^3.7"
 pyrogram = "1.2.4"
 tgcrypto = "1.2.2"
 pyromod = "1.5"
@@ -47,6 +47,7 @@ jikanpy = "4.3.1"
 asyncpraw = "7.2.0"
 pynewton = "^1.1.0"
 youtube_dl = "2021.3.25"
+wheel = "^0.36.2"
 
 [tool.poetry.dev-dependencies]
 black = "^20.8b1"
