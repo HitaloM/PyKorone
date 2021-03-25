@@ -256,19 +256,21 @@ def extract_info(instance, url, download=True):
 
 @Client.on_message(
     filters.cmd(
-        command="ytdl",
+        command="ytdl(\s(?P<text>.+))?",
         action="Faça o Korone baixar um vídeo do YouTube e enviar no chat atual.",
         group=GROUP,
     )
 )
 async def on_ytdl(c: Client, m: Message):
+    args = m.matches[0]["text"]
     user = m.from_user.id
     if m.reply_to_message and m.reply_to_message.text:
         url = m.reply_to_message.text
-    elif m.text and m.text.split(maxsplit=1)[1]:
-        url = m.text.split(maxsplit=1)[1]
+    elif m.text and args:
+        url = args
     else:
-        await m.reply_text("Por favor, responda a um link do YouTube ou texto. ")
+        await m.reply_text("Por favor, responda a um link do YouTube ou texto.")
+        return
     ydl = youtube_dl.YoutubeDL(
         {"outtmpl": "dls/%(title)s-%(id)s.%(ext)s", "format": "mp4", "noplaylist": True}
     )

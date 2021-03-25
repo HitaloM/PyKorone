@@ -33,6 +33,7 @@ print("\033[0m")
 os.system("clear")
 
 import re
+import shutil
 import logging
 import platform
 from tortoise import run_async
@@ -132,6 +133,10 @@ async def main():
 
     await idle()
     await http.aclose()
+    try:
+        shutil.rmtree("./dls/")
+    except BaseException:
+        pass
 
 
 if __name__ == "__main__":
