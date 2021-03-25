@@ -28,8 +28,13 @@ from search_engine_parser import GoogleSearch, BingSearch
 from pyrogram import Client, filters
 from pyrogram.types import Message, CallbackQuery
 
-from korone.utils import http, aiowrap, pretty_size
+from korone.utils import http, pretty_size
 from korone.handlers import COMMANDS_HELP
+from korone.handlers.utils.translator import LANGUAGES, tr, get_tr_lang
+from korone.handlers.utils.misc import cleanhtml, escape_definition
+from korone.handlers.utils.image import stickcolorsync
+from korone.handlers.utils.ytdl import extract_info
+
 
 GROUP = "utils"
 
@@ -39,18 +44,6 @@ COMMANDS_HELP[GROUP] = {
     "commands": {},
     "help": True,
 }
-
-
-def cleanhtml(raw_html):
-    cleanr = re.compile("<.*?>")
-    return re.sub(cleanr, "", raw_html)
-
-
-def escape_definition(definition):
-    for key, value in definition.items():
-        if isinstance(value, str):
-            definition[key] = html.escape(cleanhtml(value))
-    return definition
 
 
 @Client.on_message(
@@ -232,28 +225,6 @@ async def stickcolor(c: Client, m: Message):
         )
 
 
-def stickcolorsync(color):
-    try:
-        image = Image.new("RGBA", (512, 512), color)
-    except BaseException:
-        try:
-            image = Image.new("RGBA", (512, 512), "#" + color)
-        except BaseException:
-            return
-
-    image_stream = io.BytesIO()
-    image_stream.name = "sticker.webp"
-    image.save(image_stream, "WebP")
-    image_stream.seek(0)
-
-    return image_stream
-
-
-@aiowrap
-def extract_info(instance, url, download=True):
-    return instance.extract_info(url, download)
-
-
 @Client.on_message(
     filters.cmd(
         command="ytdl(\s(?P<text>.+))?",
@@ -367,3 +338,38 @@ async def cli_ytdl(c, cq: CallbackQuery):
     os.remove(filename)
     os.remove(f"./{ctime}.png")
     await cq.message.edit("Feito!")
+
+
+@Client.on_message(filters.cmd(command="tr", action="Google Tradutor.", group=GROUP))
+async def translate(c: Client, m: Message):
+    text = m.text[4:]
+    lang = get_tr_lang(text)
+
+    text = text.replace(lang, "", 1).strip() if text.startswith(lang) else text
+
+    if m.reply_to_message and not text:
+        text = m.reply_to_message.text or m.reply_to_message.caption
+
+    if not text:
+        return await m.reply_text(
+            "<b>Uso:</b> <code>/tr &lt;idioma&gt; texto para tradução</code> (Também pode ser usado em resposta a uma mensagem)."
+        )
+
+    sent = await m.reply_text("Traduzindo...")
+    langs = {}
+
+    if len(lang.split("-")) > 1:
+        langs["sourcelang"] = lang.split("-")[0]
+        langs["targetlang"] = lang.split("-")[1]
+    else:
+        langs["targetlang"] = lang
+
+    trres = await tr(text, **langs)
+    text = trres.text
+
+    res = html.escape(text)
+    await sent.edit_text(
+        (
+            "<b>Idioma:</b> {from_lang} -> {to_lang}\n<b>Tradução:</b> <code>{translation}</code>"
+        ).format(from_lang=trres.lang, to_lang=langs["targetlang"], translation=res)
+    )

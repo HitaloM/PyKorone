@@ -14,13 +14,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-import html
 from gpytranslate import Translator
-
-from pyrogram import Client, filters
-from pyrogram.types import Message
-
-from korone.handlers.utilities import GROUP
 
 tr = Translator()
 
@@ -150,38 +144,3 @@ def get_tr_lang(text):
     else:
         lang = "pt"
     return lang
-
-
-@Client.on_message(filters.cmd(command="tr", action="Google Tradutor.", group=GROUP))
-async def translate(c: Client, m: Message):
-    text = m.text[4:]
-    lang = get_tr_lang(text)
-
-    text = text.replace(lang, "", 1).strip() if text.startswith(lang) else text
-
-    if m.reply_to_message and not text:
-        text = m.reply_to_message.text or m.reply_to_message.caption
-
-    if not text:
-        return await m.reply_text(
-            "<b>Uso:</b> <code>/tr &lt;idioma&gt; texto para tradução</code> (Também pode ser usado em resposta a uma mensagem)."
-        )
-
-    sent = await m.reply_text("Traduzindo...")
-    langs = {}
-
-    if len(lang.split("-")) > 1:
-        langs["sourcelang"] = lang.split("-")[0]
-        langs["targetlang"] = lang.split("-")[1]
-    else:
-        langs["targetlang"] = lang
-
-    trres = await tr(text, **langs)
-    text = trres.text
-
-    res = html.escape(text)
-    await sent.edit_text(
-        (
-            "<b>Idioma:</b> {from_lang} -> {to_lang}\n<b>Tradução:</b> <code>{translation}</code>"
-        ).format(from_lang=trres.lang, to_lang=langs["targetlang"], translation=res)
-    )
