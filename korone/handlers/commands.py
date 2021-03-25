@@ -254,3 +254,8 @@ async def b64d(c: Client, m: Message):
     except binascii.Error as e:
         return await m.reply_text(f"⚠️ Dados base64 inválidos: {e}")
     await m.reply_text(html.escape(b64))
+
+
+@Client.on_message(filters.cmd(command="empty", action="Envia uma mensagem vazia."))
+async def empty(c: Client, m: Message):
+    await m.reply_text("\U000e0020")
