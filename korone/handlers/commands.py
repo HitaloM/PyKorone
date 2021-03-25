@@ -15,6 +15,8 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import html
+import base64
+import binascii
 import platform
 from datetime import datetime
 
@@ -231,3 +233,24 @@ async def redimg(c: Client, m: Message):
         await titlefetcher(c, m, sub)
     elif fetch_type == "b":
         await bodyfetcher(c, m, sub)
+
+
+@Client.on_message(
+    filters.cmd(command="b64encode (?P<text>.+)", action="Codifique texto em base64.")
+)
+async def b64e(c: Client, m: Message):
+    text = m.matches[0]["text"]
+    b64 = base64.b64encode(text.encode("utf-8")).decode()
+    await m.reply_text(f"<code>{b64}</code>")
+
+
+@Client.on_message(
+    filters.cmd(command="b64decode (?P<text>.+)", action="Decodifique códigos base64.")
+)
+async def b64d(c: Client, m: Message):
+    text = m.matches[0]["text"]
+    try:
+        b64 = base64.b64decode(text).decode("utf-8", "replace")
+    except binascii.Error as e:
+        return await m.reply_text(f"⚠️ Dados base64 inválidos: {e}")
+    await m.reply_text(html.escape(b64))
