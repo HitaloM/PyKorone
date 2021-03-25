@@ -16,12 +16,10 @@
 
 import re
 import os
-import io
 import html
 import time
 import datetime
 import youtube_dl
-from PIL import Image
 from bs4 import BeautifulSoup as bs
 from search_engine_parser import GoogleSearch, BingSearch
 
@@ -30,8 +28,8 @@ from pyrogram.types import Message, CallbackQuery
 
 from korone.utils import http, pretty_size
 from korone.handlers import COMMANDS_HELP
-from korone.handlers.utils.translator import LANGUAGES, tr, get_tr_lang
-from korone.handlers.utils.misc import cleanhtml, escape_definition
+from korone.handlers.utils.translator import tr, get_tr_lang
+from korone.handlers.utils.misc import escape_definition
 from korone.handlers.utils.image import stickcolorsync
 from korone.handlers.utils.ytdl import extract_info
 

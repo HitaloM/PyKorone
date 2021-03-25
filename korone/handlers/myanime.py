@@ -14,11 +14,9 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-import io
 import time
 import anilist
 from jikanpy import AioJikan
-from PIL import Image
 
 from pyrogram import Client, filters
 from pyrogram.types import Message
