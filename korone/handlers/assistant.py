@@ -16,8 +16,8 @@
 
 import io
 import random
+import wikipedia
 import rapidjson as json
-import wikipediaapi
 
 from pyrogram import Client, filters
 from pyrogram.types import Message
@@ -161,18 +161,36 @@ async def invitelink(c: Client, m: Message):
 @Client.on_message(filters.int(filter=r"Korone, o que é (?P<text>.+)", group=GROUP))
 async def wiki_search(c: Client, m: Message):
     args = m.matches[0]["text"]
-    wiki = wikipediaapi.Wikipedia("pt")
-
-    page = wiki.page(args)
-
-    if page.exists() is False:
-        await m.reply_text("Nenhum resultado foi encontrado!")
+    wikipedia.set_lang("pt")
+    try:
+        pagewiki = wikipedia.page(args)
+    except wikipedia.exceptions.PageError as e:
+        await m.reply_text(
+            "Desculpe nenhum resultado foi encontrado!\n\n"
+            f"<b>Erro</b>: <code>{e}</code>"
+        )
         return
-
-    keyboard = c.ikb([[("Ler mais...", page.fullurl, "url")]])
+    except wikipedia.exceptions.DisambiguationError as refer:
+        refer = str(refer).split("\n")
+        if len(refer) >= 6:
+            batas = 6
+        else:
+            batas = len(refer)
+        text = ""
+        for x in range(batas):
+            if x == 0:
+                text += refer[x] + "\n"
+            else:
+                text += "- <code>" + refer[x] + "</code>\n"
+        await m.reply_text(text)
+        return
+    except IndexError:
+        return
+    title = pagewiki.title
+    summary = pagewiki.summary[0:500]
+    keyboard = c.ikb([[("Ler mais...", wikipedia.page(args).url, "url")]])
     await m.reply_text(
-        ("<b>{}</b>\n{}...").format(page.title, page.summary[0:500]),
-        reply_markup=keyboard,
+        ("<b>{}</b>\n{}...").format(title, summary), reply_markup=keyboard
     )
 
 

@@ -702,15 +702,16 @@ socks = ["PySocks (>=1.5.6,!=1.5.7,<2.0)"]
 brotli = ["brotlipy (>=0.6.0)"]
 
 [[package]]
-name = "wikipedia-api"
-version = "0.5.4"
-description = "Python Wrapper for Wikipedia"
+name = "wikipedia"
+version = "1.4.0"
+description = "Wikipedia API for Python"
 category = "main"
 optional = false
 python-versions = "*"
 
 [package.dependencies]
-requests = "*"
+beautifulsoup4 = "*"
+requests = ">=2.0.0,<3.0.0"
 
 [[package]]
 name = "yarl"
@@ -748,7 +749,7 @@ testing = ["pytest (>=4.6)", "pytest-checkdocs (>=1.2.3)", "pytest-flake8", "pyt
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.7"
-content-hash = "6a3ee459f691634a10aadba67fd90435d526c689af268439b7b7c7cc6b23edae"
+content-hash = "ee2a3e2818d350814213cd74d5cd9837d06a4a8536c05583675332670d1408ce"
 
 [metadata.files]
 aiofiles = [
@@ -1259,8 +1260,8 @@ urllib3 = [
     {file = "urllib3-1.26.4-py2.py3-none-any.whl", hash = "sha256:2f4da4594db7e1e110a944bb1b551fdf4e6c136ad42e4234131391e21eb5b0df"},
     {file = "urllib3-1.26.4.tar.gz", hash = "sha256:e7b021f7241115872f92f43c6508082facffbd1c048e3c6e2bb9c2a157e28937"},
 ]
-wikipedia-api = [
-    {file = "Wikipedia-API-0.5.4.tar.gz", hash = "sha256:5173d4db641cdb78d96f2b052df2232bcdc00cf32a424c43402958a40f783992"},
+wikipedia = [
+    {file = "wikipedia-1.4.0.tar.gz", hash = "sha256:db0fad1829fdd441b1852306e9856398204dc0786d2996dd2e0c8bb8e26133b2"},
 ]
 yarl = [
     {file = "yarl-1.6.3-cp36-cp36m-macosx_10_14_x86_64.whl", hash = "sha256:0355a701b3998dcd832d0dc47cc5dedf3874f966ac7f870e0f3a6788d802d434"},
