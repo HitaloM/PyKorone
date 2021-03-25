@@ -262,6 +262,7 @@ def extract_info(instance, url, download=True):
     )
 )
 async def on_ytdl(c: Client, m: Message):
+    user = m.from_user.id
     if m.reply_to_message and m.reply_to_message.text:
         url = m.reply_to_message.text
     elif m.text and m.text.split(maxsplit=1)[1]:
@@ -283,8 +284,8 @@ async def on_ytdl(c: Client, m: Message):
         yt = await extract_info(ydl, rege.group(), download=False)
     keyb = [
         [
-            ("💿 Áudio", f'_aud.{yt["id"]}|{m.chat.id}'),
-            ("🎬 Vídeo", f'_vid.{yt["id"]}|{m.chat.id}'),
+            ("💿 Áudio", f'_aud.{yt["id"]}|{m.chat.id}|{user}'),
+            ("🎬 Vídeo", f'_vid.{yt["id"]}|{m.chat.id}|{user}'),
         ],
     ]
     for f in yt["formats"]:
@@ -305,7 +306,9 @@ async def on_ytdl(c: Client, m: Message):
 
 @Client.on_callback_query(filters.regex("^(_(vid|aud))"))
 async def cli_ytdl(c, cq: CallbackQuery):
-    data, cid = cq.data.split("|")
+    data, cid, userid = cq.data.split("|")
+    if not cq.from_user.id == int(userid):
+        return await cq.answer("Este botão não é para você!", cache_time=60)
     vid = re.sub(r"^\_(vid|aud)\.", "", data)
     url = "https://www.youtube.com/watch?v=" + vid
     edit = await cq.message.edit("Baixando...")
@@ -334,6 +337,7 @@ async def cli_ytdl(c, cq: CallbackQuery):
     with open(f"{ctime}.png", "wb") as f:
         f.write(r.read())
     if "vid" in data:
+        await c.send_chat_action(cid, "upload_video")
         await c.send_video(
             cid,
             filename,
@@ -349,6 +353,7 @@ async def cli_ytdl(c, cq: CallbackQuery):
         else:
             performer = yt.get("creator") or yt.get("uploader")
             title = yt["title"]
+        await c.send_chat_action(cid, "upload_audio")
         await c.send_audio(
             cid,
             filename,
