@@ -256,21 +256,31 @@ def extract_info(instance, url, download=True):
 
 @Client.on_message(
     filters.cmd(
-        command="ytdl (?P<search>.+)",
+        command="ytdl",
         action="Faça o Korone baixar um vídeo do YouTube e enviar no chat atual.",
         group=GROUP,
     )
 )
 async def on_ytdl(c: Client, m: Message):
-    url = m.matches[0]["search"]
+    if m.reply_to_message and m.reply_to_message.text:
+        url = m.reply_to_message.text
+    elif m.text and m.text.split(maxsplit=1)[1]:
+        url = m.text.split(maxsplit=1)[1]
+    else:
+        await m.reply_text("Por favor, responda a um link do YouTube ou texto. ")
     ydl = youtube_dl.YoutubeDL(
         {"outtmpl": "dls/%(title)s-%(id)s.%(ext)s", "format": "mp4", "noplaylist": True}
     )
-    if "youtu.be" not in url and "youtube.com" not in url:
+    rege = re.match(
+        r"http(?:s?):\/\/(?:www\.)?youtu(?:be\.com\/watch\?v=|\.be\/)([\w\-\_]*)(&(amp;)?‌​[\w\?‌​=]*)?",
+        url,
+        re.M,
+    )
+    if not rege:
         yt = await extract_info(ydl, "ytsearch:" + url, download=False)
         yt = yt["entries"][0]
     else:
-        yt = await extract_info(ydl, url, download=False)
+        yt = await extract_info(ydl, rege.group(), download=False)
     keyb = [
         [
             ("💿 Áudio", f'_aud.{yt["id"]}|{m.chat.id}'),
@@ -281,7 +291,12 @@ async def on_ytdl(c: Client, m: Message):
         if f["format_id"] == "140":
             fsize = f["filesize"] or 0
     if not fsize > 2147483648:
-        text = f"🎧 <b>{yt.get('creator') or yt.get('uploader')}</b> - <i>{yt.get('title')}</i>\n"
+        if " - " in yt["title"]:
+            performer, title = yt["title"].rsplit(" - ", 1)
+        else:
+            performer = yt.get("creator") or yt.get("uploader")
+            title = yt["title"]
+        text = f"🎧 <b>{performer}</b> - <i>{title}</i>\n"
         text += f"💾 <code>{pretty_size(fsize)}</code> (min) | ⏳ <code>{datetime.timedelta(seconds=yt.get('duration'))}</code>"
         await m.reply_text(text, reply_markup=c.ikb(keyb))
     else:
