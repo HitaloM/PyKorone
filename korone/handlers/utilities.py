@@ -58,25 +58,25 @@ async def pypi(c: Client, m: Message):
         json = r.json()
         pypi_info = escape_definition(json["info"])
         message = (
-            "<b>%s</b> by <i>%s %s</i>\n"
-            "Platform: <b>%s</b>\n"
-            "Version: <b>%s</b>\n"
-            "License: <b>%s</b>\n"
-            "Summary: <b>%s</b>\n"
+            "<b>%s</b> Por <i>%s %s</i>\n"
+            "Plataforma: <b>%s</b>\n"
+            "Versão: <b>%s</b>\n"
+            "Licença: <b>%s</b>\n"
+            "Resumo: <b>%s</b>\n"
             % (
                 pypi_info["name"],
                 pypi_info["author"],
                 f"&lt;{pypi_info['author_email']}&gt;"
                 if pypi_info["author_email"]
                 else "",
-                pypi_info["platform"] or "Not specified",
+                pypi_info["platform"] or "Não especificado",
                 pypi_info["version"],
-                pypi_info["license"] or "None",
+                pypi_info["license"] or "Nenhuma",
                 pypi_info["summary"],
             )
         )
         if pypi_info["home_page"] and pypi_info["home_page"] != "UNKNOWN":
-            keyboard = [[("Package Home Page", pypi_info["home_page"], "url")]]
+            keyboard = [[("Página inicial do pacote", pypi_info["home_page"], "url")]]
         else:
             keyboard = None
         await m.reply_text(
@@ -86,7 +86,7 @@ async def pypi(c: Client, m: Message):
         )
     else:
         await m.reply_text(
-            f"Cant find <b>{text}</b> in pypi (Returned code was {r.status_code})",
+            f"Não consigo encontrar <b>{text}</b> no pypi (Código retornado foi {r.status_code})",
             disable_web_page_preview=True,
         )
     return
