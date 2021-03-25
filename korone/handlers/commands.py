@@ -16,6 +16,8 @@
 
 import html
 import base64
+import string
+import random
 import binascii
 import platform
 from datetime import datetime
@@ -259,3 +261,23 @@ async def b64d(c: Client, m: Message):
 @Client.on_message(filters.cmd(command="empty", action="Envia uma mensagem vazia."))
 async def empty(c: Client, m: Message):
     await m.reply_text("\U000e0020")
+
+
+@Client.on_message(
+    filters.cmd(
+        command="gencode",
+        action="Gera códigos falsos no estilo da Play Store.",
+    )
+)
+async def gencode(c: Client, m: Message):
+    count = 10
+    length = 23
+
+    codes = []
+    alphabet = string.ascii_uppercase + string.digits
+    for _ in range(count):
+        code = "".join(random.choice(alphabet) for _ in range(length))
+        codes.append(code)
+
+    codes_str = "\n".join(codes)
+    await m.reply_text(f"<code>{codes_str}</code>")
