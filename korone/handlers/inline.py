@@ -18,6 +18,7 @@ import re
 import html
 import anilist
 from typing import Dict, List
+from kantex.html import Bold, KeyValueItem, Section, SubSection, Code
 
 from pyrogram import Client, filters
 from pyrogram.types import (
@@ -27,6 +28,8 @@ from pyrogram.types import (
     InlineQueryResultPhoto,
     InputTextMessageContent,
 )
+
+from korone.utils import sw
 
 
 @Client.on_inline_query()
@@ -159,6 +162,61 @@ async def on_inline(c: Client, q: InlineQuery):
                 )
             ]
         )
+    elif len(query) != 0 and query[0] == "sw":
+        args = " ".join(query[1:])
+        try:
+            if args:
+                user = await c.get_users(f"{args}")
+            else:
+                user = q.from_user
+        except BaseException as e:
+            await q.answer(
+                [
+                    InlineQueryResultArticle(
+                        title="Erro!",
+                        description="Clique aqui para ver o erro.",
+                        input_message_content=InputTextMessageContent(
+                            f"<b>Erro:</b> <code>{e}</code>"
+                        ),
+                    )
+                ]
+            )
+            return
+
+        sw_ban = sw.get_ban(int(user.id))
+        spamwatch = Section(
+            f"{user.mention(html.escape(user.first_name), style='html')}",
+        )
+        if sw_ban:
+            ban_message = sw_ban.message
+            if ban_message:
+                ban_message = (
+                    f'{ban_message[:128]}{"[...]" if len(ban_message) > 128 else ""}'
+                )
+        if sw_ban:
+            spamwatch.extend(
+                [
+                    SubSection(
+                        "SpamWatch",
+                        KeyValueItem(Bold("reason"), Code(sw_ban.reason)),
+                        KeyValueItem(Bold("date"), Code(sw_ban.date)),
+                        KeyValueItem(Bold("timestamp"), Code(sw_ban.timestamp)),
+                        KeyValueItem(Bold("admin"), Code(sw_ban.admin)),
+                        KeyValueItem(Bold("message"), Code(ban_message)),
+                    ),
+                ]
+            )
+        else:
+            spamwatch.append(KeyValueItem("banned", Code("False")))
+        await q.answer(
+            [
+                InlineQueryResultArticle(
+                    title=f"Sobre {html.escape(user.first_name)} - SpamWatch",
+                    description="Veja se o usuário está banido no SpamWatch.",
+                    input_message_content=InputTextMessageContent(spamwatch),
+                )
+            ]
+        )
     else:
         articles = [
             InlineQueryResultArticle(
@@ -170,9 +228,17 @@ async def on_inline(c: Client, q: InlineQuery):
                 thumb_url="https://i.pinimg.com/originals/9e/1d/41/9e1d4160d3b2fd214c664ca1724fc4b4.png",
             ),
             InlineQueryResultArticle(
+                title="Informações SpamWatch",
+                input_message_content=InputTextMessageContent(
+                    f"<b>Uso:</b> <code>@{c.me.username} sw (id/username)</code> - Verifique se um usuário está banido no SpamWatch."
+                ),
+                description="Veja se um usuário está banido no SpamWatch.",
+                thumb_url="https://i.pinimg.com/originals/9e/1d/41/9e1d4160d3b2fd214c664ca1724fc4b4.png",
+            ),
+            InlineQueryResultArticle(
                 title="Animes",
                 input_message_content=InputTextMessageContent(
-                    f"<b>Uso:</b> <code>@{c.me.username} anime</code> - Pesquise animes pelo inline."
+                    f"<b>Uso:</b> <code>@{c.me.username} anime (pesquisa)</code> - Pesquise animes pelo inline."
                 ),
                 description="Pesquisa de animes com o Anilist.co.",
                 thumb_url="https://i.pinimg.com/originals/9e/1d/41/9e1d4160d3b2fd214c664ca1724fc4b4.png",
@@ -180,7 +246,7 @@ async def on_inline(c: Client, q: InlineQuery):
             InlineQueryResultArticle(
                 title="Mangás",
                 input_message_content=InputTextMessageContent(
-                    f"<b>Uso:</b> <code>@{c.me.username} manga</code> - Pesquise mangás pelo inline."
+                    f"<b>Uso:</b> <code>@{c.me.username} manga (pesquisa)</code> - Pesquise mangás pelo inline."
                 ),
                 description="Pesquisa de mangás com o Anilist.co.",
                 thumb_url="https://i.pinimg.com/originals/9e/1d/41/9e1d4160d3b2fd214c664ca1724fc4b4.png",

@@ -30,7 +30,7 @@ from pyrogram.types import Message
 from kantex.html import Bold, KeyValueItem, Section, SubSection, Code
 
 import korone
-from korone.utils import pretty_size, http, sw
+from korone.utils import pretty_size, http
 from korone.config import SUDOERS, OWNER, prefix
 from korone.handlers.utils.reddit import imagefetcher, titlefetcher, bodyfetcher
 from korone.handlers import COMMANDS_HELP
@@ -75,42 +75,20 @@ async def user_info(c: Client, m: Message):
     except BaseException as e:
         return await m.reply_text(f"<b>Error!</b>\n<code>{e}</code>")
 
-    doc = Section(
-        f"{user.mention(html.escape(user.first_name), style='html')}",
-        SubSection(
-            "Geral",
-            KeyValueItem(Bold("ID"), Code(user.id)),
-            KeyValueItem(Bold("Nome"), html.escape(user.first_name)),
-            KeyValueItem(
-                Bold("Sobrenome"), html.escape(user.last_name) if user.last_name else ""
-            ),
-            KeyValueItem(
-                Bold("Nome de usuário"),
-                f"@{html.escape(user.username)}" if user.username else "",
-            ),
-        ),
+    doc = Section(f"{user.mention(html.escape(user.first_name), style='html')}")
+
+    info = SubSection(
+        "Geral",
+        KeyValueItem(Bold("ID"), Code(user.id)),
+        KeyValueItem(Bold("Nome"), html.escape(user.first_name)),
     )
-    sw_ban = sw.get_ban(int(user.id))
-    spamwatch = SubSection("SpamWatch")
-    if sw_ban:
-        ban_message = sw_ban.message
-        if ban_message:
-            ban_message = (
-                f'{ban_message[:128]}{"[...]" if len(ban_message) > 128 else ""}'
-            )
-    if sw_ban:
-        spamwatch.extend(
-            [
-                KeyValueItem("reason", Code(sw_ban.reason)),
-                KeyValueItem("date", Code(sw_ban.date)),
-                KeyValueItem("timestamp", Code(sw_ban.timestamp)),
-                KeyValueItem("admin", Code(sw_ban.admin)),
-                KeyValueItem("message", Code(ban_message)),
-            ]
+    if user.last_name:
+        info.append(KeyValueItem(Bold("Sobrenome"), html.escape(user.last_name)))
+    if user.username:
+        info.append(
+            KeyValueItem(Bold("Nome de usuário"), f"@{html.escape(user.username)}")
         )
-    else:
-        spamwatch.append(KeyValueItem("banned", Code("False")))
-    doc.append(spamwatch)
+    doc.append(info)
     await m.reply_text(doc)
 
 
