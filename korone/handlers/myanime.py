@@ -157,7 +157,7 @@ async def anilist_manga(c: Client, m: Message):
         text += f"<b>Status:</b> <code>{manga.status}</code>\n"
     if hasattr(manga, "chapters"):
         text += f"<b>Capítulos:</b> <code>{manga.chapters}</code>\n"
-    if hasattr(manga, "chapters"):
+    if hasattr(manga, "volumes"):
         text += f"<b>Volumes:</b> <code>{manga.volumes}</code>\n"
     if hasattr(manga.score, "average"):
         text += f"<b>Pontuação:</b> <code>{manga.score.average}</code>\n"
