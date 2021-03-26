@@ -42,7 +42,7 @@ from rich.panel import Panel
 
 import pyromod
 import pyrogram
-from pyromod import filters
+from pyromod import listen, filters
 from pyromod.helpers import ikb
 from pyrogram import Client, filters, idle
 from pyrogram.session import Session
