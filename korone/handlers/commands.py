@@ -30,7 +30,7 @@ from pyrogram.types import Message
 from kantex.html import Bold, KeyValueItem, Section
 
 import korone
-from korone.utils import pretty_size, http
+from korone.utils import pretty_size, http, sw
 from korone.config import SUDOERS, OWNER, prefix
 from korone.handlers.utils.reddit import imagefetcher, titlefetcher, bodyfetcher
 from korone.handlers import COMMANDS_HELP
@@ -86,6 +86,16 @@ async def user_info(c: Client, m: Message):
         text += f"\nNome de Usuário: @{html.escape(user.username)}"
 
     text += f"\nLink de Usuário: {user.mention('link', style='html')}"
+
+    try:
+        spamwatch = sw.get_ban(int(user.id))
+        if spamwatch:
+            text += "\n\nEste usuário está banido no @SpamWatch!"
+            text += f"\nMotivo: <code>{spamwatch.reason}</code>"
+        else:
+            pass
+    except BaseException:
+        pass
 
     if user.id == OWNER:
         text += "\n\nEste é meu dono - Eu nunca faria algo contra ele!"
