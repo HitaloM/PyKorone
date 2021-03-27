@@ -30,7 +30,7 @@ from pyrogram.types import Message
 from kantex.html import Bold, KeyValueItem, Section, SubSection, Code
 
 import korone
-from korone.utils import pretty_size, http
+from korone.utils import pretty_size, http, sw
 from korone.config import SUDOERS, OWNER, prefix
 from korone.handlers.utils.reddit import imagefetcher, titlefetcher, bodyfetcher
 from korone.handlers import COMMANDS_HELP
@@ -75,21 +75,36 @@ async def user_info(c: Client, m: Message):
     except BaseException as e:
         return await m.reply_text(f"<b>Error!</b>\n<code>{e}</code>")
 
-    doc = Section(f"{user.mention(html.escape(user.first_name), style='html')}")
+    text = "<b>Informações do usuário</b>:"
+    text += f"\nID: <code>{user.id}</code>"
+    text += f"\nNome: {html.escape(user.first_name)}"
 
-    info = SubSection(
-        "Geral",
-        KeyValueItem(Bold("ID"), Code(user.id)),
-        KeyValueItem(Bold("Nome"), html.escape(user.first_name)),
-    )
     if user.last_name:
-        info.append(KeyValueItem(Bold("Sobrenome"), html.escape(user.last_name)))
+        text += f"\nSobrenome: {html.escape(user.last_name)}"
+
     if user.username:
-        info.append(
-            KeyValueItem(Bold("Nome de usuário"), f"@{html.escape(user.username)}")
-        )
-    doc.append(info)
-    await m.reply_text(doc)
+        text += f"\nNome de Usuário: @{html.escape(user.username)}"
+
+    text += f"\nLink de Usuário: {user.mention('link', style='html')}"
+
+    try:
+        spamwatch = sw.get_ban(int(user.id))
+        if spamwatch:
+            text += "\n\nEste usuário está banido no @SpamWatch!"
+            text += f"\nMotivo: <code>{spamwatch.reason}</code>"
+    except BaseException:
+        pass
+
+    if user.id == OWNER:
+        text += "\n\nEste é meu dono - Eu nunca faria algo contra ele!"
+    else:
+        if user.id in SUDOERS:
+            text += (
+                "\nEssa pessoa é um dos meus usuários sudo! "
+                "Quase tão poderoso quanto meu dono, então cuidado."
+            )
+
+    await m.reply_text(text)
 
 
 @Client.on_message(
