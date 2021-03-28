@@ -35,6 +35,23 @@ COMMANDS_HELP[GROUP] = {
 }
 
 
+def t(milliseconds: int) -> str:
+    """Inputs time in milliseconds, to get beautified time,
+    as string"""
+    seconds, milliseconds = divmod(int(milliseconds), 1000)
+    minutes, seconds = divmod(seconds, 60)
+    hours, minutes = divmod(minutes, 60)
+    days, hours = divmod(hours, 24)
+    tmp = (
+        ((str(days) + " Dias, ") if days else "")
+        + ((str(hours) + " Horas, ") if hours else "")
+        + ((str(minutes) + " Minutos, ") if minutes else "")
+        + ((str(seconds) + " Segundos, ") if seconds else "")
+        + ((str(milliseconds) + " ms, ") if milliseconds else "")
+    )
+    return tmp[:-2]
+
+
 @Client.on_message(
     filters.cmd(
         command="anime (?P<search>.+)",
@@ -114,8 +131,9 @@ async def anilist_airing(c: Client, m: Message):
     text += f"<b>ID:</b> <code>{anime.id}</code>\n"
     text += f"<b>Tipo:</b> <code>{anime.format}</code>\n"
     if hasattr(anime, "next_airing"):
+        airing_time = anime.next_airing.time_until * 1000
         text += f"<b>Episódio:</b> <code>{anime.next_airing.episode}</code>\n"
-        text += f"<b>No ar em:</b> <code>{time.strftime('%H:%M:%S - %d/%m/%Y', time.localtime(anime.next_airing.at))}</code>"
+        text += f"<b>No ar em:</b> <code>{t(airing_time)}</code>"
     else:
         text += f"<b>Episódio:</b> <code>{anime.episodes}</code>\n"
         text += "<b>No ar em:</b> <code>N/A</code>"
