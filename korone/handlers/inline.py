@@ -44,7 +44,7 @@ async def on_inline(c: Client, q: InlineQuery):
                 anime = await client.get(result.id, "anime")
 
                 if len(anime.description) > 700:
-                    desc = f"{anime.description_short}..."
+                    desc = f"{anime.description_short}[...]"
                 else:
                     desc = anime.description
 
@@ -80,7 +80,7 @@ async def on_inline(c: Client, q: InlineQuery):
                     InlineQueryResultPhoto(
                         photo_url=photo,
                         title=anime.title.romaji,
-                        description=desc,
+                        description=re.sub(re.compile(r"<.*?>"), "", desc),
                         caption=text,
                         reply_markup=c.ikb(keyboard),
                     )
@@ -98,7 +98,7 @@ async def on_inline(c: Client, q: InlineQuery):
                 manga = await client.get(result.id, "manga")
 
                 if len(manga.description) > 700:
-                    desc = f"{manga.description_short}..."
+                    desc = f"{manga.description_short}[...]"
                 else:
                     desc = manga.description
 
@@ -128,7 +128,7 @@ async def on_inline(c: Client, q: InlineQuery):
                     InlineQueryResultPhoto(
                         photo_url=photo,
                         title=manga.title.romaji,
-                        description=desc,
+                        description=re.sub(re.compile(r"<.*?>"), "", desc),
                         caption=text,
                         reply_markup=c.ikb(keyboard),
                     )
