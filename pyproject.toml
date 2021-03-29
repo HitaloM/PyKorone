@@ -33,7 +33,7 @@ pyrogram = "1.2.5"
 tgcrypto = "1.2.2"
 pyromod = "1.5"
 rich = "10.0.0"
-tortoise-orm = "0.17.0"
+tortoise-orm = "0.17.1"
 Pillow = "8.1.2"
 httpx = {version = "0.17.1", extras = ["http2"]}
 python-rapidjson = "1.0"
