@@ -96,10 +96,10 @@ async def help_m(c: Client, m: Message):
         await help_module(c, m, module)
     else:
         keyboard = [
-            [("Ir ao PM", f"https://t.me/{c.me.username}/?start=help_{module}", "url")]
+            [("Ir ao PV", f"https://t.me/{c.me.username}/?start=help_{module}", "url")]
         ]
         await m.reply_text(
-            text="Para ver isso, vá ao meu PM.", reply_markup=c.ikb(keyboard)
+            text="Para ver isso, vá ao meu PV.", reply_markup=c.ikb(keyboard)
         )
 
 
@@ -109,6 +109,12 @@ async def help_m(c: Client, m: Message):
 )
 async def help(c: Client, m: Message):
     await help_module(c, m)
+
+
+@Client.on_message(filters.cmd(command="help") & filters.group)
+async def help_g(c: Client, m: Message):
+    keyboard = [[("Ir ao PV", f"https://t.me/{c.me.username}/?start", "url")]]
+    await m.reply_text("Para obter ajuda vá ao meu PV!", reply_markup=c.ikb(keyboard))
 
 
 @Client.on_callback_query(filters.regex("^help_cb$"))
