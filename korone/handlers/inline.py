@@ -30,6 +30,7 @@ from pyrogram.types import (
 )
 
 from korone.utils import sw
+from korone.handlers.utils.misc import cleanhtml
 
 
 @Client.on_inline_query()
@@ -80,7 +81,7 @@ async def on_inline(c: Client, q: InlineQuery):
                     InlineQueryResultPhoto(
                         photo_url=photo,
                         title=anime.title.romaji,
-                        description=re.sub(re.compile(r"<.*?>"), "", desc),
+                        description=cleanhtml(desc),
                         caption=text,
                         reply_markup=c.ikb(keyboard),
                     )
@@ -128,7 +129,7 @@ async def on_inline(c: Client, q: InlineQuery):
                     InlineQueryResultPhoto(
                         photo_url=photo,
                         title=manga.title.romaji,
-                        description=re.sub(re.compile(r"<.*?>"), "", desc),
+                        description=cleanhtml(desc),
                         caption=text,
                         reply_markup=c.ikb(keyboard),
                     )

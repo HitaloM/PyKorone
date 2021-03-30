@@ -17,13 +17,13 @@
 import os
 import io
 import sys
-import traceback
 import asyncio
+import traceback
 from meval import meval
 from typing import Dict
 
-from pyromod.helpers import ikb
 from pyrogram import Client, filters
+from pyrogram.errors import BadRequest
 from pyrogram.types import Message, CallbackQuery
 
 from korone.config import OWNER, SUDOERS, prefix
@@ -156,7 +156,7 @@ async def upgrade(c: Client, m: Message):
             changelog += f"  - [<code>{hash[:7]}</code>] {commit['title']}\n"
         changelog += f"\n<b>New commits count</b>: <code>{len(commits)}</code>."
         keyboard = [[("🆕 Atualizar", "upgrade")]]
-        await sm.edit_text(changelog, reply_markup=ikb(keyboard))
+        await sm.edit_text(changelog, reply_markup=c.ikb(keyboard))
     else:
         lines = stdout.split("\n")
         error = "".join(f"<code>{line}</code>\n" for line in lines)
@@ -211,3 +211,25 @@ async def broadcast(c: Client, m: Message):
     await sm.edit_text(
         f"Anúncio feito com sucesso! Sua mensagem foi enviada em um total de <code>{len(success)}</code> grupos e falhou o envio em <code>{len(fail)}</code> grupos."
     )
+
+
+@Client.on_message(filters.command("chat", prefix) & filters.user(SUDOERS))
+async def chat_info(c: Client, m: Message):
+    try:
+        chat = await c.get_chat(m.command[1])
+    except BadRequest as e:
+        return await m.reply_text(f"<b>Erro!</b>\n<code>{e}</code>")
+
+    if chat.type == "private":
+        await m.reply_text("Este chat é privado!")
+    else:
+        text = f"<b>Título:</b> {chat.title}\n"
+        if chat.username:
+            text += f"<b>Username:</b> <code>{chat.username}</code>\n"
+        text += f"<b>ID:</b> <code>{chat.id}</code>\n"
+        text += f"<b>Link:</b> {chat.invite_link}\n"
+        text += f"<b>Membros:</b> <code>{chat.members_count}</code>\n"
+        if chat.description:
+            text += f"\n<b>Descrição:</b>\n<i>{chat.description}</i>"
+
+        await m.reply_text(text)

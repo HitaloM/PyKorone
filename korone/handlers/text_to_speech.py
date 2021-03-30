@@ -15,6 +15,7 @@ COMMANDS_HELP[GROUP] = {
     "help": True,
 }
 
+
 @Client.on_message(filters.int(filter=r"Korone, que disse ele", group=GROUP))
 async def read_him(c: Client, msg: Message):
     filename, file_format = (None,) * 2
@@ -29,7 +30,9 @@ async def read_him(c: Client, msg: Message):
         try:
             await c.download_media(message=msg, file_name=filename)
         except Exception as e:
-            await msg.reply("Algo correu mal. Esse audio não tem algo que eu entenda >_<")
+            await msg.reply(
+                "Algo correu mal. Esse audio não tem algo que eu entenda >_<"
+            )
             return
     else:
         await msg.reply(":c Não sei, não parece que seja uma mensagem de voz")
