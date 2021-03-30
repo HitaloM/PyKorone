@@ -21,6 +21,7 @@ from pyrogram.types import Message
 
 from korone.handlers.utils.random import (
     HEY_REACT,
+    SHUTUP_REACT,
     INSULTS_REACT,
     RANDOM_REACT,
     WHATSUP_REACT,
@@ -112,6 +113,19 @@ async def insult(c: Client, m: Message):
 @Client.on_message(filters.int(filter=r"(como vai|tudo bem)", group=GROUP))
 async def all_right(c: Client, m: Message):
     react = random.choice(WHATSUP_REACT)
+
+    if m.chat.type == "private":
+        await m.reply_text(react)
+    elif (
+        m.reply_to_message and m.reply_to_message.from_user.id == (await c.get_me()).id
+    ):
+        await m.reply_text(react)
+        return
+
+
+@Client.on_message(filters.int(filter=r"(Cala boca|Cala-boca)", group=GROUP))
+async def shutup(c: Client, m: Message):
+    react = random.choice(SHUTUP_REACT)
 
     if m.chat.type == "private":
         await m.reply_text(react)

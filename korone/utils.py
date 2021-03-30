@@ -52,11 +52,12 @@ def pretty_size(size):
     return "%0.2f %s" % (size, units[unit])
 
 
-def aiowrap(fn: Callable) -> Coroutine:
-    @wraps(fn)
-    def decorator(*args, **kwargs):
-        wrapped = partial(fn, *args, **kwargs)
+def aiowrap(func: Callable) -> Coroutine:
+    @wraps(func)
+    async def run(*args, loop=None, executor=None, **kwargs):
+        if loop is None:
+            loop = asyncio.get_event_loop()
+        pfunc = partial(func, *args, **kwargs)
+        return await loop.run_in_executor(executor, pfunc)
 
-        return loop.run_in_executor(None, wrapped)
-
-    return decorator
+    return run

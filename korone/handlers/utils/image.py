@@ -17,7 +17,10 @@
 import io
 from PIL import Image
 
+from korone.utils import aiowrap
 
+
+@aiowrap
 def stickcolorsync(color):
     try:
         image = Image.new("RGBA", (512, 512), color)
@@ -35,6 +38,7 @@ def stickcolorsync(color):
     return image_stream
 
 
+@aiowrap
 def pokemon_image_sync(sprite_io):
     sticker_image = Image.open(io.BytesIO(sprite_io))
     sticker_image = sticker_image.crop(sticker_image.getbbox())

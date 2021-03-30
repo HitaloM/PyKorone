@@ -260,7 +260,8 @@ async def poke_image(c: Client, m: Message):
         await m.reply_text(f"<b>Error!</b>\n<code>{r.status_code}</code>")
         return
 
-    await m.reply_document(document=pokemon_image_sync(sprite_io))
+    pk_img = await pokemon_image_sync(sprite_io)
+    await m.reply_document(document=pk_img)
 
 
 @Client.on_message(
@@ -299,4 +300,5 @@ async def poke_item_image(c: Client, m: Message):
         await m.reply_text(f"<b>Error!</b>\n<code>{r.status_code}</code>")
         return
 
-    await m.reply_document(document=pokemon_image_sync(sprite_io))
+    pk_img = await pokemon_image_sync(sprite_io)
+    await m.reply_document(document=pk_img)

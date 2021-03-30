@@ -14,6 +14,13 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+SHUTUP_REACT = (
+    "Não vou calar >>:c",
+    "Você é que está incomodando! TwT",
+    "Não vou calar >:(",
+    "Você é que está incomodando! T^T",
+)
+
 NONE_CMD = (
     "Nani...? :'c",
     "....?",
@@ -37,7 +44,7 @@ HELLO = (
     "{}! Estou aqui! :3",
 )
 
-REACTIONS = ("*^^^*", "T^T", "q.q", "*A*", "qwq", "*-*", "TwT")
+REACTIONS = ("T^T", "q.q", "*A*", "qwq", "*-*", "TwT")
 
 REACTS = (
     "( ͡° ͜ʖ ͡°)",

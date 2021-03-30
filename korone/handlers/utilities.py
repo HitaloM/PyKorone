@@ -213,7 +213,7 @@ async def cb_sticker(c: Client, m: Message):
 )
 async def stickcolor(c: Client, m: Message):
     args = m.matches[0]["hex"]
-    color_sticker = stickcolorsync(args)
+    color_sticker = await stickcolorsync(args)
 
     if color_sticker:
         await m.reply_sticker(color_sticker)
