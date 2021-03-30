@@ -21,7 +21,7 @@ classifiers = [
     "Topic :: Communications :: Chat"
 ]
 
-exclude = ["korone/config.py", "korone/client.session", "korone/client.session-journal"]
+exclude = ["korone/config.py", "korone/client.session", "korone/client.session-journal", "korone/database/*.sqlite"]
 
 [tool.poetry.urls]
 "Bug Tracker" = "https://github.com/AmanoTeam/PyKorone/issues"

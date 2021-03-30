@@ -78,29 +78,6 @@ async def ulikecoffe(c: Client, m: Message):
         return
 
 
-@Client.on_message(
-    filters.int(filter=r"Korone, voc(e|ê) gosta de caf(é|e)", group=GROUP)
-)
-async def ulikecoffe_list(c: Client, m: Message):
-    try:
-        answer = await m.chat.ask(
-            "Com certeza! Gostaria de uma xícara de café?",
-            filters=filters.user(m.from_user.id),
-            timeout=60,
-        )
-
-        if answer.text.lower().startswith(("nao", "não")):
-            await answer.reply_text("Tudo bem! :D")
-        elif answer.text.lower().startswith("sim"):
-            await answer.reply_text("Que bom! Aqui está ☕ ^^")
-        else:
-            await answer.reply_text("Compreendo! U~U")
-
-    except BaseException:
-        await m.reply_text("Fui ignorado... qwq")
-        return
-
-
 @Client.on_message(filters.int(filter=r"(Ol(á|a)|Oi|Eae|Hi|Hello|Hey)", group=GROUP))
 async def hello(c: Client, m: Message):
     react = random.choice(HEY_REACT)
@@ -142,27 +119,6 @@ async def all_right(c: Client, m: Message):
         m.reply_to_message and m.reply_to_message.from_user.id == (await c.get_me()).id
     ):
         await m.reply_text(react)
-        return
-
-
-@Client.on_message(filters.int(filter=r"Korone, tudo bem", group=GROUP))
-async def all_right_list(c: Client, m: Message):
-    try:
-        answer = await m.chat.ask(
-            "Estou bem! Você está bem?",
-            filters=filters.user(m.from_user.id),
-            timeout=60,
-        )
-
-        if answer.text.lower().startswith(("nao", "não")):
-            await answer.reply_text("Que pena. T-T")
-        elif answer.text.lower().startswith("sim"):
-            await answer.reply_text("Que bom! ^^")
-        else:
-            await answer.reply_text("Compreendo! U~U")
-
-    except BaseException:
-        await m.reply_text("Fui ignorado... qwq")
         return
 
 
