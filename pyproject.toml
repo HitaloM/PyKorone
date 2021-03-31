@@ -32,7 +32,7 @@ python = "^3.7"
 pyrogram = "1.2.6"
 tgcrypto = "1.2.2"
 pyromod = "1.5"
-rich = "10.0.0"
+rich = "10.0.1"
 tortoise-orm = "0.17.1"
 Pillow = "8.1.2"
 httpx = {version = "0.17.1", extras = ["http2"]}
