@@ -51,7 +51,7 @@ gpytranslate = "0.3.1"
 wikipedia = "1.4.0"
 python-anilist = {git = "https://github.com/AmanoTeam/python-anilist", rev = "main"}
 SpeechRecognition = "3.8.1"
-pydub = "0.24.1"
+pydub = "0.25.1"
 
 [tool.poetry.dev-dependencies]
 black = "^20.8b1"
