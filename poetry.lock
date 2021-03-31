@@ -762,7 +762,7 @@ typing-extensions = {version = ">=3.7.4", markers = "python_version < \"3.8\""}
 
 [[package]]
 name = "youtube-dl"
-version = "2021.3.25"
+version = "2021.3.31"
 description = "YouTube video downloader"
 category = "main"
 optional = false
@@ -783,7 +783,7 @@ testing = ["pytest (>=4.6)", "pytest-checkdocs (>=1.2.3)", "pytest-flake8", "pyt
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.7"
-content-hash = "e20e6a05e8a21c625ebe271be7be48736d3179970ecd13ec0d764572f8c22cce"
+content-hash = "a9fb3e29f388f355dbbb66c927c0ccf45654311d7c5068b0adc3a3348438a33f"
 
 [metadata.files]
 aiofiles = [
@@ -1345,8 +1345,8 @@ yarl = [
     {file = "yarl-1.6.3.tar.gz", hash = "sha256:8a9066529240171b68893d60dca86a763eae2139dd42f42106b03cf4b426bf10"},
 ]
 youtube-dl = [
-    {file = "youtube_dl-2021.3.25-py2.py3-none-any.whl", hash = "sha256:4e22409153a137c9b6a4e50a525cacaed7d32c0f28959505d22696bd928aaa99"},
-    {file = "youtube_dl-2021.3.25.tar.gz", hash = "sha256:375c19339fd6b64cb09f174c4681159a88352c5559c3453dc082020adea2980e"},
+    {file = "youtube_dl-2021.3.31-py2.py3-none-any.whl", hash = "sha256:8f7cf300878dbdb63fed1c9c4d9d2d56bf4c7467260e0f0c1ade66c11647eebe"},
+    {file = "youtube_dl-2021.3.31.tar.gz", hash = "sha256:822be370d9c1bc63ec2ca9634fef1baf12db9c10d2b1f322401c0f1f9d35dcd2"},
 ]
 zipp = [
     {file = "zipp-3.4.1-py3-none-any.whl", hash = "sha256:51cb66cc54621609dd593d1787f286ee42a5c0adbb4b29abea5a63edc3e03098"},
