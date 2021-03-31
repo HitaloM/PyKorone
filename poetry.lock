@@ -430,7 +430,7 @@ python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*"
 
 [[package]]
 name = "pydub"
-version = "0.24.1"
+version = "0.25.1"
 description = "Manipulate audio with an simple and easy high level interface"
 category = "main"
 optional = false
@@ -783,7 +783,7 @@ testing = ["pytest (>=4.6)", "pytest-checkdocs (>=1.2.3)", "pytest-flake8", "pyt
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.7"
-content-hash = "7ce7d7be8953e2a51bffbac9ad825a58ab4920ab79f23481062698883b9851f9"
+content-hash = "09a07dba9473abab38b73390e264ac4c1746c6772636ae3e9590368f044a92ad"
 
 [metadata.files]
 aiofiles = [
@@ -1027,8 +1027,8 @@ pycodestyle = [
     {file = "pycodestyle-2.7.0.tar.gz", hash = "sha256:c389c1d06bf7904078ca03399a4816f974a1d590090fecea0c63ec26ebaf1cef"},
 ]
 pydub = [
-    {file = "pydub-0.24.1-py2.py3-none-any.whl", hash = "sha256:25fdfbbfd4c69363006a27c7bd2346c4b886a0dd3da264c14d858b71a9593284"},
-    {file = "pydub-0.24.1.tar.gz", hash = "sha256:630c68bfff9bb27cbc5e1f02923f717c3bc5f4d73fd685fda08b6ce90f76dc69"},
+    {file = "pydub-0.25.1-py2.py3-none-any.whl", hash = "sha256:65617e33033874b59d87db603aa1ed450633288aefead953b30bded59cb599a6"},
+    {file = "pydub-0.25.1.tar.gz", hash = "sha256:980a33ce9949cab2a569606b65674d748ecbca4f0796887fd6f46173a7b0d30f"},
 ]
 pyflakes = [
     {file = "pyflakes-2.3.1-py2.py3-none-any.whl", hash = "sha256:7893783d01b8a89811dd72d7dfd4d84ff098e5eed95cfa8905b22bbffe52efc3"},
