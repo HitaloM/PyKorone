@@ -49,7 +49,7 @@ async def on_all_m(c: Client, m: Message):
         )
 
 
-@Client.on_message(~filters.private & filters.text, group=-5)
+@Client.on_message(~filters.private & filters.text, group=5)
 async def on_text_m(c: Client, m: Message):
     length = len(m.text)
     now_date = datetime.datetime.now().replace(tzinfo=datetime.timezone.utc)
