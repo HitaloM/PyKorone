@@ -34,7 +34,7 @@ tgcrypto = "1.2.2"
 pyromod = "1.5"
 rich = "10.0.1"
 tortoise-orm = "0.17.1"
-Pillow = "8.1.2"
+Pillow = "8.2.0"
 httpx = {version = "0.17.1", extras = ["http2"]}
 python-rapidjson = "1.0"
 kantex = "0.2.0"
