@@ -24,11 +24,36 @@ from tortoise.models import Model
 class Chats(Model):
     id = fields.IntField(pk=True)
     title = fields.TextField()
+    username = fields.CharField(max_length=32, default="")
 
 
 class Banneds(Model):
     id = fields.IntField(pk=True)
     name = fields.TextField()
+
+
+class Users(Model):
+    id = fields.IntField(pk=True)
+    first_name = fields.TextField()
+    last_name = fields.TextField()
+    username = fields.CharField(max_length=32, default="")
+    xp = fields.IntField(default=0)
+    level = fields.IntField(default=1)
+    last_update = fields.DatetimeField()
+
+
+class XPs(Model):
+    id = fields.IntField(pk=True)
+    chat_id = fields.IntField()
+    user_id = fields.IntField()
+    value = fields.IntField(default=0)
+
+
+class Levels(Model):
+    id = fields.IntField(pk=True)
+    chat_id = fields.IntField()
+    user_id = fields.IntField()
+    value = fields.IntField(default=1)
 
 
 async def connect_database():

@@ -8,7 +8,8 @@ API_HASH = ""
 
 # Sudoers IDs (to use some special commands)
 OWNER = 918317361
-SUDOERS = [918317361]
+SUDOERS = []
+SUDOERS.append(OWNER)
 
 # Prefixes for commands, e.g: /start and !start
 prefix = ["/", "!"]

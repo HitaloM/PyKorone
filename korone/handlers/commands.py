@@ -20,7 +20,7 @@ import string
 import random
 import binascii
 import platform
-from datetime import datetime
+from datetime import datetime, timezone
 
 import pyromod
 import pyrogram
@@ -32,6 +32,7 @@ from kantex.html import Bold, KeyValueItem, Section, SubSection, Code
 import korone
 from korone.utils import pretty_size, http, sw
 from korone.config import SUDOERS, OWNER, prefix
+from korone.database import Users, XPs, Levels
 from korone.handlers.utils.reddit import imagefetcher, titlefetcher, bodyfetcher
 from korone.handlers import COMMANDS_HELP
 
@@ -64,6 +65,7 @@ async def ping(c: Client, m: Message):
 )
 async def user_info(c: Client, m: Message):
     args = m.matches[0]["text"]
+    now_date = datetime.now().replace(tzinfo=timezone.utc)
 
     try:
         if args:
@@ -74,6 +76,24 @@ async def user_info(c: Client, m: Message):
             user = m.from_user
     except BaseException as e:
         return await m.reply_text(f"<b>Error!</b>\n<code>{e}</code>")
+
+    user_db = (
+        await Users.get_or_create(
+            {
+                "first_name": user.first_name,
+                "last_name": user.last_name or "",
+                "username": user.username or "",
+                "last_update": now_date,
+            },
+            id=user.id,
+        )
+    )[0]
+    xp_db = (await XPs.get_or_create({"value": 0}, chat_id=m.chat.id, user_id=user.id))[
+        0
+    ]
+    level_db = (
+        await Levels.get_or_create({"value": 1}, chat_id=m.chat.id, user_id=user.id)
+    )[0]
 
     text = "<b>Informações do usuário</b>:"
     text += f"\nID: <code>{user.id}</code>"
@@ -86,6 +106,9 @@ async def user_info(c: Client, m: Message):
         text += f"\nNome de Usuário: @{html.escape(user.username)}"
 
     text += f"\nLink de Usuário: {user.mention('link', style='html')}"
+
+    text += f"\n\nNível: (<b>Global</b>: <code>{user_db.level}</code>, <b>Grupo</b>: <code>{level_db.value}</code>)"
+    text += f"\nXP: (<b>Global</b>: <code>{user_db.xp}</code>, <b>Grupo</b>: <code>{xp_db.value}</code>)"
 
     try:
         spamwatch = sw.get_ban(int(user.id))
@@ -100,7 +123,7 @@ async def user_info(c: Client, m: Message):
     else:
         if user.id in SUDOERS:
             text += (
-                "\nEssa pessoa é um dos meus usuários sudo! "
+                "\n\nEssa pessoa é um dos meus usuários sudo! "
                 "Quase tão poderoso quanto meu dono, então cuidado."
             )
 
