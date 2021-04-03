@@ -21,7 +21,12 @@ from aiogram import F
 from aiogram.exceptions import TelegramForbiddenError
 from aiogram.filters import CommandStart
 from aiogram.filters.callback_data import CallbackData
-from aiogram.types import CallbackQuery, InlineKeyboardButton, InlineKeyboardMarkup
+from aiogram.types import (
+    CallbackQuery,
+    InlineKeyboardButton,
+    InlineKeyboardMarkup,
+    Message,
+)
 
 from sophie_bot import bot, dp
 from sophie_bot.modules.legacy_modules.utils.connections import (
@@ -47,7 +52,7 @@ class ConnectToChatCb(CallbackData, prefix="connect_to_chat_cb"):
 
 
 @get_strings_dec("connections")
-async def def_connect_chat(message, user_id, chat_id, chat_title, strings, edit=False):
+async def def_connect_chat(message: Message, user_id, chat_id, chat_title, strings, edit=False):
     await set_connected_chat(user_id, chat_id)
 
     text = strings["pm_connected"].format(chat_name=chat_title)
@@ -60,7 +65,7 @@ async def def_connect_chat(message, user_id, chat_id, chat_title, strings, edit=
 # In chat - connect directly to chat
 @register(cmds="connect", only_groups=True, no_args=True)
 @get_strings_dec("connections")
-async def connect_to_chat_direct(message, strings):
+async def connect_to_chat_direct(message: Message, strings):
     user_id = message.from_user.id
     chat_id = message.chat.id
 
@@ -89,7 +94,7 @@ async def connect_to_chat_direct(message, strings):
 @register(cmds="connect", no_args=True, only_pm=True)
 @get_strings_dec("connections")
 @chat_connection()
-async def connect_chat_keyboard(message, strings, chat):
+async def connect_chat_keyboard(message: Message, strings, chat):
     connected_data = await get_connection_data(message.from_user.id)
     if not connected_data:
         return await message.reply(strings["u_wasnt_connected"])
@@ -127,7 +132,7 @@ async def connect_chat_keyboard(message, strings, chat):
 
 # Callback for prev. function
 @dp.callback_query(ConnectToChatCb.filter())
-async def connect_chat_keyboard_cb(message, callback_data: ConnectToChatCb, **kwargs):
+async def connect_chat_keyboard_cb(message: Message, callback_data: ConnectToChatCb, **kwargs):
     chat_id = int(callback_data.chat_id)
     chat = await db.chat_list.find_one({"chat_id": chat_id})
     await def_connect_chat(message.message, message.from_user.id, chat_id, chat["chat_title"], edit=True)
@@ -137,7 +142,7 @@ async def connect_chat_keyboard_cb(message, callback_data: ConnectToChatCb, **kw
 @register(cmds="connect", has_args=True, only_pm=True)
 @get_chat_dec()
 @get_strings_dec("connections")
-async def connect_to_chat_from_arg(message, chat, strings):
+async def connect_to_chat_from_arg(message: Message, chat, strings):
     user_id = message.from_user.id
     chat_id = chat["chat_id"]
 
@@ -154,7 +159,7 @@ async def connect_to_chat_from_arg(message, chat, strings):
 
 @register(cmds="disconnect", only_pm=True)
 @get_strings_dec("connections")
-async def disconnect_from_chat_direct(message, strings):
+async def disconnect_from_chat_direct(message: Message, strings):
     if (data := await get_connection_data(message.from_user.id)) and "chat_id" in data:
         chat = await db.chat_list.find_one({"chat_id": data["chat_id"]})
         user_id = message.from_user.id
@@ -165,7 +170,7 @@ async def disconnect_from_chat_direct(message, strings):
 @register(cmds="allowusersconnect")
 @get_strings_dec("connections")
 @chat_connection(admin=True, only_groups=True)
-async def allow_users_to_connect(message, strings, chat):
+async def allow_users_to_connect(message: Message, strings, chat):
     chat_id = chat["chat_id"]
     arg = get_arg(message).lower()
     if not arg:
@@ -196,7 +201,7 @@ async def allow_users_to_connect(message, strings, chat):
 @register(cmds="start", only_pm=True)
 @get_strings_dec("connections")
 @chat_connection()
-async def connected_start_state(message, strings, chat):
+async def connected_start_state(message: Message, strings, chat):
     key = "sophie_connected_start_state:" + str(message.from_user.id)
     if redis.get(key):
         await message.reply(strings["pm_connected"].format(chat_name=chat["chat_title"]))
@@ -208,7 +213,7 @@ BUTTONS.update({"connect": "btn_connect_start"})
 
 @register(CommandStart(magic=F.text.regexp(r"btn_connect_start")), allow_kwargs=True)
 @get_strings_dec("connections")
-async def connect_start(message, strings, regexp=None, **kwargs):
+async def connect_start(message: Message, strings, regexp=None, **kwargs):
     args = get_args_str(message).split("_")
 
     # In case if button have arg it will be used. # TODO: Check chat_id, parse chat nickname.

@@ -20,6 +20,7 @@
 import asyncio
 
 from aiogram import F
+from aiogram.types import Message
 from telethon.errors.rpcerrorlist import MessageDeleteForbiddenError
 
 from sophie_bot import bot, dp
@@ -36,7 +37,7 @@ from sophie_bot.services.telethon import tbot
     cmds="del",
 )
 @get_strings_dec("msg_deleting")
-async def del_message(message, strings):
+async def del_message(message: Message, strings):
     if not message.reply_to_message:
         await message.reply(strings["reply_to_msg"])
         return
@@ -50,7 +51,7 @@ async def del_message(message, strings):
     cmds="purge",
 )
 @get_strings_dec("msg_deleting")
-async def fast_purge(message, strings):
+async def fast_purge(message: Message, strings):
     if not message.reply_to_message:
         await message.reply(strings["reply_to_msg"])
         return

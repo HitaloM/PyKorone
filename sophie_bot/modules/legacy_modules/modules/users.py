@@ -1,5 +1,7 @@
 import datetime
 
+from aiogram.types import Message
+
 from sophie_bot.modules.legacy_modules.modules import LOADED_MODULES
 from sophie_bot.modules.legacy_modules.utils.connections import chat_connection
 from sophie_bot.modules.legacy_modules.utils.disable import disableable_dec
@@ -18,7 +20,7 @@ from sophie_bot.services.db import db
 @disableable_dec("info")
 @get_user_dec(allow_self=True)
 @get_strings_dec("users")
-async def user_info(message, user, strings):
+async def user_info(message: Message, user, strings):
     chat_id = message.chat.id
 
     text = strings["user_info"]
@@ -50,7 +52,7 @@ async def user_info(message, user, strings):
 @register(cmds="admincache", is_admin=True)
 @chat_connection(only_groups=True, admin=True)
 @get_strings_dec("users")
-async def reset_admins_cache(message, chat, strings):
+async def reset_admins_cache(message: Message, chat, strings):
     await get_admins_rights(chat["chat_id"], force_update=True)  # Reset a cache
     await message.reply(strings["upd_cache_done"])
 
@@ -60,7 +62,7 @@ async def reset_admins_cache(message, chat, strings):
 @get_user_dec(allow_self=True)
 @get_strings_dec("misc")
 @chat_connection()
-async def get_id(message, user, strings, chat):
+async def get_id(message: Message, user, strings, chat):
     user_id = message.from_user.id
 
     text = strings["your_id"].format(id=user_id)
@@ -90,7 +92,7 @@ async def get_id(message, user, strings, chat):
 @disableable_dec("adminlist")
 @chat_connection(only_groups=True)
 @get_strings_dec("users")
-async def adminlist(message, chat, strings):
+async def adminlist(message: Message, chat, strings):
     admins = await get_admins_rights(chat["chat_id"])
     text = strings["admins"]
     for admin, rights in admins.items():

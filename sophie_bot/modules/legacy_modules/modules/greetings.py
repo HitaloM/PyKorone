@@ -83,7 +83,7 @@ class WelcomeSecurityState(StatesGroup):
 @register(cmds="welcome")
 @chat_connection(only_groups=True)
 @get_strings_dec("greetings")
-async def welcome(message, chat, strings):
+async def welcome(message: Message, chat, strings):
     chat_id = chat["chat_id"]
     send_id = message.chat.id
 
@@ -152,7 +152,7 @@ async def welcome(message, chat, strings):
 @register(cmds=["setwelcome", "savewelcome"], user_admin=True)
 @chat_connection(admin=True, only_groups=True)
 @get_strings_dec("greetings")
-async def set_welcome(message, chat, strings):
+async def set_welcome(message: Message, chat, strings):
     chat_id = chat["chat_id"]
 
     if len(args := get_args_str(message).lower().split()) < 1:
@@ -201,7 +201,7 @@ async def set_welcome(message, chat, strings):
 @register(cmds="resetwelcome", user_admin=True)
 @chat_connection(admin=True, only_groups=True)
 @get_strings_dec("greetings")
-async def reset_welcome(message, chat, strings):
+async def reset_welcome(message: Message, chat, strings):
     chat_id = chat["chat_id"]
 
     if (await db.greetings.delete_one({"chat_id": chat_id})).deleted_count < 1:
@@ -216,7 +216,7 @@ async def reset_welcome(message, chat, strings):
 @register(cmds="cleanwelcome", user_admin=True)
 @chat_connection(admin=True, only_groups=True)
 @get_strings_dec("greetings")
-async def clean_welcome(message, chat, strings):
+async def clean_welcome(message: Message, chat, strings):
     chat_id = chat["chat_id"]
 
     if len(args := get_args_str(message).lower().split()) < 1:
@@ -252,7 +252,7 @@ async def clean_welcome(message, chat, strings):
 @register(cmds="cleanservice", user_admin=True)
 @chat_connection(admin=True, only_groups=True)
 @get_strings_dec("greetings")
-async def clean_service(message, chat, strings):
+async def clean_service(message: Message, chat, strings):
     chat_id = chat["chat_id"]
 
     if len(args := get_args_str(message).lower().split()) < 1:
@@ -288,7 +288,7 @@ async def clean_service(message, chat, strings):
 @register(cmds="welcomemute", user_admin=True)
 @chat_connection(admin=True, only_groups=True)
 @get_strings_dec("greetings")
-async def welcome_mute(message, chat, strings):
+async def welcome_mute(message: Message, chat, strings):
     chat_id = chat["chat_id"]
 
     if len(args := get_args_str(message).lower().split()) < 1:
@@ -356,7 +356,7 @@ class WelcomeSecurityConf(StatesGroup):
 @register(cmds="welcomesecurity", user_admin=True)
 @chat_connection(admin=True, only_groups=True)
 @get_strings_dec("greetings")
-async def welcome_security(message, chat, strings):
+async def welcome_security(message: Message, chat, strings):
     chat_id = chat["chat_id"]
 
     if len(args := get_args_str(message).lower().split()) < 1:
@@ -469,7 +469,7 @@ async def wlcm_sec_time_state(message: Message, chat: dict, strings: dict, state
 @need_args_dec()
 @chat_connection(admin=True, only_groups=True)
 @get_strings_dec("greetings")
-async def set_security_note(message, chat, strings):
+async def set_security_note(message: Message, chat, strings):
     chat_id = chat["chat_id"]
 
     if get_args_str(message).lower().split()[0] in ["raw", "noformat"]:
@@ -505,7 +505,7 @@ async def set_security_note(message, chat, strings):
 @register(cmds="delsecuritynote", user_admin=True)
 @chat_connection(admin=True, only_groups=True)
 @get_strings_dec("greetings")
-async def reset_security_note(message, chat, strings):
+async def reset_security_note(message: Message, chat, strings):
     chat_id = chat["chat_id"]
 
     if (
@@ -622,7 +622,7 @@ async def join_expired(chat_id, user_id, message_id, wlkm_msg_id):
 
 @dp.callback_query(F.data.regexp(r"ws_"))
 @get_strings_dec("greetings")
-async def ws_redirecter(message, strings):
+async def ws_redirecter(message: Message, strings):
     payload = message.data.split("_")[1:]
     chat_id = int(payload[0])
     real_user_id = int(payload[1])
@@ -669,7 +669,7 @@ async def welcome_security_handler_pm(message: Message, strings, regexp=None, st
 
 
 @get_strings_dec("greetings")
-async def send_button(message, state, strings):
+async def send_button(message: Message, state, strings):
     text = strings["btn_button_text"]
     buttons = InlineKeyboardMarkup().add(InlineKeyboardButton(strings["click_here"], callback_data="wc_button_btn"))
     verify_msg_id = (await message.reply(text, reply_markup=buttons)).message_id
@@ -693,7 +693,7 @@ def generate_captcha(number=None):
 
 
 @get_strings_dec("greetings")
-async def send_captcha(message, state, strings):
+async def send_captcha(message: Message, state, strings):
     img, num = generate_captcha()
     async with state.proxy() as data:
         data["captcha_num"] = num
@@ -744,7 +744,7 @@ async def change_captcha(event, strings, state=None, **kwargs):
 
 @register(f="text", state=WelcomeSecurityState.captcha, allow_kwargs=True)
 @get_strings_dec("greetings")
-async def check_captcha_text(message, strings, state=None, **kwargs):
+async def check_captcha_text(message: Message, strings, state=None, **kwargs):
     num = message.text.split(" ")[0]
 
     if not num.isdigit():
@@ -798,7 +798,7 @@ def gen_int_btns(answer):
 
 
 @get_strings_dec("greetings")
-async def send_btn_math(message, state, strings, msg_id=False):
+async def send_btn_math(message: Message, state, strings, msg_id=False):
     chat_id = message.chat.id
     expr, answer = gen_expression()
 
@@ -971,7 +971,7 @@ async def welcome_trigger(message: Message, strings):
 # Clean service trigger
 @register(only_groups=True, f="welcome")
 @get_strings_dec("greetings")
-async def clean_service_trigger(message, strings):
+async def clean_service_trigger(message: Message, strings):
     chat_id = message.chat.id
 
     if message.new_chat_members[0].id == CONFIG.bot_id:

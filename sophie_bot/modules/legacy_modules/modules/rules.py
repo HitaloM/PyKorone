@@ -1,5 +1,6 @@
 from aiogram import F
 from aiogram.filters import CommandStart
+from aiogram.types import Message
 
 from sophie_bot.modules.legacy_modules.utils.connections import chat_connection
 from sophie_bot.modules.legacy_modules.utils.disable import disableable_dec
@@ -19,7 +20,7 @@ from sophie_bot.services.db import db
 @register(cmds=["setrules", "saverules"], user_admin=True)
 @chat_connection(admin=True, only_groups=True)
 @get_strings_dec("rules")
-async def set_rules(message, chat, strings):
+async def set_rules(message: Message, chat, strings):
     chat_id = chat["chat_id"]
 
     # FIXME: documents are allow to saved (why?), check for args if no 'reply_to_message'
@@ -38,7 +39,7 @@ async def set_rules(message, chat, strings):
 @disableable_dec("rules")
 @chat_connection(only_groups=True)
 @get_strings_dec("rules")
-async def rules(message, chat, strings):
+async def rules(message: Message, chat, strings):
     chat_id = chat["chat_id"]
     send_id = message.chat.id
 
@@ -66,7 +67,7 @@ async def rules(message, chat, strings):
 @register(cmds="resetrules", user_admin=True)
 @chat_connection(admin=True, only_groups=True)
 @get_strings_dec("rules")
-async def reset_rules(message, chat, strings):
+async def reset_rules(message: Message, chat, strings):
     chat_id = chat["chat_id"]
 
     if (await db.rules.delete_one({"chat_id": chat_id})).deleted_count < 1:
@@ -81,7 +82,7 @@ BUTTONS.update({"rules": "btn_rules"})
 
 @register(CommandStart(), F.text.regexp(r"btn_rules"))
 @get_strings_dec("rules")
-async def rules_btn(message, strings):
+async def rules_btn(message: Message, strings):
     chat_id = (get_args_str(message).split("_"))[2]
     user_id = message.chat.id
     if not (db_item := await db.rules.find_one({"chat_id": int(chat_id)})):

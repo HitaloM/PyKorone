@@ -32,7 +32,7 @@ from sophie_bot.modules.legacy_modules.utils.register import register
 )
 @chat_connection(admin=True)
 @get_strings_dec("pins")
-async def unpin_message(message, chat, strings):
+async def unpin_message(message: Message, chat, strings):
     # support unpinning all
     if get_arg(message) in {"all"}:
         return await bot.unpin_all_chat_messages(chat["chat_id"])

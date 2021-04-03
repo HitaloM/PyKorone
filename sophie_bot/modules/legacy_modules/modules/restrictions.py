@@ -22,6 +22,7 @@ import datetime  # noqa: F401
 from contextlib import suppress
 
 from aiogram.exceptions import TelegramBadRequest
+from aiogram.types import Message
 from babel.dates import format_timedelta
 
 from sophie_bot import CONFIG, bot
@@ -55,7 +56,7 @@ from .misc import customise_reason_finish, customise_reason_start
 @chat_connection(admin=True, only_groups=True)
 @get_user_and_text_dec()
 @get_strings_dec("restrictions")
-async def kick_user_cmd(message, chat, user, args, strings):
+async def kick_user_cmd(message: Message, chat, user, args, strings):
     chat_id = chat["chat_id"]
     user_id = user["user_id"]
 
@@ -111,7 +112,7 @@ async def kick_user_cmd(message, chat, user, args, strings):
 @chat_connection(admin=True, only_groups=True)
 @get_user_and_text_dec()
 @get_strings_dec("restrictions")
-async def mute_user_cmd(message, chat, user, args, strings):
+async def mute_user_cmd(message: Message, chat, user, args, strings):
     chat_id = chat["chat_id"]
     user_id = user["user_id"]
 
@@ -188,7 +189,7 @@ async def mute_user_cmd(message, chat, user, args, strings):
 @chat_connection(admin=True, only_groups=True)
 @get_user_dec()
 @get_strings_dec("restrictions")
-async def unmute_user_cmd(message, chat, user, strings):
+async def unmute_user_cmd(message: Message, chat, user, strings):
     chat_id = chat["chat_id"]
     user_id = user["user_id"]
 
@@ -223,7 +224,7 @@ async def unmute_user_cmd(message, chat, user, strings):
 @chat_connection(admin=True, only_groups=True)
 @get_user_and_text_dec()
 @get_strings_dec("restrictions")
-async def ban_user_cmd(message, chat, user, args, strings):
+async def ban_user_cmd(message: Message, chat, user, args, strings):
     chat_id = chat["chat_id"]
     user_id = user["user_id"]
 
@@ -300,7 +301,7 @@ async def ban_user_cmd(message, chat, user, args, strings):
 @chat_connection(admin=True, only_groups=True)
 @get_user_dec()
 @get_strings_dec("restrictions")
-async def unban_user_cmd(message, chat, user, strings):
+async def unban_user_cmd(message: Message, chat, user, strings):
     chat_id = chat["chat_id"]
     user_id = user["user_id"]
 
@@ -337,7 +338,7 @@ async def leave_silent(message):
 
 
 @get_strings_dec("restrictions")
-async def filter_handle_ban(message, chat, data: dict, strings=None):
+async def filter_handle_ban(message: Message, chat, data: dict, strings=None):
     if await is_user_admin(chat["chat_id"], message.from_user.id):
         return
     if await ban_user(chat["chat_id"], message.from_user.id):
@@ -351,7 +352,7 @@ async def filter_handle_ban(message, chat, data: dict, strings=None):
 
 
 @get_strings_dec("restrictions")
-async def filter_handle_mute(message, chat, data, strings=None):
+async def filter_handle_mute(message: Message, chat, data, strings=None):
     if await is_user_admin(chat["chat_id"], message.from_user.id):
         return
     if await mute_user(chat["chat_id"], message.from_user.id):
@@ -365,7 +366,7 @@ async def filter_handle_mute(message, chat, data, strings=None):
 
 
 @get_strings_dec("restrictions")
-async def filter_handle_tmute(message, chat, data, strings=None):
+async def filter_handle_tmute(message: Message, chat, data, strings=None):
     if await is_user_admin(chat["chat_id"], message.from_user.id):
         return
     if await mute_user(chat["chat_id"], message.from_user.id, until_date=eval(data["time"])):
@@ -381,7 +382,7 @@ async def filter_handle_tmute(message, chat, data, strings=None):
 
 
 @get_strings_dec("restrictions")
-async def filter_handle_tban(message, chat, data, strings=None):
+async def filter_handle_tban(message: Message, chat, data, strings=None):
     if await is_user_admin(chat["chat_id"], message.from_user.id):
         return
     if await ban_user(chat["chat_id"], message.from_user.id, until_date=eval(data["time"])):
@@ -397,13 +398,13 @@ async def filter_handle_tban(message, chat, data, strings=None):
 
 
 @get_strings_dec("restrictions")
-async def time_setup_start(message, strings):
+async def time_setup_start(message: Message, strings):
     with suppress(TelegramBadRequest):
         await message.edit_text(strings["time_setup_start"])
 
 
 @get_strings_dec("restrictions")
-async def time_setup_finish(message, data, strings):
+async def time_setup_finish(message: Message, data, strings):
     try:
         time = convert_time(message.text)
     except (InvalidTimeUnit, TypeError, ValueError):
@@ -414,7 +415,7 @@ async def time_setup_finish(message, data, strings):
 
 
 @get_strings_dec("restrictions")
-async def filter_handle_kick(message, chat, data, strings=None):
+async def filter_handle_kick(message: Message, chat, data, strings=None):
     if await is_user_admin(chat["chat_id"], message.from_user.id):
         return
     if await kick_user(chat["chat_id"], message.from_user.id):

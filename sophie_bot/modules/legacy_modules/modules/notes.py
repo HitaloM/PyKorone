@@ -6,7 +6,7 @@ from datetime import datetime
 from aiogram import F
 from aiogram.exceptions import TelegramBadRequest
 from aiogram.filters import CommandStart
-from aiogram.types import InlineKeyboardButton, InlineKeyboardMarkup
+from aiogram.types import InlineKeyboardButton, InlineKeyboardMarkup, Message
 from babel.dates import format_datetime
 from pymongo import ReplaceOne
 from telethon.errors.rpcerrorlist import MessageDeleteForbiddenError
@@ -114,7 +114,7 @@ def clean_notes(func):
 @need_args_dec()
 @chat_connection(admin=True)
 @get_strings_dec("notes")
-async def save_note(message, chat, strings):
+async def save_note(message: Message, chat, strings):
     chat_id = chat["chat_id"]
     arg = get_arg(message).lower()
     if arg[0] == "#":
@@ -200,7 +200,7 @@ async def get_note(
 @chat_connection(command="get")
 @get_strings_dec("notes")
 @clean_notes
-async def get_note_cmd(message, chat, strings):
+async def get_note_cmd(message: Message, chat, strings):
     chat_id = chat["chat_id"]
     chat_name = chat["chat_title"]
 
@@ -234,7 +234,7 @@ async def get_note_cmd(message, chat, strings):
 @disableable_dec("get")
 @chat_connection(command="get")
 @clean_notes
-async def get_note_hashtag(message, chat, **kwargs):
+async def get_note_hashtag(message: Message, chat, **kwargs):
     chat_id = chat["chat_id"]
 
     note_name = re.search(r"^#([\w-]+)", message.text)[1].lower()
@@ -256,7 +256,7 @@ async def get_note_hashtag(message, chat, **kwargs):
 @chat_connection(command="notes")
 @get_strings_dec("notes")
 @clean_notes
-async def get_notes_list_cmd(message, chat, strings):
+async def get_notes_list_cmd(message: Message, chat, strings):
     if (
         await db.privatenotes.find_one({"chat_id": chat["chat_id"]}) and message.chat.id == chat["chat_id"]
     ):  # Workaround to avoid sending PN to connected PM
@@ -277,7 +277,7 @@ async def get_notes_list_cmd(message, chat, strings):
 
 
 @get_strings_dec("notes")
-async def get_notes_list(message, strings, chat, keyword=None, pm=False):
+async def get_notes_list(message: Message, strings, chat, keyword=None, pm=False):
     text = strings["notelist_header"].format(chat_name=chat["chat_title"])
 
     notes = await db.notes.find({"chat_id": chat["chat_id"]}).sort("names", 1).to_list(length=300)
@@ -319,7 +319,7 @@ async def get_notes_list(message, strings, chat, keyword=None, pm=False):
 @chat_connection()
 @get_strings_dec("notes")
 @clean_notes
-async def search_in_note(message, chat, strings):
+async def search_in_note(message: Message, chat, strings):
     request = get_args_str(message)
     text = strings["search_header"].format(chat_name=chat["chat_title"], request=request)
 
@@ -338,7 +338,7 @@ async def search_in_note(message, chat, strings):
 @chat_connection(admin=True)
 @need_args_dec()
 @get_strings_dec("notes")
-async def clear_note(message, chat, strings):
+async def clear_note(message: Message, chat, strings):
     note_names = get_arg(message).lower().split("|")
 
     removed = ""
@@ -373,7 +373,7 @@ async def clear_note(message, chat, strings):
 @register(cmds="clearall", user_admin=True)
 @chat_connection(admin=True)
 @get_strings_dec("notes")
-async def clear_all_notes(message, chat, strings):
+async def clear_all_notes(message: Message, chat, strings):
     # Ensure notes count
     if not await db.notes.find_one({"chat_id": chat["chat_id"]}):
         await message.reply(strings["notelist_no_notes"].format(chat_title=chat["chat_title"]))
@@ -405,7 +405,7 @@ async def clear_all_notes_cb(event, chat, strings):
 @need_args_dec()
 @get_strings_dec("notes")
 @clean_notes
-async def note_info(message, chat, strings):
+async def note_info(message: Message, chat, strings):
     note_name = get_arg(message).lower()
     if note_name[0] == "#":
         note_name = note_name[1:]
@@ -479,7 +479,7 @@ async def note_btn(event, strings, regexp=None, **kwargs):
 
 @dp.inline_query(CommandStart(), F.data.regexp("btnnotesm"))
 @get_strings_dec("notes")
-async def note_start(message, strings, regexp=None, **kwargs):
+async def note_start(message: Message, strings, regexp=None, **kwargs):
     # Don't even ask what it means, mostly it workaround to support note names with _
     args = re.search(r"^([a-zA-Z0-9]+)_(.*?)(-\d+)$", get_args_str(message))
     chat_id = int(args.group(3))
@@ -495,7 +495,7 @@ async def note_start(message, strings, regexp=None, **kwargs):
 
 @register(cmds="start", only_pm=True)
 @get_strings_dec("connections")
-async def btn_note_start_state(message, strings):
+async def btn_note_start_state(message: Message, strings):
     key = "btn_note_start_state:" + str(message.from_user.id)
     if not (cached := redis.hgetall(key)):
         return
@@ -513,7 +513,7 @@ async def btn_note_start_state(message, strings):
 @register(cmds="privatenotes", is_admin=True)
 @chat_connection(admin=True)
 @get_strings_dec("notes")
-async def private_notes_cmd(message, chat, strings):
+async def private_notes_cmd(message: Message, chat, strings):
     chat_id = chat["chat_id"]
     chat_name = chat["chat_title"]
     text = str
@@ -550,7 +550,7 @@ async def private_notes_cmd(message, chat, strings):
 @register(cmds="cleannotes", is_admin=True)
 @chat_connection(admin=True)
 @get_strings_dec("notes")
-async def clean_notes(message, chat, strings):
+async def clean_notes(message: Message, chat, strings):
     disable = ["no", "off", "0", "false", "disable"]
     enable = ["yes", "on", "true", "enable"]
 
@@ -590,7 +590,7 @@ async def clean_notes(message, chat, strings):
 
 @register(CommandStart(re.compile("notes")))
 @get_strings_dec("notes")
-async def private_notes_func(message, strings):
+async def private_notes_func(message: Message, strings):
     args = get_args_str(message).split("_")
     chat_id = args[1]
     keyword = args[2] if args[2] != "None" else None
@@ -658,7 +658,7 @@ async def __import__(chat_id, data):
     await db.notes.bulk_write(new)
 
 
-async def filter_handle(message, chat, data):
+async def filter_handle(message: Message, chat, data):
     chat_id = chat["chat_id"]
     read_chat_id = message.chat.id
     note_name = data["note_name"]
@@ -672,7 +672,7 @@ async def setup_start(message):
         await message.edit_text(text)
 
 
-async def setup_finish(message, data):
+async def setup_finish(message: Message, data):
     note_name = message.text.split(" ", 1)[0].split()[0]
 
     if not (await db.notes.find_one({"chat_id": data["chat_id"], "names": note_name})):

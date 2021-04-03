@@ -52,7 +52,7 @@ from .misc import customise_reason_finish, customise_reason_start
 @register(cmds="warn", user_can_restrict_members=True, bot_can_restrict_members=True)
 @chat_connection(admin=True, only_groups=True)
 @get_user_and_text_dec()
-async def warn_cmd(message, chat, user, text):
+async def warn_cmd(message: Message, chat, user, text):
     await warn_func(message, chat, user, text)
 
 
@@ -158,7 +158,7 @@ async def rmv_warn_btn(event, strings, regexp=None, **kwargs):
 @chat_connection(admin=True, only_groups=True)
 @get_user_dec(allow_self=True)
 @get_strings_dec("warns")
-async def warns(message, chat, user, strings):
+async def warns(message: Message, chat, user, strings):
     chat_id = chat["chat_id"]
     user_id = user["user_id"]
     text = strings["warns_header"]
@@ -184,7 +184,7 @@ async def warns(message, chat, user, strings):
 @register(cmds="warnlimit", user_admin=True)
 @chat_connection(admin=True, only_groups=True)
 @get_strings_dec("warns")
-async def warnlimit(message, chat, strings):
+async def warnlimit(message: Message, chat, strings):
     chat_id = chat["chat_id"]
     chat_title = chat["chat_title"]
     arg = get_args_str(message).split()
@@ -214,7 +214,7 @@ async def warnlimit(message, chat, strings):
 @chat_connection(admin=True, only_groups=True)
 @get_user_dec()
 @get_strings_dec("warns")
-async def reset_warn(message, chat, user, strings):
+async def reset_warn(message: Message, chat, user, strings):
     chat_id = chat["chat_id"]
     chat_title = chat["chat_title"]
     user_id = user["user_id"]
@@ -238,7 +238,7 @@ async def reset_warn(message, chat, user, strings):
 @register(cmds=["warnmode", "warnaction"], user_admin=True, bot_can_restrict_members=True)
 @chat_connection(admin=True)
 @get_strings_dec("warns")
-async def warnmode(message, chat, strings):
+async def warnmode(message: Message, chat, strings):
     chat_id = chat["chat_id"]
     acceptable_args = ["ban", "tmute", "mute"]
     arg = str(get_args_str(message)).split()
@@ -323,7 +323,7 @@ async def __import__(chat_id, data):
 
 
 @get_strings_dec("warns")
-async def filter_handle(message, chat, data, string=None):
+async def filter_handle(message: Message, chat, data, string=None):
     if await is_user_admin(chat["chat_id"], message.from_user.id):
         return
     target_user = message.from_user.id

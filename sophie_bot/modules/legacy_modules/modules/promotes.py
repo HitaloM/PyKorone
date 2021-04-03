@@ -17,6 +17,7 @@
 import html
 
 from aiogram.exceptions import TelegramForbiddenError
+from aiogram.types import Message
 
 from sophie_bot import CONFIG, bot
 from sophie_bot.filters.admin_rights import BotHasPermissions, UserRestricting
@@ -40,7 +41,7 @@ from sophie_bot.services.telethon import tbot
 @chat_connection(admin=True, only_groups=True)
 @get_user_and_text_dec()
 @get_strings_dec("promotes")
-async def promote(message, chat, user, args, strings):
+async def promote(message: Message, chat, user, args, strings):
     chat_id = chat["chat_id"]
     text = strings["promote_success"].format(user=await get_user_link(user["user_id"]), chat_name=chat["chat_title"])
 
@@ -86,7 +87,7 @@ async def promote(message, chat, user, args, strings):
 @chat_connection(admin=True, only_groups=True)
 @get_user_dec()
 @get_strings_dec("promotes")
-async def demote(message, chat, user, strings):
+async def demote(message: Message, chat, user, strings):
     chat_id = chat["chat_id"]
     if user["user_id"] == CONFIG.bot_id:
         return

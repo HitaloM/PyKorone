@@ -89,7 +89,7 @@ class DelFedCb(CallbackData, prefix="delfed_cb"):
 # functions
 
 
-async def get_fed_f(message, disable_self_fed_check: bool = False):
+async def get_fed_f(message: Message, disable_self_fed_check: bool = False):
     chat = await get_connected_chat(message, admin=True)
     if "err_msg" not in chat:
         if chat["status"] == "private" and not disable_self_fed_check:
@@ -250,7 +250,7 @@ def is_fed_admin(func):
 @register(cmds=["newfed", "fnew"])
 @need_args_dec()
 @get_strings_dec("feds")
-async def new_fed(message, strings):
+async def new_fed(message: Message, strings):
     fed_name = html.escape(get_args_str(message))
     user_id = message.from_user.id
     # dont support creation of newfed as anon admin
@@ -285,7 +285,7 @@ async def new_fed(message, strings):
 @need_args_dec()
 @chat_connection(admin=True, only_groups=True)
 @get_strings_dec("feds")
-async def join_fed(message, chat, strings):
+async def join_fed(message: Message, chat, strings):
     fed_id = get_args_str(message).split(" ")[0]
     user_id = message.from_user.id
     chat_id = chat["chat_id"]
@@ -324,7 +324,7 @@ async def join_fed(message, chat, strings):
 @chat_connection(admin=True, only_groups=True)
 @get_current_chat_fed
 @get_strings_dec("feds")
-async def leave_fed_comm(message, chat, fed, strings):
+async def leave_fed_comm(message: Message, chat, fed, strings):
     user_id = message.from_user.id
     if not await is_chat_creator(message, chat["chat_id"], user_id):
         await message.reply(strings["only_creators"])
@@ -352,7 +352,7 @@ async def leave_fed_comm(message, chat, fed, strings):
 @get_current_chat_fed
 @is_fed_owner
 @get_strings_dec("feds")
-async def fed_sub(message, fed, strings):
+async def fed_sub(message: Message, fed, strings):
     fed_id = get_args_str(message).split(" ")[0]
 
     # Assume Fed ID is valid
@@ -385,7 +385,7 @@ async def fed_sub(message, fed, strings):
 @get_current_chat_fed
 @is_fed_owner
 @get_strings_dec("feds")
-async def fed_unsub(message, fed, strings):
+async def fed_unsub(message: Message, fed, strings):
     fed_id = get_args_str(message).split(" ")[0]
 
     if not (fed2 := await get_fed_by_id(fed_id)):
@@ -410,7 +410,7 @@ async def fed_unsub(message, fed, strings):
 @get_fed_user_text()
 @is_fed_owner
 @get_strings_dec("feds")
-async def promote_to_fed(message, fed, user, text, strings):
+async def promote_to_fed(message: Message, fed, user, text, strings):
     restricted_ids = [1087968824, 777000]
     if user["user_id"] in restricted_ids:
         return await message.reply(strings["restricted_user:promote"])
@@ -438,7 +438,7 @@ async def promote_to_fed(message, fed, user, text, strings):
 @get_fed_user_text()
 @is_fed_owner
 @get_strings_dec("feds")
-async def demote_from_fed(message, fed, user, text, strings):
+async def demote_from_fed(message: Message, fed, user, text, strings):
     await db.feds.update_one({"_id": fed["_id"]}, {"$pull": {"admins": user["user_id"]}})
     await get_fed_by_id.reset_cache(fed["fed_id"])
 
@@ -465,7 +465,7 @@ async def demote_from_fed(message, fed, user, text, strings):
 @get_chat_dec(allow_self=True, fed=True)
 @is_fed_owner
 @get_strings_dec("feds")
-async def set_fed_log_chat(message, fed, chat, strings):
+async def set_fed_log_chat(message: Message, fed, chat, strings):
     chat_id = chat["chat_id"] if "chat_id" in chat else chat["id"]
     if chat["type"] == "channel":
         if await check_admin_rights(message, chat_id, CONFIG.bot_id, ["can_post_messages"]) is not True:
@@ -492,7 +492,7 @@ async def set_fed_log_chat(message, fed, chat, strings):
 @get_fed_dec
 @is_fed_owner
 @get_strings_dec("feds")
-async def unset_fed_log_chat(message, fed, strings):
+async def unset_fed_log_chat(message: Message, fed, strings):
     if "log_chat_id" not in fed or not fed["log_chat_id"]:
         await message.reply(strings["already_have_chatlog"].format(name=html.escape(fed["fed_name"], False)))
         return
@@ -513,7 +513,7 @@ async def unset_fed_log_chat(message, fed, strings):
 @get_fed_dec
 @is_fed_admin
 @get_strings_dec("feds")
-async def fed_chat_list(message, fed, strings):
+async def fed_chat_list(message: Message, fed, strings):
     text = strings["chats_in_fed"].format(name=html.escape(fed["fed_name"], False))
     if "chats" not in fed:
         return await message.reply(strings["no_chats"].format(name=html.escape(fed["fed_name"], False)))
@@ -535,7 +535,7 @@ async def fed_chat_list(message, fed, strings):
 @get_fed_dec
 @is_fed_admin
 @get_strings_dec("feds")
-async def fed_admins_list(message, fed, strings):
+async def fed_admins_list(message: Message, fed, strings):
     text = strings["fadmins_header"].format(fed_name=html.escape(fed["fed_name"], False))
     text += "* {} (<code>{}</code>)\n".format(await get_user_link(fed["creator"]), fed["creator"])
     if "admins" in fed:
@@ -547,7 +547,7 @@ async def fed_admins_list(message, fed, strings):
 @register(cmds=["finfo", "fedinfo"])
 @get_fed_dec
 @get_strings_dec("feds")
-async def fed_info(message, fed, strings):
+async def fed_info(message: Message, fed, strings):
     text = strings["finfo_text"]
     banned_num = await db.fed_bans.count_documents({"fed_id": fed["fed_id"]})
     text = text.format(
@@ -583,7 +583,7 @@ async def get_all_subs_feds_r(fed_id, new):
 @get_fed_user_text()
 @is_fed_admin
 @get_strings_dec("feds")
-async def fed_ban_user(message, fed, user, reason, strings):
+async def fed_ban_user(message: Message, fed, user, reason, strings):
     user_id = user["user_id"]
 
     # Checks
@@ -754,7 +754,7 @@ async def fed_ban_user(message, fed, user, reason, strings):
 @get_fed_user_text()
 @is_fed_admin
 @get_strings_dec("feds")
-async def unfed_ban_user(message, fed, user, text, strings):
+async def unfed_ban_user(message: Message, fed, user, text, strings):
     user_id = user["user_id"]
 
     if user == CONFIG.bot_id:
@@ -845,7 +845,7 @@ async def unfed_ban_user(message, fed, user, text, strings):
 @get_fed_dec
 @is_fed_owner
 @get_strings_dec("feds")
-async def del_fed_cmd(message, fed, strings):
+async def del_fed_cmd(message: Message, fed, strings):
     fed_name = html.escape(fed["fed_name"], False)
     fed_id = fed["fed_id"]
     fed_owner = fed["creator"]
@@ -897,7 +897,7 @@ async def cancel(event):
 @get_fed_dec
 @is_fed_owner
 @get_strings_dec("feds")
-async def fed_rename(message, fed, strings):
+async def fed_rename(message: Message, fed, strings):
     # Check whether first arg is fed ID | TODO: Remove this
     args = get_args_str(message).split(" ", 2)
     if len(args) > 1 and args[0].count("-") == 4:
@@ -923,7 +923,7 @@ async def fed_rename(message, fed, strings):
 @get_fed_dec
 @is_fed_admin
 @get_strings_dec("feds")
-async def fban_export(message, fed, strings):
+async def fban_export(message: Message, fed, strings):
     fed_id = fed["fed_id"]
     key = "fbanlist_lock:" + str(fed_id)
     if redis.get(key) and message.from_user.id not in CONFIG.operators:
@@ -968,7 +968,7 @@ async def fban_export(message, fed, strings):
 @get_fed_dec
 @is_fed_admin
 @get_strings_dec("feds")
-async def importfbans_cmd(message, fed, strings):
+async def importfbans_cmd(message: Message, fed, strings):
     fed_id = fed["fed_id"]
     key = "importfbans_lock:" + str(fed_id)
     if redis.get(key) and message.from_user.id not in CONFIG.operators:
@@ -996,7 +996,7 @@ async def importfbans_cmd(message, fed, strings):
 
 
 @get_strings_dec("feds")
-async def importfbans_func(message, fed, strings, document=None):
+async def importfbans_func(message: Message, fed, strings, document=None):
     global user_id
     file_type = os.path.splitext(document["file_name"])[1][1:]
 
@@ -1088,7 +1088,7 @@ async def importfbans_func(message, fed, strings, document=None):
 @register(F.document, state=ImportFbansFileWait.waiting, allow_kwargs=True)
 @get_fed_dec
 @is_fed_admin
-async def import_state(message, fed, state=None, **kwargs):
+async def import_state(message: Message, fed, state=None, **kwargs):
     await importfbans_func(message, fed, document=message.document)
     await state.finish()
 
@@ -1147,7 +1147,7 @@ async def check_fbanned(message: Message, chat, strings):
 @register(cmds=["fcheck", "fbanstat"])
 @get_fed_user_text(skip_no_fed=True, check_self_user=True, disable_self_fed_check=True)
 @get_strings_dec("feds")
-async def fedban_check(message, fed, user, _, strings):
+async def fedban_check(message: Message, fed, user, _, strings):
     fbanned_fed = False  # A variable to find if user is banned in current fed of chat
     fban_data = None
 

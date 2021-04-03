@@ -143,7 +143,7 @@ async def check_msg(message):
 @need_args_dec()
 @chat_connection(only_groups=True, admin=True)
 @get_strings_dec("filters")
-async def add_handler(message, chat, strings):
+async def add_handler(message: Message, chat, strings):
     # filters doesn't support anon admins
     if message.from_user.id == 1087968824:
         return await message.reply(strings["anon_detected"])
@@ -183,7 +183,7 @@ async def add_handler(message, chat, strings):
         await message.reply(text, reply_markup=buttons)
 
 
-async def save_filter(message, data, strings):
+async def save_filter(message: Message, data, strings):
     if await db.filters.find_one(data):
         # prevent saving duplicate filter
         await message.reply("Duplicate filter!")
@@ -237,7 +237,7 @@ async def register_action(event, chat, strings, callback_data: FilterActionCb, s
 @register(state=NewFilter.setup, f="any", is_admin=True, allow_kwargs=True)
 @chat_connection(only_groups=True, admin=True)
 @get_strings_dec("filters")
-async def setup_end(message, chat, strings, state: FSMContext, **kwargs):
+async def setup_end(message: Message, chat, strings, state: FSMContext, **kwargs):
     state_data = await state.get_data()
 
     await bot.delete_message(message.chat.id, state_data.get("msg_id"))
@@ -269,7 +269,7 @@ async def setup_end(message, chat, strings, state: FSMContext, **kwargs):
 @register(cmds=["filters", "listfilters"])
 @chat_connection(only_groups=True)
 @get_strings_dec("filters")
-async def list_filters(message, chat, strings):
+async def list_filters(message: Message, chat, strings):
     text = strings["list_filters"].format(chat_name=chat["chat_title"])
 
     filters = db.filters.find({"chat_id": chat["chat_id"]})
@@ -288,7 +288,7 @@ async def list_filters(message, chat, strings):
 @need_args_dec()
 @chat_connection(only_groups=True, admin=True)
 @get_strings_dec("filters")
-async def del_filter(message, chat, strings):
+async def del_filter(message: Message, chat, strings):
     handler = get_args_str(message)
     chat_id = chat["chat_id"]
     filters = await db.filters.find({"chat_id": chat_id, "handler": handler}).to_list(9999)

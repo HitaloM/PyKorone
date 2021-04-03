@@ -1,4 +1,5 @@
 from aiogram import F
+from aiogram.types import Message
 
 from sophie_bot.modules.legacy_modules.utils.connections import chat_connection
 from sophie_bot.modules.legacy_modules.utils.disable import disableable_dec
@@ -15,7 +16,7 @@ from sophie_bot.services.db import db
 @register(F.text.regexp(r"^@admin$"))
 @chat_connection(only_groups=True)
 @get_strings_dec("reports")
-async def report1_cmd(message, chat, strings):
+async def report1_cmd(message: Message, chat, strings):
     # Checking whether report is disabled in chat!
     check = await db.disabled.find_one({"chat_id": chat["chat_id"]})
     if check:
@@ -28,11 +29,11 @@ async def report1_cmd(message, chat, strings):
 @chat_connection(only_groups=True)
 @disableable_dec("report")
 @get_strings_dec("reports")
-async def report2_cmd(message, chat, strings):
+async def report2_cmd(message: Message, chat, strings):
     await report(message, chat, strings)
 
 
-async def report(message, chat, strings):
+async def report(message: Message, chat, strings):
     user = message.from_user.id
 
     if (await is_user_admin(chat["chat_id"], user)) is True:

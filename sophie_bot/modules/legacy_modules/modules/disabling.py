@@ -1,7 +1,7 @@
 # Copyright (C) 2018 - 2020 MrYacha. All rights reserved. Source code available under the AGPL.
 # Copyright (C) 2019 Aiogram
 from aiogram import F
-from aiogram.types import InlineKeyboardButton, InlineKeyboardMarkup
+from aiogram.types import InlineKeyboardButton, InlineKeyboardMarkup, Message
 
 from sophie_bot import dp
 from sophie_bot.filters.user_status import IsAdmin
@@ -33,7 +33,7 @@ from sophie_bot.services.db import db
 @register(cmds="disableable")
 @disableable_dec("disableable")
 @get_strings_dec("disable")
-async def list_disablable(message, strings):
+async def list_disablable(message: Message, strings):
     text = strings["disablable"]
     for command in DISABLABLE_COMMANDS:
         text += f"* <code>/{command}</code>\n"
@@ -43,7 +43,7 @@ async def list_disablable(message, strings):
 @register(cmds="disabled")
 @chat_connection(only_groups=True)
 @get_strings_dec("disable")
-async def list_disabled(message, chat, strings):
+async def list_disabled(message: Message, chat, strings):
     text = strings["disabled_list"].format(chat_name=chat["chat_title"])
 
     if not (disabled := await db.disabled.find_one({"chat_id": chat["chat_id"]})):
@@ -60,7 +60,7 @@ async def list_disabled(message, chat, strings):
 @need_args_dec()
 @chat_connection(admin=True, only_groups=True)
 @get_strings_dec("disable")
-async def disable_command(message, chat, strings):
+async def disable_command(message: Message, chat, strings):
     cmd = get_arg(message).lower()
     if cmd[0] == "/" or cmd[0] == "!":
         cmd = cmd[1:]
@@ -92,7 +92,7 @@ async def disable_command(message, chat, strings):
 @need_args_dec()
 @chat_connection(admin=True, only_groups=True)
 @get_strings_dec("disable")
-async def enable_command(message, chat, strings):
+async def enable_command(message: Message, chat, strings):
     chat_id = chat["chat_id"]
     cmd = get_arg(message).lower()
     if cmd[0] == "/" or cmd[0] == "!":
@@ -120,7 +120,7 @@ async def enable_command(message, chat, strings):
 @register(cmds="enableall", is_admin=True)
 @chat_connection(admin=True, only_groups=True)
 @get_strings_dec("disable")
-async def enable_all(message, chat, strings):
+async def enable_all(message: Message, chat, strings):
     # Ensure that something is disabled
     if not await db.disabled.find_one({"chat_id": chat["chat_id"]}):
         await message.reply(strings["not_disabled_anything"].format(chat_title=chat["chat_title"]))

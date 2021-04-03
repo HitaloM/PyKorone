@@ -18,7 +18,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 from aiogram.filters.callback_data import CallbackData
-from aiogram.types import InlineKeyboardButton, InlineKeyboardMarkup
+from aiogram.types import InlineKeyboardButton, InlineKeyboardMarkup, Message
 
 from sophie_bot import dp
 from sophie_bot.filters.user_status import IsAdmin
@@ -49,7 +49,7 @@ async def select_lang_cmd(message):
 
 
 @get_strings_dec("language")
-async def select_lang_keyboard(message, strings, edit=False):
+async def select_lang_keyboard(message: Message, strings, edit=False):
     markup = InlineKeyboardMarkup(inline_keyboard=[])
     task = message.reply if edit is False else message.edit_text
 
@@ -83,7 +83,7 @@ async def select_lang_keyboard(message, strings, edit=False):
     await task(text, reply_markup=markup)
 
 
-async def change_lang(message, lang, e=False, back_btn=False):
+async def change_lang(message: Message, lang, e=False, back_btn=False):
     chat_id = message.chat.id
     await change_chat_lang(chat_id, lang)
 
@@ -118,7 +118,7 @@ async def change_lang(message, lang, e=False, back_btn=False):
 
 @register(cmds="lang", user_admin=True, has_args=True)
 @get_strings_dec("language")
-async def select_lang_msg(message, strings):
+async def select_lang_msg(message: Message, strings):
     lang = get_arg(message).lower()
 
     if lang not in LANGUAGES:

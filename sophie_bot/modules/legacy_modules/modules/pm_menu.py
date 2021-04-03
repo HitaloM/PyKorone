@@ -22,7 +22,12 @@ from contextlib import suppress
 
 from aiogram import F
 from aiogram.exceptions import TelegramBadRequest
-from aiogram.types import InlineKeyboardButton, InlineKeyboardMarkup
+from aiogram.types import (
+    InlineKeyboardButton,
+    InlineKeyboardMarkup,
+    Message,
+    TelegramObject,
+)
 
 from sophie_bot import CONFIG, dp
 from sophie_bot.modules.legacy_modules.utils.disable import disableable_dec
@@ -35,7 +40,7 @@ from .language import select_lang_keyboard
 @register(cmds="start", no_args=True, only_groups=True)
 @disableable_dec("start")
 @get_strings_dec("pm_menu")
-async def start_group_cmd(message, strings):
+async def start_group_cmd(message: Message, strings):
     await message.reply(strings["start_hi_group"])
 
 
@@ -45,8 +50,8 @@ async def start_cmd(message):
 
 
 @get_strings_dec("pm_menu")
-async def get_start_func(message, strings, edit=False):
-    msg = message.message if hasattr(message, "message") else message
+async def get_start_func(event: TelegramObject, strings, edit=False):
+    msg = event.message if hasattr(event, "message") else event
     task = msg.edit_text if edit else msg.reply
     buttons = InlineKeyboardMarkup(
         inline_keyboard=[
@@ -93,7 +98,7 @@ async def back_btn(event):
 @register(cmds="help")
 @disableable_dec("help")
 @get_strings_dec("pm_menu")
-async def help_cmd(message, strings):
+async def help_cmd(message: Message, strings):
     button = InlineKeyboardMarkup(
         inline_keyboard=[[InlineKeyboardButton(text=strings["click_btn"], url="https://sophiebot.rocks/")]]
     )

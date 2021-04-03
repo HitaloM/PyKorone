@@ -33,19 +33,19 @@ from sophie_bot.modules.legacy_modules.utils.user_details import is_user_admin
 
 
 @register(cmds="cancel", allow_kwargs=True)
-async def cancel_handle(message, state, **kwargs):
+async def cancel_handle(message: Message, state, **kwargs):
     await state.finish()
     await message.reply("Cancelled.")
 
 
-async def delmsg_filter_handle(message, chat, data):
+async def delmsg_filter_handle(message: Message, chat, data):
     if await is_user_admin(data["chat_id"], message.from_user.id):
         return
     with suppress(TelegramBadRequest):
         await message.delete()
 
 
-async def replymsg_filter_handler(message, chat, data):
+async def replymsg_filter_handler(message: Message, chat, data):
     text, kwargs = await t_unparse_note_item(message, data["reply_text"], chat["chat_id"])
     kwargs["reply_to"] = message.message_id
     with suppress(TelegramBadRequest):
@@ -53,12 +53,12 @@ async def replymsg_filter_handler(message, chat, data):
 
 
 @get_strings_dec("misc")
-async def replymsg_setup_start(message, strings):
+async def replymsg_setup_start(message: Message, strings):
     with suppress(TelegramBadRequest):
         await message.edit_text(strings["send_text"])
 
 
-async def replymsg_setup_finish(message, data):
+async def replymsg_setup_finish(message: Message, data):
     reply_text = await get_parsed_note_list(message, allow_reply_message=False, split_args=-1)
     return {"reply_text": reply_text}
 
