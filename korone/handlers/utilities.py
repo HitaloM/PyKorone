@@ -378,3 +378,36 @@ async def translate(c: Client, m: Message):
             "<b>Idioma:</b> {from_lang} -> {to_lang}\n<b>Tradução:</b> <code>{translation}</code>"
         ).format(from_lang=trres.lang, to_lang=langs["targetlang"], translation=res)
     )
+
+
+@Client.on_message(
+    filters.cmd(
+        command="mcserver (?P<ip>.+)",
+        action="Veja algumas informações de servidores de Minecraft.",
+    )
+)
+async def mcserver(c: Client, m: Message):
+    args = m.matches[0]["ip"]
+    r = await http.get(f"https://api.mcsrvstat.us/2/{args}")
+    a = r.json()
+    if a["online"]:
+        text = (
+            "<b>Minecraft Server</b>:"
+            f"\nIP: {a['hostname'] if 'hostname' in a else a['ip']} (<code>{a['ip']}</code>)"
+            f"\n<b>Port:</b> <code>{a['port']}</code>"
+            f"\n<b>Online:</b> <code>{a['online']}</code>"
+            f"\n<b>Mods:</b> <code>{len(a['mods']['names']) if 'mods' in a else 'N/A'}</code>"
+            f"\n<b>Players:</b> <code>{a['players']['online']}/{a['players']['max']}</code>"
+            f"\n<b>Version:</b> <code>{a['version']}</code>"
+            f"\n<b>MOTD:</b> <i>{a['motd']['clean'][0]}</i>"
+        )
+    elif not a["ip"]:
+        text = "Isso não é um IP/domínio!"
+    elif not a["online"]:
+        text = (
+            "<b>Minecraft Server</b>:"
+            f"\n<b>IP:</b> {a['hostname'] if 'hostname' in a else a['ip']} (<code>{a['ip']}</code>)"
+            f"\n<b>Port:</b> <code>{a['port']}</code>"
+            f"\n<b>Online:</b> <code>{a['online']}</code>"
+        )
+    await m.reply_text(text)
