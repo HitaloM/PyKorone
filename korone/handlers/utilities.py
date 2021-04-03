@@ -392,8 +392,8 @@ async def mcserver(c: Client, m: Message):
     a = r.json()
     if a["online"]:
         text = (
-            "<b>Minecraft Server</b>:"
-            f"\nIP: {a['hostname'] if 'hostname' in a else a['ip']} (<code>{a['ip']}</code>)"
+            "<b>Minecraft Server:</b>"
+            f"\n<b>IP:</b> {a['hostname'] if 'hostname' in a else a['ip']} (<code>{a['ip']}</code>)"
             f"\n<b>Port:</b> <code>{a['port']}</code>"
             f"\n<b>Online:</b> <code>{a['online']}</code>"
             f"\n<b>Mods:</b> <code>{len(a['mods']['names']) if 'mods' in a else 'N/A'}</code>"

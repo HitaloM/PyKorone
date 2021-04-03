@@ -14,6 +14,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+import html
 import asyncpraw
 from asyncprawcore import exceptions as redex
 
@@ -76,7 +77,12 @@ async def imagefetcher(c, m, sub):
     keyboard = c.ikb([[(f"r/{sub}", post.url, "url")]])
 
     try:
-        await m.reply_photo(image_url, caption=title, reply_markup=keyboard)
+        if post.url.endswith(".mp4"):
+            await m.reply_video(image_url, caption=title, reply_markup=keyboard)
+        if post.url.endswith((".jpg", ".jpeg", "jpe", ".png")):
+            await m.reply_photo(image_url, caption=title, reply_markup=keyboard)
+        if post.url.endswith(".gif"):
+            await m.reply_animation(image_url, caption=title, reply_markup=keyboard)
     except BaseException:
         await m.reply_text(
             f"Falha ao baixar conteúdo de <b>r/{sub}</b>!\nTítulo: <b>{title}</b>\nURL: {image_url}"
@@ -112,7 +118,7 @@ async def bodyfetcher(c, m, sub):
             post = await subreddit.random() or await bodyfetcherfallback(subreddit)
             post.title
         except redex.Forbidden:
-            await m.reply_text(f"<b>r/{sub}<b> é privado!")
+            await m.reply_text(f"<b>r/{sub}</b> é privado!")
             return
         except (redex.NotFound, KeyError):
             await m.reply_text(f"<b>r/{sub}</b> não existe!")
@@ -131,7 +137,11 @@ async def bodyfetcher(c, m, sub):
 
         keyboard = c.ikb([[(f"r/{sub}", post.url, "url")]])
 
-        await m.reply_text(f"<b>{title}</b>\n\n{body}", reply_markup=keyboard)
+        await m.reply_text(
+            f"<b>{title}</b>\n\n{html.escape(body)}",
+            reply_markup=keyboard,
+            parse_mode="combined",
+        )
         return
 
     await m.reply_text(f"Não encontrei nenhum conteúdo válido em <b>r/{sub}</b>!")
