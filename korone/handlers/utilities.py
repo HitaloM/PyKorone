@@ -18,6 +18,8 @@ import re
 import os
 import html
 import time
+import random
+import asyncio
 import datetime
 import youtube_dl
 from bs4 import BeautifulSoup as bs
@@ -255,8 +257,8 @@ async def on_ytdl(c: Client, m: Message):
         yt = await extract_info(ydl, rege.group(), download=False)
     keyb = [
         [
-            ("💿 Áudio", f'_aud.{yt["id"]}|{m.chat.id}|{user}'),
-            ("🎬 Vídeo", f'_vid.{yt["id"]}|{m.chat.id}|{user}'),
+            ("💿 Áudio", f'_aud.{yt["id"]}|{m.chat.id}|{user}|{m.message_id}'),
+            ("🎬 Vídeo", f'_vid.{yt["id"]}|{m.chat.id}|{user}|{m.message_id}'),
         ],
     ]
     for f in yt["formats"]:
@@ -277,16 +279,18 @@ async def on_ytdl(c: Client, m: Message):
 
 @Client.on_callback_query(filters.regex("^(_(vid|aud))"))
 async def cli_ytdl(c, cq: CallbackQuery):
-    data, cid, userid = cq.data.split("|")
+    data, cid, userid, mid = cq.data.split("|")
     if not cq.from_user.id == int(userid):
         return await cq.answer("Este botão não é para você!", cache_time=60)
     vid = re.sub(r"^\_(vid|aud)\.", "", data)
     url = "https://www.youtube.com/watch?v=" + vid
-    edit = await cq.message.edit("Baixando...")
+    await cq.message.edit("Baixando...")
+    await cq.answer("Seu pedido é uma ordem... >-<", cache_time=0)
+    f_id = random.randint(1, 9999)
     if "vid" in data:
         ydl = youtube_dl.YoutubeDL(
             {
-                "outtmpl": "dls/%(title)s-%(id)s.%(ext)s",
+                "outtmpl": f"dls/{f_id}/%(title)s-%(id)s.%(ext)s",
                 "format": "mp4",
                 "noplaylist": True,
             }
@@ -294,7 +298,7 @@ async def cli_ytdl(c, cq: CallbackQuery):
     else:
         ydl = youtube_dl.YoutubeDL(
             {
-                "outtmpl": "dls/%(title)s-%(id)s.%(ext)s",
+                "outtmpl": f"dls/{f_id}/%(title)s-%(id)s.%(ext)s",
                 "format": "140",
                 "noplaylist": True,
             }
@@ -317,7 +321,9 @@ async def cli_ytdl(c, cq: CallbackQuery):
             caption=yt["title"],
             duration=yt["duration"],
             thumb=f"{ctime}.png",
+            reply_to_message_id=int(mid),
         )
+        await c.delete_messages(chat_id=int(cid), message_ids=cq.message.message_id)
     else:
         if " - " in yt["title"]:
             performer, title = yt["title"].rsplit(" - ", 1)
@@ -332,10 +338,11 @@ async def cli_ytdl(c, cq: CallbackQuery):
             performer=performer,
             duration=yt["duration"],
             thumb=f"{ctime}.png",
+            reply_to_message_id=int(mid),
         )
-    os.remove(filename)
-    os.remove(f"./{ctime}.png")
-    await cq.message.edit("Feito!")
+        await c.delete_messages(chat_id=int(cid), message_ids=cq.message.message_id)
+    await asyncio.create_subprocess_shell(f"rm -rf ./dls/{f_id}")
+    await asyncio.create_subprocess_shell(f"rm ./{ctime}.png")
 
 
 @Client.on_message(filters.cmd(command="tr", action="Google Tradutor.", group=GROUP))
