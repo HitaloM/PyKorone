@@ -44,10 +44,11 @@ async def on_inline(c: Client, q: InlineQuery):
             for result in results_search:
                 anime = await client.get(result.id, "anime")
 
-                if len(anime.description) > 700:
-                    desc = f"{anime.description_short}[...]"
-                else:
-                    desc = anime.description
+                if hasattr(anime, "description"):
+                    if len(anime.description) > 700:
+                        desc = f"{anime.description_short}[...]"
+                    else:
+                        desc = anime.description
 
                 text = (
                     f"<b>{anime.title.romaji}</b> (<code>{anime.title.native}</code>)\n"
@@ -98,10 +99,11 @@ async def on_inline(c: Client, q: InlineQuery):
             for result in results_search:
                 manga = await client.get(result.id, "manga")
 
-                if len(manga.description) > 700:
-                    desc = f"{manga.description_short}[...]"
-                else:
-                    desc = manga.description
+                if hasattr(anime, "description"):
+                    if len(anime.description) > 700:
+                        desc = f"{manga.description_short}[...]"
+                    else:
+                        desc = manga.description
 
                 text = (
                     f"<b>{manga.title.romaji}</b> (<code>{manga.title.native}</code>)\n"

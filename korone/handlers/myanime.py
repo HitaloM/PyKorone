@@ -62,14 +62,20 @@ def t(milliseconds: int) -> str:
 async def anilist_anime(c: Client, m: Message):
     query = m.matches[0]["search"]
 
-    try:
-        async with anilist.AsyncClient() as client:
-            results = await client.search(query, "anime", 1)
-            anime = await client.get(results[0].id, "anime")
-    except IndexError:
-        return await m.reply_text(
-            "Algo deu errado, verifique sua pesquisa e tente novamente!"
-        )
+    if query.isdecimal():
+        anime_id = int(query)
+    else:
+        try:
+            async with anilist.AsyncClient() as client:
+                results = await client.search(query, "anime", 1)
+                anime_id = results[0].id
+        except IndexError:
+            return await m.reply_text(
+                "Algo deu errado, verifique sua pesquisa e tente novamente!"
+            )
+
+    async with anilist.AsyncClient() as client:
+        anime = await client.get(anime_id)
 
     if len(anime.description) > 700:
         desc = f"<b>Descrição:</b> <i>{anime.description_short}</i>..."
@@ -77,6 +83,7 @@ async def anilist_anime(c: Client, m: Message):
         desc = f"<b>Descrição:</b> <i>{anime.description}</i>"
 
     text = f"<b>{anime.title.romaji}</b> (<code>{anime.title.native}</code>)\n"
+    text += f"<b>ID:</b> <code>{anime.id}</code>\n"
     text += f"<b>Tipo:</b> <code>{anime.format}</code>\n"
     if hasattr(anime, "status"):
         text += f"<b>Status:</b> <code>{anime.status}</code>\n"
@@ -118,14 +125,20 @@ async def anilist_anime(c: Client, m: Message):
 async def anilist_airing(c: Client, m: Message):
     query = m.matches[0]["search"]
 
-    try:
-        async with anilist.AsyncClient() as client:
-            results = await client.search(query, "anime", 1)
-            anime = await client.get(results[0].id, "anime")
-    except IndexError:
-        return await m.reply_text(
-            "Algo deu errado, verifique sua pesquisa e tente novamente!"
-        )
+    if query.isdecimal():
+        anime_id = int(query)
+    else:
+        try:
+            async with anilist.AsyncClient() as client:
+                results = await client.search(query, "anime", 1)
+                anime_id = results[0].id
+        except IndexError:
+            return await m.reply_text(
+                "Algo deu errado, verifique sua pesquisa e tente novamente!"
+            )
+
+    async with anilist.AsyncClient() as client:
+        anime = await client.get(anime_id)
 
     text = f"<b>{anime.title.romaji}</b> (<code>{anime.title.native}</code>)\n"
     text += f"<b>ID:</b> <code>{anime.id}</code>\n"
@@ -154,14 +167,20 @@ async def anilist_airing(c: Client, m: Message):
 async def anilist_manga(c: Client, m: Message):
     query = m.matches[0]["search"]
 
-    try:
-        async with anilist.AsyncClient() as client:
-            results = await client.search(query, "manga", 1)
-            manga = await client.get(results[0].id, "manga")
-    except IndexError:
-        return await m.reply_text(
-            "Algo deu errado, verifique sua pesquisa e tente novamente!"
-        )
+    if query.isdecimal():
+        manga_id = int(query)
+    else:
+        try:
+            async with anilist.AsyncClient() as client:
+                results = await client.search(query, "manga", 1)
+                manga_id = results[0].id
+        except IndexError:
+            return await m.reply_text(
+                "Algo deu errado, verifique sua pesquisa e tente novamente!"
+            )
+
+    async with anilist.AsyncClient() as client:
+        manga = await client.get(manga_id, "manga")
 
     if len(manga.description) > 700:
         desc = f"<b>Descrição:</b> <i>{manga.description_short}</i>..."
@@ -169,6 +188,7 @@ async def anilist_manga(c: Client, m: Message):
         desc = f"<b>Descrição:</b> <i>{manga.description}</i>"
 
     text = f"<b>{manga.title.romaji}</b> (<code>{manga.title.native}</code>)\n"
+    text += f"<b>ID:</b> <code>{manga.id}</code>\n"
     if hasattr(manga.start_date, "year"):
         text += f"<b>Início:</b> <code>{manga.start_date.year}</code>\n"
     if hasattr(manga, "status"):
