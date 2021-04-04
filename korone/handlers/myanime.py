@@ -77,10 +77,16 @@ async def anilist_anime(c: Client, m: Message):
     async with anilist.AsyncClient() as client:
         anime = await client.get(anime_id)
 
-    if len(anime.description) > 700:
-        desc = f"<b>Descrição:</b> <i>{anime.description_short}</i>..."
-    else:
-        desc = f"<b>Descrição:</b> <i>{anime.description}</i>"
+    if not anime:
+        return await m.reply_text(
+            f"Desculpe! Nenhum <b>anime</b> com o ID <code>{anime_id}</code> foi encontrado..."
+        )
+
+    if hasattr(anime, "description"):
+        if len(anime.description) > 700:
+            desc = f"{anime.description_short}[...]"
+        else:
+            desc = anime.description
 
     text = f"<b>{anime.title.romaji}</b> (<code>{anime.title.native}</code>)\n"
     text += f"<b>ID:</b> <code>{anime.id}</code>\n"
@@ -140,6 +146,11 @@ async def anilist_airing(c: Client, m: Message):
     async with anilist.AsyncClient() as client:
         anime = await client.get(anime_id)
 
+    if not anime:
+        return await m.reply_text(
+            f"Desculpe! Nenhum <b>anime</b> com o ID <code>{anime_id}</code> foi encontrado..."
+        )
+
     text = f"<b>{anime.title.romaji}</b> (<code>{anime.title.native}</code>)\n"
     text += f"<b>ID:</b> <code>{anime.id}</code>\n"
     text += f"<b>Tipo:</b> <code>{anime.format}</code>\n"
@@ -182,10 +193,16 @@ async def anilist_manga(c: Client, m: Message):
     async with anilist.AsyncClient() as client:
         manga = await client.get(manga_id, "manga")
 
-    if len(manga.description) > 700:
-        desc = f"<b>Descrição:</b> <i>{manga.description_short}</i>..."
-    else:
-        desc = f"<b>Descrição:</b> <i>{manga.description}</i>"
+    if not manga:
+        return await m.reply_text(
+            f"Desculpe! Nenhum <b>mangá</b> com o ID <code>{manga_id}</code> foi encontrado..."
+        )
+
+    if hasattr(manga, "description"):
+        if len(manga.description) > 700:
+            desc = f"{manga.description_short}[...]"
+        else:
+            desc = manga.description
 
     text = f"<b>{manga.title.romaji}</b> (<code>{manga.title.native}</code>)\n"
     text += f"<b>ID:</b> <code>{manga.id}</code>\n"
