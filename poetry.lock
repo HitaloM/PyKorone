@@ -497,7 +497,7 @@ python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*"
 
 [[package]]
 name = "python-anilist"
-version = "1.0.3"
+version = "1.0.4"
 description = "A simple wrapper for Anilist"
 category = "main"
 optional = false
@@ -760,7 +760,7 @@ testing = ["pytest (>=4.6)", "pytest-checkdocs (>=1.2.3)", "pytest-flake8", "pyt
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.7"
-content-hash = "61b7ecc47bbdc4c6fa2cdb62106810c28a15d43e1c985b19a5ad19953eec0615"
+content-hash = "ca17a207530e90d87f454967a15fe505335ffe1840b5bbf49c0a8e9b5887873e"
 
 [metadata.files]
 aiofiles = [
@@ -1032,8 +1032,7 @@ pysocks = [
     {file = "PySocks-1.7.1.tar.gz", hash = "sha256:3f8804571ebe159c380ac6de37643bb4685970655d3bba243530d6558b799aa0"},
 ]
 python-anilist = [
-    {file = "python-anilist-1.0.3.tar.gz", hash = "sha256:86b52de66709427b83ff149f73a930a7c04be291af21a4f4776af9a9340cf044"},
-    {file = "python_anilist-1.0.3-py3-none-any.whl", hash = "sha256:ebb5302863a6cb8c9fb2c0edb2ff3efcf6d072e64dbeabfaa173833615f6db7d"},
+    {file = "python_anilist-1.0.4-py3-none-any.whl", hash = "sha256:f44c44fe9d79561d23bdbd38b65da06f5a487599666cb79ca998ac1cc800800c"},
 ]
 python-rapidjson = [
     {file = "python-rapidjson-1.0.tar.gz", hash = "sha256:a61fa61e41b0b85ba9e78444242fddcb3be724de1df79314e6b4766b66e4e11c"},
