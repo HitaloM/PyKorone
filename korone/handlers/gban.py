@@ -19,7 +19,7 @@ from typing import List, Union
 
 from pyrogram import Client, filters
 from pyrogram.types import Message
-from pyrogram.errors import BadRequest, ChatAdminRequired, UserAdminInvalid
+from pyrogram.errors import BadRequest
 
 from korone.config import SUDOERS
 from korone.database import Banneds, Chats
@@ -114,7 +114,7 @@ async def gban_user(c: Client, m: Message, field: str):
                         and m.chat.title not in chats_banned
                     ):
                         chats_banned.append(m.chat.title)
-                except (BadRequest, UserAdminInvalid, ChatAdminRequired):
+                except BadRequest:
                     pass
 
     for user in users:
@@ -126,7 +126,7 @@ async def gban_user(c: Client, m: Message, field: str):
                     and chat.title not in chats_banned
                 ):
                     chats_banned.append(chat.title)
-            except (BadRequest, UserAdminInvalid, ChatAdminRequired):
+            except BadRequest:
                 pass
 
     reason = field
@@ -199,7 +199,7 @@ async def ungban_user(c: Client, m: Message, _users: List[Union[str, int]]):
                             and m.chat.title not in chats_unbanned
                         ):
                             chats_unbanned.append(m.chat.title)
-                    except (BadRequest, UserAdminInvalid, ChatAdminRequired):
+                    except BadRequest:
                         pass
 
     for user in users:
@@ -213,7 +213,7 @@ async def ungban_user(c: Client, m: Message, _users: List[Union[str, int]]):
                         and chat.title not in chats_unbanned
                     ):
                         chats_unbanned.append(chat.title)
-            except (BadRequest, UserAdminInvalid, ChatAdminRequired):
+            except BadRequest:
                 pass
 
     if chats_unbanned:
