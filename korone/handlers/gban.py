@@ -114,11 +114,7 @@ async def gban_user(c: Client, m: Message, field: str):
                         and m.chat.title not in chats_banned
                     ):
                         chats_banned.append(m.chat.title)
-                except BadRequest:
-                    pass
-                except UserAdminInvalid:
-                    pass
-                except ChatAdminRequired:
+                except (BadRequest, UserAdminInvalid, ChatAdminRequired):
                     pass
 
     for user in users:
@@ -130,11 +126,7 @@ async def gban_user(c: Client, m: Message, field: str):
                     and chat.title not in chats_banned
                 ):
                     chats_banned.append(chat.title)
-            except BadRequest:
-                pass
-            except UserAdminInvalid:
-                pass
-            except ChatAdminRequired:
+            except (BadRequest, UserAdminInvalid, ChatAdminRequired):
                 pass
 
     reason = field
@@ -197,36 +189,31 @@ async def ungban_user(c: Client, m: Message, _users: List[Union[str, int]]):
 
     if m.chat.type != "private":
         async for member in c.iter_chat_members(chat_id=m.chat.id):
-            if member.user.id in users:
-                try:
-                    if (
-                        await c.unban_chat_member(
-                            chat_id=m.chat.id, user_id=member.user.id
-                        )
-                        and m.chat.title not in chats_unbanned
-                    ):
-                        chats_unbanned.append(m.chat.title)
-                except BadRequest:
-                    pass
-                except UserAdminInvalid:
-                    pass
-                except ChatAdminRequired:
-                    pass
+            if member.status == "kicked":
+                if member.user.id in users:
+                    try:
+                        if (
+                            await c.unban_chat_member(
+                                chat_id=m.chat.id, user_id=member.user.id
+                            )
+                            and m.chat.title not in chats_unbanned
+                        ):
+                            chats_unbanned.append(m.chat.title)
+                    except (BadRequest, UserAdminInvalid, ChatAdminRequired):
+                        pass
 
     for user in users:
         chats = await Chats.all()
         for chat in chats:
             try:
-                if (
-                    await c.unban_chat_member(chat_id=chat.id, user_id=user)
-                    and chat.title not in chats_unbanned
-                ):
-                    chats_unbanned.append(chat.title)
-            except BadRequest:
-                pass
-            except UserAdminInvalid:
-                pass
-            except ChatAdminRequired:
+                member = await c.get_chat_member(chat_id=chat.id, user_id=user)
+                if member.status == "kicked":
+                    if (
+                        await c.unban_chat_member(chat_id=chat.id, user_id=user)
+                        and chat.title not in chats_unbanned
+                    ):
+                        chats_unbanned.append(chat.title)
+            except (BadRequest, UserAdminInvalid, ChatAdminRequired):
                 pass
 
     if chats_unbanned:
