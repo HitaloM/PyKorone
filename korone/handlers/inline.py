@@ -75,13 +75,19 @@ async def on_inline(c: Client, q: InlineQuery):
                 except BaseException:
                     pass
 
+                keyboard.append(
+                    [("Pesquisar mais", "anime", "switch_inline_query_current_chat")]
+                )
+
                 if hasattr(anime, "banner"):
                     photo = anime.banner
+
+                title = f"{anime.title.romaji} | {anime.format}"
 
                 results.append(
                     InlineQueryResultPhoto(
                         photo_url=photo,
-                        title=anime.title.romaji,
+                        title=title,
                         description=cleanhtml(desc),
                         caption=text,
                         reply_markup=c.ikb(keyboard),
@@ -99,8 +105,8 @@ async def on_inline(c: Client, q: InlineQuery):
             for result in results_search:
                 manga = await client.get(result.id, "manga")
 
-                if hasattr(anime, "description"):
-                    if len(anime.description) > 700:
+                if hasattr(manga, "description"):
+                    if len(manga.description) > 700:
                         desc = f"{manga.description_short}[...]"
                     else:
                         desc = manga.description
@@ -122,7 +128,12 @@ async def on_inline(c: Client, q: InlineQuery):
                     text += f"<b>Gêneros:</b> <code>{', '.join(str(x) for x in manga.genres)}</code>\n"
                 text += f"\n<b>Descrição:</b> <i>{desc}</i>"
 
-                keyboard = [[("Mais Info", manga.url, "url")]]
+                keyboard = [
+                    [
+                        ("Mais Info", manga.url, "url"),
+                        ("Pesquisar mais", "manga", "switch_inline_query_current_chat"),
+                    ]
+                ]
 
                 if hasattr(manga, "banner"):
                     photo = manga.banner
