@@ -15,6 +15,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import time
+import html
 import anilist
 from jikanpy import AioJikan
 
@@ -229,6 +230,60 @@ async def anilist_manga(c: Client, m: Message):
         caption=text,
         reply_markup=c.ikb(keyboard),
     )
+
+
+@Client.on_message(
+    filters.cmd(
+        command="character (?P<search>.+)",
+        action="Pesquise informações de personagens pelo AniList.",
+        group=GROUP,
+    )
+)
+async def anilist_character(c: Client, m: Message):
+    query = m.matches[0]["search"]
+
+    if query.isdecimal():
+        character_id = int(query)
+    else:
+        try:
+            async with anilist.AsyncClient() as client:
+                results = await client.search(query, "char", 1)
+                character_id = results[0].id
+        except IndexError:
+            return await m.reply_text(
+                "Algo deu errado, verifique sua pesquisa e tente novamente!"
+            )
+
+    async with anilist.AsyncClient() as client:
+        character = await client.get(character_id, "char")
+
+    if not character:
+        return await m.reply_text(
+            f"Desculpe! Nenhum <b>personagem</b> com o ID <code>{character_id}</code> foi encontrado..."
+        )
+
+    if hasattr(character, "description"):
+        if len(character.description) > 700:
+            desc = f"{character.description[0:500]}[...]"
+        else:
+            desc = character.description
+
+    text = f"<b>{character.name.full}</b> (<code>{character.name.native}</code>)"
+    text += f"\n<b>ID:</b> <code>{character.id}</code>"
+    text += f"\n<b>Favoritos:</b> <code>{character.favorites}</code>"
+    text += f"\n\n<b>Sobre:</b>\n{html.escape(desc)}"
+
+    keyboard = [[("Mais Info", character.url, "url")]]
+
+    if hasattr(character, "image"):
+        await m.reply_photo(
+            photo=character.image.large,
+            caption=text,
+            reply_markup=c.ikb(keyboard),
+            parse_mode="combined",
+        )
+    else:
+        await m.reply_text(text, reply_markup=c.ikb(keyboard), parse_mode="combined")
 
 
 @Client.on_message(
