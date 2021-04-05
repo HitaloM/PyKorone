@@ -105,7 +105,7 @@ async def anilist_anime(c: Client, m: Message):
         )
     if hasattr(anime, "studios"):
         text += f"<b>Estúdios:</b> <code>{', '.join(str(x) for x in anime.studios)}</code>\n"
-    text += f"\n{desc}"
+    text += f"\n<b>Descrição:</b> <i>{desc}</i>"
 
     keyboard = [[("Mais Info", anime.url, "url")]]
 
@@ -220,7 +220,7 @@ async def anilist_manga(c: Client, m: Message):
         text += (
             f"<b>Gêneros:</b> <code>{', '.join(str(x) for x in manga.genres)}</code>\n"
         )
-    text += f"\n{desc}"
+    text += f"\n<b>Descrição:</b> <i>{desc}</i>"
 
     keyboard = [[("Mais Info", manga.url, "url")]]
 
@@ -298,7 +298,7 @@ async def poke_image(c: Client, m: Message):
         return
 
     pk_img = await pokemon_image_sync(sprite_io)
-    await m.reply_document(document=pk_img)
+    await m.reply_document(pk_img)
 
 
 @Client.on_message(
@@ -338,4 +338,4 @@ async def poke_item_image(c: Client, m: Message):
         return
 
     pk_img = await pokemon_image_sync(sprite_io)
-    await m.reply_document(document=pk_img)
+    await m.reply_document(pk_img)
