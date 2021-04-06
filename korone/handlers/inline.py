@@ -221,7 +221,14 @@ async def on_inline(c: Client, q: InlineQuery):
                 ]
             )
         else:
-            spamwatch.append(KeyValueItem("banned", Code("False")))
+            spamwatch.extend(
+                [
+                    SubSection(
+                        "SpamWatch",
+                        KeyValueItem(Bold("banned"), Code("False")),
+                    ),
+                ]
+            )
         await q.answer(
             [
                 InlineQueryResultArticle(
