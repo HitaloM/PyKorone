@@ -24,6 +24,7 @@ import datetime
 import youtube_dl
 from bs4 import BeautifulSoup as bs
 from search_engine_parser import GoogleSearch, BingSearch
+from search_engine_parser.core.exceptions import NoResultsOrTrafficError, NoResultsFound
 
 from pyrogram import Client, filters
 from pyrogram.types import Message, CallbackQuery
@@ -105,7 +106,13 @@ async def google(c: Client, m: Message):
     query = m.matches[0]["search"]
     search_args = (str(query), 1)
     googsearch = GoogleSearch()
-    gresults = await googsearch.async_search(*search_args)
+    try:
+        gresults = await googsearch.async_search(*search_args)
+    except NoResultsOrTrafficError:
+        return await m.reply_text(
+            "Desculpe! Os resultados retornados não puderam ser analisados.\n"
+            "Isso pode ser devido a atualizações do site ou erros de servidor."
+        )
     msg = ""
     for i in range(1, 6):
         try:
@@ -113,7 +120,7 @@ async def google(c: Client, m: Message):
             link = gresults["links"][i]
             desc = gresults["descriptions"][i]
             msg += f"{i}. <a href='{link}'>{title}</a>\n<code>{desc}</code>\n\n"
-        except IndexError:
+        except (IndexError, NoResultsFound):
             break
     await m.reply_text(
         "<b>Consulta:</b>\n<code>"
@@ -135,7 +142,13 @@ async def bing(c: Client, m: Message):
     query = m.matches[0]["search"]
     search_args = (str(query), 1)
     bingsearch = BingSearch()
-    bresults = await bingsearch.async_search(*search_args)
+    try:
+        bresults = await bingsearch.async_search(*search_args)
+    except NoResultsOrTrafficError:
+        return await m.reply_text(
+            "Desculpe! Os resultados retornados não puderam ser analisados.\n"
+            "Isso pode ser devido a atualizações do site ou erros de servidor."
+        )
     msg = ""
     for i in range(1, 6):
         try:
@@ -143,7 +156,7 @@ async def bing(c: Client, m: Message):
             link = bresults["links"][i]
             desc = bresults["descriptions"][i]
             msg += f"{i}. <a href='{link}'>{html.escape(title)}</a>\n<code>{html.escape(desc)}</code>\n\n"
-        except IndexError:
+        except (IndexError, NoResultsFound):
             break
     await m.reply_text(
         "<b>Consulta:</b>\n<code>"
