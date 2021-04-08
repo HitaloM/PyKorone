@@ -30,7 +30,7 @@ exclude = ["korone/config.py", "korone/client.session", "korone/client.session-j
 
 [tool.poetry.dependencies]
 python = "^3.7"
-pyrogram = "1.2.7"
+pyrogram = "1.2.8"
 tgcrypto = "1.2.2"
 pyromod = "1.5"
 rich = "10.1.0"
