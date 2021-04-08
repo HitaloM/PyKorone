@@ -8,7 +8,7 @@ readme = "README.md"
 repository = "https://github.com/AmanoTeam/PyKorone"
 documentation = "https://github.com/AmanoTeam/PyKorone/blob/main/README.md"
 
-keywords = ["chat", "telegram", "bot", "telegram-bot", "pyrogram", "black", "flake8"]
+keywords = ["chat", "telegram", "telegram-bot", "pyrogram", "bot"]
 classifiers = [
     "Development Status :: 5 - Production/Stable",
     "Environment :: Console",
@@ -21,6 +21,7 @@ classifiers = [
     "Topic :: Communications :: Chat"
 ]
 
+include = ["CHANGELOG.md"]
 exclude = ["korone/config.py", "korone/client.session", "korone/client.session-journal", "korone/database/*.sqlite"]
 
 [tool.poetry.urls]
