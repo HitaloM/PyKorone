@@ -1,5 +1,22 @@
 # Change Log
 
+## [1.2.0] - 2021-04-07
+
+### Added
+
+- Anime character search with `/character` command.
+- sed/regex command `s/`.
+
+### Removed
+
+- Removed the check of SpamWatch banneds in welcome.
+
+### Changed
+
+- Added button to do new search in anime/manga message from inline.
+- Added "type" in the inline anime search title.
+- Pass errors in a better way in `/google` and `/bing` commands.
+
 ## [1.1.5] - 2021-04-05
 
 - Airing time in the `/airing` command will now show the remaining time to display.
