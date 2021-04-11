@@ -14,15 +14,13 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-import re
 import html
 import anilist
-from typing import Dict, List
+from typing import List
 from kantex.html import Bold, KeyValueItem, Section, SubSection, Code
 
-from pyrogram import Client, filters
+from pyrogram import Client
 from pyrogram.types import (
-    Message,
     InlineQuery,
     InlineQueryResultArticle,
     InlineQueryResultPhoto,

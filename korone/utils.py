@@ -40,7 +40,6 @@ else:
 
 
 # Misc
-loop = asyncio.get_event_loop()
 
 
 def pretty_size(size):

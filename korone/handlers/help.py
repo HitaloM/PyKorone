@@ -107,7 +107,7 @@ async def help_m(c: Client, m: Message):
     filters.cmd(command="help", action="Envia o menu de ajuda do Bot.")
     & filters.private
 )
-async def help(c: Client, m: Message):
+async def help_c(c: Client, m: Message):
     await help_module(c, m)
 
 
@@ -163,11 +163,14 @@ async def help_module(c: Client, m: Message, module: str = None):
                     if len(action) > 0:
                         regex = ""
                         if type == "commands":
+                            key = key.replace("$", "")
                             regex = key.split()[0]
                             if "<" in key and ">" in key:
                                 left = key[len(regex) :].split("<")[1:]
                                 for field in left:
                                     regex += " <" + field.split(">")[0] + ">"
+                            else:
+                                regex = key
                         else:
                             regex = key
                         if action == " " and type == "filters":

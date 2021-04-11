@@ -28,7 +28,7 @@ import pyrogram
 import kantex
 from pyrogram import Client, filters
 from pyrogram.types import Message
-from kantex.html import Bold, KeyValueItem, Section, SubSection, Code
+from kantex.html import Bold, KeyValueItem, Section
 
 import korone
 from korone.utils import pretty_size, http, sw
