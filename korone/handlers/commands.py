@@ -152,6 +152,7 @@ async def file_debug(c: Client, m: Message):
 
 @Client.on_message(
     filters.cmd(command="echo (?P<text>.+)", action="Fale através do korone.")
+    & filters.user(SUDOERS),
 )
 async def echo(c: Client, m: Message):
     text = m.matches[0]["text"]
