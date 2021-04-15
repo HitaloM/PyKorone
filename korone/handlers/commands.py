@@ -23,7 +23,6 @@ import binascii
 import platform
 from datetime import datetime
 
-import pyromod
 import pyrogram
 import kantex
 from pyrogram import Client, filters
@@ -176,7 +175,6 @@ async def dev(c: Client, m: Message):
         KeyValueItem(Bold("Source"), source_url),
         KeyValueItem(Bold("Korone version"), korone.__version__),
         KeyValueItem(Bold("Pyrogram version"), pyrogram.__version__),
-        KeyValueItem(Bold("Pyromod version"), pyromod.__version__),
         KeyValueItem(Bold("Python version"), platform.python_version()),
         KeyValueItem(Bold("KanTeX version"), kantex.__version__),
         KeyValueItem(Bold("System version"), c.system_version),

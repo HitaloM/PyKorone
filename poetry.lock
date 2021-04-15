@@ -464,28 +464,24 @@ optional = false
 python-versions = ">=3.7,<4.0"
 
 [[package]]
-name = "pyrogram"
+name = "Pyrogram"
 version = "1.2.8"
 description = "Telegram MTProto API Client Library and Framework for Python"
 category = "main"
 optional = false
 python-versions = "~=3.6"
+develop = false
 
 [package.dependencies]
 async-lru = "1.0.2"
 pyaes = "1.6.1"
 pysocks = "1.7.1"
 
-[[package]]
-name = "pyromod"
-version = "1.5"
-description = "A monkeypatcher add-on for Pyrogram"
-category = "main"
-optional = false
-python-versions = ">=3.6"
-
-[package.dependencies]
-pyrogram = ">=1.0.0"
+[package.source]
+type = "git"
+url = "https://github.com/AmanoTeam/Pyrogram"
+reference = "master"
+resolved_reference = "216689eb48e96e32e73d714b50fa4cf17a4d3b10"
 
 [[package]]
 name = "pysocks"
@@ -760,7 +756,7 @@ testing = ["pytest (>=4.6)", "pytest-checkdocs (>=1.2.3)", "pytest-flake8", "pyt
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.7"
-content-hash = "e525ce68eb98fe6a50a2b1c885eae9ad8c977caee134ebb16331c776cbcdf1eb"
+content-hash = "5dead4c9ac98ab364f933413ac43de6c819612c953c06be5fd9c0dff15912621"
 
 [metadata.files]
 aiofiles = [
@@ -1019,13 +1015,7 @@ pypika-tortoise = [
     {file = "pypika-tortoise-0.1.0.tar.gz", hash = "sha256:7176e98ff0cf7c311d4ba58f28f1755956265dee2f9781e65e1304a67a3e5aa5"},
     {file = "pypika_tortoise-0.1.0-py3-none-any.whl", hash = "sha256:ec83b0b2964be01ef563f5f019b0332a18177604e841c47ad39d798798c6dfe9"},
 ]
-pyrogram = [
-    {file = "Pyrogram-1.2.8-py3-none-any.whl", hash = "sha256:b059cef3f1312703336d62ecdbd80a3547f663cdb541d04518efc47427f695ad"},
-    {file = "Pyrogram-1.2.8.tar.gz", hash = "sha256:4f9dcd0ffb087915fca9d1b515883c503629a63677d21be653327be847558792"},
-]
-pyromod = [
-    {file = "pyromod-1.5-py3-none-any.whl", hash = "sha256:a3ced84a777a244d104fcc326e6dc59ec68fc0a28b65154abc1fc16dd33f4f91"},
-]
+Pyrogram = []
 pysocks = [
     {file = "PySocks-1.7.1-py27-none-any.whl", hash = "sha256:08e69f092cc6dbe92a0fdd16eeb9b9ffbc13cadfe5ca4c7bd92ffb078b293299"},
     {file = "PySocks-1.7.1-py3-none-any.whl", hash = "sha256:2725bd0a9925919b9b51739eea5f9e2bae91e83288108a9ad338b2e3a4435ee5"},
