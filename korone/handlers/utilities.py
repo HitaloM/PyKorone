@@ -97,7 +97,7 @@ async def pypi(c: Client, m: Message):
 
 @Client.on_message(
     filters.cmd(
-        command="search (?P<search>.+)",
+        command="duckgo (?P<search>.+)",
         action="Faça uma pesquisa no DuckDuckGo através do korone.",
         group=GROUP,
     )

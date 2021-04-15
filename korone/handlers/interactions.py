@@ -68,7 +68,7 @@ async def ulikecoffe(c: Client, m: Message):
 @Client.on_message(filters.int(filter=r"(Ol(á|a)|Oi|Eae|Hi|Hello|Hey)", group=GROUP))
 async def hello(c: Client, m: Message):
     react = random.choice(HEY_REACT)
-    await int_reply(c, m, react)
+    await int_reply(c, m, react.format(m.from_user.first_name))
 
 
 @Client.on_message(
@@ -79,7 +79,7 @@ async def hello(c: Client, m: Message):
 )
 async def insult(c: Client, m: Message):
     react = random.choice(INSULTS_REACT)
-    await int_reply(c, m, react)
+    await int_reply(c, m, react.format(m.from_user.first_name))
 
 
 @Client.on_message(filters.int(filter=r"(como vai|tudo bem)", group=GROUP))
