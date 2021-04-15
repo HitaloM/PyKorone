@@ -38,58 +38,37 @@ COMMANDS_HELP[GROUP] = {
 }
 
 
+async def int_reply(c: Client, m: Message, text: str = None):
+    if m.chat.type == "private":
+        await m.reply_text(text)
+    elif (
+        m.reply_to_message and m.reply_to_message.from_user.id == (await c.get_me()).id
+    ):
+        await m.reply_text(text)
+        return
+
+
 @Client.on_message(
     filters.int(filter=r"(Quem te criou|Quem criou voc(ê|e))", group=GROUP)
 )
 async def my_creator(c: Client, m: Message):
-    text = "Meu criador se chama Hitalo ^^"
-
-    if m.chat.type == "private":
-        await m.reply_text(text)
-    elif (
-        m.reply_to_message and m.reply_to_message.from_user.id == (await c.get_me()).id
-    ):
-        await m.reply_text(text)
-        return
+    await int_reply(c, m, "Meu criador se chama Hitalo ^^")
 
 
 @Client.on_message(filters.int(filter=r"(okay|ok)", group=GROUP))
 async def okay(c: Client, m: Message):
-    text = "Hmm..."
-
-    if m.chat.type == "private":
-        await m.reply_text(text)
-    elif (
-        m.reply_to_message and m.reply_to_message.from_user.id == (await c.get_me()).id
-    ):
-        await m.reply_text(text)
-        return
+    await int_reply(c, m, "Hmm...")
 
 
 @Client.on_message(filters.int(filter=r"voc(e|ê) gosta de caf(é|e)", group=GROUP))
 async def ulikecoffe(c: Client, m: Message):
-    text = "Com certeza! ☕"
-
-    if m.chat.type == "private":
-        await m.reply_text(text)
-    elif (
-        m.reply_to_message and m.reply_to_message.from_user.id == (await c.get_me()).id
-    ):
-        await m.reply_text(text)
-        return
+    await int_reply(c, m, "Com certeza! ☕")
 
 
 @Client.on_message(filters.int(filter=r"(Ol(á|a)|Oi|Eae|Hi|Hello|Hey)", group=GROUP))
 async def hello(c: Client, m: Message):
     react = random.choice(HEY_REACT)
-
-    if m.chat.type == "private":
-        await m.reply_text((react).format(m.from_user.first_name))
-    elif (
-        m.reply_to_message and m.reply_to_message.from_user.id == (await c.get_me()).id
-    ):
-        await m.reply_text((react).format(m.from_user.first_name))
-        return
+    await int_reply(c, m, react)
 
 
 @Client.on_message(
@@ -100,40 +79,19 @@ async def hello(c: Client, m: Message):
 )
 async def insult(c: Client, m: Message):
     react = random.choice(INSULTS_REACT)
-
-    if m.chat.type == "private":
-        await m.reply_text((react).format(m.from_user.first_name))
-    elif (
-        m.reply_to_message and m.reply_to_message.from_user.id == (await c.get_me()).id
-    ):
-        await m.reply_text((react).format(m.from_user.first_name))
-        return
+    await int_reply(c, m, react)
 
 
 @Client.on_message(filters.int(filter=r"(como vai|tudo bem)", group=GROUP))
 async def all_right(c: Client, m: Message):
     react = random.choice(WHATSUP_REACT)
-
-    if m.chat.type == "private":
-        await m.reply_text(react)
-    elif (
-        m.reply_to_message and m.reply_to_message.from_user.id == (await c.get_me()).id
-    ):
-        await m.reply_text(react)
-        return
+    await int_reply(c, m, react)
 
 
 @Client.on_message(filters.int(filter=r"(Cala boca|Cala-boca)", group=GROUP))
 async def shutup(c: Client, m: Message):
     react = random.choice(SHUTUP_REACT)
-
-    if m.chat.type == "private":
-        await m.reply_text(react)
-    elif (
-        m.reply_to_message and m.reply_to_message.from_user.id == (await c.get_me()).id
-    ):
-        await m.reply_text(react)
-        return
+    await int_reply(c, m, react)
 
 
 @Client.on_message(~filters.private)

@@ -196,15 +196,6 @@ async def kickme(c: Client, m: Message):
     await m.reply_text("Idiota... UwU")
 
 
-@Client.on_message(filters.int(filter=r":/", group=GROUP))
-async def kek_anim(c: Client, m: Message):
-    uio = ["/", "\\"]
-    kek = await m.reply_text(":/")
-    for i in range(1, 15):
-        time.sleep(0.3)
-        await kek.edit_text(":" + uio[i % 2])
-
-
 @Client.on_message(filters.int(filter=r"ban", group=GROUP))
 async def ban_dice(c: Client, m: Message):
     react = (
@@ -245,7 +236,7 @@ async def rtcommand(c: Client, m: Message):
     text += f"👤 <b>{html.escape(m.reply_to_message.from_user.first_name)}</b>:"
     text += f" <i>{html.escape(rt_text)}</i>"
 
-    await m.reply_text(text, disable_web_page_preview=True)
+    await m.reply_to_message.reply_text(text, disable_web_page_preview=True)
 
 
 @Client.on_message(filters.int(filter=r"Sopa de (Macaco|Mamaco)", group=GROUP))
