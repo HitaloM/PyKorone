@@ -21,9 +21,8 @@ import random
 import asyncio
 import datetime
 import youtube_dl
+from duckpy import AsyncClient
 from bs4 import BeautifulSoup as bs
-from search_engine_parser import GoogleSearch, BingSearch
-from search_engine_parser.core.exceptions import NoResultsOrTrafficError, NoResultsFound
 
 from pyrogram import Client, filters
 from pyrogram.types import Message, CallbackQuery
@@ -44,6 +43,8 @@ COMMANDS_HELP[GROUP] = {
     "commands": {},
     "help": True,
 }
+
+duck = AsyncClient()
 
 
 @Client.on_message(
@@ -96,74 +97,31 @@ async def pypi(c: Client, m: Message):
 
 @Client.on_message(
     filters.cmd(
-        command="google (?P<search>.+)",
-        action="Faça uma pesquisa no Google através do korone.",
+        command="search (?P<search>.+)",
+        action="Faça uma pesquisa no DuckDuckGo através do korone.",
         group=GROUP,
     )
 )
-async def google(c: Client, m: Message):
+async def duckduckgo(c: Client, m: Message):
     query = m.matches[0]["search"]
-    search_args = (str(query), 1)
-    googsearch = GoogleSearch()
-    try:
-        gresults = await googsearch.async_search(*search_args)
-    except NoResultsOrTrafficError:
-        return await m.reply_text(
-            "Desculpe! Os resultados retornados não puderam ser analisados.\n"
-            "Isso pode ser devido a atualizações do site ou erros de servidor."
-        )
+    results = await duck.search(query)
+
     msg = ""
     for i in range(1, 6):
         try:
-            title = gresults["titles"][i]
-            link = gresults["links"][i]
-            desc = gresults["descriptions"][i]
+            title = results[i].title
+            link = results[i].url
+            desc = results[i].description
             msg += f"{i}. <a href='{link}'>{title}</a>\n<code>{desc}</code>\n\n"
-        except (IndexError, NoResultsFound):
+        except IndexError:
             break
-    await m.reply_text(
-        "<b>Consulta:</b>\n<code>"
-        + html.escape(query)
-        + "</code>\n\n<b>Resultados:</b>\n"
-        + msg,
-        disable_web_page_preview=True,
+
+    text = (
+        f"<b>Consulta:</b>\n <code>{html.escape(query)}</code>"
+        f"\n\n<b>Resultados:</b>\n{msg}"
     )
 
-
-@Client.on_message(
-    filters.cmd(
-        command="bing (?P<search>.+)",
-        action="Faça uma pesquisa no Bing através do korone.",
-        group=GROUP,
-    )
-)
-async def bing(c: Client, m: Message):
-    query = m.matches[0]["search"]
-    search_args = (str(query), 1)
-    bingsearch = BingSearch()
-    try:
-        bresults = await bingsearch.async_search(*search_args)
-    except NoResultsOrTrafficError:
-        return await m.reply_text(
-            "Desculpe! Os resultados retornados não puderam ser analisados.\n"
-            "Isso pode ser devido a atualizações do site ou erros de servidor."
-        )
-    msg = ""
-    for i in range(1, 6):
-        try:
-            title = bresults["titles"][i]
-            link = bresults["links"][i]
-            desc = bresults["descriptions"][i]
-            msg += f"{i}. <a href='{link}'>{html.escape(title)}</a>\n<code>{html.escape(desc)}</code>\n\n"
-        except (IndexError, NoResultsFound):
-            break
-    await m.reply_text(
-        "<b>Consulta:</b>\n<code>"
-        + html.escape(query)
-        + "</code>\n\n<b>Resultados:</b>\n"
-        + msg,
-        disable_web_page_preview=True,
-    )
+    await m.reply_text(text, disable_web_page_preview=True)
 
 
 @Client.on_message(
