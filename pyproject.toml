@@ -21,6 +21,7 @@ classifiers = [
     "Topic :: Communications :: Chat"
 ]
 
+include = ["CHANGELOG.md"]
 exclude = ["korone/config.py", "korone/client.session", "korone/client.session-journal", "korone/database/*.sqlite"]
 
 [tool.poetry.urls]
