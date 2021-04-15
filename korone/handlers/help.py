@@ -35,7 +35,7 @@ about_text = """
 🚮 <b>{}</b> é um bot criado por diversão para o grupo <b>Spam-Therapy</b>.
 Seu foco é trazer funções legais e um design funcional com tecnologia e criatividade.
 
-📦 Powered by <a href='https://docs.pyrogram.org/'>Pyrogram</a>
+📦 Powered by <a href='https://docs.pyrogram.org/'>Pyrogram</a> with <a href='https://github.com/usernein/pyromod'>Pyromod</a>.
 
 🗂 <b>Links:</b> <a href='{}'>GitHub</a> | <a href='{}'>Chat</a>
 """

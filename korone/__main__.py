@@ -41,8 +41,10 @@ from rich.logging import RichHandler
 from rich.panel import Panel
 
 import pyrogram
+import pyromod
 from pyrogram import Client, filters, idle
-from pyrogram.helpers import ikb
+from pyromod import listen
+from pyromod.helpers import ikb
 from pyrogram.session import Session
 
 import korone
@@ -118,6 +120,7 @@ async def main():
 
     start_message = f"""<b>PyKorone <code>v{korone.__version__}</code> started...</b>
 - <b>Pyrogram:</b> <code>v{pyrogram.__version__}</code>
+- <b>Pyromod:</b> <code>v{pyromod.__version__}</code>
 - <b>Python:</b> <code>v{platform.python_version()}</code>
 - <b>System:</b> <code>{client.system_version}</code>
            """
