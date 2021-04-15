@@ -195,14 +195,6 @@ python-versions = "*"
 test = ["flake8 (==3.7.8)", "hypothesis (==3.55.3)"]
 
 [[package]]
-name = "cowpy"
-version = "1.1.0"
-description = "A cowsay clone for python in one file."
-category = "main"
-optional = false
-python-versions = "*"
-
-[[package]]
 name = "duckpy"
 version = "3.2.0-dev"
 description = ""
@@ -759,7 +751,7 @@ testing = ["pytest (>=4.6)", "pytest-checkdocs (>=1.2.3)", "pytest-flake8", "pyt
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.7"
-content-hash = "adafed9e8aacdb5048333ab7d002bd485adc52866d6dced1ae15dd11dc7238cc"
+content-hash = "235e266a4d8c6226bd876dfffb8a357680985d9baf433a77f0505e82bfd57767"
 
 [metadata.files]
 aiofiles = [
@@ -834,9 +826,6 @@ colorama = [
 commonmark = [
     {file = "commonmark-0.9.1-py2.py3-none-any.whl", hash = "sha256:da2f38c92590f83de410ba1a3cbceafbc74fee9def35f9251ba9a971d6d66fd9"},
     {file = "commonmark-0.9.1.tar.gz", hash = "sha256:452f9dc859be7f06631ddcb328b6919c67984aca654e5fefb3914d54691aed60"},
-]
-cowpy = [
-    {file = "cowpy-1.1.0.tar.gz", hash = "sha256:1bdc61d107df02fd34a9241f2220d0704a01d8ce16bed8bff3512a34a0efa56a"},
 ]
 duckpy = []
 flake8 = [

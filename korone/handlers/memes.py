@@ -20,7 +20,6 @@ import random
 import base64
 from io import BytesIO
 from PIL import Image
-from cowpy import cow
 
 from pyrogram import Client, filters
 from pyrogram.types import Message
@@ -335,80 +334,6 @@ async def reacts(c: Client, m: Message):
         await m.reply_to_message.reply_text(react)
     else:
         await m.reply_text(react)
-
-
-@Client.on_message(
-    filters.cmd(
-        command="f (?P<text>.+)",
-        action="Press F to Pay Respects.",
-        group=GROUP,
-    )
-)
-async def payf(c: Client, m: Message):
-    paytext = m.matches[0]["text"]
-    pay = "{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}".format(
-        paytext * 8,
-        paytext * 8,
-        paytext * 2,
-        paytext * 2,
-        paytext * 2,
-        paytext * 6,
-        paytext * 6,
-        paytext * 2,
-        paytext * 2,
-        paytext * 2,
-        paytext * 2,
-        paytext * 2,
-    )
-    await m.reply_text(pay)
-
-
-@Client.on_message(
-    filters.cmd(
-        command="cowsay (?P<text>.+)",
-        action="Faça uma vaca falar.",
-        group=GROUP,
-    )
-)
-async def cowsay(c: Client, m: Message):
-    text = m.matches[0]["text"]
-
-    cheese = cow.get_cow("default")
-    cheese = cheese()
-
-    await m.reply_text(f"<code>{cheese.milk(html.escape(text))}</code>")
-
-
-@Client.on_message(
-    filters.cmd(
-        command="tuxsay (?P<text>.+)",
-        action="Faça o tux falar.",
-        group=GROUP,
-    )
-)
-async def tuxsay(c: Client, m: Message):
-    text = m.matches[0]["text"]
-
-    cheese = cow.get_cow("tux")
-    cheese = cheese()
-
-    await m.reply_text(f"<code>{cheese.milk(html.escape(text))}</code>")
-
-
-@Client.on_message(
-    filters.cmd(
-        command="daemonsay (?P<text>.+)",
-        action="Faça o daemon falar.",
-        group=GROUP,
-    )
-)
-async def daemonsay(c: Client, m: Message):
-    text = m.matches[0]["text"]
-
-    cheese = cow.get_cow("daemon")
-    cheese = cheese()
-
-    await m.reply_text(f"<code>{cheese.milk(html.escape(text))}</code>")
 
 
 @Client.on_message(
