@@ -2,10 +2,6 @@
 
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 [![GitHub contributors](https://img.shields.io/github/contributors/AmanoTeam/PyKorone.svg)](https://GitHub.com/AmanoTeam/PyKorone/graphs/contributors/)
-[![PyPi Package Version](https://img.shields.io/pypi/v/korone.svg?)](https://pypi.python.org/pypi/korone)
-[![PyPi status](https://img.shields.io/pypi/status/korone.svg?)](https://pypi.python.org/pypi/korone)
-[![Supported python versions](https://img.shields.io/pypi/pyversions/korone.svg?)](https://pypi.python.org/pypi/korone)
-[![GPLv3 License](https://img.shields.io/pypi/l/korone.svg?)](https://www.gnu.org/licenses/gpl-3.0)
 
 > An interaction and fun bot for Telegram groups, having some useful and other useless commands.
 > Created as an experiment and learning bot but being expanded and improved over time.
@@ -40,7 +36,7 @@ Upgrade to pip 19 to fix this issue: `pip3 install -U pip`
 
 ## Usage
 
-To start the bot, type `python3 -m korone`, you can run the bot without updating its dependencies using `--no-update` as argument. `python3 -m korone --no-update`
+To start the bot, type `python3 -m korone`, you can run the bot without updating its dependencies using `--no-update` as argument.
 
 ## Special thanks
 
