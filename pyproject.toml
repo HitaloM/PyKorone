@@ -45,7 +45,7 @@ pynewton = "^1.1.0"
 youtube_dl = "2021.4.7"
 wheel = "^0.36.2"
 gpytranslate = "0.3.1"
-wikipedia = "1.4.0"
+wikipedia = {git = "https://github.com/HitaloSama/Wikipedia"}
 python-anilist = "1.0.4"
 regex = "2021.4.4"
 pyrogram = {git = "https://github.com/AmanoTeam/Pyrogram"}

@@ -22,8 +22,7 @@ This repository contains the source code of [@PyKoroneBot](https://t.me/PyKorone
 First, clone this Git repository locally:
 `git clone https://github.com/AmanoTeam/PyKorone`
 
-After that, you can run `python3 -m pip install .` to install the bot along with
-the dependencies.
+After that, you can run `python3 -m pip install .` to install the bot along with the dependencies.
 
 #### Error: `Directory '.' is not installable. File 'setup.py' not found.`
 

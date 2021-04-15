@@ -710,10 +710,18 @@ description = "Wikipedia API for Python"
 category = "main"
 optional = false
 python-versions = "*"
+develop = false
 
 [package.dependencies]
 beautifulsoup4 = "*"
-requests = ">=2.0.0,<3.0.0"
+lxml = "*"
+requests = ">=2.0.0"
+
+[package.source]
+type = "git"
+url = "https://github.com/HitaloSama/Wikipedia"
+reference = "master"
+resolved_reference = "b058e324f599cce4c6ff05a1b8defa696a66e93c"
 
 [[package]]
 name = "yarl"
@@ -751,7 +759,7 @@ testing = ["pytest (>=4.6)", "pytest-checkdocs (>=1.2.3)", "pytest-flake8", "pyt
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.7"
-content-hash = "235e266a4d8c6226bd876dfffb8a357680985d9baf433a77f0505e82bfd57767"
+content-hash = "d9a72ee6322b8592d3f90a5e842d004e9720d9ce0d655b1188c293dacd708615"
 
 [metadata.files]
 aiofiles = [
@@ -1257,9 +1265,7 @@ urllib3 = [
     {file = "urllib3-1.26.4-py2.py3-none-any.whl", hash = "sha256:2f4da4594db7e1e110a944bb1b551fdf4e6c136ad42e4234131391e21eb5b0df"},
     {file = "urllib3-1.26.4.tar.gz", hash = "sha256:e7b021f7241115872f92f43c6508082facffbd1c048e3c6e2bb9c2a157e28937"},
 ]
-wikipedia = [
-    {file = "wikipedia-1.4.0.tar.gz", hash = "sha256:db0fad1829fdd441b1852306e9856398204dc0786d2996dd2e0c8bb8e26133b2"},
-]
+wikipedia = []
 yarl = [
     {file = "yarl-1.6.3-cp36-cp36m-macosx_10_14_x86_64.whl", hash = "sha256:0355a701b3998dcd832d0dc47cc5dedf3874f966ac7f870e0f3a6788d802d434"},
     {file = "yarl-1.6.3-cp36-cp36m-manylinux1_i686.whl", hash = "sha256:bafb450deef6861815ed579c7a6113a879a6ef58aed4c3a4be54400ae8871478"},

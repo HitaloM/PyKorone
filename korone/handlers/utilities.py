@@ -315,7 +315,7 @@ async def cli_ytdl(c, cq: CallbackQuery):
     await asyncio.create_subprocess_shell(f"rm ./{ctime}.png")
 
 
-@Client.on_message(filters.cmd(command="tr$", action="Google Tradutor.", group=GROUP))
+@Client.on_message(filters.cmd(command="tr", action="Google Tradutor.", group=GROUP))
 async def translate(c: Client, m: Message):
     text = m.text[4:]
     lang = get_tr_lang(text)
