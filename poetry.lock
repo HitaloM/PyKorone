@@ -215,7 +215,7 @@ resolved_reference = "8b26ae4bef60471efa86aabeb00f9e666cc45e27"
 
 [[package]]
 name = "flake8"
-version = "3.9.0"
+version = "3.9.1"
 description = "the modular source code checker: pep8 pyflakes and co"
 category = "dev"
 optional = false
@@ -763,7 +763,7 @@ testing = ["pytest (>=4.6)", "pytest-checkdocs (>=1.2.3)", "pytest-flake8", "pyt
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.7"
-content-hash = "cc3bb72b7817912f32eee630f4fd9650d34112bf6507481d6e526ab45b86e78c"
+content-hash = "3b27293aa3d5fbbff9ba5e6630c2e14b7ce26b64fb9f9fbb01757911a91fb9ee"
 
 [metadata.files]
 aiofiles = [
@@ -841,8 +841,8 @@ commonmark = [
 ]
 duckpy = []
 flake8 = [
-    {file = "flake8-3.9.0-py2.py3-none-any.whl", hash = "sha256:12d05ab02614b6aee8df7c36b97d1a3b2372761222b19b58621355e82acddcff"},
-    {file = "flake8-3.9.0.tar.gz", hash = "sha256:78873e372b12b093da7b5e5ed302e8ad9e988b38b063b61ad937f26ca58fc5f0"},
+    {file = "flake8-3.9.1-py2.py3-none-any.whl", hash = "sha256:3b9f848952dddccf635be78098ca75010f073bfe14d2c6bda867154bea728d2a"},
+    {file = "flake8-3.9.1.tar.gz", hash = "sha256:1aa8990be1e689d96c745c5682b687ea49f2e05a443aff1f8251092b0014e378"},
 ]
 gpytranslate = [
     {file = "gpytranslate-0.3.1-py3-none-any.whl", hash = "sha256:ae587549671dcaca3c15d31608f99386e5626de099185eda5332bbeda96c2107"},
