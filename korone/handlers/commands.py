@@ -151,24 +151,6 @@ async def file_debug(c: Client, m: Message):
     await m.reply_text(text)
 
 
-@Client.on_message(
-    filters.cmd(command="echo (?P<text>.+)", action="Fale através do korone.")
-    & filters.user(SUDOERS),
-)
-async def echo(c: Client, m: Message):
-    text = m.matches[0]["text"]
-    chat_id = m.chat.id
-    kwargs = {}
-    reply = m.reply_to_message
-    if reply:
-        kwargs["reply_to_message_id"] = reply.message_id
-    try:
-        await m.delete()
-    except BaseException:
-        pass
-    await c.send_message(chat_id=chat_id, text=text, **kwargs)
-
-
 @Client.on_message(filters.command("py", prefix))
 async def dev(c: Client, m: Message):
     source_url = "git.io/JtmRH"

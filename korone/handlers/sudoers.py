@@ -233,3 +233,18 @@ async def chat_info(c: Client, m: Message):
             text += f"\n<b>Descrição:</b>\n<i>{chat.description}</i>"
 
         await m.reply_text(text)
+
+
+@Client.on_message(filters.cmd(command="echo (?P<text>.+)") & filters.user(SUDOERS))
+async def echo(c: Client, m: Message):
+    text = m.matches[0]["text"]
+    chat_id = m.chat.id
+    kwargs = {}
+    reply = m.reply_to_message
+    if reply:
+        kwargs["reply_to_message_id"] = reply.message_id
+    try:
+        await m.delete()
+    except BaseException:
+        pass
+    await c.send_message(chat_id=chat_id, text=text, **kwargs)
