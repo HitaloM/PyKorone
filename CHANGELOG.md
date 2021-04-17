@@ -1,5 +1,28 @@
 # Change Log
 
+## [1.3.0] - 2021-04-17
+
+### Added
+
+- `rt` filter (Reply to someone's message with "rt").
+
+### Removed
+
+- `/tuxsay` command.
+- `/cowsay` command.
+- `/daemonsay` command.
+- `/f` command.
+- `Cowpy` dependency.
+-  Korone pypi package support (not available anymore).
+
+### Changed
+
+- `/echo` command available for sudo only.
+- Using a fork of `wikipedia` dependency (maybe faster).
+- Replaced the `/bing` and `/search` commands with `/duckgo`. (less problematic and faster).
+- Improved `interaction.py` to decrease duplicate code.
+- Using two decorators for `help_c` in `help.py`
+
 ## [1.2.0] - 2021-04-07
 
 ### Added

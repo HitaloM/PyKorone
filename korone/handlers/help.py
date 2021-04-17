@@ -15,6 +15,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import html
+from typing import Union
 
 from pyrogram import Client, filters
 from pyrogram.types import Message, CallbackQuery
@@ -105,7 +106,8 @@ async def help_m(c: Client, m: Message):
     filters.cmd(command="help", action="Envia o menu de ajuda do Bot.")
     & filters.private
 )
-async def help_c(c: Client, m: Message):
+@Client.on_callback_query(filters.regex("^help_cb$"))
+async def help_c(c: Client, m: Union[Message, CallbackQuery]):
     await help_module(c, m)
 
 
@@ -113,11 +115,6 @@ async def help_c(c: Client, m: Message):
 async def help_g(c: Client, m: Message):
     keyboard = [[("Ir ao PV", f"https://t.me/{c.me.username}/?start", "url")]]
     await m.reply_text("Para obter ajuda vá ao meu PV!", reply_markup=c.ikb(keyboard))
-
-
-@Client.on_callback_query(filters.regex("^help_cb$"))
-async def help_cb(c: Client, m: CallbackQuery):
-    await help_module(c, m)
 
 
 async def help_module(c: Client, m: Message, module: str = None):

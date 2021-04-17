@@ -18,14 +18,20 @@ import os
 import io
 import sys
 import asyncio
+import platform
 import traceback
 from meval import meval
 from typing import Dict
 
+import pyrogram
+import pyromod
+import kantex
 from pyrogram import Client, filters
 from pyrogram.errors import BadRequest
 from pyrogram.types import Message, CallbackQuery
+from kantex.html import Bold, KeyValueItem, Section
 
+import korone
 from korone.config import OWNER, SUDOERS, prefix
 from korone.database import Chats
 
@@ -248,3 +254,18 @@ async def echo(c: Client, m: Message):
     except BaseException:
         pass
     await c.send_message(chat_id=chat_id, text=text, **kwargs)
+
+
+@Client.on_message(filters.command("py", prefix) & filters.user(SUDOERS))
+async def dev(c: Client, m: Message):
+    doc = Section(
+        "PyKorone Bot",
+        KeyValueItem(Bold("Source"), korone.__source__),
+        KeyValueItem(Bold("Korone"), korone.__version__),
+        KeyValueItem(Bold("Pyrogram"), pyrogram.__version__),
+        KeyValueItem(Bold("Pyromod"), pyromod.__version__),
+        KeyValueItem(Bold("Python"), platform.python_version()),
+        KeyValueItem(Bold("KanTeX"), kantex.__version__),
+        KeyValueItem(Bold("System"), c.system_version),
+    )
+    await m.reply_text(doc, disable_web_page_preview=True)

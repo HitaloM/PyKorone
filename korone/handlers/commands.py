@@ -20,17 +20,11 @@ import base64
 import string
 import random
 import binascii
-import platform
 from datetime import datetime
 
-import pyrogram
-import pyromod
-import kantex
 from pyrogram import Client, filters
 from pyrogram.types import Message
-from kantex.html import Bold, KeyValueItem, Section
 
-import korone
 from korone.utils import pretty_size, http, sw
 from korone.config import SUDOERS, OWNER, prefix
 from korone.handlers.utils.reddit import imagefetcher, titlefetcher, bodyfetcher
@@ -110,7 +104,7 @@ async def user_info(c: Client, m: Message):
 
 @Client.on_message(
     filters.cmd(
-        command="copy",
+        command="copy$",
         action="Comando originalmente para testes mas que também é divertido.",
     )
     & filters.reply
@@ -128,7 +122,7 @@ async def copy(c: Client, m: Message):
 
 @Client.on_message(
     filters.cmd(
-        command="file",
+        command="file$",
         action="Obtenha informações avançadas de um arquivo.",
     )
     & filters.reply
@@ -149,22 +143,6 @@ async def file_debug(c: Client, m: Message):
     text += f"\n<b>mime_type</b>: <code>{doc.mime_type}</code>"
 
     await m.reply_text(text)
-
-
-@Client.on_message(filters.command("py", prefix))
-async def dev(c: Client, m: Message):
-    source_url = "git.io/JtmRH"
-    doc = Section(
-        "PyKorone Bot",
-        KeyValueItem(Bold("Source"), source_url),
-        KeyValueItem(Bold("Korone version"), korone.__version__),
-        KeyValueItem(Bold("Pyrogram version"), pyrogram.__version__),
-        KeyValueItem(Bold("Pyromod version"), pyromod.__version__),
-        KeyValueItem(Bold("Python version"), platform.python_version()),
-        KeyValueItem(Bold("KanTeX version"), kantex.__version__),
-        KeyValueItem(Bold("System version"), c.system_version),
-    )
-    await m.reply_text(doc, disable_web_page_preview=True)
 
 
 @Client.on_message(filters.cmd(command="cat", action="Imagens aleatórias de gatos."))
@@ -246,7 +224,7 @@ async def b64d(c: Client, m: Message):
     try:
         b64 = base64.b64decode(text).decode("utf-8", "replace")
     except binascii.Error as e:
-        return await m.reply_text(f"⚠️ Dados base64 inválidos: {e}")
+        return await m.reply_text(f"⚠️ Dados base64 inválidos: <code>{e}</code>")
     await m.reply_text(html.escape(b64))
 
 
