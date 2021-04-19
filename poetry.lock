@@ -342,7 +342,7 @@ python-versions = "*"
 
 [[package]]
 name = "jikanpy"
-version = "4.3.1"
+version = "4.3.2"
 description = "Python wrapper for the Jikan API"
 category = "main"
 optional = false
@@ -742,7 +742,7 @@ typing-extensions = {version = ">=3.7.4", markers = "python_version < \"3.8\""}
 
 [[package]]
 name = "youtube-dl"
-version = "2021.4.7"
+version = "2021.4.17"
 description = "YouTube video downloader"
 category = "main"
 optional = false
@@ -763,7 +763,7 @@ testing = ["pytest (>=4.6)", "pytest-checkdocs (>=1.2.3)", "pytest-flake8", "pyt
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.7"
-content-hash = "3b27293aa3d5fbbff9ba5e6630c2e14b7ce26b64fb9f9fbb01757911a91fb9ee"
+content-hash = "0df6ea2818901b54c78503dd77e4c288cbc4d461d0b5fe4ebd2c6f4def73270a"
 
 [metadata.files]
 aiofiles = [
@@ -885,8 +885,8 @@ iso8601 = [
     {file = "iso8601-0.1.14.tar.gz", hash = "sha256:8aafd56fa0290496c5edbb13c311f78fa3a241f0853540da09d9363eae3ebd79"},
 ]
 jikanpy = [
-    {file = "jikanpy-4.3.1-py3-none-any.whl", hash = "sha256:e46988b9d29354b5f8bf3e93aeb48422c879e979ff6a722387ff0f7197855135"},
-    {file = "jikanpy-4.3.1.tar.gz", hash = "sha256:02e83f6a8d099cc51e1c713b42051775a10bfb8c03d2d4530b7a7fb2abdfc99b"},
+    {file = "jikanpy-4.3.2-py3-none-any.whl", hash = "sha256:e6b7ccade811cb1ce39db79f98591ced6725324b7857fc53efd1789bd35fbc99"},
+    {file = "jikanpy-4.3.2.tar.gz", hash = "sha256:b0c41e355c911e8c0ce262db3fbdcc2b5b92ffc4a402c1949b63126c0b5db9de"},
 ]
 kantex = [
     {file = "kantex-0.2.0-py3-none-any.whl", hash = "sha256:af26c41577d621311386fbb422dba847e92e9f0ed701f402b2d6184e7f409b98"},
@@ -1316,8 +1316,8 @@ yarl = [
     {file = "yarl-1.6.3.tar.gz", hash = "sha256:8a9066529240171b68893d60dca86a763eae2139dd42f42106b03cf4b426bf10"},
 ]
 youtube-dl = [
-    {file = "youtube_dl-2021.4.7-py2.py3-none-any.whl", hash = "sha256:5031125b13c92d23197adbe5d20f7a0a03befc510cabbfccb757703b7e35c140"},
-    {file = "youtube_dl-2021.4.7.tar.gz", hash = "sha256:34a034d9b2062e428710d4cd6365db7a64cd388e51a3f9ab74058179c95d8654"},
+    {file = "youtube_dl-2021.4.17-py2.py3-none-any.whl", hash = "sha256:22d385ea9887291764c3bd434554e44154f5e0935cde868b429d151415e1e3b2"},
+    {file = "youtube_dl-2021.4.17.tar.gz", hash = "sha256:e29b452b231581ba6d493af71ea4af5cc9d1d889b77b99ceccebbf180fc24758"},
 ]
 zipp = [
     {file = "zipp-3.4.1-py3-none-any.whl", hash = "sha256:51cb66cc54621609dd593d1787f286ee42a5c0adbb4b29abea5a63edc3e03098"},
