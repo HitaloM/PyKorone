@@ -26,7 +26,6 @@ from pyrogram import Client, filters
 from pyrogram.types import Message
 
 from korone.utils import pretty_size, http, sw
-from korone.config import SUDOERS, OWNER, prefix
 from korone.handlers.utils.reddit import imagefetcher, titlefetcher, bodyfetcher
 from korone.handlers import COMMANDS_HELP
 

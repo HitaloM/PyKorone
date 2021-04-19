@@ -15,7 +15,6 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import html
-import time
 import random
 
 from pyrogram import Client, filters

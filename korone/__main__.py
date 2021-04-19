@@ -35,20 +35,20 @@ os.system("clear")
 import re
 import logging
 import platform
-from tortoise import run_async
 from rich import box, print
 from rich.logging import RichHandler
 from rich.panel import Panel
+from tortoise import run_async
 
 import pyrogram
 import pyromod
 from pyrogram import Client, filters, idle
+from pyrogram.session import Session
 from pyromod import listen
 from pyromod.helpers import ikb
-from pyrogram.session import Session
 
 import korone
-from korone.utils import http
+from korone.utils import http, modules
 from korone.database import connect_database
 from korone.config import API_HASH, API_ID, SUDOERS, TOKEN, prefix
 from korone.handlers import COMMANDS_HELP
@@ -74,7 +74,6 @@ client = Client(
     API_HASH,
     bot_token=TOKEN,
     parse_mode="html",
-    plugins=dict(root="korone/handlers"),
 )
 
 # Beautiful init with rich
@@ -117,6 +116,7 @@ async def main():
     await client.start()
     client.me = await client.get_me()
     client.ikb = ikb
+    modules.load(client)
 
     start_message = f"""<b>PyKorone <code>v{korone.__version__}</code> started...</b>
 - <b>Pyrogram:</b> <code>v{pyrogram.__version__}</code>

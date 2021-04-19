@@ -22,6 +22,7 @@ import platform
 import traceback
 from meval import meval
 from typing import Dict
+from datetime import datetime
 
 import pyrogram
 import pyromod
@@ -32,6 +33,7 @@ from pyrogram.types import Message, CallbackQuery
 from kantex.html import Bold, KeyValueItem, Section
 
 import korone
+from korone.utils import modules
 from korone.config import OWNER, SUDOERS, prefix
 from korone.database import Chats
 
@@ -269,3 +271,13 @@ async def dev(c: Client, m: Message):
         KeyValueItem(Bold("System"), c.system_version),
     )
     await m.reply_text(doc, disable_web_page_preview=True)
+
+
+@Client.on_message(filters.command("reload", prefix) & filters.user(SUDOERS))
+async def modules_reload(c: Client, m: Message):
+    sent = await m.reply_text("<b>Reloading modules...</b>")
+    first = datetime.now()
+    modules.reload(c)
+    second = datetime.now()
+    time = (second - first).microseconds / 1000
+    await sent.edit_text(f"<b>All modules reloaded in</b> <code>{time}ms</code>!")
