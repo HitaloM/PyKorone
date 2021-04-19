@@ -28,6 +28,7 @@ from pyrogram.types import Message
 from korone.utils import pretty_size, http, sw
 from korone.handlers.utils.reddit import imagefetcher, titlefetcher, bodyfetcher
 from korone.handlers import COMMANDS_HELP
+from korone.config import OWNER, SUDOERS
 
 GROUP = "general"
 

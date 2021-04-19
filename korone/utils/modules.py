@@ -27,7 +27,7 @@ log = logging.getLogger()
 def load(bot):
     global modules
 
-    files = glob.glob(f"korone/handlers/*.py", recursive=True)
+    files = glob.glob("korone/handlers/*.py", recursive=True)
     files = sorted(files, key=lambda file: file.split("/")[2])
 
     for file_name in files:
@@ -37,18 +37,21 @@ def load(bot):
             )
             modules.append(module)
         except BaseException:
-            log.error(f"Failed to import the module: {file_name}", exc_info=True)
+            log.error("Failed to import the module: %s", file_name, exc_info=True)
             continue
 
         functions = [*filter(callable, module.__dict__.values())]
-        functions = [*filter(lambda function: hasattr(function, "handlers"), functions)]
+        functions = [
+            *filter(lambda function: hasattr(function, "handlers"), functions),
+        ]
 
         for function in functions:
             for handler in function.handlers:
                 bot.add_handler(*handler)
 
     log.info(
-        f"{len(modules)} module{'s' if len(modules) != 1 else ''} imported successfully!"
+        "%s imported successfully!",
+        f"{len(modules)} module{'s' if len(modules) != 1 else ''}",
     )
 
 
@@ -57,7 +60,9 @@ def reload(bot):
 
     for index, module in enumerate(modules):
         functions = [*filter(callable, module.__dict__.values())]
-        functions = [*filter(lambda function: hasattr(function, "handlers"), functions)]
+        functions = [
+            *filter(lambda function: hasattr(function, "handlers"), functions),
+        ]
 
         for function in functions:
             for handler in function.handlers:
@@ -67,12 +72,15 @@ def reload(bot):
         modules[index] = module
 
         functions = [*filter(callable, module.__dict__.values())]
-        functions = [*filter(lambda function: hasattr(function, "handlers"), functions)]
+        functions = [
+            *filter(lambda function: hasattr(function, "handlers"), functions),
+        ]
 
         for function in functions:
             for handler in function.handlers:
                 bot.add_handler(*handler)
 
     log.info(
-        f"{len(modules)} module{'s' if len(modules) != 1 else ''} reloaded successfully!"
+        "%s reloaded successfully!",
+        f"{len(modules)} module{'s' if len(modules) != 1 else ''}",
     )
