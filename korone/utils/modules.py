@@ -27,7 +27,7 @@ log = logging.getLogger()
 def load(bot):
     global modules
 
-    files = glob.glob("korone/handlers/*.py", recursive=True)
+    files = glob.glob("korone/handlers/*.py")
     files = sorted(files, key=lambda file: file.split("/")[2])
 
     for file_name in files:

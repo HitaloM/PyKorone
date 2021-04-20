@@ -185,6 +185,15 @@ async def bird_photo(c: Client, m: Message):
 
 
 @Client.on_message(
+    filters.cmd(command="redpanda", action="Imagens aleatórias de pandas vermelhos.")
+)
+async def rpanda_photo(c: Client, m: Message):
+    r = await http.get("https://some-random-api.ml/img/red_panda")
+    rpanda = r.json()
+    await m.reply_photo(rpanda["link"], caption="🐼")
+
+
+@Client.on_message(
     filters.cmd(
         command="red(?P<type>.)?(\s(?P<search>.+))?",
         action="Retorna tópicos do Reddit.",
