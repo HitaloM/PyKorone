@@ -14,11 +14,12 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-import httpx
 import asyncio
+from functools import partial, wraps
+from typing import Callable, Coroutine
+
+import httpx
 import spamwatch
-from functools import wraps, partial
-from typing import Coroutine, Callable
 
 from korone.config import SW_API
 

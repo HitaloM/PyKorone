@@ -15,6 +15,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import io
+
 from PIL import Image
 
 from korone.utils import aiowrap

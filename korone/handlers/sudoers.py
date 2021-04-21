@@ -14,28 +14,28 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-import os
-import io
-import sys
 import asyncio
+import io
+import os
 import platform
+import sys
 import traceback
-from meval import meval
-from typing import Dict
 from datetime import datetime
+from typing import Dict
 
+import kantex
 import pyrogram
 import pyromod
-import kantex
+from kantex.html import Bold, KeyValueItem, Section
+from meval import meval
 from pyrogram import Client, filters
 from pyrogram.errors import BadRequest
-from pyrogram.types import Message, CallbackQuery
-from kantex.html import Bold, KeyValueItem, Section
+from pyrogram.types import CallbackQuery, Message
 
 import korone
-from korone.utils import modules
 from korone.config import OWNER, SUDOERS, prefix
 from korone.database import Chats
+from korone.utils import modules
 
 
 @Client.on_message(filters.cmd("(sh(eel)?|term(inal)?) ") & filters.user(OWNER))

@@ -19,14 +19,14 @@ import random
 from pyrogram import Client, filters
 from pyrogram.types import Message
 
+from korone.handlers import COMMANDS_HELP
 from korone.handlers.utils.random import (
     HEY_REACT,
-    SHUTUP_REACT,
     INSULTS_REACT,
     RANDOM_REACT,
+    SHUTUP_REACT,
     WHATSUP_REACT,
 )
-from korone.handlers import COMMANDS_HELP
 
 GROUP = "interactions"
 

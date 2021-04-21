@@ -15,10 +15,10 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import html
-import anilist
 from typing import List
-from kantex.html import Bold, KeyValueItem, Section, SubSection, Code
 
+import anilist
+from kantex.html import Bold, Code, KeyValueItem, Section, SubSection
 from pyrogram import Client
 from pyrogram.types import (
     InlineQuery,
@@ -27,8 +27,8 @@ from pyrogram.types import (
     InputTextMessageContent,
 )
 
-from korone.utils import sw
 from korone.handlers.utils.misc import cleanhtml
+from korone.utils import sw
 
 
 @Client.on_inline_query()

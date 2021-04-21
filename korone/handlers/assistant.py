@@ -16,15 +16,15 @@
 
 import io
 import random
-import wikipedia
-import rapidjson as json
 
+import rapidjson as json
+import wikipedia
 from pyrogram import Client, filters
 from pyrogram.types import Message
 
-from korone.utils import http
-from korone.handlers.utils.random import CATCH_REACT, HELLO, REACTIONS
 from korone.handlers import COMMANDS_HELP
+from korone.handlers.utils.random import CATCH_REACT, HELLO, REACTIONS
+from korone.utils import http
 
 GROUP = "assistant"
 

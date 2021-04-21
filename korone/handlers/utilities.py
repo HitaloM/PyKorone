@@ -14,26 +14,25 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-import re
-import html
-import time
-import random
 import asyncio
 import datetime
+import html
+import random
+import re
+import time
+
 import youtube_dl
-from duckpy import AsyncClient
 from bs4 import BeautifulSoup as bs
-
+from duckpy import AsyncClient
 from pyrogram import Client, filters
-from pyrogram.types import Message, CallbackQuery
+from pyrogram.types import CallbackQuery, Message
 
-from korone.utils import http, pretty_size
 from korone.handlers import COMMANDS_HELP
-from korone.handlers.utils.translator import tr, get_tr_lang
-from korone.handlers.utils.misc import escape_definition
 from korone.handlers.utils.image import stickcolorsync
+from korone.handlers.utils.misc import escape_definition
+from korone.handlers.utils.translator import get_tr_lang, tr
 from korone.handlers.utils.ytdl import extract_info
-
+from korone.utils import http, pretty_size
 
 GROUP = "utils"
 

@@ -18,7 +18,7 @@ import html
 from typing import Union
 
 from pyrogram import Client, filters
-from pyrogram.types import Message, CallbackQuery
+from pyrogram.types import CallbackQuery, Message
 
 import korone
 from korone.handlers import COMMANDS_HELP

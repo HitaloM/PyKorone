@@ -14,12 +14,12 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-from kantex.html import KanTeXDocument, Section, KeyValueItem, Bold, Code
 from typing import List, Union
 
+from kantex.html import Bold, Code, KanTeXDocument, KeyValueItem, Section
 from pyrogram import Client, filters
-from pyrogram.types import Message
 from pyrogram.errors import BadRequest
+from pyrogram.types import Message
 
 from korone.config import SUDOERS
 from korone.database import Banneds, Chats

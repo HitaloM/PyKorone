@@ -15,8 +15,8 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import glob
-import logging
 import importlib
+import logging
 from types import ModuleType
 from typing import List
 

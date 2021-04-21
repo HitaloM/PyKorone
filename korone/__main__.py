@@ -32,26 +32,27 @@ if "--no-update" not in sys.argv:
 print("\033[0m")
 os.system("clear")
 
-import re
 import logging
 import platform
+import re
+
+import pyrogram
+import pyromod
+from pyrogram import Client, filters, idle
+from pyrogram.errors import BadRequest
+from pyrogram.session import Session
+from pyromod import listen
+from pyromod.helpers import ikb
 from rich import box, print
 from rich.logging import RichHandler
 from rich.panel import Panel
 from tortoise import run_async
 
-import pyrogram
-import pyromod
-from pyrogram import Client, filters, idle
-from pyrogram.session import Session
-from pyromod import listen
-from pyromod.helpers import ikb
-
 import korone
-from korone.utils import http, modules
-from korone.database import connect_database
 from korone.config import API_HASH, API_ID, SUDOERS, TOKEN, prefix
+from korone.database import connect_database
 from korone.handlers import COMMANDS_HELP
+from korone.utils import http, modules
 
 # Logging colorized by rich
 FORMAT = "%(message)s"
@@ -84,7 +85,6 @@ text += f"\n{korone.__license__}"
 text += f"\n{korone.__copyright__}"
 print(Panel.fit(text, border_style="blue", box=box.ASCII))
 
-
 # monkeypatch
 def int_filter(filter, group: str = "others", action: str = None, *args, **kwargs):
     COMMANDS_HELP[group]["filters"][filter] = {"action": action or " "}
@@ -114,8 +114,12 @@ async def main():
     await connect_database()
 
     await client.start()
+
+    # More monkeypatch
     client.me = await client.get_me()
     client.ikb = ikb
+
+    # Built-in modules load system
     modules.load(client)
 
     start_message = f"""<b>PyKorone <code>v{korone.__version__}</code> started...</b>
@@ -127,7 +131,7 @@ async def main():
     try:
         for user in SUDOERS:
             await client.send_message(chat_id=user, text=start_message)
-    except BaseException:
+    except BadRequest:
         pass
 
     await idle()
