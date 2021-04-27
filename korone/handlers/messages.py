@@ -223,11 +223,12 @@ async def macaco(c: Client, m: Message):
     filters.int(filter=r"rt", group=GROUP) & filters.reply & filters.group
 )
 async def rtcommand(c: Client, m: Message):
-    text = None
+    rt_text = None
     if m.reply_to_message.media:
         rt_text = m.reply_to_message.caption
     else:
         rt_text = m.reply_to_message.text
+
     if rt_text is None:
         return
 
