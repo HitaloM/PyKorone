@@ -38,101 +38,59 @@ COMMANDS_HELP[GROUP] = {
     "help": True,
 }
 
-NEKO_URL = "https://nekos.life/api/v2/img/"
 
-
-@Client.on_message(filters.cmd(command="hug", action="Dar um abraço.", group=GROUP))
-async def hug(c: Client, m: Message):
-    r = await http.get(NEKO_URL + "hug")
+async def neko_api(c: Client, m: Message, text: str = None):
+    NEKO_URL = "https://nekos.life/api/v2/img/"
+    r = await http.get(NEKO_URL + text)
     if r.status_code == 200:
         image_url = (r.json())["url"]
     else:
-        await m.reply_text(f"Erro!\n**{r.status}**")
+        await m.reply_text(f"<b>Erro!</b>\n<code>{r.status}</code>")
         return
 
     try:
         if m.reply_to_message:
-            await m.reply_to_message.reply_document(document=image_url)
-        else:
-            await m.reply_document(document=image_url)
+            if text in ("neko", "waifu"):
+                await m.reply_to_message.reply_photo(image_url)
+            else:
+                await m.reply_to_message.reply_document(image_url)
+        elif not m.reply_to_message:
+            if text in ("neko", "waifu"):
+                await m.reply_photo(image_url)
+            else:
+                await m.reply_document(image_url)
     except BaseException as e:
-        return await m.reply_text(f"Erro!\n{e}")
+        await m.reply_text(f"<b>Erro!</b>\n<code>{e}</code>")
+        return
+
+
+@Client.on_message(filters.cmd(command="hug", action="Dar um abraço.", group=GROUP))
+async def hug(c: Client, m: Message):
+    await neko_api(c, m, "hug")
 
 
 @Client.on_message(
     filters.cmd(command="pat", action="Dar uma batida na cabeça.", group=GROUP)
 )
 async def pat(c: Client, m: Message):
-    r = await http.get(NEKO_URL + "pat")
-    if r.status_code == 200:
-        image_url = (r.json())["url"]
-    else:
-        await m.reply_text(f"Erro!\n**{r.status}**")
-        return
-
-    try:
-        if m.reply_to_message:
-            await m.reply_to_message.reply_document(document=image_url)
-        else:
-            await m.reply_document(document=image_url)
-    except BaseException as e:
-        return await m.reply_text(f"Erro!\n{e}")
+    await neko_api(c, m, "pat")
 
 
 @Client.on_message(filters.cmd(command="slap", action="Dar um tapa.", group=GROUP))
 async def slap(c: Client, m: Message):
-    r = await http.get(NEKO_URL + "slap")
-    if r.status_code == 200:
-        image_url = (r.json())["url"]
-    else:
-        await m.reply_text(f"Erro!\n**{r.status}**")
-        return
-
-    try:
-        if m.reply_to_message:
-            await m.reply_to_message.reply_document(document=image_url)
-        else:
-            await m.reply_document(document=image_url)
-    except BaseException as e:
-        return await m.reply_text(f"Erro!\n{e}")
+    await neko_api(c, m, "slap")
 
 
 @Client.on_message(
     filters.cmd(command="waifu", action="Retorna uma waifu.", group=GROUP)
 )
 async def waifu(c: Client, m: Message):
-    r = await http.get(NEKO_URL + "waifu")
-    if r.status_code == 200:
-        image_url = (r.json())["url"]
-    else:
-        await m.reply_text(f"Erro!\n**{r.status}**")
-        return
-
-    try:
-        if m.reply_to_message:
-            await m.reply_to_message.reply_photo(image_url)
-        else:
-            await m.reply_photo(image_url)
-    except BaseException as e:
-        return await m.reply_text(f"Erro!\n{e}")
+    await neko_api(c, m, "waifu")
 
 
 @Client.on_message(filters.cmd(command="neko", action="Retorna uma Neko.", group=GROUP))
 async def neko(c: Client, m: Message):
-    r = await http.get(NEKO_URL + "neko")
-    if r.status_code == 200:
-        image_url = (r.json())["url"]
-    else:
-        await m.reply_text(f"Erro!\n**{r.status}**")
-        return
-
-    try:
-        if m.reply_to_message:
-            await m.reply_to_message.reply_photo(image_url)
-        else:
-            await m.reply_photo(image_url)
-    except BaseException as e:
-        return await m.reply_text(f"Erro!\n{e}")
+    await neko_api(c, m, "neko")
 
 
 @Client.on_message(
