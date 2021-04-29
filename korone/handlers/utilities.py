@@ -319,7 +319,11 @@ async def cli_ytdl(c, cq: CallbackQuery):
         return
 
 
-@Client.on_message(filters.cmd(command="tr", action="Google Tradutor.", group=GROUP))
+@Client.on_message(
+    filters.cmd(
+        command="tr", action="Use o Google Tradutor para traduzir textos.", group=GROUP
+    )
+)
 async def translate(c: Client, m: Message):
     text = m.text[4:]
     lang = get_tr_lang(text)
@@ -358,6 +362,7 @@ async def translate(c: Client, m: Message):
     filters.cmd(
         command="mcserver (?P<ip>.+)",
         action="Veja algumas informações de servidores de Minecraft.",
+        group=GROUP,
     )
 )
 async def mcserver(c: Client, m: Message):
@@ -389,7 +394,9 @@ async def mcserver(c: Client, m: Message):
 
 @Client.on_message(
     filters.cmd(
-        command="print (?P<url>.+)", action="Faça uma captura de tela da url dada."
+        command="print (?P<url>.+)",
+        action="Faça uma captura de tela da url dada.",
+        group=GROUP,
     )
 )
 async def amn_print(c: Client, m: Message):
