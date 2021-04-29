@@ -49,9 +49,9 @@ wikipedia = {git = "https://github.com/HitaloSama/Wikipedia"}
 python-anilist = "1.0.4"
 regex = "2021.4.4"
 lxml = "4.6.3"
-duckpy = {git = "https://github.com/AmanoTeam/duckpy"}
 pyromod = "1.5"
 Pyrogram = "1.2.9"
+duckpy = {git = "https://github.com/HitaloSama/duckpy"}
 
 [tool.poetry.dev-dependencies]
 black = "^21.4b2"
