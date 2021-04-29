@@ -31,7 +31,7 @@ package manager to make things easier to maintain, which works with pip through
 PEP-517. This is a relatively new standard, so a newer version of pip is necessary
 to make it work.
 
-Upgrade to pip 19 to fix this issue: `pip3 install -U pip`
+Upgrade to pip 19 to fix this issue: `python3 -m pip install pip -U`
 
 ## Usage
 
@@ -42,7 +42,7 @@ To start the bot, type `python3 -m korone`, you can run the bot without updating
 - [@usernein](https://github.com/usernein) - contributed with teachings, ideas and allowed me to use some of his codes.
 - [@AndrielFR](https://github.com/AndrielFR) - one of the main developers of the korone, who helped me in great things, was he who created the 'gban.py' and among other things.
 - [@kdrag0n](https://github.com/kdrag0n) - this README.md was inspired by the [pyrobud](https://github.com/kdrag0n/pyrobud)
-- [@RianFC](https://github.com/RianFC) - granted permission for the port of [ytdl.py](https://t.me/UserLixoPlugins/77) to the Korone.
+- [@RianFC](https://github.com/RianFC) - granted permission for the port of [ytdl.py](https://t.me/UserLixoPlugins/78) to the Korone.
 
 _If there is anyone I have forgotten to mention please let me know on Telegram: [@Hitalo](https://t.me/Hitalo)_
 

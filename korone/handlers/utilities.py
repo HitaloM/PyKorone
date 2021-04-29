@@ -17,6 +17,7 @@
 import asyncio
 import datetime
 import html
+import io
 import random
 import re
 import time
@@ -25,6 +26,7 @@ import youtube_dl
 from bs4 import BeautifulSoup as bs
 from duckpy import AsyncClient
 from pyrogram import Client, filters
+from pyrogram.errors import ImageProcessFailed
 from pyrogram.types import CallbackQuery, Message
 
 from korone.handlers import COMMANDS_HELP
@@ -310,8 +312,11 @@ async def cli_ytdl(c, cq: CallbackQuery):
             reply_to_message_id=int(mid),
         )
         await c.delete_messages(chat_id=int(cid), message_ids=cq.message.message_id)
-    await asyncio.create_subprocess_shell(f"rm -rf ./dls/{f_id}")
-    await asyncio.create_subprocess_shell(f"rm ./{ctime}.png")
+    try:
+        await asyncio.create_subprocess_shell(f"rm -rf ./dls/{f_id}")
+        await asyncio.create_subprocess_shell(f"rm ./{ctime}.png")
+    except BaseException:
+        return
 
 
 @Client.on_message(filters.cmd(command="tr", action="Google Tradutor.", group=GROUP))
@@ -380,3 +385,25 @@ async def mcserver(c: Client, m: Message):
             f"\n<b>Online:</b> <code>{a['online']}</code>"
         )
     await m.reply_text(text)
+
+
+@Client.on_message(
+    filters.cmd(
+        command="print (?P<url>.+)", action="Faça uma captura de tela da url dada."
+    )
+)
+async def amn_print(c: Client, m: Message):
+    args = m.matches[0]["url"]
+    reply = await m.reply_text("Printando...")
+    r = await http.get("https://webshot.amanoteam.com/print", params=dict(q=args))
+    if r.status_code in [500, 504, 505]:
+        await m.reply_text("API indisponível, tente novamente mais tarde!")
+        return
+    bio = io.BytesIO(r.read())
+    bio.name = "screenshot.png"
+    try:
+        await m.reply_photo(bio)
+    except ImageProcessFailed:
+        await reply.edit("Desculpe, não consegui concluir seu pedido!")
+        return
+    await reply.delete()
