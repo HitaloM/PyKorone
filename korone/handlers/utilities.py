@@ -25,6 +25,7 @@ import time
 import youtube_dl
 from bs4 import BeautifulSoup as bs
 from duckpy import AsyncClient
+from httpx._exceptions import TimeoutException
 from pyrogram import Client, filters
 from pyrogram.errors import ImageProcessFailed
 from pyrogram.types import CallbackQuery, Message
@@ -402,15 +403,22 @@ async def mcserver(c: Client, m: Message):
 async def amn_print(c: Client, m: Message):
     args = m.matches[0]["url"]
     reply = await m.reply_text("Printando...")
-    r = await http.get("https://webshot.amanoteam.com/print", params=dict(q=args))
-    if r.status_code in [500, 504, 505]:
-        await m.reply_text("API indisponível, tente novamente mais tarde!")
+    try:
+        r = await http.get("https://webshot.amanoteam.com/print", params=dict(q=args))
+    except TimeoutException:
+        await reply.edit("Desculpe, não consegui concluir seu pedido!")
         return
+
+    if r.status_code in [500, 504, 505]:
+        await reply.edit("API indisponível ou instável!")
+        return
+
     bio = io.BytesIO(r.read())
     bio.name = "screenshot.png"
     try:
         await m.reply_photo(bio)
     except ImageProcessFailed:
-        await reply.edit("Desculpe, não consegui concluir seu pedido!")
+        await reply.edit("Um erro ocorreu ao tentar processar a imagem!")
         return
+
     await reply.delete()
