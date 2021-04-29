@@ -42,14 +42,6 @@ Seu foco é trazer funções legais e um design funcional com tecnologia e criat
 """
 
 
-@Client.on_message(filters.cmd(command="about", action="Informações sobre o bot."))
-async def about_cmd(c: Client, m: Message):
-    await m.reply_text(
-        about_text.format(c.me.first_name, korone.__source__, korone.__community__),
-        disable_web_page_preview=True,
-    )
-
-
 @Client.on_message(
     filters.cmd(command="start", action="Envia a mensagem de inicialização do bot.")
 )
@@ -191,14 +183,25 @@ async def on_help_callback(c: Client, cq: CallbackQuery):
     await help_module(c, cq, module)
 
 
+@Client.on_message(
+    filters.cmd(command="about", action="Veja algumas informações sobre o bot.")
+)
 @Client.on_callback_query(filters.regex("^about$"))
-async def about(c: Client, m: CallbackQuery):
-    keyboard = c.ikb([[("⬅️ Voltar", "start_back")]])
-    await m.message.edit_text(
-        about_text.format(c.me.first_name, korone.__source__, korone.__community__),
-        reply_markup=keyboard,
-        disable_web_page_preview=True,
-    )
+async def about_c(c: Client, m: Union[Message, CallbackQuery]):
+    is_callback = isinstance(m, CallbackQuery)
+    about = about_text.format(c.me.first_name, korone.__source__, korone.__community__)
+    if is_callback:
+        keyboard = c.ikb([[("⬅️ Voltar", "start_back")]])
+        await m.message.edit_text(
+            about,
+            reply_markup=keyboard,
+            disable_web_page_preview=True,
+        )
+    elif not is_callback:
+        await m.reply_text(
+            about,
+            disable_web_page_preview=True,
+        )
 
 
 @Client.on_callback_query(filters.regex("^start_back$"))
