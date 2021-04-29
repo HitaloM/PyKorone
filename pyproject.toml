@@ -34,14 +34,13 @@ tgcrypto = "1.2.2"
 rich = "10.1.0"
 tortoise-orm = "0.17.2"
 Pillow = "8.2.0"
-httpx = {version = "0.17.1", extras = ["http2"]}
+httpx = {version = "0.18.0", extras = ["http2"]}
 python-rapidjson = "1.0"
 kantex = "0.2.0"
 spamwatch = "0.3.0"
 meval = "2.5"
 jikanpy = "4.3.2"
 asyncpraw = "7.2.0"
-pynewton = "^1.1.0"
 youtube_dl = "2021.4.26"
 wheel = "^0.36.2"
 gpytranslate = "0.3.1"
@@ -52,6 +51,7 @@ lxml = "4.6.3"
 pyromod = "1.5"
 Pyrogram = "1.2.9"
 duckpy = {git = "https://github.com/HitaloSama/duckpy"}
+pynewton = "1.1.1"
 
 [tool.poetry.dev-dependencies]
 black = "^21.4b2"
