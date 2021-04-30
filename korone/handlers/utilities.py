@@ -362,26 +362,40 @@ async def translate(c: Client, m: Message):
 @Client.on_message(
     filters.cmd(
         command="mcserver (?P<ip>.+)",
-        action="Veja algumas informações de servidores de Minecraft.",
+        action="Veja algumas informações de servidores de Minecraft Java Edition.",
         group=GROUP,
     )
 )
 async def mcserver(c: Client, m: Message):
     args = m.matches[0]["ip"]
-    r = await http.get(f"https://api.mcsrvstat.us/2/{args}")
+    reply = await m.reply_text("Obtendo informações...")
+    try:
+        r = await http.get(f"https://api.mcsrvstat.us/2/{args}")
+    except TimeoutException:
+        await reply.edit("Desculpe, não consegui me conectar a API!")
+        return
+
+    if r.status_code in [500, 504, 505]:
+        await reply.edit("A API está indisponível ou com instabilidade!")
+        return
+
     a = r.json()
     if a["online"]:
-        text = (
-            "<b>Minecraft Server:</b>"
-            f"\n<b>IP:</b> {a['hostname'] if 'hostname' in a else a['ip']} (<code>{a['ip']}</code>)"
-            f"\n<b>Port:</b> <code>{a['port']}</code>"
-            f"\n<b>Online:</b> <code>{a['online']}</code>"
-            f"\n<b>Mods:</b> <code>{len(a['mods']['names']) if 'mods' in a else 'N/A'}</code>"
-            f"\n<b>Players:</b> <code>{a['players']['online']}/{a['players']['max']}</code>"
-            f"\n<b>Version:</b> <code>{a['version']}</code>"
-            f"\n<b>MOTD:</b> <i>{a['motd']['clean'][0]}</i>"
-        )
+        text = "<b>Minecraft Server:</b>"
+        text += f"\n<b>IP:</b> {a['hostname'] if 'hostname' in a else a['ip']} (<code>{a['ip']}</code>)"
+        text += f"\n<b>Port:</b> <code>{a['port']}</code>"
+        text += f"\n<b>Online:</b> <code>{a['online']}</code>"
+        text += f"\n<b>Mods:</b> <code>{len(a['mods']['names']) if 'mods' in a else 'N/A'}</code>"
+        text += f"\n<b>Players:</b> <code>{a['players']['online']}/{a['players']['max']}</code>"
+        text += f"\n<b>Version:</b> <code>{a['version']}</code>"
+        try:
+            text += f"\n<b>Software:</b> <code>{a['software']}</code>"
+        except KeyError:
+            pass
+        text += f"\n<b>MOTD:</b> <i>{a['motd']['clean'][0]}</i>"
     elif not a["ip"]:
+        text = "Isso não é um IP/domínio!"
+    elif a["ip"] == "127.0.0.1":
         text = "Isso não é um IP/domínio!"
     elif not a["online"]:
         text = (
@@ -390,7 +404,7 @@ async def mcserver(c: Client, m: Message):
             f"\n<b>Port:</b> <code>{a['port']}</code>"
             f"\n<b>Online:</b> <code>{a['online']}</code>"
         )
-    await m.reply_text(text)
+    await reply.edit(text, disable_web_page_preview=True)
 
 
 @Client.on_message(
