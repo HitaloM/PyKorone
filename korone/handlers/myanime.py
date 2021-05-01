@@ -86,15 +86,15 @@ async def anilist_anime(c: Client, m: Message):
 
     if hasattr(anime, "description"):
         if len(anime.description) > 700:
-            desc = f"{anime.description_short}[...]"
+            desc = f"<b>Descrição curta:</b> {anime.description_short}[...]"
         else:
-            desc = anime.description
+            desc = f"<b>Descrição:</b> {anime.description}"
 
     text = f"<b>{anime.title.romaji}</b> (<code>{anime.title.native}</code>)\n"
     text += f"<b>ID:</b> <code>{anime.id}</code>\n"
     text += f"<b>Tipo:</b> <code>{anime.format}</code>\n"
     if hasattr(anime, "status"):
-        text += f"<b>Status:</b> <code>{anime.status}</code>\n"
+        text += f"<b>Estado:</b> <code>{anime.status}</code>\n"
     if hasattr(anime, "episodes"):
         text += f"<b>Episódios:</b> <code>{anime.episodes}</code>\n"
     if hasattr(anime, "duration"):
@@ -107,9 +107,10 @@ async def anilist_anime(c: Client, m: Message):
         )
     if hasattr(anime, "studios"):
         text += f"<b>Estúdios:</b> <code>{', '.join(str(x) for x in anime.studios)}</code>\n"
-    text += f"\n<b>Descrição:</b> <i>{desc}</i>"
+    if hasattr(anime, "description"):
+        text += f"\n<i>{desc}</i>"
 
-    keyboard = [[("Mais Info", anime.url, "url")]]
+    keyboard = [[("Mais Informações", anime.url, "url")]]
 
     try:
         keyboard[0].append(("Trailer 🎬", anime.trailer.url, "url"))
@@ -159,10 +160,10 @@ async def anilist_airing(c: Client, m: Message):
     if hasattr(anime, "next_airing"):
         airing_time = anime.next_airing.time_until * 1000
         text += f"<b>Episódio:</b> <code>{anime.next_airing.episode}</code>\n"
-        text += f"<b>No ar em:</b> <code>{t(airing_time)}</code>"
+        text += f"<b>Exibição em:</b> <code>{t(airing_time)}</code>"
     else:
         text += f"<b>Episódio:</b> <code>{anime.episodes}</code>\n"
-        text += "<b>No ar em:</b> <code>N/A</code>"
+        text += "<b>Exibição em:</b> <code>N/A</code>"
 
     if hasattr(anime, "banner"):
         await m.reply_photo(photo=anime.banner, caption=text)
@@ -202,16 +203,16 @@ async def anilist_manga(c: Client, m: Message):
 
     if hasattr(manga, "description"):
         if len(manga.description) > 700:
-            desc = f"{manga.description_short}[...]"
+            desc = f"<b>Descrição curta:</b> {manga.description_short}[...]"
         else:
-            desc = manga.description
+            desc = f"<b>Descrição:</b> {manga.description}"
 
     text = f"<b>{manga.title.romaji}</b> (<code>{manga.title.native}</code>)\n"
     text += f"<b>ID:</b> <code>{manga.id}</code>\n"
     if hasattr(manga.start_date, "year"):
         text += f"<b>Início:</b> <code>{manga.start_date.year}</code>\n"
     if hasattr(manga, "status"):
-        text += f"<b>Status:</b> <code>{manga.status}</code>\n"
+        text += f"<b>Estado:</b> <code>{manga.status}</code>\n"
     if hasattr(manga, "chapters"):
         text += f"<b>Capítulos:</b> <code>{manga.chapters}</code>\n"
     if hasattr(manga, "volumes"):
@@ -222,9 +223,10 @@ async def anilist_manga(c: Client, m: Message):
         text += (
             f"<b>Gêneros:</b> <code>{', '.join(str(x) for x in manga.genres)}</code>\n"
         )
-    text += f"\n<b>Descrição:</b> <i>{desc}</i>"
+    if hasattr(manga, "description"):
+        text += f"\n<i>{desc}</i>"
 
-    keyboard = [[("Mais Info", manga.url, "url")]]
+    keyboard = [[("Mais Informações", manga.url, "url")]]
 
     await m.reply_photo(
         photo=f"https://img.anili.st/media/{manga.id}",
@@ -272,9 +274,10 @@ async def anilist_character(c: Client, m: Message):
     text = f"<b>{character.name.full}</b> (<code>{character.name.native}</code>)"
     text += f"\n<b>ID:</b> <code>{character.id}</code>"
     text += f"\n<b>Favoritos:</b> <code>{character.favorites}</code>"
-    text += f"\n\n<b>Sobre:</b>\n{html.escape(desc)}"
+    if hasattr(character, "description"):
+        text += f"\n\n<b>Sobre:</b>\n{html.escape(desc)}"
 
-    keyboard = [[("Mais Info", character.url, "url")]]
+    keyboard = [[("Mais Informações", character.url, "url")]]
 
     if hasattr(character, "image"):
         await m.reply_photo(
