@@ -44,16 +44,16 @@ async def on_inline(c: Client, q: InlineQuery):
 
                 if hasattr(anime, "description"):
                     if len(anime.description) > 700:
-                        desc = f"{anime.description_short}[...]"
+                        desc = f"<b>Descrição curta:</b> {anime.description_short}[...]"
                     else:
-                        desc = anime.description
+                        desc = f"<b>Descrição:</b> {anime.description}"
 
                 text = (
                     f"<b>{anime.title.romaji}</b> (<code>{anime.title.native}</code>)\n"
                 )
                 text += f"<b>Tipo:</b> <code>{anime.format}</code>\n"
                 if hasattr(anime, "status"):
-                    text += f"<b>Status:</b> <code>{anime.status}</code>\n"
+                    text += f"<b>Estado:</b> <code>{anime.status}</code>\n"
                 if hasattr(anime, "episodes"):
                     text += f"<b>Episódios:</b> <code>{anime.episodes}</code>\n"
                 if hasattr(anime, "duration"):
@@ -64,9 +64,10 @@ async def on_inline(c: Client, q: InlineQuery):
                     text += f"<b>Gêneros:</b> <code>{', '.join(str(x) for x in anime.genres)}</code>\n"
                 if hasattr(anime, "studios"):
                     text += f"<b>Estúdios:</b> <code>{', '.join(str(x) for x in anime.studios)}</code>\n"
-                text += f"\n<b>Descrição:</b> <i>{desc}</i>"
+                if hasattr(anime, "description"):
+                    text += f"\n<i>{desc}</i>"
 
-                keyboard = [[("Mais Info", anime.url, "url")]]
+                keyboard = [[("Mais informações", anime.url, "url")]]
 
                 try:
                     keyboard[0].append(("Trailer 🎬", anime.trailer.url, "url"))
@@ -105,9 +106,9 @@ async def on_inline(c: Client, q: InlineQuery):
 
                 if hasattr(manga, "description"):
                     if len(manga.description) > 700:
-                        desc = f"{manga.description_short}[...]"
+                        desc = f"<b>Descrição curta:</b> {manga.description_short}[...]"
                     else:
-                        desc = manga.description
+                        desc = f"<b>Descrição:</b> {manga.description}"
 
                 text = (
                     f"<b>{manga.title.romaji}</b> (<code>{manga.title.native}</code>)\n"
@@ -115,7 +116,7 @@ async def on_inline(c: Client, q: InlineQuery):
                 if hasattr(manga.start_date, "year"):
                     text += f"<b>Início:</b> <code>{manga.start_date.year}</code>\n"
                 if hasattr(manga, "status"):
-                    text += f"<b>Status:</b> <code>{manga.status}</code>\n"
+                    text += f"<b>Estado:</b> <code>{manga.status}</code>\n"
                 if hasattr(manga, "chapters"):
                     text += f"<b>Capítulos:</b> <code>{manga.chapters}</code>\n"
                 if hasattr(manga, "volumes"):
@@ -124,7 +125,8 @@ async def on_inline(c: Client, q: InlineQuery):
                     text += f"<b>Pontuação:</b> <code>{manga.score.average}</code>\n"
                 if hasattr(manga, "genres"):
                     text += f"<b>Gêneros:</b> <code>{', '.join(str(x) for x in manga.genres)}</code>\n"
-                text += f"\n<b>Descrição:</b> <i>{desc}</i>"
+                if hasattr(manga, "description"):
+                    text += f"\n<i>{desc}</i>"
 
                 keyboard = [
                     [

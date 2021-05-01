@@ -110,7 +110,7 @@ async def anilist_anime(c: Client, m: Message):
     if hasattr(anime, "description"):
         text += f"\n<i>{desc}</i>"
 
-    keyboard = [[("Mais Informações", anime.url, "url")]]
+    keyboard = [[("Mais informações", anime.url, "url")]]
 
     try:
         keyboard[0].append(("Trailer 🎬", anime.trailer.url, "url"))
@@ -226,7 +226,7 @@ async def anilist_manga(c: Client, m: Message):
     if hasattr(manga, "description"):
         text += f"\n<i>{desc}</i>"
 
-    keyboard = [[("Mais Informações", manga.url, "url")]]
+    keyboard = [[("Mais informações", manga.url, "url")]]
 
     await m.reply_photo(
         photo=f"https://img.anili.st/media/{manga.id}",
@@ -277,7 +277,7 @@ async def anilist_character(c: Client, m: Message):
     if hasattr(character, "description"):
         text += f"\n\n<b>Sobre:</b>\n{html.escape(desc)}"
 
-    keyboard = [[("Mais Informações", character.url, "url")]]
+    keyboard = [[("Mais informações", character.url, "url")]]
 
     if hasattr(character, "image"):
         await m.reply_photo(
