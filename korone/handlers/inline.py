@@ -51,6 +51,7 @@ async def on_inline(c: Client, q: InlineQuery):
                 text = (
                     f"<b>{anime.title.romaji}</b> (<code>{anime.title.native}</code>)\n"
                 )
+                text += f"<b>ID:</b> <code>{anime.id}</code>\n"
                 text += f"<b>Tipo:</b> <code>{anime.format}</code>\n"
                 if hasattr(anime, "status"):
                     text += f"<b>Estado:</b> <code>{anime.status}</code>\n"
@@ -78,10 +79,8 @@ async def on_inline(c: Client, q: InlineQuery):
                     [("Pesquisar mais", "anime", "switch_inline_query_current_chat")]
                 )
 
-                if hasattr(anime, "banner"):
-                    photo = anime.banner
-
                 title = f"{anime.title.romaji} | {anime.format}"
+                photo = f"https://img.anili.st/media/{anime.id}"
 
                 results.append(
                     InlineQueryResultPhoto(
@@ -113,6 +112,7 @@ async def on_inline(c: Client, q: InlineQuery):
                 text = (
                     f"<b>{manga.title.romaji}</b> (<code>{manga.title.native}</code>)\n"
                 )
+                text += f"<b>ID:</b> <code>{manga.id}</code>\n"
                 if hasattr(manga.start_date, "year"):
                     text += f"<b>Início:</b> <code>{manga.start_date.year}</code>\n"
                 if hasattr(manga, "status"):
@@ -135,8 +135,7 @@ async def on_inline(c: Client, q: InlineQuery):
                     ]
                 ]
 
-                if hasattr(manga, "banner"):
-                    photo = manga.banner
+                photo = f"https://img.anili.st/media/{manga.id}"
 
                 results.append(
                     InlineQueryResultPhoto(
