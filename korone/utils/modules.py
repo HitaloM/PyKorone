@@ -24,7 +24,7 @@ modules: List[ModuleType] = []
 log = logging.getLogger()
 
 
-def load(bot):
+def load(client):
     global modules
 
     files = glob.glob("korone/handlers/*.py")
@@ -47,7 +47,7 @@ def load(bot):
 
         for function in functions:
             for handler in function.handlers:
-                bot.add_handler(*handler)
+                client.add_handler(*handler)
 
     log.info(
         "%s imported successfully!",
@@ -55,7 +55,7 @@ def load(bot):
     )
 
 
-def reload(bot):
+def reload(client):
     global modules
 
     for index, module in enumerate(modules):
@@ -66,7 +66,7 @@ def reload(bot):
 
         for function in functions:
             for handler in function.handlers:
-                bot.remove_handler(*handler)
+                client.remove_handler(*handler)
 
         module = importlib.reload(module)
         modules[index] = module
@@ -78,7 +78,7 @@ def reload(bot):
 
         for function in functions:
             for handler in function.handlers:
-                bot.add_handler(*handler)
+                client.add_handler(*handler)
 
     log.info(
         "%s reloaded successfully!",

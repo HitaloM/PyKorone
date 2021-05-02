@@ -34,11 +34,10 @@ os.system("clear")
 
 import logging
 import platform
-import re
 
 import pyrogram
 import pyromod
-from pyrogram import Client, filters, idle
+from pyrogram import Client, idle
 from pyrogram.errors import BadRequest
 from pyrogram.session import Session
 from pyromod import listen
@@ -49,10 +48,9 @@ from rich.panel import Panel
 from tortoise import run_async
 
 import korone
-from korone.config import API_HASH, API_ID, SUDOERS, TOKEN, prefix
+from korone.config import API_HASH, API_ID, SUDOERS, TOKEN
 from korone.database import connect_database
-from korone.handlers import COMMANDS_HELP
-from korone.utils import http, modules
+from korone.utils import filters, http, modules
 
 # Logging colorized by rich
 FORMAT = "%(message)s"
@@ -85,25 +83,6 @@ text += f"\n{korone.__license__}"
 text += f"\n{korone.__copyright__}"
 print(Panel.fit(text, border_style="blue", box=box.ASCII))
 
-# monkeypatch
-def int_filter(filter, group: str = "others", action: str = None, *args, **kwargs):
-    COMMANDS_HELP[group]["filters"][filter] = {"action": action or " "}
-    return filters.regex(r"(?i)^{0}(\.|\?|\!)?$".format(filter), *args, **kwargs)
-
-
-def command_filter(
-    command, group: str = "general", action: str = None, *args, **kwargs
-):
-    if command not in COMMANDS_HELP[group]["commands"].keys():
-        COMMANDS_HELP[group]["commands"][command] = {"action": action or ""}
-    prefixes = "".join(prefix)
-    _prefix = f"^[{re.escape(prefixes)}]"
-    return filters.regex(_prefix + command, *args, **kwargs)
-
-
-pyrogram.filters.cmd = command_filter
-pyrogram.filters.int = int_filter
-
 
 # Disable ugly pyrogram notice print
 Session.notice_displayed = True
@@ -115,11 +94,12 @@ async def main():
 
     await client.start()
 
-    # More monkeypatch
+    # Monkeypatch
     client.me = await client.get_me()
     client.ikb = ikb
 
-    # Built-in modules load system
+    # Built-in filters and modules load system
+    filters.load(client)
     modules.load(client)
 
     start_message = f"""<b>PyKorone <code>v{korone.__version__}</code> started...</b>

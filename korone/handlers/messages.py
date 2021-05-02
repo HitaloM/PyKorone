@@ -243,3 +243,12 @@ async def rtcommand(c: Client, m: Message):
 async def sopa_de_macaco(c: Client, m: Message):
     react = random.choice(GODZILLA_REACT)
     await m.reply_sticker(react)
+
+
+@Client.on_message(filters.int(filter=r"hamster", group=GROUP))
+async def hamster(c: Client, m: Message):
+    await c.send_sticker(
+        chat_id=m.chat.id,
+        reply_to_message_id=m.message_id,
+        sticker="CAACAgEAAxkDAAJHomCNz3Z_wkvAXJDK1t6regj-Z7TzAAKGAQACksphRNFqROtXZ1hmHgQ",
+    )
