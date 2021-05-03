@@ -342,7 +342,7 @@ async def poke_image(c: Client, m: Message):
             )
             return
     else:
-        await m.reply_text(f"<b>Error!</b>\n<code>{r.status_code}</code>")
+        await m.reply_text(f"<b>Error!</b> <code>{r.status_code}</code>")
         return
 
     if not sprite_url:
@@ -353,7 +353,7 @@ async def poke_image(c: Client, m: Message):
     if r.status_code == 200:
         sprite_io = r.read()
     else:
-        await m.reply_text(f"<b>Error!</b>\n<code>{r.status_code}</code>")
+        await m.reply_text(f"<b>Error!</b> <code>{r.status_code}</code>")
         return
 
     pk_img = await pokemon_image_sync(sprite_io)
@@ -382,7 +382,7 @@ async def poke_item_image(c: Client, m: Message):
                 f"<code>Error! Tipo \"{' '.join(args[1:])}\" não encontrado!</code>"
             )
     else:
-        await m.reply_text(f"<b>Error!</b>\n<code>{r.status_code}</code>")
+        await m.reply_text(f"<b>Error!</b> <code>{r.status_code}</code>")
         return
 
     if not sprite_url:
@@ -393,7 +393,7 @@ async def poke_item_image(c: Client, m: Message):
     if r.status_code == 200:
         sprite_io = r.read()
     else:
-        await m.reply_text(f"<b>Error!</b>\n<code>{r.status_code}</code>")
+        await m.reply_text(f"<b>Error!</b> <code>{r.status_code}</code>")
         return
 
     pk_img = await pokemon_image_sync(sprite_io)

@@ -148,6 +148,8 @@ async def file_debug(c: Client, m: Message):
 @Client.on_message(filters.cmd(command="cat", action="Imagens aleatórias de gatos."))
 async def cat_photo(c: Client, m: Message):
     r = await http.get("https://api.thecatapi.com/v1/images/search")
+    if not r.status_code == 200:
+        return await m.reply_text(f"<b>Error!</b> <code>{r.status_code}</code>")
     cat = r.json
     await m.reply_photo(cat()[0]["url"], caption="Meow!! (^つωฅ^)")
 
@@ -157,6 +159,8 @@ async def cat_photo(c: Client, m: Message):
 )
 async def dog_photo(c: Client, m: Message):
     r = await http.get("https://random.dog/woof.json")
+    if not r.status_code == 200:
+        return await m.reply_text(f"<b>Error!</b> <code>{r.status_code}</code>")
     dog = r.json()
     await m.reply_photo(dog["url"], caption="Woof!! U・ᴥ・U")
 
@@ -164,6 +168,8 @@ async def dog_photo(c: Client, m: Message):
 @Client.on_message(filters.cmd(command="fox", action="Imagens aleatórias de raposas."))
 async def fox_photo(c: Client, m: Message):
     r = await http.get("https://some-random-api.ml/img/fox")
+    if not r.status_code == 200:
+        return await m.reply_text(f"<b>Error!</b> <code>{r.status_code}</code>")
     fox = r.json()
     await m.reply_photo(fox["link"], caption="What the fox say?")
 
@@ -171,6 +177,8 @@ async def fox_photo(c: Client, m: Message):
 @Client.on_message(filters.cmd(command="panda", action="Imagens aleatórias de pandas."))
 async def panda_photo(c: Client, m: Message):
     r = await http.get("https://some-random-api.ml/img/panda")
+    if not r.status_code == 200:
+        return await m.reply_text(f"<b>Error!</b> <code>{r.status_code}</code>")
     panda = r.json()
     await m.reply_photo(panda["link"], caption="🐼")
 
@@ -180,6 +188,8 @@ async def panda_photo(c: Client, m: Message):
 )
 async def bird_photo(c: Client, m: Message):
     r = await http.get("http://shibe.online/api/birds")
+    if not r.status_code == 200:
+        return await m.reply_text(f"<b>Error!</b> <code>{r.status_code}</code>")
     bird = r.json()
     await m.reply_photo(bird[0], caption="🐦")
 
@@ -189,6 +199,8 @@ async def bird_photo(c: Client, m: Message):
 )
 async def rpanda_photo(c: Client, m: Message):
     r = await http.get("https://some-random-api.ml/img/red_panda")
+    if not r.status_code == 200:
+        return await m.reply_text(f"<b>Error!</b> <code>{r.status_code}</code>")
     rpanda = r.json()
     await m.reply_photo(rpanda["link"], caption="🐼")
 
@@ -255,7 +267,11 @@ async def b64d(c: Client, m: Message):
 
 @Client.on_message(filters.cmd(command="empty", action="Envia uma mensagem vazia."))
 async def empty(c: Client, m: Message):
-    await m.reply_text("\U000e0020")
+    await c.send_message(
+        chat_id=m.chat.id,
+        reply_to_message_id=m.message_id,
+        text="\U000e0020",
+    )
 
 
 @Client.on_message(
@@ -321,7 +337,7 @@ async def spacex_wiki(c: Client, m: Message):
     if r.status_code == 200:
         sx = r.json()
     else:
-        await m.reply_text(f"Erro! <code>{r.status_code}</code>")
+        await m.reply_text(f"<b>Erro!</b> <code>{r.status_code}</code>")
         return
 
     text = f"<u><b>{sx['name']}</b></u> 🚀"
