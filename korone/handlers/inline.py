@@ -94,7 +94,7 @@ async def on_inline(c: Client, q: InlineQuery):
         if len(results) > 0:
             await q.answer(
                 results=results,
-                cache_time=3,
+                cache_time=0,
             )
     elif len(query) != 0 and query[0] == "manga":
         search = " ".join(query[1:])
@@ -149,7 +149,7 @@ async def on_inline(c: Client, q: InlineQuery):
         if len(results) > 0:
             await q.answer(
                 results=results,
-                cache_time=3,
+                cache_time=0,
             )
     elif len(query) != 0 and query[0] == "user":
         user = q.from_user
@@ -173,7 +173,8 @@ async def on_inline(c: Client, q: InlineQuery):
                     description="Exibe informações sobre você.",
                     input_message_content=InputTextMessageContent(text),
                 )
-            ]
+            ],
+            cache_time=0,
         )
     elif len(query) != 0 and query[0] == "sw":
         args = " ".join(query[1:])
@@ -191,6 +192,7 @@ async def on_inline(c: Client, q: InlineQuery):
                         input_message_content=InputTextMessageContent(
                             f"<b>Erro:</b> <code>{e}</code>"
                         ),
+                        cache_time=0,
                     )
                 ]
             )
@@ -235,7 +237,8 @@ async def on_inline(c: Client, q: InlineQuery):
                     description="Veja se o usuário está banido no SpamWatch.",
                     input_message_content=InputTextMessageContent(spamwatch),
                 )
-            ]
+            ],
+            cache_time=0,
         )
     else:
         articles = [
