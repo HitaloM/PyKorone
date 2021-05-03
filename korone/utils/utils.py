@@ -59,3 +59,14 @@ def aiowrap(func: Callable) -> Coroutine:
         return await loop.run_in_executor(executor, pfunc)
 
     return run
+
+
+async def shell_exec(code, treat=True):
+    process = await asyncio.create_subprocess_shell(
+        code, stdout=asyncio.subprocess.PIPE, stderr=asyncio.subprocess.STDOUT
+    )
+
+    stdout = (await process.communicate())[0]
+    if treat:
+        stdout = stdout.decode().strip()
+    return stdout, process

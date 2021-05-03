@@ -29,7 +29,7 @@ start_text = """
 Oi <b>{}</b>!
 
 Eu sou o <b>{}</b>, um bot interativo que adora participar de grupos! ^^
-<b>Versão:</b> <code>{}</code>
+<b>Versão:</b> <code>{} ({})</code>
 """
 
 about_text = """
@@ -56,7 +56,7 @@ async def start(c: Client, m: Message):
     else:
         keyboard = []
         text = (start_text).format(
-            m.from_user.first_name, c.me.first_name, korone.__version__
+            m.from_user.first_name, c.me.first_name, korone.__version__, c.version_code
         )
         if m.chat.type == "private":
             keyboard.append([("📚 Ajuda", "help_cb"), ("ℹ️ Sobre", "about")])
@@ -207,7 +207,7 @@ async def about_c(c: Client, m: Union[Message, CallbackQuery]):
 @Client.on_callback_query(filters.regex("^start_back$"))
 async def start_back(c: Client, m: CallbackQuery):
     text = (start_text).format(
-        m.from_user.first_name, c.me.first_name, korone.__version__
+        m.from_user.first_name, c.me.first_name, korone.__version__, c.version_code
     )
     keyboard = [
         [("📚 Ajuda", "help_cb"), ("ℹ️ Sobre", "about")],

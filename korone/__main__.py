@@ -51,7 +51,7 @@ from tortoise import run_async
 import korone
 from korone.config import API_HASH, API_ID, SUDOERS, TOKEN
 from korone.database import connect_database
-from korone.utils import filters, http, modules
+from korone.utils import filters, http, modules, shell_exec
 
 # Logging colorized by rich
 FORMAT = "%(message)s"
@@ -106,7 +106,10 @@ async def main():
     filters.load(client)
     modules.load(client)
 
-    start_message = f"""<b>PyKorone <code>v{korone.__version__}</code> started...</b>
+    # Saving commit number
+    client.version_code = int((await shell_exec("git rev-list --count HEAD"))[0])
+
+    start_message = f"""<b>PyKorone <code>v{korone.__version__} ({client.version_code})</code> started...</b>
 - <b>Pyrogram:</b> <code>v{pyrogram.__version__}</code>
 - <b>Pyromod:</b> <code>v{pyromod.__version__}</code>
 - <b>Python:</b> <code>v{platform.python_version()}</code>
