@@ -34,6 +34,7 @@ os.system("clear")
 
 import logging
 import platform
+from datetime import datetime, timezone
 
 import pyrogram
 import pyromod
@@ -93,6 +94,9 @@ async def main():
     await connect_database()
 
     await client.start()
+
+    # Save start time (useful for uptime info)
+    client.start_time = datetime.now().replace(tzinfo=timezone.utc)
 
     # Monkeypatch
     client.me = await client.get_me()

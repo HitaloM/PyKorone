@@ -20,13 +20,15 @@ import os
 import platform
 import sys
 import traceback
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import Dict
 
+import humanize
 import kantex
+import psutil
 import pyrogram
 import pyromod
-from kantex.html import Bold, KeyValueItem, Section
+from kantex.html import Bold, Code, KeyValueItem, Section
 from meval import meval
 from pyrogram import Client, filters
 from pyrogram.errors import BadRequest
@@ -259,7 +261,7 @@ async def echo(c: Client, m: Message):
 
 
 @Client.on_message(filters.command("py", prefix) & filters.user(SUDOERS))
-async def dev(c: Client, m: Message):
+async def bot_info(c: Client, m: Message):
     doc = Section(
         "PyKorone Bot",
         KeyValueItem(Bold("Source"), korone.__source__),
@@ -270,6 +272,49 @@ async def dev(c: Client, m: Message):
         KeyValueItem(Bold("KanTeX"), kantex.__version__),
         KeyValueItem(Bold("System"), c.system_version),
     )
+    await m.reply_text(doc, disable_web_page_preview=True)
+
+
+@Client.on_message(filters.command("sysinfo", prefix) & filters.user(SUDOERS))
+async def system_info(c: Client, m: Message):
+    uname = platform.uname()
+
+    # RAM usage
+    vm = psutil.virtual_memory()
+    vm_used = humanize.naturalsize(vm.used, binary=True)
+    vm_total = humanize.naturalsize(vm.total, binary=True)
+
+    # Swap usage
+    sm = psutil.swap_memory()
+    sm_used = humanize.naturalsize(sm.used, binary=True)
+    sm_total = humanize.naturalsize(sm.total, binary=True)
+
+    # CPU
+    cpu_freq = psutil.cpu_freq().current
+    if cpu_freq >= 1000:
+        cpu_freq = f"{round(cpu_freq / 1000, 2)}GHz"
+    else:
+        cpu_freq = f"{round(cpu_freq, 2)}MHz"
+    cpu_usage = (
+        f"{psutil.cpu_percent(interval=1)}% " f"({psutil.cpu_count()}) " f"{cpu_freq}"
+    )
+
+    # Uptime
+    time_now = datetime.now().replace(tzinfo=timezone.utc)
+    uptime = time_now - c.start_time
+
+    doc = Section(
+        "PyKorone System",
+        KeyValueItem(Bold("OS"), Code(uname.system)),
+        KeyValueItem(Bold("Node"), Code(uname.node)),
+        KeyValueItem(Bold("Kernel"), Code(uname.release)),
+        KeyValueItem(Bold("Arch"), Code(uname.machine)),
+        KeyValueItem(Bold("CPU"), Code(cpu_usage)),
+        KeyValueItem(Bold("RAM"), Code(f"{vm_used}/{vm_total}")),
+        KeyValueItem(Bold("Swap"), Code(f"{sm_used}/{sm_total}")),
+        KeyValueItem(Bold("Uptime"), Code(humanize.precisedelta(uptime))),
+    )
+
     await m.reply_text(doc, disable_web_page_preview=True)
 
 
