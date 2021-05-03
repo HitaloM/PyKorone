@@ -35,7 +35,7 @@ from pyrogram.errors import BadRequest
 from pyrogram.types import CallbackQuery, Message
 
 import korone
-from korone.config import OWNER, SUDOERS, prefix
+from korone.config import OWNER, PREFIXES, SUDOERS
 from korone.database import Chats
 from korone.utils import modules
 
@@ -117,7 +117,7 @@ async def _aexec_(c: Client, m: Message):
     await sm.edit_text(output_message)
 
 
-@Client.on_message(filters.command("reboot", prefix) & filters.user(SUDOERS))
+@Client.on_message(filters.command("reboot", PREFIXES) & filters.user(SUDOERS))
 async def restart(c: Client, m: Message):
     await m.reply_text("Reiniciando...")
     args = [sys.executable, "-m", "korone"]
@@ -147,7 +147,7 @@ def parse_commits(log: str) -> Dict:
     return commits
 
 
-@Client.on_message(filters.command("upgrade", prefix) & filters.user(SUDOERS))
+@Client.on_message(filters.command("upgrade", PREFIXES) & filters.user(SUDOERS))
 async def upgrade(c: Client, m: Message):
     sm = await m.reply_text("Verificando...")
     await (await asyncio.create_subprocess_shell("git fetch origin")).communicate()
@@ -196,7 +196,7 @@ async def upgrade_cb(c: Client, cq: CallbackQuery):
         )
 
 
-@Client.on_message(filters.command("shutdown", prefix) & filters.user(OWNER))
+@Client.on_message(filters.command("shutdown", PREFIXES) & filters.user(OWNER))
 async def shutdown(c: Client, m: Message):
     await m.reply_text("Adeus...")
     sys.exit()
@@ -223,7 +223,7 @@ async def broadcast(c: Client, m: Message):
     )
 
 
-@Client.on_message(filters.command("chat", prefix) & filters.user(SUDOERS))
+@Client.on_message(filters.command("chat", PREFIXES) & filters.user(SUDOERS))
 async def chat_info(c: Client, m: Message):
     try:
         chat = await c.get_chat(m.command[1])
@@ -260,7 +260,7 @@ async def echo(c: Client, m: Message):
     await c.send_message(chat_id=chat_id, text=text, **kwargs)
 
 
-@Client.on_message(filters.command("py", prefix) & filters.user(SUDOERS))
+@Client.on_message(filters.command("py", PREFIXES) & filters.user(SUDOERS))
 async def bot_info(c: Client, m: Message):
     doc = Section(
         "PyKorone Bot",
@@ -275,7 +275,7 @@ async def bot_info(c: Client, m: Message):
     await m.reply_text(doc, disable_web_page_preview=True)
 
 
-@Client.on_message(filters.command("sysinfo", prefix) & filters.user(SUDOERS))
+@Client.on_message(filters.command("sysinfo", PREFIXES) & filters.user(SUDOERS))
 async def system_info(c: Client, m: Message):
     uname = platform.uname()
 
@@ -318,7 +318,7 @@ async def system_info(c: Client, m: Message):
     await m.reply_text(doc, disable_web_page_preview=True)
 
 
-@Client.on_message(filters.command("reload", prefix) & filters.user(SUDOERS))
+@Client.on_message(filters.command("reload", PREFIXES) & filters.user(SUDOERS))
 async def modules_reload(c: Client, m: Message):
     sent = await m.reply_text("<b>Reloading modules...</b>")
     first = datetime.now()

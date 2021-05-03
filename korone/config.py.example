@@ -12,7 +12,7 @@ SUDOERS = []
 SUDOERS.append(OWNER)
 
 # Prefixes for commands, e.g: /start and !start
-prefix = ["/", "!"]
+PREFIXES = ["/", "!"]
 
 # SpamWatch API used for automatic bans
 # Get it from https:/t.me/SpamWatchBot

@@ -17,21 +17,49 @@
 import re
 from typing import Callable
 
-from pyrogram import filters
+from pyrogram import Client, filters
+from pyrogram.types import Message
 
-from korone.config import prefix
+from korone.config import PREFIXES
 from korone.handlers import COMMANDS_HELP
 
 
 def load(client):
     def command_filter(
-        command: str, group: str = "general", action: str = None, *args, **kwargs
+        command: str,
+        group: str = "general",
+        action: str = None,
+        flags: int = 0,
+        *args,
+        **kwargs,
     ) -> Callable:
         if command not in COMMANDS_HELP[group]["commands"].keys():
             COMMANDS_HELP[group]["commands"][command] = {"action": action or ""}
-        prefixes = "".join(prefix)
-        _prefix = f"^[{re.escape(prefixes)}]"
-        return filters.regex(_prefix + command, *args, **kwargs)
+        pattern = r"^" + f"[{re.escape(''.join(PREFIXES))}]" + command
+
+        async def func(flt, client: Client, message: Message):
+            value = message.text or message.caption
+
+            if bool(value):
+                command = value.split()[0]
+                if "@" in command:
+                    b = command.split("@")[1]
+                    if b.lower() == client.me.username.lower():
+                        value = (
+                            command.split("@")[0]
+                            + (" " if len(value.split()) > 1 else "")
+                            + " ".join(value.split()[1:])
+                        )
+                    else:
+                        return False
+
+                message.matches = list(flt.p.finditer(value)) or None
+
+            return bool(message.matches)
+
+        return filters.create(
+            func, "RegexFilter", p=re.compile(pattern, flags, *args, **kwargs)
+        )
 
     def int_filter(
         filter: str, group: str = "others", action: str = None, *args, **kwargs
