@@ -92,12 +92,11 @@ async def user_info(c: Client, m: Message):
 
     if user.id == OWNER:
         text += "\n\nEste é meu dono - Eu nunca faria algo contra ele!"
-    else:
-        if user.id in SUDOERS:
-            text += (
-                "\nEssa pessoa é um dos meus usuários sudo! "
-                "Quase tão poderoso quanto meu dono, então cuidado."
-            )
+    elif user.id in SUDOERS:
+        text += (
+            "\n\nEssa pessoa é um dos meus usuários sudo! "
+            "Quase tão poderoso quanto meu dono, então cuidado."
+        )
 
     await m.reply_text(text)
 
