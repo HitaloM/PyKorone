@@ -35,7 +35,10 @@ def load(client):
     ) -> Callable:
         if command not in COMMANDS_HELP[group]["commands"].keys():
             COMMANDS_HELP[group]["commands"][command] = {"action": action or ""}
+
         pattern = r"^" + f"[{re.escape(''.join(PREFIXES))}]" + command
+        if not pattern.endswith(("$", " ")):
+            pattern += "(?:\s|$)"
 
         async def func(flt, client: Client, message: Message):
             value = message.text or message.caption
@@ -58,7 +61,9 @@ def load(client):
             return bool(message.matches)
 
         return filters.create(
-            func, "RegexFilter", p=re.compile(pattern, flags, *args, **kwargs)
+            func,
+            "CommandHandler",
+            p=re.compile(pattern, flags, *args, **kwargs),
         )
 
     def int_filter(
