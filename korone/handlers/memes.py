@@ -22,6 +22,7 @@ from io import BytesIO
 
 from PIL import Image
 from pyrogram import Client, filters
+from pyrogram.errors import BadRequest
 from pyrogram.types import Message
 
 from korone.handlers import COMMANDS_HELP
@@ -120,10 +121,13 @@ async def vapor(c: Client, m: Message):
 
     vaporized_text = "".join(reply)
 
-    if m.reply_to_message:
-        await m.reply_to_message.reply_text(f"{html.escape(vaporized_text)}")
-    else:
-        await m.reply_text(f"{html.escape(vaporized_text)}")
+    try:
+        if m.reply_to_message:
+            await m.reply_to_message.reply_text(f"{html.escape(reply)}")
+        else:
+            await m.reply_text(f"{html.escape(reply)}")
+    except BadRequest:
+        return
 
 
 @Client.on_message(
@@ -148,10 +152,13 @@ async def nekofy(c: Client, m: Message):
     reply = re.sub(r"N([aeiouAEIOU])", r"Ny\1", reply)
     reply = reply.replace("ove", "uv")
 
-    if m.reply_to_message:
-        await m.reply_to_message.reply_text(f"{html.escape(reply)}")
-    else:
-        await m.reply_text(f"{html.escape(reply)}")
+    try:
+        if m.reply_to_message:
+            await m.reply_to_message.reply_text(f"{html.escape(reply)}")
+        else:
+            await m.reply_text(f"{html.escape(reply)}")
+    except BadRequest:
+        return
 
 
 @Client.on_message(
@@ -171,7 +178,10 @@ async def copypasta(c: Client, m: Message):
             return
 
     reply = random.choice(PASTAMOJIS)
-    b_char = random.choice(text).lower()
+    try:
+        b_char = random.choice(text).lower()
+    except BaseException:
+        return
     for owo in text:
         if owo == " ":
             reply += random.choice(PASTAMOJIS)
@@ -184,10 +194,13 @@ async def copypasta(c: Client, m: Message):
             reply += owo.upper() if bool(random.getrandbits(1)) else owo.lower()
     reply += random.choice(PASTAMOJIS)
 
-    if m.reply_to_message:
-        await m.reply_to_message.reply_text(f"{html.escape(reply)}")
-    else:
-        await m.reply_text(f"{html.escape(reply)}")
+    try:
+        if m.reply_to_message:
+            await m.reply_to_message.reply_text(f"{html.escape(reply)}")
+        else:
+            await m.reply_text(f"{html.escape(reply)}")
+    except BadRequest:
+        return
 
 
 @Client.on_message(
@@ -215,10 +228,13 @@ async def mock(c: Client, m: Message):
             reply.append(charac)
     mocked_text = "".join(reply)
 
-    if m.reply_to_message:
-        await m.reply_to_message.reply_text(f"{html.escape(mocked_text)}")
-    else:
-        await m.reply_text(f"{html.escape(mocked_text)}")
+    try:
+        if m.reply_to_message:
+            await m.reply_to_message.reply_text(f"{html.escape(mocked_text)}")
+        else:
+            await m.reply_text(f"{html.escape(mocked_text)}")
+    except BadRequest:
+        return
 
 
 @Client.on_message(
@@ -240,10 +256,13 @@ async def clap(c: Client, m: Message):
     clapped_text = re.sub(" ", " 👏 ", text)
     reply = f"👏 {clapped_text} 👏"
 
-    if m.reply_to_message:
-        await m.reply_to_message.reply_text(f"{html.escape(reply)}")
-    else:
-        await m.reply_text(f"{html.escape(reply)}")
+    try:
+        if m.reply_to_message:
+            await m.reply_to_message.reply_text(f"{html.escape(reply)}")
+        else:
+            await m.reply_text(f"{html.escape(reply)}")
+    except BadRequest:
+        return
 
 
 @Client.on_message(
@@ -266,10 +285,13 @@ async def stretch(c: Client, m: Message):
         r"([aeiouAEIOUａｅｉｏｕＡＥＩＯＵаеиоуюяыэё])", (r"\1" * random.randint(3, 10)), text
     )
 
-    if m.reply_to_message:
-        await m.reply_to_message.reply_text(f"{html.escape(reply)}")
-    else:
-        await m.reply_text(f"{html.escape(reply)}")
+    try:
+        if m.reply_to_message:
+            await m.reply_to_message.reply_text(f"{html.escape(reply)}")
+        else:
+            await m.reply_text(f"{html.escape(reply)}")
+    except BadRequest:
+        return
 
 
 @Client.on_message(

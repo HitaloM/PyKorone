@@ -217,19 +217,35 @@ async def redimg(c: Client, m: Message):
 
 
 @Client.on_message(
-    filters.cmd(command="b64encode (?P<text>.+)", action="Codifique texto em base64.")
+    filters.cmd(
+        command="b64encode(\s(?P<text>.+))?", action="Codifique texto em base64."
+    )
 )
 async def b64e(c: Client, m: Message):
     text = m.matches[0]["text"]
+    if not text:
+        if m.reply_to_message:
+            text = m.reply_to_message.text
+        else:
+            await m.reply_text("Eu preciso de texto...")
+            return
     b64 = base64.b64encode(text.encode("utf-8")).decode()
     await m.reply_text(f"<code>{b64}</code>")
 
 
 @Client.on_message(
-    filters.cmd(command="b64decode (?P<text>.+)", action="Decodifique códigos base64.")
+    filters.cmd(
+        command="b64decode(\s(?P<text>.+))?", action="Decodifique códigos base64."
+    )
 )
 async def b64d(c: Client, m: Message):
     text = m.matches[0]["text"]
+    if not text:
+        if m.reply_to_message:
+            text = m.reply_to_message.text
+        else:
+            await m.reply_text("Eu preciso de texto...")
+            return
     try:
         b64 = base64.b64decode(text).decode("utf-8", "replace")
     except binascii.Error as e:

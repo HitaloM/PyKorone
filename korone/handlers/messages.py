@@ -16,6 +16,7 @@
 
 import html
 import random
+import re
 
 from pyrogram import Client, filters
 from pyrogram.types import Message
@@ -232,11 +233,12 @@ async def rtcommand(c: Client, m: Message):
     if rt_text is None:
         return
 
-    text = f"🔃 <b>{html.escape(m.from_user.first_name)}</b> retweetou:\n\n"
-    text += f"👤 <b>{html.escape(m.reply_to_message.from_user.first_name)}</b>:"
-    text += f" <i>{html.escape(rt_text)}</i>"
+    if not re.match("🔃 .* retweetou:\n\n👤 .*", rt_text):
+        text = f"🔃 <b>{html.escape(m.from_user.first_name)}</b> retweetou:\n\n"
+        text += f"👤 <b>{html.escape(m.reply_to_message.from_user.first_name)}</b>:"
+        text += f" <i>{html.escape(rt_text)}</i>"
 
-    await m.reply_to_message.reply_text(text, disable_web_page_preview=True)
+        await m.reply_to_message.reply_text(text, disable_web_page_preview=True)
 
 
 @Client.on_message(filters.int(filter=r"Sopa de (Macaco|Mamaco)", group=GROUP))
@@ -251,4 +253,13 @@ async def hamster(c: Client, m: Message):
         chat_id=m.chat.id,
         reply_to_message_id=m.message_id,
         sticker="CAACAgEAAxkDAAJHomCNz3Z_wkvAXJDK1t6regj-Z7TzAAKGAQACksphRNFqROtXZ1hmHgQ",
+    )
+
+
+@Client.on_message(filters.int(filter=r"marimbondo", group=GROUP))
+async def marimbondo(c: Client, m: Message):
+    await c.send_sticker(
+        chat_id=m.chat.id,
+        reply_to_message_id=m.message_id,
+        sticker="CAACAgEAAxkBAAJX12CP-xtHmZYkAAGVEZWyD3BNynJ2LQACWAEAAtZ0eESGMNhu53i1Yh4E",
     )
