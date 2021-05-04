@@ -14,16 +14,21 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+import base64
 import html
+from datetime import timedelta
+from urllib.parse import quote
 
 import anilist
+from httpx import TimeoutException
 from jikanpy import AioJikan
 from pyrogram import Client, filters
+from pyrogram.errors import BadRequest
 from pyrogram.types import Message
 
 from korone.handlers import COMMANDS_HELP
 from korone.handlers.utils.image import pokemon_image_sync
-from korone.utils import http
+from korone.utils import http, shell_exec
 
 GROUP = "animes"
 
@@ -398,3 +403,113 @@ async def poke_item_image(c: Client, m: Message):
 
     pk_img = await pokemon_image_sync(sprite_io)
     await m.reply_document(pk_img)
+
+
+@Client.on_message(
+    filters.cmd(
+        command="whatanime (?P<search>.+)",
+        action="Pesquise reversa de animes através de mídias.",
+        group=GROUP,
+    )
+    & filters.reply
+)
+async def whatanime(c: Client, m: Message):
+    if m.reply_to_message.from_user.id == c.me.id:
+        return
+
+    if not m.reply_to_message.media:
+        await m.reply_text("Nenhuma mídia encontrada!")
+        return
+
+    if not (
+        bool(m.reply_to_message.photo)
+        or bool(m.reply_to_message.sticker)
+        or bool(m.reply_to_message.animation)
+        or bool(m.reply_to_message.video)
+    ):
+        await m.reply_text(
+            "Formato de mídia não suportado! "
+            "A mídia deve ser um dos seguintes formatos: "
+            "<b>foto, animação ou vídeo</b>."
+        )
+        return
+
+    media = (
+        m.reply_to_message.photo
+        or m.reply_to_message.sticker
+        or m.reply_to_message.animation
+        or m.reply_to_message.video
+    )
+
+    if (
+        isinstance(media, Video)
+        and bool(media.duration)
+        and ((media.duration) > (1 * 60 + 30))
+    ):
+        await m.reply_text(
+            "Este vídeo é muito longo!",
+        )
+        return
+
+    sent = await m.reply_document(
+        "BQACAgEAAx0ET2XwHwAC5I5gkXqctRyicuw5tKD7L8bgXne6ZQACDAIAAm13kUQKZQexCwh4_h4E",
+        caption="OK Google!",
+    )
+
+    path = await c.download_media(media)
+    file = None
+    with open(path, "rb") as f:
+        file = base64.b64encode(f.read())
+        f.close()
+    try:
+        response = await http.post("https://trace.moe/api/search", data={"image": file})
+    except TimeoutException:
+        await sent.edit_text("A pesquisa excedeu o tempo limite...")
+        return
+
+    results = response.json()["docs"]
+    if isinstance(results, str) or results is None:
+        await sent.edit("Nenhum resultado foi encontrado!")
+        return
+
+    result = results[0]
+
+    anilist_id = result["anilist_id"]
+
+    text = f"<b>{result['title_romaji']}</b>"
+    if bool(result["title_native"]):
+        text += f" (<code>{result['title_native']}</code>)"
+    text += "\n"
+    at = str(timedelta(seconds=result["at"])).split(".", 1)[0].rjust(8, "0")
+    text += f"\n<b>Em:</b> <code>{at}</code>"
+    if bool(result["episode"]):
+        text += f"\n<b>Episódio:</b> <code>{result['episode']}</code>"
+    if bool(result["is_adult"]):
+        text += "\n<b>Adulto:</b> <code>Sim</code>"
+    percent = round(result["similarity"] * 100, 2)
+    text += f"\n<b>Similaridade:</b> <code>{percent}%</code>"
+
+    await sent.edit_media(
+        InputMediaPhoto(
+            f"https://img.anili.st/media/{anilist_id}",
+            text,
+        )
+    )
+    await shell_exec(f"rm {path}")
+
+    try:
+        episode = result["episode"]
+        filename = result["filename"]
+        tokenthumb = result["tokenthumb"]
+        from_time = (
+            str(timedelta(seconds=result["from"])).split(".", 1)[0].rjust(8, "0")
+        )
+        to_time = str(timedelta(seconds=result["to"])).split(".", 1)[0].rjust(8, "0")
+    except BaseException:
+        return await m.reply_text("Não consegui enviar o preview.")
+
+    url = f'https://media.trace.moe/video/{anilist_id}/{quote(filename)}?t={result["at"]}&token={tokenthumb}'
+    try:
+        await m.reply_video(url, caption=f"{from_time} - {to_time}")
+    except BadRequest:
+        return await m.reply_text("Não consegui enviar o preview.")

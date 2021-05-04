@@ -39,3 +39,4 @@ korone/*.session-journal
 # misc
 *.png
 dls/
+korone/downloads/
