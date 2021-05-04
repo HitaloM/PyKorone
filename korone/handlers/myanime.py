@@ -16,19 +16,23 @@
 
 import base64
 import html
+import io
+import os
+import tempfile
 from datetime import timedelta
 from urllib.parse import quote
 
 import anilist
+import async_files
 from httpx import TimeoutException
 from jikanpy import AioJikan
 from pyrogram import Client, filters
 from pyrogram.errors import BadRequest
-from pyrogram.types import Message
+from pyrogram.types import Document, InputMediaPhoto, Message, Video
 
 from korone.handlers import COMMANDS_HELP
 from korone.handlers.utils.image import pokemon_image_sync
-from korone.utils import http, shell_exec
+from korone.utils import http
 
 GROUP = "animes"
 
@@ -407,8 +411,8 @@ async def poke_item_image(c: Client, m: Message):
 
 @Client.on_message(
     filters.cmd(
-        command="whatanime (?P<search>.+)",
-        action="Pesquise reversa de animes através de mídias.",
+        command="whatanime",
+        action="Pesquisa reversa de animes através de mídias.",
         group=GROUP,
     )
     & filters.reply
@@ -421,53 +425,45 @@ async def whatanime(c: Client, m: Message):
         await m.reply_text("Nenhuma mídia encontrada!")
         return
 
-    if not (
-        bool(m.reply_to_message.photo)
-        or bool(m.reply_to_message.sticker)
-        or bool(m.reply_to_message.animation)
-        or bool(m.reply_to_message.video)
-    ):
-        await m.reply_text(
-            "Formato de mídia não suportado! "
-            "A mídia deve ser um dos seguintes formatos: "
-            "<b>foto, animação ou vídeo</b>."
-        )
-        return
-
     media = (
         m.reply_to_message.photo
         or m.reply_to_message.sticker
         or m.reply_to_message.animation
         or m.reply_to_message.video
+        or m.reply_to_message.document
     )
 
-    if (
-        isinstance(media, Video)
-        and bool(media.duration)
-        and ((media.duration) > (1 * 60 + 30))
-    ):
-        await m.reply_text(
-            "Este vídeo é muito longo!",
+    if isinstance(media, Document) or isinstance(media, Video):
+        if bool(media.thumbs) and len(media.thumbs) > 0:
+            media = media.thumbs[0]
+        else:
+            return
+
+    sent = await m.reply_photo(
+        "https://telegra.ph/file/4b479327f02d097a23344.png",
+        caption="Procurando informações no AniList.",
+    )
+
+    with tempfile.TemporaryDirectory() as tempdir:
+        path = await c.download_media(media, file_name=os.path.join(tempdir, "0"))
+        file = None
+        async with async_files.FileIO(path, "rb") as f:
+            file = base64.b64encode(await f.read())
+            await f.close()
+
+    try:
+        r = await http.post("https://trace.moe/api/search", data={"image": file})
+    except TimeoutException:
+        await sent.edit("A pesquisa excedeu o tempo limite...")
+        return
+
+    if not r.status_code == 200:
+        await sent.edit(
+            f"<b>Error:</b> <code>{r.status_code}</code>! Tente novamente mais tarde."
         )
         return
 
-    sent = await m.reply_document(
-        "BQACAgEAAx0ET2XwHwAC5I5gkXqctRyicuw5tKD7L8bgXne6ZQACDAIAAm13kUQKZQexCwh4_h4E",
-        caption="OK Google!",
-    )
-
-    path = await c.download_media(media)
-    file = None
-    with open(path, "rb") as f:
-        file = base64.b64encode(f.read())
-        f.close()
-    try:
-        response = await http.post("https://trace.moe/api/search", data={"image": file})
-    except TimeoutException:
-        await sent.edit_text("A pesquisa excedeu o tempo limite...")
-        return
-
-    results = response.json()["docs"]
+    results = r.json()["docs"]
     if isinstance(results, str) or results is None:
         await sent.edit("Nenhum resultado foi encontrado!")
         return
@@ -480,6 +476,7 @@ async def whatanime(c: Client, m: Message):
     if bool(result["title_native"]):
         text += f" (<code>{result['title_native']}</code>)"
     text += "\n"
+    text += f"<b>ID:</b> <code>{anilist_id}</code>\n"
     at = str(timedelta(seconds=result["at"])).split(".", 1)[0].rjust(8, "0")
     text += f"\n<b>Em:</b> <code>{at}</code>"
     if bool(result["episode"]):
@@ -495,7 +492,6 @@ async def whatanime(c: Client, m: Message):
             text,
         )
     )
-    await shell_exec(f"rm {path}")
 
     try:
         episode = result["episode"]
@@ -508,8 +504,16 @@ async def whatanime(c: Client, m: Message):
     except BaseException:
         return await m.reply_text("Não consegui enviar o preview.")
 
-    url = f'https://media.trace.moe/video/{anilist_id}/{quote(filename)}?t={result["at"]}&token={tokenthumb}'
+    url = f"https://media.trace.moe/video/{anilist_id}/{quote(filename)}?t={result['at']}&token={tokenthumb}&size=l"
+    r = await http.get(url)
+    file = io.BytesIO(r.content)
+    file.name = filename
     try:
-        await m.reply_video(url, caption=f"{from_time} - {to_time}")
+        await c.send_video(
+            m.chat.id,
+            file,
+            caption=f"<code>{from_time}</code> - <code>{to_time}</code>",
+            reply_to_message_id=m.message_id,
+        )
     except BadRequest:
         return await m.reply_text("Não consegui enviar o preview.")
