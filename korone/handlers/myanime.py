@@ -418,9 +418,6 @@ async def poke_item_image(c: Client, m: Message):
     & filters.reply
 )
 async def whatanime(c: Client, m: Message):
-    if m.reply_to_message.from_user.id == c.me.id:
-        return
-
     if not m.reply_to_message.media:
         await m.reply_text("Nenhuma mídia encontrada!")
         return
@@ -436,7 +433,12 @@ async def whatanime(c: Client, m: Message):
     if isinstance(media, Document) or isinstance(media, Video):
         if bool(media.thumbs) and len(media.thumbs) > 0:
             media = media.thumbs[0]
-        else:
+
+        elif (
+            isinstance(media, Video)
+            and bool(media.duration)
+            and ((media.duration) > (1 * 60 + 30))
+        ):
             return
 
     sent = await m.reply_photo(
