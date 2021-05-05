@@ -80,7 +80,7 @@ async def pypi(c: Client, m: Message):
                 pypi_info["summary"],
             )
         )
-        kybaord = None
+        keyboard = None
         if pypi_info["home_page"] and pypi_info["home_page"] != "UNKNOWN":
             keyboard = [[("Página inicial do pacote", pypi_info["home_page"], "url")]]
         await m.reply_text(

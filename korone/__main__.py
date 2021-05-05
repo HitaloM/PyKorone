@@ -18,7 +18,7 @@ import subprocess
 import sys
 
 # Clean Terminal
-subprocess.run("clear")
+subprocess.run("clear", check=True)
 
 # Update requirements
 DGRAY = 'echo -e "\033[1;30m"'
@@ -29,10 +29,10 @@ if "--no-update" not in sys.argv:
     subprocess.run(
         f"{DGRAY}; {sys.executable} -m pip install . -U; {RESET}", shell=True
     )
-    subprocess.run("clear")
+    subprocess.run("clear", check=True)
 
 print("\033[0m")
-subprocess.run("clear")
+subprocess.run("clear", check=True)
 
 import logging
 import platform
