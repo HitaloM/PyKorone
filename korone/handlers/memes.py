@@ -123,9 +123,9 @@ async def vapor(c: Client, m: Message):
 
     try:
         if m.reply_to_message:
-            await m.reply_to_message.reply_text(f"{html.escape(reply)}")
+            await m.reply_to_message.reply_text(f"{html.escape(vaporized_text)}")
         else:
-            await m.reply_text(f"{html.escape(reply)}")
+            await m.reply_text(f"{html.escape(vaporized_text)}")
     except BadRequest:
         return
 

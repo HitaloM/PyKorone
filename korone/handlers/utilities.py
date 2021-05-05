@@ -80,10 +80,9 @@ async def pypi(c: Client, m: Message):
                 pypi_info["summary"],
             )
         )
+        kybaord = None
         if pypi_info["home_page"] and pypi_info["home_page"] != "UNKNOWN":
             keyboard = [[("Página inicial do pacote", pypi_info["home_page"], "url")]]
-        else:
-            keyboard = None
         await m.reply_text(
             message,
             disable_web_page_preview=True,
@@ -91,7 +90,7 @@ async def pypi(c: Client, m: Message):
         )
     else:
         await m.reply_text(
-            f"Não consigo encontrar <b>{text}</b> no pypi (Código retornado foi {r.status_code})",
+            f"Não consegui encontrar <b>{text}</b> no PyPi (<b>Error:</b> <code>{r.status_code}</code>)",
             disable_web_page_preview=True,
         )
     return

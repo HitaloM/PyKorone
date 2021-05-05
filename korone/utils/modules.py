@@ -25,8 +25,6 @@ log = logging.getLogger()
 
 
 def load(client):
-    global modules
-
     files = glob.glob("korone/handlers/*.py")
     files = sorted(files, key=lambda file: file.split("/")[2])
 
@@ -56,8 +54,6 @@ def load(client):
 
 
 def reload(client):
-    global modules
-
     for index, module in enumerate(modules):
         functions = [*filter(callable, module.__dict__.values())]
         functions = [

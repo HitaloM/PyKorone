@@ -192,9 +192,9 @@ async def on_inline(c: Client, q: InlineQuery):
                         input_message_content=InputTextMessageContent(
                             f"<b>Erro:</b> <code>{e}</code>"
                         ),
-                        cache_time=0,
                     )
-                ]
+                ],
+                cache_time=0,
             )
             return
 

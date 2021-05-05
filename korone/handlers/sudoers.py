@@ -266,12 +266,11 @@ async def bot_info(c: Client, m: Message):
     doc = Section(
         "PyKorone Bot",
         KeyValueItem(Bold("Source"), korone.__source__),
-        KeyValueItem(Bold("Korone"), korone.__version__),
+        KeyValueItem(Bold("Korone"), f"{korone.__version__} ({c.version_code})"),
         KeyValueItem(Bold("Pyrogram"), pyrogram.__version__),
         KeyValueItem(Bold("Pyromod"), pyromod.__version__),
         KeyValueItem(Bold("Python"), platform.python_version()),
         KeyValueItem(Bold("KanTeX"), kantex.__version__),
-        KeyValueItem(Bold("System"), c.system_version),
     )
     await m.reply_text(doc, disable_web_page_preview=True)
 
@@ -321,9 +320,9 @@ async def system_info(c: Client, m: Message):
 
 @Client.on_message(filters.cmd("reload") & filters.user(SUDOERS))
 async def modules_reload(c: Client, m: Message):
-    sent = await m.reply_text("<b>Reloading modules...</b>")
+    sent = await m.reply_text("<b>Recarregando módulos...</b>")
     first = datetime.now()
     modules.reload(c)
     second = datetime.now()
     time = (second - first).microseconds / 1000
-    await sent.edit_text(f"<b>All modules reloaded in</b> <code>{time}ms</code>!")
+    await sent.edit_text(f"<b>Módulos recarregados em</b> <code>{time}ms</code>!")

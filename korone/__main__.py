@@ -14,11 +14,11 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-import os
+import subprocess
 import sys
 
 # Clean Terminal
-os.system("clear")
+subprocess.run("clear")
 
 # Update requirements
 DGRAY = 'echo -e "\033[1;30m"'
@@ -26,11 +26,13 @@ RESET = 'echo -e "\033[0m"'
 
 if "--no-update" not in sys.argv:
     print("\033[0;32mUpdating requirements...\033[0m")
-    os.system(f"{DGRAY}; {sys.executable} -m pip install . -U; {RESET}")
-    os.system("clear")
+    subprocess.run(
+        f"{DGRAY}; {sys.executable} -m pip install . -U; {RESET}", shell=True
+    )
+    subprocess.run("clear")
 
 print("\033[0m")
-os.system("clear")
+subprocess.run("clear")
 
 import logging
 import platform

@@ -45,9 +45,10 @@ COMMANDS_HELP[GROUP] = {
 
 
 def t(milliseconds: int) -> str:
-    """
-    Inputs time in milliseconds,
-    to get beautified time, as string.
+    """Inputs time in milliseconds, to get beautified time, as string.
+
+    Arguments:
+        `milliseconds`: time in milliseconds.
     """
     seconds, milliseconds = divmod(int(milliseconds), 1000)
     minutes, seconds = divmod(seconds, 60)
@@ -380,16 +381,10 @@ async def poke_item_image(c: Client, m: Message):
     text = m.matches[0]["search"]
     args = text.split()
 
-    type = "_".join(args[1:]) if len(args) > 1 else "default"
     r = await http.get("https://pokeapi.co/api/v2/item/" + args[0])
     if r.status_code == 200:
         sprites = (r.json())["sprites"]
-        if type in sprites:
-            sprite_url = sprites[type]
-        else:
-            await m.reply_text(
-                f"<code>Error! Tipo \"{' '.join(args[1:])}\" não encontrado!</code>"
-            )
+        sprite_url = sprites["default"]
     else:
         await m.reply_text(f"<b>Error!</b> <code>{r.status_code}</code>")
         return
@@ -430,7 +425,7 @@ async def whatanime(c: Client, m: Message):
         or m.reply_to_message.document
     )
 
-    if isinstance(media, Document) or isinstance(media, Video):
+    if isinstance(media, (Document, Video)):
         if bool(media.thumbs) and len(media.thumbs) > 0:
             media = media.thumbs[0]
 
@@ -443,7 +438,7 @@ async def whatanime(c: Client, m: Message):
 
     sent = await m.reply_photo(
         "https://telegra.ph/file/4b479327f02d097a23344.png",
-        caption="Procurando informações no AniList.",
+        caption="Procurando informações no AniList...",
     )
 
     with tempfile.TemporaryDirectory() as tempdir:
@@ -496,7 +491,6 @@ async def whatanime(c: Client, m: Message):
     )
 
     try:
-        episode = result["episode"]
         filename = result["filename"]
         tokenthumb = result["tokenthumb"]
         from_time = (
