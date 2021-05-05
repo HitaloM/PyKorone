@@ -1,4 +1,8 @@
-# Change Log
+# Changelog
+
+All notable changes to this project will be documented in this file.
+
+The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [1.3.0] - 2021-04-17
 
@@ -42,32 +46,47 @@
 
 ## [1.1.5] - 2021-04-05
 
-- Airing time in the `/airing` command will now show the remaining time to display.
-- Removed HTML tags in the anime/manga search in the inline.
+### Added
+
 - Added the /mcserver command to view information about a Minecraft server.
 - Added `/spacex` command
-- Minor improvements and fixes
+
+### Changed
+
+- Airing time in the `/airing` command will now show the remaining time to display.
+
+### Removed
+
+- Removed HTML tags in the anime/manga search in the inline.
 
 ## [1.1.0] - 2021-03-27
 
+### Added
+
 - Defined useful information in init and importing to the text of the `/about` command.
 - Added license, copyright, Pyrogram version and Korone version in bot startup header.
-- Now using a single httpx session for better performance. (the session closes whenever the bot is shut down)
 - Implemented the `/ytdl` command to download videos and audios from YouTube using youtube-dl.
-- Performance improvements to the `/stickers` command (more noticeable on low-end devices).
-- Fixed bug that resulted in duplicate results in the `/stickers` command.
 - Added the wheel package as a requirement.
 - Added the `/tr` command for text translation using `gpytranslate`.
 - Added command to encode a text with base64 and a command to decode base64.
 - Added a command for sending an empty message.
 - Added a command to generate fake play Store style codes.
+- Added inline commands.
+- New filters have been added. 
+
+### Changed
+
+- Now using a single httpx session for better performance. (the session closes whenever the bot is shut down)
+- Performance improvements to the `/stickers` command (more noticeable on low-end devices).
 - Returning to the old wikipedia command.
 - Texts of the `/pypi` command translated into the language of the bot.
-- Added inline commands.
-- New filters have been added.
-- Code improvements
-- Other fixes
+
+### Fixed
+
+- Fixed bug that resulted in duplicate results in the `/stickers` command.
 
 ## [1.0.0] - 2021-03-24
+
+### Added
 
 - First release
