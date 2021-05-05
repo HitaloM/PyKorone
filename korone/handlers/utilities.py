@@ -14,7 +14,6 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-import asyncio
 import datetime
 import html
 import io
@@ -22,6 +21,7 @@ import random
 import re
 import time
 
+import async_files
 import youtube_dl
 from bs4 import BeautifulSoup as bs
 from duckpy import AsyncClient
@@ -35,7 +35,7 @@ from korone.handlers.utils.image import stickcolorsync
 from korone.handlers.utils.misc import escape_definition
 from korone.handlers.utils.translator import get_tr_lang, tr
 from korone.handlers.utils.ytdl import extract_info
-from korone.utils import http, pretty_size
+from korone.utils import http, pretty_size, shell_exec
 
 GROUP = "utils"
 
@@ -281,8 +281,9 @@ async def cli_ytdl(c, cq: CallbackQuery):
     filename = ydl.prepare_filename(yt)
     ctime = time.time()
     r = await http.get(yt["thumbnail"])
-    with open(f"{ctime}.png", "wb") as f:
-        f.write(r.read())
+    async with async_files.FileIO(f"{ctime}.png", "wb") as f:
+        await f.write(r.read())
+        await f.close()
     if "vid" in data:
         await c.send_chat_action(cid, "upload_video")
         await c.send_video(
@@ -314,8 +315,8 @@ async def cli_ytdl(c, cq: CallbackQuery):
         )
         await c.delete_messages(chat_id=int(cid), message_ids=cq.message.message_id)
     try:
-        await asyncio.create_subprocess_shell(f"rm -rf ./dls/{f_id}")
-        await asyncio.create_subprocess_shell(f"rm ./{ctime}.png")
+        await shell_exec(f"rm -rf ./dls/{f_id}")
+        await shell_exec(f"rm ./{ctime}.png")
     except BaseException:
         return
 
