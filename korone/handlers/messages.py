@@ -238,7 +238,9 @@ async def rtcommand(c: Client, m: Message):
         text += f"👤 <b>{html.escape(m.reply_to_message.from_user.first_name)}</b>:"
         text += f" <i>{html.escape(rt_text)}</i>"
 
-        await m.reply_to_message.reply_text(text, disable_web_page_preview=True)
+        await m.reply_to_message.reply_text(
+            text, disable_web_page_preview=True, disable_notification=True
+        )
 
 
 @Client.on_message(filters.int(filter=r"Sopa de (Macaco|Mamaco)", group=GROUP))
