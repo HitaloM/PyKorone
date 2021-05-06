@@ -137,7 +137,7 @@ async def anilist_anime(c: Client, m: Message):
 @Client.on_message(
     filters.cmd(
         command="airing (?P<search>.+)",
-        action="A próxima transmissão de um anime.",
+        action="Saiba a próxima transmissão de um anime pelo AniList.",
         group=GROUP,
     )
 )
@@ -482,11 +482,14 @@ async def whatanime(c: Client, m: Message):
     percent = round(result["similarity"] * 100, 2)
     text += f"\n<b>Similaridade:</b> <code>{percent}%</code>"
 
+    keyboard = [[("Mais informações", f"https://anilist.co/anime/{anilist_id}", "url")]]
+
     await sent.edit_media(
         InputMediaPhoto(
             f"https://img.anili.st/media/{anilist_id}",
             text,
-        )
+        ),
+        reply_markup=c.ikb(keyboard),
     )
 
     try:
@@ -507,7 +510,10 @@ async def whatanime(c: Client, m: Message):
         await c.send_video(
             m.chat.id,
             file,
-            caption=f"<code>{from_time}</code> - <code>{to_time}</code>",
+            caption=(
+                f"<code>{filename}</code>\n"
+                f"<code>{from_time}</code> - <code>{to_time}</code>"
+            ),
             reply_to_message_id=m.message_id,
         )
     except BadRequest:
