@@ -204,16 +204,15 @@ async def on_inline(c: Client, q: InlineQuery):
             f"https://api.spamwat.ch/banlist/{int(user.id)}",
             headers={"Authorization": f"Bearer {SW_API}"},
         )
-        if r.status_code == 200:
-            sw_ban = r.json()
-            spamwatch = Section(
-                f"{user.mention(html.escape(user.first_name), style='html')}",
-            )
-            if sw_ban:
+        spamwatch = Section(
+            f"{user.mention(html.escape(user.first_name), style='html')}",
+        )
+        sw_ban = r.json()
+        if r.status_code in [200, 404]:
+            if r.status_code == 200:
                 ban_message = sw_ban["message"]
                 if ban_message:
                     ban_message = f'{ban_message[:128]}{"[...]" if len(ban_message) > 128 else ""}'
-            if sw_ban:
                 spamwatch.extend(
                     [
                         SubSection(
@@ -229,15 +228,16 @@ async def on_inline(c: Client, q: InlineQuery):
                         ),
                     ]
                 )
-            else:
-                spamwatch.extend(
-                    [
-                        SubSection(
-                            "SpamWatch",
-                            KeyValueItem(Bold("banned"), Code("False")),
-                        ),
-                    ]
-                )
+            elif r.status_code == 404:
+                if sw_ban:
+                    spamwatch.extend(
+                        [
+                            SubSection(
+                                "SpamWatch",
+                                KeyValueItem(Bold("banned"), Code("False")),
+                            ),
+                        ]
+                    )
             await q.answer(
                 [
                     InlineQueryResultArticle(
