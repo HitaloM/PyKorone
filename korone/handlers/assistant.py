@@ -15,9 +15,9 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import io
+import json
 import random
 
-import rapidjson as json
 import wikipedia
 from pyrogram import Client, filters
 from pyrogram.types import Message

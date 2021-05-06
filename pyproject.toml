@@ -35,9 +35,7 @@ rich = "10.1.0"
 tortoise-orm = "0.17.2"
 Pillow = "8.2.0"
 httpx = {version = "^0.17.1", extras = ["http2"]}
-python-rapidjson = "1.0"
 kantex = "0.2.0"
-spamwatch = "0.3.0"
 meval = "2.5"
 jikanpy = "4.3.2"
 asyncpraw = "7.2.0"
@@ -53,6 +51,8 @@ Pyrogram = "1.2.9"
 duckpy = {git = "https://github.com/HitaloSama/duckpy"}
 pynewton = "1.1.2"
 async-files = "0.4"
+humanize = "3.5.0"
+psutil = "5.8.0"
 
 [tool.poetry.dev-dependencies]
 black = "^21.5b0"

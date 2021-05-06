@@ -19,26 +19,10 @@ from functools import partial, wraps
 from typing import Callable, Coroutine
 
 import httpx
-import spamwatch
-
-from korone.config import SW_API
 
 # unique session of httpx
 timeout = httpx.Timeout(40, pool=None)
 http = httpx.AsyncClient(http2=True, timeout=timeout)
-
-
-# SpamWatch
-spamwatch_api = SW_API
-
-if spamwatch_api == "None":
-    sw = None
-else:
-    try:
-        sw = spamwatch.Client(spamwatch_api)
-    except BaseException:
-        sw = None
-
 
 # Misc
 def pretty_size(size):

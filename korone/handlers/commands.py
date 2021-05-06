@@ -25,10 +25,10 @@ import regex
 from pyrogram import Client, filters
 from pyrogram.types import Message
 
-from korone.config import OWNER, SUDOERS
+from korone.config import OWNER, SUDOERS, SW_API
 from korone.handlers import COMMANDS_HELP
 from korone.handlers.utils.reddit import bodyfetcher, imagefetcher, titlefetcher
-from korone.utils import http, pretty_size, sw
+from korone.utils import http, pretty_size
 
 GROUP = "general"
 
@@ -82,13 +82,14 @@ async def user_info(c: Client, m: Message):
 
     text += f"\nLink de Usuário: {user.mention('link', style='html')}"
 
-    try:
-        spamwatch = sw.get_ban(int(user.id))
-        if spamwatch:
-            text += "\n\nEste usuário está banido no @SpamWatch!"
-            text += f"\nMotivo: <code>{spamwatch.reason}</code>"
-    except BaseException:
-        pass
+    r = await http.get(
+        f"https://api.spamwat.ch/banlist/{int(user.id)}",
+        headers={"Authorization": f"Bearer {SW_API}"},
+    )
+    if r.status_code == 200:
+        ban = r.json()
+        text += "\n\nEste usuário está banido no @SpamWatch!"
+        text += f"\nMotivo: <code>{ban['reason']}</code>"
 
     if user.id == OWNER:
         text += "\n\nEste é meu dono - Eu nunca faria algo contra ele!"

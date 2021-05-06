@@ -15,6 +15,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import html
+from datetime import datetime
 from typing import List
 
 import anilist
@@ -27,8 +28,9 @@ from pyrogram.types import (
     InputTextMessageContent,
 )
 
+from korone.config import SW_API
 from korone.handlers.utils.misc import cleanhtml
-from korone.utils import sw
+from korone.utils import http
 
 
 @Client.on_inline_query()
@@ -198,48 +200,54 @@ async def on_inline(c: Client, q: InlineQuery):
             )
             return
 
-        sw_ban = sw.get_ban(int(user.id))
-        spamwatch = Section(
-            f"{user.mention(html.escape(user.first_name), style='html')}",
+        r = await http.get(
+            f"https://api.spamwat.ch/banlist/{int(user.id)}",
+            headers={"Authorization": f"Bearer {SW_API}"},
         )
-        if sw_ban:
-            ban_message = sw_ban.message
-            if ban_message:
-                ban_message = (
-                    f'{ban_message[:128]}{"[...]" if len(ban_message) > 128 else ""}'
-                )
-        if sw_ban:
-            spamwatch.extend(
-                [
-                    SubSection(
-                        "SpamWatch",
-                        KeyValueItem(Bold("reason"), Code(sw_ban.reason)),
-                        KeyValueItem(Bold("date"), Code(sw_ban.date)),
-                        KeyValueItem(Bold("timestamp"), Code(sw_ban.timestamp)),
-                        KeyValueItem(Bold("admin"), Code(sw_ban.admin)),
-                        KeyValueItem(Bold("message"), Code(ban_message)),
-                    ),
-                ]
+        if r.status_code == 200:
+            sw_ban = r.json()
+            spamwatch = Section(
+                f"{user.mention(html.escape(user.first_name), style='html')}",
             )
-        else:
-            spamwatch.extend(
-                [
-                    SubSection(
-                        "SpamWatch",
-                        KeyValueItem(Bold("banned"), Code("False")),
-                    ),
-                ]
-            )
-        await q.answer(
-            [
-                InlineQueryResultArticle(
-                    title=f"Sobre {html.escape(user.first_name)} - SpamWatch",
-                    description="Veja se o usuário está banido no SpamWatch.",
-                    input_message_content=InputTextMessageContent(spamwatch),
+            if sw_ban:
+                ban_message = sw_ban["message"]
+                if ban_message:
+                    ban_message = f'{ban_message[:128]}{"[...]" if len(ban_message) > 128 else ""}'
+            if sw_ban:
+                spamwatch.extend(
+                    [
+                        SubSection(
+                            "SpamWatch",
+                            KeyValueItem(Bold("reason"), Code(sw_ban["reason"])),
+                            KeyValueItem(
+                                Bold("date"),
+                                Code(datetime.fromtimestamp(sw_ban["date"])),
+                            ),
+                            KeyValueItem(Bold("timestamp"), Code(sw_ban["date"])),
+                            KeyValueItem(Bold("admin"), Code(sw_ban["admin"])),
+                            KeyValueItem(Bold("message"), Code(ban_message)),
+                        ),
+                    ]
                 )
-            ],
-            cache_time=0,
-        )
+            else:
+                spamwatch.extend(
+                    [
+                        SubSection(
+                            "SpamWatch",
+                            KeyValueItem(Bold("banned"), Code("False")),
+                        ),
+                    ]
+                )
+            await q.answer(
+                [
+                    InlineQueryResultArticle(
+                        title=f"Sobre {html.escape(user.first_name)} - SpamWatch",
+                        description="Veja se o usuário está banido no SpamWatch.",
+                        input_message_content=InputTextMessageContent(spamwatch),
+                    )
+                ],
+                cache_time=0,
+            )
     else:
         articles = [
             InlineQueryResultArticle(
