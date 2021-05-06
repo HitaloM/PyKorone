@@ -228,33 +228,44 @@ async def on_ytdl(c: Client, m: Message):
         yt = yt["entries"][0]
     else:
         yt = await extract_info(ydl, rege.group(), download=False)
-    keyb = [
-        [
-            ("💿 Áudio", f'_aud.{yt["id"]}|{m.chat.id}|{user}|{m.message_id}'),
-            ("🎬 Vídeo", f'_vid.{yt["id"]}|{m.chat.id}|{user}|{m.message_id}'),
-        ],
-    ]
     for f in yt["formats"]:
         if f["format_id"] == "140":
-            fsize = f["filesize"] or 0
-    if not fsize > 2147483648:
-        if " - " in yt["title"]:
-            performer, title = yt["title"].rsplit(" - ", 1)
-        else:
-            performer = yt.get("creator") or yt.get("uploader")
-            title = yt["title"]
-        text = f"🎧 <b>{performer}</b> - <i>{title}</i>\n"
-        text += f"💾 <code>{pretty_size(fsize)}</code> (min) | ⏳ <code>{datetime.timedelta(seconds=yt.get('duration'))}</code>"
-        await m.reply_text(text, reply_markup=c.ikb(keyb))
+            afsize = f["filesize"] or 0
+        if f["ext"] == "mp4":
+            vfsize = f["filesize"] or 0
+    keyb = [
+        [
+            ("💿 Áudio", f'_aud.{yt["id"]}|{afsize}|{m.chat.id}|{user}|{m.message_id}'),
+            ("🎬 Vídeo", f'_vid.{yt["id"]}|{vfsize}|{m.chat.id}|{user}|{m.message_id}'),
+        ]
+    ]
+    if " - " in yt["title"]:
+        performer, title = yt["title"].rsplit(" - ", 1)
     else:
-        await m.reply_text("O arquivo é muito grande!")
+        performer = yt.get("creator") or yt.get("uploader")
+        title = yt["title"]
+
+    text = f"🎧 <b>{performer}</b> - <i>{title}</i>\n"
+    text += f"💾 <code>{pretty_size(afsize)}</code> (áudio) / <code>{pretty_size(vfsize)}</code> (vídeo)\n"
+    text += f"⏳ <code>{datetime.timedelta(seconds=yt.get('duration'))}</code>"
+
+    await m.reply_text(text, reply_markup=c.ikb(keyb))
 
 
 @Client.on_callback_query(filters.regex("^(_(vid|aud))"))
 async def cli_ytdl(c, cq: CallbackQuery):
-    data, cid, userid, mid = cq.data.split("|")
+    data, fsize, cid, userid, mid = cq.data.split("|")
     if not cq.from_user.id == int(userid):
         return await cq.answer("Este botão não é para você!", cache_time=60)
+    if int(fsize) > 2147483648:
+        return await cq.answer(
+            (
+                "Desculpe! Não posso baixar esta mídia pois ela "
+                "ultrapassa o limite de 2GBs de upload do Telegram."
+            ),
+            show_alert=True,
+            cache_time=60,
+        )
     vid = re.sub(r"^\_(vid|aud)\.", "", data)
     url = "https://www.youtube.com/watch?v=" + vid
     await cq.message.edit("Baixando...")
@@ -277,7 +288,11 @@ async def cli_ytdl(c, cq: CallbackQuery):
                 "noplaylist": True,
             }
         )
-    yt = await extract_info(ydl, url, download=True)
+    try:
+        yt = await extract_info(ydl, url, download=True)
+    except BaseException as e:
+        await cq.message.edit(f"<b>Error!</b>\n<code>{e}</code>")
+        return
     a = "Enviando..."
     await cq.message.edit(a)
     filename = ydl.prepare_filename(yt)
@@ -319,8 +334,8 @@ async def cli_ytdl(c, cq: CallbackQuery):
     try:
         await shell_exec(f"rm -rf {tempdir}")
         await shell_exec(f"rm ./{ctime}.png")
-    except BaseException as e:
-        return print(e)
+    except BaseException:
+        return
 
 
 @Client.on_message(
