@@ -32,15 +32,7 @@ from kantex.html import Bold, Code, KeyValueItem, Section
 from meval import meval
 from pyrogram import Client, filters
 from pyrogram.errors import BadRequest
-from pyrogram.types import (
-    Animation,
-    CallbackQuery,
-    Document,
-    Message,
-    Photo,
-    Sticker,
-    Video,
-)
+from pyrogram.types import CallbackQuery, Message
 
 import korone
 from korone.config import OWNER, SUDOERS
@@ -222,8 +214,8 @@ async def broadcast(c: Client, m: Message):
         if bool(reply):
             text = reply.text or reply.caption
 
-    if not text:
-        await m.reply_text("Mensagem vazia.")
+    if not (text, reply.sticker):
+        await m.reply_text("Mensagem de anúncio vazia.")
         return
 
     chats = await Chats.all()
