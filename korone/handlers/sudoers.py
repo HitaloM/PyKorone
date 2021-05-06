@@ -211,7 +211,7 @@ async def shutdown(c: Client, m: Message):
 
 
 @Client.on_message(
-    filters.cmd("(broadcast|announcement)(\s((\w+)(\w+)))?") & filters.user(SUDOERS)
+    filters.cmd(r"(broadcast|announcement)(\s((\w+)(\w+)))?") & filters.user(SUDOERS)
 )
 async def broadcast(c: Client, m: Message):
     command = m.text.split()[0]
