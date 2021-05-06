@@ -218,7 +218,7 @@ async def broadcast(c: Client, m: Message):
     text = m.text[len(command) + 1 :]
     reply = m.reply_to_message
 
-    if not len(text):
+    if not text:
         if bool(reply):
             text = reply.text or reply.caption
 
