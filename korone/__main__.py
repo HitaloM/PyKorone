@@ -27,8 +27,10 @@ RESET = 'echo -e "\033[0m"'
 if "--no-update" not in sys.argv:
     print("\033[0;32mUpdating requirements...\033[0m")
     subprocess.run(
-        f"{DGRAY}; {sys.executable} -m pip install . -U; {RESET}", shell=True, 
-    check=True)
+        f"{DGRAY}; {sys.executable} -m pip install . -U; {RESET}",
+        shell=True,
+        check=True,
+    )
     subprocess.run("clear", check=True)
 
 print("\033[0m")

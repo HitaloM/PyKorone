@@ -24,6 +24,7 @@ import httpx
 timeout = httpx.Timeout(40, pool=None)
 http = httpx.AsyncClient(http2=True, timeout=timeout)
 
+
 # Misc
 def pretty_size(size):
     units = ["B", "KB", "MB", "GB"]

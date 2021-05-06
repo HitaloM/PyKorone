@@ -466,7 +466,6 @@ async def whatanime(c: Client, m: Message):
         return
 
     result = results[0]
-
     anilist_id = result["anilist_id"]
 
     text = f"<b>{result['title_romaji']}</b>"
