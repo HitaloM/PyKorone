@@ -198,7 +198,7 @@ async def stickcolor(c: Client, m: Message):
 
 @Client.on_message(
     filters.cmd(
-        command="ytdl(\s(?P<text>.+))?",
+        command=r"ytdl(\s(?P<text>.+))?",
         action="Faça o Korone baixar um vídeo do YouTube e enviar no chat atual.",
         group=GROUP,
     )

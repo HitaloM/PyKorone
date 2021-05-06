@@ -96,7 +96,7 @@ async def neko(c: Client, m: Message):
 
 @Client.on_message(
     filters.cmd(
-        command="vapor(\s(?P<text>.+))?",
+        command=r"vapor(\s(?P<text>.+))?",
         action="Vaporize algo.",
         group=GROUP,
     )
@@ -132,7 +132,7 @@ async def vapor(c: Client, m: Message):
 
 @Client.on_message(
     filters.cmd(
-        command="uwu(\s(?P<text>.+))?",
+        command=r"uwu(\s(?P<text>.+))?",
         action="Nokofique um texto.",
         group=GROUP,
     )
@@ -163,7 +163,7 @@ async def nekofy(c: Client, m: Message):
 
 @Client.on_message(
     filters.cmd(
-        command="cp(\s(?P<text>.+))?",
+        command=r"cp(\s(?P<text>.+))?",
         action="Torne algo em um copypasta.",
         group=GROUP,
     )
@@ -205,7 +205,7 @@ async def copypasta(c: Client, m: Message):
 
 @Client.on_message(
     filters.cmd(
-        command="mock(\s(?P<text>.+))?",
+        command=r"mock(\s(?P<text>.+))?",
         action="Mock um texto.",
         group=GROUP,
     )
@@ -239,7 +239,7 @@ async def mock(c: Client, m: Message):
 
 @Client.on_message(
     filters.cmd(
-        command="clap(\s(?P<text>.+))?",
+        command=r"clap(\s(?P<text>.+))?",
         action="Palmas.",
         group=GROUP,
     )
@@ -267,7 +267,7 @@ async def clap(c: Client, m: Message):
 
 @Client.on_message(
     filters.cmd(
-        command="stretch(\s(?P<text>.+))?",
+        command=r"stretch(\s(?P<text>.+))?",
         action="Estique um texto.",
         group=GROUP,
     )

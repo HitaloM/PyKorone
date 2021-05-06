@@ -38,7 +38,7 @@ def load(client):
 
         pattern = r"^" + f"[{re.escape(''.join(PREFIXES))}]" + command
         if not pattern.endswith(("$", " ")):
-            pattern += "(?:\s|$)"
+            pattern += r"(?:\s|$)"
 
         async def func(flt, client: Client, message: Message):
             value = message.text or message.caption

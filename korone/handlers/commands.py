@@ -53,7 +53,7 @@ async def ping(c: Client, m: Message):
 
 @Client.on_message(
     filters.cmd(
-        command="user(\s(?P<text>.+))?",
+        command=r"user(\s(?P<text>.+))?",
         action="Retorna algumas informações do usuário.",
     )
 )
@@ -207,7 +207,7 @@ async def rpanda_photo(c: Client, m: Message):
 
 @Client.on_message(
     filters.cmd(
-        command="red(?P<type>.)?(\s(?P<search>.+))?",
+        command=r"red(?P<type>.)?(\s(?P<search>.+))?",
         action="Retorna tópicos do Reddit.",
         group=GROUP,
     )
@@ -230,7 +230,7 @@ async def redimg(c: Client, m: Message):
 
 @Client.on_message(
     filters.cmd(
-        command="b64encode(\s(?P<text>.+))?", action="Codifique texto em base64."
+        command=r"b64encode(\s(?P<text>.+))?", action=r"Codifique texto em base64."
     )
 )
 async def b64e(c: Client, m: Message):
@@ -247,7 +247,7 @@ async def b64e(c: Client, m: Message):
 
 @Client.on_message(
     filters.cmd(
-        command="b64decode(\s(?P<text>.+))?", action="Decodifique códigos base64."
+        command=r"b64decode(\s(?P<text>.+))?", action=r"Decodifique códigos base64."
     )
 )
 async def b64d(c: Client, m: Message):
