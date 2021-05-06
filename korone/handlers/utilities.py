@@ -17,8 +17,10 @@
 import datetime
 import html
 import io
+import os
 import random
 import re
+import tempfile
 import time
 
 import async_files
@@ -257,11 +259,12 @@ async def cli_ytdl(c, cq: CallbackQuery):
     url = "https://www.youtube.com/watch?v=" + vid
     await cq.message.edit("Baixando...")
     await cq.answer("Seu pedido é uma ordem... >-<", cache_time=0)
-    f_id = random.randint(1, 9999)
+    with tempfile.TemporaryDirectory() as tempdir:
+        path = os.path.join(tempdir, "ytdl")
     if "vid" in data:
         ydl = youtube_dl.YoutubeDL(
             {
-                "outtmpl": f"dls/{f_id}/%(title)s-%(id)s.%(ext)s",
+                "outtmpl": f"{path}/%(title)s-%(id)s.%(ext)s",
                 "format": "mp4",
                 "noplaylist": True,
             }
@@ -269,7 +272,7 @@ async def cli_ytdl(c, cq: CallbackQuery):
     else:
         ydl = youtube_dl.YoutubeDL(
             {
-                "outtmpl": f"dls/{f_id}/%(title)s-%(id)s.%(ext)s",
+                "outtmpl": f"{path}/%(title)s-%(id)s.%(ext)s",
                 "format": "140",
                 "noplaylist": True,
             }
@@ -314,10 +317,10 @@ async def cli_ytdl(c, cq: CallbackQuery):
         )
         await c.delete_messages(chat_id=int(cid), message_ids=cq.message.message_id)
     try:
-        await shell_exec(f"rm -rf ./dls/{f_id}")
+        await shell_exec(f"rm -rf {tempdir}")
         await shell_exec(f"rm ./{ctime}.png")
-    except BaseException:
-        return
+    except BaseException as e:
+        return print(e)
 
 
 @Client.on_message(
