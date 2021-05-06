@@ -32,7 +32,15 @@ from kantex.html import Bold, Code, KeyValueItem, Section
 from meval import meval
 from pyrogram import Client, filters
 from pyrogram.errors import BadRequest
-from pyrogram.types import CallbackQuery, Message
+from pyrogram.types import (
+    Animation,
+    CallbackQuery,
+    Document,
+    Message,
+    Photo,
+    Sticker,
+    Video,
+)
 
 import korone
 from korone.config import OWNER, SUDOERS
@@ -202,25 +210,65 @@ async def shutdown(c: Client, m: Message):
     sys.exit()
 
 
-@Client.on_message(filters.cmd("(broadcast|announcement) ") & filters.user(SUDOERS))
+@Client.on_message(
+    filters.cmd("(broadcast|announcement)(\s((\w+)(\w+)))?") & filters.user(SUDOERS)
+)
 async def broadcast(c: Client, m: Message):
-    sm = await m.reply_text("Fazendo seu anúncio...")
     command = m.text.split()[0]
     text = m.text[len(command) + 1 :]
+    reply = m.reply_to_message
+
+    if not len(text):
+        if bool(reply):
+            text = reply.text or reply.caption
+
+    if not text:
+        await m.reply_text("Mensagem vazia.")
+        return
+
     chats = await Chats.all()
-    success = []
-    fail = []
-    for chat in chats:
-        try:
-            if await c.send_message(chat.id, text):
+
+    if len(chats) == 0:
+        await m.reply_text("Não possuo grupos na minha database para fazer um anúncio.")
+    else:
+        sm = await m.reply_text("Fazendo anúncio...")
+
+        success = []
+        fail = []
+        for chat in chats:
+            try:
+                if bool(reply):
+                    if reply.animation:
+                        await c.send_animation(chat.id, reply.animation.file_id, text)
+                    elif reply.document:
+                        await c.send_document(
+                            chat.id,
+                            reply.document.file_id,
+                            caption=text,
+                            force_document=True,
+                        )
+                    elif reply.photo:
+                        await c.send_photo(chat.id, reply.photo.file_id, text)
+                    elif reply.video:
+                        await c.send_video(chat.id, reply.video.file_id, text)
+                    elif reply.sticker:
+                        await c.send_sticker(chat.id, reply.sticker.file_id)
+
+                    success.append(chat.id)
+                    continue
+
+                await c.send_message(chat.id, text)
+
                 success.append(chat.id)
-            else:
+            except BaseException as e:
+                print(e)
                 fail.append(chat.id)
-        except BaseException:
-            fail.append(chat.id)
-    await sm.edit_text(
-        f"Anúncio feito com sucesso! Sua mensagem foi enviada em um total de <code>{len(success)}</code> grupos e falhou o envio em <code>{len(fail)}</code> grupos."
-    )
+
+        await sm.edit_text(
+            "Anúncio feito com sucesso! "
+            f"Sua mensagem foi enviada em um total de <code>{len(success)}</code> "
+            f"grupos e falhou o envio em <code>{len(fail)}</code> grupos."
+        )
 
 
 @Client.on_message(filters.cmd("chat (?P<text>.+)") & filters.user(SUDOERS))
