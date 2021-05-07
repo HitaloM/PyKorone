@@ -31,7 +31,7 @@ import pyromod
 from kantex.html import Bold, Code, KeyValueItem, Section
 from meval import meval
 from pyrogram import Client, filters
-from pyrogram.errors import BadRequest
+from pyrogram.errors import BadRequest, FloodWait
 from pyrogram.types import CallbackQuery, Message
 
 import korone
@@ -177,7 +177,8 @@ async def upgrade(c: Client, m: Message):
 
 @Client.on_callback_query(filters.regex("^upgrade") & filters.user(SUDOERS))
 async def upgrade_cb(c: Client, cq: CallbackQuery):
-    await cq.message.edit_text("Atualizando...")
+    await cq.edit_message_reply_markup({})
+    sent = await cq.message.reply_text("Atualizando...")
     proc = await asyncio.create_subprocess_shell(
         "git pull --no-edit",
         stdout=asyncio.subprocess.PIPE,
@@ -185,13 +186,13 @@ async def upgrade_cb(c: Client, cq: CallbackQuery):
     )
     stdout = (await proc.communicate())[0].decode()
     if proc.returncode == 0:
-        await cq.message.edit_text("Reiniciando...")
+        await sent.edit_text("Reiniciando...")
         args = [sys.executable, "-m", "korone"]
         os.execv(sys.executable, args)
     else:
         lines = stdout.split("\n")
         error = "".join(f"<code>{line}</code>\n" for line in lines)
-        await cq.message.edit_text(
+        await sent.edit_text(
             f"Atualização falhou (process exited with {proc.returncode}):\n{error}"
         )
 
@@ -252,8 +253,9 @@ async def broadcast(c: Client, m: Message):
                 await c.send_message(chat.id, text)
 
                 success.append(chat.id)
-            except BaseException as e:
-                print(e)
+            except FloodWait as e:
+                await asyncio.sleep(e.x)
+            except BadRequest:
                 fail.append(chat.id)
 
         await sm.edit_text(
@@ -296,7 +298,7 @@ async def echo(c: Client, m: Message):
         kwargs["reply_to_message_id"] = reply.message_id
     try:
         await m.delete()
-    except BaseException:
+    except BadRequest:
         pass
     await c.send_message(chat_id=chat_id, text=text, **kwargs)
 
