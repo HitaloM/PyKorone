@@ -14,6 +14,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+import asyncio
 import logging
 import platform
 from datetime import datetime, timezone
@@ -29,11 +30,9 @@ from rich import box
 from rich import print as rprint
 from rich.logging import RichHandler
 from rich.panel import Panel
-from tortoise import run_async
 
 import korone
 from korone.config import API_HASH, API_ID, SUDOERS, TOKEN
-from korone.database import connect_database
 from korone.utils import filters, http, modules, shell_exec
 
 # Logging colorized by rich
@@ -73,10 +72,7 @@ rprint(Panel.fit(text, border_style="blue", box=box.ASCII))
 Session.notice_displayed = True
 
 
-# Init client
 async def main():
-    await connect_database()
-
     await client.start()
 
     # Save start time (useful for uptime info)
@@ -114,5 +110,6 @@ async def main():
     log.info("PyKorone stopped... Bye!")
 
 
-if __name__ == "__main__":
-    run_async(main())
+loop = asyncio.get_event_loop()
+
+loop.run_until_complete(main())
