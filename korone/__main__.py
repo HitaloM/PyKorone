@@ -74,10 +74,11 @@ log = logging.getLogger("rich")
 
 client = Client(
     "client",
-    API_ID,
-    API_HASH,
+    api_id=API_ID,
+    api_hash=API_HASH,
     bot_token=TOKEN,
     parse_mode="html",
+    workers=24,
 )
 
 # Beautiful init with rich
@@ -113,20 +114,25 @@ async def main():
     # Saving commit number
     client.version_code = int((await shell_exec("git rev-list --count HEAD"))[0])
 
-    start_message = f"""<b>PyKorone <code>v{korone.__version__} ({client.version_code})</code> started...</b>
-- <b>Pyrogram:</b> <code>v{pyrogram.__version__}</code>
-- <b>Pyromod:</b> <code>v{pyromod.__version__}</code>
-- <b>Python:</b> <code>v{platform.python_version()}</code>
-- <b>System:</b> <code>{client.system_version}</code>
-           """
+    start_message = (
+        f"<b>PyKorone <code>v{korone.__version__} "
+        f"({client.version_code})</code> started...</b>\n"
+        f"- <b>Pyrogram:</b> <code>v{pyrogram.__version__}</code>\n"
+        f"- <b>Pyromod:</b> <code>v{pyromod.__version__}</code>\n"
+        f"- <b>Python:</b> <code>v{platform.python_version()}</code>\n"
+        f"- <b>System:</b> <code>{client.system_version}</code>"
+    )
     try:
         for user in SUDOERS:
             await client.send_message(chat_id=user, text=start_message)
     except BadRequest:
+        log.warning("Unable to send the startup message to the SUDOERS")
         pass
 
     await idle()
     await http.aclose()
+    await client.stop()
+    log.info("PyKorone stopped... Bye!")
 
 
 if __name__ == "__main__":
