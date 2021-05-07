@@ -121,8 +121,6 @@ async def _aexec_(c: Client, m: Message):
 async def restart(c: Client, m: Message):
     await m.reply_text("Reiniciando...")
     args = [sys.executable, "-m", "korone"]
-    if "--no-update" in sys.argv:
-        args.append("--no-update")
     os.execv(sys.executable, args)
 
 

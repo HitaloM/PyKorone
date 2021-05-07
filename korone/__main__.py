@@ -14,28 +14,6 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-import subprocess
-import sys
-
-# Clean Terminal
-subprocess.run("clear", check=True)
-
-# Update requirements
-DGRAY = 'echo -e "\033[1;30m"'
-RESET = 'echo -e "\033[0m"'
-
-if "--no-update" not in sys.argv:
-    print("\033[0;32mUpdating requirements...\033[0m")
-    subprocess.run(
-        f"{DGRAY}; {sys.executable} -m pip install . -U; {RESET}",
-        shell=True,
-        check=True,
-    )
-    subprocess.run("clear", check=True)
-
-print("\033[0m")
-subprocess.run("clear", check=True)
-
 import logging
 import platform
 from datetime import datetime, timezone
@@ -47,7 +25,8 @@ from pyrogram.errors import BadRequest
 from pyrogram.session import Session
 from pyromod import listen
 from pyromod.helpers import ikb
-from rich import box, print
+from rich import box
+from rich import print as rprint
 from rich.logging import RichHandler
 from rich.panel import Panel
 from tortoise import run_async
@@ -87,7 +66,7 @@ text += f"\nKorone v{korone.__version__}"
 text += f"\nPyrogram v{pyrogram.__version__}"
 text += f"\n{korone.__license__}"
 text += f"\n{korone.__copyright__}"
-print(Panel.fit(text, border_style="blue", box=box.ASCII))
+rprint(Panel.fit(text, border_style="blue", box=box.ASCII))
 
 
 # Disable ugly pyrogram notice print
