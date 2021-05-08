@@ -32,7 +32,6 @@ exclude = ["korone/config.py", "korone/client.session", "korone/client.session-j
 python = "^3.7"
 tgcrypto = "1.2.2"
 rich = "10.1.0"
-tortoise-orm = "0.17.2"
 Pillow = "8.2.0"
 httpx = {version = "^0.17.1", extras = ["http2"]}
 kantex = "0.2.0"
