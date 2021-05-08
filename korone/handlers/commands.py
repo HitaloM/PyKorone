@@ -158,11 +158,11 @@ async def cat_photo(c: Client, m: Message):
     filters.cmd(command="dog", action="Imagens aleatórias de cachorros.")
 )
 async def dog_photo(c: Client, m: Message):
-    r = await http.get("https://random.dog/woof.json")
+    r = await http.get("https://dog.ceo/api/breeds/image/random")
     if not r.status_code == 200:
         return await m.reply_text(f"<b>Error!</b> <code>{r.status_code}</code>")
     dog = r.json()
-    await m.reply_photo(dog["url"], caption="Woof!! U・ᴥ・U")
+    await m.reply_photo(dog["message"], caption="Woof!! U・ᴥ・U")
 
 
 @Client.on_message(filters.cmd(command="fox", action="Imagens aleatórias de raposas."))
