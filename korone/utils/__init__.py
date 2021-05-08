@@ -1,3 +1,4 @@
+"""PyKorone utilities."""
 # This file is part of Korone (Telegram Bot)
 # Copyright (C) 2021 AmanoTeam
 

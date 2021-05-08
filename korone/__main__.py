@@ -72,7 +72,7 @@ rprint(Panel.fit(text, border_style="blue", box=box.ASCII))
 Session.notice_displayed = True
 
 
-async def main():
+async def main() -> None:
     await client.start()
 
     # Save start time (useful for uptime info)
@@ -107,9 +107,11 @@ async def main():
     await idle()
     await http.aclose()
     await client.stop()
-    log.info("PyKorone stopped... Bye!")
 
 
-loop = asyncio.get_event_loop()
-
-loop.run_until_complete(main())
+if __name__ == "__main__":
+    try:
+        loop = asyncio.get_event_loop()
+        loop.run_until_complete(main())
+    except KeyboardInterrupt:
+        pass

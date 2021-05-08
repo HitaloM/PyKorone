@@ -35,7 +35,7 @@ def load(client):
             )
             modules.append(module)
         except BaseException:
-            log.error("Failed to import the module: %s", file_name, exc_info=True)
+            log.critical("Failed to import the module: %s", file_name, exc_info=True)
             continue
 
         functions = [*filter(callable, module.__dict__.values())]
@@ -48,8 +48,9 @@ def load(client):
                 client.add_handler(*handler)
 
     log.info(
-        "%s imported successfully!",
-        f"{len(modules)} module{'s' if len(modules) != 1 else ''}",
+        "%s module%s imported successfully!",
+        len(modules),
+        "s" if len(modules) != 1 else "",
     )
 
 
@@ -77,6 +78,7 @@ def reload(client):
                 client.add_handler(*handler)
 
     log.info(
-        "%s reloaded successfully!",
-        f"{len(modules)} module{'s' if len(modules) != 1 else ''}",
+        "%s module%s imported successfully!",
+        len(modules),
+        "s" if len(modules) != 1 else "",
     )
