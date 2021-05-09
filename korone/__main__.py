@@ -14,9 +14,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-import asyncio
 import logging
-from logging.handlers import TimedRotatingFileHandler
 
 import pyrogram
 from pyrogram.session import Session
@@ -62,4 +60,5 @@ if __name__ == "__main__":
     try:
         Korone().run()
     except KeyboardInterrupt:
+        log.warning("Forced stop... Bye!")
         pass

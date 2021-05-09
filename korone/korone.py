@@ -16,6 +16,7 @@
 
 import logging
 import platform
+import sys
 from datetime import datetime, timezone
 
 import pyrogram
@@ -88,6 +89,7 @@ class Korone(Client):
     async def stop(self, *args):
         await http.aclose()
         await super().stop()
+        sys.exit()
         log.info("PyKorone stopped... Bye.")
 
     def is_sudoer(self, user: User) -> bool:
