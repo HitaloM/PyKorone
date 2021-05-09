@@ -15,7 +15,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-__version__ = "1.4.5"
+__version__ = "1.4.7"
 __license__ = "GNU General Public License v3 or later (GPLv3+)"
 __copyright__ = "Copyright (C) 2021 AmanoTeam <https://github.com/AmanoTeam>"
 __description__ = "An interactive and multi-function Telegram bot, made especially for Telegram groups."
