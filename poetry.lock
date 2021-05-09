@@ -479,7 +479,7 @@ httpx = {version = ">=0.17.1,<0.18.0", extras = ["http2"]}
 [[package]]
 name = "pyrogram"
 version = "1.2.9"
-description = "Telegram MTProto API Korone Library and Framework for Python"
+description = "Telegram MTProto API Client Library and Framework for Python"
 category = "main"
 optional = false
 python-versions = "~=3.6"

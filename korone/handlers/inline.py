@@ -39,7 +39,7 @@ async def on_inline(c: Korone, q: InlineQuery):
     query = q.query.split()
     if len(query) != 0 and query[0] == "anime":
         search = " ".join(query[1:])
-        async with anilist.AsyncKorone() as client:
+        async with anilist.AsyncClient() as client:
             results_search = await client.search(search, "anime", 10)
             for result in results_search:
                 anime = await client.get(result.id, "anime")
@@ -100,7 +100,7 @@ async def on_inline(c: Korone, q: InlineQuery):
             )
     elif len(query) != 0 and query[0] == "manga":
         search = " ".join(query[1:])
-        async with anilist.AsyncKorone() as client:
+        async with anilist.AsyncClient() as client:
             results_search = await client.search(search, "manga", 10)
             for result in results_search:
                 manga = await client.get(result.id, "manga")
