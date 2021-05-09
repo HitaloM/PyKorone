@@ -22,6 +22,7 @@ import random
 import re
 import tempfile
 import time
+from typing import Dict
 
 import async_files
 import youtube_dl
@@ -42,7 +43,7 @@ from korone.utils import http, pretty_size, shell_exec
 
 GROUP = "utils"
 
-COMMANDS_HELP[GROUP] = {
+COMMANDS_HELP[GROUP]: Dict = {
     "name": "Utilidades",
     "text": "Este é meu módulo de comandos utilitários.",
     "commands": {},

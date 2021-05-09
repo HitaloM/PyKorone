@@ -20,6 +20,7 @@ import html
 import random
 import string
 from datetime import datetime
+from typing import Dict
 
 import regex
 from pyrogram import filters
@@ -33,7 +34,7 @@ from korone.utils import http, pretty_size
 
 GROUP = "general"
 
-COMMANDS_HELP[GROUP] = {
+COMMANDS_HELP[GROUP]: Dict = {
     "name": "Diversos",
     "text": "Este é meu módulo de comandos sem categoria.",
     "commands": {},

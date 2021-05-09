@@ -19,6 +19,7 @@ import html
 import random
 import re
 from io import BytesIO
+from typing import Dict
 
 from PIL import Image
 from pyrogram import filters
@@ -33,7 +34,7 @@ from korone.utils import http
 
 GROUP = "memes"
 
-COMMANDS_HELP[GROUP] = {
+COMMANDS_HELP[GROUP]: Dict = {
     "name": "Memes",
     "text": "Esse é meu módulo de memes, divirta-se.",
     "commands": {},

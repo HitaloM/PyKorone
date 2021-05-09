@@ -15,6 +15,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import random
+from typing import Dict
 
 from pyrogram import filters
 from pyrogram.types import Message
@@ -31,7 +32,7 @@ from korone.korone import Korone
 
 GROUP = "interactions"
 
-COMMANDS_HELP[GROUP] = {
+COMMANDS_HELP[GROUP]: Dict = {
     "name": "Interações",
     "text": "Use estes filtros em resposta a mim.",
     "filters": {},

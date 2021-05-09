@@ -17,6 +17,7 @@
 import html
 import random
 import re
+from typing import Dict
 
 from pyrogram import filters
 from pyrogram.types import Message
@@ -37,7 +38,7 @@ from korone.korone import Korone
 
 GROUP = "messages"
 
-COMMANDS_HELP[GROUP] = {
+COMMANDS_HELP[GROUP]: Dict = {
     "name": "Mensagens",
     "text": "Envie qualquer um desses filtros em algum grupo em que eu estou ou no meu PV.",
     "filters": {},

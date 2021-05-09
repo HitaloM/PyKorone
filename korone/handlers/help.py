@@ -46,39 +46,53 @@ Seu foco é trazer funções legais e um design funcional com tecnologia e criat
 @Korone.on_message(
     filters.cmd(command="start", action="Envia a mensagem de inicialização do bot.")
 )
-async def start(c: Korone, m: Message):
-    query = m.text.split()
-    if len(query) > 1:
-        field = query[1]
-        query = field.split("_")
-        if query[0] == "help":
-            module = query[1]
-            await help_module(c, m, module)
-    else:
-        keyboard = []
+@Korone.on_callback_query(filters.regex("^start_back$"))
+async def start(c: Korone, m: Union[Message, CallbackQuery]):
+    if isinstance(m, Message):
+        query = m.text.split()
+        if len(query) > 1:
+            field = query[1]
+            query = field.split("_")
+            if query[0] == "help":
+                module = query[1]
+                await help_module(c, m, module)
+        else:
+            keyboard = []
+            text = (start_text).format(
+                m.from_user.first_name,
+                c.me.first_name,
+                korone.__version__,
+                c.version_code,
+            )
+            if m.chat.type == "private":
+                keyboard.append([("📚 Ajuda", "help_cb"), ("ℹ️ Sobre", "about")])
+                keyboard.append(
+                    [("👥 Grupo Off-Topic", "https://t.me/SpamTherapy", "url")]
+                )
+            else:
+                keyboard.append(
+                    [
+                        (
+                            "Clique aqui para obter ajuda!",
+                            f"http://t.me/{c.me.username}?start",
+                            "url",
+                        )
+                    ]
+                )
+                text += "\nVocê pode ver tudo que eu posso fazer clicando no botão abaixo..."
+            await m.reply_text(
+                text,
+                reply_markup=c.ikb(keyboard),
+            )
+    if isinstance(m, CallbackQuery):
         text = (start_text).format(
             m.from_user.first_name, c.me.first_name, korone.__version__, c.version_code
         )
-        if m.chat.type == "private":
-            keyboard.append([("📚 Ajuda", "help_cb"), ("ℹ️ Sobre", "about")])
-            keyboard.append([("👥 Grupo Off-Topic", "https://t.me/SpamTherapy", "url")])
-        else:
-            keyboard.append(
-                [
-                    (
-                        "Clique aqui para obter ajuda!",
-                        f"http://t.me/{c.me.username}?start",
-                        "url",
-                    )
-                ]
-            )
-            text += (
-                "\nVocê pode ver tudo que eu posso fazer clicando no botão abaixo..."
-            )
-        await m.reply_text(
-            text,
-            reply_markup=c.ikb(keyboard),
-        )
+        keyboard = [
+            [("📚 Ajuda", "help_cb"), ("ℹ️ Sobre", "about")],
+            [("👥 Grupo Off-Topic", "https://t.me/SpamTherapy", "url")],
+        ]
+        await m.message.edit_text(text, reply_markup=c.ikb(keyboard))
 
 
 @Korone.on_message(filters.cmd("help (?P<module>.+)"))
@@ -189,29 +203,16 @@ async def on_help_callback(c: Korone, cq: CallbackQuery):
 )
 @Korone.on_callback_query(filters.regex("^about$"))
 async def about_c(c: Korone, m: Union[Message, CallbackQuery]):
-    is_callback = isinstance(m, CallbackQuery)
     about = about_text.format(c.me.first_name, korone.__source__, korone.__community__)
-    if is_callback:
+    if isinstance(m, CallbackQuery):
         keyboard = c.ikb([[("⬅️ Voltar", "start_back")]])
         await m.message.edit_text(
             about,
             reply_markup=keyboard,
             disable_web_page_preview=True,
         )
-    elif not is_callback:
+    elif isinstance(m, Message):
         await m.reply_text(
             about,
             disable_web_page_preview=True,
         )
-
-
-@Korone.on_callback_query(filters.regex("^start_back$"))
-async def start_back(c: Korone, m: CallbackQuery):
-    text = (start_text).format(
-        m.from_user.first_name, c.me.first_name, korone.__version__, c.version_code
-    )
-    keyboard = [
-        [("📚 Ajuda", "help_cb"), ("ℹ️ Sobre", "about")],
-        [("👥 Grupo Off-Topic", "https://t.me/SpamTherapy", "url")],
-    ]
-    await m.message.edit_text(text, reply_markup=c.ikb(keyboard))

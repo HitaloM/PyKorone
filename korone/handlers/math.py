@@ -14,6 +14,8 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+from typing import Dict
+
 import pynewton
 from pyrogram import filters
 from pyrogram.types import Message
@@ -23,7 +25,7 @@ from korone.korone import Korone
 
 GROUP = "math"
 
-COMMANDS_HELP[GROUP] = {
+COMMANDS_HELP[GROUP]: Dict = {
     "name": "Matemática",
     "text": "Esse é meu módulo de matemática, cuidado para não perder a cabeça.",
     "commands": {},

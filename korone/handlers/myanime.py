@@ -20,6 +20,7 @@ import io
 import os
 import tempfile
 from datetime import timedelta
+from typing import Dict
 from urllib.parse import quote
 
 import anilist
@@ -37,7 +38,7 @@ from korone.utils import http
 
 GROUP = "animes"
 
-COMMANDS_HELP[GROUP] = {
+COMMANDS_HELP[GROUP]: Dict = {
     "name": "Animes",
     "text": "O módulo dos Otakus!",
     "commands": {},

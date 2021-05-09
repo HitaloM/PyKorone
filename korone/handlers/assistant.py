@@ -17,6 +17,7 @@
 import io
 import json
 import random
+from typing import Dict
 
 import wikipedia
 from pyrogram import filters
@@ -29,7 +30,7 @@ from korone.utils import http
 
 GROUP = "assistant"
 
-COMMANDS_HELP[GROUP] = {
+COMMANDS_HELP[GROUP]: Dict = {
     "name": "Assistências",
     "text": "Meus comandos de assistência, use em grupos ou PV.",
     "filters": {},
