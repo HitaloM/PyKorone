@@ -22,12 +22,13 @@ import string
 from datetime import datetime
 
 import regex
-from pyrogram import Client, filters
+from pyrogram import filters
 from pyrogram.types import Message
 
 from korone.config import OWNER, SUDOERS, SW_API
 from korone.handlers import COMMANDS_HELP
 from korone.handlers.utils.reddit import bodyfetcher, imagefetcher, titlefetcher
+from korone.korone import Korone
 from korone.utils import http, pretty_size
 
 GROUP = "general"
@@ -40,10 +41,10 @@ COMMANDS_HELP[GROUP] = {
 }
 
 
-@Client.on_message(
+@Korone.on_message(
     filters.cmd(command="ping", action="Verifique a velocidade de resposta do korone.")
 )
-async def ping(c: Client, m: Message):
+async def ping(c: Korone, m: Message):
     first = datetime.now()
     sent = await m.reply_text("<b>Pong!</b>")
     second = datetime.now()
@@ -51,13 +52,13 @@ async def ping(c: Client, m: Message):
     await sent.edit_text(f"<b>Pong!</b> <code>{time}</code>ms")
 
 
-@Client.on_message(
+@Korone.on_message(
     filters.cmd(
         command=r"user(\s(?P<text>.+))?",
         action="Retorna algumas informações do usuário.",
     )
 )
-async def user_info(c: Client, m: Message):
+async def user_info(c: Korone, m: Message):
     args = m.matches[0]["text"]
 
     try:
@@ -102,14 +103,14 @@ async def user_info(c: Client, m: Message):
     await m.reply_text(text)
 
 
-@Client.on_message(
+@Korone.on_message(
     filters.cmd(
         command="copy$",
         action="Comando originalmente para testes mas que também é divertido.",
     )
     & filters.reply
 )
-async def copy(c: Client, m: Message):
+async def copy(c: Korone, m: Message):
     try:
         await c.copy_message(
             chat_id=m.chat.id,
@@ -120,14 +121,14 @@ async def copy(c: Client, m: Message):
         return
 
 
-@Client.on_message(
+@Korone.on_message(
     filters.cmd(
         command="file$",
         action="Obtenha informações avançadas de um arquivo.",
     )
     & filters.reply
 )
-async def file_debug(c: Client, m: Message):
+async def file_debug(c: Korone, m: Message):
     doc = m.reply_to_message.document
 
     if not doc:
@@ -145,8 +146,8 @@ async def file_debug(c: Client, m: Message):
     await m.reply_text(text)
 
 
-@Client.on_message(filters.cmd(command="cat", action="Imagens aleatórias de gatos."))
-async def cat_photo(c: Client, m: Message):
+@Korone.on_message(filters.cmd(command="cat", action="Imagens aleatórias de gatos."))
+async def cat_photo(c: Korone, m: Message):
     r = await http.get("https://api.thecatapi.com/v1/images/search")
     if not r.status_code == 200:
         return await m.reply_text(f"<b>Error!</b> <code>{r.status_code}</code>")
@@ -154,10 +155,10 @@ async def cat_photo(c: Client, m: Message):
     await m.reply_photo(cat()[0]["url"], caption="Meow!! (^つωฅ^)")
 
 
-@Client.on_message(
+@Korone.on_message(
     filters.cmd(command="dog", action="Imagens aleatórias de cachorros.")
 )
-async def dog_photo(c: Client, m: Message):
+async def dog_photo(c: Korone, m: Message):
     r = await http.get("https://dog.ceo/api/breeds/image/random")
     if not r.status_code == 200:
         return await m.reply_text(f"<b>Error!</b> <code>{r.status_code}</code>")
@@ -165,8 +166,8 @@ async def dog_photo(c: Client, m: Message):
     await m.reply_photo(dog["message"], caption="Woof!! U・ᴥ・U")
 
 
-@Client.on_message(filters.cmd(command="fox", action="Imagens aleatórias de raposas."))
-async def fox_photo(c: Client, m: Message):
+@Korone.on_message(filters.cmd(command="fox", action="Imagens aleatórias de raposas."))
+async def fox_photo(c: Korone, m: Message):
     r = await http.get("https://some-random-api.ml/img/fox")
     if not r.status_code == 200:
         return await m.reply_text(f"<b>Error!</b> <code>{r.status_code}</code>")
@@ -174,8 +175,8 @@ async def fox_photo(c: Client, m: Message):
     await m.reply_photo(fox["link"], caption="What the fox say?")
 
 
-@Client.on_message(filters.cmd(command="panda", action="Imagens aleatórias de pandas."))
-async def panda_photo(c: Client, m: Message):
+@Korone.on_message(filters.cmd(command="panda", action="Imagens aleatórias de pandas."))
+async def panda_photo(c: Korone, m: Message):
     r = await http.get("https://some-random-api.ml/img/panda")
     if not r.status_code == 200:
         return await m.reply_text(f"<b>Error!</b> <code>{r.status_code}</code>")
@@ -183,10 +184,10 @@ async def panda_photo(c: Client, m: Message):
     await m.reply_photo(panda["link"], caption="🐼")
 
 
-@Client.on_message(
+@Korone.on_message(
     filters.cmd(command="bird", action="Imagens aleatórias de pássaros.")
 )
-async def bird_photo(c: Client, m: Message):
+async def bird_photo(c: Korone, m: Message):
     r = await http.get("http://shibe.online/api/birds")
     if not r.status_code == 200:
         return await m.reply_text(f"<b>Error!</b> <code>{r.status_code}</code>")
@@ -194,10 +195,10 @@ async def bird_photo(c: Client, m: Message):
     await m.reply_photo(bird[0], caption="🐦")
 
 
-@Client.on_message(
+@Korone.on_message(
     filters.cmd(command="redpanda", action="Imagens aleatórias de pandas vermelhos.")
 )
-async def rpanda_photo(c: Client, m: Message):
+async def rpanda_photo(c: Korone, m: Message):
     r = await http.get("https://some-random-api.ml/img/red_panda")
     if not r.status_code == 200:
         return await m.reply_text(f"<b>Error!</b> <code>{r.status_code}</code>")
@@ -205,14 +206,14 @@ async def rpanda_photo(c: Client, m: Message):
     await m.reply_photo(rpanda["link"], caption="🐼")
 
 
-@Client.on_message(
+@Korone.on_message(
     filters.cmd(
         command=r"red(?P<type>.)?(\s(?P<search>.+))?",
         action="Retorna tópicos do Reddit.",
         group=GROUP,
     )
 )
-async def redimg(c: Client, m: Message):
+async def redimg(c: Korone, m: Message):
     fetch_type = m.matches[0]["type"]
     sub = m.matches[0]["search"]
 
@@ -228,12 +229,12 @@ async def redimg(c: Client, m: Message):
         await bodyfetcher(c, m, sub)
 
 
-@Client.on_message(
+@Korone.on_message(
     filters.cmd(
         command=r"b64encode(\s(?P<text>.+))?", action=r"Codifique texto em base64."
     )
 )
-async def b64e(c: Client, m: Message):
+async def b64e(c: Korone, m: Message):
     text = m.matches[0]["text"]
     if not text:
         if m.reply_to_message:
@@ -245,12 +246,12 @@ async def b64e(c: Client, m: Message):
     await m.reply_text(f"<code>{b64}</code>")
 
 
-@Client.on_message(
+@Korone.on_message(
     filters.cmd(
         command=r"b64decode(\s(?P<text>.+))?", action=r"Decodifique códigos base64."
     )
 )
-async def b64d(c: Client, m: Message):
+async def b64d(c: Korone, m: Message):
     text = m.matches[0]["text"]
     if not text:
         if m.reply_to_message:
@@ -265,8 +266,8 @@ async def b64d(c: Client, m: Message):
     await m.reply_text(html.escape(b64))
 
 
-@Client.on_message(filters.cmd(command="empty", action="Envia uma mensagem vazia."))
-async def empty(c: Client, m: Message):
+@Korone.on_message(filters.cmd(command="empty", action="Envia uma mensagem vazia."))
+async def empty(c: Korone, m: Message):
     await c.send_message(
         chat_id=m.chat.id,
         reply_to_message_id=m.message_id,
@@ -274,13 +275,13 @@ async def empty(c: Client, m: Message):
     )
 
 
-@Client.on_message(
+@Korone.on_message(
     filters.cmd(
         command="gencode",
         action="Gera códigos falsos no estilo da Play Store.",
     )
 )
-async def gencode(c: Client, m: Message):
+async def gencode(c: Korone, m: Message):
     count = 10
     length = 23
 
@@ -294,8 +295,8 @@ async def gencode(c: Client, m: Message):
     await m.reply_text(f"<code>{codes_str}</code>")
 
 
-@Client.on_message(filters.regex(r"^s/(.+)?/(.+)?(/.+)?") & filters.reply)
-async def sed(c: Client, m: Message):
+@Korone.on_message(filters.regex(r"^s/(.+)?/(.+)?(/.+)?") & filters.reply)
+async def sed(c: Korone, m: Message):
     exp = regex.split(r"(?<![^\\]\\)/", m.text)
     pattern = exp[1]
     replace_with = exp[2].replace(r"\/", "/")
@@ -330,8 +331,8 @@ async def sed(c: Client, m: Message):
         await m.reply_to_message.reply_text(f"{html.escape(res)}")
 
 
-@Client.on_message(filters.cmd(command="spacex", action="Informações sobre a SpaceX."))
-async def spacex_wiki(c: Client, m: Message):
+@Korone.on_message(filters.cmd(command="spacex", action="Informações sobre a SpaceX."))
+async def spacex_wiki(c: Korone, m: Message):
     r = await http.get("https://api.spacexdata.com/v4/company")
 
     if r.status_code == 200:

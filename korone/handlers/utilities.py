@@ -28,7 +28,7 @@ import youtube_dl
 from bs4 import BeautifulSoup as bs
 from duckpy import AsyncClient
 from httpx._exceptions import TimeoutException
-from pyrogram import Client, filters
+from pyrogram import filters
 from pyrogram.errors import ImageProcessFailed
 from pyrogram.types import CallbackQuery, Message
 
@@ -37,6 +37,7 @@ from korone.handlers.utils.image import stickcolorsync
 from korone.handlers.utils.misc import escape_definition
 from korone.handlers.utils.translator import get_tr_lang, tr
 from korone.handlers.utils.ytdl import extract_info
+from korone.korone import Korone
 from korone.utils import http, pretty_size, shell_exec
 
 GROUP = "utils"
@@ -51,14 +52,14 @@ COMMANDS_HELP[GROUP] = {
 duck = AsyncClient()
 
 
-@Client.on_message(
+@Korone.on_message(
     filters.cmd(
         command="pypi (?P<search>.+)",
         action="Pesquisa de módulos no PyPI.",
         group=GROUP,
     )
 )
-async def pypi(c: Client, m: Message):
+async def pypi(c: Korone, m: Message):
     text = m.matches[0]["search"]
     r = await http.get(f"https://pypi.org/pypi/{text}/json")
     if r.status_code == 200:
@@ -98,14 +99,14 @@ async def pypi(c: Client, m: Message):
     return
 
 
-@Client.on_message(
+@Korone.on_message(
     filters.cmd(
         command="duckgo (?P<search>.+)",
         action="Faça uma pesquisa no DuckDuckGo através do korone.",
         group=GROUP,
     )
 )
-async def duckduckgo(c: Client, m: Message):
+async def duckduckgo(c: Korone, m: Message):
     query = m.matches[0]["search"]
     results = await duck.search(query)
 
@@ -127,14 +128,14 @@ async def duckduckgo(c: Client, m: Message):
     await m.reply_text(text, disable_web_page_preview=True)
 
 
-@Client.on_message(
+@Korone.on_message(
     filters.cmd(
         command="cleanup",
         action="Banir contas excluídas do grupo.",
         group=GROUP,
     )
 )
-async def cleanup(c: Client, m: Message):
+async def cleanup(c: Korone, m: Message):
     member = await c.get_chat_member(chat_id=m.chat.id, user_id=m.from_user.id)
 
     if member.status in ["administrator", "creator"]:
@@ -155,12 +156,12 @@ async def cleanup(c: Client, m: Message):
         await m.reply_text("Bakayarou! Você não é um administrador...")
 
 
-@Client.on_message(
+@Korone.on_message(
     filters.cmd(
         command="stickers (?P<search>.+)", action="Pesquise stickers.", group=GROUP
     )
 )
-async def cb_sticker(c: Client, m: Message):
+async def cb_sticker(c: Korone, m: Message):
     args = m.matches[0]["search"]
 
     r = await http.get("https://combot.org/telegram/stickers?page=1&q=" + args)
@@ -179,14 +180,14 @@ async def cb_sticker(c: Client, m: Message):
     await m.reply_text(text, disable_web_page_preview=True)
 
 
-@Client.on_message(
+@Korone.on_message(
     filters.cmd(
         command="color (?P<hex>.+)",
         action="Obtenha uma cor em sticker através do hex ou nome.",
         group=GROUP,
     )
 )
-async def stickcolor(c: Client, m: Message):
+async def stickcolor(c: Korone, m: Message):
     args = m.matches[0]["hex"]
     color_sticker = await stickcolorsync(args)
 
@@ -198,14 +199,14 @@ async def stickcolor(c: Client, m: Message):
         )
 
 
-@Client.on_message(
+@Korone.on_message(
     filters.cmd(
         command=r"ytdl(\s(?P<text>.+))?",
         action="Faça o Korone baixar um vídeo do YouTube e enviar no chat atual.",
         group=GROUP,
     )
 )
-async def on_ytdl(c: Client, m: Message):
+async def on_ytdl(c: Korone, m: Message):
     args = m.matches[0]["text"]
     user = m.from_user.id
     if m.reply_to_message and m.reply_to_message.text:
@@ -252,7 +253,7 @@ async def on_ytdl(c: Client, m: Message):
     await m.reply_text(text, reply_markup=c.ikb(keyb))
 
 
-@Client.on_callback_query(filters.regex("^(_(vid|aud))"))
+@Korone.on_callback_query(filters.regex("^(_(vid|aud))"))
 async def cli_ytdl(c, cq: CallbackQuery):
     data, fsize, cid, userid, mid = cq.data.split("|")
     if not cq.from_user.id == int(userid):
@@ -338,12 +339,12 @@ async def cli_ytdl(c, cq: CallbackQuery):
         return
 
 
-@Client.on_message(
+@Korone.on_message(
     filters.cmd(
         command="tr", action="Use o Google Tradutor para traduzir textos.", group=GROUP
     )
 )
-async def translate(c: Client, m: Message):
+async def translate(c: Korone, m: Message):
     text = m.text[4:]
     lang = get_tr_lang(text)
 
@@ -377,14 +378,14 @@ async def translate(c: Client, m: Message):
     )
 
 
-@Client.on_message(
+@Korone.on_message(
     filters.cmd(
         command="mcserver (?P<ip>.+)",
         action="Veja algumas informações de servidores de Minecraft Java Edition.",
         group=GROUP,
     )
 )
-async def mcserver(c: Client, m: Message):
+async def mcserver(c: Korone, m: Message):
     args = m.matches[0]["ip"]
     reply = await m.reply_text("Obtendo informações...")
     try:
@@ -425,14 +426,14 @@ async def mcserver(c: Client, m: Message):
     await reply.edit(text, disable_web_page_preview=True)
 
 
-@Client.on_message(
+@Korone.on_message(
     filters.cmd(
         command="print (?P<url>.+)",
         action="Faça uma captura de tela da url dada.",
         group=GROUP,
     )
 )
-async def amn_print(c: Client, m: Message):
+async def amn_print(c: Korone, m: Message):
     args = m.matches[0]["url"]
     reply = await m.reply_text("Printando...")
     try:

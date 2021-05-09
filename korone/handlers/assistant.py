@@ -19,11 +19,12 @@ import json
 import random
 
 import wikipedia
-from pyrogram import Client, filters
+from pyrogram import filters
 from pyrogram.types import Message
 
 from korone.handlers import COMMANDS_HELP
 from korone.handlers.utils.random import CATCH_REACT, HELLO, REACTIONS
+from korone.korone import Korone
 from korone.utils import http
 
 GROUP = "assistant"
@@ -36,16 +37,16 @@ COMMANDS_HELP[GROUP] = {
 }
 
 
-@Client.on_message(filters.int(filter=r"Korone, gire um dado", group=GROUP))
-async def dice(c: Client, m: Message):
+@Korone.on_message(filters.int(filter=r"Korone, gire um dado", group=GROUP))
+async def dice(c: Korone, m: Message):
     dicen = await c.send_dice(m.chat.id, reply_to_message_id=m.message_id)
     await dicen.reply_text(f"O dado parou no número <code>{dicen.dice.value}</code>!")
 
 
-@Client.on_message(
+@Korone.on_message(
     filters.int(filter=r"Korone, remova ele", group=GROUP) & filters.group
 )
-async def kick(c: Client, m: Message):
+async def kick(c: Korone, m: Message):
     member = await c.get_chat_member(chat_id=m.chat.id, user_id=m.from_user.id)
 
     if member.can_restrict_members is False:
@@ -69,43 +70,43 @@ async def kick(c: Client, m: Message):
         await m.reply_text("Bakayarou! Você não é um administrador...")
 
 
-@Client.on_message(filters.int(filter=r"Korone, me d(ê|e) um cookie", group=GROUP))
-async def give_me_cookie(c: Client, m: Message):
+@Korone.on_message(filters.int(filter=r"Korone, me d(ê|e) um cookie", group=GROUP))
+async def give_me_cookie(c: Korone, m: Message):
     await m.reply_text(("*dá um cookie à {}* ^^").format(m.from_user.first_name))
 
 
-@Client.on_message(
+@Korone.on_message(
     filters.int(filter=r"Korone, d(ê|e) um cookie", group=GROUP) & filters.reply
 )
-async def give_cookie(c: Client, m: Message):
+async def give_cookie(c: Korone, m: Message):
     await m.reply_text(
         ("*dá um cookie à {}* ^^").format(m.reply_to_message.from_user.first_name)
     )
 
 
-@Client.on_message(
+@Korone.on_message(
     filters.int(filter=r"Korone, morda( ele)?", group=GROUP) & filters.reply
 )
-async def bite(c: Client, m: Message):
+async def bite(c: Korone, m: Message):
     await m.reply_text(("*morde {}*").format(m.reply_to_message.from_user.first_name))
 
 
-@Client.on_message(filters.int(filter=r"Korone, me abra(c|ç)e", group=GROUP))
-async def hug(c: Client, m: Message):
+@Korone.on_message(filters.int(filter=r"Korone, me abra(c|ç)e", group=GROUP))
+async def hug(c: Korone, m: Message):
     await m.reply_text(("*Abraça com força {}* ^^").format(m.from_user.first_name))
 
 
-@Client.on_message(filters.int(filter=r"Korone, qual o nome dele", group=GROUP))
-async def tell_name(c: Client, m: Message):
+@Korone.on_message(filters.int(filter=r"Korone, qual o nome dele", group=GROUP))
+async def tell_name(c: Korone, m: Message):
     await m.reply_text(
         ("O nome dele é {}! ^^").format(m.reply_to_message.from_user.first_name)
     )
 
 
-@Client.on_message(
+@Korone.on_message(
     filters.int(filter=r"Korone, pegue ele", group=GROUP) & filters.reply
 )
-async def catch_him(c: Client, m: Message):
+async def catch_him(c: Korone, m: Message):
     react = random.choice(CATCH_REACT)
     reaction = random.choice(REACTIONS)
     await m.reply_text(
@@ -113,8 +114,8 @@ async def catch_him(c: Client, m: Message):
     )
 
 
-@Client.on_message(filters.int(filter=r"Korone, (me )?conte uma piada", group=GROUP))
-async def dadjoke(c: Client, m: Message):
+@Korone.on_message(filters.int(filter=r"Korone, (me )?conte uma piada", group=GROUP))
+async def dadjoke(c: Korone, m: Message):
     r = await http.get(
         "https://icanhazdadjoke.com/", headers={"Accept": "application/json"}
     )
@@ -128,8 +129,8 @@ async def dadjoke(c: Client, m: Message):
     await m.reply_text(dad_joke)
 
 
-@Client.on_message(filters.int(filter=r"Korone, (me )?conte um fato", group=GROUP))
-async def useless_fact(c: Client, m: Message):
+@Korone.on_message(filters.int(filter=r"Korone, (me )?conte um fato", group=GROUP))
+async def useless_fact(c: Korone, m: Message):
     r = await http.get(
         "https://uselessfacts.jsph.pl/random.json", params={"language": "en"}
     )
@@ -143,23 +144,23 @@ async def useless_fact(c: Client, m: Message):
     await m.reply_text(fact_text)
 
 
-@Client.on_message(filters.int(filter=r"Korone", group=GROUP))
-async def hello(c: Client, m: Message):
+@Korone.on_message(filters.int(filter=r"Korone", group=GROUP))
+async def hello(c: Korone, m: Message):
     react = random.choice(HELLO)
     await m.reply_text((react).format(m.from_user.first_name))
 
 
-@Client.on_message(
+@Korone.on_message(
     filters.int(filter=r"Korone, qual o link (de convite )?do grupo", group=GROUP)
 )
-async def invitelink(c: Client, m: Message):
+async def invitelink(c: Korone, m: Message):
     chat = m.chat.id if m.chat.username is None else m.chat.username
     link = await c.export_chat_invite_link(chat)
     await m.reply_text(link)
 
 
-@Client.on_message(filters.int(filter=r"Korone, o que é (?P<text>.+)", group=GROUP))
-async def wiki_search(c: Client, m: Message):
+@Korone.on_message(filters.int(filter=r"Korone, o que é (?P<text>.+)", group=GROUP))
+async def wiki_search(c: Korone, m: Message):
     args = m.matches[0]["text"]
     wikipedia.set_lang("pt")
     try:
@@ -194,10 +195,10 @@ async def wiki_search(c: Client, m: Message):
     )
 
 
-@Client.on_message(
+@Korone.on_message(
     filters.int(filter=r"Korone, fa(ç|c)a um dump", group=GROUP) & filters.reply
 )
-async def json_dump(c: Client, m: Message):
+async def json_dump(c: Korone, m: Message):
     dump = json.dumps(json.loads(str(m)), indent=4, ensure_ascii=False)
 
     file = io.BytesIO(dump.encode())
@@ -205,8 +206,8 @@ async def json_dump(c: Client, m: Message):
     await m.reply_document(file)
 
 
-@Client.on_message(filters.int(filter=r"Korone, tudo bem", group=GROUP))
-async def all_right_list(c: Client, m: Message):
+@Korone.on_message(filters.int(filter=r"Korone, tudo bem", group=GROUP))
+async def all_right_list(c: Korone, m: Message):
     try:
         answer = await m.chat.ask(
             "Estou bem! Você está bem?",
@@ -226,10 +227,10 @@ async def all_right_list(c: Client, m: Message):
         return
 
 
-@Client.on_message(
+@Korone.on_message(
     filters.int(filter=r"Korone, voc(e|ê) gosta de caf(é|e)", group=GROUP)
 )
-async def ulikecoffe_list(c: Client, m: Message):
+async def ulikecoffe_list(c: Korone, m: Message):
     try:
         answer = await m.chat.ask(
             "Com certeza! Gostaria de uma xícara de café?",

@@ -15,10 +15,10 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import re
-from typing import Callable
+from typing import Callable, Union
 
 from pyrogram import Client, filters
-from pyrogram.types import Message
+from pyrogram.types import CallbackQuery, Message
 
 from korone.config import PREFIXES
 from korone.handlers import COMMANDS_HELP
@@ -72,5 +72,12 @@ def load(client):
         COMMANDS_HELP[group]["filters"][filter] = {"action": action or " "}
         return filters.regex(r"(?i)^{0}(\.|\?|\!)?$".format(filter), *args, **kwargs)
 
+    async def sudo_filter(_, client, union: Union[CallbackQuery, Message]) -> Callable:
+        user = union.from_user
+        if not user:
+            return False
+        return client.is_sudoer(user)
+
     filters.cmd = command_filter
     filters.int = int_filter
+    filters.sudoer = filters.create(sudo_filter, "FilterSudo")

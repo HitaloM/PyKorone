@@ -21,7 +21,7 @@ from types import ModuleType
 from typing import List
 
 modules: List[ModuleType] = []
-log = logging.getLogger()
+log = logging.getLogger(__name__)
 
 
 def load(client):

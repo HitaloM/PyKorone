@@ -16,7 +16,7 @@
 
 import random
 
-from pyrogram import Client, filters
+from pyrogram import filters
 from pyrogram.types import Message
 
 from korone.handlers import COMMANDS_HELP
@@ -27,6 +27,7 @@ from korone.handlers.utils.random import (
     SHUTUP_REACT,
     WHATSUP_REACT,
 )
+from korone.korone import Korone
 
 GROUP = "interactions"
 
@@ -38,7 +39,7 @@ COMMANDS_HELP[GROUP] = {
 }
 
 
-async def int_reply(c: Client, m: Message, text: str = None):
+async def int_reply(c: Korone, m: Message, text: str = None):
     if m.chat.type == "private":
         await m.reply_text(text)
     elif (
@@ -48,54 +49,54 @@ async def int_reply(c: Client, m: Message, text: str = None):
         return
 
 
-@Client.on_message(
+@Korone.on_message(
     filters.int(filter=r"(Quem te criou|Quem criou voc(ê|e))", group=GROUP)
 )
-async def my_creator(c: Client, m: Message):
+async def my_creator(c: Korone, m: Message):
     await int_reply(c, m, "Meu criador se chama Hitalo ^^")
 
 
-@Client.on_message(filters.int(filter=r"(okay|ok)", group=GROUP))
-async def okay(c: Client, m: Message):
+@Korone.on_message(filters.int(filter=r"(okay|ok)", group=GROUP))
+async def okay(c: Korone, m: Message):
     await int_reply(c, m, "Hmm...")
 
 
-@Client.on_message(filters.int(filter=r"voc(e|ê) gosta de caf(é|e)", group=GROUP))
-async def ulikecoffe(c: Client, m: Message):
+@Korone.on_message(filters.int(filter=r"voc(e|ê) gosta de caf(é|e)", group=GROUP))
+async def ulikecoffe(c: Korone, m: Message):
     await int_reply(c, m, "Com certeza! ☕")
 
 
-@Client.on_message(filters.int(filter=r"(Ol(á|a)|Oi|Eae|Hi|Hello|Hey)", group=GROUP))
-async def hello(c: Client, m: Message):
+@Korone.on_message(filters.int(filter=r"(Ol(á|a)|Oi|Eae|Hi|Hello|Hey)", group=GROUP))
+async def hello(c: Korone, m: Message):
     react = random.choice(HEY_REACT)
     await int_reply(c, m, react.format(m.from_user.first_name))
 
 
-@Client.on_message(
+@Korone.on_message(
     filters.int(
         filter=r"(Est(ú|u)pido|Puta|Vai se f(o|u)der|Idiota|Ot(á|a)rio|Lixo)",
         group=GROUP,
     )
 )
-async def insult(c: Client, m: Message):
+async def insult(c: Korone, m: Message):
     react = random.choice(INSULTS_REACT)
     await int_reply(c, m, react.format(m.from_user.first_name))
 
 
-@Client.on_message(filters.int(filter=r"(como vai|tudo bem)", group=GROUP))
-async def all_right(c: Client, m: Message):
+@Korone.on_message(filters.int(filter=r"(como vai|tudo bem)", group=GROUP))
+async def all_right(c: Korone, m: Message):
     react = random.choice(WHATSUP_REACT)
     await int_reply(c, m, react)
 
 
-@Client.on_message(filters.int(filter=r"(Cala boca|Cala-boca)", group=GROUP))
-async def shutup(c: Client, m: Message):
+@Korone.on_message(filters.int(filter=r"(Cala boca|Cala-boca)", group=GROUP))
+async def shutup(c: Korone, m: Message):
     react = random.choice(SHUTUP_REACT)
     await int_reply(c, m, react)
 
 
-@Client.on_message(~filters.private)
-async def random_react(c: Client, m: Message):
+@Korone.on_message(~filters.private)
+async def random_react(c: Korone, m: Message):
     if m.message_id % 100 != 0:
         m.continue_propagation()
     react = random.choice(RANDOM_REACT)

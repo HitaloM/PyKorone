@@ -26,12 +26,13 @@ import anilist
 import async_files
 from httpx import TimeoutException
 from jikanpy import AioJikan
-from pyrogram import Client, filters
+from pyrogram import filters
 from pyrogram.errors import BadRequest
 from pyrogram.types import Document, InputMediaPhoto, Message, Video
 
 from korone.handlers import COMMANDS_HELP
 from korone.handlers.utils.image import pokemon_image_sync
+from korone.korone import Korone
 from korone.utils import http
 
 GROUP = "animes"
@@ -64,14 +65,14 @@ def t(milliseconds: int) -> str:
     return tmp[:-2]
 
 
-@Client.on_message(
+@Korone.on_message(
     filters.cmd(
         command="anime (?P<search>.+)",
         action="Pesquise informações de animes pelo AniList.",
         group=GROUP,
     )
 )
-async def anilist_anime(c: Client, m: Message):
+async def anilist_anime(c: Korone, m: Message):
     query = m.matches[0]["search"]
 
     if query.isdecimal():
@@ -134,14 +135,14 @@ async def anilist_anime(c: Client, m: Message):
     )
 
 
-@Client.on_message(
+@Korone.on_message(
     filters.cmd(
         command="airing (?P<search>.+)",
         action="Saiba a próxima transmissão de um anime pelo AniList.",
         group=GROUP,
     )
 )
-async def anilist_airing(c: Client, m: Message):
+async def anilist_airing(c: Korone, m: Message):
     query = m.matches[0]["search"]
 
     if query.isdecimal():
@@ -181,14 +182,14 @@ async def anilist_airing(c: Client, m: Message):
         await m.reply_text(text)
 
 
-@Client.on_message(
+@Korone.on_message(
     filters.cmd(
         command="manga (?P<search>.+)",
         action="Pesquise informações de mangás pelo AniList.",
         group=GROUP,
     )
 )
-async def anilist_manga(c: Client, m: Message):
+async def anilist_manga(c: Korone, m: Message):
     query = m.matches[0]["search"]
 
     if query.isdecimal():
@@ -245,14 +246,14 @@ async def anilist_manga(c: Client, m: Message):
     )
 
 
-@Client.on_message(
+@Korone.on_message(
     filters.cmd(
         command="character (?P<search>.+)",
         action="Pesquise informações de personagens pelo AniList.",
         group=GROUP,
     )
 )
-async def anilist_character(c: Client, m: Message):
+async def anilist_character(c: Korone, m: Message):
     query = m.matches[0]["search"]
 
     if query.isdecimal():
@@ -300,14 +301,14 @@ async def anilist_character(c: Client, m: Message):
         await m.reply_text(text, reply_markup=c.ikb(keyboard), parse_mode="combined")
 
 
-@Client.on_message(
+@Korone.on_message(
     filters.cmd(
         command="upcoming",
         action="Veja os próximos animes a serem lançados.",
         group=GROUP,
     )
 )
-async def mal_upcoming(c: Client, m: Message):
+async def mal_upcoming(c: Korone, m: Message):
     async with AioJikan() as jikan:
         pass
 
@@ -325,14 +326,14 @@ async def mal_upcoming(c: Client, m: Message):
     await m.reply_text(upcoming_message)
 
 
-@Client.on_message(
+@Korone.on_message(
     filters.cmd(
         command="(?P<type>.*)pokemon (?P<search>.+)",
         action="Retorna o sprite do Pokémon específico, coloque 'back' antes de 'pokemon' para ver na visão traseira.",
         group=GROUP,
     )
 )
-async def poke_image(c: Client, m: Message):
+async def poke_image(c: Korone, m: Message):
     type = m.matches[0]["type"]
     text = m.matches[0]["search"]
     args = text.split()
@@ -370,14 +371,14 @@ async def poke_image(c: Client, m: Message):
     await m.reply_document(pk_img)
 
 
-@Client.on_message(
+@Korone.on_message(
     filters.cmd(
         command="pokeitem (?P<search>.+)",
         action="Retorna o sprite de um item Pokémon específico.",
         group=GROUP,
     )
 )
-async def poke_item_image(c: Client, m: Message):
+async def poke_item_image(c: Korone, m: Message):
     text = m.matches[0]["search"]
     args = text.split()
 
@@ -404,7 +405,7 @@ async def poke_item_image(c: Client, m: Message):
     await m.reply_document(pk_img)
 
 
-@Client.on_message(
+@Korone.on_message(
     filters.cmd(
         command="whatanime",
         action="Pesquisa reversa de animes através de mídias.",
@@ -412,7 +413,7 @@ async def poke_item_image(c: Client, m: Message):
     )
     & filters.reply
 )
-async def whatanime(c: Client, m: Message):
+async def whatanime(c: Korone, m: Message):
     if not m.reply_to_message.media:
         await m.reply_text("Nenhuma mídia encontrada!")
         return

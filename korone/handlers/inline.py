@@ -20,7 +20,6 @@ from typing import List
 
 import anilist
 from kantex.html import Bold, Code, KeyValueItem, Section, SubSection
-from pyrogram import Client
 from pyrogram.types import (
     InlineQuery,
     InlineQueryResultArticle,
@@ -30,16 +29,17 @@ from pyrogram.types import (
 
 from korone.config import SW_API
 from korone.handlers.utils.misc import cleanhtml
+from korone.korone import Korone
 from korone.utils import http
 
 
-@Client.on_inline_query()
-async def on_inline(c: Client, q: InlineQuery):
+@Korone.on_inline_query()
+async def on_inline(c: Korone, q: InlineQuery):
     results: List[InlineQueryResultPhoto] = []
     query = q.query.split()
     if len(query) != 0 and query[0] == "anime":
         search = " ".join(query[1:])
-        async with anilist.AsyncClient() as client:
+        async with anilist.AsyncKorone() as client:
             results_search = await client.search(search, "anime", 10)
             for result in results_search:
                 anime = await client.get(result.id, "anime")
@@ -100,7 +100,7 @@ async def on_inline(c: Client, q: InlineQuery):
             )
     elif len(query) != 0 and query[0] == "manga":
         search = " ".join(query[1:])
-        async with anilist.AsyncClient() as client:
+        async with anilist.AsyncKorone() as client:
             results_search = await client.search(search, "manga", 10)
             for result in results_search:
                 manga = await client.get(result.id, "manga")

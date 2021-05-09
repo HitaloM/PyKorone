@@ -15,10 +15,11 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import pynewton
-from pyrogram import Client, filters
+from pyrogram import filters
 from pyrogram.types import Message
 
 from korone.handlers import COMMANDS_HELP
+from korone.korone import Korone
 
 GROUP = "math"
 
@@ -32,119 +33,119 @@ COMMANDS_HELP[GROUP] = {
 done_text = "<b>Expressão:</b> <code>{}</code>\n<b>Resultado:</b> <code>{}</code>"
 
 
-@Client.on_message(filters.cmd("simplify (?P<calc>.+)", group=GROUP))
-async def simplify(c: Client, m: Message):
+@Korone.on_message(filters.cmd("simplify (?P<calc>.+)", group=GROUP))
+async def simplify(c: Korone, m: Message):
     calc = m.matches[0]["calc"]
     result = await pynewton.simplify(calc)
     await m.reply_text((done_text).format(calc, result))
 
 
-@Client.on_message(filters.cmd("factor (?P<calc>.+)", group=GROUP))
-async def factor(c: Client, m: Message):
+@Korone.on_message(filters.cmd("factor (?P<calc>.+)", group=GROUP))
+async def factor(c: Korone, m: Message):
     calc = m.matches[0]["calc"]
     result = await pynewton.factor(calc)
     await m.reply_text((done_text).format(calc, result))
 
 
-@Client.on_message(filters.cmd("derive (?P<calc>.+)", group=GROUP))
-async def derive(c: Client, m: Message):
+@Korone.on_message(filters.cmd("derive (?P<calc>.+)", group=GROUP))
+async def derive(c: Korone, m: Message):
     calc = m.matches[0]["calc"]
     result = await pynewton.derive(calc)
     await m.reply_text((done_text).format(calc, result))
 
 
-@Client.on_message(filters.cmd("integrate (?P<calc>.+)", group=GROUP))
-async def integrate(c: Client, m: Message):
+@Korone.on_message(filters.cmd("integrate (?P<calc>.+)", group=GROUP))
+async def integrate(c: Korone, m: Message):
     calc = m.matches[0]["calc"]
     result = await pynewton.integrate(calc)
     await m.reply_text((done_text).format(calc, result))
 
 
-@Client.on_message(filters.cmd("zeroes (?P<calc>.+)", group=GROUP))
-async def zeroes(c: Client, m: Message):
+@Korone.on_message(filters.cmd("zeroes (?P<calc>.+)", group=GROUP))
+async def zeroes(c: Korone, m: Message):
     calc = m.matches[0]["calc"]
     result = await pynewton.zeroes(calc)
     await m.reply_text((done_text).format(calc, result))
 
 
-@Client.on_message(filters.cmd("tangent (?P<calc>.+)", group=GROUP))
-async def tangent(c: Client, m: Message):
+@Korone.on_message(filters.cmd("tangent (?P<calc>.+)", group=GROUP))
+async def tangent(c: Korone, m: Message):
     calc = m.matches[0]["calc"]
     result = await pynewton.tangent(calc)
     await m.reply_text((done_text).format(calc, result))
 
 
-@Client.on_message(filters.cmd("area (?P<calc>.+)", group=GROUP))
-async def area(c: Client, m: Message):
+@Korone.on_message(filters.cmd("area (?P<calc>.+)", group=GROUP))
+async def area(c: Korone, m: Message):
     calc = m.matches[0]["calc"]
     result = await pynewton.area(calc)
     await m.reply_text((done_text).format(calc, result))
 
 
-@Client.on_message(filters.cmd("cos (?P<calc>.+)", group=GROUP))
-async def xos(c: Client, m: Message):
+@Korone.on_message(filters.cmd("cos (?P<calc>.+)", group=GROUP))
+async def xos(c: Korone, m: Message):
     calc = m.matches[0]["calc"]
     result = await pynewton.cos(calc)
     await m.reply_text((done_text).format(calc, result))
 
 
-@Client.on_message(filters.cmd("sin (?P<calc>.+)", group=GROUP))
-async def sin(c: Client, m: Message):
+@Korone.on_message(filters.cmd("sin (?P<calc>.+)", group=GROUP))
+async def sin(c: Korone, m: Message):
     calc = m.matches[0]["calc"]
     result = await pynewton.sin(calc)
     await m.reply_text((done_text).format(calc, result))
 
 
-@Client.on_message(filters.cmd("tan (?P<calc>.+)", group=GROUP))
-async def tan(c: Client, m: Message):
+@Korone.on_message(filters.cmd("tan (?P<calc>.+)", group=GROUP))
+async def tan(c: Korone, m: Message):
     calc = m.matches[0]["calc"]
     result = await pynewton.tan(calc)
     await m.reply_text((done_text).format(calc, result))
 
 
-@Client.on_message(filters.cmd("accos (?P<calc>.+)", group=GROUP))
-async def accos(c: Client, m: Message):
+@Korone.on_message(filters.cmd("accos (?P<calc>.+)", group=GROUP))
+async def accos(c: Korone, m: Message):
     calc = m.matches[0]["calc"]
     result = await pynewton.accos(calc)
     await m.reply_text((done_text).format(calc, result))
 
 
-@Client.on_message(filters.cmd("arcsin (?P<calc>.+)", group=GROUP))
-async def arcsin(c: Client, m: Message):
+@Korone.on_message(filters.cmd("arcsin (?P<calc>.+)", group=GROUP))
+async def arcsin(c: Korone, m: Message):
     calc = m.matches[0]["calc"]
     result = await pynewton.arcsin(calc)
     await m.reply_text((done_text).format(calc, result))
 
 
-@Client.on_message(filters.cmd("arctan (?P<calc>.+)", group=GROUP))
-async def arctan(c: Client, m: Message):
+@Korone.on_message(filters.cmd("arctan (?P<calc>.+)", group=GROUP))
+async def arctan(c: Korone, m: Message):
     calc = m.matches[0]["calc"]
     result = await pynewton.arctan(calc)
     await m.reply_text((done_text).format(calc, result))
 
 
-@Client.on_message(filters.cmd("abs (?P<calc>.+)", group=GROUP))
-async def abs(c: Client, m: Message):
+@Korone.on_message(filters.cmd("abs (?P<calc>.+)", group=GROUP))
+async def abs(c: Korone, m: Message):
     calc = m.matches[0]["calc"]
     result = await pynewton.abs(calc)
     await m.reply_text((done_text).format(calc, result))
 
 
-@Client.on_message(filters.cmd("log (?P<calc>.+)", group=GROUP))
-async def log(c: Client, m: Message):
+@Korone.on_message(filters.cmd("log (?P<calc>.+)", group=GROUP))
+async def log(c: Korone, m: Message):
     calc = m.matches[0]["calc"]
     result = await pynewton.log(calc)
     await m.reply_text((done_text).format(calc, result))
 
 
-@Client.on_message(
+@Korone.on_message(
     filters.cmd(
         command="math",
         action="Manual de uso dos meus comandos matemáticos.",
         group=GROUP,
     )
 )
-async def math_help(c: Client, m: Message):
+async def math_help(c: Korone, m: Message):
     await m.reply_text(
         """
 <b>Resolva problemas matemáticos complexos usando https://newton.now.sh</b>

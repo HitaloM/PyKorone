@@ -21,13 +21,14 @@ import re
 from io import BytesIO
 
 from PIL import Image
-from pyrogram import Client, filters
+from pyrogram import filters
 from pyrogram.errors import BadRequest
 from pyrogram.types import Message
 
 from korone.handlers import COMMANDS_HELP
 from korone.handlers.utils.random import PASTAMOJIS, REACTS, SHRUGS_REACT
 from korone.handlers.utils.thonkify_dict import thonkifydict
+from korone.korone import Korone
 from korone.utils import http
 
 GROUP = "memes"
@@ -40,7 +41,7 @@ COMMANDS_HELP[GROUP] = {
 }
 
 
-async def neko_api(c: Client, m: Message, text: str = None):
+async def neko_api(c: Korone, m: Message, text: str = None):
     NEKO_URL = "https://nekos.life/api/v2/img/"
     r = await http.get(NEKO_URL + text)
     if r.status_code == 200:
@@ -65,43 +66,43 @@ async def neko_api(c: Client, m: Message, text: str = None):
         return
 
 
-@Client.on_message(filters.cmd(command="hug", action="Dar um abraço.", group=GROUP))
-async def hug(c: Client, m: Message):
+@Korone.on_message(filters.cmd(command="hug", action="Dar um abraço.", group=GROUP))
+async def hug(c: Korone, m: Message):
     await neko_api(c, m, "hug")
 
 
-@Client.on_message(
+@Korone.on_message(
     filters.cmd(command="pat", action="Dar uma batida na cabeça.", group=GROUP)
 )
-async def pat(c: Client, m: Message):
+async def pat(c: Korone, m: Message):
     await neko_api(c, m, "pat")
 
 
-@Client.on_message(filters.cmd(command="slap", action="Dar um tapa.", group=GROUP))
-async def slap(c: Client, m: Message):
+@Korone.on_message(filters.cmd(command="slap", action="Dar um tapa.", group=GROUP))
+async def slap(c: Korone, m: Message):
     await neko_api(c, m, "slap")
 
 
-@Client.on_message(
+@Korone.on_message(
     filters.cmd(command="waifu", action="Retorna uma waifu.", group=GROUP)
 )
-async def waifu(c: Client, m: Message):
+async def waifu(c: Korone, m: Message):
     await neko_api(c, m, "waifu")
 
 
-@Client.on_message(filters.cmd(command="neko", action="Retorna uma Neko.", group=GROUP))
-async def neko(c: Client, m: Message):
+@Korone.on_message(filters.cmd(command="neko", action="Retorna uma Neko.", group=GROUP))
+async def neko(c: Korone, m: Message):
     await neko_api(c, m, "neko")
 
 
-@Client.on_message(
+@Korone.on_message(
     filters.cmd(
         command=r"vapor(\s(?P<text>.+))?",
         action="Vaporize algo.",
         group=GROUP,
     )
 )
-async def vapor(c: Client, m: Message):
+async def vapor(c: Korone, m: Message):
     text = m.matches[0]["text"]
     if not text:
         if m.reply_to_message:
@@ -130,14 +131,14 @@ async def vapor(c: Client, m: Message):
         return
 
 
-@Client.on_message(
+@Korone.on_message(
     filters.cmd(
         command=r"uwu(\s(?P<text>.+))?",
         action="Nokofique um texto.",
         group=GROUP,
     )
 )
-async def nekofy(c: Client, m: Message):
+async def nekofy(c: Korone, m: Message):
     args = m.matches[0]["text"]
     if not args:
         if m.reply_to_message:
@@ -161,14 +162,14 @@ async def nekofy(c: Client, m: Message):
         return
 
 
-@Client.on_message(
+@Korone.on_message(
     filters.cmd(
         command=r"cp(\s(?P<text>.+))?",
         action="Torne algo em um copypasta.",
         group=GROUP,
     )
 )
-async def copypasta(c: Client, m: Message):
+async def copypasta(c: Korone, m: Message):
     text = m.matches[0]["text"]
     if not text:
         if m.reply_to_message:
@@ -203,14 +204,14 @@ async def copypasta(c: Client, m: Message):
         return
 
 
-@Client.on_message(
+@Korone.on_message(
     filters.cmd(
         command=r"mock(\s(?P<text>.+))?",
         action="Mock um texto.",
         group=GROUP,
     )
 )
-async def mock(c: Client, m: Message):
+async def mock(c: Korone, m: Message):
     text = m.matches[0]["text"]
     if not text:
         if m.reply_to_message:
@@ -237,14 +238,14 @@ async def mock(c: Client, m: Message):
         return
 
 
-@Client.on_message(
+@Korone.on_message(
     filters.cmd(
         command=r"clap(\s(?P<text>.+))?",
         action="Palmas.",
         group=GROUP,
     )
 )
-async def clap(c: Client, m: Message):
+async def clap(c: Korone, m: Message):
     text = m.matches[0]["text"]
     if not text:
         if m.reply_to_message:
@@ -265,14 +266,14 @@ async def clap(c: Client, m: Message):
         return
 
 
-@Client.on_message(
+@Korone.on_message(
     filters.cmd(
         command=r"stretch(\s(?P<text>.+))?",
         action="Estique um texto.",
         group=GROUP,
     )
 )
-async def stretch(c: Client, m: Message):
+async def stretch(c: Korone, m: Message):
     text = m.matches[0]["text"]
     if not text:
         if m.reply_to_message:
@@ -294,10 +295,10 @@ async def stretch(c: Client, m: Message):
         return
 
 
-@Client.on_message(
+@Korone.on_message(
     filters.cmd(command="shrug", action="Em caso de dúvida.", group=GROUP)
 )
-async def shrug(c: Client, m: Message):
+async def shrug(c: Korone, m: Message):
     react = random.choice(SHRUGS_REACT)
     if m.reply_to_message:
         await m.reply_to_message.reply_text(react)
@@ -305,10 +306,10 @@ async def shrug(c: Client, m: Message):
         await m.reply_text(react)
 
 
-@Client.on_message(
+@Korone.on_message(
     filters.cmd(command="react", action="Reações aleatórias.", group=GROUP)
 )
-async def reacts(c: Client, m: Message):
+async def reacts(c: Korone, m: Message):
     react = random.choice(REACTS)
     if m.reply_to_message:
         await m.reply_to_message.reply_text(react)
@@ -316,14 +317,14 @@ async def reacts(c: Client, m: Message):
         await m.reply_text(react)
 
 
-@Client.on_message(
+@Korone.on_message(
     filters.cmd(
         command="thonkify (?P<text>.+)",
         action="Entenda o que é na prática.",
         group=GROUP,
     )
 )
-async def thonkify(c: Client, m: Message):
+async def thonkify(c: Korone, m: Message):
     if not m.reply_to_message:
         msg = m.text.split(None, 1)[1]
     else:

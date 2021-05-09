@@ -17,11 +17,12 @@
 import html
 from typing import Union
 
-from pyrogram import Client, filters
+from pyrogram import filters
 from pyrogram.types import CallbackQuery, Message
 
 import korone
 from korone.handlers import COMMANDS_HELP
+from korone.korone import Korone
 
 help_text = "Por favor, selecione uma categoria para obter ajuda!"
 
@@ -42,10 +43,10 @@ Seu foco é trazer funções legais e um design funcional com tecnologia e criat
 """
 
 
-@Client.on_message(
+@Korone.on_message(
     filters.cmd(command="start", action="Envia a mensagem de inicialização do bot.")
 )
-async def start(c: Client, m: Message):
+async def start(c: Korone, m: Message):
     query = m.text.split()
     if len(query) > 1:
         field = query[1]
@@ -80,8 +81,8 @@ async def start(c: Client, m: Message):
         )
 
 
-@Client.on_message(filters.cmd("help (?P<module>.+)"))
-async def help_m(c: Client, m: Message):
+@Korone.on_message(filters.cmd("help (?P<module>.+)"))
+async def help_m(c: Korone, m: Message):
     module = m.matches[0]["module"]
     if m.chat.type == "private":
         await help_module(c, m, module)
@@ -94,22 +95,22 @@ async def help_m(c: Client, m: Message):
         )
 
 
-@Client.on_message(
+@Korone.on_message(
     filters.cmd(command="help", action="Envia o menu de ajuda do Bot.")
     & filters.private
 )
-@Client.on_callback_query(filters.regex("^help_cb$"))
-async def help_c(c: Client, m: Union[Message, CallbackQuery]):
+@Korone.on_callback_query(filters.regex("^help_cb$"))
+async def help_c(c: Korone, m: Union[Message, CallbackQuery]):
     await help_module(c, m)
 
 
-@Client.on_message(filters.cmd(command="help") & filters.group)
-async def help_g(c: Client, m: Message):
+@Korone.on_message(filters.cmd(command="help") & filters.group)
+async def help_g(c: Korone, m: Message):
     keyboard = [[("Ir ao PV", f"https://t.me/{c.me.username}/?start", "url")]]
     await m.reply_text("Para obter ajuda vá ao meu PV!", reply_markup=c.ikb(keyboard))
 
 
-async def help_module(c: Client, m: Message, module: str = None):
+async def help_module(c: Korone, m: Message, module: str = None):
     is_query = isinstance(m, CallbackQuery)
     text = ""
     keyboard = []
@@ -177,17 +178,17 @@ async def help_module(c: Client, m: Message, module: str = None):
         await (m.edit_message_text if is_query else m.reply_text)(text, **kwargs)
 
 
-@Client.on_callback_query(filters.regex("help_(?P<module>.+)"))
-async def on_help_callback(c: Client, cq: CallbackQuery):
+@Korone.on_callback_query(filters.regex("help_(?P<module>.+)"))
+async def on_help_callback(c: Korone, cq: CallbackQuery):
     module = cq.matches[0]["module"]
     await help_module(c, cq, module)
 
 
-@Client.on_message(
+@Korone.on_message(
     filters.cmd(command="about", action="Veja algumas informações sobre o bot.")
 )
-@Client.on_callback_query(filters.regex("^about$"))
-async def about_c(c: Client, m: Union[Message, CallbackQuery]):
+@Korone.on_callback_query(filters.regex("^about$"))
+async def about_c(c: Korone, m: Union[Message, CallbackQuery]):
     is_callback = isinstance(m, CallbackQuery)
     about = about_text.format(c.me.first_name, korone.__source__, korone.__community__)
     if is_callback:
@@ -204,8 +205,8 @@ async def about_c(c: Client, m: Union[Message, CallbackQuery]):
         )
 
 
-@Client.on_callback_query(filters.regex("^start_back$"))
-async def start_back(c: Client, m: CallbackQuery):
+@Korone.on_callback_query(filters.regex("^start_back$"))
+async def start_back(c: Korone, m: CallbackQuery):
     text = (start_text).format(
         m.from_user.first_name, c.me.first_name, korone.__version__, c.version_code
     )

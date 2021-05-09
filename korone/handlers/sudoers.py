@@ -30,17 +30,18 @@ import pyrogram
 import pyromod
 from kantex.html import Bold, Code, KeyValueItem, Section
 from meval import meval
-from pyrogram import Client, filters
+from pyrogram import filters
 from pyrogram.errors import BadRequest, FloodWait
 from pyrogram.types import CallbackQuery, Message
 
 import korone
-from korone.config import OWNER, SUDOERS
+from korone.config import OWNER
+from korone.korone import Korone
 from korone.utils import modules
 
 
-@Client.on_message(filters.cmd("(sh(eel)?|term(inal)?) ") & filters.user(OWNER))
-async def on_terminal_m(c: Client, m: Message):
+@Korone.on_message(filters.cmd("(sh(eel)?|term(inal)?) ") & filters.user(OWNER))
+async def on_terminal_m(c: Korone, m: Message):
     command = m.text.split()[0]
     code = m.text[len(command) + 1 :]
     sm = await m.reply_text("Running...")
@@ -65,8 +66,8 @@ async def on_terminal_m(c: Client, m: Message):
     await sm.edit_text(output_message)
 
 
-@Client.on_message(filters.cmd("ev(al)? ") & filters.user(SUDOERS))
-async def on_eval_m(c: Client, m: Message):
+@Korone.on_message(filters.sudoer & filters.cmd("ev(al)? "))
+async def on_eval_m(c: Korone, m: Message):
     command = m.text.split()[0]
     eval_code = m.text[len(command) + 1 :]
     sm = await m.reply_text("Running...")
@@ -93,13 +94,13 @@ async def on_eval_m(c: Client, m: Message):
     await sm.edit_text(output_message)
 
 
-@Client.on_message(filters.cmd("ex(ec(ute)?)? ") & filters.user(SUDOERS))
-async def on_execute_m(c: Client, m: Message):
+@Korone.on_message(filters.sudoer & filters.cmd("ex(ec(ute)?)? "))
+async def on_execute_m(c: Korone, m: Message):
     command = m.text.split()[0]
     code = m.text[len(command) + 1 :]
     sm = await m.reply_text("Running...")
     function = """
-async def _aexec_(c: Client, m: Message):
+async def _aexec_(c: Korone, m: Message):
     """
     for line in code.split("\n"):
         function += f"\n    {line}"
@@ -116,8 +117,8 @@ async def _aexec_(c: Client, m: Message):
     await sm.edit_text(output_message)
 
 
-@Client.on_message(filters.cmd("reboot") & filters.user(SUDOERS))
-async def restart(c: Client, m: Message):
+@Korone.on_message(filters.sudoer & filters.cmd("reboot"))
+async def restart(c: Korone, m: Message):
     await m.reply_text("Reiniciando...")
     args = [sys.executable, "-m", "korone"]
     os.execv(sys.executable, args)
@@ -144,8 +145,8 @@ def parse_commits(log: str) -> Dict:
     return commits
 
 
-@Client.on_message(filters.cmd("upgrade") & filters.user(SUDOERS))
-async def upgrade(c: Client, m: Message):
+@Korone.on_message(filters.sudoer & filters.cmd("upgrade"))
+async def upgrade(c: Korone, m: Message):
     sm = await m.reply_text("Verificando...")
     await (await asyncio.create_subprocess_shell("git fetch origin")).communicate()
     proc = await asyncio.create_subprocess_shell(
@@ -172,8 +173,8 @@ async def upgrade(c: Client, m: Message):
         )
 
 
-@Client.on_callback_query(filters.regex("^upgrade") & filters.user(SUDOERS))
-async def upgrade_cb(c: Client, cq: CallbackQuery):
+@Korone.on_callback_query(filters.sudoer & filters.regex("^upgrade"))
+async def upgrade_cb(c: Korone, cq: CallbackQuery):
     await cq.edit_message_reply_markup({})
     sent = await cq.message.reply_text("Atualizando...")
     proc = await asyncio.create_subprocess_shell(
@@ -194,14 +195,14 @@ async def upgrade_cb(c: Client, cq: CallbackQuery):
         )
 
 
-@Client.on_message(filters.cmd("shutdown") & filters.user(OWNER))
-async def shutdown(c: Client, m: Message):
+@Korone.on_message(filters.cmd("shutdown") & filters.user(OWNER))
+async def shutdown(c: Korone, m: Message):
     await m.reply_text("Adeus...")
     sys.exit()
 
 
-@Client.on_message(filters.cmd("chat (?P<text>.+)") & filters.user(SUDOERS))
-async def chat_info(c: Client, m: Message):
+@Korone.on_message(filters.sudoer & filters.cmd("chat (?P<text>.+)"))
+async def chat_info(c: Korone, m: Message):
     text = m.matches[0]["text"]
     try:
         chat = await c.get_chat(text)
@@ -223,8 +224,8 @@ async def chat_info(c: Client, m: Message):
         await m.reply_text(text)
 
 
-@Client.on_message(filters.cmd(command="echo (?P<text>.+)") & filters.user(SUDOERS))
-async def echo(c: Client, m: Message):
+@Korone.on_message(filters.sudoer & filters.cmd("echo (?P<text>.+)"))
+async def echo(c: Korone, m: Message):
     text = m.matches[0]["text"]
     chat_id = m.chat.id
     kwargs = {}
@@ -238,8 +239,8 @@ async def echo(c: Client, m: Message):
     await c.send_message(chat_id=chat_id, text=text, **kwargs)
 
 
-@Client.on_message(filters.cmd("py") & filters.user(SUDOERS))
-async def bot_info(c: Client, m: Message):
+@Korone.on_message(filters.sudoer & filters.cmd("py"))
+async def bot_info(c: Korone, m: Message):
     doc = Section(
         "PyKorone Bot",
         KeyValueItem(Bold("Source"), korone.__source__),
@@ -252,8 +253,8 @@ async def bot_info(c: Client, m: Message):
     await m.reply_text(doc, disable_web_page_preview=True)
 
 
-@Client.on_message(filters.cmd("sysinfo") & filters.user(SUDOERS))
-async def system_info(c: Client, m: Message):
+@Korone.on_message(filters.sudoer & filters.cmd("sysinfo"))
+async def system_info(c: Korone, m: Message):
     uname = platform.uname()
 
     # RAM usage
@@ -295,8 +296,8 @@ async def system_info(c: Client, m: Message):
     await m.reply_text(doc, disable_web_page_preview=True)
 
 
-@Client.on_message(filters.cmd("reload") & filters.user(SUDOERS))
-async def modules_reload(c: Client, m: Message):
+@Korone.on_message(filters.sudoer & filters.cmd("reload"))
+async def modules_reload(c: Korone, m: Message):
     sent = await m.reply_text("<b>Recarregando módulos...</b>")
     first = datetime.now()
     modules.reload(c)

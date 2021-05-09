@@ -16,24 +16,17 @@
 
 import asyncio
 import logging
-import platform
-from datetime import datetime, timezone
+from logging.handlers import TimedRotatingFileHandler
 
 import pyrogram
-import pyromod
-from pyrogram import Client, idle
-from pyrogram.errors import BadRequest
 from pyrogram.session import Session
-from pyromod import listen
-from pyromod.helpers import ikb
 from rich import box
 from rich import print as rprint
 from rich.logging import RichHandler
 from rich.panel import Panel
 
 import korone
-from korone.config import API_HASH, API_ID, SUDOERS, TOKEN
-from korone.utils import filters, http, modules, shell_exec
+from korone.korone import Korone
 
 # Logging colorized by rich
 FORMAT = "%(message)s"
@@ -44,20 +37,13 @@ logging.basicConfig(
     handlers=[RichHandler(rich_tracebacks=True)],
 )
 
+
 # To avoid some pyrogram annoying log
 logging.getLogger("pyrogram.syncer").setLevel(logging.WARNING)
 logging.getLogger("pyrogram.client").setLevel(logging.WARNING)
 
 log = logging.getLogger("rich")
 
-client = Client(
-    "client",
-    api_id=API_ID,
-    api_hash=API_HASH,
-    bot_token=TOKEN,
-    parse_mode="html",
-    workers=24,
-)
 
 # Beautiful init with rich
 text = ":rocket: [bold green]PyKorone Running...[/bold green] :rocket:"
@@ -72,46 +58,8 @@ rprint(Panel.fit(text, border_style="blue", box=box.ASCII))
 Session.notice_displayed = True
 
 
-async def main() -> None:
-    await client.start()
-
-    # Save start time (useful for uptime info)
-    client.start_time = datetime.now().replace(tzinfo=timezone.utc)
-
-    # Monkeypatch
-    client.me = await client.get_me()
-    client.ikb = ikb
-
-    # Built-in filters and modules load system
-    filters.load(client)
-    modules.load(client)
-
-    # Saving commit number
-    client.version_code = int((await shell_exec("git rev-list --count HEAD"))[0])
-
-    start_message = (
-        f"<b>PyKorone <code>v{korone.__version__} "
-        f"({client.version_code})</code> started...</b>\n"
-        f"- <b>Pyrogram:</b> <code>v{pyrogram.__version__}</code>\n"
-        f"- <b>Pyromod:</b> <code>v{pyromod.__version__}</code>\n"
-        f"- <b>Python:</b> <code>v{platform.python_version()}</code>\n"
-        f"- <b>System:</b> <code>{client.system_version}</code>"
-    )
-    try:
-        for user in SUDOERS:
-            await client.send_message(chat_id=user, text=start_message)
-    except BadRequest:
-        log.warning("Unable to send the startup message to the SUDOERS")
-        pass
-
-    await idle()
-    await http.aclose()
-    await client.stop()
-
-
 if __name__ == "__main__":
     try:
-        loop = asyncio.get_event_loop()
-        loop.run_until_complete(main())
+        Korone().run()
     except KeyboardInterrupt:
         pass
