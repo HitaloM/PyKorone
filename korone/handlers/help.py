@@ -17,7 +17,7 @@
 import html
 from typing import Union
 
-from pyrogram import filters
+from pyrogram import emoji, filters
 from pyrogram.types import CallbackQuery, Message
 
 import korone
@@ -33,13 +33,13 @@ Eu sou o <b>{}</b>, um bot interativo que adora participar de grupos! ^^
 <b>Versão:</b> <code>{} ({})</code>
 """
 
-about_text = """
-🚮 <b>{}</b> é um bot criado por diversão para o grupo <b>Spam-Therapy</b>.
+about_text = f"""
+{emoji.LITTER_IN_BIN_SIGN} <b>Korone</b> é um bot criado por diversão para o grupo <b>Spam-Therapy</b>.
 Seu foco é trazer funções legais e um design funcional com tecnologia e criatividade.
 
-📦 Powered by <a href='https://docs.pyrogram.org/'>Pyrogram</a> with <a href='https://github.com/usernein/pyromod'>Pyromod</a>.
+{emoji.PACKAGE} Powered by <a href='https://docs.pyrogram.org/'>Pyrogram</a> with <a href='https://github.com/usernein/pyromod'>Pyromod</a>.
 
-🗂 <b>Links:</b> <a href='{}'>GitHub</a> | <a href='{}'>Chat</a>
+{emoji.CARD_INDEX_DIVIDERS} <b>Links:</b> <a href='{korone.__source__}'>GitHub</a> | <a href='{korone.__community__}'>Chat</a>
 """
 
 
@@ -65,9 +65,20 @@ async def start(c: Korone, m: Union[Message, CallbackQuery]):
                 c.version_code,
             )
             if m.chat.type == "private":
-                keyboard.append([("📚 Ajuda", "help_cb"), ("ℹ️ Sobre", "about")])
                 keyboard.append(
-                    [("👥 Grupo Off-Topic", "https://t.me/SpamTherapy", "url")]
+                    [
+                        (f"{emoji.BOOKS} Ajuda", "help_cb"),
+                        (f"{emoji.INFORMATION} Sobre", "about"),
+                    ]
+                )
+                keyboard.append(
+                    [
+                        (
+                            f"{emoji.BUSTS_IN_SILHOUETTE} Grupo Off-Topic",
+                            "https://t.me/SpamTherapy",
+                            "url",
+                        )
+                    ]
                 )
             else:
                 keyboard.append(
@@ -89,8 +100,17 @@ async def start(c: Korone, m: Union[Message, CallbackQuery]):
             m.from_user.first_name, c.me.first_name, korone.__version__, c.version_code
         )
         keyboard = [
-            [("📚 Ajuda", "help_cb"), ("ℹ️ Sobre", "about")],
-            [("👥 Grupo Off-Topic", "https://t.me/SpamTherapy", "url")],
+            [
+                (f"{emoji.BOOKS} Ajuda", "help_cb"),
+                (f"{emoji.INFORMATION} Sobre", "about"),
+            ],
+            [
+                (
+                    f"{emoji.BUSTS_IN_SILHOUETTE} Grupo Off-Topic",
+                    "https://t.me/SpamTherapy",
+                    "url",
+                )
+            ],
         ]
         await m.message.edit_text(text, reply_markup=c.ikb(keyboard))
 
@@ -131,7 +151,7 @@ async def help_module(c: Korone, m: Message, module: str = None):
     success = False
     if not module or module == "start":
         keyboard.append([("Comandos", "help_commands"), ("Filtros", "help_filters")])
-        keyboard.append([("⬅️ Voltar", "start_back")])
+        keyboard.append([(f"{emoji.LEFT_ARROW}️ Voltar", "start_back")])
         text = "Por favor, selecione uma categoria para obter ajuda!"
         success = True
     else:
@@ -151,7 +171,7 @@ async def help_module(c: Korone, m: Message, module: str = None):
                         )
                     )
             success = True
-            keyboard.append([("⬅️ Voltar", "help_start")])
+            keyboard.append([(f"{emoji.LEFT_ARROW}️ Voltar", "help_start")])
         elif module in COMMANDS_HELP.keys():
             text = f"<b>Módulo</b>: <code>{module}</code>\n"
             module = COMMANDS_HELP[module]
@@ -182,7 +202,7 @@ async def help_module(c: Korone, m: Message, module: str = None):
                         else:
                             text += f'\n  - <b>{"/" if type == "commands" else ""}{html.escape(regex)}</b>: <i>{action}</i>'
             success = True
-            keyboard.append([("⬅️ Voltar", f"help_{type}")])
+            keyboard.append([(f"{emoji.LEFT_ARROW}️ Voltar", f"help_{type}")])
 
     kwargs = {}
     if keyboard:
@@ -203,16 +223,15 @@ async def on_help_callback(c: Korone, cq: CallbackQuery):
 )
 @Korone.on_callback_query(filters.regex("^about$"))
 async def about_c(c: Korone, m: Union[Message, CallbackQuery]):
-    about = about_text.format(c.me.first_name, korone.__source__, korone.__community__)
     if isinstance(m, CallbackQuery):
-        keyboard = c.ikb([[("⬅️ Voltar", "start_back")]])
+        keyboard = c.ikb([[(f"{emoji.LEFT_ARROW}️ Voltar", "start_back")]])
         await m.message.edit_text(
-            about,
+            about_text,
             reply_markup=keyboard,
             disable_web_page_preview=True,
         )
     elif isinstance(m, Message):
         await m.reply_text(
-            about,
+            about_text,
             disable_web_page_preview=True,
         )

@@ -43,10 +43,10 @@ def load(client):
         async def func(flt, client: Client, message: Message):
             value = message.text or message.caption
 
-            if bool(message.edit_date):
+            if message.edit_date:
                 return False
 
-            if bool(value):
+            if value:
                 command = value.split()[0]
                 if "@" in command:
                     b = command.split("@")[1]
@@ -59,7 +59,7 @@ def load(client):
 
                 message.matches = list(flt.p.finditer(value)) or None
 
-            return bool(message.matches)
+            return message.matches
 
         return filters.create(
             func,

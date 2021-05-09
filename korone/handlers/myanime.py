@@ -27,7 +27,7 @@ import anilist
 import async_files
 from httpx import TimeoutException
 from jikanpy import AioJikan
-from pyrogram import filters
+from pyrogram import emoji, filters
 from pyrogram.errors import BadRequest
 from pyrogram.types import Document, InputMediaPhoto, Message, Video
 
@@ -125,7 +125,7 @@ async def anilist_anime(c: Korone, m: Message):
     keyboard = [[("Mais informações", anime.url, "url")]]
 
     try:
-        keyboard[0].append(("Trailer 🎬", anime.trailer.url, "url"))
+        keyboard[0].append((f"Trailer {emoji.CLAPPER_BOARD}", anime.trailer.url, "url"))
     except BaseException:
         pass
 

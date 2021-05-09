@@ -18,6 +18,7 @@ import random
 from typing import Dict
 
 from pyrogram import filters
+from pyrogram.errors import ChatWriteForbidden
 from pyrogram.types import Message
 
 from korone.handlers import COMMANDS_HELP
@@ -64,7 +65,7 @@ async def okay(c: Korone, m: Message):
 
 @Korone.on_message(filters.int(filter=r"voc(e|ê) gosta de caf(é|e)", group=GROUP))
 async def ulikecoffe(c: Korone, m: Message):
-    await int_reply(c, m, "Com certeza! ☕")
+    await int_reply(c, m, f"Com certeza! {emoji.HOT_BEVERAGE}")
 
 
 @Korone.on_message(filters.int(filter=r"(Ol(á|a)|Oi|Eae|Hi|Hello|Hey)", group=GROUP))
@@ -104,5 +105,9 @@ async def random_react(c: Korone, m: Message):
     if isinstance(react, tuple):
         react = random.choice(react)
 
-    await m.reply_text(react, quote=False)
+    try:
+        await m.reply_text(react, quote=False)
+    except ChatWriteForbidden:
+        await c.leave_chat(chat_id=m.chat.id)
+        pass
     m.continue_propagation()
