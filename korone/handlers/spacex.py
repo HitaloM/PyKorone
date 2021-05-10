@@ -87,29 +87,41 @@ async def spacex_launch(c: Korone, m: Message):
     if arg not in args_list:
         await m.reply_text(
             f"<code>{arg}</code> não é um argumento válido! "
-            f"Argumentos disponíveis <code>{', '.join(str(x) for x in args_list)}</code>."
+            f"Argumentos disponíveis: <code>{', '.join(str(x) for x in args_list)}</code>."
         )
         return
 
-    r = await http.get(f"https://api.spacexdata.com/v3/launches/{arg}")
+    r = await http.get(f"https://api.spacexdata.com/v4/launches/{arg}")
     if r.status_code == 200:
         sx = r.json()
     else:
         await m.reply_text(f"<b>Erro!</b> <code>{r.status_code}</code>")
         return
 
-    dt = datetime.utcfromtimestamp(int(sx["launch_date_unix"])).strftime(
-        "%d-%m-%Y %H:%M:%S"
-    )
-    images = sx["links"]["flickr_images"]
+    dt = datetime.utcfromtimestamp(sx["date_unix"]).strftime("%d-%m-%Y %H:%M:%S")
+    images = sx["links"]["flickr"]["original"]
 
-    text = (
-        f"<b>None da missão:</b> {sx['mission_name']}\n"
-        f"<b>Voo Nº:</b> {sx['flight_number']}\n"
-        f"<b>Nome do foguete:</b> {sx['rocket']['rocket_name']}\n"
-        f"<b>Palataforma de lançamento:</b> {sx['launch_site']['site_name']}\n"
-        f"<b>Data de lançamento:</b> <code>{dt}</code>\n\n"
-    )
+    rocket = None
+    res = await http.get(f"https://api.spacexdata.com/v4/rockets/{sx['rocket']}")
+    if res.status_code == 200:
+        rocket = res.json()
+
+    launchpad = None
+    res = await http.get(f"https://api.spacexdata.com/v4/launchpads/{sx['launchpad']}")
+    if res.status_code == 200:
+        launchpad = res.json()
+
+    text = f"<b>None da missão:</b> {sx['name']}\n"
+    text += f"<b>Voo Nº:</b> {sx['flight_number']}\n"
+    if rocket:
+        text += f"<b>Nome do foguete:</b> {rocket['name']}\n"
+    if launchpad:
+        text += f"<b>Palataforma de lançamento:</b> {launchpad['name']}\n"
+    if sx["success"]:
+        text += f"<b>Sucesso:</b> {sx['success']}\n"
+    if sx["failures"]:
+        text += f"<b>Falhas:</b> {sx['failures']}\n"
+    text += f"<b>Data de lançamento UTC:</b> <code>{dt}</code>\n\n"
 
     if images:
         for i, image in enumerate(images, start=1):
@@ -118,10 +130,10 @@ async def spacex_launch(c: Korone, m: Message):
     if sx["details"]:
         text += f"<b>Detalhes:</b>\n{sx['details']}"
 
-    keyboard = [[("Reddit", sx["links"]["reddit_campaign"], "url")]]
+    keyboard = [[("Reddit", sx["links"]["reddit"]["campaign"], "url")]]
 
-    if sx["links"]["video_link"]:
-        keyboard[0].append(("YouTube", sx["links"]["video_link"], "url"))
+    if sx["links"]["webcast"]:
+        keyboard[0].append(("YouTube", sx["links"]["webcast"], "url"))
 
     if images:
         await m.reply_photo(
