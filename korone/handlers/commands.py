@@ -330,39 +330,3 @@ async def sed(c: Korone, m: Message):
         await m.reply_text(str(e))
     else:
         await m.reply_to_message.reply_text(f"{html.escape(res)}")
-
-
-@Korone.on_message(filters.cmd(command="spacex", action="Informações sobre a SpaceX."))
-async def spacex_wiki(c: Korone, m: Message):
-    r = await http.get("https://api.spacexdata.com/v4/company")
-
-    if r.status_code == 200:
-        sx = r.json()
-    else:
-        await m.reply_text(f"<b>Erro!</b> <code>{r.status_code}</code>")
-        return
-
-    text = f"<u><b>{sx['name']}</b></u> 🚀"
-    text += f"\n<b>Endereço:</b> {sx['headquarters']['address']}, {sx['headquarters']['city']}, {sx['headquarters']['state']}"
-    text += f"\n<b>Fundador:</b> {sx['founder']}"
-    text += f"\n<b>Fundada em:</b> {sx['founded']}"
-    text += f"\n<b>Funcionários:</b> <code>{sx['employees']}</code>"
-    text += f"\n<b>Plataformas de testes:</b> <code>{sx['test_sites']}</code>"
-    text += f"\n<b>Plataformas de lançamentos:</b> <code>{sx['launch_sites']}</code>"
-    text += f"\n<b>Veículos de lançamento:</b> <code>{sx['vehicles']}</code>"
-    text += f"\n<b>Avaliada em:</b> <code>{sx['valuation']}</code>"
-    text += f"\n<b>CEO:</b> {sx['ceo']}"
-    text += f", <b>CTO:</b> {sx['cto']}"
-    text += f", <b>COO:</b> {sx['coo']}"
-    text += f", <b>CTO de Propulsão:</b> {sx['cto_propulsion']}"
-    text += f"\n\n<b>Resumo:</b> {sx['summary']}"
-
-    keyboard = [
-        [
-            ("Twitter", f"{sx['links']['twitter']}", "url"),
-            ("Flickr", f"{sx['links']['flickr']}", "url"),
-        ],
-        [("Website", f"{sx['links']['website']}", "url")],
-    ]
-
-    await m.reply_text(text, reply_markup=c.ikb(keyboard))
