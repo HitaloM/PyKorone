@@ -85,7 +85,6 @@ async def voltei(c: Korone, m: Message):
 async def tutturu(c: Korone, m: Message):
     await m.reply_voice(
         voice="AwACAgEAAxkDAAICbF_zg6fjeuwvbffAkVFdO2_YHw9ZAALmAAOSG5hHmkWo5sdCqkUeBA",
-        quote=True,
     )
 
 
@@ -93,7 +92,6 @@ async def tutturu(c: Korone, m: Message):
 async def triggered(c: Korone, m: Message):
     await m.reply_voice(
         voice="CgACAgQAAx0ET2XwHwACXX9gCE6VI4wLfStiWuwXeIoNi3t22AACSAcAAh7FEFOeVKDvkRMV5x4E",
-        quote=True,
     )
 
 
@@ -144,7 +142,6 @@ async def vegano(c: Korone, m: Message):
     await m.reply_voice(
         voice="AwACAgEAAx0ETZVb2AABEOhnYAhMJjsPaTvD6v0nDcU29uAhU0oAAhcBAAJ58kBELrkMROt69u0eBA",
         caption="Eae parças, beeeleza?! ^-^",
-        quote=True,
     )
 
 
@@ -226,22 +223,26 @@ async def macaco(c: Korone, m: Message):
     filters.int(filter=r"rt", group=GROUP) & filters.reply & filters.group
 )
 async def rtcommand(c: Korone, m: Message):
+    reply = m.reply_to_message
+    user = m.from_user
     rt_text = None
-    if m.reply_to_message.media:
-        rt_text = m.reply_to_message.caption
+    if reply.media:
+        rt_text = reply.caption
     else:
-        rt_text = m.reply_to_message.text
+        rt_text = reply.text
 
     if rt_text is None:
         return
 
     if not re.match("🔃 .* retweetou:\n\n👤 .*", rt_text):
-        text = f"🔃 <b>{html.escape(m.from_user.first_name)}</b> retweetou:\n\n"
-        text += f"👤 <b>{html.escape(m.reply_to_message.from_user.first_name)}</b>:"
+        text = f"🔃 <b>{html.escape(user.first_name)}</b> retweetou:\n\n"
+        text += f"👤 <b>{html.escape(reply.from_user.first_name)}</b>:"
         text += f" <i>{html.escape(rt_text)}</i>"
 
-        await m.reply_to_message.reply_text(
-            text, disable_web_page_preview=True, disable_notification=True
+        await reply.reply_text(
+            text,
+            disable_web_page_preview=True,
+            disable_notification=True,
         )
 
 

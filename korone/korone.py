@@ -71,6 +71,7 @@ class Korone(Client):
         filters.load(self)
         modules.load(self)
 
+        # Startup message
         start_message = (
             f"<b>PyKorone <code>v{korone.__version__} "
             f"({self.version_code})</code> started...</b>\n"
@@ -87,10 +88,10 @@ class Korone(Client):
             pass
 
     async def stop(self, *args):
-        await http.aclose()
+        await http.aclose()  # Closing the httpx session
         await super().stop()
-        sys.exit()
         log.info("PyKorone stopped... Bye.")
+        sys.exit()
 
     def is_sudoer(self, user: User) -> bool:
         return user.id in self.is_sudo
