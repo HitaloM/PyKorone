@@ -407,16 +407,27 @@ async def mcserver(c: Korone, m: Message):
         text += f"\n<b>Online:</b> <code>{a['online']}</code>"
         text += f"\n<b>Mods:</b> <code>{len(a['mods']['names']) if 'mods' in a else 'N/A'}</code>"
         text += f"\n<b>Players:</b> <code>{a['players']['online']}/{a['players']['max']}</code>"
+        if "list" in a["players"]:
+            text += "\n<b>Players list:</b> {}".format(
+                (
+                    ", ".join(
+                        [
+                            f"<a href='https://namemc.com/profile/{name}'>{name}</a>"
+                            for name in a["players"]["list"]
+                        ]
+                    )
+                ),
+            )
         text += f"\n<b>Version:</b> <code>{a['version']}</code>"
         try:
             text += f"\n<b>Software:</b> <code>{a['software']}</code>"
         except KeyError:
             pass
         text += f"\n<b>MOTD:</b> <i>{a['motd']['clean'][0]}</i>"
-    elif not a["ip"]:
-        text = "Isso não é um IP/domínio!"
-    elif a["ip"] == "127.0.0.1":
-        text = "Isso não é um IP/domínio!"
+
+    elif not a["ip"] or a["ip"] == "127.0.0.1":
+        text = "Isso não é um IP/domínio válido!"
+
     elif not a["online"]:
         text = (
             "<b>Minecraft Server</b>:"
