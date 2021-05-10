@@ -19,7 +19,7 @@ import random
 import re
 from typing import Dict
 
-from pyrogram import emoji, filters
+from pyrogram import filters
 from pyrogram.types import Message
 
 from korone.handlers import COMMANDS_HELP
@@ -85,6 +85,15 @@ async def voltei(c: Korone, m: Message):
 async def tutturu(c: Korone, m: Message):
     await m.reply_voice(
         voice="AwACAgEAAxkDAAICbF_zg6fjeuwvbffAkVFdO2_YHw9ZAALmAAOSG5hHmkWo5sdCqkUeBA",
+        quote=True,
+    )
+
+
+@Korone.on_message(filters.int(filter=r"triggered", group=GROUP))
+async def triggered(c: Korone, m: Message):
+    await m.reply_voice(
+        voice="CgACAgQAAx0ET2XwHwACXX9gCE6VI4wLfStiWuwXeIoNi3t22AACSAcAAh7FEFOeVKDvkRMV5x4E",
+        quote=True,
     )
 
 
@@ -117,7 +126,7 @@ async def good_night(c: Korone, m: Message):
 
 @Korone.on_message(filters.int(filter=r"python", group=GROUP))
 async def python(c: Korone, m: Message):
-    await m.reply_text(f"is a snake {emoji.SNAKE}")
+    await m.reply_text("is a snake 🐍")
 
 
 @Korone.on_message(filters.int(filter=r"(sleepy|brb)", group=GROUP))
@@ -135,6 +144,7 @@ async def vegano(c: Korone, m: Message):
     await m.reply_voice(
         voice="AwACAgEAAx0ETZVb2AABEOhnYAhMJjsPaTvD6v0nDcU29uAhU0oAAhcBAAJ58kBELrkMROt69u0eBA",
         caption="Eae parças, beeeleza?! ^-^",
+        quote=True,
     )
 
 
@@ -145,7 +155,7 @@ async def not_working(c: Korone, m: Message):
 
 @Korone.on_message(filters.int(filter=r"grr+", group=GROUP))
 async def grr(c: Korone, m: Message):
-    await m.reply_text(f"{emoji.POUTING_FACE}")
+    await m.reply_text("😡")
 
 
 @Korone.on_message(filters.int(filter=r"bruh", group=GROUP))
@@ -216,27 +226,22 @@ async def macaco(c: Korone, m: Message):
     filters.int(filter=r"rt", group=GROUP) & filters.reply & filters.group
 )
 async def rtcommand(c: Korone, m: Message):
-    reply = m.reply_to_message
     rt_text = None
-    if reply.media:
-        rt_text = reply.caption
+    if m.reply_to_message.media:
+        rt_text = m.reply_to_message.caption
     else:
-        rt_text = reply.text
+        rt_text = m.reply_to_message.text
 
     if rt_text is None:
         return
 
-    if not re.match(
-        f"{emoji.CLOCKWISE_VERTICAL_ARROWS} .* retweetou:\n\n👤 .*", rt_text
-    ):
-        text = f"{emoji.CLOCKWISE_VERTICAL_ARROWS} <b>{html.escape(m.from_user.first_name)}</b> retweetou:\n\n"
-        text += f"{emoji.BUST_IN_SILHOUETTE} <b>{html.escape(reply.from_user.first_name)}</b>:"
+    if not re.match("🔃 .* retweetou:\n\n👤 .*", rt_text):
+        text = f"🔃 <b>{html.escape(m.from_user.first_name)}</b> retweetou:\n\n"
+        text += f"👤 <b>{html.escape(m.reply_to_message.from_user.first_name)}</b>:"
         text += f" <i>{html.escape(rt_text)}</i>"
 
-        await reply.reply_text(
-            text,
-            disable_web_page_preview=True,
-            disable_notification=True,
+        await m.reply_to_message.reply_text(
+            text, disable_web_page_preview=True, disable_notification=True
         )
 
 

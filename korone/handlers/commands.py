@@ -23,7 +23,7 @@ from datetime import datetime
 from typing import Dict
 
 import regex
-from pyrogram import emoji, filters
+from pyrogram import filters
 from pyrogram.types import Message
 
 from korone.config import OWNER, SUDOERS, SW_API
@@ -182,7 +182,7 @@ async def panda_photo(c: Korone, m: Message):
     if not r.status_code == 200:
         return await m.reply_text(f"<b>Error!</b> <code>{r.status_code}</code>")
     panda = r.json()
-    await m.reply_photo(panda["link"], caption=f"{emoji.PANDA}")
+    await m.reply_photo(panda["link"], caption="🐼")
 
 
 @Korone.on_message(
@@ -193,7 +193,7 @@ async def bird_photo(c: Korone, m: Message):
     if not r.status_code == 200:
         return await m.reply_text(f"<b>Error!</b> <code>{r.status_code}</code>")
     bird = r.json()
-    await m.reply_photo(bird[0], caption=f"{emoji.BIRD}")
+    await m.reply_photo(bird[0], caption="🐦")
 
 
 @Korone.on_message(
@@ -204,7 +204,7 @@ async def rpanda_photo(c: Korone, m: Message):
     if not r.status_code == 200:
         return await m.reply_text(f"<b>Error!</b> <code>{r.status_code}</code>")
     rpanda = r.json()
-    await m.reply_photo(rpanda["link"], caption=f"{emoji.PANDA}")
+    await m.reply_photo(rpanda["link"], caption="🐼")
 
 
 @Korone.on_message(
@@ -263,9 +263,7 @@ async def b64d(c: Korone, m: Message):
     try:
         b64 = base64.b64decode(text).decode("utf-8", "replace")
     except binascii.Error as e:
-        return await m.reply_text(
-            f"{emoji.WARNING} Dados base64 inválidos: <code>{e}</code>"
-        )
+        return await m.reply_text(f"⚠️ Dados base64 inválidos: <code>{e}</code>")
     await m.reply_text(html.escape(b64))
 
 
@@ -344,7 +342,7 @@ async def spacex_wiki(c: Korone, m: Message):
         await m.reply_text(f"<b>Erro!</b> <code>{r.status_code}</code>")
         return
 
-    text = f"<u><b>{sx['name']}</b></u> {emoji.ROCKET}"
+    text = f"<u><b>{sx['name']}</b></u> 🚀"
     text += f"\n<b>Endereço:</b> {sx['headquarters']['address']}, {sx['headquarters']['city']}, {sx['headquarters']['state']}"
     text += f"\n<b>Fundador:</b> {sx['founder']}"
     text += f"\n<b>Fundada em:</b> {sx['founded']}"

@@ -20,7 +20,7 @@ import random
 from typing import Dict
 
 import wikipedia
-from pyrogram import emoji, filters
+from pyrogram import filters
 from pyrogram.types import Message
 
 from korone.handlers import COMMANDS_HELP
@@ -242,7 +242,7 @@ async def ulikecoffe_list(c: Korone, m: Message):
         if answer.text.lower().startswith(("nao", "não")):
             await answer.reply_text("Tudo bem! :D")
         elif answer.text.lower().startswith("sim"):
-            await answer.reply_text(f"Que bom! Aqui está {emoji.HOT_BEVERAGE} ^^")
+            await answer.reply_text("Que bom! Aqui está ☕ ^^")
         else:
             await answer.reply_text("Compreendo! U~U")
 

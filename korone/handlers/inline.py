@@ -20,7 +20,6 @@ from typing import List
 
 import anilist
 from kantex.html import Bold, Code, KeyValueItem, Section, SubSection
-from pyrogram import emoji
 from pyrogram.types import (
     InlineQuery,
     InlineQueryResultArticle,
@@ -74,9 +73,7 @@ async def on_inline(c: Korone, q: InlineQuery):
                 keyboard = [[("Mais informações", anime.url, "url")]]
 
                 try:
-                    keyboard[0].append(
-                        (f"Trailer {emoji.CLAPPER_BOARD}", anime.trailer.url, "url")
-                    )
+                    keyboard[0].append(("Trailer 🎬", anime.trailer.url, "url"))
                 except BaseException:
                     pass
 

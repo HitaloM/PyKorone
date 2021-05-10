@@ -30,7 +30,7 @@ import pyrogram
 import pyromod
 from kantex.html import Bold, Code, KeyValueItem, Section
 from meval import meval
-from pyrogram import emoji, filters
+from pyrogram import filters
 from pyrogram.errors import BadRequest, FloodWait
 from pyrogram.types import CallbackQuery, Message
 
@@ -163,7 +163,7 @@ async def upgrade(c: Korone, m: Message):
         for hash, commit in commits.items():
             changelog += f"  - [<code>{hash[:7]}</code>] {commit['title']}\n"
         changelog += f"\n<b>New commits count</b>: <code>{len(commits)}</code>."
-        keyboard = [[(f"{emoji.NEW_BUTTON}Atualizar", "upgrade")]]
+        keyboard = [[("🆕 Atualizar", "upgrade")]]
         await sm.edit_text(changelog, reply_markup=c.ikb(keyboard))
     else:
         lines = stdout.split("\n")

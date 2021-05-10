@@ -22,7 +22,7 @@ from io import BytesIO
 from typing import Dict
 
 from PIL import Image
-from pyrogram import emoji, filters
+from pyrogram import filters
 from pyrogram.errors import BadRequest
 from pyrogram.types import Message
 
@@ -191,7 +191,7 @@ async def copypasta(c: Korone, m: Message):
             reply += owo
             reply += random.choice(PASTAMOJIS)
         elif owo.lower() == b_char:
-            reply += f"{emoji.B_BUTTON_BLOOD_TYPE}"
+            reply += "🅱️"
         else:
             reply += owo.upper() if bool(random.getrandbits(1)) else owo.lower()
     reply += random.choice(PASTAMOJIS)
@@ -255,8 +255,8 @@ async def clap(c: Korone, m: Message):
             await m.reply_text("Eu preciso de texto...")
             return
 
-    clapped_text = re.sub(" ", f" {emoji.CLAPPING_HANDS} ", text)
-    reply = f"{emoji.CLAPPING_HANDS} {clapped_text} {emoji.CLAPPING_HANDS}"
+    clapped_text = re.sub(" ", " 👏 ", text)
+    reply = f"👏 {clapped_text} 👏"
 
     try:
         if m.reply_to_message:
