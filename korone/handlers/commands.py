@@ -17,8 +17,10 @@
 import base64
 import binascii
 import html
+import os
 import random
 import string
+import tempfile
 from datetime import datetime
 from typing import Dict
 
@@ -30,7 +32,7 @@ from korone.config import OWNER, SUDOERS, SW_API
 from korone.handlers import COMMANDS_HELP
 from korone.handlers.utils.reddit import bodyfetcher, imagefetcher, titlefetcher
 from korone.korone import Korone
-from korone.utils import http, pretty_size
+from korone.utils import http, pretty_size, shell_exec
 
 GROUP = "general"
 
@@ -331,3 +333,35 @@ async def sed(c: Korone, m: Message):
         await m.reply_text(str(e))
     else:
         await m.reply_to_message.reply_text(f"{html.escape(res)}")
+
+
+@Korone.on_message(
+    filters.cmd(
+        command="getsticker$",
+        action="Obtenha o arquivo png de um sticker.",
+    )
+    & filters.reply
+)
+async def getsticker(c: Korone, m: Message):
+    sticker = m.reply_to_message.sticker
+    if sticker:
+        if sticker.is_animated:
+            await m.reply_text("Sticker animado não é suportado!")
+        elif not sticker.is_animated:
+            with tempfile.TemporaryDirectory() as tempdir:
+                path = os.path.join(tempdir, "getsticker")
+            sticker_file = await c.download_media(
+                message=m.reply_to_message,
+                file_name=f"{path}/{sticker.set_name}.png",
+            )
+            await m.reply_to_message.reply_document(
+                document=sticker_file,
+                caption=(
+                    f"<b>Emoji:</b> {sticker.emoji}\n"
+                    f"<b>Sticker ID:</b> <code>{sticker.file_id}</code>"
+                ),
+            )
+            try:
+                await shell_exec(f"rm -rf {tempdir}")
+            except BaseException:
+                return
