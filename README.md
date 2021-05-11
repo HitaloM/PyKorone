@@ -1,5 +1,6 @@
 # PyKorone
 
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/75894dccef324798b452791297624e0a)](https://app.codacy.com/gh/AmanoTeam/PyKorone?utm_source=github.com&utm_medium=referral&utm_content=AmanoTeam/PyKorone&utm_campaign=Badge_Grade_Settings)
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 [![GitHub contributors](https://img.shields.io/github/contributors/AmanoTeam/PyKorone.svg)](https://GitHub.com/AmanoTeam/PyKorone/graphs/contributors/)
 
