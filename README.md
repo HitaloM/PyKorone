@@ -11,7 +11,7 @@ This repository contains the source code of [@PyKoroneBot](https://t.me/PyKorone
 
 ## Requirements
 
-- Python 3.7 or higher.
+- Python 3.6 or higher.
 - A [Telegram API Key and API Hash](https://docs.pyrogram.org/intro/setup#api-keys).
 - A [Telegram Bot Token](https://t.me/botfather).
 - A Linux distribution (should also work on Windows but has not been tested).
@@ -32,17 +32,16 @@ package manager to make things easier to maintain, which works with pip through
 PEP-517. This is a relatively new standard, so a newer version of pip is necessary
 to make it work.
 
-Upgrade to pip 19 to fix this issue: `python3 -m pip install pip -U`
+Upgrade to pip 19 or later to fix this issue: `python3 -m pip install pip -U`
 
 ## Usage
 
-To start the bot, type `python3 -m korone`, you can run the bot without updating its dependencies using `--no-update` as argument.
+To start the bot, type `python3 -m korone`.
 
 ## Special thanks
 
-- [@usernein](https://github.com/usernein) - contributed with teachings, ideas and allowed me to use some of his codes.
-- [@AndrielFR](https://github.com/AndrielFR) - one of the main developers of the korone, who helped me in great things, was he who created the 'gban.py' and among other things.
-- [@kdrag0n](https://github.com/kdrag0n) - this README.md was inspired by the [pyrobud](https://github.com/kdrag0n/pyrobud)
+- [@usernein](https://github.com/usernein) - teachings, ideas and allowed me to use some of his codes.
+- [@AndrielFR](https://github.com/AndrielFR) - helped me in great things.
 - [@RianFC](https://github.com/RianFC) - granted permission for the port of [ytdl.py](https://t.me/UserLixoPlugins/78) to the Korone.
 
 _If there is anyone I have forgotten to mention please let me know on Telegram: [@Hitalo](https://t.me/Hitalo)_

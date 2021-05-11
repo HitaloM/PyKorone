@@ -121,11 +121,7 @@ async def spacex_launch(c: Korone, m: Message):
         text += f"<b>Sucesso:</b> {sx['success']}\n"
     if sx["failures"]:
         text += f"<b>Falhas:</b> {sx['failures']}\n"
-    text += f"<b>Data de lançamento UTC:</b> <code>{dt}</code>\n\n"
-
-    if images:
-        for i, image in enumerate(images, start=1):
-            text += f", <a href='{image}'>Flicker {i}</a>"
+    text += f"<b>Data de lançamento:</b> <code>{dt}</code>\n\n"
 
     if sx["details"]:
         text += f"<b>Detalhes:</b>\n{sx['details']}"

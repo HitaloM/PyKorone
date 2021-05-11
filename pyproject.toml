@@ -21,7 +21,6 @@ classifiers = [
     "Topic :: Communications :: Chat"
 ]
 
-include = ["CHANGELOG.md"]
 exclude = ["korone/config.py", "korone/client.session", "korone/client.session-journal", "korone/database/*.sqlite"]
 
 [tool.poetry.urls]
@@ -29,7 +28,7 @@ exclude = ["korone/config.py", "korone/client.session", "korone/client.session-j
 "Community" = "https://t.me/SpamTherapy"
 
 [tool.poetry.dependencies]
-python = "^3.7"
+python = "^3.6"
 tgcrypto = "1.2.2"
 rich = "10.1.0"
 Pillow = "8.2.0"
