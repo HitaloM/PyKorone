@@ -125,26 +125,27 @@ async def copy(c: Korone, m: Message):
 @Korone.on_message(
     filters.cmd(
         command="file$",
-        action="Obtenha informações avançadas de um arquivo.",
+        action="Obtenha informações técnicas de uma mídia.",
     )
     & filters.reply
 )
 async def file_debug(c: Korone, m: Message):
-    doc = m.reply_to_message.document
+    media = (
+        m.reply_to_message.photo
+        or m.reply_to_message.sticker
+        or m.reply_to_message.animation
+        or m.reply_to_message.video
+        or m.reply_to_message.document
+    )
 
-    if not doc:
-        return await m.reply_text("Este comando funciona apenas com arquivos!")
+    if not media:
+        await m.reply_text("Nenhuma mídia encontrado!")
+        return
 
-    file_date = datetime.utcfromtimestamp(doc.date).strftime("%Y-%m-%d %H:%M:%S")
-
-    text = f"<b>file_name</b>: <code>{doc.file_name}</code>\n"
-    text += f"\n<b>file_id</b>: <code>{doc.file_id}</code>"
-    text += f"\n<b>file_unique_id</b>: <code>{doc.file_unique_id}</code>"
-    text += f"\n<b>file_size</b>: <code>{pretty_size(doc.file_size)}</code>"
-    text += f"\n<b>date</b>: <code>{file_date}</code>"
-    text += f"\n<b>mime_type</b>: <code>{doc.mime_type}</code>"
-
-    await m.reply_text(text)
+    await m.reply_text(
+        f"<code>{media}</code>",
+        disable_web_page_preview=True,
+    )
 
 
 @Korone.on_message(filters.cmd(command="cat", action="Imagens aleatórias de gatos."))
