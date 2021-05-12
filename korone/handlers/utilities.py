@@ -300,21 +300,32 @@ async def cli_ytdl(c, cq: CallbackQuery):
     filename = ydl.prepare_filename(yt)
     ctime = time.time()
     r = await http.get(yt["thumbnail"])
-    async with async_files.FileIO(f"{ctime}.png", "wb") as f:
+    async with async_files.FileIO(f"{path}/{ctime}.png", "wb") as f:
         await f.write(r.read())
         await f.close()
     if "vid" in data:
         await c.send_chat_action(cid, "upload_video")
-        await c.send_video(
-            cid,
-            filename,
-            width=int(1920),
-            height=int(1080),
-            caption=yt["title"],
-            duration=yt["duration"],
-            thumb=f"{ctime}.png",
-            reply_to_message_id=int(mid),
-        )
+        try:
+            await c.send_video(
+                cid,
+                filename,
+                width=int(1920),
+                height=int(1080),
+                caption=yt["title"],
+                duration=yt["duration"],
+                thumb=f"{path}/{ctime}.png",
+                reply_to_message_id=int(mid),
+            )
+        except BadRequest as e:
+            await c.send_message(
+                chat_id=int(cid),
+                text=(
+                    "Desculpe! Não consegui enviar o "
+                    "vídeo por causa de um erro.\n"
+                    f"Erro: <code>{e}</code>"
+                ),
+            )
+            pass
         await c.delete_messages(chat_id=int(cid), message_ids=cq.message.message_id)
     else:
         if " - " in yt["title"]:
@@ -323,19 +334,29 @@ async def cli_ytdl(c, cq: CallbackQuery):
             performer = yt.get("creator") or yt.get("uploader")
             title = yt["title"]
         await c.send_chat_action(cid, "upload_audio")
-        await c.send_audio(
-            cid,
-            filename,
-            title=title,
-            performer=performer,
-            duration=yt["duration"],
-            thumb=f"{ctime}.png",
-            reply_to_message_id=int(mid),
-        )
+        try:
+            await c.send_audio(
+                cid,
+                filename,
+                title=title,
+                performer=performer,
+                duration=yt["duration"],
+                thumb=f"{path}/{ctime}.png",
+                reply_to_message_id=int(mid),
+            )
+        except BadRequest as e:
+            await c.send_message(
+                chat_id=int(cid),
+                text=(
+                    "Desculpe! Não consegui enviar o "
+                    "vídeo por causa de um erro.\n"
+                    f"Erro: <code>{e}</code>"
+                ),
+            )
+            pass
         await c.delete_messages(chat_id=int(cid), message_ids=cq.message.message_id)
     try:
         await shell_exec(f"rm -rf {tempdir}")
-        await shell_exec(f"rm ./{ctime}.png")
     except BaseException:
         return
 
