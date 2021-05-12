@@ -100,28 +100,31 @@ async def help_m(c: Korone, m: Message):
     module = m.matches[0]["module"]
     if m.chat.type == "private":
         await help_module(c, m, module)
-    else:
+    elif module in COMMANDS_HELP.keys():
         keyboard = [
             [("Ir ao PV", f"https://t.me/{c.me.username}/?start=help_{module}", "url")]
         ]
         await m.reply_text(
             text="Para ver isso, vá ao meu PV.", reply_markup=c.ikb(keyboard)
         )
+    else:
+        keyboard = [[("Ir ao PV", f"https://t.me/{c.me.username}/?start", "url")]]
+        await m.reply_text(
+            "Este módulo não existe, vá ao meu PV para ver os módulos que possuo!",
+            reply_markup=c.ikb(keyboard),
+        )
 
 
-@Korone.on_message(
-    filters.cmd(command="help", action="Envia o menu de ajuda do Bot.")
-    & filters.private
-)
+@Korone.on_message(filters.cmd(command="help", action="Envia o menu de ajuda do Bot."))
 @Korone.on_callback_query(filters.regex("^help_cb$"))
 async def help_c(c: Korone, m: Union[Message, CallbackQuery]):
-    await help_module(c, m)
-
-
-@Korone.on_message(filters.cmd(command="help") & filters.group)
-async def help_g(c: Korone, m: Message):
-    keyboard = [[("Ir ao PV", f"https://t.me/{c.me.username}/?start", "url")]]
-    await m.reply_text("Para obter ajuda vá ao meu PV!", reply_markup=c.ikb(keyboard))
+    if isinstance(m, Message) and m.chat.type in ["supergroup", "group"]:
+        keyboard = [[("Ir ao PV", f"https://t.me/{c.me.username}/?start", "url")]]
+        await m.reply_text(
+            "Para obter ajuda vá ao meu PV!", reply_markup=c.ikb(keyboard)
+        )
+    elif isinstance(m, (Message, CallbackQuery)):
+        await help_module(c, m)
 
 
 async def help_module(c: Korone, m: Message, module: str = None):
