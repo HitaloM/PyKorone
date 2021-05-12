@@ -235,7 +235,7 @@ async def on_ytdl(c: Korone, m: Message):
             afsize = f["filesize"] or 0
         if f["ext"] == "mp4":
             vfsize = f["filesize"] or 0
-    keyb = [
+    keyboard = [
         [
             ("💿 Áudio", f'_aud.{yt["id"]}|{afsize}|{m.chat.id}|{user}|{m.message_id}'),
             ("🎬 Vídeo", f'_vid.{yt["id"]}|{vfsize}|{m.chat.id}|{user}|{m.message_id}'),
@@ -251,7 +251,7 @@ async def on_ytdl(c: Korone, m: Message):
     text += f"💾 <code>{pretty_size(afsize)}</code> (áudio) / <code>{pretty_size(vfsize)}</code> (vídeo)\n"
     text += f"⏳ <code>{datetime.timedelta(seconds=yt.get('duration'))}</code>"
 
-    await m.reply_text(text, reply_markup=c.ikb(keyb))
+    await m.reply_text(text, reply_markup=c.ikb(keyboard))
 
 
 @Korone.on_callback_query(filters.regex("^(_(vid|aud))"))
@@ -259,11 +259,11 @@ async def cli_ytdl(c, cq: CallbackQuery):
     data, fsize, cid, userid, mid = cq.data.split("|")
     if not cq.from_user.id == int(userid):
         return await cq.answer("Este botão não é para você!", cache_time=60)
-    if int(fsize) > 2147483648:
+    if int(fsize) > 524288000:
         return await cq.answer(
             (
                 "Desculpe! Não posso baixar esta mídia pois ela "
-                "ultrapassa o limite de 2GBs de upload do Telegram."
+                "ultrapassa o meu limite de 500MB de upload."
             ),
             show_alert=True,
             cache_time=60,
@@ -304,13 +304,13 @@ async def cli_ytdl(c, cq: CallbackQuery):
         await f.write(r.read())
         await f.close()
     if "vid" in data:
-        await c.send_chat_action(cid, "upload_video")
+        await c.send_chat_action(int(cid), "upload_video")
         try:
             await c.send_video(
-                cid,
+                int(cid),
                 filename,
-                width=int(1920),
-                height=int(1080),
+                width=1920,
+                height=1080,
                 caption=yt["title"],
                 duration=yt["duration"],
                 thumb=f"{path}/{ctime}.png",
@@ -322,8 +322,9 @@ async def cli_ytdl(c, cq: CallbackQuery):
                 text=(
                     "Desculpe! Não consegui enviar o "
                     "vídeo por causa de um erro.\n"
-                    f"Erro: <code>{e}</code>"
+                    f"<b>Erro:</b> <code>{e}</code>"
                 ),
+                reply_to_message_id=int(mid),
             )
             pass
         await c.delete_messages(chat_id=int(cid), message_ids=cq.message.message_id)
@@ -333,10 +334,10 @@ async def cli_ytdl(c, cq: CallbackQuery):
         else:
             performer = yt.get("creator") or yt.get("uploader")
             title = yt["title"]
-        await c.send_chat_action(cid, "upload_audio")
+        await c.send_chat_action(int(cid), "upload_audio")
         try:
             await c.send_audio(
-                cid,
+                int(cid),
                 filename,
                 title=title,
                 performer=performer,
@@ -350,8 +351,9 @@ async def cli_ytdl(c, cq: CallbackQuery):
                 text=(
                     "Desculpe! Não consegui enviar o "
                     "vídeo por causa de um erro.\n"
-                    f"Erro: <code>{e}</code>"
+                    f"<b>Erro:</b> <code>{e}</code>"
                 ),
+                reply_to_message_id=int(mid),
             )
             pass
         await c.delete_messages(chat_id=int(cid), message_ids=cq.message.message_id)

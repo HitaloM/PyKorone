@@ -15,6 +15,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import asyncio
+import math
 from functools import partial, wraps
 from typing import Callable, Coroutine
 
@@ -26,13 +27,14 @@ http = httpx.AsyncClient(http2=True, timeout=timeout)
 
 
 # Misc
-def pretty_size(size):
-    units = ["B", "KB", "MB", "GB"]
-    unit = 0
-    while size >= 1024:
-        size /= 1024
-        unit += 1
-    return "%0.2f %s" % (size, units[unit])
+def pretty_size(size_bytes):
+    if size_bytes == 0:
+        return "0B"
+    size_name = ("B", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB")
+    i = int(math.floor(math.log(size_bytes, 1024)))
+    p = math.pow(1024, i)
+    s = round(size_bytes / p, 2)
+    return "%s %s" % (s, size_name[i])
 
 
 def aiowrap(func: Callable) -> Coroutine:
