@@ -45,9 +45,7 @@ async def dice(c: Korone, m: Message):
     await dicen.reply_text(f"O dado parou no número <code>{dicen.dice.value}</code>!")
 
 
-@Korone.on_message(
-    filters.int(filter=r"Korone, remova ele", group=GROUP) & filters.group
-)
+@Korone.on_message(filters.int(filter=r"Korone, remova ele", group=GROUP))
 async def kick(c: Korone, m: Message):
     if m.chat.type == "private":
         await m.reply_text("Este comando é para ser usado em grupos!")
