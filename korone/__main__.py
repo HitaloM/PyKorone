@@ -61,4 +61,3 @@ if __name__ == "__main__":
         Korone().run()
     except KeyboardInterrupt:
         log.warning("Forced stop... Bye!")
-        pass

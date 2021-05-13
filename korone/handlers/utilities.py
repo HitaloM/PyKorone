@@ -18,7 +18,6 @@ import datetime
 import html
 import io
 import os
-import random
 import re
 import shutil
 import tempfile

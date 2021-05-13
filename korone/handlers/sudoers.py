@@ -31,7 +31,7 @@ import pyromod
 from kantex.html import Bold, Code, KeyValueItem, Section
 from meval import meval
 from pyrogram import filters
-from pyrogram.errors import BadRequest, FloodWait
+from pyrogram.errors import BadRequest
 from pyrogram.types import CallbackQuery, Message
 
 import korone

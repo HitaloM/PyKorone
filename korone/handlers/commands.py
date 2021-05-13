@@ -27,13 +27,14 @@ from typing import Dict
 
 import regex
 from pyrogram import filters
+from pyrogram.errors import BadRequest
 from pyrogram.types import Message
 
 from korone.config import OWNER, SUDOERS, SW_API
 from korone.handlers import COMMANDS_HELP
 from korone.handlers.utils.reddit import bodyfetcher, imagefetcher, titlefetcher
 from korone.korone import Korone
-from korone.utils import http, pretty_size
+from korone.utils import http
 
 GROUP = "general"
 
@@ -121,7 +122,7 @@ async def copy(c: Korone, m: Message):
             from_chat_id=m.chat.id,
             message_id=m.reply_to_message.message_id,
         )
-    except BaseException:
+    except BadRequest:
         return
 
 
