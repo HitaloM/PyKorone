@@ -15,6 +15,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import datetime
+import functools
 import html
 import io
 import os
@@ -24,7 +25,6 @@ import tempfile
 import time
 from typing import Dict
 
-import async_files
 import youtube_dl
 from bs4 import BeautifulSoup as bs
 from duckpy import AsyncClient
@@ -242,7 +242,7 @@ async def on_ytdl(c: Korone, m: Message):
     for f in yt["formats"]:
         if f["format_id"] == "140":
             afsize = f["filesize"] or 0
-        if f["ext"] == "mp4" and not f["filesize"] is None:
+        if f["ext"] == "mp4" and f["filesize"] is not None:
             vfsize = f["filesize"] or 0
             vformat = f["format_id"]
 
@@ -292,6 +292,22 @@ async def cli_ytdl(c, cq: CallbackQuery):
     await cq.answer("Seu pedido é uma ordem... >-<", cache_time=0)
     with tempfile.TemporaryDirectory() as tempdir:
         path = os.path.join(tempdir, "ytdl")
+
+    def progress(m, d):
+        last_edit = 0
+
+        if d["status"] == "finished":
+            return
+        if d["status"] == "downloading":
+            if last_edit + 1 < int(time.time()):
+                percent = d["_percent_str"]
+                try:
+                    m.edit(f"Baixando... <code>{percent}</code>")
+                except BadRequest:
+                    pass
+                finally:
+                    last_edit = int(time.time())
+
     if "vid" in data:
         ydl = youtube_dl.YoutubeDL(
             {
@@ -305,9 +321,11 @@ async def cli_ytdl(c, cq: CallbackQuery):
             {
                 "outtmpl": f"{path}/%(title)s-%(id)s.%(ext)s",
                 "format": "140",
+                "extractaudio": True,
                 "noplaylist": True,
             }
         )
+    ydl.add_progress_hook(functools.partial(progress, cq.message))
     try:
         yt = await extract_info(ydl, url, download=True)
     except BaseException as e:
@@ -315,11 +333,8 @@ async def cli_ytdl(c, cq: CallbackQuery):
         return
     await cq.message.edit("Enviando...")
     filename = ydl.prepare_filename(yt)
-    ctime = time.time()
-    r = await http.get(yt["thumbnail"])
-    async with async_files.FileIO(f"{path}/{ctime}.png", "wb") as f:
-        await f.write(r.read())
-        await f.close()
+    thumb = io.BytesIO((await http.get(yt["thumbnail"])).content)
+    thumb.name = "thumbnail.png"
     if "vid" in data:
         await c.send_chat_action(int(cid), "upload_video")
         try:
@@ -330,7 +345,7 @@ async def cli_ytdl(c, cq: CallbackQuery):
                 height=1080,
                 caption=yt["title"],
                 duration=yt["duration"],
-                thumb=f"{path}/{ctime}.png",
+                thumb=thumb,
                 reply_to_message_id=int(mid),
             )
         except BadRequest as e:
@@ -357,7 +372,7 @@ async def cli_ytdl(c, cq: CallbackQuery):
                 title=title,
                 performer=performer,
                 duration=yt["duration"],
-                thumb=f"{path}/{ctime}.png",
+                thumb=thumb,
                 reply_to_message_id=int(mid),
             )
         except BadRequest as e:
