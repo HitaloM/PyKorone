@@ -16,7 +16,6 @@
 
 import base64
 import html
-import io
 import os
 import tempfile
 from datetime import timedelta
@@ -444,7 +443,9 @@ async def whatanime(c: Korone, m: Message):
     )
 
     with tempfile.TemporaryDirectory() as tempdir:
-        path = await c.download_media(media, file_name=os.path.join(tempdir, "0"))
+        path = await c.download_media(
+            media, file_name=os.path.join(tempdir, "whatanime")
+        )
         file = None
         async with async_files.FileIO(path, "rb") as f:
             file = base64.b64encode(await f.read())
@@ -505,13 +506,10 @@ async def whatanime(c: Korone, m: Message):
         return await m.reply_text("Não consegui enviar o preview.")
 
     url = f"https://media.trace.moe/video/{anilist_id}/{quote(filename)}?t={result['at']}&token={tokenthumb}&size=l"
-    r = await http.get(url)
-    file = io.BytesIO(r.content)
-    file.name = filename
     try:
         await c.send_video(
-            m.chat.id,
-            file,
+            chat_id=m.chat.id,
+            video=url,
             caption=(
                 f"<code>{filename}</code>\n"
                 f"<code>{from_time}</code> - <code>{to_time}</code>"
