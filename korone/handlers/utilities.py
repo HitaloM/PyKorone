@@ -14,6 +14,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+import asyncio
 import datetime
 import html
 import io
@@ -138,8 +139,11 @@ async def duckduckgo(c: Korone, m: Message):
     )
 )
 async def cleanup(c: Korone, m: Message):
-    member = await c.get_chat_member(chat_id=m.chat.id, user_id=m.from_user.id)
+    if m.chat.type == "private":
+        await m.reply_text("Este comando é para ser usado em grupos!")
+        return
 
+    member = await c.get_chat_member(chat_id=m.chat.id, user_id=m.from_user.id)
     if member.status in ["administrator", "creator"]:
         deleted = []
         sent = await m.reply_text("Iniciando limpeza...")
@@ -497,3 +501,25 @@ async def amn_print(c: Korone, m: Message):
         return
 
     await reply.delete()
+
+
+@Korone.on_message(
+    filters.cmd(
+        command="del$",
+        action="Faça o Korone apagar uma mensagem.",
+        group=GROUP,
+    )
+)
+async def del_message(c: Korone, m: Message):
+    if not m.chat.type == "private":
+        member = await c.get_chat_member(chat_id=m.chat.id, user_id=m.from_user.id)
+
+    if m.chat.type == "private" or member.status in ["administrator", "creator"]:
+        if m.reply_to_message:
+            await c.delete_messages(
+                chat_id=m.chat.id,
+                message_ids=[m.reply_to_message.message_id, m.message_id],
+                revoke=True,
+            )
+    else:
+        await m.reply_text("Bakayarou! Você não é um administrador...")

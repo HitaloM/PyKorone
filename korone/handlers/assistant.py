@@ -21,6 +21,7 @@ from typing import Dict
 
 import wikipedia
 from pyrogram import filters
+from pyrogram.errors import BadRequest
 from pyrogram.types import Message
 
 from korone.handlers import COMMANDS_HELP
@@ -48,8 +49,11 @@ async def dice(c: Korone, m: Message):
     filters.int(filter=r"Korone, remova ele", group=GROUP) & filters.group
 )
 async def kick(c: Korone, m: Message):
-    member = await c.get_chat_member(chat_id=m.chat.id, user_id=m.from_user.id)
+    if m.chat.type == "private":
+        await m.reply_text("Este comando é para ser usado em grupos!")
+        return
 
+    member = await c.get_chat_member(chat_id=m.chat.id, user_id=m.from_user.id)
     if member.can_restrict_members is False:
         return await m.reply_text(
             "Você não possui a permissão para banir usuários neste grupo!"
@@ -60,10 +64,9 @@ async def kick(c: Korone, m: Message):
             await c.kick_chat_member(m.chat.id, m.reply_to_message.from_user.id)
             await m.chat.unban_member(m.reply_to_message.from_user.id)
             await m.reply_animation(
-                animation="CgACAgQAAx0ET2XwHwACWb1gCDScpSaFyoNgPa2Ag_yiRo61YQACPwIAAryMhFOFxHV09aPBTR4E",
-                quote=True,
+                animation="CgACAgQAAx0ET2XwHwACWb1gCDScpSaFyoNgPa2Ag_yiRo61YQACPwIAAryMhFOFxHV09aPBTR4E"
             )
-        except BaseException as e:
+        except BadRequest as e:
             return await m.reply_text(
                 f"Eu n-não consegui remover este usuário! >-<\n<b>Erro:</b> <code>{e}</code>"
             )

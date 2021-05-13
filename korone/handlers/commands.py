@@ -363,3 +363,5 @@ async def getsticker(c: Korone, m: Message):
                 ),
             )
             shutil.rmtree(tempdir, ignore_errors=True)
+    else:
+        await m.reply_text("Isso não é um sticker!")
