@@ -235,10 +235,17 @@ async def on_ytdl(c: Korone, m: Message):
             afsize = f["filesize"] or 0
         if f["ext"] == "mp4" and not f["filesize"] is None:
             vfsize = f["filesize"] or 0
+            vformat = f["format_id"]
     keyboard = [
         [
-            ("💿 Áudio", f'_aud.{yt["id"]}|{afsize}|{m.chat.id}|{user}|{m.message_id}'),
-            ("🎬 Vídeo", f'_vid.{yt["id"]}|{vfsize}|{m.chat.id}|{user}|{m.message_id}'),
+            (
+                "💿 Áudio",
+                f'_aud.{yt["id"]}|{afsize}|{vformat}|{m.chat.id}|{user}|{m.message_id}',
+            ),
+            (
+                "🎬 Vídeo",
+                f'_vid.{yt["id"]}|{vfsize}|{vformat}|{m.chat.id}|{user}|{m.message_id}',
+            ),
         ]
     ]
     if " - " in yt["title"]:
@@ -256,7 +263,7 @@ async def on_ytdl(c: Korone, m: Message):
 
 @Korone.on_callback_query(filters.regex("^(_(vid|aud))"))
 async def cli_ytdl(c, cq: CallbackQuery):
-    data, fsize, cid, userid, mid = cq.data.split("|")
+    data, fsize, vformat, cid, userid, mid = cq.data.split("|")
     if not cq.from_user.id == int(userid):
         return await cq.answer("Este botão não é para você!", cache_time=60)
     if int(fsize) > 524288000:
@@ -278,7 +285,7 @@ async def cli_ytdl(c, cq: CallbackQuery):
         ydl = youtube_dl.YoutubeDL(
             {
                 "outtmpl": f"{path}/%(title)s-%(id)s.%(ext)s",
-                "format": "mp4",
+                "format": vformat,
                 "noplaylist": True,
             }
         )
