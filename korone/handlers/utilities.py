@@ -148,10 +148,12 @@ async def cleanup(c: Korone, m: Message):
                 try:
                     await c.kick_chat_member(m.chat.id, t.user.id)
                     deleted.append(t)
-                except BaseException:
+                except BadRequest:
                     pass
         if len(deleted) > 0:
-            await sent.edit_text("Removi todas as contas excluídas do grupo!")
+            await sent.edit_text(
+                f"Removi todas as {len(deleted)} contas excluídas do grupo!"
+            )
         else:
             await sent.edit_text("Não há contas excluídas no grupo!")
     else:
