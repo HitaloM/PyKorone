@@ -20,6 +20,7 @@ import io
 import os
 import random
 import re
+import shutil
 import tempfile
 import time
 from typing import Dict
@@ -39,7 +40,7 @@ from korone.handlers.utils.misc import escape_definition
 from korone.handlers.utils.translator import get_tr_lang, tr
 from korone.handlers.utils.ytdl import extract_info
 from korone.korone import Korone
-from korone.utils import http, pretty_size, shell_exec
+from korone.utils import http, pretty_size
 
 GROUP = "utils"
 
@@ -364,10 +365,7 @@ async def cli_ytdl(c, cq: CallbackQuery):
             )
             pass
         await c.delete_messages(chat_id=int(cid), message_ids=cq.message.message_id)
-    try:
-        await shell_exec(f"rm -rf {tempdir}")
-    except BaseException:
-        return
+    shutil.rmtree(tempdir, ignore_errors=True)
 
 
 @Korone.on_message(

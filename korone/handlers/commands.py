@@ -19,6 +19,7 @@ import binascii
 import html
 import os
 import random
+import shutil
 import string
 import tempfile
 from datetime import datetime
@@ -32,7 +33,7 @@ from korone.config import OWNER, SUDOERS, SW_API
 from korone.handlers import COMMANDS_HELP
 from korone.handlers.utils.reddit import bodyfetcher, imagefetcher, titlefetcher
 from korone.korone import Korone
-from korone.utils import http, pretty_size, shell_exec
+from korone.utils import http, pretty_size
 
 GROUP = "general"
 
@@ -361,7 +362,4 @@ async def getsticker(c: Korone, m: Message):
                     f"<b>Sticker ID:</b> <code>{sticker.file_id}</code>"
                 ),
             )
-            try:
-                await shell_exec(f"rm -rf {tempdir}")
-            except BaseException:
-                return
+            shutil.rmtree(tempdir, ignore_errors=True)
