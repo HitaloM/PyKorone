@@ -216,6 +216,7 @@ async def stickcolor(c: Korone, m: Message):
 async def on_ytdl(c: Korone, m: Message):
     args = m.matches[0]["text"]
     user = m.from_user.id
+
     if m.reply_to_message and m.reply_to_message.text:
         url = m.reply_to_message.text
     elif m.text and args:
@@ -223,6 +224,7 @@ async def on_ytdl(c: Korone, m: Message):
     else:
         await m.reply_text("Por favor, responda a um link do YouTube ou texto.")
         return
+
     ydl = youtube_dl.YoutubeDL(
         {"outtmpl": "dls/%(title)s-%(id)s.%(ext)s", "format": "mp4", "noplaylist": True}
     )
@@ -231,17 +233,20 @@ async def on_ytdl(c: Korone, m: Message):
         url,
         re.M,
     )
+
     if not rege:
         yt = await extract_info(ydl, "ytsearch:" + url, download=False)
         yt = yt["entries"][0]
     else:
         yt = await extract_info(ydl, rege.group(), download=False)
+
     for f in yt["formats"]:
         if f["format_id"] == "140":
             afsize = f["filesize"] or 0
         if f["ext"] == "mp4" and not f["filesize"] is None:
             vfsize = f["filesize"] or 0
             vformat = f["format_id"]
+
     keyboard = [
         [
             (
@@ -254,6 +259,7 @@ async def on_ytdl(c: Korone, m: Message):
             ),
         ]
     ]
+
     if " - " in yt["title"]:
         performer, title = yt["title"].rsplit(" - ", 1)
     else:
@@ -308,8 +314,7 @@ async def cli_ytdl(c, cq: CallbackQuery):
     except BaseException as e:
         await cq.message.edit(f"<b>Error!</b>\n<code>{e}</code>")
         return
-    a = "Enviando..."
-    await cq.message.edit(a)
+    await cq.message.edit("Enviando...")
     filename = ydl.prepare_filename(yt)
     ctime = time.time()
     r = await http.get(yt["thumbnail"])
@@ -320,8 +325,8 @@ async def cli_ytdl(c, cq: CallbackQuery):
         await c.send_chat_action(int(cid), "upload_video")
         try:
             await c.send_video(
-                int(cid),
-                filename,
+                chat_id=int(cid),
+                video=filename,
                 width=1920,
                 height=1080,
                 caption=yt["title"],
@@ -339,8 +344,6 @@ async def cli_ytdl(c, cq: CallbackQuery):
                 ),
                 reply_to_message_id=int(mid),
             )
-            pass
-        await c.delete_messages(chat_id=int(cid), message_ids=cq.message.message_id)
     else:
         if " - " in yt["title"]:
             performer, title = yt["title"].rsplit(" - ", 1)
@@ -350,8 +353,8 @@ async def cli_ytdl(c, cq: CallbackQuery):
         await c.send_chat_action(int(cid), "upload_audio")
         try:
             await c.send_audio(
-                int(cid),
-                filename,
+                chat_id=int(cid),
+                audio=filename,
                 title=title,
                 performer=performer,
                 duration=yt["duration"],
@@ -368,8 +371,7 @@ async def cli_ytdl(c, cq: CallbackQuery):
                 ),
                 reply_to_message_id=int(mid),
             )
-            pass
-        await c.delete_messages(chat_id=int(cid), message_ids=cq.message.message_id)
+    await cq.message.delete()
     shutil.rmtree(tempdir, ignore_errors=True)
 
 
