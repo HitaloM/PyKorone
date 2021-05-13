@@ -30,7 +30,7 @@ from bs4 import BeautifulSoup as bs
 from duckpy import AsyncClient
 from httpx._exceptions import TimeoutException
 from pyrogram import filters
-from pyrogram.errors import ImageProcessFailed
+from pyrogram.errors import BadRequest, ImageProcessFailed
 from pyrogram.types import CallbackQuery, Message
 
 from korone.handlers import COMMANDS_HELP
@@ -233,7 +233,7 @@ async def on_ytdl(c: Korone, m: Message):
     for f in yt["formats"]:
         if f["format_id"] == "140":
             afsize = f["filesize"] or 0
-        if f["ext"] == "mp4":
+        if f["ext"] == "mp4" and not f["filesize"] is None:
             vfsize = f["filesize"] or 0
     keyboard = [
         [
@@ -248,7 +248,7 @@ async def on_ytdl(c: Korone, m: Message):
         title = yt["title"]
 
     text = f"🎧 <b>{performer}</b> - <i>{title}</i>\n"
-    text += f"💾 <code>{pretty_size(afsize)}</code> (áudio) / <code>{pretty_size(vfsize)}</code> (vídeo)\n"
+    text += f"💾 <code>{pretty_size(afsize)}</code> (áudio) / <code>{pretty_size(int(vfsize))}</code> (vídeo)\n"
     text += f"⏳ <code>{datetime.timedelta(seconds=yt.get('duration'))}</code>"
 
     await m.reply_text(text, reply_markup=c.ikb(keyboard))
