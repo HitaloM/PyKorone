@@ -14,9 +14,44 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+import time
+
+from pyrogram.errors import BadRequest
+
 from korone.utils import aiowrap
 
 
 @aiowrap
 def extract_info(instance, url, download=True):
     return instance.extract_info(url, download)
+
+
+async def up_progress(current, total, c, m, action: str):
+    last_edit = 0
+    percent = current * 100 / total
+    if last_edit + 1 < int(time.time()) or current == total:
+        if action == "video":
+            await c.send_chat_action(m.chat.id, "upload_video")
+        if action == "audio":
+            await c.send_chat_action(m.chat.id, "upload_audio")
+        try:
+            await m.edit(f"Enviando... <code>{percent}%</code>")
+        except BadRequest:
+            pass
+        finally:
+            last_edit = int(time.time())
+
+
+def down_progress(m, d):
+    last_edit = 0
+    if d["status"] == "finished":
+        return
+    if d["status"] == "downloading":
+        if last_edit + 1 < int(time.time()):
+            percent = d["_percent_str"]
+            try:
+                m.edit(f"Baixando... <code>{percent}</code>")
+            except BadRequest:
+                pass
+            finally:
+                last_edit = int(time.time())

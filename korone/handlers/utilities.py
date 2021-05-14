@@ -22,7 +22,6 @@ import os
 import re
 import shutil
 import tempfile
-import time
 from typing import Dict
 
 import youtube_dl
@@ -37,7 +36,7 @@ from korone.handlers import COMMANDS_HELP
 from korone.handlers.utils.image import stickcolorsync
 from korone.handlers.utils.misc import escape_definition
 from korone.handlers.utils.translator import get_tr_lang, tr
-from korone.handlers.utils.ytdl import extract_info
+from korone.handlers.utils.ytdl import down_progress, extract_info, up_progress
 from korone.korone import Korone
 from korone.utils import http, pretty_size
 
@@ -292,22 +291,6 @@ async def cli_ytdl(c, cq: CallbackQuery):
     await cq.answer("Seu pedido é uma ordem... >-<", cache_time=0)
     with tempfile.TemporaryDirectory() as tempdir:
         path = os.path.join(tempdir, "ytdl")
-
-    def progress(m, d):
-        last_edit = 0
-
-        if d["status"] == "finished":
-            return
-        if d["status"] == "downloading":
-            if last_edit + 1 < int(time.time()):
-                percent = d["_percent_str"]
-                try:
-                    m.edit(f"Baixando... <code>{percent}</code>")
-                except BadRequest:
-                    pass
-                finally:
-                    last_edit = int(time.time())
-
     if "vid" in data:
         ydl = youtube_dl.YoutubeDL(
             {
@@ -325,7 +308,7 @@ async def cli_ytdl(c, cq: CallbackQuery):
                 "noplaylist": True,
             }
         )
-    ydl.add_progress_hook(functools.partial(progress, cq.message))
+    ydl.add_progress_hook(functools.partial(down_progress, cq.message))
     try:
         yt = await extract_info(ydl, url, download=True)
     except BaseException as e:
@@ -346,6 +329,12 @@ async def cli_ytdl(c, cq: CallbackQuery):
                 caption=yt["title"],
                 duration=yt["duration"],
                 thumb=thumb,
+                progress=up_progress,
+                progress_args=(
+                    c,
+                    cq.message,
+                    "video",
+                ),
                 reply_to_message_id=int(mid),
             )
         except BadRequest as e:
@@ -364,7 +353,6 @@ async def cli_ytdl(c, cq: CallbackQuery):
         else:
             performer = yt.get("creator") or yt.get("uploader")
             title = yt["title"]
-        await c.send_chat_action(int(cid), "upload_audio")
         try:
             await c.send_audio(
                 chat_id=int(cid),
@@ -373,6 +361,12 @@ async def cli_ytdl(c, cq: CallbackQuery):
                 performer=performer,
                 duration=yt["duration"],
                 thumb=thumb,
+                progress=up_progress,
+                progress_args=(
+                    c,
+                    cq.message,
+                    "audio",
+                ),
                 reply_to_message_id=int(mid),
             )
         except BadRequest as e:
