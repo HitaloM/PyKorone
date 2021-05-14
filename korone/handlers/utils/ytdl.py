@@ -27,7 +27,7 @@ def extract_info(instance, url, download=True):
 
 
 async def up_progress(current, total, c, m, action: str):
-    last_edit = 0
+    last_edit = 3
     percent = current * 100 / total
     if last_edit + 1 < int(time.time()) or current == total:
         if action == "video":
@@ -43,7 +43,7 @@ async def up_progress(current, total, c, m, action: str):
 
 
 def down_progress(m, d):
-    last_edit = 0
+    last_edit = 3
     if d["status"] == "finished":
         return
     if d["status"] == "downloading":
