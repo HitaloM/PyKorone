@@ -280,7 +280,7 @@ async def cli_ytdl(c, cq: CallbackQuery):
         return await cq.answer(
             (
                 "Desculpe! Não posso baixar esta mídia pois ela "
-                "ultrapassa o meu limite de 500MB de upload."
+                "ultrapassa o meu limite de 200MB de download."
             ),
             show_alert=True,
             cache_time=60,

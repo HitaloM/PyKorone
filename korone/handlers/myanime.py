@@ -46,7 +46,8 @@ COMMANDS_HELP[GROUP]: Dict = {
 
 
 def t(milliseconds: int) -> str:
-    """Inputs time in milliseconds, to get beautified time, as string.
+    """
+    Inputs time in milliseconds, to get beautified time, as string.
 
     Arguments:
         `milliseconds`: time in milliseconds.

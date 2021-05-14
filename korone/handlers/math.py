@@ -36,105 +36,105 @@ done_text = "<b>Expressão:</b> <code>{}</code>\n<b>Resultado:</b> <code>{}</cod
 
 
 @Korone.on_message(filters.cmd("simplify (?P<calc>.+)", group=GROUP))
-async def simplify(c: Korone, m: Message):
+async def simplify_math(c: Korone, m: Message):
     calc = m.matches[0]["calc"]
     result = await pynewton.simplify(calc)
     await m.reply_text((done_text).format(calc, result))
 
 
 @Korone.on_message(filters.cmd("factor (?P<calc>.+)", group=GROUP))
-async def factor(c: Korone, m: Message):
+async def factor_math(c: Korone, m: Message):
     calc = m.matches[0]["calc"]
     result = await pynewton.factor(calc)
     await m.reply_text((done_text).format(calc, result))
 
 
 @Korone.on_message(filters.cmd("derive (?P<calc>.+)", group=GROUP))
-async def derive(c: Korone, m: Message):
+async def derive_math(c: Korone, m: Message):
     calc = m.matches[0]["calc"]
     result = await pynewton.derive(calc)
     await m.reply_text((done_text).format(calc, result))
 
 
 @Korone.on_message(filters.cmd("integrate (?P<calc>.+)", group=GROUP))
-async def integrate(c: Korone, m: Message):
+async def integrate_math(c: Korone, m: Message):
     calc = m.matches[0]["calc"]
     result = await pynewton.integrate(calc)
     await m.reply_text((done_text).format(calc, result))
 
 
 @Korone.on_message(filters.cmd("zeroes (?P<calc>.+)", group=GROUP))
-async def zeroes(c: Korone, m: Message):
+async def zeroes_math(c: Korone, m: Message):
     calc = m.matches[0]["calc"]
     result = await pynewton.zeroes(calc)
     await m.reply_text((done_text).format(calc, result))
 
 
 @Korone.on_message(filters.cmd("tangent (?P<calc>.+)", group=GROUP))
-async def tangent(c: Korone, m: Message):
+async def tangent_math(c: Korone, m: Message):
     calc = m.matches[0]["calc"]
     result = await pynewton.tangent(calc)
     await m.reply_text((done_text).format(calc, result))
 
 
 @Korone.on_message(filters.cmd("area (?P<calc>.+)", group=GROUP))
-async def area(c: Korone, m: Message):
+async def area_math(c: Korone, m: Message):
     calc = m.matches[0]["calc"]
     result = await pynewton.area(calc)
     await m.reply_text((done_text).format(calc, result))
 
 
 @Korone.on_message(filters.cmd("cos (?P<calc>.+)", group=GROUP))
-async def xos(c: Korone, m: Message):
+async def xos_math(c: Korone, m: Message):
     calc = m.matches[0]["calc"]
     result = await pynewton.cos(calc)
     await m.reply_text((done_text).format(calc, result))
 
 
 @Korone.on_message(filters.cmd("sin (?P<calc>.+)", group=GROUP))
-async def sin(c: Korone, m: Message):
+async def sin_math(c: Korone, m: Message):
     calc = m.matches[0]["calc"]
     result = await pynewton.sin(calc)
     await m.reply_text((done_text).format(calc, result))
 
 
 @Korone.on_message(filters.cmd("tan (?P<calc>.+)", group=GROUP))
-async def tan(c: Korone, m: Message):
+async def tan_math(c: Korone, m: Message):
     calc = m.matches[0]["calc"]
     result = await pynewton.tan(calc)
     await m.reply_text((done_text).format(calc, result))
 
 
 @Korone.on_message(filters.cmd("accos (?P<calc>.+)", group=GROUP))
-async def accos(c: Korone, m: Message):
+async def accos_math(c: Korone, m: Message):
     calc = m.matches[0]["calc"]
     result = await pynewton.accos(calc)
     await m.reply_text((done_text).format(calc, result))
 
 
 @Korone.on_message(filters.cmd("arcsin (?P<calc>.+)", group=GROUP))
-async def arcsin(c: Korone, m: Message):
+async def arcsin_math(c: Korone, m: Message):
     calc = m.matches[0]["calc"]
     result = await pynewton.arcsin(calc)
     await m.reply_text((done_text).format(calc, result))
 
 
 @Korone.on_message(filters.cmd("arctan (?P<calc>.+)", group=GROUP))
-async def arctan(c: Korone, m: Message):
+async def arctan_math(c: Korone, m: Message):
     calc = m.matches[0]["calc"]
     result = await pynewton.arctan(calc)
     await m.reply_text((done_text).format(calc, result))
 
 
 @Korone.on_message(filters.cmd("abs (?P<calc>.+)", group=GROUP))
-async def abs(c: Korone, m: Message):
+async def abs_math(c: Korone, m: Message):
     calc = m.matches[0]["calc"]
     result = await pynewton.abs(calc)
     await m.reply_text((done_text).format(calc, result))
 
 
 @Korone.on_message(filters.cmd("log (?P<calc>.+)", group=GROUP))
-async def log(c: Korone, m: Message):
+async def log_math(c: Korone, m: Message):
     calc = m.matches[0]["calc"]
     result = await pynewton.log(calc)
     await m.reply_text((done_text).format(calc, result))

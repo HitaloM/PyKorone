@@ -53,7 +53,6 @@ async def imagefetcher(c, m, sub):
     for _ in range(10):
         try:
             post = await subreddit.random() or await imagefetcherfallback(subreddit)
-            post.title
 
             if post.over_18:
                 continue
