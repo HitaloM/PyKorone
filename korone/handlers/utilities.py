@@ -276,7 +276,7 @@ async def cli_ytdl(c, cq: CallbackQuery):
     data, fsize, vformat, cid, userid, mid = cq.data.split("|")
     if not cq.from_user.id == int(userid):
         return await cq.answer("Este botão não é para você!", cache_time=60)
-    if int(fsize) > 524288000:
+    if int(fsize) > 209715200:
         return await cq.answer(
             (
                 "Desculpe! Não posso baixar esta mídia pois ela "

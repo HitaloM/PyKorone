@@ -14,9 +14,10 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+import asyncio
 import time
 
-from pyrogram.errors import BadRequest
+from pyrogram.errors import BadRequest, FloodWait
 
 from korone.utils import aiowrap
 
@@ -36,6 +37,8 @@ async def up_progress(current, total, c, m, action: str):
             await c.send_chat_action(m.chat.id, "upload_audio")
         try:
             await m.edit("Enviando... <code>{:.1f}%</code>".format(percent))
+        except FloodWait as e:
+            await asyncio.sleep(e.x)
         except BadRequest:
             pass
         finally:
@@ -51,6 +54,8 @@ def down_progress(m, d):
             percent = d["_percent_str"]
             try:
                 m.edit(f"Baixando... <code>{percent}</code>")
+            except FloodWait as e:
+                time.sleep(e.x)
             except BadRequest:
                 pass
             finally:
