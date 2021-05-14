@@ -35,7 +35,7 @@ async def up_progress(current, total, c, m, action: str):
         if action == "audio":
             await c.send_chat_action(m.chat.id, "upload_audio")
         try:
-            await m.edit(f"Enviando... <code>{percent}%</code>")
+            await m.edit("Enviando... <code>{:.1f}%</code>".format(percent))
         except BadRequest:
             pass
         finally:
