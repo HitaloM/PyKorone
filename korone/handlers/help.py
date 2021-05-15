@@ -99,7 +99,13 @@ async def start(c: Korone, m: Union[Message, CallbackQuery]):
 async def help_m(c: Korone, m: Message):
     module = m.matches[0]["module"]
     if m.chat.type == "private":
-        await help_module(c, m, module)
+        if module in COMMANDS_HELP.keys() or module in ["commands", "filters", "start"]:
+            await help_module(c, m, module)
+        else:
+            await m.reply_text(
+                f"Desculpe! Não encontrei o módulo <code>{module}</code>, "
+                "verifique sua pesquisa e tente novamente."
+            )
     elif module in COMMANDS_HELP.keys():
         keyboard = [
             [("Ir ao PV", f"https://t.me/{c.me.username}/?start=help_{module}", "url")]
