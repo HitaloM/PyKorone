@@ -20,12 +20,11 @@ import sys
 from datetime import datetime, timezone
 
 import pyrogram
-import pyromod
 from pyrogram import Client
 from pyrogram.errors import BadRequest
+from pyrogram.helpers import ikb
 from pyrogram.raw.all import layer
 from pyrogram.types import User
-from pyromod.helpers import ikb
 
 import korone
 from korone.config import API_HASH, API_ID, SUDOERS, TOKEN
@@ -76,7 +75,6 @@ class Korone(Client):
             f"<b>PyKorone <code>v{korone.__version__} "
             f"({self.version_code})</code> started...</b>\n"
             f"- <b>Pyrogram:</b> <code>v{pyrogram.__version__}</code>\n"
-            f"- <b>Pyromod:</b> <code>v{pyromod.__version__}</code>\n"
             f"- <b>Python:</b> <code>v{platform.python_version()}</code>\n"
             f"- <b>System:</b> <code>{self.system_version}</code>"
         )

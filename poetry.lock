@@ -555,17 +555,6 @@ reference = "master"
 resolved_reference = "0d2574489f24ba38e3598bc216941ae513788689"
 
 [[package]]
-name = "pyromod"
-version = "1.5"
-description = "A monkeypatcher add-on for Pyrogram"
-category = "main"
-optional = false
-python-versions = ">=3.6"
-
-[package.dependencies]
-pyrogram = ">=1.0.0"
-
-[[package]]
 name = "pysocks"
 version = "1.7.1"
 description = "A Python SOCKS client module. See https://github.com/Anorov/PySocks for more information."
@@ -786,7 +775,7 @@ testing = ["pytest (>=4.6)", "pytest-checkdocs (>=1.2.3)", "pytest-flake8", "pyt
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.6.2"
-content-hash = "6c86284c281ab9d42ef88cff960ea8283209bd6a641d65c62a5a8f8ac738a1f0"
+content-hash = "b6aa140045dcb899485d2da3b70684a496da660f639a942ac770d86991c4ec03"
 
 [metadata.files]
 aiofiles = [
@@ -1159,9 +1148,6 @@ pynewton = [
     {file = "pynewton-1.1.2.tar.gz", hash = "sha256:d88baa2f29cf576fca34582629a3440d2456358abb5292cb8af86f051872751c"},
 ]
 Pyrogram = []
-pyromod = [
-    {file = "pyromod-1.5-py3-none-any.whl", hash = "sha256:a3ced84a777a244d104fcc326e6dc59ec68fc0a28b65154abc1fc16dd33f4f91"},
-]
 pysocks = [
     {file = "PySocks-1.7.1-py27-none-any.whl", hash = "sha256:08e69f092cc6dbe92a0fdd16eeb9b9ffbc13cadfe5ca4c7bd92ffb078b293299"},
     {file = "PySocks-1.7.1-py3-none-any.whl", hash = "sha256:2725bd0a9925919b9b51739eea5f9e2bae91e83288108a9ad338b2e3a4435ee5"},

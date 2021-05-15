@@ -27,7 +27,6 @@ import humanize
 import kantex
 import psutil
 import pyrogram
-import pyromod
 from kantex.html import Bold, Code, KeyValueItem, Section
 from meval import meval
 from pyrogram import filters
@@ -246,7 +245,6 @@ async def bot_info(c: Korone, m: Message):
         KeyValueItem(Bold("Source"), korone.__source__),
         KeyValueItem(Bold("Korone"), f"{korone.__version__} ({c.version_code})"),
         KeyValueItem(Bold("Pyrogram"), pyrogram.__version__),
-        KeyValueItem(Bold("Pyromod"), pyromod.__version__),
         KeyValueItem(Bold("Python"), platform.python_version()),
         KeyValueItem(Bold("KanTeX"), kantex.__version__),
     )

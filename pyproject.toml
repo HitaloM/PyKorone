@@ -44,7 +44,6 @@ wikipedia = {git = "https://github.com/HitaloSama/Wikipedia"}
 python-anilist = "1.0.4"
 regex = "2021.4.4"
 lxml = "4.6.3"
-pyromod = "1.5"
 pynewton = "1.1.2"
 async-files = "0.4"
 humanize = "3.5.0"
