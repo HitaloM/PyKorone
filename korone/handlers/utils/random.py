@@ -14,14 +14,16 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-SHUTUP_REACT = (
+from typing import List
+
+SHUTUP_REACT: List[str] = (
     "Não vou calar >>:c",
     "Você é que está incomodando! TwT",
     "Não vou calar >:(",
     "Você é que está incomodando! T^T",
 )
 
-NONE_CMD = (
+NONE_CMD: List[str] = (
     "Nani...? :'c",
     "....?",
     "*jiiii*",
@@ -33,7 +35,7 @@ NONE_CMD = (
     "Compreendo! U~U\n*realmente não entendo*",
 )
 
-HELLO = (
+HELLO: List[str] = (
     "À sua disposição {}! ^^",
     "Sim? *^^^*",
     "Nya! Ao seu serviço ~",
@@ -44,9 +46,9 @@ HELLO = (
     "{}! Estou aqui! :3",
 )
 
-REACTIONS = ("T^T", "q.q", "*A*", "qwq", "*-*", "TwT")
+REACTIONS: List[str] = ("T^T", "q.q", "*A*", "qwq", "*-*", "TwT")
 
-REACTS = (
+REACTS: List[str] = (
     "( ͡° ͜ʖ ͡°)",
     "( . •́ _ʖ •̀ .)",
     "( ಠ ͜ʖ ಠ)",
@@ -251,17 +253,17 @@ REACTS = (
     "(∩ᄑ_ᄑ)⊃━☆ﾟ*･｡*･:≡( ε:)",
 )
 
-CATCH_REACT = (
+CATCH_REACT: List[str] = (
     "*salta no {}*\nEu peguei elee!!! ",
     "*persegue {} mas cai e se machuca* ",
     "*come um cookie e ignora* ",
 )
 
-FUCK_REACT = ("((ﾉ◉Д◉)ﾉ ﾐ ┸━┸", "(ﾉ≧∇≦)ﾉ ﾐ ┸━┸")
+FUCK_REACT: List[str] = ("((ﾉ◉Д◉)ﾉ ﾐ ┸━┸", "(ﾉ≧∇≦)ﾉ ﾐ ┸━┸")
 
-AYY_REACT = ("lmao", "lol")
+AYY_REACT: List[str] = ("lmao", "lol")
 
-UWU_REACT = (
+UWU_REACT: List[str] = (
     "UWU",
     "uwu",
     "(・`ω´・)",
@@ -279,9 +281,9 @@ UWU_REACT = (
     "(>_",
 )
 
-DOGE_REACT = ("₍^•ﻌ•^₎", "ʕ •ᴥ•ʔ")
+DOGE_REACT: List[str] = ("₍^•ﻌ•^₎", "ʕ •ᴥ•ʔ")
 
-SHRUGS_REACT = (
+SHRUGS_REACT: List[str] = (
     "┐(´д｀)┌",
     "┐(´～｀)┌",
     "┐(´ー｀)┌",
@@ -307,7 +309,7 @@ SHRUGS_REACT = (
     "乁( ⁰͡  Ĺ̯ ⁰͡ ) ㄏ",
 )
 
-PASTAMOJIS = [
+PASTAMOJIS: List[str] = [
     "😂",
     "😂",
     "👌",
@@ -338,35 +340,35 @@ PASTAMOJIS = [
     "🚰",
 ]
 
-BANHAMMERS = (
+BANHAMMERS: List[str] = (
     "CAACAgQAAx0CT2XwHwACV-Nf78g1TSCO_mWtKhTbpOdalpdNHAACzwEAAgYlKAMdkZFHZv_nNR4E",
     "CAACAgQAAx0CT2XwHwACWAABX-_J6flwJKzep9rYUQttGXJzcwQAAtEBAAIGJSgDDFVJta1mslAeBA",
     "CAACAgQAAx0CT2XwHwACWDlf78oRiyeopP7i4rPx_k62hLyOGgACxgEAAgYlKANkSj4WKRcTjx4E",
 )
 
-THONKI = (
+THONKI: List[str] = (
     "CAACAgEAAx0ET2XwHwAChbtgKDFjTKT4gS1_TCTWbemTgUt1CgAChQIAAjFpvDbZqTY8tHUWIB4E",
     "CAACAgEAAx0ET2XwHwAChb1gKDFe9FutzBHdVCNPeHBTDlXwggAChAIAAjFpvDZrJcSmknKKjh4E",
 )
 
-WHATSUP_REACT = (
+WHATSUP_REACT: List[str] = (
     "Ah, tudo está bem eu acho ~\nGostaria de um cookie? ❤️",
     "Tudo bem ~\nVocê quer um café? UwU",
 )
 
-IMBACK_REACT = (
+IMBACK_REACT: List[str] = (
     "*abraça {} feliz!* ^^",
     "Oi {}!\n*feliz* ^^",
 )
 
-HEY_REACT = (
+HEY_REACT: List[str] = (
     "Oi oi!\nPosso te ajudar?\nTalvez você queira alguns cookies? ~",
     "Olá {}!",
     "Oiiii {}!!",
     "Konnichiwa!",
 )
 
-INSULTS_REACT = (
+INSULTS_REACT: List[str] = (
     "Eu te odeio tanto...",
     "...*ignora*",
     "Sério??? Pare de me irritar.",
@@ -376,9 +378,9 @@ INSULTS_REACT = (
     "P-pare com isso! Se não vou te morder.",
 )
 
-GODZILLA_REACT = (
+GODZILLA_REACT: List[str] = (
     "CAACAgEAAx0CT2XwHwACZ8VgEalzogHKIB6GOomJcIPMvj69MgACewIAAjFpvDYR3evaimLigx4E",
     "CAACAgEAAx0ET2XwHwACZ8BgEaiT3myRjGfAT78aIhQF-97E9AACegIAAjFpvDYFlDbmHd0CJR4E",
 )
 
-RANDOM_REACT = (REACTIONS, FUCK_REACT, AYY_REACT, UWU_REACT, DOGE_REACT, REACTS)
+RANDOM_REACT: List = (REACTIONS, AYY_REACT, FUCK_REACT, UWU_REACT, DOGE_REACT, REACTS)

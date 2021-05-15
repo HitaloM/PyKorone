@@ -62,7 +62,7 @@ async def neko_api(c: Korone, m: Message, text: str = None):
                 await m.reply_photo(image_url)
             else:
                 await m.reply_document(image_url)
-    except BaseException as e:
+    except BadRequest as e:
         await m.reply_text(f"<b>Erro!</b>\n<code>{e}</code>")
         return
 

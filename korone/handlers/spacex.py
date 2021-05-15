@@ -81,7 +81,7 @@ async def spacex_wiki(c: Korone, m: Message):
     )
 )
 async def spacex_launch(c: Korone, m: Message):
-    args_list = ["latest", "next"]
+    args_list: List[str] = ["latest", "next"]
     arg = m.matches[0]["args"]
 
     if arg not in args_list:

@@ -16,16 +16,25 @@
 
 import html
 
-import asyncpraw
+from asyncpraw import Reddit
 from asyncprawcore import exceptions as redex
 
 from korone.config import REDDIT_ID, REDDIT_SECRET
 
-VALID_ENDS = (".mp4", ".jpg", ".jpeg", "jpe", ".png", ".gif")
+VALID_ENDS = (
+    ".mp4",
+    ".jpg",
+    ".jpeg",
+    "jpe",
+    ".png",
+    ".gif",
+)
 
 
-REDDIT = asyncpraw.Reddit(
-    client_id=REDDIT_ID, client_secret=REDDIT_SECRET, user_agent="PyKorone"
+REDDIT = Reddit(
+    client_id=REDDIT_ID,
+    client_secret=REDDIT_SECRET,
+    user_agent="PyKorone",
 )
 
 
@@ -46,7 +55,7 @@ async def bodyfetcherfallback(subreddit):
             return post
 
 
-async def imagefetcher(c, m, sub):
+async def imagefetcher(c, m, sub: str):
     image_url = False
     subreddit = await REDDIT.subreddit(sub)
 
@@ -74,22 +83,25 @@ async def imagefetcher(c, m, sub):
         await m.reply_text(f"Não encontrei nenhum conteúdo válido em <b>r/{sub}</b>!")
         return
 
-    keyboard = c.ikb([[(f"r/{sub}", post.url, "url")]])
+    keyboard = [[(f"r/{sub}", post.url, "url")]]
 
     try:
         if post.url.endswith(".mp4"):
-            await m.reply_video(image_url, caption=title, reply_markup=keyboard)
+            await m.reply_video(image_url, caption=title, reply_markup=c.ikb(keyboard))
         if post.url.endswith((".jpg", ".jpeg", "jpe", ".png")):
-            await m.reply_photo(image_url, caption=title, reply_markup=keyboard)
+            await m.reply_photo(image_url, caption=title, reply_markup=c.ikb(keyboard))
         if post.url.endswith(".gif"):
-            await m.reply_animation(image_url, caption=title, reply_markup=keyboard)
+            await m.reply_animation(
+                image_url, caption=title, reply_markup=c.ikb(keyboard)
+            )
     except BaseException:
         await m.reply_text(
-            f"Falha ao baixar conteúdo de <b>r/{sub}</b>!\nTítulo: <b>{title}</b>\nURL: {image_url}"
+            f"Falha ao baixar o conteúdo de <b>r/{sub}</b>!\n"
+            "Título: <b>{title}</b>\nURL: {image_url}"
         )
 
 
-async def titlefetcher(c, m, sub):
+async def titlefetcher(c, m, sub: str):
     subreddit = await REDDIT.subreddit(sub)
 
     try:
@@ -107,10 +119,10 @@ async def titlefetcher(c, m, sub):
 
     keyboard = c.ikb([[(f"r/{sub}", post.url, "url")]])
 
-    await m.reply_text(post.title, reply_markup=keyboard)
+    await m.reply_text(post.title, reply_markup=c.ikb(keyboard))
 
 
-async def bodyfetcher(c, m, sub):
+async def bodyfetcher(c, m, sub: str):
     subreddit = await REDDIT.subreddit(sub)
 
     for _ in range(10):
@@ -135,11 +147,11 @@ async def bodyfetcher(c, m, sub):
         if not body:
             continue
 
-        keyboard = c.ikb([[(f"r/{sub}", post.url, "url")]])
+        keyboard = [[(f"r/{sub}", post.url, "url")]]
 
         await m.reply_text(
             f"<b>{title}</b>\n\n{html.escape(body)}",
-            reply_markup=keyboard,
+            reply_markup=c.ikb(keyboard),
             parse_mode="combined",
         )
         return

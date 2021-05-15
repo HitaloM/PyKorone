@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "korone"
-version = "1.4.7"
+version = "1.4.9"
 description = "An interactive and multi-function Telegram bot, made especially for Telegram groups."
 authors = ["Hitalo <contact@amanoteam.com>"]
 license = "GPLv3+"
@@ -28,7 +28,7 @@ exclude = ["korone/config.py", "korone/client.session", "korone/client.session-j
 "Community" = "https://t.me/SpamTherapy"
 
 [tool.poetry.dependencies]
-python = "^3.6"
+python = "^3.6.2"
 tgcrypto = "1.2.2"
 rich = "10.2.0"
 Pillow = "8.2.0"
@@ -45,12 +45,12 @@ python-anilist = "1.0.4"
 regex = "2021.4.4"
 lxml = "4.6.3"
 pyromod = "1.5"
-Pyrogram = "1.2.9"
-duckpy = {git = "https://github.com/HitaloSama/duckpy"}
 pynewton = "1.1.2"
 async-files = "0.4"
 humanize = "3.5.0"
 psutil = "5.8.0"
+pyrogram = {git = "https://github.com/AmanoTeam/Pyrogram.git"}
+duckpy = {git = "https://github.com/AmanoTeam/duckpy"}
 
 [tool.poetry.dev-dependencies]
 black = "^21.5b0"

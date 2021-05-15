@@ -1,24 +1,26 @@
+from typing import List
+
 # Bot token from Bot Father
-TOKEN = "TOKEN_HERE"
+TOKEN: str = "TOKEN_HERE"
 
 # Your API ID and API HASH
 # Get it from https://my.telegram.org/apps
-API_ID = 123123
-API_HASH = ""
+API_ID: int = 123123
+API_HASH: str = ""
 
 # Sudoers IDs (to use some special commands)
-OWNER = 918317361
-SUDOERS = []
+OWNER: int = 918317361
+SUDOERS: List[dict] = []
 SUDOERS.append(OWNER)
 
 # Prefixes for commands, e.g: /start and !start
-PREFIXES = ["/", "!"]
+PREFIXES: List[str] = ["/", "!"]
 
 # SpamWatch API used for automatic bans
 # Get it from https:/t.me/SpamWatchBot
-SW_API = ""
+SW_API: str = ""
 
 # Required to use Reddit-related commands
 # Get it from https://www.reddit.com/prefs/apps
-REDDIT_SECRET = ""
-REDDIT_ID = ""
+REDDIT_SECRET: str = ""
+REDDIT_ID: str = ""
