@@ -97,7 +97,7 @@ async def imagefetcher(c, m, sub: str):
     except BaseException:
         await m.reply_text(
             f"Falha ao baixar o conteúdo de <b>r/{sub}</b>!\n"
-            "Título: <b>{title}</b>\nURL: {image_url}"
+            f"Título: <b>{title}</b>\nURL: {image_url}"
         )
 
 
