@@ -96,7 +96,7 @@ async def shutup(c: Korone, m: Message):
     await int_reply(c, m, react)
 
 
-@Korone.on_message(~filters.private)
+@Korone.on_message(~filters.private & ~filters.edited)
 async def random_react(c: Korone, m: Message):
     if m.message_id % 100 != 0:
         m.continue_propagation()
