@@ -10,9 +10,7 @@ korone/database/__pycache__/
 korone/utils/__pycache__/
 
 # tortoise-orm database
-korone/database/*.sqlite
-korone/database/*.sqlite-wal
-korone/database/*.sqlite-shm
+korone/database/*.sqlite*
 
 # Configuration files
 korone/config.py
@@ -27,8 +25,7 @@ env.bak/
 venv.bak/
 
 # Telegram sessions
-korone/*.session
-korone/*.session-journal
+korone/*.session*
 
 # Visual Studio Code workspace settings
 .vscode

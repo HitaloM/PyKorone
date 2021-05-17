@@ -330,11 +330,13 @@ async def sed(c: Korone, m: Message):
             pattern, replace_with, text, count=count, flags=rflags, timeout=1
         )
     except TimeoutError:
-        await m.reply_text("Opa, seu padrão regex durou muito tempo.")
+        await m.reply_text("Ops, seu padrão regex durou muito tempo...")
+        return
     except regex.error as e:
-        await m.reply_text(str(e))
-    else:
-        await m.reply_to_message.reply_text(f"{html.escape(res)}")
+        await m.reply_text(f"<b>Error:</b>\n<code>{e}</code>")
+        return
+
+    await m.reply_to_message.reply_text(f"{html.escape(res)}")
 
 
 @Korone.on_message(

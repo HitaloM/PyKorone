@@ -17,13 +17,13 @@
 import base64
 import html
 import os
+import shutil
 import tempfile
 from datetime import timedelta
-from typing import Dict
+from typing import Dict, List
 from urllib.parse import quote
 
 import anilist
-import async_files
 from httpx import TimeoutException
 from jikanpy import AioJikan
 from pyrogram import filters
@@ -339,7 +339,7 @@ async def poke_image(c: Korone, m: Message):
     text = m.matches[0]["search"]
     args = text.split()
 
-    types = ["back", "front"]
+    types: List[str] = ["back", "front"]
 
     type = (type if type in types else "front") + "_"
     type += "_".join(args[1:]) if len(args) > 1 else "default"
@@ -443,20 +443,20 @@ async def whatanime(c: Korone, m: Message):
         caption="Procurando informações no AniList...",
     )
 
-    with tempfile.TemporaryDirectory() as tempdir:
-        path = await c.download_media(
-            media, file_name=os.path.join(tempdir, "whatanime")
-        )
-        file = None
-        async with async_files.FileIO(path, "rb") as f:
-            file = base64.b64encode(await f.read())
-            await f.close()
+    tempdir = tempfile.mkdtemp()
+    path = await c.download_media(media, file_name=os.path.join(tempdir, "whatanime"))
 
     try:
-        r = await http.post("https://trace.moe/api/search", data={"image": file})
+        r = await http.post(
+            "https://api.trace.moe/search?anilistInfo&cutBorders",
+            files={"image": open(path, "rb")},
+        )
     except TimeoutException:
+        shutil.rmtree(tempdir)
         await sent.edit("A pesquisa excedeu o tempo limite...")
         return
+
+    shutil.rmtree(tempdir)
 
     if not r.status_code == 200:
         await sent.edit(
@@ -464,24 +464,26 @@ async def whatanime(c: Korone, m: Message):
         )
         return
 
-    results = r.json()["docs"]
-    if isinstance(results, str) or results is None:
+    results = r.json()["result"]
+    if len(results) == 0:
         await sent.edit("Nenhum resultado foi encontrado!")
         return
 
     result = results[0]
-    anilist_id = result["anilist_id"]
+    video = result["video"]
+    anilist_id = result["anilist"]["id"]
+    title_native = result["anilist"]["title"]["native"]
+    title_romaji = result["anilist"]["title"]["romaji"]
+    is_adult = result["anilist"]["isAdult"]
 
-    text = f"<b>{result['title_romaji']}</b>"
-    if bool(result["title_native"]):
-        text += f" (<code>{result['title_native']}</code>)"
+    text = f"<b>{title_romaji}</b>"
+    if bool(title_native):
+        text += f" (<code>{title_native}</code>)"
     text += "\n"
     text += f"<b>ID:</b> <code>{anilist_id}</code>\n"
-    at = str(timedelta(seconds=result["at"])).split(".", 1)[0].rjust(8, "0")
-    text += f"\n<b>Em:</b> <code>{at}</code>"
     if bool(result["episode"]):
         text += f"\n<b>Episódio:</b> <code>{result['episode']}</code>"
-    if bool(result["is_adult"]):
+    if bool(is_adult):
         text += "\n<b>Adulto:</b> <code>Sim</code>"
     percent = round(result["similarity"] * 100, 2)
     text += f"\n<b>Similaridade:</b> <code>{percent}%</code>"
@@ -496,26 +498,20 @@ async def whatanime(c: Korone, m: Message):
         reply_markup=c.ikb(keyboard),
     )
 
-    try:
-        filename = result["filename"]
-        tokenthumb = result["tokenthumb"]
-        from_time = (
-            str(timedelta(seconds=result["from"])).split(".", 1)[0].rjust(8, "0")
-        )
-        to_time = str(timedelta(seconds=result["to"])).split(".", 1)[0].rjust(8, "0")
-    except BaseException:
-        return await m.reply_text("Não consegui enviar o preview.")
+    from_time = str(timedelta(seconds=result["from"])).split(".", 1)[0].rjust(8, "0")
+    to_time = str(timedelta(seconds=result["to"])).split(".", 1)[0].rjust(8, "0")
+    file_name = result["filename"]
 
-    url = f"https://media.trace.moe/video/{anilist_id}/{quote(filename)}?t={result['at']}&token={tokenthumb}&size=l"
-    try:
-        await c.send_video(
-            chat_id=m.chat.id,
-            video=url,
-            caption=(
-                f"<code>{filename}</code>\n"
-                f"<code>{from_time}</code> - <code>{to_time}</code>"
-            ),
-            reply_to_message_id=m.message_id,
-        )
-    except BadRequest:
-        return await m.reply_text("Não consegui enviar o preview.")
+    if video is not None:
+        try:
+            await c.send_video(
+                chat_id=m.chat.id,
+                video=video,
+                caption=(
+                    f"<code>{file_name}</code>\n\n"
+                    f"<code>{from_time}</code> - <code>{to_time}</code>"
+                ),
+                reply_to_message_id=m.message_id,
+            )
+        except BadRequest:
+            return await m.reply_text("Não consegui enviar o preview.")
