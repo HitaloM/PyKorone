@@ -27,7 +27,7 @@ from typing import Dict
 
 import regex
 from pyrogram import filters
-from pyrogram.errors import BadRequest
+from pyrogram.errors import BadRequest, UserNotParticipant
 from pyrogram.types import Message
 
 from korone.config import OWNER, SUDOERS, SW_API
@@ -65,6 +65,7 @@ async def ping(c: Korone, m: Message):
 )
 async def user_info(c: Korone, m: Message):
     args = m.matches[0]["text"]
+    sent = await m.reply_text("Stalkeando...", disable_notification=True)
 
     try:
         if args:
@@ -73,20 +74,31 @@ async def user_info(c: Korone, m: Message):
             user = m.reply_to_message.from_user
         elif not m.reply_to_message and not args:
             user = m.from_user
-    except BaseException as e:
-        return await m.reply_text(f"<b>Error!</b>\n<code>{e}</code>")
+    except BadRequest as e:
+        return await sent.edit_text(f"<b>Error!</b>\n<code>{e}</code>")
+    except IndexError:
+        return await sent.edit_text("Isso não me parece ser um usuário!")
 
     text = "<b>Informações do usuário</b>:"
     text += f"\nID: <code>{user.id}</code>"
-    text += f"\nNome: {html.escape(user.first_name)}"
+    text += f"\nNome: <code>{html.escape(user.first_name)}</code>"
 
     if user.last_name:
-        text += f"\nSobrenome: {html.escape(user.last_name)}"
+        text += f"\nSobrenome: <code>{html.escape(user.last_name)}</code>"
 
     if user.username:
         text += f"\nNome de Usuário: @{html.escape(user.username)}"
 
     text += f"\nLink de Usuário: {user.mention('link', style='html')}"
+
+    if user.dc_id:
+        text += f"\nDatacenter: <code>{user.dc_id}</code>"
+    if user.language_code:
+        text += f"\nIdioma: <code>{user.language_code}</code>"
+
+    bio = (await c.get_chat(chat_id=user.id)).bio
+    if bio:
+        text += f"\n\n<b>Biografia:</b> <i>{html.escape(bio)}</i>"
 
     r = await http.get(
         f"https://api.spamwat.ch/banlist/{int(user.id)}",
@@ -97,15 +109,26 @@ async def user_info(c: Korone, m: Message):
         text += "\n\nEste usuário está banido no @SpamWatch!"
         text += f"\nMotivo: <code>{ban['reason']}</code>"
 
-    if user.id == OWNER:
-        text += "\n\nEste é meu dono - Eu nunca faria algo contra ele!"
-    elif user.id in SUDOERS:
-        text += (
-            "\n\nEssa pessoa é um dos meus usuários sudo! "
-            "Quase tão poderoso quanto meu dono, então cuidado."
-        )
+    try:
+        member = await c.get_chat_member(chat_id=m.chat.id, user_id=user.id)
+        if member.status in ["administrator"]:
+            text += "\n\nEste usuário é um <b>'administrador'</b> neste grupo."
+        elif member.status in ["creator"]:
+            text += "\n\nEste usuário é o <b>'criador'</b> deste grupo."
+    except (UserNotParticipant, ValueError):
+        pass
 
-    await m.reply_text(text)
+    if user.photo:
+        photo = await c.download_media(message=user.photo.big_file_id)
+        await m.reply_photo(
+            photo=photo,
+            caption=text,
+            disable_notification=True,
+        )
+        await sent.delete()
+        os.remove(photo)
+    else:
+        await sent.edit_text(text, disable_web_page_preview=True)
 
 
 @Korone.on_message(

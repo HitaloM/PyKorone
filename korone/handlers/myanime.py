@@ -14,14 +14,12 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-import base64
 import html
 import os
 import shutil
 import tempfile
 from datetime import timedelta
 from typing import Dict, List
-from urllib.parse import quote
 
 import anilist
 from httpx import TimeoutException
