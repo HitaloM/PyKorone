@@ -470,19 +470,22 @@ async def whatanime(c: Korone, m: Message):
         return
 
     result = results[0]
-    video = result["video"]
     anilist_id = result["anilist"]["id"]
     title_native = result["anilist"]["title"]["native"]
     title_romaji = result["anilist"]["title"]["romaji"]
     is_adult = result["anilist"]["isAdult"]
+    synonyms = result["anilist"]["synonyms"]
+    episode = result["episode"]
 
     text = f"<b>{title_romaji}</b>"
     if bool(title_native):
         text += f" (<code>{title_native}</code>)"
     text += "\n"
     text += f"<b>ID:</b> <code>{anilist_id}</code>\n"
-    if bool(result["episode"]):
-        text += f"\n<b>Episódio:</b> <code>{result['episode']}</code>"
+    if bool(episode):
+        text += f"\n<b>Episódio:</b> <code>{episode}</code>"
+    if bool(synonyms):
+        text += f"\n<b>Sinônimos:</b> {', '.join(str(x) for x in synonyms)}"
     if bool(is_adult):
         text += "\n<b>Adulto:</b> <code>Sim</code>"
     percent = round(result["similarity"] * 100, 2)
@@ -498,6 +501,7 @@ async def whatanime(c: Korone, m: Message):
         reply_markup=c.ikb(keyboard),
     )
 
+    video = result["video"]
     from_time = str(timedelta(seconds=result["from"])).split(".", 1)[0].rjust(8, "0")
     to_time = str(timedelta(seconds=result["to"])).split(".", 1)[0].rjust(8, "0")
     file_name = result["filename"]
@@ -506,7 +510,9 @@ async def whatanime(c: Korone, m: Message):
         try:
             await c.send_video(
                 chat_id=m.chat.id,
-                video=video,
+                video=video + "&size=l",
+                width=1280,
+                height=720,
                 caption=(
                     f"<code>{file_name}</code>\n\n"
                     f"<code>{from_time}</code> - <code>{to_time}</code>"
@@ -514,4 +520,4 @@ async def whatanime(c: Korone, m: Message):
                 reply_to_message_id=m.message_id,
             )
         except BadRequest:
-            return await m.reply_text("Não consegui enviar o preview.")
+            return
