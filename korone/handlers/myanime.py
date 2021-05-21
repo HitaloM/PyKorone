@@ -285,7 +285,8 @@ async def anilist_character(c: Korone, m: Message):
 
     text = f"<b>{character.name.full}</b> (<code>{character.name.native}</code>)"
     text += f"\n<b>ID:</b> <code>{character.id}</code>"
-    text += f"\n<b>Favoritos:</b> <code>{character.favorites}</code>"
+    if hasattr(character, "favorites"):
+        text += f"\n<b>Favoritos:</b> <code>{character.favorites}</code>"
     if hasattr(character, "description"):
         text += f"\n\n<b>Sobre:</b>\n{html.escape(description)}"
 
