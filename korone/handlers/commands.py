@@ -89,7 +89,11 @@ async def user_info(c: Korone, m: Message):
     if user.username:
         text += f"\nNome de Usuário: @{html.escape(user.username)}"
 
-    text += f"\nLink de Usuário: {user.mention('link', style='html')}"
+    text += f"\nLink de Usuário: {user.mention(user.first_name, style='html')}"
+
+    if user.photo:
+        photo_count = await c.get_profile_photos_count(user.id)
+        text += f"\nFotos de perfil: <code>{photo_count}</code>"
 
     if user.dc_id:
         text += f"\nDatacenter: <code>{user.dc_id}</code>"
@@ -98,7 +102,7 @@ async def user_info(c: Korone, m: Message):
 
     bio = (await c.get_chat(chat_id=user.id)).bio
     if bio:
-        text += f"\n\n<b>Biografia:</b> <i>{html.escape(bio)}</i>"
+        text += f"\n\n<b>Biografia:</b> <code>{html.escape(bio)}</code>"
 
     r = await http.get(
         f"https://api.spamwat.ch/banlist/{int(user.id)}",
@@ -119,14 +123,13 @@ async def user_info(c: Korone, m: Message):
         pass
 
     if user.photo:
-        photo = await c.download_media(message=user.photo.big_file_id)
+        photos = await c.get_profile_photos(user.id)
         await m.reply_photo(
-            photo=photo,
+            photo=photos[0].file_id,
             caption=text,
             disable_notification=True,
         )
         await sent.delete()
-        os.remove(photo)
     else:
         await sent.edit_text(text, disable_web_page_preview=True)
 
