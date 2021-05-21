@@ -413,11 +413,11 @@ async def chat_info(c: Korone, m: Message):
         else:
             chat = await c.get_chat(m.chat.id)
     except BadRequest as e:
-        await m.reply_text(f"<b>Erro!</b>\n<code>{e}</code>")
+        await sent.edit_text(f"<b>Erro!</b>\n<code>{e}</code>")
         return
 
     if chat.type not in CHAT_TYPES:
-        await m.reply_text("Este chat é privado!")
+        await sent.edit_text("Este chat é privado!")
         return
 
     if chat.type in CHAT_TYPES:

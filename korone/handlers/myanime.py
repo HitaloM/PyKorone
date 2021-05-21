@@ -176,7 +176,7 @@ async def anilist_airing(c: Korone, m: Message):
         text += "<b>Exibição em:</b> <code>N/A</code>"
 
     if hasattr(anime, "banner"):
-        await m.reply_photo(photo=anime.banner, caption=text)
+        await m.reply_photo(anime.banner, text)
     else:
         await m.reply_text(text)
 
@@ -276,10 +276,14 @@ async def anilist_character(c: Korone, m: Message):
         )
 
     if hasattr(character, "description"):
+        description = character.description
+        description = description.replace("__", "**")
+        description = description.replace("~", "~~")
+
         if len(character.description) > 700:
-            desc = f"{character.description[0:500]}[...]"
+            desc = f"{description[0:500]}[...]"
         else:
-            desc = character.description
+            desc = description
 
     text = f"<b>{character.name.full}</b> (<code>{character.name.native}</code>)"
     text += f"\n<b>ID:</b> <code>{character.id}</code>"
@@ -290,6 +294,14 @@ async def anilist_character(c: Korone, m: Message):
     keyboard = [[("Mais informações", character.url, "url")]]
 
     if hasattr(character, "image"):
+        if hasattr(character.image, "large"):
+            photo = character.image.large
+        elif hasatrr(character.image, "medium"):
+            photo = character.image.medium
+        else:
+            photo = None
+
+    if photo is not None:
         await m.reply_photo(
             photo=character.image.large,
             caption=text,
@@ -297,7 +309,11 @@ async def anilist_character(c: Korone, m: Message):
             parse_mode="combined",
         )
     else:
-        await m.reply_text(text, reply_markup=c.ikb(keyboard), parse_mode="combined")
+        await m.reply_text(
+            text,
+            reply_markup=c.ikb(keyboard),
+            parse_mode="combined",
+        )
 
 
 @Korone.on_message(
