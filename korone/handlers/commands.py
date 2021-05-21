@@ -23,7 +23,7 @@ import shutil
 import string
 import tempfile
 from datetime import datetime
-from typing import Dict
+from typing import Dict, List
 
 import regex
 from pyrogram import filters
@@ -69,7 +69,7 @@ async def user_info(c: Korone, m: Message):
 
     try:
         if args:
-            user = await c.get_users(f"{args}")
+            user = await c.get_users(args)
         elif m.reply_to_message:
             user = m.reply_to_message.from_user
         elif not m.reply_to_message and not args:
@@ -394,3 +394,46 @@ async def getsticker(c: Korone, m: Message):
             shutil.rmtree(tempdir, ignore_errors=True)
     else:
         await m.reply_text("Isso não é um sticker!")
+
+
+@Korone.on_message(
+    filters.cmd(
+        command=r"chat(\s(?P<text>.+))?",
+        action="Retorna algumas informações do chat.",
+    )
+)
+async def chat_info(c: Korone, m: Message):
+    args = m.matches[0]["text"]
+    CHAT_TYPES: List[str] = ["channel", "group", "supergroup"]
+    sent = await m.reply_text("Stalkeando...", disable_notification=True)
+
+    try:
+        if args:
+            chat = await c.get_chat(args)
+        else:
+            chat = await c.get_chat(m.chat.id)
+    except BadRequest as e:
+        await m.reply_text(f"<b>Erro!</b>\n<code>{e}</code>")
+        return
+
+    if chat.type not in CHAT_TYPES:
+        await m.reply_text("Este chat é privado!")
+        return
+
+    if chat.type in CHAT_TYPES:
+        text = "<b>Informações do chat</b>:\n"
+        text += f"Nome: <code>{chat.title}</code>\n"
+        text += f"ID: <code>{chat.id}</code>\n"
+        if chat.username:
+            text += f"Nome de Usuário: @{chat.username}\n"
+        if chat.dc_id:
+            text += f"Datacenter: <code>{chat.dc_id}</code>\n"
+        text += f"Membros: <code>{chat.members_count}</code>\n"
+        if chat.id == m.chat.id:
+            text += f"Mensagens: <code>{m.message_id + 1}</code>\n"
+        if chat.invite_link and m.from_user.id in SUDOERS:
+            text += f"Link de Convite: {chat.invite_link}\n"
+        if chat.description:
+            text += f"\n<b>Descrição:</b>\n<code>{chat.description}</code>"
+
+    await sent.edit_text(text)

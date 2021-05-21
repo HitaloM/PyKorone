@@ -200,29 +200,6 @@ async def shutdown(c: Korone, m: Message):
     sys.exit()
 
 
-@Korone.on_message(filters.sudoer & filters.cmd("chat (?P<text>.+)"))
-async def chat_info(c: Korone, m: Message):
-    text = m.matches[0]["text"]
-    try:
-        chat = await c.get_chat(text)
-    except BadRequest as e:
-        return await m.reply_text(f"<b>Erro!</b>\n<code>{e}</code>")
-
-    if chat.type == "private":
-        await m.reply_text("Este chat é privado!")
-    else:
-        text = f"<b>Título:</b> {chat.title}\n"
-        if chat.username:
-            text += f"<b>Username:</b> <code>{chat.username}</code>\n"
-        text += f"<b>ID:</b> <code>{chat.id}</code>\n"
-        text += f"<b>Link:</b> {chat.invite_link}\n"
-        text += f"<b>Membros:</b> <code>{chat.members_count}</code>\n"
-        if chat.description:
-            text += f"\n<b>Descrição:</b>\n<i>{chat.description}</i>"
-
-        await m.reply_text(text)
-
-
 @Korone.on_message(filters.sudoer & filters.cmd("echo (?P<text>.+)"))
 async def echo(c: Korone, m: Message):
     text = m.matches[0]["text"]
