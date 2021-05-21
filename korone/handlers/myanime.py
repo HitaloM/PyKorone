@@ -281,15 +281,13 @@ async def anilist_character(c: Korone, m: Message):
         description = description.replace("~", "~~")
 
         if len(character.description) > 700:
-            desc = f"{description[0:500]}[...]"
-        else:
-            desc = description
+            description = f"{description[0:500]}[...]"
 
     text = f"<b>{character.name.full}</b> (<code>{character.name.native}</code>)"
     text += f"\n<b>ID:</b> <code>{character.id}</code>"
     text += f"\n<b>Favoritos:</b> <code>{character.favorites}</code>"
     if hasattr(character, "description"):
-        text += f"\n\n<b>Sobre:</b>\n{html.escape(desc)}"
+        text += f"\n\n<b>Sobre:</b>\n{html.escape(description)}"
 
     keyboard = [[("Mais informações", character.url, "url")]]
 
@@ -298,10 +296,8 @@ async def anilist_character(c: Korone, m: Message):
             photo = character.image.large
         elif hasatrr(character.image, "medium"):
             photo = character.image.medium
-        else:
-            photo = None
 
-    if photo is not None:
+    if hasattr(character, "image"):
         await m.reply_photo(
             photo=character.image.large,
             caption=text,
