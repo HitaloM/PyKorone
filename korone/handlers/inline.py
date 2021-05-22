@@ -72,10 +72,8 @@ async def on_inline(c: Korone, q: InlineQuery):
 
                 keyboard = [[("Mais informações", anime.url, "url")]]
 
-                try:
+                if hasattr(anime, "trailer"):
                     keyboard[0].append(("Trailer 🎬", anime.trailer.url, "url"))
-                except BaseException:
-                    pass
 
                 keyboard.append(
                     [("Pesquisar mais", "anime", "switch_inline_query_current_chat")]
@@ -182,10 +180,10 @@ async def on_inline(c: Korone, q: InlineQuery):
         args = " ".join(query[1:])
         try:
             if args:
-                user = await c.get_users(f"{args}")
+                user = await c.get_users(args)
             else:
                 user = q.from_user
-        except BaseException as e:
+        except BadRequest as e:
             await q.answer(
                 [
                     InlineQueryResultArticle(

@@ -30,7 +30,7 @@ from pyrogram import filters
 from pyrogram.errors import BadRequest, UserNotParticipant
 from pyrogram.types import Message
 
-from korone.config import OWNER, SUDOERS, SW_API
+from korone.config import SUDOERS, SW_API
 from korone.handlers import COMMANDS_HELP
 from korone.handlers.utils.reddit import bodyfetcher, imagefetcher, titlefetcher
 from korone.korone import Korone

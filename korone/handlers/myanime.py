@@ -122,10 +122,8 @@ async def anilist_anime(c: Korone, m: Message):
 
     keyboard = [[("Mais informações", anime.url, "url")]]
 
-    try:
+    if hasattr(anime, "description"):
         keyboard[0].append(("Trailer 🎬", anime.trailer.url, "url"))
-    except BaseException:
-        pass
 
     await m.reply_photo(
         photo=f"https://img.anili.st/media/{anime.id}",
@@ -300,7 +298,7 @@ async def anilist_character(c: Korone, m: Message):
 
     if hasattr(character, "image"):
         await m.reply_photo(
-            photo=character.image.large,
+            photo=photo,
             caption=text,
             reply_markup=c.ikb(keyboard),
             parse_mode="combined",
