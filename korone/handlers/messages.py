@@ -55,7 +55,7 @@ async def koto(c: Korone, m: Message):
     )
 
 
-@Korone.on_message(filters.int(filter=r"(sexo+|sex)", group=GROUP))
+@Korone.on_message(filters.int(filter=r"(sexo+|sex+|sexy)", group=GROUP))
 async def sexo(c: Korone, m: Message):
     await c.send_sticker(
         chat_id=m.chat.id,
@@ -90,8 +90,8 @@ async def tutturu(c: Korone, m: Message):
 
 @Korone.on_message(filters.int(filter=r"triggered", group=GROUP))
 async def triggered(c: Korone, m: Message):
-    await m.reply_voice(
-        voice="CgACAgQAAx0ET2XwHwACXX9gCE6VI4wLfStiWuwXeIoNi3t22AACSAcAAh7FEFOeVKDvkRMV5x4E",
+    await m.reply_animation(
+        animation="CgACAgQAAx0ET2XwHwABAQ9NYKkOyHC7bLdTOy3IpeUBmffTvq4AAkgHAAIexRBTnlSg75ETFeceBA",
     )
 
 
@@ -127,7 +127,7 @@ async def python(c: Korone, m: Message):
     await m.reply_text("is a snake 🐍")
 
 
-@Korone.on_message(filters.int(filter=r"(sleepy|brb)", group=GROUP))
+@Korone.on_message(filters.int(filter=r"(sleepy|brb|/afk)", group=GROUP))
 async def sleepy(c: Korone, m: Message):
     await m.reply_text(". . . (∪｡∪)｡｡｡zzzZZ")
 
@@ -246,7 +246,7 @@ async def rtcommand(c: Korone, m: Message):
         )
 
 
-@Korone.on_message(filters.int(filter=r"Sopa de (Macaco|Mamaco)", group=GROUP))
+@Korone.on_message(filters.int(filter=r"Sopa de (macaco|mamaco)", group=GROUP))
 async def sopa_de_macaco(c: Korone, m: Message):
     react = random.choice(GODZILLA_REACT)
     await m.reply_sticker(react)
