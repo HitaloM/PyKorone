@@ -122,7 +122,7 @@ async def anilist_anime(c: Korone, m: Message):
 
     keyboard = [[("Mais informações", anime.url, "url")]]
 
-    if hasattr(anime, "description"):
+    if hasattr(anime, "trailer"):
         keyboard[0].append(("Trailer 🎬", anime.trailer.url, "url"))
 
     await m.reply_photo(

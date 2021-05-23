@@ -69,7 +69,9 @@ async def spacex_wiki(c: Korone, m: Message):
     ]
 
     await m.reply_text(
-        text, reply_markup=c.ikb(keyboard), disable_web_page_preview=True
+        text=text,
+        reply_markup=c.ikb(keyboard),
+        disable_web_page_preview=True,
     )
 
 
@@ -137,7 +139,6 @@ async def spacex_launch(c: Korone, m: Message):
             photo=images[0],
             caption=text,
             reply_markup=c.ikb(keyboard),
-            disable_web_page_preview=True,
         )
     else:
         await m.reply_text(
