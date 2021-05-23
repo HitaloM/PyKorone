@@ -53,14 +53,13 @@ def down_progress(m, d):
 
     if d["status"] == "finished":
         return
-    if d["status"] == "downloading":
-        if last_edit + 1 < int(time.time()):
-            percent = d["_percent_str"]
-            try:
-                m.edit(f"Baixando... <code>{percent}</code>")
-            except FloodWait as e:
-                time.sleep(e.x)
-            except BadRequest:
-                pass
-            finally:
-                last_edit = int(time.time())
+    if d["status"] == "downloading" and last_edit + 1 < int(time.time()):
+        percent = d["_percent_str"]
+        try:
+            m.edit(f"Baixando... <code>{percent}</code>")
+        except FloodWait as e:
+            time.sleep(e.x)
+        except BadRequest:
+            pass
+        finally:
+            last_edit = int(time.time())

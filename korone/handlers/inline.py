@@ -20,6 +20,7 @@ from typing import List
 
 import anilist
 from kantex.html import Bold, Code, KeyValueItem, Section, SubSection
+from pyrogram.errors import BadRequest
 from pyrogram.types import (
     InlineQuery,
     InlineQueryResultArticle,
@@ -226,16 +227,15 @@ async def on_inline(c: Korone, q: InlineQuery):
                         ),
                     ]
                 )
-            elif r.status_code == 404:
-                if sw_ban:
-                    spamwatch.extend(
-                        [
-                            SubSection(
-                                "SpamWatch",
-                                KeyValueItem(Bold("banned"), Code("False")),
-                            ),
-                        ]
-                    )
+            elif r.status_code == 404 and sw_ban:
+                spamwatch.extend(
+                    [
+                        SubSection(
+                            "SpamWatch",
+                            KeyValueItem(Bold("banned"), Code("False")),
+                        ),
+                    ]
+                )
             await q.answer(
                 [
                     InlineQueryResultArticle(

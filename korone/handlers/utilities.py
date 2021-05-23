@@ -326,7 +326,7 @@ async def cli_ytdl(c, cq: CallbackQuery):
                 video=filename,
                 width=1920,
                 height=1080,
-                caption=yt["title"],
+                caption=f"<a href='{yt['webpage_url']}'>{yt['title']}</a></b>",
                 duration=yt["duration"],
                 thumb=thumb,
                 progress=up_progress,
@@ -357,6 +357,7 @@ async def cli_ytdl(c, cq: CallbackQuery):
             await c.send_audio(
                 chat_id=int(cid),
                 audio=filename,
+                caption=f"<a href='{yt['webpage_url']}'>{yt['title']}</a></b>",
                 title=title,
                 performer=performer,
                 duration=yt["duration"],

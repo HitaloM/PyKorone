@@ -293,7 +293,7 @@ async def anilist_character(c: Korone, m: Message):
     if hasattr(character, "image"):
         if hasattr(character.image, "large"):
             photo = character.image.large
-        elif hasatrr(character.image, "medium"):
+        elif hasattr(character.image, "medium"):
             photo = character.image.medium
 
     if hasattr(character, "image"):
