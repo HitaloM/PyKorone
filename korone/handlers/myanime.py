@@ -174,7 +174,7 @@ async def anilist_airing(c: Korone, m: Message):
         text += "<b>Exibição em:</b> <code>N/A</code>"
 
     if hasattr(anime, "banner"):
-        await m.reply_photo(anime.banner, text)
+        await m.reply_photo(photo=anime.banner, caption=text)
     else:
         await m.reply_text(text)
 
