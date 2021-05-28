@@ -39,7 +39,7 @@ jikanpy = "4.3.2"
 asyncpraw = "7.2.0"
 youtube_dl = "2021.5.16"
 wheel = "^0.36.2"
-gpytranslate = "1.0.3"
+gpytranslate = "1.1.0"
 wikipedia = {git = "https://github.com/HitaloSama/Wikipedia"}
 python-anilist = "1.0.4"
 regex = "2021.4.4"
