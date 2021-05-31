@@ -333,7 +333,7 @@ http2 = ["h2 (>=3.0.0,<4.0.0)"]
 
 [[package]]
 name = "humanize"
-version = "3.5.0"
+version = "3.6.0"
 description = "Python humanize utilities"
 category = "main"
 optional = false
@@ -775,7 +775,7 @@ testing = ["pytest (>=4.6)", "pytest-checkdocs (>=1.2.3)", "pytest-flake8", "pyt
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.6.2"
-content-hash = "ca3484e62d96b1485a578a306214daee00f884fedb373c97670915d4c2baa808"
+content-hash = "794b0b9207b90de2e6d64d18cb1de1773f4622e38e52cd8a95f8f1057828697b"
 
 [metadata.files]
 aiofiles = [
@@ -917,8 +917,8 @@ httpx = [
     {file = "httpx-0.17.1.tar.gz", hash = "sha256:cc2a55188e4b25272d2bcd46379d300f632045de4377682aa98a8a6069d55967"},
 ]
 humanize = [
-    {file = "humanize-3.5.0-py3-none-any.whl", hash = "sha256:f584919f691ecfb67036a8639f2ac3d578f5f9073fb4cfd370a4cdf9f66aed78"},
-    {file = "humanize-3.5.0.tar.gz", hash = "sha256:a0474226e1494923f9106758e11f0c3bb4dbe5e7d84388fa78f90eb7713b5d65"},
+    {file = "humanize-3.6.0-py3-none-any.whl", hash = "sha256:6d9bee57f856418302b5d11d7229bc401882d800962a19fd6dcdd83672cb15e6"},
+    {file = "humanize-3.6.0.tar.gz", hash = "sha256:a31704cf41f023e268032c4813c6482573320150a0d986f76b245e0451bb89e1"},
 ]
 hyperframe = [
     {file = "hyperframe-5.2.0-py2.py3-none-any.whl", hash = "sha256:5187962cb16dcc078f23cb5a4b110098d546c3f41ff2d4038a9896893bbd0b40"},
