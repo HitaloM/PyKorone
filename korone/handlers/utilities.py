@@ -26,7 +26,6 @@ from typing import Dict
 
 import youtube_dl
 from bs4 import BeautifulSoup as bs
-from duckpy import AsyncClient
 from httpx._exceptions import TimeoutException
 from pyrogram import filters
 from pyrogram.errors import BadRequest, ImageProcessFailed
@@ -34,7 +33,7 @@ from pyrogram.types import CallbackQuery, Message
 
 from korone.handlers import COMMANDS_HELP
 from korone.handlers.utils.image import stickcolorsync
-from korone.handlers.utils.misc import escape_definition
+from korone.handlers.utils.misc import duck, escape_definition
 from korone.handlers.utils.translator import get_tr_lang, tr
 from korone.handlers.utils.ytdl import down_progress, extract_info, up_progress
 from korone.korone import Korone
@@ -48,8 +47,6 @@ COMMANDS_HELP[GROUP]: Dict = {
     "commands": {},
     "help": True,
 }
-
-duck = AsyncClient()
 
 
 @Korone.on_message(

@@ -17,6 +17,10 @@
 import html
 import re
 
+from duckpy import AsyncClient
+
+duck = AsyncClient()
+
 
 def cleanhtml(raw_html):
     cleanr = re.compile("<.*?>")

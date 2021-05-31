@@ -106,7 +106,7 @@ async def titlefetcher(c, m, sub: str):
 
     try:
         post = await subreddit.random() or await titlefetcherfallback(subreddit)
-        post.title
+        title = post.title
     except redex.Forbidden:
         await m.reply_text(f"<b>r/{sub}</b> é privado!")
         return
@@ -117,9 +117,9 @@ async def titlefetcher(c, m, sub: str):
         await m.reply_text(f"Não encontrei nenhum conteúdo válido em <b>r/{sub}</b>!")
         return
 
-    keyboard = c.ikb([[(f"r/{sub}", post.url, "url")]])
+    keyboard = [[(f"r/{sub}", post.url, "url")]]
 
-    await m.reply_text(post.title, reply_markup=c.ikb(keyboard))
+    await m.reply_text(title, reply_markup=c.ikb(keyboard))
 
 
 async def bodyfetcher(c, m, sub: str):

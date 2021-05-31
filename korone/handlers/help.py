@@ -44,9 +44,9 @@ Seu foco é trazer funções legais e um design funcional com tecnologia e criat
 
 
 @Korone.on_message(
-    filters.cmd(command="start", action="Envia a mensagem de inicialização do bot.")
+    filters.cmd(command=r"start", action="Envia a mensagem de inicialização do bot.")
 )
-@Korone.on_callback_query(filters.regex("^start_back$"))
+@Korone.on_callback_query(filters.regex(r"^start_back$"))
 async def start(c: Korone, m: Union[Message, CallbackQuery]):
     if isinstance(m, Message):
         query = m.text.split()
@@ -95,7 +95,7 @@ async def start(c: Korone, m: Union[Message, CallbackQuery]):
         await m.message.edit_text(text, reply_markup=c.ikb(keyboard))
 
 
-@Korone.on_message(filters.cmd("help (?P<module>.+)"))
+@Korone.on_message(filters.cmd(r"help (?P<module>.+)"))
 async def help_m(c: Korone, m: Message):
     module = m.matches[0]["module"]
     if m.chat.type == "private":
@@ -121,8 +121,8 @@ async def help_m(c: Korone, m: Message):
         )
 
 
-@Korone.on_message(filters.cmd(command="help", action="Envia o menu de ajuda do Bot."))
-@Korone.on_callback_query(filters.regex("^help_cb$"))
+@Korone.on_message(filters.cmd(command=r"help", action="Envia o menu de ajuda do Bot."))
+@Korone.on_callback_query(filters.regex(r"^help_cb$"))
 async def help_c(c: Korone, m: Union[Message, CallbackQuery]):
     if isinstance(m, Message) and m.chat.type in ["supergroup", "group"]:
         keyboard = [[("Ir ao PV", f"https://t.me/{c.me.username}/?start", "url")]]
@@ -166,14 +166,14 @@ async def help_module(c: Korone, m: Message, module: str = None):
             module = COMMANDS_HELP[module]
             text += f'\n{module["text"]}\n'
 
-            type = "commands" if "commands" in module else "filters"
-            if len(module[type]) > 0:
-                text += f'\n<b>{"Comandos" if type == "commands" else "Filtros"}</b>:'
-                for key, value in module[type].items():
+            m_type = "commands" if "commands" in module else "filters"
+            if len(module[m_type]) > 0:
+                text += f'\n<b>{"Comandos" if m_type == "commands" else "Filtros"}</b>:'
+                for key, value in module[m_type].items():
                     action = value["action"]
                     if len(action) > 0:
                         regex = ""
-                        if type == "commands":
+                        if m_type == "commands":
                             key = key.replace("$", "")
                             regex = key.split()[0]
                             if "<" in key and ">" in key:
@@ -184,14 +184,14 @@ async def help_module(c: Korone, m: Message, module: str = None):
                                 regex = key
                         else:
                             regex = key
-                        if action == " " and type == "filters":
+                        if action == " " and m_type == "filters":
                             text += f"\n  - <code>{html.escape(regex)}</code>"
-                        elif action not in [" ", ""] and type == "filters":
+                        elif action not in [" ", ""] and m_type == "filters":
                             text += f"\n  - <code>{html.escape(regex)}</code>: {action}"
                         else:
-                            text += f'\n  - <b>{"/" if type == "commands" else ""}{html.escape(regex)}</b>: <i>{action}</i>'
+                            text += f'\n  - <b>{"/" if m_type == "commands" else ""}{html.escape(regex)}</b>: <i>{action}</i>'
             success = True
-            keyboard.append([("⬅️ Voltar", f"help_{type}")])
+            keyboard.append([("⬅️ Voltar", f"help_{m_type}")])
 
     kwargs = {}
     if keyboard:
@@ -201,16 +201,16 @@ async def help_module(c: Korone, m: Message, module: str = None):
         await (m.edit_message_text if is_query else m.reply_text)(text, **kwargs)
 
 
-@Korone.on_callback_query(filters.regex("help_(?P<module>.+)"))
+@Korone.on_callback_query(filters.regex(r"help_(?P<module>.+)"))
 async def on_help_callback(c: Korone, cq: CallbackQuery):
     module = cq.matches[0]["module"]
     await help_module(c, cq, module)
 
 
 @Korone.on_message(
-    filters.cmd(command="about", action="Veja algumas informações sobre o bot.")
+    filters.cmd(command=r"about", action="Veja algumas informações sobre o bot.")
 )
-@Korone.on_callback_query(filters.regex("^about$"))
+@Korone.on_callback_query(filters.regex(r"^about$"))
 async def about_c(c: Korone, m: Union[Message, CallbackQuery]):
     about = about_text.format(c.me.first_name, korone.__source__, korone.__community__)
     if isinstance(m, CallbackQuery):
