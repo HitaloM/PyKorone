@@ -260,13 +260,14 @@ pyflakes = ">=2.3.0,<2.4.0"
 
 [[package]]
 name = "gpytranslate"
-version = "1.1.0"
+version = "1.2.0"
 description = "A Python3 library for translating text using Google Translate API."
 category = "main"
 optional = false
 python-versions = ">=3.6"
 
 [package.dependencies]
+aiofiles = "*"
 httpx = "*"
 
 [[package]]
@@ -775,7 +776,7 @@ testing = ["pytest (>=4.6)", "pytest-checkdocs (>=1.2.3)", "pytest-flake8", "pyt
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.6.2"
-content-hash = "794b0b9207b90de2e6d64d18cb1de1773f4622e38e52cd8a95f8f1057828697b"
+content-hash = "76eb14fcbb3f829f9d9c291f98434ec9b2c2291322f75a4469d75db577538f5a"
 
 [metadata.files]
 aiofiles = [
@@ -893,8 +894,8 @@ flake8 = [
     {file = "flake8-3.9.2.tar.gz", hash = "sha256:07528381786f2a6237b061f6e96610a4167b226cb926e2aa2b6b1d78057c576b"},
 ]
 gpytranslate = [
-    {file = "gpytranslate-1.1.0-py3-none-any.whl", hash = "sha256:037834f73bcd628e3035d163869d3b411ab8ba437c4cc0ef2cfef3cd4c7b11da"},
-    {file = "gpytranslate-1.1.0.tar.gz", hash = "sha256:44f40555e3e4193894a4e2cad88d08168e1f82f8ac83fae21995f1204cdf7719"},
+    {file = "gpytranslate-1.2.0-py3-none-any.whl", hash = "sha256:e06dd6e022f82d60afb1a772cf7b50cc6bba02ffa4f192108f882a1cc02ff2f0"},
+    {file = "gpytranslate-1.2.0.tar.gz", hash = "sha256:ac542f1fa796d89f168a1063b865d81de699602a87dcd343544e7c5aca11182d"},
 ]
 h11 = [
     {file = "h11-0.12.0-py3-none-any.whl", hash = "sha256:36a3cb8c0a032f56e2da7084577878a035d3b61d104230d4bd49c0c6b555a9c6"},
