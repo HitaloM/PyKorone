@@ -52,7 +52,7 @@ pyrogram = {git = "https://github.com/AmanoTeam/Pyrogram.git"}
 duckpy = {git = "https://github.com/AmanoTeam/duckpy"}
 
 [tool.poetry.dev-dependencies]
-black = "^21.5b0"
+black = "^21.5b2"
 flake8 = "^3.9.2"
 
 [build-system]
