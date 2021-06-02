@@ -26,9 +26,15 @@ from datetime import datetime
 from typing import Dict, List
 
 import regex
+from kantex.html import Bold, Code, KeyValueItem, Section, SubSection
 from pyrogram import filters
 from pyrogram.errors import BadRequest, UserNotParticipant
-from pyrogram.types import Message
+from pyrogram.types import (
+    InlineQuery,
+    InlineQueryResultArticle,
+    InputTextMessageContent,
+    Message,
+)
 
 from korone.config import SUDOERS, SW_API
 from korone.handlers import COMMANDS_HELP
@@ -65,7 +71,6 @@ async def ping(c: Korone, m: Message):
 )
 async def user_info(c: Korone, m: Message):
     args = m.matches[0]["text"]
-    sent = await m.reply_text("Stalkeando...", disable_notification=True)
 
     try:
         if args:
@@ -75,9 +80,9 @@ async def user_info(c: Korone, m: Message):
         elif not m.reply_to_message and not args:
             user = m.from_user
     except BadRequest as e:
-        return await sent.edit_text(f"<b>Error!</b>\n<code>{e}</code>")
+        return await m.reply_text(f"<b>Error!</b>\n<code>{e}</code>")
     except IndexError:
-        return await sent.edit_text("Isso não me parece ser um usuário!")
+        return await m.reply_text("Isso não me parece ser um usuário!")
 
     text = "<b>Informações do usuário</b>:"
     text += f"\nID: <code>{user.id}</code>"
@@ -129,9 +134,112 @@ async def user_info(c: Korone, m: Message):
             caption=text,
             disable_notification=True,
         )
-        await sent.delete()
     else:
-        await sent.edit_text(text, disable_web_page_preview=True)
+        await m.reply_text(text, disable_web_page_preview=True)
+
+
+@Korone.on_inline_query(filters.regex(r"^user"), group=-1)
+async def inline_user(c: Korone, q: InlineQuery):
+    query = q.query.split()
+    if len(query) != 0 and query[0] == "user":
+        user = q.from_user
+
+        text = "<b>Informações do usuário</b>:"
+        text += f"\nID: <code>{user.id}</code>"
+        text += f"\nNome: {html.escape(user.first_name)}"
+
+        if user.last_name:
+            text += f"\nSobrenome: {html.escape(user.last_name)}"
+
+        if user.username:
+            text += f"\nNome de Usuário: @{html.escape(user.username)}"
+
+        text += f"\nLink de Usuário: {user.mention('link', style='html')}"
+
+        await q.answer(
+            [
+                InlineQueryResultArticle(
+                    title="Informações",
+                    description="Exibe informações sobre você.",
+                    input_message_content=InputTextMessageContent(text),
+                )
+            ],
+            cache_time=0,
+        )
+
+
+@Korone.on_inline_query(filters.regex(r"^sw"), group=-1)
+async def inline_sw(c: Korone, q: InlineQuery):
+    query = q.query.split()
+    if len(query) != 0 and query[0] == "sw":
+        args = " ".join(query[1:])
+        try:
+            if args:
+                user = await c.get_users(args)
+            else:
+                user = q.from_user
+        except BadRequest as e:
+            await q.answer(
+                [
+                    InlineQueryResultArticle(
+                        title="Erro!",
+                        description="Clique aqui para ver o erro.",
+                        input_message_content=InputTextMessageContent(
+                            f"<b>Erro:</b> <code>{e}</code>"
+                        ),
+                    )
+                ],
+                cache_time=0,
+            )
+            return
+
+        r = await http.get(
+            f"https://api.spamwat.ch/banlist/{int(user.id)}",
+            headers={"Authorization": f"Bearer {SW_API}"},
+        )
+        spamwatch = Section(
+            f"{user.mention(html.escape(user.first_name), style='html')}",
+        )
+        sw_ban = r.json()
+        if r.status_code in [200, 404]:
+            if r.status_code == 200:
+                ban_message = sw_ban["message"]
+                if ban_message:
+                    ban_message = f'{ban_message[:128]}{"[...]" if len(ban_message) > 128 else ""}'
+                spamwatch.extend(
+                    [
+                        SubSection(
+                            "SpamWatch",
+                            KeyValueItem(Bold("reason"), Code(sw_ban["reason"])),
+                            KeyValueItem(
+                                Bold("date"),
+                                Code(datetime.fromtimestamp(sw_ban["date"])),
+                            ),
+                            KeyValueItem(Bold("timestamp"), Code(sw_ban["date"])),
+                            KeyValueItem(Bold("admin"), Code(sw_ban["admin"])),
+                            KeyValueItem(Bold("message"), Code(ban_message)),
+                        ),
+                    ]
+                )
+            elif r.status_code == 404 and sw_ban:
+                spamwatch.extend(
+                    [
+                        SubSection(
+                            "SpamWatch",
+                            KeyValueItem(Bold("banned"), Code("False")),
+                        ),
+                    ]
+                )
+            await q.answer(
+                [
+                    InlineQueryResultArticle(
+                        title=f"Sobre {html.escape(user.first_name)} - SpamWatch",
+                        description="Veja se o usuário está banido no SpamWatch.",
+                        input_message_content=InputTextMessageContent(spamwatch),
+                    )
+                ],
+                cache_time=0,
+            )
 
 
 @Korone.on_message(
@@ -374,6 +482,7 @@ async def sed(c: Korone, m: Message):
 )
 async def getsticker(c: Korone, m: Message):
     sticker = m.reply_to_message.sticker
+
     if sticker:
         if sticker.is_animated:
             await m.reply_text("Sticker animado não é suportado!")

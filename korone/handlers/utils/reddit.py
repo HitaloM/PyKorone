@@ -15,13 +15,14 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import html
+from typing import Tuple
 
 from asyncpraw import Reddit
 from asyncprawcore import exceptions as redex
 
 from korone.config import REDDIT_ID, REDDIT_SECRET
 
-VALID_ENDS = (
+VALID_ENDS: Tuple[str] = (
     ".mp4",
     ".jpg",
     ".jpeg",

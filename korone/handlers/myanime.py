@@ -26,10 +26,18 @@ from httpx import TimeoutException
 from jikanpy import AioJikan
 from pyrogram import filters
 from pyrogram.errors import BadRequest
-from pyrogram.types import Document, InputMediaPhoto, Message, Video
+from pyrogram.types import (
+    Document,
+    InlineQuery,
+    InlineQueryResultPhoto,
+    InputMediaPhoto,
+    Message,
+    Video,
+)
 
 from korone.handlers import COMMANDS_HELP
 from korone.handlers.utils.image import pokemon_image_sync
+from korone.handlers.utils.misc import cleanhtml
 from korone.korone import Korone
 from korone.utils import http
 
@@ -530,3 +538,129 @@ async def whatanime(c: Korone, m: Message):
             )
         except BadRequest:
             return
+
+
+@Korone.on_inline_query(filters.regex(r"^anime (?P<query>.+)"), group=-1)
+async def inline_anime(c: Korone, q: InlineQuery):
+    results: List[InlineQueryResultPhoto] = []
+    query = q.query.split()
+    if len(query) != 0 and query[0] == "anime":
+        search = " ".join(query[1:])
+        async with anilist.AsyncClient() as client:
+            results_search = await client.search(search, "anime", 10)
+            for result in results_search:
+                anime = await client.get(result.id, "anime")
+
+                if hasattr(anime, "description"):
+                    if len(anime.description) > 700:
+                        desc = f"<b>Descrição curta:</b> {anime.description_short}[...]"
+                    else:
+                        desc = f"<b>Descrição:</b> {anime.description}"
+
+                text = (
+                    f"<b>{anime.title.romaji}</b> (<code>{anime.title.native}</code>)\n"
+                )
+                text += f"<b>ID:</b> <code>{anime.id}</code>\n"
+                text += f"<b>Tipo:</b> <code>{anime.format}</code>\n"
+                if hasattr(anime, "status"):
+                    text += f"<b>Estado:</b> <code>{anime.status}</code>\n"
+                if hasattr(anime, "episodes"):
+                    text += f"<b>Episódios:</b> <code>{anime.episodes}</code>\n"
+                if hasattr(anime, "duration"):
+                    text += f"<b>Duração:</b> <code>{anime.duration}</code> Por Ep.\n"
+                if hasattr(anime.score, "average"):
+                    text += f"<b>Pontuação:</b> <code>{anime.score.average}</code>\n"
+                if hasattr(anime, "genres"):
+                    text += f"<b>Gêneros:</b> <code>{', '.join(str(x) for x in anime.genres)}</code>\n"
+                if hasattr(anime, "studios"):
+                    text += f"<b>Estúdios:</b> <code>{', '.join(str(x) for x in anime.studios)}</code>\n"
+                if hasattr(anime, "description"):
+                    text += f"\n<i>{desc}</i>"
+
+                keyboard = [[("Mais informações", anime.url, "url")]]
+
+                if hasattr(anime, "trailer"):
+                    keyboard[0].append(("Trailer 🎬", anime.trailer.url, "url"))
+
+                keyboard.append(
+                    [("Pesquisar mais", "anime", "switch_inline_query_current_chat")]
+                )
+
+                title = f"{anime.title.romaji} | {anime.format}"
+                photo = f"https://img.anili.st/media/{anime.id}"
+
+                results.append(
+                    InlineQueryResultPhoto(
+                        photo_url=photo,
+                        title=title,
+                        description=cleanhtml(desc),
+                        caption=text,
+                        reply_markup=c.ikb(keyboard),
+                    )
+                )
+        if len(results) > 0:
+            await q.answer(
+                results=results,
+                cache_time=0,
+            )
+
+
+@Korone.on_inline_query(filters.regex(r"^manga (?P<query>.+)"), group=-1)
+async def inline_manga(c: Korone, q: InlineQuery):
+    results: List[InlineQueryResultPhoto] = []
+    query = q.query.split()
+    if len(query) != 0 and query[0] == "manga":
+        search = " ".join(query[1:])
+        async with anilist.AsyncClient() as client:
+            results_search = await client.search(search, "manga", 10)
+            for result in results_search:
+                manga = await client.get(result.id, "manga")
+
+                if hasattr(manga, "description"):
+                    if len(manga.description) > 700:
+                        desc = f"<b>Descrição curta:</b> {manga.description_short}[...]"
+                    else:
+                        desc = f"<b>Descrição:</b> {manga.description}"
+
+                text = (
+                    f"<b>{manga.title.romaji}</b> (<code>{manga.title.native}</code>)\n"
+                )
+                text += f"<b>ID:</b> <code>{manga.id}</code>\n"
+                if hasattr(manga.start_date, "year"):
+                    text += f"<b>Início:</b> <code>{manga.start_date.year}</code>\n"
+                if hasattr(manga, "status"):
+                    text += f"<b>Estado:</b> <code>{manga.status}</code>\n"
+                if hasattr(manga, "chapters"):
+                    text += f"<b>Capítulos:</b> <code>{manga.chapters}</code>\n"
+                if hasattr(manga, "volumes"):
+                    text += f"<b>Volumes:</b> <code>{manga.volumes}</code>\n"
+                if hasattr(manga.score, "average"):
+                    text += f"<b>Pontuação:</b> <code>{manga.score.average}</code>\n"
+                if hasattr(manga, "genres"):
+                    text += f"<b>Gêneros:</b> <code>{', '.join(str(x) for x in manga.genres)}</code>\n"
+                if hasattr(manga, "description"):
+                    text += f"\n<i>{desc}</i>"
+
+                keyboard = [
+                    [
+                        ("Mais Info", manga.url, "url"),
+                        ("Pesquisar mais", "manga", "switch_inline_query_current_chat"),
+                    ]
+                ]
+
+                photo = f"https://img.anili.st/media/{manga.id}"
+
+                results.append(
+                    InlineQueryResultPhoto(
+                        photo_url=photo,
+                        title=manga.title.romaji,
+                        description=cleanhtml(desc),
+                        caption=text,
+                        reply_markup=c.ikb(keyboard),
+                    )
+                )
+        if len(results) > 0:
+            await q.answer(
+                results=results,
+                cache_time=0,
+            )
