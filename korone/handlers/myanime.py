@@ -25,7 +25,7 @@ import anilist
 from httpx import TimeoutException
 from jikanpy import AioJikan
 from pyrogram import filters
-from pyrogram.errors import BadRequest
+from pyrogram.errors import BadRequest, QueryIdInvalid
 from pyrogram.types import (
     Document,
     InlineQuery,
@@ -104,9 +104,9 @@ async def anilist_anime(c: Korone, m: Message):
 
     if hasattr(anime, "description"):
         if len(anime.description) > 700:
-            desc = f"<b>Descrição curta:</b> {anime.description_short}[...]"
+            desc = f"<b>Descrição curta:</b> <i>{anime.description_short}</i>[...]"
         else:
-            desc = f"<b>Descrição:</b> {anime.description}"
+            desc = f"<b>Descrição:</b> <i>{anime.description}</i>"
 
     text = f"<b>{anime.title.romaji}</b> (<code>{anime.title.native}</code>)\n"
     text += f"<b>ID:</b> <code>{anime.id}</code>\n"
@@ -125,8 +125,12 @@ async def anilist_anime(c: Korone, m: Message):
         )
     if hasattr(anime, "studios"):
         text += f"<b>Estúdios:</b> <code>{', '.join(str(x) for x in anime.studios)}</code>\n"
+    if not anime.status.lower() == "not_yet_released":
+        text += f"<b>Inicio:</b> <code>{anime.start_date.day if hasattr(anime.start_date, 'day') else 0}/{anime.start_date.month if hasattr(anime.start_date, 'month') else 0}/{anime.start_date.year if hasattr(anime.start_date, 'year') else 0}</code>\n"
+    if not anime.status.lower() in ["not_yet_released", "releasing"]:
+        text += f"<b>Finalização:</b> <code>{anime.end_date.day if hasattr(anime.end_date, 'day') else 0}/{anime.end_date.month if hasattr(anime.end_date, 'month') else 0}/{anime.end_date.year if hasattr(anime.end_date, 'year') else 0}</code>\n"
     if hasattr(anime, "description"):
-        text += f"\n<i>{desc}</i>"
+        text += f"\n{desc}"
 
     keyboard = [[("Mais informações", anime.url, "url")]]
 
@@ -219,14 +223,12 @@ async def anilist_manga(c: Korone, m: Message):
 
     if hasattr(manga, "description"):
         if len(manga.description) > 700:
-            desc = f"<b>Descrição curta:</b> {manga.description_short}[...]"
+            desc = f"<b>Descrição curta:</b> <i>{manga.description_short}</i>[...]"
         else:
-            desc = f"<b>Descrição:</b> {manga.description}"
+            desc = f"<b>Descrição:</b> <i>{manga.description}</i>"
 
     text = f"<b>{manga.title.romaji}</b> (<code>{manga.title.native}</code>)\n"
     text += f"<b>ID:</b> <code>{manga.id}</code>\n"
-    if hasattr(manga.start_date, "year"):
-        text += f"<b>Início:</b> <code>{manga.start_date.year}</code>\n"
     if hasattr(manga, "status"):
         text += f"<b>Estado:</b> <code>{manga.status}</code>\n"
     if hasattr(manga, "chapters"):
@@ -239,8 +241,12 @@ async def anilist_manga(c: Korone, m: Message):
         text += (
             f"<b>Gêneros:</b> <code>{', '.join(str(x) for x in manga.genres)}</code>\n"
         )
+    if not manga.status.lower() == "not_yet_released":
+        text += f"<b>Início:</b> <code>{manga.start_date.day if hasattr(manga.start_date, 'day') else 0}/{manga.start_date.month if hasattr(manga.start_date, 'month') else 0}/{manga.start_date.year if hasattr(manga.start_date, 'year') else 0}</code>\n"
+    if not manga.status.lower() in ["not_yet_released", "releasing"]:
+        text += f"<b>Finalização:</b> <code>{manga.end_date.day if hasattr(manga.end_date, 'day') else 0}/{manga.end_date.month if hasattr(manga.end_date, 'month') else 0}/{manga.end_date.year if hasattr(manga.end_date, 'year') else 0}</code>\n"
     if hasattr(manga, "description"):
-        text += f"\n<i>{desc}</i>"
+        text += f"\n{desc}"
 
     keyboard = [[("Mais informações", manga.url, "url")]]
 
@@ -553,9 +559,9 @@ async def inline_anime(c: Korone, q: InlineQuery):
 
                 if hasattr(anime, "description"):
                     if len(anime.description) > 700:
-                        desc = f"<b>Descrição curta:</b> {anime.description_short}[...]"
+                        desc = f"<b>Descrição curta:</b> <i>{anime.description_short}</i>[...]"
                     else:
-                        desc = f"<b>Descrição:</b> {anime.description}"
+                        desc = f"<b>Descrição:</b> <i>{anime.description}</i>"
 
                 text = (
                     f"<b>{anime.title.romaji}</b> (<code>{anime.title.native}</code>)\n"
@@ -574,8 +580,12 @@ async def inline_anime(c: Korone, q: InlineQuery):
                     text += f"<b>Gêneros:</b> <code>{', '.join(str(x) for x in anime.genres)}</code>\n"
                 if hasattr(anime, "studios"):
                     text += f"<b>Estúdios:</b> <code>{', '.join(str(x) for x in anime.studios)}</code>\n"
+                if not anime.status.lower() == "not_yet_released":
+                    text += f"<b>Inicio:</b> <code>{anime.start_date.day if hasattr(anime.start_date, 'day') else 0}/{anime.start_date.month if hasattr(anime.start_date, 'month') else 0}/{anime.start_date.year if hasattr(anime.start_date, 'year') else 0}</code>\n"
+                if not anime.status.lower() in ["not_yet_released", "releasing"]:
+                    text += f"<b>Finalização:</b> <code>{anime.end_date.day if hasattr(anime.end_date, 'day') else 0}/{anime.end_date.month if hasattr(anime.end_date, 'month') else 0}/{anime.end_date.year if hasattr(anime.end_date, 'year') else 0}</code>\n"
                 if hasattr(anime, "description"):
-                    text += f"\n<i>{desc}</i>"
+                    text += f"\n{desc}"
 
                 keyboard = [[("Mais informações", anime.url, "url")]]
 
@@ -598,11 +608,15 @@ async def inline_anime(c: Korone, q: InlineQuery):
                         reply_markup=c.ikb(keyboard),
                     )
                 )
-        if len(results) > 0:
-            await q.answer(
-                results=results,
-                cache_time=0,
-            )
+
+        try:
+            if len(results) > 0:
+                await q.answer(
+                    results=results,
+                    cache_time=0,
+                )
+        except QueryIdInvalid:
+            pass
 
 
 @Korone.on_inline_query(filters.regex(r"^manga (?P<query>.+)"), group=-1)
@@ -618,16 +632,14 @@ async def inline_manga(c: Korone, q: InlineQuery):
 
                 if hasattr(manga, "description"):
                     if len(manga.description) > 700:
-                        desc = f"<b>Descrição curta:</b> {manga.description_short}[...]"
+                        desc = f"<b>Descrição curta:</b> <i>{manga.description_short}</i>[...]"
                     else:
-                        desc = f"<b>Descrição:</b> {manga.description}"
+                        desc = f"<b>Descrição:</b> <i>{manga.description}</i>"
 
                 text = (
                     f"<b>{manga.title.romaji}</b> (<code>{manga.title.native}</code>)\n"
                 )
                 text += f"<b>ID:</b> <code>{manga.id}</code>\n"
-                if hasattr(manga.start_date, "year"):
-                    text += f"<b>Início:</b> <code>{manga.start_date.year}</code>\n"
                 if hasattr(manga, "status"):
                     text += f"<b>Estado:</b> <code>{manga.status}</code>\n"
                 if hasattr(manga, "chapters"):
@@ -638,8 +650,12 @@ async def inline_manga(c: Korone, q: InlineQuery):
                     text += f"<b>Pontuação:</b> <code>{manga.score.average}</code>\n"
                 if hasattr(manga, "genres"):
                     text += f"<b>Gêneros:</b> <code>{', '.join(str(x) for x in manga.genres)}</code>\n"
+                if not manga.status.lower() == "not_yet_released":
+                    text += f"<b>Início:</b> <code>{manga.start_date.day if hasattr(manga.start_date, 'day') else 0}/{manga.start_date.month if hasattr(manga.start_date, 'month') else 0}/{manga.start_date.year if hasattr(manga.start_date, 'year') else 0}</code>\n"
+                if not manga.status.lower() in ["not_yet_released", "releasing"]:
+                    text += f"<b>Finalização:</b> <code>{manga.end_date.day if hasattr(manga.end_date, 'day') else 0}/{manga.end_date.month if hasattr(manga.end_date, 'month') else 0}/{manga.end_date.year if hasattr(manga.end_date, 'year') else 0}</code>\n"
                 if hasattr(manga, "description"):
-                    text += f"\n<i>{desc}</i>"
+                    text += f"\n{desc}"
 
                 keyboard = [
                     [
@@ -659,8 +675,12 @@ async def inline_manga(c: Korone, q: InlineQuery):
                         reply_markup=c.ikb(keyboard),
                     )
                 )
-        if len(results) > 0:
-            await q.answer(
-                results=results,
-                cache_time=0,
-            )
+
+        try:
+            if len(results) > 0:
+                await q.answer(
+                    results=results,
+                    cache_time=0,
+                )
+        except QueryIdInvalid:
+            pass
