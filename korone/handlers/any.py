@@ -60,4 +60,4 @@ async def inline_help(c: Korone, q: InlineQuery):
             thumb_url="https://telegra.ph/file/c41e41a22dcf6479137d0.png",
         ),
     ]
-    await q.answer(results=articles, cache_time=60)
+    await q.answer(results=articles, cache_time=0)
