@@ -244,24 +244,6 @@ async def inline_sw(c: Korone, q: InlineQuery):
 
 @Korone.on_message(
     filters.cmd(
-        command="copy$",
-        action="Comando originalmente para testes mas que também é divertido.",
-    )
-    & filters.reply
-)
-async def copy(c: Korone, m: Message):
-    try:
-        await c.copy_message(
-            chat_id=m.chat.id,
-            from_chat_id=m.chat.id,
-            message_id=m.reply_to_message.message_id,
-        )
-    except BadRequest:
-        return
-
-
-@Korone.on_message(
-    filters.cmd(
         command="file$",
         action="Obtenha informações técnicas de uma mídia.",
     )

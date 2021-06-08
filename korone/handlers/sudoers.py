@@ -203,7 +203,6 @@ async def shutdown(c: Korone, m: Message):
 @Korone.on_message(filters.sudoer & filters.cmd("echo (?P<text>.+)"))
 async def echo(c: Korone, m: Message):
     text = m.matches[0]["text"]
-    chat_id = m.chat.id
     kwargs = {}
     reply = m.reply_to_message
     if reply:
@@ -212,7 +211,20 @@ async def echo(c: Korone, m: Message):
         await m.delete()
     except BadRequest:
         pass
-    await c.send_message(chat_id=chat_id, text=text, **kwargs)
+    await c.send_message(chat_id=m.chat.id, text=text, **kwargs)
+
+
+@Korone.on_message(filters.sudoer & filters.cmd("copy$"))
+async def copy(c: Korone, m: Message):
+    try:
+        await c.copy_message(
+            chat_id=m.chat.id,
+            from_chat_id=m.chat.id,
+            message_id=m.reply_to_message.message_id,
+        )
+    except BadRequest as e:
+        await m.reply_text(f"<b>Erro!</b>\n<code>{e}</code>")
+        return
 
 
 @Korone.on_message(filters.sudoer & filters.cmd("py"))
