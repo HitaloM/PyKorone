@@ -10,7 +10,7 @@ API_HASH: str = ""
 
 # Sudoers IDs (to use some special commands)
 OWNER: int = 918317361
-SUDOERS: List[dict] = []
+SUDOERS: List[int] = []
 SUDOERS.append(OWNER)
 
 # Prefixes for commands, e.g: /start and !start
