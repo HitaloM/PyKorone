@@ -46,7 +46,7 @@ regex = "2021.4.4"
 lxml = "4.6.3"
 pynewton = "1.1.2"
 async-files = "0.4"
-humanize = "3.7.1"
+humanize = "3.8.0"
 psutil = "5.8.0"
 pyrogram = {git = "https://github.com/AmanoTeam/Pyrogram.git"}
 duckpy = {git = "https://github.com/AmanoTeam/duckpy"}
