@@ -129,20 +129,25 @@ async def spacex_launch(c: Korone, m: Message):
     if sx["details"]:
         text += f"<b>Detalhes:</b>\n{sx['details']}"
 
-    keyboard = [[("Reddit", sx["links"]["reddit"]["campaign"], "url")]]
+    keyboard = None
+    if sx["links"]["reddit"]["campaign"]:
+        keyboard = [[("Reddit", sx["links"]["reddit"]["campaign"], "url")]]
 
     if sx["links"]["webcast"]:
         keyboard[0].append(("YouTube", sx["links"]["webcast"], "url"))
+
+    if keyboard:
+        keyboard = c.ikb(keyboard)
 
     if images:
         await m.reply_photo(
             photo=images[0],
             caption=text,
-            reply_markup=c.ikb(keyboard),
+            reply_markup=keyboard,
         )
     else:
         await m.reply_text(
             text=text,
-            reply_markup=c.ikb(keyboard),
+            reply_markup=keyboard,
             disable_web_page_preview=True,
         )

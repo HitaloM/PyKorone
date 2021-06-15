@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "korone"
-version = "1.4.9"
+version = "1.5.0"
 description = "An interactive and multi-function Telegram bot, made especially for Telegram groups."
 authors = ["Hitalo <contact@amanoteam.com>"]
 license = "GPLv3+"
