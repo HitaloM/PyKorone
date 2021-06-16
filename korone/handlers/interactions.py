@@ -18,7 +18,6 @@ import random
 from typing import Dict
 
 from pyrogram import filters
-from pyrogram.errors import ChatWriteForbidden
 from pyrogram.types import Message
 
 from korone.handlers import COMMANDS_HELP
@@ -41,37 +40,27 @@ COMMANDS_HELP[GROUP]: Dict = {
 }
 
 
-async def int_reply(c: Korone, m: Message, text: str = None):
-    if m.chat.type == "private":
-        await m.reply_text(text)
-    elif (
-        m.reply_to_message and m.reply_to_message.from_user.id == (await c.get_me()).id
-    ):
-        await m.reply_text(text)
-        return
-
-
 @Korone.on_message(
     filters.int(filter=r"(Quem te criou|Quem criou voc(ê|e))", group=GROUP)
 )
 async def my_creator(c: Korone, m: Message):
-    await int_reply(c, m, "Meu criador se chama Hitalo ^^")
+    await c.int_reply(m, "Meu criador se chama Hitalo ^^")
 
 
 @Korone.on_message(filters.int(filter=r"(okay|ok)", group=GROUP))
 async def okay(c: Korone, m: Message):
-    await int_reply(c, m, "Hmm...")
+    await c.int_reply(m, "Hmm...")
 
 
 @Korone.on_message(filters.int(filter=r"voc(e|ê) gosta de caf(é|e)", group=GROUP))
 async def ulikecoffe(c: Korone, m: Message):
-    await int_reply(c, m, "Com certeza! ☕")
+    await c.int_reply(m, "Com certeza! ☕")
 
 
 @Korone.on_message(filters.int(filter=r"(Ol(á|a)|Oi|Eae|Hi|Hello|Hey)", group=GROUP))
 async def hello(c: Korone, m: Message):
     react = random.choice(HEY_REACT)
-    await int_reply(c, m, react.format(m.from_user.first_name))
+    await c.int_reply(m, react.format(m.from_user.first_name))
 
 
 @Korone.on_message(
@@ -82,19 +71,19 @@ async def hello(c: Korone, m: Message):
 )
 async def insult(c: Korone, m: Message):
     react = random.choice(INSULTS_REACT)
-    await int_reply(c, m, react.format(m.from_user.first_name))
+    await c.int_reply(m, react.format(m.from_user.first_name))
 
 
 @Korone.on_message(filters.int(filter=r"(como vai|tudo bem)", group=GROUP))
 async def all_right(c: Korone, m: Message):
     react = random.choice(WHATSUP_REACT)
-    await int_reply(c, m, react)
+    await c.int_reply(m, react)
 
 
-@Korone.on_message(filters.int(filter=r"(Cala boca|Cala-boca)", group=GROUP))
+@Korone.on_message(filters.int(filter=r"(Cala boca|Cala-boca|calaboca)", group=GROUP))
 async def shutup(c: Korone, m: Message):
     react = random.choice(SHUTUP_REACT)
-    await int_reply(c, m, react)
+    await c.int_reply(m, react)
 
 
 @Korone.on_message(~filters.private & ~filters.edited)

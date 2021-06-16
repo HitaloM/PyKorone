@@ -24,7 +24,7 @@ from pyrogram import Client
 from pyrogram.errors import BadRequest
 from pyrogram.helpers import ikb
 from pyrogram.raw.all import layer
-from pyrogram.types import User
+from pyrogram.types import Message, User
 
 import korone
 from korone.config import API_HASH, API_ID, SUDOERS, TOKEN
@@ -89,6 +89,13 @@ class Korone(Client):
         await super().stop()
         log.info("PyKorone stopped... Bye.")
         sys.exit()
+
+    async def int_reply(self, m: Message, text: str = None):
+        if m.chat.type == "private":
+            await m.reply_text(text)
+        elif m.reply_to_message and m.reply_to_message.from_user.id == self.me.id:
+            await m.reply_text(text)
+            return
 
     def is_sudoer(self, user: User) -> bool:
         return user.id in self.is_sudo

@@ -113,12 +113,12 @@ async def duckduckgo(c: Korone, m: Message):
             title = results[i].title
             link = results[i].url
             desc = results[i].description
-            msg += f"{i}. <a href='{link}'>{title}</a>\n<code>{desc}</code>\n\n"
+            msg += f"{i}. <a href='{link}'>{html.escape(title)}</a>\n<code>{html.escape(desc)}</code>\n\n"
         except IndexError:
             break
 
     text = (
-        f"<b>Consulta:</b>\n <code>{html.escape(query)}</code>"
+        f"<b>Consulta:</b>\n<code>{html.escape(query)}</code>"
         f"\n\n<b>Resultados:</b>\n{msg}"
     )
 
