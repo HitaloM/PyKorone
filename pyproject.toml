@@ -32,7 +32,7 @@ python = "^3.6.2"
 tgcrypto = "1.2.2"
 rich = "10.3.0"
 Pillow = "8.2.0"
-httpx = {version = "^0.17.1", extras = ["http2"]}
+httpx = {version = "0.18.1", extras = ["http2"]}
 kantex = "0.2.0"
 meval = "2.5"
 jikanpy = "4.3.2"
@@ -44,12 +44,12 @@ wikipedia = {git = "https://github.com/HitaloSama/Wikipedia"}
 python-anilist = "1.0.4"
 regex = "2021.4.4"
 lxml = "4.6.3"
-pynewton = "1.1.2"
 async-files = "0.4"
 humanize = "3.9.0"
 psutil = "5.8.0"
 pyrogram = {git = "https://github.com/AmanoTeam/Pyrogram.git"}
-duckpy = {git = "https://github.com/AmanoTeam/duckpy"}
+duckpy = {git = "https://github.com/HitaloSama/duckpy"}
+pynewton = {git = "https://github.com/HitaloSama/pynewton", rev = "main"}
 
 [tool.poetry.dev-dependencies]
 black = "^21.6b0"
