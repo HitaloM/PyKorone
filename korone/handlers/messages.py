@@ -281,9 +281,11 @@ async def im_sad(c: Korone, m: Message):
 @Korone.on_message(filters.int(filter=r"explos(a|ã)o", group=GROUP))
 async def explosion(c: Korone, m: Message):
     TEXT: str = "EX---PLOOOOSÃÃOOO!"
-    GIF: str = "BQACAgQAAxkBAAI8jGDLdG5b1VeVIXfb2AyenJT0ZmeeAAJDBgACd6ggU_njZQqLVgytHgQ"
+    GIF: str = (
+        "BQACAgQAAxkDAAEBQZVgy3egskl2SmWml-HOM-hUy36wQgACQwYAAneoIFPe6uq9TGSJVR4E"
+    )
     AUDIO: str = (
-        "AwACAgQAAxkBAAI8j2DLdJ--EmKYdgUqooyxzJ681fMlAALZAgAC3opxU6E3ZszUmfGPHgQ"
+        "AwACAgQAAxkDAAEBQadgy3ebYFXCq_0x0-ThTbweIVmtsgAC2QIAAt6KcVP_7-ujbkBsaB4E"
     )
     EXPLOSION_LIST: List = [TEXT, GIF, AUDIO]
 
