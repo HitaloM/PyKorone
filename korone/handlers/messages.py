@@ -268,3 +268,29 @@ async def marimbondo(c: Korone, m: Message):
         reply_to_message_id=m.message_id,
         sticker="CAACAgEAAxkBAAJX12CP-xtHmZYkAAGVEZWyD3BNynJ2LQACWAEAAtZ0eESGMNhu53i1Yh4E",
     )
+
+
+@Korone.on_message(filters.int(filter=r"t(ô|o) triste|estou triste", group=GROUP))
+async def im_sad(c: Korone, m: Message):
+    await m.reply_text(
+        f"Ah não {m.from_user.first_name}, por que você está triste...?\n"
+        "Talvez Korone possa fazer algo por você? ^^"
+    )
+
+
+@Korone.on_message(filters.int(filter=r"explos(a|ã)o", group=GROUP))
+async def explosion(c: Korone, m: Message):
+    TEXT: str = "EX---PLOOOOSÃÃOOO!"
+    GIF: str = "BQACAgQAAxkBAAI8jGDLdG5b1VeVIXfb2AyenJT0ZmeeAAJDBgACd6ggU_njZQqLVgytHgQ"
+    AUDIO: str = (
+        "AwACAgQAAxkBAAI8j2DLdJ--EmKYdgUqooyxzJ681fMlAALZAgAC3opxU6E3ZszUmfGPHgQ"
+    )
+    EXPLOSION_LIST: List = [TEXT, GIF, AUDIO]
+
+    react = random.choice(EXPLOSION_LIST)
+    if react == GIF:
+        await m.reply_document(react)
+    if react == AUDIO:
+        await m.reply_voice(react)
+    if react == TEXT:
+        await m.reply_text(react)
