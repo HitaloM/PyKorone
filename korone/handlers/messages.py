@@ -273,7 +273,7 @@ async def marimbondo(c: Korone, m: Message):
 @Korone.on_message(filters.int(filter=r"t(ô|o) triste|estou triste", group=GROUP))
 async def im_sad(c: Korone, m: Message):
     await m.reply_text(
-        f"Ah não {m.from_user.first_name}, por que você está triste...?\n"
+        f"Ah não {html.escape(m.from_user.first_name)}, por que você está triste...?\n"
         "Talvez Korone possa fazer algo por você? ^^"
     )
 
