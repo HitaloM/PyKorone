@@ -1,10 +1,10 @@
 [[package]]
 name = "aiofiles"
-version = "0.7.0"
+version = "0.6.0"
 description = "File support for asyncio."
 category = "main"
 optional = false
-python-versions = ">=3.6,<4.0"
+python-versions = "*"
 
 [[package]]
 name = "aiohttp"
@@ -98,16 +98,33 @@ optional = false
 python-versions = ">=3.5.3"
 
 [[package]]
+name = "asyncio-extras"
+version = "1.3.2"
+description = "Asynchronous generators, context managers and more for asyncio"
+category = "main"
+optional = false
+python-versions = "*"
+
+[package.dependencies]
+async-generator = ">=1.3"
+
+[package.extras]
+doc = ["sphinx-autodoc-typehints"]
+test = ["pytest", "pytest-asyncio", "pytest-cov"]
+
+[[package]]
 name = "asyncpraw"
-version = "7.2.0"
+version = "7.3.0"
 description = "Async PRAW, an abbreviation for `Asynchronous Python Reddit API Wrapper`, is a python package that allows for simple access to reddit's API."
 category = "main"
 optional = false
 python-versions = ">=3.6"
 
 [package.dependencies]
-aiofiles = "*"
-asyncprawcore = ">=2,<3"
+aiofiles = "<=0.6.0"
+aiosqlite = "<=0.17.0"
+asyncio-extras = "<=1.3.2"
+asyncprawcore = ">=2.1,<3"
 update-checker = ">=0.18"
 
 [package.extras]
@@ -815,12 +832,12 @@ testing = ["pytest (>=4.6)", "pytest-checkdocs (>=1.2.3)", "pytest-flake8", "pyt
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.6.2"
-content-hash = "2f923d184730237e32899c9a9eca90275699c6479ea0e2d3075c892d06ee2563"
+content-hash = "255fa5ae68fae0d7a7248d9682168d9b706039aa4902954277862e3e1a3c71b3"
 
 [metadata.files]
 aiofiles = [
-    {file = "aiofiles-0.7.0-py3-none-any.whl", hash = "sha256:c67a6823b5f23fcab0a2595a289cec7d8c863ffcb4322fb8cd6b90400aedfdbc"},
-    {file = "aiofiles-0.7.0.tar.gz", hash = "sha256:a1c4fc9b2ff81568c83e21392a82f344ea9d23da906e4f6a52662764545e19d4"},
+    {file = "aiofiles-0.6.0-py3-none-any.whl", hash = "sha256:bd3019af67f83b739f8e4053c6c0512a7f545b9a8d91aaeab55e6e0f9d123c27"},
+    {file = "aiofiles-0.6.0.tar.gz", hash = "sha256:e0281b157d3d5d59d803e3f4557dcc9a3dff28a4dd4829a9ff478adae50ca092"},
 ]
 aiohttp = [
     {file = "aiohttp-3.7.4.post0-cp36-cp36m-macosx_10_14_x86_64.whl", hash = "sha256:3cf75f7cdc2397ed4442594b935a11ed5569961333d49b7539ea741be2cc79d5"},
@@ -887,9 +904,13 @@ async-timeout = [
     {file = "async-timeout-3.0.1.tar.gz", hash = "sha256:0c3c816a028d47f659d6ff5c745cb2acf1f966da1fe5c19c77a70282b25f4c5f"},
     {file = "async_timeout-3.0.1-py3-none-any.whl", hash = "sha256:4291ca197d287d274d0b6cb5d6f8f8f82d434ed288f962539ff18cc9012f9ea3"},
 ]
+asyncio-extras = [
+    {file = "asyncio_extras-1.3.2-py3-none-any.whl", hash = "sha256:839568ba07c3470c9aa2c441aa2417c108f7d3755862bc2bd39d69b524303993"},
+    {file = "asyncio_extras-1.3.2.tar.gz", hash = "sha256:084b62bebc19c6ba106d438a274bbb5566941c469128cd4af1a85f00a2c81f8d"},
+]
 asyncpraw = [
-    {file = "asyncpraw-7.2.0-py3-none-any.whl", hash = "sha256:817a4881ce84bda17a207f93156419825c7934b227244a8f05bdfcf557134181"},
-    {file = "asyncpraw-7.2.0.tar.gz", hash = "sha256:7890414f0c5f8f3747dfe8a4a1ca3348064ef124f17b744cf0d12f8e202d38cd"},
+    {file = "asyncpraw-7.3.0-py3-none-any.whl", hash = "sha256:1841b8c41fea3706745359af1a772115e431c31f0fc710348201a5911387a7f6"},
+    {file = "asyncpraw-7.3.0.tar.gz", hash = "sha256:9a249a56025225872355aaa9d729fd0a3e18b003466a980a99be7c95d5115c5c"},
 ]
 asyncprawcore = [
     {file = "asyncprawcore-2.2.0-py3-none-any.whl", hash = "sha256:9dcc8a13f9c1c0d10a4ce3029f6a952cb464081f2b3c6756767a013312099660"},
