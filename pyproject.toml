@@ -42,7 +42,7 @@ wheel = "^0.36.2"
 gpytranslate = "1.2.0"
 wikipedia = {git = "https://github.com/HitaloSama/Wikipedia"}
 python-anilist = "1.0.4"
-regex = "2021.7.1"
+regex = "2021.7.6"
 lxml = "4.6.3"
 async-files = "0.4"
 humanize = "3.9.0"
