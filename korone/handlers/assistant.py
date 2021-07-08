@@ -17,7 +17,6 @@
 import io
 import json
 import random
-from typing import Dict
 
 import wikipedia
 from pyrogram import filters
@@ -31,7 +30,7 @@ from korone.utils import http
 
 GROUP = "assistant"
 
-COMMANDS_HELP[GROUP]: Dict = {
+COMMANDS_HELP[GROUP] = {
     "name": "Assistências",
     "text": "Meus comandos de assistência, use em grupos ou PV.",
     "filters": {},
@@ -175,16 +174,12 @@ async def wiki_search(c: Korone, m: Message):
         return
     except wikipedia.exceptions.DisambiguationError as refer:
         refer = str(refer).split("\n")
-        if len(refer) >= 6:
-            batas = 6
-        else:
-            batas = len(refer)
-        text = ""
-        for x in range(batas):
-            if x == 0:
-                text += refer[x] + "\n"
-            else:
-                text += "- <code>" + refer[x] + "</code>\n"
+        batas = min(len(refer), 6)
+        text = "".join(
+            refer[x] + "\n" if x == 0 else "- <code>" + refer[x] + "</code>\n"
+            for x in range(batas)
+        )
+
         await m.reply_text(text)
         return
     except IndexError:

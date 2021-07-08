@@ -14,13 +14,15 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+from typing import List
+
 from gpytranslate import Translator
 
 tr = Translator()
 
 
 # See https://cloud.google.com/translate/docs/languages
-LANGUAGES = [
+LANGUAGES: List[str] = [
     "af",
     "sq",
     "am",

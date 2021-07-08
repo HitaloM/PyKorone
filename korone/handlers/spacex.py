@@ -15,7 +15,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 from datetime import datetime
-from typing import Dict, List
+from typing import List
 
 from pyrogram import filters
 from pyrogram.types import Message
@@ -26,7 +26,7 @@ from korone.utils import http
 
 GROUP = "spacex"
 
-COMMANDS_HELP[GROUP]: Dict = {
+COMMANDS_HELP[GROUP] = {
     "name": "SpaceX",
     "text": "Esse é meu módulo sobre a SpaceX.",
     "commands": {},

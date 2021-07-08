@@ -143,55 +143,54 @@ async def help_module(c: Korone, m: Message, module: str = None):
         keyboard.append([("⬅️ Voltar", "start_back")])
         text = "Por favor, selecione uma categoria para obter ajuda!"
         success = True
-    else:
-        if module in ["commands", "filters"]:
-            text = "Escolha um módulo ou use <code>/help &lt;módulo&gt;</code>.\n"
-            keyboard = [[]]
-            index = 0
-            for key, value in COMMANDS_HELP.items():
-                if module in value and "help" in value and value["help"]:
-                    if len(keyboard[index]) == 3:
-                        index += 1
-                        keyboard.append([])
-                    keyboard[index].append(
-                        (
-                            value["name"] if "name" in value else key.capitalize(),
-                            f"help_{key}",
-                        )
+    elif module in {"commands", "filters"}:
+        text = "Escolha um módulo ou use <code>/help &lt;módulo&gt;</code>.\n"
+        keyboard = [[]]
+        index = 0
+        for key, value in COMMANDS_HELP.items():
+            if module in value and "help" in value and value["help"]:
+                if len(keyboard[index]) == 3:
+                    index += 1
+                    keyboard.append([])
+                keyboard[index].append(
+                    (
+                        value["name"] if "name" in value else key.capitalize(),
+                        f"help_{key}",
                     )
-            success = True
-            keyboard.append([("⬅️ Voltar", "help_start")])
-        elif module in COMMANDS_HELP.keys():
-            text = f"<b>Módulo</b>: <code>{module}</code>\n"
-            module = COMMANDS_HELP[module]
-            text += f'\n{module["text"]}\n'
+                )
+        success = True
+        keyboard.append([("⬅️ Voltar", "help_start")])
+    elif module in COMMANDS_HELP.keys():
+        text = f"<b>Módulo</b>: <code>{module}</code>\n"
+        module = COMMANDS_HELP[module]
+        text += f'\n{module["text"]}\n'
 
-            m_type = "commands" if "commands" in module else "filters"
-            if len(module[m_type]) > 0:
-                text += f'\n<b>{"Comandos" if m_type == "commands" else "Filtros"}</b>:'
-                for key, value in module[m_type].items():
-                    action = value["action"]
-                    if len(action) > 0:
-                        regex = ""
-                        if m_type == "commands":
-                            key = key.replace("$", "")
-                            regex = key.split()[0]
-                            if "<" in key and ">" in key:
-                                left = key[len(regex) :].split("<")[1:]
-                                for field in left:
-                                    regex += " <" + field.split(">")[0] + ">"
-                            else:
-                                regex = key
+        m_type = "commands" if "commands" in module else "filters"
+        if len(module[m_type]) > 0:
+            text += f'\n<b>{"Comandos" if m_type == "commands" else "Filtros"}</b>:'
+            for key, value in module[m_type].items():
+                action = value["action"]
+                if len(action) > 0:
+                    regex = ""
+                    if m_type == "commands":
+                        key = key.replace("$", "")
+                        regex = key.split()[0]
+                        if "<" in key and ">" in key:
+                            left = key[len(regex) :].split("<")[1:]
+                            for field in left:
+                                regex += " <" + field.split(">")[0] + ">"
                         else:
                             regex = key
-                        if action == " " and m_type == "filters":
-                            text += f"\n  - <code>{html.escape(regex)}</code>"
-                        elif action not in [" ", ""] and m_type == "filters":
-                            text += f"\n  - <code>{html.escape(regex)}</code>: {action}"
-                        else:
-                            text += f'\n  - <b>{"/" if m_type == "commands" else ""}{html.escape(regex)}</b>: <i>{action}</i>'
-            success = True
-            keyboard.append([("⬅️ Voltar", f"help_{m_type}")])
+                    else:
+                        regex = key
+                    if action == " " and m_type == "filters":
+                        text += f"\n  - <code>{html.escape(regex)}</code>"
+                    elif action not in [" ", ""] and m_type == "filters":
+                        text += f"\n  - <code>{html.escape(regex)}</code>: {action}"
+                    else:
+                        text += f'\n  - <b>{"/" if m_type == "commands" else ""}{html.escape(regex)}</b>: <i>{action}</i>'
+        success = True
+        keyboard.append([("⬅️ Voltar", f"help_{m_type}")])
 
     kwargs = {}
     if keyboard:

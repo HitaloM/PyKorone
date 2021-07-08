@@ -19,7 +19,7 @@ import os
 import shutil
 import tempfile
 from datetime import timedelta
-from typing import Dict, List
+from typing import List
 
 import anilist
 from httpx import TimeoutException
@@ -43,7 +43,7 @@ from korone.utils import http
 
 GROUP = "animes"
 
-COMMANDS_HELP[GROUP]: Dict = {
+COMMANDS_HELP[GROUP] = {
     "name": "Animes",
     "text": "O módulo dos Otakus!",
     "commands": {},

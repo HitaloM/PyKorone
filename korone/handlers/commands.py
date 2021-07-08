@@ -23,7 +23,7 @@ import shutil
 import string
 import tempfile
 from datetime import datetime
-from typing import Dict, List
+from typing import List
 
 import regex
 from kantex.html import Bold, Code, KeyValueItem, Section, SubSection
@@ -44,7 +44,7 @@ from korone.utils import http
 
 GROUP = "general"
 
-COMMANDS_HELP[GROUP]: Dict = {
+COMMANDS_HELP[GROUP] = {
     "name": "Diversos",
     "text": "Este é meu módulo de comandos sem categoria.",
     "commands": {},

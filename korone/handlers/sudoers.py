@@ -137,10 +137,9 @@ def parse_commits(log: str) -> Dict:
                     commits[last_commit]["message"] = line[4:]
                 else:
                     commits[last_commit]["title"] = line[4:]
-            else:
-                if ":" in line:
-                    key, value = line.split(": ")
-                    commits[last_commit][key] = value
+            elif ":" in line:
+                key, value = line.split(": ")
+                commits[last_commit][key] = value
     return commits
 
 

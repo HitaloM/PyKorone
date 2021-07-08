@@ -17,7 +17,7 @@
 import html
 import random
 import re
-from typing import Dict
+from typing import List
 
 from pyrogram import filters
 from pyrogram.types import Message
@@ -38,7 +38,7 @@ from korone.korone import Korone
 
 GROUP = "messages"
 
-COMMANDS_HELP[GROUP]: Dict = {
+COMMANDS_HELP[GROUP] = {
     "name": "Mensagens",
     "text": "Envie qualquer um desses filtros em algum grupo em que eu estou ou no meu PV.",
     "filters": {},
@@ -226,11 +226,7 @@ async def rtcommand(c: Korone, m: Message):
     reply = m.reply_to_message
     user = m.from_user
     rt_text = None
-    if reply.media:
-        rt_text = reply.caption
-    else:
-        rt_text = reply.text
-
+    rt_text = reply.caption if reply.media else reply.text
     if rt_text is None:
         return
 

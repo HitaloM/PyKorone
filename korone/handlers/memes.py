@@ -19,7 +19,6 @@ import html
 import random
 import re
 from io import BytesIO
-from typing import Dict
 
 from PIL import Image
 from pyrogram import filters
@@ -34,7 +33,7 @@ from korone.utils import http
 
 GROUP = "memes"
 
-COMMANDS_HELP[GROUP]: Dict = {
+COMMANDS_HELP[GROUP] = {
     "name": "Memes",
     "text": "Esse é meu módulo de memes, divirta-se.",
     "commands": {},
@@ -53,15 +52,14 @@ async def neko_api(c: Korone, m: Message, text: str = None):
 
     try:
         if m.reply_to_message:
-            if text in ("neko", "waifu"):
+            if text in {"neko", "waifu"}:
                 await m.reply_to_message.reply_photo(image_url)
             else:
                 await m.reply_to_message.reply_document(image_url)
-        elif not m.reply_to_message:
-            if text in ("neko", "waifu"):
-                await m.reply_photo(image_url)
-            else:
-                await m.reply_document(image_url)
+        elif text in {"neko", "waifu"}:
+            await m.reply_photo(image_url)
+        else:
+            await m.reply_document(image_url)
     except BadRequest as e:
         await m.reply_text(f"<b>Erro!</b>\n<code>{e}</code>")
         return

@@ -22,7 +22,6 @@ import os
 import re
 import shutil
 import tempfile
-from typing import Dict
 
 import youtube_dl
 from bs4 import BeautifulSoup as bs
@@ -41,7 +40,7 @@ from korone.utils import http, pretty_size
 
 GROUP = "utils"
 
-COMMANDS_HELP[GROUP]: Dict = {
+COMMANDS_HELP[GROUP] = {
     "name": "Utilidades",
     "text": "Este é meu módulo de comandos utilitários.",
     "commands": {},
