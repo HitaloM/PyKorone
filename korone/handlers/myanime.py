@@ -125,9 +125,9 @@ async def anilist_anime(c: Korone, m: Message):
         )
     if hasattr(anime, "studios"):
         text += f"<b>Estúdios:</b> <code>{', '.join(str(x) for x in anime.studios)}</code>\n"
-    if not anime.status.lower() == "not_yet_released":
+    if anime.status.lower() != "not_yet_released":
         text += f"<b>Inicio:</b> <code>{anime.start_date.day if hasattr(anime.start_date, 'day') else 0}/{anime.start_date.month if hasattr(anime.start_date, 'month') else 0}/{anime.start_date.year if hasattr(anime.start_date, 'year') else 0}</code>\n"
-    if not anime.status.lower() in ["not_yet_released", "releasing"]:
+    if anime.status.lower() not in ["not_yet_released", "releasing"]:
         text += f"<b>Finalização:</b> <code>{anime.end_date.day if hasattr(anime.end_date, 'day') else 0}/{anime.end_date.month if hasattr(anime.end_date, 'month') else 0}/{anime.end_date.year if hasattr(anime.end_date, 'year') else 0}</code>\n"
     if hasattr(anime, "description"):
         text += f"\n{desc}"
@@ -427,6 +427,38 @@ async def poke_item_image(c: Korone, m: Message):
 
     pk_img = await pokemon_image_sync(sprite_io)
     await m.reply_document(pk_img)
+
+
+@Korone.on_message(
+    filters.cmd(
+        command="pokedex (?P<search>.+)",
+        action="Obtenha informações sobre Pokémons."))
+async def pokedex_cmd(c: Korone, m: Message):
+    pokemon = m.matches[0]["search"]
+    pokedex = f"https://some-random-api.ml/pokedex?pokemon={pokemon}"
+    r = await http.get(pokedex)
+    if r.status_code == 404:
+        await m.reply_text(f"Não foi possível encontrar o Pokémon <code>{pokemon}</code>.")
+        return
+
+    poke = r.json()
+    text = f"Pokémon: {poke['name']}\n"
+    text += f"Pokedex: {poke['id']}\n"
+    text += f"Tipo: {poke['type']}\n"
+    text += f"Abilidades: {poke['abilities']}\n"
+    text += f"Altura: {poke['height']}\n"
+    text += f"Peso: {poke['weight']}\n"
+    text += f"Gênero: {poke['gender']}\n"
+    text += f"Estatísticas: {poke['stats']}\n"
+    text += f"Descrição: {poke['description']}\n"
+
+    poke_img = f"https://img.pokemondb.net/artwork/large/{pokemon}.jpg"
+    p = await http.get(poke_img)
+    sprite = p.status_code != "404"
+    if sprite:
+        await m.reply_photo(photo=poke_img, caption=text)
+    else:
+        await m.reply_text(text)
 
 
 @Korone.on_message(
