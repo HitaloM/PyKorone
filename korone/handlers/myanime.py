@@ -449,7 +449,7 @@ async def pokedex_cmd(c: Korone, m: Message):
     text += f"<b>Altura:</b> <code>{poke['height']}</code>\n"
     text += f"<b>Peso:</b> <code>{poke['weight']}</code>\n"
     text += f"<b>Gênero:</b> <code>{', '.join(str(x) for x in poke['gender'])}</code>\n"
-    text += f"<b>Estatísticas:</b> <code>{', '.join(str(x) for x in poke['stats'])}</code>"
+    text += f"<b>Estatísticas:</b> {', '.join([f'{key}: {value}' for key, value in poke['stats'].items()])}\n"
     text += f"\n<b>Descrição:</b> <i>{poke['description']}</i>"
 
     poke_img = f"https://img.pokemondb.net/artwork/large/{pokemon}.jpg"
