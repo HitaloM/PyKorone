@@ -444,12 +444,12 @@ async def pokedex_cmd(c: Korone, m: Message):
     poke = r.json()
     text = f"<b>Pokémon:</b> <code>{poke['name']}</code>\n"
     text += f"<b>Pokedex:</b> <code>{poke['id']}</code>\n"
-    text += f"<b>Tipo:</b> <code>{', '.join(str(x) for x in poke['type'])}</code>"
+    text += f"<b>Tipo:</b> <code>{', '.join(str(x) for x in poke['type'])}</code>\n"
     text += f"<b>Abilidades:</b> <code>{', '.join(str(x) for x in poke['abilities'])}</code>\n"
     text += f"<b>Altura:</b> <code>{poke['height']}</code>\n"
     text += f"<b>Peso:</b> <code>{poke['weight']}</code>\n"
     text += f"<b>Gênero:</b> <code>{', '.join(str(x) for x in poke['gender'])}</code>\n"
-    text += f"<b>Estatísticas:</b> {poke['stats']}\n"
+    text += f"<b>Estatísticas:</b> <code>{', '.join(str(x) for x in poke['stats'])}</code>"
     text += f"\n<b>Descrição:</b> <i>{poke['description']}</i>"
 
     poke_img = f"https://img.pokemondb.net/artwork/large/{pokemon}.jpg"
