@@ -442,15 +442,15 @@ async def pokedex_cmd(c: Korone, m: Message):
         return
 
     poke = r.json()
-    text = f"Pokémon: {poke['name']}\n"
-    text += f"Pokedex: {poke['id']}\n"
-    text += f"Tipo: {poke['type']}\n"
-    text += f"Abilidades: {poke['abilities']}\n"
-    text += f"Altura: {poke['height']}\n"
-    text += f"Peso: {poke['weight']}\n"
-    text += f"Gênero: {poke['gender']}\n"
-    text += f"Estatísticas: {poke['stats']}\n"
-    text += f"Descrição: {poke['description']}\n"
+    text = f"<b>Pokémon:</b> <code>{poke['name']}</code>\n"
+    text += f"<b>Pokedex:</b> <code>{poke['id']}</code>\n"
+    text += f"<b>Tipo:</b> <code>{', '.join(str(x) for x in poke['type'])}</code>"
+    text += f"<b>Abilidades:</b> <code>{', '.join(str(x) for x in poke['abilities'])}</code>\n"
+    text += f"<b>Altura:</b> <code>{poke['height']}</code>\n"
+    text += f"<b>Peso:</b> <code>{poke['weight']}</code>\n"
+    text += f"<b>Gênero:</b> <code>{', '.join(str(x) for x in poke['gender'])}</code>\n"
+    text += f"<b>Estatísticas:</b> {poke['stats']}\n"
+    text += f"\n<b>Descrição:</b> <i>{poke['description']}</i>"
 
     poke_img = f"https://img.pokemondb.net/artwork/large/{pokemon}.jpg"
     p = await http.get(poke_img)
