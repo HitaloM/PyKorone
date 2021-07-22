@@ -228,6 +228,9 @@ async def on_ytdl(c: Korone, m: Message):
         re.M,
     )
 
+    temp = "0"
+    if "t=" in url:
+        temp = url.split("t=")[1].split("&")[0]
     if not rege:
         yt = await extract_info(ydl, "ytsearch:" + url, download=False)
         yt = yt["entries"][0]
@@ -245,11 +248,11 @@ async def on_ytdl(c: Korone, m: Message):
         [
             (
                 "💿 Áudio",
-                f'_aud.{yt["id"]}|{afsize}|{vformat}|{m.chat.id}|{user}|{m.message_id}',
+                f'_aud.{yt["id"]}|{afsize}|{vformat}|{temp}|{m.chat.id}|{user}|{m.message_id}',
             ),
             (
                 "🎬 Vídeo",
-                f'_vid.{yt["id"]}|{vfsize}|{vformat}|{m.chat.id}|{user}|{m.message_id}',
+                f'_vid.{yt["id"]}|{vfsize}|{vformat}|{temp}|{m.chat.id}|{user}|{m.message_id}',
             ),
         ]
     ]
@@ -269,7 +272,7 @@ async def on_ytdl(c: Korone, m: Message):
 
 @Korone.on_callback_query(filters.regex("^(_(vid|aud))"))
 async def cli_ytdl(c, cq: CallbackQuery):
-    data, fsize, vformat, cid, userid, mid = cq.data.split("|")
+    data, fsize, vformat, temp, cid, userid, mid = cq.data.split("|")
     if not cq.from_user.id == int(userid):
         return await cq.answer("Este botão não é para você!", cache_time=60)
     if int(fsize) > 209715200:
@@ -312,6 +315,9 @@ async def cli_ytdl(c, cq: CallbackQuery):
         return
     await cq.message.edit("Enviando...")
     filename = ydl.prepare_filename(yt)
+    ttemp = ""
+    if int(temp):
+        ttemp = f"⏰ {datetime.timedelta(seconds=int(temp))} | "
     thumb = io.BytesIO((await http.get(yt["thumbnail"])).content)
     thumb.name = "thumbnail.png"
     if "vid" in data:
@@ -322,7 +328,7 @@ async def cli_ytdl(c, cq: CallbackQuery):
                 video=filename,
                 width=1920,
                 height=1080,
-                caption=f"<a href='{yt['webpage_url']}'>{yt['title']}</a></b>",
+                caption=f"{ttemp} <a href='{yt['webpage_url']}'>{yt['title']}</a></b>",
                 duration=yt["duration"],
                 thumb=thumb,
                 progress=up_progress,
@@ -353,7 +359,7 @@ async def cli_ytdl(c, cq: CallbackQuery):
             await c.send_audio(
                 chat_id=int(cid),
                 audio=filename,
-                caption=f"<a href='{yt['webpage_url']}'>{yt['title']}</a></b>",
+                caption=f"{ttemp} <a href='{yt['webpage_url']}'>{yt['title']}</a></b>",
                 title=title,
                 performer=performer,
                 duration=yt["duration"],
