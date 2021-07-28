@@ -1,9 +1,9 @@
 # PyKorone
 
-[![Language grade: Python](https://img.shields.io/lgtm/grade/python/g/AmanoTeam/PyKorone.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/AmanoTeam/PyKorone/context:python)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/75894dccef324798b452791297624e0a)](https://app.codacy.com/gh/AmanoTeam/PyKorone?utm_source=github.com&utm_medium=referral&utm_content=AmanoTeam/PyKorone&utm_campaign=Badge_Grade_Settings)
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 [![GitHub contributors](https://img.shields.io/github/contributors/AmanoTeam/PyKorone.svg)](https://GitHub.com/AmanoTeam/PyKorone/graphs/contributors/)
+[![Open in Visual Studio Code](https://open.vscode.dev/badges/open-in-vscode.svg)](https://open.vscode.dev/AmanoTeam/PyKorone)
 
 > An interaction and fun bot for Telegram groups, having some useful and other useless commands.
 > Created as an experiment and learning bot but being expanded and improved over time.
@@ -15,7 +15,7 @@ This repository contains the source code of [@PyKoroneBot](https://t.me/PyKorone
 - Python 3.6 or higher.
 - A [Telegram API Key and API Hash](https://docs.pyrogram.org/intro/setup#api-keys).
 - A [Telegram Bot Token](https://t.me/botfather).
-- A Linux distribution (should also work on Windows but has not been tested).
+- A Linux distribution or Windows (and maybe in others systens that support Python).
 
 ## Installation
 

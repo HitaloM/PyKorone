@@ -17,33 +17,53 @@
 import glob
 import importlib
 import logging
+import os
+import platform
+import sys
 from types import ModuleType
 from typing import List
 
 modules: List[ModuleType] = []
 log = logging.getLogger(__name__)
+MODULES_PATH = os.path.join("korone", "handlers", "**", "*.py")
 
 
 def load(client):
-    files = glob.glob("korone/handlers/**/*.py", recursive=True)
+    is_windows: bool = (
+        True
+        if platform.system().lower() == "windows"
+        or os.name == "nt"
+        or sys.platform.startwith("win")
+        else False
+    )
+    if is_windows is True:
+        is_backslash: str = "\\"
+    else:
+        is_backslash: str = "/"
+
+    files = glob.glob(MODULES_PATH, recursive=True)
     main_dir = sorted(
-        [*filter(lambda file: len(file.split("/")) == 3, files)],
-        key=lambda file: file.split("/")[2],
+        [*filter(lambda file: len(file.split(is_backslash)) == 3, files)],
+        key=lambda file: file.split(is_backslash)[2],
     )
     sub_dirs = sorted(
-        [*filter(lambda file: len(file.split("/")) >= 4, files)],
-        key=lambda file: file.split("/")[3],
+        [*filter(lambda file: len(file.split(is_backslash)) >= 4, files)],
+        key=lambda file: file.split(is_backslash)[3],
     )
     files = main_dir + sub_dirs
 
     for file_name in files:
         try:
             module = importlib.import_module(
-                file_name.replace("/", ".").replace(".py", "")
+                file_name.replace(is_backslash, ".").replace(".py", "")
             )
             modules.append(module)
         except BaseException:
-            log.critical("Failed to import the module: %s", file_name, exc_info=True)
+            log.critical(
+                "Failed to import the module: %s",
+                file_name,
+                exc_info=True,
+            )
             continue
 
         functions = [*filter(callable, module.__dict__.values())]
