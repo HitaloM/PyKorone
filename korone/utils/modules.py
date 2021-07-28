@@ -33,7 +33,7 @@ def load(client):
         True
         if platform.system().lower() == "windows"
         or os.name == "nt"
-        or sys.platform.startwith("win")
+        or sys.platform.startswith("win")
         else False
     )
     if is_windows is True:
