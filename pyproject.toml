@@ -36,7 +36,7 @@ httpx = {version = "0.18.2", extras = ["http2"]}
 kantex = "0.2.0"
 meval = "2.5"
 jikanpy = "4.3.2"
-asyncpraw = "7.3.1"
+asyncpraw = "7.4.0"
 youtube_dl = "2021.6.6"
 wheel = "^0.36.2"
 gpytranslate = "1.2.0"
