@@ -14,13 +14,29 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+from pyrogram import filters
 from pyrogram.types import (
     InlineQuery,
     InlineQueryResultArticle,
     InputTextMessageContent,
+    Message,
 )
 
 from korone.korone import Korone
+
+
+@Korone.on_message(filters.new_chat_members)
+async def thanks_for(c: Korone, m: Message):
+    if c.me.id in [x.id for x in m.new_chat_members]:
+        await c.send_message(
+            chat_id=m.chat.id,
+            text=(
+                "Obrigado por me adicionar em seu grupo! "
+                "Eu também possuo um grupo (@SpamTherapy) bem divertido"
+                ", você está mais que convidade a participar!"
+            ),
+            disable_notification=False,
+        )
 
 
 @Korone.on_inline_query()

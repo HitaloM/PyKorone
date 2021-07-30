@@ -29,9 +29,11 @@ MODULES_PATH = os.path.join("korone", "handlers", "**", "*.py")
 
 
 def load(client):
-    is_windows: bool = bool(platform.system().lower() == "windows"
+    is_windows: bool = bool(
+        platform.system().lower() == "windows"
         or os.name == "nt"
-        or sys.platform.startswith("win"))
+        or sys.platform.startswith("win")
+    )
     if is_windows is True:
         is_backslash: str = "\\"
     else:
