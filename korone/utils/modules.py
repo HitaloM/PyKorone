@@ -31,7 +31,7 @@ MODULES_PATH = os.path.join("korone", "handlers", "**", "*.py")
 
 
 def load(client):
-    if is_windows:
+    if is_windows():
         is_backslash: str = "\\"
     else:
         is_backslash: str = "/"

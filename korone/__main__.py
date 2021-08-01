@@ -33,7 +33,7 @@ try:
 
     uvloop.install()
 except ImportError:
-    if not is_windows:
+    if not is_windows():
         logging.warning("uvloop is not installed and therefore will be disabled.")
 
 # Logging colorized by rich

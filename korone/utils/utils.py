@@ -20,7 +20,6 @@ import os
 import platform
 import sys
 from functools import partial, wraps
-from platform import platform
 from typing import Callable
 
 import httpx
