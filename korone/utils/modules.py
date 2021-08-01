@@ -23,18 +23,15 @@ import sys
 from types import ModuleType
 from typing import List
 
+from korone.utils import is_windows
+
 modules: List[ModuleType] = []
 log = logging.getLogger(__name__)
 MODULES_PATH = os.path.join("korone", "handlers", "**", "*.py")
 
 
 def load(client):
-    is_windows: bool = bool(
-        platform.system().lower() == "windows"
-        or os.name == "nt"
-        or sys.platform.startswith("win")
-    )
-    if is_windows is True:
+    if is_windows:
         is_backslash: str = "\\"
     else:
         is_backslash: str = "/"

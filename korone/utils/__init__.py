@@ -15,4 +15,8 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-from .utils import aiowrap, http, pretty_size, shell_exec
+from typing import List
+
+from .utils import aiowrap, http, is_windows, pretty_size, shell_exec
+
+__all__: List[str] = ["aiowrap", "http", "is_windows", "pretty_size", "shell_exec"]

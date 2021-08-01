@@ -16,8 +16,12 @@
 
 import asyncio
 import math
+import os
+import platform
+import sys
 from functools import partial, wraps
-from typing import Callable, Coroutine
+from platform import platform
+from typing import Callable
 
 import httpx
 
@@ -37,7 +41,7 @@ def pretty_size(size_bytes):
     return "%s %s" % (s, size_name[i])
 
 
-def aiowrap(func: Callable) -> Coroutine:
+def aiowrap(func: Callable) -> Callable:
     @wraps(func)
     async def run(*args, loop=None, executor=None, **kwargs):
         if loop is None:
@@ -57,3 +61,14 @@ async def shell_exec(code, treat=True):
     if treat:
         stdout = stdout.decode().strip()
     return stdout, process
+
+
+# Sysutils
+def is_windows() -> bool:
+    return (
+        True
+        if platform.system().lower() == "windows"
+        or os.name == "nt"
+        or sys.platform.startswith("win")
+        else False
+    )

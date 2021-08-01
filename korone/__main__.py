@@ -15,6 +15,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import logging
+import platform
 
 import pyrogram
 from pyrogram.session import Session
@@ -25,6 +26,15 @@ from rich.panel import Panel
 
 import korone
 from korone.korone import Korone
+from korone.utils import is_windows
+
+try:
+    import uvloop
+
+    uvloop.install()
+except ImportError:
+    if not is_windows:
+        logging.warning("uvloop is not installed and therefore will be disabled.")
 
 # Logging colorized by rich
 FORMAT = "%(message)s"
