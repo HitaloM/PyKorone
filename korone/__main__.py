@@ -28,14 +28,6 @@ import korone
 from korone.korone import Korone
 from korone.utils import is_windows
 
-try:
-    import uvloop
-
-    uvloop.install()
-except ImportError:
-    if not is_windows():
-        logging.warning("uvloop is not installed and therefore will be disabled.")
-
 # Logging colorized by rich
 FORMAT = "%(message)s"
 logging.basicConfig(
@@ -51,6 +43,16 @@ logging.getLogger("pyrogram.syncer").setLevel(logging.WARNING)
 logging.getLogger("pyrogram.client").setLevel(logging.WARNING)
 
 log = logging.getLogger("rich")
+
+
+# Use uvloop to improve speed if available
+try:
+    import uvloop
+
+    uvloop.install()
+except ImportError:
+    if not is_windows():
+        log.warning("uvloop is not installed and therefore will be disabled.")
 
 
 # Beautiful init with rich
