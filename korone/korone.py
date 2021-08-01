@@ -63,7 +63,10 @@ class Korone(Client):
         self.ikb = ikb
 
         log.info(
-            f"PyKorone for Pyrogram v{pyrogram.__version__} (Layer {layer}) started on @{self.me.username}. Hi."
+            "PyKorone for Pyrogram v%s (Layer %s) started on @%s. Hi.",
+            pyrogram.__version__,
+            layer,
+            self.me.username,
         )
 
         # Built-in modules and filters system

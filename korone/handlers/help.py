@@ -207,20 +207,22 @@ async def on_help_callback(c: Korone, cq: CallbackQuery):
 
 
 @Korone.on_message(
-    filters.cmd(command=r"about", action="Veja algumas informações sobre o bot.")
+    filters.cmd(
+        command=r"about",
+        action="Veja algumas informações sobre o bot.",
+    )
 )
 @Korone.on_callback_query(filters.regex(r"^about$"))
 async def about_c(c: Korone, m: Union[Message, CallbackQuery]):
-    about = about_text.format(c.me.first_name, korone.__source__, korone.__community__)
-    if isinstance(m, CallbackQuery):
-        keyboard = c.ikb([[("⬅️ Voltar", "start_back")]])
-        await m.message.edit_text(
-            about,
-            reply_markup=keyboard,
-            disable_web_page_preview=True,
-        )
-    elif isinstance(m, Message):
-        await m.reply_text(
-            about,
-            disable_web_page_preview=True,
-        )
+    is_callback = isinstance(m, CallbackQuery)
+    about = about_text.format(
+        c.me.first_name,
+        korone.__source__,
+        korone.__community__,
+    )
+    keyboard = c.ikb([[("⬅️ Voltar", "start_back")]])
+    await (m.message.edit_text if is_callback else m.reply_text)(
+        about,
+        reply_markup=(keyboard if is_callback else None),
+        disable_web_page_preview=True,
+    )
