@@ -237,6 +237,9 @@ async def on_ytdl(c: Korone, m: Message):
     else:
         yt = await extract_info(ydl, rege.group(), download=False)
 
+    if not temp.isnumeric():
+        temp = "0"
+
     for f in yt["formats"]:
         if f["format_id"] == "140":
             afsize = f["filesize"] or 0
