@@ -22,14 +22,14 @@ import os
 import re
 import shutil
 import tempfile
+from typing import Union
 
 import youtube_dl
-from typing import Union
 from bs4 import BeautifulSoup as bs
 from httpx._exceptions import TimeoutException
 from pyrogram import filters
 from pyrogram.errors import BadRequest, ImageProcessFailed
-from pyrogram.types import CallbackQuery, Message, InlineKeyboardButton, InlineKeyboardMarkup
+from pyrogram.types import CallbackQuery, Message
 
 from korone.handlers import COMMANDS_HELP
 from korone.handlers.utils.image import stickcolorsync
@@ -440,10 +440,12 @@ async def translate(c: Korone, m: Message):
 async def mcserver(c: Korone, m: Union[Message, CallbackQuery]):
     args = m.matches[0]["ip"]
     time = datetime.datetime.now()
+
     if isinstance(m, CallbackQuery):
         reply = m.message
     else:
         reply = await m.reply_text("Obtendo informações...")
+
     try:
         r = await http.get(f"https://api.mcsrvstat.us/2/{args}")
     except TimeoutException:
@@ -454,15 +456,7 @@ async def mcserver(c: Korone, m: Union[Message, CallbackQuery]):
         await reply.edit("A API está indisponível ou com instabilidade!")
         return
 
-    keyboard = InlineKeyboardMarkup(
-        inline_keyboard=[
-            [
-                InlineKeyboardButton(
-                    "Refresh", callback_data=f"mcserver_{args}"
-                )
-            ],
-        ]
-    )
+    keyboard = [[("🔄️ Atualizar", f"mcserver_{args}")]]
     a = r.json()
     if a["online"]:
         text = "<b>Minecraft Server:</b>"
@@ -501,7 +495,9 @@ async def mcserver(c: Korone, m: Union[Message, CallbackQuery]):
             f"\n<b>Online:</b> <code>{a['online']}</code>"
             f"\n\n<b>UPDATED:</b> <i>{time.strftime('%d/%m/%Y %H:%M:%S')}</i>"
         )
-    await reply.edit_text(text, disable_web_page_preview=True, reply_markup=keyboard)
+    await reply.edit_text(
+        text, disable_web_page_preview=True, reply_markup=c.ikb(keyboard)
+    )
 
 
 @Korone.on_message(
