@@ -24,11 +24,12 @@ import shutil
 import tempfile
 
 import youtube_dl
+from typing import Union
 from bs4 import BeautifulSoup as bs
 from httpx._exceptions import TimeoutException
 from pyrogram import filters
 from pyrogram.errors import BadRequest, ImageProcessFailed
-from pyrogram.types import CallbackQuery, Message
+from pyrogram.types import CallbackQuery, Message, InlineKeyboardButton, InlineKeyboardMarkup
 
 from korone.handlers import COMMANDS_HELP
 from korone.handlers.utils.image import stickcolorsync
@@ -435,9 +436,14 @@ async def translate(c: Korone, m: Message):
         group=GROUP,
     )
 )
-async def mcserver(c: Korone, m: Message):
+@Korone.on_callback_query(filters.regex("^mcserver_(?P<ip>.+)"))
+async def mcserver(c: Korone, m: Union[Message, CallbackQuery]):
     args = m.matches[0]["ip"]
-    reply = await m.reply_text("Obtendo informações...")
+    time = datetime.datetime.now()
+    if isinstance(m, CallbackQuery):
+        reply = m.message
+    else:
+        reply = await m.reply_text("Obtendo informações...")
     try:
         r = await http.get(f"https://api.mcsrvstat.us/2/{args}")
     except TimeoutException:
@@ -448,6 +454,15 @@ async def mcserver(c: Korone, m: Message):
         await reply.edit("A API está indisponível ou com instabilidade!")
         return
 
+    keyboard = InlineKeyboardMarkup(
+        inline_keyboard=[
+            [
+                InlineKeyboardButton(
+                    "Refresh", callback_data=f"mcserver_{args}"
+                )
+            ],
+        ]
+    )
     a = r.json()
     if a["online"]:
         text = "<b>Minecraft Server:</b>"
@@ -473,9 +488,10 @@ async def mcserver(c: Korone, m: Message):
         except KeyError:
             pass
         text += f"\n<b>MOTD:</b> <i>{a['motd']['clean'][0]}</i>"
+        text += f"\n\n<b>UPDATED:</b> <i>{time.strftime('%d/%m/%Y %H:%M:%S')}</i>"
 
     elif not a["ip"] or a["ip"] == "127.0.0.1":
-        text = "Isso não é um IP/domínio válido!"
+        return await reply.edit("Isso não é um IP/domínio válido!")
 
     elif not a["online"]:
         text = (
@@ -483,8 +499,9 @@ async def mcserver(c: Korone, m: Message):
             f"\n<b>IP:</b> {a['hostname'] if 'hostname' in a else a['ip']} (<code>{a['ip']}</code>)"
             f"\n<b>Port:</b> <code>{a['port']}</code>"
             f"\n<b>Online:</b> <code>{a['online']}</code>"
+            f"\n\n<b>UPDATED:</b> <i>{time.strftime('%d/%m/%Y %H:%M:%S')}</i>"
         )
-    await reply.edit(text, disable_web_page_preview=True)
+    await reply.edit_text(text, disable_web_page_preview=True, reply_markup=keyboard)
 
 
 @Korone.on_message(
