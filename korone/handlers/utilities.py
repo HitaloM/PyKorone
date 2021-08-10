@@ -82,11 +82,13 @@ async def pypi(c: Korone, m: Message):
         )
         keyboard = None
         if pypi_info["home_page"] and pypi_info["home_page"] != "UNKNOWN":
-            keyboard = [[("Página inicial do pacote", pypi_info["home_page"], "url")]]
+            keyboard = c.ikb(
+                [[("Página inicial do pacote", pypi_info["home_page"], "url")]]
+            )
         await m.reply_text(
             message,
             disable_web_page_preview=True,
-            reply_markup=c.ikb(keyboard),
+            reply_markup=keyboard,
         )
     else:
         await m.reply_text(

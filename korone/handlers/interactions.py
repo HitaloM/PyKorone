@@ -14,6 +14,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+import html
 import random
 
 from pyrogram import filters
@@ -37,6 +38,11 @@ COMMANDS_HELP[GROUP] = {
     "filters": {},
     "help": True,
 }
+
+
+@Korone.on_message(filters.int(filter=r"obrigado", group=GROUP))
+async def thank_you(c: Korone, m: Message):
+    await c.int_reply(m, f"De nada, {html.escape(m.from_user.first_name)}! ^^")
 
 
 @Korone.on_message(
