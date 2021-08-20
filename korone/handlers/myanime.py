@@ -432,13 +432,18 @@ async def poke_item_image(c: Korone, m: Message):
 @Korone.on_message(
     filters.cmd(
         command="pokedex (?P<search>.+)",
-        action="Obtenha informações sobre Pokémons."))
+        action="Obtenha informações sobre Pokémons.",
+        group=GROUP,
+    )
+)
 async def pokedex_cmd(c: Korone, m: Message):
     pokemon = m.matches[0]["search"]
     pokedex = f"https://some-random-api.ml/pokedex?pokemon={pokemon}"
     r = await http.get(pokedex)
     if r.status_code == 404:
-        await m.reply_text(f"Não foi possível encontrar o Pokémon <code>{pokemon}</code>.")
+        await m.reply_text(
+            f"Não foi possível encontrar o Pokémon <code>{pokemon}</code>."
+        )
         return
 
     poke = r.json()
