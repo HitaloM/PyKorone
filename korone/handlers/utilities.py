@@ -35,7 +35,7 @@ from korone.handlers import COMMANDS_HELP
 from korone.handlers.utils.image import stickcolorsync
 from korone.handlers.utils.misc import duck, escape_definition
 from korone.handlers.utils.translator import get_tr_lang, tr
-from korone.handlers.utils.ytdl import down_progress, extract_info, up_progress
+from korone.handlers.utils.ytdl import extract_info
 from korone.korone import Korone
 from korone.utils import http, pretty_size
 
@@ -313,7 +313,6 @@ async def cli_ytdl(c, cq: CallbackQuery):
                 "noplaylist": True,
             }
         )
-    ydl.add_progress_hook(functools.partial(down_progress, cq.message))
     try:
         yt = await extract_info(ydl, url, download=True)
     except BaseException as e:
@@ -329,6 +328,7 @@ async def cli_ytdl(c, cq: CallbackQuery):
     if "vid" in data:
         await c.send_chat_action(int(cid), "upload_video")
         try:
+            await c.send_chat_action(cq.message.chat.id, "upload_video")
             await c.send_video(
                 chat_id=int(cid),
                 video=filename,
@@ -337,12 +337,6 @@ async def cli_ytdl(c, cq: CallbackQuery):
                 caption=f"{ttemp} <a href='{yt['webpage_url']}'>{yt['title']}</a></b>",
                 duration=yt["duration"],
                 thumb=thumb,
-                progress=up_progress,
-                progress_args=(
-                    c,
-                    cq.message,
-                    "video",
-                ),
                 reply_to_message_id=int(mid),
             )
         except BadRequest as e:
@@ -362,6 +356,7 @@ async def cli_ytdl(c, cq: CallbackQuery):
             performer = yt.get("creator") or yt.get("uploader")
             title = yt["title"]
         try:
+            await c.send_chat_action(cq.message.chat.id, "upload_audio")
             await c.send_audio(
                 chat_id=int(cid),
                 audio=filename,
@@ -370,12 +365,6 @@ async def cli_ytdl(c, cq: CallbackQuery):
                 performer=performer,
                 duration=yt["duration"],
                 thumb=thumb,
-                progress=up_progress,
-                progress_args=(
-                    c,
-                    cq.message,
-                    "audio",
-                ),
                 reply_to_message_id=int(mid),
             )
         except BadRequest as e:

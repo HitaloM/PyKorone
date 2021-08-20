@@ -21,45 +21,7 @@ from pyrogram.errors import BadRequest, FloodWait
 
 from korone.utils import aiowrap
 
-last_edit = 0
-
 
 @aiowrap
 def extract_info(instance, url, download=True):
     return instance.extract_info(url, download)
-
-
-async def up_progress(current, total, c, m, action: str):
-    global last_edit
-
-    percent = current * 100 / total
-    if last_edit + 1 < int(time.time()) or current == total:
-        if action == "video":
-            await c.send_chat_action(m.chat.id, "upload_video")
-        if action == "audio":
-            await c.send_chat_action(m.chat.id, "upload_audio")
-        try:
-            await m.edit("Enviando... <code>{:.1f}%</code>".format(percent))
-        except FloodWait as e:
-            await asyncio.sleep(e.x)
-        except BadRequest:
-            pass
-        finally:
-            last_edit = int(time.time())
-
-
-def down_progress(m, d):
-    global last_edit
-
-    if d["status"] == "finished":
-        return
-    if d["status"] == "downloading" and last_edit + 1 < int(time.time()):
-        percent = d["_percent_str"]
-        try:
-            m.edit(f"Baixando... <code>{percent}</code>")
-        except FloodWait as e:
-            time.sleep(e.x)
-        except BadRequest:
-            pass
-        finally:
-            last_edit = int(time.time())
