@@ -572,12 +572,12 @@ async def nyaasi(c: Korone, m: Message):
                 [
                     ("Torrent", nyaa["download_url"], "url"),
                     (
-                        "Mgnético",
+                        "Magnet",
                         f"https://nyaasi.herokuapp.com/nyaamagnet/{filehash}",
                         "url",
                     ),
                 ],
-                [("Visualizar", nyaa["url"], "url")],
+                [("Mais Informações", nyaa["url"], "url")],
             ]
         )
 

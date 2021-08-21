@@ -15,7 +15,6 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import logging
-import platform
 
 import pyrogram
 from pyrogram.session import Session
