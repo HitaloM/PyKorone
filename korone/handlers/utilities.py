@@ -554,16 +554,18 @@ async def del_message(c: Korone, m: Message):
 async def nyaasi(c: Korone, m: Message):
     search = m.matches[0]["text"]
     try:
-        nyaa = Nyaa.search(keyword=search, category=1)[0]
+        nyaa = Nyaa.search(keyword=search, category=0)[0]
 
-        text = f"<b>Nome:</b> {nyaa['name']}\n"
-        text += f"<b>ID:</b> {nyaa['id']}\n"
-        text += f"<b>Data:</b> {nyaa['date']}\n"
-        text += f"<b>Categoria:</b> {nyaa['category']}\n"
-        text += f"<b>Tamanho:</b> {nyaa['size']}\n"
-        text += f"<b>Leechers:</b> {nyaa['leechers']}\n"
-        text += f"<b>Seeders:</b> {nyaa['seeders']}\n"
-        text += f"<b>Downloads concluídos:</b> {nyaa['completed_downloads']}"
+        text = f"<b>Nome:</b> {html.escape(nyaa['name'])}\n"
+        text += f"<b>ID:</b> <code>{nyaa['id']}</code>\n"
+        text += f"<b>Data:</b> <code>{nyaa['date']}</code>\n"
+        text += f"<b>Categoria:</b> <i>{nyaa['category']}</i>\n"
+        text += f"<b>Tamanho:</b> <code>{nyaa['size']}</code>\n"
+        text += f"<b>Leechers:</b> <code>{nyaa['leechers']}</code>\n"
+        text += f"<b>Seeders:</b> <code>{nyaa['seeders']}</code>\n"
+        text += (
+            f"<b>Downloads concluídos:</b> <code>{nyaa['completed_downloads']}</code>"
+        )
 
         filehash = nyaa["magnet"].split("xt=")[1].split("&")[0]
 
