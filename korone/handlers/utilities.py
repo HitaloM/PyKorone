@@ -15,7 +15,6 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import datetime
-import functools
 import html
 import io
 import os
@@ -27,6 +26,7 @@ from typing import Union
 import youtube_dl
 from bs4 import BeautifulSoup as bs
 from httpx._exceptions import TimeoutException
+from NyaaPy import Nyaa
 from pyrogram import filters
 from pyrogram.errors import BadRequest, ImageProcessFailed
 from pyrogram.types import CallbackQuery, Message
@@ -542,3 +542,47 @@ async def del_message(c: Korone, m: Message):
             )
     else:
         await m.reply_text("Bakayarou! Você não é um administrador...")
+
+
+@Korone.on_message(
+    filters.cmd(
+        command="nyaasi (?P<text>.+)",
+        action="Pesquise torrents do nyaa.si",
+        group=GROUP,
+    )
+)
+async def nyaasi(c: Korone, m: Message):
+    search = m.matches[0]["text"]
+    try:
+        nyaa = Nyaa.search(keyword=search, category=1)[0]
+
+        text = f"<b>Nome:</b> {nyaa['name']}\n"
+        text += f"<b>ID:</b> {nyaa['id']}\n"
+        text += f"<b>Data:</b> {nyaa['date']}\n"
+        text += f"<b>Categoria:</b> {nyaa['category']}\n"
+        text += f"<b>Tamanho:</b> {nyaa['size']}\n"
+        text += f"<b>Leechers:</b> {nyaa['leechers']}\n"
+        text += f"<b>Seeders:</b> {nyaa['seeders']}\n"
+        text += f"<b>Downloads concluídos:</b> {nyaa['completed_downloads']}"
+
+        filehash = nyaa["magnet"].split("xt=")[1].split("&")[0]
+
+        keyboard = c.ikb(
+            [
+                [
+                    ("Torrent", nyaa["download_url"], "url"),
+                    (
+                        "Mgnético",
+                        f"https://nyaasi.herokuapp.com/nyaamagnet/{filehash}",
+                        "url",
+                    ),
+                ],
+                [("Visualizar", nyaa["url"], "url")],
+            ]
+        )
+
+    except IndexError:
+        text = "Sua pesquisa não encontrou nenhum torrent correspondente!"
+        keyboard = None
+
+    await m.reply_text(text, disable_web_page_preview=True, reply_markup=keyboard)
