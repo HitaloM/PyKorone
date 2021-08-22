@@ -182,7 +182,8 @@ async def anilist_airing(c: Korone, m: Message):
         text += f"<b>Episódio:</b> <code>{anime.next_airing.episode}</code>\n"
         text += f"<b>Exibição em:</b> <code>{t(airing_time)}</code>"
     else:
-        text += f"<b>Episódio:</b> <code>{anime.episodes}</code>\n"
+        episodes = anime.episodes if hasattr(anime, "episodes") else "N/A"
+        text += f"<b>Episódio:</b> <code>{episodes}</code>\n"
         text += "<b>Exibição em:</b> <code>N/A</code>"
 
     if hasattr(anime, "banner"):
