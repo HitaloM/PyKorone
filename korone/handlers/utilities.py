@@ -562,37 +562,6 @@ async def mcserver(c: Korone, m: Union[Message, CallbackQuery]):
 
 @Korone.on_message(
     filters.cmd(
-        command="print (?P<url>.+)",
-        action="Faça uma captura de tela da url dada.",
-        group=GROUP,
-    )
-)
-async def amn_print(c: Korone, m: Message):
-    args = m.matches[0]["url"]
-    reply = await m.reply_text("Printando...")
-    try:
-        r = await http.get("https://webshot.amanoteam.com/print", params=dict(q=args))
-    except TimeoutException:
-        await reply.edit("Desculpe, não consegui concluir seu pedido!")
-        return
-
-    if r.status_code in [500, 504, 505]:
-        await reply.edit("API indisponível ou instável!")
-        return
-
-    bio = io.BytesIO(r.read())
-    bio.name = "screenshot.png"
-    try:
-        await m.reply_photo(bio)
-    except ImageProcessFailed:
-        await reply.edit("Um erro ocorreu ao tentar processar a imagem!")
-        return
-
-    await reply.delete()
-
-
-@Korone.on_message(
-    filters.cmd(
         command="del$",
         action="Faça o Korone apagar uma mensagem.",
         group=GROUP,
