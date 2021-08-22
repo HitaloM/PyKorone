@@ -205,6 +205,75 @@ async def stickcolor(c: Korone, m: Message):
 
 @Korone.on_message(
     filters.cmd(
+        command=r"ttdl(\s(?P<text>.+))?",
+        action="Faça o Korone baixar um vídeo do Twitter e enviar no chat atual.",
+        group=GROUP,
+    )
+)
+async def on_ttdl(c: Korone, m: Message):
+    args = m.matches[0]["text"]
+
+    if m.reply_to_message and m.reply_to_message.text:
+        url = m.reply_to_message.text
+    elif m.text and args:
+        url = args
+    else:
+        await m.reply_text("Por favor, responda a um link de um vídeo do Twitter.")
+        return
+
+    rege = re.match(
+        r"https?://(?:(?:www|m(?:obile)?)\.)?twitter\.com/(?:(?:i/web|[^/]+)/status|statuses)/(?P<id>\d+)",
+        url,
+        re.M,
+    )
+    if not rege:
+        await m.reply_text("Isso não é um link válido!")
+        return
+
+    sent = await m.reply_text("Baixando...")
+
+    with tempfile.TemporaryDirectory() as tempdir:
+        path = os.path.join(tempdir, "ttdl")
+
+    tdl = youtube_dl.YoutubeDL(
+        {
+            "outtmpl": f"{path}/%(title)s-%(id)s.%(ext)s",
+            "format": "mp4",
+        }
+    )
+    try:
+        tt = await extract_info(tdl, url, download=True)
+    except BaseException as e:
+        await m.edit(f"<b>Error!</b>\n<code>{e}</code>")
+        return
+
+    filename = tdl.prepare_filename(tt)
+    thumb = io.BytesIO((await http.get(tt["thumbnail"])).content)
+    thumb.name = "thumbnail.png"
+    await sent.edit("Enviando...")
+    await c.send_chat_action(m.chat.id, "upload_video")
+    try:
+        await c.send_chat_action(m.chat.id, "upload_video")
+        await m.reply_video(
+            video=filename,
+            caption=f"<a href='{tt['webpage_url']}'>{tt['title']}</a></b>",
+            thumb=thumb,
+        )
+    except BadRequest as e:
+        await m.reply_text(
+            text=(
+                "Desculpe! Não consegui enviar o "
+                "vídeo por causa de um erro.\n"
+                f"<b>Erro:</b> <code>{e}</code>"
+            )
+        )
+
+    await sent.delete()
+    shutil.rmtree(tempdir, ignore_errors=True)
+
+
+@Korone.on_message(
+    filters.cmd(
         command=r"ytdl(\s(?P<text>.+))?",
         action="Faça o Korone baixar um vídeo do YouTube e enviar no chat atual.",
         group=GROUP,
