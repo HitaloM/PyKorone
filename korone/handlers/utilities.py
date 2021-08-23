@@ -237,14 +237,14 @@ async def on_ttdl(c: Korone, m: Message):
 
     tdl = youtube_dl.YoutubeDL(
         {
-            "outtmpl": f"{path}/%(title)s-%(id)s.%(ext)s",
+            "outtmpl": f"{path}/{m.from_user.id}%(id)s.%(ext)s",
             "format": "mp4",
         }
     )
     try:
         tt = await extract_info(tdl, url, download=True)
     except BaseException as e:
-        await m.edit(f"<b>Error!</b>\n<code>{e}</code>")
+        await sent.edit(f"<b>Error!</b>\n<code>{e}</code>")
         return
 
     filename = tdl.prepare_filename(tt)
