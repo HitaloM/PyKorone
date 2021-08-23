@@ -11,6 +11,7 @@ korone/utils/__pycache__/
 
 # tortoise-orm database
 korone/database/*.sqlite*
+korone/database/*.db*
 
 # Configuration files
 korone/config.py

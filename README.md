@@ -12,7 +12,7 @@ This repository contains the source code of [@PyKoroneBot](https://t.me/PyKorone
 
 ## Requirements
 
-- Python 3.6 or higher.
+- Python 3.6.2 or higher.
 - A [Telegram API Key and API Hash](https://docs.pyrogram.org/intro/setup#api-keys).
 - A [Telegram Bot Token](https://t.me/botfather).
 - A Linux distribution or Windows (and maybe in others systens that support Python).

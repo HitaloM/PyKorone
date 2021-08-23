@@ -28,7 +28,7 @@ from bs4 import BeautifulSoup as bs
 from httpx._exceptions import TimeoutException
 from NyaaPy import Nyaa
 from pyrogram import filters
-from pyrogram.errors import BadRequest, ImageProcessFailed
+from pyrogram.errors import BadRequest
 from pyrogram.types import CallbackQuery, Message
 
 from korone.handlers import COMMANDS_HELP
