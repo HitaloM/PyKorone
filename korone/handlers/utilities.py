@@ -237,7 +237,7 @@ async def on_ttdl(c: Korone, m: Message):
 
     tdl = youtube_dl.YoutubeDL(
         {
-            "outtmpl": f"{path}/{m.from_user.id}%(id)s.%(ext)s",
+            "outtmpl": f"{path}/{m.from_user.id}-%(id)s.%(ext)s",
             "format": "mp4",
         }
     )
@@ -251,13 +251,14 @@ async def on_ttdl(c: Korone, m: Message):
     thumb = io.BytesIO((await http.get(tt["thumbnail"])).content)
     thumb.name = "thumbnail.png"
     await sent.edit("Enviando...")
+    keyboard = [[("🔗 Tweet", tt['webpage_url'], "url")]]
     await c.send_chat_action(m.chat.id, "upload_video")
     try:
         await c.send_chat_action(m.chat.id, "upload_video")
         await m.reply_video(
             video=filename,
-            caption=f"<a href='{tt['webpage_url']}'>{tt['title']}</a></b>",
             thumb=thumb,
+            reply_markup=c.ikb(keyboard),
         )
     except BadRequest as e:
         await m.reply_text(
