@@ -15,6 +15,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import asyncio
+import html
 import math
 import os
 import platform
@@ -50,6 +51,11 @@ def leave_if_muted(func: Callable) -> Callable:
             await func(c, m, *args, **kwargs)
         except ChatWriteForbidden:
             await c.leave_chat(m.chat.id)
+            await c.send_log(
+                f"Eu saí do grupo <b>{html.escape(m.chat.title)}</b> (<code>{m.chat.id}</code>) por terem me silenciado.",
+                disable_notification=False,
+                disable_web_page_preview=True,
+            )
 
     return leave
 

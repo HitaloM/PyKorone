@@ -27,7 +27,7 @@ from pyrogram.raw.all import layer
 from pyrogram.types import Message, User
 
 import korone
-from korone.config import API_HASH, API_ID, SUDOERS, TOKEN
+from korone.config import API_HASH, API_ID, LOGS_CHANNEL, SUDOERS, TOKEN
 from korone.utils import filters, http, modules, shell_exec
 
 log = logging.getLogger(__name__)
@@ -82,10 +82,9 @@ class Korone(Client):
             f"- <b>System:</b> <code>{self.system_version}</code>"
         )
         try:
-            for user in self.is_sudo:
-                await self.send_message(chat_id=user, text=start_message)
+            await self.send_message(chat_id=LOGS_CHANNEL, text=start_message)
         except BadRequest:
-            log.warning("Unable to send the startup message to the SUDOERS")
+            log.warning("Unable to send the startup message to the LOGS_CHANNEL!")
 
     async def stop(self, *args):
         await http.aclose()  # Closing the httpx session
@@ -93,12 +92,21 @@ class Korone(Client):
         log.info("PyKorone stopped... Bye.")
         sys.exit()
 
-    async def int_reply(self, m: Message, text: str = None):
+    async def int_reply(self, m: Message, text: str, *args, **kwargs):
         if m.chat.type == "private":
-            await m.reply_text(text)
+            await m.reply_text(text, *args, **kwargs)
         elif m.reply_to_message and m.reply_to_message.from_user.id == self.me.id:
-            await m.reply_text(text)
+            await m.reply_text(text, *args, **kwargs)
             return
+
+    async def send_log(self, text: str, *args, **kwargs):
+        await self.send_message(
+            chat_id=LOGS_CHANNEL,
+            text=text,
+            *args,
+            **kwargs,
+        )
+        return
 
     def is_sudoer(self, user: User) -> bool:
         return user.id in self.is_sudo

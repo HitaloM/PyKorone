@@ -24,7 +24,6 @@ from pyrogram.types import (
     Message,
 )
 
-from korone.config import LOGS_CHANNEL
 from korone.korone import Korone
 
 
@@ -40,13 +39,13 @@ async def thanks_for(c: Korone, m: Message):
             ),
             disable_notification=True,
         )
-        await c.send_message(
-            chat_id=LOGS_CHANNEL,
+        await c.send_log(
             text=(
-                f"Eu fui adicionado ao grupo {html.escape(m.chat.title)}"
-                f"<code>({m.chat.id})</code>."
+                f"Eu fui adicionado ao grupo <b>{html.escape(m.chat.title)}</b>"
+                f"(<code>{m.chat.id}</code>)."
             ),
             disable_notification=False,
+            disable_web_page_preview=True,
         )
 
 
