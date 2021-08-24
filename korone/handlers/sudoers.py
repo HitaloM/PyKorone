@@ -18,6 +18,7 @@ import asyncio
 import io
 import os
 import platform
+import signal
 import sys
 import traceback
 from datetime import datetime, timezone
@@ -196,7 +197,7 @@ async def upgrade_cb(c: Korone, cq: CallbackQuery):
 @Korone.on_message(filters.cmd("shutdown") & filters.user(OWNER))
 async def shutdown(c: Korone, m: Message):
     await m.reply_text("Adeus...")
-    sys.exit()
+    os.kill(os.getpid(), signal.SIGINT)
 
 
 @Korone.on_message(filters.sudoer & filters.cmd("echo (?P<text>.+)"))
