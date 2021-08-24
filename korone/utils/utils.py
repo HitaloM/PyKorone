@@ -23,6 +23,9 @@ from functools import partial, wraps
 from typing import Callable
 
 import httpx
+from pyrogram import Client
+from pyrogram.errors import ChatWriteForbidden
+from pyrogram.types import Message
 
 # unique session of httpx
 timeout = httpx.Timeout(40, pool=None)
@@ -38,6 +41,17 @@ def pretty_size(size_bytes):
     p = math.pow(1024, i)
     s = round(size_bytes / p, 2)
     return "%s %s" % (s, size_name[i])
+
+
+def leave_if_muted(func: Callable) -> Callable:
+    @wraps(func)
+    async def leave(c: Client, m: Message, *args, **kwargs):
+        try:
+            await func(c, m, *args, **kwargs)
+        except ChatWriteForbidden:
+            await c.leave_chat(m.chat.id)
+
+    return leave
 
 
 def aiowrap(func: Callable) -> Callable:

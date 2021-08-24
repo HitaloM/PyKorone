@@ -29,6 +29,7 @@ from korone.handlers.utils.random import (
     WHATSUP_REACT,
 )
 from korone.korone import Korone
+from korone.utils.utils import leave_if_muted
 
 GROUP = "interactions"
 
@@ -92,6 +93,7 @@ async def shutup(c: Korone, m: Message):
 
 
 @Korone.on_message(~filters.private & ~filters.edited)
+@leave_if_muted
 async def random_react(c: Korone, m: Message):
     if m.message_id % 100 != 0:
         m.continue_propagation()

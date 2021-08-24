@@ -17,6 +17,13 @@
 
 from typing import List
 
-from .utils import aiowrap, http, is_windows, pretty_size, shell_exec
+from .utils import aiowrap, http, is_windows, leave_if_muted, pretty_size, shell_exec
 
-__all__: List[str] = ["aiowrap", "http", "is_windows", "pretty_size", "shell_exec"]
+__all__: List[str] = [
+    "aiowrap",
+    "http",
+    "is_windows",
+    "pretty_size",
+    "shell_exec",
+    "leave_if_muted",
+]

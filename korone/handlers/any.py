@@ -44,7 +44,7 @@ async def thanks_for(c: Korone, m: Message):
             chat_id=LOGS_CHANNEL,
             text=(
                 f"Eu fui adicionado ao grupo {html.escape(m.chat.title)}"
-                "<code>({m.chat.id})</code>."
+                f"<code>({m.chat.id})</code>."
             ),
             disable_notification=False,
         )
