@@ -33,7 +33,7 @@ async def thanks_for(c: Korone, m: Message):
             text=(
                 "Obrigado por me adicionar em seu grupo! "
                 "Eu também possuo um grupo (@SpamTherapy) bem divertido"
-                ", você está mais que convidade a participar!"
+                ", você está mais que convidado(a) a participar!"
             ),
             disable_notification=False,
         )
