@@ -64,6 +64,8 @@ async def shell_exec(code, treat=True):
 
 # Sysutils
 def is_windows() -> bool:
-    return bool(platform.system().lower() == "windows"
+    return bool(
+        platform.system().lower() == "windows"
         or os.name == "nt"
-        or sys.platform.startswith("win"))
+        or sys.platform.startswith("win")
+    )

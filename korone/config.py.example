@@ -13,6 +13,9 @@ OWNER: int = 918317361
 SUDOERS: List[int] = []
 SUDOERS.append(OWNER)
 
+# Channel to log some things
+LOGS_CHANNEL: int = -100
+
 # Prefixes for commands, e.g: /start and !start
 PREFIXES: List[str] = ["/", "!"]
 

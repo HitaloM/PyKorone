@@ -251,7 +251,7 @@ async def on_ttdl(c: Korone, m: Message):
     thumb = io.BytesIO((await http.get(tt["thumbnail"])).content)
     thumb.name = "thumbnail.png"
     await sent.edit("Enviando...")
-    keyboard = [[("🔗 Tweet", tt['webpage_url'], "url")]]
+    keyboard = [[("🔗 Tweet", tt["webpage_url"], "url")]]
     await c.send_chat_action(m.chat.id, "upload_video")
     try:
         await c.send_chat_action(m.chat.id, "upload_video")

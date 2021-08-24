@@ -14,6 +14,8 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+import html
+
 from pyrogram import filters
 from pyrogram.types import (
     InlineQuery,
@@ -22,6 +24,7 @@ from pyrogram.types import (
     Message,
 )
 
+from korone.config import LOGS_CHANNEL
 from korone.korone import Korone
 
 
@@ -34,6 +37,14 @@ async def thanks_for(c: Korone, m: Message):
                 "Obrigado por me adicionar em seu grupo! "
                 "Eu também possuo um grupo (@SpamTherapy) bem divertido"
                 ", você está mais que convidado(a) a participar!"
+            ),
+            disable_notification=True,
+        )
+        await c.send_message(
+            chat_id=LOGS_CHANNEL,
+            text=(
+                f"Eu fui adicionado ao grupo {html.escape(m.chat.title)}"
+                "<code>({m.chat.id})</code>."
             ),
             disable_notification=False,
         )
