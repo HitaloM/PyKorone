@@ -25,7 +25,6 @@ from datetime import datetime, timezone
 from typing import Dict
 
 import humanize
-import kantex
 import psutil
 import pyrogram
 from kantex.html import Bold, Code, KeyValueItem, Section
@@ -235,7 +234,6 @@ async def bot_info(c: Korone, m: Message):
         KeyValueItem(Bold("Korone"), f"{korone.__version__} ({c.version_code})"),
         KeyValueItem(Bold("Pyrogram"), pyrogram.__version__),
         KeyValueItem(Bold("Python"), platform.python_version()),
-        KeyValueItem(Bold("KanTeX"), kantex.__version__),
     )
     await m.reply_text(doc, disable_web_page_preview=True)
 
