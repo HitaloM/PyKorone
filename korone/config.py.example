@@ -27,3 +27,7 @@ SW_API: str = ""
 # Get it from https://www.reddit.com/prefs/apps
 REDDIT_SECRET: str = ""
 REDDIT_ID: str = ""
+
+# Used for sentry.io (errors telemetry)
+# Leaves blank to disable
+SENTRY_KEY: str = ""

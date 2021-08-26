@@ -18,8 +18,8 @@ import logging
 import platform
 from datetime import datetime, timezone
 
-import aiohttp
 import pyrogram
+import sentry_sdk
 from pyrogram import Client
 from pyrogram.errors import BadRequest
 from pyrogram.helpers import ikb
@@ -27,7 +27,7 @@ from pyrogram.raw.all import layer
 from pyrogram.types import Message, User
 
 import korone
-from korone.config import API_HASH, API_ID, LOGS_CHANNEL, SUDOERS, TOKEN
+from korone.config import API_HASH, API_ID, LOGS_CHANNEL, SENTRY_KEY, SUDOERS, TOKEN
 from korone.utils import filters, http, modules, shell_exec
 
 log = logging.getLogger(__name__)
@@ -62,16 +62,23 @@ class Korone(Client):
         self.is_sudo = SUDOERS
         self.ikb = ikb
 
+        if not SENTRY_KEY or SENTRY_KEY == "":
+            log.warning("No sentry.io key found! Service not initialized.")
+        else:
+            log.info("Starting sentry.io service...")
+            sentry_sdk.init(SENTRY_KEY, traces_sample_rate=1.0)
+
+        # Built-in modules and filters system
+        log.info("Loading modules and filters...")
+        filters.load(self)
+        modules.load(self)
+
         log.info(
             "PyKorone for Pyrogram v%s (Layer %s) started on @%s. Hi.",
             pyrogram.__version__,
             layer,
             self.me.username,
         )
-
-        # Built-in modules and filters system
-        filters.load(self)
-        modules.load(self)
 
         # Startup message
         start_message = (
