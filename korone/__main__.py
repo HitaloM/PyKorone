@@ -14,8 +14,10 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+import asyncio
 import logging
 
+import aiohttp
 import pyrogram
 from pyrogram.session import Session
 from rich import box
@@ -67,8 +69,14 @@ rprint(Panel.fit(text, border_style="blue", box=box.ASCII))
 Session.notice_displayed = True
 
 
+async def close_aiohttp() -> None:
+    await aiohttp.ClientSession().close()
+
+
 if __name__ == "__main__":
     try:
         Korone().run()
     except KeyboardInterrupt:
         log.warning("Forced stop... Bye!")
+    finally:
+        asyncio.get_event_loop().create_task(close_aiohttp())

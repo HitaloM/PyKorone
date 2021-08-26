@@ -36,7 +36,7 @@ from pyrogram.types import CallbackQuery, Message
 import korone
 from korone.config import OWNER
 from korone.korone import Korone
-from korone.utils import modules
+from korone.utils import client_restart, modules
 
 
 @Korone.on_message(filters.cmd("(sh(eel)?|term(inal)?) ") & filters.user(OWNER))
@@ -118,9 +118,8 @@ async def _aexec_(c: Korone, m: Message):
 
 @Korone.on_message(filters.sudoer & filters.cmd("reboot"))
 async def restart(c: Korone, m: Message):
-    await m.reply_text("Reiniciando...")
-    args = [sys.executable, "-m", "korone"]
-    os.execv(sys.executable, args)
+    m = await m.reply_text("Reiniciando...")
+    asyncio.get_event_loop().create_task(client_restart(c, m))
 
 
 def parse_commits(log: str) -> Dict:

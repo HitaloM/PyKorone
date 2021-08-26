@@ -92,3 +92,8 @@ def is_windows() -> bool:
         or os.name == "nt"
         or sys.platform.startswith("win")
     )
+
+
+async def client_restart(c: Client, m: Message):
+    await c.restart()
+    await m.edit("Reiniciado!")

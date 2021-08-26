@@ -16,9 +16,9 @@
 
 import logging
 import platform
-import sys
 from datetime import datetime, timezone
 
+import aiohttp
 import pyrogram
 from pyrogram import Client
 from pyrogram.errors import BadRequest
@@ -86,11 +86,14 @@ class Korone(Client):
         except BadRequest:
             log.warning("Unable to send the startup message to the LOGS_CHANNEL!")
 
+    async def restart(self, *args):
+        log.info("PyKorone client is restarting...")
+        await super().restart(*args)
+
     async def stop(self, *args):
         await http.aclose()  # Closing the httpx session
-        await super().stop()
+        await super().stop(*args)
         log.info("PyKorone stopped... Bye.")
-        sys.exit()
 
     async def int_reply(self, m: Message, text: str, *args, **kwargs):
         if m.chat.type == "private":
