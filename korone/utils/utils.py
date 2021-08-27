@@ -54,7 +54,7 @@ def leave_if_muted(func: Callable) -> Callable:
             await c.send_log(
                 (
                     f"Eu saí do grupo <b>{html.escape(m.chat.title)}</b>"
-                    " (<code>{m.chat.id}</code>) por terem me silenciado."
+                    f" (<code>{m.chat.id}</code>) por terem me silenciado."
                 ),
                 disable_notification=False,
                 disable_web_page_preview=True,
