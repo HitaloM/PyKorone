@@ -104,8 +104,8 @@ async def neko(c: Korone, m: Message):
 async def vapor(c: Korone, m: Message):
     text = m.matches[0]["text"]
     if not text:
-        if m.reply_to_message:
-            text = m.reply_to_message.text
+        if m.reply_to_message.text or m.reply_to_message.caption:
+            text = m.reply_to_message.text or m.reply_to_message.caption
         else:
             await m.reply_text("Eu preciso de texto...")
             return
@@ -140,8 +140,8 @@ async def vapor(c: Korone, m: Message):
 async def nekofy(c: Korone, m: Message):
     args = m.matches[0]["text"]
     if not args:
-        if m.reply_to_message:
-            args = m.reply_to_message.text
+        if m.reply_to_message.text or m.reply_to_message.caption:
+            args = m.reply_to_message.text or m.reply_to_message.caption
         else:
             await m.reply_text("Eu não posso nokoficar o void.")
             return
@@ -171,8 +171,8 @@ async def nekofy(c: Korone, m: Message):
 async def copypasta(c: Korone, m: Message):
     text = m.matches[0]["text"]
     if not text:
-        if m.reply_to_message:
-            text = m.reply_to_message.text
+        if m.reply_to_message.text or m.reply_to_message.caption:
+            text = m.reply_to_message.text or m.reply_to_message.caption
         else:
             await m.reply_text("Eu preciso de texto...")
             return
@@ -213,8 +213,8 @@ async def copypasta(c: Korone, m: Message):
 async def mock(c: Korone, m: Message):
     text = m.matches[0]["text"]
     if not text:
-        if m.reply_to_message:
-            text = m.reply_to_message.text
+        if m.reply_to_message.text or m.reply_to_message.caption:
+            text = m.reply_to_message.text or m.reply_to_message.caption
         else:
             await m.reply_text("Eu preciso de texto...")
             return
@@ -247,8 +247,8 @@ async def mock(c: Korone, m: Message):
 async def clap(c: Korone, m: Message):
     text = m.matches[0]["text"]
     if not text:
-        if m.reply_to_message:
-            text = m.reply_to_message.text
+        if m.reply_to_message.text or m.reply_to_message.caption:
+            text = m.reply_to_message.text or m.reply_to_message.caption
         else:
             await m.reply_text("Eu preciso de texto...")
             return
@@ -275,8 +275,8 @@ async def clap(c: Korone, m: Message):
 async def stretch(c: Korone, m: Message):
     text = m.matches[0]["text"]
     if not text:
-        if m.reply_to_message:
-            text = m.reply_to_message.text
+        if m.reply_to_message.text or m.reply_to_message.caption:
+            text = m.reply_to_message.text or m.reply_to_message.caption
         else:
             await m.reply_text("Eu preciso de texto...")
             return
@@ -326,8 +326,8 @@ async def reacts(c: Korone, m: Message):
 async def thonkify(c: Korone, m: Message):
     if not m.reply_to_message:
         msg = m.text.split(None, 1)[1]
-    else:
-        msg = m.reply_to_message.text
+    elif m.reply_to_message.text or m.reply_to_message.caption:
+        msg = m.reply_to_message.text or m.reply_to_message.caption
 
     if (len(msg)) > 39:
         await m.reply_text("Pense você mesmo...")

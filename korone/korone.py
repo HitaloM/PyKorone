@@ -65,11 +65,11 @@ class Korone(Client):
         if not SENTRY_KEY or SENTRY_KEY == "":
             log.warning("No sentry.io key found! Service not initialized.")
         else:
-            log.info("Starting sentry.io service...")
+            log.info("Starting sentry.io service.")
             sentry_sdk.init(SENTRY_KEY, traces_sample_rate=1.0)
 
         # Built-in modules and filters system
-        log.info("Loading modules and filters...")
+        log.info("Loading modules and filters.")
         filters.load(self)
         modules.load(self)
 
@@ -107,7 +107,7 @@ class Korone(Client):
             await m.reply_text(text, *args, **kwargs)
         elif m.reply_to_message:
             if (
-                m.reply_to_message.from_user.id is not None
+                m.reply_to_message.from_user is not None
                 and m.reply_to_message.from_user.id == self.me.id
             ):
                 await m.reply_text(text, *args, **kwargs)
