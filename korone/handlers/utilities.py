@@ -241,6 +241,22 @@ async def on_ttdl(c: Korone, m: Message):
             "format": "mp4",
         }
     )
+    tt = await extract_info(tdl, rege.group(), download=False)
+
+    for f in tt["formats"]:
+        if f["ext"] == "mp4":
+            vwidth = f["width"]
+            vheight = f["height"]
+            vformat = f["format_id"]
+            vheaders = f["http_headers"]
+
+    tdl = youtube_dl.YoutubeDL(
+        {
+            "outtmpl": f"{path}/{m.from_user.id}-%(id)s.%(ext)s",
+            "format": vformat,
+        }
+    )
+
     try:
         tt = await extract_info(tdl, url, download=True)
     except BaseException as e:
@@ -248,8 +264,8 @@ async def on_ttdl(c: Korone, m: Message):
         return
 
     filename = tdl.prepare_filename(tt)
-    thumb = io.BytesIO((await http.get(tt["thumbnail"])).content)
-    thumb.name = "thumbnail.png"
+    thumb = io.BytesIO((await http.get(tt["thumbnail"], headers=vheaders)).content)
+    thumb.name = "thumbnail.jpeg"
     await sent.edit("Enviando...")
     keyboard = [[("🔗 Tweet", tt["webpage_url"], "url")]]
     await c.send_chat_action(m.chat.id, "upload_video")
@@ -258,6 +274,9 @@ async def on_ttdl(c: Korone, m: Message):
         await m.reply_video(
             video=filename,
             thumb=thumb,
+            duration=int(tt["duration"]),
+            width=int(vwidth),
+            height=int(vheight),
             reply_markup=c.ikb(keyboard),
         )
     except BadRequest as e:
@@ -394,7 +413,7 @@ async def cli_ytdl(c, cq: CallbackQuery):
     if int(temp):
         ttemp = f"⏰ {datetime.timedelta(seconds=int(temp))} | "
     thumb = io.BytesIO((await http.get(yt["thumbnail"])).content)
-    thumb.name = "thumbnail.png"
+    thumb.name = "thumbnail.jpeg"
     if "vid" in data:
         await c.send_chat_action(int(cid), "upload_video")
         try:
