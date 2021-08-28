@@ -104,7 +104,7 @@ async def neko(c: Korone, m: Message):
 async def vapor(c: Korone, m: Message):
     text = m.matches[0]["text"]
     if not text:
-        if m.reply_to_message.text or m.reply_to_message.caption:
+        if (m.reply_to_message.text or m.reply_to_message.caption) is not None:
             text = m.reply_to_message.text or m.reply_to_message.caption
         else:
             await m.reply_text("Eu preciso de texto...")
@@ -140,7 +140,7 @@ async def vapor(c: Korone, m: Message):
 async def nekofy(c: Korone, m: Message):
     args = m.matches[0]["text"]
     if not args:
-        if m.reply_to_message.text or m.reply_to_message.caption:
+        if (m.reply_to_message.text or m.reply_to_message.caption) is not None:
             args = m.reply_to_message.text or m.reply_to_message.caption
         else:
             await m.reply_text("Eu não posso nokoficar o void.")
@@ -171,7 +171,7 @@ async def nekofy(c: Korone, m: Message):
 async def copypasta(c: Korone, m: Message):
     text = m.matches[0]["text"]
     if not text:
-        if m.reply_to_message.text or m.reply_to_message.caption:
+        if (m.reply_to_message.text or m.reply_to_message.caption) is not None:
             text = m.reply_to_message.text or m.reply_to_message.caption
         else:
             await m.reply_text("Eu preciso de texto...")
@@ -213,7 +213,7 @@ async def copypasta(c: Korone, m: Message):
 async def mock(c: Korone, m: Message):
     text = m.matches[0]["text"]
     if not text:
-        if m.reply_to_message.text or m.reply_to_message.caption:
+        if (m.reply_to_message.text or m.reply_to_message.caption) is not None:
             text = m.reply_to_message.text or m.reply_to_message.caption
         else:
             await m.reply_text("Eu preciso de texto...")
@@ -247,7 +247,7 @@ async def mock(c: Korone, m: Message):
 async def clap(c: Korone, m: Message):
     text = m.matches[0]["text"]
     if not text:
-        if m.reply_to_message.text or m.reply_to_message.caption:
+        if (m.reply_to_message.text or m.reply_to_message.caption) is not None:
             text = m.reply_to_message.text or m.reply_to_message.caption
         else:
             await m.reply_text("Eu preciso de texto...")
@@ -275,7 +275,7 @@ async def clap(c: Korone, m: Message):
 async def stretch(c: Korone, m: Message):
     text = m.matches[0]["text"]
     if not text:
-        if m.reply_to_message.text or m.reply_to_message.caption:
+        if (m.reply_to_message.text or m.reply_to_message.caption) is not None:
             text = m.reply_to_message.text or m.reply_to_message.caption
         else:
             await m.reply_text("Eu preciso de texto...")
@@ -318,7 +318,7 @@ async def reacts(c: Korone, m: Message):
 
 @Korone.on_message(
     filters.cmd(
-        command="thonkify (?P<text>.+)",
+        command=r"thonkify(\s(?P<text>.+))?",
         action="Entenda o que é na prática.",
         group=GROUP,
     )
@@ -326,7 +326,7 @@ async def reacts(c: Korone, m: Message):
 async def thonkify(c: Korone, m: Message):
     if not m.reply_to_message:
         msg = m.text.split(None, 1)[1]
-    elif m.reply_to_message.text or m.reply_to_message.caption:
+    elif (m.reply_to_message.text or m.reply_to_message.caption) is not None:
         msg = m.reply_to_message.text or m.reply_to_message.caption
 
     if (len(msg)) > 39:
