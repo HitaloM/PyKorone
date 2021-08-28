@@ -27,7 +27,7 @@ from rich.panel import Panel
 
 import korone
 from korone.korone import Korone
-from korone.utils import is_windows
+from korone.utils import http, is_windows
 
 # Logging colorized by rich
 FORMAT = "%(message)s"
@@ -69,8 +69,12 @@ rprint(Panel.fit(text, border_style="blue", box=box.ASCII))
 Session.notice_displayed = True
 
 
-async def close_aiohttp() -> None:
+async def close_http() -> None:
+    # Closing the aiohttp session use by some packages.
     await aiohttp.ClientSession().close()
+
+    # Closing the httpx session use by the bot.
+    await http.aclose()
 
 
 if __name__ == "__main__":
@@ -79,4 +83,4 @@ if __name__ == "__main__":
     except KeyboardInterrupt:
         log.warning("Forced stop... Bye!")
     finally:
-        asyncio.get_event_loop().create_task(close_aiohttp())
+        asyncio.get_event_loop().create_task(close_http())

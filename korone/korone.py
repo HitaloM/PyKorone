@@ -28,7 +28,7 @@ from pyrogram.types import Message, User
 
 import korone
 from korone.config import API_HASH, API_ID, LOGS_CHANNEL, SENTRY_KEY, SUDOERS, TOKEN
-from korone.utils import filters, http, modules, shell_exec
+from korone.utils import filters, modules, shell_exec
 
 log = logging.getLogger(__name__)
 
@@ -98,7 +98,6 @@ class Korone(Client):
         await super().restart(*args)
 
     async def stop(self, *args):
-        await http.aclose()  # Closing the httpx session
         await super().stop(*args)
         log.info("PyKorone stopped... Bye.")
 
