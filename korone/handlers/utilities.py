@@ -29,6 +29,7 @@ from httpx._exceptions import TimeoutException
 from NyaaPy import Nyaa
 from pyrogram import filters
 from pyrogram.errors import BadRequest
+from pyrogram.errors.exceptions.bad_request_400 import MessageTooLong
 from pyrogram.types import CallbackQuery, Message
 
 from korone.handlers import COMMANDS_HELP
@@ -490,8 +491,12 @@ async def translate(c: Korone, m: Message):
         )
 
     sent = await m.reply_text("Traduzindo...")
-    langs = {}
 
+    if len(text) == 4096:
+        await sent.edit_text("Essa mensagem é muito grande para ser traduzida.")
+        return
+
+    langs = {}
     if len(lang.split("-")) > 1:
         langs["sourcelang"] = lang.split("-")[0]
         langs["targetlang"] = lang.split("-")[1]
@@ -502,11 +507,14 @@ async def translate(c: Korone, m: Message):
     text = trres.text
 
     res = html.escape(text)
-    await sent.edit_text(
-        (
-            "<b>Idioma:</b> {from_lang} -> {to_lang}\n<b>Tradução:</b> <code>{translation}</code>"
-        ).format(from_lang=trres.lang, to_lang=langs["targetlang"], translation=res)
-    )
+    try:
+        await sent(
+            (
+                "<b>Idioma:</b> {from_lang} -> {to_lang}\n<b>Tradução:</b> <code>{translation}</code>"
+            ).format(from_lang=trres.lang, to_lang=langs["targetlang"], translation=res)
+        )
+    except MessageTooLong:
+        await sent.edit_text("Essa mensagem é muito grande para ser traduzida.")
 
 
 @Korone.on_message(
