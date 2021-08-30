@@ -508,7 +508,7 @@ async def translate(c: Korone, m: Message):
 
     res = html.escape(text)
     try:
-        await sent(
+        await sent.edit_text(
             (
                 "<b>Idioma:</b> {from_lang} -> {to_lang}\n<b>Tradução:</b> <code>{translation}</code>"
             ).format(from_lang=trres.lang, to_lang=langs["targetlang"], translation=res)
