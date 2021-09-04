@@ -103,12 +103,16 @@ async def neko(c: Korone, m: Message):
 )
 async def vapor(c: Korone, m: Message):
     text = m.matches[0]["text"]
-    if not text:
+    if not text and m.reply_to_message:
         if (m.reply_to_message.text or m.reply_to_message.caption) is not None:
             text = m.reply_to_message.text or m.reply_to_message.caption
         else:
             await m.reply_text("Eu preciso de texto...")
             return
+
+    if not text and not m.reply_to_message:
+        await m.reply_text("Eu preciso de texto...")
+        return
 
     reply = []
     for charac in text:
@@ -139,12 +143,16 @@ async def vapor(c: Korone, m: Message):
 )
 async def nekofy(c: Korone, m: Message):
     args = m.matches[0]["text"]
-    if not args:
+    if not args and m.reply_to_message:
         if (m.reply_to_message.text or m.reply_to_message.caption) is not None:
             args = m.reply_to_message.text or m.reply_to_message.caption
         else:
             await m.reply_text("Eu não posso nokoficar o void.")
             return
+
+    if not args and not m.reply_to_message:
+        await m.reply_text("Eu não posso nokoficar o void.")
+        return
 
     reply = re.sub(r"(r|l)", "w", args)
     reply = re.sub(r"(R|L)", "W", reply)
@@ -170,12 +178,16 @@ async def nekofy(c: Korone, m: Message):
 )
 async def copypasta(c: Korone, m: Message):
     text = m.matches[0]["text"]
-    if not text:
+    if not text and m.reply_to_message:
         if (m.reply_to_message.text or m.reply_to_message.caption) is not None:
             text = m.reply_to_message.text or m.reply_to_message.caption
         else:
             await m.reply_text("Eu preciso de texto...")
             return
+
+    if not text and not m.reply_to_message:
+        await m.reply_text("Eu preciso de texto...")
+        return
 
     reply = random.choice(PASTAMOJIS)
     try:
@@ -212,12 +224,16 @@ async def copypasta(c: Korone, m: Message):
 )
 async def mock(c: Korone, m: Message):
     text = m.matches[0]["text"]
-    if not text:
+    if not text and m.reply_to_message:
         if (m.reply_to_message.text or m.reply_to_message.caption) is not None:
             text = m.reply_to_message.text or m.reply_to_message.caption
         else:
             await m.reply_text("Eu preciso de texto...")
             return
+
+    if not text and not m.reply_to_message:
+        await m.reply_text("Eu preciso de texto...")
+        return
 
     reply = []
     for charac in text:
@@ -246,12 +262,16 @@ async def mock(c: Korone, m: Message):
 )
 async def clap(c: Korone, m: Message):
     text = m.matches[0]["text"]
-    if not text:
+    if not text and m.reply_to_message:
         if (m.reply_to_message.text or m.reply_to_message.caption) is not None:
             text = m.reply_to_message.text or m.reply_to_message.caption
         else:
             await m.reply_text("Eu preciso de texto...")
             return
+
+    if not text and not m.reply_to_message:
+        await m.reply_text("Eu preciso de texto...")
+        return
 
     clapped_text = re.sub(" ", " 👏 ", text)
     reply = f"👏 {clapped_text} 👏"
@@ -274,12 +294,16 @@ async def clap(c: Korone, m: Message):
 )
 async def stretch(c: Korone, m: Message):
     text = m.matches[0]["text"]
-    if not text:
+    if not text and m.reply_to_message:
         if (m.reply_to_message.text or m.reply_to_message.caption) is not None:
             text = m.reply_to_message.text or m.reply_to_message.caption
         else:
             await m.reply_text("Eu preciso de texto...")
             return
+
+    if not text and not m.reply_to_message:
+        await m.reply_text("Eu preciso de texto...")
+        return
 
     reply = re.sub(
         r"([aeiouAEIOUａｅｉｏｕＡＥＩＯＵаеиоуюяыэё])", (r"\1" * random.randint(3, 10)), text
@@ -324,10 +348,17 @@ async def reacts(c: Korone, m: Message):
     )
 )
 async def thonkify(c: Korone, m: Message):
-    if not m.reply_to_message:
-        msg = m.text.split(None, 1)[1]
-    elif (m.reply_to_message.text or m.reply_to_message.caption) is not None:
-        msg = m.reply_to_message.text or m.reply_to_message.caption
+    msg = m.matches[0]["text"]
+    if not msg and m.reply_to_message:
+        if (m.reply_to_message.text or m.reply_to_message.caption) is not None:
+            msg = m.reply_to_message.text or m.reply_to_message.caption
+        else:
+            await m.reply_text("Eu preciso de texto...")
+            return
+
+    if not msg and not m.reply_to_message:
+        await m.reply_text("Eu preciso de texto...")
+        return
 
     if (len(msg)) > 39:
         await m.reply_text("Pense você mesmo...")

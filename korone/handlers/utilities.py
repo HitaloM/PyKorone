@@ -28,8 +28,7 @@ from bs4 import BeautifulSoup as bs
 from httpx._exceptions import TimeoutException
 from NyaaPy import Nyaa
 from pyrogram import filters
-from pyrogram.errors import BadRequest
-from pyrogram.errors.exceptions.bad_request_400 import MessageTooLong
+from pyrogram.errors import BadRequest, Forbidden, MessageTooLong
 from pyrogram.types import CallbackQuery, Message
 
 from korone.handlers import COMMANDS_HELP
@@ -148,9 +147,15 @@ async def cleanup(c: Korone, m: Message):
             if t.user.is_deleted:
                 try:
                     await c.kick_chat_member(m.chat.id, t.user.id)
+                    await m.chat.unban_member(t.user.id)
                     deleted.append(t)
                 except BadRequest:
                     pass
+                except Forbidden as e:
+                    await m.reply_text(
+                        f"Eu estou impedido de executar este comando! >-<\n<b>Erro:</b> <code>{e}</code>"
+                    )
+                    return
         if len(deleted) > 0:
             await sent.edit_text(
                 f"Removi todas as {len(deleted)} contas excluídas do grupo!"
@@ -246,8 +251,11 @@ async def on_ttdl(c: Korone, m: Message):
 
     for f in tt["formats"]:
         if f["ext"] == "mp4":
-            vwidth = f["width"]
-            vheight = f["height"]
+            try:
+                vwidth = f["width"]
+                vheight = f["height"]
+            except KeyError:
+                pass
             vformat = f["format_id"]
             vheaders = f["http_headers"]
 
@@ -272,14 +280,21 @@ async def on_ttdl(c: Korone, m: Message):
     await c.send_chat_action(m.chat.id, "upload_video")
     try:
         await c.send_chat_action(m.chat.id, "upload_video")
-        await m.reply_video(
-            video=filename,
-            thumb=thumb,
-            duration=int(tt["duration"]),
-            width=int(vwidth),
-            height=int(vheight),
-            reply_markup=c.ikb(keyboard),
-        )
+        if tt["duration"] and vwidth and vwidth:
+            await m.reply_video(
+                video=filename,
+                thumb=thumb,
+                duration=int(tt["duration"]),
+                width=int(vwidth),
+                height=int(vheight),
+                reply_markup=c.ikb(keyboard),
+            )
+        else:
+            await m.reply_video(
+                video=filename,
+                thumb=thumb,
+                reply_markup=c.ikb(keyboard),
+            )
     except BadRequest as e:
         await m.reply_text(
             text=(
@@ -600,11 +615,16 @@ async def del_message(c: Korone, m: Message):
         member = await c.get_chat_member(chat_id=m.chat.id, user_id=m.from_user.id)
 
     if m.chat.type == "private" or member.status in ["administrator", "creator"]:
-        if m.reply_to_message:
-            await c.delete_messages(
-                chat_id=m.chat.id,
-                message_ids=[m.reply_to_message.message_id, m.message_id],
-                revoke=True,
+        try:
+            if m.reply_to_message:
+                await c.delete_messages(
+                    chat_id=m.chat.id,
+                    message_ids=[m.reply_to_message.message_id, m.message_id],
+                    revoke=True,
+                )
+        except Forbidden as e:
+            await m.reply_text(
+                f"Eu estou impedido de executar este comando! >-<\n<b>Erro:</b> <code>{e}</code>"
             )
     else:
         await m.reply_text("Bakayarou! Você não é um administrador...")

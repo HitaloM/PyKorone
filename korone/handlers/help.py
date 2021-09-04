@@ -15,9 +15,11 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import html
+from contextlib import suppress
 from typing import Union
 
 from pyrogram import filters
+from pyrogram.errors import MessageNotModified
 from pyrogram.types import CallbackQuery, Message
 
 import korone
@@ -92,7 +94,8 @@ async def start(c: Korone, m: Union[Message, CallbackQuery]):
             [("📚 Ajuda", "help_cb"), ("ℹ️ Sobre", "about")],
             [("👥 Grupo Off-Topic", "https://t.me/SpamTherapy", "url")],
         ]
-        await m.message.edit_text(text, reply_markup=c.ikb(keyboard))
+        with suppress(MessageNotModified):
+            await m.message.edit_text(text, reply_markup=c.ikb(keyboard))
 
 
 @Korone.on_message(filters.cmd(r"help (?P<module>.+)"))
@@ -197,7 +200,8 @@ async def help_module(c: Korone, m: Message, module: str = None):
         kwargs["reply_markup"] = c.ikb(keyboard)
 
     if success:
-        await (m.edit_message_text if is_query else m.reply_text)(text, **kwargs)
+        with suppress(MessageNotModified):
+            await (m.edit_message_text if is_query else m.reply_text)(text, **kwargs)
 
 
 @Korone.on_callback_query(filters.regex(r"help_(?P<module>.+)"))
@@ -221,8 +225,9 @@ async def about_c(c: Korone, m: Union[Message, CallbackQuery]):
         korone.__community__,
     )
     keyboard = c.ikb([[("⬅️ Voltar", "start_back")]])
-    await (m.message.edit_text if is_callback else m.reply_text)(
-        about,
-        reply_markup=(keyboard if is_callback else None),
-        disable_web_page_preview=True,
-    )
+    with suppress(MessageNotModified):
+        await (m.message.edit_text if is_callback else m.reply_text)(
+            about,
+            reply_markup=(keyboard if is_callback else None),
+            disable_web_page_preview=True,
+        )
