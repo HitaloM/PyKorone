@@ -601,9 +601,7 @@ async def inline_anime(c: Korone, q: InlineQuery):
                     else:
                         desc = f"<b>Descrição:</b> <i>{anime.description}</i>"
 
-                text = (
-                    f"<b>{anime.title.romaji}</b> {'(<code>{anime.title.native}</code>)' if hasattr(anime.title, 'native') else ''}\n"
-                )
+                text = f"<b>{anime.title.romaji}</b> {'(<code>{anime.title.native}</code>)' if hasattr(anime.title, 'native') else ''}\n"
                 text += f"<b>ID:</b> <code>{anime.id}</code>\n"
                 text += f"<b>Tipo:</b> <code>{anime.format}</code>\n"
                 if hasattr(anime, "status"):
@@ -674,9 +672,7 @@ async def inline_manga(c: Korone, q: InlineQuery):
                     else:
                         desc = f"<b>Descrição:</b> <i>{manga.description}</i>"
 
-                text = (
-                    f"<b>{manga.title.romaji}</b> {'(<code>{manga.title.native}</code>)' if hasattr(manga.title, 'native') else ''}\n"
-                )
+                text = f"<b>{manga.title.romaji}</b> {'(<code>{manga.title.native}</code>)' if hasattr(manga.title, 'native') else ''}\n"
                 text += f"<b>ID:</b> <code>{manga.id}</code>\n"
                 if hasattr(manga, "status"):
                     text += f"<b>Estado:</b> <code>{manga.status}</code>\n"

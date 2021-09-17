@@ -20,7 +20,7 @@ import random
 
 import wikipedia
 from pyrogram import filters
-from pyrogram.errors import BadRequest
+from pyrogram.errors import BadRequest, Forbidden
 from pyrogram.types import Message
 
 from korone.handlers import COMMANDS_HELP
@@ -63,7 +63,7 @@ async def kick(c: Korone, m: Message):
             await m.reply_animation(
                 animation="CgACAgQAAx0ET2XwHwACWb1gCDScpSaFyoNgPa2Ag_yiRo61YQACPwIAAryMhFOFxHV09aPBTR4E"
             )
-        except BadRequest as e:
+        except (BadRequest, Forbidden) as e:
             return await m.reply_text(
                 f"Eu n-não consegui remover este usuário! >-<\n<b>Erro:</b> <code>{e}</code>"
             )
@@ -73,35 +73,31 @@ async def kick(c: Korone, m: Message):
 
 @Korone.on_message(filters.int(filter=r"Korone, me d(ê|e) um cookie", group=GROUP))
 async def give_me_cookie(c: Korone, m: Message):
-    await m.reply_text(("*dá um cookie à {}* ^^").format(m.from_user.first_name))
+    await m.reply_text(f"*dá um cookie à {m.from_user.first_name}* ^^")
 
 
 @Korone.on_message(
     filters.int(filter=r"Korone, d(ê|e) um cookie", group=GROUP) & filters.reply
 )
 async def give_cookie(c: Korone, m: Message):
-    await m.reply_text(
-        ("*dá um cookie à {}* ^^").format(m.reply_to_message.from_user.first_name)
-    )
+    await m.reply_text(f"*dá um cookie à {m.reply_to_message.from_user.first_name}* ^^")
 
 
 @Korone.on_message(
     filters.int(filter=r"Korone, morda( ele)?", group=GROUP) & filters.reply
 )
 async def bite(c: Korone, m: Message):
-    await m.reply_text(("*morde {}*").format(m.reply_to_message.from_user.first_name))
+    await m.reply_text(f"*morde {m.reply_to_message.from_user.first_name}*")
 
 
 @Korone.on_message(filters.int(filter=r"Korone, me abra(c|ç)e", group=GROUP))
 async def hug(c: Korone, m: Message):
-    await m.reply_text(("*Abraça com força {}* ^^").format(m.from_user.first_name))
+    await m.reply_text(f"*Abraça com força {m.from_user.first_name}* ^^")
 
 
 @Korone.on_message(filters.int(filter=r"Korone, qual o nome dele", group=GROUP))
 async def tell_name(c: Korone, m: Message):
-    await m.reply_text(
-        ("O nome dele é {}! ^^").format(m.reply_to_message.from_user.first_name)
-    )
+    await m.reply_text(f"O nome dele é {m.reply_to_message.from_user.first_name}! ^^")
 
 
 @Korone.on_message(
@@ -156,8 +152,12 @@ async def hello(c: Korone, m: Message):
 )
 async def invitelink(c: Korone, m: Message):
     chat = m.chat.id if m.chat.username is None else m.chat.username
-    link = await c.export_chat_invite_link(chat)
-    await m.reply_text(link)
+    try:
+        text = await c.export_chat_invite_link(chat)
+    except Forbidden as e:
+        text = f"Eu estou impedido de executar este comando! >-<\n<b>Erro:</b> <code>{e}</code>"
+
+    await m.reply_text(text)
 
 
 @Korone.on_message(filters.int(filter=r"Korone, o que é (?P<text>.+)", group=GROUP))

@@ -225,9 +225,13 @@ async def macaco(c: Korone, m: Message):
 async def rtcommand(c: Korone, m: Message):
     reply = m.reply_to_message
     user = m.from_user
+
     rt_text = None
     rt_text = reply.caption if reply.media else reply.text
     if rt_text is None:
+        return
+
+    if reply.from_user.first_name is None:
         return
 
     if not re.match("🔃 .* retweetou:\n\n👤 .*", rt_text):
