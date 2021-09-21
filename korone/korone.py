@@ -103,12 +103,14 @@ class Korone(Client):
     async def int_reply(self, m: Message, text: str, *args, **kwargs):
         if m.chat.type == "private":
             await m.reply_text(text, *args, **kwargs)
-        elif m.reply_to_message:
-            if (
-                m.reply_to_message.from_user is not None
-                and m.reply_to_message.from_user.id == self.me.id
-            ):
-                await m.reply_text(text, *args, **kwargs)
+        elif (
+            m.reply_to_message
+            and (
+            m.reply_to_message.from_user is not None
+            and m.reply_to_message.from_user.id == self.me.id
+        )
+        ):
+            await m.reply_text(text, *args, **kwargs)
         return
 
     async def send_log(self, text: str, *args, **kwargs):
