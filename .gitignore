@@ -38,3 +38,4 @@ korone/*.session*
 *.png
 dls/
 korone/downloads/
+.pytest_cache/
