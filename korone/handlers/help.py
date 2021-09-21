@@ -88,7 +88,10 @@ async def start(c: Korone, m: Union[Message, CallbackQuery]):
             )
     if isinstance(m, CallbackQuery):
         text = (start_text).format(
-            m.from_user.first_name, c.me.first_name, korone.__version__, c.version_code
+            m.from_user.first_name,
+            c.me.first_name,
+            korone.__version__,
+            c.version_code,
         )
         keyboard = [
             [("📚 Ajuda", "help_cb"), ("ℹ️ Sobre", "about")],
@@ -102,7 +105,11 @@ async def start(c: Korone, m: Union[Message, CallbackQuery]):
 async def help_m(c: Korone, m: Message):
     module = m.matches[0]["module"]
     if m.chat.type == "private":
-        if module in COMMANDS_HELP.keys() or module in ["commands", "filters", "start"]:
+        if module in COMMANDS_HELP.keys() or module in [
+            "commands",
+            "filters",
+            "start",
+        ]:
             await help_module(c, m, module)
         else:
             await m.reply_text(
@@ -111,7 +118,13 @@ async def help_m(c: Korone, m: Message):
             )
     elif module in COMMANDS_HELP.keys():
         keyboard = [
-            [("Ir ao PV", f"https://t.me/{c.me.username}/?start=help_{module}", "url")]
+            [
+                (
+                    "Ir ao PV",
+                    f"https://t.me/{c.me.username}/?start=help_{module}",
+                    "url",
+                )
+            ]
         ]
         await m.reply_text(
             text="Para ver isso, vá ao meu PV.", reply_markup=c.ikb(keyboard)

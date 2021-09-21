@@ -353,7 +353,8 @@ async def redimg(c: Korone, m: Message):
 
 @Korone.on_message(
     filters.cmd(
-        command=r"b64encode(\s(?P<text>.+))?", action=r"Codifique texto em base64."
+        command=r"b64encode(\s(?P<text>.+))?",
+        action=r"Codifique texto em base64.",
     )
 )
 async def b64e(c: Korone, m: Message):
@@ -370,7 +371,8 @@ async def b64e(c: Korone, m: Message):
 
 @Korone.on_message(
     filters.cmd(
-        command=r"b64decode(\s(?P<text>.+))?", action=r"Decodifique códigos base64."
+        command=r"b64decode(\s(?P<text>.+))?",
+        action=r"Decodifique códigos base64.",
     )
 )
 async def b64d(c: Korone, m: Message):

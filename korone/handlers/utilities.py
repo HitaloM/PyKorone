@@ -30,6 +30,7 @@ from NyaaPy import Nyaa
 from pyrogram import filters
 from pyrogram.errors import BadRequest, Forbidden, MessageTooLong
 from pyrogram.types import CallbackQuery, Message
+from youtube_dl.utils import DownloadError
 
 from korone.handlers import COMMANDS_HELP
 from korone.handlers.utils.image import stickcolorsync
@@ -168,7 +169,9 @@ async def cleanup(c: Korone, m: Message):
 
 @Korone.on_message(
     filters.cmd(
-        command="stickers (?P<search>.+)", action="Pesquise stickers.", group=GROUP
+        command="stickers (?P<search>.+)",
+        action="Pesquise stickers.",
+        group=GROUP,
     )
 )
 async def cb_sticker(c: Korone, m: Message):
@@ -328,7 +331,11 @@ async def on_ytdl(c: Korone, m: Message):
         return
 
     ydl = youtube_dl.YoutubeDL(
-        {"outtmpl": "dls/%(title)s-%(id)s.%(ext)s", "format": "mp4", "noplaylist": True}
+        {
+            "outtmpl": "dls/%(title)s-%(id)s.%(ext)s",
+            "format": "mp4",
+            "noplaylist": True,
+        }
     )
     rege = re.match(
         r"http(?:s?):\/\/(?:www\.)?(?:music\.)?youtu(?:be\.com\/watch\?v=|\.be\/)([\w\-\_]*)(&(amp;)?‌​[\w\?‌​=]*)?",
@@ -343,7 +350,11 @@ async def on_ytdl(c: Korone, m: Message):
         yt = await extract_info(ydl, "ytsearch:" + url, download=False)
         yt = yt["entries"][0]
     else:
-        yt = await extract_info(ydl, rege.group(), download=False)
+        try:
+            yt = await extract_info(ydl, rege.group(), download=False)
+        except DownloadError as e:
+            await m.reply_text(f"<b>Error!</b>\n<code>{e}</code>")
+            return
 
     if not temp.isnumeric():
         temp = "0"
@@ -420,7 +431,7 @@ async def cli_ytdl(c, cq: CallbackQuery):
         )
     try:
         yt = await extract_info(ydl, url, download=True)
-    except BaseException as e:
+    except DownloadError as e:
         await cq.message.edit(f"<b>Error!</b>\n<code>{e}</code>")
         return
     await cq.message.edit("Enviando...")
@@ -488,7 +499,9 @@ async def cli_ytdl(c, cq: CallbackQuery):
 
 @Korone.on_message(
     filters.cmd(
-        command="tr", action="Use o Google Tradutor para traduzir textos.", group=GROUP
+        command="tr",
+        action="Use o Google Tradutor para traduzir textos.",
+        group=GROUP,
     )
 )
 async def translate(c: Korone, m: Message):
@@ -526,7 +539,11 @@ async def translate(c: Korone, m: Message):
         await sent.edit_text(
             (
                 "<b>Idioma:</b> {from_lang} -> {to_lang}\n<b>Tradução:</b> <code>{translation}</code>"
-            ).format(from_lang=trres.lang, to_lang=langs["targetlang"], translation=res)
+            ).format(
+                from_lang=trres.lang,
+                to_lang=langs["targetlang"],
+                translation=res,
+            )
         )
     except MessageTooLong:
         await sent.edit_text("Essa mensagem é muito grande para ser traduzida.")
@@ -614,7 +631,10 @@ async def del_message(c: Korone, m: Message):
     if not m.chat.type == "private":
         member = await c.get_chat_member(chat_id=m.chat.id, user_id=m.from_user.id)
 
-    if m.chat.type == "private" or member.status in ["administrator", "creator"]:
+    if m.chat.type == "private" or member.status in [
+        "administrator",
+        "creator",
+    ]:
         try:
             if m.reply_to_message:
                 await c.delete_messages(

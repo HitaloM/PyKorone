@@ -17,6 +17,7 @@
 
 from typing import List
 
+from . import filters
 from .utils import (
     aiowrap,
     client_restart,
@@ -35,4 +36,5 @@ __all__: List[str] = [
     "shell_exec",
     "leave_if_muted",
     "client_restart",
+    "filters",
 ]

@@ -242,9 +242,9 @@ async def anilist_manga(c: Korone, m: Message):
         text += (
             f"<b>Gêneros:</b> <code>{', '.join(str(x) for x in manga.genres)}</code>\n"
         )
-    if not manga.status.lower() == "not_yet_released":
+    if manga.status.lower() != "not_yet_released":
         text += f"<b>Início:</b> <code>{manga.start_date.day if hasattr(manga.start_date, 'day') else 0}/{manga.start_date.month if hasattr(manga.start_date, 'month') else 0}/{manga.start_date.year if hasattr(manga.start_date, 'year') else 0}</code>\n"
-    if not manga.status.lower() in ["not_yet_released", "releasing"]:
+    if manga.status.lower() not in ["not_yet_released", "releasing"]:
         text += f"<b>Finalização:</b> <code>{manga.end_date.day if hasattr(manga.end_date, 'day') else 0}/{manga.end_date.month if hasattr(manga.end_date, 'month') else 0}/{manga.end_date.year if hasattr(manga.end_date, 'year') else 0}</code>\n"
     if hasattr(manga, "description"):
         text += f"\n{desc}"
@@ -311,7 +311,6 @@ async def anilist_character(c: Korone, m: Message):
         elif hasattr(character.image, "medium"):
             photo = character.image.medium
 
-    if hasattr(character, "image"):
         await m.reply_photo(
             photo=photo,
             caption=text,
@@ -519,7 +518,7 @@ async def whatanime(c: Korone, m: Message):
 
     shutil.rmtree(tempdir)
 
-    if not r.status_code == 200:
+    if r.status_code != 200:
         await sent.edit(
             f"<b>Error:</b> <code>{r.status_code}</code>! Tente novamente mais tarde."
         )
@@ -565,9 +564,9 @@ async def whatanime(c: Korone, m: Message):
     video = result["video"]
     from_time = str(timedelta(seconds=result["from"])).split(".", 1)[0].rjust(8, "0")
     to_time = str(timedelta(seconds=result["to"])).split(".", 1)[0].rjust(8, "0")
-    file_name = result["filename"]
-
     if video is not None:
+        file_name = result["filename"]
+
         try:
             await c.send_video(
                 chat_id=m.chat.id,
@@ -618,7 +617,10 @@ async def inline_anime(c: Korone, q: InlineQuery):
                     text += f"<b>Estúdios:</b> <code>{', '.join(str(x) for x in anime.studios)}</code>\n"
                 if not anime.status.lower() == "not_yet_released":
                     text += f"<b>Inicio:</b> <code>{anime.start_date.day if hasattr(anime.start_date, 'day') else 0}/{anime.start_date.month if hasattr(anime.start_date, 'month') else 0}/{anime.start_date.year if hasattr(anime.start_date, 'year') else 0}</code>\n"
-                if not anime.status.lower() in ["not_yet_released", "releasing"]:
+                if not anime.status.lower() in [
+                    "not_yet_released",
+                    "releasing",
+                ]:
                     text += f"<b>Finalização:</b> <code>{anime.end_date.day if hasattr(anime.end_date, 'day') else 0}/{anime.end_date.month if hasattr(anime.end_date, 'month') else 0}/{anime.end_date.year if hasattr(anime.end_date, 'year') else 0}</code>\n"
                 if hasattr(anime, "description"):
                     text += f"\n{desc}"
@@ -629,7 +631,13 @@ async def inline_anime(c: Korone, q: InlineQuery):
                     keyboard[0].append(("Trailer 🎬", anime.trailer.url, "url"))
 
                 keyboard.append(
-                    [("Pesquisar mais", "anime", "switch_inline_query_current_chat")]
+                    [
+                        (
+                            "Pesquisar mais",
+                            "anime",
+                            "switch_inline_query_current_chat",
+                        )
+                    ]
                 )
 
                 title = f"{anime.title.romaji} | {anime.format}"
@@ -686,7 +694,10 @@ async def inline_manga(c: Korone, q: InlineQuery):
                     text += f"<b>Gêneros:</b> <code>{', '.join(str(x) for x in manga.genres)}</code>\n"
                 if not manga.status.lower() == "not_yet_released":
                     text += f"<b>Início:</b> <code>{manga.start_date.day if hasattr(manga.start_date, 'day') else 0}/{manga.start_date.month if hasattr(manga.start_date, 'month') else 0}/{manga.start_date.year if hasattr(manga.start_date, 'year') else 0}</code>\n"
-                if not manga.status.lower() in ["not_yet_released", "releasing"]:
+                if not manga.status.lower() in [
+                    "not_yet_released",
+                    "releasing",
+                ]:
                     text += f"<b>Finalização:</b> <code>{manga.end_date.day if hasattr(manga.end_date, 'day') else 0}/{manga.end_date.month if hasattr(manga.end_date, 'month') else 0}/{manga.end_date.year if hasattr(manga.end_date, 'year') else 0}</code>\n"
                 if hasattr(manga, "description"):
                     text += f"\n{desc}"
@@ -694,7 +705,11 @@ async def inline_manga(c: Korone, q: InlineQuery):
                 keyboard = [
                     [
                         ("Mais Info", manga.url, "url"),
-                        ("Pesquisar mais", "manga", "switch_inline_query_current_chat"),
+                        (
+                            "Pesquisar mais",
+                            "manga",
+                            "switch_inline_query_current_chat",
+                        ),
                     ]
                 ]
 

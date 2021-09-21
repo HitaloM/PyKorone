@@ -28,7 +28,7 @@ from pyrogram.types import Message, User
 
 import korone
 from korone.config import API_HASH, API_ID, LOGS_CHANNEL, SENTRY_KEY, SUDOERS, TOKEN
-from korone.utils import filters, modules, shell_exec
+from korone.utils import modules, shell_exec
 
 log = logging.getLogger(__name__)
 
@@ -68,9 +68,8 @@ class Korone(Client):
             log.info("Starting sentry.io service.")
             sentry_sdk.init(SENTRY_KEY, traces_sample_rate=1.0)
 
-        # Built-in modules and filters system
-        log.info("Loading modules and filters.")
-        filters.load(self)
+        # Built-in modules load system
+        log.info("Loading modules.")
         modules.load(self)
 
         log.info(

@@ -306,7 +306,9 @@ async def stretch(c: Korone, m: Message):
         return
 
     reply = re.sub(
-        r"([aeiouAEIOUａｅｉｏｕＡＥＩＯＵаеиоуюяыэё])", (r"\1" * random.randint(3, 10)), text
+        r"([aeiouAEIOUａｅｉｏｕＡＥＩＯＵаеиоуюяыэё])",
+        (r"\1" * random.randint(3, 10)),
+        text,
     )
 
     try:
