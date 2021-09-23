@@ -736,7 +736,7 @@ jupyter = ["ipywidgets (>=7.5.1,<8.0.0)"]
 
 [[package]]
 name = "sentry-sdk"
-version = "1.4.0"
+version = "1.4.1"
 description = "Python client for Sentry (https://sentry.io)"
 category = "main"
 optional = false
@@ -907,7 +907,7 @@ testing = ["pytest (>=4.6)", "pytest-checkdocs (>=2.4)", "pytest-flake8", "pytes
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.6.2"
-content-hash = "9e191232a2c5bb477e27ee01039cb5d56cb55c72b373514636324e248b05e9b6"
+content-hash = "890896949dcab7550aeac7801515644c2ad485780317b7078cb32a944f9feb68"
 
 [metadata.files]
 aiofiles = [
@@ -1396,8 +1396,8 @@ rich = [
     {file = "rich-10.10.0.tar.gz", hash = "sha256:bacf58b25fea6b920446fe4e7abdc6c7664c4530c4098e7a1bc79b16b8551dfa"},
 ]
 sentry-sdk = [
-    {file = "sentry-sdk-1.4.0.tar.gz", hash = "sha256:963326914aa219ad5abda5b479b871fed2b3d2ddc9d27037340637647c9a4cdb"},
-    {file = "sentry_sdk-1.4.0-py2.py3-none-any.whl", hash = "sha256:494bf9990a54400710b7b6eb7d8174fc89039a4c82feedcf498d800d54e2ee81"},
+    {file = "sentry-sdk-1.4.1.tar.gz", hash = "sha256:4297555ddc37c7136740e6b547b7d68f5bca0b4832f94ac097e5d531a4c77528"},
+    {file = "sentry_sdk-1.4.1-py2.py3-none-any.whl", hash = "sha256:ea04bc3be6eb082f34ff3f8f6380ea9c691766592298f3f975a435dafac6bf6a"},
 ]
 simplejson = [
     {file = "simplejson-3.17.5-cp27-cp27m-macosx_10_9_x86_64.whl", hash = "sha256:376023f51edaf7290332dacfb055bc00ce864cb013c0338d0dea48731f37e42f"},
