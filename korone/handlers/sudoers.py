@@ -59,7 +59,9 @@ async def on_terminal_m(c: Korone, m: Message):
                 (output.replace("<code>", "").replace("</code>", "")).encode()
             )
             document.name = "output.txt"
-            await c.send_document(chat_id=m.chat.id, document=document)
+            await c.send_document(
+                chat_id=m.chat.id, document=document, reply_to_message_id=m.message_id
+            )
         else:
             output_message += f"<b>Output\n&gt;</b> {output}"
     await sm.edit_text(output_message)
@@ -87,7 +89,9 @@ async def on_eval_m(c: Korone, m: Message):
                 (output.replace("<code>", "").replace("</code>", "")).encode()
             )
             document.name = "output.txt"
-            await c.send_document(chat_id=m.chat.id, document=document)
+            await c.send_document(
+                chat_id=m.chat.id, document=document, reply_to_message_id=m.message_id
+            )
         else:
             output_message += f"<b>Output\n&gt;</b> {output}"
     await sm.edit_text(output_message)
