@@ -77,7 +77,7 @@ async def user_info(c: Korone, m: Message):
             user = await c.get_users(args)
         elif m.reply_to_message:
             user = m.reply_to_message.from_user
-        elif not m.reply_to_message and not args:
+        else:
             user = m.from_user
     except BadRequest as e:
         return await m.reply_text(f"<b>Error!</b>\n<code>{e}</code>")
@@ -174,10 +174,7 @@ async def inline_sw(c: Korone, q: InlineQuery):
     if len(query) != 0 and query[0] == "sw":
         args = " ".join(query[1:])
         try:
-            if args:
-                user = await c.get_users(args)
-            else:
-                user = q.from_user
+            user = await c.get_users(args) if args else q.from_user
         except BadRequest as e:
             await q.answer(
                 [
@@ -191,8 +188,8 @@ async def inline_sw(c: Korone, q: InlineQuery):
                 ],
                 cache_time=0,
             )
-            return
 
+            return
         r = await http.get(
             f"https://api.spamwat.ch/banlist/{int(user.id)}",
             headers={"Authorization": f"Bearer {SW_API}"},
@@ -201,35 +198,39 @@ async def inline_sw(c: Korone, q: InlineQuery):
             f"{user.mention(html.escape(user.first_name), style='html')}",
         )
         sw_ban = r.json()
-        if r.status_code in [200, 404]:
-            if r.status_code == 200:
-                ban_message = sw_ban["message"]
-                if ban_message:
-                    ban_message = f'{ban_message[:128]}{"[...]" if len(ban_message) > 128 else ""}'
-                spamwatch.extend(
-                    [
-                        SubSection(
-                            "SpamWatch",
-                            KeyValueItem(Bold("reason"), Code(sw_ban["reason"])),
-                            KeyValueItem(
-                                Bold("date"),
-                                Code(datetime.fromtimestamp(sw_ban["date"])),
-                            ),
-                            KeyValueItem(Bold("timestamp"), Code(sw_ban["date"])),
-                            KeyValueItem(Bold("admin"), Code(sw_ban["admin"])),
-                            KeyValueItem(Bold("message"), Code(ban_message)),
-                        ),
-                    ]
+        if r.status_code == 200:
+            ban_message = sw_ban["message"]
+            if ban_message:
+                ban_message = (
+                    f'{ban_message[:128]}{"[...]" if len(ban_message) > 128 else ""}'
                 )
-            elif r.status_code == 404 and sw_ban:
-                spamwatch.extend(
-                    [
-                        SubSection(
-                            "SpamWatch",
-                            KeyValueItem(Bold("banned"), Code("False")),
+            spamwatch.extend(
+                [
+                    SubSection(
+                        "SpamWatch",
+                        KeyValueItem(Bold("reason"), Code(sw_ban["reason"])),
+                        KeyValueItem(
+                            Bold("date"),
+                            Code(datetime.fromtimestamp(sw_ban["date"])),
                         ),
-                    ]
-                )
+                        KeyValueItem(Bold("timestamp"), Code(sw_ban["date"])),
+                        KeyValueItem(Bold("admin"), Code(sw_ban["admin"])),
+                        KeyValueItem(Bold("message"), Code(ban_message)),
+                    ),
+                ]
+            )
+            await q.answer(
+                [
+                    InlineQueryResultArticle(
+                        title=f"Sobre {html.escape(user.first_name)} - SpamWatch",
+                        description="Veja se o usuário está banido no SpamWatch.",
+                        input_message_content=InputTextMessageContent(spamwatch),
+                    )
+                ],
+                cache_time=0,
+            )
+
+        elif r.status_code == 404:
             await q.answer(
                 [
                     InlineQueryResultArticle(
@@ -271,7 +272,7 @@ async def file_debug(c: Korone, m: Message):
 @Korone.on_message(filters.cmd(command="cat", action="Imagens aleatórias de gatos."))
 async def cat_photo(c: Korone, m: Message):
     r = await http.get("https://api.thecatapi.com/v1/images/search")
-    if not r.status_code == 200:
+    if r.status_code != 200:
         return await m.reply_text(f"<b>Error!</b> <code>{r.status_code}</code>")
     cat = r.json
     await m.reply_photo(cat()[0]["url"], caption="Meow!! (^つωฅ^)")
@@ -282,7 +283,7 @@ async def cat_photo(c: Korone, m: Message):
 )
 async def dog_photo(c: Korone, m: Message):
     r = await http.get("https://dog.ceo/api/breeds/image/random")
-    if not r.status_code == 200:
+    if r.status_code != 200:
         return await m.reply_text(f"<b>Error!</b> <code>{r.status_code}</code>")
     dog = r.json()
     await m.reply_photo(dog["message"], caption="Woof!! U・ᴥ・U")
@@ -291,7 +292,7 @@ async def dog_photo(c: Korone, m: Message):
 @Korone.on_message(filters.cmd(command="fox", action="Imagens aleatórias de raposas."))
 async def fox_photo(c: Korone, m: Message):
     r = await http.get("https://some-random-api.ml/img/fox")
-    if not r.status_code == 200:
+    if r.status_code != 200:
         return await m.reply_text(f"<b>Error!</b> <code>{r.status_code}</code>")
     fox = r.json()
     await m.reply_photo(fox["link"], caption="What the fox say?")
@@ -300,7 +301,7 @@ async def fox_photo(c: Korone, m: Message):
 @Korone.on_message(filters.cmd(command="panda", action="Imagens aleatórias de pandas."))
 async def panda_photo(c: Korone, m: Message):
     r = await http.get("https://some-random-api.ml/img/panda")
-    if not r.status_code == 200:
+    if r.status_code != 200:
         return await m.reply_text(f"<b>Error!</b> <code>{r.status_code}</code>")
     panda = r.json()
     await m.reply_photo(panda["link"], caption="🐼")
@@ -311,7 +312,7 @@ async def panda_photo(c: Korone, m: Message):
 )
 async def bird_photo(c: Korone, m: Message):
     r = await http.get("http://shibe.online/api/birds")
-    if not r.status_code == 200:
+    if r.status_code != 200:
         return await m.reply_text(f"<b>Error!</b> <code>{r.status_code}</code>")
     bird = r.json()
     await m.reply_photo(bird[0], caption="🐦")
@@ -322,7 +323,7 @@ async def bird_photo(c: Korone, m: Message):
 )
 async def rpanda_photo(c: Korone, m: Message):
     r = await http.get("https://some-random-api.ml/img/red_panda")
-    if not r.status_code == 200:
+    if r.status_code != 200:
         return await m.reply_text(f"<b>Error!</b> <code>{r.status_code}</code>")
     rpanda = r.json()
     await m.reply_photo(rpanda["link"], caption="🐼")
@@ -498,19 +499,14 @@ async def getsticker(c: Korone, m: Message):
 async def chat_info(c: Korone, m: Message):
     args = m.matches[0]["text"]
     CHAT_TYPES: List[str] = ["channel", "group", "supergroup"]
-    sent = await m.reply_text("Stalkeando...", disable_notification=True)
 
     try:
-        if args:
-            chat = await c.get_chat(args)
-        else:
-            chat = await c.get_chat(m.chat.id)
+        chat = await c.get_chat(args) if args else await c.get_chat(m.chat.id)
     except BadRequest as e:
-        await sent.edit_text(f"<b>Erro!</b>\n<code>{e}</code>")
+        await m.reply_text(f"<b>Erro!</b>\n<code>{e}</code>")
         return
-
     if chat.type not in CHAT_TYPES:
-        await sent.edit_text("Este chat é privado!")
+        await m.reply_text("Este chat é privado!")
         return
 
     if chat.type in CHAT_TYPES:
@@ -529,4 +525,4 @@ async def chat_info(c: Korone, m: Message):
         if chat.description:
             text += f"\n<b>Descrição:</b>\n<code>{chat.description}</code>"
 
-    await sent.edit_text(text)
+    await m.reply_text(text)
