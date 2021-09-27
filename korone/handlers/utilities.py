@@ -14,6 +14,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+import asyncio
 import datetime
 import html
 import io
@@ -157,7 +158,7 @@ async def cleanup(c: Korone, m: Message):
                         f"Eu estou impedido de executar este comando! >-<\n<b>Erro:</b> <code>{e}</code>"
                     )
                     return
-        if len(deleted) > 0:
+        if deleted:
             await sent.edit_text(
                 f"Removi todas as {len(deleted)} contas excluídas do grupo!"
             )
@@ -283,7 +284,7 @@ async def on_ttdl(c: Korone, m: Message):
     await c.send_chat_action(m.chat.id, "upload_video")
     try:
         await c.send_chat_action(m.chat.id, "upload_video")
-        if tt["duration"] and vwidth and vwidth:
+        if tt["duration"] and vwidth and vheight:
             await m.reply_video(
                 video=filename,
                 thumb=thumb,
@@ -343,9 +344,7 @@ async def on_ytdl(c: Korone, m: Message):
         re.M,
     )
 
-    temp = "0"
-    if "t=" in url:
-        temp = url.split("t=")[1].split("&")[0]
+    temp = url.split("t=")[1].split("&")[0] if "t=" in url else "0"
     if not rege:
         yt = await extract_info(ydl, "ytsearch:" + url, download=False)
         yt = yt["entries"][0]
@@ -370,11 +369,11 @@ async def on_ytdl(c: Korone, m: Message):
         [
             (
                 "💿 Áudio",
-                f'_aud.{yt["id"]}|{afsize}|{vformat}|{temp}|{m.chat.id}|{user}|{m.message_id}',
+                f"_aud.{yt['id']}|{afsize}|{vformat}|{temp}|{m.chat.id}|{user}|{m.message_id}",
             ),
             (
                 "🎬 Vídeo",
-                f'_vid.{yt["id"]}|{vfsize}|{vformat}|{temp}|{m.chat.id}|{user}|{m.message_id}',
+                f"_vid.{yt['id']}|{vfsize}|{vformat}|{temp}|{m.chat.id}|{user}|{m.message_id}",
             ),
         ]
     ]
@@ -389,13 +388,19 @@ async def on_ytdl(c: Korone, m: Message):
     text += f"💾 <code>{pretty_size(afsize)}</code> (áudio) / <code>{pretty_size(int(vfsize))}</code> (vídeo)\n"
     text += f"⏳ <code>{datetime.timedelta(seconds=yt.get('duration'))}</code>"
 
-    await m.reply_text(text, reply_markup=c.ikb(keyboard))
+    res = await m.reply_text(text, reply_markup=c.ikb(keyboard))
+    await asyncio.sleep(60)
+    try:
+        await res.delete()
+        await m.delete()
+    except (BadRequest, Forbidden):
+        return
 
 
 @Korone.on_callback_query(filters.regex("^(_(vid|aud))"))
 async def cli_ytdl(c, cq: CallbackQuery):
     data, fsize, vformat, temp, cid, userid, mid = cq.data.split("|")
-    if not cq.from_user.id == int(userid):
+    if cq.from_user.id != int(userid):
         return await cq.answer("Este botão não é para você!", cache_time=60)
     if int(fsize) > 209715200:
         return await cq.answer(
@@ -436,9 +441,7 @@ async def cli_ytdl(c, cq: CallbackQuery):
         return
     await cq.message.edit("Enviando...")
     filename = ydl.prepare_filename(yt)
-    ttemp = ""
-    if int(temp):
-        ttemp = f"⏰ {datetime.timedelta(seconds=int(temp))} | "
+    ttemp = f"⏰ {datetime.timedelta(seconds=int(temp))} | " if int(temp) else ""
     thumb = io.BytesIO((await http.get(yt["thumbnail"])).content)
     thumb.name = "thumbnail.jpeg"
     if "vid" in data:

@@ -104,16 +104,10 @@ async def spacex_launch(c: Korone, m: Message):
     dt = datetime.utcfromtimestamp(sx["date_unix"]).strftime("%d-%m-%Y %H:%M:%S")
     images = sx["links"]["flickr"]["original"]
 
-    rocket = None
     res = await http.get(f"https://api.spacexdata.com/v4/rockets/{sx['rocket']}")
-    if res.status_code == 200:
-        rocket = res.json()
-
-    launchpad = None
+    rocket = res.json() if res.status_code == 200 else None
     res = await http.get(f"https://api.spacexdata.com/v4/launchpads/{sx['launchpad']}")
-    if res.status_code == 200:
-        launchpad = res.json()
-
+    launchpad = res.json() if res.status_code == 200 else None
     text = f"<b>None da missão:</b> {sx['name']}\n"
     text += f"<b>Voo Nº:</b> {sx['flight_number']}\n"
     if rocket:

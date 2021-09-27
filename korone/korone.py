@@ -21,7 +21,7 @@ from datetime import datetime, timezone
 import pyrogram
 import sentry_sdk
 from pyrogram import Client
-from pyrogram.errors import BadRequest
+from pyrogram.errors import BadRequest, ChatWriteForbidden
 from pyrogram.helpers import ikb
 from pyrogram.raw.all import layer
 from pyrogram.types import Message, User
@@ -89,7 +89,7 @@ class Korone(Client):
         )
         try:
             await self.send_message(chat_id=LOGS_CHANNEL, text=start_message)
-        except BadRequest:
+        except (BadRequest, ChatWriteForbidden):
             log.warning("Unable to send the startup message to the LOGS_CHANNEL!")
 
     async def restart(self, *args):
@@ -103,12 +103,9 @@ class Korone(Client):
     async def int_reply(self, m: Message, text: str, *args, **kwargs):
         if m.chat.type == "private":
             await m.reply_text(text, *args, **kwargs)
-        elif (
-            m.reply_to_message
-            and (
+        elif m.reply_to_message and (
             m.reply_to_message.from_user is not None
             and m.reply_to_message.from_user.id == self.me.id
-        )
         ):
             await m.reply_text(text, *args, **kwargs)
         return
