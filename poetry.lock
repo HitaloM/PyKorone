@@ -667,7 +667,7 @@ python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*"
 
 [[package]]
 name = "python-anilist"
-version = "1.0.4"
+version = "1.0.5"
 description = "A simple wrapper for Anilist"
 category = "main"
 optional = false
@@ -907,7 +907,7 @@ testing = ["pytest (>=4.6)", "pytest-checkdocs (>=2.4)", "pytest-flake8", "pytes
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.6.2"
-content-hash = "b379fe38832e611c28a55f53052c5c5f89f1775cb50b7a3b6317a53837392ff8"
+content-hash = "4f6238ca4912a604c856bf8c1a18c6a9e1b94e9e9e8529a8afa74c4a5405d7ef"
 
 [metadata.files]
 aiofiles = [
@@ -1338,7 +1338,8 @@ pysocks = [
     {file = "PySocks-1.7.1.tar.gz", hash = "sha256:3f8804571ebe159c380ac6de37643bb4685970655d3bba243530d6558b799aa0"},
 ]
 python-anilist = [
-    {file = "python_anilist-1.0.4-py3-none-any.whl", hash = "sha256:f44c44fe9d79561d23bdbd38b65da06f5a487599666cb79ca998ac1cc800800c"},
+    {file = "python-anilist-1.0.5.tar.gz", hash = "sha256:2b6fcb7b381ee0da775191cda16c23a83e49c61e295fe3bb3405f89d5e74a14d"},
+    {file = "python_anilist-1.0.5-py3-none-any.whl", hash = "sha256:6a6b385098b06beab698e3512b1ef3478c73268129f52b02ea0f99d16d4ac9a6"},
 ]
 regex = [
     {file = "regex-2021.9.24-cp310-cp310-macosx_10_9_x86_64.whl", hash = "sha256:0628ed7d6334e8f896f882a5c1240de8c4d9b0dd7c7fb8e9f4692f5684b7d656"},
