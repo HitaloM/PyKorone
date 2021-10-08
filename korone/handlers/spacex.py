@@ -108,7 +108,7 @@ async def spacex_launch(c: Korone, m: Message):
     rocket = res.json() if res.status_code == 200 else None
     res = await http.get(f"https://api.spacexdata.com/v4/launchpads/{sx['launchpad']}")
     launchpad = res.json() if res.status_code == 200 else None
-    text = f"<b>None da missão:</b> {sx['name']}\n"
+    text = f"<b>Nome da missão:</b> {sx['name']}\n"
     text += f"<b>Voo Nº:</b> {sx['flight_number']}\n"
     if rocket:
         text += f"<b>Nome do foguete:</b> {rocket['name']}\n"

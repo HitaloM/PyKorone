@@ -388,13 +388,7 @@ async def on_ytdl(c: Korone, m: Message):
     text += f"💾 <code>{pretty_size(afsize)}</code> (áudio) / <code>{pretty_size(int(vfsize))}</code> (vídeo)\n"
     text += f"⏳ <code>{datetime.timedelta(seconds=yt.get('duration'))}</code>"
 
-    res = await m.reply_text(text, reply_markup=c.ikb(keyboard))
-    await asyncio.sleep(60)
-    try:
-        await res.delete()
-        await m.delete()
-    except (BadRequest, Forbidden):
-        return
+    await m.reply_text(text, reply_markup=c.ikb(keyboard))
 
 
 @Korone.on_callback_query(filters.regex("^(_(vid|aud))"))
