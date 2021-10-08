@@ -28,7 +28,7 @@ from pyrogram.types import Message, User
 
 import korone
 from korone.config import API_HASH, API_ID, LOGS_CHANNEL, SENTRY_KEY, SUDOERS, TOKEN
-from korone.utils import modules, shell_exec
+from korone.utils import shell_exec
 
 log = logging.getLogger(__name__)
 
@@ -45,6 +45,8 @@ class Korone(Client):
             bot_token=TOKEN,
             parse_mode="html",
             workers=24,
+            workdir="korone",
+            plugins={"root": "korone.handlers"},
             sleep_threshold=180,
         )
 
@@ -67,10 +69,6 @@ class Korone(Client):
         else:
             log.info("Starting sentry.io service.")
             sentry_sdk.init(SENTRY_KEY, traces_sample_rate=1.0)
-
-        # Built-in modules load system
-        log.info("Loading modules.")
-        modules.load(self)
 
         log.info(
             "PyKorone for Pyrogram v%s (Layer %s) started on @%s. Hi.",

@@ -36,7 +36,7 @@ from pyrogram.types import CallbackQuery, Message
 import korone
 from korone.config import OWNER
 from korone.korone import Korone
-from korone.utils import client_restart, modules
+from korone.utils import client_restart
 
 
 @Korone.on_message(filters.cmd("(sh(eel)?|term(inal)?) ") & filters.user(OWNER))
@@ -288,7 +288,7 @@ async def system_info(c: Korone, m: Message):
 async def modules_reload(c: Korone, m: Message):
     sent = await m.reply_text("<b>Recarregando módulos...</b>")
     first = datetime.now()
-    modules.reload(c)
+    c.reload_plugins()
     second = datetime.now()
     time = (second - first).microseconds / 1000
     await sent.edit_text(f"<b>Módulos recarregados em</b> <code>{time}ms</code>!")
