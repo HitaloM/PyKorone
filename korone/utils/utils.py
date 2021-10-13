@@ -30,7 +30,7 @@ from pyrogram.types import Message
 
 # unique session of httpx
 timeout = httpx.Timeout(40, pool=None)
-http = httpx.AsyncClient(http2=True, timeout=timeout)
+http = httpx.AsyncClient(http2=True, timeout=timeout, follow_redirects=True)
 
 
 # Misc
