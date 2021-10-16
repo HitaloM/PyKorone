@@ -344,6 +344,16 @@ async def on_ytdl(c: Korone, m: Message):
         re.M,
     )
 
+    is_url = re.match(
+        r"(http(s)?)?(://)?(www)?(\.)?(.*)\.(.*)",
+        url,
+        re.M,
+    )
+
+    if is_url and not rege:
+        await m.reply_text("Este link é inválido, use um link do YouTube!")
+        return
+
     temp = url.split("t=")[1].split("&")[0] if "t=" in url else "0"
     if not rege:
         yt = await extract_info(ydl, "ytsearch:" + url, download=False)
