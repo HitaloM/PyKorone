@@ -66,7 +66,8 @@ async def ulikecoffe(c: Korone, m: Message):
 @Korone.on_message(filters.int(filter=r"(Ol(á|a)|Oi|Eae|Hi|Hello|Hey)", group=GROUP))
 async def hello(c: Korone, m: Message):
     react = random.choice(HEY_REACT)
-    await c.int_reply(m, react.format(m.from_user.first_name))
+    if m.from_user is not None:
+        await c.int_reply(m, react.format(m.from_user.first_name))
 
 
 @Korone.on_message(
@@ -76,20 +77,23 @@ async def hello(c: Korone, m: Message):
     )
 )
 async def insult(c: Korone, m: Message):
-    react = random.choice(INSULTS_REACT)
-    await c.int_reply(m, react.format(m.from_user.first_name))
+    if m.from_user is not None:
+        react = random.choice(INSULTS_REACT)
+        await c.int_reply(m, react.format(m.from_user.first_name))
 
 
 @Korone.on_message(filters.int(filter=r"(como vai|tudo bem)", group=GROUP))
 async def all_right(c: Korone, m: Message):
-    react = random.choice(WHATSUP_REACT)
-    await c.int_reply(m, react)
+    if m.from_user is not None:
+        react = random.choice(WHATSUP_REACT)
+        await c.int_reply(m, react)
 
 
 @Korone.on_message(filters.int(filter=r"(Cala boca|Cala-boca|calaboca)", group=GROUP))
 async def shutup(c: Korone, m: Message):
-    react = random.choice(SHUTUP_REACT)
-    await c.int_reply(m, react)
+    if m.from_user is not None:
+        react = random.choice(SHUTUP_REACT)
+        await c.int_reply(m, react)
 
 
 @Korone.on_message(~filters.private & ~filters.edited)

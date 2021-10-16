@@ -36,6 +36,7 @@ log = logging.getLogger(__name__)
 class Korone(Client):
     def __init__(self):
         name = self.__class__.__name__.lower()
+        self.is_sudo = SUDOERS
 
         super().__init__(
             session_name=name,
@@ -59,9 +60,8 @@ class Korone(Client):
         # Saving commit number
         self.version_code = int((await shell_exec("git rev-list --count HEAD"))[0])
 
-        # Misc monkeypatch
+        # Some useful vars
         self.me = await self.get_me()
-        self.is_sudo = SUDOERS
         self.ikb = ikb
 
         if not SENTRY_KEY or SENTRY_KEY == "":
