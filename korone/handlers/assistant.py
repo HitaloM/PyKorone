@@ -73,42 +73,52 @@ async def kick(c: Korone, m: Message):
 
 @Korone.on_message(filters.int(filter=r"Korone, me d(ê|e) um cookie", group=GROUP))
 async def give_me_cookie(c: Korone, m: Message):
-    await m.reply_text(f"*dá um cookie à {m.from_user.first_name}* ^^")
+    if m.from_user is not None:
+        await m.reply_text(f"*dá um cookie à {m.from_user.first_name}* ^^")
 
 
 @Korone.on_message(
     filters.int(filter=r"Korone, d(ê|e) um cookie", group=GROUP) & filters.reply
 )
 async def give_cookie(c: Korone, m: Message):
-    await m.reply_text(f"*dá um cookie à {m.reply_to_message.from_user.first_name}* ^^")
+    if m.reply_to_message.from_user is not None:
+        await m.reply_text(
+            f"*dá um cookie à {m.reply_to_message.from_user.first_name}* ^^"
+        )
 
 
 @Korone.on_message(
     filters.int(filter=r"Korone, morda( ele)?", group=GROUP) & filters.reply
 )
 async def bite(c: Korone, m: Message):
-    await m.reply_text(f"*morde {m.reply_to_message.from_user.first_name}*")
+    if m.reply_to_message.from_user is not None:
+        await m.reply_text(f"*morde {m.reply_to_message.from_user.first_name}*")
 
 
 @Korone.on_message(filters.int(filter=r"Korone, me abra(c|ç)e", group=GROUP))
 async def hug(c: Korone, m: Message):
-    await m.reply_text(f"*Abraça com força {m.from_user.first_name}* ^^")
+    if m.from_user is not None:
+        await m.reply_text(f"*Abraça com força {m.from_user.first_name}* ^^")
 
 
 @Korone.on_message(filters.int(filter=r"Korone, qual o nome dele", group=GROUP))
 async def tell_name(c: Korone, m: Message):
-    await m.reply_text(f"O nome dele é {m.reply_to_message.from_user.first_name}! ^^")
+    if m.reply_to_message.from_user is not None:
+        await m.reply_text(
+            f"O nome dele é {m.reply_to_message.from_user.first_name}! ^^"
+        )
 
 
 @Korone.on_message(
     filters.int(filter=r"Korone, pegue ele", group=GROUP) & filters.reply
 )
 async def catch_him(c: Korone, m: Message):
-    react = random.choice(CATCH_REACT)
-    reaction = random.choice(REACTIONS)
-    await m.reply_text(
-        (react + reaction).format(m.reply_to_message.from_user.first_name)
-    )
+    if m.reply_to_message.from_user is not None:
+        react = random.choice(CATCH_REACT)
+        reaction = random.choice(REACTIONS)
+        await m.reply_text(
+            (react + reaction).format(m.reply_to_message.from_user.first_name)
+        )
 
 
 @Korone.on_message(filters.int(filter=r"Korone, (me )?conte uma piada", group=GROUP))
@@ -143,8 +153,9 @@ async def useless_fact(c: Korone, m: Message):
 
 @Korone.on_message(filters.int(filter=r"Korone", group=GROUP))
 async def hello(c: Korone, m: Message):
-    react = random.choice(HELLO)
-    await m.reply_text((react).format(m.from_user.first_name))
+    if m.from_user is not None:
+        react = random.choice(HELLO)
+        await m.reply_text((react).format(m.from_user.first_name))
 
 
 @Korone.on_message(
