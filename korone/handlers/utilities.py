@@ -14,7 +14,6 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-import asyncio
 import datetime
 import html
 import io
@@ -344,16 +343,6 @@ async def on_ytdl(c: Korone, m: Message):
         re.M,
     )
 
-    is_url = re.match(
-        r"(http(s)?)?(://)?(www)?(\.)?(.*)\.(.*)",
-        url,
-        re.M,
-    )
-
-    if is_url and not rege:
-        await m.reply_text("Este link é inválido, use um link do YouTube!")
-        return
-
     temp = url.split("t=")[1].split("&")[0] if "t=" in url else "0"
     if not rege:
         yt = await extract_info(ydl, "ytsearch:" + url, download=False)
@@ -594,15 +583,12 @@ async def mcserver(c: Korone, m: Union[Message, CallbackQuery]):
         text += f"\n<b>Players:</b> <code>{a['players']['online']}/{a['players']['max']}</code>"
         if "list" in a["players"]:
             text += "\n<b>Players list:</b> {}".format(
-                (
-                    ", ".join(
-                        [
-                            f"<a href='https://namemc.com/profile/{name}'>{name}</a>"
-                            for name in a["players"]["list"]
-                        ]
-                    )
-                ),
+                ", ".join(
+                    f"<a href='https://namemc.com/profile/{name}'>{name}</a>"
+                    for name in a["players"]["list"]
+                )
             )
+
         text += f"\n<b>Version:</b> <code>{a['version']}</code>"
         try:
             text += f"\n<b>Software:</b> <code>{a['software']}</code>"
@@ -614,7 +600,7 @@ async def mcserver(c: Korone, m: Union[Message, CallbackQuery]):
     elif not a["ip"] or a["ip"] == "127.0.0.1":
         return await reply.edit("Isso não é um IP/domínio válido!")
 
-    elif not a["online"]:
+    else:
         text = (
             "<b>Minecraft Server</b>:"
             f"\n<b>IP:</b> {a['hostname'] if 'hostname' in a else a['ip']} (<code>{a['ip']}</code>)"
@@ -635,7 +621,7 @@ async def mcserver(c: Korone, m: Union[Message, CallbackQuery]):
     )
 )
 async def del_message(c: Korone, m: Message):
-    if not m.chat.type == "private":
+    if m.chat.type != "private":
         member = await c.get_chat_member(chat_id=m.chat.id, user_id=m.from_user.id)
 
     if m.chat.type == "private" or member.status in [
