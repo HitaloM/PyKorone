@@ -282,13 +282,3 @@ async def system_info(c: Korone, m: Message):
     )
 
     await m.reply_text(doc, disable_web_page_preview=True)
-
-
-@Korone.on_message(filters.sudoer & filters.cmd("reload"))
-async def modules_reload(c: Korone, m: Message):
-    sent = await m.reply_text("<b>Recarregando módulos...</b>")
-    first = datetime.now()
-    c.reload_plugins()
-    second = datetime.now()
-    time = (second - first).microseconds / 1000
-    await sent.edit_text(f"<b>Módulos recarregados em</b> <code>{time}ms</code>!")
