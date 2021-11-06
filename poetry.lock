@@ -903,14 +903,6 @@ multidict = ">=4.0"
 typing-extensions = {version = ">=3.7.4", markers = "python_version < \"3.8\""}
 
 [[package]]
-name = "youtube-dl"
-version = "2021.6.6"
-description = "YouTube video downloader"
-category = "main"
-optional = false
-python-versions = "*"
-
-[[package]]
 name = "yt-dlp"
 version = "2021.10.22"
 description = "Command-line program to download videos from YouTube.com and many other other video platforms."
@@ -938,7 +930,7 @@ testing = ["pytest (>=4.6)", "pytest-checkdocs (>=2.4)", "pytest-flake8", "pytes
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.6.2"
-content-hash = "b4647ccff0c5e4336479b9902c8371accb35b962cfb71f1567dfc553fc95ae7e"
+content-hash = "dd4c24696d32cf2f7c558d078ec3c9b8efc1d11c89d928d4a4fd931b21ef1062"
 
 [metadata.files]
 aiofiles = [
@@ -1756,10 +1748,6 @@ yarl = [
     {file = "yarl-1.7.0-cp39-cp39-win32.whl", hash = "sha256:8ee78c9a5f3c642219d4607680a4693b59239c27a3aa608b64ef79ddc9698039"},
     {file = "yarl-1.7.0-cp39-cp39-win_amd64.whl", hash = "sha256:d750503682605088a14d29a4701548c15c510da4f13c8b17409c4097d5b04c52"},
     {file = "yarl-1.7.0.tar.gz", hash = "sha256:8e7ebaf62e19c2feb097ffb7c94deb0f0c9fab52590784c8cd679d30ab009162"},
-]
-youtube-dl = [
-    {file = "youtube_dl-2021.6.6-py2.py3-none-any.whl", hash = "sha256:263e04d53fb8ba3dfbd246ad09b7d388e896c132a20cc770c26ee7684de050ac"},
-    {file = "youtube_dl-2021.6.6.tar.gz", hash = "sha256:cb2d3ee002158ede783e97a82c95f3817594df54367ea6a77ce5ceea4772f0ab"},
 ]
 yt-dlp = [
     {file = "yt-dlp-2021.10.22.tar.gz", hash = "sha256:a24b9666bd2234149e4da8c4f16bb8e5f746c29428d12ee04fc1c11b5247a307"},

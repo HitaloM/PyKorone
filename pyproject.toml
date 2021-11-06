@@ -36,7 +36,6 @@ kantex = "0.2.0"
 meval = "2.5"
 jikanpy = "4.3.2"
 asyncpraw = "7.4.0"
-youtube_dl = "2021.6.6"
 gpytranslate = "1.3.0"
 wikipedia = {git = "https://github.com/HitaloSama/Wikipedia"}
 python-anilist = "1.0.5"
