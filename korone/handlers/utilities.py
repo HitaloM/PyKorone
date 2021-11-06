@@ -23,14 +23,14 @@ import shutil
 import tempfile
 from typing import Union
 
-import youtube_dl
+import yt_dlp
 from bs4 import BeautifulSoup as bs
 from httpx._exceptions import TimeoutException
 from NyaaPy import Nyaa
 from pyrogram import filters
 from pyrogram.errors import BadRequest, Forbidden, MessageTooLong
 from pyrogram.types import CallbackQuery, Message
-from youtube_dl.utils import DownloadError
+from yt_dlp.utils import DownloadError
 
 from korone.handlers import COMMANDS_HELP
 from korone.handlers.utils.image import stickcolorsync
@@ -244,7 +244,7 @@ async def on_ttdl(c: Korone, m: Message):
     with tempfile.TemporaryDirectory() as tempdir:
         path = os.path.join(tempdir, "ttdl")
 
-    tdl = youtube_dl.YoutubeDL(
+    tdl = yt_dlp.YoutubeDL(
         {
             "outtmpl": f"{path}/{m.from_user.id}-%(id)s.%(ext)s",
             "format": "mp4",
@@ -262,7 +262,7 @@ async def on_ttdl(c: Korone, m: Message):
             vformat = f["format_id"]
             vheaders = f["http_headers"]
 
-    tdl = youtube_dl.YoutubeDL(
+    tdl = yt_dlp.YoutubeDL(
         {
             "outtmpl": f"{path}/{m.from_user.id}-%(id)s.%(ext)s",
             "format": vformat,
@@ -330,7 +330,7 @@ async def on_ytdl(c: Korone, m: Message):
         await m.reply_text("Por favor, responda a um link do YouTube ou texto.")
         return
 
-    ydl = youtube_dl.YoutubeDL(
+    ydl = yt_dlp.YoutubeDL(
         {
             "outtmpl": "dls/%(title)s-%(id)s.%(ext)s",
             "format": "mp4",
@@ -411,7 +411,7 @@ async def cli_ytdl(c, cq: CallbackQuery):
     with tempfile.TemporaryDirectory() as tempdir:
         path = os.path.join(tempdir, "ytdl")
     if "vid" in data:
-        ydl = youtube_dl.YoutubeDL(
+        ydl = yt_dlp.YoutubeDL(
             {
                 "outtmpl": f"{path}/%(title)s-%(id)s.%(ext)s",
                 "format": vformat,
@@ -419,7 +419,7 @@ async def cli_ytdl(c, cq: CallbackQuery):
             }
         )
     else:
-        ydl = youtube_dl.YoutubeDL(
+        ydl = yt_dlp.YoutubeDL(
             {
                 "outtmpl": f"{path}/%(title)s-%(id)s.%(ext)s",
                 "format": "140",
