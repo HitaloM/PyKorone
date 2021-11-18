@@ -414,7 +414,7 @@ async def cli_ytdl(c, cq: CallbackQuery):
         ydl = yt_dlp.YoutubeDL(
             {
                 "outtmpl": f"{path}/%(title)s-%(id)s.%(ext)s",
-                "format": vformat,
+                "format": f"{vformat}+140",
                 "noplaylist": True,
             }
         )
