@@ -147,7 +147,7 @@ async def cleanup(c: Korone, m: Message):
         async for t in c.iter_chat_members(chat_id=m.chat.id, filter="all"):
             if t.user.is_deleted:
                 try:
-                    await c.kick_chat_member(m.chat.id, t.user.id)
+                    await c.ban_chat_member(m.chat.id, t.user.id)
                     await m.chat.unban_member(t.user.id)
                     deleted.append(t)
                 except BadRequest:

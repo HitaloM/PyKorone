@@ -58,7 +58,7 @@ async def kick(c: Korone, m: Message):
 
     if member.status in ["administrator", "creator"]:
         try:
-            await c.kick_chat_member(m.chat.id, m.reply_to_message.from_user.id)
+            await c.ban_chat_member(m.chat.id, m.reply_to_message.from_user.id)
             await m.chat.unban_member(m.reply_to_message.from_user.id)
             await m.reply_animation(
                 animation="CgACAgQAAx0ET2XwHwACWb1gCDScpSaFyoNgPa2Ag_yiRo61YQACPwIAAryMhFOFxHV09aPBTR4E"
