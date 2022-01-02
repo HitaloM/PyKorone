@@ -49,4 +49,4 @@ _If there is anyone I have forgotten to mention please let me know on Telegram: 
 
 ## License
 
-[GPLv3](https://github.com/AmanoTeam/PyKorone/blob/main/LICENSE) © 2021 [AmanoTeam](https//github.com/AmanoTeam)
+[GPLv3](https://github.com/AmanoTeam/PyKorone/blob/main/LICENSE) © 2022 [AmanoTeam](https//github.com/AmanoTeam)
