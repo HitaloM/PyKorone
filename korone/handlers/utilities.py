@@ -368,11 +368,11 @@ async def on_ytdl(c: Korone, m: Message):
         [
             (
                 "💿 Áudio",
-                f"_aud.{yt['id']}|{afsize}|{vformat}|{temp}|{m.chat.id}|{user}|{m.message_id}",
+                f"_aud.{yt['id']}|{afsize}|{vformat}|{temp}|{user}|{m.message_id}",
             ),
             (
                 "🎬 Vídeo",
-                f"_vid.{yt['id']}|{vfsize}|{vformat}|{temp}|{m.chat.id}|{user}|{m.message_id}",
+                f"_vid.{yt['id']}|{vfsize}|{vformat}|{temp}|{user}|{m.message_id}",
             ),
         ]
     ]
@@ -392,7 +392,7 @@ async def on_ytdl(c: Korone, m: Message):
 
 @Korone.on_callback_query(filters.regex("^(_(vid|aud))"))
 async def cli_ytdl(c, cq: CallbackQuery):
-    data, fsize, vformat, temp, cid, userid, mid = cq.data.split("|")
+    data, fsize, vformat, temp, userid, mid = cq.data.split("|")
     if cq.from_user.id != int(userid):
         return await cq.answer("Este botão não é para você!", cache_time=60)
     if int(fsize) > 209715200:
@@ -438,11 +438,10 @@ async def cli_ytdl(c, cq: CallbackQuery):
     thumb = io.BytesIO((await http.get(yt["thumbnail"])).content)
     thumb.name = "thumbnail.jpeg"
     if "vid" in data:
-        await c.send_chat_action(int(cid), "upload_video")
         try:
             await c.send_chat_action(cq.message.chat.id, "upload_video")
             await c.send_video(
-                chat_id=int(cid),
+                chat_id=cq.message.chat.id,
                 video=filename,
                 width=1920,
                 height=1080,
@@ -453,7 +452,7 @@ async def cli_ytdl(c, cq: CallbackQuery):
             )
         except BadRequest as e:
             await c.send_message(
-                chat_id=int(cid),
+                chat_id=cq.message.chat.id,
                 text=(
                     "Desculpe! Não consegui enviar o "
                     "vídeo por causa de um erro.\n"
@@ -470,7 +469,7 @@ async def cli_ytdl(c, cq: CallbackQuery):
         try:
             await c.send_chat_action(cq.message.chat.id, "upload_audio")
             await c.send_audio(
-                chat_id=int(cid),
+                chat_id=cq.message.chat.id,
                 audio=filename,
                 caption=f"{ttemp} <a href='{yt['webpage_url']}'>{yt['title']}</a></b>",
                 title=title,
@@ -481,7 +480,7 @@ async def cli_ytdl(c, cq: CallbackQuery):
             )
         except BadRequest as e:
             await c.send_message(
-                chat_id=int(cid),
+                chat_id=cq.message.chat.id,
                 text=(
                     "Desculpe! Não consegui enviar o "
                     "vídeo por causa de um erro.\n"
