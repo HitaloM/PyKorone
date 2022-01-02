@@ -83,4 +83,6 @@ if __name__ == "__main__":
     except KeyboardInterrupt:
         log.warning("Forced stop... Bye!")
     finally:
-        asyncio.get_event_loop().create_task(close_http())
+        event_policy = asyncio.get_event_loop_policy()
+        event_loop = event_policy.new_event_loop()
+        event_loop.create_task(close_http())
