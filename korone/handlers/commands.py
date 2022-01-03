@@ -25,6 +25,7 @@ import tempfile
 from datetime import datetime
 from typing import List
 
+import httpx
 import regex
 from kantex.html import Bold, Code, KeyValueItem, Section, SubSection
 from pyrogram import filters
@@ -109,14 +110,17 @@ async def user_info(c: Korone, m: Message):
     if bio:
         text += f"\n\n<b>Biografia:</b> <code>{html.escape(bio)}</code>"
 
-    r = await http.get(
-        f"https://api.spamwat.ch/banlist/{int(user.id)}",
-        headers={"Authorization": f"Bearer {SW_API}"},
-    )
-    if r.status_code == 200:
-        ban = r.json()
-        text += "\n\nEste usuário está banido no @SpamWatch!"
-        text += f"\nMotivo: <code>{ban['reason']}</code>"
+    try:
+        r = await http.get(
+            f"https://api.spamwat.ch/banlist/{int(user.id)}",
+            headers={"Authorization": f"Bearer {SW_API}"},
+        )
+        if r.status_code == 200:
+            ban = r.json()
+            text += "\n\nEste usuário está banido no @SpamWatch!"
+            text += f"\nMotivo: <code>{ban['reason']}</code>"
+    except httpx.HTTPError:
+        pass
 
     try:
         member = await c.get_chat_member(chat_id=m.chat.id, user_id=user.id)
