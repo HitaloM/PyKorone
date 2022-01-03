@@ -87,7 +87,7 @@ async def anilist_anime(c: Korone, m: Message):
     else:
         try:
             async with anilist.AsyncClient() as client:
-                results = await client.search(query, "anime", 1)
+                results = await client.search(query, "anime", page=1, limit=1)
                 anime_id = results[0].id
         except IndexError:
             return await m.reply_text(
@@ -159,7 +159,7 @@ async def anilist_airing(c: Korone, m: Message):
     else:
         try:
             async with anilist.AsyncClient() as client:
-                results = await client.search(query, "anime", 1)
+                results = await client.search(query, "anime", page=1, limit=1)
                 anime_id = results[0].id
         except IndexError:
             return await m.reply_text(
@@ -207,7 +207,7 @@ async def anilist_manga(c: Korone, m: Message):
     else:
         try:
             async with anilist.AsyncClient() as client:
-                results = await client.search(query, "manga", 1)
+                results = await client.search(query, "manga", page=1, limit=1)
                 manga_id = results[0].id
         except IndexError:
             return await m.reply_text(
@@ -273,7 +273,7 @@ async def anilist_character(c: Korone, m: Message):
     else:
         try:
             async with anilist.AsyncClient() as client:
-                results = await client.search(query, "char", 1)
+                results = await client.search(query, "char", page=1, limit=1)
                 character_id = results[0].id
         except IndexError:
             return await m.reply_text(
@@ -590,7 +590,7 @@ async def inline_anime(c: Korone, q: InlineQuery):
     if len(query) != 0 and query[0] == "anime":
         search = " ".join(query[1:])
         async with anilist.AsyncClient() as client:
-            results_search = await client.search(search, "anime", 10)
+            results_search = await client.search(search, "anime", page=1, limit=10)
             for result in results_search:
                 anime = await client.get(result.id, "anime")
 
@@ -670,7 +670,7 @@ async def inline_manga(c: Korone, q: InlineQuery):
     if len(query) != 0 and query[0] == "manga":
         search = " ".join(query[1:])
         async with anilist.AsyncClient() as client:
-            results_search = await client.search(search, "manga", 10)
+            results_search = await client.search(search, "manga", page=1, limit=10)
             for result in results_search:
                 manga = await client.get(result.id, "manga")
 
