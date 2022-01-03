@@ -235,6 +235,14 @@ async def inline_sw(c: Korone, q: InlineQuery):
             )
 
         elif r.status_code == 404:
+            spamwatch.extend(
+                [
+                    SubSection(
+                        "SpamWatch",
+                        KeyValueItem(Bold("banned"), Code("False")),
+                    ),
+                ]
+            )
             await q.answer(
                 [
                     InlineQueryResultArticle(
