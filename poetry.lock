@@ -654,14 +654,24 @@ python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*"
 
 [[package]]
 name = "python-anilist"
-version = "1.0.5"
-description = "A simple wrapper for Anilist"
+version = "1.0.6"
+description = ""
 category = "main"
 optional = false
-python-versions = ">=3.6"
+python-versions = ">=3.7"
+develop = false
 
 [package.dependencies]
-httpx = {version = ">=0.14", extras = ["http2"]}
+httpx = {version = ">=0.14.0", extras = ["http2"]}
+
+[package.extras]
+testing = ["pytest (>=6.2)", "pytest-cov (>=2.12)", "tox (>=3.24)"]
+
+[package.source]
+type = "git"
+url = "https://github.com/AmanoTeam/python-anilist"
+reference = "main"
+resolved_reference = "8685098c8d53c3c80d1ffd78a1546d2c8eeaa1e0"
 
 [[package]]
 name = "regex"
@@ -919,7 +929,7 @@ fast = ["uvloop"]
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.7"
-content-hash = "5bf535910c99d190ccb4385942209818c3e03b39aae69c5b08b1c78cb25e8898"
+content-hash = "91cdee21866dfeccfb91bbc7e880dce423f08f8a50ee9994e941b371d0cda313"
 
 [metadata.files]
 aiofiles = [
@@ -1480,10 +1490,7 @@ pysocks = [
     {file = "PySocks-1.7.1-py3-none-any.whl", hash = "sha256:2725bd0a9925919b9b51739eea5f9e2bae91e83288108a9ad338b2e3a4435ee5"},
     {file = "PySocks-1.7.1.tar.gz", hash = "sha256:3f8804571ebe159c380ac6de37643bb4685970655d3bba243530d6558b799aa0"},
 ]
-python-anilist = [
-    {file = "python-anilist-1.0.5.tar.gz", hash = "sha256:2b6fcb7b381ee0da775191cda16c23a83e49c61e295fe3bb3405f89d5e74a14d"},
-    {file = "python_anilist-1.0.5-py3-none-any.whl", hash = "sha256:6a6b385098b06beab698e3512b1ef3478c73268129f52b02ea0f99d16d4ac9a6"},
-]
+python-anilist = []
 regex = [
     {file = "regex-2021.11.10-cp310-cp310-macosx_10_9_x86_64.whl", hash = "sha256:9345b6f7ee578bad8e475129ed40123d265464c4cfead6c261fd60fc9de00bcf"},
     {file = "regex-2021.11.10-cp310-cp310-macosx_11_0_arm64.whl", hash = "sha256:416c5f1a188c91e3eb41e9c8787288e707f7d2ebe66e0a6563af280d9b68478f"},

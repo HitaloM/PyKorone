@@ -38,7 +38,6 @@ jikanpy = "4.3.2"
 asyncpraw = "7.5.0"
 gpytranslate = "1.4.0"
 wikipedia = {git = "https://github.com/HitaloSama/Wikipedia"}
-python-anilist = "1.0.5"
 regex = "2021.11.10"
 lxml = "4.7.1"
 async-files = "0.4"
@@ -52,6 +51,7 @@ nyaapy = "0.6.1"
 sentry-sdk = "1.5.1"
 yt-dlp = "2021.12.27"
 uvloop = {version = "^0.16", optional = true}
+python-anilist = {git = "https://github.com/AmanoTeam/python-anilist", rev = "main"}
 
 [tool.poetry.dev-dependencies]
 black = "^21.12b0"
