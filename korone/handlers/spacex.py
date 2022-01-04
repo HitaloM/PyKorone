@@ -49,11 +49,11 @@ async def spacex_wiki(c: Korone, m: Message):
     text += f"\n<b>Endereço:</b> {sx['headquarters']['address']}, {sx['headquarters']['city']}, {sx['headquarters']['state']}"
     text += f"\n<b>Fundador:</b> {sx['founder']}"
     text += f"\n<b>Fundada em:</b> {sx['founded']}"
-    text += f"\n<b>Funcionários:</b> <code>{sx['employees']}</code>"
+    text += ("\n<b>Funcionários:</b> <code>{:,}</code>").format(sx["employees"])
     text += f"\n<b>Plataformas de testes:</b> <code>{sx['test_sites']}</code>"
     text += f"\n<b>Plataformas de lançamentos:</b> <code>{sx['launch_sites']}</code>"
     text += f"\n<b>Veículos de lançamento:</b> <code>{sx['vehicles']}</code>"
-    text += f"\n<b>Avaliada em:</b> <code>{sx['valuation']}</code>"
+    text += ("\n<b>Avaliada em:</b> <code>${:,}</code>").format(sx["valuation"])
     text += f"\n<b>CEO:</b> {sx['ceo']}"
     text += f", <b>CTO:</b> {sx['cto']}"
     text += f", <b>COO:</b> {sx['coo']}"
