@@ -766,6 +766,21 @@ optional = false
 python-versions = ">=3.6"
 
 [[package]]
+name = "telegraph"
+version = "2.1.0"
+description = "Telegraph API wrapper"
+category = "main"
+optional = false
+python-versions = "*"
+
+[package.dependencies]
+httpx = {version = "*", optional = true, markers = "extra == \"aio\""}
+requests = "*"
+
+[package.extras]
+aio = ["httpx"]
+
+[[package]]
 name = "tgcrypto"
 version = "1.2.2"
 description = "Fast Telegram Crypto Library for Python"
@@ -911,7 +926,7 @@ fast = ["uvloop"]
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.7"
-content-hash = "d6c4e7cc116b6bf0740c5e314bf263faf8083e5dabd2fd16e0db40f6a4abd10a"
+content-hash = "6d93b21790b7451ec6df48b5511790cae25ef70afd83bdabd7b1d0d7f1fe81a0"
 
 [metadata.files]
 aiofiles = [
@@ -1634,6 +1649,10 @@ sniffio = [
 soupsieve = [
     {file = "soupsieve-2.3.1-py3-none-any.whl", hash = "sha256:1a3cca2617c6b38c0343ed661b1fa5de5637f257d4fe22bd9f1338010a1efefb"},
     {file = "soupsieve-2.3.1.tar.gz", hash = "sha256:b8d49b1cd4f037c7082a9683dfa1801aa2597fb11c3a1155b7a5b94829b4f1f9"},
+]
+telegraph = [
+    {file = "telegraph-2.1.0-py3-none-any.whl", hash = "sha256:fed87d8fbc4edf1f57de575d9f9bf1baf0a626341e97b8452e59144c0decd8ba"},
+    {file = "telegraph-2.1.0.tar.gz", hash = "sha256:7ea37bc8708da3fe366827cabfd93bec58b6fa080cd65dec7fb5f97285225690"},
 ]
 tgcrypto = [
     {file = "TgCrypto-1.2.2-cp36-cp36m-macosx_10_9_x86_64.whl", hash = "sha256:2073aa6bbc809a56ae3d54e0f496cacaee6e5cb7c08682153c992eae72b4fbb8"},
