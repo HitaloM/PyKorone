@@ -20,7 +20,6 @@ import html
 import os
 import random
 import shutil
-import string
 import tempfile
 from datetime import datetime
 from typing import Iterable
@@ -405,35 +404,6 @@ async def b64d(c: Korone, m: Message):
     except binascii.Error as e:
         return await m.reply_text(f"⚠️ Dados base64 inválidos: <code>{e}</code>")
     await m.reply_text(html.escape(b64))
-
-
-@Korone.on_message(filters.cmd(command="empty", action="Envia uma mensagem vazia."))
-async def empty(c: Korone, m: Message):
-    await c.send_message(
-        chat_id=m.chat.id,
-        reply_to_message_id=m.message_id,
-        text="\U000e0020",
-    )
-
-
-@Korone.on_message(
-    filters.cmd(
-        command="gencode",
-        action="Gera códigos falsos no estilo da Play Store.",
-    )
-)
-async def gencode(c: Korone, m: Message):
-    count = 10
-    length = 23
-
-    codes = []
-    alphabet = string.ascii_uppercase + string.digits
-    for _ in range(count):
-        code = "".join(random.choice(alphabet) for _ in range(length))
-        codes.append(code)
-
-    codes_str = "\n".join(codes)
-    await m.reply_text(f"<code>{codes_str}</code>")
 
 
 @Korone.on_message(filters.regex(r"^s/(.+)?/(.+)?(/.+)?") & filters.reply)
