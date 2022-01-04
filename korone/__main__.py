@@ -18,7 +18,6 @@ import asyncio
 import logging
 
 import aiohttp
-import httpx
 import pyrogram
 from pyrogram.session import Session
 from rich import box
@@ -75,7 +74,7 @@ async def close_http() -> None:
     await aiohttp.ClientSession().close()
 
     # Closing the httpx session use by the bot.
-    await httpx.AsyncClient().aclose()
+    await http.aclose()
 
 
 if __name__ == "__main__":
