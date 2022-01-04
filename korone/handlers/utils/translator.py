@@ -22,7 +22,7 @@ tr = Translator()
 
 
 # See https://cloud.google.com/translate/docs/languages
-LANGUAGES: Iterable[str] = [
+LANGUAGES: Iterable[str] = (
     "af",
     "sq",
     "am",
@@ -132,7 +132,7 @@ LANGUAGES: Iterable[str] = [
     "yi",
     "yo",
     "zu",
-]
+)
 
 
 def get_tr_lang(text):

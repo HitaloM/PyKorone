@@ -484,7 +484,7 @@ async def getsticker(c: Korone, m: Message):
 )
 async def chat_info(c: Korone, m: Message):
     args = m.matches[0]["text"]
-    CHAT_TYPES: Iterable[str] = ["channel", "group", "supergroup"]
+    CHAT_TYPES: Iterable[str] = ("channel", "group", "supergroup")
 
     try:
         chat = await c.get_chat(args) if args else await c.get_chat(m.chat.id)
