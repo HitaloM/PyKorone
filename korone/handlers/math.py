@@ -14,12 +14,14 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-import pynewton
+from urllib.parse import quote
+
 from pyrogram import filters
 from pyrogram.types import Message
 
 from korone.handlers import COMMANDS_HELP
 from korone.korone import Korone
+from korone.utils import http
 
 GROUP = "math"
 
@@ -30,112 +32,194 @@ COMMANDS_HELP[GROUP] = {
     "help": True,
 }
 
-done_text = "<b>Expressão:</b> <code>{}</code>\n<b>Resultado:</b> <code>{}</code>"
+done_text: str = "<b>Expressão:</b> <code>{}</code>\n<b>Resultado:</b> <code>{}</code>"
+err_text: str = "Algo deu errado na requisição da API, tente novamente mais tarde..."
+
+url: str = "https://newton.now.sh/api/v2/{}/{}"
+
+
+def encoded(expression):
+    return quote(expression, safe="")
 
 
 @Korone.on_message(filters.cmd("simplify (?P<calc>.+)", group=GROUP))
 async def simplify_math(c: Korone, m: Message):
     calc = m.matches[0]["calc"]
-    result = await pynewton.simplify(calc)
-    await m.reply_text((done_text).format(calc, result))
+    req = await http.get(url.format("simplify", encoded(calc)))
+    if req.status_code == 200:
+        r = req.json()
+    else:
+        await m.reply_text(err_text)
+        return
+    await m.reply_text((done_text).format(calc, r["result"]))
 
 
 @Korone.on_message(filters.cmd("factor (?P<calc>.+)", group=GROUP))
 async def factor_math(c: Korone, m: Message):
     calc = m.matches[0]["calc"]
-    result = await pynewton.factor(calc)
-    await m.reply_text((done_text).format(calc, result))
+    req = await http.get(url.format("factor", encoded(calc)))
+    if req.status_code == 200:
+        r = req.json()
+    else:
+        await m.reply_text(err_text)
+        return
+    await m.reply_text((done_text).format(calc, r["result"]))
 
 
 @Korone.on_message(filters.cmd("derive (?P<calc>.+)", group=GROUP))
 async def derive_math(c: Korone, m: Message):
     calc = m.matches[0]["calc"]
-    result = await pynewton.derive(calc)
-    await m.reply_text((done_text).format(calc, result))
+    req = await http.get(url.format("derive", encoded(calc)))
+    if req.status_code == 200:
+        r = req.json()
+    else:
+        await m.reply_text(err_text)
+        return
+    await m.reply_text((done_text).format(calc, r["result"]))
 
 
 @Korone.on_message(filters.cmd("integrate (?P<calc>.+)", group=GROUP))
 async def integrate_math(c: Korone, m: Message):
     calc = m.matches[0]["calc"]
-    result = await pynewton.integrate(calc)
-    await m.reply_text((done_text).format(calc, result))
+    req = await http.get(url.format("integrate", encoded(calc)))
+    if req.status_code == 200:
+        r = req.json()
+    else:
+        await m.reply_text(err_text)
+        return
+    await m.reply_text((done_text).format(calc, r["result"]))
 
 
 @Korone.on_message(filters.cmd("zeroes (?P<calc>.+)", group=GROUP))
 async def zeroes_math(c: Korone, m: Message):
     calc = m.matches[0]["calc"]
-    result = await pynewton.zeroes(calc)
-    await m.reply_text((done_text).format(calc, result))
+    req = await http.get(url.format("zeroes", encoded(calc)))
+    if req.status_code == 200:
+        r = req.json()
+    else:
+        await m.reply_text(err_text)
+        return
+    await m.reply_text((done_text).format(calc, r["result"]))
 
 
 @Korone.on_message(filters.cmd("tangent (?P<calc>.+)", group=GROUP))
 async def tangent_math(c: Korone, m: Message):
     calc = m.matches[0]["calc"]
-    result = await pynewton.tangent(calc)
-    await m.reply_text((done_text).format(calc, result))
+    req = await http.get(url.format("tangent", encoded(calc)))
+    if req.status_code == 200:
+        r = req.json()
+    else:
+        await m.reply_text(err_text)
+        return
+    await m.reply_text((done_text).format(calc, r["result"]))
 
 
 @Korone.on_message(filters.cmd("area (?P<calc>.+)", group=GROUP))
 async def area_math(c: Korone, m: Message):
     calc = m.matches[0]["calc"]
-    result = await pynewton.area(calc)
-    await m.reply_text((done_text).format(calc, result))
+    req = await http.get(url.format("area", encoded(calc)))
+    if req.status_code == 200:
+        r = req.json()
+    else:
+        await m.reply_text(err_text)
+        return
+    await m.reply_text((done_text).format(calc, r["result"]))
 
 
 @Korone.on_message(filters.cmd("cos (?P<calc>.+)", group=GROUP))
 async def xos_math(c: Korone, m: Message):
     calc = m.matches[0]["calc"]
-    result = await pynewton.cos(calc)
-    await m.reply_text((done_text).format(calc, result))
+    req = await http.get(url.format("cos", encoded(calc)))
+    if req.status_code == 200:
+        r = req.json()
+    else:
+        await m.reply_text(err_text)
+        return
+    await m.reply_text((done_text).format(calc, r["result"]))
 
 
 @Korone.on_message(filters.cmd("sin (?P<calc>.+)", group=GROUP))
 async def sin_math(c: Korone, m: Message):
     calc = m.matches[0]["calc"]
-    result = await pynewton.sin(calc)
-    await m.reply_text((done_text).format(calc, result))
+    req = await http.get(url.format("sin", encoded(calc)))
+    if req.status_code == 200:
+        r = req.json()
+    else:
+        await m.reply_text(err_text)
+        return
+    await m.reply_text((done_text).format(calc, r["result"]))
 
 
 @Korone.on_message(filters.cmd("tan (?P<calc>.+)", group=GROUP))
 async def tan_math(c: Korone, m: Message):
     calc = m.matches[0]["calc"]
-    result = await pynewton.tan(calc)
-    await m.reply_text((done_text).format(calc, result))
+    req = await http.get(url.format("tan", encoded(calc)))
+    if req.status_code == 200:
+        r = req.json()
+    else:
+        await m.reply_text(err_text)
+        return
+    await m.reply_text((done_text).format(calc, r["result"]))
 
 
 @Korone.on_message(filters.cmd("accos (?P<calc>.+)", group=GROUP))
 async def accos_math(c: Korone, m: Message):
     calc = m.matches[0]["calc"]
-    result = await pynewton.accos(calc)
-    await m.reply_text((done_text).format(calc, result))
+    req = await http.get(url.format("accos", encoded(calc)))
+    if req.status_code == 200:
+        r = req.json()
+    else:
+        await m.reply_text(err_text)
+        return
+    await m.reply_text((done_text).format(calc, r["result"]))
 
 
 @Korone.on_message(filters.cmd("arcsin (?P<calc>.+)", group=GROUP))
 async def arcsin_math(c: Korone, m: Message):
     calc = m.matches[0]["calc"]
-    result = await pynewton.arcsin(calc)
-    await m.reply_text((done_text).format(calc, result))
+    req = await http.get(url.format("arcsin", encoded(calc)))
+    if req.status_code == 200:
+        r = req.json()
+    else:
+        await m.reply_text(err_text)
+        return
+    await m.reply_text((done_text).format(calc, r["result"]))
 
 
 @Korone.on_message(filters.cmd("arctan (?P<calc>.+)", group=GROUP))
 async def arctan_math(c: Korone, m: Message):
     calc = m.matches[0]["calc"]
-    result = await pynewton.arctan(calc)
-    await m.reply_text((done_text).format(calc, result))
+    req = await http.get(url.format("arctan", encoded(calc)))
+    if req.status_code == 200:
+        r = req.json()
+    else:
+        await m.reply_text(err_text)
+        return
+    await m.reply_text((done_text).format(calc, r["result"]))
 
 
 @Korone.on_message(filters.cmd("abs (?P<calc>.+)", group=GROUP))
 async def abs_math(c: Korone, m: Message):
     calc = m.matches[0]["calc"]
-    result = await pynewton.abs(calc)
-    await m.reply_text((done_text).format(calc, result))
+    req = await http.get(url.format("abs", encoded(calc)))
+    if req.status_code == 200:
+        r = req.json()
+    else:
+        await m.reply_text(err_text)
+        return
+    await m.reply_text((done_text).format(calc, r["result"]))
 
 
 @Korone.on_message(filters.cmd("log (?P<calc>.+)", group=GROUP))
 async def log_math(c: Korone, m: Message):
     calc = m.matches[0]["calc"]
-    result = await pynewton.log(calc)
-    await m.reply_text((done_text).format(calc, result))
+    req = await http.get(url.format("log", encoded(calc)))
+    if req.status_code == 200:
+        r = req.json()
+    else:
+        await m.reply_text(err_text)
+        return
+    await m.reply_text((done_text).format(calc, r["result"]))
 
 
 @Korone.on_message(

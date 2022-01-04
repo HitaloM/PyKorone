@@ -607,24 +607,6 @@ optional = false
 python-versions = ">=3.5"
 
 [[package]]
-name = "pynewton"
-version = "1.1.2"
-description = "An asyncio-based wrapper for the newton-api"
-category = "main"
-optional = false
-python-versions = "^3.6"
-develop = false
-
-[package.dependencies]
-httpx = {version = ">=0.19.0", extras = ["http2"]}
-
-[package.source]
-type = "git"
-url = "https://github.com/HitaloSama/pynewton.git"
-reference = "main"
-resolved_reference = "198e8a7ad55bf33a5cc6512c8aad32dfbee6213c"
-
-[[package]]
 name = "Pyrogram"
 version = "1.2.9.amn"
 description = "Telegram MTProto API Client Library and Framework for Python - Amano's experimental fork"
@@ -929,7 +911,7 @@ fast = ["uvloop"]
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.7"
-content-hash = "91cdee21866dfeccfb91bbc7e880dce423f08f8a50ee9994e941b371d0cda313"
+content-hash = "d6c4e7cc116b6bf0740c5e314bf263faf8083e5dabd2fd16e0db40f6a4abd10a"
 
 [metadata.files]
 aiofiles = [
@@ -1483,7 +1465,6 @@ pygments = [
     {file = "Pygments-2.11.1-py3-none-any.whl", hash = "sha256:9135c1af61eec0f650cd1ea1ed8ce298e54d56bcd8cc2ef46edd7702c171337c"},
     {file = "Pygments-2.11.1.tar.gz", hash = "sha256:59b895e326f0fb0d733fd28c6839bd18ad0687ba20efc26d4277fd1d30b971f4"},
 ]
-pynewton = []
 Pyrogram = []
 pysocks = [
     {file = "PySocks-1.7.1-py27-none-any.whl", hash = "sha256:08e69f092cc6dbe92a0fdd16eeb9b9ffbc13cadfe5ca4c7bd92ffb078b293299"},
