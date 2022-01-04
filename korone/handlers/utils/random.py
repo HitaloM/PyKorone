@@ -14,16 +14,16 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-from typing import List
+from typing import Iterable, List
 
-SHUTUP_REACT: List[str] = (
+SHUTUP_REACT: Iterable[str] = (
     "Não vou calar >>:c",
     "Você é que está incomodando! TwT",
     "Não vou calar >:(",
     "Você é que está incomodando! T^T",
 )
 
-NONE_CMD: List[str] = (
+NONE_CMD: Iterable[str] = (
     "Nani...? :'c",
     "....?",
     "*jiiii*",
@@ -35,7 +35,7 @@ NONE_CMD: List[str] = (
     "Compreendo! U~U\n*realmente não entendo*",
 )
 
-HELLO: List[str] = (
+HELLO: Iterable[str] = (
     "À sua disposição {}! ^^",
     "Sim? *^^^*",
     "Nya! Ao seu serviço ~",
@@ -46,9 +46,9 @@ HELLO: List[str] = (
     "{}! Estou aqui! :3",
 )
 
-REACTIONS: List[str] = ("T^T", "q.q", "*A*", "qwq", "*-*", "TwT")
+REACTIONS: Iterable[str] = ("T^T", "q.q", "*A*", "qwq", "*-*", "TwT")
 
-REACTS: List[str] = (
+REACTS: Iterable[str] = (
     "( ͡° ͜ʖ ͡°)",
     "( . •́ _ʖ •̀ .)",
     "( ಠ ͜ʖ ಠ)",
@@ -253,17 +253,17 @@ REACTS: List[str] = (
     "(∩ᄑ_ᄑ)⊃━☆ﾟ*･｡*･:≡( ε:)",
 )
 
-CATCH_REACT: List[str] = (
+CATCH_REACT: Iterable[str] = (
     "*salta no {}*\nEu peguei elee!!! ",
     "*persegue {} mas cai e se machuca* ",
     "*come um cookie e ignora* ",
 )
 
-FUCK_REACT: List[str] = ("((ﾉ◉Д◉)ﾉ ﾐ ┸━┸", "(ﾉ≧∇≦)ﾉ ﾐ ┸━┸")
+FUCK_REACT: Iterable[str] = ("((ﾉ◉Д◉)ﾉ ﾐ ┸━┸", "(ﾉ≧∇≦)ﾉ ﾐ ┸━┸")
 
-AYY_REACT: List[str] = ("lmao", "lol")
+AYY_REACT: Iterable[str] = ("lmao", "lol")
 
-UWU_REACT: List[str] = (
+UWU_REACT: Iterable[str] = (
     "UWU",
     "uwu",
     "(・`ω´・)",
@@ -281,9 +281,9 @@ UWU_REACT: List[str] = (
     "(>_",
 )
 
-DOGE_REACT: List[str] = ("₍^•ﻌ•^₎", "ʕ •ᴥ•ʔ")
+DOGE_REACT: Iterable[str] = ("₍^•ﻌ•^₎", "ʕ •ᴥ•ʔ")
 
-SHRUGS_REACT: List[str] = (
+SHRUGS_REACT: Iterable[str] = (
     "┐(´д｀)┌",
     "┐(´～｀)┌",
     "┐(´ー｀)┌",
@@ -309,7 +309,7 @@ SHRUGS_REACT: List[str] = (
     "乁( ⁰͡  Ĺ̯ ⁰͡ ) ㄏ",
 )
 
-PASTAMOJIS: List[str] = [
+PASTAMOJIS: Iterable[str] = [
     "😂",
     "😂",
     "👌",
@@ -340,35 +340,35 @@ PASTAMOJIS: List[str] = [
     "🚰",
 ]
 
-BANHAMMERS: List[str] = (
+BANHAMMERS: Iterable[str] = (
     "CAACAgQAAx0CT2XwHwACV-Nf78g1TSCO_mWtKhTbpOdalpdNHAACzwEAAgYlKAMdkZFHZv_nNR4E",
     "CAACAgQAAx0CT2XwHwACWAABX-_J6flwJKzep9rYUQttGXJzcwQAAtEBAAIGJSgDDFVJta1mslAeBA",
     "CAACAgQAAx0CT2XwHwACWDlf78oRiyeopP7i4rPx_k62hLyOGgACxgEAAgYlKANkSj4WKRcTjx4E",
 )
 
-THONKI: List[str] = (
+THONKI: Iterable[str] = (
     "CAACAgEAAx0ET2XwHwAChbtgKDFjTKT4gS1_TCTWbemTgUt1CgAChQIAAjFpvDbZqTY8tHUWIB4E",
     "CAACAgEAAx0ET2XwHwAChb1gKDFe9FutzBHdVCNPeHBTDlXwggAChAIAAjFpvDZrJcSmknKKjh4E",
 )
 
-WHATSUP_REACT: List[str] = (
+WHATSUP_REACT: Iterable[str] = (
     "Ah, tudo está bem eu acho ~\nGostaria de um cookie? ❤️",
     "Tudo bem ~\nVocê quer um café? UwU",
 )
 
-IMBACK_REACT: List[str] = (
+IMBACK_REACT: Iterable[str] = (
     "*abraça {} feliz!* ^^",
     "Oi {}!\n*feliz* ^^",
 )
 
-HEY_REACT: List[str] = (
+HEY_REACT: Iterable[str] = (
     "Oi oi!\nPosso te ajudar?\nTalvez você queira alguns cookies? ~",
     "Olá {}!",
     "Oiiii {}!!",
     "Konnichiwa!",
 )
 
-INSULTS_REACT: List[str] = (
+INSULTS_REACT: Iterable[str] = (
     "Eu te odeio tanto...",
     "...*ignora*",
     "Sério??? Pare de me irritar.",
@@ -378,7 +378,7 @@ INSULTS_REACT: List[str] = (
     "P-pare com isso! Se não vou te morder.",
 )
 
-GODZILLA_REACT: List[str] = (
+GODZILLA_REACT: Iterable[str] = (
     "CAACAgEAAx0CT2XwHwACZ8VgEalzogHKIB6GOomJcIPMvj69MgACewIAAjFpvDYR3evaimLigx4E",
     "CAACAgEAAx0ET2XwHwACZ8BgEaiT3myRjGfAT78aIhQF-97E9AACegIAAjFpvDYFlDbmHd0CJR4E",
 )

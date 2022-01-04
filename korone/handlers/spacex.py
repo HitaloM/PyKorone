@@ -15,7 +15,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 from datetime import datetime
-from typing import List
+from typing import Iterable
 
 from pyrogram import filters
 from pyrogram.types import Message
@@ -85,7 +85,7 @@ async def spacex_wiki(c: Korone, m: Message):
 async def spacex_launch(c: Korone, m: Message):
     arg = m.matches[0]["args"]
 
-    args_list: List[str] = ["latest", "next"]
+    args_list: Iterable[str] = ["latest", "next"]
 
     if arg not in args_list:
         await m.reply_text(
