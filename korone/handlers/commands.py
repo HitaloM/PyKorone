@@ -286,8 +286,12 @@ async def cat_photo(c: Korone, m: Message):
     r = await http.get("https://api.thecatapi.com/v1/images/search")
     if r.status_code != 200:
         return await m.reply_text(f"<b>Error!</b> <code>{r.status_code}</code>")
-    cat = r.json
-    await m.reply_photo(cat()[0]["url"], caption="Meow!! (^つωฅ^)")
+    caption = "Meow!! (^つωฅ^)"
+    cat = r.json()
+    if cat[0]["url"].endswith(".gif"):
+        await m.reply_animation(cat[0]["url"], caption=caption)
+    else:
+        await m.reply_photo(cat[0]["url"], caption=caption)
 
 
 @Korone.on_message(
