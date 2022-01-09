@@ -42,9 +42,6 @@ def command_filter(
     async def func(flt, client: Client, message: Message):
         value = message.text or message.caption
 
-        if bool(message.edit_date):
-            return False
-
         if bool(value):
             command = value.split()[0]
             if "@" in command:

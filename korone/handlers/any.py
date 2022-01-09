@@ -27,6 +27,11 @@ from pyrogram.types import (
 from korone.korone import Korone
 
 
+@Korone.on_message(filters.edited)
+async def reject_edited(c: Korone, m: Message):
+    m.stop_propagation()
+
+
 @Korone.on_message(filters.new_chat_members)
 async def thanks_for(c: Korone, m: Message):
     if c.me.id in [x.id for x in m.new_chat_members]:
