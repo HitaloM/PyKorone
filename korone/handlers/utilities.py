@@ -441,6 +441,9 @@ async def cli_ytdl(c, cq: CallbackQuery):
     ttemp = f"⏰ {datetime.timedelta(seconds=int(temp))} | " if int(temp) else ""
     thumb = io.BytesIO((await http.get(yt["thumbnail"])).content)
     thumb.name = "thumbnail.jpeg"
+    caption = f"{ttemp} <a href='{yt['webpage_url']}'>{yt['title']}</a></b>"
+    caption += "\n<b>Views:</b> <code>{:,}</code>".format(yt["view_count"])
+    caption += "\n<b>Likes:</b> <code>{:,}</code>".format(yt["like_count"])
     if "vid" in data:
         try:
             await c.send_chat_action(cq.message.chat.id, "upload_video")
@@ -449,7 +452,7 @@ async def cli_ytdl(c, cq: CallbackQuery):
                 video=filename,
                 width=1920,
                 height=1080,
-                caption=f"{ttemp} <a href='{yt['webpage_url']}'>{yt['title']}</a></b>",
+                caption=caption,
                 duration=yt["duration"],
                 thumb=thumb,
                 reply_to_message_id=int(mid),
@@ -475,7 +478,7 @@ async def cli_ytdl(c, cq: CallbackQuery):
             await c.send_audio(
                 chat_id=cq.message.chat.id,
                 audio=filename,
-                caption=f"{ttemp} <a href='{yt['webpage_url']}'>{yt['title']}</a></b>",
+                caption=caption,
                 title=title,
                 performer=performer,
                 duration=yt["duration"],
