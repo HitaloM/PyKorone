@@ -38,7 +38,7 @@ jikanpy = "4.3.2"
 asyncpraw = "7.5.0"
 gpytranslate = "1.4.0"
 wikipedia = {git = "https://github.com/HitaloSama/Wikipedia"}
-regex = "2021.11.10"
+regex = "2022.1.18"
 lxml = "4.7.1"
 async-files = "0.4"
 humanize = "3.13.1"
