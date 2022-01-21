@@ -608,7 +608,7 @@ python-versions = ">=3.5"
 
 [[package]]
 name = "Pyrogram"
-version = "1.3.5.amn"
+version = "1.3.6.amn"
 description = "Elegant, modern and asynchronous Telegram MTProto API framework in Python for users and bots - Amano's experimental fork"
 category = "main"
 optional = false
@@ -624,7 +624,7 @@ pysocks = "1.7.1"
 type = "git"
 url = "https://github.com/AmanoTeam/pyrogram"
 reference = "master"
-resolved_reference = "4a67793829103446890f820fad57a1a242ee4edc"
+resolved_reference = "a2f11d94d7738ef9c7c9008a214f9838292a510d"
 
 [[package]]
 name = "pysocks"
@@ -714,7 +714,7 @@ jupyter = ["ipywidgets (>=7.5.1,<8.0.0)"]
 
 [[package]]
 name = "sentry-sdk"
-version = "1.5.2"
+version = "1.5.3"
 description = "Python client for Sentry (https://sentry.io)"
 category = "main"
 optional = false
@@ -927,7 +927,7 @@ fast = ["uvloop"]
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.7"
-content-hash = "75169bc93af35cc33819b5d45915297c5567485fd00f18d5fc6bc5438346d26f"
+content-hash = "6c000ac4a23ac7176965cbf8352731e75f1206cd3d7a3351b109ce5edd9ed5b2"
 
 [metadata.files]
 aiofiles = [
@@ -1582,8 +1582,8 @@ rich = [
     {file = "rich-11.0.0.tar.gz", hash = "sha256:c32a8340b21c75931f157466fefe81ae10b92c36a5ea34524dff3767238774a4"},
 ]
 sentry-sdk = [
-    {file = "sentry-sdk-1.5.2.tar.gz", hash = "sha256:7bbaa32bba806ec629962f207b597e86831c7ee2c1f287c21ba7de7fea9a9c46"},
-    {file = "sentry_sdk-1.5.2-py2.py3-none-any.whl", hash = "sha256:2cec50166bcb67e1965f8073541b2321e3864cd6fd42a526bcde9f0c4e4cc3f8"},
+    {file = "sentry-sdk-1.5.3.tar.gz", hash = "sha256:141da032f0fa4c56f9af6b361fda57360af1789576285bd1944561f9c274f9c0"},
+    {file = "sentry_sdk-1.5.3-py2.py3-none-any.whl", hash = "sha256:9aeff2a47f4038460296b920bf4d269284e8454e1c67547ee002ccafd9c2442b"},
 ]
 simplejson = [
     {file = "simplejson-3.17.6-cp27-cp27m-macosx_10_9_x86_64.whl", hash = "sha256:a89acae02b2975b1f8e4974cb8cdf9bf9f6c91162fb8dec50c259ce700f2770a"},
