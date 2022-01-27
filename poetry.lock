@@ -358,7 +358,7 @@ python-versions = ">=3.6.1"
 
 [[package]]
 name = "httpcore"
-version = "0.14.3"
+version = "0.14.5"
 description = "A minimal low-level HTTP client."
 category = "main"
 optional = false
@@ -372,10 +372,11 @@ sniffio = ">=1.0.0,<2.0.0"
 
 [package.extras]
 http2 = ["h2 (>=3,<5)"]
+socks = ["socksio (>=1.0.0,<2.0.0)"]
 
 [[package]]
 name = "httpx"
-version = "0.21.3"
+version = "0.22.0"
 description = "The next generation HTTP client."
 category = "main"
 optional = false
@@ -385,7 +386,7 @@ python-versions = ">=3.6"
 certifi = "*"
 charset-normalizer = "*"
 h2 = {version = ">=3,<5", optional = true, markers = "extra == \"http2\""}
-httpcore = ">=0.14.0,<0.15.0"
+httpcore = ">=0.14.5,<0.15.0"
 rfc3986 = {version = ">=1.3,<2", extras = ["idna2008"]}
 sniffio = "*"
 
@@ -393,6 +394,7 @@ sniffio = "*"
 brotli = ["brotlicffi", "brotli"]
 cli = ["click (>=8.0.0,<9.0.0)", "rich (>=10.0.0,<11.0.0)", "pygments (>=2.0.0,<3.0.0)"]
 http2 = ["h2 (>=3,<5)"]
+socks = ["socksio (>=1.0.0,<2.0.0)"]
 
 [[package]]
 name = "humanize"
@@ -927,7 +929,7 @@ fast = ["uvloop"]
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.7"
-content-hash = "ffeafd79d272d1182da3b8048c3c6cd98742f4fabe08278ba93967ccb54ad793"
+content-hash = "18ae0a9db0041915859bfcc777cea99a5137ef04451e17187cc14383a8841bdf"
 
 [metadata.files]
 aiofiles = [
@@ -1177,12 +1179,12 @@ hpack = [
     {file = "hpack-4.0.0.tar.gz", hash = "sha256:fc41de0c63e687ebffde81187a948221294896f6bdc0ae2312708df339430095"},
 ]
 httpcore = [
-    {file = "httpcore-0.14.3-py3-none-any.whl", hash = "sha256:9a98d2416b78976fc5396ff1f6b26ae9885efbb3105d24eed490f20ab4c95ec1"},
-    {file = "httpcore-0.14.3.tar.gz", hash = "sha256:d10162a63265a0228d5807964bd964478cbdb5178f9a2eedfebb2faba27eef5d"},
+    {file = "httpcore-0.14.5-py3-none-any.whl", hash = "sha256:2621ee769d0236574df51b305c5f4c69ca8f0c7b215221ad247b1ee42a9a9de1"},
+    {file = "httpcore-0.14.5.tar.gz", hash = "sha256:435ab519628a6e2393f67812dea3ca5c6ad23b457412cd119295d9f906d96a2b"},
 ]
 httpx = [
-    {file = "httpx-0.21.3-py3-none-any.whl", hash = "sha256:df9a0fd43fa79dbab411d83eb1ea6f7a525c96ad92e60c2d7f40388971b25777"},
-    {file = "httpx-0.21.3.tar.gz", hash = "sha256:7a3eb67ef0b8abbd6d9402248ef2f84a76080fa1c839f8662e6eb385640e445a"},
+    {file = "httpx-0.22.0-py3-none-any.whl", hash = "sha256:e35e83d1d2b9b2a609ef367cc4c1e66fd80b750348b20cc9e19d1952fc2ca3f6"},
+    {file = "httpx-0.22.0.tar.gz", hash = "sha256:d8e778f76d9bbd46af49e7f062467e3157a5a3d2ae4876a4bbfd8a51ed9c9cb4"},
 ]
 humanize = [
     {file = "humanize-3.13.1-py3-none-any.whl", hash = "sha256:a6f7cc1597db69a4e571ad5e19b4da07ee871da5a9de2b233dbfab02d98e9754"},
