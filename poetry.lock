@@ -606,7 +606,7 @@ python-versions = ">=3.5"
 
 [[package]]
 name = "Pyrogram"
-version = "1.4.0.amn"
+version = "1.4.1.amn"
 description = "Elegant, modern and asynchronous Telegram MTProto API framework in Python for users and bots - Amano's experimental fork"
 category = "main"
 optional = false
@@ -622,7 +622,7 @@ pysocks = "1.7.1"
 type = "git"
 url = "https://github.com/AmanoTeam/pyrogram"
 reference = "master"
-resolved_reference = "a64bf3b5572b1fce5911dac76d10906ad7ca48c7"
+resolved_reference = "d9974ce87ad14e62acac809112c5aa00b7cbe820"
 
 [[package]]
 name = "pysocks"
@@ -896,7 +896,7 @@ typing-extensions = {version = ">=3.7.4", markers = "python_version < \"3.8\""}
 
 [[package]]
 name = "yt-dlp"
-version = "2022.1.21"
+version = "2022.2.4"
 description = "A youtube-dl fork with additional features and patches"
 category = "main"
 optional = false
@@ -925,7 +925,7 @@ fast = ["uvloop"]
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.7"
-content-hash = "b865aa133b337549eba2f3f8e98171ea3c533d736ad79e50b60082aa8d56f198"
+content-hash = "af74abe540afc5403ec413a4ac8aac8a9ccccd7edb4a7a8b8c51b451a487b446"
 
 [metadata.files]
 aiofiles = [
@@ -1387,6 +1387,9 @@ pathspec = [
     {file = "pathspec-0.9.0.tar.gz", hash = "sha256:e564499435a2673d586f6b2130bb5b95f04a3ba06f81b8f895b651a3c76aabb1"},
 ]
 pillow = [
+    {file = "Pillow-9.0.1-1-cp310-cp310-macosx_11_0_arm64.whl", hash = "sha256:a5d24e1d674dd9d72c66ad3ea9131322819ff86250b30dc5821cbafcfa0b96b4"},
+    {file = "Pillow-9.0.1-1-cp38-cp38-macosx_11_0_arm64.whl", hash = "sha256:2632d0f846b7c7600edf53c48f8f9f1e13e62f66a6dbc15191029d950bfed976"},
+    {file = "Pillow-9.0.1-1-cp39-cp39-macosx_11_0_arm64.whl", hash = "sha256:b9618823bd237c0d2575283f2939655f54d51b4527ec3972907a927acbcc5bfc"},
     {file = "Pillow-9.0.1-cp310-cp310-macosx_10_10_universal2.whl", hash = "sha256:9bfdb82cdfeccec50aad441afc332faf8606dfa5e8efd18a6692b5d6e79f00fd"},
     {file = "Pillow-9.0.1-cp310-cp310-macosx_11_0_arm64.whl", hash = "sha256:5100b45a4638e3c00e4d2320d3193bdabb2d75e79793af7c3eb139e4f569f16f"},
     {file = "Pillow-9.0.1-cp310-cp310-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:528a2a692c65dd5cafc130de286030af251d2ee0483a5bf50c9348aefe834e8a"},
@@ -1897,8 +1900,8 @@ yarl = [
     {file = "yarl-1.7.2.tar.gz", hash = "sha256:45399b46d60c253327a460e99856752009fcee5f5d3c80b2f7c0cae1c38d56dd"},
 ]
 yt-dlp = [
-    {file = "yt-dlp-2022.1.21.tar.gz", hash = "sha256:220ec407389b5ea72e25dfc11c30e543489b90075c55311d5255e2045db8a9e2"},
-    {file = "yt_dlp-2022.1.21-py2.py3-none-any.whl", hash = "sha256:182903b78a4645edd504dcd9f2603f76f9fdaf8bd279fd45d01992f7637b6d8a"},
+    {file = "yt-dlp-2022.2.4.tar.gz", hash = "sha256:81b50ed7cf9cfcc042d8f5a1ad2d1cd7b13c48b36c07faf1880696eac0a7ddb5"},
+    {file = "yt_dlp-2022.2.4-py2.py3-none-any.whl", hash = "sha256:b0051920e066379acba6e253adba8bc1592e2ad1b7923df3a56793a4774b0cee"},
 ]
 zipp = [
     {file = "zipp-3.6.0-py3-none-any.whl", hash = "sha256:9fe5ea21568a0a70e50f273397638d39b03353731e6cbbb3fd8502a33fec40bc"},
