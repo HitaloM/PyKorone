@@ -25,5 +25,5 @@ def get_languages(only_codes: bool = False):
 
 def load_languages():
     for string_file in glob.glob("korone/locales/*.yml"):
-        language_code = re.match("korone/locales/(.+)\.yml$", string_file)[1]
+        language_code = re.match(r"korone/locales/(.+)\.yml$", string_file)[1]
         strings[language_code] = yaml.safe_load(open(string_file, "r"))
