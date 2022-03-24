@@ -3,11 +3,6 @@
 #
 # This file is part of Korone (Telegram Bot)
 
-import asyncio
-import time
-
-from pyrogram.errors import BadRequest, FloodWait
-
 from korone.utils import aiowrap
 
 
