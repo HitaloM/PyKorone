@@ -50,7 +50,9 @@ class Langs:
     code = "en"
     debug = True
 
-    def __init__(self, strings={}, escape_html=False, debug=True, **kwargs):
+    def __init__(self, strings=None, escape_html=False, debug=True, **kwargs):
+        if strings is None:
+            strings = {}
         self.strings = strings
         self.escape_html = escape_html
 
