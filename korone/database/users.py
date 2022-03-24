@@ -28,7 +28,8 @@ async def register_user_by_dict(info: Dict) -> Dict:
         "INSERT INTO users (id, language, registration_time) VALUES (?, ?, ?)",
         (id, language, time.time()),
     )
-    assert conn.total_changes > 0
+    if conn.total_changes <= 0:
+        raise AssertionError
     await conn.commit()
 
     return await get_user_by_id(id)
