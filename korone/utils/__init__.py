@@ -6,20 +6,6 @@
 
 from typing import List
 
-from . import filters
-from .misc import (
-    aiowrap,
-    cleanhtml,
-    client_restart,
-    duck,
-    escape_definition,
-    http,
-    is_windows,
-    leave_if_muted,
-    pretty_size,
-    shell_exec,
-)
-
 __all__: List[str] = [
     "aiowrap",
     "cleanhtml",
