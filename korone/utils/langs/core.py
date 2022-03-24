@@ -33,7 +33,7 @@ class LangString(str):
         mapping.used = []
         formatted = self.format_map(mapping)
 
-        not_used = [key for key in kwargs.keys() if key not in mapping.used]
+        not_used = [key for key in kwargs if key not in mapping.used]
         if self.debug and len(not_used):
             for key in not_used:
                 print(
