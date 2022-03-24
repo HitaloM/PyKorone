@@ -10,6 +10,7 @@ import os
 import re
 import shutil
 import tempfile
+from contextlib import suppress
 from typing import Union
 
 import yt_dlp
@@ -247,7 +248,11 @@ async def on_ttdl(c: Korone, m: Message):
             "format": "mp4",
         }
     )
-    tt = await extract_info(tdl, rege.group(), download=False)
+    try:
+        tt = await extract_info(tdl, rege.group(), download=False)
+    except DownloadError as e:
+        await sent.edit(f"<b>Error!</b>\n<code>{e}</code>")
+        return
 
     for f in tt["formats"]:
         if f["ext"] == "mp4":
@@ -279,8 +284,12 @@ async def on_ttdl(c: Korone, m: Message):
     keyboard = [[("🔗 Tweet", tt["webpage_url"], "url")]]
     await c.send_chat_action(m.chat.id, "upload_video")
     try:
+        vduration = tt["duration"]
+    except KeyError:
+        vduration = None
+    try:
         await c.send_chat_action(m.chat.id, "upload_video")
-        if tt["duration"] and vwidth and vheight:
+        if vduration and vwidth and vheight:
             await m.reply_video(
                 video=filename,
                 thumb=thumb,
@@ -331,7 +340,7 @@ async def on_ytdl(c: Korone, m: Message):
         {
             "outtmpl": "dls/%(title)s-%(id)s.%(ext)s",
             "format": "mp4",
-            "noplaylist": True,
+            "no_playlist": True,
         }
     )
     rege = re.match(
@@ -403,7 +412,8 @@ async def cli_ytdl(c, cq: CallbackQuery):
         )
     vid = re.sub(r"^\_(vid|aud)\.", "", data)
     url = "https://www.youtube.com/watch?v=" + vid
-    await cq.message.edit("Baixando...")
+    with suppress(MessageNotModified):
+        await cq.message.edit("Baixando...")
     await cq.answer("Seu pedido é uma ordem... >-<", cache_time=0)
     with tempfile.TemporaryDirectory() as tempdir:
         path = os.path.join(tempdir, "ytdl")
