@@ -8,7 +8,7 @@ class LangsFormatMap(dict):
     def __getitem__(self, key):
         if key in self:
             self.used.append(key)
-            if type(self.get(key)) == str:
+            if type(self.get(key)) is str:
                 return html.escape(self.get(key)) if self.escape_html else self.get(key)
             else:
                 return self.get(key)
