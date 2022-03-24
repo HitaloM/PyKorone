@@ -425,44 +425,6 @@ async def poke_item_image(c: Korone, m: Message):
 
 @Korone.on_message(
     filters.cmd(
-        command=r"pokedex",
-        action=r"Obtenha informações sobre Pokémons.",
-        group=GROUP,
-    )
-)
-@need_args_dec()
-async def pokedex_cmd(c: Korone, m: Message):
-    pokemon = get_args_str(m)
-    pokedex = f"https://some-random-api.ml/pokedex?pokemon={pokemon}"
-    r = await http.get(pokedex)
-    if r.status_code == 404:
-        await m.reply_text(
-            f"Não foi possível encontrar o Pokémon <code>{pokemon}</code>."
-        )
-        return
-
-    poke = r.json()
-    text = f"<b>Pokémon:</b> <code>{poke['name']}</code>\n"
-    text += f"<b>Pokedex:</b> <code>{poke['id']}</code>\n"
-    text += f"<b>Tipo:</b> <code>{', '.join(str(x) for x in poke['type'])}</code>\n"
-    text += f"<b>Abilidades:</b> <code>{', '.join(str(x) for x in poke['abilities'])}</code>\n"
-    text += f"<b>Altura:</b> <code>{poke['height']}</code>\n"
-    text += f"<b>Peso:</b> <code>{poke['weight']}</code>\n"
-    text += f"<b>Gênero:</b> <code>{', '.join(str(x) for x in poke['gender'])}</code>\n"
-    text += f"<b>Estatísticas:</b> {', '.join([f'{key}: {value}' for key, value in poke['stats'].items()])}\n"
-    text += f"\n<b>Descrição:</b> <i>{poke['description']}</i>"
-
-    poke_img = f"https://img.pokemondb.net/artwork/large/{pokemon}.jpg"
-    p = await http.get(poke_img)
-    sprite = p.status_code != "404"
-    if sprite:
-        await m.reply_photo(photo=poke_img, caption=text)
-    else:
-        await m.reply_text(text)
-
-
-@Korone.on_message(
-    filters.cmd(
         command=r"whatanime",
         action=r"Pesquisa reversa de animes através de mídias.",
         group=GROUP,
