@@ -96,7 +96,7 @@ async def help_m(c: Korone, m: Message):
     lang = m._lang
     module = m.matches[0]["module"]
     if m.chat.type == "private":
-        if module in COMMANDS_HELP.keys() or module in [
+        if module in COMMANDS_HELP or module in [
             "commands",
             "filters",
             "start",
@@ -104,7 +104,7 @@ async def help_m(c: Korone, m: Message):
             await help_module(c, m, module)
         else:
             await m.reply_text(lang.module_not_found.format(module_name=module))
-    elif module in COMMANDS_HELP.keys():
+    elif module in COMMANDS_HELP:
         keyboard = [
             [
                 (
@@ -168,7 +168,7 @@ async def help_module(c: Korone, m: Message, module: str = None):
                 )
         success = True
         keyboard.append([(lang.back_button, "help_start")])
-    elif module in COMMANDS_HELP.keys():
+    elif module in COMMANDS_HELP:
         text = lang.module_text.format(module_name=module)
         module = COMMANDS_HELP[module]
         text += f'\n{module["text"]}\n'
