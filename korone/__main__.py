@@ -1,18 +1,7 @@
+# SPDX-License-Identifier: GPL-3.0
+# Copyright (c) 2020-2022 Amano Team
+#
 # This file is part of Korone (Telegram Bot)
-# Copyright (C) 2022 AmanoTeam
-
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as
-# published by the Free Software Foundation, either version 3 of the
-# License, or (at your option) any later version.
-
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import asyncio
 import logging
@@ -26,6 +15,7 @@ from rich.logging import RichHandler
 from rich.panel import Panel
 
 import korone
+from korone.database import database
 from korone.korone import Korone
 from korone.utils import http, is_windows
 
@@ -78,11 +68,20 @@ async def close_http() -> None:
 
 
 if __name__ == "__main__":
+    # open new asyncio event loop
+    event_policy = asyncio.get_event_loop_policy()
+    event_loop = event_policy.new_event_loop()
     try:
+        # start the bot
+        event_loop.run_until_complete(database.connect())
         Korone().run()
     except KeyboardInterrupt:
+        # exit gracefully
         log.warning("Forced stop... Bye!")
     finally:
-        event_policy = asyncio.get_event_loop_policy()
-        event_loop = event_policy.new_event_loop()
+        # close https connections and the DB if open
         event_loop.run_until_complete(close_http())
+        if database.is_connected:
+            event_loop.run_until_complete(database.close())
+        # close asyncio event loop
+        event_loop.close()

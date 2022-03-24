@@ -1,9 +1,9 @@
 [tool.poetry]
 name = "korone"
-version = "1.7.1"
+version = "2.0.0"
 description = "An interactive and multi-function Telegram bot, made especially for Telegram groups."
 authors = ["Hitalo <contact@amanoteam.com>"]
-license = "GPLv3+"
+license = "GPLv3"
 readme = "README.md"
 repository = "https://github.com/AmanoTeam/PyKorone"
 documentation = "https://github.com/AmanoTeam/PyKorone/blob/main/README.md"
@@ -13,7 +13,6 @@ classifiers = [
     "Development Status :: 5 - Production/Stable",
     "Environment :: Console",
     "Framework :: AsyncIO",
-    "Natural Language :: Portuguese (Brazilian)",
     "License :: OSI Approved :: GNU General Public License v3 or later (GPLv3+)",
     "Operating System :: OS Independent",
     "Topic :: Internet",
@@ -54,7 +53,8 @@ python-anilist = {git = "https://github.com/AmanoTeam/python-anilist", rev = "ma
 telegraph = {version = "2.1.0", extras = ["aio"]}
 
 [tool.poetry.dev-dependencies]
-black = "^22.1"
+black = "^21.12b0"
+isort = "^5.10.1"
 flake8 = "^4.0.1"
 
 [tool.poetry.extras]

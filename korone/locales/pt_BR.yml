@@ -1,0 +1,121 @@
+LANGUAGE_CODE: "pt_BR"
+LANGUAGE_NAME: "Português"
+LANGUAGE_FLAG: "🇧🇷"
+
+# Buttons
+language_button: "{flag} Idioma"
+
+back_button: "⬅️ Voltar"
+
+group_button: "👥 Grupo"
+
+about_button: "ℹ️ Sobre"
+
+help_button: "📚 Ajuda"
+
+for_help_button: "Clique aqui para obter ajuda!"
+
+commands_button: "Comandos"
+
+filters_button: "Filtros"
+
+# Interactions
+dice_filter: "Korone, gire um dado"
+
+kick_filter: "Korone, remova ele"
+
+give_me_cookie_filter: "Korone, me d(ê|e) um cookie"
+
+give_cookie_filter: "Korone, d(ê|e) um cookie"
+
+bite_filter: "Korone, morda( ele)?"
+
+hug_filter: "Korone, me abra(c|ç)e"
+
+tell_name_filter: "Korone, qual o nome dele"
+
+catch_him_filter: "Korone, pegue ele"
+
+dadjoke_filter: "Korone, (me )?conte uma piada"
+
+useless_fact_filter: "Korone, (me )?conte um fato"
+
+invitelink_filter: "Korone, qual o link (de convite )?do grupo"
+
+wiki_filter: "Korone, o que é (?P<text>.+)"
+
+jsondump_filter: "Korone, fa(ç|c)a um dump"
+
+thanks_filter: "obrigado"
+
+creator_filter: "(Quem te criou|Quem criou voc(ê|e))"
+
+okay_filter: "(okay|ok)"
+
+ulikecoffe_filter: "voc(e|ê) gosta de caf(é|e)"
+
+hello_filter: "(Ol(á|a)|Oi|Eae|Hi|Hello|Hey)"
+
+insult_filter: "(Est(ú|u)pido|Puta|Vai se f(o|u)der|Idiota|Ot(á|a)rio|Lixo)"
+
+howru_filter: "(como vai|tudo bem)"
+
+shutup_filter: "(Cala boca|Cala-boca|calaboca)"
+
+imback_filter: "(t(o|ô) de volta|voltei)"
+
+morning_filter: "bom dia"
+
+night_filter: "boa noite"
+
+fuck_filter: "porra"
+
+imsad_filter: "t(ô|o) triste|estou triste"
+
+# General texts
+module_text: "<b>Módulo:</b> <code>{module_name}</code>\n"
+
+choose_module: "Escolha um módulo ou use <code>/help &lt;módulo&gt;</code>.\n"
+
+help_text: "Por favor, selecione uma categoria para obter ajuda!"
+
+go_to_pm: "Ir ao PV"
+
+start_text: |
+  Oi <b>{user}</b>!
+
+  Eu sou o <b>{bot_name}</b>, um bot interativo que adora participar de grupos! ^^
+  <b>Versão:</b> <code>{version_code}</code>
+
+what_i_can_do: "\nVocê pode ver tudo que eu posso fazer clicando no botão abaixo..."
+
+about_text: |
+  🚮 <b>{bot_name}</b> é um bot criado por diversão para o grupo <b>Spam-Therapy</b>.
+  Seu foco é trazer funções legais e um design funcional com tecnologia e criatividade.
+
+  📦 Powered by <a href='https://docs.pyrogram.org/'>Pyrogram</a> with <a href='https://github.com/usernein/pyromod'>Pyromod</a>.
+
+  🗂 <b>Links:</b> <a href='{source_link}'>GitHub</a> | <a href='{group_link}'>Chat</a>
+
+thanks_for_add: "Obrigado por me adicionar em seu grupo! Eu também possuo um grupo (@SpamTherapy) bem divertido, você está mais que convidado(a) a participar!"
+
+language_text: |
+  Seu idioma atual é <b>{lang_name}</b>.
+  Escolha seu novo idioma:
+
+module_not_found: "Desculpe! Não encontrei o módulo <code>{module_name}</code>, verifique sua pesquisa e tente novamente."
+
+to_see_go_pm: "Para ver isso, vá ao meu PV."
+
+module_not_exist: "Este módulo não existe, vá ao meu PV para ver os módulos que possuo!"
+
+to_get_help: "Para obter ajuda vá ao meu PV!"
+
+# Alerts
+language_changed_alert: "O idioma foi alterado para {lang_name}."
+
+not_admin: "Você não é um administrador!"
+
+# Math
+math_done_text: "<b>Expressão:</b> <code>{exp}</code>\n<b>Resultado:</b> <code>{res}</code>"
+math_err_text: "Algo deu errado na requisição da API, tente novamente mais tarde..."

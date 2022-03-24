@@ -1,0 +1,123 @@
+LANGUAGE_CODE: "en"
+LANGUAGE_NAME: "English"
+LANGUAGE_FLAG: "🇺🇸"
+
+# Buttons
+language_button: "{flag} Language"
+
+group_button: "👥 Group"
+
+about_button: "ℹ️ About"
+
+help_button: "📚 Help"
+
+for_help_button: "Click here to get help!"
+
+back_button: "⬅️ Back"
+
+commands_button: "Commands"
+
+filters_button: "Filters"
+
+# Filters
+dice_filter: "Korone, roll a dice"
+
+kick_filter: "Korone, remove it"
+
+give_me_cookie_filter: "Korone, give me a cookie"
+
+give_cookie_filter: "Korone, give a cookie"
+
+bite_filter: "Korone, bite him"
+
+hug_filter: "Korone, hug me"
+
+tell_name_filter: "Korone, What's his name"
+
+catch_him_filter: "Korone, catch him"
+
+dadjoke_filter: "Korone, tell me a joke"
+
+useless_fact_filter: "Korone, Tell me a fact"
+
+invitelink_filter: "Korone, What is the group link"
+
+wiki_filter: "Korone, what is (?P<text>.+)"
+
+jsondump_filter: "Korone, make a Dump"
+
+thanks_filter: "thanks"
+
+creator_filter: "who created you"
+
+okay_filter: "(okay|ok)"
+
+ulikecoffe_filter: "Do you like coffee"
+
+hello_filter: "(Hello|Hi|Hey"
+
+insult_filter: "(Stupid|Bitch|Go fuck yourself|Idiot|Sucker)"
+
+howru_filter: "(How are you|all good)"
+
+shutup_filter: "Shut up"
+
+sex_filter: "(sex+|sexy)"
+
+imback_filter: "(I'm back|I returned)"
+
+morning_filter: "good morning"
+
+night_filter: "good night"
+
+fuck_filter: "fuck"
+
+imsad_filter: "I'm sad"
+
+# General texts
+module_text: "<b>Module:</b> <code>{module_name}</code>\n"
+
+choose_module: "Choose a module or use <code>/help &lt;module&gt;</code>.\n"
+
+thanks_for_add: "Thanks for adding me to your group!"
+
+go_to_pm: "Go to PM"
+
+help_text: "Please select a category for help!"
+
+start_text: |
+  Hi <b>{user}</b>!
+
+  I am the <b>{bot_name}</b>, an interactive bot that loves to participate in groups! ^^
+  <b>Version:</b> v<code>{version_code}</code>
+
+what_i_can_do: "\nYou can see everything I can do by clicking the button below..."
+
+about_text: |
+  🚮 <b>{bot_name}</b> is a Bot created by fun for the group <b>Spam-Therapy</b>.
+  Your focus is to bring nice functions and functional design with technology and creativity.
+
+  📦 Powered by <a href='https://docs.pyrogram.org/'>Pyrogram</a> with <a href='https://github.com/usernein/pyromod'>Pyromod</a>.
+
+  🗂 <b>Links:</b> <a href='{source_link}'>GitHub</a> | <a href='{group_link}'>Chat</a>
+
+language_text: |
+  Your current language is <b>{lang_name}</b>.
+  Choose your new language:
+
+module_not_found: "Sorry! I did not find the module <code>{module_name}</code>, check your search and try again."
+
+to_see_go_pm: "To see this, go to my PM."
+
+module_not_exist: "This module does not exist, go to my PM to see the modules that I have!"
+
+to_get_help: "To get help go to my PM!"
+
+# Alerts
+language_changed_alert: "The language has changed to {lang_name}."
+
+not_admin: "You're not an administrator!"
+
+# Math
+math_done_text: "<b>Expression:</b> <code>{exp}</code>\n<b>Result:</b> <code>{res}</code>"
+math_err_text: "Something went wrong with the API request, try again later..."

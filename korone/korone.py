@@ -1,18 +1,7 @@
+# SPDX-License-Identifier: GPL-3.0
+# Copyright (c) 2020-2022 Amano Team
+#
 # This file is part of Korone (Telegram Bot)
-# Copyright (C) 2022 AmanoTeam
-
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as
-# published by the Free Software Foundation, either version 3 of the
-# License, or (at your option) any later version.
-
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import logging
 import platform
@@ -29,6 +18,7 @@ from pyrogram.types import Message, User
 import korone
 from korone.config import API_HASH, API_ID, LOGS_CHANNEL, SENTRY_KEY, SUDOERS, TOKEN
 from korone.utils import shell_exec
+from korone.utils.langs import get_languages, load_languages
 
 log = logging.getLogger(__name__)
 
@@ -47,7 +37,7 @@ class Korone(Client):
             parse_mode="html",
             workers=24,
             workdir="korone",
-            plugins={"root": "korone.handlers"},
+            plugins={"root": "korone.modules"},
             sleep_threshold=180,
         )
 
@@ -55,7 +45,13 @@ class Korone(Client):
         self.start_time = datetime.now().replace(tzinfo=timezone.utc)
 
     async def start(self):
+        # Start Pyrogram client
         await super().start()
+
+        # Load the languages
+        load_languages()
+        languages = len(get_languages(only_codes=True))
+        log.info("%s languages was loaded.", languages)
 
         # Saving commit number
         self.version_code = int((await shell_exec("git rev-list --count HEAD"))[0])
@@ -79,10 +75,10 @@ class Korone(Client):
 
         # Startup message
         start_message = (
-            f"<b>PyKorone <code>v{korone.__version__} "
-            f"({self.version_code})</code> started...</b>\n"
+            f"<b>PyKorone <code>v{self.version_code}</code> started...</b>\n"
             f"- <b>Pyrogram:</b> <code>v{pyrogram.__version__}</code>\n"
             f"- <b>Python:</b> <code>v{platform.python_version()}</code>\n"
+            f"- <b>Languages:</b> <code>{languages}</code>\n"
             f"- <b>System:</b> <code>{self.system_version}</code>"
         )
         try:
