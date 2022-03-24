@@ -24,7 +24,8 @@ async def register_chat_by_dict(info: Dict) -> Dict:
     await conn.execute(
         "INSERT INTO chats (id, registration_time) VALUES (?, ?)", (id, time())
     )
-    assert conn.total_changes > 0
+    if conn.total_changes <= 0:
+        raise AssertionError
     await conn.commit()
 
     return await get_chat_by_id(id)
