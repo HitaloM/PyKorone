@@ -52,7 +52,7 @@ python-anilist = {git = "https://github.com/AmanoTeam/python-anilist", rev = "ma
 telegraph = {version = "2.1.0", extras = ["aio"]}
 
 [tool.poetry.dev-dependencies]
-black = "^21.12b0"
+black = "^22.1"
 isort = "^5.10.1"
 flake8 = "^4.0.1"
 
