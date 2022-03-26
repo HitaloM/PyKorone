@@ -539,7 +539,7 @@ async def whatanime(c: Korone, m: Message):
             return
 
 
-@Korone.on_inline_query(filters.regex(r"^anime (?P<query>.+)"), group=-1)
+@Korone.on_inline_query(filters.regex(r"^anime (?P<query>.+)"))
 async def inline_anime(c: Korone, q: InlineQuery):
     results: List[InlineQueryResultPhoto] = []
     query = q.query.split()
@@ -619,7 +619,7 @@ async def inline_anime(c: Korone, q: InlineQuery):
             pass
 
 
-@Korone.on_inline_query(filters.regex(r"^manga (?P<query>.+)"), group=-1)
+@Korone.on_inline_query(filters.regex(r"^manga (?P<query>.+)"))
 async def inline_manga(c: Korone, q: InlineQuery):
     results: List[InlineQueryResultPhoto] = []
     query = q.query.split()

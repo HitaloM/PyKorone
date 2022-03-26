@@ -5,7 +5,6 @@
 
 import html
 import random
-import re
 
 from pyrogram import filters
 from pyrogram.errors import BadRequest
@@ -123,41 +122,6 @@ async def vapor(c: Korone, m: Message):
 
 @Korone.on_message(
     filters.cmd(
-        command=r"uwu",
-        action=r"Nokofique um texto.",
-        group=GROUP,
-    )
-)
-async def nekofy(c: Korone, m: Message):
-    args = get_args_str(m)
-    if not args and m.reply_to_message:
-        if (m.reply_to_message.text or m.reply_to_message.caption) is not None:
-            args = m.reply_to_message.text or m.reply_to_message.caption
-        else:
-            await m.reply_text("Eu não posso nokoficar o void.")
-            return
-
-    if not args and not m.reply_to_message:
-        await m.reply_text("Eu não posso nokoficar o void.")
-        return
-
-    reply = re.sub(r"(r|l)", "w", args)
-    reply = re.sub(r"(R|L)", "W", reply)
-    reply = re.sub(r"n([aeiou])", r"ny\1", reply)
-    reply = re.sub(r"N([aeiouAEIOU])", r"Ny\1", reply)
-    reply = reply.replace("ove", "uv")
-
-    try:
-        if m.reply_to_message:
-            await m.reply_to_message.reply_text(f"{html.escape(reply)}")
-        else:
-            await m.reply_text(f"{html.escape(reply)}")
-    except BadRequest:
-        return
-
-
-@Korone.on_message(
-    filters.cmd(
         command=r"cp",
         action=r"Torne algo em um copypasta.",
         group=GROUP,
@@ -192,111 +156,6 @@ async def copypasta(c: Korone, m: Message):
         else:
             reply += owo.upper() if bool(random.getrandbits(1)) else owo.lower()
     reply += random.choice(PASTAMOJIS)
-
-    try:
-        if m.reply_to_message:
-            await m.reply_to_message.reply_text(f"{html.escape(reply)}")
-        else:
-            await m.reply_text(f"{html.escape(reply)}")
-    except BadRequest:
-        return
-
-
-@Korone.on_message(
-    filters.cmd(
-        command=r"mock",
-        action=r"Mock um texto.",
-        group=GROUP,
-    )
-)
-async def mock(c: Korone, m: Message):
-    text = get_args_str(m)
-    if not text and m.reply_to_message:
-        if (m.reply_to_message.text or m.reply_to_message.caption) is not None:
-            text = m.reply_to_message.text or m.reply_to_message.caption
-        else:
-            await m.reply_text("Eu preciso de texto...")
-            return
-
-    if not text and not m.reply_to_message:
-        await m.reply_text("Eu preciso de texto...")
-        return
-
-    reply = []
-    for charac in text:
-        if charac.isalpha() and random.randint(0, 1):
-            to_app = charac.upper() if charac.islower() else charac.lower()
-            reply.append(to_app)
-        else:
-            reply.append(charac)
-    mocked_text = "".join(reply)
-
-    try:
-        if m.reply_to_message:
-            await m.reply_to_message.reply_text(f"{html.escape(mocked_text)}")
-        else:
-            await m.reply_text(f"{html.escape(mocked_text)}")
-    except BadRequest:
-        return
-
-
-@Korone.on_message(
-    filters.cmd(
-        command=r"clap",
-        action=r"Palmas.",
-        group=GROUP,
-    )
-)
-async def clap(c: Korone, m: Message):
-    text = get_args_str(m)
-    if not text and m.reply_to_message:
-        if (m.reply_to_message.text or m.reply_to_message.caption) is not None:
-            text = m.reply_to_message.text or m.reply_to_message.caption
-        else:
-            await m.reply_text("Eu preciso de texto...")
-            return
-
-    if not text and not m.reply_to_message:
-        await m.reply_text("Eu preciso de texto...")
-        return
-
-    clapped_text = re.sub(" ", " 👏 ", text)
-    reply = f"👏 {clapped_text} 👏"
-
-    try:
-        if m.reply_to_message:
-            await m.reply_to_message.reply_text(f"{html.escape(reply)}")
-        else:
-            await m.reply_text(f"{html.escape(reply)}")
-    except BadRequest:
-        return
-
-
-@Korone.on_message(
-    filters.cmd(
-        command=r"stretch",
-        action=r"Estique um texto.",
-        group=GROUP,
-    )
-)
-async def stretch(c: Korone, m: Message):
-    text = get_args_str(m)
-    if not text and m.reply_to_message:
-        if (m.reply_to_message.text or m.reply_to_message.caption) is not None:
-            text = m.reply_to_message.text or m.reply_to_message.caption
-        else:
-            await m.reply_text("Eu preciso de texto...")
-            return
-
-    if not text and not m.reply_to_message:
-        await m.reply_text("Eu preciso de texto...")
-        return
-
-    reply = re.sub(
-        r"([aeiouAEIOUａｅｉｏｕＡＥＩＯＵаеиоуюяыэё])",
-        (r"\1" * random.randint(3, 10)),
-        text,
-    )
 
     try:
         if m.reply_to_message:
