@@ -160,9 +160,13 @@ async def help_module(c: Korone, m: Message, module: str = None):
                 if len(keyboard[index]) == 3:
                     index += 1
                     keyboard.append([])
+                try:
+                    help_cb = lang.strings[lang.code][key + "_help_cb"]
+                except KeyError:
+                    help_cb = key.capitalize()
                 keyboard[index].append(
                     (
-                        value["name"] if "name" in value else key.capitalize(),
+                        help_cb,
                         f"help_{key}",
                     )
                 )

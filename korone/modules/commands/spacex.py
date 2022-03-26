@@ -16,7 +16,6 @@ from korone.utils import http
 GROUP = "spacex"
 
 COMMANDS_HELP[GROUP] = {
-    "name": "SpaceX",
     "text": "Esse é meu módulo sobre a SpaceX.",
     "commands": {},
     "help": True,

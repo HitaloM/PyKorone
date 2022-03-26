@@ -17,7 +17,6 @@ from korone.utils.langs.decorators import use_chat_language
 GROUP = "math"
 
 COMMANDS_HELP[GROUP] = {
-    "name": "Matemática",
     "text": "Esse é meu módulo de matemática, cuidado para não perder a cabeça.",
     "commands": {},
     "help": True,

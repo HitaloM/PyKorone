@@ -23,7 +23,6 @@ from korone.utils.random import (
 GROUP = "interactions"
 
 COMMANDS_HELP[GROUP] = {
-    "name": "Interações",
     "text": "Use estes filtros em resposta a mim.",
     "filters": {},
     "help": True,
