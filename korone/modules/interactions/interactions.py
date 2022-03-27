@@ -11,14 +11,7 @@ from pyrogram.types import Message
 
 from korone.korone import Korone
 from korone.modules import COMMANDS_HELP
-from korone.utils import leave_if_muted
-from korone.utils.random import (
-    HEY_REACT,
-    INSULTS_REACT,
-    RANDOM_REACT,
-    SHUTUP_REACT,
-    WHATSUP_REACT,
-)
+from korone.utils.random import HEY_REACT, INSULTS_REACT, SHUTUP_REACT, WHATSUP_REACT
 
 GROUP = "interactions"
 
@@ -80,16 +73,3 @@ async def shutup(c: Korone, m: Message):
     if m.from_user is not None:
         react = random.choice(SHUTUP_REACT)
         await c.int_reply(m, react)
-
-
-@Korone.on_message(~filters.private & ~filters.edited)
-@leave_if_muted
-async def random_react(c: Korone, m: Message):
-    if m.message_id % 100 != 0:
-        m.continue_propagation()
-    react = random.choice(RANDOM_REACT)
-    if isinstance(react, tuple):
-        react = random.choice(react)
-
-    await c.send_message(m.chat.id, react)
-    m.continue_propagation()
