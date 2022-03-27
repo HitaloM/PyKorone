@@ -52,7 +52,6 @@ async def ping(c: Korone, m: Message):
         action=r"Retorna algumas informações do usuário.",
     )
 )
-@need_args_dec()
 async def user_info(c: Korone, m: Message):
     args = get_args_str(m)
 

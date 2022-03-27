@@ -339,7 +339,7 @@ async def on_ytdl(c: Korone, m: Message):
         {
             "outtmpl": "dls/%(title)s-%(id)s.%(ext)s",
             "format": "mp4",
-            "no_playlist": True,
+            "noplaylist": True,
         }
     )
     rege = re.match(
