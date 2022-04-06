@@ -97,7 +97,7 @@ about_text: |
 
   🗂 <b>Links:</b> <a href='{source_link}'>GitHub</a> | <a href='{group_link}'>Chat</a>
 
-thanks_for_add: "Obrigado por me adicionar em seu grupo! Eu também possuo um grupo (@SpamTherapy) bem divertido, você está mais que convidado(a) a participar!"
+thanks_for_add: "Obrigado por me adicionar em seu grupo!"
 
 language_text: |
   Seu idioma atual é <b>{lang_name}</b>.

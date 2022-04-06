@@ -114,9 +114,10 @@ async def spacex_launch(c: Korone, m: Message):
     keyboard = None
     if sx["links"]["reddit"]["campaign"]:
         keyboard = [[("Reddit", sx["links"]["reddit"]["campaign"], "url")]]
-
-    if sx["links"]["webcast"]:
-        keyboard[0].append(("YouTube", sx["links"]["webcast"], "url"))
+        if sx["links"]["webcast"]:
+            keyboard[0].append(("YouTube", sx["links"]["webcast"], "url"))
+    elif sx["links"]["webcast"]:
+        keyboard = [[("YouTube", sx["links"]["webcast"], "url")]]
 
     if keyboard:
         keyboard = c.ikb(keyboard)
