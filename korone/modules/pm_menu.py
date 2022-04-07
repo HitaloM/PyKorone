@@ -175,7 +175,7 @@ async def help_module(c: Korone, m: Message, module: str = None):
     elif module in COMMANDS_HELP:
         text = lang.module_text.format(module_name=module)
         module = COMMANDS_HELP[module]
-        text += f'\n{module["text"]}\n'
+        text += f'\n{module["description"]}\n'
 
         m_type = "commands" if "commands" in module else "filters"
         if len(module[m_type]) > 0:

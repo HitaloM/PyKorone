@@ -16,7 +16,7 @@ from korone.utils.random import HEY_REACT, INSULTS_REACT, SHUTUP_REACT, WHATSUP_
 GROUP = "interactions"
 
 COMMANDS_HELP[GROUP] = {
-    "text": "Use estes filtros em resposta a mim.",
+    "description": "Use estes filtros em resposta a mim.",
     "filters": {},
     "help": True,
 }

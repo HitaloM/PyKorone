@@ -115,7 +115,3 @@ to_get_help: "Para obter ajuda vá ao meu PV!"
 language_changed_alert: "O idioma foi alterado para {lang_name}."
 
 not_admin: "Você não é um administrador!"
-
-# Math
-math_done_text: "<b>Expressão:</b> <code>{exp}</code>\n<b>Resultado:</b> <code>{res}</code>"
-math_err_text: "Algo deu errado na requisição da API, tente novamente mais tarde..."

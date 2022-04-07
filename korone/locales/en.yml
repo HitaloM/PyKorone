@@ -117,7 +117,3 @@ to_get_help: "To get help go to my PM!"
 language_changed_alert: "The language has changed to {lang_name}."
 
 not_admin: "You're not an administrator!"
-
-# Math
-math_done_text: "<b>Expression:</b> <code>{exp}</code>\n<b>Result:</b> <code>{res}</code>"
-math_err_text: "Something went wrong with the API request, try again later..."
