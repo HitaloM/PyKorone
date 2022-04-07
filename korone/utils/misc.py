@@ -13,13 +13,10 @@ import sys
 from functools import partial, wraps
 from typing import Callable, Iterable
 
-import duckpy
 import httpx
 from pyrogram import Client
 from pyrogram.errors import ChatWriteForbidden
 from pyrogram.types import Message
-
-duck = duckpy.AsyncClient()
 
 timeout = httpx.Timeout(40, pool=None)
 http = httpx.AsyncClient(http2=True, timeout=timeout, follow_redirects=True)

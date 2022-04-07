@@ -28,14 +28,14 @@ from korone.modules import COMMANDS_HELP
 from korone.utils import http, pretty_size
 from korone.utils.args import get_args_str, need_args_dec
 from korone.utils.image import stickcolorsync
-from korone.utils.misc import duck, escape_definition
+from korone.utils.misc import escape_definition
 from korone.utils.translator import get_tr_lang, tr
 from korone.utils.ytdl import extract_info
 
 GROUP = "utils"
 
 COMMANDS_HELP[GROUP] = {
-    "text": "Este é meu módulo de comandos utilitários.",
+    "description": "Este é meu módulo de comandos utilitários.",
     "commands": {},
     "help": True,
 }
@@ -91,36 +91,6 @@ async def pypi(c: Korone, m: Message):
             disable_web_page_preview=True,
         )
     return
-
-
-@Korone.on_message(
-    filters.cmd(
-        command=r"duckgo",
-        action=r"Faça uma pesquisa no DuckDuckGo através do korone.",
-        group=GROUP,
-    )
-)
-@need_args_dec()
-async def duckduckgo(c: Korone, m: Message):
-    query = get_args_str(m)
-    results = await duck.search(query)
-
-    msg = ""
-    for i in range(1, 6):
-        try:
-            title = results[i].title
-            link = results[i].url
-            desc = results[i].description
-            msg += f"{i}. <a href='{link}'>{html.escape(title)}</a>\n<code>{html.escape(desc)}</code>\n\n"
-        except IndexError:
-            break
-
-    text = (
-        f"<b>Consulta:</b>\n<code>{html.escape(query)}</code>"
-        f"\n\n<b>Resultados:</b>\n{msg}"
-    )
-
-    await m.reply_text(text, disable_web_page_preview=True)
 
 
 @Korone.on_message(
