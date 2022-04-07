@@ -27,7 +27,7 @@ from korone.utils.reddit import bodyfetcher, imagefetcher, titlefetcher
 GROUP = "general"
 
 COMMANDS_HELP[GROUP] = {
-    "description": "Este é meu módulo de comandos sem categoria.",
+    "description": "",
     "commands": {},
     "help": True,
 }

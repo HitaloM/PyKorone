@@ -74,6 +74,23 @@ fuck_filter: "fuck"
 
 imsad_filter: "I'm sad"
 
+# Modules descriptions
+general_desc: "This is my general commands module, no category."
+
+memes_desc: "This is my meme module, have fun."
+
+animes_desc: "A module for Otakus!"
+
+spacex_desc: "SpaceX information module."
+
+utils_desc: "Module with utility commands."
+
+assistant_desc: "My assistance commands, use in groups or PM."
+
+interactions_desc: "Use these filters in response to me."
+
+messages_desc: "Send any of these filters in some group I'm in or in my PM."
+
 # General texts
 module_text: "<b>Module:</b> <code>{module_name}</code>\n"
 

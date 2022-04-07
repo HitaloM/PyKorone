@@ -20,7 +20,7 @@ from korone.utils.random import CATCH_REACT, HELLO, REACTIONS
 GROUP = "assistant"
 
 COMMANDS_HELP[GROUP] = {
-    "description": "Meus comandos de assistência, use em grupos ou PV.",
+    "description": "",
     "filters": {},
     "help": True,
 }

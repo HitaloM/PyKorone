@@ -72,6 +72,23 @@ fuck_filter: "porra"
 
 imsad_filter: "t(ô|o) triste|estou triste"
 
+# Modules descriptions
+general_desc: "Este é meu módulo de comandos gerais, sem categoria."
+
+memes_desc: "Esse é meu módulo de memes, divirta-se."
+
+anime_desc: "Um módulo para Otakus!"
+
+spacex_desc: "Módulo de informações da SpaceX."
+
+utils_desc: "Módulo com comandos utilitários."
+
+assistant_desc: "Meus comandos de assistência, use em grupos ou PV."
+
+interactions_desc: "Use estes filtros em resposta a mim."
+
+message_desc: "Envie qualquer um desses filtros em algum grupo em que eu estou ou no meu PV."
+
 # General texts
 module_text: "<b>Módulo:</b> <code>{module_name}</code>\n"
 

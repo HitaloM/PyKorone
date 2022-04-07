@@ -174,8 +174,12 @@ async def help_module(c: Korone, m: Message, module: str = None):
         keyboard.append([(lang.back_button, "help_start")])
     elif module in COMMANDS_HELP:
         text = lang.module_text.format(module_name=module)
+        module_name = module
         module = COMMANDS_HELP[module]
-        text += f'\n{module["description"]}\n'
+        if module["description"]:
+            text += f"\n{module['description']}\n"
+        else:
+            text += f"\n{lang.strings[lang.code][module_name + '_desc']}\n"
 
         m_type = "commands" if "commands" in module else "filters"
         if len(module[m_type]) > 0:

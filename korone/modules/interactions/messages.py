@@ -26,7 +26,7 @@ from korone.utils.random import (
 GROUP = "messages"
 
 COMMANDS_HELP[GROUP] = {
-    "description": "Envie qualquer um desses filtros em algum grupo em que eu estou ou no meu PV.",
+    "description": "",
     "filters": {},
     "help": True,
 }

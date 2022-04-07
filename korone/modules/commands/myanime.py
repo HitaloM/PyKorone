@@ -34,7 +34,7 @@ from korone.utils.misc import cleanhtml
 GROUP = "animes"
 
 COMMANDS_HELP[GROUP] = {
-    "description": "O módulo dos Otakus!",
+    "description": "",
     "commands": {},
     "help": True,
 }

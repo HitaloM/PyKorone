@@ -35,7 +35,7 @@ from korone.utils.ytdl import extract_info
 GROUP = "utils"
 
 COMMANDS_HELP[GROUP] = {
-    "description": "Este é meu módulo de comandos utilitários.",
+    "description": "",
     "commands": {},
     "help": True,
 }

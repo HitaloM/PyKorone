@@ -19,7 +19,7 @@ from korone.utils.random import PASTAMOJIS, REACTS, SHRUGS_REACT
 GROUP = "memes"
 
 COMMANDS_HELP[GROUP] = {
-    "description": "Esse é meu módulo de memes, divirta-se.",
+    "description": "",
     "commands": {},
     "help": True,
 }
