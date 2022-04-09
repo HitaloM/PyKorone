@@ -124,32 +124,6 @@ async def user_info(c: Korone, m: Message):
         await m.reply_text(text, disable_web_page_preview=True)
 
 
-@Korone.on_message(
-    filters.cmd(
-        command=r"file",
-        action=r"Obtenha informações técnicas de uma mídia.",
-    )
-    & filters.reply
-)
-async def file_debug(c: Korone, m: Message):
-    media = (
-        m.reply_to_message.photo
-        or m.reply_to_message.sticker
-        or m.reply_to_message.animation
-        or m.reply_to_message.video
-        or m.reply_to_message.document
-    )
-
-    if not media:
-        await m.reply_text("Nenhuma mídia encontrado!")
-        return
-
-    await m.reply_text(
-        f"<code>{media}</code>",
-        disable_web_page_preview=True,
-    )
-
-
 @Korone.on_message(filters.cmd(command=r"cat", action=r"Imagens aleatórias de gatos."))
 async def cat_photo(c: Korone, m: Message):
     r = await http.get("https://api.thecatapi.com/v1/images/search")
