@@ -9,9 +9,7 @@ class LangsFormatMap(dict):
         if key in self:
             self.used.append(key)
             if type(self.get(key)) is str:
-                return html.escape(self.get(key)) if self.escape_html else self.get(key)
-            else:
-                return self.get(key)
+                return html.escape(self.get(key))
         else:
             return self.__missing__(key)
 
@@ -26,7 +24,6 @@ class LangsFormatMap(dict):
 class LangString(str):
     def __call__(self, **kwargs):
         mapping = LangsFormatMap(**kwargs)
-        mapping.escape_html = self.escape_html
         mapping.string = self.key
         mapping.code = self.code
         mapping.debug = self.debug
@@ -45,16 +42,14 @@ class LangString(str):
 
 class Langs:
     strings = {}
-    escape_html = False
     available = []
     code = "en"
     debug = True
 
-    def __init__(self, strings=None, escape_html=False, debug=True, **kwargs):
+    def __init__(self, strings=None, debug=True, **kwargs):
         if strings is None:
             strings = {}
         self.strings = strings
-        self.escape_html = escape_html
 
         if not kwargs and not strings:
             raise ValueError(
@@ -76,13 +71,12 @@ class Langs:
         except BaseException:
             result = key
         obj = LangString(result)
-        obj.escape_html = self.escape_html
         obj.key = key
         obj.code = self.code
         obj.debug = self.debug
         return obj
 
     def get_language(self, language_code):
-        lang_copy = Langs(strings=self.strings, escape_html=self.escape_html)
+        lang_copy = Langs(strings=self.strings)
         lang_copy.code = language_code
         return lang_copy

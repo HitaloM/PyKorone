@@ -20,7 +20,7 @@ def get_languages(only_codes: bool = False):
     if len(strings.keys()) < 1:
         load_languages()
 
-    return Langs(**strings, escape_html=True)
+    return Langs(**strings)
 
 
 def load_languages():
