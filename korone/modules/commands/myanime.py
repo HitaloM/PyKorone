@@ -29,6 +29,7 @@ from korone.modules import COMMANDS_HELP
 from korone.utils import http
 from korone.utils.args import get_args_str, need_args_dec
 from korone.utils.image import pokemon_image_sync
+from korone.utils.langs.decorators import use_chat_language
 from korone.utils.misc import cleanhtml
 
 GROUP = "animes"
@@ -68,6 +69,7 @@ def t(milliseconds: int) -> str:
         group=GROUP,
     )
 )
+@use_chat_language()
 @need_args_dec()
 async def anilist_anime(c: Korone, m: Message):
     query = get_args_str(m)
@@ -141,6 +143,7 @@ async def anilist_anime(c: Korone, m: Message):
         group=GROUP,
     )
 )
+@use_chat_language()
 @need_args_dec()
 async def anilist_airing(c: Korone, m: Message):
     query = get_args_str(m)
@@ -190,6 +193,8 @@ async def anilist_airing(c: Korone, m: Message):
         group=GROUP,
     )
 )
+@use_chat_language()
+@need_args_dec()
 async def anilist_manga(c: Korone, m: Message):
     query = get_args_str(m)
 
@@ -256,6 +261,8 @@ async def anilist_manga(c: Korone, m: Message):
         group=GROUP,
     )
 )
+@use_chat_language()
+@need_args_dec()
 async def anilist_character(c: Korone, m: Message):
     query = get_args_str(m)
 

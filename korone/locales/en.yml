@@ -94,6 +94,8 @@ messages_desc: "Send any of these filters in some group I'm in or in my PM."
 # General texts
 module_text: "<b>Module:</b> <code>{module_name}</code>\n"
 
+args_needed: "Give me args!"
+
 choose_module: "Choose a module or use <code>/help &lt;module&gt;</code>.\n"
 
 thanks_for_add: "Thanks for adding me to your group!"

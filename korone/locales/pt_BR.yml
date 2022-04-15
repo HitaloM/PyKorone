@@ -92,6 +92,8 @@ message_desc: "Envie qualquer um desses filtros em algum grupo em que eu estou o
 # General texts
 module_text: "<b>Módulo:</b> <code>{module_name}</code>\n"
 
+args_needed: "Me dê argumentos!"
+
 choose_module: "Escolha um módulo ou use <code>/help &lt;módulo&gt;</code>.\n"
 
 help_text: "Por favor, selecione uma categoria para obter ajuda!"

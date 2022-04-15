@@ -34,8 +34,15 @@ def need_args_dec(num: int = 1):
     def wrapped(func: Callable) -> Callable:
         async def wrapped_func(client: Client, message: Message):
             args = get_args(message)
+            try:
+                lang = message._lang
+            except AttributeError:
+                lang = None
             if args is None:
-                await message.reply_text("Give me args!")
+                if lang is None:
+                    await message.reply_text("Give me args!")
+                else:
+                    await message.reply_text(lang.args_needed)
                 return
             return await func(client, message)
 

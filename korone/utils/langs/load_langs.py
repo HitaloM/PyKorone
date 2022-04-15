@@ -5,12 +5,13 @@
 
 import glob
 import re
+from typing import Dict
 
 import yaml
 
 from korone.utils.langs import Langs
 
-strings = {}
+strings: Dict = {}
 
 
 def get_languages(only_codes: bool = False):
@@ -23,7 +24,7 @@ def get_languages(only_codes: bool = False):
     return Langs(**strings)
 
 
-def load_languages():
+def load_languages() -> None:
     for string_file in glob.glob("korone/locales/*.yml"):
         language_code = re.match(r"korone/locales/(.+)\.yml$", string_file)[1]
         strings[language_code] = yaml.safe_load(open(string_file, "r"))

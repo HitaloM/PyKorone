@@ -112,7 +112,7 @@ async def _aexec_(c: Korone, m: Message):
 
 @Korone.on_message(filters.sudoer & filters.cmd(r"reboot"))
 async def restart(c: Korone, m: Message):
-    m = await m.reply_text("Reiniciando...")
+    m = await m.reply_text("Restaring...")
     asyncio.get_event_loop().create_task(client_restart(c, m))
 
 
@@ -138,7 +138,7 @@ def parse_commits(log: str) -> Dict:
 
 @Korone.on_message(filters.sudoer & filters.cmd(r"upgrade"))
 async def upgrade(c: Korone, m: Message):
-    sm = await m.reply_text("Verificando...")
+    sm = await m.reply_text("Checking...")
     await (await asyncio.create_subprocess_shell("git fetch origin")).communicate()
     proc = await asyncio.create_subprocess_shell(
         "git log HEAD..origin/main",
@@ -148,26 +148,26 @@ async def upgrade(c: Korone, m: Message):
     stdout = (await proc.communicate())[0].decode()
     if proc.returncode == 0:
         if len(stdout) <= 0:
-            return await sm.edit_text("Não há nada para atualizar.")
+            return await sm.edit_text("There is nothing to update.")
         changelog = "<b>Changelog</b>:\n"
         commits = parse_commits(stdout)
         for hash, commit in commits.items():
             changelog += f"  - [<code>{hash[:7]}</code>] {commit['title']}\n"
         changelog += f"\n<b>New commits count</b>: <code>{len(commits)}</code>."
-        keyboard = [[("🆕 Atualizar", "upgrade")]]
+        keyboard = [[("🆕 Upgrade", "upgrade")]]
         await sm.edit_text(changelog, reply_markup=c.ikb(keyboard))
     else:
         lines = stdout.split("\n")
         error = "".join(f"<code>{line}</code>\n" for line in lines)
         await sm.edit_text(
-            f"Falha na atualização (process exited with {proc.returncode}):\n{error}"
+            f"Update failed (process exited with {proc.returncode}):\n{error}"
         )
 
 
 @Korone.on_callback_query(filters.sudoer & filters.regex(r"^upgrade"))
 async def upgrade_cb(c: Korone, cq: CallbackQuery):
     await cq.edit_message_reply_markup({})
-    sent = await cq.message.reply_text("Atualizando...")
+    sent = await cq.message.reply_text("Updating...")
     proc = await asyncio.create_subprocess_shell(
         "git pull --no-edit",
         stdout=asyncio.subprocess.PIPE,
@@ -175,20 +175,20 @@ async def upgrade_cb(c: Korone, cq: CallbackQuery):
     )
     stdout = (await proc.communicate())[0].decode()
     if proc.returncode == 0:
-        await sent.edit_text("Reiniciando...")
+        await sent.edit_text("Restarting...")
         args = [sys.executable, "-m", "korone"]
         os.execv(sys.executable, args)
     else:
         lines = stdout.split("\n")
         error = "".join(f"<code>{line}</code>\n" for line in lines)
         await sent.edit_text(
-            f"Atualização falhou (process exited with {proc.returncode}):\n{error}"
+            f"Update failed (process exited with {proc.returncode}):\n{error}"
         )
 
 
 @Korone.on_message(filters.cmd(r"shutdown") & filters.user(OWNER))
 async def shutdown(c: Korone, m: Message):
-    await m.reply_text("Adeus...")
+    await m.reply_text("Goodbye...")
     os.kill(os.getpid(), signal.SIGINT)
 
 
@@ -215,7 +215,7 @@ async def copy(c: Korone, m: Message):
             message_id=m.reply_to_message.message_id,
         )
     except BadRequest as e:
-        await m.reply_text(f"<b>Erro!</b>\n<code>{e}</code>")
+        await m.reply_text(f"<b>Error!</b>\n<code>{e}</code>")
         return
 
 
@@ -288,26 +288,26 @@ async def chat_info(c: Korone, m: Message):
     try:
         chat = await c.get_chat(args) if args else await c.get_chat(m.chat.id)
     except BadRequest as e:
-        await m.reply_text(f"<b>Erro!</b>\n<code>{e}</code>")
+        await m.reply_text(f"<b>Error!</b>\n<code>{e}</code>")
         return
     if chat.type not in CHAT_TYPES:
-        await m.reply_text("Este chat é privado!")
+        await m.reply_text("This chat is private!")
         return
 
     if chat.type in CHAT_TYPES:
-        text = "<b>Informações do chat</b>:\n"
-        text += f"Nome: <code>{chat.title}</code>\n"
+        text = "<b>Chat Information</b>:\n"
+        text += f"Name: <code>{chat.title}</code>\n"
         text += f"ID: <code>{chat.id}</code>\n"
         if chat.username:
-            text += f"Nome de Usuário: @{chat.username}\n"
+            text += f"Username: @{chat.username}\n"
         if chat.dc_id:
             text += f"Datacenter: <code>{chat.dc_id}</code>\n"
-        text += f"Membros: <code>{chat.members_count}</code>\n"
+        text += f"Members: <code>{chat.members_count}</code>\n"
         if chat.id == m.chat.id:
-            text += f"Mensagens: <code>{m.message_id + 1}</code>\n"
+            text += f"Messages: <code>{m.message_id}</code>\n"
         if chat.invite_link:
-            text += f"Link de Convite: {chat.invite_link}\n"
+            text += f"Invitation link: {chat.invite_link}\n"
         if chat.description:
-            text += f"\n<b>Descrição:</b>\n<code>{chat.description}</code>"
+            text += f"\n<b>Description:</b>\n<code>{chat.description}</code>"
 
     await m.reply_text(text)
