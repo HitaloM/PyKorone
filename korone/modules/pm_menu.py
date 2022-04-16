@@ -151,7 +151,7 @@ async def help_module(c: Korone, m: Message, module: str = None):
         keyboard.append([(lang.back_button, "start_back")])
         text = lang.help_text
         success = True
-    elif module in {"commands", "filters"}:
+    elif module in ("commands", "filters"):
         text = lang.choose_module
         keyboard = [[]]
         index = 0
@@ -161,7 +161,7 @@ async def help_module(c: Korone, m: Message, module: str = None):
                     index += 1
                     keyboard.append([])
                 try:
-                    help_cb = lang.strings[lang.code][key + "_help_cb"]
+                    help_cb = lang.strings[lang.code][key + "_mod_name"]
                 except KeyError:
                     help_cb = key.capitalize()
                 keyboard[index].append(
@@ -173,7 +173,11 @@ async def help_module(c: Korone, m: Message, module: str = None):
         success = True
         keyboard.append([(lang.back_button, "help_start")])
     elif module in COMMANDS_HELP:
-        text = lang.module_text.format(module_name=module)
+        try:
+            mod_name = lang.strings[lang.code][module + "_mod_name"]
+        except KeyError:
+            mod_name = module.capitalize()
+        text = lang.module_text.format(module_name=mod_name)
         module_name = module
         module = COMMANDS_HELP[module]
         if module["description"]:

@@ -19,6 +19,16 @@ commands_button: "Commands"
 
 filters_button: "Filters"
 
+general_mod_name: "Misc"
+
+memes_mod_name: "Memes"
+
+animes_mod_name: "Animes"
+
+spacex_mod_name: "SpaceX"
+
+utils_mod_name: "Utils"
+
 # Filters
 dice_filter: "Korone, roll a dice"
 

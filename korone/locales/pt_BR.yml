@@ -19,6 +19,22 @@ commands_button: "Comandos"
 
 filters_button: "Filtros"
 
+general_mod_name: "Variados"
+
+memes_mod_name: "Memes"
+
+animes_mod_name: "Animes"
+
+spacex_mod_name: "SpaceX"
+
+utils_mod_name: "Utilidades"
+
+assistant_mod_name: "Assistente"
+
+interactions_mod_name: "Interações"
+
+messages_mod_name: "Mensages"
+
 # Interactions
 dice_filter: "Korone, gire um dado"
 
