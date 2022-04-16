@@ -21,7 +21,7 @@ from korone.config import SW_API
 from korone.korone import Korone
 from korone.modules import COMMANDS_HELP
 from korone.utils import http
-from korone.utils.args import get_args_str, need_args_dec
+from korone.utils.args import get_args_str
 from korone.utils.reddit import bodyfetcher, imagefetcher, titlefetcher
 
 GROUP = "general"

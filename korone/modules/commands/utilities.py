@@ -17,7 +17,7 @@ import yt_dlp
 from bs4 import BeautifulSoup as bs
 from httpx._exceptions import TimeoutException
 from pyrogram import filters
-from pyrogram.errors import BadRequest, Forbidden, MessageTooLong
+from pyrogram.errors import BadRequest, Forbidden, MessageTooLong, MessageNotModified
 from pyrogram.types import CallbackQuery, Message
 from telegraph.aio import Telegraph
 from telegraph.exceptions import TelegraphException
