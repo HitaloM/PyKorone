@@ -17,7 +17,7 @@ import yt_dlp
 from bs4 import BeautifulSoup as bs
 from httpx._exceptions import TimeoutException
 from pyrogram import filters
-from pyrogram.errors import BadRequest, Forbidden, MessageTooLong, MessageNotModified
+from pyrogram.errors import BadRequest, Forbidden, MessageNotModified, MessageTooLong
 from pyrogram.types import CallbackQuery, Message
 from telegraph.aio import Telegraph
 from telegraph.exceptions import TelegraphException
@@ -35,7 +35,7 @@ from korone.utils.ytdl import extract_info
 GROUP = "utils"
 
 COMMANDS_HELP[GROUP] = {
-    "description": "",
+    "description": False,
     "commands": {},
     "help": True,
 }

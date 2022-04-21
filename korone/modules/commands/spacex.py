@@ -16,7 +16,7 @@ from korone.utils import http
 GROUP = "spacex"
 
 COMMANDS_HELP[GROUP] = {
-    "description": "",
+    "description": False,
     "commands": {},
     "help": True,
 }

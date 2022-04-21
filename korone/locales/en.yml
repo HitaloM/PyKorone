@@ -101,6 +101,10 @@ interactions_desc: "Use these filters in response to me."
 
 messages_desc: "Send any of these filters in some group I'm in or in my PM."
 
+# Command actions
+
+ping_action: "Check the response speed of the korone."
+
 # General texts
 module_text: "<b>Module:</b> <code>{module_name}</code>\n"
 

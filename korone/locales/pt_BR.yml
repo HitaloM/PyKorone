@@ -103,7 +103,11 @@ assistant_desc: "Meus comandos de assistência, use em grupos ou PV."
 
 interactions_desc: "Use estes filtros em resposta a mim."
 
-message_desc: "Envie qualquer um desses filtros em algum grupo em que eu estou ou no meu PV."
+messages_desc: "Envie qualquer um desses filtros em algum grupo em que eu estou ou no meu PV."
+
+# Command actions
+
+ping_action: "Verifique a velocidade de resposta do korone."
 
 # General texts
 module_text: "<b>Módulo:</b> <code>{module_name}</code>\n"

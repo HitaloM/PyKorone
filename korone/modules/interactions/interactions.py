@@ -16,7 +16,7 @@ from korone.utils.random import HEY_REACT, INSULTS_REACT, SHUTUP_REACT, WHATSUP_
 GROUP = "interactions"
 
 COMMANDS_HELP[GROUP] = {
-    "description": "",
+    "description": False,
     "filters": {},
     "help": True,
 }

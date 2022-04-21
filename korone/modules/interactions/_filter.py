@@ -22,9 +22,9 @@ def interactions_filter(
     *args,
     **kwargs,
 ) -> Callable:
-    async def func(flt, client: Client, message: Message):
+    async def func(flt, client: Client, message: Message, action=action):
         if not message.text:
-            return False
+            return None
 
         if translate is True:
             chat = message.chat
@@ -52,7 +52,7 @@ def interactions_filter(
             )
         )
 
-    COMMANDS_HELP[group]["filters"][filter] = {"action": action or " "}
+    COMMANDS_HELP[group]["filters"][filter] = {"action": action or ""}
 
     return filters.create(
         func,

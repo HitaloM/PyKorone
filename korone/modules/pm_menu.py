@@ -180,7 +180,7 @@ async def help_module(c: Korone, m: Message, module: str = None):
         text = lang.module_text.format(module_name=mod_name)
         module_name = module
         module = COMMANDS_HELP[module]
-        if module["description"]:
+        if module["description"] is not False:
             text += f"\n{module['description']}\n"
         else:
             text += f"\n{lang.strings[lang.code][module_name + '_desc']}\n"
@@ -190,7 +190,13 @@ async def help_module(c: Korone, m: Message, module: str = None):
             text += f'\n<b>{lang.commands_button if m_type == "commands" else lang.filters_button}</b>:'
             for key, value in module[m_type].items():
                 action = value["action"]
-                if len(action) > 0:
+                command = key.replace("$", "").split()[0]
+                if action is None:
+                    try:
+                        action = lang.strings[lang.code][command + "_action"]
+                    except KeyError:
+                        pass
+                if action is not None:
                     regex = ""
                     if m_type == "commands":
                         key = key.replace("$", "")
@@ -208,17 +214,13 @@ async def help_module(c: Korone, m: Message, module: str = None):
                         trregex = lang.strings[lang.code][regex + "_filter"]
                     except KeyError:
                         trregex = regex
-                    try:
-                        traction = lang.strings[lang.code][action + "_help"]
-                    except KeyError:
-                        traction = action
 
-                    if action == " " and m_type == "filters":
+                    if action == "" and m_type == "filters":
                         text += f"\n  - <code>{html.escape(trregex)}</code>"
-                    elif action not in [" ", ""] and m_type == "filters":
-                        text += f"\n  - <code>{html.escape(trregex)}</code>: {traction}"
+                    elif action != "" and m_type == "filters":
+                        text += f"\n  - <code>{html.escape(trregex)}</code>: {action}"
                     else:
-                        text += f'\n  - <b>{"/" if m_type == "commands" else ""}{html.escape(regex)}</b>: <i>{traction}</i>'
+                        text += f'\n  - <b>{"/" if m_type == "commands" else ""}{html.escape(regex)}</b>: <i>{action}</i>'
         success = True
         keyboard.append([(lang.back_button, f"help_{m_type}")])
 

@@ -5,7 +5,7 @@
 
 
 import re
-from typing import Callable, Optional
+from typing import Callable, Dict, Optional
 
 from pyrogram import Client, filters
 from pyrogram.types import Message
@@ -23,16 +23,16 @@ def command_filter(
     **kwargs,
 ) -> Callable:
     if command not in COMMANDS_HELP[group]["commands"].keys():
-        COMMANDS_HELP[group]["commands"][command] = {"action": action or ""}
+        COMMANDS_HELP[group]["commands"][command]: Dict = {"action": action}
 
     pattern = r"^" + f"[{re.escape(''.join(PREFIXES))}]" + command
     if not pattern.endswith(("$", " ")):
         pattern += r"(?:\s|$)"
 
-    async def func(flt, client: Client, message: Message):
+    async def func(flt, client: Client, message: Message, command=command):
         value = message.text
         if not value:
-            return
+            return None
 
         if bool(value):
             command = value.split()[0]

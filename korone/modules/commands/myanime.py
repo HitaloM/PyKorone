@@ -35,7 +35,7 @@ from korone.utils.misc import cleanhtml
 GROUP = "animes"
 
 COMMANDS_HELP[GROUP] = {
-    "description": "",
+    "description": False,
     "commands": {},
     "help": True,
 }

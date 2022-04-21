@@ -27,17 +27,13 @@ from korone.utils.reddit import bodyfetcher, imagefetcher, titlefetcher
 GROUP = "general"
 
 COMMANDS_HELP[GROUP] = {
-    "description": "",
+    "description": False,
     "commands": {},
     "help": True,
 }
 
 
-@Korone.on_message(
-    filters.cmd(
-        command=r"ping", action=r"Verifique a velocidade de resposta do korone."
-    )
-)
+@Korone.on_message(filters.cmd("ping"))
 async def ping(c: Korone, m: Message):
     first = datetime.now()
     sent = await m.reply_text("<b>Pong!</b>")

@@ -26,7 +26,7 @@ from korone.utils.random import (
 GROUP = "messages"
 
 COMMANDS_HELP[GROUP] = {
-    "description": "",
+    "description": False,
     "filters": {},
     "help": True,
 }
