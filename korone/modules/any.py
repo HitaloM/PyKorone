@@ -14,7 +14,7 @@ from korone.korone import Korone
 from korone.utils.langs.decorators import use_chat_language
 
 
-@Korone.on_message(filters.edited, group=-5)
+@Korone.on_edited_message
 async def reject_edited(c: Korone, m: Message):
     m.stop_propagation()
 

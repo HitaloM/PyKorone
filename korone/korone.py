@@ -29,7 +29,7 @@ class Korone(Client):
         self.is_sudo = SUDOERS
 
         super().__init__(
-            session_name=name,
+            name=name,
             app_version=f"PyKorone v{korone.__version__}",
             api_id=API_ID,
             api_hash=API_HASH,

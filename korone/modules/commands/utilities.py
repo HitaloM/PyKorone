@@ -16,7 +16,7 @@ from typing import Union
 import yt_dlp
 from bs4 import BeautifulSoup as bs
 from httpx._exceptions import TimeoutException
-from pyrogram import filters
+from pyrogram import enums, filters
 from pyrogram.errors import BadRequest, Forbidden, MessageNotModified, MessageTooLong
 from pyrogram.types import CallbackQuery, Message
 from telegraph.aio import Telegraph
@@ -101,7 +101,7 @@ async def pypi(c: Korone, m: Message):
     )
 )
 async def cleanup(c: Korone, m: Message):
-    if m.chat.type == "private":
+    if m.chat.type == enums.ChatType.PRIVATE:
         await m.reply_text("Este comando é para ser usado em grupos!")
         return
 
@@ -606,10 +606,10 @@ async def mcserver(c: Korone, m: Union[Message, CallbackQuery]):
     )
 )
 async def del_message(c: Korone, m: Message):
-    if m.chat.type != "private":
+    if m.chat.type != enums.ChatType.PRIVATE:
         member = await c.get_chat_member(chat_id=m.chat.id, user_id=m.from_user.id)
 
-    if m.chat.type == "private" or member.status in [
+    if m.chat.type == enums.ChatType.PRIVATE or member.status in [
         "administrator",
         "creator",
     ]:

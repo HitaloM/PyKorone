@@ -18,7 +18,7 @@ import psutil
 import pyrogram
 from kantex.html import Bold, Code, KeyValueItem, Section
 from meval import meval
-from pyrogram import filters
+from pyrogram import enums, filters
 from pyrogram.errors import BadRequest
 from pyrogram.types import CallbackQuery, Message
 
@@ -283,7 +283,11 @@ async def system_info(c: Korone, m: Message):
 @need_args_dec()
 async def chat_info(c: Korone, m: Message):
     args = get_args_str(m)
-    CHAT_TYPES: Iterable[str] = ("channel", "group", "supergroup")
+    CHAT_TYPES: Iterable[str] = (
+        enums.ChatType.CHANNEL,
+        enums.ChatType.GROUP,
+        enums.ChatType.SUPERGROUP,
+    )
 
     try:
         chat = await c.get_chat(args) if args else await c.get_chat(m.chat.id)

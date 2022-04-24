@@ -7,7 +7,7 @@ import html
 from contextlib import suppress
 from typing import Union
 
-from pyrogram import filters
+from pyrogram import enums, filters
 from pyrogram.errors import MessageNotModified
 from pyrogram.types import CallbackQuery, Message
 
@@ -39,7 +39,7 @@ async def start(c: Korone, m: Union[Message, CallbackQuery]):
                 bot_name=c.me.first_name,
                 version_code=c.version_code,
             )
-            if m.chat.type == "private":
+            if m.chat.type == enums.ChatType.PRIVATE:
                 keyboard.append(
                     [
                         (lang.help_button, "help_cb"),
@@ -95,7 +95,7 @@ async def start(c: Korone, m: Union[Message, CallbackQuery]):
 async def help_m(c: Korone, m: Message):
     lang = m._lang
     module = m.matches[0]["module"]
-    if m.chat.type == "private":
+    if m.chat.type == enums.ChatType.PRIVATE:
         if module in COMMANDS_HELP or module in [
             "commands",
             "filters",
@@ -127,7 +127,10 @@ async def help_m(c: Korone, m: Message):
 @Korone.on_callback_query(filters.regex(r"^help_cb$"))
 @use_chat_language()
 async def help_c(c: Korone, m: Union[Message, CallbackQuery]):
-    if isinstance(m, Message) and m.chat.type in ["supergroup", "group"]:
+    if isinstance(m, Message) and m.chat.type in (
+        enums.ChatType.GROUP,
+        enums.ChatType.SUPERGROUP,
+    ):
         lang = m._lang
         keyboard = [[(lang.go_to_pm, f"https://t.me/{c.me.username}/?start", "url")]]
         await m.reply_text(lang.to_get_help, reply_markup=c.ikb(keyboard))

@@ -6,7 +6,7 @@
 from contextlib import suppress
 from typing import Union
 
-from pyrogram import filters
+from pyrogram import enums, filters
 from pyrogram.errors import MessageNotModified
 from pyrogram.helpers import array_chunk, bki, ikb
 from pyrogram.types import CallbackQuery, Message
@@ -32,7 +32,7 @@ async def language(c: Korone, m: Union[Message, CallbackQuery]):
         chat = m.chat
         user = m.from_user
 
-        if chat.type in ["group", "supergroup"]:
+        if chat.type in (enums.ChatType.GROUP, enums.ChatType.SUPERGROUP):
             member = await c.get_chat_member(chat.id, user.id)
             if member.status not in ["administrator", "creator"]:
                 await m.reply_text(
@@ -65,7 +65,7 @@ async def language_set(c: Korone, q: CallbackQuery):
     user = q.from_user
     lang = q._lang
 
-    if chat.type in ["group", "supergroup"]:
+    if chat.type in (enums.ChatType.GROUP, enums.ChatType.SUPERGROUP):
         member = await c.get_chat_member(chat.id, user.id)
         if member.status not in ["administrator", "creator"]:
             await q.answer(
@@ -77,7 +77,7 @@ async def language_set(c: Korone, q: CallbackQuery):
 
     language_code = q.matches[0]["language_code"]
 
-    if chat.type == "private":
+    if chat.type == enums.ChatType.PRIVATE:
         await update_user_language(user.id, language_code)
         user_languages[user.id] = language_code
     else:

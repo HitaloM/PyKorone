@@ -8,7 +8,7 @@ import json
 import random
 
 import wikipedia
-from pyrogram import filters
+from pyrogram import enums, filters
 from pyrogram.errors import BadRequest, Forbidden
 from pyrogram.types import Message
 
@@ -34,7 +34,7 @@ async def dice(c: Korone, m: Message):
 
 @Korone.on_message(filters.int("kick", group=GROUP))
 async def kick(c: Korone, m: Message):
-    if m.chat.type == "private":
+    if m.chat.type == enums.ChatType.PRIVATE:
         await m.reply_text("Este comando é para ser usado em grupos!")
         return
 
