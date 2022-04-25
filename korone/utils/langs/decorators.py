@@ -7,6 +7,7 @@ from functools import wraps
 from typing import Callable, Union
 
 from pyrogram import Client
+from pyrogram.enums import ChatType
 from pyrogram.types import CallbackQuery, Message
 
 from korone.database.chats import get_chat_by_id
@@ -28,7 +29,7 @@ def use_chat_language() -> Callable:
             message = union.message if isinstance(union, CallbackQuery) else union
             chat = message.chat
 
-            if chat.type == "private":
+            if chat.type == ChatType.PRIVATE:
                 user_id = union.from_user.id
 
                 if user_id not in user_languages:

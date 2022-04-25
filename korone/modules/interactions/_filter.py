@@ -7,6 +7,7 @@ import re
 from typing import Callable, Optional
 
 from pyrogram import Client, filters
+from pyrogram.enums import ChatType
 from pyrogram.types import Message
 
 from korone.modules import COMMANDS_HELP
@@ -28,7 +29,7 @@ def interactions_filter(
 
         if translate is True:
             chat = message.chat
-            if chat.type == "private":
+            if chat.type == ChatType.PRIVATE:
                 user_id = message.from_user.id
                 await get_user_lang(user_id)
                 message._lang = languages[user_languages[user_id]]

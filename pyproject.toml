@@ -29,7 +29,6 @@ exclude = ["korone/config.py", "korone/client.session", "korone/client.session-j
 [tool.poetry.dependencies]
 python = "^3.7"
 tgcrypto = "1.2.3"
-rich = "12.2.0"
 Pillow = "9.1.0"
 kantex = "0.2.0"
 meval = "2.5"

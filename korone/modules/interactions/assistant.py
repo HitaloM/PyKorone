@@ -9,6 +9,7 @@ import random
 
 import wikipedia
 from pyrogram import enums, filters
+from pyrogram.enums import ChatMemberStatus
 from pyrogram.errors import BadRequest, Forbidden
 from pyrogram.types import Message
 
@@ -44,7 +45,7 @@ async def kick(c: Korone, m: Message):
             "Você não possui a permissão para banir usuários neste grupo!"
         )
 
-    if member.status in ["administrator", "creator"]:
+    if member.status in (ChatMemberStatus.ADMINISTRATOR, ChatMemberStatus.OWNER):
         try:
             await c.kick_chat_member(m.chat.id, m.reply_to_message.from_user.id)
             await m.chat.unban_member(m.reply_to_message.from_user.id)

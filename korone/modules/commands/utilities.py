@@ -16,7 +16,8 @@ from typing import Union
 import yt_dlp
 from bs4 import BeautifulSoup as bs
 from httpx._exceptions import TimeoutException
-from pyrogram import enums, filters
+from pyrogram import filters
+from pyrogram.enums import ChatMemberStatus, ChatType
 from pyrogram.errors import BadRequest, Forbidden, MessageNotModified, MessageTooLong
 from pyrogram.types import CallbackQuery, Message
 from telegraph.aio import Telegraph
@@ -101,12 +102,12 @@ async def pypi(c: Korone, m: Message):
     )
 )
 async def cleanup(c: Korone, m: Message):
-    if m.chat.type == enums.ChatType.PRIVATE:
+    if m.chat.type == ChatType.PRIVATE:
         await m.reply_text("Este comando é para ser usado em grupos!")
         return
 
     member = await c.get_chat_member(chat_id=m.chat.id, user_id=m.from_user.id)
-    if member.status in ["administrator", "creator"]:
+    if member.status in (ChatMemberStatus.ADMINISTRATOR, ChatMemberStatus.OWNER):
         deleted = []
         sent = await m.reply_text("Iniciando limpeza...")
         async for t in c.iter_chat_members(chat_id=m.chat.id, filter="all"):
@@ -606,13 +607,13 @@ async def mcserver(c: Korone, m: Union[Message, CallbackQuery]):
     )
 )
 async def del_message(c: Korone, m: Message):
-    if m.chat.type != enums.ChatType.PRIVATE:
+    if m.chat.type != ChatType.PRIVATE:
         member = await c.get_chat_member(chat_id=m.chat.id, user_id=m.from_user.id)
 
-    if m.chat.type == enums.ChatType.PRIVATE or member.status in [
-        "administrator",
-        "creator",
-    ]:
+    if m.chat.type == ChatType.PRIVATE or member.status in (
+        ChatMemberStatus.ADMINISTRATOR,
+        ChatMemberStatus.OWNER,
+    ):
         try:
             if m.reply_to_message:
                 await c.delete_messages(

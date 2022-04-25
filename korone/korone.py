@@ -10,6 +10,7 @@ from datetime import datetime, timezone
 import pyrogram
 import sentry_sdk
 from pyrogram import Client
+from pyrogram.enums import ParseMode
 from pyrogram.errors import BadRequest, ChatWriteForbidden
 from pyrogram.helpers import ikb
 from pyrogram.raw.all import layer
@@ -34,7 +35,7 @@ class Korone(Client):
             api_id=API_ID,
             api_hash=API_HASH,
             bot_token=TOKEN,
-            parse_mode="html",
+            parse_mode=ParseMode.HTML,
             workers=24,
             workdir="korone",
             plugins={"root": "korone.modules"},

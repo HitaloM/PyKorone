@@ -14,6 +14,7 @@ from datetime import datetime
 import httpx
 import regex
 from pyrogram import filters
+from pyrogram.enums import ChatMemberStatus
 from pyrogram.errors import BadRequest, UserNotParticipant
 from pyrogram.types import Message
 
@@ -76,7 +77,7 @@ async def user_info(c: Korone, m: Message):
     text += f"\nLink de Usuário: {user.mention(user.first_name, style='html')}"
 
     if user.photo:
-        photo_count = await c.get_profile_photos_count(user.id)
+        photo_count = await c.get_chat_photos_count(user.id)
         text += f"\nFotos de perfil: <code>{photo_count}</code>"
 
     if user.dc_id:
@@ -102,20 +103,20 @@ async def user_info(c: Korone, m: Message):
 
     try:
         member = await c.get_chat_member(chat_id=m.chat.id, user_id=user.id)
-        if member.status in ["administrator"]:
+        if member.status in ChatMemberStatus.ADMINISTRATOR:
             text += "\n\nEste usuário é um <b>'administrador'</b> neste grupo."
-        elif member.status in ["creator"]:
+        elif member.status in ChatMemberStatus.OWNER:
             text += "\n\nEste usuário é o <b>'criador'</b> deste grupo."
     except (UserNotParticipant, ValueError):
         pass
 
     if user.photo:
-        photos = await c.get_profile_photos(user.id)
-        await m.reply_photo(
-            photo=photos[0].file_id,
-            caption=text,
-            disable_notification=True,
-        )
+        async for photo in c.get_chat_photos(chat_id=user.id, limit=1):
+            await m.reply_photo(
+                photo=photo.file_id,
+                caption=text,
+                disable_notification=True,
+            )
     else:
         await m.reply_text(text, disable_web_page_preview=True)
 

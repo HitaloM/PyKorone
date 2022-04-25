@@ -6,6 +6,7 @@
 import html
 
 from pyrogram import filters
+from pyrogram.enums import ChatType
 from pyrogram.types import Message
 
 from korone.database.chats import get_chat_by_id, register_chat_by_dict
@@ -21,10 +22,10 @@ async def reject_edited(c: Korone, m: Message):
 
 @Korone.on_message(group=-2)
 async def check_chat(c: Korone, m: Message):
-    if m.chat.type == "private" and await get_user_by_id(m.from_user.id) is None:
+    if m.chat.type == ChatType.PRIVATE and await get_user_by_id(m.from_user.id) is None:
         await register_user_by_dict(m.from_user.__dict__)
     if (
-        m.chat.type in ["group", "supergroup"]
+        m.chat.type in (ChatType.GROUP, ChatType.SUPERGROUP)
         and await get_chat_by_id(m.chat.id) is None
     ):
         await register_chat_by_dict(m.chat.__dict__)
