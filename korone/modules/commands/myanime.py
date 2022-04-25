@@ -12,7 +12,6 @@ from typing import List
 
 import anilist
 from httpx import TimeoutException
-from jikanpy import AioJikan
 from pyrogram import filters
 from pyrogram.enums import ParseMode
 from pyrogram.errors import BadRequest
@@ -314,31 +313,6 @@ async def anilist_character(c: Korone, m: Message):
             reply_markup=c.ikb(keyboard),
             parse_mode=ParseMode.DEFAULT,
         )
-
-
-@Korone.on_message(
-    filters.cmd(
-        command=r"upcoming",
-        action=r"Veja os próximos animes a serem lançados.",
-        group=GROUP,
-    )
-)
-async def mal_upcoming(c: Korone, m: Message):
-    async with AioJikan() as jikan:
-        pass
-
-    upcoming = await jikan.top("anime", page=1, subtype="upcoming")
-    await jikan.close()
-
-    upcoming_list = [entry["title"] for entry in upcoming["top"]]
-    upcoming_message = "<b>Próximos animes:</b>\n"
-
-    for entry_num in range(len(upcoming_list)):
-        if entry_num == 10:
-            break
-        upcoming_message += f"<b>{entry_num + 1}.</b> {upcoming_list[entry_num]}\n"
-
-    await m.reply_text(upcoming_message)
 
 
 @Korone.on_message(
