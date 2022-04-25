@@ -124,7 +124,7 @@ start_text: |
   Oi <b>{user}</b>!
 
   Eu sou o <b>{bot_name}</b>, um bot interativo que adora participar de grupos! ^^
-  <b>Versão:</b> <code>{version_code}</code>
+  <b>Versão:</b> {short_hash} <code>({version_code})</code>
 
 what_i_can_do: "\nVocê pode ver tudo que eu posso fazer clicando no botão abaixo..."
 

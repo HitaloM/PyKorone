@@ -54,8 +54,9 @@ class Korone(Client):
         languages = len(get_languages(only_codes=True))
         log.info("%s languages was loaded.", languages)
 
-        # Saving commit number
+        # Save version info
         self.version_code = int((await shell_exec("git rev-list --count HEAD"))[0])
+        self.version = str((await shell_exec("git rev-parse --short HEAD"))[0])
 
         # Some useful vars
         self.me = await self.get_me()
@@ -76,16 +77,19 @@ class Korone(Client):
 
         # Startup message
         start_message = (
-            f"<b>PyKorone <code>v{self.version_code}</code> started...</b>\n"
-            f"- <b>Pyrogram:</b> <code>v{pyrogram.__version__}</code>\n"
+            f"<b>PyKorone</b> <a href='https://github.com/AmanoTeam/PyKorone/commit/{self.version}'>{self.version}</a> (<code>{self.version_code}</code>)!\n"
+            f"- <b>Pyrogram</b> <code>v{pyrogram.__version__}</code> (Layer {layer}\n"
             f"- <b>Python:</b> <code>v{platform.python_version()}</code>\n"
             f"- <b>Languages:</b> <code>{languages}</code>\n"
             f"- <b>System:</b> <code>{self.system_version}</code>"
         )
         try:
-            await self.send_message(chat_id=LOGS_CHANNEL, text=start_message)
+            for sudo in self.is_sudo:
+                await self.send_message(
+                    chat_id=sudo, text=start_message, disable_web_page_preview=True
+                )
         except (BadRequest, ChatWriteForbidden):
-            log.warning("Unable to send the startup message to the LOGS_CHANNEL!")
+            log.warning("Unable to send the startup message!")
 
     async def restart(self, *args):
         log.info("PyKorone client is restarting...")

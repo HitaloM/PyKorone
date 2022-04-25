@@ -37,6 +37,7 @@ async def start(c: Korone, m: Union[Message, CallbackQuery]):
             text = (lang.start_text).format(
                 user=m.from_user.first_name,
                 bot_name=c.me.first_name,
+                short_hash=f"<a href='https://github.com/AmanoTeam/PyKorone/commit/{c.version}'>{c.version}</a>",
                 version_code=c.version_code,
             )
             if m.chat.type == enums.ChatType.PRIVATE:
@@ -69,11 +70,13 @@ async def start(c: Korone, m: Union[Message, CallbackQuery]):
             await m.reply_text(
                 text,
                 reply_markup=c.ikb(keyboard),
+                disable_web_page_preview=True,
             )
     if isinstance(m, CallbackQuery):
         text = (lang.start_text).format(
             user=m.from_user.first_name,
             bot_name=c.me.first_name,
+            short_hash=f"<a href='https://github.com/AmanoTeam/PyKorone/commit/{c.version}'>{c.version}</a>",
             version_code=c.version_code,
         )
         keyboard = [
@@ -87,7 +90,9 @@ async def start(c: Korone, m: Union[Message, CallbackQuery]):
             ],
         ]
         with suppress(MessageNotModified):
-            await m.message.edit_text(text, reply_markup=c.ikb(keyboard))
+            await m.message.edit_text(
+                text, reply_markup=c.ikb(keyboard), disable_web_page_preview=True
+            )
 
 
 @Korone.on_message(filters.cmd(r"help (?P<module>.+)"))
