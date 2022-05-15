@@ -1,18 +1,5 @@
-# This file is part of Korone (Telegram Bot)
-# Copyright (C) 2022 AmanoTeam
-
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as
-# published by the Free Software Foundation, either version 3 of the
-# License, or (at your option) any later version.
-
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+# SPDX-License-Identifier: GPL-3.0
+# Copyright (c) 2020-2022 Amano Team
 
 import html
 from contextlib import suppress
@@ -24,8 +11,8 @@ from pyrogram.errors import MessageNotModified
 from pyrogram.types import CallbackQuery, Message
 
 import korone
+from korone.bot import Korone
 from korone.handlers import COMMANDS_HELP
-from korone.korone import Korone
 
 help_text = "Por favor, selecione uma categoria para obter ajuda!"
 
@@ -62,9 +49,6 @@ async def start(c: Korone, m: Union[Message, CallbackQuery]):
             text = (start_text).format(m.from_user.first_name, c.me.first_name)
             if m.chat.type == ChatType.PRIVATE:
                 keyboard.append([("📚 Ajuda", "help_cb"), ("ℹ️ Sobre", "about")])
-                keyboard.append(
-                    [("👥 Grupo Off-Topic", "https://t.me/SpamTherapy", "url")]
-                )
             else:
                 keyboard.append(
                     [
@@ -222,7 +206,11 @@ async def on_help_callback(c: Korone, cq: CallbackQuery):
 async def about_c(c: Korone, m: Union[Message, CallbackQuery]):
     is_callback = isinstance(m, CallbackQuery)
     is_private = await filters.private(c, m)
-    about = about_text.format(c.me.first_name, f"<a href='https://github.com/AmanoTeam/PyKorone/commit/{c.version}'>{c.version}</a>", c.version_code)
+    about = about_text.format(
+        c.me.first_name,
+        f"<a href='https://github.com/AmanoTeam/PyKorone/commit/{c.version}'>{c.version}</a>",
+        c.version_code,
+    )
 
     keyboard = [
         [
