@@ -91,7 +91,7 @@ async def user_info(c: Korone, m: Message):
     text += f"\nLink de Usuário: {user.mention(user.first_name, style='html')}"
 
     if user.photo:
-        photo_count = await c.get_profile_photos_count(user.id)
+        photo_count = await c.get_chat_photos_count(user.id)
         text += f"\nFotos de perfil: <code>{photo_count}</code>"
 
     if user.dc_id:
@@ -125,12 +125,12 @@ async def user_info(c: Korone, m: Message):
         pass
 
     if user.photo:
-        photos = await c.get_profile_photos(user.id)
-        await m.reply_photo(
-            photo=photos[0].file_id,
-            caption=text,
-            disable_notification=True,
-        )
+        async for photo in c.get_chat_photos(chat_id=user.id, limit=1):
+            await m.reply_photo(
+                photo=photo.file_id,
+                caption=text,
+                disable_notification=True,
+            )
     else:
         await m.reply_text(text, disable_web_page_preview=True)
 
