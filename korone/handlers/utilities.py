@@ -26,7 +26,6 @@ from typing import Union
 import yt_dlp
 from bs4 import BeautifulSoup as bs
 from httpx._exceptions import TimeoutException
-from NyaaPy import Nyaa
 from pyrogram import filters
 from pyrogram.enums import ChatMemberStatus, ChatType
 from pyrogram.errors import BadRequest, Forbidden, MessageTooLong
@@ -619,52 +618,6 @@ async def del_message(c: Korone, m: Message):
             )
     else:
         await m.reply_text("Bakayarou! Você não é um administrador...")
-
-
-@Korone.on_message(
-    filters.cmd(
-        command="nyaasi (?P<text>.+)",
-        action="Pesquise torrents do nyaa.si",
-        group=GROUP,
-    )
-)
-async def nyaasi(c: Korone, m: Message):
-    search = m.matches[0]["text"]
-    try:
-        nyaa = Nyaa.search(keyword=search, category=0)[0]
-
-        text = f"<b>Nome:</b> {html.escape(nyaa['name'])}\n"
-        text += f"<b>ID:</b> <code>{nyaa['id']}</code>\n"
-        text += f"<b>Data:</b> <code>{nyaa['date']}</code>\n"
-        text += f"<b>Categoria:</b> <i>{nyaa['category']}</i>\n"
-        text += f"<b>Tamanho:</b> <code>{nyaa['size']}</code>\n"
-        text += f"<b>Leechers:</b> <code>{nyaa['leechers']}</code>\n"
-        text += f"<b>Seeders:</b> <code>{nyaa['seeders']}</code>\n"
-        text += (
-            f"<b>Downloads concluídos:</b> <code>{nyaa['completed_downloads']}</code>"
-        )
-
-        filehash = nyaa["magnet"].split("xt=")[1].split("&")[0]
-
-        keyboard = c.ikb(
-            [
-                [
-                    ("Torrent", nyaa["download_url"], "url"),
-                    (
-                        "Magnet",
-                        f"https://nyaasi.herokuapp.com/nyaamagnet/{filehash}",
-                        "url",
-                    ),
-                ],
-                [("Mais Informações", nyaa["url"], "url")],
-            ]
-        )
-
-    except IndexError:
-        text = "Sua pesquisa não encontrou nenhum torrent correspondente!"
-        keyboard = None
-
-    await m.reply_text(text, disable_web_page_preview=True, reply_markup=keyboard)
 
 
 @Korone.on_message(
