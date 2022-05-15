@@ -313,9 +313,6 @@ async def on_ytdl(c: Korone, m: Message):
         yt = await extract_info(ydl, "ytsearch:" + url, download=False)
         yt = yt["entries"][0]
 
-    if not temp.isnumeric():
-        temp = "0"
-
     for f in yt["formats"]:
         if f["format_id"] == "140":
             afsize = f["filesize"] or 0
