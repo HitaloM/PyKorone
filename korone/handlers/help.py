@@ -32,17 +32,15 @@ help_text = "Por favor, selecione uma categoria para obter ajuda!"
 start_text = """
 Oi <b>{}</b>!
 
-Eu sou o <b>{}</b>, um bot interativo que adora participar de grupos! ^^
-<b>Versão:</b> <code>{} ({})</code>
+Eu sou o <b>{}</b>, um bot interativo e multi-funcional que adora participar de grupos! ^^
 """
 
 about_text = """
-🚮 <b>{}</b> é um bot criado por diversão para o grupo <b>Spam-Therapy</b>.
+<b>{}</b> é um bot criado por diversão para o grupo <b>Spam-Therapy</b>.
 Seu foco é trazer funções legais e um design funcional com tecnologia e criatividade.
 
-📦 Powered by <a href='https://docs.pyrogram.org/'>Pyrogram</a> with <a href='https://github.com/usernein/pyromod'>Pyromod</a>.
-
-🗂 <b>Links:</b> <a href='{}'>GitHub</a> | <a href='{}'>Chat</a>
+Powered by <a href='https://docs.pyrogram.org/'>Pyrogram</a> with <a href='https://github.com/usernein/pyromod'>Pyromod</a>.
+Versão: {} (<code>{}</code>)
 """
 
 
@@ -61,12 +59,7 @@ async def start(c: Korone, m: Union[Message, CallbackQuery]):
                 await help_module(c, m, module)
         else:
             keyboard = []
-            text = (start_text).format(
-                m.from_user.first_name,
-                c.me.first_name,
-                korone.__version__,
-                c.version_code,
-            )
+            text = (start_text).format(m.from_user.first_name, c.me.first_name)
             if m.chat.type == ChatType.PRIVATE:
                 keyboard.append([("📚 Ajuda", "help_cb"), ("ℹ️ Sobre", "about")])
                 keyboard.append(
@@ -88,12 +81,7 @@ async def start(c: Korone, m: Union[Message, CallbackQuery]):
                 reply_markup=c.ikb(keyboard),
             )
     if isinstance(m, CallbackQuery):
-        text = (start_text).format(
-            m.from_user.first_name,
-            c.me.first_name,
-            korone.__version__,
-            c.version_code,
-        )
+        text = (start_text).format(m.from_user.first_name, c.me.first_name)
         keyboard = [
             [("📚 Ajuda", "help_cb"), ("ℹ️ Sobre", "about")],
             [("👥 Grupo Off-Topic", "https://t.me/SpamTherapy", "url")],
@@ -233,15 +221,22 @@ async def on_help_callback(c: Korone, cq: CallbackQuery):
 @Korone.on_callback_query(filters.regex(r"^about$"))
 async def about_c(c: Korone, m: Union[Message, CallbackQuery]):
     is_callback = isinstance(m, CallbackQuery)
-    about = about_text.format(
-        c.me.first_name,
-        korone.__source__,
-        korone.__community__,
-    )
-    keyboard = c.ikb([[("⬅️ Voltar", "start_back")]])
+    is_private = await filters.private(c, m)
+    about = about_text.format(c.me.first_name, f"<a href='https://github.com/AmanoTeam/PyKorone/commit/{c.version}'>{c.version}</a>", c.version_code)
+
+    keyboard = [
+        [
+            ("📦 GitHub", "https://github.com/AmanoTeam/PyKorone", "url"),
+            ("📚 Canal", "https://t.me/HitaloProjects", "url"),
+        ]
+    ]
+
+    if is_private:
+        keyboard.append([("⬅️ Voltar", "start_back")])
+
     with suppress(MessageNotModified):
         await (m.message.edit_text if is_callback else m.reply_text)(
             about,
-            reply_markup=(keyboard if is_callback else None),
+            reply_markup=c.ikb(keyboard),
             disable_web_page_preview=True,
         )
