@@ -10,15 +10,15 @@ import shutil
 import tempfile
 from typing import Union
 
-import yt_dlp
 from bs4 import BeautifulSoup as bs
 from httpx._exceptions import TimeoutException
 from pyrogram import filters
-from pyrogram.enums import ChatMemberStatus, ChatType
+from pyrogram.enums import ChatAction, ChatMemberStatus, ChatType
 from pyrogram.errors import BadRequest, Forbidden, MessageTooLong
 from pyrogram.types import CallbackQuery, Message
 from telegraph.aio import Telegraph
 from telegraph.exceptions import TelegraphException
+from yt_dlp import YoutubeDL
 from yt_dlp.utils import DownloadError
 
 from korone.bot import Korone
@@ -206,7 +206,7 @@ async def on_ttdl(c: Korone, m: Message):
     with tempfile.TemporaryDirectory() as tempdir:
         path = os.path.join(tempdir, "ttdl")
 
-    tdl = yt_dlp.YoutubeDL(
+    tdl = YoutubeDL(
         {
             "outtmpl": f"{path}/{m.from_user.id}-%(id)s.%(ext)s",
             "format": "mp4",
@@ -224,7 +224,7 @@ async def on_ttdl(c: Korone, m: Message):
             vformat = f["format_id"]
             vheaders = f["http_headers"]
 
-    tdl = yt_dlp.YoutubeDL(
+    tdl = YoutubeDL(
         {
             "outtmpl": f"{path}/{m.from_user.id}-%(id)s.%(ext)s",
             "format": vformat,
@@ -281,6 +281,10 @@ async def on_ttdl(c: Korone, m: Message):
     )
 )
 async def on_ytdl(c: Korone, m: Message):
+    YOUTUBE_REGEX = re.compile(
+        r"(?m)http(?:s?):\/\/(?:www\.)?(?:music\.)?youtu(?:be\.com\/(watch\?v=|shorts/)|\.be\/|)([\w\-\_]*)(&(amp;)?[\w\?=]*)?"
+    )
+    TIME_REGEX = re.compile(r"[?&]t=([0-9]+)")
     args = m.matches[0]["text"]
     user = m.from_user.id
 
@@ -292,29 +296,22 @@ async def on_ytdl(c: Korone, m: Message):
         await m.reply_text("Por favor, responda a um link do YouTube ou texto.")
         return
 
-    ydl = yt_dlp.YoutubeDL(
+    ydl = YoutubeDL(
         {
             "outtmpl": "dls/%(title)s-%(id)s.%(ext)s",
             "format": "mp4",
             "noplaylist": True,
         }
     )
-    rege = re.match(
-        r"http(?:s?):\/\/(?:www\.)?(?:music\.)?youtu(?:be\.com\/watch\?v=|\.be\/)([\w\-\_]*)(&(amp;)?‌​[\w\?‌​=]*)?",
-        url,
-        re.M,
-    )
+    match = YOUTUBE_REGEX.match(url)
 
-    temp = url.split("t=")[1].split("&")[0] if "t=" in url else "0"
-    if not rege:
+    t = TIME_REGEX.search(url)
+    temp = t.group(1) if t else 0
+    if match:
+        yt = await extract_info(ydl, match.group(), download=False)
+    else:
         yt = await extract_info(ydl, "ytsearch:" + url, download=False)
         yt = yt["entries"][0]
-    else:
-        try:
-            yt = await extract_info(ydl, rege.group(), download=False)
-        except DownloadError as e:
-            await m.reply_text(f"<b>Error!</b>\n<code>{e}</code>")
-            return
 
     if not temp.isnumeric():
         temp = "0"
@@ -373,7 +370,7 @@ async def cli_ytdl(c, cq: CallbackQuery):
     with tempfile.TemporaryDirectory() as tempdir:
         path = os.path.join(tempdir, "ytdl")
     if "vid" in data:
-        ydl = yt_dlp.YoutubeDL(
+        ydl = YoutubeDL(
             {
                 "outtmpl": f"{path}/%(title)s-%(id)s.%(ext)s",
                 "format": f"{vformat}+140",
@@ -381,7 +378,7 @@ async def cli_ytdl(c, cq: CallbackQuery):
             }
         )
     else:
-        ydl = yt_dlp.YoutubeDL(
+        ydl = YoutubeDL(
             {
                 "outtmpl": f"{path}/%(title)s-%(id)s.%(ext)s",
                 "format": "140",
@@ -402,9 +399,9 @@ async def cli_ytdl(c, cq: CallbackQuery):
     caption = f"{ttemp} <a href='{yt['webpage_url']}'>{yt['title']}</a></b>"
     caption += "\n<b>Views:</b> <code>{:,}</code>".format(yt["view_count"])
     caption += "\n<b>Likes:</b> <code>{:,}</code>".format(yt["like_count"])
-    if "vid" in data:
-        try:
-            await c.send_chat_action(cq.message.chat.id, "upload_video")
+    try:
+        if "vid" in data:
+            await c.send_chat_action(cq.message.chat.id, ChatAction.UPLOAD_VIDEO)
             await c.send_video(
                 chat_id=cq.message.chat.id,
                 video=filename,
@@ -415,24 +412,14 @@ async def cli_ytdl(c, cq: CallbackQuery):
                 thumb=thumb,
                 reply_to_message_id=int(mid),
             )
-        except BadRequest as e:
-            await c.send_message(
-                chat_id=cq.message.chat.id,
-                text=(
-                    "Desculpe! Não consegui enviar o "
-                    "vídeo por causa de um erro.\n"
-                    f"<b>Erro:</b> <code>{e}</code>"
-                ),
-                reply_to_message_id=int(mid),
-            )
-    else:
-        if " - " in yt["title"]:
-            performer, title = yt["title"].rsplit(" - ", 1)
         else:
-            performer = yt.get("creator") or yt.get("uploader")
-            title = yt["title"]
-        try:
-            await c.send_chat_action(cq.message.chat.id, "upload_audio")
+            if " - " in yt["title"]:
+                performer, title = yt["title"].rsplit(" - ", 1)
+            else:
+                performer = yt.get("creator") or yt.get("uploader")
+                title = yt["title"]
+
+            await c.send_chat_action(cq.message.chat.id, ChatAction.UPLOAD_AUDIO)
             await c.send_audio(
                 chat_id=cq.message.chat.id,
                 audio=filename,
@@ -443,17 +430,19 @@ async def cli_ytdl(c, cq: CallbackQuery):
                 thumb=thumb,
                 reply_to_message_id=int(mid),
             )
-        except BadRequest as e:
-            await c.send_message(
-                chat_id=cq.message.chat.id,
-                text=(
-                    "Desculpe! Não consegui enviar o "
-                    "vídeo por causa de um erro.\n"
-                    f"<b>Erro:</b> <code>{e}</code>"
-                ),
-                reply_to_message_id=int(mid),
-            )
-    await cq.message.delete()
+    except BadRequest as e:
+        await c.send_message(
+            chat_id=cq.message.chat.id,
+            text=(
+                "Desculpe! Não consegui enviar o "
+                "vídeo por causa de um erro.\n"
+                f"<b>Erro:</b> <code>{e}</code>"
+            ),
+            reply_to_message_id=int(mid),
+        )
+    else:
+        await cq.message.delete()
+
     shutil.rmtree(tempdir, ignore_errors=True)
 
 

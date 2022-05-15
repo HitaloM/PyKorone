@@ -1,6 +1,5 @@
 # SPDX-License-Identifier: GPL-3.0
 # Copyright (c) 2020-2022 Amano Team
-# along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import asyncio
 import html
