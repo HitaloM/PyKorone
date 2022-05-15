@@ -18,7 +18,6 @@ import base64
 import binascii
 import html
 import os
-import random
 import shutil
 import tempfile
 from datetime import datetime
@@ -26,16 +25,10 @@ from typing import Iterable
 
 import httpx
 import regex
-from kantex.html import Bold, Code, KeyValueItem, Section, SubSection
 from pyrogram import filters
 from pyrogram.enums import ChatMemberStatus
 from pyrogram.errors import BadRequest, UserNotParticipant
-from pyrogram.types import (
-    InlineQuery,
-    InlineQueryResultArticle,
-    InputTextMessageContent,
-    Message,
-)
+from pyrogram.types import Message
 
 from korone.config import SUDOERS, SW_API
 from korone.handlers import COMMANDS_HELP
@@ -140,119 +133,6 @@ async def user_info(c: Korone, m: Message):
         )
     else:
         await m.reply_text(text, disable_web_page_preview=True)
-
-
-@Korone.on_inline_query(filters.regex(r"^user"), group=-1)
-async def inline_user(c: Korone, q: InlineQuery):
-    query = q.query.split()
-    if len(query) != 0 and query[0] == "user":
-        user = q.from_user
-
-        text = "<b>Informações do usuário</b>:"
-        text += f"\nID: <code>{user.id}</code>"
-        text += f"\nNome: {html.escape(user.first_name)}"
-
-        if user.last_name:
-            text += f"\nSobrenome: {html.escape(user.last_name)}"
-
-        if user.username:
-            text += f"\nNome de Usuário: @{html.escape(user.username)}"
-
-        text += f"\nLink de Usuário: {user.mention('link', style='html')}"
-
-        await q.answer(
-            [
-                InlineQueryResultArticle(
-                    title="Informações",
-                    description="Exibe informações sobre você.",
-                    input_message_content=InputTextMessageContent(text),
-                )
-            ],
-            cache_time=0,
-        )
-
-
-@Korone.on_inline_query(filters.regex(r"^sw"), group=-1)
-async def inline_sw(c: Korone, q: InlineQuery):
-    query = q.query.split()
-    if len(query) != 0 and query[0] == "sw":
-        args = " ".join(query[1:])
-        try:
-            user = await c.get_users(args) if args else q.from_user
-        except BadRequest as e:
-            await q.answer(
-                [
-                    InlineQueryResultArticle(
-                        title="Erro!",
-                        description="Clique aqui para ver o erro.",
-                        input_message_content=InputTextMessageContent(
-                            f"<b>Erro:</b> <code>{e}</code>"
-                        ),
-                    )
-                ],
-                cache_time=0,
-            )
-
-            return
-        r = await http.get(
-            f"https://api.spamwat.ch/banlist/{int(user.id)}",
-            headers={"Authorization": f"Bearer {SW_API}"},
-        )
-        spamwatch = Section(
-            f"{user.mention(html.escape(user.first_name), style='html')}",
-        )
-        sw_ban = r.json()
-        if r.status_code == 200:
-            ban_message = sw_ban["message"]
-            if ban_message:
-                ban_message = (
-                    f'{ban_message[:128]}{"[...]" if len(ban_message) > 128 else ""}'
-                )
-            spamwatch.extend(
-                [
-                    SubSection(
-                        "SpamWatch",
-                        KeyValueItem(Bold("reason"), Code(sw_ban["reason"])),
-                        KeyValueItem(
-                            Bold("date"),
-                            Code(datetime.fromtimestamp(sw_ban["date"])),
-                        ),
-                        KeyValueItem(Bold("timestamp"), Code(sw_ban["date"])),
-                        KeyValueItem(Bold("admin"), Code(sw_ban["admin"])),
-                        KeyValueItem(Bold("message"), Code(ban_message)),
-                    ),
-                ]
-            )
-            await q.answer(
-                [
-                    InlineQueryResultArticle(
-                        title=f"Sobre {html.escape(user.first_name)} - SpamWatch",
-                        description="Veja se o usuário está banido no SpamWatch.",
-                        input_message_content=InputTextMessageContent(spamwatch),
-                    )
-                ],
-                cache_time=0,
-            )
-
-        elif r.status_code == 404:
-            spamwatch.extend(
-                [
-                    SubSection(
-                        "SpamWatch",
-                        KeyValueItem(Bold("banned"), Code("False")),
-                    ),
-                ]
-            )
-            await q.answer(
-                [
-                    InlineQueryResultArticle(
-                        title=f"Sobre {html.escape(user.first_name)} - SpamWatch",
-                        description="Veja se o usuário está banido no SpamWatch.",
-                        input_message_content=InputTextMessageContent(spamwatch),
-                    )
-                ],
-                cache_time=0,
-            )
 
 
 @Korone.on_message(
