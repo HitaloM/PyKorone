@@ -394,8 +394,10 @@ async def cli_ytdl(c, cq: CallbackQuery):
     thumb = io.BytesIO((await http.get(yt["thumbnail"])).content)
     thumb.name = "thumbnail.jpeg"
     caption = f"{ttemp} <a href='{yt['webpage_url']}'>{yt['title']}</a></b>"
-    caption += "\n<b>Views:</b> <code>{:,}</code>".format(yt["view_count"])
-    caption += "\n<b>Likes:</b> <code>{:,}</code>".format(yt["like_count"])
+    if yt["view_count"]:
+        caption += "\n<b>Views:</b> <code>{:,}</code>".format(yt["view_count"])
+    if yt["like_count"]:
+        caption += "\n<b>Likes:</b> <code>{:,}</code>".format(yt["like_count"])
     try:
         if "vid" in data:
             await c.send_chat_action(cq.message.chat.id, ChatAction.UPLOAD_VIDEO)
@@ -432,7 +434,7 @@ async def cli_ytdl(c, cq: CallbackQuery):
             chat_id=cq.message.chat.id,
             text=(
                 "Desculpe! Não consegui enviar o "
-                "vídeo por causa de um erro.\n"
+                "arquivo por causa de um erro.\n"
                 f"<b>Erro:</b> <code>{e}</code>"
             ),
             reply_to_message_id=int(mid),
