@@ -14,20 +14,15 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-import base64
 import html
 import random
-import re
-from io import BytesIO
 
-from PIL import Image
 from pyrogram import filters
 from pyrogram.errors import BadRequest
 from pyrogram.types import Message
 
 from korone.handlers import COMMANDS_HELP
 from korone.handlers.utils.random import PASTAMOJIS, REACTS, SHRUGS_REACT
-from korone.handlers.utils.thonkify_dict import thonkifydict
 from korone.korone import Korone
 from korone.utils import http
 
@@ -136,41 +131,6 @@ async def vapor(c: Korone, m: Message):
 
 @Korone.on_message(
     filters.cmd(
-        command=r"uwu(\s(?P<text>.+))?",
-        action="Nokofique um texto.",
-        group=GROUP,
-    )
-)
-async def nekofy(c: Korone, m: Message):
-    args = m.matches[0]["text"]
-    if not args and m.reply_to_message:
-        if (m.reply_to_message.text or m.reply_to_message.caption) is not None:
-            args = m.reply_to_message.text or m.reply_to_message.caption
-        else:
-            await m.reply_text("Eu não posso nokoficar o void.")
-            return
-
-    if not args and not m.reply_to_message:
-        await m.reply_text("Eu não posso nokoficar o void.")
-        return
-
-    reply = re.sub(r"(r|l)", "w", args)
-    reply = re.sub(r"(R|L)", "W", reply)
-    reply = re.sub(r"n([aeiou])", r"ny\1", reply)
-    reply = re.sub(r"N([aeiouAEIOU])", r"Ny\1", reply)
-    reply = reply.replace("ove", "uv")
-
-    try:
-        if m.reply_to_message:
-            await m.reply_to_message.reply_text(f"{html.escape(reply)}")
-        else:
-            await m.reply_text(f"{html.escape(reply)}")
-    except BadRequest:
-        return
-
-
-@Korone.on_message(
-    filters.cmd(
         command=r"cp(\s(?P<text>.+))?",
         action="Torne algo em um copypasta.",
         group=GROUP,
@@ -216,111 +176,6 @@ async def copypasta(c: Korone, m: Message):
 
 
 @Korone.on_message(
-    filters.cmd(
-        command=r"mock(\s(?P<text>.+))?",
-        action="Mock um texto.",
-        group=GROUP,
-    )
-)
-async def mock(c: Korone, m: Message):
-    text = m.matches[0]["text"]
-    if not text and m.reply_to_message:
-        if (m.reply_to_message.text or m.reply_to_message.caption) is not None:
-            text = m.reply_to_message.text or m.reply_to_message.caption
-        else:
-            await m.reply_text("Eu preciso de texto...")
-            return
-
-    if not text and not m.reply_to_message:
-        await m.reply_text("Eu preciso de texto...")
-        return
-
-    reply = []
-    for charac in text:
-        if charac.isalpha() and random.randint(0, 1):
-            to_app = charac.upper() if charac.islower() else charac.lower()
-            reply.append(to_app)
-        else:
-            reply.append(charac)
-    mocked_text = "".join(reply)
-
-    try:
-        if m.reply_to_message:
-            await m.reply_to_message.reply_text(f"{html.escape(mocked_text)}")
-        else:
-            await m.reply_text(f"{html.escape(mocked_text)}")
-    except BadRequest:
-        return
-
-
-@Korone.on_message(
-    filters.cmd(
-        command=r"clap(\s(?P<text>.+))?",
-        action="Palmas.",
-        group=GROUP,
-    )
-)
-async def clap(c: Korone, m: Message):
-    text = m.matches[0]["text"]
-    if not text and m.reply_to_message:
-        if (m.reply_to_message.text or m.reply_to_message.caption) is not None:
-            text = m.reply_to_message.text or m.reply_to_message.caption
-        else:
-            await m.reply_text("Eu preciso de texto...")
-            return
-
-    if not text and not m.reply_to_message:
-        await m.reply_text("Eu preciso de texto...")
-        return
-
-    clapped_text = re.sub(" ", " 👏 ", text)
-    reply = f"👏 {clapped_text} 👏"
-
-    try:
-        if m.reply_to_message:
-            await m.reply_to_message.reply_text(f"{html.escape(reply)}")
-        else:
-            await m.reply_text(f"{html.escape(reply)}")
-    except BadRequest:
-        return
-
-
-@Korone.on_message(
-    filters.cmd(
-        command=r"stretch(\s(?P<text>.+))?",
-        action="Estique um texto.",
-        group=GROUP,
-    )
-)
-async def stretch(c: Korone, m: Message):
-    text = m.matches[0]["text"]
-    if not text and m.reply_to_message:
-        if (m.reply_to_message.text or m.reply_to_message.caption) is not None:
-            text = m.reply_to_message.text or m.reply_to_message.caption
-        else:
-            await m.reply_text("Eu preciso de texto...")
-            return
-
-    if not text and not m.reply_to_message:
-        await m.reply_text("Eu preciso de texto...")
-        return
-
-    reply = re.sub(
-        r"([aeiouAEIOUａｅｉｏｕＡＥＩＯＵаеиоуюяыэё])",
-        (r"\1" * random.randint(3, 10)),
-        text,
-    )
-
-    try:
-        if m.reply_to_message:
-            await m.reply_to_message.reply_text(f"{html.escape(reply)}")
-        else:
-            await m.reply_text(f"{html.escape(reply)}")
-    except BadRequest:
-        return
-
-
-@Korone.on_message(
     filters.cmd(command="shrug", action="Em caso de dúvida.", group=GROUP)
 )
 async def shrug(c: Korone, m: Message):
@@ -340,64 +195,3 @@ async def reacts(c: Korone, m: Message):
         await m.reply_to_message.reply_text(react)
     else:
         await m.reply_text(react)
-
-
-@Korone.on_message(
-    filters.cmd(
-        command=r"thonkify(\s(?P<text>.+))?",
-        action="Entenda o que é na prática.",
-        group=GROUP,
-    )
-)
-async def thonkify(c: Korone, m: Message):
-    msg = m.matches[0]["text"]
-    if not msg and m.reply_to_message:
-        if (m.reply_to_message.text or m.reply_to_message.caption) is not None:
-            msg = m.reply_to_message.text or m.reply_to_message.caption
-        else:
-            await m.reply_text("Eu preciso de texto...")
-            return
-
-    if not msg and not m.reply_to_message:
-        await m.reply_text("Eu preciso de texto...")
-        return
-
-    if (len(msg)) > 39:
-        await m.reply_text("Pense você mesmo...")
-        return
-
-    tracking = Image.open(
-        BytesIO(
-            base64.b64decode(
-                "iVBORw0KGgoAAAANSUhEUgAAAAYAAAOACAYAAAAZzQIQAAAALElEQVR4nO3BAQ0AAADCoPdPbQ8HFAAAAAAAAAAAAAAAAAAAAAAAAAAAAPwZV4AAAfA8WFIAAAAASUVORK5CYII="
-            )
-        )
-    )
-
-    for character in msg:
-        if character not in thonkifydict:
-            msg = msg.replace(character, "")
-
-    x = 0
-    y = 896
-    image = Image.new("RGBA", [x, y], (0, 0, 0))
-    for character in msg:
-        value = thonkifydict.get(character)
-        addedimg = Image.new(
-            "RGBA", [x + value.size[0] + tracking.size[0], y], (0, 0, 0)
-        )
-        addedimg.paste(image, [0, 0])
-        addedimg.paste(tracking, [x, 0])
-        addedimg.paste(value, [x + tracking.size[0], 0])
-        image = addedimg
-        x = x + value.size[0] + tracking.size[0]
-
-    maxsize = 1024, 896
-    if image.size[0] > maxsize[0]:
-        image.thumbnail(maxsize, Image.ANTIALIAS)
-
-    with BytesIO() as buffer:
-        buffer.name = "image.webp"
-        image.save(buffer, "PNG")
-        buffer.seek(0)
-        await m.reply_sticker(buffer)

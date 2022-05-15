@@ -60,7 +60,7 @@ async def on_terminal_m(c: Korone, m: Message):
             )
             document.name = "output.txt"
             await c.send_document(
-                chat_id=m.chat.id, document=document, reply_to_message_id=m.message_id
+                chat_id=m.chat.id, document=document, reply_to_message_id=m.id
             )
         else:
             output_message += f"<b>Output\n&gt;</b> {output}"
@@ -90,7 +90,7 @@ async def on_eval_m(c: Korone, m: Message):
             )
             document.name = "output.txt"
             await c.send_document(
-                chat_id=m.chat.id, document=document, reply_to_message_id=m.message_id
+                chat_id=m.chat.id, document=document, reply_to_message_id=m.id
             )
         else:
             output_message += f"<b>Output\n&gt;</b> {output}"
@@ -208,7 +208,7 @@ async def echo(c: Korone, m: Message):
     kwargs = {}
     reply = m.reply_to_message
     if reply:
-        kwargs["reply_to_message_id"] = reply.message_id
+        kwargs["reply_to_message_id"] = reply.id
     try:
         await m.delete()
     except BadRequest:
@@ -222,7 +222,7 @@ async def copy(c: Korone, m: Message):
         await c.copy_message(
             chat_id=m.chat.id,
             from_chat_id=m.chat.id,
-            message_id=m.reply_to_message.message_id,
+            message_id=m.reply_to_message.id,
         )
     except BadRequest as e:
         await m.reply_text(f"<b>Erro!</b>\n<code>{e}</code>")

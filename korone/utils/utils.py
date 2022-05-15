@@ -37,7 +37,7 @@ http = httpx.AsyncClient(http2=True, timeout=timeout, follow_redirects=True)
 def pretty_size(size_bytes):
     if size_bytes == 0:
         return "0B"
-    size_name: Itrerable[str] = ("B", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB")
+    size_name: Iterable[str] = ("B", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB")
     i = int(math.floor(math.log(size_bytes, 1024)))
     p = math.pow(1024, i)
     s = round(size_bytes / p, 2)

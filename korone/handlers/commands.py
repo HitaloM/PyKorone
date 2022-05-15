@@ -28,6 +28,7 @@ import httpx
 import regex
 from kantex.html import Bold, Code, KeyValueItem, Section, SubSection
 from pyrogram import filters
+from pyrogram.enums import ChatMemberStatus
 from pyrogram.errors import BadRequest, UserNotParticipant
 from pyrogram.types import (
     InlineQuery,
@@ -123,9 +124,9 @@ async def user_info(c: Korone, m: Message):
 
     try:
         member = await c.get_chat_member(chat_id=m.chat.id, user_id=user.id)
-        if member.status in ["administrator"]:
+        if member.status == ChatMemberStatus.ADMINISTRATOR:
             text += "\n\nEste usuário é um <b>'administrador'</b> neste grupo."
-        elif member.status in ["creator"]:
+        elif member.status == ChatMemberStatus.OWNER:
             text += "\n\nEste usuário é o <b>'criador'</b> deste grupo."
     except (UserNotParticipant, ValueError):
         pass
@@ -505,7 +506,7 @@ async def chat_info(c: Korone, m: Message):
             text += f"Datacenter: <code>{chat.dc_id}</code>\n"
         text += f"Membros: <code>{chat.members_count}</code>\n"
         if chat.id == m.chat.id:
-            text += f"Mensagens: <code>{m.message_id + 1}</code>\n"
+            text += f"Mensagens: <code>{m.id + 1}</code>\n"
         if chat.invite_link and m.from_user.id in SUDOERS:
             text += f"Link de Convite: {chat.invite_link}\n"
         if chat.description:

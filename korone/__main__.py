@@ -17,25 +17,17 @@
 import asyncio
 import logging
 
-import aiohttp
-import pyrogram
+from pyrogram import idle
 from pyrogram.session import Session
-from rich import box
-from rich import print as rprint
-from rich.logging import RichHandler
-from rich.panel import Panel
 
-import korone
 from korone.korone import Korone
 from korone.utils import http, is_windows
 
-# Logging colorized by rich
-FORMAT = "%(message)s"
+# Custom logging format
 logging.basicConfig(
-    level="INFO",
-    format=FORMAT,
+    level=logging.INFO,
+    format="%(name)s.%(funcName)s | %(levelname)s | %(message)s",
     datefmt="[%X]",
-    handlers=[RichHandler(rich_tracebacks=True)],
 )
 
 
@@ -56,33 +48,28 @@ except ImportError:
         log.warning("uvloop is not installed and therefore will be disabled.")
 
 
-# Beautiful init with rich
-text = ":rocket: [bold green]PyKorone Running...[/bold green] :rocket:"
-text += f"\nKorone v{korone.__version__}"
-text += f"\nPyrogram v{pyrogram.__version__}"
-text += f"\n{korone.__license__}"
-text += f"\n{korone.__copyright__}"
-rprint(Panel.fit(text, border_style="blue", box=box.ASCII))
-
-
 # Disable ugly pyrogram notice print
 Session.notice_displayed = True
 
 
-async def close_http() -> None:
-    # Closing the aiohttp session use by some packages.
-    await aiohttp.ClientSession().close()
-
-    # Closing the httpx session use by the bot.
+async def main() -> None:
+    korone = Korone()
+    await korone.start()
+    await idle()
+    await korone.stop()
     await http.aclose()
 
 
 if __name__ == "__main__":
+    # open new asyncio event loop
+    event_policy = asyncio.get_event_loop_policy()
+    event_loop = event_policy.new_event_loop()
     try:
-        Korone().run()
+        # start the sqlite database and pyrogram client
+        event_loop.run_until_complete(main())
     except KeyboardInterrupt:
+        # exit gracefully
         log.warning("Forced stop... Bye!")
     finally:
-        event_policy = asyncio.get_event_loop_policy()
-        event_loop = event_policy.new_event_loop()
-        event_loop.run_until_complete(close_http())
+        # close asyncio event loop
+        event_loop.close()

@@ -20,6 +20,7 @@ import random
 
 import wikipedia
 from pyrogram import filters
+from pyrogram.enums import ChatMemberStatus, ChatType
 from pyrogram.errors import BadRequest, Forbidden
 from pyrogram.types import Message
 
@@ -40,13 +41,13 @@ COMMANDS_HELP[GROUP] = {
 
 @Korone.on_message(filters.int(filter=r"Korone, gire um dado", group=GROUP))
 async def dice(c: Korone, m: Message):
-    dicen = await c.send_dice(m.chat.id, reply_to_message_id=m.message_id)
+    dicen = await c.send_dice(m.chat.id, reply_to_message_id=m.id)
     await dicen.reply_text(f"O dado parou no número <code>{dicen.dice.value}</code>!")
 
 
 @Korone.on_message(filters.int(filter=r"Korone, remova ele", group=GROUP))
 async def kick(c: Korone, m: Message):
-    if m.chat.type == "private":
+    if m.chat.type == ChatType.PRIVATE:
         await m.reply_text("Este comando é para ser usado em grupos!")
         return
 
@@ -56,7 +57,7 @@ async def kick(c: Korone, m: Message):
             "Você não possui a permissão para banir usuários neste grupo!"
         )
 
-    if member.status in ["administrator", "creator"]:
+    if member.status in (ChatMemberStatus.ADMINISTRATOR, ChatMemberStatus.OWNER):
         try:
             await c.ban_chat_member(m.chat.id, m.reply_to_message.from_user.id)
             await m.chat.unban_member(m.reply_to_message.from_user.id)

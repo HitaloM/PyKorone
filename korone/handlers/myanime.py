@@ -25,6 +25,7 @@ import anilist
 from httpx import TimeoutException
 from jikanpy import AioJikan
 from pyrogram import filters
+from pyrogram.enums import ParseMode
 from pyrogram.errors import BadRequest, QueryIdInvalid
 from pyrogram.types import (
     Document,
@@ -291,7 +292,7 @@ async def anilist_character(c: Korone, m: Message):
     if hasattr(character, "description"):
         description = character.description
         description = description.replace("__", "**")
-        description = description.replace("~", "~~")
+        description = description.replace("~", "||")
 
         if len(character.description) > 700:
             description = f"{description[0:500]}[...]"
@@ -315,13 +316,13 @@ async def anilist_character(c: Korone, m: Message):
             photo=photo,
             caption=text,
             reply_markup=c.ikb(keyboard),
-            parse_mode="combined",
+            parse_mode=ParseMode.DEFAULT,
         )
     else:
         await m.reply_text(
             text,
             reply_markup=c.ikb(keyboard),
-            parse_mode="combined",
+            parse_mode=ParseMode.DEFAULT,
         )
 
 

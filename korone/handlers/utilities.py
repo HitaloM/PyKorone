@@ -28,6 +28,7 @@ from bs4 import BeautifulSoup as bs
 from httpx._exceptions import TimeoutException
 from NyaaPy import Nyaa
 from pyrogram import filters
+from pyrogram.enums import ChatMemberStatus, ChatType
 from pyrogram.errors import BadRequest, Forbidden, MessageTooLong
 from pyrogram.types import CallbackQuery, Message
 from telegraph.aio import Telegraph
@@ -111,12 +112,12 @@ async def pypi(c: Korone, m: Message):
     )
 )
 async def cleanup(c: Korone, m: Message):
-    if m.chat.type == "private":
+    if m.chat.type == ChatType.PRIVATE:
         await m.reply_text("Este comando é para ser usado em grupos!")
         return
 
     member = await c.get_chat_member(chat_id=m.chat.id, user_id=m.from_user.id)
-    if member.status in ["administrator", "creator"]:
+    if member.status in (ChatMemberStatus.ADMINISTRATOR, ChatMemberStatus.OWNER):
         deleted = []
         sent = await m.reply_text("Iniciando limpeza...")
         async for t in c.iter_chat_members(chat_id=m.chat.id, filter="all"):
@@ -343,11 +344,11 @@ async def on_ytdl(c: Korone, m: Message):
         [
             (
                 "💿 Áudio",
-                f"_aud.{yt['id']}|{afsize}|{vformat}|{temp}|{user}|{m.message_id}",
+                f"_aud.{yt['id']}|{afsize}|{vformat}|{temp}|{user}|{m.id}",
             ),
             (
                 "🎬 Vídeo",
-                f"_vid.{yt['id']}|{vfsize}|{vformat}|{temp}|{user}|{m.message_id}",
+                f"_vid.{yt['id']}|{vfsize}|{vformat}|{temp}|{user}|{m.id}",
             ),
         ]
     ]
@@ -601,15 +602,15 @@ async def del_message(c: Korone, m: Message):
     if m.chat.type != "private":
         member = await c.get_chat_member(chat_id=m.chat.id, user_id=m.from_user.id)
 
-    if m.chat.type == "private" or member.status in [
-        "administrator",
-        "creator",
-    ]:
+    if m.chat.type == ChatType.PRIVATE or member.status in (
+        ChatMemberStatus.ADMINISTRATOR,
+        ChatMemberStatus.OWNER,
+    ):
         try:
             if m.reply_to_message:
                 await c.delete_messages(
                     chat_id=m.chat.id,
-                    message_ids=[m.reply_to_message.message_id, m.message_id],
+                    message_ids=[m.reply_to_message.id, m.id],
                     revoke=True,
                 )
         except Forbidden as e:

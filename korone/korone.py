@@ -15,14 +15,12 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import logging
-import platform
 from datetime import datetime, timezone
 
-import pyrogram
 import sentry_sdk
-from pyrogram import Client
+from pyrogram import Client, __version__
 from pyrogram.enums import ParseMode
-from pyrogram.errors import BadRequest, ChatWriteForbidden
+from pyrogram.errors import BadRequest
 from pyrogram.helpers import ikb
 from pyrogram.raw.all import layer
 from pyrogram.types import Message, User
@@ -37,7 +35,6 @@ log = logging.getLogger(__name__)
 class Korone(Client):
     def __init__(self):
         name = self.__class__.__name__.lower()
-        self.is_sudo = SUDOERS
 
         super().__init__(
             name=name,
@@ -52,14 +49,17 @@ class Korone(Client):
             sleep_threshold=180,
         )
 
+        self.sudos = SUDOERS
+
         # Save start time (useful for uptime info)
         self.start_time = datetime.now().replace(tzinfo=timezone.utc)
 
     async def start(self):
         await super().start()
 
-        # Saving commit number
+        # Save version info
         self.version_code = int((await shell_exec("git rev-list --count HEAD"))[0])
+        self.version = str((await shell_exec("git rev-parse --short HEAD"))[0])
 
         # Some useful vars
         self.me = await self.get_me()
@@ -73,23 +73,24 @@ class Korone(Client):
 
         log.info(
             "PyKorone for Pyrogram v%s (Layer %s) started on @%s. Hi.",
-            pyrogram.__version__,
+            __version__,
             layer,
             self.me.username,
         )
 
         # Startup message
-        start_message = (
-            f"<b>PyKorone <code>v{korone.__version__} "
-            f"({self.version_code})</code> started...</b>\n"
-            f"- <b>Pyrogram:</b> <code>v{pyrogram.__version__}</code>\n"
-            f"- <b>Python:</b> <code>v{platform.python_version()}</code>\n"
-            f"- <b>System:</b> <code>{self.system_version}</code>"
-        )
         try:
-            await self.send_message(chat_id=LOGS_CHANNEL, text=start_message)
-        except (BadRequest, ChatWriteForbidden):
-            log.warning("Unable to send the startup message to the LOGS_CHANNEL!")
+            for sudo in self.sudos:
+                await self.send_message(
+                    chat_id=sudo,
+                    text=(
+                        f"<b>PyKorone</b> <a href='https://github.com/AmanoTeam/PyKorone/commit/{self.version}'>{self.version}</a> (<code>{self.version_code}</code>) started!"
+                        f"\n<b>Pyrogram</b> <code>v{__version__}</code> (Layer {layer})"
+                    ),
+                    disable_web_page_preview=True,
+                )
+        except BadRequest:
+            log.error("Error while sending the startup message.", exc_info=True)
 
     async def restart(self, *args):
         log.info("PyKorone client is restarting...")
@@ -119,4 +120,4 @@ class Korone(Client):
         return
 
     def is_sudoer(self, user: User) -> bool:
-        return user.id in self.is_sudo
+        return user.id in self.sudos

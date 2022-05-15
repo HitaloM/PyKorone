@@ -19,6 +19,7 @@ from contextlib import suppress
 from typing import Union
 
 from pyrogram import filters
+from pyrogram.enums import ChatType
 from pyrogram.errors import MessageNotModified
 from pyrogram.types import CallbackQuery, Message
 
@@ -66,7 +67,7 @@ async def start(c: Korone, m: Union[Message, CallbackQuery]):
                 korone.__version__,
                 c.version_code,
             )
-            if m.chat.type == "private":
+            if m.chat.type == ChatType.PRIVATE:
                 keyboard.append([("📚 Ajuda", "help_cb"), ("ℹ️ Sobre", "about")])
                 keyboard.append(
                     [("👥 Grupo Off-Topic", "https://t.me/SpamTherapy", "url")]
