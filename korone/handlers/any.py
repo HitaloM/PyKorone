@@ -27,7 +27,7 @@ from pyrogram.types import (
 from korone.korone import Korone
 
 
-@Korone.on_message(filters.edited)
+@Korone.on_edited_message()
 async def reject_edited(c: Korone, m: Message):
     m.stop_propagation()
 

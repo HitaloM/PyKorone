@@ -3,11 +3,7 @@ dist/
 *.egg-info/
 
 # Cache
-korone/__pycache__/
-korone/handlers/__pycache__/
-korone/handlers/utils/__pycache__/
-korone/database/__pycache__/
-korone/utils/__pycache__/
+__pycache__
 
 # tortoise-orm database
 korone/database/*.sqlite*

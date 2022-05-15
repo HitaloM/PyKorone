@@ -36,7 +36,7 @@ from yt_dlp.utils import DownloadError
 
 from korone.handlers import COMMANDS_HELP
 from korone.handlers.utils.image import stickcolorsync
-from korone.handlers.utils.misc import duck, escape_definition
+from korone.handlers.utils.misc import escape_definition
 from korone.handlers.utils.translator import get_tr_lang, tr
 from korone.handlers.utils.ytdl import extract_info
 from korone.korone import Korone
@@ -101,35 +101,6 @@ async def pypi(c: Korone, m: Message):
             disable_web_page_preview=True,
         )
     return
-
-
-@Korone.on_message(
-    filters.cmd(
-        command="duckgo (?P<search>.+)",
-        action="Faça uma pesquisa no DuckDuckGo através do korone.",
-        group=GROUP,
-    )
-)
-async def duckduckgo(c: Korone, m: Message):
-    query = m.matches[0]["search"]
-    results = await duck.search(query)
-
-    msg = ""
-    for i in range(1, 6):
-        try:
-            title = results[i].title
-            link = results[i].url
-            desc = results[i].description
-            msg += f"{i}. <a href='{link}'>{html.escape(title)}</a>\n<code>{html.escape(desc)}</code>\n\n"
-        except IndexError:
-            break
-
-    text = (
-        f"<b>Consulta:</b>\n<code>{html.escape(query)}</code>"
-        f"\n\n<b>Resultados:</b>\n{msg}"
-    )
-
-    await m.reply_text(text, disable_web_page_preview=True)
 
 
 @Korone.on_message(
