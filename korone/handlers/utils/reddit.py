@@ -6,6 +6,7 @@ from typing import Tuple
 
 from asyncpraw import Reddit
 from asyncprawcore import exceptions as redex
+from pyrogram.enums import ParseMode
 
 from korone.config import REDDIT_ID, REDDIT_SECRET
 
@@ -140,7 +141,7 @@ async def bodyfetcher(c, m, sub: str):
         await m.reply_text(
             f"<b>{title}</b>\n\n{html.escape(body)}",
             reply_markup=c.ikb(keyboard),
-            parse_mode="combined",
+            parse_mode=ParseMode.DEFAULT,
         )
         return
 

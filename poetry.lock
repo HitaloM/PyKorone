@@ -69,14 +69,6 @@ test = ["coverage[toml] (>=4.5)", "hypothesis (>=4.0)", "pytest (>=7.0)", "pytes
 trio = ["trio (>=0.16)"]
 
 [[package]]
-name = "async-files"
-version = "0.4"
-description = "Async Files"
-category = "main"
-optional = false
-python-versions = "*"
-
-[[package]]
 name = "async-generator"
 version = "1.10"
 description = "Async generators and context managers for Python 3.5+"
@@ -850,7 +842,7 @@ fast = ["uvloop"]
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.7"
-content-hash = "e0e470105bbab183d03256a602f51ab830a96c37bbb845b490950b9f22504d9b"
+content-hash = "16db90f41bf1c9daa93446bc4fb606d0a963e345754f947a2d309ea9f93588ea"
 
 [metadata.files]
 aiofiles = [
@@ -942,9 +934,6 @@ aiosqlite = [
 anyio = [
     {file = "anyio-3.6.1-py3-none-any.whl", hash = "sha256:cb29b9c70620506a9a8f87a309591713446953302d7d995344d0d7c6c0c9a7be"},
     {file = "anyio-3.6.1.tar.gz", hash = "sha256:413adf95f93886e442aea925f3ee43baa5a765a64a0f52c6081894f9992fdd0b"},
-]
-async-files = [
-    {file = "async_files-0.4-py2.py3-none-any.whl", hash = "sha256:64497938a623c57612e5cb5a7d0f4850ba8a338b1e8ea00e1dfa32ebfa0bc34c"},
 ]
 async-generator = [
     {file = "async_generator-1.10-py3-none-any.whl", hash = "sha256:01c7bf666359b4967d2cda0000cc2e4af16a0ae098cbffcb8472fb9e8ad6585b"},
