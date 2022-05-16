@@ -55,7 +55,7 @@ async def pypi(c: Korone, m: Message):
         json = r.json()
         pypi_info = escape_definition(json["info"])
         message = (
-            "<b>%s</b> Por <i>%s %s</i>\n"
+            "<b>%s</b> por <i>%s %s</i>\n"
             "Plataforma: <b>%s</b>\n"
             "Versão: <b>%s</b>\n"
             "Licença: <b>%s</b>\n"
@@ -578,7 +578,7 @@ async def mcserver(c: Korone, m: Union[Message, CallbackQuery]):
     )
 )
 async def del_message(c: Korone, m: Message):
-    if m.chat.type != "private":
+    if m.chat.type != ChatType.PRIVATE:
         member = await c.get_chat_member(chat_id=m.chat.id, user_id=m.from_user.id)
 
     if m.chat.type == ChatType.PRIVATE or member.status in (

@@ -2,7 +2,6 @@
 # Copyright (c) 2020-2022 Amano Team
 
 import asyncio
-import html
 import math
 import os
 import platform
@@ -12,7 +11,6 @@ from typing import Callable, Iterable
 
 import httpx
 from pyrogram import Client
-from pyrogram.errors import ChatWriteForbidden
 from pyrogram.types import Message
 
 # unique session of httpx
@@ -29,25 +27,6 @@ def pretty_size(size_bytes):
     p = math.pow(1024, i)
     s = round(size_bytes / p, 2)
     return "%s %s" % (s, size_name[i])
-
-
-def leave_if_muted(func: Callable) -> Callable:
-    @wraps(func)
-    async def leave(c: Client, m: Message, *args, **kwargs):
-        try:
-            await func(c, m, *args, **kwargs)
-        except ChatWriteForbidden:
-            await c.leave_chat(m.chat.id)
-            await c.send_log(
-                (
-                    f"Eu saí do grupo <b>{html.escape(m.chat.title)}</b>"
-                    f" (<code>{m.chat.id}</code>) por terem me silenciado."
-                ),
-                disable_notification=False,
-                disable_web_page_preview=True,
-            )
-
-    return leave
 
 
 def aiowrap(func: Callable) -> Callable:
