@@ -283,6 +283,7 @@ async def on_ytdl(c: Korone, m: Message):
     YOUTUBE_REGEX = re.compile(
         r"(?m)http(?:s?):\/\/(?:www\.)?(?:music\.)?youtu(?:be\.com\/(watch\?v=|shorts/)|\.be\/|)([\w\-\_]*)(&(amp;)?[\w\?=]*)?"
     )
+    PLAYLIST_REGEX = re.compile(rf".*({YOUTUBE_REGEX}\/|list=)([^#\&\?]*).*")
     TIME_REGEX = re.compile(r"[?&]t=([0-9]+)")
     args = m.matches[0]["text"]
     user = m.from_user.id
@@ -303,6 +304,11 @@ async def on_ytdl(c: Korone, m: Message):
         }
     )
     match = YOUTUBE_REGEX.match(url)
+    playlist = PLAYLIST_REGEX.match(url)
+
+    if playlist:
+        await m.reply_text("Playlists não são suportadas no momento!")
+        return
 
     t = TIME_REGEX.search(url)
     temp = t.group(1) if t else 0
