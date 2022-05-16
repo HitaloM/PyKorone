@@ -242,9 +242,8 @@ async def on_ttdl(c: Korone, m: Message):
     thumb.name = "thumbnail.jpeg"
     await sent.edit("Enviando...")
     keyboard = [[("🔗 Tweet", tt["webpage_url"], "url")]]
-    await c.send_chat_action(m.chat.id, "upload_video")
+    await c.send_chat_action(m.chat.id, ChatAction.UPLOAD_VIDEO)
     try:
-        await c.send_chat_action(m.chat.id, "upload_video")
         if tt["duration"] and vwidth and vheight:
             await m.reply_video(
                 video=filename,
@@ -268,8 +267,8 @@ async def on_ttdl(c: Korone, m: Message):
                 f"<b>Erro:</b> <code>{e}</code>"
             )
         )
-
-    await sent.delete()
+    else:
+        await sent.delete()
     shutil.rmtree(tempdir, ignore_errors=True)
 
 
@@ -316,7 +315,7 @@ async def on_ytdl(c: Korone, m: Message):
     for f in yt["formats"]:
         if f["format_id"] == "140":
             afsize = f["filesize"] or 0
-        if f["ext"] == "mp4" and f["filesize"] is not None:
+        if f["ext"] == "mp4" and f["filesize"]:
             vfsize = f["filesize"] or 0
             vformat = f["format_id"]
 

@@ -4,7 +4,6 @@
 import html
 import random
 import re
-from typing import List
 
 from pyrogram import filters
 from pyrogram.types import Message
@@ -35,19 +34,15 @@ COMMANDS_HELP[GROUP] = {
 
 @Korone.on_message(filters.int(filter=r"koto", group=GROUP))
 async def koto(c: Korone, m: Message):
-    await c.send_sticker(
-        chat_id=m.chat.id,
-        reply_to_message_id=m.message_id,
-        sticker="CAACAgQAAx0CT2XwHwACWD5f78orS_P4vhpvK29jDz2LE4Ju4QAC2QEAAgYlKAOlyAtKtsFCAAEeBA",
+    await m.reply_sticker(
+        "CAACAgQAAx0CT2XwHwACWD5f78orS_P4vhpvK29jDz2LE4Ju4QAC2QEAAgYlKAOlyAtKtsFCAAEeBA"
     )
 
 
 @Korone.on_message(filters.int(filter=r"(sexo+|sex+|sexy)", group=GROUP))
 async def sexo(c: Korone, m: Message):
-    await c.send_sticker(
-        chat_id=m.chat.id,
-        reply_to_message_id=m.message_id,
-        sticker="CAACAgEAAx0ET2XwHwACXhRgDhGeDumnwAvIoNsqdCXZHEmk0gACdwIAAjFpvDZsvaEGCsVJsB4E",
+    await m.reply_sticker(
+        "CAACAgEAAx0ET2XwHwACXhRgDhGeDumnwAvIoNsqdCXZHEmk0gACdwIAAjFpvDZsvaEGCsVJsB4E"
     )
 
 
@@ -241,45 +236,13 @@ async def sopa_de_macaco(c: Korone, m: Message):
 
 @Korone.on_message(filters.int(filter=r"hamster", group=GROUP))
 async def hamster(c: Korone, m: Message):
-    await c.send_sticker(
-        chat_id=m.chat.id,
-        reply_to_message_id=m.message_id,
-        sticker="CAACAgEAAxkDAAJHomCNz3Z_wkvAXJDK1t6regj-Z7TzAAKGAQACksphRNFqROtXZ1hmHgQ",
+    await m.reply_sticker(
+        "CAACAgEAAxkDAAJHomCNz3Z_wkvAXJDK1t6regj-Z7TzAAKGAQACksphRNFqROtXZ1hmHgQ"
     )
 
 
 @Korone.on_message(filters.int(filter=r"marimbondo", group=GROUP))
 async def marimbondo(c: Korone, m: Message):
-    await c.send_sticker(
-        chat_id=m.chat.id,
-        reply_to_message_id=m.message_id,
-        sticker="CAACAgEAAxkBAAJX12CP-xtHmZYkAAGVEZWyD3BNynJ2LQACWAEAAtZ0eESGMNhu53i1Yh4E",
+    await m.reply_sticker(
+        "CAACAgEAAxkBAAJX12CP-xtHmZYkAAGVEZWyD3BNynJ2LQACWAEAAtZ0eESGMNhu53i1Yh4E"
     )
-
-
-@Korone.on_message(filters.int(filter=r"t(ô|o) triste|estou triste", group=GROUP))
-async def im_sad(c: Korone, m: Message):
-    await m.reply_text(
-        f"Ah não {html.escape(m.from_user.first_name)}, por que você está triste...?\n"
-        "Talvez Korone possa fazer algo por você? ^^"
-    )
-
-
-@Korone.on_message(filters.int(filter=r"explos(a|ã)o", group=GROUP))
-async def explosion(c: Korone, m: Message):
-    TEXT: str = "EX---PLOOOOSÃÃOOO!"
-    GIF: str = (
-        "BQACAgQAAxkDAAEBQZVgy3egskl2SmWml-HOM-hUy36wQgACQwYAAneoIFPe6uq9TGSJVR4E"
-    )
-    AUDIO: str = (
-        "AwACAgQAAxkDAAEBQadgy3ebYFXCq_0x0-ThTbweIVmtsgAC2QIAAt6KcVP_7-ujbkBsaB4E"
-    )
-    EXPLOSION_LIST: List = [TEXT, GIF, AUDIO]
-
-    react = random.choice(EXPLOSION_LIST)
-    if react == GIF:
-        await m.reply_document(react)
-    if react == AUDIO:
-        await m.reply_voice(react)
-    if react == TEXT:
-        await m.reply_text(react)

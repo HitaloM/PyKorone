@@ -66,10 +66,7 @@ async def start(c: Korone, m: Union[Message, CallbackQuery]):
             )
     if isinstance(m, CallbackQuery):
         text = (start_text).format(m.from_user.first_name, c.me.first_name)
-        keyboard = [
-            [("📚 Ajuda", "help_cb"), ("ℹ️ Sobre", "about")],
-            [("👥 Grupo Off-Topic", "https://t.me/SpamTherapy", "url")],
-        ]
+        keyboard = [[("📚 Ajuda", "help_cb"), ("ℹ️ Sobre", "about")]]
         with suppress(MessageNotModified):
             await m.message.edit_text(text, reply_markup=c.ikb(keyboard))
 
