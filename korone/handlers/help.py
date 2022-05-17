@@ -10,7 +10,6 @@ from pyrogram.enums import ChatType
 from pyrogram.errors import MessageNotModified
 from pyrogram.types import CallbackQuery, Message
 
-import korone
 from korone.bot import Korone
 from korone.handlers import COMMANDS_HELP
 
@@ -36,7 +35,13 @@ Versão: {} (<code>{}</code>)
 )
 @Korone.on_callback_query(filters.regex(r"^start_back$"))
 async def start(c: Korone, m: Union[Message, CallbackQuery]):
-    if isinstance(m, Message):
+    is_query = isinstance(m, CallbackQuery)
+    keyboard = [[("📚 Ajuda", "help_cb"), ("ℹ️ Sobre", "about")]]
+    if is_query:
+        text = (start_text).format(m.from_user.first_name, c.me.first_name)
+        with suppress(MessageNotModified):
+            await m.message.edit_text(text, reply_markup=c.ikb(keyboard))
+    else:
         query = m.text.split()
         if len(query) > 1:
             field = query[1]
@@ -45,12 +50,9 @@ async def start(c: Korone, m: Union[Message, CallbackQuery]):
                 module = query[1]
                 await help_module(c, m, module)
         else:
-            keyboard = []
             text = (start_text).format(m.from_user.first_name, c.me.first_name)
-            if m.chat.type == ChatType.PRIVATE:
-                keyboard.append([("📚 Ajuda", "help_cb"), ("ℹ️ Sobre", "about")])
-            else:
-                keyboard.append(
+            if not m.chat.type == ChatType.PRIVATE:
+                keyboard = [
                     [
                         (
                             "Clique aqui para obter ajuda!",
@@ -58,23 +60,18 @@ async def start(c: Korone, m: Union[Message, CallbackQuery]):
                             "url",
                         )
                     ]
-                )
+                ]
                 text += "\nVocê pode ver tudo que eu posso fazer clicando no botão abaixo..."
             await m.reply_text(
                 text,
                 reply_markup=c.ikb(keyboard),
             )
-    if isinstance(m, CallbackQuery):
-        text = (start_text).format(m.from_user.first_name, c.me.first_name)
-        keyboard = [[("📚 Ajuda", "help_cb"), ("ℹ️ Sobre", "about")]]
-        with suppress(MessageNotModified):
-            await m.message.edit_text(text, reply_markup=c.ikb(keyboard))
 
 
 @Korone.on_message(filters.cmd(r"help (?P<module>.+)"))
 async def help_m(c: Korone, m: Message):
     module = m.matches[0]["module"]
-    if m.chat.type == "private":
+    if m.chat.type == ChatType.PRIVATE:
         if module in COMMANDS_HELP.keys() or module in [
             "commands",
             "filters",
@@ -110,7 +107,7 @@ async def help_m(c: Korone, m: Message):
 @Korone.on_message(filters.cmd(command=r"help", action="Envia o menu de ajuda do Bot."))
 @Korone.on_callback_query(filters.regex(r"^help_cb$"))
 async def help_c(c: Korone, m: Union[Message, CallbackQuery]):
-    if isinstance(m, Message) and m.chat.type in ["supergroup", "group"]:
+    if isinstance(m, Message) and m.chat.type in (ChatType.GROUP, ChatType.SUPERGROUP):
         keyboard = [[("Ir ao PV", f"https://t.me/{c.me.username}/?start", "url")]]
         await m.reply_text(
             "Para obter ajuda vá ao meu PV!", reply_markup=c.ikb(keyboard)
