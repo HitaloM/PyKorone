@@ -13,7 +13,7 @@ from typing import Union
 from bs4 import BeautifulSoup as bs
 from httpx._exceptions import TimeoutException
 from pyrogram import filters
-from pyrogram.enums import ChatAction, ChatMemberStatus, ChatType
+from pyrogram.enums import ChatAction, ChatMembersFilter, ChatMemberStatus, ChatType
 from pyrogram.errors import BadRequest, Forbidden, MessageTooLong
 from pyrogram.types import CallbackQuery, Message
 from telegraph.aio import Telegraph
@@ -106,7 +106,7 @@ async def cleanup(c: Korone, m: Message):
     if member.status in (ChatMemberStatus.ADMINISTRATOR, ChatMemberStatus.OWNER):
         deleted = []
         sent = await m.reply_text("Iniciando limpeza...")
-        async for t in c.iter_chat_members(chat_id=m.chat.id, filter="all"):
+        async for t in c.get_chat_members(chat_id=m.chat.id):
             if t.user.is_deleted:
                 try:
                     await c.ban_chat_member(m.chat.id, t.user.id)

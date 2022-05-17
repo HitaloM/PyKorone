@@ -5,23 +5,14 @@
 from typing import List
 
 from . import filters
-from .utils import (
-    aiowrap,
-    client_restart,
-    http,
-    is_windows,
-    leave_if_muted,
-    pretty_size,
-    shell_exec,
-)
+from .utils import aiowrap, client_restart, http, is_windows, pretty_size, shell_exec
 
 __all__: List[str] = [
     "aiowrap",
+    "client_restart",
+    "filters",
     "http",
     "is_windows",
     "pretty_size",
     "shell_exec",
-    "leave_if_muted",
-    "client_restart",
-    "filters",
 ]
