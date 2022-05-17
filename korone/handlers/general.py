@@ -13,7 +13,7 @@ from typing import Iterable
 import httpx
 import regex
 from pyrogram import filters
-from pyrogram.enums import ChatMemberStatus
+from pyrogram.enums import ChatMemberStatus, ChatType
 from pyrogram.errors import BadRequest, UserNotParticipant
 from pyrogram.types import Message
 
@@ -352,7 +352,11 @@ async def getsticker(c: Korone, m: Message):
 )
 async def chat_info(c: Korone, m: Message):
     args = m.matches[0]["text"]
-    CHAT_TYPES: Iterable[str] = ("channel", "group", "supergroup")
+    CHAT_TYPES: Iterable[str] = (
+        ChatType.CHANNEL,
+        ChatType.GROUP,
+        ChatType.SUPERGROUP,
+    )
 
     try:
         chat = await c.get_chat(args) if args else await c.get_chat(m.chat.id)
