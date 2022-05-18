@@ -567,17 +567,17 @@ STRINGS:
     mute_self: If you want to mute yourself - just stop talking! Better to thought a fool than open your mouth and remove all doubt.
     user_muted: "{user} was muted by {admin} in {chat_name}."
     unmute_sophie: Actually, I'm not muted.
-    unmute_admin: Haha no, try muting him first!
+    unmute_admin: Haha no, try muting them first!
     unmute_self: Should I mute you first?
     user_unmuted: "{user} was unmuted by {admin} in {chat_name}."
 
     # Bans
     ban_sophie: No, I won't do it! Ask the chat creator to do it!
-    ban_admin: Haha, let's <code>/demote</code> him first.
+    ban_admin: Haha, let's <code>/demote</code> them first.
     ban_self: Why are you trying to ban yourself?
     user_banned: "{user} was banned by {admin} in {chat_name}."
     unban_sophie: Actually, I'm not banned.
-    unban_admin: Haha no, try banning him first!
+    unban_admin: Haha no, try banning them first!
     unban_self: Should I ban you first?
     user_unband: "{user} was unbanned by {admin} in {chat_name}."
 
