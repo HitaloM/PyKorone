@@ -13,7 +13,7 @@ from typing import Union
 from bs4 import BeautifulSoup as bs
 from httpx._exceptions import TimeoutException
 from pyrogram import filters
-from pyrogram.enums import ChatAction, ChatMembersFilter, ChatMemberStatus, ChatType
+from pyrogram.enums import ChatAction, ChatMemberStatus, ChatType
 from pyrogram.errors import BadRequest, Forbidden, MessageTooLong
 from pyrogram.types import CallbackQuery, Message
 from telegraph.aio import Telegraph
@@ -216,13 +216,18 @@ async def on_ttdl(c: Korone, m: Message):
 
     for f in tt["formats"]:
         if f["ext"] == "mp4":
-            try:
-                vwidth = f["width"]
-                vheight = f["height"]
-            except KeyError:
-                pass
             vformat = f["format_id"]
             vheaders = f["http_headers"]
+            fsize = f["filesize"]
+
+    if int(fsize) > 209715200:
+        await sent.edit_text(
+            text=(
+                "Desculpe, mas o vídeo é muito grande para ser enviado.\n"
+                f"<b>Tamanho:</b> <code>{pretty_size(int(fsize))}"
+            )
+        )
+        return
 
     tdl = YoutubeDL(
         {
@@ -244,13 +249,11 @@ async def on_ttdl(c: Korone, m: Message):
     keyboard = [[("🔗 Tweet", tt["webpage_url"], "url")]]
     await c.send_chat_action(m.chat.id, ChatAction.UPLOAD_VIDEO)
     try:
-        if tt["duration"] and vwidth and vheight:
+        if "duration" in tt.keys():
             await m.reply_video(
                 video=filename,
                 thumb=thumb,
                 duration=int(tt["duration"]),
-                width=int(vwidth),
-                height=int(vheight),
                 reply_markup=c.ikb(keyboard),
             )
         else:
@@ -264,6 +267,108 @@ async def on_ttdl(c: Korone, m: Message):
             text=(
                 "Desculpe! Não consegui enviar o "
                 "vídeo por causa de um erro.\n"
+                f"<b>Erro:</b> <code>{e}</code>"
+            )
+        )
+    else:
+        await sent.delete()
+    shutil.rmtree(tempdir, ignore_errors=True)
+
+
+@Korone.on_message(
+    filters.cmd(
+        command=r"igdl(\s(?P<text>.+))?",
+        action="Faça o Korone baixar um vídeo ou foto do Instagram e enviar no chat atual.",
+        group=GROUP,
+    )
+)
+async def on_igdl(c: Korone, m: Message):
+    INSTAGRAM_REGEX = re.compile(
+        r"(?P<url>https?://(?:www\.)?instagram\.com(?:/[^/]+)?/(?:p|tv|reel)/(?P<id>[^/?#&]+))"
+    )
+    args = m.matches[0]["text"]
+
+    if m.reply_to_message and m.reply_to_message.text:
+        url = m.reply_to_message.text
+    elif m.text and args:
+        url = args
+    else:
+        await m.reply_text("Por favor, responda a um link de um vídeo do Twitter.")
+        return
+
+    match = INSTAGRAM_REGEX.match(url)
+
+    if not match:
+        await m.reply_text("Isso não é um link válido!")
+        return
+
+    sent = await m.reply_text("Baixando...")
+
+    with tempfile.TemporaryDirectory() as tempdir:
+        path = os.path.join(tempdir, "igdl")
+
+    igdl = YoutubeDL(
+        {
+            "outtmpl": f"{path}/{m.from_user.id}-%(id)s.%(ext)s",
+            "format": "mp4",
+        }
+    )
+    try:
+        ig = await extract_info(igdl, match.group(), download=False)
+    except DownloadError:
+        await sent.edit_text("Desculpe, não consigo baixar esta mídia.")
+        return
+
+    for f in ig["formats"]:
+        if f["ext"] == "mp4":
+            vformat = f["format_id"]
+            vheaders = f["http_headers"]
+            fsize = f["filesize"]
+
+    if int(fsize) > 209715200:
+        await sent.edit_text(
+            text=(
+                "Desculpe, mas o vídeo é muito grande para ser enviado.\n"
+                f"<b>Tamanho:</b> <code>{pretty_size(int(fsize))}"
+            )
+        )
+        return
+
+    igdl = YoutubeDL(
+        {
+            "outtmpl": f"{path}/{m.from_user.id}-%(id)s.%(ext)s",
+            "format": vformat,
+        }
+    )
+
+    try:
+        ig = await extract_info(igdl, url, download=True)
+    except BaseException as e:
+        await sent.edit(f"<b>Error!</b>\n<code>{e}</code>")
+        return
+
+    filename = igdl.prepare_filename(ig)
+    thumb = io.BytesIO((await http.get(ig["thumbnail"], headers=vheaders)).content)
+    thumb.name = "thumbnail.jpeg"
+    await sent.edit("Enviando...")
+    await c.send_chat_action(m.chat.id, ChatAction.UPLOAD_VIDEO)
+    try:
+        if "duration" in ig.keys():
+            await m.reply_video(
+                video=filename,
+                thumb=thumb,
+                duration=int(ig["duration"]),
+            )
+        else:
+            await m.reply_video(
+                video=filename,
+                thumb=thumb,
+            )
+    except BadRequest as e:
+        await m.reply_text(
+            text=(
+                "Desculpe! Não consegui enviar o "
+                "arquivo por causa de um erro.\n"
                 f"<b>Erro:</b> <code>{e}</code>"
             )
         )
@@ -288,10 +393,10 @@ async def on_ytdl(c: Korone, m: Message):
     args = m.matches[0]["text"]
     user = m.from_user.id
 
-    if m.reply_to_message and m.reply_to_message.text:
-        url = m.reply_to_message.text
-    elif m.text and args:
+    if m.text and args:
         url = args
+    elif m.reply_to_message and m.reply_to_message.text:
+        url = m.reply_to_message.text
     else:
         await m.reply_text("Por favor, responda a um link do YouTube ou texto.")
         return
