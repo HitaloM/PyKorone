@@ -809,7 +809,7 @@ typing-extensions = {version = ">=3.7.4", markers = "python_version < \"3.8\""}
 
 [[package]]
 name = "yt-dlp"
-version = "2022.4.8"
+version = "2022.5.18"
 description = "A youtube-dl fork with additional features and patches"
 category = "main"
 optional = false
@@ -841,7 +841,7 @@ fast = ["uvloop"]
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.7"
-content-hash = "670f274a49391e3f30f60bc0932e45fc02f4f21fe79019589606a92424fbff04"
+content-hash = "e52e95d3a39b04259dbc3279c87f199d09dd35802a2fed2422229711b7025eaa"
 
 [metadata.files]
 aiofiles = [
@@ -1873,8 +1873,8 @@ yarl = [
     {file = "yarl-1.7.2.tar.gz", hash = "sha256:45399b46d60c253327a460e99856752009fcee5f5d3c80b2f7c0cae1c38d56dd"},
 ]
 yt-dlp = [
-    {file = "yt-dlp-2022.4.8.tar.gz", hash = "sha256:8758d016509d4574b90fbde975aa70adaef71ed5e7a195141588f6d6945205ba"},
-    {file = "yt_dlp-2022.4.8-py2.py3-none-any.whl", hash = "sha256:6edefe326b1e1478fdbe627a66203e5248a6b0dd50c101e682cf700ab70cdf72"},
+    {file = "yt-dlp-2022.5.18.tar.gz", hash = "sha256:3a7b59d2fb4b39ce8ba8e0b9c5a37fe20e5624f46a2346b4ae66ab1320e35134"},
+    {file = "yt_dlp-2022.5.18-py2.py3-none-any.whl", hash = "sha256:deec1009442312c1e2ee5298966842194d0e950b433f0d4fc844ef464b9c32a7"},
 ]
 zipp = [
     {file = "zipp-3.8.0-py3-none-any.whl", hash = "sha256:c4f6e5bbf48e74f7a38e7cc5b0480ff42b0ae5178957d564d18932525d5cf099"},
