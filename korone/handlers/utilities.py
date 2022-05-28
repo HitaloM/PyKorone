@@ -288,10 +288,10 @@ async def on_ytdl(c: Korone, m: Message):
     args = m.matches[0]["text"]
     user = m.from_user.id
 
-    if m.reply_to_message and m.reply_to_message.text:
-        url = m.reply_to_message.text
-    elif m.text and args:
+    if m.text and args:
         url = args
+    elif m.reply_to_message and m.reply_to_message.text:
+        url = m.reply_to_message.text
     else:
         await m.reply_text("Por favor, responda a um link do YouTube ou texto.")
         return
