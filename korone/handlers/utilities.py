@@ -8,13 +8,14 @@ import os
 import re
 import shutil
 import tempfile
+from contextlib import suppress
 from typing import Union
 
 from bs4 import BeautifulSoup as bs
 from httpx._exceptions import TimeoutException
 from pyrogram import filters
 from pyrogram.enums import ChatAction, ChatMemberStatus, ChatType
-from pyrogram.errors import BadRequest, Forbidden, MessageTooLong
+from pyrogram.errors import BadRequest, Forbidden, MessageNotModified, MessageTooLong
 from pyrogram.types import CallbackQuery, Message
 from telegraph.aio import Telegraph
 from telegraph.exceptions import TelegraphException
@@ -548,7 +549,8 @@ async def mcserver(c: Korone, m: Union[Message, CallbackQuery]):
         text += f"\n\n<b>UPDATED:</b> <i>{time.strftime('%d/%m/%Y %H:%M:%S')}</i>"
 
     elif not a["ip"] or a["ip"] == "127.0.0.1":
-        return await reply.edit("Isso não é um IP/domínio válido!")
+        await reply.edit("Isso não é um IP/domínio válido!")
+        return
 
     else:
         text = (
@@ -558,9 +560,10 @@ async def mcserver(c: Korone, m: Union[Message, CallbackQuery]):
             f"\n<b>Online:</b> <code>{a['online']}</code>"
             f"\n\n<b>UPDATED:</b> <i>{time.strftime('%d/%m/%Y %H:%M:%S')}</i>"
         )
-    await reply.edit_text(
-        text, disable_web_page_preview=True, reply_markup=c.ikb(keyboard)
-    )
+    with suppress(MessageNotModified):
+        await reply.edit_text(
+            text, disable_web_page_preview=True, reply_markup=c.ikb(keyboard)
+        )
 
 
 @Korone.on_message(
