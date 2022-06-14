@@ -361,7 +361,10 @@ async def cli_ytdl(c, cq: CallbackQuery):
         )
     vid = re.sub(r"^\_(vid|aud)\.", "", data)
     url = "https://www.youtube.com/watch?v=" + vid
-    await cq.message.edit("Baixando...")
+    try:
+        await cq.message.edit("Baixando...")
+    except MessageNotModified:
+        await cq.message.reply_text("Baixando...")
     await cq.answer("Seu pedido é uma ordem... >-<", cache_time=0)
     with tempfile.TemporaryDirectory() as tempdir:
         path = os.path.join(tempdir, "ytdl")
