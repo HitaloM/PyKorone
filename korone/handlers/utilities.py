@@ -393,9 +393,9 @@ async def cli_ytdl(c, cq: CallbackQuery):
     thumb = io.BytesIO((await http.get(yt["thumbnail"])).content)
     thumb.name = "thumbnail.jpeg"
     caption = f"{ttemp} <a href='{yt['webpage_url']}'>{yt['title']}</a></b>"
-    if yt["view_count"]:
+    if yt.get("view_count"):
         caption += "\n<b>Views:</b> <code>{:,}</code>".format(yt["view_count"])
-    if yt["like_count"]:
+    if yt.get("like_count"):
         caption += "\n<b>Likes:</b> <code>{:,}</code>".format(yt["like_count"])
     try:
         if "vid" in data:
