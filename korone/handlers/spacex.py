@@ -5,6 +5,7 @@ from datetime import datetime
 from typing import Iterable
 
 from pyrogram import filters
+from pyrogram.helpers import array_chunk
 from pyrogram.types import Message
 
 from korone.bot import Korone
@@ -110,12 +111,17 @@ async def spacex_launch(c: Korone, m: Message):
     if sx["details"]:
         text += f"<b>Detalhes:</b>\n{sx['details']}"
 
-    keyboard = None
+    buttons = []
     if sx["links"]["reddit"]["campaign"]:
-        keyboard = [[("Reddit", sx["links"]["reddit"]["campaign"], "url")]]
+        buttons.append(("Reddit", sx["links"]["reddit"]["campaign"], "url"))
 
     if sx["links"]["webcast"]:
-        keyboard[0].append(("YouTube", sx["links"]["webcast"], "url"))
+        buttons.append(("YouTube", sx["links"]["webcast"], "url"))
+
+    if buttons:
+        keyboard = array_chunk(buttons, 2)
+    else:
+        keyboard = None
 
     if keyboard:
         keyboard = c.ikb(keyboard)
