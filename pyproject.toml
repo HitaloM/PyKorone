@@ -16,7 +16,7 @@ gpytranslate = "1.4.0"
 wikipedia = {git = "https://github.com/HitaloSama/Wikipedia"}
 regex = "2022.6.2"
 lxml = "4.9.0"
-humanize = "4.1.0"
+humanize = "4.2.1"
 psutil = "5.9.1"
 pyrogram = {git = "https://github.com/AmanoTeam/pyrogram"}
 httpx = {version = "0.23.0", extras = ["http2"]}
