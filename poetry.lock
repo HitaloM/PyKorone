@@ -374,7 +374,7 @@ socks = ["socksio (>=1.0.0,<2.0.0)"]
 
 [[package]]
 name = "humanize"
-version = "4.1.0"
+version = "4.2.2"
 description = "Python humanize utilities"
 category = "main"
 optional = false
@@ -841,7 +841,7 @@ fast = ["uvloop"]
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.7"
-content-hash = "dcaf945112439c841f4bea94d47802cdb04f0c0e64cec4a18b6942734bcf9ad1"
+content-hash = "49711815768b14882738b207b1c2ec627c84bda301f052f10f73e49cb8810ad3"
 
 [metadata.files]
 aiofiles = [
@@ -1244,8 +1244,8 @@ httpx = [
     {file = "httpx-0.23.0.tar.gz", hash = "sha256:f28eac771ec9eb4866d3fb4ab65abd42d38c424739e80c08d8d20570de60b0ef"},
 ]
 humanize = [
-    {file = "humanize-4.1.0-py3-none-any.whl", hash = "sha256:953b393f5bd67e19d47a4c0fd20c3a3537853967b307e49729c4755d3551753c"},
-    {file = "humanize-4.1.0.tar.gz", hash = "sha256:3a119b242ec872c029d8b7bf8435a61a5798f124b244a08013aec5617302f80e"},
+    {file = "humanize-4.2.2-py3-none-any.whl", hash = "sha256:fd36c627eee0d2cea22a1dee6d4ff8d4ad5a0b03d3184a4c42967945fa350215"},
+    {file = "humanize-4.2.2.tar.gz", hash = "sha256:a45cb64bb7387b3f0f5d69c2d74376ecc1549eb89bc619dfb22c7e98b6e8c164"},
 ]
 hyperframe = [
     {file = "hyperframe-6.0.1-py3-none-any.whl", hash = "sha256:0ec6bafd80d8ad2195c4f03aacba3a8265e57bc4cff261e802bf39970ed02a15"},
