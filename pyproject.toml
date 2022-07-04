@@ -15,7 +15,7 @@ asyncpraw = "7.5.0"
 gpytranslate = "1.4.0"
 wikipedia = {git = "https://github.com/HitaloSama/Wikipedia"}
 regex = "2022.6.2"
-lxml = "4.9.0"
+lxml = "4.9.1"
 humanize = "4.2.3"
 psutil = "5.9.1"
 pyrogram = {git = "https://github.com/AmanoTeam/pyrogram"}
