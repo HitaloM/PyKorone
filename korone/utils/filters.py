@@ -29,6 +29,9 @@ def command_filter(
     async def func(flt, client: Client, message: Message):
         value = message.text or message.caption
 
+        if message.sender_chat:
+            return
+
         if bool(value):
             command = value.split()[0]
             if "@" in command:
@@ -55,7 +58,17 @@ def int_filter(
     filter: str, group: str = "others", action: str = None, *args, **kwargs
 ) -> Callable:
     COMMANDS_HELP[group]["filters"][filter] = {"action": action or " "}
-    return filters.regex(r"(?i)^{0}(\.|\?|\!)?$".format(filter), *args, **kwargs)
+    filter = r"(?i)^{0}(\.|\?|\!)?$".format(filter)
+
+    async def func(_, client: Client, message: Message):
+        if message.sender_chat:
+            return
+
+    return filters.create(
+        func,
+        "CommandHandler",
+        p=re.compile(filter, *args, **kwargs),
+    )
 
 
 async def sudo_filter(_, client, union: Union[CallbackQuery, Message]) -> Callable:
