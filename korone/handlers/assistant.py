@@ -69,7 +69,7 @@ async def give_me_cookie(c: Korone, m: Message):
     filters.int(filter=r"Korone, d(ê|e) um cookie", group=GROUP) & filters.reply
 )
 async def give_cookie(c: Korone, m: Message):
-    if m.reply_to_message.from_user is not None:
+    if m.reply_to_message and m.reply_to_message.from_user:
         await m.reply_text(
             f"*dá um cookie à {m.reply_to_message.from_user.first_name}* ^^"
         )
@@ -79,7 +79,7 @@ async def give_cookie(c: Korone, m: Message):
     filters.int(filter=r"Korone, morda( ele)?", group=GROUP) & filters.reply
 )
 async def bite(c: Korone, m: Message):
-    if m.reply_to_message.from_user is not None:
+    if m.reply_to_message and m.reply_to_message.from_user:
         await m.reply_text(f"*morde {m.reply_to_message.from_user.first_name}*")
 
 
@@ -91,7 +91,7 @@ async def hug(c: Korone, m: Message):
 
 @Korone.on_message(filters.int(filter=r"Korone, qual o nome dele", group=GROUP))
 async def tell_name(c: Korone, m: Message):
-    if m.reply_to_message.from_user is not None:
+    if m.reply_to_message and m.reply_to_message.from_user:
         await m.reply_text(
             f"O nome dele é {m.reply_to_message.from_user.first_name}! ^^"
         )
@@ -101,7 +101,7 @@ async def tell_name(c: Korone, m: Message):
     filters.int(filter=r"Korone, pegue ele", group=GROUP) & filters.reply
 )
 async def catch_him(c: Korone, m: Message):
-    if m.reply_to_message.from_user is not None:
+    if m.reply_to_message and m.reply_to_message.from_user:
         react = random.choice(CATCH_REACT)
         reaction = random.choice(REACTIONS)
         await m.reply_text(
