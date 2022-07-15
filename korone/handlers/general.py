@@ -65,6 +65,10 @@ async def user_info(c: Korone, m: Message):
     except IndexError:
         return await m.reply_text("Isso não me parece ser um usuário!")
 
+    if user is None:
+        await m.reply_text("Isso não me parece ser um usuário!")
+        return
+
     text = "<b>Informações do usuário</b>:"
     text += f"\nID: <code>{user.id}</code>"
     text += f"\nNome: <code>{html.escape(user.first_name)}</code>"
