@@ -39,7 +39,7 @@ async def kick(c: Korone, m: Message):
         return
 
     member = await c.get_chat_member(chat_id=m.chat.id, user_id=m.from_user.id)
-    if member.can_restrict_members is False:
+    if not member.privileges or member.privileges.can_restrict_members is False:
         return await m.reply_text(
             "Você não possui a permissão para banir usuários neste grupo!"
         )
