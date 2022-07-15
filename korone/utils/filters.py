@@ -55,19 +55,29 @@ def command_filter(
 
 
 def int_filter(
-    filter: str, group: str = "others", action: str = None, *args, **kwargs
+    filter: str,
+    group: str = "others",
+    action: str = None,
+    flags: int = 0,
+    *args,
+    **kwargs,
 ) -> Callable:
     COMMANDS_HELP[group]["filters"][filter] = {"action": action or " "}
     filter = r"(?i)^{0}(\.|\?|\!)?$".format(filter)
 
-    async def func(_, client: Client, message: Message):
+    async def func(flt, _, message: Message):
+        value = message.text or message.caption
+
         if message.sender_chat:
             return
 
+        if bool(value):
+            message.matches = list(flt.p.finditer(value)) or None
+
+        return bool(message.matches)
+
     return filters.create(
-        func,
-        "CommandHandler",
-        p=re.compile(filter, *args, **kwargs),
+        func, "IntHandler", p=re.compile(filter, flags, *args, **kwargs)
     )
 
 

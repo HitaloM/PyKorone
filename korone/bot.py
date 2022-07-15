@@ -6,7 +6,7 @@ from datetime import datetime, timezone
 
 import sentry_sdk
 from pyrogram import Client, __version__
-from pyrogram.enums import ParseMode
+from pyrogram.enums import ChatType, ParseMode
 from pyrogram.errors import BadRequest
 from pyrogram.helpers import ikb
 from pyrogram.raw.all import layer
@@ -88,7 +88,7 @@ class Korone(Client):
         log.info("PyKorone stopped... Bye.")
 
     async def int_reply(self, m: Message, text: str, *args, **kwargs):
-        if m.chat.type == "private":
+        if m.chat.type == ChatType.PRIVATE:
             await m.reply_text(text, *args, **kwargs)
         elif m.reply_to_message and (
             m.reply_to_message.from_user is not None
