@@ -21,7 +21,7 @@ psutil = "5.9.1"
 pyrogram = {git = "https://github.com/AmanoTeam/pyrogram"}
 httpx = {version = "0.23.0", extras = ["http2"]}
 sentry-sdk = "1.7.1"
-yt-dlp = "2022.6.29"
+yt-dlp = "2022.7.18"
 uvloop = {version = "^0.16", optional = true}
 telegraph = {version = "2.1.0", extras = ["aio"]}
 
