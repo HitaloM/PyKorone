@@ -1,0 +1,16 @@
+# cache
+__pycache__
+.ruff_cache/
+.mypy_cache/
+
+# ide
+.vscode
+
+# venv
+.venv/
+venv/
+
+# rye
+requirements.lock
+requirements-dev.lock
+.python-version
