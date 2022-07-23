@@ -1,0 +1,44 @@
+[tool.poetry]
+name = "korone"
+version = "1.0.0"
+description = "An interactive and multi-function Telegram bot, made especially for Telegram groups."
+authors = ["Hitalo <hitalo@amanoteam.com>"]
+license = "BSD-3-Clause"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+tgcrypto = "1.2.3"
+pyrogram = {git = "https://github.com/AmanoTeam/pyrogram"}
+sentry-sdk = "1.8.0"
+uvloop = {version = "^0.16", optional = true}
+
+[tool.poetry.dev-dependencies]
+black = "^22.6"
+flake8 = "^4.0.1"
+
+[tool.poetry.extras]
+fast = ["uvloop"]
+
+[tool.black]
+exclude = '''
+/(
+    \.git
+  | \.pytest_cache
+  | \.vscode
+  | \.mypy_cache
+  | \.tox
+  | venv
+  | \.venv
+  | _build
+  | buck-out
+  | build
+  | dist
+)/
+'''
+
+[tool.isort]
+profile = "black"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
