@@ -1,0 +1,11 @@
+title = "Korone config example"
+
+[pyrogram]
+api_id = 0
+api_hash = ""
+bot_token = ""
+workers = 24
+excluded_plugins = [""]
+
+[Korone]
+sudoers = []

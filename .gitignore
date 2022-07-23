@@ -10,7 +10,7 @@ korone/database/*.sqlite*
 korone/database/*.db*
 
 # Configuration files
-korone/config.py
+config.toml
 
 # Environments
 .env
