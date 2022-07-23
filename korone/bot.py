@@ -3,6 +3,7 @@
 
 import datetime
 import logging
+from typing import List, Mapping, Union
 
 import pytomlpp
 from pyrogram import Client
@@ -16,22 +17,42 @@ from korone.utils import shell_exec
 
 logger = logging.getLogger(__name__)
 
+KoroneConfig = Mapping[str, Union[int, str, list]]
+
 
 class Korone(Client):
     def __init__(self):
         name = self.__class__.__name__.lower()
 
         config_toml = pytomlpp.loads(open("config.toml", "r").read())
+        self.pyrogram_config: KoroneConfig = config_toml["pyrogram"]
+        self.korone_config: KoroneConfig = config_toml["korone"]
 
         # Pyrogram specif configs
-        api_id = config_toml["pyrogram"]["api_id"]
-        api_hash = config_toml["pyrogram"]["api_hash"]
-        bot_token = config_toml["pyrogram"]["bot_token"]
-        workers = config_toml["pyrogram"]["workers"]
-        excluded_plugins = config_toml["pyrogram"]["excluded_plugins"]
+        api_id = self.pyrogram_config["api_id"]
+        if not isinstance(api_id, int):
+            raise TypeError("API ID must be an integer")
+
+        api_hash = self.pyrogram_config["api_hash"]
+        if not isinstance(api_hash, str):
+            raise TypeError("API hash must be a string")
+
+        bot_token = self.pyrogram_config["bot_token"]
+        if not isinstance(bot_token, str):
+            raise TypeError("Bot token must be a string")
+
+        workers = self.pyrogram_config["workers"]
+        if not isinstance(workers, int):
+            raise TypeError("Workers must be an integer")
+
+        excluded_plugins = self.pyrogram_config["excluded_plugins"]
+        if not isinstance(excluded_plugins, list):
+            raise TypeError("Excluded plugins must be a list of strings")
 
         # Korone specific configs
-        sudoers = config_toml["korone"]["sudoers"]
+        sudoers = self.korone_config["sudoers"]
+        if not isinstance(sudoers, list):
+            raise TypeError("Sudoers must be a list of integers")
 
         super().__init__(
             name=name,
@@ -63,7 +84,8 @@ class Korone(Client):
 
         self.me = await self.get_me()
         logger.info(
-            "Korone running with Pyrogram v%s (Layer %s) started on @%s. Hi!",
+            "[%s] Running with Pyrogram v%s (Layer %s) started on @%s. Hi!",
+            self.name,
             __version__,
             layer,
             self.me.username,
@@ -80,11 +102,15 @@ class Korone(Client):
                     disable_web_page_preview=True,
                 )
         except BadRequest:
-            logger.error("Error while sending the startup message.", exc_info=True)
+            logger.error(
+                "[%s] Error while sending the startup message.",
+                self.name,
+                exc_info=True,
+            )
 
     async def stop(self):
         await super().stop()
-        logger.warning("Korone stopped. Bye!")
+        logger.warning("[%s] Stopped. Bye!", self.name)
 
     def is_sudo(self, user: User) -> bool:
         return user.id in self.sudoers

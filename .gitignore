@@ -35,3 +35,4 @@ korone/*.session*
 dls/
 korone/downloads/
 .pytest_cache/
+.mypy_cache

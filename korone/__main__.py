@@ -5,7 +5,6 @@ import asyncio
 import logging
 
 from pyrogram import idle
-from pyrogram.session import Session
 
 from korone.bot import Korone
 
@@ -17,11 +16,7 @@ logging.basicConfig(
 )
 
 
-# To avoid some pyrogram annoying log
-logging.getLogger("pyrogram.syncer").setLevel(logging.WARNING)
-logging.getLogger("pyrogram.client").setLevel(logging.WARNING)
-
-log = logging.getLogger("rich")
+logger = logging.getLogger(__name__)
 
 
 # Use uvloop to improve speed if available
@@ -30,11 +25,7 @@ try:
 
     uvloop.install()
 except ImportError:
-    log.warning("uvloop is not installed and therefore will be disabled.")
-
-
-# Disable ugly pyrogram notice print
-Session.notice_displayed = True
+    logger.warning("uvloop is not installed and therefore will be disabled.")
 
 
 async def main() -> None:
@@ -53,7 +44,7 @@ if __name__ == "__main__":
         event_loop.run_until_complete(main())
     except KeyboardInterrupt:
         # exit gracefully
-        log.warning("Forced stop... Bye!")
+        logger.warning("Forced stop... Bye!")
     finally:
         # close asyncio event loop
         event_loop.close()

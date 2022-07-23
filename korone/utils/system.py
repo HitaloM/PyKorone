@@ -2,9 +2,11 @@
 # Copyright (c) 2020-2022 Hitalo
 
 import asyncio
+from asyncio.subprocess import Process
+from typing import Tuple
 
 
-async def shell_exec(code: str, treat=True) -> str:
+async def shell_exec(code: str, treat=True) -> Tuple[bytes, Process]:
     process = await asyncio.create_subprocess_shell(
         code, stdout=asyncio.subprocess.PIPE, stderr=asyncio.subprocess.STDOUT
     )
