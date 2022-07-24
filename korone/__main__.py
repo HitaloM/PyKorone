@@ -19,7 +19,7 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 
-# Use uvloop to improve speed if available
+# Use uvloop to improve speed
 try:
     import uvloop
 
