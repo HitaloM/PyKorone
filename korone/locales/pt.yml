@@ -1,0 +1,15 @@
+language_info:
+  flag: "🇧🇷"
+  code: pt
+
+STRINGS:
+  pm_menu:
+    start_text: "Olá, eu sou o Korone!"
+
+  language:
+    language_changed_alert: O idioma foi alterado para {lang_name}.
+    not_admin: Você não é um administrador!
+    language_text: |
+      Escolha o idioma desejado abaixo.
+      Seu idioma atual: <b>{lang_name}</b>
+    back: Voltar

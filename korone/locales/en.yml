@@ -1,0 +1,15 @@
+language_info:
+  flag: "🇺🇸"
+  code: en
+
+STRINGS:
+  pm_menu:
+    start_text: "Hello, I'm Korone!"
+
+  language:
+    language_changed_alert: The language has changed to {lang_name}.
+    not_admin: You're not an administrator!
+    language_text: |
+      Choose the desired language below.
+      Your current language: <b>{lang_name}</b>
+    back: Back

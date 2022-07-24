@@ -1,5 +1,5 @@
 # SPDX-License-Identifier: BSD-3-Clause
-# Copyright (c) 2020-2022 Hitalo
+# Copyright (c) 2020-2022 Hitalo <https://github.com/HitaloSama>
 
 import asyncio
 import logging
@@ -7,6 +7,7 @@ import logging
 from pyrogram import idle
 
 from korone.bot import Korone
+from korone.database import database
 
 # Custom logging format
 logging.basicConfig(
@@ -28,11 +29,16 @@ except ImportError:
     logger.warning("uvloop is not installed and therefore will be disabled.")
 
 
-async def main() -> None:
+async def main():
+    await database.connect()
+
     korone = Korone()
     await korone.start()
     await idle()
     await korone.stop()
+
+    if database.is_connected:
+        await database.close()
 
 
 if __name__ == "__main__":
