@@ -2,17 +2,13 @@
 # Copyright (c) 2020-2022 Hitalo <https://github.com/HitaloSama>
 
 import logging
-import os
 from importlib import import_module
 from pathlib import Path
-from typing import List
 
 from pyrogram import Client
 from pyrogram.handlers.handler import Handler
 
 logger = logging.getLogger(__name__)
-
-ALL_MODULES: List[str] = []
 
 
 def load_modules(client: Client):
@@ -29,8 +25,6 @@ def load_modules(client: Client):
 
     count = 0
     for path in sorted(Path(modules_path.replace(".", "/")).rglob("*.py")):
-        if not str(path).endswith("__init__.py"):
-            ALL_MODULES.append(os.path.basename(path))
         module_path = ".".join(path.parent.parts + (path.stem,))
         module = import_module(module_path)
 
