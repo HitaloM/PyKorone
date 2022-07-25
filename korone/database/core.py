@@ -5,6 +5,8 @@ import logging
 
 import aiosqlite
 
+from korone.bot import Korone
+
 logger = logging.getLogger(__name__)
 
 
@@ -49,7 +51,7 @@ class Database(object):
         self.conn = conn
         self.is_connected: bool = True
 
-        logger.info("The database has been connected.")
+        logger.info("[%s] The database has been connected.", Korone.__name__)
 
     async def close(self):
         # Close the connection
@@ -57,7 +59,7 @@ class Database(object):
 
         self.is_connected: bool = False
 
-        logger.info("The database was closed.")
+        logger.info("[%s] The database was closed.", Korone.__name__)
 
     def get_conn(self) -> aiosqlite.Connection:
         if not self.is_connected:

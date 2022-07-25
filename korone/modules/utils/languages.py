@@ -11,6 +11,7 @@ from pyrogram import Client
 from pyrogram.enums import ChatType
 from pyrogram.types import CallbackQuery, InlineQuery, Message
 
+from korone.bot import Korone
 from korone.database.chats import get_chat_by_id
 from korone.database.languages import change_chat_lang, change_user_lang
 from korone.database.users import get_user_by_id
@@ -19,7 +20,7 @@ logger = logging.getLogger(__name__)
 
 LANGUAGES: Dict = {}
 
-logger.info("Loading locales...")
+logger.info("[%s] Loading locales...", Korone.__name__)
 
 for filename in os.listdir("korone/locales"):
     logger.debug("Loading language file " + filename)
@@ -32,12 +33,12 @@ for filename in os.listdir("korone/locales"):
         LANGUAGES[lang_code] = lang
 
 logger.info(
-    "Languages loaded: {}".format(
-        [
-            language["language_info"]["babel"].display_name
-            for language in LANGUAGES.values()
-        ]
-    )
+    "[%s] Languages loaded: %s",
+    Korone.__name__,
+    [
+        language["language_info"]["babel"].display_name
+        for language in LANGUAGES.values()
+    ],
 )
 
 

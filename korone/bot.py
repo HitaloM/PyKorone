@@ -13,7 +13,7 @@ from pyrogram.raw.all import layer
 from pyrogram.types import User
 
 from korone import __version__
-from korone.utils import shell_exec
+from korone.utils import load_modules, shell_exec
 
 logger = logging.getLogger(__name__)
 
@@ -45,10 +45,6 @@ class Korone(Client):
         if not isinstance(workers, int):
             raise TypeError("Workers must be an integer")
 
-        excluded_plugins = self.pyrogram_config["excluded_plugins"]
-        if not isinstance(excluded_plugins, list):
-            raise TypeError("Excluded plugins must be a list of strings")
-
         # Korone specific configs
         sudoers = self.korone_config["sudoers"]
         if not isinstance(sudoers, list):
@@ -62,7 +58,6 @@ class Korone(Client):
             bot_token=bot_token,
             parse_mode=ParseMode.HTML,
             workers=workers,
-            plugins=dict(root="korone.modules", exclude=excluded_plugins),
             workdir="korone",
             sleep_threshold=180,
         )
@@ -77,6 +72,7 @@ class Korone(Client):
 
     async def start(self):
         await super().start()
+        load_modules(self)
 
         # Save version info
         self.version_code = int((await shell_exec("git rev-list --count HEAD"))[0])

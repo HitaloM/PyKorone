@@ -4,7 +4,8 @@ language_info:
 
 STRINGS:
   pm_menu:
-    start_text: "Hello, I'm Korone!"
+    start_text: Hello, I'm Korone!
+    help_text: Just a help text sample xD
 
   language:
     language_changed_alert: The language has changed to {lang_name}.

@@ -4,7 +4,8 @@ language_info:
 
 STRINGS:
   pm_menu:
-    start_text: "Olá, eu sou o Korone!"
+    start_text: Olá, eu sou o Korone!
+    help_text: Um exemplo de texto de ajuda xD
 
   language:
     language_changed_alert: O idioma foi alterado para {lang_name}.

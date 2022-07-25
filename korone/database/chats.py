@@ -16,6 +16,13 @@ async def get_chat_by_id(id: int) -> Optional[Dict]:
     return row
 
 
+async def filter_chats_by_language(language: str) -> Optional[Dict]:
+    cursor = await conn.execute("SELECT * FROM chats WHERE language = ?", (language,))
+    row = await cursor.fetchall()
+    await cursor.close()
+    return row
+
+
 async def register_chat_by_dict(info: Dict) -> Dict:
     id = info["id"]
 

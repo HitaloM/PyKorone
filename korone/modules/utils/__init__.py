@@ -2,6 +2,7 @@
 # Copyright (c) 2020-2022 Hitalo <https://github.com/HitaloSama>
 
 from .languages import (
+    LANGUAGES,
     change_chat_lang,
     get_chat_lang,
     get_chat_lang_info,
@@ -11,6 +12,7 @@ from .languages import (
 )
 
 __all__ = (
+    "LANGUAGES",
     "change_chat_lang",
     "get_chat_lang",
     "get_chat_lang_info",
