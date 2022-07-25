@@ -41,7 +41,7 @@ def load_modules(client: Client):
 
     if exclude:
         for path, handlers in exclude:
-            module_path = modules_path + "." + path
+            module_path = f"{modules_path}.{path}"
             warn_non_existent_functions = True
 
             try:
