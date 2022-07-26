@@ -49,6 +49,7 @@ async def get_chat_lang(chat_id):
 
     user_lang = await get_user_by_id(chat_id)
     if not user_lang or user_lang["language"] not in LANGUAGES:
+        print(chat_id)
         return "en"
 
     return user_lang["language"]
@@ -110,9 +111,9 @@ def get_strings_dec(module, mas_name="STRINGS"):
 
             chat_id = None
             if isinstance(union, InlineQuery) or chat.type == ChatType.PRIVATE:
-                chat_id = message.from_user.id
+                chat_id = union.from_user.id
             else:
-                chat_id = message.chat.id
+                chat_id = chat.id
 
             strings = await get_strings(chat_id, module, mas_name=mas_name)
             return await func(client, union, strings, *args, **kwargs)

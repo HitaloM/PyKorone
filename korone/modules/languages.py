@@ -23,9 +23,9 @@ from korone.modules.utils.languages import (
 @Korone.on_callback_query(filters.regex(r"^language$"))
 @get_strings_dec("languages")
 async def language(bot: Korone, union: Union[Message, CallbackQuery], strings):
+    message = union.message if isinstance(union, CallbackQuery) else union
+    chat = message.chat
     if isinstance(union, Message):
-        chat = union.chat
-
         if chat.type in (ChatType.GROUP, ChatType.SUPERGROUP):
             if not await filters.admin(bot, union):
                 await union.reply_text(strings["not_admin"])
@@ -45,7 +45,7 @@ async def language(bot: Korone, union: Union[Message, CallbackQuery], strings):
     keyboard = array_chunk(buttons, 2)
 
     if isinstance(union, CallbackQuery):
-        keyboard.append([(strings["back"], "start")])
+        keyboard.append([(strings["back_button"], "start")])
 
     await (
         union.message.edit_text
@@ -87,7 +87,7 @@ async def language_set(bot: Korone, callback: CallbackQuery, strings):
 
     for line in bki(message.reply_markup):
         for button in line:
-            if button[0] == strings["back"]:
+            if button[0] == strings["back_button"]:
                 await callback.answer(text, show_alert=True)
                 with suppress(MessageNotModified):
                     await language(bot, callback)

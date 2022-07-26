@@ -26,14 +26,28 @@ async def start(bot: Korone, union: Union[Message, CallbackQuery], strings):
     is_callback = isinstance(union, CallbackQuery)
     message = union.message if is_callback else union
 
-    keyboard = ikb([[(strings["help_button"], "list_commands 0")]])
+    keyboard = ikb(
+        [
+            [
+                (strings["about_button"], "about"),
+                (strings["language_button"], "language"),
+            ],
+            [(strings["help_button"], "help-menu 0")],
+        ]
+    )
     await (message.edit_text if is_callback else message.reply_text)(
-        strings["start_text"], reply_markup=keyboard
+        strings["start_text"].format(
+            user=message.from_user.first_name,
+            bot_name=bot.name.capitalize(),
+            short_hash=bot.version,
+            version_code=bot.version_code,
+        ),
+        reply_markup=keyboard,
     )
 
 
 @Korone.on_message(filters.cmd("help"))
-@Korone.on_callback_query(filters.regex(r"^list_commands (?P<page>\d+)"))
+@Korone.on_callback_query(filters.regex(r"^help-menu (?P<page>\d+)"))
 @get_strings_dec("pm_menu")
 async def help_menu(bot: Korone, union: Union[Message, CallbackQuery], strings):
     is_callback = isinstance(union, CallbackQuery)
@@ -44,8 +58,8 @@ async def help_menu(bot: Korone, union: Union[Message, CallbackQuery], strings):
         await help_module(bot, message, args)
         return
 
-    item_format = "info_command {} {}"
-    page_format = "list_commands {}"
+    item_format = "help-module {} {}"
+    page_format = "help-menu {}"
 
     lang_code = await get_chat_lang(message.chat.id)
     chat_lang = LANGUAGES[lang_code]["STRINGS"]
@@ -57,7 +71,7 @@ async def help_menu(bot: Korone, union: Union[Message, CallbackQuery], strings):
     )
 
     buttons = layout.create(page, columns=2, lines=7)
-    buttons.append([(strings["back"], "start")])
+    buttons.append([(strings["back_button"], "start")])
 
     await (message.edit_text if is_callback else message.reply_text)(
         strings["help_text"],
@@ -65,7 +79,7 @@ async def help_menu(bot: Korone, union: Union[Message, CallbackQuery], strings):
     )
 
 
-@Korone.on_callback_query(filters.regex(r"^info_command (?P<module>.+) (?P<page>\d+)"))
+@Korone.on_callback_query(filters.regex(r"^help-module (?P<module>.+) (?P<page>\d+)"))
 @get_strings_dec("pm_menu")
 async def help_module(
     bot: Korone, union: Union[Message, CallbackQuery], strings, module: str = None
@@ -99,7 +113,7 @@ async def help_module(
             await message.reply_text(strings["unavailable_mod_help"])
         return
 
-    keyboard = ikb([[(strings["back"], f"list_commands {page}")]])
+    keyboard = ikb([[(strings["back_button"], f"help-menu {page}")]])
     await (message.edit_text if is_callback else message.reply_text)(
         strings["helpable_text"].format(
             module_name=module_name, module_help=module_help
@@ -108,4 +122,34 @@ async def help_module(
     )
 
 
-__help__ = True
+@Korone.on_message(filters.cmd(r"about$"))
+@Korone.on_callback_query(filters.regex(r"^about$"))
+@get_strings_dec("pm_menu")
+async def about(bot: Korone, union: Union[CallbackQuery, Message], strings):
+    is_callback = isinstance(union, CallbackQuery)
+    message = union.message if is_callback else union
+
+    keyboard = [
+        [
+            (strings["github_button"], "https://github.com/AmanoTeam/PyKorone", "url"),
+            (strings["channel_button"], "https://t.me/HitaloProjects", "url"),
+        ]
+    ]
+
+    is_private = await filters.private(bot, message)
+    if is_private:
+        keyboard.append(
+            [
+                (strings["back_button"], "start"),
+            ],
+        )
+
+    await (message.edit_text if is_callback else message.reply_text)(
+        strings["about_text"].format(
+            bot_name=bot.me.first_name,
+            version=f"<a href='https://github.com/AmanoTeam/PyKorone/commit/{bot.version}'>{bot.version}</a>",
+            version_code=bot.version_code,
+        ),
+        disable_web_page_preview=True,
+        reply_markup=ikb(keyboard),
+    )

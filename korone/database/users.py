@@ -27,9 +27,6 @@ async def filter_users_by_language(language: str) -> Iterable[Row]:
 async def register_user_by_dict(info: Dict) -> Optional[Row]:
     id, language = info["id"], info["language_code"]
 
-    if language == "pt-br":
-        language = "pt_BR"
-
     await conn.execute(
         "INSERT INTO users (id, language, registration_time) VALUES (?, ?, ?)",
         (id, language, time.time()),
