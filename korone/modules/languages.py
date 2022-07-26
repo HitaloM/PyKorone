@@ -21,7 +21,7 @@ from korone.modules.utils.languages import (
 
 @Korone.on_message(filters.cmd("language"))
 @Korone.on_callback_query(filters.regex(r"^language$"))
-@get_strings_dec("language")
+@get_strings_dec("languages")
 async def language(bot: Korone, union: Union[Message, CallbackQuery], strings):
     if isinstance(union, Message):
         chat = union.chat
@@ -58,7 +58,7 @@ async def language(bot: Korone, union: Union[Message, CallbackQuery], strings):
 
 
 @Korone.on_callback_query(filters.regex(r"^language set (?P<code>\w+)"))
-@get_strings_dec("language")
+@get_strings_dec("languages")
 async def language_set(bot: Korone, callback: CallbackQuery, strings):
     message = callback.message
     chat = message.chat
@@ -79,7 +79,7 @@ async def language_set(bot: Korone, callback: CallbackQuery, strings):
     else:
         await change_chat_lang(chat.id, str(language_code))
 
-    nlang = LANGUAGES[language_code]["STRINGS"]["language"]
+    nlang = LANGUAGES[language_code]["STRINGS"]["languages"]
     lang_info = LANGUAGES[language_code]["language_info"]
     text = nlang["language_changed_alert"].format(
         lang_name=lang_info["babel"].display_name

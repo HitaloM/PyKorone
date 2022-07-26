@@ -4,10 +4,16 @@ language_info:
 
 STRINGS:
   pm_menu:
+    module_name: PM Menu
     start_text: Hello, I'm Korone!
     help_text: Just a help text sample xD
+    module_not_found: Module not found!
+    help_button: Help
+    back: Back
+    unavailable_mod_help: Help information unavailable, please report this problem to my developer.
 
-  language:
+  languages:
+    module_name: Languages
     language_changed_alert: The language has changed to {lang_name}.
     not_admin: You're not an administrator!
     language_text: |

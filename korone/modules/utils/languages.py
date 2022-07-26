@@ -122,3 +122,6 @@ def get_strings_dec(module, mas_name="STRINGS"):
 async def get_chat_lang_info(chat_id):
     chat_lang = await get_chat_lang(chat_id)
     return LANGUAGES[chat_lang]["language_info"]
+
+
+__help__ = True

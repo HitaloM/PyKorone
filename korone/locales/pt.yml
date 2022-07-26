@@ -4,10 +4,16 @@ language_info:
 
 STRINGS:
   pm_menu:
+    module_name: Menu PV
     start_text: Olá, eu sou o Korone!
     help_text: Um exemplo de texto de ajuda xD
+    module_not_found: Módulo não encontrado
+    help_button: Ajuda
+    back: Voltar
+    unavailable_mod_help: Ajuda não disponível, por favor, relate este problema ao meu desenvolvedor.
 
-  language:
+  languages:
+    module_name: Idiomas
     language_changed_alert: O idioma foi alterado para {lang_name}.
     not_admin: Você não é um administrador!
     language_text: |

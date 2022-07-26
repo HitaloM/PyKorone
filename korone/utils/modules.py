@@ -4,11 +4,14 @@
 import logging
 from importlib import import_module
 from pathlib import Path
+from typing import List
 
 from pyrogram import Client
 from pyrogram.handlers.handler import Handler
 
 logger = logging.getLogger(__name__)
+
+HELPABLE: List[str] = []
 
 
 def load_modules(client: Client):
@@ -27,6 +30,8 @@ def load_modules(client: Client):
     for path in sorted(Path(modules_path.replace(".", "/")).rglob("*.py")):
         module_path = ".".join(path.parent.parts + (path.stem,))
         module = import_module(module_path)
+        if not str(path).endswith("__init__.py") and hasattr(module, "__help__"):
+            HELPABLE.append(module_path.split(".")[-1])
 
         for name in vars(module).keys():
             # noinspection PyBroadException
