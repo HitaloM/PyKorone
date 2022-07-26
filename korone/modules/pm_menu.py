@@ -12,6 +12,7 @@ from korone.bot import Korone
 from korone.modules.utils.languages import (
     LANGUAGES,
     get_chat_lang,
+    get_chat_lang_info,
     get_string,
     get_strings_dec,
 )
@@ -26,11 +27,12 @@ async def start(bot: Korone, union: Union[Message, CallbackQuery], strings):
     is_callback = isinstance(union, CallbackQuery)
     message = union.message if is_callback else union
 
+    lang_info = await get_chat_lang_info(message.chat.id)
     keyboard = ikb(
         [
             [
                 (strings["about_button"], "about"),
-                (strings["language_button"], "language"),
+                (f"{lang_info['flag']} {strings['language_button']}", "language"),
             ],
             [(strings["help_button"], "help-menu 0")],
         ]

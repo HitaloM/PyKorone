@@ -29,7 +29,7 @@ STRINGS:
     module_not_found: Module not found!
     about_button: ℹ️ About
     help_button: 👮‍♀️ Help
-    language_button: 🌐 Language
+    language_button: Language
     github_button: 📦 GitHub
     channel_button: 📚 Channel
     back_button: 🔙 Back
