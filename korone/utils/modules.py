@@ -19,13 +19,6 @@ def load_modules(client: Client):
     if not isinstance(modules_path, str):
         raise TypeError("Plugins path must be a string")
 
-    try:
-        exclude = client.korone_config["excluded_modules"]
-        if not isinstance(exclude, list):
-            raise TypeError("Excluded plugins must be a list of strings")
-    except KeyError:
-        exclude = False
-
     count = 0
     for path in sorted(Path(modules_path.replace(".", "/")).rglob("*.py")):
         module_path = ".".join(path.parent.parts + (path.stem,))
@@ -43,50 +36,6 @@ def load_modules(client: Client):
                         count += 1
             except BaseException:
                 pass
-
-    if exclude:
-        for path, handlers in exclude:
-            module_path = f"{modules_path}.{path}"
-            warn_non_existent_functions = True
-
-            try:
-                module = import_module(module_path)
-            except ImportError:
-                logger.warning(
-                    "[%s] [UNLOAD] Ignoring non-existent module %s",
-                    client.name,
-                    module_path,
-                )
-                continue
-
-            if "__path__" in dir(module):
-                logger.warning(
-                    "[%s] [UNLOAD] Ignoring namespace %s",
-                    client.name,
-                    module_path,
-                )
-                continue
-
-            if handlers is None:
-                handlers = vars(module).keys()
-                warn_non_existent_functions = False
-
-            for name in handlers:
-                # noinspection PyBroadException
-                try:
-                    for handler, group in getattr(module, name).handlers:
-                        if isinstance(handler, Handler) and isinstance(group, int):
-                            client.remove_handler(handler, group)
-
-                            count -= 1
-                except BaseException:
-                    if warn_non_existent_functions:
-                        logger.warning(
-                            "[%s] [UNLOAD] Ignoring non-existent function %s from %s",
-                            client.name,
-                            name,
-                            module_path,
-                        )
 
     if count > 0:
         logger.info(

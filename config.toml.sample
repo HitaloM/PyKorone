@@ -9,3 +9,4 @@ excluded_plugins = [""]
 
 [Korone]
 sudoers = []
+modules_path = "korone.modules"
