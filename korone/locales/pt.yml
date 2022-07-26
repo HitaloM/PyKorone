@@ -11,6 +11,10 @@ STRINGS:
     help_button: Ajuda
     back: Voltar
     unavailable_mod_help: Ajuda não disponível, por favor, relate este problema ao meu desenvolvedor.
+    helpable_text: |
+      Aqui está a ajuda disponível para o módulo <b>{module_name}</b>:
+
+      {module_help}
 
   languages:
     module_name: Idiomas

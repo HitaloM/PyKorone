@@ -99,7 +99,10 @@ async def get_string(chat_id, module, name, mas_name="STRINGS"):
 def get_strings_dec(module, mas_name="STRINGS"):
     def decorator(func):
         async def wrapper(
-            client: Client, union: Union[CallbackQuery, InlineQuery, Message]
+            client: Client,
+            union: Union[CallbackQuery, InlineQuery, Message],
+            *args,
+            **kwargs
         ):
             message = union.message if isinstance(union, CallbackQuery) else union
             if not isinstance(union, InlineQuery):
@@ -112,7 +115,7 @@ def get_strings_dec(module, mas_name="STRINGS"):
                 chat_id = message.chat.id
 
             strings = await get_strings(chat_id, module, mas_name=mas_name)
-            return await func(client, union, strings)
+            return await func(client, union, strings, *args, **kwargs)
 
         return wrapper
 

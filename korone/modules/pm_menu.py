@@ -15,6 +15,7 @@ from korone.modules.utils.languages import (
     get_string,
     get_strings_dec,
 )
+from korone.modules.utils.messages import get_args
 from korone.utils.modules import HELPABLE
 
 
@@ -38,6 +39,10 @@ async def help_menu(bot: Korone, union: Union[Message, CallbackQuery], strings):
     is_callback = isinstance(union, CallbackQuery)
     message = union.message if is_callback else union
     page = int(union.matches[0]["page"]) if is_callback else 0
+    args = get_args(message)
+    if args:
+        await help_module(bot, message, args)
+        return
 
     item_format = "info_command {} {}"
     page_format = "list_commands {}"
@@ -62,29 +67,45 @@ async def help_menu(bot: Korone, union: Union[Message, CallbackQuery], strings):
 
 @Korone.on_callback_query(filters.regex(r"^info_command (?P<module>.+) (?P<page>\d+)"))
 @get_strings_dec("pm_menu")
-async def help_module(bot: Korone, callback: CallbackQuery, strings):
-    module = callback.matches[0]["module"]
-    page = int(callback.matches[0]["page"])
+async def help_module(
+    bot: Korone, union: Union[Message, CallbackQuery], strings, module: str = None
+):
+    is_callback = isinstance(union, CallbackQuery)
+    message = union.message if is_callback else union
+    module = union.matches[0]["module"] if is_callback else module
+    page = int(union.matches[0]["page"]) if is_callback else 0
     if module not in HELPABLE:
-        await callback.answer(
-            strings["module_not_found"],
-            show_alert=True,
-            cache_time=60,
-        )
+        if is_callback:
+            await union.answer(
+                strings["module_not_found"],
+                show_alert=True,
+                cache_time=60,
+            )
+        else:
+            await message.reply_text(strings["module_not_found"])
         return
 
     try:
-        help_text = await get_string(callback.from_user.id, module, f"{module}_help")
+        module_help = await get_string(union.from_user.id, module, f"{module}_help")
+        module_name = await get_string(union.from_user.id, module, "module_name")
     except KeyError:
-        await callback.answer(
-            strings["unavailable_mod_help"],
-            show_alert=True,
-            cache_time=60,
-        )
+        if is_callback:
+            await union.answer(
+                strings["unavailable_mod_help"],
+                show_alert=True,
+                cache_time=60,
+            )
+        else:
+            await message.reply_text(strings["unavailable_mod_help"])
         return
 
     keyboard = ikb([[(strings["back"], f"list_commands {page}")]])
-    await callback.message.edit_text(help_text, reply_markup=keyboard)
+    await (message.edit_text if is_callback else message.reply_text)(
+        strings["helpable_text"].format(
+            module_name=module_name, module_help=module_help
+        ),
+        reply_markup=keyboard,
+    )
 
 
 __help__ = True
