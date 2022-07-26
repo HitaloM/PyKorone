@@ -19,7 +19,7 @@ async def sudo_filter(_, bot, union: Union[CallbackQuery, Message]) -> bool:
     return bot.is_sudo(user)
 
 
-async def filter_administrator(_, bot, union: Union[CallbackQuery, Message]) -> bool:
+async def administrator_filter(_, bot, union: Union[CallbackQuery, Message]) -> bool:
     is_callback = isinstance(union, CallbackQuery)
     message = union.message if is_callback else union
     chat = message.chat
@@ -33,5 +33,5 @@ async def filter_administrator(_, bot, union: Union[CallbackQuery, Message]) -> 
 
 
 filters.cmd = command_filter
-filters.sudo = sudo_filter
-filters.admin = filters.create(filter_administrator, "FilterAdministrator")
+filters.sudo = filters.create(sudo_filter, "FilterSudo")
+filters.admin = filters.create(administrator_filter, "FilterAdministrator")

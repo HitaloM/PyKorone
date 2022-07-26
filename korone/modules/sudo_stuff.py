@@ -16,11 +16,18 @@ from korone.database import database
 from korone.database.chats import filter_chats_by_language
 from korone.database.users import filter_users_by_language
 from korone.modules.utils.languages import LANGUAGES
+from korone.utils.modules import ALL_MODULES
 
 conn = database.get_conn()
 
 
-@Korone.on_message(filters.cmd("stats"))
+@Korone.on_message(filters.cmd("loadedmodules") & filters.sudo)
+async def loaded_modules(client: Korone, message: Message):
+    text = "".join(f"* {module}\n" for module in ALL_MODULES)
+    await message.reply_text(text)
+
+
+@Korone.on_message(filters.cmd("stats") & filters.sudo)
 async def stats(bot: Korone, message: Message):
     text = "<b>Database</b>"
     text += f"\n    <b>Size</b>: <code>{humanize.naturalsize(os.stat('./korone/database/db.sqlite').st_size, binary=True)}</code>"
