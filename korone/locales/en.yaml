@@ -4,7 +4,6 @@ language_info:
 
 STRINGS:
   pm_menu:
-    module_name: PM Menu
     start_text: |
       Hi <b>{user}</b>!
 

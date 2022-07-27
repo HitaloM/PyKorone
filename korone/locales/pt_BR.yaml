@@ -4,7 +4,6 @@ language_info:
 
 STRINGS:
   pm_menu:
-    module_name: Menu PV
     start_text: |
       Olá <b>{user}</b>!
 
