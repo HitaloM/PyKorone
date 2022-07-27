@@ -10,7 +10,7 @@ from pyrogram.errors import BadRequest
 from pyrogram.types import Message
 
 from korone.bot import Korone
-from korone.modules.utils.constants import PASTAMOJIS
+from korone.modules.utils.constants import PASTAMOJIS, REACTS
 from korone.modules.utils.languages import get_strings_dec
 from korone.modules.utils.messages import get_args_str, get_command
 
@@ -119,6 +119,15 @@ async def copypasta(bot: Korone, message: Message, strings):
             await message.reply_text(f"{html.escape(pasta)}")
     except BadRequest:
         return
+
+
+@Korone.on_message(filters.cmd("react"))
+async def reacts(bot: Korone, message: Message):
+    react = random.choice(REACTS)
+    if message.reply_to_message:
+        await message.reply_to_message.reply_text(react)
+    else:
+        await message.reply_text(react)
 
 
 __help__ = True
