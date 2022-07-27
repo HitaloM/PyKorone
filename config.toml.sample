@@ -5,8 +5,7 @@ api_id = 0
 api_hash = ""
 bot_token = ""
 workers = 24
-excluded_plugins = [""]
 
-[Korone]
+[korone]
 sudoers = []
 modules_path = "korone.modules"

@@ -25,7 +25,7 @@ async def filter_users_by_language(language: str) -> Iterable[Row]:
 
 
 async def register_user_by_dict(info: Dict) -> Optional[Row]:
-    id, language = info["id"], info["language_code"]
+    id, language = info["id"], info["language_code"].split("-")[0]
 
     await conn.execute(
         "INSERT INTO users (id, language, registration_time) VALUES (?, ?, ?)",
