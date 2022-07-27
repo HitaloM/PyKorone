@@ -1,0 +1,3 @@
+files:
+  - source: korone/locales/en.yaml
+    translation: /**/korone/locales/%locale_with_underscore%.yaml
