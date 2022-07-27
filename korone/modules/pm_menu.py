@@ -68,9 +68,9 @@ async def help_menu(bot: Korone, union: Union[Message, CallbackQuery], strings):
     chat_lang = LANGUAGES[lang_code]["STRINGS"]
     layout = Pagination(
         [*HELPABLE],
-        item_data=lambda module, page: item_format.format(module, page),
+        item_data=item_format.format,
         item_title=lambda module, page: chat_lang[module]["module_name"],
-        page_data=lambda page: page_format.format(page),
+        page_data=page_format.format,
     )
 
     buttons = layout.create(page, columns=2, lines=7)
