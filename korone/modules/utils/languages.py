@@ -22,7 +22,7 @@ LANGUAGES: Dict = {}
 
 logger.info("[%s] Loading locales...", Korone.__name__)
 
-for filename in os.listdir("korone/locales"):
+for filename in sorted(os.listdir("korone/locales")):
     logger.debug("Loading language file " + filename)
     with open("korone/locales/" + filename, "r", encoding="utf8") as f:
         lang = yaml.load(f, Loader=yaml.CLoader)
