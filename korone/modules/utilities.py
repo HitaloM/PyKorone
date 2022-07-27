@@ -10,13 +10,13 @@ from pyrogram.types import Message
 
 from korone.bot import Korone
 from korone.modules.utils.languages import get_strings_dec
-from korone.modules.utils.messages import get_args_str
+from korone.modules.utils.messages import get_args
 
 
 @Korone.on_message(filters.cmd("b64encode"))
 @get_strings_dec("utilities")
 async def b64e(bot: Korone, message: Message, strings):
-    text = get_args_str(message)
+    text = get_args(message)
     if not text:
         if message.reply_to_message:
             text = message.reply_to_message.text
@@ -31,7 +31,7 @@ async def b64e(bot: Korone, message: Message, strings):
 @Korone.on_message(filters.cmd("b64decode"))
 @get_strings_dec("utilities")
 async def b64d(bot: Korone, message: Message, strings):
-    text = get_args_str(message)
+    text = get_args(message)
     if not text:
         if message.reply_to_message:
             text = message.reply_to_message.text

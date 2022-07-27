@@ -28,16 +28,10 @@ def get_command(message: Message, pure: bool = False) -> Optional[str]:
         return command
 
 
-def get_args_str(message: Message) -> Optional[str]:
-    command = get_full_command(message)
-    if command:
-        return command[1]
-
-
 def get_args(message: Message) -> Optional[str]:
     command = get_full_command(message)
     if command:
-        return command[1].split(" ")[0]
+        return command[1]
 
 
 def need_args_dec(num: int = 1):

@@ -77,8 +77,8 @@ STRINGS:
       Some utility commands to help you with some tasks and simplify your life.
 
       <b>Commands:</b>
-       - /b64encode: Encode a text to base64.
-       - /b64decode: Decode a base64 text.
+       - /b64encode &lt;text&gt;: Encode a text to base64.
+       - /b64decode &lt;text&gt;: Decode a base64 text.
 
   memes:
     module_name: Memes
@@ -94,5 +94,15 @@ STRINGS:
        - /slap: Sends a random slap image.
        - /pat: Sends a random head pat image.
        - /hug: Sends a random hug image.
-       - /vapor: Vaporize a text.
-       - /capypasta: Copypasta a text.
+       - /vapor &lt;text&gt;: Vaporize a text.
+       - /capypasta &lt;text&gt;: Copypasta a text.
+       - /react: Sends a random reaction.
+
+  pokemon:
+    module_name: Pokémon
+    module_help: |
+      Maybe some useful commands on your journey as a Pokémon trainer.
+
+      <b>Commands:</b>
+       - /pokemon &lt;pokémon name&gt;: Sends a sticker of the given Pokémon.
+       - /pokeitem &lt;item name&gt;: Sends a sticker of the given Pokémon's item.

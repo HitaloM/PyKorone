@@ -26,7 +26,7 @@ from korone.database import database
 from korone.database.chats import filter_chats_by_language
 from korone.database.users import filter_users_by_language
 from korone.modules.utils.languages import LANGUAGES
-from korone.modules.utils.messages import get_args_str
+from korone.modules.utils.messages import get_args
 from korone.utils.modules import ALL_MODULES
 from korone.utils.system import shell_exec
 
@@ -42,7 +42,7 @@ async def loaded_modules(client: Korone, message: Message):
 
 @Korone.on_message(filters.cmd("sh") & filters.sudo)
 async def on_terminal_m(bot: Korone, message: Message):
-    code = get_args_str(message)
+    code = get_args(message)
     sm = await message.reply_text("Running...")
 
     stdout = await shell_exec(code)
@@ -67,7 +67,7 @@ async def on_terminal_m(bot: Korone, message: Message):
 
 @Korone.on_message(filters.cmd("ev") & filters.sudo)
 async def on_eval_m(bot: Korone, message: Message):
-    eval_code = get_args_str(message)
+    eval_code = get_args(message)
     sm = await message.reply_text("Running...")
     try:
         stdout = await meval(eval_code, globals(), **locals())
@@ -98,7 +98,7 @@ async def on_eval_m(bot: Korone, message: Message):
 
 @Korone.on_message(filters.cmd("ex") & filters.sudo)
 async def on_execute_m(bot: Korone, message: Message):
-    code = get_args_str(message)
+    code = get_args(message)
     sm = await message.reply_text("Running...")
     function = """
 async def _aexec_(bot: Korone, message: Message):
@@ -197,7 +197,7 @@ async def shutdown(bot: Korone, message: Message):
 
 @Korone.on_message(filters.cmd("echo") & filters.sudo)
 async def echo(bot: Korone, message: Message):
-    text = get_args_str(message)
+    text = get_args(message)
     kwargs = {}
     reply = message.reply_to_message
     if reply:

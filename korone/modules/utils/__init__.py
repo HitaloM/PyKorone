@@ -10,17 +10,10 @@ from .languages import (
     get_strings,
     get_strings_dec,
 )
-from .messages import (
-    get_args,
-    get_args_str,
-    get_command,
-    get_full_command,
-    need_args_dec,
-)
+from .messages import get_args, get_command, get_full_command, need_args_dec
 
 __all__ = (
     "get_command",
-    "get_args_str",
     "get_args",
     "get_full_command",
     "need_args_dec",

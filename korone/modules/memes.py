@@ -12,7 +12,7 @@ from pyrogram.types import Message
 from korone.bot import Korone
 from korone.modules.utils.constants import PASTAMOJIS, REACTS
 from korone.modules.utils.languages import get_strings_dec
-from korone.modules.utils.messages import get_args_str, get_command
+from korone.modules.utils.messages import get_args, get_command
 
 
 @Korone.on_message(filters.cmd(["neko", "waifu", "hug", "pat", "slap"]))
@@ -45,7 +45,7 @@ async def neko_api(bot: Korone, message: Message, strings):
 @Korone.on_message(filters.cmd("vapor"))
 @get_strings_dec("memes")
 async def vapor(bot: Korone, message: Message, strings):
-    text = get_args_str(message)
+    text = get_args(message)
     reply = message.reply_to_message
 
     if not text and reply:
@@ -81,7 +81,7 @@ async def vapor(bot: Korone, message: Message, strings):
 @Korone.on_message(filters.cmd(["cp", "copypasta"]))
 @get_strings_dec("memes")
 async def copypasta(bot: Korone, message: Message, strings):
-    text = get_args_str(message)
+    text = get_args(message)
     reply = message.reply_to_message
 
     if not text and reply:
