@@ -4,6 +4,7 @@
 from typing import Union
 
 from pyrogram import filters
+from pyrogram.enums import ChatType
 from pyrogram.helpers import ikb
 from pyrogram.nav import Pagination
 from pyrogram.types import CallbackQuery, Message
@@ -26,6 +27,13 @@ from korone.utils.modules import HELPABLE
 async def start(bot: Korone, union: Union[Message, CallbackQuery], strings):
     is_callback = isinstance(union, CallbackQuery)
     message = union.message if is_callback else union
+
+    if not is_callback and message.chat.type in (
+        ChatType.GROUP,
+        ChatType.SUPERGROUP,
+    ):
+        await message.reply_text(strings["start_group"])
+        return
 
     lang_info = await get_chat_lang_info(message.chat.id)
     keyboard = ikb(
@@ -55,6 +63,17 @@ async def start(bot: Korone, union: Union[Message, CallbackQuery], strings):
 async def help_menu(bot: Korone, union: Union[Message, CallbackQuery], strings):
     is_callback = isinstance(union, CallbackQuery)
     message = union.message if is_callback else union
+
+    if not is_callback and message.chat.type in (
+        ChatType.GROUP,
+        ChatType.SUPERGROUP,
+    ):
+        keyboard = ikb(
+            [[(strings["pm_button"], f"https://t.me/{bot.me.username}/?start", "url")]]
+        )
+        await message.reply_text(strings["help_in_pm"], reply_markup=keyboard)
+        return
+
     page = int(union.matches[0]["page"]) if is_callback else 0
     args = get_args(message)
     if args:

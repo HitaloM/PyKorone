@@ -33,6 +33,9 @@ STRINGS:
     channel_button: 📚 Channel
     back_button: 🔙 Back
     unavailable_mod_help: Help information unavailable, please report this problem to my developer.
+    help_in_pm: For help go to my PM.
+    pm_button: Go to PM!
+    start_group: I'm alive!
     helpable_text: |
       Here is the available help for the <b>{module_name}</b> module:
 
