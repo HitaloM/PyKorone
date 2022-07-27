@@ -1,51 +1,51 @@
 language_info:
-  flag: "🇺🇸"
-  code: en
+  flag: "🇧🇷"
+  code: pt
 STRINGS:
   pm_menu:
     start_text: |
-      Hi <b>{user}</b>!
+      Olá, <b>{user}</b>!
 
-      I am the <b>{bot_name}</b>, an interactive bot that loves to participate in groups! ^^
-      <b>Version:</b> {short_hash} <code>({version_code})</code>
+      Eu sou o <b>{bot_name}</b>, um bot interativo que adora participar de grupos! ^^
+      <b>Versão:</b> {short_hash} <code>({version_code})</code>
     help_text: |
-      Have a look at the following for an idea of some of the things I can help you with.
+      Dê uma olhada nos seguintes para uma ideia de algumas das coisas que eu posso ajudar você.
 
-      All commands can either be used with <code>/</code> or <code>!</code>.
+      Todos os comandos podem ser usados com <code>/</code> ou <code>!</code>.
 
-      Main commands available:
-       - /start: start the bot.
-       - /help: PM's you this message.
-       - /help <module name>: PM's you info about that module.
-       - /about: PM's you more info about me.
+      Comandos principais:
+      - /start: inicia o bot.
+      - /help: envia a você essa mensagem.
+      - /help <module name>: envia a você informações sobre o módulo específicado
+      - /about: mais informações sobre mim.
 
-      Other available commands:
+      Outros comandos disponíveis:
     about_text: |
-      <b>{bot_name}</b> is a bot developed in <i>Python</i> with the <b>MTProto Pyrogram</b> library, made to be fast, stable and complete about animes.
+      <b>{bot_name}</b> é um bot desenvolvido em <i>Python</i> com a biblioteca <b>MTProto Pyrogram</b>, feito para ser rápido, estável e completo.
 
-      <b>Version</b>: {version} (<code>{version_code}</code>)
-    module_not_found: Module not found!
-    about_button: ℹ️ About
-    help_button: '👮‍♀️ Help'
-    language_button: Language
+      <b>Versão</b>: {version} (<code>{version_code}</code>)
+    module_not_found: Módulo não encontrado!
+    about_button: ℹ️ Sobre
+    help_button: '👮‍♀️ Ajuda'
+    language_button: Idioma
     github_button: '📦 GitHub'
-    channel_button: '📚 Channel'
-    back_button: '🔙 Back'
-    unavailable_mod_help: Help information unavailable, please report this problem to my developer.
+    channel_button: '📚 Canal'
+    back_button: '🔙 Voltar'
+    unavailable_mod_help: Ajuda não disponível, por favor, relate este problema ao meu desenvolvedor.
     helpable_text: |
-      Here is the available help for the <b>{module_name}</b> module:
+      Aqui está a ajuda disponível para o módulo <b>{module_name}</b>:
 
       {module_help}
   languages:
-    module_name: Languages
-    language_changed_alert: The language has changed to {lang_name}.
-    not_admin: You're not an administrator!
+    module_name: Idiomas
+    language_changed_alert: O idioma foi alterado para {lang_name}.
+    not_admin: Você não é um administrador!
     language_text: |
-      Choose the desired language below.
-      Your current language: <b>{lang_name}</b>
-    back_button: '🔙 Back'
+      Escolha o idioma desejado abaixo.
+      Seu idioma atual: <b>{lang_name}</b>
+    back_button: '🔙 Voltar'
     languages_help: |
-      This module is dedicated towards utlising Korone's localization feature! You can also <a href='https://crowdin.com/project/pykorone'>contribute</a> for improving localization in Korone!
+      Este módulo é dedicado ao uso de localização de Korone! Você também pode <a href='https://crowdin.com/project/pykorone'>contribuir</a> para melhorar a localização de Korone!
 
-      <b>Available commands:</b>
-      - /language: Shows a list of avaible languages
+      <b>Comandos disponíveis:</b>
+      - /language: mostra a lista de idiomas disponíveis
