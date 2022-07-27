@@ -93,12 +93,28 @@ python-versions = ">=3.7"
 tests = ["freezegun", "pytest", "pytest-cov"]
 
 [[package]]
+name = "kantex"
+version = "0.2.0"
+description = "Layout text automatically using classes"
+category = "main"
+optional = false
+python-versions = ">=3.6"
+
+[[package]]
 name = "mccabe"
 version = "0.6.1"
 description = "McCabe checker, plugin for flake8"
 category = "dev"
 optional = false
 python-versions = "*"
+
+[[package]]
+name = "meval"
+version = "2.5"
+description = "Performs async evaluations of strings"
+category = "main"
+optional = false
+python-versions = ">=3.5"
 
 [[package]]
 name = "mypy"
@@ -321,7 +337,7 @@ fast = ["uvloop"]
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.10"
-content-hash = "60e27caf93cc395638fbcca09b5a34c3a99d700b3b3bf3fac82e0d57886af06b"
+content-hash = "62d5bb05f4e6e11efc373a5432ee558401a53e52322e149b283acb8725f1d7e3"
 
 [metadata.files]
 aiosqlite = [
@@ -377,9 +393,17 @@ humanize = [
     {file = "humanize-4.2.3-py3-none-any.whl", hash = "sha256:bed628920d45cd5018abb095710f0c03a8336d6ac0790e7647c6a328f3880b81"},
     {file = "humanize-4.2.3.tar.gz", hash = "sha256:2bc1fdd831cd00557d3010abdd84d3e41b4a96703a3eaf6c24ee290b26b75a44"},
 ]
+kantex = [
+    {file = "kantex-0.2.0-py3-none-any.whl", hash = "sha256:af26c41577d621311386fbb422dba847e92e9f0ed701f402b2d6184e7f409b98"},
+    {file = "kantex-0.2.0.tar.gz", hash = "sha256:77742cd70f38e0ea71eca601c98f3c2d044cbd9bf9088a6e3b418667f619187a"},
+]
 mccabe = [
     {file = "mccabe-0.6.1-py2.py3-none-any.whl", hash = "sha256:ab8a6258860da4b6677da4bd2fe5dc2c659cff31b3ee4f7f5d64e79735b80d42"},
     {file = "mccabe-0.6.1.tar.gz", hash = "sha256:dd8d182285a0fe56bace7f45b5e7d1a6ebcbf524e8f3bd87eb0f125271b8831f"},
+]
+meval = [
+    {file = "meval-2.5-py3-none-any.whl", hash = "sha256:24430865001b5596864a7c28f423294edadaac57af9ab6964dda3eabc8762577"},
+    {file = "meval-2.5.tar.gz", hash = "sha256:a5aa481617f1fd07a5972076cd3aa14e38515ac84b3ff028efdf76371a856765"},
 ]
 mypy = [
     {file = "mypy-0.971-cp310-cp310-macosx_10_9_universal2.whl", hash = "sha256:f2899a3cbd394da157194f913a931edfd4be5f274a88041c9dc2d9cdcb1c315c"},
