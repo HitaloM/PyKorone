@@ -10,7 +10,6 @@ from pyrogram.types import CallbackQuery, Message
 
 from korone.bot import Korone
 from korone.modules.utils.languages import (
-    LANGUAGES,
     get_chat_lang,
     get_chat_lang_info,
     get_string,

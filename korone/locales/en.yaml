@@ -65,3 +65,14 @@ STRINGS:
        - /bird: Sends a random bird image.
        - /panda: Sends a random panda image.
        - /redpanda: Sends a random red panda image.
+
+  utilities:
+    module_name: Utilities
+    need_text: I need a text to encode.
+    invalid_b64: "⚠️ Invalid base64 data: <code>{error}</code>"
+    module_help: |
+      Some utility commands to help you with some tasks and simplify your life.
+
+      <b>Commands:</b>
+       - /b64encode: Encode a text to base64.
+       - /b64decode: Decode a base64 text.

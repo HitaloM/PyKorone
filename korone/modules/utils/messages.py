@@ -43,7 +43,7 @@ def get_args(message: Message) -> Optional[str]:
 def need_args_dec(num: int = 1):
     def decorator(func) -> Callable:
         async def wrapper(*args, **kwargs):
-            message = args[0]
+            message = args[1]
             if len(message.text.split(" ")) > num:
                 return await func(*args, **kwargs)
             await message.reply("I need arguments to perform this action.")
