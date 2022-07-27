@@ -49,7 +49,6 @@ async def get_chat_lang(chat_id):
 
     user_lang = await get_user_by_id(chat_id)
     if not user_lang or user_lang["language"] not in LANGUAGES:
-        print(user_lang["language"])
         return "en"
 
     return user_lang["language"]
