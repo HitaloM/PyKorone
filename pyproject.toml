@@ -19,6 +19,7 @@ Babel = "^2.10.3"
 aiosqlite = "^0.17.0"
 meval = "^2.5"
 kantex = "^0.2.0"
+httpx = {extras = ["http2"], version = "^0.23.0"}
 
 [tool.poetry.dev-dependencies]
 black = "^22.6"

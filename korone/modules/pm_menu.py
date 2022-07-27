@@ -14,6 +14,7 @@ from korone.modules.utils.languages import (
     get_chat_lang,
     get_chat_lang_info,
     get_string,
+    get_string_sync,
     get_strings_dec,
 )
 from korone.modules.utils.messages import get_args
@@ -65,11 +66,12 @@ async def help_menu(bot: Korone, union: Union[Message, CallbackQuery], strings):
     page_format = "help-menu {}"
 
     lang_code = await get_chat_lang(message.chat.id)
-    chat_lang = LANGUAGES[lang_code]["STRINGS"]
     layout = Pagination(
         [*HELPABLE],
         item_data=item_format.format,
-        item_title=lambda module, page: chat_lang[module]["module_name"],
+        item_title=lambda module, page: get_string_sync(
+            message.chat.id, lang_code, module, "module_name"
+        ),
         page_data=page_format.format,
     )
 
@@ -104,7 +106,7 @@ async def help_module(
         return
 
     try:
-        module_help = await get_string(union.from_user.id, module, f"{module}_help")
+        module_help = await get_string(union.from_user.id, module, "module_help")
         module_name = await get_string(union.from_user.id, module, "module_name")
     except KeyError:
         if is_callback:

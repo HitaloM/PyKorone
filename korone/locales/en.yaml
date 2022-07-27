@@ -17,7 +17,7 @@ STRINGS:
       Main commands available:
        - /start: start the bot.
        - /help: PM's you this message.
-       - /help <module name>: PM's you info about that module.
+       - /help &lt;module name&gt;: PM's you info about that module.
        - /about: PM's you more info about me.
 
       Other available commands:
@@ -46,8 +46,22 @@ STRINGS:
       Choose the desired language below.
       Your current language: <b>{lang_name}</b>
     back_button: 🔙 Back
-    languages_help: |
+    module_help: |
       This module is dedicated towards utlising Korone's localization feature! You can also <a href='https://crowdin.com/project/pykorone'>contribute</a> for improving localization in Korone!
 
-      <b>Available commands:</b>
-      - /language: Shows a list of avaible languages
+      <b>Commands:</b>
+       - /language: Shows a list of avaible languages
+
+  misc:
+    module_name: Misc
+    generic_error: An error occurred!
+    module_help: |
+      Some miscellaneous commands that don't fit anywhere else.
+
+      <b>Commands:</b>
+       - /cat: Sends a random cat image.
+       - /dog: Sends a random dog image.
+       - /fox: Sends a random fox image.
+       - /bird: Sends a random bird image.
+       - /panda: Sends a random panda image.
+       - /redpanda: Sends a random red panda image.

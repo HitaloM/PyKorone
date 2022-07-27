@@ -91,6 +91,15 @@ async def get_strings(chat_id, module, mas_name="STRINGS"):
     return Strings()
 
 
+def get_string_sync(chat_id, code, module, name, mas_name="STRINGS"):
+    try:
+        lang = LANGUAGES[code][mas_name][module][name]
+    except KeyError:
+        lang = LANGUAGES["en"][mas_name][module][name]
+
+    return lang
+
+
 async def get_string(chat_id, module, name, mas_name="STRINGS"):
     strings = await get_strings(chat_id, module, mas_name=mas_name)
     return strings[name]

@@ -16,7 +16,7 @@ STRINGS:
       Comandos principais:
        - /start: inicia o bot.
        - /help: envia a você essa mensagem.
-       - /help <module name>: envia a você informações sobre o módulo específicado
+       - /help &lt;module name&gt;: envia a você informações sobre o módulo específicado
        - /about: mais informações sobre mim.
 
       Outros comandos disponíveis:
