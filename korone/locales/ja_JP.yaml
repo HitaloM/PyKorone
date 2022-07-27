@@ -1,0 +1,51 @@
+language_info:
+  flag: "🇯🇵"
+  code: jp
+STRINGS:
+  pm_menu:
+    start_text: |
+      Hi <b>{user}</b>!
+
+      I am the <b>{bot_name}</b>, an interactive bot that loves to participate in groups! ^^
+      <b>Version:</b> {short_hash} <code>({version_code})</code>
+    help_text: |
+      Have a look at the following for an idea of some of the things I can help you with.
+
+      All commands can either be used with <code>/</code> or <code>!</code>.
+
+      Main commands available:
+       - /start: start the bot.
+       - /help: PM's you this message.
+       - /help <module name>: PM's you info about that module.
+       - /about: PM's you more info about me.
+
+      Other available commands:
+    about_text: |
+      <b>{bot_name}</b> is a bot developed in <i>Python</i> with the <b>MTProto Pyrogram</b> library, made to be fast, stable and complete about animes.
+
+      <b>Version</b>: {version} (<code>{version_code}</code>)
+    module_not_found: Module not found!
+    about_button: ℹ️ About
+    help_button: '👮‍♀️ Help'
+    language_button: Language
+    github_button: '📦 GitHub'
+    channel_button: '📚 Channel'
+    back_button: '🔙 Back'
+    unavailable_mod_help: Help information unavailable, please report this problem to my developer.
+    helpable_text: |
+      Here is the available help for the <b>{module_name}</b> module:
+
+      {module_help}
+  languages:
+    module_name: Languages
+    language_changed_alert: The language has changed to {lang_name}.
+    not_admin: You're not an administrator!
+    language_text: |
+      Choose the desired language below.
+      Your current language: <b>{lang_name}</b>
+    back_button: '🔙 Back'
+    languages_help: |
+      This module is dedicated towards utlising Korone's localization feature! You can also <a href='https://crowdin.com/project/pykorone'>contribute</a> for improving localization in Korone!
+
+      <b>Available commands:</b>
+      - /language: Shows a list of avaible languages

@@ -1,13 +1,12 @@
 language_info:
   flag: "🇧🇷"
   code: pt
-
 STRINGS:
   pm_menu:
     start_text: |
-      Olá <b>{user}</b>!
+      Olá, <b>{user}</b>!
 
-      Eu sou o <b>{bot_name}</b>, um bot que gosta de participar de grupos! ^^
+      Eu sou o <b>{bot_name}</b>, um bot interativo que adora participar de grupos! ^^
       <b>Versão:</b> {short_hash} <code>({version_code})</code>
     help_text: |
       Dê uma olhada nos seguintes para uma ideia de algumas das coisas que eu posso ajudar você.
@@ -17,7 +16,7 @@ STRINGS:
       Comandos principais:
        - /start: inicia o bot.
        - /help: envia a você essa mensagem.
-       - /help <module name>: envia a você informações sobre o módulo específicado.
+       - /help <module name>: envia a você informações sobre o módulo específicado
        - /about: mais informações sobre mim.
 
       Outros comandos disponíveis:
@@ -25,19 +24,18 @@ STRINGS:
       <b>{bot_name}</b> é um bot desenvolvido em <i>Python</i> com a biblioteca <b>MTProto Pyrogram</b>, feito para ser rápido, estável e completo.
 
       <b>Versão</b>: {version} (<code>{version_code}</code>)
-    module_not_found: Módulo não encontrado
+    module_not_found: Módulo não encontrado!
     about_button: ℹ️ Sobre
-    help_button: 👮‍♀️ Ajuda
+    help_button: '👮‍♀️ Ajuda'
     language_button: Idioma
-    github_button: 📦 GitHub
-    channel_button: 📚 Canal
-    back_button: 🔙 Voltar
+    github_button: '📦 GitHub'
+    channel_button: '📚 Canal'
+    back_button: '🔙 Voltar'
     unavailable_mod_help: Ajuda não disponível, por favor, relate este problema ao meu desenvolvedor.
     helpable_text: |
       Aqui está a ajuda disponível para o módulo <b>{module_name}</b>:
 
       {module_help}
-
   languages:
     module_name: Idiomas
     language_changed_alert: O idioma foi alterado para {lang_name}.
@@ -45,9 +43,9 @@ STRINGS:
     language_text: |
       Escolha o idioma desejado abaixo.
       Seu idioma atual: <b>{lang_name}</b>
-    back_button: 🔙 Voltar
+    back_button: '🔙 Voltar'
     languages_help: |
       Este módulo é dedicado ao uso de localização de Korone! Você também pode <a href='https://crowdin.com/project/pykorone'>contribuir</a> para melhorar a localização de Korone!
 
       <b>Comandos disponíveis:</b>
-      - /language: mostra a lista de idiomas disponíveis.
+      - /language: mostra a lista de idiomas disponíveis
