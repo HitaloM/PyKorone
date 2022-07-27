@@ -82,6 +82,9 @@ STRINGS:
 
   memes:
     module_name: Memes
+    api_error: An error occurred while fetching the API data.
+    badrequest_error: An error occurred while trying to send the message.
+    need_text: I need a text.
     module_help: |
       Some meme commands.
 
@@ -91,3 +94,5 @@ STRINGS:
        - /slap: Sends a random slap image.
        - /pat: Sends a random head pat image.
        - /hug: Sends a random hug image.
+       - /vapor: Vaporize a text.
+       - /capypasta: Copypasta a text.
