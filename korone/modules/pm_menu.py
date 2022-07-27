@@ -44,6 +44,7 @@ async def start(bot: Korone, union: Union[Message, CallbackQuery], strings):
             short_hash=bot.version,
             version_code=bot.version_code,
         ),
+        disable_web_page_preview=True,
         reply_markup=keyboard,
     )
 
@@ -77,6 +78,7 @@ async def help_menu(bot: Korone, union: Union[Message, CallbackQuery], strings):
 
     await (message.edit_text if is_callback else message.reply_text)(
         strings["help_text"],
+        disable_web_page_preview=True,
         reply_markup=ikb(buttons),
     )
 
@@ -120,6 +122,7 @@ async def help_module(
         strings["helpable_text"].format(
             module_name=module_name, module_help=module_help
         ),
+        disable_web_page_preview=True,
         reply_markup=keyboard,
     )
 

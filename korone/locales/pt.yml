@@ -47,3 +47,8 @@ STRINGS:
       Escolha o idioma desejado abaixo.
       Seu idioma atual: <b>{lang_name}</b>
     back_button: 🔙 Voltar
+    languages_help: |
+      Este módulo é dedicado ao uso de localização de Korone! Você também pode <a href='https://crowdin.com/project/pykorone'>contribuir</a> para melhorar a localização de Korone!
+
+      <b>Comandos disponíveis:</b>
+      - /language: mostra a lista de idiomas disponíveis.

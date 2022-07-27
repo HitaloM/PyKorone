@@ -47,3 +47,8 @@ STRINGS:
       Choose the desired language below.
       Your current language: <b>{lang_name}</b>
     back_button: 🔙 Back
+    languages_help: |
+      This module is dedicated towards utlising Korone's localization feature! You can also <a href='https://crowdin.com/project/pykorone'>contribute</a> for improving localization in Korone!
+
+      <b>Available commands:</b>
+      - /language: Shows a list of avaible languages
