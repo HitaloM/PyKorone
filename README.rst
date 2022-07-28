@@ -5,6 +5,9 @@ Korone - Telegram Bot |beta badge|
 .. danger::
     This version is still in development!
 
+.. image:: https://app.codacy.com/project/badge/Grade/4c935499b3d74d89935ae4460db05537
+    :target: https://www.codacy.com/gh/AmanoTeam/PyKorone/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=AmanoTeam/PyKorone&amp;utm_campaign=Badge_Grade
+
 .. image:: https://badges.crowdin.net/pykorone/localized.svg
     :target: https://crowdin.com/project/pykorone
     :alt: Crowdin
@@ -64,5 +67,5 @@ Tools and tips
 - Don't forget to add the `SPDX-License-Identifier <https://spdx.dev/ids/>`_ header.
 - Try to resolve any problems identified by our CI.
 
-.. |beta badge| image:: https://img.shields.io/badge/-beta-orange
+.. |beta badge| image:: https://img.shields.io/badge/-beta-red
   :alt: Beta badge
