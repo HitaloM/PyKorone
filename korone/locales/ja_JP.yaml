@@ -1,6 +1,6 @@
 language_info:
   flag: "🇯🇵"
-  code: jp
+  code: ja
 STRINGS:
   pm_menu:
     start_text: |
@@ -16,7 +16,7 @@ STRINGS:
       Main commands available:
        - /start: start the bot.
        - /help: PM's you this message.
-       - /help <module name>: PM's you info about that module.
+       - /help &lt;module name&gt;: PM's you info about that module.
        - /about: PM's you more info about me.
 
       Other available commands:
@@ -32,6 +32,9 @@ STRINGS:
     channel_button: '📚 Channel'
     back_button: '🔙 Back'
     unavailable_mod_help: Help information unavailable, please report this problem to my developer.
+    help_in_pm: For help go to my PM.
+    pm_button: Go to PM!
+    start_group: I'm alive!
     helpable_text: |
       Here is the available help for the <b>{module_name}</b> module:
 
@@ -44,8 +47,56 @@ STRINGS:
       Choose the desired language below.
       Your current language: <b>{lang_name}</b>
     back_button: '🔙 Back'
-    languages_help: |
+    module_help: |
       This module is dedicated towards utlising Korone's localization feature! You can also <a href='https://crowdin.com/project/pykorone'>contribute</a> for improving localization in Korone!
 
-      <b>Available commands:</b>
-      - /language: Shows a list of avaible languages
+      <b>Commands:</b>
+       - /language: Shows a list of avaible languages
+  misc:
+    module_name: Misc
+    generic_error: An error occurred!
+    module_help: |
+      Some miscellaneous commands that don't fit anywhere else.
+
+      <b>Commands:</b>
+       - /cat: Sends a random cat image.
+       - /dog: Sends a random dog image.
+       - /fox: Sends a random fox image.
+       - /bird: Sends a random bird image.
+       - /panda: Sends a random panda image.
+       - /redpanda: Sends a random red panda image.
+  utilities:
+    module_name: Utilities
+    need_text: I need a text to encode.
+    invalid_b64: "⚠️ Invalid base64 data: <code>{error}</code>"
+    module_help: |
+      Some utility commands to help you with some tasks and simplify your life.
+
+      <b>Commands:</b>
+       - /b64encode &lt;text&gt;: Encode a text to base64.
+       - /b64decode &lt;text&gt;: Decode a base64 text.
+  memes:
+    module_name: Memes
+    api_error: An error occurred while fetching the API data.
+    badrequest_error: An error occurred while trying to send the message.
+    need_text: I need a text.
+    module_help: |
+      Some meme commands.
+
+      <b>Command:</b>
+       - /neko: Sends a random neko image.
+       - /waifu: Sends a random waifu image.
+       - /slap: Sends a random slap image.
+       - /pat: Sends a random head pat image.
+       - /hug: Sends a random hug image.
+       - /vapor &lt;text&gt;: Vaporize a text.
+       - /capypasta &lt;text&gt;: Copypasta a text.
+       - /react: Sends a random reaction.
+  pokemon:
+    module_name: Pokémon
+    module_help: |
+      Maybe some useful commands on your journey as a Pokémon trainer.
+
+      <b>Commands:</b>
+       - /pokemon &lt;pokémon name&gt;: Sends a sticker of the given Pokémon.
+       - /pokeitem &lt;item name&gt;: Sends a sticker of the given Pokémon's item.
