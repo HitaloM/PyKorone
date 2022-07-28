@@ -9,17 +9,17 @@ STRINGS:
       Eu sou o <b>{bot_name}</b>, um bot interativo que adora participar de grupos! ^^
       <b>Versão:</b> {short_hash} <code>({version_code})</code>
     help_text: |
-      Dê uma olhada nos seguintes para uma ideia de algumas das coisas que eu posso ajudar você.
+      Have a look at the following for an idea of some of the things I can help you with.
 
-      Todos os comandos podem ser usados com <code>/</code> ou <code>!</code>.
+      All commands can either be used with <code>/</code> or <code>!</code>.
 
-      Comandos principais:
-       - /start: inicia o bot.
-       - /help: envia a você essa mensagem.
-       - /help <module name>: envia a você informações sobre o módulo específicado
-       - /about: mais informações sobre mim.
+      Main commands available:
+       - /start: start the bot.
+       - /help: PM's you this message.
+       - /help &lt;module name&gt;: PM's you info about that module.
+       - /about: PM's you more info about me.
 
-      Outros comandos disponíveis:
+      Other available commands:
     about_text: |
       <b>{bot_name}</b> é um bot desenvolvido em <i>Python</i> com a biblioteca <b>MTProto Pyrogram</b>, feito para ser rápido, estável e completo.
 
@@ -32,6 +32,9 @@ STRINGS:
     channel_button: '📚 Canal'
     back_button: '🔙 Voltar'
     unavailable_mod_help: Ajuda não disponível, por favor, relate este problema ao meu desenvolvedor.
+    help_in_pm: For help go to my PM.
+    pm_button: Go to PM!
+    start_group: I'm alive!
     helpable_text: |
       Aqui está a ajuda disponível para o módulo <b>{module_name}</b>:
 
@@ -44,8 +47,56 @@ STRINGS:
       Escolha o idioma desejado abaixo.
       Seu idioma atual: <b>{lang_name}</b>
     back_button: '🔙 Voltar'
-    languages_help: |
-      Este módulo é dedicado ao uso de localização de Korone! Você também pode <a href='https://crowdin.com/project/pykorone'>contribuir</a> para melhorar a localização de Korone!
+    module_help: |
+      This module is dedicated towards utlising Korone's localization feature! You can also <a href='https://crowdin.com/project/pykorone'>contribute</a> for improving localization in Korone!
 
-      <b>Comandos disponíveis:</b>
-      - /language: mostra a lista de idiomas disponíveis
+      <b>Commands:</b>
+       - /language: Shows a list of avaible languages
+  misc:
+    module_name: Misc
+    generic_error: An error occurred!
+    module_help: |
+      Some miscellaneous commands that don't fit anywhere else.
+
+      <b>Commands:</b>
+       - /cat: Sends a random cat image.
+       - /dog: Sends a random dog image.
+       - /fox: Sends a random fox image.
+       - /bird: Sends a random bird image.
+       - /panda: Sends a random panda image.
+       - /redpanda: Sends a random red panda image.
+  utilities:
+    module_name: Utilities
+    need_text: I need a text to encode.
+    invalid_b64: "⚠️ Invalid base64 data: <code>{error}</code>"
+    module_help: |
+      Some utility commands to help you with some tasks and simplify your life.
+
+      <b>Commands:</b>
+       - /b64encode &lt;text&gt;: Encode a text to base64.
+       - /b64decode &lt;text&gt;: Decode a base64 text.
+  memes:
+    module_name: Memes
+    api_error: An error occurred while fetching the API data.
+    badrequest_error: An error occurred while trying to send the message.
+    need_text: I need a text.
+    module_help: |
+      Some meme commands.
+
+      <b>Command:</b>
+       - /neko: Sends a random neko image.
+       - /waifu: Sends a random waifu image.
+       - /slap: Sends a random slap image.
+       - /pat: Sends a random head pat image.
+       - /hug: Sends a random hug image.
+       - /vapor &lt;text&gt;: Vaporize a text.
+       - /capypasta &lt;text&gt;: Copypasta a text.
+       - /react: Sends a random reaction.
+  pokemon:
+    module_name: Pokémon
+    module_help: |
+      Maybe some useful commands on your journey as a Pokémon trainer.
+
+      <b>Commands:</b>
+       - /pokemon &lt;pokémon name&gt;: Sends a sticker of the given Pokémon.
+       - /pokeitem &lt;item name&gt;: Sends a sticker of the given Pokémon's item.
