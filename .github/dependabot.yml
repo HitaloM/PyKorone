@@ -3,6 +3,8 @@ updates:
 - package-ecosystem: pip
   directory: "/"
   schedule:
-    interval: daily
+    interval: weekly
     time: "11:00"
+  ignore:
+    - dependency-name: "sentry-sdk"
   open-pull-requests-limit: 10
