@@ -99,7 +99,10 @@ STRINGS:
        - /react: Sends a random reaction.
 
   pokemon:
-    module_name: Pokémon
+    module_name: Pokemon
+    api_error: An error occurred while fetching the API data.
+    no_sprite: No sprite found for this.
+    type_not_found: "Type '{type}' not found."
     module_help: |
       Maybe some useful commands on your journey as a Pokémon trainer.
 
