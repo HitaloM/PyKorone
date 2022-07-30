@@ -11,11 +11,13 @@ from pyrogram.types import Message
 
 from korone.bot import Korone
 from korone.modules.utils.constants import PASTAMOJIS, REACTS
+from korone.modules.utils.disable import disableable_dec
 from korone.modules.utils.languages import get_strings_dec
 from korone.modules.utils.messages import get_args, get_command
 
 
 @Korone.on_message(filters.cmd(["neko", "waifu", "hug", "pat", "slap"]))
+@disableable_dec("neko")
 @get_strings_dec("memes")
 async def neko_api(bot: Korone, message: Message, strings):
     command = get_command(message).lower()[1:].split("@")[0]
@@ -43,6 +45,7 @@ async def neko_api(bot: Korone, message: Message, strings):
 
 
 @Korone.on_message(filters.cmd("vapor"))
+@disableable_dec("vapor")
 @get_strings_dec("memes")
 async def vapor(bot: Korone, message: Message, strings):
     text = get_args(message)
@@ -79,6 +82,7 @@ async def vapor(bot: Korone, message: Message, strings):
 
 
 @Korone.on_message(filters.cmd(["cp", "copypasta"]))
+@disableable_dec("copypasta")
 @get_strings_dec("memes")
 async def copypasta(bot: Korone, message: Message, strings):
     text = get_args(message)
@@ -122,6 +126,7 @@ async def copypasta(bot: Korone, message: Message, strings):
 
 
 @Korone.on_message(filters.cmd("react"))
+@disableable_dec("react")
 async def reacts(bot: Korone, message: Message):
     react = random.choice(REACTS)
     if message.reply_to_message:
