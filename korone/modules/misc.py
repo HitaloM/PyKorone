@@ -6,10 +6,12 @@ from pyrogram import filters
 from pyrogram.types import Message
 
 from korone.bot import Korone
+from korone.modules.utils.disable import disableable_dec
 from korone.modules.utils.languages import get_strings_dec
 
 
 @Korone.on_message(filters.cmd("cat"))
+@disableable_dec("cat")
 @get_strings_dec("misc")
 async def cat_photo(bot: Korone, message: Message, strings):
     async with httpx.AsyncClient(http2=True) as client:
@@ -28,6 +30,7 @@ async def cat_photo(bot: Korone, message: Message, strings):
 
 
 @Korone.on_message(filters.cmd("dog"))
+@disableable_dec("dog")
 @get_strings_dec("misc")
 async def dog_photo(bot: Korone, message: Message, strings):
     async with httpx.AsyncClient(http2=True) as client:
@@ -42,6 +45,7 @@ async def dog_photo(bot: Korone, message: Message, strings):
 
 
 @Korone.on_message(filters.cmd("fox"))
+@disableable_dec("fox")
 @get_strings_dec("misc")
 async def fox_photo(bot: Korone, message: Message, strings):
     async with httpx.AsyncClient(http2=True) as client:
@@ -56,6 +60,7 @@ async def fox_photo(bot: Korone, message: Message, strings):
 
 
 @Korone.on_message(filters.cmd("panda"))
+@disableable_dec("panda")
 @get_strings_dec("misc")
 async def panda_photo(bot: Korone, message: Message, strings):
     async with httpx.AsyncClient(http2=True) as client:
@@ -70,6 +75,7 @@ async def panda_photo(bot: Korone, message: Message, strings):
 
 
 @Korone.on_message(filters.cmd("bird"))
+@disableable_dec("bird")
 @get_strings_dec("misc")
 async def bird_photo(bot: Korone, message: Message, strings):
     async with httpx.AsyncClient(http2=True) as client:
@@ -84,6 +90,7 @@ async def bird_photo(bot: Korone, message: Message, strings):
 
 
 @Korone.on_message(filters.cmd("redpanda"))
+@disableable_dec("redpanda")
 @get_strings_dec("misc")
 async def rpanda_photo(bot: Korone, message: Message, strings):
     async with httpx.AsyncClient(http2=True) as client:

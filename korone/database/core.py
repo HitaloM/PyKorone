@@ -34,6 +34,11 @@ class Database(object):
                 language VARCHAR(2) NOT NULL DEFAULT \"en\",
                 registration_time INTEGER NOT NULL
         );
+
+        CREATE TABLE IF NOT EXISTS disabled (
+                chat_id INTEGER,
+                disabled_cmd TEXT
+        );
         """
         )
 
