@@ -25,12 +25,12 @@ logger.info("[%s] Loading locales...", Korone.__name__)
 for filename in sorted(os.listdir("korone/locales")):
     logger.debug("Loading language file " + filename)
     with open("korone/locales/" + filename, "r", encoding="utf8") as f:
-        lang = yaml.load(f, Loader=yaml.CLoader)
+        glang = yaml.load(f, Loader=yaml.CLoader)
 
-        lang_code = lang["language_info"]["code"]
-        lang["language_info"]["babel"] = Locale(lang_code)
+        lang_code = glang["language_info"]["code"]
+        glang["language_info"]["babel"] = Locale(lang_code)
 
-        LANGUAGES[lang_code] = lang
+        LANGUAGES[lang_code] = glang
 
 logger.info(
     "[%s] Languages loaded: %s",

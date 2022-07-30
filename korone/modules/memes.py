@@ -47,7 +47,7 @@ async def neko_api(bot: Korone, message: Message, strings):
 @Korone.on_message(filters.cmd("vapor"))
 @disableable_dec("vapor")
 @get_strings_dec("memes")
-async def vapor(bot: Korone, message: Message, strings):
+async def vaporizer(bot: Korone, message: Message, strings):
     text = get_args(message)
     reply = message.reply_to_message
 

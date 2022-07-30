@@ -35,7 +35,7 @@ async def is_cmd_disabled(chat_id: int, command: str) -> bool:
         (chat_id, command),
     )
     row = await cursor.fetchone()
-    return True if row else False
+    return bool(row)
 
 
 async def get_disabled_cmds(chat_id: int) -> Optional[Row]:
