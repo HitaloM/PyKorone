@@ -93,10 +93,26 @@ STRINGS:
        - /capypasta &lt;text&gt;: Copypasta a text.
        - /react: Sends a random reaction.
   pokemon:
-    module_name: Pokémon
+    module_name: Pokemon
+    api_error: An error occurred while fetching the API data.
+    no_sprite: No sprite found for this.
+    type_not_found: "Type '{type}' not found."
     module_help: |
       Maybe some useful commands on your journey as a Pokémon trainer.
 
       <b>Commands:</b>
        - /pokemon &lt;pokémon name&gt;: Sends a sticker of the given Pokémon.
        - /pokeitem &lt;item name&gt;: Sends a sticker of the given Pokémon's item.
+  disable:
+    module_name: Disabling
+    disablable: "<b>Disable-able commands:</b>\n"
+    wot_to_disable: "What do you want to disable?"
+    already_disabled: "This command is already disabled!"
+    disabled: "Command <code>{command}</code> was disabled in <b>{chat_name}</b>!"
+    only_for_groups: "This command is only available in groups!"
+    only_for_admins: "You need to be an administrator in <b>{chat_name}</b> to use this command!"
+    wot_to_enable: "What do you want to enable?"
+    already_enabled: "This command isn't disabled!"
+    enabled: "Command <code>{command}</code> was enabled in <b>{chat_name}</b>!"
+    no_disabled_cmds: No disabled commands in <b>{chat_name}</b>!
+    disabled_list: "<b>Disabled commands in {chat_name}:</b>\n"
