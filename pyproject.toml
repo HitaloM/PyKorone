@@ -26,6 +26,7 @@ Pillow = "^9.2.0"
 black = "^22.6"
 flake8 = "^4.0.1"
 mypy = "^0.971"
+isort = "^5.10.1"
 
 [tool.poetry.extras]
 fast = ["uvloop"]
