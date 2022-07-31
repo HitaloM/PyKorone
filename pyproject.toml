@@ -24,6 +24,8 @@ regex = "^2022.7.25"
 async-timeout = "^4.0.2"
 asyncpraw = "^7.5.0"
 pytomlpp = "^1.0.11"
+beautifulsoup4 = "^4.11.1"
+lxml = "^4.9.1"
 
 [tool.poetry.dev-dependencies]
 black = "^22.6"

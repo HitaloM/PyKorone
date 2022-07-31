@@ -15,7 +15,7 @@ from korone.modules.utils.languages import get_strings_dec
 from korone.modules.utils.messages import get_args, need_args_dec
 
 
-@Korone.on_message(filters.cmd("char"))
+@Korone.on_message(filters.cmd("chinfo"))
 @need_args_dec()
 @get_strings_dec("decoder")
 async def charinfo(bot: Korone, message: Message, strings):

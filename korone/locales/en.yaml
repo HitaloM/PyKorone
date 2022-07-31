@@ -159,6 +159,19 @@ STRINGS:
       Some useful commands to decode texts, emojis, etc.
 
       <b>Commands:</b>
-       - /b64encode &lt;text&gt;: Encode a text to base64.
-       - /b64decode &lt;text&gt;: Decode a base64 text.
-       - /charencode &lt;text&gt;: Shows you the character code of a text.
+       - /b64encode &lt;text&gt;: Encode text into Base64.
+       - /b64decode &lt;text&gt;: Decode Base64 data.
+       - /chinfo &lt;text&gt;: Dissect a string into named Unicode codepoints.
+
+  stickers:
+    module_name: Stickers
+    no_results: "No result found for <code>{query}</code>!"
+    stickers_list: "Stickers found for <code>{query}</code>:"
+    animated_unsupported: "Animated stickers are not supported yet!"
+    not_sticker: "This is not a sticker!"
+    module_help: |
+      Some useful commands for those who love to send stickers in chat.
+
+      <b>Command:</b>
+       - /stickers &lt;query&gt;: Search for stickers.
+       - /getsticker: Reply to a sticker to me to upload its raw PNG file and some info.
