@@ -6,7 +6,7 @@ import io
 from PIL import Image
 
 
-def stickcolorsync(color):
+def sticker_color_sync(color: str) -> io.BytesIO:
     try:
         image = Image.new("RGBA", (512, 512), color)
     except BaseException:
@@ -23,7 +23,7 @@ def stickcolorsync(color):
     return image_stream
 
 
-def pokemon_image_sync(sprite_io):
+def pokemon_image_sync(sprite_io: str) -> io.BytesIO:
     sticker_image = Image.open(io.BytesIO(sprite_io))
     sticker_image = sticker_image.crop(sticker_image.getbbox())
 

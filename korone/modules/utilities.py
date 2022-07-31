@@ -12,7 +12,7 @@ from pyrogram.helpers import ikb
 from pyrogram.types import Message
 
 from korone.bot import Korone
-from korone.modules.utils.images import stickcolorsync
+from korone.modules.utils.images import sticker_color_sync
 from korone.modules.utils.languages import get_strings_dec
 from korone.modules.utils.messages import get_args, need_args_dec
 from korone.modules.utils.reddit import (
@@ -197,7 +197,7 @@ async def color_sticker(bot: Korone, message: Message, strings):
     if color_sticker:
         await message.reply_sticker(
             sticker=await run_async(
-                stickcolorsync,
+                sticker_color_sync,
                 color,
             )
         )
