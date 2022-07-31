@@ -20,27 +20,31 @@ from korone.modules.utils.messages import get_args, need_args_dec
 async def getsticker(bot: Korone, message: Message, strings):
     sticker = message.reply_to_message.sticker
 
-    if sticker:
-        if sticker.is_animated:
-            await message.reply_text(strings["animated_unsupported"])
-        elif not sticker.is_animated:
-            prefix = ".png" if not sticker.is_video else ".webm"
-            with tempfile.TemporaryDirectory() as tempdir:
-                path = os.path.join(tempdir, "getsticker")
-            sticker_file = await bot.download_media(
-                message=message.reply_to_message,
-                file_name=f"{path}/{sticker.set_name}{prefix}",
-            )
-            await message.reply_to_message.reply_document(
-                document=sticker_file,
-                caption=(
-                    f"<b>Emoji:</b> {sticker.emoji}\n"
-                    f"<b>Sticker ID:</b> <code>{sticker.file_id}</code>"
-                ),
-            )
-            shutil.rmtree(tempdir, ignore_errors=True)
-    else:
+    if not sticker:
         await message.reply_text(strings["not_sticker"])
+        return
+
+    if sticker.is_animated:
+        await message.reply_text(strings["animated_unsupported"])
+        return
+
+    prefix = ".png" if not sticker.is_video else ".webm"
+    with tempfile.TemporaryDirectory() as tempdir:
+        path = os.path.join(tempdir, "getsticker")
+
+    sticker_file = await bot.download_media(
+        message=message.reply_to_message,
+        file_name=f"{path}/{sticker.set_name}{prefix}",
+    )
+
+    await message.reply_to_message.reply_document(
+        document=sticker_file,
+        caption=(
+            f"<b>Emoji:</b> {sticker.emoji}\n"
+            f"<b>Sticker ID:</b> <code>{sticker.file_id}</code>"
+        ),
+    )
+    shutil.rmtree(tempdir, ignore_errors=True)
 
 
 @Korone.on_message(filters.cmd("stickers"))
