@@ -21,6 +21,8 @@ meval = "^2.5"
 kantex = "^0.2.0"
 httpx = {extras = ["http2"], version = "^0.23.0"}
 Pillow = "^9.2.0"
+regex = "^2022.7.25"
+async-timeout = "^4.0.2"
 
 [tool.poetry.dev-dependencies]
 black = "^22.6"

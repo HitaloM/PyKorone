@@ -31,7 +31,7 @@ async def list_disablable(bot: Korone, message: Message, strings):
 @get_strings_dec("disable")
 async def list_disabled(bot: Korone, message: Message, strings):
     if message.chat.type == ChatType.PRIVATE:
-        await message.reply(strings["only_for_groups"])
+        await message.reply_text(strings["only_for_groups"])
         return
 
     disableds_cmds = await get_disabled_cmds(message.chat.id)
@@ -52,7 +52,7 @@ async def list_disabled(bot: Korone, message: Message, strings):
 @get_strings_dec("disable")
 async def disabler(bot: Korone, message: Message, strings):
     if message.chat.type == ChatType.PRIVATE:
-        await message.reply(strings["only_for_groups"])
+        await message.reply_text(strings["only_for_groups"])
         return
 
     if not await filters.admin(bot, message):
@@ -85,7 +85,7 @@ async def disabler(bot: Korone, message: Message, strings):
 @get_strings_dec("disable")
 async def enabler(bot: Korone, message: Message, strings):
     if message.chat.type == ChatType.PRIVATE:
-        await message.reply(strings["only_for_groups"])
+        await message.reply_text(strings["only_for_groups"])
         return
 
     if not await filters.admin(bot, message):

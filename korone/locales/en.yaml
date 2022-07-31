@@ -123,3 +123,24 @@ STRINGS:
     enabled: "Command <code>{command}</code> was enabled in <b>{chat_name}</b>!"
     no_disabled_cmds: No disabled commands in <b>{chat_name}</b>!
     disabled_list: "<b>Disabled commands in {chat_name}:</b>\n"
+
+  filters:
+    module_name: Filters
+    only_for_groups: "This command is only available in groups!"
+    only_for_admins: "You need to be an administrator in <b>{chat_name}</b> to use this command!"
+    regex_too_slow: "Your regex pattern matches too slowly (more than the half of second) and it can't be added!"
+    filter_added: "Filter <code>{filter}</code> was added in <b>{chat_name}</b>!"
+    list_filters: "Filters in <b>{chat_name}</b>:\n"
+    no_filters_found: "No filters was found in <b>{chat_name}</b>!"
+    no_such_filter: I can't find that filter in <b>{chat_name}</b>, you can check what filters are enabled with the <code>/filters</code> command.
+    filter_removed: "Filter <code>{filter}</code> was removed from <b>{chat_name}</b>!"
+    empty_filter: "You can't add an empty filter!"
+    module_help: |
+      Make your chat more lively with filters; The bot will reply to certain words!
+
+      Korone's filters support regex, by default they are active if the trigger word is found in any area of the text, you can customize their behavior by adding filters with <code>re:({regex here})</code>.
+
+      <b>Commands:</b>
+       - /addfilter <trigger> <sentence>: Every time someone says "trigger", the bot will reply with "sentence". For multiple word filters, quote the trigger.
+       - /filters: List all chat filters.
+       - /delfilter <trigger>: Stop the bot from replying to "trigger".
