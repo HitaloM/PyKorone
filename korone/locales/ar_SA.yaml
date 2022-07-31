@@ -69,12 +69,21 @@ STRINGS:
     module_name: Utilities
     need_text: I need a text to encode.
     invalid_b64: "⚠️ Invalid base64 data: <code>{error}</code>"
+    invalid_color: "<code>{color}</code> is an invalid color, use <code>#hex</code> or the name of the color."
+    reddit_private: "<b>r/{sub}</b> is private!"
+    reddit_not_found: "<b>r/{sub}</b> dont't exist!"
+    reddit_no_content: "I could not find any valid content in <b>r/{sub}</b>!"
+    reddit_download_error: "Failed to download the content from <b>r/{sub}</b>!\n Title: <b>{title}</b>\nURL: {image_url}"
     module_help: |
       Some utility commands to help you with some tasks and simplify your life.
 
       <b>Commands:</b>
        - /b64encode &lt;text&gt;: Encode a text to base64.
        - /b64decode &lt;text&gt;: Decode a base64 text.
+       - /color &lt;color&gt;: Sends a sticker with the given color.
+       - /redi &lt;subreddit&gt;: Sends a random image from the given subreddit.
+       - /redt &lt;subreddit&gt;: Sends a random text from the given subreddit.
+       - /redb &lt;subreddit&gt;: Sends a random body from the given subreddit.
   memes:
     module_name: Memes
     api_error: An error occurred while fetching the API data.
@@ -116,3 +125,23 @@ STRINGS:
     enabled: "Command <code>{command}</code> was enabled in <b>{chat_name}</b>!"
     no_disabled_cmds: No disabled commands in <b>{chat_name}</b>!
     disabled_list: "<b>Disabled commands in {chat_name}:</b>\n"
+  filters:
+    module_name: Filters
+    only_for_groups: "This command is only available in groups!"
+    only_for_admins: "You need to be an administrator in <b>{chat_name}</b> to use this command!"
+    regex_too_slow: "Your regex pattern matches too slowly (more than the half of second) and it can't be added!"
+    filter_added: "Filter <code>{filter}</code> was added in <b>{chat_name}</b>!"
+    list_filters: "Filters in <b>{chat_name}</b>:\n"
+    no_filters_found: "No filters was found in <b>{chat_name}</b>!"
+    no_such_filter: I can't find that filter in <b>{chat_name}</b>, you can check what filters are enabled with the <code>/filters</code> command.
+    filter_removed: "Filter <code>{filter}</code> was removed from <b>{chat_name}</b>!"
+    empty_filter: "You can't add an empty filter!"
+    module_help: |
+      Make your chat more lively with filters; The bot will reply to certain words!
+
+      Korone's filters support regex, by default they are active if the trigger word is found in any area of the text, you can customize their behavior by adding filters with <code>re:({regex here})</code>.
+
+      <b>Commands:</b>
+       - /addfilter &lt;trigger&gt; &lt;sentence&gt;: Every time someone says "trigger", the bot will reply with "sentence". For multiple word filters, quote the trigger.
+       - /filters: List all chat filters.
+       - /delfilter &lt;trigger&gt;: Stop the bot from replying to "trigger".
