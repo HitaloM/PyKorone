@@ -10,6 +10,7 @@ from korone.modules.utils.disable import disableable_dec
 from korone.modules.utils.images import pokemon_image_sync
 from korone.modules.utils.languages import get_strings_dec
 from korone.modules.utils.messages import get_args, get_command
+from korone.utils.aioify import run_async
 
 
 @Korone.on_message(filters.cmd(["pokemon", "backpokemon"]))
@@ -47,8 +48,9 @@ async def poke_image(bot: Korone, message: Message, strings):
             return
 
     sprite_io = r.read()
-    pk_img = pokemon_image_sync(sprite_io)
-    await message.reply_document(pk_img)
+    await message.reply_document(
+        document=await run_async(pokemon_image_sync, sprite_io)
+    )
 
 
 @Korone.on_message(filters.cmd("pokeitem"))
@@ -76,8 +78,9 @@ async def poke_item_image(bot: Korone, message: Message, strings):
             return
 
     sprite_io = r.read()
-    pk_img = pokemon_image_sync(sprite_io)
-    await message.reply_document(pk_img)
+    await message.reply_document(
+        document=await run_async(pokemon_image_sync, sprite_io)
+    )
 
 
 __help__ = True

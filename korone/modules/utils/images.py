@@ -13,7 +13,7 @@ def stickcolorsync(color):
         try:
             image = Image.new("RGBA", (512, 512), "#" + color)
         except BaseException:
-            return None
+            return
 
     image_stream = io.BytesIO()
     image_stream.name = "sticker.webp"

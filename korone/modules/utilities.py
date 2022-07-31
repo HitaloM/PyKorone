@@ -9,8 +9,10 @@ from pyrogram import filters
 from pyrogram.types import Message
 
 from korone.bot import Korone
+from korone.modules.utils.images import stickcolorsync
 from korone.modules.utils.languages import get_strings_dec
-from korone.modules.utils.messages import get_args
+from korone.modules.utils.messages import get_args, need_args_dec
+from korone.utils.aioify import run_async
 
 
 @Korone.on_message(filters.cmd("b64encode"))
@@ -46,6 +48,25 @@ async def b64d(bot: Korone, message: Message, strings):
         return
 
     await message.reply_text(html.escape(b64))
+
+
+@Korone.on_message(filters.cmd("color"))
+@need_args_dec()
+@get_strings_dec("utilities")
+async def color_sticker(bot: Korone, message: Message, strings):
+    color = get_args(message)
+
+    if color_sticker:
+        await message.reply_sticker(
+            sticker=await run_async(
+                stickcolorsync,
+                color,
+            )
+        )
+    else:
+        await message.reply_text(
+            strings["invalid_color"].format(color=color),
+        )
 
 
 __help__ = True

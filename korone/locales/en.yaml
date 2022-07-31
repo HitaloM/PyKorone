@@ -73,12 +73,14 @@ STRINGS:
     module_name: Utilities
     need_text: I need a text to encode.
     invalid_b64: "⚠️ Invalid base64 data: <code>{error}</code>"
+    invalid_color: "<code>{color}</code> is an invalid color, use <code>#hex</code> or the name of the color."
     module_help: |
       Some utility commands to help you with some tasks and simplify your life.
 
       <b>Commands:</b>
        - /b64encode &lt;text&gt;: Encode a text to base64.
        - /b64decode &lt;text&gt;: Decode a base64 text.
+       - /color &lt;color&gt;: Sends a sticker with the given color.
 
   memes:
     module_name: Memes
@@ -141,6 +143,6 @@ STRINGS:
       Korone's filters support regex, by default they are active if the trigger word is found in any area of the text, you can customize their behavior by adding filters with <code>re:({regex here})</code>.
 
       <b>Commands:</b>
-       - /addfilter <trigger> <sentence>: Every time someone says "trigger", the bot will reply with "sentence". For multiple word filters, quote the trigger.
+       - /addfilter &lt;trigger&gt; &lt;sentence&gt;: Every time someone says "trigger", the bot will reply with "sentence". For multiple word filters, quote the trigger.
        - /filters: List all chat filters.
-       - /delfilter <trigger>: Stop the bot from replying to "trigger".
+       - /delfilter &lt;trigger&gt;: Stop the bot from replying to "trigger".
