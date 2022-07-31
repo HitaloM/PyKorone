@@ -2,12 +2,12 @@
 # Copyright (c) 2020-2022 Hitalo <https://github.com/HitaloSama>
 
 import asyncio
-from concurrent.futures import ThreadPoolExecutor
-from functools import partial
+import functools
+from typing import Any, Callable, TypeVar
 
-thread_pool = ThreadPoolExecutor()
+Result = TypeVar("Result")
 
 
-async def run_async(function, *args):
+async def run_async(func: Callable[..., Result], *args: Any, **kwargs: Any) -> Result:
     loop = asyncio.get_event_loop()
-    return await loop.run_in_executor(thread_pool, partial(function, *args))
+    return await loop.run_in_executor(None, functools.partial(func, *args, **kwargs))

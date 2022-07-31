@@ -34,8 +34,17 @@ from korone.utils.system import shell_exec
 conn = database.get_conn()
 
 
+@Korone.on_message(filters.cmd("ping") & filters.sudo)
+async def ping(bot: Korone, message: Message):
+    first = datetime.now()
+    sent = await message.reply_text("<b>Pong!</b>")
+    second = datetime.now()
+    time = (second - first).microseconds / 1000
+    await sent.edit_text(f"<b>Pong!</b> <code>{time}</code>ms")
+
+
 @Korone.on_message(filters.cmd("loadedmodules") & filters.sudo)
-async def loaded_modules(client: Korone, message: Message):
+async def loaded_modules(bot: Korone, message: Message):
     text = "".join(f"* {module}\n" for module in ALL_MODULES)
     await message.reply_text(text)
 
