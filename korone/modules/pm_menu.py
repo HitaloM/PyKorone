@@ -124,8 +124,8 @@ async def help_module(
         return
 
     try:
-        module_help = await get_string(union.from_user.id, module, "module_help")
         module_name = await get_string(union.from_user.id, module, "module_name")
+        module_help = await get_string(union.from_user.id, module, "module_help")
     except KeyError:
         if is_callback:
             await union.answer(

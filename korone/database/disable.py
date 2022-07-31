@@ -2,7 +2,7 @@
 # Copyright (c) 2020-2022 Hitalo <https://github.com/HitaloSama>
 
 from sqlite3 import Row
-from typing import Optional
+from typing import Iterable
 
 from .core import database
 
@@ -38,7 +38,7 @@ async def is_cmd_disabled(chat_id: int, command: str) -> bool:
     return bool(row)
 
 
-async def get_disabled_cmds(chat_id: int) -> Optional[Row]:
+async def get_disabled_cmds(chat_id: int) -> Iterable[Row]:
     cursor = await conn.execute("SELECT * FROM disabled WHERE chat_id = ?", (chat_id,))
     row = await cursor.fetchall()
     return row
