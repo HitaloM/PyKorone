@@ -193,14 +193,10 @@ async def reddit_body(bot: Korone, message: Message, strings):
 @get_strings_dec("utilities")
 async def color_sticker(bot: Korone, message: Message, strings):
     color = get_args(message)
+    sticker = await run_async(sticker_color_sync, color)
 
-    if color_sticker:
-        await message.reply_sticker(
-            sticker=await run_async(
-                sticker_color_sync,
-                color,
-            )
-        )
+    if sticker:
+        await message.reply_sticker(sticker)
     else:
         await message.reply_text(
             strings["invalid_color"].format(color=color),
