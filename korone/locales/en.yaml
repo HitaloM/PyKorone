@@ -152,11 +152,13 @@ STRINGS:
 
   decoder:
     module_name: Decoder
-    need_text: I need a text to encode.
+    need_text: "I need a text to encode."
     invalid_b64: "⚠️ Invalid base64 data: <code>{error}</code>"
+    too_long_message: "The message is too long, I can't send it because Telegram limits the maximum characters up to 4096!"
     module_help: |
       Some useful commands to decode texts, emojis, etc.
 
       <b>Commands:</b>
        - /b64encode &lt;text&gt;: Encode a text to base64.
        - /b64decode &lt;text&gt;: Decode a base64 text.
+       - /charencode &lt;text&gt;: Shows you the character code of a text.
