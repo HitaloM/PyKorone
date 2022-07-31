@@ -8,4 +8,6 @@ workers = 24
 
 [korone]
 sudoers = []
+reddit_id = ""
+reddit_secret = ""
 modules_path = "korone.modules"
