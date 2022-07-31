@@ -3,9 +3,7 @@
 
 import datetime
 import logging
-from typing import Mapping, Union
 
-import pytomlpp
 from pyrogram import Client
 from pyrogram.enums import ParseMode
 from pyrogram.errors import BadRequest
@@ -13,57 +11,30 @@ from pyrogram.raw.all import layer
 from pyrogram.types import User
 
 from korone import __version__
+from korone.config import config
 from korone.utils import load_modules, shell_exec
 
 logger = logging.getLogger(__name__)
-
-KoroneConfig = Mapping[str, Union[int, str, list]]
 
 
 class Korone(Client):
     def __init__(self):
         name = self.__class__.__name__.lower()
 
-        config_toml = pytomlpp.loads(open("config.toml", "r").read())
-        self.pyrogram_config: KoroneConfig = config_toml["pyrogram"]
-        self.korone_config: KoroneConfig = config_toml["korone"]
-
-        # Pyrogram specif configs
-        api_id = self.pyrogram_config["api_id"]
-        if not isinstance(api_id, int):
-            raise TypeError("API ID must be an integer")
-
-        api_hash = self.pyrogram_config["api_hash"]
-        if not isinstance(api_hash, str):
-            raise TypeError("API hash must be a string")
-
-        bot_token = self.pyrogram_config["bot_token"]
-        if not isinstance(bot_token, str):
-            raise TypeError("Bot token must be a string")
-
-        workers = self.pyrogram_config["workers"]
-        if not isinstance(workers, int):
-            raise TypeError("Workers must be an integer")
-
-        # Korone specific configs
-        sudoers = self.korone_config["sudoers"]
-        if not isinstance(sudoers, list):
-            raise TypeError("Sudoers must be a list of integers")
-
         super().__init__(
             name=name,
             app_version=f"Korone v{__version__}",
-            api_id=api_id,
-            api_hash=api_hash,
-            bot_token=bot_token,
+            api_id=config.get_config("api_id", "pyrogram"),
+            api_hash=config.get_config("api_hash", "pyrogram"),
+            bot_token=config.get_config("bot_token", "pyrogram"),
             parse_mode=ParseMode.HTML,
-            workers=workers,
+            workers=config.get_config("workers", "pyrogram"),
             workdir="korone",
             sleep_threshold=180,
         )
 
         # Sudoers list
-        self.sudoers = sudoers
+        self.sudoers = config.get_config("sudoers")
 
         # Bot startup time
         self.start_datetime = datetime.datetime.now().replace(

@@ -1,15 +1,13 @@
 # SPDX-License-Identifier: BSD-3-Clause
 # Copyright (c) 2020-2022 Hitalo <https://github.com/HitaloSama>
 
-import pytomlpp
 from asyncpraw import Reddit
 
-config_toml = pytomlpp.loads(open("config.toml", "r").read())
-
+from korone.config import config
 
 REDDIT = Reddit(
-    client_id=config_toml["korone"]["reddit_id"],
-    client_secret=config_toml["korone"]["reddit_secret"],
+    client_id=config.get_config("reddit_id"),
+    client_secret=config.get_config("reddit_secret"),
     user_agent="linux:com.korone.bot:v1.0.0 (by /u/LordHitsuki)",  # Following Reddit Rules
 )
 

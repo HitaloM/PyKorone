@@ -11,7 +11,6 @@ tgcrypto = "^1.2.3"
 pyrogram = {git = "https://github.com/AmanoTeam/pyrogram"}
 sentry-sdk = "^1.8.0"
 uvloop = {version = "^0.16", optional = true}
-pytomlpp = "^1.0.11"
 humanize = "^4.2.3"
 psutil = "^5.9.1"
 PyYAML = "^6.0"
@@ -24,6 +23,7 @@ Pillow = "^9.2.0"
 regex = "^2022.7.25"
 async-timeout = "^4.0.2"
 asyncpraw = "^7.5.0"
+pytomlpp = "^1.0.11"
 
 [tool.poetry.dev-dependencies]
 black = "^22.6"
