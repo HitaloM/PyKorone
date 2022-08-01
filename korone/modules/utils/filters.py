@@ -9,6 +9,7 @@ from babel.dates import format_date, format_datetime, format_time
 from pyrogram.enums import ParseMode
 from pyrogram.types import Message, User
 
+from korone.database.filters import get_all_filters
 from korone.modules.utils.languages import get_chat_lang
 
 SMART_OPEN = "“"
@@ -91,7 +92,8 @@ async def vars_parser(text: str, message: Message, user: User = None):
         text.replace("{first}", first_name)
         .replace("{last}", last_name)
         .replace("{fullname}", first_name + " " + last_name)
-        .replace("{id}", str(user.id).replace("{userid}", str(user.id)))
+        .replace("{id}", str(user.id))
+        .replace("{userid}", str(user.id))
         .replace("{mention}", mention)
         .replace("{username}", username)
         .replace("{chatid}", str(chat_id))
@@ -102,3 +104,12 @@ async def vars_parser(text: str, message: Message, user: User = None):
         .replace("{timedate}", str(current_timedate))
     )
     return text
+
+
+async def check_for_filters(chat_id: int, handler: str):
+    filters = await get_all_filters(chat_id)
+    for rfilter in filters:
+        keyword = rfilter[1]
+        if handler == keyword:
+            return True
+    return False
