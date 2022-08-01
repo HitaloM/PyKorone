@@ -1,6 +1,7 @@
 # SPDX-License-Identifier: BSD-3-Clause
 # Copyright (c) 2020-2022 Hitalo <https://github.com/HitaloSama>
 
+import asyncio
 import datetime
 import io
 import os
@@ -17,9 +18,17 @@ import pyrogram
 from kantex.html import Bold, Code, KanTeXDocument, KeyValueItem, Section
 from meval import meval
 from pyrogram import filters
-from pyrogram.errors import BadRequest
+from pyrogram.errors import BadRequest, FloodWait
 from pyrogram.helpers import ikb
-from pyrogram.types import CallbackQuery, Message
+from pyrogram.types import (
+    Animation,
+    CallbackQuery,
+    Document,
+    Message,
+    Photo,
+    Sticker,
+    Video,
+)
 
 from korone.bot import Korone
 from korone.database import database
@@ -314,3 +323,76 @@ async def stats(bot: Korone, message: Message):
     doc.append(users_sec)
     doc.append(groups_sec)
     await message.reply_text(doc)
+
+
+@Korone.on_message(filters.cmd("broadcast") & filters.sudo)
+async def broadcast(bot: Korone, message: Message):
+    reply = message.reply_to_message
+    args = get_args(message).split(" ")
+
+    to = args[0]
+    language = args[1]
+
+    media = message.photo or message.animation or message.document or message.video
+    text = " ".join((message.text or message.caption).split()[3:])
+    if bool(reply):
+        media = (
+            reply.photo
+            or reply.sticker
+            or reply.animation
+            or reply.document
+            or reply.video
+        )
+        text = reply.text or reply.caption
+
+    if not media:
+        if text is None or len(text) == 0:
+            await message.reply_text("The message cannot be empty.")
+            return
+
+    chats = []
+    if to in ["groups", "all"]:
+        chats += [
+            chat["id"] for chat in await filter_chats_by_language(language=language)
+        ]
+    if to in ["users", "all"]:
+        chats += [
+            user["id"] for user in await filter_users_by_language(language=language)
+        ]
+
+    if len(chats) == 0:
+        await message.reply_text("No chat was found, check if everything is right.")
+    else:
+        sent = await message.reply_text("The alert is being sent, please wait...")
+
+        success = []
+        failed = []
+        for chat in chats:
+            # if chat in CHATS.values():
+            #    continue
+
+            try:
+                if isinstance(media, Animation):
+                    await bot.send_animation(chat, media.file_id, text)
+                elif isinstance(media, Document):
+                    await bot.send_document(
+                        chat, media.file_id, caption=text, force_document=True
+                    )
+                elif isinstance(media, Photo):
+                    await bot.send_photo(chat, media.file_id, text)
+                elif isinstance(media, Video):
+                    await bot.send_video(chat, media.file_id, text)
+                elif isinstance(media, Sticker):
+                    await bot.send_sticker(chat, media.file_id)
+                else:
+                    await bot.send_message(chat, text)
+                success.append(chat)
+            except FloodWait as e:
+                await asyncio.sleep(e.x)
+            except BaseException:
+                failed.append(chat)
+
+        await sent.edit_text(
+            f"The alert was successfully sent to <code>{success}</code> chats "
+            f"and failed to send in <code>{failed}</code> chats."
+        )
