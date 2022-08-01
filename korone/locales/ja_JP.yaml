@@ -55,6 +55,7 @@ STRINGS:
   misc:
     module_name: Misc
     generic_error: An error occurred!
+    invalid_color: "<code>{color}</code> is an invalid color, use <code>#hex</code> or the name of the color."
     module_help: |
       Some miscellaneous commands that don't fit anywhere else.
 
@@ -65,25 +66,7 @@ STRINGS:
        - /bird: Sends a random bird image.
        - /panda: Sends a random panda image.
        - /redpanda: Sends a random red panda image.
-  utilities:
-    module_name: Utilities
-    need_text: I need a text to encode.
-    invalid_b64: "⚠️ Invalid base64 data: <code>{error}</code>"
-    invalid_color: "<code>{color}</code> is an invalid color, use <code>#hex</code> or the name of the color."
-    reddit_private: "<b>r/{sub}</b> is private!"
-    reddit_not_found: "<b>r/{sub}</b> dont't exist!"
-    reddit_no_content: "I could not find any valid content in <b>r/{sub}</b>!"
-    reddit_download_error: "Failed to download the content from <b>r/{sub}</b>!\n Title: <b>{title}</b>\nURL: {image_url}"
-    module_help: |
-      Some utility commands to help you with some tasks and simplify your life.
-
-      <b>Commands:</b>
-       - /b64encode &lt;text&gt;: Encode a text to base64.
-       - /b64decode &lt;text&gt;: Decode a base64 text.
        - /color &lt;color&gt;: Sends a sticker with the given color.
-       - /redi &lt;subreddit&gt;: Sends a random image from the given subreddit.
-       - /redt &lt;subreddit&gt;: Sends a random text from the given subreddit.
-       - /redb &lt;subreddit&gt;: Sends a random body from the given subreddit.
   memes:
     module_name: Memes
     api_error: An error occurred while fetching the API data.
@@ -145,3 +128,40 @@ STRINGS:
        - /addfilter &lt;trigger&gt; &lt;sentence&gt;: Every time someone says "trigger", the bot will reply with "sentence". For multiple word filters, quote the trigger.
        - /filters: List all chat filters.
        - /delfilter &lt;trigger&gt;: Stop the bot from replying to "trigger".
+  reddit:
+    module_name: Reddit
+    reddit_private: "<b>r/{sub}</b> is private!"
+    reddit_not_found: "<b>r/{sub}</b> dont't exist!"
+    reddit_no_content: "I could not find any valid content in <b>r/{sub}</b>!"
+    reddit_download_error: "Failed to download the content from <b>r/{sub}</b>!\n Title: <b>{title}</b>\nURL: {image_url}"
+    module_help: |
+      Some useful commands to get some random content from Reddit.
+
+      <b>Commands:</b>
+       - /redi &lt;subreddit&gt;: Sends a random image from the given subreddit.
+       - /redt &lt;subreddit&gt;: Sends a random text from the given subreddit.
+       - /redb &lt;subreddit&gt;: Sends a random body from the given subreddit.
+  decoder:
+    module_name: Decoder
+    need_text: "I need a text to encode."
+    invalid_b64: "⚠️ Invalid base64 data: <code>{error}</code>"
+    too_long_message: "The message is too long, I can't send it because Telegram limits the maximum characters up to 4096!"
+    module_help: |
+      Some useful commands to decode texts, emojis, etc.
+
+      <b>Commands:</b>
+       - /b64encode &lt;text&gt;: Encode text into Base64.
+       - /b64decode &lt;text&gt;: Decode Base64 data.
+       - /chinfo &lt;text&gt;: Dissect a string into named Unicode codepoints.
+  stickers:
+    module_name: Stickers
+    no_results: "No result found for <code>{query}</code>!"
+    stickers_list: "Stickers found for <code>{query}</code>:"
+    animated_unsupported: "Animated stickers are not supported yet!"
+    not_sticker: "This is not a sticker!"
+    module_help: |
+      Some useful commands for those who love to send stickers in chat.
+
+      <b>Command:</b>
+       - /stickers &lt;query&gt;: Search for stickers.
+       - /getsticker: Reply to a sticker to me to upload its raw PNG file and some info.
