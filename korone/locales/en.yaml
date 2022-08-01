@@ -98,7 +98,7 @@ STRINGS:
       Maybe some useful commands on your journey as a Pokémon trainer.
 
       <b>Commands:</b>
-       - /pokemon &lt;pokémon name&gt;: Sends a sticker of the given Pokémon.
+       - /pokemon &lt;pokemon name&gt;: Sends a sticker of the given Pokémon.
        - /pokeitem &lt;item name&gt;: Sends a sticker of the given Pokémon's item.
 
   disable:
