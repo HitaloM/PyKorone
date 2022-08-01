@@ -29,7 +29,7 @@ lxml = "^4.9.1"
 
 [tool.poetry.dev-dependencies]
 black = "^22.6"
-flake8 = "^4.0.1"
+flake8 = "^5.0.1"
 mypy = "^0.971"
 isort = "^5.10.1"
 
