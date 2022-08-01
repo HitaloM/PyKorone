@@ -1,6 +1,9 @@
 # SPDX-License-Identifier: BSD-3-Clause
 # Copyright (c) 2020-2022 Hitalo <https://github.com/HitaloSama>
 
+import html
+
+from pyrogram import filters
 from pyrogram.enums import ChatType
 from pyrogram.types import CallbackQuery, InlineQuery, Message
 
@@ -54,3 +57,21 @@ async def set_language_inline_query(bot: Korone, inline_query: InlineQuery):
 @Korone.on_edited_message(group=-1)
 async def edited(bot: Korone, message: Message):
     message.stop_propagation()
+
+
+@Korone.on_message(filters.new_chat_members)
+async def log_added(bot: Korone, message: Message):
+    if bot.me.id in [x.id for x in message.new_chat_members]:
+        await bot.send_message(
+            chat_id=message.chat.id,
+            text="Thanks for adding me in your group!",
+            disable_notification=True,
+        )
+        await bot.log(
+            text=(
+                f"I was added to the group <b>{html.escape(message.chat.title)}</b>"
+                f" (<code>{message.chat.id}</code>)."
+            ),
+            disable_notification=False,
+            disable_web_page_preview=True,
+        )

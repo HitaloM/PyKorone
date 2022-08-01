@@ -8,6 +8,7 @@ workers = 24
 
 [korone]
 sudoers = []
+logs_channel = 0
 reddit_id = ""
 reddit_secret = ""
 modules_path = "korone.modules"

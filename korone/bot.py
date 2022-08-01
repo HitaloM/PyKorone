@@ -79,5 +79,10 @@ class Korone(Client):
         await super().stop()
         logger.warning("[%s] Stopped. Bye!", self.name)
 
+    async def log(self, text: str, *args, **kwargs):
+        await self.send_message(
+            config.get_config("logs_channel"), text, *args, **kwargs
+        )
+
     def is_sudo(self, user: User) -> bool:
         return user.id in self.sudoers
