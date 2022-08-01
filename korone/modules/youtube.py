@@ -203,3 +203,6 @@ async def ytdl_menu(bot: Korone, query: CallbackQuery, strings):
         await message.delete()
 
     shutil.rmtree(tempdir, ignore_errors=True)
+
+
+__help__ = True

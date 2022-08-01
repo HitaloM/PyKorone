@@ -11,4 +11,5 @@ sudoers = []
 logs_channel = 0
 reddit_id = ""
 reddit_secret = ""
+sentry_key = ""
 modules_path = "korone.modules"

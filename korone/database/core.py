@@ -64,7 +64,10 @@ class Database(object):
         self.conn = conn
         self.is_connected: bool = True
 
-        logger.info("[%s] The database has been connected.", Korone.__name__)
+        logger.info(
+            "[%s] The database has been connected.",
+            Korone.__name__.lower(),
+        )
 
     async def close(self):
         # Close the connection
@@ -72,11 +75,17 @@ class Database(object):
 
         self.is_connected: bool = False
 
-        logger.info("[%s] The database was closed.", Korone.__name__)
+        logger.info(
+            "[%s] The database was closed.",
+            Korone.__name__.lower(),
+        )
 
     def get_conn(self) -> aiosqlite.Connection:
         if not self.is_connected:
-            raise RuntimeError("The database is not connected.")
+            raise RuntimeError(
+                "[%s] The database is not connected.",
+                Korone.__name__.lower(),
+            )
 
         return self.conn
 

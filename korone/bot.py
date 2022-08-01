@@ -4,6 +4,7 @@
 import datetime
 import logging
 
+import sentry_sdk
 from pyrogram import Client
 from pyrogram.enums import ParseMode
 from pyrogram.errors import BadRequest
@@ -44,6 +45,11 @@ class Korone(Client):
     async def start(self):
         await super().start()
         load_modules(self)
+
+        if config.get_config("sentry_key"):
+            logger.info("[%s] Starting sentry.io integraion...", self.name)
+
+            sentry_sdk.init(config.get_config("sentry_key"))
 
         # Save version info
         self.version_code = int((await shell_exec("git rev-list --count HEAD"))[0])

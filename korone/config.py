@@ -9,7 +9,11 @@ class Config:
     table = "korone"
 
     def get_config(self, key: str, table: str = table):
-        return self.config[table][key]
+        try:
+            config = self.config[table][key]
+        except KeyError:
+            return None
+        return config
 
 
 config = Config()
