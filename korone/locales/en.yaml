@@ -178,7 +178,8 @@ STRINGS:
 
   youtube:
     module_name: YouTubeDL
-    no_url: "Please reply to a YouTube link or text."
+    no_url_ytdl: "Please reply to a YouTube link or text."
+    no_url_ttdl: "Please reply to a Twitter video link."
     playlist_not_supported: "Playlists are not supported yet!"
     audio: "💿 Audio"
     video: "🎬 Video"
@@ -187,9 +188,11 @@ STRINGS:
     downloading: "Downloading..."
     doing: "Your request is an order.... >-<"
     error: "Sorry! I couldn't send the video because of an error.\n<b>Error:</b> <code>{error}</code>"
+    invalid_url: "Invalid link!"
     uploading: "Uploading..."
     module_help: |
       With this module you can take advantage of some of YouTubeDL's features, such as downloading videos from YouTube.
 
       <b>Commands:</b>
        - /ytdl &lt;url or text&gt;: Download a video from YouTube (also works with reply).
+       - /ttdl &lt;url&gt;: Download a video from Twitter.

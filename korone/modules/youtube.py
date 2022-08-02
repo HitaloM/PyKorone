@@ -23,6 +23,7 @@ from korone.modules.utils.messages import get_args
 from korone.modules.utils.youtube import (
     PLAYLIST_REGEX,
     TIME_REGEX,
+    TWITTER_REGEX,
     YOUTUBE_REGEX,
     extract_info,
 )
@@ -40,7 +41,7 @@ async def ytdl_command(bot: Korone, message: Message, strings):
     elif message.reply_to_message and message.reply_to_message.text:
         url = message.reply_to_message.text
     else:
-        await message.reply_text(strings["no_url"])
+        await message.reply_text(strings["no_url_ytdl"])
         return
 
     ydl = YoutubeDL(
@@ -159,8 +160,8 @@ async def ytdl_menu(bot: Korone, query: CallbackQuery, strings):
     ttemp = f"⏰ {datetime.timedelta(seconds=int(temp))} | " if int(temp) else ""
     async with httpx.AsyncClient(http2=True) as client:
         thumb = io.BytesIO((await client.get(yt["thumbnail"])).content)
+        thumb.name = "thumbnail.jpeg"
 
-    thumb.name = "thumbnail.jpeg"
     caption = f"{ttemp} <a href='{yt['webpage_url']}'>{yt['title']}</a></b>"
     if yt.get("view_count"):
         caption += "\n<b>Views:</b> <code>{:,}</code>".format(yt["view_count"])
@@ -201,6 +202,87 @@ async def ytdl_menu(bot: Korone, query: CallbackQuery, strings):
         await message.edit_text(strings["error"].format(error=e))
     else:
         await message.delete()
+
+    shutil.rmtree(tempdir, ignore_errors=True)
+
+
+@Korone.on_message(filters.cmd("ttdl"))
+@get_strings_dec("youtube")
+async def on_ttdl(bot: Korone, message: Message, strings):
+    args = get_args(message)
+
+    if message.text and args:
+        url = args
+    elif message.reply_to_message and message.reply_to_message.text:
+        url = message.reply_to_message.text
+    else:
+        await message.reply_text(strings["no_url_ttdl"])
+        return
+
+    match = TWITTER_REGEX.match(url)
+    if not match:
+        await message.reply_text(strings["invalid_url"])
+        return
+
+    sent = await message.reply_text(strings["downloading"])
+
+    with tempfile.TemporaryDirectory() as tempdir:
+        path = os.path.join(tempdir, "ttdl")
+
+    tdl = YoutubeDL(
+        {
+            "outtmpl": f"{path}/{message.from_user.id}-%(id)s.%(ext)s",
+            "format": "mp4",
+        }
+    )
+    tt = await run_async(extract_info, tdl, match.group(), download=False)
+
+    for f in tt["formats"]:
+        if f["ext"] == "mp4":
+            vformat = f["format_id"]
+            vheaders = f["http_headers"]
+
+    tdl = YoutubeDL(
+        {
+            "outtmpl": f"{path}/{message.from_user.id}-%(id)s.%(ext)s",
+            "format": vformat,
+        }
+    )
+
+    try:
+        tt = await run_async(extract_info, tdl, url, download=True)
+    except BaseException as e:
+        await sent.edit(strings["error"].format(error=e))
+        return
+
+    filename = tdl.prepare_filename(tt)
+    async with httpx.AsyncClient(http2=True) as client:
+        thumb = io.BytesIO(
+            (await client.get(tt["thumbnail"], headers=vheaders)).content
+        )
+        thumb.name = "thumbnail.jpeg"
+
+    await sent.edit(strings["uploading"])
+    keyboard = ikb([[("🔗 Tweet", tt["webpage_url"], "url")]])
+    await bot.send_chat_action(message.chat.id, ChatAction.UPLOAD_VIDEO)
+    try:
+        if "duration" in tt.keys():
+            await message.reply_video(
+                video=filename,
+                thumb=thumb,
+                duration=int(tt["duration"]),
+                reply_markup=keyboard,
+            )
+        else:
+            await message.reply_video(
+                video=filename,
+                thumb=thumb,
+                reply_markup=keyboard,
+            )
+    except BadRequest as e:
+        await message.reply_text(strings["error"].format(error=e))
+    else:
+        await sent.delete()
 
     shutil.rmtree(tempdir, ignore_errors=True)
 
