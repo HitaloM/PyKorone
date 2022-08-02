@@ -21,7 +21,7 @@ STRINGS:
 
       Other available commands:
     about_text: |
-      <b>{bot_name}</b> is a bot developed in <i>Python</i> with the <b>MTProto Pyrogram</b> library, made to be fast, stable and complete about animes.
+      <b>{bot_name}</b> is a bot developed in <i>Python</i> with the <b>MTProto Pyrogram</b> library, made to be fast, stable and complete.
 
       <b>Version</b>: {version} (<code>{version_code}</code>)
     module_not_found: Module not found!
@@ -93,7 +93,7 @@ STRINGS:
       Maybe some useful commands on your journey as a Pokémon trainer.
 
       <b>Commands:</b>
-       - /pokemon &lt;pokémon name&gt;: Sends a sticker of the given Pokémon.
+       - /pokemon &lt;pokemon name&gt;: Sends a sticker of the given Pokémon.
        - /pokeitem &lt;item name&gt;: Sends a sticker of the given Pokémon's item.
   disable:
     module_name: Disabling
@@ -165,3 +165,20 @@ STRINGS:
       <b>Command:</b>
        - /stickers &lt;query&gt;: Search for stickers.
        - /getsticker: Reply to a sticker to me to upload its raw PNG file and some info.
+  youtube:
+    module_name: YouTubeDL
+    no_url: "Please reply to a YouTube link or text."
+    playlist_not_supported: "Playlists are not supported yet!"
+    audio: "💿 Audio"
+    video: "🎬 Video"
+    not_for_you: "This button is not for you!"
+    download_limit: Sorry! I cannot download this media as it exceeds my 200MB download limit.
+    downloading: "Downloading..."
+    doing: "Your request is an order.... >-<"
+    error: "Sorry! I couldn't send the video because of an error.\n<b>Error:</b> <code>{error}</code>"
+    uploading: "Uploading..."
+    module_help: |
+      With this module you can take advantage of some of YouTubeDL's features, such as downloading videos from YouTube.
+
+      <b>Commands:</b>
+       - /ytdl &lt;url or text&gt;: Download a video from YouTube (also works with reply).
