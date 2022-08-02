@@ -196,3 +196,23 @@ STRINGS:
       <b>Commands:</b>
        - /ytdl &lt;url or text&gt;: Download a video from YouTube (also works with reply).
        - /ttdl &lt;url&gt;: Download a video from Twitter.
+
+  users:
+    module_name: Users
+    invalid_username: "Invalid username!"
+    invalid_id: "Invalid user ID!"
+    not_user: "This is not a user!"
+    user_info: "<b>User info:</b>"
+    user_id: "\nID: <code>{id}</code>"
+    user_firstname: "\nFirst name: <code>{first_name}</code>"
+    user_lastname: "\nLast name: <code>{last_name}</code>"
+    username: "\nUsername: @{username}"
+    user_link: "\nUser link: {link}"
+    user_photos: "\nProfile pictures: <code>{count}</code>"
+    user_dc: "\nDatacenter: <code>{id}</code>"
+    user_lang: "\nLanguage: <code>{lang}</code>"
+    user_bio: "\n\nBiography: <code>{bio}</code>"
+    sw_banned: "\n\nThis user is banned on @SpamWatch!"
+    sw_banned_reason: "\nReason: <code>{reason}</code>"
+    user_admin: "\n\nThis user is an <b>'administrator'</b> in this group."
+    user_owner: "\n\nThis user is the <b>'creator'</b> of this group."

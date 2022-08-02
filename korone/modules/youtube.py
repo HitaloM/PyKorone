@@ -18,6 +18,7 @@ from yt_dlp import DownloadError, YoutubeDL
 
 from korone.bot import Korone
 from korone.modules.utils.convert import pretty_size
+from korone.modules.utils.disable import disableable_dec
 from korone.modules.utils.languages import get_strings_dec
 from korone.modules.utils.messages import get_args
 from korone.modules.utils.youtube import (
@@ -31,6 +32,7 @@ from korone.utils.aioify import run_async
 
 
 @Korone.on_message(filters.cmd("ytdl"))
+@disableable_dec("ytdl")
 @get_strings_dec("youtube")
 async def ytdl_command(bot: Korone, message: Message, strings):
     args = get_args(message)
@@ -207,6 +209,7 @@ async def ytdl_menu(bot: Korone, query: CallbackQuery, strings):
 
 
 @Korone.on_message(filters.cmd("ttdl"))
+@disableable_dec("ttdl")
 @get_strings_dec("youtube")
 async def on_ttdl(bot: Korone, message: Message, strings):
     args = get_args(message)
