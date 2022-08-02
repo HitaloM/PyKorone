@@ -216,3 +216,13 @@ STRINGS:
     sw_banned_reason: "\nReason: <code>{reason}</code>"
     user_admin: "\n\nThis user is an <b>'administrator'</b> in this group."
     user_owner: "\n\nThis user is the <b>'creator'</b> of this group."
+    chat_id: "\nChat ID: <code>{id}</code>"
+    your_id: "\nYour ID: <code>{id}</code>"
+    reply_id: "\nReplied ID: <code>{id}</code>"
+    forward_id: "\nForwarded ID: <code>{id}</code>"
+    module_help: |
+      Obtaining crucial user information has never been easier, thanks to this module.
+
+      <b>Commands:</b>
+       - /user &lt;username or id&gt;: Get info about a user (also works with reply).
+       - /id: Get your ID, chat ID, replied user ID, and forwarded replied user ID.

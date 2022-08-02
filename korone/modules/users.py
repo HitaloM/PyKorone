@@ -99,3 +99,28 @@ async def user_info(bot: Korone, message: Message, strings):
             await message.reply_photo(photo.file_id, caption=text)
     else:
         await message.reply_text(text, disable_web_page_preview=True)
+
+
+@Korone.on_message(filters.cmd("id"))
+@get_strings_dec("users")
+async def user_id(bot: Korone, message: Message, strings):
+    user_id = message.from_user.id
+    chat_id = message.chat.id
+
+    text = strings["your_id"].format(id=user_id)
+    if chat_id != user_id:
+        text += strings["chat_id"].format(id=chat_id)
+
+    if message.reply_to_message:
+        if message.reply_to_message.from_user.id != user_id:
+            text += strings["reply_id"].format(
+                id=message.reply_to_message.from_user.id,
+            )
+        if message.reply_to_message.forward_from:
+            user_id = message.reply_to_message.forward_from.id
+            text += strings["forward_id"].format(id=user_id)
+
+    await message.reply_text(text)
+
+
+__help__ = True
