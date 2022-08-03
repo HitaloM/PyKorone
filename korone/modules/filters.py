@@ -20,6 +20,7 @@ from korone.database.filters import (
     remove_filter,
     update_filter,
 )
+from korone.modules.utils.disable import disableable_dec
 from korone.modules.utils.filters import check_for_filters, split_quotes, vars_parser
 from korone.modules.utils.languages import get_strings_dec
 from korone.modules.utils.messages import need_args_dec
@@ -133,6 +134,7 @@ async def check_filters(bot: Korone, message: Message):
 
 
 @Korone.on_message(filters.cmd("filters"))
+@disableable_dec("filters")
 @get_strings_dec("filters")
 async def list_filters(bot: Korone, message: Message, strings):
     if message.chat.type == ChatType.PRIVATE:
