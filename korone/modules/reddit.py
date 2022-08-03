@@ -10,6 +10,7 @@ from pyrogram.helpers import ikb
 from pyrogram.types import Message
 
 from korone.bot import Korone
+from korone.modules.utils.disable import disableable_dec
 from korone.modules.utils.languages import get_strings_dec
 from korone.modules.utils.messages import get_args, need_args_dec
 from korone.modules.utils.reddit import (
@@ -21,6 +22,7 @@ from korone.modules.utils.reddit import (
 
 
 @Korone.on_message(filters.cmd("redi"))
+@disableable_dec("redi")
 @need_args_dec()
 @get_strings_dec("reddit")
 async def reddit_image(bot: Korone, message: Message, strings):
@@ -84,6 +86,7 @@ async def reddit_image(bot: Korone, message: Message, strings):
 
 
 @Korone.on_message(filters.cmd("redt"))
+@disableable_dec("redt")
 @need_args_dec()
 @get_strings_dec("reddit")
 async def reddit_title(bot: Korone, message: Message, strings):
@@ -109,6 +112,7 @@ async def reddit_title(bot: Korone, message: Message, strings):
 
 
 @Korone.on_message(filters.cmd("redb"))
+@disableable_dec("redb")
 @need_args_dec()
 @get_strings_dec("reddit")
 async def reddit_body(bot: Korone, message: Message, strings):

@@ -9,12 +9,13 @@ from korone.bot import Korone
 from korone.modules.utils.disable import disableable_dec
 from korone.modules.utils.images import pokemon_image_sync
 from korone.modules.utils.languages import get_strings_dec
-from korone.modules.utils.messages import get_args, get_command
+from korone.modules.utils.messages import get_args, get_command, need_args_dec
 from korone.utils.aioify import run_async
 
 
 @Korone.on_message(filters.cmd(["pokemon", "backpokemon"]))
 @disableable_dec("pokemon")
+@need_args_dec()
 @get_strings_dec("pokemon")
 async def poke_image(bot: Korone, message: Message, strings):
     args = get_args(message).split(" ")
@@ -55,6 +56,7 @@ async def poke_image(bot: Korone, message: Message, strings):
 
 @Korone.on_message(filters.cmd("pokeitem"))
 @disableable_dec("pokeitem")
+@need_args_dec()
 @get_strings_dec("pokemon")
 async def poke_item_image(bot: Korone, message: Message, strings):
     args = get_args(message)
