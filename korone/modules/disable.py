@@ -22,7 +22,7 @@ from korone.modules.utils.messages import get_args, need_args_dec
 @get_strings_dec("disable")
 async def list_disablable(bot: Korone, message: Message, strings):
     text = strings["disablable"]
-    for command in DISABLABLE_CMDS:
+    for command in sorted(DISABLABLE_CMDS):
         text += f"* <code>/{command}</code>\n"
     await message.reply(text)
 
