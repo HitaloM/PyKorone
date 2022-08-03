@@ -152,7 +152,7 @@ STRINGS:
 
   decoder:
     module_name: Decoder
-    need_text: "I need a text to encode."
+    need_text: "I need some text."
     invalid_b64: "⚠️ Invalid base64 data: <code>{error}</code>"
     too_long_message: "The message is too long, I can't send it because Telegram limits the maximum characters up to 4096!"
     module_help: |

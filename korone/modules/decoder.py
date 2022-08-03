@@ -11,15 +11,19 @@ from pyrogram.errors import MessageTooLong
 from pyrogram.types import Message
 
 from korone.bot import Korone
+from korone.modules.utils.disable import disableable_dec
 from korone.modules.utils.languages import get_strings_dec
-from korone.modules.utils.messages import get_args, need_args_dec
+from korone.modules.utils.messages import get_args
 
 
 @Korone.on_message(filters.cmd("chinfo"))
-@need_args_dec()
+@disableable_dec("chinfo")
 @get_strings_dec("decoder")
 async def charinfo(bot: Korone, message: Message, strings):
     text = " ".join(get_args(message).split())
+    if not text:
+        await message.reply_text(strings["need_text"])
+        return
 
     chars = []
     for char in text:
@@ -44,6 +48,7 @@ async def charinfo(bot: Korone, message: Message, strings):
 
 
 @Korone.on_message(filters.cmd("b64encode"))
+@disableable_dec("b64encode")
 @get_strings_dec("decoder")
 async def b64e(bot: Korone, message: Message, strings):
     text = get_args(message)
@@ -59,6 +64,7 @@ async def b64e(bot: Korone, message: Message, strings):
 
 
 @Korone.on_message(filters.cmd("b64decode"))
+@disableable_dec("b64decode")
 @get_strings_dec("decoder")
 async def b64d(bot: Korone, message: Message, strings):
     text = get_args(message)
