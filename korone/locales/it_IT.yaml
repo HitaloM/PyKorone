@@ -167,7 +167,8 @@ STRINGS:
        - /getsticker: Reply to a sticker to me to upload its raw PNG file and some info.
   youtube:
     module_name: YouTubeDL
-    no_url: "Please reply to a YouTube link or text."
+    no_url_ytdl: "Please reply to a YouTube link or text."
+    no_url_ttdl: "Please reply to a Twitter video link."
     playlist_not_supported: "Playlists are not supported yet!"
     audio: "💿 Audio"
     video: "🎬 Video"
@@ -176,9 +177,40 @@ STRINGS:
     downloading: "Downloading..."
     doing: "Your request is an order.... >-<"
     error: "Sorry! I couldn't send the video because of an error.\n<b>Error:</b> <code>{error}</code>"
+    invalid_url: "Invalid link!"
     uploading: "Uploading..."
     module_help: |
       With this module you can take advantage of some of YouTubeDL's features, such as downloading videos from YouTube.
 
       <b>Commands:</b>
        - /ytdl &lt;url or text&gt;: Download a video from YouTube (also works with reply).
+       - /ttdl &lt;url&gt;: Download a video from Twitter.
+  users:
+    module_name: Users
+    invalid_username: "Invalid username!"
+    invalid_id: "Invalid user ID!"
+    not_user: "This is not a user!"
+    user_info: "<b>User info:</b>"
+    user_id: "\nID: <code>{id}</code>"
+    user_firstname: "\nFirst name: <code>{first_name}</code>"
+    user_lastname: "\nLast name: <code>{last_name}</code>"
+    username: "\nUsername: @{username}"
+    user_link: "\nUser link: {link}"
+    user_photos: "\nProfile pictures: <code>{count}</code>"
+    user_dc: "\nDatacenter: <code>{id}</code>"
+    user_lang: "\nLanguage: <code>{lang}</code>"
+    user_bio: "\n\nBiography: <code>{bio}</code>"
+    sw_banned: "\n\nThis user is banned on @SpamWatch!"
+    sw_banned_reason: "\nReason: <code>{reason}</code>"
+    user_admin: "\n\nThis user is an <b>'administrator'</b> in this group."
+    user_owner: "\n\nThis user is the <b>'creator'</b> of this group."
+    chat_id: "\nChat ID: <code>{id}</code>"
+    your_id: "\nYour ID: <code>{id}</code>"
+    reply_id: "\nReplied ID: <code>{id}</code>"
+    forward_id: "\nForwarded ID: <code>{id}</code>"
+    module_help: |
+      Obtaining crucial user information has never been easier, thanks to this module.
+
+      <b>Commands:</b>
+       - /user &lt;username or id&gt;: Get info about a user (also works with reply).
+       - /id: Get your ID, chat ID, replied user ID, and forwarded replied user ID.
