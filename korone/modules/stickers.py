@@ -11,11 +11,13 @@ from pyrogram import filters
 from pyrogram.types import Message
 
 from korone.bot import Korone
+from korone.modules.utils.disable import disableable_dec
 from korone.modules.utils.languages import get_strings_dec
 from korone.modules.utils.messages import get_args, need_args_dec
 
 
 @Korone.on_message(filters.cmd("getsticker") & filters.reply)
+@disableable_dec("getsticker")
 @get_strings_dec("stickers")
 async def getsticker(bot: Korone, message: Message, strings):
     sticker = message.reply_to_message.sticker
@@ -48,6 +50,7 @@ async def getsticker(bot: Korone, message: Message, strings):
 
 
 @Korone.on_message(filters.cmd("stickers"))
+@disableable_dec("stickers")
 @need_args_dec()
 @get_strings_dec("stickers")
 async def sticker_search(bot: Korone, message: Message, strings):
