@@ -102,6 +102,7 @@ async def user_info(bot: Korone, message: Message, strings):
 
 
 @Korone.on_message(filters.cmd("id"))
+@disableable_dec("id")
 @get_strings_dec("users")
 async def user_id(bot: Korone, message: Message, strings):
     user_id = message.from_user.id
