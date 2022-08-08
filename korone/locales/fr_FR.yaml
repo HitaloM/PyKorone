@@ -55,7 +55,6 @@ STRINGS:
   misc:
     module_name: Misc
     generic_error: An error occurred!
-    invalid_color: "<code>{color}</code> is an invalid color, use <code>#hex</code> or the name of the color."
     module_help: |
       Some miscellaneous commands that don't fit anywhere else.
 
@@ -66,14 +65,13 @@ STRINGS:
        - /bird: Sends a random bird image.
        - /panda: Sends a random panda image.
        - /redpanda: Sends a random red panda image.
-       - /color &lt;color&gt;: Sends a sticker with the given color.
-  memes:
-    module_name: Memes
+  fun:
+    module_name: Fun
     api_error: An error occurred while fetching the API data.
     badrequest_error: An error occurred while trying to send the message.
     need_text: I need a text.
     module_help: |
-      Some meme commands.
+      Some funny commands.
 
       <b>Command:</b>
        - /neko: Sends a random neko image.
@@ -159,12 +157,14 @@ STRINGS:
     stickers_list: "Stickers found for <code>{query}</code>:"
     animated_unsupported: "Animated stickers are not supported yet!"
     not_sticker: "This is not a sticker!"
+    invalid_color: "<code>{color}</code> is an invalid color, use <code>#hex</code> or the name of the color."
     module_help: |
       Some useful commands for those who love to send stickers in chat.
 
       <b>Command:</b>
        - /stickers &lt;query&gt;: Search for stickers.
        - /getsticker: Reply to a sticker to me to upload its raw PNG file and some info.
+       - /color &lt;color&gt;: Sends a sticker with the given color.
   youtube:
     module_name: YouTubeDL
     no_url_ytdl: "Please reply to a YouTube link or text."
