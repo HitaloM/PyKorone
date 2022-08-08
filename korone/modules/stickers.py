@@ -12,8 +12,10 @@ from pyrogram.types import Message
 
 from korone.bot import Korone
 from korone.modules.utils.disable import disableable_dec
+from korone.modules.utils.images import sticker_color_sync
 from korone.modules.utils.languages import get_strings_dec
 from korone.modules.utils.messages import get_args, need_args_dec
+from korone.utils.aioify import run_async
 
 
 @Korone.on_message(filters.cmd("getsticker") & filters.reply)
@@ -73,6 +75,21 @@ async def sticker_search(bot: Korone, message: Message, strings):
             text += f"\n - <a href='{link}'>{title.get_text()}</a>"
 
     await message.reply_text(text, disable_web_page_preview=True)
+
+
+@Korone.on_message(filters.cmd("color"))
+@need_args_dec()
+@get_strings_dec("stickers")
+async def color_sticker(bot: Korone, message: Message, strings):
+    color = get_args(message)
+    sticker = await run_async(sticker_color_sync, color)
+
+    if sticker:
+        await message.reply_sticker(sticker)
+    else:
+        await message.reply_text(
+            strings["invalid_color"].format(color=color),
+        )
 
 
 __help__ = True

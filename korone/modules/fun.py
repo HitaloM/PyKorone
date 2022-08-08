@@ -18,7 +18,7 @@ from korone.modules.utils.messages import get_args, get_command
 
 @Korone.on_message(filters.cmd(["neko", "waifu", "hug", "pat", "slap"]))
 @disableable_dec("neko")
-@get_strings_dec("memes")
+@get_strings_dec("fun")
 async def neko_api(bot: Korone, message: Message, strings):
     command = get_command(message).lower()[1:].split("@")[0]
     async with httpx.AsyncClient(http2=True) as client:
@@ -46,7 +46,7 @@ async def neko_api(bot: Korone, message: Message, strings):
 
 @Korone.on_message(filters.cmd("vapor"))
 @disableable_dec("vapor")
-@get_strings_dec("memes")
+@get_strings_dec("fun")
 async def vaporizer(bot: Korone, message: Message, strings):
     text = get_args(message)
     reply = message.reply_to_message
@@ -83,7 +83,7 @@ async def vaporizer(bot: Korone, message: Message, strings):
 
 @Korone.on_message(filters.cmd(["cp", "copypasta"]))
 @disableable_dec("copypasta")
-@get_strings_dec("memes")
+@get_strings_dec("fun")
 async def copypasta(bot: Korone, message: Message, strings):
     text = get_args(message)
     reply = message.reply_to_message
