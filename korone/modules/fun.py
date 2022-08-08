@@ -41,7 +41,6 @@ async def neko_api(bot: Korone, message: Message, strings):
             await message.reply_document(image_url)
     except BadRequest:
         await message.reply_text(strings["badrequest_error"])
-        return
 
 
 @Korone.on_message(filters.cmd("vapor"))

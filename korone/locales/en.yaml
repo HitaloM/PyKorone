@@ -226,3 +226,21 @@ STRINGS:
       <b>Commands:</b>
        - /user &lt;username or id&gt;: Get info about a user (also works with reply).
        - /id: Get your ID, chat ID, replied user ID, and forwarded replied user ID.
+
+  translator:
+    module_name: Translator
+    usage: "<b>Use:</b> <code>/tr &lt;lang&gt; text to translate</code> (also works with reply)."
+    translating: "Translating..."
+    too_long: "The translation exceeded Telegram's 4096 character limit."
+    why_translate_same_lang: "Why translate into the same language?"
+    translated: "<b>Language:</b> {from_lang} -> {to_lang}\n<b>Translation:</b> <code>{translated}</code>"
+    module_help: |
+      Translate some text into other languages.
+
+      <b>Commands:</b>
+       - /tr &lt;from&gt;-&lt;to&gt; &lt;text&gt;: translate text written or reply for any language to the intended language.
+       - /tr &lt;to&gt; &lt;text&gt;: translate text written or reply for any language to the intended language.
+
+      <b>Notes:</b>
+      You can also translate texts of replyied messages.
+      You can also just reply to texts with /tr and the message will be translated into the group language.
