@@ -8,7 +8,9 @@ from pyrogram.enums import ChatMemberStatus, ChatType
 from pyrogram.types import CallbackQuery, Message
 
 
-def command_filter(command: str, prefixes: List[str] = ["/", "!"]) -> Callable:
+def command_filter(command: str, prefixes: List[str] = None) -> Callable:
+    if prefixes is None:
+        prefixes = ["/", "!"]
     return filters.command(command, prefixes)
 
 

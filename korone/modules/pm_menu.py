@@ -4,16 +4,17 @@
 from typing import Union
 
 from pyrogram import filters
+from pyrogram.enums import ChatType
 from pyrogram.helpers import ikb
 from pyrogram.nav import Pagination
 from pyrogram.types import CallbackQuery, Message
 
 from korone.bot import Korone
 from korone.modules.utils.languages import (
-    LANGUAGES,
     get_chat_lang,
     get_chat_lang_info,
     get_string,
+    get_string_sync,
     get_strings_dec,
 )
 from korone.modules.utils.messages import get_args
@@ -26,6 +27,13 @@ from korone.utils.modules import HELPABLE
 async def start(bot: Korone, union: Union[Message, CallbackQuery], strings):
     is_callback = isinstance(union, CallbackQuery)
     message = union.message if is_callback else union
+
+    if not is_callback and message.chat.type in (
+        ChatType.GROUP,
+        ChatType.SUPERGROUP,
+    ):
+        await message.reply_text(strings["start_group"])
+        return
 
     lang_info = await get_chat_lang_info(message.chat.id)
     keyboard = ikb(
@@ -55,6 +63,17 @@ async def start(bot: Korone, union: Union[Message, CallbackQuery], strings):
 async def help_menu(bot: Korone, union: Union[Message, CallbackQuery], strings):
     is_callback = isinstance(union, CallbackQuery)
     message = union.message if is_callback else union
+
+    if not is_callback and message.chat.type in (
+        ChatType.GROUP,
+        ChatType.SUPERGROUP,
+    ):
+        keyboard = ikb(
+            [[(strings["pm_button"], f"https://t.me/{bot.me.username}/?start", "url")]]
+        )
+        await message.reply_text(strings["help_in_pm"], reply_markup=keyboard)
+        return
+
     page = int(union.matches[0]["page"]) if is_callback else 0
     args = get_args(message)
     if args:
@@ -65,12 +84,13 @@ async def help_menu(bot: Korone, union: Union[Message, CallbackQuery], strings):
     page_format = "help-menu {}"
 
     lang_code = await get_chat_lang(message.chat.id)
-    chat_lang = LANGUAGES[lang_code]["STRINGS"]
     layout = Pagination(
         [*HELPABLE],
-        item_data=lambda module, page: item_format.format(module, page),
-        item_title=lambda module, page: chat_lang[module]["module_name"],
-        page_data=lambda page: page_format.format(page),
+        item_data=item_format.format,
+        item_title=lambda module, page: get_string_sync(
+            message.chat.id, lang_code, module, "module_name"
+        ),
+        page_data=page_format.format,
     )
 
     buttons = layout.create(page, columns=2, lines=7)
@@ -104,8 +124,8 @@ async def help_module(
         return
 
     try:
-        module_help = await get_string(union.from_user.id, module, f"{module}_help")
         module_name = await get_string(union.from_user.id, module, "module_name")
+        module_help = await get_string(union.from_user.id, module, "module_help")
     except KeyError:
         if is_callback:
             await union.answer(

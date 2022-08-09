@@ -1,6 +1,7 @@
 # SPDX-License-Identifier: BSD-3-Clause
 # Copyright (c) 2020-2022 Hitalo <https://github.com/HitaloSama>
 
+import asyncio
 import datetime
 import io
 import os
@@ -17,16 +18,24 @@ import pyrogram
 from kantex.html import Bold, Code, KanTeXDocument, KeyValueItem, Section
 from meval import meval
 from pyrogram import filters
-from pyrogram.errors import BadRequest
+from pyrogram.errors import BadRequest, FloodWait
 from pyrogram.helpers import ikb
-from pyrogram.types import CallbackQuery, Message
+from pyrogram.types import (
+    Animation,
+    CallbackQuery,
+    Document,
+    Message,
+    Photo,
+    Sticker,
+    Video,
+)
 
 from korone.bot import Korone
 from korone.database import database
 from korone.database.chats import filter_chats_by_language
 from korone.database.users import filter_users_by_language
 from korone.modules.utils.languages import LANGUAGES
-from korone.modules.utils.messages import get_args_str
+from korone.modules.utils.messages import get_args
 from korone.utils.modules import ALL_MODULES
 from korone.utils.system import shell_exec
 
@@ -34,15 +43,24 @@ from korone.utils.system import shell_exec
 conn = database.get_conn()
 
 
+@Korone.on_message(filters.cmd("ping") & filters.sudo)
+async def ping(bot: Korone, message: Message):
+    first = datetime.now()
+    sent = await message.reply_text("<b>Pong!</b>")
+    second = datetime.now()
+    time = (second - first).microseconds / 1000
+    await sent.edit_text(f"<b>Pong!</b> <code>{time}</code>ms")
+
+
 @Korone.on_message(filters.cmd("loadedmodules") & filters.sudo)
-async def loaded_modules(client: Korone, message: Message):
+async def loaded_modules(bot: Korone, message: Message):
     text = "".join(f"* {module}\n" for module in ALL_MODULES)
     await message.reply_text(text)
 
 
 @Korone.on_message(filters.cmd("sh") & filters.sudo)
 async def on_terminal_m(bot: Korone, message: Message):
-    code = get_args_str(message)
+    code = get_args(message)
     sm = await message.reply_text("Running...")
 
     stdout = await shell_exec(code)
@@ -67,7 +85,7 @@ async def on_terminal_m(bot: Korone, message: Message):
 
 @Korone.on_message(filters.cmd("ev") & filters.sudo)
 async def on_eval_m(bot: Korone, message: Message):
-    eval_code = get_args_str(message)
+    eval_code = get_args(message)
     sm = await message.reply_text("Running...")
     try:
         stdout = await meval(eval_code, globals(), **locals())
@@ -98,7 +116,7 @@ async def on_eval_m(bot: Korone, message: Message):
 
 @Korone.on_message(filters.cmd("ex") & filters.sudo)
 async def on_execute_m(bot: Korone, message: Message):
-    code = get_args_str(message)
+    code = get_args(message)
     sm = await message.reply_text("Running...")
     function = """
 async def _aexec_(bot: Korone, message: Message):
@@ -157,8 +175,8 @@ async def upgrade(c: Korone, m: Message):
             return await sm.edit_text("There is nothing to update.")
         changelog = "<b>Changelog</b>:\n"
         commits = parse_commits(stdout)
-        for hash, commit in commits.items():
-            changelog += f"  - [<code>{hash[:7]}</code>] {commit['title']}\n"
+        for commit_hash, commit in commits.items():
+            changelog += f"  - [<code>{commit_hash[:7]}</code>] {commit['title']}\n"
         changelog += f"\n<b>New commits count</b>: <code>{len(commits)}</code>."
         keyboard = ikb([[("🆕 Upgrade", "upgrade")]])
         await sm.edit_text(changelog, reply_markup=keyboard)
@@ -197,7 +215,7 @@ async def shutdown(bot: Korone, message: Message):
 
 @Korone.on_message(filters.cmd("echo") & filters.sudo)
 async def echo(bot: Korone, message: Message):
-    text = get_args_str(message)
+    text = get_args(message)
     kwargs = {}
     reply = message.reply_to_message
     if reply:
@@ -305,3 +323,76 @@ async def stats(bot: Korone, message: Message):
     doc.append(users_sec)
     doc.append(groups_sec)
     await message.reply_text(doc)
+
+
+@Korone.on_message(filters.cmd("broadcast") & filters.sudo)
+async def broadcast(bot: Korone, message: Message):
+    reply = message.reply_to_message
+    args = get_args(message).split(" ")
+
+    to = args[0]
+    language = args[1]
+
+    media = message.photo or message.animation or message.document or message.video
+    text = " ".join((message.text or message.caption).split()[3:])
+    if bool(reply):
+        media = (
+            reply.photo
+            or reply.sticker
+            or reply.animation
+            or reply.document
+            or reply.video
+        )
+        text = reply.text or reply.caption
+
+    if not media:
+        if text is None or len(text) == 0:
+            await message.reply_text("The message cannot be empty.")
+            return
+
+    chats = []
+    if to in ["groups", "all"]:
+        chats += [
+            chat["id"] for chat in await filter_chats_by_language(language=language)
+        ]
+    if to in ["users", "all"]:
+        chats += [
+            user["id"] for user in await filter_users_by_language(language=language)
+        ]
+
+    if len(chats) == 0:
+        await message.reply_text("No chat was found, check if everything is right.")
+    else:
+        sent = await message.reply_text("The alert is being sent, please wait...")
+
+        success = []
+        failed = []
+        for chat in chats:
+            # if chat in CHATS.values():
+            #    continue
+
+            try:
+                if isinstance(media, Animation):
+                    await bot.send_animation(chat, media.file_id, text)
+                elif isinstance(media, Document):
+                    await bot.send_document(
+                        chat, media.file_id, caption=text, force_document=True
+                    )
+                elif isinstance(media, Photo):
+                    await bot.send_photo(chat, media.file_id, text)
+                elif isinstance(media, Video):
+                    await bot.send_video(chat, media.file_id, text)
+                elif isinstance(media, Sticker):
+                    await bot.send_sticker(chat, media.file_id)
+                else:
+                    await bot.send_message(chat, text)
+                success.append(chat)
+            except FloodWait as e:
+                await asyncio.sleep(e.x)
+            except BaseException:
+                failed.append(chat)
+
+        await sent.edit_text(
+            f"The alert was successfully sent to <code>{success}</code> chats "
+            f"and failed to send in <code>{failed}</code> chats."
+        )

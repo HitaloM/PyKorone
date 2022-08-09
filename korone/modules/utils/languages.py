@@ -22,15 +22,15 @@ LANGUAGES: Dict = {}
 
 logger.info("[%s] Loading locales...", Korone.__name__)
 
-for filename in os.listdir("korone/locales"):
+for filename in sorted(os.listdir("korone/locales")):
     logger.debug("Loading language file " + filename)
     with open("korone/locales/" + filename, "r", encoding="utf8") as f:
-        lang = yaml.load(f, Loader=yaml.CLoader)
+        glang = yaml.load(f, Loader=yaml.CLoader)
 
-        lang_code = lang["language_info"]["code"]
-        lang["language_info"]["babel"] = Locale(lang_code)
+        lang_code = glang["language_info"]["code"]
+        glang["language_info"]["babel"] = Locale(lang_code)
 
-        LANGUAGES[lang_code] = lang
+        LANGUAGES[lang_code] = glang
 
 logger.info(
     "[%s] Languages loaded: %s",
@@ -49,7 +49,6 @@ async def get_chat_lang(chat_id):
 
     user_lang = await get_user_by_id(chat_id)
     if not user_lang or user_lang["language"] not in LANGUAGES:
-        print(user_lang["language"])
         return "en"
 
     return user_lang["language"]
@@ -90,6 +89,15 @@ async def get_strings(chat_id, module, mas_name="STRINGS"):
             return self.get_string(key)
 
     return Strings()
+
+
+def get_string_sync(chat_id, code, module, name, mas_name="STRINGS"):
+    try:
+        lang = LANGUAGES[code][mas_name][module][name]
+    except KeyError:
+        lang = LANGUAGES["en"][mas_name][module][name]
+
+    return lang
 
 
 async def get_string(chat_id, module, name, mas_name="STRINGS"):

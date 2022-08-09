@@ -24,15 +24,28 @@ class Database(object):
         await conn.executescript(
             """
         CREATE TABLE IF NOT EXISTS users (
-                id INTEGER PRIMARY KEY,
-                language VARCHAR(2) NOT NULL DEFAULT \"en\",
-                registration_time INTEGER NOT NULL
+            id INTEGER PRIMARY KEY,
+            language VARCHAR(2) NOT NULL DEFAULT \"en\",
+            registration_time INTEGER NOT NULL
         );
 
         CREATE TABLE IF NOT EXISTS chats (
-                id INTEGER PRIMARY KEY,
-                language VARCHAR(2) NOT NULL DEFAULT \"en\",
-                registration_time INTEGER NOT NULL
+            id INTEGER PRIMARY KEY,
+            language VARCHAR(2) NOT NULL DEFAULT \"en\",
+            registration_time INTEGER NOT NULL
+        );
+
+        CREATE TABLE IF NOT EXISTS disabled (
+            chat_id INTEGER,
+            disabled_cmd TEXT
+        );
+
+        CREATE TABLE IF NOT EXISTS filters(
+            chat_id INTEGER ,
+            handler TEXT,
+            data TEXT,
+            file_id TEXT,
+            filter_type TEXT
         );
         """
         )
@@ -51,7 +64,10 @@ class Database(object):
         self.conn = conn
         self.is_connected: bool = True
 
-        logger.info("[%s] The database has been connected.", Korone.__name__)
+        logger.info(
+            "[%s] The database has been connected.",
+            Korone.__name__.lower(),
+        )
 
     async def close(self):
         # Close the connection
@@ -59,11 +75,17 @@ class Database(object):
 
         self.is_connected: bool = False
 
-        logger.info("[%s] The database was closed.", Korone.__name__)
+        logger.info(
+            "[%s] The database was closed.",
+            Korone.__name__.lower(),
+        )
 
     def get_conn(self) -> aiosqlite.Connection:
         if not self.is_connected:
-            raise RuntimeError("The database is not connected.")
+            raise RuntimeError(
+                "[%s] The database is not connected.",
+                Korone.__name__.lower(),
+            )
 
         return self.conn
 

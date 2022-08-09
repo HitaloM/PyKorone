@@ -9,6 +9,8 @@ from typing import List
 from pyrogram import Client
 from pyrogram.handlers.handler import Handler
 
+from korone.config import config
+
 logger = logging.getLogger(__name__)
 
 HELPABLE: List[str] = []
@@ -16,9 +18,7 @@ ALL_MODULES: List[str] = []
 
 
 def load_modules(client: Client):
-    modules_path = client.korone_config["modules_path"]
-    if not isinstance(modules_path, str):
-        raise TypeError("Modules path must be a string")
+    modules_path = config.get_config("modules_path")
 
     count = 0
     for path in sorted(Path(modules_path.replace(".", "/")).rglob("*.py")):

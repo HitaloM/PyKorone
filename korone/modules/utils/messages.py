@@ -28,22 +28,16 @@ def get_command(message: Message, pure: bool = False) -> Optional[str]:
         return command
 
 
-def get_args_str(message: Message) -> Optional[str]:
+def get_args(message: Message) -> Optional[str]:
     command = get_full_command(message)
     if command:
         return command[1]
 
 
-def get_args(message: Message) -> Optional[str]:
-    command = get_full_command(message)
-    if command:
-        return command[1].split(" ")[0]
-
-
 def need_args_dec(num: int = 1):
     def decorator(func) -> Callable:
         async def wrapper(*args, **kwargs):
-            message = args[0]
+            message = args[1]
             if len(message.text.split(" ")) > num:
                 return await func(*args, **kwargs)
             await message.reply("I need arguments to perform this action.")

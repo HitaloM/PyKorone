@@ -11,7 +11,6 @@ tgcrypto = "^1.2.3"
 pyrogram = {git = "https://github.com/AmanoTeam/pyrogram"}
 sentry-sdk = "^1.8.0"
 uvloop = {version = "^0.16", optional = true}
-pytomlpp = "^1.0.11"
 humanize = "^4.2.3"
 psutil = "^5.9.1"
 PyYAML = "^6.0"
@@ -19,11 +18,22 @@ Babel = "^2.10.3"
 aiosqlite = "^0.17.0"
 meval = "^2.5"
 kantex = "^0.2.0"
+httpx = {extras = ["http2"], version = "^0.23.0"}
+Pillow = "^9.2.0"
+regex = "^2022.7.25"
+async-timeout = "^4.0.2"
+asyncpraw = "^7.5.0"
+pytomlpp = "^1.0.11"
+beautifulsoup4 = "^4.11.1"
+lxml = "^4.9.1"
+yt-dlp = "^2022.7.18"
+gpytranslate = "^1.4.0"
 
 [tool.poetry.dev-dependencies]
 black = "^22.6"
 flake8 = "^4.0.1"
 mypy = "^0.971"
+isort = "^5.10.1"
 
 [tool.poetry.extras]
 fast = ["uvloop"]
