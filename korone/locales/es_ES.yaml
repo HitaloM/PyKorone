@@ -16,12 +16,12 @@ STRINGS:
       Main commands available:
        - /start: start the bot.
        - /help: PM's you this message.
-       - /help <module name>: PM's you info about that module.
+       - /help &lt;module name&gt;: PM's you info about that module.
        - /about: PM's you more info about me.
 
       Other available commands:
     about_text: |
-      <b>{bot_name}</b> is a bot developed in <i>Python</i> with the <b>MTProto Pyrogram</b> library, made to be fast, stable and complete about animes.
+      <b>{bot_name}</b> is a bot developed in <i>Python</i> with the <b>MTProto Pyrogram</b> library, made to be fast, stable and complete.
 
       <b>Version</b>: {version} (<code>{version_code}</code>)
     module_not_found: Module not found!
@@ -32,6 +32,9 @@ STRINGS:
     channel_button: '📚 Channel'
     back_button: '🔙 Back'
     unavailable_mod_help: Help information unavailable, please report this problem to my developer.
+    help_in_pm: For help go to my PM.
+    pm_button: Go to PM!
+    start_group: I'm alive!
     helpable_text: |
       Here is the available help for the <b>{module_name}</b> module:
 
@@ -44,8 +47,187 @@ STRINGS:
       Choose the desired language below.
       Your current language: <b>{lang_name}</b>
     back_button: '🔙 Back'
-    languages_help: |
+    module_help: |
       This module is dedicated towards utlising Korone's localization feature! You can also <a href='https://crowdin.com/project/pykorone'>contribute</a> for improving localization in Korone!
 
-      <b>Available commands:</b>
-      - /language: Shows a list of avaible languages
+      <b>Commands:</b>
+       - /language: Shows a list of avaible languages
+  misc:
+    module_name: Misc
+    generic_error: An error occurred!
+    module_help: |
+      Some miscellaneous commands that don't fit anywhere else.
+
+      <b>Commands:</b>
+       - /cat: Sends a random cat image.
+       - /dog: Sends a random dog image.
+       - /fox: Sends a random fox image.
+       - /bird: Sends a random bird image.
+       - /panda: Sends a random panda image.
+       - /redpanda: Sends a random red panda image.
+  fun:
+    module_name: Fun
+    api_error: An error occurred while fetching the API data.
+    badrequest_error: An error occurred while trying to send the message.
+    need_text: I need a text.
+    module_help: |
+      Some funny commands.
+
+      <b>Command:</b>
+       - /neko: Sends a random neko image.
+       - /waifu: Sends a random waifu image.
+       - /slap: Sends a random slap image.
+       - /pat: Sends a random head pat image.
+       - /hug: Sends a random hug image.
+       - /vapor &lt;text&gt;: Vaporize a text.
+       - /capypasta &lt;text&gt;: Copypasta a text.
+       - /react: Sends a random reaction.
+  pokemon:
+    module_name: Pokemon
+    api_error: An error occurred while fetching the API data.
+    no_sprite: No sprite found for this.
+    type_not_found: "Type '{type}' not found."
+    module_help: |
+      Maybe some useful commands on your journey as a Pokémon trainer.
+
+      <b>Commands:</b>
+       - /pokemon &lt;pokemon name&gt;: Sends a sticker of the given Pokémon.
+       - /pokeitem &lt;item name&gt;: Sends a sticker of the given Pokémon's item.
+  disable:
+    module_name: Disabling
+    disablable: "<b>Disable-able commands:</b>\n"
+    wot_to_disable: "What do you want to disable?"
+    already_disabled: "This command is already disabled!"
+    disabled: "Command <code>{command}</code> was disabled in <b>{chat_name}</b>!"
+    only_for_groups: "This command is only available in groups!"
+    only_for_admins: "You need to be an administrator in <b>{chat_name}</b> to use this command!"
+    wot_to_enable: "What do you want to enable?"
+    already_enabled: "This command isn't disabled!"
+    enabled: "Command <code>{command}</code> was enabled in <b>{chat_name}</b>!"
+    no_disabled_cmds: No disabled commands in <b>{chat_name}</b>!
+    disabled_list: "<b>Disabled commands in {chat_name}:</b>\n"
+  filters:
+    module_name: Filters
+    only_for_groups: "This command is only available in groups!"
+    only_for_admins: "You need to be an administrator in <b>{chat_name}</b> to use this command!"
+    regex_too_slow: "Your regex pattern matches too slowly (more than the half of second) and it can't be added!"
+    filter_added: "Filter <code>{filter}</code> was added in <b>{chat_name}</b>!"
+    list_filters: "Filters in <b>{chat_name}</b>:\n"
+    no_filters_found: "No filters was found in <b>{chat_name}</b>!"
+    no_such_filter: I can't find that filter in <b>{chat_name}</b>, you can check what filters are enabled with the <code>/filters</code> command.
+    filter_removed: "Filter <code>{filter}</code> was removed from <b>{chat_name}</b>!"
+    empty_filter: "You can't add an empty filter!"
+    module_help: |
+      Make your chat more lively with filters; The bot will reply to certain words!
+
+      Korone's filters support regex, by default they are active if the trigger word is found in any area of the text, you can customize their behavior by adding filters with <code>re:({regex here})</code>.
+
+      <b>Commands:</b>
+       - /addfilter &lt;trigger&gt; &lt;sentence&gt;: Every time someone says "trigger", the bot will reply with "sentence". For multiple word filters, quote the trigger.
+       - /filters: List all chat filters.
+       - /delfilter &lt;trigger&gt;: Stop the bot from replying to "trigger".
+  reddit:
+    module_name: Reddit
+    reddit_private: "<b>r/{sub}</b> is private!"
+    reddit_not_found: "<b>r/{sub}</b> dont't exist!"
+    reddit_no_content: "I could not find any valid content in <b>r/{sub}</b>!"
+    reddit_download_error: "Failed to download the content from <b>r/{sub}</b>!\n Title: <b>{title}</b>\nURL: {image_url}"
+    module_help: |
+      Some useful commands to get some random content from Reddit.
+
+      <b>Commands:</b>
+       - /redi &lt;subreddit&gt;: Sends a random image from the given subreddit.
+       - /redt &lt;subreddit&gt;: Sends a random text from the given subreddit.
+       - /redb &lt;subreddit&gt;: Sends a random body from the given subreddit.
+  decoder:
+    module_name: Decoder
+    need_text: "I need some text."
+    invalid_b64: "⚠️ Invalid base64 data: <code>{error}</code>"
+    too_long_message: "The message is too long, I can't send it because Telegram limits the maximum characters up to 4096!"
+    module_help: |
+      Some useful commands to decode texts, emojis, etc.
+
+      <b>Commands:</b>
+       - /b64encode &lt;text&gt;: Encode text into Base64.
+       - /b64decode &lt;text&gt;: Decode Base64 data.
+       - /chinfo &lt;text&gt;: Dissect a string into named Unicode codepoints.
+  stickers:
+    module_name: Stickers
+    no_results: "No result found for <code>{query}</code>!"
+    stickers_list: "Stickers found for <code>{query}</code>:"
+    animated_unsupported: "Animated stickers are not supported yet!"
+    not_sticker: "This is not a sticker!"
+    invalid_color: "<code>{color}</code> is an invalid color, use <code>#hex</code> or the name of the color."
+    module_help: |
+      Some useful commands for those who love to send stickers in chat.
+
+      <b>Command:</b>
+       - /stickers &lt;query&gt;: Search for stickers.
+       - /getsticker: Reply to a sticker to me to upload its raw PNG file and some info.
+       - /color &lt;color&gt;: Sends a sticker with the given color.
+  youtube:
+    module_name: YouTubeDL
+    no_url_ytdl: "Please reply to a YouTube link or text."
+    no_url_ttdl: "Please reply to a Twitter video link."
+    playlist_not_supported: "Playlists are not supported yet!"
+    audio: "💿 Audio"
+    video: "🎬 Video"
+    not_for_you: "This button is not for you!"
+    download_limit: Sorry! I cannot download this media as it exceeds my 200MB download limit.
+    downloading: "Downloading..."
+    doing: "Your request is an order.... >-<"
+    error: "Sorry! I couldn't send the video because of an error.\n<b>Error:</b> <code>{error}</code>"
+    invalid_url: "Invalid link!"
+    uploading: "Uploading..."
+    module_help: |
+      With this module you can take advantage of some of YouTubeDL's features, such as downloading videos from YouTube.
+
+      <b>Commands:</b>
+       - /ytdl &lt;url or text&gt;: Download a video from YouTube (also works with reply).
+       - /ttdl &lt;url&gt;: Download a video from Twitter.
+  users:
+    module_name: Users
+    invalid_username: "Invalid username!"
+    invalid_id: "Invalid user ID!"
+    not_user: "This is not a user!"
+    user_info: "<b>User info:</b>"
+    user_id: "\nID: <code>{id}</code>"
+    user_firstname: "\nFirst name: <code>{first_name}</code>"
+    user_lastname: "\nLast name: <code>{last_name}</code>"
+    username: "\nUsername: @{username}"
+    user_link: "\nUser link: {link}"
+    user_photos: "\nProfile pictures: <code>{count}</code>"
+    user_dc: "\nDatacenter: <code>{id}</code>"
+    user_lang: "\nLanguage: <code>{lang}</code>"
+    user_bio: "\n\nBiography: <code>{bio}</code>"
+    sw_banned: "\n\nThis user is banned on @SpamWatch!"
+    sw_banned_reason: "\nReason: <code>{reason}</code>"
+    user_admin: "\n\nThis user is an <b>'administrator'</b> in this group."
+    user_owner: "\n\nThis user is the <b>'creator'</b> of this group."
+    chat_id: "\nChat ID: <code>{id}</code>"
+    your_id: "\nYour ID: <code>{id}</code>"
+    reply_id: "\nReplied ID: <code>{id}</code>"
+    forward_id: "\nForwarded ID: <code>{id}</code>"
+    module_help: |
+      Obtaining crucial user information has never been easier, thanks to this module.
+
+      <b>Commands:</b>
+       - /user &lt;username or id&gt;: Get info about a user (also works with reply).
+       - /id: Get your ID, chat ID, replied user ID, and forwarded replied user ID.
+  translator:
+    module_name: Translator
+    usage: "<b>Use:</b> <code>/tr &lt;lang&gt; text to translate</code> (also works with reply)."
+    translating: "Translating..."
+    too_long: "The translation exceeded Telegram's 4096 character limit."
+    why_translate_same_lang: "Why translate into the same language?"
+    translated: "<b>Language:</b> {from_lang} -> {to_lang}\n<b>Translation:</b> <code>{translated}</code>"
+    module_help: |
+      Translate some text into other languages.
+
+      <b>Commands:</b>
+       - /tr &lt;from&gt;-&lt;to&gt; &lt;text&gt;: translate text written or reply for any language to the intended language.
+       - /tr &lt;to&gt; &lt;text&gt;: translate text written or reply for any language to the intended language.
+
+      <b>Notes:</b>
+      You can also translate texts of replyied messages.
+      You can also just reply to texts with /tr and the message will be translated into the group language.
