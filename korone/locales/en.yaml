@@ -242,5 +242,5 @@ STRINGS:
        - /tr &lt;to&gt; &lt;text&gt;: translate text written or reply for any language to the intended language.
 
       <b>Notes:</b>
-      You can also translate texts of replyied messages.
-      You can also just reply to texts with /tr and the message will be translated into the group language.
+      You can translate texts of replyied messages.
+      Just reply to texts with /tr and the message will be translated into the group language.

@@ -42,7 +42,7 @@ async def check_filters(bot: Korone, message: Message):
             return
 
     for rfilter in afilters:
-        keyword = rfilter[1]
+        keyword = rfilter["handler"]
         if keyword.startswith("re:"):
             func = functools.partial(
                 regex.search, keyword.replace("re:", "", 1), text, timeout=0.1
@@ -68,68 +68,67 @@ async def check_filters(bot: Korone, message: Message):
 
         user = await bot.get_users(message.from_user.id)
         if matched:
-            if rfilter[4] == "text":
+            if rfilter["filter_type"] == "text":
                 await message.reply_text(
                     await vars_parser(
-                        rfilter[2],
+                        rfilter["data"],
                         message,
                         user,
                     ),
                     parse_mode=ParseMode.MARKDOWN,
                 )
-            elif rfilter[4] == "photo":
+            elif rfilter["filter_type"] == "photo":
                 await message.reply_photo(
                     await vars_parser(
-                        rfilter[3],
+                        rfilter["file_id"],
                         message,
                         user,
                     ),
                     parse_mode=ParseMode.MARKDOWN,
                 )
-            elif rfilter[4] == "document":
+            elif rfilter["filter_type"] == "document":
                 await message.reply_document(
                     await vars_parser(
-                        rfilter[3],
+                        rfilter["file_id"],
                         message,
                         user,
                     ),
                     parse_mode=ParseMode.MARKDOWN,
                 )
-            elif rfilter[4] == "video":
+            elif rfilter["filter_type"] == "video":
                 await message.reply_video(
                     await vars_parser(
-                        rfilter[3],
+                        rfilter["file_id"],
                         message,
                         user,
                     ),
                     parse_mode=ParseMode.MARKDOWN,
                 )
-            elif rfilter[4] == "audio":
+            elif rfilter["filter_type"] == "audio":
                 await message.reply_audio(
                     await vars_parser(
-                        rfilter[3],
+                        rfilter["file_id"],
                         message,
                         user,
                     ),
                     parse_mode=ParseMode.MARKDOWN,
                 )
-            elif rfilter[4] == "animation":
+            elif rfilter["filter_type"] == "animation":
                 await message.reply_animation(
-                    vars_parser(
-                        rfilter[3],
+                    await vars_parser(
+                        rfilter["file_id"],
                         message,
                         user,
                     ),
                     parse_mode=ParseMode.MARKDOWN,
                 )
-            elif rfilter[4] == "sticker":
+            elif rfilter["filter_type"] == "sticker":
                 await message.reply_sticker(
                     await vars_parser(
-                        rfilter[3],
+                        rfilter["file_id"],
                         message,
                         user,
                     ),
-                    parse_mode=ParseMode.MARKDOWN,
                 )
 
 
@@ -151,7 +150,7 @@ async def list_filters(bot: Korone, message: Message, strings):
         return
 
     for rfilter in filters:
-        text += f"- <code>{rfilter[1]}</code>\n"
+        text += f"- <code>{rfilter['handler']}</code>\n"
 
     await message.reply(text, disable_web_page_preview=True)
 
@@ -178,7 +177,13 @@ async def new_filter(bot: Korone, message: Message, strings):
         return
 
     handler = extracted[0]
-    filter_text = extracted[1] if len(extracted) > 1 else reply.text.markdown
+    if len(extracted) > 1:
+        filter_text = extracted[1]
+    elif reply.text is not None:
+        filter_text = reply.text.markdown
+    else:
+        filter_text = None
+
     if handler.startswith("re:"):
         pattern = handler
         random_text_str = "".join(random.choice(printable) for i in range(50))
@@ -212,7 +217,7 @@ async def new_filter(bot: Korone, message: Message, strings):
         filter_type = "animation"
     elif reply and reply.sticker:
         file_id = reply.sticker.file_id
-        raw_data = filter_text if len(filter_text) > 1 else None
+        raw_data = None
         filter_type = "sticker"
     else:
         file_id = None
