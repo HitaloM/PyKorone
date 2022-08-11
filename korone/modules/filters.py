@@ -79,8 +79,9 @@ async def check_filters(bot: Korone, message: Message):
                 )
             elif rfilter["filter_type"] == "photo":
                 await message.reply_photo(
-                    await vars_parser(
-                        rfilter["file_id"],
+                    photo=rfilter["file_id"],
+                    caption=await vars_parser(
+                        rfilter["data"],
                         message,
                         user,
                     ),
@@ -88,8 +89,9 @@ async def check_filters(bot: Korone, message: Message):
                 )
             elif rfilter["filter_type"] == "document":
                 await message.reply_document(
-                    await vars_parser(
-                        rfilter["file_id"],
+                    document=rfilter["file_id"],
+                    caption=await vars_parser(
+                        rfilter["data"],
                         message,
                         user,
                     ),
@@ -97,8 +99,9 @@ async def check_filters(bot: Korone, message: Message):
                 )
             elif rfilter["filter_type"] == "video":
                 await message.reply_video(
-                    await vars_parser(
-                        rfilter["file_id"],
+                    video=rfilter["file_id"],
+                    caption=await vars_parser(
+                        rfilter["data"],
                         message,
                         user,
                     ),
@@ -106,8 +109,9 @@ async def check_filters(bot: Korone, message: Message):
                 )
             elif rfilter["filter_type"] == "audio":
                 await message.reply_audio(
-                    await vars_parser(
-                        rfilter["file_id"],
+                    audio=rfilter["file_id"],
+                    caption=await vars_parser(
+                        rfilter["data"],
                         message,
                         user,
                     ),
@@ -115,8 +119,9 @@ async def check_filters(bot: Korone, message: Message):
                 )
             elif rfilter["filter_type"] == "animation":
                 await message.reply_animation(
-                    await vars_parser(
-                        rfilter["file_id"],
+                    animation=rfilter["file_id"],
+                    caption=await vars_parser(
+                        rfilter["data"],
                         message,
                         user,
                     ),
@@ -124,11 +129,7 @@ async def check_filters(bot: Korone, message: Message):
                 )
             elif rfilter["filter_type"] == "sticker":
                 await message.reply_sticker(
-                    await vars_parser(
-                        rfilter["file_id"],
-                        message,
-                        user,
-                    ),
+                    rfilter["file_id"],
                 )
 
 
