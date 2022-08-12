@@ -11,7 +11,7 @@ import regex
 from async_timeout import timeout
 from pyrogram import filters
 from pyrogram.enums import ChatType, ParseMode
-from pyrogram.types import Message
+from pyrogram.types import InlineKeyboardMarkup, Message
 
 from korone.bot import Korone
 from korone.database.filters import (
@@ -21,7 +21,12 @@ from korone.database.filters import (
     update_filter,
 )
 from korone.modules.utils.disable import disableable_dec
-from korone.modules.utils.filters import check_for_filters, split_quotes, vars_parser
+from korone.modules.utils.filters import (
+    button_parser,
+    check_for_filters,
+    split_quotes,
+    vars_parser,
+)
 from korone.modules.utils.languages import get_strings_dec
 from korone.modules.utils.messages import need_args_dec
 
@@ -68,68 +73,77 @@ async def check_filters(bot: Korone, message: Message):
 
         user = await bot.get_users(message.from_user.id)
         if matched:
+            data, keyboard = button_parser(rfilter["data"])
+            keyboard = InlineKeyboardMarkup(keyboard) if keyboard else None
             if rfilter["filter_type"] == "text":
                 await message.reply_text(
                     await vars_parser(
-                        rfilter["data"],
+                        data,
                         message,
                         user,
                     ),
                     parse_mode=ParseMode.MARKDOWN,
+                    reply_markup=keyboard,
                 )
             elif rfilter["filter_type"] == "photo":
                 await message.reply_photo(
                     photo=rfilter["file_id"],
                     caption=await vars_parser(
-                        rfilter["data"],
+                        data,
                         message,
                         user,
                     ),
                     parse_mode=ParseMode.MARKDOWN,
+                    reply_markup=keyboard,
                 )
             elif rfilter["filter_type"] == "document":
                 await message.reply_document(
                     document=rfilter["file_id"],
                     caption=await vars_parser(
-                        rfilter["data"],
+                        data,
                         message,
                         user,
                     ),
                     parse_mode=ParseMode.MARKDOWN,
+                    reply_markup=keyboard,
                 )
             elif rfilter["filter_type"] == "video":
                 await message.reply_video(
                     video=rfilter["file_id"],
                     caption=await vars_parser(
-                        rfilter["data"],
+                        data,
                         message,
                         user,
                     ),
                     parse_mode=ParseMode.MARKDOWN,
+                    reply_markup=keyboard,
                 )
             elif rfilter["filter_type"] == "audio":
                 await message.reply_audio(
                     audio=rfilter["file_id"],
                     caption=await vars_parser(
-                        rfilter["data"],
+                        data,
                         message,
                         user,
                     ),
                     parse_mode=ParseMode.MARKDOWN,
+                    reply_markup=keyboard,
                 )
             elif rfilter["filter_type"] == "animation":
                 await message.reply_animation(
                     animation=rfilter["file_id"],
                     caption=await vars_parser(
-                        rfilter["data"],
+                        data,
                         message,
                         user,
                     ),
                     parse_mode=ParseMode.MARKDOWN,
+                    reply_markup=keyboard,
                 )
             elif rfilter["filter_type"] == "sticker":
                 await message.reply_sticker(
-                    rfilter["file_id"],
+                    sticker=rfilter["file_id"],
+                    reply_markup=keyboard,
                 )
 
 
@@ -218,7 +232,7 @@ async def new_filter(bot: Korone, message: Message, strings):
         filter_type = "animation"
     elif reply and reply.sticker:
         file_id = reply.sticker.file_id
-        raw_data = None
+        raw_data = filter_text
         filter_type = "sticker"
     else:
         file_id = None

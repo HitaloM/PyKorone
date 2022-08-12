@@ -571,7 +571,7 @@ python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*"
 
 [[package]]
 name = "Pyrogram"
-version = "2.0.35+amn"
+version = "2.0.36+amn"
 description = "Elegant, modern and asynchronous Telegram MTProto API framework in Python for users and bots - Amano's experimental fork"
 category = "main"
 optional = false
@@ -587,7 +587,7 @@ pysocks = "1.7.1"
 type = "git"
 url = "https://github.com/AmanoTeam/pyrogram"
 reference = "master"
-resolved_reference = "08b260a79a02cffe15f13bf064a40fb33fe3a170"
+resolved_reference = "ae9a137b504819638504ef94ad94e26f7157a1c8"
 
 [[package]]
 name = "pysocks"

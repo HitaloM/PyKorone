@@ -2,15 +2,18 @@
 # Copyright (c) 2020-2022 Hitalo <https://github.com/HitaloSama>
 
 import html
+import re
 from datetime import datetime
 from typing import List
 
 from babel.dates import format_date, format_datetime, format_time
 from pyrogram.enums import ParseMode
-from pyrogram.types import Message, User
+from pyrogram.types import InlineKeyboardButton, Message, User
 
 from korone.database.filters import get_all_filters
 from korone.modules.utils.languages import get_chat_lang
+
+BTN_URL_REGEX = re.compile(r"(\[([^\[]+?)\]\(buttonurl:(?:/{0,2})(.+?)(:same)?\))")
 
 SMART_OPEN = "“"
 SMART_CLOSE = "”"
@@ -104,6 +107,43 @@ async def vars_parser(text: str, message: Message, user: User = None):
         .replace("{timedate}", str(current_timedate))
     )
     return text
+
+
+def button_parser(markdown_note):
+    note_data = ""
+    buttons = []
+    if markdown_note is None:
+        return note_data, buttons
+    if markdown_note.startswith("/") or markdown_note.startswith("!"):
+        args = markdown_note.split(None, 2)
+        markdown_note = args[2]
+    prev = 0
+    for match in BTN_URL_REGEX.finditer(markdown_note):
+        n_escapes = 0
+        to_check = match.start(1) - 1
+        while to_check > 0 and markdown_note[to_check] == "\\":
+            n_escapes += 1
+            to_check -= 1
+
+        if n_escapes % 2 == 0:
+            if bool(match.group(4)) and buttons:
+                buttons[-1].append(
+                    InlineKeyboardButton(text=match.group(2), url=match.group(3))
+                )
+            else:
+                buttons.append(
+                    [InlineKeyboardButton(text=match.group(2), url=match.group(3))]
+                )
+            note_data += markdown_note[prev : match.start(1)]
+            prev = match.end(1)
+
+        else:
+            note_data += markdown_note[prev:to_check]
+            prev = match.start(1) - 1
+
+    note_data += markdown_note[prev:]
+
+    return note_data, buttons
 
 
 async def check_for_filters(chat_id: int, handler: str):
