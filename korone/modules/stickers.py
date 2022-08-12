@@ -78,6 +78,7 @@ async def sticker_search(bot: Korone, message: Message, strings):
 
 
 @Korone.on_message(filters.cmd("color"))
+@disableable_dec("color")
 @need_args_dec()
 @get_strings_dec("stickers")
 async def color_sticker(bot: Korone, message: Message, strings):
