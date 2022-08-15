@@ -47,7 +47,7 @@ async def start(bot: Korone, union: Union[Message, CallbackQuery], strings):
     )
     await (message.edit_text if is_callback else message.reply_text)(
         strings["start_text"].format(
-            user=message.from_user.first_name,
+            user=union.from_user.first_name,
             bot_name=bot.name.capitalize(),
             short_hash=bot.version,
             version_code=bot.version_code,
