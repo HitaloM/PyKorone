@@ -7,23 +7,23 @@ STRINGS:
       Olá, <b>{user}</b>!
 
       Eu sou o <b>{bot_name}</b>, um bot interativo que adora participar de grupos! ^^
-      <b>Versão:</b> {short_hash} <code>({version_code})</code>
+      <b>Versão:</b> {short_hash} (<code>{version_code}</code>)
     help_text: |
-      Have a look at the following for an idea of some of the things I can help you with.
+      Dê uma olhada nos seguintes para uma ideia de algumas das coisas que eu posso ajudar você.
 
-      All commands can either be used with <code>/</code> or <code>!</code>.
+      Todos os comandos podem ser usados com <code>/</code> ou <code>!</code>.
 
-      Main commands available:
-       - /start: start the bot.
-       - /help: PM's you this message.
-       - /help &lt;module name&gt;: PM's you info about that module.
-       - /about: PM's you more info about me.
+      Comandos principais:
+       - /start: inicia o bot.
+       - /help: envia a você essa mensagem.
+       - /help &lt;nome do módulo&gt;: envia a você informações sobre o módulo específicado
+       - /about: mais informações sobre mim.
 
-      Other available commands:
+      Outros comandos disponíveis:
     about_text: |
-      <b>{bot_name}</b> is a bot developed in <i>Python</i> with the <b>MTProto Pyrogram</b> library, made to be fast, stable and complete.
+      <b>{bot_name}</b> é um bot desenvolvido em <i>Python</i> com a biblioteca <b>MTProto Pyrogram</b> feito para ser rápido, estável e completo.
 
-      <b>Version</b>: {version} (<code>{version_code}</code>)
+      <b>Versão</b>: {version} (<code>{version_code}</code>)
     module_not_found: Módulo não encontrado!
     about_button: ℹ️ Sobre
     help_button: '👮‍♀️ Ajuda'
@@ -32,9 +32,9 @@ STRINGS:
     channel_button: '📚 Canal'
     back_button: '🔙 Voltar'
     unavailable_mod_help: Ajuda não disponível, por favor, relate este problema ao meu desenvolvedor.
-    help_in_pm: For help go to my PM.
-    pm_button: Go to PM!
-    start_group: I'm alive!
+    help_in_pm: Para ajuda vá ao meu PV.
+    pm_button: Ir ao PV!
+    start_group: Eu estou vivo!
     helpable_text: |
       Aqui está a ajuda disponível para o módulo <b>{module_name}</b>:
 
@@ -48,186 +48,186 @@ STRINGS:
       Seu idioma atual: <b>{lang_name}</b>
     back_button: '🔙 Voltar'
     module_help: |
-      This module is dedicated towards utlising Korone's localization feature! You can also <a href='https://crowdin.com/project/pykorone'>contribute</a> for improving localization in Korone!
+      Este módulo é dedicado para apresentar o recurso de localização do Korone! Você também pode <a href='https://crowdin.com/project/pykorone'>contribuir</a> para melhorar a localização no Korone!
 
-      <b>Commands:</b>
-       - /language: Shows a list of avaible languages
+      <b>Comandos:</b>
+       - /language: Mostra uma lista de idiomas disponíveis
   misc:
-    module_name: Misc
-    generic_error: An error occurred!
+    module_name: Variados
+    generic_error: Ocorreu um erro!
     module_help: |
-      Some miscellaneous commands that don't fit anywhere else.
+      Alguns comandos diversos que não se encaixam em outro lugar.
 
-      <b>Commands:</b>
-       - /cat: Sends a random cat image.
-       - /dog: Sends a random dog image.
-       - /fox: Sends a random fox image.
-       - /bird: Sends a random bird image.
-       - /panda: Sends a random panda image.
-       - /redpanda: Sends a random red panda image.
+      <b>Comandos:</b>
+       - /cat: Envia uma imagem aleatória de gato.
+       - /dog: Envia uma imagem aleatória de cão.
+       - /fox: Envia uma imagem de raposa aleatória.
+       - /bird: Envia uma imagem de pássaro aleatória.
+       - /panda: Envia uma imagem de panda aleatória.
+       - /redpanda: Envia uma imagem aleatória de panda vermelho.
   fun:
-    module_name: Fun
-    api_error: An error occurred while fetching the API data.
-    badrequest_error: An error occurred while trying to send the message.
-    need_text: I need a text.
+    module_name: Diversão
+    api_error: Ocorreu um erro ao obter os dados da API.
+    badrequest_error: Ocorreu um erro ao tentar enviar a mensagem.
+    need_text: Preciso de um texto.
     module_help: |
-      Some funny commands.
+      Alguns comandos engraçados.
 
-      <b>Command:</b>
-       - /neko: Sends a random neko image.
-       - /waifu: Sends a random waifu image.
-       - /slap: Sends a random slap image.
-       - /pat: Sends a random head pat image.
-       - /hug: Sends a random hug image.
-       - /vapor &lt;text&gt;: Vaporize a text.
-       - /capypasta &lt;text&gt;: Copypasta a text.
-       - /react: Sends a random reaction.
+      <b>Comandos:</b>
+       - /neko: Envia uma imagem de Neko aleatória.
+       - /waifu: Envia uma imagem de waifu aleatória.
+       - /slap: Envia uma imagem de uma bofetada aleatória.
+       - /pat: Envia uma imagem aleatória de uma palmadinha na cabeça.
+       - /hug: Envia uma imagem de abraço aleatória.
+       - /vapor &lt;text&gt;: Vaporize um texto.
+       - /capypasta &lt;text&gt;: Copypasta um texto.
+       - /react: Envia uma reação aleatória.
   pokemon:
-    module_name: Pokemon
-    api_error: An error occurred while fetching the API data.
-    no_sprite: No sprite found for this.
-    type_not_found: "Type '{type}' not found."
+    module_name: Pokémon
+    api_error: Ocorreu um erro ao obter os dados da API.
+    no_sprite: Nenhum sprite encontrado para isso.
+    type_not_found: "Tipo '{type}' não encontrado."
     module_help: |
-      Maybe some useful commands on your journey as a Pokémon trainer.
+      Talvez alguns comandos úteis na sua jornada como treinador Pokémon.
 
-      <b>Commands:</b>
-       - /pokemon &lt;pokemon name&gt;: Sends a sticker of the given Pokémon.
-       - /pokeitem &lt;item name&gt;: Sends a sticker of the given Pokémon's item.
+      <b>Comandos:</b>
+       - /pokemon &lt;nome do pokémon&gt;: Envia um sticker do Pokémon fornecido.
+       - /pokeitem &lt;nome do item&gt;: Envia um sticker do item Pokémon fornecido.
   disable:
-    module_name: Disabling
-    disablable: "<b>Disable-able commands:</b>\n"
-    wot_to_disable: "What do you want to disable?"
-    already_disabled: "This command is already disabled!"
-    disabled: "Command <code>{command}</code> was disabled in <b>{chat_name}</b>!"
-    only_for_groups: "This command is only available in groups!"
-    only_for_admins: "You need to be an administrator in <b>{chat_name}</b> to use this command!"
-    wot_to_enable: "What do you want to enable?"
-    already_enabled: "This command isn't disabled!"
-    enabled: "Command <code>{command}</code> was enabled in <b>{chat_name}</b>!"
-    no_disabled_cmds: No disabled commands in <b>{chat_name}</b>!
-    disabled_list: "<b>Disabled commands in {chat_name}:</b>\n"
+    module_name: Desativando
+    disablable: "<b>Comandos que podem ser desativados:</b>\n"
+    wot_to_disable: "O que deseja desativar?"
+    already_disabled: "Este comando já está desativado!"
+    disabled: "O comando <code>{command}</code> foi desativado em <b>{chat_name}</b>!"
+    only_for_groups: "Este comando só está disponível em grupos!"
+    only_for_admins: "Você precisa ser um administrador no <b>{chat_name}</b> para usar este comando!"
+    wot_to_enable: "O que você deseja ativar?"
+    already_enabled: "Este comando não está desativado!"
+    enabled: "O comando <code>{command}</code> foi habilitado em <b>{chat_name}</b>!"
+    no_disabled_cmds: Nenhum comando desabilitado em <b>{chat_name}</b>!
+    disabled_list: "<b>Comandos desativados no {chat_name}:</b>\n"
   filters:
-    module_name: Filters
-    only_for_groups: "This command is only available in groups!"
-    only_for_admins: "You need to be an administrator in <b>{chat_name}</b> to use this command!"
-    regex_too_slow: "Your regex pattern matches too slowly (more than the half of second) and it can't be added!"
-    filter_added: "Filter <code>{filter}</code> was added in <b>{chat_name}</b>!"
-    list_filters: "Filters in <b>{chat_name}</b>:\n"
-    no_filters_found: "No filters was found in <b>{chat_name}</b>!"
-    no_such_filter: I can't find that filter in <b>{chat_name}</b>, you can check what filters are enabled with the <code>/filters</code> command.
-    filter_removed: "Filter <code>{filter}</code> was removed from <b>{chat_name}</b>!"
-    empty_filter: "You can't add an empty filter!"
+    module_name: Filtros
+    only_for_groups: "Este comando só está disponível em grupos!"
+    only_for_admins: "Você precisa ser um administrador em <b>{chat_name}</b> para usar este comando!"
+    regex_too_slow: "Seu padrão regex é muito lento (mais da metade do segundo) e não pode ser adicionado!"
+    filter_added: "O filtro <code>{filter}</code> foi adicionado em <b>{chat_name}</b>!"
+    list_filters: "Filtros em <b>{chat_name}</b>:\n"
+    no_filters_found: "Nenhum filtro foi encontrado em <b>{chat_name}</b>!"
+    no_such_filter: Não consigo encontrar esse filtro em <b>{chat_name}</b>, você pode verificar quais filtros estão ativados com o comando <code>/filters</code>.
+    filter_removed: "Filtro <code>{filter}</code> foi removido de <b>{chat_name}</b>!"
+    empty_filter: "Você não pode adicionar um filtro vazio!"
     module_help: |
-      Make your chat more lively with filters; The bot will reply to certain words!
+      Deixe seu chat mais animado com os filtros; O bot vai responder a certas palavras!
 
-      Korone's filters support regex, by default they are active if the trigger word is found in any area of the text, you can customize their behavior by adding filters with <code>re:({regex here})</code>.
+      Os filtros do Korone suportam regex, por padrão eles estão ativos se a palavra de gatilho for encontrada em qualquer área do texto, você pode personalizar o comportamento deles adicionando filtros com <code>re:(regex aqui)</code>.
 
-      <b>Commands:</b>
-       - /addfilter &lt;trigger&gt; &lt;sentence&gt;: Every time someone says "trigger", the bot will reply with "sentence". For multiple word filters, quote the trigger.
-       - /filters: List all chat filters.
-       - /delfilter &lt;trigger&gt;: Stop the bot from replying to "trigger".
+      <b>Comandos:</b>
+       - /addfilter &lt;gatilho&gt; &lt;frase&gt;: toda vez que alguém diz "gatilho", o bot responderá com "frase". Para vários filtros de palavras, cite o gatilho.
+       - /filtros: Lista todos os filtros do grupo.
+       - /delfilter &lt;gatilho&gt;: Impeça o bot de responder para "gatilho".
   reddit:
     module_name: Reddit
-    reddit_private: "<b>r/{sub}</b> is private!"
-    reddit_not_found: "<b>r/{sub}</b> dont't exist!"
-    reddit_no_content: "I could not find any valid content in <b>r/{sub}</b>!"
-    reddit_download_error: "Failed to download the content from <b>r/{sub}</b>!\n Title: <b>{title}</b>\nURL: {image_url}"
+    reddit_private: "<b>r/{sub}</b> é privado!"
+    reddit_not_found: "<b>r/{sub}</b> não existe!"
+    reddit_no_content: "Não encontrei nenhum conteúdo válido no <b>r/{sub}</b>!"
+    reddit_download_error: "Falha ao baixar o conteúdo de <b>r/{sub}</b>\nTítulo: <b>{title}</b>\nURL: {image_url}"
     module_help: |
-      Some useful commands to get some random content from Reddit.
+      Alguns comandos úteis para obter algum conteúdo aleatório do Reddit.
 
-      <b>Commands:</b>
-       - /redi &lt;subreddit&gt;: Sends a random image from the given subreddit.
-       - /redt &lt;subreddit&gt;: Sends a random text from the given subreddit.
-       - /redb &lt;subreddit&gt;: Sends a random body from the given subreddit.
+      <b>Comandos:</b>
+       - /redi &lt;subreddit&gt;: Envia uma imagem aleatória do subreddit fornecido.
+       - /redt &lt;subreddit&gt;: Envia um texto aleatório do subreddit fornecido.
+       - /redb &lt;subreddit&gt;: Envia um corpo aleatório do subreddit fornecido.
   decoder:
-    module_name: Decoder
-    need_text: "I need some text."
-    invalid_b64: "⚠️ Invalid base64 data: <code>{error}</code>"
-    too_long_message: "The message is too long, I can't send it because Telegram limits the maximum characters up to 4096!"
+    module_name: Decodificador
+    need_text: "Preciso de um texto."
+    invalid_b64: "⚠️ Dados base64 inválidos: <code>{error}</code>"
+    too_long_message: "A mensagem é muito longa, não posso enviá-la porque o Telegram limita o máximo de caracteres até 4096!"
     module_help: |
-      Some useful commands to decode texts, emojis, etc.
+      Alguns comandos úteis para decodificar textos, emojis, etc.
 
-      <b>Commands:</b>
-       - /b64encode &lt;text&gt;: Encode text into Base64.
-       - /b64decode &lt;text&gt;: Decode Base64 data.
-       - /chinfo &lt;text&gt;: Dissect a string into named Unicode codepoints.
+      <b>Comandos:</b>
+       - /b64encode &lt;texto&gt;: Codificar texto em Base64.
+       - /b64decode &lt;texto&gt;: Decodificar texto em Base64.
+       - /chinfo &lt;texto&gt;: Dispense uma sequência de caracteres em códigos nomeados Unicode.
   stickers:
     module_name: Stickers
-    no_results: "No result found for <code>{query}</code>!"
-    stickers_list: "Stickers found for <code>{query}</code>:"
-    animated_unsupported: "Animated stickers are not supported yet!"
-    not_sticker: "This is not a sticker!"
-    invalid_color: "<code>{color}</code> is an invalid color, use <code>#hex</code> or the name of the color."
+    no_results: "Nenhum resultado encontrado para <code>{query}</code>!"
+    stickers_list: "Stickers encontrados para <code>{query}</code>:"
+    animated_unsupported: "Stickers animados não são suportados ainda!"
+    not_sticker: "Isso não é um sticker!"
+    invalid_color: "<code>{color}</code> é uma cor inválida, use <code>#hex</code> ou o nome da cor."
     module_help: |
-      Some useful commands for those who love to send stickers in chat.
+      Alguns comandos úteis para aqueles que adoram enviar stickers o chat.
 
-      <b>Command:</b>
-       - /stickers &lt;query&gt;: Search for stickers.
-       - /getsticker: Reply to a sticker to me to upload its raw PNG file and some info.
-       - /color &lt;color&gt;: Sends a sticker with the given color.
+      <b>Comando:</b>
+       - /stickers &lt;pesquisa&gt;: Procurar por stickers.
+       - /getsticker: Responda a um sticker para fazer o upload do seu arquivo PNG e algumas informações.
+       - /color &lt;cor&gt;: Envia um sticker com a cor fornecida.
   youtube:
     module_name: YouTubeDL
-    no_url_ytdl: "Please reply to a YouTube link or text."
-    no_url_ttdl: "Please reply to a Twitter video link."
-    playlist_not_supported: "Playlists are not supported yet!"
-    audio: "💿 Audio"
-    video: "🎬 Video"
-    not_for_you: "This button is not for you!"
-    download_limit: Sorry! I cannot download this media as it exceeds my 200MB download limit.
-    downloading: "Downloading..."
-    doing: "Your request is an order.... >-<"
-    error: "Sorry! I couldn't send the video because of an error.\n<b>Error:</b> <code>{error}</code>"
-    invalid_url: "Invalid link!"
-    uploading: "Uploading..."
+    no_url_ytdl: "Por favor, responda um link ou texto do YouTube."
+    no_url_ttdl: "Por favor, responda a um link de vídeo do Twitter."
+    playlist_not_supported: "Playlists ainda não são suportadas!"
+    audio: "💿 Áudio"
+    video: "🎬 Vídeo"
+    not_for_you: "Este botão não é para você!"
+    download_limit: Desculpe! Eu não posso baixar este arquivo de mídia, pois ele excede o meu limite de download de 200MB.
+    downloading: "Baixando..."
+    doing: "Seu pedido é uma ordem.... >-<"
+    error: "Desculpe! Não consegui enviar o vídeo devido a um erro.\n<b>Erro:</b> <code>{error}</code>"
+    invalid_url: "Link inválido!"
+    uploading: "Enviando..."
     module_help: |
-      With this module you can take advantage of some of YouTubeDL's features, such as downloading videos from YouTube.
+      Com este módulo, você pode aproveitar alguns dos recursos do YouTubeDL, como o download de vídeos do YouTube.
 
-      <b>Commands:</b>
-       - /ytdl &lt;url or text&gt;: Download a video from YouTube (also works with reply).
-       - /ttdl &lt;url&gt;: Download a video from Twitter.
+      <b>Comandos:</b>
+       - /ytdl &lt;url ou texto&gt;: Baixar um vídeo do YouTube (também funciona com resposta).
+       - /ttdl &lt;url&gt;: Baixar um vídeo do Twitter.
   users:
-    module_name: Users
-    invalid_username: "Invalid username!"
-    invalid_id: "Invalid user ID!"
-    not_user: "This is not a user!"
-    user_info: "<b>User info:</b>"
+    module_name: Usuários
+    invalid_username: "Nome de usuário inválido!"
+    invalid_id: "ID de usuário inválido!"
+    not_user: "Isto não é um usuário!"
+    user_info: "<b>Informações do usuário:</b>"
     user_id: "\nID: <code>{id}</code>"
-    user_firstname: "\nFirst name: <code>{first_name}</code>"
-    user_lastname: "\nLast name: <code>{last_name}</code>"
-    username: "\nUsername: @{username}"
-    user_link: "\nUser link: {link}"
-    user_photos: "\nProfile pictures: <code>{count}</code>"
+    user_firstname: "\nNome: <code>{first_name}</code>"
+    user_lastname: "\nSobrenome: <code>{last_name}</code>"
+    username: "\nNome de usuário: @{username}"
+    user_link: "\nLink de usuário: {link}"
+    user_photos: "\nFotos de perfil: <code>{count}</code>"
     user_dc: "\nDatacenter: <code>{id}</code>"
-    user_lang: "\nLanguage: <code>{lang}</code>"
-    user_bio: "\n\nBiography: <code>{bio}</code>"
-    sw_banned: "\n\nThis user is banned on @SpamWatch!"
-    sw_banned_reason: "\nReason: <code>{reason}</code>"
-    user_admin: "\n\nThis user is an <b>'administrator'</b> in this group."
-    user_owner: "\n\nThis user is the <b>'creator'</b> of this group."
-    chat_id: "\nChat ID: <code>{id}</code>"
-    your_id: "\nYour ID: <code>{id}</code>"
-    reply_id: "\nReplied ID: <code>{id}</code>"
-    forward_id: "\nForwarded ID: <code>{id}</code>"
+    user_lang: "\nIdioma: <code>{lang}</code>"
+    user_bio: "\n\nBiografia: <code>{bio}</code>"
+    sw_banned: "\n\nEste usuário está banido no @SpamWatch!"
+    sw_banned_reason: "\nMotivo: <code>{reason}</code>"
+    user_admin: "\n\nEste usuário é um <b>'administrador'</b> neste grupo."
+    user_owner: "\n\nEste usuário é o <b>'criador'</b> deste grupo."
+    chat_id: "\nID do chat: <code>{id}</code>"
+    your_id: "\nSeu ID: <code>{id}</code>"
+    reply_id: "\nID respondido: <code>{id}</code>"
+    forward_id: "\nID de encaminhamento: <code>{id}</code>"
     module_help: |
-      Obtaining crucial user information has never been easier, thanks to this module.
+      Obter informações cruciais de usuário nunca foi tão fácil, graças a este módulo.
 
-      <b>Commands:</b>
-       - /user &lt;username or id&gt;: Get info about a user (also works with reply).
-       - /id: Get your ID, chat ID, replied user ID, and forwarded replied user ID.
+      <b>Comandos:</b>
+       - /user &lt;username ou id&gt;: Obter informação sobre um usuário (também funciona com resposta).
+       - /id: Obtenha seu ID, ID do chat, ID do usuário respondido e o ID do usuário encaminhado respondido.
   translator:
-    module_name: Translator
-    usage: "<b>Use:</b> <code>/tr &lt;lang&gt; text to translate</code> (also works with reply)."
-    translating: "Translating..."
-    too_long: "The translation exceeded Telegram's 4096 character limit."
-    why_translate_same_lang: "Why translate into the same language?"
-    translated: "<b>Language:</b> {from_lang} -> {to_lang}\n<b>Translation:</b> <code>{translated}</code>"
+    module_name: Tradutor
+    usage: "<b>Use:</b> <code>/tr &lt;idioma&gt; texto para traduzir</code> (também funciona com resposta)."
+    translating: "Traduzindo..."
+    too_long: "A tradução excedeu o limite de 4096 caracteres do Telegram."
+    why_translate_same_lang: "Por que traduzir para o mesmo idioma?"
+    translated: "<b>Idioma:</b> {from_lang} -> {to_lang}\n<b>Tradução:</b> <code>{translated}</code>"
     module_help: |
-      Translate some text into other languages.
+      Traduza algum texto para outros idiomas.
 
-      <b>Commands:</b>
-       - /tr &lt;from&gt;-&lt;to&gt; &lt;text&gt;: translate text written or reply for any language to the intended language.
-       - /tr &lt;to&gt; &lt;text&gt;: translate text written or reply for any language to the intended language.
+      <b>Comandos:</b>
+       - /tr &lt;de&gt;-&lt;para&gt; &lt;texto&gt;: traduzir texto escrito ou responder para qualquer idioma para a língua pretendida.
+       - /tr &lt;de&gt; &lt;texto&gt;: traduzir texto escrito ou responder para qualquer língua para o idioma pretendido.
 
-      <b>Notes:</b>
-      You can translate texts of replyied messages.
-      Just reply to texts with /tr and the message will be translated into the group language.
+      <b>Notas:</b>
+      Você pode traduzir textos de mensagens respondidas.
+      Apenas responda aos textos com /tr e a mensagem será traduzida para o idioma do grupo.
