@@ -129,6 +129,17 @@ async def check_filters(bot: Korone, message: Message):
                     parse_mode=ParseMode.MARKDOWN,
                     reply_markup=keyboard,
                 )
+            elif rfilter["filter_type"] == "voice":
+                await message.reply_voice(
+                    voice=rfilter["file_id"],
+                    caption=await vars_parser(
+                        data,
+                        message,
+                        user,
+                    ),
+                    parse_mode=ParseMode.MARKDOWN,
+                    reply_markup=keyboard,
+                )
             elif rfilter["filter_type"] == "animation":
                 await message.reply_animation(
                     animation=rfilter["file_id"],
@@ -226,6 +237,10 @@ async def new_filter(bot: Korone, message: Message, strings):
         file_id = reply.audio.file_id
         raw_data = reply.caption.markdown if reply.caption else None
         filter_type = "audio"
+    elif reply and reply.voice:
+        file_id = reply.voice.file_id
+        raw_data = reply.caption.markdown if reply.caption else None
+        filter_type = "voice"
     elif reply and reply.animation:
         file_id = reply.animation.file_id
         raw_data = reply.caption.markdown if reply.caption else None
