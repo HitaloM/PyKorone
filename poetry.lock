@@ -173,8 +173,8 @@ python-versions = ">=3.6.0"
 soupsieve = ">1.2"
 
 [package.extras]
-html5lib = ["html5lib"]
 lxml = ["lxml"]
+html5lib = ["html5lib"]
 
 [[package]]
 name = "black"
@@ -192,10 +192,10 @@ platformdirs = ">=2"
 tomli = {version = ">=1.1.0", markers = "python_full_version < \"3.11.0a7\""}
 
 [package.extras]
-colorama = ["colorama (>=0.4.3)"]
-d = ["aiohttp (>=3.7.4)"]
-jupyter = ["ipython (>=7.8.0)", "tokenize-rt (>=3.2.0)"]
 uvloop = ["uvloop (>=0.15.2)"]
+jupyter = ["tokenize-rt (>=3.2.0)", "ipython (>=7.8.0)"]
+d = ["aiohttp (>=3.7.4)"]
+colorama = ["colorama (>=0.4.3)"]
 
 [[package]]
 name = "brotli"
@@ -341,8 +341,8 @@ h11 = ">=0.11,<0.13"
 sniffio = ">=1.0.0,<2.0.0"
 
 [package.extras]
-http2 = ["h2 (>=3,<5)"]
 socks = ["socksio (>=1.0.0,<2.0.0)"]
+http2 = ["h2 (>=3,<5)"]
 
 [[package]]
 name = "httpx"
@@ -360,10 +360,10 @@ rfc3986 = {version = ">=1.3,<2", extras = ["idna2008"]}
 sniffio = "*"
 
 [package.extras]
-brotli = ["brotlicffi", "brotli"]
-cli = ["click (>=8.0.0,<9.0.0)", "rich (>=10,<13)", "pygments (>=2.0.0,<3.0.0)"]
-http2 = ["h2 (>=3,<5)"]
 socks = ["socksio (>=1.0.0,<2.0.0)"]
+http2 = ["h2 (>=3,<5)"]
+cli = ["pygments (>=2.0.0,<3.0.0)", "rich (>=10,<13)", "click (>=8.0.0,<9.0.0)"]
+brotli = ["brotli", "brotlicffi"]
 
 [[package]]
 name = "humanize"
@@ -374,7 +374,7 @@ optional = false
 python-versions = ">=3.7"
 
 [package.extras]
-tests = ["freezegun", "pytest", "pytest-cov"]
+tests = ["pytest-cov", "pytest", "freezegun"]
 
 [[package]]
 name = "hyperframe"
@@ -401,10 +401,10 @@ optional = false
 python-versions = ">=3.6.1,<4.0"
 
 [package.extras]
-pipfile_deprecated_finder = ["pipreqs", "requirementslib"]
-requirements_deprecated_finder = ["pipreqs", "pip-api"]
-colors = ["colorama (>=0.4.3,<0.5.0)"]
 plugins = ["setuptools"]
+colors = ["colorama (>=0.4.3,<0.5.0)"]
+requirements_deprecated_finder = ["pip-api", "pipreqs"]
+pipfile_deprecated_finder = ["requirementslib", "pipreqs"]
 
 [[package]]
 name = "kantex"
@@ -503,8 +503,8 @@ optional = false
 python-versions = ">=3.7"
 
 [package.extras]
-docs = ["furo", "olefile", "sphinx (>=2.4)", "sphinx-copybutton", "sphinx-issues (>=3.0.1)", "sphinx-removed-in", "sphinxext-opengraph"]
-tests = ["check-manifest", "coverage", "defusedxml", "markdown2", "olefile", "packaging", "pyroma", "pytest", "pytest-cov", "pytest-timeout"]
+tests = ["pytest-timeout", "pytest-cov", "pytest", "pyroma", "packaging", "olefile", "markdown2", "defusedxml", "coverage", "check-manifest"]
+docs = ["sphinxext-opengraph", "sphinx-removed-in", "sphinx-issues (>=3.0.1)", "sphinx-copybutton", "sphinx (>=2.4)", "olefile", "furo"]
 
 [[package]]
 name = "platformdirs"
@@ -571,7 +571,7 @@ python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*"
 
 [[package]]
 name = "Pyrogram"
-version = "2.0.36+amn"
+version = "2.0.40+amn"
 description = "Elegant, modern and asynchronous Telegram MTProto API framework in Python for users and bots - Amano's experimental fork"
 category = "main"
 optional = false
@@ -587,7 +587,7 @@ pysocks = "1.7.1"
 type = "git"
 url = "https://github.com/AmanoTeam/pyrogram"
 reference = "master"
-resolved_reference = "ae9a137b504819638504ef94ad94e26f7157a1c8"
+resolved_reference = "36fc1fa34971accafc4b7d305d16f227c41c6eeb"
 
 [[package]]
 name = "pysocks"
@@ -607,7 +607,7 @@ python-versions = "*"
 
 [[package]]
 name = "pytz"
-version = "2022.1"
+version = "2022.2.1"
 description = "World timezone definitions, modern and historical"
 category = "main"
 optional = false
@@ -672,29 +672,29 @@ python-versions = "*"
 [package.dependencies]
 certifi = "*"
 urllib3 = [
-    {version = ">=1.26.11", markers = "python_version >= \"3.6\""},
     {version = ">=1.26.9", markers = "python_version >= \"3.5\""},
+    {version = ">=1.26.11", markers = "python_version >= \"3.6\""},
 ]
 
 [package.extras]
-tornado = ["tornado (>=5)"]
-starlette = ["starlette (>=0.19.1)"]
-sqlalchemy = ["sqlalchemy (>=1.2)"]
-sanic = ["sanic (>=0.8)"]
-rq = ["rq (>=0.6)"]
-quart = ["blinker (>=1.1)", "quart (>=0.16.1)"]
-pyspark = ["pyspark (>=2.4.4)"]
-pure_eval = ["asttokens", "executing", "pure-eval"]
-httpx = ["httpx (>=0.16.0)"]
-flask = ["blinker (>=1.1)", "flask (>=0.11)"]
-fastapi = ["fastapi (>=0.79.0)"]
-falcon = ["falcon (>=1.4)"]
-django = ["django (>=1.8)"]
-chalice = ["chalice (>=1.16.0)"]
-celery = ["celery (>=3)"]
-bottle = ["bottle (>=0.12.13)"]
-beam = ["apache-beam (>=2.12)"]
 aiohttp = ["aiohttp (>=3.5)"]
+beam = ["apache-beam (>=2.12)"]
+bottle = ["bottle (>=0.12.13)"]
+celery = ["celery (>=3)"]
+chalice = ["chalice (>=1.16.0)"]
+django = ["django (>=1.8)"]
+falcon = ["falcon (>=1.4)"]
+fastapi = ["fastapi (>=0.79.0)"]
+flask = ["flask (>=0.11)", "blinker (>=1.1)"]
+httpx = ["httpx (>=0.16.0)"]
+pure_eval = ["pure-eval", "executing", "asttokens"]
+pyspark = ["pyspark (>=2.4.4)"]
+quart = ["quart (>=0.16.1)", "blinker (>=1.1)"]
+rq = ["rq (>=0.6)"]
+sanic = ["sanic (>=0.8)"]
+sqlalchemy = ["sqlalchemy (>=1.2)"]
+starlette = ["starlette (>=0.19.1)"]
+tornado = ["tornado (>=5)"]
 
 [[package]]
 name = "sniffio"
@@ -748,9 +748,9 @@ python-versions = "*"
 requests = ">=2.3.0"
 
 [package.extras]
-dev = ["black", "flake8", "pytest (>=2.7.3)"]
-lint = ["black", "flake8"]
 test = ["pytest (>=2.7.3)"]
+lint = ["flake8", "black"]
+dev = ["pytest (>=2.7.3)", "flake8", "black"]
 
 [[package]]
 name = "urllib3"
@@ -800,7 +800,7 @@ multidict = ">=4.0"
 
 [[package]]
 name = "yt-dlp"
-version = "2022.8.8"
+version = "2022.8.14"
 description = "A youtube-dl fork with additional features and patches"
 category = "main"
 optional = false
@@ -1629,8 +1629,8 @@ pytomlpp = [
     {file = "pytomlpp-1.0.11.tar.gz", hash = "sha256:90021866ee72c16475692ec8b0ecc69ec530d2b8ce27a63a4cc39c1907f4b37a"},
 ]
 pytz = [
-    {file = "pytz-2022.1-py2.py3-none-any.whl", hash = "sha256:e68985985296d9a66a881eb3193b0906246245294a881e7c8afe623866ac6a5c"},
-    {file = "pytz-2022.1.tar.gz", hash = "sha256:1e760e2fe6a8163bc0b3d9a19c4f84342afa0a2affebfaa84b01b978a02ecaa7"},
+    {file = "pytz-2022.2.1-py2.py3-none-any.whl", hash = "sha256:220f481bdafa09c3955dfbdddb7b57780e9a94f5127e35456a48589b9e0c0197"},
+    {file = "pytz-2022.2.1.tar.gz", hash = "sha256:cea221417204f2d1a2aa03ddae3e867921971d0d76f14d87abb4414415bbdcf5"},
 ]
 pyyaml = [
     {file = "PyYAML-6.0-cp310-cp310-macosx_10_9_x86_64.whl", hash = "sha256:d4db7c7aef085872ef65a8fd7d6d09a14ae91f691dec3e87ee5ee0539d516f53"},
@@ -1961,6 +1961,6 @@ yarl = [
     {file = "yarl-1.8.1.tar.gz", hash = "sha256:af887845b8c2e060eb5605ff72b6f2dd2aab7a761379373fd89d314f4752abbf"},
 ]
 yt-dlp = [
-    {file = "yt-dlp-2022.8.8.tar.gz", hash = "sha256:15cab6126e12af11134213806e6a5cf97d1c6221e148aa2618ddd42939a30a8d"},
-    {file = "yt_dlp-2022.8.8-py2.py3-none-any.whl", hash = "sha256:3ce32a1d3e444365fc7d733dbc057808346abb2d137101f06e5cccdc69f42651"},
+    {file = "yt-dlp-2022.8.14.tar.gz", hash = "sha256:9a2ceb76a4cc48aa80127eff8a853d9c8b7efe8be121c2123dcbfd3d06bc945f"},
+    {file = "yt_dlp-2022.8.14-py2.py3-none-any.whl", hash = "sha256:b84f94a01b0a743c14607cc27840b5a09daba16005372cce747455d8ca2f25fd"},
 ]

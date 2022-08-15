@@ -45,9 +45,9 @@ conn = database.get_conn()
 
 @Korone.on_message(filters.cmd("ping") & filters.sudo)
 async def ping(bot: Korone, message: Message):
-    first = datetime.now()
+    first = datetime.datetime.now()
     sent = await message.reply_text("<b>Pong!</b>")
-    second = datetime.now()
+    second = datetime.datetime.now()
     time = (second - first).microseconds / 1000
     await sent.edit_text(f"<b>Pong!</b> <code>{time}</code>ms")
 
