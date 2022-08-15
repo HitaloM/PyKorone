@@ -7,7 +7,7 @@ STRINGS:
       Hi <b>{user}</b>!
 
       I am the <b>{bot_name}</b>, an interactive bot that loves to participate in groups! ^^
-      <b>Version:</b> {short_hash} <code>({version_code})</code>
+      <b>Version:</b> {short_hash} (<code>{version_code}</code>)
     help_text: |
       Have a look at the following for an idea of some of the things I can help you with.
 
