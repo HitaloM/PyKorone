@@ -45,6 +45,7 @@ STRINGS:
     module_name: Languages
     language_changed_alert: The language has changed to {lang_name}.
     not_admin: You're not an administrator!
+    contrib_locale: 🌎 Help us with translations!
     language_text: |
       Choose the desired language below.
       Your current language: <b>{lang_name}</b>

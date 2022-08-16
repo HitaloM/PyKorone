@@ -44,6 +44,16 @@ async def language(bot: Korone, union: Union[Message, CallbackQuery], strings):
 
     keyboard = array_chunk(buttons, 2)
 
+    keyboard.append(
+        [
+            (
+                strings["contrib_locale"],
+                "https://crowdin.com/project/pykorone/",
+                "url",
+            )
+        ]
+    )
+
     if isinstance(union, CallbackQuery):
         keyboard.append([(strings["back_button"], "start")])
 
