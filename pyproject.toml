@@ -28,6 +28,7 @@ beautifulsoup4 = "^4.11.1"
 lxml = "^4.9.1"
 yt-dlp = "^2022.7.18"
 gpytranslate = "^1.4.0"
+wikipedia = {git = "https://github.com/HitaloSama/wikipedia"}
 
 [tool.poetry.dev-dependencies]
 black = "^22.6"

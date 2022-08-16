@@ -787,6 +787,26 @@ optional = false
 python-versions = ">=3.7"
 
 [[package]]
+name = "wikipedia"
+version = "1.4.1"
+description = "Wikipedia API for Python"
+category = "main"
+optional = false
+python-versions = "*"
+develop = false
+
+[package.dependencies]
+beautifulsoup4 = "*"
+lxml = "*"
+requests = ">=2.0.0"
+
+[package.source]
+type = "git"
+url = "https://github.com/HitaloSama/wikipedia"
+reference = "master"
+resolved_reference = "8f580287073d7dba3d30e019282937688f9dbbbb"
+
+[[package]]
 name = "yarl"
 version = "1.8.1"
 description = "Yet another URL library"
@@ -820,7 +840,7 @@ fast = ["uvloop"]
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.10"
-content-hash = "4d1f08254ec3e87ba6216d59080dbf090e0fce02866394c5a5351c47e457e1e0"
+content-hash = "9007249e4eb6a87455cab8188efe4aa3b279cce78aef031ec0b1f9b7b97816d6"
 
 [metadata.files]
 aiofiles = [
@@ -1899,6 +1919,7 @@ websockets = [
     {file = "websockets-10.3-pp37-pypy37_pp73-win_amd64.whl", hash = "sha256:3eda1cb7e9da1b22588cefff09f0951771d6ee9fa8dbe66f5ae04cc5f26b2b55"},
     {file = "websockets-10.3.tar.gz", hash = "sha256:fc06cc8073c8e87072138ba1e431300e2d408f054b27047d047b549455066ff4"},
 ]
+wikipedia = []
 yarl = [
     {file = "yarl-1.8.1-cp310-cp310-macosx_10_9_universal2.whl", hash = "sha256:abc06b97407868ef38f3d172762f4069323de52f2b70d133d096a48d72215d28"},
     {file = "yarl-1.8.1-cp310-cp310-macosx_10_9_x86_64.whl", hash = "sha256:07b21e274de4c637f3e3b7104694e53260b5fc10d51fb3ec5fed1da8e0f754e3"},

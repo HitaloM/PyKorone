@@ -245,3 +245,14 @@ STRINGS:
       <b>Notes:</b>
       You can translate texts of replyied messages.
       Just reply to texts with /tr and the message will be translated into the group language.
+
+
+  wiki:
+    module_name: Wiki
+    no_results: "Sorry no results were found!\n\n<b>Error</b>: <code>{error}</code>"
+    read_more: "Read more..."
+    module_help: |
+      Here are some useful commands for getting information from Wikipedia or similar providers.
+
+      <b>Commands:</b>
+       - /wiki &lt;query&gt;: Search for a topic on Wikipedia.
