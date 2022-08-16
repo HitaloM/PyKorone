@@ -12,11 +12,8 @@ from pyrogram.types import CallbackQuery, Message
 
 from korone.bot import Korone
 from korone.database.languages import change_chat_lang, change_user_lang
-from korone.modules.utils.languages import (
-    LANGUAGES,
-    get_chat_lang_info,
-    get_strings_dec,
-)
+
+from .utils.languages import LANGUAGES, get_chat_lang_info, get_strings_dec
 
 
 @Korone.on_message(filters.cmd("language"))

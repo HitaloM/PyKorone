@@ -6,8 +6,8 @@ import logging
 
 from pyrogram import idle
 
-from korone.bot import Korone
-from korone.database import database
+from .bot import Korone
+from .database import database
 
 # Custom logging format
 logging.basicConfig(

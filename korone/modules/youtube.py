@@ -17,18 +17,19 @@ from pyrogram.types import CallbackQuery, Message
 from yt_dlp import DownloadError, YoutubeDL
 
 from korone.bot import Korone
-from korone.modules.utils.convert import pretty_size
-from korone.modules.utils.disable import disableable_dec
-from korone.modules.utils.languages import get_strings_dec
-from korone.modules.utils.messages import get_args
-from korone.modules.utils.youtube import (
+from korone.utils.aioify import run_async
+
+from .utils.convert import pretty_size
+from .utils.disable import disableable_dec
+from .utils.languages import get_strings_dec
+from .utils.messages import get_args
+from .utils.youtube import (
     PLAYLIST_REGEX,
     TIME_REGEX,
     TWITTER_REGEX,
     YOUTUBE_REGEX,
     extract_info,
 )
-from korone.utils.aioify import run_async
 
 
 @Korone.on_message(filters.cmd("ytdl"))

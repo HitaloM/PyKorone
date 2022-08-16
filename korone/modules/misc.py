@@ -6,8 +6,9 @@ from pyrogram import filters
 from pyrogram.types import Message
 
 from korone.bot import Korone
-from korone.modules.utils.disable import disableable_dec
-from korone.modules.utils.languages import get_strings_dec
+
+from .utils.disable import disableable_dec
+from .utils.languages import get_strings_dec
 
 
 @Korone.on_message(filters.cmd("cat"))

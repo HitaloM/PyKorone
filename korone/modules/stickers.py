@@ -11,11 +11,12 @@ from pyrogram import filters
 from pyrogram.types import Message
 
 from korone.bot import Korone
-from korone.modules.utils.disable import disableable_dec
-from korone.modules.utils.images import sticker_color_sync
-from korone.modules.utils.languages import get_strings_dec
-from korone.modules.utils.messages import get_args, need_args_dec
 from korone.utils.aioify import run_async
+
+from .utils.disable import disableable_dec
+from .utils.images import sticker_color_sync
+from .utils.languages import get_strings_dec
+from .utils.messages import get_args, need_args_dec
 
 
 @Korone.on_message(filters.cmd("getsticker") & filters.reply)

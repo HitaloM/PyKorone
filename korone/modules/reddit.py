@@ -10,10 +10,11 @@ from pyrogram.helpers import ikb
 from pyrogram.types import Message
 
 from korone.bot import Korone
-from korone.modules.utils.disable import disableable_dec
-from korone.modules.utils.languages import get_strings_dec
-from korone.modules.utils.messages import get_args, need_args_dec
-from korone.modules.utils.reddit import (
+
+from .utils.disable import disableable_dec
+from .utils.languages import get_strings_dec
+from .utils.messages import get_args, need_args_dec
+from .utils.reddit import (
     REDDIT,
     bodyfetcherfallback,
     imagefetcherfallback,

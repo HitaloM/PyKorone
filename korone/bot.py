@@ -11,9 +11,10 @@ from pyrogram.errors import BadRequest
 from pyrogram.raw.all import layer
 from pyrogram.types import User
 
-from korone import __version__
-from korone.config import config
-from korone.utils import load_modules, shell_exec
+from . import __version__
+from .config import config
+from .utils.modules import load_modules
+from .utils.system import shell_exec
 
 logger = logging.getLogger(__name__)
 

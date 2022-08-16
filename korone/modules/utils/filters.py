@@ -11,7 +11,8 @@ from pyrogram.enums import ParseMode
 from pyrogram.types import InlineKeyboardButton, Message, User
 
 from korone.database.filters import get_all_filters
-from korone.modules.utils.languages import get_chat_lang
+
+from .languages import get_chat_lang
 
 BTN_URL_REGEX = re.compile(r"(\[([^\[]+?)\]\(buttonurl:(?:/{0,2})(.+?)(:same)?\))")
 

@@ -11,9 +11,10 @@ from pyrogram.types import Message
 
 from korone.bot import Korone
 from korone.config import config
-from korone.modules.utils.disable import disableable_dec
-from korone.modules.utils.languages import get_strings_dec
-from korone.modules.utils.messages import get_args
+
+from .utils.disable import disableable_dec
+from .utils.languages import get_strings_dec
+from .utils.messages import get_args
 
 
 @Korone.on_message(filters.cmd("user"))

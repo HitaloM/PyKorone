@@ -10,15 +10,16 @@ from pyrogram.nav import Pagination
 from pyrogram.types import CallbackQuery, Message
 
 from korone.bot import Korone
-from korone.modules.utils.languages import (
+from korone.utils.modules import HELPABLE
+
+from .utils.languages import (
     get_chat_lang,
     get_chat_lang_info,
     get_string,
     get_string_sync,
     get_strings_dec,
 )
-from korone.modules.utils.messages import get_args
-from korone.utils.modules import HELPABLE
+from .utils.messages import get_args
 
 
 @Korone.on_message(filters.cmd("start"))

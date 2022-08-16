@@ -13,9 +13,10 @@ from korone.database.disable import (
     get_disabled_cmds,
     is_cmd_disabled,
 )
-from korone.modules.utils.disable import DISABLABLE_CMDS
-from korone.modules.utils.languages import get_strings_dec
-from korone.modules.utils.messages import get_args, need_args_dec
+
+from .utils.disable import DISABLABLE_CMDS
+from .utils.languages import get_strings_dec
+from .utils.messages import get_args, need_args_dec
 
 
 @Korone.on_message(filters.cmd("disableable"))
