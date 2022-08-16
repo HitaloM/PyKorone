@@ -27,6 +27,9 @@ async def administrator_filter(_, bot, union: Union[CallbackQuery, Message]) -> 
     chat = message.chat
     user = union.from_user
 
+    if not user:
+        return False
+
     if chat.type == ChatType.PRIVATE:
         return True
 
