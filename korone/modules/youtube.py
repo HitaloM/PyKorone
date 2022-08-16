@@ -63,7 +63,7 @@ async def ytdl_command(bot: Korone, message: Message, strings):
     t = TIME_REGEX.search(url)
     temp = t.group(1) if t else 0
     if match:
-        yt = await run_async(extract_info, match.group(), download=False)
+        yt = await run_async(extract_info, ydl, match.group(), download=False)
     else:
         yt = await run_async(extract_info, ydl, "ytsearch:" + url, download=False)
         yt = yt["entries"][0]
