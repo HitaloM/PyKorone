@@ -29,6 +29,7 @@ class Korone(Client):
             api_id=config.get_config("api_id", "pyrogram"),
             api_hash=config.get_config("api_hash", "pyrogram"),
             bot_token=config.get_config("bot_token", "pyrogram"),
+            ipv6=config.get_config("ipv6", "pyrogram"),
             parse_mode=ParseMode.HTML,
             workers=config.get_config("workers", "pyrogram"),
             workdir="korone",
