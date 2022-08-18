@@ -40,7 +40,7 @@ Below you can learn how to set up the PyKorone project.
 
 Requirements
 ~~~~~~~~~~~~
-- Python 3.7+ (Python 3.10+ recommended).
+- Python 3.9+.
 - An Unix-like operating system (Windows isn't supported).
 
 Instructions
