@@ -6,7 +6,7 @@ authors = ["Hitalo <hitalo@amanoteam.com>"]
 license = "BSD-3-Clause"
 
 [tool.poetry.dependencies]
-python = "^3.10"
+python = "^3.9"
 tgcrypto = "^1.2.3"
 pyrogram = {git = "https://github.com/AmanoTeam/pyrogram"}
 sentry-sdk = "^1.8.0"
@@ -40,6 +40,7 @@ isort = "^5.10.1"
 fast = ["uvloop"]
 
 [tool.black]
+target-version = ['py39', 'py310']
 exclude = '''
 /(
     \.git

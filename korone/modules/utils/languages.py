@@ -111,7 +111,7 @@ def get_strings_dec(module, mas_name="STRINGS"):
             client: Client,
             union: Union[CallbackQuery, InlineQuery, Message],
             *args,
-            **kwargs
+            **kwargs,
         ):
             message = union.message if isinstance(union, CallbackQuery) else union
             if not isinstance(union, InlineQuery):
