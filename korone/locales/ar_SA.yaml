@@ -43,6 +43,7 @@ STRINGS:
     module_name: Languages
     language_changed_alert: The language has changed to {lang_name}.
     not_admin: You're not an administrator!
+    contrib_locale: '🌎 Help us with translations!'
     language_text: |
       Choose the desired language below.
       Your current language: <b>{lang_name}</b>
@@ -231,3 +232,12 @@ STRINGS:
       <b>Notes:</b>
       You can translate texts of replyied messages.
       Just reply to texts with /tr and the message will be translated into the group language.
+  wiki:
+    module_name: Wiki
+    no_results: "Sorry no results were found!\n\n<b>Error</b>: <code>{error}</code>"
+    read_more: "Read more..."
+    module_help: |
+      Here are some useful commands for getting information from Wikipedia or similar providers.
+
+      <b>Commands:</b>
+       - /wiki &lt;query&gt;: Search for a topic on Wikipedia.
