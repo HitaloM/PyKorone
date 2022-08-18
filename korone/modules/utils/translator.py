@@ -122,13 +122,13 @@ LANGUAGES: Iterable[str] = (
 )
 
 
-def get_tr_lang(text: str) -> str:
+def get_tr_lang(text: str, language: str) -> str:
     if len(text.split()) > 0:
         lang = text.split()[0]
         if lang.split("-")[0] not in LANGUAGES:
-            lang = "en"
+            lang = language
         if len(lang.split("-")) > 1 and lang.split("-")[1] not in LANGUAGES:
-            lang = "en"
+            lang = language
     else:
-        lang = "en"
+        lang = language
     return lang

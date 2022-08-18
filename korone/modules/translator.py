@@ -10,7 +10,7 @@ from pyrogram.types import Message
 from korone.bot import Korone
 
 from .utils.disable import disableable_dec
-from .utils.languages import get_strings_dec
+from .utils.languages import get_chat_lang, get_strings_dec
 from .utils.translator import get_tr_lang, translator
 
 
@@ -19,7 +19,8 @@ from .utils.translator import get_tr_lang, translator
 @get_strings_dec("translator")
 async def translate(bot: Korone, message: Message, strings):
     text = message.text[4:]
-    lang = get_tr_lang(text)
+    language = await get_chat_lang(message.chat.id)
+    lang = get_tr_lang(text, language)
 
     text = text.replace(lang, "", 1).strip() if text.startswith(lang) else text
 
