@@ -3,6 +3,7 @@
 
 from .aioify import run_async
 from .filters import administrator_filter, command_filter, sudo_filter
+from .logger import log
 from .modules import load_modules
 from .system import shell_exec
 
@@ -13,4 +14,5 @@ __all__ = (
     "sudo_filter",
     "load_modules",
     "run_async",
+    "log",
 )

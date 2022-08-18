@@ -1,7 +1,6 @@
 # SPDX-License-Identifier: BSD-3-Clause
 # Copyright (c) 2020-2022 Hitalo <https://github.com/HitaloSama>
 
-import logging
 import os
 from typing import Dict, Union
 
@@ -15,15 +14,14 @@ from korone.bot import Korone
 from korone.database.chats import get_chat_by_id
 from korone.database.languages import change_chat_lang, change_user_lang
 from korone.database.users import get_user_by_id
-
-logger = logging.getLogger(__name__)
+from korone.utils.logger import log
 
 LANGUAGES: Dict = {}
 
-logger.info("[%s] Loading locales...", Korone.__name__)
+log.info("[%s] Loading locales...", Korone.__name__)
 
 for filename in sorted(os.listdir("korone/locales")):
-    logger.debug("Loading language file " + filename)
+    log.debug("Loading language file " + filename)
     with open("korone/locales/" + filename, "r", encoding="utf8") as f:
         glang = yaml.load(f, Loader=yaml.CLoader)
 
@@ -32,7 +30,7 @@ for filename in sorted(os.listdir("korone/locales")):
 
         LANGUAGES[lang_code] = glang
 
-logger.info(
+log.info(
     "[%s] Languages loaded: %s",
     Korone.__name__,
     [

@@ -1,13 +1,10 @@
 # SPDX-License-Identifier: BSD-3-Clause
 # Copyright (c) 2020-2022 Hitalo <https://github.com/HitaloSama>
 
-import logging
-
 import aiosqlite
 
 from korone.bot import Korone
-
-logger = logging.getLogger(__name__)
+from korone.utils.logger import log
 
 
 class Database(object):
@@ -64,7 +61,7 @@ class Database(object):
         self.conn = conn
         self.is_connected: bool = True
 
-        logger.info(
+        log.info(
             "[%s] The database has been connected.",
             Korone.__name__.lower(),
         )
@@ -75,7 +72,7 @@ class Database(object):
 
         self.is_connected: bool = False
 
-        logger.info(
+        log.info(
             "[%s] The database was closed.",
             Korone.__name__.lower(),
         )

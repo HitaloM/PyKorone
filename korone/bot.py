@@ -2,7 +2,6 @@
 # Copyright (c) 2020-2022 Hitalo <https://github.com/HitaloSama>
 
 import datetime
-import logging
 
 import sentry_sdk
 from pyrogram import Client
@@ -13,10 +12,9 @@ from pyrogram.types import User
 
 from . import __version__
 from .config import config
+from .utils.logger import log
 from .utils.modules import load_modules
 from .utils.system import shell_exec
-
-logger = logging.getLogger(__name__)
 
 
 class Korone(Client):
@@ -49,7 +47,7 @@ class Korone(Client):
         load_modules(self)
 
         if config.get_config("sentry_key"):
-            logger.info("[%s] Starting sentry.io integraion...", self.name)
+            log.info("[%s] Starting sentry.io integraion...", self.name)
 
             sentry_sdk.init(config.get_config("sentry_key"))
 
@@ -58,7 +56,7 @@ class Korone(Client):
         self.version = str((await shell_exec("git rev-parse --short HEAD"))[0])
 
         self.me = await self.get_me()
-        logger.info(
+        log.info(
             "[%s] Running with Pyrogram v%s (Layer %s) started on @%s. Hi!",
             self.name,
             __version__,
@@ -77,7 +75,7 @@ class Korone(Client):
                     disable_web_page_preview=True,
                 )
         except BadRequest:
-            logger.error(
+            log.error(
                 "[%s] Error while sending the startup message.",
                 self.name,
                 exc_info=True,
@@ -85,7 +83,7 @@ class Korone(Client):
 
     async def stop(self):
         await super().stop()
-        logger.warning("[%s] Stopped. Bye!", self.name)
+        log.warning("[%s] Stopped. Bye!", self.name)
 
     async def log(self, text: str, *args, **kwargs):
         await self.send_message(

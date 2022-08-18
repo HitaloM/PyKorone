@@ -1,7 +1,6 @@
 # SPDX-License-Identifier: BSD-3-Clause
 # Copyright (c) 2020-2022 Hitalo <https://github.com/HitaloSama>
 
-import logging
 from importlib import import_module
 from pathlib import Path
 from typing import List
@@ -11,7 +10,7 @@ from pyrogram.handlers.handler import Handler
 
 from korone.config import config
 
-logger = logging.getLogger(__name__)
+from .logger import log
 
 HELPABLE: List[str] = []
 ALL_MODULES: List[str] = []
@@ -41,7 +40,7 @@ def load_modules(client: Client):
                 pass
 
     if count > 0:
-        logger.info(
+        log.info(
             "[%s] Successfully loaded %s module%s from %s",
             client.name,
             count,
@@ -49,7 +48,7 @@ def load_modules(client: Client):
             modules_path,
         )
     else:
-        logger.warning(
+        log.warning(
             "[%s] No module loaded from %s",
             client.name,
             modules_path,

@@ -1,7 +1,6 @@
 # SPDX-License-Identifier: BSD-3-Clause
 # Copyright (c) 2020-2022 Hitalo <https://github.com/HitaloSama>
 
-import logging
 from typing import List
 
 from pyrogram import filters
@@ -9,14 +8,13 @@ from pyrogram.types import Message
 
 from korone.bot import Korone
 from korone.database.disable import is_cmd_disabled
-
-logger = logging.getLogger(__name__)
+from korone.utils.logger import log
 
 DISABLABLE_CMDS: List[str] = []
 
 
 def disableable_dec(command):
-    logger.debug(
+    log.debug(
         "[%s] Adding %s to the disableable commands...",
         Korone.__name__,
         command,
