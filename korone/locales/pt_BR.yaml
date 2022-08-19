@@ -209,12 +209,19 @@ STRINGS:
     your_id: "\nSeu ID: <code>{id}</code>"
     reply_id: "\nID respondido: <code>{id}</code>"
     forward_id: "\nID de encaminhamento: <code>{id}</code>"
+    only_for_groups: "Este comando só está disponível em grupos!"
+    only_for_admins: "Este comando só está disponível para administradores!"
+    cleaning: "Limpando..."
+    cleanup_error: "Erro ao limpar o chat: <code>{error}</code>"
+    cleaned: "<b>{accounts}</b> contas excluídas removidas."
+    no_deleted: "Nenhuma conta excluída encontrada."
     module_help: |
-      Obter informações cruciais de usuário nunca foi tão fácil, graças a este módulo.
+      Obter informações de cruciais de usuários nunca foi tão fácil, graças a este módulo.
 
       <b>Comandos:</b>
        - /user &lt;username ou id&gt;: Obter informação sobre um usuário (também funciona com resposta).
-       - /id: Obtenha seu ID, ID do chat, ID do usuário respondido e o ID do usuário encaminhado respondido.
+       - /id: Obtenha seu ID, ID do chat, ID do usuário respondido e ID do usuário encaminhado respondido.
+       - /cleanup: Limpar contas excluídas do grupo.
   translator:
     module_name: Tradutor
     usage: "<b>Use:</b> <code>/tr &lt;idioma&gt; texto para traduzir</code> (também funciona com resposta)."
