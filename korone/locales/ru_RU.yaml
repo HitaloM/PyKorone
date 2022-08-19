@@ -132,7 +132,7 @@ STRINGS:
     reddit_private: "<b>r/{sub}</b> is private!"
     reddit_not_found: "<b>r/{sub}</b> dont't exist!"
     reddit_no_content: "I could not find any valid content in <b>r/{sub}</b>!"
-    reddit_download_error: "Failed to download the content from <b>r/{sub}</b>!\n Title: <b>{title}</b>\nURL: {image_url}"
+    reddit_download_error: "Failed to download the content from <b>r/{sub}</b>!\nTitle: <b>{title}</b>\nURL: {image_url}"
     module_help: |
       Some useful commands to get some random content from Reddit.
 
@@ -209,12 +209,19 @@ STRINGS:
     your_id: "\nYour ID: <code>{id}</code>"
     reply_id: "\nReplied ID: <code>{id}</code>"
     forward_id: "\nForwarded ID: <code>{id}</code>"
+    only_for_groups: "This command is only available in groups!"
+    only_for_admins: "This command is only available for administrators!"
+    cleaning: "Cleaning..."
+    cleanup_error: "Error while cleaning up the chat: <code>{error}</code>"
+    cleaned: "Cleaned <b>{accounts}</b> deleted accounts."
+    no_deleted: "No deleted accounts found."
     module_help: |
       Obtaining crucial user information has never been easier, thanks to this module.
 
       <b>Commands:</b>
        - /user &lt;username or id&gt;: Get info about a user (also works with reply).
        - /id: Get your ID, chat ID, replied user ID, and forwarded replied user ID.
+       - /cleanup: Cleanup deleted accounts from the chat.
   translator:
     module_name: Translator
     usage: "<b>Use:</b> <code>/tr &lt;lang&gt; text to translate</code> (also works with reply)."
