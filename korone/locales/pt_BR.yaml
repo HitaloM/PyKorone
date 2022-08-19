@@ -132,7 +132,7 @@ STRINGS:
     reddit_private: "<b>r/{sub}</b> é privado!"
     reddit_not_found: "<b>r/{sub}</b> não existe!"
     reddit_no_content: "Não encontrei nenhum conteúdo válido no <b>r/{sub}</b>!"
-    reddit_download_error: "Failed to download the content from <b>r/{sub}</b>!\nTitle: <b>{title}</b>\nURL: {image_url}"
+    reddit_download_error: "Falha ao baixar o conteúdo de <b>r/{sub}</b>\nTítulo: <b>{title}</b>\nURL: {image_url}"
     module_help: |
       Alguns comandos úteis para obter algum conteúdo aleatório do Reddit.
 
@@ -209,19 +209,19 @@ STRINGS:
     your_id: "\nSeu ID: <code>{id}</code>"
     reply_id: "\nID respondido: <code>{id}</code>"
     forward_id: "\nID de encaminhamento: <code>{id}</code>"
-    only_for_groups: "This command is only available in groups!"
-    only_for_admins: "This command is only available for administrators!"
-    cleaning: "Cleaning..."
-    cleanup_error: "Error while cleaning up the chat: <code>{error}</code>"
-    cleaned: "Cleaned <b>{accounts}</b> deleted accounts."
-    no_deleted: "No deleted accounts found."
+    only_for_groups: "Este comando só está disponível em grupos!"
+    only_for_admins: "Este comando só está disponível para administradores!"
+    cleaning: "Limpando..."
+    cleanup_error: "Erro ao limpar o chat: <code>{error}</code>"
+    cleaned: "<b>{accounts}</b> contas excluídas removidas."
+    no_deleted: "Nenhuma conta excluída encontrada."
     module_help: |
-      Obtaining crucial user information has never been easier, thanks to this module.
+      Obter informações de cruciais de usuários nunca foi tão fácil, graças a este módulo.
 
-      <b>Commands:</b>
-       - /user &lt;username or id&gt;: Get info about a user (also works with reply).
-       - /id: Get your ID, chat ID, replied user ID, and forwarded replied user ID.
-       - /cleanup: Cleanup deleted accounts from the chat.
+      <b>Comandos:</b>
+       - /user &lt;username ou id&gt;: Obter informação sobre um usuário (também funciona com resposta).
+       - /id: Obtenha seu ID, ID do chat, ID do usuário respondido e ID do usuário encaminhado respondido.
+       - /cleanup: Limpar contas excluídas do grupo.
   translator:
     module_name: Tradutor
     usage: "<b>Use:</b> <code>/tr &lt;idioma&gt; texto para traduzir</code> (também funciona com resposta)."
