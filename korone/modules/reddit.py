@@ -123,7 +123,6 @@ async def reddit_body(bot: Korone, message: Message, strings):
     for _ in range(10):
         try:
             post = await subreddit.random() or await bodyfetcherfallback(subreddit)
-            post.title
         except redex.Forbidden:
             await message.reply_text(strings["reddit_private"].format(sub=sub))
             return

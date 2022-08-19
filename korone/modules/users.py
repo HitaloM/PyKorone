@@ -6,7 +6,13 @@ import html
 import httpx
 from pyrogram import filters
 from pyrogram.enums import ChatMemberStatus, ChatType
-from pyrogram.errors import PeerIdInvalid, UsernameInvalid, UserNotParticipant
+from pyrogram.errors import (
+    BadRequest,
+    Forbidden,
+    PeerIdInvalid,
+    UsernameInvalid,
+    UserNotParticipant,
+)
 from pyrogram.types import Message
 
 from korone.bot import Korone
@@ -123,6 +129,41 @@ async def user_id(bot: Korone, message: Message, strings):
             text += strings["forward_id"].format(id=user_id)
 
     await message.reply_text(text)
+
+
+@Korone.on_message(filters.cmd("cleanup"))
+@get_strings_dec("users")
+async def cleanup(bot: Korone, message: Message, strings):
+    if message.chat.type == ChatType.PRIVATE:
+        await message.reply_text(strings["only_for_groups"])
+        return
+
+    if not await filters.admin(bot, message):
+        await message.reply_text(strings["only_for_admins"])
+        return
+
+    deleted = []
+    sent = await message.reply_text(strings["cleaning"])
+    async for t in bot.get_chat_members(chat_id=message.chat.id):
+        if t.user.is_deleted:
+            try:
+                await bot.ban_chat_member(message.chat.id, t.user.id)
+                await message.chat.unban_member(t.user.id)
+                deleted.append(t)
+            except BadRequest:
+                pass
+            except Forbidden as e:
+                await message.reply_text(
+                    strings["cleanup_error"].format(
+                        error=e,
+                    )
+                )
+                return
+
+    if deleted:
+        await sent.edit_text(strings["cleaned"].format(accounts=len(deleted)))
+    else:
+        await sent.edit_text(strings["no_deleted"])
 
 
 __help__ = True
