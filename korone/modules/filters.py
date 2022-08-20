@@ -68,6 +68,10 @@ async def check_filters(bot: Korone, message: Message):
             continue
 
         user = await bot.get_users(message.from_user.id)
+
+        if not message.from_user:
+            return
+
         if matched:
             data, keyboard = button_parser(rfilter["data"])
             keyboard = InlineKeyboardMarkup(keyboard) if keyboard else None

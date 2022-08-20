@@ -29,6 +29,7 @@ lxml = "^4.9.1"
 yt-dlp = "^2022.7.18"
 gpytranslate = "^1.4.0"
 wikipedia = {git = "https://github.com/HitaloSama/wikipedia"}
+aiocron = "^1.8"
 
 [tool.poetry.dev-dependencies]
 black = "^22.6"

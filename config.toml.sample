@@ -10,6 +10,7 @@ workers = 24
 [korone]
 sudoers = []
 logs_channel = 0
+backups_channel = 0
 reddit_id = ""
 reddit_secret = ""
 sentry_key = ""

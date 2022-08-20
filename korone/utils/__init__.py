@@ -2,6 +2,7 @@
 # Copyright (c) 2020-2022 Hitalo <https://github.com/HitaloSama>
 
 from .aioify import run_async
+from .backup import save
 from .filters import administrator_filter, command_filter, sudo_filter
 from .logger import log
 from .modules import load_modules
@@ -15,4 +16,5 @@ __all__ = (
     "load_modules",
     "run_async",
     "log",
+    "save",
 )

@@ -3,6 +3,7 @@
 
 import datetime
 
+import aiocron
 import sentry_sdk
 from pyrogram import Client
 from pyrogram.enums import ParseMode
@@ -12,6 +13,7 @@ from pyrogram.types import User
 
 from . import __version__
 from .config import config
+from .utils import backup
 from .utils.logger import log
 from .utils.modules import load_modules
 from .utils.system import shell_exec
@@ -63,6 +65,11 @@ class Korone(Client):
             layer,
             self.me.username,
         )
+
+        if config.get_config("backups_channel"):
+            aiocron.crontab("0 * * * *", func=backup.save, args=(self,), start=True)
+        else:
+            log.info("[%s] Backups disabled.", self.name)
 
         try:
             for sudo in self.sudoers:
