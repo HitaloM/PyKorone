@@ -20,29 +20,35 @@ class Database(object):
         # Define the tables
         await conn.executescript(
             """
-        CREATE TABLE IF NOT EXISTS users (
+        CREATE TABLE IF NOT EXISTS users(
             id INTEGER PRIMARY KEY,
             language VARCHAR(2) NOT NULL DEFAULT \"en\",
             registration_time INTEGER NOT NULL
         );
 
-        CREATE TABLE IF NOT EXISTS chats (
+        CREATE TABLE IF NOT EXISTS chats(
             id INTEGER PRIMARY KEY,
             language VARCHAR(2) NOT NULL DEFAULT \"en\",
             registration_time INTEGER NOT NULL
         );
 
-        CREATE TABLE IF NOT EXISTS disabled (
+        CREATE TABLE IF NOT EXISTS disabled(
             chat_id INTEGER,
             disabled_cmd TEXT
         );
 
         CREATE TABLE IF NOT EXISTS filters(
-            chat_id INTEGER ,
+            chat_id INTEGER,
             handler TEXT,
             data TEXT,
             file_id TEXT,
             filter_type TEXT
+        );
+
+        CREATE TABLE IF NOT EXISTS afk(
+            user_id INTEGER,
+            reason TEXT,
+            time INTEGER
         );
         """
         )
