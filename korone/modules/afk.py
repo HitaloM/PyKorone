@@ -9,7 +9,7 @@ from datetime import datetime
 import humanize
 from pyrogram import filters
 from pyrogram.enums import MessageEntityType
-from pyrogram.errors import BadRequest, Forbidden, UsernameNotOccupied
+from pyrogram.errors import BadRequest, FloodWait, Forbidden
 from pyrogram.types import Message
 
 from ..bot import Korone
@@ -104,8 +104,10 @@ async def reply_afk(bot: Korone, message: Message, strings):
                 user = await bot.get_users(
                     message.text[ent.offset : ent.offset + ent.length]
                 )
-            except (IndexError, KeyError, UsernameNotOccupied):
+            except (IndexError, KeyError, BadRequest):
                 return
+            except FloodWait as e:
+                await sleep(e.value)
 
             if user in chk_users:
                 return
