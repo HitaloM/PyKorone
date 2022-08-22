@@ -9,7 +9,7 @@ from datetime import datetime
 import humanize
 from pyrogram import filters
 from pyrogram.enums import MessageEntityType
-from pyrogram.errors import BadRequest, Forbidden
+from pyrogram.errors import BadRequest, Forbidden, UsernameNotOccupied
 from pyrogram.types import Message
 
 from ..bot import Korone
@@ -57,7 +57,7 @@ async def afk(bot: Korone, message: Message, strings):
         )
 
 
-@Korone.on_message(~filters.private & filters.all, group=2)
+@Korone.on_message(~filters.private & ~filters.bot & filters.all, group=2)
 @get_strings_dec("afk")
 async def no_longer_afk(bot: Korone, message: Message, strings):
     if not message.from_user:
@@ -80,7 +80,7 @@ async def no_longer_afk(bot: Korone, message: Message, strings):
             await sent.delete()
 
 
-@Korone.on_message(~filters.private & filters.all, group=3)
+@Korone.on_message(~filters.private & ~filters.bot & filters.all, group=3)
 @get_strings_dec("afk")
 async def reply_afk(bot: Korone, message: Message, strings):
     if not message.from_user:
@@ -100,10 +100,11 @@ async def reply_afk(bot: Korone, message: Message, strings):
             if ent.type != MessageEntityType.MENTION:
                 return
 
-            user = await bot.get_users(
-                message.text[ent.offset : ent.offset + ent.length]
-            )
-            if not user:
+            try:
+                user = await bot.get_users(
+                    message.text[ent.offset : ent.offset + ent.length]
+                )
+            except (IndexError, KeyError, UsernameNotOccupied):
                 return
 
             if user in chk_users:
@@ -122,7 +123,7 @@ async def reply_afk(bot: Korone, message: Message, strings):
                 chat.first_name,
                 strings,
             )
-    elif message.reply_to_message:
+    elif message.reply_to_message and message.reply_to_message.from_user:
         await check_afk(
             message,
             message.reply_to_message.from_user.id,

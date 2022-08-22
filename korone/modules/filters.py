@@ -26,6 +26,8 @@ loop = asyncio.get_event_loop()
 @Korone.on_message(filters.group & filters.text & filters.incoming, group=1)
 async def check_filters(bot: Korone, message: Message):
     afilters = await get_all_filters(message.chat.id)
+    if not message.from_user:
+        return
 
     if not afilters:
         return
@@ -62,9 +64,6 @@ async def check_filters(bot: Korone, message: Message):
             continue
 
         user = await bot.get_users(message.from_user.id)
-
-        if not message.from_user:
-            return
 
         if matched:
             data, keyboard = button_parser(rfilter["data"])
