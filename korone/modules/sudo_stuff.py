@@ -30,13 +30,12 @@ from pyrogram.types import (
     Video,
 )
 
-from korone.bot import Korone
-from korone.database import database
-from korone.database.chats import filter_chats_by_language
-from korone.database.users import filter_users_by_language
-from korone.utils.modules import ALL_MODULES
-from korone.utils.system import shell_exec
-
+from ..bot import Korone
+from ..database import database
+from ..database.chats import filter_chats_by_language
+from ..database.users import filter_users_by_language
+from ..utils.modules import ALL_MODULES
+from ..utils.system import shell_exec
 from .utils.languages import LANGUAGES
 from .utils.messages import get_args
 

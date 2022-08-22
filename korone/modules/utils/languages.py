@@ -10,11 +10,11 @@ from pyrogram import Client
 from pyrogram.enums import ChatType
 from pyrogram.types import CallbackQuery, InlineQuery, Message
 
-from korone.bot import Korone
-from korone.database.chats import get_chat_by_id
-from korone.database.languages import change_chat_lang, change_user_lang
-from korone.database.users import get_user_by_id
-from korone.utils.logger import log
+from ...bot import Korone
+from ...database.chats import get_chat_by_id
+from ...database.languages import change_chat_lang, change_user_lang
+from ...database.users import get_user_by_id
+from ...utils.logger import log
 
 LANGUAGES: Dict = {}
 

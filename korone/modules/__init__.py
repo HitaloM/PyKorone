@@ -7,9 +7,9 @@ from pyrogram import filters
 from pyrogram.enums import ChatType
 from pyrogram.types import CallbackQuery, InlineQuery, Message
 
-from korone.bot import Korone
-from korone.database.chats import get_chat_by_id, register_chat_by_dict
-from korone.database.users import get_user_by_id, register_user_by_dict
+from ..bot import Korone
+from ..database.chats import get_chat_by_id, register_chat_by_dict
+from ..database.users import get_user_by_id, register_user_by_dict
 
 
 @Korone.on_message(group=-1)

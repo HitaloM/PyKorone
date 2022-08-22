@@ -10,9 +10,8 @@ from bs4 import BeautifulSoup as bs
 from pyrogram import filters
 from pyrogram.types import Message
 
-from korone.bot import Korone
-from korone.utils.aioify import run_async
-
+from ..bot import Korone
+from ..utils.aioify import run_async
 from .utils.disable import disableable_dec
 from .utils.images import sticker_color_sync
 from .utils.languages import get_strings_dec

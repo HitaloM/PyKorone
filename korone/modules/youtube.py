@@ -16,9 +16,8 @@ from pyrogram.helpers import ikb
 from pyrogram.types import CallbackQuery, Message
 from yt_dlp import DownloadError, YoutubeDL
 
-from korone.bot import Korone
-from korone.utils.aioify import run_async
-
+from ..bot import Korone
+from ..utils.aioify import run_async
 from .utils.convert import pretty_size
 from .utils.disable import disableable_dec
 from .utils.languages import get_strings_dec

@@ -12,9 +12,8 @@ from pyrogram.enums import MessageEntityType
 from pyrogram.errors import BadRequest, Forbidden
 from pyrogram.types import Message
 
-from korone.bot import Korone
-from korone.database.afk import is_afk, rm_afk, set_afk
-
+from ..bot import Korone
+from ..database.afk import is_afk, rm_afk, set_afk
 from .utils.disable import disableable_dec
 from .utils.languages import get_strings_dec
 from .utils.messages import get_args

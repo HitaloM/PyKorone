@@ -3,8 +3,8 @@
 
 import aiosqlite
 
-from korone.bot import Korone
-from korone.utils.logger import log
+from ..bot import Korone
+from ..utils.logger import log
 
 
 class Database(object):

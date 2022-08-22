@@ -3,7 +3,7 @@
 
 from asyncpraw import Reddit
 
-from korone.config import config
+from ...config import config
 
 REDDIT = Reddit(
     client_id=config.get_config("reddit_id"),

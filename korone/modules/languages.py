@@ -10,9 +10,8 @@ from pyrogram.errors import MessageNotModified
 from pyrogram.helpers import array_chunk, bki, ikb
 from pyrogram.types import CallbackQuery, Message
 
-from korone.bot import Korone
-from korone.database.languages import change_chat_lang, change_user_lang
-
+from ..bot import Korone
+from ..database.languages import change_chat_lang, change_user_lang
 from .utils.languages import LANGUAGES, get_chat_lang_info, get_strings_dec
 
 

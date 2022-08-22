@@ -6,8 +6,7 @@ import datetime
 from pyrogram import Client
 from pyrogram.types import InputMediaDocument
 
-from korone.config import config
-
+from ..config import config
 from .logger import log
 
 

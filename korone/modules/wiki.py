@@ -6,10 +6,9 @@ from pyrogram import filters
 from pyrogram.helpers import ikb
 from pyrogram.types import Message
 
-from korone.bot import Korone
-from korone.modules.utils.messages import get_args, need_args_dec
-from korone.utils.aioify import run_async
-
+from ..bot import Korone
+from ..modules.utils.messages import get_args, need_args_dec
+from ..utils.aioify import run_async
 from .utils.languages import get_chat_lang, get_strings_dec
 
 

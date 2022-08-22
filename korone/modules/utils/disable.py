@@ -6,9 +6,9 @@ from typing import List
 from pyrogram import filters
 from pyrogram.types import Message
 
-from korone.bot import Korone
-from korone.database.disable import is_cmd_disabled
-from korone.utils.logger import log
+from ...bot import Korone
+from ...database.disable import is_cmd_disabled
+from ...utils.logger import log
 
 DISABLABLE_CMDS: List[str] = []
 

@@ -10,8 +10,7 @@ from pyrogram import filters
 from pyrogram.errors import MessageTooLong
 from pyrogram.types import Message
 
-from korone.bot import Korone
-
+from ..bot import Korone
 from .utils.disable import disableable_dec
 from .utils.languages import get_strings_dec
 from .utils.messages import get_args

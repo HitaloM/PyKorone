@@ -9,8 +9,7 @@ from pyrogram import filters
 from pyrogram.errors import BadRequest
 from pyrogram.types import Message
 
-from korone.bot import Korone
-
+from ..bot import Korone
 from .utils.constants import PASTAMOJIS, REACTS
 from .utils.disable import disableable_dec
 from .utils.languages import get_strings_dec

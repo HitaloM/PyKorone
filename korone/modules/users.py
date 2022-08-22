@@ -15,9 +15,8 @@ from pyrogram.errors import (
 )
 from pyrogram.types import Message
 
-from korone.bot import Korone
-from korone.config import config
-
+from ..bot import Korone
+from ..config import config
 from .utils.disable import disableable_dec
 from .utils.languages import get_strings_dec
 from .utils.messages import get_args

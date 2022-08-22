@@ -8,15 +8,14 @@ from typing import List
 from pyrogram import Client
 from pyrogram.handlers.handler import Handler
 
-from korone.config import config
-
+from ..config import config
 from .logger import log
 
 HELPABLE: List[str] = []
 ALL_MODULES: List[str] = []
 
 
-def load_modules(client: Client):
+def load_modules(bot: Client):
     modules_path = config.get_config("modules_path")
 
     count = 0
@@ -33,7 +32,7 @@ def load_modules(client: Client):
             try:
                 for handler, group in getattr(module, name).handlers:
                     if isinstance(handler, Handler) and isinstance(group, int):
-                        client.add_handler(handler, group)
+                        bot.add_handler(handler, group)
 
                         count += 1
             except BaseException:
@@ -42,7 +41,7 @@ def load_modules(client: Client):
     if count > 0:
         log.info(
             "[%s] Successfully loaded %s module%s from %s",
-            client.name,
+            bot.name,
             count,
             "s" if count > 1 else "",
             modules_path,
@@ -50,6 +49,6 @@ def load_modules(client: Client):
     else:
         log.warning(
             "[%s] No module loaded from %s",
-            client.name,
+            bot.name,
             modules_path,
         )

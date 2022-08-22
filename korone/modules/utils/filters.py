@@ -10,8 +10,7 @@ from babel.dates import format_date, format_datetime, format_time
 from pyrogram.enums import ParseMode
 from pyrogram.types import InlineKeyboardButton, Message, User
 
-from korone.database.filters import get_all_filters
-
+from ...database.filters import get_all_filters
 from .languages import get_chat_lang
 
 BTN_URL_REGEX = re.compile(r"(\[([^\[]+?)\]\(buttonurl:(?:/{0,2})(.+?)(:same)?\))")

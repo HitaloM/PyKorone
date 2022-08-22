@@ -6,14 +6,13 @@ from email.message import Message
 from pyrogram import filters
 from pyrogram.enums import ChatType
 
-from korone.bot import Korone
-from korone.database.disable import (
+from ..bot import Korone
+from ..database.disable import (
     disable_command,
     enable_command,
     get_disabled_cmds,
     is_cmd_disabled,
 )
-
 from .utils.disable import DISABLABLE_CMDS
 from .utils.languages import get_strings_dec
 from .utils.messages import get_args, need_args_dec
