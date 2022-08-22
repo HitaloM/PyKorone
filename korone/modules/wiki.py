@@ -7,9 +7,9 @@ from pyrogram.helpers import ikb
 from pyrogram.types import Message
 
 from ..bot import Korone
-from ..modules.utils.messages import get_args, need_args_dec
 from ..utils.aioify import run_async
-from .utils.languages import get_chat_lang, get_strings_dec
+from ..utils.languages import get_chat_lang, get_strings_dec
+from ..utils.messages import get_args, need_args_dec
 
 
 @Korone.on_message(filters.cmd("wiki"))

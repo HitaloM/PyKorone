@@ -10,10 +10,10 @@ from pyrogram.errors import BadRequest
 from pyrogram.types import Message
 
 from ..bot import Korone
-from .utils.constants import PASTAMOJIS, REACTS
-from .utils.disable import disableable_dec
-from .utils.languages import get_strings_dec
-from .utils.messages import get_args, get_command
+from ..utils.constants import PASTAMOJIS, REACTS
+from ..utils.disable import disableable_dec
+from ..utils.languages import get_strings_dec
+from ..utils.messages import get_args, get_command
 
 
 @Korone.on_message(filters.cmd(["neko", "waifu", "hug", "pat", "slap"]))

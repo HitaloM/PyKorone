@@ -34,10 +34,10 @@ from ..bot import Korone
 from ..database import database
 from ..database.chats import filter_chats_by_language
 from ..database.users import filter_users_by_language
+from ..utils.languages import LANGUAGES
+from ..utils.messages import get_args
 from ..utils.modules import ALL_MODULES
 from ..utils.system import shell_exec
-from .utils.languages import LANGUAGES
-from .utils.messages import get_args
 
 # for stats command
 conn = database.get_conn()

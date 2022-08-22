@@ -13,9 +13,9 @@ from ..database.disable import (
     get_disabled_cmds,
     is_cmd_disabled,
 )
-from .utils.disable import DISABLABLE_CMDS
-from .utils.languages import get_strings_dec
-from .utils.messages import get_args, need_args_dec
+from ..utils.disable import DISABLABLE_CMDS
+from ..utils.languages import get_strings_dec
+from ..utils.messages import get_args, need_args_dec
 
 
 @Korone.on_message(filters.cmd("disableable"))

@@ -11,9 +11,9 @@ from pyrogram.errors import MessageTooLong
 from pyrogram.types import Message
 
 from ..bot import Korone
-from .utils.disable import disableable_dec
-from .utils.languages import get_strings_dec
-from .utils.messages import get_args
+from ..utils.disable import disableable_dec
+from ..utils.languages import get_strings_dec
+from ..utils.messages import get_args
 
 
 @Korone.on_message(filters.cmd("chinfo"))

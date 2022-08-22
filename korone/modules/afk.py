@@ -14,9 +14,9 @@ from pyrogram.types import Message
 
 from ..bot import Korone
 from ..database.afk import is_afk, rm_afk, set_afk
-from .utils.disable import disableable_dec
-from .utils.languages import get_strings_dec
-from .utils.messages import get_args
+from ..utils.disable import disableable_dec
+from ..utils.languages import get_strings_dec
+from ..utils.messages import get_args
 
 
 @Korone.on_message(filters.cmd("afk") | filters.regex(r"^(?i)brb(.*)$"), group=2)

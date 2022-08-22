@@ -7,10 +7,10 @@ from pyrogram.types import Message
 
 from ..bot import Korone
 from ..utils.aioify import run_async
-from .utils.disable import disableable_dec
-from .utils.images import pokemon_image_sync
-from .utils.languages import get_strings_dec
-from .utils.messages import get_args, get_command, need_args_dec
+from ..utils.disable import disableable_dec
+from ..utils.images import pokemon_image_sync
+from ..utils.languages import get_strings_dec
+from ..utils.messages import get_args, get_command, need_args_dec
 
 
 @Korone.on_message(filters.cmd(["pokemon", "backpokemon"]))
