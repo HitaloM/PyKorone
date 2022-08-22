@@ -50,7 +50,7 @@ async def afk(bot: Korone, message: Message, strings):
     )
 
     with suppress(BadRequest, Forbidden):
-        await sleep(5)
+        await sleep(15)
         await bot.delete_messages(
             chat_id=message.chat.id,
             message_ids=(message.id, sent.id),
@@ -76,7 +76,7 @@ async def no_longer_afk(bot: Korone, message: Message, strings):
         )
 
         with suppress(BadRequest, Forbidden):
-            await sleep(5)
+            await sleep(15)
             await sent.delete()
 
 
@@ -156,7 +156,7 @@ async def check_afk(message: Message, user_id: int, first_name: str, strings):
         sent = await message.reply_text(res)
 
         with suppress(BadRequest, Forbidden):
-            await sleep(5)
+            await sleep(15)
             await sent.delete()
 
 
