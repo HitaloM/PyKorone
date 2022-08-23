@@ -103,11 +103,9 @@ async def reply_afk(bot: Korone, message: Message, strings):
             try:
                 user = await bot.get_users(
                     message.text[ent.offset : ent.offset + ent.length]
-                )
-            except (IndexError, KeyError, BadRequest):
+                )  # todo: use database to store and retrieve users (avoiding FloodWait)
+            except (IndexError, KeyError, BadRequest, FloodWait):
                 return
-            except FloodWait as e:
-                await sleep(e.value)
 
             if user in chk_users:
                 return
