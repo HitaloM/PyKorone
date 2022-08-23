@@ -4,6 +4,7 @@
 import datetime
 
 import aiocron
+import pyrogram
 import sentry_sdk
 from pyrogram import Client
 from pyrogram.enums import ParseMode
@@ -61,7 +62,7 @@ class Korone(Client):
         log.info(
             "[%s] Running with Pyrogram v%s (Layer %s) started on @%s. Hi!",
             self.name,
-            __version__,
+            pyrogram.__version__,
             layer,
             self.me.username,
         )
@@ -77,7 +78,7 @@ class Korone(Client):
                     chat_id=sudo,
                     text=(
                         f"<b>Korone</b> <a href='https://github.com/AmanoTeam/PyKorone/commit/{self.version}'>{self.version}</a>"
-                        f" (<code>{self.version_code}</code>) started! \n<b>Pyrogram</b> <code>v{__version__}</code> (Layer {layer})"
+                        f" (<code>{self.version_code}</code>) started! \n<b>Pyrogram</b> <code>v{pyrogram.__version__}</code> (Layer {layer})"
                     ),
                     disable_web_page_preview=True,
                 )

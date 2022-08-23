@@ -19,7 +19,7 @@ from ..utils.languages import get_strings_dec
 from ..utils.messages import get_args
 
 
-@Korone.on_message(filters.cmd("afk") | filters.regex(r"^(?i)brb(.*)$"), group=2)
+@Korone.on_message(filters.cmd("afk") | filters.regex(r"^(?i)brb(.*)$"))
 @disableable_dec("afk")
 @get_strings_dec("afk")
 async def afk(bot: Korone, message: Message, strings):
