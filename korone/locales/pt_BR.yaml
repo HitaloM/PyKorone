@@ -250,22 +250,22 @@ STRINGS:
        - /wiki &lt;query&gt;: Procurar por um tópico na Wikipedia.
   afk:
     module_name: AFK
-    now_afk: "{name} is now away!{notice}"
-    notice: "\nYour afk reason was shortened to 100 characters."
-    afk_reply_time: "{name} is <b>afk</b>.\nLast seen: <code>{time} ago</code>"
-    afk_reply_reason: "{name} is <b>afk</b>.\nReason: <code>{reason}</code>\nLast seen: <code>{time} ago</code>"
+    now_afk: "{name} está indisponível!{notice}"
+    notice: "\nSeu motivo de ausência foi encurtado para 100 caracteres."
+    afk_reply_time: "{name} está <b>afk</b>.\nVisto: <code>{time} atrás</code>"
+    afk_reply_reason: "{name} está <b>afk</b>.\nMotivo: <code>{reason}</code>\nVisto: <code>{time} atrás</code>"
     afk_back_list:
-      - "{name} is here!"
-      - "{name} is back!"
-      - "{name} is now in the chat!"
-      - "{name} is awake!"
-      - "{name} is back online!"
-      - "{name} is finally here!"
-      - "Welcome back! {name}."
-      - "Where is {name}?\nIn the chat!"
+      - "{name} está aqui!"
+      - "{name} está de volta!"
+      - "{name} está no chat!"
+      - "{name} está acordado!"
+      - "{name} está online novamente!"
+      - "{name} finalmente chegou!"
+      - "Bem-vindo de volta! {name}."
+      - "Onde está {name}?\nno chat!"
     module_help: |
-      When marked as AFK, any mentions will be replied to with a message to say you're not available!
+      Quando marcado como AFK, qualquer menção será respondida com uma mensagem para informar que você não está disponível!
 
-      <b>Commands:</b>
-       - /afk &lt;reason&gt;: Mark yourself as AFK (away from keyboard).
-       - brb: Same as the afk command (but not a command).
+      <b>Comandos:</b>
+       - /afk &lt;motivo&gt;: Marque você mesmo como ausente (longe do teclado).
+       - brb: O mesmo que o comando afk (mas não é um comando).
