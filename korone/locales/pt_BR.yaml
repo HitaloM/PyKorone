@@ -174,7 +174,7 @@ STRINGS:
     audio: "💿 Áudio"
     video: "🎬 Vídeo"
     not_for_you: "Este botão não é para você!"
-    download_limit: Desculpe! Eu não posso baixar este arquivo de mídia, pois ele excede o meu limite de download de 200MB.
+    download_limit: Desculpe! Eu não posso baixar este arquivo de mídia, pois ele excede o meu limite de download de 2GB.
     downloading: "Baixando..."
     doing: "Seu pedido é uma ordem.... >-<"
     error: "Desculpe! Não consegui enviar o vídeo devido a um erro.\n<b>Erro:</b> <code>{error}</code>"

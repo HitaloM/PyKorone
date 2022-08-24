@@ -114,7 +114,7 @@ async def ytdl_menu(bot: Korone, query: CallbackQuery, strings):
         await query.answer(strings["not_for_you"], cache_time=60)
         return
 
-    if int(fsize) > 209715200:
+    if int(fsize) > 2147483648:
         await query.answer(
             strings["download_limit"],
             show_alert=True,
