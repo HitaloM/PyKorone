@@ -248,3 +248,24 @@ STRINGS:
 
       <b>Commands:</b>
        - /wiki &lt;query&gt;: Search for a topic on Wikipedia.
+  afk:
+    module_name: AFK
+    now_afk: "{name} is now away!{notice}"
+    notice: "\nYour afk reason was shortened to 100 characters."
+    afk_reply_time: "{name} is <b>afk</b>.\nLast seen: <code>{time} ago</code>"
+    afk_reply_reason: "{name} is <b>afk</b>.\nReason: <code>{reason}</code>\nLast seen: <code>{time} ago</code>"
+    afk_back_list:
+      - "{name} is here!"
+      - "{name} is back!"
+      - "{name} is now in the chat!"
+      - "{name} is awake!"
+      - "{name} is back online!"
+      - "{name} is finally here!"
+      - "Welcome back! {name}."
+      - "Where is {name}?\nIn the chat!"
+    module_help: |
+      When marked as AFK, any mentions will be replied to with a message to say you're not available!
+
+      <b>Commands:</b>
+       - /afk &lt;reason&gt;: Mark yourself as AFK (away from keyboard).
+       - brb: Same as the afk command (but not a command).
