@@ -2,6 +2,7 @@
 # Copyright (c) 2020-2022 Hitalo <https://github.com/HitaloSama>
 
 import random
+import re
 from asyncio import sleep
 from contextlib import suppress
 from datetime import datetime
@@ -23,6 +24,9 @@ from ..utils.messages import get_args
 @disableable_dec("afk")
 @get_strings_dec("afk")
 async def afk(bot: Korone, message: Message, strings):
+    if not message.from_user:
+        return
+
     if await is_afk(message.from_user.id):
         await no_longer_afk(bot, message)
         return
@@ -61,6 +65,9 @@ async def afk(bot: Korone, message: Message, strings):
 @get_strings_dec("afk")
 async def no_longer_afk(bot: Korone, message: Message, strings):
     if not message.from_user:
+        return
+
+    if re.findall(r"^[!/]\bafk\b|\bbrb\b(.*)", message.text):
         return
 
     res = await rm_afk(message.from_user.id)
