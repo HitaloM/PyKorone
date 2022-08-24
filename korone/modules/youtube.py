@@ -7,11 +7,12 @@ import os
 import re
 import shutil
 import tempfile
+from contextlib import suppress
 
 import httpx
 from pyrogram import filters
 from pyrogram.enums import ChatAction
-from pyrogram.errors import BadRequest, MessageNotModified
+from pyrogram.errors import BadRequest, MessageDeleteForbidden, MessageNotModified
 from pyrogram.helpers import ikb
 from pyrogram.types import CallbackQuery, Message
 from yt_dlp import DownloadError, YoutubeDL
@@ -103,7 +104,7 @@ async def ytdl_command(bot: Korone, message: Message, strings):
     await message.reply_text(text, reply_markup=keyboard)
 
 
-@Korone.on_callback_query(filters.regex("^(_(vid|aud))"))
+@Korone.on_callback_query(filters.regex(r"^(_(vid|aud))"))
 @get_strings_dec("youtube")
 async def ytdl_menu(bot: Korone, query: CallbackQuery, strings):
     message = query.message
@@ -203,7 +204,8 @@ async def ytdl_menu(bot: Korone, query: CallbackQuery, strings):
     except BadRequest as e:
         await message.edit_text(strings["error"].format(error=e))
     else:
-        await message.delete()
+        with suppress(MessageDeleteForbidden):
+            await message.delete()
 
     shutil.rmtree(tempdir, ignore_errors=True)
 
