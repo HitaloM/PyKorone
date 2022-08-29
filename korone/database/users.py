@@ -1,5 +1,5 @@
 # SPDX-License-Identifier: BSD-3-Clause
-# Copyright (c) 2020-2022 Hitalo <https://github.com/HitaloSama>
+# Copyright (c) 2020-2022 Hitalo M. <https://github.com/HitaloM>
 
 import time
 from sqlite3 import Row
