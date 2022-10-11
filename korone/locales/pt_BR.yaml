@@ -56,8 +56,8 @@ STRINGS:
   misc:
     module_name: Variados
     generic_error: Ocorreu um erro!
-    regex_timeout: Your regex is too slow!
-    regex_error: "An error occurred while trying to use your regex!\nError: <code>{error}</code>"
+    regex_timeout: Seu regex está muito lento!
+    regex_error: "Ocorreu um erro ao tentar usar seu regex!\nErro: <code>{error}</code>"
     module_help: |
       Alguns comandos diversos que não se encaixam em outro lugar.
 
@@ -176,7 +176,7 @@ STRINGS:
     audio: "💿 Áudio"
     video: "🎬 Vídeo"
     not_for_you: "Este botão não é para você!"
-    download_limit: Sorry! I cannot download this media as it exceeds my 2GB download limit.
+    download_limit: Desculpe! Eu não posso baixar este arquivo de mídia, pois ele excede o meu limite de download de 2GB.
     downloading: "Baixando..."
     doing: "Seu pedido é uma ordem.... >-<"
     error: "Desculpe! Não consegui enviar o vídeo devido a um erro.\n<b>Erro:</b> <code>{error}</code>"
