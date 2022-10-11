@@ -56,6 +56,8 @@ STRINGS:
   misc:
     module_name: Variados
     generic_error: Ocorreu um erro!
+    regex_timeout: Seu regex está muito lento!
+    regex_error: "Ocorreu um erro ao tentar usar seu regex!\nErro: <code>{error}</code>"
     module_help: |
       Alguns comandos diversos que não se encaixam em outro lugar.
 
