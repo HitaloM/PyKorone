@@ -58,6 +58,12 @@ STRINGS:
     generic_error: Ocorreu um erro!
     regex_timeout: Seu regex está muito lento!
     regex_error: "Ocorreu um erro ao tentar usar seu regex!\nErro: <code>{error}</code>"
+    mcstatus_api_timeout: Eu não consegui me conectar a API.
+    mcstatus_api_unavailable: A API está atualmente indisponível.
+    mcstatus_invalid_server: Servidor inválido.
+    mcstatus_fetching: Obtendo status do servidor...
+    mcstatus_no_args: Você precisa fornecer um servidor.
+    update: 🔄️ Atualizar
     module_help: |
       Alguns comandos diversos que não se encaixam em outro lugar.
 
@@ -68,6 +74,7 @@ STRINGS:
        - /bird: Envia uma imagem de pássaro aleatória.
        - /panda: Envia uma imagem de panda aleatória.
        - /redpanda: Envia uma imagem aleatória de panda vermelho.
+       - /mcserver &lt;ip&gt;: Envia o status de um servidor de Minecraft.
   fun:
     module_name: Diversão
     api_error: Ocorreu um erro ao obter os dados da API.

@@ -13,6 +13,7 @@ from pyrogram.types import Message
 from ..bot import Korone
 from ..utils.disable import disableable_dec
 from ..utils.languages import get_strings_dec
+from ..utils.messages import get_args
 
 
 @Korone.on_message(filters.cmd("cat"))
@@ -107,6 +108,67 @@ async def rpanda_photo(bot: Korone, message: Message, strings):
 
     rpanda = r.json()
     await message.reply_photo(rpanda["link"], caption="🐼")
+
+
+@Korone.on_message(filters.cmd("mcserver"))
+@disableable_dec("mcstatus")
+@get_strings_dec("misc")
+async def mcserver(bot: Korone, message: Message, strings):
+    args = get_args(message)
+
+    if not args:
+        await message.reply_text(strings["mcstatus_no_args"])
+        return
+
+    reply = await message.reply_text(strings["mcstatus_fetching"])
+
+    try:
+        async with httpx.AsyncClient(http2=True) as client:
+            r = await client.get(f"https://api.mcsrvstat.us/2/{args}")
+    except httpx.TimeoutException:
+        await reply.edit(strings["mcstatus_api_timeout"])
+        return
+
+    if r.status_code in [500, 504, 505]:
+        await reply.edit(strings["mcstatus_api_unavailable"])
+        return
+
+    a = r.json()
+    if a["online"]:
+        text = "<b>Minecraft Server:</b>"
+        text += f"\n<b>IP:</b> {a['hostname'] if 'hostname' in a else a['ip']} (<code>{a['ip']}</code>)"
+        text += f"\n<b>Port:</b> <code>{a['port']}</code>"
+        text += f"\n<b>Online:</b> <code>{a['online']}</code>"
+        text += f"\n<b>Mods:</b> <code>{len(a['mods']['names']) if 'mods' in a else 'N/A'}</code>"
+        text += f"\n<b>Players:</b> <code>{a['players']['online']}/{a['players']['max']}</code>"
+        if "list" in a["players"]:
+            text += "\n<b>Players list:</b> {}".format(
+                ", ".join(
+                    f"<a href='https://namemc.com/profile/{name}'>{name}</a>"
+                    for name in a["players"]["list"]
+                )
+            )
+
+        text += f"\n<b>Version:</b> <code>{a['version']}</code>"
+        try:
+            text += f"\n<b>Software:</b> <code>{a['software']}</code>"
+        except KeyError:
+            pass
+        text += f"\n<b>MOTD:</b> <i>{a['motd']['clean'][0]}</i>"
+
+    elif not a["ip"] or a["ip"] == "127.0.0.1":
+        await reply.edit(strings["mcstatus_invalid_server"])
+        return
+
+    else:
+        text = (
+            "<b>Minecraft Server</b>:"
+            f"\n<b>IP:</b> {a['hostname'] if 'hostname' in a else a['ip']} (<code>{a['ip']}</code>)"
+            f"\n<b>Port:</b> <code>{a['port']}</code>"
+            f"\n<b>Online:</b> <code>{a['online']}</code>"
+        )
+
+    await reply.edit_text(text, disable_web_page_preview=True)
 
 
 @Korone.on_message(filters.regex(r"^s/(.+)?/(.+)?(/.+)?") & filters.reply)
