@@ -58,23 +58,23 @@ STRINGS:
     generic_error: Ocorreu um erro!
     regex_timeout: Seu regex está muito lento!
     regex_error: "Ocorreu um erro ao tentar usar seu regex!\nErro: <code>{error}</code>"
-    mcstatus_api_timeout: Eu não consegui me conectar a API.
-    mcstatus_api_unavailable: A API está atualmente indisponível.
-    mcstatus_invalid_server: Servidor inválido.
-    mcstatus_fetching: Obtendo status do servidor...
-    mcstatus_no_args: Você precisa fornecer um servidor.
-    update: 🔄️ Atualizar
+    mcstatus_api_timeout: I cannot connect to the API.
+    mcstatus_api_unavailable: The API is currently unavailable.
+    mcstatus_invalid_server: Invalid server.
+    mcstatus_fetching: Fetching server status...
+    mcstatus_no_args: You need to specify a server.
+    update: '🔄️ Update'
     module_help: |
-      Alguns comandos diversos que não se encaixam em outro lugar.
+      Some miscellaneous commands that don't fit anywhere else.
 
-      <b>Comandos:</b>
-       - /cat: Envia uma imagem aleatória de gato.
-       - /dog: Envia uma imagem aleatória de cão.
-       - /fox: Envia uma imagem de raposa aleatória.
-       - /bird: Envia uma imagem de pássaro aleatória.
-       - /panda: Envia uma imagem de panda aleatória.
-       - /redpanda: Envia uma imagem aleatória de panda vermelho.
-       - /mcserver &lt;ip&gt;: Envia o status de um servidor de Minecraft.
+      <b>Commands:</b>
+       - /cat: Sends a random cat image.
+       - /dog: Sends a random dog image.
+       - /fox: Sends a random fox image.
+       - /bird: Sends a random bird image.
+       - /panda: Sends a random panda image.
+       - /redpanda: Sends a random red panda image.
+       - /mcserver &lt;ip&gt;: Shows the status of a Minecraft server.
   fun:
     module_name: Diversão
     api_error: Ocorreu um erro ao obter os dados da API.
