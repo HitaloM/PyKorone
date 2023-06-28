@@ -70,14 +70,14 @@ async def start(_):
 
 
 async def start_webhooks(_):
-    await bot.set_webhook(CONFIG.webhooks_url + f"/{CONFIG.token}")
+    # await bot.set_webhook(CONFIG.webhooks_url + f"/{CONFIG.token}")
     return await start(_)
 
 
 log.info("Starting loop..")
-log.info("Aiogram: Using polling method")
 
 if CONFIG.webhooks_enable:
     executor.start_webhook(dp, f'/{CONFIG.token}', on_startup=start_webhooks, port=CONFIG.webhooks_port)
 else:
+    log.info("Aiogram: Using polling method")
     executor.start_polling(dp, loop=loop, on_startup=start)

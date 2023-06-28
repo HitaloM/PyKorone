@@ -21,7 +21,7 @@ import logging
 
 from aiogram import Bot, Dispatcher, types
 from aiogram.bot.api import TelegramAPIServer, TELEGRAM_PRODUCTION
-from aiogram.contrib.fsm_storage.redis import RedisStorage2
+from aiogram.contrib.fsm_storage.redis import RedisStorage2, RedisStorage
 
 from sophie_bot.config import CONFIG
 from sophie_bot.utils.logger import log

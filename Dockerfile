@@ -1,10 +1,4 @@
-FROM python:3.10-alpine as base
-
-ENV PYTHONFAULTHANDLER=1 \
-    PYTHONHASHSEED=random \
-    PYTHONUNBUFFERED=1
-
-FROM python:3.10-slim as builder
+FROM python:3.9-slim as builder
 
 ENV PIP_DEFAULT_TIMEOUT=100 \
     PIP_DISABLE_PIP_VERSION_CHECK=1 \
@@ -22,12 +16,17 @@ RUN poetry export -f requirements.txt -E fast --without-hashes | /venv/bin/pip i
 COPY sophie_bot sophie_bot
 RUN poetry build && /venv/bin/pip install dist/*.whl
 
-FROM base as final
+FROM python:3.9-slim as final
+
+ENV PYTHONFAULTHANDLER=1 \
+    PYTHONHASHSEED=random \
+    PYTHONUNBUFFERED=1
 
 # RUN apk add --no-cache libffi libpq
 
 COPY --from=builder /venv /venv
+COPY sophie_bot /sophie_bot
 
-WORKDIR /app
+WORKDIR /
 
-CMD ["sh", "-c", "source /venv/bin/activate; python -m sophie_bot"]
+CMD ["/venv/bin/python", "-m", "sophie_bot"]

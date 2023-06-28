@@ -9,6 +9,7 @@ __pycache__/
 
 # Config
 data/bot_conf.yaml
+data/config.env
 
 # Logs
 logs/
