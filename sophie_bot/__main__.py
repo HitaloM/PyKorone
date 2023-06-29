@@ -57,7 +57,7 @@ if CONFIG.debug_mode:
 async def before_srv_task(loop):
     for module in [m for m in LOADED_MODULES if hasattr(m, '__before_serving__')]:
         log.debug('Before serving: ' + module.__name__)
-        loop.create_task(module.__before_serving__(loop))
+        await module.__before_serving__(loop)
 
 
 async def start(_):
@@ -67,7 +67,7 @@ async def start(_):
     await start_telethon()
 
     log.debug("Starting before serving task for all modules...")
-    loop.create_task(before_srv_task(loop))
+    await before_srv_task(loop)
 
     if CONFIG.debug_mode:
         log.debug("Waiting 2 seconds...")
