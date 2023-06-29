@@ -22,10 +22,11 @@ from importlib import import_module
 from aiogram import executor
 from aiogram.contrib.middlewares.logging import LoggingMiddleware
 
-from sophie_bot import dp, bot
+from sophie_bot import dp, bot, loop
 from sophie_bot.config import CONFIG
 from sophie_bot.modules import ALL_MODULES, LOADED_MODULES
 from sophie_bot.services.mongo import get_db, test_db
+from sophie_bot.services.telethon import start_telethon
 from sophie_bot.utils.logger import log
 
 if CONFIG.debug_mode:
@@ -47,8 +48,6 @@ for module_name in modules:
     LOADED_MODULES.append(imported_module)
 log.info("Modules loaded!")
 
-loop = asyncio.get_event_loop()
-
 # Import misc stuff
 import_module("sophie_bot.utils.exit_gracefully")
 if CONFIG.debug_mode:
@@ -64,6 +63,8 @@ async def before_srv_task(loop):
 async def start(_):
     get_db()
     await test_db()
+
+    await start_telethon()
 
     log.debug("Starting before serving task for all modules...")
     loop.create_task(before_srv_task(loop))
@@ -87,4 +88,4 @@ if CONFIG.webhooks_enable:
 else:
     log.info("Aiogram: Using polling method")
     get_db()
-    executor.start_polling(dp, loop=loop, on_startup=start)
+    executor.start_polling(dp, on_startup=start, loop=loop)

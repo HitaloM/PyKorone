@@ -1,6 +1,7 @@
 # Copyright (C) 2018 - 2020 MrYacha. All rights reserved. Source code available under the AGPL.
 # Copyright (C) 2019 Aiogram
 # Copyright (C) 2017 - 2020 Telethon
+from telethon import TelegramClient
 
 #
 # This file is part of SophieBot.
@@ -19,11 +20,19 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
-from telethon import TelegramClient
-
 from sophie_bot.config import CONFIG
 
 tbot = TelegramClient(CONFIG.token.split(':')[0], CONFIG.app_id, CONFIG.app_hash)
 
-# Telethon
-tbot.start(bot_token=CONFIG.token)
+
+async def start_telethon():
+    await tbot._start(
+        phone=None,
+        password=None,
+        bot_token=CONFIG.token,
+        force_sms=False,
+        code_callback=None,
+        first_name='New user',
+        last_name='',
+        max_attempts=3
+    )
