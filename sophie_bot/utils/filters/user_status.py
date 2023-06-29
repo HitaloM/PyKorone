@@ -76,7 +76,7 @@ class NotGbanned(BoundFilter):
         self.not_gbanned = not_gbanned
 
     async def check(self, message: types.Message):
-        check = mongodb.blacklisted_users.find_one({'user': message.from_user.id})
+        check = mongodb.get().blacklisted_users.find_one({'user': message.from_user.id})
         if not check:
             return True
 

@@ -40,7 +40,7 @@ async def update_users_handler(message):
     new_chat = message.chat
     if not new_chat.type == 'private':
 
-        old_chat = await db.chat_list.find_one({'chat_id': chat_id})
+        old_chat = await db.get().chat_list.find_one({'chat_id': chat_id})
 
         if not hasattr(new_chat, 'username'):
             chatnick = None
@@ -65,12 +65,12 @@ async def update_users_handler(message):
             'chat_nick': chat_new['chat_nick'],
             'chat_id': {'$ne': chat_new['chat_id']}
         }
-        if chat_new['chat_nick'] and (check := await db.chat_list.find_one(find_old_chat)):
-            await db.chat_list.delete_one({'_id': check['_id']})
+        if chat_new['chat_nick'] and (check := await db.get().chat_list.find_one(find_old_chat)):
+            await db.get().chat_list.delete_one({'_id': check['_id']})
             log.info(
                 f"Found chat ({check['chat_id']}) with same username as ({chat_new['chat_id']}), old chat was deleted.")
 
-        await db.chat_list.update_one({'chat_id': chat_id}, {"$set": chat_new}, upsert=True)
+        await db.get().chat_list.update_one({'chat_id': chat_id}, {"$set": chat_new}, upsert=True)
 
         log.debug(f"Users: Chat {chat_id} updated")
 
@@ -87,7 +87,7 @@ async def update_users_handler(message):
 
 
 async def update_user(chat_id, new_user):
-    old_user = await db.user_list.find_one({'user_id': new_user.id})
+    old_user = await db.get().user_list.find_one({'user_id': new_user.id})
 
     new_chat = [chat_id]
 
@@ -129,12 +129,12 @@ async def update_user(chat_id, new_user):
         'username': user_new['username'],
         'user_id': {'$ne': user_new['user_id']}
     }
-    if user_new['username'] and (check := await db.user_list.find_one(find_old_user)):
-        await db.user_list.delete_one({'_id': check['_id']})
+    if user_new['username'] and (check := await db.get().user_list.find_one(find_old_user)):
+        await db.get().user_list.delete_one({'_id': check['_id']})
         log.info(
             f"Found user ({check['user_id']}) with same username as ({user_new['user_id']}), old user was deleted.")
 
-    await db.user_list.update_one({'user_id': new_user.id}, {"$set": user_new}, upsert=True)
+    await db.get().user_list.update_one({'user_id': new_user.id}, {"$set": user_new}, upsert=True)
 
     log.debug(f"Users: User {new_user.id} updated")
 
@@ -239,15 +239,15 @@ async def __before_serving__(loop):
 
 async def __stats__():
     text = "* <code>{}</code> total users, in <code>{}</code> chats\n".format(
-        await db.user_list.count_documents({}),
-        await db.chat_list.count_documents({})
+        await db.get().user_list.count_documents({}),
+        await db.get().chat_list.count_documents({})
     )
 
     text += "* <code>{}</code> new users and <code>{}</code> new chats in the last 48 hours\n".format(
-        await db.user_list.count_documents({
+        await db.get().user_list.count_documents({
             'first_detected_date': {'$gte': datetime.datetime.now() - datetime.timedelta(days=2)}
         }),
-        await db.chat_list.count_documents({
+        await db.get().chat_list.count_documents({
             'first_detected_date': {'$gte': datetime.datetime.now() - datetime.timedelta(days=2)}
         })
     )

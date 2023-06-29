@@ -187,7 +187,7 @@ async def antiflood_expire_proc(message: Message, chat: dict, strings: dict, sta
         if not (data := redis.get(f'antiflood_setup:{chat["chat_id"]}')):
             await message.reply(strings['setup_corrupted'])
         else:
-            await db.antiflood.update_one(
+            await db.get().antiflood.update_one(
                 {"chat_id": chat['chat_id']},
                 {"$set": {"time": time, "count": int(data)}},
                 upsert=True
@@ -211,7 +211,7 @@ async def antiflood(message: Message, chat: dict, strings: dict):
         return await message.reply(strings['not_configured'])
 
     if message.get_args().lower() in ('off', '0', 'no'):
-        await db.antiflood.delete_one({"chat_id": chat['chat_id']})
+        await db.get().antiflood.delete_one({"chat_id": chat['chat_id']})
         await get_data.reset_cache(chat['chat_id'])
         return await message.reply(strings['turned_off'].format(chat_title=chat['chat_title']))
 
@@ -242,7 +242,7 @@ async def setfloodaction(message: Message, chat: dict, strings: dict):
     if (action := message.get_args().lower()) not in SUPPORTED_ACTIONS:
         return await message.reply(strings['invalid_args'].format(supported_actions=", ".join(SUPPORTED_ACTIONS)))
 
-    await db.antiflood.update_one(
+    await db.get().antiflood.update_one(
         {"chat_id": chat['chat_id']},
         {"$set": {"action": action}},
         upsert=True
@@ -266,7 +266,7 @@ async def cancel_state_cb(event: CallbackQuery):
 
 @cached()
 async def get_data(chat_id: int):
-    return await db.antiflood.find_one(
+    return await db.get().antiflood.find_one(
         {'chat_id': chat_id}
     )
 
@@ -281,7 +281,7 @@ async def __export__(chat_id: int):
 
 
 async def __import__(chat_id: int, data: dict):  # noqa
-    await db.antiflood.update_one(
+    await db.get().antiflood.update_one(
         {"chat_id": chat_id},
         {"$set": data}
     )

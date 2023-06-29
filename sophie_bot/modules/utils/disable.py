@@ -43,7 +43,7 @@ def disableable_dec(command):
                 if command in (aliases := message.conf['cmds']):
                     cmd = aliases[0]
 
-            check = await db.disabled.find_one({'chat_id': chat_id, 'cmds': {'$in': [cmd]}})
+            check = await db.get().disabled.find_one({'chat_id': chat_id, 'cmds': {'$in': [cmd]}})
             if check and not await is_user_admin(chat_id, user_id):
                 return
             return await func(*args, **kwargs)

@@ -88,23 +88,23 @@ async def sbroadcast(message):
     data = await get_parsed_note_list(message, split_args=-1)
     dp.register_message_handler(check_message_for_smartbroadcast)
 
-    await db.sbroadcast.drop({})
+    await db.get().sbroadcast.drop({})
 
-    chats = mongodb.chat_list.distinct('chat_id')
+    chats = mongodb.get().chat_list.distinct('chat_id')
 
     data['chats_num'] = len(chats)
     data['recived_chats'] = 0
     data['chats'] = chats
 
-    await db.sbroadcast.insert_one(data)
+    await db.get().sbroadcast.insert_one(data)
     await message.reply("Smart broadcast planned for <code>{}</code> chats".format(len(chats)))
 
 
 @register(cmds="stopsbroadcast", is_owner=True)
 async def stop_sbroadcast(message):
     dp.message_handlers.unregister(check_message_for_smartbroadcast)
-    old = await db.sbroadcast.find_one({})
-    await db.sbroadcast.drop({})
+    old = await db.get().sbroadcast.find_one({})
+    await db.get().sbroadcast.drop({})
     await message.reply(
         "Smart broadcast stopped."
         "It was sended to <code>%d</code> chats." % old['recived_chats']
@@ -120,13 +120,13 @@ async def continue_sbroadcast(message):
 # Check on smart broadcast
 async def check_message_for_smartbroadcast(message):
     chat_id = message.chat.id
-    if not (db_item := await db.sbroadcast.find_one({'chats': {'$in': [chat_id]}})):
+    if not (db_item := await db.get().sbroadcast.find_one({'chats': {'$in': [chat_id]}})):
         return
 
     text, kwargs = await t_unparse_note_item(message, db_item, chat_id)
     await send_note(chat_id, text, **kwargs)
 
-    await db.sbroadcast.update_one({'_id': db_item['_id']}, {'$pull': {'chats': chat_id}, '$inc': {'recived_chats': 1}})
+    await db.get().sbroadcast.update_one({'_id': db_item['_id']}, {'$pull': {'chats': chat_id}, '$inc': {'recived_chats': 1}})
 
 
 @register(cmds="purgecache", is_owner=True)
@@ -196,7 +196,7 @@ async def __stats__():
         text += f"* Webhooks mode, listen port: <code>{os.getenv('WEBHOOKS_PORT', 8080)}</code>\n"
     else:
         text += "* Long-polling mode\n"
-    local_db = await db.command("dbstats")
+    local_db = await db.get().command("dbstats")
     if 'fsTotalSize' in local_db:
         text += '* Database size is <code>{}</code>, free <code>{}</code>\n'.format(
             convert_size(local_db['dataSize']),

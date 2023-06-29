@@ -48,7 +48,7 @@ RESTRICTED_SYMBOLS_IN_NOTENAMES = [':', '**', '__', '`', '#', '"', '[', ']', "'"
 
 async def get_similar_note(chat_id, note_name):
     all_notes = []
-    async for note in db.notes.find({'chat_id': chat_id}):
+    async for note in db.get().notes.find({'chat_id': chat_id}):
         all_notes.extend(note['names'])
 
     if len(all_notes) > 0:
@@ -72,7 +72,7 @@ def clean_notes(func):
 
         chat_id = event.chat.id
 
-        data = await db.clean_notes.find_one({'chat_id': chat_id})
+        data = await db.get().clean_notes.find_one({'chat_id': chat_id})
         if not data:
             return
 
@@ -91,7 +91,7 @@ def clean_notes(func):
 
         msgs.append(event.message_id)
 
-        await db.clean_notes.update_one({'chat_id': chat_id}, {'$set': {'msgs': msgs}})
+        await db.get().clean_notes.update_one({'chat_id': chat_id}, {'$set': {'msgs': msgs}})
 
     return wrapped_1
 
@@ -122,7 +122,7 @@ async def save_note(message, chat, strings):
         await message.reply(strings['blank_note'])
         return
 
-    if old_note := await db.notes.find_one({'chat_id': chat_id, 'names': {'$in': note_names}}):
+    if old_note := await db.get().notes.find_one({'chat_id': chat_id, 'names': {'$in': note_names}}):
         text = strings['note_updated']
         if 'created_date' in old_note:
             note['created_date'] = old_note['created_date']
@@ -134,7 +134,7 @@ async def save_note(message, chat, strings):
         note['created_date'] = datetime.now()
         note['created_user'] = message.from_user.id
 
-    await db.notes.replace_one({'_id': old_note['_id']} if old_note else note, note, upsert=True)
+    await db.get().notes.replace_one({'_id': old_note['_id']} if old_note else note, note, upsert=True)
 
     text += strings['you_can_get_note']
     text = text.format(note_name=note_names[0], chat_title=chat['chat_title'])
@@ -160,7 +160,7 @@ async def get_note(message, strings, note_name=None, db_item=None,
     elif not rpl_id:
         rpl_id = message.message_id
 
-    if not db_item and not (db_item := await db.notes.find_one({'chat_id': chat_id, 'names': {'$in': [note_name]}})):
+    if not db_item and not (db_item := await db.get().notes.find_one({'chat_id': chat_id, 'names': {'$in': [note_name]}})):
         await bot.send_message(
             chat_id,
             strings['no_note'],
@@ -195,7 +195,7 @@ async def get_note_cmd(message, chat, strings):
         rpl_id = message.message_id
         user = message.from_user
 
-    if not (note := await db.notes.find_one({'chat_id': int(chat_id), 'names': {'$in': [note_name]}})):
+    if not (note := await db.get().notes.find_one({'chat_id': int(chat_id), 'names': {'$in': [note_name]}})):
         text = strings['cant_find_note'].format(chat_name=chat_name)
         if alleged_note_name := await get_similar_note(chat_id, note_name):
             text += strings['u_mean'].format(note_name=alleged_note_name)
@@ -224,7 +224,7 @@ async def get_note_hashtag(message, chat, regexp=None, **kwargs):
     chat_id = chat['chat_id']
 
     note_name = regexp.group(1).lower()
-    if not (note := await db.notes.find_one({'chat_id': int(chat_id), 'names': {'$in': [note_name]}})):
+    if not (note := await db.get().notes.find_one({'chat_id': int(chat_id), 'names': {'$in': [note_name]}})):
         return
 
     if 'reply_to_message' in message:
@@ -248,7 +248,7 @@ async def get_note_hashtag(message, chat, regexp=None, **kwargs):
 @get_strings_dec('notes')
 @clean_notes
 async def get_notes_list_cmd(message, chat, strings):
-    if await db.privatenotes.find_one({'chat_id': chat['chat_id']}) \
+    if await db.get().privatenotes.find_one({'chat_id': chat['chat_id']}) \
             and message.chat.id == chat['chat_id']:  # Workaround to avoid sending PN to connected PM
         text = strings['notes_in_private']
         if not (keyword := message.get_args()):
@@ -266,7 +266,7 @@ async def get_notes_list_cmd(message, chat, strings):
 async def get_notes_list(message, strings, chat, keyword=None, pm=False):
     text = strings["notelist_header"].format(chat_name=chat['chat_title'])
 
-    notes = await db.notes.find({'chat_id': chat['chat_id']}).sort("names", 1).to_list(length=300)
+    notes = await db.get().notes.find({'chat_id': chat['chat_id']}).sort("names", 1).to_list(length=300)
     if not notes:
         return await message.reply(strings["notelist_no_notes"].format(chat_title=chat['chat_title']))
 
@@ -309,7 +309,7 @@ async def search_in_note(message, chat, strings):
     request = message.get_args()
     text = strings["search_header"].format(chat_name=chat['chat_title'], request=request)
 
-    notes = db.notes.find({
+    notes = db.get().notes.find({
         'chat_id': chat['chat_id'],
         'text': {'$regex': request, '$options': 'i'}
     }).sort("names", 1)
@@ -336,7 +336,7 @@ async def clear_note(message, chat, strings):
         if note_name[0] == '#':
             note_name = note_name[1:]
 
-        if not (note := await db.notes.find_one({'chat_id': chat['chat_id'], 'names': {'$in': [note_name]}})):
+        if not (note := await db.get().notes.find_one({'chat_id': chat['chat_id'], 'names': {'$in': [note_name]}})):
             if len(note_names) <= 1:
                 text = strings['cant_find_note'].format(chat_name=chat['chat_title'])
                 if alleged_note_name := await get_similar_note(chat['chat_id'], note_name):
@@ -347,7 +347,7 @@ async def clear_note(message, chat, strings):
                 not_removed += ' #' + note_name
                 continue
 
-        await db.notes.delete_one({'_id': note['_id']})
+        await db.get().notes.delete_one({'_id': note['_id']})
         removed += ' #' + note_name
 
     if len(note_names) > 1:
@@ -364,7 +364,7 @@ async def clear_note(message, chat, strings):
 @get_strings_dec('notes')
 async def clear_all_notes(message, chat, strings):
     # Ensure notes count
-    if not await db.notes.find_one({'chat_id': chat['chat_id']}):
+    if not await db.get().notes.find_one({'chat_id': chat['chat_id']}):
         await message.reply(strings['notelist_no_notes'].format(chat_title=chat['chat_title']))
         return
 
@@ -379,7 +379,7 @@ async def clear_all_notes(message, chat, strings):
 @chat_connection(admin=True)
 @get_strings_dec('notes')
 async def clear_all_notes_cb(event, chat, strings):
-    num = (await db.notes.delete_many({'chat_id': chat['chat_id']})).deleted_count
+    num = (await db.get().notes.delete_many({'chat_id': chat['chat_id']})).deleted_count
 
     text = strings['clearall_done'].format(num=num, chat_name=chat['chat_title'])
     await event.message.edit_text(text)
@@ -395,7 +395,7 @@ async def note_info(message, chat, strings):
     if note_name[0] == '#':
         note_name = note_name[1:]
 
-    if not (note := await db.notes.find_one({'chat_id': chat['chat_id'], 'names': {'$in': [note_name]}})):
+    if not (note := await db.get().notes.find_one({'chat_id': chat['chat_id'], 'names': {'$in': [note_name]}})):
         text = strings['cant_find_note'].format(chat_name=chat['chat_title'])
         if alleged_note_name := await get_similar_note(chat['chat_id'], note_name):
             text += strings['u_mean'].format(note_name=alleged_note_name)
@@ -446,7 +446,7 @@ async def note_btn(event, strings, regexp=None, **kwargs):
     user_id = event.from_user.id
     note_name = regexp.group(1).lower()
 
-    if not (note := await db.notes.find_one({'chat_id': chat_id, 'names': {'$in': [note_name]}})):
+    if not (note := await db.get().notes.find_one({'chat_id': chat_id, 'names': {'$in': [note_name]}})):
         await event.answer(strings['no_note'])
         return
 
@@ -464,7 +464,7 @@ async def note_start(message, strings, regexp=None, **kwargs):
     user_id = message.from_user.id
     note_name = args.group(2).strip("_")
 
-    if not (note := await db.notes.find_one({'chat_id': chat_id, 'names': {'$in': [note_name]}})):
+    if not (note := await db.get().notes.find_one({'chat_id': chat_id, 'names': {'$in': [note_name]}})):
         await message.reply(strings['no_note'])
         return
 
@@ -482,7 +482,7 @@ async def btn_note_start_state(message, strings):
     user_id = message.from_user.id
     note_name = cached['notename']
 
-    note = await db.notes.find_one({'chat_id': chat_id, 'names': {'$in': [note_name]}})
+    note = await db.get().notes.find_one({'chat_id': chat_id, 'names': {'$in': [note_name]}})
     await get_note(message, db_item=note, chat_id=chat_id, send_id=user_id, rpl_id=None)
 
     redis.delete(key)
@@ -503,18 +503,18 @@ async def private_notes_cmd(message, chat, strings):
 
     enabling = ['true', 'enable', 'on']
     disabling = ['false', 'disable', 'off']
-    if database := await db.privatenotes.find_one({'chat_id': chat_id}):
+    if database := await db.get().privatenotes.find_one({'chat_id': chat_id}):
         if text in enabling:
             await message.reply(strings['already_enabled'] % chat_name)
             return
     if text in enabling:
-        await db.privatenotes.insert_one({'chat_id': chat_id})
+        await db.get().privatenotes.insert_one({'chat_id': chat_id})
         await message.reply(strings['enabled_successfully'] % chat_name)
     elif text in disabling:
         if not database:
             await message.reply(strings['not_enabled'])
             return
-        await db.privatenotes.delete_one({'_id': database['_id']})
+        await db.get().privatenotes.delete_one({'_id': database['_id']})
         await message.reply(strings['disabled_successfully'] % chat_name)
     else:
         # Assume admin asked for current state
@@ -536,13 +536,13 @@ async def clean_notes(message, chat, strings):
 
     arg = get_arg(message)
     if arg and arg.lower() in enable:
-        await db.clean_notes.update_one({'chat_id': chat_id}, {'$set': {'enabled': True}}, upsert=True)
+        await db.get().clean_notes.update_one({'chat_id': chat_id}, {'$set': {'enabled': True}}, upsert=True)
         text = strings['clean_notes_enable'].format(chat_name=chat['chat_title'])
     elif arg and arg.lower() in disable:
-        await db.clean_notes.update_one({'chat_id': chat_id}, {'$set': {'enabled': False}}, upsert=True)
+        await db.get().clean_notes.update_one({'chat_id': chat_id}, {'$set': {'enabled': False}}, upsert=True)
         text = strings['clean_notes_disable'].format(chat_name=chat['chat_title'])
     else:
-        data = await db.clean_notes.find_one({'chat_id': chat_id})
+        data = await db.get().clean_notes.find_one({'chat_id': chat_id})
         if data and data['enabled'] is True:
             text = strings['clean_notes_enabled'].format(chat_name=chat['chat_title'])
         else:
@@ -558,21 +558,21 @@ async def private_notes_func(message, strings):
     chat_id = args[1]
     keyword = args[2] if args[2] != 'None' else None
     await set_connected_command(message.from_user.id, int(chat_id), ['get', 'notes'])
-    chat = (await db.chat_list.find_one({'chat_id': int(chat_id)}))
+    chat = (await db.get().chat_list.find_one({'chat_id': int(chat_id)}))
     await message.answer(strings['privatenotes_notif'].format(chat=chat['chat_title']))
     await get_notes_list(message, chat=chat, keyword=keyword, pm=True)
 
 
 async def __stats__():
     text = "* <code>{}</code> total notes\n".format(
-        await db.notes.count_documents({})
+        await db.get().notes.count_documents({})
     )
     return text
 
 
 async def __export__(chat_id):
     data = []
-    notes = await db.notes.find({'chat_id': chat_id}).sort("names", 1).to_list(length=300)
+    notes = await db.get().notes.find({'chat_id': chat_id}).sort("names", 1).to_list(length=300)
     for note in notes:
         del note['_id']
         del note['chat_id']
@@ -614,14 +614,14 @@ async def __import__(chat_id, data):
             note['edited_date'] = datetime.fromisoformat(note['edited_date'])
         new.append(ReplaceOne({'chat_id': note['chat_id'], 'names': {'$in': [note['names'][0]]}}, note, upsert=True))
 
-    await db.notes.bulk_write(new)
+    await db.get().notes.bulk_write(new)
 
 
 async def filter_handle(message, chat, data):
     chat_id = chat['chat_id']
     read_chat_id = message.chat.id
     note_name = data['note_name']
-    note = await db.notes.find_one({'chat_id': chat_id, 'names': {'$in': [note_name]}})
+    note = await db.get().notes.find_one({'chat_id': chat_id, 'names': {'$in': [note_name]}})
     await get_note(message, db_item=note, chat_id=chat_id, send_id=read_chat_id, rpl_id=None)
 
 
@@ -634,7 +634,7 @@ async def setup_start(message):
 async def setup_finish(message, data):
     note_name = message.text.split(' ', 1)[0].split()[0]
 
-    if not (await db.notes.find_one({'chat_id': data['chat_id'], 'names': note_name})):
+    if not (await db.get().notes.find_one({'chat_id': data['chat_id'], 'names': note_name})):
         await message.reply('no such note!')
         return
 

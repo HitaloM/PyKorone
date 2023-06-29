@@ -47,7 +47,7 @@ async def add_user_to_db(user):
         'username': user.username
     }
 
-    user = await db.user_list.find_one({'user_id': new_user['user_id']})
+    user = await db.get().user_list.find_one({'user_id': new_user['user_id']})
     if not user or user is None:
         user = new_user
 
@@ -58,7 +58,7 @@ async def add_user_to_db(user):
         if hasattr(user, 'user_lang'):
             new_user['user_lang'] = user.user_lang
 
-    await db.user_list.update_one(
+    await db.get().user_list.update_one(
         {'user_id': user['user_id']},
         {"$set": new_user}, upsert=True
     )
@@ -70,7 +70,7 @@ async def get_user_by_id(user_id: int):
     if not user_id <= 9223372036854775807:  # int64
         return None
 
-    user = await db.user_list.find_one(
+    user = await db.get().user_list.find_one(
         {'user_id': user_id}
     )
     if not user:
@@ -84,7 +84,7 @@ async def get_user_by_id(user_id: int):
 
 async def get_id_by_nick(data):
     # Check if data is user_id
-    user = await db.user_list.find_one({'username': data.replace('@', "")})
+    user = await db.get().user_list.find_one({'username': data.replace('@', "")})
     if user:
         return user['user_id']
 
@@ -98,7 +98,7 @@ async def get_user_by_username(username):
         # Remove '@'
         username = username[1:]
 
-    user = await db.user_list.find_one(
+    user = await db.get().user_list.find_one(
         {'username': username.lower()}
     )
 
@@ -113,7 +113,7 @@ async def get_user_by_username(username):
 
 
 async def get_user_link(user_id, custom_name=None, md=False):
-    user = await db.user_list.find_one({'user_id': user_id})
+    user = await db.get().user_list.find_one({'user_id': user_id})
 
     if user:
         user_name = user['first_name']
@@ -412,7 +412,7 @@ def get_chat_dec(allow_self=False, fed=False):
                         arg = text[0]
 
             if arg.startswith('-') or arg.isdigit():
-                chat = await db.chat_list.find_one({'chat_id': int(arg)})
+                chat = await db.get().chat_list.find_one({'chat_id': int(arg)})
                 if not chat:
                     try:
                         chat = await bot.get_chat(arg)
@@ -421,9 +421,9 @@ def get_chat_dec(allow_self=False, fed=False):
                     except Unauthorized:
                         return await message.reply("I couldn't access chat/channel! Maybe I was kicked from there!")
             elif arg.startswith('@'):
-                chat = await db.chat_list.find_one({'chat_nick': re.compile(arg.strip('@'), re.IGNORECASE)})
+                chat = await db.get().chat_list.find_one({'chat_nick': re.compile(arg.strip('@'), re.IGNORECASE)})
             elif allow_self is True:
-                chat = await db.chat_list.find_one({'chat_id': message.chat.id})
+                chat = await db.get().chat_list.find_one({'chat_id': message.chat.id})
             else:
                 await message.reply("Please give me valid chat ID/username")
                 return

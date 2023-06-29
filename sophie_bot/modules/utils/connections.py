@@ -31,7 +31,7 @@ async def get_connected_chat(message, admin=False, only_groups=False, from_id=No
     key = 'connection_cache_' + str(user_id)
 
     if not message.chat.type == 'private':
-        _chat = await db.chat_list.find_one({'chat_id': real_chat_id})
+        _chat = await db.get().chat_list.find_one({'chat_id': real_chat_id})
         chat_title = _chat['chat_title'] if _chat is not None else message.chat.title
         # On some strange cases such as Database is fresh or new ; it doesn't contain chat data
         # Only to "handle" the error, we do the above workaround - getting chat title from the update
@@ -54,11 +54,11 @@ async def get_connected_chat(message, admin=False, only_groups=False, from_id=No
 
     # Get chats where user was detected and check if user in connected chat
     # TODO: Really get the user and check on banned
-    user_chats = (await db.user_list.find_one({'user_id': user_id}))['chats']
+    user_chats = (await db.get().user_list.find_one({'user_id': user_id}))['chats']
     if chat_id not in user_chats:
         return {'status': None, 'err_msg': 'not_in_chat'}
 
-    chat_title = (await db.chat_list.find_one({'chat_id': chat_id}))['chat_title']
+    chat_title = (await db.get().chat_list.find_one({'chat_id': chat_id}))['chat_title']
 
     # Admin rights check if admin=True
     try:
@@ -78,7 +78,7 @@ async def get_connected_chat(message, admin=False, only_groups=False, from_id=No
             return {'status': 'private', 'chat_id': user_id, 'chat_title': 'Local chat'}
 
     # Check on /allowusersconnect enabled
-    if settings := await db.chat_connection_settings.find_one({'chat_id': chat_id}):
+    if settings := await db.get().chat_connection_settings.find_one({'chat_id': chat_id}):
         if 'allow_users_connect' in settings and settings['allow_users_connect'] is False and not user_admin:
             return {'status': None, 'err_msg': 'conn_not_allowed'}
 
@@ -122,11 +122,11 @@ async def set_connected_chat(user_id, chat_id):
     key = f'connection_cache_{user_id}'
     redis.delete(key)
     if not chat_id:
-        await db.connections.update_one({'user_id': user_id}, {"$unset": {'chat_id': 1, 'command': 1}}, upsert=True)
+        await db.get().connections.update_one({'user_id': user_id}, {"$unset": {'chat_id': 1, 'command': 1}}, upsert=True)
         await get_connection_data.reset_cache(user_id)
         return
 
-    await db.connections.update_one(
+    await db.get().connections.update_one(
         {'user_id': user_id},
         {
             "$set": {'user_id': user_id, 'chat_id': chat_id},
@@ -140,7 +140,7 @@ async def set_connected_chat(user_id, chat_id):
 
 async def set_connected_command(user_id, chat_id, command):
     command.append('disconnect')
-    await db.connections.update_one(
+    await db.get().connections.update_one(
         {'user_id': user_id},
         {
             '$set': {'user_id': user_id, 'chat_id': chat_id, 'command': list(command)}
@@ -152,4 +152,4 @@ async def set_connected_command(user_id, chat_id, command):
 
 @cached()
 async def get_connection_data(user_id: int) -> dict:
-    return await db.connections.find_one({'user_id': user_id})
+    return await db.get().connections.find_one({'user_id': user_id})

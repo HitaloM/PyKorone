@@ -18,6 +18,7 @@
 
 import asyncio
 import sys
+from contextvars import ContextVar
 
 from motor import motor_asyncio
 from pymongo import MongoClient
@@ -26,12 +27,19 @@ from pymongo.errors import ServerSelectionTimeoutError
 from sophie_bot import log
 from sophie_bot.config import CONFIG
 
-# Init MongoDB
-mongodb = MongoClient(CONFIG.mongo_host, CONFIG.mongo_port)[CONFIG.mongo_db]
-motor = motor_asyncio.AsyncIOMotorClient(CONFIG.mongo_host, CONFIG.mongo_port)
-db = motor[CONFIG.mongo_db]
 
-try:
-    asyncio.get_event_loop().run_until_complete(motor.server_info())
-except ServerSelectionTimeoutError:
-    sys.exit(log.critical("Can't connect to mongodb! Exiting..."))
+mongodb = MongoClient(CONFIG.mongo_host, CONFIG.mongo_port)[CONFIG.mongo_db]
+
+motor = ContextVar('motor')
+db = ContextVar('motor_db')
+
+def get_db():
+    motor.set(motor_asyncio.AsyncIOMotorClient(CONFIG.mongo_host, CONFIG.mongo_port))
+    db.set(motor.get()[CONFIG.mongo_db])
+
+
+async def test_db():
+    try:
+        await motor.get().server_info()
+    except ServerSelectionTimeoutError:
+        sys.exit(log.critical("Can't connect to mongodb! Exiting..."))

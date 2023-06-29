@@ -25,6 +25,7 @@ from aiogram.contrib.middlewares.logging import LoggingMiddleware
 from sophie_bot import dp, bot
 from sophie_bot.config import CONFIG
 from sophie_bot.modules import ALL_MODULES, LOADED_MODULES
+from sophie_bot.services.mongo import get_db, test_db
 from sophie_bot.utils.logger import log
 
 if CONFIG.debug_mode:
@@ -61,6 +62,9 @@ async def before_srv_task(loop):
 
 
 async def start(_):
+    get_db()
+    await test_db()
+
     log.debug("Starting before serving task for all modules...")
     loop.create_task(before_srv_task(loop))
 
@@ -69,15 +73,18 @@ async def start(_):
         await asyncio.sleep(2)
 
 
-async def start_webhooks(_):
-    # await bot.set_webhook(CONFIG.webhooks_url + f"/{CONFIG.token}")
-    return await start(_)
-
-
 log.info("Starting loop..")
 
+
 if CONFIG.webhooks_enable:
-    executor.start_webhook(dp, f'/{CONFIG.token}', on_startup=start_webhooks, port=CONFIG.webhooks_port)
+    executor.start_webhook(
+        dp,
+        CONFIG.webhooks_url,
+        on_startup=start,
+        port=CONFIG.webhooks_port,
+        loop=loop
+    )
 else:
     log.info("Aiogram: Using polling method")
+    get_db()
     executor.start_polling(dp, loop=loop, on_startup=start)

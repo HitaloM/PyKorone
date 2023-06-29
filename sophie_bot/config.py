@@ -28,7 +28,7 @@ class Config(BaseSettings):
     modules_not_load: List[str] = []
 
     webhooks_enable: bool = False
-    webhooks_url: str = ""
+    webhooks_url: str = "/"
     webhooks_port: int = 8080
 
     handle_forwarded_commands: bool = False
