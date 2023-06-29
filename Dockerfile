@@ -1,4 +1,4 @@
-FROM python:3.9-slim as builder
+FROM python:3.11-slim as builder
 
 ENV PIP_DEFAULT_TIMEOUT=100 \
     PIP_DISABLE_PIP_VERSION_CHECK=1 \
@@ -16,7 +16,7 @@ RUN poetry export -f requirements.txt -E fast --without-hashes | /venv/bin/pip i
 COPY sophie_bot sophie_bot
 RUN poetry build && /venv/bin/pip install dist/*.whl
 
-FROM python:3.9-slim as final
+FROM python:3.11-slim as final
 
 ENV PYTHONFAULTHANDLER=1 \
     PYTHONHASHSEED=random \

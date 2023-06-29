@@ -352,14 +352,14 @@ files = [
 
 [[package]]
 name = "captcha"
-version = "0.4"
+version = "0.3"
 description = "A captcha library that generates audio and image CAPTCHAs."
 category = "main"
 optional = false
 python-versions = "*"
 files = [
-    {file = "captcha-0.4-py3-none-any.whl", hash = "sha256:529941705c01c20143d030805f82a362ba5a2af898e59426acc2c8d649ba034c"},
-    {file = "captcha-0.4.tar.gz", hash = "sha256:2ae5e8daac4f1649b57b34328bcc45ba691b5c707fc6fbdd016e213aece9a8b8"},
+    {file = "captcha-0.3-py3-none-any.whl", hash = "sha256:1671f194da3b535fc12f6b0eb349195c7b28a6641381b2c07e31d04aa92fb6fc"},
+    {file = "captcha-0.3.tar.gz", hash = "sha256:a6b28a120de0a37c44415e70225978e36b2645940133f2474c7a109b2d4683e2"},
 ]
 
 [package.dependencies]
@@ -1577,14 +1577,14 @@ files = [
 
 [[package]]
 name = "telethon"
-version = "1.28.5"
+version = "1.24.0"
 description = "Full-featured Telegram client library for Python 3"
 category = "main"
 optional = false
 python-versions = ">=3.5"
 files = [
-    {file = "Telethon-1.28.5-py3-none-any.whl", hash = "sha256:edc42fd58b8e1569830d3ead564cafa60fd51d684f03ee2a1fdd5f77a5a10438"},
-    {file = "Telethon-1.28.5.tar.gz", hash = "sha256:b3990ec22351a3f3e1af376729c985025bbdd3bdabdde8c156112c3d3dfe1941"},
+    {file = "Telethon-1.24.0-py3-none-any.whl", hash = "sha256:04fdc5fa4ed3e886e6ecf4bad79205ab8880c6aefbd42c29c89c689a502aa816"},
+    {file = "Telethon-1.24.0.tar.gz", hash = "sha256:818cb61281ed3f75ba4da9b68cb69486bed9474d2db4e0aa16e482053117452c"},
 ]
 
 [package.dependencies]
@@ -1596,14 +1596,14 @@ cryptg = ["cryptg"]
 
 [[package]]
 name = "typing-extensions"
-version = "4.6.3"
+version = "4.7.0"
 description = "Backported and Experimental Type Hints for Python 3.7+"
 category = "main"
 optional = false
 python-versions = ">=3.7"
 files = [
-    {file = "typing_extensions-4.6.3-py3-none-any.whl", hash = "sha256:88a4153d8505aabbb4e13aacb7c486c2b4a33ca3b3f807914a9b4c844c471c26"},
-    {file = "typing_extensions-4.6.3.tar.gz", hash = "sha256:d91d5919357fe7f681a9f2b5b4cb2a5f1ef0a1e9f59c4d8ff0d3491e05c0ffd5"},
+    {file = "typing_extensions-4.7.0-py3-none-any.whl", hash = "sha256:5d8c9dac95c27d20df12fb1d97b9793ab8b2af8a3a525e68c80e21060c161771"},
+    {file = "typing_extensions-4.7.0.tar.gz", hash = "sha256:935ccf31549830cda708b42289d44b6f74084d616a00be651601a4f968e77c82"},
 ]
 
 [[package]]
@@ -1833,5 +1833,5 @@ fast = ["aiohttp", "cryptg", "cryptography"]
 
 [metadata]
 lock-version = "2.0"
-python-versions = "^3.10"
-content-hash = "b9cae8f1650dd2cfd01cc6a2004233775cbf4fbfdbc61117717f54496215e08d"
+python-versions = "^3.11"
+content-hash = "e6ddeea4d805384b4617f22a69b82a090e181153b2e2ac7b729398b505b59822"
