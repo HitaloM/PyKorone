@@ -101,7 +101,7 @@ async def check_msg(message):
 
         try:
             async with timeout(0.1):
-                matched = await loop.run_in_executor(None, func)
+                matched = func()
         except (asyncio.TimeoutError, TimeoutError):
             continue
 
