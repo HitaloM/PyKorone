@@ -40,6 +40,7 @@ for filename in os.listdir('sophie_bot/localization'):
 
         country = babel.territory if lang_code != 'en' else 'US'
 
+        lang['language_info']['code'] = lang_code
         lang['language_info']['flag'] = flag(country)
         lang['language_info']['babel'] = babel
 
