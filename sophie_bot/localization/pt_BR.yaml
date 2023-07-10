@@ -1,7 +1,7 @@
 ---
 language_info:
-  flag: "🇧🇷"
-  code: pt
+  flag: "🇧🇷Bandeira"
+  code: pt Código
 STRINGS:
   notes:
     #/save
@@ -9,7 +9,7 @@ STRINGS:
     note_updated: "🗒️ Nota <code>{note_name}</code> atualizada em <b>{chat_title}</b>!"
     you_can_get_note: "\nVocê pode consultar esta nota usando <code>/get {note_name}</code>, ou <code>#{note_name}</code>"
     #Translator note: please keep sure that you don't have space in the end of string
-    note_aliases: "\nAlias das notas:"
+    note_aliases: "\nAlias das notas:Strings-> Notas-> note_Apelido\nNota de tradução: Por favor, certifique-se de que você não tem espaço no final da corda"
     blank_note: "Não é permitido salvar uma nota em branco!"
     notename_cant_contain: "O nome da nota não pode conter \"<code>{symbol}</code>\"!"
     #/get
