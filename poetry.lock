@@ -677,6 +677,21 @@ trio = ["trio (>=0.14,<0.23)"]
 wmi = ["wmi (>=1.5.1,<2.0.0)"]
 
 [[package]]
+name = "emoji-country-flag"
+version = "1.3.2"
+description = "En/Decode unicode country flags emoji"
+category = "main"
+optional = false
+python-versions = ">=3.7"
+files = [
+    {file = "emoji-country-flag-1.3.2.tar.gz", hash = "sha256:42d9fc1a8ec27b3ef2c18a39532dcdbf0527afbc95749be02a3afc1f1b165aa3"},
+    {file = "emoji_country_flag-1.3.2-py2.py3-none-any.whl", hash = "sha256:6ddcf8f3bc55b2f59b1d7d9dc830e90f9423f555dd37862c4c2e220d42726f73"},
+]
+
+[package.extras]
+test = ["emoji", "pytest", "setuptools"]
+
+[[package]]
 name = "envparse"
 version = "0.2.0"
 description = "Simple environment variable parsing"
@@ -1834,4 +1849,4 @@ fast = ["aiohttp", "cryptg", "cryptography"]
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.11"
-content-hash = "e6ddeea4d805384b4617f22a69b82a090e181153b2e2ac7b729398b505b59822"
+content-hash = "e1626e3f3b53c7ad8bc3e4d14454da66ed30e862431c5a8efa8be75c83ba216a"

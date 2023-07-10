@@ -27,6 +27,7 @@ captcha = "^0.3"
 async-timeout = "^4.0.2"
 regex = "^2023.6.3"
 pydantic = {extras = ["dotenv"], version = "^1.8.2"}
+emoji-country-flag = "^1.3.2"
 
 [tool.poetry.extras]
 fast = ["aiohttp", "cryptg", "cryptography"]

@@ -20,6 +20,7 @@ import os
 
 import yaml
 from babel.core import Locale
+from flag import flag
 
 from sophie_bot.services.mongo import db
 from sophie_bot.services.redis import redis
@@ -34,8 +35,13 @@ for filename in os.listdir('sophie_bot/localization'):
     with open('sophie_bot/localization/' + filename, "r", encoding='utf8') as f:
         lang = yaml.load(f, Loader=yaml.Loader)
 
-        lang_code = lang['language_info']['code']
-        lang['language_info']['babel'] = Locale(lang_code)
+        lang_code = filename.split('.')[0]
+        babel = Locale.parse(lang_code)
+
+        country = babel.territory if lang_code != 'en' else 'US'
+
+        lang['language_info']['flag'] = flag(country)
+        lang['language_info']['babel'] = babel
 
         LANGUAGES[lang_code] = lang
 
