@@ -19,7 +19,7 @@ from contextlib import suppress
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 from aiogram.types import Message
-from aiogram.utils.exceptions import BadRequest, MessageNotModified, MessageToDeleteNotFound
+from aiogram.utils.exceptions import BadRequest, MessageNotModified, MessageToDeleteNotFound, MessageCantBeDeleted
 
 from sophie_bot.decorator import register
 from .utils.language import get_strings_dec
@@ -36,7 +36,7 @@ async def cancel_handle(message, state, **kwargs):
 async def delmsg_filter_handle(message, chat, data):
     if await is_user_admin(data['chat_id'], message.from_user.id):
         return
-    with suppress(MessageToDeleteNotFound):
+    with suppress(MessageToDeleteNotFound, MessageCantBeDeleted):
         await message.delete()
 
 
