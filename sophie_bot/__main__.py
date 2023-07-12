@@ -50,7 +50,7 @@ log.info("Modules loaded!")
 
 # Import misc stuff
 import_module("sophie_bot.utils.exit_gracefully")
-if CONFIG.debug_mode:
+if not CONFIG.debug_mode:
     import_module("sophie_bot.utils.sentry")
 
 
