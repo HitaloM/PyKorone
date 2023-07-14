@@ -28,13 +28,15 @@ redis = redis_lib.StrictRedis(
     host=CONFIG.redis_host,
     port=CONFIG.redis_port,
     db=CONFIG.redis_db_fsm,
-    decode_responses=True
+    decode_responses=True,
+    max_connections=25
 )
 
 bredis = redis_lib.StrictRedis(
     host=CONFIG.redis_host,
     port=CONFIG.redis_port,
-    db=CONFIG.redis_db_fsm
+    db=CONFIG.redis_db_fsm,
+    max_connections=25
 )
 
 try:
