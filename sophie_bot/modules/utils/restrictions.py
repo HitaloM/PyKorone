@@ -20,9 +20,12 @@ from aiogram.types.chat_permissions import ChatPermissions
 from aiogram.utils.exceptions import BadRequest, MigrateToChat, Unauthorized
 
 from sophie_bot import bot
+from datetime import datetime, timedelta
 
 
 async def ban_user(chat_id, user_id, until_date=None):
+    if isinstance(until_date, timedelta):
+        until_date = int((datetime.utcnow() + until_date).timestamp())
     try:
         await bot.kick_chat_member(chat_id, user_id, until_date=until_date)
     except (BadRequest, MigrateToChat, Unauthorized):
@@ -36,6 +39,8 @@ async def kick_user(chat_id, user_id):
 
 
 async def mute_user(chat_id, user_id, until_date=None):
+    if isinstance(until_date, timedelta):
+        until_date = int((datetime.utcnow() + until_date).timestamp())
     await bot.restrict_chat_member(
         chat_id,
         user_id,
@@ -49,6 +54,8 @@ async def mute_user(chat_id, user_id, until_date=None):
 
 
 async def restrict_user(chat_id, user_id, until_date=None):
+    if isinstance(until_date, timedelta):
+        until_date = int((datetime.utcnow() + until_date).timestamp())
     await bot.restrict_chat_member(
         chat_id,
         user_id,
