@@ -45,7 +45,8 @@ bot = Bot(token=CONFIG.token, parse_mode=types.ParseMode.HTML, server=bot_api)
 storage = RedisStorage2(
     host=CONFIG.redis_host,
     port=CONFIG.redis_port,
-    db=CONFIG.redis_db_states
+    db=CONFIG.redis_db_states,
+    single_connection_client=True
 )
 dp = Dispatcher(bot, storage=storage)
 
