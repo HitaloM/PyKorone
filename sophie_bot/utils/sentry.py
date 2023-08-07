@@ -17,6 +17,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import sentry_sdk
+from sentry_sdk.integrations.aiohttp import AioHttpIntegration
 from sentry_sdk.integrations.redis import RedisIntegration
 
 from sophie_bot.config import CONFIG
@@ -27,5 +28,5 @@ if CONFIG.sentry_url:
 
     sentry_sdk.init(
         CONFIG.sentry_url,
-        integrations=[RedisIntegration()]
+        integrations=[RedisIntegration(), AioHttpIntegration()]
     )
