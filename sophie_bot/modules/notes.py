@@ -160,7 +160,8 @@ async def get_note(message, strings, note_name=None, db_item=None,
     elif not rpl_id:
         rpl_id = message.message_id
 
-    if not db_item and not (db_item := await db.get().notes.find_one({'chat_id': chat_id, 'names': {'$in': [note_name]}})):
+    if not db_item and not (
+            db_item := await db.get().notes.find_one({'chat_id': chat_id, 'names': {'$in': [note_name]}})):
         await bot.send_message(
             chat_id,
             strings['no_note'],

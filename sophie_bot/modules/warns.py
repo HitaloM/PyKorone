@@ -240,8 +240,7 @@ async def warnmode(message, chat, strings):
             return await message.reply(strings['same_mode'])
         if arg[0] == acceptable_args[0]:
             new['mode'] = option
-            await db.get().warnmode.update_one({'chat_id': chat_id},
-                                         {'$set': new}, upsert=True)
+            await db.get().warnmode.update_one({'chat_id': chat_id}, {'$set': new}, upsert=True)
         elif arg[0] == acceptable_args[1]:
             try:
                 time = arg[1]
@@ -256,12 +255,10 @@ async def warnmode(message, chat, strings):
                     return await message.reply(strings['invalid_time'])
                 else:
                     new.update(mode=option, time=time)
-                    await db.get().warnmode.update_one({'chat_id': chat_id},
-                                                 {'$set': new}, upsert=True)
+                    await db.get().warnmode.update_one({'chat_id': chat_id}, {'$set': new}, upsert=True)
         elif arg[0] == acceptable_args[2]:
             new['mode'] = option
-            await db.get().warnmode.update_one({'chat_id': chat_id},
-                                         {'$set': new}, upsert=True)
+            await db.get().warnmode.update_one({'chat_id': chat_id}, {'$set': new}, upsert=True)
         await message.reply(strings['warnmode_success'] % (chat['chat_title'], option))
     else:
         text = ''

@@ -33,7 +33,7 @@ from async_timeout import timeout
 from bson.objectid import ObjectId
 from pymongo import UpdateOne
 
-from sophie_bot import loop, bot
+from sophie_bot import bot
 from sophie_bot.decorator import register
 from sophie_bot.modules import LOADED_MODULES
 from sophie_bot.services.mongo import db

@@ -891,8 +891,7 @@ async def fed_rename(message, fed, strings):
         await message.reply(strings['frename_same_name'])
         return
 
-    await db.get().feds.update_one({'_id': fed['_id']},
-                             {'$set': {'fed_name': new_name}})
+    await db.get().feds.update_one({'_id': fed['_id']}, {'$set': {'fed_name': new_name}})
     await get_fed_by_id.reset_cache(fed['fed_id'])
     await message.reply(strings['frename_success'].format(
         old_name=html.escape(fed['fed_name'], False), new_name=html.escape(new_name, False))
@@ -1044,7 +1043,7 @@ async def importfbans_func(message, fed, strings, document=None):
         else:
             new['time'] = current_time
 
-        if 'banned_chats' in row and type(row['banned_chats']) == list:
+        if 'banned_chats' in row and isinstance(row['banned_chats'], list):
             new['banned_chats'] = row['banned_chats']
 
         queue_del.append(DeleteMany({'fed_id': fed['fed_id'], 'user_id': user_id}))

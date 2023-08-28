@@ -126,7 +126,8 @@ async def check_message_for_smartbroadcast(message):
     text, kwargs = await t_unparse_note_item(message, db_item, chat_id)
     await send_note(chat_id, text, **kwargs)
 
-    await db.get().sbroadcast.update_one({'_id': db_item['_id']}, {'$pull': {'chats': chat_id}, '$inc': {'recived_chats': 1}})
+    await db.get().sbroadcast.update_one({'_id': db_item['_id']},
+                                         {'$pull': {'chats': chat_id}, '$inc': {'recived_chats': 1}})
 
 
 @register(cmds="purgecache", is_owner=True)
