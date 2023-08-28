@@ -122,7 +122,8 @@ async def set_connected_chat(user_id, chat_id):
     key = f'connection_cache_{user_id}'
     redis.delete(key)
     if not chat_id:
-        await db.get().connections.update_one({'user_id': user_id}, {"$unset": {'chat_id': 1, 'command': 1}}, upsert=True)
+        await db.get().connections.update_one({'user_id': user_id}, {"$unset": {'chat_id': 1, 'command': 1}},
+                                              upsert=True)
         await get_connection_data.reset_cache(user_id)
         return
 

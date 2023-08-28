@@ -227,7 +227,8 @@ async def connect_anon_admins(event: CallbackQuery):
     if not await is_user_admin(event.message.chat.id, event.from_user.id):
         return
 
-    if event.message.chat.id not in (data := await db.get().user_list.find_one({"user_id": event.from_user.id}))['chats']:
+    if event.message.chat.id not in (data := await db.get().user_list.find_one({"user_id": event.from_user.id}))[
+            'chats']:
         await db.get().user_list.update_one(
             {"_id": data['_id']},
             {"$addToSet": {"chats": event.message.chat.id}}

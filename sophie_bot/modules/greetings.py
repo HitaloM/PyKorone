@@ -37,7 +37,6 @@ from captcha.image import ImageCaptcha
 from telethon.tl.custom import Button
 
 from sophie_bot import BOT_USERNAME, BOT_ID, bot, dp
-from sophie_bot.config import CONFIG
 from sophie_bot.decorator import register
 from sophie_bot.services.apscheduller import scheduler
 from sophie_bot.services.mongo import db
@@ -135,8 +134,8 @@ async def set_welcome(message, chat, strings):
     no = ['no', 'off', '0', 'false', 'disable']
 
     if args[0] in no:
-        await db.get().greetings.update_one({'chat_id': chat_id}, {'$set': {'chat_id': chat_id, 'welcome_disabled': True}},
-                                      upsert=True)
+        await db.get().greetings.update_one({'chat_id': chat_id},
+                                            {'$set': {'chat_id': chat_id, 'welcome_disabled': True}}, upsert=True)
         await get_greetings_data.reset_cache(chat_id)
         await message.reply(strings['turnwelcome_disabled'] % chat['chat_title'])
         return
@@ -435,7 +434,7 @@ async def set_security_note(message, chat, strings):
     note = await get_parsed_note_list(message, split_args=-1)
 
     if (await db.get().greetings.update_one({'chat_id': chat_id}, {'$set': {'chat_id': chat_id, 'security_note': note}},
-                                      upsert=True)).modified_count > 0:
+                                            upsert=True)).modified_count > 0:
         await get_greetings_data.reset_cache(chat_id)
         text = strings['security_note_updated']
     else:
@@ -451,7 +450,7 @@ async def reset_security_note(message, chat, strings):
     chat_id = chat['chat_id']
 
     if (await db.get().greetings.update_one({'chat_id': chat_id}, {'$unset': {'security_note': 1}},
-                                      upsert=True)).modified_count > 0:
+                                            upsert=True)).modified_count > 0:
         await get_greetings_data.reset_cache(chat_id)
         text = strings['security_note_updated']
     else:

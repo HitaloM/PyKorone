@@ -93,9 +93,9 @@ class Section:
         for item in self.items:
             text += '\n'
 
-            if type(item) == Section:
+            if isinstance(item, Section):
                 item.indent *= 2
-            if type(item) == SList:
+            if isinstance(item, SList):
                 item.indent = self.indent
             else:
                 text += space

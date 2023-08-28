@@ -22,7 +22,7 @@ from importlib import import_module
 from aiogram import executor
 from aiogram.contrib.middlewares.logging import LoggingMiddleware
 
-from sophie_bot import dp, bot, loop
+from sophie_bot import dp, loop
 from sophie_bot.config import CONFIG
 from sophie_bot.modules import ALL_MODULES, LOADED_MODULES
 from sophie_bot.services.mongo import get_db, test_db

@@ -16,7 +16,6 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-import asyncio
 import sys
 from contextvars import ContextVar
 
@@ -32,6 +31,7 @@ mongodb = MongoClient(CONFIG.mongo_host, CONFIG.mongo_port)[CONFIG.mongo_db]
 
 motor = ContextVar('motor')
 db = ContextVar('motor_db')
+
 
 def get_db():
     motor.set(motor_asyncio.AsyncIOMotorClient(CONFIG.mongo_host, CONFIG.mongo_port))
