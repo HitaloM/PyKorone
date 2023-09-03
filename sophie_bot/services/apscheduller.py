@@ -40,5 +40,7 @@ scheduler = AsyncIOScheduler(
     jobstores=jobstores, executors=executors, job_defaults=job_defaults, timezone=utc
 )
 
-log.info("Starting apscheduller...")
-scheduler.start()
+
+async def start_apscheduller():
+    log.info("Starting apscheduller...")
+    scheduler.start()

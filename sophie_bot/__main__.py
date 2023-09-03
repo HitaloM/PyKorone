@@ -25,6 +25,7 @@ from aiogram.contrib.middlewares.logging import LoggingMiddleware
 from sophie_bot import dp, loop
 from sophie_bot.config import CONFIG
 from sophie_bot.modules import ALL_MODULES, LOADED_MODULES
+from sophie_bot.services.apscheduller import start_apscheduller
 from sophie_bot.services.mongo import get_db, test_db
 from sophie_bot.services.telethon import start_telethon
 from sophie_bot.utils.logger import log
@@ -65,6 +66,8 @@ async def start(_):
     await test_db()
 
     await start_telethon()
+
+    await start_apscheduller()
 
     log.debug("Starting before serving task for all modules...")
     await before_srv_task(loop)
