@@ -182,7 +182,6 @@ STRINGS:
       Some useful commands for those who love to send stickers in chat.
 
       <b>Command:</b>
-       - /stickers &lt;query&gt;: Search for stickers.
        - /getsticker: Reply to a sticker to me to upload its raw PNG file and some info.
        - /color &lt;color&gt;: Sends a sticker with the given color.
 
@@ -200,6 +199,7 @@ STRINGS:
     error: "Sorry! I couldn't send the video because of an error.\n<b>Error:</b> <code>{error}</code>"
     invalid_url: "Invalid link!"
     uploading: "Uploading..."
+    not_found: "Sorry! I couldn't find the video."
     module_help: |
       With this module you can take advantage of some of YouTubeDL's features, such as downloading videos from YouTube.
 

@@ -42,7 +42,7 @@ async def translate(bot: Korone, message: Message, strings):
 
     if tr.lang == langs["targetlang"]:
         await sent.edit_text(strings["why_translate_same_lang"])
-        return
+        return None
 
     try:
         await sent.edit_text(

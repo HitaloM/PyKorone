@@ -7,7 +7,7 @@ from ..bot import Korone
 from ..utils.logger import log
 
 
-class Database(object):
+class Database:
     def __init__(self):
         self.conn: aiosqlite.Connection = None
         self.path: str = "./korone/database/db.sqlite"

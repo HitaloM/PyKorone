@@ -1,7 +1,6 @@
 # SPDX-License-Identifier: BSD-3-Clause
 # Copyright (c) 2020-2022 Hitalo M. <https://github.com/HitaloM>
 
-from typing import Union
 
 from pyrogram import filters
 from pyrogram.enums import ChatType
@@ -24,7 +23,7 @@ from ..utils.modules import HELPABLE
 @Korone.on_message(filters.cmd("start"))
 @Korone.on_callback_query(filters.regex(r"^start$"))
 @get_strings_dec("pm_menu")
-async def start(bot: Korone, union: Union[Message, CallbackQuery], strings):
+async def start(bot: Korone, union: Message | CallbackQuery, strings):
     is_callback = isinstance(union, CallbackQuery)
     message = union.message if is_callback else union
 
@@ -60,7 +59,7 @@ async def start(bot: Korone, union: Union[Message, CallbackQuery], strings):
 @Korone.on_message(filters.cmd("help"))
 @Korone.on_callback_query(filters.regex(r"^help-menu (?P<page>\d+)"))
 @get_strings_dec("pm_menu")
-async def help_menu(bot: Korone, union: Union[Message, CallbackQuery], strings):
+async def help_menu(bot: Korone, union: Message | CallbackQuery, strings):
     is_callback = isinstance(union, CallbackQuery)
     message = union.message if is_callback else union
 
@@ -68,9 +67,7 @@ async def help_menu(bot: Korone, union: Union[Message, CallbackQuery], strings):
         ChatType.GROUP,
         ChatType.SUPERGROUP,
     ):
-        keyboard = ikb(
-            [[(strings["pm_button"], f"https://t.me/{bot.me.username}/?start", "url")]]
-        )
+        keyboard = ikb([[(strings["pm_button"], f"https://t.me/{bot.me.username}/?start", "url")]])
         await message.reply_text(strings["help_in_pm"], reply_markup=keyboard)
         return
 
@@ -106,7 +103,7 @@ async def help_menu(bot: Korone, union: Union[Message, CallbackQuery], strings):
 @Korone.on_callback_query(filters.regex(r"^help-module (?P<module>.+) (?P<page>\d+)"))
 @get_strings_dec("pm_menu")
 async def help_module(
-    bot: Korone, union: Union[Message, CallbackQuery], strings, module: str = None
+    bot: Korone, union: Message | CallbackQuery, strings, module: str | None = None
 ):
     is_callback = isinstance(union, CallbackQuery)
     message = union.message if is_callback else union
@@ -139,9 +136,7 @@ async def help_module(
 
     keyboard = ikb([[(strings["back_button"], f"help-menu {page}")]])
     await (message.edit_text if is_callback else message.reply_text)(
-        strings["helpable_text"].format(
-            module_name=module_name, module_help=module_help
-        ),
+        strings["helpable_text"].format(module_name=module_name, module_help=module_help),
         disable_web_page_preview=True,
         reply_markup=keyboard,
     )
@@ -150,7 +145,7 @@ async def help_module(
 @Korone.on_message(filters.cmd(r"about$"))
 @Korone.on_callback_query(filters.regex(r"^about$"))
 @get_strings_dec("pm_menu")
-async def about(bot: Korone, union: Union[CallbackQuery, Message], strings):
+async def about(bot: Korone, union: CallbackQuery | Message, strings):
     is_callback = isinstance(union, CallbackQuery)
     message = union.message if is_callback else union
 

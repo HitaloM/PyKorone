@@ -2,7 +2,7 @@
 # Copyright (c) 2020-2022 Hitalo M. <https://github.com/HitaloM>
 
 import math
-from typing import Iterable
+from collections.abc import Iterable
 
 
 def pretty_size(size_bytes):
@@ -12,4 +12,4 @@ def pretty_size(size_bytes):
     i = int(math.floor(math.log(size_bytes, 1024)))
     p = math.pow(1024, i)
     s = round(size_bytes / p, 2)
-    return "%s %s" % (s, size_name[i])
+    return f"{s} {size_name[i]}"

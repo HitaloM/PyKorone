@@ -3,10 +3,9 @@
 
 import asyncio
 from asyncio.subprocess import Process
-from typing import Tuple
 
 
-async def shell_exec(code: str, treat=True) -> Tuple[bytes, Process]:
+async def shell_exec(code: str, treat=True) -> tuple[bytes, Process]:
     process = await asyncio.create_subprocess_shell(
         code, stdout=asyncio.subprocess.PIPE, stderr=asyncio.subprocess.STDOUT
     )

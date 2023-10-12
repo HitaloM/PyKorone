@@ -34,9 +34,11 @@ async def check_filters(bot: Korone, message: Message):
 
     text = message.text
 
-    if await filters.admin(bot, message):
-        if text.startswith("/addfilter") or text.startswith("/delfilter"):
-            return
+    if not filters.user(message.from_user.id):
+        return
+
+    if text.startswith("/addfilter") or text.startswith("/delfilter"):
+        return
 
     for rfilter in afilters:
         keyword = rfilter["handler"]
@@ -45,11 +47,7 @@ async def check_filters(bot: Korone, message: Message):
                 regex.search, keyword.replace("re:", "", 1), text, timeout=0.1
             )
         else:
-            pattern = (
-                r"( |^|[^\w])"
-                + re.escape(keyword).replace("(+)", "(.*)")
-                + r"( |$|[^\w])"
-            )
+            pattern = r"( |^|[^\w])" + re.escape(keyword).replace("(+)", "(.*)") + r"( |$|[^\w])"
             func = functools.partial(
                 re.search,
                 pattern,
@@ -163,9 +161,7 @@ async def list_filters(bot: Korone, message: Message, strings):
 
     filters = await get_all_filters(message.chat.id)
     if not filters:
-        await message.reply_text(
-            strings["no_filters_found"].format(chat_name=message.chat.title)
-        )
+        await message.reply_text(strings["no_filters_found"].format(chat_name=message.chat.title))
         return
 
     for rfilter in filters:
@@ -183,9 +179,7 @@ async def new_filter(bot: Korone, message: Message, strings):
         return
 
     if not await filters.admin(bot, message):
-        await message.reply_text(
-            strings["only_for_admins"].format(chat_name=message.chat.title)
-        )
+        await message.reply_text(strings["only_for_admins"].format(chat_name=message.chat.title))
         return
 
     reply = message.reply_to_message
@@ -281,18 +275,14 @@ async def del_filter(bot: Korone, message: Message, strings):
         return
 
     if not await filters.admin(bot, message):
-        await message.reply_text(
-            strings["only_for_admins"].format(chat_name=message.chat.title)
-        )
+        await message.reply_text(strings["only_for_admins"].format(chat_name=message.chat.title))
         return
 
     args = message.text.markdown.split(maxsplit=1)
     handler = args[1]
     filter_exists = await check_for_filters(message.chat.id, handler)
     if not filter_exists:
-        await message.reply_text(
-            strings["no_such_filter"].format(chat_name=message.chat.title)
-        )
+        await message.reply_text(strings["no_such_filter"].format(chat_name=message.chat.title))
         return
 
     await remove_filter(message.chat.id, handler)

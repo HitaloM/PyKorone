@@ -3,11 +3,11 @@
 
 import datetime
 import io
-import os
 import re
 import shutil
 import tempfile
 from contextlib import suppress
+from pathlib import Path
 
 import httpx
 from pyrogram import filters
@@ -67,12 +67,16 @@ async def ytdl_command(bot: Korone, message: Message, strings):
         yt = await run_async(extract_info, ydl, match.group(), download=False)
     else:
         yt = await run_async(extract_info, ydl, "ytsearch:" + url, download=False)
-        yt = yt["entries"][0]
+        if yt.get("entries") is not None and len(yt["entries"]) > 0:
+            yt = yt["entries"][0]
+        else:
+            await message.reply_text(strings["not_found"])
+            return
 
     for f in yt["formats"]:
-        if f["format_id"] == "140":
+        if f["format_id"] == "140" and f.get("filesize") is not None:
             afsize = f["filesize"] or 0
-        if f["ext"] == "mp4" and f["filesize"]:
+        if f["ext"] == "mp4" and f.get("filesize") is not None:
             vfsize = f["filesize"] or 0
             vformat = f["format_id"]
 
@@ -98,7 +102,8 @@ async def ytdl_command(bot: Korone, message: Message, strings):
         title = yt["title"]
 
     text = f"🎧 <b>{performer}</b> - <i>{title}</i>\n"
-    text += f"💾 <code>{pretty_size(afsize)}</code> (áudio) / <code>{pretty_size(int(vfsize))}</code> (vídeo)\n"
+    text += f"💾 <code>{pretty_size(afsize)}</code> (áudio) / \
+<code>{pretty_size(int(vfsize))}</code> (vídeo)\n"
     text += f"⏳ <code>{datetime.timedelta(seconds=yt.get('duration'))}</code>"
 
     await message.reply_text(text, reply_markup=keyboard)
@@ -132,7 +137,7 @@ async def ytdl_menu(bot: Korone, query: CallbackQuery, strings):
 
     await query.answer(strings["doing"], cache_time=0)
     with tempfile.TemporaryDirectory() as tempdir:
-        path = os.path.join(tempdir, "ytdl")
+        path = Path(tempdir) / "ytdl"
 
     if "vid" in data:
         ydl = YoutubeDL(
@@ -232,7 +237,7 @@ async def on_ttdl(bot: Korone, message: Message, strings):
     sent = await message.reply_text(strings["downloading"])
 
     with tempfile.TemporaryDirectory() as tempdir:
-        path = os.path.join(tempdir, "ttdl")
+        path = Path(tempdir) / "ttdl"
 
     tdl = YoutubeDL(
         {
@@ -262,16 +267,14 @@ async def on_ttdl(bot: Korone, message: Message, strings):
 
     filename = tdl.prepare_filename(tt)
     async with httpx.AsyncClient(http2=True) as client:
-        thumb = io.BytesIO(
-            (await client.get(tt["thumbnail"], headers=vheaders)).content
-        )
+        thumb = io.BytesIO((await client.get(tt["thumbnail"], headers=vheaders)).content)
         thumb.name = "thumbnail.jpeg"
 
     await sent.edit(strings["uploading"])
     keyboard = ikb([[("🔗 Tweet", tt["webpage_url"], "url")]])
     await bot.send_chat_action(message.chat.id, ChatAction.UPLOAD_VIDEO)
     try:
-        if "duration" in tt.keys():
+        if "duration" in tt:
             await message.reply_video(
                 video=filename,
                 thumb=thumb,

@@ -20,7 +20,7 @@ from ..utils.languages import get_strings_dec
 from ..utils.messages import get_args
 
 
-@Korone.on_message(filters.cmd("afk") | filters.regex(r"^(?i)brb(.*)$"))
+@Korone.on_message(filters.cmd("afk") | filters.regex(r"(?i)^brb(.*)$"))
 @disableable_dec("afk")
 @get_strings_dec("afk")
 async def afk(bot: Korone, message: Message, strings):
@@ -111,7 +111,7 @@ async def reply_afk(bot: Korone, message: Message, strings):
 
             try:
                 user = await bot.get_users(
-                    message.text[ent.offset : ent.offset + ent.length]
+                    message.text[ent.offset: ent.offset + ent.length]
                 )  # todo: use database to store and retrieve users (avoiding FloodWait)
             except (IndexError, KeyError, BadRequest, FloodWait):
                 return
@@ -146,9 +146,7 @@ async def check_afk(message: Message, user_id: int, first_name: str, strings):
         if message.from_user.id == user_id:
             return
 
-        time = humanize.naturaldelta(
-            datetime.now() - datetime.fromtimestamp(user["time"])
-        )
+        time = humanize.naturaldelta(datetime.now() - datetime.fromtimestamp(user["time"]))
 
         if not user["reason"]:
             res = strings["afk_reply_time"].format(

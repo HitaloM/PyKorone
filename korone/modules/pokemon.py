@@ -20,10 +20,7 @@ from ..utils.messages import get_args, get_command, need_args_dec
 async def poke_image(bot: Korone, message: Message, strings):
     args = get_args(message).split(" ")
     view = get_command(message, pure=True)
-    if view == "backpokemon":
-        ptype = "back_"
-    else:
-        ptype = "front_"
+    ptype = "back_" if view == "backpokemon" else "front_"
 
     ptype += args[1] if len(args) > 1 else "default"
     async with httpx.AsyncClient(http2=True) as client:
@@ -49,9 +46,7 @@ async def poke_image(bot: Korone, message: Message, strings):
             return
 
     sprite_io = r.read()
-    await message.reply_document(
-        document=await run_async(pokemon_image_sync, sprite_io)
-    )
+    await message.reply_document(document=await run_async(pokemon_image_sync, sprite_io))
 
 
 @Korone.on_message(filters.cmd("pokeitem"))
@@ -80,9 +75,7 @@ async def poke_item_image(bot: Korone, message: Message, strings):
             return
 
     sprite_io = r.read()
-    await message.reply_document(
-        document=await run_async(pokemon_image_sync, sprite_io)
-    )
+    await message.reply_document(document=await run_async(pokemon_image_sync, sprite_io))
 
 
 __help__ = True

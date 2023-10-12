@@ -45,9 +45,7 @@ async def reddit_image(bot: Korone, message: Message, strings):
         except AttributeError:
             continue
 
-        if post.url and post.url.endswith(
-            (".mp4", ".jpg", ".jpeg", "jpe", ".png", ".gif")
-        ):
+        if post.url and post.url.endswith((".mp4", ".jpg", ".jpeg", "jpe", ".png", ".gif")):
             image_url = post.url
             title = post.title
             break
@@ -79,9 +77,7 @@ async def reddit_image(bot: Korone, message: Message, strings):
             )
     except BaseException:
         await message.reply_text(
-            strings["reddit_download_error"].format(
-                sub=sub, title=title, image_url=image_url
-            )
+            strings["reddit_download_error"].format(sub=sub, title=title, image_url=image_url)
         )
 
 

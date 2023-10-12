@@ -3,7 +3,6 @@
 
 from sqlite3 import Row
 from time import time
-from typing import Optional
 
 from .core import database
 
@@ -26,7 +25,6 @@ async def rm_afk(user_id: int) -> bool:
     return True
 
 
-async def is_afk(user_id: int) -> Optional[Row]:
+async def is_afk(user_id: int) -> Row | None:
     cursor = await conn.execute("SELECT * FROM afk WHERE user_id = ?", (user_id,))
-    row = await cursor.fetchone()
-    return row
+    return await cursor.fetchone()

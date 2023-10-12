@@ -41,9 +41,7 @@ class Korone(Client):
         self.sudoers = config.get_config("sudoers")
 
         # Bot startup time
-        self.start_datetime = datetime.datetime.now().replace(
-            tzinfo=datetime.timezone.utc
-        )
+        self.start_datetime = datetime.datetime.now().replace(tzinfo=datetime.UTC)
 
     async def start(self):
         await super().start()
@@ -73,15 +71,17 @@ class Korone(Client):
             log.info("[%s] Backups disabled.", self.name)
 
         try:
-            for sudo in self.sudoers:
-                await self.send_message(
-                    chat_id=sudo,
-                    text=(
-                        f"<b>Korone</b> <a href='https://github.com/AmanoTeam/PyKorone/commit/{self.version}'>{self.version}</a>"
-                        f" (<code>{self.version_code}</code>) started! \n<b>Pyrogram</b> <code>v{pyrogram.__version__}</code> (Layer {layer})"
-                    ),
-                    disable_web_page_preview=True,
-                )
+            if self.sudoers:
+                for sudo in self.sudoers:
+                    await self.send_message(
+                        chat_id=sudo,
+                        text=(
+                            f"<b>Korone</b> <a href='https://github.com/AmanoTeam/PyKorone/commit/{self.version}'>"
+                            f"{self.version}</a> (<code>{self.version_code}</code>) started! \n"
+                            f"<b>Pyrogram</b> <code>v{pyrogram.__version__}</code> (Layer {layer})"
+                        ),
+                        disable_web_page_preview=True,
+                    )
         except BadRequest:
             log.error(
                 "[%s] Error while sending the startup message.",
@@ -94,9 +94,7 @@ class Korone(Client):
         log.warning("[%s] Stopped. Bye!", self.name)
 
     async def log(self, text: str, *args, **kwargs):
-        await self.send_message(
-            config.get_config("logs_channel"), text, *args, **kwargs
-        )
+        await self.send_message(config.get_config("logs_channel"), text, *args, **kwargs)
 
     def is_sudo(self, user: User) -> bool:
         return user.id in self.sudoers

@@ -2,7 +2,6 @@
 # Copyright (c) 2020-2022 Hitalo M. <https://github.com/HitaloM>
 
 from contextlib import suppress
-from typing import List, Tuple, Union
 
 from pyrogram import filters
 from pyrogram.enums import ChatType
@@ -18,18 +17,20 @@ from ..utils.languages import LANGUAGES, get_chat_lang_info, get_strings_dec
 @Korone.on_message(filters.cmd("language"))
 @Korone.on_callback_query(filters.regex(r"^language$"))
 @get_strings_dec("languages")
-async def language(bot: Korone, union: Union[Message, CallbackQuery], strings):
+async def language(bot: Korone, union: Message | CallbackQuery, strings):
     message = union.message if isinstance(union, CallbackQuery) else union
     chat = message.chat
-    if isinstance(union, Message):
-        if chat.type in (ChatType.GROUP, ChatType.SUPERGROUP):
-            if not await filters.admin(bot, union):
-                await union.reply_text(strings["not_admin"])
-                return
+    if (
+        isinstance(union, Message)
+        and chat.type in (ChatType.GROUP, ChatType.SUPERGROUP)
+        or not await filters.admin(bot, union)
+    ):
+        await union.reply_text(strings["not_admin"])
+        return
 
     lang_info = await get_chat_lang_info(chat.id)
 
-    buttons: List[Tuple] = []
+    buttons: list[tuple] = []
     for lang in LANGUAGES.values():
         nlang = lang["language_info"]
         text, data = (
@@ -53,11 +54,7 @@ async def language(bot: Korone, union: Union[Message, CallbackQuery], strings):
     if isinstance(union, CallbackQuery):
         keyboard.append([(strings["back_button"], "start")])
 
-    await (
-        union.message.edit_text
-        if isinstance(union, CallbackQuery)
-        else union.reply_text
-    )(
+    await (union.message.edit_text if isinstance(union, CallbackQuery) else union.reply_text)(
         strings["language_text"].format(lang_name=lang_info["babel"].display_name),
         reply_markup=ikb(keyboard),
     )
@@ -71,14 +68,15 @@ async def language_set(bot: Korone, callback: CallbackQuery, strings):
     user = callback.from_user
     language_code = callback.matches[0]["code"]
 
-    if chat.type in (ChatType.GROUP, ChatType.SUPERGROUP):
-        if not await filters.admin(bot, callback):
-            await callback.answer(
-                strings["not_admin"],
-                show_alert=True,
-                cache_time=60,
-            )
-            return
+    if chat.type in (ChatType.GROUP, ChatType.SUPERGROUP) or not await filters.admin(
+        bot, callback
+    ):
+        await callback.answer(
+            strings["not_admin"],
+            show_alert=True,
+            cache_time=60,
+        )
+        return
 
     if chat.type == ChatType.PRIVATE:
         await change_user_lang(user.id, str(language_code))
@@ -87,9 +85,7 @@ async def language_set(bot: Korone, callback: CallbackQuery, strings):
 
     nlang = LANGUAGES[language_code]["STRINGS"]["languages"]
     lang_info = LANGUAGES[language_code]["language_info"]
-    text = nlang["language_changed_alert"].format(
-        lang_name=lang_info["babel"].display_name
-    )
+    text = nlang["language_changed_alert"].format(lang_name=lang_info["babel"].display_name)
 
     for line in bki(message.reply_markup):
         for button in line:

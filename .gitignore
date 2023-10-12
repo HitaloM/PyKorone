@@ -36,3 +36,8 @@ dls/
 korone/downloads/
 .pytest_cache/
 .mypy_cache
+
+# Rye
+.python-version
+requirements.lock
+requirements-dev.lock

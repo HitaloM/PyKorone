@@ -2,7 +2,7 @@
 # Copyright (c) 2020-2022 Hitalo M. <https://github.com/HitaloM>
 
 import os
-from typing import Dict, Union
+from pathlib import Path
 
 import yaml
 from babel.core import Locale
@@ -16,13 +16,14 @@ from ..database.languages import change_chat_lang, change_user_lang
 from ..database.users import get_user_by_id
 from ..utils.logger import log
 
-LANGUAGES: Dict = {}
+LANGUAGES: dict = {}
 
 log.info("[%s] Loading locales...", Korone.__name__)
 
+
 for filename in sorted(os.listdir("korone/locales")):
     log.debug("Loading language file " + filename)
-    with open("korone/locales/" + filename, "r", encoding="utf8") as f:
+    with Path("korone/locales/" + filename).open(encoding="utf8") as f:
         glang = yaml.load(f, Loader=yaml.CLoader)
 
         lang_code = glang["language_info"]["code"]
@@ -33,10 +34,7 @@ for filename in sorted(os.listdir("korone/locales")):
 log.info(
     "[%s] Languages loaded: %s",
     Korone.__name__,
-    [
-        language["language_info"]["babel"].display_name
-        for language in LANGUAGES.values()
-    ],
+    [language["language_info"]["babel"].display_name for language in LANGUAGES.values()],
 )
 
 
@@ -63,11 +61,7 @@ async def get_strings(chat_id, module, mas_name="STRINGS"):
     class Strings:
         @staticmethod
         def get_strings(lang, mas_name, module):
-
-            if (
-                mas_name not in LANGUAGES[lang]
-                or module not in LANGUAGES[lang][mas_name]
-            ):
+            if mas_name not in LANGUAGES[lang] or module not in LANGUAGES[lang][mas_name]:
                 return {}
 
             data = LANGUAGES[lang][mas_name][module]
@@ -107,7 +101,7 @@ def get_strings_dec(module, mas_name="STRINGS"):
     def decorator(func):
         async def wrapper(
             client: Client,
-            union: Union[CallbackQuery, InlineQuery, Message],
+            union: CallbackQuery | (InlineQuery | Message),
             *args,
             **kwargs,
         ):

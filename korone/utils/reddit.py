@@ -14,18 +14,19 @@ REDDIT = Reddit(
 
 async def imagefetcherfallback(subreddit):
     async for post in subreddit.random_rising(limit=10):
-        if post.url and post.url.endswith(
-            (".mp4", ".jpg", ".jpeg", "jpe", ".png", ".gif")
-        ):
+        if post.url and post.url.endswith((".mp4", ".jpg", ".jpeg", "jpe", ".png", ".gif")):
             return post
+    return None
 
 
 async def titlefetcherfallback(subreddit):
     async for post in subreddit.random_rising(limit=1):
         return post
+    return None
 
 
 async def bodyfetcherfallback(subreddit):
     async for post in subreddit.random_rising(limit=10):
         if post.selftext and post.permalink is not post.url:
             return post
+    return None

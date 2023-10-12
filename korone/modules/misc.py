@@ -2,6 +2,7 @@
 # Copyright (c) 2020-2022 Hitalo M. <https://github.com/HitaloM>
 
 import asyncio
+import contextlib
 import html
 
 import httpx
@@ -69,8 +70,8 @@ async def fox_photo(bot: Korone, message: Message, strings):
 @disableable_dec("panda")
 @get_strings_dec("misc")
 async def panda_photo(bot: Korone, message: Message, strings):
-    async with httpx.AsyncClient(http2=True) as client:
-        r = await client.get("https://some-random-api.ml/img/panda")
+    async with httpx.AsyncClient(http2=True, follow_redirects=True) as client:
+        r = await client.get("https://some-random-api.ml/img/panda/")
 
     if r.status_code != 200:
         await message.reply_text(strings["generic_error"])
@@ -99,7 +100,7 @@ async def bird_photo(bot: Korone, message: Message, strings):
 @disableable_dec("redpanda")
 @get_strings_dec("misc")
 async def rpanda_photo(bot: Korone, message: Message, strings):
-    async with httpx.AsyncClient(http2=True) as client:
+    async with httpx.AsyncClient(http2=True, follow_redirects=True) as client:
         r = await client.get("https://some-random-api.ml/img/red_panda")
 
     if r.status_code != 200:
@@ -136,7 +137,8 @@ async def mcserver(bot: Korone, message: Message, strings):
     a = r.json()
     if a["online"]:
         text = "<b>Minecraft Server:</b>"
-        text += f"\n<b>IP:</b> {a['hostname'] if 'hostname' in a else a['ip']} (<code>{a['ip']}</code>)"
+        text += f"\n<b>IP:</b> {a['hostname'] if 'hostname' in a else a['ip']}\
+(<code>{a['ip']}</code>)"
         text += f"\n<b>Port:</b> <code>{a['port']}</code>"
         text += f"\n<b>Online:</b> <code>{a['online']}</code>"
         text += f"\n<b>Mods:</b> <code>{len(a['mods']['names']) if 'mods' in a else 'N/A'}</code>"
@@ -150,10 +152,8 @@ async def mcserver(bot: Korone, message: Message, strings):
             )
 
         text += f"\n<b>Version:</b> <code>{a['version']}</code>"
-        try:
+        with contextlib.suppress(KeyError):
             text += f"\n<b>Software:</b> <code>{a['software']}</code>"
-        except KeyError:
-            pass
         text += f"\n<b>MOTD:</b> <i>{a['motd']['clean'][0]}</i>"
 
     elif not a["ip"] or a["ip"] == "127.0.0.1":
@@ -163,7 +163,8 @@ async def mcserver(bot: Korone, message: Message, strings):
     else:
         text = (
             "<b>Minecraft Server</b>:"
-            f"\n<b>IP:</b> {a['hostname'] if 'hostname' in a else a['ip']} (<code>{a['ip']}</code>)"
+            f"\n<b>IP:</b> {a['hostname'] if 'hostname' in a else a['ip']} \
+(<code>{a['ip']}</code>)"
             f"\n<b>Port:</b> <code>{a['port']}</code>"
             f"\n<b>Online:</b> <code>{a['online']}</code>"
         )

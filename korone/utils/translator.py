@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: BSD-3-Clause
 # Copyright (c) 2020-2022 Hitalo M. <https://github.com/HitaloM>
 
-from typing import Iterable
+from collections.abc import Iterable
 
 from gpytranslate import Translator
 

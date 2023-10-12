@@ -2,6 +2,7 @@
 # Copyright (c) 2020-2022 Hitalo M. <https://github.com/HitaloM>
 
 import asyncio
+import contextlib
 import datetime
 import io
 import os
@@ -10,7 +11,7 @@ import shutil
 import signal
 import sys
 import traceback
-from typing import Dict
+from pathlib import Path
 
 import humanize
 import psutil
@@ -69,9 +70,7 @@ async def on_terminal_m(bot: Korone, message: Message):
     output_message = f"<b>Input\n&gt;</b> <code>{code}</code>\n\n"
     if len(output) > 0:
         if len(output) > (4096 - len(output_message)):
-            document = io.BytesIO(
-                (output.replace("<code>", "").replace("</code>", "")).encode()
-            )
+            document = io.BytesIO((output.replace("<code>", "").replace("</code>", "")).encode())
             document.name = "output.txt"
             await bot.send_document(
                 chat_id=message.chat.id,
@@ -91,18 +90,14 @@ async def on_eval_m(bot: Korone, message: Message):
         stdout = await meval(eval_code, globals(), **locals())
     except BaseException:
         error = traceback.format_exc()
-        await sm.edit_text(
-            f"An error occurred while running the code:\n<code>{error}</code>"
-        )
+        await sm.edit_text(f"An error occurred while running the code:\n<code>{error}</code>")
         return
     lines = str(stdout).split("\n")
     output = "".join(f"<code>{line}</code>\n" for line in lines)
     output_message = f"<b>Input\n&gt;</b> <code>{eval_code}</code>\n\n"
     if len(output) > 0:
         if len(output) > (4096 - len(output_message)):
-            document = io.BytesIO(
-                (output.replace("<code>", "").replace("</code>", "")).encode()
-            )
+            document = io.BytesIO((output.replace("<code>", "").replace("</code>", "")).encode())
             document.name = "output.txt"
             await bot.send_document(
                 chat_id=message.chat.id,
@@ -128,9 +123,7 @@ async def _aexec_(bot: Korone, message: Message):
         await locals()["_aexec_"](bot, message)
     except BaseException:
         error = traceback.format_exc()
-        await sm.edit_text(
-            f"An error occurred while running the code:\n<code>{error}</code>"
-        )
+        await sm.edit_text(f"An error occurred while running the code:\n<code>{error}</code>")
         return
     output_message = f"<b>Input\n&gt;</b> <code>{code}</code>\n\n"
     await sm.edit_text(output_message)
@@ -143,8 +136,8 @@ async def restart(bot: Korone, message: Message):
     os.execv(sys.executable, args)
 
 
-def parse_commits(log: str) -> Dict:
-    commits: Dict = {}
+def parse_commits(log: str) -> dict:
+    commits: dict = {}
     last_commit = ""
     lines = log.split("\n")
     for line in lines:
@@ -153,7 +146,7 @@ def parse_commits(log: str) -> Dict:
             commits[last_commit] = {}
         if len(line) > 0:
             if line.startswith("    "):
-                if "title" in commits[last_commit].keys():
+                if "title" in commits[last_commit]:
                     commits[last_commit]["message"] = line[4:]
                 else:
                     commits[last_commit]["title"] = line[4:]
@@ -174,18 +167,18 @@ async def upgrade(c: Korone, m: Message):
         if len(stdout) <= 0:
             return await sm.edit_text("There is nothing to update.")
         changelog = "<b>Changelog</b>:\n"
-        commits = parse_commits(stdout)
+        commits = parse_commits(stdout.decode())
         for commit_hash, commit in commits.items():
             changelog += f"  - [<code>{commit_hash[:7]}</code>] {commit['title']}\n"
         changelog += f"\n<b>New commits count</b>: <code>{len(commits)}</code>."
         keyboard = ikb([[("🆕 Upgrade", "upgrade")]])
         await sm.edit_text(changelog, reply_markup=keyboard)
-    else:
-        lines = stdout.split("\n")
-        error = "".join(f"<code>{line}</code>\n" for line in lines)
-        await sm.edit_text(
-            f"Update failed (process exited with {proc.returncode}):\n{error}"
-        )
+        return None
+
+    lines = stdout.decode().split(b"\n")
+    error = "".join(f"<code>{line.decode()}</code>\n" for line in lines)
+    await sm.edit_text(f"Update failed (process exited with {proc.returncode}):\n{error}")
+    return None
 
 
 @Korone.on_callback_query(filters.regex(r"^upgrade$") & filters.sudo)
@@ -202,9 +195,7 @@ async def upgrade_cb(bot: Korone, callback: CallbackQuery):
     else:
         lines = stdout.split("\n")
         error = "".join(f"<code>{line}</code>\n" for line in lines)
-        await sent.edit_text(
-            f"Update failed (process exited with {proc.returncode}):\n{error}"
-        )
+        await sent.edit_text(f"Update failed (process exited with {proc.returncode}):\n{error}")
 
 
 @Korone.on_message(filters.cmd("shutdown") & filters.sudo)
@@ -220,10 +211,8 @@ async def echo(bot: Korone, message: Message):
     reply = message.reply_to_message
     if reply:
         kwargs["reply_to_message_id"] = reply.id
-    try:
+    with contextlib.suppress(BadRequest):
         await message.delete()
-    except BadRequest:
-        pass
     await bot.send_message(chat_id=message.chat.id, text=text, **kwargs)
 
 
@@ -247,12 +236,10 @@ async def bot_sysinfo(bot: Korone, message: Message):
         cpu_freq = f"{round(cpu_freq / 1000, 2)}GHz"
     else:
         cpu_freq = f"{round(cpu_freq, 2)}MHz"
-    cpu_usage = (
-        f"{psutil.cpu_percent(interval=1)}% " f"({psutil.cpu_count()}) " f"{cpu_freq}"
-    )
+    cpu_usage = f"{psutil.cpu_percent(interval=1)}% " f"({psutil.cpu_count()}) " f"{cpu_freq}"
 
     # Uptime
-    now = datetime.datetime.now().replace(tzinfo=datetime.timezone.utc)
+    now = datetime.datetime.now().replace(tzinfo=datetime.UTC)
     date = now - bot.start_datetime
 
     doc = KanTeXDocument(
@@ -294,13 +281,11 @@ async def stats(bot: Korone, message: Message):
                 Bold("Size"),
                 Code(
                     humanize.naturalsize(
-                        os.stat("./korone/database/db.sqlite").st_size, binary=True
+                        Path.stat(Path("./korone/database/db.sqlite")).st_size, binary=True
                     )
                 ),
             ),
-            KeyValueItem(
-                Bold("Free"), Code(humanize.naturalsize(disk[2], binary=True))
-            ),
+            KeyValueItem(Bold("Free"), Code(humanize.naturalsize(disk[2], binary=True))),
         ),
     )
 
@@ -310,15 +295,11 @@ async def stats(bot: Korone, message: Message):
         users = await filter_users_by_language(language=language["code"])
         users_sec.append(KeyValueItem(Bold(language["code"].upper()), Code(len(users))))
 
-    groups_sec = Section(
-        "Korone Groups", KeyValueItem(Bold("All"), Code(groups_count[0]))
-    )
+    groups_sec = Section("Korone Groups", KeyValueItem(Bold("All"), Code(groups_count[0])))
     for lang in LANGUAGES.values():
         language = lang["language_info"]
         groups = await filter_chats_by_language(language=language["code"])
-        groups_sec.append(
-            KeyValueItem(Bold(language["code"].upper()), Code(len(groups)))
-        )
+        groups_sec.append(KeyValueItem(Bold(language["code"].upper()), Code(len(groups))))
 
     doc.append(users_sec)
     doc.append(groups_sec)
@@ -336,29 +317,18 @@ async def broadcast(bot: Korone, message: Message):
     media = message.photo or message.animation or message.document or message.video
     text = " ".join((message.text or message.caption).split()[3:])
     if bool(reply):
-        media = (
-            reply.photo
-            or reply.sticker
-            or reply.animation
-            or reply.document
-            or reply.video
-        )
+        media = reply.photo or reply.sticker or reply.animation or reply.document or reply.video
         text = reply.text or reply.caption
 
-    if not media:
-        if text is None or len(text) == 0:
-            await message.reply_text("The message cannot be empty.")
-            return
+    if not media and (text is None or len(text) == 0):
+        await message.reply_text("The message cannot be empty.")
+        return
 
     chats = []
     if to in ["groups", "all"]:
-        chats += [
-            chat["id"] for chat in await filter_chats_by_language(language=language)
-        ]
+        chats += [chat["id"] for chat in await filter_chats_by_language(language=language)]
     if to in ["users", "all"]:
-        chats += [
-            user["id"] for user in await filter_users_by_language(language=language)
-        ]
+        chats += [user["id"] for user in await filter_users_by_language(language=language)]
 
     if len(chats) == 0:
         await message.reply_text("No chat was found, check if everything is right.")
@@ -375,9 +345,7 @@ async def broadcast(bot: Korone, message: Message):
                 if isinstance(media, Animation):
                     await bot.send_animation(chat, media.file_id, text)
                 elif isinstance(media, Document):
-                    await bot.send_document(
-                        chat, media.file_id, caption=text, force_document=True
-                    )
+                    await bot.send_document(chat, media.file_id, caption=text, force_document=True)
                 elif isinstance(media, Photo):
                     await bot.send_photo(chat, media.file_id, text)
                 elif isinstance(media, Video):

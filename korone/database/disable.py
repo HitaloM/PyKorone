@@ -1,8 +1,8 @@
 # SPDX-License-Identifier: BSD-3-Clause
 # Copyright (c) 2020-2022 Hitalo M. <https://github.com/HitaloM>
 
+from collections.abc import Iterable
 from sqlite3 import Row
-from typing import Iterable
 
 from .core import database
 
@@ -40,5 +40,4 @@ async def is_cmd_disabled(chat_id: int, command: str) -> bool:
 
 async def get_disabled_cmds(chat_id: int) -> Iterable[Row]:
     cursor = await conn.execute("SELECT * FROM disabled WHERE chat_id = ?", (chat_id,))
-    row = await cursor.fetchall()
-    return row
+    return await cursor.fetchall()

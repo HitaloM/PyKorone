@@ -6,9 +6,10 @@ import re
 from yt_dlp import YoutubeDL
 
 YOUTUBE_REGEX = re.compile(
-    r"(?m)http(?:s?):\/\/(?:www\.)?(?:music\.)?youtu(?:be\.com\/(watch\?v=|shorts/)|\.be\/|)([\w\-\_]*)(&(amp;)?[\w\?=]*)?"
+    r"http(?:s?)://(?:www\.)?(?:music\.)?youtu(?:be\.com/(?:watch\?v=|shorts/)|\.be/)([\w\-_]*)(&(amp;)?[\w\?=]*)?",
+    re.MULTILINE,
 )
-PLAYLIST_REGEX = re.compile(rf".*({YOUTUBE_REGEX}\/|list=)([^#\&\?]*).*")
+PLAYLIST_REGEX = re.compile(rf".*({YOUTUBE_REGEX}|list=)([^#\&\?]*).*")
 TIME_REGEX = re.compile(r"[?&]t=([0-9]+)")
 
 TWITTER_REGEX = re.compile(

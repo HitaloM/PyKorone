@@ -3,7 +3,6 @@
 
 from importlib import import_module
 from pathlib import Path
-from typing import List
 
 from pyrogram import Client
 from pyrogram.handlers.handler import Handler
@@ -11,8 +10,8 @@ from pyrogram.handlers.handler import Handler
 from ..config import config
 from .logger import log
 
-HELPABLE: List[str] = []
-ALL_MODULES: List[str] = []
+HELPABLE: list[str] = []
+ALL_MODULES: list[str] = []
 
 
 def load_modules(bot: Client):
@@ -20,14 +19,14 @@ def load_modules(bot: Client):
 
     count = 0
     for path in sorted(Path(modules_path.replace(".", "/")).rglob("*.py")):
-        module_path = ".".join(path.parent.parts + (path.stem,))
+        module_path = ".".join((*path.parent.parts, path.stem))
         module = import_module(module_path)
         if not str(path).endswith("__init__.py"):
             ALL_MODULES.append(module_path)
         if not str(path).endswith("__init__.py") and hasattr(module, "__help__"):
             HELPABLE.append(module_path.split(".")[-1])
 
-        for name in vars(module).keys():
+        for name in vars(module):
             # noinspection PyBroadException
             try:
                 for handler, group in getattr(module, name).handlers:

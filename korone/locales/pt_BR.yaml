@@ -172,7 +172,6 @@ STRINGS:
       Alguns comandos úteis para aqueles que adoram enviar stickers o chat.
 
       <b>Comando:</b>
-       - /stickers &lt;pesquisa&gt;: Procurar por stickers.
        - /getsticker: Responda a um sticker para fazer o upload do seu arquivo PNG e algumas informações.
        - /color &lt;cor&gt;: Envia um sticker com a cor fornecida.
   youtube:

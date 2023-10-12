@@ -4,7 +4,6 @@
 import html
 import re
 from datetime import datetime
-from typing import List
 
 from babel.dates import format_date, format_datetime, format_time
 from pyrogram.enums import ParseMode
@@ -36,7 +35,7 @@ def remove_escapes(text: str) -> str:
     return res
 
 
-def split_quotes(text: str) -> List:
+def split_quotes(text: str) -> list:
     if any(text.startswith(char) for char in START_CHAR):
         counter = 1  # ignore first char -> is some kind of quote
         while counter < len(text):
@@ -53,12 +52,12 @@ def split_quotes(text: str) -> List:
         # 1 to avoid starting quote, and counter is exclusive so avoids ending
         key = remove_escapes(text[1:counter].strip())
         # index will be in range, or `else` would have been executed and returned
-        rest = text[counter + 1 :].strip()
+        rest = text[counter + 1:].strip()
         if not key:
             key = text[0] + text[0]
         return list(filter(None, [key, rest]))
-    else:
-        return text.split(None, 1)
+
+    return text.split(None, 1)
 
 
 async def vars_parser(text: str, message: Message, user: User = None):
@@ -72,10 +71,7 @@ async def vars_parser(text: str, message: Message, user: User = None):
     last_name = html.escape(user.last_name or "", quote=False)
     mention = user.mention(user.first_name, style=ParseMode.MARKDOWN)
 
-    if user.username:
-        username = "@" + user.username
-    else:
-        username = mention
+    username = "@" + user.username if user.username else mention
 
     chat_id = message.chat.id
     chat_name = html.escape(message.chat.title or "Local", quote=False)
@@ -91,7 +87,7 @@ async def vars_parser(text: str, message: Message, user: User = None):
         format_datetime(datetime=current_datetime, locale=language_code), quote=False
     )
 
-    text = (
+    return (
         text.replace("{first}", first_name)
         .replace("{last}", last_name)
         .replace("{fullname}", first_name + " " + last_name)
@@ -106,7 +102,6 @@ async def vars_parser(text: str, message: Message, user: User = None):
         .replace("{time}", str(current_time))
         .replace("{timedate}", str(current_timedate))
     )
-    return text
 
 
 def button_parser(markdown_note):
@@ -127,14 +122,10 @@ def button_parser(markdown_note):
 
         if n_escapes % 2 == 0:
             if bool(match.group(4)) and buttons:
-                buttons[-1].append(
-                    InlineKeyboardButton(text=match.group(2), url=match.group(3))
-                )
+                buttons[-1].append(InlineKeyboardButton(text=match.group(2), url=match.group(3)))
             else:
-                buttons.append(
-                    [InlineKeyboardButton(text=match.group(2), url=match.group(3))]
-                )
-            note_data += markdown_note[prev : match.start(1)]
+                buttons.append([InlineKeyboardButton(text=match.group(2), url=match.group(3))])
+            note_data += markdown_note[prev: match.start(1)]
             prev = match.end(1)
 
         else:

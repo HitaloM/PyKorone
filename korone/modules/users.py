@@ -61,9 +61,7 @@ async def user_info(bot: Korone, message: Message, strings):
     if user.username:
         text += strings["username"].format(username=user.username)
 
-    text += strings["user_link"].format(
-        link=user.mention(user.first_name, style="html")
-    )
+    text += strings["user_link"].format(link=user.mention(user.first_name, style="html"))
 
     if user.photo:
         photo_count = await bot.get_chat_photos_count(user.id)
@@ -83,7 +81,7 @@ async def user_info(bot: Korone, message: Message, strings):
                 f"https://api.spamwat.ch/banlist/{int(user.id)}",
                 headers={"Authorization": f"Bearer {swkey}"},
             )
-            if not r.status_code != 200:
+            if r.status_code == 200:
                 ban = r.json()
                 text += strings["sw_banned"]
                 text += strings["sw_banned_reason"].format(

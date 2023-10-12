@@ -36,9 +36,7 @@ async def list_disabled(bot: Korone, message: Message, strings):
 
     disableds_cmds = await get_disabled_cmds(message.chat.id)
     if not disableds_cmds:
-        await message.reply(
-            strings["no_disabled_cmds"].format(chat_name=message.chat.title)
-        )
+        await message.reply(strings["no_disabled_cmds"].format(chat_name=message.chat.title))
         return
 
     text = strings["disabled_list"].format(chat_name=message.chat.title)
@@ -56,9 +54,7 @@ async def disabler(bot: Korone, message: Message, strings):
         return
 
     if not await filters.admin(bot, message):
-        await message.reply_text(
-            strings["only_for_admins"].format(chat_name=message.chat.title)
-        )
+        await message.reply_text(strings["only_for_admins"].format(chat_name=message.chat.title))
         return
 
     command = get_args(message).lower()
@@ -75,9 +71,7 @@ async def disabler(bot: Korone, message: Message, strings):
 
     await disable_command(message.chat.id, command)
 
-    await message.reply(
-        strings["disabled"].format(command=command, chat_name=message.chat.title)
-    )
+    await message.reply(strings["disabled"].format(command=command, chat_name=message.chat.title))
 
 
 @Korone.on_message(filters.cmd("enable"))
@@ -89,9 +83,7 @@ async def enabler(bot: Korone, message: Message, strings):
         return
 
     if not await filters.admin(bot, message):
-        await message.reply_text(
-            strings["only_for_admins"].format(chat_name=message.chat.title)
-        )
+        await message.reply_text(strings["only_for_admins"].format(chat_name=message.chat.title))
         return
 
     command = get_args(message).lower()
@@ -108,6 +100,4 @@ async def enabler(bot: Korone, message: Message, strings):
 
     await enable_command(message.chat.id, command)
 
-    await message.reply(
-        strings["enabled"].format(command=command, chat_name=message.chat.title)
-    )
+    await message.reply(strings["enabled"].format(command=command, chat_name=message.chat.title))

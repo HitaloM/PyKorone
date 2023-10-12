@@ -2,15 +2,15 @@
 # Copyright (c) 2020-2022 Hitalo M. <https://github.com/HitaloM>
 
 import time
+from collections.abc import Iterable
 from sqlite3 import Row
-from typing import Dict, Iterable, Optional
 
 from .core import database
 
 conn = database.get_conn()
 
 
-async def get_user_by_id(id: int) -> Optional[Row]:
+async def get_user_by_id(id: int) -> Row | None:
     cursor = await conn.execute("SELECT * FROM users WHERE id = ?", (id,))
     row = await cursor.fetchone()
     await cursor.close()
@@ -24,7 +24,7 @@ async def filter_users_by_language(language: str) -> Iterable[Row]:
     return row
 
 
-async def register_user_by_dict(info: Dict) -> Optional[Row]:
+async def register_user_by_dict(info: dict) -> Row | None:
     id, language = info["id"], info["language_code"].split("-")[0]
 
     await conn.execute(
