@@ -63,7 +63,7 @@ STRINGS:
     mcstatus_invalid_server: Servidor inválido.
     mcstatus_fetching: Obtendo status do servidor...
     mcstatus_no_args: Você precisa fornecer um servidor.
-    update: 🔄️ Atualizar
+    update: '🔄️ Atualizar'
     module_help: |
       Alguns comandos diversos que não se encaixam em outro lugar.
 
@@ -188,6 +188,7 @@ STRINGS:
     error: "Desculpe! Não consegui enviar o vídeo devido a um erro.\n<b>Erro:</b> <code>{error}</code>"
     invalid_url: "Link inválido!"
     uploading: "Enviando..."
+    not_found: "Sorry! I couldn't find the video."
     module_help: |
       Com este módulo, você pode aproveitar alguns dos recursos do YouTubeDL, como o download de vídeos do YouTube.
 
