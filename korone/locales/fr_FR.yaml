@@ -58,6 +58,12 @@ STRINGS:
     generic_error: An error occurred!
     regex_timeout: Your regex is too slow!
     regex_error: "An error occurred while trying to use your regex!\nError: <code>{error}</code>"
+    mcstatus_api_timeout: I cannot connect to the API.
+    mcstatus_api_unavailable: The API is currently unavailable.
+    mcstatus_invalid_server: Invalid server.
+    mcstatus_fetching: Fetching server status...
+    mcstatus_no_args: You need to specify a server.
+    update: '🔄️ Update'
     module_help: |
       Some miscellaneous commands that don't fit anywhere else.
 
@@ -182,6 +188,7 @@ STRINGS:
     error: "Sorry! I couldn't send the video because of an error.\n<b>Error:</b> <code>{error}</code>"
     invalid_url: "Invalid link!"
     uploading: "Uploading..."
+    not_found: "Sorry! I couldn't find the video."
     module_help: |
       With this module you can take advantage of some of YouTubeDL's features, such as downloading videos from YouTube.
 
