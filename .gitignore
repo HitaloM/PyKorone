@@ -14,3 +14,7 @@ venv/
 requirements.lock
 requirements-dev.lock
 .python-version
+
+# Korone
+*.session*
+korone.toml
