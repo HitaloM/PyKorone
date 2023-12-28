@@ -9,6 +9,7 @@ from hydrogram.enums import ParseMode
 from hydrogram.raw.all import layer
 
 from korone import constants
+from korone.modules import load_all_modules
 
 from .utils.logging import log
 
@@ -83,6 +84,9 @@ class Korone(Client):
     async def start(self) -> None:
         """Starts the client."""
         await super().start()
+
+        load_all_modules(self)
+
         log.info(
             "Korone running with Hydrogram v%s (Layer %s) started on @%s. Hi!",
             hydrogram.__version__,

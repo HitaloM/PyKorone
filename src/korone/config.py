@@ -35,7 +35,10 @@ class ConfigManager:
                 "BOT_TOKEN": "",
                 "USE_IPV6": False,
                 "WORKERS": 24,
-            }
+            },
+            "korone": {
+                "SUDOERS": [918317361],
+            },
         }
 
     def init(self, cfgpath: str = constants.CONFIG_PATH) -> None:
