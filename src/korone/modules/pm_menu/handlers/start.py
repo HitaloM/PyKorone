@@ -3,8 +3,8 @@
 
 from hydrogram import Client, filters
 from hydrogram.types import Message
-from korone.decorators.message import on_message
-from korone.handlers import MessageHandler
+from korone.decorators import on_message
+from korone.handlers.message_handler import MessageHandler
 
 
 class StartHandler(MessageHandler):
