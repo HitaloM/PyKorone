@@ -3,7 +3,6 @@ korone package
 
 .. automodule:: korone
    :members:
-   :undoc-members:
    :show-inheritance:
 
 Subpackages
