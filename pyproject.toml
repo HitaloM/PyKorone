@@ -11,7 +11,7 @@ dependencies = [
     "uvloop>=0.19.0",
     "rtoml>=0.10.0",
     "better-exceptions>=0.3.3",
-    "hairydogm @ git+https://github.com/hydrogram/hairydogm@0.1.0",
+    "hairydogm @ git+https://github.com/HitaloM/hairydogm@0.1.0",
 ]
 readme = "README.md"
 license = { file = "LICENSE" }
