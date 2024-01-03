@@ -9,8 +9,8 @@ from korone.decorators.i18n import use_gettext
 from korone.handlers.message_handler import MessageHandler
 
 
-class StartHandler(MessageHandler):
+class HelpHandler(MessageHandler):
     @use_gettext
-    @on_message(filters.command("start"))
+    @on_message(filters.command("help"))
     async def handle(self, client: Client, message: Message):
         await message.reply_text(_("Hello, I'm Korone!"))

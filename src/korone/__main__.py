@@ -14,8 +14,12 @@ asyncio.set_event_loop_policy(uvloop.EventLoopPolicy())
 
 
 async def main() -> None:
-    """Starts the client."""
+    """
+    Main entry point of the program.
 
+    This function initializes the configuration, creates an instance of the Korone class,
+    starts the client, waits for it to become idle, and then stops the client.
+    """
     config = ConfigManager()
 
     config.init()

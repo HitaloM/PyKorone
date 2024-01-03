@@ -17,14 +17,17 @@ class ConfigManager:
 
     This class is responsible for managing the configuration settings of the application.
 
-    Attributes:
-        config (dict[str, Any]): The configuration settings.
+    Attributes
+    ----------
+    config : (dict[str, Any])
+        The configuration dictionary.
 
-    Methods:
-        __init__(): Initializes the ConfigManager object.
-        init(cfgpath: str = constants.CONFIG_PATH) -> None: Initializes the configuration module.
-        get(section: str, option: str, fallback: str = "") -> str: Retrieves a configuration option
-
+    Methods
+    -------
+    init(cfgpath: str = constants.CONFIG_PATH)
+        Initializes the configuration module.
+    get(section: str, option: str, fallback: str = "")
+        Retrieves a configuration option.
     """
 
     def __init__(self):
@@ -43,37 +46,50 @@ class ConfigManager:
 
     def init(self, cfgpath: str = constants.CONFIG_PATH) -> None:
         """
-        Initializes the configuration module.
+        Initialize the configuration module.
 
-        Args:
-            cfgpath (str): The path to the configuration file. Defaults to constants.CONFIG_PATH.
+        This function initializes the configuration module. It loads the configuration file
+        from the filesystem and creates it if it does not exist.
+
+        Parameters
+        ----------
+        cfgpath : str, optional
+            The path to the configuration file, by default constants.CONFIG_PATH.
         """
 
         log.info("Initializing configuration module")
         log.debug("Using path %s", cfgpath)
 
-        if not Path(cfgpath).is_file():
+        config_path = Path(cfgpath)
+        if not config_path.is_file():
             log.info("Could not find configuration file")
             try:
                 log.debug("Creating configuration file")
-                with Path(cfgpath).open("w", encoding="utf-8") as configfile:
-                    configfile.write(rtoml.dumps(self.config))
+                config_path.write_text(rtoml.dumps(self.config), encoding="utf-8")
             except OSError as err:
                 log.critical("Could not create configuration file: %s", err)
 
-        with Path(cfgpath).open("r", encoding="utf-8") as configfile:
-            self.config = rtoml.loads(configfile.read())
+        self.config = rtoml.loads(config_path.read_text(encoding="utf-8"))
 
     def get(self, section: str, option: str, fallback: str = "") -> str:
         """
-        Retrieves a configuration option.
+        Retrieve a configuration option.
 
-        Args:
-            section (str): The section of the configuration.
-            option (str): The option to retrieve.
-            fallback (str): The fallback value if the option is not found. Defaults to "".
+        This function retrieves a configuration option from the configuration file.
 
-        Returns:
-            str: The value of the configuration option.
+        Parameters
+        ----------
+        section : str
+            The name of the section in the configuration file.
+        option : str
+            The name of the option within the section.
+        fallback : str, optional
+            The default value to be returned if the option is not found, defaults to "".
+
+        Returns
+        -------
+        str
+            The value of the specified option. If the option is not found, returns the default
+            value.
         """
         return self.config.get(section, {}).get(option, fallback)

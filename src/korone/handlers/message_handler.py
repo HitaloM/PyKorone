@@ -9,31 +9,22 @@ from hydrogram.types import Message
 
 class MessageHandler(ABC):
     """
-    A MessageHandler is an abstract base class that defines the interface
-    for handling messages in Pyrogram.
+    Abstract base class for message handlers.
 
-    Subclasses of MessageHandler must implement the handle method, which
-    takes a Client and a Message object as parameters and performs some
-    action based on the message content or metadata.
-
-    Parameters
-    ----------
-    client : Client
-        The Client object that received the message.
-    message : Message
-        The Message object that represents the message.
+    This class is an abstract base class for message handlers. It defines the
+    interface for message handlers. All message handlers must inherit from
+    this class.
     """
 
     @abstractmethod
     async def handle(self, client: Client, message: Message):
         """
-        The handle method is an abstract method that must be implemented
-        by subclasses of MessageHandler.
+        Handle a message.
 
-        The handle method is called by the Client when a message that matches
-        the filters of the MessageHandler is received. The handle method can
-        perform any action based on the message, such as sending a reply,
-        editing the message, deleting the message, etc.
+        This method is called when a message is received. It takes a Client
+        object and a Message object as parameters and performs some action
+        based on the message content or metadata. This method must be
+        implemented by subclasses.
 
         Parameters
         ----------

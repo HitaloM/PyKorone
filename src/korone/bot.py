@@ -16,35 +16,31 @@ from .utils.logging import log
 
 @dataclass
 class AppParameters:
-    """Parameters for :obj:`hydrogram.Client`.
+    """
+    Parameters for :obj:`hydrogram.Client`.
 
-    Parameters
-    ----------
-    api_id : str
-        The Telegram API ID.
-    api_hash : str
-        The Telegram API hash.
-    bot_token : str
-        The Telegram bot token.
-    ipv6 : bool, optional
-        Whether to use IPv6. Default is True.
-    name : str, optional
-        The client name. Default is constants.CLIENT_NAME.
-    workers : int, optional
-        The number of workers to be used by client. Default is constants.WORKERS.
+    This class represents the parameters for initializing the bot.
     """
 
     api_id: str
+    """The API ID of the bot."""
     api_hash: str
+    """The API hash of the bot."""
     bot_token: str
+    """The bot token of the bot."""
     ipv6: bool = True
+    """Whether to use IPv6."""
     name: str = constants.CLIENT_NAME
+    """The name of the bot."""
     workers: int = constants.WORKERS
+    """The number of workers to use."""
 
 
 class Korone(Client):
     """
-    Represents a bot named Korone.
+    Represent Korone.
+
+    This class represents Korone. It inherits from :obj:`hydrogram.Client`.
 
     Parameters
     ----------
@@ -82,7 +78,11 @@ class Korone(Client):
         )
 
     async def start(self) -> None:
-        """Starts the client."""
+        """
+        Start the client.
+
+        This function starts the client and logs a message to the console.
+        """
         await super().start()
 
         load_all_modules(self)
@@ -95,6 +95,10 @@ class Korone(Client):
         )
 
     async def stop(self):
-        """Stops the client."""
+        """
+        Stop the client.
+
+        This function stops the client and logs a message to the console.
+        """
         await super().stop()
         log.info("Korone stopped.")

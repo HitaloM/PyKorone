@@ -4,7 +4,6 @@
 import inspect
 import os
 from collections.abc import Callable
-from dataclasses import dataclass
 from importlib import import_module
 from pathlib import Path
 from types import FunctionType, ModuleType
@@ -15,35 +14,94 @@ from hydrogram.handlers.message_handler import MessageHandler
 
 from korone.utils.logging import log
 
+MODULES: dict[str, dict[str, Any]] = {}
+"""A dictionary that stores information about the modules.
 
-@dataclass
-class Module:
-    name: str
-    package: str
+Examples
+--------
+{
+    "dummy": {
+        "info": {
+            "name": "Dummy System",
+            "summary": "The Dummy System is a special system implemented into Dummy Plugs.",
+            "doc": "Entry Plugs are capsule-like tubes which acts as the cockpit for Evangelion pilots."
+        },
+        "handlers": [
+            "pm_menu.handlers.eva00"
+            "pm_menu.handlers.eva01",
+            "pm_menu.handlers.eva02",
+        ]
+    }
+}
+"""  # noqa: E501
 
 
-MODULES: list[Module] = []
+def add_modules_to_dict() -> None:
+    """
+    Add modules to the MODULES dictionary.
 
+    This function walks through the directory containing the modules and adds them to the MODULES
+    dictionary. Each module is represented by a dictionary entry in the MODULES dictionary, with
+    the module name as the key.
+    """
+    parent_path = Path(__file__).parent
 
-for root, dirs, files in os.walk(Path(__file__).parent):
-    for file in files:
-        if file.endswith(".py") and not file.startswith("_"):
-            module_path = Path(root) / file
-            module_name = (
-                module_path.relative_to(Path(__file__).parent)
-                .as_posix()[:-3]
-                .replace(os.path.sep, ".")
-            )
-            name = module_name.split(".")[0]
-            MODULES.append(
-                Module(
-                    name=name,
-                    package=module_name,
+    for root, _, files in os.walk(parent_path):
+        for file in files:
+            if file.endswith(".py") and (not file.startswith("_") or file == "__init__.py"):
+                module_path = Path(root) / file
+                if module_path == Path(__file__):
+                    continue
+                module_name = (
+                    module_path.relative_to(parent_path).as_posix()[:-3].replace(os.path.sep, ".")
                 )
-            )
+                name = module_name.split(".")[0]
+                if name not in MODULES:
+                    MODULES[name] = {}
+                    MODULES[name]["info"] = {}
+                    MODULES[name]["handlers"] = []
+
+                if module_name.endswith("__init__"):
+                    module = import_module(f"korone.modules.{name}")
+                    module_info = getattr(module, "ModuleInfo")
+                    if module_info:
+                        for attr in ["name", "summary", "doc"]:
+                            if hasattr(module_info, attr):
+                                MODULES[name]["info"][attr] = getattr(module_info, attr)
+                    continue
+
+                MODULES[name]["handlers"].append(module_name)
 
 
 def get_method_callable(cls: type, key: str) -> Callable[..., Any]:
+    """
+    Get a callable method from a class.
+
+    This function checks if the method is a static method or an asynchronous method.
+    If it is a static method, it returns the method itself.
+    If it is an asynchronous method, it returns an async function that calls the method.
+    Otherwise, it returns a regular function that calls the method.
+
+    Parameters
+    ----------
+    key : str
+        The name of the method to retrieve.
+
+    Returns
+    -------
+    Callable[..., Any]
+        The callable method.
+
+    Examples
+    --------
+    >>> class MyClass:
+    ...     def my_method(self):
+    ...         return "Hello, world!"
+    ...
+    >>> get_method_callable(MyClass, "my_method")()
+    'Hello, world!'
+    """
+
     method = getattr(cls, key)
     if isinstance(getattr(cls, key), staticmethod):
         return method
@@ -59,10 +117,28 @@ def get_method_callable(cls: type, key: str) -> Callable[..., Any]:
     return async_call if is_async else call
 
 
-def register_handler(client: Client, component: ModuleType) -> bool:
+def register_handler(client: Client, module: ModuleType) -> bool:
+    """
+    Register a handler for a module in the client.
+
+    This function registers a handler for a module in the client.
+
+    Parameters
+    ----------
+    client : Client
+        The client object to register the handler with.
+    module : ModuleType
+        The module containing the handler functions.
+
+    Returns
+    -------
+    bool
+        True if the registration was successful, False otherwise.
+    """
+
     function_list = [
         (obj, func_obj)
-        for _, obj in inspect.getmembers(component)
+        for _, obj in inspect.getmembers(module)
         if inspect.isclass(obj)
         for _, func_obj in inspect.getmembers(obj)
         if isinstance(func_obj, FunctionType)
@@ -92,28 +168,81 @@ def register_handler(client: Client, component: ModuleType) -> bool:
     return successful
 
 
-def load_module(client: Client, module: Module) -> None:
+def load_module(client: Client, module: tuple) -> bool:
+    """
+    Load specified module.
+
+    This function loads a module into the Hydrogram's Client.
+
+    Parameters
+    ----------
+    client : Client
+        The Hydrogram's Client instance.
+    module : Module
+        The module to be loaded.
+
+    Returns
+    -------
+    bool
+        True if the module was loaded successfully, False otherwise.
+
+    Raises
+    ------
+    TypeError
+        If the client has not been initialized.
+
+    ModuleNotFoundError
+        If the module cannot be found.
+    """
+
     if client is None:
         log.critical("Hydrogram's Client client has not been initialized!")
         log.critical("User attempted to load commands before init.")
 
         raise TypeError("client has not been initialized!")
 
+    module_name: str = module[0]
+
     try:
-        log.info("Loading module %s", module.name)
+        log.info("Loading module: %s", module_name)
 
-        name: str = module.package
-        pkg: str = "korone.modules"
+        for handler in module[1]["handlers"]:
+            pkg: str = handler
+            modules_path: str = "korone.modules"
 
-        component: ModuleType = import_module(f".{name}", pkg)
+            component: ModuleType = import_module(f".{pkg}", modules_path)
+            if not register_handler(client, component):
+                return False
 
-    except ModuleNotFoundError as err:
-        log.error("Could not load module %s: %s", module.name, err)
+        return True
+
+    except ModuleNotFoundError:
+        log.exception("Could not load module: %s", module_name)
         raise
-
-    register_handler(client, component)
 
 
 def load_all_modules(client: Client) -> None:
-    for module in MODULES:
-        load_module(client, module)
+    """
+    Load all modules.
+
+    This function loads all modules from the `korone.modules` package.
+
+    Parameters
+    ----------
+    client : Client
+        The client object.
+    """
+
+    modules: list = []
+
+    add_modules_to_dict()
+
+    for module in MODULES.items():
+        module_name = module[0]
+        try:
+            load_module(client, module)
+            modules.append(module_name)
+        except BaseException:
+            log.exception("Could not load module: %s", module_name)
+
+    log.info("Loaded %d modules", len(modules))

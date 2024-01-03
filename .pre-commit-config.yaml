@@ -8,10 +8,16 @@ repos:
       - id: trailing-whitespace
       - id: mixed-line-ending
       - id: check-toml
+      - id: check-yaml
+
+  - repo: https://github.com/numpy/numpydoc
+    rev: v1.6.0
+    hooks:
+      - id: numpydoc-validation
 
   - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: v0.1.8
+    rev: v0.1.9
     hooks:
+      - id: ruff-format
       - id: ruff
         args: [--fix, --exit-non-zero-on-fix]
-      - id: ruff-format

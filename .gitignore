@@ -18,3 +18,4 @@ requirements-dev.lock
 # Korone
 *.session*
 korone.toml
+*.mo
