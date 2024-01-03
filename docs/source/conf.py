@@ -23,7 +23,12 @@ extensions = [
 
 intersphinx_mapping = {
     "python": ("https://docs.python.org/3", None),
+    "hydrogram": ("https://docs.hydrogram.org/en/latest/", None),
+    "babel": ("https://babel.pocoo.org/en/latest/", None),
 }
+
+html_use_modindex = False
+html_use_index = False
 
 napoleon_numpy_docstring = True
 napoleon_google_docstring = False
@@ -37,16 +42,22 @@ autodoc_member_order = "bysource"
 
 pygments_style = "friendly"
 
+napoleon_use_admonition_for_examples = True
+
+autodoc_typehints = "none"
+
 html_theme = "furo"
-html_title = f"{project} documentation {release}"
-html_css_files = [
-    "css/all.min.css",
-    "css/custom.css",
-]
+html_title = f"{project} Docs - {release}"
+html_last_updated_fmt = datetime.datetime.now(tz=datetime.UTC).strftime("%d/%m/%Y, %H:%M:%S")
 html_copy_source = False
 
 html_theme_options = {
     "navigation_with_keys": True,
+    "announcement": (
+        "PyKorone is currently under development and breaking changes may "
+        "be introduced frequently. Please monitor the commits for updates: "
+        "<a href='https://github.com/HitaloM/PyKorone/commits/main/'>Commits</a>."
+    ),
     "footer_icons": [  # these icons are getten from: https://react-icons.github.io/react-icons/
         {
             "name": "Telegram Channel",

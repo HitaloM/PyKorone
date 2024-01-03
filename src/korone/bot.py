@@ -24,17 +24,34 @@ class AppParameters:
     """
 
     api_id: str
-    """The API ID of the bot."""
+    """The Telegram API ID.
+
+    :type: str
+    """
     api_hash: str
-    """The API hash of the bot."""
+    """The Telegram API Hash.
+
+    :type: str
+    """
     bot_token: str
-    """The bot token of the bot."""
+    """The Telegram bot token.
+
+    :type: str
+    """
     ipv6: bool = True
-    """Whether to use IPv6."""
+    """Whether to use IPv6 to connect to Telegram servers.
+
+    :type: bool"""
     name: str = constants.CLIENT_NAME
-    """The name of the bot."""
+    """The name of the :class:`hydrogram.Client`.
+
+    :type: str
+    """
     workers: int = constants.WORKERS
-    """The number of workers to use."""
+    """The number of workers to be used by the :class:`hydrogram.Client`.
+
+    :type: int
+    """
 
 
 class Korone(Client):

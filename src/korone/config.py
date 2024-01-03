@@ -19,7 +19,7 @@ class ConfigManager:
 
     Attributes
     ----------
-    config : (dict[str, Any])
+    config : dict[str, Any]
         The configuration template used to create the configuration file if it does not exist.
     """
 
