@@ -20,29 +20,11 @@ class ConfigManager:
     Attributes
     ----------
     config : (dict[str, Any])
-        The configuration dictionary.
-
-    Methods
-    -------
-    init(cfgpath: str = constants.CONFIG_PATH)
-        Initializes the configuration module.
-    get(section: str, option: str, fallback: str = "")
-        Retrieves a configuration option.
+        The configuration template used to create the configuration file if it does not exist.
     """
 
     def __init__(self):
-        self.config: dict[str, Any] = {
-            "hydrogram": {
-                "API_ID": "",
-                "API_HASH": "",
-                "BOT_TOKEN": "",
-                "USE_IPV6": False,
-                "WORKERS": 24,
-            },
-            "korone": {
-                "SUDOERS": [918317361],
-            },
-        }
+        self.config: dict[str, Any] = constants.DEFAULT_CONFIG_TEMPLATE
 
     def init(self, cfgpath: str = constants.DEFAULT_CONFIG_PATH) -> None:
         """

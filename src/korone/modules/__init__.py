@@ -19,6 +19,8 @@ MODULES: dict[str, dict[str, Any]] = {}
 
 Examples
 --------
+>>> from json import dumps
+>>> print(dumps(MODULES, indent=4))
 {
     "dummy": {
         "info": {
@@ -97,8 +99,9 @@ def get_method_callable(cls: type, key: str) -> Callable[..., Any]:
     >>> class MyClass:
     ...     def my_method(self):
     ...         return "Hello, world!"
-    ...
-    >>> get_method_callable(MyClass, "my_method")()
+
+    >>> my_instance = MyClass()
+    >>> get_method_callable(MyClass, "my_method")(my_instance)
     'Hello, world!'
     """
 

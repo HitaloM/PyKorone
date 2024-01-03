@@ -54,13 +54,6 @@ class Korone(Client):
         The parameters for initializing the bot.
     me : hydrogram.types.User
         The user representing the bot.
-
-    Methods
-    -------
-    start()
-        Starts the client.
-    stop()
-        Stops the client.
     """
 
     def __init__(self, parameters: AppParameters):

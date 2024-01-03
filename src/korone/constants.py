@@ -3,6 +3,7 @@
 
 import os
 from pathlib import Path
+from typing import Any
 
 CLIENT_NAME: str = "Korone"
 """The default client name."""
@@ -24,6 +25,40 @@ Where user-specific data files should be written (analogous to /usr/share).
 
 DEFAULT_CONFIG_PATH: str = f"{XDG_CONFIG_HOME}/korone/korone.toml"
 """The default path to the config file."""
+
+
+DEFAULT_CONFIG_TEMPLATE: dict[str, Any] = {
+    "hydrogram": {
+        "API_ID": "",
+        "API_HASH": "",
+        "BOT_TOKEN": "",
+        "USE_IPV6": False,
+        "WORKERS": 24,
+    },
+    "korone": {
+        "SUDOERS": [918317361],
+    },
+}
+"""
+The default config template.
+
+Examples
+---------
+>>> from korone import constants
+>>> print(constants.DEFAULT_CONFIG_TEMPLATE)
+{
+    "hydrogram": {
+        "API_ID": "",
+        "API_HASH": "",
+        "BOT_TOKEN": "",
+        "USE_IPV6": False,
+        "WORKERS": 24,
+    },
+    "korone": {
+        "SUDOERS": [918317361],
+    },
+}
+"""
 
 DEFAULT_DBFILE_PATH: str = f"{XDG_DATA_HOME}/korone/korone.sqlite"
 """The default path to the database file."""
