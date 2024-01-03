@@ -45,29 +45,29 @@ def add_modules_to_dict() -> None:
     the module name as the key.
     """
     parent_path = Path(__file__).parent
+    current_file_path = Path(__file__)
 
     for root, _, files in os.walk(parent_path):
         for file in files:
             if file.endswith(".py") and (not file.startswith("_") or file == "__init__.py"):
                 module_path = Path(root) / file
-                if module_path == Path(__file__):
+                if module_path == current_file_path:
                     continue
                 module_name = (
                     module_path.relative_to(parent_path).as_posix()[:-3].replace(os.path.sep, ".")
                 )
                 name = module_name.split(".")[0]
                 if name not in MODULES:
-                    MODULES[name] = {}
-                    MODULES[name]["info"] = {}
-                    MODULES[name]["handlers"] = []
+                    MODULES[name] = {"info": {}, "handlers": []}
 
                 if module_name.endswith("__init__"):
                     module = import_module(f"korone.modules.{name}")
-                    module_info = getattr(module, "ModuleInfo")
+                    module_info = getattr(module, "ModuleInfo", None)
                     if module_info:
                         for attr in ["name", "summary", "doc"]:
-                            if hasattr(module_info, attr):
-                                MODULES[name]["info"][attr] = getattr(module_info, attr)
+                            attr_value = getattr(module_info, attr, None)
+                            if attr_value:
+                                MODULES[name]["info"][attr] = attr_value
                     continue
 
                 MODULES[name]["handlers"].append(module_name)
