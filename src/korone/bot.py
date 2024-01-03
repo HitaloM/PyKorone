@@ -2,6 +2,7 @@
 # Copyright (c) 2023-present Hitalo M. <https://github.com/HitaloM>
 
 from dataclasses import dataclass
+from pathlib import Path
 
 import hydrogram
 from hydrogram import Client
@@ -74,6 +75,7 @@ class Korone(Client):
             workers=self.parameters.workers,
             ipv6=self.parameters.ipv6,
             parse_mode=ParseMode.HTML,
+            workdir=str(Path(__file__).parent.parent),
             sleep_threshold=180,
         )
 
