@@ -6,6 +6,8 @@ from pathlib import Path
 
 from hairydogm.i18n import I18n
 
+from .utils.logging import log
+
 result = subprocess.run(
     "git rev-parse --short HEAD && git rev-list --count HEAD", shell=True, capture_output=True
 )
@@ -17,4 +19,19 @@ __version__ = f"{commit_hash} ({commit_count})"
 app_dir = Path(__file__).parent.parent.parent
 locales_dir: Path = app_dir / "locales"
 
-i18n = I18n(path=locales_dir)
+
+def create_i18n_instance(locales_dir: Path) -> I18n:
+    try:
+        return I18n(path=locales_dir)
+    except RuntimeError:
+        log.info("Compiling locales...")
+        subprocess.run(
+            f"pybabel compile -d '{locales_dir}' -D bot",
+            shell=True,
+            stdout=subprocess.DEVNULL,
+            stderr=subprocess.DEVNULL,
+        )
+        return I18n(path=locales_dir)
+
+
+i18n = create_i18n_instance(locales_dir)

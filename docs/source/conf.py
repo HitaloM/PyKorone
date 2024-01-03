@@ -7,7 +7,7 @@ sys.path.insert(0, Path("../../src").resolve().as_posix())
 
 import korone  # noqa: E402
 
-project = "hairydogm"
+project = "PyKorone"
 author = "Hitalo M."
 copyright = f"{datetime.date.today().year}, {author}"
 release = korone.__version__
