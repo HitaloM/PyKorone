@@ -66,7 +66,7 @@ class GetHelpCallbackHandler(CallbackQueryHandler):
         )
 
 
-class BackHelpCallbackHandler(CallbackQueryHandler):
+class HelpCallbackHandler(CallbackQueryHandler):
     @on_callback_query(filters.regex(r"^helpmenu$"))
     async def handle(self, client: Client, callback: CallbackQuery) -> None:
         await callback.message.edit_text(
