@@ -11,6 +11,7 @@ Subpackages
 .. toctree::
    :maxdepth: 2
 
+   korone.database
    korone.decorators
    korone.handlers
    korone.modules
