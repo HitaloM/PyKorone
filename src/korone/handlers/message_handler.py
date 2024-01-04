@@ -28,9 +28,9 @@ class MessageHandler(ABC):
 
         Parameters
         ----------
-        client : Client
+        client : hydrogram.Client
             The Client object that received the message.
-        message : Message
+        message : hydrogram.types.Message
             The Message object that represents the message.
         """
         pass

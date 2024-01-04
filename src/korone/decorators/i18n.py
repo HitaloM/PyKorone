@@ -18,17 +18,17 @@ def use_gettext(func: Callable) -> Callable:
 
     Parameters
     ----------
-    func : Callable
+    func : collections.abc.Callable
         The function to be decorated.
 
     Returns
     -------
-    Callable
+    collections.abc.Callable
         The decorated function.
 
     Raises
     ------
-    UnknownLocaleError
+    babel.UnknownLocaleError
         If the locale identifier is invalid.
     """
 

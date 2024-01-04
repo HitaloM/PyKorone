@@ -55,7 +55,7 @@ DEFAULT_CONFIG_TEMPLATE: dict[str, Any] = {
 """
 The default config template.
 
-:type: dict[str, Any]
+:type: dict[str, typing.Any]
 
 Examples
 ---------

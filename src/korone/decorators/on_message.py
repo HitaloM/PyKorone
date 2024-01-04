@@ -16,14 +16,14 @@ def on_message(filters: Filter, group: int = 0) -> Callable:
 
     Parameters
     ----------
-    filters : Filter
+    filters : hydrogram.filters.Filter
         The filters to apply to the incoming message.
     group : int, optional
         The group ID of the function, used for grouping related functions together.
 
     Returns
     -------
-    Callable
+    collections.abc.Callable
         The decorated function.
     """
 

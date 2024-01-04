@@ -91,7 +91,7 @@ def get_method_callable(cls: type, key: str) -> Callable[..., Any]:
 
     Returns
     -------
-    Callable[..., Any]
+    collections.abc.Callable[..., typing.Any]
         The callable method.
 
     Examples
@@ -128,9 +128,9 @@ def register_handler(client: Client, module: ModuleType) -> bool:
 
     Parameters
     ----------
-    client : Client
+    client : hydrogram.Client
         The client object to register the handler with.
-    module : ModuleType
+    module : types.ModuleType
         The module containing the handler functions.
 
     Returns
@@ -179,9 +179,9 @@ def load_module(client: Client, module: tuple) -> bool:
 
     Parameters
     ----------
-    client : Client
+    client : hydrogram.Client
         The Hydrogram's Client instance.
-    module : Module
+    module : tuple
         The module to be loaded.
 
     Returns
@@ -232,7 +232,7 @@ def load_all_modules(client: Client) -> None:
 
     Parameters
     ----------
-    client : Client
+    client : hydrogram.Client
         The client object.
     """
 
