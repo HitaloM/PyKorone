@@ -1,4 +1,4 @@
-# Korone
+# PyKorone
 
 > PyKorone is a comprehensive, cutting-edge Telegram Bot that provides a variety
 of features to enhance your Telegram experience. It is designed to be versatile

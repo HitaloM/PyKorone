@@ -48,7 +48,9 @@ autodoc_typehints = "none"
 
 html_theme = "furo"
 html_title = f"{project} Docs - {release}"
-html_last_updated_fmt = datetime.datetime.now(tz=datetime.UTC).strftime("%d/%m/%Y, %H:%M:%S")
+html_last_updated_fmt = (
+    f"{datetime.datetime.now(tz=datetime.UTC).strftime("%d/%m/%Y, %H:%M:%S")} UTC"
+)
 html_copy_source = False
 
 html_theme_options = {
@@ -60,8 +62,8 @@ html_theme_options = {
     ),
     "footer_icons": [  # these icons are getten from: https://react-icons.github.io/react-icons/
         {
-            "name": "Telegram Channel",
-            "url": "https://t.me/HitaloProjects/",
+            "name": "Telegram",
+            "url": "https://t.me/PyKoroneBot/",
             "html": (
                 '<svg stroke="currentColor" fill="currentColor" stroke-width="0" '
                 'viewBox="0 0 16 16" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">'

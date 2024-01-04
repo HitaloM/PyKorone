@@ -13,3 +13,8 @@ Submodules
    :members:
    :undoc-members:
    :show-inheritance:
+
+.. automodule:: korone.handlers.callback_query_handler
+   :members:
+   :undoc-members:
+   :show-inheritance:

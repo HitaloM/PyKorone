@@ -19,3 +19,8 @@ Submodules
    :members:
    :undoc-members:
    :show-inheritance:
+
+.. automodule:: korone.decorators.on_callback_query
+   :members:
+   :undoc-members:
+   :show-inheritance:

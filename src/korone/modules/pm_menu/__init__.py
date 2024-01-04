@@ -7,30 +7,24 @@ from hairydogm.i18n import lazy_gettext as _
 
 class ModuleInfo:
     """
-    Class that represents information about the PM Menu module.
+    Information about the PM Menu module.
 
     This module is used to add commands and menus to the bot's PM.
+
+    Attributes
+    ----------
+    name : babel.support.LazyProxy
+        The name of the module.
+    summary : babel.support.LazyProxy
+        A summary of the module.
+    doc : babel.support.LazyProxy
+        The documentation of the module.
     """
 
     name: LazyProxy = _("PM Menu")
-    """The name of the module.
-    The name of the module to be used in the bot's help command.
-
-    :type: babel.support.LazyProxy
-    """
     summary: LazyProxy = _("This module is used to add commands and menus to the bot's PM.")
-    """A short summary of the module.
-    Just a short sentence that explains what the module does.
-
-    :type: babel.support.LazyProxy
-    """
     doc: LazyProxy = _(
         """<b>Commands:</b>
 - /start: Start the bot.
 - /help: Returns the help menu, with all <code>User</code> modules."""
     )
-    """A short documentation of the module
-    should explain what the module does and how to use it.
-
-    :type: babel.support.LazyProxy
-    """
