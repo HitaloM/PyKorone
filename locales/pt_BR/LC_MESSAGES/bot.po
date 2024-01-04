@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-01-03 23:16-0300\n"
+"POT-Creation-Date: 2024-01-03 23:46-0300\n"
 "PO-Revision-Date: 2023-12-30 20:38-0300\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: pt_BR\n"
@@ -23,9 +23,17 @@ msgid "PM Menu"
 msgstr "Menu PV"
 
 #: src/korone/modules/pm_menu/__init__.py:21
+msgid "This module is used to add commands and menus to the bot's PM."
+msgstr "Este módulo é usado para adicionar comandos e menus ao PV do bot."
+
 #: src/korone/modules/pm_menu/__init__.py:27
-msgid "A module that adds a PM menu to the bot."
-msgstr "Um módulo que adiciona um menu PV ao bot."
+msgid ""
+"<b>Commands:</b>\n"
+"- /start: Start the bot.\n"
+"- /help: Returns the help menu, with all <code>User</code> modules."
+msgstr "<b>Comandos:</b>\n"
+"- /start: Inicia o bot.\n"
+"- /help: Retorna o menu de ajuda, com todos os módulos <code>User</code>."
 
 #: src/korone/modules/pm_menu/handlers/help.py:23
 #: src/korone/modules/pm_menu/handlers/help.py:45

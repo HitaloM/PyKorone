@@ -18,13 +18,17 @@ class ModuleInfo:
 
     :type: babel.support.LazyProxy
     """
-    summary: LazyProxy = _("A module that adds a PM menu to the bot.")
+    summary: LazyProxy = _("This module is used to add commands and menus to the bot's PM.")
     """A short summary of the module.
     Just a short sentence that explains what the module does.
 
     :type: babel.support.LazyProxy
     """
-    doc: LazyProxy = _("A module that adds a PM menu to the bot.")
+    doc: LazyProxy = _(
+        """<b>Commands:</b>
+- /start: Start the bot.
+- /help: Returns the help menu, with all <code>User</code> modules."""
+    )
     """A short documentation of the module
     should explain what the module does and how to use it.
 

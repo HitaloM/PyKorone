@@ -51,7 +51,8 @@ class GetHelpCallbackHandler(CallbackQueryHandler):
         name = module["name"]
         summary = module["summary"]
         doc = module["doc"]
-        return f"{name}\n{summary}\n\n{doc}"
+
+        return f"<b>{name}</b>\n\n{summary}\n\n{doc}"
 
     @on_callback_query(filters.regex(r"^gethelp:(.*)"))
     async def handle(self, client: Client, callback: CallbackQuery) -> None:
