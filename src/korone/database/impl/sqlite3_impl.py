@@ -2,10 +2,10 @@
 # Copyright (c) 2023 Victor Cebarros <https://github.com/victorcebarros>
 # Copyright (c) 2023-present Hitalo M. <https://github.com/HitaloM>
 
-import sqlite3
 from pathlib import Path
 from typing import Any, Protocol
 
+import aiosqlite
 from korone.constants import DEFAULT_DBFILE_PATH
 from korone.database.query import Query
 from korone.database.table import Document, Documents, Table
@@ -34,9 +34,9 @@ class _Conn(Protocol):
     _path: Path
     _args: tuple
     _kwargs: dict
-    _conn: sqlite3.Connection | None = None
+    _conn: aiosqlite.Connection | None = None
 
-    def _is_open(self):
+    async def _is_open(self):
         """
         Check whether Database is open.
 
@@ -44,8 +44,9 @@ class _Conn(Protocol):
         or not. It returns True if the database is open,
         False otherwise.
         """
+        pass
 
-    def _execute(self, sql: str, parameters: tuple = (), /):
+    async def _execute(self, sql: str, parameters: tuple = (), /):
         """
         Execute SQL Command without checking whether self._conn is null or not.
 
@@ -59,6 +60,7 @@ class _Conn(Protocol):
         parameters : tuple, optional
             The parameters to be used in the SQL statement, by default ().
         """
+        pass
 
 
 class SQLite3Table:
@@ -86,7 +88,7 @@ class SQLite3Table:
         self._conn = conn
         self._table = table
 
-    def insert(self, fields: Any | Document):
+    async def insert(self, fields: Any | Document):
         """
         Insert a row on the table.
 
@@ -108,9 +110,9 @@ class SQLite3Table:
 
         sql = f"INSERT INTO {self._table} VALUES ({placeholders})"
 
-        self._conn._execute(sql, tuple(values))
+        await self._conn._execute(sql, tuple(values))
 
-    def query(self, query: Query) -> Documents:
+    async def query(self, query: Query) -> Documents:
         """
         Query rows that match the criteria.
 
@@ -132,11 +134,12 @@ class SQLite3Table:
 
         sql = f"SELECT * FROM {self._table} WHERE {clause}"
 
-        rows = self._conn._execute(sql, data).fetchall()
+        cursor = await self._conn._execute(sql, data)
+        rows = await cursor.fetchall()
 
         return [Document(row) for row in rows]
 
-    def update(self, fields: Any | Document, query: Query):
+    async def update(self, fields: Any | Document, query: Query):
         """
         Update fields on rows that match the criteria.
 
@@ -167,9 +170,9 @@ class SQLite3Table:
 
         sql = f"UPDATE {self._table} SET {assignments} WHERE {clause}"
 
-        self._conn._execute(sql, (*values, *data))
+        await self._conn._execute(sql, (*values, *data))
 
-    def delete(self, query: Query):
+    async def delete(self, query: Query):
         """
         Delete rows that match the criteria.
 
@@ -185,7 +188,7 @@ class SQLite3Table:
 
         sql = f"DELETE FROM {self._table} WHERE {clause}"
 
-        self._conn._execute(sql, data)
+        await self._conn._execute(sql, data)
 
 
 class SQLite3Connection:
@@ -219,44 +222,30 @@ class SQLite3Connection:
     _path: Path
     _args: tuple
     _kwargs: dict
-    _conn: sqlite3.Connection | None = None
+    _conn: aiosqlite.Connection | None = None
 
     def __init__(self, *args, path: Path = Path(DEFAULT_DBFILE_PATH), **kwargs):
         self._path: Path = path
         self._args = args
         self._kwargs = kwargs
 
-    def __enter__(self):
-        self.connect()
+    async def __aenter__(self):
+        await self.connect()
         return self
 
-    def __exit__(self, exc_type, exc_value, traceback):
-        self.close()
+    async def __aexit__(self, exc_type, exc_value, traceback):
+        await self.close()
 
-    def _is_open(self):
+    async def _is_open(self):
         return self._conn is not None
 
-    def _execute(self, sql: str, parameters: tuple = (), /):
-        # this method should only be called
-        # internally, thereby we can afford to not check
-        # its nullity
-        conn: sqlite3.Connection = self._conn  # type: ignore
+    async def _execute(self, sql: str, parameters: tuple = (), /):
+        conn: aiosqlite.Connection = self._conn  # type: ignore
 
-        # for readability, we shorten self._conn to conn
-        with conn:
-            return conn.execute(sql, parameters)
+        async with conn:
+            return await conn.execute(sql, parameters)
 
-    def _executescript(self, sql: str):
-        # this method should only be called
-        # internally, thereby we can afford to not check
-        # its nullity
-        conn: sqlite3.Connection = self._conn  # type: ignore
-
-        # for readability, we shorten self._conn to conn
-        with conn:
-            return conn.executescript(sql)
-
-    def connect(self):
+    async def connect(self):
         """
         Connect to the SQLite database.
 
@@ -268,14 +257,14 @@ class SQLite3Connection:
         RuntimeError
             If the connection is already in place.
         """
-        if self._is_open():
+        if await self._is_open():
             raise RuntimeError("Connection is already in place.")
 
-        self._conn = sqlite3.connect(
+        self._conn = await aiosqlite.connect(
             self._path.expanduser().resolve(), *self._args, **self._kwargs
         )
 
-    def table(self, name: str) -> Table:
+    async def table(self, name: str) -> Table:
         """
         Return a Table object representing the specified table.
 
@@ -295,7 +284,7 @@ class SQLite3Connection:
         """
         return SQLite3Table(conn=self, table=name)
 
-    def execute(self, sql: str, parameters: tuple = (), /):
+    async def execute(self, sql: str, parameters: tuple = (), /):
         """
         Execute an SQL statement with optional parameters.
 
@@ -313,12 +302,12 @@ class SQLite3Connection:
         RuntimeError
             Raised if the connection is not yet open.
         """
-        if not self._is_open():
+        if not await self._is_open():
             raise RuntimeError("Connection is not yet open.")
 
-        self._execute(sql, parameters)
+        await self._execute(sql, parameters)
 
-    def close(self):
+    async def close(self):
         """
         Close the database connection.
 
@@ -330,7 +319,7 @@ class SQLite3Connection:
         RuntimeError
             If the connection is not yet open.
         """
-        if not self._is_open():
+        if not await self._is_open():
             raise RuntimeError("Connection is not yet open.")
 
-        self._conn.close()
+        await self._conn.close()

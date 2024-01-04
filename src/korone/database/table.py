@@ -36,7 +36,7 @@ class Table(Protocol):
     the user from dealing with SQL Queries directly.
     """
 
-    def insert(self, fields: Any | Document):
+    async def insert(self, fields: Any | Document):
         """
         Insert a row on the table.
 
@@ -73,7 +73,7 @@ class Table(Protocol):
             for more information.
         """
 
-    def query(self, query: Query) -> Documents:
+    async def query(self, query: Query) -> Documents:
         """
         Query rows that match the criteria.
 
@@ -91,7 +91,7 @@ class Table(Protocol):
             List of Documents of rows that matched the criteria.
         """
 
-    def update(self, fields: Any | Document, query: Query):
+    async def update(self, fields: Any | Document, query: Query):
         """
         Update fields on rows that match the criteria.
 
@@ -106,7 +106,7 @@ class Table(Protocol):
             Matching criteria.
         """
 
-    def delete(self, query: Query):
+    async def delete(self, query: Query):
         """
         Delete rows that match the criteria.
 
