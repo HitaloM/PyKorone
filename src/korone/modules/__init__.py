@@ -10,6 +10,7 @@ from types import FunctionType, ModuleType
 from typing import Any
 
 from hydrogram import Client
+from hydrogram.handlers.callback_query_handler import CallbackQueryHandler
 from hydrogram.handlers.message_handler import MessageHandler
 
 from korone.utils.logging import log
@@ -68,7 +69,7 @@ def add_modules_to_dict() -> None:
                     if module_info:
                         for attr in ["name", "summary", "doc"]:
                             attr_value = getattr(module_info, attr, None)
-                            if attr_value:
+                            if attr_value is not None:
                                 MODULES[name]["info"][attr] = attr_value
                     continue
 
@@ -161,10 +162,12 @@ def register_handler(client: Client, module: ModuleType) -> bool:
 
             if method.on == "message":
                 client.add_handler(MessageHandler(method_callable, filters), group)  # type: ignore
+            if method.on == "callback_query":
+                client.add_handler(CallbackQueryHandler(method_callable, filters), group)  # type: ignore
 
-            log.info("Registrando comando %s", filters.commands)
-            log.info("\thandler: %s", cls.__name__)
-            log.info("\tgroup:   %d", group)
+            log.debug("Registering handler %s", cls.__name__)
+            log.debug("\tfilters: %s", filters)
+            log.debug("\tgroup:   %d", group)
 
             successful = True
 

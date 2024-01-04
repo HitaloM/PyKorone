@@ -29,7 +29,7 @@ class MessageHandler(ABC):
         Parameters
         ----------
         client : hydrogram.Client
-            The Client object that received the message.
+            The Client object representing the Telegram bot.
         message : hydrogram.types.Message
             The Message object that represents the message.
         """
