@@ -10,6 +10,7 @@ from korone import i18n
 from korone.decorators import on_callback_query, on_message
 from korone.handlers.callback_query_handler import CallbackQueryHandler
 from korone.handlers.message_handler import MessageHandler
+from korone.utils.filters import is_admin
 
 
 class SelectLanguage(MessageHandler):
@@ -33,7 +34,7 @@ class SelectLanguage(MessageHandler):
     def build_text() -> str:
         return _("Please select the language you want to use for the chat.")
 
-    @on_message(filters.command("languages"))
+    @on_message(filters.command("languages") & is_admin)
     async def handle(self, client: Client, message: Message):
         await message.reply_text(
             self.build_text(),
