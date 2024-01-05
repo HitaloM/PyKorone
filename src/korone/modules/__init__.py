@@ -39,7 +39,7 @@ Examples
 """  # noqa: E501
 
 
-def add_modules_to_dict() -> None:
+async def add_modules_to_dict() -> None:
     """
     Add modules to the MODULES dictionary.
 
@@ -71,6 +71,14 @@ def add_modules_to_dict() -> None:
                             attr_value = getattr(module_info, attr, None)
                             if attr_value is not None:
                                 MODULES[name]["info"][attr] = attr_value
+
+                    module_setup = getattr(module, "__pre_setup__", None)
+                    if module_setup:
+                        await module_setup()
+
+                    continue
+
+                if module_name.endswith(("manager", "utils")):
                     continue
 
                 MODULES[name]["handlers"].append(module_name)
@@ -227,7 +235,7 @@ def load_module(client: Client, module: tuple) -> bool:
         raise
 
 
-def load_all_modules(client: Client) -> None:
+async def load_all_modules(client: Client) -> None:
     """
     Load all modules.
 
@@ -241,7 +249,7 @@ def load_all_modules(client: Client) -> None:
 
     modules: list = []
 
-    add_modules_to_dict()
+    await add_modules_to_dict()
 
     for module in MODULES.items():
         module_name = module[0]

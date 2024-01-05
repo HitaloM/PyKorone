@@ -2,7 +2,10 @@
 # Copyright (c) 2023 Victor Cebarros <https://github.com/victorcebarros>
 # Copyright (c) 2023-present Hitalo M. <https://github.com/HitaloM>
 
+from pathlib import Path
 from typing import Protocol
+
+import aiosqlite
 
 from .table import Table
 
@@ -16,40 +19,69 @@ class Connection(Protocol):
 
     Examples
     --------
-        >>> class SQLite3Connection:
-        ...     # SQLite3-specific parameters are
-        ...     # passed through __init__
-        ...     def __init__(self, path: str):
-        ...         self.path = path
-        ...     # Context Manager
-        ...     def __enter__(self):
-        ...         ...
-        ...         self.connect()
-        ...     def __exit__(self):
-        ...         ...
-        ...         self.close()
-        ...     def connect(self):
-        ...         ...
-        ...     def table(self, name: str) -> Table:
-        ...         ...
-        ...     def close(self):
-        ...         ...
+    >>> class SQLite3Connection:
+    ...     # SQLite3-specific parameters are
+    ...     # passed through __init__
+    ...     def __init__(self, path: str):
+    ...         self.path = path
+    ...     # Context Manager
+    ...     async def __aenter__(self):
+    ...         ...
+    ...         self.connect()
+    ...     async def __aexit__(self):
+    ...         ...
+    ...         self.close()
+    ...     async def connect(self):
+    ...         ...
+    ...     async def table(self, name: str) -> Table:
+    ...         ...
+    ...     async def close(self):
+    ...         ...
     """
 
-    def __enter__(self):
+    _path: Path
+    _args: tuple
+    _kwargs: dict
+    _conn: aiosqlite.Connection | None = None
+
+    async def __aenter__(self) -> "Connection":
         ...
 
-    def __exit__(self, exc_type, exc_value, traceback):
+    async def __aexit__(self, exc_type, exc_value, traceback) -> None:
         ...
 
-    def connect(self):
+    def _is_open(self):
+        """
+        Check if the connection is open.
+
+        This method checks if the connection is open.
+        """
+        ...
+
+    async def _execute(self, sql: str, parameters: tuple = (), /):
+        """
+        Execute the given SQL statement with the provided parameters.
+
+        This method executes the given SQL statement with the provided parameters.
+
+        Parameters
+        ----------
+        sql : str
+            The SQL statement to be executed.
+        parameters : tuple, optional
+            The parameters to be used in the SQL statement, by default ().
+        """
+        ...
+
+    async def connect(self) -> None:
         """
         Open a connection to a database.
 
         This method opens a connection to a database.
         """
+        ...
 
-    def execute(self, sql: str, parameters: tuple = (), /):
+    async def execute(self, sql: str, parameters: tuple = (), /) -> None:
         """
         Execute SQL operations.
 
@@ -62,8 +94,9 @@ class Connection(Protocol):
         parameters : tuple, optional
             The parameters to be used in the SQL statement, by default ().
         """
+        ...
 
-    def table(self, name: str) -> Table:
+    async def table(self, name: str) -> Table:
         """
         Return a Table, which can be used for database related operations.
 
@@ -80,10 +113,12 @@ class Connection(Protocol):
         Table
             A Table object representing the specified table.
         """
+        ...
 
-    def close(self):
+    async def close(self) -> None:
         """
         Close the connection.
 
         This method closes the connection to the database.
         """
+        ...

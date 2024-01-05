@@ -25,6 +25,7 @@ intersphinx_mapping = {
     "python": ("https://docs.python.org/3", None),
     "hydrogram": ("https://docs.hydrogram.org/en/latest/", None),
     "babel": ("https://babel.pocoo.org/en/latest/", None),
+    "aiosqlite": ("https://aiosqlite.omnilib.dev/en/stable/", None),
 }
 
 html_use_modindex = False
@@ -49,7 +50,7 @@ autodoc_typehints = "none"
 html_theme = "furo"
 html_title = f"{project} Docs - {release}"
 html_last_updated_fmt = (
-    f"{datetime.datetime.now(tz=datetime.UTC).strftime("%d/%m/%Y, %H:%M:%S")} UTC"
+    f"{datetime.datetime.now(tz=datetime.UTC).strftime('%d/%m/%Y, %H:%M:%S')} UTC"
 )
 html_copy_source = False
 

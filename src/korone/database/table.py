@@ -36,7 +36,7 @@ class Table(Protocol):
     the user from dealing with SQL Queries directly.
     """
 
-    async def insert(self, fields: Any | Document):
+    async def insert(self, fields: Any | Document) -> None:
         """
         Insert a row on the table.
 
@@ -53,6 +53,12 @@ class Table(Protocol):
         fields : typing.Any | Document
             Fields to insert.
 
+        Notes
+        -----
+        Document values *cannot* have nested values, due to the
+        limitation of database rows. Refer to the Document type
+        for more information.
+
         Examples
         --------
         >>> class HappyLittleCustomer:
@@ -65,13 +71,8 @@ class Table(Protocol):
         >>> # it won't insert anything, since we are passing
         >>> # a class instead of a Document
         >>> table.insert(gummikunde)
-
-        .. warning::
-
-            Document values *cannot* have nested values, due to the
-            limitation of database rows. Refer to the Document type
-            for more information.
         """
+        ...
 
     async def query(self, query: Query) -> Documents:
         """
@@ -90,8 +91,9 @@ class Table(Protocol):
         Documents
             List of Documents of rows that matched the criteria.
         """
+        ...
 
-    async def update(self, fields: Any | Document, query: Query):
+    async def update(self, fields: Any | Document, query: Query) -> None:
         """
         Update fields on rows that match the criteria.
 
@@ -105,8 +107,9 @@ class Table(Protocol):
         query : Query
             Matching criteria.
         """
+        ...
 
-    async def delete(self, query: Query):
+    async def delete(self, query: Query) -> None:
         """
         Delete rows that match the criteria.
 
@@ -117,3 +120,4 @@ class Table(Protocol):
         query : Query
             Matching criteria.
         """
+        ...

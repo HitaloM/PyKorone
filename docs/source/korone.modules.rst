@@ -13,3 +13,12 @@ Subpackages
    :maxdepth: 2
 
    korone.modules.pm_menu
+   korone.modules.language
+
+Submodules
+----------
+
+.. automodule:: korone.modules.manager
+   :members:
+   :undoc-members:
+   :show-inheritance:

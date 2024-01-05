@@ -97,7 +97,7 @@ class Korone(Client):
         """
         await super().start()
 
-        load_all_modules(self)
+        await load_all_modules(self)
 
         log.info(
             "Korone running with Hydrogram v%s (Layer %s) started on @%s. Hi!",

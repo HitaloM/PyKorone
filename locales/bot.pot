@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-01-03 23:46-0300\n"
+"POT-Creation-Date: 2024-01-05 16:02-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,19 +17,55 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.14.0\n"
 
-#: src/korone/modules/pm_menu/__init__.py:15
+#: src/korone/modules/language/__init__.py:28
+msgid "Language"
+msgstr ""
+
+#: src/korone/modules/language/__init__.py:29
+msgid "This module is used to change the bot's language."
+msgstr ""
+
+#: src/korone/modules/language/__init__.py:30
+msgid ""
+"<b>Commands:</b>\n"
+"- /languages: Returns a menu to change the bot's language."
+msgstr ""
+
+#: src/korone/modules/language/handlers/cancel.py:15
+msgid ""
+"Changing language was canceled, you can change language again by using "
+"/language command."
+msgstr ""
+
+#: src/korone/modules/language/handlers/select.py:22
+msgid "❌ Cancel"
+msgstr ""
+
+#: src/korone/modules/language/handlers/select.py:29
+msgid "Please select the language you want to use for the chat."
+msgstr ""
+
+#: src/korone/modules/pm_menu/__init__.py:24
 msgid "PM Menu"
 msgstr ""
 
-#: src/korone/modules/pm_menu/__init__.py:21
+#: src/korone/modules/pm_menu/__init__.py:25
 msgid "This module is used to add commands and menus to the bot's PM."
 msgstr ""
 
-#: src/korone/modules/pm_menu/__init__.py:27
+#: src/korone/modules/pm_menu/__init__.py:26
 msgid ""
 "<b>Commands:</b>\n"
 "- /start: Start the bot.\n"
 "- /help: Returns the help menu, with all <code>User</code> modules."
+msgstr ""
+
+#: src/korone/modules/pm_menu/handlers/apply.py:19
+msgid "Something went wrong."
+msgstr ""
+
+#: src/korone/modules/pm_menu/handlers/apply.py:31
+msgid "Language changed to {new_lang}."
 msgstr ""
 
 #: src/korone/modules/pm_menu/handlers/help.py:23

@@ -52,56 +52,56 @@ class Query:
     Examples
     --------
     >>> # hypothetical, not yet implemented, connection class
-    >>> conn = Connection()
-    >>> table = conn.logicians()
+    >>> conn = SQLite3Connection()
+    >>> table = conn.table()
     >>> logician = Query()
     >>> table.query(logician.name == "Kazimierz Kuratowski")
     [{'desc': 'Polish mathematician and logician. [...]',
         'name': 'Kazimierz Kuratowski'}]
     """
 
-    def __init__(self, *, lhs=None, operator=None, rhs=None):
+    def __init__(self, *, lhs=None, operator=None, rhs=None) -> None:
         self.lhs = lhs
         self.operator = operator
         self.rhs = rhs
 
-    def __getattr__(self, name: str):
+    def __getattr__(self, name: str) -> "Query":
         # Allows for instance.name
         self.lhs = name
         return self
 
-    def __getitem__(self, item: str):
+    def __getitem__(self, item: str) -> "Query":
         # Allows for instance['name']
         return self.__getattr__(item)
 
-    def __copy__(self):
+    def __copy__(self) -> "Query":
         return Query(lhs=self.lhs, operator=self.operator, rhs=self.rhs)
 
-    def __and__(self, other):
+    def __and__(self, other) -> "Query":
         return self._new_node(lhs=self, operator="AND", rhs=other)
 
-    def __or__(self, other):
+    def __or__(self, other) -> "Query":
         return self._new_node(lhs=self, operator="OR", rhs=other)
 
-    def __invert__(self):
+    def __invert__(self) -> "Query":
         return self._new_node(operator="NOT", rhs=self)
 
-    def __eq__(self, other):
+    def __eq__(self, other) -> "Query":
         return self._new_node(lhs=self.lhs, operator="==", rhs=other)
 
-    def __ne__(self, other):
+    def __ne__(self, other) -> "Query":
         return self._new_node(lhs=self.lhs, operator="!=", rhs=other)
 
-    def __lt__(self, other):
+    def __lt__(self, other) -> "Query":
         return self._new_node(lhs=self.lhs, operator="<", rhs=other)
 
-    def __le__(self, other):
+    def __le__(self, other) -> "Query":
         return self._new_node(lhs=self.lhs, operator="<=", rhs=other)
 
-    def __gt__(self, other):
+    def __gt__(self, other) -> "Query":
         return self._new_node(lhs=self.lhs, operator=">", rhs=other)
 
-    def __ge__(self, other):
+    def __ge__(self, other) -> "Query":
         return self._new_node(lhs=self.lhs, operator=">=", rhs=other)
 
     def _new_node(self, *, lhs=None, operator=None, rhs=None) -> "Query":
