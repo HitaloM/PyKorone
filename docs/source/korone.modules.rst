@@ -3,6 +3,7 @@ korone.modules package
 
 .. automodule:: korone.modules
    :members:
+   :excludes: __init__
    :undoc-members:
    :show-inheritance:
 
@@ -17,6 +18,11 @@ Subpackages
 
 Submodules
 ----------
+
+.. automodule:: korone.modules.core
+   :members:
+   :undoc-members:
+   :show-inheritance:
 
 .. automodule:: korone.modules.manager
    :members:
