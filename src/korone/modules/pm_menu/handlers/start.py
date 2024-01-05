@@ -10,11 +10,12 @@ from korone.handlers.callback_query_handler import CallbackQueryHandler
 from korone.handlers.message_handler import MessageHandler
 
 
-class StartMessageHandler(MessageHandler):
+class Start(MessageHandler):
     @staticmethod
     def build_keyboard() -> InlineKeyboardMarkup:
         keyboard = InlineKeyboardBuilder()
         keyboard.button(text=_("Help"), callback_data="helpmenu")
+        keyboard.button(text=_("Language"), callback_data="selectlanguage")
         keyboard.adjust(2)
         return keyboard.as_markup()  # type: ignore
 
@@ -30,10 +31,10 @@ class StartMessageHandler(MessageHandler):
         )
 
 
-class StartCallbackHandler(CallbackQueryHandler):
+class StartCallback(CallbackQueryHandler):
     @on_callback_query(filters.regex(r"^startmenu$"))
     async def handle(self, client: Client, callback: CallbackQuery) -> None:
-        await callback.message.edit_text(
-            text=StartMessageHandler.build_text(),
-            reply_markup=StartMessageHandler.build_keyboard(),
-        )
+        text = Start.build_text()
+        keyboard = Start.build_keyboard()
+
+        await callback.message.edit_text(text, reply_markup=keyboard)

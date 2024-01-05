@@ -11,7 +11,7 @@ from korone.handlers.message_handler import MessageHandler
 from korone.modules import MODULES
 
 
-class HelpMessageHandler(MessageHandler):
+class Help(MessageHandler):
     @staticmethod
     def build_keyboard() -> InlineKeyboardMarkup:
         keyboard = InlineKeyboardBuilder()
@@ -38,7 +38,7 @@ class HelpMessageHandler(MessageHandler):
         )
 
 
-class GetHelpCallbackHandler(CallbackQueryHandler):
+class GetHelp(CallbackQueryHandler):
     @staticmethod
     def build_keyboard() -> InlineKeyboardMarkup:
         keyboard = InlineKeyboardBuilder()
@@ -69,7 +69,7 @@ class GetHelpCallbackHandler(CallbackQueryHandler):
 class HelpCallbackHandler(CallbackQueryHandler):
     @on_callback_query(filters.regex(r"^helpmenu$"))
     async def handle(self, client: Client, callback: CallbackQuery) -> None:
-        await callback.message.edit_text(
-            HelpMessageHandler.build_text(),
-            reply_markup=HelpMessageHandler.build_keyboard(),
-        )
+        text = Help.build_text()
+        keyboard = Help.build_keyboard()
+
+        await callback.message.edit_text(text, reply_markup=keyboard)
