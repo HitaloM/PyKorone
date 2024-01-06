@@ -15,6 +15,9 @@ from korone.utils.i18n import gettext as _
 
 
 class ApplyLanguage(CallbackQueryHandler):
+    crowdin_url: str = "https://crowdin.com/project/pykorone"
+    github_url: str = "https://github.com/HitaloM/PyKorone/issues"
+
     @on_callback_query(filters.regex(r"^setlang:(?P<language>.*)$"))
     async def handle(self, client: Client, callback: CallbackQuery) -> None:
         if not callback.matches:
@@ -45,10 +48,26 @@ class ApplyLanguage(CallbackQueryHandler):
 
     async def prepare_response(self, language: str) -> tuple[str, InlineKeyboardBuilder | None]:
         i18n = get_i18n()
-        text = _("Language changed to {new_lang}.", locale=language).format(new_lang=language)
+        text = _("Language changed to {new_lang}.", locale=language).format(
+            new_lang=i18n.locale_display(i18n.babel(language))
+        )
 
         keyboard = None
-        if stats := i18n.get_locale_stats(locale_code=language):
+        if language == i18n.default_locale:
+            keyboard = InlineKeyboardBuilder()
+            text += _(
+                "\nThis is the bot's native language."
+                "\nIf you find any errors, please file a issue in the "
+                "GitHub Repository.",
+                locale=language,
+            )
+            keyboard.button(
+                text=_("🐞 Open GitHub", locale=language),
+                url=self.github_url,
+            )
+
+        elif stats := i18n.get_locale_stats(locale_code=language):
+            keyboard = InlineKeyboardBuilder()
             percent = 100 if i18n.default_locale == language else stats.percent_translated
             text += _(
                 "\nThe language is {percent}% translated.",
@@ -56,10 +75,13 @@ class ApplyLanguage(CallbackQueryHandler):
             ).format(percent=percent)
             if percent > 99:
                 text += _(
-                    "\nIn case you find any errors, please file a issue in the {link}.",
+                    "\nIn case you find any errors, please file a issue in the "
+                    "GitHub Repository.",
                     locale=language,
-                ).format(
-                    link="<a href='https://github.com/HitaloM/PyKorone/issues'>GitHub Repo</a>"
+                )
+                keyboard.button(
+                    text=_("🐞 Open GitHub", locale=language),
+                    url=self.github_url,
                 )
             else:
                 text += _(
@@ -67,10 +89,9 @@ class ApplyLanguage(CallbackQueryHandler):
                     "the Crowdin website.",
                     locale=language,
                 )
-                keyboard = InlineKeyboardBuilder()
                 keyboard.button(
                     text=_("🌍 Open Crowdin", locale=language),
-                    url="https://crowdin.com/project/pykorone",
+                    url=self.crowdin_url,
                 )
 
         return text, keyboard

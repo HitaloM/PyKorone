@@ -3,6 +3,7 @@
 
 from typing import ClassVar
 
+from babel.support import LazyProxy
 from hairydogm.keyboard import InlineKeyboardBuilder
 from hydrogram import Client, filters
 from hydrogram.types import CallbackQuery, InlineKeyboardButton, Message
@@ -14,30 +15,34 @@ from korone.modules.language.manager import ChatLanguageManager
 from korone.modules.manager import Table
 from korone.utils.i18n import I18nNew, get_i18n
 from korone.utils.i18n import gettext as _
+from korone.utils.i18n import lazy_gettext as __
 
 LANG_CMDS: list[str] = ["lang", "language", "locale", "setlang"]
 
 
 class LanguageInfoBase(MessageHandler):
-    button_text: ClassVar[str] = ""
+    button_text: ClassVar[LazyProxy]
 
     async def get_info_text_and_buttons(
         self, i18n_new: I18nNew
     ) -> tuple[str, InlineKeyboardBuilder]:
-        text = _("<b>Group language:</b> {language}\n").format(
+        text = _("<b>Chat language:</b> {language}\n").format(
             language=i18n_new.current_locale_display
         )
-        if stats := i18n_new.get_locale_stats(i18n_new.current_locale):
-            text += _("\n<b>Language Info:</b>\n")
-            text += _("Translated: {translated}\n").format(translated=stats.translated)
-            text += _("Untranslated: {untranslated}\n").format(untranslated=stats.untranslated)
-            text += _("Needs review: {fuzzy}\n").format(fuzzy=stats.fuzzy)
-            text += _("Percentage translated: {percent}\n").format(
-                percent=stats.percent_translated
-            )
+        if i18n_new.current_locale != i18n_new.default_locale:
+            if stats := i18n_new.get_locale_stats(i18n_new.current_locale):
+                text += _("\n<b>Language Info:</b>\n")
+                text += _("Translated: {translated}\n").format(translated=stats.translated)
+                text += _("Untranslated: {untranslated}\n").format(untranslated=stats.untranslated)
+                text += _("Needs review: {fuzzy}\n").format(fuzzy=stats.fuzzy)
+                text += _("Percentage translated: {percent}\n").format(
+                    percent=stats.percent_translated
+                )
+        else:
+            text += _("This is the bot's native language. So it is 100% translated.")
 
         keyboard = InlineKeyboardBuilder()
-        keyboard.button(text=_(self.button_text), callback_data="selectlanguage")
+        keyboard.button(text=self.button_text, callback_data="selectlanguage")
 
         return text, keyboard  # type: ignore
 
@@ -48,7 +53,9 @@ class LanguageInfoBase(MessageHandler):
 
 
 class LanguagePrivateInfo(LanguageInfoBase):
-    button_text = "👤 Change your language"
+    @property
+    def button_text(self) -> LazyProxy:
+        return __("👤 Change your language")
 
     @staticmethod
     async def group_locale_display(i18n_new: I18nNew, chat_id: int) -> str:
@@ -62,13 +69,15 @@ class LanguagePrivateInfo(LanguageInfoBase):
 
 
 class LanguageGroupInfo(LanguageInfoBase):
-    button_text = "🌍 Change group language"
+    @property
+    def button_text(self) -> LazyProxy:
+        return __("🌍 Change group language")
 
     handle = on_message(filters.command(LANG_CMDS) & filters.group)(LanguageInfoBase.handle)
 
 
 class LanguageInfoCallback(CallbackQueryHandler):
-    @on_callback_query(filters.regex("languagemenu"))
+    @on_callback_query(filters.regex(r"^languagemenu$"))
     async def handle(self, client: Client, callback: CallbackQuery):
         text, keyboard = await LanguagePrivateInfo().get_info_text_and_buttons(get_i18n())
 

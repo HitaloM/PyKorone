@@ -22,10 +22,14 @@ class ModuleInfo:
         The documentation of the module.
     """
 
-    name: LazyProxy = _("PM Menu")
-    summary: LazyProxy = _("This module is used to add commands and menus to the bot's PM.")
+    name: LazyProxy = _("Private Menu")
+    summary: LazyProxy = _(
+        "PyKorone uses intuitive menus to facilitate navigation. Some commands "
+        "can be used in groups, but they will not return navigation buttons."
+    )
     doc: LazyProxy = _(
-        """<b>Commands:</b>
-- /start: Start the bot.
-- /help: Returns the help menu, with all <code>User</code> modules."""
+        "<b>Commands:</b>\n"
+        "- /start: Start the bot and show the main menu.\n"
+        "- /help: Returns a list of available modules to get help.\n"
+        "- /about: A brief description of the bot."
     )
