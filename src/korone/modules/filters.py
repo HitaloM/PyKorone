@@ -7,6 +7,25 @@ from hydrogram.types import CallbackQuery, Message
 
 
 async def check_admin(_, client: Client, union: Message | CallbackQuery) -> bool:
+    """
+    Check if the user is an administrator in the chat.
+
+    This is a Hydrogram custom filter to check if the user is an administrator
+    in the chat. This filter is useful to restrict commands to administrators
+    only.
+
+    Parameters
+    ----------
+    client : hydrogram.Client
+        The client object used to interact with the Telegram API.
+    union : hydrogram.types.CallbackQuery or hydrogram.types.Message
+        The message or callback query object.
+
+    Returns
+    -------
+    bool
+        True if the user is an administrator, False otherwise.
+    """
     is_callback = isinstance(union, CallbackQuery)
     message = union.message if is_callback else union
 

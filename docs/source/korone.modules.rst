@@ -24,6 +24,11 @@ Submodules
    :undoc-members:
    :show-inheritance:
 
+.. automodule:: korone.modules.filters
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 .. automodule:: korone.modules.manager
    :members:
    :undoc-members:

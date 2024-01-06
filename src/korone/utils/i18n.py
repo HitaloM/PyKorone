@@ -2,7 +2,7 @@
 # Copyright (c) 2023-present Hitalo M. <https://github.com/HitaloM>
 
 from dataclasses import dataclass
-from typing import Any, ClassVar
+from typing import Any
 
 import polib
 from babel.core import Locale
@@ -23,13 +23,25 @@ class LocaleStats:
     """
 
     translated: int
-    """The number of translated strings."""
+    """The number of translated strings.
+
+    :type: int
+    """
     untranslated: int
-    """The number of untranslated strings.""" ""
+    """The number of untranslated strings.
+
+    :type: int
+    """
     fuzzy: int
-    """The number of fuzzy strings."""
+    """The number of fuzzy strings.
+
+    :type: int
+    """
     percent_translated: int
-    """The percentage of translated strings.""" ""
+    """The percentage of translated strings.
+
+    :type: int
+    """
 
 
 class I18nNew(I18n):
@@ -46,20 +58,15 @@ class I18nNew(I18n):
     **kwargs : Any
         Keyword arguments to be passed to the `I18n` class.
 
-    Attributes
-    ----------
-    babels : dict[str, Locale]
-        A dictionary containing the `Locale` instances for each locale code.
-    stats : dict[str, LocaleStats | None]
-        A dictionary containing the statistics of each locale.
-    """
+    Properties
 
-    babels: ClassVar[dict[str, Locale]] = {}
-    stats: ClassVar[dict[str, LocaleStats | None]] = {}
+    """
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        log.debug("Preparing to load locales additional data...")
+
+        self.babels: dict[str, Locale] = {}
+        self.stats: dict[str, LocaleStats | None] = {}
 
     def parse_stats(self, locale_code: str) -> LocaleStats | None:
         """

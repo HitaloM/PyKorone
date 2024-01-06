@@ -9,7 +9,7 @@ from korone import i18n
 from korone.decorators import on_callback_query, on_message
 from korone.handlers.callback_query_handler import CallbackQueryHandler
 from korone.handlers.message_handler import MessageHandler
-from korone.utils.filters import is_admin
+from korone.modules.filters import is_admin
 from korone.utils.i18n import gettext as _
 
 
