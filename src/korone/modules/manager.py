@@ -20,7 +20,6 @@ class Table(Enum):
 
     USERS = auto()
     """The users table."""
-
     GROUPS = auto()
     """The groups table."""
 
@@ -51,13 +50,25 @@ class Chat:
     """
 
     id: int
-    """The chat ID."""
+    """The chat ID.
+
+    :type: int
+    """
     type: str
-    """The chat type."""
+    """The chat type.
+
+    :type: str
+    """
     language: str
-    """The chat language."""
-    registrydate: int
-    """The chat registry date.""" ""
+    """The chat language.
+
+    :type: str
+    """
+    registry_date: int
+    """The chat registry date.
+
+    :type: int
+    """
 
 
 T = TypeVar("T")

@@ -57,7 +57,7 @@ class ChatLanguageManager(Manager[Chat]):
             id=fields[self.columns[ChatColumn.ID]],
             type=fields[self.columns[ChatColumn.TYPE]],
             language=fields[self.columns[ChatColumn.LANGUAGE]],
-            registrydate=fields[self.columns[ChatColumn.REGISTRY_DATE]],
+            registry_date=fields[self.columns[ChatColumn.REGISTRY_DATE]],
         )
 
     async def get_chat_language(self, chat_id: int) -> Chat:
@@ -115,7 +115,7 @@ async def create_tables(conn: Connection) -> None:
         CREATE TABLE IF NOT EXISTS Users (
             id INTEGER PRIMARY KEY,
             language VARCHAR(2) NOT NULL DEFAULT "en",
-            registrydate INTEGER NOT NULL
+            registry_date INTEGER NOT NULL
         )
         """
     )
@@ -125,7 +125,7 @@ async def create_tables(conn: Connection) -> None:
             id INTEGER PRIMARY KEY,
             type TEXT,
             language VARCHAR(2) NOT NULL DEFAULT "en",
-            registrydate INTEGER NOT NULL
+            registry_date INTEGER NOT NULL
         )
         """
     )

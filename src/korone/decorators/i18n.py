@@ -26,7 +26,7 @@ async def get_or_insert(table_name: str, chat: User | Chat, language: str) -> Do
                 id=chat.id,
                 type=chat.type.name.lower() if isinstance(chat, Chat) else None,
                 language=language,
-                registrydate=int(time.time()),
+                registry_date=int(time.time()),
             )
 
             await table.insert(doc)
