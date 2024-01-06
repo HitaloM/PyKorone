@@ -45,22 +45,27 @@ class ApplyLanguage(CallbackQueryHandler):
 
     async def prepare_response(self, language: str) -> tuple[str, InlineKeyboardBuilder | None]:
         i18n = get_i18n()
-        text = _("Language changed to {new_lang}.").format(new_lang=language)
+        text = _("Language changed to {new_lang}.", locale=language).format(new_lang=language)
 
         keyboard = None
         if stats := i18n.get_locale_stats(locale_code=language):
             percent = 100 if i18n.default_locale == language else stats.percent_translated
-            text += _("\nThe language is {percent}% translated.").format(percent=percent)
+            text += _(
+                "\nThe language is {percent}% translated.",
+                locale=language,
+            ).format(percent=percent)
             if percent > 99:
                 text += _(
-                    "\nIn case you find any errors, please file a issue in the {link}."
+                    "\nIn case you find any errors, please file a issue in the {link}.",
+                    locale=language,
                 ).format(
                     link="<a href='https://github.com/HitaloM/PyKorone/issues'>GitHub Repo</a>"
                 )
             else:
                 text += _(
                     "\nPlease help us translate this language by completing it on "
-                    "the Crowdin website."
+                    "the Crowdin website.",
+                    locale=language,
                 )
                 keyboard = InlineKeyboardBuilder()
                 keyboard.button(
