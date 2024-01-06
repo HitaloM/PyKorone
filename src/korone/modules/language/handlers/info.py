@@ -36,11 +36,10 @@ class LanguageInfoBase(MessageHandler):
                 percent=stats.percent_translated
             )
 
-        button = InlineKeyboardBuilder().button(
-            text=_(self.button_text), callback_data="selectlanguage"
-        )
+        keyboard = InlineKeyboardBuilder()
+        keyboard.button(text=_(self.button_text), callback_data="selectlanguage")
 
-        return text, button  # type: ignore
+        return text, keyboard  # type: ignore
 
     @on_message(filters.command("language"))
     async def handle(self, client: Client, message: Message):

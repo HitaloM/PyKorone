@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-01-05 21:19-0300\n"
+"POT-Creation-Date: 2024-01-05 21:54-0300\n"
 "PO-Revision-Date: 2023-12-30 20:38-0300\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: pt_BR\n"
@@ -50,20 +50,20 @@ msgid ""
 "The language is {percent}% translated."
 msgstr ""
 
-#: src/korone/modules/language/handlers/apply.py:55
+#: src/korone/modules/language/handlers/apply.py:58
 msgid ""
 "\n"
 "In case you find any errors, please file a issue in the {link}."
 msgstr ""
 
-#: src/korone/modules/language/handlers/apply.py:61
+#: src/korone/modules/language/handlers/apply.py:65
 msgid ""
 "\n"
 "Please help us translate this language by completing it on the Crowdin "
 "website."
 msgstr ""
 
-#: src/korone/modules/language/handlers/apply.py:67
+#: src/korone/modules/language/handlers/apply.py:72
 msgid "🌍 Open Crowdin"
 msgstr ""
 
@@ -101,8 +101,9 @@ msgstr ""
 msgid "Percentage translated: {percent}\n"
 msgstr ""
 
-#: src/korone/modules/language/handlers/info.py:76
+#: src/korone/modules/language/handlers/info.py:75
 #: src/korone/modules/language/handlers/select.py:30
+#: src/korone/modules/pm_menu/handlers/about.py:23
 #: src/korone/modules/pm_menu/handlers/help.py:23
 #: src/korone/modules/pm_menu/handlers/help.py:45
 msgid "⬅️ Back"
@@ -134,6 +135,30 @@ msgstr ""
 "- /start: Inicia o bot.\n"
 "- /help: Retorna o menu de ajuda, com todos os módulos <code>User</code>."
 
+#: src/korone/modules/pm_menu/handlers/about.py:18
+msgid "📦 GitHub"
+msgstr ""
+
+#: src/korone/modules/pm_menu/handlers/about.py:19
+#, fuzzy
+msgid "📚 Channel"
+msgstr "❌ Cancelar"
+
+#: src/korone/modules/pm_menu/handlers/about.py:29
+msgid ""
+"PyKorone is a comprehensive, cutting-edge Telegram Bot that provides a "
+"variety of features to enhance your Telegram experience. It is designed "
+"to be versatile and adaptable, catering to a wide range of user needs. "
+"The bot is built using Python and is designed to be highly efficient and "
+"reliable.\n"
+"\n"
+"PyKorone uses {hydrogram}, a framework for the Telegram MTProto API, as "
+"its base.\n"
+"\n"
+"PyKorone is open source and is licensed under the {license_link} License."
+" The source code is available on GitHub."
+msgstr ""
+
 #: src/korone/modules/pm_menu/handlers/help.py:28
 msgid ""
 "Below are buttons for each module. Click on a button to access a brief "
@@ -143,15 +168,31 @@ msgstr ""
 "uma breve documentação sobre sua funcionalidade e uso."
 
 #: src/korone/modules/pm_menu/handlers/start.py:23
-#, fuzzy
-msgid "👮‍♂️ Help"
-msgstr "Ajuda"
+msgid "ℹ️ About"
+msgstr ""
 
 #: src/korone/modules/pm_menu/handlers/start.py:25
 msgid "{lang_flag} Language"
 msgstr ""
 
-#: src/korone/modules/pm_menu/handlers/start.py:33
+#: src/korone/modules/pm_menu/handlers/start.py:28
+#, fuzzy
+msgid "👮‍♂️ Help"
+msgstr "Ajuda"
+
+#: src/korone/modules/pm_menu/handlers/start.py:34
 #, fuzzy
 msgid "Hello, I'm PyKorone! An all-in-one bot."
 msgstr "Olá, eu sou o Korone!"
+
+#~ msgid ""
+#~ "PyKorone is a comprehensive, cutting-"
+#~ "edge Telegram Bot that provides a "
+#~ "variety of features to enhance your "
+#~ "Telegram experience. It is designed to"
+#~ " be versatile and adaptable, catering "
+#~ "to a wide range of user needs. "
+#~ "The bot is built using Python and"
+#~ " is designed to be highly efficient"
+#~ " and reliable."
+#~ msgstr ""
