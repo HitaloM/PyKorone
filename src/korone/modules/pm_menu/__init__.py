@@ -2,7 +2,8 @@
 # Copyright (c) 2023-present Hitalo M. <https://github.com/HitaloM>
 
 from babel.support import LazyProxy
-from hairydogm.i18n import lazy_gettext as _
+
+from korone.utils.i18n import lazy_gettext as _
 
 
 class ModuleInfo:

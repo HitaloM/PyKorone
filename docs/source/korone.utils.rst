@@ -9,7 +9,12 @@ korone.utils package
 Submodules
 ----------
 
-.. automodule:: korone.utils.logging
+.. automodule:: korone.utils.filters
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+.. automodule:: korone.utils.i18n
    :members:
    :undoc-members:
    :show-inheritance:

@@ -2,9 +2,9 @@
 # Copyright (c) 2023-present Hitalo M. <https://github.com/HitaloM>
 
 from babel.support import LazyProxy
-from hairydogm.i18n import lazy_gettext as _
 
 from korone.database.impl import SQLite3Connection
+from korone.utils.i18n import lazy_gettext as _
 
 from .manager import create_tables
 
@@ -29,7 +29,9 @@ class ModuleInfo:
     summary: LazyProxy = _("This module is used to change the bot's language.")
     doc: LazyProxy = _(
         """<b>Commands:</b>
-- /languages: Returns a menu to change the bot's language."""
+- /languages: Returns a menu to change the bot's language.
+- /language: Get current language and it's statistics.
+"""
     )
 
 

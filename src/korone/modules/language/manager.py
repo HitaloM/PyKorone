@@ -1,12 +1,10 @@
 # SPDX-License-Identifier: BSD-3-Clause
 # Copyright (c) 2023-present Hitalo M. <https://github.com/HitaloM>
 
-from hydrogram.types import Chat
-
 from korone.database.connection import Connection
 from korone.database.query import Query
 from korone.database.table import Document
-from korone.modules.manager import ChatColumn, Manager, Table
+from korone.modules.manager import Chat, ChatColumn, Manager, Table
 
 
 class ChatLanguageManager(Manager[Chat]):
@@ -55,15 +53,12 @@ class ChatLanguageManager(Manager[Chat]):
         hydrogram.types.Chat
             The Chat object created from the document.
         """
-        chat = Chat(
+        return Chat(
             id=fields[self.columns[ChatColumn.ID]],
             type=fields[self.columns[ChatColumn.TYPE]],
+            language=fields[self.columns[ChatColumn.LANGUAGE]],
+            registrydate=fields[self.columns[ChatColumn.REGISTRY_DATE]],
         )
-
-        chat.registrydate = fields[self.columns[ChatColumn.REGISTRY_DATE]]  # type: ignore
-        chat.language = fields[self.columns[ChatColumn.LANGUAGE]]  # type: ignore
-
-        return chat
 
     async def get_chat_language(self, chat_id: int) -> Chat:
         """

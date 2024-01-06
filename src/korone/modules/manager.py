@@ -2,6 +2,7 @@
 # Copyright (c) 2023-present Hitalo M. <https://github.com/HitaloM>
 
 from abc import abstractmethod
+from dataclasses import dataclass
 from enum import Enum, auto
 from typing import Generic, TypeVar
 
@@ -39,6 +40,24 @@ class ChatColumn(Enum):
     """The chat language."""
     REGISTRY_DATE = auto()
     """The chat registry date."""
+
+
+@dataclass
+class Chat:
+    """
+    Represents a chat.
+
+    This dataclass is used to represent a chat in the database.
+    """
+
+    id: int
+    """The chat ID."""
+    type: str
+    """The chat type."""
+    language: str
+    """The chat language."""
+    registrydate: int
+    """The chat registry date.""" ""
 
 
 T = TypeVar("T")

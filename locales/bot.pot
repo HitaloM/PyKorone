@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-01-05 16:02-0300\n"
+"POT-Creation-Date: 2024-01-05 21:19-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -28,7 +28,39 @@ msgstr ""
 #: src/korone/modules/language/__init__.py:30
 msgid ""
 "<b>Commands:</b>\n"
-"- /languages: Returns a menu to change the bot's language."
+"- /languages: Returns a menu to change the bot's language.\n"
+"- /language: Get current language and it's statistics.\n"
+msgstr ""
+
+#: src/korone/modules/language/handlers/apply.py:21
+msgid "Something went wrong."
+msgstr ""
+
+#: src/korone/modules/language/handlers/apply.py:48
+msgid "Language changed to {new_lang}."
+msgstr ""
+
+#: src/korone/modules/language/handlers/apply.py:53
+msgid ""
+"\n"
+"The language is {percent}% translated."
+msgstr ""
+
+#: src/korone/modules/language/handlers/apply.py:55
+msgid ""
+"\n"
+"In case you find any errors, please file a issue in the {link}."
+msgstr ""
+
+#: src/korone/modules/language/handlers/apply.py:61
+msgid ""
+"\n"
+"Please help us translate this language by completing it on the Crowdin "
+"website."
+msgstr ""
+
+#: src/korone/modules/language/handlers/apply.py:67
+msgid "🌍 Open Crowdin"
 msgstr ""
 
 #: src/korone/modules/language/handlers/cancel.py:15
@@ -37,40 +69,60 @@ msgid ""
 "/language command."
 msgstr ""
 
-#: src/korone/modules/language/handlers/select.py:22
+#: src/korone/modules/language/handlers/info.py:27
+msgid "<b>Group language:</b> {language}\n"
+msgstr ""
+
+#: src/korone/modules/language/handlers/info.py:31
+msgid ""
+"\n"
+"<b>Language Info:</b>\n"
+msgstr ""
+
+#: src/korone/modules/language/handlers/info.py:32
+msgid "Translated: {translated}\n"
+msgstr ""
+
+#: src/korone/modules/language/handlers/info.py:33
+msgid "Untranslated: {untranslated}\n"
+msgstr ""
+
+#: src/korone/modules/language/handlers/info.py:34
+msgid "Needs review: {fuzzy}\n"
+msgstr ""
+
+#: src/korone/modules/language/handlers/info.py:35
+msgid "Percentage translated: {percent}\n"
+msgstr ""
+
+#: src/korone/modules/language/handlers/info.py:76
+#: src/korone/modules/language/handlers/select.py:30
+#: src/korone/modules/pm_menu/handlers/help.py:23
+#: src/korone/modules/pm_menu/handlers/help.py:45
+msgid "⬅️ Back"
+msgstr ""
+
+#: src/korone/modules/language/handlers/select.py:27
 msgid "❌ Cancel"
 msgstr ""
 
-#: src/korone/modules/language/handlers/select.py:29
+#: src/korone/modules/language/handlers/select.py:36
 msgid "Please select the language you want to use for the chat."
 msgstr ""
 
-#: src/korone/modules/pm_menu/__init__.py:24
+#: src/korone/modules/pm_menu/__init__.py:25
 msgid "PM Menu"
 msgstr ""
 
-#: src/korone/modules/pm_menu/__init__.py:25
+#: src/korone/modules/pm_menu/__init__.py:26
 msgid "This module is used to add commands and menus to the bot's PM."
 msgstr ""
 
-#: src/korone/modules/pm_menu/__init__.py:26
+#: src/korone/modules/pm_menu/__init__.py:27
 msgid ""
 "<b>Commands:</b>\n"
 "- /start: Start the bot.\n"
 "- /help: Returns the help menu, with all <code>User</code> modules."
-msgstr ""
-
-#: src/korone/modules/pm_menu/handlers/apply.py:19
-msgid "Something went wrong."
-msgstr ""
-
-#: src/korone/modules/pm_menu/handlers/apply.py:31
-msgid "Language changed to {new_lang}."
-msgstr ""
-
-#: src/korone/modules/pm_menu/handlers/help.py:23
-#: src/korone/modules/pm_menu/handlers/help.py:45
-msgid "⬅️ Back"
 msgstr ""
 
 #: src/korone/modules/pm_menu/handlers/help.py:28
@@ -79,10 +131,14 @@ msgid ""
 "documentation on its functionality and usage."
 msgstr ""
 
-#: src/korone/modules/pm_menu/handlers/start.py:17
-msgid "Help"
+#: src/korone/modules/pm_menu/handlers/start.py:23
+msgid "👮‍♂️ Help"
 msgstr ""
 
-#: src/korone/modules/pm_menu/handlers/start.py:23
-msgid "Hello, I'm Korone!"
+#: src/korone/modules/pm_menu/handlers/start.py:25
+msgid "{lang_flag} Language"
+msgstr ""
+
+#: src/korone/modules/pm_menu/handlers/start.py:33
+msgid "Hello, I'm PyKorone! An all-in-one bot."
 msgstr ""

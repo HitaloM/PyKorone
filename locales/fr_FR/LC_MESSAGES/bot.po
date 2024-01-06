@@ -1,17 +1,17 @@
-# Portuguese (Brazil) translations for PROJECT.
-# Copyright (C) 2023 ORGANIZATION
+# French (France) translations for PROJECT.
+# Copyright (C) 2024 ORGANIZATION
 # This file is distributed under the same license as the PROJECT project.
-# FIRST AUTHOR <EMAIL@ADDRESS>, 2023.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2024.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2024-01-05 21:19-0300\n"
-"PO-Revision-Date: 2023-12-30 20:38-0300\n"
+"PO-Revision-Date: 2024-01-05 21:14-0300\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language: pt_BR\n"
-"Language-Team: pt_BR <LL@li.org>\n"
+"Language: fr_FR\n"
+"Language-Team: fr_FR <LL@li.org>\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
@@ -20,29 +20,26 @@ msgstr ""
 
 #: src/korone/modules/language/__init__.py:28
 msgid "Language"
-msgstr "Idioma"
+msgstr ""
 
 #: src/korone/modules/language/__init__.py:29
 msgid "This module is used to change the bot's language."
-msgstr "Este módulo é usado para alterar o idioma do bot."
+msgstr ""
 
 #: src/korone/modules/language/__init__.py:30
-#, fuzzy
 msgid ""
 "<b>Commands:</b>\n"
 "- /languages: Returns a menu to change the bot's language.\n"
 "- /language: Get current language and it's statistics.\n"
 msgstr ""
-"<b>Comandos:</b>\n"
-"- /languages: Retorna um menu para alterar o idioma do bot."
 
 #: src/korone/modules/language/handlers/apply.py:21
 msgid "Something went wrong."
-msgstr "Algo deu errado."
+msgstr ""
 
 #: src/korone/modules/language/handlers/apply.py:48
 msgid "Language changed to {new_lang}."
-msgstr "Idioma alterado para {new_lang}."
+msgstr ""
 
 #: src/korone/modules/language/handlers/apply.py:53
 msgid ""
@@ -72,8 +69,6 @@ msgid ""
 "Changing language was canceled, you can change language again by using "
 "/language command."
 msgstr ""
-"Alterar idioma foi cancelado, você pode alterar o idioma novamente usando"
-" o comando /language."
 
 #: src/korone/modules/language/handlers/info.py:27
 msgid "<b>Group language:</b> {language}\n"
@@ -106,23 +101,23 @@ msgstr ""
 #: src/korone/modules/pm_menu/handlers/help.py:23
 #: src/korone/modules/pm_menu/handlers/help.py:45
 msgid "⬅️ Back"
-msgstr "⬅️ Voltar"
+msgstr ""
 
 #: src/korone/modules/language/handlers/select.py:27
 msgid "❌ Cancel"
-msgstr "❌ Cancelar"
+msgstr ""
 
 #: src/korone/modules/language/handlers/select.py:36
 msgid "Please select the language you want to use for the chat."
-msgstr "Por favor, selecione o idioma que você deseja usar para o chat."
+msgstr ""
 
 #: src/korone/modules/pm_menu/__init__.py:25
 msgid "PM Menu"
-msgstr "Menu PV"
+msgstr ""
 
 #: src/korone/modules/pm_menu/__init__.py:26
 msgid "This module is used to add commands and menus to the bot's PM."
-msgstr "Este módulo é usado para adicionar comandos e menus ao PV do bot."
+msgstr ""
 
 #: src/korone/modules/pm_menu/__init__.py:27
 msgid ""
@@ -130,28 +125,26 @@ msgid ""
 "- /start: Start the bot.\n"
 "- /help: Returns the help menu, with all <code>User</code> modules."
 msgstr ""
-"<b>Comandos:</b>\n"
-"- /start: Inicia o bot.\n"
-"- /help: Retorna o menu de ajuda, com todos os módulos <code>User</code>."
 
 #: src/korone/modules/pm_menu/handlers/help.py:28
 msgid ""
 "Below are buttons for each module. Click on a button to access a brief "
 "documentation on its functionality and usage."
 msgstr ""
-"Abaixo estão os botões para cada módulo. Clique em um botão para acessar "
-"uma breve documentação sobre sua funcionalidade e uso."
 
 #: src/korone/modules/pm_menu/handlers/start.py:23
-#, fuzzy
 msgid "👮‍♂️ Help"
-msgstr "Ajuda"
+msgstr ""
 
 #: src/korone/modules/pm_menu/handlers/start.py:25
 msgid "{lang_flag} Language"
 msgstr ""
 
 #: src/korone/modules/pm_menu/handlers/start.py:33
-#, fuzzy
 msgid "Hello, I'm PyKorone! An all-in-one bot."
-msgstr "Olá, eu sou o Korone!"
+msgstr ""
+
+#~ msgid ""
+#~ "<b>Commands:</b>\n"
+#~ "- /languages: Returns a menu to change the bot's language."
+#~ msgstr ""

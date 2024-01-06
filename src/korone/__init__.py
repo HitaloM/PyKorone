@@ -4,7 +4,7 @@
 import subprocess
 from pathlib import Path
 
-from hairydogm.i18n import I18n
+from korone.utils.i18n import I18nNew as I18n
 
 from .utils.logging import log
 
