@@ -70,3 +70,12 @@ checks = [
     "SA01",
     "EX01",
 ]
+
+[tool.rye.scripts]
+clean-docs = { cmd = "rm -rf docs/build" }
+build-docs = { cmd = "sphinx-build -b html docs/source docs/build" }
+live-docs = { cmd = "sphinx-autobuild  docs/source docs/build --watch src" }
+
+update-locales = { chain = ["locales:extract", "locales:update"] }
+"locales:extract" = "pybabel extract --keywords='__ _' --input-dirs=. -o locales/bot.pot"
+"locales:update" = "pybabel update -d locales -D bot -i locales/bot.pot"

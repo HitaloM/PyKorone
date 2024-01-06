@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-01-06 18:18-0300\n"
+"POT-Creation-Date: 2024-01-06 18:54-0300\n"
 "PO-Revision-Date: 2023-12-30 20:38-0300\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: pt_BR\n"
@@ -260,9 +260,3 @@ msgstr "👮‍♂️ Ajuda"
 #: src/korone/modules/pm_menu/handlers/start.py:34
 msgid "Hello, I'm PyKorone! An all-in-one bot."
 msgstr "Olá, eu sou o PyKorone! Um bot tudo-em-um."
-
-#~ msgid "👤 Change your language"
-#~ msgstr ""
-
-#~ msgid "🌍 Change group language"
-#~ msgstr "{lang_flag} Idioma"
