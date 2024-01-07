@@ -12,7 +12,7 @@ from korone.database.query import Query
 from korone.database.table import Document, Documents, Table
 
 
-class SQLite3Table(Table):
+class SQLite3Table:
     """
     Represent the specifics of a SQLitie3 Table.
 
@@ -136,7 +136,7 @@ class SQLite3Table(Table):
         await self._conn.commit()
 
 
-class SQLite3Connection(Connection):
+class SQLite3Connection:
     """
     Represent a connection to a SQLite database.
 

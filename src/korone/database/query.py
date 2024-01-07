@@ -46,7 +46,7 @@ class Query:
         Left-hand side of the query.
     operator : str, optional
         Operator of the query.
-    rhs : Any, optional
+    rhs : typing.Any, optional
         Right-hand side of the query.
 
     Examples
@@ -151,6 +151,10 @@ class Query:
                 if not isinstance(obj.lhs, str):
                     raise MalformedQueryError("Key must be a string.")
                 return f"({obj.lhs} {obj.operator} ?)", (obj.rhs,)
+
+            if not islhsquery and isrhsquery:
+                rhsstr, rhsph = visit(obj.rhs)
+                return f"{obj.operator} {rhsstr}", (*rhsph,)
 
             if islhsquery ^ isrhsquery:
                 member: str = "Key"

@@ -50,7 +50,7 @@ class Connection(Protocol):
     async def __aexit__(self, exc_type, exc_value, traceback) -> None:
         ...
 
-    def _is_open(self):
+    async def _is_open(self) -> bool:
         """
         Check if the connection is open.
 

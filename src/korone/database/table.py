@@ -36,7 +36,7 @@ class Table(Protocol):
     the user from dealing with SQL Queries directly.
     """
 
-    async def insert(self, fields: Any | Document) -> None:
+    async def insert(self, fields: Document) -> None:
         """
         Insert a row on the table.
 
@@ -50,7 +50,7 @@ class Table(Protocol):
 
         Parameters
         ----------
-        fields : typing.Any | Document
+        fields : Document
             Fields to insert.
 
         Notes
@@ -93,7 +93,7 @@ class Table(Protocol):
         """
         ...
 
-    async def update(self, fields: Any | Document, query: Query) -> None:
+    async def update(self, fields: Document, query: Query) -> None:
         """
         Update fields on rows that match the criteria.
 
@@ -102,7 +102,7 @@ class Table(Protocol):
 
         Parameters
         ----------
-        fields : typing.Any | Document
+        fields : Document
             Fields to update.
         query : Query
             Matching criteria.
