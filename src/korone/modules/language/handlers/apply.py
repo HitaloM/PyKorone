@@ -5,6 +5,7 @@ from hairydogm.keyboard import InlineKeyboardBuilder
 from hydrogram import Client, filters
 from hydrogram.enums import ChatType
 from hydrogram.types import CallbackQuery
+
 from korone.database.impl import SQLite3Connection
 from korone.decorators import on_callback_query
 from korone.handlers.callback_query_handler import CallbackQueryHandler

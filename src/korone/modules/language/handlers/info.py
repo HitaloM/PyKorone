@@ -7,6 +7,7 @@ from babel.support import LazyProxy
 from hairydogm.keyboard import InlineKeyboardBuilder
 from hydrogram import Client, filters
 from hydrogram.types import CallbackQuery, InlineKeyboardButton, Message
+
 from korone.database.impl import SQLite3Connection
 from korone.decorators import on_callback_query, on_message
 from korone.handlers.callback_query_handler import CallbackQueryHandler
