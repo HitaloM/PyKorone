@@ -3,10 +3,7 @@
 
 from babel.support import LazyProxy
 
-from korone.database.impl import SQLite3Connection
 from korone.utils.i18n import lazy_gettext as _
-
-from .manager import create_tables
 
 
 class ModuleInfo:
@@ -41,14 +38,3 @@ class ModuleInfo:
         "\n\n<b>Note:</b>"
         "\nIn groups, the bot's language is set by the group's administrators."
     )
-
-
-async def __pre_setup__() -> None:  # noqa: N807
-    """
-    Perform pre-setup tasks.
-
-    This function performs pre-setup tasks, including creating
-    necessary tables in the SQLite3 database.
-    """
-    async with SQLite3Connection() as conn:
-        await create_tables(conn)

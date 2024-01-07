@@ -39,7 +39,6 @@ DEFAULT_CONFIG_PATH: str = f"{XDG_CONFIG_HOME}/korone/korone.toml"
 :type: str
 """
 
-
 DEFAULT_CONFIG_TEMPLATE: dict[str, Any] = {
     "hydrogram": {
         "API_ID": "",
@@ -77,6 +76,24 @@ Examples
 
 DEFAULT_DBFILE_PATH: str = f"{XDG_DATA_HOME}/korone/korone.sqlite"
 """The default path to the database file.
+
+:type: str
+"""
+
+SQLITE3_TABLES: str = """
+CREATE TABLE IF NOT EXISTS Users (
+    id INTEGER PRIMARY KEY,
+    language VARCHAR(2) NOT NULL DEFAULT "en",
+    registry_date INTEGER NOT NULL
+);
+CREATE TABLE IF NOT EXISTS Groups (
+    id INTEGER PRIMARY KEY,
+    type TEXT,
+    language VARCHAR(2) NOT NULL DEFAULT "en",
+    registry_date INTEGER NOT NULL
+)
+"""
+"""The default SQLite3 tables.
 
 :type: str
 """

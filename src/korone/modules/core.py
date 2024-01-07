@@ -72,11 +72,6 @@ async def add_modules_to_dict() -> None:
                             attr_value = getattr(module_info, attr, None)
                             if attr_value is not None:
                                 MODULES[name]["info"][attr] = attr_value
-
-                    module_setup = getattr(module, "__pre_setup__", None)
-                    if module_setup:
-                        await module_setup()
-
                     continue
 
                 if module_name.endswith(("manager", "utils")):

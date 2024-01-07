@@ -9,11 +9,10 @@ from hydrogram import Client, filters
 from hydrogram.types import CallbackQuery, InlineKeyboardButton, Message
 
 from korone.database.impl import SQLite3Connection
+from korone.database.query import Query
 from korone.decorators import on_callback_query, on_message
 from korone.handlers.callback_query_handler import CallbackQueryHandler
 from korone.handlers.message_handler import MessageHandler
-from korone.modules.language.manager import ChatLanguageManager
-from korone.modules.manager import Table
 from korone.utils.i18n import I18nNew, get_i18n
 from korone.utils.i18n import gettext as _
 from korone.utils.i18n import lazy_gettext as __
@@ -61,10 +60,11 @@ class LanguagePrivateInfo(LanguageInfoBase):
     @staticmethod
     async def group_locale_display(i18n_new: I18nNew, chat_id: int) -> str:
         async with SQLite3Connection() as conn:
-            db = ChatLanguageManager(conn, Table.GROUPS)
-            chat_lang = await db.get_chat_language(chat_id)
+            table = await conn.table("Groups")
+            query = Query()
+            chat = await table.query(query.id == chat_id)
 
-        return i18n_new.locale_display(i18n_new.babel(chat_lang.language))
+        return i18n_new.locale_display(i18n_new.babel(chat[0]["language"]))
 
     handle = on_message(filters.command(LANG_CMDS) & filters.private)(LanguageInfoBase.handle)
 

@@ -7,10 +7,10 @@ from hydrogram.enums import ChatType
 from hydrogram.types import CallbackQuery
 
 from korone.database.impl import SQLite3Connection
+from korone.database.query import Query
+from korone.database.table import Document
 from korone.decorators import on_callback_query
 from korone.handlers.callback_query_handler import CallbackQueryHandler
-from korone.modules.language.manager import ChatLanguageManager
-from korone.modules.manager import Table
 from korone.utils.i18n import get_i18n
 from korone.utils.i18n import gettext as _
 
@@ -41,11 +41,9 @@ class ApplyLanguage(CallbackQueryHandler):
         self, is_private: bool, callback: CallbackQuery, language: str
     ) -> None:
         async with SQLite3Connection() as conn:
-            db = ChatLanguageManager(conn, Table.USERS if is_private else Table.GROUPS)
-            await db.set_chat_language(
-                callback.from_user.id if is_private else callback.message.chat.id,
-                language,
-            )
+            table = await conn.table("Users" if is_private else "Groups")
+            query = Query()
+            await table.update(Document(language=language), query.id == callback.message.chat.id)
 
     async def prepare_response(self, language: str) -> tuple[str, InlineKeyboardBuilder | None]:
         i18n = get_i18n()

@@ -10,6 +10,7 @@ from hydrogram.enums import ParseMode
 from hydrogram.raw.all import layer
 
 from korone import constants
+from korone.database.impl import SQLite3Connection
 from korone.modules import load_all_modules
 
 from .utils.logging import log
@@ -96,6 +97,10 @@ class Korone(Client):
         This function starts the client and logs a message to the console.
         """
         await super().start()
+
+        async with SQLite3Connection() as conn:
+            if conn._conn:
+                await conn._conn.executescript(constants.SQLITE3_TABLES)
 
         await load_all_modules(self)
 

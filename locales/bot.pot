@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-01-06 18:54-0300\n"
+"POT-Creation-Date: 2024-01-07 19:06-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,11 +17,11 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.14.0\n"
 
-#: src/korone/modules/language/__init__.py:28
+#: src/korone/modules/language/__init__.py:25
 msgid "Languages"
 msgstr ""
 
-#: src/korone/modules/language/__init__.py:29
+#: src/korone/modules/language/__init__.py:26
 msgid ""
 "Not all groups are fluent in English; some prefer PyKorone to respond in "
 "their native language.\n"
@@ -30,7 +30,7 @@ msgid ""
 "the language of your choice!"
 msgstr ""
 
-#: src/korone/modules/language/__init__.py:35
+#: src/korone/modules/language/__init__.py:32
 msgid ""
 "<b>Commands:</b>\n"
 "- /languages: Returns a menu with the languages available to be applied "
@@ -42,50 +42,50 @@ msgid ""
 "In groups, the bot's language is set by the group's administrators."
 msgstr ""
 
-#: src/korone/modules/language/handlers/apply.py:24
+#: src/korone/modules/language/handlers/apply.py:25
 msgid "Something went wrong."
 msgstr ""
 
-#: src/korone/modules/language/handlers/apply.py:51
+#: src/korone/modules/language/handlers/apply.py:50
 msgid "Language changed to {new_lang}."
 msgstr ""
 
-#: src/korone/modules/language/handlers/apply.py:58
+#: src/korone/modules/language/handlers/apply.py:57
 msgid ""
 "\n"
 "This is the bot's native language.\n"
 "If you find any errors, please file a issue in the GitHub Repository."
 msgstr ""
 
-#: src/korone/modules/language/handlers/apply.py:65
-#: src/korone/modules/language/handlers/apply.py:83
+#: src/korone/modules/language/handlers/apply.py:64
+#: src/korone/modules/language/handlers/apply.py:82
 msgid "🐞 Open GitHub"
 msgstr ""
 
-#: src/korone/modules/language/handlers/apply.py:72
+#: src/korone/modules/language/handlers/apply.py:71
 msgid ""
 "\n"
 "The language is {percent}% translated."
 msgstr ""
 
-#: src/korone/modules/language/handlers/apply.py:77
+#: src/korone/modules/language/handlers/apply.py:76
 msgid ""
 "\n"
 "In case you find any errors, please file a issue in the GitHub Repository."
 msgstr ""
 
-#: src/korone/modules/language/handlers/apply.py:87
+#: src/korone/modules/language/handlers/apply.py:86
 msgid ""
 "\n"
 "Please help us translate this language by completing it on the Crowdin "
 "website."
 msgstr ""
 
-#: src/korone/modules/language/handlers/apply.py:93
+#: src/korone/modules/language/handlers/apply.py:92
 msgid "🌍 Open Crowdin"
 msgstr ""
 
-#: src/korone/modules/language/handlers/cancel.py:15
+#: src/korone/modules/language/handlers/cancel.py:16
 msgid ""
 "Changing language was canceled, you can change language again by using "
 "/language command."
@@ -125,27 +125,27 @@ msgstr ""
 msgid "👤 Change your language"
 msgstr ""
 
-#: src/korone/modules/language/handlers/info.py:74
+#: src/korone/modules/language/handlers/info.py:75
 msgid "🌍 Change group language"
 msgstr ""
 
-#: src/korone/modules/language/handlers/info.py:84
-#: src/korone/modules/language/handlers/select.py:30
-#: src/korone/modules/pm_menu/handlers/about.py:23
-#: src/korone/modules/pm_menu/handlers/help.py:23
-#: src/korone/modules/pm_menu/handlers/help.py:45
+#: src/korone/modules/language/handlers/info.py:85
+#: src/korone/modules/language/handlers/select.py:31
+#: src/korone/modules/pm_menu/handlers/about.py:24
+#: src/korone/modules/pm_menu/handlers/help.py:24
+#: src/korone/modules/pm_menu/handlers/help.py:46
 msgid "⬅️ Back"
 msgstr ""
 
-#: src/korone/modules/language/handlers/select.py:27
+#: src/korone/modules/language/handlers/select.py:28
 msgid "❌ Cancel"
 msgstr ""
 
-#: src/korone/modules/language/handlers/select.py:36
+#: src/korone/modules/language/handlers/select.py:37
 msgid "Please select the language you want to use for the chat."
 msgstr ""
 
-#: src/korone/modules/language/handlers/select.py:63
+#: src/korone/modules/language/handlers/select.py:64
 msgid "This action can only be performed by administrators."
 msgstr ""
 
@@ -167,15 +167,15 @@ msgid ""
 "- /about: A brief description of the bot."
 msgstr ""
 
-#: src/korone/modules/pm_menu/handlers/about.py:18
+#: src/korone/modules/pm_menu/handlers/about.py:19
 msgid "📦 GitHub"
 msgstr ""
 
-#: src/korone/modules/pm_menu/handlers/about.py:19
+#: src/korone/modules/pm_menu/handlers/about.py:20
 msgid "📚 Channel"
 msgstr ""
 
-#: src/korone/modules/pm_menu/handlers/about.py:29
+#: src/korone/modules/pm_menu/handlers/about.py:30
 msgid ""
 "PyKorone is a comprehensive, cutting-edge Telegram Bot that provides a "
 "variety of features to enhance your Telegram experience. It is designed "
@@ -190,24 +190,24 @@ msgid ""
 " The source code is available on GitHub."
 msgstr ""
 
-#: src/korone/modules/pm_menu/handlers/help.py:28
+#: src/korone/modules/pm_menu/handlers/help.py:29
 msgid ""
 "Below are buttons for each module. Click on a button to access a brief "
 "documentation on its functionality and usage."
 msgstr ""
 
-#: src/korone/modules/pm_menu/handlers/start.py:23
+#: src/korone/modules/pm_menu/handlers/start.py:24
 msgid "ℹ️ About"
 msgstr ""
 
-#: src/korone/modules/pm_menu/handlers/start.py:25
+#: src/korone/modules/pm_menu/handlers/start.py:26
 msgid "{lang_flag} Language"
 msgstr ""
 
-#: src/korone/modules/pm_menu/handlers/start.py:28
+#: src/korone/modules/pm_menu/handlers/start.py:29
 msgid "👮‍♂️ Help"
 msgstr ""
 
-#: src/korone/modules/pm_menu/handlers/start.py:34
+#: src/korone/modules/pm_menu/handlers/start.py:35
 msgid "Hello, I'm PyKorone! An all-in-one bot."
 msgstr ""
