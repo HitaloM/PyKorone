@@ -28,8 +28,3 @@ Submodules
    :members:
    :undoc-members:
    :show-inheritance:
-
-.. automodule:: korone.modules.manager
-   :members:
-   :undoc-members:
-   :show-inheritance:

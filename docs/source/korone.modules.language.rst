@@ -5,11 +5,3 @@ korone.modules.language package
    :members:
    :undoc-members:
    :show-inheritance:
-
-Submodules
-----------
-
-.. automodule:: korone.modules.language.manager
-   :members:
-   :undoc-members:
-   :show-inheritance:

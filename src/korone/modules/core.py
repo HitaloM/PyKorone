@@ -70,8 +70,11 @@ async def add_modules_to_dict() -> None:
                     if module_info:
                         for attr in ["name", "summary", "doc"]:
                             attr_value = getattr(module_info, attr, None)
-                            if attr_value is not None:
-                                MODULES[name]["info"][attr] = attr_value
+                            if attr_value is None:
+                                raise ValueError(
+                                    f"Missing attribute '{attr}' in ModuleInfo of module '{name}'"
+                                )
+                            MODULES[name]["info"][attr] = attr_value
                     continue
 
                 if module_name.endswith(("manager", "utils")):
