@@ -3,7 +3,6 @@
 # Copyright (c) 2023-present Hitalo M. <https://github.com/HitaloM>
 
 from pathlib import Path
-from typing import Any
 
 import aiosqlite
 
@@ -13,7 +12,7 @@ from korone.database.query import Query
 from korone.database.table import Document, Documents, Table
 
 
-class SQLite3Table:
+class SQLite3Table(Table):
     """
     Represent the specifics of a SQLitie3 Table.
 
@@ -38,7 +37,7 @@ class SQLite3Table:
         self._conn = conn
         self._table = table
 
-    async def insert(self, fields: Any | Document) -> None:
+    async def insert(self, fields: Document) -> None:
         """
         Insert a row on the table.
 
@@ -46,23 +45,16 @@ class SQLite3Table:
 
         Parameters
         ----------
-        fields : Any | Document
+        fields : Document
             The fields to be inserted.
         """
-        if isinstance(fields, Document):
-            values = tuple(val for val in fields.values() if val is not None)
-        elif isinstance(fields, tuple | list):
-            values = tuple(val for val in fields if val is not None)
-        else:
-            raise TypeError("Fields must be a Document, tuple, or list")
-
-        placeholders = ", ".join(["?"] * len(values))
+        values = tuple(val for val in fields.values() if val is not None)
+        placeholders = ", ".join("?" for _ in values)
 
         sql = f"INSERT INTO {self._table} VALUES ({placeholders})"
 
-        await self._conn._execute(sql, tuple(values))
-        if self._conn._conn is not None:
-            await self._conn._conn.commit()
+        await self._conn.execute(sql, values)
+        await self._conn.commit()
 
     async def query(self, query: Query) -> Documents:
         """
@@ -87,19 +79,18 @@ class SQLite3Table:
         sql = f"SELECT * FROM {self._table} WHERE {clause}"
 
         cursor = await self._conn._execute(sql, data)
-        rows = await cursor.fetchall()  # type: ignore
+        rows = await cursor.fetchall()
 
-        documents = []
-        for row in rows:
-            row_dict = {
-                description[0]: value
-                for description, value in zip(cursor.description, row)  # type: ignore
-            }
-            documents.append(Document(row_dict))
+        documents = [
+            Document(
+                {description[0]: value for description, value in zip(cursor.description, row)}
+            )
+            for row in rows
+        ]
 
         return Documents(documents)
 
-    async def update(self, fields: Any | Document, query: Query) -> None:
+    async def update(self, fields: Document, query: Query) -> None:
         """
         Update fields on rows that match the criteria.
 
@@ -108,31 +99,22 @@ class SQLite3Table:
 
         Parameters
         ----------
-        fields : Any | Document
+        fields : Document
             The fields to be updated.
         query : Query
             The query that specifies the criteria.
         """
-        if isinstance(fields, Document):
-            pairs = list(fields.items())
-        elif isinstance(fields, tuple | list):
-            pairs = fields
-        else:
-            raise TypeError("Fields must be a Document, tuple, or list")
+        pairs = list(fields.items())
 
-        assignments = [f"{key} = ?" for key, value in pairs]
-
-        assignments = ", ".join(assignments)
-
-        values = [value for key, value in pairs]
+        assignments = ", ".join(f"{key} = ?" for key, _ in pairs)
+        values = [value for _, value in pairs]
 
         clause, data = query.compile()
 
         sql = f"UPDATE {self._table} SET {assignments} WHERE {clause}"
 
-        await self._conn._execute(sql, (*values, *data))
-        if self._conn._conn is not None:
-            await self._conn._conn.commit()
+        await self._conn.execute(sql, (*values, *data))
+        await self._conn.commit()
 
     async def delete(self, query: Query) -> None:
         """
@@ -150,9 +132,8 @@ class SQLite3Table:
 
         sql = f"DELETE FROM {self._table} WHERE {clause}"
 
-        await self._conn._execute(sql, data)
-        if self._conn._conn is not None:
-            await self._conn._conn.commit()
+        await self._conn.execute(sql, data)
+        await self._conn.commit()
 
 
 class SQLite3Connection(Connection):
@@ -212,6 +193,23 @@ class SQLite3Connection(Connection):
         async with conn:
             return await conn.execute(sql, parameters)
 
+    async def commit(self) -> None:
+        """
+        Commit the current transaction.
+
+        This method is used to commit the current transaction. If there is no
+        current transaction, this method does nothing.
+
+        Raises
+        ------
+        RuntimeError
+            If the connection is not yet open.
+        """
+        if not await self._is_open():
+            raise RuntimeError("Connection is not yet open.")
+
+        await self._conn.commit()  # type: ignore
+
     async def connect(self) -> None:
         """
         Connect to the SQLite database.
@@ -230,6 +228,11 @@ class SQLite3Connection(Connection):
         self._conn = await aiosqlite.connect(
             self._path.expanduser().resolve(), *self._args, **self._kwargs
         )
+
+        await self.execute("PRAGMA journal_mode=WAL;")
+        await self.commit()
+        await self.execute("VACUUM;")
+        await self.commit()
 
     async def table(self, name: str) -> Table:
         """

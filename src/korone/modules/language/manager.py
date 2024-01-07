@@ -110,7 +110,7 @@ async def create_tables(conn: Connection) -> None:
     conn : aiosqlite.Connection
         The connection object used for database operations.
     """
-    await conn._execute(
+    await conn.execute(
         """
         CREATE TABLE IF NOT EXISTS Users (
             id INTEGER PRIMARY KEY,
@@ -119,7 +119,7 @@ async def create_tables(conn: Connection) -> None:
         )
         """
     )
-    await conn._execute(
+    await conn.execute(
         """
         CREATE TABLE IF NOT EXISTS Groups (
             id INTEGER PRIMARY KEY,

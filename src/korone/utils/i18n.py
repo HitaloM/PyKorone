@@ -57,9 +57,6 @@ class I18nNew(I18n):
         Positional arguments to be passed to the `I18n` class.
     **kwargs : Any
         Keyword arguments to be passed to the `I18n` class.
-
-    Properties
-
     """
 
     def __init__(self, *args, **kwargs):

@@ -3,10 +3,11 @@
 
 from hydrogram import Client, filters
 from hydrogram.enums import ChatMemberStatus, ChatType
+from hydrogram.filters import Filter
 from hydrogram.types import CallbackQuery, Message
 
 
-async def check_admin(_, client: Client, union: Message | CallbackQuery) -> bool:
+async def check_admin(filter: Filter, client: Client, union: Message | CallbackQuery) -> bool:
     """
     Check if the user is an administrator in the chat.
 
@@ -16,6 +17,8 @@ async def check_admin(_, client: Client, union: Message | CallbackQuery) -> bool
 
     Parameters
     ----------
+    filter : hydrogram.filters.Filter
+        The filter object.
     client : hydrogram.Client
         The client object used to interact with the Telegram API.
     union : hydrogram.types.CallbackQuery or hydrogram.types.Message

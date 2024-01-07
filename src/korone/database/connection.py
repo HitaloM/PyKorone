@@ -58,7 +58,7 @@ class Connection(Protocol):
         """
         ...
 
-    async def _execute(self, sql: str, parameters: tuple = (), /):
+    async def _execute(self, sql: str, parameters: tuple = (), /) -> aiosqlite.Cursor:
         """
         Execute the given SQL statement with the provided parameters.
 
@@ -70,6 +70,20 @@ class Connection(Protocol):
             The SQL statement to be executed.
         parameters : tuple, optional
             The parameters to be used in the SQL statement, by default ().
+        """
+        ...
+
+    async def commit(self) -> None:
+        """
+        Commit the current transaction.
+
+        This method is used to commit the current transaction. If there is no
+        current transaction, this method does nothing.
+
+        Raises
+        ------
+        RuntimeError
+            If the connection is not yet open.
         """
         ...
 
