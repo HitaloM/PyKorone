@@ -17,7 +17,7 @@ class MessageHandler(ABC):
     """
 
     @abstractmethod
-    async def handle(self, client: Client, message: Message):
+    async def handle(self, client: Client, message: Message) -> None:
         """
         Handle a message.
 
@@ -33,4 +33,4 @@ class MessageHandler(ABC):
         message : hydrogram.types.Message
             The Message object that represents the message.
         """
-        pass
+        ...

@@ -34,7 +34,7 @@ class ChatLanguageManager(Manager[Chat]):
             ChatColumn.ID: "id",
             ChatColumn.TYPE: "type",
             ChatColumn.LANGUAGE: "language",
-            ChatColumn.REGISTRY_DATE: "registrydate",
+            ChatColumn.REGISTRY_DATE: "registry_date",
         }
 
     def cast(self, fields: Document) -> Chat:

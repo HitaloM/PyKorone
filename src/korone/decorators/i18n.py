@@ -16,6 +16,27 @@ from korone.database.table import Document, Documents
 
 
 async def get_or_insert(table_name: str, chat: User | Chat, language: str) -> Documents:
+    """
+    Get or insert a document into the specified table.
+
+    This function retrieves a document from the specified table based on the chat ID.
+    If the document does not exist, a new document is inserted into the table with the
+    provided chat ID, chat type, language, and registry date.
+
+    Parameters
+    ----------
+    table_name : str
+        The name of the table.
+    chat : hydrogram.types.User or hydrogram.types.Chat
+        The user or chat object.
+    language : str
+        The language of the document.
+
+    Returns
+    -------
+    Documents
+        The inserted or retrieved document.
+    """
     async with SQLite3Connection() as conn:
         table = await conn.table(table_name)
         query = Query()

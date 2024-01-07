@@ -17,7 +17,7 @@ class CallbackQueryHandler(ABC):
     """
 
     @abstractmethod
-    async def handle(self, client: Client, callback: CallbackQuery):
+    async def handle(self, client: Client, callback: CallbackQuery) -> None:
         """
         Handle a callback query.
 
@@ -33,4 +33,4 @@ class CallbackQueryHandler(ABC):
         callback : hydrogram.types.CallbackQuery
             The callback query object representing the received callback query.
         """
-        pass
+        ...
