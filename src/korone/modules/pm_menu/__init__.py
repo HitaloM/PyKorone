@@ -7,21 +7,6 @@ from korone.utils.i18n import lazy_gettext as _
 
 
 class ModuleInfo:
-    """
-    Information about the PM Menu module.
-
-    This module is used to add commands and menus to the bot's PM.
-
-    Attributes
-    ----------
-    name : babel.support.LazyProxy
-        The name of the module.
-    summary : babel.support.LazyProxy
-        A summary of the module.
-    doc : babel.support.LazyProxy
-        The documentation of the module.
-    """
-
     name: LazyProxy = _("Private Menu")
     summary: LazyProxy = _(
         "PyKorone uses intuitive menus to facilitate navigation. Some commands "

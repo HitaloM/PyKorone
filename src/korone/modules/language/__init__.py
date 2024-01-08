@@ -7,21 +7,6 @@ from korone.utils.i18n import lazy_gettext as _
 
 
 class ModuleInfo:
-    """
-    Language module.
-
-    This module is used to change the bot's language.
-
-    Attributes
-    ----------
-    name : babel.support.LazyProxy
-        The name of the module.
-    summary : babel.support.LazyProxy
-        A brief summary of the module's purpose.
-    doc : babel.support.LazyProxy
-        Detailed documentation of the module's commands.
-    """
-
     name: LazyProxy = _("Languages")
     summary: LazyProxy = _(
         "Not all groups are fluent in English; some prefer "
