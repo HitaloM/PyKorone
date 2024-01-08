@@ -43,44 +43,38 @@ async def add_modules_to_dict() -> None:
     """
     Add modules to the MODULES dictionary.
 
-    This function walks through the directory containing the modules and adds them to the MODULES
-    dictionary. Each module is represented by a dictionary entry in the MODULES dictionary, with
-    the module name as the key.
+    This function walks through the directory structure of the parent path and adds modules to
+    the MODULES dictionary. It looks for a "handlers" directory in each module and retrieves
+    information from the module's __init__.py file.
+
+    Raises
+    ------
+    ValueError
+        If any required attribute is missing in ModuleInfo.
     """
     parent_path = Path(__file__).parent
-    current_file = Path(__file__).resolve()
-    current_path_files = list(current_file.parent.glob("*.py"))
 
-    for root, _, files in os.walk(parent_path):
-        for file in files:
-            if file.endswith(".py") and (not file.startswith("_") or file == "__init__.py"):
-                module_path = Path(root) / file
-                if module_path in current_path_files:
-                    continue
-                module_name = (
-                    module_path.relative_to(parent_path).as_posix()[:-3].replace(os.path.sep, ".")
-                )
-                name = module_name.split(".")[0]
-                if name not in MODULES:
-                    MODULES[name] = {"info": {}, "handlers": []}
+    for root, dirs, files in os.walk(parent_path):
+        if "handlers" in dirs:
+            handlers_path = Path(root) / "handlers"
+            module_name = handlers_path.relative_to(parent_path).parts[0]
+            MODULES[module_name] = {"info": {}, "handlers": []}
 
-                if module_name.endswith("__init__"):
-                    module = import_module(f"korone.modules.{name}")
-                    module_info = getattr(module, "ModuleInfo", None)
-                    if module_info:
-                        for attr in ["name", "summary", "doc"]:
-                            attr_value = getattr(module_info, attr, None)
-                            if attr_value is None:
-                                raise ValueError(
-                                    f"Missing attribute '{attr}' in ModuleInfo of module '{name}'"
-                                )
-                            MODULES[name]["info"][attr] = attr_value
-                    continue
+            module_pkg = f"korone.modules.{module_name}"
+            module = import_module(".__init__", module_pkg)
+            module_info = getattr(module, "ModuleInfo", None)
+            if module_info:
+                for attr in ["name", "summary", "doc"]:
+                    attr_value = getattr(module_info, attr, None)
+                    if attr_value is None:
+                        raise ValueError(
+                            f"Missing attribute '{attr}' in ModuleInfo of module '{module_name}'"
+                        )
+                    MODULES[module_name]["info"][attr] = attr_value
 
-                if module_name.endswith(("manager", "utils")):
-                    continue
-
-                MODULES[name]["handlers"].append(module_name)
+            for file in handlers_path.glob("*.py"):
+                if file.name != "__init__.py":
+                    MODULES[module_name]["handlers"].append(f"{module_name}.handlers.{file.stem}")
 
 
 def get_method_callable(cls: type, key: str) -> Callable[..., Any]:
@@ -150,7 +144,7 @@ def register_handler(client: Client, module: ModuleType) -> bool:
     function_list = [
         (obj, func_obj)
         for _, obj in inspect.getmembers(module)
-        if inspect.isclass(obj)
+        if inspect.isclass(obj) and inspect.getmodule(obj) == module
         for _, func_obj in inspect.getmembers(obj)
         if isinstance(func_obj, FunctionType)
     ]
@@ -246,7 +240,7 @@ async def load_all_modules(client: Client) -> None:
         The client object.
     """
 
-    modules: list = []
+    count: int = 0
 
     await add_modules_to_dict()
 
@@ -254,8 +248,8 @@ async def load_all_modules(client: Client) -> None:
         module_name = module[0]
         try:
             load_module(client, module)
-            modules.append(module_name)
+            count += 1
         except BaseException:
-            log.exception("Could not load module: %s", module_name)
+            log.critical("Could not load module: %s", module_name)
 
-    log.info("Loaded %d modules", len(modules))
+    log.info("Loaded %d modules", count)
