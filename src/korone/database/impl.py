@@ -82,9 +82,9 @@ class SQLite3Table:
         rows = await cursor.fetchall()
 
         documents = [
-            Document(
-                {description[0]: value for description, value in zip(cursor.description, row)}
-            )
+            Document({
+                description[0]: value for description, value in zip(cursor.description, row)
+            })
             for row in rows
         ]
 

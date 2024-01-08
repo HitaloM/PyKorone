@@ -44,11 +44,9 @@ class Connection(Protocol):
     _kwargs: dict
     _conn: aiosqlite.Connection | None = None
 
-    async def __aenter__(self) -> "Connection":
-        ...
+    async def __aenter__(self) -> "Connection": ...
 
-    async def __aexit__(self, exc_type, exc_value, traceback) -> None:
-        ...
+    async def __aexit__(self, exc_type, exc_value, traceback) -> None: ...
 
     async def _is_open(self) -> bool:
         """

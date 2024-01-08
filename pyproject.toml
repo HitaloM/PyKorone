@@ -59,6 +59,8 @@ select = [
     "G",    # flake8-logging-format
     "TID",  # flake8-tidy-imports
 ]
+ignore = ["RUF001", "RUF002", "RUF003"]
+preview = true
 
 [tool.ruff.isort]
 known-first-party = ["src/korone"]

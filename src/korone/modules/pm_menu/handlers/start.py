@@ -21,7 +21,7 @@ class BaseHandler:
         keyboard = InlineKeyboardBuilder()
         locale = Locale.parse(current_lang)
 
-        keyboard.button(text=_("ℹ️ About"), callback_data="aboutmenu")  # noqa: RUF001
+        keyboard.button(text=_("ℹ️ About"), callback_data="aboutmenu")
         keyboard.button(
             text=_("{lang_flag} Language").format(lang_flag=flag(locale.territory or "US")),
             callback_data="languagemenu",
