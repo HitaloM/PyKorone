@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-01-07 20:27-0300\n"
+"POT-Creation-Date: 2024-01-08 22:36-0300\n"
 "PO-Revision-Date: 2024-01-05 20:10-0300\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: uk_UA\n"
@@ -19,11 +19,137 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.14.0\n"
 
-#: src/korone/modules/language/__init__.py:25
+#: src/korone/modules/disabling/__init__.py:10
+msgid "Disabling"
+msgstr ""
+
+#: src/korone/modules/disabling/__init__.py:11
+msgid ""
+"Not everyone wants every feature that PyKorone offers. Some commands are "
+"best left unused to avoid spam and abuse.\n"
+"\n"
+"You can disable commonly used commands to prevent their use and even "
+"autodelete them to stop people from bluetexting."
+msgstr ""
+
+#: src/korone/modules/disabling/__init__.py:17
+msgid ""
+"<b>Commands:</b>\n"
+"- /disable <command> - Disable a command.\n"
+"- /enable <command> - Enable a command.\n"
+msgstr ""
+
+#: src/korone/modules/disabling/handlers/enable_disable.py:21
+msgid "Give me a command."
+msgstr ""
+
+#: src/korone/modules/disabling/handlers/enable_disable.py:25
+msgid "This command does not exist in the bot!"
+msgstr ""
+
+#: src/korone/modules/disabling/handlers/enable_disable.py:62
+#: src/korone/modules/disabling/handlers/enable_disable.py:83
+msgid "Invalid command!"
+msgstr ""
+
+#: src/korone/modules/disabling/handlers/enable_disable.py:65
+msgid "Command enabled!"
+msgstr ""
+
+#: src/korone/modules/disabling/handlers/enable_disable.py:74
+msgid "You cannot disable this command!"
+msgstr ""
+
+#: src/korone/modules/disabling/handlers/enable_disable.py:86
+msgid "Command disabled!"
+msgstr ""
+
+#: src/korone/modules/gsm_arena/__init__.py:10
+msgid "GSM Arena"
+msgstr ""
+
+#: src/korone/modules/gsm_arena/__init__.py:11
+msgid ""
+"GSM Arena is a great source for smartphone specifications. This module "
+"enables you to obtain the specifications of a particular device directly "
+"from Telegram."
+msgstr ""
+
+#: src/korone/modules/gsm_arena/__init__.py:15
+msgid ""
+"<b>Commands:</b>\n"
+" - /device <device name>: Returns the specifications of a device."
+msgstr ""
+
+#: src/korone/modules/gsm_arena/handlers/device.py:143
+msgid "Please enter a phone name to search."
+msgstr ""
+
+#: src/korone/modules/gsm_arena/handlers/device.py:150
+msgid "No devices found."
+msgstr ""
+
+#: src/korone/modules/gsm_arena/handlers/device.py:161
+msgid "Search results for: <b>{device}</b>"
+msgstr ""
+
+#: src/korone/modules/gsm_arena/handlers/device.py:200
+msgid "Launch"
+msgstr ""
+
+#: src/korone/modules/gsm_arena/handlers/device.py:201
+msgid "Network"
+msgstr ""
+
+#: src/korone/modules/gsm_arena/handlers/device.py:202
+msgid "Body"
+msgstr ""
+
+#: src/korone/modules/gsm_arena/handlers/device.py:203
+msgid "Display"
+msgstr ""
+
+#: src/korone/modules/gsm_arena/handlers/device.py:204
+msgid "Platform"
+msgstr ""
+
+#: src/korone/modules/gsm_arena/handlers/device.py:205
+msgid "Memory"
+msgstr ""
+
+#: src/korone/modules/gsm_arena/handlers/device.py:206
+msgid "Main Camera"
+msgstr ""
+
+#: src/korone/modules/gsm_arena/handlers/device.py:207
+msgid "Selfie Camera"
+msgstr ""
+
+#: src/korone/modules/gsm_arena/handlers/device.py:208
+msgid "Sound"
+msgstr ""
+
+#: src/korone/modules/gsm_arena/handlers/device.py:209
+msgid "Comms"
+msgstr ""
+
+#: src/korone/modules/gsm_arena/handlers/device.py:210
+msgid "Features"
+msgstr ""
+
+#: src/korone/modules/gsm_arena/handlers/device.py:211
+msgid "Battery"
+msgstr ""
+
+#: src/korone/modules/gsm_arena/handlers/device.py:212
+msgid "Misc"
+msgstr ""
+
+#: src/korone/modules/language/__init__.py:10
 msgid "Languages"
 msgstr ""
 
-#: src/korone/modules/language/__init__.py:26
+#: src/korone/modules/language/__init__.py:11
 msgid ""
 "Not all groups are fluent in English; some prefer PyKorone to respond in "
 "their native language.\n"
@@ -32,7 +158,7 @@ msgid ""
 "the language of your choice!"
 msgstr ""
 
-#: src/korone/modules/language/__init__.py:32
+#: src/korone/modules/language/__init__.py:17
 msgid ""
 "<b>Commands:</b>\n"
 "- /languages: Returns a menu with the languages available to be applied "
@@ -151,17 +277,17 @@ msgstr ""
 msgid "This action can only be performed by administrators."
 msgstr ""
 
-#: src/korone/modules/pm_menu/__init__.py:25
+#: src/korone/modules/pm_menu/__init__.py:10
 msgid "Private Menu"
 msgstr ""
 
-#: src/korone/modules/pm_menu/__init__.py:26
+#: src/korone/modules/pm_menu/__init__.py:11
 msgid ""
 "PyKorone uses intuitive menus to facilitate navigation. Some commands can"
 " be used in groups, but they will not return navigation buttons."
 msgstr ""
 
-#: src/korone/modules/pm_menu/__init__.py:30
+#: src/korone/modules/pm_menu/__init__.py:15
 msgid ""
 "<b>Commands:</b>\n"
 "- /start: Start the bot and show the main menu.\n"

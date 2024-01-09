@@ -13,30 +13,56 @@ from hydrogram import Client
 from hydrogram.handlers.callback_query_handler import CallbackQueryHandler
 from hydrogram.handlers.message_handler import MessageHandler
 
+from korone.database.impl import SQLite3Connection
+from korone.database.query import Query
 from korone.utils.logging import log
+from korone.utils.traverse import bfs_attr_search
 
 MODULES: dict[str, dict[str, Any]] = {}
 """A dictionary that stores information about the modules.
 
 Examples
 --------
->>> from json import dumps
->>> print(dumps(MODULES, indent=4))
-{
-    "dummy": {
-        "info": {
-            "name": "Dummy System",
-            "summary": "The Dummy System is a special system implemented into Dummy Plugs.",
-            "doc": "Entry Plugs are capsule-like tubes which acts as the cockpit for Evangelion pilots."
-        },
-        "handlers": [
-            "pm_menu.handlers.eva00"
-            "pm_menu.handlers.eva01",
-            "pm_menu.handlers.eva02",
-        ]
-    }
-}
+>>> MODULES = {
+>>>     "dummy": {
+>>>         "info": {
+>>>             "name": "Dummy System",
+>>>             "summary": "The Dummy System is a special system implemented into Dummy Plugs.",
+>>>             "doc": "Entry Plugs are capsule-like tubes which acts as the cockpit for Evangelion pilots."
+>>>         },
+>>>         "handlers": [
+>>>             "pm_menu.handlers.eva00"
+>>>             "pm_menu.handlers.eva01",
+>>>             "pm_menu.handlers.eva02",
+>>>         ]
+>>>     }
+>>> }
 """  # noqa: E501
+
+COMMANDS: dict[str, Any] = {}
+"""A dictionary that stores information about the commands.
+
+Examples
+--------
+>>> COMMANDS = {
+...     "command": {
+...         "chat": {
+...             1000: True,
+...             1001: False,
+...         },
+...         "children": [
+...             "cmd",
+...             "cm",
+...         ],
+...     },
+...     "cmd": {
+...         "parent": "command",
+...     },
+...     "cm": {
+...         "parent": "command",
+...     },
+... }
+"""
 
 
 async def add_modules_to_dict() -> None:
@@ -62,10 +88,10 @@ async def add_modules_to_dict() -> None:
 
             module_pkg = f"korone.modules.{module_name}"
             module = import_module(".__init__", module_pkg)
-            module_info = getattr(module, "ModuleInfo", None)
+            module_info = bfs_attr_search(module, "ModuleInfo")
             if module_info:
                 for attr in ["name", "summary", "doc"]:
-                    attr_value = getattr(module_info, attr, None)
+                    attr_value = bfs_attr_search(module_info, attr)
                     if attr_value is None:
                         raise ValueError(
                             f"Missing attribute '{attr}' in ModuleInfo of module '{module_name}'"
@@ -107,8 +133,8 @@ def get_method_callable(cls: type, key: str) -> Callable[..., Any]:
     'Hello, world!'
     """
 
-    method = getattr(cls, key)
-    if isinstance(getattr(cls, key), staticmethod):
+    method = bfs_attr_search(cls, key)
+    if isinstance(method, staticmethod):
         return method
 
     is_async = inspect.iscoroutinefunction(method)
@@ -122,7 +148,7 @@ def get_method_callable(cls: type, key: str) -> Callable[..., Any]:
     return async_call if is_async else call
 
 
-def register_handler(client: Client, module: ModuleType) -> bool:
+async def register_handler(client: Client, module: ModuleType) -> bool:
     """
     Register a handler for a module in the client.
 
@@ -152,14 +178,14 @@ def register_handler(client: Client, module: ModuleType) -> bool:
     successful: bool = False
 
     for cls, func in function_list:
-        method = getattr(cls, func.__name__)
+        method = bfs_attr_search(cls, func.__name__)
         if not callable(method):
             continue
 
         if hasattr(method, "on"):
             method_callable = get_method_callable(cls, func.__name__)
-            filters = getattr(method, "filters")
-            group = getattr(method, "group", 0)
+            filters = bfs_attr_search(method, "filters")
+            group = bfs_attr_search(method, "group")
 
             if method.on == "message":
                 client.add_handler(MessageHandler(method_callable, filters), group)  # type: ignore
@@ -170,12 +196,51 @@ def register_handler(client: Client, module: ModuleType) -> bool:
             log.debug("\tfilters: %s", filters)
             log.debug("\tgroup:   %d", group)
 
+            log.debug("Checking for command filters.")
+            if filters is None:
+                continue
+
+            log.debug("Getting command aliases.")
+            try:
+                alias: list[str]
+                alias = list(bfs_attr_search(filters, "commands"))
+            except AttributeError:
+                continue
+
+            log.debug('Found "%s" command(s)!', alias)
+
+            parent: str = alias[0]
+            children: list[str] = alias[1:]
+
+            COMMANDS[parent] = {
+                "chat": {},
+                "children": children,
+            }
+
+            for cmd in children:
+                COMMANDS[cmd] = {
+                    "parent": parent,
+                }
+
+            async with SQLite3Connection() as conn:
+                table = await conn.table("DisabledCommands")
+                query = Query()
+                for each in await table.query(query.command == parent):
+                    log.debug(
+                        "Fetched chat state from the database: %s => %s",
+                        each["chat_id"],
+                        str(each["state"]),
+                    )
+                    COMMANDS[parent]["chat"][each["chat_id"]] = each["state"]
+
+            log.debug("New command node: %s", COMMANDS[parent])
+
             successful = True
 
     return successful
 
 
-def load_module(client: Client, module: tuple) -> bool:
+async def load_module(client: Client, module: tuple) -> bool:
     """
     Load specified module.
 
@@ -211,14 +276,14 @@ def load_module(client: Client, module: tuple) -> bool:
     module_name: str = module[0]
 
     try:
-        log.info("Loading module: %s", module_name)
+        log.debug("Loading module: %s", module_name)
 
         for handler in module[1]["handlers"]:
             pkg: str = handler
             modules_path: str = "korone.modules"
 
             component: ModuleType = import_module(f".{pkg}", modules_path)
-            if not register_handler(client, component):
+            if not await register_handler(client, component):
                 return False
 
         return True
@@ -247,7 +312,7 @@ async def load_all_modules(client: Client) -> None:
     for module in MODULES.items():
         module_name = module[0]
         try:
-            load_module(client, module)
+            await load_module(client, module)
             count += 1
         except BaseException:
             log.critical("Could not load module: %s", module_name)

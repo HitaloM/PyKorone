@@ -91,6 +91,11 @@ CREATE TABLE IF NOT EXISTS Groups (
     type TEXT,
     language VARCHAR(2) NOT NULL DEFAULT "en",
     registry_date INTEGER NOT NULL
+);
+CREATE TABLE IF NOT EXISTS DisabledCommands (
+    chat_id INTEGER,
+    command TEXT,
+    state BIT
 )
 """
 """The default SQLite3 tables.
