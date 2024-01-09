@@ -19,7 +19,7 @@ structlog.configure(
 picologging.basicConfig(
     format="%(message)s",
     stream=sys.stdout,
-    level=picologging.INFO,
+    level=picologging.DEBUG if "--debug" in sys.argv else picologging.INFO,
 )
 
 log = structlog.wrap_logger(logger=picologging.getLogger())

@@ -6,10 +6,6 @@ from hydrogram.enums import ChatMemberStatus, ChatType
 from hydrogram.filters import Filter
 from hydrogram.types import CallbackQuery, Message
 
-from korone.modules.core import COMMANDS
-from korone.utils.commands import get_command_name
-from korone.utils.logging import log
-
 
 async def check_admin(filter: Filter, client: Client, union: Message | CallbackQuery) -> bool:
     """
@@ -46,47 +42,4 @@ async def check_admin(filter: Filter, client: Client, union: Message | CallbackQ
     return user.status in (ChatMemberStatus.ADMINISTRATOR, ChatMemberStatus.OWNER)
 
 
-is_admin = filters.create(check_admin)
-
-
-async def togglable(filter: Filter, client: Client, update: Message) -> bool:
-    """
-    Filter to handle state of command for Pyrogram's Handlers.
-
-    This is a Hydrogram custom filter to handle the state of a command.
-
-    Parameters
-    ----------
-    filter : hydrogram.filters.Filter
-        The filter object.
-    client : hydrogram.Client
-        The client object used to interact with the Telegram API.
-    update : hydrogram.types.Message
-        The message object.
-
-    Returns
-    -------
-    bool
-        True if it handles the command, False otherwise.
-    """
-
-    if update.chat is None or update.chat.id is None:
-        return False
-
-    command: str = get_command_name(update)
-
-    log.debug("command: %s", command)
-
-    if command not in COMMANDS:
-        return False
-
-    if "parent" in COMMANDS[command]:
-        command = COMMANDS[command]["parent"]
-
-    if update.chat.id not in COMMANDS[command]["chat"]:
-        return True
-
-    return COMMANDS[command]["chat"][update.chat.id]
-
-
-is_togglable = filters.create(togglable)
+filters.admin = filters.create(check_admin)  # type: ignore

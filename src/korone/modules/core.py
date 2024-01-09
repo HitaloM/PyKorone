@@ -13,8 +13,6 @@ from hydrogram import Client
 from hydrogram.handlers.callback_query_handler import CallbackQueryHandler
 from hydrogram.handlers.message_handler import MessageHandler
 
-from korone.database.impl import SQLite3Connection
-from korone.database.query import Query
 from korone.utils.logging import log
 from korone.utils.traverse import bfs_attr_search
 
@@ -38,31 +36,6 @@ Examples
 >>>     }
 >>> }
 """  # noqa: E501
-
-COMMANDS: dict[str, Any] = {}
-"""A dictionary that stores information about the commands.
-
-Examples
---------
->>> COMMANDS = {
-...     "command": {
-...         "chat": {
-...             1000: True,
-...             1001: False,
-...         },
-...         "children": [
-...             "cmd",
-...             "cm",
-...         ],
-...     },
-...     "cmd": {
-...         "parent": "command",
-...     },
-...     "cm": {
-...         "parent": "command",
-...     },
-... }
-"""
 
 
 async def add_modules_to_dict() -> None:
@@ -185,7 +158,7 @@ async def register_handler(client: Client, module: ModuleType) -> bool:
         if hasattr(method, "on"):
             method_callable = get_method_callable(cls, func.__name__)
             filters = bfs_attr_search(method, "filters")
-            group = bfs_attr_search(method, "group")
+            group = bfs_attr_search(method, "group") or 0
 
             if method.on == "message":
                 client.add_handler(MessageHandler(method_callable, filters), group)  # type: ignore
@@ -195,45 +168,6 @@ async def register_handler(client: Client, module: ModuleType) -> bool:
             log.debug("Registering handler %s", cls.__name__)
             log.debug("\tfilters: %s", filters)
             log.debug("\tgroup:   %d", group)
-
-            log.debug("Checking for command filters.")
-            if filters is None:
-                continue
-
-            log.debug("Getting command aliases.")
-            try:
-                alias: list[str]
-                alias = list(bfs_attr_search(filters, "commands"))
-            except AttributeError:
-                continue
-
-            log.debug('Found "%s" command(s)!', alias)
-
-            parent: str = alias[0]
-            children: list[str] = alias[1:]
-
-            COMMANDS[parent] = {
-                "chat": {},
-                "children": children,
-            }
-
-            for cmd in children:
-                COMMANDS[cmd] = {
-                    "parent": parent,
-                }
-
-            async with SQLite3Connection() as conn:
-                table = await conn.table("DisabledCommands")
-                query = Query()
-                for each in await table.query(query.command == parent):
-                    log.debug(
-                        "Fetched chat state from the database: %s => %s",
-                        each["chat_id"],
-                        str(each["state"]),
-                    )
-                    COMMANDS[parent]["chat"][each["chat_id"]] = each["state"]
-
-            log.debug("New command node: %s", COMMANDS[parent])
 
             successful = True
 

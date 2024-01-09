@@ -6,7 +6,7 @@ from hydrogram.types import Message
 
 def get_command_name(message: Message) -> str:
     """
-    Get the command name from a Pyrogram Message.
+    Get the command name from a Message.
 
     This function returns the command name without the slash.
 
