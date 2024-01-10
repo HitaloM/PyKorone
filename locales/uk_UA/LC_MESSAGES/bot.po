@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-01-09 21:54-0300\n"
+"POT-Creation-Date: 2024-01-09 22:36-0300\n"
 "PO-Revision-Date: 2024-01-05 20:10-0300\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: uk_UA\n"
@@ -33,7 +33,7 @@ msgstr ""
 #: src/korone/modules/gsm_arena/__init__.py:15
 msgid ""
 "<b>Commands:</b>\n"
-" - /device <device name>: Returns the specifications of a device."
+" - /device &lt;device name&gt;: Returns the specifications of a device."
 msgstr ""
 
 #: src/korone/modules/gsm_arena/handlers/device.py:41
@@ -215,8 +215,8 @@ msgstr ""
 #: src/korone/modules/language/handlers/info.py:85
 #: src/korone/modules/language/handlers/select.py:30
 #: src/korone/modules/pm_menu/handlers/about.py:24
-#: src/korone/modules/pm_menu/handlers/help.py:24
-#: src/korone/modules/pm_menu/handlers/help.py:46
+#: src/korone/modules/pm_menu/handlers/help.py:26
+#: src/korone/modules/pm_menu/handlers/help.py:65
 msgid "⬅️ Back"
 msgstr ""
 
@@ -273,10 +273,29 @@ msgid ""
 " The source code is available on GitHub."
 msgstr ""
 
-#: src/korone/modules/pm_menu/handlers/help.py:29
+#: src/korone/modules/pm_menu/handlers/help.py:31
 msgid ""
 "Below are buttons for each module. Click on a button to access a brief "
 "documentation on its functionality and usage."
+msgstr ""
+
+#: src/korone/modules/pm_menu/handlers/help.py:40
+#: src/korone/modules/pm_menu/handlers/start.py:29
+msgid "👮‍♂️ Help"
+msgstr ""
+
+#: src/korone/modules/pm_menu/handlers/help.py:42
+msgid "Message me in PM to get help."
+msgstr ""
+
+#: src/korone/modules/pm_menu/handlers/help.py:52
+msgid "Module not found."
+msgstr ""
+
+#: src/korone/modules/pm_menu/handlers/help.py:71
+msgid ""
+"Module not found. Available modules:\n"
+" - {modules}"
 msgstr ""
 
 #: src/korone/modules/pm_menu/handlers/start.py:24
@@ -285,10 +304,6 @@ msgstr ""
 
 #: src/korone/modules/pm_menu/handlers/start.py:26
 msgid "{lang_flag} Language"
-msgstr ""
-
-#: src/korone/modules/pm_menu/handlers/start.py:29
-msgid "👮‍♂️ Help"
 msgstr ""
 
 #: src/korone/modules/pm_menu/handlers/start.py:35

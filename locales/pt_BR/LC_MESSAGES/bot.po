@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-01-09 21:54-0300\n"
+"POT-Creation-Date: 2024-01-09 22:36-0300\n"
 "PO-Revision-Date: 2023-12-30 20:38-0300\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: pt_BR\n"
@@ -32,7 +32,7 @@ msgstr ""
 #: src/korone/modules/gsm_arena/__init__.py:15
 msgid ""
 "<b>Commands:</b>\n"
-" - /device <device name>: Returns the specifications of a device."
+" - /device &lt;device name&gt;: Returns the specifications of a device."
 msgstr ""
 
 #: src/korone/modules/gsm_arena/handlers/device.py:41
@@ -243,8 +243,8 @@ msgstr "🌍 Mudar idioma do grupo"
 #: src/korone/modules/language/handlers/info.py:85
 #: src/korone/modules/language/handlers/select.py:30
 #: src/korone/modules/pm_menu/handlers/about.py:24
-#: src/korone/modules/pm_menu/handlers/help.py:24
-#: src/korone/modules/pm_menu/handlers/help.py:46
+#: src/korone/modules/pm_menu/handlers/help.py:26
+#: src/korone/modules/pm_menu/handlers/help.py:65
 msgid "⬅️ Back"
 msgstr "⬅️ Voltar"
 
@@ -318,13 +318,32 @@ msgstr ""
 "PyKorone é de código aberto e está licenciado sob a Licença "
 "{license_link}. O código-fonte está disponível no GitHub."
 
-#: src/korone/modules/pm_menu/handlers/help.py:29
+#: src/korone/modules/pm_menu/handlers/help.py:31
 msgid ""
 "Below are buttons for each module. Click on a button to access a brief "
 "documentation on its functionality and usage."
 msgstr ""
 "Abaixo estão os botões para cada módulo. Clique em um botão para acessar "
 "uma breve documentação sobre sua funcionalidade e uso."
+
+#: src/korone/modules/pm_menu/handlers/help.py:40
+#: src/korone/modules/pm_menu/handlers/start.py:29
+msgid "👮‍♂️ Help"
+msgstr "👮‍♂️ Ajuda"
+
+#: src/korone/modules/pm_menu/handlers/help.py:42
+msgid "Message me in PM to get help."
+msgstr ""
+
+#: src/korone/modules/pm_menu/handlers/help.py:52
+msgid "Module not found."
+msgstr ""
+
+#: src/korone/modules/pm_menu/handlers/help.py:71
+msgid ""
+"Module not found. Available modules:\n"
+" - {modules}"
+msgstr ""
 
 #: src/korone/modules/pm_menu/handlers/start.py:24
 msgid "ℹ️ About"
@@ -333,10 +352,6 @@ msgstr "ℹ️ Sobre"
 #: src/korone/modules/pm_menu/handlers/start.py:26
 msgid "{lang_flag} Language"
 msgstr "{lang_flag} Idioma"
-
-#: src/korone/modules/pm_menu/handlers/start.py:29
-msgid "👮‍♂️ Help"
-msgstr "👮‍♂️ Ajuda"
 
 #: src/korone/modules/pm_menu/handlers/start.py:35
 msgid "Hello, I'm PyKorone! An all-in-one bot."

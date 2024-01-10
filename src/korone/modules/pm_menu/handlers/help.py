@@ -3,12 +3,14 @@
 
 from hairydogm.keyboard import InlineKeyboardBuilder
 from hydrogram import Client, filters
+from hydrogram.enums import ChatType
 from hydrogram.types import CallbackQuery, InlineKeyboardButton, InlineKeyboardMarkup, Message
 
 from korone.decorators import on_callback_query, on_message
 from korone.handlers.callback_query_handler import CallbackQueryHandler
 from korone.handlers.message_handler import MessageHandler
 from korone.modules import MODULES
+from korone.modules.utils.commands import get_command_arg
 from korone.utils.i18n import gettext as _
 
 
@@ -33,10 +35,27 @@ class Help(MessageHandler):
 
     @on_message(filters.command("help"))
     async def handle(self, client: Client, message: Message) -> None:
-        await message.reply_text(
-            self.build_text(),
-            reply_markup=self.build_keyboard(),
-        )
+        if message.chat.type in (ChatType.GROUP, ChatType.SUPERGROUP):
+            keyboard = InlineKeyboardBuilder()
+            keyboard.button(text=_("👮‍♂️ Help"), url="https://t.me/HitsukiBetaBot?start=start")
+            await message.reply_text(
+                _("Message me in PM to get help."), reply_markup=keyboard.as_markup()
+            )
+            return
+
+        query = get_command_arg(message)
+
+        text = self.build_text()
+        keyboard = self.build_keyboard()
+        if query:
+            text = GetHelp().build_text(query.split(" ")[0])
+            if _("Module not found.") in text:
+                await message.reply_text(text)
+                return
+
+            keyboard = GetHelp().build_keyboard()
+
+        await message.reply_text(text, reply_markup=keyboard)
 
 
 class GetHelp(CallbackQueryHandler):
@@ -48,6 +67,11 @@ class GetHelp(CallbackQueryHandler):
 
     @staticmethod
     def build_text(module_name: str) -> str:
+        if module_name not in MODULES:
+            return _("Module not found. Available modules:\n - {modules}").format(
+                modules="\n - ".join(MODULES.keys())
+            )
+
         module = MODULES[module_name]["info"]
         name = module["name"]
         summary = module["summary"]

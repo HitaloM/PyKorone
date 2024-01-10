@@ -13,5 +13,5 @@ class ModuleInfo:
         "you to obtain the specifications of a particular device directly from Telegram."
     )
     doc: LazyProxy = _(
-        "<b>Commands:</b>\n - /device <device name>: Returns the specifications of a device."
+        "<b>Commands:</b>\n - /device &lt;device name&gt;: Returns the specifications of a device."
     )
