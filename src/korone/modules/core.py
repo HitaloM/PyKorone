@@ -249,6 +249,6 @@ async def load_all_modules(client: Client) -> None:
             await load_module(client, module)
             count += 1
         except BaseException:
-            log.critical("Could not load module: %s", module_name)
+            log.exception("Could not load module: %s", module_name)
 
     log.info("Loaded %d modules", count)

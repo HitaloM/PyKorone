@@ -1,10 +1,13 @@
 # SPDX-License-Identifier: BSD-3-Clause
 # Copyright (c) 2023-present Hitalo M. <https://github.com/HitaloM>
 
+import sys
 from dataclasses import dataclass
 from pathlib import Path
 
 import hydrogram
+from cashews import cache
+from cashews.exceptions import CacheBackendInteractionError
 from hydrogram import Client
 from hydrogram.enums import ParseMode
 from hydrogram.raw.all import layer
@@ -97,6 +100,11 @@ class Korone(Client):
         This function starts the client and logs a message to the console.
         """
         await super().start()
+
+        try:
+            await cache.ping()
+        except (CacheBackendInteractionError, TimeoutError):
+            sys.exit(log.critical("Can't connect to RedisDB! Exiting..."))
 
         async with SQLite3Connection() as conn:
             if conn._conn:
