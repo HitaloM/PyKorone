@@ -78,11 +78,15 @@ class GSMArena(MessageHandler):
         async with httpx.AsyncClient(http2=True, proxy=proxy) as client:
             response = await client.get(url, headers=HEADERS)
             html = response.content
-            if "Too Many Requests" in html.decode():
-                await client.aclose()
-                await GSMArena.fetch_and_parse(url, proxy=ConfigManager().get("korone", "proxy"))
 
             return BeautifulSoup(html, "lxml")
+
+    async def fetch_with_retry(self, url: str) -> BeautifulSoup:
+        soup = await GSMArena.fetch_and_parse(url)
+        if "Too Many Requests" in soup.text:
+            soup = await self.fetch_and_parse(url, proxy=ConfigManager().get("korone", "PROXY"))
+
+        return soup
 
     @staticmethod
     def extract_specs(specs_tables: list) -> dict[str, str]:
@@ -134,7 +138,7 @@ class GSMArena(MessageHandler):
         search_url = (
             f"https://m.gsmarena.com/results.php3?sQuickSearch=yes&sName={phone_html_encoded}"
         )
-        soup = await GSMArena.fetch_and_parse(search_url)
+        soup = await GSMArena().fetch_with_retry(search_url)
         found_phones = soup.select("div.general-menu.material-card ul li")
 
         return [
@@ -149,7 +153,7 @@ class GSMArena(MessageHandler):
     @staticmethod
     async def check_phone_details(url: str):
         url = f"https://www.gsmarena.com/{url}"
-        soup = await GSMArena.fetch_and_parse(url)
+        soup = await GSMArena().fetch_with_retry(url)
         specs_tables = soup.select("div#specs-list table")
 
         phone_specs_temp = GSMArena.extract_specs(specs_tables)
