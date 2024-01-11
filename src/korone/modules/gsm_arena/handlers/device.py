@@ -71,9 +71,13 @@ def create_pagination_layout(devices: list, query: str, page: int) -> InlineKeyb
     return layout.create(page, lines=8)
 
 
+def not_too_many_requests(result, args, kwargs, key=None) -> bool:
+    return result and "Too Many Requests" not in result.text
+
+
 class GSMArena(MessageHandler):
     @staticmethod
-    @cache(ttl=timedelta(weeks=3))
+    @cache(ttl=timedelta(weeks=3), condition=not_too_many_requests)
     async def fetch_and_parse(url: str, proxy: str | None = None) -> BeautifulSoup:
         async with httpx.AsyncClient(http2=True, proxy=proxy) as client:
             response = await client.get(url, headers=HEADERS)

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-01-09 22:36-0300\n"
+"POT-Creation-Date: 2024-01-10 21:53-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -86,15 +86,15 @@ msgstr ""
 msgid "Misc"
 msgstr ""
 
-#: src/korone/modules/gsm_arena/handlers/device.py:183
+#: src/korone/modules/gsm_arena/handlers/device.py:187
 msgid "Please enter a phone name to search."
 msgstr ""
 
-#: src/korone/modules/gsm_arena/handlers/device.py:190
+#: src/korone/modules/gsm_arena/handlers/device.py:194
 msgid "No devices found."
 msgstr ""
 
-#: src/korone/modules/gsm_arena/handlers/device.py:200
+#: src/korone/modules/gsm_arena/handlers/device.py:204
 msgid "Search results for: <b>{device}</b>"
 msgstr ""
 
