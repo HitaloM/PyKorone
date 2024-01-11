@@ -13,3 +13,9 @@ Submodules
    :members:
    :undoc-members:
    :show-inheritance:
+
+
+.. automodule:: korone.utils.traverse
+   :members:
+   :undoc-members:
+   :show-inheritance:
