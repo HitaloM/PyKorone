@@ -32,14 +32,11 @@ HEADERS: dict[str, str] = {
 @dataclass
 class PhoneSearchResult:
     name: str
-    thumb: str
     url: str
 
 
 def format_phone(phone: dict) -> str:
     attributes_dict = {
-        _("Launch"): "launch",
-        _("Network"): "network",
         _("Body"): "body",
         _("Display"): "display",
         _("Platform"): "platform",
@@ -50,13 +47,12 @@ def format_phone(phone: dict) -> str:
         _("Comms"): "comms",
         _("Features"): "features",
         _("Battery"): "battery",
-        _("Misc"): "misc",
     }
 
     attributes = [f"<b>{key}</b>:\n{phone[value]}\n" for key, value in attributes_dict.items()]
 
     return (
-        f"<b>{phone['name']}</b>\n\n{'\n'.join(attributes)} <a href='{phone['thumb']}'>&#8203;</a>"
+        f"<b>{phone['name']}</b>\n\n{'\n'.join(attributes)} <a href='{phone['url']}'>&#8203;</a>"
     )
 
 
@@ -95,8 +91,6 @@ class GSMArena(MessageHandler):
     @staticmethod
     def extract_specs(specs_tables: list) -> dict[str, str]:
         specs_dict = {
-            "Launch": "launch",
-            "Network": "network",
             "Body": "body",
             "Display": "display",
             "Platform": "platform",
@@ -107,7 +101,6 @@ class GSMArena(MessageHandler):
             "Comms": "comms",
             "Features": "features",
             "Battery": "battery",
-            "Misc": "misc",
         }
 
         phone_specs_temp = {}
@@ -148,7 +141,6 @@ class GSMArena(MessageHandler):
         return [
             PhoneSearchResult(
                 name=phone_tag.find("img").get("title"),  # type: ignore
-                thumb=phone_tag.find("img").get("src"),  # type: ignore
                 url=f"{phone_tag.find('a').get('href')}",  # type: ignore
             )
             for phone_tag in found_phones
@@ -162,11 +154,9 @@ class GSMArena(MessageHandler):
 
         phone_specs_temp = GSMArena.extract_specs(specs_tables)
 
-        thumb = str(soup.select("div.specs-photo-main a")[0].find("img").get("src"))  # type: ignore
         name = soup.select("h1.specs-phone-name-title")[0].text
 
         phone_specs_temp["name"] = name
-        phone_specs_temp["thumb"] = thumb
         phone_specs_temp["url"] = url
 
         return phone_specs_temp
@@ -201,7 +191,7 @@ class GSMArena(MessageHandler):
 
         keyboard = create_pagination_layout(devices, query, 1)
         await message.reply_text(
-            _("Search results for: <b>{device}</b>").format(device=devices[0].name),
+            _("Search results for: <b>{query}</b>").format(device=devices[0].name),
             reply_markup=keyboard.as_markup(),
         )
 

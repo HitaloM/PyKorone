@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-01-10 21:53-0300\n"
+"POT-Creation-Date: 2024-01-10 22:54-0300\n"
 "PO-Revision-Date: 2024-01-05 20:10-0300\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: uk_UA\n"
@@ -36,68 +36,56 @@ msgid ""
 " - /device &lt;device name&gt;: Returns the specifications of a device."
 msgstr ""
 
-#: src/korone/modules/gsm_arena/handlers/device.py:41
-msgid "Launch"
-msgstr ""
-
-#: src/korone/modules/gsm_arena/handlers/device.py:42
-msgid "Network"
-msgstr ""
-
-#: src/korone/modules/gsm_arena/handlers/device.py:43
+#: src/korone/modules/gsm_arena/handlers/device.py:40
 msgid "Body"
 msgstr ""
 
-#: src/korone/modules/gsm_arena/handlers/device.py:44
+#: src/korone/modules/gsm_arena/handlers/device.py:41
 msgid "Display"
 msgstr ""
 
-#: src/korone/modules/gsm_arena/handlers/device.py:45
+#: src/korone/modules/gsm_arena/handlers/device.py:42
 msgid "Platform"
 msgstr ""
 
-#: src/korone/modules/gsm_arena/handlers/device.py:46
+#: src/korone/modules/gsm_arena/handlers/device.py:43
 msgid "Memory"
 msgstr ""
 
-#: src/korone/modules/gsm_arena/handlers/device.py:47
+#: src/korone/modules/gsm_arena/handlers/device.py:44
 msgid "Main Camera"
 msgstr ""
 
-#: src/korone/modules/gsm_arena/handlers/device.py:48
+#: src/korone/modules/gsm_arena/handlers/device.py:45
 msgid "Selfie Camera"
 msgstr ""
 
-#: src/korone/modules/gsm_arena/handlers/device.py:49
+#: src/korone/modules/gsm_arena/handlers/device.py:46
 msgid "Sound"
 msgstr ""
 
-#: src/korone/modules/gsm_arena/handlers/device.py:50
+#: src/korone/modules/gsm_arena/handlers/device.py:47
 msgid "Comms"
 msgstr ""
 
-#: src/korone/modules/gsm_arena/handlers/device.py:51
+#: src/korone/modules/gsm_arena/handlers/device.py:48
 msgid "Features"
 msgstr ""
 
-#: src/korone/modules/gsm_arena/handlers/device.py:52
+#: src/korone/modules/gsm_arena/handlers/device.py:49
 msgid "Battery"
 msgstr ""
 
-#: src/korone/modules/gsm_arena/handlers/device.py:53
-msgid "Misc"
-msgstr ""
-
-#: src/korone/modules/gsm_arena/handlers/device.py:187
+#: src/korone/modules/gsm_arena/handlers/device.py:177
 msgid "Please enter a phone name to search."
 msgstr ""
 
-#: src/korone/modules/gsm_arena/handlers/device.py:194
+#: src/korone/modules/gsm_arena/handlers/device.py:184
 msgid "No devices found."
 msgstr ""
 
-#: src/korone/modules/gsm_arena/handlers/device.py:204
-msgid "Search results for: <b>{device}</b>"
+#: src/korone/modules/gsm_arena/handlers/device.py:194
+msgid "Search results for: <b>{query}</b>"
 msgstr ""
 
 #: src/korone/modules/language/__init__.py:10
