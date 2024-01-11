@@ -76,7 +76,9 @@ class GSMArena(MessageHandler):
     @cache(ttl=timedelta(weeks=3), condition=not_too_many_requests)
     async def fetch_and_parse(url: str, proxy: str | None = None) -> BeautifulSoup:
         async with httpx.AsyncClient(http2=True, proxy=proxy) as client:
-            response = await client.get(url, headers=HEADERS)
+            response = await client.get(
+                f"https://cors-bypass.amano.workers.dev/{url}", headers=HEADERS
+            )
             html = response.content
 
             return BeautifulSoup(html, "lxml")
@@ -191,7 +193,7 @@ class GSMArena(MessageHandler):
 
         keyboard = create_pagination_layout(devices, query, 1)
         await message.reply_text(
-            _("Search results for: <b>{query}</b>").format(device=devices[0].name),
+            _("Search results for: <b>{device}</b>").format(device=query),
             reply_markup=keyboard.as_markup(),
         )
 
