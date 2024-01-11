@@ -35,25 +35,69 @@ class PhoneSearchResult:
     url: str
 
 
+def parse_specs(specs_data: dict) -> dict:
+    data = {}
+    details = specs_data.get("specs", {})
+    data["name"] = specs_data.get("name")
+    data["url"] = specs_data.get("url")
+    data["status"] = details.get("Launch", [{}]).get("Status")
+    data["network"] = details.get("Network", [{}]).get("Technology")
+    data["weight"] = details.get("Body", [{}]).get("Weight")
+
+    display = details.get("Display", [{}])
+    data["display"] = (
+        f"{display.get('Type', '')}\n{display.get('Size', '')}\n{display.get('Resolution', '')}"
+    )
+
+    platform = details.get("Platform", [{}])
+    data["chipset"] = (
+        f"{platform.get('Chipset', '')}\n{platform.get('CPU', '')}\n{platform.get('GPU', '')}"
+    )
+
+    data["memory"] = details.get("Memory", [{}]).get("Internal")
+
+    main_cam = details.get("Main Camera", [{}])
+    camera = next(iter(main_cam.items()), (None, None))
+    data["main_camera"] = f"{camera[0]} {camera[1]}" if camera[0] and camera[1] else None
+
+    front_cam = details.get("Selfie camera", [{}])
+    camera = next(iter(front_cam.items()), (None, None))
+    data["selfie_camera"] = f"{camera[0]} {camera[1]}" if camera[0] and camera[1] else None
+
+    data["jack"] = details.get("Sound", [{}]).get("3.5mm jack")
+    data["usb"] = details.get("Comms", [{}]).get("USB")
+    data["sensors"] = details.get("Features", [{}]).get("Sensors")
+    data["battery"] = details.get("Battery", [{}]).get("Type")
+    data["charging"] = details.get("Battery", [{}]).get("Charging")
+
+    return data
+
+
 def format_phone(phone: dict) -> str:
+    phone = parse_specs(phone)
     attributes_dict = {
-        _("Body"): "body",
+        _("Status"): "status",
+        _("Network"): "network",
+        _("Weight"): "weight",
         _("Display"): "display",
-        _("Platform"): "platform",
+        _("Chipset"): "chipset",
         _("Memory"): "memory",
-        _("Main Camera"): "main_camera",
-        _("Selfie Camera"): "selfie_camera",
-        _("Sound"): "sound",
-        _("Comms"): "comms",
-        _("Features"): "features",
+        _("Rear Camera"): "main_camera",
+        _("Front Camera"): "selfie_camera",
+        _("3.5mm jack"): "jack",
+        _("USB"): "usb",
+        _("Sensors"): "sensors",
         _("Battery"): "battery",
+        _("Charging"): "charging",
     }
 
-    attributes = [f"<b>{key}</b>:\n{phone[value]}\n" for key, value in attributes_dict.items()]
+    attributes = [
+        f"<b>{key}:</b> {phone[value]}"
+        for key, value in attributes_dict.items()
+        if phone[value] is not None
+    ]
 
-    return (
-        f"<b>{phone['name']}</b>\n\n{'\n'.join(attributes)} <a href='{phone['url']}'>&#8203;</a>"
-    )
+    return f"<a href='{phone['url']}'>{phone['name']}</a>\n\n{'\n\n'.join(attributes)}"
 
 
 def create_pagination_layout(devices: list, query: str, page: int) -> InlineKeyboardBuilder:
@@ -84,7 +128,7 @@ class GSMArena(MessageHandler):
             return BeautifulSoup(html, "lxml")
 
     async def fetch_with_retry(self, url: str) -> BeautifulSoup:
-        soup = await GSMArena.fetch_and_parse(url)
+        soup = await self.fetch_and_parse(url)
         if "Too Many Requests" in soup.text:
             soup = await self.fetch_and_parse(url, proxy=ConfigManager().get("korone", "PROXY"))
 
@@ -92,52 +136,35 @@ class GSMArena(MessageHandler):
 
     @staticmethod
     def extract_specs(specs_tables: list) -> dict[str, str]:
-        specs_dict = {
-            "Body": "body",
-            "Display": "display",
-            "Platform": "platform",
-            "Memory": "memory",
-            "Main Camera": "main_camera",
-            "Selfie camera": "selfie_camera",
-            "Sound": "sound",
-            "Comms": "comms",
-            "Features": "features",
-            "Battery": "battery",
-        }
-
-        phone_specs_temp = {}
-
+        info = {}
+        out = {}
         for table in specs_tables:
-            row_title = table.select("th")[0].text
-            specs = table.select("td")
-            this_spec = ""
+            details = {}
+            header = ""
+            detail = ""
+            feature = ""
+            for tr in table.findAll("tr"):
+                for th in tr.findAll("th"):
+                    feature = th.text.strip()
+                for td in tr.findAll("td", {"class": "ttl"}):
+                    header = td.text.strip()
+                    if header == "\u00a0":
+                        header = "info"
+                for td in tr.findAll("td", {"class": "nfo"}):
+                    detail = td.text.strip()
+                details[header] = detail
+            out[feature] = details
 
-            for idx, spec in enumerate(specs):
-                current_spec = spec.text.strip()
-                if current_spec == "":
-                    this_spec = this_spec.rstrip() + ", " + current_spec
-                    continue
+        info["specs"] = out
 
-                this_spec += current_spec
-                if idx % 2 == 0:
-                    this_spec += ": "
-                else:
-                    this_spec += "\n"
+        return info
 
-            this_spec = this_spec.rstrip()
-
-            if row_title in specs_dict:
-                phone_specs_temp[specs_dict[row_title]] = this_spec
-
-        return phone_specs_temp
-
-    @staticmethod
-    async def search(phone: str) -> list[PhoneSearchResult]:
+    async def search(self, phone: str) -> list[PhoneSearchResult]:
         phone_html_encoded = urllib.parse.quote_plus(phone)
         search_url = (
             f"https://m.gsmarena.com/results.php3?sQuickSearch=yes&sName={phone_html_encoded}"
         )
-        soup = await GSMArena().fetch_with_retry(search_url)
+        soup = await self.fetch_with_retry(search_url)
         found_phones = soup.select("div.general-menu.material-card ul li")
 
         return [
@@ -148,17 +175,19 @@ class GSMArena(MessageHandler):
             for phone_tag in found_phones
         ]
 
-    @staticmethod
-    async def check_phone_details(url: str):
+    async def check_phone_details(self, url: str):
         url = f"https://www.gsmarena.com/{url}"
         soup = await GSMArena().fetch_with_retry(url)
-        specs_tables = soup.select("div#specs-list table")
+        specs_tables = soup.findAll("table", {"cellspacing": "0"})
 
-        phone_specs_temp = GSMArena.extract_specs(specs_tables)
+        phone_specs_temp = self.extract_specs(specs_tables)
 
-        name = soup.select("h1.specs-phone-name-title")[0].text
+        meta = list(soup.findAll("script", {"language": "javascript"})[0].text.splitlines())
+        name = next(i for i in meta if "ITEM_NAME" in i).split('"')[1]
+        picture = next(i for i in meta if "ITEM_IMAGE" in i).split('"')[1]
 
         phone_specs_temp["name"] = name
+        phone_specs_temp["picture"] = picture
         phone_specs_temp["url"] = url
 
         return phone_specs_temp
@@ -207,7 +236,7 @@ class ListGSMArena(CallbackQueryHandler):
         query: str = callback.matches[0].group(1)
         page: int = int(callback.matches[0].group(2))
 
-        devices = await GSMArena.search(query)
+        devices = await GSMArena().search(query)
         keyboard = create_pagination_layout(devices, query, page)
         await callback.edit_message_reply_markup(keyboard.as_markup())  # type: ignore
 
@@ -219,6 +248,6 @@ class GetGSMArena(CallbackQueryHandler):
             return
 
         query = callback.matches[0].group(1)
-        phone = await GSMArena.check_phone_details(query)
+        phone = await GSMArena().check_phone_details(query)
 
         await callback.edit_message_text(text=format_phone(phone))
