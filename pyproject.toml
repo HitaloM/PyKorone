@@ -18,6 +18,7 @@ dependencies = [
     "httpx[http2]>=0.26.0",
     "cashews[redis,speedup]>=6.3.0",
     "lxml>=5.1.0",
+    "meval>=2.5",
 ]
 readme = "README.md"
 license = { file = "LICENSE" }

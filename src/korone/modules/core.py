@@ -61,7 +61,12 @@ async def add_modules_to_dict() -> None:
 
             module_pkg = f"korone.modules.{module_name}"
             module = import_module(".__init__", module_pkg)
-            module_info = bfs_attr_search(module, "ModuleInfo")
+
+            try:
+                module_info = bfs_attr_search(module, "ModuleInfo")
+            except AttributeError:
+                module_info = None
+
             if module_info:
                 for attr in ["name", "summary", "doc"]:
                     attr_value = bfs_attr_search(module_info, attr)

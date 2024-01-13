@@ -53,7 +53,7 @@ class ConfigManager:
 
         self.config = rtoml.loads(config_path.read_text(encoding="utf-8"))
 
-    def get(self, section: str, option: str, fallback: str = "") -> str:
+    def get(self, section: str, option: str, fallback: str = "") -> Any:
         """
         Retrieve a configuration option.
 
