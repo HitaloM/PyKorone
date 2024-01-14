@@ -10,6 +10,7 @@ from korone.constants import DEFAULT_DBFILE_PATH
 from korone.database.connection import Connection
 from korone.database.query import Query
 from korone.database.table import Document, Documents, Table
+from korone.utils.logging import log
 
 
 class SQLite3Table:
@@ -224,6 +225,11 @@ class SQLite3Connection:
         """
         if await self._is_open():
             raise RuntimeError("Connection is already in place.")
+
+        if not self._path.parent.exists():
+            log.info("Could not find database directory")
+            self._path.parent.mkdir(parents=True, exist_ok=True)
+            log.info("Creating database directory")
 
         self._conn = await aiosqlite.connect(
             self._path.expanduser().resolve(), *self._args, **self._kwargs

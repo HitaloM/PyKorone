@@ -43,6 +43,14 @@ class ConfigManager:
         log.debug("Using path %s", cfgpath)
 
         config_path = Path(cfgpath)
+        if not config_path.parent.exists():
+            log.info("Could not find configuration directory")
+            try:
+                log.info("Creating configuration directory")
+                config_path.parent.mkdir(parents=True, exist_ok=True)
+            except OSError as err:
+                log.critical("Could not create configuration directory: %s", err)
+
         if not config_path.is_file():
             log.info("Could not find configuration file")
             try:
