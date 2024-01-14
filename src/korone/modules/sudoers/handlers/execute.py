@@ -13,10 +13,11 @@ from korone.decorators import on_message
 from korone.handlers.message_handler import MessageHandler
 from korone.modules.sudoers.utils import build_text, generate_document
 from korone.modules.utils.commands import get_command_arg
+from korone.modules.utils.filters import is_sudo
 
 
 class Execute(MessageHandler):
-    @on_message(filters.command("exec") & filters.sudo)  # type: ignore
+    @on_message(filters.command(["exec", "ex"]) & is_sudo)
     async def handle(self, client: Client, message: Message) -> None:
         code = get_command_arg(message)
         if not code:

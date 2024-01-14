@@ -14,17 +14,18 @@ from korone.decorators import on_message
 from korone.handlers.message_handler import MessageHandler
 from korone.modules.sudoers.utils import build_text, generate_document
 from korone.modules.utils.commands import get_command_arg
+from korone.modules.utils.filters import is_sudo
 
 
 class Reboot(MessageHandler):
-    @on_message(filters.command("reboot") & filters.sudo)  # type: ignore
+    @on_message(filters.command("reboot") & is_sudo)
     async def handle(self, client: Client, message: Message) -> None:
         await message.reply_text("Rebooting...")
         os.execv(sys.executable, [sys.executable, "-m", "korone"])
 
 
 class Shutdown(MessageHandler):
-    @on_message(filters.command("shutdown") & filters.sudo)  # type: ignore
+    @on_message(filters.command("shutdown") & is_sudo)
     async def handle(self, client: Client, message: Message) -> None:
         await message.reply_text("Shutting down...")
         os.kill(os.getpid(), SIGINT)
@@ -39,7 +40,7 @@ class Shell(MessageHandler):
         stdout, stderr = await process.communicate()
         return (stdout + stderr).decode()
 
-    @on_message(filters.command("shell") & filters.sudo)  # type: ignore
+    @on_message(filters.command(["shell", "sh"]) & is_sudo)
     async def handle(self, client: Client, message: Message) -> None:
         command = get_command_arg(message)
         if not command:

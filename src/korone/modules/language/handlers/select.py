@@ -10,6 +10,7 @@ from korone import i18n
 from korone.decorators import on_callback_query, on_message
 from korone.handlers.callback_query_handler import CallbackQueryHandler
 from korone.handlers.message_handler import MessageHandler
+from korone.modules.utils.filters import is_admin
 from korone.utils.i18n import gettext as _
 
 
@@ -49,13 +50,13 @@ class SelectLanguageBase:
 
 
 class SelectLanguage(MessageHandler, SelectLanguageBase):
-    @on_message(filters.command("languages") & filters.admin)  # type: ignore
+    @on_message(filters.command("languages") & is_admin)
     async def handle(self, client: Client, message: Message):
         await self.send_message(message)
 
 
 class SelectLanguageCallback(CallbackQueryHandler, SelectLanguageBase):
-    @on_callback_query(filters.regex(r"^selectlanguage$") & filters.admin)  # type: ignore
+    @on_callback_query(filters.regex(r"^selectlanguage$") & is_admin)
     async def handle(self, client: Client, callback: CallbackQuery):
         if callback.message.chat.type != ChatType.PRIVATE:
             user = await client.get_chat_member(callback.message.chat.id, callback.from_user.id)

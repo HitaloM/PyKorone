@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-01-11 11:25-0300\n"
+"POT-Creation-Date: 2024-01-14 09:33-0300\n"
 "PO-Revision-Date: 2024-01-05 21:14-0300\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: ru_RU\n"
@@ -213,22 +213,22 @@ msgid "🌍 Change group language"
 msgstr ""
 
 #: src/korone/modules/language/handlers/info.py:85
-#: src/korone/modules/language/handlers/select.py:30
+#: src/korone/modules/language/handlers/select.py:31
 #: src/korone/modules/pm_menu/handlers/about.py:24
 #: src/korone/modules/pm_menu/handlers/help.py:26
 #: src/korone/modules/pm_menu/handlers/help.py:65
 msgid "⬅️ Back"
 msgstr ""
 
-#: src/korone/modules/language/handlers/select.py:27
+#: src/korone/modules/language/handlers/select.py:28
 msgid "❌ Cancel"
 msgstr ""
 
-#: src/korone/modules/language/handlers/select.py:36
+#: src/korone/modules/language/handlers/select.py:37
 msgid "Please select the language you want to use for the chat."
 msgstr ""
 
-#: src/korone/modules/language/handlers/select.py:63
+#: src/korone/modules/language/handlers/select.py:64
 msgid "This action can only be performed by administrators."
 msgstr ""
 

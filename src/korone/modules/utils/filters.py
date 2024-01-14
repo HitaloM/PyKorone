@@ -44,7 +44,7 @@ async def check_admin(filter: Filter, client: Client, union: Message | CallbackQ
     return user.status in (ChatMemberStatus.ADMINISTRATOR, ChatMemberStatus.OWNER)
 
 
-filters.admin = filters.create(check_admin)  # type: ignore
+is_admin = filters.create(check_admin)  # type: ignore
 
 
 async def check_sudo(filter: Filter, client: Client, union: Message | CallbackQuery) -> bool:
@@ -79,4 +79,4 @@ async def check_sudo(filter: Filter, client: Client, union: Message | CallbackQu
     return message.from_user.id in sudoers
 
 
-filters.sudo = filters.create(check_sudo)  # type: ignore
+is_sudo = filters.create(check_sudo)
