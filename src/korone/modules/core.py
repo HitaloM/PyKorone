@@ -75,6 +75,8 @@ async def add_modules_to_dict() -> None:
                             f"Missing attribute '{attr}' in ModuleInfo of module '{module_name}'"
                         )
                     MODULES[module_name]["info"][attr] = attr_value
+            else:
+                MODULES[module_name] = {"handlers": []}
 
             for file in handlers_path.glob("*.py"):
                 if file.name != "__init__.py":

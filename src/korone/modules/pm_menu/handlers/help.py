@@ -19,6 +19,9 @@ class Help(MessageHandler):
     def build_keyboard() -> InlineKeyboardMarkup:
         keyboard = InlineKeyboardBuilder()
         for module in MODULES.items():
+            if "info" not in module[1]:
+                continue
+
             module_name = module[1]["info"]["name"]
             keyboard.button(text=module_name, callback_data=f"gethelp:{module[0]}")
 
