@@ -1,37 +1,33 @@
-# Portuguese (Brazil) translations for PROJECT.
-# Copyright (C) 2023 ORGANIZATION
-# This file is distributed under the same license as the PROJECT project.
-# FIRST AUTHOR <EMAIL@ADDRESS>, 2023.
-#
 msgid ""
 msgstr ""
-"Project-Id-Version: PROJECT VERSION\n"
+"Project-Id-Version: pykorone\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2024-01-15 18:07-0300\n"
-"PO-Revision-Date: 2023-12-30 20:38-0300\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language: pt_BR\n"
-"Language-Team: pt_BR <LL@li.org>\n"
-"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"PO-Revision-Date: 2024-01-15 21:17\n"
+"Last-Translator: \n"
+"Language-Team: Portuguese, Brazilian\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=utf-8\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.14.0\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Crowdin-Project: pykorone\n"
+"X-Crowdin-Project-ID: 529422\n"
+"X-Crowdin-Language: pt-BR\n"
+"X-Crowdin-File: /main/locales/bot.pot\n"
+"X-Crowdin-File-ID: 58\n"
+"Language: pt_BR\n"
 
 #: src/korone/modules/gsm_arena/__init__.py:10
 msgid "GSM Arena"
 msgstr ""
 
 #: src/korone/modules/gsm_arena/__init__.py:11
-msgid ""
-"GSM Arena is a great source for smartphone specifications. This module "
-"enables you to obtain the specifications of a particular device directly "
-"from Telegram."
+msgid "GSM Arena is a great source for smartphone specifications. This module enables you to obtain the specifications of a particular device directly from Telegram."
 msgstr ""
 
 #: src/korone/modules/gsm_arena/__init__.py:15
-msgid ""
-"<b>Commands:</b>\n"
+msgid "<b>Commands:</b>\n"
 " - /device &lt;device name&gt;: Returns the specifications of a device."
 msgstr ""
 
@@ -104,36 +100,20 @@ msgid "Languages"
 msgstr "Idiomas"
 
 #: src/korone/modules/language/__init__.py:11
-msgid ""
-"Not all groups are fluent in English; some prefer PyKorone to respond in "
-"their native language.\n"
-"\n"
-"Translations can be used to change the language of the bot's replies to "
-"the language of your choice!"
-msgstr ""
-"Nem todos os grupos são fluentes em inglês; alguns preferem que o "
-"PyKorone responda em seu idioma nativo.\n"
-"\n"
-"As traduções podem ser usadas para alterar o idioma das respostas do bot "
-"para o idioma de sua escolha!"
+msgid "Not all groups are fluent in English; some prefer PyKorone to respond in their native language.\n\n"
+"Translations can be used to change the language of the bot's replies to the language of your choice!"
+msgstr "Nem todos os grupos são fluentes em inglês; alguns preferem que o PyKorone responda em seu idioma nativo.\n\n"
+"As traduções podem ser usadas para alterar o idioma das respostas do bot para o idioma de sua escolha!"
 
 #: src/korone/modules/language/__init__.py:17
-msgid ""
-"<b>Commands:</b>\n"
-"- /languages: Returns a menu with the languages available to be applied "
-"to the current chat.\n"
-"- /language: Returns the language set for the current chat and its "
-"statistics.\n"
-"\n"
+msgid "<b>Commands:</b>\n"
+"- /languages: Returns a menu with the languages available to be applied to the current chat.\n"
+"- /language: Returns the language set for the current chat and its statistics.\n\n"
 "<b>Note:</b>\n"
 "In groups, the bot's language is set by the group's administrators."
-msgstr ""
-"<b>Comandos:</b>\n"
-"- /languages: Retorna um menu com os idiomas disponíveis para serem "
-"aplicados ao chat atual.\n"
-"- /language: Retorna o idioma definido para o chat atual e suas "
-"estatísticas.\n"
-"\n"
+msgstr "<b>Comandos:</b>\n"
+"- /languages: Retorna um menu com os idiomas disponíveis para serem aplicados ao chat atual.\n"
+"- /language: Retorna o idioma definido para o chat atual e suas estatísticas.\n\n"
 "<b>Nota:</b>\n"
 "Em grupos, o idioma do bot é definido pelos administradores do grupo."
 
@@ -146,15 +126,12 @@ msgid "Language changed to {new_lang}."
 msgstr "Idioma alterado para {new_lang}."
 
 #: src/korone/modules/language/handlers/apply.py:57
-msgid ""
-"\n"
+msgid "\n"
 "This is the bot's native language.\n"
 "If you find any errors, please file a issue in the GitHub Repository."
-msgstr ""
-"\n"
+msgstr "\n"
 "Este é o idioma nativo do bot.\n"
-"Se você encontrar algum erro, por favor, abra uma issue no repositório do"
-" GitHub."
+"Se você encontrar algum erro, por favor, abra uma issue no repositório do GitHub."
 
 #: src/korone/modules/language/handlers/apply.py:64
 #: src/korone/modules/language/handlers/apply.py:82
@@ -162,54 +139,39 @@ msgid "🐞 Open GitHub"
 msgstr "🐞 Abrir GitHub"
 
 #: src/korone/modules/language/handlers/apply.py:71
-msgid ""
-"\n"
+msgid "\n"
 "The language is {percent}% translated."
-msgstr ""
-"\n"
+msgstr "\n"
 "O idioma está {percent}% traduzido."
 
 #: src/korone/modules/language/handlers/apply.py:76
-msgid ""
-"\n"
+msgid "\n"
 "In case you find any errors, please file a issue in the GitHub Repository."
-msgstr ""
-"\n"
-"Em caso de encontrar algum erro, por favor, abra uma issue no repositório"
-" do GitHub."
+msgstr "\n"
+"Em caso de encontrar algum erro, por favor, abra uma issue no repositório do GitHub."
 
 #: src/korone/modules/language/handlers/apply.py:86
-msgid ""
-"\n"
-"Please help us translate this language by completing it on the Crowdin "
-"website."
-msgstr ""
-"\n"
-"Por favor, ajude-nos a traduzir este idioma completando-o no site do "
-"Crowdin."
+msgid "\n"
+"Please help us translate this language by completing it on the Crowdin website."
+msgstr "\n"
+"Por favor, ajude-nos a traduzir este idioma completando-o no site do Crowdin."
 
 #: src/korone/modules/language/handlers/apply.py:92
 msgid "🌍 Open Crowdin"
 msgstr "🌍 Abrir Crowdin"
 
 #: src/korone/modules/language/handlers/cancel.py:16
-msgid ""
-"Changing language was canceled, you can change language again by using "
-"/language command."
-msgstr ""
-"Alterar idioma foi cancelado, você pode alterar o idioma novamente usando"
-" o comando /language."
+msgid "Changing language was canceled, you can change language again by using /language command."
+msgstr "Alterar idioma foi cancelado, você pode alterar o idioma novamente usando o comando /language."
 
 #: src/korone/modules/language/handlers/info.py:29
 msgid "<b>Chat language:</b> {language}\n"
 msgstr "<b>Idioma do chat:</b> {language}\n"
 
 #: src/korone/modules/language/handlers/info.py:34
-msgid ""
-"\n"
+msgid "\n"
 "<b>Language Info:</b>\n"
-msgstr ""
-"\n"
+msgstr "\n"
 "<b>Informações do idioma:</b>\n"
 
 #: src/korone/modules/language/handlers/info.py:35
@@ -265,66 +227,38 @@ msgid "Private Menu"
 msgstr "Menu Privado"
 
 #: src/korone/modules/pm_menu/__init__.py:11
-msgid ""
-"PyKorone uses intuitive menus to facilitate navigation. Some commands can"
-" be used in groups, but they will not return navigation buttons."
-msgstr ""
-"PyKorone usa menus intuitivos para facilitar a navegação. Alguns comandos"
-" podem ser usados em grupos, mas não retornarão botões de navegação."
+msgid "PyKorone uses intuitive menus to facilitate navigation. Some commands can be used in groups, but they will not return navigation buttons."
+msgstr "PyKorone usa menus intuitivos para facilitar a navegação. Alguns comandos podem ser usados em grupos, mas não retornarão botões de navegação."
 
 #: src/korone/modules/pm_menu/__init__.py:15
-msgid ""
-"<b>Commands:</b>\n"
+msgid "<b>Commands:</b>\n"
 "- /start: Start the bot and show the main menu.\n"
 "- /help: Returns a list of available modules to get help.\n"
 "- /about: A brief description of the bot."
-msgstr ""
-"<b>Comandos:</b>\n"
+msgstr "<b>Comandos:</b>\n"
 "- /start: Inicia o bot e mostra o menu principal.\n"
 "- /help: Retorna uma lista de módulos disponíveis para obter ajuda.\n"
 "- /about: Uma breve descrição do bot."
 
 #: src/korone/modules/pm_menu/handlers/about.py:19
 msgid "📦 GitHub"
-msgstr "📦 GitHub"
+msgstr ""
 
 #: src/korone/modules/pm_menu/handlers/about.py:20
 msgid "📚 Channel"
 msgstr "📚 Canal"
 
 #: src/korone/modules/pm_menu/handlers/about.py:30
-msgid ""
-"PyKorone is a comprehensive, cutting-edge Telegram Bot that provides a "
-"variety of features to enhance your Telegram experience. It is designed "
-"to be versatile and adaptable, catering to a wide range of user needs. "
-"The bot is built using Python and is designed to be highly efficient and "
-"reliable.\n"
-"\n"
-"PyKorone uses {hydrogram}, a framework for the Telegram MTProto API, as "
-"its base.\n"
-"\n"
-"PyKorone is open source and is licensed under the {license_link} License."
-" The source code is available on GitHub."
-msgstr ""
-"PyKorone é um bot do Telegram abrangente e de ponta que fornece uma "
-"variedade de recursos para melhorar sua experiência no Telegram. É "
-"projetado para ser versátil e adaptável, atendendo a uma ampla gama de "
-"necessidades do usuário. O bot é construído usando Python e é projetado "
-"para ser altamente eficiente e confiável.\n"
-"\n"
-"PyKorone usa {hydrogram}, um framework para a API MTProto do Telegram, "
-"como base.\n"
-"\n"
-"PyKorone é de código aberto e está licenciado sob a Licença "
-"{license_link}. O código-fonte está disponível no GitHub."
+msgid "PyKorone is a comprehensive, cutting-edge Telegram Bot that provides a variety of features to enhance your Telegram experience. It is designed to be versatile and adaptable, catering to a wide range of user needs. The bot is built using Python and is designed to be highly efficient and reliable.\n\n"
+"PyKorone uses {hydrogram}, a framework for the Telegram MTProto API, as its base.\n\n"
+"PyKorone is open source and is licensed under the {license_link} License. The source code is available on GitHub."
+msgstr "PyKorone é um bot do Telegram abrangente e de ponta que fornece uma variedade de recursos para melhorar sua experiência no Telegram. É projetado para ser versátil e adaptável, atendendo a uma ampla gama de necessidades do usuário. O bot é construído usando Python e é projetado para ser altamente eficiente e confiável.\n\n"
+"PyKorone usa {hydrogram}, um framework para a API MTProto do Telegram, como base.\n\n"
+"PyKorone é de código aberto e está licenciado sob a Licença {license_link}. O código-fonte está disponível no GitHub."
 
 #: src/korone/modules/pm_menu/handlers/help.py:34
-msgid ""
-"Below are buttons for each module. Click on a button to access a brief "
-"documentation on its functionality and usage."
-msgstr ""
-"Abaixo estão os botões para cada módulo. Clique em um botão para acessar "
-"uma breve documentação sobre sua funcionalidade e uso."
+msgid "Below are buttons for each module. Click on a button to access a brief documentation on its functionality and usage."
+msgstr "Abaixo estão os botões para cada módulo. Clique em um botão para acessar uma breve documentação sobre sua funcionalidade e uso."
 
 #: src/korone/modules/pm_menu/handlers/help.py:43
 #: src/korone/modules/pm_menu/handlers/start.py:29
@@ -340,8 +274,7 @@ msgid "Module not found."
 msgstr ""
 
 #: src/korone/modules/pm_menu/handlers/help.py:74
-msgid ""
-"Module not found. Available modules:\n"
+msgid "Module not found. Available modules:\n"
 " - {modules}"
 msgstr ""
 
@@ -356,3 +289,4 @@ msgstr "{lang_flag} Idioma"
 #: src/korone/modules/pm_menu/handlers/start.py:35
 msgid "Hello, I'm PyKorone! An all-in-one bot."
 msgstr "Olá, eu sou o PyKorone! Um bot tudo-em-um."
+
