@@ -2,6 +2,7 @@
 # Copyright (c) 2023-present Hitalo M. <https://github.com/HitaloM>
 
 import urllib.parse
+from contextlib import suppress
 from dataclasses import dataclass
 from datetime import timedelta
 
@@ -9,6 +10,7 @@ import httpx
 from bs4 import BeautifulSoup
 from hairydogm.keyboard import InlineKeyboardBuilder
 from hydrogram import Client, filters
+from hydrogram.errors import MessageNotModified
 from hydrogram.types import CallbackQuery, InlineKeyboardButton, InlineKeyboardMarkup, Message
 
 from korone import cache
@@ -238,7 +240,8 @@ class ListGSMArena(CallbackQueryHandler):
 
         devices = await GSMArena().search(query)
         keyboard = create_pagination_layout(devices, query, page)
-        await callback.edit_message_reply_markup(keyboard.as_markup())  # type: ignore
+        with suppress(MessageNotModified):
+            await callback.edit_message_reply_markup(keyboard.as_markup())  # type: ignore
 
 
 class GetGSMArena(CallbackQueryHandler):
@@ -250,4 +253,5 @@ class GetGSMArena(CallbackQueryHandler):
         query = callback.matches[0].group(1)
         phone = await GSMArena().check_phone_details(query)
 
-        await callback.edit_message_text(text=format_phone(phone))
+        with suppress(MessageNotModified):
+            await callback.edit_message_text(text=format_phone(phone))

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-01-14 23:33-0300\n"
+"POT-Creation-Date: 2024-01-15 18:07-0300\n"
 "PO-Revision-Date: 2024-01-05 21:14-0300\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: es_ES\n"
@@ -35,67 +35,67 @@ msgid ""
 " - /device &lt;device name&gt;: Returns the specifications of a device."
 msgstr ""
 
-#: src/korone/modules/gsm_arena/handlers/device.py:79
+#: src/korone/modules/gsm_arena/handlers/device.py:81
 msgid "Status"
 msgstr ""
 
-#: src/korone/modules/gsm_arena/handlers/device.py:80
+#: src/korone/modules/gsm_arena/handlers/device.py:82
 msgid "Network"
 msgstr ""
 
-#: src/korone/modules/gsm_arena/handlers/device.py:81
+#: src/korone/modules/gsm_arena/handlers/device.py:83
 msgid "Weight"
 msgstr ""
 
-#: src/korone/modules/gsm_arena/handlers/device.py:82
+#: src/korone/modules/gsm_arena/handlers/device.py:84
 msgid "Display"
 msgstr ""
 
-#: src/korone/modules/gsm_arena/handlers/device.py:83
+#: src/korone/modules/gsm_arena/handlers/device.py:85
 msgid "Chipset"
 msgstr ""
 
-#: src/korone/modules/gsm_arena/handlers/device.py:84
+#: src/korone/modules/gsm_arena/handlers/device.py:86
 msgid "Memory"
 msgstr ""
 
-#: src/korone/modules/gsm_arena/handlers/device.py:85
+#: src/korone/modules/gsm_arena/handlers/device.py:87
 msgid "Rear Camera"
 msgstr ""
 
-#: src/korone/modules/gsm_arena/handlers/device.py:86
+#: src/korone/modules/gsm_arena/handlers/device.py:88
 msgid "Front Camera"
 msgstr ""
 
-#: src/korone/modules/gsm_arena/handlers/device.py:87
+#: src/korone/modules/gsm_arena/handlers/device.py:89
 msgid "3.5mm jack"
 msgstr ""
 
-#: src/korone/modules/gsm_arena/handlers/device.py:88
+#: src/korone/modules/gsm_arena/handlers/device.py:90
 msgid "USB"
 msgstr ""
 
-#: src/korone/modules/gsm_arena/handlers/device.py:89
+#: src/korone/modules/gsm_arena/handlers/device.py:91
 msgid "Sensors"
 msgstr ""
 
-#: src/korone/modules/gsm_arena/handlers/device.py:90
+#: src/korone/modules/gsm_arena/handlers/device.py:92
 msgid "Battery"
 msgstr ""
 
-#: src/korone/modules/gsm_arena/handlers/device.py:91
+#: src/korone/modules/gsm_arena/handlers/device.py:93
 msgid "Charging"
 msgstr ""
 
-#: src/korone/modules/gsm_arena/handlers/device.py:208
+#: src/korone/modules/gsm_arena/handlers/device.py:210
 msgid "Please enter a phone name to search."
 msgstr ""
 
-#: src/korone/modules/gsm_arena/handlers/device.py:215
+#: src/korone/modules/gsm_arena/handlers/device.py:217
 msgid "No devices found."
 msgstr ""
 
-#: src/korone/modules/gsm_arena/handlers/device.py:225
+#: src/korone/modules/gsm_arena/handlers/device.py:227
 msgid "Search results for: <b>{device}</b>"
 msgstr ""
 
