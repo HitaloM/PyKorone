@@ -6,6 +6,7 @@ from typing import ClassVar
 from babel.support import LazyProxy
 from hairydogm.keyboard import InlineKeyboardBuilder
 from hydrogram import Client, filters
+from hydrogram.enums import ChatType
 from hydrogram.types import CallbackQuery, InlineKeyboardButton, Message
 
 from korone.database.impl import SQLite3Connection
@@ -48,8 +49,12 @@ class LanguageInfoBase(MessageHandler):
 
     @on_message(filters.command("language"))
     async def handle(self, client: Client, message: Message):
-        text, button = await self.get_info_text_and_buttons(get_i18n())
-        await message.reply_text(text, reply_markup=button.as_markup())
+        text, keyboard = await self.get_info_text_and_buttons(get_i18n())
+
+        if message.chat.type == ChatType.PRIVATE:
+            keyboard.row(InlineKeyboardButton(text=_("⬅️ Back"), callback_data="startmenu"))
+
+        await message.reply_text(text, reply_markup=keyboard.as_markup())
 
 
 class LanguagePrivateInfo(LanguageInfoBase):

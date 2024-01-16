@@ -40,7 +40,7 @@ class Help(MessageHandler):
     async def handle(self, client: Client, message: Message) -> None:
         if message.chat.type in (ChatType.GROUP, ChatType.SUPERGROUP):
             keyboard = InlineKeyboardBuilder()
-            keyboard.button(text=_("👮‍♂️ Help"), url="https://t.me/HitsukiBetaBot?start=start")
+            keyboard.button(text=_("👮‍♂️ Help"), url="https://t.me/PyKoroneBot?start=start")
             await message.reply_text(
                 _("Message me in PM to get help."), reply_markup=keyboard.as_markup()
             )
