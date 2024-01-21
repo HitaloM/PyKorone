@@ -18,6 +18,7 @@ from korone.config import ConfigManager
 from korone.decorators import on_callback_query, on_message
 from korone.handlers.callback_query_handler import CallbackQueryHandler
 from korone.handlers.message_handler import MessageHandler
+from korone.modules.gsm_arena.callback_data import DevicePageCallback, GetDeviceCallback
 from korone.modules.utils.commands import get_command_arg
 from korone.modules.utils.pagination import Pagination
 from korone.utils.i18n import gettext as _
@@ -105,9 +106,9 @@ def format_phone(phone: dict) -> str:
 def create_pagination_layout(devices: list, query: str, page: int) -> InlineKeyboardBuilder:
     layout = Pagination(
         devices,
-        item_data=lambda i, _: f"getdevice:{i.url}",
+        item_data=lambda i, _: GetDeviceCallback(device=i.url).pack(),
         item_title=lambda i, _: i.name,
-        page_data=lambda pg: f"devicepage:{query}:{pg}",
+        page_data=lambda pg: DevicePageCallback(device=query, page=pg).pack(),
     )
 
     return layout.create(page, lines=8)
@@ -199,7 +200,9 @@ class GSMArena(MessageHandler):
         keyboard = InlineKeyboardBuilder()
         for phone in search_result:
             keyboard.row(
-                InlineKeyboardButton(text=phone.name, callback_data=f"device:{phone.url}")
+                InlineKeyboardButton(
+                    text=phone.name, callback_data=GetDeviceCallback(device=phone.url).pack()
+                )
             )
 
         return keyboard.as_markup()  # type: ignore
@@ -230,13 +233,13 @@ class GSMArena(MessageHandler):
 
 
 class ListGSMArena(CallbackQueryHandler):
-    @on_callback_query(filters.regex(r"^devicepage:(.+):(\d+)$"))
+    @on_callback_query(DevicePageCallback.filter())
     async def handle(self, client: Client, callback: CallbackQuery) -> None:
-        if not callback.matches:
+        if not callback.data:
             return
 
-        query: str = callback.matches[0].group(1)
-        page: int = int(callback.matches[0].group(2))
+        query: str = DevicePageCallback.unpack(callback.data).device
+        page: int = DevicePageCallback.unpack(callback.data).page
 
         devices = await GSMArena().search(query)
         keyboard = create_pagination_layout(devices, query, page)
@@ -245,12 +248,12 @@ class ListGSMArena(CallbackQueryHandler):
 
 
 class GetGSMArena(CallbackQueryHandler):
-    @on_callback_query(filters.regex(r"^getdevice:(.+)$"))
+    @on_callback_query(GetDeviceCallback.filter())
     async def handle(self, client: Client, callback: CallbackQuery) -> None:
-        if not callback.matches:
+        if not callback.data:
             return
 
-        query = callback.matches[0].group(1)
+        query: str = GetDeviceCallback.unpack(callback.data).device
         phone = await GSMArena().check_phone_details(query)
 
         with suppress(MessageNotModified):
