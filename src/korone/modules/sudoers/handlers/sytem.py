@@ -48,6 +48,11 @@ class Shell(MessageHandler):
             return
 
         output = await self.run_command(command)
+
+        if not output:
+            await message.reply_text("No output.")
+            return
+
         if len(output) > 4096:
             await generate_document(output, message)
             return
