@@ -98,25 +98,32 @@ class Pagination:
     This class provides functionality for paginating a list of objects and retrieving data for
     specific pages and items on those pages.
 
-    Attributes
+    Parameters
     ----------
-    objects : list[typing.Any]
+    objects : list[Any]
         The list of objects to be paginated.
-    page_data : collections.abc.Callable[[int], str], optional
-        A callback function that returns the data for a specific page. Defaults to
-        default_page_callback.
-    item_data : collections.abc.Callable[[typing.Any, int], str], optional
-        A callback function that returns the data for a specific item on a page. Defaults to
-        default_item_callback.
-    item_title : collections.abc.Callable[[typing.Any, int], str], optional
-        A callback function that returns the title for a specific item on a page. Defaults to
-        default_item_callback.
+    page_data : typing.Callable[[int], str], optional
+        A function that returns the data for a specific page. Defaults to
+        `default_page_callback`.
+    item_data : typing.Callable[[Any, int], str], optional
+        A function that returns the data for a specific item on a page. Defaults to
+        `default_item_callback`.
+    item_title : typing.Callable[[Any, int], str], optional
+        A function that returns the title for a specific item on a page. Defaults to
+        `default_item_callback`.
     """
 
-    objects: list[Any]
-    page_data: Callable[[int], str] = default_page_callback
-    item_data: Callable[[Any, int], str] = default_item_callback
-    item_title: Callable[[Any, int], str] = default_item_callback
+    def __init__(
+        self,
+        objects: list[Any],
+        page_data: Callable[[int], str] = default_page_callback,
+        item_data: Callable[[Any, int], str] = default_item_callback,
+        item_title: Callable[[Any, int], str] = default_item_callback,
+    ):
+        self.objects = objects
+        self.page_data = page_data
+        self.item_data = item_data
+        self.item_title = item_title
 
     def create(self, page: int, lines: int = 5, columns: int = 1) -> InlineKeyboardBuilder:
         """

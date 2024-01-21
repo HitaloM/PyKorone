@@ -10,7 +10,7 @@ import korone  # noqa: E402
 project = "PyKorone"
 author = "Hitalo M."
 copyright = f"{datetime.date.today().year}, {author}"
-release = korone.__version__
+release = korone.__version__.split(" ")[0]
 
 extensions = [
     "sphinx.ext.autodoc",

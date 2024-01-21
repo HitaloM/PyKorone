@@ -15,7 +15,6 @@ Submodules
    :undoc-members:
    :show-inheritance:
 
-
 .. automodule:: korone.modules.utils.filters
    :members:
    :undoc-members:
