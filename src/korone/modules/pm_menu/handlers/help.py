@@ -5,11 +5,13 @@ from hairydogm.keyboard import InlineKeyboardBuilder
 from hydrogram import Client, filters
 from hydrogram.enums import ChatType
 from hydrogram.types import CallbackQuery, InlineKeyboardButton, InlineKeyboardMarkup, Message
+from magic_filter import F
 
 from korone.decorators import on_callback_query, on_message
 from korone.handlers.callback_query_handler import CallbackQueryHandler
 from korone.handlers.message_handler import MessageHandler
 from korone.modules import MODULES
+from korone.modules.pm_menu.callback_data import GetHelpCallback, PMMenuCallback
 from korone.modules.utils.commands import get_command_arg
 from korone.utils.i18n import gettext as _
 
@@ -23,10 +25,14 @@ class Help(MessageHandler):
                 continue
 
             module_name = module[1]["info"]["name"]
-            keyboard.button(text=module_name, callback_data=f"gethelp:{module[0]}")
+            keyboard.button(text=module_name, callback_data=GetHelpCallback(module=module[0]))
 
         keyboard.adjust(3)
-        keyboard.row(InlineKeyboardButton(text=_("⬅️ Back"), callback_data="startmenu"))
+        keyboard.row(
+            InlineKeyboardButton(
+                text=_("⬅️ Back"), callback_data=PMMenuCallback(menu="start").pack()
+            )
+        )
         return keyboard.as_markup()  # type: ignore
 
     @staticmethod
@@ -65,7 +71,7 @@ class GetHelp(CallbackQueryHandler):
     @staticmethod
     def build_keyboard() -> InlineKeyboardMarkup:
         keyboard = InlineKeyboardBuilder()
-        keyboard.button(text=_("⬅️ Back"), callback_data="helpmenu")
+        keyboard.button(text=_("⬅️ Back"), callback_data=PMMenuCallback(menu="help"))
         return keyboard.as_markup()  # type: ignore
 
     @staticmethod
@@ -82,12 +88,12 @@ class GetHelp(CallbackQueryHandler):
 
         return f"<b>{name}</b>\n\n{summary}\n\n{doc}"
 
-    @on_callback_query(filters.regex(r"^gethelp:(.*)"))
+    @on_callback_query(GetHelpCallback.filter())
     async def handle(self, client: Client, callback: CallbackQuery) -> None:
-        if callback.matches is None:
+        if not callback.data:
             return
 
-        module: str = callback.matches[0].group(1)
+        module = GetHelpCallback.unpack(callback.data).module
         await callback.message.edit_text(
             text=self.build_text(module),
             reply_markup=self.build_keyboard(),
@@ -95,7 +101,7 @@ class GetHelp(CallbackQueryHandler):
 
 
 class HelpCallbackHandler(CallbackQueryHandler):
-    @on_callback_query(filters.regex(r"^helpmenu$"))
+    @on_callback_query(PMMenuCallback.filter(F.menu == "help"))
     async def handle(self, client: Client, callback: CallbackQuery) -> None:
         text = Help.build_text()
         keyboard = Help.build_keyboard()

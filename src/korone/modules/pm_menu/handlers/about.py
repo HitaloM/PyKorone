@@ -5,10 +5,12 @@ from hairydogm.keyboard import InlineKeyboardBuilder
 from hydrogram import Client, filters
 from hydrogram.enums import ChatType
 from hydrogram.types import CallbackQuery, InlineKeyboardButton, InlineKeyboardMarkup, Message
+from magic_filter import F
 
 from korone.decorators import on_callback_query, on_message
 from korone.handlers.callback_query_handler import CallbackQueryHandler
 from korone.handlers.message_handler import MessageHandler
+from korone.modules.pm_menu.callback_data import PMMenuCallback
 from korone.utils.i18n import gettext as _
 
 
@@ -21,7 +23,11 @@ class BaseHandler:
         keyboard.adjust(2)
 
         if message.chat.type == ChatType.PRIVATE:
-            keyboard.row(InlineKeyboardButton(text=_("⬅️ Back"), callback_data="startmenu"))
+            keyboard.row(
+                InlineKeyboardButton(
+                    text=_("⬅️ Back"), callback_data=PMMenuCallback(menu="start").pack()
+                )
+            )
 
         return keyboard.as_markup()  # type: ignore
 
@@ -52,7 +58,7 @@ class About(MessageHandler, BaseHandler):
 
 
 class AboutCallback(CallbackQueryHandler, BaseHandler):
-    @on_callback_query(filters.regex(r"^aboutmenu$"))
+    @on_callback_query(PMMenuCallback.filter(F.menu == "about"))
     async def handle(self, client: Client, callback: CallbackQuery) -> None:
         text = self.build_text()
         keyboard = self.build_keyboard(callback.message)

@@ -8,12 +8,15 @@ from hairydogm.keyboard import InlineKeyboardBuilder
 from hydrogram import Client, filters
 from hydrogram.enums import ChatType
 from hydrogram.types import CallbackQuery, InlineKeyboardButton, Message
+from magic_filter import F
 
 from korone.database.impl import SQLite3Connection
 from korone.database.query import Query
 from korone.decorators import on_callback_query, on_message
 from korone.handlers.callback_query_handler import CallbackQueryHandler
 from korone.handlers.message_handler import MessageHandler
+from korone.modules.language.callback_data import LangMenuCallback
+from korone.modules.pm_menu.callback_data import PMMenuCallback
 from korone.utils.i18n import I18nNew, get_i18n
 from korone.utils.i18n import gettext as _
 from korone.utils.i18n import lazy_gettext as __
@@ -43,7 +46,7 @@ class LanguageInfoBase(MessageHandler):
             text += _("This is the bot's native language. So it is 100% translated.")
 
         keyboard = InlineKeyboardBuilder()
-        keyboard.button(text=self.button_text, callback_data="selectlanguage")
+        keyboard.button(text=self.button_text, callback_data=LangMenuCallback(menu="languages"))
 
         return text, keyboard  # type: ignore
 
@@ -52,7 +55,11 @@ class LanguageInfoBase(MessageHandler):
         text, keyboard = await self.get_info_text_and_buttons(get_i18n())
 
         if message.chat.type == ChatType.PRIVATE:
-            keyboard.row(InlineKeyboardButton(text=_("⬅️ Back"), callback_data="startmenu"))
+            keyboard.row(
+                InlineKeyboardButton(
+                    text=_("⬅️ Back"), callback_data=PMMenuCallback(menu="start").pack()
+                )
+            )
 
         await message.reply_text(text, reply_markup=keyboard.as_markup())
 
@@ -83,9 +90,13 @@ class LanguageGroupInfo(LanguageInfoBase):
 
 
 class LanguageInfoCallback(CallbackQueryHandler):
-    @on_callback_query(filters.regex(r"^languagemenu$"))
+    @on_callback_query(LangMenuCallback.filter(F.menu == "language"))
     async def handle(self, client: Client, callback: CallbackQuery):
         text, keyboard = await LanguagePrivateInfo().get_info_text_and_buttons(get_i18n())
 
-        keyboard.row(InlineKeyboardButton(text=_("⬅️ Back"), callback_data="startmenu"))
+        keyboard.row(
+            InlineKeyboardButton(
+                text=_("⬅️ Back"), callback_data=PMMenuCallback(menu="start").pack()
+            )
+        )
         await callback.message.edit_text(text, reply_markup=keyboard.as_markup())  # type: ignore

@@ -5,11 +5,13 @@ from hairydogm.keyboard import InlineKeyboardBuilder
 from hydrogram import Client, filters
 from hydrogram.enums import ChatMemberStatus, ChatType
 from hydrogram.types import CallbackQuery, InlineKeyboardButton, InlineKeyboardMarkup, Message
+from magic_filter import F
 
 from korone import i18n
 from korone.decorators import on_callback_query, on_message
 from korone.handlers.callback_query_handler import CallbackQueryHandler
 from korone.handlers.message_handler import MessageHandler
+from korone.modules.language.callback_data import LangMenuCallback, SetLangCallback
 from korone.modules.utils.filters import is_admin
 from korone.utils.i18n import gettext as _
 
@@ -21,14 +23,24 @@ class SelectLanguageBase:
 
         for language in (*i18n.available_locales, i18n.default_locale):
             locale = i18n.babel(language)
-            keyboard.button(text=i18n.locale_display(locale), callback_data=f"setlang:{language}")
+            keyboard.button(
+                text=i18n.locale_display(locale), callback_data=SetLangCallback(lang=language)
+            )
 
         keyboard.adjust(2)
         if chat_type in (ChatType.GROUP, ChatType.SUPERGROUP):
-            keyboard.row(InlineKeyboardButton(text=_("❌ Cancel"), callback_data="cancellanguage"))
+            keyboard.row(
+                InlineKeyboardButton(
+                    text=_("❌ Cancel"), callback_data=LangMenuCallback(menu="cancel").pack()
+                )
+            )
 
         if chat_type == ChatType.PRIVATE:
-            keyboard.row(InlineKeyboardButton(text=_("⬅️ Back"), callback_data="languagemenu"))
+            keyboard.row(
+                InlineKeyboardButton(
+                    text=_("⬅️ Back"), callback_data=LangMenuCallback(menu="language").pack()
+                )
+            )
 
         return keyboard.as_markup()  # type: ignore
 
@@ -56,7 +68,7 @@ class SelectLanguage(MessageHandler, SelectLanguageBase):
 
 
 class SelectLanguageCallback(CallbackQueryHandler, SelectLanguageBase):
-    @on_callback_query(filters.regex(r"^selectlanguage$") & is_admin)
+    @on_callback_query(LangMenuCallback.filter(F.menu == "languages") & is_admin)
     async def handle(self, client: Client, callback: CallbackQuery):
         if callback.message.chat.type != ChatType.PRIVATE:
             user = await client.get_chat_member(callback.message.chat.id, callback.from_user.id)

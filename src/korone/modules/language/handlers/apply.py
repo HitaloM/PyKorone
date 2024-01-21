@@ -2,7 +2,7 @@
 # Copyright (c) 2023-present Hitalo M. <https://github.com/HitaloM>
 
 from hairydogm.keyboard import InlineKeyboardBuilder
-from hydrogram import Client, filters
+from hydrogram import Client
 from hydrogram.enums import ChatType
 from hydrogram.types import CallbackQuery
 
@@ -11,6 +11,7 @@ from korone.database.query import Query
 from korone.database.table import Document
 from korone.decorators import on_callback_query
 from korone.handlers.callback_query_handler import CallbackQueryHandler
+from korone.modules.language.callback_data import SetLangCallback
 from korone.utils.i18n import get_i18n
 from korone.utils.i18n import gettext as _
 
@@ -19,14 +20,14 @@ class ApplyLanguage(CallbackQueryHandler):
     crowdin_url: str = "https://crowdin.com/project/pykorone"
     github_url: str = "https://github.com/HitaloM/PyKorone/issues"
 
-    @on_callback_query(filters.regex(r"^setlang:(?P<language>.*)$"))
+    @on_callback_query(SetLangCallback.filter())
     async def handle(self, client: Client, callback: CallbackQuery) -> None:
-        if not callback.matches:
+        if not callback.data:
             await callback.answer(_("Something went wrong."))
             return
 
         is_private = callback.message.chat.type == ChatType.PRIVATE
-        language: str = callback.matches[0].group("language")
+        language: str = SetLangCallback.unpack(callback.data).lang
 
         await self.set_chat_language(is_private, callback, language)
         text, keyboard = await self.prepare_response(language)

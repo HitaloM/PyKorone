@@ -7,10 +7,13 @@ from hairydogm.keyboard import InlineKeyboardBuilder
 from hydrogram import Client, filters
 from hydrogram.enums import ChatType
 from hydrogram.types import CallbackQuery, InlineKeyboardButton, InlineKeyboardMarkup, Message
+from magic_filter import F
 
 from korone.decorators import on_callback_query, on_message
 from korone.handlers.callback_query_handler import CallbackQueryHandler
 from korone.handlers.message_handler import MessageHandler
+from korone.modules.language.callback_data import LangMenuCallback
+from korone.modules.pm_menu.callback_data import PMMenuCallback
 from korone.utils.i18n import get_i18n
 from korone.utils.i18n import gettext as _
 
@@ -21,12 +24,16 @@ class BaseHandler:
         keyboard = InlineKeyboardBuilder()
         locale = Locale.parse(current_lang)
 
-        keyboard.button(text=_("ℹ️ About"), callback_data="aboutmenu")
+        keyboard.button(text=_("ℹ️ About"), callback_data=PMMenuCallback(menu="about"))
         keyboard.button(
             text=_("{lang_flag} Language").format(lang_flag=flag(locale.territory or "US")),
-            callback_data="languagemenu",
+            callback_data=LangMenuCallback(menu="language"),
         )
-        keyboard.row(InlineKeyboardButton(text=_("👮‍♂️ Help"), callback_data="helpmenu"))
+        keyboard.row(
+            InlineKeyboardButton(
+                text=_("👮‍♂️ Help"), callback_data=PMMenuCallback(menu="help").pack()
+            )
+        )
         keyboard.adjust(2)
         return keyboard.as_markup()  # type: ignore
 
@@ -47,7 +54,7 @@ class Start(MessageHandler, BaseHandler):
 
 
 class StartCallback(CallbackQueryHandler, BaseHandler):
-    @on_callback_query(filters.regex(r"^startmenu$"))
+    @on_callback_query(PMMenuCallback.filter(F.menu == "start"))
     async def handle(self, client: Client, callback: CallbackQuery) -> None:
         text = self.build_text()
         keyboard = self.build_keyboard(get_i18n().current_locale)
