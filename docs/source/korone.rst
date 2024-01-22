@@ -20,7 +20,7 @@ Subpackages
 Submodules
 ----------
 
-.. automodule:: korone.bot
+.. automodule:: korone.client
    :members:
    :undoc-members:
    :show-inheritance:

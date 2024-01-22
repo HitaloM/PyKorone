@@ -14,8 +14,8 @@ from hydrogram.errors import MessageNotModified
 from hydrogram.types import CallbackQuery, InlineKeyboardButton, InlineKeyboardMarkup, Message
 
 from korone import cache
+from korone.client import Korone
 from korone.config import ConfigManager
-from korone.decorators import on_callback_query, on_message
 from korone.handlers.callback_query_handler import CallbackQueryHandler
 from korone.handlers.message_handler import MessageHandler
 from korone.modules.gsm_arena.callback_data import DevicePageCallback, GetDeviceCallback
@@ -207,7 +207,7 @@ class GSMArena(MessageHandler):
 
         return keyboard.as_markup()  # type: ignore
 
-    @on_message(filters.command(CMDS))
+    @Korone.on_message(filters.command(CMDS))
     async def handle(self, client: Client, message: Message) -> None:
         if message.command is None:
             await message.reply_text(_("Please enter a phone name to search."))
@@ -233,7 +233,7 @@ class GSMArena(MessageHandler):
 
 
 class ListGSMArena(CallbackQueryHandler):
-    @on_callback_query(DevicePageCallback.filter())
+    @Korone.on_callback_query(DevicePageCallback.filter())
     async def handle(self, client: Client, callback: CallbackQuery) -> None:
         if not callback.data:
             return
@@ -248,7 +248,7 @@ class ListGSMArena(CallbackQueryHandler):
 
 
 class GetGSMArena(CallbackQueryHandler):
-    @on_callback_query(GetDeviceCallback.filter())
+    @Korone.on_callback_query(GetDeviceCallback.filter())
     async def handle(self, client: Client, callback: CallbackQuery) -> None:
         if not callback.data:
             return

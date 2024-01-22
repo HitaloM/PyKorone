@@ -7,7 +7,7 @@ from hydrogram.enums import ChatType
 from hydrogram.types import CallbackQuery, InlineKeyboardButton, InlineKeyboardMarkup, Message
 from magic_filter import F
 
-from korone.decorators import on_callback_query, on_message
+from korone.client import Korone
 from korone.handlers.callback_query_handler import CallbackQueryHandler
 from korone.handlers.message_handler import MessageHandler
 from korone.modules import MODULES
@@ -42,7 +42,7 @@ class Help(MessageHandler):
             "access a brief documentation on its functionality and usage."
         )
 
-    @on_message(filters.command("help"))
+    @Korone.on_message(filters.command("help"))
     async def handle(self, client: Client, message: Message) -> None:
         if message.chat.type in (ChatType.GROUP, ChatType.SUPERGROUP):
             keyboard = InlineKeyboardBuilder()
@@ -88,7 +88,7 @@ class GetHelp(CallbackQueryHandler):
 
         return f"<b>{name}</b>\n\n{summary}\n\n{doc}"
 
-    @on_callback_query(GetHelpCallback.filter())
+    @Korone.on_callback_query(GetHelpCallback.filter())
     async def handle(self, client: Client, callback: CallbackQuery) -> None:
         if not callback.data:
             return
@@ -101,7 +101,7 @@ class GetHelp(CallbackQueryHandler):
 
 
 class HelpCallbackHandler(CallbackQueryHandler):
-    @on_callback_query(PMMenuCallback.filter(F.menu == "help"))
+    @Korone.on_callback_query(PMMenuCallback.filter(F.menu == "help"))
     async def handle(self, client: Client, callback: CallbackQuery) -> None:
         text = Help.build_text()
         keyboard = Help.build_keyboard()

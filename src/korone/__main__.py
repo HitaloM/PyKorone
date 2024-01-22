@@ -6,7 +6,7 @@ import asyncio
 import uvloop
 from hydrogram import idle
 
-from .bot import AppParameters, Korone
+from .client import AppParameters, Korone
 from .config import ConfigManager
 from .utils.logging import log
 

@@ -6,10 +6,10 @@ from hydrogram import Client
 from hydrogram.enums import ChatType
 from hydrogram.types import CallbackQuery
 
+from korone.client import Korone
 from korone.database.impl import SQLite3Connection
 from korone.database.query import Query
 from korone.database.table import Document
-from korone.decorators import on_callback_query
 from korone.handlers.callback_query_handler import CallbackQueryHandler
 from korone.modules.language.callback_data import SetLangCallback
 from korone.utils.i18n import get_i18n
@@ -20,7 +20,7 @@ class ApplyLanguage(CallbackQueryHandler):
     crowdin_url: str = "https://crowdin.com/project/pykorone"
     github_url: str = "https://github.com/HitaloM/PyKorone/issues"
 
-    @on_callback_query(SetLangCallback.filter())
+    @Korone.on_callback_query(SetLangCallback.filter())
     async def handle(self, client: Client, callback: CallbackQuery) -> None:
         if not callback.data:
             await callback.answer(_("Something went wrong."))
