@@ -15,12 +15,12 @@ Submodules
    :undoc-members:
    :show-inheritance:
 
-.. automodule:: korone.decorators.on_message
+.. automodule:: korone.decorators.factory
    :members:
    :undoc-members:
    :show-inheritance:
 
-.. automodule:: korone.decorators.on_callback_query
+.. automodule:: korone.decorators.router
    :members:
    :undoc-members:
    :show-inheritance:
