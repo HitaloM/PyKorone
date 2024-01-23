@@ -8,7 +8,7 @@ from hydrogram.enums import ParseMode
 from hydrogram.types import Message
 from meval import meval
 
-from korone.client import Korone
+from korone.decorators import router
 from korone.handlers.message_handler import MessageHandler
 from korone.modules.sudoers.utils import build_text, generate_document
 from korone.modules.utils.commands import get_command_arg
@@ -16,7 +16,7 @@ from korone.modules.utils.filters import is_sudo
 
 
 class Evaluate(MessageHandler):
-    @Korone.on_message(filters.command(["eval", "ev"]) & is_sudo)
+    @router.message(filters.command(["eval", "ev"]) & is_sudo)
     async def handle(self, client: Client, message: Message) -> None:
         expression = get_command_arg(message)
         if not expression:

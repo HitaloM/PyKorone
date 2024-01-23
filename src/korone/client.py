@@ -14,7 +14,6 @@ from hydrogram.raw.all import layer
 
 from korone import constants
 from korone.database.impl import SQLite3Connection
-from korone.decorators import Decorators
 from korone.modules import load_all_modules
 
 from .utils.logging import log
@@ -59,7 +58,7 @@ class AppParameters:
     """
 
 
-class Korone(Decorators, Client):
+class Korone(Client):
     """
     Represent Korone.
 

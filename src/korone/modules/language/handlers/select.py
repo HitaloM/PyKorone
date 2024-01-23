@@ -8,7 +8,7 @@ from hydrogram.types import CallbackQuery, InlineKeyboardButton, InlineKeyboardM
 from magic_filter import F
 
 from korone import i18n
-from korone.client import Korone
+from korone.decorators import router
 from korone.handlers.callback_query_handler import CallbackQueryHandler
 from korone.handlers.message_handler import MessageHandler
 from korone.modules.language.callback_data import LangMenuCallback, SetLangCallback
@@ -62,13 +62,13 @@ class SelectLanguageBase:
 
 
 class SelectLanguage(MessageHandler, SelectLanguageBase):
-    @Korone.on_message(filters.command("languages") & is_admin)
+    @router.message(filters.command("languages") & is_admin)
     async def handle(self, client: Client, message: Message):
         await self.send_message(message)
 
 
 class SelectLanguageCallback(CallbackQueryHandler, SelectLanguageBase):
-    @Korone.on_callback_query(LangMenuCallback.filter(F.menu == "languages") & is_admin)
+    @router.callback_query(LangMenuCallback.filter(F.menu == "languages") & is_admin)
     async def handle(self, client: Client, callback: CallbackQuery):
         if callback.message.chat.type != ChatType.PRIVATE:
             user = await client.get_chat_member(callback.message.chat.id, callback.from_user.id)

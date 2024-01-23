@@ -10,9 +10,9 @@ from hydrogram.enums import ChatType
 from hydrogram.types import CallbackQuery, InlineKeyboardButton, Message
 from magic_filter import F
 
-from korone.client import Korone
 from korone.database.impl import SQLite3Connection
 from korone.database.query import Query
+from korone.decorators import router
 from korone.handlers.callback_query_handler import CallbackQueryHandler
 from korone.handlers.message_handler import MessageHandler
 from korone.modules.language.callback_data import LangMenuCallback
@@ -50,7 +50,7 @@ class LanguageInfoBase(MessageHandler):
 
         return text, keyboard  # type: ignore
 
-    @Korone.on_message(filters.command("language"))
+    @router.message(filters.command("language"))
     async def handle(self, client: Client, message: Message):
         text, keyboard = await self.get_info_text_and_buttons(get_i18n())
 
@@ -78,9 +78,7 @@ class LanguagePrivateInfo(LanguageInfoBase):
 
         return i18n_new.locale_display(i18n_new.babel(chat[0]["language"]))
 
-    handle = Korone.on_message(filters.command(LANG_CMDS) & filters.private)(
-        LanguageInfoBase.handle
-    )
+    handle = router.message(filters.command(LANG_CMDS) & filters.private)(LanguageInfoBase.handle)
 
 
 class LanguageGroupInfo(LanguageInfoBase):
@@ -88,11 +86,11 @@ class LanguageGroupInfo(LanguageInfoBase):
     def button_text(self) -> LazyProxy:
         return __("🌍 Change group language")
 
-    handle = Korone.on_message(filters.command(LANG_CMDS) & filters.group)(LanguageInfoBase.handle)
+    handle = router.message(filters.command(LANG_CMDS) & filters.group)(LanguageInfoBase.handle)
 
 
 class LanguageInfoCallback(CallbackQueryHandler):
-    @Korone.on_callback_query(LangMenuCallback.filter(F.menu == "language"))
+    @router.callback_query(LangMenuCallback.filter(F.menu == "language"))
     async def handle(self, client: Client, callback: CallbackQuery):
         text, keyboard = await LanguagePrivateInfo().get_info_text_and_buttons(get_i18n())
 

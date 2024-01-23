@@ -9,8 +9,7 @@ from hydrogram.enums import ChatType
 from hydrogram.types import CallbackQuery, InlineKeyboardButton, InlineKeyboardMarkup, Message
 from magic_filter import F
 
-from korone.client import Korone
-from korone.decorators import on_callback_query
+from korone.decorators import router
 from korone.handlers.callback_query_handler import CallbackQueryHandler
 from korone.handlers.message_handler import MessageHandler
 from korone.modules.language.callback_data import LangMenuCallback
@@ -44,7 +43,7 @@ class BaseHandler:
 
 
 class Start(MessageHandler, BaseHandler):
-    @Korone.on_message(filters.command("start"))
+    @router.message(filters.command("start"))
     async def handle(self, client: Client, message: Message) -> None:
         text = self.build_text()
         keyboard = None
@@ -55,7 +54,7 @@ class Start(MessageHandler, BaseHandler):
 
 
 class StartCallback(CallbackQueryHandler, BaseHandler):
-    @on_callback_query(PMMenuCallback.filter(F.menu == "start"))
+    @router.callback_query(PMMenuCallback.filter(F.menu == "start"))
     async def handle(self, client: Client, callback: CallbackQuery) -> None:
         text = self.build_text()
         keyboard = self.build_keyboard(get_i18n().current_locale)
