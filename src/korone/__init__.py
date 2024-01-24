@@ -7,8 +7,7 @@ from pathlib import Path
 from cashews import cache
 
 from korone.utils.i18n import I18nNew as I18n
-
-from .utils.logging import log
+from korone.utils.logging import log
 
 result = subprocess.run(
     "git rev-parse --short HEAD && git rev-list --count HEAD", shell=True, capture_output=True

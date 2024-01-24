@@ -15,8 +15,7 @@ from korone.database.query import Query
 from korone.decorators import router
 from korone.handlers.callback_query_handler import CallbackQueryHandler
 from korone.handlers.message_handler import MessageHandler
-from korone.modules.language.callback_data import LangMenuCallback
-from korone.modules.pm_menu.callback_data import PMMenuCallback
+from korone.modules.language.callback_data import LangMenuCallback, PMMenuCallback
 from korone.utils.i18n import I18nNew, get_i18n
 from korone.utils.i18n import gettext as _
 from korone.utils.i18n import lazy_gettext as __

@@ -6,9 +6,9 @@ import asyncio
 import uvloop
 from hydrogram import idle
 
-from .client import AppParameters, Korone
-from .config import ConfigManager
-from .utils.logging import log
+from korone.client import AppParameters, Korone
+from korone.config import ConfigManager
+from korone.utils.logging import log
 
 asyncio.set_event_loop_policy(uvloop.EventLoopPolicy())
 

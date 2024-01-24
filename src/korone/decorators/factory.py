@@ -5,7 +5,7 @@ from collections.abc import Callable
 
 from hydrogram.filters import Filter
 
-from .i18n import use_gettext
+from korone.decorators.i18n import use_gettext
 
 
 class Factory:

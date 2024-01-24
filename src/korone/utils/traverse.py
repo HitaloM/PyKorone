@@ -38,7 +38,7 @@ def bfs_attr_search(root: Any, attr: str) -> Any:
     >>> fun.hello = lambda x: x * 2
     >>> fun.hello.again = lambda x: x / 4
     >>> fun.hallo = lambda x: x - 7
-    >>> fun.hallo.wieder = lambda x: x ** 3
+    >>> fun.hallo.wieder = lambda x: x**3
     >>> fun.hola = lambda x: x + 2
     >>> fun.hola.otravez = lambda x: x * 8
     >>> bfs_attr_search(fun, "again")

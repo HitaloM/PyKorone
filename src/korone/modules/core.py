@@ -107,7 +107,6 @@ def get_method_callable(cls: type, key: str) -> Callable[..., Any]:
     >>> class MyClass:
     ...     def my_method(self):
     ...         return "Hello, world!"
-    ...
     >>> my_instance = MyClass()
     >>> get_method_callable(MyClass, "my_method")(my_instance)
     'Hello, world!'

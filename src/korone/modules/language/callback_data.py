@@ -4,6 +4,10 @@
 from hairydogm.callback_data import CallbackData
 
 
+class PMMenuCallback(CallbackData, prefix="pm_menu"):
+    menu: str
+
+
 class LangMenuCallback(CallbackData, prefix="lang"):
     menu: str
 

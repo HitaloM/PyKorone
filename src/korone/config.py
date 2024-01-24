@@ -7,8 +7,7 @@ from typing import Any
 import rtoml
 
 from korone import constants
-
-from .utils.logging import log
+from korone.utils.logging import log
 
 
 class ConfigManager:

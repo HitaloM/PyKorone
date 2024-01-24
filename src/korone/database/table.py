@@ -64,7 +64,6 @@ class Table(Protocol):
         >>> class HappyLittleCustomer:
         ...     def __init__(self, name: str):
         ...         self._name = name
-        ...
         >>> gummikunde = HappyLittleCustomer("nibble")
         >>> vars(gummikunde)
         {'_name': 'nibble'}
