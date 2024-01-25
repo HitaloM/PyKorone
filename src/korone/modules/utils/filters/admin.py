@@ -23,6 +23,8 @@ class IsAdmin(Filter):
         The update object representing the incoming message or callback query.
     """
 
+    __slots__ = ("client", "message")
+
     def __init__(self, client: Client, update: Message | CallbackQuery) -> None:
         self.client = client
         self.update = update

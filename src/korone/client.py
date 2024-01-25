@@ -11,6 +11,7 @@ from cashews.exceptions import CacheBackendInteractionError
 from hydrogram import Client
 from hydrogram.enums import ParseMode
 from hydrogram.raw.all import layer
+from hydrogram.types import User
 
 from korone import constants
 from korone.database.impl import SQLite3Connection
@@ -76,9 +77,11 @@ class Korone(Client):
         The user representing the bot.
     """
 
+    __slots__ = ("parameters",)
+
     def __init__(self, parameters: AppParameters):
         self.parameters = parameters
-        self.me: hydrogram.types.User
+        self.me: User
 
         super().__init__(
             name=self.parameters.name,

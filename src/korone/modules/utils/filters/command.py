@@ -93,6 +93,8 @@ class Command(Filter):
         If the commands parameter is not a valid type.
     """
 
+    __slots__ = ("commands", "prefix", "ignore_case", "ignore_mention", "magic")
+
     def __init__(
         self,
         *values: CommandPatternType,
@@ -197,7 +199,9 @@ class Command(Filter):
             If the mention is invalid.
         """
         if command.mention and not self.ignore_mention:
-            me = await client.get_me()
+            if not (me := client.me):
+                me = await client.get_me()
+
             if me.username and command.mention.lower() != me.username.lower():
                 raise CommandError(f"Invalid mention: {command.mention!r}")
 

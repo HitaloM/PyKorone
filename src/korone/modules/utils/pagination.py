@@ -111,6 +111,8 @@ class Pagination:
         `default_item_callback`.
     """
 
+    __slots__ = ("objects", "page_data", "item_data", "item_title")
+
     def __init__(
         self,
         objects: list[Any],
