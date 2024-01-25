@@ -5,21 +5,22 @@ import io
 import traceback
 from contextlib import redirect_stdout
 
-from hydrogram import Client, filters
+from hydrogram import Client
 from hydrogram.enums import ParseMode
 from hydrogram.types import Message
 
 from korone.decorators import router
 from korone.handlers.message_handler import MessageHandler
 from korone.modules.sudoers.utils import build_text, generate_document
-from korone.modules.utils.commands import get_command_arg
-from korone.modules.utils.filters import is_sudo
+from korone.modules.utils.filters import Command, IsSudo
+from korone.modules.utils.filters.command import ParseCommand
 
 
 class Execute(MessageHandler):
-    @router.message(filters.command(["exec", "ex"]) & is_sudo)
+    @router.message(Command(commands=["exec", "ex"]) & IsSudo)
     async def handle(self, client: Client, message: Message) -> None:
-        code = get_command_arg(message)
+        command = ParseCommand(message).parse()
+        code = command.args
         if not code:
             await message.reply_text("No expression provided.")
             return

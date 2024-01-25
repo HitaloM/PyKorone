@@ -2,7 +2,7 @@
 # Copyright (c) 2023-present Hitalo M. <https://github.com/HitaloM>
 
 from hairydogm.keyboard import InlineKeyboardBuilder
-from hydrogram import Client, filters
+from hydrogram import Client
 from hydrogram.enums import ChatType
 from hydrogram.types import CallbackQuery, InlineKeyboardButton, InlineKeyboardMarkup, Message
 from magic_filter import F
@@ -12,7 +12,8 @@ from korone.handlers.callback_query_handler import CallbackQueryHandler
 from korone.handlers.message_handler import MessageHandler
 from korone.modules import MODULES
 from korone.modules.pm_menu.callback_data import GetHelpCallback, PMMenuCallback
-from korone.modules.utils.commands import get_command_arg
+from korone.modules.utils.filters import Command
+from korone.modules.utils.filters.command import ParseCommand
 from korone.utils.i18n import gettext as _
 
 
@@ -42,7 +43,7 @@ class Help(MessageHandler):
             "access a brief documentation on its functionality and usage."
         )
 
-    @router.message(filters.command("help"))
+    @router.message(Command("help"))
     async def handle(self, client: Client, message: Message) -> None:
         if message.chat.type in (ChatType.GROUP, ChatType.SUPERGROUP):
             keyboard = InlineKeyboardBuilder()
@@ -52,11 +53,11 @@ class Help(MessageHandler):
             )
             return
 
-        query = get_command_arg(message)
+        command = ParseCommand(message).parse()
 
         text = self.build_text()
         keyboard = self.build_keyboard()
-        if query:
+        if query := command.args:
             text = GetHelp().build_text(query.split(" ")[0])
             if _("Module not found.") in text:
                 await message.reply_text(text)

@@ -9,7 +9,7 @@ from datetime import timedelta
 import httpx
 from bs4 import BeautifulSoup
 from hairydogm.keyboard import InlineKeyboardBuilder
-from hydrogram import Client, filters
+from hydrogram import Client
 from hydrogram.errors import MessageNotModified
 from hydrogram.types import CallbackQuery, InlineKeyboardButton, InlineKeyboardMarkup, Message
 
@@ -19,11 +19,9 @@ from korone.decorators import router
 from korone.handlers.callback_query_handler import CallbackQueryHandler
 from korone.handlers.message_handler import MessageHandler
 from korone.modules.gsm_arena.callback_data import DevicePageCallback, GetDeviceCallback
-from korone.modules.utils.commands import get_command_arg
+from korone.modules.utils.filters import Command, ParseCommand
 from korone.modules.utils.pagination import Pagination
 from korone.utils.i18n import gettext as _
-
-CMDS: list[str] = ["device", "specs", "d"]
 
 HEADERS: dict[str, str] = {
     "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
@@ -207,13 +205,15 @@ class GSMArena(MessageHandler):
 
         return keyboard.as_markup()  # type: ignore
 
-    @router.message(filters.command(CMDS))
+    @router.message(Command(commands=["device", "specs", "d"]))
     async def handle(self, client: Client, message: Message) -> None:
-        if message.command is None:
+        command = ParseCommand(message).parse()
+
+        if not command.args:
             await message.reply_text(_("Please enter a phone name to search."))
             return
 
-        query: str = get_command_arg(message)
+        query = command.args
         devices = await self.search(query)
 
         if not devices:

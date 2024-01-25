@@ -4,7 +4,6 @@
 import math
 import typing
 from collections.abc import Callable, Iterator, Sequence
-from dataclasses import dataclass
 from typing import Any
 
 from hairydogm.keyboard import InlineKeyboardBuilder
@@ -90,7 +89,6 @@ def chunk_list(lst: Sequence[T], size: int) -> Iterator[typing.Sequence[T]]:
         yield lst[i : i + size]
 
 
-@dataclass
 class Pagination:
     """
     A class that represents a pagination utility.

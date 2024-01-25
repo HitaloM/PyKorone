@@ -3,7 +3,7 @@
 
 import traceback
 
-from hydrogram import Client, filters
+from hydrogram import Client
 from hydrogram.enums import ParseMode
 from hydrogram.types import Message
 from meval import meval
@@ -11,14 +11,15 @@ from meval import meval
 from korone.decorators import router
 from korone.handlers.message_handler import MessageHandler
 from korone.modules.sudoers.utils import build_text, generate_document
-from korone.modules.utils.commands import get_command_arg
-from korone.modules.utils.filters import is_sudo
+from korone.modules.utils.filters import Command, IsSudo
+from korone.modules.utils.filters.command import ParseCommand
 
 
 class Evaluate(MessageHandler):
-    @router.message(filters.command(["eval", "ev"]) & is_sudo)
+    @router.message(Command(commands=["eval", "ev"]) & IsSudo)
     async def handle(self, client: Client, message: Message) -> None:
-        expression = get_command_arg(message)
+        command = ParseCommand(message).parse()
+        expression = command.args
         if not expression:
             await message.reply_text("No expression provided.")
             return

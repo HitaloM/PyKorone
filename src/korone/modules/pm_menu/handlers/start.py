@@ -4,7 +4,7 @@
 from babel import Locale
 from flag import flag
 from hairydogm.keyboard import InlineKeyboardBuilder
-from hydrogram import Client, filters
+from hydrogram import Client
 from hydrogram.enums import ChatType
 from hydrogram.types import CallbackQuery, InlineKeyboardButton, InlineKeyboardMarkup, Message
 from magic_filter import F
@@ -13,6 +13,7 @@ from korone.decorators import router
 from korone.handlers.callback_query_handler import CallbackQueryHandler
 from korone.handlers.message_handler import MessageHandler
 from korone.modules.pm_menu.callback_data import LangMenuCallback, PMMenuCallback
+from korone.modules.utils.filters import Command
 from korone.utils.i18n import get_i18n
 from korone.utils.i18n import gettext as _
 
@@ -42,7 +43,7 @@ class BaseHandler:
 
 
 class Start(MessageHandler, BaseHandler):
-    @router.message(filters.command("start"))
+    @router.message(Command("start"))
     async def handle(self, client: Client, message: Message) -> None:
         text = self.build_text()
         keyboard = None

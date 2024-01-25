@@ -6,26 +6,26 @@ import os
 import sys
 from signal import SIGINT
 
-from hydrogram import Client, filters
+from hydrogram import Client
 from hydrogram.enums import ParseMode
 from hydrogram.types import Message
 
 from korone.decorators import router
 from korone.handlers.message_handler import MessageHandler
 from korone.modules.sudoers.utils import build_text, generate_document
-from korone.modules.utils.commands import get_command_arg
-from korone.modules.utils.filters import is_sudo
+from korone.modules.utils.filters import Command, IsSudo
+from korone.modules.utils.filters.command import ParseCommand
 
 
 class Reboot(MessageHandler):
-    @router.message(filters.command("reboot") & is_sudo)
+    @router.message(Command("reboot") & IsSudo)
     async def handle(self, client: Client, message: Message) -> None:
         await message.reply_text("Rebooting...")
         os.execv(sys.executable, [sys.executable, "-m", "korone"])
 
 
 class Shutdown(MessageHandler):
-    @router.message(filters.command("shutdown") & is_sudo)
+    @router.message(Command("shutdown") & IsSudo)
     async def handle(self, client: Client, message: Message) -> None:
         await message.reply_text("Shutting down...")
         os.kill(os.getpid(), SIGINT)
@@ -40,9 +40,9 @@ class Shell(MessageHandler):
         stdout, stderr = await process.communicate()
         return (stdout + stderr).decode()
 
-    @router.message(filters.command(["shell", "sh"]) & is_sudo)
+    @router.message(Command(commands=["shell", "sh"]) & IsSudo)
     async def handle(self, client: Client, message: Message) -> None:
-        command = get_command_arg(message)
+        command = ParseCommand(message).parse().args
         if not command:
             await message.reply_text("No command provided.")
             return

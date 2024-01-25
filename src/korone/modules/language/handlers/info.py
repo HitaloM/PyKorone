@@ -16,6 +16,7 @@ from korone.decorators import router
 from korone.handlers.callback_query_handler import CallbackQueryHandler
 from korone.handlers.message_handler import MessageHandler
 from korone.modules.language.callback_data import LangMenuCallback, PMMenuCallback
+from korone.modules.utils.filters import Command
 from korone.utils.i18n import I18nNew, get_i18n
 from korone.utils.i18n import gettext as _
 from korone.utils.i18n import lazy_gettext as __
@@ -49,7 +50,7 @@ class LanguageInfoBase(MessageHandler):
 
         return text, keyboard  # type: ignore
 
-    @router.message(filters.command("language"))
+    @router.message(Command("language"))
     async def handle(self, client: Client, message: Message):
         text, keyboard = await self.get_info_text_and_buttons(get_i18n())
 
@@ -77,7 +78,7 @@ class LanguagePrivateInfo(LanguageInfoBase):
 
         return i18n_new.locale_display(i18n_new.babel(chat[0]["language"]))
 
-    handle = router.message(filters.command(LANG_CMDS) & filters.private)(LanguageInfoBase.handle)
+    handle = router.message(Command(commands=LANG_CMDS) & filters.private)(LanguageInfoBase.handle)
 
 
 class LanguageGroupInfo(LanguageInfoBase):
@@ -85,7 +86,7 @@ class LanguageGroupInfo(LanguageInfoBase):
     def button_text(self) -> LazyProxy:
         return __("🌍 Change group language")
 
-    handle = router.message(filters.command(LANG_CMDS) & filters.group)(LanguageInfoBase.handle)
+    handle = router.message(Command(commands=LANG_CMDS) & filters.group)(LanguageInfoBase.handle)
 
 
 class LanguageInfoCallback(CallbackQueryHandler):

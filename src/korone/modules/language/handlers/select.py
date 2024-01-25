@@ -2,7 +2,7 @@
 # Copyright (c) 2023-present Hitalo M. <https://github.com/HitaloM>
 
 from hairydogm.keyboard import InlineKeyboardBuilder
-from hydrogram import Client, filters
+from hydrogram import Client
 from hydrogram.enums import ChatMemberStatus, ChatType
 from hydrogram.types import CallbackQuery, InlineKeyboardButton, InlineKeyboardMarkup, Message
 from magic_filter import F
@@ -12,7 +12,7 @@ from korone.decorators import router
 from korone.handlers.callback_query_handler import CallbackQueryHandler
 from korone.handlers.message_handler import MessageHandler
 from korone.modules.language.callback_data import LangMenuCallback, SetLangCallback
-from korone.modules.utils.filters import is_admin
+from korone.modules.utils.filters import Command, IsAdmin
 from korone.utils.i18n import gettext as _
 
 
@@ -62,13 +62,13 @@ class SelectLanguageBase:
 
 
 class SelectLanguage(MessageHandler, SelectLanguageBase):
-    @router.message(filters.command("languages") & is_admin)
+    @router.message(Command("languages") & IsAdmin)
     async def handle(self, client: Client, message: Message):
         await self.send_message(message)
 
 
 class SelectLanguageCallback(CallbackQueryHandler, SelectLanguageBase):
-    @router.callback_query(LangMenuCallback.filter(F.menu == "languages") & is_admin)
+    @router.callback_query(LangMenuCallback.filter(F.menu == "languages") & IsAdmin)
     async def handle(self, client: Client, callback: CallbackQuery):
         if callback.message.chat.type != ChatType.PRIVATE:
             user = await client.get_chat_member(callback.message.chat.id, callback.from_user.id)

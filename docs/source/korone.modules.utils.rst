@@ -7,18 +7,16 @@ korone.modules.utils package
    :show-inheritance:
    :ignore-module-all:
 
+Subpackages
+-----------
+
+.. toctree::
+   :maxdepth: 2
+
+   korone.modules.utils.filters
+
 Submodules
 ----------
-
-.. automodule:: korone.modules.utils.commands
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
-.. automodule:: korone.modules.utils.filters
-   :members:
-   :undoc-members:
-   :show-inheritance:
 
 .. automodule:: korone.modules.utils.pagination
    :members:
