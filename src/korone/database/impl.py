@@ -185,13 +185,19 @@ class SQLite3Connection:
     async def _is_open(self) -> bool:
         return self._conn is not None
 
-    async def _execute(self, sql: str, parameters: tuple = (), /) -> aiosqlite.Cursor:
+    async def _execute(
+        self, sql: str, parameters: tuple = (), /, script: bool = False
+    ) -> aiosqlite.Cursor:
         conn: aiosqlite.Connection = self._conn  # type: ignore
 
         if self._conn is not None:
+            if script:
+                return await conn.executescript(sql)
             return await conn.execute(sql, parameters)
 
         async with conn:
+            if script:
+                return await conn.executescript(sql)
             return await conn.execute(sql, parameters)
 
     async def commit(self) -> None:
@@ -260,7 +266,7 @@ class SQLite3Connection:
         """
         return SQLite3Table(conn=self, table=name)
 
-    async def execute(self, sql: str, parameters: tuple = (), /) -> None:
+    async def execute(self, sql: str, parameters: tuple = (), /, script: bool = False) -> None:
         """
         Execute an SQL statement with optional parameters.
 
@@ -272,6 +278,8 @@ class SQLite3Connection:
             The SQL statement to be executed.
         parameters : tuple, optional
             The parameters to be used in the SQL statement, by default ().
+        script : bool, optional
+            If True, the SQL statement is treated as a script, by default False.
 
         Raises
         ------
@@ -281,7 +289,7 @@ class SQLite3Connection:
         if not await self._is_open():
             raise RuntimeError("Connection is not yet open.")
 
-        await self._execute(sql, parameters)
+        await self._execute(sql, parameters, script)
 
     async def close(self) -> None:
         """

@@ -109,8 +109,7 @@ class Korone(Client):
             sys.exit(log.critical("Can't connect to RedisDB! Exiting..."))
 
         async with SQLite3Connection() as conn:
-            if conn._conn:
-                await conn._conn.executescript(constants.SQLITE3_TABLES)
+            await conn.execute(constants.SQLITE3_TABLES, script=True)
 
         await load_all_modules(self)
 
