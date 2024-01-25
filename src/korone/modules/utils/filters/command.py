@@ -91,18 +91,6 @@ class Command(Filter):
     ------
     ValueError
         If the commands parameter is not a valid type.
-
-    Examples
-    --------
-    >>> command_filter = Command("start", "help", prefix="/")
-    >>> print(command_filter)
-    Command(
-        commands=('start', 'help'),
-        prefix='/',
-        ignore_case=False,
-        ignore_mention=False,
-        magic=None
-    )
     """
 
     def __init__(
@@ -143,30 +131,6 @@ class Command(Filter):
         self.ignore_case = ignore_case
         self.ignore_mention = ignore_mention
         self.magic = magic
-
-    def __str__(self) -> str:
-        """
-        Return a string representation of the Command filter.
-
-        Returns a string representation of the Command filter containing the commands, prefix,
-        ignore_case, ignore_mention, and magic attributes.
-
-        Returns
-        -------
-        str
-            A string representation of the Command filter.
-        """
-        command = {
-            "commands": self.commands,
-            "prefix": self.prefix,
-            "ignore_case": self.ignore_case,
-            "ignore_mention": self.ignore_mention,
-            "magic": self.magic,
-        }
-
-        items = [f"{k}={v!r}" for k, v in command.items() if v is not None]
-
-        return f"{type(self).__name__}({', '.join(items)})"
 
     async def __call__(self, client: Client, message: Message) -> bool:
         """
