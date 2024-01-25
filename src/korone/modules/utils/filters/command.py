@@ -10,28 +10,32 @@ from typing import Any, cast
 
 from hydrogram import Client
 from hydrogram.filters import Filter
-from hydrogram.types import BotCommand, Message
+from hydrogram.types import Message
 from magic_filter import MagicFilter
 
-CommandPatternType = str | re.Pattern | BotCommand
+CommandPatternType = str | re.Pattern
 
 
 class CommandError(Exception):
     pass
 
 
-@dataclass
+@dataclass(frozen=True)
 class CommandObject:
     """
     Represents a command object.
 
     CommandObject is a dataclass that represents a command object. It contains the command prefix,
     name, mention, arguments, regular expression match object, and magic result. It is used by the
-    :class:`Command` filter to store the command information and by the :class:`ParseCommand`
-    class to parse the command from a :class:`hydrogram.types.Message` and return the command
-    object.
+    :class:`Command` filter to store the command information. It also provides a method to parse
+    the command from a message.
     """
 
+    message: Message | None = field(repr=False, default=None)
+    """The message object.
+
+    :type: hydrogram.types.Message | None
+    """
     prefix: str = "/"
     """The command prefix.
 
@@ -62,6 +66,49 @@ class CommandObject:
 
     :type: typing.Any | None
     """
+
+    def __extract(self, text: str) -> "CommandObject":
+        try:
+            full_command, *args = text.split(maxsplit=1)
+        except ValueError:
+            raise CommandError("Not enough values to unpack.")
+
+        prefix, (command, _, mention) = full_command[0], full_command[1:].partition("@")
+        return CommandObject(
+            prefix=prefix,
+            command=command,
+            mention=mention or None,
+            args=args[0] if args else None,
+        )
+
+    def parse(self) -> "CommandObject":
+        """
+        Parse the command from the given message.
+
+        Parses the command from the given message by extracting the command prefix, name, mention,
+        and arguments. If the command is a regular expression, the regular expression match object
+        is stored in the command object.
+
+        Returns
+        -------
+        CommandObject
+            The parsed command object.
+
+        Raises
+        ------
+        CommandError
+            If no message is provided.
+        CommandError
+            If the message has no text.
+        """
+        if not self.message:
+            raise CommandError("To parse a command, you need to pass a message.")
+
+        text = self.message.text or self.message.caption
+        if not text:
+            raise CommandError("Message has no text")
+
+        return self.__extract(text)
 
 
 class Command(Filter):
@@ -104,24 +151,17 @@ class Command(Filter):
         ignore_mention: bool = False,
         magic: MagicFilter | None = None,
     ):
-        commands = (
-            [commands] if isinstance(commands, str | re.Pattern | BotCommand) else commands or []
-        )
+        commands = [commands] if isinstance(commands, str | re.Pattern) else commands or []
         if not isinstance(commands, Iterable):
             raise ValueError(
-                "Command filter only supports str, re.Pattern, BotCommand object or their Iterable"
+                "Command filter only supports str, re.Pattern object or their Iterable"
             )
 
         def process_command(command):
-            if isinstance(command, BotCommand):
-                command = command.command
             if isinstance(command, str):
                 command = re.compile(re.escape(command.casefold() if ignore_case else command))
             if not isinstance(command, re.Pattern):
-                raise ValueError(
-                    "Command filter only supports str, re.Pattern, "
-                    "BotCommand object or their Iterable"
-                )
+                raise ValueError("Command filter only supports str, re.Pattern, or their Iterable")
             return command
 
         items = list(map(process_command, (*values, *commands)))
@@ -266,7 +306,7 @@ class Command(Filter):
         CommandError
             If the command is invalid or any validation fails.
         """
-        command = ParseCommand(message).parse()
+        command = CommandObject(message).parse()
 
         self.validate_prefix(command)
         await self.validade_mention(client, command)
@@ -302,85 +342,3 @@ class Command(Filter):
             return replace(command, magic_result=result)
 
         return command
-
-
-class ParseCommand:
-    """
-    A class for parsing commands from a message text.
-
-    The :class:`ParseCommand` class is used to parse commands from a
-    :class:`hydrogram.types.Message` object. It takes in a message object and parses the command
-
-    Parameters
-    ----------
-    message : hydrogram.types.Message
-        The message object containing the text to be parsed.
-
-    Attributes
-    ----------
-    message : hydrogram.types.Message
-        The message object containing the text to be parsed.
-    """
-
-    def __init__(self, message: Message):
-        self.message = message
-
-    def extract(self, text: str) -> CommandObject:
-        """
-        Extract the command and its arguments from the given text.
-
-        Extracts the command and its arguments from the given text. The command prefix, name,
-        mention, and arguments are extracted from the text and stored in a :class:`CommandObject`.
-
-        Parameters
-        ----------
-        text : str
-            The text to be parsed.
-
-        Returns
-        -------
-        CommandObject
-            The parsed command object.
-
-        Raises
-        ------
-        CommandError
-            If there are not enough values to unpack in the text.
-        """
-
-        try:
-            full_command, *args = text.split(maxsplit=1)
-        except ValueError:
-            raise CommandError("not enough values to unpack")
-
-        prefix, (command, _, mention) = full_command[0], full_command[1:].partition("@")
-        return CommandObject(
-            prefix=prefix,
-            command=command,
-            mention=mention or None,
-            args=args[0] if args else None,
-        )
-
-    def parse(self) -> CommandObject:
-        """
-        Parse the command from the message text.
-
-        Parses the command from the message text. The message text or caption is extracted from the
-        message and passed to the :meth:`extract` method to extract the command and its arguments.
-
-        Returns
-        -------
-        CommandObject
-            The parsed command object.
-
-        Raises
-        ------
-        CommandError
-            If the message has no text.
-        """
-
-        text = self.message.text or self.message.caption
-        if not text:
-            raise CommandError("Message has no text")
-
-        return self.extract(text)

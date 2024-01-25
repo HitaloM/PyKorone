@@ -19,7 +19,7 @@ from korone.decorators import router
 from korone.handlers.callback_query_handler import CallbackQueryHandler
 from korone.handlers.message_handler import MessageHandler
 from korone.modules.gsm_arena.callback_data import DevicePageCallback, GetDeviceCallback
-from korone.modules.utils.filters import Command, ParseCommand
+from korone.modules.utils.filters import Command, CommandObject
 from korone.modules.utils.pagination import Pagination
 from korone.utils.i18n import gettext as _
 
@@ -207,7 +207,7 @@ class GSMArena(MessageHandler):
 
     @router.message(Command(commands=["device", "specs", "d"]))
     async def handle(self, client: Client, message: Message) -> None:
-        command = ParseCommand(message).parse()
+        command = CommandObject(message).parse()
 
         if not command.args:
             await message.reply_text(_("Please enter a phone name to search."))

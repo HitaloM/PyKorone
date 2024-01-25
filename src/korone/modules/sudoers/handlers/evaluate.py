@@ -12,13 +12,13 @@ from korone.decorators import router
 from korone.handlers.message_handler import MessageHandler
 from korone.modules.sudoers.utils import build_text, generate_document
 from korone.modules.utils.filters import Command, IsSudo
-from korone.modules.utils.filters.command import ParseCommand
+from korone.modules.utils.filters.command import CommandObject
 
 
 class Evaluate(MessageHandler):
     @router.message(Command(commands=["eval", "ev"]) & IsSudo)
     async def handle(self, client: Client, message: Message) -> None:
-        command = ParseCommand(message).parse()
+        command = CommandObject(message).parse()
         expression = command.args
         if not expression:
             await message.reply_text("No expression provided.")

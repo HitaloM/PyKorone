@@ -82,14 +82,14 @@ def use_gettext(func: Callable) -> Callable:
 
     @wraps(func)
     async def wrapper(*args, **kwargs):
-        union: Message | CallbackQuery = args[2]
-        is_callback = isinstance(union, CallbackQuery)
-        message = union.message if is_callback else union
+        update: Message | CallbackQuery = args[2]
+        is_callback = isinstance(update, CallbackQuery)
+        message = update.message if is_callback else update
 
         db_user = None
         db_chat = None
 
-        user: User = union.from_user if is_callback else message.from_user
+        user: User = update.from_user if is_callback else message.from_user
 
         if user and not user.is_bot and message.chat.type == ChatType.PRIVATE:
             db_user = await get_or_insert(

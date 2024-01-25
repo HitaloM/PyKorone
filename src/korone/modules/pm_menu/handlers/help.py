@@ -13,7 +13,7 @@ from korone.handlers.message_handler import MessageHandler
 from korone.modules import MODULES
 from korone.modules.pm_menu.callback_data import GetHelpCallback, PMMenuCallback
 from korone.modules.utils.filters import Command
-from korone.modules.utils.filters.command import ParseCommand
+from korone.modules.utils.filters.command import CommandObject
 from korone.utils.i18n import gettext as _
 
 
@@ -53,7 +53,7 @@ class Help(MessageHandler):
             )
             return
 
-        command = ParseCommand(message).parse()
+        command = CommandObject(message).parse()
 
         text = self.build_text()
         keyboard = self.build_keyboard()

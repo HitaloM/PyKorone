@@ -1,7 +1,6 @@
 # SPDX-License-Identifier: BSD-3-Clause
 # Copyright (c) 2023-present Hitalo M. <https://github.com/HitaloM>
 
-
 from hydrogram import Client
 from hydrogram.enums import ChatMemberStatus, ChatType
 from hydrogram.filters import Filter
@@ -23,7 +22,7 @@ class IsAdmin(Filter):
         The update object representing the incoming message or callback query.
     """
 
-    __slots__ = ("client", "message")
+    __slots__ = ("client", "update")
 
     def __init__(self, client: Client, update: Message | CallbackQuery) -> None:
         self.client = client

@@ -91,7 +91,7 @@ class Korone(Client):
             workers=self.parameters.workers,
             ipv6=self.parameters.ipv6,
             parse_mode=ParseMode.HTML,
-            workdir=str(Path(__file__).parent.parent),
+            workdir=Path(__file__).parent.parent.as_posix(),
             sleep_threshold=180,
         )
 

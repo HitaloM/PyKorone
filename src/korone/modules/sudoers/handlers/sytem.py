@@ -14,7 +14,7 @@ from korone.decorators import router
 from korone.handlers.message_handler import MessageHandler
 from korone.modules.sudoers.utils import build_text, generate_document
 from korone.modules.utils.filters import Command, IsSudo
-from korone.modules.utils.filters.command import ParseCommand
+from korone.modules.utils.filters.command import CommandObject
 
 
 class Reboot(MessageHandler):
@@ -42,7 +42,7 @@ class Shell(MessageHandler):
 
     @router.message(Command(commands=["shell", "sh"]) & IsSudo)
     async def handle(self, client: Client, message: Message) -> None:
-        command = ParseCommand(message).parse().args
+        command = CommandObject(message).parse().args
         if not command:
             await message.reply_text("No command provided.")
             return
