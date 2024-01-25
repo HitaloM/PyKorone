@@ -2,10 +2,44 @@
 # Copyright (c) 2023-present Hitalo M. <https://github.com/HitaloM>
 
 from collections.abc import Callable
+from dataclasses import dataclass
 
 from hydrogram.filters import Filter
+from hydrogram.handlers import CallbackQueryHandler, MessageHandler
 
 from korone.decorators.i18n import use_gettext
+
+
+@dataclass(frozen=True)
+class HandlerObject:
+    """
+    A dataclass to store information about the handler.
+
+    This dataclass is used to store information about the handler, it stores
+    the function, the filters, the group number and the event name.
+    """
+
+    func: Callable
+    """The function to be executed when the event is triggered.
+
+    :type: collections.abc.Callable
+    """
+    filters: Filter
+    """The filter object used to determine if the function should be executed.
+
+    :type: hydrogram.filters.Filter
+    """
+    group: int
+    """The group number for the function, used for ordering the execution of
+    multiple functions.
+
+    :type: int
+    """
+    event: Callable
+    """The event handler.
+
+    :type: collections.abc.Callable
+    """
 
 
 class Factory:
@@ -25,10 +59,17 @@ class Factory:
     ----------
     event_name : str
         The name of the event.
+    events_observed : dict[str, hydrogram.handlers.Handler]
+        A dictionary containing the events observed by the client.
     """
 
     def __init__(self, event_name: str) -> None:
         self.event_name = event_name
+
+        self.events_observed = {
+            "message": MessageHandler,
+            "callback_query": CallbackQueryHandler,
+        }
 
     def __call__(self, filters: Filter, group: int = 0) -> Callable:
         """
@@ -55,6 +96,9 @@ class Factory:
             func.on = self.event_name
             func.group = group
             func.filters = filters
+            func.handlers = HandlerObject(
+                func, filters, group, self.events_observed[self.event_name]
+            )
 
             return use_gettext(func)
 

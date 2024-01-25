@@ -10,9 +10,8 @@ from types import FunctionType, ModuleType
 from typing import Any
 
 from hydrogram import Client
-from hydrogram.handlers.callback_query_handler import CallbackQueryHandler
-from hydrogram.handlers.message_handler import MessageHandler
 
+from korone.decorators.factory import HandlerObject
 from korone.utils.logging import log
 from korone.utils.traverse import bfs_attr_search
 
@@ -161,15 +160,14 @@ async def register_handler(client: Client, module: ModuleType) -> bool:
         if not callable(method):
             continue
 
-        if hasattr(method, "on"):
+        if hasattr(method, "handlers"):
             method_callable = get_method_callable(cls, func.__name__)
-            filters = bfs_attr_search(method, "filters")
-            group = bfs_attr_search(method, "group") or 0
 
-            if method.on == "message":
-                client.add_handler(MessageHandler(method_callable, filters), group)  # type: ignore
-            if method.on == "callback_query":
-                client.add_handler(CallbackQueryHandler(method_callable, filters), group)  # type: ignore
+            handler: HandlerObject = bfs_attr_search(method, "handlers")
+            filters = handler.filters
+            group = handler.group
+
+            client.add_handler(handler.event(method_callable, filters), handler.group)
 
             log.debug("Registering handler %s", cls.__name__)
             log.debug("\tfilters: %s", filters)
