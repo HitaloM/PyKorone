@@ -12,6 +12,8 @@ from typing import Any
 from hydrogram import Client
 
 from korone.decorators.factory import HandlerObject
+from korone.handlers.callback_query_handler import CallbackQueryHandler
+from korone.handlers.message_handler import MessageHandler
 from korone.utils.logging import log
 from korone.utils.traverse import bfs_attr_search
 
@@ -148,12 +150,14 @@ async def register_handler(client: Client, module: ModuleType) -> bool:
     function_list = [
         (obj, func_obj)
         for _, obj in inspect.getmembers(module)
-        if inspect.isclass(obj) and inspect.getmodule(obj) == module
+        if inspect.isclass(obj)
+        and inspect.getmodule(obj) == module
+        and (issubclass(obj, MessageHandler) or issubclass(obj, CallbackQueryHandler))
         for _, func_obj in inspect.getmembers(obj)
         if isinstance(func_obj, FunctionType)
     ]
 
-    successful: bool = False
+    success = False
 
     for cls, func in function_list:
         method = bfs_attr_search(cls, func.__name__)
@@ -167,15 +171,13 @@ async def register_handler(client: Client, module: ModuleType) -> bool:
             filters = handler.filters
             group = handler.group
 
-            client.add_handler(handler.event(method_callable, filters), handler.group)
+            client.add_handler(handler.event(method_callable, filters), group)
 
-            log.debug("Registering handler %s", cls.__name__)
-            log.debug("\tfilters: %s", filters)
-            log.debug("\tgroup:   %d", group)
+            log.debug("Handler registered", handler=handler)
 
-            successful = True
+            success = True
 
-    return successful
+    return success
 
 
 async def load_module(client: Client, module: tuple) -> bool:
@@ -204,12 +206,6 @@ async def load_module(client: Client, module: tuple) -> bool:
     ModuleNotFoundError
         If the module cannot be found.
     """
-
-    if client is None:
-        log.critical("Hydrogram's Client client has not been initialized!")
-        log.critical("User attempted to load commands before init.")
-
-        raise TypeError("client has not been initialized!")
 
     module_name: str = module[0]
 

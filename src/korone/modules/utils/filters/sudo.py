@@ -22,7 +22,7 @@ class IsSudo(Filter):
         The update object representing the incoming message or callback query.
     """
 
-    __slots__ = ("client", "update")
+    __slots__ = ("sudoers", "client", "update")
 
     def __init__(self, client: Client, update: Message | CallbackQuery) -> None:
         self.sudoers: list[int] = ConfigManager().get("korone", "SUDOERS")

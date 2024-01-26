@@ -30,7 +30,7 @@ HEADERS: dict[str, str] = {
 }
 
 
-@dataclass
+@dataclass(frozen=True, slots=True)
 class PhoneSearchResult:
     name: str
     url: str

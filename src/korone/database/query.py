@@ -60,6 +60,8 @@ class Query:
         'name': 'Kazimierz Kuratowski'}]
     """
 
+    __slots__ = ("lhs", "operator", "rhs")
+
     def __init__(self, *, lhs=None, operator=None, rhs=None) -> None:
         self.lhs = lhs
         self.operator = operator

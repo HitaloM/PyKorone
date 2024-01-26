@@ -22,6 +22,8 @@ class ConfigManager:
         The configuration template used to create the configuration file if it does not exist.
     """
 
+    __slots__ = ("config",)
+
     def __init__(self):
         self.config: dict[str, Any] = constants.DEFAULT_CONFIG_TEMPLATE
 

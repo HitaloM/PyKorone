@@ -19,7 +19,7 @@ from korone.modules import load_all_modules
 from korone.utils.logging import log
 
 
-@dataclass
+@dataclass(frozen=True, slots=True)
 class AppParameters:
     """
     Parameters for :obj:`hydrogram.Client`.
@@ -70,7 +70,7 @@ class Korone(Client):
         The parameters for initializing the bot.
     """
 
-    __slots__ = ("parameters",)
+    __slots__ = ("parameters", "me")
 
     def __init__(self, parameters: AppParameters):
         self.parameters = parameters
@@ -107,7 +107,7 @@ class Korone(Client):
         await load_all_modules(self)
 
         log.info(
-            "Korone running with Hydrogram v%s (Layer %s) started on @%s. Hi!",
+            "PyKorone running with Hydrogram v%s (Layer %s) started on @%s. Hi!",
             hydrogram.__version__,
             layer,
             self.me.username,

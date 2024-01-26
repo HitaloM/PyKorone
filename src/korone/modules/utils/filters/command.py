@@ -20,7 +20,7 @@ class CommandError(Exception):
     pass
 
 
-@dataclass(frozen=True)
+@dataclass(frozen=True, slots=True)
 class CommandObject:
     """
     Represents a command object.

@@ -10,7 +10,7 @@ from hydrogram.handlers import CallbackQueryHandler, MessageHandler
 from korone.decorators.i18n import use_gettext
 
 
-@dataclass(frozen=True)
+@dataclass(frozen=True, slots=True)
 class HandlerObject:
     """
     A dataclass to store information about the handler.
@@ -62,6 +62,8 @@ class Factory:
     events_observed : dict[str, hydrogram.handlers.Handler]
         A dictionary containing the events observed by the client.
     """
+
+    __slots__ = ("event_name", "events_observed")
 
     def __init__(self, event_name: str) -> None:
         self.event_name = event_name

@@ -13,7 +13,7 @@ from hairydogm.i18n import I18n
 from korone.utils.logging import log
 
 
-@dataclass
+@dataclass(frozen=True, slots=True)
 class LocaleStats:
     """
     Represent the statistics of a locale.
@@ -58,6 +58,8 @@ class I18nNew(I18n):
     **kwargs : Any
         Keyword arguments to be passed to the `I18n` class.
     """
+
+    __slots__ = ("babels", "stats")
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -184,7 +186,7 @@ class I18nNew(I18n):
         if locale_code not in self.stats:
             self.stats[locale_code] = self.parse_stats(locale_code)
             if not self.stats[locale_code]:
-                log.warning(f"Can't parse stats for locale {locale_code}!")
+                log.warning("Can't parse stats for locale %s!", locale_code)
         return self.stats[locale_code]
 
     def get_current_locale_stats(self) -> LocaleStats | None:
