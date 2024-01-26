@@ -20,6 +20,11 @@ Submodules
    :undoc-members:
    :show-inheritance:
 
+.. automodule:: korone.modules.utils.filters.magic
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 .. automodule:: korone.modules.utils.filters.sudo
    :members:
    :undoc-members:

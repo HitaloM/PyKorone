@@ -1,6 +1,8 @@
 # SPDX-License-Identifier: BSD-3-Clause
 # Copyright (c) 2023-present Hitalo M. <https://github.com/HitaloM>
 
+from collections.abc import Generator
+
 from hydrogram import Client
 from hydrogram.enums import ChatMemberStatus, ChatType
 from hydrogram.filters import Filter
@@ -28,7 +30,7 @@ class IsAdmin(Filter):
         self.client = client
         self.update = update
 
-    async def __call__(self):
+    async def __call__(self) -> bool:
         """
         Check if the user is an administrator in the chat.
 
@@ -53,7 +55,7 @@ class IsAdmin(Filter):
         user = await self.client.get_chat_member(message.chat.id, message.from_user.id)
         return user.status in (ChatMemberStatus.ADMINISTRATOR, ChatMemberStatus.OWNER)
 
-    def __await__(self):
+    def __await__(self) -> Generator:
         """
         Allow the IsAdmin filter to be used in an await expression.
 

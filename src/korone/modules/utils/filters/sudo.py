@@ -25,11 +25,11 @@ class IsSudo(Filter):
     __slots__ = ("client", "update")
 
     def __init__(self, client: Client, update: Message | CallbackQuery) -> None:
-        self.sudoers = ConfigManager().get("korone", "SUDOERS")
+        self.sudoers: list[int] = ConfigManager().get("korone", "SUDOERS")
         self.client = client
         self.update = update
 
-    def __call__(self):
+    def __call__(self) -> bool:
         """
         Check if the user is a sudoer.
 

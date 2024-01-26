@@ -68,13 +68,6 @@ class Korone(Client):
     ----------
     parameters : AppParameters
         The parameters for initializing the bot.
-
-    Attributes
-    ----------
-    parameters : AppParameters
-        The parameters for initializing the bot.
-    me : hydrogram.types.User
-        The user representing the bot.
     """
 
     __slots__ = ("parameters",)
