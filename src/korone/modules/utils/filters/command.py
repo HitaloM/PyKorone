@@ -5,8 +5,7 @@ import re
 from collections.abc import Iterable, Sequence
 from contextlib import suppress
 from dataclasses import dataclass, field, replace
-from re import Match, Pattern
-from typing import Any, cast
+from typing import Any
 
 from hydrogram import Client
 from hydrogram.filters import Filter
@@ -56,7 +55,7 @@ class CommandObject:
 
     :type: str | None
     """
-    regexp_match: Match[str] | None = field(repr=False, default=None)
+    regexp_match: re.Match[str] | None = field(repr=False, default=None)
     """The regular expression match object.
 
     :type: re.Match[str] | None
@@ -159,12 +158,16 @@ class Command(Filter):
 
         def process_command(command):
             if isinstance(command, str):
-                command = re.compile(re.escape(command.casefold() if ignore_case else command))
+                command = re.compile(
+                    re.escape(command.casefold() if ignore_case else command) + "$"
+                )
+
             if not isinstance(command, re.Pattern):
                 raise ValueError("Command filter only supports str, re.Pattern, or their Iterable")
+
             return command
 
-        items = list(map(process_command, (*values, *commands)))
+        items = [process_command(command) for command in (*values, *commands)]
         if not items:
             raise ValueError("Command filter requires at least one command")
 
@@ -270,8 +273,8 @@ class Command(Filter):
         """
         command_name = command.command.casefold() if self.ignore_case else command.command
 
-        for allowed_command in cast(Sequence[CommandPatternType], self.commands):
-            if isinstance(allowed_command, Pattern):
+        for allowed_command in self.commands:
+            if isinstance(allowed_command, re.Pattern):
                 result = allowed_command.match(command.command)
                 if result:
                     return replace(command, regexp_match=result)
