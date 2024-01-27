@@ -203,7 +203,7 @@ class GSMArena(MessageHandler):
                 )
             )
 
-        return keyboard.as_markup()  # type: ignore
+        return keyboard.as_markup()
 
     @router.message(Command(commands=["device", "specs", "d"]))
     async def handle(self, client: Client, message: Message) -> None:
@@ -244,7 +244,7 @@ class ListGSMArena(CallbackQueryHandler):
         devices = await GSMArena().search(query)
         keyboard = create_pagination_layout(devices, query, page)
         with suppress(MessageNotModified):
-            await callback.edit_message_reply_markup(keyboard.as_markup())  # type: ignore
+            await callback.edit_message_reply_markup(keyboard.as_markup())
 
 
 class GetGSMArena(CallbackQueryHandler):

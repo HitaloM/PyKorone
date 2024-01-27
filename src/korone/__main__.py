@@ -24,7 +24,7 @@ async def main() -> None:
 
     config.init()
 
-    params: AppParameters = AppParameters(
+    params = AppParameters(
         api_id=config.get("hydrogram", "API_ID"),
         api_hash=config.get("hydrogram", "API_HASH"),
         bot_token=config.get("hydrogram", "BOT_TOKEN"),

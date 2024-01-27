@@ -56,7 +56,7 @@ class ConfigManager:
             log.info("Could not find configuration file")
             try:
                 log.info("Creating configuration file")
-                config_path.write_text(rtoml.dumps(self.config), encoding="utf-8")
+                rtoml.dump(self.config, config_path, pretty=True)
             except OSError as err:
                 log.critical("Could not create configuration file: %s", err)
 

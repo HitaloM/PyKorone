@@ -34,7 +34,7 @@ class Help(MessageHandler):
                 text=_("⬅️ Back"), callback_data=PMMenuCallback(menu="start").pack()
             )
         )
-        return keyboard.as_markup()  # type: ignore
+        return keyboard.as_markup()
 
     @staticmethod
     def build_text() -> str:
@@ -73,7 +73,7 @@ class GetHelp(CallbackQueryHandler):
     def build_keyboard() -> InlineKeyboardMarkup:
         keyboard = InlineKeyboardBuilder()
         keyboard.button(text=_("⬅️ Back"), callback_data=PMMenuCallback(menu="help"))
-        return keyboard.as_markup()  # type: ignore
+        return keyboard.as_markup()
 
     @staticmethod
     def build_text(module_name: str) -> str:

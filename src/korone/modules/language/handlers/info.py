@@ -48,7 +48,7 @@ class LanguageInfoBase(MessageHandler):
         keyboard = InlineKeyboardBuilder()
         keyboard.button(text=self.button_text, callback_data=LangMenuCallback(menu="languages"))
 
-        return text, keyboard  # type: ignore
+        return text, keyboard
 
     @router.message(Command("language"))
     async def handle(self, client: Client, message: Message):
@@ -99,4 +99,4 @@ class LanguageInfoCallback(CallbackQueryHandler):
                 text=_("⬅️ Back"), callback_data=PMMenuCallback(menu="start").pack()
             )
         )
-        await callback.message.edit_text(text, reply_markup=keyboard.as_markup())  # type: ignore
+        await callback.message.edit_text(text, reply_markup=keyboard.as_markup())

@@ -86,6 +86,7 @@ class Korone(Client):
             parse_mode=ParseMode.HTML,
             workdir=Path(__file__).parent.parent.as_posix(),
             sleep_threshold=180,
+            max_concurrent_transmissions=2,
         )
 
     async def start(self) -> None:
@@ -120,4 +121,4 @@ class Korone(Client):
         This function stops the client and logs a message to the console.
         """
         await super().stop()
-        log.info("Korone stopped.")
+        log.info("PyKorone stopped.")

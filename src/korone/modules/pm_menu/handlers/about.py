@@ -30,7 +30,7 @@ class BaseHandler:
                 )
             )
 
-        return keyboard.as_markup()  # type: ignore
+        return keyboard.as_markup()
 
     @staticmethod
     def build_text() -> str:
