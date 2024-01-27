@@ -2,7 +2,6 @@
 # Copyright (c) 2023 Victor Cebarros <https://github.com/victorcebarros>
 # Copyright (c) 2023-present Hitalo M. <https://github.com/HitaloM>
 
-from pathlib import Path
 from typing import Protocol
 
 import aiosqlite
@@ -39,7 +38,7 @@ class Connection(Protocol):
     ...     async def close(self): ...
     """
 
-    _path: Path
+    _path: str
     _args: tuple
     _kwargs: dict
     _conn: aiosqlite.Connection | None = None

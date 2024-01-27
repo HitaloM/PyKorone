@@ -165,13 +165,13 @@ class SQLite3Connection:
         The SQLite database connection object.
     """
 
-    _path: Path
+    _path: str
     _args: tuple
     _kwargs: dict
     _conn: aiosqlite.Connection | None = None
 
-    def __init__(self, *args, path: Path = Path(DEFAULT_DBFILE_PATH), **kwargs) -> None:
-        self._path: Path = path
+    def __init__(self, *args, path: str = DEFAULT_DBFILE_PATH, **kwargs) -> None:
+        self._path = path
         self._args = args
         self._kwargs = kwargs
 
@@ -232,14 +232,12 @@ class SQLite3Connection:
         if await self._is_open():
             raise RuntimeError("Connection is already in place.")
 
-        if not self._path.parent.exists():
+        if not (path := Path(self._path)).parent.exists():
             log.info("Could not find database directory")
-            self._path.parent.mkdir(parents=True, exist_ok=True)
+            path.parent.mkdir(parents=True, exist_ok=True)
             log.info("Creating database directory")
 
-        self._conn = await aiosqlite.connect(
-            self._path.expanduser().resolve(), *self._args, **self._kwargs
-        )
+        self._conn = await aiosqlite.connect(self._path, *self._args, **self._kwargs)
 
         await self.execute("PRAGMA journal_mode=WAL;")
         await self.commit()
@@ -308,3 +306,4 @@ class SQLite3Connection:
 
         if self._conn is not None:
             await self._conn.close()
+            self._conn = None
