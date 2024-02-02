@@ -20,7 +20,7 @@ class Router:
         A factory that creates a decorator for the callback_query event.
     """
 
-    __slots__ = ("message", "callback_query")
+    __slots__ = ("callback_query", "message")
 
     def __init__(self) -> None:
         self.message = Factory("message")

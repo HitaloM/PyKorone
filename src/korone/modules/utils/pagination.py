@@ -33,7 +33,7 @@ class Pagination:
         representation of the item title.
     """
 
-    __slots__ = ("objects", "page_data", "item_data", "item_title")
+    __slots__ = ("item_data", "item_title", "objects", "page_data")
 
     def __init__(
         self,

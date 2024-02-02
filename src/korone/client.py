@@ -67,7 +67,7 @@ class Korone(Client):
         The parameters for initializing the bot.
     """
 
-    __slots__ = ("parameters", "me")
+    __slots__ = ("me", "parameters")
 
     def __init__(self, parameters: AppParameters):
         self.parameters = parameters

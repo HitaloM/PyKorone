@@ -139,7 +139,7 @@ class Command(Filter):
         If the commands parameter is not a valid type.
     """
 
-    __slots__ = ("commands", "prefix", "ignore_case", "ignore_mention", "magic")
+    __slots__ = ("commands", "ignore_case", "ignore_mention", "magic", "prefix")
 
     def __init__(
         self,
