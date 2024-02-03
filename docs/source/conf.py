@@ -36,14 +36,13 @@ napoleon_google_docstring = False
 napoleon_preprocess_types = True
 napoleon_use_rtype = False
 napoleon_use_param = False
+napoleon_use_admonition_for_examples = True
 
 master_doc = "index"
 source_suffix = ".rst"
 autodoc_member_order = "bysource"
 
 pygments_style = "friendly"
-
-napoleon_use_admonition_for_examples = True
 
 autodoc_typehints = "none"
 

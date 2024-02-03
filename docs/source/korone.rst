@@ -22,15 +22,12 @@ Submodules
 
 .. automodule:: korone.client
    :members:
-   :undoc-members:
    :show-inheritance:
 
 .. automodule:: korone.config
    :members:
-   :undoc-members:
    :show-inheritance:
 
 .. automodule:: korone.constants
    :members:
-   :undoc-members:
    :show-inheritance:

@@ -4,6 +4,14 @@
 from korone.decorators.factory import Factory
 
 
+class RouterError(Exception):
+    """
+    An Router error.
+
+    This exception is raised when a unsupported event is called by the :class:`Router`.
+    """
+
+
 class Router:
     """
     A class that represents a decorators router.
@@ -14,10 +22,10 @@ class Router:
 
     Attributes
     ----------
-    message: Factory
-        A factory that creates a decorator for the message event.
-    callback_query: Factory
-        A factory that creates a decorator for the callback_query event.
+    message : Factory
+        A Factory instance for creating message decorators.
+    callback_query : Factory
+        A Factory instance for creating callback query decorators.
     """
 
     __slots__ = ("callback_query", "message")
@@ -25,3 +33,6 @@ class Router:
     def __init__(self) -> None:
         self.message = Factory("message")
         self.callback_query = Factory("callback_query")
+
+    def __getattr__(self, name: str):
+        raise RouterError(f"Event of type: '{name}' is not supported by the PyKorone.")
