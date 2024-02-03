@@ -98,3 +98,21 @@ CREATE TABLE IF NOT EXISTS Groups (
 
 :type: str
 """
+
+CROWDIN_URL: str = "https://crowdin.com/project/pykorone"
+"""The URL to the Crowdin project.
+
+:type: str
+"""
+
+GITHUB_URL: str = "https://github.com/HitaloM/PyKorone"
+"""The URL to the GitHub repository.
+
+:type: str
+"""
+
+TELEGRAM_URL: str = "https://t.me/HitaloProjects"
+"""The URL to the Telegram channel.
+
+:type: str
+"""

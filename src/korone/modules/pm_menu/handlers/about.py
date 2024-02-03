@@ -7,6 +7,7 @@ from hydrogram.enums import ChatType
 from hydrogram.types import CallbackQuery, InlineKeyboardButton, InlineKeyboardMarkup, Message
 from magic_filter import F
 
+from korone.constants import GITHUB_URL, TELEGRAM_URL
 from korone.decorators import router
 from korone.handlers.callback_query_handler import CallbackQueryHandler
 from korone.handlers.message_handler import MessageHandler
@@ -16,11 +17,15 @@ from korone.utils.i18n import gettext as _
 
 
 class BaseHandler:
-    @staticmethod
-    def build_keyboard(message: Message) -> InlineKeyboardMarkup:
+    github_url: str = GITHUB_URL
+    telegram_url: str = TELEGRAM_URL
+    license_url: str = "https://github.com/HitaloM/PyKorone/blob/main/LICENSE"
+    hydrogram_url: str = "https://github.com/hydrogram/hydrogram"
+
+    def build_keyboard(self, message: Message) -> InlineKeyboardMarkup:
         keyboard = InlineKeyboardBuilder()
-        keyboard.button(text=_("📦 GitHub"), url="https://github.com/HitaloM/PyKorone")
-        keyboard.button(text=_("📚 Channel"), url="https://t.me/HitaloProjects")
+        keyboard.button(text=_("📦 GitHub"), url=self.github_url)
+        keyboard.button(text=_("📚 Channel"), url=self.telegram_url)
         keyboard.adjust(2)
 
         if message.chat.type == ChatType.PRIVATE:
@@ -32,8 +37,7 @@ class BaseHandler:
 
         return keyboard.as_markup()
 
-    @staticmethod
-    def build_text() -> str:
+    def build_text(self) -> str:
         return _(
             "PyKorone is a comprehensive, cutting-edge Telegram Bot that provides a variety of "
             "features to enhance your Telegram experience. It is designed to be versatile and "
@@ -43,9 +47,8 @@ class BaseHandler:
             "PyKorone is open source and is licensed under the {license_link} License. "
             "The source code is available on GitHub."
         ).format(
-            hydrogram="<a href='https://github.com/hydrogram/hydrogram'>Hydrogram</a>",
-            license_link="<a href='https://github.com/HitaloM/PyKorone/blob/main/LICENSE'>"
-            "BSD 3-Clause</a>",
+            hydrogram=f"<a href='{self.hydrogram_url}'>Hydrogram</a>",
+            license_link=f"<a href='{self.license_url}'>" "BSD 3-Clause</a>",
         )
 
 

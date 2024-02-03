@@ -6,6 +6,7 @@ from hydrogram import Client
 from hydrogram.enums import ChatType
 from hydrogram.types import CallbackQuery
 
+from korone.constants import CROWDIN_URL, GITHUB_URL
 from korone.database.impl import SQLite3Connection
 from korone.database.query import Query
 from korone.database.table import Document
@@ -17,8 +18,8 @@ from korone.utils.i18n import gettext as _
 
 
 class ApplyLanguage(CallbackQueryHandler):
-    crowdin_url: str = "https://crowdin.com/project/pykorone"
-    github_url: str = "https://github.com/HitaloM/PyKorone/issues"
+    crowdin_url: str = CROWDIN_URL
+    github_url: str = f"{GITHUB_URL}/issues"
 
     @router.callback_query(SetLangCallback.filter())
     async def handle(self, client: Client, callback: CallbackQuery) -> None:
