@@ -6,7 +6,7 @@ from contextlib import suppress
 from dataclasses import dataclass
 from datetime import timedelta
 
-import httpx
+import aiohttp
 from bs4 import BeautifulSoup
 from hairydogm.keyboard import InlineKeyboardBuilder
 from hydrogram import Client
@@ -120,11 +120,13 @@ class GSMArena(MessageHandler):
     @staticmethod
     @cache(ttl=timedelta(weeks=3), condition=not_too_many_requests)
     async def fetch_and_parse(url: str, proxy: str | None = None) -> BeautifulSoup:
-        async with httpx.AsyncClient(http2=True, proxy=proxy) as client:
-            response = await client.get(
-                f"https://cors-bypass.amano.workers.dev/{url}", headers=HEADERS
+        async with aiohttp.ClientSession() as session:
+            response = await session.get(
+                f"https://cors-bypass.amano.workers.dev/{url}",
+                headers=HEADERS,
+                proxy=proxy,
             )
-            html = response.content
+            html = await response.content.read()
 
             return BeautifulSoup(html, "lxml")
 
