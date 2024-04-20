@@ -21,4 +21,8 @@ async def is_afk(user_id: int) -> bool:
     async with SQLite3Connection() as conn:
         table = await conn.table("Afk")
         query = Query()
-        return bool(await table.query(query.id == user_id))
+        doc = await table.query(query.id == user_id)
+        if not doc:
+            return False
+
+        return bool(doc[0]["state"])
