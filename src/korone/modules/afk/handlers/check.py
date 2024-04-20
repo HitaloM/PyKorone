@@ -24,13 +24,20 @@ class CheckAfk(MessageHandler):
             query = Query()
             return await table.query(query.username == username[1:])
 
+    async def get_afk_reason(self, user_id: int) -> Documents | None:
+        async with SQLite3Connection() as conn:
+            table = await conn.table("Afk")
+            query = Query()
+            doc = await table.query(query.id == user_id)
+            return doc[0]["reason"] if doc else None
+
     @router.message(~filters.private & ~filters.bot & filters.all, group=-2)
     async def handle(self, client: Client, message: Message) -> None:
         if message.from_user and message.text and re.findall(r"^\/\bafk\b", message.text):
             return
 
         if await is_afk(message.from_user.id):
-            await set_afk(message.from_user.id)
+            await set_afk(message.from_user.id, state=False)
             return
 
         if message.entities:
@@ -48,7 +55,10 @@ class CheckAfk(MessageHandler):
                     user = ent.user
 
                 if user and user.id != message.from_user.id and await is_afk(user.id):
-                    await message.reply(_("{user} is afk!").format(user=user.first_name))
+                    text = _("{user} is afk!").format(user=user.first_name)
+                    if reason := await self.get_afk_reason(user.id):
+                        text += _("\nReason: {reason}").format(reason=reason)
+                    await message.reply(text)
                     return
 
         if (
@@ -57,7 +67,8 @@ class CheckAfk(MessageHandler):
             and message.reply_to_message.from_user.id != message.from_user.id
             and await is_afk(message.reply_to_message.from_user.id)
         ):
-            await message.reply(
-                _("{user} is afk!").format(user=message.reply_to_message.from_user.first_name)
-            )
+            text = _("{user} is afk!").format(user=message.reply_to_message.from_user.first_name)
+            if reason := await self.get_afk_reason(message.reply_to_message.from_user.id):
+                text += _("\nReason: {reason}").format(reason=reason)
+            await message.reply(text)
             return

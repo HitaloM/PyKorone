@@ -95,7 +95,9 @@ CREATE TABLE IF NOT EXISTS Groups (
     registry_date INTEGER NOT NULL
 );
 CREATE TABLE IF NOT EXISTS Afk (
-    id INTEGER PRIMARY KEY
+    id INTEGER PRIMARY KEY,
+    state BOOLEAN NOT NULL DEFAULT "FALSE",
+    reason TEXT
 );
 """
 """The default SQLite3 tables.
