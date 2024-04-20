@@ -39,7 +39,7 @@ Examples
 """  # noqa: E501
 
 
-async def add_modules_to_dict() -> None:
+def add_modules_to_dict() -> None:
     """
     Add modules to the MODULES dictionary.
 
@@ -128,7 +128,7 @@ def get_method_callable(cls: type, key: str) -> Callable[..., Any]:
     return async_call if is_async else call
 
 
-async def register_handler(client: Client, module: ModuleType) -> bool:
+def register_handler(client: Client, module: ModuleType) -> bool:
     """
     Register a handler for a module in the client.
 
@@ -180,7 +180,7 @@ async def register_handler(client: Client, module: ModuleType) -> bool:
     return success
 
 
-async def load_module(client: Client, module: tuple) -> bool:
+def load_module(client: Client, module: tuple) -> bool:
     """
     Load specified module.
 
@@ -217,7 +217,7 @@ async def load_module(client: Client, module: tuple) -> bool:
             modules_path: str = "korone.modules"
 
             component: ModuleType = import_module(f".{pkg}", modules_path)
-            if not await register_handler(client, component):
+            if not register_handler(client, component):
                 return False
 
         return True
@@ -227,7 +227,7 @@ async def load_module(client: Client, module: tuple) -> bool:
         raise
 
 
-async def load_all_modules(client: Client) -> None:
+def load_all_modules(client: Client) -> None:
     """
     Load all modules.
 
@@ -241,12 +241,12 @@ async def load_all_modules(client: Client) -> None:
 
     count: int = 0
 
-    await add_modules_to_dict()
+    add_modules_to_dict()
 
     for module in MODULES.items():
         module_name = module[0]
         try:
-            await load_module(client, module)
+            load_module(client, module)
             count += 1
         except BaseException:
             log.exception("Could not load module: %s", module_name)

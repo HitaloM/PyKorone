@@ -47,12 +47,12 @@ def parse_specs(specs_data: dict) -> dict:
 
     display = details.get("Display", [{}])
     data["display"] = (
-        f"{display.get('Type', '')}\n{display.get('Size', '')}\n{display.get('Resolution', '')}"
+        f"{display.get("Type", "")}\n{display.get("Size", "")}\n{display.get("Resolution", "")}"
     )
 
     platform = details.get("Platform", [{}])
     data["chipset"] = (
-        f"{platform.get('Chipset', '')}\n{platform.get('CPU', '')}\n{platform.get('GPU', '')}"
+        f"{platform.get("Chipset", "")}\n{platform.get("CPU", "")}\n{platform.get("GPU", "")}"
     )
 
     data["memory"] = details.get("Memory", [{}]).get("Internal")
@@ -98,7 +98,7 @@ def format_phone(phone: dict) -> str:
         if phone[value] is not None
     ]
 
-    return f"<a href='{phone['url']}'>{phone['name']}</a>\n\n{'\n\n'.join(attributes)}"
+    return f"<a href='{phone["url"]}'>{phone["name"]}</a>\n\n{"\n\n".join(attributes)}"
 
 
 def create_pagination_layout(devices: list, query: str, page: int) -> InlineKeyboardBuilder:
@@ -173,7 +173,7 @@ class GSMArena(MessageHandler):
         return [
             PhoneSearchResult(
                 name=phone_tag.find("img").get("title"),  # type: ignore
-                url=f"{phone_tag.find('a').get('href')}",  # type: ignore
+                url=f"{phone_tag.find("a").get("href")}",  # type: ignore
             )
             for phone_tag in found_phones
         ]

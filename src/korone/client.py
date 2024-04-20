@@ -97,7 +97,7 @@ class Korone(Client):
         async with SQLite3Connection() as conn:
             await conn.execute(constants.SQLITE3_TABLES, script=True)
 
-        await load_all_modules(self)
+        load_all_modules(self)
 
         log.info(
             "PyKorone running with Hydrogram v%s (Layer %s) started on @%s. Hi!",

@@ -49,7 +49,7 @@ autodoc_typehints = "none"
 html_theme = "furo"
 html_title = f"{project} Docs - {release}"
 html_last_updated_fmt = (
-    f"{datetime.datetime.now(tz=datetime.UTC).strftime('%d/%m/%Y, %H:%M:%S')} UTC"
+    f"{datetime.datetime.now(tz=datetime.UTC).strftime("%d/%m/%Y, %H:%M:%S")} UTC"
 )
 html_copy_source = False
 

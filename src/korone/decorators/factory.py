@@ -244,7 +244,7 @@ class Factory:
                 db_user = await self.get_or_insert(
                     "Users",
                     user,
-                    user.language_code if user.language_code else i18n.default_locale,
+                    user.language_code or i18n.default_locale,
                 )
             if message.chat and message.chat.type in (ChatType.GROUP, ChatType.SUPERGROUP):
                 db_chat = await self.get_or_insert(
