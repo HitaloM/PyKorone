@@ -84,6 +84,7 @@ DEFAULT_DBFILE_PATH: str = f"{XDG_DATA_HOME}/korone/korone.sqlite"
 SQLITE3_TABLES: str = """
 CREATE TABLE IF NOT EXISTS Users (
     id INTEGER PRIMARY KEY,
+    username TEXT,
     language VARCHAR(2) NOT NULL DEFAULT "en",
     registry_date INTEGER NOT NULL
 );
@@ -92,7 +93,10 @@ CREATE TABLE IF NOT EXISTS Groups (
     type TEXT,
     language VARCHAR(2) NOT NULL DEFAULT "en",
     registry_date INTEGER NOT NULL
-)
+);
+CREATE TABLE IF NOT EXISTS Afk (
+    id INTEGER PRIMARY KEY
+);
 """
 """The default SQLite3 tables.
 

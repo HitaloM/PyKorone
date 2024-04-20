@@ -135,6 +135,7 @@ class Factory:
 
         return Document(
             id=chat.id,
+            username=chat.username if isinstance(chat, User) else None,
             type=chat.type.name.lower() if isinstance(chat, Chat) else None,
             language=language,
             registry_date=int(time.time()),
