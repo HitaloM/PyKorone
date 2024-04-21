@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pykorone\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-04-20 20:12-0300\n"
-"PO-Revision-Date: 2024-04-20 23:24\n"
+"POT-Creation-Date: 2024-04-20 20:39-0300\n"
+"PO-Revision-Date: 2024-04-21 01:01\n"
 "Last-Translator: \n"
 "Language-Team: French\n"
 "MIME-Version: 1.0\n"
@@ -31,16 +31,22 @@ msgid "<b>Commands:</b>\n"
 " - /afk &lt;reason&gt;: Set your status as AFK."
 msgstr ""
 
-#: src/korone/modules/afk/handlers/check.py:51
-#: src/korone/modules/afk/handlers/check.py:61
+#: src/korone/modules/afk/handlers/check.py:58
+#: src/korone/modules/afk/handlers/check.py:70
 msgid "{user} is afk!"
 msgstr ""
 
-#: src/korone/modules/afk/handlers/set.py:18
+#: src/korone/modules/afk/handlers/check.py:60
+#: src/korone/modules/afk/handlers/check.py:72
+msgid "\n"
+"Reason: {reason}"
+msgstr ""
+
+#: src/korone/modules/afk/handlers/set.py:21
 msgid "You are already AFK."
 msgstr ""
 
-#: src/korone/modules/afk/handlers/set.py:22
+#: src/korone/modules/afk/handlers/set.py:25
 msgid "You are now AFK."
 msgstr ""
 
