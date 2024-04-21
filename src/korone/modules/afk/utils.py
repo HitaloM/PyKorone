@@ -10,6 +10,8 @@ async def set_afk(user_id: int, state: bool, reason: str | None = None) -> None:
     async with SQLite3Connection() as conn:
         table = await conn.table("Afk")
         query = Query()
+        if reason is None:
+            reason = ""
         if not await table.query(query.id == user_id):
             await table.insert(Document(id=user_id, state=state, reason=reason))
             return

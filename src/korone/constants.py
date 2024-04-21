@@ -96,7 +96,7 @@ CREATE TABLE IF NOT EXISTS Groups (
 );
 CREATE TABLE IF NOT EXISTS Afk (
     id INTEGER PRIMARY KEY,
-    state BOOLEAN NOT NULL DEFAULT "FALSE",
+    state BOOLEAN,
     reason TEXT
 );
 """

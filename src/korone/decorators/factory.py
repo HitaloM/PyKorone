@@ -241,7 +241,7 @@ class Factory:
 
             user: User = update.from_user if is_callback else message.from_user
 
-            if user and not user.is_bot and message.chat.type == ChatType.PRIVATE:
+            if user and not user.is_bot:
                 db_user = await self.get_or_insert(
                     "Users",
                     user,
@@ -254,7 +254,7 @@ class Factory:
                     i18n.default_locale,
                 )
 
-            db_obj = db_user or db_chat
+            db_obj = db_user if message.chat.type == ChatType.PRIVATE else db_chat
             locale = self.get_locale(db_obj) if db_obj else i18n.default_locale
 
             with i18n.context(), i18n.use_locale(locale):
