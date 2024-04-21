@@ -17,9 +17,13 @@ class SetAfk(MessageHandler):
     async def handle(self, client: Client, message: Message) -> None:
         command = CommandObject(message).parse()
 
-        if await is_afk(message.from_user.id):
-            await message.reply(_("You are already AFK."))
-            return
+        isafk = await is_afk(message.from_user.id)
 
-        await set_afk(message.from_user.id, state=True, reason=command.args or None)
-        await message.reply(_("You are now AFK."))
+        if isafk and not command.args:
+            await message.reply(_("You are already AFK."))
+        else:
+            await set_afk(message.from_user.id, state=True, reason=command.args or None)
+            if isafk:
+                await message.reply(_("Your AFK status has been updated!"))
+            else:
+                await message.reply(_("You are now AFK."))
