@@ -132,7 +132,7 @@ class TwitterHandler(MessageHandler):
                 await message.reply_photo(
                     media.url, caption=text, reply_markup=keyboard.as_markup()
                 )
-            if media.type == "video":
+            if media.type in {"video", "gif"}:
                 await message.reply_video(
                     video=media.url,
                     caption=text,
@@ -150,7 +150,7 @@ class TwitterHandler(MessageHandler):
         for media in tweet.media_extended:
             if media.type == "image":
                 media_list.append(InputMediaPhoto(media.url))
-            if media.type == "video":
+            if media.type in {"video", "gif"}:
                 media_list.append(
                     InputMediaVideo(
                         media=media.url,
