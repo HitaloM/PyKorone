@@ -58,7 +58,9 @@ class TweetData:
 
 class TwitterHandler(MessageHandler):
     def __init__(self):
-        self.url_pattern = re.compile(r"https?://(?:www\.)?(twitter\.com|x\.com)/.+?/status/\d+")
+        self.url_pattern = re.compile(
+            r"(?:(?:http|https):\/\/)?(?:www.)?(twitter\.com|x\.com)/.+?/status/\d+"
+        )
 
     @staticmethod
     @cache(ttl=timedelta(hours=1))
@@ -105,7 +107,9 @@ class TwitterHandler(MessageHandler):
         )
 
     @router.message(
-        Magic(F.text.regexp(r"https?://(?:www\.)?(twitter\.com|x\.com)/.+?/status/\d+"))
+        Magic(
+            F.text.regexp(r"(?:(?:http|https):\/\/)?(?:www.)?(twitter\.com|x\.com)/.+?/status/\d+")
+        )
     )
     async def handle(self, client: Client, message: Message) -> None:
         url = self.url_pattern.search(message.text)
