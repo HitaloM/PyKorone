@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pykorone\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-04-23 00:41-0300\n"
-"PO-Revision-Date: 2024-04-23 16:31\n"
+"POT-Creation-Date: 2024-04-23 17:21-0300\n"
+"PO-Revision-Date: 2024-04-23 20:51\n"
 "Last-Translator: \n"
 "Language-Team: Spanish\n"
 "MIME-Version: 1.0\n"
@@ -248,7 +248,12 @@ msgstr ""
 msgid "This action can only be performed by administrators."
 msgstr ""
 
-#: src/korone/modules/media_dl/handlers/twitter.py:63
+#: src/korone/modules/media_dl/handlers/instagram.py:61
+#: src/korone/modules/media_dl/handlers/instagram.py:81
+msgid "Open in Instagram"
+msgstr ""
+
+#: src/korone/modules/media_dl/handlers/twitter.py:130
 msgid "Open in Twitter"
 msgstr ""
 
