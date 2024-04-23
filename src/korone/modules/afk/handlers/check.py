@@ -18,13 +18,15 @@ from korone.utils.i18n import gettext as _
 
 
 class CheckAfk(MessageHandler):
-    async def get_user(self, username: str) -> Documents:
+    @staticmethod
+    async def get_user(username: str) -> Documents:
         async with SQLite3Connection() as conn:
             table = await conn.table("Users")
             query = Query()
             return await table.query(query.username == username[1:])
 
-    async def get_afk_reason(self, user_id: int) -> Documents | None:
+    @staticmethod
+    async def get_afk_reason(user_id: int) -> Documents | None:
         async with SQLite3Connection() as conn:
             table = await conn.table("Afk")
             query = Query()
