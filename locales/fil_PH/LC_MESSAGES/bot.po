@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pykorone\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-04-20 20:39-0300\n"
-"PO-Revision-Date: 2024-04-21 01:01\n"
+"POT-Creation-Date: 2024-04-23 00:41-0300\n"
+"PO-Revision-Date: 2024-04-23 16:31\n"
 "Last-Translator: \n"
 "Language-Team: Filipino\n"
 "MIME-Version: 1.0\n"
@@ -31,22 +31,26 @@ msgid "<b>Commands:</b>\n"
 " - /afk &lt;reason&gt;: Set your status as AFK."
 msgstr ""
 
-#: src/korone/modules/afk/handlers/check.py:58
-#: src/korone/modules/afk/handlers/check.py:70
+#: src/korone/modules/afk/handlers/check.py:60
+#: src/korone/modules/afk/handlers/check.py:72
 msgid "{user} is afk!"
 msgstr ""
 
-#: src/korone/modules/afk/handlers/check.py:60
-#: src/korone/modules/afk/handlers/check.py:72
+#: src/korone/modules/afk/handlers/check.py:62
+#: src/korone/modules/afk/handlers/check.py:74
 msgid "\n"
 "Reason: {reason}"
 msgstr ""
 
-#: src/korone/modules/afk/handlers/set.py:21
+#: src/korone/modules/afk/handlers/set.py:23
 msgid "You are already AFK."
 msgstr ""
 
-#: src/korone/modules/afk/handlers/set.py:25
+#: src/korone/modules/afk/handlers/set.py:27
+msgid "Your AFK status has been updated!"
+msgstr ""
+
+#: src/korone/modules/afk/handlers/set.py:29
 msgid "You are now AFK."
 msgstr ""
 
@@ -242,6 +246,10 @@ msgstr ""
 
 #: src/korone/modules/language/handlers/select.py:76
 msgid "This action can only be performed by administrators."
+msgstr ""
+
+#: src/korone/modules/media_dl/handlers/twitter.py:63
+msgid "Open in Twitter"
 msgstr ""
 
 #: src/korone/modules/pm_menu/__init__.py:10
