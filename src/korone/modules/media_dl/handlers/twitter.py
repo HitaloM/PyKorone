@@ -5,7 +5,6 @@ import re
 from dataclasses import dataclass
 from datetime import timedelta
 
-import aiohttp
 from hairydogm.keyboard import InlineKeyboardBuilder
 from hydrogram import Client
 from hydrogram.types import InputMediaPhoto, InputMediaVideo, Message
@@ -15,6 +14,7 @@ from korone import cache
 from korone.decorators import router
 from korone.handlers.message_handler import MessageHandler
 from korone.modules.utils.filters.magic import Magic
+from korone.utils.http import http_session
 from korone.utils.i18n import gettext as _
 
 
@@ -65,11 +65,10 @@ class TwitterHandler(MessageHandler):
     @staticmethod
     @cache(ttl=timedelta(hours=1))
     async def fetch_data(url: str) -> dict | None:
-        async with aiohttp.ClientSession() as session:
-            response = await session.get(url)
-            if response.status != 200:
-                return None
-            return await response.json()
+        response = await http_session.get(url)
+        if response.status != 200:
+            return None
+        return await response.json()
 
     @staticmethod
     async def parse_data(data: dict) -> TweetData:
@@ -123,20 +122,21 @@ class TwitterHandler(MessageHandler):
 
         tweet = await self.parse_data(data)
 
-        text = f"<b>{tweet.user_name}:</b>\n\n"
+        text = f"<b>{tweet.user_name} (<code>@{tweet.user_screen_name}</code>):</b>\n\n"
         text += tweet.text
-
-        keyboard = InlineKeyboardBuilder()
-        keyboard.button(text=_("Open in Twitter"), url=tweet.tweet_url)
 
         if len(tweet.media_extended) == 1:
             text = re.sub(r"https?://t\.co/\S*", "", text)
             media = tweet.media_extended[0]
+
+            keyboard = InlineKeyboardBuilder()
+            keyboard.button(text=_("Open in Twitter"), url=tweet.tweet_url)
+
             if media.type == "image":
                 await message.reply_photo(
                     media.url, caption=text, reply_markup=keyboard.as_markup()
                 )
-            if media.type in {"video", "gif"}:
+            elif media.type in {"video", "gif"}:
                 await message.reply_video(
                     video=media.url,
                     caption=text,
@@ -150,7 +150,7 @@ class TwitterHandler(MessageHandler):
                 )
             return
 
-        media_list = []
+        media_list: list[InputMediaPhoto | InputMediaVideo] = []
         for media in tweet.media_extended:
             if media.type == "image":
                 media_list.append(InputMediaPhoto(media.url))

@@ -20,6 +20,7 @@ dependencies = [
     "lxml>=5.2.1",
     "meval>=2.5",
     "magic-filter>=1.0.12",
+    "orjson>=3.10.1",
 ]
 readme = "README.md"
 license = { file = "LICENSE" }

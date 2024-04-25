@@ -4,7 +4,6 @@
 import re
 from datetime import timedelta
 
-import aiohttp
 from hairydogm.keyboard import InlineKeyboardBuilder
 from hydrogram import Client
 from hydrogram.types import InputMediaPhoto, InputMediaVideo, Message
@@ -14,6 +13,7 @@ from korone import cache
 from korone.decorators import router
 from korone.handlers.message_handler import MessageHandler
 from korone.modules.utils.filters.magic import Magic
+from korone.utils.http import http_session
 from korone.utils.i18n import gettext as _
 
 
@@ -28,11 +28,10 @@ class InstagramHandler(MessageHandler):
     @staticmethod
     @cache(ttl=timedelta(days=1))
     async def fetch_data(url: str):
-        async with aiohttp.ClientSession() as session:
-            response = await session.get(url)
-            if response.status != 200:
-                return None
-            return response.url.human_repr()
+        response = await http_session.get(url)
+        if response.status != 200:
+            return None
+        return response.url.human_repr()
 
     @router.message(
         Magic(

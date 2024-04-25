@@ -6,7 +6,6 @@ from contextlib import suppress
 from dataclasses import dataclass
 from datetime import timedelta
 
-import aiohttp
 from bs4 import BeautifulSoup
 from hairydogm.keyboard import InlineKeyboardBuilder
 from hydrogram import Client
@@ -14,20 +13,14 @@ from hydrogram.errors import MessageNotModified
 from hydrogram.types import CallbackQuery, InlineKeyboardButton, InlineKeyboardMarkup, Message
 
 from korone import cache
-from korone.config import ConfigManager
 from korone.decorators import router
 from korone.handlers.callback_query_handler import CallbackQueryHandler
 from korone.handlers.message_handler import MessageHandler
 from korone.modules.gsm_arena.callback_data import DevicePageCallback, GetDeviceCallback
 from korone.modules.utils.filters import Command, CommandObject
 from korone.modules.utils.pagination import Pagination
+from korone.utils.http import http_session
 from korone.utils.i18n import gettext as _
-
-HEADERS: dict[str, str] = {
-    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
-    "(KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
-    "referer": "https://www.gsmarena.com/",
-}
 
 
 @dataclass(frozen=True, slots=True)
@@ -118,24 +111,13 @@ def not_too_many_requests(result, args, kwargs, key=None) -> bool:
 
 class GSMArena(MessageHandler):
     @staticmethod
-    @cache(ttl=timedelta(weeks=3), condition=not_too_many_requests)
+    @cache(ttl=timedelta(days=1), condition=not_too_many_requests)
     async def fetch_and_parse(url: str, proxy: str | None = None) -> BeautifulSoup:
-        async with aiohttp.ClientSession() as session:
-            response = await session.get(
-                f"https://cors-bypass.amano.workers.dev/{url}",
-                headers=HEADERS,
-                proxy=proxy,
-            )
-            html = await response.content.read()
-
-            return BeautifulSoup(html, "lxml")
-
-    async def fetch_with_retry(self, url: str) -> BeautifulSoup:
-        soup = await self.fetch_and_parse(url)
-        if "Too Many Requests" in soup.text:
-            soup = await self.fetch_and_parse(url, proxy=ConfigManager().get("korone", "PROXY"))
-
-        return soup
+        response = await http_session.get(
+            f"https://cors-bypass.amano.workers.dev/{url}",
+        )
+        html = await response.content.read()
+        return BeautifulSoup(html, "lxml")
 
     @staticmethod
     def extract_specs(specs_tables: list) -> dict[str, str]:
@@ -167,7 +149,7 @@ class GSMArena(MessageHandler):
         search_url = (
             f"https://m.gsmarena.com/results.php3?sQuickSearch=yes&sName={phone_html_encoded}"
         )
-        soup = await self.fetch_with_retry(search_url)
+        soup = await self.fetch_and_parse(search_url)
         found_phones = soup.select("div.general-menu.material-card ul li")
 
         return [
@@ -180,7 +162,7 @@ class GSMArena(MessageHandler):
 
     async def check_phone_details(self, url: str):
         url = f"https://www.gsmarena.com/{url}"
-        soup = await GSMArena().fetch_with_retry(url)
+        soup = await GSMArena().fetch_and_parse(url)
         specs_tables = soup.findAll("table", {"cellspacing": "0"})
 
         phone_specs_temp = self.extract_specs(specs_tables)
