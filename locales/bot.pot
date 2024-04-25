@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-04-23 17:21-0300\n"
+"POT-Creation-Date: 2024-04-23 21:03-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -267,6 +267,25 @@ msgstr ""
 
 #: src/korone/modules/language/handlers/select.py:76
 msgid "This action can only be performed by administrators."
+msgstr ""
+
+#: src/korone/modules/media_dl/__init__.py:10
+msgid "Media Downloader"
+msgstr ""
+
+#: src/korone/modules/media_dl/__init__.py:11
+msgid ""
+"Sometimes you want to show a funny video or photos to a friend, but that "
+"friend would need to access an external service.\n"
+"\n"
+"This module solves that problem by making PyKorone download images and "
+"videos from various sources and sending them to Telegram automatically."
+msgstr ""
+
+#: src/korone/modules/media_dl/__init__.py:17
+msgid ""
+"<b>Commands:</b>\n"
+"- /mds: Allows you to enable or disable the module."
 msgstr ""
 
 #: src/korone/modules/media_dl/handlers/instagram.py:61
