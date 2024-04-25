@@ -26,12 +26,24 @@ class InstagramHandler(MessageHandler):
         self.video_pattern = re.compile(r"(.+\.mp4)")
 
     @staticmethod
-    @cache(ttl=timedelta(days=1))
-    async def fetch_data(url: str):
-        response = await http_session.get(url)
+    async def fetch_data(url: str) -> str | None:
+        response = await http_session.get(f"https://cors-bypass.amano.workers.dev/{url}")
         if response.status != 200:
             return None
         return response.url.human_repr()
+
+    @cache(ttl=timedelta(days=1))
+    async def fetch_urls(self, post_id: str) -> list[str]:
+        dd_url = f"https://ddinstagram.com/images/{post_id}/"
+
+        url_list: list[str] = []
+        for i in range(1, 11):
+            url = await self.fetch_data(dd_url + str(i))
+            if not url:
+                break
+            url_list.append(url)
+
+        return url_list
 
     @router.message(
         Magic(
@@ -51,14 +63,7 @@ class InstagramHandler(MessageHandler):
         if not re.match(r"^[A-Za-z0-9\-_]+$", post_id):
             return
 
-        dd_url = f"https://ddinstagram.com/images/{post_id}/"
-
-        url_list: list[str] = []
-        for i in range(1, 11):
-            url = await self.fetch_data(dd_url + str(i))
-            if not url:
-                break
-            url_list.append(url)
+        url_list = await self.fetch_urls(post_id)
 
         if not url_list:
             return
