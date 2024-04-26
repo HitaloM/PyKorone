@@ -1,6 +1,7 @@
 # SPDX-License-Identifier: BSD-3-Clause
 # Copyright (c) 2023-present Hitalo M. <https://github.com/HitaloM>
 
+import io
 import re
 from dataclasses import dataclass
 from datetime import timedelta
@@ -105,6 +106,13 @@ class TwitterHandler(MessageHandler):
             user_screen_name=data.get("user_screen_name", ""),
         )
 
+    async def url_to_binary_io(self, url: str) -> io.BytesIO:
+        session = await http_session.get(url)
+        content = await session.read()
+        file = io.BytesIO(content)
+        file.name = url.split("/")[-1]
+        return file
+
     @router.message(
         Magic(
             F.text.regexp(r"(?:(?:http|https):\/\/)?(?:www.)?(twitter\.com|x\.com)/.+?/status/\d+")
@@ -132,13 +140,20 @@ class TwitterHandler(MessageHandler):
             keyboard = InlineKeyboardBuilder()
             keyboard.button(text=_("Open in Twitter"), url=tweet.tweet_url)
 
+            media_url = await self.url_to_binary_io(media.url)
             if media.type == "image":
-                await message.reply_photo(
-                    media.url, caption=text, reply_markup=keyboard.as_markup()
+                await client.send_photo(
+                    chat_id=message.chat.id,
+                    photo=media_url,
+                    caption=text,
+                    reply_markup=keyboard.as_markup(),
+                    reply_to_message_id=message.id,
                 )
             elif media.type in {"video", "gif"}:
-                await message.reply_video(
-                    video=media.url,
+                media_thumb = await self.url_to_binary_io(media.thumbnail_url)
+                await client.send_video(
+                    chat_id=message.chat.id,
+                    video=media_url,
                     caption=text,
                     reply_markup=keyboard.as_markup(),
                     duration=int(
@@ -146,24 +161,27 @@ class TwitterHandler(MessageHandler):
                     ),
                     width=media.size.width,
                     height=media.size.height,
-                    thumb=media.thumbnail_url,
+                    thumb=media_thumb,
+                    reply_to_message_id=message.id,
                 )
             return
 
         media_list: list[InputMediaPhoto | InputMediaVideo] = []
         for media in tweet.media_extended:
+            media_url = await self.url_to_binary_io(media.url)
             if media.type == "image":
-                media_list.append(InputMediaPhoto(media.url))
+                media_list.append(InputMediaPhoto(media_url))
             if media.type in {"video", "gif"}:
+                media_thumb = await self.url_to_binary_io(media.thumbnail_url)
                 media_list.append(
                     InputMediaVideo(
-                        media=media.url,
+                        media=media_url,
                         duration=int(
                             timedelta(milliseconds=media.duration_millis).total_seconds() * 1000
                         ),
                         width=media.size.width,
                         height=media.size.height,
-                        thumb=media.thumbnail_url,
+                        thumb=media_thumb,  # type: ignore
                     )
                 )
 
