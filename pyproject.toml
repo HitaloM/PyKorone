@@ -21,6 +21,7 @@ dependencies = [
     "meval>=2.5",
     "magic-filter>=1.0.12",
     "orjson>=3.10.1",
+    "esprima>=4.0.1",
 ]
 readme = "README.md"
 license = { file = "LICENSE" }

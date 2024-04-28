@@ -6,6 +6,7 @@ import re
 from dataclasses import dataclass
 from datetime import timedelta
 
+import orjson
 from hairydogm.keyboard import InlineKeyboardBuilder
 from hydrogram import Client
 from hydrogram.types import InputMediaPhoto, InputMediaVideo, Message
@@ -69,7 +70,7 @@ class TwitterHandler(MessageHandler):
         response = await http_session.get(url)
         if response.status != 200:
             return None
-        return await response.json()
+        return await response.json(loads=orjson.loads)
 
     @staticmethod
     async def parse_data(data: dict) -> TweetData:

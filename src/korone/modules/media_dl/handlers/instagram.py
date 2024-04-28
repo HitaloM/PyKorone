@@ -1,8 +1,11 @@
 # SPDX-License-Identifier: BSD-3-Clause
 # Copyright (c) 2023-present Hitalo M. <https://github.com/HitaloM>
 
+import io
 import re
 from datetime import timedelta
+from pathlib import Path
+from urllib.parse import urlparse
 
 from hairydogm.keyboard import InlineKeyboardBuilder
 from hydrogram import Client
@@ -12,6 +15,7 @@ from magic_filter import F
 from korone import cache
 from korone.decorators import router
 from korone.handlers.message_handler import MessageHandler
+from korone.modules.media_dl.utils.instagram import GetInstagram
 from korone.modules.utils.filters.magic import Magic
 from korone.utils.http import http_session
 from korone.utils.i18n import gettext as _
@@ -22,28 +26,15 @@ class InstagramHandler(MessageHandler):
         self.url_pattern = re.compile(
             r"((?:https?:\/\/)?(?:www\.)?instagram\.com\/(?:p|reels|reel)\/([^/?#&]+)).*"
         )
-        self.image_pattern = re.compile(r"(.+\.jpg)")
-        self.video_pattern = re.compile(r"(.+\.mp4)")
-
-    @staticmethod
-    async def fetch_data(url: str) -> str | None:
-        response = await http_session.get(f"https://cors-bypass.amano.workers.dev/{url}")
-        if response.status != 200:
-            return None
-        return response.url.human_repr()
 
     @cache(ttl=timedelta(days=1))
-    async def fetch_urls(self, post_id: str) -> list[str]:
-        dd_url = f"https://ddinstagram.com/images/{post_id}/"
-
-        url_list: list[str] = []
-        for i in range(1, 11):
-            url = await self.fetch_data(dd_url + str(i))
-            if not url:
-                break
-            url_list.append(url)
-
-        return url_list
+    async def url_to_binary_io(self, url: str) -> io.BytesIO:
+        session = await http_session.get(url)
+        content = await session.read()
+        file = io.BytesIO(content)
+        parsed_url = urlparse(url)
+        file.name = Path(parsed_url.path).name
+        return file
 
     @router.message(
         Magic(
@@ -63,32 +54,35 @@ class InstagramHandler(MessageHandler):
         if not re.match(r"^[A-Za-z0-9\-_]+$", post_id):
             return
 
-        url_list = await self.fetch_urls(post_id)
+        insta = await GetInstagram().get_data(post_id)
 
-        if not url_list:
-            return
-
-        if len(url_list) == 1:
-            url = url_list[0]
+        if insta.medias == 1:
+            media = insta.medias[0]
 
             keyboard = InlineKeyboardBuilder()
             keyboard.button(text=_("Open in Instagram"), url=post_url.group())
 
-            if re.search(self.image_pattern, url):
-                await message.reply_photo(url, reply_markup=keyboard.as_markup())
-            elif re.search(self.video_pattern, url):
-                await message.reply_video(url, reply_markup=keyboard.as_markup())
+            media_bynary = await self.url_to_binary_io(media.url)
+            if "GraphImage" in media.type_name:
+                await message.reply_photo(media_bynary, reply_markup=keyboard.as_markup())
+            elif "GraphVideo" in media.type_name:
+                await message.reply_video(media_bynary, reply_markup=keyboard.as_markup())
             return
 
         media_list: list[InputMediaPhoto | InputMediaVideo] = []
-        for media in url_list:
-            if re.search(self.image_pattern, media):
-                media_list.append(InputMediaPhoto(media))
-            elif re.search(self.video_pattern, media):
-                media_list.append(InputMediaVideo(media))
+        for media in insta.medias:
+            media_bynary = await self.url_to_binary_io(media.url)
+            if "GraphImage" in media.type_name:
+                media_list.append(InputMediaPhoto(media_bynary))
+            elif "GraphVideo" in media.type_name:
+                media_list.append(InputMediaVideo(media_bynary))
 
         if not media_list:
             return
 
-        media_list[-1].caption = f"<a href='{post_url.group()}'>{_("Open in Instagram")}</a>"
+        text = f"<b>{insta.username}:</b>\n\n"
+        text += f"{insta.caption[:900]}"
+        text += f"\n\n<a href='{post_url.group()}'>{_("Open in Instagram")}</a>"
+        media_list[-1].caption = text
+
         await message.reply_media_group(media_list)
