@@ -149,9 +149,8 @@ class InstagramHtmlParser:
 
         return "".join(result)
 
-    def parse_embed_html(self, embed_html: Any) -> bytes:
+    def parse_embed_html(self, embed_html: str) -> bytes:
         doc = BeautifulSoup(embed_html, "lxml")
-
         typename, media_url = self.get_typename_and_media_url(doc)
         username = self.get_username(doc)
         caption = self.get_caption(doc)
@@ -290,10 +289,13 @@ class GetInstagram:
     def get_media(item: dict[str, Any]) -> list[Media]:
         media = item.get("edge_sidecar_to_children", {}).get("edges", [item])
 
-        return [
-            Media(
-                type_name=m.get("node", {}).get("__typename"),
-                url=str(m.get("node", {}).get("video_url", m.get("node", {}).get("display_url"))),
-            )
-            for m in media
-        ]
+        medias = []
+        for m in media:
+            if "node" in m:
+                m = m["node"]
+            media_url = m.get("video_url")
+            if media_url is None:
+                media_url = m.get("display_url")
+            medias.append(Media(type_name=m["__typename"], url=media_url))
+
+        return medias
