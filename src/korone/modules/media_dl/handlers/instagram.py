@@ -32,8 +32,7 @@ class InstagramHandler(MessageHandler):
         session = await http_session.get(url)
         content = await session.read()
         file = io.BytesIO(content)
-        parsed_url = urlparse(url)
-        file.name = Path(parsed_url.path).name
+        file.name = Path(urlparse(url).path).name.replace(".webp", ".jpeg")
         return file
 
     @router.message(
@@ -56,17 +55,24 @@ class InstagramHandler(MessageHandler):
 
         insta = await GetInstagram().get_data(post_id)
 
-        if insta.medias == 1:
+        if len(insta.medias) == 1:
             media = insta.medias[0]
+
+            text = f"<b>{insta.username}:</b>\n\n"
+            text += f"{insta.caption[:900]}"
 
             keyboard = InlineKeyboardBuilder()
             keyboard.button(text=_("Open in Instagram"), url=post_url.group())
 
             media_bynary = await self.url_to_binary_io(media.url)
             if "GraphImage" in media.type_name:
-                await message.reply_photo(media_bynary, reply_markup=keyboard.as_markup())
+                await message.reply_photo(
+                    media_bynary, caption=text, reply_markup=keyboard.as_markup()
+                )
             elif "GraphVideo" in media.type_name:
-                await message.reply_video(media_bynary, reply_markup=keyboard.as_markup())
+                await message.reply_video(
+                    media_bynary, caption=text, reply_markup=keyboard.as_markup()
+                )
             return
 
         media_list: list[InputMediaPhoto | InputMediaVideo] = []
