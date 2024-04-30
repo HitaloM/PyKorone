@@ -5,7 +5,7 @@ import urllib.parse
 from contextlib import suppress
 from dataclasses import dataclass
 
-import aiohttp
+import httpx
 from bs4 import BeautifulSoup
 from hairydogm.keyboard import InlineKeyboardBuilder
 from hydrogram import Client
@@ -112,11 +112,11 @@ def create_pagination_layout(devices: list, query: str, page: int) -> InlineKeyb
 class GSMArena(MessageHandler):
     @staticmethod
     async def fetch_and_parse(url: str, proxy: str | None = None) -> BeautifulSoup:
-        async with aiohttp.ClientSession(headers=HEADERS) as session:
+        async with httpx.AsyncClient(headers=HEADERS, http2=True) as session:
             response = await session.get(
                 f"https://cors-bypass.amano.workers.dev/{url}",
             )
-            html = await response.content.read()
+            html = response.text
             return BeautifulSoup(html, "lxml")
 
     @staticmethod

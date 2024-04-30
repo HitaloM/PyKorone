@@ -7,7 +7,7 @@ import re
 from pathlib import Path
 from urllib.parse import urlparse
 
-import aiohttp
+import httpx
 from hairydogm.keyboard import InlineKeyboardBuilder
 from hydrogram import Client
 from hydrogram.types import InputMediaPhoto, InputMediaVideo, Message
@@ -28,9 +28,9 @@ class InstagramHandler(MessageHandler):
         )
 
     async def url_to_binary_io(self, url: str) -> io.BytesIO:
-        async with aiohttp.ClientSession() as session:
-            response = await session.get(url, headers=HEADERS, timeout=TIMEOUT)
-            content = await response.read()
+        async with httpx.AsyncClient(headers=HEADERS, timeout=TIMEOUT, http2=True) as session:
+            response = await session.get(url)
+            content = response.read()
 
             file = io.BytesIO(content)
             file_path = Path(urlparse(url).path)

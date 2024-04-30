@@ -6,7 +6,7 @@ import re
 from dataclasses import dataclass
 from datetime import timedelta
 
-import aiohttp
+import httpx
 import orjson
 from hairydogm.keyboard import InlineKeyboardBuilder
 from hydrogram import Client
@@ -65,11 +65,11 @@ class TwitterHandler(MessageHandler):
 
     @staticmethod
     async def fetch_data(url: str) -> dict | None:
-        async with aiohttp.ClientSession() as session:
+        async with httpx.AsyncClient(http2=True) as session:
             response = await session.get(url)
-            if response.status != 200:
+            if response.status_code != 200:
                 return None
-            return await response.json(loads=orjson.loads)
+            return orjson.loads(response.text)
 
     @staticmethod
     async def parse_data(data: dict) -> TweetData:
@@ -107,9 +107,9 @@ class TwitterHandler(MessageHandler):
         )
 
     async def url_to_binary_io(self, url: str) -> io.BytesIO:
-        async with aiohttp.ClientSession() as session:
-            session = await session.get(url)
-            content = await session.read()
+        async with httpx.AsyncClient(http2=True) as session:
+            response = await session.get(url)
+            content = response.read()
             file = io.BytesIO(content)
             file.name = url.split("/")[-1]
             return file

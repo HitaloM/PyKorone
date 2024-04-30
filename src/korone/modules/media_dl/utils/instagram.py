@@ -1,16 +1,13 @@
 # SPDX-License-Identifier: BSD-3-Clause
 # Copyright (c) 2023-present Hitalo M. <https://github.com/HitaloM>
 
-import http.cookies
 import re
 from dataclasses import dataclass
 from typing import Any, Literal
 
-import aiohttp
 import esprima
+import httpx
 import orjson
-from aiohttp import hdrs
-from aiohttp.client_reqrep import ClientRequest
 from bs4 import BeautifulSoup, NavigableString, PageElement, Tag
 
 from korone.utils.logging import log
@@ -25,43 +22,6 @@ HEADERS: dict[str, str] = {
     "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
     "(KHTML, like Gecko) Chrome/118.0.0.0 Safari/537.36",
 }
-
-
-# https://github.com/aio-libs/aiohttp/issues/802#issuecomment-230324442
-class UnquotedClientRequest(ClientRequest):
-    unquoted_cookies = False
-
-    def output_unquoted_cookie(self, c, attrs=None, header="Set-Cookie:", sep="\015\012"):
-        result = []
-        items = sorted(c.items())
-        for key, value in items:
-            value.coded_value = value.value
-            result.append(value.output(attrs, header))
-
-        return sep.join(result)
-
-    def update_cookies(self, cookies):
-        if not cookies:
-            return
-
-        c = http.cookies.SimpleCookie()
-        if hdrs.COOKIE in self.headers:
-            c.load(self.headers.get(hdrs.COOKIE, ""))
-            del self.headers[hdrs.COOKIE]
-
-        if isinstance(cookies, dict):
-            cookies = cookies.items()
-
-        for name, value in cookies:
-            if isinstance(value, http.cookies.Morsel):
-                c[value.key] = value.value
-            else:
-                c[str(name)] = str(value)
-
-        if self.unquoted_cookies:
-            self.headers[hdrs.COOKIE] = self.output_unquoted_cookie(c, header="", sep=";").strip()
-        else:
-            self.headers[hdrs.COOKIE] = c.output(header="", sep=";").strip()
 
 
 class InstaError(Exception):
@@ -91,7 +51,7 @@ class InstagramDataFetcher:
         self.html_parser = InstagramHtmlParser()
 
     async def get_data(self, post_id: str) -> dict[str, Any] | None:
-        url = f"https://www.instagram.com/p/{post_id}/embed/captioned"
+        url = f"https://www.instagram.com/p/{post_id}/embed/captioned/"
         response = await self.get_response(url)
 
         if response is None:
@@ -104,23 +64,23 @@ class InstagramDataFetcher:
         return await self.get_embed_html_data(response, post_id)
 
     @staticmethod
-    async def get_response(url: str) -> aiohttp.ClientResponse | None:
+    async def get_response(url: str) -> httpx.Response | None:
         for _ in range(3):
             try:
-                async with aiohttp.ClientSession(
-                    headers=HEADERS, request_class=UnquotedClientRequest
+                async with httpx.AsyncClient(
+                    headers=HEADERS, timeout=TIMEOUT, http2=True
                 ) as session:
-                    response = await session.get(url, timeout=TIMEOUT)
-                    if response.status == 200 and response.text:
+                    response = await session.get(url)
+                    if response.status_code == 200 and response.text:
                         return response
-            except aiohttp.ClientError as e:
+            except httpx.ConnectError as e:
                 log.error("Failed to get response: %s", e)
         return None
 
     @staticmethod
-    async def get_time_slice(response: aiohttp.ClientResponse) -> dict[str, Any] | None:
+    async def get_time_slice(response: httpx.Response) -> dict[str, Any] | None:
         time_slice = re.findall(
-            r'<script>(requireLazy\(\["TimeSliceImpl".*)<\/script>', await response.text()
+            r'<script>(requireLazy\(\["TimeSliceImpl".*)<\/script>', response.text
         )
         if time_slice:
             tokenized = esprima.tokenize(time_slice[0])
@@ -134,10 +94,10 @@ class InstagramDataFetcher:
         return None
 
     async def get_embed_html_data(
-        self, response: aiohttp.ClientResponse, post_id: str
+        self, response: httpx.Response, post_id: str
     ) -> dict[str, Any] | None:
         try:
-            content = await response.text()
+            content = response.text
             embed_html = self.html_parser.parse_embed_html(content)
             embed_html_data = orjson.loads(embed_html)
             video_blocked = embed_html_data.get("shortcode_media", {}).get("video_blocked")
@@ -160,16 +120,16 @@ class InstagramDataFetcher:
             "query_hash": "b3055c01b4b222b8a47dc12b090e4e64",
             "variables": f'{{"shortcode":"{post_id}"}}',
         }
-        async with aiohttp.ClientSession(headers=headers) as session:
+        async with httpx.AsyncClient(headers=headers, http2=True) as session:
             response = await session.get(
                 "https://www.instagram.com/graphql/query/",
                 params=params,
                 timeout=TIMEOUT,
             )
-            if response.status != 200:
-                raise InstaError(f"Request failed with status {response.status}")
+            if response.status_code != 200:
+                raise InstaError(f"Request failed with status {response.status_code}")
 
-            gql_value = await response.content.read()
+            gql_value = response.read()
             return orjson.loads(gql_value) if gql_value else None
 
 
