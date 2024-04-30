@@ -1,6 +1,7 @@
 # SPDX-License-Identifier: BSD-3-Clause
 # Copyright (c) 2023-present Hitalo M. <https://github.com/HitaloM>
 
+import http.cookies
 import re
 from dataclasses import dataclass
 from typing import Any, Literal
@@ -8,6 +9,8 @@ from typing import Any, Literal
 import aiohttp
 import esprima
 import orjson
+from aiohttp import hdrs
+from aiohttp.client_reqrep import ClientRequest
 from bs4 import BeautifulSoup, NavigableString, PageElement, Tag
 
 from korone.utils.logging import log
@@ -22,6 +25,43 @@ HEADERS: dict[str, str] = {
     "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
     "(KHTML, like Gecko) Chrome/118.0.0.0 Safari/537.36",
 }
+
+
+# https://github.com/aio-libs/aiohttp/issues/802#issuecomment-230324442
+class UnquotedClientRequest(ClientRequest):
+    unquoted_cookies = False
+
+    def output_unquoted_cookie(self, c, attrs=None, header="Set-Cookie:", sep="\015\012"):
+        result = []
+        items = sorted(c.items())
+        for key, value in items:
+            value.coded_value = value.value
+            result.append(value.output(attrs, header))
+
+        return sep.join(result)
+
+    def update_cookies(self, cookies):
+        if not cookies:
+            return
+
+        c = http.cookies.SimpleCookie()
+        if hdrs.COOKIE in self.headers:
+            c.load(self.headers.get(hdrs.COOKIE, ""))
+            del self.headers[hdrs.COOKIE]
+
+        if isinstance(cookies, dict):
+            cookies = cookies.items()
+
+        for name, value in cookies:
+            if isinstance(value, http.cookies.Morsel):
+                c[value.key] = value.value
+            else:
+                c[str(name)] = str(value)
+
+        if self.unquoted_cookies:
+            self.headers[hdrs.COOKIE] = self.output_unquoted_cookie(c, header="", sep=";").strip()
+        else:
+            self.headers[hdrs.COOKIE] = c.output(header="", sep=";").strip()
 
 
 class InstaError(Exception):
@@ -67,8 +107,10 @@ class InstagramDataFetcher:
     async def get_response(url: str) -> aiohttp.ClientResponse | None:
         for _ in range(3):
             try:
-                async with aiohttp.ClientSession() as session:
-                    response = await session.get(url, headers=HEADERS, timeout=TIMEOUT)
+                async with aiohttp.ClientSession(
+                    headers=HEADERS, request_class=UnquotedClientRequest
+                ) as session:
+                    response = await session.get(url, timeout=TIMEOUT)
                     if response.status == 200 and response.text:
                         return response
             except aiohttp.ClientError as e:
@@ -118,10 +160,9 @@ class InstagramDataFetcher:
             "query_hash": "b3055c01b4b222b8a47dc12b090e4e64",
             "variables": f'{{"shortcode":"{post_id}"}}',
         }
-        async with aiohttp.ClientSession() as session:
+        async with aiohttp.ClientSession(headers=headers) as session:
             response = await session.get(
                 "https://www.instagram.com/graphql/query/",
-                headers=headers,
                 params=params,
                 timeout=TIMEOUT,
             )

@@ -16,7 +16,7 @@ from PIL import Image
 
 from korone.decorators import router
 from korone.handlers.message_handler import MessageHandler
-from korone.modules.media_dl.utils.instagram import HEADERS, GetInstagram
+from korone.modules.media_dl.utils.instagram import HEADERS, TIMEOUT, GetInstagram
 from korone.modules.utils.filters.magic import Magic
 from korone.utils.i18n import gettext as _
 
@@ -28,8 +28,8 @@ class InstagramHandler(MessageHandler):
         )
 
     async def url_to_binary_io(self, url: str) -> io.BytesIO:
-        async with aiohttp.ClientSession(headers=HEADERS) as session:
-            response = await session.get(url)
+        async with aiohttp.ClientSession() as session:
+            response = await session.get(url, headers=HEADERS, timeout=TIMEOUT)
             content = await response.read()
 
             file = io.BytesIO(content)
