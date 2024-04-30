@@ -5,6 +5,7 @@ import urllib.parse
 from contextlib import suppress
 from dataclasses import dataclass
 
+import aiohttp
 from bs4 import BeautifulSoup
 from hairydogm.keyboard import InlineKeyboardBuilder
 from hydrogram import Client
@@ -18,6 +19,12 @@ from korone.modules.gsm_arena.callback_data import DevicePageCallback, GetDevice
 from korone.modules.utils.filters import Command, CommandObject
 from korone.modules.utils.pagination import Pagination
 from korone.utils.i18n import gettext as _
+
+HEADERS: dict[str, str] = {
+    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
+    "(KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+    "referer": "https://www.gsmarena.com/",
+}
 
 
 @dataclass(frozen=True, slots=True)
@@ -105,11 +112,12 @@ def create_pagination_layout(devices: list, query: str, page: int) -> InlineKeyb
 class GSMArena(MessageHandler):
     @staticmethod
     async def fetch_and_parse(url: str, proxy: str | None = None) -> BeautifulSoup:
-        response = await http_session.get(
-            f"https://cors-bypass.amano.workers.dev/{url}",
-        )
-        html = await response.content.read()
-        return BeautifulSoup(html, "lxml")
+        async with aiohttp.ClientSession(headers=HEADERS) as session:
+            response = await session.get(
+                f"https://cors-bypass.amano.workers.dev/{url}",
+            )
+            html = await response.content.read()
+            return BeautifulSoup(html, "lxml")
 
     @staticmethod
     def extract_specs(specs_tables: list) -> dict[str, str]:

@@ -6,6 +6,7 @@ import re
 from dataclasses import dataclass
 from datetime import timedelta
 
+import aiohttp
 import orjson
 from hairydogm.keyboard import InlineKeyboardBuilder
 from hydrogram import Client
@@ -15,7 +16,6 @@ from magic_filter import F
 from korone.decorators import router
 from korone.handlers.message_handler import MessageHandler
 from korone.modules.utils.filters.magic import Magic
-from korone.utils.http import http_session
 from korone.utils.i18n import gettext as _
 
 
@@ -65,10 +65,11 @@ class TwitterHandler(MessageHandler):
 
     @staticmethod
     async def fetch_data(url: str) -> dict | None:
-        response = await http_session.get(url)
-        if response.status != 200:
-            return None
-        return await response.json(loads=orjson.loads)
+        async with aiohttp.ClientSession() as session:
+            response = await session.get(url)
+            if response.status != 200:
+                return None
+            return await response.json(loads=orjson.loads)
 
     @staticmethod
     async def parse_data(data: dict) -> TweetData:
@@ -106,11 +107,12 @@ class TwitterHandler(MessageHandler):
         )
 
     async def url_to_binary_io(self, url: str) -> io.BytesIO:
-        session = await http_session.get(url)
-        content = await session.read()
-        file = io.BytesIO(content)
-        file.name = url.split("/")[-1]
-        return file
+        async with aiohttp.ClientSession() as session:
+            session = await session.get(url)
+            content = await session.read()
+            file = io.BytesIO(content)
+            file.name = url.split("/")[-1]
+            return file
 
     @router.message(
         Magic(

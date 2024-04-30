@@ -6,6 +6,7 @@ import re
 from pathlib import Path
 from urllib.parse import urlparse
 
+import aiohttp
 from hairydogm.keyboard import InlineKeyboardBuilder
 from hydrogram import Client
 from hydrogram.types import InputMediaPhoto, InputMediaVideo, Message
@@ -15,7 +16,6 @@ from korone.decorators import router
 from korone.handlers.message_handler import MessageHandler
 from korone.modules.media_dl.utils.instagram import GetInstagram
 from korone.modules.utils.filters.magic import Magic
-from korone.utils.http import http_session
 from korone.utils.i18n import gettext as _
 
 
@@ -26,11 +26,12 @@ class InstagramHandler(MessageHandler):
         )
 
     async def url_to_binary_io(self, url: str) -> io.BytesIO:
-        session = await http_session.get(url)
-        content = await session.read()
-        file = io.BytesIO(content)
-        file.name = Path(urlparse(url).path).name.replace(".webp", ".jpeg")
-        return file
+        async with aiohttp.ClientSession() as session:
+            session = await session.get(url)
+            content = await session.read()
+            file = io.BytesIO(content)
+            file.name = Path(urlparse(url).path).name.replace(".webp", ".jpeg")
+            return file
 
     @router.message(
         Magic(

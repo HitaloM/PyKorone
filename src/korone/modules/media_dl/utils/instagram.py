@@ -10,7 +10,6 @@ import esprima
 import orjson
 from bs4 import BeautifulSoup, NavigableString, PageElement, Tag
 
-from korone.utils.http import http_session
 from korone.utils.logging import log
 
 TIMEOUT: int = 10
@@ -68,9 +67,10 @@ class InstagramDataFetcher:
     async def get_response(url: str) -> aiohttp.ClientResponse | None:
         for _ in range(3):
             try:
-                response = await http_session.get(url, headers=HEADERS, timeout=TIMEOUT)
-                if response.status == 200 and response.text:
-                    return response
+                async with aiohttp.ClientSession() as session:
+                    response = await session.get(url, headers=HEADERS, timeout=TIMEOUT)
+                    if response.status == 200 and response.text:
+                        return response
             except aiohttp.ClientError as e:
                 log.error("Failed to get response: %s", e)
         return None
@@ -118,17 +118,18 @@ class InstagramDataFetcher:
             "query_hash": "b3055c01b4b222b8a47dc12b090e4e64",
             "variables": f'{{"shortcode":"{post_id}"}}',
         }
-        response = await http_session.get(
-            "https://www.instagram.com/graphql/query/",
-            headers=headers,
-            params=params,
-            timeout=TIMEOUT,
-        )
-        if response.status != 200:
-            raise InstaError(f"Request failed with status {response.status}")
+        async with aiohttp.ClientSession() as session:
+            response = await session.get(
+                "https://www.instagram.com/graphql/query/",
+                headers=headers,
+                params=params,
+                timeout=TIMEOUT,
+            )
+            if response.status != 200:
+                raise InstaError(f"Request failed with status {response.status}")
 
-        gql_value = await response.content.read()
-        return orjson.loads(gql_value) if gql_value else None
+            gql_value = await response.content.read()
+            return orjson.loads(gql_value) if gql_value else None
 
 
 class InstagramHtmlParser:
