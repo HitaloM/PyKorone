@@ -2,6 +2,7 @@
 # Copyright (c) 2023-present Hitalo M. <https://github.com/HitaloM>
 
 import io
+import mimetypes
 import re
 from pathlib import Path
 from urllib.parse import urlparse
@@ -11,10 +12,11 @@ from hairydogm.keyboard import InlineKeyboardBuilder
 from hydrogram import Client
 from hydrogram.types import InputMediaPhoto, InputMediaVideo, Message
 from magic_filter import F
+from PIL import Image
 
 from korone.decorators import router
 from korone.handlers.message_handler import MessageHandler
-from korone.modules.media_dl.utils.instagram import GetInstagram
+from korone.modules.media_dl.utils.instagram import HEADERS, GetInstagram
 from korone.modules.utils.filters.magic import Magic
 from korone.utils.i18n import gettext as _
 
@@ -26,11 +28,26 @@ class InstagramHandler(MessageHandler):
         )
 
     async def url_to_binary_io(self, url: str) -> io.BytesIO:
-        async with aiohttp.ClientSession() as session:
-            session = await session.get(url)
-            content = await session.read()
+        async with aiohttp.ClientSession(headers=HEADERS) as session:
+            response = await session.get(url)
+            content = await response.read()
+
             file = io.BytesIO(content)
-            file.name = Path(urlparse(url).path).name.replace(".webp", ".jpeg")
+            file_path = Path(urlparse(url).path)
+            file.name = file_path.name
+
+            mime_type = mimetypes.guess_type(url)[0]
+            if mime_type and mime_type.startswith("video"):
+                return file
+
+            if file_path.suffix.lower() in {".webp", ".heic"}:
+                file.name = file_path.with_suffix(".jpeg").name
+                image = Image.open(file)
+                file_jpg = io.BytesIO()
+                image.convert("RGB").save(file_jpg, format="JPEG")
+                file_jpg.name = file.name
+                return file_jpg
+
             return file
 
     @router.message(
