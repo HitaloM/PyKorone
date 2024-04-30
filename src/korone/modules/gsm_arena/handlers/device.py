@@ -4,7 +4,6 @@
 import urllib.parse
 from contextlib import suppress
 from dataclasses import dataclass
-from datetime import timedelta
 
 from bs4 import BeautifulSoup
 from hairydogm.keyboard import InlineKeyboardBuilder
@@ -12,14 +11,12 @@ from hydrogram import Client
 from hydrogram.errors import MessageNotModified
 from hydrogram.types import CallbackQuery, InlineKeyboardButton, InlineKeyboardMarkup, Message
 
-from korone import cache
 from korone.decorators import router
 from korone.handlers.callback_query_handler import CallbackQueryHandler
 from korone.handlers.message_handler import MessageHandler
 from korone.modules.gsm_arena.callback_data import DevicePageCallback, GetDeviceCallback
 from korone.modules.utils.filters import Command, CommandObject
 from korone.modules.utils.pagination import Pagination
-from korone.utils.http import http_session
 from korone.utils.i18n import gettext as _
 
 
@@ -105,13 +102,8 @@ def create_pagination_layout(devices: list, query: str, page: int) -> InlineKeyb
     return layout.create(page, lines=8)
 
 
-def not_too_many_requests(result, args, kwargs, key=None) -> bool:
-    return result and "Too Many Requests" not in result.text
-
-
 class GSMArena(MessageHandler):
     @staticmethod
-    @cache(ttl=timedelta(days=1), condition=not_too_many_requests)
     async def fetch_and_parse(url: str, proxy: str | None = None) -> BeautifulSoup:
         response = await http_session.get(
             f"https://cors-bypass.amano.workers.dev/{url}",

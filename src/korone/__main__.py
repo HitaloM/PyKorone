@@ -2,13 +2,10 @@
 # Copyright (c) 2023-present Hitalo M. <https://github.com/HitaloM>
 
 import asyncio
-import sys
 
 import uvloop
-from cashews import CacheBackendInteractionError
 from hydrogram import idle
 
-from korone import cache
 from korone.client import AppParameters, Korone
 from korone.config import ConfigManager
 from korone.utils.logging import log
@@ -23,10 +20,6 @@ async def main() -> None:
     This function initializes the configuration, creates an instance of the Korone class,
     starts the client, waits for it to become idle, and then stops the client.
     """
-    try:
-        await cache.ping()
-    except (CacheBackendInteractionError, TimeoutError):
-        sys.exit(log.critical("Can't connect to RedisDB! Exiting..."))
 
     config = ConfigManager()
     config.init()

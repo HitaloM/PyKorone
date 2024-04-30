@@ -4,8 +4,6 @@
 import subprocess
 from pathlib import Path
 
-from cashews import cache
-
 from korone.utils.i18n import I18nNew as I18n
 from korone.utils.logging import log
 
@@ -19,8 +17,6 @@ __version__ = f"{commit_hash} ({commit_count})"
 
 app_dir = Path(__file__).parent.parent.parent
 locales_dir: Path = app_dir / "locales"
-
-cache.setup("redis://localhost", client_side=True)
 
 
 def create_i18n_instance(locales_dir: Path) -> I18n:

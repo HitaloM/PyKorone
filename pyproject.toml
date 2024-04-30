@@ -16,7 +16,6 @@ dependencies = [
     "polib>=1.2.0",
     "bs4>=0.0.1",
     "aiohttp[speedups]>=3.9.5",
-    "cashews[redis,speedup]>=7.0.2",
     "lxml>=5.2.1",
     "meval>=2.5",
     "magic-filter>=1.0.12",

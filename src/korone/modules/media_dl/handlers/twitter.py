@@ -12,7 +12,6 @@ from hydrogram import Client
 from hydrogram.types import InputMediaPhoto, InputMediaVideo, Message
 from magic_filter import F
 
-from korone import cache
 from korone.decorators import router
 from korone.handlers.message_handler import MessageHandler
 from korone.modules.utils.filters.magic import Magic
@@ -65,7 +64,6 @@ class TwitterHandler(MessageHandler):
         )
 
     @staticmethod
-    @cache(ttl=timedelta(hours=1))
     async def fetch_data(url: str) -> dict | None:
         response = await http_session.get(url)
         if response.status != 200:

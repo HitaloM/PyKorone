@@ -3,7 +3,6 @@
 
 import io
 import re
-from datetime import timedelta
 from pathlib import Path
 from urllib.parse import urlparse
 
@@ -12,7 +11,6 @@ from hydrogram import Client
 from hydrogram.types import InputMediaPhoto, InputMediaVideo, Message
 from magic_filter import F
 
-from korone import cache
 from korone.decorators import router
 from korone.handlers.message_handler import MessageHandler
 from korone.modules.media_dl.utils.instagram import GetInstagram
@@ -27,7 +25,6 @@ class InstagramHandler(MessageHandler):
             r"((?:https?:\/\/)?(?:www\.)?instagram\.com\/(?:p|reels|reel)\/([^/?#&]+)).*"
         )
 
-    @cache(ttl=timedelta(days=1))
     async def url_to_binary_io(self, url: str) -> io.BytesIO:
         session = await http_session.get(url)
         content = await session.read()
