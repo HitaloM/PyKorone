@@ -4,12 +4,14 @@
 import asyncio
 import os
 import sys
+import time
 from signal import SIGINT
 
 from hydrogram import Client
 from hydrogram.enums import ParseMode
 from hydrogram.types import Message
 
+from korone import redis
 from korone.decorators import router
 from korone.handlers.message_handler import MessageHandler
 from korone.modules.sudoers.utils import build_text, generate_document
@@ -58,3 +60,12 @@ class Shell(MessageHandler):
             return
 
         await message.reply_text(build_text(output), parse_mode=ParseMode.MARKDOWN)
+
+
+class PurgeCache(MessageHandler):
+    @router.message(Command("flushall") & IsSudo)
+    async def handle(self, client: Client, message: Message) -> None:
+        start_time = time.time()
+        start = await message.reply_text("Flushing cache...")
+        await redis.flushall()
+        await start.edit_text(f"Cache flushed in {time.time() - start_time:.2f} seconds.")

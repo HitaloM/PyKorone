@@ -50,8 +50,6 @@ class InstaData:
 
 
 class InstagramDataFetcher:
-    __slots__ = ("html_parser",)
-
     def __init__(self) -> None:
         self.html_parser = InstagramHtmlParser()
 
@@ -139,8 +137,6 @@ class InstagramDataFetcher:
 
 
 class InstagramHtmlParser:
-    __slots__ = ("html_parser",)
-
     def __init__(self) -> None:
         self.html_parser = BeautifulSoup
 
@@ -215,8 +211,6 @@ class InstagramHtmlParser:
 
 
 class InstagramCache:
-    __slots__ = ("redis",)
-
     def __init__(self) -> None:
         self.redis = redis
 
@@ -253,8 +247,6 @@ class InstagramCache:
 
 
 class GetInstagram:
-    __slots__ = ("cache", "data_fetcher")
-
     def __init__(self) -> None:
         self.data_fetcher = InstagramDataFetcher()
         self.cache = InstagramCache()
