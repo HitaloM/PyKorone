@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pykorone\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-04-23 21:03-0300\n"
-"PO-Revision-Date: 2024-04-25 01:56\n"
+"POT-Creation-Date: 2024-04-30 23:33-0300\n"
+"PO-Revision-Date: 2024-05-01 03:31\n"
 "Last-Translator: \n"
 "Language-Team: Arabic, Saudi Arabia\n"
 "MIME-Version: 1.0\n"
@@ -67,67 +67,67 @@ msgid "<b>Commands:</b>\n"
 " - /device &lt;device name&gt;: Returns the specifications of a device."
 msgstr ""
 
-#: src/korone/modules/gsm_arena/handlers/device.py:80
+#: src/korone/modules/gsm_arena/handlers/device.py:78
 msgid "Status"
 msgstr ""
 
-#: src/korone/modules/gsm_arena/handlers/device.py:81
+#: src/korone/modules/gsm_arena/handlers/device.py:79
 msgid "Network"
 msgstr ""
 
-#: src/korone/modules/gsm_arena/handlers/device.py:82
+#: src/korone/modules/gsm_arena/handlers/device.py:80
 msgid "Weight"
 msgstr ""
 
-#: src/korone/modules/gsm_arena/handlers/device.py:83
+#: src/korone/modules/gsm_arena/handlers/device.py:81
 msgid "Display"
 msgstr ""
 
-#: src/korone/modules/gsm_arena/handlers/device.py:84
+#: src/korone/modules/gsm_arena/handlers/device.py:82
 msgid "Chipset"
 msgstr ""
 
-#: src/korone/modules/gsm_arena/handlers/device.py:85
+#: src/korone/modules/gsm_arena/handlers/device.py:83
 msgid "Memory"
 msgstr ""
 
-#: src/korone/modules/gsm_arena/handlers/device.py:86
+#: src/korone/modules/gsm_arena/handlers/device.py:84
 msgid "Rear Camera"
 msgstr ""
 
-#: src/korone/modules/gsm_arena/handlers/device.py:87
+#: src/korone/modules/gsm_arena/handlers/device.py:85
 msgid "Front Camera"
 msgstr ""
 
-#: src/korone/modules/gsm_arena/handlers/device.py:88
+#: src/korone/modules/gsm_arena/handlers/device.py:86
 msgid "3.5mm jack"
 msgstr ""
 
-#: src/korone/modules/gsm_arena/handlers/device.py:89
+#: src/korone/modules/gsm_arena/handlers/device.py:87
 msgid "USB"
 msgstr ""
 
-#: src/korone/modules/gsm_arena/handlers/device.py:90
+#: src/korone/modules/gsm_arena/handlers/device.py:88
 msgid "Sensors"
 msgstr ""
 
-#: src/korone/modules/gsm_arena/handlers/device.py:91
+#: src/korone/modules/gsm_arena/handlers/device.py:89
 msgid "Battery"
 msgstr ""
 
-#: src/korone/modules/gsm_arena/handlers/device.py:92
+#: src/korone/modules/gsm_arena/handlers/device.py:90
 msgid "Charging"
 msgstr ""
 
-#: src/korone/modules/gsm_arena/handlers/device.py:215
+#: src/korone/modules/gsm_arena/handlers/device.py:200
 msgid "Please enter a phone name to search."
 msgstr ""
 
-#: src/korone/modules/gsm_arena/handlers/device.py:222
+#: src/korone/modules/gsm_arena/handlers/device.py:207
 msgid "No devices found."
 msgstr ""
 
-#: src/korone/modules/gsm_arena/handlers/device.py:232
+#: src/korone/modules/gsm_arena/handlers/device.py:217
 msgid "Search results for: <b>{device}</b>"
 msgstr ""
 
@@ -248,26 +248,12 @@ msgstr ""
 msgid "This action can only be performed by administrators."
 msgstr ""
 
-#: src/korone/modules/media_dl/__init__.py:10
-msgid "Media Downloader"
-msgstr ""
-
-#: src/korone/modules/media_dl/__init__.py:11
-msgid "Sometimes you want to show a funny video or photos to a friend, but that friend would need to access an external service.\n\n"
-"This module solves that problem by making PyKorone download images and videos from various sources and sending them to Telegram automatically."
-msgstr ""
-
-#: src/korone/modules/media_dl/__init__.py:17
-msgid "<b>Commands:</b>\n"
-"- /mds: Allows you to enable or disable the module."
-msgstr ""
-
-#: src/korone/modules/media_dl/handlers/instagram.py:61
-#: src/korone/modules/media_dl/handlers/instagram.py:81
+#: src/korone/modules/media_dl/handlers/instagram.py:84
+#: src/korone/modules/media_dl/handlers/instagram.py:110
 msgid "Open in Instagram"
 msgstr ""
 
-#: src/korone/modules/media_dl/handlers/twitter.py:130
+#: src/korone/modules/media_dl/handlers/twitter.py:146
 msgid "Open in Twitter"
 msgstr ""
 
