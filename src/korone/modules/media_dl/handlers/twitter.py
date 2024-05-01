@@ -16,7 +16,7 @@ from magic_filter import F
 from korone.decorators import router
 from korone.handlers.message_handler import MessageHandler
 from korone.modules.utils.filters.magic import Magic
-from korone.utils.cache import cached
+from korone.utils.cache import Cached
 from korone.utils.i18n import gettext as _
 
 
@@ -65,7 +65,7 @@ class TwitterHandler(MessageHandler):
         )
 
     @staticmethod
-    @cached()
+    @Cached()
     async def fetch_data(url: str) -> dict | None:
         async with httpx.AsyncClient(http2=True) as session:
             response = await session.get(url)
@@ -109,7 +109,7 @@ class TwitterHandler(MessageHandler):
         )
 
     @staticmethod
-    @cached()
+    @Cached()
     async def url_to_binary_io(url: str) -> io.BytesIO:
         async with httpx.AsyncClient(http2=True) as session:
             response = await session.get(url)

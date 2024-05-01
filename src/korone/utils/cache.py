@@ -5,39 +5,15 @@ import pickle
 from collections.abc import Callable
 from datetime import timedelta
 from functools import wraps
+from types import FunctionType
 from typing import Any
 
 from korone import redis
 
 
-def generate_cache_key(func_name: str, args: tuple, kwargs: dict) -> str:
+class Cached:
     """
-    Generate a unique cache key based on function name, arguments, and keyword arguments.
-
-    This function takes the name of a function, its positional arguments, and keyword arguments
-    and generates a unique cache key based on these inputs. The cache key is a string that
-    combines the function name, arguments, and keyword arguments.
-
-    Parameters
-    ----------
-    func_name : str
-        The name of the function.
-    args : tuple
-        The positional arguments passed to the function.
-    kwargs : dict
-        The keyword arguments passed to the function.
-
-    Returns
-    -------
-    str
-        The generated cache key.
-    """
-    return f"{func_name}:{args}:{kwargs}"
-
-
-def cached(ttl: timedelta = timedelta(hours=1)) -> Callable[[Callable], Callable]:
-    """
-    Decorator that caches the result of a function using Redis.
+    Decorator class that caches the result of a function using Redis.
 
     This decorator can be used to cache the result of a function using Redis.
     The cached result will be stored in Redis with a specified time-to-live (TTL).
@@ -51,15 +27,10 @@ def cached(ttl: timedelta = timedelta(hours=1)) -> Callable[[Callable], Callable
     ttl : timedelta, optional
         Time-to-live for the cached result. Default is 1 hour.
 
-    Returns
-    -------
-    function
-        Decorated function with caching functionality.
-
     Examples
     --------
-    >>> @cached(ttl=timedelta(minutes=1))
-    ... def expensive_function(x):
+    >>> @Cachedd(ttl=timedelta(minutes=1))
+    ... async def expensive_function(x):
     ...     # Some expensive computation
     ...     return result
 
@@ -68,7 +39,13 @@ def cached(ttl: timedelta = timedelta(hours=1)) -> Callable[[Callable], Callable
     cached result from Redis instead of executing the function again.
     """
 
-    def decorator(func: Callable) -> Callable:
+    __slots__ = ("cache", "ttl")
+
+    def __init__(self, ttl: timedelta = timedelta(hours=1)) -> None:
+        self.ttl: timedelta = ttl
+        self.cache: dict[str, str] = {}
+
+    def __call__(self, func: Callable) -> Callable:
         @wraps(func)
         async def wrapper(*args: tuple, **kwargs: dict) -> Any:
             """
@@ -89,39 +66,61 @@ def cached(ttl: timedelta = timedelta(hours=1)) -> Callable[[Callable], Callable
             Any
                 Result of the decorated function.
             """
-            cache_key = generate_cache_key(func.__name__, args, kwargs)
+            cache_key = self.generate_cache_key(func.__name__, args, kwargs)
 
             cached_result = await redis.get(cache_key)
             if cached_result is not None:
                 return pickle.loads(cached_result)
 
             result = await func(*args, **kwargs)
-            packed_value: bytes | str = pickle.dumps(result) or ""
-            expire_time = int(ttl.total_seconds())
+            packed_value = pickle.dumps(result) or ""
+            expire_time = int(self.ttl.total_seconds())
             await redis.set(cache_key, packed_value, expire_time)
 
             return result
 
-        @wraps(func)
-        async def clear(*args: tuple, **kwargs: dict) -> None:
-            """
-            Clear the cache for the decorated function.
-
-            Clears the cache for the decorated function by deleting the cached result
-            from Redis based on the function name and arguments.
-
-            Parameters
-            ----------
-            *args : tuple
-                Positional arguments passed to the decorated function.
-            **kwargs : dict
-                Keyword arguments passed to the decorated function.
-            """
-            key = generate_cache_key(func.__name__, args, kwargs)
-            await redis.delete(key)
-
-        setattr(wrapper, "clear", clear)
-
         return wrapper
 
-    return decorator
+    async def clear(self, func: FunctionType, *args: tuple, **kwargs: dict) -> None:
+        """
+        Clear the cache for the decorated function.
+
+        Clears the cache for the decorated function by deleting the cached result
+        from Redis based on the function name and arguments.
+
+        Parameters
+        ----------
+        func : Callable
+            The decorated function.
+        *args : tuple
+            Positional arguments passed to the decorated function.
+        **kwargs : dict
+            Keyword arguments passed to the decorated function.
+        """
+        key = self.generate_cache_key(func.__name__, args, kwargs)
+        await redis.delete(key)
+
+    @staticmethod
+    def generate_cache_key(name: str, args: tuple, kwargs: dict) -> str:
+        """
+        Generate a unique cache key based on function name, arguments, and keyword arguments.
+
+        This function takes the name of a function, its positional arguments, and keyword arguments
+        and generates a unique cache key based on these inputs. The cache key is a string that
+        combines the function name, arguments, and keyword arguments.
+
+        Parameters
+        ----------
+        name : str
+            The name of the function.
+        args : tuple
+            The positional arguments passed to the function.
+        kwargs : dict
+            The keyword arguments passed to the function.
+
+        Returns
+        -------
+        str
+            The generated cache key.
+        """
+        return f"{name}:{args}:{kwargs}"

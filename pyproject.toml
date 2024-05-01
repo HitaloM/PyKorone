@@ -18,7 +18,7 @@ dependencies = [
     "lxml>=5.2.1",
     "meval>=2.5",
     "magic-filter>=1.0.12",
-    "orjson>=3.10.1",
+    "orjson>=3.10.2",
     "esprima>=4.0.1",
     "pillow>=10.3.0",
     "httpx[http2,socks,brotli]>=0.27.0",
@@ -34,12 +34,12 @@ build-backend = "hatchling.build"
 
 [tool.rye]
 managed = true
-dev-dependencies = ["pre-commit>=3.7.0", "ruff>=0.4.1"]
+dev-dependencies = ["pre-commit>=3.7.0", "ruff>=0.4.2"]
 
 [project.optional-dependencies]
 docs = [
-    "Sphinx>=7.3.7",
-    "furo>=2024.1.29",
+    "sphinx>=7.3.7",
+    "furo>=2024.4.27",
     "sphinx-autobuild>=2024.4.16",
     "sphinx-copybutton>=0.5.2",
     "pygments>=2.17.2",

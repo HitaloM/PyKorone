@@ -18,7 +18,7 @@ from korone.handlers.message_handler import MessageHandler
 from korone.modules.gsm_arena.callback_data import DevicePageCallback, GetDeviceCallback
 from korone.modules.utils.filters import Command, CommandObject
 from korone.modules.utils.pagination import Pagination
-from korone.utils.cache import cached
+from korone.utils.cache import Cached
 from korone.utils.i18n import gettext as _
 
 HEADERS: dict[str, str] = {
@@ -112,7 +112,7 @@ def create_pagination_layout(devices: list, query: str, page: int) -> InlineKeyb
 
 class GSMArena(MessageHandler):
     @staticmethod
-    @cached()
+    @Cached()
     async def fetch_and_parse(url: str, proxy: str | None = None) -> str:
         async with httpx.AsyncClient(headers=HEADERS, http2=True) as session:
             response = await session.get(

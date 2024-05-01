@@ -1,6 +1,7 @@
 # SPDX-License-Identifier: BSD-3-Clause
 # Copyright (c) 2023-present Hitalo M. <https://github.com/HitaloM>
 
+import pickle
 import re
 from dataclasses import dataclass
 from datetime import timedelta
@@ -49,6 +50,8 @@ class InstaData:
 
 
 class InstagramDataFetcher:
+    __slots__ = ("html_parser",)
+
     def __init__(self) -> None:
         self.html_parser = InstagramHtmlParser()
 
@@ -136,6 +139,11 @@ class InstagramDataFetcher:
 
 
 class InstagramHtmlParser:
+    __slots__ = ("html_parser",)
+
+    def __init__(self) -> None:
+        self.html_parser = BeautifulSoup
+
     def gq_text_new_line(self, s: Tag | PageElement | None) -> str:
         if s is None:
             return ""
@@ -152,7 +160,7 @@ class InstagramHtmlParser:
         return "".join(result)
 
     def parse_embed_html(self, embed_html: str) -> bytes:
-        doc = BeautifulSoup(embed_html, "lxml")
+        doc = self.html_parser(embed_html, "lxml")
         typename, media_url = self.get_typename_and_media_url(doc)
         username = self.get_username(doc)
         caption = self.get_caption(doc)
@@ -207,7 +215,9 @@ class InstagramHtmlParser:
 
 
 class InstagramCache:
-    def __init__(self):
+    __slots__ = ("redis",)
+
+    def __init__(self) -> None:
         self.redis = redis
 
     async def get(self, post_id: str) -> InstaData | None:
@@ -218,16 +228,12 @@ class InstagramCache:
 
     async def set(self, post_id: str, data: InstaData) -> None:
         try:
+            cache_data = vars(data)
+            cache_data["medias"] = [m.__dict__ for m in data.medias]
+            pickled_data = pickle.dumps(cache_data)
             await self.redis.set(
                 name=post_id,
-                value=orjson.dumps(
-                    {
-                        "post_id": data.post_id,
-                        "username": data.username,
-                        "caption": data.caption,
-                        "medias": [m.__dict__ for m in data.medias],
-                    },
-                ),
+                value=pickled_data,
                 ex=int(timedelta(days=1).total_seconds()),
             )
         except Exception as err:
@@ -235,21 +241,20 @@ class InstagramCache:
             raise InstaError(err)
 
     def process_cached_data(self, cache_insta_data: Any, post_id: str) -> InstaData | None:
-        try:
-            cache_data = orjson.loads(cache_insta_data)
-            insta_data = InstaData(
-                post_id=cache_data.get("post_id"),
-                username=cache_data.get("username"),
-                caption=cache_data.get("caption"),
-                medias=[Media(**m) for m in cache_data.get("medias")],
-            )
-            log.debug("Data loaded from cache for postID: %s", post_id)
-            return insta_data
-        except InstaError as err:
-            raise err
+        unpickled_data = pickle.loads(cache_insta_data)
+        insta_data = InstaData(
+            post_id=unpickled_data.get("post_id"),
+            username=unpickled_data.get("username"),
+            caption=unpickled_data.get("caption"),
+            medias=[Media(**m) for m in unpickled_data.get("medias")],
+        )
+        log.debug("Data loaded from cache for postID: %s", post_id)
+        return insta_data
 
 
 class GetInstagram:
+    __slots__ = ("cache", "data_fetcher")
+
     def __init__(self) -> None:
         self.data_fetcher = InstagramDataFetcher()
         self.cache = InstagramCache()
