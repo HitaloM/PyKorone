@@ -4,6 +4,7 @@
 import io
 import mimetypes
 import re
+from datetime import timedelta
 from pathlib import Path
 from urllib.parse import urlparse
 
@@ -18,6 +19,7 @@ from korone.decorators import router
 from korone.handlers.message_handler import MessageHandler
 from korone.modules.media_dl.utils.instagram import HEADERS, TIMEOUT, GetInstagram
 from korone.modules.utils.filters.magic import Magic
+from korone.utils.cache import cached
 from korone.utils.i18n import gettext as _
 
 
@@ -27,7 +29,9 @@ class InstagramHandler(MessageHandler):
             r"((?:https?:\/\/)?(?:www\.)?instagram\.com\/(?:p|reels|reel)\/([^/?#&]+)).*"
         )
 
-    async def url_to_binary_io(self, url: str) -> io.BytesIO:
+    @staticmethod
+    @cached(timedelta(days=1))
+    async def url_to_binary_io(url: str) -> io.BytesIO:
         async with httpx.AsyncClient(headers=HEADERS, timeout=TIMEOUT, http2=True) as session:
             response = await session.get(url)
             content = response.read()

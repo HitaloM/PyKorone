@@ -2,10 +2,13 @@
 # Copyright (c) 2023-present Hitalo M. <https://github.com/HitaloM>
 
 import asyncio
+import sys
 
 import uvloop
 from hydrogram import idle
+from redis.exceptions import TimeoutError as RedisTimeoutError
 
+from korone import redis
 from korone.client import AppParameters, Korone
 from korone.config import ConfigManager
 from korone.utils.logging import log
@@ -20,6 +23,10 @@ async def main() -> None:
     This function initializes the configuration, creates an instance of the Korone class,
     starts the client, waits for it to become idle, and then stops the client.
     """
+    try:
+        await redis.ping()
+    except RedisTimeoutError:
+        sys.exit(log.critical("Can't connect to RedisDB! Exiting..."))
 
     config = ConfigManager()
     config.init()

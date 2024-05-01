@@ -18,6 +18,7 @@ from korone.handlers.message_handler import MessageHandler
 from korone.modules.gsm_arena.callback_data import DevicePageCallback, GetDeviceCallback
 from korone.modules.utils.filters import Command, CommandObject
 from korone.modules.utils.pagination import Pagination
+from korone.utils.cache import cached
 from korone.utils.i18n import gettext as _
 
 HEADERS: dict[str, str] = {
@@ -111,13 +112,13 @@ def create_pagination_layout(devices: list, query: str, page: int) -> InlineKeyb
 
 class GSMArena(MessageHandler):
     @staticmethod
-    async def fetch_and_parse(url: str, proxy: str | None = None) -> BeautifulSoup:
+    @cached()
+    async def fetch_and_parse(url: str, proxy: str | None = None) -> str:
         async with httpx.AsyncClient(headers=HEADERS, http2=True) as session:
             response = await session.get(
                 f"https://cors-bypass.amano.workers.dev/{url}",
             )
-            html = response.text
-            return BeautifulSoup(html, "lxml")
+            return response.text
 
     @staticmethod
     def extract_specs(specs_tables: list) -> dict[str, str]:
@@ -149,7 +150,8 @@ class GSMArena(MessageHandler):
         search_url = (
             f"https://m.gsmarena.com/results.php3?sQuickSearch=yes&sName={phone_html_encoded}"
         )
-        soup = await self.fetch_and_parse(search_url)
+        html = await self.fetch_and_parse(search_url)
+        soup = BeautifulSoup(html, "lxml")
         found_phones = soup.select("div.general-menu.material-card ul li")
 
         return [
@@ -162,7 +164,8 @@ class GSMArena(MessageHandler):
 
     async def check_phone_details(self, url: str):
         url = f"https://www.gsmarena.com/{url}"
-        soup = await GSMArena().fetch_and_parse(url)
+        html = await GSMArena().fetch_and_parse(url)
+        soup = BeautifulSoup(html, "lxml")
         specs_tables = soup.findAll("table", {"cellspacing": "0"})
 
         phone_specs_temp = self.extract_specs(specs_tables)

@@ -160,22 +160,23 @@ def register_handler(client: Client, module: ModuleType) -> bool:
     success = False
 
     for cls, func in function_list:
-        method = bfs_attr_search(cls, func.__name__)
-        if not callable(method):
-            continue
+        if hasattr(cls, func.__name__):
+            method = bfs_attr_search(cls, func.__name__)
+            if not callable(method):
+                continue
 
-        if hasattr(method, "handlers"):
-            method_callable = get_method_callable(cls, func.__name__)
+            if hasattr(method, "handlers"):
+                method_callable = get_method_callable(cls, func.__name__)
 
-            handler: HandlerObject = bfs_attr_search(method, "handlers")
-            filters = handler.filters
-            group = handler.group
+                handler: HandlerObject = bfs_attr_search(method, "handlers")
+                filters = handler.filters
+                group = handler.group
 
-            client.add_handler(handler.event(method_callable, filters), group)
+                client.add_handler(handler.event(method_callable, filters), group)
 
-            log.debug("Handler registered", handler=handler)
+                log.debug("Handler registered", handler=handler)
 
-            success = True
+                success = True
 
     return success
 

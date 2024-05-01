@@ -3,6 +3,7 @@
 
 import re
 from dataclasses import dataclass
+from datetime import timedelta
 from typing import Any, Literal
 
 import esprima
@@ -10,6 +11,7 @@ import httpx
 import orjson
 from bs4 import BeautifulSoup, NavigableString, PageElement, Tag
 
+from korone import redis
 from korone.utils.logging import log
 
 TIMEOUT: int = 20
@@ -204,13 +206,66 @@ class InstagramHtmlParser:
         })
 
 
+class InstagramCache:
+    def __init__(self):
+        self.redis = redis
+
+    async def get(self, post_id: str) -> InstaData | None:
+        cache_insta_data = await self.redis.get(post_id)
+        if cache_insta_data:
+            return self.process_cached_data(cache_insta_data, post_id)
+        return None
+
+    async def set(self, post_id: str, data: InstaData) -> None:
+        try:
+            await self.redis.set(
+                name=post_id,
+                value=orjson.dumps(
+                    {
+                        "post_id": data.post_id,
+                        "username": data.username,
+                        "caption": data.caption,
+                        "medias": [m.__dict__ for m in data.medias],
+                    },
+                ),
+                ex=int(timedelta(days=1).total_seconds()),
+            )
+        except Exception as err:
+            log.error("Failed to set cache for postID %s: %s", post_id, err)
+            raise InstaError(err)
+
+    def process_cached_data(self, cache_insta_data: Any, post_id: str) -> InstaData | None:
+        try:
+            cache_data = orjson.loads(cache_insta_data)
+            insta_data = InstaData(
+                post_id=cache_data.get("post_id"),
+                username=cache_data.get("username"),
+                caption=cache_data.get("caption"),
+                medias=[Media(**m) for m in cache_data.get("medias")],
+            )
+            log.debug("Data loaded from cache for postID: %s", post_id)
+            return insta_data
+        except InstaError as err:
+            raise err
+
+
 class GetInstagram:
     def __init__(self) -> None:
         self.data_fetcher = InstagramDataFetcher()
+        self.cache = InstagramCache()
 
     async def get_data(self, post_id: str) -> InstaData:
+        cached_data = await self.cache.get(post_id)
+        if cached_data is not None:
+            return cached_data
+
         data = await self.fetch_data(post_id)
-        return self.process_data(data, post_id)
+
+        insta_data = self.process_data(data, post_id)
+
+        await self.cache.set(post_id, insta_data)
+
+        return insta_data
 
     async def fetch_data(self, post_id: str) -> dict[str, Any]:
         data = await self.data_fetcher.get_data(post_id)
