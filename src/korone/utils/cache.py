@@ -29,7 +29,7 @@ class Cached:
 
     Examples
     --------
-    >>> @Cachedd(ttl=timedelta(minutes=1))
+    >>> @Cached(ttl=timedelta(minutes=1))
     ... async def expensive_function(x):
     ...     # Some expensive computation
     ...     return result
