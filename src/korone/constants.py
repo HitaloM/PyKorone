@@ -5,6 +5,8 @@ import os
 from pathlib import Path
 from typing import Any
 
+from korone.config import ConfigManager
+
 CLIENT_NAME: str = "Korone"
 """The default client name.
 
@@ -90,6 +92,7 @@ CREATE TABLE IF NOT EXISTS Users (
 );
 CREATE TABLE IF NOT EXISTS Groups (
     id INTEGER PRIMARY KEY,
+    username TEXT,
     type TEXT,
     language VARCHAR(2) NOT NULL DEFAULT "en",
     registry_date INTEGER NOT NULL
@@ -121,4 +124,12 @@ TELEGRAM_URL: str = "https://t.me/HitaloProjects"
 """The URL to the Telegram channel.
 
 :type: str
+"""
+
+BOT_ID: int = ConfigManager().get("hydrogram", "BOT_TOKEN").split(":", 1)[0]
+"""The bot ID.
+
+The bot ID is the first part of the bot token.
+
+:type: int
 """

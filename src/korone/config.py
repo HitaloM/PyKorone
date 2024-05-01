@@ -27,7 +27,7 @@ class ConfigManager:
     def __init__(self):
         self.config: dict[str, Any] = constants.DEFAULT_CONFIG_TEMPLATE
 
-    def init(self, cfgpath: str = constants.DEFAULT_CONFIG_PATH) -> None:
+    def init(self, cfgpath: str) -> None:
         """
         Initialize the configuration module.
 

@@ -8,7 +8,7 @@ from hydrogram.filters import Filter
 from hydrogram.handlers import CallbackQueryHandler, MessageHandler
 
 from korone.decorators.database import DatabaseManager
-from korone.decorators.i18n import LocaleManager
+from korone.decorators.save_chats import ChatManager
 
 
 @dataclass(frozen=True, slots=True)
@@ -63,12 +63,12 @@ class Factory:
         A dictionary that stores the events observed by the factory.
     """
 
-    __slots__ = ("database_manager", "event_name", "events_observed", "locale_manager")
+    __slots__ = ("chat_manager", "database_manager", "event_name", "events_observed")
 
     def __init__(self, event_name: str) -> None:
         self.event_name = event_name
         self.database_manager = DatabaseManager()
-        self.locale_manager = LocaleManager()
+        self.chat_manager = ChatManager()
 
         self.events_observed = {
             "message": MessageHandler,
@@ -104,6 +104,6 @@ class Factory:
                 func, filters, group, self.events_observed[self.event_name]
             )
 
-            return self.locale_manager.use_gettext(func)
+            return self.chat_manager.handle_chat(func)
 
         return wrapper

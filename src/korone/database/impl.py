@@ -105,8 +105,7 @@ class SQLite3Table:
         query : Query
             The query that specifies the criteria.
         """
-        pairs = list(fields.items())
-
+        pairs = [(key, value) for key, value in fields.items() if value is not None]
         assignments = ", ".join(f"{key} = ?" for key, _ in pairs)
         values = [value for _, value in pairs]
 
