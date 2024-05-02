@@ -13,6 +13,7 @@ import orjson
 from bs4 import BeautifulSoup, NavigableString, PageElement, Tag
 
 from korone import redis
+from korone.config import ConfigManager
 from korone.utils.logging import log
 
 TIMEOUT: int = 20
@@ -66,18 +67,31 @@ class InstagramDataFetcher:
 
         return await self.get_embed_html_data(response, post_id)
 
-    @staticmethod
-    async def get_response(url: str) -> httpx.Response | None:
+    async def _get_response(self, url: str, proxy: str | None = None):
+        try:
+            async with httpx.AsyncClient(
+                headers=HEADERS, timeout=TIMEOUT, http2=True, proxy=proxy
+            ) as session:
+                response = await session.get(url)
+                if response.status_code == 200 and response.text:
+                    return response
+        except httpx.ConnectError as e:
+            log.error("Failed to get response: %s", e)
+        return None
+
+    async def get_response(self, url: str) -> httpx.Response | None:
+        proxies = ConfigManager.get("korone", "PROXIES")
+
         for _ in range(3):
-            try:
-                async with httpx.AsyncClient(
-                    headers=HEADERS, timeout=TIMEOUT, http2=True
-                ) as session:
-                    response = await session.get(url)
-                    if response.status_code == 200 and response.text:
-                        return response
-            except httpx.ConnectError as e:
-                log.error("Failed to get response: %s", e)
+            response = await self._get_response(url, None)
+            if response is not None:
+                return response
+
+        for proxy in proxies:
+            for _ in range(3):
+                response = await self._get_response(url, proxy)
+                if response is not None:
+                    return response
         return None
 
     @staticmethod
@@ -222,8 +236,12 @@ class InstagramCache:
 
     async def set(self, post_id: str, data: InstaData) -> None:
         try:
-            cache_data = vars(data)
-            cache_data["medias"] = [m.__dict__ for m in data.medias]
+            cache_data = {
+                "post_id": data.post_id,
+                "username": data.username,
+                "caption": data.caption,
+                "medias": [m.__dict__ for m in data.medias],
+            }
             pickled_data = pickle.dumps(cache_data)
             await self.redis.set(
                 name=post_id,
@@ -236,11 +254,12 @@ class InstagramCache:
 
     def process_cached_data(self, cache_insta_data: Any, post_id: str) -> InstaData | None:
         unpickled_data = pickle.loads(cache_insta_data)
+        medias = [Media(**m) for m in unpickled_data.get("medias")]
         insta_data = InstaData(
             post_id=unpickled_data.get("post_id"),
             username=unpickled_data.get("username"),
             caption=unpickled_data.get("caption"),
-            medias=[Media(**m) for m in unpickled_data.get("medias")],
+            medias=medias,
         )
         log.debug("Data loaded from cache for postID: %s", post_id)
         return insta_data
