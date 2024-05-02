@@ -22,19 +22,22 @@ from korone.modules.utils.filters.magic import Magic
 from korone.utils.cache import Cached
 from korone.utils.i18n import gettext as _
 
+URL_PATTERN = re.compile(
+    r"(?:https?://)?(?:www\.)?instagram\.com/(?:[^/?#&]+/)?(?:p|reels|reel)/([^/?#&]+).*"
+)
+
 
 class InstagramHandler(MessageHandler):
-    def __init__(self) -> None:
-        self.url_pattern = re.compile(
-            r"((?:https?:\/\/)?(?:www\.)?instagram\.com\/(?:p|reels|reel)\/([^/?#&]+)).*"
-        )
-
     @staticmethod
     @Cached(timedelta(days=1))
     async def url_to_binary_io(url: str) -> io.BytesIO:
         async with httpx.AsyncClient(timeout=TIMEOUT, http2=True) as session:
-            proxy = await session.get(f"https://envoy.lol/{url}")
-            response = proxy if proxy.status_code == 200 else await session.get(url)
+            mime_type = mimetypes.guess_type(url)[0]
+            if mime_type and mime_type.startswith("video"):
+                proxy = await session.get(f"https://envoy.lol/{url}")
+                response = proxy if proxy.status_code == 200 else await session.get(url)
+            else:
+                response = await session.get(url)
 
             content = response.read()
 
@@ -42,7 +45,6 @@ class InstagramHandler(MessageHandler):
             file_path = Path(urlparse(url).path)
             file.name = file_path.name
 
-            mime_type = mimetypes.guess_type(url)[0]
             if mime_type and mime_type.startswith("video"):
                 return file
 
@@ -56,19 +58,13 @@ class InstagramHandler(MessageHandler):
 
             return file
 
-    @router.message(
-        Magic(
-            F.text.regexp(
-                r"(?:https?:\/\/)?(?:www\.)?instagram\.com\/(?:p|reels|reel)\/([^/?#&]+).*"
-            )
-        )
-    )
+    @router.message(Magic(F.text.regexp(URL_PATTERN)))
     async def handle(self, client: Client, message: Message) -> None:
-        post_url = self.url_pattern.search(message.text)
+        post_url = URL_PATTERN.search(message.text)
         if not post_url:
             return
 
-        post_id = post_url.group(2)
+        post_id = post_url.group(1)
         if not post_id:
             return
         if not re.match(r"^[A-Za-z0-9\-_]+$", post_id):
