@@ -5,7 +5,6 @@ import pickle
 from collections.abc import Callable
 from datetime import timedelta
 from functools import wraps
-from types import FunctionType
 from typing import Any
 
 from korone import redis
@@ -81,7 +80,7 @@ class Cached:
 
         return wrapper
 
-    async def clear(self, func: FunctionType, *args: tuple, **kwargs: dict) -> None:
+    async def clear(self, func: Callable, *args: Any, **kwargs: Any) -> None:
         """
         Clear the cache for the decorated function.
 
@@ -92,9 +91,9 @@ class Cached:
         ----------
         func : Callable
             The decorated function.
-        *args : tuple
+        *args : Any
             Positional arguments passed to the decorated function.
-        **kwargs : dict
+        **kwargs : Any
             Keyword arguments passed to the decorated function.
         """
         key = self.generate_cache_key(func.__name__, args, kwargs)

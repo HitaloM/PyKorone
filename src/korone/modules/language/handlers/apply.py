@@ -6,6 +6,7 @@ from hydrogram import Client
 from hydrogram.enums import ChatType
 from hydrogram.types import CallbackQuery
 
+from korone import redis
 from korone.constants import CROWDIN_URL, GITHUB_URL
 from korone.database.impl import SQLite3Connection
 from korone.database.query import Query
@@ -31,6 +32,11 @@ class ApplyLanguage(CallbackQueryHandler):
         language: str = SetLangCallback.unpack(callback.data).lang
 
         await self.set_chat_language(is_private, callback, language)
+
+        chat = callback.message.chat
+        cache_key = f"locale_cache:{chat.id}"
+        await redis.delete(cache_key)
+
         text, keyboard = await self.prepare_response(language)
 
         await callback.message.edit_text(

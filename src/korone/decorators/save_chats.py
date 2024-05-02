@@ -1,6 +1,7 @@
 # SPDX-License-Identifier: BSD-3-Clause
 # Copyright (c) 2023-present Hitalo M. <https://github.com/HitaloM>
 
+import pickle
 from collections.abc import Callable
 from functools import wraps
 
@@ -9,9 +10,8 @@ from babel.core import UnknownLocaleError
 from hydrogram.enums import ChatType
 from hydrogram.types import CallbackQuery, Chat, Message, User
 
-from korone import i18n
+from korone import i18n, redis
 from korone.config import ConfigManager
-from korone.database.table import Documents
 from korone.decorators.database import DatabaseManager
 
 
@@ -33,47 +33,62 @@ class ChatManager:
     def __init__(self) -> None:
         self.database_manager = DatabaseManager()
 
-    @staticmethod
-    def get_locale(db_obj: Documents) -> str:
+    async def get_locale(self, chat: User | Chat) -> str:
         """
-        Get the locale based on the database object.
+        Get the locale based on the user and message.
 
-        This method returns the locale based on the database object. If the database object
-        is empty, it returns the default locale. If the locale is not available, it returns
-        the default locale.
+        This method returns the locale based on the user and message. If the user or chat
+        is not a bot, it retrieves the database object and gets the locale from it. If the
+        database object is empty, it returns the default locale. If the locale is not available,
+        it returns the default locale.
 
         Parameters
         ----------
-        db_obj : Documents
-            The database object.
+        chat : User | Chat
+            The user or chat object.
 
         Returns
         -------
         str
-            The locale based on the database object.
+            The locale based on the user or chat.
 
         Raises
         ------
         UnknownLocaleError
             If the locale identifier is invalid.
         """
+        cache_key = f"locale_cache:{chat.id}"
+        cached_data = await redis.get(cache_key)
+        if cached_data:
+            return pickle.loads(cached_data)
+
+        db_obj = None
+        if (isinstance(chat, User) and not chat.is_bot) or (
+            isinstance(chat, Chat) and chat.type in (ChatType.GROUP, ChatType.SUPERGROUP)
+        ):
+            db_obj = await self.database_manager.get(chat)
+
         try:
-            if "_" not in db_obj[0]["language"]:
+            if db_obj and "_" not in db_obj[0]["language"]:
                 locale = (
                     Locale.parse(db_obj[0]["language"], sep="-") if db_obj else i18n.default_locale
                 )
-            else:
+            elif db_obj:
                 locale = Locale.parse(db_obj[0]["language"])
 
-            if isinstance(locale, Locale):
+            if db_obj and isinstance(locale, Locale):
                 locale = f"{locale.language}_{locale.territory}"
-            if locale not in i18n.available_locales:
+            if db_obj and locale not in i18n.available_locales:
                 raise UnknownLocaleError("Invalid locale identifier")
 
         except UnknownLocaleError:
             locale = i18n.default_locale
 
-        return locale
+        pickled_data = pickle.dumps(locale)
+        ttl = 86400  # 24 hours
+        await redis.set(cache_key, pickled_data, ttl)
+
+        return str(locale)
 
     async def _handle_private_and_group_message(self, chat_id: int, message: Message) -> None:
         """
@@ -199,18 +214,17 @@ class ChatManager:
             message = update.message if is_callback else update
             user: User = update.from_user if is_callback else message.from_user
 
-            if message:
-                await self.handle_message(message)
             if is_callback:
-                await self.save_from_user(update.from_user)
+                await self.save_from_user(user)
+            else:
+                await self.handle_message(message)
 
-            db_obj = None
-            if user and not user.is_bot:
-                db_obj = await self.database_manager.get(user)
-            if message.chat and message.chat.type in (ChatType.GROUP, ChatType.SUPERGROUP):
-                db_obj = await self.database_manager.get(message.chat)
+            locale = i18n.default_locale
+            if message.chat.type == ChatType.PRIVATE and user and not user.is_bot:
+                locale = await self.get_locale(user)
+            elif message.chat.type in {ChatType.GROUP, ChatType.SUPERGROUP}:
+                locale = await self.get_locale(message.chat)
 
-            locale = self.get_locale(db_obj) if db_obj else i18n.default_locale
             with i18n.context(), i18n.use_locale(locale):
                 return await func(*args, **kwargs)
 

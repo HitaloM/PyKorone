@@ -29,7 +29,6 @@ async def main() -> None:
         sys.exit(log.critical("Can't connect to RedisDB! Exiting..."))
 
     config = ConfigManager()
-
     params = AppParameters(
         api_id=config.get("hydrogram", "API_ID"),
         api_hash=config.get("hydrogram", "API_HASH"),
