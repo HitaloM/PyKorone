@@ -319,8 +319,20 @@ class GetInstagram:
     def process_data(self, item: dict[str, Any], post_id: str):
         media = self.get_media(item)
 
-        username = item["owner"]["username"]
-        caption = item["edge_media_to_caption"]["edges"][0]["node"]["text"].strip()
+        username = item["owner"]["username"] if item.get("owner") else ""
+        caption = ""
+        if item.get("edge_media_to_caption") and item["edge_media_to_caption"]["edges"]:
+            caption_node = item["edge_media_to_caption"]["edges"][0].get("node")
+            if caption_node and caption_node.get("text"):
+                caption = caption_node["text"]
+                if caption is not None:
+                    caption = caption.strip()
+
+        if not username:
+            raise NotFoundError("username not found")
+
+        if not caption:
+            raise NotFoundError("caption not found")
 
         return InstaData(
             post_id=post_id,
