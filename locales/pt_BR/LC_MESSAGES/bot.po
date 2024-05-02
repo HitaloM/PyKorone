@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pykorone\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-04-30 23:33-0300\n"
-"PO-Revision-Date: 2024-05-01 03:31\n"
+"POT-Creation-Date: 2024-05-02 10:01-0300\n"
+"PO-Revision-Date: 2024-05-02 13:25\n"
 "Last-Translator: \n"
 "Language-Team: Portuguese, Brazilian\n"
 "MIME-Version: 1.0\n"
@@ -260,12 +260,17 @@ msgstr "Por favor, selecione o idioma que você deseja usar para o chat."
 msgid "This action can only be performed by administrators."
 msgstr "Esta ação só pode ser realizada por administradores."
 
-#: src/korone/modules/media_dl/handlers/instagram.py:84
-#: src/korone/modules/media_dl/handlers/instagram.py:110
+#: src/korone/modules/media_dl/handlers/instagram.py:80
+#: src/korone/modules/media_dl/handlers/twitter.py:134
+msgid "Oops! Something went wrong while fetching the post."
+msgstr ""
+
+#: src/korone/modules/media_dl/handlers/instagram.py:90
+#: src/korone/modules/media_dl/handlers/instagram.py:116
 msgid "Open in Instagram"
 msgstr ""
 
-#: src/korone/modules/media_dl/handlers/twitter.py:146
+#: src/korone/modules/media_dl/handlers/twitter.py:147
 msgid "Open in Twitter"
 msgstr ""
 
