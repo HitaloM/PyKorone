@@ -131,6 +131,7 @@ class TwitterHandler(MessageHandler):
         vx_url = re.sub(r"(www\.|)(twitter\.com|x\.com)", "api.vxtwitter.com", url.group())
         data = await self.fetch_data(vx_url)
         if not data:
+            await message.reply_text(_("Oops! Something went wrong while fetching the post."))
             return
 
         tweet = await self.parse_data(data)

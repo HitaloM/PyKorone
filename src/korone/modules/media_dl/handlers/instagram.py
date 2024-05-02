@@ -17,7 +17,11 @@ from PIL import Image
 
 from korone.decorators import router
 from korone.handlers.message_handler import MessageHandler
-from korone.modules.media_dl.utils.instagram import TIMEOUT, GetInstagram
+from korone.modules.media_dl.utils.instagram import (
+    TIMEOUT,
+    GetInstagram,
+    NotFoundError,
+)
 from korone.modules.utils.filters.magic import Magic
 from korone.utils.cache import Cached
 from korone.utils.i18n import gettext as _
@@ -70,7 +74,11 @@ class InstagramHandler(MessageHandler):
         if not re.match(r"^[A-Za-z0-9\-_]+$", post_id):
             return
 
-        insta = await GetInstagram().get_data(post_id)
+        try:
+            insta = await GetInstagram().get_data(post_id)
+        except NotFoundError:
+            await message.reply_text(_("Oops! Something went wrong while fetching the post."))
+            return
 
         if len(insta.medias) == 1:
             media = insta.medias[0]
