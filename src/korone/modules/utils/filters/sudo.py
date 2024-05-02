@@ -25,7 +25,7 @@ class IsSudo(Filter):
     __slots__ = ("client", "sudoers", "update")
 
     def __init__(self, client: Client, update: Message | CallbackQuery) -> None:
-        self.sudoers: list[int] = ConfigManager().get("korone", "SUDOERS")
+        self.sudoers: list[int] = ConfigManager.get("korone", "SUDOERS")
         self.client = client
         self.update = update
 

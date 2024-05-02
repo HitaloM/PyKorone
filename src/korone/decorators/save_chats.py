@@ -9,7 +9,8 @@ from babel.core import UnknownLocaleError
 from hydrogram.enums import ChatType
 from hydrogram.types import CallbackQuery, Chat, Message, User
 
-from korone import constants, i18n
+from korone import i18n
+from korone.config import ConfigManager
 from korone.database.table import Documents
 from korone.decorators.database import DatabaseManager
 
@@ -280,12 +281,15 @@ class ChatManager:
 
         chats_to_update = []
 
+        bot_token = ConfigManager.get("hydrogram", "BOT_TOKEN")
+        bot_id = bot_token.split(":", 1)[0]
+
         replied_message_user = message.sender_chat or message.from_user
-        if replied_message_user and replied_message_user.id != constants.BOT_ID:
+        if replied_message_user and replied_message_user.id != bot_id:
             chats_to_update.append(replied_message_user)
 
         reply_to_forwarded = message.forward_from_chat or message.forward_from
-        if reply_to_forwarded and reply_to_forwarded.id != constants.BOT_ID:
+        if reply_to_forwarded and reply_to_forwarded.id != bot_id:
             chats_to_update.append(reply_to_forwarded)
 
         return chats_to_update

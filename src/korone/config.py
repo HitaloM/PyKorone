@@ -16,6 +16,11 @@ class ConfigManager:
 
     This class is responsible for managing the configuration settings of the application.
 
+    Parameters
+    ----------
+    cfgpath : str, optional
+        The path to the configuration file, by default constants.CONFIG_PATH.
+
     Attributes
     ----------
     config : dict[str, typing.Any]
@@ -23,11 +28,35 @@ class ConfigManager:
     """
 
     __slots__ = ("config",)
+    _instance: "ConfigManager | None" = None
 
-    def __init__(self):
-        self.config: dict[str, Any] = constants.DEFAULT_CONFIG_TEMPLATE
+    def __new__(cls, *args, **kwargs):
+        """
+        Create a new instance of the class.
 
-    def init(self, cfgpath: str) -> None:
+        This method overrides the built-in __new__ method to implement the Singleton pattern.
+        If an instance of the class does not already exist, it creates a new one and stores it
+        in the class variable _instance. If an instance already exists, it returns the existing
+        instance.
+
+        Parameters
+        ----------
+        *args : tuple
+            Variable length argument list.
+        **kwargs : dict
+            Arbitrary keyword arguments.
+
+        Returns
+        -------
+        ConfigManager
+            The existing instance of the class if it exists, otherwise a new instance.
+        """
+        if not isinstance(cls._instance, cls):
+            cls._instance = super().__new__(cls)
+
+        return cls._instance
+
+    def __init__(self, cfgpath: str = constants.DEFAULT_CONFIG_PATH):
         """
         Initialize the configuration module.
 
@@ -56,13 +85,14 @@ class ConfigManager:
             log.info("Could not find configuration file")
             try:
                 log.info("Creating configuration file")
-                rtoml.dump(self.config, config_path, pretty=True)
+                rtoml.dump(constants.DEFAULT_CONFIG_TEMPLATE, config_path, pretty=True)
             except OSError as err:
                 log.critical("Could not create configuration file: %s", err)
 
-        self.config = rtoml.loads(config_path.read_text(encoding="utf-8"))
+        self.config: dict[str, Any] = rtoml.loads(config_path.read_text(encoding="utf-8"))
 
-    def get(self, section: str, option: str, fallback: str = "") -> Any:
+    @classmethod
+    def get(cls, section: str, option: str, fallback: str = "") -> Any:
         """
         Retrieve a configuration option.
 
@@ -79,8 +109,10 @@ class ConfigManager:
 
         Returns
         -------
-        str
+        Any
             The value of the specified option. If the option is not found, returns the default
             value.
         """
-        return self.config.get(section, {}).get(option, fallback)
+        if cls._instance is None:
+            raise Exception("ConfigManager instance has not been initialized")
+        return cls._instance.config.get(section, {}).get(option, fallback)
