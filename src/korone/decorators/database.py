@@ -93,14 +93,15 @@ class DatabaseManager:
         table_name = await self.get_table_name(chat)
         if table_name:
             async with SQLite3Connection() as conn:
-                table = await conn.table(table_name)
-                query = Query()
-
                 language = language or i18n.default_locale
 
+                table = await conn.table(table_name)
+                query = Query()
                 obj = await table.query(query.id == chat.id)
                 if obj:
                     doc = await self._create_document(chat, language)
+                    doc["registry_date"] = obj[0]["registry_date"]
+                    doc["language"] = obj[0]["language"]
                     await table.update(doc, query.id == chat.id)
                 else:
                     doc = await self._create_document(chat, language)

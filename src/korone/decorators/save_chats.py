@@ -94,11 +94,11 @@ class ChatManager:
         -----
         This method is a private method and should not be called outside of the class.
         """
-        if message.chat.type == ChatType.PRIVATE and message.from_user:
+        if message.from_user and not message.from_user.is_bot:
             await self.database_manager.update_or_create(
                 message.from_user, message.from_user.language_code
             )
-        elif message.chat.type in {ChatType.GROUP, ChatType.SUPERGROUP}:
+        if message.chat.type in {ChatType.GROUP, ChatType.SUPERGROUP}:
             await self.database_manager.update_or_create(message.chat)
 
     async def _handle_message_update(self, chat_id: int, message: Message) -> list[Chat | User]:
@@ -129,7 +129,7 @@ class ChatManager:
 
         if reply_message := message.reply_to_message:
             chats_to_update.extend(await self.handle_replied_message(chat_id, reply_message))
-        elif message.forward_from or (
+        if message.forward_from or (
             message.forward_from_chat and message.forward_from_chat.id != chat_id
         ):
             chats_to_update.append(message.forward_from_chat or message.forward_from)
@@ -154,7 +154,8 @@ class ChatManager:
         """
         if message.new_chat_members:
             for member in message.new_chat_members:
-                await self.database_manager.update_or_create(member, member.language_code)
+                if not member.is_bot:
+                    await self.database_manager.update_or_create(member, member.language_code)
 
     async def _chats_update(self, chats: list[Chat | User]) -> None:
         """
@@ -198,16 +199,16 @@ class ChatManager:
             message = update.message if is_callback else update
             user: User = update.from_user if is_callback else message.from_user
 
+            if message:
+                await self.handle_message(message)
+            if is_callback:
+                await self.save_from_user(update.from_user)
+
             db_obj = None
             if user and not user.is_bot:
                 db_obj = await self.database_manager.get(user)
             if message.chat and message.chat.type in (ChatType.GROUP, ChatType.SUPERGROUP):
                 db_obj = await self.database_manager.get(message.chat)
-
-            if message:
-                await self.handle_message(message)
-            elif is_callback:
-                await self.save_from_user(update.from_user)
 
             locale = self.get_locale(db_obj) if db_obj else i18n.default_locale
             with i18n.context(), i18n.use_locale(locale):
@@ -285,11 +286,19 @@ class ChatManager:
         bot_id = bot_token.split(":", 1)[0]
 
         replied_message_user = message.sender_chat or message.from_user
-        if replied_message_user and replied_message_user.id != bot_id:
+        if (
+            replied_message_user
+            and replied_message_user.id != bot_id
+            and (isinstance(replied_message_user, Chat) or not replied_message_user.is_bot)
+        ):
             chats_to_update.append(replied_message_user)
 
         reply_to_forwarded = message.forward_from_chat or message.forward_from
-        if reply_to_forwarded and reply_to_forwarded.id != bot_id:
+        if (
+            reply_to_forwarded
+            and reply_to_forwarded.id != bot_id
+            and (isinstance(reply_to_forwarded, Chat) or not reply_to_forwarded.is_bot)
+        ):
             chats_to_update.append(reply_to_forwarded)
 
         return chats_to_update
