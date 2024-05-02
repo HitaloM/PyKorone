@@ -17,7 +17,7 @@ from PIL import Image
 
 from korone.decorators import router
 from korone.handlers.message_handler import MessageHandler
-from korone.modules.media_dl.utils.instagram import HEADERS, TIMEOUT, GetInstagram
+from korone.modules.media_dl.utils.instagram import TIMEOUT, GetInstagram
 from korone.modules.utils.filters.magic import Magic
 from korone.utils.cache import Cached
 from korone.utils.i18n import gettext as _
@@ -32,8 +32,10 @@ class InstagramHandler(MessageHandler):
     @staticmethod
     @Cached(timedelta(days=1))
     async def url_to_binary_io(url: str) -> io.BytesIO:
-        async with httpx.AsyncClient(headers=HEADERS, timeout=TIMEOUT, http2=True) as session:
-            response = await session.get(url)
+        async with httpx.AsyncClient(timeout=TIMEOUT, http2=True) as session:
+            proxy = await session.get(f"https://envoy.lol/{url}")
+            response = proxy if proxy.status_code == 200 else await session.get(url)
+
             content = response.read()
 
             file = io.BytesIO(content)

@@ -130,24 +130,48 @@ class InstagramDataFetcher:
             log.error("Failed to parse data: %s", err)
             raise err
 
-    @staticmethod
-    async def parse_gql_data(post_id: str) -> dict[str, Any] | None:
-        headers = {**HEADERS, "Referer": f"https://www.instagram.com/p/{post_id}/"}
+    async def _parse_gql_data(
+        self, url: str, params: dict[str, Any], proxy: str | None = None
+    ) -> httpx.Response | None:
+        headers = {**HEADERS, "Referer": url}
+        try:
+            async with httpx.AsyncClient(
+                headers=headers,
+                timeout=TIMEOUT,
+                http2=True,
+                proxies=proxy,
+            ) as session:
+                response = await session.get(
+                    "https://www.instagram.com/graphql/query/", params=params
+                )
+                if response.status_code == 200 and response.read():
+                    return response
+        except httpx.ConnectError as e:
+            log.error("Failed to get response: %s", e)
+        return None
+
+    async def parse_gql_data(self, post_id: str) -> dict[str, Any] | None:
+        url = f"https://www.instagram.com/p/{post_id}/"
         params = {
             "query_hash": "b3055c01b4b222b8a47dc12b090e4e64",
             "variables": f'{{"shortcode":"{post_id}"}}',
         }
-        async with httpx.AsyncClient(headers=headers, http2=True) as session:
-            response = await session.get(
-                "https://www.instagram.com/graphql/query/",
-                params=params,
-                timeout=TIMEOUT,
-            )
-            if response.status_code != 200:
-                raise InstaError(f"Request failed with status {response.status_code}")
+        proxies = ConfigManager.get("korone", "PROXIES")
 
-            gql_value = response.read()
-            return orjson.loads(gql_value) if gql_value else None
+        for _ in range(3):
+            response = await self._parse_gql_data(url, params)
+            if response is not None:
+                gql_value = response.read()
+                return orjson.loads(gql_value) if gql_value else None
+
+        for proxy in proxies:
+            for _ in range(3):
+                response = await self._parse_gql_data(url, params, proxy)
+                if response is not None:
+                    gql_value = response.read()
+                    return orjson.loads(gql_value) if gql_value else None
+
+        return None
 
 
 class InstagramHtmlParser:
@@ -254,12 +278,11 @@ class InstagramCache:
 
     def process_cached_data(self, cache_insta_data: Any, post_id: str) -> InstaData | None:
         unpickled_data = pickle.loads(cache_insta_data)
-        medias = [Media(**m) for m in unpickled_data.get("medias")]
         insta_data = InstaData(
             post_id=unpickled_data.get("post_id"),
             username=unpickled_data.get("username"),
             caption=unpickled_data.get("caption"),
-            medias=medias,
+            medias=[Media(**m) for m in unpickled_data.get("medias")],
         )
         log.debug("Data loaded from cache for postID: %s", post_id)
         return insta_data
