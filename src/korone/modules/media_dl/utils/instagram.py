@@ -28,7 +28,7 @@ HEADERS: dict[str, str] = {
 }
 
 
-class InstaError(Exception):
+class InstaError(BaseException):
     pass
 
 
@@ -67,7 +67,7 @@ class InstagramDataFetcher:
 
         return await self.get_embed_html_data(response, post_id)
 
-    async def _get_response(self, url: str, proxy: str | None = None):
+    async def _get_response(self, url: str, proxy: str | None = None) -> httpx.Response | None:
         try:
             async with httpx.AsyncClient(
                 headers=HEADERS, timeout=TIMEOUT, http2=True, proxy=proxy
@@ -76,7 +76,8 @@ class InstagramDataFetcher:
                 if response.status_code == 200 and response.text:
                     return response
         except httpx.ConnectError as e:
-            log.error("Failed to get response: %s", e)
+            log.error("Failed to get response for URL %s with proxy %s: %s", url, proxy, e)
+            raise InstaError(f"Connection error while fetching data from {url}: {e}")
         return None
 
     async def get_response(self, url: str) -> httpx.Response | None:
@@ -106,8 +107,10 @@ class InstagramDataFetcher:
                     try:
                         return orjson.loads(orjson.loads(token.value))
                     except orjson.JSONDecodeError as err:
-                        log.error("Failed to parse data from TimeSliceImpl: %s", err)
-                        raise InstaError(err)
+                        log.error(
+                            "Failed to parse data from TimeSliceImpl for %s: %s", response.url, err
+                        )
+                        raise InstaError(f"JSONDecodeError while parsing TimeSliceImpl: {err}")
         return None
 
     async def get_embed_html_data(
@@ -127,8 +130,8 @@ class InstagramDataFetcher:
 
             return embed_html_data
         except (InstaError, orjson.JSONDecodeError) as err:
-            log.error("Failed to parse data: %s", err)
-            raise err
+            log.error("Failed to parse data for postID %s: %s", post_id, err)
+            raise InstaError(f"Error while parsing embed HTML data for postoID {post_id}: {err}")
 
     async def _parse_gql_data(
         self, url: str, params: dict[str, Any], proxy: str | None = None
@@ -147,7 +150,8 @@ class InstagramDataFetcher:
                 if response.status_code == 200 and response.read():
                     return response
         except httpx.ConnectError as e:
-            log.error("Failed to get response: %s", e)
+            log.error("Failed to get response for URL %s with proxy %s: %s", url, proxy, e)
+            raise InstaError(f"Connection error while fetching GraphQL data from {url}: {e}")
         return None
 
     async def parse_gql_data(self, post_id: str) -> dict[str, Any] | None:
@@ -219,7 +223,7 @@ class InstagramHtmlParser:
         username_element = doc.select_one(".UsernameText")
         return username_element.get_text() if username_element else None
 
-    def get_caption(self, doc: BeautifulSoup):
+    def get_caption(self, doc: BeautifulSoup) -> str | None:
         caption_comments = doc.select_one(".CaptionComments")
         if caption_comments:
             caption_comments.decompose()
@@ -272,9 +276,9 @@ class InstagramCache:
                 value=pickled_data,
                 ex=int(timedelta(days=1).total_seconds()),
             )
-        except Exception as err:
+        except BaseException as err:
             log.error("Failed to set cache for postID %s: %s", post_id, err)
-            raise InstaError(err)
+            raise InstaError(f"Error while setting cache for postID {post_id}: {err}")
 
     def process_cached_data(self, cache_insta_data: Any, post_id: str) -> InstaData | None:
         unpickled_data = pickle.loads(cache_insta_data)
@@ -309,14 +313,14 @@ class GetInstagram:
     async def fetch_data(self, post_id: str) -> dict[str, Any]:
         data = await self.data_fetcher.get_data(post_id)
         if data is None:
-            raise NotFoundError("data not found")
+            raise NotFoundError(f"data not found for post ID {post_id}")
 
         item = data.get("shortcode_media")
         if item is None:
-            raise NotFoundError("shortcode_media not found")
+            raise NotFoundError(f"shortcode_media not found for post ID {post_id}")
         return item
 
-    def process_data(self, item: dict[str, Any], post_id: str):
+    def process_data(self, item: dict[str, Any], post_id: str) -> InstaData:
         media = self.get_media(item)
 
         username = item["owner"]["username"] if item.get("owner") else ""
@@ -329,10 +333,10 @@ class GetInstagram:
                     caption = caption.strip()
 
         if not username:
-            raise NotFoundError("username not found")
+            raise NotFoundError(f"username not found for post ID {post_id}")
 
         if not caption:
-            raise NotFoundError("caption not found")
+            raise NotFoundError(f"caption not found for post ID {post_id}")
 
         return InstaData(
             post_id=post_id,
