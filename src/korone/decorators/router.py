@@ -6,9 +6,9 @@ from korone.decorators.factory import Factory
 
 class RouterError(Exception):
     """
-    An Router error.
+    An exception that is raised when a unsupported event is called.
 
-    This exception is raised when a unsupported event is called by the :class:`Router`.
+    This exception is raised when a unsupported event is called by the user.
     """
 
 

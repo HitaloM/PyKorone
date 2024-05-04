@@ -39,7 +39,7 @@ class Execute(MessageHandler):
         with redirect_stdout(strio):
             try:
                 await locals()["__ex"](client, message, reply, user, chat)
-            except BaseException:
+            except Exception:
                 await message.reply_text(
                     build_text(traceback.format_exc()), parse_mode=ParseMode.MARKDOWN
                 )

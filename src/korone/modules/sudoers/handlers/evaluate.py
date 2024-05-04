@@ -26,7 +26,7 @@ class Evaluate(MessageHandler):
 
         try:
             output = await meval(expression, globals(), **locals())
-        except BaseException:
+        except Exception:
             traceback_string = traceback.format_exc()
             await message.reply_text(
                 f"Exception while running the code:\n<pre>{traceback_string}</pre>"

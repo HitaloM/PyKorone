@@ -83,9 +83,6 @@ preview = true
 [tool.ruff.lint.flake8-tidy-imports]
 ban-relative-imports = "all"
 
-[tool.ruff.lint.pydocstyle]
-convention = "numpy"
-
 [tool.numpydoc_validation]
 checks = [
     "all",  # report on all checks, except the below

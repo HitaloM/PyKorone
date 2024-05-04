@@ -245,7 +245,7 @@ def load_all_modules(client: Client) -> None:
         try:
             load_module(client, module)
             count += 1
-        except BaseException:
+        except (TypeError, ModuleNotFoundError):
             log.exception("Could not load module: %s", module_name)
 
     log.info("Loaded %d modules", count)

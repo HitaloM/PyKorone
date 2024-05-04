@@ -27,9 +27,10 @@ CompiledQuery = tuple[Clause, BoundData]
 
 class MalformedQueryError(Exception):
     """
-    Malformed Query.
+    An exception raised when a query is not properly formed.
 
-    This exception is raised when a query is malformed.
+    This exception is raised when a query is not properly formed, such as when an invalid
+    operator is used or when a key is not a string.
     """
 
 
@@ -40,6 +41,24 @@ class Query:
     This class allows you to specify what element or elements to fetch from the database.
     It provides a higher level interface to the database by using queries, thereby
     preventing the user from dealing with SQL Queries directly.
+
+    The Query class uses operator overloading to build SQL queries. For example, the `==`
+    operator is overloaded by the `__eq__` method to create a SQL equality condition. The `&`
+    and `|` operators are overloaded to create SQL AND and OR conditions, respectively.
+
+    The `__getattr__` and `__getitem__` methods are used to specify the column names in the SQL
+    query. They set the left-hand side of the query condition.
+
+    The `__copy__` method is used to create a copy of a Query instance. This is useful when you
+    want to create a new query that is similar to an existing one.
+
+    The `_new_node` method is used internally to create a new Query instance with the provided
+    left-hand side, operator, and right-hand side. It is recommended to use this method
+    instead of directly creating a Query instance to ensure a defined state.
+
+    The `compile` method is used to compile the Query instance into a SQL clause and its
+    bound data. It returns a tuple containing the SQL clause and the bound data, which is used
+    internally to execute the appropriate SQL statement.
 
     Parameters
     ----------
@@ -71,7 +90,9 @@ class Query:
         """
         Get an attribute of a Query instance.
 
-        This method allows for instance.name.
+        This method allows you to get an attribute of a Query instance. The returned Query object
+        represents the updated Query instance with the attribute set. You can continue chaining
+        operations on this returned Query object.
 
         Parameters
         ----------
@@ -83,7 +104,6 @@ class Query:
         Query
             The Query instance with the attribute set.
         """
-        # Allows for instance.name
         self.lhs = name
         return self
 
@@ -91,7 +111,9 @@ class Query:
         """
         Get an item of a Query instance.
 
-        This method allows for instance['name'].
+        This method allows you to get an item of a Query instance. The returned Query object
+        represents the updated Query instance with the item set. You can continue chaining
+        operations on this returned Query object.
 
         Parameters
         ----------
@@ -109,7 +131,9 @@ class Query:
         """
         Create a copy of a Query instance.
 
-        This method allows for copy.copy(instance).
+        This method creates a new instance of the Query class that is a copy of the original
+        Query instance. Modifying the copied Query object will not affect the original
+        Query instance.
 
         Returns
         -------
@@ -120,9 +144,11 @@ class Query:
 
     def __and__(self, other) -> "Query":
         """
-        Create a new Query instance with the AND operator.
+        Overload the & operator for the Query class.
 
-        This method allows for instance & other.
+        This method overloads the & operator for the Query class. The returned Query object
+        represents a new Query instance with the AND operator applied between the original
+        Query instance and the other Query instance.
 
         Parameters
         ----------
@@ -143,9 +169,11 @@ class Query:
 
     def __or__(self, other) -> "Query":
         """
-        Create a new Query instance with the OR operator.
+        Overload the | operator for the Query class.
 
-        This method allows for instance | other.
+        This method overloads the | operator for the Query class. The returned Query object
+        represents a new Query instance with the OR operator applied between the original
+        Query instance and the other Query instance.
 
         Parameters
         ----------
@@ -166,9 +194,11 @@ class Query:
 
     def __invert__(self) -> "Query":
         """
-        Create a new Query instance with the NOT operator.
+        Overload the ~ operator for the Query class.
 
-        This method allows for ~instance.
+        This method overloads the ~ operator for the Query class. The returned Query object
+        represents a new Query instance with the NOT operator applied to the original
+        Query instance.
 
         Returns
         -------
@@ -182,11 +212,13 @@ class Query:
         """
         return self._new_node(operator="NOT", rhs=self)
 
-    def __eq__(self, other: int) -> "Query":
+    def __eq__(self, other) -> "Query":
         """
-        Create a new Query instance with the == operator.
+        Overload the == operator for the Query class.
 
-        This method allows for instance == other.
+        This method overloads the == operator for the Query class. The returned Query
+        object represents a new Query instance with the equality operator applied between
+        the original Query instance and the other Query instance.
 
         Parameters
         ----------
@@ -207,9 +239,10 @@ class Query:
 
     def __ne__(self, other) -> "Query":
         """
-        Create a new Query instance with the != operator.
+        Overload the != operator for the Query class.
 
-        This method allows for instance != other.
+        The returned Query object represents a new Query instance with the not equals operator
+        applied between the original Query instance and the other Query instance.
 
         Parameters
         ----------
@@ -230,9 +263,11 @@ class Query:
 
     def __lt__(self, other) -> "Query":
         """
-        Create a new Query instance with the < operator.
+        Overload the < operator for the Query class.
 
-        This method allows for instance < other.
+        This method overloads the < operator for the Query class. The returned Query
+        object represents a new Query instance with the less than operator applied between
+        the original Query instance and the other Query instance.
 
         Parameters
         ----------
@@ -253,9 +288,10 @@ class Query:
 
     def __le__(self, other) -> "Query":
         """
-        Create a new Query instance with the <= operator.
+        Overload the <= operator for the Query class.
 
-        This method allows for instance <= other.
+        The returned Query object represents a new Query instance with the less than or equal
+        to operator applied between the original Query instance and the other Query instance.
 
         Parameters
         ----------
@@ -270,14 +306,16 @@ class Query:
         Examples
         --------
         >>> query = Query()
+        >>> query.age <= 20
         """
         return self._new_node(lhs=self.lhs, operator="<=", rhs=other)
 
     def __gt__(self, other) -> "Query":
         """
-        Create a new Query instance with the > operator.
+        Overload the > operator for the Query class.
 
-        This method allows for instance > other.
+        The returned Query object represents a new Query instance with the greater than operator
+        applied between the original Query instance and the other Query instance.
 
         Parameters
         ----------
@@ -298,9 +336,10 @@ class Query:
 
     def __ge__(self, other) -> "Query":
         """
-        Create a new Query instance with the >= operator.
+        Overload the >= operator for the Query class.
 
-        This method allows for instance >= other.
+        The returned Query object represents a new Query instance with the greater than or equal
+        to operator applied between the original Query instance and the other Query instance.
 
         Parameters
         ----------
@@ -323,15 +362,17 @@ class Query:
         """
         Create a new Query instance.
 
-        This method allows for instance._new_node(lhs=lhs, operator=operator, rhs=rhs).
+        This method creates a new Query instance with the provided left-hand side, operator,
+        and right-hand side. It is used internally to create new Query instances when
+        overloading operators.
 
         Parameters
         ----------
-        lhs : Any, optional
+        lhs : typing.Any, optional
             The left-hand side of the query expression, by default None.
-        operator : Any, optional
+        operator : typing.Any, optional
             The operator used in the query expression, by default None.
-        rhs : Any, optional
+        rhs : typing.Any, optional
             The right-hand side of the query expression, by default None.
 
         Returns
@@ -384,6 +425,13 @@ class Query:
         ------
         MalformedQueryError
             If the query is not properly formed.
+
+        Examples
+        --------
+        >>> query = Query()
+        >>> query.name == "John"
+        >>> query.compile()
+        ('name == ?', ('John',))
         """
 
         def isvalidoperator(obj: Any) -> bool:

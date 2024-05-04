@@ -15,11 +15,11 @@ from magic_filter import MagicFilter
 CommandPatternType = str | re.Pattern
 
 
-class CommandError(BaseException):
+class CommandError(Exception):
     """
     Represents an error that occurs during command processing.
 
-    CommandError is a subclass of the `BaseException` class. It is raised when an error occurs
+    CommandError is a subclass of the `Exception` class. It is raised when an error occurs
     during command processing.
     """
 

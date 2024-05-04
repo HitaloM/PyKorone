@@ -28,11 +28,23 @@ HEADERS: dict[str, str] = {
 }
 
 
-class InstaError(BaseException):
+class InstaError(Exception):
+    """
+    Represents a base exception for Instagram data fetching.
+
+    This exception is raised when an error occurs while fetching Instagram data from the server.
+    """
+
     pass
 
 
 class NotFoundError(InstaError):
+    """
+    Represents an exception for Instagram data not found.
+
+    This exception is raised when the data is not found for the post ID.
+    """
+
     pass
 
 
@@ -130,8 +142,8 @@ class InstagramDataFetcher:
 
             return embed_html_data
         except (InstaError, orjson.JSONDecodeError) as err:
-            log.error("Failed to parse data for postID %s: %s", post_id, err)
-            raise InstaError(f"Error while parsing embed HTML data for postoID {post_id}: {err}")
+            log.error("Failed to parse data for post ID %s: %s", post_id, err)
+            raise InstaError(f"Error while parsing embed HTML data for post ID {post_id}: {err}")
 
     async def _parse_gql_data(
         self, url: str, params: dict[str, Any], proxy: str | None = None
@@ -276,9 +288,9 @@ class InstagramCache:
                 value=pickled_data,
                 ex=int(timedelta(days=1).total_seconds()),
             )
-        except BaseException as err:
-            log.error("Failed to set cache for postID %s: %s", post_id, err)
-            raise InstaError(f"Error while setting cache for postID {post_id}: {err}")
+        except Exception as err:
+            log.error("Failed to set cache for post ID %s: %s", post_id, err)
+            raise InstaError(f"Error while setting cache for post ID {post_id}: {err}")
 
     def process_cached_data(self, cache_insta_data: Any, post_id: str) -> InstaData | None:
         unpickled_data = pickle.loads(cache_insta_data)
@@ -288,7 +300,7 @@ class InstagramCache:
             caption=unpickled_data.get("caption"),
             medias=[Media(**m) for m in unpickled_data.get("medias")],
         )
-        log.debug("Data loaded from cache for postID: %s", post_id)
+        log.debug("Data loaded from cache for post ID: %s", post_id)
         return insta_data
 
 
