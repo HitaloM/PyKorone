@@ -45,26 +45,26 @@ class Cached:
         self.cache: dict[str, str] = {}
 
     def __call__(self, func: Callable) -> Callable:
+        """
+        Decorate a function to cache its result using Redis.
+
+        This method is called when the decorator is applied to a function.
+        It returns a decorated function that caches the result of the original function
+        using Redis.
+
+        Parameters
+        ----------
+        func : Callable
+            The function to be decorated.
+
+        Returns
+        -------
+        Callable
+            The decorated function.
+        """
+
         @wraps(func)
         async def wrapper(*args: tuple, **kwargs: dict) -> Any:
-            """
-            The wrapper function that checks if the result is already in the cache.
-
-            Wrapper function that checks if the result is already in the cache,
-            executes the function if not, and stores the result in the cache.
-
-            Parameters
-            ----------
-            *args : tuple
-                Positional arguments passed to the decorated function.
-            **kwargs : dict
-                Keyword arguments passed to the decorated function.
-
-            Returns
-            -------
-            Any
-                Result of the decorated function.
-            """
             cache_key = self.generate_cache_key(func.__name__, args, kwargs)
 
             cached_result = await redis.get(cache_key)

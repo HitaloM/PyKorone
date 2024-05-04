@@ -112,7 +112,6 @@ def get_method_callable(cls: type, key: str) -> Callable[..., Any]:
     >>> get_method_callable(MyClass, "my_method")(my_instance)
     'Hello, world!'
     """
-
     method = bfs_attr_search(cls, key)
     if isinstance(method, staticmethod):
         return method
@@ -146,7 +145,6 @@ def register_handler(client: Client, module: ModuleType) -> bool:
     bool
         True if the registration was successful, False otherwise.
     """
-
     function_list = [
         (obj, func_obj)
         for _, obj in inspect.getmembers(module)
@@ -207,7 +205,6 @@ def load_module(client: Client, module: tuple) -> bool:
     ModuleNotFoundError
         If the module cannot be found.
     """
-
     module_name: str = module[0]
 
     try:
@@ -239,7 +236,6 @@ def load_all_modules(client: Client) -> None:
     client : hydrogram.Client
         The client object.
     """
-
     count: int = 0
 
     add_modules_to_dict()

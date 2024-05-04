@@ -28,6 +28,23 @@ locales_dir: Path = app_dir / "locales"
 
 
 def create_i18n_instance(locales_dir: Path) -> I18n:
+    """
+    Create an instance of the I18n class.
+
+    This function creates an instance of the I18n class using the specified locales directory.
+    If the locales directory does not exist, the function will compile the locales using pybabel
+    before creating the I18n instance.
+
+    Parameters
+    ----------
+    locales_dir : Path
+        The path to the locales directory.
+
+    Returns
+    -------
+    I18n:
+        An instance of the I18n class.
+    """
     try:
         return I18n(path=locales_dir)
     except RuntimeError:

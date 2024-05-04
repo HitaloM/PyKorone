@@ -51,7 +51,6 @@ allow-direct-references = true
 [tool.ruff]
 line-length = 99
 target-version = "py312"
-preview = true
 
 [tool.ruff.lint]
 select = [
@@ -72,15 +71,20 @@ select = [
     "TID",  # flake8-tidy-imports
 ]
 ignore = ["RUF001", "RUF002", "RUF003"]
+preview = true
 
 [tool.ruff.lint.isort]
 known-first-party = ["src"]
 
 [tool.ruff.format]
 docstring-code-format = true
+preview = true
 
 [tool.ruff.lint.flake8-tidy-imports]
 ban-relative-imports = "all"
+
+[tool.ruff.lint.pydocstyle]
+convention = "numpy"
 
 [tool.numpydoc_validation]
 checks = [

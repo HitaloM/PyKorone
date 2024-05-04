@@ -35,8 +35,9 @@ class MalformedQueryError(Exception):
 
 class Query:
     """
-    Queries allows you to specify what element or elements to fetch from the database.
+    A class that provides a high-level interface for building SQL queries.
 
+    This class allows you to specify what element or elements to fetch from the database.
     It provides a higher level interface to the database by using queries, thereby
     preventing the user from dealing with SQL Queries directly.
 
@@ -51,11 +52,10 @@ class Query:
 
     Examples
     --------
-    >>> # hypothetical, not yet implemented, connection class
-    >>> conn = SQLite3Connection()
-    >>> table = conn.table()
-    >>> logician = Query()
-    >>> table.query(logician.name == "Kazimierz Kuratowski")
+    >>> async with SQLite3Connection() as conn:
+    ...     table = await conn.table("Users")
+    ...     logician = Query()
+    ...     await table.query(logician.name == "Kazimierz Kuratowski")
     [{'desc': 'Polish mathematician and logician. [...]',
         'name': 'Kazimierz Kuratowski'}]
     """
@@ -68,45 +68,290 @@ class Query:
         self.rhs = rhs
 
     def __getattr__(self, name: str) -> "Query":
+        """
+        Get an attribute of a Query instance.
+
+        This method allows for instance.name.
+
+        Parameters
+        ----------
+        name : str
+            Name of the attribute.
+
+        Returns
+        -------
+        Query
+            The Query instance with the attribute set.
+        """
         # Allows for instance.name
         self.lhs = name
         return self
 
     def __getitem__(self, item: str) -> "Query":
-        # Allows for instance['name']
+        """
+        Get an item of a Query instance.
+
+        This method allows for instance['name'].
+
+        Parameters
+        ----------
+        item : str
+            Name of the item.
+
+        Returns
+        -------
+        Query
+            The Query instance with the item set.
+        """
         return self.__getattr__(item)
 
     def __copy__(self) -> "Query":
+        """
+        Create a copy of a Query instance.
+
+        This method allows for copy.copy(instance).
+
+        Returns
+        -------
+        Query
+            The copied Query instance.
+        """
         return Query(lhs=self.lhs, operator=self.operator, rhs=self.rhs)
 
     def __and__(self, other) -> "Query":
+        """
+        Create a new Query instance with the AND operator.
+
+        This method allows for instance & other.
+
+        Parameters
+        ----------
+        other : Query
+            The other Query instance.
+
+        Returns
+        -------
+        Query
+            The new Query instance with the AND operator.
+
+        Examples
+        --------
+        >>> query = Query()
+        >>> query.name == "John" & query.age == 20
+        """
         return self._new_node(lhs=self, operator="AND", rhs=other)
 
     def __or__(self, other) -> "Query":
+        """
+        Create a new Query instance with the OR operator.
+
+        This method allows for instance | other.
+
+        Parameters
+        ----------
+        other : Query
+            The other Query instance.
+
+        Returns
+        -------
+        Query
+            The new Query instance with the OR operator.
+
+        Examples
+        --------
+        >>> query = Query()
+        >>> query.name == "John" | query.age == 20
+        """
         return self._new_node(lhs=self, operator="OR", rhs=other)
 
     def __invert__(self) -> "Query":
+        """
+        Create a new Query instance with the NOT operator.
+
+        This method allows for ~instance.
+
+        Returns
+        -------
+        Query
+            The new Query instance with the NOT operator.
+
+        Examples
+        --------
+        >>> query = Query()
+        >>> ~query.name == "John"
+        """
         return self._new_node(operator="NOT", rhs=self)
 
-    def __eq__(self, other) -> "Query":
+    def __eq__(self, other: int) -> "Query":
+        """
+        Create a new Query instance with the == operator.
+
+        This method allows for instance == other.
+
+        Parameters
+        ----------
+        other : Query
+            The other Query instance.
+
+        Returns
+        -------
+        Query
+            The new Query instance with the == operator.
+
+        Examples
+        --------
+        >>> query = Query()
+        >>> query.name == "John"
+        """
         return self._new_node(lhs=self.lhs, operator="==", rhs=other)
 
     def __ne__(self, other) -> "Query":
+        """
+        Create a new Query instance with the != operator.
+
+        This method allows for instance != other.
+
+        Parameters
+        ----------
+        other : Query
+            The other Query instance.
+
+        Returns
+        -------
+        Query
+            The new Query instance with the != operator.
+
+        Examples
+        --------
+        >>> query = Query()
+        >>> query.name != "John"
+        """
         return self._new_node(lhs=self.lhs, operator="!=", rhs=other)
 
     def __lt__(self, other) -> "Query":
+        """
+        Create a new Query instance with the < operator.
+
+        This method allows for instance < other.
+
+        Parameters
+        ----------
+        other : Query
+            The other Query instance.
+
+        Returns
+        -------
+        Query
+            The new Query instance with the < operator.
+
+        Examples
+        --------
+        >>> query = Query()
+        >>> query.age < 20
+        """
         return self._new_node(lhs=self.lhs, operator="<", rhs=other)
 
     def __le__(self, other) -> "Query":
+        """
+        Create a new Query instance with the <= operator.
+
+        This method allows for instance <= other.
+
+        Parameters
+        ----------
+        other : Query
+            The other Query instance.
+
+        Returns
+        -------
+        Query
+            The new Query instance with the <= operator.
+
+        Examples
+        --------
+        >>> query = Query()
+        """
         return self._new_node(lhs=self.lhs, operator="<=", rhs=other)
 
     def __gt__(self, other) -> "Query":
+        """
+        Create a new Query instance with the > operator.
+
+        This method allows for instance > other.
+
+        Parameters
+        ----------
+        other : Query
+            The other Query instance.
+
+        Returns
+        -------
+        Query
+            The new Query instance with the > operator.
+
+        Examples
+        --------
+        >>> query = Query()
+        >>> query.age > 20
+        """
         return self._new_node(lhs=self.lhs, operator=">", rhs=other)
 
     def __ge__(self, other) -> "Query":
+        """
+        Create a new Query instance with the >= operator.
+
+        This method allows for instance >= other.
+
+        Parameters
+        ----------
+        other : Query
+            The other Query instance.
+
+        Returns
+        -------
+        Query
+            The new Query instance with the >= operator.
+
+        Examples
+        --------
+        >>> query = Query()
+        >>> query.age >= 20
+        """
         return self._new_node(lhs=self.lhs, operator=">=", rhs=other)
 
     def _new_node(self, *, lhs=None, operator=None, rhs=None) -> "Query":
+        """
+        Create a new Query instance.
+
+        This method allows for instance._new_node(lhs=lhs, operator=operator, rhs=rhs).
+
+        Parameters
+        ----------
+        lhs : Any, optional
+            The left-hand side of the query expression, by default None.
+        operator : Any, optional
+            The operator used in the query expression, by default None.
+        rhs : Any, optional
+            The right-hand side of the query expression, by default None.
+
+        Returns
+        -------
+        Query
+            A new Query instance.
+
+        Notes
+        -----
+        This method is used internally to create a new Query instance with the provided
+        left-hand side, operator, and right-hand side. It is recommended to use this method
+        instead of directly creating a Query instance to ensure a defined state.
+
+        Examples
+        --------
+        >>> query = Query()
+        >>> new_query = query._new_node(lhs="name", operator="==", rhs="John")
+        >>> print(new_query)
+        Query(lhs='name', operator='==', rhs='John')
+        """
         query = Query(
             lhs=copy(lhs),
             operator=copy(operator),
@@ -134,6 +379,11 @@ class Query:
         -------
         CompiledQuery
             A SQL Clause with Bound Data.
+
+        Raises
+        ------
+        MalformedQueryError
+            If the query is not properly formed.
         """
 
         def isvalidoperator(obj: Any) -> bool:

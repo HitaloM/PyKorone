@@ -68,7 +68,6 @@ class ConfigManager:
         cfgpath : str, optional
             The path to the configuration file, by default constants.CONFIG_PATH.
         """
-
         log.info("Initializing configuration module")
         log.debug("Using path %s", cfgpath)
 

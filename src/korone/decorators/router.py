@@ -35,4 +35,20 @@ class Router:
         self.callback_query = Factory("callback_query")
 
     def __getattr__(self, name: str):
+        """
+        Get the class that will be used to create the decorator.
+
+        This method is called when an attribute is accessed that doesn't exist in the object.
+        It raises a RouterError indicating that the event type is not supported by PyKorone.
+
+        Parameters
+        ----------
+        name : str
+            The name of the attribute that was accessed.
+
+        Raises
+        ------
+        RouterError
+            When a unsupported event is called.
+        """
         raise RouterError(f"Event of type: '{name}' is not supported by the PyKorone.")
