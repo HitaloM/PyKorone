@@ -439,17 +439,20 @@ class Query:
 
         def visit(obj: Any) -> CompiledQuery:
             if not isinstance(obj, Query):
-                raise MalformedQueryError("Cannot visit a non-query node.")
+                msg = "Cannot visit a non-query node."
+                raise MalformedQueryError(msg)
 
             if not isvalidoperator(obj.operator):
-                raise MalformedQueryError("Invalid operator.")
+                msg = "Invalid operator."
+                raise MalformedQueryError(msg)
 
             islhsquery = isinstance(obj.lhs, Query)
             isrhsquery = isinstance(obj.rhs, Query)
 
             if not islhsquery and not isrhsquery:
                 if not isinstance(obj.lhs, str):
-                    raise MalformedQueryError("Key must be a string.")
+                    msg = "Key must be a string."
+                    raise MalformedQueryError(msg)
                 return f"({obj.lhs} {obj.operator} ?)", (obj.rhs,)
 
             if not islhsquery and isrhsquery:
@@ -462,7 +465,8 @@ class Query:
                 if isrhsquery:
                     member = "Value"
 
-                raise MalformedQueryError(f"{member} cannot be a query type.")
+                msg = f"{member} cannot be a query type."
+                raise MalformedQueryError(msg)
 
             # *ph means PlaceHolder
             lhsstr, lhsph = visit(obj.lhs)

@@ -220,8 +220,9 @@ class GSMArena(MessageHandler):
 
 
 class ListGSMArena(CallbackQueryHandler):
+    @staticmethod
     @router.callback_query(DevicePageCallback.filter())
-    async def handle(self, client: Client, callback: CallbackQuery) -> None:
+    async def handle(client: Client, callback: CallbackQuery) -> None:
         if not callback.data:
             return
 
@@ -235,8 +236,9 @@ class ListGSMArena(CallbackQueryHandler):
 
 
 class GetGSMArena(CallbackQueryHandler):
+    @staticmethod
     @router.callback_query(GetDeviceCallback.filter())
-    async def handle(self, client: Client, callback: CallbackQuery) -> None:
+    async def handle(client: Client, callback: CallbackQuery) -> None:
         if not callback.data:
             return
 

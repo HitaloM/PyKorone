@@ -33,6 +33,35 @@ class CheckAfk(MessageHandler):
             doc = await table.query(query.id == user_id)
             return doc[0]["reason"] if doc else None
 
+    async def handle_mentioned_users(self, client: Client, message: Message) -> None:
+        if message.entities:
+            for ent in message.entities:
+                user: User
+                if ent.type == MessageEntityType.MENTION:
+                    if data := await self.get_user(
+                        message.text[ent.offset : ent.offset + ent.length]
+                    ):
+                        try:
+                            user = await client.get_chat(data[0]["id"])  # type: ignore
+                        except PeerIdInvalid:
+                            continue
+                elif ent.type == MessageEntityType.TEXT_MENTION:
+                    user = ent.user
+
+                await self.send_afk_message(user, message)
+
+    async def handle_reply_to_message(self, message: Message) -> None:
+        if message.reply_to_message and message.reply_to_message.from_user:
+            reply_user = message.reply_to_message.from_user
+            await self.send_afk_message(reply_user, message)
+
+    async def send_afk_message(self, user: User, message: Message) -> None:
+        if user and user.id != message.from_user.id and await is_afk(user.id):
+            text = _("{user} is afk!").format(user=user.first_name)
+            if reason := await self.get_afk_reason(user.id):
+                text += _("\nReason: {reason}").format(reason=reason)
+            await message.reply(text)
+
     @router.message(~filters.private & ~filters.bot & filters.all, group=-2)
     async def handle(self, client: Client, message: Message) -> None:
         if message.from_user and message.text and re.findall(r"^\/\bafk\b", message.text):
@@ -42,35 +71,5 @@ class CheckAfk(MessageHandler):
             await set_afk(message.from_user.id, state=False)
             return
 
-        if message.entities:
-            for ent in message.entities:
-                user: User | None = None
-                if ent.type == MessageEntityType.MENTION:
-                    if data := (
-                        await self.get_user(message.text[ent.offset : ent.offset + ent.length])
-                    ):
-                        try:
-                            user = await client.get_chat(data[0]["id"])  # type: ignore
-                        except PeerIdInvalid:
-                            continue
-                elif ent.type == MessageEntityType.TEXT_MENTION:
-                    user = ent.user
-
-                if user and user.id != message.from_user.id and await is_afk(user.id):
-                    text = _("{user} is afk!").format(user=user.first_name)
-                    if reason := await self.get_afk_reason(user.id):
-                        text += _("\nReason: {reason}").format(reason=reason)
-                    await message.reply(text)
-                    return
-
-        if (
-            message.reply_to_message
-            and message.reply_to_message.from_user
-            and message.reply_to_message.from_user.id != message.from_user.id
-            and await is_afk(message.reply_to_message.from_user.id)
-        ):
-            text = _("{user} is afk!").format(user=message.reply_to_message.from_user.first_name)
-            if reason := await self.get_afk_reason(message.reply_to_message.from_user.id):
-                text += _("\nReason: {reason}").format(reason=reason)
-            await message.reply(text)
-            return
+        await self.handle_mentioned_users(client, message)
+        await self.handle_reply_to_message(message)

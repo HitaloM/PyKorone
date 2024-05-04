@@ -45,9 +45,8 @@ class ApplyLanguage(CallbackQueryHandler):
             disable_web_page_preview=True,
         )
 
-    async def set_chat_language(
-        self, is_private: bool, callback: CallbackQuery, language: str
-    ) -> None:
+    @staticmethod
+    async def set_chat_language(is_private: bool, callback: CallbackQuery, language: str) -> None:
         async with SQLite3Connection() as conn:
             table = await conn.table("Users" if is_private else "Groups")
             query = Query()

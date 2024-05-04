@@ -70,4 +70,5 @@ def bfs_attr_search(root: Any, attr: str) -> Any:
                 queue.append(neighbor)
                 visited.append(id(neighbor))
 
-    raise AttributeError(f"Could not find attribute {attr}")
+    msg = f"Could not find attribute {attr}"
+    raise AttributeError(msg)

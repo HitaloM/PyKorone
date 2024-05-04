@@ -48,7 +48,7 @@ class BaseHandler:
             "The source code is available on GitHub."
         ).format(
             hydrogram=f"<a href='{self.hydrogram_url}'>Hydrogram</a>",
-            license_link=f"<a href='{self.license_url}'>" "BSD 3-Clause</a>",
+            license_link=f"<a href='{self.license_url}'>BSD 3-Clause</a>",
         )
 
 

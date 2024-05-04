@@ -38,7 +38,8 @@ class Magic(Filter):
     def __init__(self, magic: MagicFilter) -> None:
         self.magic = magic
 
-    def validate_magic(self, magic: MagicFilter) -> None:
+    @staticmethod
+    def validate_magic(magic: MagicFilter) -> None:
         """
         Validate the magic command.
 
@@ -56,7 +57,8 @@ class Magic(Filter):
             If the magic command is not an instance of MagicFilter.
         """
         if not isinstance(magic, MagicFilter):
-            raise TypeError("magic must be an instance of MagicFilter")
+            msg = "magic must be an instance of MagicFilter"
+            raise TypeError(msg)
 
     def __call__(self, client: Client, update: Update) -> bool:
         """

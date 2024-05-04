@@ -7,15 +7,17 @@ from collections.abc import Callable
 from importlib import import_module
 from pathlib import Path
 from types import FunctionType, ModuleType
-from typing import Any
+from typing import TYPE_CHECKING, Any
 
 from hydrogram import Client
 
-from korone.decorators.factory import HandlerObject
 from korone.handlers.callback_query_handler import CallbackQueryHandler
 from korone.handlers.message_handler import MessageHandler
 from korone.utils.logging import log
 from korone.utils.traverse import bfs_attr_search
+
+if TYPE_CHECKING:
+    from korone.decorators.factory import HandlerObject
 
 MODULES: dict[str, dict[str, Any]] = {}
 """A dictionary that stores information about the modules.
@@ -54,7 +56,7 @@ def add_modules_to_dict() -> None:
     """
     parent_path = Path(__file__).parent
 
-    for root, dirs, files in os.walk(parent_path):
+    for root, dirs, _files in os.walk(parent_path):
         if "handlers" in dirs:
             handlers_path = Path(root) / "handlers"
             module_name = handlers_path.relative_to(parent_path).parts[0]
@@ -72,9 +74,8 @@ def add_modules_to_dict() -> None:
                 for attr in ["name", "summary", "doc"]:
                     attr_value = bfs_attr_search(module_info, attr)
                     if attr_value is None:
-                        raise ValueError(
-                            f"Missing attribute '{attr}' in ModuleInfo of module '{module_name}'"
-                        )
+                        msg = f"Missing attribute '{attr}' in ModuleInfo of module '{module_name}'"
+                        raise ValueError(msg)
                     MODULES[module_name]["info"][attr] = attr_value
             else:
                 MODULES[module_name] = {"handlers": []}
@@ -112,10 +113,10 @@ def get_method_callable(cls: type, key: str) -> Callable[..., Any]:
     >>> get_method_callable(MyClass, "my_method")(my_instance)
     'Hello, world!'
     """
-    method = bfs_attr_search(cls, key)
-    if isinstance(method, staticmethod):
-        return method
+    if isinstance(cls.__dict__.get(key), staticmethod):
+        return cls.__dict__[key].__func__
 
+    method = bfs_attr_search(cls, key)
     is_async = inspect.iscoroutinefunction(method)
 
     def call(*args, **kwargs):
@@ -220,8 +221,9 @@ def load_module(client: Client, module: tuple) -> bool:
 
         return True
 
-    except ModuleNotFoundError:
-        raise ModuleNotFoundError(f"Could not load module: {module_name}")
+    except ModuleNotFoundError as err:
+        msg = f"Could not load module: {module_name}"
+        raise ModuleNotFoundError(msg) from err
 
 
 def load_all_modules(client: Client) -> None:

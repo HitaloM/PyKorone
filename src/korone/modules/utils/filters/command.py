@@ -73,11 +73,13 @@ class CommandObject:
     :type: typing.Any | None
     """
 
-    def __extract(self, text: str) -> "CommandObject":
+    @staticmethod
+    def __extract(text: str) -> "CommandObject":
         try:
             full_command, *args = text.split(maxsplit=1)
-        except ValueError:
-            raise CommandError("Not enough values to unpack.")
+        except ValueError as err:
+            msg = "Not enough values to unpack."
+            raise CommandError(msg) from err
 
         prefix, (command, _, mention) = full_command[0], full_command[1:].partition("@")
         return CommandObject(
@@ -108,11 +110,13 @@ class CommandObject:
             If the message has no text.
         """
         if not self.message:
-            raise CommandError("To parse a command, you need to pass a message.")
+            msg = "To parse a command, you need to pass a message."
+            raise CommandError(msg)
 
         text = self.message.text or self.message.caption
         if not text:
-            raise CommandError("Message has no text")
+            msg = "Message has no text"
+            raise CommandError(msg)
 
         return self.__extract(text)
 
@@ -159,9 +163,8 @@ class Command(Filter):
     ):
         commands = [commands] if isinstance(commands, str | re.Pattern) else commands or []
         if not isinstance(commands, Iterable):
-            raise ValueError(
-                "Command filter only supports str, re.Pattern object or their Iterable"
-            )
+            msg = "Command filter only supports str, re.Pattern object or their Iterable"
+            raise ValueError(msg)
 
         def process_command(command):
             if isinstance(command, str):
@@ -170,13 +173,15 @@ class Command(Filter):
                 )
 
             if not isinstance(command, re.Pattern):
-                raise ValueError("Command filter only supports str, re.Pattern, or their Iterable")
+                msg = "Command filter only supports str, re.Pattern, or their Iterable"
+                raise ValueError(msg)
 
             return command
 
         items = [process_command(command) for command in (*values, *commands)]
         if not items:
-            raise ValueError("Command filter requires at least one command")
+            msg = "Command filter requires at least one command"
+            raise ValueError(msg)
 
         self.commands = tuple(items)
         self.prefix = prefix
@@ -227,7 +232,8 @@ class Command(Filter):
             If the prefix is invalid.
         """
         if command.prefix != self.prefix:
-            raise CommandError(f"Invalid prefix: {command.prefix!r}")
+            msg = f"Invalid prefix: {command.prefix!r}"
+            raise CommandError(msg)
 
     async def validade_mention(self, client: Client, command: CommandObject) -> None:
         """
@@ -253,7 +259,8 @@ class Command(Filter):
                 me = await client.get_me()
 
             if me.username and command.mention.lower() != me.username.lower():
-                raise CommandError(f"Invalid mention: {command.mention!r}")
+                msg = f"Invalid mention: {command.mention!r}"
+                raise CommandError(msg)
 
     def validate_command(self, command: CommandObject) -> CommandObject:
         """
@@ -289,7 +296,8 @@ class Command(Filter):
             if command_name == allowed_command:
                 return command
 
-        raise CommandError(f"Invalid command: {command.command!r}")
+        msg = f"Invalid command: {command.command!r}"
+        raise CommandError(msg)
 
     async def parse_command(self, client: Client, message: Message) -> CommandObject:
         """
@@ -347,7 +355,8 @@ class Command(Filter):
         if self.magic:
             result = self.magic.resolve(command)
             if not result:
-                raise CommandError("Rejected by magic filter")
+                msg = "Rejected by magic filter"
+                raise CommandError(msg)
 
             return replace(command, magic_result=result)
 

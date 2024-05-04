@@ -69,8 +69,23 @@ select = [
     "PTH",  # flake8-use-pathlib
     "G",    # flake8-logging-format
     "TID",  # flake8-tidy-imports
+    "B",    # flask8-bugbear
+    "CPY",  # flake8-copyright
+    "DTZ",  # flake8-datetimez
+    "EM",   # flake8-errmsg
+    "G",    # flake8-logging-format
+    "TCH",  # flake8-type-checking
+    "PL",   # pylint
 ]
-ignore = ["RUF001", "RUF002", "RUF003"]
+ignore = [
+    "RUF001",
+    "RUF002",
+    "RUF003",
+    "PLR0913",
+    "PLR2004",
+    "PLW2901",
+    "PLW1641",
+]
 preview = true
 
 [tool.ruff.lint.isort]

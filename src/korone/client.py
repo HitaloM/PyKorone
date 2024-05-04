@@ -3,17 +3,20 @@
 
 from dataclasses import dataclass
 from pathlib import Path
+from typing import TYPE_CHECKING
 
 import hydrogram
 from hydrogram import Client
 from hydrogram.enums import ParseMode
 from hydrogram.raw.all import layer
-from hydrogram.types import User
 
 from korone import constants
 from korone.database.impl import SQLite3Connection
 from korone.modules import load_all_modules
 from korone.utils.logging import log
+
+if TYPE_CHECKING:
+    from hydrogram.types import User
 
 
 @dataclass(frozen=True, slots=True)

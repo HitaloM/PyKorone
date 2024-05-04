@@ -90,8 +90,9 @@ class LanguageGroupInfo(LanguageInfoBase):
 
 
 class LanguageInfoCallback(CallbackQueryHandler):
+    @staticmethod
     @router.callback_query(LangMenuCallback.filter(F.menu == "language"))
-    async def handle(self, client: Client, callback: CallbackQuery):
+    async def handle(client: Client, callback: CallbackQuery):
         text, keyboard = await LanguagePrivateInfo().get_info_text_and_buttons(get_i18n())
 
         keyboard.row(

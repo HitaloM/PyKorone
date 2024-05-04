@@ -64,7 +64,7 @@ class ChatManager:
 
         db_obj = None
         if (isinstance(chat, User) and not chat.is_bot) or (
-            isinstance(chat, Chat) and chat.type in (ChatType.GROUP, ChatType.SUPERGROUP)
+            isinstance(chat, Chat) and chat.type in {ChatType.GROUP, ChatType.SUPERGROUP}
         ):
             db_obj = await self.database_manager.get(chat)
 
@@ -79,7 +79,8 @@ class ChatManager:
             if db_obj and isinstance(locale, Locale):
                 locale = f"{locale.language}_{locale.territory}"
             if db_obj and locale not in i18n.available_locales:
-                raise UnknownLocaleError("Invalid locale identifier")
+                msg = "Invalid locale identifier"
+                raise UnknownLocaleError(msg)
 
         except UnknownLocaleError:
             locale = i18n.default_locale
@@ -209,7 +210,13 @@ class ChatManager:
 
         @wraps(func)
         async def wrapper(*args, **kwargs):
-            update: Message | CallbackQuery = args[2]
+            update: Message | CallbackQuery
+
+            try:
+                update = args[2]
+            except IndexError:
+                update = args[1]
+
             is_callback = isinstance(update, CallbackQuery)
             message = update.message if is_callback else update
             user: User = update.from_user if is_callback else message.from_user
@@ -268,7 +275,8 @@ class ChatManager:
 
         await self._chats_update(chats_to_update)
 
-    async def handle_replied_message(self, chat_id: int, message: Message) -> list[Chat | User]:
+    @staticmethod
+    async def handle_replied_message(chat_id: int, message: Message) -> list[Chat | User]:
         """
         Handle replied message.
 

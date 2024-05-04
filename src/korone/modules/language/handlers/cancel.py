@@ -12,8 +12,9 @@ from korone.utils.i18n import gettext as _
 
 
 class ChangeLanguageCancel(CallbackQueryHandler):
+    @staticmethod
     @router.callback_query(LangMenuCallback.filter(F.menu == "cancel"))
-    async def handle(self, client: Client, callback: CallbackQuery):
+    async def handle(client: Client, callback: CallbackQuery):
         await callback.message.edit_text(
             _(
                 "Changing language was canceled, you can change language again "

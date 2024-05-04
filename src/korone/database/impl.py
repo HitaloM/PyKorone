@@ -33,7 +33,8 @@ class SQLite3Table:
 
     def __init__(self, *, conn: Connection, table: str) -> None:
         if conn is None:
-            raise RuntimeError("Connecton cannot be None")
+            msg = "Connecton cannot be None"
+            raise RuntimeError(msg)
 
         self._conn = conn
         self._table = table
@@ -84,7 +85,8 @@ class SQLite3Table:
 
         documents = [
             Document({
-                description[0]: value for description, value in zip(cursor.description, row)
+                description[0]: value
+                for description, value in zip(cursor.description, row, strict=False)
             })
             for row in rows
         ]
@@ -212,7 +214,8 @@ class SQLite3Connection:
             If the connection is not yet open.
         """
         if not await self._is_open():
-            raise RuntimeError("Connection is not yet open.")
+            msg = "Connection is not yet open."
+            raise RuntimeError(msg)
 
         await self._conn.commit()  # type: ignore
 
@@ -229,7 +232,8 @@ class SQLite3Connection:
             If the connection is already in place.
         """
         if await self._is_open():
-            raise RuntimeError("Connection is already in place.")
+            msg = "Connection is already in place."
+            raise RuntimeError(msg)
 
         if not (path := Path(self._path)).parent.exists():
             log.info("Could not find database directory")
@@ -284,7 +288,8 @@ class SQLite3Connection:
             Raised if the connection is not yet open.
         """
         if not await self._is_open():
-            raise RuntimeError("Connection is not yet open.")
+            msg = "Connection is not yet open."
+            raise RuntimeError(msg)
 
         await self._execute(sql, parameters, script)
 
@@ -301,7 +306,8 @@ class SQLite3Connection:
             If the connection is not yet open.
         """
         if not await self._is_open():
-            raise RuntimeError("Connection is not yet open.")
+            msg = "Connection is not yet open."
+            raise RuntimeError(msg)
 
         if self._conn is not None:
             await self._conn.close()

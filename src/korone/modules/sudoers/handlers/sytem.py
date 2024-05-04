@@ -20,15 +20,17 @@ from korone.modules.utils.filters.command import CommandObject
 
 
 class Reboot(MessageHandler):
+    @staticmethod
     @router.message(Command("reboot") & IsSudo)
-    async def handle(self, client: Client, message: Message) -> None:
+    async def handle(client: Client, message: Message) -> None:
         await message.reply_text("Rebooting...")
         os.execv(sys.executable, [sys.executable, "-m", "korone"])
 
 
 class Shutdown(MessageHandler):
+    @staticmethod
     @router.message(Command("shutdown") & IsSudo)
-    async def handle(self, client: Client, message: Message) -> None:
+    async def handle(client: Client, message: Message) -> None:
         await message.reply_text("Shutting down...")
         os.kill(os.getpid(), SIGINT)
 
@@ -63,8 +65,9 @@ class Shell(MessageHandler):
 
 
 class PurgeCache(MessageHandler):
+    @staticmethod
     @router.message(Command("flushall") & IsSudo)
-    async def handle(self, client: Client, message: Message) -> None:
+    async def handle(client: Client, message: Message) -> None:
         start_time = time.time()
         start = await message.reply_text("Flushing cache...")
         await redis.flushall()

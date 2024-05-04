@@ -28,7 +28,7 @@ class SelectLanguageBase:
             )
 
         keyboard.adjust(2)
-        if chat_type in (ChatType.GROUP, ChatType.SUPERGROUP):
+        if chat_type in {ChatType.GROUP, ChatType.SUPERGROUP}:
             keyboard.row(
                 InlineKeyboardButton(
                     text=_("❌ Cancel"), callback_data=LangMenuCallback(menu="cancel").pack()
@@ -72,7 +72,7 @@ class SelectLanguageCallback(CallbackQueryHandler, SelectLanguageBase):
     async def handle(self, client: Client, callback: CallbackQuery):
         if callback.message.chat.type != ChatType.PRIVATE:
             user = await client.get_chat_member(callback.message.chat.id, callback.from_user.id)
-            if user.status not in (ChatMemberStatus.ADMINISTRATOR, ChatMemberStatus.OWNER):
+            if user.status not in {ChatMemberStatus.ADMINISTRATOR, ChatMemberStatus.OWNER}:
                 await callback.answer(_("This action can only be performed by administrators."))
 
         await self.edit_message(callback)

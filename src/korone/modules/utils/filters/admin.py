@@ -53,7 +53,7 @@ class IsAdmin(Filter):
             return True
 
         user = await self.client.get_chat_member(message.chat.id, message.from_user.id)
-        return user.status in (ChatMemberStatus.ADMINISTRATOR, ChatMemberStatus.OWNER)
+        return user.status in {ChatMemberStatus.ADMINISTRATOR, ChatMemberStatus.OWNER}
 
     def __await__(self) -> Generator:
         """

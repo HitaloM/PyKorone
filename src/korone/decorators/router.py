@@ -51,4 +51,5 @@ class Router:
         RouterError
             When a unsupported event is called.
         """
-        raise RouterError(f"Event of type: '{name}' is not supported by the PyKorone.")
+        msg = f"Event of type: '{name}' is not supported by the PyKorone."
+        raise RouterError(msg)

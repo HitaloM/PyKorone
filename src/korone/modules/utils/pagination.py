@@ -47,7 +47,8 @@ class Pagination:
         self.item_data = item_data
         self.item_title = item_title
 
-    def chunk_list(self, lst: Sequence[Any], size: int) -> Iterator[typing.Sequence[Any]]:
+    @staticmethod
+    def chunk_list(lst: Sequence[Any], size: int) -> Iterator[typing.Sequence[Any]]:
         """
         Split a list into smaller chunks of a specified size.
 

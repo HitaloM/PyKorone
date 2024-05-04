@@ -89,7 +89,8 @@ class ConfigManager:
                 config_path.parent.mkdir(parents=True, exist_ok=True)
             except OSError as err:
                 log.critical("Could not create configuration directory: %s", err)
-                raise ConfigError("Could not create configuration directory")
+                msg = "Could not create configuration directory"
+                raise ConfigError(msg) from err
 
         if not config_path.is_file():
             log.info("Could not find configuration file")
@@ -98,7 +99,8 @@ class ConfigManager:
                 rtoml.dump(constants.DEFAULT_CONFIG_TEMPLATE, config_path, pretty=True)
             except OSError as err:
                 log.critical("Could not create configuration file: %s", err)
-                raise ConfigError("Could not create configuration file")
+                msg = "Could not create configuration file"
+                raise ConfigError(msg) from err
 
         self.config: dict[str, Any] = rtoml.loads(config_path.read_text(encoding="utf-8"))
 
@@ -125,5 +127,6 @@ class ConfigManager:
             value.
         """
         if cls._instance is None:
-            raise ConfigError("ConfigManager instance has not been initialized")
+            msg = "ConfigManager instance has not been initialized"
+            raise ConfigError(msg)
         return cls._instance.config.get(section, {}).get(option, fallback)

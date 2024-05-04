@@ -21,7 +21,8 @@ class DatabaseManager:
     get or insert a document into a table.
     """
 
-    async def get_table_name(self, chat: User | Chat) -> str | None:
+    @staticmethod
+    async def get_table_name(chat: User | Chat) -> str | None:
         """
         Get the table name based on the chat type.
 

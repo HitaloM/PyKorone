@@ -45,7 +45,7 @@ class Help(MessageHandler):
 
     @router.message(Command("help"))
     async def handle(self, client: Client, message: Message) -> None:
-        if message.chat.type in (ChatType.GROUP, ChatType.SUPERGROUP):
+        if message.chat.type in {ChatType.GROUP, ChatType.SUPERGROUP}:
             keyboard = InlineKeyboardBuilder()
             keyboard.button(text=_("👮‍♂️ Help"), url="https://t.me/PyKoroneBot?start=start")
             await message.reply_text(
@@ -102,8 +102,9 @@ class GetHelp(CallbackQueryHandler):
 
 
 class HelpCallbackHandler(CallbackQueryHandler):
+    @staticmethod
     @router.callback_query(PMMenuCallback.filter(F.menu == "help"))
-    async def handle(self, client: Client, callback: CallbackQuery) -> None:
+    async def handle(client: Client, callback: CallbackQuery) -> None:
         text = Help.build_text()
         keyboard = Help.build_keyboard()
 

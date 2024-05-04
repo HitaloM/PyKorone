@@ -13,8 +13,9 @@ from korone.utils.i18n import gettext as _
 
 
 class SetAfk(MessageHandler):
+    @staticmethod
     @router.message(Command("afk"))
-    async def handle(self, client: Client, message: Message) -> None:
+    async def handle(client: Client, message: Message) -> None:
         command = CommandObject(message).parse()
 
         isafk = await is_afk(message.from_user.id)

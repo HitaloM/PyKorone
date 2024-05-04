@@ -1,3 +1,6 @@
+# SPDX-License-Identifier: BSD-3-Clause
+# Copyright (c) 2023-present Hitalo M. <https://github.com/HitaloM>
+
 import datetime
 import sys
 from pathlib import Path
@@ -9,7 +12,7 @@ import korone  # noqa: E402
 
 project = "PyKorone"
 author = "Hitalo M."
-copyright = f"{datetime.date.today().year}, {author}"
+copyright = f"{datetime.datetime.now(tz=datetime.UTC).date().year}, {author}"
 release = korone.__version__.split(" ")[0]
 
 extensions = [
