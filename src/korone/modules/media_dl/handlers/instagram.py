@@ -20,18 +20,41 @@ from korone.handlers.message_handler import MessageHandler
 from korone.modules.media_dl.utils.instagram import (
     TIMEOUT,
     GetInstagram,
+    InstaData,
+    Media,
     NotFoundError,
 )
 from korone.modules.utils.filters.magic import Magic
 from korone.utils.cache import Cached
 from korone.utils.i18n import gettext as _
 
-URL_PATTERN = re.compile(
-    r"(?:https?://)?(?:www\.)?instagram\.com/(?:[^/?#&]+/)?(?:p|reels|reel)/([^/?#&]+).*"
-)
+URL_PATTERN = re.compile(r"(?:https?://)?(?:www\.)?instagram\.com/")
+REEL_PATTERN = re.compile(r"(?:reel(?:s?)|p)/(?P<post_id>[A-Za-z0-9_-]+)")
+STORIES_PATTERN = re.compile(r"(?:stories)/(?:[^/?#&]+/)?(?P<media_id>[0-9]+)")
+POST_ID_PATTERN = re.compile(r"^[A-Za-z0-9\-_]+$")
+
+GRAPH_IMAGE = "GraphImage"
+GRAPH_VIDEO = "GraphVideo"
+STORY_IMAGE = "StoryImage"
+STORY_VIDEO = "StoryVideo"
 
 
 class InstagramHandler(MessageHandler):
+    @staticmethod
+    def mediaid_to_code(media_id: int) -> str:
+        alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_"
+        num = int(media_id)
+        if num == 0:
+            return alphabet[0]
+        arr = []
+        base = len(alphabet)
+        while num:
+            rem = num % base
+            num //= base
+            arr.append(alphabet[rem])
+        arr.reverse()
+        return "".join(arr)
+
     @staticmethod
     @Cached(timedelta(days=1))
     async def url_to_binary_io(url: str) -> io.BytesIO:
@@ -62,16 +85,69 @@ class InstagramHandler(MessageHandler):
 
             return file
 
+    def get_post_id_from_message(self, message: Message) -> str | None:
+        matches = REEL_PATTERN.findall(message.text)
+        if len(matches) == 1:
+            return matches[0]
+        if media_id := STORIES_PATTERN.findall(message.text):
+            try:
+                return self.mediaid_to_code(int(media_id[0]))
+            except ValueError:
+                return None
+        else:
+            return None
+
+    @staticmethod
+    def create_caption_and_keyboard(
+        insta: InstaData, post_url: str
+    ) -> tuple[str, InlineKeyboardBuilder]:
+        text = f"<b>{insta.username}</b>"
+        if insta.caption:
+            if len(insta.caption) > 255:
+                text += f":\n\n{insta.caption[:255]}..."
+            else:
+                text += f":\n\n{insta.caption}"
+
+        keyboard = InlineKeyboardBuilder()
+        if post_url:
+            keyboard.button(text=_("Open in Instagram"), url=post_url.group())
+
+        return text, keyboard
+
+    @staticmethod
+    async def reply_with_media(
+        message: Message,
+        media: Media,
+        media_bynary: io.BytesIO,
+        text: str,
+        keyboard: InlineKeyboardBuilder,
+    ) -> None:
+        if media.type_name in {GRAPH_IMAGE, STORY_IMAGE}:
+            await message.reply_photo(
+                media_bynary, caption=text, reply_markup=keyboard.as_markup()
+            )
+        elif media.type_name in {GRAPH_VIDEO, STORY_VIDEO}:
+            await message.reply_video(
+                media_bynary, caption=text, reply_markup=keyboard.as_markup()
+            )
+
+    async def create_media_list(
+        self, insta: InstaData
+    ) -> list[InputMediaPhoto | InputMediaVideo] | None:
+        media_list = []
+        for media in insta.medias:
+            media_bynary = await self.url_to_binary_io(media.url)
+            if media.type_name in {GRAPH_IMAGE, STORY_IMAGE}:
+                media_list.append(InputMediaPhoto(media_bynary))
+            if media.type_name in {GRAPH_VIDEO, STORY_VIDEO}:
+                media_list.append(InputMediaVideo(media_bynary))
+        return media_list
+
     @router.message(Magic(F.text.regexp(URL_PATTERN)))
     async def handle(self, client: Client, message: Message) -> None:
-        post_url = URL_PATTERN.search(message.text)
-        if not post_url:
-            return
-
-        post_id = post_url.group(1)
+        post_id = self.get_post_id_from_message(message)
         if not post_id:
-            return
-        if not re.match(r"^[A-Za-z0-9\-_]+$", post_id):
+            await message.reply_text(_("This Instagram URL is not a valid post or story."))
             return
 
         try:
@@ -80,40 +156,22 @@ class InstagramHandler(MessageHandler):
             await message.reply_text(_("Oops! Something went wrong while fetching the post."))
             return
 
+        post_url = URL_PATTERN.search(message.text)
+        text, keyboard = self.create_caption_and_keyboard(insta, post_url)
+
         if len(insta.medias) == 1:
             media = insta.medias[0]
-
-            text = f"<b>{insta.username}:</b>\n\n"
-            text += f"{insta.caption[:900]}"
-
-            keyboard = InlineKeyboardBuilder()
-            keyboard.button(text=_("Open in Instagram"), url=post_url.group())
-
             media_bynary = await self.url_to_binary_io(media.url)
-            if "GraphImage" in media.type_name:
-                await message.reply_photo(
-                    media_bynary, caption=text, reply_markup=keyboard.as_markup()
-                )
-            elif "GraphVideo" in media.type_name:
-                await message.reply_video(
-                    media_bynary, caption=text, reply_markup=keyboard.as_markup()
-                )
+            await self.reply_with_media(message, media, media_bynary, text, keyboard)
             return
 
-        media_list: list[InputMediaPhoto | InputMediaVideo] = []
-        for media in insta.medias:
-            media_bynary = await self.url_to_binary_io(media.url)
-            if "GraphImage" in media.type_name:
-                media_list.append(InputMediaPhoto(media_bynary))
-            elif "GraphVideo" in media.type_name:
-                media_list.append(InputMediaVideo(media_bynary))
-
+        media_list = await self.create_media_list(insta)
         if not media_list:
             return
 
-        text = f"<b>{insta.username}:</b>\n\n"
-        text += f"{insta.caption[:900]}"
-        text += f"\n\n<a href='{post_url.group()}'>{_("Open in Instagram")}</a>"
         media_list[-1].caption = text
-
+        if post_url:
+            media_list[
+                -1
+            ].caption += f"\n\n<a href='{post_url.group()}'>{_("Open in Instagram")}</a>"
         await message.reply_media_group(media_list)

@@ -58,7 +58,7 @@ class Media:
 class InstaData:
     post_id: str
     username: str
-    caption: str
+    caption: str | None
     medias: list[Media]
 
 
@@ -70,7 +70,7 @@ class InstagramDataFetcher:
         url = f"https://www.instagram.com/p/{post_id}/embed/captioned/"
         response = await self.get_response(url)
 
-        if response is None:
+        if (response and response.status_code != 200) or not response:
             return None
 
         time_slice = await self.get_time_slice(response)
@@ -324,31 +324,27 @@ class GetInstagram:
 
     async def fetch_data(self, post_id: str) -> dict[str, Any]:
         data = await self.data_fetcher.get_data(post_id)
-        if data is None:
+        if not data:
             raise NotFoundError(f"data not found for post ID {post_id}")
 
         item = data.get("shortcode_media")
         if item is None:
             raise NotFoundError(f"shortcode_media not found for post ID {post_id}")
+
         return item
 
     def process_data(self, item: dict[str, Any], post_id: str) -> InstaData:
         media = self.get_media(item)
 
         username = item["owner"]["username"] if item.get("owner") else ""
-        caption = ""
+        caption = None
         if item.get("edge_media_to_caption") and item["edge_media_to_caption"]["edges"]:
             caption_node = item["edge_media_to_caption"]["edges"][0].get("node")
             if caption_node and caption_node.get("text"):
-                caption = caption_node["text"]
-                if caption is not None:
-                    caption = caption.strip()
+                caption = caption_node["text"].strip()
 
         if not username:
             raise NotFoundError(f"username not found for post ID {post_id}")
-
-        if not caption:
-            raise NotFoundError(f"caption not found for post ID {post_id}")
 
         return InstaData(
             post_id=post_id,

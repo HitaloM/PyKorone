@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-05-02 12:33-0300\n"
+"POT-Creation-Date: 2024-05-04 14:44-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -269,14 +269,18 @@ msgstr ""
 msgid "This action can only be performed by administrators."
 msgstr ""
 
-#: src/korone/modules/media_dl/handlers/instagram.py:80
-#: src/korone/modules/media_dl/handlers/twitter.py:134
-msgid "Oops! Something went wrong while fetching the post."
+#: src/korone/modules/media_dl/handlers/instagram.py:113
+#: src/korone/modules/media_dl/handlers/instagram.py:176
+msgid "Open in Instagram"
 msgstr ""
 
-#: src/korone/modules/media_dl/handlers/instagram.py:90
-#: src/korone/modules/media_dl/handlers/instagram.py:116
-msgid "Open in Instagram"
+#: src/korone/modules/media_dl/handlers/instagram.py:150
+msgid "This Instagram URL is not a valid post or story."
+msgstr ""
+
+#: src/korone/modules/media_dl/handlers/instagram.py:156
+#: src/korone/modules/media_dl/handlers/twitter.py:134
+msgid "Oops! Something went wrong while fetching the post."
 msgstr ""
 
 #: src/korone/modules/media_dl/handlers/twitter.py:147
