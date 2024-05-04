@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pykorone\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-05-02 10:01-0300\n"
-"PO-Revision-Date: 2024-05-02 13:25\n"
+"POT-Creation-Date: 2024-05-04 14:44-0300\n"
+"PO-Revision-Date: 2024-05-04 17:51\n"
 "Last-Translator: \n"
 "Language-Team: Malay\n"
 "MIME-Version: 1.0\n"
@@ -148,41 +148,41 @@ msgid "<b>Commands:</b>\n"
 "In groups, the bot's language is set by the group's administrators."
 msgstr ""
 
-#: src/korone/modules/language/handlers/apply.py:27
+#: src/korone/modules/language/handlers/apply.py:28
 msgid "Something went wrong."
 msgstr ""
 
-#: src/korone/modules/language/handlers/apply.py:52
+#: src/korone/modules/language/handlers/apply.py:58
 msgid "Language changed to {new_lang}."
 msgstr ""
 
-#: src/korone/modules/language/handlers/apply.py:59
+#: src/korone/modules/language/handlers/apply.py:65
 msgid "\n"
 "This is the bot's native language.\n"
 "If you find any errors, please file a issue in the GitHub Repository."
 msgstr ""
 
-#: src/korone/modules/language/handlers/apply.py:66
-#: src/korone/modules/language/handlers/apply.py:84
+#: src/korone/modules/language/handlers/apply.py:72
+#: src/korone/modules/language/handlers/apply.py:90
 msgid "🐞 Open GitHub"
 msgstr ""
 
-#: src/korone/modules/language/handlers/apply.py:73
+#: src/korone/modules/language/handlers/apply.py:79
 msgid "\n"
 "The language is {percent}% translated."
 msgstr ""
 
-#: src/korone/modules/language/handlers/apply.py:78
+#: src/korone/modules/language/handlers/apply.py:84
 msgid "\n"
 "In case you find any errors, please file a issue in the GitHub Repository."
 msgstr ""
 
-#: src/korone/modules/language/handlers/apply.py:88
+#: src/korone/modules/language/handlers/apply.py:94
 msgid "\n"
 "Please help us translate this language by completing it on the Crowdin website."
 msgstr ""
 
-#: src/korone/modules/language/handlers/apply.py:94
+#: src/korone/modules/language/handlers/apply.py:100
 msgid "🌍 Open Crowdin"
 msgstr ""
 
@@ -248,14 +248,18 @@ msgstr ""
 msgid "This action can only be performed by administrators."
 msgstr ""
 
-#: src/korone/modules/media_dl/handlers/instagram.py:80
-#: src/korone/modules/media_dl/handlers/twitter.py:134
-msgid "Oops! Something went wrong while fetching the post."
+#: src/korone/modules/media_dl/handlers/instagram.py:113
+#: src/korone/modules/media_dl/handlers/instagram.py:176
+msgid "Open in Instagram"
 msgstr ""
 
-#: src/korone/modules/media_dl/handlers/instagram.py:90
-#: src/korone/modules/media_dl/handlers/instagram.py:116
-msgid "Open in Instagram"
+#: src/korone/modules/media_dl/handlers/instagram.py:150
+msgid "This Instagram URL is not a valid post or story."
+msgstr ""
+
+#: src/korone/modules/media_dl/handlers/instagram.py:156
+#: src/korone/modules/media_dl/handlers/twitter.py:134
+msgid "Oops! Something went wrong while fetching the post."
 msgstr ""
 
 #: src/korone/modules/media_dl/handlers/twitter.py:147
