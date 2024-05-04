@@ -10,6 +10,16 @@ from korone import constants
 from korone.utils.logging import log
 
 
+class ConfigError(Exception):
+    """
+    Represents an error that occurs while loading or saving the configuration.
+
+    This exception is raised when an error occurs while loading or saving the configuration.
+    """
+
+    pass
+
+
 class ConfigManager:
     """
     Configuration manager class.
@@ -79,6 +89,7 @@ class ConfigManager:
                 config_path.parent.mkdir(parents=True, exist_ok=True)
             except OSError as err:
                 log.critical("Could not create configuration directory: %s", err)
+                raise ConfigError("Could not create configuration directory")
 
         if not config_path.is_file():
             log.info("Could not find configuration file")
@@ -87,6 +98,7 @@ class ConfigManager:
                 rtoml.dump(constants.DEFAULT_CONFIG_TEMPLATE, config_path, pretty=True)
             except OSError as err:
                 log.critical("Could not create configuration file: %s", err)
+                raise ConfigError("Could not create configuration file")
 
         self.config: dict[str, Any] = rtoml.loads(config_path.read_text(encoding="utf-8"))
 
@@ -113,5 +125,5 @@ class ConfigManager:
             value.
         """
         if cls._instance is None:
-            raise Exception("ConfigManager instance has not been initialized")
+            raise ConfigError("ConfigManager instance has not been initialized")
         return cls._instance.config.get(section, {}).get(option, fallback)

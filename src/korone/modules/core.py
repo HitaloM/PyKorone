@@ -221,8 +221,7 @@ def load_module(client: Client, module: tuple) -> bool:
         return True
 
     except ModuleNotFoundError:
-        log.exception("Could not load module: %s", module_name)
-        raise
+        raise ModuleNotFoundError(f"Could not load module: {module_name}")
 
 
 def load_all_modules(client: Client) -> None:

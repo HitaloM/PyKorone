@@ -289,7 +289,7 @@ class InstagramCache:
                 ex=int(timedelta(days=1).total_seconds()),
             )
         except Exception as err:
-            log.error("Failed to set cache for post ID %s: %s", post_id, err)
+            log.exception("Failed to set cache for post ID %s: %s", post_id, err)
             raise InstaError(f"Error while setting cache for post ID {post_id}: {err}")
 
     def process_cached_data(self, cache_insta_data: Any, post_id: str) -> InstaData | None:
