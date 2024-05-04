@@ -99,8 +99,8 @@ class InstagramHandler(MessageHandler):
 
     @staticmethod
     def create_caption_and_keyboard(
-        insta: InstaData, post_url: str
-    ) -> tuple[str, InlineKeyboardBuilder]:
+        insta: InstaData, post_url: str | None
+    ) -> tuple[str, InlineKeyboardBuilder | None]:
         text = f"<b>{insta.username}</b>"
         if insta.caption:
             if len(insta.caption) > 255:
@@ -108,9 +108,10 @@ class InstagramHandler(MessageHandler):
             else:
                 text += f":\n\n{insta.caption}"
 
-        keyboard = InlineKeyboardBuilder()
+        keyboard = None
         if post_url:
-            keyboard.button(text=_("Open in Instagram"), url=post_url.group())
+            keyboard = InlineKeyboardBuilder()
+            keyboard.button(text=_("Open in Instagram"), url=post_url)
 
         return text, keyboard
 
@@ -120,16 +121,22 @@ class InstagramHandler(MessageHandler):
         media: Media,
         media_bynary: io.BytesIO,
         text: str,
-        keyboard: InlineKeyboardBuilder,
+        keyboard: InlineKeyboardBuilder | None,
     ) -> None:
-        if media.type_name in {GRAPH_IMAGE, STORY_IMAGE}:
-            await message.reply_photo(
-                media_bynary, caption=text, reply_markup=keyboard.as_markup()
-            )
-        elif media.type_name in {GRAPH_VIDEO, STORY_VIDEO}:
-            await message.reply_video(
-                media_bynary, caption=text, reply_markup=keyboard.as_markup()
-            )
+        if media.type_name in {GRAPH_IMAGE, STORY_IMAGE, STORY_VIDEO}:
+            if keyboard:
+                await message.reply_photo(
+                    media_bynary, caption=text, reply_markup=keyboard.as_markup()
+                )
+            else:
+                await message.reply_photo(media_bynary, caption=text)
+        elif media.type_name == GRAPH_VIDEO:
+            if keyboard:
+                await message.reply_video(
+                    media_bynary, caption=text, reply_markup=keyboard.as_markup()
+                )
+            else:
+                await message.reply_video(media_bynary, caption=text)
 
     async def create_media_list(
         self, insta: InstaData
@@ -157,6 +164,7 @@ class InstagramHandler(MessageHandler):
             return
 
         post_url = URL_PATTERN.search(message.text)
+        post_url = post_url.group() if post_url else None
         text, keyboard = self.create_caption_and_keyboard(insta, post_url)
 
         if len(insta.medias) == 1:
@@ -171,7 +179,5 @@ class InstagramHandler(MessageHandler):
 
         media_list[-1].caption = text
         if post_url:
-            media_list[
-                -1
-            ].caption += f"\n\n<a href='{post_url.group()}'>{_("Open in Instagram")}</a>"
+            media_list[-1].caption += f"\n\n<a href='{post_url}'>{_("Open in Instagram")}</a>"
         await message.reply_media_group(media_list)
