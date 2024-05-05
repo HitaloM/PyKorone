@@ -6,61 +6,65 @@ import re
 from hydrogram import Client, filters
 from hydrogram.enums import MessageEntityType
 from hydrogram.errors import PeerIdInvalid
-from hydrogram.types import Message, User
+from hydrogram.types import Message, MessageEntity, User
 
-from korone.database.impl import SQLite3Connection
-from korone.database.query import Query
-from korone.database.table import Documents
 from korone.decorators import router
 from korone.handlers.message_handler import MessageHandler
-from korone.modules.afk.utils import is_afk, set_afk
+from korone.modules.afk.database import get_afk_reason, get_user, is_afk, set_afk
 from korone.utils.i18n import gettext as _
 
 
 class CheckAfk(MessageHandler):
     @staticmethod
-    async def get_user(username: str) -> Documents:
-        async with SQLite3Connection() as conn:
-            table = await conn.table("Users")
-            query = Query()
-            return await table.query(query.username == username[1:])
+    async def get_user(entity: MessageEntity, client: Client, message: Message) -> User | None:
+        offset: int = entity.offset
+        length: int = entity.length
+        username: str = message.text[offset : offset + length]
+        data = await get_user(username)
 
-    @staticmethod
-    async def get_afk_reason(user_id: int) -> Documents | None:
-        async with SQLite3Connection() as conn:
-            table = await conn.table("Afk")
-            query = Query()
-            doc = await table.query(query.id == user_id)
-            return doc[0]["reason"] if doc else None
+        if not data:
+            return None
+
+        chat_id = data[0]["id"]
+
+        try:
+            user: User = await client.get_chat(chat_id)  # type: ignore
+        except PeerIdInvalid:
+            return None
+
+        return user
 
     async def handle_mentioned_users(self, client: Client, message: Message) -> None:
-        if message.entities:
-            for ent in message.entities:
-                user: User
-                if ent.type == MessageEntityType.MENTION:
-                    if data := await self.get_user(
-                        message.text[ent.offset : ent.offset + ent.length]
-                    ):
-                        try:
-                            user = await client.get_chat(data[0]["id"])  # type: ignore
-                        except PeerIdInvalid:
-                            continue
-                elif ent.type == MessageEntityType.TEXT_MENTION:
-                    user = ent.user
+        if not message.entities:
+            return
 
-                await self.send_afk_message(user, message)
+        for entity in message.entities:
+            user: User | None = None
+            if entity.type == MessageEntityType.MENTION:
+                user = await self.get_user(entity, client, message)
+            elif entity.type == MessageEntityType.TEXT_MENTION:
+                user = entity.user
+
+        if user is not None:
+            await self.send_afk_message(user, message)
 
     async def handle_reply_to_message(self, message: Message) -> None:
-        if message.reply_to_message and message.reply_to_message.from_user:
-            reply_user = message.reply_to_message.from_user
-            await self.send_afk_message(reply_user, message)
+        if not message.reply_to_message or not message.reply_to_message.from_user:
+            return
 
-    async def send_afk_message(self, user: User, message: Message) -> None:
-        if user and user.id != message.from_user.id and await is_afk(user.id):
-            text = _("{user} is afk!").format(user=user.first_name)
-            if reason := await self.get_afk_reason(user.id):
-                text += _("\nReason: {reason}").format(reason=reason)
-            await message.reply(text)
+        reply_user = message.reply_to_message.from_user
+        await self.send_afk_message(reply_user, message)
+
+    @staticmethod
+    async def send_afk_message(user: User, message: Message) -> None:
+        if not user or user.id == message.from_user.id or not await is_afk(user.id):
+            return
+
+        text = _("{user} is afk!").format(user=user.first_name)
+        if reason := await get_afk_reason(user.id):
+            text += _("\nReason: {reason}").format(reason=reason)
+
+        await message.reply(text)
 
     @router.message(~filters.private & ~filters.bot & filters.all, group=-2)
     async def handle(self, client: Client, message: Message) -> None:

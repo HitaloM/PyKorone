@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-05-04 14:59-0300\n"
+"POT-Creation-Date: 2024-05-05 00:27-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -31,13 +31,11 @@ msgid ""
 " - /afk &lt;reason&gt;: Set your status as AFK."
 msgstr ""
 
-#: src/korone/modules/afk/handlers/check.py:60
-#: src/korone/modules/afk/handlers/check.py:72
+#: src/korone/modules/afk/handlers/check.py:63
 msgid "{user} is afk!"
 msgstr ""
 
-#: src/korone/modules/afk/handlers/check.py:62
-#: src/korone/modules/afk/handlers/check.py:74
+#: src/korone/modules/afk/handlers/check.py:65
 msgid ""
 "\n"
 "Reason: {reason}"
@@ -47,11 +45,11 @@ msgstr ""
 msgid "You are already AFK."
 msgstr ""
 
-#: src/korone/modules/afk/handlers/set.py:27
+#: src/korone/modules/afk/handlers/set.py:29
 msgid "Your AFK status has been updated!"
 msgstr ""
 
-#: src/korone/modules/afk/handlers/set.py:29
+#: src/korone/modules/afk/handlers/set.py:31
 msgid "You are now AFK."
 msgstr ""
 
@@ -165,46 +163,46 @@ msgstr ""
 msgid "Something went wrong."
 msgstr ""
 
-#: src/korone/modules/language/handlers/apply.py:58
+#: src/korone/modules/language/handlers/apply.py:57
 msgid "Language changed to {new_lang}."
 msgstr ""
 
-#: src/korone/modules/language/handlers/apply.py:65
+#: src/korone/modules/language/handlers/apply.py:64
 msgid ""
 "\n"
 "This is the bot's native language.\n"
 "If you find any errors, please file a issue in the GitHub Repository."
 msgstr ""
 
-#: src/korone/modules/language/handlers/apply.py:72
-#: src/korone/modules/language/handlers/apply.py:90
+#: src/korone/modules/language/handlers/apply.py:71
+#: src/korone/modules/language/handlers/apply.py:89
 msgid "🐞 Open GitHub"
 msgstr ""
 
-#: src/korone/modules/language/handlers/apply.py:79
+#: src/korone/modules/language/handlers/apply.py:78
 msgid ""
 "\n"
 "The language is {percent}% translated."
 msgstr ""
 
-#: src/korone/modules/language/handlers/apply.py:84
+#: src/korone/modules/language/handlers/apply.py:83
 msgid ""
 "\n"
 "In case you find any errors, please file a issue in the GitHub Repository."
 msgstr ""
 
-#: src/korone/modules/language/handlers/apply.py:94
+#: src/korone/modules/language/handlers/apply.py:93
 msgid ""
 "\n"
 "Please help us translate this language by completing it on the Crowdin "
 "website."
 msgstr ""
 
-#: src/korone/modules/language/handlers/apply.py:100
+#: src/korone/modules/language/handlers/apply.py:99
 msgid "🌍 Open Crowdin"
 msgstr ""
 
-#: src/korone/modules/language/handlers/cancel.py:18
+#: src/korone/modules/language/handlers/cancel.py:19
 msgid ""
 "Changing language was canceled, you can change language again by using "
 "/language command."
@@ -241,7 +239,7 @@ msgid "This is the bot's native language. So it is 100% translated."
 msgstr ""
 
 #: src/korone/modules/language/handlers/info.py:60
-#: src/korone/modules/language/handlers/info.py:99
+#: src/korone/modules/language/handlers/info.py:100
 #: src/korone/modules/language/handlers/select.py:41
 #: src/korone/modules/pm_menu/handlers/about.py:34
 #: src/korone/modules/pm_menu/handlers/help.py:34
