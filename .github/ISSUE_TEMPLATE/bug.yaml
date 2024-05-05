@@ -1,0 +1,63 @@
+name: Bug Report
+description: Report errors or unexpected behavior in the bot.
+
+labels:
+  - bug
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ## Context
+
+        Please provide as much information as possible. This will help us reproduce and fix the issue.
+
+  - type: input
+    attributes:
+      label: Your Telegram Username
+      description: Please provide your Telegram username so we can contact you if we need more information.
+      placeholder: e.g. @username
+    validations:
+      required: true
+
+  - type: textarea
+    attributes:
+      label: Description
+      description: Please describe the issue you are experiencing in detail.
+      placeholder: e.g. The bot is not responding to my commands.
+    validations:
+      required: true
+
+  - type: textarea
+    attributes:
+      label: Steps to Reproduce
+      description: Please describe the steps you followed to reproduce the issue.
+      placeholder: |
+        1. Send a message to the bot.
+        2. Type the command "/start".
+        3. ...
+        4. ...
+    validations:
+      required: true
+
+  - type: textarea
+    attributes:
+      label: Additional Information
+      description: Please provide any additional information that may help us understand the issue.
+      placeholder: |
+        e.g. This issue occurs only in group chats.
+
+        You can also attach additional screenshots or videos to help us understand the issue better.
+
+  - type: textarea
+    attributes:
+      label: Expected Behavior
+      description: Please describe the behavior you expect from the bot.
+      placeholder: e.g. The bot should reply with a confirmation message.
+
+  - type: textarea
+    attributes:
+      label: Additional Comments
+      description: Any additional comments or information you would like to add.
+      placeholder: |
+        e.g. This issue started occurring after the latest bot update.

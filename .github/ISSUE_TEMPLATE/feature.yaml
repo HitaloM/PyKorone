@@ -1,0 +1,46 @@
+name: Feature Request
+description: Please describe the feature you would like to see or improve in the bot.
+
+labels:
+  - enhancement
+
+body:
+  - type: textarea
+    attributes:
+      label: Problem or Idea
+      description: |
+        Please describe the problem you are facing or the idea you have for the bot.
+        Explain why this feature is needed or how it would improve the bot's functionality.
+      placeholder: e.g. I want the bot to retrieve Pokémon information, such as their type, abilities, and stats.
+    validations:
+      required: true
+
+  - type: textarea
+    attributes:
+      label: Example Usage
+      description: |
+        Provide an example of how you would use this feature.
+        You can also provide a step-by-step guide on how to reproduce your idea, if applicable.
+      placeholder: |
+        E.g. /pokedex pikachu shiny
+
+        Step 1: Enter the command "/pokedex pikachu shiny"
+        Step 2: The bot responds with a message containing a list of search results for shiny Pikachu.
+        Step 3: ...
+
+  - type: textarea
+    attributes:
+      label: Expected Behavior
+      description: |
+        Describe the behavior you expect from the bot when using this feature.
+        Be as specific as possible.
+      placeholder: e.g. The bot should send the Pokémon's photo and information.
+
+  - type: textarea
+    attributes:
+      label: Additional Information
+      description: |
+        Any additional information you would like to provide.
+        You can also attach additional pictures or files to help us understand your request better.
+      placeholder: |
+        E.g. You could use a Pokémon API to retrieve the information.

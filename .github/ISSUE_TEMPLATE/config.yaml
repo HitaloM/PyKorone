@@ -1,0 +1,9 @@
+blank_issues_enabled: true
+
+contact_links:
+  - name: Discuss anything related to the bot.
+    url: https://github.com/HitaloM/PyKorone/discussions
+    about: Ask a question about PyKorone or share your code snippets and ideas.
+  - name: Join our Telegram channel
+    url: https://t.me/PyKorone
+    about: Get the latest updates about the bot.
