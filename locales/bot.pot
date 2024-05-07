@@ -1,21 +1,21 @@
-# Translations template for PROJECT.
-# Copyright (C) 2024 ORGANIZATION
-# This file is distributed under the same license as the PROJECT project.
+# Translations template for PyKorone.
+# Copyright (C) 2024 Hitalo M.
+# This file is distributed under the same license as the PyKorone project.
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2024.
 #
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: PROJECT VERSION\n"
+"Project-Id-Version: PyKorone 1.0\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-05-05 00:27-0300\n"
+"POT-Creation-Date: 2024-05-06 22:05-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Generated-By: Babel 2.14.0\n"
+"Generated-By: Babel 2.15.0\n"
 
 #: src/korone/modules/afk/__init__.py:10
 msgid "AFK"
@@ -49,7 +49,7 @@ msgstr ""
 msgid "Your AFK status has been updated!"
 msgstr ""
 
-#: src/korone/modules/afk/handlers/set.py:31
+#: src/korone/modules/afk/handlers/set.py:32
 msgid "You are now AFK."
 msgstr ""
 
@@ -70,67 +70,67 @@ msgid ""
 " - /device &lt;device name&gt;: Returns the specifications of a device."
 msgstr ""
 
-#: src/korone/modules/gsm_arena/handlers/device.py:78
+#: src/korone/modules/gsm_arena/utils.py:96
 msgid "Status"
 msgstr ""
 
-#: src/korone/modules/gsm_arena/handlers/device.py:79
+#: src/korone/modules/gsm_arena/utils.py:97
 msgid "Network"
 msgstr ""
 
-#: src/korone/modules/gsm_arena/handlers/device.py:80
+#: src/korone/modules/gsm_arena/utils.py:98
 msgid "Weight"
 msgstr ""
 
-#: src/korone/modules/gsm_arena/handlers/device.py:81
+#: src/korone/modules/gsm_arena/utils.py:99
 msgid "Display"
 msgstr ""
 
-#: src/korone/modules/gsm_arena/handlers/device.py:82
+#: src/korone/modules/gsm_arena/utils.py:100
 msgid "Chipset"
 msgstr ""
 
-#: src/korone/modules/gsm_arena/handlers/device.py:83
+#: src/korone/modules/gsm_arena/utils.py:101
 msgid "Memory"
 msgstr ""
 
-#: src/korone/modules/gsm_arena/handlers/device.py:84
+#: src/korone/modules/gsm_arena/utils.py:102
 msgid "Rear Camera"
 msgstr ""
 
-#: src/korone/modules/gsm_arena/handlers/device.py:85
+#: src/korone/modules/gsm_arena/utils.py:103
 msgid "Front Camera"
 msgstr ""
 
-#: src/korone/modules/gsm_arena/handlers/device.py:86
+#: src/korone/modules/gsm_arena/utils.py:104
 msgid "3.5mm jack"
 msgstr ""
 
-#: src/korone/modules/gsm_arena/handlers/device.py:87
+#: src/korone/modules/gsm_arena/utils.py:105
 msgid "USB"
 msgstr ""
 
-#: src/korone/modules/gsm_arena/handlers/device.py:88
+#: src/korone/modules/gsm_arena/utils.py:106
 msgid "Sensors"
 msgstr ""
 
-#: src/korone/modules/gsm_arena/handlers/device.py:89
+#: src/korone/modules/gsm_arena/utils.py:107
 msgid "Battery"
 msgstr ""
 
-#: src/korone/modules/gsm_arena/handlers/device.py:90
+#: src/korone/modules/gsm_arena/utils.py:108
 msgid "Charging"
 msgstr ""
 
-#: src/korone/modules/gsm_arena/handlers/device.py:200
+#: src/korone/modules/gsm_arena/handlers/search.py:26
 msgid "Please enter a phone name to search."
 msgstr ""
 
-#: src/korone/modules/gsm_arena/handlers/device.py:207
+#: src/korone/modules/gsm_arena/handlers/search.py:33
 msgid "No devices found."
 msgstr ""
 
-#: src/korone/modules/gsm_arena/handlers/device.py:217
+#: src/korone/modules/gsm_arena/handlers/search.py:43
 msgid "Search results for: <b>{device}</b>"
 msgstr ""
 
@@ -163,42 +163,42 @@ msgstr ""
 msgid "Something went wrong."
 msgstr ""
 
-#: src/korone/modules/language/handlers/apply.py:57
+#: src/korone/modules/language/handlers/apply.py:59
 msgid "Language changed to {new_lang}."
 msgstr ""
 
-#: src/korone/modules/language/handlers/apply.py:64
+#: src/korone/modules/language/handlers/apply.py:66
 msgid ""
 "\n"
 "This is the bot's native language.\n"
 "If you find any errors, please file a issue in the GitHub Repository."
 msgstr ""
 
-#: src/korone/modules/language/handlers/apply.py:71
-#: src/korone/modules/language/handlers/apply.py:89
+#: src/korone/modules/language/handlers/apply.py:73
+#: src/korone/modules/language/handlers/apply.py:94
 msgid "🐞 Open GitHub"
 msgstr ""
 
-#: src/korone/modules/language/handlers/apply.py:78
+#: src/korone/modules/language/handlers/apply.py:84
 msgid ""
 "\n"
 "The language is {percent}% translated."
 msgstr ""
 
-#: src/korone/modules/language/handlers/apply.py:83
+#: src/korone/modules/language/handlers/apply.py:89
 msgid ""
 "\n"
 "In case you find any errors, please file a issue in the GitHub Repository."
 msgstr ""
 
-#: src/korone/modules/language/handlers/apply.py:93
+#: src/korone/modules/language/handlers/apply.py:98
 msgid ""
 "\n"
 "Please help us translate this language by completing it on the Crowdin "
 "website."
 msgstr ""
 
-#: src/korone/modules/language/handlers/apply.py:99
+#: src/korone/modules/language/handlers/apply.py:104
 msgid "🌍 Open Crowdin"
 msgstr ""
 
@@ -212,59 +212,75 @@ msgstr ""
 msgid "<b>Chat language:</b> {language}\n"
 msgstr ""
 
-#: src/korone/modules/language/handlers/info.py:38
+#: src/korone/modules/language/handlers/info.py:44
 msgid ""
 "\n"
 "<b>Language Info:</b>\n"
 msgstr ""
 
-#: src/korone/modules/language/handlers/info.py:39
+#: src/korone/modules/language/handlers/info.py:45
 msgid "Translated: {translated}\n"
 msgstr ""
 
-#: src/korone/modules/language/handlers/info.py:40
+#: src/korone/modules/language/handlers/info.py:46
 msgid "Untranslated: {untranslated}\n"
 msgstr ""
 
-#: src/korone/modules/language/handlers/info.py:41
+#: src/korone/modules/language/handlers/info.py:47
 msgid "Needs review: {fuzzy}\n"
 msgstr ""
 
-#: src/korone/modules/language/handlers/info.py:42
+#: src/korone/modules/language/handlers/info.py:48
 msgid "Percentage translated: {percent}\n"
 msgstr ""
 
-#: src/korone/modules/language/handlers/info.py:46
+#: src/korone/modules/language/handlers/info.py:52
 msgid "This is the bot's native language. So it is 100% translated."
 msgstr ""
 
-#: src/korone/modules/language/handlers/info.py:60
-#: src/korone/modules/language/handlers/info.py:100
-#: src/korone/modules/language/handlers/select.py:41
+#: src/korone/modules/language/handlers/info.py:66
+#: src/korone/modules/language/handlers/info.py:106
+#: src/korone/modules/language/handlers/select.py:42
 #: src/korone/modules/pm_menu/handlers/about.py:34
 #: src/korone/modules/pm_menu/handlers/help.py:34
 #: src/korone/modules/pm_menu/handlers/help.py:75
 msgid "⬅️ Back"
 msgstr ""
 
-#: src/korone/modules/language/handlers/info.py:70
+#: src/korone/modules/language/handlers/info.py:76
 msgid "👤 Change your language"
 msgstr ""
 
-#: src/korone/modules/language/handlers/info.py:87
+#: src/korone/modules/language/handlers/info.py:93
 msgid "🌍 Change group language"
 msgstr ""
 
-#: src/korone/modules/language/handlers/select.py:34
+#: src/korone/modules/language/handlers/select.py:35
 msgid "❌ Cancel"
 msgstr ""
 
-#: src/korone/modules/language/handlers/select.py:49
+#: src/korone/modules/language/handlers/select.py:50
 msgid "Please select the language you want to use for the chat."
 msgstr ""
 
-#: src/korone/modules/language/handlers/select.py:76
+#: src/korone/modules/language/handlers/select.py:77
 msgid "This action can only be performed by administrators."
+msgstr ""
+
+#: src/korone/modules/media_dl/__init__.py:10
+msgid "Media Downloader"
+msgstr ""
+
+#: src/korone/modules/media_dl/__init__.py:11
+msgid ""
+"Some sites, when shared on Telegram by link, do not provide a preview of "
+"the image or video. That's where this module comes in. PyKorone will "
+"automatically detect the links of supported sites and upload the videos "
+"and images that are present in it!"
+msgstr ""
+
+#: src/korone/modules/media_dl/__init__.py:16
+msgid "Actually, there is no documentation for this module. It just works!"
 msgstr ""
 
 #: src/korone/modules/media_dl/handlers/instagram.py:114
@@ -277,11 +293,11 @@ msgid "This Instagram URL is not a valid post or story."
 msgstr ""
 
 #: src/korone/modules/media_dl/handlers/instagram.py:163
-#: src/korone/modules/media_dl/handlers/twitter.py:134
+#: src/korone/modules/media_dl/handlers/twitter.py:136
 msgid "Oops! Something went wrong while fetching the post."
 msgstr ""
 
-#: src/korone/modules/media_dl/handlers/twitter.py:147
+#: src/korone/modules/media_dl/handlers/twitter.py:149
 msgid "Open in Twitter"
 msgstr ""
 

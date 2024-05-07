@@ -1,5 +1,5 @@
 # SPDX-License-Identifier: BSD-3-Clause
-# Copyright (c) 2023-present Hitalo M. <https://github.com/HitaloM>
+# Copyright (c) 2024 Hitalo M. <https://github.com/HitaloM>
 
 from hairydogm.keyboard import InlineKeyboardBuilder
 from hydrogram import Client
@@ -50,10 +50,12 @@ class ApplyLanguage(CallbackQueryHandler):
         async with SQLite3Connection() as conn:
             table = await conn.table("Users" if is_private else "Groups")
             query = Query()
+
             await table.update(Document(language=language), query.id == callback.message.chat.id)
 
     async def prepare_response(self, language: str) -> tuple[str, InlineKeyboardBuilder | None]:
         i18n = get_i18n()
+
         text = _("Language changed to {new_lang}.", locale=language).format(
             new_lang=i18n.locale_display(i18n.babel(language))
         )
@@ -71,33 +73,36 @@ class ApplyLanguage(CallbackQueryHandler):
                 text=_("🐞 Open GitHub", locale=language),
                 url=self.github_url,
             )
+            return text, keyboard
 
-        elif stats := i18n.get_locale_stats(locale_code=language):
-            keyboard = InlineKeyboardBuilder()
-            percent = 100 if i18n.default_locale == language else stats.percent_translated
+        stats = i18n.get_locale_stats(locale_code=language)
+        if not stats:
+            return text, keyboard
+
+        keyboard = InlineKeyboardBuilder()
+        percent = 100 if i18n.default_locale == language else stats.percent_translated
+        text += _(
+            "\nThe language is {percent}% translated.",
+            locale=language,
+        ).format(percent=percent)
+        if percent > 99:
             text += _(
-                "\nThe language is {percent}% translated.",
+                "\nIn case you find any errors, please file a issue in the " "GitHub Repository.",
                 locale=language,
-            ).format(percent=percent)
-            if percent > 99:
-                text += _(
-                    "\nIn case you find any errors, please file a issue in the "
-                    "GitHub Repository.",
-                    locale=language,
-                )
-                keyboard.button(
-                    text=_("🐞 Open GitHub", locale=language),
-                    url=self.github_url,
-                )
-            else:
-                text += _(
-                    "\nPlease help us translate this language by completing it on "
-                    "the Crowdin website.",
-                    locale=language,
-                )
-                keyboard.button(
-                    text=_("🌍 Open Crowdin", locale=language),
-                    url=self.crowdin_url,
-                )
+            )
+            keyboard.button(
+                text=_("🐞 Open GitHub", locale=language),
+                url=self.github_url,
+            )
+        else:
+            text += _(
+                "\nPlease help us translate this language by completing it on "
+                "the Crowdin website.",
+                locale=language,
+            )
+            keyboard.button(
+                text=_("🌍 Open Crowdin", locale=language),
+                url=self.crowdin_url,
+            )
 
         return text, keyboard

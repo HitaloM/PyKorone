@@ -1,5 +1,5 @@
 # SPDX-License-Identifier: BSD-3-Clause
-# Copyright (c) 2023-present Hitalo M. <https://github.com/HitaloM>
+# Copyright (c) 2024 Hitalo M. <https://github.com/HitaloM>
 
 import pickle
 import re
@@ -143,11 +143,12 @@ class InstagramDataFetcher:
                 if gql_data and gql_data.get("data"):
                     return gql_data.get("data")
 
-            return embed_html_data
         except (InstaError, orjson.JSONDecodeError) as err:
             log.error("Failed to parse data for post ID %s: %s", post_id, err)
             msg = f"Error while parsing embed HTML data for post ID {post_id}: {err}"
             raise InstaError(msg) from err
+        else:
+            return embed_html_data
 
     @staticmethod
     async def _parse_gql_data(

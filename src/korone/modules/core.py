@@ -1,9 +1,10 @@
 # SPDX-License-Identifier: BSD-3-Clause
-# Copyright (c) 2023-present Hitalo M. <https://github.com/HitaloM>
+# Copyright (c) 2024 Hitalo M. <https://github.com/HitaloM>
 
 import inspect
 import os
 from collections.abc import Callable
+from contextlib import suppress
 from importlib import import_module
 from pathlib import Path
 from types import FunctionType, ModuleType
@@ -57,32 +58,35 @@ def add_modules_to_dict() -> None:
     parent_path = Path(__file__).parent
 
     for root, dirs, _files in os.walk(parent_path):
-        if "handlers" in dirs:
-            handlers_path = Path(root) / "handlers"
-            module_name = handlers_path.relative_to(parent_path).parts[0]
-            MODULES[module_name] = {"info": {}, "handlers": []}
+        if "handlers" not in dirs:
+            continue
 
-            module_pkg = f"korone.modules.{module_name}"
-            module = import_module(".__init__", module_pkg)
+        handlers_path = Path(root) / "handlers"
+        module_name = handlers_path.relative_to(parent_path).parts[0]
+        MODULES[module_name] = {"info": {}, "handlers": []}
 
-            try:
-                module_info = bfs_attr_search(module, "ModuleInfo")
-            except AttributeError:
-                module_info = None
+        module_pkg = f"korone.modules.{module_name}"
+        module = import_module(".__init__", module_pkg)
 
-            if module_info:
-                for attr in ["name", "summary", "doc"]:
-                    attr_value = bfs_attr_search(module_info, attr)
-                    if attr_value is None:
-                        msg = f"Missing attribute '{attr}' in ModuleInfo of module '{module_name}'"
-                        raise ValueError(msg)
-                    MODULES[module_name]["info"][attr] = attr_value
-            else:
-                MODULES[module_name] = {"handlers": []}
+        module_info = None
+        with suppress(AttributeError):
+            module_info = bfs_attr_search(module, "ModuleInfo")
 
-            for file in handlers_path.glob("*.py"):
-                if file.name != "__init__.py":
-                    MODULES[module_name]["handlers"].append(f"{module_name}.handlers.{file.stem}")
+        if not module_info:
+            MODULES[module_name] = {"handlers": []}
+            continue
+
+        for attr in ["name", "summary", "doc"]:
+            attr_value = bfs_attr_search(module_info, attr)
+            if attr_value is None:
+                msg = f"Missing attribute '{attr}' in ModuleInfo of module '{module_name}'"
+                raise ValueError(msg)
+            MODULES[module_name]["info"][attr] = attr_value
+
+        for file in handlers_path.glob("*.py"):
+            if file.name == "__init__.py":
+                continue
+            MODULES[module_name]["handlers"].append(f"{module_name}.handlers.{file.stem}")
 
 
 def get_method_callable(cls: type, key: str) -> Callable[..., Any]:
@@ -119,13 +123,17 @@ def get_method_callable(cls: type, key: str) -> Callable[..., Any]:
     method = bfs_attr_search(cls, key)
     is_async = inspect.iscoroutinefunction(method)
 
+    if is_async:
+
+        async def async_call(*args, **kwargs):
+            return await method(cls(), *args, **kwargs)
+
+        return async_call
+
     def call(*args, **kwargs):
         return method(cls(), *args, **kwargs)
 
-    async def async_call(*args, **kwargs):
-        return await method(cls(), *args, **kwargs)
-
-    return async_call if is_async else call
+    return call
 
 
 def register_handler(client: Client, module: ModuleType) -> bool:
@@ -159,23 +167,27 @@ def register_handler(client: Client, module: ModuleType) -> bool:
     success = False
 
     for cls, func in function_list:
-        if hasattr(cls, func.__name__):
-            method = bfs_attr_search(cls, func.__name__)
-            if not callable(method):
-                continue
+        if not hasattr(cls, func.__name__):
+            continue
 
-            if hasattr(method, "handlers"):
-                method_callable = get_method_callable(cls, func.__name__)
+        method = bfs_attr_search(cls, func.__name__)
+        if not callable(method):
+            continue
 
-                handler: HandlerObject = bfs_attr_search(method, "handlers")
-                filters = handler.filters
-                group = handler.group
+        if not hasattr(method, "handlers"):
+            continue
 
-                client.add_handler(handler.event(method_callable, filters), group)
+        method_callable = get_method_callable(cls, func.__name__)
 
-                log.debug("Handler registered", handler=handler)
+        handler: HandlerObject = bfs_attr_search(method, "handlers")
+        filters = handler.filters
+        group = handler.group
 
-                success = True
+        client.add_handler(handler.event(method_callable, filters), group)
+
+        log.debug("Handler registered", handler=handler)
+
+        success = True
 
     return success
 
@@ -219,11 +231,11 @@ def load_module(client: Client, module: tuple) -> bool:
             if not register_handler(client, component):
                 return False
 
-        return True
-
     except ModuleNotFoundError as err:
         msg = f"Could not load module: {module_name}"
         raise ModuleNotFoundError(msg) from err
+
+    return True
 
 
 def load_all_modules(client: Client) -> None:

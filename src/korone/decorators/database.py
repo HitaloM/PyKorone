@@ -1,5 +1,5 @@
 # SPDX-License-Identifier: BSD-3-Clause
-# Copyright (c) 2023-present Hitalo M. <https://github.com/HitaloM>
+# Copyright (c) 2024 Hitalo M. <https://github.com/HitaloM>
 
 import time
 
@@ -9,7 +9,7 @@ from hydrogram.types import Chat, User
 from korone import i18n
 from korone.database.impl import SQLite3Connection
 from korone.database.query import Query
-from korone.database.table import Document, Documents
+from korone.database.table import Document, Documents, Table
 
 
 class DatabaseManager:
@@ -22,7 +22,7 @@ class DatabaseManager:
     """
 
     @staticmethod
-    async def get_table_name(chat: User | Chat) -> str | None:
+    async def _get_table_name(chat: User | Chat) -> str | None:
         """
         Get the table name based on the chat type.
 
@@ -43,74 +43,47 @@ class DatabaseManager:
         """
         if isinstance(chat, User) or chat.type == ChatType.PRIVATE:
             return "Users"
+
         if chat.type in {ChatType.GROUP, ChatType.SUPERGROUP}:
             return "Groups"
+
         return None
 
-    async def get(self, chat: User | Chat) -> Documents | None:
-        """
-        Get a document from the database.
+    async def _update_document(
+        self, chat: User | Chat, language: str, table: Table, query: Query, obj: Documents
+    ) -> Documents:
+        doc = await self._create_document(chat, language)
+        doc["registry_date"] = obj[0]["registry_date"]
+        doc["language"] = obj[0]["language"]
 
-        This method gets a document from the database based on the chat object.
+        await table.update(doc, query.id == chat.id)
+        return Documents([doc])
+
+    async def _create_and_insert_document(
+        self, chat: User | Chat, language: str, table: Table
+    ) -> Documents:
+        """
+        Create and insert a document into the database.
+
+        This method creates a document object and inserts it into the database table.
 
         Parameters
         ----------
-        chat : Union[User, Chat]
+        chat : User | Chat
             The chat object.
-
-        Returns
-        -------
-        Documents | None
-            The document if found, else None.
-        """
-        table_name = await self.get_table_name(chat)
-        if table_name:
-            async with SQLite3Connection() as conn:
-                table = await conn.table(table_name)
-                query = Query()
-                return await table.query(query.id == chat.id)
-        return None
-
-    async def update_or_create(
-        self, chat: User | Chat, language: str | None = None
-    ) -> Documents | None:
-        """
-        Update or create a document in the database.
-
-        This method updates or creates a document in the database based on the chat object.
-
-        Parameters
-        ----------
-        chat : Union[User, Chat]
-            The chat object.
-        language : str | None
+        language : str
             The language of the document.
+        table : Table
+            The table object.
 
         Returns
         -------
-        Documents | None
-            The updated or created document if successful, else None.
+        Documents
+            The created document object.
         """
-        table_name = await self.get_table_name(chat)
-        if table_name:
-            async with SQLite3Connection() as conn:
-                language = language or i18n.default_locale
-
-                table = await conn.table(table_name)
-                query = Query()
-                obj = await table.query(query.id == chat.id)
-                if obj:
-                    doc = await self._create_document(chat, language)
-                    doc["registry_date"] = obj[0]["registry_date"]
-                    doc["language"] = obj[0]["language"]
-                    await table.update(doc, query.id == chat.id)
-                else:
-                    doc = await self._create_document(chat, language)
-                    await table.insert(doc)
-                    obj = [doc]
-
-                return Documents(obj)
-        return None
+        doc = await self._create_document(chat, language)
+        await table.insert(doc)
+        return Documents([doc])
 
     @staticmethod
     async def _create_document(chat: User | Chat, language: str) -> Document:
@@ -141,3 +114,64 @@ class DatabaseManager:
             language=language,
             registry_date=int(time.time()),
         )
+
+    async def get(self, chat: User | Chat) -> Documents | None:
+        """
+        Get a document from the database.
+
+        This method gets a document from the database based on the chat object.
+
+        Parameters
+        ----------
+        chat : User | Chat
+            The chat object.
+
+        Returns
+        -------
+        Documents | None
+            The document if found, else None.
+        """
+        table_name = await self._get_table_name(chat)
+        if not table_name:
+            return None
+
+        async with SQLite3Connection() as conn:
+            table = await conn.table(table_name)
+            query = Query()
+            return await table.query(query.id == chat.id)
+
+    async def update_or_create(
+        self, chat: User | Chat, language: str | None = None
+    ) -> Documents | None:
+        """
+        Update or create a document in the database.
+
+        This method updates a document in the database if it exists, otherwise creates a new
+        document and inserts it into the database.
+
+        Parameters
+        ----------
+        chat : User | Chat
+            The chat object.
+        language : str | None, optional
+            The language of the document. By default, it uses the default locale.
+
+        Returns
+        -------
+        Documents | None
+            The updated or created document if successful, else None.
+        """
+        table_name = await self._get_table_name(chat)
+        if not table_name:
+            return None
+
+        async with SQLite3Connection() as conn:
+            language = language or i18n.default_locale
+            table = await conn.table(table_name)
+            query = Query()
+            obj = await table.query(query.id == chat.id)
+
+            if obj:
+                return await self._update_document(chat, language, table, query, obj)
+
+            return await self._create_and_insert_document(chat, language, table)

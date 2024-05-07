@@ -1,18 +1,20 @@
 # SPDX-License-Identifier: BSD-3-Clause
-# Copyright (c) 2023-present Hitalo M. <https://github.com/HitaloM>
+# Copyright (c) 2024 Hitalo M. <https://github.com/HitaloM>
 
-import datetime
 import sys
+from datetime import UTC, datetime
 from pathlib import Path
 
 docs_dir = Path(__file__).parent.parent
-sys.path.insert(0, Path("../../src").resolve().as_posix())
+src_dir = docs_dir / "src"
+sys.path.insert(0, src_dir.resolve().as_posix())
 
 import korone  # noqa: E402
 
 project = "PyKorone"
 author = "Hitalo M."
-copyright = f"{datetime.datetime.now(tz=datetime.UTC).date().year}, {author}"
+date = datetime.now(tz=UTC).date()
+copyright = f"{date.year}, {author}"
 release = korone.__version__.split(" ")[0]
 
 extensions = [
@@ -46,14 +48,11 @@ source_suffix = ".rst"
 autodoc_member_order = "bysource"
 
 pygments_style = "friendly"
-
 autodoc_typehints = "none"
 
 html_theme = "furo"
 html_title = f"{project} Docs - {release}"
-html_last_updated_fmt = (
-    f"{datetime.datetime.now(tz=datetime.UTC).strftime("%d/%m/%Y, %H:%M:%S")} UTC"
-)
+html_last_updated_fmt = f"{date.strftime("%d/%m/%Y, %H:%M:%S")} UTC"
 html_copy_source = False
 
 html_theme_options = {

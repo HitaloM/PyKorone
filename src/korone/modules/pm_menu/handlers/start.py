@@ -1,5 +1,5 @@
 # SPDX-License-Identifier: BSD-3-Clause
-# Copyright (c) 2023-present Hitalo M. <https://github.com/HitaloM>
+# Copyright (c) 2024 Hitalo M. <https://github.com/HitaloM>
 
 from babel import Locale
 from flag import flag
@@ -46,10 +46,11 @@ class Start(MessageHandler, BaseHandler):
     @router.message(Command("start"))
     async def handle(self, client: Client, message: Message) -> None:
         text = self.build_text()
-        keyboard = None
-        if message.chat.type == ChatType.PRIVATE:
-            keyboard = self.build_keyboard(get_i18n().current_locale)
+        if message.chat.type != ChatType.PRIVATE:
+            await message.reply(text)
+            return
 
+        keyboard = self.build_keyboard(get_i18n().current_locale)
         await message.reply(text, reply_markup=keyboard)
 
 

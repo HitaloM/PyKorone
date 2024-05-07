@@ -1,5 +1,5 @@
 # SPDX-License-Identifier: BSD-3-Clause
-# Copyright (c) 2023-present Hitalo M. <https://github.com/HitaloM>
+# Copyright (c) 2024 Hitalo M. <https://github.com/HitaloM>
 
 from typing import ClassVar
 
@@ -33,15 +33,21 @@ class LanguageInfoBase(MessageHandler):
         text = _("<b>Chat language:</b> {language}\n").format(
             language=i18n_new.current_locale_display
         )
+
         if i18n_new.current_locale != i18n_new.default_locale:
-            if stats := i18n_new.get_locale_stats(i18n_new.current_locale):
-                text += _("\n<b>Language Info:</b>\n")
-                text += _("Translated: {translated}\n").format(translated=stats.translated)
-                text += _("Untranslated: {untranslated}\n").format(untranslated=stats.untranslated)
-                text += _("Needs review: {fuzzy}\n").format(fuzzy=stats.fuzzy)
-                text += _("Percentage translated: {percent}\n").format(
-                    percent=stats.percent_translated
+            stats = i18n_new.get_locale_stats(i18n_new.current_locale)
+            if not stats:
+                return text, InlineKeyboardBuilder().button(
+                    text=self.button_text, callback_data=LangMenuCallback(menu="languages")
                 )
+
+            text += _("\n<b>Language Info:</b>\n")
+            text += _("Translated: {translated}\n").format(translated=stats.translated)
+            text += _("Untranslated: {untranslated}\n").format(untranslated=stats.untranslated)
+            text += _("Needs review: {fuzzy}\n").format(fuzzy=stats.fuzzy)
+            text += _("Percentage translated: {percent}\n").format(
+                percent=stats.percent_translated
+            )
         else:
             text += _("This is the bot's native language. So it is 100% translated.")
 
@@ -100,4 +106,5 @@ class LanguageInfoCallback(CallbackQueryHandler):
                 text=_("⬅️ Back"), callback_data=PMMenuCallback(menu="start").pack()
             )
         )
+
         await callback.message.edit_text(text, reply_markup=keyboard.as_markup())

@@ -1,5 +1,5 @@
 # SPDX-License-Identifier: BSD-3-Clause
-# Copyright (c) 2023-present Hitalo M. <https://github.com/HitaloM>
+# Copyright (c) 2024 Hitalo M. <https://github.com/HitaloM>
 
 from dataclasses import dataclass
 from pathlib import Path
@@ -46,12 +46,12 @@ class AppParameters:
     """Whether to use IPv6 to connect to Telegram servers.
 
     :type: bool"""
-    name: str = constants.CLIENT_NAME
+    name: str = "Korone"
     """The name of the :class:`hydrogram.Client`.
 
     :type: str
     """
-    workers: int = constants.WORKERS
+    workers: int = 24
     """The number of workers to be used by the :class:`hydrogram.Client`.
 
     :type: int
@@ -109,7 +109,7 @@ class Korone(Client):
             self.me.username,
         )
 
-    async def stop(self):
+    async def stop(self) -> None:
         """
         Stop the client.
 

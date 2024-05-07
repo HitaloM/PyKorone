@@ -1,5 +1,5 @@
 # SPDX-License-Identifier: BSD-3-Clause
-# Copyright (c) 2023-present Hitalo M. <https://github.com/HitaloM>
+# Copyright (c) 2024 Hitalo M. <https://github.com/HitaloM>
 
 from dataclasses import dataclass
 from typing import Any
@@ -61,7 +61,7 @@ class I18nNew(I18n):
 
     __slots__ = ("babels", "stats")
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args, **kwargs) -> None:
         super().__init__(*args, **kwargs)
 
         self.babels: dict[str, Locale] = {}
@@ -114,6 +114,7 @@ class I18nNew(I18n):
         """
         if locale_code not in self.babels:
             self.babels[locale_code] = Locale.parse(locale_code)
+
         return self.babels[locale_code]
 
     @property
@@ -183,10 +184,13 @@ class I18nNew(I18n):
             An instance of the `LocaleStats` class representing the statistics of the locale,
             or None if the statistics cannot be parsed.
         """
-        if locale_code not in self.stats:
-            self.stats[locale_code] = self.parse_stats(locale_code)
-            if not self.stats[locale_code]:
-                log.warning("Can't parse stats for locale %s!", locale_code)
+        if locale_code in self.stats:
+            return self.stats[locale_code]
+
+        self.stats[locale_code] = self.parse_stats(locale_code)
+        if not self.stats[locale_code]:
+            log.warning("Can't parse stats for locale %s!", locale_code)
+
         return self.stats[locale_code]
 
     def get_current_locale_stats(self) -> LocaleStats | None:
@@ -238,6 +242,7 @@ def get_i18n() -> I18nNew:
     if (i18n := I18nNew.get_current(no_error=True)) is None:
         msg = "I18n context is not set"
         raise LookupError(msg)
+
     return i18n  # type: ignore
 
 

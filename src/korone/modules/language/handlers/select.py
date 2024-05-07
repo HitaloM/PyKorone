@@ -1,5 +1,5 @@
 # SPDX-License-Identifier: BSD-3-Clause
-# Copyright (c) 2023-present Hitalo M. <https://github.com/HitaloM>
+# Copyright (c) 2024 Hitalo M. <https://github.com/HitaloM>
 
 from hairydogm.keyboard import InlineKeyboardBuilder
 from hydrogram import Client
@@ -28,6 +28,7 @@ class SelectLanguageBase:
             )
 
         keyboard.adjust(2)
+
         if chat_type in {ChatType.GROUP, ChatType.SUPERGROUP}:
             keyboard.row(
                 InlineKeyboardButton(
@@ -74,5 +75,6 @@ class SelectLanguageCallback(CallbackQueryHandler, SelectLanguageBase):
             user = await client.get_chat_member(callback.message.chat.id, callback.from_user.id)
             if user.status not in {ChatMemberStatus.ADMINISTRATOR, ChatMemberStatus.OWNER}:
                 await callback.answer(_("This action can only be performed by administrators."))
+                return
 
         await self.edit_message(callback)

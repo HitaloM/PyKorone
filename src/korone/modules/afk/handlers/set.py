@@ -1,5 +1,5 @@
 # SPDX-License-Identifier: BSD-3-Clause
-# Copyright (c) 2023-present Hitalo M. <https://github.com/HitaloM>
+# Copyright (c) 2024 Hitalo M. <https://github.com/HitaloM>
 
 from hydrogram import Client
 from hydrogram.types import Message
@@ -27,5 +27,6 @@ class SetAfk(MessageHandler):
 
         if isafk:
             await message.reply(_("Your AFK status has been updated!"))
-        else:
-            await message.reply(_("You are now AFK."))
+            return
+
+        await message.reply(_("You are now AFK."))

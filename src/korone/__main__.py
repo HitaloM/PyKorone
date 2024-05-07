@@ -1,5 +1,5 @@
 # SPDX-License-Identifier: BSD-3-Clause
-# Copyright (c) 2023-present Hitalo M. <https://github.com/HitaloM>
+# Copyright (c) 2024 Hitalo M. <https://github.com/HitaloM>
 
 import asyncio
 import sys
@@ -20,15 +20,17 @@ async def main() -> None:
     """
     Initialize the main entry point of the program.
 
-    This function initializes the configuration, creates an instance of the Korone class,
-    starts the client, waits for it to become idle, and then stops the client.
+    This function connects to the Redis database, retrieves configuration values,
+    creates a Korone client with the provided parameters and starts the client.
     """
     try:
         await redis.ping()
     except RedisTimeoutError:
-        sys.exit(log.critical("Can't connect to RedisDB! Exiting..."))
+        log.critical("Can't connect to RedisDB! Exiting...")
+        sys.exit(1)
 
     config = ConfigManager()
+
     params = AppParameters(
         api_id=config.get("hydrogram", "API_ID"),
         api_hash=config.get("hydrogram", "API_HASH"),
@@ -36,9 +38,11 @@ async def main() -> None:
     )
 
     client = Korone(params)
-    await client.start()
-    await idle()
-    await client.stop()
+    try:
+        await client.start()
+        await idle()
+    finally:
+        await client.stop()
 
 
 if __name__ == "__main__":

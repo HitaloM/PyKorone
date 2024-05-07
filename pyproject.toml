@@ -18,7 +18,7 @@ dependencies = [
     "lxml>=5.2.1",
     "meval>=2.5",
     "magic-filter>=1.0.12",
-    "orjson>=3.10.2",
+    "orjson>=3.10.3",
     "esprima>=4.0.1",
     "pillow>=10.3.0",
     "httpx[http2,socks,brotli]>=0.27.0",
@@ -39,10 +39,10 @@ dev-dependencies = ["pre-commit>=3.7.0", "ruff>=0.4.3"]
 [project.optional-dependencies]
 docs = [
     "sphinx>=7.3.7",
-    "furo>=2024.4.27",
+    "furo>=2024.5.6",
     "sphinx-autobuild>=2024.4.16",
     "sphinx-copybutton>=0.5.2",
-    "pygments>=2.17.2",
+    "pygments>=2.18.0",
 ]
 
 [tool.hatch.metadata]
@@ -54,28 +54,28 @@ target-version = "py312"
 
 [tool.ruff.lint]
 select = [
-    "I",    # isort
-    "E",    # pycodestyle
-    "W",    # pycodestyle
-    "UP",   # pyupgrade
-    "F",    # pyflakes
-    "PERF", # perflint
-    "N",    # pep8-naming
-    "RUF",  # ruff
-    "FURB", # refurb
-    "SIM",  # flake8-simplify
-    "RET",  # flake8-return
+    "B",    # flake8-bugbear
     "C4",   # flake8-comprehensions
-    "PTH",  # flake8-use-pathlib
-    "G",    # flake8-logging-format
-    "TID",  # flake8-tidy-imports
-    "B",    # flask8-bugbear
+    "C90",  # mccabe
     "CPY",  # flake8-copyright
     "DTZ",  # flake8-datetimez
+    "E",    # pycodestyle
     "EM",   # flake8-errmsg
+    "F",    # pyflakes
+    "FURB", # refurb
     "G",    # flake8-logging-format
-    "TCH",  # flake8-type-checking
+    "I",    # isort
+    "N",    # pep8-naming
+    "PERF", # perflint
     "PL",   # pylint
+    "PTH",  # flake8-use-pathlib
+    "RET",  # flake8-return
+    "RUF",  # ruff
+    "SIM",  # flake8-simplify
+    "TCH",  # flake8-type-checking
+    "TID",  # flake8-tidy-imports
+    "UP",   # pyupgrade
+    "W",    # pycodestyle
 ]
 ignore = [
     "RUF001",
@@ -110,4 +110,4 @@ checks = [
 clean-docs = { cmd = "rm -rf docs/build" }
 build-docs = { cmd = "sphinx-build -b html docs/source docs/build" }
 live-docs = { cmd = "sphinx-autobuild  docs/source docs/build --watch src" }
-pybabel-extract = { cmd = "pybabel extract --keywords='__ _' --input-dirs=. -o locales/bot.pot" }
+pybabel-extract = { cmd = "pybabel extract --keywords='__ _' --input-dirs=. -o locales/bot.pot --project='PyKorone' --version='1.0' --copyright-holder='Hitalo M.'" }

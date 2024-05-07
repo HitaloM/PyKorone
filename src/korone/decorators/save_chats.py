@@ -1,5 +1,5 @@
 # SPDX-License-Identifier: BSD-3-Clause
-# Copyright (c) 2023-present Hitalo M. <https://github.com/HitaloM>
+# Copyright (c) 2024 Hitalo M. <https://github.com/HitaloM>
 
 import pickle
 from collections.abc import Callable
@@ -33,6 +33,31 @@ class ChatManager:
     def __init__(self) -> None:
         self.database_manager = DatabaseManager()
 
+    @staticmethod
+    def _is_valid_chat(chat: User | Chat) -> bool:
+        """
+        Check if the chat is valid.
+
+        This method checks if the chat is valid. If the chat is a user and not a bot, it returns
+        True. If the chat is a group or supergroup, it returns True. Otherwise, it returns False.
+
+        Parameters
+        ----------
+        chat : User | Chat
+            The chat object.
+
+        Returns
+        -------
+        bool
+            True if the chat is valid, False otherwise.
+        """
+        is_user = isinstance(chat, User) and not chat.is_bot
+        is_group_or_supergroup = isinstance(chat, Chat) and chat.type in {
+            ChatType.GROUP,
+            ChatType.SUPERGROUP,
+        }
+        return is_user or is_group_or_supergroup
+
     async def get_locale(self, chat: User | Chat) -> str:
         """
         Get the locale based on the user and message.
@@ -62,23 +87,21 @@ class ChatManager:
         if cached_data:
             return pickle.loads(cached_data)
 
-        db_obj = None
-        if (isinstance(chat, User) and not chat.is_bot) or (
-            isinstance(chat, Chat) and chat.type in {ChatType.GROUP, ChatType.SUPERGROUP}
-        ):
-            db_obj = await self.database_manager.get(chat)
+        if not self._is_valid_chat(chat):
+            return i18n.default_locale
+
+        db_obj = await self.database_manager.get(chat)
+        if not db_obj:
+            return i18n.default_locale
 
         try:
-            if db_obj and "_" not in db_obj[0]["language"]:
-                locale = (
-                    Locale.parse(db_obj[0]["language"], sep="-") if db_obj else i18n.default_locale
-                )
-            elif db_obj:
-                locale = Locale.parse(db_obj[0]["language"])
+            language = db_obj[0]["language"]
+            sep = "-" if "_" not in language else ""
+            locale_obj = Locale.parse(language, sep=sep)
+            locale = f"{locale_obj.language}_{locale_obj.territory}"
+            is_valid_locale = isinstance(locale_obj, Locale) and locale in i18n.available_locales
 
-            if db_obj and isinstance(locale, Locale):
-                locale = f"{locale.language}_{locale.territory}"
-            if db_obj and locale not in i18n.available_locales:
+            if not is_valid_locale:
                 msg = "Invalid locale identifier"
                 raise UnknownLocaleError(msg)
 
@@ -114,6 +137,7 @@ class ChatManager:
             await self.database_manager.update_or_create(
                 message.from_user, message.from_user.language_code
             )
+
         if message.chat.type in {ChatType.GROUP, ChatType.SUPERGROUP}:
             await self.database_manager.update_or_create(message.chat)
 
@@ -145,6 +169,7 @@ class ChatManager:
 
         if reply_message := message.reply_to_message:
             chats_to_update.extend(await self.handle_replied_message(chat_id, reply_message))
+
         if message.forward_from or (
             message.forward_from_chat and message.forward_from_chat.id != chat_id
         ):
@@ -168,10 +193,12 @@ class ChatManager:
         -----
         This method is a private method and should not be called outside of the class.
         """
-        if message.new_chat_members:
-            for member in message.new_chat_members:
-                if not member.is_bot:
-                    await self.database_manager.update_or_create(member, member.language_code)
+        if not message.new_chat_members:
+            return
+
+        for member in message.new_chat_members:
+            if not member.is_bot:
+                await self.database_manager.update_or_create(member, member.language_code)
 
     async def _chats_update(self, chats: list[Chat | User]) -> None:
         """
@@ -186,6 +213,7 @@ class ChatManager:
         """
         if not chats:
             return
+
         for chat in chats:
             language = chat.language_code if isinstance(chat, User) else None
             await self.database_manager.update_or_create(chat, language)

@@ -1,5 +1,5 @@
 # SPDX-License-Identifier: BSD-3-Clause
-# Copyright (c) 2023-present Hitalo M. <https://github.com/HitaloM>
+# Copyright (c) 2024 Hitalo M. <https://github.com/HitaloM>
 
 import math
 import typing
@@ -13,10 +13,12 @@ from hydrogram.types import InlineKeyboardButton
 
 class Pagination:
     """
-    A class that represents a pagination utility.
+    Generate a paginated inline keyboard.
 
-    This class provides functionality for paginating a list of objects and retrieving data for
-    specific pages and items on those pages.
+    This class provides a utility for paginating a list of objects and generating
+    an inline keyboard with navigation buttons to allow the user to move between pages.
+    The pagination can be customized with functions to generate the page data, item data,
+    and item title.
 
     Parameters
     ----------
@@ -50,11 +52,10 @@ class Pagination:
     @staticmethod
     def chunk_list(lst: Sequence[Any], size: int) -> Iterator[typing.Sequence[Any]]:
         """
-        Split a list into smaller chunks of a specified size.
+        Split a list into smaller chunks.
 
-        This function takes a list and divides it into smaller chunks of the specified size.
-        Each chunk is returned as an iterator, allowing for efficient memory usage when working
-        with large lists.
+        This function splits a list into smaller chunks of a specified size. The function
+        returns an iterator that yields the chunks of the original list.
 
         Parameters
         ----------
@@ -84,11 +85,11 @@ class Pagination:
 
     def create(self, page: int, lines: int = 5, columns: int = 1) -> InlineKeyboardBuilder:
         """
-        Create a pagination with the specified parameters.
+        Create a paginated inline keyboard.
 
-        This method generates a pagination for a given list of objects, allowing navigation
-        between pages. The pagination is created based on the current page number, number of
-        lines per page, and number of columns per page.
+        This method creates a pagination with the specified parameters, including the current page
+        number, the number of lines per page, and the number of columns per page. The pagination
+        will include navigation buttons to allow the user to move between pages.
 
         Parameters
         ----------
@@ -113,40 +114,7 @@ class Pagination:
         total = len(self.objects)
         pages_range = list(range(1, math.ceil(total / quant_per_page) + 1))
         last_page = len(pages_range)
-
-        nav = []
-        if page <= 3:
-            for n in [1, 2, 3]:
-                if n in pages_range:
-                    text = f"· {n} ·" if n == page else n
-                    nav.append((text, self.page_data(n)))
-            if last_page >= 4:
-                nav.append(("4 ›" if last_page > 5 else 4, self.page_data(4)))
-            if last_page > 4:
-                nav.append((
-                    f"{last_page} »" if last_page > 5 else last_page,
-                    self.page_data(last_page),
-                ))
-        elif page >= last_page - 2:
-            nav.extend([
-                ("« 1" if last_page - 4 > 1 else 1, self.page_data(1)),
-                (
-                    f"‹ {last_page - 3}" if last_page - 4 > 1 else last_page - 3,
-                    self.page_data(last_page - 3),
-                ),
-            ])
-            for n in range(last_page - 2, last_page + 1):
-                if n in pages_range:
-                    text = f"· {n} ·" if n == page else n
-                    nav.append((text, self.page_data(n)))
-        else:
-            nav = [
-                ("« 1", self.page_data(1)),
-                (f"‹ {page - 1}", self.page_data(page - 1)),
-                (f"· {page} ·", "noop"),
-                (f"{page + 1} ›", self.page_data(page + 1)),
-                (f"{last_page} »", self.page_data(last_page)),
-            ]
+        nav = self._generate_navigation_buttons(page, last_page, pages_range)
 
         buttons = [(self.item_title(item, page), self.item_data(item, page)) for item in cutted]
         kb_lines = self.chunk_list(buttons, columns)
@@ -165,3 +133,69 @@ class Pagination:
             )
 
         return keyboard_markup
+
+    def _generate_navigation_buttons(
+        self, page: int, last_page: int, pages_range: list[int]
+    ) -> list[tuple[str, str]]:
+        """
+        Generate navigation buttons for the pagination.
+
+        This method generates the navigation buttons for the pagination based on the current page
+        number, the last page number, and the range of pages.
+
+        Parameters
+        ----------
+        page : int
+            The current page number.
+        last_page : int
+            The last page number.
+        pages_range : list[int]
+            The range of pages.
+
+        Returns
+        -------
+        list[tuple[str, str]]
+            A list of tuples containing the text for the navigation button and the callback data
+            for the button.
+        """
+        nav = []
+
+        if page <= 3:
+            for n in [1, 2, 3]:
+                if n in pages_range:
+                    text = f"· {n} ·" if n == page else n
+                    nav.append((text, self.page_data(n)))
+
+            if last_page >= 4:
+                nav.append(("4 ›" if last_page > 5 else 4, self.page_data(4)))
+
+            if last_page > 4:
+                nav.append((
+                    f"{last_page} »" if last_page > 5 else last_page,
+                    self.page_data(last_page),
+                ))
+
+        elif page >= last_page - 2:
+            nav.extend([
+                ("« 1" if last_page - 4 > 1 else 1, self.page_data(1)),
+                (
+                    f"‹ {last_page - 3}" if last_page - 4 > 1 else last_page - 3,
+                    self.page_data(last_page - 3),
+                ),
+            ])
+
+            for n in range(last_page - 2, last_page + 1):
+                if n in pages_range:
+                    text = f"· {n} ·" if n == page else n
+                    nav.append((text, self.page_data(n)))
+
+        else:
+            nav = [
+                ("« 1", self.page_data(1)),
+                (f"‹ {page - 1}", self.page_data(page - 1)),
+                (f"· {page} ·", "noop"),
+                (f"{page + 1} ›", self.page_data(page + 1)),
+                (f"{last_page} »", self.page_data(last_page)),
+            ]
+
+        return nav

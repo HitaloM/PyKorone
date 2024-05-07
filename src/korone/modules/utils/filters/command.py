@@ -1,5 +1,5 @@
 # SPDX-License-Identifier: BSD-3-Clause
-# Copyright (c) 2023-present Hitalo M. <https://github.com/HitaloM>
+# Copyright (c) 2024 Hitalo M. <https://github.com/HitaloM>
 
 import re
 from collections.abc import Iterable, Sequence
@@ -160,11 +160,11 @@ class Command(Filter):
         ignore_case: bool = False,
         ignore_mention: bool = False,
         magic: MagicFilter | None = None,
-    ):
+    ) -> None:
         commands = [commands] if isinstance(commands, str | re.Pattern) else commands or []
         if not isinstance(commands, Iterable):
             msg = "Command filter only supports str, re.Pattern object or their Iterable"
-            raise ValueError(msg)
+            raise TypeError(msg)
 
         def process_command(command):
             if isinstance(command, str):
@@ -174,7 +174,7 @@ class Command(Filter):
 
             if not isinstance(command, re.Pattern):
                 msg = "Command filter only supports str, re.Pattern, or their Iterable"
-                raise ValueError(msg)
+                raise TypeError(msg)
 
             return command
 
@@ -207,10 +207,12 @@ class Command(Filter):
         bool
             Returns True if a valid command is found, otherwise False.
         """
-        if message.text or message.caption:
-            with suppress(CommandError):
-                await self.parse_command(client, message)
-                return True
+        if not message.text or message.caption:
+            return False
+
+        with suppress(CommandError):
+            await self.parse_command(client, message)
+            return True
 
         return False
 

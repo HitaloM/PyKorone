@@ -1,5 +1,5 @@
 # SPDX-License-Identifier: BSD-3-Clause
-# Copyright (c) 2023-present Hitalo M. <https://github.com/HitaloM>
+# Copyright (c) 2024 Hitalo M. <https://github.com/HitaloM>
 
 import io
 import re
@@ -71,7 +71,8 @@ class TwitterHandler(MessageHandler):
             response = await session.get(url)
             if response.status_code != 200:
                 return None
-            return orjson.loads(response.text)
+
+        return orjson.loads(response.text)
 
     @staticmethod
     async def parse_data(data: dict) -> TweetData:
@@ -114,9 +115,10 @@ class TwitterHandler(MessageHandler):
         async with httpx.AsyncClient(http2=True) as session:
             response = await session.get(url)
             content = response.read()
-            file = io.BytesIO(content)
-            file.name = url.split("/")[-1]
-            return file
+
+        file = io.BytesIO(content)
+        file.name = url.split("/")[-1]
+        return file
 
     @router.message(
         Magic(
@@ -155,7 +157,9 @@ class TwitterHandler(MessageHandler):
                     reply_markup=keyboard.as_markup(),
                     reply_to_message_id=message.id,
                 )
-            elif media.type in {"video", "gif"}:
+                return
+
+            if media.type in {"video", "gif"}:
                 media_thumb = await self.url_to_binary_io(media.thumbnail_url)
                 await client.send_video(
                     chat_id=message.chat.id,
@@ -170,13 +174,15 @@ class TwitterHandler(MessageHandler):
                     thumb=media_thumb,
                     reply_to_message_id=message.id,
                 )
-            return
+                return
 
         media_list: list[InputMediaPhoto | InputMediaVideo] = []
         for media in tweet.media_extended:
             media_url = await self.url_to_binary_io(media.url)
+
             if media.type == "image":
                 media_list.append(InputMediaPhoto(media_url))
+
             if media.type in {"video", "gif"}:
                 media_thumb = await self.url_to_binary_io(media.thumbnail_url)
                 media_list.append(

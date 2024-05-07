@@ -1,5 +1,5 @@
 # SPDX-License-Identifier: BSD-3-Clause
-# Copyright (c) 2023-present Hitalo M. <https://github.com/HitaloM>
+# Copyright (c) 2024 Hitalo M. <https://github.com/HitaloM>
 
 from hydrogram import Client
 from hydrogram.filters import Filter
@@ -81,5 +81,4 @@ class Magic(Filter):
             True if the update passes the magic filter, False otherwise.
         """
         self.validate_magic(self.magic)
-
         return self.magic.resolve(update)
