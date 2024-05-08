@@ -12,7 +12,8 @@ import korone  # noqa: E402
 
 project = "PyKorone"
 author = "Hitalo M."
-date = datetime.now(tz=UTC).date()
+date_time = datetime.now(tz=UTC)
+date = date_time.date()
 copyright = f"{date.year}, {author}"
 release = korone.__version__.split(" ")[0]
 
@@ -51,7 +52,7 @@ autodoc_typehints = "none"
 
 html_theme = "furo"
 html_title = f"{project} Docs - {release}"
-html_last_updated_fmt = f"{date.strftime("%d/%m/%Y, %H:%M:%S")} UTC"
+html_last_updated_fmt = f"{date_time.strftime("%d/%m/%Y, %H:%M:%S")} UTC"
 html_copy_source = False
 
 html_theme_options = {
