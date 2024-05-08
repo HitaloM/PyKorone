@@ -1,13 +1,9 @@
 # SPDX-License-Identifier: BSD-3-Clause
 # Copyright (c) 2024 Hitalo M. <https://github.com/HitaloM>
 
-import io
 import re
-from dataclasses import dataclass
 from datetime import timedelta
 
-import httpx
-import orjson
 from hairydogm.keyboard import InlineKeyboardBuilder
 from hydrogram import Client
 from hydrogram.types import InputMediaPhoto, InputMediaVideo, Message
@@ -15,128 +11,25 @@ from magic_filter import F
 
 from korone.decorators import router
 from korone.handlers.message_handler import MessageHandler
+from korone.modules.media_dl.utils.twitter import VxTwitterAPI
 from korone.modules.utils.filters.magic import Magic
-from korone.utils.cache import Cached
 from korone.utils.i18n import gettext as _
 
-
-@dataclass(frozen=True, slots=True)
-class SizeData:
-    height: int
-    width: int
-
-
-@dataclass(frozen=True, slots=True)
-class MediaData:
-    alt_text: str
-    size: SizeData
-    thumbnail_url: str
-    type: str
-    url: str
-    duration_millis: int
-
-
-@dataclass(frozen=True, slots=True)
-class TweetData:
-    community_note: str
-    conversation_id: str
-    date: str
-    date_epoch: int
-    hashtags: list[str]
-    likes: int
-    media_urls: list[str]
-    media_extended: list[MediaData]
-    possibly_sensitive: bool
-    qrt_url: str
-    replies: int
-    retweets: int
-    text: str
-    tweet_id: str
-    tweet_url: str
-    user_name: str
-    user_profile_image_url: str
-    user_screen_name: str
+URL_PATTERN = re.compile(r"(?:(?:http|https):\/\/)?(?:www.)?(twitter\.com|x\.com)/.+?/status/\d+")
 
 
 class TwitterHandler(MessageHandler):
-    def __init__(self):
-        self.url_pattern = re.compile(
-            r"(?:(?:http|https):\/\/)?(?:www.)?(twitter\.com|x\.com)/.+?/status/\d+"
-        )
-
     @staticmethod
-    @Cached()
-    async def fetch_data(url: str) -> dict | None:
-        async with httpx.AsyncClient(http2=True) as session:
-            response = await session.get(url)
-            if response.status_code != 200:
-                return None
-
-        return orjson.loads(response.text)
-
-    @staticmethod
-    async def parse_data(data: dict) -> TweetData:
-        media_extended = [
-            MediaData(
-                alt_text=media.get("altText"),
-                size=SizeData(**media.get("size")),
-                thumbnail_url=media.get("thumbnail_url"),
-                type=media.get("type"),
-                url=media.get("url"),
-                duration_millis=media.get("duration_millis"),
-            )
-            for media in data.get("media_extended", [])
-        ]
-
-        return TweetData(
-            community_note=data.get("communityNote", ""),
-            conversation_id=data.get("conversationID", ""),
-            date=data.get("date", ""),
-            date_epoch=data.get("date_epoch", ""),
-            hashtags=data.get("hashtags", ""),
-            likes=data.get("likes", ""),
-            media_urls=data.get("mediaURLs", ""),
-            media_extended=media_extended,
-            possibly_sensitive=data.get("possibly_sensitive", ""),
-            qrt_url=data.get("qrtURL", ""),
-            replies=data.get("replies", ""),
-            retweets=data.get("retweets", ""),
-            text=data.get("text", ""),
-            tweet_id=data.get("tweetID", ""),
-            tweet_url=data.get("tweetURL", ""),
-            user_name=data.get("user_name", ""),
-            user_profile_image_url=data.get("user_profile_image_url", ""),
-            user_screen_name=data.get("user_screen_name", ""),
-        )
-
-    @staticmethod
-    @Cached()
-    async def url_to_binary_io(url: str) -> io.BytesIO:
-        async with httpx.AsyncClient(http2=True) as session:
-            response = await session.get(url)
-            content = response.read()
-
-        file = io.BytesIO(content)
-        file.name = url.split("/")[-1]
-        return file
-
-    @router.message(
-        Magic(
-            F.text.regexp(r"(?:(?:http|https):\/\/)?(?:www.)?(twitter\.com|x\.com)/.+?/status/\d+")
-        )
-    )
-    async def handle(self, client: Client, message: Message) -> None:
-        url = self.url_pattern.search(message.text)
+    @router.message(Magic(F.text.regexp(URL_PATTERN)))
+    async def handle(client: Client, message: Message) -> None:
+        url = URL_PATTERN.search(message.text)
         if not url:
             return
 
-        vx_url = re.sub(r"(www\.|)(twitter\.com|x\.com)", "api.vxtwitter.com", url.group())
-        data = await self.fetch_data(vx_url)
-        if not data:
+        tweet = VxTwitterAPI()
+        if not await tweet.fetch(url.group()):
             await message.reply_text(_("Oops! Something went wrong while fetching the post."))
             return
-
-        tweet = await self.parse_data(data)
 
         text = f"<b>{tweet.user_name} (<code>@{tweet.user_screen_name}</code>):</b>\n\n"
         text += tweet.text
@@ -148,11 +41,10 @@ class TwitterHandler(MessageHandler):
             keyboard = InlineKeyboardBuilder()
             keyboard.button(text=_("Open in Twitter"), url=tweet.tweet_url)
 
-            media_url = await self.url_to_binary_io(media.url)
             if media.type == "image":
                 await client.send_photo(
                     chat_id=message.chat.id,
-                    photo=media_url,
+                    photo=media.binary_io,
                     caption=text,
                     reply_markup=keyboard.as_markup(),
                     reply_to_message_id=message.id,
@@ -160,10 +52,9 @@ class TwitterHandler(MessageHandler):
                 return
 
             if media.type in {"video", "gif"}:
-                media_thumb = await self.url_to_binary_io(media.thumbnail_url)
                 await client.send_video(
                     chat_id=message.chat.id,
-                    video=media_url,
+                    video=tweet.media_list,
                     caption=text,
                     reply_markup=keyboard.as_markup(),
                     duration=int(
@@ -171,29 +62,26 @@ class TwitterHandler(MessageHandler):
                     ),
                     width=media.size.width,
                     height=media.size.height,
-                    thumb=media_thumb,
+                    thumb=media.thumbnail_url,
                     reply_to_message_id=message.id,
                 )
                 return
 
         media_list: list[InputMediaPhoto | InputMediaVideo] = []
         for media in tweet.media_extended:
-            media_url = await self.url_to_binary_io(media.url)
-
             if media.type == "image":
-                media_list.append(InputMediaPhoto(media_url))
+                media_list.append(InputMediaPhoto(media.binary_io))
 
             if media.type in {"video", "gif"}:
-                media_thumb = await self.url_to_binary_io(media.thumbnail_url)
                 media_list.append(
                     InputMediaVideo(
-                        media=media_url,
+                        media=media.binary_io,
                         duration=int(
                             timedelta(milliseconds=media.duration_millis).total_seconds() * 1000
                         ),
                         width=media.size.width,
                         height=media.size.height,
-                        thumb=media_thumb,  # type: ignore
+                        thumb=media.thumbnail_url,
                     )
                 )
 

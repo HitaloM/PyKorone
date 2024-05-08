@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PyKorone 1.0\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-05-06 22:05-0300\n"
+"POT-Creation-Date: 2024-05-08 13:13-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -293,11 +293,11 @@ msgid "This Instagram URL is not a valid post or story."
 msgstr ""
 
 #: src/korone/modules/media_dl/handlers/instagram.py:163
-#: src/korone/modules/media_dl/handlers/twitter.py:136
+#: src/korone/modules/media_dl/handlers/twitter.py:31
 msgid "Oops! Something went wrong while fetching the post."
 msgstr ""
 
-#: src/korone/modules/media_dl/handlers/twitter.py:149
+#: src/korone/modules/media_dl/handlers/twitter.py:42
 msgid "Open in Twitter"
 msgstr ""
 
@@ -378,3 +378,4 @@ msgstr ""
 #: src/korone/modules/pm_menu/handlers/start.py:42
 msgid "Hello, I'm PyKorone! An all-in-one bot."
 msgstr ""
+
