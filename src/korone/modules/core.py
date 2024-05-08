@@ -72,16 +72,13 @@ def add_modules_to_dict() -> None:
         with suppress(AttributeError):
             module_info = bfs_attr_search(module, "ModuleInfo")
 
-        if not module_info:
-            MODULES[module_name] = {"handlers": []}
-            continue
-
-        for attr in ["name", "summary", "doc"]:
-            attr_value = bfs_attr_search(module_info, attr)
-            if attr_value is None:
-                msg = f"Missing attribute '{attr}' in ModuleInfo of module '{module_name}'"
-                raise ValueError(msg)
-            MODULES[module_name]["info"][attr] = attr_value
+        if module_info:
+            for attr in ["name", "summary", "doc"]:
+                attr_value = bfs_attr_search(module_info, attr)
+                if attr_value is None:
+                    msg = f"Missing attribute '{attr}' in ModuleInfo of module '{module_name}'"
+                    raise ValueError(msg)
+                MODULES[module_name]["info"][attr] = attr_value
 
         for file in handlers_path.glob("*.py"):
             if file.name == "__init__.py":
