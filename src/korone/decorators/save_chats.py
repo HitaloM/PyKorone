@@ -1,8 +1,8 @@
 # SPDX-License-Identifier: BSD-3-Clause
 # Copyright (c) 2024 Hitalo M. <https://github.com/HitaloM>
 
-import pickle
 from collections.abc import Callable
+from datetime import timedelta
 from functools import wraps
 
 from babel import Locale
@@ -10,7 +10,7 @@ from babel.core import UnknownLocaleError
 from hydrogram.enums import ChatType
 from hydrogram.types import CallbackQuery, Chat, Message, User
 
-from korone import i18n, redis
+from korone import cache, i18n
 from korone.config import ConfigManager
 from korone.decorators.database import DatabaseManager
 
@@ -58,6 +58,7 @@ class ChatManager:
         }
         return is_user or is_group_or_supergroup
 
+    @cache(ttl=timedelta(days=1), key="get_locale:{chat.id}")
     async def get_locale(self, chat: User | Chat) -> str:
         """
         Get the locale based on the user and message.
@@ -82,11 +83,6 @@ class ChatManager:
         UnknownLocaleError
             If the locale identifier is invalid.
         """
-        cache_key = f"locale_cache:{chat.id}"
-        cached_data = await redis.get(cache_key)
-        if cached_data:
-            return pickle.loads(cached_data)
-
         if not self._is_valid_chat(chat):
             return i18n.default_locale
 
@@ -96,7 +92,7 @@ class ChatManager:
 
         try:
             language = db_obj[0]["language"]
-            sep = "-" if "_" not in language else ""
+            sep = "-" if "_" not in language else "_"
             locale_obj = Locale.parse(language, sep=sep)
             locale = f"{locale_obj.language}_{locale_obj.territory}"
             is_valid_locale = isinstance(locale_obj, Locale) and locale in i18n.available_locales
@@ -107,10 +103,6 @@ class ChatManager:
 
         except UnknownLocaleError:
             locale = i18n.default_locale
-
-        pickled_data = pickle.dumps(locale)
-        ttl = 86400  # 24 hours
-        await redis.set(cache_key, pickled_data, ttl)
 
         return str(locale)
 

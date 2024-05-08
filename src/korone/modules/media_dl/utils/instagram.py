@@ -1,7 +1,6 @@
 # SPDX-License-Identifier: BSD-3-Clause
 # Copyright (c) 2024 Hitalo M. <https://github.com/HitaloM>
 
-import pickle
 import re
 from dataclasses import dataclass
 from datetime import timedelta
@@ -12,7 +11,7 @@ import httpx
 import orjson
 from bs4 import BeautifulSoup, NavigableString, PageElement, Tag
 
-from korone import redis
+from korone import cache
 from korone.config import ConfigManager
 from korone.utils.logging import log
 
@@ -275,69 +274,17 @@ class InstagramHtmlParser:
         })
 
 
-class InstagramCache:
-    __slots__ = ("redis",)
-
-    def __init__(self) -> None:
-        self.redis = redis
-
-    async def get(self, post_id: str) -> InstaData | None:
-        cache_insta_data = await self.redis.get(post_id)
-        if cache_insta_data:
-            return self.process_cached_data(cache_insta_data, post_id)
-        return None
-
-    async def set(self, post_id: str, data: InstaData) -> None:
-        try:
-            cache_data = {
-                "post_id": data.post_id,
-                "username": data.username,
-                "caption": data.caption,
-                "medias": [m.__dict__ for m in data.medias],
-            }
-            pickled_data = pickle.dumps(cache_data)
-            await self.redis.set(
-                name=post_id,
-                value=pickled_data,
-                ex=int(timedelta(days=1).total_seconds()),
-            )
-        except Exception as err:
-            log.exception("Failed to set cache for post ID %s: %s", post_id, err)
-            msg = f"Error while setting cache for post ID {post_id}: {err}"
-            raise InstaError(msg) from err
-
-    @staticmethod
-    def process_cached_data(cache_insta_data: Any, post_id: str) -> InstaData | None:
-        unpickled_data = pickle.loads(cache_insta_data)
-        insta_data = InstaData(
-            post_id=unpickled_data.get("post_id"),
-            username=unpickled_data.get("username"),
-            caption=unpickled_data.get("caption"),
-            medias=[Media(**m) for m in unpickled_data.get("medias")],
-        )
-        log.debug("Data loaded from cache for post ID: %s", post_id)
-        return insta_data
-
-
 class GetInstagram:
-    __slots__ = ("cache", "data_fetcher")
+    __slots__ = ("data_fetcher",)
 
     def __init__(self) -> None:
         self.data_fetcher = InstagramDataFetcher()
-        self.cache = InstagramCache()
 
+    @cache(ttl=timedelta(days=1), key="insta_data:{post_id}")
     async def get_data(self, post_id: str) -> InstaData:
-        cached_data = await self.cache.get(post_id)
-        if cached_data is not None:
-            return cached_data
-
         data = await self.fetch_data(post_id)
 
-        insta_data = self.process_data(data, post_id)
-
-        await self.cache.set(post_id, insta_data)
-
-        return insta_data
+        return self.process_data(data, post_id)
 
     async def fetch_data(self, post_id: str) -> dict[str, Any]:
         data = await self.data_fetcher.get_data(post_id)

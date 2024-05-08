@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PyKorone 1.0\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-05-08 13:13-0300\n"
+"POT-Creation-Date: 2024-05-08 14:44-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -70,55 +70,55 @@ msgid ""
 " - /device &lt;device name&gt;: Returns the specifications of a device."
 msgstr ""
 
-#: src/korone/modules/gsm_arena/utils.py:96
+#: src/korone/modules/gsm_arena/utils.py:97
 msgid "Status"
 msgstr ""
 
-#: src/korone/modules/gsm_arena/utils.py:97
+#: src/korone/modules/gsm_arena/utils.py:98
 msgid "Network"
 msgstr ""
 
-#: src/korone/modules/gsm_arena/utils.py:98
+#: src/korone/modules/gsm_arena/utils.py:99
 msgid "Weight"
 msgstr ""
 
-#: src/korone/modules/gsm_arena/utils.py:99
+#: src/korone/modules/gsm_arena/utils.py:100
 msgid "Display"
 msgstr ""
 
-#: src/korone/modules/gsm_arena/utils.py:100
+#: src/korone/modules/gsm_arena/utils.py:101
 msgid "Chipset"
 msgstr ""
 
-#: src/korone/modules/gsm_arena/utils.py:101
+#: src/korone/modules/gsm_arena/utils.py:102
 msgid "Memory"
 msgstr ""
 
-#: src/korone/modules/gsm_arena/utils.py:102
+#: src/korone/modules/gsm_arena/utils.py:103
 msgid "Rear Camera"
 msgstr ""
 
-#: src/korone/modules/gsm_arena/utils.py:103
+#: src/korone/modules/gsm_arena/utils.py:104
 msgid "Front Camera"
 msgstr ""
 
-#: src/korone/modules/gsm_arena/utils.py:104
+#: src/korone/modules/gsm_arena/utils.py:105
 msgid "3.5mm jack"
 msgstr ""
 
-#: src/korone/modules/gsm_arena/utils.py:105
+#: src/korone/modules/gsm_arena/utils.py:106
 msgid "USB"
 msgstr ""
 
-#: src/korone/modules/gsm_arena/utils.py:106
+#: src/korone/modules/gsm_arena/utils.py:107
 msgid "Sensors"
 msgstr ""
 
-#: src/korone/modules/gsm_arena/utils.py:107
+#: src/korone/modules/gsm_arena/utils.py:108
 msgid "Battery"
 msgstr ""
 
-#: src/korone/modules/gsm_arena/utils.py:108
+#: src/korone/modules/gsm_arena/utils.py:109
 msgid "Charging"
 msgstr ""
 
@@ -293,11 +293,11 @@ msgid "This Instagram URL is not a valid post or story."
 msgstr ""
 
 #: src/korone/modules/media_dl/handlers/instagram.py:163
-#: src/korone/modules/media_dl/handlers/twitter.py:31
+#: src/korone/modules/media_dl/handlers/twitter.py:33
 msgid "Oops! Something went wrong while fetching the post."
 msgstr ""
 
-#: src/korone/modules/media_dl/handlers/twitter.py:42
+#: src/korone/modules/media_dl/handlers/twitter.py:46
 msgid "Open in Twitter"
 msgstr ""
 
@@ -378,4 +378,3 @@ msgstr ""
 #: src/korone/modules/pm_menu/handlers/start.py:42
 msgid "Hello, I'm PyKorone! An all-in-one bot."
 msgstr ""
-

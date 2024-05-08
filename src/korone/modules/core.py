@@ -42,18 +42,79 @@ Examples
 """  # noqa: E501
 
 
-def add_modules_to_dict() -> None:
+def add_module_info(module_name: str, module_info: Callable) -> None:
     """
-    Add modules to the MODULES dictionary.
+    Add module information to the MODULES dictionary.
 
-    This function walks through the directory structure of the parent path and adds modules to
-    the MODULES dictionary. It looks for a "handlers" directory in each module and retrieves
-    information from the module's __init__.py file.
+    This function adds information about a module to the MODULES dictionary.
+
+    Parameters
+    ----------
+    module_name : str
+        The name of the module.
+    module_info : Callable
+        The module information. This should be a callable object that provides
+        information about the module, such as its name, summary, and documentation.
 
     Raises
     ------
     ValueError
-        If any required attribute is missing in ModuleInfo.
+        If any of the required attributes are missing in the module information.
+
+    Notes
+    -----
+    The `module_info` parameter should be a callable object that returns a dictionary
+    with the following attributes:
+
+    - 'name' (str): The name of the module.
+    - 'summary' (str): A brief summary of the module's functionality.
+    - 'doc' (str): The documentation for the module.
+    """
+    MODULES[module_name] = {"handlers": [], "info": {}}
+
+    for attr in ["name", "summary", "doc"]:
+        attr_value = bfs_attr_search(module_info, attr)
+        if attr_value is None:
+            msg = f"Missing attribute '{attr}' in ModuleInfo of module '{module_name}'"
+            raise ValueError(msg)
+        MODULES[module_name]["info"][attr] = attr_value
+
+
+def add_handlers(module_name: str, handlers_path: Path) -> None:
+    """
+    Add handlers to the MODULES dictionary.
+
+    This function adds handlers to the MODULES dictionary. Each handler is represented as a string
+    in the format "{module_name}.handlers.{handler_name}" and is appended to the list of handlers
+    for the specified module in the MODULES dictionary.
+
+    Parameters
+    ----------
+    module_name : str
+        The name of the module.
+    handlers_path : Path
+        The path to the handlers directory.
+    """
+    for file in handlers_path.glob("*.py"):
+        if file.name == "__init__.py":
+            continue
+        MODULES[module_name]["handlers"].append(f"{module_name}.handlers.{file.stem}")
+
+
+def add_modules_to_dict() -> None:
+    """
+    Add modules to the MODULES dictionary.
+
+    This function searches for modules in the `korone.modules` package and adds them to the MODULES
+    dictionary. It looks for modules in the `handlers` subdirectory of each module's directory.
+    If a module has a `ModuleInfo` class defined, it adds the module information to the MODULES
+    dictionary. It also adds the handlers found in the `handlers` subdirectory to the MODULES
+    dictionary.
+
+    Notes
+    -----
+    The MODULES dictionary is a global dictionary used to store information about the modules and
+    their handlers.
     """
     parent_path = Path(__file__).parent
 
@@ -63,7 +124,7 @@ def add_modules_to_dict() -> None:
 
         handlers_path = Path(root) / "handlers"
         module_name = handlers_path.relative_to(parent_path).parts[0]
-        MODULES[module_name] = {"info": {}, "handlers": []}
+        MODULES[module_name] = {"handlers": []}
 
         module_pkg = f"korone.modules.{module_name}"
         module = import_module(".__init__", module_pkg)
@@ -73,17 +134,9 @@ def add_modules_to_dict() -> None:
             module_info = bfs_attr_search(module, "ModuleInfo")
 
         if module_info:
-            for attr in ["name", "summary", "doc"]:
-                attr_value = bfs_attr_search(module_info, attr)
-                if attr_value is None:
-                    msg = f"Missing attribute '{attr}' in ModuleInfo of module '{module_name}'"
-                    raise ValueError(msg)
-                MODULES[module_name]["info"][attr] = attr_value
+            add_module_info(module_name, module_info)
 
-        for file in handlers_path.glob("*.py"):
-            if file.name == "__init__.py":
-                continue
-            MODULES[module_name]["handlers"].append(f"{module_name}.handlers.{file.stem}")
+        add_handlers(module_name, handlers_path)
 
 
 def get_method_callable(cls: type, key: str) -> Callable[..., Any]:

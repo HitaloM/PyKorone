@@ -4,7 +4,7 @@
 import subprocess
 from pathlib import Path
 
-from redis.asyncio.client import Redis
+from cashews import Cache
 
 from korone.utils.i18n import I18nNew as I18n
 from korone.utils.logging import log
@@ -20,11 +20,8 @@ commit_hash, commit_count = result.stdout.decode("utf-8").strip().split("\n")
 
 __version__ = f"{commit_hash} ({commit_count})"
 
-redis = Redis(
-    host="localhost",
-    port=6379,
-    socket_timeout=5,
-)
+cache = Cache()
+cache.setup("redis://localhost", client_side=True)
 
 app_dir = Path(__file__).parent.parent.parent
 locales_dir: Path = app_dir / "locales"

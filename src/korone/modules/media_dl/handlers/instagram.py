@@ -15,6 +15,7 @@ from hydrogram.types import InputMediaPhoto, InputMediaVideo, Message
 from magic_filter import F
 from PIL import Image
 
+from korone import cache
 from korone.decorators import router
 from korone.handlers.message_handler import MessageHandler
 from korone.modules.media_dl.utils.instagram import (
@@ -25,7 +26,6 @@ from korone.modules.media_dl.utils.instagram import (
     NotFoundError,
 )
 from korone.modules.utils.filters.magic import Magic
-from korone.utils.cache import Cached
 from korone.utils.i18n import gettext as _
 
 URL_PATTERN = re.compile(r"(?:https?://)?(?:www\.)?instagram\.com/")
@@ -56,7 +56,7 @@ class InstagramHandler(MessageHandler):
         return "".join(arr)
 
     @staticmethod
-    @Cached(timedelta(days=1))
+    @cache(ttl=timedelta(days=1))
     async def url_to_binary_io(url: str) -> io.BytesIO:
         async with httpx.AsyncClient(timeout=TIMEOUT, http2=True) as session:
             mime_type = mimetypes.guess_type(url)[0]

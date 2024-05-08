@@ -11,7 +11,7 @@ from magic_filter import F
 
 from korone.decorators import router
 from korone.handlers.message_handler import MessageHandler
-from korone.modules.media_dl.utils.twitter import VxTwitterAPI
+from korone.modules.media_dl.utils.twitter import TwitterError, VxTwitterAPI
 from korone.modules.utils.filters.magic import Magic
 from korone.utils.i18n import gettext as _
 
@@ -26,10 +26,14 @@ class TwitterHandler(MessageHandler):
         if not url:
             return
 
-        tweet = VxTwitterAPI()
-        if not await tweet.fetch(url.group()):
+        api = VxTwitterAPI()
+        try:
+            await api.fetch(url.group())
+        except TwitterError:
             await message.reply_text(_("Oops! Something went wrong while fetching the post."))
             return
+
+        tweet = api.tweet
 
         text = f"<b>{tweet.user_name} (<code>@{tweet.user_screen_name}</code>):</b>\n\n"
         text += tweet.text
@@ -54,7 +58,7 @@ class TwitterHandler(MessageHandler):
             if media.type in {"video", "gif"}:
                 await client.send_video(
                     chat_id=message.chat.id,
-                    video=tweet.media_list,
+                    video=media.binary_io,
                     caption=text,
                     reply_markup=keyboard.as_markup(),
                     duration=int(

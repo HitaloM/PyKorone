@@ -9,12 +9,6 @@ korone.utils package
 Submodules
 ----------
 
-.. automodule:: korone.utils.cache
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
-
 .. automodule:: korone.utils.i18n
    :members:
    :undoc-members:

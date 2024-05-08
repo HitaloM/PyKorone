@@ -4,11 +4,13 @@
 import io
 import re
 from dataclasses import dataclass
+from datetime import timedelta
 from typing import BinaryIO
 
 import httpx
 import orjson
 
+from korone import cache
 from korone.utils.logging import log
 
 
@@ -55,17 +57,23 @@ class TweetData:
 
 
 class VxTwitterAPI:
-    __slots__ = ("http_client", "tweet_data")
+    __slots__ = ("http_client", "tweet")
 
     def __init__(self):
-        self.tweet_data: TweetData
         self.http_client = httpx.AsyncClient(http2=True)
+        self.tweet: TweetData
+
+    async def fetch(self, url: str) -> None:
+        data = await self._fetch(url)
+        await self._parse_data(data)
 
     @staticmethod
     def convert_to_vx_url(url: str) -> str:
         return re.sub(r"(www\.|)(twitter\.com|x\.com)", "api.vxtwitter.com", url)
 
-    async def fetch(self, url: str) -> TweetData | None:
+    @cache(ttl=timedelta(days=1), key="tweet_data:{url}")
+    async def _fetch(self, url: str) -> dict:
+        print("oi")
         vx_url = self.convert_to_vx_url(url)
         try:
             response = await self.http_client.get(vx_url)
@@ -74,11 +82,9 @@ class VxTwitterAPI:
             log.error("Error fetching tweet data: %s", err)
             raise TwitterError from err
 
-        data = orjson.loads(response.text)
-        self.tweet_data = await self.parse_data(data)
-        return self.tweet_data
+        return orjson.loads(response.text)
 
-    async def parse_data(self, data: dict) -> TweetData:
+    async def _parse_data(self, data: dict) -> None:
         media_extended = [
             MediaData(
                 alt_text=media.get("altText"),
@@ -91,7 +97,7 @@ class VxTwitterAPI:
             for media in data.get("media_extended", [])
         ]
 
-        return TweetData(
+        self.tweet = TweetData(
             community_note=data.get("communityNote", ""),
             conversation_id=data.get("conversationID", ""),
             date=data.get("date", ""),
@@ -112,22 +118,16 @@ class VxTwitterAPI:
             user_screen_name=data.get("user_screen_name", ""),
         )
 
+    @cache(ttl=timedelta(days=1), key="tweet_binary:{url}")
     async def url_to_binary_io(self, url: str) -> BinaryIO:
         try:
             response = await self.http_client.get(url)
             response.raise_for_status()
             content = response.read()
-        except httpx.HTTPStatusError as e:
-            print(f"Error fetching binary data: {e}")
-            return io.BytesIO()
+        except httpx.HTTPStatusError as err:
+            log.error("Error fetching media data: %s", err)
+            raise TwitterError from err
 
         file = io.BytesIO(content)
         file.name = url.split("/")[-1]
         return file
-
-    def __getattr__(self, name):
-        if self.tweet_data is not None and hasattr(self.tweet_data, name):
-            return getattr(self.tweet_data, name)
-
-        msg = f"'{type(self).__name__}' object has no attribute '{name}'"
-        raise AttributeError(msg)

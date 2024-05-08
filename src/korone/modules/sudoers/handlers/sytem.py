@@ -11,7 +11,7 @@ from hydrogram import Client
 from hydrogram.enums import ParseMode
 from hydrogram.types import Message
 
-from korone import redis
+from korone import cache
 from korone.decorators import router
 from korone.handlers.message_handler import MessageHandler
 from korone.modules.sudoers.utils import build_text, generate_document
@@ -70,5 +70,5 @@ class PurgeCache(MessageHandler):
     async def handle(client: Client, message: Message) -> None:
         start_time = time.time()
         start = await message.reply_text("Flushing cache...")
-        await redis.flushall()
+        await cache.clear()
         await start.edit_text(f"Cache flushed in {time.time() - start_time:.2f} seconds.")

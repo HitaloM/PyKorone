@@ -3,14 +3,15 @@
 
 import urllib.parse
 from dataclasses import dataclass
+from datetime import timedelta
 
 import httpx
 from bs4 import BeautifulSoup
 from hairydogm.keyboard import InlineKeyboardBuilder
 
+from korone import cache
 from korone.modules.gsm_arena.callback_data import DevicePageCallback, GetDeviceCallback
 from korone.modules.utils.pagination import Pagination
-from korone.utils.cache import Cached
 from korone.utils.i18n import gettext as _
 
 HEADERS: dict[str, str] = {
@@ -117,7 +118,7 @@ def format_phone(phone: dict) -> str:
     return f"<a href='{phone["url"]}'>{phone["name"]}</a>\n\n{"\n\n".join(attributes)}"
 
 
-@Cached()
+@cache(ttl=timedelta(days=1))
 async def fetch_and_parse(url: str) -> str:
     async with httpx.AsyncClient(headers=HEADERS, http2=True) as session:
         response = await session.get(

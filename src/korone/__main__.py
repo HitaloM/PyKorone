@@ -5,10 +5,10 @@ import asyncio
 import sys
 
 import uvloop
+from cashews.exceptions import CacheBackendInteractionError
 from hydrogram import idle
-from redis.exceptions import TimeoutError as RedisTimeoutError
 
-from korone import redis
+from korone import cache
 from korone.client import AppParameters, Korone
 from korone.config import ConfigManager
 from korone.utils.logging import log
@@ -24,8 +24,8 @@ async def main() -> None:
     creates a Korone client with the provided parameters and starts the client.
     """
     try:
-        await redis.ping()
-    except RedisTimeoutError:
+        await cache.ping()
+    except (CacheBackendInteractionError, TimeoutError):
         log.critical("Can't connect to RedisDB! Exiting...")
         sys.exit(1)
 
