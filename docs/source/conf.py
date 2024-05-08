@@ -6,8 +6,7 @@ from datetime import UTC, datetime
 from pathlib import Path
 
 docs_dir = Path(__file__).parent.parent
-src_dir = docs_dir / "src"
-sys.path.insert(0, src_dir.resolve().as_posix())
+sys.path.insert(0, Path("../../src").resolve().as_posix())
 
 import korone  # noqa: E402
 
