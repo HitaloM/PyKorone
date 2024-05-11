@@ -7,7 +7,6 @@ from dataclasses import dataclass
 from hydrogram.filters import Filter
 from hydrogram.handlers import CallbackQueryHandler, MessageHandler
 
-from korone.decorators.database import DatabaseManager
 from korone.decorators.save_chats import ChatManager
 
 
@@ -63,11 +62,10 @@ class Factory:
         A dictionary that stores the events observed by the factory.
     """
 
-    __slots__ = ("chat_manager", "database_manager", "event_name", "events_observed")
+    __slots__ = ("chat_manager", "event_name", "events_observed")
 
     def __init__(self, event_name: str) -> None:
         self.event_name = event_name
-        self.database_manager = DatabaseManager()
         self.chat_manager = ChatManager()
 
         self.events_observed = {
