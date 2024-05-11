@@ -10,8 +10,6 @@ from hydrogram.enums import ChatType
 from hydrogram.types import CallbackQuery, InlineKeyboardButton, Message
 from magic_filter import F
 
-from korone.database.impl import SQLite3Connection
-from korone.database.query import Query
 from korone.decorators import router
 from korone.handlers.callback_query_handler import CallbackQueryHandler
 from korone.handlers.message_handler import MessageHandler
@@ -74,15 +72,6 @@ class LanguagePrivateInfo(LanguageInfoBase):
     @property
     def button_text(self) -> LazyProxy:
         return __("👤 Change your language")
-
-    @staticmethod
-    async def group_locale_display(i18n_new: I18nNew, chat_id: int) -> str:
-        async with SQLite3Connection() as conn:
-            table = await conn.table("Groups")
-            query = Query()
-            chat = await table.query(query.id == chat_id)
-
-        return i18n_new.locale_display(i18n_new.babel(chat[0]["language"]))
 
     handle = router.message(Command(commands=LANG_CMDS) & filters.private)(LanguageInfoBase.handle)
 
