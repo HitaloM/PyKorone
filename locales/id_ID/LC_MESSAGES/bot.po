@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pykorone\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-05-06 22:05-0300\n"
-"PO-Revision-Date: 2024-05-07 01:08\n"
+"POT-Creation-Date: 2024-05-11 23:24-0300\n"
+"PO-Revision-Date: 2024-05-12 03:27\n"
 "Last-Translator: \n"
 "Language-Team: Indonesian\n"
 "MIME-Version: 1.0\n"
@@ -23,10 +23,11 @@ msgid "AFK"
 msgstr ""
 
 #: src/korone/modules/afk/__init__.py:11
-msgid "AFK module allows you to set your status as AFK."
+msgid "It can be challenging to communicate your availability status to others. This can lead to misunderstandings or missed messages when you're not available to respond.\n\n"
+"The AFK module addresses this issue by allowing you to set your status as 'Away From Keyboard' (AFK). PyKorone will automatically respond to messages you receive while you're AFK, letting others know that you're currently unavailable."
 msgstr ""
 
-#: src/korone/modules/afk/__init__.py:12
+#: src/korone/modules/afk/__init__.py:18
 msgid "<b>Commands:</b>\n"
 " - /afk &lt;reason&gt;: Set your status as AFK."
 msgstr ""
@@ -57,63 +58,64 @@ msgid "GSM Arena"
 msgstr ""
 
 #: src/korone/modules/gsm_arena/__init__.py:11
-msgid "GSM Arena is a great source for smartphone specifications. This module enables you to obtain the specifications of a particular device directly from Telegram."
+msgid "Obtaining smartphone specifications can be a tedious task, especially when it involves navigating through multiple websites or pages.\n\n"
+"This module simplifies the process by enabling users to obtain the specifications of a particular device directly from Telegram."
 msgstr ""
 
-#: src/korone/modules/gsm_arena/__init__.py:15
+#: src/korone/modules/gsm_arena/__init__.py:17
 msgid "<b>Commands:</b>\n"
 " - /device &lt;device name&gt;: Returns the specifications of a device."
 msgstr ""
 
-#: src/korone/modules/gsm_arena/utils.py:96
+#: src/korone/modules/gsm_arena/utils.py:97
 msgid "Status"
 msgstr ""
 
-#: src/korone/modules/gsm_arena/utils.py:97
+#: src/korone/modules/gsm_arena/utils.py:98
 msgid "Network"
 msgstr ""
 
-#: src/korone/modules/gsm_arena/utils.py:98
+#: src/korone/modules/gsm_arena/utils.py:99
 msgid "Weight"
 msgstr ""
 
-#: src/korone/modules/gsm_arena/utils.py:99
+#: src/korone/modules/gsm_arena/utils.py:100
 msgid "Display"
 msgstr ""
 
-#: src/korone/modules/gsm_arena/utils.py:100
+#: src/korone/modules/gsm_arena/utils.py:101
 msgid "Chipset"
 msgstr ""
 
-#: src/korone/modules/gsm_arena/utils.py:101
+#: src/korone/modules/gsm_arena/utils.py:102
 msgid "Memory"
 msgstr ""
 
-#: src/korone/modules/gsm_arena/utils.py:102
+#: src/korone/modules/gsm_arena/utils.py:103
 msgid "Rear Camera"
 msgstr ""
 
-#: src/korone/modules/gsm_arena/utils.py:103
+#: src/korone/modules/gsm_arena/utils.py:104
 msgid "Front Camera"
 msgstr ""
 
-#: src/korone/modules/gsm_arena/utils.py:104
+#: src/korone/modules/gsm_arena/utils.py:105
 msgid "3.5mm jack"
 msgstr ""
 
-#: src/korone/modules/gsm_arena/utils.py:105
+#: src/korone/modules/gsm_arena/utils.py:106
 msgid "USB"
 msgstr ""
 
-#: src/korone/modules/gsm_arena/utils.py:106
+#: src/korone/modules/gsm_arena/utils.py:107
 msgid "Sensors"
 msgstr ""
 
-#: src/korone/modules/gsm_arena/utils.py:107
+#: src/korone/modules/gsm_arena/utils.py:108
 msgid "Battery"
 msgstr ""
 
-#: src/korone/modules/gsm_arena/utils.py:108
+#: src/korone/modules/gsm_arena/utils.py:109
 msgid "Charging"
 msgstr ""
 
@@ -146,41 +148,41 @@ msgid "<b>Commands:</b>\n"
 "In groups, the bot's language is set by the group's administrators."
 msgstr ""
 
-#: src/korone/modules/language/handlers/apply.py:28
+#: src/korone/modules/language/handlers/apply.py:25
 msgid "Something went wrong."
 msgstr ""
 
-#: src/korone/modules/language/handlers/apply.py:59
+#: src/korone/modules/language/handlers/apply.py:48
 msgid "Language changed to {new_lang}."
 msgstr ""
 
-#: src/korone/modules/language/handlers/apply.py:66
+#: src/korone/modules/language/handlers/apply.py:55
 msgid "\n"
 "This is the bot's native language.\n"
 "If you find any errors, please file a issue in the GitHub Repository."
 msgstr ""
 
-#: src/korone/modules/language/handlers/apply.py:73
-#: src/korone/modules/language/handlers/apply.py:94
+#: src/korone/modules/language/handlers/apply.py:62
+#: src/korone/modules/language/handlers/apply.py:83
 msgid "🐞 Open GitHub"
 msgstr ""
 
-#: src/korone/modules/language/handlers/apply.py:84
+#: src/korone/modules/language/handlers/apply.py:73
 msgid "\n"
 "The language is {percent}% translated."
 msgstr ""
 
-#: src/korone/modules/language/handlers/apply.py:89
+#: src/korone/modules/language/handlers/apply.py:78
 msgid "\n"
 "In case you find any errors, please file a issue in the GitHub Repository."
 msgstr ""
 
-#: src/korone/modules/language/handlers/apply.py:98
+#: src/korone/modules/language/handlers/apply.py:87
 msgid "\n"
 "Please help us translate this language by completing it on the Crowdin website."
 msgstr ""
 
-#: src/korone/modules/language/handlers/apply.py:104
+#: src/korone/modules/language/handlers/apply.py:93
 msgid "🌍 Open Crowdin"
 msgstr ""
 
@@ -188,91 +190,92 @@ msgstr ""
 msgid "Changing language was canceled, you can change language again by using /language command."
 msgstr ""
 
-#: src/korone/modules/language/handlers/info.py:33
+#: src/korone/modules/language/handlers/info.py:30
 msgid "<b>Chat language:</b> {language}\n"
 msgstr ""
 
-#: src/korone/modules/language/handlers/info.py:44
+#: src/korone/modules/language/handlers/info.py:41
 msgid "\n"
 "<b>Language Info:</b>\n"
 msgstr ""
 
-#: src/korone/modules/language/handlers/info.py:45
+#: src/korone/modules/language/handlers/info.py:42
 msgid "Translated: {translated}\n"
 msgstr ""
 
-#: src/korone/modules/language/handlers/info.py:46
+#: src/korone/modules/language/handlers/info.py:43
 msgid "Untranslated: {untranslated}\n"
 msgstr ""
 
-#: src/korone/modules/language/handlers/info.py:47
+#: src/korone/modules/language/handlers/info.py:44
 msgid "Needs review: {fuzzy}\n"
 msgstr ""
 
-#: src/korone/modules/language/handlers/info.py:48
+#: src/korone/modules/language/handlers/info.py:45
 msgid "Percentage translated: {percent}\n"
 msgstr ""
 
-#: src/korone/modules/language/handlers/info.py:52
+#: src/korone/modules/language/handlers/info.py:49
 msgid "This is the bot's native language. So it is 100% translated."
 msgstr ""
 
-#: src/korone/modules/language/handlers/info.py:66
-#: src/korone/modules/language/handlers/info.py:106
-#: src/korone/modules/language/handlers/select.py:42
-#: src/korone/modules/pm_menu/handlers/about.py:34
-#: src/korone/modules/pm_menu/handlers/help.py:34
-#: src/korone/modules/pm_menu/handlers/help.py:75
+#: src/korone/modules/language/handlers/info.py:63
+#: src/korone/modules/language/handlers/info.py:94
+#: src/korone/modules/language/handlers/select.py:41
+#: src/korone/modules/pm_menu/handlers/about.py:33
+#: src/korone/modules/pm_menu/handlers/help.py:33
+#: src/korone/modules/pm_menu/handlers/help.py:74
 msgid "⬅️ Back"
 msgstr ""
 
-#: src/korone/modules/language/handlers/info.py:76
+#: src/korone/modules/language/handlers/info.py:73
 msgid "👤 Change your language"
 msgstr ""
 
-#: src/korone/modules/language/handlers/info.py:93
+#: src/korone/modules/language/handlers/info.py:81
 msgid "🌍 Change group language"
 msgstr ""
 
-#: src/korone/modules/language/handlers/select.py:35
+#: src/korone/modules/language/handlers/select.py:34
 msgid "❌ Cancel"
 msgstr ""
 
-#: src/korone/modules/language/handlers/select.py:50
+#: src/korone/modules/language/handlers/select.py:49
 msgid "Please select the language you want to use for the chat."
 msgstr ""
 
-#: src/korone/modules/language/handlers/select.py:77
+#: src/korone/modules/language/handlers/select.py:76
 msgid "This action can only be performed by administrators."
 msgstr ""
 
 #: src/korone/modules/media_dl/__init__.py:10
-msgid "Media Downloader"
+msgid "Medias"
 msgstr ""
 
 #: src/korone/modules/media_dl/__init__.py:11
-msgid "Some sites, when shared on Telegram by link, do not provide a preview of the image or video. That's where this module comes in. PyKorone will automatically detect the links of supported sites and upload the videos and images that are present in it!"
+msgid "Some websites, when their links are shared on platforms like Telegram, do not generate a preview of the images or videos contained within. This can lead to a lack of context and visual appeal for the shared content.\n\n"
+"This is where this module comes into play. It is designed to automatically detect the links of supported websites and upload the images and videos found within them. This ensures that a preview is always available, enhancing the user experience."
 msgstr ""
 
-#: src/korone/modules/media_dl/__init__.py:16
+#: src/korone/modules/media_dl/__init__.py:19
 msgid "Actually, there is no documentation for this module. It just works!"
 msgstr ""
 
-#: src/korone/modules/media_dl/handlers/instagram.py:114
-#: src/korone/modules/media_dl/handlers/instagram.py:182
+#: src/korone/modules/media_dl/handlers/instagram.py:116
+#: src/korone/modules/media_dl/handlers/instagram.py:188
 msgid "Open in Instagram"
 msgstr ""
 
-#: src/korone/modules/media_dl/handlers/instagram.py:157
+#: src/korone/modules/media_dl/handlers/instagram.py:162
 msgid "This Instagram URL is not a valid post or story."
 msgstr ""
 
-#: src/korone/modules/media_dl/handlers/instagram.py:163
-#: src/korone/modules/media_dl/handlers/twitter.py:136
+#: src/korone/modules/media_dl/handlers/instagram.py:168
+#: src/korone/modules/media_dl/handlers/twitter.py:32
 msgid "Oops! Something went wrong while fetching the post."
 msgstr ""
 
-#: src/korone/modules/media_dl/handlers/twitter.py:149
+#: src/korone/modules/media_dl/handlers/twitter.py:45
 msgid "Open in Twitter"
 msgstr ""
 
@@ -291,51 +294,51 @@ msgid "<b>Commands:</b>\n"
 "- /about: A brief description of the bot."
 msgstr ""
 
-#: src/korone/modules/pm_menu/handlers/about.py:27
+#: src/korone/modules/pm_menu/handlers/about.py:26
 msgid "📦 GitHub"
 msgstr ""
 
-#: src/korone/modules/pm_menu/handlers/about.py:28
+#: src/korone/modules/pm_menu/handlers/about.py:27
 msgid "📚 Channel"
 msgstr ""
 
-#: src/korone/modules/pm_menu/handlers/about.py:41
-msgid "PyKorone is a comprehensive, cutting-edge Telegram Bot that provides a variety of features to enhance your Telegram experience. It is designed to be versatile and adaptable, catering to a wide range of user needs. The bot is built using Python and is designed to be highly efficient and reliable.\n\n"
-"PyKorone uses {hydrogram}, a framework for the Telegram MTProto API, as its base.\n\n"
-"PyKorone is open source and is licensed under the {license_link} License. The source code is available on GitHub."
+#: src/korone/modules/pm_menu/handlers/about.py:40
+msgid "PyKorone is a comprehensive and cutting-edge Telegram bot that offers a wide range of features to enhance your Telegram experience. It is designed to be versatile, adaptable, and highly efficient.\n\n"
+"Built using Python, PyKorone is based on the {hydrogram} framework, which uses the Telegram MTProto API.\n\n"
+"PyKorone is an open source project licensed under the {license_link} License. The source code can be found on GitHub."
 msgstr ""
 
-#: src/korone/modules/pm_menu/handlers/help.py:41
+#: src/korone/modules/pm_menu/handlers/help.py:40
 msgid "Below are buttons for each module. Click on a button to access a brief documentation on its functionality and usage."
 msgstr ""
 
-#: src/korone/modules/pm_menu/handlers/help.py:50
-#: src/korone/modules/pm_menu/handlers/start.py:34
+#: src/korone/modules/pm_menu/handlers/help.py:49
+#: src/korone/modules/pm_menu/handlers/start.py:33
 msgid "👮‍♂️ Help"
 msgstr ""
 
-#: src/korone/modules/pm_menu/handlers/help.py:52
+#: src/korone/modules/pm_menu/handlers/help.py:51
 msgid "Message me in PM to get help."
 msgstr ""
 
-#: src/korone/modules/pm_menu/handlers/help.py:62
+#: src/korone/modules/pm_menu/handlers/help.py:61
 msgid "Module not found."
 msgstr ""
 
-#: src/korone/modules/pm_menu/handlers/help.py:81
+#: src/korone/modules/pm_menu/handlers/help.py:80
 msgid "Module not found. Available modules:\n"
 " - {modules}"
 msgstr ""
 
-#: src/korone/modules/pm_menu/handlers/start.py:27
+#: src/korone/modules/pm_menu/handlers/start.py:26
 msgid "ℹ️ About"
 msgstr ""
 
-#: src/korone/modules/pm_menu/handlers/start.py:29
+#: src/korone/modules/pm_menu/handlers/start.py:28
 msgid "{lang_flag} Language"
 msgstr ""
 
-#: src/korone/modules/pm_menu/handlers/start.py:42
+#: src/korone/modules/pm_menu/handlers/start.py:41
 msgid "Hello, I'm PyKorone! An all-in-one bot."
 msgstr ""
 
