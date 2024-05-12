@@ -7,10 +7,13 @@ from korone.utils.i18n import lazy_gettext as _
 
 
 class ModuleInfo:
-    name: LazyProxy = _("Media Downloader")
+    name: LazyProxy = _("Medias")
     summary: LazyProxy = _(
-        "Some sites, when shared on Telegram by link, do not provide a preview of the image or "
-        "video. That's where this module comes in. PyKorone will automatically detect the links "
-        "of supported sites and upload the videos and images that are present in it!"
+        "Some websites, when their links are shared on platforms like Telegram, do not generate "
+        "a preview of the images or videos contained within. This can lead to a lack of context "
+        "and visual appeal for the shared content.\n\nThis is where this module comes into play. "
+        "It is designed to automatically detect the links of supported websites and upload the "
+        "images and videos found within them. This ensures that a preview is always available, "
+        "enhancing the user experience."
     )
     doc: LazyProxy = _("Actually, there is no documentation for this module. It just works!")

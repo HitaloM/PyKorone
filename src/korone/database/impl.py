@@ -6,7 +6,7 @@ from pathlib import Path
 
 import aiosqlite
 
-from korone.constants import DEFAULT_DBFILE_PATH
+from korone import constants
 from korone.database.connection import Connection
 from korone.database.query import Query
 from korone.database.table import Document, Documents, Table
@@ -171,7 +171,7 @@ class SQLite3Connection:
     _kwargs: dict
     _conn: aiosqlite.Connection | None = None
 
-    def __init__(self, *args, path: str = DEFAULT_DBFILE_PATH, **kwargs) -> None:
+    def __init__(self, *args, path: str = constants.DEFAULT_DBFILE_PATH, **kwargs) -> None:
         self._path = path
         self._args = args
         self._kwargs = kwargs

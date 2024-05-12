@@ -7,7 +7,7 @@ from hydrogram.enums import ChatType
 from hydrogram.types import CallbackQuery, InlineKeyboardButton, InlineKeyboardMarkup, Message
 from magic_filter import F
 
-from korone.constants import GITHUB_URL, TELEGRAM_URL
+from korone import constants
 from korone.decorators import router
 from korone.handlers import CallbackQueryHandler, MessageHandler
 from korone.modules.pm_menu.callback_data import PMMenuCallback
@@ -16,8 +16,8 @@ from korone.utils.i18n import gettext as _
 
 
 class BaseHandler:
-    github_url: str = GITHUB_URL
-    telegram_url: str = TELEGRAM_URL
+    github_url: str = constants.GITHUB_URL
+    telegram_url: str = constants.TELEGRAM_URL
     license_url: str = "https://github.com/HitaloM/PyKorone/blob/main/LICENSE"
     hydrogram_url: str = "https://github.com/hydrogram/hydrogram"
 
@@ -38,13 +38,12 @@ class BaseHandler:
 
     def build_text(self) -> str:
         return _(
-            "PyKorone is a comprehensive, cutting-edge Telegram Bot that provides a variety of "
-            "features to enhance your Telegram experience. It is designed to be versatile and "
-            "adaptable, catering to a wide range of user needs. The bot is built using Python "
-            "and is designed to be highly efficient and reliable.\n\n"
-            "PyKorone uses {hydrogram}, a framework for the Telegram MTProto API, as its base.\n\n"
-            "PyKorone is open source and is licensed under the {license_link} License. "
-            "The source code is available on GitHub."
+            "PyKorone is a comprehensive and cutting-edge Telegram bot that offers a wide range "
+            "of features to enhance your Telegram experience. It is designed to be versatile, "
+            "adaptable, and highly efficient.\n\nBuilt using Python, PyKorone is based on the "
+            "{hydrogram} framework, which uses the Telegram MTProto API.\n\nPyKorone is an "
+            "open source project licensed under the {license_link} License. The source code "
+            "can be found on GitHub."
         ).format(
             hydrogram=f"<a href='{self.hydrogram_url}'>Hydrogram</a>",
             license_link=f"<a href='{self.license_url}'>BSD 3-Clause</a>",

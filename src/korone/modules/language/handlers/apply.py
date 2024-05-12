@@ -6,8 +6,7 @@ from hydrogram import Client
 from hydrogram.enums import ChatType
 from hydrogram.types import CallbackQuery
 
-from korone import cache
-from korone.constants import CROWDIN_URL, GITHUB_URL
+from korone import cache, constants
 from korone.decorators import router
 from korone.handlers import CallbackQueryHandler
 from korone.modules.language.callback_data import SetLangCallback
@@ -17,8 +16,8 @@ from korone.utils.i18n import gettext as _
 
 
 class ApplyLanguage(CallbackQueryHandler):
-    crowdin_url: str = CROWDIN_URL
-    github_url: str = f"{GITHUB_URL}/issues"
+    crowdin_url: str = constants.CROWDIN_URL
+    github_url: str = f"{constants.GITHUB_URL}/issues"
 
     @router.callback_query(SetLangCallback.filter())
     async def handle(self, client: Client, callback: CallbackQuery) -> None:
