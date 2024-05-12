@@ -8,7 +8,7 @@ from hydrogram.errors import MessageNotModified
 from hydrogram.types import CallbackQuery
 
 from korone.decorators import router
-from korone.handlers.callback_query_handler import CallbackQueryHandler
+from korone.handlers import CallbackQueryHandler
 from korone.modules.gsm_arena.callback_data import DevicePageCallback
 from korone.modules.gsm_arena.utils import create_pagination_layout, search_phone
 

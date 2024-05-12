@@ -17,7 +17,7 @@ from PIL import Image
 
 from korone import cache
 from korone.decorators import router
-from korone.handlers.message_handler import MessageHandler
+from korone.handlers import MessageHandler
 from korone.modules.media_dl.utils.instagram import (
     TIMEOUT,
     GetInstagram,
@@ -25,7 +25,6 @@ from korone.modules.media_dl.utils.instagram import (
     Media,
     NotFoundError,
 )
-from korone.modules.utils.filters.magic import Magic
 from korone.utils.i18n import gettext as _
 
 URL_PATTERN = re.compile(r"(?:https?://)?(?:www\.)?instagram\.com/")
@@ -150,7 +149,7 @@ class InstagramHandler(MessageHandler):
                 media_list.append(InputMediaVideo(media_bynary))
         return media_list
 
-    @router.message(Magic(F.text.regexp(URL_PATTERN)))
+    @router.message(F.text.regexp(URL_PATTERN))
     async def handle(self, client: Client, message: Message) -> None:
         post_id = self.get_post_id_from_message(message)
         if not post_id:

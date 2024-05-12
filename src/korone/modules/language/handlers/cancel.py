@@ -6,7 +6,7 @@ from hydrogram.types import CallbackQuery
 from magic_filter import F
 
 from korone.decorators import router
-from korone.handlers.callback_query_handler import CallbackQueryHandler
+from korone.handlers import CallbackQueryHandler
 from korone.modules.language.callback_data import LangMenuCallback
 from korone.utils.i18n import gettext as _
 

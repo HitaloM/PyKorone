@@ -73,7 +73,6 @@ class VxTwitterAPI:
 
     @cache(ttl=timedelta(days=1), key="tweet_data:{url}")
     async def _fetch(self, url: str) -> dict:
-        print("oi")
         vx_url = self.convert_to_vx_url(url)
         try:
             response = await self.http_client.get(vx_url)

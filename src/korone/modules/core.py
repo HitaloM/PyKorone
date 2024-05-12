@@ -12,8 +12,7 @@ from typing import TYPE_CHECKING, Any
 
 from hydrogram import Client
 
-from korone.handlers.callback_query_handler import CallbackQueryHandler
-from korone.handlers.message_handler import MessageHandler
+from korone.handlers import CallbackQueryHandler, MessageHandler
 from korone.utils.logging import log
 from korone.utils.traverse import bfs_attr_search
 

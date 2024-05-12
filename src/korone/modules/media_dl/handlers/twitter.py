@@ -10,9 +10,8 @@ from hydrogram.types import InputMediaPhoto, InputMediaVideo, Message
 from magic_filter import F
 
 from korone.decorators import router
-from korone.handlers.message_handler import MessageHandler
+from korone.handlers import MessageHandler
 from korone.modules.media_dl.utils.twitter import TwitterError, VxTwitterAPI
-from korone.modules.utils.filters.magic import Magic
 from korone.utils.i18n import gettext as _
 
 URL_PATTERN = re.compile(r"(?:(?:http|https):\/\/)?(?:www.)?(twitter\.com|x\.com)/.+?/status/\d+")
@@ -20,7 +19,7 @@ URL_PATTERN = re.compile(r"(?:(?:http|https):\/\/)?(?:www.)?(twitter\.com|x\.com
 
 class TwitterHandler(MessageHandler):
     @staticmethod
-    @router.message(Magic(F.text.regexp(URL_PATTERN)))
+    @router.message(F.text.regexp(URL_PATTERN))
     async def handle(client: Client, message: Message) -> None:
         url = URL_PATTERN.search(message.text)
         if not url:
