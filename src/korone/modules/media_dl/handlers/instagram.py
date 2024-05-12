@@ -30,7 +30,6 @@ from korone.utils.i18n import gettext as _
 URL_PATTERN = re.compile(r"(?:https?://)?(?:www\.)?instagram\.com/")
 REEL_PATTERN = re.compile(r"(?:reel(?:s?)|p)/(?P<post_id>[A-Za-z0-9_-]+)")
 STORIES_PATTERN = re.compile(r"(?:stories)/(?:[^/?#&]+/)?(?P<media_id>[0-9]+)")
-POST_ID_PATTERN = re.compile(r"^[A-Za-z0-9\-_]+$")
 
 GRAPH_IMAGE = "GraphImage"
 GRAPH_VIDEO = "GraphVideo"
@@ -42,23 +41,25 @@ class InstagramHandler(MessageHandler):
     @staticmethod
     def mediaid_to_code(media_id: int) -> str:
         alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_"
-        num = int(media_id)
-        if num == 0:
+
+        if media_id == 0:
             return alphabet[0]
+
         arr = []
         base = len(alphabet)
-        while num:
-            rem = num % base
-            num //= base
+
+        while media_id:
+            media_id, rem = divmod(media_id, base)
             arr.append(alphabet[rem])
-        arr.reverse()
-        return "".join(arr)
+
+        return "".join(arr[::-1])
 
     @staticmethod
     @cache(ttl=timedelta(days=1))
     async def url_to_binary_io(url: str) -> io.BytesIO:
         async with httpx.AsyncClient(timeout=TIMEOUT, http2=True) as session:
             mime_type = mimetypes.guess_type(url)[0]
+
             if mime_type and mime_type.startswith("video"):
                 proxy = await session.get(f"https://envoy.lol/{url}")
                 response = proxy if proxy.status_code == 200 else await session.get(url)
@@ -75,32 +76,34 @@ class InstagramHandler(MessageHandler):
                 return file
 
             if file_path.suffix.lower() in {".webp", ".heic"}:
-                file.name = file_path.with_suffix(".jpeg").name
                 image = Image.open(file)
                 file_jpg = io.BytesIO()
                 image.convert("RGB").save(file_jpg, format="JPEG")
-                file_jpg.name = file.name
+                file_jpg.name = file_path.with_suffix(".jpeg").name
                 return file_jpg
 
             return file
 
     def get_post_id_from_message(self, message: Message) -> str | None:
         matches = REEL_PATTERN.findall(message.text)
+
         if len(matches) == 1:
             return matches[0]
+
         if media_id := STORIES_PATTERN.findall(message.text):
             try:
                 return self.mediaid_to_code(int(media_id[0]))
             except ValueError:
                 return None
-        else:
-            return None
+
+        return None
 
     @staticmethod
     def create_caption_and_keyboard(
         insta: InstaData, post_url: str | None
     ) -> tuple[str, InlineKeyboardBuilder | None]:
         text = f"<b>{insta.username}</b>"
+
         if insta.caption:
             if len(insta.caption) > 255:
                 text += f":\n\n{insta.caption[:255]}..."
@@ -143,13 +146,16 @@ class InstagramHandler(MessageHandler):
         media_list = []
         for media in insta.medias:
             media_bynary = await self.url_to_binary_io(media.url)
+
             if media.type_name in {GRAPH_IMAGE, STORY_IMAGE}:
                 media_list.append(InputMediaPhoto(media_bynary))
+
             if media.type_name in {GRAPH_VIDEO, STORY_VIDEO}:
                 media_list.append(InputMediaVideo(media_bynary))
+
         return media_list
 
-    @router.message(F.text.regexp(URL_PATTERN))
+    @router.message(F.text.regexp(URL_PATTERN, search=True))
     async def handle(self, client: Client, message: Message) -> None:
         post_id = self.get_post_id_from_message(message)
         if not post_id:
@@ -162,8 +168,9 @@ class InstagramHandler(MessageHandler):
             await message.reply_text(_("Oops! Something went wrong while fetching the post."))
             return
 
-        post_url = URL_PATTERN.search(message.text)
+        post_url = re.search(r"(?:https?://)?(?:www\.)?instagram\.com/.*?(?=\s|$)", message.text)
         post_url = post_url.group() if post_url else None
+
         text, keyboard = self.create_caption_and_keyboard(insta, post_url)
 
         if len(insta.medias) == 1:
@@ -179,4 +186,5 @@ class InstagramHandler(MessageHandler):
         media_list[-1].caption = text
         if post_url:
             media_list[-1].caption += f"\n\n<a href='{post_url}'>{_("Open in Instagram")}</a>"
+
         await message.reply_media_group(media_list)

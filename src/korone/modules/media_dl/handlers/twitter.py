@@ -19,7 +19,7 @@ URL_PATTERN = re.compile(r"(?:(?:http|https):\/\/)?(?:www.)?(twitter\.com|x\.com
 
 class TwitterHandler(MessageHandler):
     @staticmethod
-    @router.message(F.text.regexp(URL_PATTERN))
+    @router.message(F.text.regexp(URL_PATTERN, search=True))
     async def handle(client: Client, message: Message) -> None:
         url = URL_PATTERN.search(message.text)
         if not url:
