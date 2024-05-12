@@ -88,12 +88,16 @@ ignore = [
 ]
 preview = true
 
-[tool.ruff.lint.isort]
-known-first-party = ["src"]
-
 [tool.ruff.format]
 docstring-code-format = true
 preview = true
+
+[tool.ruff.lint.isort]
+known-first-party = ["src"]
+
+[tool.ruff.lint.flake8-copyright]
+author = "Hitalo M"
+notice-rgx = "(?i)Copyright \\(C\\) \\d{4}"
 
 [tool.ruff.lint.flake8-tidy-imports]
 ban-relative-imports = "all"
