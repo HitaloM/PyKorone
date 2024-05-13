@@ -62,7 +62,7 @@ class MagicMessageHandler(MessageHandler):
             return True
 
         if not callable(self.filters):
-            return True
+            return False
 
         if isinstance(self.filters, MagicFilter):
             handler_does_match = await client.loop.run_in_executor(

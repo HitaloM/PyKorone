@@ -68,12 +68,12 @@ class VxTwitterAPI:
         await self._parse_data(data)
 
     @staticmethod
-    def convert_to_vx_url(url: str) -> str:
+    def _convert_to_vx_url(url: str) -> str:
         return re.sub(r"(www\.|)(twitter\.com|x\.com)", "api.vxtwitter.com", url)
 
     @cache(ttl=timedelta(days=1), key="tweet_data:{url}")
     async def _fetch(self, url: str) -> dict:
-        vx_url = self.convert_to_vx_url(url)
+        vx_url = self._convert_to_vx_url(url)
         try:
             response = await self.http_client.get(vx_url)
             response.raise_for_status()
@@ -90,7 +90,7 @@ class VxTwitterAPI:
                 size=SizeData(**media.get("size")),
                 thumbnail_url=media.get("thumbnail_url"),
                 type=media.get("type"),
-                binary_io=await self.url_to_binary_io(media.get("url")),
+                binary_io=await self._url_to_binary_io(media.get("url")),
                 duration_millis=media.get("duration_millis"),
             )
             for media in data.get("media_extended", [])
@@ -118,7 +118,7 @@ class VxTwitterAPI:
         )
 
     @cache(ttl=timedelta(days=1), key="tweet_binary:{url}")
-    async def url_to_binary_io(self, url: str) -> BinaryIO:
+    async def _url_to_binary_io(self, url: str) -> BinaryIO:
         try:
             response = await self.http_client.get(url)
             response.raise_for_status()

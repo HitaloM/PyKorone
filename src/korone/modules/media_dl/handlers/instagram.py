@@ -9,8 +9,10 @@ from pathlib import Path
 from urllib.parse import urlparse
 
 import httpx
+from hairydogm.chat_action import ChatActionSender
 from hairydogm.keyboard import InlineKeyboardBuilder
 from hydrogram import Client
+from hydrogram.enums import ChatAction
 from hydrogram.types import InputMediaPhoto, InputMediaVideo, Message
 from magic_filter import F
 from PIL import Image
@@ -162,29 +164,32 @@ class InstagramHandler(MessageHandler):
             await message.reply_text(_("This Instagram URL is not a valid post or story."))
             return
 
-        try:
-            insta = await GetInstagram().get_data(post_id)
-        except NotFoundError:
-            await message.reply_text(_("Oops! Something went wrong while fetching the post."))
-            return
-
         post_url = re.search(r"(?:https?://)?(?:www\.)?instagram\.com/.*?(?=\s|$)", message.text)
         post_url = post_url.group() if post_url else None
 
-        text, keyboard = self.create_caption_and_keyboard(insta, post_url)
+        async with ChatActionSender(
+            client=client, chat_id=message.chat.id, action=ChatAction.UPLOAD_DOCUMENT
+        ):
+            try:
+                insta = await GetInstagram().get_data(post_id)
+            except NotFoundError:
+                await message.reply_text(_("Oops! Something went wrong while fetching the post."))
+                return
 
-        if len(insta.medias) == 1:
-            media = insta.medias[0]
-            media_bynary = await self.url_to_binary_io(media.url)
-            await self.reply_with_media(message, media, media_bynary, text, keyboard)
-            return
+            text, keyboard = self.create_caption_and_keyboard(insta, post_url)
 
-        media_list = await self.create_media_list(insta)
-        if not media_list:
-            return
+            if len(insta.medias) == 1:
+                media = insta.medias[0]
+                media_bynary = await self.url_to_binary_io(media.url)
+                await self.reply_with_media(message, media, media_bynary, text, keyboard)
+                return
 
-        media_list[-1].caption = text
-        if post_url:
-            media_list[-1].caption += f"\n\n<a href='{post_url}'>{_("Open in Instagram")}</a>"
+            media_list = await self.create_media_list(insta)
+            if not media_list:
+                return
 
-        await message.reply_media_group(media_list)
+            media_list[-1].caption = text
+            if post_url:
+                media_list[-1].caption += f"\n\n<a href='{post_url}'>{_("Open in Instagram")}</a>"
+
+            await message.reply_media_group(media_list)

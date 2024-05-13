@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PyKorone 1.0\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-05-11 23:24-0300\n"
+"POT-Creation-Date: 2024-05-13 20:55-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -297,21 +297,21 @@ msgstr ""
 msgid "Actually, there is no documentation for this module. It just works!"
 msgstr ""
 
-#: src/korone/modules/media_dl/handlers/instagram.py:116
-#: src/korone/modules/media_dl/handlers/instagram.py:188
+#: src/korone/modules/media_dl/handlers/instagram.py:118
+#: src/korone/modules/media_dl/handlers/instagram.py:193
 msgid "Open in Instagram"
 msgstr ""
 
-#: src/korone/modules/media_dl/handlers/instagram.py:162
+#: src/korone/modules/media_dl/handlers/instagram.py:164
 msgid "This Instagram URL is not a valid post or story."
 msgstr ""
 
-#: src/korone/modules/media_dl/handlers/instagram.py:168
-#: src/korone/modules/media_dl/handlers/twitter.py:32
+#: src/korone/modules/media_dl/handlers/instagram.py:176
+#: src/korone/modules/media_dl/handlers/twitter.py:62
 msgid "Oops! Something went wrong while fetching the post."
 msgstr ""
 
-#: src/korone/modules/media_dl/handlers/twitter.py:45
+#: src/korone/modules/media_dl/handlers/twitter.py:78
 msgid "Open in Twitter"
 msgstr ""
 
