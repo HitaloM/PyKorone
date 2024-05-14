@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PyKorone 1.0\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-05-13 21:06-0300\n"
+"POT-Creation-Date: 2024-05-13 22:29-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -310,14 +310,18 @@ msgstr ""
 msgid "Oops! Something went wrong while fetching the post."
 msgstr ""
 
-#: src/korone/modules/media_dl/handlers/twitter.py:63
+#: src/korone/modules/media_dl/handlers/twitter.py:77
 msgid ""
 "Failed to scan your link! This may be due to an incorrect link, "
 "private/suspended account, deleted tweet, or recent changes to Twitter's "
 "API."
 msgstr ""
 
-#: src/korone/modules/media_dl/handlers/twitter.py:84
+#: src/korone/modules/media_dl/handlers/twitter.py:88
+msgid "No media found in this tweet!"
+msgstr ""
+
+#: src/korone/modules/media_dl/handlers/twitter.py:106
 msgid "Open in Twitter"
 msgstr ""
 

@@ -8,7 +8,6 @@ from datetime import timedelta
 from typing import BinaryIO
 
 import httpx
-import orjson
 
 from korone import cache
 from korone.utils.logging import log
@@ -19,44 +18,46 @@ class TwitterError(Exception):
 
 
 @dataclass(frozen=True, slots=True)
-class SizeData:
-    height: int
-    width: int
+class TweetAuthor:
+    name: str
+    screen_name: str
 
 
 @dataclass(frozen=True, slots=True)
-class MediaData:
-    alt_text: str
-    size: SizeData
-    thumbnail_url: str
-    type: str
+class TweetMediaVariants:
+    content_type: str
+    bitrate: int
+    url: str
     binary_io: BinaryIO
-    duration_millis: int
+
+
+@dataclass(frozen=True, slots=True)
+class TweetMedia:
+    type: str
+    format: str
+    url: str
+    binary_io: BinaryIO
+    duration: int
+    width: int
+    height: int
+    thumbnail_url: str
+    variants: list[TweetMediaVariants]
 
 
 @dataclass(frozen=True, slots=True)
 class TweetData:
-    community_note: str
-    conversation_id: str
-    date: str
-    date_epoch: int
-    hashtags: list[str]
-    likes: int
-    media_urls: list[str]
-    media_extended: list[MediaData]
-    possibly_sensitive: bool
-    qrt_url: str
+    url: str
+    text: str
+    author: TweetAuthor
     replies: int
     retweets: int
-    text: str
-    tweet_id: str
-    tweet_url: str
-    user_name: str
-    user_profile_image_url: str
-    user_screen_name: str
+    likes: int
+    created_at_timestamp: int
+    media: list[TweetMedia]
+    source: str
 
 
-class VxTwitterAPI:
+class TwitterAPI:
     __slots__ = ("http_client", "tweet")
 
     def __init__(self):
@@ -68,64 +69,65 @@ class VxTwitterAPI:
         await self._parse_data(data)
 
     @staticmethod
-    def _convert_to_vx_url(url: str) -> str:
-        return re.sub(r"(www\.|)(twitter\.com|x\.com)", "api.vxtwitter.com", url)
+    def _convert_to_fx_url(url: str) -> str:
+        return re.sub(r"(www\.|)(twitter\.com|x\.com)", "api.fxtwitter.com", url)
 
     @cache(ttl=timedelta(days=1), key="tweet_data:{url}")
     async def _fetch(self, url: str) -> dict:
-        vx_url = self._convert_to_vx_url(url)
+        vx_url = self._convert_to_fx_url(url)
         try:
             response = await self.http_client.get(vx_url)
             response.raise_for_status()
-        except httpx.HTTPStatusError as err:
-            log.error("Error fetching tweet data: %s", err)
-            raise TwitterError from err
-
-        if "Failed to scan your link!" in response.text:
-            msg = (
-                "Failed to scan your link! This may be due to an incorrect link, "
-                "private/suspended account, deleted tweet, or recent changes to Twitter's API."
-            )
-            raise TwitterError(msg)
-
-        try:
-            return orjson.loads(response.text)
-        except orjson.JSONDecodeError as err:
-            log.error("Error decoding tweet data: %s", err)
+            return response.json()
+        except httpx.HTTPError as err:
+            log.error(f"Error fetching tweet data: {err}")
             raise TwitterError from err
 
     async def _parse_data(self, data: dict) -> None:
-        media_extended = [
-            MediaData(
-                alt_text=media.get("altText"),
-                size=SizeData(**media.get("size")),
-                thumbnail_url=media.get("thumbnail_url"),
-                type=media.get("type"),
-                binary_io=await self._url_to_binary_io(media.get("url")),
-                duration_millis=media.get("duration_millis"),
-            )
-            for media in data.get("media_extended", [])
-        ]
+        tweet = data.get("tweet", {})
+        medias = tweet.get("media", {}).get("all", [])
+        author = tweet.get("author", {})
+
+        media = [await self._create_tweet_media(media) for media in medias]
 
         self.tweet = TweetData(
-            community_note=data.get("communityNote", ""),
-            conversation_id=data.get("conversationID", ""),
-            date=data.get("date", ""),
-            date_epoch=data.get("date_epoch", ""),
-            hashtags=data.get("hashtags", ""),
-            likes=data.get("likes", ""),
-            media_urls=data.get("mediaURLs", ""),
-            media_extended=media_extended,
-            possibly_sensitive=data.get("possibly_sensitive", ""),
-            qrt_url=data.get("qrtURL", ""),
-            replies=data.get("replies", ""),
-            retweets=data.get("retweets", ""),
-            text=data.get("text", ""),
-            tweet_id=data.get("tweetID", ""),
-            tweet_url=data.get("tweetURL", ""),
-            user_name=data.get("user_name", ""),
-            user_profile_image_url=data.get("user_profile_image_url", ""),
-            user_screen_name=data.get("user_screen_name", ""),
+            url=tweet.get("url", ""),
+            text=tweet.get("text", ""),
+            author=TweetAuthor(
+                name=author.get("name", ""),
+                screen_name=author.get("screen_name", ""),
+            ),
+            replies=tweet.get("replies", 0),
+            retweets=tweet.get("retweets", 0),
+            likes=tweet.get("likes", 0),
+            created_at_timestamp=tweet.get("created_at_timestamp", 0),
+            media=media,
+            source=tweet.get("source", ""),
+        )
+
+    async def _create_tweet_media(self, media: dict) -> TweetMedia:
+        variants = [
+            await self._create_tweet_media_variant(variant)
+            for variant in media.get("variants", [])
+        ]
+        return TweetMedia(
+            type=media.get("type", ""),
+            format=media.get("format", ""),
+            url=media.get("url", ""),
+            binary_io=await self._url_to_binary_io(media.get("url", "")),
+            duration=media.get("duration", 0),
+            width=media.get("width", 0),
+            height=media.get("height", 0),
+            thumbnail_url=media.get("thumbnail_url", ""),
+            variants=variants,
+        )
+
+    async def _create_tweet_media_variant(self, variant: dict) -> TweetMediaVariants:
+        return TweetMediaVariants(
+            content_type=variant.get("content_type", ""),
+            bitrate=variant.get("bitrate", 0),
+            url=variant.get("url", ""),
+            binary_io=await self._url_to_binary_io(variant.get("url", "")),
         )
 
     @cache(ttl=timedelta(days=1), key="tweet_binary:{url}")
@@ -134,8 +136,8 @@ class VxTwitterAPI:
             response = await self.http_client.get(url)
             response.raise_for_status()
             content = response.read()
-        except httpx.HTTPStatusError as err:
-            log.error("Error fetching media data: %s", err)
+        except httpx.HTTPError as err:
+            log.error(f"Error fetching media data: {err}")
             raise TwitterError from err
 
         file = io.BytesIO(content)
