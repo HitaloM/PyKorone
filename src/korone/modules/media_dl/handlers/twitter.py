@@ -67,34 +67,35 @@ class TwitterHandler(MessageHandler):
             return
 
         api = TwitterAPI()
+
+        try:
+            await api.fetch(url.group())
+        except TwitterError:
+            await message.reply_text(
+                _(
+                    "Failed to scan your link! This may be due to an incorrect link, "
+                    "private/suspended account, deleted tweet, or recent changes to "
+                    "Twitter's API."
+                )
+            )
+            return
+
+        tweet = api.tweet
+
+        if not tweet.media:
+            await message.reply_text(_("No media found in this tweet!"))
+            return
+
+        text = f"<b>{tweet.author.name} (<code>@{tweet.author.screen_name}</code>):</b>\n\n"
+        if tweet.text:
+            text += f"{tweet.text[:900]}{"..." if len(tweet.text) > 900 else ""}"
+
+        if tweet.source:
+            text += f"\n\n<b>Sent from:</b> <i>{tweet.source}</i>"
+
         async with ChatActionSender(
             client=client, chat_id=message.chat.id, action=ChatAction.UPLOAD_DOCUMENT
         ):
-            try:
-                await api.fetch(url.group())
-            except TwitterError:
-                await message.reply_text(
-                    _(
-                        "Failed to scan your link! This may be due to an incorrect link, "
-                        "private/suspended account, deleted tweet, or recent changes to "
-                        "Twitter's API."
-                    )
-                )
-                return
-
-            tweet = api.tweet
-
-            if not tweet.media:
-                await message.reply_text(_("No media found in this tweet!"))
-                return
-
-            text = f"<b>{tweet.author.name} (<code>@{tweet.author.screen_name}</code>):</b>\n\n"
-            if tweet.text:
-                text += f"{tweet.text[:900]}{"..." if len(tweet.text) > 900 else ""}"
-
-            if tweet.source:
-                text += f"\n\n<b>Sent from:</b> <i>{tweet.source}</i>"
-
             if len(tweet.media) > 1:
                 text += f"\n<a href='{tweet.url}'>Open in Twitter</a>"
                 await self.handle_multiple_media(message, tweet, text)
