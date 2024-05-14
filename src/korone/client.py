@@ -1,6 +1,8 @@
 # SPDX-License-Identifier: BSD-3-Clause
 # Copyright (c) 2024 Hitalo M. <https://github.com/HitaloM>
 
+import time
+from contextlib import suppress
 from dataclasses import dataclass
 from pathlib import Path
 from typing import TYPE_CHECKING
@@ -8,9 +10,10 @@ from typing import TYPE_CHECKING
 import hydrogram
 from hydrogram import Client
 from hydrogram.enums import ParseMode
+from hydrogram.errors import MessageIdInvalid, MessageNotModified
 from hydrogram.raw.all import layer
 
-from korone import constants
+from korone import cache, constants
 from korone.database.impl import SQLite3Connection
 from korone.modules import load_all_modules
 from korone.utils.logging import log
@@ -108,6 +111,18 @@ class Korone(Client):
             layer,
             self.me.username,
         )
+
+        cache_key = "korone-reboot"
+        if reboot_data := await cache.get(cache_key):
+            with suppress(MessageNotModified, MessageIdInvalid, KeyError):
+                chat_id = reboot_data["chat_id"]
+                message_id = reboot_data["message_id"]
+                time_elapsed = round(time.time() - reboot_data["time"], 2)
+                text = f"Rebooted in {time_elapsed} seconds."
+
+                await self.edit_message_text(chat_id=chat_id, message_id=message_id, text=text)
+
+            await cache.delete(cache_key)
 
     async def stop(self) -> None:
         """
