@@ -3,6 +3,7 @@
 
 import traceback
 
+from hairydogm.chat_action import ChatActionSender
 from hydrogram import Client
 from hydrogram.enums import ParseMode
 from hydrogram.types import Message
@@ -25,21 +26,22 @@ class Evaluate(MessageHandler):
             await message.reply_text("No expression provided.")
             return
 
-        try:
-            output = await meval(expression, globals(), **locals())
-        except Exception:
-            traceback_string = traceback.format_exc()
-            await message.reply_text(
-                f"Exception while running the code:\n<pre>{traceback_string}</pre>"
-            )
-            return
+        async with ChatActionSender(client=client, chat_id=message.chat.id, initial_sleep=3.0):
+            try:
+                output = await meval(expression, globals(), **locals())
+            except Exception:
+                traceback_string = traceback.format_exc()
+                await message.reply_text(
+                    f"Exception while running the code:\n<pre>{traceback_string}</pre>"
+                )
+                return
 
-        if not output:
-            await message.reply_text("No output.")
-            return
+            if not output:
+                await message.reply_text("No output.")
+                return
 
-        if len(str(output)) > 4096:
-            await generate_document(output, message)
-            return
+            if len(str(output)) > 4096:
+                await generate_document(output, message)
+                return
 
-        await message.reply_text(build_text(str(output)), parse_mode=ParseMode.MARKDOWN)
+            await message.reply_text(build_text(str(output)), parse_mode=ParseMode.MARKDOWN)

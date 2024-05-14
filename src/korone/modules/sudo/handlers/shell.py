@@ -3,6 +3,7 @@
 
 import asyncio
 
+from hairydogm.chat_action import ChatActionSender
 from hydrogram import Client
 from hydrogram.enums import ParseMode
 from hydrogram.types import Message
@@ -30,14 +31,15 @@ class Shell(MessageHandler):
             await message.reply_text("No command provided.")
             return
 
-        output = await self.run_command(command)
+        async with ChatActionSender(client=client, chat_id=message.chat.id, initial_sleep=3.0):
+            output = await self.run_command(command)
 
-        if not output:
-            await message.reply_text("No output.")
-            return
+            if not output:
+                await message.reply_text("No output.")
+                return
 
-        if len(output) > 4096:
-            await generate_document(output, message)
-            return
+            if len(output) > 4096:
+                await generate_document(output, message)
+                return
 
-        await message.reply_text(build_text(output), parse_mode=ParseMode.MARKDOWN)
+            await message.reply_text(build_text(output), parse_mode=ParseMode.MARKDOWN)
