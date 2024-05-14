@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pykorone\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-05-11 23:24-0300\n"
-"PO-Revision-Date: 2024-05-12 03:27\n"
+"POT-Creation-Date: 2024-05-13 22:47-0300\n"
+"PO-Revision-Date: 2024-05-14 01:57\n"
 "Last-Translator: \n"
 "Language-Team: Russian\n"
 "MIME-Version: 1.0\n"
@@ -273,21 +273,28 @@ msgstr ""
 msgid "Actually, there is no documentation for this module. It just works!"
 msgstr ""
 
-#: src/korone/modules/media_dl/handlers/instagram.py:116
-#: src/korone/modules/media_dl/handlers/instagram.py:188
+#: src/korone/modules/media_dl/handlers/instagram.py:118
+#: src/korone/modules/media_dl/handlers/instagram.py:193
 msgid "Open in Instagram"
 msgstr ""
 
-#: src/korone/modules/media_dl/handlers/instagram.py:162
+#: src/korone/modules/media_dl/handlers/instagram.py:164
 msgid "This Instagram URL is not a valid post or story."
 msgstr ""
 
-#: src/korone/modules/media_dl/handlers/instagram.py:168
-#: src/korone/modules/media_dl/handlers/twitter.py:32
+#: src/korone/modules/media_dl/handlers/instagram.py:176
 msgid "Oops! Something went wrong while fetching the post."
 msgstr ""
 
-#: src/korone/modules/media_dl/handlers/twitter.py:45
+#: src/korone/modules/media_dl/handlers/twitter.py:75
+msgid "Failed to scan your link! This may be due to an incorrect link, private/suspended account, deleted tweet, or recent changes to Twitter's API."
+msgstr ""
+
+#: src/korone/modules/media_dl/handlers/twitter.py:86
+msgid "No media found in this tweet!"
+msgstr ""
+
+#: src/korone/modules/media_dl/handlers/twitter.py:107
 msgid "Open in Twitter"
 msgstr ""
 
