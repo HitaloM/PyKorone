@@ -81,7 +81,18 @@ class VxTwitterAPI:
             log.error("Error fetching tweet data: %s", err)
             raise TwitterError from err
 
-        return orjson.loads(response.text)
+        if "Failed to scan your link!" in response.text:
+            msg = (
+                "Failed to scan your link! This may be due to an incorrect link, "
+                "private/suspended account, deleted tweet, or recent changes to Twitter's API."
+            )
+            raise TwitterError(msg)
+
+        try:
+            return orjson.loads(response.text)
+        except orjson.JSONDecodeError as err:
+            log.error("Error decoding tweet data: %s", err)
+            raise TwitterError from err
 
     async def _parse_data(self, data: dict) -> None:
         media_extended = [

@@ -59,7 +59,13 @@ class TwitterHandler(MessageHandler):
             try:
                 await api.fetch(url.group())
             except TwitterError:
-                await message.reply_text(_("Oops! Something went wrong while fetching the post."))
+                await message.reply_text(
+                    _(
+                        "Failed to scan your link! This may be due to an incorrect link, "
+                        "private/suspended account, deleted tweet, or recent changes to "
+                        "Twitter's API."
+                    )
+                )
                 return
 
             tweet = api.tweet
