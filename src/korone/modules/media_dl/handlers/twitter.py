@@ -33,13 +33,16 @@ class TwitterHandler(MessageHandler):
 
         return max(media.variants, key=lambda variant: variant.bitrate)
 
-    async def handle_multiple_media(self, message: Message, tweet: TweetData, text: str) -> None:
+    async def handle_multiple_media(
+        self, message: Message, tweet: TweetData, text: str, api: TwitterAPI
+    ) -> None:
         media_list: list[InputMediaPhoto | InputMediaVideo] = []
         for media in tweet.media:
             if media.type == "photo":
                 media_list.append(InputMediaPhoto(media.binary_io))
 
             if media.type in {"video", "gif"}:
+                thumbnail_io = await api._url_to_binary_io(media.thumbnail_url)
                 variant = variant if (variant := await self.get_best_variant(media)) else media
 
                 media_list.append(
@@ -50,7 +53,7 @@ class TwitterHandler(MessageHandler):
                         ),
                         width=media.width,
                         height=media.height,
-                        thumb=media.thumbnail_url,
+                        thumb=thumbnail_io,  # type: ignore
                     )
                 )
 
@@ -98,7 +101,7 @@ class TwitterHandler(MessageHandler):
         ):
             if len(tweet.media) > 1:
                 text += f"\n<a href='{tweet.url}'>Open in Twitter</a>"
-                await self.handle_multiple_media(message, tweet, text)
+                await self.handle_multiple_media(message, tweet, text, api)
                 return
 
             media = tweet.media[0]
