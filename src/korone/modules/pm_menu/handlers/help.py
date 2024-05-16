@@ -57,7 +57,7 @@ class Help(MessageHandler):
         text = self.build_text()
         keyboard = self.build_keyboard()
         if query := command.args:
-            text = GetHelp().build_text(query.split(" ")[0])
+            text = GetHelp().build_text(query)
             if _("Module not found.") in text:
                 await message.reply_text(text)
                 return
@@ -76,17 +76,19 @@ class GetHelp(CallbackQueryHandler):
 
     @staticmethod
     def build_text(module_name: str) -> str:
-        if module_name not in MODULES:
-            return _("Module not found. Available modules:\n - {modules}").format(
-                modules="\n - ".join(MODULES.keys())
-            )
+        module_name = module_name.lower()
+        for module_key, module_info in MODULES.items():
+            if "info" not in module_info:
+                continue
 
-        module = MODULES[module_name]["info"]
-        name = module["name"]
-        summary = module["summary"]
-        doc = module["doc"]
+            if module_name in (module_info["info"]["name"].lower(), module_key.lower()):  # noqa: PLR6201
+                name = module_info["info"]["name"]
+                summary = module_info["info"]["summary"]
+                doc = module_info["info"]["doc"]
 
-        return f"<b>{name}</b>\n\n{summary}\n\n{doc}"
+                return f"<b>{name}</b>\n\n{summary}\n\n{doc}"
+
+        return _("Module not found.")
 
     @router.callback_query(GetHelpCallback.filter())
     async def handle(self, client: Client, callback: CallbackQuery) -> None:

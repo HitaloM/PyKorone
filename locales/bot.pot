@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PyKorone 1.0\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-05-15 20:27-0300\n"
+"POT-Creation-Date: 2024-05-15 21:22-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -380,13 +380,8 @@ msgid "Message me in PM to get help."
 msgstr ""
 
 #: src/korone/modules/pm_menu/handlers/help.py:61
+#: src/korone/modules/pm_menu/handlers/help.py:91
 msgid "Module not found."
-msgstr ""
-
-#: src/korone/modules/pm_menu/handlers/help.py:80
-msgid ""
-"Module not found. Available modules:\n"
-" - {modules}"
 msgstr ""
 
 #: src/korone/modules/pm_menu/handlers/start.py:26
@@ -400,4 +395,3 @@ msgstr ""
 #: src/korone/modules/pm_menu/handlers/start.py:41
 msgid "Hello, I'm PyKorone! An all-in-one bot."
 msgstr ""
-
