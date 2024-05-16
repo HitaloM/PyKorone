@@ -2,7 +2,9 @@
 # Copyright (c) 2024 Hitalo M. <https://github.com/HitaloM>
 
 from hydrogram import Client
+from hydrogram.enums import ChatType
 from hydrogram.types import Message
+from magic_filter import F
 
 from korone.decorators import router
 from korone.handlers.abstract.message_handler import MessageHandler
@@ -15,7 +17,7 @@ from korone.utils.i18n import gettext as _
 
 class DisableHandler(MessageHandler):
     @staticmethod
-    @router.message(Command("disable") & IsAdmin)
+    @router.message(Command("disable") & F.chat.type.is_not(ChatType.PRIVATE) & IsAdmin)
     async def handle(client: Client, message: Message) -> None:
         command = CommandObject(message).parse()
         if not command.args:

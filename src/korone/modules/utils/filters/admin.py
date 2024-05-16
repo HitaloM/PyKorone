@@ -5,11 +5,12 @@ from collections.abc import Generator
 
 from hydrogram import Client
 from hydrogram.enums import ChatMemberStatus, ChatType
-from hydrogram.filters import Filter
 from hydrogram.types import CallbackQuery, Message
 
+from korone.filters import KoroneFilter
 
-class IsAdmin(Filter):
+
+class IsAdmin(KoroneFilter):
     """
     Filter to check if a user is an administrator.
 

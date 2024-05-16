@@ -6,10 +6,11 @@ from inspect import iscoroutinefunction
 from typing import Any
 
 from hydrogram import Client
-from hydrogram.filters import Filter
 from hydrogram.handlers import MessageHandler
 from hydrogram.types import Message
 from magic_filter import MagicFilter
+
+from korone.filters import KoroneFilter
 
 
 class MagicMessageHandler(MessageHandler):
@@ -32,9 +33,11 @@ class MagicMessageHandler(MessageHandler):
     - `MagicFilter <https://docs.aiogram.dev/en/dev-3.x/dispatcher/filters/magic_filters.html>`_
     """
 
-    def __init__(self, callback: Callable[..., Any], filters: Filter | MagicFilter | None = None):
+    def __init__(
+        self, callback: Callable[..., Any], filters: KoroneFilter | MagicFilter | None = None
+    ):
         self.callback: Callable[..., Any] = callback
-        self.filters: Filter | MagicFilter | None = filters
+        self.filters: KoroneFilter | MagicFilter | None = filters
 
     async def check(self, client: Client, message: Message) -> bool:
         """

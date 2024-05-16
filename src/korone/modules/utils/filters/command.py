@@ -8,10 +8,10 @@ from dataclasses import dataclass, field, replace
 from typing import Any
 
 from hydrogram import Client
-from hydrogram.filters import Filter
 from hydrogram.types import Message
 from magic_filter import MagicFilter
 
+from korone.filters import KoroneFilter
 from korone.modules import COMMANDS
 
 CommandPatternType = str | re.Pattern
@@ -123,7 +123,7 @@ class CommandObject:
         return self.__extract(text)
 
 
-class Command(Filter):
+class Command(KoroneFilter):
     """
     A filter that matches specific commands in messages.
 

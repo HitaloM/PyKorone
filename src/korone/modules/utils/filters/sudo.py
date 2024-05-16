@@ -2,13 +2,13 @@
 # Copyright (c) 2024 Hitalo M. <https://github.com/HitaloM>
 
 from hydrogram import Client
-from hydrogram.filters import Filter
 from hydrogram.types import CallbackQuery, Message
 
 from korone.config import ConfigManager
+from korone.filters import KoroneFilter
 
 
-class IsSudo(Filter):
+class IsSudo(KoroneFilter):
     """
     Check if the user is a sudoer.
 
