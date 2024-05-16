@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PyKorone 1.0\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-05-16 15:03-0300\n"
+"POT-Creation-Date: 2024-05-16 15:06-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -49,15 +49,15 @@ msgid ""
 "Reason: {reason}"
 msgstr ""
 
-#: src/korone/modules/afk/handlers/set.py:23
+#: src/korone/modules/afk/handlers/set.py:22
 msgid "You are already AFK."
 msgstr ""
 
-#: src/korone/modules/afk/handlers/set.py:29
+#: src/korone/modules/afk/handlers/set.py:28
 msgid "Your AFK status has been updated!"
 msgstr ""
 
-#: src/korone/modules/afk/handlers/set.py:32
+#: src/korone/modules/afk/handlers/set.py:31
 msgid "You are now AFK."
 msgstr ""
 
@@ -83,43 +83,43 @@ msgid ""
 "\"commandname\" in this group."
 msgstr ""
 
-#: src/korone/modules/disabling/handlers/disable.py:22
+#: src/korone/modules/disabling/handlers/disable.py:21
 msgid "You need to specify a command to disable."
 msgstr ""
 
-#: src/korone/modules/disabling/handlers/disable.py:27
+#: src/korone/modules/disabling/handlers/disable.py:26
 msgid "You can only disable one command at a time."
 msgstr ""
 
-#: src/korone/modules/disabling/handlers/disable.py:32
+#: src/korone/modules/disabling/handlers/disable.py:31
 msgid "You can't disable the command that disables commands."
 msgstr ""
 
-#: src/korone/modules/disabling/handlers/disable.py:38
+#: src/korone/modules/disabling/handlers/disable.py:37
 msgid "This command is already disabled."
 msgstr ""
 
-#: src/korone/modules/disabling/handlers/disable.py:42
+#: src/korone/modules/disabling/handlers/disable.py:41
 msgid "Command disabled."
 msgstr ""
 
-#: src/korone/modules/disabling/handlers/enable.py:22
+#: src/korone/modules/disabling/handlers/enable.py:21
 msgid "You need to specify a command to enable."
 msgstr ""
 
-#: src/korone/modules/disabling/handlers/enable.py:27
+#: src/korone/modules/disabling/handlers/enable.py:26
 msgid "You can only enable one command at a time."
 msgstr ""
 
-#: src/korone/modules/disabling/handlers/enable.py:34
+#: src/korone/modules/disabling/handlers/enable.py:33
 msgid "This command is not disabled."
 msgstr ""
 
-#: src/korone/modules/disabling/handlers/enable.py:38
+#: src/korone/modules/disabling/handlers/enable.py:37
 msgid "This command is already enabled."
 msgstr ""
 
-#: src/korone/modules/disabling/handlers/enable.py:42
+#: src/korone/modules/disabling/handlers/enable.py:41
 msgid "Command enabled."
 msgstr ""
 
@@ -314,8 +314,8 @@ msgstr ""
 #: src/korone/modules/language/handlers/info.py:94
 #: src/korone/modules/language/handlers/select.py:41
 #: src/korone/modules/pm_menu/handlers/about.py:33
-#: src/korone/modules/pm_menu/handlers/help.py:33
-#: src/korone/modules/pm_menu/handlers/help.py:74
+#: src/korone/modules/pm_menu/handlers/help.py:32
+#: src/korone/modules/pm_menu/handlers/help.py:73
 msgid "⬅️ Back"
 msgstr ""
 
@@ -433,23 +433,23 @@ msgid ""
 "License. The source code can be found on GitHub."
 msgstr ""
 
-#: src/korone/modules/pm_menu/handlers/help.py:40
+#: src/korone/modules/pm_menu/handlers/help.py:39
 msgid ""
 "Below are buttons for each module. Click on a button to access a brief "
 "documentation on its functionality and usage."
 msgstr ""
 
-#: src/korone/modules/pm_menu/handlers/help.py:49
+#: src/korone/modules/pm_menu/handlers/help.py:48
 #: src/korone/modules/pm_menu/handlers/start.py:33
 msgid "👮‍♂️ Help"
 msgstr ""
 
-#: src/korone/modules/pm_menu/handlers/help.py:51
+#: src/korone/modules/pm_menu/handlers/help.py:50
 msgid "Message me in PM to get help."
 msgstr ""
 
-#: src/korone/modules/pm_menu/handlers/help.py:61
-#: src/korone/modules/pm_menu/handlers/help.py:91
+#: src/korone/modules/pm_menu/handlers/help.py:60
+#: src/korone/modules/pm_menu/handlers/help.py:90
 msgid "Module not found."
 msgstr ""
 

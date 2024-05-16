@@ -13,8 +13,7 @@ from hydrogram.types import Message
 from korone.decorators import router
 from korone.handlers import MessageHandler
 from korone.modules.sudo.utils import build_text, generate_document
-from korone.modules.utils.filters import Command, IsSudo
-from korone.modules.utils.filters.command import CommandObject
+from korone.modules.utils.filters import Command, CommandObject, IsSudo
 
 
 class Execute(MessageHandler):

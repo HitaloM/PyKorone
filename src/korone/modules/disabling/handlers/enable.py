@@ -8,14 +8,13 @@ from korone.decorators import router
 from korone.handlers.abstract.message_handler import MessageHandler
 from korone.modules.core import check_command_state
 from korone.modules.disabling.database import set_command_state
-from korone.modules.utils.filters import Command
-from korone.modules.utils.filters.command import CommandObject
+from korone.modules.utils.filters import Command, CommandObject, IsAdmin
 from korone.utils.i18n import gettext as _
 
 
 class EnableHandler(MessageHandler):
     @staticmethod
-    @router.message(Command("enable"))
+    @router.message(Command("enable") & IsAdmin)
     async def enable(client: Client, message: Message) -> None:
         command = CommandObject(message).parse()
         if not command.args:
