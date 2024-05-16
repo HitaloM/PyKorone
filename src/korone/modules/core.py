@@ -11,7 +11,12 @@ from types import FunctionType, ModuleType
 from typing import TYPE_CHECKING, Any
 
 from hydrogram import Client
+from hydrogram.filters import AndFilter
+from magic_filter import MagicFilter
 
+from korone.database.impl import SQLite3Connection
+from korone.database.query import Query
+from korone.database.table import Documents
 from korone.handlers import CallbackQueryHandler, MessageHandler
 from korone.utils.logging import log
 from korone.utils.traverse import bfs_attr_search
@@ -39,6 +44,9 @@ Examples
 >>>     }
 >>> }
 """  # noqa: E501
+
+
+COMMANDS: dict[str, Any] = {}
 
 
 def add_module_info(module_name: str, module_info: Callable) -> None:
@@ -185,11 +193,78 @@ def get_method_callable(cls: type, key: str) -> Callable[..., Any]:
     return call
 
 
-def register_handler(client: Client, module: ModuleType) -> bool:
+async def check_command_state(command: str) -> Documents | None:
     """
-    Register a handler for a module in the client.
+    Check the state of a command.
 
-    This function registers a handler for a module in the client.
+    This function checks the state of a command in the database and returns the command state.
+
+    Parameters
+    ----------
+    command : str
+        The command to check.
+
+    Returns
+    -------
+    Documents | None
+        The command state if it exists, None otherwise.
+    """
+    async with SQLite3Connection() as conn:
+        table = await conn.table("Commands")
+        query = Query()
+
+        doc = await table.query(query.command == command)
+        return doc or None
+
+
+def update_commands(commands: list[str], parent: str, command_state: Documents | None) -> None:
+    """
+    Update the COMMANDS dictionary with the specified commands.
+
+    This function updates the COMMANDS dictionary with the specified commands. It adds the parent
+    command and its children to the dictionary, along with their chat state.
+
+    If the command state is not provided, the function initializes the chat state for the parent
+    command as an empty dictionary. If the command state is provided, the function updates the
+    chat state for the parent command with the provided state.
+
+    Parameters
+    ----------
+    commands : list[str]
+        The list of commands to update.
+    parent : str
+        The parent command.
+    command_state : Documents | None
+        The command state for the parent command.
+    """
+    children = [command.replace("$", "") for command in commands[1:]]
+    COMMANDS[parent] = {
+        "chat": {},
+        "children": children,
+    }
+
+    for cmd in children:
+        COMMANDS[cmd] = {
+            "parent": parent,
+        }
+
+    if not command_state:
+        COMMANDS[parent]["chat"] = {}
+    else:
+        for each in command_state:
+            COMMANDS[parent]["chat"][each["chat_id"]] = bool(each["state"])
+
+
+async def register_handler(client: Client, module: ModuleType) -> bool:
+    """
+    Register handlers for a module in the client.
+
+    This function searches for classes in the module that are subclasses of
+    MessageHandler or CallbackQueryHandler, and that have methods that are
+    instances of FunctionType. It adds these methods as handlers in the client.
+
+    If a handler has associated commands, the function checks and updates the
+    state of these commands.
 
     Parameters
     ----------
@@ -201,7 +276,7 @@ def register_handler(client: Client, module: ModuleType) -> bool:
     Returns
     -------
     bool
-        True if the registration was successful, False otherwise.
+        True if at least one handler was successfully registered, False otherwise.
     """
     function_list = [
         (obj, func_obj)
@@ -234,6 +309,18 @@ def register_handler(client: Client, module: ModuleType) -> bool:
 
         client.add_handler(handler.event(method_callable, filters), group)
 
+        commands = []
+        if hasattr(filters, "commands") and not isinstance(filters, MagicFilter):
+            commands += [command.pattern for command in filters.commands]  # type: ignore
+
+        elif isinstance(filters, AndFilter) and hasattr(filters.base, "commands"):
+            commands += [command.pattern for command in filters.base.commands]
+
+        if commands:
+            parent = commands[0].replace("$", "")
+            command_state = await check_command_state(parent)
+            update_commands(commands, parent, command_state)
+
         log.debug("Handler registered", handler=handler)
 
         success = True
@@ -241,7 +328,7 @@ def register_handler(client: Client, module: ModuleType) -> bool:
     return success
 
 
-def load_module(client: Client, module: tuple) -> bool:
+async def load_module(client: Client, module: tuple) -> bool:
     """
     Load specified module.
 
@@ -277,7 +364,7 @@ def load_module(client: Client, module: tuple) -> bool:
             modules_path: str = "korone.modules"
 
             component: ModuleType = import_module(f".{pkg}", modules_path)
-            if not register_handler(client, component):
+            if not await register_handler(client, component):
                 return False
 
     except ModuleNotFoundError as err:
@@ -287,7 +374,7 @@ def load_module(client: Client, module: tuple) -> bool:
     return True
 
 
-def load_all_modules(client: Client) -> None:
+async def load_all_modules(client: Client) -> None:
     """
     Load all modules.
 
@@ -305,7 +392,7 @@ def load_all_modules(client: Client) -> None:
     for module in MODULES.items():
         module_name = module[0]
         try:
-            load_module(client, module)
+            await load_module(client, module)
             count += 1
         except (TypeError, ModuleNotFoundError):
             log.exception("Could not load module: %s", module_name)

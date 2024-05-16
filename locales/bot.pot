@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PyKorone 1.0\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-05-15 21:22-0300\n"
+"POT-Creation-Date: 2024-05-16 14:58-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -59,6 +59,64 @@ msgstr ""
 
 #: src/korone/modules/afk/handlers/set.py:32
 msgid "You are now AFK."
+msgstr ""
+
+#: src/korone/modules/disabling/__init__.py:10
+msgid "Disabling"
+msgstr ""
+
+#: src/korone/modules/disabling/__init__.py:11
+msgid ""
+"Not everyone wants every feature Korone offers. Some commands are best "
+"left unused to prevent spam and abuse.\n"
+"\n"
+"This allows you to disable some commonly used commands so that no one can"
+" use them. It also allows you to auto-delete  to prevent people from "
+"bluetexting."
+msgstr ""
+
+#: src/korone/modules/disabling/__init__.py:17
+msgid ""
+"<b>Admin Commands:</b>\n"
+"- /disable &lt;commandname&gt;: Stop users from using \"commandname\" in "
+"this group.- /enable &lt;commandname&gt;: Allow users from using "
+"\"commandname\" in this group."
+msgstr ""
+
+#: src/korone/modules/disabling/handlers/disable.py:22
+msgid "You need to specify a command to disable."
+msgstr ""
+
+#: src/korone/modules/disabling/handlers/disable.py:27
+msgid "You can only disable one command at a time."
+msgstr ""
+
+#: src/korone/modules/disabling/handlers/disable.py:34
+msgid "This command is already disabled."
+msgstr ""
+
+#: src/korone/modules/disabling/handlers/disable.py:38
+msgid "Command disabled."
+msgstr ""
+
+#: src/korone/modules/disabling/handlers/enable.py:22
+msgid "You need to specify a command to enable."
+msgstr ""
+
+#: src/korone/modules/disabling/handlers/enable.py:27
+msgid "You can only enable one command at a time."
+msgstr ""
+
+#: src/korone/modules/disabling/handlers/enable.py:34
+msgid "This command is not disabled."
+msgstr ""
+
+#: src/korone/modules/disabling/handlers/enable.py:38
+msgid "This command is already enabled."
+msgstr ""
+
+#: src/korone/modules/disabling/handlers/enable.py:42
+msgid "Command enabled."
 msgstr ""
 
 #: src/korone/modules/gsm_arena/__init__.py:10

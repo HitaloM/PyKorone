@@ -85,8 +85,15 @@ CREATE TABLE IF NOT EXISTS Groups (
 );
 CREATE TABLE IF NOT EXISTS Afk (
     id INTEGER PRIMARY KEY,
-    state BOOLEAN,
+    state BIT,
     reason TEXT
+);
+CREATE TABLE IF NOT EXISTS Commands (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    chat_id INTEGER,
+    command TEXT,
+    state BIT,
+    FOREIGN KEY(chat_id) REFERENCES Groups(id)
 );
 """
 """The default SQLite3 tables.

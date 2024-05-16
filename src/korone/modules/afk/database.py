@@ -42,4 +42,5 @@ async def get_user(username: str) -> Documents:
     async with SQLite3Connection() as conn:
         table = await conn.table("Users")
         query = Query()
+
         return await table.query(query.username == username[1:])

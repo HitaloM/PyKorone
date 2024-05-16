@@ -1,0 +1,29 @@
+# SPDX-License-Identifier: BSD-3-Clause
+# Copyright (c) 2024 Hitalo M. <https://github.com/HitaloM>
+
+from korone.database.impl import SQLite3Connection
+from korone.database.query import Query
+from korone.database.table import Document
+from korone.modules import COMMANDS
+
+
+async def set_command_state(chat_id: int, command: str, *, state: bool) -> None:
+    async with SQLite3Connection() as conn:
+        table = await conn.table("Commands")
+        query = Query()
+
+        if command not in COMMANDS:
+            msg = f"Command '{command}' has not been registered!"
+            raise KeyError(msg)
+
+        if "parent" in COMMANDS[command]:
+            command = COMMANDS[command]["parent"]
+
+        COMMANDS[command]["chat"][chat_id] = state
+
+        query = (query.chat_id == chat_id) & (query.command == command)
+        if not await table.query(query):
+            await table.insert(Document(chat_id=chat_id, command=command, state=state))
+            return
+
+        await table.update(Document(state=state), query)

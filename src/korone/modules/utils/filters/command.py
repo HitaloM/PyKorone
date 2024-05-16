@@ -12,6 +12,8 @@ from hydrogram.filters import Filter
 from hydrogram.types import Message
 from magic_filter import MagicFilter
 
+from korone.modules import COMMANDS
+
 CommandPatternType = str | re.Pattern
 
 
@@ -330,6 +332,19 @@ class Command(Filter):
 
         self.validate_prefix(command)
         await self.validade_mention(client, command)
+
+        command_name = command.command
+        if command_name in COMMANDS:
+            if "parent" in COMMANDS[command_name]:
+                command_name = COMMANDS[command_name]["parent"]
+
+            if (
+                message.chat.id in COMMANDS[command_name]["chat"]
+                and COMMANDS[command_name]["chat"][message.chat.id] is False
+            ):
+                msg = f"Command {command_name} is disabled in '{message.chat.id}'."
+                raise CommandError(msg)
+
         return self.do_magic(command=self.validate_command(command))
 
     def do_magic(self, command: CommandObject) -> CommandObject:
