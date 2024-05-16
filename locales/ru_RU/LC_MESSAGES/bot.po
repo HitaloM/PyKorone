@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pykorone\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-05-13 22:47-0300\n"
-"PO-Revision-Date: 2024-05-14 01:57\n"
+"POT-Creation-Date: 2024-05-15 21:22-0300\n"
+"PO-Revision-Date: 2024-05-16 01:02\n"
 "Last-Translator: \n"
 "Language-Team: Russian\n"
 "MIME-Version: 1.0\n"
@@ -286,15 +286,15 @@ msgstr ""
 msgid "Oops! Something went wrong while fetching the post."
 msgstr ""
 
-#: src/korone/modules/media_dl/handlers/twitter.py:75
+#: src/korone/modules/media_dl/handlers/twitter.py:78
 msgid "Failed to scan your link! This may be due to an incorrect link, private/suspended account, deleted tweet, or recent changes to Twitter's API."
 msgstr ""
 
-#: src/korone/modules/media_dl/handlers/twitter.py:86
+#: src/korone/modules/media_dl/handlers/twitter.py:89
 msgid "No media found in this tweet!"
 msgstr ""
 
-#: src/korone/modules/media_dl/handlers/twitter.py:107
+#: src/korone/modules/media_dl/handlers/twitter.py:110
 msgid "Open in Twitter"
 msgstr ""
 
@@ -344,14 +344,9 @@ msgid "Message me in PM to get help."
 msgstr "Сообщите мне в PM, чтобы получить помощь."
 
 #: src/korone/modules/pm_menu/handlers/help.py:61
+#: src/korone/modules/pm_menu/handlers/help.py:91
 msgid "Module not found."
 msgstr "Модуль не найден."
-
-#: src/korone/modules/pm_menu/handlers/help.py:80
-msgid "Module not found. Available modules:\n"
-" - {modules}"
-msgstr "Модуль не найден. Доступные модули:\n"
-" - {modules}"
 
 #: src/korone/modules/pm_menu/handlers/start.py:26
 msgid "ℹ️ About"
