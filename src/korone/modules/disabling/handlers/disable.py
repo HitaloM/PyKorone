@@ -27,12 +27,16 @@ class DisableHandler(MessageHandler):
             await message.reply(_("You can only disable one command at a time."))
             return
 
-        command = args[0]
-        cmd_db = await check_command_state(command)
+        command_to_disable = args[0]
+        if command_to_disable == command.command:
+            await message.reply(_("You can't disable the command that disables commands."))
+            return
+
+        cmd_db = await check_command_state(command_to_disable)
 
         if cmd_db and bool(cmd_db[0]["state"]) is False:
             await message.reply(_("This command is already disabled."))
             return
 
-        await set_command_state(message.chat.id, command, state=False)
+        await set_command_state(message.chat.id, command_to_disable, state=False)
         await message.reply(_("Command disabled."))

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PyKorone 1.0\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-05-16 14:58-0300\n"
+"POT-Creation-Date: 2024-05-16 15:03-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -91,11 +91,15 @@ msgstr ""
 msgid "You can only disable one command at a time."
 msgstr ""
 
-#: src/korone/modules/disabling/handlers/disable.py:34
-msgid "This command is already disabled."
+#: src/korone/modules/disabling/handlers/disable.py:32
+msgid "You can't disable the command that disables commands."
 msgstr ""
 
 #: src/korone/modules/disabling/handlers/disable.py:38
+msgid "This command is already disabled."
+msgstr ""
+
+#: src/korone/modules/disabling/handlers/disable.py:42
 msgid "Command disabled."
 msgstr ""
 
@@ -377,6 +381,13 @@ msgstr ""
 
 #: src/korone/modules/media_dl/handlers/twitter.py:89
 msgid "No media found in this tweet!"
+msgstr ""
+
+#: src/korone/modules/media_dl/handlers/twitter.py:97
+msgid ""
+"\n"
+"\n"
+"<b>Sent from:</b> <i>{source}</i>"
 msgstr ""
 
 #: src/korone/modules/media_dl/handlers/twitter.py:110

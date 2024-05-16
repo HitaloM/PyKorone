@@ -94,7 +94,7 @@ class TwitterHandler(MessageHandler):
             text += f"{tweet.text[:900]}{"..." if len(tweet.text) > 900 else ""}"
 
         if tweet.source:
-            text += f"\n\n<b>Sent from:</b> <i>{tweet.source}</i>"
+            text += _("\n\n<b>Sent from:</b> <i>{source}</i>").format(source=tweet.source)
 
         async with ChatActionSender(
             client=client, chat_id=message.chat.id, action=ChatAction.UPLOAD_DOCUMENT
