@@ -18,7 +18,7 @@ from korone.utils.i18n import I18nNew, get_i18n
 from korone.utils.i18n import gettext as _
 from korone.utils.i18n import lazy_gettext as __
 
-LANG_CMDS: list[str] = ["lang", "language", "locale", "setlang"]
+LANG_CMDS: list[str] = ["language", "lang", "locale", "setlang"]
 
 
 class LanguageInfoBase(MessageHandler):

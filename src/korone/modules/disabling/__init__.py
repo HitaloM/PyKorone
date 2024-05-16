@@ -18,4 +18,5 @@ class ModuleInfo:
         "<b>Admin Commands:</b>\n"
         '- /disable &lt;commandname&gt;: Stop users from using "commandname" in this group.'
         '- /enable &lt;commandname&gt;: Allow users from using "commandname" in this group.'
+        "- /disableable: List of commands that can be disabled."
     )

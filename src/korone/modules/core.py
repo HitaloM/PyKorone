@@ -30,23 +30,49 @@ MODULES: dict[str, dict[str, Any]] = {}
 Examples
 --------
 >>> MODULES = {
->>>     "dummy": {
->>>         "info": {
->>>             "name": "Dummy System",
->>>             "summary": "The Dummy System is a special system implemented into Dummy Plugs.",
->>>             "doc": "Entry Plugs are capsule-like tubes which acts as the cockpit for Evangelion pilots."
->>>         },
->>>         "handlers": [
->>>             "pm_menu.handlers.eva00"
->>>             "pm_menu.handlers.eva01",
->>>             "pm_menu.handlers.eva02",
->>>         ]
->>>     }
->>> }
+...     "dummy": {
+...         "info": {
+...             "name": "Dummy System",
+...             "summary": "The Dummy System is a special system implemented into Dummy Plugs.",
+...             "doc": "Entry Plugs are capsule-like tubes which acts as the cockpit for Evangelion pilots."
+...         },
+...         "handlers": [
+...             "pm_menu.handlers.eva00"
+...             "pm_menu.handlers.eva01",
+...             "pm_menu.handlers.eva02",
+...         ]
+...     }
+... }
 """  # noqa: E501
 
 
 COMMANDS: dict[str, Any] = {}
+"""
+Korone's command structure.
+
+Examples
+--------
+>>> COMMANDS = {
+...     "evangelion": {
+...         "chat": {
+...             -100123456789: True,
+...             -100987654321: False,
+...         },
+...         "children": [
+...             "eva01",
+...             "eva02",
+...         ],
+...     },
+...     "eva01": {
+...         "parent": "evangelion",
+...     },
+...     "eva02": {
+...         "parent": "evangelion",
+...     },
+... }
+"""
+
+NOT_DISABLEABLE: list[str] = ["disableable", "enable", "disable"]
 
 
 def add_module_info(module_name: str, module_info: Callable) -> None:
@@ -318,8 +344,9 @@ async def register_handler(client: Client, module: ModuleType) -> bool:
 
         if commands:
             parent = commands[0].replace("$", "")
-            command_state = await check_command_state(parent)
-            update_commands(commands, parent, command_state)
+            if parent not in NOT_DISABLEABLE:
+                command_state = await check_command_state(parent)
+                update_commands(commands, parent, command_state)
 
         log.debug("Handler registered", handler=handler)
 

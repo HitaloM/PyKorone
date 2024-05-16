@@ -6,6 +6,7 @@ from hydrogram.types import Message
 
 from korone.decorators import router
 from korone.handlers.abstract.message_handler import MessageHandler
+from korone.modules import NOT_DISABLEABLE
 from korone.modules.core import check_command_state
 from korone.modules.disabling.database import set_command_state
 from korone.modules.utils.filters import Command, CommandObject, IsAdmin
@@ -26,16 +27,21 @@ class DisableHandler(MessageHandler):
             await message.reply(_("You can only disable one command at a time."))
             return
 
-        command_to_disable = args[0]
-        if command_to_disable == command.command:
-            await message.reply(_("You can't disable the command that disables commands."))
+        command = args[0]
+        if command in NOT_DISABLEABLE:
+            await message.reply(_("This command can't be enabled or disabled."))
             return
 
-        cmd_db = await check_command_state(command_to_disable)
+        cmd_db = await check_command_state(command)
 
         if cmd_db and bool(cmd_db[0]["state"]) is False:
             await message.reply(_("This command is already disabled."))
             return
 
-        await set_command_state(message.chat.id, command_to_disable, state=False)
+        try:
+            await set_command_state(message.chat.id, command, state=False)
+        except KeyError:
+            await message.reply(_("Sorry! I couldn't find this command, maybe it doesn't exist?"))
+            return
+
         await message.reply(_("Command disabled."))
