@@ -9,9 +9,6 @@ from korone.modules import COMMANDS
 
 async def set_command_state(chat_id: int, command: str, *, state: bool) -> None:
     async with SQLite3Connection() as conn:
-        table = await conn.table("Commands")
-        query = Query()
-
         if command not in COMMANDS:
             msg = f"Command '{command}' has not been registered!"
             raise KeyError(msg)
@@ -21,6 +18,8 @@ async def set_command_state(chat_id: int, command: str, *, state: bool) -> None:
 
         COMMANDS[command]["chat"][chat_id] = state
 
+        table = await conn.table("Commands")
+        query = Query()
         query = (query.chat_id == chat_id) & (query.command == command)
         if not await table.query(query):
             await table.insert(Document(chat_id=chat_id, command=command, state=state))

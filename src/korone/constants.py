@@ -101,6 +101,16 @@ CREATE TABLE IF NOT EXISTS Commands (
 :type: str
 """
 
+SQLITE3_PARAMS: str = """
+PRAGMA journal_mode=WAL;
+PRAGMA foreign_keys=ON;
+VACUUM;
+"""
+"""The default SQLite3 parameters.
+
+:type: str
+"""
+
 CROWDIN_URL: str = "https://crowdin.com/project/pykorone"
 """The URL to the Crowdin project.
 

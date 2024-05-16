@@ -50,8 +50,8 @@ class SQLite3Table:
         fields : Document
             The fields to be inserted.
         """
-        keys = ", ".join(fields.keys())
-        values = tuple(val for val in fields.values() if val is not None)
+        keys = ", ".join(key for key, value in fields.items() if value is not None)
+        values = tuple(value for value in fields.values() if value is not None)
         placeholders = ", ".join("?" for _ in values)
 
         sql = f"INSERT INTO {self._table} ({keys}) VALUES ({placeholders})"
@@ -242,12 +242,6 @@ class SQLite3Connection:
             log.info("Creating database directory")
 
         self._conn = await aiosqlite.connect(self._path, *self._args, **self._kwargs)
-
-        await self.execute("PRAGMA journal_mode=WAL;")
-        await self.execute("PRAGMA foreign_keys=ON;")
-        await self.commit()
-        await self.execute("VACUUM;")
-        await self.commit()
 
     async def table(self, name: str) -> Table:
         """

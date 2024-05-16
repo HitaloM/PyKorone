@@ -102,6 +102,7 @@ class Korone(Client):
 
         async with SQLite3Connection() as conn:
             await conn.execute(constants.SQLITE3_TABLES, script=True)
+            await conn.execute(constants.SQLITE3_PARAMS, script=True)
 
         await load_all_modules(self)
 

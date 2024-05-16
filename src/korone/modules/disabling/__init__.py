@@ -16,7 +16,7 @@ class ModuleInfo:
     )
     doc: LazyProxy = _(
         "<b>Admin Commands:</b>\n"
-        '- /disable &lt;commandname&gt;: Stop users from using "commandname" in this group.'
-        '- /enable &lt;commandname&gt;: Allow users from using "commandname" in this group.'
+        '- /disable &lt;commandname&gt;: Stop users from using "commandname" in this group.\n'
+        '- /enable &lt;commandname&gt;: Allow users from using "commandname" in this group.\n'
         "- /disableable: List of commands that can be disabled."
     )
