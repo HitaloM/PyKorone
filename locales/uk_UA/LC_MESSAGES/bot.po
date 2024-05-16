@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pykorone\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-05-15 21:22-0300\n"
-"PO-Revision-Date: 2024-05-16 01:02\n"
+"POT-Creation-Date: 2024-05-16 16:20-0300\n"
+"PO-Revision-Date: 2024-05-16 19:28\n"
 "Last-Translator: \n"
 "Language-Team: Ukrainian\n"
 "MIME-Version: 1.0\n"
@@ -41,16 +41,76 @@ msgid "\n"
 "Reason: {reason}"
 msgstr ""
 
-#: src/korone/modules/afk/handlers/set.py:23
+#: src/korone/modules/afk/handlers/set.py:22
 msgid "You are already AFK."
 msgstr ""
 
-#: src/korone/modules/afk/handlers/set.py:29
+#: src/korone/modules/afk/handlers/set.py:28
 msgid "Your AFK status has been updated!"
 msgstr ""
 
-#: src/korone/modules/afk/handlers/set.py:32
+#: src/korone/modules/afk/handlers/set.py:31
 msgid "You are now AFK."
+msgstr ""
+
+#: src/korone/modules/disabling/__init__.py:10
+msgid "Disabling"
+msgstr ""
+
+#: src/korone/modules/disabling/__init__.py:11
+msgid "Not everyone wants every feature Korone offers. Some commands are best left unused to prevent spam and abuse.\n\n"
+"This allows you to disable some commonly used commands so that no one can use them. It also allows you to auto-delete  to prevent people from bluetexting."
+msgstr ""
+
+#: src/korone/modules/disabling/__init__.py:17
+msgid "<b>Admin Commands:</b>\n"
+"- /disable &lt;commandname&gt;: Stop users from using \"commandname\" in this group.- /enable &lt;commandname&gt;: Allow users from using \"commandname\" in this group.- /disableable: List of commands that can be disabled."
+msgstr ""
+
+#: src/korone/modules/disabling/handlers/disable.py:22
+msgid "You need to specify a command to disable."
+msgstr ""
+
+#: src/korone/modules/disabling/handlers/disable.py:27
+msgid "You can only disable one command at a time."
+msgstr ""
+
+#: src/korone/modules/disabling/handlers/disable.py:32
+#: src/korone/modules/disabling/handlers/enable.py:32
+msgid "This command can't be enabled or disabled."
+msgstr ""
+
+#: src/korone/modules/disabling/handlers/disable.py:38
+msgid "This command is already disabled."
+msgstr ""
+
+#: src/korone/modules/disabling/handlers/disable.py:44
+#: src/korone/modules/disabling/handlers/enable.py:44
+msgid "Sorry! I couldn't find this command, maybe it doesn't exist?"
+msgstr ""
+
+#: src/korone/modules/disabling/handlers/disable.py:47
+msgid "Command disabled."
+msgstr ""
+
+#: src/korone/modules/disabling/handlers/enable.py:22
+msgid "You need to specify a command to enable."
+msgstr ""
+
+#: src/korone/modules/disabling/handlers/enable.py:27
+msgid "You can only enable one command at a time."
+msgstr ""
+
+#: src/korone/modules/disabling/handlers/enable.py:38
+msgid "This command is already enabled."
+msgstr ""
+
+#: src/korone/modules/disabling/handlers/enable.py:47
+msgid "Command enabled."
+msgstr ""
+
+#: src/korone/modules/disabling/handlers/list.py:23
+msgid "The following commands can be disabled:\n"
 msgstr ""
 
 #: src/korone/modules/gsm_arena/__init__.py:10
@@ -223,8 +283,8 @@ msgstr ""
 #: src/korone/modules/language/handlers/info.py:94
 #: src/korone/modules/language/handlers/select.py:41
 #: src/korone/modules/pm_menu/handlers/about.py:33
-#: src/korone/modules/pm_menu/handlers/help.py:33
-#: src/korone/modules/pm_menu/handlers/help.py:74
+#: src/korone/modules/pm_menu/handlers/help.py:32
+#: src/korone/modules/pm_menu/handlers/help.py:73
 msgid "⬅️ Back"
 msgstr ""
 
@@ -282,6 +342,11 @@ msgstr ""
 msgid "No media found in this tweet!"
 msgstr ""
 
+#: src/korone/modules/media_dl/handlers/twitter.py:97
+msgid "\n\n"
+"<b>Sent from:</b> <i>{source}</i>"
+msgstr ""
+
 #: src/korone/modules/media_dl/handlers/twitter.py:110
 msgid "Open in Twitter"
 msgstr ""
@@ -315,21 +380,21 @@ msgid "PyKorone is a comprehensive and cutting-edge Telegram bot that offers a w
 "PyKorone is an open source project licensed under the {license_link} License. The source code can be found on GitHub."
 msgstr ""
 
-#: src/korone/modules/pm_menu/handlers/help.py:40
+#: src/korone/modules/pm_menu/handlers/help.py:39
 msgid "Below are buttons for each module. Click on a button to access a brief documentation on its functionality and usage."
 msgstr ""
 
-#: src/korone/modules/pm_menu/handlers/help.py:49
+#: src/korone/modules/pm_menu/handlers/help.py:48
 #: src/korone/modules/pm_menu/handlers/start.py:33
 msgid "👮‍♂️ Help"
 msgstr ""
 
-#: src/korone/modules/pm_menu/handlers/help.py:51
+#: src/korone/modules/pm_menu/handlers/help.py:50
 msgid "Message me in PM to get help."
 msgstr ""
 
-#: src/korone/modules/pm_menu/handlers/help.py:61
-#: src/korone/modules/pm_menu/handlers/help.py:91
+#: src/korone/modules/pm_menu/handlers/help.py:60
+#: src/korone/modules/pm_menu/handlers/help.py:90
 msgid "Module not found."
 msgstr ""
 
