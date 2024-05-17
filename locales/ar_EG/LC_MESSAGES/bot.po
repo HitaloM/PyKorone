@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pykorone\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-05-16 16:20-0300\n"
-"PO-Revision-Date: 2024-05-16 19:29\n"
+"POT-Creation-Date: 2024-05-16 21:20-0300\n"
+"PO-Revision-Date: 2024-05-17 00:37\n"
 "Last-Translator: \n"
 "Language-Team: Arabic, Egypt\n"
 "MIME-Version: 1.0\n"
@@ -64,48 +64,50 @@ msgstr ""
 
 #: src/korone/modules/disabling/__init__.py:17
 msgid "<b>Admin Commands:</b>\n"
-"- /disable &lt;commandname&gt;: Stop users from using \"commandname\" in this group.- /enable &lt;commandname&gt;: Allow users from using \"commandname\" in this group.- /disableable: List of commands that can be disabled."
+"- /disable &lt;commandname&gt;: Stop users from using \"commandname\" in this group.\n"
+"- /enable &lt;commandname&gt;: Allow users from using \"commandname\" in this group.\n"
+"- /disableable: List of commands that can be disabled."
 msgstr ""
 
-#: src/korone/modules/disabling/handlers/disable.py:22
+#: src/korone/modules/disabling/handlers/disable.py:24
 msgid "You need to specify a command to disable."
 msgstr ""
 
-#: src/korone/modules/disabling/handlers/disable.py:27
+#: src/korone/modules/disabling/handlers/disable.py:29
 msgid "You can only disable one command at a time."
 msgstr ""
 
-#: src/korone/modules/disabling/handlers/disable.py:32
-#: src/korone/modules/disabling/handlers/enable.py:32
+#: src/korone/modules/disabling/handlers/disable.py:34
+#: src/korone/modules/disabling/handlers/enable.py:34
 msgid "This command can't be enabled or disabled."
 msgstr ""
 
-#: src/korone/modules/disabling/handlers/disable.py:38
+#: src/korone/modules/disabling/handlers/disable.py:40
 msgid "This command is already disabled."
 msgstr ""
 
-#: src/korone/modules/disabling/handlers/disable.py:44
-#: src/korone/modules/disabling/handlers/enable.py:44
+#: src/korone/modules/disabling/handlers/disable.py:46
+#: src/korone/modules/disabling/handlers/enable.py:46
 msgid "Sorry! I couldn't find this command, maybe it doesn't exist?"
 msgstr ""
 
-#: src/korone/modules/disabling/handlers/disable.py:47
+#: src/korone/modules/disabling/handlers/disable.py:49
 msgid "Command disabled."
 msgstr ""
 
-#: src/korone/modules/disabling/handlers/enable.py:22
+#: src/korone/modules/disabling/handlers/enable.py:24
 msgid "You need to specify a command to enable."
 msgstr ""
 
-#: src/korone/modules/disabling/handlers/enable.py:27
+#: src/korone/modules/disabling/handlers/enable.py:29
 msgid "You can only enable one command at a time."
 msgstr ""
 
-#: src/korone/modules/disabling/handlers/enable.py:38
+#: src/korone/modules/disabling/handlers/enable.py:40
 msgid "This command is already enabled."
 msgstr ""
 
-#: src/korone/modules/disabling/handlers/enable.py:47
+#: src/korone/modules/disabling/handlers/enable.py:49
 msgid "Command enabled."
 msgstr ""
 
