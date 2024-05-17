@@ -145,6 +145,8 @@ class Command(KoroneFilter):
         Whether to ignore mentions when matching commands. Defaults to False.
     magic : magic_filter.MagicFilter or None, optional
         A magic filter to apply to the command. Defaults to None.
+    disableable : bool, optional
+        If the command can be disabled. Defaults to True.
 
     Raises
     ------
@@ -162,6 +164,7 @@ class Command(KoroneFilter):
         ignore_case: bool = False,
         ignore_mention: bool = False,
         magic: MagicFilter | None = None,
+        disableable: bool = True,
     ) -> None:
         commands = [commands] if isinstance(commands, str | re.Pattern) else commands or []
         if not isinstance(commands, Iterable):
@@ -190,6 +193,7 @@ class Command(KoroneFilter):
         self.ignore_case = ignore_case
         self.ignore_mention = ignore_mention
         self.magic = magic
+        self.disableable = disableable
 
     async def __call__(self, client: Client, message: Message) -> bool:
         """
@@ -334,7 +338,8 @@ class Command(KoroneFilter):
         await self.validade_mention(client, command)
 
         command_name = command.command
-        if command_name in COMMANDS:
+
+        if self.disableable and command_name in COMMANDS:
             if "parent" in COMMANDS[command_name]:
                 command_name = COMMANDS[command_name]["parent"]
 

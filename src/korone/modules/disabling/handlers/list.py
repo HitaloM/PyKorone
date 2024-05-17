@@ -13,7 +13,7 @@ from korone.utils.i18n import gettext as _
 
 class ListDisableableHandler(MessageHandler):
     @staticmethod
-    @router.message(Command("disableable") & IsAdmin)
+    @router.message(Command("disableable", disableable=False) & IsAdmin)
     async def handle(client: Client, message: Message) -> None:
         disableable = list(COMMANDS)
         for command in list(disableable):

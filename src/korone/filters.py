@@ -2,7 +2,7 @@
 # Copyright (c) 2024 Hitalo M. <https://github.com/HitaloM>
 
 import inspect
-from abc import abstractmethod
+from abc import ABC, abstractmethod
 from asyncio import Future
 from collections.abc import Coroutine
 from functools import partial
@@ -14,7 +14,7 @@ from hydrogram.types import Update
 from magic_filter import MagicFilter
 
 
-class KoroneFilter(Filter):
+class KoroneFilter(Filter, ABC):
     """
     Base class for all filters.
 
@@ -152,8 +152,8 @@ class InvertFilter(KoroneFilter):
 
     __slots__ = ("base",)
 
-    def __init__(self, base):
-        self.base = base
+    def __init__(self, base: KoroneFilter):
+        self.base: KoroneFilter = base
 
     async def __call__(
         self, client: Client, update: Update
@@ -249,9 +249,9 @@ class OrFilter(KoroneFilter):
 
     __slots__ = ("base", "other")
 
-    def __init__(self, base, other):
-        self.base = base
-        self.other = other
+    def __init__(self, base: KoroneFilter, other: KoroneFilter):
+        self.base: KoroneFilter = base
+        self.other: KoroneFilter = other
 
     async def __call__(
         self, client: Client, update: Update

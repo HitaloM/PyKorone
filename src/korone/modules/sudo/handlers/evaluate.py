@@ -17,7 +17,7 @@ from korone.modules.utils.filters import Command, CommandObject, IsSudo
 
 class Evaluate(MessageHandler):
     @staticmethod
-    @router.message(Command(commands=["eval", "ev"]) & IsSudo)
+    @router.message(Command(commands=["eval", "ev"], disableable=False) & IsSudo)
     async def handle(client: Client, message: Message) -> None:
         command = CommandObject(message).parse()
         expression = command.args

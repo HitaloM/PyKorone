@@ -11,12 +11,13 @@ from types import FunctionType, ModuleType
 from typing import TYPE_CHECKING, Any
 
 from hydrogram import Client
-from hydrogram.filters import AndFilter
 from magic_filter import MagicFilter
 
 from korone.database.impl import SQLite3Connection
 from korone.database.query import Query
 from korone.database.table import Documents
+from korone.decorators.factory import KoroneFilters
+from korone.filters import AndFilter
 from korone.handlers import CallbackQueryHandler, MessageHandler
 from korone.utils.logging import log
 from korone.utils.traverse import bfs_attr_search
@@ -72,7 +73,12 @@ Examples
 ... }
 """
 
-NOT_DISABLEABLE: list[str] = ["disableable", "enable", "disable"]
+NOT_DISABLEABLE: list[str] = []
+"""
+A list of commands that cannot be disabled.
+
+:type: list[str]
+"""
 
 
 def add_module_info(module_name: str, module_info: Callable) -> None:
@@ -243,27 +249,65 @@ async def check_command_state(command: str) -> Documents | None:
         return doc or None
 
 
-def update_commands(commands: list[str], parent: str, command_state: Documents | None) -> None:
+async def process_handler_commands(filters: KoroneFilters) -> None:
+    """
+    Handle the commands associated with a handler.
+
+    This function process the commands associated with a handler. It updates the command
+    structure with the specified commands and their chat state.
+
+    Parameters
+    ----------
+    filters : KoroneFilters
+        The filters associated with the handler.
+    """
+    commands = []
+
+    is_magic_filter = isinstance(filters, MagicFilter)
+    has_commands = hasattr(filters, "commands")
+
+    if not is_magic_filter and has_commands:
+        if filters.disableable:  # type: ignore
+            commands += [
+                command.pattern
+                for command in filters.commands  # type: ignore
+            ]
+        else:
+            NOT_DISABLEABLE.extend([command.pattern for command in filters.commands])  # type: ignore
+    else:
+        is_and_filter = isinstance(filters, AndFilter)
+        has_base = hasattr(filters, "base")
+
+        if is_and_filter and has_base:
+            has_base_commands = hasattr(filters.base, "commands")
+
+            if has_base_commands:
+                if filters.base.disableable:  # type: ignore
+                    commands += [command.pattern for command in filters.base.commands]  # type: ignore
+                else:
+                    NOT_DISABLEABLE.extend([
+                        command.pattern
+                        for command in filters.base.commands  # type: ignore
+                    ])
+
+    if commands:
+        await update_commands(commands)
+
+
+async def update_commands(commands: list[str]) -> None:
     """
     Update the COMMANDS dictionary with the specified commands.
 
-    This function updates the COMMANDS dictionary with the specified commands. It adds the parent
-    command and its children to the dictionary, along with their chat state.
-
-    If the command state is not provided, the function initializes the chat state for the parent
-    command as an empty dictionary. If the command state is provided, the function updates the
-    chat state for the parent command with the provided state.
+    This function updates the COMMANDS dictionary with the specified commands and their chat state.
 
     Parameters
     ----------
     commands : list[str]
         The list of commands to update.
-    parent : str
-        The parent command.
-    command_state : Documents | None
-        The command state for the parent command.
     """
+    parent = commands[0].replace("$", "")
     children = [command.replace("$", "") for command in commands[1:]]
+
     COMMANDS[parent] = {
         "chat": {},
         "children": children,
@@ -274,11 +318,20 @@ def update_commands(commands: list[str], parent: str, command_state: Documents |
             "parent": parent,
         }
 
+    command_state = await check_command_state(parent)
+
     if not command_state:
         COMMANDS[parent]["chat"] = {}
     else:
         for each in command_state:
+            log.debug(
+                "Fetched chat state from the database: %s => %s",
+                each["chat_id"],
+                bool(each["state"]),
+            )
             COMMANDS[parent]["chat"][each["chat_id"]] = bool(each["state"])
+
+    log.debug("New command node for '%s'", parent, node=COMMANDS[parent])
 
 
 async def register_handler(client: Client, module: ModuleType) -> bool:
@@ -335,20 +388,7 @@ async def register_handler(client: Client, module: ModuleType) -> bool:
 
         client.add_handler(handler.event(method_callable, filters), group)
 
-        commands = []
-        if hasattr(filters, "commands") and not isinstance(filters, MagicFilter):
-            commands += [command.pattern for command in filters.commands]  # type: ignore
-
-        elif isinstance(filters, AndFilter) and hasattr(filters.base, "commands"):
-            commands += [command.pattern for command in filters.base.commands]
-
-        if commands:
-            parent = commands[0].replace("$", "")
-            if parent not in NOT_DISABLEABLE:
-                command_state = await check_command_state(parent)
-                update_commands(commands, parent, command_state)
-
-        log.debug("Handler registered", handler=handler)
+        await process_handler_commands(filters)
 
         success = True
 

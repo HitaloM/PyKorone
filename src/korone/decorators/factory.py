@@ -5,15 +5,18 @@ from collections.abc import Callable
 from dataclasses import dataclass
 from typing import TYPE_CHECKING
 
-from hydrogram.filters import Filter
+from hairydogm.filters.callback_data import CallbackQueryFilter
 from hydrogram.handlers import CallbackQueryHandler
 from magic_filter import MagicFilter
 
 from korone.decorators.save_chats import ChatManager
+from korone.filters import KoroneFilter
 from korone.handlers import MagicMessageHandler
 
 if TYPE_CHECKING:
     from hydrogram.handlers.handler import Handler
+
+KoroneFilters = KoroneFilter | MagicFilter | CallbackQueryFilter
 
 
 @dataclass(frozen=True, slots=True)
@@ -30,7 +33,7 @@ class HandlerObject:
 
     :type: collections.abc.Callable
     """
-    filters: Filter | MagicFilter
+    filters: KoroneFilters
     """The filter object used to determine if the function should be executed.
 
     :type: hydrogram.filters.Filter
@@ -79,7 +82,7 @@ class Factory:
             "callback_query": CallbackQueryHandler,
         }
 
-    def __call__(self, filters: Filter | MagicFilter, group: int = 0) -> Callable:
+    def __call__(self, filters: KoroneFilters, group: int = 0) -> Callable:
         """
         Execute the decorator when the decorated function is called.
 

@@ -18,7 +18,7 @@ from korone.modules.utils.filters import Command, CommandObject, IsSudo
 
 class Execute(MessageHandler):
     @staticmethod
-    @router.message(Command(commands=["exec", "ex"]) & IsSudo)
+    @router.message(Command(commands=["exec", "ex"], disableable=False) & IsSudo)
     async def handle(client: Client, message: Message) -> None:
         command = CommandObject(message).parse()
         code = command.args

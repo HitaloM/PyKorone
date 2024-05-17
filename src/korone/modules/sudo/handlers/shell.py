@@ -23,7 +23,7 @@ class Shell(MessageHandler):
         stdout, stderr = await process.communicate()
         return (stdout + stderr).decode()
 
-    @router.message(Command(commands=["shell", "sh"]) & IsSudo)
+    @router.message(Command(commands=["shell", "sh"], disableable=False) & IsSudo)
     async def handle(self, client: Client, message: Message) -> None:
         command = CommandObject(message).parse().args
         if not command:

@@ -17,7 +17,9 @@ from korone.utils.i18n import gettext as _
 
 class EnableHandler(MessageHandler):
     @staticmethod
-    @router.message(Command("enable") & F.chat.type.is_not(ChatType.PRIVATE) & IsAdmin)
+    @router.message(
+        Command("enable", disableable=False) & F.chat.type.is_not(ChatType.PRIVATE) & IsAdmin
+    )
     async def enable(client: Client, message: Message) -> None:
         command = CommandObject(message).parse()
         if not command.args:

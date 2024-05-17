@@ -14,7 +14,7 @@ from korone.modules.utils.filters import Command, IsSudo
 
 class PurgeCache(MessageHandler):
     @staticmethod
-    @router.message(Command("flushall") & IsSudo)
+    @router.message(Command("flushall", disableable=False) & IsSudo)
     async def handle(client: Client, message: Message) -> None:
         start_time = time.time()
         start = await message.reply_text("Flushing cache...")
