@@ -46,8 +46,8 @@ def bfs_attr_search(root: Any, attr: str) -> Any:
     >>> bfs_attr_search(fun, "again")(20)
     5.0
     """
-    queue: list = []
-    visited: list = []
+    queue: list[Any] = []
+    visited: list[Any] = []
 
     queue.append(root)
     visited.append(id(root))

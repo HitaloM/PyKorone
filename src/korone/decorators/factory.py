@@ -103,7 +103,7 @@ class Factory:
             The decorated function.
         """
 
-        def wrapper(func: Callable) -> Callable:
+        def wrapper(func) -> Callable:
             func.on = self.event_name
             func.group = group
             func.filters = filters

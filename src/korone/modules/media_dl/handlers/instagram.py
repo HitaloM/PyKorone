@@ -32,6 +32,7 @@ from korone.utils.i18n import gettext as _
 URL_PATTERN = re.compile(r"(?:https?://)?(?:www\.)?instagram\.com/")
 REEL_PATTERN = re.compile(r"(?:reel(?:s?)|p)/(?P<post_id>[A-Za-z0-9_-]+)")
 STORIES_PATTERN = re.compile(r"(?:stories)/(?:[^/?#&]+/)?(?P<media_id>[0-9]+)")
+POST_URL_PATTERN = re.compile(r"(?:https?://)?(?:www\.)?instagram\.com/.*?(?=\s|$)")
 
 GRAPH_IMAGE = "GraphImage"
 GRAPH_VIDEO = "GraphVideo"
@@ -90,7 +91,7 @@ class InstagramHandler(MessageHandler):
         matches = REEL_PATTERN.findall(message.text)
 
         if len(matches) == 1:
-            return matches[0]
+            return str(matches[0])
 
         if media_id := STORIES_PATTERN.findall(message.text):
             try:
@@ -164,8 +165,8 @@ class InstagramHandler(MessageHandler):
             await message.reply_text(_("This Instagram URL is not a valid post or story."))
             return
 
-        post_url = re.search(r"(?:https?://)?(?:www\.)?instagram\.com/.*?(?=\s|$)", message.text)
-        post_url = post_url.group() if post_url else None
+        post_url_match = POST_URL_PATTERN.search(message.text)
+        post_url = post_url_match.group() if post_url_match else None
 
         async with ChatActionSender(
             client=client, chat_id=message.chat.id, action=ChatAction.UPLOAD_DOCUMENT

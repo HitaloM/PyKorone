@@ -9,12 +9,11 @@ from functools import partial
 from typing import Any
 
 from hydrogram import Client
-from hydrogram.filters import Filter
 from hydrogram.types import Update
 from magic_filter import MagicFilter
 
 
-class KoroneFilter(Filter, ABC):
+class KoroneFilter(ABC):
     """
     Base class for all filters.
 
@@ -105,7 +104,7 @@ class KoroneFilter(Filter, ABC):
 
 def resolve_filter(
     filter: KoroneFilter, client: Client, update: Update
-) -> Future[Any] | Coroutine[Any, Any, bool] | Future[Coroutine[Any, Any, bool]]:
+) -> Future[Any] | Coroutine[Any, Any, bool]:
     """
     Resolve a filter to a boolean value.
 
@@ -125,7 +124,7 @@ def resolve_filter(
 
     Returns
     -------
-    Future[Any] | Coroutine[Any, Any, bool] | Future[Coroutine[Any, Any, bool]]
+    Future[Any] | Coroutine[Any, Any, bool]
         The resolved filter value.
     """
     if inspect.iscoroutinefunction(filter.__call__):
@@ -152,12 +151,10 @@ class InvertFilter(KoroneFilter):
 
     __slots__ = ("base",)
 
-    def __init__(self, base: KoroneFilter):
+    def __init__(self, base: KoroneFilter) -> None:
         self.base: KoroneFilter = base
 
-    async def __call__(
-        self, client: Client, update: Update
-    ) -> Any | bool | Coroutine[Any, Any, bool]:
+    async def __call__(self, client: Client, update: Update) -> bool:
         """
         Determine if the update does not pass the base filter.
 
@@ -173,7 +170,7 @@ class InvertFilter(KoroneFilter):
 
         Returns
         -------
-        Any | bool | Coroutine[Any, Any, bool]
+        bool
             True if the update does not pass the base filter, False otherwise.
         """
         x = await resolve_filter(self.base, client, update)
@@ -201,9 +198,7 @@ class AndFilter(KoroneFilter):
         self.base: KoroneFilter = base
         self.other: KoroneFilter = other
 
-    async def __call__(
-        self, client: Client, update: Update
-    ) -> Any | bool | Coroutine[Any, Any, bool]:
+    async def __call__(self, client: Client, update: Update) -> Any | bool:
         """
         Determine if the update passes both filters.
 
@@ -219,7 +214,7 @@ class AndFilter(KoroneFilter):
 
         Returns
         -------
-        Any | bool | Coroutine[Any, Any, bool]
+        Any | bool
             True if the update passes both filters, False otherwise.
         """
         x = await resolve_filter(self.base, client, update)
@@ -253,9 +248,7 @@ class OrFilter(KoroneFilter):
         self.base: KoroneFilter = base
         self.other: KoroneFilter = other
 
-    async def __call__(
-        self, client: Client, update: Update
-    ) -> Any | bool | Coroutine[Any, Any, bool]:
+    async def __call__(self, client: Client, update: Update) -> Any | bool:
         """
         Determine if the update passes either filter.
 
@@ -271,7 +264,7 @@ class OrFilter(KoroneFilter):
 
         Returns
         -------
-        Any | bool | Coroutine[Any, Any, bool]
+        Any | bool
             True if the update passes either filter, False otherwise.
         """
         x = await resolve_filter(self.base, client, update)

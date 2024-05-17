@@ -92,7 +92,7 @@ class Korone(Client):
             max_concurrent_transmissions=2,
         )
 
-    async def start(self) -> None:
+    async def start(self):
         """
         Start the client.
 
@@ -125,7 +125,7 @@ class Korone(Client):
 
             await cache.delete(cache_key)
 
-    async def stop(self) -> None:
+    async def stop(self):
         """
         Stop the client.
 

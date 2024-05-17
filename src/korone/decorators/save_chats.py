@@ -231,26 +231,26 @@ class ChatManager:
         @wraps(func)
         async def wrapper(*args, **kwargs):
             update: Message | CallbackQuery
+            user: User
 
             try:
                 update = args[2]
             except IndexError:
                 update = args[1]
 
-            is_callback = isinstance(update, CallbackQuery)
-            message = update.message if is_callback else update
-            user: User = update.from_user if is_callback else message.from_user
-
-            if is_callback:
+            if isinstance(update, CallbackQuery):
+                update = update.message
+                user = update.from_user
                 await self.save_from_user(user)
             else:
-                await self.handle_message(message)
+                user = update.from_user
+                await self.handle_message(update)
 
             locale = i18n.default_locale
-            if message.chat.type == ChatType.PRIVATE and user and not user.is_bot:
+            if update.chat.type == ChatType.PRIVATE and user and not user.is_bot:
                 locale = await self.get_locale(user)
-            elif message.chat.type in {ChatType.GROUP, ChatType.SUPERGROUP}:
-                locale = await self.get_locale(message.chat)
+            elif update.chat.type in {ChatType.GROUP, ChatType.SUPERGROUP}:
+                locale = await self.get_locale(update.chat)
 
             with i18n.context(), i18n.use_locale(locale):
                 return await func(*args, **kwargs)

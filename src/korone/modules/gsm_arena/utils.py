@@ -158,7 +158,7 @@ async def search_phone(phone: str) -> list[PhoneSearchResult]:
     ]
 
 
-async def check_phone_details(url: str):
+async def check_phone_details(url: str) -> dict[str, str]:
     url = f"https://www.gsmarena.com/{url}"
     html = await fetch_and_parse(url)
     soup = BeautifulSoup(html, "lxml")
