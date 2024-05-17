@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pykorone\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-05-16 21:20-0300\n"
-"PO-Revision-Date: 2024-05-17 00:37\n"
+"POT-Creation-Date: 2024-05-17 19:39-0300\n"
+"PO-Revision-Date: 2024-05-17 22:48\n"
 "Last-Translator: \n"
 "Language-Team: Arabic, Saudi Arabia\n"
 "MIME-Version: 1.0\n"
@@ -66,48 +66,57 @@ msgstr ""
 msgid "<b>Admin Commands:</b>\n"
 "- /disable &lt;commandname&gt;: Stop users from using \"commandname\" in this group.\n"
 "- /enable &lt;commandname&gt;: Allow users from using \"commandname\" in this group.\n"
-"- /disableable: List of commands that can be disabled."
+"- /disableable: List of commands that can be disabled.\n"
+"- /disabled: List of commands that are currently disabled in the group."
 msgstr ""
 
-#: src/korone/modules/disabling/handlers/disable.py:24
+#: src/korone/modules/disabling/handlers/disable.py:26
 msgid "You need to specify a command to disable."
 msgstr ""
 
-#: src/korone/modules/disabling/handlers/disable.py:29
+#: src/korone/modules/disabling/handlers/disable.py:31
 msgid "You can only disable one command at a time."
 msgstr ""
 
-#: src/korone/modules/disabling/handlers/disable.py:34
-#: src/korone/modules/disabling/handlers/enable.py:34
+#: src/korone/modules/disabling/handlers/disable.py:36
+#: src/korone/modules/disabling/handlers/enable.py:36
 msgid "This command can't be enabled or disabled."
 msgstr ""
 
-#: src/korone/modules/disabling/handlers/disable.py:40
+#: src/korone/modules/disabling/handlers/disable.py:42
 msgid "This command is already disabled."
 msgstr ""
 
-#: src/korone/modules/disabling/handlers/disable.py:46
-#: src/korone/modules/disabling/handlers/enable.py:46
+#: src/korone/modules/disabling/handlers/disable.py:48
+#: src/korone/modules/disabling/handlers/enable.py:48
 msgid "Sorry! I couldn't find this command, maybe it doesn't exist?"
 msgstr ""
 
-#: src/korone/modules/disabling/handlers/disable.py:49
+#: src/korone/modules/disabling/handlers/disable.py:51
 msgid "Command disabled."
 msgstr ""
 
-#: src/korone/modules/disabling/handlers/enable.py:24
+#: src/korone/modules/disabling/handlers/disabled.py:25
+msgid "No commands are disabled in this chat."
+msgstr ""
+
+#: src/korone/modules/disabling/handlers/disabled.py:28
+msgid "The following commands are disabled in this chat:\n"
+msgstr ""
+
+#: src/korone/modules/disabling/handlers/enable.py:26
 msgid "You need to specify a command to enable."
 msgstr ""
 
-#: src/korone/modules/disabling/handlers/enable.py:29
+#: src/korone/modules/disabling/handlers/enable.py:31
 msgid "You can only enable one command at a time."
 msgstr ""
 
-#: src/korone/modules/disabling/handlers/enable.py:40
+#: src/korone/modules/disabling/handlers/enable.py:42
 msgid "This command is already enabled."
 msgstr ""
 
-#: src/korone/modules/disabling/handlers/enable.py:49
+#: src/korone/modules/disabling/handlers/enable.py:51
 msgid "Command enabled."
 msgstr ""
 
@@ -323,16 +332,16 @@ msgstr ""
 msgid "Actually, there is no documentation for this module. It just works!"
 msgstr ""
 
-#: src/korone/modules/media_dl/handlers/instagram.py:118
-#: src/korone/modules/media_dl/handlers/instagram.py:193
+#: src/korone/modules/media_dl/handlers/instagram.py:119
+#: src/korone/modules/media_dl/handlers/instagram.py:194
 msgid "Open in Instagram"
 msgstr ""
 
-#: src/korone/modules/media_dl/handlers/instagram.py:164
+#: src/korone/modules/media_dl/handlers/instagram.py:165
 msgid "This Instagram URL is not a valid post or story."
 msgstr ""
 
-#: src/korone/modules/media_dl/handlers/instagram.py:176
+#: src/korone/modules/media_dl/handlers/instagram.py:177
 msgid "Oops! Something went wrong while fetching the post."
 msgstr ""
 
@@ -376,10 +385,11 @@ msgstr ""
 msgid "📚 Channel"
 msgstr ""
 
-#: src/korone/modules/pm_menu/handlers/about.py:40
+#: src/korone/modules/pm_menu/handlers/about.py:46
 msgid "PyKorone is a comprehensive and cutting-edge Telegram bot that offers a wide range of features to enhance your Telegram experience. It is designed to be versatile, adaptable, and highly efficient.\n\n"
 "Built using Python, PyKorone is based on the {hydrogram} framework, which uses the Telegram MTProto API.\n\n"
-"PyKorone is an open source project licensed under the {license_link} License. The source code can be found on GitHub."
+"PyKorone is an open source project licensed under the {license_link} License. The source code can be found on GitHub.\n\n"
+"PyKororne version: {version}"
 msgstr ""
 
 #: src/korone/modules/pm_menu/handlers/help.py:39
