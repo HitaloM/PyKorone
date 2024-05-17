@@ -13,7 +13,7 @@ from hydrogram.enums import ParseMode
 from hydrogram.errors import MessageIdInvalid, MessageNotModified
 from hydrogram.raw.all import layer
 
-from korone import cache, constants
+from korone import __version__, cache, constants
 from korone.database.impl import SQLite3Connection
 from korone.modules import load_all_modules
 from korone.utils.logging import log
@@ -107,7 +107,8 @@ class Korone(Client):
         await load_all_modules(self)
 
         log.info(
-            "PyKorone running with Hydrogram v%s (Layer %s) started on @%s. Hi!",
+            "PyKorone %s running with Hydrogram v%s (Layer %s) started on @%s. Hi!",
+            __version__,
             hydrogram.__version__,
             layer,
             self.me.username,

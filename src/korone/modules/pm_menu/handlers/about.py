@@ -7,7 +7,7 @@ from hydrogram.enums import ChatType
 from hydrogram.types import CallbackQuery, InlineKeyboardButton, InlineKeyboardMarkup, Message
 from magic_filter import F
 
-from korone import constants
+from korone import commit_count, commit_hash, constants
 from korone.decorators import router
 from korone.handlers import CallbackQueryHandler, MessageHandler
 from korone.modules.pm_menu.callback_data import PMMenuCallback
@@ -37,17 +37,23 @@ class BaseHandler:
         return keyboard.as_markup()
 
     def build_text(self) -> str:
-        return _(
+        hydrogram_link = f"<a href='{self.hydrogram_url}'>Hydrogram</a>"
+        license_link = f"<a href='{self.license_url}'>BSD 3-Clause</a>"
+        version = (
+            f"r{commit_count} (<a href='{self.github_url}/commit/{commit_hash}'>{commit_hash}</a>)"
+        )
+
+        text = _(
             "PyKorone is a comprehensive and cutting-edge Telegram bot that offers a wide range "
             "of features to enhance your Telegram experience. It is designed to be versatile, "
             "adaptable, and highly efficient.\n\nBuilt using Python, PyKorone is based on the "
             "{hydrogram} framework, which uses the Telegram MTProto API.\n\nPyKorone is an "
             "open source project licensed under the {license_link} License. The source code "
-            "can be found on GitHub."
-        ).format(
-            hydrogram=f"<a href='{self.hydrogram_url}'>Hydrogram</a>",
-            license_link=f"<a href='{self.license_url}'>BSD 3-Clause</a>",
+            "can be found on GitHub.\n\n"
+            "PyKororne version: {version}"
         )
+
+        return text.format(hydrogram=hydrogram_link, license_link=license_link, version=version)
 
 
 class About(MessageHandler, BaseHandler):

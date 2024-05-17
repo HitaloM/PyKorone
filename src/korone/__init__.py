@@ -18,7 +18,7 @@ result = subprocess.run(
 
 commit_hash, commit_count = result.stdout.decode("utf-8").strip().split("\n")
 
-__version__ = f"{commit_hash} ({commit_count})"
+__version__ = f"r{commit_count} ({commit_hash})"
 
 cache = Cache()
 cache.setup("redis://localhost", client_side=True)
