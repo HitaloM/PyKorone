@@ -26,3 +26,12 @@ async def set_command_state(chat_id: int, command: str, *, state: bool) -> None:
             return
 
         await table.update(Document(state=state), query)
+
+
+async def disabled_commands(chat_id: int) -> list[str]:
+    async with SQLite3Connection() as conn:
+        table = await conn.table("Commands")
+        query = Query()
+        query = (query.chat_id == chat_id) & (query.state == 0)
+        result = await table.query(query)
+        return [doc["command"] for doc in result]

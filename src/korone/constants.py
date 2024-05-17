@@ -123,7 +123,7 @@ GITHUB_URL: str = "https://github.com/HitaloM/PyKorone"
 :type: str
 """
 
-TELEGRAM_URL: str = "https://t.me/HitaloProjects"
+TELEGRAM_URL: str = "https://t.me/PyKorone"
 """The URL to the Telegram channel.
 
 :type: str

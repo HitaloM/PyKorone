@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PyKorone 1.0\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-05-17 19:00-0300\n"
+"POT-Creation-Date: 2024-05-17 19:26-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -82,7 +82,8 @@ msgid ""
 "this group.\n"
 "- /enable &lt;commandname&gt;: Allow users from using \"commandname\" in "
 "this group.\n"
-"- /disableable: List of commands that can be disabled."
+"- /disableable: List of commands that can be disabled.\n"
+"- /disabled: List of commands that are currently disabled in the group."
 msgstr ""
 
 #: src/korone/modules/disabling/handlers/disable.py:26
@@ -109,6 +110,14 @@ msgstr ""
 
 #: src/korone/modules/disabling/handlers/disable.py:51
 msgid "Command disabled."
+msgstr ""
+
+#: src/korone/modules/disabling/handlers/disabled.py:25
+msgid "No commands are disabled in this chat."
+msgstr ""
+
+#: src/korone/modules/disabling/handlers/disabled.py:28
+msgid "The following commands are disabled in this chat:\n"
 msgstr ""
 
 #: src/korone/modules/disabling/handlers/enable.py:26
