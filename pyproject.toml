@@ -23,6 +23,7 @@ dependencies = [
     "pillow>=10.3.0",
     "httpx[http2,socks,brotli]>=0.27.0",
     "cashews[redis,speedup]>=7.1.0",
+    "yt-dlp @ git+https://github.com/yt-dlp/yt-dlp@master",
 ]
 readme = "README.md"
 license = { file = "LICENSE" }

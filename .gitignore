@@ -21,3 +21,4 @@ requirements-dev.lock
 korone.toml
 *.mo
 docs/build/
+downloads/

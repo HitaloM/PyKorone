@@ -16,4 +16,10 @@ class ModuleInfo:
         "images and videos found within them. This ensures that a preview is always available, "
         "enhancing the user experience."
     )
-    doc: LazyProxy = _("Actually, there is no documentation for this module. It just works!")
+    doc: LazyProxy = _(
+        "<b>Commands:</b>\n"
+        "- /ytdl &lt;youtubelink&gt;: Download the YouTube video or audio from the given link.\n"
+        "Automatic media download is enabled for the following websites:\n"
+        "- X (Twitter)\n"
+        "- Instagram"
+    )
