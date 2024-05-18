@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pykorone\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-05-17 19:39-0300\n"
-"PO-Revision-Date: 2024-05-17 22:48\n"
+"POT-Creation-Date: 2024-05-18 16:09-0300\n"
+"PO-Revision-Date: 2024-05-18 19:37\n"
 "Last-Translator: \n"
 "Language-Team: German\n"
 "MIME-Version: 1.0\n"
@@ -329,7 +329,11 @@ msgid "Some websites, when their links are shared on platforms like Telegram, do
 msgstr ""
 
 #: src/korone/modules/media_dl/__init__.py:19
-msgid "Actually, there is no documentation for this module. It just works!"
+msgid "<b>Commands:</b>\n"
+"- /ytdl &lt;youtubelink&gt;: Download the YouTube video or audio from the given link.\n"
+"Automatic media download is enabled for the following websites:\n"
+"- X (Twitter)\n"
+"- Instagram"
 msgstr ""
 
 #: src/korone/modules/media_dl/handlers/instagram.py:119
@@ -360,6 +364,58 @@ msgstr ""
 
 #: src/korone/modules/media_dl/handlers/twitter.py:110
 msgid "Open in Twitter"
+msgstr ""
+
+#: src/korone/modules/media_dl/handlers/youtube.py:34
+msgid "<b>Title:</b> {title}\n"
+msgstr ""
+
+#: src/korone/modules/media_dl/handlers/youtube.py:35
+msgid "<b>Uploader:</b> {uploader}\n"
+msgstr ""
+
+#: src/korone/modules/media_dl/handlers/youtube.py:40
+msgid "<b>Duration:</b> {minutes}m {seconds}s\n"
+msgstr ""
+
+#: src/korone/modules/media_dl/handlers/youtube.py:44
+msgid "<b>Duration:</b> {seconds}s\n"
+msgstr ""
+
+#: src/korone/modules/media_dl/handlers/youtube.py:49
+msgid "<b>Views:</b> {views}\n"
+msgstr ""
+
+#: src/korone/modules/media_dl/handlers/youtube.py:50
+msgid "<b>Likes:</b> {likes}\n"
+msgstr ""
+
+#: src/korone/modules/media_dl/handlers/youtube.py:58
+msgid "Download video"
+msgstr ""
+
+#: src/korone/modules/media_dl/handlers/youtube.py:62
+msgid "Download audio"
+msgstr ""
+
+#: src/korone/modules/media_dl/handlers/youtube.py:72
+msgid "You need to provide a URL."
+msgstr ""
+
+#: src/korone/modules/media_dl/handlers/youtube.py:76
+msgid "Invalid YouTube URL!"
+msgstr ""
+
+#: src/korone/modules/media_dl/handlers/youtube.py:86
+msgid "Failed to extract video info!"
+msgstr ""
+
+#: src/korone/modules/media_dl/handlers/youtube.py:108
+msgid "Failed to download {media_type}!"
+msgstr ""
+
+#: src/korone/modules/media_dl/handlers/youtube.py:112
+msgid "{media_type.capitalize()} exceeds Telegram's file size limit!"
 msgstr ""
 
 #: src/korone/modules/pm_menu/__init__.py:10
