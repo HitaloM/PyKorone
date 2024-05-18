@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pykorone\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-05-18 16:09-0300\n"
-"PO-Revision-Date: 2024-05-18 19:37\n"
+"POT-Creation-Date: 2024-05-18 16:31-0300\n"
+"PO-Revision-Date: 2024-05-18 20:33\n"
 "Last-Translator: \n"
 "Language-Team: Vietnamese\n"
 "MIME-Version: 1.0\n"
@@ -398,23 +398,27 @@ msgstr ""
 msgid "Download audio"
 msgstr ""
 
-#: src/korone/modules/media_dl/handlers/youtube.py:72
-msgid "You need to provide a URL."
+#: src/korone/modules/media_dl/handlers/youtube.py:77
+msgid "No YouTube URL found in the replied message."
 msgstr ""
 
-#: src/korone/modules/media_dl/handlers/youtube.py:76
+#: src/korone/modules/media_dl/handlers/youtube.py:84
+msgid "You need to provide a URL or reply to a message that contains a URL."
+msgstr ""
+
+#: src/korone/modules/media_dl/handlers/youtube.py:89
 msgid "Invalid YouTube URL!"
 msgstr ""
 
-#: src/korone/modules/media_dl/handlers/youtube.py:86
+#: src/korone/modules/media_dl/handlers/youtube.py:99
 msgid "Failed to extract video info!"
 msgstr ""
 
-#: src/korone/modules/media_dl/handlers/youtube.py:108
+#: src/korone/modules/media_dl/handlers/youtube.py:121
 msgid "Failed to download {media_type}!"
 msgstr ""
 
-#: src/korone/modules/media_dl/handlers/youtube.py:112
+#: src/korone/modules/media_dl/handlers/youtube.py:125
 msgid "{media_type.capitalize()} exceeds Telegram's file size limit!"
 msgstr ""
 
