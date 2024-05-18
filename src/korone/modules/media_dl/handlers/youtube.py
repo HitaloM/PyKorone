@@ -24,7 +24,7 @@ from korone.modules.utils.filters import Command, CommandObject
 from korone.utils.i18n import gettext as _
 
 YOUTUBE_REGEX = re.compile(
-    r"(?m)http(?:s?):\/\/(?:www\.)?(?:music\.)?youtu(?:be\.com\/(watch\?v=|shorts/|embed/)|\.be\/|)"
+    r"(?m)http(?:s?):\/\/(?:www\.)?(?:music\.)?youtu(?:be\.com\/(watch\?v=|shorts/|embed/)|\.be\/)[^\s&]+"
 )
 
 
@@ -68,11 +68,24 @@ class YouTubeHandler(MessageHandler):
     async def handle(self, client: Client, message: Message) -> None:
         command = CommandObject(message).parse()
 
-        if not command.args:
-            await message.reply(_("You need to provide a URL."))
+        if command.args:
+            args = command.args
+
+        elif message.reply_to_message and message.reply_to_message.text:
+            args = YOUTUBE_REGEX.search(message.reply_to_message.text)
+            if not args:
+                await message.reply(_("No YouTube URL found in the replied message."))
+                return
+
+            args = args.group()
+
+        else:
+            await message.reply(
+                _("You need to provide a URL or reply to a message that contains a URL.")
+            )
             return
 
-        if not YOUTUBE_REGEX.search(command.args):
+        if not YOUTUBE_REGEX.search(args):
             await message.reply(_("Invalid YouTube URL!"))
             return
 
@@ -81,7 +94,7 @@ class YouTubeHandler(MessageHandler):
         chat_id = message.chat.id
         async with ChatActionSender(client=client, chat_id=chat_id):
             try:
-                yt_info = await ytdl.get_video_info(command.args)
+                yt_info = await ytdl.get_video_info(args)
             except InfoExtractionError:
                 await message.reply(_("Failed to extract video info!"))
                 return
