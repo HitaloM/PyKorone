@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PyKorone 1.0\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-05-20 17:08-0300\n"
+"POT-Creation-Date: 2024-05-20 19:31-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -470,6 +470,7 @@ msgid "Downloading..."
 msgstr ""
 
 #: src/korone/modules/media_dl/handlers/youtube.py:129
+#: src/korone/modules/media_dl/handlers/youtube.py:135
 msgid "Failed to download the media."
 msgstr ""
 

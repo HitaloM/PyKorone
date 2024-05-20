@@ -55,11 +55,11 @@ class YouTubeHandler(MessageHandler):
         keyboard = InlineKeyboardBuilder()
         keyboard.button(
             text=_("Download video"),
-            callback_data=YtGetCallback(media_id=yt_info.id, media_type="video"),
+            callback_data=YtGetCallback(media_id=yt_info.video_id, media_type="video"),
         )
         keyboard.button(
             text=_("Download audio"),
-            callback_data=YtGetCallback(media_id=yt_info.id, media_type="audio"),
+            callback_data=YtGetCallback(media_id=yt_info.video_id, media_type="audio"),
         )
         return keyboard.as_markup()
 
@@ -118,7 +118,7 @@ class GetYouTubeHandler(CallbackQueryHandler):
 
         async with ChatActionSender(client=client, chat_id=message.chat.id, action=action):
             try:
-                yt, file_path = await download_method(url)
+                yt = await download_method(url)
             except DownloadError as err:
                 if "requested format is not available" in str(err).lower():
                     text = (
@@ -131,11 +131,15 @@ class GetYouTubeHandler(CallbackQueryHandler):
                 await message.edit_text(text)
                 return
 
+            if not ytdl.file_path:
+                await message.edit_text(_("Failed to download the media."))
+                return
+
             caption = f"<a href='{yt.url}'>{yt.title}</a>"
             if media_type == "video":
                 await client.send_video(
                     message.chat.id,
-                    video=file_path,
+                    video=ytdl.file_path,
                     caption=caption,
                     duration=yt.duration,
                     thumb=yt.thumbnail,
@@ -145,7 +149,7 @@ class GetYouTubeHandler(CallbackQueryHandler):
             else:
                 await client.send_audio(
                     message.chat.id,
-                    audio=file_path,
+                    audio=ytdl.file_path,
                     caption=caption,
                     duration=yt.duration,
                     performer=yt.uploader,
