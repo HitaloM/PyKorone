@@ -15,7 +15,6 @@ from korone.handlers.abstract.message_handler import MessageHandler
 from korone.modules.media_dl.callback_data import YtGetCallback
 from korone.modules.media_dl.utils.youtube import (
     DownloadError,
-    FileSizeError,
     InfoExtractionError,
     VideoInfo,
     YtdlpManager,
@@ -107,29 +106,35 @@ class YouTubeHandler(MessageHandler):
 
 class GetYouTubeHandler(CallbackQueryHandler):
     @staticmethod
-    async def download_media(client, callback, url, media_type):
+    async def download_media(client: Client, callback: CallbackQuery, url: str, media_type: str):
         ytdl = YtdlpManager()
 
-        chat_id = callback.message.chat.id
+        message = callback.message
+
+        await message.edit_text(_("Downloading..."))
+
         action = ChatAction.UPLOAD_VIDEO if media_type == "video" else ChatAction.UPLOAD_AUDIO
         download_method = ytdl.download_video if media_type == "video" else ytdl.download_audio
 
-        async with ChatActionSender(client=client, chat_id=chat_id, action=action):
+        async with ChatActionSender(client=client, chat_id=message.chat.id, action=action):
             try:
                 yt, file_path = await download_method(url)
-            except DownloadError:
-                await callback.answer(_("Failed to download {media_type}!"))
-                return
-            except FileSizeError:
-                await callback.answer(
-                    _("{media_type.capitalize()} exceeds Telegram's file size limit!")
-                )
+            except DownloadError as err:
+                if "requested format is not available" in str(err).lower():
+                    text = (
+                        "Sorry, I am unable to download this media. "
+                        "It may exceed the 300MB size limit."
+                    )
+                else:
+                    text = _("Failed to download the media.")
+
+                await message.edit_text(text)
                 return
 
             caption = f"<a href='{yt.url}'>{yt.title}</a>"
             if media_type == "video":
                 await client.send_video(
-                    chat_id,
+                    message.chat.id,
                     video=file_path,
                     caption=caption,
                     duration=yt.duration,
@@ -139,7 +144,7 @@ class GetYouTubeHandler(CallbackQueryHandler):
                 )
             else:
                 await client.send_audio(
-                    chat_id,
+                    message.chat.id,
                     audio=file_path,
                     caption=caption,
                     duration=yt.duration,
