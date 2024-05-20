@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pykorone\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-05-18 16:31-0300\n"
-"PO-Revision-Date: 2024-05-18 20:33\n"
+"POT-Creation-Date: 2024-05-20 17:08-0300\n"
+"PO-Revision-Date: 2024-05-20 20:30\n"
 "Last-Translator: \n"
 "Language-Team: Indonesian\n"
 "MIME-Version: 1.0\n"
@@ -366,60 +366,60 @@ msgstr ""
 msgid "Open in Twitter"
 msgstr ""
 
-#: src/korone/modules/media_dl/handlers/youtube.py:34
+#: src/korone/modules/media_dl/handlers/youtube.py:33
 msgid "<b>Title:</b> {title}\n"
 msgstr ""
 
-#: src/korone/modules/media_dl/handlers/youtube.py:35
+#: src/korone/modules/media_dl/handlers/youtube.py:34
 msgid "<b>Uploader:</b> {uploader}\n"
 msgstr ""
 
-#: src/korone/modules/media_dl/handlers/youtube.py:40
+#: src/korone/modules/media_dl/handlers/youtube.py:39
 msgid "<b>Duration:</b> {minutes}m {seconds}s\n"
 msgstr ""
 
-#: src/korone/modules/media_dl/handlers/youtube.py:44
+#: src/korone/modules/media_dl/handlers/youtube.py:43
 msgid "<b>Duration:</b> {seconds}s\n"
 msgstr ""
 
-#: src/korone/modules/media_dl/handlers/youtube.py:49
+#: src/korone/modules/media_dl/handlers/youtube.py:48
 msgid "<b>Views:</b> {views}\n"
 msgstr ""
 
-#: src/korone/modules/media_dl/handlers/youtube.py:50
+#: src/korone/modules/media_dl/handlers/youtube.py:49
 msgid "<b>Likes:</b> {likes}\n"
 msgstr ""
 
-#: src/korone/modules/media_dl/handlers/youtube.py:58
+#: src/korone/modules/media_dl/handlers/youtube.py:57
 msgid "Download video"
 msgstr ""
 
-#: src/korone/modules/media_dl/handlers/youtube.py:62
+#: src/korone/modules/media_dl/handlers/youtube.py:61
 msgid "Download audio"
 msgstr ""
 
-#: src/korone/modules/media_dl/handlers/youtube.py:77
+#: src/korone/modules/media_dl/handlers/youtube.py:76
 msgid "No YouTube URL found in the replied message."
 msgstr ""
 
-#: src/korone/modules/media_dl/handlers/youtube.py:84
+#: src/korone/modules/media_dl/handlers/youtube.py:83
 msgid "You need to provide a URL or reply to a message that contains a URL."
 msgstr ""
 
-#: src/korone/modules/media_dl/handlers/youtube.py:89
+#: src/korone/modules/media_dl/handlers/youtube.py:88
 msgid "Invalid YouTube URL!"
 msgstr ""
 
-#: src/korone/modules/media_dl/handlers/youtube.py:99
+#: src/korone/modules/media_dl/handlers/youtube.py:98
 msgid "Failed to extract video info!"
 msgstr ""
 
-#: src/korone/modules/media_dl/handlers/youtube.py:121
-msgid "Failed to download {media_type}!"
+#: src/korone/modules/media_dl/handlers/youtube.py:114
+msgid "Downloading..."
 msgstr ""
 
-#: src/korone/modules/media_dl/handlers/youtube.py:125
-msgid "{media_type.capitalize()} exceeds Telegram's file size limit!"
+#: src/korone/modules/media_dl/handlers/youtube.py:129
+msgid "Failed to download the media."
 msgstr ""
 
 #: src/korone/modules/pm_menu/__init__.py:10
