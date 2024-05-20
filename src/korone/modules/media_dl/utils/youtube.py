@@ -86,25 +86,28 @@ class YTDL:
     @staticmethod
     def resize_thumbnail(thumbnail_path: str) -> None:
         with Image.open(thumbnail_path) as img:
-            img = img.convert("RGB")
+            original_width, original_height = img.size
 
-            max_size = 320
-            width, height = img.size
-            if width > height:
-                new_width = max_size
-                new_height = int(max_size * height / width)
+            aspect_ratio = original_width / original_height
+
+            larger_dimension = max(original_width, original_height)
+
+            if original_width == larger_dimension:
+                new_width = larger_dimension
+                new_height = int(larger_dimension / aspect_ratio)
             else:
-                new_height = max_size
-                new_width = int(max_size * width / height)
-            img = img.resize((new_width, new_height))
+                new_height = larger_dimension
+                new_width = int(larger_dimension * aspect_ratio)
+
+            resized_img = img.resize((new_width, new_height), Image.Resampling.LANCZOS)
 
             temp_path = thumbnail_path + ".temp.jpeg"
-            img.save(temp_path, "JPEG", quality=95)
+            resized_img.save(temp_path, "JPEG", quality=95)
 
             if Path(temp_path).stat().st_size < 200 * 1024:
                 Path(temp_path).rename(thumbnail_path)
             else:
-                img.save(thumbnail_path, "JPEG", quality=85)
+                resized_img.save(thumbnail_path, "JPEG", quality=85)
 
     async def generate_videoinfo(self, info: dict[str, Any]) -> VideoInfo:
         loop = asyncio.get_event_loop()
@@ -112,6 +115,8 @@ class YTDL:
         if self.download and self.file_path:
             thumbnail = Path(self.file_path).with_suffix(".jpeg").as_posix()
             await loop.run_in_executor(None, self.resize_thumbnail, thumbnail)
+
+        uploader = info.get("artist") or info.get("uploader", "")
 
         return VideoInfo(
             title=info.get("title", ""),
@@ -121,7 +126,7 @@ class YTDL:
             duration=info.get("duration", 0),
             view_count=info.get("view_count", 0),
             like_count=info.get("like_count", 0),
-            uploader=info.get("uploader", ""),
+            uploader=uploader,
             height=info.get("height", 0),
             width=info.get("width", 0),
         )
@@ -161,7 +166,7 @@ class YtdlpManager:
             ],
             "writethumbnail": True,
             "outtmpl": f"downloads/%(title)s [%(id)s] {timestamp}.%(ext)s",
-            "format": "mergeall[filesize<=300M][height<=1080][ext=mp4]",
+            "format": "mergeall[filesize<=300M][height<=1080][ext=mp4]+140",
         }
 
     @staticmethod
