@@ -3,6 +3,7 @@
 
 import re
 
+from babel.numbers import format_number
 from hairydogm.chat_action import ChatActionSender
 from hairydogm.keyboard import InlineKeyboardBuilder
 from hydrogram import Client
@@ -20,6 +21,7 @@ from korone.modules.media_dl.utils.youtube import (
     YtdlpManager,
 )
 from korone.modules.utils.filters import Command, CommandObject
+from korone.utils.i18n import get_i18n
 from korone.utils.i18n import gettext as _
 
 YOUTUBE_REGEX = re.compile(
@@ -33,20 +35,33 @@ class YouTubeHandler(MessageHandler):
         text = _("<b>Title:</b> {title}\n").format(title=yt_info.title)
         text += _("<b>Uploader:</b> {uploader}\n").format(uploader=yt_info.uploader)
 
-        if yt_info.duration >= 60:
-            minutes = yt_info.duration // 60
-            seconds = yt_info.duration % 60
+        hours, minutes, seconds = 0, 0, 0
+        if yt_info.duration >= 3600:
+            hours, remaining_seconds = divmod(yt_info.duration, 3600)
+            minutes, seconds = divmod(remaining_seconds, 60)
+        elif yt_info.duration >= 60:
+            minutes, seconds = divmod(yt_info.duration, 60)
+        else:
+            seconds = yt_info.duration
+
+        if hours > 0:
+            text += _("<b>Duration:</b> {hours}h {minutes}m {seconds}s\n").format(
+                hours=hours, minutes=minutes, seconds=seconds
+            )
+        elif minutes > 0:
             text += _("<b>Duration:</b> {minutes}m {seconds}s\n").format(
                 minutes=minutes, seconds=seconds
             )
         else:
-            text += _("<b>Duration:</b> {seconds}s\n").format(seconds=yt_info.duration)
+            text += _("<b>Duration:</b> {seconds}s\n").format(seconds=seconds)
 
-        view_count = f"{yt_info.view_count:,}"
-        like_count = f"{yt_info.like_count:,}"
+        locale = get_i18n().current_locale
 
-        text += _("<b>Views:</b> {views}\n").format(views=view_count)
-        text += _("<b>Likes:</b> {likes}\n").format(likes=like_count)
+        view_count = format_number(yt_info.view_count, locale=locale)
+        like_count = format_number(yt_info.like_count, locale=locale)
+
+        text += _("<b>Views:</b> {view_count}\n").format(view_count=view_count)
+        text += _("<b>Likes:</b> {like_count}\n").format(like_count=like_count)
 
         return text
 
@@ -111,10 +126,10 @@ class GetYouTubeHandler(CallbackQueryHandler):
 
         message = callback.message
 
-        await message.edit_text(_("Downloading..."))
-
         action = ChatAction.UPLOAD_VIDEO if media_type == "video" else ChatAction.UPLOAD_AUDIO
         download_method = ytdl.download_video if media_type == "video" else ytdl.download_audio
+
+        await message.edit_text(_("Downloading..."))
 
         async with ChatActionSender(client=client, chat_id=message.chat.id, action=action):
             try:
@@ -135,28 +150,35 @@ class GetYouTubeHandler(CallbackQueryHandler):
                 await message.edit_text(_("Failed to download the media."))
                 return
 
+            await message.edit_text(_("Uploading..."))
+
             caption = f"<a href='{yt.url}'>{yt.title}</a>"
-            if media_type == "video":
-                await client.send_video(
-                    message.chat.id,
-                    video=ytdl.file_path,
-                    caption=caption,
-                    duration=yt.duration,
-                    thumb=yt.thumbnail,
-                    height=yt.height,
-                    width=yt.width,
-                )
-            else:
-                await client.send_audio(
-                    message.chat.id,
-                    audio=ytdl.file_path,
-                    caption=caption,
-                    duration=yt.duration,
-                    performer=yt.uploader,
-                    title=yt.title,
-                    thumb=yt.thumbnail,
-                )
-            ytdl.clear()
+            try:
+                if media_type == "video":
+                    await client.send_video(
+                        message.chat.id,
+                        video=ytdl.file_path,
+                        caption=caption,
+                        duration=yt.duration,
+                        thumb=yt.thumbnail,
+                        height=yt.height,
+                        width=yt.width,
+                    )
+                else:
+                    await client.send_audio(
+                        message.chat.id,
+                        audio=ytdl.file_path,
+                        caption=caption,
+                        duration=yt.duration,
+                        performer=yt.uploader,
+                        title=yt.title,
+                        thumb=yt.thumbnail,
+                    )
+                await message.delete()
+            except Exception:
+                await message.edit_text(_("Failed to send the media."))
+            finally:
+                ytdl.clear()
 
     @router.callback_query(YtGetCallback.filter())
     async def handle(self, client: Client, callback: CallbackQuery) -> None:
