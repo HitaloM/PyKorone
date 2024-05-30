@@ -24,6 +24,7 @@ dependencies = [
     "httpx[http2,socks,brotli]>=0.27.0",
     "cashews[redis,speedup]>=7.1.0",
     "yt-dlp>=2024.4.9",
+    "aiofiles>=23.2.1",
 ]
 readme = "README.md"
 license = { file = "LICENSE" }
@@ -35,7 +36,7 @@ build-backend = "hatchling.build"
 
 [tool.rye]
 managed = true
-dev-dependencies = ["pre-commit>=3.7.1", "ruff>=0.4.4"]
+dev-dependencies = ["pre-commit>=3.7.1", "ruff>=0.4.6"]
 
 [project.optional-dependencies]
 docs = [
