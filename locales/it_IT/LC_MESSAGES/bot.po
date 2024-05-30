@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pykorone\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-05-20 20:49-0300\n"
-"PO-Revision-Date: 2024-05-21 00:41\n"
+"POT-Creation-Date: 2024-05-30 16:00-0300\n"
+"PO-Revision-Date: 2024-05-30 19:17\n"
 "Last-Translator: \n"
 "Language-Team: Italian\n"
 "MIME-Version: 1.0\n"
@@ -349,21 +349,33 @@ msgstr ""
 msgid "Oops! Something went wrong while fetching the post."
 msgstr ""
 
-#: src/korone/modules/media_dl/handlers/twitter.py:78
-msgid "Failed to scan your link! This may be due to an incorrect link, private/suspended account, deleted tweet, or recent changes to Twitter's API."
+#: src/korone/modules/media_dl/handlers/twitter.py:237
+msgid "Failed to process video: {error}"
 msgstr ""
 
-#: src/korone/modules/media_dl/handlers/twitter.py:89
-msgid "No media found in this tweet!"
+#: src/korone/modules/media_dl/handlers/twitter.py:275
+msgid "Open in Twitter"
 msgstr ""
 
-#: src/korone/modules/media_dl/handlers/twitter.py:97
+#: src/korone/modules/media_dl/handlers/twitter.py:302
+msgid "Failed to send media!"
+msgstr ""
+
+#: src/korone/modules/media_dl/handlers/twitter.py:319
+msgid "Failed to send media: {error}"
+msgstr ""
+
+#: src/korone/modules/media_dl/handlers/twitter.py:329
 msgid "\n\n"
 "<b>Sent from:</b> <i>{source}</i>"
 msgstr ""
 
-#: src/korone/modules/media_dl/handlers/twitter.py:110
-msgid "Open in Twitter"
+#: src/korone/modules/media_dl/handlers/twitter.py:351
+msgid "Failed to scan your link! This may be due to an incorrect link, private/suspended account, deleted tweet, or recent changes to Twitter's API."
+msgstr ""
+
+#: src/korone/modules/media_dl/handlers/twitter.py:360
+msgid "No media found in this tweet!"
 msgstr ""
 
 #: src/korone/modules/media_dl/handlers/youtube.py:35
