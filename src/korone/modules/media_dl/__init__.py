@@ -17,7 +17,7 @@ class ModuleInfo:
         "enhancing the user experience."
     )
     doc: LazyProxy = _(
-        "\n\nAutomatic media download is enabled for the following websites:\n"
+        "Automatic media download is enabled for the following websites:\n"
         "- X (Twitter)\n"
         "- Instagram\n\n"
         "<b>Commands:</b>\n"

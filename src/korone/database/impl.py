@@ -15,25 +15,22 @@ from korone.utils.logging import log
 
 class SQLite3Table:
     """
-    Represent the specifics of a SQLitie3 Table.
+    Represents the specifics of an SQLite3 Table.
 
-    This class is used internally by SQLite3Connection
+    Represents the specifics of an SQLite3 Table, used internally by SQLite3Connection
     to perform operations on the database.
 
     Parameters
     ----------
-    conn : _Conn
+    conn : Connection
         The connection object.
     table : str
         The name of the table.
     """
 
-    _conn: Connection
-    _table: str
-
-    def __init__(self, *, conn: Connection, table: str) -> None:
+    def __init__(self, conn: Connection, table: str) -> None:
         if conn is None:
-            msg = "Connecton cannot be None"
+            msg = "Connection cannot be None"
             raise RuntimeError(msg)
 
         self._conn = conn
@@ -41,9 +38,10 @@ class SQLite3Table:
 
     async def insert(self, fields: Document) -> None:
         """
-        Insert a row on the table.
+        Insert a row into the table.
 
-        This method inserts a row on the table.
+        This method takes a Document object representing the fields to be inserted into the table.
+        It constructs an SQL INSERT statement and executes it.
 
         Parameters
         ----------
@@ -61,10 +59,9 @@ class SQLite3Table:
 
     async def query(self, query: Query) -> Documents:
         """
-        Query rows that match the criteria.
+        SQLite3 query execution.
 
-        This method queries rows that match the criteria
-        specified by the query.
+        Query rows that match the criteria specified by the query.
 
         Parameters
         ----------
@@ -74,11 +71,9 @@ class SQLite3Table:
         Returns
         -------
         Documents
-            A list of Document objects representing the rows
-            that match the criteria.
+            A list of Document objects representing the rows that match the criteria.
         """
         clause, data = query.compile()
-
         sql = f"SELECT * FROM {self._table} WHERE {clause}"
 
         cursor = await self._conn._execute(sql, data)
@@ -86,8 +81,7 @@ class SQLite3Table:
 
         documents = [
             Document({
-                description[0]: value
-                for description, value in zip(cursor.description, row, strict=False)
+                desc[0]: value for desc, value in zip(cursor.description, row, strict=False)
             })
             for row in rows
         ]
@@ -96,10 +90,9 @@ class SQLite3Table:
 
     async def update(self, fields: Document, query: Query) -> None:
         """
-        Update fields on rows that match the criteria.
+        SQLite3 row update.
 
-        This method updates the fields of rows that match
-        the criteria specified by the query.
+        Update fields on rows that match the criteria specified by the query.
 
         Parameters
         ----------
@@ -113,7 +106,6 @@ class SQLite3Table:
         values = [value for _, value in pairs]
 
         clause, data = query.compile()
-
         sql = f"UPDATE {self._table} SET {assignments} WHERE {clause}"
 
         await self._conn.execute(sql, (*values, *data))
@@ -121,10 +113,9 @@ class SQLite3Table:
 
     async def delete(self, query: Query) -> None:
         """
-        Delete rows that match the criteria.
+        SQLite3 row deletion.
 
-        This method deletes rows that match the criteria
-        specified by the query.
+        Delete rows that match the criteria specified by the query.
 
         Parameters
         ----------
@@ -132,7 +123,6 @@ class SQLite3Table:
             The query that specifies the criteria.
         """
         clause, data = query.compile()
-
         sql = f"DELETE FROM {self._table} WHERE {clause}"
 
         await self._conn.execute(sql, data)
@@ -141,41 +131,26 @@ class SQLite3Table:
 
 class SQLite3Connection:
     """
-    Represent a connection to a SQLite database.
+    Represents a connection to a SQLite database.
 
-    This class provides methods for connecting to a SQLite database,
+    Represents a connection to a SQLite database, providing methods for connecting,
     executing SQL statements, and managing the connection.
 
     Parameters
     ----------
+    path : str, optional
+        The path to the SQLite database file, by default constants.DEFAULT_DBFILE_PATH.
     *args
         Additional positional arguments for the `sqlite3.connect` function.
-    path : Path, optional
-        The path to the SQLite database file, by default Path(DEFAULT_DBFILE_PATH).
     **kwargs
         Additional keyword arguments for the `sqlite3.connect` function.
-
-    Attributes
-    ----------
-    _path : Path
-        The path to the SQLite database file.
-    _args : tuple
-        Additional positional arguments for the `sqlite3.connect` function.
-    _kwargs : dict
-        Additional keyword arguments for the `sqlite3.connect` function.
-    _conn : sqlite3.Connection | None
-        The SQLite database connection object.
     """
 
-    _path: str
-    _args: tuple
-    _kwargs: dict
-    _conn: aiosqlite.Connection | None = None
-
-    def __init__(self, *args, path: str = constants.DEFAULT_DBFILE_PATH, **kwargs) -> None:
+    def __init__(self, path: str = constants.DEFAULT_DBFILE_PATH, *args, **kwargs) -> None:
         self._path = path
         self._args = args
         self._kwargs = kwargs
+        self._conn: aiosqlite.Connection | None = None
 
     async def __aenter__(self) -> "SQLite3Connection":
         await self.connect()
@@ -188,26 +163,23 @@ class SQLite3Connection:
         return self._conn is not None
 
     async def _execute(
-        self, sql: str, parameters: tuple = (), /, script: bool = False
+        self, sql: str, parameters: tuple = (), script: bool = False
     ) -> aiosqlite.Cursor:
-        conn: aiosqlite.Connection = self._conn  # type: ignore
+        if not self._conn:
+            msg = "Connection is not open."
+            raise RuntimeError(msg)
 
-        if self._conn is not None:
-            if script:
-                return await conn.executescript(sql)
-            return await conn.execute(sql, parameters)
-
-        async with conn:
-            if script:
-                return await conn.executescript(sql)
-            return await conn.execute(sql, parameters)
+        return (
+            await self._conn.executescript(sql)
+            if script
+            else await self._conn.execute(sql, parameters)
+        )
 
     async def commit(self) -> None:
         """
-        Commit the current transaction.
+        SQLite3 transaction commit.
 
-        This method is used to commit the current transaction. If there is no
-        current transaction, this method does nothing.
+        Commit the current transaction.
 
         Raises
         ------
@@ -222,34 +194,30 @@ class SQLite3Connection:
 
     async def connect(self) -> None:
         """
-        Connect to the SQLite database.
+        SQLite3 database connection.
 
-        This method connects to the SQLite database
-        and stores the connection in the `_conn` attribute.
+        Connect to the SQLite database and store the connection in the `_conn` attribute.
 
         Raises
         ------
         RuntimeError
-            If the connection is already in place.
+            If the connection is already open.
         """
         if await self._is_open():
             msg = "Connection is already in place."
             raise RuntimeError(msg)
 
-        if not (path := Path(self._path)).parent.exists():
-            log.info("Could not find database directory")
-            path.parent.mkdir(parents=True, exist_ok=True)
+        if not Path(self._path).parent.exists():
             log.info("Creating database directory")
+            Path(self._path).parent.mkdir(parents=True, exist_ok=True)
 
         self._conn = await aiosqlite.connect(self._path, *self._args, **self._kwargs)
 
     async def table(self, name: str) -> Table:
         """
-        Return a Table object representing the specified table.
+        SQLite3 table object retrieval.
 
-        This methos returns a Table object representing the
-        specified table. The Table object can be used to
-        perform queries and other operations on the table.
+        Return a Table object representing the specified table.
 
         Parameters
         ----------
@@ -263,11 +231,11 @@ class SQLite3Connection:
         """
         return SQLite3Table(conn=self, table=name)
 
-    async def execute(self, sql: str, parameters: tuple = (), /, script: bool = False) -> None:
+    async def execute(self, sql: str, parameters: tuple = (), script: bool = False) -> None:
         """
-        Execute an SQL statement with optional parameters.
+        SQL statement execution.
 
-        Executes an SQL statement with optional parameters.
+        Execute an SQL statement with optional parameters.
 
         Parameters
         ----------
@@ -281,7 +249,7 @@ class SQLite3Connection:
         Raises
         ------
         RuntimeError
-            Raised if the connection is not yet open.
+            If the connection is not yet open.
         """
         if not await self._is_open():
             msg = "Connection is not yet open."
@@ -291,10 +259,9 @@ class SQLite3Connection:
 
     async def close(self) -> None:
         """
-        Close the database connection.
+        SQLite3 database connection closure.
 
-        This method is automatically called when
-        the context manager exits.
+        Close the database connection if it is open.
 
         Raises
         ------
@@ -305,6 +272,6 @@ class SQLite3Connection:
             msg = "Connection is not yet open."
             raise RuntimeError(msg)
 
-        if self._conn is not None:
+        if self._conn:
             await self._conn.close()
             self._conn = None
