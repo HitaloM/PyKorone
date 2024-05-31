@@ -46,7 +46,6 @@ Examples
 ... }
 """  # noqa: E501
 
-
 COMMANDS: dict[str, Any] = {}
 """
 Korone's command structure.
@@ -73,7 +72,7 @@ Examples
 ... }
 """
 
-NOT_DISABLEABLE: list[str] = []
+NOT_DISABLEABLE: set[str] = set()
 """
 A list of commands that cannot be disabled.
 
@@ -83,136 +82,96 @@ A list of commands that cannot be disabled.
 
 def add_module_info(module_name: str, module_info: Callable) -> None:
     """
-    Add module information to the MODULES dictionary.
+    Add Module Information
 
-    This function adds information about a module to the MODULES dictionary.
+    This function adds module information to the MODULES dictionary.
 
     Parameters
     ----------
     module_name : str
         The name of the module.
     module_info : Callable
-        The module information. This should be a callable object that provides
-        information about the module, such as its name, summary, and documentation.
-
-    Raises
-    ------
-    ValueError
-        If any of the required attributes are missing in the module information.
-
-    Notes
-    -----
-    The `module_info` parameter should be a callable object that returns a dictionary
-    with the following attributes:
-
-    - 'name' (str): The name of the module.
-    - 'summary' (str): A brief summary of the module's functionality.
-    - 'doc' (str): The documentation for the module.
+        The function to get the module information.
     """
-    MODULES[module_name] = {"handlers": [], "info": {}}
-
+    module_data = {"handlers": [], "info": {}}
     for attr in ["name", "summary", "doc"]:
         attr_value = bfs_attr_search(module_info, attr)
         if attr_value is None:
             msg = f"Missing attribute '{attr}' in ModuleInfo of module '{module_name}'"
             raise ValueError(msg)
-        MODULES[module_name]["info"][attr] = attr_value
+        module_data["info"][attr] = attr_value
+    MODULES[module_name] = module_data
 
 
 def add_handlers(module_name: str, handlers_path: Path) -> None:
     """
-    Add handlers to the MODULES dictionary.
+    Add Handlers
 
-    This function adds handlers to the MODULES dictionary. Each handler is represented as a string
-    in the format "{module_name}.handlers.{handler_name}" and is appended to the list of handlers
-    for the specified module in the MODULES dictionary.
+    This function adds handlers to the MODULES dictionary for a given module.
 
     Parameters
     ----------
     module_name : str
         The name of the module.
     handlers_path : Path
-        The path to the handlers directory.
+        The path to the handlers for the module.
     """
-    for file in handlers_path.glob("*.py"):
-        if file.name == "__init__.py":
-            continue
-        MODULES[module_name]["handlers"].append(f"{module_name}.handlers.{file.stem}")
+    MODULES[module_name]["handlers"] = [
+        f"{module_name}.handlers.{file.stem}"
+        for file in handlers_path.glob("*.py")
+        if file.name != "__init__.py"
+    ]
 
 
 def add_modules_to_dict() -> None:
     """
-    Add modules to the MODULES dictionary.
+    Add Modules to Dictionary
 
-    This function searches for modules in the `korone.modules` package and adds them to the MODULES
-    dictionary. It looks for modules in the `handlers` subdirectory of each module's directory.
-    If a module has a `ModuleInfo` class defined, it adds the module information to the MODULES
-    dictionary. It also adds the handlers found in the `handlers` subdirectory to the MODULES
-    dictionary.
-
-    Notes
-    -----
-    The MODULES dictionary is a global dictionary used to store information about the modules and
-    their handlers.
+    This function adds all modules in the parent directory to the MODULES dictionary.
     """
     parent_path = Path(__file__).parent
+    for entry in os.scandir(parent_path):
+        if entry.is_dir() and "handlers" in os.listdir(entry.path):
+            handlers_path = Path(entry.path) / "handlers"
+            module_name = handlers_path.relative_to(parent_path).parts[0]
+            MODULES[module_name] = {"handlers": []}
 
-    for root, dirs, _files in os.walk(parent_path):
-        if "handlers" not in dirs:
-            continue
+            module_pkg = f"korone.modules.{module_name}"
+            module = import_module(".__init__", module_pkg)
+            module_info = None
+            with suppress(AttributeError):
+                module_info = bfs_attr_search(module, "ModuleInfo")
 
-        handlers_path = Path(root) / "handlers"
-        module_name = handlers_path.relative_to(parent_path).parts[0]
-        MODULES[module_name] = {"handlers": []}
+            if module_info:
+                add_module_info(module_name, module_info)
 
-        module_pkg = f"korone.modules.{module_name}"
-        module = import_module(".__init__", module_pkg)
-
-        module_info = None
-        with suppress(AttributeError):
-            module_info = bfs_attr_search(module, "ModuleInfo")
-
-        if module_info:
-            add_module_info(module_name, module_info)
-
-        add_handlers(module_name, handlers_path)
+            add_handlers(module_name, handlers_path)
 
 
-def get_method_callable(cls: type, key: str) -> Callable[..., Any]:
+def get_method_callable(cls: type, key: str) -> Callable[..., Any]:  # numpydoc ignore=PR02
     """
-    Get a callable method from a class.
+    Get Method Callable
 
-    This function checks if the method is a static method or an asynchronous method.
-    If it is a static method, it returns the method itself.
-    If it is an asynchronous method, it returns an async function that calls the method.
-    Otherwise, it returns a regular function that calls the method.
+    This function gets a callable method from a class.
 
     Parameters
     ----------
+    cls : type
+        The class to get the method from.
     key : str
-        The name of the method to retrieve.
+        The name of the method.
 
     Returns
     -------
-    collections.abc.Callable[..., typing.Any]
+    Callable[..., Any]
         The callable method.
-
-    Examples
-    --------
-    >>> class MyClass:
-    ...     def my_method(self):
-    ...         return "Hello, world!"
-    >>> my_instance = MyClass()
-    >>> get_method_callable(MyClass, "my_method")(my_instance)
-    'Hello, world!'
     """
-    if isinstance(cls.__dict__.get(key), staticmethod):
-        return cls.__dict__[key].__func__
+    method = cls.__dict__.get(key)
+    if isinstance(method, staticmethod):
+        return method.__func__
 
     method = bfs_attr_search(cls, key)
-    is_async = inspect.iscoroutinefunction(method)
-
-    if is_async:
+    if inspect.iscoroutinefunction(method):
 
         async def async_call(*args, **kwargs):
             return await method(cls(), *args, **kwargs)
@@ -227,9 +186,9 @@ def get_method_callable(cls: type, key: str) -> Callable[..., Any]:
 
 async def check_command_state(command: str) -> Documents | None:
     """
-    Check the state of a command.
+    Check Command State
 
-    This function checks the state of a command in the database and returns the command state.
+    This function checks the state of a command in the database.
 
     Parameters
     ----------
@@ -239,71 +198,53 @@ async def check_command_state(command: str) -> Documents | None:
     Returns
     -------
     Documents | None
-        The command state if it exists, None otherwise.
+        The state of the command, or None if it doesn't exist.
     """
     async with SQLite3Connection() as conn:
         table = await conn.table("Commands")
         query = Query()
-
-        doc = await table.query(query.command == command)
-        return doc or None
+        return await table.query(query.command == command) or None
 
 
 async def process_handler_commands(filters: KoroneFilters) -> None:
     """
-    Handle the commands associated with a handler.
+    Process Handler Commands
 
-    This function process the commands associated with a handler. It updates the command
-    structure with the specified commands and their chat state.
+    This function processes the commands for a handler.
 
     Parameters
     ----------
     filters : KoroneFilters
-        The filters associated with the handler.
+        The filters for the handler.
     """
-    commands = []
-
-    is_magic_filter = isinstance(filters, MagicFilter)
-    has_commands = hasattr(filters, "commands")
-
-    if not is_magic_filter and has_commands:
+    if not isinstance(filters, MagicFilter) and hasattr(filters, "commands"):
+        commands = [command.pattern for command in filters.commands]  # type: ignore
         if filters.disableable:  # type: ignore
-            commands += [
-                command.pattern
-                for command in filters.commands  # type: ignore
-            ]
+            await update_commands(commands)
         else:
-            NOT_DISABLEABLE.extend([command.pattern for command in filters.commands])  # type: ignore
-    else:
-        is_and_filter = isinstance(filters, AndFilter)
-        has_base = hasattr(filters, "base")
-
-        if is_and_filter and has_base:
-            has_base_commands = hasattr(filters.base, "commands")
-
-            if has_base_commands:
-                if filters.base.disableable:  # type: ignore
-                    commands += [command.pattern for command in filters.base.commands]  # type: ignore
-                else:
-                    NOT_DISABLEABLE.extend([
-                        command.pattern
-                        for command in filters.base.commands  # type: ignore
-                    ])
-
-    if commands:
-        await update_commands(commands)
+            NOT_DISABLEABLE.update(commands)
+    elif (
+        isinstance(filters, AndFilter)
+        and hasattr(filters, "base")
+        and hasattr(filters.base, "commands")
+    ):
+        base_commands = [command.pattern for command in filters.base.commands]  # type: ignore
+        if filters.base.disableable:  # type: ignore
+            await update_commands(base_commands)
+        else:
+            NOT_DISABLEABLE.update(base_commands)
 
 
 async def update_commands(commands: list[str]) -> None:
     """
-    Update the COMMANDS dictionary with the specified commands.
+    Update Commands
 
-    This function updates the COMMANDS dictionary with the specified commands and their chat state.
+    This function updates the COMMANDS dictionary with new commands.
 
     Parameters
     ----------
     commands : list[str]
-        The list of commands to update.
+        The commands to add.
     """
     parent = commands[0].replace("$", "")
     children = [command.replace("$", "") for command in commands[1:]]
@@ -314,15 +255,11 @@ async def update_commands(commands: list[str]) -> None:
     }
 
     for cmd in children:
-        COMMANDS[cmd] = {
-            "parent": parent,
-        }
+        COMMANDS[cmd] = {"parent": parent}
 
     command_state = await check_command_state(parent)
 
-    if not command_state:
-        COMMANDS[parent]["chat"] = {}
-    else:
+    if command_state:
         for each in command_state:
             log.debug(
                 "Fetched chat state from the database: %s => %s",
@@ -336,132 +273,93 @@ async def update_commands(commands: list[str]) -> None:
 
 async def register_handler(client: Client, module: ModuleType) -> bool:
     """
-    Register handlers for a module in the client.
+    Register Handler
 
-    This function searches for classes in the module that are subclasses of
-    MessageHandler or CallbackQueryHandler, and that have methods that are
-    instances of FunctionType. It adds these methods as handlers in the client.
-
-    If a handler has associated commands, the function checks and updates the
-    state of these commands.
+    This function registers a handler with the client.
 
     Parameters
     ----------
-    client : hydrogram.Client
-        The client object to register the handler with.
-    module : types.ModuleType
-        The module containing the handler functions.
+    client : Client
+        The client to register the handler with.
+    module : ModuleType
+        The module to register.
 
     Returns
     -------
     bool
-        True if at least one handler was successfully registered, False otherwise.
+        True if the handler was successfully registered, False otherwise.
     """
-    function_list = [
-        (obj, func_obj)
-        for _, obj in inspect.getmembers(module)
-        if inspect.isclass(obj)
-        and inspect.getmodule(obj) == module
-        and (issubclass(obj, MessageHandler) or issubclass(obj, CallbackQueryHandler))
-        for _, func_obj in inspect.getmembers(obj)
-        if isinstance(func_obj, FunctionType)
-    ]
-
     success = False
-
-    for cls, func in function_list:
-        if not hasattr(cls, func.__name__):
+    for _, obj in inspect.getmembers(module, inspect.isclass):
+        if inspect.getmodule(obj) != module or not issubclass(
+            obj, MessageHandler | CallbackQueryHandler
+        ):
             continue
 
-        method = bfs_attr_search(cls, func.__name__)
-        if not callable(method):
-            continue
+        for name, func in inspect.getmembers(obj, predicate=lambda x: isinstance(x, FunctionType)):
+            if not hasattr(obj, name) or not callable(func):
+                continue
 
-        if not hasattr(method, "handlers"):
-            continue
+            if not hasattr(func, "handlers"):
+                continue
 
-        method_callable = get_method_callable(cls, func.__name__)
-
-        handler: HandlerObject = bfs_attr_search(method, "handlers")
-        filters = handler.filters
-        group = handler.group
-
-        client.add_handler(handler.event(method_callable, filters), group)
-
-        await process_handler_commands(filters)
-
-        success = True
-
+            method_callable = get_method_callable(obj, name)
+            handler: HandlerObject = bfs_attr_search(func, "handlers")
+            if handler:
+                client.add_handler(handler.event(method_callable, handler.filters), handler.group)
+                await process_handler_commands(handler.filters)
+                success = True
     return success
 
 
 async def load_module(client: Client, module: tuple) -> bool:
     """
-    Load specified module.
+    Load Module
 
-    This function loads a module into the Hydrogram's Client.
+    This function loads a module and registers its handlers.
 
     Parameters
     ----------
-    client : hydrogram.Client
-        The Hydrogram's Client instance.
+    client : Client
+        The client to register the handlers with.
     module : tuple
-        The module to be loaded.
+        The module to load.
 
     Returns
     -------
     bool
-        True if the module was loaded successfully, False otherwise.
-
-    Raises
-    ------
-    TypeError
-        If the client has not been initialized.
-
-    ModuleNotFoundError
-        If the module cannot be found.
+        True if the module was successfully loaded, False otherwise.
     """
     module_name: str = module[0]
-
     try:
         log.debug("Loading module: %s", module_name)
-
         for handler in module[1]["handlers"]:
-            pkg: str = handler
-            modules_path: str = "korone.modules"
-
-            component: ModuleType = import_module(f".{pkg}", modules_path)
+            component = import_module(f".{handler}", "korone.modules")
             if not await register_handler(client, component):
                 return False
-
     except ModuleNotFoundError as err:
         msg = f"Could not load module: {module_name}"
         raise ModuleNotFoundError(msg) from err
-
     return True
 
 
 async def load_all_modules(client: Client) -> None:
     """
-    Load all modules.
+    Load All Modules
 
-    This function loads all modules from the `korone.modules` package.
+    This function loads all modules and registers their handlers.
 
     Parameters
     ----------
-    client : hydrogram.Client
-        The client object.
+    client : Client
+        The client to register the handlers with.
     """
-    count: int = 0
-
     add_modules_to_dict()
-
+    count = 0
     for module in MODULES.items():
-        module_name = module[0]
         try:
-            await load_module(client, module)
-            count += 1
+            if await load_module(client, module):
+                count += 1
         except (TypeError, ModuleNotFoundError):
-            log.exception("Could not load module: %s", module_name)
-
+            log.exception("Could not load module: %s", module[0])
     log.info("Loaded %d modules", count)

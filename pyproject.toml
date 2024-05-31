@@ -110,6 +110,8 @@ checks = [
     "GL08",
     "SA01",
     "EX01",
+    "SS03",
+    "SS05",
 ]
 
 [tool.rye.scripts]

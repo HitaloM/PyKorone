@@ -112,7 +112,7 @@ class CommandObject:
             If the message has no text.
         """
         if not self.message:
-            msg = "To parse a command, you need to pass a message."
+            msg = "Message is required to parse a command."
             raise CommandError(msg)
 
         text = self.message.text or self.message.caption
@@ -154,7 +154,7 @@ class Command(KoroneFilter):
         If the commands parameter is not a valid type.
     """
 
-    __slots__ = ("commands", "ignore_case", "ignore_mention", "magic", "prefix")
+    __slots__ = ("commands", "disableable", "ignore_case", "ignore_mention", "magic", "prefix")
 
     def __init__(
         self,
@@ -166,7 +166,7 @@ class Command(KoroneFilter):
         magic: MagicFilter | None = None,
         disableable: bool = True,
     ) -> None:
-        commands = [commands] if isinstance(commands, str | re.Pattern) else commands or []
+        commands = [commands] if isinstance(commands, str | re.Pattern) else (commands or [])
         if not isinstance(commands, Iterable):
             msg = "Command filter only supports str, re.Pattern object or their Iterable"
             raise TypeError(msg)
@@ -176,11 +176,9 @@ class Command(KoroneFilter):
                 command = re.compile(
                     re.escape(command.casefold() if ignore_case else command) + "$"
                 )
-
             if not isinstance(command, re.Pattern):
-                msg = "Command filter only supports str, re.Pattern, or their Iterable"
+                msg = "Command filter only supports str, re.Pattern object or their Iterable"
                 raise TypeError(msg)
-
             return command
 
         items = [process_command(command) for command in (*values, *commands)]
@@ -213,13 +211,12 @@ class Command(KoroneFilter):
         bool
             Returns True if a valid command is found, otherwise False.
         """
-        if not message.text or message.caption:
+        if not (message.text or message.caption):
             return False
 
         with suppress(CommandError):
             await self.parse_command(client, message)
             return True
-
         return False
 
     def validate_prefix(self, command: CommandObject) -> None:
@@ -243,7 +240,7 @@ class Command(KoroneFilter):
             msg = f"Invalid prefix: {command.prefix!r}"
             raise CommandError(msg)
 
-    async def validade_mention(self, client: Client, command: CommandObject) -> None:
+    async def validate_mention(self, client: Client, command: CommandObject) -> None:
         """
         Validate the mention in the command.
 
@@ -265,7 +262,6 @@ class Command(KoroneFilter):
         if command.mention and not self.ignore_mention:
             if not (me := client.me):
                 me = await client.get_me()
-
             if me.username and command.mention.lower() != me.username.lower():
                 msg = f"Invalid mention: {command.mention!r}"
                 raise CommandError(msg)
@@ -300,7 +296,6 @@ class Command(KoroneFilter):
                 result = allowed_command.match(command.command)
                 if result:
                     return replace(command, regexp_match=result)
-
             if command_name == allowed_command:
                 return command
 
@@ -335,22 +330,20 @@ class Command(KoroneFilter):
         command = CommandObject(message).parse()
 
         self.validate_prefix(command)
-        await self.validade_mention(client, command)
+        await self.validate_mention(client, command)
 
         command_name = command.command
 
         if self.disableable and command_name in COMMANDS:
-            if "parent" in COMMANDS[command_name]:
-                command_name = COMMANDS[command_name]["parent"]
-
+            command_name = COMMANDS[command_name].get("parent", command_name)
             if (
-                message.chat.id in COMMANDS[command_name]["chat"]
-                and COMMANDS[command_name]["chat"][message.chat.id] is False
+                message.chat.id in COMMANDS[command_name].get("chat", {})
+                and not COMMANDS[command_name]["chat"][message.chat.id]
             ):
                 msg = f"Command {command_name} is disabled in '{message.chat.id}'."
                 raise CommandError(msg)
 
-        return self.do_magic(command=self.validate_command(command))
+        return self.do_magic(self.validate_command(command))
 
     def do_magic(self, command: CommandObject) -> CommandObject:
         """
@@ -379,7 +372,5 @@ class Command(KoroneFilter):
             if not result:
                 msg = "Rejected by magic filter"
                 raise CommandError(msg)
-
             return replace(command, magic_result=result)
-
         return command
