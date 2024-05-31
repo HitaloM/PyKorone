@@ -17,9 +17,9 @@ class ModuleInfo:
         "enhancing the user experience."
     )
     doc: LazyProxy = _(
-        "<b>Commands:</b>\n"
-        "- /ytdl &lt;youtubelink&gt;: Download the YouTube video or audio from the given link.\n"
-        "Automatic media download is enabled for the following websites:\n"
+        "\n\nAutomatic media download is enabled for the following websites:\n"
         "- X (Twitter)\n"
-        "- Instagram"
+        "- Instagram\n\n"
+        "<b>Commands:</b>\n"
+        "- /ytdl &lt;youtubelink&gt;: Download the YouTube video or audio from the given link."
     )
