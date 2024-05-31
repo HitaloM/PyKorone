@@ -1,101 +1,48 @@
 # SPDX-License-Identifier: BSD-3-Clause
 # Copyright (c) 2024 Hitalo M. <https://github.com/HitaloM>
 
-import io
-import mimetypes
-import re
-from datetime import timedelta
-from pathlib import Path
-from urllib.parse import urlparse
 
-import httpx
+import io
+
 from hairydogm.chat_action import ChatActionSender
 from hairydogm.keyboard import InlineKeyboardBuilder
 from hydrogram import Client
 from hydrogram.enums import ChatAction
 from hydrogram.types import InputMediaPhoto, InputMediaVideo, Message
 from magic_filter import F
-from PIL import Image
 
-from korone import cache
 from korone.decorators import router
 from korone.handlers import MessageHandler
 from korone.modules.media_dl.utils.instagram import (
-    TIMEOUT,
+    GRAPH_IMAGE,
+    GRAPH_VIDEO,
+    POST_URL_PATTERN,
+    REEL_PATTERN,
+    STORIES_PATTERN,
+    STORY_IMAGE,
+    STORY_VIDEO,
+    URL_PATTERN,
     GetInstagram,
     InstaData,
     Media,
     NotFoundError,
+    mediaid_to_code,
+    url_to_binary_io,
 )
 from korone.utils.i18n import gettext as _
-
-URL_PATTERN = re.compile(r"(?:https?://)?(?:www\.)?instagram\.com/")
-REEL_PATTERN = re.compile(r"(?:reel(?:s?)|p)/(?P<post_id>[A-Za-z0-9_-]+)")
-STORIES_PATTERN = re.compile(r"(?:stories)/(?:[^/?#&]+/)?(?P<media_id>[0-9]+)")
-POST_URL_PATTERN = re.compile(r"(?:https?://)?(?:www\.)?instagram\.com/.*?(?=\s|$)")
-
-GRAPH_IMAGE = "GraphImage"
-GRAPH_VIDEO = "GraphVideo"
-STORY_IMAGE = "StoryImage"
-STORY_VIDEO = "StoryVideo"
 
 
 class InstagramHandler(MessageHandler):
     @staticmethod
-    def mediaid_to_code(media_id: int) -> str:
-        alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_"
-
-        if media_id == 0:
-            return alphabet[0]
-
-        arr = []
-        base = len(alphabet)
-
-        while media_id:
-            media_id, rem = divmod(media_id, base)
-            arr.append(alphabet[rem])
-
-        return "".join(arr[::-1])
-
-    @staticmethod
-    @cache(ttl=timedelta(days=1))
-    async def url_to_binary_io(url: str) -> io.BytesIO:
-        async with httpx.AsyncClient(timeout=TIMEOUT, http2=True) as session:
-            mime_type = mimetypes.guess_type(url)[0]
-
-            if mime_type and mime_type.startswith("video"):
-                proxy = await session.get(f"https://envoy.lol/{url}")
-                response = proxy if proxy.status_code == 200 else await session.get(url)
-            else:
-                response = await session.get(url)
-
-            content = response.read()
-
-            file = io.BytesIO(content)
-            file_path = Path(urlparse(url).path)
-            file.name = file_path.name
-
-            if mime_type and mime_type.startswith("video"):
-                return file
-
-            if file_path.suffix.lower() in {".webp", ".heic"}:
-                image = Image.open(file)
-                file_jpg = io.BytesIO()
-                image.convert("RGB").save(file_jpg, format="JPEG")
-                file_jpg.name = file_path.with_suffix(".jpeg").name
-                return file_jpg
-
-            return file
-
-    def get_post_id_from_message(self, message: Message) -> str | None:
+    def get_post_id_from_message(message: Message) -> str | None:
         matches = REEL_PATTERN.findall(message.text)
+        if matches:
+            return matches[0]
 
-        if len(matches) == 1:
-            return str(matches[0])
-
-        if media_id := STORIES_PATTERN.findall(message.text):
+        media_id_match = STORIES_PATTERN.findall(message.text)
+        if media_id_match:
             try:
-                return self.mediaid_to_code(int(media_id[0]))
+                return mediaid_to_code(int(media_id_match[0]))
             except ValueError:
                 return None
 
@@ -105,58 +52,54 @@ class InstagramHandler(MessageHandler):
     def create_caption_and_keyboard(
         insta: InstaData, post_url: str | None
     ) -> tuple[str, InlineKeyboardBuilder | None]:
-        text = f"<b>{insta.username}</b>"
-
+        caption = f"<b>{insta.username}</b>"
         if insta.caption:
-            if len(insta.caption) > 255:
-                text += f":\n\n{insta.caption[:255]}..."
-            else:
-                text += f":\n\n{insta.caption}"
+            caption += (
+                f":\n\n{insta.caption[:255]}..."
+                if len(insta.caption) > 255
+                else f":\n\n{insta.caption}"
+            )
 
-        keyboard = None
-        if post_url:
-            keyboard = InlineKeyboardBuilder()
+        keyboard = InlineKeyboardBuilder() if post_url else None
+        if post_url and keyboard:
             keyboard.button(text=_("Open in Instagram"), url=post_url)
 
-        return text, keyboard
+        return caption, keyboard
+
+    @staticmethod
+    async def create_media_list(
+        insta: InstaData,
+    ) -> list[InputMediaPhoto | InputMediaVideo] | None:
+        media_list = []
+        for media in insta.medias:
+            media_binary = await url_to_binary_io(media.url)
+            if media.type_name in {GRAPH_IMAGE, STORY_IMAGE}:
+                media_list.append(InputMediaPhoto(media_binary))
+            elif media.type_name in {GRAPH_VIDEO, STORY_VIDEO}:
+                media_list.append(InputMediaVideo(media_binary))
+
+        return media_list
 
     @staticmethod
     async def reply_with_media(
         message: Message,
         media: Media,
-        media_bynary: io.BytesIO,
+        media_binary: io.BytesIO,
         text: str,
         keyboard: InlineKeyboardBuilder | None,
     ) -> None:
         if media.type_name in {GRAPH_IMAGE, STORY_IMAGE, STORY_VIDEO}:
-            if keyboard:
-                await message.reply_photo(
-                    media_bynary, caption=text, reply_markup=keyboard.as_markup()
-                )
-            else:
-                await message.reply_photo(media_bynary, caption=text)
+            await message.reply_photo(
+                media_binary,
+                caption=text,
+                reply_markup=keyboard.as_markup() if keyboard else None,  # type: ignore
+            )
         elif media.type_name == GRAPH_VIDEO:
-            if keyboard:
-                await message.reply_video(
-                    media_bynary, caption=text, reply_markup=keyboard.as_markup()
-                )
-            else:
-                await message.reply_video(media_bynary, caption=text)
-
-    async def create_media_list(
-        self, insta: InstaData
-    ) -> list[InputMediaPhoto | InputMediaVideo] | None:
-        media_list = []
-        for media in insta.medias:
-            media_bynary = await self.url_to_binary_io(media.url)
-
-            if media.type_name in {GRAPH_IMAGE, STORY_IMAGE}:
-                media_list.append(InputMediaPhoto(media_bynary))
-
-            if media.type_name in {GRAPH_VIDEO, STORY_VIDEO}:
-                media_list.append(InputMediaVideo(media_bynary))
-
-        return media_list
+            await message.reply_video(
+                media_binary,
+                caption=text,
+                reply_markup=keyboard.as_markup() if keyboard else None,  # type: ignore
+            )
 
     @router.message(F.text.regexp(URL_PATTERN, search=True))
     async def handle(self, client: Client, message: Message) -> None:
@@ -181,8 +124,8 @@ class InstagramHandler(MessageHandler):
 
             if len(insta.medias) == 1:
                 media = insta.medias[0]
-                media_bynary = await self.url_to_binary_io(media.url)
-                await self.reply_with_media(message, media, media_bynary, text, keyboard)
+                media_binary = await url_to_binary_io(media.url)
+                await self.reply_with_media(message, media, media_binary, text, keyboard)
                 return
 
             media_list = await self.create_media_list(insta)

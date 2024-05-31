@@ -143,7 +143,7 @@ class TwitterAPI:
         try:
             response = await self.http_client.get(url)
             response.raise_for_status()
-            content = response.read()
+            content = await response.aread()
         except httpx.HTTPError as err:
             log.error(f"Error fetching media data: {err}")
             raise TwitterError from err

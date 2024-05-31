@@ -13,37 +13,15 @@ from bs4 import BeautifulSoup, NavigableString, PageElement, Tag
 
 from korone import cache
 from korone.config import ConfigManager
+from korone.modules.media_dl.utils.instagram.constants import HEADERS, TIMEOUT
 from korone.utils.logging import log
-
-TIMEOUT: int = 20
-HEADERS: dict[str, str] = {
-    "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,"
-    "image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7",
-    "Accept-Language": "en-US,en;q=0.9",
-    "Connection": "close",
-    "Sec-Fetch-Mode": "navigate",
-    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
-    "(KHTML, like Gecko) Chrome/118.0.0.0 Safari/537.36",
-}
 
 
 class InstaError(Exception):
-    """
-    Represents a base exception for Instagram data fetching.
-
-    This exception is raised when an error occurs while fetching Instagram data from the server.
-    """
-
     pass
 
 
 class NotFoundError(InstaError):
-    """
-    Represents an exception for Instagram data not found.
-
-    This exception is raised when the data is not found for the post ID.
-    """
-
     pass
 
 
@@ -166,7 +144,7 @@ class InstagramDataFetcher:
                 response = await session.get(
                     "https://www.instagram.com/graphql/query/", params=params
                 )
-                if response.status_code == 200 and response.read():
+                if response.status_code == 200 and await response.aread():
                     return response
         except httpx.ConnectError as err:
             log.error("Failed to get response for URL %s with proxy %s: %s", url, proxy, err)
@@ -185,14 +163,14 @@ class InstagramDataFetcher:
         for _ in range(3):
             response = await self._parse_gql_data(url, params)
             if response is not None:
-                gql_value = response.read()
+                gql_value = await response.aread()
                 return orjson.loads(gql_value) if gql_value else None
 
         for proxy in proxies:
             for _ in range(3):
                 response = await self._parse_gql_data(url, params, proxy)
                 if response is not None:
-                    gql_value = response.read()
+                    gql_value = await response.aread()
                     return orjson.loads(gql_value) if gql_value else None
 
         return None
