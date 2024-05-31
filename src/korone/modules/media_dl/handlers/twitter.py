@@ -116,8 +116,8 @@ class TwitterMessageHandler(MessageHandler):
 
         try:
             if media.type == "photo":
-                if cache_data and "photo" in cache_data:
-                    media_file = cache_data["photo"]["file"]
+                if cache_data:
+                    media_file = cache_data["photo"].get("file")
 
                 return await client.send_photo(
                     chat_id=message.chat.id,
@@ -127,8 +127,8 @@ class TwitterMessageHandler(MessageHandler):
                     reply_to_message_id=message.id,
                 )
             if media.type in {"video", "gif"}:
-                if cache_data and "video" in cache_data:
-                    media_file = cache_data["video"]["file"]
+                if cache_data:
+                    media_file = cache_data["video"].get("file")
                     duration = cache_data["video"].get("duration", 0)
                     width = cache_data["video"].get("width", 0)
                     height = cache_data["video"].get("height", 0)

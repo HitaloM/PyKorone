@@ -59,6 +59,8 @@ class TweetData:
 
 
 class TwitterAPI:
+    __slots__ = ("http_client", "tweet", "url")
+
     def __init__(self, url: str):
         self.http_client = httpx.AsyncClient(http2=True)
         self.url = url
