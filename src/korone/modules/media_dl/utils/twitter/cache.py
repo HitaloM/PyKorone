@@ -19,20 +19,18 @@ class TwitterCache:
 
     @staticmethod
     def _serialize_photo(message: Message) -> dict:
-        return {message.photo.file_id: {"photo": message.photo.file_id}}
+        return {"photo": {"file": message.photo.file_id}}
 
     @staticmethod
     def _serialize_video(message: Message) -> dict:
         thumbnail = message.video.thumbs[0].file_id if message.video.thumbs else None
         return {
-            message.video.file_id: {
-                "video": {
-                    "file": message.video.file_id,
-                    "duration": message.video.duration,
-                    "width": message.video.width,
-                    "height": message.video.height,
-                    "thumbnail": thumbnail,
-                }
+            "video": {
+                "file": message.video.file_id,
+                "duration": message.video.duration,
+                "width": message.video.width,
+                "height": message.video.height,
+                "thumbnail": thumbnail,
             }
         }
 
@@ -42,9 +40,9 @@ class TwitterCache:
 
         for m in messages:
             if m.photo:
-                media_dict.update(self._serialize_photo(m))
-            if m.video:
-                media_dict.update(self._serialize_video(m))
+                media_dict = self._serialize_photo(m)
+            elif m.video:
+                media_dict = self._serialize_video(m)
 
         return media_dict
 
@@ -55,6 +53,7 @@ class TwitterCache:
                 return pickle.loads(cache_data)
         except CacheError as e:
             log.exception("Failed to get data from cache: %s", e)
+        return None
 
     async def set(self, value: Message | list[Message], expire: int) -> None:
         serialized_data = self.serialize_media_dict(value)

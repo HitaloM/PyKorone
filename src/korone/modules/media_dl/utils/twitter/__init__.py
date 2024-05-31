@@ -3,6 +3,7 @@
 
 from korone.modules.media_dl.utils.twitter.api import (
     TweetData,
+    TweetMedia,
     TwitterAPI,
     TwitterError,
 )
@@ -11,6 +12,7 @@ from korone.modules.media_dl.utils.twitter.media import TwitterMediaHandler
 
 __all__ = (
     "TweetData",
+    "TweetMedia",
     "TwitterAPI",
     "TwitterCache",
     "TwitterError",

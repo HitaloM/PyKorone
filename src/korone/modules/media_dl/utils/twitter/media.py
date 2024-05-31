@@ -4,16 +4,14 @@
 from korone.modules.media_dl.utils.twitter.api import (
     TweetMedia,
     TweetMediaVariants,
-    TwitterAPI,
 )
 from korone.modules.media_dl.utils.twitter.files import TwitterFileUtils
 
 
 class TwitterMediaHandler:
-    __slots__ = ("api", "files_utils")
+    __slots__ = ("files_utils",)
 
     def __init__(self):
-        self.api = TwitterAPI()
         self.files_utils = TwitterFileUtils()
 
     @staticmethod

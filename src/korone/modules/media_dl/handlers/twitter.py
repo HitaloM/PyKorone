@@ -17,6 +17,7 @@ from korone.decorators import router
 from korone.handlers import MessageHandler
 from korone.modules.media_dl.utils.twitter import (
     TweetData,
+    TweetMedia,
     TwitterAPI,
     TwitterCache,
     TwitterError,
@@ -51,7 +52,7 @@ class TwitterMessageHandler(MessageHandler):
         return media_list
 
     async def process_media(
-        self, media, files_to_delete: list
+        self, media: TweetMedia, files_to_delete: list
     ) -> InputMediaPhoto | InputMediaVideo | None:
         if media.type == "photo":
             return InputMediaPhoto(media.binary_io)
@@ -59,15 +60,15 @@ class TwitterMessageHandler(MessageHandler):
         if media.type in {"video", "gif"}:
             variant = await self.media_handler.get_best_variant(media) or media
             media_file = await self.media_handler.process_video_media(variant)
+            duration = int(timedelta(milliseconds=media.duration).total_seconds())
             files_to_delete.append(media_file)
-            thumbnail_io = await self.media_handler.api._url_to_binary_io(media.thumbnail_url)
 
             return InputMediaVideo(
                 media=media_file,
-                duration=int(timedelta(milliseconds=media.duration).total_seconds()),
+                duration=duration,
                 width=media.width,
                 height=media.height,
-                thumb=thumbnail_io,
+                thumb=media.thumbnail_io,
             )
         return None
 
@@ -82,6 +83,7 @@ class TwitterMessageHandler(MessageHandler):
 
         files_to_delete = []
         process_media_partial = partial(self.process_media, files_to_delete=files_to_delete)
+
         media_tasks = [process_media_partial(media) for media in tweet.media]
 
         media_list = []
@@ -104,7 +106,7 @@ class TwitterMessageHandler(MessageHandler):
         self,
         client: Client,
         message: Message,
-        media,
+        media: TweetMedia,
         text: str,
         tweet: TweetData,
         cache_data: dict | None,
@@ -114,7 +116,9 @@ class TwitterMessageHandler(MessageHandler):
 
         try:
             if media.type == "photo":
-                media_file = cache_data["photo"]["file"] if cache_data else media_file
+                if cache_data and "photo" in cache_data:
+                    media_file = cache_data["photo"]["file"]
+
                 return await client.send_photo(
                     chat_id=message.chat.id,
                     photo=media_file,
@@ -122,17 +126,21 @@ class TwitterMessageHandler(MessageHandler):
                     reply_markup=keyboard.as_markup(),
                     reply_to_message_id=message.id,
                 )
-
             if media.type in {"video", "gif"}:
-                if not cache_data:
-                    thumbnail_io = await self.media_handler.api._url_to_binary_io(
-                        media.thumbnail_url
-                    )
+                if cache_data and "video" in cache_data:
+                    media_file = cache_data["video"]["file"]
+                    duration = cache_data["video"].get("duration", 0)
+                    width = cache_data["video"].get("width", 0)
+                    height = cache_data["video"].get("height", 0)
+                    thumb = cache_data["video"].get("thumbnail", None)
+                else:
                     media_file = (
                         await self.media_handler.get_best_variant(media) or media
                     ).binary_io
-                else:
-                    media_file = cache_data["video"]["file"]
+                    duration = int(timedelta(milliseconds=media.duration).total_seconds())
+                    width = media.width
+                    height = media.height
+                    thumb = media.thumbnail_io
 
                 if not media_file:
                     await message.reply_text(_("Failed to send media!"))
@@ -143,12 +151,10 @@ class TwitterMessageHandler(MessageHandler):
                     video=media_file,
                     caption=text,
                     reply_markup=keyboard.as_markup(),
-                    duration=cache_data.get("duration", 0)
-                    if cache_data
-                    else int(timedelta(milliseconds=media.duration).total_seconds()),
-                    width=cache_data.get("width", 0) if cache_data else media.width,
-                    height=cache_data.get("height", 0) if cache_data else media.height,
-                    thumb=cache_data.get("thumbnail") if cache_data else thumbnail_io,
+                    duration=duration,
+                    width=width,
+                    height=height,
+                    thumb=thumb,
                     reply_to_message_id=message.id,
                 )
         except Exception as e:
@@ -172,8 +178,8 @@ class TwitterMessageHandler(MessageHandler):
             return
 
         try:
-            api = TwitterAPI()
-            await api.fetch(url_match.group())
+            api = TwitterAPI(url_match.group())
+            await api.fetch_and_parse()
             tweet = api.tweet
         except TwitterError:
             await message.reply_text(
@@ -200,7 +206,6 @@ class TwitterMessageHandler(MessageHandler):
 
             cache = TwitterCache(tweet)
             cache_data = await cache.get()
-
             try:
                 sent_message = await self.send_media(
                     client, message, tweet.media[0], text, tweet, cache_data

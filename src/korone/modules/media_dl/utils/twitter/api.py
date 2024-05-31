@@ -40,6 +40,7 @@ class TweetMedia:
     duration: int
     width: int
     height: int
+    thumbnail_io: BinaryIO | None
     thumbnail_url: str
     variants: list[TweetMediaVariants]
 
@@ -58,15 +59,14 @@ class TweetData:
 
 
 class TwitterAPI:
-    __slots__ = ("http_client", "tweet")
-
-    def __init__(self):
+    def __init__(self, url: str):
         self.http_client = httpx.AsyncClient(http2=True)
+        self.url = url
         self.tweet: TweetData
 
-    async def fetch(self, url: str) -> None:
-        data = await self._fetch(url)
-        await self._parse_data(data)
+    async def fetch_and_parse(self) -> None:
+        data = await self._fetch(self.url)
+        self.tweet = await self._parse_data(data)
 
     @staticmethod
     def _convert_to_fx_url(url: str) -> str:
@@ -83,14 +83,14 @@ class TwitterAPI:
             log.error(f"Error fetching tweet data: {err}")
             raise TwitterError from err
 
-    async def _parse_data(self, data: dict) -> None:
+    async def _parse_data(self, data: dict) -> TweetData:
         tweet = data.get("tweet", {})
         medias = tweet.get("media", {}).get("all", [])
         author = tweet.get("author", {})
 
         media = [await self._create_tweet_media(media) for media in medias]
 
-        self.tweet = TweetData(
+        return TweetData(
             url=tweet.get("url", ""),
             text=tweet.get("text", ""),
             author=TweetAuthor(
@@ -110,14 +110,20 @@ class TwitterAPI:
             await self._create_tweet_media_variant(variant)
             for variant in media.get("variants", [])
         ]
+        if thumbnail := media.get("thumbnail_url"):
+            thumbnail = await self._url_to_binary_io(media.get("thumbnail_url", ""))
+
+        binary_io = await self._url_to_binary_io(media.get("url", ""))
+
         return TweetMedia(
             type=media.get("type", ""),
             format=media.get("format", ""),
             url=media.get("url", ""),
-            binary_io=await self._url_to_binary_io(media.get("url", "")),
+            binary_io=binary_io,
             duration=media.get("duration", 0),
             width=media.get("width", 0),
             height=media.get("height", 0),
+            thumbnail_io=thumbnail,
             thumbnail_url=media.get("thumbnail_url", ""),
             variants=variants,
         )
