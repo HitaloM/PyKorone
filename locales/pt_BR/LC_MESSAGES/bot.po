@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pykorone\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-05-31 00:10-0300\n"
-"PO-Revision-Date: 2024-05-31 03:12\n"
+"POT-Creation-Date: 2024-05-31 18:07-0300\n"
+"PO-Revision-Date: 2024-05-31 21:38\n"
 "Last-Translator: \n"
 "Language-Team: Portuguese, Brazilian\n"
 "MIME-Version: 1.0\n"
@@ -349,42 +349,42 @@ msgid "\n\n"
 "- /ytdl &lt;youtubelink&gt;: Download the YouTube video or audio from the given link."
 msgstr ""
 
-#: src/korone/modules/media_dl/handlers/instagram.py:119
-#: src/korone/modules/media_dl/handlers/instagram.py:194
+#: src/korone/modules/media_dl/handlers/instagram.py:65
+#: src/korone/modules/media_dl/handlers/instagram.py:137
 msgid "Open in Instagram"
 msgstr ""
 
-#: src/korone/modules/media_dl/handlers/instagram.py:165
+#: src/korone/modules/media_dl/handlers/instagram.py:108
 msgid "This Instagram URL is not a valid post or story."
 msgstr ""
 
-#: src/korone/modules/media_dl/handlers/instagram.py:177
+#: src/korone/modules/media_dl/handlers/instagram.py:120
 msgid "Oops! Something went wrong while fetching the post."
 msgstr ""
 
-#: src/korone/modules/media_dl/handlers/twitter.py:112
+#: src/korone/modules/media_dl/handlers/twitter.py:114
 msgid "Open in Twitter"
 msgstr ""
 
-#: src/korone/modules/media_dl/handlers/twitter.py:138
+#: src/korone/modules/media_dl/handlers/twitter.py:146
 msgid "Failed to send media!"
 msgstr ""
 
-#: src/korone/modules/media_dl/handlers/twitter.py:155
-#: src/korone/modules/media_dl/handlers/twitter.py:209
+#: src/korone/modules/media_dl/handlers/twitter.py:161
+#: src/korone/modules/media_dl/handlers/twitter.py:217
 msgid "Failed to send media: {error}"
 msgstr ""
 
-#: src/korone/modules/media_dl/handlers/twitter.py:165
-msgid "\n\n"
+#: src/korone/modules/media_dl/handlers/twitter.py:174
+msgid "\n"
 "<b>Sent from:</b> <i>{source}</i>"
 msgstr ""
 
-#: src/korone/modules/media_dl/handlers/twitter.py:180
+#: src/korone/modules/media_dl/handlers/twitter.py:189
 msgid "Failed to scan your link! This may be due to an incorrect link, private/suspended account, deleted tweet, or recent changes to Twitter's API."
 msgstr ""
 
-#: src/korone/modules/media_dl/handlers/twitter.py:189
+#: src/korone/modules/media_dl/handlers/twitter.py:198
 msgid "No media found in this tweet!"
 msgstr ""
 
