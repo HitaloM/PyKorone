@@ -163,12 +163,15 @@ class TwitterMessageHandler(MessageHandler):
 
     @staticmethod
     def format_tweet_text(tweet: TweetData) -> str:
-        text = f"<b>{tweet.author.name} (<code>@{tweet.author.screen_name}</code>):</b>\n\n"
+        text = (
+            f"<b>{tweet.author.name} (<code>@{tweet.author.screen_name}</code>)"
+            f"{":" if tweet.text else ""}</b>\n"
+        )
         if tweet.text:
-            text += f"{tweet.text[:900]}{"..." if len(tweet.text) > 900 else ""}"
+            text += f"\n{tweet.text[:900]}{"..." if len(tweet.text) > 900 else ""}\n"
 
         if tweet.source:
-            text += _("\n\n<b>Sent from:</b> <i>{source}</i>").format(source=tweet.source)
+            text += _("\n<b>Sent from:</b> <i>{source}</i>").format(source=tweet.source)
         return text
 
     @router.message(F.text.regexp(URL_PATTERN, search=True))

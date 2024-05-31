@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PyKorone 1.0\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-05-31 18:02-0300\n"
+"POT-Creation-Date: 2024-05-31 18:07-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -407,25 +407,24 @@ msgid "Failed to send media!"
 msgstr ""
 
 #: src/korone/modules/media_dl/handlers/twitter.py:161
-#: src/korone/modules/media_dl/handlers/twitter.py:214
+#: src/korone/modules/media_dl/handlers/twitter.py:217
 msgid "Failed to send media: {error}"
 msgstr ""
 
-#: src/korone/modules/media_dl/handlers/twitter.py:171
+#: src/korone/modules/media_dl/handlers/twitter.py:174
 msgid ""
-"\n"
 "\n"
 "<b>Sent from:</b> <i>{source}</i>"
 msgstr ""
 
-#: src/korone/modules/media_dl/handlers/twitter.py:186
+#: src/korone/modules/media_dl/handlers/twitter.py:189
 msgid ""
 "Failed to scan your link! This may be due to an incorrect link, "
 "private/suspended account, deleted tweet, or recent changes to Twitter's "
 "API."
 msgstr ""
 
-#: src/korone/modules/media_dl/handlers/twitter.py:195
+#: src/korone/modules/media_dl/handlers/twitter.py:198
 msgid "No media found in this tweet!"
 msgstr ""
 
