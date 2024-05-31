@@ -37,7 +37,7 @@ class TwitterMessageHandler(MessageHandler):
     @staticmethod
     def create_media_list(media_cache: dict, text: str) -> list[InputMediaPhoto | InputMediaVideo]:
         media_list = [
-            InputMediaPhoto(media["photo"])
+            InputMediaPhoto(media["photo"]["file"])
             if "photo" in media
             else InputMediaVideo(
                 media=media["video"]["file"],

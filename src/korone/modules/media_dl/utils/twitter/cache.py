@@ -40,9 +40,9 @@ class TwitterCache:
 
         for m in messages:
             if m.photo:
-                media_dict = self._serialize_photo(m)
+                media_dict[m.photo.file_id] = self._serialize_photo(m)
             elif m.video:
-                media_dict = self._serialize_video(m)
+                media_dict[m.video.file_id] = self._serialize_video(m)
 
         return media_dict
 
