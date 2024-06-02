@@ -25,7 +25,7 @@ class RecentPlaysHandler(MessageHandler):
 
         last_fm = LastFMClient()
         try:
-            recent_tracks = await last_fm.get_recent_tracks(last_fm_user, limit=5)
+            recent_tracks = await last_fm.get_recent_tracks(last_fm_user, limit=6)
         except LastFMError as e:
             if str(e) == "User not found":
                 await message.reply(_("Your LastFM username was not found! Try setting it again."))
@@ -35,7 +35,7 @@ class RecentPlaysHandler(MessageHandler):
 
         if recent_tracks:
             last_played = recent_tracks[0]
-            played_tracks = recent_tracks[1:]
+            played_tracks = recent_tracks[1:6] if last_played.now_playing else recent_tracks[0:5]
         else:
             last_played = None
             played_tracks = []
@@ -53,7 +53,7 @@ class RecentPlaysHandler(MessageHandler):
                 + RecentPlaysHandler.format_track(last_played, now_playing=True)
             )
 
-        formatted_tracks.append(_("\n<b>Played before:</b>"))
+        formatted_tracks.append(_("\n<b>Recently Played:</b>"))
         formatted_tracks.extend([
             RecentPlaysHandler.format_track(track) for track in played_tracks
         ])

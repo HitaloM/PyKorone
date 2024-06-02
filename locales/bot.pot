@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PyKorone 1.0\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-06-02 01:15-0300\n"
+"POT-Creation-Date: 2024-06-02 01:22-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -423,7 +423,7 @@ msgstr ""
 #: src/korone/modules/lastfm/handlers/recent.py:56
 msgid ""
 "\n"
-"<b>Played before:</b>"
+"<b>Recently Played:</b>"
 msgstr ""
 
 #: src/korone/modules/lastfm/handlers/recent.py:67
