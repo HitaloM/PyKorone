@@ -95,6 +95,10 @@ CREATE TABLE IF NOT EXISTS Commands (
     state BIT,
     FOREIGN KEY(chat_id) REFERENCES Groups(id)
 );
+CREATE TABLE IF NOT EXISTS LastFM (
+    id INTEGER PRIMARY KEY,
+    username TEXT
+);
 """
 """The default SQLite3 tables.
 
