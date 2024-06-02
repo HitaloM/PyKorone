@@ -9,7 +9,7 @@ from hydrogram.types import Message
 from korone.decorators import router
 from korone.handlers.abstract.message_handler import MessageHandler
 from korone.modules.lastfm.database import get_lastfm_user
-from korone.modules.lastfm.utils import LastFMClient, Track
+from korone.modules.lastfm.utils import LastFMClient, LastFMError, Track
 from korone.modules.utils.filters import Command
 from korone.utils.i18n import gettext as _
 
@@ -20,11 +20,18 @@ class RecentPlaysHandler(MessageHandler):
     async def handle(client: Client, message: Message) -> None:
         last_fm_user = await get_lastfm_user(message.from_user.id)
         if not last_fm_user:
-            await message.reply("You need to set your LastFM username first!")
+            await message.reply(_("You need to set your LastFM username first!"))
             return
 
         last_fm = LastFMClient()
-        recent_tracks = await last_fm.get_recent_tracks(last_fm_user, limit=5)
+        try:
+            recent_tracks = await last_fm.get_recent_tracks(last_fm_user, limit=5)
+        except LastFMError as e:
+            if str(e) == "User not found":
+                await message.reply(_("Your LastFM username was not found! Try setting it again."))
+            else:
+                await message.reply(_("An error occurred while fetching your LastFM data!"))
+            return
 
         if recent_tracks:
             last_played = recent_tracks[0]

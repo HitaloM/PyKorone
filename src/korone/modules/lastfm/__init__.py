@@ -15,6 +15,7 @@ class ModuleInfo:
     )
     doc: LazyProxy = _(
         "<b>Commands:</b>\n"
+        "- /setfm &lt;your username&gt;: Set your LastFM username.\n"
         "- /now: Get the track you are currently listening to or the last track you listened to.\n"
         "- /recent: Get your last 5 played tracks."
     )

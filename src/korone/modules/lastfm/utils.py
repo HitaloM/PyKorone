@@ -11,6 +11,10 @@ from korone.config import ConfigManager
 API_KEY: str = ConfigManager.get("korone", "LASTFM_KEY")
 
 
+class LastFMError(Exception):
+    pass
+
+
 @dataclass(slots=True, frozen=True)
 class Image:
     size: str
@@ -114,6 +118,9 @@ class LastFMClient:
     async def _request(self, params: dict) -> dict:
         async with httpx.AsyncClient(http2=True) as client:
             response = await client.get(self.base_url, params=params)
+            if response.status_code == 404:
+                msg = response.json().get("message")
+                raise LastFMError(msg)
             response.raise_for_status()
             return response.json()
 
