@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pykorone\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-06-02 00:56-0300\n"
-"PO-Revision-Date: 2024-06-02 03:58\n"
+"POT-Creation-Date: 2024-06-02 01:22-0300\n"
+"PO-Revision-Date: 2024-06-02 05:29\n"
 "Last-Translator: \n"
 "Language-Team: Ukrainian\n"
 "MIME-Version: 1.0\n"
@@ -135,7 +135,7 @@ msgstr ""
 
 #: src/korone/modules/gsm_arena/__init__.py:17
 msgid "<b>Commands:</b>\n"
-" - /device &lt;device name&gt;: Returns the specifications of a device."
+"- /device &lt;device name&gt;: Returns the specifications of a device."
 msgstr ""
 
 #: src/korone/modules/gsm_arena/utils.py:97
@@ -329,70 +329,86 @@ msgstr ""
 
 #: src/korone/modules/lastfm/__init__.py:16
 msgid "<b>Commands:</b>\n"
+"- /setfm &lt;your username&gt;: Set your LastFM username.\n"
 "- /now: Get the track you are currently listening to or the last track you listened to.\n"
 "- /recent: Get your last 5 played tracks."
 msgstr ""
 
-#: src/korone/modules/lastfm/handlers/now.py:34
+#: src/korone/modules/lastfm/handlers/now.py:23
+#: src/korone/modules/lastfm/handlers/recent.py:23
+msgid "You need to set your LastFM username first!"
+msgstr ""
+
+#: src/korone/modules/lastfm/handlers/now.py:33
+#: src/korone/modules/lastfm/handlers/recent.py:31
+msgid "Your LastFM username was not found! Try setting it again."
+msgstr ""
+
+#: src/korone/modules/lastfm/handlers/now.py:35
+#: src/korone/modules/lastfm/handlers/recent.py:33
+msgid "An error occurred while fetching your LastFM data!"
+msgstr ""
+
+#: src/korone/modules/lastfm/handlers/now.py:41
 msgid "{user}'s is listening:"
 msgstr ""
 
-#: src/korone/modules/lastfm/handlers/now.py:36
+#: src/korone/modules/lastfm/handlers/now.py:43
 msgid "{user}'s was listening:"
 msgstr ""
 
-#: src/korone/modules/lastfm/handlers/now.py:38
+#: src/korone/modules/lastfm/handlers/now.py:45
 msgid "\n\n"
 "<b>{track_name}</b> {loved}{plays}"
 msgstr ""
 
-#: src/korone/modules/lastfm/handlers/now.py:41
+#: src/korone/modules/lastfm/handlers/now.py:48
 msgid " - <code>{track_playcount} plays</code>"
 msgstr ""
 
-#: src/korone/modules/lastfm/handlers/now.py:48
+#: src/korone/modules/lastfm/handlers/now.py:55
 msgid "\n"
 "<b>By:</b> <i>{track_artist}</i>"
 msgstr ""
 
-#: src/korone/modules/lastfm/handlers/recent.py:45
+#: src/korone/modules/lastfm/handlers/recent.py:52
 msgid "<b>Now Playing:</b>\n"
 msgstr ""
 
-#: src/korone/modules/lastfm/handlers/recent.py:49
+#: src/korone/modules/lastfm/handlers/recent.py:56
 msgid "\n"
-"<b>Played before:</b>"
+"<b>Recently Played:</b>"
 msgstr ""
 
-#: src/korone/modules/lastfm/handlers/recent.py:60
+#: src/korone/modules/lastfm/handlers/recent.py:67
 msgid "{prefix}<i>{track_artist}</i> — <b>{track_name}</b>{time}"
 msgstr ""
 
-#: src/korone/modules/lastfm/handlers/recent.py:71
+#: src/korone/modules/lastfm/handlers/recent.py:78
 msgid ", {days} day(s) ago"
 msgstr ""
 
-#: src/korone/modules/lastfm/handlers/recent.py:75
+#: src/korone/modules/lastfm/handlers/recent.py:82
 msgid ", {hours} hour(s) ago"
 msgstr ""
 
-#: src/korone/modules/lastfm/handlers/recent.py:79
+#: src/korone/modules/lastfm/handlers/recent.py:86
 msgid ", {minutes} minute(s) ago"
 msgstr ""
 
-#: src/korone/modules/lastfm/handlers/recent.py:81
+#: src/korone/modules/lastfm/handlers/recent.py:88
 msgid ", Just now"
 msgstr ""
 
-#: src/korone/modules/lastfm/handlers/set.py:22
+#: src/korone/modules/lastfm/handlers/set.py:27
 msgid "You need to provide your LastFM username!"
 msgstr ""
 
-#: src/korone/modules/lastfm/handlers/set.py:26
-msgid "LastFM username must not contain spaces!"
+#: src/korone/modules/lastfm/handlers/set.py:32
+msgid "LastFM username must not contain spaces or special characters!"
 msgstr ""
 
-#: src/korone/modules/lastfm/handlers/set.py:30
+#: src/korone/modules/lastfm/handlers/set.py:37
 msgid "LastFM username set successfully!"
 msgstr ""
 
