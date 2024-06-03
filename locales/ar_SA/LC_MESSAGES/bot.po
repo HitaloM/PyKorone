@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pykorone\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-06-03 12:38-0300\n"
-"PO-Revision-Date: 2024-06-03 16:45\n"
+"POT-Creation-Date: 2024-06-03 16:17-0300\n"
+"PO-Revision-Date: 2024-06-03 20:05\n"
 "Last-Translator: \n"
 "Language-Team: Arabic, Saudi Arabia\n"
 "MIME-Version: 1.0\n"
@@ -345,101 +345,66 @@ msgid "<b>Commands:</b>\n"
 "Supported Periods: 1d, 7d, 1m, 3m, 6m, 1y, all\n"
 msgstr ""
 
-#: src/korone/modules/lastfm/handlers/album.py:22
-#: src/korone/modules/lastfm/handlers/artist.py:22
+#: src/korone/modules/lastfm/handlers/album.py:23
+#: src/korone/modules/lastfm/handlers/artist.py:23
 #: src/korone/modules/lastfm/handlers/collage.py:31
-#: src/korone/modules/lastfm/handlers/now.py:22
-#: src/korone/modules/lastfm/handlers/recent.py:23
+#: src/korone/modules/lastfm/handlers/now.py:23
+#: src/korone/modules/lastfm/handlers/recent.py:27
 msgid "You need to set your LastFM username first!"
 msgstr ""
 
-#: src/korone/modules/lastfm/handlers/album.py:35
-#: src/korone/modules/lastfm/handlers/artist.py:33
+#: src/korone/modules/lastfm/handlers/album.py:36
+#: src/korone/modules/lastfm/handlers/artist.py:34
 #: src/korone/modules/lastfm/handlers/collage.py:58
-#: src/korone/modules/lastfm/handlers/now.py:35
-#: src/korone/modules/lastfm/handlers/recent.py:33
+#: src/korone/modules/lastfm/handlers/now.py:36
+#: src/korone/modules/lastfm/handlers/recent.py:37
 msgid "Your LastFM username was not found! Try setting it again."
 msgstr ""
 
-#: src/korone/modules/lastfm/handlers/album.py:38
-#: src/korone/modules/lastfm/handlers/artist.py:36
+#: src/korone/modules/lastfm/handlers/album.py:39
+#: src/korone/modules/lastfm/handlers/artist.py:37
 #: src/korone/modules/lastfm/handlers/collage.py:62
-#: src/korone/modules/lastfm/handlers/now.py:38
-#: src/korone/modules/lastfm/handlers/recent.py:36
+#: src/korone/modules/lastfm/handlers/now.py:39
+#: src/korone/modules/lastfm/handlers/recent.py:40
 msgid "An error occurred while fetching your LastFM data!\n"
 "Error:<i>{error}</i>"
 msgstr ""
 
-#: src/korone/modules/lastfm/handlers/album.py:46
-#: src/korone/modules/lastfm/handlers/artist.py:44
-#: src/korone/modules/lastfm/handlers/now.py:46
-msgid "{user}'s is listening to:{user}'s was listening to:"
+#: src/korone/modules/lastfm/handlers/album.py:48
+#: src/korone/modules/lastfm/handlers/artist.py:46
+#: src/korone/modules/lastfm/handlers/now.py:48
+msgid "{user}'s is listening to:\n"
 msgstr ""
 
-#: src/korone/modules/lastfm/handlers/album.py:52
-msgid "\n\n"
-"<b>{album_name}</b> {loved}{plays}"
+#: src/korone/modules/lastfm/handlers/album.py:50
+#: src/korone/modules/lastfm/handlers/artist.py:48
+#: src/korone/modules/lastfm/handlers/now.py:50
+msgid "{user}'s was listening to:\n"
 msgstr ""
 
-#: src/korone/modules/lastfm/handlers/album.py:55
+#: src/korone/modules/lastfm/handlers/album.py:57
 msgid " ∙ <code>{album_playcount} plays</code>"
 msgstr ""
 
-#: src/korone/modules/lastfm/handlers/album.py:62
-msgid "\n"
-"<b>By:</b> <i>{album_artist}</i>"
-msgstr ""
-
-#: src/korone/modules/lastfm/handlers/artist.py:50
-msgid "\n\n"
-"<b>{artist_name}</b> {loved}{plays}"
-msgstr ""
-
-#: src/korone/modules/lastfm/handlers/artist.py:53
+#: src/korone/modules/lastfm/handlers/artist.py:54
 msgid " ∙ <code>{artist_playcount} plays</code>"
 msgstr ""
 
-#: src/korone/modules/lastfm/handlers/now.py:52
-msgid "\n\n"
-"<b>{track_name}</b> {loved}{plays}"
-msgstr ""
-
-#: src/korone/modules/lastfm/handlers/now.py:55
+#: src/korone/modules/lastfm/handlers/now.py:57
 msgid " ∙ <code>{track_playcount} plays</code>"
 msgstr ""
 
-#: src/korone/modules/lastfm/handlers/now.py:62
-msgid "\n"
-"<b>By:</b> <i>{track_artist}</i>"
-msgstr ""
-
-#: src/korone/modules/lastfm/handlers/recent.py:60
+#: src/korone/modules/lastfm/handlers/recent.py:64
 msgid "<b>Now Playing:</b>\n"
 msgstr ""
 
-#: src/korone/modules/lastfm/handlers/recent.py:64
+#: src/korone/modules/lastfm/handlers/recent.py:68
 msgid "\n"
 "<b>Recently Played:</b>"
 msgstr ""
 
-#: src/korone/modules/lastfm/handlers/recent.py:73
+#: src/korone/modules/lastfm/handlers/recent.py:77
 msgid "{prefix}<i>{track.artist}</i> — <b>{track.name}</b>{time}"
-msgstr ""
-
-#: src/korone/modules/lastfm/handlers/recent.py:84
-msgid ", {days} day(s) ago"
-msgstr ""
-
-#: src/korone/modules/lastfm/handlers/recent.py:88
-msgid ", {hours} hour(s) ago"
-msgstr ""
-
-#: src/korone/modules/lastfm/handlers/recent.py:92
-msgid ", {minutes} minute(s) ago"
-msgstr ""
-
-#: src/korone/modules/lastfm/handlers/recent.py:94
-msgid ", Just now"
 msgstr ""
 
 #: src/korone/modules/lastfm/handlers/set.py:27
@@ -452,6 +417,22 @@ msgstr ""
 
 #: src/korone/modules/lastfm/handlers/set.py:37
 msgid "LastFM username set successfully!"
+msgstr ""
+
+#: src/korone/modules/lastfm/utils/format_time.py:16
+msgid ", {days} day(s) ago"
+msgstr ""
+
+#: src/korone/modules/lastfm/utils/format_time.py:20
+msgid ", {hours} hour(s) ago"
+msgstr ""
+
+#: src/korone/modules/lastfm/utils/format_time.py:24
+msgid ", {minutes} minute(s) ago"
+msgstr ""
+
+#: src/korone/modules/lastfm/utils/format_time.py:24
+msgid ", Just now"
 msgstr ""
 
 #: src/korone/modules/media_dl/__init__.py:10
