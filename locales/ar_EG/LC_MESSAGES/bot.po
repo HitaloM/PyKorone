@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pykorone\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-06-03 11:04-0300\n"
-"PO-Revision-Date: 2024-06-03 14:12\n"
+"POT-Creation-Date: 2024-06-03 11:52-0300\n"
+"PO-Revision-Date: 2024-06-03 15:26\n"
 "Last-Translator: \n"
 "Language-Team: Arabic, Egypt\n"
 "MIME-Version: 1.0\n"
@@ -330,32 +330,32 @@ msgstr ""
 #: src/korone/modules/lastfm/__init__.py:16
 msgid "<b>Commands:</b>\n"
 "- /setfm &lt;your username&gt;: Set your LastFM username.\n"
-"- /now: Get the track you are currently listening to or the last track you listened to.\n"
-"- /recent: Get your last 5 played tracks.\n"
-"- /collage: Get a collage of your top albums.\n\n"
+"- /lfm: Get the track you are currently listening to or the last track you listened to.\n"
+"- /lfmr: Get your last 5 played tracks.\n"
+"- /lfmc: Get a collage of your top albums.\n\n"
 "<b>Examples:</b>\n"
 "- Generate a collage of your top 5x5 albums in a period of 7 days:\n"
-"-> <code>/collage 5 7d</code>\n\n"
+"-> <code>/lfmc 5 7d</code>\n\n"
 "- Generate a collage of your top 3x3 albums in a period of 1 month without text:\n"
-"-> <code>/collage 7 1m clean</code>\n\n"
+"-> <code>/lfmc 7 1m clean</code>\n\n"
 "<b>Notes:</b>\n"
 "Supported sizes: 1, 2, 3, 4, 5, 6, 7\n"
 "Supported Periods: 1d, 7d, 1m, 3m, 6m, 1y, all\n"
 msgstr ""
 
-#: src/korone/modules/lastfm/handlers/collage.py:29
+#: src/korone/modules/lastfm/handlers/collage.py:31
 #: src/korone/modules/lastfm/handlers/now.py:22
 #: src/korone/modules/lastfm/handlers/recent.py:23
 msgid "You need to set your LastFM username first!"
 msgstr ""
 
-#: src/korone/modules/lastfm/handlers/collage.py:52
+#: src/korone/modules/lastfm/handlers/collage.py:58
 #: src/korone/modules/lastfm/handlers/now.py:35
 #: src/korone/modules/lastfm/handlers/recent.py:33
 msgid "Your LastFM username was not found! Try setting it again."
 msgstr ""
 
-#: src/korone/modules/lastfm/handlers/collage.py:55
+#: src/korone/modules/lastfm/handlers/collage.py:62
 #: src/korone/modules/lastfm/handlers/now.py:38
 #: src/korone/modules/lastfm/handlers/recent.py:36
 msgid "An error occurred while fetching your LastFM data!\n"
