@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pykorone\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-06-03 16:17-0300\n"
-"PO-Revision-Date: 2024-06-03 20:05\n"
+"POT-Creation-Date: 2024-06-03 17:07-0300\n"
+"PO-Revision-Date: 2024-06-03 21:23\n"
 "Last-Translator: \n"
 "Language-Team: German\n"
 "MIME-Version: 1.0\n"
@@ -334,6 +334,7 @@ msgid "<b>Commands:</b>\n"
 "- /lfmr: Get your last 5 played tracks.\n"
 "- /lfmar: Get the artist you are currently listening to or the last artist you listened to.\n"
 "- /lfmal: Get the album you are currently listening to or the last album you listened to.\n"
+"- /lfmu: Get your total scrobbles, tracks, artists, and albums scrobbled.\n"
 "- /lfmc: Get a collage of your top albums.\n\n"
 "<b>Examples:</b>\n"
 "- Generate a collage of your top 5x5 albums in a period of 7 days:\n"
@@ -350,6 +351,7 @@ msgstr ""
 #: src/korone/modules/lastfm/handlers/collage.py:31
 #: src/korone/modules/lastfm/handlers/now.py:23
 #: src/korone/modules/lastfm/handlers/recent.py:27
+#: src/korone/modules/lastfm/handlers/user.py:25
 msgid "You need to set your LastFM username first!"
 msgstr ""
 
@@ -358,6 +360,7 @@ msgstr ""
 #: src/korone/modules/lastfm/handlers/collage.py:58
 #: src/korone/modules/lastfm/handlers/now.py:36
 #: src/korone/modules/lastfm/handlers/recent.py:37
+#: src/korone/modules/lastfm/handlers/user.py:35
 msgid "Your LastFM username was not found! Try setting it again."
 msgstr ""
 
@@ -366,6 +369,7 @@ msgstr ""
 #: src/korone/modules/lastfm/handlers/collage.py:62
 #: src/korone/modules/lastfm/handlers/now.py:39
 #: src/korone/modules/lastfm/handlers/recent.py:40
+#: src/korone/modules/lastfm/handlers/user.py:38
 msgid "An error occurred while fetching your LastFM data!\n"
 "Error:<i>{error}</i>"
 msgstr ""
@@ -417,6 +421,15 @@ msgstr ""
 
 #: src/korone/modules/lastfm/handlers/set.py:37
 msgid "LastFM username set successfully!"
+msgstr ""
+
+#: src/korone/modules/lastfm/handlers/user.py:50
+msgid "User: <b>{user}</b>\n\n"
+"Total scrobbles: <code>{playcount}</code>\n"
+"Tracks scrobbled: <code>{track_count}</code>\n"
+"Artists scrobbled: <code>{artist_count}</code>\n"
+"Albums scrobbled: <code>{album_count}</code>\n\n"
+"Registered: <i>{registered}</i>"
 msgstr ""
 
 #: src/korone/modules/lastfm/utils/format_time.py:16
