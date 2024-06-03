@@ -3,7 +3,9 @@
 
 from pathlib import Path
 
+from hairydogm.chat_action import ChatActionSender
 from hydrogram import Client
+from hydrogram.enums import ChatAction
 from hydrogram.types import Message
 
 from korone.decorators import router
@@ -42,31 +44,37 @@ class CollageHandler(MessageHandler):
 
         last_fm = LastFMClient()
 
-        try:
-            top_items = await last_fm.get_top_albums(
-                last_fm_user, period=period.value, limit=collage_size**2
-            )
-        except LastFMError as e:
-            error_message = str(e)
-            if error_message == "User not found":
-                await message.reply(_("Your LastFM username was not found! Try setting it again."))
-            else:
-                await message.reply(
-                    _(
-                        "An error occurred while fetching your LastFM data!\nError:<i>{error}</i>"
-                    ).format(error=error_message)
+        async with ChatActionSender(
+            client=client, chat_id=message.chat.id, action=ChatAction.UPLOAD_PHOTO
+        ):
+            try:
+                top_items = await last_fm.get_top_albums(
+                    last_fm_user, period=period.value, limit=collage_size**2
                 )
-            return
+            except LastFMError as e:
+                error_message = str(e)
+                if error_message == "User not found":
+                    await message.reply(
+                        _("Your LastFM username was not found! Try setting it again.")
+                    )
+                else:
+                    await message.reply(
+                        _(
+                            "An error occurred while fetching your LastFM data!\n"
+                            "Error:<i>{error}</i>"
+                        ).format(error=error_message)
+                    )
+                return
 
-        collage_path = await create_album_collage(
-            top_items, collage_size=(collage_size, collage_size), show_text=show_text
-        )
+            collage_path = await create_album_collage(
+                top_items, collage_size=(collage_size, collage_size), show_text=show_text
+            )
 
-        caption = (
-            f"{message.from_user.mention()}'s {period.value} {collage_size}x{collage_size} "
-            "album collage"
-        )
+            caption = (
+                f"{message.from_user.mention()}'s {period.value} {collage_size}x{collage_size} "
+                "album collage"
+            )
 
-        await message.reply_photo(photo=collage_path, caption=caption)
+            await message.reply_photo(photo=collage_path, caption=caption)
 
         Path(collage_path).unlink(missing_ok=True)
