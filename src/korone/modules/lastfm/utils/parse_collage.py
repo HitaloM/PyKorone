@@ -12,7 +12,7 @@ class EntryType(Enum):
     Track = 3
 
 
-def get_entry_type(split: str):
+def get_entry_type(split: str) -> EntryType | None:
     if split.startswith("artist"):
         return EntryType.Artist
     if split.startswith("album"):

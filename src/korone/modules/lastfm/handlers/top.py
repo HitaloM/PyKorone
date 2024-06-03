@@ -44,6 +44,11 @@ class LastFMTopHandler(MessageHandler):
 
         if args:
             __, period, entry_type, __ = parse_collage_arg(args, entry_type)
+            if not entry_type:
+                await message.reply(
+                    _("Invalid entry type! Use one of the following: artist, track, album")
+                )
+                return
 
         last_fm = LastFMClient()
 

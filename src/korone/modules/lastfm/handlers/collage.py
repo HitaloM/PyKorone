@@ -71,7 +71,7 @@ class LastFMCollageHandler(MessageHandler):
                 top_items, collage_size=(collage_size, collage_size), show_text=show_text
             )
 
-            caption = _("{user}'s {period} {collage_size}x{collage_size} " "album collage").format(
+            caption = _("{user}'s {period} {collage_size}x{collage_size} album collage").format(
                 user=message.from_user.mention(),
                 period=period_to_str(period),
                 collage_size=collage_size,
