@@ -22,3 +22,4 @@ korone.toml
 *.mo
 docs/build/
 downloads/
+tmp/

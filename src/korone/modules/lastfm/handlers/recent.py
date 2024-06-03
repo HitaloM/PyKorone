@@ -9,7 +9,7 @@ from hydrogram.types import Message
 from korone.decorators import router
 from korone.handlers.abstract.message_handler import MessageHandler
 from korone.modules.lastfm.database import get_lastfm_user
-from korone.modules.lastfm.utils import LastFMClient, LastFMError, Track
+from korone.modules.lastfm.utils import LastFMClient, LastFMError, LastFMTrack
 from korone.modules.utils.filters import Command
 from korone.utils.i18n import gettext as _
 
@@ -24,13 +24,19 @@ class RecentPlaysHandler(MessageHandler):
             return
 
         last_fm = LastFMClient()
+
         try:
             recent_tracks = await last_fm.get_recent_tracks(last_fm_user, limit=6)
         except LastFMError as e:
-            if str(e) == "User not found":
+            error_message = str(e)
+            if error_message == "User not found":
                 await message.reply(_("Your LastFM username was not found! Try setting it again."))
             else:
-                await message.reply(_("An error occurred while fetching your LastFM data!"))
+                await message.reply(
+                    _(
+                        "An error occurred while fetching your LastFM data!\nError:<i>{error}</i>"
+                    ).format(error=error_message)
+                )
             return
 
         if recent_tracks:
@@ -44,7 +50,9 @@ class RecentPlaysHandler(MessageHandler):
         await message.reply(text)
 
     @staticmethod
-    def format_recent_plays(last_played: Track | None, played_tracks: list[Track]) -> str:
+    def format_recent_plays(
+        last_played: LastFMTrack | None, played_tracks: list[LastFMTrack]
+    ) -> str:
         formatted_tracks = []
 
         if last_played and last_played.now_playing:
@@ -54,22 +62,20 @@ class RecentPlaysHandler(MessageHandler):
             )
 
         formatted_tracks.append(_("\n<b>Recently Played:</b>"))
-        formatted_tracks.extend([
-            RecentPlaysHandler.format_track(track) for track in played_tracks
-        ])
+        formatted_tracks.extend(RecentPlaysHandler.format_track(track) for track in played_tracks)
 
         return "\n".join(formatted_tracks)
 
     @staticmethod
-    def format_track(track: Track, now_playing: bool = False) -> str:
+    def format_track(track: LastFMTrack, now_playing: bool = False) -> str:
         time_elapsed_str = "" if now_playing else RecentPlaysHandler.get_time_elapsed_str(track)
         prefix = "🎧 "
-        return _("{prefix}<i>{track_artist}</i> — <b>{track_name}</b>{time}").format(
-            prefix=prefix, track_artist=track.artist, track_name=track.name, time=time_elapsed_str
+        return _("{prefix}<i>{track.artist}</i> — <b>{track.name}</b>{time}").format(
+            prefix=prefix, track=track, time=time_elapsed_str
         )
 
     @staticmethod
-    def get_time_elapsed_str(track: Track) -> str:
+    def get_time_elapsed_str(track: LastFMTrack) -> str:
         played_at_datetime = datetime.fromtimestamp(track.played_at, tz=UTC)
         current_datetime = datetime.now(tz=UTC)
         time_elapsed = current_datetime - played_at_datetime

@@ -3,6 +3,7 @@
 
 import urllib.parse
 from dataclasses import dataclass
+from enum import Enum
 
 import httpx
 
@@ -11,12 +12,21 @@ from korone.config import ConfigManager
 API_KEY: str = ConfigManager.get("korone", "LASTFM_KEY")
 
 
+class TimePeriod(Enum):
+    OneWeek = "1 week"
+    OneMonth = "1 month"
+    ThreeMonths = "3 months"
+    SixMonths = "6 months"
+    OneYear = "1 year"
+    AllTime = "All time"
+
+
 class LastFMError(Exception):
     pass
 
 
 @dataclass(slots=True, frozen=True)
-class Image:
+class LastFMImage:
     size: str
     url: str
 
@@ -26,28 +36,28 @@ class Image:
 
 
 @dataclass(slots=True, frozen=True)
-class Track:
+class LastFMTrack:
     artist: str
     name: str
     album: str
     loved: int
-    images: list[Image]
+    images: list[LastFMImage]
     now_playing: bool
     playcount: int
     played_at: int
 
     @classmethod
     def from_dict(cls, data: dict):
-        images = [Image.from_dict(img) for img in data.get("image", [])]
+        images = [LastFMImage.from_dict(img) for img in data.get("image", []) if img.get("#text")]
         loved = int(data.get("userloved", 0))
         now_playing = (
             data["@attr"]["nowplaying"] == "true"
             if "@attr" in data and "nowplaying" in data["@attr"]
             else False
         )
-        playcount = int(data.get("userplaycount", 0))
-        played_at = int(data["date"]["uts"]) if "date" in data else 0
-        album = data.get("album", {}).get("#text") or data.get("album", {}).get("title", "")
+        playcount = int(data.get("userplaycount", data.get("playcount", 0)))
+        played_at = int(data.get("date", {}).get("uts", 0))
+        album = data.get("album", {}).get("#text") if "album" in data else ""
         return cls(
             artist=data["artist"]["name"],
             name=data["name"],
@@ -61,16 +71,16 @@ class Track:
 
 
 @dataclass(slots=True, frozen=True)
-class User:
+class LastFMUser:
     username: str
     realname: str
     playcount: int
     registered: str
-    images: list[Image]
+    images: list[LastFMImage]
 
     @classmethod
     def from_dict(cls, data: dict):
-        images = [Image.from_dict(img) for img in data["image"]]
+        images = [LastFMImage.from_dict(img) for img in data["image"] if img.get("#text")]
         return cls(
             username=data["name"],
             realname=data["realname"],
@@ -81,19 +91,19 @@ class User:
 
 
 @dataclass(slots=True, frozen=True)
-class Album:
+class LastFMAlbum:
     artist: str
     name: str
     playcount: int
-    images: list[Image]
+    images: list[LastFMImage]
 
     @classmethod
     def from_dict(cls, data: dict):
-        images = [Image.from_dict(img) for img in data["image"]]
+        images = [LastFMImage.from_dict(img) for img in data["image"] if img.get("#text")]
         return cls(
-            artist=data["artist"],
+            artist=data["artist"]["name"],
             name=data["name"],
-            playcount=int(data["userplaycount"]),
+            playcount=int(data.get("userplaycount", data.get("playcount", 0))),
             images=images,
         )
 
@@ -102,10 +112,12 @@ class Album:
 class Artist:
     name: str
     playcount: int
+    images: list[LastFMImage]
 
     @classmethod
     def from_dict(cls, data: dict):
-        return cls(name=data["name"], playcount=int(data["stats"]["userplaycount"]))
+        images = [LastFMImage.from_dict(img) for img in data.get("image", []) if img.get("#text")]
+        return cls(name=data["name"], playcount=int(data["playcount"]), images=images)
 
 
 class LastFMClient:
@@ -118,15 +130,25 @@ class LastFMClient:
     async def _request(self, params: dict) -> dict:
         async with httpx.AsyncClient(http2=True) as client:
             response = await client.get(self.base_url, params=params)
-            if response.status_code == 404:
+            if response.status_code != 200:
                 msg = response.json().get("message")
                 raise LastFMError(msg)
-            response.raise_for_status()
             return response.json()
+
+    @staticmethod
+    def _time_period_to_api_string(duration: TimePeriod) -> str:
+        return {
+            TimePeriod.OneWeek: "7day",
+            TimePeriod.OneMonth: "1month",
+            TimePeriod.ThreeMonths: "3month",
+            TimePeriod.SixMonths: "6month",
+            TimePeriod.OneYear: "12month",
+            TimePeriod.AllTime: "overall",
+        }[duration]
 
     async def get_recent_tracks(
         self, username: str, limit: int = 5, extended: int = 1
-    ) -> list[Track]:
+    ) -> list[LastFMTrack]:
         params = {
             "method": "user.getrecenttracks",
             "user": username,
@@ -136,9 +158,9 @@ class LastFMClient:
             "format": "json",
         }
         data = await self._request(params)
-        return [Track.from_dict(track) for track in data["recenttracks"]["track"]]
+        return [LastFMTrack.from_dict(track) for track in data["recenttracks"]["track"]]
 
-    async def get_user_info(self, username: str) -> User:
+    async def get_user_info(self, username: str) -> LastFMUser:
         params = {
             "method": "user.getinfo",
             "user": username,
@@ -146,9 +168,9 @@ class LastFMClient:
             "format": "json",
         }
         data = await self._request(params)
-        return User.from_dict(data["user"])
+        return LastFMUser.from_dict(data["user"])
 
-    async def get_track_info(self, artist: str, track: str, username: str) -> Track:
+    async def get_track_info(self, artist: str, track: str, username: str) -> LastFMTrack:
         params = {
             "method": "track.getinfo",
             "artist": urllib.parse.quote(artist),
@@ -158,9 +180,9 @@ class LastFMClient:
             "format": "json",
         }
         data = await self._request(params)
-        return Track.from_dict(data["track"])
+        return LastFMTrack.from_dict(data["track"])
 
-    async def get_album_info(self, artist: str, album: str, username: str) -> Album:
+    async def get_album_info(self, artist: str, album: str, username: str) -> LastFMAlbum:
         params = {
             "method": "album.getinfo",
             "artist": urllib.parse.quote(artist),
@@ -170,7 +192,7 @@ class LastFMClient:
             "format": "json",
         }
         data = await self._request(params)
-        return Album.from_dict(data["album"])
+        return LastFMAlbum.from_dict(data["album"])
 
     async def get_artist_info(self, artist: str, username: str) -> Artist:
         params = {
@@ -182,3 +204,49 @@ class LastFMClient:
         }
         data = await self._request(params)
         return Artist.from_dict(data["artist"])
+
+    async def get_top_albums(
+        self, user: str, period: str, limit: int = 9, page: int = 1
+    ) -> list[LastFMAlbum]:
+        duration_str = self._time_period_to_api_string(TimePeriod(period))
+        params = {
+            "method": "user.gettopalbums",
+            "user": user,
+            "period": duration_str,
+            "limit": limit,
+            "page": page,
+            "api_key": self.api_key,
+            "format": "json",
+        }
+        data = await self._request(params)
+        return [LastFMAlbum.from_dict(album) for album in data["topalbums"]["album"]]
+
+    async def get_top_tracks(
+        self, user: str, period: str = "overall", limit: int = 9, page: int = 1
+    ) -> list[LastFMTrack]:
+        params = {
+            "method": "user.gettoptracks",
+            "user": user,
+            "period": period,
+            "limit": limit,
+            "page": page,
+            "api_key": self.api_key,
+            "format": "json",
+        }
+        data = await self._request(params)
+        return [LastFMTrack.from_dict(track) for track in data["toptracks"]["track"]]
+
+    async def get_top_artists(
+        self, user: str, period: str = "overall", limit: int = 9, page: int = 1
+    ) -> list[Artist]:
+        params = {
+            "method": "user.gettopartists",
+            "user": user,
+            "period": period,
+            "limit": limit,
+            "page": page,
+            "api_key": self.api_key,
+            "format": "json",
+        }
+        data = await self._request(params)
+        return [Artist.from_dict(artist) for artist in data["topartists"]["artist"]]

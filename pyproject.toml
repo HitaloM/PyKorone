@@ -4,7 +4,7 @@ version = "0.1.0"
 description = "An all-in-one bot for Telegram"
 authors = [{ name = "Hitalo" }]
 dependencies = [
-    "hydrogram @ git+https://github.com/hydrogram/hydrogram@dev",
+    "hydrogram[fast] @ git+https://github.com/hydrogram/hydrogram@dev",
     "tgcrypto>=1.2.5",
     "hairydogm>=0.3.0",
     "picologging>=0.9.3",
