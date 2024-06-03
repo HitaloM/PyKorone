@@ -1,6 +1,11 @@
 # SPDX-License-Identifier: BSD-3-Clause
 # Copyright (c) 2024 Hitalo M. <https://github.com/HitaloM>
 
+# SPDX-License-Identifier: BSD-3-Clause
+# Copyright (c) 2024 Hitalo M. <https://github.com/HitaloM>
+
+import shutil
+import tempfile
 import time
 from contextlib import suppress
 from dataclasses import dataclass
@@ -13,7 +18,7 @@ from hydrogram.enums import ParseMode
 from hydrogram.errors import MessageIdInvalid, MessageNotModified
 from hydrogram.raw.all import layer
 
-from korone import __version__, cache, constants
+from korone import __version__, app_dir, cache, constants
 from korone.database.impl import SQLite3Connection
 from korone.modules import load_all_modules
 from korone.utils.logging import log
@@ -63,9 +68,11 @@ class AppParameters:
 
 class Korone(Client):
     """
-    Represent Korone.
+    Represents Korone.
 
-    This class represents Korone. It inherits from :obj:`hydrogram.Client`.
+    This class represents Korone, this class inherits from the :obj:`hydrogram.Client` class.
+    It is used to modify Client functions if necessary and provide additional functionality
+    specific to Korone.
 
     Parameters
     ----------
@@ -92,11 +99,16 @@ class Korone(Client):
             max_concurrent_transmissions=2,
         )
 
-    async def start(self):
+    async def start(self) -> None:
         """
         Start the client.
 
-        This function starts the client and logs a message to the console.
+        This function starts the client and performs the necessary initialization steps.
+        It establishes a connection to the SQLite3 database, executes the required SQL scripts,
+        loads all the modules, and logs a message to the console indicating the successful start.
+
+        If the client was rebooted, it checks for any cached reboot data and updates the
+        corresponding message.
         """
         await super().start()
 
@@ -126,11 +138,24 @@ class Korone(Client):
 
             await cache.delete(cache_key)
 
-    async def stop(self):
+    async def stop(self) -> None:
         """
         Stop the client.
 
-        This function stops the client and logs a message to the console.
+        This function stops the client, logs a message to the console, and moves the `tmp` and
+        `downloads` directories to a temporary directory before deleting them. This is done
+        because deleting a directory can be faster than deleting many individual files, as the
+        operating system only needs to update the parent directory once to remove the directory
+        entry, rather than updating it for each individual file deletion.
+
+        The `tempfile.TemporaryDirectory()` is used to create a temporary directory which is
+        automatically deleted when the `with` block is exited, effectively deleting all files
+        that were moved into it.
         """
+        with tempfile.TemporaryDirectory() as tmp_dir:
+            for path in ("tmp", "downloads"):
+                with suppress(FileNotFoundError):
+                    shutil.move(Path(app_dir / path).as_posix(), tmp_dir)
+
         await super().stop()
         log.info("PyKorone stopped.")

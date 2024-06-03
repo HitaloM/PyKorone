@@ -27,7 +27,7 @@ class ModuleInfo:
         "\n\n<b>Examples:</b>\n"
         "- Generate a collage of your top 5x5 albums in a period of 7 days:\n"
         "-> <code>/lfmc 5 7d</code>\n\n"
-        "- Generate a collage of your top 3x3 albums in a period of 1 month without text:\n"
+        "- Generate a collage of your top 7x7 albums in a period of 1 month without text:\n"
         "-> <code>/lfmc 7 1m clean</code>\n\n"
         "<b>Notes:</b>\n"
         "Supported sizes: 1, 2, 3, 4, 5, 6, 7\n"
