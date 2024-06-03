@@ -128,7 +128,7 @@ class LastFMClient:
         self.base_url = "https://ws.audioscrobbler.com/2.0"
 
     async def _request(self, params: dict) -> dict:
-        async with httpx.AsyncClient(http2=True) as client:
+        async with httpx.AsyncClient(http2=True, timeout=20) as client:
             response = await client.get(self.base_url, params=params)
             if response.status_code != 200:
                 msg = response.json().get("message")

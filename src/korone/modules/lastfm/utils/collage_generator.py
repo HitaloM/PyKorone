@@ -17,7 +17,7 @@ from korone.utils.logging import log
 
 async def fetch_image(url):
     try:
-        async with httpx.AsyncClient(http2=True) as client:
+        async with httpx.AsyncClient(http2=True, timeout=20) as client:
             response = await client.get(url)
             response.raise_for_status()  # Ensure the request was successful
             return Image.open(io.BytesIO(response.content))
