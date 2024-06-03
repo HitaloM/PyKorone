@@ -14,15 +14,16 @@ from korone.modules.lastfm.database import get_lastfm_user
 from korone.modules.lastfm.utils import (
     LastFMClient,
     LastFMError,
+    TimePeriod,
     create_album_collage,
     parse_collage_arg,
+    period_to_str,
 )
-from korone.modules.lastfm.utils.api import TimePeriod
 from korone.modules.utils.filters import Command, CommandObject
 from korone.utils.i18n import gettext as _
 
 
-class CollageHandler(MessageHandler):
+class LastFMCollageHandler(MessageHandler):
     @staticmethod
     @router.message(Command(commands=["lfmc", "collage"]))
     async def handle(client: Client, message: Message) -> None:
@@ -61,7 +62,7 @@ class CollageHandler(MessageHandler):
                     await message.reply(
                         _(
                             "An error occurred while fetching your LastFM data!\n"
-                            "Error:<i>{error}</i>"
+                            "Error: <i>{error}</i>"
                         ).format(error=error_message)
                     )
                 return
@@ -70,9 +71,10 @@ class CollageHandler(MessageHandler):
                 top_items, collage_size=(collage_size, collage_size), show_text=show_text
             )
 
-            caption = (
-                f"{message.from_user.mention()}'s {period.value} {collage_size}x{collage_size} "
-                "album collage"
+            caption = _("{user}'s {period} {collage_size}x{collage_size} " "album collage").format(
+                user=message.from_user.mention(),
+                period=period_to_str(period),
+                collage_size=collage_size,
             )
 
             await message.reply_photo(photo=collage_path, caption=caption)

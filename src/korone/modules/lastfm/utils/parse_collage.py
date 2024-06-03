@@ -62,12 +62,12 @@ def get_period(split: str):
     return None
 
 
-def parse_collage_arg(arg: str):
+def parse_collage_arg(arg: str, default_entry: EntryType = EntryType.Album):
     splits = arg.split(" ")
     size = 3
     period = TimePeriod.AllTime
     no_text = any(word in splits for word in ["notext", "nonames", "clean"])
-    entry_type = EntryType.Album
+    entry_type = get_entry_type(default_entry.name.lower())
 
     for split in splits:
         entry_type_candidate = get_entry_type(split)

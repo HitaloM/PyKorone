@@ -129,7 +129,11 @@ class Artist:
     @classmethod
     def from_dict(cls, data: dict):
         loved = int(data.get("userloved", 0))
-        playcount = int(data["stats"].get("userplaycount"))
+        playcount = (
+            int(data["stats"]["userplaycount"])
+            if "stats" in data and "userplaycount" in data["stats"]
+            else int(data.get("playcount", 0))
+        )
         images = [LastFMImage.from_dict(img) for img in data.get("image", []) if img.get("#text")]
         return cls(
             name=data["name"],
@@ -243,10 +247,11 @@ class LastFMClient:
     async def get_top_tracks(
         self, user: str, period: str = "overall", limit: int = 9, page: int = 1
     ) -> list[LastFMTrack]:
+        duration_str = self._time_period_to_api_string(TimePeriod(period))
         params = {
             "method": "user.gettoptracks",
             "user": user,
-            "period": period,
+            "period": duration_str,
             "limit": limit,
             "page": page,
             "api_key": self.api_key,
@@ -258,10 +263,11 @@ class LastFMClient:
     async def get_top_artists(
         self, user: str, period: str = "overall", limit: int = 9, page: int = 1
     ) -> list[Artist]:
+        duration_str = self._time_period_to_api_string(TimePeriod(period))
         params = {
             "method": "user.gettopartists",
             "user": user,
-            "period": period,
+            "period": duration_str,
             "limit": limit,
             "page": page,
             "api_key": self.api_key,

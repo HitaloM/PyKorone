@@ -18,10 +18,9 @@ from korone.modules.utils.filters import Command
 from korone.utils.i18n import gettext as _
 
 
-class RecentPlaysHandler(MessageHandler):
-    @staticmethod
+class LastFMRecentsHandler(MessageHandler):
     @router.message(Command(commands=["lfmr", "recent"]))
-    async def handle(client: Client, message: Message) -> None:
+    async def handle(self, client: Client, message: Message) -> None:
         last_fm_user = await get_lastfm_user(message.from_user.id)
         if not last_fm_user:
             await message.reply(_("You need to set your LastFM username first!"))
@@ -38,7 +37,7 @@ class RecentPlaysHandler(MessageHandler):
             else:
                 await message.reply(
                     _(
-                        "An error occurred while fetching your LastFM data!\nError:<i>{error}</i>"
+                        "An error occurred while fetching your LastFM data!\nError: <i>{error}</i>"
                     ).format(error=error_message)
                 )
             return
@@ -50,23 +49,21 @@ class RecentPlaysHandler(MessageHandler):
             last_played = None
             played_tracks = []
 
-        text = RecentPlaysHandler.format_recent_plays(last_played, played_tracks)
+        text = self.format_recent_plays(last_played, played_tracks)
         await message.reply(text)
 
-    @staticmethod
     def format_recent_plays(
-        last_played: LastFMTrack | None, played_tracks: list[LastFMTrack]
+        self, last_played: LastFMTrack | None, played_tracks: list[LastFMTrack]
     ) -> str:
         formatted_tracks = []
 
         if last_played and last_played.now_playing:
             formatted_tracks.append(
-                _("<b>Now Playing:</b>\n")
-                + RecentPlaysHandler.format_track(last_played, now_playing=True)
+                _("<b>Now Playing:</b>\n") + self.format_track(last_played, now_playing=True)
             )
 
         formatted_tracks.append(_("\n<b>Recently Played:</b>"))
-        formatted_tracks.extend(RecentPlaysHandler.format_track(track) for track in played_tracks)
+        formatted_tracks.extend(self.format_track(track) for track in played_tracks)
 
         return "\n".join(formatted_tracks)
 

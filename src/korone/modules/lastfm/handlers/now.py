@@ -14,7 +14,7 @@ from korone.modules.utils.filters import Command
 from korone.utils.i18n import gettext as _
 
 
-class NowPlayingHandler(MessageHandler):
+class LastFMPlayingHandler(MessageHandler):
     @staticmethod
     @router.message(Command(commands=["lfm", "now", "status", "np", "lmu"]))
     async def handle(client: Client, message: Message) -> None:
@@ -37,7 +37,7 @@ class NowPlayingHandler(MessageHandler):
             else:
                 await message.reply(
                     _(
-                        "An error occurred while fetching your LastFM data!\nError:<i>{error}</i>"
+                        "An error occurred while fetching your LastFM data!\nError: <i>{error}</i>"
                     ).format(error=error_message)
                 )
             return

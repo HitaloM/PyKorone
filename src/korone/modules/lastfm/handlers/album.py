@@ -14,7 +14,7 @@ from korone.modules.utils.filters import Command
 from korone.utils.i18n import gettext as _
 
 
-class NowPlayingAlbumHandler(MessageHandler):
+class LastFMPlayingAlbumHandler(MessageHandler):
     @staticmethod
     @router.message(Command(commands=["lfmal", "alb", "album"]))
     async def handle(client: Client, message: Message) -> None:

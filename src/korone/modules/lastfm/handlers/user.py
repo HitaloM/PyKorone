@@ -36,7 +36,7 @@ class LastFMUserHandler(MessageHandler):
             else:
                 await message.reply(
                     _(
-                        "An error occurred while fetching your LastFM data!\nError:<i>{error}</i>"
+                        "An error occurred while fetching your LastFM data!\nError: <i>{error}</i>"
                     ).format(error=error_message)
                 )
             return
