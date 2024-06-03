@@ -22,6 +22,7 @@ class ModuleInfo:
         "to.\n"
         "- /lfmal: Get the album you are currently listening to or the last album you listened "
         "to.\n"
+        "- /lfmu: Get your total scrobbles, tracks, artists, and albums scrobbled.\n"
         "- /lfmc: Get a collage of your top albums."
         "\n\n<b>Examples:</b>\n"
         "- Generate a collage of your top 5x5 albums in a period of 7 days:\n"

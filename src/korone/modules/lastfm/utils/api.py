@@ -75,7 +75,10 @@ class LastFMUser:
     username: str
     realname: str
     playcount: int
-    registered: str
+    artist_count: int
+    track_count: int
+    album_count: int
+    registered: int
     images: list[LastFMImage]
 
     @classmethod
@@ -85,7 +88,10 @@ class LastFMUser:
             username=data["name"],
             realname=data["realname"],
             playcount=int(data["playcount"]),
-            registered=data["registered"]["unixtime"],
+            artist_count=int(data["artist_count"]),
+            track_count=int(data["track_count"]),
+            album_count=int(data["album_count"]),
+            registered=int(data["registered"]["unixtime"]),
             images=images,
         )
 
