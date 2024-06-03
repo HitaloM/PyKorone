@@ -1,7 +1,6 @@
 # SPDX-License-Identifier: BSD-3-Clause
 # Copyright (c) 2024 Hitalo M. <https://github.com/HitaloM>
 
-from datetime import UTC, datetime
 
 from hydrogram import Client
 from hydrogram.types import Message
@@ -9,7 +8,12 @@ from hydrogram.types import Message
 from korone.decorators import router
 from korone.handlers.abstract.message_handler import MessageHandler
 from korone.modules.lastfm.database import get_lastfm_user
-from korone.modules.lastfm.utils import LastFMClient, LastFMError, LastFMTrack
+from korone.modules.lastfm.utils import (
+    LastFMClient,
+    LastFMError,
+    LastFMTrack,
+    get_time_elapsed_str,
+)
 from korone.modules.utils.filters import Command
 from korone.utils.i18n import gettext as _
 
@@ -68,28 +72,8 @@ class RecentPlaysHandler(MessageHandler):
 
     @staticmethod
     def format_track(track: LastFMTrack, now_playing: bool = False) -> str:
-        time_elapsed_str = "" if now_playing else RecentPlaysHandler.get_time_elapsed_str(track)
+        time_elapsed_str = "" if now_playing else get_time_elapsed_str(track)
         prefix = "🎧 "
         return _("{prefix}<i>{track.artist}</i> — <b>{track.name}</b>{time}").format(
             prefix=prefix, track=track, time=time_elapsed_str
-        )
-
-    @staticmethod
-    def get_time_elapsed_str(track: LastFMTrack) -> str:
-        played_at_datetime = datetime.fromtimestamp(track.played_at, tz=UTC)
-        current_datetime = datetime.now(tz=UTC)
-        time_elapsed = current_datetime - played_at_datetime
-
-        if time_elapsed.days > 0:
-            return _(", {days} day(s) ago").format(days=time_elapsed.days)
-
-        hours, remainder = divmod(time_elapsed.seconds, 3600)
-        if hours > 0:
-            return _(", {hours} hour(s) ago").format(hours=hours)
-
-        minutes, __ = divmod(remainder, 60)
-        return (
-            _(", {minutes} minute(s) ago").format(minutes=minutes)
-            if minutes > 0
-            else _(", Just now")
         )

@@ -8,6 +8,7 @@ from korone.decorators import router
 from korone.handlers.abstract.message_handler import MessageHandler
 from korone.modules.lastfm.database import get_lastfm_user
 from korone.modules.lastfm.utils import LastFMClient, LastFMError
+from korone.modules.lastfm.utils.format_time import get_time_elapsed_str
 from korone.modules.lastfm.utils.image_filter import get_biggest_lastfm_image
 from korone.modules.utils.filters import Command
 from korone.utils.i18n import gettext as _
@@ -43,23 +44,22 @@ class NowPlayingAlbumHandler(MessageHandler):
 
         user_mention = message.from_user.mention()
 
-        text = _(
-            "{user}'s is listening to:"
-            if last_played.now_playing
-            else "{user}'s was listening to:"
-        ).format(user=user_mention)
+        if last_played.now_playing:
+            text = _("{user}'s is listening to:\n").format(user=user_mention)
+        else:
+            text = _("{user}'s was listening to:\n").format(user=user_mention)
 
-        text += _("\n\n<b>{album_name}</b> {loved}{plays}").format(
+        text += "💽 <i>{album_artist}</i> — <b>{album_name}</b>{loved}{time}{plays}".format(
+            album_artist=album_info.artist,
             album_name=album_info.name,
-            loved="❤️" if album_info.loved else "",
+            loved=" ❤️" if album_info.loved else "",
+            time=get_time_elapsed_str(last_played) if not last_played.now_playing else "",
             plays=_(" ∙ <code>{album_playcount} plays</code>").format(
                 album_playcount=album_info.playcount
             )
             if album_info.playcount > 0
             else "",
         )
-
-        text += _("\n<b>By:</b> <i>{album_artist}</i>").format(album_artist=album_info.artist)
 
         image = get_biggest_lastfm_image(last_played)
 

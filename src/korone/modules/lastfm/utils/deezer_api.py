@@ -31,6 +31,8 @@ class DeezerArtist:
 
 
 class DeezerClient:
+    __slots__ = ("base_url",)
+
     def __init__(self):
         self.base_url = "https://api.deezer.com/"
 
