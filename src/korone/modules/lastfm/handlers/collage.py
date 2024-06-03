@@ -24,7 +24,7 @@ from korone.utils.i18n import gettext as _
 
 class CollageHandler(MessageHandler):
     @staticmethod
-    @router.message(Command("collage"))
+    @router.message(Command(commands=["lfmc", "collage"]))
     async def handle(client: Client, message: Message) -> None:
         last_fm_user = await get_lastfm_user(message.from_user.id)
         if not last_fm_user:
