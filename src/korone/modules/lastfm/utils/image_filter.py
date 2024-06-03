@@ -8,7 +8,7 @@ def get_biggest_lastfm_image(lfm_obj: LastFMAlbum | LastFMTrack) -> str | None:
     placeholder = "https://telegra.ph/file/d0244cd9b8bc7d0dd370d.png"
 
     url = lfm_obj.images[-1].url if lfm_obj.images else placeholder
-    if not url:
-        return None
+    if "2a96cbd8b46e442fc41c2b86b821562f" in url:
+        return placeholder
 
-    return url
+    return url or None

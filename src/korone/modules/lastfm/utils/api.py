@@ -95,15 +95,20 @@ class LastFMAlbum:
     artist: str
     name: str
     playcount: int
+    loved: int
     images: list[LastFMImage]
 
     @classmethod
     def from_dict(cls, data: dict):
+        loved = int(data.get("userloved", 0))
+        playcount = int(data.get("userplaycount", data.get("playcount", 0)))
         images = [LastFMImage.from_dict(img) for img in data["image"] if img.get("#text")]
+        artist = data["artist"]["name"] if isinstance(data["artist"], dict) else data["artist"]
         return cls(
-            artist=data["artist"]["name"],
+            artist=artist,
             name=data["name"],
-            playcount=int(data.get("userplaycount", data.get("playcount", 0))),
+            playcount=playcount,
+            loved=loved,
             images=images,
         )
 
@@ -112,12 +117,20 @@ class LastFMAlbum:
 class Artist:
     name: str
     playcount: int
+    loved: int
     images: list[LastFMImage]
 
     @classmethod
     def from_dict(cls, data: dict):
+        loved = int(data.get("userloved", 0))
+        playcount = int(data["stats"].get("userplaycount"))
         images = [LastFMImage.from_dict(img) for img in data.get("image", []) if img.get("#text")]
-        return cls(name=data["name"], playcount=int(data["playcount"]), images=images)
+        return cls(
+            name=data["name"],
+            playcount=playcount,
+            loved=loved,
+            images=images,
+        )
 
 
 class LastFMClient:

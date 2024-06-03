@@ -9,10 +9,13 @@ from korone.modules.lastfm.utils.api import (
     TimePeriod,
 )
 from korone.modules.lastfm.utils.collage_generator import create_album_collage
+from korone.modules.lastfm.utils.deezer_api import DeezerClient, DeezerError
 from korone.modules.lastfm.utils.image_filter import get_biggest_lastfm_image
 from korone.modules.lastfm.utils.parse_collage import parse_collage_arg
 
 __all__ = (
+    "DeezerClient",
+    "DeezerError",
     "LastFMClient",
     "LastFMError",
     "LastFMImage",
