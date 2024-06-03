@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pykorone\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-06-03 11:52-0300\n"
-"PO-Revision-Date: 2024-06-03 15:26\n"
+"POT-Creation-Date: 2024-06-03 12:38-0300\n"
+"PO-Revision-Date: 2024-06-03 16:45\n"
 "Last-Translator: \n"
 "Language-Team: Malay\n"
 "MIME-Version: 1.0\n"
@@ -332,6 +332,8 @@ msgid "<b>Commands:</b>\n"
 "- /setfm &lt;your username&gt;: Set your LastFM username.\n"
 "- /lfm: Get the track you are currently listening to or the last track you listened to.\n"
 "- /lfmr: Get your last 5 played tracks.\n"
+"- /lfmar: Get the artist you are currently listening to or the last artist you listened to.\n"
+"- /lfmal: Get the album you are currently listening to or the last album you listened to.\n"
 "- /lfmc: Get a collage of your top albums.\n\n"
 "<b>Examples:</b>\n"
 "- Generate a collage of your top 5x5 albums in a period of 7 days:\n"
@@ -343,18 +345,24 @@ msgid "<b>Commands:</b>\n"
 "Supported Periods: 1d, 7d, 1m, 3m, 6m, 1y, all\n"
 msgstr ""
 
+#: src/korone/modules/lastfm/handlers/album.py:22
+#: src/korone/modules/lastfm/handlers/artist.py:22
 #: src/korone/modules/lastfm/handlers/collage.py:31
 #: src/korone/modules/lastfm/handlers/now.py:22
 #: src/korone/modules/lastfm/handlers/recent.py:23
 msgid "You need to set your LastFM username first!"
 msgstr ""
 
+#: src/korone/modules/lastfm/handlers/album.py:35
+#: src/korone/modules/lastfm/handlers/artist.py:33
 #: src/korone/modules/lastfm/handlers/collage.py:58
 #: src/korone/modules/lastfm/handlers/now.py:35
 #: src/korone/modules/lastfm/handlers/recent.py:33
 msgid "Your LastFM username was not found! Try setting it again."
 msgstr ""
 
+#: src/korone/modules/lastfm/handlers/album.py:38
+#: src/korone/modules/lastfm/handlers/artist.py:36
 #: src/korone/modules/lastfm/handlers/collage.py:62
 #: src/korone/modules/lastfm/handlers/now.py:38
 #: src/korone/modules/lastfm/handlers/recent.py:36
@@ -362,8 +370,33 @@ msgid "An error occurred while fetching your LastFM data!\n"
 "Error:<i>{error}</i>"
 msgstr ""
 
+#: src/korone/modules/lastfm/handlers/album.py:46
+#: src/korone/modules/lastfm/handlers/artist.py:44
 #: src/korone/modules/lastfm/handlers/now.py:46
 msgid "{user}'s is listening to:{user}'s was listening to:"
+msgstr ""
+
+#: src/korone/modules/lastfm/handlers/album.py:52
+msgid "\n\n"
+"<b>{album_name}</b> {loved}{plays}"
+msgstr ""
+
+#: src/korone/modules/lastfm/handlers/album.py:55
+msgid " ∙ <code>{album_playcount} plays</code>"
+msgstr ""
+
+#: src/korone/modules/lastfm/handlers/album.py:62
+msgid "\n"
+"<b>By:</b> <i>{album_artist}</i>"
+msgstr ""
+
+#: src/korone/modules/lastfm/handlers/artist.py:50
+msgid "\n\n"
+"<b>{artist_name}</b> {loved}{plays}"
+msgstr ""
+
+#: src/korone/modules/lastfm/handlers/artist.py:53
+msgid " ∙ <code>{artist_playcount} plays</code>"
 msgstr ""
 
 #: src/korone/modules/lastfm/handlers/now.py:52
