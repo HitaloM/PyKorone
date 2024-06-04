@@ -24,6 +24,7 @@ class ModuleInfo:
         "to.\n"
         "- /lfmu: Get your total scrobbles, tracks, artists, and albums scrobbled.\n"
         "- /lfmt: Get your top artists, tracks, or albums.\n"
+        "- /lfmcomp: Get the compatibility of your music taste with another user.\n"
         "- /lfmc: Get a collage of your top albums."
         "\n\n<b>Examples:</b>\n"
         "- Generate a collage of your top 5x5 albums in a period of 7 days:\n"

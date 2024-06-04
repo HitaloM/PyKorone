@@ -40,7 +40,7 @@ class LastFMCollageHandler(MessageHandler):
         show_text = True
 
         if args:
-            collage_size, period, __, no_text = parse_collage_arg(args)
+            collage_size, period, _entry_type, no_text = parse_collage_arg(args)
             show_text = not no_text
 
         last_fm = LastFMClient()

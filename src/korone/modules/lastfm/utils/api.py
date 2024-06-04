@@ -228,16 +228,13 @@ class LastFMClient:
         data = await self._request(params)
         return Artist.from_dict(data["artist"])
 
-    async def get_top_albums(
-        self, user: str, period: str, limit: int = 9, page: int = 1
-    ) -> list[LastFMAlbum]:
+    async def get_top_albums(self, user: str, period: str, limit: int = 9) -> list[LastFMAlbum]:
         duration_str = self._time_period_to_api_string(TimePeriod(period))
         params = {
             "method": "user.gettopalbums",
             "user": user,
             "period": duration_str,
             "limit": limit,
-            "page": page,
             "api_key": self.api_key,
             "format": "json",
         }
@@ -245,7 +242,7 @@ class LastFMClient:
         return [LastFMAlbum.from_dict(album) for album in data["topalbums"]["album"]]
 
     async def get_top_tracks(
-        self, user: str, period: str = "overall", limit: int = 9, page: int = 1
+        self, user: str, period: str = "overall", limit: int = 9
     ) -> list[LastFMTrack]:
         duration_str = self._time_period_to_api_string(TimePeriod(period))
         params = {
@@ -253,7 +250,6 @@ class LastFMClient:
             "user": user,
             "period": duration_str,
             "limit": limit,
-            "page": page,
             "api_key": self.api_key,
             "format": "json",
         }
@@ -261,7 +257,7 @@ class LastFMClient:
         return [LastFMTrack.from_dict(track) for track in data["toptracks"]["track"]]
 
     async def get_top_artists(
-        self, user: str, period: str = "overall", limit: int = 9, page: int = 1
+        self, user: str, period: str = "overall", limit: int = 9
     ) -> list[Artist]:
         duration_str = self._time_period_to_api_string(TimePeriod(period))
         params = {
@@ -269,7 +265,6 @@ class LastFMClient:
             "user": user,
             "period": duration_str,
             "limit": limit,
-            "page": page,
             "api_key": self.api_key,
             "format": "json",
         }

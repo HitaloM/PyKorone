@@ -43,7 +43,9 @@ class LastFMTopHandler(MessageHandler):
         entry_type = EntryType.Artist
 
         if args:
-            __, period, entry_type, __ = parse_collage_arg(args, entry_type)
+            _collage_size, period, entry_type, _no_text = parse_collage_arg(
+                args, default_entry=entry_type
+            )
             if not entry_type:
                 await message.reply(
                     _("Invalid entry type! Use one of the following: artist, track, album")

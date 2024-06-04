@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PyKorone 1.0\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-06-03 20:17-0300\n"
+"POT-Creation-Date: 2024-06-04 00:42-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -381,6 +381,7 @@ msgid ""
 "- /lfmu: Get your total scrobbles, tracks, artists, and albums scrobbled."
 "\n"
 "- /lfmt: Get your top artists, tracks, or albums.\n"
+"- /lfmcomp: Get the compatibility of your music taste with another user.\n"
 "- /lfmc: Get a collage of your top albums.\n"
 "\n"
 "<b>Examples:</b>\n"
@@ -406,6 +407,7 @@ msgstr ""
 #: src/korone/modules/lastfm/handlers/album.py:23
 #: src/korone/modules/lastfm/handlers/artist.py:23
 #: src/korone/modules/lastfm/handlers/collage.py:32
+#: src/korone/modules/lastfm/handlers/compat.py:31
 #: src/korone/modules/lastfm/handlers/now.py:23
 #: src/korone/modules/lastfm/handlers/recent.py:26
 #: src/korone/modules/lastfm/handlers/top.py:36
@@ -416,9 +418,10 @@ msgstr ""
 #: src/korone/modules/lastfm/handlers/album.py:36
 #: src/korone/modules/lastfm/handlers/artist.py:34
 #: src/korone/modules/lastfm/handlers/collage.py:59
+#: src/korone/modules/lastfm/handlers/compat.py:68
 #: src/korone/modules/lastfm/handlers/now.py:36
 #: src/korone/modules/lastfm/handlers/recent.py:36
-#: src/korone/modules/lastfm/handlers/top.py:71
+#: src/korone/modules/lastfm/handlers/top.py:73
 #: src/korone/modules/lastfm/handlers/user.py:35
 msgid "Your LastFM username was not found! Try setting it again."
 msgstr ""
@@ -426,9 +429,10 @@ msgstr ""
 #: src/korone/modules/lastfm/handlers/album.py:39
 #: src/korone/modules/lastfm/handlers/artist.py:37
 #: src/korone/modules/lastfm/handlers/collage.py:63
+#: src/korone/modules/lastfm/handlers/compat.py:71
 #: src/korone/modules/lastfm/handlers/now.py:39
 #: src/korone/modules/lastfm/handlers/recent.py:39
-#: src/korone/modules/lastfm/handlers/top.py:74
+#: src/korone/modules/lastfm/handlers/top.py:76
 #: src/korone/modules/lastfm/handlers/user.py:38
 msgid ""
 "An error occurred while fetching your LastFM data!\n"
@@ -457,6 +461,33 @@ msgstr ""
 
 #: src/korone/modules/lastfm/handlers/collage.py:74
 msgid "{user}'s {period} {collage_size}x{collage_size} album collage"
+msgstr ""
+
+#: src/korone/modules/lastfm/handlers/compat.py:25
+msgid "Reply to a message to get the compatibility!"
+msgstr ""
+
+#: src/korone/modules/lastfm/handlers/compat.py:36
+msgid "You can't get the compatibility with yourself!"
+msgstr ""
+
+#: src/korone/modules/lastfm/handlers/compat.py:40
+msgid "Bots won't have music taste!"
+msgstr ""
+
+#: src/korone/modules/lastfm/handlers/compat.py:45
+msgid "The user you replied to doesn't have a LastFM account linked!"
+msgstr ""
+
+#: src/korone/modules/lastfm/handlers/compat.py:94
+msgid "No common artists in {period}"
+msgstr ""
+
+#: src/korone/modules/lastfm/handlers/compat.py:96
+msgid ""
+"{user1} and {user2} listen to {mutual}...\n"
+"\n"
+"Compatibility score is {score}%, based on {period}"
 msgstr ""
 
 #: src/korone/modules/lastfm/handlers/now.py:57
@@ -501,17 +532,17 @@ msgstr ""
 msgid "albums"
 msgstr ""
 
-#: src/korone/modules/lastfm/handlers/top.py:49
+#: src/korone/modules/lastfm/handlers/top.py:51
 msgid "Invalid entry type! Use one of the following: artist, track, album"
 msgstr ""
 
-#: src/korone/modules/lastfm/handlers/top.py:83
+#: src/korone/modules/lastfm/handlers/top.py:85
 msgid ""
 "{user}'s top 5 {entry} for {period}:\n"
 "\n"
 msgstr ""
 
-#: src/korone/modules/lastfm/handlers/top.py:94
+#: src/korone/modules/lastfm/handlers/top.py:96
 msgid " -> {scrobbles} plays\n"
 msgstr ""
 
