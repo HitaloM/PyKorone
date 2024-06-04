@@ -13,7 +13,7 @@ from korone.database.table import Document, Documents, Table
 from korone.utils.logging import log
 
 
-class SQLite3Table:
+class SQLite3Table(Table):
     """
     Represents the specifics of an SQLite3 Table.
 
@@ -54,6 +54,8 @@ class SQLite3Table:
 
         sql = f"INSERT INTO {self._table} ({keys}) VALUES ({placeholders})"
 
+        log.debug("Inserting into table %s: %s", self._table, fields)
+
         await self._conn.execute(sql, values)
         await self._conn.commit()
 
@@ -75,6 +77,8 @@ class SQLite3Table:
         """
         clause, data = query.compile()
         sql = f"SELECT * FROM {self._table} WHERE {clause}"
+
+        log.debug("Querying table %s with clause: %s and data: %s", self._table, clause, data)
 
         cursor = await self._conn._execute(sql, data)
         rows = await cursor.fetchall()
@@ -108,6 +112,8 @@ class SQLite3Table:
         clause, data = query.compile()
         sql = f"UPDATE {self._table} SET {assignments} WHERE {clause}"
 
+        log.debug("Updating table %s with fields: %s and query: %s", self._table, fields, query)
+
         await self._conn.execute(sql, (*values, *data))
         await self._conn.commit()
 
@@ -125,11 +131,13 @@ class SQLite3Table:
         clause, data = query.compile()
         sql = f"DELETE FROM {self._table} WHERE {clause}"
 
+        log.debug("Deleting from table %s with query: %s", self._table, query)
+
         await self._conn.execute(sql, data)
         await self._conn.commit()
 
 
-class SQLite3Connection:
+class SQLite3Connection(Connection):
     """
     Represents a connection to a SQLite database.
 
@@ -153,7 +161,8 @@ class SQLite3Connection:
         self._conn: aiosqlite.Connection | None = None
 
     async def __aenter__(self) -> "SQLite3Connection":
-        await self.connect()
+        if not await self._is_open():
+            await self.connect()
         return self
 
     async def __aexit__(self, exc_type, exc_value, traceback) -> None:
@@ -163,16 +172,16 @@ class SQLite3Connection:
         return self._conn is not None
 
     async def _execute(
-        self, sql: str, parameters: tuple = (), script: bool = False
+        self, sql: str, parameters: tuple = (), /, script: bool = False
     ) -> aiosqlite.Cursor:
         if not self._conn:
             msg = "Connection is not open."
             raise RuntimeError(msg)
 
-        return (
-            await self._conn.executescript(sql)
-            if script
-            else await self._conn.execute(sql, parameters)
+        log.debug("Executing SQL: %s with parameters: %s", sql, parameters)
+
+        return await (
+            self._conn.executescript(sql) if script else self._conn.execute(sql, parameters)
         )
 
     async def commit(self) -> None:
@@ -212,6 +221,7 @@ class SQLite3Connection:
             Path(self._path).parent.mkdir(parents=True, exist_ok=True)
 
         self._conn = await aiosqlite.connect(self._path, *self._args, **self._kwargs)
+        await self._conn.execute("PRAGMA journal_mode=WAL;")
 
     async def table(self, name: str) -> Table:
         """
@@ -275,3 +285,13 @@ class SQLite3Connection:
         if self._conn:
             await self._conn.close()
             self._conn = None
+
+    async def vacuum(self) -> None:
+        if not await self._is_open():
+            msg = "Connection is not yet open."
+            raise RuntimeError(msg)
+
+        log.debug("Running VACUUM on the database.")
+        if self._conn:
+            await self._conn.execute("VACUUM;")
+            await self._conn.commit()
