@@ -7,9 +7,14 @@ from hydrogram.types import Message
 from korone.decorators import router
 from korone.handlers.abstract.message_handler import MessageHandler
 from korone.modules.lastfm.database import get_lastfm_user
-from korone.modules.lastfm.utils import LastFMClient, LastFMError
-from korone.modules.lastfm.utils.deezer_api import DeezerClient, DeezerError
-from korone.modules.lastfm.utils.format_time import get_time_elapsed_str
+from korone.modules.lastfm.utils import (
+    DeezerClient,
+    DeezerError,
+    LastFMClient,
+    LastFMError,
+    format_tags,
+    get_time_elapsed_str,
+)
 from korone.modules.utils.filters import Command
 from korone.utils.i18n import gettext as _
 
@@ -57,6 +62,9 @@ class LastFMPlayingArtistHandler(MessageHandler):
             if artist_info.playcount > 0
             else "",
         )
+
+        if artist_info.tags:
+            text += f"\n\n{format_tags(artist_info)}"
 
         deezer = DeezerClient()
         try:

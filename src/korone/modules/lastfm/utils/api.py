@@ -45,6 +45,7 @@ class LastFMTrack:
     now_playing: bool
     playcount: int
     played_at: int
+    tags: list[str]
 
     @classmethod
     def from_dict(cls, data: dict):
@@ -58,6 +59,7 @@ class LastFMTrack:
         playcount = int(data.get("userplaycount", data.get("playcount", 0)))
         played_at = int(data.get("date", {}).get("uts", 0))
         album = data.get("album", {}).get("#text") if "album" in data else ""
+        tags = [tag["name"] for tag in data.get("toptags", {}).get("tag", [])]
         return cls(
             artist=data["artist"]["name"],
             name=data["name"],
@@ -67,6 +69,7 @@ class LastFMTrack:
             now_playing=now_playing,
             playcount=playcount,
             played_at=played_at,
+            tags=tags,
         )
 
 
@@ -103,6 +106,7 @@ class LastFMAlbum:
     playcount: int
     loved: int
     images: list[LastFMImage]
+    tags: list[str]
 
     @classmethod
     def from_dict(cls, data: dict):
@@ -110,21 +114,24 @@ class LastFMAlbum:
         playcount = int(data.get("userplaycount", data.get("playcount", 0)))
         images = [LastFMImage.from_dict(img) for img in data["image"] if img.get("#text")]
         artist = data["artist"]["name"] if isinstance(data["artist"], dict) else data["artist"]
+        tags = [tag["name"] for tag in data["tags"]["tag"]]
         return cls(
             artist=artist,
             name=data["name"],
             playcount=playcount,
             loved=loved,
             images=images,
+            tags=tags,
         )
 
 
 @dataclass(slots=True, frozen=True)
-class Artist:
+class LastFMArtist:
     name: str
     playcount: int
     loved: int
     images: list[LastFMImage]
+    tags: list[str]
 
     @classmethod
     def from_dict(cls, data: dict):
@@ -135,11 +142,13 @@ class Artist:
             else int(data.get("playcount", 0))
         )
         images = [LastFMImage.from_dict(img) for img in data.get("image", []) if img.get("#text")]
+        tags = [tag["name"] for tag in data.get("tags", {}).get("tag", [])]
         return cls(
             name=data["name"],
             playcount=playcount,
             loved=loved,
             images=images,
+            tags=tags,
         )
 
 
@@ -217,7 +226,7 @@ class LastFMClient:
         data = await self._request(params)
         return LastFMAlbum.from_dict(data["album"])
 
-    async def get_artist_info(self, artist: str, username: str) -> Artist:
+    async def get_artist_info(self, artist: str, username: str) -> LastFMArtist:
         params = {
             "method": "artist.getinfo",
             "artist": urllib.parse.quote(artist),
@@ -226,7 +235,7 @@ class LastFMClient:
             "format": "json",
         }
         data = await self._request(params)
-        return Artist.from_dict(data["artist"])
+        return LastFMArtist.from_dict(data["artist"])
 
     async def get_top_albums(self, user: str, period: str, limit: int = 9) -> list[LastFMAlbum]:
         duration_str = self._time_period_to_api_string(TimePeriod(period))
@@ -258,7 +267,7 @@ class LastFMClient:
 
     async def get_top_artists(
         self, user: str, period: str = "overall", limit: int = 9
-    ) -> list[Artist]:
+    ) -> list[LastFMArtist]:
         duration_str = self._time_period_to_api_string(TimePeriod(period))
         params = {
             "method": "user.gettopartists",
@@ -269,4 +278,4 @@ class LastFMClient:
             "format": "json",
         }
         data = await self._request(params)
-        return [Artist.from_dict(artist) for artist in data["topartists"]["artist"]]
+        return [LastFMArtist.from_dict(artist) for artist in data["topartists"]["artist"]]

@@ -10,8 +10,7 @@ from hydrogram.types import Message
 from korone.decorators import router
 from korone.handlers.abstract.message_handler import MessageHandler
 from korone.modules.lastfm.database import get_lastfm_user
-from korone.modules.lastfm.utils import LastFMClient, LastFMError
-from korone.modules.lastfm.utils.image_filter import get_biggest_lastfm_image
+from korone.modules.lastfm.utils import LastFMClient, LastFMError, get_biggest_lastfm_image
 from korone.modules.utils.filters import Command
 from korone.utils.i18n import gettext as _
 

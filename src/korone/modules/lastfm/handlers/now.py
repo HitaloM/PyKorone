@@ -7,9 +7,13 @@ from hydrogram.types import Message
 from korone.decorators import router
 from korone.handlers.abstract.message_handler import MessageHandler
 from korone.modules.lastfm.database import get_lastfm_user
-from korone.modules.lastfm.utils import LastFMClient, LastFMError
-from korone.modules.lastfm.utils.format_time import get_time_elapsed_str
-from korone.modules.lastfm.utils.image_filter import get_biggest_lastfm_image
+from korone.modules.lastfm.utils import (
+    LastFMClient,
+    LastFMError,
+    format_tags,
+    get_biggest_lastfm_image,
+    get_time_elapsed_str,
+)
 from korone.modules.utils.filters import Command
 from korone.utils.i18n import gettext as _
 
@@ -52,7 +56,7 @@ class LastFMPlayingHandler(MessageHandler):
         text += "🎧 <i>{track_artist}</i> — <b>{track_name}</b>{loved}{time}{plays}".format(
             track_artist=track_info.artist,
             track_name=track_info.name,
-            loved=" ❤️" if track_info.loved else "",
+            loved=" ❤️ loved" if track_info.loved else "",
             time=get_time_elapsed_str(last_played) if not last_played.now_playing else "",
             plays=_(" ∙ <code>{track_playcount} plays</code>").format(
                 track_playcount=track_info.playcount
@@ -60,6 +64,9 @@ class LastFMPlayingHandler(MessageHandler):
             if track_info.playcount > 0
             else "",
         )
+
+        if track_info.tags:
+            text += f"\n\n{format_tags(track_info)}"
 
         image = get_biggest_lastfm_image(last_played)
 
