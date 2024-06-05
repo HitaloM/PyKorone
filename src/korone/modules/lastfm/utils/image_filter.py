@@ -5,10 +5,14 @@ from korone.modules.lastfm.utils.api import LastFMAlbum, LastFMTrack, LastFMUser
 
 
 def get_biggest_lastfm_image(lfm_obj: LastFMAlbum | LastFMTrack | LastFMUser) -> str | None:
-    placeholder = "https://telegra.ph/file/d0244cd9b8bc7d0dd370d.png"
+    url = None
+    if lfm_obj.images:
+        url = lfm_obj.images[-1].url
 
-    url = lfm_obj.images[-1].url if lfm_obj.images else placeholder
-    if "2a96cbd8b46e442fc41c2b86b821562f" in url:
-        return placeholder
+    if url and "2a96cbd8b46e442fc41c2b86b821562f" in url:
+        return None
 
-    return url or None
+    if url:
+        return url
+
+    return None

@@ -114,7 +114,9 @@ class LastFMAlbum:
         playcount = int(data.get("userplaycount", data.get("playcount", 0)))
         images = [LastFMImage.from_dict(img) for img in data["image"] if img.get("#text")]
         artist = data["artist"]["name"] if isinstance(data["artist"], dict) else data["artist"]
-        tags = [tag["name"] for tag in data["tags"]["tag"]]
+        tags = []
+        if isinstance(data.get("tags"), dict):
+            tags = [tag["name"] for tag in data["tags"]["tag"]]
         return cls(
             artist=artist,
             name=data["name"],

@@ -66,11 +66,11 @@ async def add_text_to_image(img: Image.Image, text: str, font: ImageFont.FreeTyp
 async def fetch_album_arts(albums: list[LastFMAlbum]) -> list[Image.Image]:
     async def fetch_art(album):
         image_url = get_biggest_lastfm_image(album)
-        if image_url:
-            img = await fetch_image(image_url)
-            if img:
-                return img
-        return None
+        return (
+            await fetch_image(image_url)
+            if image_url
+            else await fetch_image("https://telegra.ph/file/d0244cd9b8bc7d0dd370d.png")
+        )
 
     return [
         img
