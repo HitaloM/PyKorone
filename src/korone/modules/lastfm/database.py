@@ -2,12 +2,12 @@
 # Copyright (c) 2024 Hitalo M. <https://github.com/HitaloM>
 
 from korone.database.query import Query
-from korone.database.sqlite import SQLite3Connection
+from korone.database.sqlite import sqlite_pool
 from korone.database.table import Document
 
 
 async def save_lastfm_user(user_id: int, username: str) -> None:
-    async with SQLite3Connection() as conn:
+    async with sqlite_pool as conn:
         table = await conn.table("LastFM")
         query = Query()
 
@@ -20,7 +20,7 @@ async def save_lastfm_user(user_id: int, username: str) -> None:
 
 
 async def get_lastfm_user(user_id: int) -> str | None:
-    async with SQLite3Connection() as conn:
+    async with sqlite_pool as conn:
         table = await conn.table("LastFM")
         query = Query()
 

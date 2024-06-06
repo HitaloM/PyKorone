@@ -2,12 +2,12 @@
 # Copyright (c) 2024 Hitalo M. <https://github.com/HitaloM>
 
 from korone.database.query import Query
-from korone.database.sqlite import SQLite3Connection
+from korone.database.sqlite import sqlite_pool
 from korone.database.table import Document, Documents
 
 
 async def set_afk(user_id: int, state: bool, reason: str | None = None) -> None:
-    async with SQLite3Connection() as conn:
+    async with sqlite_pool as conn:
         table = await conn.table("Afk")
         query = Query()
 
@@ -21,7 +21,7 @@ async def set_afk(user_id: int, state: bool, reason: str | None = None) -> None:
 
 
 async def is_afk(user_id: int) -> bool:
-    async with SQLite3Connection() as conn:
+    async with sqlite_pool as conn:
         table = await conn.table("Afk")
         query = Query()
         doc = await table.query(query.id == user_id)
@@ -30,7 +30,7 @@ async def is_afk(user_id: int) -> bool:
 
 
 async def get_afk_reason(user_id: int) -> Documents | None:
-    async with SQLite3Connection() as conn:
+    async with sqlite_pool as conn:
         table = await conn.table("Afk")
         query = Query()
         doc = await table.query(query.id == user_id)
@@ -39,7 +39,7 @@ async def get_afk_reason(user_id: int) -> Documents | None:
 
 
 async def get_user(username: str) -> Documents:
-    async with SQLite3Connection() as conn:
+    async with sqlite_pool as conn:
         table = await conn.table("Users")
         query = Query()
 

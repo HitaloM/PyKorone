@@ -4,12 +4,12 @@
 from hydrogram.types import CallbackQuery
 
 from korone.database.query import Query
-from korone.database.sqlite import SQLite3Connection
+from korone.database.sqlite import sqlite_pool
 from korone.database.table import Document
 
 
 async def set_chat_language(is_private: bool, callback: CallbackQuery, language: str) -> None:
-    async with SQLite3Connection() as conn:
+    async with sqlite_pool as conn:
         table = await conn.table("Users" if is_private else "Groups")
         query = Query()
 

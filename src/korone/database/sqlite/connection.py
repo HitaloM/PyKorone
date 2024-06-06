@@ -127,7 +127,9 @@ class SQLite3Connection(Connection):
         """
         return SQLite3Table(conn=self, table=name)
 
-    async def execute(self, sql: str, parameters: tuple = (), script: bool = False) -> None:
+    async def execute(
+        self, sql: str, parameters: tuple = (), script: bool = False
+    ) -> aiosqlite.Cursor:
         """
         SQL statement execution.
 
@@ -142,6 +144,11 @@ class SQLite3Connection(Connection):
         script : bool, optional
             If True, the SQL statement is treated as a script, by default False.
 
+        Returns
+        -------
+        aiosqlite.Cursor
+            The cursor object for the executed statement.
+
         Raises
         ------
         RuntimeError
@@ -151,7 +158,7 @@ class SQLite3Connection(Connection):
             msg = "Connection is not yet open."
             raise RuntimeError(msg)
 
-        await self._execute(sql, parameters, script)
+        return await self._execute(sql, parameters, script)
 
     async def close(self) -> None:
         """

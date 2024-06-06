@@ -2,7 +2,7 @@
 # Copyright (c) 2024 Hitalo M. <https://github.com/HitaloM>
 # Copyright (c) 2023 Victor Cebarros <https://github.com/victorcebarros>
 
-from typing import Optional, Protocol
+from typing import Any, Optional, Protocol
 
 from korone.database.table import Table
 
@@ -59,7 +59,7 @@ class Connection(Protocol):
         """
         ...
 
-    async def execute(self, sql: str, parameters: tuple = (), /) -> None:
+    async def execute(self, sql: str, parameters: tuple = (), /) -> Any:
         """
         Execute SQL operations.
 

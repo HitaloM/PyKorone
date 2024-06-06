@@ -2,13 +2,13 @@
 # Copyright (c) 2024 Hitalo M. <https://github.com/HitaloM>
 
 from korone.database.query import Query
-from korone.database.sqlite import SQLite3Connection
+from korone.database.sqlite import sqlite_pool
 from korone.database.table import Document
 from korone.modules import COMMANDS
 
 
 async def set_command_state(chat_id: int, command: str, *, state: bool) -> None:
-    async with SQLite3Connection() as conn:
+    async with sqlite_pool as conn:
         if command not in COMMANDS:
             msg = f"Command '{command}' has not been registered!"
             raise KeyError(msg)
@@ -29,7 +29,7 @@ async def set_command_state(chat_id: int, command: str, *, state: bool) -> None:
 
 
 async def disabled_commands(chat_id: int) -> list[str]:
-    async with SQLite3Connection() as conn:
+    async with sqlite_pool as conn:
         table = await conn.table("Commands")
         query = Query()
         query = (query.chat_id == chat_id) & (query.state == 0)

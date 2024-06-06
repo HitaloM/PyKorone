@@ -2,10 +2,16 @@
 # Copyright (c) 2024 Hitalo M. <https://github.com/HitaloM>
 # Copyright (c) 2023 Victor Cebarros <https://github.com/victorcebarros>
 
+
+from typing import TYPE_CHECKING
+
 from korone.database.connection import Connection
 from korone.database.query import Query
 from korone.database.table import Document, Documents, Table
 from korone.utils.logging import log
+
+if TYPE_CHECKING:
+    import aiosqlite
 
 
 class SQLite3Table(Table):
@@ -75,7 +81,7 @@ class SQLite3Table(Table):
 
         log.debug("Querying table %s with clause: %s and data: %s", self._table, clause, data)
 
-        cursor = await self._conn._execute(sql, data)
+        cursor: aiosqlite.Cursor = await self._conn.execute(sql, data)
         rows = await cursor.fetchall()
 
         documents = [
