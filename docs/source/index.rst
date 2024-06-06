@@ -11,11 +11,6 @@ Contents
 --------
 
 .. toctree::
-   :maxdepth: 3
-
-   korone
-
-.. toctree::
    :caption: Project Links
    :hidden:
 
