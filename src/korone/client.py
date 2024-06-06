@@ -19,7 +19,7 @@ from hydrogram.errors import MessageIdInvalid, MessageNotModified
 from hydrogram.raw.all import layer
 
 from korone import __version__, app_dir, cache, constants
-from korone.database.impl import SQLite3Connection
+from korone.database.sqlite import SQLite3Connection
 from korone.modules import load_all_modules
 from korone.utils.logging import log
 

@@ -13,8 +13,8 @@ from typing import TYPE_CHECKING, Any
 from hydrogram import Client
 from magic_filter import MagicFilter
 
-from korone.database.impl import SQLite3Connection
 from korone.database.query import Query
+from korone.database.sqlite import SQLite3Connection
 from korone.database.table import Documents
 from korone.decorators.factory import KoroneFilters
 from korone.filters import AndFilter

@@ -7,8 +7,8 @@ from hydrogram.enums import ChatType
 from hydrogram.types import Chat, User
 
 from korone import i18n
-from korone.database.impl import SQLite3Connection
 from korone.database.query import Query
+from korone.database.sqlite import SQLite3Connection
 from korone.database.table import Document, Documents, Table
 
 
