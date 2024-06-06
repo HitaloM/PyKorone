@@ -3,12 +3,17 @@
 
 from collections.abc import Callable
 from dataclasses import dataclass
+from functools import wraps
 from typing import TYPE_CHECKING
 
 from hairydogm.filters.callback_data import CallbackQueryFilter
+from hydrogram.enums import ChatType
 from hydrogram.handlers import CallbackQueryHandler
+from hydrogram.types import CallbackQuery, Message, User
 from magic_filter import MagicFilter
 
+from korone import i18n
+from korone.decorators.language import LanguageManager
 from korone.decorators.save_chats import ChatManager
 from korone.filters import KoroneFilter
 from korone.handlers import MagicMessageHandler
@@ -71,11 +76,12 @@ class Factory:
         A dictionary that stores the events observed by the factory.
     """
 
-    __slots__ = ("chat_manager", "event_name", "events_observed")
+    __slots__ = ("chat_manager", "event_name", "events_observed", "language_manager")
 
     def __init__(self, event_name: str) -> None:
         self.event_name = event_name
         self.chat_manager = ChatManager()
+        self.language_manager = LanguageManager()
 
         self.events_observed: dict[str, type[Handler]] = {
             "message": MagicMessageHandler,
@@ -111,6 +117,33 @@ class Factory:
                 func, filters, group, self.events_observed[self.event_name]
             )
 
-            return self.chat_manager.handle_chat(func)
+            @wraps(func)
+            async def wrapped(*args, **kwargs):
+                update: Message | CallbackQuery
+
+                try:
+                    update = args[2]
+                except IndexError:
+                    update = args[1]
+
+                is_callback = isinstance(update, CallbackQuery)
+                message = update.message if is_callback else update
+                user: User = update.from_user if is_callback else message.from_user
+
+                if is_callback:
+                    await self.chat_manager.save_from_user(user)
+                else:
+                    await self.chat_manager.handle_message(message)
+
+                locale = i18n.default_locale
+                if message.chat.type == ChatType.PRIVATE and user and not user.is_bot:
+                    locale = await self.language_manager.get_locale(user)
+                elif message.chat.type in {ChatType.GROUP, ChatType.SUPERGROUP}:
+                    locale = await self.language_manager.get_locale(message.chat)
+
+                with i18n.context(), i18n.use_locale(locale):
+                    return await func(*args, **kwargs)
+
+            return wrapped
 
         return wrapper

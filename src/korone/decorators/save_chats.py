@@ -1,16 +1,10 @@
 # SPDX-License-Identifier: BSD-3-Clause
 # Copyright (c) 2024 Hitalo M. <https://github.com/HitaloM>
 
-from collections.abc import Callable
-from datetime import timedelta
-from functools import wraps
 
-from babel import Locale
-from babel.core import UnknownLocaleError
 from hydrogram.enums import ChatType
-from hydrogram.types import CallbackQuery, Chat, Message, User
+from hydrogram.types import Chat, Message, User
 
-from korone import cache, i18n
 from korone.config import ConfigManager
 from korone.decorators.database import DatabaseManager
 
@@ -32,79 +26,6 @@ class ChatManager:
 
     def __init__(self) -> None:
         self.database_manager = DatabaseManager()
-
-    @staticmethod
-    def _is_valid_chat(chat: User | Chat) -> bool:
-        """
-        Check if the chat is valid.
-
-        This method checks if the chat is valid. If the chat is a user and not a bot, it returns
-        True. If the chat is a group or supergroup, it returns True. Otherwise, it returns False.
-
-        Parameters
-        ----------
-        chat : User | Chat
-            The chat object.
-
-        Returns
-        -------
-        bool
-            True if the chat is valid, False otherwise.
-        """
-        is_user = isinstance(chat, User) and not chat.is_bot
-        is_group_or_supergroup = isinstance(chat, Chat) and chat.type in {
-            ChatType.GROUP,
-            ChatType.SUPERGROUP,
-        }
-        return is_user or is_group_or_supergroup
-
-    @cache(ttl=timedelta(days=1), key="get_locale:{chat.id}")
-    async def get_locale(self, chat: User | Chat) -> str:
-        """
-        Get the locale based on the user and message.
-
-        This method returns the locale based on the user and message. If the user or chat
-        is not a bot, it retrieves the database object and gets the locale from it. If the
-        database object is empty, it returns the default locale. If the locale is not available,
-        it returns the default locale.
-
-        Parameters
-        ----------
-        chat : User | Chat
-            The user or chat object.
-
-        Returns
-        -------
-        str
-            The locale based on the user or chat.
-
-        Raises
-        ------
-        UnknownLocaleError
-            If the locale identifier is invalid.
-        """
-        if not self._is_valid_chat(chat):
-            return i18n.default_locale
-
-        db_obj = await self.database_manager.get(chat)
-        if not db_obj:
-            return i18n.default_locale
-
-        try:
-            language = db_obj[0]["language"]
-            sep = "-" if "_" not in language else "_"
-            locale_obj = Locale.parse(language, sep=sep)
-            locale = f"{locale_obj.language}_{locale_obj.territory}"
-            is_valid_locale = isinstance(locale_obj, Locale) and locale in i18n.available_locales
-
-            if not is_valid_locale:
-                msg = "Invalid locale identifier"
-                raise UnknownLocaleError(msg)
-
-        except UnknownLocaleError:
-            locale = i18n.default_locale
-
-        return str(locale)
 
     async def _handle_private_and_group_message(self, chat_id: int, message: Message) -> None:
         """
@@ -209,53 +130,6 @@ class ChatManager:
         for chat in chats:
             language = chat.language_code if isinstance(chat, User) else None
             await self.database_manager.update_or_create(chat, language)
-
-    def handle_chat(self, func: Callable) -> Callable:
-        """
-        Handle chat.
-
-        This method handles the chat based on the update. If the update is a message, it
-        handles the message. If the update is a callback query, it saves the user object.
-
-        Parameters
-        ----------
-        func : Callable
-            The function to be wrapped.
-
-        Returns
-        -------
-        Callable
-            The wrapper function.
-        """
-
-        @wraps(func)
-        async def wrapper(*args, **kwargs):
-            update: Message | CallbackQuery
-
-            try:
-                update = args[2]
-            except IndexError:
-                update = args[1]
-
-            is_callback = isinstance(update, CallbackQuery)
-            message = update.message if is_callback else update
-            user: User = update.from_user if is_callback else message.from_user
-
-            if is_callback:
-                await self.save_from_user(user)
-            else:
-                await self.handle_message(message)
-
-            locale = i18n.default_locale
-            if message.chat.type == ChatType.PRIVATE and user and not user.is_bot:
-                locale = await self.get_locale(user)
-            elif message.chat.type in {ChatType.GROUP, ChatType.SUPERGROUP}:
-                locale = await self.get_locale(message.chat)
-
-            with i18n.context(), i18n.use_locale(locale):
-                return await func(*args, **kwargs)
-
-        return wrapper
 
     async def save_from_user(self, user: User) -> None:
         """
