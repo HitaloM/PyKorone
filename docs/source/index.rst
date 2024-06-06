@@ -7,9 +7,6 @@ The bot is built with Python and is designed for high efficiency and reliability
 
 In development since `January 2, 2021 <https://telegra.ph/file/ce181caad7447b7f48cdc.png>`_.
 
-Contents
---------
-
 .. toctree::
    :caption: Project Links
    :hidden:

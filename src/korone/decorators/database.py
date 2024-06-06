@@ -8,7 +8,7 @@ from hydrogram.types import Chat, User
 
 from korone import i18n
 from korone.database.query import Query
-from korone.database.sqlite import SQLite3Connection
+from korone.database.sqlite import sqlite_pool
 from korone.database.table import Document, Documents, Table
 
 
@@ -135,7 +135,7 @@ class DatabaseManager:
         if not table_name:
             return None
 
-        async with SQLite3Connection() as conn:
+        async with sqlite_pool as conn:
             table = await conn.table(table_name)
             query = Query()
             return await table.query(query.id == chat.id)
@@ -165,7 +165,7 @@ class DatabaseManager:
         if not table_name:
             return None
 
-        async with SQLite3Connection() as conn:
+        async with sqlite_pool as conn:
             language = language or i18n.default_locale
             table = await conn.table(table_name)
             query = Query()

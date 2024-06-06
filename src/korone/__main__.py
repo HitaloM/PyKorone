@@ -11,6 +11,7 @@ from hydrogram import idle
 from korone import cache
 from korone.client import AppParameters, Korone
 from korone.config import ConfigManager
+from korone.database.sqlite import sqlite_pool
 from korone.utils.logging import log
 
 asyncio.set_event_loop_policy(uvloop.EventLoopPolicy())
@@ -42,6 +43,7 @@ async def main() -> None:
         await client.start()
         await idle()
     finally:
+        await sqlite_pool.close()
         await client.stop()
 
 

@@ -37,14 +37,24 @@ class SQLite3Connection(Connection):
         self._conn: aiosqlite.Connection | None = None
 
     async def __aenter__(self) -> "SQLite3Connection":
-        if not await self._is_open():
+        if not await self.is_open():
             await self.connect()
         return self
 
     async def __aexit__(self, exc_type, exc_value, traceback) -> None:
         await self.close()
 
-    async def _is_open(self) -> bool:
+    async def is_open(self) -> bool:
+        """
+        Check if the connection is open.
+
+        This method checks if the connection is open.
+
+        Returns
+        -------
+        bool
+            True if the connection is open, False otherwise.
+        """
         return self._conn is not None
 
     async def _execute(
@@ -71,7 +81,7 @@ class SQLite3Connection(Connection):
         RuntimeError
             If the connection is not yet open.
         """
-        if not await self._is_open():
+        if not await self.is_open():
             msg = "Connection is not yet open."
             raise RuntimeError(msg)
 
@@ -88,7 +98,7 @@ class SQLite3Connection(Connection):
         RuntimeError
             If the connection is already open.
         """
-        if await self._is_open():
+        if await self.is_open():
             msg = "Connection is already in place."
             raise RuntimeError(msg)
 
@@ -137,7 +147,7 @@ class SQLite3Connection(Connection):
         RuntimeError
             If the connection is not yet open.
         """
-        if not await self._is_open():
+        if not await self.is_open():
             msg = "Connection is not yet open."
             raise RuntimeError(msg)
 
@@ -154,7 +164,7 @@ class SQLite3Connection(Connection):
         RuntimeError
             If the connection is not yet open.
         """
-        if not await self._is_open():
+        if not await self.is_open():
             msg = "Connection is not yet open."
             raise RuntimeError(msg)
 
@@ -163,7 +173,7 @@ class SQLite3Connection(Connection):
             self._conn = None
 
     async def vacuum(self) -> None:
-        if not await self._is_open():
+        if not await self.is_open():
             msg = "Connection is not yet open."
             raise RuntimeError(msg)
 
