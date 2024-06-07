@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PyKorone 1.0\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-06-07 00:19-0300\n"
+"POT-Creation-Date: 2024-06-07 00:22-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -453,6 +453,11 @@ msgstr ""
 msgid "{user}'s was listening to:\n"
 msgstr ""
 
+#: src/korone/modules/lastfm/handlers/album.py:60
+#: src/korone/modules/lastfm/handlers/artist.py:58
+msgid ", ❤️ loved"
+msgstr ""
+
 #: src/korone/modules/lastfm/handlers/album.py:62
 msgid " ∙ <code>{album_playcount} plays</code>"
 msgstr ""
@@ -807,3 +812,4 @@ msgstr ""
 #: src/korone/modules/pm_menu/handlers/start.py:41
 msgid "Hello, I'm PyKorone! An all-in-one bot."
 msgstr ""
+

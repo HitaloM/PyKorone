@@ -57,7 +57,7 @@ class LastFMPlayingAlbumHandler(MessageHandler):
         text += "💽 <i>{album_artist}</i> — <b>{album_name}</b>{loved}{time}{plays}".format(
             album_artist=album_info.artist,
             album_name=album_info.name,
-            loved=" ❤️ loved" if album_info.loved else "",
+            loved=_(", ❤️ loved") if album_info.loved else "",
             time=get_time_elapsed_str(last_played) if not last_played.now_playing else "",
             plays=_(" ∙ <code>{album_playcount} plays</code>").format(
                 album_playcount=album_info.playcount
