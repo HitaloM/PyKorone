@@ -14,6 +14,7 @@ from korone.modules.lastfm.utils import (
     LastFMError,
     format_tags,
     get_time_elapsed_str,
+    name_with_link,
 )
 from korone.modules.utils.filters import Command
 from korone.utils.i18n import gettext as _
@@ -45,12 +46,12 @@ class LastFMPlayingArtistHandler(MessageHandler):
                 )
             return
 
-        user_mention = message.from_user.mention()
+        user_link = name_with_link(name=str(message.from_user.first_name), username=last_fm_user)
 
         if last_played.now_playing:
-            text = _("{user}'s is listening to:\n").format(user=user_mention)
+            text = _("{user}'s is listening to:\n").format(user=user_link)
         else:
-            text = _("{user}'s was listening to:\n").format(user=user_mention)
+            text = _("{user}'s was listening to:\n").format(user=user_link)
 
         text += "<b>{artist_name}</b>{loved}{time}{plays}".format(
             artist_name=artist_info.name,
@@ -76,4 +77,4 @@ class LastFMPlayingArtistHandler(MessageHandler):
             await message.reply_photo(photo=artist.image.url, caption=text)
             return
 
-        await message.reply(text)
+        await message.reply(text, disable_web_page_preview=True)

@@ -16,6 +16,7 @@ from korone.modules.lastfm.utils import (
     LastFMError,
     TimePeriod,
     create_album_collage,
+    name_with_link,
     parse_collage_arg,
     period_to_str,
 )
@@ -71,8 +72,12 @@ class LastFMCollageHandler(MessageHandler):
                 top_items, collage_size=(collage_size, collage_size), show_text=show_text
             )
 
+            user_link = name_with_link(
+                name=str(message.from_user.first_name), username=last_fm_user
+            )
+
             caption = _("{user}'s {period} {collage_size}x{collage_size} album collage").format(
-                user=message.from_user.mention(),
+                user=user_link,
                 period=period_to_str(period),
                 collage_size=collage_size,
             )

@@ -14,6 +14,7 @@ from korone.modules.lastfm.utils import (
     LastFMTrack,
     get_time_elapsed_str,
 )
+from korone.modules.lastfm.utils.formatters import name_with_link
 from korone.modules.utils.filters import Command
 from korone.utils.i18n import gettext as _
 
@@ -49,20 +50,25 @@ class LastFMRecentsHandler(MessageHandler):
             last_played = None
             played_tracks = []
 
-        text = self.format_recent_plays(last_played, played_tracks)
-        await message.reply(text)
+        user_link = name_with_link(name=str(message.from_user.first_name), username=last_fm_user)
+
+        text = self.format_recent_plays(last_played, played_tracks, user_link)
+        await message.reply(text, disable_web_page_preview=True)
 
     def format_recent_plays(
-        self, last_played: LastFMTrack | None, played_tracks: list[LastFMTrack]
+        self, last_played: LastFMTrack | None, played_tracks: list[LastFMTrack], user_link: str
     ) -> str:
         formatted_tracks = []
 
         if last_played and last_played.now_playing:
-            formatted_tracks.append(
-                _("<b>Now Playing:</b>\n") + self.format_track(last_played, now_playing=True)
-            )
+            formatted_tracks.extend((
+                _("{user}'s is listening to:\n").format(user=user_link)
+                + self.format_track(last_played, now_playing=True),
+                _("\nLast 5 plays:"),
+            ))
+        else:
+            formatted_tracks.append(_("{user}'s was listening to:\n").format(user=user_link))
 
-        formatted_tracks.append(_("\n<b>Recently Played:</b>"))
         formatted_tracks.extend(self.format_track(track) for track in played_tracks)
 
         return "\n".join(formatted_tracks)
@@ -70,7 +76,7 @@ class LastFMRecentsHandler(MessageHandler):
     @staticmethod
     def format_track(track: LastFMTrack, now_playing: bool = False) -> str:
         time_elapsed_str = "" if now_playing else get_time_elapsed_str(track)
-        prefix = "🎧 "
-        return _("{prefix}<i>{track.artist}</i> — <b>{track.name}</b>{time}").format(
-            prefix=prefix, track=track, time=time_elapsed_str
+
+        return _("🎧 <i>{track.artist}</i> — <b>{track.name}</b>{time}").format(
+            track=track, time=time_elapsed_str
         )

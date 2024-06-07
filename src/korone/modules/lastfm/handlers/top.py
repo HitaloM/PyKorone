@@ -13,6 +13,7 @@ from korone.modules.lastfm.utils import (
     LastFMError,
     LastFMTrack,
     TimePeriod,
+    name_with_link,
     parse_collage_arg,
     period_to_str,
 )
@@ -80,10 +81,10 @@ class LastFMTopHandler(MessageHandler):
                 )
             return
 
-        user_mention = message.from_user.mention()
+        user_link = name_with_link(name=str(message.from_user.first_name), username=last_fm_user)
 
         text = _("{user}'s top 5 {entry} for {period}:\n\n").format(
-            user=user_mention,
+            user=user_link,
             entry=self.entry_type_to_str(entry_type),
             period=period_to_str(period),
         )
@@ -95,4 +96,4 @@ class LastFMTopHandler(MessageHandler):
 
             text += _(" -> {scrobbles} plays\n").format(scrobbles=item.playcount)
 
-        await message.reply(text)
+        await message.reply(text, disable_web_page_preview=True)

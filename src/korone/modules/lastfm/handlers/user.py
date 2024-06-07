@@ -66,4 +66,4 @@ class LastFMUserHandler(MessageHandler):
             await message.reply_photo(photo=image, caption=text)
             return
 
-        await message.reply(text)
+        await message.reply(text, disable_web_page_preview=True)
