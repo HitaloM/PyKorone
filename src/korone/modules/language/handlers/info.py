@@ -1,11 +1,9 @@
 # SPDX-License-Identifier: BSD-3-Clause
 # Copyright (c) 2024 Hitalo M. <https://github.com/HitaloM>
 
-from typing import ClassVar
 
-from babel.support import LazyProxy
 from hairydogm.keyboard import InlineKeyboardBuilder
-from hydrogram import Client, filters
+from hydrogram import Client
 from hydrogram.enums import ChatType
 from hydrogram.types import CallbackQuery, InlineKeyboardButton, Message
 from magic_filter import F
@@ -16,16 +14,14 @@ from korone.modules.language.callback_data import LangMenuCallback, PMMenuCallba
 from korone.modules.utils.filters import Command
 from korone.utils.i18n import I18nNew, get_i18n
 from korone.utils.i18n import gettext as _
-from korone.utils.i18n import lazy_gettext as __
 
 LANG_CMDS: list[str] = ["language", "lang", "locale", "setlang"]
 
 
 class LanguageInfoBase(MessageHandler):
-    button_text: ClassVar[LazyProxy]
-
+    @staticmethod
     async def get_info_text_and_buttons(
-        self, i18n_new: I18nNew
+        i18n_new: I18nNew, button_text: str
     ) -> tuple[str, InlineKeyboardBuilder]:
         text = _("<b>Chat language:</b> {language}\n").format(
             language=i18n_new.current_locale_display
@@ -35,7 +31,7 @@ class LanguageInfoBase(MessageHandler):
             stats = i18n_new.get_locale_stats(i18n_new.current_locale)
             if not stats:
                 return text, InlineKeyboardBuilder().button(
-                    text=self.button_text, callback_data=LangMenuCallback(menu="languages")
+                    text=button_text, callback_data=LangMenuCallback(menu="languages")
                 )
 
             text += _("\n<b>Language Info:</b>\n")
@@ -49,13 +45,18 @@ class LanguageInfoBase(MessageHandler):
             text += _("This is the bot's native language. So it is 100% translated.")
 
         keyboard = InlineKeyboardBuilder()
-        keyboard.button(text=self.button_text, callback_data=LangMenuCallback(menu="languages"))
+        keyboard.button(text=button_text, callback_data=LangMenuCallback(menu="languages"))
 
         return text, keyboard
 
-    @router.message(Command("language"))
+    @router.message(Command(commands=LANG_CMDS))
     async def handle(self, client: Client, message: Message):
-        text, keyboard = await self.get_info_text_and_buttons(get_i18n())
+        if message.chat.type == ChatType.PRIVATE:
+            button_text = _("👤 Change your language")
+        else:
+            button_text = _("🌍 Change group language")
+
+        text, keyboard = await self.get_info_text_and_buttons(get_i18n(), button_text)
 
         if message.chat.type == ChatType.PRIVATE:
             keyboard.row(
@@ -67,27 +68,14 @@ class LanguageInfoBase(MessageHandler):
         await message.reply_text(text, reply_markup=keyboard.as_markup())
 
 
-class LanguagePrivateInfo(LanguageInfoBase):
-    @property
-    def button_text(self) -> LazyProxy:
-        return __("👤 Change your language")
-
-    handle = router.message(Command(commands=LANG_CMDS) & filters.private)(LanguageInfoBase.handle)
-
-
-class LanguageGroupInfo(LanguageInfoBase):
-    @property
-    def button_text(self) -> LazyProxy:
-        return __("🌍 Change group language")
-
-    handle = router.message(Command(commands=LANG_CMDS) & filters.group)(LanguageInfoBase.handle)
-
-
 class LanguageInfoCallback(CallbackQueryHandler):
     @staticmethod
     @router.callback_query(LangMenuCallback.filter(F.menu == "language"))
     async def handle(client: Client, callback: CallbackQuery):
-        text, keyboard = await LanguagePrivateInfo().get_info_text_and_buttons(get_i18n())
+        button_text = _("👤 Change your language")
+        text, keyboard = await LanguageInfoBase().get_info_text_and_buttons(
+            get_i18n(), button_text
+        )
 
         keyboard.row(
             InlineKeyboardButton(

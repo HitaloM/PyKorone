@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PyKorone 1.0\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-06-07 00:22-0300\n"
+"POT-Creation-Date: 2024-06-07 01:08-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -39,11 +39,11 @@ msgid ""
 " - /afk &lt;reason&gt;: Set your status as AFK."
 msgstr ""
 
-#: src/korone/modules/afk/handlers/check.py:63
+#: src/korone/modules/afk/handlers/check.py:64
 msgid "{user} is afk!"
 msgstr ""
 
-#: src/korone/modules/afk/handlers/check.py:65
+#: src/korone/modules/afk/handlers/check.py:66
 msgid ""
 "\n"
 "Reason: {reason}"
@@ -297,51 +297,52 @@ msgid ""
 "/language command."
 msgstr ""
 
-#: src/korone/modules/language/handlers/info.py:30
+#: src/korone/modules/language/handlers/info.py:26
 msgid "<b>Chat language:</b> {language}\n"
 msgstr ""
 
-#: src/korone/modules/language/handlers/info.py:41
+#: src/korone/modules/language/handlers/info.py:37
 msgid ""
 "\n"
 "<b>Language Info:</b>\n"
 msgstr ""
 
-#: src/korone/modules/language/handlers/info.py:42
+#: src/korone/modules/language/handlers/info.py:38
 msgid "Translated: {translated}\n"
 msgstr ""
 
-#: src/korone/modules/language/handlers/info.py:43
+#: src/korone/modules/language/handlers/info.py:39
 msgid "Untranslated: {untranslated}\n"
 msgstr ""
 
-#: src/korone/modules/language/handlers/info.py:44
+#: src/korone/modules/language/handlers/info.py:40
 msgid "Needs review: {fuzzy}\n"
 msgstr ""
 
-#: src/korone/modules/language/handlers/info.py:45
+#: src/korone/modules/language/handlers/info.py:41
 msgid "Percentage translated: {percent}\n"
 msgstr ""
 
-#: src/korone/modules/language/handlers/info.py:49
+#: src/korone/modules/language/handlers/info.py:45
 msgid "This is the bot's native language. So it is 100% translated."
 msgstr ""
 
-#: src/korone/modules/language/handlers/info.py:63
-#: src/korone/modules/language/handlers/info.py:94
+#: src/korone/modules/language/handlers/info.py:55
+#: src/korone/modules/language/handlers/info.py:75
+msgid "👤 Change your language"
+msgstr ""
+
+#: src/korone/modules/language/handlers/info.py:57
+msgid "🌍 Change group language"
+msgstr ""
+
+#: src/korone/modules/language/handlers/info.py:64
+#: src/korone/modules/language/handlers/info.py:82
 #: src/korone/modules/language/handlers/select.py:41
 #: src/korone/modules/pm_menu/handlers/about.py:33
 #: src/korone/modules/pm_menu/handlers/help.py:32
 #: src/korone/modules/pm_menu/handlers/help.py:73
 msgid "⬅️ Back"
-msgstr ""
-
-#: src/korone/modules/language/handlers/info.py:73
-msgid "👤 Change your language"
-msgstr ""
-
-#: src/korone/modules/language/handlers/info.py:81
-msgid "🌍 Change group language"
 msgstr ""
 
 #: src/korone/modules/language/handlers/select.py:34
