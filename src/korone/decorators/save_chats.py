@@ -1,7 +1,6 @@
 # SPDX-License-Identifier: BSD-3-Clause
 # Copyright (c) 2024 Hitalo M. <https://github.com/HitaloM>
 
-
 from hydrogram.enums import ChatType
 from hydrogram.types import Chat, Message, User
 
@@ -13,7 +12,7 @@ class ChatManager:
     """
     Save chats and users to the database.
 
-    This class is used to handle all operations related to the database on Factory decorator.
+    This class handles all operations related to the database for the Factory decorator.
     It provides methods to save chats and users to the database.
 
     Attributes
@@ -27,7 +26,22 @@ class ChatManager:
     def __init__(self) -> None:
         self.database_manager = DatabaseManager()
 
-    async def _handle_private_and_group_message(self, chat_id: int, message: Message) -> None:
+    async def _update_user_or_chat(
+        self, user_or_chat: User | Chat, language: str | None = None
+    ) -> None:
+        """
+        Update or create a user or chat in the database.
+
+        Parameters
+        ----------
+        user_or_chat : User | Chat
+            The user or chat object to update or create.
+        language : str, optional
+            The language code of the user, if applicable.
+        """
+        await self.database_manager.update_or_create(user_or_chat, language)
+
+    async def _handle_private_and_group_message(self, message: Message) -> None:
         """
         Handle private and group messages.
 
@@ -37,24 +51,16 @@ class ChatManager:
 
         Parameters
         ----------
-        chat_id : int
-            The chat ID.
         message : Message
             The message object.
-
-        Notes
-        -----
-        This method is a private method and should not be called outside of the class.
         """
         if message.from_user and not message.from_user.is_bot:
-            await self.database_manager.update_or_create(
-                message.from_user, message.from_user.language_code
-            )
+            await self._update_user_or_chat(message.from_user, message.from_user.language_code)
 
         if message.chat.type in {ChatType.GROUP, ChatType.SUPERGROUP}:
-            await self.database_manager.update_or_create(message.chat)
+            await self._update_user_or_chat(message.chat)
 
-    async def _handle_message_update(self, chat_id: int, message: Message) -> list[Chat | User]:
+    async def _handle_message_update(self, message: Message) -> list[Chat | User]:
         """
         Handle message updates.
 
@@ -64,8 +70,6 @@ class ChatManager:
 
         Parameters
         ----------
-        chat_id : int
-            The chat ID.
         message : Message
             The message object.
 
@@ -73,18 +77,14 @@ class ChatManager:
         -------
         list[Chat | User]
             The list of chats to update.
-
-        Notes
-        -----
-        This method is a private method and should not be called outside of the class.
         """
         chats_to_update = []
 
         if reply_message := message.reply_to_message:
-            chats_to_update.extend(await self.handle_replied_message(chat_id, reply_message))
+            chats_to_update.extend(await self.handle_replied_message(reply_message))
 
         if message.forward_from or (
-            message.forward_from_chat and message.forward_from_chat.id != chat_id
+            message.forward_from_chat and message.forward_from_chat.id != message.chat.id
         ):
             chats_to_update.append(message.forward_from_chat or message.forward_from)
 
@@ -101,49 +101,11 @@ class ChatManager:
         ----------
         message : Message
             The message object.
-
-        Notes
-        -----
-        This method is a private method and should not be called outside of the class.
         """
-        if not message.new_chat_members:
-            return
-
-        for member in message.new_chat_members:
-            if not member.is_bot:
-                await self.database_manager.update_or_create(member, member.language_code)
-
-    async def _chats_update(self, chats: list[Chat | User]) -> None:
-        """
-        Update chats.
-
-        This method updates the chats based on the list of chats.
-
-        Parameters
-        ----------
-        chats : list[Chat | User]
-            The list of chats to update.
-        """
-        if not chats:
-            return
-
-        for chat in chats:
-            language = chat.language_code if isinstance(chat, User) else None
-            await self.database_manager.update_or_create(chat, language)
-
-    async def save_from_user(self, user: User) -> None:
-        """
-        Save the user object to the database.
-
-        This method saves the user object to the database.
-
-        Parameters
-        ----------
-        user : User
-            The user object.
-        """
-        if user and not user.is_bot:
-            await self.database_manager.update_or_create(user, user.language_code)
+        if message.new_chat_members:
+            for member in message.new_chat_members:
+                if not member.is_bot:
+                    await self._update_user_or_chat(member, member.language_code)
 
     async def handle_message(self, message: Message) -> None:
         """
@@ -158,19 +120,44 @@ class ChatManager:
         message : Message
             The message object.
         """
-        chat = message.chat
+        await self._handle_private_and_group_message(message)
 
-        await self._handle_private_and_group_message(chat.id, message)
-
-        chats_to_update = await self._handle_message_update(chat.id, message)
-
-        if chat.type in {ChatType.GROUP, ChatType.SUPERGROUP}:
-            await self._handle_member_updates(message)
-
+        chats_to_update = await self._handle_message_update(message)
+        await self._handle_member_updates(message)
         await self._chats_update(chats_to_update)
 
+    async def _chats_update(self, chats: list[Chat | User]) -> None:
+        """
+        Update chats.
+
+        This method updates the chats based on the list of chats.
+
+        Parameters
+        ----------
+        chats : list[Chat | User]
+            The list of chats to update.
+        """
+        if chats:
+            for chat in chats:
+                language = chat.language_code if isinstance(chat, User) else None
+                await self._update_user_or_chat(chat, language)
+
+    async def save_from_user(self, user: User) -> None:
+        """
+        Save the user object to the database.
+
+        This method saves the user object to the database.
+
+        Parameters
+        ----------
+        user : User
+            The user object.
+        """
+        if user and not user.is_bot:
+            await self._update_user_or_chat(user, user.language_code)
+
     @staticmethod
-    async def handle_replied_message(chat_id: int, message: Message) -> list[Chat | User]:
+    async def handle_replied_message(message: Message) -> list[Chat | User]:
         """
         Handle replied message.
 
@@ -180,8 +167,6 @@ class ChatManager:
 
         Parameters
         ----------
-        chat_id : int
-            The chat ID.
         message : Message
             The message object.
 
@@ -190,12 +175,6 @@ class ChatManager:
         list[Chat | User]
             The list of chats to update.
         """
-        if message.sender_chat and message.sender_chat.id == chat_id:
-            return []
-
-        if message.forum_topic_created:
-            return []
-
         chats_to_update = []
 
         bot_token = ConfigManager.get("hydrogram", "BOT_TOKEN")

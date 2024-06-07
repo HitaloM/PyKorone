@@ -9,7 +9,7 @@ from typing import TYPE_CHECKING
 from hairydogm.filters.callback_data import CallbackQueryFilter
 from hydrogram.enums import ChatType
 from hydrogram.handlers import CallbackQueryHandler
-from hydrogram.types import CallbackQuery, Message, User
+from hydrogram.types import CallbackQuery
 from magic_filter import MagicFilter
 
 from korone import i18n
@@ -109,7 +109,7 @@ class Factory:
             The decorated function.
         """
 
-        def wrapper(func) -> Callable:
+        def wrapper(func: Callable) -> Callable:
             func.on = self.event_name
             func.group = group
             func.filters = filters
@@ -119,27 +119,23 @@ class Factory:
 
             @wraps(func)
             async def wrapped(*args, **kwargs):
-                update: Message | CallbackQuery
-
-                try:
-                    update = args[2]
-                except IndexError:
-                    update = args[1]
-
+                update = args[2] if len(args) > 2 else args[1]  # type: ignore
                 is_callback = isinstance(update, CallbackQuery)
                 message = update.message if is_callback else update
-                user: User = update.from_user if is_callback else message.from_user
+                user = update.from_user if is_callback else message.from_user
 
-                if is_callback:
-                    await self.chat_manager.save_from_user(user)
-                else:
-                    await self.chat_manager.handle_message(message)
+                if user and not user.is_bot:
+                    if is_callback:
+                        await self.chat_manager.save_from_user(user)
+                    else:
+                        await self.chat_manager.handle_message(message)
 
+                chat = message.chat
                 locale = i18n.default_locale
-                if message.chat.type == ChatType.PRIVATE and user and not user.is_bot:
+                if chat.type == ChatType.PRIVATE:
                     locale = await self.language_manager.get_locale(user)
-                elif message.chat.type in {ChatType.GROUP, ChatType.SUPERGROUP}:
-                    locale = await self.language_manager.get_locale(message.chat)
+                elif chat.type in {ChatType.GROUP, ChatType.SUPERGROUP}:
+                    locale = await self.language_manager.get_locale(chat)
 
                 with i18n.context(), i18n.use_locale(locale):
                     return await func(*args, **kwargs)
