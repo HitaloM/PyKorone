@@ -10,8 +10,8 @@ from hydrogram.types import Message
 
 from korone import cache
 from korone.decorators import router
+from korone.filters import Command, IsSudo
 from korone.handlers import MessageHandler
-from korone.modules.utils.filters import Command, IsSudo
 
 
 class Reboot(MessageHandler):

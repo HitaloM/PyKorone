@@ -17,7 +17,7 @@ from korone.database.query import Query
 from korone.database.sqlite import sqlite_pool
 from korone.database.table import Documents
 from korone.decorators.factory import KoroneFilters
-from korone.filters import AndFilter
+from korone.filters.logic import AndFilter
 from korone.handlers import CallbackQueryHandler, MessageHandler
 from korone.utils.logging import log
 from korone.utils.traverse import bfs_attr_search

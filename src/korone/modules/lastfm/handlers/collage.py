@@ -9,6 +9,7 @@ from hydrogram.enums import ChatAction
 from hydrogram.types import Message
 
 from korone.decorators import router
+from korone.filters import Command, CommandObject
 from korone.handlers.abstract.message_handler import MessageHandler
 from korone.modules.lastfm.database import get_lastfm_user
 from korone.modules.lastfm.utils import (
@@ -20,7 +21,6 @@ from korone.modules.lastfm.utils import (
     parse_collage_arg,
     period_to_str,
 )
-from korone.modules.utils.filters import Command, CommandObject
 from korone.utils.i18n import gettext as _
 
 

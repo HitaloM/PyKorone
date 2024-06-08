@@ -7,9 +7,9 @@ from hydrogram.types import Message
 from magic_filter import F
 
 from korone.decorators import router
+from korone.filters import Command, IsAdmin
 from korone.handlers.abstract.message_handler import MessageHandler
 from korone.modules.disabling.database import disabled_commands
-from korone.modules.utils.filters import Command, IsAdmin
 from korone.utils.i18n import gettext as _
 
 

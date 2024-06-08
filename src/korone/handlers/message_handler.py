@@ -10,7 +10,7 @@ from hydrogram.handlers import MessageHandler
 from hydrogram.types import Message
 from magic_filter import MagicFilter
 
-from korone.filters import KoroneFilter
+from korone.filters.base import KoroneFilter
 
 
 class MagicMessageHandler(MessageHandler):

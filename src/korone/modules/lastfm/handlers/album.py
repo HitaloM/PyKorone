@@ -5,6 +5,7 @@ from hydrogram import Client
 from hydrogram.types import Message
 
 from korone.decorators import router
+from korone.filters import Command
 from korone.handlers.abstract.message_handler import MessageHandler
 from korone.modules.lastfm.database import get_lastfm_user
 from korone.modules.lastfm.utils import (
@@ -15,7 +16,6 @@ from korone.modules.lastfm.utils import (
     get_time_elapsed_str,
     name_with_link,
 )
-from korone.modules.utils.filters import Command
 from korone.utils.i18n import gettext as _
 
 

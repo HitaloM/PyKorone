@@ -15,7 +15,7 @@ from magic_filter import MagicFilter
 from korone import i18n
 from korone.decorators.language import LanguageManager
 from korone.decorators.save_chats import ChatManager
-from korone.filters import KoroneFilter
+from korone.filters.base import KoroneFilter
 from korone.handlers import MagicMessageHandler
 
 if TYPE_CHECKING:

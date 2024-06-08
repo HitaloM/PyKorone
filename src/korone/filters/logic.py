@@ -2,7 +2,7 @@
 # Copyright (c) 2024 Hitalo M. <https://github.com/HitaloM>
 
 import inspect
-from abc import ABC, abstractmethod
+from abc import ABC
 from asyncio import Future
 from collections.abc import Coroutine
 from functools import partial
@@ -12,94 +12,7 @@ from hydrogram import Client
 from hydrogram.types import Update
 from magic_filter import MagicFilter
 
-
-class KoroneFilter(ABC):
-    """
-    Base class for all filters.
-
-    A base class for creating custom filters in the context of the Hydrogram library.
-    This class should be subclassed and the __call__ method overridden to define custom
-    filter logic. The custom filter can then be used to filter updates based on any criteria.
-
-    Examples
-    --------
-    >>> class MyFilter(KoroneFilter):
-    ...     async def __call__(self, client: Client, message: Message) -> bool:
-    ...         return message.text == "Hello, world!"
-    """
-
-    @abstractmethod
-    async def __call__(self, client: Client, update: Update) -> bool:
-        """
-        Override this method to define custom filter logic.
-
-        This coroutine should return True if the update should be processed, False otherwise.
-
-        Parameters
-        ----------
-        client : Client
-            The client instance that received the update.
-        update : Update
-            The update to be filtered.
-
-        Returns
-        -------
-        bool
-            True if the update should be processed, False otherwise.
-        """
-        ...
-
-    def __invert__(self) -> "InvertFilter":
-        """
-        Invert the filter using the NOT operator.
-
-        Inverts the filter using the NOT operator and returns a new filter.
-        The resulting filter passes only if the original filter does not pass.
-
-        Returns
-        -------
-        InvertFilter
-            A new filter that inverts the original filter.
-        """
-        return InvertFilter(self)
-
-    def __and__(self, other) -> "AndFilter":
-        """
-        Combine this filter with another filter using the AND operator.
-
-        Combines this filter with another one using logical AND.
-        The resulting filter passes only if both the original and the other filter pass.
-
-        Parameters
-        ----------
-        other : KoroneFilter
-            The other filter to combine with this one.
-
-        Returns
-        -------
-        AndFilter
-            A new filter that combines this filter with the other filter using logical AND.
-        """
-        return AndFilter(self, other)
-
-    def __or__(self, other) -> "OrFilter":
-        """
-        Combine this filter with another filter using the OR operator.
-
-        Combines this filter with another one using logical OR and returns a new filter.
-        The resulting filter passes if either the original or the other filter pass.
-
-        Parameters
-        ----------
-        other : KoroneFilter
-            The other filter to combine with this one.
-
-        Returns
-        -------
-        OrFilter
-            A new filter that combines this filter with the other filter using logical OR.
-        """
-        return OrFilter(self, other)
+from korone.filters.base import KoroneFilter
 
 
 def resolve_filter(
@@ -136,7 +49,18 @@ def resolve_filter(
     return client.loop.run_in_executor(client.executor, partial(filter, client, update))
 
 
-class InvertFilter(KoroneFilter):
+class LogicFilter(KoroneFilter, ABC):
+    """
+    A base class for logic filters in the PyKorone library.
+
+    This class inherits from the `KoroneFilter` class and the `ABC` (Abstract Base Class) module.
+    Logic filters are used to perform logical operations on data in PyKorone.
+    """
+
+    ...
+
+
+class InvertFilter(LogicFilter):
     """
     A filter that inverts the result of another filter.
 
@@ -152,7 +76,7 @@ class InvertFilter(KoroneFilter):
     __slots__ = ("base",)
 
     def __init__(self, base: KoroneFilter) -> None:
-        self.base: KoroneFilter = base
+        self.base = base
 
     async def __call__(self, client: Client, update: Update) -> bool:
         """
@@ -173,11 +97,10 @@ class InvertFilter(KoroneFilter):
         bool
             True if the update does not pass the base filter, False otherwise.
         """
-        x = await resolve_filter(self.base, client, update)
-        return not x
+        return not await resolve_filter(self.base, client, update)
 
 
-class AndFilter(KoroneFilter):
+class AndFilter(LogicFilter):
     """
     A filter that combines two filters using logical AND.
 
@@ -195,8 +118,8 @@ class AndFilter(KoroneFilter):
     __slots__ = ("base", "other")
 
     def __init__(self, base: KoroneFilter, other: KoroneFilter) -> None:
-        self.base: KoroneFilter = base
-        self.other: KoroneFilter = other
+        self.base = base
+        self.other = other
 
     async def __call__(self, client: Client, update: Update) -> Any | bool:
         """
@@ -227,7 +150,7 @@ class AndFilter(KoroneFilter):
         return x and y
 
 
-class OrFilter(KoroneFilter):
+class OrFilter(LogicFilter):
     """
     A filter that combines two filters using logical OR.
 
@@ -245,8 +168,8 @@ class OrFilter(KoroneFilter):
     __slots__ = ("base", "other")
 
     def __init__(self, base: KoroneFilter, other: KoroneFilter):
-        self.base: KoroneFilter = base
-        self.other: KoroneFilter = other
+        self.base = base
+        self.other = other
 
     async def __call__(self, client: Client, update: Update) -> Any | bool:
         """
@@ -275,3 +198,67 @@ class OrFilter(KoroneFilter):
 
         y = await resolve_filter(self.other, client, update)
         return x or y
+
+
+def invert_f(base: KoroneFilter) -> InvertFilter:
+    """
+    Invert a filter using the NOT operator.
+
+    Inverts a filter using the NOT operator. The resulting filter passes only if the original
+    filter does not pass.
+
+    Parameters
+    ----------
+    base : KoroneFilter
+        The base filter to invert.
+
+    Returns
+    -------
+    InvertFilter
+        A new filter that inverts the original filter.
+    """
+    return InvertFilter(base)
+
+
+def and_f(base: KoroneFilter, other: KoroneFilter) -> AndFilter:
+    """
+    Combine two filters using logical AND.
+
+    Combines two filters using logical AND. The resulting filter passes only if both the base and
+    the other filter pass.
+
+    Parameters
+    ----------
+    base : KoroneFilter
+        The base filter.
+    other : KoroneFilter
+        The other filter.
+
+    Returns
+    -------
+    AndFilter
+        A new filter that combines the base and other filters using logical AND.
+    """
+    return AndFilter(base, other)
+
+
+def or_f(base: KoroneFilter, other: KoroneFilter) -> OrFilter:
+    """
+    Combine two filters using logical OR.
+
+    Combines two filters using logical OR. The resulting filter passes if either the base or the
+    other filter pass.
+
+    Parameters
+    ----------
+    base : KoroneFilter
+        The base filter.
+    other : KoroneFilter
+        The other filter.
+
+    Returns
+    -------
+    OrFilter
+        A new filter that combines the base and other filters using logical OR.
+    """
+    return OrFilter(base, other)

@@ -11,8 +11,7 @@ from hydrogram import Client
 from hydrogram.types import Message
 from magic_filter import MagicFilter
 
-from korone.filters import KoroneFilter
-from korone.modules import COMMANDS
+from korone.filters.base import KoroneFilter
 
 CommandPatternType = str | re.Pattern
 
@@ -327,6 +326,8 @@ class Command(KoroneFilter):
         CommandError
             If the command is invalid or any validation fails.
         """
+        from korone.modules import COMMANDS  # noqa: PLC0415
+
         command = CommandObject(message).parse()
 
         self.validate_prefix(command)

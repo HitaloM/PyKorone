@@ -32,6 +32,8 @@ class ChatManager:
         """
         Update or create a user or chat in the database.
 
+        This method updates or creates a user or chat in the database.
+
         Parameters
         ----------
         user_or_chat : User | Chat

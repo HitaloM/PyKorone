@@ -5,9 +5,9 @@ from hydrogram import Client
 from hydrogram.types import Message
 
 from korone.decorators import router
+from korone.filters import Command, CommandObject
 from korone.handlers import MessageHandler
 from korone.modules.afk.database import is_afk, set_afk
-from korone.modules.utils.filters import Command, CommandObject
 from korone.utils.i18n import gettext as _
 
 

@@ -5,7 +5,7 @@ from hydrogram import Client
 from hydrogram.types import CallbackQuery, Message
 
 from korone.config import ConfigManager
-from korone.filters import KoroneFilter
+from korone.filters.base import KoroneFilter
 
 
 class IsSudo(KoroneFilter):

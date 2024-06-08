@@ -10,9 +10,9 @@ from hydrogram.types import CallbackQuery, InlineKeyboardButton, InlineKeyboardM
 from magic_filter import F
 
 from korone.decorators import router
+from korone.filters import Command
 from korone.handlers import CallbackQueryHandler, MessageHandler
 from korone.modules.pm_menu.callback_data import LangMenuCallback, PMMenuCallback
-from korone.modules.utils.filters import Command
 from korone.utils.i18n import get_i18n
 from korone.utils.i18n import gettext as _
 
