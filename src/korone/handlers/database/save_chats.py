@@ -5,197 +5,183 @@ from hydrogram.enums import ChatType
 from hydrogram.types import Chat, Message, User
 
 from korone.config import ConfigManager
-from korone.handlers.database.manager import DatabaseManager
+from korone.handlers.database.manager import update_or_create_document
 
 
-class ChatManager:
+async def update_user_or_chat(user_or_chat: User | Chat, language: str | None = None) -> None:
     """
-    Save chats and users to the database.
+    Update or create a user or chat in the database.
 
-    This class handles all operations related to the database for the Factory decorator.
-    It provides methods to save chats and users to the database.
+    This function updates or creates a user or chat in the database.
 
-    Attributes
+    Parameters
     ----------
-    database_manager : DatabaseManager
-        The database manager to handle database operations.
+    user_or_chat : User | Chat
+        The user or chat object to update or create.
+    language : str, optional
+        The language code of the user, if applicable.
     """
+    await update_or_create_document(user_or_chat, language)
 
-    __slots__ = ("database_manager",)
 
-    def __init__(self) -> None:
-        self.database_manager = DatabaseManager()
+async def handle_private_and_group_message(message: Message) -> None:
+    """
+    Handle private and group messages.
 
-    async def _update_user_or_chat(
-        self, user_or_chat: User | Chat, language: str | None = None
-    ) -> None:
-        """
-        Update or create a user or chat in the database.
+    This function handles private and group messages. If the message is from a private chat,
+    it updates or creates the user object. If the message is from a group or supergroup,
+    it updates or creates the chat object.
 
-        This method updates or creates a user or chat in the database.
+    Parameters
+    ----------
+    message : Message
+        The message object.
+    """
+    if message.from_user and not message.from_user.is_bot:
+        await update_user_or_chat(message.from_user, message.from_user.language_code)
 
-        Parameters
-        ----------
-        user_or_chat : User | Chat
-            The user or chat object to update or create.
-        language : str, optional
-            The language code of the user, if applicable.
-        """
-        await self.database_manager.update_or_create(user_or_chat, language)
+    if message.chat.type in {ChatType.GROUP, ChatType.SUPERGROUP}:
+        await update_user_or_chat(message.chat)
 
-    async def _handle_private_and_group_message(self, message: Message) -> None:
-        """
-        Handle private and group messages.
 
-        This method handles private and group messages. If the message is from a private chat,
-        it updates or creates the user object. If the message is from a group or supergroup,
-        it updates or creates the chat object.
+def handle_message_update(message: Message) -> list[Chat | User]:
+    """
+    Handle message updates.
 
-        Parameters
-        ----------
-        message : Message
-            The message object.
-        """
-        if message.from_user and not message.from_user.is_bot:
-            await self._update_user_or_chat(message.from_user, message.from_user.language_code)
+    This function handles message updates. If the message is a reply to a message, it
+    updates or creates the user object of the replied message. If the message is a
+    forwarded message, it updates or creates the chat object of the forwarded message.
 
-        if message.chat.type in {ChatType.GROUP, ChatType.SUPERGROUP}:
-            await self._update_user_or_chat(message.chat)
+    Parameters
+    ----------
+    message : Message
+        The message object.
 
-    async def _handle_message_update(self, message: Message) -> list[Chat | User]:
-        """
-        Handle message updates.
+    Returns
+    -------
+    list[Chat | User]
+        The list of chats to update.
+    """
+    chats_to_update = []
 
-        This method handles message updates. If the message is a reply to a message, it
-        updates or creates the user object of the replied message. If the message is a
-        forwarded message, it updates or creates the chat object of the forwarded message.
+    if reply_message := message.reply_to_message:
+        chats_to_update.extend(handle_replied_message(reply_message))
 
-        Parameters
-        ----------
-        message : Message
-            The message object.
+    if message.forward_from or (
+        message.forward_from_chat and message.forward_from_chat.id != message.chat.id
+    ):
+        chats_to_update.append(message.forward_from_chat or message.forward_from)
 
-        Returns
-        -------
-        list[Chat | User]
-            The list of chats to update.
-        """
-        chats_to_update = []
+    return chats_to_update
 
-        if reply_message := message.reply_to_message:
-            chats_to_update.extend(await self.handle_replied_message(reply_message))
 
-        if message.forward_from or (
-            message.forward_from_chat and message.forward_from_chat.id != message.chat.id
-        ):
-            chats_to_update.append(message.forward_from_chat or message.forward_from)
+async def handle_member_updates(message: Message) -> None:
+    """
+    Handle member updates.
 
-        return chats_to_update
+    This function handles member updates. If the message has new chat members, it updates
+    or creates the user object of the new chat members.
 
-    async def _handle_member_updates(self, message: Message) -> None:
-        """
-        Handle member updates.
+    Parameters
+    ----------
+    message : Message
+        The message object.
+    """
+    if message.new_chat_members:
+        for member in message.new_chat_members:
+            if not member.is_bot:
+                await update_user_or_chat(member, member.language_code)
 
-        This method handles member updates. If the message has new chat members, it updates
-        or creates the user object of the new chat members.
 
-        Parameters
-        ----------
-        message : Message
-            The message object.
-        """
-        if message.new_chat_members:
-            for member in message.new_chat_members:
-                if not member.is_bot:
-                    await self._update_user_or_chat(member, member.language_code)
+async def handle_message(message: Message) -> None:
+    """
+    Handle the message.
 
-    async def handle_message(self, message: Message) -> None:
-        """
-        Handle the message.
+    This function handles the message. It updates or creates the user object if the message
+    is from a private chat. It updates or creates the chat object if the message is from
+    a group or supergroup. It also handles message updates and member updates.
 
-        This method handles the message. It updates or creates the user object if the message
-        is from a private chat. It updates or creates the chat object if the message is from
-        a group or supergroup. It also handles message updates and member updates.
+    Parameters
+    ----------
+    message : Message
+        The message object.
+    """
+    await handle_private_and_group_message(message)
 
-        Parameters
-        ----------
-        message : Message
-            The message object.
-        """
-        await self._handle_private_and_group_message(message)
+    chats_to_update = handle_message_update(message)
+    await handle_member_updates(message)
+    await chats_update(chats_to_update)
 
-        chats_to_update = await self._handle_message_update(message)
-        await self._handle_member_updates(message)
-        await self._chats_update(chats_to_update)
 
-    async def _chats_update(self, chats: list[Chat | User]) -> None:
-        """
-        Update chats.
+async def chats_update(chats: list[Chat | User]) -> None:
+    """
+    Update chats.
 
-        This method updates the chats based on the list of chats.
+    This function updates the chats based on the list of chats.
 
-        Parameters
-        ----------
-        chats : list[Chat | User]
-            The list of chats to update.
-        """
-        if chats:
-            for chat in chats:
-                language = chat.language_code if isinstance(chat, User) else None
-                await self._update_user_or_chat(chat, language)
+    Parameters
+    ----------
+    chats : list[Chat | User]
+        The list of chats to update.
+    """
+    if chats:
+        for chat in chats:
+            language = chat.language_code if isinstance(chat, User) else None
+            await update_user_or_chat(chat, language)
 
-    async def save_from_user(self, user: User) -> None:
-        """
-        Save the user object to the database.
 
-        This method saves the user object to the database.
+async def save_from_user(user: User) -> None:
+    """
+    Save the user object to the database.
 
-        Parameters
-        ----------
-        user : User
-            The user object.
-        """
-        if user and not user.is_bot:
-            await self._update_user_or_chat(user, user.language_code)
+    This function saves the user object to the database.
 
-    @staticmethod
-    async def handle_replied_message(message: Message) -> list[Chat | User]:
-        """
-        Handle replied message.
+    Parameters
+    ----------
+    user : User
+        The user object.
+    """
+    if user and not user.is_bot:
+        await update_user_or_chat(user, user.language_code)
 
-        This method handles the replied message. It updates or creates the user object of the
-        replied message. If the replied message is a forwarded message, it updates or creates
-        the chat object of the forwarded message.
 
-        Parameters
-        ----------
-        message : Message
-            The message object.
+def handle_replied_message(message: Message) -> list[Chat | User]:
+    """
+    Handle replied message.
 
-        Returns
-        -------
-        list[Chat | User]
-            The list of chats to update.
-        """
-        chats_to_update = []
+    This function handles the replied message. It updates or creates the user object of the
+    replied message. If the replied message is a forwarded message, it updates or creates
+    the chat object of the forwarded message.
 
-        bot_token = ConfigManager.get("hydrogram", "BOT_TOKEN")
-        bot_id = bot_token.split(":", 1)[0]
+    Parameters
+    ----------
+    message : Message
+        The message object.
 
-        replied_message_user = message.sender_chat or message.from_user
-        if (
-            replied_message_user
-            and replied_message_user.id != bot_id
-            and (isinstance(replied_message_user, Chat) or not replied_message_user.is_bot)
-        ):
-            chats_to_update.append(replied_message_user)
+    Returns
+    -------
+    list[Chat | User]
+        The list of chats to update.
+    """
+    chats_to_update = []
 
-        reply_to_forwarded = message.forward_from_chat or message.forward_from
-        if (
-            reply_to_forwarded
-            and reply_to_forwarded.id != bot_id
-            and (isinstance(reply_to_forwarded, Chat) or not reply_to_forwarded.is_bot)
-        ):
-            chats_to_update.append(reply_to_forwarded)
+    bot_token = ConfigManager.get("hydrogram", "BOT_TOKEN")
+    bot_id = bot_token.split(":", 1)[0]
 
-        return chats_to_update
+    replied_message_user = message.sender_chat or message.from_user
+    if (
+        replied_message_user
+        and replied_message_user.id != bot_id
+        and (isinstance(replied_message_user, Chat) or not replied_message_user.is_bot)
+    ):
+        chats_to_update.append(replied_message_user)
+
+    reply_to_forwarded = message.forward_from_chat or message.forward_from
+    if (
+        reply_to_forwarded
+        and reply_to_forwarded.id != bot_id
+        and (isinstance(reply_to_forwarded, Chat) or not reply_to_forwarded.is_bot)
+    ):
+        chats_to_update.append(reply_to_forwarded)
+
+    return chats_to_update
