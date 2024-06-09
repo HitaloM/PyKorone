@@ -10,7 +10,7 @@ from hydrogram.types import CallbackQuery, Message
 
 from korone import cache
 from korone.decorators import router
-from korone.filters import Command
+from korone.filters import Command, IsSudo
 from korone.handlers.abstract import CallbackQueryHandler, MessageHandler
 from korone.modules.sudo.callback_data import UpdateCallbackData
 from korone.modules.sudo.utils import build_text, generate_document, run_command
@@ -26,7 +26,7 @@ class UpdateCommand(MessageHandler):
             for parts in [line.split(" ", 1)]
         }
 
-    @router.message(Command(commands=["update", "upgrade"]))
+    @router.message(Command(commands=["update", "upgrade"]) & IsSudo)
     async def handle(self, client: Client, message: Message) -> None:
         sent = await message.reply("Checking for updates...")
 
@@ -59,7 +59,7 @@ class UpdateCommand(MessageHandler):
 
 class UpdateCallback(CallbackQueryHandler):
     @staticmethod
-    @router.callback_query(UpdateCallbackData.filter())
+    @router.callback_query(UpdateCallbackData.filter() & IsSudo)
     async def handle(client: Client, callback: CallbackQuery) -> None:
         cache_key = "korone-reboot"
         if await cache.get(cache_key):
@@ -88,7 +88,6 @@ class UpdateCallback(CallbackQueryHandler):
             await generate_document(stdout, message)
             return
 
-        text += "\nLOGs:\n"
         text += build_text(stdout)
 
         await sent.reply(text, parse_mode=ParseMode.MARKDOWN)
