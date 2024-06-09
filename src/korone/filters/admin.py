@@ -1,15 +1,15 @@
 # SPDX-License-Identifier: BSD-3-Clause
 # Copyright (c) 2024 Hitalo M. <https://github.com/HitaloM>
 
+from collections.abc import Generator
 
 from hydrogram import Client
 from hydrogram.enums import ChatMemberStatus, ChatType
+from hydrogram.filters import Filter
 from hydrogram.types import CallbackQuery, Message
 
-from korone.filters.base import KoroneFilter
 
-
-class IsAdmin(KoroneFilter):
+class IsAdmin(Filter):
     """
     Filter to check if a user is an administrator.
 
@@ -54,3 +54,19 @@ class IsAdmin(KoroneFilter):
 
         user = await self.client.get_chat_member(message.chat.id, message.from_user.id)
         return user.status in {ChatMemberStatus.ADMINISTRATOR, ChatMemberStatus.OWNER}
+
+    def __await__(self) -> Generator:
+        """
+        Allow the filter to be used in an await expression.
+
+        This method allows the filter to be used in an await expression.
+        It is needed because the :class:`hydrogram.filters.AndFilter` tries to call the filter
+        object as a coroutine.
+
+        Returns
+        -------
+        Awaitable[bool]
+            An awaitable object that resolves to True if the user is an administrator,
+            False otherwise.
+        """
+        return self.__call__().__await__()  # type: ignore

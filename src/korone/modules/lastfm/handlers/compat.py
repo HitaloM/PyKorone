@@ -6,7 +6,7 @@ from hydrogram.types import Message
 
 from korone.decorators import router
 from korone.filters import Command, CommandObject
-from korone.handlers.abstract.message_handler import MessageHandler
+from korone.handlers.message_handler import MessageHandler
 from korone.modules.lastfm.database import get_lastfm_user
 from korone.modules.lastfm.utils import (
     LastFMClient,

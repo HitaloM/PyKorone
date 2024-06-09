@@ -3,11 +3,10 @@
 
 import re
 
-from hydrogram import Client
-from hydrogram.enums import ChatType, MessageEntityType
+from hydrogram import Client, filters
+from hydrogram.enums import MessageEntityType
 from hydrogram.errors import PeerIdInvalid
 from hydrogram.types import Message, MessageEntity, User
-from magic_filter import F
 
 from korone.decorators import router
 from korone.handlers import MessageHandler
@@ -67,7 +66,7 @@ class CheckAfk(MessageHandler):
 
         await message.reply(text)
 
-    @router.message(~F.chat.type.is_(ChatType.PRIVATE) & ~F.from_user.is_bot, group=-2)
+    @router.message(~filters.private & ~filters.bot, group=-2)
     async def handle(self, client: Client, message: Message) -> None:
         if message.from_user and message.text and re.findall(r"^\/\bafk\b", message.text):
             return

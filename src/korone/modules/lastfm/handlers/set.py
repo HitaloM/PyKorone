@@ -8,7 +8,7 @@ from hydrogram.types import Message
 
 from korone.decorators import router
 from korone.filters import Command, CommandObject
-from korone.handlers.abstract.message_handler import MessageHandler
+from korone.handlers.message_handler import MessageHandler
 from korone.modules.lastfm.database import save_lastfm_user
 from korone.utils.i18n import gettext as _
 

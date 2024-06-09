@@ -8,10 +8,9 @@ from functools import partial
 
 from hairydogm.chat_action import ChatActionSender
 from hairydogm.keyboard import InlineKeyboardBuilder
-from hydrogram import Client
+from hydrogram import Client, filters
 from hydrogram.enums import ChatAction
 from hydrogram.types import InputMediaPhoto, InputMediaVideo, Message
-from magic_filter import F
 
 from korone.decorators import router
 from korone.handlers import MessageHandler
@@ -174,7 +173,7 @@ class TwitterMessageHandler(MessageHandler):
             text += _("\n<b>Sent from:</b> <i>{source}</i>").format(source=tweet.source)
         return text
 
-    @router.message(F.text.regexp(URL_PATTERN, search=True))
+    @router.message(filters.regex(URL_PATTERN))
     async def handle(self, client: Client, message: Message) -> None:
         url_match = URL_PATTERN.search(message.text)
         if not url_match:

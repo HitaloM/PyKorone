@@ -6,7 +6,7 @@ from hydrogram.types import Message
 
 from korone.decorators import router
 from korone.filters import Command, IsAdmin
-from korone.handlers.abstract.message_handler import MessageHandler
+from korone.handlers.message_handler import MessageHandler
 from korone.modules import COMMANDS
 from korone.utils.i18n import gettext as _
 

@@ -11,13 +11,11 @@ from types import FunctionType, ModuleType
 from typing import TYPE_CHECKING, Any
 
 from hydrogram import Client
-from magic_filter import MagicFilter
+from hydrogram.filters import AndFilter, Filter
 
 from korone.database.query import Query
 from korone.database.sqlite import sqlite_pool
 from korone.database.table import Documents
-from korone.decorators.factory import KoroneFilters
-from korone.filters.logic import AndFilter
 from korone.handlers import CallbackQueryHandler, MessageHandler
 from korone.utils.logging import log
 from korone.utils.traverse import bfs_attr_search
@@ -206,7 +204,7 @@ async def check_command_state(command: str) -> Documents | None:
         return await table.query(query.command == command) or None
 
 
-async def process_handler_commands(filters: KoroneFilters) -> None:
+async def process_handler_commands(filters: Filter) -> None:
     """
     Process Handler Commands
 
@@ -214,10 +212,10 @@ async def process_handler_commands(filters: KoroneFilters) -> None:
 
     Parameters
     ----------
-    filters : KoroneFilters
+    filters : Filter
         The filters for the handler.
     """
-    if not isinstance(filters, MagicFilter) and hasattr(filters, "commands"):
+    if hasattr(filters, "commands"):
         commands = [command.pattern for command in filters.commands]  # type: ignore
         if filters.disableable:  # type: ignore
             await update_commands(commands)

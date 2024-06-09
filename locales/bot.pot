@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PyKorone 1.0\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-06-08 19:10-0300\n"
+"POT-Creation-Date: 2024-06-08 21:08-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -39,11 +39,11 @@ msgid ""
 " - /afk &lt;reason&gt;: Set your status as AFK."
 msgstr ""
 
-#: src/korone/modules/afk/handlers/check.py:64
+#: src/korone/modules/afk/handlers/check.py:63
 msgid "{user} is afk!"
 msgstr ""
 
-#: src/korone/modules/afk/handlers/check.py:66
+#: src/korone/modules/afk/handlers/check.py:65
 msgid ""
 "\n"
 "Reason: {reason}"
@@ -86,53 +86,53 @@ msgid ""
 "- /disabled: List of commands that are currently disabled in the group."
 msgstr ""
 
-#: src/korone/modules/disabling/handlers/disable.py:26
+#: src/korone/modules/disabling/handlers/disable.py:22
 msgid "You need to specify a command to disable."
 msgstr ""
 
-#: src/korone/modules/disabling/handlers/disable.py:31
+#: src/korone/modules/disabling/handlers/disable.py:27
 msgid "You can only disable one command at a time."
 msgstr ""
 
-#: src/korone/modules/disabling/handlers/disable.py:36
-#: src/korone/modules/disabling/handlers/enable.py:36
+#: src/korone/modules/disabling/handlers/disable.py:32
+#: src/korone/modules/disabling/handlers/enable.py:32
 msgid "This command can't be enabled or disabled."
 msgstr ""
 
-#: src/korone/modules/disabling/handlers/disable.py:42
+#: src/korone/modules/disabling/handlers/disable.py:38
 msgid "This command is already disabled."
 msgstr ""
 
-#: src/korone/modules/disabling/handlers/disable.py:48
-#: src/korone/modules/disabling/handlers/enable.py:48
+#: src/korone/modules/disabling/handlers/disable.py:44
+#: src/korone/modules/disabling/handlers/enable.py:44
 msgid "Sorry! I couldn't find this command, maybe it doesn't exist?"
 msgstr ""
 
-#: src/korone/modules/disabling/handlers/disable.py:51
+#: src/korone/modules/disabling/handlers/disable.py:47
 msgid "Command disabled."
 msgstr ""
 
-#: src/korone/modules/disabling/handlers/disabled.py:25
+#: src/korone/modules/disabling/handlers/disabled.py:21
 msgid "No commands are disabled in this chat."
 msgstr ""
 
-#: src/korone/modules/disabling/handlers/disabled.py:28
+#: src/korone/modules/disabling/handlers/disabled.py:24
 msgid "The following commands are disabled in this chat:\n"
 msgstr ""
 
-#: src/korone/modules/disabling/handlers/enable.py:26
+#: src/korone/modules/disabling/handlers/enable.py:22
 msgid "You need to specify a command to enable."
 msgstr ""
 
-#: src/korone/modules/disabling/handlers/enable.py:31
+#: src/korone/modules/disabling/handlers/enable.py:27
 msgid "You can only enable one command at a time."
 msgstr ""
 
-#: src/korone/modules/disabling/handlers/enable.py:42
+#: src/korone/modules/disabling/handlers/enable.py:38
 msgid "This command is already enabled."
 msgstr ""
 
-#: src/korone/modules/disabling/handlers/enable.py:51
+#: src/korone/modules/disabling/handlers/enable.py:47
 msgid "Command enabled."
 msgstr ""
 
@@ -629,46 +629,46 @@ msgid ""
 " given link."
 msgstr ""
 
-#: src/korone/modules/media_dl/handlers/instagram.py:65
-#: src/korone/modules/media_dl/handlers/instagram.py:137
+#: src/korone/modules/media_dl/handlers/instagram.py:64
+#: src/korone/modules/media_dl/handlers/instagram.py:136
 msgid "Open in Instagram"
 msgstr ""
 
-#: src/korone/modules/media_dl/handlers/instagram.py:108
+#: src/korone/modules/media_dl/handlers/instagram.py:107
 msgid "This Instagram URL is not a valid post or story."
 msgstr ""
 
-#: src/korone/modules/media_dl/handlers/instagram.py:120
+#: src/korone/modules/media_dl/handlers/instagram.py:119
 msgid "Oops! Something went wrong while fetching the post."
 msgstr ""
 
-#: src/korone/modules/media_dl/handlers/twitter.py:114
+#: src/korone/modules/media_dl/handlers/twitter.py:113
 msgid "Open in Twitter"
 msgstr ""
 
-#: src/korone/modules/media_dl/handlers/twitter.py:146
+#: src/korone/modules/media_dl/handlers/twitter.py:145
 msgid "Failed to send media!"
 msgstr ""
 
-#: src/korone/modules/media_dl/handlers/twitter.py:161
-#: src/korone/modules/media_dl/handlers/twitter.py:217
+#: src/korone/modules/media_dl/handlers/twitter.py:160
+#: src/korone/modules/media_dl/handlers/twitter.py:216
 msgid "Failed to send media: {error}"
 msgstr ""
 
-#: src/korone/modules/media_dl/handlers/twitter.py:174
+#: src/korone/modules/media_dl/handlers/twitter.py:173
 msgid ""
 "\n"
 "<b>Sent from:</b> <i>{source}</i>"
 msgstr ""
 
-#: src/korone/modules/media_dl/handlers/twitter.py:189
+#: src/korone/modules/media_dl/handlers/twitter.py:188
 msgid ""
 "Failed to scan your link! This may be due to an incorrect link, "
 "private/suspended account, deleted tweet, or recent changes to Twitter's "
 "API."
 msgstr ""
 
-#: src/korone/modules/media_dl/handlers/twitter.py:198
+#: src/korone/modules/media_dl/handlers/twitter.py:197
 msgid "No media found in this tweet!"
 msgstr ""
 
