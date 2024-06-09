@@ -2,13 +2,10 @@
 # Copyright (c) 2024 Hitalo M. <https://github.com/HitaloM>
 
 import html
-import io
-import os
-import sys
-import time
 
 from hairydogm.keyboard import InlineKeyboardBuilder
 from hydrogram import Client
+from hydrogram.enums import ParseMode
 from hydrogram.types import CallbackQuery, Message
 
 from korone import cache
@@ -16,7 +13,7 @@ from korone.decorators import router
 from korone.filters import Command
 from korone.handlers.abstract import CallbackQueryHandler, MessageHandler
 from korone.modules.sudo.callback_data import UpdateCallbackData
-from korone.modules.sudo.utils import run_command
+from korone.modules.sudo.utils import build_text, generate_document, run_command
 
 
 class UpdateCommand(MessageHandler):
@@ -76,7 +73,7 @@ class UpdateCallback(CallbackQueryHandler):
         commands = [
             "git reset --hard origin/main",
             "pybabel compile -d locales -D bot",
-            "rye sync --update-all",
+            "rye sync --update-all --all-features",
         ]
 
         try:
@@ -85,18 +82,13 @@ class UpdateCallback(CallbackQueryHandler):
             await sent.edit_text(f"An error occurred:\n<code>{e}</code>")
             return
 
-        await sent.reply("Uploading logs...")
-        with io.BytesIO(stdout.encode()) as document:
-            document.name = "update_log.txt"
-            await sent.reply_document(document=document)
+        text = "Upgrade completed successfully. Reboot is required..."
+        if len(stdout) > 4096:
+            await sent.edit(text)
+            await generate_document(stdout, message)
+            return
 
-        await sent.reply("Restarting...")
+        text += "\nLOGs:\n"
+        text += build_text(stdout)
 
-        value = {
-            "chat_id": message.chat.id,
-            "message_id": sent.id,
-            "time": time.time(),
-        }
-        await cache.set(cache_key, value=value, expire=300)
-
-        os.execv(sys.executable, [sys.executable, "-m", "korone"])
+        await sent.reply(text, parse_mode=ParseMode.MARKDOWN)
