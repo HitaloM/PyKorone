@@ -1,7 +1,9 @@
 # SPDX-License-Identifier: BSD-3-Clause
 # Copyright (c) 2024 Hitalo M. <https://github.com/HitaloM>
 
+import html
 import re
+from contextlib import suppress
 
 from hydrogram import Client, filters
 from hydrogram.enums import MessageEntityType
@@ -11,6 +13,8 @@ from hydrogram.types import Message, MessageEntity, User
 from korone.decorators import router
 from korone.handlers.abstract import MessageHandler
 from korone.modules.afk.database import get_afk_reason, get_user, is_afk, set_afk
+from korone.modules.lastfm.database import get_lastfm_user
+from korone.modules.lastfm.utils import LastFMClient, LastFMError
 from korone.utils.i18n import gettext as _
 
 
@@ -60,9 +64,26 @@ class CheckAfk(MessageHandler):
         if not user or user.id == message.from_user.id or not await is_afk(user.id):
             return
 
+        last_fm_user = await get_lastfm_user(user.id)
+        reason = await get_afk_reason(user.id)
+        track_text = None
+
+        if last_fm_user:
+            last_fm = LastFMClient()
+            with suppress(LastFMError):
+                last_played = (await last_fm.get_recent_tracks(last_fm_user, limit=1))[0]
+                track_info = await last_fm.get_track_info(
+                    last_played.artist, last_played.name, last_fm_user
+                )
+                track_text = _("🎧 Listening to: {track_artist} — {track_name}").format(
+                    track_artist=track_info.artist, track_name=track_info.name
+                )
+
         text = _("{user} is afk!").format(user=user.first_name)
-        if reason := await get_afk_reason(user.id):
-            text += _("\nReason: {reason}").format(reason=reason)
+        if reason:
+            text += _("\nReason: {reason}").format(reason=html.escape(str(reason)))
+        if track_text:
+            text += f"\n{track_text}"
 
         await message.reply(text)
 
