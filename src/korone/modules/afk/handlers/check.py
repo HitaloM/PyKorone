@@ -9,7 +9,7 @@ from hydrogram.errors import PeerIdInvalid
 from hydrogram.types import Message, MessageEntity, User
 
 from korone.decorators import router
-from korone.handlers import MessageHandler
+from korone.handlers.abstract import MessageHandler
 from korone.modules.afk.database import get_afk_reason, get_user, is_afk, set_afk
 from korone.utils.i18n import gettext as _
 

@@ -16,7 +16,7 @@ from hydrogram.filters import AndFilter, Filter
 from korone.database.query import Query
 from korone.database.sqlite import sqlite_pool
 from korone.database.table import Documents
-from korone.handlers import CallbackQueryHandler, MessageHandler
+from korone.handlers.abstract import CallbackQueryHandler, MessageHandler
 from korone.utils.logging import log
 from korone.utils.traverse import bfs_attr_search
 

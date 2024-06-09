@@ -12,7 +12,7 @@ from hydrogram.types import Message
 
 from korone.decorators import router
 from korone.filters import Command, CommandObject, IsSudo
-from korone.handlers import MessageHandler
+from korone.handlers.abstract import MessageHandler
 from korone.modules.sudo.utils import build_text, generate_document
 
 

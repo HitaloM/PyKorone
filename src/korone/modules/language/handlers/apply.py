@@ -8,7 +8,7 @@ from hydrogram.types import CallbackQuery
 
 from korone import cache, constants
 from korone.decorators import router
-from korone.handlers import CallbackQueryHandler
+from korone.handlers.abstract import CallbackQueryHandler
 from korone.modules.language.callback_data import SetLangCallback
 from korone.modules.language.database import set_chat_language
 from korone.utils.i18n import get_i18n

@@ -8,7 +8,7 @@ from hydrogram.enums import ChatType
 from hydrogram.types import Chat, User
 
 from korone import cache, i18n
-from korone.decorators.database import DatabaseManager
+from korone.handlers.database.manager import DatabaseManager
 
 
 class LanguageManager:

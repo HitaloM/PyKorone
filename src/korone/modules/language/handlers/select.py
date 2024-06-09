@@ -10,7 +10,7 @@ from magic_filter import F
 from korone import i18n
 from korone.decorators import router
 from korone.filters import Command, IsAdmin
-from korone.handlers import CallbackQueryHandler, MessageHandler
+from korone.handlers.abstract import CallbackQueryHandler, MessageHandler
 from korone.modules.language.callback_data import LangMenuCallback, SetLangCallback
 from korone.utils.i18n import gettext as _
 

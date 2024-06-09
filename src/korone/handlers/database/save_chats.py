@@ -5,7 +5,7 @@ from hydrogram.enums import ChatType
 from hydrogram.types import Chat, Message, User
 
 from korone.config import ConfigManager
-from korone.decorators.database import DatabaseManager
+from korone.handlers.database.manager import DatabaseManager
 
 
 class ChatManager:

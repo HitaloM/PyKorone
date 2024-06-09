@@ -3,17 +3,12 @@
 
 from collections.abc import Callable
 from dataclasses import dataclass
-from functools import wraps
 from typing import TYPE_CHECKING
 
-from hydrogram.enums import ChatType
 from hydrogram.filters import Filter
-from hydrogram.handlers import CallbackQueryHandler, MessageHandler
-from hydrogram.types import CallbackQuery
 
-from korone import i18n
-from korone.decorators.language import LanguageManager
-from korone.decorators.save_chats import ChatManager
+from korone.handlers.callback_query_handler import KoroneCallbackQueryHandler
+from korone.handlers.message_handler import KoroneMessageHandler
 
 if TYPE_CHECKING:
     from hydrogram.handlers.handler import Handler
@@ -71,16 +66,14 @@ class Factory:
         A dictionary that stores the events observed by the factory.
     """
 
-    __slots__ = ("chat_manager", "event_name", "events_observed", "language_manager")
+    __slots__ = ("event_name", "events_observed")
 
     def __init__(self, event_name: str) -> None:
         self.event_name = event_name
-        self.chat_manager = ChatManager()
-        self.language_manager = LanguageManager()
 
         self.events_observed: dict[str, type[Handler]] = {
-            "message": MessageHandler,
-            "callback_query": CallbackQueryHandler,
+            "message": KoroneMessageHandler,
+            "callback_query": KoroneCallbackQueryHandler,
         }
 
     def __call__(self, filters: Filter, group: int = 0) -> Callable:
@@ -112,29 +105,6 @@ class Factory:
                 func, filters, group, self.events_observed[self.event_name]
             )
 
-            @wraps(func)
-            async def wrapped(*args, **kwargs):
-                update = args[2] if len(args) > 2 else args[1]  # type: ignore
-                is_callback = isinstance(update, CallbackQuery)
-                message = update.message if is_callback else update
-                user = update.from_user if is_callback else message.from_user
-
-                if user and not user.is_bot:
-                    if is_callback:
-                        await self.chat_manager.save_from_user(user)
-                    else:
-                        await self.chat_manager.handle_message(message)
-
-                chat = message.chat
-                locale = i18n.default_locale
-                if chat.type == ChatType.PRIVATE:
-                    locale = await self.language_manager.get_locale(user)
-                elif chat.type in {ChatType.GROUP, ChatType.SUPERGROUP}:
-                    locale = await self.language_manager.get_locale(chat)
-
-                with i18n.context(), i18n.use_locale(locale):
-                    return await func(*args, **kwargs)
-
-            return wrapped
+            return func
 
         return wrapper

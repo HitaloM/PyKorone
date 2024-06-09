@@ -13,7 +13,7 @@ from hydrogram.enums import ChatAction
 from hydrogram.types import InputMediaPhoto, InputMediaVideo, Message
 
 from korone.decorators import router
-from korone.handlers import MessageHandler
+from korone.handlers.abstract import MessageHandler
 from korone.modules.media_dl.utils.twitter import (
     TweetData,
     TweetMedia,
