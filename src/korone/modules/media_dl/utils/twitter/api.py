@@ -59,12 +59,11 @@ class TweetData:
 
 
 class TwitterAPI:
-    __slots__ = ("http_client", "tweet", "url")
+    __slots__ = ("tweet", "url")
 
     def __init__(self, url: str):
-        self.http_client = httpx.AsyncClient(http2=True)
         self.url = url
-        self.tweet: TweetData
+        self.tweet: TweetData | None = None
 
     async def fetch_and_parse(self) -> None:
         data = await self._fetch(self.url)
@@ -76,11 +75,12 @@ class TwitterAPI:
 
     @cache(ttl=timedelta(days=1), key="tweet_data:{url}")
     async def _fetch(self, url: str) -> dict:
-        vx_url = self._convert_to_fx_url(url)
+        fx_url = self._convert_to_fx_url(url)
         try:
-            response = await self.http_client.get(vx_url)
-            response.raise_for_status()
-            return response.json()
+            async with httpx.AsyncClient(http2=True) as client:
+                response = await client.get(fx_url)
+                response.raise_for_status()
+                return response.json()
         except httpx.HTTPError as err:
             log.error(f"Error fetching tweet data: {err}")
             raise TwitterError from err
@@ -112,8 +112,9 @@ class TwitterAPI:
             await self._create_tweet_media_variant(variant)
             for variant in media.get("variants", [])
         ]
-        if thumbnail := media.get("thumbnail_url"):
-            thumbnail = await self._url_to_binary_io(media.get("thumbnail_url", ""))
+        thumbnail_io = None
+        if thumbnail_url := media.get("thumbnail_url"):
+            thumbnail_io = await self._url_to_binary_io(thumbnail_url)
 
         binary_io = await self._url_to_binary_io(media.get("url", ""))
 
@@ -125,7 +126,7 @@ class TwitterAPI:
             duration=media.get("duration", 0),
             width=media.get("width", 0),
             height=media.get("height", 0),
-            thumbnail_io=thumbnail,
+            thumbnail_io=thumbnail_io,
             thumbnail_url=media.get("thumbnail_url", ""),
             variants=variants,
         )
@@ -138,12 +139,14 @@ class TwitterAPI:
             binary_io=await self._url_to_binary_io(variant.get("url", "")),
         )
 
+    @staticmethod
     @cache(ttl=timedelta(days=1), key="tweet_binary:{url}")
-    async def _url_to_binary_io(self, url: str) -> BinaryIO:
+    async def _url_to_binary_io(url: str) -> BinaryIO:
         try:
-            response = await self.http_client.get(url)
-            response.raise_for_status()
-            content = await response.aread()
+            async with httpx.AsyncClient(http2=True) as client:
+                response = await client.get(url)
+                response.raise_for_status()
+                content = await response.aread()
         except httpx.HTTPError as err:
             log.error(f"Error fetching media data: {err}")
             raise TwitterError from err

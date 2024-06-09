@@ -20,7 +20,9 @@ from korone.modules.media_dl.utils.twitter import (
     TwitterAPI,
     TwitterCache,
     TwitterError,
-    TwitterMediaHandler,
+    delete_files,
+    get_best_variant,
+    process_video_media,
 )
 from korone.utils.i18n import gettext as _
 
@@ -28,37 +30,39 @@ URL_PATTERN = re.compile(r"(?:(?:http|https):\/\/)?(?:www.)?(twitter\.com|x\.com
 
 
 class TwitterMessageHandler(MessageHandler):
-    __slots__ = ("media_handler",)
-
-    def __init__(self) -> None:
-        self.media_handler = TwitterMediaHandler()
-
     @staticmethod
     def create_media_list(media_cache: dict, text: str) -> list[InputMediaPhoto | InputMediaVideo]:
-        media_list = [
-            InputMediaPhoto(media["photo"]["file"])
-            if "photo" in media
-            else InputMediaVideo(
-                media=media["video"]["file"],
-                duration=media["video"]["duration"],
-                width=media["video"]["width"],
-                height=media["video"]["height"],
-                thumb=media["video"]["thumbnail"],
-            )
-            for media in media_cache.values()
-        ]
-        media_list[-1].caption = text
+        media_list = []
+
+        media_list.extend(
+            [InputMediaPhoto(media["file"]) for media in media_cache.get("photo", [])]
+            + [
+                InputMediaVideo(
+                    media=media["file"],
+                    duration=media["duration"],
+                    width=media["width"],
+                    height=media["height"],
+                    thumb=media["thumbnail"],
+                )
+                for media in media_cache.get("video", [])
+            ]
+        )
+
+        if media_list:
+            media_list[-1].caption = text
+
         return media_list
 
+    @staticmethod
     async def process_media(
-        self, media: TweetMedia, files_to_delete: list
+        media: TweetMedia, files_to_delete: list
     ) -> InputMediaPhoto | InputMediaVideo | None:
         if media.type == "photo":
             return InputMediaPhoto(media.binary_io)
 
         if media.type in {"video", "gif"}:
-            variant = await self.media_handler.get_best_variant(media) or media
-            media_file = await self.media_handler.process_video_media(variant)
+            variant = get_best_variant(media) or media
+            media_file = await process_video_media(variant)
             duration = int(timedelta(milliseconds=media.duration).total_seconds())
             files_to_delete.append(media_file)
 
@@ -95,14 +99,14 @@ class TwitterMessageHandler(MessageHandler):
         sent_message = await message.reply_media_group(media=media_list)
 
         if files_to_delete:
-            await self.media_handler.files_utils.delete_files(files_to_delete)
+            await delete_files(files_to_delete)
 
         if sent_message:
             cache_ttl = int(timedelta(weeks=1).total_seconds())
             await cache.set(sent_message, cache_ttl)
 
+    @staticmethod
     async def send_media(  # noqa: PLR0917
-        self,
         client: Client,
         message: Message,
         media: TweetMedia,
@@ -111,12 +115,31 @@ class TwitterMessageHandler(MessageHandler):
         cache_data: dict | None,
     ) -> Message | None:
         keyboard = InlineKeyboardBuilder().button(text=_("Open in Twitter"), url=tweet.url)
+
         media_file = media.binary_io
+        duration = (
+            int(timedelta(milliseconds=media.duration).total_seconds()) if media.duration else 0
+        )
+        width = media.width
+        height = media.height
+        thumb = media.thumbnail_io
+
+        if cache_data:
+            if media.type == "photo" and cache_data.get("photo"):
+                media_file = cache_data["photo"][0].get("file", media_file)
+            elif media.type in {"video", "gif"} and cache_data.get("video"):
+                video_data = cache_data["video"][0]
+                media_file = video_data.get("file", media_file)
+                duration = video_data.get("duration", duration)
+                width = video_data.get("width", width)
+                height = video_data.get("height", height)
+                thumb = video_data.get("thumbnail", thumb)
 
         try:
             if media.type == "photo":
-                if cache_data:
-                    media_file = cache_data["photo"].get("file")
+                if not media_file:
+                    await message.reply_text(_("Failed to send media!"))
+                    return None
 
                 return await client.send_photo(
                     chat_id=message.chat.id,
@@ -126,21 +149,6 @@ class TwitterMessageHandler(MessageHandler):
                     reply_to_message_id=message.id,
                 )
             if media.type in {"video", "gif"}:
-                if cache_data:
-                    media_file = cache_data["video"].get("file")
-                    duration = cache_data["video"].get("duration", 0)
-                    width = cache_data["video"].get("width", 0)
-                    height = cache_data["video"].get("height", 0)
-                    thumb = cache_data["video"].get("thumbnail", None)
-                else:
-                    media_file = (
-                        await self.media_handler.get_best_variant(media) or media
-                    ).binary_io
-                    duration = int(timedelta(milliseconds=media.duration).total_seconds())
-                    width = media.width
-                    height = media.height
-                    thumb = media.thumbnail_io
-
                 if not media_file:
                     await message.reply_text(_("Failed to send media!"))
                     return None
@@ -191,6 +199,10 @@ class TwitterMessageHandler(MessageHandler):
                     "Twitter's API."
                 )
             )
+            return
+
+        if not tweet:
+            await message.reply_text(_("I couldn't find any tweet data!"))
             return
 
         if not tweet.media:

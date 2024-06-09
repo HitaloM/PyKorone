@@ -19,30 +19,28 @@ class TwitterCache:
 
     @staticmethod
     def _serialize_photo(message: Message) -> dict:
-        return {"photo": {"file": message.photo.file_id}}
+        return {"file": message.photo.file_id}
 
     @staticmethod
     def _serialize_video(message: Message) -> dict:
         thumbnail = message.video.thumbs[0].file_id if message.video.thumbs else None
         return {
-            "video": {
-                "file": message.video.file_id,
-                "duration": message.video.duration,
-                "width": message.video.width,
-                "height": message.video.height,
-                "thumbnail": thumbnail,
-            }
+            "file": message.video.file_id,
+            "duration": message.video.duration,
+            "width": message.video.width,
+            "height": message.video.height,
+            "thumbnail": thumbnail,
         }
 
     def serialize_media_dict(self, sent: Message | list[Message]) -> dict:
-        media_dict = {}
+        media_dict = {"photo": [], "video": []}
         messages = sent if isinstance(sent, list) else [sent]
 
         for m in messages:
             if m.photo:
-                media_dict[m.photo.file_id] = self._serialize_photo(m)
+                media_dict["photo"].append(self._serialize_photo(m))
             elif m.video:
-                media_dict[m.video.file_id] = self._serialize_video(m)
+                media_dict["video"].append(self._serialize_video(m))
 
         return media_dict
 

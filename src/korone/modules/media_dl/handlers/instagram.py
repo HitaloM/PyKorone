@@ -3,6 +3,7 @@
 
 
 import io
+import re
 
 from hairydogm.chat_action import ChatActionSender
 from hairydogm.keyboard import InlineKeyboardBuilder
@@ -13,22 +14,20 @@ from hydrogram.types import InputMediaPhoto, InputMediaVideo, Message
 from korone.decorators import router
 from korone.handlers.abstract import MessageHandler
 from korone.modules.media_dl.utils.instagram import (
-    GRAPH_IMAGE,
-    GRAPH_VIDEO,
-    POST_URL_PATTERN,
-    REEL_PATTERN,
-    STORIES_PATTERN,
-    STORY_IMAGE,
-    STORY_VIDEO,
-    URL_PATTERN,
-    GetInstagram,
     InstaData,
     Media,
+    MediaType,
     NotFoundError,
+    get_instagram_data,
     mediaid_to_code,
     url_to_binary_io,
 )
 from korone.utils.i18n import gettext as _
+
+URL_PATTERN = re.compile(r"(?:https?://)?(?:www\.)?instagram\.com/")
+REEL_PATTERN = re.compile(r"(?:reel(?:s?)|p)/(?P<post_id>[A-Za-z0-9_-]+)")
+STORIES_PATTERN = re.compile(r"(?:stories)/(?:[^/?#&]+/)?(?P<media_id>[0-9]+)")
+POST_URL_PATTERN = re.compile(r"(?:https?://)?(?:www\.)?instagram\.com/.*?(?=\s|$)")
 
 
 class InstagramHandler(MessageHandler):
@@ -72,9 +71,9 @@ class InstagramHandler(MessageHandler):
         media_list = []
         for media in insta.medias:
             media_binary = await url_to_binary_io(media.url)
-            if media.type_name in {GRAPH_IMAGE, STORY_IMAGE}:
+            if media.type_name in {MediaType.GRAPH_IMAGE, MediaType.STORY_IMAGE}:
                 media_list.append(InputMediaPhoto(media_binary))
-            elif media.type_name in {GRAPH_VIDEO, STORY_VIDEO}:
+            elif media.type_name in {MediaType.GRAPH_VIDEO, MediaType.STORY_VIDEO}:
                 media_list.append(InputMediaVideo(media_binary))
 
         return media_list
@@ -87,13 +86,17 @@ class InstagramHandler(MessageHandler):
         text: str,
         keyboard: InlineKeyboardBuilder | None,
     ) -> None:
-        if media.type_name in {GRAPH_IMAGE, STORY_IMAGE, STORY_VIDEO}:
+        if media.type_name in {
+            MediaType.GRAPH_IMAGE,
+            MediaType.STORY_IMAGE,
+            MediaType.STORY_VIDEO,
+        }:
             await message.reply_photo(
                 media_binary,
                 caption=text,
                 reply_markup=keyboard.as_markup() if keyboard else None,  # type: ignore
             )
-        elif media.type_name == GRAPH_VIDEO:
+        elif media.type_name == MediaType.GRAPH_VIDEO:
             await message.reply_video(
                 media_binary,
                 caption=text,
@@ -114,7 +117,7 @@ class InstagramHandler(MessageHandler):
             client=client, chat_id=message.chat.id, action=ChatAction.UPLOAD_DOCUMENT
         ):
             try:
-                insta = await GetInstagram().get_data(post_id)
+                insta = await get_instagram_data(post_id)
             except NotFoundError:
                 await message.reply_text(_("Oops! Something went wrong while fetching the post."))
                 return

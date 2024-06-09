@@ -87,18 +87,18 @@ class YTDL:
     def resize_thumbnail(thumbnail_path: str) -> None:
         with Image.open(thumbnail_path) as img:
             original_width, original_height = img.size
-
             aspect_ratio = original_width / original_height
-
             larger_dimension = max(original_width, original_height)
-
-            if original_width == larger_dimension:
-                new_width = larger_dimension
-                new_height = int(larger_dimension / aspect_ratio)
-            else:
-                new_height = larger_dimension
-                new_width = int(larger_dimension * aspect_ratio)
-
+            new_width = (
+                larger_dimension
+                if original_width == larger_dimension
+                else int(larger_dimension * aspect_ratio)
+            )
+            new_height = (
+                larger_dimension
+                if original_width != larger_dimension
+                else int(larger_dimension / aspect_ratio)
+            )
             resized_img = img.resize((new_width, new_height), Image.Resampling.LANCZOS)
 
             temp_path = thumbnail_path + ".temp.jpeg"
@@ -108,6 +108,7 @@ class YTDL:
                 Path(temp_path).rename(thumbnail_path)
             else:
                 resized_img.save(thumbnail_path, "JPEG", quality=85)
+                Path(temp_path).unlink(missing_ok=True)
 
     async def generate_videoinfo(self, info: dict[str, Any]) -> VideoInfo:
         loop = asyncio.get_event_loop()
@@ -133,14 +134,20 @@ class YTDL:
 
 
 class YtdlpManager:
-    __slots__ = ("audio_options", "file_path", "thumbnail_path", "video_options")
+    __slots__ = ("audio_options", "file_path", "thumbnail_path", "timestamp", "video_options")
 
     def __init__(self) -> None:
         self.thumbnail_path: str | None = None
         self.file_path: str | None = None
-        timestamp = datetime.now(UTC).strftime("%d%m%Y%H%M%S")
+        self.timestamp = datetime.now(UTC).strftime("%d%m%Y%H%M%S")
 
-        self.audio_options = {
+        self.audio_options = self._get_options("bestaudio[filesize<=300M][ext=m4a]")
+        self.video_options = self._get_options(
+            "mergeall[filesize<=300M][height<=1080][ext=mp4]+140"
+        )
+
+    def _get_options(self, format_str: str) -> dict[str, Any]:
+        return {
             "quiet": True,
             "no_warnings": True,
             "format_sort": ["size"],
@@ -151,22 +158,8 @@ class YtdlpManager:
                 },
             ],
             "writethumbnail": True,
-            "outtmpl": f"downloads/%(title)s [%(id)s] {timestamp}.%(ext)s",
-            "format": "bestaudio[filesize<=300M][ext=m4a]",
-        }
-        self.video_options = {
-            "quiet": True,
-            "no_warnings": True,
-            "format_sort": ["size"],
-            "postprocessors": [
-                {
-                    "key": "FFmpegThumbnailsConvertor",
-                    "format": "jpeg",
-                },
-            ],
-            "writethumbnail": True,
-            "outtmpl": f"downloads/%(title)s [%(id)s] {timestamp}.%(ext)s",
-            "format": "mergeall[filesize<=300M][height<=1080][ext=mp4]+140",
+            "outtmpl": f"downloads/%(title)s [%(id)s] {self.timestamp}.%(ext)s",
+            "format": format_str,
         }
 
     @staticmethod
