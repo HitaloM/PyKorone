@@ -99,4 +99,4 @@ class UpdateCallback(CallbackQueryHandler):
         }
         await cache.set(cache_key, value=value, expire=300)
 
-        os.execv(sys.executable, ["sys.executable", "-m", "korone"])
+        os.execv(sys.executable, [sys.executable, "-m", "korone"])

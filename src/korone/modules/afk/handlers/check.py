@@ -1,13 +1,14 @@
 # SPDX-License-Identifier: BSD-3-Clause
 # Copyright (c) 2024 Hitalo M. <https://github.com/HitaloM>
 
+import asyncio
 import html
 import re
 from contextlib import suppress
 
 from hydrogram import Client, filters
 from hydrogram.enums import MessageEntityType
-from hydrogram.errors import PeerIdInvalid
+from hydrogram.errors import BadRequest, MessageDeleteForbidden, PeerIdInvalid
 from hydrogram.types import Message, MessageEntity, User
 
 from korone.decorators import router
@@ -94,6 +95,10 @@ class CheckAfk(MessageHandler):
 
         if await is_afk(message.from_user.id):
             await set_afk(message.from_user.id, state=False)
+            sent = await message.reply(_("Oh, you're back! I've removed your afk status."))
+            await asyncio.sleep(5)
+            with suppress(BadRequest, MessageDeleteForbidden):
+                await sent.delete()
             return
 
         await self.handle_mentioned_users(client, message)
