@@ -10,14 +10,13 @@ dependencies = [
     "picologging>=0.9.3",
     "structlog>=24.2.0",
     "uvloop>=0.19.0",
-    "rtoml>=0.10.0",
     "aiosqlite>=0.20.0",
     "emoji-country-flag>=1.3.2",
     "polib>=1.2.0",
     "bs4>=0.0.1",
     "lxml>=5.2.2",
     "meval>=2.5",
-    "orjson>=3.10.3",
+    "orjson>=3.10.4",
     "esprima>=4.0.1",
     "pillow>=10.3.0",
     "httpx[http2,socks,brotli]>=0.27.0",
@@ -25,6 +24,7 @@ dependencies = [
     "yt-dlp>=2024.5.27",
     "aiofiles>=23.2.1",
     "magic-filter>=1.0.12",
+    "tomlkit>=0.12.5",
 ]
 readme = "README.md"
 license = { file = "LICENSE" }

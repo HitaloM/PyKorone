@@ -4,7 +4,7 @@
 from pathlib import Path
 from typing import Any
 
-import rtoml
+from tomlkit import dump, loads
 
 from korone import constants
 from korone.utils.logging import log
@@ -86,7 +86,7 @@ class ConfigManager:
         self._create_config_directory(config_path)
         self._create_config_file(config_path)
 
-        self.config: dict[str, Any] = rtoml.loads(config_path.read_text(encoding="utf-8"))
+        self.config: dict[str, Any] = loads(config_path.read_text(encoding="utf-8"))
 
     @staticmethod
     def _create_config_directory(config_path: Path):
@@ -140,7 +140,8 @@ class ConfigManager:
         log.info("Could not find configuration file")
         try:
             log.info("Creating configuration file")
-            rtoml.dump(constants.DEFAULT_CONFIG_TEMPLATE, config_path, pretty=True)
+            with config_path.open("w", encoding="utf-8") as file:
+                dump(constants.DEFAULT_CONFIG_TEMPLATE, file)
         except OSError as err:
             log.critical("Could not create configuration file: %s", err)
             msg = "Could not create configuration file"

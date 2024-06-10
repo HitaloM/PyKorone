@@ -90,4 +90,4 @@ class UpdateCallback(CallbackQueryHandler):
 
         text += build_text(stdout)
 
-        await sent.reply(text, parse_mode=ParseMode.MARKDOWN)
+        await sent.edit(text, parse_mode=ParseMode.MARKDOWN)
