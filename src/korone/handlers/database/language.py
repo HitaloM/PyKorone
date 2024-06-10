@@ -36,7 +36,7 @@ def is_valid_chat(chat: User | Chat) -> bool:
     return is_user or is_group_or_supergroup
 
 
-@cache(ttl=timedelta(days=1))
+@cache(ttl=timedelta(days=1), key="get_locale:{chat.id}")
 async def get_locale(chat: User | Chat) -> str:
     """
     Get the locale based on the user and chat.
