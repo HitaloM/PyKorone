@@ -1,9 +1,6 @@
 # SPDX-License-Identifier: BSD-3-Clause
 # Copyright (c) 2024 Hitalo M. <https://github.com/HitaloM>
 
-# SPDX-License-Identifier: BSD-3-Clause
-# Copyright (c) 2024 Hitalo M. <https://github.com/HitaloM>
-
 import shutil
 import tempfile
 import time
@@ -111,6 +108,8 @@ class Korone(Client):
         corresponding message.
         """
         await super().start()
+
+        self.me = await self.get_me()
 
         async with SQLite3Connection() as conn:
             await conn.execute(constants.SQLITE3_TABLES, script=True)

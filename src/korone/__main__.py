@@ -14,8 +14,6 @@ from korone.config import ConfigManager
 from korone.database.sqlite import sqlite_pool
 from korone.utils.logging import log
 
-asyncio.set_event_loop_policy(uvloop.EventLoopPolicy())
-
 
 async def main() -> None:
     """
@@ -43,16 +41,13 @@ async def main() -> None:
         await client.start()
         await idle()
     finally:
-        await sqlite_pool.close()
         await client.stop()
+        await sqlite_pool.close()
 
 
 if __name__ == "__main__":
-    event_policy = asyncio.get_event_loop_policy()
-    event_loop = event_policy.new_event_loop()
     try:
-        event_loop.run_until_complete(main())
+        with asyncio.Runner(loop_factory=uvloop.new_event_loop) as runner:
+            runner.run(main())
     except KeyboardInterrupt:
         log.warning("Forced stop... Bye!")
-    finally:
-        event_loop.close()
