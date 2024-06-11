@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pykorone\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-06-09 19:23-0300\n"
-"PO-Revision-Date: 2024-06-09 23:24\n"
+"POT-Creation-Date: 2024-06-11 01:00-0300\n"
+"PO-Revision-Date: 2024-06-11 04:11\n"
 "Last-Translator: \n"
 "Language-Team: Hindi\n"
 "MIME-Version: 1.0\n"
@@ -563,25 +563,40 @@ msgstr ""
 #: src/korone/modules/media_dl/__init__.py:19
 msgid "Automatic media download is enabled for the following websites:\n"
 "- X (Twitter)\n"
+"- TikTok\n"
 "- Instagram\n\n"
 "<b>Commands:</b>\n"
 "- /ytdl &lt;youtubelink&gt;: Download the YouTube video or audio from the given link."
 msgstr ""
 
-#: src/korone/modules/media_dl/handlers/instagram.py:63
-#: src/korone/modules/media_dl/handlers/instagram.py:139
+#: src/korone/modules/media_dl/handlers/instagram.py:62
+#: src/korone/modules/media_dl/handlers/instagram.py:138
 msgid "Open in Instagram"
 msgstr ""
 
-#: src/korone/modules/media_dl/handlers/instagram.py:110
+#: src/korone/modules/media_dl/handlers/instagram.py:109
 msgid "This Instagram URL is not a valid post or story."
 msgstr ""
 
-#: src/korone/modules/media_dl/handlers/instagram.py:122
+#: src/korone/modules/media_dl/handlers/instagram.py:121
 msgid "Oops! Something went wrong while fetching the post."
 msgstr ""
 
+#: src/korone/modules/media_dl/handlers/tiktok.py:47
+msgid "Failed to fetch TikTok video."
+msgstr ""
+
+#: src/korone/modules/media_dl/handlers/tiktok.py:51
+msgid "Cannot fetch TikTok media. Sorry!"
+msgstr ""
+
+#: src/korone/modules/media_dl/handlers/tiktok.py:57
+#: src/korone/modules/media_dl/handlers/tiktok.py:84
+msgid "Open in TikTok"
+msgstr ""
+
 #: src/korone/modules/media_dl/handlers/twitter.py:117
+#: src/korone/modules/media_dl/handlers/twitter.py:217
 msgid "Open in Twitter"
 msgstr ""
 
