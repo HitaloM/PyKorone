@@ -14,11 +14,11 @@ from hydrogram.types import InputMediaPhoto, InputMediaVideo, Message
 
 from korone.decorators import router
 from korone.handlers.abstract import MessageHandler
+from korone.modules.media_dl.utils.cache import MediaCache
 from korone.modules.media_dl.utils.twitter import (
     TweetData,
     TweetMedia,
     TwitterAPI,
-    TwitterCache,
     TwitterError,
     delete_files,
     get_best_variant,
@@ -76,7 +76,7 @@ class TwitterMessageHandler(MessageHandler):
         return None
 
     async def handle_multiple_media(self, message: Message, tweet: TweetData, text: str) -> None:
-        cache = TwitterCache(tweet)
+        cache = MediaCache(tweet.url)
         media_cache = await cache.get()
 
         if media_cache:
@@ -218,7 +218,7 @@ class TwitterMessageHandler(MessageHandler):
                 await self.handle_multiple_media(message, tweet, text)
                 return
 
-            cache = TwitterCache(tweet)
+            cache = MediaCache(tweet.url)
             cache_data = await cache.get()
             try:
                 sent_message = await self.send_media(

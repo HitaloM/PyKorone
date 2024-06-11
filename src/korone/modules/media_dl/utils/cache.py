@@ -2,20 +2,20 @@
 # Copyright (c) 2024 Hitalo M. <https://github.com/HitaloM>
 
 import pickle
+from typing import Any
 
 from cashews.exceptions import CacheError
 from hydrogram.types import Message
 
 from korone import cache
-from korone.modules.media_dl.utils.twitter.api import TweetData
 from korone.utils.logging import log
 
 
-class TwitterCache:
+class MediaCache:
     __slots__ = ("key",)
 
-    def __init__(self, tweet: TweetData) -> None:
-        self.key = f"tweet:{tweet.url}:media"
+    def __init__(self, identifier: Any) -> None:
+        self.key = f"media-cache:{identifier}:media"
 
     @staticmethod
     def _serialize_photo(message: Message) -> dict:

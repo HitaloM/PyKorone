@@ -1,8 +1,8 @@
 # SPDX-License-Identifier: BSD-3-Clause
 # Copyright (c) 2024 Hitalo M. <https://github.com/HitaloM>
 
-import io
 import re
+from datetime import timedelta
 
 from hairydogm.chat_action import ChatActionSender
 from hairydogm.keyboard import InlineKeyboardBuilder
@@ -12,6 +12,7 @@ from hydrogram.types import InputMediaPhoto, InputMediaVideo, Message
 
 from korone.decorators import router
 from korone.handlers.abstract import MessageHandler
+from korone.modules.media_dl.utils.cache import MediaCache
 from korone.modules.media_dl.utils.instagram import (
     InstaData,
     Media,
@@ -65,9 +66,25 @@ class InstagramHandler(MessageHandler):
 
     @staticmethod
     async def create_media_list(
-        insta: InstaData,
+        insta: InstaData, media_cache: dict | None = None
     ) -> list[InputMediaPhoto | InputMediaVideo] | None:
         media_list = []
+        if media_cache:
+            media_list.extend(
+                [InputMediaPhoto(media["file"]) for media in media_cache.get("photo", [])]
+                + [
+                    InputMediaVideo(
+                        media=media["file"],
+                        duration=media["duration"],
+                        width=media["width"],
+                        height=media["height"],
+                        thumb=media["thumbnail"],
+                    )
+                    for media in media_cache.get("video", [])
+                ]
+            )
+            return media_list
+
         for media in insta.medias:
             media_binary = await url_to_binary_io(media.url)
             if media.type_name in {MediaType.GRAPH_IMAGE, MediaType.STORY_IMAGE}:
@@ -81,26 +98,35 @@ class InstagramHandler(MessageHandler):
     async def reply_with_media(
         message: Message,
         media: Media,
-        media_binary: io.BytesIO,
         text: str,
+        media_cache: dict | None,
         keyboard: InlineKeyboardBuilder | None,
-    ) -> None:
+    ) -> Message | None:
+        if media_cache:
+            if media_cache.get("photo"):
+                media_file = media_cache["photo"][0].get("file", await url_to_binary_io(media.url))
+            elif media_cache.get("video"):
+                media_file = media_cache["video"][0].get("file", await url_to_binary_io(media.url))
+        else:
+            media_file = await url_to_binary_io(media.url)
+
         if media.type_name in {
             MediaType.GRAPH_IMAGE,
             MediaType.STORY_IMAGE,
             MediaType.STORY_VIDEO,
         }:
-            await message.reply_photo(
-                media_binary,
+            return await message.reply_photo(
+                photo=media_file,
                 caption=text,
                 reply_markup=keyboard.as_markup() if keyboard else None,  # type: ignore
             )
-        elif media.type_name == MediaType.GRAPH_VIDEO:
-            await message.reply_video(
-                media_binary,
+        if media.type_name == MediaType.GRAPH_VIDEO:
+            return await message.reply_video(
+                video=media_file,
                 caption=text,
                 reply_markup=keyboard.as_markup() if keyboard else None,  # type: ignore
             )
+        return None
 
     @router.message(filters.regex(URL_PATTERN))
     async def handle(self, client: Client, message: Message) -> None:
@@ -123,13 +149,23 @@ class InstagramHandler(MessageHandler):
 
             text, keyboard = self.create_caption_and_keyboard(insta, post_url)
 
+            cache = MediaCache(post_id)
+            cache_data = await cache.get()
+
             if len(insta.medias) == 1:
                 media = insta.medias[0]
-                media_binary = await url_to_binary_io(media.url)
-                await self.reply_with_media(message, media, media_binary, text, keyboard)
+                try:
+                    sent_message = await self.reply_with_media(
+                        message, media, text, cache_data, keyboard
+                    )
+                except Exception as e:
+                    await message.reply_text(_("Failed to send media: {error}").format(error=e))
+                else:
+                    cache_ttl = int(timedelta(weeks=1).total_seconds())
+                    await cache.set(sent_message, cache_ttl) if sent_message else None
                 return
 
-            media_list = await self.create_media_list(insta)
+            media_list = await self.create_media_list(insta, cache_data)
             if not media_list:
                 return
 
@@ -137,4 +173,10 @@ class InstagramHandler(MessageHandler):
             if post_url:
                 media_list[-1].caption += f"\n\n<a href='{post_url}'>{_("Open in Instagram")}</a>"
 
-            await message.reply_media_group(media_list)
+            try:
+                sent_message = await message.reply_media_group(media_list)
+            except Exception as e:
+                await message.reply_text(_("Failed to send media: {error}").format(error=e))
+            else:
+                cache_ttl = int(timedelta(weeks=1).total_seconds())
+                await cache.set(sent_message, cache_ttl) if sent_message else None

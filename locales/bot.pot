@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PyKorone 1.0\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-06-11 11:46-0300\n"
+"POT-Creation-Date: 2024-06-11 13:19-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -639,17 +639,24 @@ msgid ""
 " given link."
 msgstr ""
 
-#: src/korone/modules/media_dl/handlers/instagram.py:62
-#: src/korone/modules/media_dl/handlers/instagram.py:138
+#: src/korone/modules/media_dl/handlers/instagram.py:63
+#: src/korone/modules/media_dl/handlers/instagram.py:174
 msgid "Open in Instagram"
 msgstr ""
 
-#: src/korone/modules/media_dl/handlers/instagram.py:109
+#: src/korone/modules/media_dl/handlers/instagram.py:135
 msgid "This Instagram URL is not a valid post or story."
 msgstr ""
 
-#: src/korone/modules/media_dl/handlers/instagram.py:121
+#: src/korone/modules/media_dl/handlers/instagram.py:147
 msgid "Oops! Something went wrong while fetching the post."
+msgstr ""
+
+#: src/korone/modules/media_dl/handlers/instagram.py:162
+#: src/korone/modules/media_dl/handlers/instagram.py:179
+#: src/korone/modules/media_dl/handlers/twitter.py:168
+#: src/korone/modules/media_dl/handlers/twitter.py:228
+msgid "Failed to send media: {error}"
 msgstr ""
 
 #: src/korone/modules/media_dl/handlers/tiktok.py:49
@@ -673,11 +680,6 @@ msgstr ""
 #: src/korone/modules/media_dl/handlers/twitter.py:141
 #: src/korone/modules/media_dl/handlers/twitter.py:153
 msgid "Failed to send media!"
-msgstr ""
-
-#: src/korone/modules/media_dl/handlers/twitter.py:168
-#: src/korone/modules/media_dl/handlers/twitter.py:228
-msgid "Failed to send media: {error}"
 msgstr ""
 
 #: src/korone/modules/media_dl/handlers/twitter.py:181

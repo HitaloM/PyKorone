@@ -14,7 +14,7 @@ from korone import cache
 from korone.modules.media_dl.utils.instagram.scraper import TIMEOUT
 
 
-@cache(ttl=timedelta(days=1))
+@cache(ttl=timedelta(weeks=1))
 async def url_to_binary_io(url: str) -> io.BytesIO:
     async with httpx.AsyncClient(timeout=TIMEOUT, http2=True) as session:
         mime_type = mimetypes.guess_type(url)[0]

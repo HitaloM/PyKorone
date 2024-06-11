@@ -4,6 +4,7 @@
 import random
 import string
 from pathlib import Path
+from typing import BinaryIO
 
 from PIL import Image
 
@@ -18,7 +19,7 @@ def generate_random_file_path(prefix: str, extension: str = ".mp4") -> Path:
     return output_path / f"{prefix}{random_suffix}{extension}"
 
 
-def resize_thumbnail(thumbnail_path: str) -> None:
+def resize_thumbnail(thumbnail_path: str | BinaryIO) -> None:
     with Image.open(thumbnail_path) as img:
         original_width, original_height = img.size
         aspect_ratio = original_width / original_height
@@ -35,11 +36,16 @@ def resize_thumbnail(thumbnail_path: str) -> None:
         )
         resized_img = img.resize((new_width, new_height), Image.Resampling.LANCZOS)
 
-        temp_path = thumbnail_path + ".temp.jpeg"
-        resized_img.save(temp_path, "JPEG", quality=95)
+        if isinstance(thumbnail_path, str):
+            temp_path = thumbnail_path + ".temp.jpeg"
+            resized_img.save(temp_path, "JPEG", quality=95)
 
-        if Path(temp_path).stat().st_size < 200 * 1024:
-            Path(temp_path).rename(thumbnail_path)
+            if Path(temp_path).stat().st_size < 200 * 1024:
+                Path(temp_path).rename(thumbnail_path)
+            else:
+                resized_img.save(thumbnail_path, "JPEG", quality=85)
+                Path(temp_path).unlink(missing_ok=True)
         else:
+            thumbnail_path.seek(0)
             resized_img.save(thumbnail_path, "JPEG", quality=85)
-            Path(temp_path).unlink(missing_ok=True)
+            thumbnail_path.truncate()

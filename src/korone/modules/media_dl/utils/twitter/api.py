@@ -73,7 +73,7 @@ class TwitterAPI:
     def _convert_to_fx_url(url: str) -> str:
         return re.sub(r"(www\.|)(twitter\.com|x\.com)", "api.fxtwitter.com", url)
 
-    @cache(ttl=timedelta(days=1), key="tweet_data:{url}")
+    @cache(ttl=timedelta(weeks=1), key="tweet_data:{url}")
     async def _fetch(self, url: str) -> dict:
         fx_url = self._convert_to_fx_url(url)
         try:
@@ -140,7 +140,7 @@ class TwitterAPI:
         )
 
     @staticmethod
-    @cache(ttl=timedelta(days=1), key="tweet_binary:{url}")
+    @cache(ttl=timedelta(weeks=1), key="tweet_binary:{url}")
     async def _url_to_binary_io(url: str) -> BinaryIO:
         try:
             async with httpx.AsyncClient(http2=True) as client:

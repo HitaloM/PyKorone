@@ -1,14 +1,17 @@
 # SPDX-License-Identifier: BSD-3-Clause
 # Copyright (c) 2024 Hitalo M. <https://github.com/HitaloM>
 
-import asyncio
+import io
 from dataclasses import dataclass
+from datetime import timedelta
 from pathlib import Path
+from typing import BinaryIO
 
-import aiofiles
 import httpx
 
-from korone.modules.media_dl.utils.files import generate_random_file_path, resize_thumbnail
+from korone import cache
+from korone.modules.media_dl.utils.files import resize_thumbnail
+from korone.utils.async_helpers import run_sync
 from korone.utils.logging import log
 
 
@@ -20,7 +23,7 @@ class TikTokError(Exception):
 class TikTokSlideshow:
     author: str
     desc: str
-    images: list[str]
+    images: list[BinaryIO]
     music_url: str
 
 
@@ -31,8 +34,8 @@ class TikTokVideo:
     width: int
     height: int
     duration: int
-    video_path: str
-    thumbnail_path: str
+    video_path: BinaryIO
+    thumbnail_path: BinaryIO
 
 
 class TikTokClient:
@@ -43,10 +46,14 @@ class TikTokClient:
         self.files_path = []
 
     @staticmethod
-    async def _request(method: str, url: str, **kwargs) -> httpx.Response:
+    async def _request(
+        method: str, url: str, headers: dict[str, str], params: dict[str, str]
+    ) -> httpx.Response:
         async with httpx.AsyncClient(http2=True) as client:
             try:
-                response = await client.request(method, url, **kwargs)
+                response = await client.request(
+                    method=method, url=url, headers=headers, params=params
+                )
                 response.raise_for_status()
                 return response
             except httpx.HTTPStatusError as e:
@@ -56,21 +63,23 @@ class TikTokClient:
                 msg = f"Request error: {e.request.url}"
                 raise TikTokError(msg) from e
 
-    async def _download(self, url: str, extension: str = ".mp4") -> str:
-        output_file_path = generate_random_file_path("tiktok-", extension)
-
-        response = await self._request("GET", url)
-        content = await response.aread()
+    @staticmethod
+    @cache(ttl=timedelta(weeks=1), key="tiktok_binary:{url}")
+    async def _url_to_binary_io(url: str) -> BinaryIO:
         try:
-            async with aiofiles.open(output_file_path, "wb") as file:
-                await file.write(content)
-        except OSError as e:
-            msg = f"Failed to save TikTok media: {e}"
-            raise TikTokError(msg) from e
+            async with httpx.AsyncClient(http2=True) as client:
+                response = await client.get(url)
+                response.raise_for_status()
+                content = await response.aread()
+        except httpx.HTTPError as err:
+            log.error(f"Error fetching media data: {err}")
+            raise TikTokError from err
 
-        self.files_path.append(output_file_path)
-        return output_file_path.as_posix()
+        file = io.BytesIO(content)
+        file.name = url.split("/")[-1]
+        return file
 
+    @cache(ttl=timedelta(weeks=1), key="tiktok_data:{media_id}")
     async def _fetch_tiktok_data(self, media_id: str) -> dict:
         headers = {
             "User-Agent": "Mozilla/5.0 (Windows NT 10.0; "
@@ -105,15 +114,15 @@ class TikTokClient:
         aweme_dict["image_urls"] = image_urls
         aweme_dict["music_url"] = music_url
 
-        images_path = []
+        images_binary: list[BinaryIO] = []
         for image_url in image_urls:
-            image_path = await self._download(image_url, extension=".png")
-            images_path.append(image_path)
+            image_binary = await self._url_to_binary_io(image_url)
+            images_binary.append(image_binary)
 
         return TikTokSlideshow(
             author=aweme_dict["author"],
             desc=aweme_dict["desc"],
-            images=images_path,
+            images=images_binary,
             music_url=aweme_dict["music_url"],
         )
 
@@ -121,11 +130,10 @@ class TikTokClient:
         video_url = aweme["video"]["play_addr"]["url_list"][0]
         thumbnail_url = aweme["video"]["cover"]["url_list"][0]
 
-        video_path = await self._download(video_url)
-        thumbnail_path = await self._download(thumbnail_url, extension=".jpeg")
+        video_path = await self._url_to_binary_io(video_url)
+        thumbnail_path = await self._url_to_binary_io(thumbnail_url)
 
-        loop = asyncio.get_event_loop()
-        await loop.run_in_executor(None, resize_thumbnail, thumbnail_path)
+        await run_sync(resize_thumbnail, thumbnail_path)
 
         return TikTokVideo(
             author=aweme_dict["author"],

@@ -251,7 +251,7 @@ async def get_data(post_id: str) -> dict[str, Any] | None:
     return await get_embed_html_data(response, post_id)
 
 
-@cache(ttl=timedelta(days=1))
+@cache(ttl=timedelta(weeks=1))
 async def get_instagram_data(post_id: str) -> InstaData:
     data = await fetch_data(post_id)
     return process_data(data, post_id)
