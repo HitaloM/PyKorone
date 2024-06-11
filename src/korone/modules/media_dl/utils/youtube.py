@@ -8,8 +8,8 @@ from pathlib import Path
 from typing import Any
 
 import yt_dlp
-from PIL import Image
 
+from korone.modules.media_dl.utils.files import resize_thumbnail
 from korone.utils.logging import log
 
 
@@ -83,39 +83,12 @@ class YTDL:
         log.debug("Information extracted for %s", url)
         return await self.generate_videoinfo(info)
 
-    @staticmethod
-    def resize_thumbnail(thumbnail_path: str) -> None:
-        with Image.open(thumbnail_path) as img:
-            original_width, original_height = img.size
-            aspect_ratio = original_width / original_height
-            larger_dimension = max(original_width, original_height)
-            new_width = (
-                larger_dimension
-                if original_width == larger_dimension
-                else int(larger_dimension * aspect_ratio)
-            )
-            new_height = (
-                larger_dimension
-                if original_width != larger_dimension
-                else int(larger_dimension / aspect_ratio)
-            )
-            resized_img = img.resize((new_width, new_height), Image.Resampling.LANCZOS)
-
-            temp_path = thumbnail_path + ".temp.jpeg"
-            resized_img.save(temp_path, "JPEG", quality=95)
-
-            if Path(temp_path).stat().st_size < 200 * 1024:
-                Path(temp_path).rename(thumbnail_path)
-            else:
-                resized_img.save(thumbnail_path, "JPEG", quality=85)
-                Path(temp_path).unlink(missing_ok=True)
-
     async def generate_videoinfo(self, info: dict[str, Any]) -> VideoInfo:
         loop = asyncio.get_event_loop()
         thumbnail = None
         if self.download and self.file_path:
             thumbnail = Path(self.file_path).with_suffix(".jpeg").as_posix()
-            await loop.run_in_executor(None, self.resize_thumbnail, thumbnail)
+            await loop.run_in_executor(None, resize_thumbnail, thumbnail)
 
         uploader = info.get("artist") or info.get("uploader", "")
 

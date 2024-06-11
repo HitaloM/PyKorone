@@ -2,22 +2,12 @@
 # Copyright (c) 2024 Hitalo M. <https://github.com/HitaloM>
 
 import asyncio
-import random
-import string
 from pathlib import Path
 
 import aiofiles
 import orjson
 
-from korone import app_dir
-
-
-def generate_random_file_path(prefix: str) -> Path:
-    output_path = Path(app_dir / "downloads")
-    output_path.mkdir(exist_ok=True, parents=True)
-
-    random_suffix = "".join(random.choices(string.ascii_letters + string.digits, k=8))
-    return output_path / f"{prefix}{random_suffix}.mp4"
+from korone.modules.media_dl.utils.files import generate_random_file_path
 
 
 async def save_binary_io(binary_io) -> str:

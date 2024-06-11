@@ -214,7 +214,7 @@ class TwitterMessageHandler(MessageHandler):
             client=client, chat_id=message.chat.id, action=ChatAction.UPLOAD_DOCUMENT
         ):
             if len(tweet.media) > 1:
-                text += f"\n<a href='{tweet.url}'>Open in Twitter</a>"
+                text += f"\n<a href='{tweet.url}'>{_("Open in Twitter")}</a>"
                 await self.handle_multiple_media(message, tweet, text)
                 return
 
