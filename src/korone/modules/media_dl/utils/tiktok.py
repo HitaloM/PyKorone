@@ -2,7 +2,6 @@
 # Copyright (c) 2024 Hitalo M. <https://github.com/HitaloM>
 
 import asyncio
-import re
 from dataclasses import dataclass
 from pathlib import Path
 
@@ -37,10 +36,10 @@ class TikTokVideo:
 
 
 class TikTokClient:
-    __slots__ = ("files_path", "url")
+    __slots__ = ("files_path", "media_id")
 
-    def __init__(self, url: str):
-        self.url = url
+    def __init__(self, media_id: str):
+        self.media_id = media_id
         self.files_path = []
 
     @staticmethod
@@ -72,7 +71,7 @@ class TikTokClient:
         self.files_path.append(output_file_path)
         return output_file_path.as_posix()
 
-    async def _fetch_tiktok_data(self, video_id: str) -> dict:
+    async def _fetch_tiktok_data(self, media_id: str) -> dict:
         headers = {
             "User-Agent": "Mozilla/5.0 (Windows NT 10.0; "
             "Win64; x64; rv:120.0) Gecko/20100101 Firefox/120.0"
@@ -85,7 +84,7 @@ class TikTokClient:
             "device_platform": "android",
             "device_type": "ASUS_Z01QD",
             "os_version": "9",
-            "aweme_id": video_id,
+            "aweme_id": media_id,
             "aid": "1128",
         }
 
@@ -139,12 +138,7 @@ class TikTokClient:
         )
 
     async def get(self) -> TikTokSlideshow | TikTokVideo | None:
-        matches = re.search(r"/(?:video|photo|v)/(\d+)", self.url)
-        if not matches:
-            return None
-
-        video_id = matches.group(1)
-        tiktok_data = await self._fetch_tiktok_data(video_id)
+        tiktok_data = await self._fetch_tiktok_data(self.media_id)
         if not tiktok_data.get("aweme_list"):
             return None
 

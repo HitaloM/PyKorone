@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PyKorone 1.0\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-06-11 01:00-0300\n"
+"POT-Creation-Date: 2024-06-11 11:46-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -652,16 +652,16 @@ msgstr ""
 msgid "Oops! Something went wrong while fetching the post."
 msgstr ""
 
-#: src/korone/modules/media_dl/handlers/tiktok.py:47
+#: src/korone/modules/media_dl/handlers/tiktok.py:49
 msgid "Failed to fetch TikTok video."
 msgstr ""
 
-#: src/korone/modules/media_dl/handlers/tiktok.py:51
+#: src/korone/modules/media_dl/handlers/tiktok.py:53
 msgid "Cannot fetch TikTok media. Sorry!"
 msgstr ""
 
-#: src/korone/modules/media_dl/handlers/tiktok.py:57
-#: src/korone/modules/media_dl/handlers/tiktok.py:84
+#: src/korone/modules/media_dl/handlers/tiktok.py:59
+#: src/korone/modules/media_dl/handlers/tiktok.py:86
 msgid "Open in TikTok"
 msgstr ""
 

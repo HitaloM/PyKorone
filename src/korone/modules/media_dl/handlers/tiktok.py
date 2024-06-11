@@ -19,7 +19,9 @@ from korone.modules.media_dl.utils.tiktok import (
 )
 from korone.utils.i18n import gettext as _
 
-URL_PATTERN = re.compile(r"https?://(?:www\.)?tiktok\.com/@[^/]+/(?:video|photo|v)/(\d+)")
+URL_PATTERN = re.compile(
+    r"^.*https:\/\/(?:m|www|vm)?\.?tiktok\.com\/((?:.*\b(?:(?:usr|v|embed|user|video|photo)\/|\?shareId=|\&item_id=)(\d+))|\w+)"
+)
 
 
 class TikTokHandler(MessageHandler):
@@ -36,7 +38,7 @@ class TikTokHandler(MessageHandler):
         if not url_match:
             return
 
-        tiktok = TikTokClient(url_match.group())
+        tiktok = TikTokClient(url_match.group(2))
 
         async with ChatActionSender(
             client=client, chat_id=message.chat.id, action=ChatAction.UPLOAD_DOCUMENT
