@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PyKorone 1.0\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-06-12 13:43-0300\n"
+"POT-Creation-Date: 2024-06-12 18:40-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -39,21 +39,21 @@ msgid ""
 " - /afk &lt;reason&gt;: Set your status as AFK."
 msgstr ""
 
-#: src/korone/modules/afk/handlers/check.py:79
+#: src/korone/modules/afk/handlers/check.py:80
 msgid "🎧 Listening to: {track_artist} — {track_name}"
 msgstr ""
 
-#: src/korone/modules/afk/handlers/check.py:83
+#: src/korone/modules/afk/handlers/check.py:84
 msgid "{user} is afk!"
 msgstr ""
 
-#: src/korone/modules/afk/handlers/check.py:85
+#: src/korone/modules/afk/handlers/check.py:86
 msgid ""
 "\n"
 "Reason: {reason}"
 msgstr ""
 
-#: src/korone/modules/afk/handlers/check.py:98
+#: src/korone/modules/afk/handlers/check.py:99
 msgid "Oh, you're back! I've removed your afk status."
 msgstr ""
 

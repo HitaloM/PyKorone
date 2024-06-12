@@ -73,12 +73,13 @@ class CheckAfk(MessageHandler):
             last_fm = LastFMClient()
             with suppress(LastFMError):
                 last_played = (await last_fm.get_recent_tracks(last_fm_user, limit=1))[0]
-                track_info = await last_fm.get_track_info(
-                    last_played.artist, last_played.name, last_fm_user
-                )
-                track_text = _("🎧 Listening to: {track_artist} — {track_name}").format(
-                    track_artist=track_info.artist, track_name=track_info.name
-                )
+                if last_played.now_playing:
+                    track_info = await last_fm.get_track_info(
+                        last_played.artist, last_played.name, last_fm_user
+                    )
+                    track_text = _("🎧 Listening to: {track_artist} — {track_name}").format(
+                        track_artist=track_info.artist, track_name=track_info.name
+                    )
 
         text = _("{user} is afk!").format(user=user.first_name)
         if reason:
