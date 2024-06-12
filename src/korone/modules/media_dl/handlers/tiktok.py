@@ -3,6 +3,7 @@
 
 import re
 
+import httpx
 from hairydogm.chat_action import ChatActionSender
 from hairydogm.keyboard import InlineKeyboardBuilder
 from hydrogram import Client, filters
@@ -26,6 +27,12 @@ URL_PATTERN = re.compile(
 
 class TikTokHandler(MessageHandler):
     @staticmethod
+    async def get_final_url(url: str) -> str:
+        async with httpx.AsyncClient(http2=True, follow_redirects=True) as client:
+            response = await client.head(url)
+            return str(response.url)
+
+    @staticmethod
     def format_text(media: TikTokVideo | TikTokSlideshow) -> str:
         text = f"<b>{media.author}{":" if media.desc else ""}</b>"
         if media.desc:
@@ -37,6 +44,20 @@ class TikTokHandler(MessageHandler):
         url_match = URL_PATTERN.search(message.text)
         if not url_match:
             return
+
+        media_id = url_match.group(2)
+        if not media_id:
+            media_id = url_match.group(1)
+
+        try:
+            media_id = int(media_id)
+        except ValueError:
+            redirect_url = await self.get_final_url(url_match.group())
+            url_match = URL_PATTERN.search(redirect_url)
+            if not url_match:
+                return
+
+            media_id = url_match.group(2)
 
         tiktok = TikTokClient(url_match.group(2))
 
@@ -54,9 +75,10 @@ class TikTokHandler(MessageHandler):
                 return
 
             caption = self.format_text(media)
-
-            keyboard = InlineKeyboardBuilder().button(
-                text=_("Open in TikTok"), url=url_match.group()
+            keyboard = (
+                InlineKeyboardBuilder()
+                .button(text=_("Open in TikTok"), url=message.text)
+                .as_markup()
             )
 
             if isinstance(media, TikTokVideo):
@@ -68,23 +90,18 @@ class TikTokHandler(MessageHandler):
                     width=media.width,
                     height=media.height,
                     thumb=media.thumbnail_path,
-                    reply_markup=keyboard.as_markup(),
+                    reply_markup=keyboard,
                     reply_to_message_id=message.id,
                 )
-
-            if isinstance(media, TikTokSlideshow):
+            elif isinstance(media, TikTokSlideshow):
                 media_list = [InputMediaPhoto(media) for media in media.images]
-
                 if len(media_list) == 1:
                     await message.reply_photo(
-                        media_list[0].media,
-                        caption=caption,
-                        reply_markup=keyboard.as_markup(),
+                        media_list[0].media, caption=caption, reply_markup=keyboard
                     )
-                    return
-
-                caption += f"\n<a href='{url_match.group()}'>{_("Open in TikTok")}</a>"
-                media_list[-1].caption = caption
-                await message.reply_media_group(media_list)  # type: ignore
+                else:
+                    caption += f"\n<a href='{message.text}'>{_("Open in TikTok")}</a>"
+                    media_list[-1].caption = caption
+                    await message.reply_media_group(media_list)  # type: ignore
 
         tiktok.clear()

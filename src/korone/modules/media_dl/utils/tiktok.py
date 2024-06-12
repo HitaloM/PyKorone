@@ -2,6 +2,8 @@
 # Copyright (c) 2024 Hitalo M. <https://github.com/HitaloM>
 
 import io
+import random
+import string
 from dataclasses import dataclass
 from datetime import timedelta
 from pathlib import Path
@@ -46,14 +48,10 @@ class TikTokClient:
         self.files_path = []
 
     @staticmethod
-    async def _request(
-        method: str, url: str, headers: dict[str, str], params: dict[str, str]
-    ) -> httpx.Response:
+    async def _request(method: str, url: str, **kwargs) -> httpx.Response:
         async with httpx.AsyncClient(http2=True) as client:
             try:
-                response = await client.request(
-                    method=method, url=url, headers=headers, params=params
-                )
+                response = await client.request(method=method, url=url, **kwargs)
                 response.raise_for_status()
                 return response
             except httpx.HTTPStatusError as e:
@@ -65,7 +63,7 @@ class TikTokClient:
 
     @staticmethod
     @cache(ttl=timedelta(weeks=1), key="tiktok_binary:{url}")
-    async def _url_to_binary_io(url: str) -> BinaryIO:
+    async def _url_to_binary_io(url: str, video: bool = True) -> BinaryIO:
         try:
             async with httpx.AsyncClient(http2=True) as client:
                 response = await client.get(url)
@@ -76,7 +74,8 @@ class TikTokClient:
             raise TikTokError from err
 
         file = io.BytesIO(content)
-        file.name = url.split("/")[-1]
+        random_suffix = "".join(random.choices(string.ascii_letters + string.digits, k=8))
+        file.name = f"tiktok-{random_suffix}.{"mp4" if video else "jpeg"}"
         return file
 
     @cache(ttl=timedelta(weeks=1), key="tiktok_data:{media_id}")
@@ -116,7 +115,7 @@ class TikTokClient:
 
         images_binary: list[BinaryIO] = []
         for image_url in image_urls:
-            image_binary = await self._url_to_binary_io(image_url)
+            image_binary = await self._url_to_binary_io(image_url, video=False)
             images_binary.append(image_binary)
 
         return TikTokSlideshow(
@@ -131,7 +130,7 @@ class TikTokClient:
         thumbnail_url = aweme["video"]["cover"]["url_list"][0]
 
         video_path = await self._url_to_binary_io(video_url)
-        thumbnail_path = await self._url_to_binary_io(thumbnail_url)
+        thumbnail_path = await self._url_to_binary_io(thumbnail_url, video=False)
 
         await run_sync(resize_thumbnail, thumbnail_path)
 

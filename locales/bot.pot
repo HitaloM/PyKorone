@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PyKorone 1.0\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-06-11 13:19-0300\n"
+"POT-Creation-Date: 2024-06-12 13:05-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -659,16 +659,16 @@ msgstr ""
 msgid "Failed to send media: {error}"
 msgstr ""
 
-#: src/korone/modules/media_dl/handlers/tiktok.py:49
+#: src/korone/modules/media_dl/handlers/tiktok.py:70
 msgid "Failed to fetch TikTok video."
 msgstr ""
 
-#: src/korone/modules/media_dl/handlers/tiktok.py:53
+#: src/korone/modules/media_dl/handlers/tiktok.py:74
 msgid "Cannot fetch TikTok media. Sorry!"
 msgstr ""
 
-#: src/korone/modules/media_dl/handlers/tiktok.py:59
-#: src/korone/modules/media_dl/handlers/tiktok.py:86
+#: src/korone/modules/media_dl/handlers/tiktok.py:80
+#: src/korone/modules/media_dl/handlers/tiktok.py:103
 msgid "Open in TikTok"
 msgstr ""
 
