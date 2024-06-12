@@ -8,7 +8,6 @@ import aiofiles
 import orjson
 
 from korone.modules.media_dl.utils.files import generate_random_file_path
-from korone.utils.async_helpers import run_sync
 
 
 async def save_binary_io(binary_io) -> str:
@@ -72,5 +71,8 @@ async def add_silent_audio(video_path: str) -> str:
 
 async def delete_files(files: list[str]) -> None:
     await asyncio.gather(
-        *(run_sync(lambda file: Path(file).unlink(missing_ok=True), file) for file in files)
+        *(
+            asyncio.to_thread(lambda file: Path(file).unlink(missing_ok=True), file)
+            for file in files
+        )
     )

@@ -1,6 +1,7 @@
 # SPDX-License-Identifier: BSD-3-Clause
 # Copyright (c) 2024 Hitalo M. <https://github.com/HitaloM>
 
+import asyncio
 import io
 import random
 import string
@@ -13,7 +14,6 @@ import httpx
 
 from korone import cache
 from korone.modules.media_dl.utils.files import resize_thumbnail
-from korone.utils.async_helpers import run_sync
 from korone.utils.logging import log
 
 
@@ -132,7 +132,7 @@ class TikTokClient:
         video_file = await self._url_to_binary_io(video_url)
         thumbnail_file = await self._url_to_binary_io(thumbnail_url, video=False)
 
-        await run_sync(resize_thumbnail, thumbnail_file)
+        await asyncio.to_thread(resize_thumbnail, thumbnail_file)
 
         return TikTokVideo(
             author=aweme_dict["author"],

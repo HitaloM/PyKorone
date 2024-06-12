@@ -1,6 +1,7 @@
 # SPDX-License-Identifier: BSD-3-Clause
 # Copyright (c) 2024 Hitalo M. <https://github.com/HitaloM>
 
+import asyncio
 from dataclasses import dataclass
 from datetime import UTC, datetime
 from pathlib import Path
@@ -9,7 +10,6 @@ from typing import Any
 import yt_dlp
 
 from korone.modules.media_dl.utils.files import resize_thumbnail
-from korone.utils.async_helpers import run_sync
 from korone.utils.logging import log
 
 
@@ -51,7 +51,7 @@ class YTDL:
         try:
             self.file_path = None
             with yt_dlp.YoutubeDL(self.options) as ydl:
-                info = await run_sync(ydl.extract_info, url, self.download)
+                info = await asyncio.to_thread(ydl.extract_info, url, self.download)
                 if self.download:
                     self.file_path = Path(ydl.prepare_filename(info)).as_posix()
                 return info
@@ -86,7 +86,7 @@ class YTDL:
         thumbnail = None
         if self.download and self.file_path:
             thumbnail = Path(self.file_path).with_suffix(".jpeg").as_posix()
-            await run_sync(resize_thumbnail, thumbnail)
+            await asyncio.to_thread(resize_thumbnail, thumbnail)
 
         uploader = info.get("artist") or info.get("uploader", "")
 
