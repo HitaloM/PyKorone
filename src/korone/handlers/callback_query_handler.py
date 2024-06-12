@@ -4,7 +4,6 @@
 from collections.abc import Callable
 
 from hydrogram import Client
-from hydrogram.filters import Filter
 from hydrogram.handlers import CallbackQueryHandler
 from hydrogram.types import CallbackQuery
 
@@ -19,20 +18,7 @@ class KoroneCallbackQueryHandler(CallbackQueryHandler, BaseHandler):
     This class inherits from both CallbackQueryHandler and BaseHandler to provide a specialized
     handler for processing callback queries. It integrates locale handling based on the callback
     query's origin, allowing for localized responses.
-
-    Parameters
-    ----------
-    callback : Callable
-        The callback function that will be called if the callback query passes the filters.
-    filters : Filter | None, optional
-        A filter object used to determine if a callback query should be processed by this handler.
     """
-
-    __slots__ = ()
-
-    def __init__(self, callback: Callable, filters: Filter | None = None) -> None:
-        CallbackQueryHandler.__init__(self, callback, filters)  # type: ignore
-        BaseHandler.__init__(self, callback, filters)
 
     async def check(self, client: Client, callback_query: CallbackQuery) -> None | Callable:
         """

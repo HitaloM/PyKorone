@@ -4,7 +4,6 @@
 from collections.abc import Callable
 
 from hydrogram import Client
-from hydrogram.filters import Filter
 from hydrogram.handlers import MessageHandler
 from hydrogram.types import Message
 
@@ -19,20 +18,7 @@ class KoroneMessageHandler(MessageHandler, BaseHandler):
     This class inherits from both MessageHandler and BaseHandler to provide a specialized handler
     for processing messages. It integrates locale handling based on the message's origin, allowing
     for localized responses.
-
-    Parameters
-    ----------
-    callback : Callable
-        The callback function that will be called if the message passes the filters.
-    filters : Filter | None, optional
-        A filter object used to determine if a message should be processed by this handler.
     """
-
-    __slots__ = ()
-
-    def __init__(self, callback: Callable, filters: Filter | None = None) -> None:
-        MessageHandler.__init__(self, callback, filters)  # type: ignore
-        BaseHandler.__init__(self, callback, filters)
 
     async def check(self, client: Client, message: Message) -> None | Callable:
         """
