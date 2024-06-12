@@ -36,8 +36,8 @@ class TikTokVideo:
     width: int
     height: int
     duration: int
-    video_path: BinaryIO
-    thumbnail_path: BinaryIO
+    video_file: BinaryIO
+    thumbnail_file: BinaryIO
 
 
 class TikTokClient:
@@ -129,10 +129,10 @@ class TikTokClient:
         video_url = aweme["video"]["play_addr"]["url_list"][0]
         thumbnail_url = aweme["video"]["cover"]["url_list"][0]
 
-        video_path = await self._url_to_binary_io(video_url)
-        thumbnail_path = await self._url_to_binary_io(thumbnail_url, video=False)
+        video_file = await self._url_to_binary_io(video_url)
+        thumbnail_file = await self._url_to_binary_io(thumbnail_url, video=False)
 
-        await run_sync(resize_thumbnail, thumbnail_path)
+        await run_sync(resize_thumbnail, thumbnail_file)
 
         return TikTokVideo(
             author=aweme_dict["author"],
@@ -140,8 +140,8 @@ class TikTokClient:
             width=aweme["video"]["play_addr"]["width"],
             height=aweme["video"]["play_addr"]["height"],
             duration=aweme["video"]["duration"],
-            video_path=video_path,
-            thumbnail_path=thumbnail_path,
+            video_file=video_file,
+            thumbnail_file=thumbnail_file,
         )
 
     async def get(self) -> TikTokSlideshow | TikTokVideo | None:
