@@ -1,8 +1,6 @@
 # SPDX-License-Identifier: BSD-3-Clause
 # Copyright (c) 2024 Hitalo M. <https://github.com/HitaloM>
 
-from pathlib import Path
-
 from hairydogm.chat_action import ChatActionSender
 from hydrogram import Client
 from hydrogram.enums import ChatAction
@@ -83,5 +81,3 @@ class LastFMCollageHandler(MessageHandler):
             )
 
             await message.reply_photo(photo=collage_path, caption=caption)
-
-        Path(collage_path).unlink(missing_ok=True)

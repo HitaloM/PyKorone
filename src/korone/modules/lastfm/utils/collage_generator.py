@@ -3,14 +3,12 @@
 
 import asyncio
 import io
-import random
-import string
-from pathlib import Path
+from datetime import timedelta
 
 import httpx
 from PIL import Image, ImageDraw, ImageFont
 
-from korone import app_dir
+from korone import cache
 from korone.modules.lastfm.utils.api import LastFMAlbum
 from korone.modules.lastfm.utils.image_filter import get_biggest_lastfm_image
 from korone.utils.logging import log
@@ -20,19 +18,11 @@ async def fetch_image(url: str) -> Image.Image | None:
     try:
         async with httpx.AsyncClient(http2=True, timeout=20) as client:
             response = await client.get(url)
-            response.raise_for_status()  # Ensure the request was successful
+            response.raise_for_status()
             return Image.open(io.BytesIO(response.content))
     except Exception:
         log.exception("Failed to fetch LastFM image")
         return None
-
-
-def generate_random_file_path() -> Path:
-    output_path = Path(app_dir / "tmp" / "lastfm")
-    output_path.mkdir(exist_ok=True, parents=True)
-
-    random_suffix = "".join(random.choices(string.ascii_letters + string.digits, k=8))
-    return output_path / f"collage-{random_suffix}.png"
 
 
 async def add_text_to_image(img: Image.Image, text: str, font: ImageFont.FreeTypeFont) -> None:
@@ -79,9 +69,10 @@ async def fetch_album_arts(albums: list[LastFMAlbum]) -> list[Image.Image]:
     ]
 
 
+@cache(timedelta(days=1))
 async def create_album_collage(
     albums: list[LastFMAlbum], collage_size: tuple[int, int] = (3, 3), show_text: bool = True
-) -> str:
+) -> io.BytesIO:
     rows, cols = collage_size
     thumb_size = 300
     collage = Image.new("RGB", (thumb_size * cols, thumb_size * rows))
@@ -108,6 +99,8 @@ async def create_album_collage(
         )
     )
 
-    collage_path = generate_random_file_path()
-    await asyncio.to_thread(collage.save, collage_path)
-    return collage_path.as_posix()
+    collage_bytes = io.BytesIO()
+    await asyncio.to_thread(collage.save, collage_bytes, format="PNG")
+    collage_bytes.seek(0)
+
+    return collage_bytes

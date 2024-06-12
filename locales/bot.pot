@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PyKorone 1.0\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-06-12 18:40-0300\n"
+"POT-Creation-Date: 2024-06-12 18:54-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -415,7 +415,7 @@ msgstr ""
 
 #: src/korone/modules/lastfm/handlers/album.py:28
 #: src/korone/modules/lastfm/handlers/artist.py:29
-#: src/korone/modules/lastfm/handlers/collage.py:33
+#: src/korone/modules/lastfm/handlers/collage.py:31
 #: src/korone/modules/lastfm/handlers/compat.py:31
 #: src/korone/modules/lastfm/handlers/now.py:28
 #: src/korone/modules/lastfm/handlers/recent.py:27
@@ -426,7 +426,7 @@ msgstr ""
 
 #: src/korone/modules/lastfm/handlers/album.py:41
 #: src/korone/modules/lastfm/handlers/artist.py:40
-#: src/korone/modules/lastfm/handlers/collage.py:60
+#: src/korone/modules/lastfm/handlers/collage.py:58
 #: src/korone/modules/lastfm/handlers/compat.py:68
 #: src/korone/modules/lastfm/handlers/now.py:41
 #: src/korone/modules/lastfm/handlers/recent.py:37
@@ -437,7 +437,7 @@ msgstr ""
 
 #: src/korone/modules/lastfm/handlers/album.py:44
 #: src/korone/modules/lastfm/handlers/artist.py:43
-#: src/korone/modules/lastfm/handlers/collage.py:64
+#: src/korone/modules/lastfm/handlers/collage.py:62
 #: src/korone/modules/lastfm/handlers/compat.py:71
 #: src/korone/modules/lastfm/handlers/now.py:44
 #: src/korone/modules/lastfm/handlers/recent.py:40
@@ -476,7 +476,7 @@ msgstr ""
 msgid " ∙ <code>{artist_playcount} plays</code>"
 msgstr ""
 
-#: src/korone/modules/lastfm/handlers/collage.py:79
+#: src/korone/modules/lastfm/handlers/collage.py:77
 msgid "{user}'s {period} {collage_size}x{collage_size} album collage"
 msgstr ""
 
