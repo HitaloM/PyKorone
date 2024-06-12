@@ -28,7 +28,12 @@ class LastFMCompatHandler(MessageHandler):
         user1 = message.from_user
         user1_db = await get_lastfm_user(user1.id)
         if not user1_db:
-            await message.reply(_("You need to set your LastFM username first!"))
+            await message.reply(
+                _(
+                    "You need to set your LastFM username first! "
+                    "Use <code>/setlfm &lt;username&gt;</code>."
+                )
+            )
             return
 
         user2 = message.reply_to_message.from_user

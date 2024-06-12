@@ -26,7 +26,12 @@ class LastFMPlayingArtistHandler(MessageHandler):
     async def handle(client: Client, message: Message) -> None:
         last_fm_user = await get_lastfm_user(message.from_user.id)
         if not last_fm_user:
-            await message.reply(_("You need to set your LastFM username first!"))
+            await message.reply(
+                _(
+                    "You need to set your LastFM username first! "
+                    "Use <code>/setlfm &lt;username&gt;</code>."
+                )
+            )
             return
 
         last_fm = LastFMClient()
