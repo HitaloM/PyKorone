@@ -22,7 +22,7 @@ class Evaluate(MessageHandler):
         command = CommandObject(message).parse()
         expression = command.args
         if not expression:
-            await message.reply_text("No expression provided.")
+            await message.reply("No expression provided.")
             return
 
         async with ChatActionSender(client=client, chat_id=message.chat.id, initial_sleep=3.0):
@@ -30,17 +30,17 @@ class Evaluate(MessageHandler):
                 output = await meval(expression, globals(), **locals())
             except Exception:
                 traceback_string = traceback.format_exc()
-                await message.reply_text(
+                await message.reply(
                     f"Exception while running the code:\n<pre>{traceback_string}</pre>"
                 )
                 return
 
             if not output:
-                await message.reply_text("No output.")
+                await message.reply("No output.")
                 return
 
             if len(str(output)) > 4096:
                 await generate_document(output, message)
                 return
 
-            await message.reply_text(build_text(str(output)), parse_mode=ParseMode.MARKDOWN)
+            await message.reply(build_text(str(output)), parse_mode=ParseMode.MARKDOWN)

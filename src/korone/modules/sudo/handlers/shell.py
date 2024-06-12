@@ -18,18 +18,18 @@ class Shell(MessageHandler):
     async def handle(client: Client, message: Message) -> None:
         command = CommandObject(message).parse().args
         if not command:
-            await message.reply_text("No command provided.")
+            await message.reply("No command provided.")
             return
 
         async with ChatActionSender(client=client, chat_id=message.chat.id, initial_sleep=3.0):
             output = await run_command(command)
 
             if not output:
-                await message.reply_text("No output.")
+                await message.reply("No output.")
                 return
 
             if len(output) > 4096:
                 await generate_document(output, message)
                 return
 
-            await message.reply_text(build_text(output), parse_mode=ParseMode.MARKDOWN)
+            await message.reply(build_text(output), parse_mode=ParseMode.MARKDOWN)

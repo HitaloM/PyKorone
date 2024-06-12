@@ -61,7 +61,7 @@ class TikTokHandler(MessageHandler):
                 reply_to_message_id=message.id,
             )
         except Exception as e:
-            await message.reply_text(_("Failed to send media: {error}").format(error=e))
+            await message.reply(_("Failed to send media: {error}").format(error=e))
             return
 
         cache_ttl = int(timedelta(weeks=1).total_seconds())
@@ -82,13 +82,13 @@ class TikTokHandler(MessageHandler):
                     reply_markup=self.build_keyboard(message.text),
                 )
             except Exception as e:
-                await message.reply_text(_("Failed to send media: {error}").format(error=e))
+                await message.reply(_("Failed to send media: {error}").format(error=e))
                 return
         else:
             try:
                 sent_message = await message.reply_media_group(media_list)  # type: ignore
             except Exception as e:
-                await message.reply_text(_("Failed to send media: {error}").format(error=e))
+                await message.reply(_("Failed to send media: {error}").format(error=e))
                 return
 
         cache_ttl = int(timedelta(weeks=1).total_seconds())
@@ -165,11 +165,11 @@ class TikTokHandler(MessageHandler):
             try:
                 media = await tiktok.get()
             except TikTokError:
-                await message.reply_text(_("Failed to fetch TikTok video."))
+                await message.reply(_("Failed to fetch TikTok video."))
                 return
 
             if not media:
-                await message.reply_text(_("Cannot fetch TikTok media. Sorry!"))
+                await message.reply(_("Cannot fetch TikTok media. Sorry!"))
                 return
 
             if isinstance(media, TikTokVideo):

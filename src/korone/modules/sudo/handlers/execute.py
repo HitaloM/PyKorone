@@ -23,7 +23,7 @@ class Execute(MessageHandler):
         command = CommandObject(message).parse()
         code = command.args
         if not code:
-            await message.reply_text("No expression provided.")
+            await message.reply("No expression provided.")
             return
 
         reply = message.reply_to_message
@@ -42,18 +42,18 @@ class Execute(MessageHandler):
                 try:
                     await locals()["__ex"](client, message, reply, user, chat)
                 except Exception:
-                    await message.reply_text(
+                    await message.reply(
                         build_text(traceback.format_exc()), parse_mode=ParseMode.MARKDOWN
                     )
                     return
 
             output = strio.getvalue()
             if not output:
-                await message.reply_text("No output.")
+                await message.reply("No output.")
                 return
 
             if len(output) > 4096:
                 await generate_document(output, message)
                 return
 
-            await message.reply_text(build_text(str(output)), parse_mode=ParseMode.MARKDOWN)
+            await message.reply(build_text(str(output)), parse_mode=ParseMode.MARKDOWN)

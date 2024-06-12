@@ -138,7 +138,7 @@ class TwitterMessageHandler(MessageHandler):
         try:
             if media.type == "photo":
                 if not media_file:
-                    await message.reply_text(_("Failed to send media!"))
+                    await message.reply(_("Failed to send media!"))
                     return None
 
                 return await client.send_photo(
@@ -150,7 +150,7 @@ class TwitterMessageHandler(MessageHandler):
                 )
             if media.type in {"video", "gif"}:
                 if not media_file:
-                    await message.reply_text(_("Failed to send media!"))
+                    await message.reply(_("Failed to send media!"))
                     return None
 
                 return await client.send_video(
@@ -165,7 +165,7 @@ class TwitterMessageHandler(MessageHandler):
                     reply_to_message_id=message.id,
                 )
         except Exception as e:
-            await message.reply_text(_("Failed to send media: {error}").format(error=e))
+            await message.reply(_("Failed to send media: {error}").format(error=e))
         return None
 
     @staticmethod
@@ -192,7 +192,7 @@ class TwitterMessageHandler(MessageHandler):
             await api.fetch_and_parse()
             tweet = api.tweet
         except TwitterError:
-            await message.reply_text(
+            await message.reply(
                 _(
                     "Failed to scan your link! This may be due to an incorrect link, "
                     "private/suspended account, deleted tweet, or recent changes to "
@@ -202,11 +202,11 @@ class TwitterMessageHandler(MessageHandler):
             return
 
         if not tweet:
-            await message.reply_text(_("I couldn't find any tweet data!"))
+            await message.reply(_("I couldn't find any tweet data!"))
             return
 
         if not tweet.media:
-            await message.reply_text(_("No media found in this tweet!"))
+            await message.reply(_("No media found in this tweet!"))
             return
 
         text = self.format_tweet_text(tweet)
@@ -225,7 +225,7 @@ class TwitterMessageHandler(MessageHandler):
                     client, message, tweet.media[0], text, tweet, cache_data
                 )
             except Exception as e:
-                await message.reply_text(_("Failed to send media: {error}").format(error=e))
+                await message.reply(_("Failed to send media: {error}").format(error=e))
             else:
                 cache_ttl = int(timedelta(weeks=1).total_seconds())
                 await cache.set(sent_message, cache_ttl) if sent_message else None

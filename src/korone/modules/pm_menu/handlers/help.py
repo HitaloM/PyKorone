@@ -46,7 +46,7 @@ class Help(MessageHandler):
         if message.chat.type in {ChatType.GROUP, ChatType.SUPERGROUP}:
             keyboard = InlineKeyboardBuilder()
             keyboard.button(text=_("👮‍♂️ Help"), url="https://t.me/PyKoroneBot?start=start")
-            await message.reply_text(
+            await message.reply(
                 _("Message me in PM to get help."), reply_markup=keyboard.as_markup()
             )
             return
@@ -58,12 +58,12 @@ class Help(MessageHandler):
         if query := command.args:
             text = GetHelp().build_text(query)
             if _("Module not found.") in text:
-                await message.reply_text(text)
+                await message.reply(text)
                 return
 
             keyboard = GetHelp().build_keyboard()
 
-        await message.reply_text(text, reply_markup=keyboard)
+        await message.reply(text, reply_markup=keyboard)
 
 
 class GetHelp(CallbackQueryHandler):

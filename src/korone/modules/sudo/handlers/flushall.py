@@ -17,6 +17,6 @@ class PurgeCache(MessageHandler):
     @router.message(Command("flushall", disableable=False) & IsSudo)
     async def handle(client: Client, message: Message) -> None:
         start_time = time.time()
-        start = await message.reply_text("Flushing cache...")
+        start = await message.reply("Flushing cache...")
         await cache.clear()
         await start.edit_text(f"Cache flushed in {time.time() - start_time:.2f} seconds.")

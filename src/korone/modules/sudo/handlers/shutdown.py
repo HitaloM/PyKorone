@@ -16,5 +16,5 @@ class Shutdown(MessageHandler):
     @staticmethod
     @router.message(Command("shutdown", disableable=False) & IsSudo)
     async def handle(client: Client, message: Message) -> None:
-        await message.reply_text("Shutting down...")
+        await message.reply("Shutting down...")
         os.kill(os.getpid(), SIGINT)

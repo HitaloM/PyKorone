@@ -132,7 +132,7 @@ class InstagramHandler(MessageHandler):
     async def handle(self, client: Client, message: Message) -> None:
         post_id = self.get_post_id_from_message(message)
         if not post_id:
-            await message.reply_text(_("This Instagram URL is not a valid post or story."))
+            await message.reply(_("This Instagram URL is not a valid post or story."))
             return
 
         post_url_match = POST_URL_PATTERN.search(message.text)
@@ -144,7 +144,7 @@ class InstagramHandler(MessageHandler):
             try:
                 insta = await get_instagram_data(post_id)
             except NotFoundError:
-                await message.reply_text(_("Oops! Something went wrong while fetching the post."))
+                await message.reply(_("Oops! Something went wrong while fetching the post."))
                 return
 
             text, keyboard = self.create_caption_and_keyboard(insta, post_url)
@@ -159,7 +159,7 @@ class InstagramHandler(MessageHandler):
                         message, media, text, cache_data, keyboard
                     )
                 except Exception as e:
-                    await message.reply_text(_("Failed to send media: {error}").format(error=e))
+                    await message.reply(_("Failed to send media: {error}").format(error=e))
                 else:
                     cache_ttl = int(timedelta(weeks=1).total_seconds())
                     await cache.set(sent_message, cache_ttl) if sent_message else None
@@ -176,7 +176,7 @@ class InstagramHandler(MessageHandler):
             try:
                 sent_message = await message.reply_media_group(media_list)
             except Exception as e:
-                await message.reply_text(_("Failed to send media: {error}").format(error=e))
+                await message.reply(_("Failed to send media: {error}").format(error=e))
             else:
                 cache_ttl = int(timedelta(weeks=1).total_seconds())
                 await cache.set(sent_message, cache_ttl) if sent_message else None

@@ -65,7 +65,7 @@ class LanguageInfoBase(MessageHandler):
                 )
             )
 
-        await message.reply_text(text, reply_markup=keyboard.as_markup())
+        await message.reply(text, reply_markup=keyboard.as_markup())
 
 
 class LanguageInfoCallback(CallbackQueryHandler):

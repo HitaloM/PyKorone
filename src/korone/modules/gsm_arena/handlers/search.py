@@ -23,23 +23,23 @@ class GSMArena(MessageHandler):
         command = CommandObject(message).parse()
 
         if not command.args:
-            await message.reply_text(_("Please enter a phone name to search."))
+            await message.reply(_("Please enter a phone name to search."))
             return
 
         query = command.args
         devices = await search_phone(query)
 
         if not devices:
-            await message.reply_text(_("No devices found."))
+            await message.reply(_("No devices found."))
             return
 
         if len(devices) == 1:
             phone = await check_phone_details(devices[0].url)
-            await message.reply_text(text=format_phone(phone))
+            await message.reply(text=format_phone(phone))
             return
 
         keyboard = create_pagination_layout(devices, query, 1)
-        await message.reply_text(
+        await message.reply(
             _("Search results for: <b>{device}</b>").format(device=query),
             reply_markup=keyboard.as_markup(),
         )

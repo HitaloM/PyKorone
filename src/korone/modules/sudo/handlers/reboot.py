@@ -22,7 +22,7 @@ class Reboot(MessageHandler):
         if await cache.get(cache_key):
             await cache.delete(cache_key)
 
-        sent = await message.reply_text("Rebooting...")
+        sent = await message.reply("Rebooting...")
 
         value = {"chat_id": message.chat.id, "message_id": sent.id, "time": time.time()}
         await cache.set(cache_key, value=value, expire=300)

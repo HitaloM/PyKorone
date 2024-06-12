@@ -49,7 +49,7 @@ class SelectLanguageBase:
         return _("Please select the language you want to use for the chat.")
 
     async def send_message(self, message: Message):
-        await message.reply_text(
+        await message.reply(
             self.build_text(),
             reply_markup=self.build_keyboard(message.chat.type),
         )
