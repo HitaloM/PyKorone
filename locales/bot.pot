@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PyKorone 1.0\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-06-12 19:48-0300\n"
+"POT-Creation-Date: 2024-06-15 13:12-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -291,12 +291,12 @@ msgstr ""
 #: src/korone/modules/language/handlers/apply.py:87
 msgid ""
 "\n"
-"Please help us translate this language by completing it on the Crowdin "
-"website."
+"Please help us translate this language by completing it on our "
+"translations platform."
 msgstr ""
 
 #: src/korone/modules/language/handlers/apply.py:93
-msgid "🌍 Open Crowdin"
+msgid "🌍 Open Translations"
 msgstr ""
 
 #: src/korone/modules/language/handlers/cancel.py:19
@@ -848,4 +848,16 @@ msgstr ""
 
 #: src/korone/modules/pm_menu/handlers/start.py:41
 msgid "Hello, I'm PyKorone! An all-in-one bot."
+msgstr ""
+
+#: src/korone/modules/stickers/handlers/get_sticker.py:18
+msgid "Reply to a sticker."
+msgstr ""
+
+#: src/korone/modules/stickers/handlers/get_sticker.py:22
+msgid "Reply to a sticker to get it as a file and file ID"
+msgstr ""
+
+#: src/korone/modules/stickers/handlers/get_sticker.py:30
+msgid "Failed to download sticker."
 msgstr ""

@@ -16,7 +16,7 @@ from korone.utils.i18n import gettext as _
 
 
 class ApplyLanguage(CallbackQueryHandler):
-    crowdin_url: str = constants.CROWDIN_URL
+    translations_url: str = constants.TRANSLATIONS_URL
     github_url: str = f"{constants.GITHUB_URL}/issues"
 
     @router.callback_query(SetLangCallback.filter())
@@ -86,12 +86,12 @@ class ApplyLanguage(CallbackQueryHandler):
         else:
             text += _(
                 "\nPlease help us translate this language by completing it on "
-                "the Crowdin website.",
+                "our translations platform.",
                 locale=language,
             )
             keyboard.button(
-                text=_("🌍 Open Crowdin", locale=language),
-                url=self.crowdin_url,
+                text=_("🌍 Open Translations", locale=language),
+                url=self.translations_url,
             )
 
         return text, keyboard

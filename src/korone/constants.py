@@ -105,8 +105,8 @@ CREATE TABLE IF NOT EXISTS LastFM (
 :type: str
 """
 
-CROWDIN_URL: str = "https://crowdin.com/project/pykorone"
-"""The URL to the Crowdin project.
+TRANSLATIONS_URL: str = "https://weblate.amanoteam.com/projects/korone/"
+"""The URL to the translations platform.
 
 :type: str
 """

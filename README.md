@@ -4,7 +4,7 @@
 
 [![Ruff](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json)](https://github.com/astral-sh/ruff)
 [![Documentation Status](https://readthedocs.org/projects/pykorone/badge/?version=latest)](https://pykorone.readthedocs.io/en/latest/?badge=latest)
-[![Crowdin](https://img.shields.io/badge/Localization-Crowdin-blueviolet?logo=Crowdin)](https://crowdin.com/project/pykorone/)
+[![Weblate](http://weblate.amanoteam.com/widget/korone/korone/svg-badge.svg)](http://weblate.amanoteam.com/engage/korone/)
 [![Channel](https://img.shields.io/badge/Follow-Telegram-blue.svg?logo=telegram)](https://t.me/PyKorone)
 [![GitHub License](https://img.shields.io/github/license/HitaloM/PyKorone?logo=bsd)](/LICENSE)
 
@@ -25,7 +25,7 @@ PyKorone comes with a variety of notable features:
 
 ## Translation
 
-We encourage translations via our [Crowdin Project](https://crowdin.com/project/pykorone/). Crowdin provides grammar checks and contextual information for strings, ensuring high-quality translations.
+We encourage translations via our [Weblate Project](https://weblate.amanoteam.com/). Weblate provides grammar checks and contextual information for strings, ensuring high-quality translations.
 
 ## Discussion
 
