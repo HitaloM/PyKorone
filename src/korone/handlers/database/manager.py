@@ -8,7 +8,7 @@ from hydrogram.types import Chat, User
 
 from korone import i18n
 from korone.database.query import Query
-from korone.database.sqlite import sqlite_pool
+from korone.database.sqlite import SQLite3Connection
 from korone.database.table import Document, Documents, Table
 
 
@@ -149,7 +149,7 @@ async def get_document(chat: User | Chat) -> Documents | None:
     if not table_name:
         return None
 
-    async with sqlite_pool as conn:
+    async with SQLite3Connection() as conn:
         table = await conn.table(table_name)
         query = Query()
         return await table.query(query.id == chat.id)
@@ -180,7 +180,7 @@ async def update_or_create_document(
     if not table_name:
         return None
 
-    async with sqlite_pool as conn:
+    async with SQLite3Connection() as conn:
         language = language or i18n.default_locale
         table = await conn.table(table_name)
         query = Query()

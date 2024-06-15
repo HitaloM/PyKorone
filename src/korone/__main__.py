@@ -11,7 +11,6 @@ from hydrogram import idle
 from korone import cache
 from korone.client import AppParameters, Korone
 from korone.config import ConfigManager
-from korone.database.sqlite import sqlite_pool
 from korone.utils.logging import log
 
 
@@ -37,12 +36,10 @@ async def main() -> None:
     )
 
     client = Korone(params)
-    try:
-        await client.start()
-        await idle()
-    finally:
-        await client.stop()
-        await sqlite_pool.close()
+
+    await client.start()
+    await idle()
+    await client.stop()
 
 
 if __name__ == "__main__":

@@ -14,7 +14,7 @@ from hydrogram import Client
 from hydrogram.filters import AndFilter, Filter
 
 from korone.database.query import Query
-from korone.database.sqlite import sqlite_pool
+from korone.database.sqlite import SQLite3Connection
 from korone.database.table import Documents
 from korone.handlers.abstract import CallbackQueryHandler, MessageHandler
 from korone.utils.logging import log
@@ -198,7 +198,7 @@ async def check_command_state(command: str) -> Documents | None:
     Documents | None
         The state of the command, or None if it doesn't exist.
     """
-    async with sqlite_pool as conn:
+    async with SQLite3Connection() as conn:
         table = await conn.table("Commands")
         query = Query()
         return await table.query(query.command == command) or None
