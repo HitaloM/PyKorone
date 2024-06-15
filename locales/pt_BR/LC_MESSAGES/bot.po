@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-06-12 19:48-0300\n"
+"POT-Creation-Date: 2024-06-15 13:12-0300\n"
 "PO-Revision-Date: 2024-06-15 15:40+0000\n"
 "Last-Translator: Alisson Lauffer <alissonvitortc@gmail.com>\n"
 "Language-Team: Portuguese (Brazil) <http://weblate.amanoteam.com/projects/"
@@ -346,16 +346,18 @@ msgstr ""
 "GitHub."
 
 #: src/korone/modules/language/handlers/apply.py:87
+#, fuzzy
 msgid ""
 "\n"
-"Please help us translate this language by completing it on the Crowdin "
-"website."
+"Please help us translate this language by completing it on our translations "
+"platform."
 msgstr ""
 "\n"
 "Por favor, ajude-nos a traduzir este idioma completando-o no site do Crowdin."
 
 #: src/korone/modules/language/handlers/apply.py:93
-msgid "🌍 Open Crowdin"
+#, fuzzy
+msgid "🌍 Open Translations"
 msgstr "🌍 Abrir Crowdin"
 
 #: src/korone/modules/language/handlers/cancel.py:19
@@ -658,7 +660,8 @@ msgstr "álbuns"
 
 #: src/korone/modules/lastfm/handlers/top.py:57
 msgid "Invalid entry type! Use one of the following: artist, track, album"
-msgstr "Tipo de entrada inválido! Use um dos seguintes: artists, tracks, albuns"
+msgstr ""
+"Tipo de entrada inválido! Use um dos seguintes: artists, tracks, albuns"
 
 #: src/korone/modules/lastfm/handlers/top.py:91
 msgid ""
@@ -1009,3 +1012,16 @@ msgstr "{lang_flag} Idioma"
 #: src/korone/modules/pm_menu/handlers/start.py:41
 msgid "Hello, I'm PyKorone! An all-in-one bot."
 msgstr "Olá, eu sou o PyKorone! Um bot tudo-em-um."
+
+#: src/korone/modules/stickers/handlers/get_sticker.py:18
+msgid "Reply to a sticker."
+msgstr ""
+
+#: src/korone/modules/stickers/handlers/get_sticker.py:22
+msgid "Reply to a sticker to get it as a file and file ID"
+msgstr ""
+
+#: src/korone/modules/stickers/handlers/get_sticker.py:30
+#, fuzzy
+msgid "Failed to download sticker."
+msgstr "Falha no download da mídia."
