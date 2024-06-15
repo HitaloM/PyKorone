@@ -17,34 +17,16 @@ from korone.config import ConfigManager
 from korone.utils.logging import log
 
 TIMEOUT: int = 20
+
+
 HEADERS: dict[str, str] = {
-    "accept": "*/*",
-    "accept-language": "en-US,en;q=0.9",
-    "content-type": "application/x-www-form-urlencoded",
-    "origin": "https://www.instagram.com",
-    "priority": "u=1, i",
-    "sec-ch-prefers-color-scheme": "dark",
-    "sec-ch-ua": '"Google Chrome";v="125", "Chromium";v="125", "Not.A/Brand";v="24"',
-    "sec-ch-ua-full-version-list": (
-        '"Google Chrome";v="125.0.6422.142", '
-        '"Chromium";v="125.0.6422.142", '
-        '"Not.A/Brand";v="24.0.0.0"'
-    ),
-    "sec-ch-ua-mobile": "?0",
-    "sec-ch-ua-model": "",
-    "sec-ch-ua-platform": '"macOS"',
-    "sec-ch-ua-platform-version": '"12.7.4"',
-    "sec-fetch-dest": "empty",
-    "sec-fetch-mode": "cors",
-    "sec-fetch-site": "same-origin",
-    "user-agent": (
-        "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) "
-        "Chrome/125.0.0.0 Safari/537.36"
-    ),
-    "x-asbd-id": "129477",
-    "x-bloks-version-id": "e2004666934296f275a5c6b2c9477b63c80977c7cc0fd4b9867cb37e36092b68",
-    "x-fb-friendly-name": "PolarisPostActionLoadPostQueryQuery",
-    "x-ig-app-id": "936619743392459",
+    "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/"
+    "apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7",
+    "Accept-Language": "en-US,en;q=0.9",
+    "Connection": "close",
+    "Sec-Fetch-Mode": "navigate",
+    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like "
+    "Gecko) Chrome/118.0.0.0 Safari/537.36",
 }
 
 
@@ -219,12 +201,44 @@ async def get_embed_html_data(response: httpx.Response, post_id: str) -> dict[st
 async def _parse_gql_data(
     url: str, params: dict[str, Any], proxy: str | None = None
 ) -> httpx.Response | None:
-    headers = {**HEADERS, "Referer": url}
+    headers = {
+        **HEADERS,
+        "accept": "*/*",
+        "accept-language": "en-US,en;q=0.9",
+        "content-type": "application/x-www-form-urlencoded",
+        "origin": "https://www.instagram.com",
+        "priority": "u=1, i",
+        "sec-ch-prefers-color-scheme": "dark",
+        "sec-ch-ua": '"Google Chrome";v="125", "Chromium";v="125", "Not.A/Brand";v="24"',
+        "sec-ch-ua-full-version-list": (
+            '"Google Chrome";v="125.0.6422.142", '
+            '"Chromium";v="125.0.6422.142", '
+            '"Not.A/Brand";v="24.0.0.0"'
+        ),
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-model": "",
+        "sec-ch-ua-platform": '"macOS"',
+        "sec-ch-ua-platform-version": '"12.7.4"',
+        "sec-fetch-dest": "empty",
+        "sec-fetch-mode": "cors",
+        "sec-fetch-site": "same-origin",
+        "user-agent": (
+            "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like "
+            "Gecko) Chrome/125.0.0.0 Safari/537.36"
+        ),
+        "x-asbd-id": "129477",
+        "x-bloks-version-id": "e2004666934296f275a5c6b2c9477b63c80977c7cc0fd4b9867cb37e36092b68",
+        "x-fb-friendly-name": "PolarisPostActionLoadPostQueryQuery",
+        "x-ig-app-id": "936619743392459",
+    }
+
     try:
         async with httpx.AsyncClient(
             headers=headers, timeout=TIMEOUT, http2=True, proxies=proxy
         ) as session:
-            response = await session.get("https://www.instagram.com/graphql/query/", params=params)
+            response = await session.post(
+                "https://www.instagram.com/graphql/query/", params=params
+            )
             if response.status_code == 200 and response.content:
                 return response
     except httpx.ConnectError as err:
@@ -262,20 +276,7 @@ async def parse_gql_data(post_id: str) -> dict[str, Any] | None:
         "__spin_t": "1718406700",
         "fb_api_caller_class": "RelayModern",
         "fb_api_req_friendly_name": "PolarisPostActionLoadPostQueryQuery",
-        "variables": f'{
-            {
-                "shortcode": f"{post_id}",
-                "fetch_comment_count": "40",
-                "parent_comment_count": "24",
-                "child_comment_count": "3",
-                "fetch_like_count": "10",
-                "fetch_tagged_user_count": "null",
-                "fetch_preview_comment_count": "2",
-                "has_threaded_comments": "true",
-                "hoisted_comment_id": "null",
-                "hoisted_reply_id": "null",
-            }
-        }',
+        "variables": f'{{"shortcode":"{post_id}"}}',
         "server_timestamps": "true",
         "doc_id": "25531498899829322",
     }
@@ -303,11 +304,12 @@ async def get_data(post_id: str) -> dict[str, Any] | None:
     if not response or response.status_code != 200:
         return None
 
-    time_slice = get_time_slice(response)
-    if time_slice:
-        return time_slice.get("gql_data")
-
-    return await get_embed_html_data(response, post_id)
+    try:
+        time_slice = get_time_slice(response)
+        if time_slice:
+            return time_slice.get("gql_data")
+    except InstaError:
+        return await get_embed_html_data(response, post_id)
 
 
 @cache(ttl=timedelta(weeks=1))
