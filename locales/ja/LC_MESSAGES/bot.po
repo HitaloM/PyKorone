@@ -9,7 +9,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2024-06-12 19:48-0300\n"
 "PO-Revision-Date: 2024-06-15 15:40+0000\n"
-"Last-Translator: Glosbe <noreply-mt-glosbe@weblate.org>\n"
+"Last-Translator: MyMemory <noreply-mt-mymemory@weblate.org>\n"
 "Language-Team: Japanese <http://weblate.amanoteam.com/projects/korone/korone/"
 "ja/>\n"
 "Language: ja\n"
@@ -22,7 +22,7 @@ msgstr ""
 
 #: src/korone/modules/afk/__init__.py:10
 msgid "AFK"
-msgstr ""
+msgstr "AFK"
 
 #: src/korone/modules/afk/__init__.py:11
 msgid ""
@@ -61,10 +61,14 @@ msgid "{user} is afk!"
 msgstr "{user}はアフクだ! {user}はアフクだ!"
 
 #: src/korone/modules/afk/handlers/check.py:86
+#, fuzzy
 msgid ""
 "\n"
 "Reason: {reason}"
 msgstr ""
+"\n"
+"理由: 「<ph id=\"mtc_1\" ctype=\"x-twig\" equiv-text=\"base64"
+":e3tyZWFzb259fQ==\"/>」"
 
 #: src/korone/modules/afk/handlers/check.py:99
 #, fuzzy
@@ -85,7 +89,7 @@ msgstr "あなたは今AFKです."
 
 #: src/korone/modules/disabling/__init__.py:10
 msgid "Disabling"
-msgstr ""
+msgstr "無効化"
 
 #: src/korone/modules/disabling/__init__.py:11
 #, fuzzy
@@ -205,27 +209,27 @@ msgstr ""
 
 #: src/korone/modules/gsm_arena/utils.py:97
 msgid "Status"
-msgstr ""
+msgstr "ステータス"
 
 #: src/korone/modules/gsm_arena/utils.py:98
 msgid "Network"
-msgstr ""
+msgstr "ネットワーク"
 
 #: src/korone/modules/gsm_arena/utils.py:99
 msgid "Weight"
-msgstr ""
+msgstr "重量"
 
 #: src/korone/modules/gsm_arena/utils.py:100
 msgid "Display"
-msgstr ""
+msgstr "ディスプレイ"
 
 #: src/korone/modules/gsm_arena/utils.py:101
 msgid "Chipset"
-msgstr ""
+msgstr "チップセット"
 
 #: src/korone/modules/gsm_arena/utils.py:102
 msgid "Memory"
-msgstr ""
+msgstr "メモリ"
 
 #: src/korone/modules/gsm_arena/utils.py:103
 msgid "Rear Camera"
@@ -233,7 +237,7 @@ msgstr "後部 カメラ"
 
 #: src/korone/modules/gsm_arena/utils.py:104
 msgid "Front Camera"
-msgstr ""
+msgstr "フロントカメラ"
 
 #: src/korone/modules/gsm_arena/utils.py:105
 msgid "3.5mm jack"
@@ -241,19 +245,19 @@ msgstr "3.5mmジャック"
 
 #: src/korone/modules/gsm_arena/utils.py:106
 msgid "USB"
-msgstr ""
+msgstr "USB"
 
 #: src/korone/modules/gsm_arena/utils.py:107
 msgid "Sensors"
-msgstr ""
+msgstr "センサー"
 
 #: src/korone/modules/gsm_arena/utils.py:108
 msgid "Battery"
-msgstr ""
+msgstr "バッテリー"
 
 #: src/korone/modules/gsm_arena/utils.py:109
 msgid "Charging"
-msgstr ""
+msgstr "充電中"
 
 #: src/korone/modules/gsm_arena/handlers/search.py:26
 msgid "Please enter a phone name to search."
@@ -261,7 +265,7 @@ msgstr "検索する電話番号を入力してください."
 
 #: src/korone/modules/gsm_arena/handlers/search.py:33
 msgid "No devices found."
-msgstr ""
+msgstr "デバイスが見つかりませんでした。"
 
 #: src/korone/modules/gsm_arena/handlers/search.py:43
 #, fuzzy
@@ -270,7 +274,7 @@ msgstr "<b>{デバイス}</b> の検索結果"
 
 #: src/korone/modules/language/__init__.py:10
 msgid "Languages"
-msgstr ""
+msgstr "言語"
 
 #: src/korone/modules/language/__init__.py:11
 msgid ""
@@ -305,7 +309,7 @@ msgstr ""
 
 #: src/korone/modules/language/handlers/apply.py:25
 msgid "Something went wrong."
-msgstr ""
+msgstr "何かが上手くいきませんでした。"
 
 #: src/korone/modules/language/handlers/apply.py:48
 msgid "Language changed to {new_lang}."
@@ -421,7 +425,7 @@ msgstr "⬅️"
 
 #: src/korone/modules/language/handlers/select.py:34
 msgid "❌ Cancel"
-msgstr ""
+msgstr "キャンセル"
 
 #: src/korone/modules/language/handlers/select.py:49
 msgid "Please select the language you want to use for the chat."
@@ -433,7 +437,7 @@ msgstr "この操作は管理者だけが実行できます."
 
 #: src/korone/modules/lastfm/__init__.py:10
 msgid "LastFM"
-msgstr ""
+msgstr "ラストフム"
 
 #: src/korone/modules/lastfm/__init__.py:11
 #, fuzzy
@@ -653,15 +657,15 @@ msgstr "ラストFMのユーザー名設定成功!"
 
 #: src/korone/modules/lastfm/handlers/top.py:28
 msgid "artists"
-msgstr ""
+msgstr "アーティスト"
 
 #: src/korone/modules/lastfm/handlers/top.py:30
 msgid "tracks"
-msgstr ""
+msgstr "履帯"
 
 #: src/korone/modules/lastfm/handlers/top.py:31
 msgid "albums"
-msgstr ""
+msgstr "アルバム"
 
 #: src/korone/modules/lastfm/handlers/top.py:57
 msgid "Invalid entry type! Use one of the following: artist, track, album"
@@ -720,35 +724,35 @@ msgstr "{ 分} 分 (s) 前"
 
 #: src/korone/modules/lastfm/utils/formatters.py:30
 msgid ", Just now"
-msgstr ""
+msgstr "たった今"
 
 #: src/korone/modules/lastfm/utils/formatters.py:59
 msgid "1 week"
-msgstr ""
+msgstr "1 週間"
 
 #: src/korone/modules/lastfm/utils/formatters.py:61
 msgid "1 month"
-msgstr ""
+msgstr "1か月"
 
 #: src/korone/modules/lastfm/utils/formatters.py:63
 msgid "3 months"
-msgstr ""
+msgstr "3ヶ月"
 
 #: src/korone/modules/lastfm/utils/formatters.py:65
 msgid "6 months"
-msgstr ""
+msgstr "6か月"
 
 #: src/korone/modules/lastfm/utils/formatters.py:67
 msgid "1 year"
-msgstr ""
+msgstr "1年"
 
 #: src/korone/modules/lastfm/utils/formatters.py:68
 msgid "All time"
-msgstr ""
+msgstr "全期間"
 
 #: src/korone/modules/media_dl/__init__.py:10
 msgid "Medias"
-msgstr ""
+msgstr "メディア"
 
 #: src/korone/modules/media_dl/__init__.py:11
 msgid ""
@@ -900,7 +904,7 @@ msgstr "<b>ライク:</b> {ライク数}\n"
 
 #: src/korone/modules/media_dl/handlers/youtube.py:71
 msgid "Download video"
-msgstr ""
+msgstr "動画をダウンロード"
 
 #: src/korone/modules/media_dl/handlers/youtube.py:75
 msgid "Download audio"
@@ -926,16 +930,16 @@ msgstr "ビデオ情報を抽出できませんでした."
 
 #: src/korone/modules/media_dl/handlers/youtube.py:131
 msgid "Downloading..."
-msgstr ""
+msgstr "ダウンロード中..."
 
 #: src/korone/modules/media_dl/handlers/youtube.py:143
 #: src/korone/modules/media_dl/handlers/youtube.py:149
 msgid "Failed to download the media."
-msgstr ""
+msgstr "メディアのダウンロードに失敗しました。"
 
 #: src/korone/modules/media_dl/handlers/youtube.py:152
 msgid "Uploading..."
-msgstr ""
+msgstr "アップロード中…"
 
 #: src/korone/modules/media_dl/handlers/youtube.py:178
 msgid "Failed to send the media."
@@ -1022,7 +1026,7 @@ msgstr "メールで助けを呼んで"
 #: src/korone/modules/pm_menu/handlers/help.py:60
 #: src/korone/modules/pm_menu/handlers/help.py:90
 msgid "Module not found."
-msgstr ""
+msgstr "モジュールが見つかりません。"
 
 #: src/korone/modules/pm_menu/handlers/start.py:26
 msgid "ℹ️ About"
