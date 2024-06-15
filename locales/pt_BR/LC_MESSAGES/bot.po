@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2024-06-12 19:48-0300\n"
-"PO-Revision-Date: 2024-06-15 13:48+0000\n"
-"Last-Translator: Hitalo <hitalo331@outlook.com>\n"
+"PO-Revision-Date: 2024-06-15 15:40+0000\n"
+"Last-Translator: Hitalo <hitalomarquete331@gmail.com>\n"
 "Language-Team: Portuguese (Brazil) <http://weblate.amanoteam.com/projects/"
 "korone/korone/pt_BR/>\n"
 "Language: pt_BR\n"
@@ -66,7 +66,7 @@ msgid ""
 "Reason: {reason}"
 msgstr ""
 "\n"
-"Motivo: [[reason]]"
+"Motivo: {reason}"
 
 #: src/korone/modules/afk/handlers/check.py:99
 msgid "Oh, you're back! I've removed your afk status."
@@ -260,7 +260,7 @@ msgstr "Por favor, insira um nome de telefone para pesquisar."
 
 #: src/korone/modules/gsm_arena/handlers/search.py:33
 msgid "No devices found."
-msgstr "Nenhum dispositivo encontrado"
+msgstr "Nenhum dispositivo encontrado."
 
 #: src/korone/modules/gsm_arena/handlers/search.py:43
 msgid "Search results for: <b>{device}</b>"
@@ -995,9 +995,8 @@ msgstr "Envie-me uma mensagem no PV para obter ajuda."
 
 #: src/korone/modules/pm_menu/handlers/help.py:60
 #: src/korone/modules/pm_menu/handlers/help.py:90
-#, fuzzy
 msgid "Module not found."
-msgstr "Módulo não econtrado"
+msgstr "Módulo não econtrado."
 
 #: src/korone/modules/pm_menu/handlers/start.py:26
 msgid "ℹ️ About"
