@@ -26,7 +26,6 @@ from pymongo.errors import ServerSelectionTimeoutError
 from sophie_bot import log
 from sophie_bot.config import CONFIG
 
-
 mongodb = MongoClient(CONFIG.mongo_host, CONFIG.mongo_port)[CONFIG.mongo_db]
 
 motor = ContextVar('motor')

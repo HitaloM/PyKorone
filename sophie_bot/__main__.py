@@ -19,20 +19,18 @@
 import asyncio
 from importlib import import_module
 
-from aiogram import executor
-from aiogram.contrib.middlewares.logging import LoggingMiddleware
-
-from sophie_bot import dp, loop
+from sophie_bot import dp, bot
 from sophie_bot.config import CONFIG
-from sophie_bot.modules import ALL_MODULES, LOADED_MODULES
+from sophie_bot.legacy_modules import ALL_MODULES, LOADED_MODULES
 from sophie_bot.services.apscheduller import start_apscheduller
 from sophie_bot.services.mongo import get_db, test_db
 from sophie_bot.services.telethon import start_telethon
 from sophie_bot.utils.logger import log
 
 if CONFIG.debug_mode:
-    log.debug("Enabling logging middleware.")
-    dp.middleware.setup(LoggingMiddleware())
+    pass
+    # log.debug("Enabling logging middleware.")
+    # dp.middleware.setup(LoggingMiddleware())
 
 # Load modules
 if len(CONFIG.modules_load) > 0:
@@ -42,12 +40,12 @@ else:
 
 modules = [x for x in modules if x not in CONFIG.modules_not_load]
 
-log.info("Modules to load: %s", str(modules))
+log.info("Legacy modules: to load: %s", str(modules))
 for module_name in modules:
-    log.debug(f"Importing <d><n>{module_name}</></>")
-    imported_module = import_module("sophie_bot.modules." + module_name)
+    log.debug(f"Legacy modules: Importing <d><n>{module_name}</></>")
+    imported_module = import_module("sophie_bot.legacy_modules." + module_name)
     LOADED_MODULES.append(imported_module)
-log.info("Modules loaded!")
+log.info("Legacy modules: Modules loaded!")
 
 # Import misc stuff
 import_module("sophie_bot.utils.exit_gracefully")
@@ -55,13 +53,15 @@ if not CONFIG.debug_mode:
     import_module("sophie_bot.utils.sentry")
 
 
-async def before_srv_task(loop):
+async def before_srv_task():
+    loop = asyncio.get_event_loop()
     for module in [m for m in LOADED_MODULES if hasattr(m, '__before_serving__')]:
         log.debug('Before serving: ' + module.__name__)
         await module.__before_serving__(loop)
 
 
-async def start(_):
+@dp.startup()
+async def start():
     get_db()
     await test_db()
 
@@ -70,25 +70,15 @@ async def start(_):
     await start_apscheduller()
 
     log.debug("Starting before serving task for all modules...")
-    await before_srv_task(loop)
+    await before_srv_task()
 
     if CONFIG.debug_mode:
         log.debug("Waiting 2 seconds...")
         await asyncio.sleep(2)
 
 
-log.info("Starting loop..")
+async def main() -> None:
+    await dp.start_polling(bot)
 
 
-if CONFIG.webhooks_enable:
-    executor.start_webhook(
-        dp,
-        CONFIG.webhooks_url,
-        on_startup=start,
-        port=CONFIG.webhooks_port,
-        loop=loop
-    )
-else:
-    log.info("Aiogram: Using polling method")
-    get_db()
-    executor.start_polling(dp, on_startup=start, loop=loop)
+asyncio.run(main())

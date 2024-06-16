@@ -16,12 +16,14 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-import asyncio
 import logging
 
-from aiogram import Bot, Dispatcher, types
-from aiogram.bot.api import TelegramAPIServer, TELEGRAM_PRODUCTION
-from aiogram.contrib.fsm_storage.redis import RedisStorage2
+from aiogram import Bot, Dispatcher
+from aiogram.client.default import DefaultBotProperties
+from aiogram.client.telegram import TelegramAPIServer, PRODUCTION
+from aiogram.fsm.storage.base import DefaultKeyBuilder
+from aiogram.fsm.storage.redis import RedisStorage
+from redis.asyncio import Redis
 
 from sophie_bot.config import CONFIG
 from sophie_bot.utils.logger import log
@@ -38,21 +40,24 @@ if CONFIG.debug_mode:
     log.warn("! Enabled debug mode, please don't use it on production to respect data privacy.")
 
 # Support for custom BotAPI servers
-bot_api = TelegramAPIServer.from_base(CONFIG.botapi_server) if CONFIG.botapi_server else TELEGRAM_PRODUCTION
+bot_api = TelegramAPIServer.from_base(CONFIG.botapi_server) if CONFIG.botapi_server else PRODUCTION
 
 # AIOGram
-bot = Bot(token=CONFIG.token, parse_mode=types.ParseMode.HTML, server=bot_api)
-storage = RedisStorage2(
+bot = Bot(
+    token=CONFIG.token,
+    default=DefaultBotProperties(
+        parse_mode='html'
+    ),
+    server=bot_api
+)
+redis = Redis(
     host=CONFIG.redis_host,
     port=CONFIG.redis_port,
     db=CONFIG.redis_db_states,
     single_connection_client=True
 )
-dp = Dispatcher(bot, storage=storage)
-
-loop = asyncio.get_event_loop()
-
-log.debug("Getting bot info...")
-bot_info = loop.run_until_complete(bot.get_me())
-BOT_USERNAME = bot_info.username
-BOT_ID = bot_info.id
+storage = RedisStorage(
+    redis=redis,
+    key_builder=DefaultKeyBuilder(prefix=str(CONFIG.redis_db_fsm))
+)
+dp = Dispatcher(storage=storage)

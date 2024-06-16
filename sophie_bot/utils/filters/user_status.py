@@ -17,23 +17,22 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 from aiogram import types
-from aiogram.dispatcher.filters import BoundFilter
+from aiogram.filters import Filter
 
-from sophie_bot import dp
 from sophie_bot.config import CONFIG
-from sophie_bot.modules.utils.language import get_strings_dec
-from sophie_bot.modules.utils.user_details import is_user_admin
+from sophie_bot.legacy_modules.utils.language import get_strings_dec
+from sophie_bot.legacy_modules.utils.user_details import is_user_admin
 from sophie_bot.services.mongo import mongodb
 
 
-class IsAdmin(BoundFilter):
+class IsAdmin(Filter):
     key = 'is_admin'
 
     def __init__(self, is_admin):
         self.is_admin = is_admin
 
     @get_strings_dec('global')
-    async def check(self, event, strings):
+    async def __call__(self, event, strings, *args, **kwargs):
 
         if hasattr(event, 'message'):
             chat_id = event.message.chat.id
@@ -47,29 +46,29 @@ class IsAdmin(BoundFilter):
         return True
 
 
-class IsOwner(BoundFilter):
+class IsOwner(Filter):
     key = 'is_owner'
 
     def __init__(self, is_owner):
         self.is_owner = is_owner
 
-    async def check(self, message: types.Message):
+    async def __call__(self, message: types.Message):
         if message.from_user.id == CONFIG.owner_id:
             return True
 
 
-class IsOP(BoundFilter):
+class IsOP(Filter):
     key = 'is_op'
 
     def __init__(self, is_op):
         self.is_owner = is_op
 
-    async def check(self, message: types.Message):
+    async def __call__(self, message: types.Message):
         if message.from_user.id in CONFIG.operators:
             return True
 
 
-class NotGbanned(BoundFilter):
+class NotGbanned(Filter):
     key = 'not_gbanned'
 
     def __init__(self, not_gbanned):
@@ -79,9 +78,3 @@ class NotGbanned(BoundFilter):
         check = mongodb.get().blacklisted_users.find_one({'user': message.from_user.id})
         if not check:
             return True
-
-
-dp.filters_factory.bind(IsAdmin)
-dp.filters_factory.bind(IsOwner)
-dp.filters_factory.bind(NotGbanned)
-dp.filters_factory.bind(IsOP)

@@ -17,14 +17,16 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 from dataclasses import dataclass
+from typing import Any, Union, Dict
 
-from aiogram.dispatcher.filters import Filter
+from aiogram.exceptions import TelegramBadRequest
+from aiogram.filters import Filter
+from aiogram.types import TelegramObject
 from aiogram.types.callback_query import CallbackQuery
-from aiogram.utils.exceptions import BadRequest
 
-from sophie_bot import BOT_ID, dp
-from sophie_bot.modules.utils.language import get_strings
-from sophie_bot.modules.utils.user_details import check_admin_rights
+from sophie_bot import CONFIG
+from sophie_bot.legacy_modules.utils.language import get_strings
+from sophie_bot.legacy_modules.utils.user_details import check_admin_rights
 
 
 @dataclass
@@ -65,9 +67,10 @@ class UserRestricting(Filter):
                 config[argument] = full_config.pop(alias)
         return config
 
-    async def check(self, event):
+    async def __call__(self, event: TelegramObject) -> Union[bool, Dict[str, Any]]:
         user_id = await self.get_target_id(event)
         message = event.message if hasattr(event, 'message') else event
+
         # If pm skip checks
         if message.chat.type == 'private':
             return True
@@ -91,13 +94,13 @@ class UserRestricting(Filter):
             required_permissions = ' '.join(required_permissions.strip('can_').split('_'))
             try:
                 await task(strings['user_no_right'].format(permission=required_permissions))
-            except BadRequest as error:
+            except TelegramBadRequest as error:
                 if error.args == 'Reply message not found':
                     return await message.answer(strings['user_no_right'])
         else:
             try:
                 await task(strings['user_no_right:not_admin'])
-            except BadRequest as error:
+            except TelegramBadRequest as error:
                 if error.args == 'Reply message not found':
                     return await message.answer(strings['user_no_right:not_admin'])
 
@@ -117,7 +120,7 @@ class BotHasPermissions(UserRestricting):
     PAYLOAD_ARGUMENT_NAME = "bot_member"
 
     async def get_target_id(self, message):
-        return BOT_ID
+        return CONFIG.bot_id
 
     async def no_rights_msg(self, message, required_permissions):
         message = message.message if isinstance(message, CallbackQuery) else message
@@ -126,16 +129,12 @@ class BotHasPermissions(UserRestricting):
             required_permissions = ' '.join(required_permissions.strip('can_').split('_'))
             try:
                 await message.reply(strings['bot_no_right'].format(permission=required_permissions))
-            except BadRequest as error:
+            except TelegramBadRequest as error:
                 if error.args == 'Reply message not found':
                     return await message.answer(strings['bot_no_right'])
         else:
             try:
                 await message.reply(strings['bot_no_right:not_admin'])
-            except BadRequest as error:
+            except TelegramBadRequest as error:
                 if error.args == 'Reply message not found':
                     return await message.answer(strings['bot_no_right:not_admin'])
-
-
-dp.filters_factory.bind(UserRestricting)
-dp.filters_factory.bind(BotHasPermissions)

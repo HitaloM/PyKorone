@@ -1,5 +1,7 @@
-from pydantic import BaseSettings, validator, AnyHttpUrl
 from typing import List, Optional
+
+from pydantic import validator, AnyHttpUrl, computed_field
+from pydantic_settings import BaseSettings
 
 
 class Config(BaseSettings):
@@ -7,6 +9,7 @@ class Config(BaseSettings):
 
     app_id: int
     app_hash: str
+    username: str
 
     owner_id: int
     operators: List[int]
@@ -31,14 +34,22 @@ class Config(BaseSettings):
     webhooks_url: str = "/"
     webhooks_port: int = 8080
 
-    handle_forwarded_commands: bool = False
-    handle_monofont_commands: bool = False
+    commands_prefix: str = "/!"
+    commands_ignore_case: bool = True
+    commands_ignore_mention: bool = False
+    commands_ignore_forwarded: bool = True
+    commands_ignore_code: bool = True
 
     sentry_url: Optional[AnyHttpUrl] = None
 
     class Config:
         env_file = 'data/config.env'
         env_file_encoding = 'utf-8'
+
+    @computed_field
+    @property
+    def bot_id(self) -> int:
+        return int(self.token.split(':')[0])
 
     @validator('operators')
     def validate_operators(cls, value: List[int], values) -> List[int]:
