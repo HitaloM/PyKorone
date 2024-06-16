@@ -187,32 +187,26 @@ class TwitterMessageHandler(MessageHandler):
         if not url_match:
             return
 
-        try:
-            api = TwitterAPI(url_match.group())
-            await api.fetch_and_parse()
-            tweet = api.tweet
-        except TwitterError:
-            await message.reply(
-                _(
-                    "Failed to scan your link! This may be due to an incorrect link, "
-                    "private/suspended account, deleted tweet, or recent changes to "
-                    "Twitter's API."
-                )
-            )
-            return
+        api = TwitterAPI(url_match.group())
 
-        if not tweet:
-            await message.reply(_("I couldn't find any tweet data!"))
-            return
-
-        if not tweet.media:
-            await message.reply(_("No media found in this tweet!"))
-            return
-
-        text = self.format_tweet_text(tweet)
         async with ChatActionSender(
             client=client, chat_id=message.chat.id, action=ChatAction.UPLOAD_DOCUMENT
         ):
+            try:
+                await api.fetch_and_parse()
+            except TwitterError:
+                return
+
+            tweet = api.tweet
+
+            if not tweet:
+                return
+
+            if not tweet.media:
+                return
+
+            text = self.format_tweet_text(tweet)
+
             if len(tweet.media) > 1:
                 text += f"\n<a href='{tweet.url}'>{_("Open in Twitter")}</a>"
                 await self.handle_multiple_media(message, tweet, text)

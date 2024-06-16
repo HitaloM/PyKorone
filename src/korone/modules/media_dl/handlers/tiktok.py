@@ -165,11 +165,9 @@ class TikTokHandler(MessageHandler):
             try:
                 media = await tiktok.get()
             except TikTokError:
-                await message.reply(_("Failed to fetch TikTok video."))
                 return
 
             if not media:
-                await message.reply(_("Cannot fetch TikTok media. Sorry!"))
                 return
 
             if isinstance(media, TikTokVideo):

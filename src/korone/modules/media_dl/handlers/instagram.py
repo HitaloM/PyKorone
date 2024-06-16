@@ -144,7 +144,6 @@ class InstagramHandler(MessageHandler):
             try:
                 insta = await get_instagram_data(post_id)
             except NotFoundError:
-                await message.reply(_("Oops! Something went wrong while fetching the post."))
                 return
 
             text, keyboard = self.create_caption_and_keyboard(insta, post_url)
