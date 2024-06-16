@@ -79,19 +79,26 @@ def clean_notes(func):
         if data['enabled'] is not True:
             return
 
-        if 'msgs' in data:
-            with suppress(MessageDeleteForbiddenError):
-                await tbot.delete_messages(chat_id, data['msgs'])
+        if left_messages := data.get('msgs', []):
+            # Exclude the selected number of messages
+            # Multiplied by 2, to thread both users trigger message and bot's notes messages as one event.
+            leave_last = data.get('keep_num', 0) * 2  # 0 if not set
 
-        msgs = []
+            if leave_last and len(left_messages) > leave_last:
+                messages_to_delete = left_messages[:-leave_last]
+                left_messages = left_messages[leave_last:]
+
+                with suppress(MessageDeleteForbiddenError):
+                    await tbot.delete_messages(chat_id, messages_to_delete)
+
         if hasattr(message, 'message_id'):
-            msgs.append(message.message_id)
+            left_messages.append(message.message_id)
         else:
-            msgs.append(message.id)
+            left_messages.append(message.id)
 
-        msgs.append(event.message_id)
+        left_messages.append(event.message_id)
 
-        await db.get().clean_notes.update_one({'chat_id': chat_id}, {'$set': {'msgs': msgs}})
+        await db.get().clean_notes.update_one({'chat_id': chat_id}, {'$set': {'msgs': left_messages}})
 
     return wrapped_1
 
@@ -531,7 +538,7 @@ async def private_notes_cmd(message, chat, strings):
 @get_strings_dec('notes')
 async def clean_notes(message, chat, strings):
     disable = ['no', 'off', '0', 'false', 'disable']
-    enable = ['yes', 'on', '1', 'true', 'enable']
+    enable = ['yes', 'on', 'true', 'enable']
 
     chat_id = chat['chat_id']
 
@@ -542,6 +549,18 @@ async def clean_notes(message, chat, strings):
     elif arg and arg.lower() in disable:
         await db.get().clean_notes.update_one({'chat_id': chat_id}, {'$set': {'enabled': False}}, upsert=True)
         text = strings['clean_notes_disable'].format(chat_name=chat['chat_title'])
+    elif arg and arg.isnumeric():
+        keep_num = int(arg)
+
+        if keep_num < 1 or keep_num > 10:
+            await message.reply(strings['keep_num_invalid'])
+            return
+
+        await db.get().clean_notes.update_one({'chat_id': chat_id},
+                                              {'$set': {'enabled': True, 'keep_num': keep_num}}, upsert=True)
+        text = strings['clean_notes_enable'].format(chat_name=chat['chat_title'])
+        text += '\n'
+        text += strings['clean_notes_enable_keep'].format(keep_num=keep_num)
     else:
         data = await db.get().clean_notes.find_one({'chat_id': chat_id})
         if data and data['enabled'] is True:

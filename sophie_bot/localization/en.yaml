@@ -68,6 +68,8 @@ STRINGS:
 
     # /cleannotes
     clean_notes_enable: "Cleaning notes successfully enabled in <b>{chat_name}</b>"
+    clean_notes_enable_keep: "Keeping last <i>{keep_num}</i> events (trigger message + note output)."
+    keep_num_invalid: "Number must be between <i>0</i> and <i>50</i>."
     clean_notes_disable: "Cleaning notes successfully disabled in <b>{chat_name}</b>"
     clean_notes_enabled: "Cleaning notes currently is <b>enabled</b> in <b>{chat_name}</b>"
     clean_notes_disabled: "Cleaning notes currently is <b>disabled</b> in <b>{chat_name}</b>"
