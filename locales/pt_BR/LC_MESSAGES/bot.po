@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-06-16 15:44-0300\n"
+"POT-Creation-Date: 2024-06-17 15:58-0300\n"
 "PO-Revision-Date: 2024-06-17 13:29+0000\n"
 "Last-Translator: Hitalo <hitalomarquete331@gmail.com>\n"
 "Language-Team: Portuguese (Brazil) <http://weblate.amanoteam.com/projects/"
@@ -19,6 +19,10 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
 "X-Generator: Weblate 5.5.5\n"
 "Generated-By: Babel 2.14.0\n"
+
+#: src/korone/filters/admin.py:63 src/korone/filters/admin.py:68
+msgid "You must be an administrator to use this command."
+msgstr ""
 
 #: src/korone/modules/afk/__init__.py:10
 msgid "AFK"
@@ -979,15 +983,15 @@ msgstr "{lang_flag} Idioma"
 msgid "Hello, I'm PyKorone! An all-in-one bot."
 msgstr "Olá, eu sou o PyKorone! Um bot tudo-em-um."
 
-#: src/korone/modules/stickers/handlers/get_sticker.py:18
+#: src/korone/modules/stickers/handlers/get_sticker.py:19
 msgid "Reply to a sticker."
 msgstr "Responda a um sticker."
 
-#: src/korone/modules/stickers/handlers/get_sticker.py:22
+#: src/korone/modules/stickers/handlers/get_sticker.py:23
 msgid "Reply to a sticker to get it as a file and file ID"
 msgstr "Responda a um sticker para obtê-lo como um arquivo e o ID do arquivo"
 
-#: src/korone/modules/stickers/handlers/get_sticker.py:30
+#: src/korone/modules/stickers/handlers/get_sticker.py:31
 msgid "Failed to download sticker."
 msgstr "Falha no download do sticker."
 

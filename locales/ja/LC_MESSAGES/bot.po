@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PyKorone 1.0\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-06-16 15:44-0300\n"
+"POT-Creation-Date: 2024-06-17 15:58-0300\n"
 "PO-Revision-Date: 2024-06-15 18:30+0000\n"
 "Last-Translator: Hitalo <hitalomarquete331@gmail.com>\n"
 "Language-Team: Japanese <http://weblate.amanoteam.com/projects/korone/korone/"
@@ -19,6 +19,10 @@ msgstr ""
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Generator: Weblate 5.5.5\n"
 "Generated-By: Babel 2.15.0\n"
+
+#: src/korone/filters/admin.py:63 src/korone/filters/admin.py:68
+msgid "You must be an administrator to use this command."
+msgstr ""
 
 #: src/korone/modules/afk/__init__.py:10
 msgid "AFK"
@@ -965,15 +969,15 @@ msgstr "{lang_flag}言語"
 msgid "Hello, I'm PyKorone! An all-in-one bot."
 msgstr "こんにちは、PyKoroneです！オールインワンボットです。"
 
-#: src/korone/modules/stickers/handlers/get_sticker.py:18
+#: src/korone/modules/stickers/handlers/get_sticker.py:19
 msgid "Reply to a sticker."
 msgstr ""
 
-#: src/korone/modules/stickers/handlers/get_sticker.py:22
+#: src/korone/modules/stickers/handlers/get_sticker.py:23
 msgid "Reply to a sticker to get it as a file and file ID"
 msgstr ""
 
-#: src/korone/modules/stickers/handlers/get_sticker.py:30
+#: src/korone/modules/stickers/handlers/get_sticker.py:31
 #, fuzzy
 msgid "Failed to download sticker."
 msgstr "メディアのダウンロードに失敗しました。"
