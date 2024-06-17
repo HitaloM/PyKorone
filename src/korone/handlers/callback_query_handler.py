@@ -1,13 +1,11 @@
 # SPDX-License-Identifier: BSD-3-Clause
 # Copyright (c) 2024 Hitalo M. <https://github.com/HitaloM>
 
-from collections.abc import Callable
 
 from hydrogram import Client
 from hydrogram.handlers import CallbackQueryHandler
 from hydrogram.types import CallbackQuery
 
-from korone import i18n
 from korone.handlers.base import BaseHandler
 
 
@@ -20,7 +18,7 @@ class KoroneCallbackQueryHandler(CallbackQueryHandler, BaseHandler):
     query's origin, allowing for localized responses.
     """
 
-    async def check(self, client: Client, callback_query: CallbackQuery) -> None | Callable:
+    async def check(self, client: Client, callback_query: CallbackQuery) -> None:
         """
         Checks if the callback query passes the filters and handles it if so.
 
@@ -41,8 +39,4 @@ class KoroneCallbackQueryHandler(CallbackQueryHandler, BaseHandler):
             The handler's callback function if the callback query passes the filters and is to be
             processed, None otherwise.
         """
-        locale = await self._get_locale(callback_query)
-        with i18n.context(), i18n.use_locale(locale):
-            if await self._check(client, callback_query):
-                return await self._handle_update(client, callback_query)
-        return None
+        return await self._check_and_handle(client, callback_query)

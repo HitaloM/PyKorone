@@ -1,13 +1,11 @@
 # SPDX-License-Identifier: BSD-3-Clause
 # Copyright (c) 2024 Hitalo M. <https://github.com/HitaloM>
 
-from collections.abc import Callable
 
 from hydrogram import Client
 from hydrogram.handlers import MessageHandler
 from hydrogram.types import Message
 
-from korone import i18n
 from korone.handlers.base import BaseHandler
 
 
@@ -20,7 +18,7 @@ class KoroneMessageHandler(MessageHandler, BaseHandler):
     for localized responses.
     """
 
-    async def check(self, client: Client, message: Message) -> None | Callable:
+    async def check(self, client: Client, message: Message) -> None:
         """
         Checks if the message passes the filters and handles it if so.
 
@@ -41,8 +39,4 @@ class KoroneMessageHandler(MessageHandler, BaseHandler):
             The handler's callback function if the message passes the filters and is to be
             processed, None otherwise.
         """
-        locale = await self._get_locale(message)
-        with i18n.context(), i18n.use_locale(locale):
-            if await self._check(client, message):
-                return await self._handle_update(client, message)
-        return None
+        return await self._check_and_handle(client, message)
