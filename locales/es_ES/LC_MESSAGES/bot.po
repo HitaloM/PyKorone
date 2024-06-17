@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-06-15 13:12-0300\n"
+"POT-Creation-Date: 2024-06-16 15:44-0300\n"
 "PO-Revision-Date: 2024-01-05 21:14-0300\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: es_ES <LL@li.org>\n"
@@ -519,10 +519,6 @@ msgid ""
 "Last 5 plays:"
 msgstr ""
 
-#: src/korone/modules/lastfm/handlers/recent.py:85
-msgid "🎧 <i>{track.artist}</i> — <b>{track.name}</b>{time}"
-msgstr ""
-
 #: src/korone/modules/lastfm/handlers/set.py:27
 msgid "You need to provide your LastFM username!"
 msgstr ""
@@ -642,7 +638,7 @@ msgid ""
 msgstr ""
 
 #: src/korone/modules/media_dl/handlers/instagram.py:63
-#: src/korone/modules/media_dl/handlers/instagram.py:174
+#: src/korone/modules/media_dl/handlers/instagram.py:173
 msgid "Open in Instagram"
 msgstr ""
 
@@ -650,17 +646,13 @@ msgstr ""
 msgid "This Instagram URL is not a valid post or story."
 msgstr ""
 
-#: src/korone/modules/media_dl/handlers/instagram.py:147
-msgid "Oops! Something went wrong while fetching the post."
-msgstr ""
-
-#: src/korone/modules/media_dl/handlers/instagram.py:162
-#: src/korone/modules/media_dl/handlers/instagram.py:179
+#: src/korone/modules/media_dl/handlers/instagram.py:161
+#: src/korone/modules/media_dl/handlers/instagram.py:178
 #: src/korone/modules/media_dl/handlers/tiktok.py:64
 #: src/korone/modules/media_dl/handlers/tiktok.py:85
 #: src/korone/modules/media_dl/handlers/tiktok.py:91
 #: src/korone/modules/media_dl/handlers/twitter.py:168
-#: src/korone/modules/media_dl/handlers/twitter.py:228
+#: src/korone/modules/media_dl/handlers/twitter.py:222
 msgid "Failed to send media: {error}"
 msgstr ""
 
@@ -669,16 +661,8 @@ msgstr ""
 msgid "Open in TikTok"
 msgstr ""
 
-#: src/korone/modules/media_dl/handlers/tiktok.py:168
-msgid "Failed to fetch TikTok video."
-msgstr ""
-
-#: src/korone/modules/media_dl/handlers/tiktok.py:172
-msgid "Cannot fetch TikTok media. Sorry!"
-msgstr ""
-
 #: src/korone/modules/media_dl/handlers/twitter.py:117
-#: src/korone/modules/media_dl/handlers/twitter.py:217
+#: src/korone/modules/media_dl/handlers/twitter.py:211
 msgid "Open in Twitter"
 msgstr ""
 
@@ -691,20 +675,6 @@ msgstr ""
 msgid ""
 "\n"
 "<b>Sent from:</b> <i>{source}</i>"
-msgstr ""
-
-#: src/korone/modules/media_dl/handlers/twitter.py:196
-msgid ""
-"Failed to scan your link! This may be due to an incorrect link, private/"
-"suspended account, deleted tweet, or recent changes to Twitter's API."
-msgstr ""
-
-#: src/korone/modules/media_dl/handlers/twitter.py:205
-msgid "I couldn't find any tweet data!"
-msgstr ""
-
-#: src/korone/modules/media_dl/handlers/twitter.py:209
-msgid "No media found in this tweet!"
 msgstr ""
 
 #: src/korone/modules/media_dl/handlers/youtube.py:34

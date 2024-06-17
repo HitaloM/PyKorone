@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PyKorone 1.0\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-06-15 13:12-0300\n"
+"POT-Creation-Date: 2024-06-16 15:44-0300\n"
 "PO-Revision-Date: 2024-06-15 18:30+0000\n"
 "Last-Translator: Hitalo <hitalomarquete331@gmail.com>\n"
 "Language-Team: Japanese <http://weblate.amanoteam.com/projects/korone/korone/"
@@ -617,10 +617,6 @@ msgstr ""
 "\n"
 "最後の5プレイ:"
 
-#: src/korone/modules/lastfm/handlers/recent.py:85
-msgid "🎧 <i>{track.artist}</i> — <b>{track.name}</b>{time}"
-msgstr "🎧 <i>{track.artist}</i> — <b>{track.name}</b>{time}"
-
 #: src/korone/modules/lastfm/handlers/set.py:27
 msgid "You need to provide your LastFM username!"
 msgstr "LastFMのユーザー名を入力してください!"
@@ -767,7 +763,7 @@ msgstr ""
 "ディオをダウンロードします。"
 
 #: src/korone/modules/media_dl/handlers/instagram.py:63
-#: src/korone/modules/media_dl/handlers/instagram.py:174
+#: src/korone/modules/media_dl/handlers/instagram.py:173
 msgid "Open in Instagram"
 msgstr "Instagram で開く"
 
@@ -775,17 +771,13 @@ msgstr "Instagram で開く"
 msgid "This Instagram URL is not a valid post or story."
 msgstr "このインスタグラムのURLは、有効な投稿やストーリーではありません。"
 
-#: src/korone/modules/media_dl/handlers/instagram.py:147
-msgid "Oops! Something went wrong while fetching the post."
-msgstr "オープス! 郵便物を運びながら,何かが間違ってしまいました."
-
-#: src/korone/modules/media_dl/handlers/instagram.py:162
-#: src/korone/modules/media_dl/handlers/instagram.py:179
+#: src/korone/modules/media_dl/handlers/instagram.py:161
+#: src/korone/modules/media_dl/handlers/instagram.py:178
 #: src/korone/modules/media_dl/handlers/tiktok.py:64
 #: src/korone/modules/media_dl/handlers/tiktok.py:85
 #: src/korone/modules/media_dl/handlers/tiktok.py:91
 #: src/korone/modules/media_dl/handlers/twitter.py:168
-#: src/korone/modules/media_dl/handlers/twitter.py:228
+#: src/korone/modules/media_dl/handlers/twitter.py:222
 msgid "Failed to send media: {error}"
 msgstr "メディアの送信に失敗しました: {error}"
 
@@ -794,16 +786,8 @@ msgstr "メディアの送信に失敗しました: {error}"
 msgid "Open in TikTok"
 msgstr "TikTokで開く"
 
-#: src/korone/modules/media_dl/handlers/tiktok.py:168
-msgid "Failed to fetch TikTok video."
-msgstr "TikTokの動画をダウンロードできませんでした."
-
-#: src/korone/modules/media_dl/handlers/tiktok.py:172
-msgid "Cannot fetch TikTok media. Sorry!"
-msgstr "TikTokのメディアは取得できません. すみません!"
-
 #: src/korone/modules/media_dl/handlers/twitter.py:117
-#: src/korone/modules/media_dl/handlers/twitter.py:217
+#: src/korone/modules/media_dl/handlers/twitter.py:211
 msgid "Open in Twitter"
 msgstr "Twitterで開く"
 
@@ -819,22 +803,6 @@ msgid ""
 msgstr ""
 "\n"
 "<b>送信元:</b> <i>{source}</i>"
-
-#: src/korone/modules/media_dl/handlers/twitter.py:196
-msgid ""
-"Failed to scan your link! This may be due to an incorrect link, private/"
-"suspended account, deleted tweet, or recent changes to Twitter's API."
-msgstr ""
-"リンクをスキャンできなかった! これは不正なリンク,プライベート/停止アカウント,"
-"削除されたツイート,またはTwitterのAPIの最近の変更による可能性があります."
-
-#: src/korone/modules/media_dl/handlers/twitter.py:205
-msgid "I couldn't find any tweet data!"
-msgstr "ツイートデータは見つかりませんでした!"
-
-#: src/korone/modules/media_dl/handlers/twitter.py:209
-msgid "No media found in this tweet!"
-msgstr "このツイートにはメディアが見つかりませんでした！"
 
 #: src/korone/modules/media_dl/handlers/youtube.py:34
 msgid "<b>Title:</b> {title}\n"
@@ -1009,3 +977,29 @@ msgstr ""
 #, fuzzy
 msgid "Failed to download sticker."
 msgstr "メディアのダウンロードに失敗しました。"
+
+#~ msgid "🎧 <i>{track.artist}</i> — <b>{track.name}</b>{time}"
+#~ msgstr "🎧 <i>{track.artist}</i> — <b>{track.name}</b>{time}"
+
+#~ msgid "Oops! Something went wrong while fetching the post."
+#~ msgstr "オープス! 郵便物を運びながら,何かが間違ってしまいました."
+
+#~ msgid "Failed to fetch TikTok video."
+#~ msgstr "TikTokの動画をダウンロードできませんでした."
+
+#~ msgid "Cannot fetch TikTok media. Sorry!"
+#~ msgstr "TikTokのメディアは取得できません. すみません!"
+
+#~ msgid ""
+#~ "Failed to scan your link! This may be due to an incorrect link, private/"
+#~ "suspended account, deleted tweet, or recent changes to Twitter's API."
+#~ msgstr ""
+#~ "リンクをスキャンできなかった! これは不正なリンク,プライベート/停止アカウン"
+#~ "ト,削除されたツイート,またはTwitterのAPIの最近の変更による可能性がありま"
+#~ "す."
+
+#~ msgid "I couldn't find any tweet data!"
+#~ msgstr "ツイートデータは見つかりませんでした!"
+
+#~ msgid "No media found in this tweet!"
+#~ msgstr "このツイートにはメディアが見つかりませんでした！"

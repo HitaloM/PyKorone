@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-06-15 13:12-0300\n"
+"POT-Creation-Date: 2024-06-16 15:44-0300\n"
 "PO-Revision-Date: 2024-06-17 13:29+0000\n"
 "Last-Translator: Hitalo <hitalomarquete331@gmail.com>\n"
 "Language-Team: Portuguese (Brazil) <http://weblate.amanoteam.com/projects/"
@@ -628,10 +628,6 @@ msgstr ""
 "\n"
 "Últimas 5 reproduções:"
 
-#: src/korone/modules/lastfm/handlers/recent.py:85
-msgid "🎧 <i>{track.artist}</i> — <b>{track.name}</b>{time}"
-msgstr "🎧 <i>{track.artist}</i> — <b>{track.name}</b>{time}"
-
 #: src/korone/modules/lastfm/handlers/set.py:27
 msgid "You need to provide your LastFM username!"
 msgstr "Você precisa fornecer seu nome de usuário do LastFM!"
@@ -779,7 +775,7 @@ msgstr ""
 "link fornecido."
 
 #: src/korone/modules/media_dl/handlers/instagram.py:63
-#: src/korone/modules/media_dl/handlers/instagram.py:174
+#: src/korone/modules/media_dl/handlers/instagram.py:173
 msgid "Open in Instagram"
 msgstr "Abrir no Instagram"
 
@@ -787,17 +783,13 @@ msgstr "Abrir no Instagram"
 msgid "This Instagram URL is not a valid post or story."
 msgstr "Esta URL do Instagram não é uma postagem ou story válido."
 
-#: src/korone/modules/media_dl/handlers/instagram.py:147
-msgid "Oops! Something went wrong while fetching the post."
-msgstr "Opa! Ocorreu um erro ao buscar o post."
-
-#: src/korone/modules/media_dl/handlers/instagram.py:162
-#: src/korone/modules/media_dl/handlers/instagram.py:179
+#: src/korone/modules/media_dl/handlers/instagram.py:161
+#: src/korone/modules/media_dl/handlers/instagram.py:178
 #: src/korone/modules/media_dl/handlers/tiktok.py:64
 #: src/korone/modules/media_dl/handlers/tiktok.py:85
 #: src/korone/modules/media_dl/handlers/tiktok.py:91
 #: src/korone/modules/media_dl/handlers/twitter.py:168
-#: src/korone/modules/media_dl/handlers/twitter.py:228
+#: src/korone/modules/media_dl/handlers/twitter.py:222
 msgid "Failed to send media: {error}"
 msgstr "Falha no envio de mídia: {error}"
 
@@ -806,16 +798,8 @@ msgstr "Falha no envio de mídia: {error}"
 msgid "Open in TikTok"
 msgstr "Abrir no TikTok"
 
-#: src/korone/modules/media_dl/handlers/tiktok.py:168
-msgid "Failed to fetch TikTok video."
-msgstr "Falha ao buscar vídeo do TikTok."
-
-#: src/korone/modules/media_dl/handlers/tiktok.py:172
-msgid "Cannot fetch TikTok media. Sorry!"
-msgstr "Não foi possível buscar a mídia do TikTok. Desculpe!"
-
 #: src/korone/modules/media_dl/handlers/twitter.py:117
-#: src/korone/modules/media_dl/handlers/twitter.py:217
+#: src/korone/modules/media_dl/handlers/twitter.py:211
 msgid "Open in Twitter"
 msgstr "Abrir no Twitter"
 
@@ -831,23 +815,6 @@ msgid ""
 msgstr ""
 "\n"
 "<b> Enviado de:</b> <i>{source}</i>"
-
-#: src/korone/modules/media_dl/handlers/twitter.py:196
-msgid ""
-"Failed to scan your link! This may be due to an incorrect link, private/"
-"suspended account, deleted tweet, or recent changes to Twitter's API."
-msgstr ""
-"Falha ao verificar o seu link! Isso pode ser devido a um link incorreto, "
-"conta privada/suspensa, tweet excluído ou alterações recentes na API do "
-"Twitter."
-
-#: src/korone/modules/media_dl/handlers/twitter.py:205
-msgid "I couldn't find any tweet data!"
-msgstr "Não consegui encontrar nenhum dado de tweet!"
-
-#: src/korone/modules/media_dl/handlers/twitter.py:209
-msgid "No media found in this tweet!"
-msgstr "Nenhuma mídia encontrada neste tweet!"
 
 #: src/korone/modules/media_dl/handlers/youtube.py:34
 msgid "<b>Title:</b> {title}\n"
@@ -1023,3 +990,29 @@ msgstr "Responda a um sticker para obtê-lo como um arquivo e o ID do arquivo"
 #: src/korone/modules/stickers/handlers/get_sticker.py:30
 msgid "Failed to download sticker."
 msgstr "Falha no download do sticker."
+
+#~ msgid "🎧 <i>{track.artist}</i> — <b>{track.name}</b>{time}"
+#~ msgstr "🎧 <i>{track.artist}</i> — <b>{track.name}</b>{time}"
+
+#~ msgid "Oops! Something went wrong while fetching the post."
+#~ msgstr "Opa! Ocorreu um erro ao buscar o post."
+
+#~ msgid "Failed to fetch TikTok video."
+#~ msgstr "Falha ao buscar vídeo do TikTok."
+
+#~ msgid "Cannot fetch TikTok media. Sorry!"
+#~ msgstr "Não foi possível buscar a mídia do TikTok. Desculpe!"
+
+#~ msgid ""
+#~ "Failed to scan your link! This may be due to an incorrect link, private/"
+#~ "suspended account, deleted tweet, or recent changes to Twitter's API."
+#~ msgstr ""
+#~ "Falha ao verificar o seu link! Isso pode ser devido a um link incorreto, "
+#~ "conta privada/suspensa, tweet excluído ou alterações recentes na API do "
+#~ "Twitter."
+
+#~ msgid "I couldn't find any tweet data!"
+#~ msgstr "Não consegui encontrar nenhum dado de tweet!"
+
+#~ msgid "No media found in this tweet!"
+#~ msgstr "Nenhuma mídia encontrada neste tweet!"
