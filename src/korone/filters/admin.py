@@ -8,6 +8,8 @@ from hydrogram.enums import ChatMemberStatus, ChatType
 from hydrogram.filters import Filter
 from hydrogram.types import CallbackQuery, Message
 
+from korone.utils.i18n import gettext as _
+
 
 class IsAdmin(Filter):
     """
@@ -53,7 +55,19 @@ class IsAdmin(Filter):
             return True
 
         user = await self.client.get_chat_member(message.chat.id, message.from_user.id)
-        return user.status in {ChatMemberStatus.ADMINISTRATOR, ChatMemberStatus.OWNER}
+        if user.status in {ChatMemberStatus.ADMINISTRATOR, ChatMemberStatus.OWNER}:
+            return True
+
+        if is_callback:
+            await update.answer(
+                text=_("You must be an administrator to use this command."),
+                show_alert=True,
+                cache_time=60,
+            )
+        else:
+            await message.reply(_("You must be an administrator to use this command."))
+
+        return False
 
     def __await__(self) -> Generator:
         """
