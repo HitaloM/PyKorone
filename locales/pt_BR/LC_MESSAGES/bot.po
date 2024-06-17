@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2024-06-17 15:58-0300\n"
-"PO-Revision-Date: 2024-06-17 13:29+0000\n"
+"PO-Revision-Date: 2024-06-18 13:22+0000\n"
 "Last-Translator: Hitalo <hitalomarquete331@gmail.com>\n"
 "Language-Team: Portuguese (Brazil) <http://weblate.amanoteam.com/projects/"
 "korone/korone/pt_BR/>\n"
@@ -22,7 +22,7 @@ msgstr ""
 
 #: src/korone/filters/admin.py:63 src/korone/filters/admin.py:68
 msgid "You must be an administrator to use this command."
-msgstr ""
+msgstr "Você deve ser um administrador para usar este comando."
 
 #: src/korone/modules/afk/__init__.py:10
 msgid "AFK"
