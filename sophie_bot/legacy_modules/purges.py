@@ -27,7 +27,7 @@ from sophie_bot.services.telethon import tbot
 from .utils.language import get_strings_dec
 from .utils.notes import BUTTONS
 from .utils.register import register
-from ..utils.filters.admin_rights import UserRestricting, BotHasPermissions
+from sophie_bot.filters.admin_rights import UserRestricting, BotHasPermissions
 
 
 @register(BotHasPermissions(can_delete_messages=True), UserRestricting(can_delete_messages=True), cmds="del")

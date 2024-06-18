@@ -34,7 +34,7 @@ from .utils.register import register
 from .utils.restrictions import kick_user, mute_user, unmute_user, ban_user, unban_user
 from .utils.user_details import get_user_dec, get_user_link, is_user_admin, get_user_and_text_dec
 from .. import CONFIG, bot
-from ..utils.filters.admin_rights import BotHasPermissions, UserRestricting
+from sophie_bot.filters.admin_rights import BotHasPermissions, UserRestricting
 
 
 @register(BotHasPermissions(can_restrict_members=True), UserRestricting(can_restrict_members=True),

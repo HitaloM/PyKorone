@@ -39,7 +39,7 @@ from .utils.user_details import (
     get_user_link, is_user_admin
 )
 from .. import bot, dp, CONFIG
-from ..utils.filters.admin_rights import UserRestricting
+from sophie_bot.filters.admin_rights import UserRestricting
 
 
 @register(cmds='warn', user_can_restrict_members=True, bot_can_restrict_members=True)

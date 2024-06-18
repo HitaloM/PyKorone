@@ -10,7 +10,7 @@ from .utils.connections import chat_connection
 from .utils.disable import DISABLABLE_COMMANDS, disableable_dec
 from .utils.language import get_strings_dec
 from .. import dp
-from ..utils.filters.user_status import IsAdmin
+from sophie_bot.filters.user_status import IsAdmin
 
 
 #

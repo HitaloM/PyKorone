@@ -27,7 +27,7 @@ from .utils.user_details import (
     get_user_link, get_admins_rights
 )
 from .. import CONFIG, bot
-from ..utils.filters.admin_rights import BotHasPermissions, UserRestricting
+from sophie_bot.filters.admin_rights import BotHasPermissions, UserRestricting
 
 
 @register(BotHasPermissions(can_promote_members=True), UserRestricting(can_promote_members=True), cmds="promote")

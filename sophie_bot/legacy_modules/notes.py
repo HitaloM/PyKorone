@@ -23,7 +23,7 @@ from .utils.language import get_strings_dec, get_string
 from .utils.notes import BUTTONS, ALLOWED_COLUMNS, get_parsed_note_list, t_unparse_note_item, send_note
 from .utils.register import register
 from .utils.user_details import get_user_link
-from ..utils.filters.user_status import IsAdmin
+from sophie_bot.filters.user_status import IsAdmin
 
 RESTRICTED_SYMBOLS_IN_NOTENAMES = [':', '**', '__', '`', '#', '"', '[', ']', "'", '$', '||']
 

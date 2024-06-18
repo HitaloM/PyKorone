@@ -8,7 +8,7 @@ from sophie_bot.legacy_modules.utils.message import get_arg
 from .utils.connections import chat_connection
 from .utils.language import get_strings_dec
 from .utils.register import register
-from ..utils.filters.admin_rights import UserRestricting, BotHasPermissions
+from sophie_bot.filters.admin_rights import UserRestricting, BotHasPermissions
 
 
 #

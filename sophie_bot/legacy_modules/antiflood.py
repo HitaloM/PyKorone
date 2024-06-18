@@ -40,8 +40,8 @@ from sophie_bot.legacy_modules.utils.user_details import is_user_admin, get_user
 from sophie_bot.services.db import db
 from sophie_bot.services.redis import bredis, redis
 from sophie_bot.utils.cached import cached
-from sophie_bot.utils.filters.admin_rights import UserRestricting, BotHasPermissions
-from sophie_bot.utils.filters.user_status import IsAdmin
+from sophie_bot.filters.admin_rights import UserRestricting, BotHasPermissions
+from sophie_bot.filters.user_status import IsAdmin
 from sophie_bot.utils.logger import log
 
 

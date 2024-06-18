@@ -25,7 +25,7 @@ from sophie_bot.legacy_modules.utils.register import register
 from sophie_bot.services.db import db
 from .utils.language import LANGUAGES, get_strings_dec, change_chat_lang, get_chat_lang_info, get_strings
 from .. import dp
-from ..utils.filters.user_status import IsAdmin
+from sophie_bot.filters.user_status import IsAdmin
 
 
 class SelectLangCb(CallbackData, prefix='select_lang_cb'):

@@ -12,7 +12,7 @@ from sophie_bot.services.redis import redis
 from sophie_bot.utils.i18n import gettext as _
 from .utils.language import get_strings_dec
 from .utils.register import register, REGISTRED_COMMANDS
-from ..utils.filters.user_status import IsOP
+from sophie_bot.filters.user_status import IsOP
 
 
 #

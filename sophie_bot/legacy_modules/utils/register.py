@@ -5,9 +5,9 @@ from aiogram.types import Message
 
 from sophie_bot import dp
 from sophie_bot.filters.cmd import CMDFilter
-from sophie_bot.utils.filters.chat_status import OnlyGroups, OnlyPM
-from sophie_bot.utils.filters.message_status import NoArgs, HasArgs
-from sophie_bot.utils.filters.user_status import IsAdmin
+from sophie_bot.filters.chat_status import LegacyOnlyGroups, LegacyOnlyPM
+from sophie_bot.filters.message_status import NoArgs, HasArgs
+from sophie_bot.filters.user_status import IsAdmin
 from sophie_bot.utils.logger import log
 
 REGISTRED_COMMANDS = []
@@ -37,7 +37,7 @@ def register(
                     COMMANDS_ALIASES[cmds_list[0]].append(cmds_list[idx + 1])
 
     if 'only_groups' in reg_kwargs:
-        reg_args = (*reg_args, OnlyGroups(True))
+        reg_args = (*reg_args, LegacyOnlyGroups(True))
 
     if 'no_args' in reg_kwargs:
         reg_args = (*reg_args, NoArgs(True))
@@ -45,7 +45,7 @@ def register(
         reg_args = (*reg_args, HasArgs(True))
 
     if 'only_pm' in reg_kwargs:
-        reg_args = (*reg_args, OnlyPM(True))
+        reg_args = (*reg_args, LegacyOnlyPM(True))
 
     if 'content_types' in reg_kwargs:
         log.error('Legacy @register: content_types filter is not supported')
