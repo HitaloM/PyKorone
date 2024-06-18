@@ -23,6 +23,7 @@ from sophie_bot import dp, bot
 from sophie_bot.config import CONFIG
 from sophie_bot.legacy_modules import ALL_MODULES, LOADED_MODULES
 from sophie_bot.middlewares import enable_middlewares
+from sophie_bot.modules import load_modules
 from sophie_bot.services.apscheduller import start_apscheduller
 from sophie_bot.services.db import init_db, test_db
 from sophie_bot.services.telethon import start_telethon
@@ -35,7 +36,10 @@ if CONFIG.debug_mode:
     # log.debug("Enabling logging middleware.")
     # dp.middleware.setup(LoggingMiddleware())
 
-# Load modules
+# Load new modules
+load_modules(dp, ['*'], CONFIG.modules_not_load)
+
+# Load legacy modules
 if len(CONFIG.modules_load) > 0:
     modules = CONFIG.modules_load
 else:

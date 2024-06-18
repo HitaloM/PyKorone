@@ -32,6 +32,7 @@ pydantic-settings = "^2.3.3"
 structlog = "^24.2.0"
 ass-tg = "^2.0.2"
 beanie = "^1.26.0"
+better-exceptions = "^0.3.3"
 
 [tool.poetry.group.dev.dependencies]
 Nuitka = "2.3.4"
