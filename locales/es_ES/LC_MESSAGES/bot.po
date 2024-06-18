@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2024-06-17 15:58-0300\n"
-"PO-Revision-Date: 2024-06-18 13:22+0000\n"
-"Last-Translator: DeepL <noreply-mt-deepl@weblate.org>\n"
+"PO-Revision-Date: 2024-06-18 13:23+0000\n"
+"Last-Translator: Hitalo <hitalomarquete331@gmail.com>\n"
 "Language-Team: Spanish <http://weblate.amanoteam.com/projects/korone/korone/"
 "es/>\n"
 "Language: es_ES\n"
@@ -624,9 +624,8 @@ msgstr ""
 "La puntuación de compatibilidad es {score}%, basada en {period}"
 
 #: src/korone/modules/lastfm/handlers/now.py:67
-#, fuzzy
 msgid " ∙ <code>{track_playcount} plays</code>"
-msgstr " ∙ <code>{album_playcount} juega</code>"
+msgstr " ∙ <code>{track_playcount} juega</code>"
 
 #: src/korone/modules/lastfm/handlers/recent.py:72
 msgid ""
