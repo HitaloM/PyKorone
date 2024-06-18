@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: PyKorone 1.0\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2024-06-17 15:58-0300\n"
-"PO-Revision-Date: 2024-06-15 18:30+0000\n"
+"PO-Revision-Date: 2024-06-18 13:25+0000\n"
 "Last-Translator: Hitalo <hitalomarquete331@gmail.com>\n"
 "Language-Team: Japanese <http://weblate.amanoteam.com/projects/korone/korone/"
 "ja/>\n"
@@ -22,7 +22,7 @@ msgstr ""
 
 #: src/korone/filters/admin.py:63 src/korone/filters/admin.py:68
 msgid "You must be an administrator to use this command."
-msgstr ""
+msgstr "このコマンドを使用するには管理者でなければならない。"
 
 #: src/korone/modules/afk/__init__.py:10
 msgid "AFK"
@@ -342,19 +342,17 @@ msgstr ""
 "もしエラーが見つかったら,GitHub Repositoryに問題をファイルしてください."
 
 #: src/korone/modules/language/handlers/apply.py:87
-#, fuzzy
 msgid ""
 "\n"
 "Please help us translate this language by completing it on our translations "
 "platform."
 msgstr ""
 "\n"
-"この言語を翻訳する手助けをしてください."
+"翻訳プラットフォームでこの言語の翻訳にご協力ください。"
 
 #: src/korone/modules/language/handlers/apply.py:93
-#, fuzzy
 msgid "🌍 Open Translations"
-msgstr "🌍 オープンクラウディン"
+msgstr "🌍 オープン翻訳"
 
 #: src/korone/modules/language/handlers/cancel.py:19
 msgid ""
@@ -971,16 +969,15 @@ msgstr "こんにちは、PyKoroneです！オールインワンボットです�
 
 #: src/korone/modules/stickers/handlers/get_sticker.py:19
 msgid "Reply to a sticker."
-msgstr ""
+msgstr "ステッカーに返信する"
 
 #: src/korone/modules/stickers/handlers/get_sticker.py:23
 msgid "Reply to a sticker to get it as a file and file ID"
-msgstr ""
+msgstr "ステッカーに返信して、ファイルとファイルIDを取得する"
 
 #: src/korone/modules/stickers/handlers/get_sticker.py:31
-#, fuzzy
 msgid "Failed to download sticker."
-msgstr "メディアのダウンロードに失敗しました。"
+msgstr "ステッカーのダウンロードに失敗しました。"
 
 #~ msgid "🎧 <i>{track.artist}</i> — <b>{track.name}</b>{time}"
 #~ msgstr "🎧 <i>{track.artist}</i> — <b>{track.name}</b>{time}"
