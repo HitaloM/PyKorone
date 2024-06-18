@@ -8,24 +8,26 @@ msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2024-06-17 15:58-0300\n"
-"PO-Revision-Date: 2024-01-05 20:10-0300\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: uk_UA <LL@li.org>\n"
+"PO-Revision-Date: 2024-06-18 13:25+0000\n"
+"Last-Translator: DeepL <noreply-mt-deepl@weblate.org>\n"
+"Language-Team: Ukrainian <http://weblate.amanoteam.com/projects/korone/"
+"korone/uk/>\n"
 "Language: uk_UA\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
-"n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
+"n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"X-Generator: Weblate 5.5.5\n"
 "Generated-By: Babel 2.14.0\n"
 
 #: src/korone/filters/admin.py:63 src/korone/filters/admin.py:68
 msgid "You must be an administrator to use this command."
-msgstr ""
+msgstr "Ви повинні мати права адміністратора, щоб використовувати цю команду."
 
 #: src/korone/modules/afk/__init__.py:10
 msgid "AFK"
-msgstr ""
+msgstr "AFK"
 
 #: src/korone/modules/afk/__init__.py:11
 msgid ""
@@ -38,46 +40,58 @@ msgid ""
 "you receive while you're AFK, letting others know that you're currently "
 "unavailable."
 msgstr ""
+"Повідомляти іншим про свій статус доступності може бути складно. Це може "
+"призвести до непорозумінь або пропущених повідомлень, коли ви не можете "
+"відповісти.\n"
+"\n"
+"Модуль AFK вирішує цю проблему, дозволяючи вам встановити свій статус як "
+"\"Відсутній біля клавіатури\" (AFK). PyKorone автоматично відповідатиме на "
+"повідомлення, які ви отримуєте, коли ви перебуваєте в режимі AFK, "
+"повідомляючи іншим, що ви наразі недоступні."
 
 #: src/korone/modules/afk/__init__.py:18
 msgid ""
 "<b>Commands:</b>\n"
 " - /afk &lt;reason&gt;: Set your status as AFK."
 msgstr ""
+"<b>Команди:</b>\n"
+" - /afk &lt;reason&gt;: Встановити ваш статус як AFK."
 
 #: src/korone/modules/afk/handlers/check.py:80
 msgid "🎧 Listening to: {track_artist} — {track_name}"
-msgstr ""
+msgstr "Слухаю: {track_artist} - {track_name}"
 
 #: src/korone/modules/afk/handlers/check.py:84
 msgid "{user} is afk!"
-msgstr ""
+msgstr "{user} це афк!"
 
 #: src/korone/modules/afk/handlers/check.py:86
 msgid ""
 "\n"
 "Reason: {reason}"
 msgstr ""
+"\n"
+"Причина: {reason}"
 
 #: src/korone/modules/afk/handlers/check.py:99
 msgid "Oh, you're back! I've removed your afk status."
-msgstr ""
+msgstr "О, ти повернувся! Я зняв твій статус афк."
 
 #: src/korone/modules/afk/handlers/set.py:22
 msgid "You are already AFK."
-msgstr ""
+msgstr "Ви вже AFK."
 
 #: src/korone/modules/afk/handlers/set.py:28
 msgid "Your AFK status has been updated!"
-msgstr ""
+msgstr "Ваш статус AFK оновлено!"
 
 #: src/korone/modules/afk/handlers/set.py:31
 msgid "You are now AFK."
-msgstr ""
+msgstr "Тепер ви - АФК."
 
 #: src/korone/modules/disabling/__init__.py:10
 msgid "Disabling"
-msgstr ""
+msgstr "Відключення"
 
 #: src/korone/modules/disabling/__init__.py:11
 msgid ""
@@ -88,6 +102,12 @@ msgid ""
 "use them. It also allows you to auto-delete  to prevent people from "
 "bluetexting."
 msgstr ""
+"Не всім потрібні всі функції, які пропонує Korone. Деякі команди краще не "
+"використовувати, щоб запобігти спаму та зловживанням.\n"
+"\n"
+"Це дозволяє вимкнути деякі часто використовувані команди, щоб ніхто не міг "
+"ними користуватися. Це також дозволяє вам автоматично видаляти повідомлення, "
+"щоб запобігти надсиланню синіх текстів."
 
 #: src/korone/modules/disabling/__init__.py:17
 msgid ""
@@ -99,64 +119,71 @@ msgid ""
 "- /disableable: List of commands that can be disabled.\n"
 "- /disabled: List of commands that are currently disabled in the group."
 msgstr ""
+"<b>Команди адміністратора:</b>\n"
+"- /disable &lt;commandname&gt;: Заборонити користувачам використовувати "
+"\"commandname\" у цій групі.\n"
+"- /enable &lt;commandname&gt;: Дозволити користувачам використовувати "
+"\"commandname\" у цій групі.\n"
+"- /disable: Список команд, які можна вимкнути.\n"
+"- /disabled: Список команд, які наразі вимкнено у групі."
 
 #: src/korone/modules/disabling/handlers/disable.py:22
 msgid "You need to specify a command to disable."
-msgstr ""
+msgstr "Вам потрібно вказати команду для відключення."
 
 #: src/korone/modules/disabling/handlers/disable.py:27
 msgid "You can only disable one command at a time."
-msgstr ""
+msgstr "Ви можете вимкнути лише одну команду за раз."
 
 #: src/korone/modules/disabling/handlers/disable.py:32
 #: src/korone/modules/disabling/handlers/enable.py:32
 msgid "This command can't be enabled or disabled."
-msgstr ""
+msgstr "Цю команду не можна увімкнути або вимкнути."
 
 #: src/korone/modules/disabling/handlers/disable.py:38
 msgid "This command is already disabled."
-msgstr ""
+msgstr "Цю команду вже вимкнено."
 
 #: src/korone/modules/disabling/handlers/disable.py:44
 #: src/korone/modules/disabling/handlers/enable.py:44
 msgid "Sorry! I couldn't find this command, maybe it doesn't exist?"
-msgstr ""
+msgstr "Вибачте! Я не зміг знайти цю команду, можливо, її не існує?"
 
 #: src/korone/modules/disabling/handlers/disable.py:47
 msgid "Command disabled."
-msgstr ""
+msgstr "Команду відключено."
 
 #: src/korone/modules/disabling/handlers/disabled.py:21
 msgid "No commands are disabled in this chat."
-msgstr ""
+msgstr "У цьому чаті жодні команди не відключені."
 
 #: src/korone/modules/disabling/handlers/disabled.py:24
 msgid "The following commands are disabled in this chat:\n"
-msgstr ""
+msgstr "У цьому чаті відключені наступні команди:\n"
 
 #: src/korone/modules/disabling/handlers/enable.py:22
 msgid "You need to specify a command to enable."
-msgstr ""
+msgstr "Вам потрібно вказати команду для ввімкнення."
 
 #: src/korone/modules/disabling/handlers/enable.py:27
 msgid "You can only enable one command at a time."
-msgstr ""
+msgstr "Ви можете ввімкнути лише одну команду одночасно."
 
 #: src/korone/modules/disabling/handlers/enable.py:38
 msgid "This command is already enabled."
-msgstr ""
+msgstr "Ця команда вже увімкнена."
 
 #: src/korone/modules/disabling/handlers/enable.py:47
 msgid "Command enabled."
-msgstr ""
+msgstr "Команду дозволено."
 
 #: src/korone/modules/disabling/handlers/list.py:23
 msgid "The following commands can be disabled:\n"
-msgstr ""
+msgstr "Наступні команди можна вимкнути:\n"
 
 #: src/korone/modules/gsm_arena/__init__.py:10
 msgid "GSM Arena"
-msgstr ""
+msgstr "GSM Arena"
 
 #: src/korone/modules/gsm_arena/__init__.py:11
 msgid ""
@@ -166,80 +193,88 @@ msgid ""
 "This module simplifies the process by enabling users to obtain the "
 "specifications of a particular device directly from Telegram."
 msgstr ""
+"Отримання технічних характеристик смартфона може бути виснажливим завданням, "
+"особливо коли це пов'язано з навігацією по декількох веб-сайтах або "
+"сторінках.\n"
+"\n"
+"Цей модуль спрощує цей процес, дозволяючи користувачам отримувати технічні "
+"характеристики конкретного пристрою безпосередньо з Telegram."
 
 #: src/korone/modules/gsm_arena/__init__.py:17
 msgid ""
 "<b>Commands:</b>\n"
 "- /device &lt;device name&gt;: Returns the specifications of a device."
 msgstr ""
+"<b>Команди:</b>\n"
+"- /device &lt;назва пристрою&gt;: Повертає специфікації пристрою."
 
 #: src/korone/modules/gsm_arena/utils.py:97
 msgid "Status"
-msgstr ""
+msgstr "Статус"
 
 #: src/korone/modules/gsm_arena/utils.py:98
 msgid "Network"
-msgstr ""
+msgstr "Мережа"
 
 #: src/korone/modules/gsm_arena/utils.py:99
 msgid "Weight"
-msgstr ""
+msgstr "Вага"
 
 #: src/korone/modules/gsm_arena/utils.py:100
 msgid "Display"
-msgstr ""
+msgstr "Дисплей"
 
 #: src/korone/modules/gsm_arena/utils.py:101
 msgid "Chipset"
-msgstr ""
+msgstr "Чіпсет"
 
 #: src/korone/modules/gsm_arena/utils.py:102
 msgid "Memory"
-msgstr ""
+msgstr "Пам'ять"
 
 #: src/korone/modules/gsm_arena/utils.py:103
 msgid "Rear Camera"
-msgstr ""
+msgstr "Задня камера"
 
 #: src/korone/modules/gsm_arena/utils.py:104
 msgid "Front Camera"
-msgstr ""
+msgstr "Фронтальна камера"
 
 #: src/korone/modules/gsm_arena/utils.py:105
 msgid "3.5mm jack"
-msgstr ""
+msgstr "3,5-мм роз'єм"
 
 #: src/korone/modules/gsm_arena/utils.py:106
 msgid "USB"
-msgstr ""
+msgstr "USB"
 
 #: src/korone/modules/gsm_arena/utils.py:107
 msgid "Sensors"
-msgstr ""
+msgstr "Датчики"
 
 #: src/korone/modules/gsm_arena/utils.py:108
 msgid "Battery"
-msgstr ""
+msgstr "Батарея"
 
 #: src/korone/modules/gsm_arena/utils.py:109
 msgid "Charging"
-msgstr ""
+msgstr "Зарядка"
 
 #: src/korone/modules/gsm_arena/handlers/search.py:26
 msgid "Please enter a phone name to search."
-msgstr ""
+msgstr "Будь ласка, введіть ім'я телефону для пошуку."
 
 #: src/korone/modules/gsm_arena/handlers/search.py:33
 msgid "No devices found."
-msgstr ""
+msgstr "Пристроїв не знайдено."
 
 #: src/korone/modules/gsm_arena/handlers/search.py:43
 msgid "Search results for: <b>{device}</b>"
-msgstr ""
+msgstr "Результати пошуку для: <b>{device}</b>"
 
 #: src/korone/modules/language/__init__.py:10
 msgid "Languages"
-msgstr ""
+msgstr "Мови"
 
 #: src/korone/modules/language/__init__.py:11
 msgid ""
@@ -249,6 +284,11 @@ msgid ""
 "Translations can be used to change the language of the bot's replies to the "
 "language of your choice!"
 msgstr ""
+"Не всі групи вільно володіють англійською мовою; деякі вважають за краще, "
+"щоб PyKorone відповідав їхньою рідною мовою.\n"
+"\n"
+"Переклади можна використовувати для зміни мови відповідей бота на мову за "
+"вашим вибором!"
 
 #: src/korone/modules/language/__init__.py:17
 msgid ""
@@ -261,14 +301,22 @@ msgid ""
 "<b>Note:</b>\n"
 "In groups, the bot's language is set by the group's administrators."
 msgstr ""
+"<b>Команди:</b>\n"
+"- /languages: Повертає меню з мовами, доступними для застосування до "
+"поточного чату.\n"
+"- /language: Повертає мову, встановлену для поточного чату та його "
+"статистику.\n"
+"\n"
+"<b>Примітка:</b>\n"
+"У групах мову бота встановлюють адміністратори групи."
 
 #: src/korone/modules/language/handlers/apply.py:25
 msgid "Something went wrong."
-msgstr ""
+msgstr "Щось пішло не так."
 
 #: src/korone/modules/language/handlers/apply.py:48
 msgid "Language changed to {new_lang}."
-msgstr ""
+msgstr "Мову змінено на {new_lang}."
 
 #: src/korone/modules/language/handlers/apply.py:55
 msgid ""
@@ -276,23 +324,32 @@ msgid ""
 "This is the bot's native language.\n"
 "If you find any errors, please file a issue in the GitHub Repository."
 msgstr ""
+"\n"
+"Це рідна мова бота.\n"
+"Якщо ви знайшли будь-які помилки, будь ласка, створіть проблему в "
+"репозиторії GitHub."
 
 #: src/korone/modules/language/handlers/apply.py:62
 #: src/korone/modules/language/handlers/apply.py:83
 msgid "🐞 Open GitHub"
-msgstr ""
+msgstr "Відкрийте GitHub"
 
 #: src/korone/modules/language/handlers/apply.py:73
 msgid ""
 "\n"
 "The language is {percent}% translated."
 msgstr ""
+"\n"
+"Мова: {percent}% перекладено."
 
 #: src/korone/modules/language/handlers/apply.py:78
 msgid ""
 "\n"
 "In case you find any errors, please file a issue in the GitHub Repository."
 msgstr ""
+"\n"
+"Якщо ви виявили будь-які помилки, будь ласка, створіть проблему в "
+"репозиторії GitHub."
 
 #: src/korone/modules/language/handlers/apply.py:87
 msgid ""
@@ -300,55 +357,62 @@ msgid ""
 "Please help us translate this language by completing it on our translations "
 "platform."
 msgstr ""
+"\n"
+"Будь ласка, допоможіть нам перекласти цю мову, заповнивши її на нашій "
+"платформі перекладів."
 
 #: src/korone/modules/language/handlers/apply.py:93
 msgid "🌍 Open Translations"
-msgstr ""
+msgstr "🌍 Відкриті переклади"
 
 #: src/korone/modules/language/handlers/cancel.py:19
 msgid ""
 "Changing language was canceled, you can change language again by using /"
 "language command."
 msgstr ""
+"Зміну мови було скасовано, ви можете знову змінити мову за допомогою команди "
+"/language."
 
 #: src/korone/modules/language/handlers/info.py:26
 msgid "<b>Chat language:</b> {language}\n"
-msgstr ""
+msgstr "<b>Мова чату:</b> {language}\n"
 
 #: src/korone/modules/language/handlers/info.py:37
 msgid ""
 "\n"
 "<b>Language Info:</b>\n"
 msgstr ""
+"\n"
+"<b>Інформація про мову:</b>\n"
 
 #: src/korone/modules/language/handlers/info.py:38
 msgid "Translated: {translated}\n"
-msgstr ""
+msgstr "Перекладено: {translated}\n"
 
 #: src/korone/modules/language/handlers/info.py:39
 msgid "Untranslated: {untranslated}\n"
-msgstr ""
+msgstr "Без перекладу: {untranslated}\n"
 
 #: src/korone/modules/language/handlers/info.py:40
 msgid "Needs review: {fuzzy}\n"
-msgstr ""
+msgstr "Огляд потреб: {fuzzy}\n"
 
 #: src/korone/modules/language/handlers/info.py:41
 msgid "Percentage translated: {percent}\n"
-msgstr ""
+msgstr "Перекладено у відсотках: {percent}\n"
 
 #: src/korone/modules/language/handlers/info.py:45
 msgid "This is the bot's native language. So it is 100% translated."
-msgstr ""
+msgstr "Це рідна мова бота. Тому він перекладений на 100%."
 
 #: src/korone/modules/language/handlers/info.py:55
 #: src/korone/modules/language/handlers/info.py:75
 msgid "👤 Change your language"
-msgstr ""
+msgstr "Змініть мову"
 
 #: src/korone/modules/language/handlers/info.py:57
 msgid "🌍 Change group language"
-msgstr ""
+msgstr "Змінити мову групи"
 
 #: src/korone/modules/language/handlers/info.py:64
 #: src/korone/modules/language/handlers/info.py:82
@@ -357,23 +421,23 @@ msgstr ""
 #: src/korone/modules/pm_menu/handlers/help.py:32
 #: src/korone/modules/pm_menu/handlers/help.py:73
 msgid "⬅️ Back"
-msgstr ""
+msgstr "⬅️ Назад"
 
 #: src/korone/modules/language/handlers/select.py:34
 msgid "❌ Cancel"
-msgstr ""
+msgstr "❌ Скасувати"
 
 #: src/korone/modules/language/handlers/select.py:49
 msgid "Please select the language you want to use for the chat."
-msgstr ""
+msgstr "Будь ласка, виберіть мову, якою ви хочете спілкуватися в чаті."
 
 #: src/korone/modules/language/handlers/select.py:76
 msgid "This action can only be performed by administrators."
-msgstr ""
+msgstr "Цю дію можуть виконувати лише адміністратори."
 
 #: src/korone/modules/lastfm/__init__.py:10
 msgid "LastFM"
-msgstr ""
+msgstr "LastFM"
 
 #: src/korone/modules/lastfm/__init__.py:11
 msgid ""
@@ -381,6 +445,9 @@ msgid ""
 "favorite music artists, albums, and tracks. You can also view your recent "
 "plays and share them with your friends."
 msgstr ""
+"Модуль LastFM дозволяє отримувати та відображати інформацію про ваших "
+"улюблених музичних виконавців, альбоми та треки. Ви також можете переглядати "
+"останні прослуховування та ділитися ними з друзями."
 
 #: src/korone/modules/lastfm/__init__.py:16
 msgid ""
@@ -417,6 +484,40 @@ msgid ""
 "Supported periods: 1d, 7d, 1m, 3m, 6m, 1y, all\n"
 "Supported types: artist, track, album"
 msgstr ""
+"<b>Команди:</b>\n"
+"- /setfm &lt;ваше ім'я користувача&gt;: встановити ваше ім'я користувача "
+"LastFM.\n"
+"- /lfm: Отримати трек, який ви зараз слухаєте, або останній трек, який ви "
+"слухали.\n"
+"- /lfmr: Отримати 5 останніх відтворених вами треків.\n"
+"- /lfmar: Отримати виконавця, якого ви зараз слухаєте, або останнього "
+"виконавця, якого ви слухали.\n"
+"- /lfmal: Отримати альбом, який ви зараз слухаєте, або останній альбом, який "
+"ви слухали.\n"
+"- /lfmu: Отримати загальну кількість скролів, треків, виконавців та альбомів."
+"\n"
+"- /lfmt: Отримати список найкращих виконавців, доріжок або альбомів.\n"
+"- /lfmcomp: Отримати сумісність ваших музичних уподобань з уподобаннями "
+"іншого користувача.\n"
+"- /lfmc: Створити колаж з ваших найкращих альбомів.\n"
+"\n"
+"<b>Приклади:</b>\n"
+"- Згенерувати колаж з ваших найкращих альбомів 5x5 за 7 днів:\n"
+"-> <code>/lfmc 5 7d</code>\n"
+"\n"
+"- Згенерувати колаж з ваших найкращих альбомів 7x7 за 1 місяць без тексту:\n"
+"-> <code>/lfmc 7 1m clean</code>\n"
+"\n"
+"- Отримайте 5 найкращих виконавців за 1 рік:\n"
+"-> <code>/lfmt 1y</code>\n"
+"\n"
+"- Отримайте 5 найкращих треків за весь час:\n"
+"-> <code>/lfmt трек</code>\n"
+"\n"
+"<b>Примітки:</b>\n"
+"Підтримувані розміри: 1, 2, 3, 4, 5, 6, 7\n"
+"Підтримувані періоди: 1d, 7d, 1m, 3m, 6m, 1y, всі\n"
+"Підтримувані типи: виконавець, трек, альбом"
 
 #: src/korone/modules/lastfm/handlers/album.py:29
 #: src/korone/modules/lastfm/handlers/artist.py:30
@@ -430,6 +531,8 @@ msgid ""
 "You need to set your LastFM username first! Use <code>/setlfm &lt;"
 "username&gt;</code>."
 msgstr ""
+"Спочатку потрібно встановити ваше ім'я користувача LastFM! Використовуйте "
+"<code>/setlfm &lt;ім'я користувача&gt;</code>."
 
 #: src/korone/modules/lastfm/handlers/album.py:46
 #: src/korone/modules/lastfm/handlers/artist.py:45
@@ -440,7 +543,7 @@ msgstr ""
 #: src/korone/modules/lastfm/handlers/top.py:79
 #: src/korone/modules/lastfm/handlers/user.py:39
 msgid "Your LastFM username was not found! Try setting it again."
-msgstr ""
+msgstr "Ваше ім'я користувача LastFM не знайдено! Спробуйте ввести його ще раз."
 
 #: src/korone/modules/lastfm/handlers/album.py:49
 #: src/korone/modules/lastfm/handlers/artist.py:48
@@ -454,58 +557,61 @@ msgid ""
 "An error occurred while fetching your LastFM data!\n"
 "Error: <i>{error}</i>"
 msgstr ""
+"Виникла помилка при отриманні даних LastFM!\n"
+"Помилка: <i>{error}</i>"
 
 #: src/korone/modules/lastfm/handlers/album.py:58
 #: src/korone/modules/lastfm/handlers/artist.py:57
 #: src/korone/modules/lastfm/handlers/now.py:58
 #: src/korone/modules/lastfm/handlers/recent.py:70
 msgid "{user}'s is listening to:\n"
-msgstr ""
+msgstr "{user}це слухати:\n"
 
 #: src/korone/modules/lastfm/handlers/album.py:60
 #: src/korone/modules/lastfm/handlers/artist.py:59
 #: src/korone/modules/lastfm/handlers/now.py:60
 #: src/korone/modules/lastfm/handlers/recent.py:75
 msgid "{user}'s was listening to:\n"
-msgstr ""
+msgstr "{user}слухав:\n"
 
 #: src/korone/modules/lastfm/handlers/album.py:65
 #: src/korone/modules/lastfm/handlers/artist.py:63
 #: src/korone/modules/lastfm/handlers/now.py:65
 msgid ", ❤️ loved"
-msgstr ""
+msgstr ", ❤️ любив"
 
 #: src/korone/modules/lastfm/handlers/album.py:67
 msgid " ∙ <code>{album_playcount} plays</code>"
-msgstr ""
+msgstr " ∙ <code>{album_playcount} п'єси</code>"
 
 #: src/korone/modules/lastfm/handlers/artist.py:65
 msgid " ∙ <code>{artist_playcount} plays</code>"
-msgstr ""
+msgstr " ∙ <code>{artist_playcount} п'єси</code>"
 
 #: src/korone/modules/lastfm/handlers/collage.py:82
 msgid "{user}'s {period} {collage_size}x{collage_size} album collage"
-msgstr ""
+msgstr "{user}колаж з альбому {period} {collage_size}x{collage_size}"
 
 #: src/korone/modules/lastfm/handlers/compat.py:25
 msgid "Reply to a message to get the compatibility!"
-msgstr ""
+msgstr "Відповідайте на повідомлення, щоб отримати інформацію про сумісність!"
 
 #: src/korone/modules/lastfm/handlers/compat.py:41
 msgid "You can't get the compatibility with yourself!"
-msgstr ""
+msgstr "Ви не можете отримати сумісність із самим собою!"
 
 #: src/korone/modules/lastfm/handlers/compat.py:45
 msgid "Bots won't have music taste!"
-msgstr ""
+msgstr "У ботів не буде музичного смаку!"
 
 #: src/korone/modules/lastfm/handlers/compat.py:50
 msgid "The user you replied to doesn't have a LastFM account linked!"
 msgstr ""
+"Користувач, якому ви відповіли, не має прив'язаного облікового запису LastFM!"
 
 #: src/korone/modules/lastfm/handlers/compat.py:99
 msgid "No common artists in {period}"
-msgstr ""
+msgstr "Немає спільних художників у {period}"
 
 #: src/korone/modules/lastfm/handlers/compat.py:101
 msgid ""
@@ -513,54 +619,64 @@ msgid ""
 "\n"
 "Compatibility score is {score}%, based on {period}"
 msgstr ""
+"{user1} та {user2} слухати {mutual}...\n"
+"\n"
+"Оцінка сумісності становить {score}%, на основі {period}"
 
 #: src/korone/modules/lastfm/handlers/now.py:67
 msgid " ∙ <code>{track_playcount} plays</code>"
-msgstr ""
+msgstr " ∙ <code>{track_playcount} п'єси</code>"
 
 #: src/korone/modules/lastfm/handlers/recent.py:72
 msgid ""
 "\n"
 "Last 5 plays:"
 msgstr ""
+"\n"
+"Останні 5 п'єс:"
 
 #: src/korone/modules/lastfm/handlers/set.py:27
 msgid "You need to provide your LastFM username!"
-msgstr ""
+msgstr "Вам потрібно вказати своє ім'я користувача LastFM!"
 
 #: src/korone/modules/lastfm/handlers/set.py:32
 msgid "LastFM username must not contain spaces or special characters!"
 msgstr ""
+"Ім'я користувача LastFM не повинно містити пробілів або спеціальних символів!"
 
 #: src/korone/modules/lastfm/handlers/set.py:37
 msgid "LastFM username set successfully!"
-msgstr ""
+msgstr "Ім'я користувача LastFM встановлено успішно!"
 
 #: src/korone/modules/lastfm/handlers/top.py:28
 msgid "artists"
-msgstr ""
+msgstr "художники"
 
 #: src/korone/modules/lastfm/handlers/top.py:30
 msgid "tracks"
-msgstr ""
+msgstr "треки"
 
 #: src/korone/modules/lastfm/handlers/top.py:31
 msgid "albums"
-msgstr ""
+msgstr "альбоми"
 
 #: src/korone/modules/lastfm/handlers/top.py:57
 msgid "Invalid entry type! Use one of the following: artist, track, album"
 msgstr ""
+"Неправильний тип запису! Використовуйте одне з наступних: виконавець, трек, "
+"альбом"
 
 #: src/korone/modules/lastfm/handlers/top.py:91
 msgid ""
 "{user}'s top 5 {entry} for {period}:\n"
 "\n"
 msgstr ""
+"{user}'s top 5 {entry} для {period}:\n"
+"\n"
 
 #: src/korone/modules/lastfm/handlers/top.py:102
 msgid " -> {scrobbles} plays\n"
-msgstr ""
+msgstr " -> {scrobbles} грає\n"
 
 #: src/korone/modules/lastfm/handlers/user.py:54
 msgid ""
@@ -573,50 +689,58 @@ msgid ""
 "\n"
 "Registered: <i>{registered}</i>"
 msgstr ""
+"Користувач: <b>{user}</b>\n"
+"\n"
+"Всього скребків: <code>{playcount}</code>\n"
+"Продиктовано треків: Продиктовано композицій: <code>{track_count}</code>\n"
+"Виконавців переглянуто: <code>{artist_count}</code>\n"
+"Альбоми вибрано: Альбоми вибрано: <code>{album_count}</code>\n"
+"\n"
+"Зареєстровано: <i>{registered}</i>"
 
 #: src/korone/modules/lastfm/utils/formatters.py:22
 msgid ", {days} day(s) ago"
-msgstr ""
+msgstr ", {days} день(и) тому"
 
 #: src/korone/modules/lastfm/utils/formatters.py:26
 msgid ", {hours} hour(s) ago"
-msgstr ""
+msgstr ", {hours} годину(и) тому"
 
 #: src/korone/modules/lastfm/utils/formatters.py:30
 msgid ", {minutes} minute(s) ago"
-msgstr ""
+msgstr ", {minutes} хвилину(и) тому"
 
 #: src/korone/modules/lastfm/utils/formatters.py:30
 msgid ", Just now"
-msgstr ""
+msgstr "Щойно"
 
 #: src/korone/modules/lastfm/utils/formatters.py:59
 msgid "1 week"
-msgstr ""
+msgstr "1 тиждень"
 
 #: src/korone/modules/lastfm/utils/formatters.py:61
 msgid "1 month"
-msgstr ""
+msgstr "1 місяць"
 
 #: src/korone/modules/lastfm/utils/formatters.py:63
 msgid "3 months"
-msgstr ""
+msgstr "3 місяці"
 
 #: src/korone/modules/lastfm/utils/formatters.py:65
 msgid "6 months"
-msgstr ""
+msgstr "6 місяців"
 
 #: src/korone/modules/lastfm/utils/formatters.py:67
 msgid "1 year"
-msgstr ""
+msgstr "1 рік"
 
 #: src/korone/modules/lastfm/utils/formatters.py:68
 msgid "All time"
-msgstr ""
+msgstr "Весь час"
 
 #: src/korone/modules/media_dl/__init__.py:10
 msgid "Medias"
-msgstr ""
+msgstr "Медіа"
 
 #: src/korone/modules/media_dl/__init__.py:11
 msgid ""
@@ -629,6 +753,15 @@ msgid ""
 "found within them. This ensures that a preview is always available, "
 "enhancing the user experience."
 msgstr ""
+"Деякі веб-сайти, коли їхні посилання публікуються на таких платформах, як "
+"Telegram, не створюють попередній перегляд зображень або відео, що містяться "
+"в них. Це може призвести до відсутності контексту та візуальної "
+"привабливості контенту, яким ви ділитеся.\n"
+"\n"
+"Саме тут у гру вступає цей модуль. Він призначений для автоматичного "
+"виявлення посилань на підтримувані веб-сайти та завантаження зображень і "
+"відео, знайдених на них. Це гарантує, що попередній перегляд завжди "
+"доступний, покращуючи користувацький досвід."
 
 #: src/korone/modules/media_dl/__init__.py:19
 msgid ""
@@ -641,15 +774,23 @@ msgid ""
 "- /ytdl &lt;youtubelink&gt;: Download the YouTube video or audio from the "
 "given link."
 msgstr ""
+"Автоматичне завантаження медіафайлів увімкнено для наступних веб-сайтів:\n"
+"- X (Twitter)\n"
+"- TikTok\n"
+"- Instagram\n"
+"\n"
+"<b>Команди:</b>\n"
+"- /ytdl &lt;youtubelink&gt;: Завантажте відео або аудіо з YouTube за "
+"вказаним посиланням."
 
 #: src/korone/modules/media_dl/handlers/instagram.py:63
 #: src/korone/modules/media_dl/handlers/instagram.py:173
 msgid "Open in Instagram"
-msgstr ""
+msgstr "Відкрийте в Instagram"
 
 #: src/korone/modules/media_dl/handlers/instagram.py:135
 msgid "This Instagram URL is not a valid post or story."
-msgstr ""
+msgstr "Ця URL-адреса в Instagram не є дійсним дописом або історією."
 
 #: src/korone/modules/media_dl/handlers/instagram.py:161
 #: src/korone/modules/media_dl/handlers/instagram.py:178
@@ -659,107 +800,114 @@ msgstr ""
 #: src/korone/modules/media_dl/handlers/twitter.py:168
 #: src/korone/modules/media_dl/handlers/twitter.py:222
 msgid "Failed to send media: {error}"
-msgstr ""
+msgstr "Не вдалося надіслати медіа: {error}"
 
 #: src/korone/modules/media_dl/handlers/tiktok.py:134
 #: src/korone/modules/media_dl/handlers/tiktok.py:142
 msgid "Open in TikTok"
-msgstr ""
+msgstr "Відкрити в TikTok"
 
 #: src/korone/modules/media_dl/handlers/twitter.py:117
 #: src/korone/modules/media_dl/handlers/twitter.py:211
 msgid "Open in Twitter"
-msgstr ""
+msgstr "Відкрити в Twitter"
 
 #: src/korone/modules/media_dl/handlers/twitter.py:141
 #: src/korone/modules/media_dl/handlers/twitter.py:153
 msgid "Failed to send media!"
-msgstr ""
+msgstr "Не вдалося надіслати медіа!"
 
 #: src/korone/modules/media_dl/handlers/twitter.py:181
 msgid ""
 "\n"
 "<b>Sent from:</b> <i>{source}</i>"
 msgstr ""
+"\n"
+"<b>Відправлено з:</b> <i>{source}</i>"
 
 #: src/korone/modules/media_dl/handlers/youtube.py:34
 msgid "<b>Title:</b> {title}\n"
-msgstr ""
+msgstr "<b>Назва:</b> {title}\n"
 
 #: src/korone/modules/media_dl/handlers/youtube.py:35
 msgid "<b>Uploader:</b> {uploader}\n"
-msgstr ""
+msgstr "<b>Завантажувач:</b> {uploader}\n"
 
 #: src/korone/modules/media_dl/handlers/youtube.py:47
 msgid "<b>Duration:</b> {hours}h {minutes}m {seconds}s\n"
-msgstr ""
+msgstr "<b>Тривалість:</b> {hours}h {minutes}m {seconds}s\n"
 
 #: src/korone/modules/media_dl/handlers/youtube.py:51
 msgid "<b>Duration:</b> {minutes}m {seconds}s\n"
-msgstr ""
+msgstr "<b>Тривалість:</b> {minutes}m {seconds}s\n"
 
 #: src/korone/modules/media_dl/handlers/youtube.py:55
 msgid "<b>Duration:</b> {seconds}s\n"
-msgstr ""
+msgstr "<b>Тривалість:</b> {seconds}s\n"
 
 #: src/korone/modules/media_dl/handlers/youtube.py:62
 msgid "<b>Views:</b> {view_count}\n"
-msgstr ""
+msgstr "<b>Погляди:</b> {view_count}\n"
 
 #: src/korone/modules/media_dl/handlers/youtube.py:63
 msgid "<b>Likes:</b> {like_count}\n"
-msgstr ""
+msgstr "<b>Лайки:</b> {like_count}\n"
 
 #: src/korone/modules/media_dl/handlers/youtube.py:71
 msgid "Download video"
-msgstr ""
+msgstr "Завантажити відео"
 
 #: src/korone/modules/media_dl/handlers/youtube.py:75
 msgid "Download audio"
-msgstr ""
+msgstr "Завантажити аудіо"
 
 #: src/korone/modules/media_dl/handlers/youtube.py:90
 msgid "No YouTube URL found in the replied message."
-msgstr ""
+msgstr "У повідомленні-відповіді не знайдено URL-адреси YouTube."
 
 #: src/korone/modules/media_dl/handlers/youtube.py:97
 msgid "You need to provide a URL or reply to a message that contains a URL."
 msgstr ""
+"Вам потрібно вказати URL-адресу або відповісти на повідомлення, яке містить "
+"URL-адресу."
 
 #: src/korone/modules/media_dl/handlers/youtube.py:102
 msgid "Invalid YouTube URL!"
-msgstr ""
+msgstr "Невірна URL-адреса YouTube!"
 
 #: src/korone/modules/media_dl/handlers/youtube.py:112
 msgid "Failed to extract video info!"
-msgstr ""
+msgstr "Не вдалося витягти відеоінформацію!"
 
 #: src/korone/modules/media_dl/handlers/youtube.py:131
 msgid "Downloading..."
-msgstr ""
+msgstr "Завантаження..."
 
 #: src/korone/modules/media_dl/handlers/youtube.py:143
 #: src/korone/modules/media_dl/handlers/youtube.py:149
 msgid "Failed to download the media."
-msgstr ""
+msgstr "Не вдалося завантажити медіафайл."
 
 #: src/korone/modules/media_dl/handlers/youtube.py:152
 msgid "Uploading..."
-msgstr ""
+msgstr "Завантаження..."
 
 #: src/korone/modules/media_dl/handlers/youtube.py:178
 msgid "Failed to send the media."
-msgstr ""
+msgstr "Не вдалося надіслати ЗМІ."
 
 #: src/korone/modules/pm_menu/__init__.py:10
 msgid "Private Menu"
-msgstr ""
+msgstr "Приватне меню"
 
 #: src/korone/modules/pm_menu/__init__.py:11
 msgid ""
 "PyKorone uses intuitive menus to facilitate navigation. Some commands can be "
 "used in groups, but they will not return navigation buttons."
 msgstr ""
+"PyKorone використовує інтуїтивно зрозумілі меню для полегшення навігації. "
+"Деякі команди можна використовувати у групах, але вони не повертають кнопки "
+"навігації."
 
 #: src/korone/modules/pm_menu/__init__.py:15
 msgid ""
@@ -768,14 +916,18 @@ msgid ""
 "- /help: Returns a list of available modules to get help.\n"
 "- /about: A brief description of the bot."
 msgstr ""
+"<b>Команди:</b>\n"
+"- /start: Запустити бота і показати головне меню.\n"
+"- /help: Повертає список доступних модулів для отримання допомоги.\n"
+"- /about: Короткий опис бота."
 
 #: src/korone/modules/pm_menu/handlers/about.py:26
 msgid "📦 GitHub"
-msgstr ""
+msgstr "📦 GitHub"
 
 #: src/korone/modules/pm_menu/handlers/about.py:27
 msgid "📚 Channel"
-msgstr ""
+msgstr "📚 Канал"
 
 #: src/korone/modules/pm_menu/handlers/about.py:46
 msgid ""
@@ -791,47 +943,62 @@ msgid ""
 "\n"
 "PyKororne version: {version}"
 msgstr ""
+"PyKorone - це комплексний і передовий Telegram-бот, який пропонує широкий "
+"спектр функцій для покращення вашого досвіду роботи в Telegram. Він "
+"розроблений, щоб бути універсальним, адаптивним та високоефективним.\n"
+"\n"
+"Створений за допомогою Python, PyKorone базується на фреймворку {hydrogram}, "
+"який використовує Telegram MTProto API.\n"
+"\n"
+"PyKorone - це проект з відкритим вихідним кодом, ліцензований за ліцензією "
+"{license_link}. Вихідний код можна знайти на GitHub.\n"
+"\n"
+"Версія PyKororne: {version}"
 
 #: src/korone/modules/pm_menu/handlers/help.py:39
 msgid ""
 "Below are buttons for each module. Click on a button to access a brief "
 "documentation on its functionality and usage."
 msgstr ""
+"Нижче наведено кнопки для кожного модуля. Натисніть на кнопку, щоб отримати "
+"доступ до короткої документації про його функціональність та використання."
 
 #: src/korone/modules/pm_menu/handlers/help.py:48
 #: src/korone/modules/pm_menu/handlers/start.py:33
 msgid "👮‍♂️ Help"
-msgstr ""
+msgstr "👮‍♂️ Довідка"
 
 #: src/korone/modules/pm_menu/handlers/help.py:50
 msgid "Message me in PM to get help."
-msgstr ""
+msgstr "Напишіть мені в PM, щоб отримати допомогу."
 
 #: src/korone/modules/pm_menu/handlers/help.py:60
 #: src/korone/modules/pm_menu/handlers/help.py:90
 msgid "Module not found."
-msgstr ""
+msgstr "Модуль не знайдено."
 
 #: src/korone/modules/pm_menu/handlers/start.py:26
 msgid "ℹ️ About"
-msgstr ""
+msgstr "ℹ️ Про компанію"
 
 #: src/korone/modules/pm_menu/handlers/start.py:28
 msgid "{lang_flag} Language"
-msgstr ""
+msgstr "{lang_flag} Мова"
 
 #: src/korone/modules/pm_menu/handlers/start.py:41
 msgid "Hello, I'm PyKorone! An all-in-one bot."
-msgstr ""
+msgstr "Привіт, я PyKorone! Універсальний бот."
 
 #: src/korone/modules/stickers/handlers/get_sticker.py:19
 msgid "Reply to a sticker."
-msgstr ""
+msgstr "Відповісти на стікер."
 
 #: src/korone/modules/stickers/handlers/get_sticker.py:23
 msgid "Reply to a sticker to get it as a file and file ID"
 msgstr ""
+"Відповідайте на стікер, щоб отримати його у вигляді файлу та ідентифікатор "
+"файлу"
 
 #: src/korone/modules/stickers/handlers/get_sticker.py:31
 msgid "Failed to download sticker."
-msgstr ""
+msgstr "Не вдалося завантажити наклейку."
