@@ -22,7 +22,7 @@ from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 
 from sophie_bot.legacy_modules.utils.message import get_arg
 from sophie_bot.legacy_modules.utils.register import register
-from sophie_bot.services.mongo import db
+from sophie_bot.services.db import db
 from .utils.language import LANGUAGES, get_strings_dec, change_chat_lang, get_chat_lang_info, get_strings
 from .. import dp
 from ..utils.filters.user_status import IsAdmin
@@ -141,4 +141,4 @@ async def __export__(chat_id):
 async def __import__(chat_id, data):
     if data not in LANGUAGES:
         return
-    await db.get().lang.update_one({'chat_id': chat_id}, {"$set": {'lang': data}}, upsert=True)
+    await db.lang.update_one({'chat_id': chat_id}, {"$set": {'lang': data}}, upsert=True)

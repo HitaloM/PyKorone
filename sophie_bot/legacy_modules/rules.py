@@ -1,7 +1,7 @@
 from aiogram import F
 from aiogram.filters import CommandStart
 
-from sophie_bot.services.mongo import db
+from sophie_bot.services.db import db
 from .utils.connections import chat_connection
 from .utils.disable import disableable_dec
 from .utils.language import get_strings_dec
@@ -23,7 +23,7 @@ async def set_rules(message, chat, strings):
     note = await get_parsed_note_list(message, allow_reply_message=True, split_args=-1)
     note['chat_id'] = chat_id
 
-    if (await db.get().rules.replace_one({'chat_id': chat_id}, note, upsert=True)).modified_count > 0:
+    if (await db.rules.replace_one({'chat_id': chat_id}, note, upsert=True)).modified_count > 0:
         text = strings['updated']
     else:
         text = strings['saved']
@@ -50,7 +50,7 @@ async def rules(message, chat, strings):
         arg1 = None
     noformat = arg1 in ('noformat', 'raw')
 
-    if not (db_item := await db.get().rules.find_one({'chat_id': chat_id})):
+    if not (db_item := await db.rules.find_one({'chat_id': chat_id})):
         await message.reply(strings['not_found'])
         return
 
@@ -66,7 +66,7 @@ async def rules(message, chat, strings):
 async def reset_rules(message, chat, strings):
     chat_id = chat['chat_id']
 
-    if (await db.get().rules.delete_one({'chat_id': chat_id})).deleted_count < 1:
+    if (await db.rules.delete_one({'chat_id': chat_id})).deleted_count < 1:
         await message.reply(strings['not_found'])
         return
 
@@ -81,7 +81,7 @@ BUTTONS.update({'rules': 'btn_rules'})
 async def rules_btn(message, strings):
     chat_id = (get_args_str(message).split('_'))[2]
     user_id = message.chat.id
-    if not (db_item := await db.get().rules.find_one({'chat_id': int(chat_id)})):
+    if not (db_item := await db.rules.find_one({'chat_id': int(chat_id)})):
         await message.answer(strings['not_found'])
         return
 
@@ -90,7 +90,7 @@ async def rules_btn(message, strings):
 
 
 async def __export__(chat_id):
-    rules = await db.get().rules.find_one({'chat_id': chat_id})
+    rules = await db.rules.find_one({'chat_id': chat_id})
     if rules:
         del rules['_id']
         del rules['chat_id']
@@ -104,4 +104,4 @@ async def __import__(chat_id, data):
         del rules[column]
 
     rules['chat_id'] = chat_id
-    await db.get().rules.replace_one({'chat_id': rules['chat_id']}, rules, upsert=True)
+    await db.rules.replace_one({'chat_id': rules['chat_id']}, rules, upsert=True)

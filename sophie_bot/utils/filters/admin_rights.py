@@ -17,7 +17,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 from dataclasses import dataclass
-from typing import Any, Union, Dict
+from typing import Any, Union
 
 from aiogram.exceptions import TelegramBadRequest
 from aiogram.filters import Filter
@@ -67,7 +67,7 @@ class UserRestricting(Filter):
                 config[argument] = full_config.pop(alias)
         return config
 
-    async def __call__(self, event: TelegramObject) -> Union[bool, Dict[str, Any]]:
+    async def __call__(self, event: TelegramObject) -> Union[bool, dict[str, Any]]:
         user_id = await self.get_target_id(event)
         message = event.message if hasattr(event, 'message') else event
 

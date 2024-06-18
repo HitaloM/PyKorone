@@ -5,11 +5,11 @@ import os
 
 import ujson
 
-from sophie_bot import SOPHIE_VERSION
 from sophie_bot.config import CONFIG
 from sophie_bot.legacy_modules import LOADED_MODULES
-from sophie_bot.services.mongo import db
+from sophie_bot.services.db import db
 from sophie_bot.services.redis import redis
+from sophie_bot.utils.i18n import gettext as _
 from .utils.language import get_strings_dec
 from .utils.register import register, REGISTRED_COMMANDS
 from ..utils.filters.user_status import IsOP
@@ -45,7 +45,7 @@ async def get_event(message):
 
 @register(IsOP(True), cmds="stats")
 async def stats(message):
-    text = f"<b>Sophie {SOPHIE_VERSION} stats</b>\n"
+    text = _("<b>Sophie stats</b>\n")
 
     for module in [m for m in LOADED_MODULES if hasattr(m, '__stats__')]:
         text += await module.__stats__()
@@ -69,7 +69,7 @@ async def __stats__():
         text += f"* Webhooks mode, listen port: <code>{os.getenv('WEBHOOKS_PORT', 8080)}</code>\n"
     else:
         text += "* Long-polling mode\n"
-    local_db = await db.get().command("dbstats")
+    local_db = await db.command("dbstats")
     if 'fsTotalSize' in local_db:
         text += '* Database size is <code>{}</code>, free <code>{}</code>\n'.format(
             convert_size(local_db['dataSize']),

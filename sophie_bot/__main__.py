@@ -22,10 +22,13 @@ from importlib import import_module
 from sophie_bot import dp, bot
 from sophie_bot.config import CONFIG
 from sophie_bot.legacy_modules import ALL_MODULES, LOADED_MODULES
+from sophie_bot.middlewares import enable_middlewares
 from sophie_bot.services.apscheduller import start_apscheduller
-from sophie_bot.services.mongo import get_db, test_db
+from sophie_bot.services.db import init_db, test_db
 from sophie_bot.services.telethon import start_telethon
 from sophie_bot.utils.logger import log
+
+enable_middlewares()
 
 if CONFIG.debug_mode:
     pass
@@ -48,7 +51,6 @@ for module_name in modules:
 log.info("Legacy modules: Modules loaded!")
 
 # Import misc stuff
-import_module("sophie_bot.utils.exit_gracefully")
 if not CONFIG.debug_mode:
     import_module("sophie_bot.utils.sentry")
 
@@ -62,7 +64,7 @@ async def before_srv_task():
 
 @dp.startup()
 async def start():
-    get_db()
+    await init_db()
     await test_db()
 
     await start_telethon()

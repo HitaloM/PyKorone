@@ -17,7 +17,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 from sophie_bot.legacy_modules.utils.user_details import is_user_admin
-from sophie_bot.services.mongo import db
+from sophie_bot.services.db import db
 from sophie_bot.utils.logger import log
 
 DISABLABLE_COMMANDS = []
@@ -41,7 +41,7 @@ def disableable_dec(command):
             #     if command in (aliases := message.data['cmds']):
             #         cmd = aliases[0]
 
-            check = await db.get().disabled.find_one({'chat_id': chat_id, 'cmds': {'$in': [cmd]}})
+            check = await db.disabled.find_one({'chat_id': chat_id, 'cmds': {'$in': [cmd]}})
             if check and not await is_user_admin(chat_id, user_id):
                 return
             return await func(*args, **kwargs)

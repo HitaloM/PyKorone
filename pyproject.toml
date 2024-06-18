@@ -11,9 +11,9 @@ aiogram = "^3.7.0"
 redis = "5.0.6"
 motor = "^3.2.0"
 dnspython = "^2.1.0"
-aiohttp = {extras = ["speedups"], version = "^3.8.1", optional = true}
-cryptg = {version = "^0.2.post4", optional = true}
-cryptography = {version = "^36.0.2", optional = true}
+aiohttp = { extras = ["speedups"], version = "^3.8.1", optional = true }
+cryptg = { version = "^0.2.post4", optional = true }
+cryptography = { version = "^36.0.2", optional = true }
 envparse = "^0.2.0"
 aiocron = "^1.8"
 APScheduler = "^3.8.1"
@@ -26,9 +26,23 @@ Babel = "^2.9.1"
 captcha = "^0.5"
 async-timeout = "^4.0.2"
 regex = "^2024.5.15"
-pydantic = {extras = ["dotenv"], version = "^2.7.4"}
+pydantic = { extras = ["dotenv"], version = "^2.7.4" }
 emoji-country-flag = "^1.3.2"
 pydantic-settings = "^2.3.3"
+structlog = "^24.2.0"
+ass-tg = "^2.0.2"
+beanie = "^1.26.0"
+
+[tool.poetry.group.dev.dependencies]
+Nuitka = "2.3.4"
+pycln = "^2.1"
+bandit = "^1.7"
+flake8 = "~7"
+flake8-isort = "~6"
+yapf = "~0.40"
+devtools = { extras = ["pygments"], version = "~0.12" }
+pytest = "^8"
+pyright = "^1.1.274"
 
 [tool.poetry.extras]
 fast = ["aiohttp", "cryptg", "cryptography"]

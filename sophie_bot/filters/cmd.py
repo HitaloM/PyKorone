@@ -1,5 +1,5 @@
 from dataclasses import replace
-from typing import Any, Dict, List, Optional, Pattern, Sequence, Union, cast
+from typing import Any, List, Optional, Pattern, Sequence, Union, cast
 
 from aiogram import Bot
 from aiogram.filters import BaseFilter
@@ -90,7 +90,7 @@ class CMDFilter(BaseFilter):
     def check_mono(entities: List[MessageEntity]) -> bool:
         return any((ent for ent in entities if ent.offset == 0 and ent.type in {"code", "pre"}))
 
-    async def __call__(self, message: Message, bot: Bot) -> Union[bool, Dict[str, Any]]:
+    async def __call__(self, message: Message, bot: Bot) -> Union[bool, dict[str, Any]]:
         if not (text := (message.text or message.caption) if self.allow_caption else message.text):
             return False
 

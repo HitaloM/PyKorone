@@ -18,7 +18,7 @@
 
 import pickle
 from dataclasses import dataclass
-from typing import Optional, Callable, Dict, Any, Awaitable
+from typing import Optional, Callable, Any, Awaitable
 
 from aiogram import BaseMiddleware
 from aiogram.dispatcher.event.bases import CancelHandler
@@ -37,7 +37,7 @@ from sophie_bot.legacy_modules.utils.message import convert_time, get_args, need
 from sophie_bot.legacy_modules.utils.register import register
 from sophie_bot.legacy_modules.utils.restrictions import ban_user, kick_user, mute_user
 from sophie_bot.legacy_modules.utils.user_details import is_user_admin, get_user_link
-from sophie_bot.services.mongo import db
+from sophie_bot.services.db import db
 from sophie_bot.services.redis import bredis, redis
 from sophie_bot.utils.cached import cached
 from sophie_bot.utils.filters.admin_rights import UserRestricting, BotHasPermissions
@@ -134,8 +134,8 @@ class AntifloodEnforcer(BaseMiddleware):
         else:
             return False
 
-    async def __call__(self, handler: Callable[[TelegramObject, Dict[str, Any]], Awaitable[Any]], message: Message,
-                       data: Dict[str, Any]) -> Any:
+    async def __call__(self, handler: Callable[[TelegramObject, dict[str, Any]], Awaitable[Any]], message: Message,
+                       data: dict[str, Any]) -> Any:
         log.debug(f"Enforcing flood control on {message.from_user.id} in {message.chat.id}")
         if self.is_message_valid(message):
             if await is_user_admin(message.chat.id, message.from_user.id):
@@ -199,7 +199,7 @@ async def antiflood_expire_proc(message: Message, chat: dict, strings: dict, sta
         if not (data := redis.get(f'antiflood_setup:{chat["chat_id"]}')):
             await message.reply(strings['setup_corrupted'])
         else:
-            await db.get().antiflood.update_one(
+            await db.antiflood.update_one(
                 {"chat_id": chat['chat_id']},
                 {"$set": {"time": time, "count": int(data)}},
                 upsert=True
@@ -223,7 +223,7 @@ async def antiflood(message: Message, chat: dict, strings: dict):
         return await message.reply(strings['not_configured'])
 
     if get_args_str(message).lower() in ('off', '0', 'no'):
-        await db.get().antiflood.delete_one({"chat_id": chat['chat_id']})
+        await db.antiflood.delete_one({"chat_id": chat['chat_id']})
         await get_data.reset_cache(chat['chat_id'])
         return await message.reply(strings['turned_off'].format(chat_title=chat['chat_title']))
 
@@ -255,7 +255,7 @@ async def setfloodaction(message: Message, chat: dict, strings: dict):
     if (action := get_args(message)[0].lower()) not in SUPPORTED_ACTIONS:
         return await message.reply(strings['invalid_args'].format(supported_actions=", ".join(SUPPORTED_ACTIONS)))
 
-    await db.get().antiflood.update_one(
+    await db.antiflood.update_one(
         {"chat_id": chat['chat_id']},
         {"$set": {"action": action}},
         upsert=True
@@ -280,7 +280,7 @@ async def cancel_state_cb(event: CallbackQuery, state: FSMContext):
 
 @cached()
 async def get_data(chat_id: int):
-    return await db.get().antiflood.find_one(
+    return await db.antiflood.find_one(
         {'chat_id': chat_id}
     )
 
@@ -295,7 +295,7 @@ async def __export__(chat_id: int):
 
 
 async def __import__(chat_id: int, data: dict):  # noqa
-    await db.get().antiflood.update_one(
+    await db.antiflood.update_one(
         {"chat_id": chat_id},
         {"$set": data}
     )

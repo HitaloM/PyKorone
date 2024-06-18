@@ -1,6 +1,6 @@
 from typing import List, Optional
 
-from pydantic import validator, AnyHttpUrl, computed_field
+from pydantic import validator, AnyHttpUrl, computed_field, BaseModel
 from pydantic_settings import BaseSettings
 
 
@@ -42,6 +42,14 @@ class Config(BaseSettings):
 
     sentry_url: Optional[AnyHttpUrl] = None
 
+    devs_managed_languages: List[str] = ["en_US"]
+    # A list of languages that are managed by developers; Will disable
+    # showing percent of it and won't suggest to help to translate it on crowdin.
+    translation_url: str = "https://google.com"
+    support_link: str = "https://google.com"
+
+    default_locale: str = "en_US"
+
     class Config:
         env_file = 'data/config.env'
         env_file_encoding = 'utf-8'
@@ -59,4 +67,10 @@ class Config(BaseSettings):
         return value
 
 
+class CacheTTL(BaseModel):
+    default_ttl: int = 1800  # 30 minutes
+    language_ttl: int = 86400  # 24 hours
+
+
 CONFIG = Config()
+CACHE_TTL = CacheTTL()

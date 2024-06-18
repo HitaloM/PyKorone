@@ -22,7 +22,7 @@ from aiogram.filters import Filter
 from sophie_bot.config import CONFIG
 from sophie_bot.legacy_modules.utils.language import get_strings_dec
 from sophie_bot.legacy_modules.utils.user_details import is_user_admin
-from sophie_bot.services.mongo import mongodb
+from sophie_bot.services.db import db
 
 
 class IsAdmin(Filter):
@@ -75,6 +75,6 @@ class NotGbanned(Filter):
         self.not_gbanned = not_gbanned
 
     async def check(self, message: types.Message):
-        check = mongodb.get().blacklisted_users.find_one({'user': message.from_user.id})
+        check = await db.blacklisted_users.find_one({'user': message.from_user.id})
         if not check:
             return True

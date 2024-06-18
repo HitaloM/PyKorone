@@ -27,7 +27,7 @@ from sophie_bot import bot, dp
 from sophie_bot.legacy_modules.utils.deep_linking import get_start_link
 from sophie_bot.legacy_modules.utils.message import get_arg, get_args_str
 from sophie_bot.legacy_modules.utils.register import register
-from sophie_bot.services.mongo import db
+from sophie_bot.services.db import db
 from sophie_bot.services.redis import redis
 from .utils.connections import chat_connection, set_connected_chat, get_connection_data
 from .utils.language import get_strings_dec
@@ -66,7 +66,7 @@ async def connect_to_chat_direct(message, strings):
             ]])
         )
 
-    chat = await db.get().chat_list.find_one({'chat_id': chat_id})
+    chat = await db.chat_list.find_one({'chat_id': chat_id})
     chat_title = chat['chat_title'] if chat is not None else message.chat.title
     text = strings['pm_connected'].format(chat_name=chat_title)
 
@@ -90,7 +90,7 @@ async def connect_chat_keyboard(message, strings, chat):
     if chat['status'] != 'private':
         text = strings['connected_chat'].format(chat_name=chat['chat_title'])
     elif 'command' in connected_data:
-        if chat := await db.get().chat_list.find_one({'chat_id': connected_data['chat_id']}):
+        if chat := await db.chat_list.find_one({'chat_id': connected_data['chat_id']}):
             chat_title = chat['chat_title']
         else:
             chat_title = connected_data['chat_id']
@@ -105,7 +105,7 @@ async def connect_chat_keyboard(message, strings, chat):
     text += strings['select_chat_to_connect']
     markup = InlineKeyboardMarkup(inline_keyboard=[])
     for chat_id in reversed(connected_data['history'][-3:]):
-        chat = await db.get().chat_list.find_one({'chat_id': chat_id})
+        chat = await db.chat_list.find_one({'chat_id': chat_id})
         markup.inline_keyboard.append([InlineKeyboardButton(
             text=chat['chat_title'],
             callback_data=ConnectToChatCb(chat_id=chat_id).pack())
@@ -118,7 +118,7 @@ async def connect_chat_keyboard(message, strings, chat):
 @dp.callback_query(ConnectToChatCb.filter())
 async def connect_chat_keyboard_cb(message, callback_data: ConnectToChatCb, **kwargs):
     chat_id = int(callback_data.chat_id)
-    chat = await db.get().chat_list.find_one({'chat_id': chat_id})
+    chat = await db.chat_list.find_one({'chat_id': chat_id})
     await def_connect_chat(message.message, message.from_user.id, chat_id, chat['chat_title'], edit=True)
 
 
@@ -145,7 +145,7 @@ async def connect_to_chat_from_arg(message, chat, strings):
 @get_strings_dec('connections')
 async def disconnect_from_chat_direct(message, strings):
     if (data := await get_connection_data(message.from_user.id)) and 'chat_id' in data:
-        chat = await db.get().chat_list.find_one({'chat_id': data['chat_id']})
+        chat = await db.chat_list.find_one({'chat_id': data['chat_id']})
         user_id = message.from_user.id
         await set_connected_chat(user_id, None)
         await message.reply(strings['disconnected'].format(chat_name=chat['chat_title']))
@@ -159,7 +159,7 @@ async def allow_users_to_connect(message, strings, chat):
     arg = get_arg(message).lower()
     if not arg:
         status = strings['enabled']
-        data = await db.get().chat_connection_settings.find_one({'chat_id': chat_id})
+        data = await db.chat_connection_settings.find_one({'chat_id': chat_id})
         if data and 'allow_users_connect' in data and data['allow_users_connect'] is False:
             status = strings['disabled']
         await message.reply(strings['chat_users_connections_info'].format(
@@ -179,7 +179,7 @@ async def allow_users_to_connect(message, strings, chat):
         await message.reply(strings['bad_arg_bool'])
         return
 
-    await db.get().chat_connection_settings.update_one(
+    await db.chat_connection_settings.update_one(
         {'chat_id': chat_id},
         {"$set": {'allow_users_connect': r_bool}},
         upsert=True
@@ -212,9 +212,9 @@ async def connect_start(message, strings, regexp=None, **kwargs):
     arg = args[3]
 
     if arg.startswith('-') or arg.isdigit():
-        chat = await db.get().chat_list.find_one({'chat_id': int(arg)})
+        chat = await db.chat_list.find_one({'chat_id': int(arg)})
     elif arg.startswith('@'):
-        chat = await db.get().chat_list.find_one({'chat_nick': arg.lower()})
+        chat = await db.chat_list.find_one({'chat_nick': arg.lower()})
     else:
         await message.reply(strings['cant_find_chat_use_id'])
         return
@@ -228,8 +228,8 @@ async def connect_anon_admins(event: CallbackQuery):
         return
 
     if event.message.chat.id not in (
-            data := await db.get().user_list.find_one({"user_id": event.from_user.id}))['chats']:
-        await db.get().user_list.update_one(
+            data := await db.user_list.find_one({"user_id": event.from_user.id}))['chats']:
+        await db.user_list.update_one(
             {"_id": data['_id']},
             {"$addToSet": {"chats": event.message.chat.id}}
         )

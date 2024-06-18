@@ -16,8 +16,6 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-import logging
-
 from aiogram import Bot, Dispatcher
 from aiogram.client.default import DefaultBotProperties
 from aiogram.client.telegram import TelegramAPIServer, PRODUCTION
@@ -33,11 +31,6 @@ log.info("----------------------")
 log.info("|      SophieBot     |")
 log.info("----------------------")
 log.info("Version: " + SOPHIE_VERSION)
-
-if CONFIG.debug_mode:
-    SOPHIE_VERSION += "-debug"
-    log.setLevel(logging.DEBUG)
-    log.warn("! Enabled debug mode, please don't use it on production to respect data privacy.")
 
 # Support for custom BotAPI servers
 bot_api = TelegramAPIServer.from_base(CONFIG.botapi_server) if CONFIG.botapi_server else PRODUCTION

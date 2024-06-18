@@ -36,7 +36,7 @@ from sophie_bot import bot, dp
 from sophie_bot.legacy_modules import LOADED_MODULES
 from sophie_bot.legacy_modules.utils.message import need_args_dec, get_args_str
 from sophie_bot.legacy_modules.utils.register import register
-from sophie_bot.services.mongo import db
+from sophie_bot.services.db import db
 from sophie_bot.services.redis import redis
 from sophie_bot.utils.logger import log
 from .utils.connections import chat_connection, get_connected_chat
@@ -66,7 +66,7 @@ class NewFilter(StatesGroup):
 
 async def update_handlers_cache(chat_id):
     redis.delete(f'filters_cache_{chat_id}')
-    filters = db.get().filters.find({'chat_id': chat_id})
+    filters = db.filters.find({'chat_id': chat_id})
     handlers = []
     async for filter in filters:
         handler = filter['handler']
@@ -117,7 +117,7 @@ async def check_msg(message):
 
         if matched:
             # We can have few filters with same handler, that's why we create a new loop.
-            filters = db.get().filters.find({'chat_id': chat_id, 'handler': handler})
+            filters = db.filters.find({'chat_id': chat_id, 'handler': handler})
             async for filter in filters:
                 action = filter['action']
                 await FILTERS_ACTIONS[action]['handle'](message, chat, filter)
@@ -166,12 +166,12 @@ async def add_handler(message, chat, strings):
 
 
 async def save_filter(message, data, strings):
-    if await db.get().filters.find_one(data):
+    if await db.filters.find_one(data):
         # prevent saving duplicate filter
         await message.reply('Duplicate filter!')
         return
 
-    await db.get().filters.insert_one(data)
+    await db.filters.insert_one(data)
     await update_handlers_cache(data['chat_id'])
     await message.reply(strings['saved'])
 
@@ -255,7 +255,7 @@ async def setup_end(message, chat, strings, state: FSMContext, **kwargs):
 async def list_filters(message, chat, strings):
     text = strings['list_filters'].format(chat_name=chat['chat_title'])
 
-    filters = db.get().filters.find({'chat_id': chat['chat_id']})
+    filters = db.filters.find({'chat_id': chat['chat_id']})
     filters_text = ''
     async for filter in filters:
         filters_text += f"- {filter['handler']}: {filter['action']}\n"
@@ -274,7 +274,7 @@ async def list_filters(message, chat, strings):
 async def del_filter(message, chat, strings):
     handler = get_args_str(message)
     chat_id = chat['chat_id']
-    filters = await db.get().filters.find({'chat_id': chat_id, 'handler': handler}).to_list(9999)
+    filters = await db.filters.find({'chat_id': chat_id, 'handler': handler}).to_list(9999)
     if not filters:
         await message.reply(strings['no_such_filter'].format(chat_name=chat['chat_title']))
         return
@@ -282,7 +282,7 @@ async def del_filter(message, chat, strings):
     # Remove filter in case if we found only 1 filter with same header
     filter = filters[0]
     if len(filters) == 1:
-        await db.get().filters.delete_one({'_id': filter['_id']})
+        await db.filters.delete_one({'_id': filter['_id']})
         await update_handlers_cache(chat_id)
         await message.reply(strings['del_filter'].format(handler=filter['handler']))
         return
@@ -308,8 +308,8 @@ async def del_filter_cb(event, chat, strings, callback_data: FilterRemoveCb, **k
     if not await is_user_admin(event.message.chat.id, event.from_user.id):
         return await event.answer('You are not admin to do this')
     filter_id = ObjectId(callback_data.id)
-    filter = await db.get().filters.find_one({'_id': filter_id})
-    await db.get().filters.delete_one({'_id': filter_id})
+    filter = await db.filters.find_one({'_id': filter_id})
+    await db.filters.delete_one({'_id': filter_id})
     await update_handlers_cache(chat['chat_id'])
     await event.message.edit_text(strings['del_filter'].format(handler=filter['handler']))
     return
@@ -336,7 +336,7 @@ async def delall_filters(message: Message, strings: dict):
 async def delall_filters_yes(event: CallbackQuery, strings: dict, callback_data: dict, **_):
     if not await is_chat_creator(event, chat_id := int(callback_data['chat_id']), event.from_user.id):
         return False
-    result = await db.get().filters.delete_many({'chat_id': chat_id})
+    result = await db.filters.delete_many({'chat_id': chat_id})
     await update_handlers_cache(chat_id)
     return await event.message.edit_text(strings['delall_success'].format(count=result.deleted_count))
 
@@ -363,7 +363,7 @@ async def __before_serving__(loop):
 
 async def __export__(chat_id):
     data = []
-    filters = db.get().filters.find({'chat_id': chat_id})
+    filters = db.filters.find({'chat_id': chat_id})
     async for filter in filters:
         del filter['_id'], filter['chat_id']
         if 'time' in filter:
@@ -379,5 +379,5 @@ async def __import__(chat_id, data):
         new.append(UpdateOne({'chat_id': chat_id, 'handler': filter['handler'], 'action': filter['action']},
                              {'$set': filter},
                              upsert=True))
-    await db.get().filters.bulk_write(new)
+    await db.filters.bulk_write(new)
     await update_handlers_cache(chat_id)

@@ -1,0 +1,12 @@
+build_runtime_container:
+  stage: build
+  image: docker:latest
+  variables:
+    DOCKER_IMAGE: "$CI_REGISTRY_IMAGE:$CI_COMMIT_BRANCH-runtime"
+  services:
+    - docker:dind
+  before_script:
+    - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" registry.gitlab.com
+  script:
+    - docker build --pull -t "$DOCKER_IMAGE" -f build/runtime/Dockerfile .
+    - docker push "$DOCKER_IMAGE"

@@ -43,7 +43,7 @@ from pymongo import DeleteMany, InsertOne
 from sophie_bot.config import CONFIG
 from sophie_bot.legacy_modules.utils.message import need_args_dec, get_cmd, get_args_str
 from sophie_bot.legacy_modules.utils.register import register
-from sophie_bot.services.mongo import db
+from sophie_bot.services.db import db
 from sophie_bot.services.redis import redis
 from sophie_bot.services.telethon import tbot
 from .utils.connections import get_connected_chat, chat_connection
@@ -77,7 +77,7 @@ async def get_fed_f(message, disable_self_fed_check: bool = False):
             # return fed which user is created
             fed = await get_fed_by_creator(chat['chat_id'])
         else:
-            fed = await db.get().feds.find_one({'chats': {'$in': [chat['chat_id']]}})
+            fed = await db.feds.find_one({'chats': {'$in': [chat['chat_id']]}})
         if not fed:
             return False
         return fed
@@ -122,7 +122,7 @@ def get_fed_user_text(skip_no_fed=False, check_self_user=False, disable_self_fed
                 text = ' '.join(data[1:]) if len(data) > 1 else None
             elif not user:
                 if check_self_user is True:
-                    user = await db.get().user_list.find_one({'user_id': message.from_user.id})
+                    user = await db.user_list.find_one({'user_id': message.from_user.id})
                 else:
                     await message.reply(strings['cant_get_user'])
                     # Passing 'None' user will throw err
@@ -248,7 +248,7 @@ async def new_fed(message, strings):
         await message.reply(strings['can_only_1_fed'])
         return
 
-    if await db.get().feds.find_one({'fed_name': fed_name}):
+    if await db.feds.find_one({'fed_name': fed_name}):
         await message.reply(strings['name_not_avaible'].format(name=fed_name))
         return
 
@@ -257,7 +257,7 @@ async def new_fed(message, strings):
         'fed_id': str(uuid.uuid4()),
         'creator': user_id
     }
-    await db.get().feds.insert_one(data)
+    await db.feds.insert_one(data)
     await get_fed_by_id.reset_cache(data['fed_id'])
     await get_fed_by_creator.reset_cache(data['creator'])
     await message.reply(strings['created_fed'].format(
@@ -288,7 +288,7 @@ async def join_fed(message, chat, strings):
         await message.reply(strings['joined_fed_already'])
         return
 
-    await db.get().feds.update_one(
+    await db.feds.update_one(
         {'_id': fed['_id']},
         {"$addToSet": {'chats': {'$each': [chat_id]}}}
     )
@@ -314,7 +314,7 @@ async def leave_fed_comm(message, chat, fed, strings):
         await message.reply(strings['only_creators'])
         return
 
-    await db.get().feds.update_one(
+    await db.feds.update_one(
         {'_id': fed['_id']},
         {'$pull': {'chats': chat['chat_id']}}
     )
@@ -352,7 +352,7 @@ async def fed_sub(message, fed, strings):
         ))
         return
 
-    await db.get().feds.update_one(
+    await db.feds.update_one(
         {'_id': fed['_id']},
         {"$addToSet": {'subscribed': {'$each': [fed_id]}}}
     )
@@ -382,7 +382,7 @@ async def fed_unsub(message, fed, strings):
         ))
         return
 
-    await db.get().feds.update_one(
+    await db.feds.update_one(
         {'_id': fed['_id']},
         {'$pull': {'subscribed': str(fed_id)}}
     )
@@ -401,7 +401,7 @@ async def promote_to_fed(message, fed, user, text, strings):
     restricted_ids = [1087968824, 777000]
     if user['user_id'] in restricted_ids:
         return await message.reply(strings['restricted_user:promote'])
-    await db.get().feds.update_one(
+    await db.feds.update_one(
         {'_id': fed['_id']},
         {"$addToSet": {'admins': {'$each': [user['user_id']]}}}
     )
@@ -423,7 +423,7 @@ async def promote_to_fed(message, fed, user, text, strings):
 @is_fed_owner
 @get_strings_dec("feds")
 async def demote_from_fed(message, fed, user, text, strings):
-    await db.get().feds.update_one(
+    await db.feds.update_one(
         {'_id': fed['_id']},
         {'$pull': {'admins': user['user_id']}}
     )
@@ -456,7 +456,7 @@ async def set_fed_log_chat(message, fed, chat, strings):
         await message.reply(strings['already_have_chatlog'].format(name=html.escape(fed['fed_name'], False)))
         return
 
-    await db.get().feds.update_one(
+    await db.feds.update_one(
         {'_id': fed['_id']},
         {'$set': {'log_chat_id': chat_id}}
     )
@@ -481,7 +481,7 @@ async def unset_fed_log_chat(message, fed, strings):
         await message.reply(strings['already_have_chatlog'].format(name=html.escape(fed['fed_name'], False)))
         return
 
-    await db.get().feds.update_one(
+    await db.feds.update_one(
         {'_id': fed['_id']},
         {'$unset': {'log_chat_id': 1}}
     )
@@ -506,7 +506,7 @@ async def fed_chat_list(message, fed, strings):
         return await message.reply(strings['no_chats'].format(name=html.escape(fed['fed_name'], False)))
 
     for chat_id in fed['chats']:
-        chat = await db.get().chat_list.find_one({'chat_id': chat_id})
+        chat = await db.chat_list.find_one({'chat_id': chat_id})
         text += '* {} (<code>{}</code>)\n'.format(chat["chat_title"], chat_id)
     if len(text) > 4096:
         await message.answer_document(
@@ -536,7 +536,7 @@ async def fed_admins_list(message, fed, strings):
 @get_strings_dec("feds")
 async def fed_info(message, fed, strings):
     text = strings['finfo_text']
-    banned_num = await db.get().fed_bans.count_documents({'fed_id': fed['fed_id']})
+    banned_num = await db.fed_bans.count_documents({'fed_id': fed['fed_id']})
     text = text.format(
         name=html.escape(fed['fed_name'], False),
         fed_id=fed['fed_id'],
@@ -558,7 +558,7 @@ async def get_all_subs_feds_r(fed_id, new):
     new.append(fed_id)
 
     fed = await get_fed_by_id(fed_id)
-    async for item in db.get().feds.find({'subscribed': {'$in': [fed['fed_id']]}}):
+    async for item in db.feds.find({'subscribed': {'$in': [fed['fed_id']]}}):
         if item['fed_id'] in new:
             continue
         new = await get_all_subs_feds_r(item['fed_id'], new)
@@ -594,10 +594,10 @@ async def fed_ban_user(message, fed, user, reason, strings):
         await message.reply(strings['fban_fed_admin'])
         return
 
-    elif data := await db.get().fed_bans.find_one({'fed_id': fed['fed_id'], 'user_id': user_id}):
+    elif data := await db.fed_bans.find_one({'fed_id': fed['fed_id'], 'user_id': user_id}):
         if 'reason' not in data or data["reason"] != reason:
             operation = '$set' if reason else '$unset'
-            await db.get().fed_bans.update_one({'_id': data['_id']}, {operation: {'reason': reason}})
+            await db.fed_bans.update_one({'_id': data['_id']}, {operation: {'reason': reason}})
             return await message.reply(strings['update_fban'].format(reason=reason))
         await message.reply(strings['already_fbanned'].format(user=await get_user_link(user_id)))
         return
@@ -616,7 +616,7 @@ async def fed_ban_user(message, fed, user, reason, strings):
     num = len(fed['chats']) if 'chats' in fed else 0
     msg = await message.reply(text + strings['fbanned_process'].format(num=num))
 
-    user = await db.get().user_list.find_one({'user_id': user_id})
+    user = await db.user_list.find_one({'user_id': user_id})
 
     banned_chats = []
 
@@ -642,7 +642,7 @@ async def fed_ban_user(message, fed, user, reason, strings):
     if reason:
         new['reason'] = reason
 
-    await db.get().fed_bans.insert_one(new)
+    await db.fed_bans.insert_one(new)
 
     channel_text = strings['fban_log_fed_log'].format(
         fed_name=html.escape(fed['fed_name'], False),
@@ -675,7 +675,7 @@ async def fed_ban_user(message, fed, user, reason, strings):
 
         all_banned_chats_count = 0
         for s_fed_id in sfeds_list:
-            if await db.get().fed_bans.find_one({'fed_id': s_fed_id, 'user_id': user_id}) is not None:
+            if await db.fed_bans.find_one({'fed_id': s_fed_id, 'user_id': user_id}) is not None:
                 # user is already banned in subscribed federation, skip
                 continue
             s_fed = await get_fed_by_id(s_fed_id)
@@ -711,7 +711,7 @@ async def fed_ban_user(message, fed, user, reason, strings):
                     if reason:
                         new['reason'] = reason
 
-            await db.get().fed_bans.insert_one(new)
+            await db.fed_bans.insert_one(new)
 
         await msg.edit_text(text + strings['fbanned_subs_done'].format(
             chats=this_fed_banned_count,
@@ -748,7 +748,7 @@ async def unfed_ban_user(message, fed, user, text, strings):
         await message.reply(strings['unfban_self'])
         return
 
-    elif not (banned := await db.get().fed_bans.find_one({'fed_id': fed['fed_id'], 'user_id': user_id})):
+    elif not (banned := await db.fed_bans.find_one({'fed_id': fed['fed_id'], 'user_id': user_id})):
         await message.reply(strings['user_not_fbanned'].format(user=await get_user_link(user_id)))
         return
 
@@ -773,7 +773,7 @@ async def unfed_ban_user(message, fed, user, text, strings):
         if await unban_user(chat_id, user_id):
             counter += 1
 
-    await db.get().fed_bans.delete_one({'fed_id': fed['fed_id'], 'user_id': user_id})
+    await db.fed_bans.delete_one({'fed_id': fed['fed_id'], 'user_id': user_id})
 
     channel_text = strings['un_fban_log_fed_log'].format(
         fed_name=html.escape(fed['fed_name'], False),
@@ -795,10 +795,10 @@ async def unfed_ban_user(message, fed, user, text, strings):
         all_unbanned_chats_count = 0
         for sfed_id in sfeds_list:
             # revision 19/10/2020: unfbans only those who got banned by `this` fed
-            ban = await db.get().fed_bans.find_one({'fed_id': sfed_id, 'origin_fed': fed['fed_id'], 'user_id': user_id})
+            ban = await db.fed_bans.find_one({'fed_id': sfed_id, 'origin_fed': fed['fed_id'], 'user_id': user_id})
             if ban is None:
                 # probably old fban
-                ban = await db.get().fed_bans.find_one({'fed_id': sfed_id, 'user_id': user_id})
+                ban = await db.fed_bans.find_one({'fed_id': sfed_id, 'user_id': user_id})
                 # if ban['time'] > `replace here with datetime of release of v2.2`:
                 #    continue
             banned_chats = []
@@ -810,7 +810,7 @@ async def unfed_ban_user(message, fed, user, text, strings):
                 if await unban_user(chat_id, user_id):
                     all_unbanned_chats_count += 1
 
-                    await db.get().fed_bans.delete_one({'fed_id': sfed_id, 'user_id': user_id})
+                    await db.fed_bans.delete_one({'fed_id': sfed_id, 'user_id': user_id})
 
         await msg.edit_text(text + strings['un_fbanned_subs_done'].format(
             chats=this_fed_unbanned_count,
@@ -856,18 +856,18 @@ async def del_fed_func(event, strings, callback_data=None, **kwargs):
     if event.from_user.id != int(fed_owner):
         return
 
-    await db.get().feds.delete_one({'fed_id': fed_id})
+    await db.feds.delete_one({'fed_id': fed_id})
     await get_fed_by_id.reset_cache(fed_id)
     await get_fed_by_creator.reset_cache(int(fed_owner))
-    async for subscribed_fed in db.get().feds.find({'subscribed': fed_id}):
-        await db.get().feds.update_one(
+    async for subscribed_fed in db.feds.find({'subscribed': fed_id}):
+        await db.feds.update_one(
             {'_id': subscribed_fed['_id']},
             {'$pull': {'subscribed': fed_id}}
         )
         await get_fed_by_id.reset_cache(subscribed_fed['fed_id'])
 
     # delete all fbans of it
-    await db.get().fed_bans.delete_many({'fed_id': fed_id})
+    await db.fed_bans.delete_many({'fed_id': fed_id})
 
     await event.message.edit_text(strings['delfed_success'])
 
@@ -896,7 +896,7 @@ async def fed_rename(message, fed, strings):
         await message.reply(strings['frename_same_name'])
         return
 
-    await db.get().feds.update_one({'_id': fed['_id']}, {'$set': {'fed_name': new_name}})
+    await db.feds.update_one({'_id': fed['_id']}, {'$set': {'fed_name': new_name}})
     await get_fed_by_id.reset_cache(fed['fed_id'])
     await message.reply(strings['frename_success'].format(
         old_name=html.escape(fed['fed_name'], False), new_name=html.escape(new_name, False))
@@ -921,9 +921,9 @@ async def fban_export(message, fed, strings):
     msg = await message.reply(strings['creating_fbanlist'])
     fields = ['user_id', 'reason', 'by', 'time', 'banned_chats']
     with io.StringIO() as f:
-        writer = csv.DictWriter(f, fields)
+        writer = csv.dictWriter(f, fields)
         writer.writeheader()
-        async for banned_data in db.get().fed_bans.find({'fed_id': fed_id}):
+        async for banned_data in db.fed_bans.find({'fed_id': fed_id}):
             await asyncio.sleep(0)
 
             data = {'user_id': banned_data['user_id']}
@@ -1009,7 +1009,7 @@ async def importfbans_func(message, fed, strings, document=None):
         except ValueError:
             return await message.reply(strings['invalid_file'])
     elif file_type == 'csv':
-        data = csv.DictReader(io.TextIOWrapper(f))
+        data = csv.dictReader(io.TextIOWrapper(f))
 
     real_counter = 0
 
@@ -1059,8 +1059,8 @@ async def importfbans_func(message, fed, strings, document=None):
 
             # Make delete operation ordered before inserting.
             if queue_del:
-                await db.get().fed_bans.bulk_write(queue_del, ordered=False)
-            await db.get().fed_bans.bulk_write(queue_insert, ordered=False)
+                await db.fed_bans.bulk_write(queue_del, ordered=False)
+            await db.fed_bans.bulk_write(queue_insert, ordered=False)
 
             queue_del = []
             queue_insert = []
@@ -1068,9 +1068,9 @@ async def importfbans_func(message, fed, strings, document=None):
     # Process last bans
     real_counter += len(queue_insert)
     if queue_del:
-        await db.get().fed_bans.bulk_write(queue_del, ordered=False)
+        await db.fed_bans.bulk_write(queue_del, ordered=False)
     if queue_insert:
-        await db.get().fed_bans.bulk_write(queue_insert, ordered=False)
+        await db.fed_bans.bulk_write(queue_insert, ordered=False)
 
     await msg.edit_text(strings['import_done'].format(num=real_counter))
 
@@ -1107,7 +1107,7 @@ async def check_fbanned(message: Message, chat, strings):
     if 'subscribed' in fed:
         feds_list.extend(fed['subscribed'])
 
-    if ban := await db.get().fed_bans.find_one({'fed_id': {'$in': feds_list}, 'user_id': user_id}):
+    if ban := await db.fed_bans.find_one({'fed_id': {'$in': feds_list}, 'user_id': user_id}):
 
         # check whether banned fed_id is chat's fed id else
         # user is banned in sub fed
@@ -1134,7 +1134,7 @@ async def check_fbanned(message: Message, chat, strings):
 
         await message.reply(text)
 
-        await db.get().fed_bans.update_one({'_id': ban['_id']}, {"$addToSet": {'banned_chats': chat_id}})
+        await db.fed_bans.update_one({'_id': ban['_id']}, {"$addToSet": {'banned_chats': chat_id}})
 
 
 @register(cmds=['fcheck', 'fbanstat'])
@@ -1144,14 +1144,14 @@ async def fedban_check(message, fed, user, _, strings):
     fbanned_fed = False  # A variable to find if user is banned in current fed of chat
     fban_data = None
 
-    total_count = await db.get().fed_bans.count_documents({'user_id': user['user_id']})
+    total_count = await db.fed_bans.count_documents({'user_id': user['user_id']})
     if fed:
         fed_list = [fed['fed_id']]
         # check fbanned in subscribed
         if 'subscribed' in fed:
             fed_list.extend(fed['subscribed'])
 
-        if fban_data := await db.get().fed_bans.find_one({'user_id': user['user_id'], 'fed_id': {'$in': fed_list}}):
+        if fban_data := await db.fed_bans.find_one({'user_id': user['user_id'], 'fed_id': {'$in': fed_list}}):
             fbanned_fed = True
 
             # re-assign fed if user is banned in sub-fed
@@ -1182,7 +1182,7 @@ async def fedban_check(message, fed, user, _, strings):
             text += strings['fbanned_count_pm'].format(count=total_count)
             if total_count > 0:
                 count = 0
-                async for fban in db.get().fed_bans.find({'user_id': user['user_id']}):
+                async for fban in db.fed_bans.find({'user_id': user['user_id']}):
                     count += 1
                     _fed = await get_fed_by_id(fban['fed_id'])
                     if _fed:
@@ -1218,23 +1218,23 @@ async def fedban_check(message, fed, user, _, strings):
 
 @cached()
 async def get_fed_by_id(fed_id: str) -> Optional[dict]:
-    return await db.get().feds.find_one({'fed_id': fed_id})
+    return await db.feds.find_one({'fed_id': fed_id})
 
 
 @cached()
 async def get_fed_by_creator(creator: int) -> Optional[dict]:
-    return await db.get().feds.find_one({'creator': creator})
+    return await db.feds.find_one({'creator': creator})
 
 
 async def __export__(chat_id):
-    if chat_fed := await db.get().feds.find_one({'chats': [chat_id]}):
+    if chat_fed := await db.feds.find_one({'chats': [chat_id]}):
         return {'feds': {'fed_id': chat_fed['fed_id']}}
 
 
 async def __import__(chat_id, data):
     if fed_id := data['fed_id']:
-        if current_fed := await db.get().feds.find_one({'chats': [int(chat_id)]}):
-            await db.get().feds.update_one({'_id': current_fed['_id']}, {'$pull': {'chats': chat_id}})
+        if current_fed := await db.feds.find_one({'chats': [int(chat_id)]}):
+            await db.feds.update_one({'_id': current_fed['_id']}, {'$pull': {'chats': chat_id}})
             await get_fed_by_id.reset_cache(current_fed['fed_id'])
-        await db.get().feds.update_one({'fed_id': fed_id}, {'$addToSet': {'chats': chat_id}})
+        await db.feds.update_one({'fed_id': fed_id}, {'$addToSet': {'chats': chat_id}})
         await get_fed_by_id.reset_cache(fed_id)

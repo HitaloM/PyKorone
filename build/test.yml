@@ -1,0 +1,24 @@
+test-codestyle:
+  stage: test
+  image: d21d3q/python-poetry
+  before_script:
+    - poetry install --with dev
+  script:
+    - poetry run make test_code_style
+
+
+test-code:
+  variables:
+    TOKEN: "123456:test"
+  stage: test
+  image: d21d3q/python-poetry
+  before_script:
+    - poetry install --with dev
+    - poetry run make new_locale
+  script:
+    - poetry run make test_code
+  artifacts:
+    when: always
+    paths:
+      - allure_results
+    expire_in: 1 day
