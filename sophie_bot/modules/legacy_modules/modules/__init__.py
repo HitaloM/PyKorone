@@ -25,7 +25,7 @@ LOADED_MODULES = []
 
 
 def list_all_modules() -> list:
-    modules_directory = 'sophie_bot/legacy_modules'
+    modules_directory = 'sophie_bot/modules/legacy_modules/modules'
 
     all_modules = []
     for module_name in os.listdir(modules_directory):

@@ -23,11 +23,11 @@ from aiogram import F
 from telethon.errors.rpcerrorlist import MessageDeleteForbiddenError
 
 from sophie_bot import bot, dp
-from sophie_bot.services.telethon import tbot
-from .utils.language import get_strings_dec
-from .utils.notes import BUTTONS
-from .utils.register import register
 from sophie_bot.filters.admin_rights import UserRestricting, BotHasPermissions
+from sophie_bot.modules.legacy_modules.utils.language import get_strings_dec
+from sophie_bot.modules.legacy_modules.utils.notes import BUTTONS
+from sophie_bot.modules.legacy_modules.utils.register import register
+from sophie_bot.services.telethon import tbot
 
 
 @register(BotHasPermissions(can_delete_messages=True), UserRestricting(can_delete_messages=True), cmds="del")

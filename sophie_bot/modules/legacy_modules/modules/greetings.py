@@ -35,20 +35,21 @@ from babel.dates import format_timedelta
 from captcha.image import ImageCaptcha
 from telethon.tl.custom import Button
 
-from sophie_bot.legacy_modules.utils.message import need_args_dec, convert_time, get_args_str
-from sophie_bot.legacy_modules.utils.register import register
+from sophie_bot import CONFIG, bot, dp
+from sophie_bot.modules.legacy_modules.utils.connections import chat_connection
+from sophie_bot.modules.legacy_modules.utils.language import get_strings_dec
+from sophie_bot.modules.legacy_modules.utils.message import need_args_dec, convert_time, get_args_str
+from sophie_bot.modules.legacy_modules.utils.notes import get_parsed_note_list, t_unparse_note_item, send_note
+from sophie_bot.modules.legacy_modules.utils.register import register
+from sophie_bot.modules.legacy_modules.utils.restrictions import mute_user, unmute_user, kick_user, restrict_user
+from sophie_bot.modules.legacy_modules.utils.user_details import is_user_admin, get_user_link, \
+    check_admin_rights
 from sophie_bot.services.apscheduller import scheduler
 from sophie_bot.services.db import db
 from sophie_bot.services.redis import redis
 from sophie_bot.services.telethon import tbot
 from sophie_bot.stuff.fonts import ALL_FONTS
-from .utils.connections import chat_connection
-from .utils.language import get_strings_dec
-from .utils.notes import get_parsed_note_list, t_unparse_note_item, send_note
-from .utils.restrictions import mute_user, restrict_user, unmute_user, kick_user
-from .utils.user_details import is_user_admin, get_user_link, check_admin_rights
-from .. import CONFIG, bot, dp
-from ..utils.cached import cached
+from sophie_bot.utils.cached import cached
 
 
 class WelcomeSecurityState(StatesGroup):

@@ -3,14 +3,14 @@
 from aiogram import F
 from aiogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 
-from sophie_bot.legacy_modules.utils.message import get_arg, need_args_dec
-from sophie_bot.legacy_modules.utils.register import register, COMMANDS_ALIASES
-from sophie_bot.services.db import db
-from .utils.connections import chat_connection
-from .utils.disable import DISABLABLE_COMMANDS, disableable_dec
-from .utils.language import get_strings_dec
-from .. import dp
+from sophie_bot import dp
 from sophie_bot.filters.user_status import IsAdmin
+from sophie_bot.modules.legacy_modules.utils.connections import chat_connection
+from sophie_bot.modules.legacy_modules.utils.disable import DISABLABLE_COMMANDS, disableable_dec
+from sophie_bot.modules.legacy_modules.utils.language import get_strings_dec
+from sophie_bot.modules.legacy_modules.utils.message import get_arg, need_args_dec
+from sophie_bot.modules.legacy_modules.utils.register import register, COMMANDS_ALIASES
+from sophie_bot.services.db import db
 
 
 #

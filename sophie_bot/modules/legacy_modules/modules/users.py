@@ -6,14 +6,15 @@ from aiogram import BaseMiddleware
 from aiogram.types import TelegramObject, Message
 
 from sophie_bot import dp
-from sophie_bot.legacy_modules import LOADED_MODULES
+from sophie_bot.modules.legacy_modules.modules import LOADED_MODULES
+from sophie_bot.modules.legacy_modules.utils.connections import chat_connection
+from sophie_bot.modules.legacy_modules.utils.disable import disableable_dec
+from sophie_bot.modules.legacy_modules.utils.language import get_strings_dec
+from sophie_bot.modules.legacy_modules.utils.register import register
+from sophie_bot.modules.legacy_modules.utils.user_details import get_user_dec, get_user_link, is_user_admin, \
+    get_admins_rights
 from sophie_bot.services.db import db
 from sophie_bot.utils.logger import log
-from .utils.connections import chat_connection
-from .utils.disable import disableable_dec
-from .utils.language import get_strings_dec
-from .utils.register import register
-from .utils.user_details import get_user_dec, get_user_link, is_user_admin, get_admins_rights
 
 
 async def update_users_handler(message: Message):

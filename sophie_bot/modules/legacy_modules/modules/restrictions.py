@@ -24,17 +24,18 @@ from contextlib import suppress
 from aiogram.exceptions import TelegramBadRequest
 from babel.dates import format_timedelta
 
-from sophie_bot.legacy_modules.utils.message import InvalidTimeUnit, get_cmd, convert_time
+from sophie_bot import CONFIG, bot
+from sophie_bot.filters.admin_rights import BotHasPermissions, UserRestricting
+from sophie_bot.modules.legacy_modules.utils.language import get_strings_dec
+from sophie_bot.modules.legacy_modules.utils.message import InvalidTimeUnit, get_cmd, convert_time
+from sophie_bot.modules.legacy_modules.utils.register import register
+from sophie_bot.modules.legacy_modules.utils.user_details import get_user_dec, get_user_link, is_user_admin, \
+    get_user_and_text_dec
 from sophie_bot.services.redis import redis
 from sophie_bot.services.telethon import tbot
 from .misc import customise_reason_finish, customise_reason_start
-from .utils.connections import chat_connection
-from .utils.language import get_strings_dec
-from .utils.register import register
-from .utils.restrictions import kick_user, mute_user, unmute_user, ban_user, unban_user
-from .utils.user_details import get_user_dec, get_user_link, is_user_admin, get_user_and_text_dec
-from .. import CONFIG, bot
-from sophie_bot.filters.admin_rights import BotHasPermissions, UserRestricting
+from ..utils.connections import chat_connection
+from ..utils.restrictions import unban_user, mute_user, ban_user, kick_user, unmute_user
 
 
 @register(BotHasPermissions(can_restrict_members=True), UserRestricting(can_restrict_members=True),

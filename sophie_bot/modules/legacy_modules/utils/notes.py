@@ -30,14 +30,14 @@ from telethon.errors import (
 )
 from telethon.tl.custom import Button
 
-import sophie_bot.legacy_modules.utils.tmarkdown as tmarkdown
-from sophie_bot.legacy_modules.utils.message import get_args, get_args_str, get_cmd
+import sophie_bot.modules.legacy_modules.utils.tmarkdown as tmarkdown
+from sophie_bot import CONFIG
+from sophie_bot.modules.legacy_modules.utils.message import get_args, get_args_str, get_cmd
 from sophie_bot.services.telethon import tbot
+from sophie_bot.utils.logger import log
 from .language import get_chat_lang
 from .tmarkdown import tbold, titalic, tpre, tcode, tlink, tstrikethrough, tunderline
 from .user_details import get_user_link
-from ... import CONFIG
-from ...utils.logger import log
 
 BUTTONS = {}
 

@@ -24,15 +24,15 @@ from aiogram.filters.callback_data import CallbackData
 from aiogram.types import CallbackQuery, InlineKeyboardMarkup, InlineKeyboardButton
 
 from sophie_bot import bot, dp
-from sophie_bot.legacy_modules.utils.deep_linking import get_start_link
-from sophie_bot.legacy_modules.utils.message import get_arg, get_args_str
-from sophie_bot.legacy_modules.utils.register import register
+from sophie_bot.modules.legacy_modules.utils.connections import set_connected_chat, get_connection_data, chat_connection
+from sophie_bot.modules.legacy_modules.utils.deep_linking import get_start_link
+from sophie_bot.modules.legacy_modules.utils.language import get_strings_dec
+from sophie_bot.modules.legacy_modules.utils.message import get_arg, get_args_str
+from sophie_bot.modules.legacy_modules.utils.notes import BUTTONS
+from sophie_bot.modules.legacy_modules.utils.register import register
+from sophie_bot.modules.legacy_modules.utils.user_details import get_chat_dec, is_user_admin
 from sophie_bot.services.db import db
 from sophie_bot.services.redis import redis
-from .utils.connections import chat_connection, set_connected_chat, get_connection_data
-from .utils.language import get_strings_dec
-from .utils.notes import BUTTONS
-from .utils.user_details import get_chat_dec, is_user_admin
 
 
 class ConnectToChatCb(CallbackData, prefix="connect_to_chat_cb"):

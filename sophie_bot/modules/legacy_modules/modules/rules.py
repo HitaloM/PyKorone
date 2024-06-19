@@ -1,16 +1,16 @@
 from aiogram import F
 from aiogram.filters import CommandStart
 
-from sophie_bot.services.db import db
-from .utils.connections import chat_connection
-from .utils.disable import disableable_dec
-from .utils.language import get_strings_dec
-from .utils.message import get_args_str
-from .utils.notes import (
+from sophie_bot.modules.legacy_modules.utils.connections import chat_connection
+from sophie_bot.modules.legacy_modules.utils.disable import disableable_dec
+from sophie_bot.modules.legacy_modules.utils.language import get_strings_dec
+from sophie_bot.modules.legacy_modules.utils.message import get_args_str
+from sophie_bot.modules.legacy_modules.utils.notes import (
     ALLOWED_COLUMNS, BUTTONS, get_parsed_note_list,
     send_note, t_unparse_note_item
 )
-from .utils.register import register
+from sophie_bot.modules.legacy_modules.utils.register import register
+from sophie_bot.services.db import db
 
 
 @register(cmds=['setrules', 'saverules'], user_admin=True)

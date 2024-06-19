@@ -7,7 +7,7 @@ from aiogram import Dispatcher, Router
 from sophie_bot.utils.logger import log
 
 LOADED_MODULES: Dict[str, ModuleType] = {}
-MODULES = ["error"]
+MODULES = ["error", "legacy_modules"]
 
 
 def load_modules(dp: Union[Dispatcher, Router], to_load: Sequence[str], to_not_load: Sequence[str] = ()):

@@ -26,20 +26,20 @@ from aiogram.types import Message, InlineKeyboardMarkup, InlineKeyboardButton
 from babel.dates import format_timedelta
 from bson.objectid import ObjectId
 
-from sophie_bot.legacy_modules.utils.message import convert_time, InvalidTimeUnit, get_args_str
-from sophie_bot.services.db import db
-from .misc import customise_reason_start, customise_reason_finish
-from .utils.connections import chat_connection
-from .utils.deep_linking import get_start_link
-from .utils.language import get_strings_dec
-from .utils.register import register
-from .utils.restrictions import ban_user, mute_user
-from .utils.user_details import (
+from sophie_bot import bot, dp, CONFIG
+from sophie_bot.filters.admin_rights import UserRestricting
+from sophie_bot.modules.legacy_modules.utils.deep_linking import get_start_link
+from sophie_bot.modules.legacy_modules.utils.language import get_strings_dec
+from sophie_bot.modules.legacy_modules.utils.message import convert_time, InvalidTimeUnit, get_args_str
+from sophie_bot.modules.legacy_modules.utils.register import register
+from sophie_bot.modules.legacy_modules.utils.user_details import (
     get_user_and_text_dec, get_user_dec,
     get_user_link, is_user_admin
 )
-from .. import bot, dp, CONFIG
-from sophie_bot.filters.admin_rights import UserRestricting
+from sophie_bot.services.db import db
+from .misc import customise_reason_start, customise_reason_finish
+from ..utils.connections import chat_connection
+from ..utils.restrictions import mute_user, ban_user
 
 
 @register(cmds='warn', user_can_restrict_members=True, bot_can_restrict_members=True)

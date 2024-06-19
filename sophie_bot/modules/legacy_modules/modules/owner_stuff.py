@@ -4,13 +4,13 @@ import os
 import ujson
 
 from sophie_bot.config import CONFIG
-from sophie_bot.legacy_modules import LOADED_MODULES
+from sophie_bot.filters.user_status import IsOP
+from sophie_bot.modules.legacy_modules.modules import LOADED_MODULES
+from sophie_bot.modules.legacy_modules.utils.language import get_strings_dec
+from sophie_bot.modules.legacy_modules.utils.register import register, REGISTRED_COMMANDS
 from sophie_bot.services.db import db
 from sophie_bot.services.redis import redis
 from sophie_bot.utils.i18n import gettext as _
-from .utils.language import get_strings_dec
-from .utils.register import register, REGISTRED_COMMANDS
-from sophie_bot.filters.user_status import IsOP
 
 
 @register(IsOP(True), cmds="event")

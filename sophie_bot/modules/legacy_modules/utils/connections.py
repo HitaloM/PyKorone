@@ -17,7 +17,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 from aiogram.exceptions import TelegramUnauthorizedError
 
-from sophie_bot.legacy_modules.utils.user_details import is_user_admin
+from sophie_bot.modules.legacy_modules.utils.user_details import is_user_admin
 from sophie_bot.services.db import db
 from sophie_bot.services.redis import redis
 from sophie_bot.utils.cached import cached

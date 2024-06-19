@@ -7,8 +7,8 @@ from aiogram.types import TelegramObject
 from aiogram.types.callback_query import CallbackQuery
 
 from sophie_bot import CONFIG
-from sophie_bot.legacy_modules.utils.language import get_strings
-from sophie_bot.legacy_modules.utils.user_details import check_admin_rights
+from sophie_bot.modules.legacy_modules.utils.language import get_strings
+from sophie_bot.modules.legacy_modules.utils.user_details import check_admin_rights
 
 
 @dataclass

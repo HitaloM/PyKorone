@@ -24,11 +24,11 @@ from aiogram import F
 from aiogram.exceptions import TelegramBadRequest
 from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 
-from sophie_bot.legacy_modules.utils.disable import disableable_dec
+from sophie_bot import CONFIG, dp
+from sophie_bot.modules.legacy_modules.utils.disable import disableable_dec
+from sophie_bot.modules.legacy_modules.utils.language import get_strings_dec
+from sophie_bot.modules.legacy_modules.utils.register import register
 from .language import select_lang_keyboard
-from .utils.language import get_strings_dec
-from .utils.register import register
-from .. import CONFIG, dp
 
 
 @register(cmds='start', no_args=True, only_groups=True)

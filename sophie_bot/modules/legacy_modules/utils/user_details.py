@@ -29,7 +29,7 @@ from telethon.tl.functions.users import GetFullUserRequest
 
 from sophie_bot import bot
 from sophie_bot.config import CONFIG
-from sophie_bot.legacy_modules.utils.message import get_arg, get_args_str
+from sophie_bot.modules.legacy_modules.utils.message import get_arg, get_args_str
 from sophie_bot.services.db import db
 from sophie_bot.services.redis import bredis
 from sophie_bot.services.telethon import tbot

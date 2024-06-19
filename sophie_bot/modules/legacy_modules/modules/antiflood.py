@@ -30,18 +30,18 @@ from aiogram.types import Message, InlineKeyboardMarkup, InlineKeyboardButton, T
 from babel.dates import format_timedelta
 
 from sophie_bot import dp
+from sophie_bot.filters.admin_rights import UserRestricting, BotHasPermissions
 from sophie_bot.filters.cmd import CMDFilter
-from sophie_bot.legacy_modules.utils.connections import chat_connection
-from sophie_bot.legacy_modules.utils.language import get_strings_dec, get_strings
-from sophie_bot.legacy_modules.utils.message import convert_time, get_args, need_args_dec, get_args_str
-from sophie_bot.legacy_modules.utils.register import register
-from sophie_bot.legacy_modules.utils.restrictions import ban_user, kick_user, mute_user
-from sophie_bot.legacy_modules.utils.user_details import is_user_admin, get_user_link
+from sophie_bot.filters.user_status import IsAdmin
+from sophie_bot.modules.legacy_modules.utils.connections import chat_connection
+from sophie_bot.modules.legacy_modules.utils.language import get_strings_dec, get_strings
+from sophie_bot.modules.legacy_modules.utils.message import convert_time, get_args, need_args_dec, get_args_str
+from sophie_bot.modules.legacy_modules.utils.register import register
+from sophie_bot.modules.legacy_modules.utils.restrictions import ban_user, kick_user, mute_user
+from sophie_bot.modules.legacy_modules.utils.user_details import is_user_admin, get_user_link
 from sophie_bot.services.db import db
 from sophie_bot.services.redis import bredis, redis
 from sophie_bot.utils.cached import cached
-from sophie_bot.filters.admin_rights import UserRestricting, BotHasPermissions
-from sophie_bot.filters.user_status import IsAdmin
 from sophie_bot.utils.logger import log
 
 

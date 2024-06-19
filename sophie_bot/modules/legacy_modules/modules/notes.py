@@ -12,18 +12,19 @@ from pymongo import ReplaceOne
 from telethon.errors.rpcerrorlist import MessageDeleteForbiddenError
 
 from sophie_bot import bot, dp
-from sophie_bot.legacy_modules.utils.message import get_arg, need_args_dec, get_args_str
+from sophie_bot.filters.user_status import IsAdmin
+from sophie_bot.modules.legacy_modules.utils.connections import chat_connection, set_connected_command
+from sophie_bot.modules.legacy_modules.utils.deep_linking import get_start_link
+from sophie_bot.modules.legacy_modules.utils.disable import disableable_dec
+from sophie_bot.modules.legacy_modules.utils.language import get_strings_dec, get_string
+from sophie_bot.modules.legacy_modules.utils.message import get_arg, need_args_dec, get_args_str
+from sophie_bot.modules.legacy_modules.utils.notes import BUTTONS, ALLOWED_COLUMNS, get_parsed_note_list, \
+    t_unparse_note_item, send_note
+from sophie_bot.modules.legacy_modules.utils.register import register
+from sophie_bot.modules.legacy_modules.utils.user_details import get_user_link
 from sophie_bot.services.db import db
 from sophie_bot.services.redis import redis
 from sophie_bot.services.telethon import tbot
-from .utils.connections import chat_connection, set_connected_command
-from .utils.deep_linking import get_start_link
-from .utils.disable import disableable_dec
-from .utils.language import get_strings_dec, get_string
-from .utils.notes import BUTTONS, ALLOWED_COLUMNS, get_parsed_note_list, t_unparse_note_item, send_note
-from .utils.register import register
-from .utils.user_details import get_user_link
-from sophie_bot.filters.user_status import IsAdmin
 
 RESTRICTED_SYMBOLS_IN_NOTENAMES = [':', '**', '__', '`', '#', '"', '[', ']', "'", '$', '||']
 

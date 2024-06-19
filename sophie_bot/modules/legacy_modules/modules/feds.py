@@ -40,22 +40,22 @@ from aiogram.types import InputFile, Message, InlineKeyboardMarkup, InlineKeyboa
 from babel.dates import format_timedelta
 from pymongo import DeleteMany, InsertOne
 
+from sophie_bot import bot, dp
 from sophie_bot.config import CONFIG
-from sophie_bot.legacy_modules.utils.message import need_args_dec, get_cmd, get_args_str
-from sophie_bot.legacy_modules.utils.register import register
-from sophie_bot.services.db import db
-from sophie_bot.services.redis import redis
-from sophie_bot.services.telethon import tbot
-from .utils.connections import get_connected_chat, chat_connection
-from .utils.language import get_strings_dec, get_strings, get_string
-from .utils.restrictions import ban_user, unban_user
-from .utils.user_details import (
+from sophie_bot.modules.legacy_modules.utils.connections import get_connected_chat, chat_connection
+from sophie_bot.modules.legacy_modules.utils.language import get_strings_dec, get_strings, get_string
+from sophie_bot.modules.legacy_modules.utils.message import need_args_dec, get_cmd, get_args_str
+from sophie_bot.modules.legacy_modules.utils.register import register
+from sophie_bot.modules.legacy_modules.utils.restrictions import ban_user, unban_user
+from sophie_bot.modules.legacy_modules.utils.user_details import (
     is_chat_creator, get_user_link, get_user_and_text, check_admin_rights,
     is_user_admin, get_chat_dec
 )
-from .. import bot, dp
-from ..utils.cached import cached
-from ..utils.logger import log
+from sophie_bot.services.db import db
+from sophie_bot.services.redis import redis
+from sophie_bot.services.telethon import tbot
+from sophie_bot.utils.cached import cached
+from sophie_bot.utils.logger import log
 
 
 class ImportFbansFileWait(StatesGroup):

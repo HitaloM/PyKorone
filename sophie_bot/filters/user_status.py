@@ -2,8 +2,8 @@ from aiogram import types
 from aiogram.filters import Filter
 
 from sophie_bot.config import CONFIG
-from sophie_bot.legacy_modules.utils.language import get_strings_dec
-from sophie_bot.legacy_modules.utils.user_details import is_user_admin
+from sophie_bot.modules.legacy_modules.utils.language import get_strings_dec
+from sophie_bot.modules.legacy_modules.utils.user_details import is_user_admin
 from sophie_bot.services.db import db
 
 
