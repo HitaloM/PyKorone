@@ -19,12 +19,11 @@ class SaveChatsMiddleware(BaseMiddleware):
 
     @staticmethod
     async def _chats_update(chats: Iterable[Chat | User]):
-        if not chats:
-            return
-
-        await ChatModel.do_bulk_upsert(
-            (ChatModel.get_user_model(x) if isinstance(x, User) else ChatModel.get_group_model(x) for x in chats)
-        )
+        for chat in chats:
+            if isinstance(chat, User):
+                await ChatModel.upsert_user(chat)
+            else:
+                await ChatModel.upsert_group(chat)
 
     @staticmethod
     async def handle_replied_message(reply_message: Message, chat_id: int) -> List[Chat | User]:
@@ -51,9 +50,7 @@ class SaveChatsMiddleware(BaseMiddleware):
         return chats_to_update
 
     @staticmethod
-    async def save_topic(message: Message, group_id: int):
-        # if message.is_topic_message or message.forum_topic_created or message.forum_topic_edited:
-
+    async def save_topic(message: Message, group: ChatModel):
         if message.forum_topic_created:
             name = message.forum_topic_created.name
         elif message.forum_topic_edited:
@@ -63,7 +60,7 @@ class SaveChatsMiddleware(BaseMiddleware):
         else:
             return
 
-        await ChatTopicModel.ensure_topic(group_id, message.message_thread_id, name)
+        await ChatTopicModel.ensure_topic(group, message.message_thread_id, name)
 
     @staticmethod
     async def close_topic(message: Message, group_id: int):
@@ -72,12 +69,13 @@ class SaveChatsMiddleware(BaseMiddleware):
 
     @staticmethod
     async def update_from_user(
-            message: Message, chat_id: int, current_group: ChatModel
+            message: Message,
+            current_group: ChatModel
     ) -> Tuple[Optional[ChatModel], Optional[UserInGroupModel]]:
         if not message.from_user:
             return None, None
 
-        if message.sender_chat and message.sender_chat.id == chat_id:
+        if message.sender_chat and message.sender_chat.id == current_group.chat_id:
             return None, None
 
         if message.sender_chat:  # Sent as channel/group
@@ -85,7 +83,7 @@ class SaveChatsMiddleware(BaseMiddleware):
         else:
             current_user = await ChatModel.upsert_user(message.from_user)
 
-        user_in_group = await UserInGroupModel.ensure_user_in_group(current_user.id, current_group.id)
+        user_in_group = await UserInGroupModel.ensure_user_in_group(current_user, current_group)
         return current_user, user_in_group
 
     async def handle_message(self, message: Message, data: dict[str, Any]):
@@ -93,80 +91,71 @@ class SaveChatsMiddleware(BaseMiddleware):
         if await self._handle_migration(data, message):
             return
 
-        chat = message.chat
+        # Update current user and group
+        chat_id = message.chat.id
+        chat = await self._handle_private_and_group_message(data, message, chat_id)
 
-        await self._handle_private_and_group_message(data, message, chat.id)
-
-        group_id = data["chat_db"].id
+        if message.chat.type not in ("group", "supergroup"):
+            return
 
         # Update other users
-        chats_to_update = await self._handle_message_update(message, chat.id, group_id)
+        chats_to_update = await self._handle_message_update(message, chat)
+        await self._chats_update(chats_to_update)
+        data["updated_chats"] = chats_to_update
+
+        # Forum topics
+        await self.save_topic(message, chat)
 
         # New chat members / removed chat member
-        if chat.type in ("group", "supergroup"):
-            await self._handle_member_updates(message, group_id)
-
-        await self._chats_update(chats_to_update)
-
-        data["updated_chats"] = chats_to_update
+        await self._handle_member_updates(message, chat)
 
     @staticmethod
     async def _handle_migration(data: dict, message: Message):
-        if message.migrate_from_chat_id or message.migrate_to_chat_id:
-            if message.migrate_from_chat_id:
-                data["chat_db"] = data["group_db"] = await ChatModel.do_chat_migrate(
-                    old_id=message.migrate_from_chat_id, new_chat=message.chat
-                )
+        if message.migrate_from_chat_id:
+            data["chat_db"] = data["group_db"] = await ChatModel.do_chat_migrate(
+                old_id=message.migrate_from_chat_id, new_chat=message.chat
+            )
+            return True
+        elif message.migrate_to_chat_id:
             return True
         else:
             return False
 
-    async def _handle_private_and_group_message(self, data: dict, message: Message, chat_id: int):
+    async def _handle_private_and_group_message(self, data: dict, message: Message, chat_id: int) -> ChatModel:
+        """Returns current group/chat model"""
         if message.chat.type == "private" and message.from_user:
             user = (await ChatModel.upsert_user(message.from_user))
             data["chat_db"] = data["user_db"] = user
+            return user
         else:
             current_group = (await ChatModel.upsert_group(message.chat))
             data["chat_db"] = data["group_db"] = current_group
-            data["user_db"], data["user_in_group"] = await self.update_from_user(message, chat_id, current_group)
+            data["user_db"], data["user_in_group"] = await self.update_from_user(message, current_group)
+            return current_group
 
-    async def _handle_message_update(self, message: Message, chat_id: int, group_id: int):
-        chats_to_update = []
-
-        # We skip forum_topic_created because we will add this one in the next if case.
-        # Because replied message would have the name of the topic
-        if message.is_topic_message and not message.forum_topic_created:
-            await self.save_topic(message, group_id)
+    async def _handle_message_update(self, message: Message, group: ChatModel):
+        chats_to_update: list[Chat | User] = []
 
         if reply_message := message.reply_to_message:
             chat_id = reply_message.chat.id
-            await self.save_topic(message.reply_to_message, group_id)
+            await self.save_topic(message.reply_to_message, group)
             chats_to_update.extend(await self.handle_replied_message(reply_message, chat_id))
 
-        elif message.forward_from or (message.forward_from_chat and message.forward_from_chat.id != chat_id):
+        elif message.forward_from or (message.forward_from_chat and message.forward_from_chat.id != group.chat_id):
             chats_to_update.append(message.forward_from_chat or message.forward_from)
-
-        elif message.forum_topic_created:
-            await self.save_topic(message, group_id)
-
-        elif message.forum_topic_edited:
-            await self.save_topic(message, group_id)
-
-        elif message.forum_topic_closed:
-            await self.close_topic(message, group_id)
 
         return chats_to_update
 
-    async def _handle_member_updates(self, message: Message, group_id: int):
+    async def _handle_member_updates(self, message: Message, group: ChatModel):
         if message.new_chat_members:
             for member in message.new_chat_members:
                 new_user = (await ChatModel.upsert_user(member))[0]
-                await UserInGroupModel.ensure_user_in_group(new_user.id, group_id)
+                await UserInGroupModel.ensure_user_in_group(new_user, group)
         elif message.left_chat_member:
             if CONFIG.bot_id == message.left_chat_member.id:
-                await ChatModel.do_chat_delete(group_id)
+                await group.delete_chat()
             else:
-                await self._delete_user_in_chat_by_user_id(message.left_chat_member.id, group_id)
+                await self._delete_user_in_chat_by_user_id(message.left_chat_member.id, group.chat_id)
 
     @staticmethod
     async def save_from_user(data: dict):

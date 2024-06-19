@@ -4,13 +4,10 @@ from enum import Enum
 from typing import Optional, Annotated, Iterable, List, Any
 
 from aiogram.types import User, Chat
-from beanie import Document, Indexed, PydanticObjectId
+from beanie import Document, Indexed, PydanticObjectId, Link, BackLink, DeleteRules
+from beanie.odm.operators.update.general import Set
 from pydantic import Field
 from pymongo import InsertOne
-
-
-class ChatModel(Document):
-    lang: str
 
 
 class ChatType(Enum):
@@ -30,6 +27,20 @@ class ChatModel(Document):
 
     first_saw: datetime = Field(default_factory=datetime.utcnow)
     last_saw: datetime
+
+    # User in groups
+    user_in_groups: BackLink["UserInGroupModel"] = Field(original_field="user")
+    groups_of_user: BackLink["UserInGroupModel"] = Field(original_field="group")
+
+    # Topics
+    chat_topics: BackLink["ChatTopicModel"] = Field(original_field="group")
+
+    # Language
+    language: BackLink["LanguageModel"] = Field(original_field="chat")
+
+    # Connections
+    user_connected: BackLink["ChatConnectionModel"] = Field(original_field="user")
+    group_connected: BackLink["ChatConnectionModel"] = Field(original_field="group")
 
     class Settings:
         name = "chats"
@@ -65,7 +76,7 @@ class ChatModel(Document):
         return ChatModel(chat_id=chat.id, **ChatModel._get_group_data(chat))
 
     @staticmethod
-    async def upsert_user(user: User) -> ChatModel:
+    async def upsert_user(user: User) -> "ChatModel":
         data = ChatModel._get_user_data(user)
         existing_user: Optional[ChatModel] = await ChatModel.find_one(ChatModel.chat_id == user.id)
         if existing_user:
@@ -76,7 +87,7 @@ class ChatModel(Document):
         return new_user
 
     @staticmethod
-    async def upsert_group(chat: Chat) -> ChatModel:
+    async def upsert_group(chat: Chat) -> "ChatModel":
         data = ChatModel._get_group_data(chat)
         existing_group: Optional[ChatModel] = await ChatModel.find_one(ChatModel.chat_id == chat.id)
         if existing_group:
@@ -102,10 +113,13 @@ class ChatModel(Document):
             await chat.save()
         return chat
 
+    async def delete_chat(self):
+        await self.delete(link_rule=DeleteRules.DELETE_LINKS)
+
 
 class UserInGroupModel(Document):
-    user_id: PydanticObjectId
-    group_id: PydanticObjectId
+    user: Link[ChatModel]
+    group: Link[ChatModel]
     first_saw: datetime = Field(default_factory=datetime.utcnow)
     last_saw: datetime
 
@@ -113,34 +127,32 @@ class UserInGroupModel(Document):
         name = "users_in_groups"
 
     @staticmethod
-    async def ensure_user_in_group(user_id: PydanticObjectId, group_id: PydanticObjectId):
-        data = {
-            "user_id": user_id,
-            "group_id": group_id,
-            "last_saw": datetime.now(timezone.utc),
-        }
+    async def ensure_user_in_group(user: ChatModel, group: ChatModel):
+        current_timedate = datetime.now(timezone.utc)
 
-        existing_link: Optional[UserInGroupModel] = await UserInGroupModel.find_one(
-            UserInGroupModel.user_id == user_id, UserInGroupModel.group_id == group_id
+        return await UserInGroupModel.find_one(
+            UserInGroupModel.user.id == user.id, UserInGroupModel.group.id == group.id,
+        ).upsert(
+            Set({UserInGroupModel.last_saw: current_timedate}),
+            on_insert=UserInGroupModel(
+                user=user,
+                group=group,
+                last_saw=current_timedate,
+            )
         )
-        if existing_link:
-            return await existing_link.set(data)
-
-        new_link = UserInGroupModel(**data)
-        await new_link.save()
-        return new_link
 
     @staticmethod
-    async def remove_user_in_chat(user_id: PydanticObjectId, group_id: PydanticObjectId):
-        user_in_chat = await UserInGroupModel.find_one(UserInGroupModel.user == user_id,
-                                                       UserInGroupModel.group == group_id)
+    async def remove_user_in_chat(user_iid: PydanticObjectId, group_iid: PydanticObjectId):
+        user_in_chat = await UserInGroupModel.find_one(
+            UserInGroupModel.user.id == user_iid, UserInGroupModel.group.id == group_iid
+        )
         if user_in_chat:
             await user_in_chat.delete()
         return user_in_chat
 
 
 class ChatTopicModel(Document):
-    group_id: PydanticObjectId
+    group: Link[ChatModel]
     thread_id: int
     name: Optional[str] = None
     last_active: datetime = Field(default_factory=datetime.utcnow)
@@ -149,20 +161,15 @@ class ChatTopicModel(Document):
         name = "chat_topics"
 
     @staticmethod
-    async def ensure_topic(group_id: PydanticObjectId, thread_id: int, topic_name: Optional[str]):
-        data = {
-            "group_id": group_id,
-            "thread_id": thread_id,
-            "name": topic_name,
-            "last_active": datetime.now(timezone.utc),
-        }
-
-        existing_link: Optional[ChatTopicModel] = await ChatTopicModel.find_one(
-            ChatTopicModel.group_id == group_id, ChatTopicModel.thread_id == thread_id
+    async def ensure_topic(group: ChatModel, thread_id: int, topic_name: Optional[str]):
+        return await ChatTopicModel.find_one(
+            ChatTopicModel.group.id == group.id, ChatTopicModel.thread_id == thread_id
+        ).upsert(
+            Set({ChatTopicModel.name: topic_name}) if topic_name else None,
+            on_insert=ChatTopicModel(
+                group=group,
+                thread_id=thread_id,
+                name=topic_name,
+                last_active=datetime.now(timezone.utc),
+            )
         )
-        if existing_link:
-            return await existing_link.set(data)
-
-        new_link = ChatTopicModel(**data)
-        await new_link.save()
-        return new_link
