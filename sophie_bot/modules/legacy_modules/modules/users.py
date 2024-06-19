@@ -1,11 +1,5 @@
 import datetime
-import html
-from typing import Callable, Any, Awaitable
 
-from aiogram import BaseMiddleware
-from aiogram.types import TelegramObject, Message
-
-from sophie_bot import dp
 from sophie_bot.modules.legacy_modules.modules import LOADED_MODULES
 from sophie_bot.modules.legacy_modules.utils.connections import chat_connection
 from sophie_bot.modules.legacy_modules.utils.disable import disableable_dec
@@ -14,115 +8,6 @@ from sophie_bot.modules.legacy_modules.utils.register import register
 from sophie_bot.modules.legacy_modules.utils.user_details import get_user_dec, get_user_link, is_user_admin, \
     get_admins_rights
 from sophie_bot.services.db import db
-from sophie_bot.utils.logger import log
-
-
-async def update_users_handler(message: Message):
-    chat_id = message.chat.id
-
-    # Update chat
-    new_chat = message.chat
-    if not new_chat.type == 'private':
-
-        old_chat = await db.chat_list.find_one({'chat_id': chat_id})
-
-        if not hasattr(new_chat, 'username'):
-            chatnick = None
-        else:
-            chatnick = new_chat.username
-
-        if old_chat and 'first_detected_date' in old_chat:
-            first_detected_date = old_chat['first_detected_date']
-        else:
-            first_detected_date = datetime.datetime.now()
-
-        chat_new = {
-            "chat_id": chat_id,
-            "chat_title": html.escape(new_chat.title, quote=False),
-            "chat_nick": chatnick,
-            "type": new_chat.type,
-            "first_detected_date": first_detected_date
-        }
-
-        # Check on old chat in DB with same username
-        find_old_chat = {
-            'chat_nick': chat_new['chat_nick'],
-            'chat_id': {'$ne': chat_new['chat_id']}
-        }
-        if chat_new['chat_nick'] and (check := await db.chat_list.find_one(find_old_chat)):
-            await db.chat_list.delete_one({'_id': check['_id']})
-            log.info(
-                f"Found chat ({check['chat_id']}) with same username as ({chat_new['chat_id']}), old chat was deleted.")
-
-        await db.chat_list.update_one({'chat_id': chat_id}, {"$set": chat_new}, upsert=True)
-
-        log.debug(f"Users: Chat {chat_id} updated")
-
-    # Update users
-    await update_user(chat_id, message.from_user)
-
-    if "reply_to_message" in message and \
-            hasattr(message.reply_to_message.from_user, 'chat_id') and \
-            message.reply_to_message.from_user.chat_id:
-        await update_user(chat_id, message.reply_to_message.from_user)
-
-    if "forward_from" in message:
-        await update_user(chat_id, message.forward_from)
-
-
-async def update_user(chat_id, new_user):
-    old_user = await db.user_list.find_one({'user_id': new_user.id})
-
-    new_chat = [chat_id]
-
-    if old_user and 'chats' in old_user:
-        if old_user['chats']:
-            new_chat = old_user['chats']
-        if not new_chat or chat_id not in new_chat:
-            new_chat.append(chat_id)
-
-    if old_user and 'first_detected_date' in old_user:
-        first_detected_date = old_user['first_detected_date']
-    else:
-        first_detected_date = datetime.datetime.now()
-
-    if new_user.username:
-        username = new_user.username.lower()
-    else:
-        username = None
-
-    if hasattr(new_user, 'last_name') and new_user.last_name:
-        last_name = html.escape(new_user.last_name, quote=False)
-    else:
-        last_name = None
-
-    first_name = html.escape(new_user.first_name, quote=False)
-
-    user_new = {
-        'user_id': new_user.id,
-        'first_name': first_name,
-        'last_name': last_name,
-        'username': username,
-        'user_lang': new_user.language_code,
-        'chats': new_chat,
-        'first_detected_date': first_detected_date
-    }
-
-    # Check on old user in DB with same username
-    find_old_user = {
-        'username': user_new['username'],
-        'user_id': {'$ne': user_new['user_id']}
-    }
-    if user_new['username'] and (check := await db.user_list.find_one(find_old_user)):
-        await db.user_list.delete_one({'_id': check['_id']})
-        log.info(
-            f"Found user ({check['user_id']}) with same username as ({user_new['user_id']}), old user was deleted.")
-
-    await db.user_list.update_one({'user_id': new_user.id}, {"$set": user_new}, upsert=True)
-
-    log.debug(f"Users: User {new_user.id} updated")
-
-    return user_new
 
 
 @register(cmds="info")
@@ -210,18 +95,6 @@ async def adminlist(message, chat, strings):
         text += '- {} ({})\n'.format(await get_user_link(admin), admin)
 
     await message.reply(text, disable_notification=True)
-
-
-class SaveUser(BaseMiddleware):
-    async def __call__(self, handler: Callable[[TelegramObject, dict[str, Any]], Awaitable[Any]],
-                       message: Message, data: dict[str, Any]) -> Any:
-        await update_users_handler(message)
-
-        return await handler(message, data)
-
-
-async def __before_serving__(loop):
-    dp.message.outer_middleware(SaveUser())
 
 
 async def __stats__():

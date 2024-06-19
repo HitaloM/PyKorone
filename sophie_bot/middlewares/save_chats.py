@@ -88,6 +88,7 @@ class SaveChatsMiddleware(BaseMiddleware):
 
     async def handle_message(self, message: Message, data: dict[str, Any]):
         # Handle chat migrations
+        # TODO: Make this update all data, so we won't need to call the next one
         if await self._handle_migration(data, message):
             return
 
