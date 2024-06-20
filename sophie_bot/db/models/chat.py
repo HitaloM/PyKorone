@@ -83,7 +83,7 @@ class ChatModel(Document):
             return await existing_user.set(data)
 
         new_user = ChatModel(chat_id=user.id, **data)
-        await new_user.save()
+        await new_user.insert()
         return new_user
 
     @staticmethod
@@ -94,7 +94,7 @@ class ChatModel(Document):
             return await existing_group.set(data)
 
         new_group = ChatModel(chat_id=chat.id, **data)
-        await new_group.save()
+        await new_group.insert()
         return new_group
 
     @staticmethod
