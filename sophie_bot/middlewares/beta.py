@@ -1,6 +1,8 @@
 from aiohttp import ClientError, ClientSession
 
 from sophie_bot import CONFIG
+from sophie_bot.db.cache.beta import cache_get_chat_beta
+from sophie_bot.utils.exception import SophieException
 from sophie_bot.utils.logger import log
 
 try:
@@ -12,7 +14,7 @@ from datetime import datetime
 from typing import Any, Awaitable, Callable, Optional
 
 from aiogram import BaseMiddleware
-from aiogram.types import Update
+from aiogram.types import Update, Chat
 
 
 class BetaMiddleware(BaseMiddleware):
@@ -27,12 +29,22 @@ class BetaMiddleware(BaseMiddleware):
     async def __call__(
             self, handler: Callable[[Update, dict[str, Any]], Awaitable[Any]], update: Update, data: dict[str, Any]
     ) -> Any:
-        result = await handler(update, data)
+        response = await handler(update, data)
 
-        log.debug("Sending request to Stable Sophie...")
-        await self.send_request(self.get_data(update))
+        log.debug("Starting Stable Sophie request...")
 
-        return result
+        chat: Optional[Chat] = data.get('event_chat')
+
+        json_request = self.get_data(update)
+        log.debug("Request data", json_request=json_request)
+        if not chat or not await cache_get_chat_beta(chat.id):
+            log.debug("Sending request to Stable Sophie...")
+            await self.send_request(json_request, CONFIG.stable_instance_url)
+        else:
+            log.debug("Sending request to Beta Sophie...")
+            await self.send_request(json_request, CONFIG.beta_instance_url)
+
+        return response
 
     def get_data(self, update: Update):
         raw_json = update.model_dump_json(by_alias=True, exclude_none=True, indent=1)
@@ -52,11 +64,11 @@ class BetaMiddleware(BaseMiddleware):
 
         return data
 
-    async def send_request(self, json_request: str):
+    async def send_request(self, json_request: str, instance_url: str):
         try:
             session = await self.get_session()
-            await session.post(CONFIG.stable_instance_url, data=json_request)
+            await session.post(instance_url, data=json_request)
         except ClientError as e:
-            raise Exception(
+            raise SophieException(
                 "Failed to send request to the second backend.", "Please contact support chat."
             ) from e

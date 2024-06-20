@@ -21,14 +21,25 @@ from importlib import import_module
 
 from sophie_bot import dp, bot
 from sophie_bot.config import CONFIG
-from sophie_bot.middlewares import enable_middlewares
+from sophie_bot.middlewares import enable_middlewares, enable_proxy_middlewares
 from sophie_bot.modules import load_modules
 from sophie_bot.services.apscheduller import start_apscheduller
 from sophie_bot.services.db import init_db, test_db
 from sophie_bot.services.telethon import start_telethon
+from sophie_bot.utils.logger import log
 
-enable_middlewares()
-load_modules(dp, ['*'], CONFIG.modules_not_load)
+if CONFIG.is_proxy:
+    log.warn(
+        'Proxy mode enabled!',
+        stable_instance_url=CONFIG.stable_instance_url,
+        beta_instance_url=CONFIG.beta_instance_url
+    )
+
+    enable_proxy_middlewares()
+    load_modules(dp, ['error', 'beta'], [])
+else:
+    enable_middlewares()
+    load_modules(dp, ['*'], CONFIG.modules_not_load)
 
 # Import misc stuff
 if not CONFIG.debug_mode:

@@ -1,0 +1,12 @@
+from aiogram import Router
+
+from .handlers.beta_state import set_beta_state, show_beta_state
+from ...filters.cmd import CMDFilter
+from ...filters.message_status import HasArgs
+
+router = Router(name="error")
+
+
+def __pre_setup__():
+    router.message.register(set_beta_state, CMDFilter("enablebeta"), HasArgs(True))
+    router.message.register(show_beta_state, CMDFilter("enablebeta"))

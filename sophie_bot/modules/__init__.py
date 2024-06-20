@@ -7,7 +7,7 @@ from aiogram import Dispatcher, Router
 from sophie_bot.utils.logger import log
 
 LOADED_MODULES: Dict[str, ModuleType] = {}
-MODULES = ["error", "legacy_modules"]
+MODULES = ["error", "legacy_modules", "beta"]
 
 
 def load_modules(dp: Union[Dispatcher, Router], to_load: Sequence[str], to_not_load: Sequence[str] = ()):
@@ -16,7 +16,7 @@ def load_modules(dp: Union[Dispatcher, Router], to_load: Sequence[str], to_not_l
         log.debug("Loading all modules...")
         to_load = MODULES
     else:
-        log.debug("Loading {} modules...", " ,".join(to_load))
+        log.info("Loading modules", to_load=to_load)
 
     for module_name in (x for x in MODULES if x in to_load and x not in to_not_load):
         path = f"sophie_bot.modules.{module_name}"

@@ -27,7 +27,7 @@ class Config(BaseSettings):
     botapi_server: Optional[AnyHttpUrl] = None
 
     debug_mode: bool = False
-    modules_load: List[str] = []
+    modules_load: List[str] = ['*']
     modules_not_load: List[str] = []
 
     webhooks_enable: bool = False
@@ -49,6 +49,10 @@ class Config(BaseSettings):
     support_link: str = "https://google.com"
 
     default_locale: str = "en_US"
+
+    is_proxy: bool = False
+    stable_instance_url: str = "http://host.container.internal:8071"
+    beta_instance_url: str = "http://host.container.internal:8072"
 
     class Config:
         env_file = 'data/config.env'

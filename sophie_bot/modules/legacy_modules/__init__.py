@@ -18,7 +18,7 @@ async def before_srv_task():
 
 
 def __pre_setup__():
-    modules = CONFIG.modules_load if len(CONFIG.modules_load) > 0 else ALL_MODULES
+    modules = CONFIG.modules_load if len(CONFIG.modules_load) > 0 and '*' not in CONFIG.modules_load else ALL_MODULES
     modules = [x for x in modules if x not in CONFIG.modules_not_load]
 
     log.info("Legacy modules: to load: %s", str(modules))
