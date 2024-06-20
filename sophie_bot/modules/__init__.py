@@ -10,7 +10,11 @@ LOADED_MODULES: Dict[str, ModuleType] = {}
 MODULES = ["error", "legacy_modules", "beta"]
 
 
-def load_modules(dp: Union[Dispatcher, Router], to_load: Sequence[str], to_not_load: Sequence[str] = ()):
+def load_modules(
+    dp: Union[Dispatcher, Router],
+    to_load: Sequence[str],
+    to_not_load: Sequence[str] = (),
+):
     log.debug("Importing modules...")
     if "*" in to_load:
         log.debug("Loading all modules...")

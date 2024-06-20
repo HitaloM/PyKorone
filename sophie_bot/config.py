@@ -1,8 +1,16 @@
 from ipaddress import IPv4Network
-from typing import List, Optional, Annotated
+from typing import Annotated, List, Optional
 
 from aiogram.webhook.security import DEFAULT_TELEGRAM_NETWORKS
-from pydantic import validator, AnyHttpUrl, computed_field, BaseModel, Field, field_validator, FilePath
+from pydantic import (
+    AnyHttpUrl,
+    BaseModel,
+    Field,
+    FilePath,
+    computed_field,
+    field_validator,
+    validator,
+)
 from pydantic_settings import BaseSettings
 
 
@@ -20,7 +28,7 @@ class Config(BaseSettings):
     mongo_port: int = 27017
     mongo_db: str = "sophie"
 
-    redis_host: str = 'localhost'
+    redis_host: str = "localhost"
     redis_port: int = 6379
     redis_db_fsm: int = 1
     redis_db_states: int = 2
@@ -29,7 +37,7 @@ class Config(BaseSettings):
     botapi_server: Optional[AnyHttpUrl] = None
 
     debug_mode: bool = False
-    modules_load: List[str] = ['*']
+    modules_load: List[str] = ["*"]
     modules_not_load: List[str] = []
 
     webhooks_enable: bool = False
@@ -64,17 +72,17 @@ class Config(BaseSettings):
     beta_instance_url: str = "http://host.container.internal:8072"
 
     class Config:
-        env_file = 'data/config.env'
-        env_file_encoding = 'utf-8'
+        env_file = "data/config.env"
+        env_file_encoding = "utf-8"
 
     @computed_field
     @property
     def bot_id(self) -> int:
-        return int(self.token.split(':')[0])
+        return int(self.token.split(":")[0])
 
-    @validator('operators')
+    @validator("operators")
     def validate_operators(cls, value: List[int], values) -> List[int]:
-        owner_id = values['owner_id']
+        owner_id = values["owner_id"]
         if owner_id not in value:
             value.append(owner_id)
         return value

@@ -26,7 +26,4 @@ from sophie_bot.utils.logger import log
 if CONFIG.sentry_url:
     log.info("Starting sentry.io integraion...")
 
-    sentry_sdk.init(
-        CONFIG.sentry_url,
-        integrations=[RedisIntegration(), AioHttpIntegration()]
-    )
+    sentry_sdk.init(CONFIG.sentry_url, integrations=[RedisIntegration(), AioHttpIntegration()])

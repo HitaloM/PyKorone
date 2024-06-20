@@ -7,7 +7,10 @@ from sophie_bot.config import CONFIG
 from sophie_bot.filters.user_status import IsOP
 from sophie_bot.modules.legacy_modules.modules import LOADED_MODULES
 from sophie_bot.modules.legacy_modules.utils.language import get_strings_dec
-from sophie_bot.modules.legacy_modules.utils.register import register, REGISTRED_COMMANDS
+from sophie_bot.modules.legacy_modules.utils.register import (
+    REGISTRED_COMMANDS,
+    register,
+)
 from sophie_bot.services.db import db
 from sophie_bot.services.redis import redis
 from sophie_bot.utils.i18n import gettext as _
@@ -24,7 +27,7 @@ async def get_event(message):
 async def stats(message):
     text = _("<b>Sophie stats</b>\n")
 
-    for module in [m for m in LOADED_MODULES if hasattr(m, '__stats__')]:
+    for module in [m for m in LOADED_MODULES if hasattr(m, "__stats__")]:
         text += await module.__stats__()
 
     await message.reply(text)
@@ -42,31 +45,32 @@ def convert_size(size_bytes):
 
 async def __stats__():
     text = ""
-    if os.getenv('WEBHOOKS', False):
+    if os.getenv("WEBHOOKS", False):
         text += f"* Webhooks mode, listen port: <code>{os.getenv('WEBHOOKS_PORT', 8080)}</code>\n"
     else:
         text += "* Long-polling mode\n"
     local_db = await db.command("dbstats")
-    if 'fsTotalSize' in local_db:
-        text += '* Database size is <code>{}</code>, free <code>{}</code>\n'.format(
-            convert_size(local_db['dataSize']),
-            convert_size(local_db['fsTotalSize'] - local_db['fsUsedSize'])
+    if "fsTotalSize" in local_db:
+        text += "* Database size is <code>{}</code>, free <code>{}</code>\n".format(
+            convert_size(local_db["dataSize"]),
+            convert_size(local_db["fsTotalSize"] - local_db["fsUsedSize"]),
         )
     else:
-        text += '* Database size is <code>{}</code>, free <code>{}</code>\n'.format(
-            convert_size(local_db['storageSize']),
-            convert_size(536870912 - local_db['storageSize'])
+        text += "* Database size is <code>{}</code>, free <code>{}</code>\n".format(
+            convert_size(local_db["storageSize"]),
+            convert_size(536870912 - local_db["storageSize"]),
         )
 
     text += "* <code>{}</code> total keys in Redis database\n".format(len(redis.keys()))
     text += "* <code>{}</code> total commands registred, in <code>{}</code> modules\n".format(
-        len(REGISTRED_COMMANDS), len(LOADED_MODULES))
+        len(REGISTRED_COMMANDS), len(LOADED_MODULES)
+    )
     return text
 
 
-@get_strings_dec('owner_stuff')
+@get_strings_dec("owner_stuff")
 async def __user_info__(message, user_id, strings):
     if user_id == CONFIG.owner_id:
         return strings["father"]
     elif user_id in CONFIG.operators:
-        return strings['sudo_crown']
+        return strings["sudo_crown"]

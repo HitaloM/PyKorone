@@ -1,10 +1,9 @@
-from datetime import datetime
-from datetime import timezone
+from datetime import datetime, timezone
 from enum import Enum
-from typing import Optional, Annotated, Iterable, List, Any
+from typing import Annotated, Any, Iterable, List, Optional
 
-from aiogram.types import User, Chat
-from beanie import Document, Indexed, PydanticObjectId, Link, BackLink, DeleteRules
+from aiogram.types import Chat, User
+from beanie import BackLink, DeleteRules, Document, Indexed, Link, PydanticObjectId
 from beanie.odm.operators.update.general import Set
 from pydantic import Field
 from pymongo import InsertOne
@@ -124,14 +123,15 @@ class UserInGroupModel(Document):
         current_timedate = datetime.now(timezone.utc)
 
         return await UserInGroupModel.find_one(
-            UserInGroupModel.user.id == user.id, UserInGroupModel.group.id == group.id,
+            UserInGroupModel.user.id == user.id,
+            UserInGroupModel.group.id == group.id,
         ).upsert(
             Set({UserInGroupModel.last_saw: current_timedate}),
             on_insert=UserInGroupModel(
                 user=user,
                 group=group,
                 last_saw=current_timedate,
-            )
+            ),
         )
 
     @staticmethod
@@ -164,5 +164,5 @@ class ChatTopicModel(Document):
                 thread_id=thread_id,
                 name=topic_name,
                 last_active=datetime.now(timezone.utc),
-            )
+            ),
         )

@@ -24,76 +24,79 @@ from sophie_bot.modules.legacy_modules.utils.connections import chat_connection
 from sophie_bot.modules.legacy_modules.utils.language import get_strings_dec
 from sophie_bot.modules.legacy_modules.utils.register import register
 from sophie_bot.modules.legacy_modules.utils.user_details import (
-    get_user_dec, get_user_and_text_dec,
-    get_user_link, get_admins_rights
+    get_admins_rights,
+    get_user_and_text_dec,
+    get_user_dec,
+    get_user_link,
 )
 from sophie_bot.services.telethon import tbot
 
 
-@register(BotHasPermissions(can_promote_members=True), UserRestricting(can_promote_members=True), cmds="promote")
+@register(
+    BotHasPermissions(can_promote_members=True),
+    UserRestricting(can_promote_members=True),
+    cmds="promote",
+)
 @chat_connection(admin=True, only_groups=True)
 @get_user_and_text_dec()
-@get_strings_dec('promotes')
+@get_strings_dec("promotes")
 async def promote(message, chat, user, args, strings):
-    chat_id = chat['chat_id']
-    text = strings['promote_success'].format(
-        user=await get_user_link(user['user_id']),
-        chat_name=chat['chat_title']
-    )
+    chat_id = chat["chat_id"]
+    text = strings["promote_success"].format(user=await get_user_link(user["user_id"]), chat_name=chat["chat_title"])
 
-    if user['user_id'] == CONFIG.bot_id:
+    if user["user_id"] == CONFIG.bot_id:
         return
 
-    if user['user_id'] == message.from_user.id:
-        return await message.reply(strings['cant_promote_yourself'])
+    if user["user_id"] == message.from_user.id:
+        return await message.reply(strings["cant_promote_yourself"])
 
     title = None
 
     if args:
         if len(args) > 16:
-            await message.reply(strings['rank_to_loong'])
+            await message.reply(strings["rank_to_loong"])
             return
         title = args
-        text += strings['promote_title'].format(role=html.escape(title, quote=False))
+        text += strings["promote_title"].format(role=html.escape(title, quote=False))
 
     try:
         await tbot.edit_admin(
             chat_id,
-            user['user_id'],
+            user["user_id"],
             invite_users=True,
             change_info=True,
             ban_users=True,
             delete_messages=True,
             pin_messages=True,
-            title=title
+            title=title,
         )
     except ValueError:
-        return await message.reply(strings['cant_get_user'])
+        return await message.reply(strings["cant_get_user"])
     except TelegramForbiddenError:
-        return await message.reply(strings['emoji_not_allowed'])
+        return await message.reply(strings["emoji_not_allowed"])
     await get_admins_rights(chat_id, force_update=True)  # Reset a cache
     await message.reply(text)
 
 
-@register(BotHasPermissions(can_promote_members=True), UserRestricting(can_promote_members=True), cmds="demote")
+@register(
+    BotHasPermissions(can_promote_members=True),
+    UserRestricting(can_promote_members=True),
+    cmds="demote",
+)
 @chat_connection(admin=True, only_groups=True)
 @get_user_dec()
-@get_strings_dec('promotes')
+@get_strings_dec("promotes")
 async def demote(message, chat, user, strings):
-    chat_id = chat['chat_id']
-    if user['user_id'] == CONFIG.bot_id:
+    chat_id = chat["chat_id"]
+    if user["user_id"] == CONFIG.bot_id:
         return
 
     try:
-        await bot.promote_chat_member(
-            chat_id,
-            user['user_id']
-        )
+        await bot.promote_chat_member(chat_id, user["user_id"])
     except TelegramForbiddenError:
-        return await message.reply(strings['demote_failed'])
+        return await message.reply(strings["demote_failed"])
 
     await get_admins_rights(chat_id, force_update=True)  # Reset a cache
-    await message.reply(strings['demote_success'].format(
-        user=await get_user_link(user['user_id']),
-        chat_name=chat['chat_title']
-    ))
+    await message.reply(
+        strings["demote_success"].format(user=await get_user_link(user["user_id"]), chat_name=chat["chat_title"])
+    )

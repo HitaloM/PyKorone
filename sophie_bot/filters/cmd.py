@@ -16,15 +16,15 @@ class CMDFilter(BaseFilter):
     """Our alternative of command filter."""
 
     def __init__(
-            self,
-            cmd: Union[Sequence[CMD_TYPE], CMD_TYPE],
-            prefix: str = CONFIG.commands_prefix,
-            ignore_case: bool = CONFIG.commands_ignore_case,
-            ignore_mention: bool = CONFIG.commands_ignore_mention,
-            ignore_code: bool = CONFIG.commands_ignore_code,
-            ignore_forwarded: bool = CONFIG.commands_ignore_forwarded,
-            allow_caption: bool = False,
-            magic: Optional[MagicFilter] = None,
+        self,
+        cmd: Union[Sequence[CMD_TYPE], CMD_TYPE],
+        prefix: str = CONFIG.commands_prefix,
+        ignore_case: bool = CONFIG.commands_ignore_case,
+        ignore_mention: bool = CONFIG.commands_ignore_mention,
+        ignore_code: bool = CONFIG.commands_ignore_code,
+        ignore_forwarded: bool = CONFIG.commands_ignore_forwarded,
+        allow_caption: bool = False,
+        magic: Optional[MagicFilter] = None,
     ):
         self.cmd = (cmd,) if type(cmd) is str else cmd
         self.prefix = prefix
@@ -48,7 +48,12 @@ class CMDFilter(BaseFilter):
         # Separate command into valuable parts
         # "/command@mention" -> "/", ("command", "@", "mention")
         prefix, (command, _, mention) = full_command[0], full_command[1:].partition("@")
-        return CommandObject(prefix=prefix, command=command, mention=mention, args=args[0] if args else None)
+        return CommandObject(
+            prefix=prefix,
+            command=command,
+            mention=mention,
+            args=args[0] if args else None,
+        )
 
     def validate_prefix(self, command: CommandObject) -> None:
         if command.prefix not in self.prefix:
@@ -91,7 +96,7 @@ class CMDFilter(BaseFilter):
         return any((ent for ent in entities if ent.offset == 0 and ent.type in {"code", "pre"}))
 
     async def __call__(self, message: Message, bot: Bot) -> Union[bool, dict[str, Any]]:
-        if not (text := (message.text or message.caption) if self.allow_caption else message.text):
+        if not (text := ((message.text or message.caption) if self.allow_caption else message.text)):
             return False
 
         if self.ignore_forwarded and message.forward_from:

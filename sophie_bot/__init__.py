@@ -18,7 +18,7 @@
 
 from aiogram import Bot, Dispatcher
 from aiogram.client.default import DefaultBotProperties
-from aiogram.client.telegram import TelegramAPIServer, PRODUCTION
+from aiogram.client.telegram import PRODUCTION, TelegramAPIServer
 from aiogram.fsm.storage.base import DefaultKeyBuilder
 from aiogram.fsm.storage.redis import RedisStorage
 from redis.asyncio import Redis
@@ -36,21 +36,12 @@ log.info("Version: " + SOPHIE_VERSION)
 bot_api = TelegramAPIServer.from_base(CONFIG.botapi_server) if CONFIG.botapi_server else PRODUCTION
 
 # AIOGram
-bot = Bot(
-    token=CONFIG.token,
-    default=DefaultBotProperties(
-        parse_mode='html'
-    ),
-    server=bot_api
-)
+bot = Bot(token=CONFIG.token, default=DefaultBotProperties(parse_mode="html"), server=bot_api)
 redis = Redis(
     host=CONFIG.redis_host,
     port=CONFIG.redis_port,
     db=CONFIG.redis_db_states,
-    single_connection_client=True
+    single_connection_client=True,
 )
-storage = RedisStorage(
-    redis=redis,
-    key_builder=DefaultKeyBuilder(prefix=str(CONFIG.redis_db_fsm))
-)
+storage = RedisStorage(redis=redis, key_builder=DefaultKeyBuilder(prefix=str(CONFIG.redis_db_fsm)))
 dp = Dispatcher(storage=storage)

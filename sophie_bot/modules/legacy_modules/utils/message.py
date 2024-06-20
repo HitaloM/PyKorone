@@ -12,7 +12,6 @@ from datetime import timedelta
 
 from aiogram.types import Message
 
-
 # This program is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
@@ -37,7 +36,7 @@ def get_arg(message):
     try:
         return get_args_str(message).split()[0]
     except IndexError:
-        return ''
+        return ""
 
 
 def get_full_command(message: Message) -> typing.Optional[typing.Tuple[str, str]]:
@@ -56,28 +55,28 @@ def get_args(message: Message):
 
 
 def get_args_str(message):
-    return ' '.join(get_args(message))
+    return " ".join(get_args(message))
 
 
 def get_cmd(message: Message):
-    cmd = get_full_command(message)[0].lower()[1:].split('@')[0]
+    cmd = get_full_command(message)[0].lower()[1:].split("@")[0]
     return cmd
 
 
 def convert_time(time_val):
-    if not any(time_val.endswith(unit) for unit in ('m', 'h', 'd')):
+    if not any(time_val.endswith(unit) for unit in ("m", "h", "d")):
         raise TypeError
 
     time_num = int(time_val[:-1])
     unit = time_val[-1]
     kwargs = {}
 
-    if unit == 'm':
-        kwargs['minutes'] = time_num
-    elif unit == 'h':
-        kwargs['hours'] = time_num
-    elif unit == 'd':
-        kwargs['days'] = time_num
+    if unit == "m":
+        kwargs["minutes"] = time_num
+    elif unit == "h":
+        kwargs["hours"] = time_num
+    elif unit == "d":
+        kwargs["days"] = time_num
     else:
         raise InvalidTimeUnit()
 

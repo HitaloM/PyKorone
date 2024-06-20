@@ -14,7 +14,7 @@ from datetime import datetime
 from typing import Any, Awaitable, Callable, Optional
 
 from aiogram import BaseMiddleware
-from aiogram.types import Update, Chat
+from aiogram.types import Chat, Update
 
 
 class BetaMiddleware(BaseMiddleware):
@@ -27,13 +27,16 @@ class BetaMiddleware(BaseMiddleware):
         return self.session
 
     async def __call__(
-            self, handler: Callable[[Update, dict[str, Any]], Awaitable[Any]], update: Update, data: dict[str, Any]
+        self,
+        handler: Callable[[Update, dict[str, Any]], Awaitable[Any]],
+        update: Update,
+        data: dict[str, Any],
     ) -> Any:
         response = await handler(update, data)
 
         log.debug("Starting Stable Sophie request...")
 
-        chat: Optional[Chat] = data.get('event_chat')
+        chat: Optional[Chat] = data.get("event_chat")
 
         json_request = self.get_data(update)
         log.debug("Request data", json_request=json_request)
@@ -70,5 +73,6 @@ class BetaMiddleware(BaseMiddleware):
             await session.post(instance_url, data=json_request)
         except ClientError as e:
             raise SophieException(
-                "Failed to send request to the second backend.", "Please contact support chat."
+                "Failed to send request to the second backend.",
+                "Please contact support chat.",
             ) from e

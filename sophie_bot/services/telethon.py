@@ -19,7 +19,7 @@ from sophie_bot.config import CONFIG
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-tbot = TelegramClient(CONFIG.token.split(':')[0], CONFIG.app_id, CONFIG.app_hash)
+tbot = TelegramClient(CONFIG.token.split(":")[0], CONFIG.app_id, CONFIG.app_hash)
 
 
 async def start_telethon():
@@ -29,7 +29,7 @@ async def start_telethon():
         bot_token=CONFIG.token,
         force_sms=False,
         code_callback=None,
-        first_name='New user',
-        last_name='',
-        max_attempts=3
+        first_name="New user",
+        last_name="",
+        max_attempts=3,
     )

@@ -42,6 +42,7 @@ Decode it back example:
             await message.answer(f"Your payload: {payload}")
 
 """
+
 import re
 from base64 import urlsafe_b64decode, urlsafe_b64encode
 
@@ -105,8 +106,7 @@ async def _create_link(link_type, payload: str, encode=False):
 
     if re.search(BAD_PATTERN, payload):
         message = (
-            "Wrong payload! Only A-Z, a-z, 0-9, _ and - are allowed. "
-            "Pass `encode=True` or encode payload manually."
+            "Wrong payload! Only A-Z, a-z, 0-9, _ and - are allowed. Pass `encode=True` or encode payload manually."
         )
         raise ValueError(message)
 

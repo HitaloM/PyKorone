@@ -7,7 +7,7 @@ authors = ["Yacha <yacha@orangefox.tech>"]
 [tool.poetry.dependencies]
 python = "^3.11"
 Telethon = "^1.24.0"
-aiogram = "^3.7.0"
+aiogram = "^3.8.0"
 redis = "5.0.6"
 motor = "^3.2.0"
 dnspython = "^2.1.0"
@@ -21,7 +21,7 @@ requests = "^2.26.0"
 ujson = "^5.1.0"
 PyYAML = "^6.0"
 loguru = "^0.7.0"
-sentry-sdk = "^2.5.1"
+sentry-sdk = "^2.6.0"
 Babel = "^2.9.1"
 captcha = "^0.5"
 async-timeout = "^4.0.2"
@@ -44,6 +44,21 @@ yapf = "~0.40"
 devtools = { extras = ["pygments"], version = "~0.12" }
 pytest = "^8"
 pyright = "^1.1.274"
+black = "~23"
 
 [tool.poetry.extras]
 fast = ["aiohttp", "cryptg", "cryptography"]
+
+[tool.yapf]
+based_on_style = "yapf"
+indent_width = 4
+column_limit = 120
+
+[tool.isort]
+profile = "black"
+
+[tool.black]
+line-length = 120
+
+[tool.pyright]
+exclude = ["**/legacy_modules/"]

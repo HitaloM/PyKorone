@@ -5,7 +5,7 @@ class BetaModeModel(Document):
     chat_id: int
 
     class Settings:
-        name = 'beta_mode'
+        name = "beta_mode"
 
     @staticmethod
     async def set_state(chat_id: int, state: bool):

@@ -1,12 +1,16 @@
 import ssl
 from importlib import import_module
 
-from aiogram.webhook.aiohttp_server import SimpleRequestHandler, ip_filter_middleware, setup_application
+from aiogram.webhook.aiohttp_server import (
+    SimpleRequestHandler,
+    ip_filter_middleware,
+    setup_application,
+)
 from aiogram.webhook.security import IPFilter
 from aiohttp.web import run_app
 from aiohttp.web_app import Application
 
-from sophie_bot import dp, bot
+from sophie_bot import bot, dp
 from sophie_bot.config import CONFIG
 from sophie_bot.middlewares import enable_middlewares, enable_proxy_middlewares
 from sophie_bot.modules import load_modules
@@ -17,16 +21,16 @@ from sophie_bot.utils.logger import log
 
 if CONFIG.is_proxy:
     log.warn(
-        'Proxy mode enabled!',
+        "Proxy mode enabled!",
         stable_instance_url=CONFIG.stable_instance_url,
-        beta_instance_url=CONFIG.beta_instance_url
+        beta_instance_url=CONFIG.beta_instance_url,
     )
 
     enable_proxy_middlewares()
-    load_modules(dp, ['error', 'beta'], [])
+    load_modules(dp, ["error", "beta"], [])
 else:
     enable_middlewares()
-    load_modules(dp, ['*'], CONFIG.modules_not_load)
+    load_modules(dp, ["*"], CONFIG.modules_not_load)
 
 # Import misc stuff
 if not CONFIG.debug_mode:
@@ -87,4 +91,9 @@ else:
         ssl_context = None
         log.warn("Using HTTP (use it only for reverse-proxy or development)!")
 
-    run_app(app, host=CONFIG.webhooks_listen, port=CONFIG.webhooks_port, ssl_context=ssl_context)
+    run_app(
+        app,
+        host=CONFIG.webhooks_listen,
+        port=CONFIG.webhooks_port,
+        ssl_context=ssl_context,
+    )

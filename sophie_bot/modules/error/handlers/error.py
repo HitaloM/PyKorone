@@ -33,7 +33,11 @@ class ErrorHandler(MessageHandler):
             return
 
         elif exception != sys_exception:
-            log.error("Mismatched exception seeking", from_aiogram=exception, from_sys=sys_exception)
+            log.error(
+                "Mismatched exception seeking",
+                from_aiogram=exception,
+                from_sys=sys_exception,
+            )
 
         chat: Chat = self.data["event_chat"]
 
@@ -72,7 +76,14 @@ class ErrorHandler(MessageHandler):
                     *(
                         ()
                         if isinstance(exception, SophieException)
-                        else (" ", Section(*random.choice(HAIKUS), title=_("Haiku"), title_bold=False))  # nosec
+                        else (
+                            " ",
+                            Section(
+                                *random.choice(HAIKUS),
+                                title=_("Haiku"),
+                                title_bold=False,
+                            ),
+                        )  # nosec
                     ),
                     *(
                         (

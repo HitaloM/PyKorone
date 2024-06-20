@@ -18,27 +18,48 @@
 
 import pickle
 from dataclasses import dataclass
-from typing import Optional, Callable, Any, Awaitable
+from typing import Any, Awaitable, Callable, Optional
 
 from aiogram import BaseMiddleware
 from aiogram.dispatcher.event.bases import CancelHandler
-from aiogram.enums import ContentType, ChatType
+from aiogram.enums import ChatType, ContentType
 from aiogram.filters.callback_data import CallbackData
 from aiogram.fsm.context import FSMContext
-from aiogram.fsm.state import StatesGroup, State
-from aiogram.types import Message, InlineKeyboardMarkup, InlineKeyboardButton, TelegramObject, CallbackQuery
+from aiogram.fsm.state import State, StatesGroup
+from aiogram.types import (
+    CallbackQuery,
+    InlineKeyboardButton,
+    InlineKeyboardMarkup,
+    Message,
+    TelegramObject,
+)
 from babel.dates import format_timedelta
 
 from sophie_bot import dp
-from sophie_bot.filters.admin_rights import UserRestricting, BotHasPermissions
+from sophie_bot.filters.admin_rights import BotHasPermissions, UserRestricting
 from sophie_bot.filters.cmd import CMDFilter
 from sophie_bot.filters.user_status import IsAdmin
 from sophie_bot.modules.legacy_modules.utils.connections import chat_connection
-from sophie_bot.modules.legacy_modules.utils.language import get_strings_dec, get_strings
-from sophie_bot.modules.legacy_modules.utils.message import convert_time, get_args, need_args_dec, get_args_str
+from sophie_bot.modules.legacy_modules.utils.language import (
+    get_strings,
+    get_strings_dec,
+)
+from sophie_bot.modules.legacy_modules.utils.message import (
+    convert_time,
+    get_args,
+    get_args_str,
+    need_args_dec,
+)
 from sophie_bot.modules.legacy_modules.utils.register import register
-from sophie_bot.modules.legacy_modules.utils.restrictions import ban_user, kick_user, mute_user
-from sophie_bot.modules.legacy_modules.utils.user_details import is_user_admin, get_user_link
+from sophie_bot.modules.legacy_modules.utils.restrictions import (
+    ban_user,
+    kick_user,
+    mute_user,
+)
+from sophie_bot.modules.legacy_modules.utils.user_details import (
+    get_user_link,
+    is_user_admin,
+)
 from sophie_bot.services.db import db
 from sophie_bot.services.redis import bredis, redis
 from sophie_bot.utils.cached import cached
@@ -72,7 +93,7 @@ class AntifloodEnforcer(BaseMiddleware):
         data.count += 1
 
         # check exceeding
-        if data.count >= database['count']:
+        if data.count >= database["count"]:
             if await self.do_action(message, database):
                 self.reset_flood(message)
                 return True
@@ -82,9 +103,7 @@ class AntifloodEnforcer(BaseMiddleware):
 
     @classmethod
     def is_message_valid(cls, message) -> bool:
-        _pre = [
-            ContentType.NEW_CHAT_MEMBERS, ContentType.LEFT_CHAT_MEMBER
-        ]
+        _pre = [ContentType.NEW_CHAT_MEMBERS, ContentType.LEFT_CHAT_MEMBER]
         if message.content_type in _pre:
             return False
         elif message.chat.type in (ChatType.PRIVATE,):
@@ -98,7 +117,7 @@ class AntifloodEnforcer(BaseMiddleware):
         return None
 
     def insert_flood(self, data: CacheModel, message: Message, database: dict):
-        ex = convert_time(database['time']) if database.get('time', None) is not None else None
+        ex = convert_time(database["time"]) if database.get("time", None) is not None else None
         return bredis.set(self.cache_key(message), pickle.dumps(data), ex=ex)
 
     def reset_flood(self, message):
@@ -108,14 +127,10 @@ class AntifloodEnforcer(BaseMiddleware):
         return bredis.exists(self.cache_key(message))
 
     def set_state(self, message: Message):
-        return bredis.set(
-            self.state_cache_key.format(chat_id=message.chat.id), message.from_user.id
-        )
+        return bredis.set(self.state_cache_key.format(chat_id=message.chat.id), message.from_user.id)
 
     def get_state(self, message: Message):
-        return bredis.get(
-            self.state_cache_key.format(chat_id=message.chat.id)
-        )
+        return bredis.get(self.state_cache_key.format(chat_id=message.chat.id))
 
     @classmethod
     def cache_key(cls, message: Message):
@@ -123,19 +138,23 @@ class AntifloodEnforcer(BaseMiddleware):
 
     @classmethod
     async def do_action(cls, message: Message, database: dict):
-        action = database['action'] if 'action' in database else 'ban'
+        action = database["action"] if "action" in database else "ban"
 
-        if action == 'ban':
+        if action == "ban":
             return await ban_user(message.chat.id, message.from_user.id)
-        elif action == 'kick':
+        elif action == "kick":
             return await kick_user(message.chat.id, message.from_user.id)
-        elif action == 'mute':
+        elif action == "mute":
             return await mute_user(message.chat.id, message.from_user.id)
         else:
             return False
 
-    async def __call__(self, handler: Callable[[TelegramObject, dict[str, Any]], Awaitable[Any]], message: Message,
-                       data: dict[str, Any]) -> Any:
+    async def __call__(
+        self,
+        handler: Callable[[TelegramObject, dict[str, Any]], Awaitable[Any]],
+        message: Message,
+        data: dict[str, Any],
+    ) -> Any:
         log.debug(f"Enforcing flood control on {message.from_user.id} in {message.chat.id}")
         if self.is_message_valid(message):
             if await is_user_admin(message.chat.id, message.from_user.id):
@@ -146,11 +165,11 @@ class AntifloodEnforcer(BaseMiddleware):
 
             if await self.enforcer(message, database):
                 await message.delete()
-                strings = await get_strings(message.chat.id, 'antiflood')
+                strings = await get_strings(message.chat.id, "antiflood")
                 await message.answer(
-                    strings['flood_exceeded'].format(
-                        action=(strings[database['action']] if 'action' in database else 'banned').capitalize(),
-                        user=await get_user_link(message.from_user.id)
+                    strings["flood_exceeded"].format(
+                        action=(strings[database["action"]] if "action" in database else "banned").capitalize(),
+                        user=await get_user_link(message.from_user.id),
                     )
                 )
                 raise CancelHandler
@@ -159,34 +178,39 @@ class AntifloodEnforcer(BaseMiddleware):
 
 
 @register(
-    CMDFilter('setflood'),
+    CMDFilter("setflood"),
     UserRestricting(can_restrict_members=True),
-    BotHasPermissions(can_restrict_members=True)
+    BotHasPermissions(can_restrict_members=True),
 )
 @need_args_dec()
 @chat_connection(admin=True)
-@get_strings_dec('antiflood')
+@get_strings_dec("antiflood")
 async def setflood_command(message: Message, chat: dict, strings: dict, state: FSMContext):
     try:
         args = int(get_args(message)[0])
     except ValueError:
-        return await message.reply(strings['invalid_args:setflood'])
+        return await message.reply(strings["invalid_args:setflood"])
     if args > 200:
-        return await message.reply(strings['overflowed_count'])
+        return await message.reply(strings["overflowed_count"])
 
     await state.set_state(AntiFloodConfigState.expiration_proc)
     redis.set(f"antiflood_setup:{chat['chat_id']}", args)
     await message.reply(
-        strings['config_proc_1'],
-        reply_markup=InlineKeyboardMarkup(inline_keyboard=[[
-            InlineKeyboardButton(text=strings['cancel'], callback_data=CancelCb(user_id=message.from_user.id).pack())
-        ]])
+        strings["config_proc_1"],
+        reply_markup=InlineKeyboardMarkup(
+            inline_keyboard=[[
+                InlineKeyboardButton(
+                    text=strings["cancel"],
+                    callback_data=CancelCb(user_id=message.from_user.id).pack(),
+                )
+            ]]
+        ),
     )
 
 
 @register(state=AntiFloodConfigState.expiration_proc)
 @chat_connection()
-@get_strings_dec('antiflood')
+@get_strings_dec("antiflood")
 async def antiflood_expire_proc(message: Message, chat: dict, strings: dict, state: FSMContext, **_):
     try:
         if (time := message.text) not in (0, "0"):
@@ -194,78 +218,65 @@ async def antiflood_expire_proc(message: Message, chat: dict, strings: dict, sta
         else:
             time, parsed_time = None, None
     except (TypeError, ValueError):
-        await message.reply(strings['invalid_time'])
+        await message.reply(strings["invalid_time"])
     else:
         if not (data := redis.get(f'antiflood_setup:{chat["chat_id"]}')):
-            await message.reply(strings['setup_corrupted'])
+            await message.reply(strings["setup_corrupted"])
         else:
             await db.antiflood.update_one(
-                {"chat_id": chat['chat_id']},
+                {"chat_id": chat["chat_id"]},
                 {"$set": {"time": time, "count": int(data)}},
-                upsert=True
+                upsert=True,
             )
-            await get_data.reset_cache(chat['chat_id'])
-            kw = {'count': data}
+            await get_data.reset_cache(chat["chat_id"])
+            kw = {"count": data}
             if time is not None:
-                kw.update({'time': format_timedelta(parsed_time, locale=strings['language_info']['babel'])})
-            await message.reply(
-                strings['setup_success' if time is not None else 'setup_success:no_exp'].format(**kw)
-            )
+                kw.update({"time": format_timedelta(parsed_time, locale=strings["language_info"]["babel"])})
+            await message.reply(strings["setup_success" if time is not None else "setup_success:no_exp"].format(**kw))
     finally:
         await state.clear()
 
 
-@register(CMDFilter('antiflood', 'flood'), IsAdmin(True))
+@register(CMDFilter("antiflood", "flood"), IsAdmin(True))
 @chat_connection(admin=True)
-@get_strings_dec('antiflood')
+@get_strings_dec("antiflood")
 async def antiflood(message: Message, chat: dict, strings: dict):
-    if not (data := await get_data(chat['chat_id'])):
-        return await message.reply(strings['not_configured'])
+    if not (data := await get_data(chat["chat_id"])):
+        return await message.reply(strings["not_configured"])
 
-    if get_args_str(message).lower() in ('off', '0', 'no'):
-        await db.antiflood.delete_one({"chat_id": chat['chat_id']})
-        await get_data.reset_cache(chat['chat_id'])
-        return await message.reply(strings['turned_off'].format(chat_title=chat['chat_title']))
+    if get_args_str(message).lower() in ("off", "0", "no"):
+        await db.antiflood.delete_one({"chat_id": chat["chat_id"]})
+        await get_data.reset_cache(chat["chat_id"])
+        return await message.reply(strings["turned_off"].format(chat_title=chat["chat_title"]))
 
     if data.get("time", None) is None:
         return await message.reply(
-            strings['configuration_info'].format(
-                action=strings[data['action']] if 'action' in data else strings['ban'],
-                count=data['count']
+            strings["configuration_info"].format(
+                action=strings[data["action"]] if "action" in data else strings["ban"],
+                count=data["count"],
             )
         )
     return await message.reply(
-        strings['configuration_info:with_time'].format(
-            action=strings[data['action']] if 'action' in data else strings['ban'],
-            count=data['count'],
-            time=format_timedelta(
-                convert_time(data['time']), locale=strings['language_info']['babel']
-            )
-
+        strings["configuration_info:with_time"].format(
+            action=strings[data["action"]] if "action" in data else strings["ban"],
+            count=data["count"],
+            time=format_timedelta(convert_time(data["time"]), locale=strings["language_info"]["babel"]),
         )
     )
 
 
-@register(CMDFilter('setfloodaction'), UserRestricting(can_restrict_members=True))
+@register(CMDFilter("setfloodaction"), UserRestricting(can_restrict_members=True))
 @need_args_dec()
 @chat_connection(admin=True)
-@get_strings_dec('antiflood')
+@get_strings_dec("antiflood")
 async def setfloodaction(message: Message, chat: dict, strings: dict):
-    SUPPORTED_ACTIONS = ['kick', 'ban', 'mute']  # noqa
+    SUPPORTED_ACTIONS = ["kick", "ban", "mute"]  # noqa
     if (action := get_args(message)[0].lower()) not in SUPPORTED_ACTIONS:
-        return await message.reply(strings['invalid_args'].format(supported_actions=", ".join(SUPPORTED_ACTIONS)))
+        return await message.reply(strings["invalid_args"].format(supported_actions=", ".join(SUPPORTED_ACTIONS)))
 
-    await db.antiflood.update_one(
-        {"chat_id": chat['chat_id']},
-        {"$set": {"action": action}},
-        upsert=True
-    )
+    await db.antiflood.update_one({"chat_id": chat["chat_id"]}, {"$set": {"action": action}}, upsert=True)
     await get_data.reset_cache(message.chat.id)
-    return await message.reply(
-        strings['setfloodaction_success'].format(
-            action=action
-        )
-    )
+    return await message.reply(strings["setfloodaction_success"].format(action=action))
 
 
 async def __before_serving__(_):
@@ -280,9 +291,7 @@ async def cancel_state_cb(event: CallbackQuery, state: FSMContext):
 
 @cached()
 async def get_data(chat_id: int):
-    return await db.antiflood.find_one(
-        {'chat_id': chat_id}
-    )
+    return await db.antiflood.find_one({"chat_id": chat_id})
 
 
 async def __export__(chat_id: int):
@@ -290,12 +299,9 @@ async def __export__(chat_id: int):
     if not data:
         return
 
-    del data['_id'], data['chat_id']
+    del data["_id"], data["chat_id"]
     return data
 
 
 async def __import__(chat_id: int, data: dict):  # noqa
-    await db.antiflood.update_one(
-        {"chat_id": chat_id},
-        {"$set": data}
-    )
+    await db.antiflood.update_one({"chat_id": chat_id}, {"$set": data})

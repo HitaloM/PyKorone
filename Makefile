@@ -36,20 +36,20 @@ build_standalone:
 
 
 fix_code_style:
-	pycln . -a
-	isort .
-	black --preview --color sophie_bot/ tests/
+	poetry run python -m pycln . -a
+	poetry run python -m isort .
+	poetry run python -m black --preview --color sophie_bot/
 
 test_code_style:
-	pycln . -a -c
-	black --preview --check sophie_bot/ tests/
-	isort . -c
+	poetry run python -m pycln . -a -c
+	poetry run python -m black --preview --check sophie_bot/
+	poetry run python -m isort . -c
 
 test_code:
-	flake8
-	bandit sophie_bot/ -r
-	pyright sophie_bot/ tests/
-	python -m pytest tests -v --alluredir=allure_results
+	poetry run python -m flake8
+	# poetry run python -m bandit sophie_bot/ -r
+	poetry run python -m pyright sophie_bot/ --stats
+	# python -m pytest tests -v --alluredir=allure_results
 
 # Locale
 

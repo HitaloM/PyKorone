@@ -11,7 +11,7 @@ from flag import flag
 from sophie_bot.utils.logger import log
 
 LANG_STATS_REGEX = compile(
-    r"^(?:(\d+) translated message(?:s))(?:, )?(?:(\d+) fuzzy translation)?(?:, )?(?:(\d+) untranslated messages)?"
+    r"^(?:(\d+) translated message(?:s))(?:, )?(?:(\d+) fuzzy translation)?(?:," r" )?(?:(\d+) untranslated messages)?"
 )
 
 

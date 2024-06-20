@@ -25,15 +25,15 @@ LOADED_MODULES = []
 
 
 def list_all_modules() -> list:
-    modules_directory = 'sophie_bot/modules/legacy_modules/modules'
+    modules_directory = "sophie_bot/modules/legacy_modules/modules"
 
     all_modules = []
     for module_name in os.listdir(modules_directory):
-        path = modules_directory + '/' + module_name
+        path = modules_directory + "/" + module_name
 
-        if '__pycache__' in path:
+        if "__pycache__" in path:
             continue
-        if '__init__' in path:
+        if "__init__" in path:
             continue
 
         if path in all_modules:
@@ -41,12 +41,12 @@ def list_all_modules() -> list:
             exit(5)
 
         # One file module type
-        if path.endswith('.py'):
+        if path.endswith(".py"):
             # TODO: removesuffix
-            all_modules.append(module_name.split('.py')[0])
+            all_modules.append(module_name.split(".py")[0])
 
         # Module directory
-        if os.path.isdir(path) and os.path.exists(path + '/__init__.py'):
+        if os.path.isdir(path) and os.path.exists(path + "/__init__.py"):
             all_modules.append(module_name)
 
     return all_modules

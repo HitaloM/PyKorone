@@ -23,28 +23,36 @@ from aiogram import F
 from telethon.errors.rpcerrorlist import MessageDeleteForbiddenError
 
 from sophie_bot import bot, dp
-from sophie_bot.filters.admin_rights import UserRestricting, BotHasPermissions
+from sophie_bot.filters.admin_rights import BotHasPermissions, UserRestricting
 from sophie_bot.modules.legacy_modules.utils.language import get_strings_dec
 from sophie_bot.modules.legacy_modules.utils.notes import BUTTONS
 from sophie_bot.modules.legacy_modules.utils.register import register
 from sophie_bot.services.telethon import tbot
 
 
-@register(BotHasPermissions(can_delete_messages=True), UserRestricting(can_delete_messages=True), cmds="del")
-@get_strings_dec('msg_deleting')
+@register(
+    BotHasPermissions(can_delete_messages=True),
+    UserRestricting(can_delete_messages=True),
+    cmds="del",
+)
+@get_strings_dec("msg_deleting")
 async def del_message(message, strings):
     if not message.reply_to_message:
-        await message.reply(strings['reply_to_msg'])
+        await message.reply(strings["reply_to_msg"])
         return
     msgs = [message.message_id, message.reply_to_message.message_id]
     await tbot.delete_messages(message.chat.id, msgs)
 
 
-@register(BotHasPermissions(can_delete_messages=True), UserRestricting(can_delete_messages=True), cmds="purge")
-@get_strings_dec('msg_deleting')
+@register(
+    BotHasPermissions(can_delete_messages=True),
+    UserRestricting(can_delete_messages=True),
+    cmds="purge",
+)
+@get_strings_dec("msg_deleting")
 async def fast_purge(message, strings):
     if not message.reply_to_message:
-        await message.reply(strings['reply_to_msg'])
+        await message.reply(strings["reply_to_msg"])
         return
     msg_id = message.reply_to_message.message_id
     delete_to = message.message_id
@@ -60,7 +68,7 @@ async def fast_purge(message, strings):
     try:
         await tbot.delete_messages(chat_id, msgs)
     except MessageDeleteForbiddenError:
-        await message.reply(strings['purge_error'])
+        await message.reply(strings["purge_error"])
         return
 
     msg = await bot.send_message(chat_id, strings["fast_purge_done"])
@@ -68,9 +76,9 @@ async def fast_purge(message, strings):
     await msg.delete()
 
 
-BUTTONS.update({'delmsg': 'btn_deletemsg_cb'})
+BUTTONS.update({"delmsg": "btn_deletemsg_cb"})
 
 
-@dp.inline_query(F.data.regexp(r'btn_deletemsg:(\w+)'))
+@dp.inline_query(F.data.regexp(r"btn_deletemsg:(\w+)"))
 async def delmsg_btn(event, regexp=None, **kwargs):
     await event.message.delete()

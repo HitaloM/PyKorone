@@ -1,6 +1,6 @@
 from aiogram import types
-from aiogram.filters import Filter, BaseFilter
-from aiogram.types import TelegramObject, Chat
+from aiogram.filters import BaseFilter, Filter
+from aiogram.types import Chat, TelegramObject
 
 
 class ChatTypeFilter(BaseFilter):
@@ -12,7 +12,7 @@ class ChatTypeFilter(BaseFilter):
 
 
 class LegacyOnlyPM(Filter):
-    key = 'only_pm'
+    key = "only_pm"
 
     def __init__(self, only_pm):
         self.only_pm = only_pm
@@ -23,7 +23,7 @@ class LegacyOnlyPM(Filter):
 
 
 class LegacyOnlyGroups(Filter):
-    key = 'only_groups'
+    key = "only_groups"
 
     def __init__(self, only_groups):
         self.only_groups = only_groups

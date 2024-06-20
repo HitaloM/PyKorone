@@ -5,7 +5,7 @@ from aiogram.types import Chat, ChatMemberUpdated, Message, Update, User
 
 from sophie_bot import CONFIG
 from sophie_bot.db.models import ChatModel
-from sophie_bot.db.models.chat import UserInGroupModel, ChatTopicModel
+from sophie_bot.db.models.chat import ChatTopicModel, UserInGroupModel
 
 
 class SaveChatsMiddleware(BaseMiddleware):
@@ -69,8 +69,7 @@ class SaveChatsMiddleware(BaseMiddleware):
 
     @staticmethod
     async def update_from_user(
-            message: Message,
-            current_group: ChatModel
+        message: Message, current_group: ChatModel
     ) -> Tuple[Optional[ChatModel], Optional[UserInGroupModel]]:
         if not message.from_user:
             return None, None
@@ -125,11 +124,11 @@ class SaveChatsMiddleware(BaseMiddleware):
     async def _handle_private_and_group_message(self, data: dict, message: Message, chat_id: int) -> ChatModel:
         """Returns current group/chat model"""
         if message.chat.type == "private" and message.from_user:
-            user = (await ChatModel.upsert_user(message.from_user))
+            user = await ChatModel.upsert_user(message.from_user)
             data["chat_db"] = data["user_db"] = user
             return user
         else:
-            current_group = (await ChatModel.upsert_group(message.chat))
+            current_group = await ChatModel.upsert_group(message.chat)
             data["chat_db"] = data["group_db"] = current_group
             data["user_db"], data["user_in_group"] = await self.update_from_user(message, current_group)
             return current_group
@@ -181,7 +180,10 @@ class SaveChatsMiddleware(BaseMiddleware):
         return True
 
     async def __call__(
-            self, handler: Callable[[Update, dict[str, Any]], Awaitable[Any]], update: Update, data: dict[str, Any]
+        self,
+        handler: Callable[[Update, dict[str, Any]], Awaitable[Any]],
+        update: Update,
+        data: dict[str, Any],
     ) -> Any:
         _continue = True
         if update.message:
@@ -192,6 +194,7 @@ class SaveChatsMiddleware(BaseMiddleware):
             _continue = await self.save_my_chat_member(update.my_chat_member)
 
         return await handler(update, data) if _continue else None
+
 
 #
 # class SaveChatsChatMemberUpdatedMiddleware(SaveChatsMiddlewareABC):

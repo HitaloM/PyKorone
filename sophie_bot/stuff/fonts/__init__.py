@@ -18,15 +18,11 @@
 
 
 def list_all_fonts():
-    from os.path import dirname, basename, isfile
     import glob
+    from os.path import basename, dirname, isfile
 
     mod_paths = glob.glob(dirname(__file__) + "/*.ttf")
-    all_fonts = [
-        dirname(f) + '/' + basename(f)
-        for f in mod_paths
-        if isfile(f) and f.endswith(".ttf")
-    ]
+    all_fonts = [dirname(f) + "/" + basename(f) for f in mod_paths if isfile(f) and f.endswith(".ttf")]
     return all_fonts
 
 

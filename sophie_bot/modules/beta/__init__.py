@@ -1,8 +1,8 @@
 from aiogram import Router
 
-from .handlers.beta_state import set_beta_state, show_beta_state
 from ...filters.cmd import CMDFilter
 from ...filters.message_status import HasArgs
+from .handlers.beta_state import set_beta_state, show_beta_state
 
 router = Router(name="error")
 
