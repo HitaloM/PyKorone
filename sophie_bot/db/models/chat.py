@@ -35,13 +35,6 @@ class ChatModel(Document):
     # Topics
     chat_topics: BackLink["ChatTopicModel"] = Field(original_field="group")
 
-    # Language
-    language: BackLink["LanguageModel"] = Field(original_field="chat")
-
-    # Connections
-    user_connected: BackLink["ChatConnectionModel"] = Field(original_field="user")
-    group_connected: BackLink["ChatConnectionModel"] = Field(original_field="group")
-
     class Settings:
         name = "chats"
 
