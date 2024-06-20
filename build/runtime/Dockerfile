@@ -1,4 +1,4 @@
-FROM python:3.11-slim AS builder
+FROM python:3.11-slim as builder
 
 ENV PIP_DEFAULT_TIMEOUT=100 \
     PIP_DISABLE_PIP_VERSION_CHECK=1 \
@@ -9,25 +9,19 @@ RUN apt install build-essential gcc -y
 RUN pip install poetry wheel
 RUN python -m venv /venv
 
-
 WORKDIR /build
 COPY ../../pyproject.toml poetry.lock ./
 
-RUN poetry export -f requirements.txt -E fast --without-hashes
 RUN poetry export -f requirements.txt -E fast --without-hashes | /venv/bin/pip install -r /dev/stdin
 
-COPY ../../Makefile Makefile
-
-COPY ../../app app
+COPY ../../sophie_bot sophie_bot
 COPY ../../locales locales
 
 RUN bash -c "source /venv/bin/activate; make new_locale"
 
-RUN pwd
+RUN poetry build && /venv/bin/pip install dist/*.whl
 
-
-
-FROM python:3.11-slim AS final
+FROM python:3.11-slim as final
 
 ENV PYTHONFAULTHANDLER=1 \
     PYTHONHASHSEED=random \
@@ -36,11 +30,10 @@ ENV PYTHONFAULTHANDLER=1 \
 # RUN apk add --no-cache libffi libpq
 
 COPY --from=builder /venv /venv
-COPY ../../app /app
-COPY ../../migrations /migrations
+COPY ../../sophie_bot /sophie_bot
 
 COPY --from=builder /build/locales /locales
 
 WORKDIR /
 
-CMD ["/venv/bin/python", "-m", "app"]
+CMD ["/venv/bin/python", "-m", "sophie_bot"]
