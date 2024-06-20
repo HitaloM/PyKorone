@@ -1,6 +1,8 @@
-from typing import List, Optional
+from ipaddress import IPv4Network
+from typing import List, Optional, Annotated
 
-from pydantic import validator, AnyHttpUrl, computed_field, BaseModel
+from aiogram.webhook.security import DEFAULT_TELEGRAM_NETWORKS
+from pydantic import validator, AnyHttpUrl, computed_field, BaseModel, Field, field_validator, FilePath
 from pydantic_settings import BaseSettings
 
 
@@ -31,8 +33,15 @@ class Config(BaseSettings):
     modules_not_load: List[str] = []
 
     webhooks_enable: bool = False
-    webhooks_url: str = "/"
+    webhooks_listen: str = "127.0.0.1"
     webhooks_port: int = 8080
+    webhooks_path: str = "/"
+    webhooks_https_certificate: Optional[FilePath] = None
+    webhooks_https_certificate_key: Optional[FilePath] = None
+
+    webhooks_allowed_networks: Annotated[List[IPv4Network], Field(validate_default=True)] = [IPv4Network("127.0.0.0/8")]
+    webhooks_secret_token: Optional[str] = None
+    webhooks_handle_in_background: bool = True
 
     commands_prefix: str = "/!"
     commands_ignore_case: bool = True
@@ -69,6 +78,12 @@ class Config(BaseSettings):
         if owner_id not in value:
             value.append(owner_id)
         return value
+
+    @field_validator("webhooks_allowed_networks")
+    @classmethod
+    def add_telegram_networks(cls, v: List[IPv4Network]) -> List[IPv4Network]:
+        v.extend(DEFAULT_TELEGRAM_NETWORKS)
+        return v
 
 
 class CacheTTL(BaseModel):
