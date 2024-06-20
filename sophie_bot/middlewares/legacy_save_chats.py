@@ -101,7 +101,9 @@ class LegacySaveChats(BaseMiddleware):
             if chat_new['chat_nick'] and (check := await db.chat_list.find_one(find_old_chat)):
                 await db.chat_list.delete_one({'_id': check['_id']})
                 log.info(
-                    f"Found chat ({check['chat_id']}) with same username as ({chat_new['chat_id']}), old chat was deleted.")
+                    f"Found chat ({check['chat_id']}) with same username as "
+                    f"({chat_new['chat_id']}), old chat was deleted."
+                )
 
             await db.chat_list.update_one({'chat_id': chat_id}, {"$set": chat_new}, upsert=True)
 
