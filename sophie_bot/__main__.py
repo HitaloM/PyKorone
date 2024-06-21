@@ -19,7 +19,7 @@ from sophie_bot.services.db import init_db, test_db
 from sophie_bot.services.telethon import start_telethon
 from sophie_bot.utils.logger import log
 
-if CONFIG.is_proxy:
+if CONFIG.proxy_enabled:
     log.warn(
         "Proxy mode enabled!",
         stable_instance_url=CONFIG.stable_instance_url,

@@ -33,19 +33,16 @@ class BetaMiddleware(BaseMiddleware):
         data: dict[str, Any],
     ) -> Any:
         response = await handler(update, data)
-
-        log.debug("Starting Stable Sophie request...")
-
         chat: Optional[Chat] = data.get("event_chat")
 
         json_request = self.get_data(update)
         log.debug("Request data", json_request=json_request)
-        if not chat or not await cache_get_chat_beta(chat.id):
-            log.debug("Sending request to Stable Sophie...")
-            await self.send_request(json_request, CONFIG.stable_instance_url)
-        else:
+        if CONFIG.proxy_always_beta or (chat and await cache_get_chat_beta(chat.id)):
             log.debug("Sending request to Beta Sophie...")
-            await self.send_request(json_request, CONFIG.beta_instance_url)
+            await self.send_request(json_request, CONFIG.proxy_beta_instance_url)
+        else:
+            log.debug("Sending request to Stable Sophie...")
+            await self.send_request(json_request, CONFIG.proxy_stable_instance_url)
 
         return response
 
