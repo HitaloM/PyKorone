@@ -562,7 +562,7 @@ async def fed_info(message: Message, fed, strings):
         text += strings["finfo_subs_title"]
         for sfed in fed["subscribed"]:
             sfed = await get_fed_by_id(sfed)
-            text += f"* {sfed['fed_name']} (<code>{sfed['fed_id']}</code>)\n"
+            text += f"* {html.escape(sfed['fed_name'], False)} (<code>{sfed['fed_id']}</code>)\n"
 
     await message.reply(text, disable_notification=True)
 
