@@ -426,7 +426,7 @@ STRINGS:
     automatic_ban_reason: "\nReason: <code>{text}</code>"
 
     # /fcheck
-    fcheck_header: "<b>Federation ban info:</b>\n"
+    fcheck_header: "Federation ban info:\n"
     fbanned_count_pm: "You are fbanned in {count} federation(s)!\n"
     fban_info:fcheck: "You have been fbanned in {fed} federation on {date}, No reason was given!"
     fban_info:fcheck:reason: "You have been fbanned in {fed} federation on {date} because of reason -\n {reason}\n"

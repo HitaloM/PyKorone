@@ -366,7 +366,7 @@ STRINGS:
     automatic_ban_sfed: '{user} kullanıcısı grupta geçerli olan <b>{fed_name}</b> federasyonundan yasaklandı. Bu sebeple kullanıcı gruptan yasaklandı!'
     automatic_ban_reason: "Sebep: <code>{text}</code>"
     #/fcheck
-    fcheck_header: "<b>Federasyon yasağı bilgileri:</b>"
+    fcheck_header: "Federasyon yasağı bilgileri:"
     fbanned_count_pm: "{count} federasyon(lar) da yasaklandınız!"
     "fban_info:fcheck": "{date} tarihinde {fed} federasyonundan yasaklandınız, hiçbir neden belirtilmedi!"
     "fban_info:fcheck:reason": "{reason} nedeniyle {date} tarihinde {fed} federasyonundan yasaklandınız"

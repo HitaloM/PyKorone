@@ -352,7 +352,7 @@ STRINGS:
     automatic_ban_sfed: L'utilisateur {user} est banni dans la sous-fédération <b>{fed_name}</b>. L'utilisateur a donc été supprimé !
     automatic_ban_reason: "\nRaison : <code>{text}</code>"
     #/fcheck
-    fcheck_header: "<b>Informations sur le ban de la Fédération :</b>\n"
+    fcheck_header: "Informations sur le ban de la Fédération :\n"
     fbanned_count_pm: "Vous êtes banni dans {count} fédération(s)!\n"
     "fban_info:fcheck": "Vous avez été banni dans la fédération {fed} le {date}, aucune raison n'a été donnée!"
     "fban_info:fcheck:reason": "Vous avez été banni dans la fédération {fed} le {date} pour raison -\n {reason}\n"

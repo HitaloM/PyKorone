@@ -369,7 +369,7 @@ STRINGS:
     automatic_ban_sfed: Користувач {user} заблокований в підфедерації <b>{fed_name}</b> і тому був видалений!
     automatic_ban_reason: "\nПричина: <code>{text}</code>"
     #/fcheck
-    fcheck_header: "<b>Інформація про блокування у федерації:</b>\n"
+    fcheck_header: "Інформація про блокування у федерації:\n"
     fbanned_count_pm: "Ви були заблоковані в {count} федерації(ях)!\n"
     "fban_info:fcheck": "Ви були заблоковані в федерації {fed} {date}, причини не надано!"
     "fban_info:fcheck:reason": "Ви були заблоковані в федерації {fed} {date} з причини -\n {reason}\n"

@@ -1147,18 +1147,18 @@ async def check_fbanned(message: Message, chat, strings):
 @register(cmds=["fcheck", "fbanstat"])
 @get_fed_user_text(skip_no_fed=True, check_self_user=True, disable_self_fed_check=True)
 @get_strings_dec("feds")
-async def fedban_check(message: Message, fed, user, _, strings):
+async def fedban_check(message, fed, user, _, strings):
     fbanned_fed = False  # A variable to find if user is banned in current fed of chat
     fban_data = None
 
-    total_count = await db.fed_bans.count_documents({"user_id": user["user_id"]})
+    total_count = await db.get().fed_bans.count_documents({"user_id": user["user_id"]})
     if fed:
         fed_list = [fed["fed_id"]]
         # check fbanned in subscribed
         if "subscribed" in fed:
             fed_list.extend(fed["subscribed"])
 
-        if fban_data := await db.fed_bans.find_one({"user_id": user["user_id"], "fed_id": {"$in": fed_list}}):
+        if fban_data := await db.get().fed_bans.find_one({"user_id": user["user_id"], "fed_id": {"$in": fed_list}}):
             fbanned_fed = True
 
             # re-assign fed if user is banned in sub-fed
@@ -1172,20 +1172,16 @@ async def fedban_check(message: Message, fed, user, _, strings):
             if bool(fban_data):
                 if "reason" not in fban_data:
                     text += strings["fban_info:fcheck"].format(
-                        fed=html.escape(fed["fed_name"], False),
+                        fed=fed["fed_name"],
                         date=babel.dates.format_date(
-                            fban_data["time"],
-                            "long",
-                            locale=strings["language_info"]["babel"],
+                            fban_data["time"], "long", locale=strings["language_info"]["babel"]
                         ),
                     )
                 else:
                     text += strings["fban_info:fcheck:reason"].format(
-                        fed=html.escape(fed["fed_name"], False),
+                        fed=fed["fed_name"],
                         date=babel.dates.format_date(
-                            fban_data["time"],
-                            "long",
-                            locale=strings["language_info"]["babel"],
+                            fban_data["time"], "long", locale=strings["language_info"]["babel"]
                         ),
                         reason=fban_data["reason"],
                     )
@@ -1195,12 +1191,12 @@ async def fedban_check(message: Message, fed, user, _, strings):
             text += strings["fbanned_count_pm"].format(count=total_count)
             if total_count > 0:
                 count = 0
-                async for fban in db.fed_bans.find({"user_id": user["user_id"]}):
+                async for fban in db.get().fed_bans.find({"user_id": user["user_id"]}):
                     count += 1
                     _fed = await get_fed_by_id(fban["fed_id"])
                     if _fed:
                         fed_name = _fed["fed_name"]
-                        text += f'{count}: <code>{fban["fed_id"]}</code>: {fed_name}\n'
+                        text += f'{count}: {fban["fed_id"]}: {fed_name}\n'
     else:
         if total_count > 0:
             text += strings["fbanned_data"].format(user=await get_user_link(user["user_id"]), count=total_count)
@@ -1209,24 +1205,21 @@ async def fedban_check(message: Message, fed, user, _, strings):
 
         if fbanned_fed is True:
             if "reason" in fban_data:
-                text += strings["fbanned_in_fed:reason"].format(
-                    fed=html.escape(fed["fed_name"], False), reason=fban_data["reason"]
-                )
+                text += strings["fbanned_in_fed:reason"].format(fed=fed["fed_name"], reason=fban_data["reason"])
             else:
-                text += strings["fbanned_in_fed"].format(fed=html.escape(fed["fed_name"], False))
+                text += strings["fbanned_in_fed"].format(fed=fed["fed_name"])
         elif fed is not None:
             text += strings["not_fbanned_in_fed"].format(fed_name=html.escape(fed["fed_name"], quote=False))
 
         if total_count > 0:
             if message.from_user.id == user["user_id"]:
                 text += strings["contact_in_pm"]
-    if len(text) > 4096:
         return await message.answer_document(
             InputFile(io.StringIO(text), filename="fban_info.txt"),
             strings["too_long_fbaninfo"],
             reply=message.message_id,
         )
-    await message.reply(text)
+    await message.reply(text, parse_mode="None")
 
 
 @cached()

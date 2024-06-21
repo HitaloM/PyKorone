@@ -365,7 +365,7 @@ STRINGS:
     automatic_ban_sfed: Пользователь {user} забанен в под-федерации <b>{fed_name}</b>. Поэтому был удалён!
     automatic_ban_reason: "\nПричина: <code>{text}</code>"
     #/fcheck
-    fcheck_header: "<b>Информация о федерационном бане:</b>\n"
+    fcheck_header: "Информация о федерационном бане:\n"
     fbanned_count_pm: "Вы были забанены в {count} федераций!\n"
     "fban_info:fcheck": "Вас забанили в федерации {fed} в {date}, и без причины!"
     "fban_info:fcheck:reason": "Вы были забанены в федерации {fed} в {date} по причине -\n {reason}\n"

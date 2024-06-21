@@ -367,7 +367,7 @@ STRINGS:
     automatic_ban_sfed: المستخدم {user} محظور في اتحاد فرعي <b>{fed_name}</b>. لذلك تم إزالته!
     automatic_ban_reason: "\nالسبب: <code>{text}</code>"
     #/fcheck
-    fcheck_header: "<b>معلومات حظر الاتحاد:</b>\n"
+    fcheck_header: "معلومات حظر الاتحاد:\n"
     fbanned_count_pm: "تم حظرك في {count} اتحاد(ات)!\n"
     "fban_info:fcheck": "لقد تم حظرك في اتحاد {fed} على {date}، لا يوجد سبب لذلك!"
     "fban_info:fcheck:reason": "لقد تم حظرك في اتحاد {fed} على {date} السبب -\n {reason}\n"

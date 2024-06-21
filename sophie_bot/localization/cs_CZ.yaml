@@ -368,7 +368,7 @@ STRINGS:
     automatic_ban_sfed: Uživatel {user} je zabanován v pod-federaci <b>{fed_name}</b>. Byl tedy odstraněn!
     automatic_ban_reason: "\nDůvod: <code>{text}</code>"
     #/fcheck
-    fcheck_header: "<b>Informace o federačním banu:</b>\n"
+    fcheck_header: "Informace o federačním banu:\n"
     fbanned_count_pm: "Jste federačně zabanován ve {count} federaci/federacích!\n"
     "fban_info:fcheck": "Byli jste zabanováni ve {fed} federaci dne {date}, žádný důvod, nebyl udán!"
     "fban_info:fcheck:reason": "Byl jste zabanován ve federaci {fed} dne {date} protože {reason}\n"
