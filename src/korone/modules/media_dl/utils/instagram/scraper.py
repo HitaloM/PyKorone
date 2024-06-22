@@ -6,6 +6,7 @@ from dataclasses import dataclass
 from datetime import timedelta
 from enum import Enum
 from typing import Any
+from urllib.parse import urlparse, urlunparse
 
 import esprima
 import httpx
@@ -351,6 +352,17 @@ def process_data(data: dict[str, Any] | None, post_id: str) -> InstaData:
         )
         for m in media
     ]
+
+    for media in medias:
+        try:
+            parsed_url = urlparse(media.url)
+            new_netloc = "scontent.cdninstagram.com"
+            new_url = parsed_url._replace(netloc=new_netloc)
+            media.url = urlunparse(new_url)
+        except Exception as e:
+            log.error("Failed to parse media URL %s: %s", media.url, e)
+            msg = f"Failed to parse media URL {media.url}: {e}"
+            raise InstaError(msg) from e
 
     return InstaData(
         post_id=post_id,
