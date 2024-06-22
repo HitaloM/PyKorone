@@ -159,20 +159,23 @@ class TikTokHandler(MessageHandler):
 
         tiktok = TikTokClient(str(media_id))
 
-        async with ChatActionSender(
-            client=client, chat_id=message.chat.id, action=ChatAction.UPLOAD_DOCUMENT
-        ):
-            try:
-                media = await tiktok.get()
-            except TikTokError:
-                return
+        try:
+            media = await tiktok.get()
+        except TikTokError:
+            return
 
-            if not media:
-                return
+        if not media:
+            return
 
-            if isinstance(media, TikTokVideo):
+        if isinstance(media, TikTokVideo):
+            async with ChatActionSender(
+                client=client, chat_id=message.chat.id, action=ChatAction.UPLOAD_VIDEO
+            ):
                 await self.process_video(client, message, media, str(media_id))
-            elif isinstance(media, TikTokSlideshow):
+        elif isinstance(media, TikTokSlideshow):
+            async with ChatActionSender(
+                client=client, chat_id=message.chat.id, action=ChatAction.UPLOAD_PHOTO
+            ):
                 await self.process_slideshow(message, media, str(media_id))
 
         tiktok.clear()

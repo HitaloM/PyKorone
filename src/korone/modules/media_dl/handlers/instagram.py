@@ -95,7 +95,8 @@ class InstagramHandler(MessageHandler):
         return media_list
 
     @staticmethod
-    async def reply_with_media(
+    async def reply_with_media(  # noqa: PLR0917
+        client: Client,
         message: Message,
         media: Media,
         text: str,
@@ -115,17 +116,23 @@ class InstagramHandler(MessageHandler):
             MediaType.STORY_IMAGE,
             MediaType.STORY_VIDEO,
         }:
-            return await message.reply_photo(
-                photo=media_file,
-                caption=text,
-                reply_markup=keyboard.as_markup() if keyboard else None,  # type: ignore
-            )
+            async with ChatActionSender(
+                client=client, chat_id=message.chat.id, action=ChatAction.UPLOAD_PHOTO
+            ):
+                return await message.reply_photo(
+                    photo=media_file,
+                    caption=text,
+                    reply_markup=keyboard.as_markup() if keyboard else None,  # type: ignore
+                )
         if media.type_name == MediaType.GRAPH_VIDEO:
-            return await message.reply_video(
-                video=media_file,
-                caption=text,
-                reply_markup=keyboard.as_markup() if keyboard else None,  # type: ignore
-            )
+            async with ChatActionSender(
+                client=client, chat_id=message.chat.id, action=ChatAction.UPLOAD_VIDEO
+            ):
+                return await message.reply_video(
+                    video=media_file,
+                    caption=text,
+                    reply_markup=keyboard.as_markup() if keyboard else None,  # type: ignore
+                )
         return None
 
     @router.message(filters.regex(URL_PATTERN))
@@ -138,44 +145,44 @@ class InstagramHandler(MessageHandler):
         post_url_match = POST_URL_PATTERN.search(message.text)
         post_url = post_url_match.group() if post_url_match else None
 
-        async with ChatActionSender(
-            client=client, chat_id=message.chat.id, action=ChatAction.UPLOAD_DOCUMENT
-        ):
+        try:
+            insta = await get_instagram_data(post_id)
+        except NotFoundError:
+            return
+
+        text, keyboard = self.create_caption_and_keyboard(insta, post_url)
+
+        cache = MediaCache(post_id)
+        cache_data = await cache.get()
+
+        if len(insta.medias) == 1:
+            media = insta.medias[0]
             try:
-                insta = await get_instagram_data(post_id)
-            except NotFoundError:
-                return
-
-            text, keyboard = self.create_caption_and_keyboard(insta, post_url)
-
-            cache = MediaCache(post_id)
-            cache_data = await cache.get()
-
-            if len(insta.medias) == 1:
-                media = insta.medias[0]
-                try:
-                    sent_message = await self.reply_with_media(
-                        message, media, text, cache_data, keyboard
-                    )
-                except Exception as e:
-                    await message.reply(_("Failed to send media: {error}").format(error=e))
-                else:
-                    cache_ttl = int(timedelta(weeks=1).total_seconds())
-                    await cache.set(sent_message, cache_ttl) if sent_message else None
-                return
-
-            media_list = await self.create_media_list(insta, cache_data)
-            if not media_list:
-                return
-
-            media_list[-1].caption = text
-            if post_url:
-                media_list[-1].caption += f"\n\n<a href='{post_url}'>{_("Open in Instagram")}</a>"
-
-            try:
-                sent_message = await message.reply_media_group(media_list)
+                sent_message = await self.reply_with_media(
+                    client, message, media, text, cache_data, keyboard
+                )
             except Exception as e:
                 await message.reply(_("Failed to send media: {error}").format(error=e))
             else:
                 cache_ttl = int(timedelta(weeks=1).total_seconds())
                 await cache.set(sent_message, cache_ttl) if sent_message else None
+            return
+
+        media_list = await self.create_media_list(insta, cache_data)
+        if not media_list:
+            return
+
+        media_list[-1].caption = text
+        if post_url:
+            media_list[-1].caption += f"\n\n<a href='{post_url}'>{_("Open in Instagram")}</a>"
+
+        try:
+            async with ChatActionSender(
+                client=client, chat_id=message.chat.id, action=ChatAction.UPLOAD_DOCUMENT
+            ):
+                sent_message = await message.reply_media_group(media_list)
+        except Exception as e:
+            await message.reply(_("Failed to send media: {error}").format(error=e))
+        else:
+            cache_ttl = int(timedelta(weeks=1).total_seconds())
+            await cache.set(sent_message, cache_ttl) if sent_message else None

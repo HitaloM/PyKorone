@@ -130,29 +130,30 @@ class GetYouTubeHandler(CallbackQueryHandler):
 
         await message.edit_text(_("Downloading..."))
 
-        async with ChatActionSender(client=client, chat_id=message.chat.id, action=action):
-            try:
-                yt = await download_method(url)
-            except DownloadError as err:
-                if "requested format is not available" in str(err).lower():
-                    text = (
-                        "Sorry, I am unable to download this media. "
-                        "It may exceed the 300MB size limit."
-                    )
-                else:
-                    text = _("Failed to download the media.")
+        try:
+            yt = await download_method(url)
+        except DownloadError as err:
+            if "requested format is not available" in str(err).lower():
+                text = (
+                    "Sorry, I am unable to download this media. "
+                    "It may exceed the 300MB size limit."
+                )
+            else:
+                text = _("Failed to download the media.")
 
-                await message.edit_text(text)
-                return
+            await message.edit_text(text)
+            return
 
-            if not ytdl.file_path:
-                await message.edit_text(_("Failed to download the media."))
-                return
+        if not ytdl.file_path:
+            await message.edit_text(_("Failed to download the media."))
+            return
 
-            await message.edit_text(_("Uploading..."))
+        await message.edit_text(_("Uploading..."))
 
-            caption = f"<a href='{yt.url}'>{yt.title}</a>"
-            try:
+        caption = f"<a href='{yt.url}'>{yt.title}</a>"
+
+        try:
+            async with ChatActionSender(client=client, chat_id=message.chat.id, action=action):
                 if media_type == "video":
                     await client.send_video(
                         message.chat.id,
@@ -173,11 +174,11 @@ class GetYouTubeHandler(CallbackQueryHandler):
                         title=yt.title,
                         thumb=yt.thumbnail,
                     )
-                await message.delete()
-            except Exception:
-                await message.edit_text(_("Failed to send the media."))
-            finally:
-                ytdl.clear()
+            await message.delete()
+        except Exception:
+            await message.edit_text(_("Failed to send the media."))
+        finally:
+            ytdl.clear()
 
     @router.callback_query(YtGetCallback.filter())
     async def handle(self, client: Client, callback: CallbackQuery) -> None:

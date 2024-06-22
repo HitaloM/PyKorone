@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PyKorone 1.0\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-06-17 15:58-0300\n"
+"POT-Creation-Date: 2024-06-22 18:38-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -642,21 +642,21 @@ msgid ""
 msgstr ""
 
 #: src/korone/modules/media_dl/handlers/instagram.py:63
-#: src/korone/modules/media_dl/handlers/instagram.py:173
+#: src/korone/modules/media_dl/handlers/instagram.py:177
 msgid "Open in Instagram"
 msgstr ""
 
-#: src/korone/modules/media_dl/handlers/instagram.py:135
+#: src/korone/modules/media_dl/handlers/instagram.py:142
 msgid "This Instagram URL is not a valid post or story."
 msgstr ""
 
-#: src/korone/modules/media_dl/handlers/instagram.py:161
-#: src/korone/modules/media_dl/handlers/instagram.py:178
+#: src/korone/modules/media_dl/handlers/instagram.py:165
+#: src/korone/modules/media_dl/handlers/instagram.py:185
 #: src/korone/modules/media_dl/handlers/tiktok.py:64
 #: src/korone/modules/media_dl/handlers/tiktok.py:85
 #: src/korone/modules/media_dl/handlers/tiktok.py:91
-#: src/korone/modules/media_dl/handlers/twitter.py:168
-#: src/korone/modules/media_dl/handlers/twitter.py:222
+#: src/korone/modules/media_dl/handlers/twitter.py:182
+#: src/korone/modules/media_dl/handlers/twitter.py:233
 msgid "Failed to send media: {error}"
 msgstr ""
 
@@ -665,17 +665,17 @@ msgstr ""
 msgid "Open in TikTok"
 msgstr ""
 
-#: src/korone/modules/media_dl/handlers/twitter.py:117
-#: src/korone/modules/media_dl/handlers/twitter.py:211
+#: src/korone/modules/media_dl/handlers/twitter.py:125
+#: src/korone/modules/media_dl/handlers/twitter.py:222
 msgid "Open in Twitter"
 msgstr ""
 
-#: src/korone/modules/media_dl/handlers/twitter.py:141
-#: src/korone/modules/media_dl/handlers/twitter.py:153
+#: src/korone/modules/media_dl/handlers/twitter.py:149
+#: src/korone/modules/media_dl/handlers/twitter.py:164
 msgid "Failed to send media!"
 msgstr ""
 
-#: src/korone/modules/media_dl/handlers/twitter.py:181
+#: src/korone/modules/media_dl/handlers/twitter.py:195
 msgid ""
 "\n"
 "<b>Sent from:</b> <i>{source}</i>"
@@ -737,16 +737,16 @@ msgstr ""
 msgid "Downloading..."
 msgstr ""
 
-#: src/korone/modules/media_dl/handlers/youtube.py:143
-#: src/korone/modules/media_dl/handlers/youtube.py:149
+#: src/korone/modules/media_dl/handlers/youtube.py:142
+#: src/korone/modules/media_dl/handlers/youtube.py:148
 msgid "Failed to download the media."
 msgstr ""
 
-#: src/korone/modules/media_dl/handlers/youtube.py:152
+#: src/korone/modules/media_dl/handlers/youtube.py:151
 msgid "Uploading..."
 msgstr ""
 
-#: src/korone/modules/media_dl/handlers/youtube.py:178
+#: src/korone/modules/media_dl/handlers/youtube.py:179
 msgid "Failed to send the media."
 msgstr ""
 

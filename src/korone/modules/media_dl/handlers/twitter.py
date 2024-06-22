@@ -75,13 +75,18 @@ class TwitterMessageHandler(MessageHandler):
             )
         return None
 
-    async def handle_multiple_media(self, message: Message, tweet: TweetData, text: str) -> None:
+    async def handle_multiple_media(
+        self, client: Client, message: Message, tweet: TweetData, text: str
+    ) -> None:
         cache = MediaCache(tweet.url)
         media_cache = await cache.get()
 
         if media_cache:
             media_list = self.create_media_list(media_cache, text)
-            await message.reply_media_group(media=media_list)
+            async with ChatActionSender(
+                client=client, chat_id=message.chat.id, action=ChatAction.UPLOAD_PHOTO
+            ):
+                await message.reply_media_group(media=media_list)
             return
 
         files_to_delete = []
@@ -96,7 +101,10 @@ class TwitterMessageHandler(MessageHandler):
                 media_list.append(media)
 
         media_list[-1].caption = text
-        sent_message = await message.reply_media_group(media=media_list)
+        async with ChatActionSender(
+            client=client, chat_id=message.chat.id, action=ChatAction.UPLOAD_PHOTO
+        ):
+            sent_message = await message.reply_media_group(media=media_list)
 
         if files_to_delete:
             await delete_files(files_to_delete)
@@ -141,29 +149,35 @@ class TwitterMessageHandler(MessageHandler):
                     await message.reply(_("Failed to send media!"))
                     return None
 
-                return await client.send_photo(
-                    chat_id=message.chat.id,
-                    photo=media_file,
-                    caption=text,
-                    reply_markup=keyboard.as_markup(),
-                    reply_to_message_id=message.id,
-                )
+                async with ChatActionSender(
+                    client=client, chat_id=message.chat.id, action=ChatAction.UPLOAD_PHOTO
+                ):
+                    return await client.send_photo(
+                        chat_id=message.chat.id,
+                        photo=media_file,
+                        caption=text,
+                        reply_markup=keyboard.as_markup(),
+                        reply_to_message_id=message.id,
+                    )
             if media.type in {"video", "gif"}:
                 if not media_file:
                     await message.reply(_("Failed to send media!"))
                     return None
 
-                return await client.send_video(
-                    chat_id=message.chat.id,
-                    video=media_file,
-                    caption=text,
-                    reply_markup=keyboard.as_markup(),
-                    duration=duration,
-                    width=width,
-                    height=height,
-                    thumb=thumb,
-                    reply_to_message_id=message.id,
-                )
+                async with ChatActionSender(
+                    client=client, chat_id=message.chat.id, action=ChatAction.UPLOAD_VIDEO
+                ):
+                    return await client.send_video(
+                        chat_id=message.chat.id,
+                        video=media_file,
+                        caption=text,
+                        reply_markup=keyboard.as_markup(),
+                        duration=duration,
+                        width=width,
+                        height=height,
+                        thumb=thumb,
+                        reply_to_message_id=message.id,
+                    )
         except Exception as e:
             await message.reply(_("Failed to send media: {error}").format(error=e))
         return None
@@ -189,37 +203,34 @@ class TwitterMessageHandler(MessageHandler):
 
         api = TwitterAPI(url_match.group())
 
-        async with ChatActionSender(
-            client=client, chat_id=message.chat.id, action=ChatAction.UPLOAD_DOCUMENT
-        ):
-            try:
-                await api.fetch_and_parse()
-            except TwitterError:
-                return
+        try:
+            await api.fetch_and_parse()
+        except TwitterError:
+            return
 
-            tweet = api.tweet
+        tweet = api.tweet
 
-            if not tweet:
-                return
+        if not tweet:
+            return
 
-            if not tweet.media:
-                return
+        if not tweet.media:
+            return
 
-            text = self.format_tweet_text(tweet)
+        text = self.format_tweet_text(tweet)
 
-            if len(tweet.media) > 1:
-                text += f"\n<a href='{tweet.url}'>{_("Open in Twitter")}</a>"
-                await self.handle_multiple_media(message, tweet, text)
-                return
+        if len(tweet.media) > 1:
+            text += f"\n<a href='{tweet.url}'>{_("Open in Twitter")}</a>"
+            await self.handle_multiple_media(client, message, tweet, text)
+            return
 
-            cache = MediaCache(tweet.url)
-            cache_data = await cache.get()
-            try:
-                sent_message = await self.send_media(
-                    client, message, tweet.media[0], text, tweet, cache_data
-                )
-            except Exception as e:
-                await message.reply(_("Failed to send media: {error}").format(error=e))
-            else:
-                cache_ttl = int(timedelta(weeks=1).total_seconds())
-                await cache.set(sent_message, cache_ttl) if sent_message else None
+        cache = MediaCache(tweet.url)
+        cache_data = await cache.get()
+        try:
+            sent_message = await self.send_media(
+                client, message, tweet.media[0], text, tweet, cache_data
+            )
+        except Exception as e:
+            await message.reply(_("Failed to send media: {error}").format(error=e))
+        else:
+            cache_ttl = int(timedelta(weeks=1).total_seconds())
+            await cache.set(sent_message, cache_ttl) if sent_message else None
