@@ -87,7 +87,10 @@ class CheckAfk(MessageHandler):
         if track_text:
             text += f"\n{track_text}"
 
-        await message.reply(text)
+        sent = await message.reply(text)
+        await asyncio.sleep(5)
+        with suppress(BadRequest, MessageDeleteForbidden):
+            await sent.delete()
 
     @router.message(~filters.private & ~filters.bot, group=-2)
     async def handle(self, client: Client, message: Message) -> None:
