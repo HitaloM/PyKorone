@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PyKorone 1.0\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-06-23 18:38-0300\n"
+"POT-Creation-Date: 2024-06-23 18:51-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -949,20 +949,14 @@ msgid ""
 "meaning it is either not in use or is reserved for special use."
 msgstr ""
 
-#: src/korone/modules/web/handlers/whois.py:23
+#: src/korone/modules/web/handlers/whois.py:22
 msgid "Please provide a domain name to look up. Use /whois &lt;domain&gt;."
 msgstr ""
 
-#: src/korone/modules/web/handlers/whois.py:32
-msgid ""
-"<b>Whois information for {domain}:</b>\n"
-"<pre>"
-msgstr ""
-
-#: src/korone/modules/web/handlers/whois.py:39
+#: src/korone/modules/web/handlers/whois.py:37
 msgid "No whois information found for <code>{domain}</code>."
 msgstr ""
 
-#: src/korone/modules/web/handlers/whois.py:45
+#: src/korone/modules/web/handlers/whois.py:43
 msgid "An error occurred while fetching whois information: {error}"
 msgstr ""

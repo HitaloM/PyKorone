@@ -1,7 +1,6 @@
 # SPDX-License-Identifier: BSD-3-Clause
 # Copyright (c) 2024 Hitalo M. <https://github.com/HitaloM>
 
-
 from hydrogram import Client
 from hydrogram.types import Message
 
@@ -29,10 +28,9 @@ class WhoisHandler(MessageHandler):
             raw_output = await run_whois(domain)
             parsed_info = parse_whois_output(raw_output)
             if parsed_info:
-                text = _("<b>Whois information for {domain}:</b>\n<pre>").format(domain=domain)
+                text = ""
                 for key, value in parsed_info.items():
-                    text += f"<b>{key}</b>: {value}\n"
-                text += "</pre>"
+                    text += f"<b>{key}</b>: <code>{value}</code>\n"
                 await message.reply(text)
             else:
                 await message.reply(
