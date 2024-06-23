@@ -74,7 +74,11 @@ class YTDL:
     async def get_info(self, url: str, options: dict[str, Any]) -> VideoInfo:
         self.options.update(options)
         self.download = False
-        info = await self.process_url(url)
+        try:
+            info = await self.process_url(url)
+        except DownloadError as err:
+            raise InfoExtractionError(err) from err
+
         if not info:
             msg = "Failed to extract video info!"
             raise InfoExtractionError(msg)

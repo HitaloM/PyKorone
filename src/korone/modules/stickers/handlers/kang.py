@@ -90,9 +90,9 @@ class KangHandler(MessageHandler):
         keyboard = InlineKeyboardBuilder()
         keyboard.button(text=_("View pack"), url=f"https://t.me/addstickers/{pack_name}")
         await sent_message.edit(
-            _(
-                "Sticker <b>successfully</b> added to pack\nEmoji: {sticker_emoji}",
-            ).format(sticker_emoji=emoji),
+            _("Sticker <b>successfully</b> added to pack\nEmoji: {sticker_emoji}").format(
+                sticker_emoji=emoji
+            ),
             reply_markup=keyboard.as_markup(),
         )
 
@@ -140,7 +140,7 @@ class KangHandler(MessageHandler):
                     mime_type=mime_type,
                     attributes=[DocumentAttributeFilename(file_name=f"sticker{file_extension}")],  # type: ignore
                 ),
-                message=f"New #kang from <code>{message.from_user.id}</code>",
+                message=f"New #kang from {message.from_user.id}",
                 random_id=client.rnd_id(),
             )
         )

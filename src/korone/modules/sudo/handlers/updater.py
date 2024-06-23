@@ -26,7 +26,7 @@ class UpdateCommand(MessageHandler):
             for parts in [line.split(" ", 1)]
         }
 
-    @router.message(Command(commands=["update", "upgrade"]) & IsSudo)
+    @router.message(Command(commands=["update", "upgrade"], disableable=False) & IsSudo)
     async def handle(self, client: Client, message: Message) -> None:
         sent = await message.reply("Checking for updates...")
 
