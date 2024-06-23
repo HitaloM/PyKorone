@@ -84,13 +84,18 @@ async def resolve_hostname(hostname: str) -> list[str]:
 
 async def get_ips_from_string(hostname: str) -> list[str]:
     try:
-        return [str(ipaddress.ip_address(hostname))]
+        ip = ipaddress.ip_address(hostname)
+        return [str(ip)]
     except ValueError:
         parsed = URL(hostname)
         host = parsed.host or (URL(f"http://{hostname}").host if not parsed.is_absolute() else "")
         if not host:
             return []
         try:
-            return [str(ipaddress.ip_address(host))]
+            ip = ipaddress.ip_address(host)
+            return [str(ip)]
         except ValueError:
-            return await resolve_hostname(host)
+            ips = await resolve_hostname(host)
+            ipv4s = [ip for ip in ips if ipaddress.ip_address(ip).version == 4]
+            ipv6s = [ip for ip in ips if ipaddress.ip_address(ip).version == 6]
+            return ipv6s + ipv4s
