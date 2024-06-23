@@ -1,0 +1,12 @@
+[Unit]
+Description=Sophie Stable
+
+[Container]
+ContainerName=stable
+Image={{ lookup('ansible.builtin.env','IMAGE_NAME', default='registry.gitlab.com/sophiebot/sophie') }}:{{ image_tag }}
+PublishPort=8071:8071
+PodmanArgs=--memory=256M
+EnvironmentFile=/var/sophie/stable.env
+
+[Install]
+WantedBy=multi-user.target default.target

@@ -16,6 +16,7 @@ RUN poetry export -f requirements.txt -E fast --without-hashes | /venv/bin/pip i
 
 COPY ../../sophie_bot sophie_bot
 COPY ../../locales locales
+COPY ../../Makefile Makefile
 
 RUN bash -c "source /venv/bin/activate; make new_locale"
 

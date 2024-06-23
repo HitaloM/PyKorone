@@ -1,0 +1,12 @@
+[Unit]
+Description=Sophie Proxy
+
+[Container]
+ContainerName=proxy
+Image={{ lookup('ansible.builtin.env','IMAGE_NAME', default='registry.gitlab.com/sophiebot/sophie') }}:{{ lookup('ansible.builtin.env','IMAGE_TAG', default='proxy') }}
+PublishPort=8073:8073
+PodmanArgs=--memory=256M
+EnvironmentFile=/var/sophie/proxy.env
+
+[Install]
+WantedBy=multi-user.target default.target

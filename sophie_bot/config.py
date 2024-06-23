@@ -46,7 +46,7 @@ class Config(BaseSettings):
     webhooks_path: str = "/"
     webhooks_https_certificate: Optional[FilePath] = None
     webhooks_https_certificate_key: Optional[FilePath] = None
-
+    webhooks_filter_ips: bool = False
     webhooks_allowed_networks: Annotated[List[IPv4Network], Field(validate_default=True)] = [IPv4Network("127.0.0.0/8")]
     webhooks_secret_token: Optional[str] = None
     webhooks_handle_in_background: bool = True

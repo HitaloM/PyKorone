@@ -1,7 +1,9 @@
 stages:
   - test
   - build
+  - deploy
 
 include:
   - '/build/test.yml'
   - '/build/runtime/build.yml'
+  - '/deploy/deploy.yml'
