@@ -22,7 +22,10 @@ class IPInfoHandler(MessageHandler):
 
         if not command.args:
             await message.reply(
-                _("Please provide an IP address or domain name to look up. Use /ip <ip/domain>.")
+                _(
+                    "Please provide an IP address or domain name to look up. "
+                    "Use /ip &lt;ip/domain&gt;"
+                )
             )
             return
 
@@ -66,6 +69,9 @@ class IPInfoHandler(MessageHandler):
 
     @staticmethod
     def format_ip_info(info: dict) -> str:
+        if len(info) == 1 and "ip" in info:
+            return _("Could not find information for {ip}.").format(ip=info["ip"])
+
         return "\n".join(
             f"<b>{key.title()}</b>: <code>{value}</code>" for key, value in info.items()
         )
