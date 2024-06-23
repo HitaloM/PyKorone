@@ -27,6 +27,12 @@ class IPInfoHandler(MessageHandler):
             return
 
         ips = await get_ips_from_string(command.args.split(" ")[0])
+        if not ips:
+            await message.reply(
+                _("No valid IP addresses or domain names found in the provided input.")
+            )
+            return
+
         if len(ips) == 1:
             await IPInfoHandler.reply_with_ip_info(message, ips[0])
         else:
