@@ -72,38 +72,40 @@ DEFAULT_DBFILE_PATH: str = f"{XDG_DATA_HOME}/korone/korone.sqlite"
 SQLITE3_TABLES: str = """
 CREATE TABLE IF NOT EXISTS Users (
     id INTEGER PRIMARY KEY,
-    username TEXT,
-    language VARCHAR(2) NOT NULL DEFAULT "en",
+    first_name VARCHAR(64) NOT NULL,
+    last_name VARCHAR(64),
+    username VARCHAR(32),
+    language VARCHAR(5) NOT NULL DEFAULT "en",
     registry_date INTEGER NOT NULL
 );
 CREATE TABLE IF NOT EXISTS Groups (
     id INTEGER PRIMARY KEY,
-    username TEXT,
-    type TEXT,
-    language VARCHAR(2) NOT NULL DEFAULT "en",
+    username VARCHAR(32),
+    type VARCHAR(16) NOT NULL,
+    language VARCHAR(5) NOT NULL DEFAULT "en",
     registry_date INTEGER NOT NULL
 );
 CREATE TABLE IF NOT EXISTS Afk (
     id INTEGER PRIMARY KEY,
     state BIT,
-    reason TEXT
+    reason VARCHAR(64)
 );
 CREATE TABLE IF NOT EXISTS Commands (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     chat_id INTEGER,
-    command TEXT,
+    command VARCHAR(32),
     state BIT,
     FOREIGN KEY(chat_id) REFERENCES Groups(id)
 );
 CREATE TABLE IF NOT EXISTS LastFM (
     id INTEGER PRIMARY KEY,
-    username TEXT
+    username VARCHAR(255)
 );
 CREATE TABLE IF NOT EXISTS StickerPack (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     user_id INTEGER,
     num INTEGER DEFAULT 1,
-    type TEXT
+    type VARCHAR(16)
 );
 """
 """The default SQLite3 tables.

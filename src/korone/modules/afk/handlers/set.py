@@ -22,6 +22,10 @@ class SetAfk(MessageHandler):
             await message.reply(_("You are already AFK."))
             return
 
+        if command.args and len(command.args) > 64:
+            await message.reply(_("The maximum length of the AFK message is 64 characters."))
+            return
+
         await set_afk(message.from_user.id, state=True, reason=command.args or None)
 
         if isafk:
