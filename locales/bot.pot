@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PyKorone 1.0\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-06-23 17:16-0300\n"
+"POT-Creation-Date: 2024-06-23 18:14-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -897,4 +897,64 @@ msgid ""
 "Oops, looks like I do not have enough permissions to create a sticker "
 "pack for you!\n"
 "<b>Please start the bot first.</b>"
+msgstr ""
+
+#: src/korone/modules/web/__init__.py:10
+msgid "Web Tools"
+msgstr ""
+
+#: src/korone/modules/web/__init__.py:11
+msgid ""
+"This module provides tools to interact with the web, such as whois "
+"queries."
+msgstr ""
+
+#: src/korone/modules/web/__init__.py:14
+msgid ""
+"<b>Commands:</b>\n"
+"- /whois &lt;domain&gt;: Fetches whois information for a domain.\n"
+"- /ip &lt;ip/domain&gt;: Fetches information about an IP address or "
+"domain."
+msgstr ""
+
+#: src/korone/modules/web/handlers/ip.py:25
+msgid ""
+"Please provide an IP address or domain name to look up. Use /ip "
+"<ip/domain>."
+msgstr ""
+
+#: src/korone/modules/web/handlers/ip.py:47
+msgid "No information found for {ip_or_domain}."
+msgstr ""
+
+#: src/korone/modules/web/handlers/ip.py:51
+msgid "An error occurred while fetching information: {error}"
+msgstr ""
+
+#: src/korone/modules/web/handlers/ip.py:59
+msgid "Please select an IP address:"
+msgstr ""
+
+#: src/korone/modules/web/handlers/ip.py:69
+msgid ""
+"The provided IP address <code>{ip}</code> is a <i>bogon</i> IP address, "
+"meaning it is either not in use or is reserved for special use."
+msgstr ""
+
+#: src/korone/modules/web/handlers/whois.py:23
+msgid "Please provide a domain name to look up. Use /whois &lt;domain&gt;."
+msgstr ""
+
+#: src/korone/modules/web/handlers/whois.py:32
+msgid ""
+"<b>Whois information for {domain}:</b>\n"
+"<pre>"
+msgstr ""
+
+#: src/korone/modules/web/handlers/whois.py:39
+msgid "No whois information found for <code>{domain}</code>."
+msgstr ""
+
+#: src/korone/modules/web/handlers/whois.py:45
+msgid "An error occurred while fetching whois information: {error}"
 msgstr ""

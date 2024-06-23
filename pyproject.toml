@@ -26,6 +26,7 @@ dependencies = [
     "magic-filter>=1.0.12",
     "tomlkit>=0.12.5",
     "opencv-python>=4.10.0.84",
+    "yarl>=1.9.4",
 ]
 readme = "README.md"
 license = { file = "LICENSE" }
