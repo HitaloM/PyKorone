@@ -25,6 +25,7 @@ dependencies = [
     "aiofiles>=23.2.1",
     "magic-filter>=1.0.12",
     "tomlkit>=0.12.5",
+    "opencv-python>=4.10.0.84",
 ]
 readme = "README.md"
 license = { file = "LICENSE" }

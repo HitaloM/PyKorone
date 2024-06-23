@@ -99,6 +99,12 @@ CREATE TABLE IF NOT EXISTS LastFM (
     id INTEGER PRIMARY KEY,
     username TEXT
 );
+CREATE TABLE IF NOT EXISTS StickerPack (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    user_id INTEGER,
+    num INTEGER DEFAULT 1,
+    type TEXT
+);
 """
 """The default SQLite3 tables.
 

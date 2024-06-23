@@ -13,5 +13,6 @@ class ModuleInfo:
     )
     doc: LazyProxy = _(
         "<b>Commands:</b>\n"
-        "- /getsticker: Reply to a sticker to get it as a file and its file ID."
+        "- /getsticker: Reply to a sticker to get it as a file and its file ID.\n"
+        "- /kang: Reply to a sticker, image or video to add it to a sticker pack."
     )

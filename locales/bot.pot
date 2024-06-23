@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PyKorone 1.0\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-06-22 19:19-0300\n"
+"POT-Creation-Date: 2024-06-23 16:58-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -834,17 +834,67 @@ msgstr ""
 #: src/korone/modules/stickers/__init__.py:14
 msgid ""
 "<b>Commands:</b>\n"
-"- /getsticker: Reply to a sticker to get it as a file and its file ID."
+"- /getsticker: Reply to a sticker to get it as a file and its file ID.\n"
+"- /kang: Reply to a sticker, image or video to add it to a sticker pack."
 msgstr ""
 
-#: src/korone/modules/stickers/handlers/get_sticker.py:36
+#: src/korone/modules/stickers/handlers/get_sticker.py:35
 msgid "Reply to a sticker."
 msgstr ""
 
-#: src/korone/modules/stickers/handlers/get_sticker.py:40
+#: src/korone/modules/stickers/handlers/get_sticker.py:39
 msgid "Reply to a sticker to get it as a file and file ID"
 msgstr ""
 
-#: src/korone/modules/stickers/handlers/get_sticker.py:51
+#: src/korone/modules/stickers/handlers/get_sticker.py:50
 msgid "Failed to download sticker."
+msgstr ""
+
+#: src/korone/modules/stickers/handlers/kang.py:40
+msgid "You need to reply to a sticker or provide an emoji."
+msgstr ""
+
+#: src/korone/modules/stickers/handlers/kang.py:43
+msgid "Processing..."
+msgstr ""
+
+#: src/korone/modules/stickers/handlers/kang.py:47
+msgid "Invalid media type."
+msgstr ""
+
+#: src/korone/modules/stickers/handlers/kang.py:56
+msgid "Error downloading media."
+msgstr ""
+
+#: src/korone/modules/stickers/handlers/kang.py:63
+msgid "Error processing media."
+msgstr ""
+
+#: src/korone/modules/stickers/handlers/kang.py:91
+msgid "View pack"
+msgstr ""
+
+#: src/korone/modules/stickers/handlers/kang.py:93
+msgid ""
+"Sticker <b>successfully</b> added to pack\n"
+"Emoji: {sticker_emoji}"
+msgstr ""
+
+#: src/korone/modules/stickers/handlers/kang.py:161
+msgid "Adding the sticker to the pack..."
+msgstr ""
+
+#: src/korone/modules/stickers/handlers/kang.py:176
+msgid "Creating the sticker pack..."
+msgstr ""
+
+#: src/korone/modules/stickers/handlers/kang.py:198
+msgid "Start"
+msgstr ""
+
+#: src/korone/modules/stickers/handlers/kang.py:200
+msgid ""
+"Oops, looks like I do not have enough permissions to create a sticker "
+"pack for you!\n"
+"<b>Please start the bot first.</b>"
 msgstr ""
