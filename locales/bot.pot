@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PyKorone 1.0\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-06-23 18:51-0300\n"
+"POT-Creation-Date: 2024-06-23 20:55-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -65,11 +65,15 @@ msgstr ""
 msgid "You are already AFK."
 msgstr ""
 
-#: src/korone/modules/afk/handlers/set.py:28
+#: src/korone/modules/afk/handlers/set.py:26
+msgid "The maximum length of the AFK message is 64 characters."
+msgstr ""
+
+#: src/korone/modules/afk/handlers/set.py:32
 msgid "Your AFK status has been updated!"
 msgstr ""
 
-#: src/korone/modules/afk/handlers/set.py:31
+#: src/korone/modules/afk/handlers/set.py:35
 msgid "You are now AFK."
 msgstr ""
 
@@ -899,6 +903,85 @@ msgid ""
 "<b>Please start the bot first.</b>"
 msgstr ""
 
+#: src/korone/modules/users_groups/__init__.py:10
+msgid "Users & Groups"
+msgstr ""
+
+#: src/korone/modules/users_groups/__init__.py:11
+msgid ""
+"This module allows retrieval of public information about users and "
+"groups, including usernames, IDs, and first names for users, and names, "
+"IDs, and usernames for groups. \n"
+"\n"
+"All information is fetched from the Telegram API. No private information "
+"is exposed."
+msgstr ""
+
+#: src/korone/modules/users_groups/__init__.py:17
+msgid ""
+"<b>Commands:</b>\n"
+"- /user &lt;username/id&gt;: Fetches information about a user.\n"
+"- /chat &lt;username/id&gt;: Fetches information about a group."
+msgstr ""
+
+#: src/korone/modules/users_groups/handlers/groups.py:46
+msgid "You should provide a chat ID or username."
+msgstr ""
+
+#: src/korone/modules/users_groups/handlers/groups.py:50
+msgid "Invalid chat ID or username."
+msgstr ""
+
+#: src/korone/modules/users_groups/handlers/groups.py:50
+msgid "Chat not found."
+msgstr ""
+
+#: src/korone/modules/users_groups/handlers/groups.py:54
+msgid "<b>Chat info</b>:\n"
+msgstr ""
+
+#: src/korone/modules/users_groups/handlers/groups.py:55
+#: src/korone/modules/users_groups/handlers/users.py:48
+msgid "<b>ID</b>: <code>{id}</code>\n"
+msgstr ""
+
+#: src/korone/modules/users_groups/handlers/groups.py:56
+msgid "<b>Title</b>: {title}\n"
+msgstr ""
+
+#: src/korone/modules/users_groups/handlers/groups.py:58
+#: src/korone/modules/users_groups/handlers/users.py:53
+msgid "<b>Username</b>: @{username}\n"
+msgstr ""
+
+#: src/korone/modules/users_groups/handlers/groups.py:60
+msgid "<b>Type</b>: {type}\n"
+msgstr ""
+
+#: src/korone/modules/users_groups/handlers/users.py:43
+msgid "Invalid user ID or username."
+msgstr ""
+
+#: src/korone/modules/users_groups/handlers/users.py:43
+msgid "User not found."
+msgstr ""
+
+#: src/korone/modules/users_groups/handlers/users.py:47
+msgid "<b>User info</b>:\n"
+msgstr ""
+
+#: src/korone/modules/users_groups/handlers/users.py:49
+msgid "<b>First Name</b>: {first_name}\n"
+msgstr ""
+
+#: src/korone/modules/users_groups/handlers/users.py:51
+msgid "<b>Last Name</b>: {last_name}\n"
+msgstr ""
+
+#: src/korone/modules/users_groups/handlers/users.py:54
+msgid "<b>User link</b>: <a href='tg://user?id={id}'>link</a>\n"
+msgstr ""
+
 #: src/korone/modules/web/__init__.py:10
 msgid "Web Tools"
 msgstr ""
@@ -917,33 +1000,33 @@ msgid ""
 "domain."
 msgstr ""
 
-#: src/korone/modules/web/handlers/ip.py:25
+#: src/korone/modules/web/handlers/ip.py:24
 msgid ""
 "Please provide an IP address or domain name to look up. Use /ip "
 "&lt;ip/domain&gt;"
 msgstr ""
 
-#: src/korone/modules/web/handlers/ip.py:35
+#: src/korone/modules/web/handlers/ip.py:34
 msgid "No valid IP addresses or domain names found in the provided input."
 msgstr ""
 
-#: src/korone/modules/web/handlers/ip.py:56
+#: src/korone/modules/web/handlers/ip.py:55
 msgid "No information found for {ip_or_domain}."
 msgstr ""
 
-#: src/korone/modules/web/handlers/ip.py:60
+#: src/korone/modules/web/handlers/ip.py:59
 msgid "An error occurred while fetching information: {error}"
 msgstr ""
 
-#: src/korone/modules/web/handlers/ip.py:68
+#: src/korone/modules/web/handlers/ip.py:67
 msgid "Please select an IP address:"
 msgstr ""
 
-#: src/korone/modules/web/handlers/ip.py:73
+#: src/korone/modules/web/handlers/ip.py:72
 msgid "Could not find information for {ip}."
 msgstr ""
 
-#: src/korone/modules/web/handlers/ip.py:81
+#: src/korone/modules/web/handlers/ip.py:80
 msgid ""
 "The provided IP address <code>{ip}</code> is a <i>bogon</i> IP address, "
 "meaning it is either not in use or is reserved for special use."
@@ -960,3 +1043,4 @@ msgstr ""
 #: src/korone/modules/web/handlers/whois.py:43
 msgid "An error occurred while fetching whois information: {error}"
 msgstr ""
+

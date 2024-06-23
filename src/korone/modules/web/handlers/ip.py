@@ -7,8 +7,7 @@ from hydrogram.types import CallbackQuery, InlineKeyboardButton, Message
 
 from korone.decorators import router
 from korone.filters import Command, CommandObject
-from korone.handlers.abstract import MessageHandler
-from korone.handlers.abstract.callback_query_handler import CallbackQueryHandler
+from korone.handlers.abstract import CallbackQueryHandler, MessageHandler
 from korone.modules.web.callback_data import GetIPCallback
 from korone.modules.web.utils import fetch_ip_info, get_ips_from_string
 from korone.utils.i18n import gettext as _

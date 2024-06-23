@@ -393,11 +393,22 @@ class BaseHandler:
         Document
             The created document.
         """
-        username = chat.username or "" if isinstance(chat, User) else chat.username or ""
+        username = chat.username if isinstance(chat, User) and chat.username else ""
+        title = chat.title if isinstance(chat, Chat) else None
+        first_name = chat.first_name if isinstance(chat, User) else None
         chat_type = chat.type.name.lower() if isinstance(chat, Chat) else None
+        if isinstance(chat, User) and chat.last_name:
+            last_name = chat.last_name
+        elif isinstance(chat, User) and not chat.last_name:
+            last_name = ""
+        else:
+            last_name = None
 
         return Document(
             id=chat.id,
+            title=title,
+            first_name=first_name,
+            last_name=last_name,
             username=username,
             type=chat_type,
             language=language,
