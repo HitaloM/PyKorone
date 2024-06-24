@@ -671,7 +671,9 @@ async def welcome_security_handler_pm(message: Message, strings, regexp=None, st
 @get_strings_dec("greetings")
 async def send_button(message: Message, state, strings):
     text = strings["btn_button_text"]
-    buttons = InlineKeyboardMarkup().add(InlineKeyboardButton(strings["click_here"], callback_data="wc_button_btn"))
+    buttons = InlineKeyboardMarkup(
+        inline_keyboard=[[InlineKeyboardButton(text=strings["click_here"], callback_data="wc_button_btn")]]
+    )
     verify_msg_id = (await message.reply(text, reply_markup=buttons)).message_id
     async with state.proxy() as data:
         data["verify_msg_id"] = verify_msg_id
@@ -699,11 +701,15 @@ async def send_captcha(message: Message, state, strings):
         data["captcha_num"] = num
     text = strings["ws_captcha_text"].format(user=await get_user_link(message.from_user.id))
 
-    buttons = InlineKeyboardMarkup().add(
-        InlineKeyboardButton(strings["regen_captcha_btn"], callback_data="regen_captcha")
+    buttons = InlineKeyboardMarkup(
+        inline_keyboard=[[InlineKeyboardButton(text=strings["regen_captcha_btn"], callback_data="regen_captcha")]]
     )
 
-    verify_msg_id = (await message.answer_photo(img, caption=text, reply_markup=buttons)).message_id
+    verify_msg_id = (
+        await message.answer_photo(
+            BufferedInputFile(img.read(), filename="captcha.png"), caption=text, reply_markup=buttons
+        )
+    ).message_id
     async with state.proxy() as data:
         data["verify_msg_id"] = verify_msg_id
 
@@ -905,7 +911,9 @@ async def welcome_security_passed(message: Union[CallbackQuery, Message], state,
 
     buttons = None
     if chat_nick := chat["chat_nick"] if chat.get("chat_nick", None) else None:
-        buttons = InlineKeyboardMarkup().add(InlineKeyboardButton(text=strings["click_here"], url=f"t.me/{chat_nick}"))
+        buttons = InlineKeyboardMarkup(
+            inline_keyboard=[[InlineKeyboardButton(text=strings["click_here"], url=f"t.me/{chat_nick}")]]
+        )
 
     await bot.send_message(user_id, strings["verification_done"], reply_markup=buttons)
 
