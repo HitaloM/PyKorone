@@ -70,11 +70,13 @@ update_lang:
 	pybabel update -d "$(LOCALES_DIR)" -D "ass" -i "$(LOCALES_DIR)/ass.pot" --omit-header
 
 compile_lang:
-	pybabel compile -d "$(LOCALES_DIR)" -D "bot"
+	pybabel compile -d "$(LOCALES_DIR)" -D "bot" --use-fuzzy --statistics
 
 
 new_locale:
-	rm -rf locale/
+	rm -rf locales/
+	mkdir locales/
+
 	make extract_lang
 	make new_lang LANG=en_US
 	make update_lang
