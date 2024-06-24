@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PyKorone 1.0\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-06-23 20:55-0300\n"
+"POT-Creation-Date: 2024-06-23 21:03-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -638,24 +638,12 @@ msgid ""
 "Automatic media download is enabled for the following websites:\n"
 "- X (Twitter)\n"
 "- TikTok\n"
-"- Instagram\n"
 "\n"
 "<b>Commands:</b>\n"
 "- /ytdl &lt;youtubelink&gt;: Download the YouTube video or audio from the"
 " given link."
 msgstr ""
 
-#: src/korone/modules/media_dl/handlers/instagram.py:63
-#: src/korone/modules/media_dl/handlers/instagram.py:177
-msgid "Open in Instagram"
-msgstr ""
-
-#: src/korone/modules/media_dl/handlers/instagram.py:142
-msgid "This Instagram URL is not a valid post or story."
-msgstr ""
-
-#: src/korone/modules/media_dl/handlers/instagram.py:165
-#: src/korone/modules/media_dl/handlers/instagram.py:185
 #: src/korone/modules/media_dl/handlers/tiktok.py:64
 #: src/korone/modules/media_dl/handlers/tiktok.py:85
 #: src/korone/modules/media_dl/handlers/tiktok.py:91
@@ -1043,4 +1031,3 @@ msgstr ""
 #: src/korone/modules/web/handlers/whois.py:43
 msgid "An error occurred while fetching whois information: {error}"
 msgstr ""
-
