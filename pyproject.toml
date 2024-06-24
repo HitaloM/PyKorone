@@ -61,4 +61,4 @@ profile = "black"
 line-length = 120
 
 [tool.pyright]
-exclude = ["**/legacy_modules/"]
+exclude = ["**/legacy_modules/", '**/db/models/']

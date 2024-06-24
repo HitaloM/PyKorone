@@ -100,5 +100,5 @@ class CacheTTL(BaseModel):
     language_ttl: int = 86400  # 24 hours
 
 
-CONFIG = Config()
-CACHE_TTL = CacheTTL()
+CONFIG = Config()  # type: ignore
+CACHE_TTL = CacheTTL()  # type: ignore

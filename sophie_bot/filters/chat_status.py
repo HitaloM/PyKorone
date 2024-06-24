@@ -17,9 +17,11 @@ class LegacyOnlyPM(Filter):
     def __init__(self, only_pm):
         self.only_pm = only_pm
 
-    async def __call__(self, message: types.Message):
-        if message.from_user.id == message.chat.id:
-            return True
+    async def __call__(self, message: types.Message) -> bool:
+        if not message.from_user or not message.chat:
+            return False
+
+        return message.from_user.id == message.chat.id
 
 
 class LegacyOnlyGroups(Filter):
@@ -28,6 +30,8 @@ class LegacyOnlyGroups(Filter):
     def __init__(self, only_groups):
         self.only_groups = only_groups
 
-    async def __call__(self, message: types.Message):
-        if not message.from_user.id == message.chat.id:
-            return True
+    async def __call__(self, message: types.Message) -> bool:
+        if not message.from_user or not message.chat:
+            return False
+
+        return message.from_user.id != message.chat.id

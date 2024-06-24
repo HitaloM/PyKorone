@@ -33,7 +33,7 @@ log.info("----------------------")
 log.info("Version: " + SOPHIE_VERSION)
 
 # Support for custom BotAPI servers
-bot_api = TelegramAPIServer.from_base(CONFIG.botapi_server) if CONFIG.botapi_server else PRODUCTION
+bot_api = TelegramAPIServer.from_base(str(CONFIG.botapi_server)) if CONFIG.botapi_server else PRODUCTION
 
 # AIOGram
 bot = Bot(token=CONFIG.token, default=DefaultBotProperties(parse_mode="html"), server=bot_api)
