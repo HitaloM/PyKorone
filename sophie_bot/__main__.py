@@ -22,8 +22,8 @@ from sophie_bot.utils.logger import log
 if CONFIG.proxy_enabled:
     log.warn(
         "Proxy mode enabled!",
-        stable_instance_url=CONFIG.stable_instance_url,
-        beta_instance_url=CONFIG.beta_instance_url,
+        stable_instance_url=CONFIG.proxy_stable_instance_url,
+        beta_instance_url=CONFIG.proxy_beta_instance_url,
     )
 
     enable_proxy_middlewares()
