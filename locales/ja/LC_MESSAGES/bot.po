@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PyKorone 1.0\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-06-17 15:58-0300\n"
+"POT-Creation-Date: 2024-06-23 21:03-0300\n"
 "PO-Revision-Date: 2024-06-18 13:25+0000\n"
 "Last-Translator: Hitalo <hitalomarquete331@gmail.com>\n"
 "Language-Team: Japanese <http://weblate.amanoteam.com/projects/korone/korone/"
@@ -70,7 +70,7 @@ msgstr ""
 "\n"
 "理由: {reason}"
 
-#: src/korone/modules/afk/handlers/check.py:99
+#: src/korone/modules/afk/handlers/check.py:102
 msgid "Oh, you're back! I've removed your afk status."
 msgstr "おかえりなさい！あなたのafkステータスを解除しました。"
 
@@ -78,11 +78,15 @@ msgstr "おかえりなさい！あなたのafkステータスを解除しまし
 msgid "You are already AFK."
 msgstr "あなたは既に AFKです."
 
-#: src/korone/modules/afk/handlers/set.py:28
+#: src/korone/modules/afk/handlers/set.py:26
+msgid "The maximum length of the AFK message is 64 characters."
+msgstr ""
+
+#: src/korone/modules/afk/handlers/set.py:32
 msgid "Your AFK status has been updated!"
 msgstr "AFKのステータスが更新されました!"
 
-#: src/korone/modules/afk/handlers/set.py:31
+#: src/korone/modules/afk/handlers/set.py:35
 msgid "You are now AFK."
 msgstr "あなたは今AFKです."
 
@@ -745,11 +749,11 @@ msgstr ""
 "用可能であることを保証し,ユーザー体験を強化します."
 
 #: src/korone/modules/media_dl/__init__.py:19
+#, fuzzy
 msgid ""
 "Automatic media download is enabled for the following websites:\n"
 "- X (Twitter)\n"
 "- TikTok\n"
-"- Instagram\n"
 "\n"
 "<b>Commands:</b>\n"
 "- /ytdl &lt;youtubelink&gt;: Download the YouTube video or audio from the "
@@ -764,22 +768,11 @@ msgstr ""
 "- /ytdl &lt;YouTubeリンク&gt;: 指定されたリンクからYouTubeのビデオまたはオー"
 "ディオをダウンロードします。"
 
-#: src/korone/modules/media_dl/handlers/instagram.py:63
-#: src/korone/modules/media_dl/handlers/instagram.py:173
-msgid "Open in Instagram"
-msgstr "Instagram で開く"
-
-#: src/korone/modules/media_dl/handlers/instagram.py:135
-msgid "This Instagram URL is not a valid post or story."
-msgstr "このインスタグラムのURLは、有効な投稿やストーリーではありません。"
-
-#: src/korone/modules/media_dl/handlers/instagram.py:161
-#: src/korone/modules/media_dl/handlers/instagram.py:178
 #: src/korone/modules/media_dl/handlers/tiktok.py:64
 #: src/korone/modules/media_dl/handlers/tiktok.py:85
 #: src/korone/modules/media_dl/handlers/tiktok.py:91
-#: src/korone/modules/media_dl/handlers/twitter.py:168
-#: src/korone/modules/media_dl/handlers/twitter.py:222
+#: src/korone/modules/media_dl/handlers/twitter.py:182
+#: src/korone/modules/media_dl/handlers/twitter.py:233
 msgid "Failed to send media: {error}"
 msgstr "メディアの送信に失敗しました: {error}"
 
@@ -788,17 +781,17 @@ msgstr "メディアの送信に失敗しました: {error}"
 msgid "Open in TikTok"
 msgstr "TikTokで開く"
 
-#: src/korone/modules/media_dl/handlers/twitter.py:117
-#: src/korone/modules/media_dl/handlers/twitter.py:211
+#: src/korone/modules/media_dl/handlers/twitter.py:125
+#: src/korone/modules/media_dl/handlers/twitter.py:222
 msgid "Open in Twitter"
 msgstr "Twitterで開く"
 
-#: src/korone/modules/media_dl/handlers/twitter.py:141
-#: src/korone/modules/media_dl/handlers/twitter.py:153
+#: src/korone/modules/media_dl/handlers/twitter.py:149
+#: src/korone/modules/media_dl/handlers/twitter.py:164
 msgid "Failed to send media!"
 msgstr "メディアを送信できない!"
 
-#: src/korone/modules/media_dl/handlers/twitter.py:181
+#: src/korone/modules/media_dl/handlers/twitter.py:195
 msgid ""
 "\n"
 "<b>Sent from:</b> <i>{source}</i>"
@@ -862,16 +855,16 @@ msgstr "ビデオ情報の抽出に失敗しました！"
 msgid "Downloading..."
 msgstr "ダウンロード中..."
 
-#: src/korone/modules/media_dl/handlers/youtube.py:143
-#: src/korone/modules/media_dl/handlers/youtube.py:149
+#: src/korone/modules/media_dl/handlers/youtube.py:142
+#: src/korone/modules/media_dl/handlers/youtube.py:148
 msgid "Failed to download the media."
 msgstr "メディアのダウンロードに失敗しました。"
 
-#: src/korone/modules/media_dl/handlers/youtube.py:152
+#: src/korone/modules/media_dl/handlers/youtube.py:151
 msgid "Uploading..."
 msgstr "アップロード中…"
 
-#: src/korone/modules/media_dl/handlers/youtube.py:178
+#: src/korone/modules/media_dl/handlers/youtube.py:179
 msgid "Failed to send the media."
 msgstr "メディアを送信できなかった."
 
@@ -967,17 +960,246 @@ msgstr "{lang_flag}言語"
 msgid "Hello, I'm PyKorone! An all-in-one bot."
 msgstr "こんにちは、PyKoroneです！オールインワンボットです。"
 
-#: src/korone/modules/stickers/handlers/get_sticker.py:19
+#: src/korone/modules/stickers/__init__.py:10
+msgid "Stickers"
+msgstr ""
+
+#: src/korone/modules/stickers/__init__.py:11
+msgid "This module contains commands for handling stickers and sticker packs."
+msgstr ""
+
+#: src/korone/modules/stickers/__init__.py:14
+msgid ""
+"<b>Commands:</b>\n"
+"- /getsticker: Reply to a sticker to get it as a file and its file ID.\n"
+"- /kang: Reply to a sticker, image or video to add it to a sticker pack."
+msgstr ""
+
+#: src/korone/modules/stickers/handlers/get_sticker.py:35
 msgid "Reply to a sticker."
 msgstr "ステッカーに返信する"
 
-#: src/korone/modules/stickers/handlers/get_sticker.py:23
+#: src/korone/modules/stickers/handlers/get_sticker.py:39
 msgid "Reply to a sticker to get it as a file and file ID"
 msgstr "ステッカーに返信して、ファイルとファイルIDを取得する"
 
-#: src/korone/modules/stickers/handlers/get_sticker.py:31
+#: src/korone/modules/stickers/handlers/get_sticker.py:50
 msgid "Failed to download sticker."
 msgstr "ステッカーのダウンロードに失敗しました。"
+
+#: src/korone/modules/stickers/handlers/kang.py:40
+msgid "You need to reply to a sticker or provide an emoji."
+msgstr ""
+
+#: src/korone/modules/stickers/handlers/kang.py:43
+msgid "Processing..."
+msgstr ""
+
+#: src/korone/modules/stickers/handlers/kang.py:47
+msgid "Invalid media type."
+msgstr ""
+
+#: src/korone/modules/stickers/handlers/kang.py:56
+#, fuzzy
+msgid "Error downloading media."
+msgstr "メディアのダウンロードに失敗しました。"
+
+#: src/korone/modules/stickers/handlers/kang.py:63
+msgid "Error processing media."
+msgstr ""
+
+#: src/korone/modules/stickers/handlers/kang.py:91
+msgid "View pack"
+msgstr ""
+
+#: src/korone/modules/stickers/handlers/kang.py:93
+msgid ""
+"Sticker <b>successfully</b> added to pack\n"
+"Emoji: {sticker_emoji}"
+msgstr ""
+
+#: src/korone/modules/stickers/handlers/kang.py:161
+msgid "Adding the sticker to the pack..."
+msgstr ""
+
+#: src/korone/modules/stickers/handlers/kang.py:176
+msgid "Creating the sticker pack..."
+msgstr ""
+
+#: src/korone/modules/stickers/handlers/kang.py:198
+msgid "Start"
+msgstr ""
+
+#: src/korone/modules/stickers/handlers/kang.py:200
+msgid ""
+"Oops, looks like I do not have enough permissions to create a sticker pack "
+"for you!\n"
+"<b>Please start the bot first.</b>"
+msgstr ""
+
+#: src/korone/modules/users_groups/__init__.py:10
+msgid "Users & Groups"
+msgstr ""
+
+#: src/korone/modules/users_groups/__init__.py:11
+msgid ""
+"This module allows retrieval of public information about users and groups, "
+"including usernames, IDs, and first names for users, and names, IDs, and "
+"usernames for groups. \n"
+"\n"
+"All information is fetched from the Telegram API. No private information is "
+"exposed."
+msgstr ""
+
+#: src/korone/modules/users_groups/__init__.py:17
+msgid ""
+"<b>Commands:</b>\n"
+"- /user &lt;username/id&gt;: Fetches information about a user.\n"
+"- /chat &lt;username/id&gt;: Fetches information about a group."
+msgstr ""
+
+#: src/korone/modules/users_groups/handlers/groups.py:46
+#, fuzzy
+msgid "You should provide a chat ID or username."
+msgstr "LastFMのユーザー名を入力してください!"
+
+#: src/korone/modules/users_groups/handlers/groups.py:50
+msgid "Invalid chat ID or username."
+msgstr ""
+
+#: src/korone/modules/users_groups/handlers/groups.py:50
+#, fuzzy
+msgid "Chat not found."
+msgstr "モジュールが見つかりません。"
+
+#: src/korone/modules/users_groups/handlers/groups.py:54
+#, fuzzy
+msgid "<b>Chat info</b>:\n"
+msgstr ""
+"\n"
+"<b>言語情報:</b>\n"
+
+#: src/korone/modules/users_groups/handlers/groups.py:55
+#: src/korone/modules/users_groups/handlers/users.py:48
+msgid "<b>ID</b>: <code>{id}</code>\n"
+msgstr ""
+
+#: src/korone/modules/users_groups/handlers/groups.py:56
+#, fuzzy
+msgid "<b>Title</b>: {title}\n"
+msgstr "<b>タイトル:</b> {title}\n"
+
+#: src/korone/modules/users_groups/handlers/groups.py:58
+#: src/korone/modules/users_groups/handlers/users.py:53
+msgid "<b>Username</b>: @{username}\n"
+msgstr ""
+
+#: src/korone/modules/users_groups/handlers/groups.py:60
+#, fuzzy
+msgid "<b>Type</b>: {type}\n"
+msgstr "<b>タイトル:</b> {title}\n"
+
+#: src/korone/modules/users_groups/handlers/users.py:43
+msgid "Invalid user ID or username."
+msgstr ""
+
+#: src/korone/modules/users_groups/handlers/users.py:43
+#, fuzzy
+msgid "User not found."
+msgstr "モジュールが見つかりません。"
+
+#: src/korone/modules/users_groups/handlers/users.py:47
+#, fuzzy
+msgid "<b>User info</b>:\n"
+msgstr ""
+"\n"
+"<b>言語情報:</b>\n"
+
+#: src/korone/modules/users_groups/handlers/users.py:49
+#, fuzzy
+msgid "<b>First Name</b>: {first_name}\n"
+msgstr "<b>タイトル:</b> {title}\n"
+
+#: src/korone/modules/users_groups/handlers/users.py:51
+#, fuzzy
+msgid "<b>Last Name</b>: {last_name}\n"
+msgstr "<b>チャット言語:</b> {language}\n"
+
+#: src/korone/modules/users_groups/handlers/users.py:54
+msgid "<b>User link</b>: <a href='tg://user?id={id}'>link</a>\n"
+msgstr ""
+
+#: src/korone/modules/web/__init__.py:10
+msgid "Web Tools"
+msgstr ""
+
+#: src/korone/modules/web/__init__.py:11
+msgid ""
+"This module provides tools to interact with the web, such as whois queries."
+msgstr ""
+
+#: src/korone/modules/web/__init__.py:14
+msgid ""
+"<b>Commands:</b>\n"
+"- /whois &lt;domain&gt;: Fetches whois information for a domain.\n"
+"- /ip &lt;ip/domain&gt;: Fetches information about an IP address or domain."
+msgstr ""
+
+#: src/korone/modules/web/handlers/ip.py:24
+msgid ""
+"Please provide an IP address or domain name to look up. Use /ip &lt;ip/"
+"domain&gt;"
+msgstr ""
+
+#: src/korone/modules/web/handlers/ip.py:34
+msgid "No valid IP addresses or domain names found in the provided input."
+msgstr ""
+
+#: src/korone/modules/web/handlers/ip.py:55
+msgid "No information found for {ip_or_domain}."
+msgstr ""
+
+#: src/korone/modules/web/handlers/ip.py:59
+#, fuzzy
+msgid "An error occurred while fetching information: {error}"
+msgstr ""
+"LastFMのデータを取得する際にエラーが発生しました.\n"
+"エラー: <i>{error}</i>"
+
+#: src/korone/modules/web/handlers/ip.py:67
+msgid "Please select an IP address:"
+msgstr ""
+
+#: src/korone/modules/web/handlers/ip.py:72
+msgid "Could not find information for {ip}."
+msgstr ""
+
+#: src/korone/modules/web/handlers/ip.py:80
+msgid ""
+"The provided IP address <code>{ip}</code> is a <i>bogon</i> IP address, "
+"meaning it is either not in use or is reserved for special use."
+msgstr ""
+
+#: src/korone/modules/web/handlers/whois.py:22
+msgid "Please provide a domain name to look up. Use /whois &lt;domain&gt;."
+msgstr ""
+
+#: src/korone/modules/web/handlers/whois.py:37
+msgid "No whois information found for <code>{domain}</code>."
+msgstr ""
+
+#: src/korone/modules/web/handlers/whois.py:43
+#, fuzzy
+msgid "An error occurred while fetching whois information: {error}"
+msgstr ""
+"LastFMのデータを取得する際にエラーが発生しました.\n"
+"エラー: <i>{error}</i>"
+
+#~ msgid "Open in Instagram"
+#~ msgstr "Instagram で開く"
+
+#~ msgid "This Instagram URL is not a valid post or story."
+#~ msgstr "このインスタグラムのURLは、有効な投稿やストーリーではありません。"
 
 #~ msgid "🎧 <i>{track.artist}</i> — <b>{track.name}</b>{time}"
 #~ msgstr "🎧 <i>{track.artist}</i> — <b>{track.name}</b>{time}"
