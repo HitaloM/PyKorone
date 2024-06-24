@@ -1,5 +1,4 @@
 import ssl
-from importlib import import_module
 
 from aiogram.webhook.aiohttp_server import (
     SimpleRequestHandler,
@@ -18,6 +17,7 @@ from sophie_bot.services.apscheduller import start_apscheduller
 from sophie_bot.services.db import init_db, test_db
 from sophie_bot.services.telethon import start_telethon
 from sophie_bot.utils.logger import log
+from sophie_bot.utils.sentry import init_sentry
 
 if CONFIG.proxy_enabled:
     log.warn(
@@ -33,8 +33,8 @@ else:
     load_modules(dp, ["*"], CONFIG.modules_not_load)
 
 # Import misc stuff
-if not CONFIG.debug_mode:
-    import_module("sophie_bot.utils.sentry")
+if CONFIG.sentry_url:
+    init_sentry()
 
 
 @dp.startup()
