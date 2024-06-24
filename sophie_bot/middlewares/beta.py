@@ -28,10 +28,10 @@ class BetaMiddleware(BaseMiddleware):
         return self.session
 
     async def __call__(
-            self,
-            handler: Callable[[Update, dict[str, Any]], Awaitable[Any]],
-            update: Update,
-            data: dict[str, Any],
+        self,
+        handler: Callable[[Update, dict[str, Any]], Awaitable[Any]],
+        update: Update,
+        data: dict[str, Any],
     ) -> Any:
         response = await handler(update, data)
         if response != UNHANDLED:

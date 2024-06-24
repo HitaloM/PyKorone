@@ -4,8 +4,9 @@ from importlib import import_module
 from aiogram import Router
 
 from sophie_bot import CONFIG
-from .modules import ALL_MODULES, LOADED_MODULES
+
 from ...utils.logger import log
+from .modules import ALL_MODULES, LOADED_MODULES
 
 router = Router(name="legacy_modules")
 

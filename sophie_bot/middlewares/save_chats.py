@@ -69,7 +69,7 @@ class SaveChatsMiddleware(BaseMiddleware):
 
     @staticmethod
     async def update_from_user(
-            message: Message, current_group: ChatModel
+        message: Message, current_group: ChatModel
     ) -> Tuple[Optional[ChatModel], Optional[UserInGroupModel]]:
         if not message.from_user:
             return None, None
@@ -180,10 +180,10 @@ class SaveChatsMiddleware(BaseMiddleware):
         return True
 
     async def __call__(
-            self,
-            handler: Callable[[Update, dict[str, Any]], Awaitable[Any]],
-            update: Update,
-            data: dict[str, Any],
+        self,
+        handler: Callable[[Update, dict[str, Any]], Awaitable[Any]],
+        update: Update,
+        data: dict[str, Any],
     ) -> Any:
         _continue = True
         if update.message:
@@ -194,6 +194,7 @@ class SaveChatsMiddleware(BaseMiddleware):
             _continue = await self.save_my_chat_member(update.my_chat_member)
 
         return await handler(update, data) if _continue else None
+
 
 #
 # class SaveChatsChatMemberUpdatedMiddleware(SaveChatsMiddlewareABC):
