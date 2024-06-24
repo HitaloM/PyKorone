@@ -5,11 +5,8 @@
     - name: Set TOKEN for Staging
       set_fact:
         token: "{{ lookup('env', 'BETA_TOKEN') }}"
-      when: inventory_hostname == "staging"
-
-    - name: Set USERNAME for Staging
-      set_fact:
         username: "{{ lookup('env', 'BETA_USERNAME') }}"
+        sentry_url: "{{ lookup('env', 'STAGING_SENTRY') }}"
       when: inventory_hostname == "staging"
 
     - name: Login to registry
