@@ -4,9 +4,8 @@ from importlib import import_module
 from aiogram import Router
 
 from sophie_bot import CONFIG
-
-from ...utils.logger import log
 from .modules import ALL_MODULES, LOADED_MODULES
+from ...utils.logger import log
 
 router = Router(name="legacy_modules")
 
@@ -29,4 +28,4 @@ def __pre_setup__():
         LOADED_MODULES.append(imported_module)
     log.info("Legacy modules: Modules loaded!")
 
-    asyncio.get_event_loop().create_task(before_srv_task())
+    asyncio.get_event_loop().run_until_complete(before_srv_task())
