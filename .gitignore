@@ -21,9 +21,8 @@ venv/
 .idea/
 
 # Localization
-**.mo
+*.mo
 **/stats.txt
-locales/en_US/
 
 # Test coverage results
 allure_results/
