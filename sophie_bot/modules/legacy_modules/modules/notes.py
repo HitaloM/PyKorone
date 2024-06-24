@@ -550,7 +550,7 @@ async def private_notes_cmd(message: Message, chat, strings):
 @register(cmds="cleannotes", is_admin=True)
 @chat_connection(admin=True)
 @get_strings_dec("notes")
-async def clean_notes(message: Message, chat, strings):
+async def clean_notes_set(message: Message, chat, strings):
     disable = ["no", "off", "0", "false", "disable"]
     enable = ["yes", "on", "true", "enable"]
 
