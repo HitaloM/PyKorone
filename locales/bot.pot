@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PyKorone 1.0\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-06-23 21:03-0300\n"
+"POT-Creation-Date: 2024-06-23 22:51-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -891,6 +891,49 @@ msgid ""
 "<b>Please start the bot first.</b>"
 msgstr ""
 
+#: src/korone/modules/translator/__init__.py:10
+msgid "Translator"
+msgstr ""
+
+#: src/korone/modules/translator/__init__.py:11
+msgid ""
+"This module uses DeepL to translate text between languages. DeepL is a "
+"high-quality translation service that uses neural networks to provide "
+"accurate translations."
+msgstr ""
+
+#: src/korone/modules/translator/__init__.py:16
+msgid ""
+"<b>Commands:</b>\n"
+"- /tr &lt;source&gt; &lt;target&gt; &lt;text&gt;: Translates text from "
+"the source language to the target language.\n"
+"\n"
+"<b>Notes:</b>\n"
+"<b>Supported Source Languages:</b>\n"
+"BG, CS, DA, DE, EL, EN, ES, ET, FI, FR, HU, ID, IT, JA, KO, LT, LV, NB, "
+"NL, PL, PT, RO, RU, SK, SL, SV, TR, UK, ZH\n"
+"\n"
+"<b>Supported Target Languages:</b>\n"
+"BG, CS, DA, DE, EL, EN, EN-GB, EN-US, ES, ET, FI, FR, HU, ID, IT, JA, KO,"
+" LT, LV, NB, NL, PL, PT, PT-BR, PT-PT, RO, RU, SK, SL, SV, TR, UK, ZH"
+msgstr ""
+
+#: src/korone/modules/translator/handlers/translate.py:71
+msgid "Unsupported source language: {source_lang}"
+msgstr ""
+
+#: src/korone/modules/translator/handlers/translate.py:77
+msgid "Unsupported target language: {target_lang}"
+msgstr ""
+
+#: src/korone/modules/translator/handlers/translate.py:87
+msgid "Failed to translate text. Error: {error}"
+msgstr ""
+
+#: src/korone/modules/translator/handlers/translate.py:90
+msgid "<b>Language:</b> <code>{source_lang}</code> => <code>{target_lang}</code>"
+msgstr ""
+
 #: src/korone/modules/users_groups/__init__.py:10
 msgid "Users & Groups"
 msgstr ""
@@ -1031,3 +1074,4 @@ msgstr ""
 #: src/korone/modules/web/handlers/whois.py:43
 msgid "An error occurred while fetching whois information: {error}"
 msgstr ""
+

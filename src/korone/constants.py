@@ -37,7 +37,8 @@ DEFAULT_CONFIG_TEMPLATE: dict[str, Any] = {
     },
     "korone": {
         "SUDOERS": [918317361],
-        "PROXY": "",
+        "DEEPL_KEY": "",
+        "LASTFM_KEY": "",
     },
 }
 """
