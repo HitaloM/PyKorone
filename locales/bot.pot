@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PyKorone 1.0\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-06-24 15:54-0300\n"
+"POT-Creation-Date: 2024-06-24 16:08-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -934,11 +934,18 @@ msgstr ""
 msgid "Unsupported target language: {target_lang}"
 msgstr ""
 
-#: src/korone/modules/translator/handlers/translate.py:90
+#: src/korone/modules/translator/handlers/translate.py:91
+msgid ""
+"Korone has reached the translation quota. The DeepL API has a limit of "
+"500,000 characters per month for the free plan, and we have exceeded this"
+" limit."
+msgstr ""
+
+#: src/korone/modules/translator/handlers/translate.py:99
 msgid "Failed to translate text. Error: {error}"
 msgstr ""
 
-#: src/korone/modules/translator/handlers/translate.py:93
+#: src/korone/modules/translator/handlers/translate.py:102
 msgid "<b>Language:</b> <code>{source_lang}</code> => <code>{target_lang}</code>"
 msgstr ""
 

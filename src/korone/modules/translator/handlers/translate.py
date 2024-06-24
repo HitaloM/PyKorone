@@ -9,7 +9,7 @@ from hydrogram.types import Message
 from korone.decorators import router
 from korone.filters import Command, CommandObject
 from korone.handlers.abstract import MessageHandler
-from korone.modules.translator.utils import DeepL, TranslationError
+from korone.modules.translator.utils import DeepL, QuotaExceededError, TranslationError
 from korone.utils.i18n import gettext as _
 
 
@@ -86,6 +86,15 @@ class TranslateHandler(MessageHandler):
             translation = await deepl.translate_text(
                 text=text, target_lang=target_lang, source_lang=source_lang
             )
+        except QuotaExceededError:
+            await message.reply(
+                _(
+                    "Korone has reached the translation quota. The DeepL API has a limit of "
+                    "500,000 characters per month for the free plan, and we have exceeded "
+                    "this limit."
+                )
+            )
+            return
         except TranslationError as e:
             await message.reply(_("Failed to translate text. Error: {error}").format(error=e))
             return
