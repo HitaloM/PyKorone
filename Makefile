@@ -59,15 +59,15 @@ new_lang:
 
 extract_lang:
 	pybabel extract -k "pl_:1,2" -k "p_:1,2" -k "l_:1" \
-	--add-comments="NOTE: " -o "$(LOCALES_DIR)/bot.pot" -w 120 --project=sophie $(PROJECT_DIR)
+	--add-comments="NOTE: " -o "$(LOCALES_DIR)/bot.pot" -w 120 --omit-header $(PROJECT_DIR)
 
 	cd "$(ASS_PATH)" && \
 	pybabel extract -k "pl_:1,2" -k "p_:1,2" -k "l_:1" \
-	--add-comments="NOTE: " -o "$(LOCALES_DIR)/ass.pot" -w 120 --project=ASS .
+	--add-comments="NOTE: " -o "$(LOCALES_DIR)/ass.pot" -w 120 --omit-header .
 
 update_lang:
-	pybabel update -d "$(LOCALES_DIR)" -D "bot" -i "$(LOCALES_DIR)/bot.pot"
-	pybabel update -d "$(LOCALES_DIR)" -D "ass" -i "$(LOCALES_DIR)/ass.pot"
+	pybabel update -d "$(LOCALES_DIR)" -D "bot" -i "$(LOCALES_DIR)/bot.pot" --omit-header
+	pybabel update -d "$(LOCALES_DIR)" -D "ass" -i "$(LOCALES_DIR)/ass.pot" --omit-header
 
 compile_lang:
 	pybabel compile -d "$(LOCALES_DIR)" -D "bot"
