@@ -1,3 +1,4 @@
+from aiogram.dispatcher.event.bases import UNHANDLED
 from aiohttp import ClientError, ClientSession
 
 from sophie_bot import CONFIG
@@ -27,12 +28,15 @@ class BetaMiddleware(BaseMiddleware):
         return self.session
 
     async def __call__(
-        self,
-        handler: Callable[[Update, dict[str, Any]], Awaitable[Any]],
-        update: Update,
-        data: dict[str, Any],
+            self,
+            handler: Callable[[Update, dict[str, Any]], Awaitable[Any]],
+            update: Update,
+            data: dict[str, Any],
     ) -> Any:
         response = await handler(update, data)
+        if response != UNHANDLED:
+            return response
+
         chat: Optional[Chat] = data.get("event_chat")
 
         json_request = self.get_data(update)

@@ -24,6 +24,6 @@ def enable_middlewares():
 
 
 def enable_proxy_middlewares():
-    dp.update.outer_middleware(BetaMiddleware())
+    dp.update.middleware(BetaMiddleware())
 
     dp.message.middleware(ArgsMiddleware(i18n=i18n))
