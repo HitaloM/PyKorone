@@ -51,7 +51,7 @@ class BetaMiddleware(BaseMiddleware):
         return response
 
     def get_data(self, update: Update):
-        raw_json = update.model_dump_json(by_alias=True, exclude_none=True, indent=1)
+        raw_json = update.model_dump_json(by_alias=True, exclude_none=True, exclude_defaults=True, indent=1)
         raw_data = json.loads(raw_json)
 
         data = self.change_data_type(raw_data)
