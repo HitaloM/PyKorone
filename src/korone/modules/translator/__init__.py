@@ -15,7 +15,7 @@ class ModuleInfo:
     )
     doc: LazyProxy = _(
         "<b>Commands:</b>\n"
-        "- /tr &lt;source&gt;-&lt;target&gt; &lt;text&gt;: Translates text from the source "
+        "- /tr &lt;source&gt;:&lt;target&gt; &lt;text&gt;: Translates text from the source "
         "language to the target language. Can also be used as reply to a message."
         "\n\n<b>Examples:</b>\n"
         "- Translate 'Hello, world!' from English to Spanish:\n"
@@ -27,6 +27,6 @@ class ModuleInfo:
         "BG, CS, DA, DE, EL, EN, ES, ET, FI, FR, HU, ID, IT, JA, KO, LT, LV, NB, NL, PL, PT, RO, "
         "RU, SK, SL, SV, TR, UK, ZH\n\n"
         "<b>Supported Target Languages:</b>\n"
-        "BG, CS, DA, DE, EL, EN, EN-GB, EN-US, ES, ET, FI, FR, HU, ID, IT, JA, KO, LT, LV, NB, NL, "
-        "PL, PT, PT-BR, PT-PT, RO, RU, SK, SL, SV, TR, UK, ZH"
+        "BG, CS, DA, DE, EL, EN, EN-GB, EN-US, ES, ET, FI, FR, HU, ID, IT, JA, KO, LT, LV, NB, "
+        "NL, PL, PT, PT-BR, PT-PT, RO, RU, SK, SL, SV, TR, UK, ZH"
     )

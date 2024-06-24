@@ -40,14 +40,14 @@ class TranslateHandler(MessageHandler):
 
         if command.args:
             parts = command.args.split(" ", 1)
-            if parts[0].count("-") == 1:
-                source_lang, target_lang = parts[0].split("-", 1)
+            if parts[0].count(":") == 1:
+                source_lang, target_lang = parts[0].split(":", 1)
                 text = (
                     parts[1]
                     if len(parts) > 1
                     else (message.reply_to_message.text or message.reply_to_message.caption)
                 )
-            elif len(parts) == 1 and "-" not in parts[0]:
+            elif len(parts) == 1 and ":" not in parts[0]:
                 target_lang = parts[0]
                 text = message.reply_to_message.text or message.reply_to_message.caption
             elif len(parts) == 2:
@@ -66,13 +66,16 @@ class TranslateHandler(MessageHandler):
         command = CommandObject(message).parse()
         source_lang, target_lang, text = self.extract_translation_details(message, command)
 
-        if source_lang and source_lang.upper() not in self.SUPPORTED_SOURCE_LANGUAGES:
+        source_lang = source_lang.upper() if source_lang else None
+        target_lang = target_lang.upper()
+
+        if source_lang and source_lang not in self.SUPPORTED_SOURCE_LANGUAGES:
             await message.reply(
                 _("Unsupported source language: {source_lang}").format(source_lang=source_lang)
             )
             return
 
-        if target_lang.upper() not in self.SUPPORTED_TARGET_LANGUAGES:
+        if target_lang not in self.SUPPORTED_TARGET_LANGUAGES:
             await message.reply(
                 _("Unsupported target language: {target_lang}").format(target_lang=target_lang)
             )

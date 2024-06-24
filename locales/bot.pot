@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PyKorone 1.0\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-06-23 23:00-0300\n"
+"POT-Creation-Date: 2024-06-24 15:45-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -905,7 +905,7 @@ msgstr ""
 #: src/korone/modules/translator/__init__.py:16
 msgid ""
 "<b>Commands:</b>\n"
-"- /tr &lt;source&gt;-&lt;target&gt; &lt;text&gt;: Translates text from "
+"- /tr &lt;source&gt;:&lt;target&gt; &lt;text&gt;: Translates text from "
 "the source language to the target language. Can also be used as reply to "
 "a message.\n"
 "\n"
@@ -926,19 +926,19 @@ msgid ""
 " LT, LV, NB, NL, PL, PT, PT-BR, PT-PT, RO, RU, SK, SL, SV, TR, UK, ZH"
 msgstr ""
 
-#: src/korone/modules/translator/handlers/translate.py:71
+#: src/korone/modules/translator/handlers/translate.py:74
 msgid "Unsupported source language: {source_lang}"
 msgstr ""
 
-#: src/korone/modules/translator/handlers/translate.py:77
+#: src/korone/modules/translator/handlers/translate.py:80
 msgid "Unsupported target language: {target_lang}"
 msgstr ""
 
-#: src/korone/modules/translator/handlers/translate.py:87
+#: src/korone/modules/translator/handlers/translate.py:90
 msgid "Failed to translate text. Error: {error}"
 msgstr ""
 
-#: src/korone/modules/translator/handlers/translate.py:90
+#: src/korone/modules/translator/handlers/translate.py:93
 msgid "<b>Language:</b> <code>{source_lang}</code> => <code>{target_lang}</code>"
 msgstr ""
 
