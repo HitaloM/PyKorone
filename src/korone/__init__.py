@@ -9,16 +9,7 @@ from cashews import Cache
 from korone.utils.i18n import I18nNew as I18n
 from korone.utils.logging import log
 
-result = subprocess.run(
-    "git rev-parse --short HEAD && git rev-list --count HEAD",
-    shell=True,
-    capture_output=True,
-    check=False,
-)
-
-commit_hash, commit_count = result.stdout.decode("utf-8").strip().split("\n")
-
-__version__ = f"r{commit_count} ({commit_hash})"
+__version__ = "1.0.0"
 
 cache = Cache()
 cache.setup("redis://localhost", client_side=True)

@@ -57,6 +57,6 @@ class GetSticker(MessageHandler):
         await message.reply_document(
             document=zip_buffer,
             file_name=f"{sticker.set_name}-{sticker.file_unique_id}.zip",
-            caption=f"Sticker ID: {sticker.file_id}",
+            caption=f"<b>Sticker ID:</b> <code>{sticker.file_id}</code>",
             force_document=True,
         )
