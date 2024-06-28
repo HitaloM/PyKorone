@@ -62,8 +62,8 @@ class Config(BaseSettings):
     devs_managed_languages: List[str] = ["en_US"]
     # A list of languages that are managed by developers; Will disable
     # showing percent of it and won't suggest to help to translate it on crowdin.
-    translation_url: str = "https://google.com"
-    support_link: str = "https://google.com"
+    translation_url: str = "https://crowdin.com/project/sophiebot"
+    support_link: str = "https://t.me/SophieSupport"
 
     default_locale: str = "en_US"
 
