@@ -1,8 +1,9 @@
 import datetime
 
 from aiogram.types import Message
+from stfu_tg import Section
 
-from sophie_bot.modules.legacy_modules.modules import LOADED_MODULES
+from sophie_bot.modules.legacy_modules.modules import LOADED_LEGACY_MODULES
 from sophie_bot.modules.legacy_modules.utils.connections import chat_connection
 from sophie_bot.modules.legacy_modules.utils.disable import disableable_dec
 from sophie_bot.modules.legacy_modules.utils.language import get_strings_dec
@@ -40,7 +41,7 @@ async def user_info(message: Message, user, strings):
     if await is_user_admin(chat_id, user["user_id"]) is True:
         text += strings["info_admeme"]
 
-    for module in [m for m in LOADED_MODULES if hasattr(m, "__user_info__")]:
+    for module in [m for m in LOADED_LEGACY_MODULES if hasattr(m, "__user_info__")]:
         if txt := await module.__user_info__(message, user["user_id"]):
             text += txt
 
@@ -104,17 +105,18 @@ async def adminlist(message: Message, chat, strings):
 
 
 async def __stats__():
-    text = "* <code>{}</code> total users, in <code>{}</code> chats\n".format(
-        await db.user_list.count_documents({}), await db.chat_list.count_documents({})
+    total_users = await db.user_list.count_documents({})
+    total_chats = await db.chat_list.count_documents({})
+
+    users_24h = await db.user_list.count_documents(
+        {"first_detected_date": {"$gte": datetime.datetime.now() - datetime.timedelta(days=2)}}
+    )
+    chats_24h = await db.chat_list.count_documents(
+        {"first_detected_date": {"$gte": datetime.datetime.now() - datetime.timedelta(days=2)}}
     )
 
-    text += "* <code>{}</code> new users and <code>{}</code> new chats in the last 48 hours\n".format(
-        await db.user_list.count_documents(
-            {"first_detected_date": {"$gte": datetime.datetime.now() - datetime.timedelta(days=2)}}
-        ),
-        await db.chat_list.count_documents(
-            {"first_detected_date": {"$gte": datetime.datetime.now() - datetime.timedelta(days=2)}}
-        ),
+    return Section(
+        f"<code>{total_users}</code> total users, in <code>{total_chats}</code> chats",
+        f"{users_24h} new users and {chats_24h} new chats in the last 48 hours",
+        title="Users (legacy)",
     )
-
-    return text

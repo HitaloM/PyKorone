@@ -136,7 +136,7 @@ async def select_lang_callback(query, callback_data: SelectLangCb, **kwargs):
 
 
 async def __stats__():
-    return f"* <code>{len(LANGUAGES)}</code> languages loaded.\n"
+    return f"<code>{len(LANGUAGES)}</code> legacy languages loaded."
 
 
 async def __export__(chat_id):

@@ -7,7 +7,7 @@ from aiogram import Dispatcher, Router
 from sophie_bot.utils.logger import log
 
 LOADED_MODULES: Dict[str, ModuleType] = {}
-MODULES = ["error", "legacy_modules", "beta"]
+MODULES = ["error", "legacy_modules", "beta", "users"]
 
 
 def load_modules(
@@ -26,7 +26,11 @@ def load_modules(
         path = f"sophie_bot.modules.{module_name}"
 
         module = import_module(path)
-        dp.include_router(getattr(module, "router"))
+
+        if hasattr(module, "router"):
+            dp.include_router(getattr(module, "router"))
+        else:
+            log.warning(f"Module {module_name} has no router!")
 
         LOADED_MODULES[module.__name__.split(".", 3)[2]] = module
 

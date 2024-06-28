@@ -38,7 +38,7 @@ from bson.objectid import ObjectId
 from pymongo import UpdateOne
 
 from sophie_bot import bot, dp
-from sophie_bot.modules.legacy_modules.modules import LOADED_MODULES
+from sophie_bot.modules.legacy_modules.modules import LOADED_LEGACY_MODULES
 from sophie_bot.modules.legacy_modules.utils.connections import (
     chat_connection,
     get_connected_chat,
@@ -371,7 +371,7 @@ async def delall_filters_no(event: CallbackQuery, strings: dict):
 
 async def __before_serving__(loop):
     log.debug("Adding filters actions")
-    for module in LOADED_MODULES:
+    for module in LOADED_LEGACY_MODULES:
         if not getattr(module, "__filters__", None):
             continue
 

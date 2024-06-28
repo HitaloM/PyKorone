@@ -21,7 +21,7 @@ import os
 
 from sophie_bot.utils.logger import log
 
-LOADED_MODULES = []
+LOADED_LEGACY_MODULES = []
 
 
 def list_all_modules() -> list:

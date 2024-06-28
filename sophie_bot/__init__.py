@@ -10,7 +10,7 @@ from redis.asyncio import Redis
 from sophie_bot.config import CONFIG
 from sophie_bot.utils.logger import log
 
-SOPHIE_VERSION = metadata.version('sophie_bot')
+SOPHIE_VERSION = metadata.version("sophie_bot")
 
 log.info("----------------------")
 log.info("|      SophieBot     |")

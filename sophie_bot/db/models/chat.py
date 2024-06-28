@@ -1,9 +1,10 @@
-from datetime import datetime, timezone
+from datetime import datetime, timedelta, timezone
 from enum import Enum
 from typing import Annotated, Any, Iterable, List, Optional
 
 from aiogram.types import Chat, User
 from beanie import BackLink, DeleteRules, Document, Indexed, Link, PydanticObjectId
+from beanie.odm.operators.find.comparison import In
 from beanie.odm.operators.update.general import Set
 from pydantic import Field
 from pymongo import InsertOne
@@ -104,6 +105,26 @@ class ChatModel(Document):
             chat.type = ChatType[new_chat.type]
             await chat.save()
         return chat
+
+    @staticmethod
+    async def total_count(chat_types: tuple[ChatType, ...]) -> int:
+        return await ChatModel.find(In(ChatModel.type, chat_types)).count()
+
+    @staticmethod
+    async def new_count_last_48h(chat_types: tuple[ChatType, ...]) -> int:
+        return await ChatModel.find(
+            ChatModel.last_saw >= datetime.now(timezone.utc) - timedelta(hours=48),
+            ChatModel.first_saw >= datetime.now(timezone.utc) - timedelta(hours=48),
+            In(ChatModel.type, chat_types),
+        ).count()
+
+    @staticmethod
+    async def active_count_last_48h(chat_types: tuple[ChatType, ...]) -> int:
+        return await ChatModel.find(
+            ChatModel.last_saw >= datetime.now(timezone.utc) - timedelta(hours=48),
+            ChatModel.first_saw <= datetime.now(timezone.utc) - timedelta(hours=48),
+            In(ChatModel.type, chat_types),
+        ).count()
 
     async def delete_chat(self):
         await self.delete(link_rule=DeleteRules.DELETE_LINKS)

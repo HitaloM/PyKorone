@@ -254,7 +254,6 @@ msgstr ""
 msgid "Softly whispering."
 msgstr ""
 
-#: sophie_bot/modules/legacy_modules/modules/owner_stuff.py:29
-msgid "<b>Sophie stats</b>\n"
-msgstr ""
+#~ msgid "<b>Sophie stats</b>\n"
+#~ msgstr ""
 

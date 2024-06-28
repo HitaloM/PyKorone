@@ -46,7 +46,9 @@ for filename in os.listdir("sophie_bot/localization"):
         LANGUAGES[lang_code] = lang
 
 log.info(
-    "Languages loaded: {}".format([language["language_info"]["babel"].display_name for language in LANGUAGES.values()])
+    "Legacy languages loaded: {}".format(
+        [language["language_info"]["babel"].display_name for language in LANGUAGES.values()]
+    )
 )
 
 
