@@ -52,8 +52,6 @@
         mode: u=rw,g=r,o=r
 
     - name: Copy Proxy container quadlet file
-      vars:
-        proxy_always_beta: "True"
       ansible.builtin.template:
         src: sophie-proxy.container.j2
         dest: /home/containers/.config/containers/systemd/sophie-proxy.container
