@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PyKorone 1.0\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-06-29 13:19-0300\n"
+"POT-Creation-Date: 2024-06-29 14:12-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -970,61 +970,87 @@ msgid ""
 "- /chat &lt;username/id&gt;: Fetches information about a group."
 msgstr ""
 
-#: src/korone/modules/users_groups/handlers/groups.py:46
-msgid "You should provide a chat ID or username."
+#: src/korone/modules/users_groups/handlers/groups.py:31
+#: src/korone/modules/users_groups/handlers/users.py:26
+msgid "The provided identifier is not valid."
 msgstr ""
 
-#: src/korone/modules/users_groups/handlers/groups.py:50
-msgid "Invalid chat ID or username."
+#: src/korone/modules/users_groups/handlers/groups.py:51
+msgid "The provided chat ID is invalid."
 msgstr ""
 
-#: src/korone/modules/users_groups/handlers/groups.py:50
-msgid "Chat not found."
-msgstr ""
-
-#: src/korone/modules/users_groups/handlers/groups.py:54
-msgid "<b>Chat info</b>:\n"
+#: src/korone/modules/users_groups/handlers/groups.py:52
+msgid "Unable to access this channel, maybe it's private or I'm banned from it."
 msgstr ""
 
 #: src/korone/modules/users_groups/handlers/groups.py:55
-#: src/korone/modules/users_groups/handlers/users.py:48
-msgid "<b>ID</b>: <code>{id}</code>\n"
+msgid "The provided username is invalid."
 msgstr ""
 
 #: src/korone/modules/users_groups/handlers/groups.py:56
-msgid "<b>Title</b>: {title}\n"
+#: src/korone/modules/users_groups/handlers/users.py:38
+msgid "The provided username does not exist."
+msgstr ""
+
+#: src/korone/modules/users_groups/handlers/groups.py:57
+msgid "No chat found with the provided identifier."
 msgstr ""
 
 #: src/korone/modules/users_groups/handlers/groups.py:58
-#: src/korone/modules/users_groups/handlers/users.py:53
+msgid "Error accessing chat data."
+msgstr ""
+
+#: src/korone/modules/users_groups/handlers/groups.py:59
+msgid "The provided value is not valid."
+msgstr ""
+
+#: src/korone/modules/users_groups/handlers/groups.py:71
+msgid "You should provide a chat ID or username."
+msgstr ""
+
+#: src/korone/modules/users_groups/handlers/groups.py:78
+msgid "<b>Chat info</b>:\n"
+msgstr ""
+
+#: src/korone/modules/users_groups/handlers/groups.py:79
+#: src/korone/modules/users_groups/handlers/users.py:57
+msgid "<b>ID</b>: <code>{id}</code>\n"
+msgstr ""
+
+#: src/korone/modules/users_groups/handlers/groups.py:80
+msgid "<b>Title</b>: {title}\n"
+msgstr ""
+
+#: src/korone/modules/users_groups/handlers/groups.py:82
+#: src/korone/modules/users_groups/handlers/users.py:62
 msgid "<b>Username</b>: @{username}\n"
 msgstr ""
 
-#: src/korone/modules/users_groups/handlers/groups.py:60
+#: src/korone/modules/users_groups/handlers/groups.py:84
 msgid "<b>Type</b>: {type}\n"
 msgstr ""
 
-#: src/korone/modules/users_groups/handlers/users.py:43
-msgid "Invalid user ID or username."
+#: src/korone/modules/users_groups/handlers/users.py:37
+msgid "The provided user ID is invalid."
 msgstr ""
 
-#: src/korone/modules/users_groups/handlers/users.py:43
-msgid "User not found."
+#: src/korone/modules/users_groups/handlers/users.py:39
+msgid "No user found with the provided identifier."
 msgstr ""
 
-#: src/korone/modules/users_groups/handlers/users.py:47
+#: src/korone/modules/users_groups/handlers/users.py:56
 msgid "<b>User info</b>:\n"
 msgstr ""
 
-#: src/korone/modules/users_groups/handlers/users.py:49
+#: src/korone/modules/users_groups/handlers/users.py:58
 msgid "<b>First Name</b>: {first_name}\n"
 msgstr ""
 
-#: src/korone/modules/users_groups/handlers/users.py:51
+#: src/korone/modules/users_groups/handlers/users.py:60
 msgid "<b>Last Name</b>: {last_name}\n"
 msgstr ""
 
-#: src/korone/modules/users_groups/handlers/users.py:54
+#: src/korone/modules/users_groups/handlers/users.py:63
 msgid "<b>User link</b>: <a href='tg://user?id={id}'>link</a>\n"
 msgstr ""
 
