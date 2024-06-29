@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PyKorone 1.0\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-06-29 14:12-0300\n"
+"POT-Creation-Date: 2024-06-29 14:32-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -19,6 +19,14 @@ msgstr ""
 
 #: src/korone/filters/admin.py:63 src/korone/filters/admin.py:68
 msgid "You must be an administrator to use this command."
+msgstr ""
+
+#: src/korone/filters/chat.py:50
+msgid "This command was designed to be used in PM, not in group chats!"
+msgstr ""
+
+#: src/korone/filters/chat.py:109
+msgid "This command was designed to be used in group chats, not in PM!"
 msgstr ""
 
 #: src/korone/modules/afk/__init__.py:10

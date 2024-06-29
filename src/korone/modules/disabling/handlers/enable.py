@@ -1,11 +1,11 @@
 # SPDX-License-Identifier: BSD-3-Clause
 # Copyright (c) 2024 Hitalo M. <https://github.com/HitaloM>
 
-from hydrogram import Client, filters
+from hydrogram import Client
 from hydrogram.types import Message
 
 from korone.decorators import router
-from korone.filters import Command, CommandObject, IsAdmin
+from korone.filters import Command, CommandObject, IsAdmin, IsGroupChat
 from korone.handlers.abstract import MessageHandler
 from korone.modules import NOT_DISABLEABLE
 from korone.modules.core import check_command_state
@@ -15,7 +15,7 @@ from korone.utils.i18n import gettext as _
 
 class EnableHandler(MessageHandler):
     @staticmethod
-    @router.message(Command("enable", disableable=False) & ~filters.private & IsAdmin)
+    @router.message(Command("enable", disableable=False) & IsGroupChat & IsAdmin)
     async def enable(client: Client, message: Message) -> None:
         command = CommandObject(message).parse()
         if not command.args:
