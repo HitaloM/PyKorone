@@ -4,6 +4,7 @@ Requires=mongo.service valkey.service
 
 [Service]
 ExecStartPre=/bin/sleep 20
+Restart=always
 
 [Container]
 ContainerName=beta

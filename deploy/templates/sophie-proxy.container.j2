@@ -4,6 +4,7 @@ Requires=sophie-stable.service sophie-beta.service
 
 [Service]
 ExecStartPre=/bin/sleep 30
+Restart=always
 
 [Container]
 ContainerName=proxy
