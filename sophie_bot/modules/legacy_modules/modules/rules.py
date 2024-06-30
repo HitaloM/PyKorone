@@ -6,14 +6,14 @@ from sophie_bot.modules.legacy_modules.utils.connections import chat_connection
 from sophie_bot.modules.legacy_modules.utils.disable import disableable_dec
 from sophie_bot.modules.legacy_modules.utils.language import get_strings_dec
 from sophie_bot.modules.legacy_modules.utils.message import get_args_str
-from sophie_bot.modules.legacy_modules.utils.notes import (
+from sophie_bot.modules.legacy_modules.utils.register import register
+from sophie_bot.modules.notes.utils.legacy_notes import (
     ALLOWED_COLUMNS,
     BUTTONS,
     get_parsed_note_list,
     send_note,
     t_unparse_note_item,
 )
-from sophie_bot.modules.legacy_modules.utils.register import register
 from sophie_bot.services.db import db
 
 

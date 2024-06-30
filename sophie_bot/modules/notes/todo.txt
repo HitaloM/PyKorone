@@ -1,0 +1,5 @@
+/search
+Notes topics
+/privatenotes
+/cleannotes
+/clearall

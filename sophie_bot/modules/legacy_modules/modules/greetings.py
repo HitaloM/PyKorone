@@ -49,11 +49,6 @@ from sophie_bot.modules.legacy_modules.utils.message import (
     get_args_str,
     need_args_dec,
 )
-from sophie_bot.modules.legacy_modules.utils.notes import (
-    get_parsed_note_list,
-    send_note,
-    t_unparse_note_item,
-)
 from sophie_bot.modules.legacy_modules.utils.register import register
 from sophie_bot.modules.legacy_modules.utils.restrictions import (
     kick_user,
@@ -65,6 +60,11 @@ from sophie_bot.modules.legacy_modules.utils.user_details import (
     check_admin_rights,
     get_user_link,
     is_user_admin,
+)
+from sophie_bot.modules.notes.utils.legacy_notes import (
+    get_parsed_note_list,
+    send_note,
+    t_unparse_note_item,
 )
 from sophie_bot.services.apscheduller import scheduler
 from sophie_bot.services.db import db

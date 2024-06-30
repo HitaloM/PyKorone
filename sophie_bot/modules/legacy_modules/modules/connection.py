@@ -37,12 +37,12 @@ from sophie_bot.modules.legacy_modules.utils.connections import (
 from sophie_bot.modules.legacy_modules.utils.deep_linking import get_start_link
 from sophie_bot.modules.legacy_modules.utils.language import get_strings_dec
 from sophie_bot.modules.legacy_modules.utils.message import get_arg, get_args_str
-from sophie_bot.modules.legacy_modules.utils.notes import BUTTONS
 from sophie_bot.modules.legacy_modules.utils.register import register
 from sophie_bot.modules.legacy_modules.utils.user_details import (
     get_chat_dec,
     is_user_admin,
 )
+from sophie_bot.modules.notes.utils.legacy_notes import BUTTONS
 from sophie_bot.services.db import db
 from sophie_bot.services.redis import redis
 

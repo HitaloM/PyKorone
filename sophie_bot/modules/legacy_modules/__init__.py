@@ -1,14 +1,10 @@
 import asyncio
 from importlib import import_module
 
-from aiogram import Router
-
-from sophie_bot import CONFIG
+from sophie_bot import CONFIG, dp
 
 from ...utils.logger import log
 from .modules import ALL_MODULES, LOADED_LEGACY_MODULES
-
-router = Router(name="legacy_modules")
 
 
 async def before_srv_task():
@@ -30,3 +26,7 @@ def __pre_setup__():
     log.info("Legacy modules: Modules loaded!")
 
     asyncio.get_event_loop().run_until_complete(before_srv_task())
+
+    from .utils.register import router
+
+    dp.include_router(router)

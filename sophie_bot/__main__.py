@@ -58,7 +58,7 @@ if not CONFIG.webhooks_enable:
             # 'chosen_inline_result',
             "callback_query",
             # 'shipping_query',
-            # 'pre_checkout_query',
+            # 'pre_chlegacy_moduleseckout_query',
             # 'poll',
             # 'poll_answer',
             "my_chat_member",

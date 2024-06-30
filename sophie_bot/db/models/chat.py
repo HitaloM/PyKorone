@@ -129,6 +129,10 @@ class ChatModel(Document):
     async def delete_chat(self):
         await self.delete(link_rule=DeleteRules.DELETE_LINKS)
 
+    @staticmethod
+    async def get_by_chat_id(chat_id) -> Optional["ChatModel"]:
+        return await ChatModel.find_one(ChatModel.chat_id == chat_id)
+
 
 class UserInGroupModel(Document):
     user: Link[ChatModel]

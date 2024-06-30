@@ -1,16 +1,20 @@
-#: sophie_bot/modules/error/handlers/error.py:73
-msgid "😵 I've got an error trying to process this update"
+#: sophie_bot/middlewares/connections.py:26
+msgid "Private chat"
 msgstr ""
 
-#: sophie_bot/modules/error/handlers/error.py:83
-msgid "Haiku"
+#: sophie_bot/middlewares/connections.py:35
+msgid "Connected chat not found in the database. Please try to disconnect and connect again."
 msgstr ""
 
-#: sophie_bot/modules/error/handlers/error.py:91
+#: sophie_bot/modules/error/handlers/error.py:77
+msgid "😞 I've got an error trying to process this update"
+msgstr ""
+
+#: sophie_bot/modules/error/handlers/error.py:90
 msgid "Reference ID"
 msgstr ""
 
-#: sophie_bot/modules/error/handlers/error.py:99
+#: sophie_bot/modules/error/handlers/error.py:98
 msgid "💬 Contact Sophie support"
 msgstr ""
 
@@ -252,5 +256,113 @@ msgstr ""
 
 #: sophie_bot/modules/error/utils/haikus.py:102
 msgid "Softly whispering."
+msgstr ""
+
+#: sophie_bot/modules/notes/handlers/delete.py:15 sophie_bot/modules/notes/handlers/get.py:15
+msgid "Note name"
+msgstr ""
+
+#: sophie_bot/modules/notes/handlers/delete.py:24
+msgid "No notes was found with {name} name."
+msgstr ""
+
+#: sophie_bot/modules/notes/handlers/delete.py:31
+msgid "Chat"
+msgstr ""
+
+#: sophie_bot/modules/notes/handlers/delete.py:32
+msgid "Name"
+msgstr ""
+
+#: sophie_bot/modules/notes/handlers/delete.py:32
+msgid "Names"
+msgstr ""
+
+#: sophie_bot/modules/notes/handlers/delete.py:33
+msgid "Note was successfully deleted"
+msgstr ""
+
+#: sophie_bot/modules/notes/handlers/get.py:24
+msgid "No note was found with {name} name."
+msgstr ""
+
+#: sophie_bot/modules/notes/handlers/list.py:15
+msgid "Search notes"
+msgstr ""
+
+#: sophie_bot/modules/notes/handlers/list.py:67
+msgid "No notes found by the provided search pattern {pattern}."
+msgstr ""
+
+#: sophie_bot/modules/notes/handlers/list.py:70
+msgid "No notes found."
+msgstr ""
+
+#: sophie_bot/modules/notes/handlers/list.py:74
+msgid "Search pattern"
+msgstr ""
+
+#: sophie_bot/modules/notes/handlers/list.py:76
+msgid "Notes in {chat_name}"
+msgstr ""
+
+#: sophie_bot/modules/notes/handlers/list.py:79
+msgid "Use {cmd} to retrieve a note. Example: {cmd_example}"
+msgstr ""
+
+#: sophie_bot/modules/notes/handlers/list.py:80
+msgid "#(Note name)"
+msgstr ""
+
+#: sophie_bot/modules/notes/handlers/save.py:26
+msgid "Note names"
+msgstr ""
+
+#: sophie_bot/modules/notes/handlers/save.py:27
+msgid "Group"
+msgstr ""
+
+#: sophie_bot/modules/notes/handlers/save.py:28
+msgid "Description"
+msgstr ""
+
+#: sophie_bot/modules/notes/handlers/save.py:29
+msgid "Text"
+msgstr ""
+
+#: sophie_bot/modules/notes/handlers/save.py:46
+msgid "Note was successfully created"
+msgstr ""
+
+#: sophie_bot/modules/notes/handlers/save.py:46
+msgid "Note was successfully updated"
+msgstr ""
+
+#: sophie_bot/modules/notes/handlers/save.py:49
+msgid "Use {cmd} to retrieve this note."
+msgstr ""
+
+#: sophie_bot/modules/notes/utils/parse.py:36
+msgid "Please check the notes documentation for the list of the allowed content types."
+msgstr ""
+
+#: sophie_bot/modules/notes/utils/parse.py:37
+msgid "Reply message content is not parsable as the note."
+msgstr ""
+
+#: sophie_bot/modules/notes/utils/parse.py:66
+msgid "The maximum length of the note is {limit} characters."
+msgstr ""
+
+#: sophie_bot/modules/notes/utils/parse.py:67
+msgid "Please try to reduce the length of the note."
+msgstr ""
+
+#: sophie_bot/modules/notes/utils/parse.py:68
+msgid "Note is too long."
+msgstr ""
+
+#: sophie_bot/modules/notes/utils/text.py:28
+msgid "Local chat"
 msgstr ""
 

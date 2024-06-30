@@ -7,7 +7,8 @@ from aiogram import Dispatcher, Router
 from sophie_bot.utils.logger import log
 
 LOADED_MODULES: Dict[str, ModuleType] = {}
-MODULES = ["error", "legacy_modules", "beta", "users"]
+# legacy_modules always last
+MODULES = ["error", "beta", "users", "notes", "legacy_modules"]
 
 
 def load_modules(

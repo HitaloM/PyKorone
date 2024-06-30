@@ -1,5 +1,5 @@
 from dataclasses import dataclass
-from typing import Any, Union
+from typing import Any, Optional, Union
 
 from aiogram.exceptions import TelegramBadRequest
 from aiogram.filters import Filter
@@ -7,8 +7,10 @@ from aiogram.types import TelegramObject
 from aiogram.types.callback_query import CallbackQuery
 
 from sophie_bot import CONFIG
+from sophie_bot.middlewares.connections import ChatConnection
 from sophie_bot.modules.legacy_modules.utils.language import get_strings
 from sophie_bot.modules.legacy_modules.utils.user_details import check_admin_rights
+from sophie_bot.utils.logger import log
 
 
 @dataclass
@@ -47,15 +49,24 @@ class UserRestricting(Filter):
                 config[argument] = full_config.pop(alias)
         return config
 
-    async def __call__(self, event: TelegramObject) -> Union[bool, dict[str, Any]]:
+    async def __call__(
+        self, event: TelegramObject, connection: Optional[ChatConnection]
+    ) -> Union[bool, dict[str, Any]]:
         user_id = await self.get_target_id(event)
         message = event.message if hasattr(event, "message") else event
 
-        # If pm skip checks
-        if message.chat.type == "private":
+        chat_id = connection.id if connection else message.chat.id
+        is_connected = connection.is_connected if connection else False
+
+        # Skip if in PM and not connected to the chat
+        if not is_connected and message.chat.type == "private":
+            log.debug("Admin rights: Private message without connection")
             return True
 
-        check = await check_admin_rights(message, message.chat.id, user_id, self.required_permissions.keys())
+        elif is_connected:
+            log.debug("Admin rights: Connection to the chat detected")
+
+        check = await check_admin_rights(message, chat_id, user_id, self.required_permissions.keys())
         if check is not True:
             # check = missing permission in this scope
             await self.no_rights_msg(event, check)

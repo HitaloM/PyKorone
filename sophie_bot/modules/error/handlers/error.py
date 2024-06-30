@@ -3,11 +3,12 @@ import sys
 from typing import Any, Dict, Optional, Tuple
 
 import better_exceptions
+from aiogram.exceptions import TelegramNetworkError
 from aiogram.handlers import MessageHandler
 from aiogram.types import Chat, InlineKeyboardButton, InlineKeyboardMarkup
 from sentry_sdk import capture_exception
-from stfu_tg import Code, Doc, Italic, KeyValue, Section
-from stfu_tg.base import Core
+from stfu_tg import BlockQuote, Code, Doc, Italic, KeyValue, Title
+from stfu_tg.doc import Element
 
 from sophie_bot import CONFIG
 from sophie_bot.modules.error.utils.haikus import HAIKUS
@@ -15,11 +16,16 @@ from sophie_bot.utils.exception import SophieException
 from sophie_bot.utils.i18n import gettext as _
 from sophie_bot.utils.logger import log
 
+IGNORED_EXCEPTIONS = (TelegramNetworkError,)
+
 
 class ErrorHandler(MessageHandler):
     async def handle(self) -> Any:
         # We are ignoring the type because I'm sure that aiogram will have this field
         exception = self.event.exception  # type: ignore
+
+        if isinstance(exception, IGNORED_EXCEPTIONS):
+            return
 
         etype, value, tb = sys.exc_info()
 
@@ -56,34 +62,27 @@ class ErrorHandler(MessageHandler):
         return capture_exception(exception)
 
     @staticmethod
-    def get_error_message(exception: Exception) -> Tuple[str | Core, ...]:
+    def get_error_message(exception: Exception) -> Tuple[str | Element, ...]:
         if isinstance(exception, SophieException):
             # It has 'docs' field
             return exception.docs
 
         # Return either as itself if the type is based on Core (STFU-able) or stringify as italic
-        return tuple(x if isinstance(x, Core) else Italic(str(x)) for x in exception.args)
+        return tuple(x if isinstance(x, Element) else Italic(str(x)) for x in exception.args)
 
     def message_data(self, exception: Exception, sentry_event_id: Optional[str]) -> Dict[str, Any]:
         return {
             "text": str(
                 Doc(
-                    Section(
-                        *self.get_error_message(exception),
-                        title=_("😵 I've got an error trying to process this update"),
-                        title_underline=False,
-                    ),
+                    Title(_("😞 I've got an error trying to process this update")),
+                    *self.get_error_message(exception),
                     *(
                         ()
                         if isinstance(exception, SophieException)
                         else (
                             " ",
-                            Section(
-                                *random.choice(HAIKUS),
-                                title=_("Haiku"),
-                                title_bold=False,
-                            ),
-                        )  # nosec
+                            BlockQuote(Doc(*random.choice(HAIKUS))),
+                        )
                     ),
                     *(
                         (

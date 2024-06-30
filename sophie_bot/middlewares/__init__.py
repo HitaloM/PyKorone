@@ -3,6 +3,7 @@ from ass_tg.middleware import ArgsMiddleware
 
 from sophie_bot import CONFIG, dp
 from sophie_bot.middlewares.beta import BetaMiddleware
+from sophie_bot.middlewares.connections import ConnectionsMiddleware
 from sophie_bot.middlewares.legacy_save_chats import LegacySaveChats
 from sophie_bot.middlewares.localization import LocalizationMiddleware
 from sophie_bot.middlewares.logic import OrMiddleware
@@ -19,6 +20,7 @@ def enable_middlewares():
     dp.message.outer_middleware(LegacySaveChats())
 
     dp.update.middleware(localization_middleware)
+    dp.update.middleware(ConnectionsMiddleware())
 
     dp.message.middleware(ArgsMiddleware(i18n=i18n))
 

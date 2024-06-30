@@ -1,25 +1,21 @@
-#: exceptions.py:34
+#: exceptions.py:33
 msgid "Examples"
 msgstr ""
 
-#: exceptions.py:62
+#: exceptions.py:61
 msgid "The argument {description} has an invalid type"
 msgstr ""
 
-#: exceptions.py:66 exceptions.py:120
+#: exceptions.py:65 exceptions.py:120
 msgid "Needed type"
 msgstr ""
 
-#: exceptions.py:117
-msgid "❌ The required argument {description} wasn't provided!"
+#: exceptions.py:116
+msgid "The required argument {description} wasn't provided!"
 msgstr ""
 
 #: exceptions.py:164
 msgid "The argument {description} has an invalid formatting!"
-msgstr ""
-
-#: middleware.py:104
-msgid "⚠️ Argument validation error"
 msgstr ""
 
 #: types/deprecated.py:74 types/deprecated.py:78
@@ -51,11 +47,11 @@ msgid "Lists of {}"
 msgstr ""
 
 #: types/lists.py:64
-msgid "The starting charter {} of list wasn't found!"
+msgid "The starting character {} of list wasn't found!"
 msgstr ""
 
 #: types/lists.py:72
-msgid "The ending charter {} of list wasn't found!"
+msgid "The ending character {} of list wasn't found!"
 msgstr ""
 
 #: types/lists.py:76
@@ -68,31 +64,31 @@ msgid ""
 "formatting"
 msgstr ""
 
-#: types/lists.py:152 types/lists.py:173
+#: types/lists.py:151 types/lists.py:169
 msgid "Argument '{arg_text}' was parsed, but it has unknown text after it!"
 msgstr ""
 
-#: types/lists.py:157 types/lists.py:178
+#: types/lists.py:156 types/lists.py:174
 msgid "Please ensure you correctly divided all of arguments."
 msgstr ""
 
-#: types/logic.py:18
+#: types/logic.py:19
 msgid "Optional {}"
 msgstr ""
 
-#: types/logic.py:19
+#: types/logic.py:20
 msgid "Optionals {}"
 msgstr ""
 
-#: types/logic.py:42 types/logic.py:43
+#: types/logic.py:43 types/logic.py:44
 msgid " or "
 msgstr ""
 
-#: types/logic.py:105
+#: types/logic.py:106
 msgid ", and "
 msgstr ""
 
-#: types/logic.py:121
+#: types/logic.py:122
 msgid "Example syntax"
 msgstr ""
 
@@ -144,11 +140,11 @@ msgstr ""
 msgid "➡️ The start text cannot have the overlapping formatting"
 msgstr ""
 
-#: types/text_rules.py:65
+#: types/text_rules.py:67
 msgid "➡️ Argument '{arg_text}' was parsed, but it has unknown text after it!"
 msgstr ""
 
-#: types/text_rules.py:83 types/text_rules.py:87
+#: types/text_rules.py:84 types/text_rules.py:88
 msgid "{} surrounded by {} and {}"
 msgstr ""
 
@@ -262,4 +258,16 @@ msgstr ""
 #: types/user.py:138
 msgid "A link to user, usually creates by mentioning a user without username."
 msgstr ""
+
+#~ msgid "The starting charter {} of list wasn't found!"
+#~ msgstr ""
+
+#~ msgid "The ending charter {} of list wasn't found!"
+#~ msgstr ""
+
+#~ msgid "❌ The required argument {description} wasn't provided!"
+#~ msgstr ""
+
+#~ msgid "⚠️ Argument validation error"
+#~ msgstr ""
 

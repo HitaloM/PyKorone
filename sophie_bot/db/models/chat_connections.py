@@ -9,11 +9,11 @@ from sophie_bot.db.models import ChatModel
 class ChatConnectionModel(Document):
     # Old IDs
     user_id: int
-    chat_id: int
+    chat_id: Optional[int] = None
 
     # New links
-    group: Optional[Link[ChatModel]]
-    user: Annotated[Optional[Link[ChatModel]], Indexed(unique=True)]
+    group: Optional[Link[ChatModel]] = None
+    user: Annotated[Optional[Link[ChatModel]], Indexed(unique=True)] = None
 
     class Settings:
         name = "connections"
@@ -35,3 +35,7 @@ class ChatConnectionModel(Document):
                 name="legacy_user_id_chat_id",
             ),
         ]
+
+    @staticmethod
+    async def get_by_user_id(user_id: int) -> Optional["ChatConnectionModel"]:
+        return await ChatConnectionModel.find_one(ChatConnectionModel.user_id == user_id)

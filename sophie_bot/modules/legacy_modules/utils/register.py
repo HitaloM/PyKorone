@@ -1,9 +1,8 @@
-from aiogram import F
+from aiogram import F, Router
 from aiogram.dispatcher.event.bases import SkipHandler
 from aiogram.fsm.context import FSMContext
 from aiogram.types import Message
 
-from sophie_bot import dp
 from sophie_bot.filters.chat_status import LegacyOnlyGroups, LegacyOnlyPM
 from sophie_bot.filters.cmd import CMDFilter
 from sophie_bot.filters.message_status import HasArgs, NoArgs
@@ -12,6 +11,8 @@ from sophie_bot.utils.logger import log
 
 REGISTRED_COMMANDS = []
 COMMANDS_ALIASES = {}
+
+router = Router(name="legacy_modules")
 
 
 def register(*reg_args, **reg_kwargs):
@@ -53,6 +54,12 @@ def register(*reg_args, **reg_kwargs):
     if "f" in reg_kwargs:
         if reg_kwargs["f"] == "welcome":
             reg_args = (*reg_args, F.new_chat_member)
+        elif reg_kwargs["f"] == "leave":
+            reg_args = (*reg_args, F.left_chat_member)
+        elif reg_kwargs["f"] == "text":
+            reg_args = (*reg_args, F.text)
+        elif reg_kwargs["f"] == "any":
+            pass
         else:
             log.error(f'Legacy @register: Unknown f filter: {reg_kwargs["f"]}')
 
@@ -67,6 +74,6 @@ def register(*reg_args, **reg_kwargs):
             raise SkipHandler
 
         log.warn(f"Legacy @register: Registering message handler: {reg_args} {reg_kwargs}")
-        dp.message.register(handler_func, *reg_args)
+        router.message.register(handler_func, *reg_args)
 
     return wrapper

@@ -26,8 +26,8 @@ from telethon.errors.rpcerrorlist import MessageDeleteForbiddenError
 from sophie_bot import bot, dp
 from sophie_bot.filters.admin_rights import BotHasPermissions, UserRestricting
 from sophie_bot.modules.legacy_modules.utils.language import get_strings_dec
-from sophie_bot.modules.legacy_modules.utils.notes import BUTTONS
 from sophie_bot.modules.legacy_modules.utils.register import register
+from sophie_bot.modules.notes.utils.legacy_notes import BUTTONS
 from sophie_bot.services.telethon import tbot
 
 

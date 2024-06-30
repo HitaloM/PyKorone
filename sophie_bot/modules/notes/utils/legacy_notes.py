@@ -1,21 +1,3 @@
-# Copyright (C) 2018 - 2020 MrYacha. All rights reserved. Source code available under the AGPL.
-# Copyright (C) 2019 Aiogram
-#
-# This file is part of SophieBot.
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU Affero General Public License as
-# published by the Free Software Foundation, either version 3 of the
-# License, or (at your option) any later version.
-
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU Affero General Public License for more details.
-
-# You should have received a copy of the GNU Affero General Public License
-# along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
 import html
 import re
 import sys
@@ -34,17 +16,24 @@ from telethon.tl.custom import Button
 
 import sophie_bot.modules.legacy_modules.utils.tmarkdown as tmarkdown
 from sophie_bot import CONFIG
+from sophie_bot.modules.legacy_modules.utils.language import get_chat_lang
 from sophie_bot.modules.legacy_modules.utils.message import (
     get_args,
     get_args_str,
     get_cmd,
 )
+from sophie_bot.modules.legacy_modules.utils.tmarkdown import (
+    tbold,
+    tcode,
+    titalic,
+    tlink,
+    tpre,
+    tstrikethrough,
+    tunderline,
+)
+from sophie_bot.modules.legacy_modules.utils.user_details import get_user_link
 from sophie_bot.services.telethon import tbot
 from sophie_bot.utils.logger import log
-
-from .language import get_chat_lang
-from .tmarkdown import tbold, tcode, titalic, tlink, tpre, tstrikethrough, tunderline
-from .user_details import get_user_link
 
 BUTTONS = {}
 
@@ -284,7 +273,7 @@ async def t_unparse_note_item(message, db_item, chat_id, noformat=None, event=No
     if not user:
         user = message.from_user
 
-    if "file" in db_item:
+    if "file" in db_item and db_item["file"]:
         file_id = db_item["file"]["id"]
 
     if noformat:
