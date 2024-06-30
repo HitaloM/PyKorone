@@ -1,5 +1,9 @@
 [Unit]
 Description=Sophie Stable
+Requires=mongo.service valkey.service
+
+[Service]
+ExecStartPre=/bin/sleep 20
 
 [Container]
 ContainerName=stable

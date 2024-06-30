@@ -1,5 +1,9 @@
 [Unit]
 Description=Sophie Proxy
+Requires=sophie-stable.service sophie-beta.service
+
+[Service]
+ExecStartPre=/bin/sleep 30
 
 [Container]
 ContainerName=proxy
