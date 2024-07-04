@@ -6,7 +6,7 @@ from flag import flag
 from hairydogm.keyboard import InlineKeyboardBuilder
 from hydrogram import Client
 from hydrogram.enums import ChatType
-from hydrogram.types import CallbackQuery, InlineKeyboardButton, InlineKeyboardMarkup, Message
+from hydrogram.types import CallbackQuery, InlineKeyboardMarkup, Message
 from magic_filter import F
 
 from korone.decorators import router
@@ -28,11 +28,9 @@ class BaseHandler:
             text=_("{lang_flag} Language").format(lang_flag=flag(locale.territory or "US")),
             callback_data=LangMenuCallback(menu="language"),
         )
-        keyboard.row(
-            InlineKeyboardButton(
-                text=_("👮‍♂️ Help"), callback_data=PMMenuCallback(menu="help").pack()
-            )
-        )
+        keyboard.button(text=_("🔒 Privacy"), callback_data=PMMenuCallback(menu="privacy"))
+        keyboard.button(text=_("👮‍♂️ Help"), callback_data=PMMenuCallback(menu="help"))
+
         keyboard.adjust(2)
         return keyboard.as_markup()
 

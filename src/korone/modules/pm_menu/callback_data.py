@@ -14,3 +14,7 @@ class PMMenuCallback(CallbackData, prefix="pm_menu"):
 
 class GetHelpCallback(CallbackData, prefix="gethelp"):
     module: str
+
+
+class PrivacyCallback(CallbackData, prefix="privacy"):
+    section: str
