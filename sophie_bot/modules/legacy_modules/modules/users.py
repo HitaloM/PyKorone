@@ -1,7 +1,7 @@
 import datetime
 
 from aiogram.types import Message
-from stfu_tg import Section
+from stfu_tg import Code, Section, Template
 
 from sophie_bot.modules.legacy_modules.modules import LOADED_LEGACY_MODULES
 from sophie_bot.modules.legacy_modules.utils.connections import chat_connection
@@ -116,7 +116,15 @@ async def __stats__():
     )
 
     return Section(
-        f"<code>{total_users}</code> total users, in <code>{total_chats}</code> chats",
-        f"{users_24h} new users and {chats_24h} new chats in the last 48 hours",
+        Template(
+            "{total_users} total users, in {total_chats} chats",
+            total_users=Code(total_users),
+            total_chats=Code(total_chats),
+        ),
+        Template(
+            "{users_24h} new users and {chats_24h} new chats in the last 48 hours",
+            users_24h=Code(users_24h),
+            chats_24h=Code(chats_24h),
+        ),
         title="Users (legacy)",
     )

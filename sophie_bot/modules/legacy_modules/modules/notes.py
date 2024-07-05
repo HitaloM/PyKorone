@@ -9,6 +9,7 @@ from aiogram.filters import CommandStart
 from aiogram.types import InlineKeyboardButton, InlineKeyboardMarkup, Message
 from babel.dates import format_datetime
 from pymongo import ReplaceOne
+from stfu_tg import Code, Template
 from telethon.errors.rpcerrorlist import MessageDeleteForbiddenError
 
 from sophie_bot import bot, dp
@@ -601,8 +602,7 @@ async def private_notes_func(message: Message, strings):
 
 
 async def __stats__():
-    text = "<code>{}</code> total notes".format(await db.notes.count_documents({}))
-    return text
+    return Template("{num} total notes", num=Code(await db.notes.count_documents({})))
 
 
 async def __export__(chat_id):

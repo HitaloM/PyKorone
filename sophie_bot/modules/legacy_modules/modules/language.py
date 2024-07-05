@@ -19,6 +19,7 @@
 
 from aiogram.filters.callback_data import CallbackData
 from aiogram.types import InlineKeyboardButton, InlineKeyboardMarkup, Message
+from stfu_tg import Code, Template
 
 from sophie_bot import dp
 from sophie_bot.filters.user_status import IsAdmin
@@ -136,7 +137,7 @@ async def select_lang_callback(query, callback_data: SelectLangCb, **kwargs):
 
 
 async def __stats__():
-    return f"<code>{len(LANGUAGES)}</code> legacy languages loaded."
+    return Template("{num} legacy languages loaded.", num=Code(len(LANGUAGES)))
 
 
 async def __export__(chat_id):

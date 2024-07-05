@@ -3,7 +3,7 @@ import os
 
 import ujson
 from aiogram.types import Message
-from stfu_tg import Section
+from stfu_tg import Code, KeyValue, Section, Template
 
 from sophie_bot import SOPHIE_VERSION
 from sophie_bot.config import CONFIG
@@ -57,21 +57,28 @@ async def __stats__():
         sec += "Long-polling mode"
     local_db = await db.command("dbstats")
     if "fsTotalSize" in local_db:
-        sec += (
-            f'Database size is <code>{convert_size(local_db["dataSize"])}</code>, '
-            f'free <code>{convert_size(local_db["fsTotalSize"] - local_db["fsUsedSize"])}</code>'
+        sec += Template(
+            "Database size is {db_size}, free {db_free}",
+            db_size=Code(convert_size(local_db["dataSize"])),
+            db_free=Code(convert_size(local_db["fsTotalSize"] - local_db["fsUsedSize"])),
         )
     else:
-        sec += (
-            f'Database size is <code>{convert_size(local_db["storageSize"])}</code>,'
-            f'free <code>{convert_size(536870912 - local_db["storageSize"])}</code>'
+        sec += Template(
+            "Database size is {db_size}, free {db_free}",
+            db_size=Code(convert_size(local_db["storageSize"])),
+            db_free=Code(convert_size(536870912 - local_db["storageSize"])),
         )
 
-    sec += f"<code>{len(redis.keys())}</code> total keys in Redis database"
-    sec += (
-        f"<code>{len(REGISTRED_COMMANDS)}</code> total commands registred, in <code>{len(LOADED_LEGACY_MODULES)}</code>"
-        " modules"
+    sec += Template("{redis_keys} total keys in Redis database", redis_keys=Code(len(redis.keys())))
+    sec += KeyValue(
+        "Legacy modules",
+        Template(
+            "{cmds} total commands registered, in {modules} modules",
+            cmds=Code(len(REGISTRED_COMMANDS)),
+            modules=Code(len(LOADED_LEGACY_MODULES)),
+        ),
     )
+    sec += KeyValue("Modules", Template("{modules} loaded", modules=Code(len(LOADED_MODULES))))
     return sec
 
 
