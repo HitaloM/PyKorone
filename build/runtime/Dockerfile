@@ -18,7 +18,7 @@ COPY ../../sophie_bot sophie_bot
 COPY ../../locales locales
 COPY ../../Makefile Makefile
 
-RUN bash -c "source /venv/bin/activate; make new_locale"
+RUN bash -c "source /venv/bin/activate; make compile_lang"
 
 RUN poetry build && /venv/bin/pip install dist/*.whl
 

@@ -8,7 +8,7 @@ Restart=always
 
 [Container]
 ContainerName=proxy
-Image={{ lookup('ansible.builtin.env','IMAGE_NAME', default='registry.gitlab.com/sophiebot/sophie') }}:{{ lookup('ansible.builtin.env','IMAGE_TAG', default='proxy') }}
+Image={{ lookup('ansible.builtin.env','IMAGE_NAME', default='registry.gitlab.com/sophiebot/sophie') }}:{{ image_tag }}
 PublishPort=8073:8073
 PodmanArgs=--memory=256M
 EnvironmentFile=/var/sophie/proxy.env

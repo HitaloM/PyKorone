@@ -8,7 +8,7 @@ build_runtime_container:
   variables:
     IMAGE_FULL: "$CI_REGISTRY_IMAGE:$CI_COMMIT_BRANCH-runtime"
   tags:
-    - saas-linux-medium-amd64
+    - saas-linux-large-amd64
   stage: build
   services:
     - docker:dind

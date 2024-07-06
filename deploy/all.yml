@@ -7,7 +7,14 @@
         token: "{{ lookup('env', 'BETA_TOKEN') }}"
         username: "{{ lookup('env', 'BETA_USERNAME') }}"
         sentry_url: "{{ lookup('env', 'STAGING_SENTRY') }}"
-      when: inventory_hostname == "staging"
+      when: inventory_hostname == "sstaging"
+
+    - name: Set TOKEN for Prod
+      set_fact:
+        token: "{{ lookup('env', 'STABLE_TOKEN') }}"
+        username: "{{ lookup('env', 'STABLE_USERNAME') }}"
+        sentry_url: "{{ lookup('env', 'PROD_STABLE_SENTRY') }}"
+      when: inventory_hostname == "white"
 
     - name: Login to registry
       containers.podman.podman_login:
@@ -27,13 +34,15 @@
         tag: "stable"
         force: true
 
-    #    - name: Update Proxy podman image
-    #      containers.podman.podman_image:
-    #        name: "{{ lookup('ansible.builtin.env','IMAGE_NAME') }}"
-    #        tag: "{{ lookup('ansible.builtin.env','IMAGE_TAG') }}"
-    #        force: true
+    - name: Update Proxy podman image
+      containers.podman.podman_image:
+        name: "{{ lookup('ansible.builtin.env','IMAGE_NAME') }}"
+        tag: "proxy-runtime"
+        force: true
 
     - name: Copy Beta container quadlet file
+      vars:
+        image_tag: "{{ lookup('ansible.builtin.env','IMAGE_TAG') }}"
       ansible.builtin.template:
         src: sophie-beta.container.j2
         dest: /home/containers/.config/containers/systemd/sophie-beta.container
@@ -52,6 +61,8 @@
         mode: u=rw,g=r,o=r
 
     - name: Copy Proxy container quadlet file
+      vars:
+        image_tag: "proxy"
       ansible.builtin.template:
         src: sophie-proxy.container.j2
         dest: /home/containers/.config/containers/systemd/sophie-proxy.container
