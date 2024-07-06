@@ -7,6 +7,8 @@ from hydrogram.types import CallbackQuery, Message
 
 from korone.config import ConfigManager
 
+SUDOERS: list[int] = ConfigManager.get("korone", "SUDOERS")
+
 
 class IsSudo(Filter):
     """
@@ -22,10 +24,9 @@ class IsSudo(Filter):
         The update object representing the incoming message or callback query.
     """
 
-    __slots__ = ("client", "sudoers", "update")
+    __slots__ = ("client", "update")
 
     def __init__(self, client: Client, update: Message | CallbackQuery) -> None:
-        self.sudoers: list[int] = ConfigManager.get("korone", "SUDOERS")
         self.client = client
         self.update = update
 
@@ -44,7 +45,4 @@ class IsSudo(Filter):
         is_callback = isinstance(update, CallbackQuery)
         message = update.message if is_callback else update
 
-        if message.from_user is None:
-            return False
-
-        return message.from_user.id in self.sudoers
+        return False if message.from_user is None else message.from_user.id in SUDOERS

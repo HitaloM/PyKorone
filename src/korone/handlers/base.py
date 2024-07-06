@@ -18,6 +18,8 @@ from korone.database.query import Query
 from korone.database.sqlite import SQLite3Connection
 from korone.database.table import Document, Documents, Table
 
+BOT_ID: int = ConfigManager.get("hydrogram", "BOT_TOKEN").split(":", 1)[0]
+
 
 class BaseHandler:
     """
@@ -278,9 +280,7 @@ class BaseHandler:
         """
         if isinstance(chat, User) or chat.type == ChatType.PRIVATE:
             return "Users"
-        if chat.type in {ChatType.GROUP, ChatType.SUPERGROUP}:
-            return "Groups"
-        return None
+        return "Groups" if chat.type in {ChatType.GROUP, ChatType.SUPERGROUP} else None
 
     async def _save_user_or_chat(
         self, user_or_chat: User | Chat, language: str | None = None
@@ -399,7 +399,7 @@ class BaseHandler:
         chat_type = chat.type.name.lower() if isinstance(chat, Chat) else None
         if isinstance(chat, User) and chat.last_name:
             last_name = chat.last_name
-        elif isinstance(chat, User) and not chat.last_name:
+        elif isinstance(chat, User):
             last_name = ""
         else:
             last_name = None
@@ -526,13 +526,11 @@ class BaseHandler:
             The chats or users to update based on the replied message.
         """
         chats_to_update = []
-        bot_token = ConfigManager.get("hydrogram", "BOT_TOKEN")
-        bot_id = bot_token.split(":", 1)[0]
 
         replied_message_user = message.sender_chat or message.from_user
         if (
             replied_message_user
-            and replied_message_user.id != bot_id
+            and replied_message_user.id != BOT_ID
             and (isinstance(replied_message_user, Chat) or not replied_message_user.is_bot)
         ):
             chats_to_update.append(replied_message_user)
@@ -540,7 +538,7 @@ class BaseHandler:
         reply_to_forwarded = message.forward_from_chat or message.forward_from
         if (
             reply_to_forwarded
-            and reply_to_forwarded.id != bot_id
+            and reply_to_forwarded.id != BOT_ID
             and (isinstance(reply_to_forwarded, Chat) or not reply_to_forwarded.is_bot)
         ):
             chats_to_update.append(reply_to_forwarded)

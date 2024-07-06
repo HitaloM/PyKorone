@@ -36,7 +36,10 @@ class BaseHandler:
 
     @staticmethod
     def build_text() -> str:
-        return _("Hello, I'm PyKorone! An all-in-one bot.")
+        return _(
+            "Hi, I'm Korone! An all-in-one bot. I can help you with lots "
+            "of things. Just click on the buttons below to get started."
+        )
 
 
 class Start(MessageHandler, BaseHandler):

@@ -50,7 +50,7 @@ class LastFMRecentsHandler(MessageHandler):
 
         if recent_tracks:
             last_played = recent_tracks[0]
-            played_tracks = recent_tracks[1:6] if last_played.now_playing else recent_tracks[0:5]
+            played_tracks = recent_tracks[1:6] if last_played.now_playing else recent_tracks[:5]
         else:
             last_played = None
             played_tracks = []

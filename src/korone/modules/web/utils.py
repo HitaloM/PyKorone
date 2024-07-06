@@ -16,33 +16,25 @@ async def run_whois(domain: str) -> str:
     )
     stdout, stderr = await process.communicate()
 
-    if process.returncode == 0:
-        return stdout.decode()
-
-    return stderr.decode()
+    return stdout.decode() if process.returncode == 0 else stderr.decode()
 
 
 def parse_whois_output(output: str) -> dict[str, str] | None:
     info = {}
 
-    domain_name = re.search(r"Domain Name:\s*(.*)", output, re.IGNORECASE)
-    if domain_name:
-        info["Domain Name"] = domain_name.group(1).strip()
+    if domain_name := re.search(r"Domain Name:\s*(.*)", output, re.IGNORECASE):
+        info["Domain Name"] = domain_name[1].strip()
 
-    registrar = re.search(r"Registrar:\s*(.*)", output, re.IGNORECASE)
-    if registrar:
-        info["Registrar"] = registrar.group(1).strip()
+    if registrar := re.search(r"Registrar:\s*(.*)", output, re.IGNORECASE):
+        info["Registrar"] = registrar[1].strip()
 
-    creation_date = re.search(r"Creation Date:\s*(.*)", output, re.IGNORECASE)
-    if creation_date:
-        info["Creation Date"] = creation_date.group(1).strip()
+    if creation_date := re.search(r"Creation Date:\s*(.*)", output, re.IGNORECASE):
+        info["Creation Date"] = creation_date[1].strip()
 
-    expiration_date = re.search(r"Registry Expiry Date:\s*(.*)", output, re.IGNORECASE)
-    if expiration_date:
-        info["Expiration Date"] = expiration_date.group(1).strip()
+    if expiration_date := re.search(r"Registry Expiry Date:\s*(.*)", output, re.IGNORECASE):
+        info["Expiration Date"] = expiration_date[1].strip()
 
-    name_servers = re.findall(r"Name Server:\s*(.*)", output, re.IGNORECASE)
-    if name_servers:
+    if name_servers := re.findall(r"Name Server:\s*(.*)", output, re.IGNORECASE):
         info["Name Servers"] = ", ".join([ns.strip() for ns in name_servers])
 
     return info
@@ -88,7 +80,7 @@ async def get_ips_from_string(hostname: str) -> list[str]:
         return [str(ip)]
     except ValueError:
         parsed = URL(hostname)
-        host = parsed.host or (URL(f"http://{hostname}").host if not parsed.is_absolute() else "")
+        host = parsed.host or ("" if parsed.is_absolute() else URL(f"http://{hostname}").host)
         if not host:
             return []
         try:

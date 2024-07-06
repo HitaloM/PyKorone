@@ -9,7 +9,8 @@ from korone.utils.i18n import lazy_gettext as _
 class ModuleInfo:
     name: LazyProxy = _("Web Tools")
     summary: LazyProxy = _(
-        "This module provides tools to interact with the web, such as whois queries."
+        "This module provides tools to interact with the web, including "
+        "whois queries and IP address/domain information retrieval."
     )
     doc: LazyProxy = _(
         "<b>Commands:</b>\n"

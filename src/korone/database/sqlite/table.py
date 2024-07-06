@@ -2,7 +2,6 @@
 # Copyright (c) 2024 Hitalo M. <https://github.com/HitaloM>
 # Copyright (c) 2023 Victor Cebarros <https://github.com/victorcebarros>
 
-
 from typing import TYPE_CHECKING
 
 from korone.database.connection import Connection

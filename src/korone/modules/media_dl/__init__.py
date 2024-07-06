@@ -9,15 +9,13 @@ from korone.utils.i18n import lazy_gettext as _
 class ModuleInfo:
     name: LazyProxy = _("Medias")
     summary: LazyProxy = _(
-        "Some websites, when their links are shared on platforms like Telegram, do not generate "
-        "a preview of the images or videos contained within. This can lead to a lack of context "
-        "and visual appeal for the shared content.\n\nThis is where this module comes into play. "
-        "It is designed to automatically detect the links of supported websites and upload the "
-        "images and videos found within them. This ensures that a preview is always available, "
-        "enhancing the user experience."
+        "Some websites, when their links are shared on Telegram, do not display a preview of the "
+        "content. This module solves this problem by automatically downloading the media content "
+        "from these websites and displaying it in the chat. Also having some extra features like "
+        "a command to download YouTube videos and audios."
     )
     doc: LazyProxy = _(
-        "Automatic media download is enabled for the following websites:\n"
+        "Automatic media download is available for the following websites:\n"
         "- X (Twitter)\n"
         "- TikTok\n\n"
         "<b>Commands:</b>\n"

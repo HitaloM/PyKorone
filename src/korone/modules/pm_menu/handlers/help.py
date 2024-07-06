@@ -37,8 +37,17 @@ class Help(MessageHandler):
     @staticmethod
     def build_text() -> str:
         return _(
+            "Welcome to the help menu! Here you will find all the "
+            "commands and modules provided by me:\n\n"
+            "<b>Helpful commands:</b>\n"
+            "- /start: Start the bot, you maybe already know this.\n"
+            "- /help: Show this message.\n"
+            "- /help &lt;module&gt;: Show help for a specific module.\n"
+            "- /privacy: Show the privacy policy.\n"
+            "- /language: Change the bot language.\n"
+            "- /about: Show information about the bot.\n\n"
             "Below are buttons for each module. Click on a button to "
-            "access a brief documentation on its functionality and usage."
+            "access a brief documentation on its functionality and usage.\n\n"
         )
 
     @router.message(Command("help"))

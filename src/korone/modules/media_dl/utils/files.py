@@ -37,7 +37,7 @@ def resize_thumbnail(thumbnail_path: str | BinaryIO) -> None:
         resized_img = img.resize((new_width, new_height), Image.Resampling.LANCZOS)
 
         if isinstance(thumbnail_path, str):
-            temp_path = thumbnail_path + ".temp.jpeg"
+            temp_path = f"{thumbnail_path}.temp.jpeg"
             resized_img.save(temp_path, "JPEG", quality=95)
 
             if Path(temp_path).stat().st_size < 200 * 1024:

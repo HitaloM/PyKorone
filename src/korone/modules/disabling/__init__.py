@@ -11,8 +11,7 @@ class ModuleInfo:
     summary: LazyProxy = _(
         "Not everyone wants every feature Korone offers. Some commands are best left "
         "unused to prevent spam and abuse.\n\nThis allows you to disable some commonly used "
-        "commands so that no one can use them. It also allows you to auto-delete "
-        " to prevent people from bluetexting."
+        "commands so that no one can use them."
     )
     doc: LazyProxy = _(
         "<b>Admin Commands:</b>\n"

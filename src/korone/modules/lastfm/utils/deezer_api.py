@@ -42,11 +42,10 @@ class DeezerClient:
             if response.status_code != 200:
                 msg = f"Error fetching data from Deezer API: {response.status_code}"
                 raise DeezerError(msg)
-            data = response.json().get("data", [])
-            if not data:
-                msg = "No data found"
-                raise DeezerError(msg)
-            return data[0]
+            if data := response.json().get("data", []):
+                return data[0]
+            msg = "No data found"
+            raise DeezerError(msg)
 
     async def get_artist(self, artist_name: str) -> DeezerArtist:
         params = {

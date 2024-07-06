@@ -8,7 +8,7 @@ from contextlib import suppress
 from importlib import import_module
 from pathlib import Path
 from types import FunctionType, ModuleType
-from typing import TYPE_CHECKING, Any
+from typing import Any
 
 from hydrogram import Client
 from hydrogram.filters import AndFilter, Filter
@@ -19,9 +19,6 @@ from korone.database.table import Documents
 from korone.handlers.abstract import CallbackQueryHandler, MessageHandler
 from korone.utils.logging import log
 from korone.utils.traverse import bfs_attr_search
-
-if TYPE_CHECKING:
-    from korone.decorators.factory import HandlerObject
 
 MODULES: dict[str, dict[str, Any]] = {}
 """A dictionary that stores information about the modules.
@@ -302,8 +299,7 @@ async def register_handler(client: Client, module: ModuleType) -> bool:
                 continue
 
             method_callable = get_method_callable(obj, name)
-            handler: HandlerObject = bfs_attr_search(func, "handlers")
-            if handler:
+            if handler := bfs_attr_search(func, "handlers"):
                 client.add_handler(handler.event(method_callable, handler.filters), handler.group)
                 await process_handler_commands(handler.filters)
                 success = True

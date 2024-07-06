@@ -8,6 +8,7 @@ from hydrogram.types import CallbackQuery
 
 from korone import cache, constants
 from korone.decorators import router
+from korone.filters import IsAdmin
 from korone.handlers.abstract import CallbackQueryHandler
 from korone.modules.language.callback_data import SetLangCallback
 from korone.modules.language.database import set_chat_language
@@ -16,10 +17,7 @@ from korone.utils.i18n import gettext as _
 
 
 class ApplyLanguage(CallbackQueryHandler):
-    translations_url: str = constants.TRANSLATIONS_URL
-    github_url: str = f"{constants.GITHUB_URL}/issues"
-
-    @router.callback_query(SetLangCallback.filter())
+    @router.callback_query(SetLangCallback.filter() & IsAdmin)
     async def handle(self, client: Client, callback: CallbackQuery) -> None:
         if not callback.data:
             await callback.answer(_("Something went wrong."))
@@ -42,7 +40,8 @@ class ApplyLanguage(CallbackQueryHandler):
             disable_web_page_preview=True,
         )
 
-    async def prepare_response(self, language: str) -> tuple[str, InlineKeyboardBuilder | None]:
+    @staticmethod
+    async def prepare_response(language: str) -> tuple[str, InlineKeyboardBuilder | None]:
         i18n = get_i18n()
 
         text = _("Language changed to {new_lang}.", locale=language).format(
@@ -60,7 +59,7 @@ class ApplyLanguage(CallbackQueryHandler):
             )
             keyboard.button(
                 text=_("🐞 Open GitHub", locale=language),
-                url=self.github_url,
+                url=f"{constants.GITHUB_URL}/issues",
             )
             return text, keyboard
 
@@ -81,7 +80,7 @@ class ApplyLanguage(CallbackQueryHandler):
             )
             keyboard.button(
                 text=_("🐞 Open GitHub", locale=language),
-                url=self.github_url,
+                url=f"{constants.GITHUB_URL}/issues",
             )
         else:
             text += _(
@@ -91,7 +90,7 @@ class ApplyLanguage(CallbackQueryHandler):
             )
             keyboard.button(
                 text=_("🌍 Open Translations", locale=language),
-                url=self.translations_url,
+                url=constants.TRANSLATIONS_URL,
             )
 
         return text, keyboard

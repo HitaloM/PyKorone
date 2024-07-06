@@ -57,11 +57,11 @@ html_copy_source = False
 
 html_theme_options = {
     "navigation_with_keys": True,
-    "announcement": (
-        "PyKorone is currently under development and breaking changes may "
-        "be introduced frequently. Please monitor the commits for updates: "
-        "<a href='https://github.com/HitaloM/PyKorone/commits/main/'>Commits</a>."
-    ),
+    # "announcement": (
+    #     "Korone is currently under development and breaking changes may "
+    #     "be introduced frequently. Please monitor the commits for updates: "
+    #     "<a href='https://github.com/HitaloM/PyKorone/commits/main/'>Commits</a>."
+    # ),
     "footer_icons": [  # these icons are getten from: https://react-icons.github.io/react-icons/
         {
             "name": "Telegram",

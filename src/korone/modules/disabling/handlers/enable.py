@@ -34,7 +34,7 @@ class EnableHandler(MessageHandler):
 
         cmd_db = await check_command_state(command)
 
-        if cmd_db and bool(cmd_db[0]["state"]) is True:
+        if cmd_db and bool(cmd_db[0]["state"]):
             await message.reply(_("This command is already enabled."))
             return
 

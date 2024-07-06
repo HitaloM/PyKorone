@@ -15,8 +15,6 @@ from korone.modules.language.callback_data import LangMenuCallback, PMMenuCallba
 from korone.utils.i18n import I18nNew, get_i18n
 from korone.utils.i18n import gettext as _
 
-LANG_CMDS: list[str] = ["language", "lang", "locale", "setlang"]
-
 
 class LanguageInfoBase(MessageHandler):
     @staticmethod
@@ -34,13 +32,14 @@ class LanguageInfoBase(MessageHandler):
                     text=button_text, callback_data=LangMenuCallback(menu="languages")
                 )
 
-            text += _("\n<b>Language Info:</b>\n")
-            text += _("Translated: {translated}\n").format(translated=stats.translated)
-            text += _("Untranslated: {untranslated}\n").format(untranslated=stats.untranslated)
-            text += _("Needs review: {fuzzy}\n").format(fuzzy=stats.fuzzy)
-            text += _("Percentage translated: {percent}\n").format(
-                percent=stats.percent_translated
+            text += _("\n<b>Language Information:</b>\n")
+            text += _("Translated strings: <code>{translated}</code>\n").format(
+                translated=stats.translated
             )
+            text += _("Untranslated strings: <code>{untranslated}</code>\n").format(
+                untranslated=stats.untranslated
+            )
+            text += _("Strings requiring review: <code>{fuzzy}</code>\n").format(fuzzy=stats.fuzzy)
         else:
             text += _("This is the bot's native language. So it is 100% translated.")
 
@@ -49,7 +48,7 @@ class LanguageInfoBase(MessageHandler):
 
         return text, keyboard
 
-    @router.message(Command(commands=LANG_CMDS))
+    @router.message(Command(commands=["language", "lang", "locale", "setlang"]))
     async def handle(self, client: Client, message: Message):
         if message.chat.type == ChatType.PRIVATE:
             button_text = _("👤 Change your language")

@@ -10,16 +10,15 @@ class ModuleInfo:
     name: LazyProxy = _("Languages")
     summary: LazyProxy = _(
         "Not all groups are fluent in English; some prefer "
-        "PyKorone to respond in their native language.\n\n"
+        "Korone to respond in their native language.\n\n"
         "Translations can be used to change the language "
         "of the bot's replies to the language of your choice!"
     )
     doc: LazyProxy = _(
         "<b>Commands:</b>\n"
-        "- /languages: Returns a menu with the languages available "
-        "to be applied to the current chat."
-        "\n- /language: Returns the language set for the current chat "
-        "and its statistics."
-        "\n\n<b>Note:</b>"
-        "\nIn groups, the bot's language is set by the group's administrators."
+        "- /languages: Returns a menu with the languages available to be applied to "
+        "the current chat.\n"
+        "- /language: Returns the language set for the current chat and its statistics.\n\n"
+        "<b>Note:</b>\n"
+        "In groups, the bot's language is set by the group's administrators."
     )

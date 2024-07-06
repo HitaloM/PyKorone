@@ -9,6 +9,8 @@ import httpx
 from korone.config import ConfigManager
 from korone.utils.logging import log
 
+API_KEY: str = ConfigManager.get("korone", "DEEPL_KEY")
+
 
 class TranslationError(Exception):
     pass
@@ -36,7 +38,6 @@ class TranslationResponse:
 
 class DeepL:
     def __init__(self) -> None:
-        self.api_key = ConfigManager.get("korone", "DEEPL_KEY")
         self.url = "https://api-free.deepl.com/v2/translate"
         self.max_retries = 5
 
@@ -51,7 +52,7 @@ class DeepL:
                 try:
                     data = {
                         "text": [text],
-                        "auth_key": self.api_key,
+                        "auth_key": API_KEY,
                         "target_lang": target_lang.upper(),
                     }
                     if source_lang is not None:

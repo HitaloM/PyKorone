@@ -1,7 +1,6 @@
 # SPDX-License-Identifier: BSD-3-Clause
 # Copyright (c) 2024 Hitalo M. <https://github.com/HitaloM>
 
-import urllib.parse
 from dataclasses import dataclass
 from enum import Enum
 
@@ -207,8 +206,8 @@ class LastFMClient:
     async def get_track_info(self, artist: str, track: str, username: str) -> LastFMTrack:
         params = {
             "method": "track.getinfo",
-            "artist": urllib.parse.quote(artist),
-            "track": urllib.parse.quote(track),
+            "artist": artist,
+            "track": track,
             "user": username,
             "api_key": self.api_key,
             "format": "json",
@@ -219,8 +218,8 @@ class LastFMClient:
     async def get_album_info(self, artist: str, album: str, username: str) -> LastFMAlbum:
         params = {
             "method": "album.getinfo",
-            "artist": urllib.parse.quote(artist),
-            "album": urllib.parse.quote(album),
+            "artist": artist,
+            "album": album,
             "user": username,
             "api_key": self.api_key,
             "format": "json",
@@ -231,7 +230,7 @@ class LastFMClient:
     async def get_artist_info(self, artist: str, username: str) -> LastFMArtist:
         params = {
             "method": "artist.getinfo",
-            "artist": urllib.parse.quote(artist),
+            "artist": artist,
             "user": username,
             "api_key": self.api_key,
             "format": "json",

@@ -46,12 +46,8 @@ def bfs_attr_search(root: Any, attr: str) -> Any:
     >>> bfs_attr_search(fun, "again")(20)
     5.0
     """
-    queue: list[Any] = []
-    visited: list[Any] = []
-
-    queue.append(root)
-    visited.append(id(root))
-
+    queue: list[Any] = [root]
+    visited: list[Any] = [id(root)]
     while queue:
         obj = queue.pop()
 
@@ -59,9 +55,7 @@ def bfs_attr_search(root: Any, attr: str) -> Any:
             return getattr(obj, attr)
 
         try:
-            objs = (
-                getattr(obj, attr) for attr in filter(lambda s: not s.startswith("_"), vars(obj))
-            )
+            objs = (getattr(obj, attr) for attr in (s for s in vars(obj) if not s.startswith("_")))
         except TypeError:
             continue
 

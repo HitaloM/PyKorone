@@ -26,11 +26,10 @@ class WhoisHandler(MessageHandler):
         domain = command.args.split(" ")[0]
         try:
             raw_output = await run_whois(domain)
-            parsed_info = parse_whois_output(raw_output)
-            if parsed_info:
-                text = ""
-                for key, value in parsed_info.items():
-                    text += f"<b>{key}</b>: <code>{value}</code>\n"
+            if parsed_info := parse_whois_output(raw_output):
+                text = "".join(
+                    f"<b>{key}</b>: <code>{value}</code>\n" for key, value in parsed_info.items()
+                )
                 await message.reply(text)
             else:
                 await message.reply(

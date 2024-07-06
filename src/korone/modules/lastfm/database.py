@@ -25,7 +25,4 @@ async def get_lastfm_user(user_id: int) -> str | None:
         query = Query()
 
         user = await table.query(query.id == user_id)
-        if not user:
-            return None
-
-        return user[0]["username"]
+        return user[0]["username"] if user else None

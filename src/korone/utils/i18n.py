@@ -231,7 +231,7 @@ def get_i18n() -> I18nNew:
 
     Returns
     -------
-    I18n
+    I18nNew
         The current I18n context.
 
     Raises
@@ -289,7 +289,3 @@ def lazy_gettext(*args: Any, **kwargs: Any) -> LazyProxy:
         A lazy proxy object that represents the translated text.
     """
     return LazyProxy(gettext, *args, **kwargs, enable_cache=False)
-
-
-ngettext = gettext
-lazy_ngettext = lazy_gettext

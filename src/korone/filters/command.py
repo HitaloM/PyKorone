@@ -113,12 +113,10 @@ class CommandObject:
             msg = "Message is required to parse a command."
             raise CommandError(msg)
 
-        text = self.message.text or self.message.caption
-        if not text:
-            msg = "Message has no text"
-            raise CommandError(msg)
-
-        return self.__extract(text)
+        if text := self.message.text or self.message.caption:
+            return self.__extract(text)
+        msg = "Message has no text"
+        raise CommandError(msg)
 
 
 class Command(Filter):
@@ -172,7 +170,7 @@ class Command(Filter):
         def process_command(command):
             if isinstance(command, str):
                 command = re.compile(
-                    re.escape(command.casefold() if ignore_case else command) + "$"
+                    f"{re.escape(command.casefold() if ignore_case else command)}$"
                 )
             if not isinstance(command, re.Pattern):
                 msg = "Command filter only supports str, re.Pattern object or their Iterable"
@@ -290,10 +288,10 @@ class Command(Filter):
         command_name = command.command.casefold() if self.ignore_case else command.command
 
         for allowed_command in self.commands:
-            if isinstance(allowed_command, re.Pattern):
-                result = allowed_command.match(command.command)
-                if result:
-                    return replace(command, regexp_match=result)
+            if isinstance(allowed_command, re.Pattern) and (
+                result := allowed_command.match(command.command)
+            ):
+                return replace(command, regexp_match=result)
             if command_name == allowed_command:
                 return command
 
@@ -368,9 +366,8 @@ class Command(Filter):
             If the command is rejected by the magic filter.
         """
         if self.magic:
-            result = self.magic.resolve(command)
-            if not result:
-                msg = "Rejected by magic filter"
-                raise CommandError(msg)
-            return replace(command, magic_result=result)
+            if result := self.magic.resolve(command):
+                return replace(command, magic_result=result)
+            msg = "Rejected by magic filter"
+            raise CommandError(msg)
         return command

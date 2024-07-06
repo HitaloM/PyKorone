@@ -131,7 +131,8 @@ class TikTokHandler(MessageHandler):
 
         if len(media_list) > 1:
             caption = (
-                self.format_text(media) + f"\n<a href='{original_url}'>{_("Open in TikTok")}</a>"
+                f"{self.format_text(media)}\n"
+                f"<a href='{original_url}'>{_("Open in TikTok")}</a>"
             )
             media_list[-1].caption = caption
 
@@ -152,11 +153,11 @@ class TikTokHandler(MessageHandler):
             media_id = int(media_id)
         except ValueError:
             redirect_url = await self.get_final_url(url_match.group())
-            url_match = URL_PATTERN.search(redirect_url)
-            if not url_match:
-                return
-            media_id = url_match.group(2)
+            if url_match := URL_PATTERN.search(redirect_url):
+                media_id = url_match.group(2)
 
+            else:
+                return
         tiktok = TikTokClient(str(media_id))
 
         try:

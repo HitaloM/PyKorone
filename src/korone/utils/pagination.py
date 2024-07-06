@@ -177,9 +177,9 @@ class Pagination:
 
         elif page >= last_page - 2:
             nav.extend([
-                ("« 1" if last_page - 4 > 1 else 1, self.page_data(1)),
+                ("« 1" if last_page > 5 else 1, self.page_data(1)),
                 (
-                    f"‹ {last_page - 3}" if last_page - 4 > 1 else last_page - 3,
+                    f"‹ {last_page - 3}" if last_page > 5 else last_page - 3,
                     self.page_data(last_page - 3),
                 ),
             ])

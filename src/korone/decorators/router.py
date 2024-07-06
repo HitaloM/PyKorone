@@ -39,7 +39,7 @@ class Router:
         Get the class that will be used to create the decorator.
 
         This method is called when an attribute is accessed that doesn't exist in the object.
-        It raises a RouterError indicating that the event type is not supported by PyKorone.
+        It raises a RouterError indicating that the event type is not supported by Korone.
 
         Parameters
         ----------
@@ -51,5 +51,5 @@ class Router:
         RouterError
             When a unsupported event is called.
         """
-        msg = f"Event of type: '{name}' is not supported by the PyKorone."
+        msg = f"Event of type: '{name}' is not supported by the Korone."
         raise RouterError(msg)

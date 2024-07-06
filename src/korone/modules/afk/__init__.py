@@ -12,7 +12,7 @@ class ModuleInfo:
         "It can be challenging to communicate your availability status to others. This can lead "
         "to misunderstandings or missed messages when you're not available to respond.\n\n"
         "The AFK module addresses this issue by allowing you to set your status as "
-        "'Away From Keyboard' (AFK). PyKorone will automatically respond to messages you receive "
+        "'Away From Keyboard' (AFK). Korone will automatically respond to messages you receive "
         "while you're AFK, letting others know that you're currently unavailable."
     )
     doc: LazyProxy = _("<b>Commands:</b>\n - /afk &lt;reason&gt;: Set your status as AFK.")

@@ -63,7 +63,7 @@ class LastFMPlayingAlbumHandler(MessageHandler):
             album_artist=album_info.artist,
             album_name=album_info.name,
             loved=_(", ❤️ loved") if album_info.loved else "",
-            time=get_time_elapsed_str(last_played) if not last_played.now_playing else "",
+            time="" if last_played.now_playing else get_time_elapsed_str(last_played),
             plays=_(" ∙ <code>{album_playcount} plays</code>").format(
                 album_playcount=album_info.playcount
             )
@@ -74,9 +74,7 @@ class LastFMPlayingAlbumHandler(MessageHandler):
         if album_info.tags:
             text += f"\n\n{format_tags(album_info)}"
 
-        image = get_biggest_lastfm_image(last_played)
-
-        if image:
+        if image := get_biggest_lastfm_image(last_played):
             await message.reply_photo(photo=image, caption=text)
             return
 

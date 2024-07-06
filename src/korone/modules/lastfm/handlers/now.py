@@ -63,7 +63,7 @@ class LastFMPlayingHandler(MessageHandler):
             track_artist=track_info.artist,
             track_name=track_info.name,
             loved=_(", ❤️ loved") if track_info.loved else "",
-            time=get_time_elapsed_str(last_played) if not last_played.now_playing else "",
+            time="" if last_played.now_playing else get_time_elapsed_str(last_played),
             plays=_(" ∙ <code>{track_playcount} plays</code>").format(
                 track_playcount=track_info.playcount
             )
@@ -74,9 +74,7 @@ class LastFMPlayingHandler(MessageHandler):
         if track_info.tags:
             text += f"\n\n{format_tags(track_info)}"
 
-        image = get_biggest_lastfm_image(last_played)
-
-        if image:
+        if image := get_biggest_lastfm_image(last_played):
             await message.reply_photo(photo=image, caption=text)
             return
 

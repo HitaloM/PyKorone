@@ -3,7 +3,7 @@
 
 from hairydogm.keyboard import InlineKeyboardBuilder
 from hydrogram import Client
-from hydrogram.enums import ChatMemberStatus, ChatType
+from hydrogram.enums import ChatType
 from hydrogram.types import CallbackQuery, InlineKeyboardButton, InlineKeyboardMarkup, Message
 from magic_filter import F
 
@@ -70,10 +70,4 @@ class SelectLanguage(MessageHandler, SelectLanguageBase):
 class SelectLanguageCallback(CallbackQueryHandler, SelectLanguageBase):
     @router.callback_query(LangMenuCallback.filter(F.menu == "languages") & IsAdmin)
     async def handle(self, client: Client, callback: CallbackQuery):
-        if callback.message.chat.type != ChatType.PRIVATE:
-            user = await client.get_chat_member(callback.message.chat.id, callback.from_user.id)
-            if user.status not in {ChatMemberStatus.ADMINISTRATOR, ChatMemberStatus.OWNER}:
-                await callback.answer(_("This action can only be performed by administrators."))
-                return
-
         await self.edit_message(callback)

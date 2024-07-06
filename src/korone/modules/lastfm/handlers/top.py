@@ -26,9 +26,7 @@ class LastFMTopHandler(MessageHandler):
     def entry_type_to_str(entry_type: EntryType) -> str:
         if entry_type == EntryType.Artist:
             return _("artists")
-        if entry_type == EntryType.Track:
-            return _("tracks")
-        return _("albums")
+        return _("tracks") if entry_type == EntryType.Track else _("albums")
 
     @router.message(Command(commands=["lfmt", "top"]))
     async def handle(self, client: Client, message: Message) -> None:
@@ -43,12 +41,10 @@ class LastFMTopHandler(MessageHandler):
             return
 
         command = CommandObject(message).parse()
-        args = command.args
-
         period = TimePeriod.AllTime
         entry_type = EntryType.Artist
 
-        if args:
+        if args := command.args:
             _collage_size, period, entry_type, _no_text = parse_collage_arg(
                 args, default_entry=entry_type
             )

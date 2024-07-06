@@ -19,7 +19,7 @@ async def main() -> None:
     Initialize the main entry point of the program.
 
     This function connects to the Redis database, retrieves configuration values,
-    creates a Korone client with the provided parameters and starts the client.
+    creates a Hydrogram client with the provided parameters and starts the client.
     """
     try:
         await cache.ping()

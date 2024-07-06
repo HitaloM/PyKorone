@@ -186,7 +186,7 @@ class GetYouTubeHandler(CallbackQueryHandler):
             return
 
         query = YtGetCallback.unpack(callback.data)
-        url = f"https://www.youtube.com/watch?v={query.media_id}"
-
         if query.media_type in {"video", "audio"}:
+            url = f"https://www.youtube.com/watch?v={query.media_id}"
+
             await self.download_media(client, callback, url, query.media_type)

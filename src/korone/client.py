@@ -118,7 +118,7 @@ class Korone(Client):
         await load_all_modules(self)
 
         log.info(
-            "PyKorone %s running with Hydrogram v%s (Layer %s) started on @%s. Hi!",
+            "Korone %s running with Hydrogram v%s (Layer %s) started on @%s. Hi!",
             __version__,
             hydrogram.__version__,
             layer,
@@ -157,4 +157,4 @@ class Korone(Client):
                     shutil.move(Path(app_dir / path).as_posix(), tmp_dir)
 
         await super().stop()
-        log.info("PyKorone stopped.")
+        log.info("Korone stopped.")

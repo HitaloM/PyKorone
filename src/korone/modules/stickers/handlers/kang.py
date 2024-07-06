@@ -9,15 +9,15 @@ from typing import Any
 from hairydogm.keyboard import InlineKeyboardBuilder
 from hydrogram import Client
 from hydrogram.errors import PeerIdInvalid, StickersetInvalid
-from hydrogram.raw import types
-from hydrogram.raw.functions.messages.get_sticker_set import GetStickerSet
-from hydrogram.raw.functions.messages.send_media import SendMedia
-from hydrogram.raw.functions.stickers.add_sticker_to_set import AddStickerToSet
-from hydrogram.raw.functions.stickers.create_sticker_set import CreateStickerSet
-from hydrogram.raw.types.document_attribute_filename import DocumentAttributeFilename
-from hydrogram.raw.types.input_document import InputDocument
-from hydrogram.raw.types.input_media_uploaded_document import InputMediaUploadedDocument
-from hydrogram.raw.types.input_sticker_set_item import InputStickerSetItem
+from hydrogram.raw.functions.messages import GetStickerSet, SendMedia
+from hydrogram.raw.functions.stickers import AddStickerToSet, CreateStickerSet
+from hydrogram.raw.types import (
+    DocumentAttributeFilename,
+    InputDocument,
+    InputMediaUploadedDocument,
+    InputStickerSetItem,
+    InputStickerSetShortName,
+)
 from hydrogram.types import Message, User
 
 from korone import app_dir
@@ -121,7 +121,7 @@ class KangHandler(MessageHandler):
         try:
             return await client.invoke(
                 GetStickerSet(
-                    stickerset=types.InputStickerSetShortName(short_name=pack_name),  # type: ignore
+                    stickerset=InputStickerSetShortName(short_name=pack_name),  # type: ignore
                     hash=0,
                 )
             )
@@ -148,11 +148,9 @@ class KangHandler(MessageHandler):
     @staticmethod
     async def add_or_create_sticker_pack(pack_info: dict[str, Any]) -> None:
         client: Client = pack_info["client"]
-        user: User = pack_info["user"]
         media = pack_info["media"]
         pack_name: str = pack_info["pack_name"]
         emoji: str = pack_info["emoji"]
-        pack_title: str = pack_info["pack_title"]
         pack_exists = pack_info["pack_exists"]
         sent_message: Message = pack_info["sent_message"]
 
@@ -161,7 +159,7 @@ class KangHandler(MessageHandler):
             await sent_message.edit(_("Adding the sticker to the pack..."))
             await client.invoke(
                 AddStickerToSet(
-                    stickerset=types.InputStickerSetShortName(short_name=pack_name),  # type: ignore
+                    stickerset=InputStickerSetShortName(short_name=pack_name),  # type: ignore
                     sticker=InputStickerSetItem(
                         document=InputDocument(
                             id=sticker_file.id,
@@ -174,6 +172,8 @@ class KangHandler(MessageHandler):
             )
         else:
             await sent_message.edit(_("Creating the sticker pack..."))
+            user: User = pack_info["user"]
+            pack_title: str = pack_info["pack_title"]
             try:
                 await client.invoke(
                     CreateStickerSet(
@@ -243,23 +243,19 @@ class KangHandler(MessageHandler):
         elif sticker := message.reply_to_message.sticker:
             if sticker.is_animated:
                 media_type = "animated"
-                file_id = sticker.file_id
                 extension = ".tgs"
             elif sticker.is_video:
                 media_type = "video"
-                file_id = sticker.file_id
                 extension = ".webm"
             else:
                 media_type = "photo"
-                file_id = sticker.file_id
                 extension = ".webp"
 
+            file_id = sticker.file_id
         return media_type, file_id, extension
 
     @staticmethod
     async def resize_media(media_type: str, file_path: str) -> str | None:
         if media_type in {"photo", "animated"}:
             return await asyncio.to_thread(resize_image, file_path)
-        if media_type == "video":
-            return await resize_video(file_path)
-        return None
+        return await resize_video(file_path) if media_type == "video" else None

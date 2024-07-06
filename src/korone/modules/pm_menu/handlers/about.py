@@ -16,15 +16,14 @@ from korone.utils.i18n import gettext as _
 
 
 class BaseHandler:
-    github_url: str = constants.GITHUB_URL
-    telegram_url: str = constants.TELEGRAM_URL
-    license_url: str = "https://github.com/HitaloM/PyKorone/blob/main/LICENSE"
+    license_url: str = f"{constants.GITHUB_URL}/blob/main/LICENSE"
     hydrogram_url: str = "https://github.com/hydrogram/hydrogram"
 
-    def build_keyboard(self, message: Message) -> InlineKeyboardMarkup:
+    @staticmethod
+    def build_keyboard(message: Message) -> InlineKeyboardMarkup:
         keyboard = InlineKeyboardBuilder()
-        keyboard.button(text=_("📦 GitHub"), url=self.github_url)
-        keyboard.button(text=_("📚 Channel"), url=self.telegram_url)
+        keyboard.button(text=_("📦 GitHub"), url=constants.GITHUB_URL)
+        keyboard.button(text=_("📚 Channel"), url=constants.TELEGRAM_URL)
         keyboard.adjust(2)
 
         if message.chat.type == ChatType.PRIVATE:
@@ -37,21 +36,27 @@ class BaseHandler:
         return keyboard.as_markup()
 
     def build_text(self) -> str:
+        python_link = "<a href='https://www.python.org/'>Python</a>"
         hydrogram_link = f"<a href='{self.hydrogram_url}'>Hydrogram</a>"
+        mtproto_link = "<a href='https://core.telegram.org/mtproto'>Telegram MTProto API</a>"
         license_link = f"<a href='{self.license_url}'>BSD 3-Clause</a>"
 
         text = _(
-            "PyKorone is a comprehensive and cutting-edge Telegram bot that offers a wide range "
-            "of features to enhance your Telegram experience. It is designed to be versatile, "
-            "adaptable, and highly efficient.\n\nBuilt using Python, PyKorone is based on the "
-            "{hydrogram} framework, which uses the Telegram MTProto API.\n\nPyKorone is an "
-            "open source project licensed under the {license_link} License. The source code "
-            "can be found on GitHub.\n\n"
+            "Korone is a comprehensive and cutting-edge Telegram bot that offers a wide range "
+            "of features to enhance your Telegram experience. Designed to be versatile, "
+            "adaptable, and highly efficient, it leverages the power of {python} and is built on "
+            "the {hydrogram} framework, utilizing the {mtproto}.\n\n"
+            "This open source project is licensed under the {license} license, with the "
+            "source code available on GitHub.\n\n"
             "Version: <code>{version}</code>"
         )
 
         return text.format(
-            hydrogram=hydrogram_link, license_link=license_link, version=__version__
+            python=python_link,
+            hydrogram=hydrogram_link,
+            mtproto=mtproto_link,
+            license=license_link,
+            version=__version__,
         )
 
 

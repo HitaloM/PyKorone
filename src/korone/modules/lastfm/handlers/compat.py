@@ -47,7 +47,12 @@ class LastFMCompatHandler(MessageHandler):
 
         user2_db = await get_lastfm_user(user2.id)
         if not user2_db:
-            await message.reply(_("The user you replied to doesn't have a LastFM account linked!"))
+            await message.reply(
+                _(
+                    "The user you replied to doesn't have a LastFM account linked! "
+                    "Hint them to set it using <code>/setlfm &lt;username&gt;</code>."
+                )
+            )
             return
 
         command = CommandObject(message).parse()

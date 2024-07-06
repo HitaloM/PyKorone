@@ -8,6 +8,7 @@ from magic_filter import F
 
 from korone.decorators import router
 from korone.filters import Command
+from korone.filters.chat import IsPrivateChat
 from korone.handlers.abstract import CallbackQueryHandler, MessageHandler
 from korone.modules.pm_menu.callback_data import PMMenuCallback, PrivacyCallback
 from korone.utils.i18n import gettext as _
@@ -17,7 +18,7 @@ class PrivacyBaseHandler:
     @staticmethod
     def get_privacy_message_and_keyboard():
         text = _(
-            "<b>PyKorone Privacy Policy</b>\n\n"
+            "<b>Korone Privacy Policy</b>\n\n"
             "This bot is designed to prioritize and protect user privacy to the best of its "
             "ability.\n\nThe bot only collects and uses the data necessary for the proper "
             "functioning of its commands that are listed in the /help section.\n\nPlease note "
@@ -39,7 +40,7 @@ class PrivacyBaseHandler:
 
 class PrivacyPolicy(PrivacyBaseHandler, MessageHandler):
     @staticmethod
-    @router.message(Command("privacy"))
+    @router.message(Command("privacy") & IsPrivateChat)
     async def handle(client: Client, message: Message):
         text, keyboard = PrivacyBaseHandler.get_privacy_message_and_keyboard()
         await message.reply(text, reply_markup=keyboard)

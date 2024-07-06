@@ -37,13 +37,11 @@ class LastFMCollageHandler(MessageHandler):
             return
 
         command = CommandObject(message).parse()
-        args = command.args
-
         collage_size = 3
         period = TimePeriod.AllTime
         show_text = True
 
-        if args:
+        if args := command.args:
             collage_size, period, _entry_type, no_text = parse_collage_arg(args)
             show_text = not no_text
 

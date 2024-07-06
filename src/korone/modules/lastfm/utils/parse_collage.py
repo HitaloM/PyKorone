@@ -17,9 +17,7 @@ def get_entry_type(split: str) -> EntryType | None:
         return EntryType.Artist
     if split.startswith("album"):
         return EntryType.Album
-    if split.startswith("track"):
-        return EntryType.Track
-    return None
+    return EntryType.Track if split.startswith("track") else None
 
 
 def get_size(fragment: str):
@@ -77,18 +75,15 @@ def parse_collage_arg(
     entry_type = get_entry_type(default_entry.name.lower())
 
     for split in splits:
-        entry_type_candidate = get_entry_type(split)
-        if entry_type_candidate:
+        if entry_type_candidate := get_entry_type(split):
             entry_type = entry_type_candidate
             continue
 
-        size_candidate = get_size(split)
-        if size_candidate:
+        if size_candidate := get_size(split):
             size = size_candidate
             continue
 
-        period_candidate = get_period(split)
-        if period_candidate:
+        if period_candidate := get_period(split):
             period = period_candidate
 
     return size, period, entry_type, no_text
