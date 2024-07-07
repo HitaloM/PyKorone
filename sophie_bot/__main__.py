@@ -42,8 +42,9 @@ async def start():
     await init_db()
     await test_db()
 
-    await start_telethon()
-    await start_apscheduller()
+    if "proxy" not in CONFIG.environment:
+        await start_telethon()
+        await start_apscheduller()
 
 
 if not CONFIG.webhooks_enable:
