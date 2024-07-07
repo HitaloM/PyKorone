@@ -27,7 +27,7 @@ if "proxy" in CONFIG.environment:
     )
 
     enable_proxy_middlewares()
-    load_modules(dp, ["error", "beta"], [])
+    load_modules(dp, ["beta"], [])
 else:
     enable_middlewares()
     load_modules(dp, ["*"], CONFIG.modules_not_load)
