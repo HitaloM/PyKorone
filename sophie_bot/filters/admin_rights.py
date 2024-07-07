@@ -50,7 +50,7 @@ class UserRestricting(Filter):
         return config
 
     async def __call__(
-        self, event: TelegramObject, connection: Optional[ChatConnection]
+        self, event: TelegramObject, connection: Optional[ChatConnection] = None
     ) -> Union[bool, dict[str, Any]]:
         user_id = await self.get_target_id(event)
         message = event.message if hasattr(event, "message") else event
