@@ -20,9 +20,9 @@ build_runtime_container:
     - |
       docker buildx build \
         --build-arg BUILDKIT_INLINE_CACHE=1 \
-        --platform linux/arm64/v8,linux/amd64\
-        --cache-from "$IMAGE_FULL" \
-        --cache-from "$IMAGE_NAME:latest" \
+        --platform linux/arm64/v8,linux/amd64 \
+        --cache-from type=registry,ref=$IMAGE_FULL \
+        --cache-from type=registry,ref=$IMAGE_NAME:latest \
         --push \
         --tag "$IMAGE_FULL" \
         --tag "$IMAGE_NAME:latest" \
