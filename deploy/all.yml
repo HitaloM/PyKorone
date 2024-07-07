@@ -7,6 +7,7 @@
         token: "{{ lookup('env', 'BETA_TOKEN') }}"
         username: "{{ lookup('env', 'BETA_USERNAME') }}"
         sentry_url: "{{ lookup('env', 'STAGING_SENTRY') }}"
+        role: "staging"
       when: inventory_hostname == "sstaging"
 
     - name: Set vars for Prod
@@ -14,6 +15,7 @@
         token: "{{ lookup('env', 'STABLE_TOKEN') }}"
         username: "{{ lookup('env', 'STABLE_USERNAME') }}"
         sentry_url: "{{ lookup('env', 'PROD_STABLE_SENTRY') }}"
+        role: "production"
       when: inventory_hostname == "white"
 
     - name: Login to registry
