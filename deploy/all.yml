@@ -96,6 +96,12 @@
         group: containers
         mode: u=rw,g=r,o=r
 
+    - name: Stop Proxy container
+      ansible.builtin.systemd_service:
+        scope: user
+        state: stopped
+        name: sophie-proxy
+
     - name: Restart Beta container
       ansible.builtin.systemd_service:
         scope: user
