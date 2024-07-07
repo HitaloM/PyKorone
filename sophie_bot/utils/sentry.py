@@ -20,6 +20,7 @@ import sentry_sdk
 from sentry_sdk.integrations.aiohttp import AioHttpIntegration
 from sentry_sdk.integrations.redis import RedisIntegration
 
+from sophie_bot import SOPHIE_VERSION
 from sophie_bot.config import CONFIG
 from sophie_bot.utils.logger import log
 
@@ -27,4 +28,9 @@ from sophie_bot.utils.logger import log
 def init_sentry():
     log.info("Starting sentry.io integraion...")
 
-    sentry_sdk.init(str(CONFIG.sentry_url), integrations=[RedisIntegration(), AioHttpIntegration()])
+    sentry_sdk.init(
+        str(CONFIG.sentry_url),
+        integrations=[RedisIntegration(), AioHttpIntegration()],
+        environment=CONFIG.environment,
+        release=SOPHIE_VERSION
+    )

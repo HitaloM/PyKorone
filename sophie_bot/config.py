@@ -67,7 +67,8 @@ class Config(BaseSettings):
 
     default_locale: str = "en_US"
 
-    proxy_enabled: bool = False
+    environment: str = "production"
+
     proxy_stable_instance_url: str = "http://host.container.internal:8071"
     proxy_beta_instance_url: str = "http://host.container.internal:8072"
     proxy_always_beta: bool = False
