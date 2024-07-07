@@ -19,9 +19,12 @@ build_runtime_container:
     - docker buildx create --use
     - |
       docker buildx build \
-        --push \
+        --build-arg BUILDKIT_INLINE_CACHE=1 \
         --platform linux/arm64/v8,linux/amd64\
+        --cache-from "$IMAGE_FULL" \
         --cache-from "$IMAGE_NAME:latest" \
-        --tag "$IMAGE_FULL" --tag "$IMAGE_NAME:latest" \
+        --push \
+        --tag "$IMAGE_FULL" \
+        --tag "$IMAGE_NAME:latest" \
         --file build/runtime/Dockerfile \
         .
