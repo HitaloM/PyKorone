@@ -2,14 +2,14 @@
 - name: Deploy all containers to hosts
   hosts: "{{ ansible_limit | default('all') }}"
   tasks:
-    - name: Set TOKEN for Staging
+    - name: Set vars for Staging
       set_fact:
         token: "{{ lookup('env', 'BETA_TOKEN') }}"
         username: "{{ lookup('env', 'BETA_USERNAME') }}"
         sentry_url: "{{ lookup('env', 'STAGING_SENTRY') }}"
       when: inventory_hostname == "sstaging"
 
-    - name: Set TOKEN for Prod
+    - name: Set vars for Prod
       set_fact:
         token: "{{ lookup('env', 'STABLE_TOKEN') }}"
         username: "{{ lookup('env', 'STABLE_USERNAME') }}"
@@ -62,7 +62,7 @@
 
     - name: Copy Proxy container quadlet file
       vars:
-        image_tag: "proxy"
+        image_tag: "proxy-runtime"
       ansible.builtin.template:
         src: sophie-proxy.container.j2
         dest: /home/containers/.config/containers/systemd/sophie-proxy.container
