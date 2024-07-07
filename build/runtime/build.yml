@@ -16,4 +16,4 @@ build_runtime_container:
     - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" registry.gitlab.com
   script:
     - docker buildx create --use
-    - docker buildx build --push --platform linux/arm64/v8,linux/amd64 --tag "$IMAGE_FULL" --file build/runtime/Dockerfile .
+    - docker buildx build --push --platform linux/arm64/v8,linux/amd64 --cache-from="$IMAGE_FULL" --tag "$IMAGE_FULL" --file build/runtime/Dockerfile .
