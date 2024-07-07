@@ -19,7 +19,7 @@ from sophie_bot.services.telethon import start_telethon
 from sophie_bot.utils.logger import log
 from sophie_bot.utils.sentry import init_sentry
 
-if CONFIG.environment == "proxy":
+if "proxy" in CONFIG.environment:
     log.warn(
         "Proxy mode enabled!",
         stable_instance_url=CONFIG.proxy_stable_instance_url,
