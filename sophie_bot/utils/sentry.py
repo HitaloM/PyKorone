@@ -32,5 +32,5 @@ def init_sentry():
         str(CONFIG.sentry_url),
         integrations=[RedisIntegration(), AioHttpIntegration()],
         environment=CONFIG.environment,
-        release=SOPHIE_VERSION
+        release=SOPHIE_VERSION,
     )
