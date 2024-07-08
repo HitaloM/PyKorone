@@ -149,7 +149,7 @@ class SaveChatsMiddleware(BaseMiddleware):
     async def _handle_member_updates(self, message: Message, group: ChatModel):
         if message.new_chat_members:
             for member in message.new_chat_members:
-                new_user = (await ChatModel.upsert_user(member))[0]
+                new_user = await ChatModel.upsert_user(member)
                 await UserInGroupModel.ensure_user_in_group(new_user, group)
         elif message.left_chat_member:
             if CONFIG.bot_id == message.left_chat_member.id:
