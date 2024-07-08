@@ -91,7 +91,7 @@ async def update_handlers_cache(chat_id):
 
 
 @register()
-async def check_msg(message):
+async def check_msg(message: Message):
     chat = await get_connected_chat(message, only_groups=True)
     if "err_msg" in chat or message.chat.type == "private":
         return
@@ -106,7 +106,9 @@ async def check_msg(message):
     if len(filters) == 0:
         return
 
-    text = message.text
+    text = message.text or message.caption
+    if not text:
+        return
 
     # Workaround to disable all filters if admin want to remove filter
     if await is_user_admin(chat_id, message.from_user.id):
