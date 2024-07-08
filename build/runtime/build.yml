@@ -20,7 +20,7 @@ build_runtime_container:
     - |
       docker buildx build \
         --platform linux/arm64/v8,linux/amd64 \
-        --cache-from type=local,src=docker_cache --cache-to type=local,dest=docker_cache \
+        --cache-from type=local,src=docker_cache --cache-to type=local,mode=max,dest=docker_cache \
         --push \
         --tag "$IMAGE_FULL" \
         --tag "$IMAGE_NAME:latest" \
