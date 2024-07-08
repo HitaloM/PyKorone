@@ -8,15 +8,15 @@ msgid ""
 "connect again."
 msgstr ""
 
-#: sophie_bot/modules/error/handlers/error.py:77
+#: sophie_bot/modules/error/handlers/error.py:78
 msgid "😞 I've got an error trying to process this update"
 msgstr ""
 
-#: sophie_bot/modules/error/handlers/error.py:90
+#: sophie_bot/modules/error/handlers/error.py:91
 msgid "Reference ID"
 msgstr ""
 
-#: sophie_bot/modules/error/handlers/error.py:98
+#: sophie_bot/modules/error/handlers/error.py:99
 msgid "💬 Contact Sophie support"
 msgstr ""
 

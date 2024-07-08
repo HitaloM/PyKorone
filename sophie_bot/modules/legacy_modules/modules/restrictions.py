@@ -42,9 +42,10 @@ from sophie_bot.modules.legacy_modules.utils.user_details import (
 )
 from sophie_bot.services.redis import redis
 from sophie_bot.services.telethon import tbot
-from .misc import customise_reason_finish, customise_reason_start
+
 from ..utils.connections import chat_connection
 from ..utils.restrictions import ban_user, kick_user, mute_user, unban_user, unmute_user
+from .misc import customise_reason_finish, customise_reason_start
 
 
 @register(
