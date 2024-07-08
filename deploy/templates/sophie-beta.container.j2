@@ -10,7 +10,7 @@ Restart=always
 ContainerName=beta
 Image={{ lookup('ansible.builtin.env','IMAGE_NAME', default='registry.gitlab.com/sophiebot/sophie') }}:{{ image_tag }}
 PublishPort=8072:8072
-PodmanArgs=--memory=256M
+PodmanArgs=--memory=512M
 EnvironmentFile=/var/sophie/beta.env
 
 [Install]

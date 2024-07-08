@@ -10,7 +10,7 @@ Restart=always
 ContainerName=proxy
 Image={{ lookup('ansible.builtin.env','IMAGE_NAME', default='registry.gitlab.com/sophiebot/sophie') }}:{{ image_tag }}
 PublishPort=8073:8073
-PodmanArgs=--memory=256M
+PodmanArgs=--memory=512M
 EnvironmentFile=/var/sophie/proxy.env
 
 [Install]
