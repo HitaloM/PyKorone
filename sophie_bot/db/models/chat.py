@@ -180,14 +180,17 @@ class ChatTopicModel(Document):
 
     @staticmethod
     async def ensure_topic(group: ChatModel, thread_id: int, topic_name: Optional[str]):
-        return await ChatTopicModel.find_one(
+        model: ChatTopicModel = await ChatTopicModel.find_one(
             ChatTopicModel.group.id == group.id, ChatTopicModel.thread_id == thread_id
-        ).upsert(
-            Set({ChatTopicModel.name: topic_name}) if topic_name else None,
-            on_insert=ChatTopicModel(
-                group=group,
-                thread_id=thread_id,
-                name=topic_name,
-                last_active=datetime.now(timezone.utc),
-            ),
         )
+
+        if not model:
+            model = ChatTopicModel(group=group, thread_id=thread_id, name=topic_name)
+            await model.save()
+            return model
+
+        if (topic_name and topic_name != model.name) or (topic_name and not model.name):
+            model.name = topic_name
+            await model.save()
+
+        return model
