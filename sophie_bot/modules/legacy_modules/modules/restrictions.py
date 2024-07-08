@@ -42,10 +42,9 @@ from sophie_bot.modules.legacy_modules.utils.user_details import (
 )
 from sophie_bot.services.redis import redis
 from sophie_bot.services.telethon import tbot
-
+from .misc import customise_reason_finish, customise_reason_start
 from ..utils.connections import chat_connection
 from ..utils.restrictions import ban_user, kick_user, mute_user, unban_user, unmute_user
-from .misc import customise_reason_finish, customise_reason_start
 
 
 @register(
@@ -193,7 +192,7 @@ async def unmute_user_cmd(message: Message, chat, user, strings):
     chat_id = chat["chat_id"]
     user_id = user["user_id"]
 
-    if user_id == CONFIG.CONFIG.bot_id:
+    if user_id == CONFIG.bot_id:
         await message.reply(strings["unmute_sophie"])
         return
 
