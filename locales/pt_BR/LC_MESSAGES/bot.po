@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2024-06-23 21:03-0300\n"
-"PO-Revision-Date: 2024-06-18 13:22+0000\n"
-"Last-Translator: Hitalo <hitalomarquete331@gmail.com>\n"
+"PO-Revision-Date: 2024-07-08 22:29+0000\n"
+"Last-Translator: DaviisDev <esliarafernanda@gmail.com>\n"
 "Language-Team: Portuguese (Brazil) <http://weblate.amanoteam.com/projects/"
 "korone/korone/pt_BR/>\n"
 "Language: pt_BR\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 5.5.5\n"
+"X-Generator: Weblate 5.6.2\n"
 "Generated-By: Babel 2.14.0\n"
 
 #: src/korone/filters/admin.py:63 src/korone/filters/admin.py:68
@@ -82,7 +82,7 @@ msgstr "Você já está AFK."
 
 #: src/korone/modules/afk/handlers/set.py:26
 msgid "The maximum length of the AFK message is 64 characters."
-msgstr ""
+msgstr "O comprimento máximo da mensagem AFK é de 64 caracteres."
 
 #: src/korone/modules/afk/handlers/set.py:32
 msgid "Your AFK status has been updated!"
@@ -978,11 +978,13 @@ msgstr "Olá, eu sou o PyKorone! Um bot tudo-em-um."
 
 #: src/korone/modules/stickers/__init__.py:10
 msgid "Stickers"
-msgstr ""
+msgstr "Figurinhas"
 
 #: src/korone/modules/stickers/__init__.py:11
 msgid "This module contains commands for handling stickers and sticker packs."
 msgstr ""
+"Este módulo contém comandos para lidar com figurinhas e pacotes de "
+"figurinhas."
 
 #: src/korone/modules/stickers/__init__.py:14
 msgid ""
@@ -990,6 +992,11 @@ msgid ""
 "- /getsticker: Reply to a sticker to get it as a file and its file ID.\n"
 "- /kang: Reply to a sticker, image or video to add it to a sticker pack."
 msgstr ""
+"<b>Comandos:</b>\n"
+" - /getsticker: Responda a um adesivo para obtê-lo como um arquivo e seu ID "
+"de arquivo.\n"
+" - /kang: Responda a um adesivo, imagem ou vídeo para adicioná-lo a um "
+"pacote de adesivos."
 
 #: src/korone/modules/stickers/handlers/get_sticker.py:35
 msgid "Reply to a sticker."
