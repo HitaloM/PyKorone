@@ -24,7 +24,8 @@ from typing import Union
 
 from aiogram.dispatcher.event.bases import SkipHandler
 from aiogram.enums import ChatMemberStatus
-from aiogram.types import CallbackQuery, Message
+from aiogram.exceptions import TelegramBadRequest
+from aiogram.types import CallbackQuery, Message, MessageEntity
 from telethon.tl.functions.users import GetFullUserRequest
 
 from sophie_bot import bot
@@ -177,11 +178,19 @@ async def is_user_admin(chat_id, user_id):
     if user_id == 1087968824:
         return True
 
-    admins = await get_admins_rights(chat_id)
-    if user_id in admins:
-        return True
-    else:
-        return False
+    try:
+        admins = await get_admins_rights(chat_id)
+        if user_id in admins:
+            return True
+        else:
+            return False
+
+    # Workaround when the function is being called not in the group
+    # aiogram.exceptions.TelegramBadRequest: Telegram server says - Bad Request: there are no administrators in the private chat
+    except TelegramBadRequest as err:
+        if "there are no administrators in the private chat" in err.message:
+            return False
+        raise err
 
 
 async def check_admin_rights(event: Union[Message, CallbackQuery], chat_id, user_id, rights):
@@ -263,13 +272,15 @@ async def is_chat_creator(event: Union[Message, CallbackQuery], chat_id, user_id
 
 async def get_user_by_text(message: Message, text: str):
     # Get all entities
-    entities = filter(
-        lambda ent: ent.type == "text_mention" or ent.type == "mention",
-        message.entities,
+    entities: list[MessageEntity] = list(
+        filter(
+            lambda ent: ent.type == "text_mention" or ent.type == "mention",
+            message.entities,
+        )
     )
     for entity in entities:
         # If username matches entity's text
-        if text in entity.get_text(message.text):
+        if text in entity.extract_from(message.text):
             if entity.type == "mention":
                 # This one entity is comes with mention by username, like @rSophieBot
                 return await get_user_by_username(text)
