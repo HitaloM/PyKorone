@@ -32,7 +32,7 @@ async def ban_user(chat_id, user_id, until_date=None):
     if isinstance(until_date, timedelta):
         until_date = int((datetime.utcnow() + until_date).timestamp())
     try:
-        await bot.kick_chat_member(chat_id, user_id, until_date=until_date)
+        await bot.ban_chat_member(chat_id, user_id, until_date=until_date)
     except (TelegramBadRequest, TelegramMigrateToChat, TelegramUnauthorizedError):
         return False
     return True
