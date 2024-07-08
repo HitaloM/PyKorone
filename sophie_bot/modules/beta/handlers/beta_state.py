@@ -20,7 +20,7 @@ async def set_beta_state(message: Message, new_state: bool):
             [
                 InlineKeyboardButton(
                     text="Sophie Support",
-                    callback_data=CONFIG.support_link,
+                    url=CONFIG.support_link,
                 )
             ]
         ]
