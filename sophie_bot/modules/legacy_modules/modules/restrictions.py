@@ -60,7 +60,7 @@ async def kick_user_cmd(message: Message, chat, user, args, strings):
     chat_id = chat["chat_id"]
     user_id = user["user_id"]
 
-    if user_id == CONFIG.CONFIG.CONFIG.bot_id:
+    if user_id == CONFIG.bot_id:
         await message.reply(strings["kick_sophie"])
         return
 
@@ -116,7 +116,7 @@ async def mute_user_cmd(message: Message, chat, user, args, strings):
     chat_id = chat["chat_id"]
     user_id = user["user_id"]
 
-    if user_id == CONFIG.CONFIG.CONFIG.bot_id:
+    if user_id == CONFIG.CONFIG.bot_id:
         await message.reply(strings["mute_sophie"])
         return
 
@@ -228,7 +228,7 @@ async def ban_user_cmd(message: Message, chat, user, args, strings):
     chat_id = chat["chat_id"]
     user_id = user["user_id"]
 
-    if user_id == CONFIG.CONFIG.bot_id:
+    if user_id == CONFIG.bot_id:
         await message.reply(strings["ban_sophie"])
         return
 
@@ -305,7 +305,7 @@ async def unban_user_cmd(message: Message, chat, user, strings):
     chat_id = chat["chat_id"]
     user_id = user["user_id"]
 
-    if user_id == CONFIG.CONFIG.bot_id:
+    if user_id == CONFIG.bot_id:
         await message.reply(strings["unban_sophie"])
         return
 
@@ -344,7 +344,7 @@ async def filter_handle_ban(message: Message, chat, data: dict, strings=None):
     if await ban_user(chat["chat_id"], message.from_user.id):
         reason = data.get("reason", None) or strings["filter_action_rsn"]
         text = strings["filtr_ban_success"] % (
-            await get_user_link(CONFIG.CONFIG.bot_id),
+            await get_user_link(CONFIG.bot_id),
             await get_user_link(message.from_user.id),
             reason,
         )
@@ -358,7 +358,7 @@ async def filter_handle_mute(message: Message, chat, data, strings=None):
     if await mute_user(chat["chat_id"], message.from_user.id):
         reason = data.get("reason", None) or strings["filter_action_rsn"]
         text = strings["filtr_mute_success"] % (
-            await get_user_link(CONFIG.CONFIG.bot_id),
+            await get_user_link(CONFIG.bot_id),
             await get_user_link(message.from_user.id),
             reason,
         )
@@ -373,7 +373,7 @@ async def filter_handle_tmute(message: Message, chat, data, strings=None):
         reason = data.get("reason", None) or strings["filter_action_rsn"]
         time = format_timedelta(eval(data["time"]), locale=strings["language_info"]["babel"])
         text = strings["filtr_tmute_success"] % (
-            await get_user_link(CONFIG.CONFIG.bot_id),
+            await get_user_link(CONFIG.bot_id),
             await get_user_link(message.from_user.id),
             time,
             reason,
@@ -389,7 +389,7 @@ async def filter_handle_tban(message: Message, chat, data, strings=None):
         reason = data.get("reason", None) or strings["filter_action_rsn"]
         time = format_timedelta(eval(data["time"]), locale=strings["language_info"]["babel"])
         text = strings["filtr_tban_success"] % (
-            await get_user_link(CONFIG.CONFIG.bot_id),
+            await get_user_link(CONFIG.bot_id),
             await get_user_link(message.from_user.id),
             time,
             reason,
@@ -423,7 +423,7 @@ async def filter_handle_kick(message: Message, chat, data, strings=None):
             chat["chat_id"],
             strings["user_kicked"].format(
                 user=await get_user_link(message.from_user.id),
-                admin=await get_user_link(CONFIG.CONFIG.bot_id),
+                admin=await get_user_link(CONFIG.bot_id),
                 chat_name=chat["chat_title"],
             ),
         )
