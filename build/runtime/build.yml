@@ -19,12 +19,14 @@ build_runtime_container:
     - docker buildx create --use
     - |
       docker buildx build \
-        --build-arg BUILDKIT_INLINE_CACHE=1 \
         --platform linux/arm64/v8,linux/amd64 \
-        --cache-from type=registry,ref=$IMAGE_FULL \
-        --cache-from type=registry,ref=$IMAGE_NAME:latest \
+        --cache-from type=local,src=docker_cache --cache-to type=local,dest=docker_cache \
         --push \
         --tag "$IMAGE_FULL" \
         --tag "$IMAGE_NAME:latest" \
         --file build/runtime/Dockerfile \
         .
+  cache:
+    key: docker_cache
+    paths:
+      - docker_cache
