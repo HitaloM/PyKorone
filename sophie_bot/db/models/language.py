@@ -1,8 +1,6 @@
 from typing import Annotated
 
-from beanie import Document, Indexed, Link
-
-from sophie_bot.db.models import ChatModel
+from beanie import Document, Indexed
 
 
 class LanguageModel(Document):
@@ -10,7 +8,7 @@ class LanguageModel(Document):
     chat_id: Annotated[int, Indexed(unique=True)]
 
     # New link
-    chat: Annotated[Link[ChatModel], Indexed(unique=True)]
+    # chat: Link[ChatModel]
 
     lang: str
 

@@ -1,9 +1,7 @@
-from typing import Annotated, Optional
+from typing import Optional
 
-from beanie import Document, Indexed, Link
+from beanie import Document
 from pymongo import ASCENDING, IndexModel
-
-from sophie_bot.db.models import ChatModel
 
 
 class ChatConnectionModel(Document):
@@ -12,20 +10,20 @@ class ChatConnectionModel(Document):
     chat_id: Optional[int] = None
 
     # New links
-    group: Optional[Link[ChatModel]] = None
-    user: Annotated[Optional[Link[ChatModel]], Indexed(unique=True)] = None
+    # group: Optional[Link[ChatModel]] = None
+    # user: Annotated[Optional[Link[ChatModel]], Indexed(unique=True)] = None
 
     class Settings:
         name = "connections"
         indexes = [
-            IndexModel(
-                [
-                    ("user", ASCENDING),
-                    ("group", ASCENDING),
-                ],
-                unique=True,
-                name="user_group",
-            ),
+            # IndexModel(
+            #     [
+            #         ("user", ASCENDING),
+            #         ("group", ASCENDING),
+            #     ],
+            #     unique=True,
+            #     name="user_group",
+            # ),
             IndexModel(
                 [
                     ("user_id", ASCENDING),
