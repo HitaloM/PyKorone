@@ -36,7 +36,7 @@ class KangHandler(MessageHandler):
         user = message.from_user
 
         emoji = self.extract_emoji(command, message)
-        if not emoji:
+        if not emoji or not message.reply_to_message:
             await message.reply(_("You need to reply to a sticker or provide an emoji."))
             return
 
