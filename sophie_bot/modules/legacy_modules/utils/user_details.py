@@ -38,43 +38,13 @@ from sophie_bot.services.telethon import tbot
 from .language import get_string
 
 
-async def add_user_to_db(user):
-    if hasattr(user, "user"):
-        user = user.user
-
-    new_user = {
-        "user_id": user.id,
-        "first_name": user.first_name,
-        "last_name": user.last_name,
-        "username": user.username,
-    }
-
-    user = await db.user_list.find_one({"user_id": new_user["user_id"]})
-    if not user or user is None:
-        user = new_user
-
-    if "chats" not in user:
-        new_user["chats"] = []
-    if "user_lang" not in user:
-        new_user["user_lang"] = "en"
-        if hasattr(user, "user_lang"):
-            new_user["user_lang"] = user.user_lang
-
-    await db.user_list.update_one({"user_id": user["user_id"]}, {"$set": new_user}, upsert=True)
-
-    return new_user
-
-
 async def get_user_by_id(user_id: int):
     if not user_id <= 9223372036854775807:  # int64
         return None
 
     user = await db.user_list.find_one({"user_id": user_id})
     if not user:
-        try:
-            user = await add_user_to_db(await tbot(GetFullUserRequest(user_id)))
-        except (ValueError, TypeError):
-            user = None
+        return None
 
     return user
 
@@ -99,10 +69,7 @@ async def get_user_by_username(username):
 
     # Ohnu, we don't have this user in DB
     if not user:
-        try:
-            user = await add_user_to_db(await tbot(GetFullUserRequest(username)))
-        except (ValueError, TypeError):
-            user = None
+        return None
 
     return user
 
@@ -113,12 +80,7 @@ async def get_user_link(user_id, custom_name=None, md=False):
     if user:
         user_name = user["first_name"]
     else:
-        try:
-            user = await add_user_to_db(await tbot(GetFullUserRequest(int(user_id))))
-        except (ValueError, TypeError):
-            user_name = str(user_id)
-        else:
-            user_name = user["first_name"]
+        user_name = str(user_id)
 
     if custom_name:
         user_name = custom_name
