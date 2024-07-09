@@ -168,6 +168,15 @@ class UserInGroupModel(Document):
             await user_in_chat.delete()
         return user_in_chat
 
+    @staticmethod
+    async def ensure_delete(user: ChatModel, group: ChatModel) -> Optional["UserInGroupModel"]:
+        if user_in_chat := await UserInGroupModel.find_one(
+            UserInGroupModel.user.id == user.id, UserInGroupModel.group.id == group.id
+        ):
+            await user_in_chat.delete()
+            return user_in_chat
+        return None
+
 
 class ChatTopicModel(Document):
     group: Link[ChatModel]

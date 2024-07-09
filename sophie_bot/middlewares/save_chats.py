@@ -10,11 +10,14 @@ from sophie_bot.db.models.chat import ChatTopicModel, UserInGroupModel
 
 class SaveChatsMiddleware(BaseMiddleware):
     @staticmethod
-    async def _delete_user_in_chat_by_user_id(user_id: int, group_id: int):
-        if not (user := await ChatModel.get_or_none(chat_id=user_id)):
+    async def _delete_user_in_chat_by_user_id(user_id: int, group: ChatModel):
+        if not (user := await ChatModel.get_by_chat_id(user_id)):
+            # not found - already deleted or didn't exist in a first place
             return
-        if not (user_in_chat := await UserInGroupModel.get_or_none(user_id=user.id, group_id=group_id)):
+
+        if not (user_in_chat := await UserInGroupModel.ensure_delete(user, group)):
             return
+
         await user_in_chat.delete()
 
     @staticmethod
@@ -155,7 +158,7 @@ class SaveChatsMiddleware(BaseMiddleware):
             if CONFIG.bot_id == message.left_chat_member.id:
                 await group.delete_chat()
             else:
-                await self._delete_user_in_chat_by_user_id(message.left_chat_member.id, group.chat_id)
+                await self._delete_user_in_chat_by_user_id(message.left_chat_member.id, group)
 
     @staticmethod
     async def save_from_user(data: dict):
@@ -171,7 +174,7 @@ class SaveChatsMiddleware(BaseMiddleware):
             # Remove user, no need to further call handler
             if not (group := await ChatModel.get_or_none(chat_id=event.chat.id)):
                 return False
-            await self._delete_user_in_chat_by_user_id(event.new_chat_member.user.id, group.id)
+            await self._delete_user_in_chat_by_user_id(event.new_chat_member.user.id, group)
             return False
         elif status == "member":
             # Telegram will send a message event, so we'll handle it and save user later
