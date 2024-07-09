@@ -53,6 +53,7 @@ class TikTokHandler(MessageHandler):
                 chat_id=message.chat.id,
                 video=media_file,
                 caption=self.format_text(media),
+                no_sound=True,
                 duration=duration,
                 width=width,
                 height=height,

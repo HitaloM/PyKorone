@@ -7,15 +7,12 @@ from korone.modules.media_dl.utils.twitter.api import (
     TwitterAPI,
     TwitterError,
 )
-from korone.modules.media_dl.utils.twitter.files import delete_files
-from korone.modules.media_dl.utils.twitter.media import get_best_variant, process_video_media
+from korone.modules.media_dl.utils.twitter.media import get_best_variant
 
 __all__ = (
     "TweetData",
     "TweetMedia",
     "TwitterAPI",
     "TwitterError",
-    "delete_files",
     "get_best_variant",
-    "process_video_media",
 )

@@ -20,9 +20,7 @@ from korone.modules.media_dl.utils.twitter import (
     TweetMedia,
     TwitterAPI,
     TwitterError,
-    delete_files,
     get_best_variant,
-    process_video_media,
 )
 from korone.utils.i18n import gettext as _
 
@@ -54,20 +52,16 @@ class TwitterMessageHandler(MessageHandler):
         return media_list
 
     @staticmethod
-    async def process_media(
-        media: TweetMedia, files_to_delete: list
-    ) -> InputMediaPhoto | InputMediaVideo | None:
+    async def process_media(media: TweetMedia) -> InputMediaPhoto | InputMediaVideo | None:
         if media.type == "photo":
             return InputMediaPhoto(media.binary_io)
 
         if media.type in {"video", "gif"}:
-            variant = get_best_variant(media) or media
-            media_file = await process_video_media(variant)
+            media_file = get_best_variant(media) or media
             duration = int(timedelta(milliseconds=media.duration).total_seconds())
-            files_to_delete.append(media_file)
 
             return InputMediaVideo(
-                media=media_file,
+                media=media_file.binary_io,
                 duration=duration,
                 width=media.width,
                 height=media.height,
@@ -89,8 +83,7 @@ class TwitterMessageHandler(MessageHandler):
                 await message.reply_media_group(media=media_list)
             return
 
-        files_to_delete = []
-        process_media_partial = partial(self.process_media, files_to_delete=files_to_delete)
+        process_media_partial = partial(self.process_media)
 
         media_tasks = [process_media_partial(media) for media in tweet.media]
 
@@ -105,9 +98,6 @@ class TwitterMessageHandler(MessageHandler):
             client=client, chat_id=message.chat.id, action=ChatAction.UPLOAD_PHOTO
         ):
             sent_message = await message.reply_media_group(media=media_list)
-
-        if files_to_delete:
-            await delete_files(files_to_delete)
 
         if sent_message:
             cache_ttl = int(timedelta(weeks=1).total_seconds())
@@ -172,6 +162,7 @@ class TwitterMessageHandler(MessageHandler):
                         video=media_file,
                         caption=text,
                         reply_markup=keyboard.as_markup(),
+                        no_sound=True,
                         duration=duration,
                         width=width,
                         height=height,

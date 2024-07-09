@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PyKorone 1.0\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-07-09 19:35-0300\n"
+"POT-Creation-Date: 2024-07-09 20:30-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -648,30 +648,30 @@ msgid ""
 " given link."
 msgstr ""
 
-#: src/korone/modules/media_dl/handlers/tiktok.py:64
-#: src/korone/modules/media_dl/handlers/tiktok.py:85
-#: src/korone/modules/media_dl/handlers/tiktok.py:91
-#: src/korone/modules/media_dl/handlers/twitter.py:182
-#: src/korone/modules/media_dl/handlers/twitter.py:233
+#: src/korone/modules/media_dl/handlers/tiktok.py:65
+#: src/korone/modules/media_dl/handlers/tiktok.py:86
+#: src/korone/modules/media_dl/handlers/tiktok.py:92
+#: src/korone/modules/media_dl/handlers/twitter.py:173
+#: src/korone/modules/media_dl/handlers/twitter.py:224
 msgid "Failed to send media: {error}"
 msgstr ""
 
-#: src/korone/modules/media_dl/handlers/tiktok.py:135
-#: src/korone/modules/media_dl/handlers/tiktok.py:143
+#: src/korone/modules/media_dl/handlers/tiktok.py:136
+#: src/korone/modules/media_dl/handlers/tiktok.py:144
 msgid "Open in TikTok"
 msgstr ""
 
-#: src/korone/modules/media_dl/handlers/twitter.py:125
-#: src/korone/modules/media_dl/handlers/twitter.py:222
+#: src/korone/modules/media_dl/handlers/twitter.py:115
+#: src/korone/modules/media_dl/handlers/twitter.py:213
 msgid "Open in Twitter"
 msgstr ""
 
-#: src/korone/modules/media_dl/handlers/twitter.py:149
-#: src/korone/modules/media_dl/handlers/twitter.py:164
+#: src/korone/modules/media_dl/handlers/twitter.py:139
+#: src/korone/modules/media_dl/handlers/twitter.py:154
 msgid "Failed to send media!"
 msgstr ""
 
-#: src/korone/modules/media_dl/handlers/twitter.py:195
+#: src/korone/modules/media_dl/handlers/twitter.py:186
 msgid ""
 "\n"
 "<b>Sent from:</b> <i>{source}</i>"
@@ -744,7 +744,7 @@ msgstr ""
 msgid "Uploading..."
 msgstr ""
 
-#: src/korone/modules/media_dl/handlers/youtube.py:182
+#: src/korone/modules/media_dl/handlers/youtube.py:183
 msgid "Failed to send the media."
 msgstr ""
 

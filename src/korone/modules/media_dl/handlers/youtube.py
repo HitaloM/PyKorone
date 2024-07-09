@@ -162,6 +162,7 @@ class GetYouTubeHandler(CallbackQueryHandler):
                         message.chat.id,
                         video=ytdl.file_path,
                         caption=caption,
+                        no_sound=True,
                         duration=yt.duration,
                         thumb=yt.thumbnail,
                         height=yt.height,
