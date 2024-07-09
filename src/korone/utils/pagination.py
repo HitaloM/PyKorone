@@ -12,29 +12,6 @@ from hydrogram.types import InlineKeyboardButton
 
 
 class Pagination:
-    """
-    Generate a paginated inline keyboard.
-
-    This class provides a utility for paginating a list of objects and generating
-    an inline keyboard with navigation buttons to allow the user to move between pages.
-    The pagination can be customized with functions to generate the page data, item data,
-    and item title.
-
-    Parameters
-    ----------
-    objects : list[typing.Any]
-        The list of objects to be paginated.
-    page_data : typing.Callable[[int], str]
-        A function that takes a page number as input and returns a string representation
-        of the page.
-    item_data : typing.Callable[[typing.Any, int], str]
-        A function that takes an item and a page number as input and returns a string
-        representation of the item.
-    item_title : typing.Callable[[typing.Any, int], str]
-        A function that takes an item and a page number as input and returns a string
-        representation of the item title.
-    """
-
     __slots__ = ("item_data", "item_title", "objects", "page_data")
 
     def __init__(
@@ -51,60 +28,11 @@ class Pagination:
 
     @staticmethod
     def chunk_list(lst: Sequence[Any], size: int) -> Iterator[typing.Sequence[Any]]:
-        """
-        Split a list into smaller chunks.
-
-        This function splits a list into smaller chunks of a specified size. The function
-        returns an iterator that yields the chunks of the original list.
-
-        Parameters
-        ----------
-        lst : typing.Sequence[typing.Any]
-            The list to be chunked.
-        size : int
-            The size of each chunk.
-
-        Yields
-        ------
-        typing.Iterator[typing.Sequence[typing.Any]]
-            An iterator that yields chunks of the original list.
-
-        Examples
-        --------
-        >>> lst = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
-        >>> for chunk in chunk_list(lst, 3):
-        ...     print(chunk)
-        [1, 2, 3]
-        [4, 5, 6]
-        [7, 8, 9]
-        [10]
-        """
         it = iter(lst)
         while chunk := list(islice(it, size)):
             yield chunk
 
     def create(self, page: int, lines: int = 5, columns: int = 1) -> InlineKeyboardBuilder:
-        """
-        Create a paginated inline keyboard.
-
-        This method creates a pagination with the specified parameters, including the current page
-        number, the number of lines per page, and the number of columns per page. The pagination
-        will include navigation buttons to allow the user to move between pages.
-
-        Parameters
-        ----------
-        page : int
-            The current page number.
-        lines : int, optional
-            The number of lines per page. Defaults to 5.
-        columns : int, optional
-            The number of columns per page. Defaults to 1.
-
-        Returns
-        -------
-        hairydogm.keyboard.InlineKeyboardBuilder
-            The created pagination.
-        """
         quant_per_page = lines * columns
         page = max(1, page)
         offset = (page - 1) * quant_per_page
@@ -137,27 +65,6 @@ class Pagination:
     def _generate_navigation_buttons(
         self, page: int, last_page: int, pages_range: list[int]
     ) -> list[tuple[str, str]]:
-        """
-        Generate navigation buttons for the pagination.
-
-        This method generates the navigation buttons for the pagination based on the current page
-        number, the last page number, and the range of pages.
-
-        Parameters
-        ----------
-        page : int
-            The current page number.
-        last_page : int
-            The last page number.
-        pages_range : list[int]
-            The range of pages.
-
-        Returns
-        -------
-        list[tuple[str, str]]
-            A list of tuples containing the text for the navigation button and the callback data
-            for the button.
-        """
         nav = []
 
         if page <= 3:

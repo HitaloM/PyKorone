@@ -15,12 +15,6 @@ from korone.utils.logging import log
 
 
 async def main() -> None:
-    """
-    Initialize the main entry point of the program.
-
-    This function connects to the Redis database, retrieves configuration values,
-    creates a Hydrogram client with the provided parameters and starts the client.
-    """
     try:
         await cache.ping()
     except (CacheBackendInteractionError, TimeoutError):

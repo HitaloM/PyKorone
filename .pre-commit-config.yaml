@@ -1,6 +1,6 @@
 repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v4.5.0
+    rev: v4.6.0
     hooks:
       - id: check-merge-conflict
       - id: detect-private-key
@@ -9,11 +9,6 @@ repos:
       - id: mixed-line-ending
       - id: check-toml
       - id: check-yaml
-
-  - repo: https://github.com/numpy/numpydoc
-    rev: v1.7.0
-    hooks:
-      - id: numpydoc-validation
 
   - repo: https://github.com/astral-sh/ruff-pre-commit
     rev: v0.5.1

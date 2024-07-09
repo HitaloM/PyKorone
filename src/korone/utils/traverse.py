@@ -6,46 +6,6 @@ from typing import Any
 
 
 def bfs_attr_search(root: Any, attr: str) -> Any:
-    """
-    Perform a breadth-first search (BFS) for an attribute in an object.
-
-    The function performs a breadth-first search (BFS) on an object and its attributes,
-    searching for a specific attribute with the given name. The search is done
-    iteratively, exploring all the attributes of the objects in a breadth-first order,
-    until the desired attribute is found or all objects have been traversed without finding it.
-
-    Parameters
-    ----------
-    root : Any
-        Root of search.
-    attr : str
-        Attribute name to search.
-
-    Returns
-    -------
-    Any
-        The attribute with name attr found in search.
-
-    Raises
-    ------
-    AttributeError
-        When could not find the attribute.
-
-    Examples
-    --------
-    >>> def fun():
-    ...     pass
-    >>> fun.hello = lambda x: x * 2
-    >>> fun.hello.again = lambda x: x / 4
-    >>> fun.hallo = lambda x: x - 7
-    >>> fun.hallo.wieder = lambda x: x**3
-    >>> fun.hola = lambda x: x + 2
-    >>> fun.hola.otravez = lambda x: x * 8
-    >>> bfs_attr_search(fun, "again")
-    <function <lambda> at ???>
-    >>> bfs_attr_search(fun, "again")(20)
-    5.0
-    """
     queue: list[Any] = [root]
     visited: list[Any] = [id(root)]
     while queue:

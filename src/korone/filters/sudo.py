@@ -11,19 +11,6 @@ SUDOERS: list[int] = ConfigManager.get("korone", "SUDOERS")
 
 
 class IsSudo(Filter):
-    """
-    Check if the user is a sudoer.
-
-    This filter checks if the user is authorized as a sudoer based on their user ID.
-
-    Parameters
-    ----------
-    client : hydrogram.Client
-        The client object used for communication.
-    update : hydrogram.types.Message or hydrogram.types.Message
-        The update object representing the incoming message or callback query.
-    """
-
     __slots__ = ("client", "update")
 
     def __init__(self, client: Client, update: Message | CallbackQuery) -> None:
@@ -31,16 +18,6 @@ class IsSudo(Filter):
         self.update = update
 
     def __call__(self) -> bool:
-        """
-        Check if the user is a sudoer.
-
-        This method checks if the user is authorized as a sudoer based on their user ID.
-
-        Returns
-        -------
-        bool
-            True if the user is a sudoer, False otherwise.
-        """
         update = self.update
         is_callback = isinstance(update, CallbackQuery)
         message = update.message if is_callback else update

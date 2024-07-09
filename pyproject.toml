@@ -108,16 +108,6 @@ notice-rgx = "(?i)Copyright \\(C\\) \\d{4}"
 [tool.ruff.lint.flake8-tidy-imports]
 ban-relative-imports = "all"
 
-[tool.numpydoc_validation]
-checks = [
-    "all",  # report on all checks, except the below
-    "GL08",
-    "SA01",
-    "EX01",
-    "SS03",
-    "SS05",
-]
-
 [tool.rye.scripts]
 clean-docs = { cmd = "rm -rf docs/build" }
 build-docs = { cmd = "sphinx-build -b html docs/source docs/build" }

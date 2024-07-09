@@ -26,57 +26,15 @@ if TYPE_CHECKING:
 
 @dataclass(frozen=True, slots=True)
 class AppParameters:
-    """
-    Parameters for :obj:`hydrogram.Client`.
-
-    This class represents the parameters for initializing the bot.
-    """
-
     api_id: str
-    """The Telegram API ID.
-
-    :type: str
-    """
     api_hash: str
-    """The Telegram API Hash.
-
-    :type: str
-    """
     bot_token: str
-    """The Telegram bot token.
-
-    :type: str
-    """
     ipv6: bool = True
-    """Whether to use IPv6 to connect to Telegram servers.
-
-    :type: bool"""
     name: str = "Korone"
-    """The name of the :class:`hydrogram.Client`.
-
-    :type: str
-    """
     workers: int = 24
-    """The number of workers to be used by the :class:`hydrogram.Client`.
-
-    :type: int
-    """
 
 
 class Korone(Client):
-    """
-    Represents Korone.
-
-    This class represents Korone, this class inherits from the :obj:`hydrogram.Client` class.
-    It is used to modify Client functions if necessary and provide additional functionality
-    specific to Korone.
-
-    Parameters
-    ----------
-    parameters : AppParameters
-        The parameters for initializing the bot.
-    """
-
     __slots__ = ("me", "parameters")
 
     def __init__(self, parameters: AppParameters):
@@ -97,16 +55,6 @@ class Korone(Client):
         )
 
     async def start(self) -> None:
-        """
-        Start the client.
-
-        This function starts the client and performs the necessary initialization steps.
-        It establishes a connection to the SQLite3 database, executes the required SQL scripts,
-        loads all the modules, and logs a message to the console indicating the successful start.
-
-        If the client was rebooted, it checks for any cached reboot data and updates the
-        corresponding message.
-        """
         await super().start()
 
         self.me = await self.get_me()
@@ -138,19 +86,6 @@ class Korone(Client):
             await cache.delete(cache_key)
 
     async def stop(self) -> None:
-        """
-        Stop the client.
-
-        This function stops the client, logs a message to the console, and moves the `tmp` and
-        `downloads` directories to a temporary directory before deleting them. This is done
-        because deleting a directory can be faster than deleting many individual files, as the
-        operating system only needs to update the parent directory once to remove the directory
-        entry, rather than updating it for each individual file deletion.
-
-        The `tempfile.TemporaryDirectory()` is used to create a temporary directory which is
-        automatically deleted when the `with` block is exited, effectively deleting all files
-        that were moved into it.
-        """
         with tempfile.TemporaryDirectory() as tmp_dir:
             for path in ("tmp", "downloads"):
                 with suppress(FileNotFoundError):
