@@ -12,9 +12,9 @@ MODULES = ["troubleshooters", "legacy_modules", "error", "beta", "users", "notes
 
 
 def load_modules(
-        dp: Union[Dispatcher, Router],
-        to_load: Sequence[str],
-        to_not_load: Sequence[str] = (),
+    dp: Union[Dispatcher, Router],
+    to_load: Sequence[str],
+    to_not_load: Sequence[str] = (),
 ):
     log.debug("Importing modules...")
     if "*" in to_load:
