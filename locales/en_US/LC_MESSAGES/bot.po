@@ -371,6 +371,14 @@ msgstr ""
 msgid "Local chat"
 msgstr ""
 
+#: sophie_bot/modules/troubleshooters/handlers/cancel.py:17
+msgid "The current state is already cleared, nothing to do here."
+msgstr ""
+
+#: sophie_bot/modules/troubleshooters/handlers/cancel.py:23
+msgid "Current state is cleared."
+msgstr ""
+
 #~ msgid "<b>Sophie stats</b>\n"
 #~ msgstr ""
 

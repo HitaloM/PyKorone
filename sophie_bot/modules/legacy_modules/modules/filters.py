@@ -20,10 +20,12 @@ import asyncio
 import functools
 import random
 import re
+from contextlib import suppress
 from string import printable
 
 import regex
 from aiogram import F
+from aiogram.exceptions import TelegramBadRequest
 from aiogram.filters.callback_data import CallbackData
 from aiogram.fsm.context import FSMContext
 from aiogram.fsm.state import State, StatesGroup
@@ -242,15 +244,14 @@ async def register_action(event, chat, strings, callback_data: FilterActionCb, s
 async def setup_end(message: Message, chat, strings, state: FSMContext, **kwargs):
     state_data = await state.get_data()
 
-    await bot.delete_message(message.chat.id, state_data.get("msg_id"))
+    with suppress(TelegramBadRequest):
+        await bot.delete_message(message.chat.id, state_data.get("msg_id"))
 
     action = FILTERS_ACTIONS[state_data["filter_id"]]
 
-    func = (
-        action["setup"][state_data["curr_step"]]["finish"]
-        if type(action["setup"]) is list
-        else action["setup"]["finish"]
-    )
+    curr_step = state_data.get("setup_done", 0)
+
+    func = action["setup"][curr_step]["finish"] if type(action["setup"]) is list else action["setup"]["finish"]
     if not bool(a := await func(message, state_data["data"])):
         await state.clear()
         return
@@ -258,7 +259,7 @@ async def setup_end(message: Message, chat, strings, state: FSMContext, **kwargs
     state_data["data"].update(a)
 
     if state_data["setup_co"] > 0:
-        await action["setup"][state_data["curr_step"] + 1]["start"](message)
+        await action["setup"][curr_step + 1]["start"](message)
         state_data["setup_co"] -= 1
         state_data["setup_done"] += 1
         await state.set_data(state_data)

@@ -12,12 +12,16 @@ from sophie_bot.utils.logger import log
 REGISTRED_COMMANDS = []
 COMMANDS_ALIASES = {}
 
-router = Router(name="legacy_modules")
+legacy_modules_router = Router(name="legacy_modules")
+legacy_states_router = Router(name="legacy_states")
 
 
 def register(*reg_args, **reg_kwargs):
     if requires_state := "state" in reg_kwargs:
         reg_args = (*reg_args, reg_kwargs["state"])
+
+    # By default use legacy modules router
+    router = legacy_modules_router
 
     if "cmds" in reg_kwargs:
         cmds_list = reg_kwargs["cmds"] if isinstance(reg_kwargs["cmds"], list) else [reg_kwargs["cmds"]]
@@ -59,7 +63,8 @@ def register(*reg_args, **reg_kwargs):
         elif reg_kwargs["f"] == "text":
             reg_args = (*reg_args, F.text)
         elif reg_kwargs["f"] == "any":
-            pass
+            # So legacy message handlers that require states can have priority over new modules.
+            router = legacy_states_router
         else:
             log.error(f'Legacy @register: Unknown f filter: {reg_kwargs["f"]}')
 

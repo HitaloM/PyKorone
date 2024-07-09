@@ -7,14 +7,14 @@ from aiogram import Dispatcher, Router
 from sophie_bot.utils.logger import log
 
 LOADED_MODULES: Dict[str, ModuleType] = {}
-# legacy_modules always last
-MODULES = ["error", "beta", "users", "notes", "legacy_modules"]
+# troubleshooters always first, then legacy_modules!
+MODULES = ["troubleshooters", "legacy_modules", "error", "beta", "users", "notes"]
 
 
 def load_modules(
-    dp: Union[Dispatcher, Router],
-    to_load: Sequence[str],
-    to_not_load: Sequence[str] = (),
+        dp: Union[Dispatcher, Router],
+        to_load: Sequence[str],
+        to_not_load: Sequence[str] = (),
 ):
     log.debug("Importing modules...")
     if "*" in to_load:

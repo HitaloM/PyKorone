@@ -27,6 +27,15 @@ def __pre_setup__():
 
     asyncio.get_event_loop().run_until_complete(before_srv_task())
 
-    from .utils.register import router
+    log.info("Legacy modules: Pre setup")
 
-    dp.include_router(router)
+    from .utils.register import legacy_states_router
+
+    dp.include_router(legacy_states_router)
+
+
+def __post_setup__(_):
+    from .utils.register import legacy_modules_router
+
+    log.info("Legacy modules: Post setup")
+    dp.include_router(legacy_modules_router)
