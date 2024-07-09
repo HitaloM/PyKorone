@@ -18,6 +18,7 @@
 
 import sentry_sdk
 from sentry_sdk.integrations.aiohttp import AioHttpIntegration
+from sentry_sdk.integrations.pymongo import PyMongoIntegration
 from sentry_sdk.integrations.redis import RedisIntegration
 
 from sophie_bot import SOPHIE_VERSION
@@ -30,7 +31,7 @@ def init_sentry():
 
     sentry_sdk.init(
         str(CONFIG.sentry_url),
-        integrations=[RedisIntegration(), AioHttpIntegration()],
+        integrations=[RedisIntegration(), AioHttpIntegration(), PyMongoIntegration()],
         environment=CONFIG.environment,
         release=SOPHIE_VERSION,
     )
