@@ -31,7 +31,7 @@ class LastFMCompatHandler(MessageHandler):
             await message.reply(
                 _(
                     "You need to set your LastFM username first! "
-                    "Use <code>/setlfm &lt;username&gt;</code>."
+                    "Example: <code>/setlfm username</code>."
                 )
             )
             return
@@ -50,7 +50,7 @@ class LastFMCompatHandler(MessageHandler):
             await message.reply(
                 _(
                     "The user you replied to doesn't have a LastFM account linked! "
-                    "Hint them to set it using <code>/setlfm &lt;username&gt;</code>."
+                    "Hint them to set it using <code>/setlfm username</code>."
                 )
             )
             return

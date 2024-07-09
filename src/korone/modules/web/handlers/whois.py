@@ -19,7 +19,10 @@ class WhoisHandler(MessageHandler):
 
         if not command.args:
             await message.reply(
-                _("Please provide a domain name to look up. Use /whois &lt;domain&gt;.")
+                _(
+                    "You should provide a domain name to get whois information. "
+                    "Example: <code>/whois google.com</code>."
+                )
             )
             return
 

@@ -94,7 +94,10 @@ class YouTubeHandler(MessageHandler):
 
         else:
             await message.reply(
-                _("You need to provide a URL or reply to a message that contains a URL.")
+                _(
+                    "You need to provide a URL or reply to a message that contains a URL. "
+                    "Example: <code>/ytdl https://www.youtube.com/watch?v=dQw4w9WgXcQ</code>"
+                )
             )
             return
 

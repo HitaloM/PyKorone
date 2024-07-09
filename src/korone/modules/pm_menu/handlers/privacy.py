@@ -64,8 +64,8 @@ class PrivacySection(CallbackQueryHandler):
         text = _(
             "<b>Information We Collect</b>\n"
             "The bot collects the following information:\n"
-            "- <b>Telegram Details:</b> User ID, first name, last name, and username.\n"
-            "- <b>Group Information:</b> ID, title, username, and type.\n"
+            "- <b>User Information:</b> ID, first name, last name, and username.\n"
+            "- <b>Group Information:</b> ID, title, username, and type (supergroup, group).\n"
             "- <b>Bot Settings/Configurations:</b> Any settings or configurations you've "
             "applied, such as your LastFM username for related commands.\n\n"
             "<b>How and Why We Collect Your Information</b>\n"

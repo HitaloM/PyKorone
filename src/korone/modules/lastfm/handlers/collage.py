@@ -31,7 +31,7 @@ class LastFMCollageHandler(MessageHandler):
             await message.reply(
                 _(
                     "You need to set your LastFM username first! "
-                    "Use <code>/setlfm &lt;username&gt;</code>."
+                    "Example: <code>/setlfm username</code>."
                 )
             )
             return

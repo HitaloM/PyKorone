@@ -22,8 +22,8 @@ class IPInfoHandler(MessageHandler):
         if not command.args:
             await message.reply(
                 _(
-                    "Please provide an IP address or domain name to look up. "
-                    "Use /ip &lt;ip/domain&gt;"
+                    "You should provide an IP address or domain name to get information."
+                    "Example: <code>/ip google.com</code>."
                 )
             )
             return

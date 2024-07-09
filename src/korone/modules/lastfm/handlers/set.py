@@ -24,7 +24,12 @@ class SetLastFMHandler(MessageHandler):
         username = command.args
 
         if not username:
-            await message.reply(_("You need to provide your LastFM username!"))
+            await message.reply(
+                _(
+                    "You need to provide your LastFM username! "
+                    "Example: <code>/setfm username</code>."
+                )
+            )
             return
 
         if not self.is_valid_username(username):

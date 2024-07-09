@@ -68,7 +68,12 @@ class GetChatHandler(MessageHandler):
         chat_identifier = command.args or message.chat.id
 
         if message.chat.type == ChatType.PRIVATE and not command.args:
-            await message.reply(_("You should provide a chat ID or username."))
+            await message.reply(
+                _(
+                    "You should provide a chat ID or username. "
+                    "Example: <code>/chat @username</code>."
+                )
+            )
             return
 
         chat = await self.fetch_chat(client, message, chat_identifier)

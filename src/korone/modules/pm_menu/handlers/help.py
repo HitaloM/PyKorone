@@ -1,6 +1,8 @@
 # SPDX-License-Identifier: BSD-3-Clause
 # Copyright (c) 2024 Hitalo M. <https://github.com/HitaloM>
 
+import textwrap
+
 from hairydogm.keyboard import InlineKeyboardBuilder
 from hydrogram import Client
 from hydrogram.enums import ChatType
@@ -37,17 +39,19 @@ class Help(MessageHandler):
     @staticmethod
     def build_text() -> str:
         return _(
-            "Welcome to the help menu! Here you will find all the "
-            "commands and modules provided by me:\n\n"
-            "<b>Helpful commands:</b>\n"
-            "- /start: Start the bot, you maybe already know this.\n"
-            "- /help: Show this message.\n"
-            "- /help &lt;module&gt;: Show help for a specific module.\n"
-            "- /privacy: Show the privacy policy.\n"
-            "- /language: Change the bot language.\n"
-            "- /about: Show information about the bot.\n\n"
-            "Below are buttons for each module. Click on a button to "
-            "access a brief documentation on its functionality and usage.\n\n"
+            textwrap.dedent("""\
+            Welcome to the Help Menu! Here, you will find all the commands and modules available.
+
+            <b>Useful commands</b>:
+            - /start: Start the bot. You may already know this.
+            - /help: Display this message.
+            - /help <module name>: Show help for "module name".
+            - /privacy: Display our privacy policy.
+            - /language: Change the bot's language.
+            - /about: Show information about the bot.
+
+            For documentation on the functionality and usage of each module, use the buttons below.
+            """)
         )
 
     @router.message(Command("help"))

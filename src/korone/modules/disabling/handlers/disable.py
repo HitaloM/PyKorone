@@ -19,7 +19,12 @@ class DisableHandler(MessageHandler):
     async def handle(client: Client, message: Message) -> None:
         command = CommandObject(message).parse()
         if not command.args:
-            await message.reply(_("You need to specify a command to disable."))
+            await message.reply(
+                _(
+                    "You need to specify a command to disable. "
+                    "Use <code>/disable &lt;commandname&gt;</code>."
+                )
+            )
             return
 
         args = command.args.split(" ")

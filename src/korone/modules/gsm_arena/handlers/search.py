@@ -23,7 +23,12 @@ class GSMArena(MessageHandler):
         command = CommandObject(message).parse()
 
         if not command.args:
-            await message.reply(_("Please enter a phone name to search."))
+            await message.reply(
+                _(
+                    "You should provide a device name to search "
+                    "Example: <code>/device Galaxy S24</code>."
+                )
+            )
             return
 
         query = command.args
