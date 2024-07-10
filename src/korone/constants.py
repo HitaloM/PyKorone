@@ -21,6 +21,7 @@ DEFAULT_CONFIG_TEMPLATE: dict[str, Any] = {
     },
     "korone": {
         "SUDOERS": [918317361],
+        "SENTRY_DSN": "",
         "DEEPL_KEY": "",
         "LASTFM_KEY": "",
     },

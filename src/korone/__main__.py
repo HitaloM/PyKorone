@@ -2,13 +2,18 @@
 # Copyright (c) 2024 Hitalo M. <https://github.com/HitaloM>
 
 import asyncio
+import shutil
 import sys
+import tempfile
+from contextlib import suppress
+from pathlib import Path
 
+import sentry_sdk
 import uvloop
 from cashews.exceptions import CacheBackendInteractionError
 from hydrogram import idle
 
-from korone import cache
+from korone import __version__, app_dir, cache
 from korone.client import AppParameters, Korone
 from korone.config import ConfigManager
 from korone.utils.logging import log
@@ -23,6 +28,10 @@ async def main() -> None:
 
     config = ConfigManager()
 
+    if sentry_dsn := config.get("korone", "SENTRY_DSN"):
+        log.info("Initializing Sentry integration")
+        sentry_sdk.init(dsn=sentry_dsn, release=__version__)
+
     params = AppParameters(
         api_id=config.get("hydrogram", "API_ID"),
         api_hash=config.get("hydrogram", "API_HASH"),
@@ -33,6 +42,12 @@ async def main() -> None:
 
     await client.start()
     await idle()
+
+    with tempfile.TemporaryDirectory() as tmp_dir:
+        for path in ("tmp", "downloads"):
+            with suppress(FileNotFoundError):
+                shutil.move(Path(app_dir / path).as_posix(), tmp_dir)
+
     await client.stop()
 
 

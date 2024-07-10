@@ -1,8 +1,6 @@
 # SPDX-License-Identifier: BSD-3-Clause
 # Copyright (c) 2024 Hitalo M. <https://github.com/HitaloM>
 
-import shutil
-import tempfile
 import time
 from contextlib import suppress
 from dataclasses import dataclass
@@ -15,7 +13,7 @@ from hydrogram.enums import ParseMode
 from hydrogram.errors import MessageIdInvalid, MessageNotModified
 from hydrogram.raw.all import layer
 
-from korone import __version__, app_dir, cache, constants
+from korone import __version__, cache, constants
 from korone.database.sqlite import SQLite3Connection
 from korone.modules import load_all_modules
 from korone.utils.logging import log
@@ -86,10 +84,5 @@ class Korone(Client):
             await cache.delete(cache_key)
 
     async def stop(self) -> None:
-        with tempfile.TemporaryDirectory() as tmp_dir:
-            for path in ("tmp", "downloads"):
-                with suppress(FileNotFoundError):
-                    shutil.move(Path(app_dir / path).as_posix(), tmp_dir)
-
         await super().stop()
         log.info("Korone stopped.")
