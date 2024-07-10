@@ -3,7 +3,15 @@ from enum import Enum
 from typing import Annotated, Any, Iterable, List, Optional
 
 from aiogram.types import Chat, User
-from beanie import BackLink, DeleteRules, Document, Indexed, Link, PydanticObjectId, UpdateResponse
+from beanie import (
+    BackLink,
+    DeleteRules,
+    Document,
+    Indexed,
+    Link,
+    PydanticObjectId,
+    UpdateResponse,
+)
 from beanie.odm.operators.find.comparison import In
 from beanie.odm.operators.update.general import Set
 from pydantic import Field
@@ -72,9 +80,7 @@ class ChatModel(Document):
     async def upsert_user(user: User) -> "ChatModel":
         data = ChatModel._get_user_data(user)
         return await ChatModel.find_one(ChatModel.chat_id == user.id).upsert(
-            Set(data),
-            on_insert=ChatModel(chat_id=user.id, **data),
-            response_type=UpdateResponse.NEW_DOCUMENT
+            Set(data), on_insert=ChatModel(chat_id=user.id, **data), response_type=UpdateResponse.NEW_DOCUMENT
         )
 
     @staticmethod
@@ -82,9 +88,7 @@ class ChatModel(Document):
         data = ChatModel._get_group_data(chat)
 
         return await ChatModel.find_one(ChatModel.chat_id == chat.id).upsert(
-            Set(data),
-            on_insert=ChatModel(chat_id=chat.id, **data),
-            response_type=UpdateResponse.NEW_DOCUMENT
+            Set(data), on_insert=ChatModel(chat_id=chat.id, **data), response_type=UpdateResponse.NEW_DOCUMENT
         )
 
     @staticmethod
@@ -168,7 +172,7 @@ class UserInGroupModel(Document):
     @staticmethod
     async def ensure_delete(user: ChatModel, group: ChatModel) -> Optional["UserInGroupModel"]:
         if user_in_chat := await UserInGroupModel.find_one(
-                UserInGroupModel.user.id == user.id, UserInGroupModel.group.id == group.id
+            UserInGroupModel.user.id == user.id, UserInGroupModel.group.id == group.id
         ):
             await user_in_chat.delete()
             return user_in_chat
