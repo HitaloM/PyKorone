@@ -1151,14 +1151,14 @@ async def fedban_check(message, fed, user, _, strings):
     fbanned_fed = False  # A variable to find if user is banned in current fed of chat
     fban_data = None
 
-    total_count = await db.get().fed_bans.count_documents({"user_id": user["user_id"]})
+    total_count = await db.fed_bans.count_documents({"user_id": user["user_id"]})
     if fed:
         fed_list = [fed["fed_id"]]
         # check fbanned in subscribed
         if "subscribed" in fed:
             fed_list.extend(fed["subscribed"])
 
-        if fban_data := await db.get().fed_bans.find_one({"user_id": user["user_id"], "fed_id": {"$in": fed_list}}):
+        if fban_data := await db.fed_bans.find_one({"user_id": user["user_id"], "fed_id": {"$in": fed_list}}):
             fbanned_fed = True
 
             # re-assign fed if user is banned in sub-fed
@@ -1191,7 +1191,7 @@ async def fedban_check(message, fed, user, _, strings):
             text += strings["fbanned_count_pm"].format(count=total_count)
             if total_count > 0:
                 count = 0
-                async for fban in db.get().fed_bans.find({"user_id": user["user_id"]}):
+                async for fban in db.fed_bans.find({"user_id": user["user_id"]}):
                     count += 1
                     _fed = await get_fed_by_id(fban["fed_id"])
                     if _fed:
