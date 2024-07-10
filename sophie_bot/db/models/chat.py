@@ -3,7 +3,7 @@ from enum import Enum
 from typing import Annotated, Any, Iterable, List, Optional
 
 from aiogram.types import Chat, User
-from beanie import BackLink, DeleteRules, Document, Indexed, Link, PydanticObjectId
+from beanie import BackLink, DeleteRules, Document, Indexed, Link, PydanticObjectId, UpdateResponse
 from beanie.odm.operators.find.comparison import In
 from beanie.odm.operators.update.general import Set
 from pydantic import Field
@@ -71,24 +71,21 @@ class ChatModel(Document):
     @staticmethod
     async def upsert_user(user: User) -> "ChatModel":
         data = ChatModel._get_user_data(user)
-        existing_user: Optional[ChatModel] = await ChatModel.find_one(ChatModel.chat_id == user.id)
-        if existing_user:
-            return await existing_user.set(data)
-
-        new_user = ChatModel(chat_id=user.id, **data)
-        await new_user.insert()
-        return new_user
+        return await ChatModel.find_one(ChatModel.chat_id == user.id).upsert(
+            Set(data),
+            on_insert=ChatModel(chat_id=user.id, **data),
+            response_type=UpdateResponse.NEW_DOCUMENT
+        )
 
     @staticmethod
     async def upsert_group(chat: Chat) -> "ChatModel":
         data = ChatModel._get_group_data(chat)
-        existing_group: Optional[ChatModel] = await ChatModel.find_one(ChatModel.chat_id == chat.id)
-        if existing_group:
-            return await existing_group.set(data)
 
-        new_group = ChatModel(chat_id=chat.id, **data)
-        await new_group.insert()
-        return new_group
+        return await ChatModel.find_one(ChatModel.chat_id == chat.id).upsert(
+            Set(data),
+            on_insert=ChatModel(chat_id=chat.id, **data),
+            response_type=UpdateResponse.NEW_DOCUMENT
+        )
 
     @staticmethod
     async def do_bulk_upsert(chats: Iterable["ChatModel"]) -> List["ChatModel"]:
@@ -171,7 +168,7 @@ class UserInGroupModel(Document):
     @staticmethod
     async def ensure_delete(user: ChatModel, group: ChatModel) -> Optional["UserInGroupModel"]:
         if user_in_chat := await UserInGroupModel.find_one(
-            UserInGroupModel.user.id == user.id, UserInGroupModel.group.id == group.id
+                UserInGroupModel.user.id == user.id, UserInGroupModel.group.id == group.id
         ):
             await user_in_chat.delete()
             return user_in_chat
