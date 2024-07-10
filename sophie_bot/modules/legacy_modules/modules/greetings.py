@@ -24,6 +24,7 @@ from datetime import datetime
 from typing import Optional, Union
 
 from aiogram import F
+from aiogram.enums import ChatMemberStatus
 from aiogram.exceptions import TelegramBadRequest
 from aiogram.filters import CommandStart
 from aiogram.filters.callback_data import CallbackData
@@ -543,9 +544,8 @@ async def welcome_security_handler(message: Message, strings):
 
     user = await message.chat.get_member(user_id)
     # Check if user was muted before
-    if user["status"] == "restricted":
-        if user["can_send_messages"] is False:
-            return
+    if user.status == ChatMemberStatus.RESTRICTED and user["can_send_messages"] is False:
+        return
 
     # Check on OPs and chat owner
     if await is_user_admin(chat_id, user_id):
