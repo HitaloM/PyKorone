@@ -4,7 +4,6 @@
 import inspect
 import os
 from collections.abc import Callable
-from contextlib import suppress
 from importlib import import_module
 from pathlib import Path
 from types import FunctionType, ModuleType
@@ -27,7 +26,8 @@ NOT_DISABLEABLE: set[str] = set()
 
 def add_module_info(module_name: str, module_info: Callable) -> None:
     module_data = {"handlers": [], "info": {}}
-    for attr in ["name", "summary", "doc"]:
+    required_attrs = ["name", "summary", "doc"]
+    for attr in required_attrs:
         attr_value = bfs_attr_search(module_info, attr)
         if attr_value is None:
             msg = f"Missing attribute '{attr}' in ModuleInfo of module '{module_name}'"
@@ -53,13 +53,13 @@ def add_modules_to_dict() -> None:
             MODULES[module_name] = {"handlers": []}
 
             module_pkg = f"korone.modules.{module_name}"
-            module = import_module(".__init__", module_pkg)
-            module_info = None
-            with suppress(AttributeError):
+            try:
+                module = import_module(".__init__", module_pkg)
                 module_info = bfs_attr_search(module, "ModuleInfo")
-
-            if module_info:
-                add_module_info(module_name, module_info)
+                if module_info:
+                    add_module_info(module_name, module_info)
+            except AttributeError:
+                pass
 
             add_handlers(module_name, handlers_path)
 
@@ -91,22 +91,22 @@ async def check_command_state(command: str) -> Documents | None:
 
 
 async def process_handler_commands(filters: Filter) -> None:
+    async def update_commands_or_not_disableable(command_list: list, disableable: bool):
+        if disableable:
+            await update_commands(command_list)
+        else:
+            NOT_DISABLEABLE.update(command_list)
+
     if hasattr(filters, "commands"):
         commands = [command.pattern for command in filters.commands]  # type: ignore
-        if filters.disableable:  # type: ignore
-            await update_commands(commands)
-        else:
-            NOT_DISABLEABLE.update(commands)
+        await update_commands_or_not_disableable(commands, filters.disableable)  # type: ignore
     elif (
         isinstance(filters, AndFilter)
         and hasattr(filters, "base")
         and hasattr(filters.base, "commands")
     ):
         base_commands = [command.pattern for command in filters.base.commands]  # type: ignore
-        if filters.base.disableable:  # type: ignore
-            await update_commands(base_commands)
-        else:
-            NOT_DISABLEABLE.update(base_commands)
+        await update_commands_or_not_disableable(base_commands, filters.base.disableable)  # type: ignore
 
 
 async def update_commands(commands: list[str]) -> None:
@@ -144,10 +144,7 @@ async def register_handler(client: Client, module: ModuleType) -> bool:
             continue
 
         for name, func in inspect.getmembers(obj, predicate=lambda x: isinstance(x, FunctionType)):
-            if not hasattr(obj, name) or not callable(func):
-                continue
-
-            if not hasattr(func, "handlers"):
+            if not callable(func) or not hasattr(func, "handlers"):
                 continue
 
             method_callable = get_method_callable(obj, name)
