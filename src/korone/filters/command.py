@@ -74,27 +74,27 @@ class Command(Filter):
             msg = "Command filter only supports str, re.Pattern object or their Iterable"
             raise TypeError(msg)
 
-        def process_command(command):
-            if isinstance(command, str):
-                command = re.compile(
-                    f"{re.escape(command.casefold() if ignore_case else command)}$"
-                )
-            if not isinstance(command, re.Pattern):
-                msg = "Command filter only supports str, re.Pattern object or their Iterable"
-                raise TypeError(msg)
-            return command
-
-        items = [process_command(command) for command in (*values, *commands)]
-        if not items:
+        self.commands = tuple(
+            self._process_command(command, ignore_case) for command in (*values, *commands)
+        )
+        if not self.commands:
             msg = "Command filter requires at least one command"
             raise ValueError(msg)
 
-        self.commands = tuple(items)
         self.prefix = prefix
         self.ignore_case = ignore_case
         self.ignore_mention = ignore_mention
         self.magic = magic
         self.disableable = disableable
+
+    @staticmethod
+    def _process_command(command, ignore_case):
+        if isinstance(command, str):
+            command = re.compile(f"{re.escape(command.casefold() if ignore_case else command)}$")
+        if not isinstance(command, re.Pattern):
+            msg = "Command filter only supports str, re.Pattern object or their Iterable"
+            raise TypeError(msg)
+        return command
 
     async def __call__(self, client: Client, message: Message) -> bool:
         if not (message.text or message.caption):
@@ -112,8 +112,7 @@ class Command(Filter):
 
     async def validate_mention(self, client: Client, command: CommandObject) -> None:
         if command.mention and not self.ignore_mention:
-            if not (me := client.me):
-                me = await client.get_me()
+            me = client.me or await client.get_me()
             if me.username and command.mention.lower() != me.username.lower():
                 msg = f"Invalid mention: {command.mention!r}"
                 raise CommandError(msg)
@@ -136,27 +135,22 @@ class Command(Filter):
         from korone.modules import COMMANDS  # noqa: PLC0415
 
         command = CommandObject(message).parse()
-
         self.validate_prefix(command)
         await self.validate_mention(client, command)
 
         command_name = command.command
-
         if self.disableable and command_name in COMMANDS:
             command_name = COMMANDS[command_name].get("parent", command_name)
-            if (
-                message.chat.id in COMMANDS[command_name].get("chat", {})
-                and not COMMANDS[command_name]["chat"][message.chat.id]
-            ):
+            if not COMMANDS[command_name]["chat"].get(message.chat.id, True):
                 msg = f"Command {command_name} is disabled in '{message.chat.id}'."
                 raise CommandError(msg)
 
         return self.do_magic(self.validate_command(command))
 
     def do_magic(self, command: CommandObject) -> CommandObject:
+        if self.magic and (result := self.magic.resolve(command)):
+            return replace(command, magic_result=result)
         if self.magic:
-            if result := self.magic.resolve(command):
-                return replace(command, magic_result=result)
             msg = "Rejected by magic filter"
             raise CommandError(msg)
         return command

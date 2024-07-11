@@ -18,9 +18,9 @@ from korone.modules.media_dl.utils.cache import MediaCache
 from korone.modules.media_dl.utils.twitter import (
     TweetData,
     TweetMedia,
+    TweetMediaVariants,
     TwitterAPI,
     TwitterError,
-    get_best_variant,
 )
 from korone.utils.i18n import gettext as _
 
@@ -28,6 +28,13 @@ URL_PATTERN = re.compile(r"(?:(?:http|https):\/\/)?(?:www.)?(twitter\.com|x\.com
 
 
 class TwitterMessageHandler(MessageHandler):
+    @staticmethod
+    def get_best_variant(media: TweetMedia) -> TweetMediaVariants | None:
+        if not media.variants:
+            return None
+
+        return max(media.variants, key=lambda variant: variant.bitrate)
+
     @staticmethod
     def create_media_list(media_cache: dict, text: str) -> list[InputMediaPhoto | InputMediaVideo]:
         media_list = []
@@ -51,13 +58,12 @@ class TwitterMessageHandler(MessageHandler):
 
         return media_list
 
-    @staticmethod
-    async def process_media(media: TweetMedia) -> InputMediaPhoto | InputMediaVideo | None:
+    async def process_media(self, media: TweetMedia) -> InputMediaPhoto | InputMediaVideo | None:
         if media.type == "photo":
             return InputMediaPhoto(media.binary_io)
 
         if media.type in {"video", "gif"}:
-            media_file = get_best_variant(media) or media
+            media_file = self.get_best_variant(media) or media
             duration = int(timedelta(milliseconds=media.duration).total_seconds())
 
             return InputMediaVideo(

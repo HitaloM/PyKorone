@@ -5,9 +5,9 @@ import asyncio
 import ipaddress
 import re
 import subprocess
+from urllib.parse import urlparse
 
 import httpx
-from yarl import URL
 
 
 async def run_whois(domain: str) -> str:
@@ -79,8 +79,10 @@ async def get_ips_from_string(hostname: str) -> list[str]:
         ip = ipaddress.ip_address(hostname)
         return [str(ip)]
     except ValueError:
-        parsed = URL(hostname)
-        host = parsed.host or ("" if parsed.is_absolute() else URL(f"http://{hostname}").host)
+        parsed = urlparse(hostname)
+        host = parsed.hostname or (
+            "" if parsed.scheme else urlparse(f"http://{hostname}").hostname
+        )
         if not host:
             return []
         try:

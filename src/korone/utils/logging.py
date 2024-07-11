@@ -3,7 +3,7 @@
 
 import sys
 
-import picologging
+import picologging as logging
 import structlog
 
 structlog.configure(
@@ -16,10 +16,10 @@ structlog.configure(
     ],
 )
 
-picologging.basicConfig(
+logging.basicConfig(
     format="%(message)s",
     stream=sys.stdout,
-    level=picologging.DEBUG if "--debug" in sys.argv else picologging.INFO,
+    level=logging.DEBUG if "--debug" in sys.argv else logging.INFO,
 )
 
-log = structlog.wrap_logger(logger=picologging.getLogger())
+log = structlog.wrap_logger(logger=logging.getLogger())

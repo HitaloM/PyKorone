@@ -5,7 +5,17 @@ from korone.modules.lastfm.utils.api import LastFMAlbum, LastFMTrack, LastFMUser
 
 
 def get_biggest_lastfm_image(lfm_obj: LastFMAlbum | LastFMTrack | LastFMUser) -> str | None:
-    url = lfm_obj.images[-1].url if lfm_obj.images else None
-    if url:
-        return None if "2a96cbd8b46e442fc41c2b86b821562f" in url else url
+    if not lfm_obj.images:
+        return None
+
+    sizes_order = {"small": 1, "medium": 2, "large": 3, "extralarge": 4}
+
+    sorted_images = sorted(
+        lfm_obj.images, key=lambda img: sizes_order.get(img.size, 0), reverse=True
+    )
+
+    for image in sorted_images:
+        if "2a96cbd8b46e442fc41c2b86b821562f" not in image.url:
+            return image.url
+
     return None

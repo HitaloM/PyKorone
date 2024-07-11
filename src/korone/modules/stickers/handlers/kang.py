@@ -37,14 +37,16 @@ class KangHandler(MessageHandler):
 
         emoji = self.extract_emoji(command, message)
         if not emoji or not message.reply_to_message:
-            await message.reply(_("You need to reply to a sticker or provide an emoji."))
+            await message.reply(_("You need to reply to an image, video, or sticker."))
             return
 
         sent_message = await message.reply(_("Processing..."))
 
         media_type, file_id, file_extension = self.determine_media_type(message)
         if not (media_type and file_id and file_extension):
-            await sent_message.edit(_("Invalid media type."))
+            await sent_message.edit(
+                _("Invalid media type. Please reply to an image, video, or sticker.")
+            )
             return
 
         file_name = Path(
@@ -71,7 +73,7 @@ class KangHandler(MessageHandler):
             pack_num[0]["num"] += 1
             await update_user_pack(user.id, media_type, pack_num[0]["num"])
 
-        uploaded_file = await client.save_file(resized_file)
+        uploaded_file = await client.save_file(resized_file)  # type: ignore
         media = await self.send_media(client, message, uploaded_file, mime_type, file_extension)
 
         pack_info = {

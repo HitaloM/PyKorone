@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PyKorone 1.0\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-07-11 18:42-0300\n"
+"POT-Creation-Date: 2024-07-11 20:21-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -652,8 +652,8 @@ msgstr ""
 #: src/korone/modules/media_dl/handlers/tiktok.py:65
 #: src/korone/modules/media_dl/handlers/tiktok.py:86
 #: src/korone/modules/media_dl/handlers/tiktok.py:92
-#: src/korone/modules/media_dl/handlers/twitter.py:173
-#: src/korone/modules/media_dl/handlers/twitter.py:224
+#: src/korone/modules/media_dl/handlers/twitter.py:179
+#: src/korone/modules/media_dl/handlers/twitter.py:230
 msgid "Failed to send media: {error}"
 msgstr ""
 
@@ -662,17 +662,17 @@ msgstr ""
 msgid "Open in TikTok"
 msgstr ""
 
-#: src/korone/modules/media_dl/handlers/twitter.py:115
-#: src/korone/modules/media_dl/handlers/twitter.py:213
+#: src/korone/modules/media_dl/handlers/twitter.py:121
+#: src/korone/modules/media_dl/handlers/twitter.py:219
 msgid "Open in Twitter"
 msgstr ""
 
-#: src/korone/modules/media_dl/handlers/twitter.py:139
-#: src/korone/modules/media_dl/handlers/twitter.py:154
+#: src/korone/modules/media_dl/handlers/twitter.py:145
+#: src/korone/modules/media_dl/handlers/twitter.py:160
 msgid "Failed to send media!"
 msgstr ""
 
-#: src/korone/modules/media_dl/handlers/twitter.py:186
+#: src/korone/modules/media_dl/handlers/twitter.py:192
 msgid ""
 "\n"
 "<b>Sent from:</b> <i>{source}</i>"
@@ -877,48 +877,48 @@ msgid "Failed to download sticker."
 msgstr ""
 
 #: src/korone/modules/stickers/handlers/kang.py:40
-msgid "You need to reply to a sticker or provide an emoji."
+msgid "You need to reply to an image, video, or sticker."
 msgstr ""
 
 #: src/korone/modules/stickers/handlers/kang.py:43
 msgid "Processing..."
 msgstr ""
 
-#: src/korone/modules/stickers/handlers/kang.py:47
-msgid "Invalid media type."
+#: src/korone/modules/stickers/handlers/kang.py:48
+msgid "Invalid media type. Please reply to an image, video, or sticker."
 msgstr ""
 
-#: src/korone/modules/stickers/handlers/kang.py:56
+#: src/korone/modules/stickers/handlers/kang.py:58
 msgid "Error downloading media."
 msgstr ""
 
-#: src/korone/modules/stickers/handlers/kang.py:63
+#: src/korone/modules/stickers/handlers/kang.py:65
 msgid "Error processing media."
 msgstr ""
 
-#: src/korone/modules/stickers/handlers/kang.py:91
+#: src/korone/modules/stickers/handlers/kang.py:93
 msgid "View pack"
 msgstr ""
 
-#: src/korone/modules/stickers/handlers/kang.py:93
+#: src/korone/modules/stickers/handlers/kang.py:95
 msgid ""
 "Sticker <b>successfully</b> added to pack\n"
 "Emoji: {sticker_emoji}"
 msgstr ""
 
-#: src/korone/modules/stickers/handlers/kang.py:159
+#: src/korone/modules/stickers/handlers/kang.py:161
 msgid "Adding the sticker to the pack..."
 msgstr ""
 
-#: src/korone/modules/stickers/handlers/kang.py:174
+#: src/korone/modules/stickers/handlers/kang.py:176
 msgid "Creating the sticker pack..."
 msgstr ""
 
-#: src/korone/modules/stickers/handlers/kang.py:198
+#: src/korone/modules/stickers/handlers/kang.py:200
 msgid "Start"
 msgstr ""
 
-#: src/korone/modules/stickers/handlers/kang.py:200
+#: src/korone/modules/stickers/handlers/kang.py:202
 msgid ""
 "Oops, looks like I do not have enough permissions to create a sticker "
 "pack for you!\n"

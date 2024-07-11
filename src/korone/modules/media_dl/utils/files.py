@@ -1,22 +1,10 @@
 # SPDX-License-Identifier: BSD-3-Clause
 # Copyright (c) 2024 Hitalo M. <https://github.com/HitaloM>
 
-import random
-import string
 from pathlib import Path
 from typing import BinaryIO
 
 from PIL import Image
-
-from korone import app_dir
-
-
-def generate_random_file_path(prefix: str, extension: str = ".mp4") -> Path:
-    output_path = Path(app_dir / "downloads")
-    output_path.mkdir(exist_ok=True, parents=True)
-
-    random_suffix = "".join(random.choices(string.ascii_letters + string.digits, k=8))
-    return output_path / f"{prefix}{random_suffix}{extension}"
 
 
 def resize_thumbnail(thumbnail_path: str | BinaryIO) -> None:

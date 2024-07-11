@@ -26,7 +26,6 @@ class I18nNew(I18n):
 
     def __init__(self, *args, **kwargs) -> None:
         super().__init__(*args, **kwargs)
-
         self.babels: dict[str, Locale] = {}
         self.stats: dict[str, LocaleStats | None] = {}
 
@@ -46,7 +45,6 @@ class I18nNew(I18n):
     def babel(self, locale_code: str) -> Locale:
         if locale_code not in self.babels:
             self.babels[locale_code] = Locale.parse(locale_code)
-
         return self.babels[locale_code]
 
     @property
@@ -56,21 +54,18 @@ class I18nNew(I18n):
     def locale_display(self, locale: Locale) -> str:
         default_lang = self.babel(self.default_locale)
         default_territory = default_lang.territory or "US"
-
-        return f"{flag(locale.territory or default_territory)} {locale.display_name}"
+        territory_flag = flag(locale.territory or default_territory)
+        return f"{territory_flag} {locale.display_name}"
 
     @property
     def current_locale_display(self) -> str:
         return self.locale_display(self.current_locale_babel)
 
     def get_locale_stats(self, locale_code: str) -> LocaleStats | None:
-        if locale_code in self.stats:
-            return self.stats[locale_code]
-
-        self.stats[locale_code] = self.parse_stats(locale_code)
-        if not self.stats[locale_code]:
-            log.warning("Can't parse stats for locale %s!", locale_code)
-
+        if locale_code not in self.stats:
+            self.stats[locale_code] = self.parse_stats(locale_code)
+            if not self.stats[locale_code]:
+                log.warning("Can't parse stats for locale %s!", locale_code)
         return self.stats[locale_code]
 
     def get_current_locale_stats(self) -> LocaleStats | None:
@@ -81,10 +76,10 @@ class I18nNew(I18n):
 
 
 def get_i18n() -> I18nNew:
-    if (i18n := I18nNew.get_current(no_error=True)) is None:
+    i18n = I18nNew.get_current(no_error=True)
+    if i18n is None:
         msg = "I18n context is not set"
         raise LookupError(msg)
-
     return i18n  # type: ignore
 
 
