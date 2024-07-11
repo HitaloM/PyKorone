@@ -1,6 +1,8 @@
 # SPDX-License-Identifier: BSD-3-Clause
 # Copyright (c) 2024 Hitalo M. <https://github.com/HitaloM>
 
+from __future__ import annotations
+
 from pathlib import Path
 from typing import Any
 
@@ -15,16 +17,18 @@ class ConfigError(Exception):
 
 
 class ConfigManager:
-    __slots__ = ("config",)
-    _instance: "ConfigManager | None" = None
+    __slots__ = ("config", "initialized")
+    _instance: ConfigManager | None = None
 
-    def __new__(cls, *args, **kwargs):
-        if not isinstance(cls._instance, cls):
+    def __new__(cls, *args, **kwargs) -> ConfigManager:
+        if not cls._instance:
             cls._instance = super().__new__(cls)
-
         return cls._instance
 
-    def __init__(self, cfgpath: str = constants.DEFAULT_CONFIG_PATH):
+    def __init__(self, cfgpath: str = constants.DEFAULT_CONFIG_PATH) -> None:
+        if hasattr(self, "initialized") and self.initialized:
+            return
+
         log.info("Initializing configuration module")
         log.debug("Using path %s", cfgpath)
 
@@ -33,39 +37,34 @@ class ConfigManager:
         self._create_config_file(config_path)
 
         self.config: dict[str, Any] = loads(config_path.read_text(encoding="utf-8"))
+        self.initialized = True
 
     @staticmethod
-    def _create_config_directory(config_path: Path):
-        if config_path.parent.exists():
-            return
-
-        log.info("Could not find configuration directory")
-        try:
+    def _create_config_directory(config_path: Path) -> None:
+        if not config_path.parent.exists():
             log.info("Creating configuration directory")
-            config_path.parent.mkdir(parents=True, exist_ok=True)
-        except OSError as err:
-            log.critical("Could not create configuration directory: %s", err)
-            msg = "Could not create configuration directory"
-            raise ConfigError(msg) from err
+            try:
+                config_path.parent.mkdir(parents=True, exist_ok=True)
+            except OSError as err:
+                log.critical("Could not create configuration directory: %s", err)
+                msg = "Could not create configuration directory"
+                raise ConfigError(msg) from err
 
     @staticmethod
-    def _create_config_file(config_path: Path):
-        if config_path.is_file():
-            return
-
-        log.info("Could not find configuration file")
-        try:
+    def _create_config_file(config_path: Path) -> None:
+        if not config_path.is_file():
             log.info("Creating configuration file")
-            with config_path.open("w", encoding="utf-8") as file:
-                dump(constants.DEFAULT_CONFIG_TEMPLATE, file)
-        except OSError as err:
-            log.critical("Could not create configuration file: %s", err)
-            msg = "Could not create configuration file"
-            raise ConfigError(msg) from err
+            try:
+                with config_path.open("w", encoding="utf-8") as file:
+                    dump(constants.DEFAULT_CONFIG_TEMPLATE, file)
+            except OSError as err:
+                log.critical("Could not create configuration file: %s", err)
+                msg = "Could not create configuration file"
+                raise ConfigError(msg) from err
 
     @classmethod
     def get(cls, section: str, option: str, fallback: str = "") -> Any:
-        if cls._instance is None:
+        if not cls._instance:
             msg = "ConfigManager instance has not been initialized"
             raise ConfigError(msg)
 
