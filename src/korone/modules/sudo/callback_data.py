@@ -6,3 +6,7 @@ from hairydogm.filters.callback_data import CallbackData
 
 class UpdateCallbackData(CallbackData, prefix="updater"):
     pass
+
+
+class PingCallbackData(CallbackData, prefix="ping"):
+    pass
