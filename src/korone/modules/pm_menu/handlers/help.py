@@ -45,7 +45,7 @@ class Help(MessageHandler):
             <b>Useful commands</b>:
             - /start: Start the bot. You may already know this.
             - /help: Display this message.
-            - /help <module name>: Show help for "module name".
+            - /help &lt;module name&gt;: Display help for the specified module.
             - /privacy: Display our privacy policy.
             - /language: Change the bot's language.
             - /about: Show information about the bot.

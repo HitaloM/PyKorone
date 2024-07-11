@@ -17,7 +17,7 @@ from korone.utils.i18n import gettext as _
 
 class LastFMUserHandler(MessageHandler):
     @staticmethod
-    @router.message(Command(commands=["lfmu", "flex"]))
+    @router.message(Command("lfmuser"))
     async def handle(client: Client, message: Message) -> None:
         last_fm_user = await get_lastfm_user(message.from_user.id)
         if not last_fm_user:

@@ -18,7 +18,7 @@ class SetLastFMHandler(MessageHandler):
     def is_valid_username(username: str) -> bool:
         return bool(re.match("^[A-Za-z0-9]*$", username))
 
-    @router.message(Command(commands=["setfm", "setlast"]))
+    @router.message(Command("setlfm"))
     async def handle(self, client: Client, message: Message) -> None:
         command = CommandObject(message).parse()
         username = command.args
@@ -27,7 +27,7 @@ class SetLastFMHandler(MessageHandler):
             await message.reply(
                 _(
                     "You need to provide your LastFM username! "
-                    "Example: <code>/setfm username</code>."
+                    "Example: <code>/setlfm username</code>."
                 )
             )
             return

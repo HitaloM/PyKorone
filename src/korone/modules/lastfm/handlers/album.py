@@ -21,7 +21,7 @@ from korone.utils.i18n import gettext as _
 
 class LastFMPlayingAlbumHandler(MessageHandler):
     @staticmethod
-    @router.message(Command(commands=["lfmal", "alb", "album"]))
+    @router.message(Command(commands=["lfmalbum", "lalb"]))
     async def handle(client: Client, message: Message) -> None:
         last_fm_user = await get_lastfm_user(message.from_user.id)
         if not last_fm_user:

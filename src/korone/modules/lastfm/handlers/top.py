@@ -28,7 +28,7 @@ class LastFMTopHandler(MessageHandler):
             return _("artists")
         return _("tracks") if entry_type == EntryType.Track else _("albums")
 
-    @router.message(Command(commands=["lfmt", "top"]))
+    @router.message(Command("lfmtop"))
     async def handle(self, client: Client, message: Message) -> None:
         last_fm_user = await get_lastfm_user(message.from_user.id)
         if not last_fm_user:

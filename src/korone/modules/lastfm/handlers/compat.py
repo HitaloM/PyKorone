@@ -19,7 +19,7 @@ from korone.utils.i18n import gettext as _
 
 
 class LastFMCompatHandler(MessageHandler):
-    @router.message(Command(commands=["lfmcomp", "compat"]))
+    @router.message(Command("lfmcompat"))
     async def handle(self, client: Client, message: Message) -> None:
         if not message.reply_to_message:
             await message.reply(_("Reply to a message to get the compatibility!"))
