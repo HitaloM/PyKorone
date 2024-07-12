@@ -1,6 +1,6 @@
 from aiogram.utils.i18n import ConstI18nMiddleware
-
 from ass_tg.middleware import ArgsMiddleware
+
 from sophie_bot import CONFIG, dp
 from sophie_bot.middlewares.beta import BetaMiddleware
 from sophie_bot.middlewares.connections import ConnectionsMiddleware
@@ -18,6 +18,8 @@ try_localization_middleware = OrMiddleware(localization_middleware, ConstI18nMid
 def enable_middlewares():
     if CONFIG.debug_mode:
         from .debug import UpdateDebugMiddleware
+
+        dp.update.middleware(UpdateDebugMiddleware())
 
     dp.update.outer_middleware(SaveChatsMiddleware())
     dp.message.outer_middleware(LegacySaveChats())
