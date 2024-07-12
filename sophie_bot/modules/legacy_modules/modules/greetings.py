@@ -553,7 +553,7 @@ async def welcome_security_handler(message: Message, strings):
 
     user = await message.chat.get_member(user_id)
     # Check if user was muted before
-    if user.status == ChatMemberStatus.RESTRICTED and user["can_send_messages"] is False:
+    if user.status == ChatMemberStatus.RESTRICTED and user.can_send_messages is False:
         return
 
     # Check on OPs and chat owner
@@ -618,7 +618,7 @@ async def join_expired(chat_id, user_id, message_id, wlkm_msg_id):
         return
 
     bot_user = await bot.get_chat_member(chat_id, CONFIG.bot_id)
-    if "can_restrict_members" not in bot_user or bot_user["can_restrict_members"] is False:
+    if bot_user.can_restrict_members is False:
         return
 
     key = "leave_silent:" + str(chat_id)
@@ -916,7 +916,7 @@ async def welcome_security_passed(message: Union[CallbackQuery, Message], state:
     # Welcome mute
     if "welcome_mute" in db_item and db_item["welcome_mute"]["enabled"] is not False:
         user = await bot.get_chat_member(chat_id, user_id)
-        if "can_send_messages" not in user or user["can_send_messages"] is True:
+        if user.can_send_messages is True:
             await restrict_user(
                 chat_id,
                 user_id,
@@ -980,7 +980,7 @@ async def welcome_trigger(message: Message, strings):
         return
     if "welcome_mute" in db_item and db_item["welcome_mute"]["enabled"] is not False:
         user = await bot.get_chat_member(chat_id, user_id)
-        if "can_send_messages" not in user or user["can_send_messages"] is True:
+        if user.can_send_messages is True:
             if not await check_admin_rights(message, chat_id, CONFIG.bot_id, ["can_restrict_members"]):
                 await message.reply(strings["not_admin_wm"])
                 return
