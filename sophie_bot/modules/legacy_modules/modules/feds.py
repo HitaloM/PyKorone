@@ -40,7 +40,12 @@ from aiogram.exceptions import (
 )
 from aiogram.filters.callback_data import CallbackData
 from aiogram.fsm.state import State, StatesGroup
-from aiogram.types import InlineKeyboardButton, InlineKeyboardMarkup, Message, BufferedInputFile
+from aiogram.types import (
+    BufferedInputFile,
+    InlineKeyboardButton,
+    InlineKeyboardMarkup,
+    Message,
+)
 from babel.dates import format_timedelta
 from pymongo import DeleteMany, InsertOne
 
