@@ -967,7 +967,10 @@ async def fban_export(message: Message, fed, strings):
 
         text = strings["fbanlist_done"] % html.escape(fed["fed_name"], False)
         f.seek(0)
-        BufferedInputFile(f.read(), filename="fban_info.txt"),
+        await message.answer_document(
+            BufferedInputFile(f.read(), filename="fban_info.txt"),
+            caption=text,
+        )
     await msg.delete()
 
 
