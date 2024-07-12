@@ -1,0 +1,28 @@
+name: Check style
+
+on: [push, pull_request]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+
+    - name: Install the latest version of rye
+      uses: eifinger/setup-rye@v4
+      id: setup-rye
+      with:
+        enable-cache: true
+
+    - name: Install dependencies
+      if: steps.setup-rye.outputs.cache-hit != 'true'
+      run: |
+        rye sync
+
+    - name: Analysing the code with Ruff
+      run: |
+        rye run ruff format --check .
+        rye run ruff check .
