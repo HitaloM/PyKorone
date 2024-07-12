@@ -34,7 +34,6 @@ from sophie_bot.modules.legacy_modules.utils.message import get_arg, get_args_st
 from sophie_bot.services.db import db
 from sophie_bot.services.redis import bredis
 from sophie_bot.services.telethon import tbot
-
 from .language import get_string
 
 
@@ -239,7 +238,7 @@ async def get_user_by_text(message: Message, text: str):
             lambda ent: ent.type == "text_mention" or ent.type == "mention",
             message.entities,
         )
-    )
+    ) or []
     for entity in entities:
         # If username matches entity's text
         if text in entity.extract_from(message.text):
