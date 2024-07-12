@@ -28,6 +28,7 @@ from aiogram.enums import ChatMemberStatus
 from aiogram.exceptions import TelegramBadRequest
 from aiogram.filters import CommandStart
 from aiogram.filters.callback_data import CallbackData
+from aiogram.fsm.context import FSMContext
 from aiogram.fsm.state import State, StatesGroup
 from aiogram.types import (
     BufferedInputFile,
@@ -419,32 +420,40 @@ async def welcome_security(message: Message, chat, strings):
 @dp.callback_query(WlcmSecConfigCancel.filter())
 @chat_connection(admin=True)
 @get_strings_dec("greetings")
-async def welcome_security_config_cancel(event: CallbackQuery, chat: dict, strings: dict, callback_data: dict, **_):
-    if int(callback_data["user_id"]) == event.from_user.id and is_user_admin(chat["chat_id"], event.from_user.id):
+async def welcome_security_config_cancel(
+    event: CallbackQuery, chat: dict, strings: dict, callback_data: WlcmSecConfigCancel, **_
+):
+    if int(callback_data.user_id) == event.from_user.id and is_user_admin(chat["chat_id"], event.from_user.id):
         await event.message.edit_text(
-            text=strings["welcomesecurity_enabled"].format(chat_name=chat["chat_title"], level=callback_data["level"])
+            text=strings["welcomesecurity_enabled"].format(chat_name=chat["chat_title"], level=callback_data.level)
         )
 
 
 @dp.callback_query(WlcmSecConfigProc.filter())
 @chat_connection(admin=True)
 @get_strings_dec("greetings")
-async def welcome_security_config_proc(event: CallbackQuery, chat: dict, strings: dict, callback_data: dict, **_):
-    if int(callback_data["user_id"]) != event.from_user.id and is_user_admin(chat["chat_id"], event.from_user.id):
+async def welcome_security_config_proc(
+    event: CallbackQuery, chat: dict, strings: dict, callback_data: WlcmSecConfigProc, state: FSMContext, **_
+):
+    if int(callback_data.user_id) != event.from_user.id and is_user_admin(chat["chat_id"], event.from_user.id):
         return
 
-    await WelcomeSecurityConf.send_time.set()
-    async with dp.get_current().current_state().proxy() as data:
-        data["level"] = callback_data["level"]
+    await state.set_state(WelcomeSecurityConf.send_time)
+
+    data = await state.get_data()
+    data["level"] = callback_data.level
+    await state.set_data(data)
+
     await event.message.edit_text(strings["send_time"])
 
 
 @register(F.text, state=WelcomeSecurityConf.send_time, allow_kwargs=True)
 @chat_connection(admin=True)
 @get_strings_dec("greetings")
-async def wlcm_sec_time_state(message: Message, chat: dict, strings: dict, state, **_):
-    async with state.proxy() as data:
-        level = data["level"]
+async def wlcm_sec_time_state(message: Message, chat: dict, strings: dict, state: FSMContext, **_):
+    data = await state.get_data()
+    level = data["level"]
+
     try:
         con_time = convert_time(message.text)
     except (ValueError, TypeError):
@@ -463,7 +472,7 @@ async def wlcm_sec_time_state(message: Message, chat: dict, strings: dict, state
             )
         )
     finally:
-        await state.finish()
+        await state.clear()
 
 
 @register(cmds=["setsecuritynote", "sevesecuritynote"], user_admin=True)
@@ -622,7 +631,7 @@ async def join_expired(chat_id, user_id, message_id, wlkm_msg_id):
 
 @dp.callback_query(F.data.regexp(r"ws_"))
 @get_strings_dec("greetings")
-async def ws_redirecter(message: Message, strings):
+async def ws_redirecter(message: Message, strings, **kwargs):
     payload = message.data.split("_")[1:]
     chat_id = int(payload[0])
     real_user_id = int(payload[1])
@@ -640,16 +649,17 @@ async def ws_redirecter(message: Message, strings):
     await message.answer(url=url)
 
 
-@register(CommandStart(), F.text.regexp(r"ws_"))
+@register(CommandStart(deep_link=True, magic=F.args.regexp(r"ws_")))
 @get_strings_dec("greetings")
-async def welcome_security_handler_pm(message: Message, strings, regexp=None, state=None, **kwargs):
+async def welcome_security_handler_pm(message: Message, state: FSMContext, strings, regexp=None, **kwargs):
     args = get_args_str(message).split("_")
     chat_id = int(args[1])
 
-    async with state.proxy() as data:
-        data["chat_id"] = chat_id
-        data["msg_id"] = int(args[3])
-        data["to_delete"] = bool(int(args[4])) if len(args) > 4 else True
+    data = await state.get_data()
+    data["chat_id"] = chat_id
+    data["msg_id"] = int(args[3])
+    data["to_delete"] = bool(int(args[4])) if len(args) > 4 else True
+    await state.update_data(data)
 
     db_item = await get_greetings_data(chat_id)
 
@@ -675,8 +685,9 @@ async def send_button(message: Message, state, strings):
         inline_keyboard=[[InlineKeyboardButton(text=strings["click_here"], callback_data="wc_button_btn")]]
     )
     verify_msg_id = (await message.reply(text, reply_markup=buttons)).message_id
-    async with state.proxy() as data:
-        data["verify_msg_id"] = verify_msg_id
+    data = await state.get_data()
+    data["verify_msg_id"] = verify_msg_id
+    await state.update_data(data)
 
 
 @dp.callback_query(F.data == "wc_button_btn", WelcomeSecurityState.button)
@@ -697,8 +708,10 @@ def generate_captcha(number=None):
 @get_strings_dec("greetings")
 async def send_captcha(message: Message, state, strings):
     img, num = generate_captcha()
-    async with state.proxy() as data:
-        data["captcha_num"] = num
+    data = await state.get_data()
+    data["captcha_num"] = num
+    await state.update_data(data)
+
     text = strings["ws_captcha_text"].format(user=await get_user_link(message.from_user.id))
 
     buttons = InlineKeyboardMarkup(
@@ -710,31 +723,32 @@ async def send_captcha(message: Message, state, strings):
             BufferedInputFile(img.read(), filename="captcha.png"), caption=text, reply_markup=buttons
         )
     ).message_id
-    async with state.proxy() as data:
-        data["verify_msg_id"] = verify_msg_id
+    data["verify_msg_id"] = verify_msg_id
+    await state.update_data(data)
 
 
 @dp.callback_query(F.data == "regen_captcha", WelcomeSecurityState.captcha)
 @get_strings_dec("greetings")
 async def change_captcha(event, strings, state=None, **kwargs):
     message = event.message
-    async with state.proxy() as data:
-        data["regen_num"] = 1 if "regen_num" not in data else data["regen_num"] + 1
-        regen_num = data["regen_num"]
+    data = await state.get_data()
+    data["regen_num"] = 1 if "regen_num" not in data else data["regen_num"] + 1
+    regen_num = data["regen_num"]
 
-        if regen_num > 3:
-            img, num = generate_captcha(number=data["captcha_num"])
-            text = strings["last_chance"]
-            await message.edit_media(
-                InputMediaPhoto(
-                    media=BufferedInputFile(img.read(), filename="captcha.png"),
-                    caption=text,
-                )
+    if regen_num > 3:
+        img, num = generate_captcha(number=data["captcha_num"])
+        text = strings["last_chance"]
+        await message.edit_media(
+            InputMediaPhoto(
+                media=BufferedInputFile(img.read(), filename="captcha.png"),
+                caption=text,
             )
-            return
+        )
+        return
 
-        img, num = generate_captcha()
-        data["captcha_num"] = num
+    img, num = generate_captcha()
+    data["captcha_num"] = num
+    await state.update_data(data)
 
     text = strings["ws_captcha_text"].format(user=await get_user_link(event.from_user.id))
 
@@ -757,8 +771,8 @@ async def check_captcha_text(message: Message, strings, state=None, **kwargs):
         await message.reply(strings["num_is_not_digit"])
         return
 
-    async with state.proxy() as data:
-        captcha_num = data["captcha_num"]
+    data = await state.get_data()
+    captcha_num = data["captcha_num"]
 
     if not int(num) == int(captcha_num):
         await message.reply(strings["bad_num"])
@@ -808,21 +822,20 @@ async def send_btn_math(message: Message, state, strings, msg_id=False):
     chat_id = message.chat.id
     expr, answer = gen_expression()
 
-    async with state.proxy() as data:
-        data["num"] = answer
+    data = await state.get_data()
+    data["num"] = answer
 
     btns = gen_int_btns(answer)
 
     if msg_id:
-        async with state.proxy() as data:
-            data["last"] = True
+        data["last"] = True
         text = strings["math_wc_rtr_text"] + strings["btn_wc_text"] % expr
     else:
         text = strings["btn_wc_text"] % expr
         msg_id = (await message.reply(text)).message_id
 
-    async with state.proxy() as data:
-        data["verify_msg_id"] = msg_id
+    data["verify_msg_id"] = msg_id
+    await state.update_data(data)
 
     await tbot.edit_message(chat_id, msg_id, text, buttons=btns)  # TODO: change to aiogram
 
@@ -832,13 +845,13 @@ async def send_btn_math(message: Message, state, strings, msg_id=False):
 async def wc_math_check_cb(event, strings, state=None, **kwargs):
     num = int(event.data.split(":")[1])
 
-    async with state.proxy() as data:
-        answer = data["num"]
-        if "last" in data:
-            await state.finish()
-            await event.answer(strings["math_wc_sry"], show_alert=True)
-            await event.message.delete()
-            return
+    data = await state.get_data()
+    answer = data["num"]
+    if "last" in data:
+        await state.finish()
+        await event.answer(strings["math_wc_sry"], show_alert=True)
+        await event.message.delete()
+        return
 
     if not num == answer:
         await send_btn_math(event.message, state, msg_id=event.message.message_id)
@@ -849,13 +862,16 @@ async def wc_math_check_cb(event, strings, state=None, **kwargs):
 
 
 @get_strings_dec("greetings")
-async def welcome_security_passed(message: Union[CallbackQuery, Message], state, strings):
+async def welcome_security_passed(message: Union[CallbackQuery, Message], state: FSMContext, strings):
     user_id = message.from_user.id
-    async with state.proxy() as data:
-        chat_id = data["chat_id"]
-        msg_id = data["msg_id"]
-        verify_msg_id = data["verify_msg_id"]
-        to_delete = data["to_delete"]
+
+    data = await state.get_data()
+    chat_id = data["chat_id"]
+    msg_id = data["msg_id"]
+    verify_msg_id = data["verify_msg_id"]
+    to_delete = data["to_delete"]
+
+    await state.update_data(data)
 
     await unmute_user(chat_id, user_id)
 

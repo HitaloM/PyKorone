@@ -478,7 +478,7 @@ async def note_btn(event, strings, regexp=None, **kwargs):
     )
 
 
-@dp.inline_query(CommandStart(), F.data.regexp("btnnotesm"))
+@dp.inline_query(F.data.regexp("btnnotesm"))
 @get_strings_dec("notes")
 async def note_start(message: Message, strings, regexp=None, **kwargs):
     # Don't even ask what it means, mostly it workaround to support note names with _
@@ -589,7 +589,7 @@ async def clean_notes_set(message: Message, chat, strings):
     await message.reply(text)
 
 
-@register(CommandStart(re.compile("notes")))
+@register(CommandStart(magic=F.args.regexp(r"notes")))
 @get_strings_dec("notes")
 async def private_notes_func(message: Message, strings):
     args = get_args_str(message).split("_")

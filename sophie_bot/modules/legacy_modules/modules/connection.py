@@ -198,7 +198,7 @@ async def allow_users_to_connect(message: Message, strings, chat):
     await message.reply(strings["chat_users_connections_cng"].format(status=status, chat_name=chat["chat_title"]))
 
 
-@register(cmds="start", only_pm=True)
+@register(CommandStart(), only_pm=True)
 @get_strings_dec("connections")
 @chat_connection()
 async def connected_start_state(message: Message, strings, chat):
@@ -211,7 +211,7 @@ async def connected_start_state(message: Message, strings, chat):
 BUTTONS.update({"connect": "btn_connect_start"})
 
 
-@register(CommandStart(magic=F.text.regexp(r"btn_connect_start")), allow_kwargs=True)
+@register(CommandStart(deep_link=True, magic=F.args.regexp(r"btn_connect_start")), allow_kwargs=True)
 @get_strings_dec("connections")
 async def connect_start(message: Message, strings, regexp=None, **kwargs):
     args = get_args_str(message).split("_")

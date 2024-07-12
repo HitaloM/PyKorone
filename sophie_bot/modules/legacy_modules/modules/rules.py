@@ -80,7 +80,7 @@ async def reset_rules(message: Message, chat, strings):
 BUTTONS.update({"rules": "btn_rules"})
 
 
-@register(CommandStart(), F.text.regexp(r"btn_rules"))
+@register(CommandStart(magic=F.args.regexp(r"btn_rules")))
 @get_strings_dec("rules")
 async def rules_btn(message: Message, strings):
     chat_id = (get_args_str(message).split("_"))[2]

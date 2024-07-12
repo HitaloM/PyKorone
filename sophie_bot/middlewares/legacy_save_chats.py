@@ -72,6 +72,7 @@ class LegacySaveChats(BaseMiddleware):
         message: Message,
         data: dict[str, Any],
     ) -> Any:
+        log.debug('Middleware "LegacySaveChats"')
         chat_id = message.chat.id
 
         # Update chat
@@ -127,4 +128,5 @@ class LegacySaveChats(BaseMiddleware):
         if message.forward_from:
             await update_user(chat_id, message.forward_from)
 
+        log.debug('Middleware "LegacySaveChats" done')
         return await handler(message, data)
