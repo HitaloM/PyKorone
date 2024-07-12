@@ -1,6 +1,6 @@
 from datetime import datetime, timedelta, timezone
 from enum import Enum
-from typing import Annotated, Any, Iterable, List, Optional
+from typing import Annotated, Any, Optional
 
 from aiogram.types import Chat, User
 from beanie import (
@@ -15,7 +15,6 @@ from beanie import (
 from beanie.odm.operators.find.comparison import In
 from beanie.odm.operators.update.general import Set
 from pydantic import Field
-from pymongo import InsertOne
 
 
 class ChatType(Enum):
@@ -89,13 +88,6 @@ class ChatModel(Document):
 
         return await ChatModel.find_one(ChatModel.chat_id == chat.id).upsert(
             Set(data), on_insert=ChatModel(chat_id=chat.id, **data), response_type=UpdateResponse.NEW_DOCUMENT
-        )
-
-    @staticmethod
-    async def do_bulk_upsert(chats: Iterable["ChatModel"]) -> List["ChatModel"]:
-        return await ChatModel.bulk_write(
-            [InsertOne(chat.dict(by_alias=True)) for chat in chats],
-            ordered=False,
         )
 
     @staticmethod
