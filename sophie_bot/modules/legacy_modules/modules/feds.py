@@ -40,7 +40,7 @@ from aiogram.exceptions import (
 )
 from aiogram.filters.callback_data import CallbackData
 from aiogram.fsm.state import State, StatesGroup
-from aiogram.types import InlineKeyboardButton, InlineKeyboardMarkup, InputFile, Message
+from aiogram.types import InlineKeyboardButton, InlineKeyboardMarkup, Message, BufferedInputFile
 from babel.dates import format_timedelta
 from pymongo import DeleteMany, InsertOne
 
@@ -520,11 +520,13 @@ async def fed_chat_list(message: Message, fed, strings):
 
     for chat_id in fed["chats"]:
         chat = await db.chat_list.find_one({"chat_id": chat_id})
+        if not chat:
+            continue
         text += "* {} (<code>{}</code>)\n".format(chat["chat_title"], chat_id)
     if len(text) > 4096:
         await message.answer_document(
-            InputFile(io.StringIO(text), filename="chatlist.txt"),
-            strings["too_large"],
+            BufferedInputFile(text.encode(), filename="chatlist.txt"),
+            caption=strings["too_large"],
             reply=message.message_id,
         )
         return
@@ -936,7 +938,7 @@ async def fban_export(message: Message, fed, strings):
 
     msg = await message.reply(strings["creating_fbanlist"])
     fields = ["user_id", "reason", "by", "time", "banned_chats"]
-    with io.StringIO() as f:
+    with io.BytesIO() as f:
         writer = csv.dictWriter(f, fields)
         writer.writeheader()
         async for banned_data in db.fed_bans.find({"fed_id": fed_id}):
@@ -960,7 +962,7 @@ async def fban_export(message: Message, fed, strings):
 
         text = strings["fbanlist_done"] % html.escape(fed["fed_name"], False)
         f.seek(0)
-        await message.answer_document(InputFile(f, filename="fban_export.csv"), text)
+        BufferedInputFile(f.read(), filename="fban_info.txt"),
     await msg.delete()
 
 
@@ -1215,8 +1217,8 @@ async def fedban_check(message, fed, user, _, strings):
             if message.from_user.id == user["user_id"]:
                 text += strings["contact_in_pm"]
         return await message.answer_document(
-            InputFile(io.StringIO(text), filename="fban_info.txt"),
-            strings["too_long_fbaninfo"],
+            BufferedInputFile(text.encode(), filename="fban_info.txt"),
+            caption=strings["too_long_fbaninfo"],
             reply=message.message_id,
         )
     await message.reply(text, parse_mode="None")
