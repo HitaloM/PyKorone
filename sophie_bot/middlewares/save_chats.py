@@ -172,7 +172,7 @@ class SaveChatsMiddleware(BaseMiddleware):
         status = event.new_chat_member.status
         if status == "kicked":
             # Remove user, no need to further call handler
-            if not (group := await ChatModel.get_or_none(chat_id=event.chat.id)):
+            if not (group := await ChatModel.get_by_chat_id(event.chat.id)):
                 return False
             await self._delete_user_in_chat_by_user_id(event.new_chat_member.user.id, group)
             return False
