@@ -17,5 +17,5 @@ class ModuleInfo:
     doc: LazyProxy = _(
         "<b>Commands:</b>\n"
         "- /user &lt;username/id&gt;: Fetches information about a user.\n"
-        "- /chat &lt;username/id&gt;: Fetches information about a group."
+        "- /group &lt;username/id&gt;: Fetches information about a group."
     )

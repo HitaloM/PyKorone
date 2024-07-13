@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PyKorone 1.0\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-07-11 20:21-0300\n"
+"POT-Creation-Date: 2024-07-12 23:13-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1001,7 +1001,7 @@ msgstr ""
 msgid ""
 "<b>Commands:</b>\n"
 "- /user &lt;username/id&gt;: Fetches information about a user.\n"
-"- /chat &lt;username/id&gt;: Fetches information about a group."
+"- /group &lt;username/id&gt;: Fetches information about a group."
 msgstr ""
 
 #: src/korone/modules/users_groups/handlers/groups.py:31
@@ -1010,7 +1010,7 @@ msgid "The provided identifier is not valid."
 msgstr ""
 
 #: src/korone/modules/users_groups/handlers/groups.py:51
-msgid "The provided chat ID is invalid."
+msgid "The provided group ID is invalid."
 msgstr ""
 
 #: src/korone/modules/users_groups/handlers/groups.py:52
@@ -1027,11 +1027,11 @@ msgid "The provided username does not exist."
 msgstr ""
 
 #: src/korone/modules/users_groups/handlers/groups.py:57
-msgid "No chat found with the provided identifier."
+msgid "No group found with the provided identifier."
 msgstr ""
 
 #: src/korone/modules/users_groups/handlers/groups.py:58
-msgid "Error accessing chat data."
+msgid "Error accessing group data."
 msgstr ""
 
 #: src/korone/modules/users_groups/handlers/groups.py:59
@@ -1040,12 +1040,12 @@ msgstr ""
 
 #: src/korone/modules/users_groups/handlers/groups.py:72
 msgid ""
-"You should provide a chat ID or username. Example: <code>/chat "
+"You should provide a group ID or username. Example: <code>/group "
 "@username</code>."
 msgstr ""
 
 #: src/korone/modules/users_groups/handlers/groups.py:83
-msgid "<b>Chat info</b>:\n"
+msgid "<b>Group info</b>:\n"
 msgstr ""
 
 #: src/korone/modules/users_groups/handlers/groups.py:84

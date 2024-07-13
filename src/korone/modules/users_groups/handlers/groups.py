@@ -13,7 +13,7 @@ from korone.modules.users_groups.database import get_chat_by_id, get_chat_by_use
 from korone.utils.i18n import gettext as _
 
 
-class GetChatHandler(MessageHandler):
+class GetGroupHandler(MessageHandler):
     @staticmethod
     async def validate_identifier(identifier: str | int) -> bool:
         if isinstance(identifier, int):
@@ -24,7 +24,7 @@ class GetChatHandler(MessageHandler):
             or identifier.startswith("@")
         )
 
-    async def fetch_chat(
+    async def fetch_group(
         self, client: Client, message: Message, identifier: str | int
     ) -> dict | None:
         if not await self.validate_identifier(identifier):
@@ -34,10 +34,10 @@ class GetChatHandler(MessageHandler):
         try:
             if isinstance(identifier, str) and identifier.startswith("@"):
                 username = identifier[1:]
-                chat = (await get_chat_by_username(username))[0]
+                group = (await get_chat_by_username(username))[0]
             else:
                 chat_id = int(identifier)
-                chat = (await get_chat_by_id(chat_id))[0]
+                group = (await get_chat_by_id(chat_id))[0]
         except (
             PeerIdInvalid,
             ChannelPrivate,
@@ -48,44 +48,44 @@ class GetChatHandler(MessageHandler):
             ValueError,
         ) as e:
             error_messages = {
-                PeerIdInvalid: _("The provided chat ID is invalid."),
+                PeerIdInvalid: _("The provided group ID is invalid."),
                 ChannelPrivate: _(
                     "Unable to access this channel, maybe it's private or I'm banned from it."
                 ),
                 UsernameInvalid: _("The provided username is invalid."),
                 UsernameNotOccupied: _("The provided username does not exist."),
-                IndexError: _("No chat found with the provided identifier."),
-                KeyError: _("Error accessing chat data."),
+                IndexError: _("No group found with the provided identifier."),
+                KeyError: _("Error accessing group data."),
                 ValueError: _("The provided value is not valid."),
             }
             await message.reply(error_messages[type(e)])
             return None
-        return chat
+        return group
 
-    @router.message(Command("chat"))
+    @router.message(Command("group"))
     async def handle(self, client: Client, message: Message) -> None:
         command = CommandObject(message).parse()
-        chat_identifier = command.args or message.chat.id
+        group_id = command.args or message.chat.id
 
         if message.chat.type == ChatType.PRIVATE and not command.args:
             await message.reply(
                 _(
-                    "You should provide a chat ID or username. "
-                    "Example: <code>/chat @username</code>."
+                    "You should provide a group ID or username. "
+                    "Example: <code>/group @username</code>."
                 )
             )
             return
 
-        chat = await self.fetch_chat(client, message, chat_identifier)
-        if not chat:
+        group = await self.fetch_group(client, message, group_id)
+        if not group:
             return
 
-        text = _("<b>Chat info</b>:\n")
-        text += _("<b>ID</b>: <code>{id}</code>\n").format(id=chat["id"])
-        text += _("<b>Title</b>: {title}\n").format(title=chat["title"])
-        if username := chat.get("username"):
+        text = _("<b>Group info</b>:\n")
+        text += _("<b>ID</b>: <code>{id}</code>\n").format(id=group["id"])
+        text += _("<b>Title</b>: {title}\n").format(title=group["title"])
+        if username := group.get("username"):
             text += _("<b>Username</b>: @{username}\n").format(username=username)
-        if chat_type := chat["type"]:
-            text += _("<b>Type</b>: {type}\n").format(type=chat_type)
+        if group_type := group["type"]:
+            text += _("<b>Type</b>: {type}\n").format(type=group_type)
 
         await message.reply(text)

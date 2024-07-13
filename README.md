@@ -5,8 +5,8 @@
 [![Ruff](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json)](https://github.com/astral-sh/ruff)
 [![Documentation Status](https://readthedocs.org/projects/pykorone/badge/?version=latest)](https://pykorone.readthedocs.io/en/latest/?badge=latest)
 [![Weblate](http://weblate.amanoteam.com/widget/korone/korone/svg-badge.svg)](http://weblate.amanoteam.com/engage/korone/)
-[![Channel](https://img.shields.io/badge/Follow-Telegram-blue.svg?logo=telegram)](https://t.me/PyKorone)
-[![GitHub License](https://img.shields.io/github/license/HitaloM/PyKorone?logo=bsd)](/LICENSE)
+[![Telegram](https://img.shields.io/badge/Telegram-blue.svg?logo=telegram)](https://t.me/PyKorone)
+[![License](https://img.shields.io/github/license/HitaloM/PyKorone?logo=bsd)](/LICENSE)
 
 PyKorone is a comprehensive, state-of-the-art Telegram bot that offers a variety of features to enhance your Telegram experience. It is designed to be flexible and adaptable to meet a wide range of user needs. The bot is built in Python and is designed for high efficiency and reliability.
 

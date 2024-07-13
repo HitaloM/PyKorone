@@ -61,7 +61,7 @@ class TranslateHandler(MessageHandler):
 
         return source_lang, target_lang, text
 
-    @router.message(Command("tr"))
+    @router.message(Command(commands=["tr", "translate"]))
     async def handle(self, client: Client, message: Message) -> None:
         command = CommandObject(message).parse()
         source_lang, target_lang, text = self.extract_translation_details(message, command)

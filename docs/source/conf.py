@@ -19,39 +19,29 @@ release = korone.__version__.split(" ")[0]
 
 extensions = [
     "sphinx.ext.autodoc",
-    "sphinx.ext.autosummary",
     "sphinx.ext.intersphinx",
     "sphinx.ext.napoleon",
+    "myst_parser",
     "sphinx.ext.viewcode",
     "sphinx_copybutton",
 ]
 
-intersphinx_mapping = {
-    "python": ("https://docs.python.org/3", None),
-    "hydrogram": ("https://docs.hydrogram.org/en/latest/", None),
-    "babel": ("https://babel.pocoo.org/en/latest/", None),
-    "aiosqlite": ("https://aiosqlite.omnilib.dev/en/stable/", None),
-}
+intersphinx_mapping = {"python": ("https://docs.python.org/3", None)}
 
 html_use_modindex = False
 html_use_index = False
 
-napoleon_numpy_docstring = True
-napoleon_google_docstring = False
-napoleon_preprocess_types = True
-napoleon_use_rtype = False
-napoleon_use_param = False
-napoleon_use_admonition_for_examples = True
-
 master_doc = "index"
-source_suffix = ".rst"
+source_suffix = [".rst", ".md"]
 autodoc_member_order = "bysource"
 
-pygments_style = "friendly"
+pygments_style = "sphinx"
 autodoc_typehints = "none"
 
+html_static_path = ["_static"]
+html_logo = "_static/img/korone-alone.png"
 html_theme = "furo"
-html_title = f"{project} Docs - {release}"
+html_title = f"{project} {release} documentation"
 html_last_updated_fmt = f"{date_time.strftime("%d/%m/%Y, %H:%M:%S")} UTC"
 html_copy_source = False
 
@@ -65,7 +55,7 @@ html_theme_options = {
     "footer_icons": [  # these icons are getten from: https://react-icons.github.io/react-icons/
         {
             "name": "Telegram",
-            "url": "https://t.me/PyKoroneBot/",
+            "url": "https://t.me/PyKorone/",
             "html": (
                 '<svg stroke="currentColor" fill="currentColor" stroke-width="0" '
                 'viewBox="0 0 16 16" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">'
