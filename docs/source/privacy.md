@@ -1,7 +1,7 @@
 # Privacy
 
 ```{note}
-**Privacy is a priority for PyKorone!**
+**Privacy is a priority for _PyKorone_!**
 
 As a fully open-source project, we encourage you to review our source code on [GitHub](https://github.com/HitaloM/PyKorone) to understand how we handle your data.
 ```
@@ -9,14 +9,14 @@ As a fully open-source project, we encourage you to review our source code on [G
 ```{important}
 **Your personal data is safe with us!**
 
-PyKorone does not store any personal information about you. We only collect data that is necessary for the bot to function properly.
+_PyKorone_ does not store any personal information about you. We only collect data that is necessary for the bot to function properly.
 ```
 
-PyKorone is free and open-source software that does not collect any personal data from users. However, it may collect some data to improve the software. The data collected is anonymous and does not contain any personal information.
+_PyKorone_ is free and open-source software that does not collect any personal data from users. However, it may collect some data to improve the software. The data collected is anonymous and does not contain any personal information.
 
 ## What Data is Collected
 
-PyKorone may collect the following data:
+_PyKorone_ may collect the following data:
 
 ### User Data
 
@@ -25,7 +25,7 @@ PyKorone may collect the following data:
 - **First Name**: The user's first name.
 - **Last Name**: The user's last name.
 - **Telegram Client Language**: The language used by the user in the Telegram client.
-- **Registration Date**: The date when the PyKorone bot saw the user for the first time.
+- **Registration Date**: The date when the _PyKorone_ bot saw the user for the first time.
 
 ### Group Data
 
@@ -33,7 +33,7 @@ PyKorone may collect the following data:
 - **Username**: The username of the group, if it has one.
 - **Title**: The title of the group.
 - **Type**: The type of the group (`supergroup` or `group`).
-- **Registration Date**: The date when the PyKorone bot saw the group for the first time.
+- **Registration Date**: The date when the _PyKorone_ bot saw the group for the first time.
 
 ```{note}
 All collected data is public and can be accessed by anyone through the [Telegram API](https://core.telegram.org/bots/api).
@@ -41,7 +41,7 @@ All collected data is public and can be accessed by anyone through the [Telegram
 
 ### Crashlytics
 
-PyKorone uses [Sentry](https://sentry.io/) to collect crash reports and improve the stability of the software. Crashlytics collects the same data as PyKorone, plus extra details of the crash itself.
+_PyKorone_ uses [Sentry](https://sentry.io/) to collect crash reports and improve the stability of the software. Crashlytics collects the same data as _PyKorone_, plus extra details of the crash itself.
 
 #### Currently, we only log:
 

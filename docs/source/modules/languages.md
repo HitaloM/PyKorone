@@ -1,6 +1,6 @@
 # Languages
 
-Not every group speaks fluent english; some groups would rather have PyKorone respond in their own language.
+Not every group speaks fluent english; some groups would rather have _PyKorone_ respond in their own language.
 
 This is where translations come in; you can change the language of the bot's replies to be in the language of your choice!
 
@@ -15,8 +15,8 @@ In groups, only admins can change the language of the bot.
 
 ## Contribute to Translations
 
-Help make PyKorone available in your language by contributing translations via Weblate. You can access the project [here](https://weblate.amanoteam.com/projects/korone/korone/).
+Help make _PyKorone_ available in your language by contributing translations via Weblate. You can access the project [here](https://weblate.amanoteam.com/projects/korone/korone/).
 
 ```{note}
-Translations from Weblate will be integrated into PyKorone with every new release.
+Weblate translations are added to the bot with each new update.
 ```

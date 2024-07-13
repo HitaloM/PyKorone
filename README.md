@@ -8,13 +8,13 @@
 [![Telegram](https://img.shields.io/badge/Telegram-blue.svg?logo=telegram)](https://t.me/PyKorone)
 [![License](https://img.shields.io/github/license/HitaloM/PyKorone?logo=bsd)](/LICENSE)
 
-PyKorone is a comprehensive, state-of-the-art Telegram bot that offers a variety of features to enhance your Telegram experience. It is designed to be flexible and adaptable to meet a wide range of user needs. The bot is built in Python and is designed for high efficiency and reliability.
+_PyKorone_ is a comprehensive, state-of-the-art Telegram bot that offers a variety of features to enhance your Telegram experience. It is designed to be flexible and adaptable to meet a wide range of user needs. The bot is built in Python and is designed for high efficiency and reliability.
 
 Under development since [January 2, 2021](https://telegra.ph/file/ce181caad7447b7f48cdc.png).
 
 ## Features
 
-PyKorone comes with a number of notable features:
+_PyKorone_ comes with a number of notable features:
 
 - Asynchronous programming, according to [asyncio docs](https://docs.python.org/3/library/asyncio.html) and [PEP 492](http://www.python.org/dev/peps/pep-0492).
 - Type hinting according to [PEP 484](http://www.python.org/dev/peps/pep-0484).
@@ -29,11 +29,11 @@ We encourage translation through our [Weblate Project](https://weblate.amanoteam
 
 ## Discussion
 
-Join the conversation about PyKorone or seek community support in our [GitHub discussions](https://github.com/HitaloM/PyKorone/discussions).
+Join the conversation about _PyKorone_ or seek community support in our [GitHub discussions](https://github.com/HitaloM/PyKorone/discussions).
 
 ## License
 
-PyKorone is licensed under the [**BSD 3-Clause License**](https://opensource.org/licenses/BSD-3-Clause), a free software license compatible with the [GPL](https://www.gnu.org/licenses/gpl-3.0.en.html). This license is verified by the [Free Software Foundation](https://www.fsf.org/) and the [Open Source Initiative](https://opensource.org/).
+_PyKorone_ is licensed under the [BSD 3-Clause License](/LICENSE), a free software license compatible with the [GPL](https://www.gnu.org/licenses/gpl-3.0.en.html). This license is verified by the [Free Software Foundation](https://www.fsf.org/) and the [Open Source Initiative](https://opensource.org/).
 
 ## Credits
 

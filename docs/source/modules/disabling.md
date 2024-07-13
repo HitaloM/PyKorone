@@ -1,8 +1,8 @@
 # Disabling
 
-Not everyone wants every feature Korone offers. Some commands are best left unused to prevent spam and abuse.
+Not everyone wants every feature _PyKorone_ offers. Some commands are best left unused to prevent spam and abuse.
 
-This allows you to disable some commonly used commands so that no one can use them.
+This module allows you to disable some commonly used commands so that no one can use them (not even admins).
 
 ## Commands
 

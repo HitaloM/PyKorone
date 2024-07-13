@@ -14,24 +14,38 @@ The LastFM module allows you to get and view information about your favorite art
 - `/lfmcompat`: Get the compatibility of your music taste with another user.
 - `/lfmcollage (?size) (?period)`: Get a collage of your top albums (defaults to `3x3` and `all`).
 
-```{note}
-**Supported sizes**: `1`, `2`, `3`, `4`, `5`, `6`, `7`
+```{admonition} **Supported Sizes**:
+:class: note
 
-**Supported periods**: `1d`, `7d`, `1m`, `3m`, `6m`, `1y`, `all`
+`1`, `2`, `3`, `4`, `5`, `6`, `7`
+The size is the number of rows and columns in the collage.
+```
 
-**Supported types**: `artist`, `track`, `album`
+```{admonition} **Supported Periods**:
+:class: note
+
+`1d`, `7d`, `1m`, `3m`, `6m`, `1y`, `all`
+_d: day, m: month, y: year._
+The period is the time range for the collage, _all_ is all time since you started scrobbling.
+```
+
+```{admonition} **Supported Types**:
+:class: note
+
+`artist`, `track`, `album`
+The type is the category of the items that you want to get in the `/lfmtop' command.
 ```
 
 ### Examples
 
-- Generate a collage of your top 5x5 albums in a period of 7 days:
-  - `/lfmcollage 5 7d`
+> `/lfmcollage 5 7d`
+> Creates a collage of your top 5x5 albums from the last 7 days and send it to you in chat.
 
-- Generate a collage of your top 7x7 albums in a period of 1 month without text:
-  - `/lfmcollage 7 1m clean`
+> `/lfmcollage 7 1m clean`
+> Creates a collage of your top 7x7 albums from the last month without text in album covers and send it to you in chat.
 
-- Get your top 5 artists in a period of 1 year:
-  - `/lfmtop 1y`
+> `/lfmtop 1y`
+> Sends you a list of your top 5 artists in the last year.
 
-- Get your top 5 tracks of all time:
-  - `/lfmtop track`
+> `/lfmtop track`
+> Sends you a list of your top 5 tracks of all time.

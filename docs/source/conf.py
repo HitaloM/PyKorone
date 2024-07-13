@@ -38,6 +38,8 @@ autodoc_member_order = "bysource"
 pygments_style = "sphinx"
 autodoc_typehints = "none"
 
+exclude_patterns = ["_build", "Thumbs.db", ".DS_Store"]
+
 html_static_path = ["_static"]
 html_logo = "_static/img/korone-alone.png"
 html_theme = "furo"

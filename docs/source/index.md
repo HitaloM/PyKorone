@@ -1,29 +1,31 @@
-# PyKorone: The State-of-the-Art Telegram Bot
+# The state of the art Telegram bot
 
-[![Ruff](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json)](https://github.com/astral-sh/ruff)
-[![Documentation Status](https://readthedocs.org/projects/pykorone/badge/?version=latest)](https://pykorone.readthedocs.io/en/latest/?badge=latest)
-[![Weblate](http://weblate.amanoteam.com/widget/korone/korone/svg-badge.svg)](http://weblate.amanoteam.com/engage/korone/)
-[![Telegram](https://img.shields.io/badge/Telegram-blue.svg?logo=telegram)](https://t.me/PyKorone)
-[![GitHub License](https://img.shields.io/github/license/HitaloM/PyKorone?logo=bsd)](/license)
+> All-In-One Telegram Bot
 
-PyKorone is a comprehensive, state-of-the-art Telegram bot that offers a variety of features to enhance your Telegram experience. It is designed to be flexible and adaptable to meet a wide range of user needs. The bot is built in Python and is designed for high efficiency and reliability.
+_PyKorone_ is a comprehensive, state-of-the-art Telegram bot that offers a variety of features to enhance your Telegram experience. It is designed to be flexible and adaptable to meet a wide range of user needs. The bot is built in Python and is designed for high efficiency and reliability.
 
-This documentation is your definitive guide to exploring and using PyKorone to the fullest. Here you'll find detailed information about its features, step-by-step instructions, and tips on how to get the most out of the bot. If you have any questions or need help, our community is ready to assist you at [PyKorone Discussions](https://github.com/HitaloM/PyKorone/discussions).
+This documentation is your definitive guide to exploring and using _PyKorone_ to the fullest. Here you'll find detailed information about its features, step-by-step instructions, and tips on how to get the most out of the bot. If you have any questions or need help, our community is ready to assist you at [GitHub discussions](https://github.com/HitaloM/PyKorone/discussions).
+
+```{note}
+_PyKorone_ is licensed under the [BSD 3-Clause License](./license), a free software license compatible with the [GPL](https://www.gnu.org/licenses/gpl-3.0.en.html). This license is verified by the [Free Software Foundation](https://www.fsf.org/) and the [Open Source Initiative](https://opensource.org/).
+```
 
 ## How the Documentation is Organized
 
-Contents are organized into sections composed of self-contained topics which can be accessed from the sidebar or by following them in order using the {guilabel}`Next` button at the end of each page.
+Content is organized into sections consisting of self-contained topics that can be accessed from the sidebar or by following them in order using the {guilabel}`Next` button at the bottom of each page.
 
 ### User Guide
 
-- {doc}`Getting Started </getting_started>`: Overview to get you started.
-- {doc}`Usage and Configuration </usage_and_configuration/index>`: Learn how to use and configure.
-- {doc}`Privacy </privacy>`: Information about the data collected by PyKorone.
+- [Getting Started](./getting_started): Teach you how to get started with the bot.
+- [Usage and Configuration](./usage_and_configuration/index): Learn how to use and configure.
+- [Modules](./modules/index): Detailed information about the available modules.
+- [Privacy](./privacy): Information about the data collected.
 
 ### Development
 
-- {doc}`Contributing </development/contributing>`: Contributing guidelines.
-- {doc}`Changelog </development/changelog>`: Release notes.
+- [Contributing](./contributing): Contribution guidelines.
+- [Changelog](./changelog): Release notes.
+- [License](./license): Licensing information.
 
 ```{toctree}
 :maxdepth: 1
@@ -41,8 +43,8 @@ privacy
 :caption: Development
 :hidden:
 
-development/contributing
-development/changelog
+contributing
+changelog
 license
 ```
 

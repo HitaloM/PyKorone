@@ -6,4 +6,6 @@ This module simplifies the process by enabling users to obtain the specification
 
 ## Commands
 
-- `/d (device name)`: When you provide the name of a device, the bot will search for it on GSM Arena and return a list of devices matching the search query. You can then select a device from the list to view its specifications. Or if the device is unique, the bot will directly display its specifications.
+- `/d (device name)`: Gets the specifications for "device name" from GSM Arena.
+
+After receiving this command, the bot will search GSM Arena for the given device name. If multiple devices match the query, the bot will present a list from which you can select the specific device you're interested in. For unique device names that return a single match, the bot will directly display the specifications of that device.
