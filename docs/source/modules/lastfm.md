@@ -15,14 +15,14 @@ The LastFM module allows you to get and view information about your favorite art
 - `/lfmcollage (?size) (?period)`: Get a collage of your top albums (defaults to `3x3` and `all`).
 
 ```{admonition} **Supported Sizes**:
-:class: note
+:class: seealso
 
 `1`, `2`, `3`, `4`, `5`, `6`, `7`
 The size is the number of rows and columns in the collage.
 ```
 
 ```{admonition} **Supported Periods**:
-:class: note
+:class: seealso
 
 `1d`, `7d`, `1m`, `3m`, `6m`, `1y`, `all`
 _d: day, m: month, y: year._
@@ -30,7 +30,7 @@ The period is the time range for the collage, _all_ is all time since you starte
 ```
 
 ```{admonition} **Supported Types**:
-:class: note
+:class: seealso
 
 `artist`, `track`, `album`
 The type is the category of the items that you want to get in the `/lfmtop' command.
@@ -38,14 +38,14 @@ The type is the category of the items that you want to get in the `/lfmtop' comm
 
 ### Examples
 
-> `/lfmcollage 5 7d`
+> `/lfmcollage 5 7d`<br>
 > Creates a collage of your top 5x5 albums from the last 7 days and send it to you in chat.
 
-> `/lfmcollage 7 1m clean`
+> `/lfmcollage 7 1m clean`<br>
 > Creates a collage of your top 7x7 albums from the last month without text in album covers and send it to you in chat.
 
-> `/lfmtop 1y`
+> `/lfmtop 1y`<br>
 > Sends you a list of your top 5 artists in the last year.
 
-> `/lfmtop track`
+> `/lfmtop track`<br>
 > Sends you a list of your top 5 tracks of all time.

@@ -1,6 +1,6 @@
 # Configurations
 
-_PyKorone_ has several commands that allow you to configure it to your liking. You can change the bot's language, disable unwanted commands, and more, which can be found in the [Modules](/modules/index) section.
+_PyKorone_ has several commands that allow you to configure the bot's behavior.
 
 ## Changing the Bot's Language
 
@@ -17,3 +17,7 @@ _PyKorone_ automatically detects your language based on your Telegram client set
 ## Disabling and Enabling Commands
 
 You can disable and enable commands in groups by using the `/disable` and `/enable` commands. These commands allow you to disable and enable commands for the entire group. For more information, see the [Disabling](/modules/disabling) module section of the documentation.
+
+## And More
+
+_PyKorone_ has more configuration options that you can explore, some modules have specific commands to configure their behavior. You can learn more about the available modules in the [Modules](/modules/index) section of the documentation.

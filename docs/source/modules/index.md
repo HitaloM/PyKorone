@@ -24,7 +24,7 @@ _PyKorone_'s modules are a collection of commands grouped by functionality. Each
 When you see a command in the documentation, it may have one or more arguments that you need to provide. The arguments are enclosed in parentheses `()`, and some of them may be optional, indicated by a question mark `?` before the argument name. For example, the command `/command (user) (?text)` requires the `user` argument and has an optional `text` argument.
 
 ```{admonition} **Argument Types:**
-:class: note
+:class: seealso
 
 - `()`: Required argument.
 - `(user)`: Required (user ID or username), but you can also reply to any user's message as an alternative.

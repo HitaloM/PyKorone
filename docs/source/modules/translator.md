@@ -6,7 +6,7 @@ This module uses [DeepL](https://www.deepl.com/en/whydeepl) to translate text fr
 
 - `/tr (?source):(?target) (?text)`: Translate text from one language to another, can also be used to reply to a message. If the source language is not specified, it is automatically automatically detected. If the target language is not specified, it defaults to English.
 
-```{note}
+```{seealso}
 For a list of supported languages, check the [DeepL API Docs - Supported languages](https://developers.deepl.com/docs/resources/supported-languages).
 ```
 
@@ -16,8 +16,8 @@ The free version of the DeepL API has a limit of 500,000 characters per month. I
 
 ### Examples
 
-> `/tr en:pt-br Hello, world!`
+> `/tr en:pt-br Hello, world!`<br>
 > Send a message with the translation of _Hello, world!_ from English to Brazilian Portuguese.
 
-> `/tr en Hallo, Welt!`
+> `/tr en Hallo, Welt!`<br>
 > Send a message with the translation of _Hallo, Welt!_ from German to English.

@@ -4,7 +4,9 @@ _PyKorone_ is a comprehensive, state-of-the-art Telegram bot that offers a varie
 
 This documentation is your definitive guide to exploring and using _PyKorone_ to the fullest. Here you'll find detailed information about its features, step-by-step instructions, and tips on how to get the most out of the bot.
 
-```{note}
+```{admonition} License
+:class: seealso
+
 _PyKorone_ is licensed under the [BSD 3-Clause License](./license), a free software license compatible with the [GPL](https://www.gnu.org/licenses/gpl-3.0.en.html). This license is verified by the [Free Software Foundation](https://www.fsf.org/) and the [Open Source Initiative](https://opensource.org/).
 ```
 

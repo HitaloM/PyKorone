@@ -8,6 +8,6 @@ The AFK module is a simple module that allows users to set themselves as AFK.
 
 If you are AFK and someone mentions you, the bot will send a message to the user who mentioned you with a reason (if provided).
 
-```{hint}
+```{tip}
 The AFK module integrates seamlessly with LastFM to display your current LastFM "now playing" status while you're set to AFK. For this feature to work, ensure you've configured your LastFM username within the [LastFM module](./lastfm.md).
 ```

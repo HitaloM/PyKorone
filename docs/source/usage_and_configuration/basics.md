@@ -10,10 +10,6 @@ To interact with _PyKorone_, you must use commands. Commands are messages that s
 
 Commands can be used in both group and private chats. In group chats, you can optionally mention _PyKorone_ along with the command name to avoid conflicts with other bots. For example, you can use `/start@PyKoroneBot` to check the availability of _PyKorone_ without invoking the `/start` command of other bots.
 
-## Getting Help
+## Learning Commands
 
-Unlike other bots, _PyKorone_ does not have a help menu with all available commands. Instead, you can use the [Modules](/modules/index) section to learn about the available modules and their commands, this decision was made to create a more organized and detailed documentation of how to use _PyKorone_.
-
-## Next Steps
-
-Now that you know the basics of using _PyKorone_, you can move on to the [Modules](/modules/index) section to learn about the available modules and their commands. If you have any questions or need help, you can join the [GitHub discussions](https://github.com/HitaloM/PyKorone/discussions).
+Unlike other bots, _PyKorone_ does not have a help menu with all available commands. Instead, you can use the [Modules](/modules/index) section to learn about the available commands. Each module has a list of commands that are related to a specific functionality.
