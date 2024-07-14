@@ -1,6 +1,6 @@
 variables:
   IMAGE_NAME: "$CI_REGISTRY_IMAGE"
-  IMAGE_TAG: "$CI_COMMIT_BRANCH-runtime"
+  BRANCH: "$CI_COMMIT_BRANCH"
 
 deploy_staging_all:
   stage: deploy

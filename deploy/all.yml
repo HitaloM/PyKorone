@@ -24,10 +24,10 @@
         password: "{{ lookup('ansible.builtin.env','CI_REGISTRY_PASSWORD') }}"
         registry: registry.gitlab.com
 
-    - name: Update Beta podman image
+    - name: Update Current branch podman image
       containers.podman.podman_image:
         name: "{{ lookup('ansible.builtin.env','IMAGE_NAME') }}"
-        tag: "{{ lookup('ansible.builtin.env','IMAGE_TAG') }}"
+        tag: "{{ lookup('ansible.builtin.env','BRANCH') }}-runtime"
         force: true
 
     - name: Update Stable podman image
@@ -42,9 +42,15 @@
         tag: "proxy-runtime"
         force: true
 
-    - name: Copy Beta container quadlet file
+    - name: Update Current branch WIKI podman image
+      containers.podman.podman_image:
+        name: "{{ lookup('ansible.builtin.env','IMAGE_NAME') }}"
+        tag: "{{ lookup('ansible.builtin.env','BRANCH') }}-wiki"
+        force: true
+
+    - name: Copy Current branch container quadlet file
       vars:
-        image_tag: "{{ lookup('ansible.builtin.env','IMAGE_TAG') }}"
+        image_tag: "{{ lookup('ansible.builtin.env','BRANCH') }}-runtime"
       ansible.builtin.template:
         src: sophie-beta.container.j2
         dest: /home/containers/.config/containers/systemd/sophie-beta.container
@@ -68,6 +74,16 @@
       ansible.builtin.template:
         src: sophie-proxy.container.j2
         dest: /home/containers/.config/containers/systemd/sophie-proxy.container
+        owner: containers
+        group: containers
+        mode: u=rw,g=r,o=r
+
+    - name: Copy Current branch WIKI container quadlet file
+      vars:
+        image_tag: "{{ lookup('ansible.builtin.env','BRANCH') }}-wiki"
+      ansible.builtin.template:
+        src: swiki.container.j2
+        dest: /home/containers/.config/containers/systemd/swiki.container
         owner: containers
         group: containers
         mode: u=rw,g=r,o=r
@@ -122,3 +138,10 @@
         state: restarted
         daemon_reload: true
         name: sophie-proxy
+
+    - name: Restart Wiki container
+      ansible.builtin.systemd_service:
+        scope: user
+        state: restarted
+        daemon_reload: true
+        name: swiki

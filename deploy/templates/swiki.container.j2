@@ -1,0 +1,14 @@
+[Unit]
+Description=Sophie Wiki
+
+[Service]
+Restart=always
+
+[Container]
+ContainerName=swiki
+Image={{ lookup('ansible.builtin.env','IMAGE_NAME') }}:{{ image_tag }}
+PublishPort=8079:3000
+PodmanArgs=--memory=512M
+
+[Install]
+WantedBy=multi-user.target default.target

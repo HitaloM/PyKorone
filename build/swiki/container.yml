@@ -4,12 +4,12 @@ variables:
   DOCKER_HOST: tcp://docker:2375/
   DOCKER_DRIVER: overlay2
 
-build_runtime_container:
+build_swiki_container:
   variables:
     IMAGE_NAME: "$CI_REGISTRY_IMAGE"
-    IMAGE_FULL: "$CI_REGISTRY_IMAGE:$CI_COMMIT_BRANCH-runtime"
+    IMAGE_FULL: "$CI_REGISTRY_IMAGE:$CI_COMMIT_BRANCH-wiki"
   tags:
-    - saas-linux-large-amd64
+    - saas-linux-medium-amd64
   stage: build
   services:
     - docker:dind
@@ -23,10 +23,10 @@ build_runtime_container:
         --cache-from type=local,src=docker_cache --cache-to type=local,mode=max,dest=docker_cache \
         --push \
         --tag "$IMAGE_FULL" \
-        --tag "$IMAGE_NAME:latest" \
-        --file build/runtime/Dockerfile \
+        --tag "$IMAGE_NAME:wiki-latest" \
+        --file build/swiki/Dockerfile \
         .
   cache:
-    key: bot_runtime_docker_cache
+    key: wiki_docker_cache
     paths:
       - docker_cache

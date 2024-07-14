@@ -4,6 +4,7 @@ stages:
   - deploy
 
 include:
-  - '/build/test.yml'
+  - '/build/bot-test.yml'
   - '/build/runtime/build.yml'
+  - '/build/swiki/container.yml'
   - '/deploy/deploy.yml'
