@@ -1,10 +1,9 @@
-from aiogram import types
 from aiogram.filters import Filter
+from aiogram.types import Message
 
 from sophie_bot.config import CONFIG
 from sophie_bot.modules.legacy_modules.utils.language import get_strings_dec
 from sophie_bot.modules.legacy_modules.utils.user_details import is_user_admin
-from sophie_bot.services.db import db
 
 
 class IsAdmin(Filter):
@@ -34,8 +33,8 @@ class IsOwner(Filter):
     def __init__(self, is_owner):
         self.is_owner = is_owner
 
-    async def __call__(self, message: types.Message):
-        if message.from_user.id == CONFIG.owner_id:
+    async def __call__(self, message: Message):
+        if message.from_user and message.from_user.id == CONFIG.owner_id:
             return True
 
 
@@ -45,18 +44,6 @@ class IsOP(Filter):
     def __init__(self, is_op):
         self.is_owner = is_op
 
-    async def __call__(self, message: types.Message):
-        if message.from_user.id in CONFIG.operators:
-            return True
-
-
-class NotGbanned(Filter):
-    key = "not_gbanned"
-
-    def __init__(self, not_gbanned):
-        self.not_gbanned = not_gbanned
-
-    async def __call__(self, message: types.Message):
-        check = await db.blacklisted_users.find_one({"user": message.from_user.id})
-        if not check:
+    async def __call__(self, message: Message):
+        if message.from_user and message.from_user.id in CONFIG.operators:
             return True

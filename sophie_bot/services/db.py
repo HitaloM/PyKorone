@@ -26,12 +26,12 @@ from sophie_bot import log
 from sophie_bot.config import CONFIG
 from sophie_bot.db.models import models
 
-motor = AsyncIOMotorClient(CONFIG.mongo_host, CONFIG.mongo_port)
+motor: AsyncIOMotorClient = AsyncIOMotorClient(CONFIG.mongo_host, CONFIG.mongo_port)
 db = motor[CONFIG.mongo_db]
 
 
 async def init_db():
-    await init_beanie(database=db, document_models=models)
+    await init_beanie(database=db, document_models=models)  # type: ignore
 
 
 async def test_db():

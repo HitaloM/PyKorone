@@ -23,7 +23,7 @@ class ChatConnection:
 class ConnectionsMiddleware(BaseMiddleware):
     @staticmethod
     def get_current_chat_info(chat: Chat) -> ChatConnection:
-        title = chat.title if chat.type != "private" else _("Private chat")
+        title = chat.title if chat.type != "private" and chat.title else _("Private chat")
         return ChatConnection(is_connected=False, id=chat.id, type=ChatType[chat.type], title=title, db_model=None)
 
     @staticmethod

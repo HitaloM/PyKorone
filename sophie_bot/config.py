@@ -77,7 +77,7 @@ class Config(BaseSettings):
         env_file = "data/config.env"
         env_file_encoding = "utf-8"
 
-    @computed_field
+    @computed_field  # type: ignore[misc]
     @property
     def bot_id(self) -> int:
         return int(self.token.split(":")[0])

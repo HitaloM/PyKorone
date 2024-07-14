@@ -9,7 +9,7 @@ from pydantic import BaseModel
 
 from sophie_bot.db.models import ChatModel
 
-PARSABLE_CONTENT_TYPES = (
+PARSABLE_CONTENT_TYPES: tuple[ContentType, ...] = (
     ContentType.AUDIO,
     ContentType.ANIMATION,
     ContentType.DOCUMENT,
@@ -23,7 +23,7 @@ PARSABLE_CONTENT_TYPES = (
     # ContentType.POLL,
     # ContentType.DICE
 )
-CONTENT_TYPES_WITH_FILE_ID: tuple[PARSABLE_CONTENT_TYPES, ...] = (
+CONTENT_TYPES_WITH_FILE_ID: tuple[ContentType, ...] = (
     ContentType.AUDIO,
     ContentType.ANIMATION,
     ContentType.DOCUMENT,
@@ -37,7 +37,7 @@ CONTENT_TYPES_WITH_FILE_ID: tuple[PARSABLE_CONTENT_TYPES, ...] = (
 
 class NoteFile(BaseModel):
     id: str
-    type: PARSABLE_CONTENT_TYPES
+    type: ContentType
 
     class Config:
         arbitrary_types_allowed = True

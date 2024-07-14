@@ -1,4 +1,4 @@
-from typing import Optional
+from typing import Optional, Type
 
 from aiogram.enums import ContentType
 from aiogram.methods import (
@@ -24,7 +24,7 @@ from sophie_bot import bot
 from sophie_bot.db.models.notes import Saveable, SaveableParseMode
 from sophie_bot.modules.legacy_modules.modules.notes import get_note
 
-SEND_METHOD: dict[ContentType, TelegramMethod[Message]] = {
+SEND_METHOD: dict[ContentType, Type[TelegramMethod[Message]]] = {
     ContentType.TEXT: SendMessage,
     ContentType.AUDIO: SendAudio,
     ContentType.ANIMATION: SendAnimation,
@@ -49,7 +49,9 @@ async def send_saveable(
     # Legacy note
     if saveable.parse_mode != SaveableParseMode.html:
         compatible_db_item = saveable.model_dump()
-        compatible_db_item["parse_mode"] = saveable.parse_mode.value
+        compatible_db_item["parse_mode"] = (
+            saveable.parse_mode.value if saveable.parse_mode else SaveableParseMode.markdown
+        )
         return await get_note(message, db_item=compatible_db_item, rpl_id=reply_to, noformat=raw)
 
     text = saveable.text or ""
@@ -70,7 +72,7 @@ async def send_saveable(
         "text": text,
     }
 
-    if content_type == ContentType.TEXT:
+    if content_type == ContentType.TEXT or not saveable.file:
         kwargs["text"] = text
     else:
         kwargs[content_type] = saveable.file.id

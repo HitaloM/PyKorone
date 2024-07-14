@@ -36,11 +36,11 @@ class ChatModel(Document):
     last_saw: datetime
 
     # User in groups
-    user_in_groups: BackLink["UserInGroupModel"] = Field(original_field="user")
-    groups_of_user: BackLink["UserInGroupModel"] = Field(original_field="group")
+    user_in_groups: BackLink["UserInGroupModel"] = Field(original_field="user")  # type: ignore[call-arg]
+    groups_of_user: BackLink["UserInGroupModel"] = Field(original_field="group")  # type: ignore[call-arg]
 
     # Topics
-    chat_topics: BackLink["ChatTopicModel"] = Field(original_field="group")
+    chat_topics: BackLink["ChatTopicModel"] = Field(original_field="group")  # type: ignore[call-arg]
 
     class Settings:
         name = "chats"
@@ -91,7 +91,7 @@ class ChatModel(Document):
         )
 
     @staticmethod
-    async def do_chat_migrate(old_id: int, new_chat: Chat) -> "ChatModel":
+    async def do_chat_migrate(old_id: int, new_chat: Chat) -> Optional["ChatModel"]:
         chat = await ChatModel.find_one(ChatModel.chat_id == old_id)
         if chat:
             chat.chat_id = new_chat.id
@@ -182,7 +182,7 @@ class ChatTopicModel(Document):
 
     @staticmethod
     async def ensure_topic(group: ChatModel, thread_id: int, topic_name: Optional[str]):
-        model: ChatTopicModel = await ChatTopicModel.find_one(
+        model: Optional[ChatTopicModel] = await ChatTopicModel.find_one(
             ChatTopicModel.group.id == group.id, ChatTopicModel.thread_id == thread_id
         )
 

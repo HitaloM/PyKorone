@@ -1,4 +1,5 @@
 import ssl
+from typing import Optional
 
 from aiogram.webhook.aiohttp_server import (
     SimpleRequestHandler,
@@ -84,6 +85,7 @@ else:
 
     setup_application(app, dp, bot=bot)
 
+    ssl_context: Optional[ssl.SSLContext]
     if CONFIG.webhooks_https_certificate:
         log.info("Using HTTPs!")
 

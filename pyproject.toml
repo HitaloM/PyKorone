@@ -31,7 +31,7 @@ emoji-country-flag = "~2"
 pydantic-settings = "~2.3"
 structlog = "^24.2.0"
 stfu-tg = "2.2"
-ass-tg = "^2.2.0"
+ass-tg = "^2.2"
 beanie = "^1.26.0"
 better-exceptions = "^0.3.3"
 
@@ -46,6 +46,9 @@ devtools = { extras = ["pygments"], version = "~0.12" }
 pytest = "^8"
 pyright = "^1.1.274"
 black = "~23"
+mypy = "1.10.1"
+types-ujson = "^5.10.0.20240515"
+types-pytz = "^2024.1.0.20240417"
 
 [tool.poetry.extras]
 fast = ["aiohttp", "cryptg", "cryptography"]
@@ -62,4 +65,9 @@ profile = "black"
 line-length = 120
 
 [tool.pyright]
-exclude = ["**/legacy_modules/", '**/db/models/']
+exclude = ["**/legacy_modules/", '**/db/models/', '**/legacy_**.py']
+
+[tool.mypy]
+ignore_missing_imports = true
+exclude = ["legacy_modules", 'legacy_.*.py']
+check_untyped_defs = true

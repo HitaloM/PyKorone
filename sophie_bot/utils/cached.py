@@ -56,7 +56,8 @@ class cached:
         key = self.__build_key(*args, **kwargs)
 
         if bredis.exists(key):
-            value = pickle.loads(bredis.get(key))
+            # TODO: Get tid of pickle
+            value = pickle.loads(bredis.get(key))  # type: ignore[arg-type]
             return value if type(value) is not _NotSet else value.real_value
 
         result = await self.func(*args, **kwargs)

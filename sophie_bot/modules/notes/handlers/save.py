@@ -1,4 +1,4 @@
-from typing import Any, Optional
+from typing import Any
 
 from aiogram import flags
 from aiogram.handlers import MessageHandler
@@ -56,7 +56,7 @@ class SaveNote(MessageHandler):
     async def save(message: Message, chat_id: int, data: dict) -> bool:
         model = await NoteModel.get_by_notenames(chat_id, data["notenames"])
 
-        note_data: Optional[Saveable] = await parse_saveable(message, data.get("raw_text"))
+        note_data: Saveable = await parse_saveable(message, data.get("raw_text"))
 
         data = {
             "chat_id": chat_id,

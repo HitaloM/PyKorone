@@ -48,12 +48,16 @@ class SaveChatsMiddleware(BaseMiddleware):
         # Reply to a forwarded message
         reply_to_forwarded = reply_message.forward_from_chat or reply_message.forward_from
         if reply_to_forwarded and reply_to_forwarded.id != CONFIG.bot_id:
-            chats_to_update.append(reply_message.forward_from_chat or reply_message.forward_from)
+            if reply_message.forward_from_chat:
+                chats_to_update.append(reply_message.forward_from_chat)
+            elif reply_message.forward_from:
+                chats_to_update.append(reply_message.forward_from)
 
         return chats_to_update
 
     @staticmethod
     async def save_topic(message: Message, group: ChatModel):
+        name: Optional[str]
         if message.forum_topic_created:
             name = message.forum_topic_created.name
         elif message.forum_topic_edited:
@@ -145,7 +149,10 @@ class SaveChatsMiddleware(BaseMiddleware):
             chats_to_update.extend(await self.handle_replied_message(reply_message, chat_id))
 
         elif message.forward_from or (message.forward_from_chat and message.forward_from_chat.id != group.chat_id):
-            chats_to_update.append(message.forward_from_chat or message.forward_from)
+            if message.forward_from_chat:
+                chats_to_update.append(message.forward_from_chat)
+            elif message.forward_from:
+                chats_to_update.append(message.forward_from)
 
         return chats_to_update
 
@@ -185,7 +192,7 @@ class SaveChatsMiddleware(BaseMiddleware):
     async def __call__(
         self,
         handler: Callable[[Update, dict[str, Any]], Awaitable[Any]],
-        update: Update,
+        update: Update,  # type: ignore[override]
         data: dict[str, Any],
     ) -> Any:
         _continue = True

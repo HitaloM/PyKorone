@@ -26,7 +26,7 @@ def extract_file_info(message: Message) -> Optional[NoteFile]:
         attr = attr[-1]
 
     file_id: Optional[str] = getattr(attr, "file_id", None)
-    return NoteFile(id=file_id, type=message.content_type) if file_id else None
+    return NoteFile(id=file_id, type=ContentType(message.content_type)) if file_id else None
 
 
 def parse_reply_message(message: Message) -> tuple[Optional[str], Optional[NoteFile]]:
