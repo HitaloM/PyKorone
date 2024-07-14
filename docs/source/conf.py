@@ -24,7 +24,7 @@ extensions = [
     "sphinx.ext.viewcode",
     "myst_parser",
     "sphinx_copybutton",
-    "sphinxcontrib.towncrier.ext",
+    "sphinxcontrib.towncrier",
 ]
 
 intersphinx_mapping = {"python": ("https://docs.python.org/3", None)}
@@ -35,9 +35,12 @@ html_use_index = False
 master_doc = "index"
 source_suffix = [".rst", ".md"]
 autodoc_member_order = "bysource"
-
-pygments_style = "sphinx"
 autodoc_typehints = "none"
+pygments_style = "sphinx"
+
+towncrier_draft_autoversion_mode = "draft"
+towncrier_draft_include_empty = True
+towncrier_draft_working_directory = Path(__file__).parent.parent.parent
 
 exclude_patterns = ["_build", "Thumbs.db", ".DS_Store"]
 
