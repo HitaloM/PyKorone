@@ -46,7 +46,7 @@ class BetaModeModel(Document):
     @staticmethod
     async def set_preferred_mode(chat_id: int, new_mode: PreferredMode) -> "BetaModeModel":
         return await BetaModeModel.find_one(BetaModeModel.chat_id == chat_id).upsert(
-            Set({BetaModeModel.preferred_mode: new_mode.beta}),
+            Set({BetaModeModel.preferred_mode: new_mode}),
             Unset({BetaModeModel.mode: 1}),
             on_insert=BetaModeModel(
                 chat_id=chat_id,

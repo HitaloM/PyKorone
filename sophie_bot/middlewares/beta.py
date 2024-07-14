@@ -5,7 +5,7 @@ from aiohttp import ClientError, ClientSession
 
 from sophie_bot import CONFIG
 from sophie_bot.db.models import BetaModeModel, GlobalSettings
-from sophie_bot.db.models.beta import CurrentMode
+from sophie_bot.db.models.beta import CurrentMode, PreferredMode
 from sophie_bot.utils.exception import SophieException
 from sophie_bot.utils.logger import log
 
@@ -55,12 +55,21 @@ class BetaMiddleware(BaseMiddleware):
 
     async def is_beta(self, chat_id: int) -> bool:
         model = await BetaModeModel.get_by_chat_id(chat_id)
+        # Current mode
         if model and model.mode:
             if model.mode == CurrentMode.beta:
                 return True
             elif model.mode == CurrentMode.stable:
                 return False
 
+        # If it has a preferred mode
+        if model and model.preferred_mode:
+            if model.preferred_mode == PreferredMode.beta:
+                return True
+            elif model.preferred_mode == PreferredMode.stable:
+                return False
+
+        # Random
         gs_beta_db = await GlobalSettings.get_by_key("beta_percentage")
         percentage = int(gs_beta_db.value) if gs_beta_db else 0
 

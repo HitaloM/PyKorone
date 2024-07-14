@@ -1,32 +1,26 @@
 from aiogram import flags
 from aiogram.types import InlineKeyboardButton, InlineKeyboardMarkup, Message
 from ass_tg.types import OneOf
-from stfu_tg import KeyValue, Section
+from stfu_tg import Italic, KeyValue, Section, Template
 
 from sophie_bot import CONFIG
-from sophie_bot.db.cache.beta import cache_get_chat_beta
-from sophie_bot.db.models.beta import BetaModeModel, PreferredMode
-from sophie_bot.utils.exception import SophieException
+from sophie_bot.db.models.beta import BetaModeModel, CurrentMode, PreferredMode
 from sophie_bot.utils.i18n import gettext as _
 from sophie_bot.utils.i18n import lazy_gettext as _l
+from sophie_bot.utils.i18n import lazy_gettext as l_
+
+mode_names = {
+    "auto": l_("Auto"),
+    "stable": l_("Stable"),
+    "beta": l_("Beta"),
+}
 
 
 @flags.args(
     new_state=OneOf(("auto", "stable", "beta"), _l("Preferred strategy mode")),
 )
 async def set_preferred_mode(message: Message, new_state: str):
-    match new_state:
-        case "stable":
-            state = PreferredMode.stable
-            state_text = _("stable")
-        case "beta":
-            state = PreferredMode.beta
-            state_text = _("beta")
-        case "auto":
-            state = PreferredMode.auto
-            state_text = _("auto")
-        case _:
-            raise SophieException("Unknown strategy mode after ASS validation!")
+    state = PreferredMode[new_state]
 
     await BetaModeModel.set_preferred_mode(message.chat.id, state)
 
@@ -44,7 +38,7 @@ async def set_preferred_mode(message: Message, new_state: str):
     await message.reply(
         str(
             Section(
-                KeyValue("New strategy", state_text),
+                KeyValue("New strategy", mode_names[state.name]),
                 (
                     (
                         "Please keep in mind, that Beta mode can have bugs and issues."
@@ -68,12 +62,18 @@ async def set_preferred_mode(message: Message, new_state: str):
 
 
 async def show_beta_state(message):
-    beta_state = await cache_get_chat_beta(message.chat.id)
+    beta_state = await BetaModeModel.get_by_chat_id(message.chat.id)
+
+    preferred_mode = PreferredMode(beta_state.preferred_mode) if beta_state.preferred_mode else PreferredMode.auto
+    current_mode = CurrentMode(beta_state.mode) if beta_state.mode else preferred_mode
+
     await message.reply(
         str(
             Section(
-                KeyValue("Beta status", "Enabled" if beta_state else "Disabled"),
-                title="Beta status",
+                KeyValue("Preferred mode", mode_names[preferred_mode.name]),
+                KeyValue("Current mode", mode_names[current_mode.name]),
+                title="Beta mode information",
             )
+            + Template(_("Use '{cmd}' to change it."), cmd=Italic("/enablebeta (auto / stable / beta)")),
         )
     )
