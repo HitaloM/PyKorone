@@ -75,3 +75,5 @@ TRANSLATIONS_URL: str = "https://weblate.amanoteam.com/projects/korone/"
 GITHUB_URL: str = "https://github.com/HitaloM/PyKorone"
 
 TELEGRAM_URL: str = "https://t.me/PyKorone"
+
+DOCS_URL: str = "https://pykorone.readthedocs.io"

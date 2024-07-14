@@ -131,7 +131,7 @@ class GetYouTubeHandler(CallbackQueryHandler):
         action = ChatAction.UPLOAD_VIDEO if media_type == "video" else ChatAction.UPLOAD_AUDIO
         download_method = ytdl.download_video if media_type == "video" else ytdl.download_audio
 
-        await message.edit_text(_("Downloading..."))
+        await message.edit(_("Downloading..."))
 
         try:
             yt = await download_method(url)
@@ -144,14 +144,14 @@ class GetYouTubeHandler(CallbackQueryHandler):
             else:
                 text = _("Failed to download the media.")
 
-            await message.edit_text(text)
+            await message.edit(text)
             return
 
         if not ytdl.file_path:
-            await message.edit_text(_("Failed to download the media."))
+            await message.edit(_("Failed to download the media."))
             return
 
-        await message.edit_text(_("Uploading..."))
+        await message.edit(_("Uploading..."))
 
         caption = f"<a href='{yt.url}'>{yt.title}</a>"
 
@@ -180,7 +180,7 @@ class GetYouTubeHandler(CallbackQueryHandler):
                     )
             await message.delete()
         except Exception:
-            await message.edit_text(_("Failed to send the media."))
+            await message.edit(_("Failed to send the media."))
         finally:
             ytdl.clear()
 

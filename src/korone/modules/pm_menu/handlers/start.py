@@ -1,11 +1,14 @@
 # SPDX-License-Identifier: BSD-3-Clause
 # Copyright (c) 2024 Hitalo M. <https://github.com/HitaloM>
 
+from contextlib import suppress
+
 from babel import Locale
 from flag import flag
 from hairydogm.keyboard import InlineKeyboardBuilder
 from hydrogram import Client
 from hydrogram.enums import ChatType
+from hydrogram.errors import MessageNotModified
 from hydrogram.types import CallbackQuery, InlineKeyboardMarkup, Message
 from magic_filter import F
 
@@ -46,6 +49,7 @@ class Start(MessageHandler, BaseHandler):
     @router.message(Command("start"))
     async def handle(self, client: Client, message: Message) -> None:
         text = self.build_text()
+
         if message.chat.type != ChatType.PRIVATE:
             await message.reply(text)
             return
@@ -59,5 +63,5 @@ class StartCallback(CallbackQueryHandler, BaseHandler):
     async def handle(self, client: Client, callback: CallbackQuery) -> None:
         text = self.build_text()
         keyboard = self.build_keyboard(get_i18n().current_locale)
-
-        await callback.message.edit_text(text, reply_markup=keyboard)
+        with suppress(MessageNotModified):
+            await callback.message.edit(text, reply_markup=keyboard)

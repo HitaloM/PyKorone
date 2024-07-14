@@ -83,9 +83,7 @@ class TranslateHandler(MessageHandler):
 
         try:
             deepl = DeepL()
-            translation = await deepl.translate_text(
-                text=text, target_lang=target_lang, source_lang=source_lang
-            )
+            translation = await deepl.translate_text(text, target_lang, source_lang)
         except QuotaExceededError:
             await message.reply(
                 _(

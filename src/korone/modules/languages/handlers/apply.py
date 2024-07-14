@@ -34,7 +34,7 @@ class ApplyLanguage(CallbackQueryHandler):
 
         text, keyboard = await self.prepare_response(language)
 
-        await callback.message.edit_text(
+        await callback.message.edit(
             text,
             reply_markup=keyboard.as_markup() if keyboard else None,  # type: ignore
             disable_web_page_preview=True,

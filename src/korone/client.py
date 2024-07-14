@@ -79,7 +79,7 @@ class Korone(Client):
                 time_elapsed = round(time.time() - reboot_data["time"], 2)
                 text = f"Rebooted in {time_elapsed} seconds."
 
-                await self.edit_message_text(chat_id=chat_id, message_id=message_id, text=text)
+                await self.edit_message_text(chat_id, message_id, text)
 
             await cache.delete(cache_key)
 

@@ -1,9 +1,12 @@
 # SPDX-License-Identifier: BSD-3-Clause
 # Copyright (c) 2024 Hitalo M. <https://github.com/HitaloM>
 
+from contextlib import suppress
+
 from hairydogm.keyboard import InlineKeyboardBuilder
 from hydrogram import Client
 from hydrogram.enums import ChatType
+from hydrogram.errors import MessageNotModified
 from hydrogram.types import CallbackQuery, InlineKeyboardButton, InlineKeyboardMarkup, Message
 from magic_filter import F
 
@@ -65,7 +68,6 @@ class About(MessageHandler, BaseHandler):
     async def handle(self, client: Client, message: Message) -> None:
         text = self.build_text()
         keyboard = self.build_keyboard(message)
-
         await message.reply(text, reply_markup=keyboard, disable_web_page_preview=True)
 
 
@@ -74,7 +76,5 @@ class AboutCallback(CallbackQueryHandler, BaseHandler):
     async def handle(self, client: Client, callback: CallbackQuery) -> None:
         text = self.build_text()
         keyboard = self.build_keyboard(callback.message)
-
-        await callback.message.edit_text(
-            text, reply_markup=keyboard, disable_web_page_preview=True
-        )
+        with suppress(MessageNotModified):
+            await callback.message.edit(text, reply_markup=keyboard, disable_web_page_preview=True)

@@ -34,11 +34,11 @@ class UpdateCommand(MessageHandler):
             await run_command("git fetch origin")
             stdout = await run_command("git log HEAD..origin/main --oneline")
         except Exception as e:
-            await sent.edit_text(f"An error occurred:\n<code>{e}</code>")
+            await sent.edit(f"An error occurred:\n<code>{e}</code>")
             return
 
         if not stdout.strip():
-            await sent.edit_text("There is nothing to update.")
+            await sent.edit("There is nothing to update.")
             return
 
         commits = self.parse_commits(stdout)
@@ -54,7 +54,7 @@ class UpdateCommand(MessageHandler):
         keyboard = InlineKeyboardBuilder().button(
             text="🆕 Update", callback_data=UpdateCallbackData()
         )
-        await sent.edit_text(changelog, reply_markup=keyboard.as_markup())
+        await sent.edit(changelog, reply_markup=keyboard.as_markup())
 
 
 class UpdateCallback(CallbackQueryHandler):
@@ -79,7 +79,7 @@ class UpdateCallback(CallbackQueryHandler):
         try:
             stdout = "".join([await run_command(command) for command in commands])
         except Exception as e:
-            await sent.edit_text(f"An error occurred:\n<code>{e}</code>")
+            await sent.edit(f"An error occurred:\n<code>{e}</code>")
             return
 
         text = "Upgrade completed successfully. Reboot is required..."

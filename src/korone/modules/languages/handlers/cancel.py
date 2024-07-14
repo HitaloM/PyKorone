@@ -21,7 +21,7 @@ class ChangeLanguageCancel(CallbackQueryHandler):
     async def handle(client: Client, callback: CallbackQuery):
         message = callback.message
 
-        await message.edit_text(
+        await message.edit(
             _(
                 "Changing language was canceled, you can change language again "
                 "by using /language command."

@@ -20,7 +20,7 @@ class IsPrivateChat(Filter):
 
     async def __call__(self) -> bool:
         if self.message.chat.type != ChatType.PRIVATE:
-            await self.message.reply_text(
+            await self.message.reply(
                 _("This command was designed to be used in PM, not in group chats!")
             )
             return False
@@ -40,7 +40,7 @@ class IsGroupChat(Filter):
 
     async def __call__(self) -> bool:
         if self.message.chat.type not in {ChatType.GROUP, ChatType.SUPERGROUP}:
-            await self.message.reply_text(
+            await self.message.reply(
                 _("This command was designed to be used in group chats, not in PM!")
             )
             return False
