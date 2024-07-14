@@ -80,16 +80,20 @@ msgstr ""
 msgid "Optionals {}"
 msgstr ""
 
-#: types/logic.py:43 types/logic.py:44
+#: types/logic.py:44 types/logic.py:45 types/one_of.py:28 types/one_of.py:31
 msgid " or "
 msgstr ""
 
-#: types/logic.py:106
+#: types/logic.py:107
 msgid ", and "
 msgstr ""
 
-#: types/logic.py:122
+#: types/logic.py:123
 msgid "Example syntax"
+msgstr ""
+
+#: types/one_of.py:27 types/one_of.py:30
+msgid "One of: {}"
 msgstr ""
 
 #: types/oneword.py:14

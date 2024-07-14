@@ -3,5 +3,15 @@ from sophie_bot.db.models.chat import ChatModel, ChatTopicModel, UserInGroupMode
 from sophie_bot.db.models.chat_connections import ChatConnectionModel
 from sophie_bot.db.models.language import LanguageModel
 from sophie_bot.db.models.notes import NoteModel
+from sophie_bot.db.models.settings_keyvalue import GlobalSettings
 
-models = [BetaModeModel, ChatModel, UserInGroupModel, ChatTopicModel, LanguageModel, ChatConnectionModel, NoteModel]
+models = [
+    ChatModel,
+    UserInGroupModel,
+    ChatTopicModel,
+    LanguageModel,
+    ChatConnectionModel,
+    NoteModel,
+    BetaModeModel,
+    GlobalSettings,
+]

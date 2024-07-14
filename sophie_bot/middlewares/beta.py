@@ -1,8 +1,11 @@
+from random import randint
+
 from aiogram.dispatcher.event.bases import UNHANDLED
 from aiohttp import ClientError, ClientSession
 
 from sophie_bot import CONFIG
-from sophie_bot.db.cache.beta import cache_get_chat_beta
+from sophie_bot.db.models import BetaModeModel, GlobalSettings
+from sophie_bot.db.models.beta import CurrentMode
 from sophie_bot.utils.exception import SophieException
 from sophie_bot.utils.logger import log
 
@@ -41,7 +44,7 @@ class BetaMiddleware(BaseMiddleware):
 
         json_request = self.get_data(update)
         log.debug("Request data", json_request=json_request)
-        if CONFIG.proxy_always_beta or (chat and await cache_get_chat_beta(chat.id)):
+        if CONFIG.proxy_always_beta or (chat and await self.is_beta(chat.id)):
             log.debug("Sending request to Beta Sophie...")
             await self.send_request(json_request, CONFIG.proxy_beta_instance_url)
         else:
@@ -49,6 +52,26 @@ class BetaMiddleware(BaseMiddleware):
             await self.send_request(json_request, CONFIG.proxy_stable_instance_url)
 
         return response
+
+    async def is_beta(self, chat_id: int) -> bool:
+        model = await BetaModeModel.get_by_chat_id(chat_id)
+        if model and model.mode:
+            if model.mode == CurrentMode.beta:
+                return True
+            elif model.mode == CurrentMode.stable:
+                return False
+
+        gs_beta_db = await GlobalSettings.get_by_key("beta_percentage")
+        percentage = int(gs_beta_db.value) if gs_beta_db else 0
+
+        if percentage <= 0:
+            return False
+
+        new_mode = CurrentMode.beta if randint(0, 100) <= percentage else CurrentMode.stable
+        log.debug("Random beta mode generated", chat_id=chat_id, new_mode=new_mode)
+        await BetaModeModel.set_mode(chat_id=chat_id, new_mode=new_mode)
+
+        return new_mode == CurrentMode.beta
 
     def get_data(self, update: Update):
         raw_json = update.model_dump_json(by_alias=True, exclude_none=True, exclude_defaults=True, indent=1)
@@ -69,6 +92,7 @@ class BetaMiddleware(BaseMiddleware):
         return data
 
     async def send_request(self, json_request: str, instance_url: str):
+        return
         try:
             session = await self.get_session()
             await session.post(instance_url, data=json_request)

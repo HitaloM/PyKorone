@@ -8,6 +8,18 @@ msgid ""
 "connect again."
 msgstr ""
 
+#: sophie_bot/modules/beta/handlers/beta_state.py:21
+msgid "stable"
+msgstr ""
+
+#: sophie_bot/modules/beta/handlers/beta_state.py:24
+msgid "beta"
+msgstr ""
+
+#: sophie_bot/modules/beta/handlers/beta_state.py:27
+msgid "auto"
+msgstr ""
+
 #: sophie_bot/modules/error/handlers/error.py:78
 msgid "😞 I've got an error trying to process this update"
 msgstr ""
