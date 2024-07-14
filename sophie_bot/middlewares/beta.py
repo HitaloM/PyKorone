@@ -92,7 +92,6 @@ class BetaMiddleware(BaseMiddleware):
         return data
 
     async def send_request(self, json_request: str, instance_url: str):
-        return
         try:
             session = await self.get_session()
             await session.post(instance_url, data=json_request)

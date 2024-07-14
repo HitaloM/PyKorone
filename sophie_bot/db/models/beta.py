@@ -2,7 +2,7 @@ from enum import Enum
 from typing import Optional
 
 from beanie import Document, UpdateResponse
-from beanie.odm.operators.update.general import Set
+from beanie.odm.operators.update.general import Set, Unset
 
 
 class PreferredMode(Enum):
@@ -46,7 +46,8 @@ class BetaModeModel(Document):
     @staticmethod
     async def set_preferred_mode(chat_id: int, new_mode: PreferredMode) -> "BetaModeModel":
         return await BetaModeModel.find_one(BetaModeModel.chat_id == chat_id).upsert(
-            Set({BetaModeModel.preferred_mode: new_mode}),
+            Set({BetaModeModel.preferred_mode: new_mode.beta}),
+            Unset({BetaModeModel.mode: 1}),
             on_insert=BetaModeModel(
                 chat_id=chat_id,
                 preferred_mode=new_mode,
