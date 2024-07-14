@@ -2369,12 +2369,12 @@ pbr = ">=2.0.0,<2.1.0 || >2.1.0"
 
 [[package]]
 name = "stfu-tg"
-version = "2.2"
+version = "2.3"
 description = "Sophie Text Formatting Utility"
 optional = false
 python-versions = "<4.0,>=3.9"
 files = [
-    {file = "stfu_tg-2.2-py3-none-any.whl", hash = "sha256:f050c74610dc8224d09496cb81fe655ce8ca78de220756d2d7f8b9236b1004eb"},
+    {file = "stfu_tg-2.3-py3-none-any.whl", hash = "sha256:b74da6db49db58e1926e134fb509a6eb837173e11733fd1c1407317408448873"},
 ]
 
 [[package]]
@@ -2841,4 +2841,4 @@ fast = ["aiohttp", "cryptg", "cryptography"]
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.11"
-content-hash = "c0a808e7c72bf2ee233f5d1944e1276c81f0e96fcd1e9fce8170b8efbdec735c"
+content-hash = "d3b5f57538edcb1c5ae6c937114caf7f1b5328afd3ad0e48d02c5908a42f28bc"
