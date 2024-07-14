@@ -4,7 +4,7 @@
 
 _PyKorone_ is a comprehensive, state-of-the-art Telegram bot that offers a variety of features to enhance your Telegram experience. It is designed to be flexible and adaptable to meet a wide range of user needs. The bot is built in Python and is designed for high efficiency and reliability.
 
-This documentation is your definitive guide to exploring and using _PyKorone_ to the fullest. Here you'll find detailed information about its features, step-by-step instructions, and tips on how to get the most out of the bot. If you have any questions or need help, our community is ready to assist you at [GitHub discussions](https://github.com/HitaloM/PyKorone/discussions).
+This documentation is your definitive guide to exploring and using _PyKorone_ to the fullest. Here you'll find detailed information about its features, step-by-step instructions, and tips on how to get the most out of the bot.
 
 ```{note}
 _PyKorone_ is licensed under the [BSD 3-Clause License](./license), a free software license compatible with the [GPL](https://www.gnu.org/licenses/gpl-3.0.en.html). This license is verified by the [Free Software Foundation](https://www.fsf.org/) and the [Open Source Initiative](https://opensource.org/).
@@ -52,6 +52,7 @@ license
 :caption: Project Links
 :hidden:
 
-GitHub <https://github.com/HitaloM/PyKorone>
-Telegram <https://t.me/PyKoroneBot>
+Source-code <https://github.com/HitaloM/PyKorone>
+News channel <https://t.me/PyKorone>
+Translations <https://weblate.amanoteam.com/projects/korone/korone/>
 ```
