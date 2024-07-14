@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: BSD-3-Clause
 # Copyright (c) 2024 Hitalo M. <https://github.com/HitaloM>
 
-import time
+import asyncio
 from dataclasses import dataclass
 
 import httpx
@@ -70,7 +70,7 @@ class DeepL:
                         log.debug(
                             "[DeepL] Rate limit exceeded, retrying in %s seconds...", backoff
                         )
-                        time.sleep(backoff)
+                        await asyncio.sleep(backoff)
                         retries += 1
                         backoff *= 2
                     elif status_code == 456:
@@ -81,7 +81,7 @@ class DeepL:
                         log.debug(
                             "[DeepL] Internal server error, retrying in %s seconds...", backoff
                         )
-                        time.sleep(backoff)
+                        await asyncio.sleep(backoff)
                         retries += 1
                         backoff *= 2
                     else:

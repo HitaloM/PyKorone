@@ -36,7 +36,7 @@ build-backend = "hatchling.build"
 
 [tool.rye]
 managed = true
-dev-dependencies = ["pre-commit>=3.7.1", "ruff>=0.5.1"]
+dev-dependencies = ["pre-commit>=3.7.1", "ruff>=0.5.2"]
 
 [project.optional-dependencies]
 docs = [
@@ -58,28 +58,29 @@ target-version = "py312"
 
 [tool.ruff.lint]
 select = [
-    "B",    # flake8-bugbear
-    "C4",   # flake8-comprehensions
-    "C90",  # mccabe
-    "CPY",  # flake8-copyright
-    "DTZ",  # flake8-datetimez
-    "E",    # pycodestyle
-    "EM",   # flake8-errmsg
-    "F",    # pyflakes
-    "FURB", # refurb
-    "G",    # flake8-logging-format
-    "I",    # isort
-    "N",    # pep8-naming
-    "PERF", # perflint
-    "PL",   # pylint
-    "PTH",  # flake8-use-pathlib
-    "RET",  # flake8-return
-    "RUF",  # ruff
-    "SIM",  # flake8-simplify
-    "TCH",  # flake8-type-checking
-    "TID",  # flake8-tidy-imports
-    "UP",   # pyupgrade
-    "W",    # pycodestyle
+    "ASYNC", # flake8-async
+    "B",     # flake8-bugbear
+    "C4",    # flake8-comprehensions
+    "C90",   # mccabe
+    "CPY",   # flake8-copyright
+    "DTZ",   # flake8-datetimez
+    "E",     # pycodestyle
+    "EM",    # flake8-errmsg
+    "F",     # pyflakes
+    "FURB",  # refurb
+    "G",     # flake8-logging-format
+    "I",     # isort
+    "N",     # pep8-naming
+    "PERF",  # perflint
+    "PL",    # pylint
+    "PTH",   # flake8-use-pathlib
+    "RET",   # flake8-return
+    "RUF",   # ruff
+    "SIM",   # flake8-simplify
+    "TCH",   # flake8-type-checking
+    "TID",   # flake8-tidy-imports
+    "UP",    # pyupgrade
+    "W",     # pycodestyle
 ]
 ignore = [
     "RUF001",
