@@ -14,8 +14,8 @@ from hydrogram.types import InputMediaPhoto, InputMediaVideo, Message
 
 from korone.decorators import router
 from korone.handlers.abstract import MessageHandler
-from korone.modules.media_dl.utils.cache import MediaCache
-from korone.modules.media_dl.utils.twitter import (
+from korone.modules.medias.utils.cache import MediaCache
+from korone.modules.medias.utils.twitter import (
     TweetData,
     TweetMedia,
     TweetMediaVariants,

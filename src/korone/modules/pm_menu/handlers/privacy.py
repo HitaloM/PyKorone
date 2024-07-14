@@ -3,14 +3,14 @@
 
 from hairydogm.keyboard import InlineKeyboardBuilder
 from hydrogram import Client
-from hydrogram.types import CallbackQuery, InlineKeyboardButton, Message
+from hydrogram.types import CallbackQuery, InlineKeyboardButton, Message, WebAppInfo
 from magic_filter import F
 
 from korone.decorators import router
 from korone.filters import Command
 from korone.filters.chat import IsPrivateChat
 from korone.handlers.abstract import CallbackQueryHandler, MessageHandler
-from korone.modules.pm_menu.callback_data import PMMenuCallback, PrivacyCallback
+from korone.modules.pm_menu.callback_data import PMMenuCallback
 from korone.utils.i18n import gettext as _
 
 
@@ -27,7 +27,7 @@ class PrivacyBaseHandler:
         keyboard = InlineKeyboardBuilder()
         keyboard.button(
             text=_("What Information We Collect"),
-            callback_data=PrivacyCallback(section="policy"),
+            web_app=WebAppInfo(url="https://pykorone.readthedocs.io/en/latest/privacy.html"),
         )
         keyboard.adjust(1)
         keyboard.row(
@@ -52,38 +52,3 @@ class PrivacyPolicyCallback(PrivacyBaseHandler, CallbackQueryHandler):
     async def handle(client: Client, callback: CallbackQuery):
         text, keyboard = PrivacyBaseHandler.get_privacy_message_and_keyboard()
         await callback.message.edit(text, reply_markup=keyboard)
-
-
-class PrivacySection(CallbackQueryHandler):
-    @staticmethod
-    @router.callback_query(PrivacyCallback.filter(F.section == "policy"))
-    async def handle(client: Client, callback: CallbackQuery):
-        if not callback.data:
-            return
-
-        text = _(
-            "<b>Information We Collect</b>\n"
-            "The bot collects the following information:\n"
-            "- <b>User Information:</b> ID, first name, last name, and username.\n"
-            "- <b>Group Information:</b> ID, title, username, and type (supergroup, group).\n"
-            "- <b>Bot Settings/Configurations:</b> Any settings or configurations you've "
-            "applied, such as your LastFM username for related commands.\n\n"
-            "<b>How and Why We Collect Your Information</b>\n"
-            "The information we process is obtained directly from you when you interact "
-            "with the bot in the following ways:\n"
-            "- <b>Direct Messaging:</b> When you message the bot privately or initiate a "
-            "conversation using the /start command.\n"
-            "- <b>Group Interactions:</b> When you interact with the bot in a group chat.\n"
-            "The information collected is used to provide you with the services you request "
-            "and to improve the bot's functionality.\n\n"
-            "<b>Note:</b> All these informations is publicly available on Telegram, and we "
-            "do not know your 'real' identity."
-        )
-
-        keyboard = InlineKeyboardBuilder()
-        keyboard.row(
-            InlineKeyboardButton(
-                text=_("🔙 Back"), callback_data=PMMenuCallback(menu="privacy").pack()
-            )
-        )
-        await callback.message.edit(text, reply_markup=keyboard.as_markup())

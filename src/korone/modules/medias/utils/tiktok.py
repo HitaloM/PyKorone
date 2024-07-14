@@ -13,7 +13,7 @@ from typing import BinaryIO
 import httpx
 
 from korone import cache
-from korone.modules.media_dl.utils.files import resize_thumbnail
+from korone.modules.medias.utils.files import resize_thumbnail
 from korone.utils.logging import log
 
 

@@ -1,34 +1,33 @@
 # SPDX-License-Identifier: BSD-3-Clause
 # Copyright (c) 2024 Hitalo M. <https://github.com/HitaloM>
 
-import textwrap
-
 from hairydogm.keyboard import InlineKeyboardBuilder
 from hydrogram import Client
 from hydrogram.enums import ChatType
-from hydrogram.types import CallbackQuery, InlineKeyboardButton, InlineKeyboardMarkup, Message
+from hydrogram.types import (
+    CallbackQuery,
+    InlineKeyboardButton,
+    InlineKeyboardMarkup,
+    Message,
+    WebAppInfo,
+)
 from magic_filter import F
 
 from korone.decorators import router
-from korone.filters import Command, CommandObject
+from korone.filters import Command
 from korone.handlers.abstract import CallbackQueryHandler, MessageHandler
-from korone.modules import MODULES
-from korone.modules.pm_menu.callback_data import GetHelpCallback, PMMenuCallback
+from korone.modules.pm_menu.callback_data import PMMenuCallback
 from korone.utils.i18n import gettext as _
 
 
-class Help(MessageHandler):
+class HelpBase:
     @staticmethod
     def build_keyboard() -> InlineKeyboardMarkup:
         keyboard = InlineKeyboardBuilder()
-        for module in MODULES.items():
-            if "info" not in module[1]:
-                continue
-
-            module_name = module[1]["info"]["name"]
-            keyboard.button(text=module_name, callback_data=GetHelpCallback(module=module[0]))
-
-        keyboard.adjust(3)
+        keyboard.button(
+            text=_("Documentation"),
+            web_app=WebAppInfo(url="https://pykorone.readthedocs.io/"),
+        )
         keyboard.row(
             InlineKeyboardButton(
                 text=_("⬅️ Back"), callback_data=PMMenuCallback(menu="start").pack()
@@ -39,86 +38,31 @@ class Help(MessageHandler):
     @staticmethod
     def build_text() -> str:
         return _(
-            textwrap.dedent("""\
-            Welcome to the Help Menu! Here, you will find all the commands and modules available.
-
-            <b>Useful commands</b>:
-            - /start: Start the bot. You may already know this.
-            - /help: Display this message.
-            - /help &lt;module name&gt;: Display help for the specified module.
-            - /privacy: Display our privacy policy.
-            - /language: Change the bot's language.
-            - /about: Show information about the bot.
-
-            For documentation on the functionality and usage of each module, use the buttons below.
-            """)
+            "Read the documentation, it will give you an introduction to how the bot "
+            "works and how to use each of the commands available. You can go to Modules "
+            "section to see the list of available commands.\n\n"
+            "Start reading by clicking the button below."
         )
 
+
+class HelpCommand(HelpBase, MessageHandler):
     @router.message(Command("help"))
     async def handle(self, client: Client, message: Message) -> None:
         if message.chat.type in {ChatType.GROUP, ChatType.SUPERGROUP}:
+            bot_username = client.me.username  # type: ignore
             keyboard = InlineKeyboardBuilder()
-            keyboard.button(text=_("👮‍♂️ Help"), url="https://t.me/PyKoroneBot?start=start")
+            keyboard.button(text=_("👮‍♂️ Help"), url=f"https://t.me/{bot_username}?start=start")
             await message.reply(
                 _("Message me in PM to get help."), reply_markup=keyboard.as_markup()
             )
             return
 
-        command = CommandObject(message).parse()
-
-        text = self.build_text()
         keyboard = self.build_keyboard()
-        if query := command.args:
-            text = GetHelp().build_text(query)
-            if _("Module not found.") in text:
-                await message.reply(text)
-                return
-
-            keyboard = GetHelp().build_keyboard()
-
-        await message.reply(text, reply_markup=keyboard)
+        await message.reply(text=self.build_text(), reply_markup=keyboard)
 
 
-class GetHelp(CallbackQueryHandler):
-    @staticmethod
-    def build_keyboard() -> InlineKeyboardMarkup:
-        keyboard = InlineKeyboardBuilder()
-        keyboard.button(text=_("⬅️ Back"), callback_data=PMMenuCallback(menu="help"))
-        return keyboard.as_markup()
-
-    @staticmethod
-    def build_text(module_name: str) -> str:
-        module_name = module_name.lower()
-        for module_key, module_info in MODULES.items():
-            if "info" not in module_info:
-                continue
-
-            if module_name in (module_info["info"]["name"].lower(), module_key.lower()):  # noqa: PLR6201
-                name = module_info["info"]["name"]
-                summary = module_info["info"]["summary"]
-                doc = module_info["info"]["doc"]
-
-                return f"<b>{name}</b>\n\n{summary}\n\n{doc}"
-
-        return _("Module not found.")
-
-    @router.callback_query(GetHelpCallback.filter())
-    async def handle(self, client: Client, callback: CallbackQuery) -> None:
-        if not callback.data:
-            return
-
-        module = GetHelpCallback.unpack(callback.data).module
-        await callback.message.edit_text(
-            text=self.build_text(module),
-            reply_markup=self.build_keyboard(),
-        )
-
-
-class HelpCallbackHandler(CallbackQueryHandler):
-    @staticmethod
+class HelpCallback(HelpBase, CallbackQueryHandler):
     @router.callback_query(PMMenuCallback.filter(F.menu == "help"))
-    async def handle(client: Client, callback: CallbackQuery) -> None:
-        text = Help.build_text()
-        keyboard = Help.build_keyboard()
-
-        await callback.message.edit_text(text, reply_markup=keyboard)
+    async def handle(self, client: Client, callback: CallbackQuery) -> None:
+        keyboard = self.build_keyboard()
+        await callback.message.edit(text=self.build_text(), reply_markup=keyboard)

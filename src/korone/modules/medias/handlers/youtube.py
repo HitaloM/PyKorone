@@ -13,8 +13,8 @@ from hydrogram.types import CallbackQuery, InlineKeyboardMarkup, Message
 from korone.decorators import router
 from korone.filters import Command, CommandObject
 from korone.handlers.abstract import CallbackQueryHandler, MessageHandler
-from korone.modules.media_dl.callback_data import YtGetCallback
-from korone.modules.media_dl.utils.youtube import (
+from korone.modules.medias.callback_data import YtGetCallback
+from korone.modules.medias.utils.youtube import (
     DownloadError,
     InfoExtractionError,
     VideoInfo,

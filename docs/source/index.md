@@ -1,7 +1,5 @@
 # The state of the art Telegram bot
 
-> All-In-One Telegram Bot
-
 _PyKorone_ is a comprehensive, state-of-the-art Telegram bot that offers a variety of features to enhance your Telegram experience. It is designed to be flexible and adaptable to meet a wide range of user needs. The bot is built in Python and is designed for high efficiency and reliability.
 
 This documentation is your definitive guide to exploring and using _PyKorone_ to the fullest. Here you'll find detailed information about its features, step-by-step instructions, and tips on how to get the most out of the bot.

@@ -24,18 +24,6 @@ COMMANDS: dict[str, Any] = {}
 NOT_DISABLEABLE: set[str] = set()
 
 
-def add_module_info(module_name: str, module_info: Callable) -> None:
-    module_data = {"handlers": [], "info": {}}
-    required_attrs = ["name", "summary", "doc"]
-    for attr in required_attrs:
-        attr_value = bfs_attr_search(module_info, attr)
-        if attr_value is None:
-            msg = f"Missing attribute '{attr}' in ModuleInfo of module '{module_name}'"
-            raise ValueError(msg)
-        module_data["info"][attr] = attr_value
-    MODULES[module_name] = module_data
-
-
 def add_handlers(module_name: str, handlers_path: Path) -> None:
     MODULES[module_name]["handlers"] = [
         f"{module_name}.handlers.{file.stem}"
@@ -51,16 +39,6 @@ def add_modules_to_dict() -> None:
             handlers_path = Path(entry.path) / "handlers"
             module_name = handlers_path.relative_to(parent_path).parts[0]
             MODULES[module_name] = {"handlers": []}
-
-            module_pkg = f"korone.modules.{module_name}"
-            try:
-                module = import_module(".__init__", module_pkg)
-                module_info = bfs_attr_search(module, "ModuleInfo")
-                if module_info:
-                    add_module_info(module_name, module_info)
-            except AttributeError:
-                pass
-
             add_handlers(module_name, handlers_path)
 
 

@@ -11,7 +11,7 @@ from magic_filter import F
 
 from korone.decorators import router
 from korone.handlers.abstract import CallbackQueryHandler
-from korone.modules.language.callback_data import LangMenuCallback
+from korone.modules.languages.callback_data import LangMenuCallback
 from korone.utils.i18n import gettext as _
 
 
