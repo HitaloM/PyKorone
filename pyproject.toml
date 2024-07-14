@@ -45,6 +45,8 @@ docs = [
     "sphinx-autobuild>=2024.4.16",
     "sphinx-copybutton>=0.5.2",
     "myst-parser>=3.0.1",
+    "towncrier>=23.11.0",
+    "sphinxcontrib-towncrier>=0.4.0a0",
 ]
 
 [tool.hatch.metadata]
@@ -104,8 +106,27 @@ notice-rgx = "(?i)Copyright \\(C\\) \\d{4}"
 [tool.ruff.lint.flake8-tidy-imports]
 ban-relative-imports = "all"
 
+[tool.towncrier]
+package = "korone"
+package_dir = "src"
+filename = "NEWS.rst"
+directory = "news/"
+template = "news/template.rst"
+issue_format = "`#{issue} <https://github.com/HitaloM/PyKorone/issues/{issue}>`_"
+type = [
+    { name = "Removals", directory = "removal", showcontent = true },
+    { name = "Features", directory = "feature", showcontent = true },
+    { name = "Bug Fixes", directory = "bugfix", showcontent = true },
+    { name = "Improved Documentation", directory = "doc", showcontent = true },
+    { name = "Misc", directory = "misc", showcontent = false },
+]
+
 [tool.rye.scripts]
 clean-docs = { cmd = "rm -rf docs/build" }
 build-docs = { cmd = "sphinx-build -b html docs/source docs/build" }
 live-docs = { cmd = "sphinx-autobuild  docs/source docs/build --watch src" }
+
 pybabel-extract = { cmd = "pybabel extract --keywords='__ _' --input-dirs=. -o locales/bot.pot --project='PyKorone' --version='1.0' --copyright-holder='Hitalo M.'" }
+
+towncrier = { cmd = "towncrier build --yes" }
+towncrier-draft = { cmd = "towncrier build --draft" }

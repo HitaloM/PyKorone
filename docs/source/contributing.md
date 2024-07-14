@@ -10,13 +10,13 @@ Since this project is written in Python, ensure that you have Python installed (
 
 ### Setting Up the Project
 
-_PyKorone_ uses Rye, which simplifies the setup process. Run the following command to install all dependencies in a virtual environment:
+_PyKorone_ uses [Rye](https://rye.astral.sh/), which simplifies the setup process. Run the following command to install all dependencies in a virtual environment:
 
 ```bash
 rye sync
 ```
 
-Also, _PyKorone_ uses pre-commit hooks to run some checks automatically before committing. To install the pre-commit hooks, run:
+Also, _PyKorone_ uses [pre-commit](https://pre-commit.com/) hooks to run some checks automatically before committing. To install the pre-commit hooks, run:
 
 ```bash
 rye run pre-commit install
@@ -30,7 +30,7 @@ Otherwise, check the [issue tracker](https://github.com/HitaloM/PyKorone/issues)
 
 ### Formatting the Code (Code Style)
 
-To keep the code clean and organized, we use the Ruff formatter/linter. Run the following commands to format the code and fix any issues:
+To keep the code clean and organized, we use the [Ruff](https://docs.astral.sh/ruff/) formatter/linter. Run the following commands to format the code and fix any issues:
 
 ```bash
 ruff format .

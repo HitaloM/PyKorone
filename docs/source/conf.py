@@ -21,9 +21,10 @@ extensions = [
     "sphinx.ext.autodoc",
     "sphinx.ext.intersphinx",
     "sphinx.ext.napoleon",
-    "myst_parser",
     "sphinx.ext.viewcode",
+    "myst_parser",
     "sphinx_copybutton",
+    "sphinxcontrib.towncrier.ext",
 ]
 
 intersphinx_mapping = {"python": ("https://docs.python.org/3", None)}

@@ -1,3 +1,1 @@
-=========
-Changelog
-=========
+.. include:: ../../NEWS.rst
