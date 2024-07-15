@@ -26,7 +26,7 @@ class BetaModeModel(Document):
 
     @staticmethod
     async def all_chats_reset_current_mode():
-        await BetaModeModel.find(BetaModeModel.mode is not None).update(Set({BetaModeModel.mode: None}))
+        await BetaModeModel.find(BetaModeModel.mode != None).update(Set({BetaModeModel.mode: None}))  # noqa: E711
 
     @staticmethod
     async def beta_mode_chats_count():
