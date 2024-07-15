@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-07-13 23:12-0300\n"
+"POT-Creation-Date: 2024-07-14 21:07-0300\n"
 "PO-Revision-Date: 2024-06-18 13:25+0000\n"
 "Last-Translator: DeepL <noreply-mt-deepl@weblate.org>\n"
 "Language-Team: Ukrainian <http://weblate.amanoteam.com/projects/korone/"
@@ -258,11 +258,11 @@ msgstr ""
 "Зміну мови було скасовано, ви можете знову змінити мову за допомогою "
 "команди /language."
 
-#: src/korone/modules/languages/handlers/info.py:24
+#: src/korone/modules/languages/handlers/info.py:26
 msgid "<b>Chat language:</b> {language}\n"
 msgstr "<b>Мова чату:</b> {language}\n"
 
-#: src/korone/modules/languages/handlers/info.py:35
+#: src/korone/modules/languages/handlers/info.py:37
 #, fuzzy
 msgid ""
 "\n"
@@ -271,38 +271,38 @@ msgstr ""
 "\n"
 "<b>Інформація про мову:</b>\n"
 
-#: src/korone/modules/languages/handlers/info.py:36
+#: src/korone/modules/languages/handlers/info.py:38
 #, fuzzy
 msgid "Translated strings: <code>{translated}</code>\n"
 msgstr "Перекладено: {translated}\n"
 
-#: src/korone/modules/languages/handlers/info.py:39
+#: src/korone/modules/languages/handlers/info.py:41
 #, fuzzy
 msgid "Untranslated strings: <code>{untranslated}</code>\n"
 msgstr "Без перекладу: {untranslated}\n"
 
-#: src/korone/modules/languages/handlers/info.py:42
+#: src/korone/modules/languages/handlers/info.py:44
 msgid "Strings requiring review: <code>{fuzzy}</code>\n"
 msgstr ""
 
-#: src/korone/modules/languages/handlers/info.py:44
+#: src/korone/modules/languages/handlers/info.py:46
 msgid "This is the bot's native language. So it is 100% translated."
 msgstr "Це рідна мова бота. Тому він перекладений на 100%."
 
-#: src/korone/modules/languages/handlers/info.py:54
-#: src/korone/modules/languages/handlers/info.py:74
+#: src/korone/modules/languages/handlers/info.py:56
+#: src/korone/modules/languages/handlers/info.py:76
 msgid "👤 Change your language"
 msgstr "Змініть мову"
 
-#: src/korone/modules/languages/handlers/info.py:56
+#: src/korone/modules/languages/handlers/info.py:58
 msgid "🌍 Change group language"
 msgstr "Змінити мову групи"
 
-#: src/korone/modules/languages/handlers/info.py:63
-#: src/korone/modules/languages/handlers/info.py:81
+#: src/korone/modules/languages/handlers/info.py:65
+#: src/korone/modules/languages/handlers/info.py:83
 #: src/korone/modules/languages/handlers/select.py:41
-#: src/korone/modules/pm_menu/handlers/about.py:32
-#: src/korone/modules/pm_menu/handlers/help.py:33
+#: src/korone/modules/pm_menu/handlers/about.py:35
+#: src/korone/modules/pm_menu/handlers/help.py:28
 msgid "⬅️ Back"
 msgstr "⬅️ Назад"
 
@@ -649,15 +649,15 @@ msgstr "Завантаження..."
 msgid "Failed to send the media."
 msgstr "Не вдалося надіслати ЗМІ."
 
-#: src/korone/modules/pm_menu/handlers/about.py:25
+#: src/korone/modules/pm_menu/handlers/about.py:28
 msgid "📦 GitHub"
 msgstr "📦 GitHub"
 
-#: src/korone/modules/pm_menu/handlers/about.py:26
+#: src/korone/modules/pm_menu/handlers/about.py:29
 msgid "📚 Channel"
 msgstr "📚 Канал"
 
-#: src/korone/modules/pm_menu/handlers/about.py:44
+#: src/korone/modules/pm_menu/handlers/about.py:47
 #, fuzzy
 msgid ""
 "Korone is a comprehensive and cutting-edge Telegram bot that offers a wide "
@@ -683,29 +683,37 @@ msgstr ""
 "\n"
 "Версія PyKororne: {version}"
 
-#: src/korone/modules/pm_menu/handlers/help.py:28
+#: src/korone/modules/pm_menu/handlers/help.py:25
 msgid "Documentation"
 msgstr ""
 
-#: src/korone/modules/pm_menu/handlers/help.py:40
+#: src/korone/modules/pm_menu/handlers/help.py:35
 msgid ""
 "Read the documentation, it will give you an introduction to how the bot "
-"works and how to use each of the commands available. You can go to Modules "
+"works and how to use each of the commands available. You can go to {modules} "
 "section to see the list of available commands.\n"
 "\n"
 "Start reading by clicking the button below."
 msgstr ""
 
-#: src/korone/modules/pm_menu/handlers/help.py:54
-#: src/korone/modules/pm_menu/handlers/start.py:32
+#: src/korone/modules/pm_menu/handlers/help.py:51
+#: src/korone/modules/pm_menu/handlers/start.py:35
 msgid "👮‍♂️ Help"
 msgstr "👮‍♂️ Довідка"
 
-#: src/korone/modules/pm_menu/handlers/help.py:56
+#: src/korone/modules/pm_menu/handlers/help.py:53
 msgid "Message me in PM to get help."
 msgstr "Напишіть мені в PM, щоб отримати допомогу."
 
-#: src/korone/modules/pm_menu/handlers/privacy.py:20
+#: src/korone/modules/pm_menu/handlers/privacy.py:26
+msgid "What Information We Collect"
+msgstr ""
+
+#: src/korone/modules/pm_menu/handlers/privacy.py:32
+msgid "🔙 Back"
+msgstr ""
+
+#: src/korone/modules/pm_menu/handlers/privacy.py:39
 msgid ""
 "<b>Korone Privacy Policy</b>\n"
 "\n"
@@ -713,32 +721,25 @@ msgid ""
 "its ability.\n"
 "\n"
 "The bot only collects and uses the data necessary for the proper functioning "
-"of its commands that are listed in the /help section.\n"
+"of its commands that are listed in the {modules} section in the "
+"documentation.\n"
 "\n"
 "Please note that our privacy policy may be subject to changes and updates."
 msgstr ""
 
-#: src/korone/modules/pm_menu/handlers/privacy.py:29
-msgid "What Information We Collect"
-msgstr ""
-
-#: src/korone/modules/pm_menu/handlers/privacy.py:35
-msgid "🔙 Back"
-msgstr ""
-
-#: src/korone/modules/pm_menu/handlers/start.py:26
+#: src/korone/modules/pm_menu/handlers/start.py:29
 msgid "ℹ️ About"
 msgstr "ℹ️ Про компанію"
 
-#: src/korone/modules/pm_menu/handlers/start.py:28
+#: src/korone/modules/pm_menu/handlers/start.py:31
 msgid "{lang_flag} Language"
 msgstr "{lang_flag} Мова"
 
-#: src/korone/modules/pm_menu/handlers/start.py:31
+#: src/korone/modules/pm_menu/handlers/start.py:34
 msgid "🔒 Privacy"
 msgstr ""
 
-#: src/korone/modules/pm_menu/handlers/start.py:39
+#: src/korone/modules/pm_menu/handlers/start.py:42
 msgid ""
 "Hi, I'm Korone! An all-in-one bot. I can help you with lots of things. Just "
 "click on the buttons below to get started."
@@ -816,19 +817,19 @@ msgstr ""
 msgid "Unsupported target language: {target_lang}"
 msgstr ""
 
-#: src/korone/modules/translator/handlers/translate.py:91
+#: src/korone/modules/translator/handlers/translate.py:89
 msgid ""
 "Korone has reached the translation quota. The DeepL API has a limit of "
 "500,000 characters per month for the free plan, and we have exceeded this "
 "limit."
 msgstr ""
 
-#: src/korone/modules/translator/handlers/translate.py:99
+#: src/korone/modules/translator/handlers/translate.py:97
 #, fuzzy
 msgid "Failed to translate text. Error: {error}"
 msgstr "Не вдалося надіслати медіа: {error}"
 
-#: src/korone/modules/translator/handlers/translate.py:102
+#: src/korone/modules/translator/handlers/translate.py:100
 msgid ""
 "<b>Language:</b> <code>{source_lang}</code> => <code>{target_lang}</code>"
 msgstr ""
