@@ -386,6 +386,14 @@ msgstr ""
 msgid "Local chat"
 msgstr ""
 
+#: sophie_bot/modules/pm_menu/handlers/privacy.py:12
+msgid "The privacy policy of the bot is available on our wiki page."
+msgstr ""
+
+#: sophie_bot/modules/pm_menu/handlers/privacy.py:17
+msgid "Privacy Policy"
+msgstr ""
+
 #: sophie_bot/modules/troubleshooters/handlers/cancel.py:17
 msgid "The current state is already cleared, nothing to do here."
 msgstr ""

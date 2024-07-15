@@ -66,6 +66,7 @@ class Config(BaseSettings):
     support_link: str = "https://t.me/SophieSupport"
     news_channel: str = "https://t.me/SophieNEWS"
     wiki_link: str = "https://sophie-wiki.orangefox.tech/"
+    privacy_link: str = "https://sophie-wiki.orangefox.tech/docs/Privacy%20policy"
 
     default_locale: str = "en_US"
 

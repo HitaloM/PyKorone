@@ -8,7 +8,7 @@ from sophie_bot.utils.logger import log
 
 LOADED_MODULES: Dict[str, ModuleType] = {}
 # troubleshooters always first, then legacy_modules!
-MODULES = ["troubleshooters", "legacy_modules", "error", "beta", "users", "notes"]
+MODULES = ["troubleshooters", "legacy_modules", "error", "beta", "users", "notes", "pm_menu"]
 
 
 def load_modules(

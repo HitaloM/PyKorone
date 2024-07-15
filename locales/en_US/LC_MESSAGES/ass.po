@@ -152,10 +152,6 @@ msgstr ""
 msgid "{} surrounded by {} and {}"
 msgstr ""
 
-#: types/text_rules.py:100
-msgid "Surrounded by {} and {}"
-msgstr ""
-
 #: types/time_arg.py:24
 msgid "2 days"
 msgstr ""
@@ -277,5 +273,8 @@ msgstr ""
 #~ msgstr ""
 
 #~ msgid "⚠️ Argument validation error"
+#~ msgstr ""
+
+#~ msgid "Surrounded by {} and {}"
 #~ msgstr ""
 
