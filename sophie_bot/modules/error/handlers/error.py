@@ -3,21 +3,18 @@ import sys
 from typing import Any, Dict, Optional, Tuple
 
 import better_exceptions
-from aiogram.exceptions import TelegramNetworkError, TelegramRetryAfter
 from aiogram.handlers import MessageHandler
 from aiogram.types import Chat, InlineKeyboardButton, InlineKeyboardMarkup
 from sentry_sdk import capture_exception
 from stfu_tg import BlockQuote, Code, Doc, Italic, KeyValue, Title
 from stfu_tg.doc import Element
-from telethon.errors import ChatWriteForbiddenError
 
 from sophie_bot import CONFIG
 from sophie_bot.modules.error.utils.haikus import HAIKUS
+from sophie_bot.modules.error.utils.ignored import IGNORED_EXCEPTIONS
 from sophie_bot.utils.exception import SophieException
 from sophie_bot.utils.i18n import gettext as _
 from sophie_bot.utils.logger import log
-
-IGNORED_EXCEPTIONS = (TelegramNetworkError, ChatWriteForbiddenError, TelegramRetryAfter)
 
 
 class ErrorHandler(MessageHandler):

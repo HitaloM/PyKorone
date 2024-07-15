@@ -22,15 +22,15 @@ msgstr ""
 msgid "Use '{cmd}' to change it."
 msgstr ""
 
-#: sophie_bot/modules/error/handlers/error.py:78
+#: sophie_bot/modules/error/handlers/error.py:75
 msgid "😞 I've got an error trying to process this update"
 msgstr ""
 
-#: sophie_bot/modules/error/handlers/error.py:91
+#: sophie_bot/modules/error/handlers/error.py:88
 msgid "Reference ID"
 msgstr ""
 
-#: sophie_bot/modules/error/handlers/error.py:99
+#: sophie_bot/modules/error/handlers/error.py:96
 msgid "💬 Contact Sophie support"
 msgstr ""
 
