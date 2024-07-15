@@ -1,13 +1,13 @@
 from aiogram import flags
 from aiogram.types import InlineKeyboardButton, InlineKeyboardMarkup, Message
-from ass_tg.types import OneOf
-from stfu_tg import Italic, KeyValue, Section, Template
 
+from ass_tg.types import OneOf
 from sophie_bot import CONFIG
 from sophie_bot.db.models.beta import BetaModeModel, CurrentMode, PreferredMode
 from sophie_bot.utils.i18n import gettext as _
 from sophie_bot.utils.i18n import lazy_gettext as _l
 from sophie_bot.utils.i18n import lazy_gettext as l_
+from stfu_tg import Italic, KeyValue, Section, Template
 
 mode_names = {
     "auto": l_("Auto"),
@@ -62,7 +62,9 @@ async def set_preferred_mode(message: Message, new_state: str):
 
 
 async def show_beta_state(message):
-    beta_state = await BetaModeModel.get_by_chat_id(message.chat.id)
+    if not (beta_state := await BetaModeModel.get_by_chat_id(message.chat.id)):
+        await message.reply(_("Couldn't find the beta state for this chat. Please check it later."))
+        return
 
     preferred_mode = PreferredMode(beta_state.preferred_mode) if beta_state.preferred_mode else PreferredMode.auto
     current_mode = CurrentMode(beta_state.mode) if beta_state.mode else preferred_mode
