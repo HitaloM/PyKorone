@@ -51,10 +51,9 @@ class I18nNew(I18n):
     def current_locale_babel(self) -> Locale:
         return self.babel(self.ctx_locale.get())
 
-    def locale_display(self, locale: Locale) -> str:
-        default_lang = self.babel(self.default_locale)
-        default_territory = default_lang.territory or "US"
-        territory_flag = flag(locale.territory or default_territory)
+    @staticmethod
+    def locale_display(locale: Locale) -> str:
+        territory_flag = flag(locale.territory or "US")
         return f"{territory_flag} {locale.display_name}"
 
     @property
