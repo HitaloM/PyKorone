@@ -70,7 +70,7 @@ class TikTokClient:
                 response.raise_for_status()
                 content = await response.aread()
         except httpx.HTTPError as err:
-            logger.error(f"Error fetching media data: {err}")
+            await logger.aexception(f"Error fetching media data: {err}")
             raise TikTokError from err
 
         file = io.BytesIO(content)

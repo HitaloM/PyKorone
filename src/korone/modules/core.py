@@ -98,14 +98,14 @@ async def update_commands(commands: list[str]) -> None:
 
     if command_state:
         for each in command_state:
-            logger.debug(
+            await logger.adebug(
                 "Fetched chat state from the database: %s => %s",
                 each["chat_id"],
                 bool(each["state"]),
             )
             COMMANDS[parent]["chat"][each["chat_id"]] = bool(each["state"])
 
-    logger.debug("New command node for '%s'", parent, node=COMMANDS[parent])
+    await logger.adebug("New command node for '%s'", parent, node=COMMANDS[parent])
 
 
 async def register_handler(client: Client, module: ModuleType) -> bool:
@@ -131,7 +131,7 @@ async def register_handler(client: Client, module: ModuleType) -> bool:
 async def load_module(client: Client, module: tuple) -> bool:
     module_name: str = module[0]
     try:
-        logger.debug("Loading module: %s", module_name)
+        await logger.adebug("Loading module: %s", module_name)
         for handler in module[1]["handlers"]:
             component = import_module(f".{handler}", "korone.modules")
             if not await register_handler(client, component):
@@ -150,5 +150,5 @@ async def load_all_modules(client: Client) -> None:
             if await load_module(client, module):
                 count += 1
         except (TypeError, ModuleNotFoundError):
-            logger.exception("Could not load module: %s", module[0])
-    logger.info("Loaded %d modules", count)
+            await logger.aexception("Could not load module: %s", module[0])
+    await logger.ainfo("Loaded %d modules", count)

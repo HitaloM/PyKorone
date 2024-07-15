@@ -63,7 +63,7 @@ class Korone(Client):
 
         await load_all_modules(self)
 
-        logger.info(
+        await logger.ainfo(
             "Korone v%s running with Hydrogram v%s (Layer %s) started on @%s. Hi!",
             __version__,
             hydrogram.__version__,
@@ -85,4 +85,4 @@ class Korone(Client):
 
     async def stop(self) -> None:
         await super().stop()
-        logger.info("Korone stopped.")
+        await logger.ainfo("Korone stopped.")

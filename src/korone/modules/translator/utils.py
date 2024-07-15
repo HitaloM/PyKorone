@@ -67,7 +67,7 @@ class DeepL:
                 except httpx.HTTPStatusError as e:
                     status_code = e.response.status_code
                     if status_code == 429:
-                        logger.debug(
+                        await logger.adebug(
                             "[DeepL] Rate limit exceeded, retrying in %s seconds...", backoff
                         )
                         await asyncio.sleep(backoff)
@@ -75,10 +75,10 @@ class DeepL:
                         backoff *= 2
                     elif status_code == 456:
                         msg = "Quota exceeded."
-                        logger.error(msg)
+                        await logger.aexception(msg)
                         raise QuotaExceededError(msg) from e
                     elif status_code == 500:
-                        logger.debug(
+                        await logger.adebug(
                             "[DeepL] Internal server error, retrying in %s seconds...", backoff
                         )
                         await asyncio.sleep(backoff)
@@ -86,19 +86,19 @@ class DeepL:
                         backoff *= 2
                     else:
                         msg = f"HTTP error occurred: {status_code}"
-                        logger.error(msg)
+                        await logger.aexception(msg)
                         raise TranslationError(msg) from e
 
                 except (KeyError, IndexError) as e:
                     msg = "Failed to parse translation response."
-                    logger.error(msg)
+                    await logger.aexception(msg)
                     raise TranslationError(msg) from e
 
                 except Exception as e:
                     msg = f"Unexpected error: {e!s}"
-                    logger.error(msg)
+                    await logger.aexception(msg)
                     raise TranslationError(msg) from e
 
             msg = "Maximum retries exceeded."
-            logger.error(msg)
+            await logger.aexception(msg)
             raise TranslationError(msg)

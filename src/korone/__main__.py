@@ -29,7 +29,7 @@ async def main() -> None:
     config = ConfigManager()
 
     if sentry_dsn := config.get("korone", "SENTRY_DSN"):
-        logger.info("Initializing Sentry integration")
+        await logger.ainfo("Initializing Sentry integration")
         sentry_sdk.init(dsn=sentry_dsn, release=__version__)
 
     params = AppParameters(

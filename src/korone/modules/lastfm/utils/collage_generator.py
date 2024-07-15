@@ -21,7 +21,7 @@ async def fetch_image(url: str) -> Image.Image | None:
             response.raise_for_status()
             return Image.open(io.BytesIO(response.content))
     except Exception:
-        logger.exception("Failed to fetch LastFM image")
+        await logger.aexception("Failed to fetch LastFM image")
         return None
 
 

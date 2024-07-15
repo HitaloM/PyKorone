@@ -29,7 +29,7 @@ class SQLite3Table(Table):
 
         sql = f"INSERT INTO {self._table} ({keys}) VALUES ({placeholders})"
 
-        logger.debug("Inserting into table %s: %s", self._table, fields)
+        await logger.adebug("Inserting into table %s: %s", self._table, fields)
 
         await self._conn.execute(sql, values)
         await self._conn.commit()
@@ -38,7 +38,9 @@ class SQLite3Table(Table):
         clause, data = query.compile()
         sql = f"SELECT * FROM {self._table} WHERE {clause}"
 
-        logger.debug("Querying table %s with clause: %s and data: %s", self._table, clause, data)
+        await logger.adebug(
+            "Querying table %s with clause: %s and data: %s", self._table, clause, data
+        )
 
         cursor: aiosqlite.Cursor = await self._conn.execute(sql, data)
         rows = await cursor.fetchall()
@@ -60,7 +62,9 @@ class SQLite3Table(Table):
         clause, data = query.compile()
         sql = f"UPDATE {self._table} SET {assignments} WHERE {clause}"
 
-        logger.debug("Updating table %s with fields: %s and query: %s", self._table, fields, query)
+        await logger.adebug(
+            "Updating table %s with fields: %s and query: %s", self._table, fields, query
+        )
 
         await self._conn.execute(sql, (*values, *data))
         await self._conn.commit()
@@ -69,7 +73,7 @@ class SQLite3Table(Table):
         clause, data = query.compile()
         sql = f"DELETE FROM {self._table} WHERE {clause}"
 
-        logger.debug("Deleting from table %s with query: %s", self._table, query)
+        await logger.adebug("Deleting from table %s with query: %s", self._table, query)
 
         await self._conn.execute(sql, data)
         await self._conn.commit()

@@ -38,7 +38,7 @@ class SQLite3Connection(Connection):
             msg = "Connection is not open."
             raise RuntimeError(msg)
 
-        logger.debug("Executing SQL: %s with parameters: %s", sql, parameters)
+        await logger.adebug("Executing SQL: %s with parameters: %s", sql, parameters)
 
         return await (
             self._conn.executescript(sql) if script else self._conn.execute(sql, parameters)
@@ -57,7 +57,7 @@ class SQLite3Connection(Connection):
             raise RuntimeError(msg)
 
         if not Path(self._path).parent.exists():
-            logger.info("Creating database directory")
+            await logger.ainfo("Creating database directory")
             Path(self._path).parent.mkdir(parents=True, exist_ok=True)
 
         self._conn = await aiosqlite.connect(self._path, *self._args, **self._kwargs)
@@ -89,7 +89,7 @@ class SQLite3Connection(Connection):
             msg = "Connection is not yet open."
             raise RuntimeError(msg)
 
-        logger.debug("Running VACUUM on the database.")
+        await logger.adebug("Running VACUUM on the database.")
         if self._conn:
             await self._conn.execute("VACUUM;")
             await self._conn.commit()

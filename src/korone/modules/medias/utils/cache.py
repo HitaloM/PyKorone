@@ -50,7 +50,7 @@ class MediaCache:
             if cache_data:
                 return pickle.loads(cache_data)
         except CacheError as e:
-            logger.exception("Failed to get data from cache: %s", e)
+            await logger.aexception("Failed to get data from cache: %s", e)
         return None
 
     async def set(self, value: Message | list[Message], expire: int) -> None:
@@ -59,4 +59,4 @@ class MediaCache:
             serialized_cache = pickle.dumps(serialized_data)
             await cache.set(self.key, serialized_cache, expire=expire)
         except CacheError as e:
-            logger.exception("Failed to set data to cache: %s", e)
+            await logger.aexception("Failed to set data to cache: %s", e)
