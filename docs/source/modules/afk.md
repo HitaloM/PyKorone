@@ -4,7 +4,7 @@ The AFK module is a simple module that allows users to set themselves as AFK.
 
 ## Commands
 
-- `/afk (?reason)`: Set yourself as AFK with an optional reason.
+- `/afk (?reason)`: Set yourself as AFK with an optional reason. If you are already AFK, this will update your AFK status.
 
 If you are AFK and someone mentions you, the bot will send a message to the user who mentioned you with a reason (if provided).
 
