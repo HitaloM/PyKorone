@@ -31,7 +31,6 @@ class BaseHandler:
             text=_("{lang_flag} Language").format(lang_flag=flag(locale.territory or "US")),
             callback_data=LangMenuCallback(menu="language"),
         )
-        keyboard.button(text=_("🔒 Privacy"), callback_data=PMMenuCallback(menu="privacy"))
         keyboard.button(text=_("👮‍♂️ Help"), callback_data=PMMenuCallback(menu="help"))
 
         keyboard.adjust(2)

@@ -27,6 +27,10 @@ class BaseHandler:
         keyboard = InlineKeyboardBuilder()
         keyboard.button(text=_("📦 GitHub"), url=constants.GITHUB_URL)
         keyboard.button(text=_("📚 Channel"), url=constants.TELEGRAM_URL)
+        keyboard.button(
+            text=_("🔒 Privacy Policy"),
+            url=f"{constants.DOCS_URL}/en/latest/privacy.html",
+        )
         keyboard.adjust(2)
 
         if message.chat.type == ChatType.PRIVATE:

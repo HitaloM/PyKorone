@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PyKorone 1.0\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-07-14 21:07-0300\n"
+"POT-Creation-Date: 2024-07-15 18:26-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -272,8 +272,8 @@ msgstr ""
 #: src/korone/modules/languages/handlers/info.py:65
 #: src/korone/modules/languages/handlers/info.py:83
 #: src/korone/modules/languages/handlers/select.py:41
-#: src/korone/modules/pm_menu/handlers/about.py:35
-#: src/korone/modules/pm_menu/handlers/help.py:28
+#: src/korone/modules/pm_menu/handlers/about.py:39
+#: src/korone/modules/pm_menu/handlers/help.py:30
 msgid "⬅️ Back"
 msgstr ""
 
@@ -593,7 +593,11 @@ msgstr ""
 msgid "📚 Channel"
 msgstr ""
 
-#: src/korone/modules/pm_menu/handlers/about.py:47
+#: src/korone/modules/pm_menu/handlers/about.py:31
+msgid "🔒 Privacy Policy"
+msgstr ""
+
+#: src/korone/modules/pm_menu/handlers/about.py:51
 msgid ""
 "Korone is a comprehensive and cutting-edge Telegram bot that offers a "
 "wide range of features to enhance your Telegram experience. Designed to "
@@ -608,47 +612,25 @@ msgid ""
 msgstr ""
 
 #: src/korone/modules/pm_menu/handlers/help.py:25
+#: src/korone/modules/pm_menu/handlers/privacy.py:22
 msgid "Documentation"
 msgstr ""
 
-#: src/korone/modules/pm_menu/handlers/help.py:35
+#: src/korone/modules/pm_menu/handlers/help.py:38
 msgid ""
-"Read the documentation, it will give you an introduction to how the bot "
-"works and how to use each of the commands available. You can go to "
-"{modules} section to see the list of available commands.\n"
-"\n"
-"Start reading by clicking the button below."
+"You can get help by reading the documentation, where you'll get an "
+"overview of the bot and how to use it to its full potential. Click the "
+"button below to start reading."
 msgstr ""
 
-#: src/korone/modules/pm_menu/handlers/help.py:51
-#: src/korone/modules/pm_menu/handlers/start.py:35
-msgid "👮‍♂️ Help"
-msgstr ""
-
-#: src/korone/modules/pm_menu/handlers/help.py:53
-msgid "Message me in PM to get help."
-msgstr ""
-
-#: src/korone/modules/pm_menu/handlers/privacy.py:26
-msgid "What Information We Collect"
-msgstr ""
-
-#: src/korone/modules/pm_menu/handlers/privacy.py:32
+#: src/korone/modules/pm_menu/handlers/privacy.py:29
 msgid "🔙 Back"
 msgstr ""
 
-#: src/korone/modules/pm_menu/handlers/privacy.py:39
+#: src/korone/modules/pm_menu/handlers/privacy.py:37
 msgid ""
-"<b>Korone Privacy Policy</b>\n"
-"\n"
-"This bot is designed to prioritize and protect user privacy to the best "
-"of its ability.\n"
-"\n"
-"The bot only collects and uses the data necessary for the proper "
-"functioning of its commands that are listed in the {modules} section in "
-"the documentation.\n"
-"\n"
-"Please note that our privacy policy may be subject to changes and updates."
+"The privacy policy is available for review in the documentation. Click "
+"the button below to start reading."
 msgstr ""
 
 #: src/korone/modules/pm_menu/handlers/start.py:29
@@ -660,10 +642,10 @@ msgid "{lang_flag} Language"
 msgstr ""
 
 #: src/korone/modules/pm_menu/handlers/start.py:34
-msgid "🔒 Privacy"
+msgid "👮‍♂️ Help"
 msgstr ""
 
-#: src/korone/modules/pm_menu/handlers/start.py:42
+#: src/korone/modules/pm_menu/handlers/start.py:41
 msgid ""
 "Hi, I'm Korone! An all-in-one bot. I can help you with lots of things. "
 "Just click on the buttons below to get started."
