@@ -12,6 +12,8 @@ from hydrogram.filters import Filter
 from hydrogram.types import Message
 from magic_filter import MagicFilter
 
+from korone.modules import COMMANDS
+
 CommandPatternType = str | re.Pattern
 
 
@@ -132,8 +134,6 @@ class Command(Filter):
         raise CommandError(msg)
 
     async def parse_command(self, client: Client, message: Message) -> CommandObject:
-        from korone.modules import COMMANDS  # noqa: PLC0415
-
         command = CommandObject(message).parse()
         self.validate_prefix(command)
         await self.validate_mention(client, command)

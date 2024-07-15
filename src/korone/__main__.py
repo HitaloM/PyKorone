@@ -16,20 +16,20 @@ from hydrogram import idle
 from korone import __version__, app_dir, cache
 from korone.client import AppParameters, Korone
 from korone.config import ConfigManager
-from korone.utils.logging import log
+from korone.utils.logging import logger
 
 
 async def main() -> None:
     try:
         await cache.ping()
     except (CacheBackendInteractionError, TimeoutError):
-        log.critical("Can't connect to RedisDB! Exiting...")
+        logger.critical("Can't connect to RedisDB! Exiting...")
         sys.exit(1)
 
     config = ConfigManager()
 
     if sentry_dsn := config.get("korone", "SENTRY_DSN"):
-        log.info("Initializing Sentry integration")
+        logger.info("Initializing Sentry integration")
         sentry_sdk.init(dsn=sentry_dsn, release=__version__)
 
     params = AppParameters(
@@ -56,4 +56,4 @@ if __name__ == "__main__":
         with asyncio.Runner(loop_factory=uvloop.new_event_loop) as runner:
             runner.run(main())
     except KeyboardInterrupt:
-        log.warning("Forced stop... Bye!")
+        logger.warning("Forced stop... Bye!")

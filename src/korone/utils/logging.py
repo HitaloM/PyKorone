@@ -6,12 +6,14 @@ import sys
 import picologging as logging
 import structlog
 
+level = logging.DEBUG if "--debug" in sys.argv else logging.INFO
+
 structlog.configure(
     cache_logger_on_first_use=True,
     processors=[
         structlog.contextvars.merge_contextvars,
         structlog.processors.add_log_level,
-        structlog.processors.TimeStamper(fmt="%Y-%m-%d %H:%M.%S"),
+        structlog.processors.TimeStamper(fmt="%d-%m-%Y %H:%M.%S", utc=False),
         structlog.dev.ConsoleRenderer(),
     ],
 )
@@ -19,7 +21,7 @@ structlog.configure(
 logging.basicConfig(
     format="%(message)s",
     stream=sys.stdout,
-    level=logging.DEBUG if "--debug" in sys.argv else logging.INFO,
+    level=level,
 )
 
-log = structlog.wrap_logger(logger=logging.getLogger())
+logger = structlog.wrap_logger(logging.getLogger("korone"))

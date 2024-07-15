@@ -16,7 +16,7 @@ from korone.database.query import Query
 from korone.database.sqlite import SQLite3Connection
 from korone.database.table import Documents
 from korone.handlers.abstract import CallbackQueryHandler, MessageHandler
-from korone.utils.logging import log
+from korone.utils.logging import logger
 from korone.utils.traverse import bfs_attr_search
 
 MODULES: dict[str, dict[str, Any]] = {}
@@ -98,14 +98,14 @@ async def update_commands(commands: list[str]) -> None:
 
     if command_state:
         for each in command_state:
-            log.debug(
+            logger.debug(
                 "Fetched chat state from the database: %s => %s",
                 each["chat_id"],
                 bool(each["state"]),
             )
             COMMANDS[parent]["chat"][each["chat_id"]] = bool(each["state"])
 
-    log.debug("New command node for '%s'", parent, node=COMMANDS[parent])
+    logger.debug("New command node for '%s'", parent, node=COMMANDS[parent])
 
 
 async def register_handler(client: Client, module: ModuleType) -> bool:
@@ -131,7 +131,7 @@ async def register_handler(client: Client, module: ModuleType) -> bool:
 async def load_module(client: Client, module: tuple) -> bool:
     module_name: str = module[0]
     try:
-        log.debug("Loading module: %s", module_name)
+        logger.debug("Loading module: %s", module_name)
         for handler in module[1]["handlers"]:
             component = import_module(f".{handler}", "korone.modules")
             if not await register_handler(client, component):
@@ -150,5 +150,5 @@ async def load_all_modules(client: Client) -> None:
             if await load_module(client, module):
                 count += 1
         except (TypeError, ModuleNotFoundError):
-            log.exception("Could not load module: %s", module[0])
-    log.info("Loaded %d modules", count)
+            logger.exception("Could not load module: %s", module[0])
+    logger.info("Loaded %d modules", count)

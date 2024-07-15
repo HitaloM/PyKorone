@@ -7,7 +7,7 @@ from dataclasses import dataclass
 import httpx
 
 from korone.config import ConfigManager
-from korone.utils.logging import log
+from korone.utils.logging import logger
 
 API_KEY: str = ConfigManager.get("korone", "DEEPL_KEY")
 
@@ -67,7 +67,7 @@ class DeepL:
                 except httpx.HTTPStatusError as e:
                     status_code = e.response.status_code
                     if status_code == 429:
-                        log.debug(
+                        logger.debug(
                             "[DeepL] Rate limit exceeded, retrying in %s seconds...", backoff
                         )
                         await asyncio.sleep(backoff)
@@ -75,10 +75,10 @@ class DeepL:
                         backoff *= 2
                     elif status_code == 456:
                         msg = "Quota exceeded."
-                        log.error(msg)
+                        logger.error(msg)
                         raise QuotaExceededError(msg) from e
                     elif status_code == 500:
-                        log.debug(
+                        logger.debug(
                             "[DeepL] Internal server error, retrying in %s seconds...", backoff
                         )
                         await asyncio.sleep(backoff)
@@ -86,19 +86,19 @@ class DeepL:
                         backoff *= 2
                     else:
                         msg = f"HTTP error occurred: {status_code}"
-                        log.error(msg)
+                        logger.error(msg)
                         raise TranslationError(msg) from e
 
                 except (KeyError, IndexError) as e:
                     msg = "Failed to parse translation response."
-                    log.error(msg)
+                    logger.error(msg)
                     raise TranslationError(msg) from e
 
                 except Exception as e:
                     msg = f"Unexpected error: {e!s}"
-                    log.error(msg)
+                    logger.error(msg)
                     raise TranslationError(msg) from e
 
             msg = "Maximum retries exceeded."
-            log.error(msg)
+            logger.error(msg)
             raise TranslationError(msg)

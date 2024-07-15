@@ -7,7 +7,7 @@ from typing import TYPE_CHECKING
 from korone.database.connection import Connection
 from korone.database.query import Query
 from korone.database.table import Document, Documents, Table
-from korone.utils.logging import log
+from korone.utils.logging import logger
 
 if TYPE_CHECKING:
     import aiosqlite
@@ -29,7 +29,7 @@ class SQLite3Table(Table):
 
         sql = f"INSERT INTO {self._table} ({keys}) VALUES ({placeholders})"
 
-        log.debug("Inserting into table %s: %s", self._table, fields)
+        logger.debug("Inserting into table %s: %s", self._table, fields)
 
         await self._conn.execute(sql, values)
         await self._conn.commit()
@@ -38,7 +38,7 @@ class SQLite3Table(Table):
         clause, data = query.compile()
         sql = f"SELECT * FROM {self._table} WHERE {clause}"
 
-        log.debug("Querying table %s with clause: %s and data: %s", self._table, clause, data)
+        logger.debug("Querying table %s with clause: %s and data: %s", self._table, clause, data)
 
         cursor: aiosqlite.Cursor = await self._conn.execute(sql, data)
         rows = await cursor.fetchall()
@@ -60,7 +60,7 @@ class SQLite3Table(Table):
         clause, data = query.compile()
         sql = f"UPDATE {self._table} SET {assignments} WHERE {clause}"
 
-        log.debug("Updating table %s with fields: %s and query: %s", self._table, fields, query)
+        logger.debug("Updating table %s with fields: %s and query: %s", self._table, fields, query)
 
         await self._conn.execute(sql, (*values, *data))
         await self._conn.commit()
@@ -69,7 +69,7 @@ class SQLite3Table(Table):
         clause, data = query.compile()
         sql = f"DELETE FROM {self._table} WHERE {clause}"
 
-        log.debug("Deleting from table %s with query: %s", self._table, query)
+        logger.debug("Deleting from table %s with query: %s", self._table, query)
 
         await self._conn.execute(sql, data)
         await self._conn.commit()

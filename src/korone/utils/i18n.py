@@ -10,7 +10,7 @@ from babel.support import LazyProxy
 from flag import flag
 from hairydogm.i18n import I18n
 
-from korone.utils.logging import log
+from korone.utils.logging import logger
 
 
 @dataclass(frozen=True, slots=True)
@@ -64,7 +64,7 @@ class I18nNew(I18n):
         if locale_code not in self.stats:
             self.stats[locale_code] = self.parse_stats(locale_code)
             if not self.stats[locale_code]:
-                log.warning("Can't parse stats for locale %s!", locale_code)
+                logger.warning("Can't parse stats for locale %s!", locale_code)
         return self.stats[locale_code]
 
     def get_current_locale_stats(self) -> LocaleStats | None:

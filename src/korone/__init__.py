@@ -7,7 +7,7 @@ from pathlib import Path
 from cashews import Cache
 
 from korone.utils.i18n import I18nNew as I18n
-from korone.utils.logging import log
+from korone.utils.logging import logger
 
 __version__ = "1.0.0"
 
@@ -22,7 +22,7 @@ def create_i18n_instance(locales_dir: Path) -> I18n:
     try:
         return I18n(path=locales_dir)
     except RuntimeError:
-        log.info("Compiling locales...")
+        logger.info("Compiling locales...")
         subprocess.run(
             f"pybabel compile -d '{locales_dir}' -D bot",
             shell=True,

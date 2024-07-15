@@ -10,7 +10,7 @@ from korone import constants
 from korone.database.connection import Connection
 from korone.database.sqlite.table import SQLite3Table
 from korone.database.table import Table
-from korone.utils.logging import log
+from korone.utils.logging import logger
 
 
 class SQLite3Connection(Connection):
@@ -38,7 +38,7 @@ class SQLite3Connection(Connection):
             msg = "Connection is not open."
             raise RuntimeError(msg)
 
-        log.debug("Executing SQL: %s with parameters: %s", sql, parameters)
+        logger.debug("Executing SQL: %s with parameters: %s", sql, parameters)
 
         return await (
             self._conn.executescript(sql) if script else self._conn.execute(sql, parameters)
@@ -57,7 +57,7 @@ class SQLite3Connection(Connection):
             raise RuntimeError(msg)
 
         if not Path(self._path).parent.exists():
-            log.info("Creating database directory")
+            logger.info("Creating database directory")
             Path(self._path).parent.mkdir(parents=True, exist_ok=True)
 
         self._conn = await aiosqlite.connect(self._path, *self._args, **self._kwargs)
@@ -89,7 +89,7 @@ class SQLite3Connection(Connection):
             msg = "Connection is not yet open."
             raise RuntimeError(msg)
 
-        log.debug("Running VACUUM on the database.")
+        logger.debug("Running VACUUM on the database.")
         if self._conn:
             await self._conn.execute("VACUUM;")
             await self._conn.commit()

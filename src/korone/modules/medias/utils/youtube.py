@@ -10,7 +10,7 @@ from typing import Any
 import yt_dlp
 
 from korone.modules.medias.utils.files import resize_thumbnail
-from korone.utils.logging import log
+from korone.utils.logging import logger
 
 
 class YTDLError(Exception):
@@ -56,7 +56,7 @@ class YTDL:
                     self.file_path = Path(ydl.prepare_filename(info)).as_posix()
                 return info
         except yt_dlp.DownloadError as err:
-            log.exception("Error downloading content from '%s'", url)
+            logger.exception("Error downloading content from '%s'", url)
             raise DownloadError(err.msg) from err
 
     async def _download(self, url: str, options: dict[str, Any]) -> VideoInfo:
@@ -67,7 +67,7 @@ class YTDL:
             msg = "Failed to download content!"
             raise DownloadError(msg)
 
-        log.debug("Download completed for %s, saved to %s", url, self.file_path)
+        logger.debug("Download completed for %s, saved to %s", url, self.file_path)
 
         return await self.generate_videoinfo(info)
 
@@ -83,7 +83,7 @@ class YTDL:
             msg = "Failed to extract video info!"
             raise InfoExtractionError(msg)
 
-        log.debug("Information extracted for %s", url)
+        logger.debug("Information extracted for %s", url)
         return await self.generate_videoinfo(info)
 
     async def generate_videoinfo(self, info: dict[str, Any]) -> VideoInfo:
@@ -161,4 +161,4 @@ class YtdlpManager:
         for path in [self.file_path, self.thumbnail_path]:
             if path and Path(path).exists():
                 Path(path).unlink(missing_ok=True)
-                log.debug("Removed file %s", path)
+                logger.debug("Removed file %s", path)

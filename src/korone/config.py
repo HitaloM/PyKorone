@@ -9,7 +9,7 @@ from typing import Any
 from tomlkit import dump, loads
 
 from korone import constants
-from korone.utils.logging import log
+from korone.utils.logging import logger
 
 
 class ConfigError(Exception):
@@ -29,8 +29,8 @@ class ConfigManager:
         if hasattr(self, "initialized") and self.initialized:
             return
 
-        log.info("Initializing configuration module")
-        log.debug("Using path %s", cfgpath)
+        logger.info("Initializing configuration module")
+        logger.debug("Using path %s", cfgpath)
 
         config_path = Path(cfgpath)
         self._create_config_directory(config_path)
@@ -42,23 +42,23 @@ class ConfigManager:
     @staticmethod
     def _create_config_directory(config_path: Path) -> None:
         if not config_path.parent.exists():
-            log.info("Creating configuration directory")
+            logger.info("Creating configuration directory")
             try:
                 config_path.parent.mkdir(parents=True, exist_ok=True)
             except OSError as err:
-                log.critical("Could not create configuration directory: %s", err)
+                logger.critical("Could not create configuration directory: %s", err)
                 msg = "Could not create configuration directory"
                 raise ConfigError(msg) from err
 
     @staticmethod
     def _create_config_file(config_path: Path) -> None:
         if not config_path.is_file():
-            log.info("Creating configuration file")
+            logger.info("Creating configuration file")
             try:
                 with config_path.open("w", encoding="utf-8") as file:
                     dump(constants.DEFAULT_CONFIG_TEMPLATE, file)
             except OSError as err:
-                log.critical("Could not create configuration file: %s", err)
+                logger.critical("Could not create configuration file: %s", err)
                 msg = "Could not create configuration file"
                 raise ConfigError(msg) from err
 

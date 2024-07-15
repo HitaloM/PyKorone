@@ -11,7 +11,7 @@ from PIL import Image, ImageDraw, ImageFont
 from korone import cache
 from korone.modules.lastfm.utils.api import LastFMAlbum
 from korone.modules.lastfm.utils.image_filter import get_biggest_lastfm_image
-from korone.utils.logging import log
+from korone.utils.logging import logger
 
 
 async def fetch_image(url: str) -> Image.Image | None:
@@ -21,7 +21,7 @@ async def fetch_image(url: str) -> Image.Image | None:
             response.raise_for_status()
             return Image.open(io.BytesIO(response.content))
     except Exception:
-        log.exception("Failed to fetch LastFM image")
+        logger.exception("Failed to fetch LastFM image")
         return None
 
 

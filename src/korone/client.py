@@ -16,7 +16,7 @@ from hydrogram.raw.all import layer
 from korone import __version__, cache, constants
 from korone.database.sqlite import SQLite3Connection
 from korone.modules import load_all_modules
-from korone.utils.logging import log
+from korone.utils.logging import logger
 
 if TYPE_CHECKING:
     from hydrogram.types import User
@@ -63,8 +63,8 @@ class Korone(Client):
 
         await load_all_modules(self)
 
-        log.info(
-            "Korone %s running with Hydrogram v%s (Layer %s) started on @%s. Hi!",
+        logger.info(
+            "Korone v%s running with Hydrogram v%s (Layer %s) started on @%s. Hi!",
             __version__,
             hydrogram.__version__,
             layer,
@@ -85,4 +85,4 @@ class Korone(Client):
 
     async def stop(self) -> None:
         await super().stop()
-        log.info("Korone stopped.")
+        logger.info("Korone stopped.")
