@@ -64,6 +64,8 @@ class Config(BaseSettings):
     # showing percent of it and won't suggest to help to translate it on crowdin.
     translation_url: str = "https://crowdin.com/project/sophiebot"
     support_link: str = "https://t.me/SophieSupport"
+    news_channel: str = "https://t.me/SophieNEWS"
+    wiki_link: str = "https://sophie-wiki.orangefox.tech/"
 
     default_locale: str = "en_US"
 

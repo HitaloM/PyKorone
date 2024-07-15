@@ -33,7 +33,6 @@ from sophie_bot import CONFIG, dp
 from sophie_bot.modules.legacy_modules.utils.disable import disableable_dec
 from sophie_bot.modules.legacy_modules.utils.language import get_strings_dec
 from sophie_bot.modules.legacy_modules.utils.register import register
-
 from .language import select_lang_keyboard
 
 
@@ -55,10 +54,12 @@ async def get_start_func(event: TelegramObject, strings, edit=False):
     task = msg.edit_text if edit else msg.reply
     buttons = InlineKeyboardMarkup(
         inline_keyboard=[
-            [InlineKeyboardButton(text=strings["btn_help"], callback_data="get_help")],
             [InlineKeyboardButton(text=strings["btn_lang"], callback_data="lang_btn")],
-            [InlineKeyboardButton(text=strings["btn_chat"], url="https://t.me/SophieSupport")],
-            [InlineKeyboardButton(text=strings["btn_channel"], url="https://t.me/sophieNEWS")],
+            [InlineKeyboardButton(text=strings["btn_help"], url=CONFIG.wiki_link)],
+            [
+                InlineKeyboardButton(text=strings["btn_chat"], url=CONFIG.support_link),
+                InlineKeyboardButton(text=strings["btn_channel"], url=CONFIG.news_channel)
+            ],
             [
                 InlineKeyboardButton(
                     text=strings["btn_add"],
@@ -70,19 +71,6 @@ async def get_start_func(event: TelegramObject, strings, edit=False):
     # Handle error when user click the button 2 or more times simultaneously
     with suppress(TelegramBadRequest):
         await task(strings["start_hi"], reply_markup=buttons)
-
-
-@dp.callback_query(F.data == "get_help")
-@get_strings_dec("pm_menu")
-async def help_cb(event, strings, **kwargs):
-    button = InlineKeyboardMarkup(
-        inline_keyboard=[
-            [InlineKeyboardButton(text=strings["click_btn"], url="https://sophiebot.rocks/")],
-            [InlineKeyboardButton(text=strings["back"], callback_data="go_to_start")],
-        ]
-    )
-    with suppress(TelegramBadRequest):
-        await event.message.edit_text(strings["help_header"], reply_markup=button)
 
 
 @dp.callback_query(F.data == "lang_btn")
