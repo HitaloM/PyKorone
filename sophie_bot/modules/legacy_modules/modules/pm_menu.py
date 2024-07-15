@@ -33,6 +33,7 @@ from sophie_bot import CONFIG, dp
 from sophie_bot.modules.legacy_modules.utils.disable import disableable_dec
 from sophie_bot.modules.legacy_modules.utils.language import get_strings_dec
 from sophie_bot.modules.legacy_modules.utils.register import register
+
 from .language import select_lang_keyboard
 
 
@@ -58,7 +59,7 @@ async def get_start_func(event: TelegramObject, strings, edit=False):
             [InlineKeyboardButton(text=strings["btn_help"], url=CONFIG.wiki_link)],
             [
                 InlineKeyboardButton(text=strings["btn_chat"], url=CONFIG.support_link),
-                InlineKeyboardButton(text=strings["btn_channel"], url=CONFIG.news_channel)
+                InlineKeyboardButton(text=strings["btn_channel"], url=CONFIG.news_channel),
             ],
             [
                 InlineKeyboardButton(

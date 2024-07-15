@@ -66,7 +66,7 @@ if not CONFIG.webhooks_enable:
             "my_chat_member",
             "chat_member",
             "chat_join_request",
-        ]
+        ],
     )
 else:
     app = Application()
