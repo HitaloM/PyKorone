@@ -1,3 +1,4 @@
+from asyncio import Lock
 from enum import Enum
 from typing import Optional
 
@@ -34,14 +35,15 @@ class BetaModeModel(Document):
 
     @staticmethod
     async def set_mode(chat_id: int, new_mode: CurrentMode) -> "BetaModeModel":
-        return await BetaModeModel.find_one(BetaModeModel.chat_id == chat_id).upsert(
-            Set({BetaModeModel.mode: new_mode}),
-            on_insert=BetaModeModel(
-                chat_id=chat_id,
-                mode=new_mode,
-            ),
-            response_type=UpdateResponse.NEW_DOCUMENT,
-        )
+        async with Lock():
+            return await BetaModeModel.find_one(BetaModeModel.chat_id == chat_id).upsert(
+                Set({BetaModeModel.mode: new_mode}),
+                on_insert=BetaModeModel(
+                    chat_id=chat_id,
+                    mode=new_mode,
+                ),
+                response_type=UpdateResponse.NEW_DOCUMENT,
+            )
 
     @staticmethod
     async def set_preferred_mode(chat_id: int, new_mode: PreferredMode) -> "BetaModeModel":
