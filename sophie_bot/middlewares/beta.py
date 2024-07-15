@@ -48,6 +48,10 @@ class BetaMiddleware(BaseMiddleware):
             log.debug("Sending request to Beta Sophie...")
             await self.send_request(json_request, CONFIG.proxy_beta_instance_url)
         else:
+            if self.need_to_drop(update):
+                log.debug("Dropping request!!")
+                return response
+
             log.debug("Sending request to Stable Sophie...")
             await self.send_request(json_request, CONFIG.proxy_stable_instance_url)
 
@@ -81,6 +85,16 @@ class BetaMiddleware(BaseMiddleware):
         await BetaModeModel.set_mode(chat_id=chat_id, new_mode=new_mode)
 
         return new_mode == CurrentMode.beta
+
+    @staticmethod
+    def need_to_drop(update: TelegramObject) -> bool:
+        """Only for Stable. Whatever to drop the update."""
+
+        # Drop all chat_member updates
+        if hasattr(update, "chat_member") and update.chat_member:
+            return True
+
+        return False
 
     def get_data(self, update: TelegramObject):
         raw_json = update.model_dump_json(by_alias=True, exclude_none=True, exclude_defaults=True, indent=1)
