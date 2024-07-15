@@ -38,7 +38,7 @@ class Config(BaseSettings):
 
     debug_mode: bool = False
     modules_load: List[str] = ["*"]
-    modules_not_load: List[str] = ["beta"]
+    modules_not_load: List[str] = []
 
     webhooks_enable: bool = False
     webhooks_listen: str = "127.0.0.1"
