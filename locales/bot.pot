@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PyKorone 1.0\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-07-15 18:26-0300\n"
+"POT-Creation-Date: 2024-07-15 18:53-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -63,31 +63,28 @@ msgstr ""
 msgid "You are now AFK."
 msgstr ""
 
-#: src/korone/modules/disabling/handlers/disable.py:23
+#: src/korone/modules/disabling/handlers/disable.py:22
 msgid ""
 "You need to specify a command to disable. Use <code>/disable "
 "&lt;commandname&gt;</code>."
 msgstr ""
 
-#: src/korone/modules/disabling/handlers/disable.py:32
+#: src/korone/modules/disabling/handlers/disable.py:31
 msgid "You can only disable one command at a time."
 msgstr ""
 
 #: src/korone/modules/disabling/handlers/disable.py:37
-#: src/korone/modules/disabling/handlers/enable.py:32
-msgid "This command can't be enabled or disabled."
+msgid ""
+"Unknown command to re-enable:\n"
+"- <code>{command}</code>\n"
+"Check the /disableable!"
 msgstr ""
 
-#: src/korone/modules/disabling/handlers/disable.py:43
+#: src/korone/modules/disabling/handlers/disable.py:48
 msgid "This command is already disabled."
 msgstr ""
 
-#: src/korone/modules/disabling/handlers/disable.py:49
-#: src/korone/modules/disabling/handlers/enable.py:44
-msgid "Sorry! I couldn't find this command, maybe it doesn't exist?"
-msgstr ""
-
-#: src/korone/modules/disabling/handlers/disable.py:52
+#: src/korone/modules/disabling/handlers/disable.py:53
 msgid "Command disabled."
 msgstr ""
 
@@ -99,19 +96,26 @@ msgstr ""
 msgid "The following commands are disabled in this chat:\n"
 msgstr ""
 
-#: src/korone/modules/disabling/handlers/enable.py:22
+#: src/korone/modules/disabling/handlers/enable.py:21
 msgid "You need to specify a command to enable."
 msgstr ""
 
-#: src/korone/modules/disabling/handlers/enable.py:27
+#: src/korone/modules/disabling/handlers/enable.py:26
 msgid "You can only enable one command at a time."
 msgstr ""
 
-#: src/korone/modules/disabling/handlers/enable.py:38
+#: src/korone/modules/disabling/handlers/enable.py:32
+msgid ""
+"Unknown command to disable:\n"
+"- <code>{command}</code>\n"
+"Check the /disableable!"
+msgstr ""
+
+#: src/korone/modules/disabling/handlers/enable.py:43
 msgid "This command is already enabled."
 msgstr ""
 
-#: src/korone/modules/disabling/handlers/enable.py:47
+#: src/korone/modules/disabling/handlers/enable.py:48
 msgid "Command enabled."
 msgstr ""
 

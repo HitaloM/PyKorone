@@ -21,7 +21,6 @@ from korone.utils.traverse import bfs_attr_search
 
 MODULES: dict[str, dict[str, Any]] = {}
 COMMANDS: dict[str, Any] = {}
-NOT_DISABLEABLE: set[str] = set()
 
 
 def add_handlers(module_name: str, handlers_path: Path) -> None:
@@ -69,22 +68,18 @@ async def check_command_state(command: str) -> Documents | None:
 
 
 async def process_handler_commands(filters: Filter) -> None:
-    async def update_commands_or_not_disableable(command_list: list, disableable: bool):
-        if disableable:
-            await update_commands(command_list)
-        else:
-            NOT_DISABLEABLE.update(command_list)
-
     if hasattr(filters, "commands"):
         commands = [command.pattern for command in filters.commands]  # type: ignore
-        await update_commands_or_not_disableable(commands, filters.disableable)  # type: ignore
+        if filters.disableable:  # type: ignore
+            await update_commands(commands)
     elif (
         isinstance(filters, AndFilter)
         and hasattr(filters, "base")
         and hasattr(filters.base, "commands")
     ):
         base_commands = [command.pattern for command in filters.base.commands]  # type: ignore
-        await update_commands_or_not_disableable(base_commands, filters.base.disableable)  # type: ignore
+        if filters.base.disableable:  # type: ignore
+            await update_commands(base_commands)
 
 
 async def update_commands(commands: list[str]) -> None:
