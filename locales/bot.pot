@@ -18,7 +18,11 @@ msgstr ""
 msgid "Beta"
 msgstr ""
 
-#: sophie_bot/modules/beta/handlers/beta_state.py:77
+#: sophie_bot/modules/beta/handlers/beta_state.py:66
+msgid "Couldn't find the beta state for this chat. Please check it later."
+msgstr ""
+
+#: sophie_bot/modules/beta/handlers/beta_state.py:79
 msgid "Use '{cmd}' to change it."
 msgstr ""
 
