@@ -1,3 +1,4 @@
+from asyncio import Lock
 from datetime import datetime, timedelta, timezone
 from enum import Enum
 from typing import Annotated, Any, Optional
@@ -77,18 +78,20 @@ class ChatModel(Document):
 
     @staticmethod
     async def upsert_user(user: User) -> "ChatModel":
-        data = ChatModel._get_user_data(user)
-        return await ChatModel.find_one(ChatModel.chat_id == user.id).upsert(
-            Set(data), on_insert=ChatModel(chat_id=user.id, **data), response_type=UpdateResponse.NEW_DOCUMENT
-        )
+        async with Lock():
+            data = ChatModel._get_user_data(user)
+            return await ChatModel.find_one(ChatModel.chat_id == user.id).upsert(
+                Set(data), on_insert=ChatModel(chat_id=user.id, **data), response_type=UpdateResponse.NEW_DOCUMENT
+            )
 
     @staticmethod
     async def upsert_group(chat: Chat) -> "ChatModel":
-        data = ChatModel._get_group_data(chat)
+        async with Lock():
+            data = ChatModel._get_group_data(chat)
 
-        return await ChatModel.find_one(ChatModel.chat_id == chat.id).upsert(
-            Set(data), on_insert=ChatModel(chat_id=chat.id, **data), response_type=UpdateResponse.NEW_DOCUMENT
-        )
+            return await ChatModel.find_one(ChatModel.chat_id == chat.id).upsert(
+                Set(data), on_insert=ChatModel(chat_id=chat.id, **data), response_type=UpdateResponse.NEW_DOCUMENT
+            )
 
     @staticmethod
     async def do_chat_migrate(old_id: int, new_chat: Chat) -> Optional["ChatModel"]:

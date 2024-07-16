@@ -196,16 +196,14 @@ class SaveChatsMiddleware(BaseMiddleware):
         update: Update,  # type: ignore[override]
         data: dict[str, Any],
     ) -> Any:
-        # We need a lock here, because upserting users/chats doesn't work in parallel
-        # TODO: Reduce the scope?
-        async with Lock():
-            _continue = True
-            if update.message:
-                await self.handle_message(update.message, data)
-            elif any([update.callback_query, update.inline_query, update.poll_answer]):
-                await self.save_from_user(data)
-            elif update.my_chat_member:
-                _continue = await self.save_my_chat_member(update.my_chat_member)
+
+        _continue = True
+        if update.message:
+            await self.handle_message(update.message, data)
+        elif any([update.callback_query, update.inline_query, update.poll_answer]):
+            await self.save_from_user(data)
+        elif update.my_chat_member:
+            _continue = await self.save_my_chat_member(update.my_chat_member)
 
         return await handler(update, data) if _continue else None
 
