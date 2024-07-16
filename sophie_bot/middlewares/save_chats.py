@@ -1,4 +1,3 @@
-from asyncio import Lock
 from typing import Any, Awaitable, Callable, Iterable, List, Optional, Tuple
 
 from aiogram import BaseMiddleware
