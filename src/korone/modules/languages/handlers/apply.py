@@ -29,7 +29,7 @@ class ApplyLanguage(CallbackQueryHandler):
         await set_chat_language(is_private, callback, language)
 
         chat = callback.message.chat
-        cache_key = f"get_locale:{chat.id}"
+        cache_key = f"fetch_locale:{chat.id}"
         await cache.delete(cache_key)
 
         text, keyboard = await self.prepare_response(language)
