@@ -99,8 +99,7 @@ class SaveChatsMiddleware(BaseMiddleware):
             return
 
         # Update current user and group
-        chat_id = message.chat.id
-        chat = await self._handle_private_and_group_message(data, message, chat_id)
+        chat, user = await self._handle_private_and_group_message(data, message)
 
         if message.chat.type not in ("group", "supergroup"):
             return
@@ -114,7 +113,7 @@ class SaveChatsMiddleware(BaseMiddleware):
         await self.save_topic(message, chat)
 
         # New chat members / removed chat member
-        await self._handle_member_updates(message, chat)
+        await self._handle_member_updates(message, chat, user)
 
     @staticmethod
     async def _handle_migration(data: dict, message: Message):
@@ -128,17 +127,20 @@ class SaveChatsMiddleware(BaseMiddleware):
         else:
             return False
 
-    async def _handle_private_and_group_message(self, data: dict, message: Message, chat_id: int) -> ChatModel:
+    async def _handle_private_and_group_message(self, data: dict, message: Message) -> tuple[ChatModel, ChatModel]:
         """Returns current group/chat model"""
         if message.chat.type == "private" and message.from_user:
             user = await ChatModel.upsert_user(message.from_user)
             data["chat_db"] = data["user_db"] = user
-            return user
+            return user, user
         else:
             current_group = await ChatModel.upsert_group(message.chat)
             data["chat_db"] = data["group_db"] = current_group
-            data["user_db"], data["user_in_group"] = await self.update_from_user(message, current_group)
-            return current_group
+
+            current_user, data["user_in_group"] = await self.update_from_user(message, current_group)
+            data["user_db"] = current_user
+
+            return current_group, current_user or current_group
 
     async def _handle_message_update(self, message: Message, group: ChatModel):
         chats_to_update: list[Chat | User] = []
@@ -156,9 +158,13 @@ class SaveChatsMiddleware(BaseMiddleware):
 
         return chats_to_update
 
-    async def _handle_member_updates(self, message: Message, group: ChatModel):
+    async def _handle_member_updates(self, message: Message, group: ChatModel, user_db: ChatModel):
         if message.new_chat_members:
             for member in message.new_chat_members:
+                # Let's skip updating the user if it was already updated before in the _handle_message_update.
+                if member.id == user_db.id:
+                    continue
+
                 new_user = await ChatModel.upsert_user(member)
                 await UserInGroupModel.ensure_user_in_group(new_user, group)
         elif message.left_chat_member:
