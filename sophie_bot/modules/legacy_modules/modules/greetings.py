@@ -972,7 +972,9 @@ async def welcome_trigger(message: Message, strings):
         if value := redis.get(_clean_welcome.format(chat=chat_id)):
             with suppress(TelegramBadRequest):
                 await bot.delete_message(chat_id, value)
-        redis.set(_clean_welcome.format(chat=chat_id), msg.id)
+
+        if msg:
+            redis.set(_clean_welcome.format(chat=chat_id), msg.id)
 
     # Welcome mute
     if user_id == CONFIG.bot_id:
