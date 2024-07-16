@@ -649,9 +649,8 @@ async def ws_redirecter(message: Message, strings, **kwargs):
     await message.answer(url=url)
 
 
-@register(CommandStart(deep_link=True, magic=F.args.regexp(r"ws_")))
-@get_strings_dec("greetings")
-async def welcome_security_handler_pm(message: Message, state: FSMContext, strings, regexp=None, **kwargs):
+@dp.message(CommandStart(deep_link=True, magic=F.args.regexp(r"ws_")))
+async def welcome_security_handler_pm(message: Message, state: FSMContext):
     args = get_args_str(message).split("_")
     chat_id = int(args[1])
 
@@ -666,15 +665,15 @@ async def welcome_security_handler_pm(message: Message, state: FSMContext, strin
     level = db_item["welcome_security"]["level"]
 
     if level == "button":
-        await WelcomeSecurityState.button.set()
+        await state.set_state(WelcomeSecurityState.button)
         await send_button(message, state)
 
     elif level == "math":
-        await WelcomeSecurityState.math.set()
+        await state.set_state(WelcomeSecurityState.math)
         await send_btn_math(message, state)
 
     elif level == "captcha":
-        await WelcomeSecurityState.captcha.set()
+        await state.set_state(WelcomeSecurityState.captcha)
         await send_captcha(message, state)
 
 
@@ -879,7 +878,7 @@ async def welcome_security_passed(message: Union[CallbackQuery, Message], state:
         if to_delete:
             await bot.delete_message(chat_id, msg_id)
         await bot.delete_message(user_id, verify_msg_id)
-    await state.finish()
+    await state.clear()
 
     with suppress(TelegramBadRequest):
         message_id = redis.get(f"welcome_security_users:{user_id}:{chat_id}")
@@ -894,7 +893,7 @@ async def welcome_security_passed(message: Union[CallbackQuery, Message], state:
 
     title = (await db.chat_list.find_one({"chat_id": chat_id}))["chat_title"]
 
-    if "data" in message:
+    if isinstance(message, CallbackQuery):
         await message.answer(strings["passed_no_frm"] % title, show_alert=True)
     else:
         await message.reply(strings["passed"] % title)
