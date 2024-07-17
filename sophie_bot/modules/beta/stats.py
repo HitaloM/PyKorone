@@ -1,7 +1,6 @@
+from sophie_bot.db.models import BetaModeModel, GlobalSettings
 from stfu_tg import KeyValue, Section
 from stfu_tg.doc import Element
-
-from sophie_bot.db.models import BetaModeModel, ChatModel, GlobalSettings
 
 
 async def beta_stats() -> Element:
@@ -9,7 +8,7 @@ async def beta_stats() -> Element:
     percentage = percentage_db.value if percentage_db else 0
 
     beta_chats = await BetaModeModel.beta_mode_chats_count()
-    total_chats = await ChatModel.count()
+    total_chats = await BetaModeModel.count()
     calculated_percentage = int((beta_chats / total_chats) * 100)
 
     return Section(
