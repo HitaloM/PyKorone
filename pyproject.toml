@@ -29,7 +29,7 @@ regex = "^2024.5.15"
 pydantic = { extras = ["dotenv"], version = "^2.8" }
 emoji-country-flag = "~2"
 pydantic-settings = "~2.3"
-structlog = "^24.2.0"
+structlog = "^24"
 stfu-tg = "2.3"
 ass-tg = "^2.2"
 beanie = "^1.26.0"
