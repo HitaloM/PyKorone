@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PyKorone 1.0\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-07-15 19:58-0300\n"
+"POT-Creation-Date: 2024-07-16 22:12-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -799,6 +799,28 @@ msgstr ""
 
 #: src/korone/modules/users_groups/handlers/groups.py:89
 msgid "<b>Type</b>: {type}\n"
+msgstr ""
+
+#: src/korone/modules/users_groups/handlers/id.py:18
+msgid "Your ID is <code>{id}</code>"
+msgstr ""
+
+#: src/korone/modules/users_groups/handlers/id.py:21
+msgid ""
+"\n"
+"Chat ID: <code>{id}</code>"
+msgstr ""
+
+#: src/korone/modules/users_groups/handlers/id.py:24
+msgid ""
+"\n"
+"{user} ID: <code>{id}</code>"
+msgstr ""
+
+#: src/korone/modules/users_groups/handlers/id.py:32
+msgid ""
+"\n"
+"Forwarded user ID: <code>{id}</code>"
 msgstr ""
 
 #: src/korone/modules/users_groups/handlers/users.py:37
