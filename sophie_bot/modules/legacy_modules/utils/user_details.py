@@ -241,7 +241,8 @@ async def get_user_by_text(message: Message, text: str):
                 message.entities,
             )
         )
-        or []
+        if message.entities
+        else []
     )
     for entity in entities:
         # If username matches entity's text
