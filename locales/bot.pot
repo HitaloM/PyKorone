@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PyKorone 1.0\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-07-16 22:12-0300\n"
+"POT-Creation-Date: 2024-07-16 22:25-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -737,6 +737,22 @@ msgstr ""
 
 #: src/korone/modules/translator/handlers/translate.py:100
 msgid "<b>Language:</b> <code>{source_lang}</code> => <code>{target_lang}</code>"
+msgstr ""
+
+#: src/korone/modules/users_groups/handlers/cleanup.py:20
+msgid "Removing deleted accounts..."
+msgstr ""
+
+#: src/korone/modules/users_groups/handlers/cleanup.py:24
+msgid "No members found."
+msgstr ""
+
+#: src/korone/modules/users_groups/handlers/cleanup.py:38
+msgid "Removed {count} deleted accounts."
+msgstr ""
+
+#: src/korone/modules/users_groups/handlers/cleanup.py:40
+msgid "No deleted accounts found."
 msgstr ""
 
 #: src/korone/modules/users_groups/handlers/groups.py:31
