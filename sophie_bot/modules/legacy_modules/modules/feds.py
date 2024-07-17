@@ -1141,7 +1141,8 @@ async def check_fbanned(message: Message, chat, strings):
             if s_fed is None:
                 return
 
-            text = strings["automatic_ban_sfed"].format(user=await get_user_link(user_id), fed_name=s_fed["fed_name"])
+            text = strings["automatic_ban_sfed"].format(user=await get_user_link(user_id), fed_name=html.escape(
+                s_fed["fed_name"], False))
 
         if "reason" in ban:
             text += strings["automatic_ban_reason"].format(text=ban["reason"])
