@@ -1,6 +1,7 @@
-from sophie_bot.db.models import BetaModeModel, GlobalSettings
 from stfu_tg import KeyValue, Section
 from stfu_tg.doc import Element
+
+from sophie_bot.db.models import BetaModeModel, GlobalSettings
 
 
 async def beta_stats() -> Element:
