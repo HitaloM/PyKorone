@@ -1,22 +1,6 @@
 # Copyright (C) 2018 - 2020 MrYacha. All rights reserved. Source code available under the AGPL.
 # Copyright (C) 2019 Aiogram
-
-#
-# This file is part of SophieBot.
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU Affero General Public License as
-# published by the Free Software Foundation, either version 3 of the
-# License, or (at your option) any later version.
-
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU Affero General Public License for more details.
-
-# You should have received a copy of the GNU Affero General Public License
-# along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
+import html
 import pickle
 import re
 from contextlib import suppress
@@ -36,6 +20,20 @@ from sophie_bot.services.redis import bredis
 from sophie_bot.services.telethon import tbot
 
 from .language import get_string
+
+#
+# This file is part of SophieBot.
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU Affero General Public License as
+# published by the Free Software Foundation, either version 3 of the
+# License, or (at your option) any later version.
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU Affero General Public License for more details.
+# You should have received a copy of the GNU Affero General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
 async def get_user_by_id(user_id: int):
@@ -74,7 +72,7 @@ async def get_user_by_username(username):
     return user
 
 
-async def get_user_link(user_id, custom_name=None, md=False):
+async def get_user_link(user_id, custom_name=None, md=False, escape_html=True):
     user = await db.user_list.find_one({"user_id": user_id})
 
     if user:
@@ -84,6 +82,9 @@ async def get_user_link(user_id, custom_name=None, md=False):
 
     if custom_name:
         user_name = custom_name
+
+    if not md and escape_html:
+        user_name = html.escape(user_name, quote=False)
 
     if md:
         return "[{name}](tg://user?id={id})".format(name=user_name, id=user_id)
