@@ -16,7 +16,7 @@ DEFAULT_CONFIG_TEMPLATE: dict[str, Any] = {
         "API_ID": "",
         "API_HASH": "",
         "BOT_TOKEN": "",
-        "USE_IPV6": False,
+        "USE_IPV6": True,
         "WORKERS": 24,
     },
     "korone": {
@@ -77,3 +77,5 @@ GITHUB_URL: str = "https://github.com/HitaloM/PyKorone"
 TELEGRAM_URL: str = "https://t.me/PyKorone"
 
 DOCS_URL: str = "https://pykorone.readthedocs.io"
+
+LOGS_CHAT: int = -1001332080671
