@@ -5,7 +5,6 @@ import html
 
 from hairydogm.keyboard import InlineKeyboardBuilder
 from hydrogram import Client
-from hydrogram.enums import ParseMode
 from hydrogram.types import CallbackQuery, Message
 
 from korone import cache
@@ -13,7 +12,7 @@ from korone.decorators import router
 from korone.filters import Command, IsSudo
 from korone.handlers.abstract import CallbackQueryHandler, MessageHandler
 from korone.modules.sudo.callback_data import UpdateCallbackData
-from korone.modules.sudo.utils import build_text, generate_document, run_command
+from korone.modules.sudo.utils import generate_document, run_command
 
 
 class UpdateCommand(MessageHandler):
@@ -88,6 +87,4 @@ class UpdateCallback(CallbackQueryHandler):
             await generate_document(stdout, message)
             return
 
-        text += build_text(stdout)
-
-        await sent.edit(text, parse_mode=ParseMode.MARKDOWN)
+        await sent.edit(f"<pre language='bash'>{html.escape(str(stdout))}</pre>")

@@ -3,16 +3,9 @@
 
 import asyncio
 import io
-import re
 from typing import Any
 
 from hydrogram.types import Message
-
-
-def build_text(output: str) -> str:
-    output = re.sub(f'([{re.escape("```")}])', r"\\\1", output)
-
-    return f"```bash\n{output}\n```"
 
 
 async def generate_document(output: Any, message: Message):

@@ -1,15 +1,16 @@
 # SPDX-License-Identifier: BSD-3-Clause
 # Copyright (c) 2024 Hitalo M. <https://github.com/HitaloM>
 
+import html
+
 from hairydogm.chat_action import ChatActionSender
 from hydrogram import Client
-from hydrogram.enums import ParseMode
 from hydrogram.types import Message
 
 from korone.decorators import router
 from korone.filters import Command, CommandObject, IsSudo
 from korone.handlers.abstract import MessageHandler
-from korone.modules.sudo.utils import build_text, generate_document, run_command
+from korone.modules.sudo.utils import generate_document, run_command
 
 
 class Shell(MessageHandler):
@@ -32,4 +33,4 @@ class Shell(MessageHandler):
                 await generate_document(output, message)
                 return
 
-            await message.reply(build_text(output), parse_mode=ParseMode.MARKDOWN)
+            await message.reply(f"<pre language='bash'>{html.escape(str(output))}</pre>")

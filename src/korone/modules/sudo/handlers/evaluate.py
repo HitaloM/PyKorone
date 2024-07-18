@@ -1,18 +1,18 @@
 # SPDX-License-Identifier: BSD-3-Clause
 # Copyright (c) 2024 Hitalo M. <https://github.com/HitaloM>
 
+import html
 import traceback
 
 from hairydogm.chat_action import ChatActionSender
 from hydrogram import Client
-from hydrogram.enums import ParseMode
 from hydrogram.types import Message
 from meval import meval
 
 from korone.decorators import router
 from korone.filters import Command, CommandObject, IsSudo
 from korone.handlers.abstract import MessageHandler
-from korone.modules.sudo.utils import build_text, generate_document
+from korone.modules.sudo.utils import generate_document
 
 
 class Evaluate(MessageHandler):
@@ -31,7 +31,8 @@ class Evaluate(MessageHandler):
             except Exception:
                 traceback_string = traceback.format_exc()
                 await message.reply(
-                    f"Exception while running the code:\n<pre>{traceback_string}</pre>"
+                    "Exception while running the code:\n"
+                    f"<pre language='bash'>{html.escape(traceback_string)}</pre>"
                 )
                 return
 
@@ -43,4 +44,4 @@ class Evaluate(MessageHandler):
                 await generate_document(output, message)
                 return
 
-            await message.reply(build_text(str(output)), parse_mode=ParseMode.MARKDOWN)
+            await message.reply(f"<pre language='bash'>{html.escape(str(output))}</pre>")
