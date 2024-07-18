@@ -7,7 +7,7 @@ dependencies = [
     "hydrogram[fast] @ git+https://github.com/hydrogram/hydrogram@dev",
     "hairydogm>=0.3.0",
     "picologging>=0.9.3",
-    "structlog>=24.2.0",
+    "structlog>=24.4.0",
     "uvloop>=0.19.0",
     "aiosqlite>=0.20.0",
     "emoji-country-flag>=2.0.1",
@@ -36,12 +36,12 @@ build-backend = "hatchling.build"
 
 [tool.rye]
 managed = true
-dev-dependencies = ["pre-commit>=3.7.1", "ruff>=0.5.2"]
+dev-dependencies = ["pre-commit>=3.7.1", "ruff>=0.5.3"]
 
 [project.optional-dependencies]
 docs = [
-    "sphinx>=7.4.5",
-    "furo>=2024.5.6",
+    "sphinx>=7.4.6",
+    "furo>=2024.7.18",
     "sphinx-autobuild>=2024.4.16",
     "sphinx-copybutton>=0.5.2",
     "myst-parser>=3.0.1",
