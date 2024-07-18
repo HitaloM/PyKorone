@@ -49,6 +49,7 @@ from aiogram.types import (
 )
 from babel.dates import format_timedelta
 from pymongo import DeleteMany, InsertOne
+from stfu_tg import Template, UserLink
 
 from sophie_bot import bot, dp
 from sophie_bot.config import CONFIG
@@ -1113,6 +1114,7 @@ async def check_fbanned(message: Message, chat, strings):
         return
 
     user_id = message.from_user.id
+    user_name = message.from_user.first_name
     chat_id = chat["chat_id"]
 
     log.debug("Enforcing fban check on {} in {}".format(user_id, chat_id))
@@ -1133,8 +1135,9 @@ async def check_fbanned(message: Message, chat, strings):
         # check whether banned fed_id is chat's fed id else
         # user is banned in sub fed
         if fed["fed_id"] == ban["fed_id"] and "origin_fed" not in ban:
-            text = strings["automatic_ban"].format(
-                user=await get_user_link(user_id),
+            doc = Template(
+                strings["automatic_ban"],
+                user=UserLink(user_id, user_name),
                 fed_name=html.escape(fed["fed_name"], False),
             )
         else:
@@ -1142,17 +1145,19 @@ async def check_fbanned(message: Message, chat, strings):
             if s_fed is None:
                 return
 
-            text = strings["automatic_ban_sfed"].format(
-                user=await get_user_link(user_id), fed_name=html.escape(s_fed["fed_name"], False)
+            doc = Template(
+                strings["automatic_ban_sfed"],
+                user=UserLink(user_id, user_name),
+                fed_name=s_fed["fed_name"],
             )
 
         if "reason" in ban:
-            text += strings["automatic_ban_reason"].format(text=ban["reason"])
+            doc += Template(strings["automatic_ban_reason"], text=ban["reason"])
 
         if not await ban_user(chat_id, user_id):
             return
 
-        await message.reply(text)
+        await message.reply(str(doc))
 
         await db.fed_bans.update_one({"_id": ban["_id"]}, {"$addToSet": {"banned_chats": chat_id}})
 
