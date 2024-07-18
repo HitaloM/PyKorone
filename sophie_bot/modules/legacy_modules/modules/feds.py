@@ -1226,11 +1226,14 @@ async def fedban_check(message, fed, user, _, strings):
         if total_count > 0:
             if message.from_user.id == user["user_id"]:
                 text += strings["contact_in_pm"]
+
+    if len(text) > 4096:
         return await message.answer_document(
             BufferedInputFile(text.encode(), filename="fban_info.txt"),
             caption=strings["too_long_fbaninfo"],
             reply=message.message_id,
         )
+
     await message.reply(text, parse_mode="None")
 
 
