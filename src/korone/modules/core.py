@@ -41,7 +41,7 @@ def add_modules_to_dict() -> None:
             add_handlers(module_name, handlers_path)
 
 
-def get_method_callable(cls: type, key: str) -> Callable[..., Any]:  # numpydoc ignore=PR02
+def get_method_callable(cls: type, key: str) -> Callable[..., Any]:
     method = cls.__dict__.get(key)
     if isinstance(method, staticmethod):
         return method.__func__

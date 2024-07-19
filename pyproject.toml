@@ -22,6 +22,7 @@ dependencies = [
     "magic-filter>=1.0.12",
     "tomlkit>=0.13.0",
     "sentry-sdk>=2.10.0",
+    "better-exceptions>=0.3.3",
 ]
 readme = "README.md"
 license = { file = "LICENSE" }

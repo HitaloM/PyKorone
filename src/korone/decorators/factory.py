@@ -6,6 +6,7 @@ from dataclasses import dataclass
 from typing import TYPE_CHECKING
 
 from hydrogram.filters import Filter
+from hydrogram.handlers import ErrorHandler
 
 from korone.handlers.callback_query_handler import KoroneCallbackQueryHandler
 from korone.handlers.message_handler import KoroneMessageHandler
@@ -17,7 +18,7 @@ if TYPE_CHECKING:
 @dataclass(frozen=True, slots=True)
 class HandlerObject:
     func: Callable
-    filters: Filter
+    filters: Filter | None
     group: int
     event: Callable
 
@@ -31,9 +32,10 @@ class Factory:
         self.events_observed: dict[str, type[Handler]] = {
             "message": KoroneMessageHandler,
             "callback_query": KoroneCallbackQueryHandler,
+            "error": ErrorHandler,
         }
 
-    def __call__(self, filters: Filter, group: int = 0) -> Callable:
+    def __call__(self, filters: Filter | None = None, group: int = 0) -> Callable:
         def wrapper(func: Callable) -> Callable:
             func.on = self.event_name
             func.group = group
