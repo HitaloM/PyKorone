@@ -23,6 +23,7 @@ dependencies = [
     "tomlkit>=0.13.0",
     "sentry-sdk>=2.10.0",
     "better-exceptions>=0.3.3",
+    "regex>=2024.5.15",
 ]
 readme = "README.md"
 license = { file = "LICENSE" }

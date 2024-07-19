@@ -11,6 +11,7 @@ gsm_arena
 languages
 lastfm
 medias
+regex
 stickers
 translator
 users_groups
@@ -42,6 +43,7 @@ Below is a list of all available modules in _PyKorone_:
 - [Languages](./languages): Lets you change the bot's language.
 - [LastFM](./lastfm): Get your LastFM scrobbles.
 - [Medias](./medias): Downloads media from various websites automatically.
+- [Regex](./regex): Test regular expressions.
 - [Stickers](./stickers): Get stickers and steal stickers to a sticker pack.
 - [Translator](./translator): Translate text to different languages using DeepL.
 - [Users & Groups](./users_groups): Fetches information about users and groups.

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PyKorone 1.0\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-07-18 21:42-0300\n"
+"POT-Creation-Date: 2024-07-19 19:39-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -649,6 +649,26 @@ msgstr ""
 msgid ""
 "Hi, I'm Korone! An all-in-one bot. I can help you with lots of things. "
 "Just click on the buttons below to get started."
+msgstr ""
+
+#: src/korone/modules/regex/handlers/sed.py:30
+msgid "Unknown flag: {flag}"
+msgstr ""
+
+#: src/korone/modules/regex/handlers/sed.py:34
+msgid "Pattern is too long. Please use shorter patterns."
+msgstr ""
+
+#: src/korone/modules/regex/handlers/sed.py:48
+msgid "No message to apply the substitution."
+msgstr ""
+
+#: src/korone/modules/regex/handlers/sed.py:50
+msgid "Regex error: {e}"
+msgstr ""
+
+#: src/korone/modules/regex/handlers/sed.py:52
+msgid "Unexpected error: {e}"
 msgstr ""
 
 #: src/korone/modules/stickers/handlers/get_sticker.py:35
