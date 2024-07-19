@@ -17,22 +17,22 @@ The LastFM module allows you to get and view information about your favorite art
 ```{admonition} **Supported Sizes**:
 :class: seealso
 
-`1`, `2`, `3`, `4`, `5`, `6`, `7`
+`1`, `2`, `3`, `4`, `5`, `6`, `7`<br>
 The size is the number of rows and columns in the collage.
 ```
 
 ```{admonition} **Supported Periods**:
 :class: seealso
 
-`1d`, `7d`, `1m`, `3m`, `6m`, `1y`, `all`
-_d: day, m: month, y: year._
+`1d`, `7d`, `1m`, `3m`, `6m`, `1y`, `all`<br>
+_d: day, m: month, y: year._<br>
 The period is the time range for the collage, _all_ is all time since you started scrobbling.
 ```
 
 ```{admonition} **Supported Types**:
 :class: seealso
 
-`artist`, `track`, `album`
+`artist`, `track`, `album`<br>
 The type is the category of the items that you want to get in the `/lfmtop' command.
 ```
 

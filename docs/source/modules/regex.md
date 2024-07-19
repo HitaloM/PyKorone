@@ -18,14 +18,14 @@ Explore and test regular expressions or correct errors in messages within a grou
 
 ### Examples
 
-- `s/Hello/Hi/`
-  This command replaces the first occurrence of "Hello" with "Hi".
+> `s/Hello/Hi/`<br>
+> This command replaces the first occurrence of "Hello" with "Hi".
 
-- `s/Hello/Hi/g`
-  This replaces all occurrences of "Hello" with "Hi".
+> `s/Hello/Hi/g`<br>
+> This replaces all occurrences of "Hello" with "Hi".
 
-- `s/Hello/Hi/gi`
-  This performs a global, case-insensitive replacement of "Hello" with "Hi".
+> `s/Hello/Hi/gi`<br>
+> This performs a global, case-insensitive replacement of "Hello" with "Hi".
 
-- `s/Hello/Hi/gim`
-  This command replaces "Hello" with "Hi" globally, with case-insensitivity, and across multiple lines.
+> `s/Hello/Hi/gim`<br>
+> This command replaces "Hello" with "Hi" globally, with case-insensitivity, and across multiple lines.
