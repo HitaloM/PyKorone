@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PyKorone 1.0\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-07-14 21:07-0300\n"
+"POT-Creation-Date: 2024-07-21 19:23-0300\n"
 "PO-Revision-Date: 2024-06-18 13:25+0000\n"
 "Last-Translator: Hitalo <hitalomarquete331@gmail.com>\n"
 "Language-Team: Japanese <http://weblate.amanoteam.com/projects/korone/korone/"
@@ -69,7 +69,7 @@ msgstr "AFKのステータスが更新されました!"
 msgid "You are now AFK."
 msgstr "あなたは今AFKです."
 
-#: src/korone/modules/disabling/handlers/disable.py:23
+#: src/korone/modules/disabling/handlers/disable.py:22
 #, fuzzy
 msgid ""
 "You need to specify a command to disable. Use <code>/disable &lt;"
@@ -78,25 +78,22 @@ msgstr ""
 "まず LastFM のユーザー名を設定してください! <code>/setlfm &lt;ユーザー名&gt;"
 "</code> を使ってください."
 
-#: src/korone/modules/disabling/handlers/disable.py:32
+#: src/korone/modules/disabling/handlers/disable.py:31
 msgid "You can only disable one command at a time."
 msgstr "一度に1つのコマンドを無効にすることができます."
 
 #: src/korone/modules/disabling/handlers/disable.py:37
-#: src/korone/modules/disabling/handlers/enable.py:32
-msgid "This command can't be enabled or disabled."
-msgstr "このコマンドは有効または無効にすることはできません."
+msgid ""
+"Unknown command to re-enable:\n"
+"- <code>{command}</code>\n"
+"Check the /disableable!"
+msgstr ""
 
-#: src/korone/modules/disabling/handlers/disable.py:43
+#: src/korone/modules/disabling/handlers/disable.py:48
 msgid "This command is already disabled."
 msgstr "このコマンドは既に無効です."
 
-#: src/korone/modules/disabling/handlers/disable.py:49
-#: src/korone/modules/disabling/handlers/enable.py:44
-msgid "Sorry! I couldn't find this command, maybe it doesn't exist?"
-msgstr "すみません! コマンドが見つかりませんでした 存在しないのでしょうか?"
-
-#: src/korone/modules/disabling/handlers/disable.py:52
+#: src/korone/modules/disabling/handlers/disable.py:53
 msgid "Command disabled."
 msgstr "コマンドは無効である。"
 
@@ -108,25 +105,47 @@ msgstr "このチャットではコマンドは無効です."
 msgid "The following commands are disabled in this chat:\n"
 msgstr "このチャットでは次のコマンドは無効です.\n"
 
-#: src/korone/modules/disabling/handlers/enable.py:22
+#: src/korone/modules/disabling/handlers/enable.py:21
 msgid "You need to specify a command to enable."
 msgstr "実行するコマンドを指定する必要があります."
 
-#: src/korone/modules/disabling/handlers/enable.py:27
+#: src/korone/modules/disabling/handlers/enable.py:26
 msgid "You can only enable one command at a time."
 msgstr "一度に1つのコマンドしか有効にすることはできません."
 
-#: src/korone/modules/disabling/handlers/enable.py:38
+#: src/korone/modules/disabling/handlers/enable.py:32
+msgid ""
+"Unknown command to disable:\n"
+"- <code>{command}</code>\n"
+"Check the /disableable!"
+msgstr ""
+
+#: src/korone/modules/disabling/handlers/enable.py:43
 msgid "This command is already enabled."
 msgstr "このコマンドは既に有効です."
 
-#: src/korone/modules/disabling/handlers/enable.py:47
+#: src/korone/modules/disabling/handlers/enable.py:48
 msgid "Command enabled."
 msgstr "コマンドが有効。"
 
 #: src/korone/modules/disabling/handlers/list.py:23
 msgid "The following commands can be disabled:\n"
 msgstr "次のコマンドを無効にすることができます.\n"
+
+#: src/korone/modules/errors/handlers/catcher.py:74
+#, fuzzy
+msgid "An error occurred while processing this update. :/"
+msgstr ""
+"LastFMのデータを取得する際にエラーが発生しました.\n"
+"エラー: <i>{error}</i>"
+
+#: src/korone/modules/errors/handlers/catcher.py:80
+msgid "Reference ID: {id}"
+msgstr ""
+
+#: src/korone/modules/errors/handlers/catcher.py:88
+msgid "🐞 Report This Error"
+msgstr ""
 
 #: src/korone/modules/gsm_arena/utils.py:97
 msgid "Status"
@@ -297,8 +316,8 @@ msgstr "🌍 グループ言語の変更"
 #: src/korone/modules/languages/handlers/info.py:65
 #: src/korone/modules/languages/handlers/info.py:83
 #: src/korone/modules/languages/handlers/select.py:41
-#: src/korone/modules/pm_menu/handlers/about.py:35
-#: src/korone/modules/pm_menu/handlers/help.py:28
+#: src/korone/modules/pm_menu/handlers/about.py:39
+#: src/korone/modules/pm_menu/handlers/help.py:30
 msgid "⬅️ Back"
 msgstr "⬅️"
 
@@ -649,7 +668,11 @@ msgstr "📦 GitHub"
 msgid "📚 Channel"
 msgstr "📚 チャンネル"
 
-#: src/korone/modules/pm_menu/handlers/about.py:47
+#: src/korone/modules/pm_menu/handlers/about.py:31
+msgid "🔒 Privacy Policy"
+msgstr ""
+
+#: src/korone/modules/pm_menu/handlers/about.py:51
 #, fuzzy
 msgid ""
 "Korone is a comprehensive and cutting-edge Telegram bot that offers a wide "
@@ -676,47 +699,21 @@ msgstr ""
 "PyKororneバージョン: {version}"
 
 #: src/korone/modules/pm_menu/handlers/help.py:25
+#: src/korone/modules/pm_menu/handlers/privacy.py:20
 msgid "Documentation"
 msgstr ""
 
-#: src/korone/modules/pm_menu/handlers/help.py:35
+#: src/korone/modules/pm_menu/handlers/help.py:38
 msgid ""
-"Read the documentation, it will give you an introduction to how the bot "
-"works and how to use each of the commands available. You can go to {modules} "
-"section to see the list of available commands.\n"
-"\n"
-"Start reading by clicking the button below."
+"You can get help by reading the documentation, where you'll get an overview "
+"of the bot and how to use it to its full potential. Click the button below "
+"to start reading."
 msgstr ""
 
-#: src/korone/modules/pm_menu/handlers/help.py:51
-#: src/korone/modules/pm_menu/handlers/start.py:35
-msgid "👮‍♂️ Help"
-msgstr "👮�"
-
-#: src/korone/modules/pm_menu/handlers/help.py:53
-msgid "Message me in PM to get help."
-msgstr "助けを求めるなら、PMでメッセージをくれ。"
-
-#: src/korone/modules/pm_menu/handlers/privacy.py:26
-msgid "What Information We Collect"
-msgstr ""
-
-#: src/korone/modules/pm_menu/handlers/privacy.py:32
-msgid "🔙 Back"
-msgstr ""
-
-#: src/korone/modules/pm_menu/handlers/privacy.py:39
+#: src/korone/modules/pm_menu/handlers/privacy.py:27
 msgid ""
-"<b>Korone Privacy Policy</b>\n"
-"\n"
-"This bot is designed to prioritize and protect user privacy to the best of "
-"its ability.\n"
-"\n"
-"The bot only collects and uses the data necessary for the proper functioning "
-"of its commands that are listed in the {modules} section in the "
-"documentation.\n"
-"\n"
-"Please note that our privacy policy may be subject to changes and updates."
+"The privacy policy is available for review in the documentation. Click the "
+"button below to start reading."
 msgstr ""
 
 #: src/korone/modules/pm_menu/handlers/start.py:29
@@ -728,13 +725,37 @@ msgid "{lang_flag} Language"
 msgstr "{lang_flag}言語"
 
 #: src/korone/modules/pm_menu/handlers/start.py:34
-msgid "🔒 Privacy"
-msgstr ""
+msgid "👮‍♂️ Help"
+msgstr "👮�"
 
-#: src/korone/modules/pm_menu/handlers/start.py:42
+#: src/korone/modules/pm_menu/handlers/start.py:41
 msgid ""
 "Hi, I'm Korone! An all-in-one bot. I can help you with lots of things. Just "
 "click on the buttons below to get started."
+msgstr ""
+
+#: src/korone/modules/regex/utils.py:43
+msgid "Invalid command: {command}"
+msgstr ""
+
+#: src/korone/modules/regex/utils.py:49
+msgid "Pattern is too long. Please use shorter patterns."
+msgstr ""
+
+#: src/korone/modules/regex/utils.py:54
+msgid "Unknown flag: {flag}"
+msgstr ""
+
+#: src/korone/modules/regex/handlers/sed.py:40
+msgid "Regex error: {e}"
+msgstr ""
+
+#: src/korone/modules/regex/handlers/sed.py:48
+msgid "Your regex didn't change anything from the original message."
+msgstr ""
+
+#: src/korone/modules/regex/handlers/sed.py:50
+msgid "No message to apply the substitution."
 msgstr ""
 
 #: src/korone/modules/stickers/handlers/get_sticker.py:35
@@ -824,6 +845,24 @@ msgid ""
 "<b>Language:</b> <code>{source_lang}</code> => <code>{target_lang}</code>"
 msgstr ""
 
+#: src/korone/modules/users_groups/handlers/cleanup.py:20
+msgid "Removing deleted accounts..."
+msgstr ""
+
+#: src/korone/modules/users_groups/handlers/cleanup.py:24
+#, fuzzy
+msgid "No members found."
+msgstr "デバイスが見つかりませんでした。"
+
+#: src/korone/modules/users_groups/handlers/cleanup.py:38
+msgid "Removed {count} deleted accounts."
+msgstr ""
+
+#: src/korone/modules/users_groups/handlers/cleanup.py:40
+#, fuzzy
+msgid "No deleted accounts found."
+msgstr "デバイスが見つかりませんでした。"
+
 #: src/korone/modules/users_groups/handlers/groups.py:31
 #: src/korone/modules/users_groups/handlers/users.py:26
 msgid "The provided identifier is not valid."
@@ -893,6 +932,29 @@ msgstr ""
 #, fuzzy
 msgid "<b>Type</b>: {type}\n"
 msgstr "<b>タイトル:</b> {title}\n"
+
+#: src/korone/modules/users_groups/handlers/id.py:18
+msgid "Your ID is <code>{id}</code>"
+msgstr ""
+
+#: src/korone/modules/users_groups/handlers/id.py:21
+msgid ""
+"\n"
+"Chat ID: <code>{id}</code>"
+msgstr ""
+
+#: src/korone/modules/users_groups/handlers/id.py:24
+msgid ""
+"\n"
+"{user} ID: <code>{id}</code>"
+msgstr ""
+
+#: src/korone/modules/users_groups/handlers/id.py:32
+#, fuzzy
+msgid ""
+"\n"
+"Forwarded user ID: <code>{id}</code>"
+msgstr "翻訳済み: {translated}\n"
 
 #: src/korone/modules/users_groups/handlers/users.py:37
 msgid "The provided user ID is invalid."
@@ -974,6 +1036,15 @@ msgid "An error occurred while fetching whois information: {error}"
 msgstr ""
 "LastFMのデータを取得する際にエラーが発生しました.\n"
 "エラー: <i>{error}</i>"
+
+#~ msgid "This command can't be enabled or disabled."
+#~ msgstr "このコマンドは有効または無効にすることはできません."
+
+#~ msgid "Sorry! I couldn't find this command, maybe it doesn't exist?"
+#~ msgstr "すみません! コマンドが見つかりませんでした 存在しないのでしょうか?"
+
+#~ msgid "Message me in PM to get help."
+#~ msgstr "助けを求めるなら、PMでメッセージをくれ。"
 
 #~ msgid "AFK"
 #~ msgstr "AFK"
