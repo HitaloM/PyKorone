@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2024-07-14 21:07-0300\n"
-"PO-Revision-Date: 2024-07-10 01:29+0000\n"
-"Last-Translator: Hitalo <hitalo331@outlook.com>\n"
+"PO-Revision-Date: 2024-07-21 23:29+0000\n"
+"Last-Translator: Alisson Lauffer <alissonvitortc@gmail.com>\n"
 "Language-Team: Portuguese (Brazil) <http://weblate.amanoteam.com/projects/"
 "korone/korone/pt_BR/>\n"
 "Language: pt_BR\n"
@@ -433,12 +433,11 @@ msgstr ""
 "Últimas 5 reproduções:"
 
 #: src/korone/modules/lastfm/handlers/set.py:28
-#, fuzzy
 msgid ""
 "You need to provide your LastFM username! Example: <code>/setlfm username</"
 "code>."
 msgstr ""
-"Você precisa fornecer seu nome de usuário da LastFM! Exemplo: <code>/setfm "
+"Você precisa fornecer seu nome de usuário da LastFM! Exemplo: <code>/setlfm "
 "nome de usuário</code>."
 
 #: src/korone/modules/lastfm/handlers/set.py:37
@@ -677,7 +676,7 @@ msgstr ""
 
 #: src/korone/modules/pm_menu/handlers/help.py:25
 msgid "Documentation"
-msgstr ""
+msgstr "Documentação"
 
 #: src/korone/modules/pm_menu/handlers/help.py:35
 msgid ""
@@ -687,6 +686,11 @@ msgid ""
 "\n"
 "Start reading by clicking the button below."
 msgstr ""
+"Leia a documentação, que lhe dará uma introdução sobre como o bot funciona e "
+"como usar cada um dos comandos disponíveis. Vá para a seção {modules} para "
+"ver a lista de comandos disponíveis.\n"
+"\n"
+"Comece a ler clicando no botão abaixo."
 
 #: src/korone/modules/pm_menu/handlers/help.py:51
 #: src/korone/modules/pm_menu/handlers/start.py:35
@@ -706,7 +710,6 @@ msgid "🔙 Back"
 msgstr "🔙 Voltar"
 
 #: src/korone/modules/pm_menu/handlers/privacy.py:39
-#, fuzzy
 msgid ""
 "<b>Korone Privacy Policy</b>\n"
 "\n"
@@ -724,8 +727,8 @@ msgstr ""
 "Este bot foi projetado para priorizar e proteger a privacidade do usuário da "
 "melhor forma possível.\n"
 "\n"
-"O bot coleta e usa apenas os dados necessários para o funcionamento adequado "
-"dos comandos listados na seção /help.\n"
+"O bot só coleta e usa os dados necessários para o funcionamento adequado de "
+"seus comandos que estão listados na seção {modules} na documentação.\n"
 "\n"
 "Observe que nossa política de privacidade pode estar sujeita a alterações e "
 "atualizações."
@@ -763,9 +766,8 @@ msgid "Failed to download sticker."
 msgstr "Falha no download do sticker."
 
 #: src/korone/modules/stickers/handlers/kang.py:40
-#, fuzzy
 msgid "You need to reply to an image, video, or sticker."
-msgstr "Você precisa responder a um adesivo ou fornecer um emoji."
+msgstr "Você precisa responder a uma imagem, um vídeo ou um sticker."
 
 #: src/korone/modules/stickers/handlers/kang.py:43
 msgid "Processing..."
@@ -774,6 +776,7 @@ msgstr "Processamento..."
 #: src/korone/modules/stickers/handlers/kang.py:48
 msgid "Invalid media type. Please reply to an image, video, or sticker."
 msgstr ""
+"Tipo de mídia inválido. Responda com uma imagem, um vídeo ou um sticker."
 
 #: src/korone/modules/stickers/handlers/kang.py:58
 msgid "Error downloading media."
@@ -792,16 +795,16 @@ msgid ""
 "Sticker <b>successfully</b> added to pack\n"
 "Emoji: {sticker_emoji}"
 msgstr ""
-"Adesivo <b>com sucesso</b> adicionado ao pacote\n"
+"Sticker adicionado <b>com sucesso</b> ao pacote\n"
 "Emoji: {sticker_emoji}"
 
 #: src/korone/modules/stickers/handlers/kang.py:161
 msgid "Adding the sticker to the pack..."
-msgstr "Adicionando o adesivo ao pacote..."
+msgstr "Adicionando o sticker ao pacote..."
 
 #: src/korone/modules/stickers/handlers/kang.py:176
 msgid "Creating the sticker pack..."
-msgstr "Criar o pacote de adesivos..."
+msgstr "Criando o pacote de stickers..."
 
 #: src/korone/modules/stickers/handlers/kang.py:200
 msgid "Start"
@@ -814,7 +817,7 @@ msgid ""
 "<b>Please start the bot first.</b>"
 msgstr ""
 "Opa, parece que não tenho permissões suficientes para criar um pacote de "
-"adesivos para você!\n"
+"stickers para você!\n"
 "<b>Inicie o bot primeiro.</b>"
 
 #: src/korone/modules/translator/handlers/translate.py:74
@@ -850,9 +853,8 @@ msgid "The provided identifier is not valid."
 msgstr "O identificador fornecido não é válido."
 
 #: src/korone/modules/users_groups/handlers/groups.py:51
-#, fuzzy
 msgid "The provided group ID is invalid."
-msgstr "O ID de usuário fornecido é inválido."
+msgstr "O ID do grupo fornecido é inválido."
 
 #: src/korone/modules/users_groups/handlers/groups.py:52
 msgid ""
@@ -871,32 +873,28 @@ msgid "The provided username does not exist."
 msgstr "O nome de usuário fornecido não existe."
 
 #: src/korone/modules/users_groups/handlers/groups.py:57
-#, fuzzy
 msgid "No group found with the provided identifier."
-msgstr "Nenhum usuário foi encontrado com o identificador fornecido."
+msgstr "Nenhum grupo foi encontrado com o identificador fornecido."
 
 #: src/korone/modules/users_groups/handlers/groups.py:58
-#, fuzzy
 msgid "Error accessing group data."
-msgstr "Erro ao acessar os dados do chat."
+msgstr "Erro ao acessar os dados do grupo."
 
 #: src/korone/modules/users_groups/handlers/groups.py:59
 msgid "The provided value is not valid."
 msgstr "O valor fornecido não é válido."
 
 #: src/korone/modules/users_groups/handlers/groups.py:72
-#, fuzzy
 msgid ""
 "You should provide a group ID or username. Example: <code>/group @username</"
 "code>."
 msgstr ""
-"Você deve fornecer um ID de bate-papo ou nome de usuário. Exemplo: <code>/"
-"chat @username</code>."
+"Você deve fornecer um ID de um grupo ou nome de usuário. Exemplo: <code>/"
+"group @username</code>."
 
 #: src/korone/modules/users_groups/handlers/groups.py:83
-#, fuzzy
 msgid "<b>Group info</b>:\n"
-msgstr "<b>Informações do usuário</b>:\n"
+msgstr "<b>Informações do grupo</b>:\n"
 
 #: src/korone/modules/users_groups/handlers/groups.py:84
 #: src/korone/modules/users_groups/handlers/users.py:57
