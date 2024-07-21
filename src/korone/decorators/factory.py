@@ -6,9 +6,9 @@ from dataclasses import dataclass
 from typing import TYPE_CHECKING
 
 from hydrogram.filters import Filter
-from hydrogram.handlers import ErrorHandler
 
 from korone.handlers.callback_query_handler import KoroneCallbackQueryHandler
+from korone.handlers.error_handler import KoroneErrorHandler
 from korone.handlers.message_handler import KoroneMessageHandler
 
 if TYPE_CHECKING:
@@ -32,7 +32,7 @@ class Factory:
         self.events_observed: dict[str, type[Handler]] = {
             "message": KoroneMessageHandler,
             "callback_query": KoroneCallbackQueryHandler,
-            "error": ErrorHandler,
+            "error": KoroneErrorHandler,
         }
 
     def __call__(self, filters: Filter | None = None, group: int = 0) -> Callable:

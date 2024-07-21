@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PyKorone 1.0\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-07-19 19:39-0300\n"
+"POT-Creation-Date: 2024-07-21 18:43-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -121,6 +121,18 @@ msgstr ""
 
 #: src/korone/modules/disabling/handlers/list.py:23
 msgid "The following commands can be disabled:\n"
+msgstr ""
+
+#: src/korone/modules/errors/handlers/catcher.py:74
+msgid "An error occurred while processing this update. :/"
+msgstr ""
+
+#: src/korone/modules/errors/handlers/catcher.py:80
+msgid "Reference ID: {id}"
+msgstr ""
+
+#: src/korone/modules/errors/handlers/catcher.py:88
+msgid "🐞 Report This Error"
 msgstr ""
 
 #: src/korone/modules/gsm_arena/utils.py:97
@@ -651,23 +663,23 @@ msgid ""
 "Just click on the buttons below to get started."
 msgstr ""
 
-#: src/korone/modules/regex/handlers/sed.py:30
+#: src/korone/modules/regex/handlers/sed.py:27
 msgid "Unknown flag: {flag}"
 msgstr ""
 
-#: src/korone/modules/regex/handlers/sed.py:34
+#: src/korone/modules/regex/handlers/sed.py:31
 msgid "Pattern is too long. Please use shorter patterns."
 msgstr ""
 
-#: src/korone/modules/regex/handlers/sed.py:48
+#: src/korone/modules/regex/handlers/sed.py:46
 msgid "No message to apply the substitution."
 msgstr ""
 
-#: src/korone/modules/regex/handlers/sed.py:50
+#: src/korone/modules/regex/handlers/sed.py:48
 msgid "Regex error: {e}"
 msgstr ""
 
-#: src/korone/modules/regex/handlers/sed.py:52
+#: src/korone/modules/regex/handlers/sed.py:50
 msgid "Unexpected error: {e}"
 msgstr ""
 

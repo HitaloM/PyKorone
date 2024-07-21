@@ -3,9 +3,9 @@
 
 import html
 import sys
+from traceback import format_exception
 from typing import Any
 
-from better_exceptions import format_exception
 from hydrogram import Client
 from hydrogram.errors import ChatWriteForbidden, FloodWait
 from hydrogram.types import (
@@ -19,6 +19,7 @@ from sentry_sdk import capture_exception
 
 from korone.decorators import router
 from korone.handlers.abstract import MessageHandler
+from korone.utils.i18n import gettext as _
 from korone.utils.logging import logger
 
 IGNORED_EXCEPTIONS: tuple[type[Exception], ...] = (FloodWait, ChatWriteForbidden)
@@ -33,7 +34,9 @@ class ErrorsHandler(MessageHandler):
         etype, value, tb = sys.exc_info()
 
         if not (etype and value and tb):
-            await logger.aerror("Failed to retrieve exception information", exception=exception)
+            await logger.aerror(
+                "ErrorHandler: Failed to retrieve exception information", exception=exception
+            )
             return
 
         sentry_event_id = self.capture_sentry(exception)
@@ -44,7 +47,7 @@ class ErrorsHandler(MessageHandler):
         elif isinstance(update, CallbackQuery):
             chat = update.message.chat
         else:
-            await logger.aerror("Unhandled update type", update=update)
+            await logger.aerror("ErrorHandler: Unhandled update type", update=update)
             return
 
         message_data = self.message_data(value, sentry_event_id)
@@ -68,13 +71,13 @@ class ErrorsHandler(MessageHandler):
     def message_data(
         self, exception: BaseException, sentry_event_id: str | None
     ) -> dict[str, Any]:
-        text = "An error occurred while processing this update. :/"
+        text = _("An error occurred while processing this update. :/")
 
         error_message = self.get_error_message(exception)
         text += f"\n<blockquote>{error_message}</blockquote>\n"
 
         if sentry_event_id:
-            text += f"Reference ID: {sentry_event_id}"
+            text += _("Reference ID: {id}").format(id=sentry_event_id)
 
         return {
             "text": text,
@@ -82,7 +85,7 @@ class ErrorsHandler(MessageHandler):
                 inline_keyboard=[
                     [
                         InlineKeyboardButton(
-                            text="🐞 Report This Error",
+                            text=_("🐞 Report This Error"),
                             url="https://github.com/HitaloM/PyKorone/issues",
                         )
                     ]

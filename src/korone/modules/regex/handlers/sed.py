@@ -18,10 +18,7 @@ from korone.utils.i18n import gettext as _
 
 class SedHandler(MessageHandler):
     @staticmethod
-    def substitute(text: str, from_pattern: str, to_pattern: str, flags: int, count: int) -> str:
-        return re.sub(from_pattern, to_pattern, text, count=count, flags=flags)
-
-    async def process_message(self, client: Client, message: Message, match: re.Match) -> None:
+    async def process_message(client: Client, message: Message, match: re.Match) -> None:
         from_pattern, to_pattern = cleanup_pattern(match)
         flags_str = (match.group(3) or "")[1:]
         try:
@@ -37,9 +34,10 @@ class SedHandler(MessageHandler):
         try:
             if message.reply_to_message:
                 original_msg = message.reply_to_message
-                substitution = self.substitute(
-                    original_msg.text, from_pattern, to_pattern, flags, count
+                substitution = re.sub(
+                    from_pattern, to_pattern, original_msg.text, count=count, flags=flags
                 )
+
                 if substitution:
                     await client.send_message(
                         message.chat.id, substitution, reply_to_message_id=original_msg.id
