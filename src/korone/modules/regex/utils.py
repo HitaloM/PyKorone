@@ -3,6 +3,8 @@
 
 import regex as re
 
+from korone.utils.i18n import gettext as _
+
 SED_PATTERN: str = r"^s/((?:\\.|[^/])+)/((?:\\.|[^/])*)(/.*)?"
 GROUP0_RE: re.Pattern[str] = re.compile(r"(?<!\\)((?:\\\\)*)\\0")
 MAX_PATTERN_LENGTH: int = 1000
@@ -33,3 +35,22 @@ def build_flags_and_count(flags_str: str) -> tuple[int, int]:
             msg = f"Unknown flag: {flag}"
             raise ValueError(msg, flag)
     return flags, count
+
+
+def process_command(command: str) -> tuple:
+    command_match = re.match(SED_PATTERN, command)
+    if not command_match:
+        return None, _("Invalid command: {command}").format(command=command)
+
+    from_pattern, to_pattern = cleanup_pattern(command_match)
+    flags_str = (command_match.group(3) or "")[1:]
+
+    if len(from_pattern) > MAX_PATTERN_LENGTH or len(to_pattern) > MAX_PATTERN_LENGTH:
+        return None, _("Pattern is too long. Please use shorter patterns.")
+
+    try:
+        flags, count = build_flags_and_count(flags_str)
+    except ValueError as e:
+        return None, _("Unknown flag: {flag}").format(flag=e.args[1])
+
+    return (from_pattern, to_pattern, flags, count), None
