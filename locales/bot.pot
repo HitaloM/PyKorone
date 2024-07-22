@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PyKorone 1.0\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-07-21 19:23-0300\n"
+"POT-Creation-Date: 2024-07-22 20:08-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -675,15 +675,15 @@ msgstr ""
 msgid "Unknown flag: {flag}"
 msgstr ""
 
-#: src/korone/modules/regex/handlers/sed.py:40
+#: src/korone/modules/regex/handlers/sed.py:41
 msgid "Regex error: {e}"
 msgstr ""
 
-#: src/korone/modules/regex/handlers/sed.py:48
+#: src/korone/modules/regex/handlers/sed.py:49
 msgid "Your regex didn't change anything from the original message."
 msgstr ""
 
-#: src/korone/modules/regex/handlers/sed.py:50
+#: src/korone/modules/regex/handlers/sed.py:51
 msgid "No message to apply the substitution."
 msgstr ""
 

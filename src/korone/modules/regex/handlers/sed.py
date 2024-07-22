@@ -2,17 +2,18 @@
 # Copyright (c) 2024 Hitalo M. <https://github.com/HitaloM>
 
 import regex as re
-from hydrogram import Client, filters
+from hydrogram import Client
 from hydrogram.types import Message
 
 from korone.decorators import router
+from korone.filters import Regex
 from korone.handlers.abstract import MessageHandler
 from korone.modules.regex.utils import SED_PATTERN, process_command
 from korone.utils.i18n import gettext as _
 
 
 class SedHandler(MessageHandler):
-    @router.message(filters.regex(SED_PATTERN))
+    @router.message(Regex(SED_PATTERN))
     async def handle(self, client: Client, message: Message) -> None:
         match = re.match(SED_PATTERN, message.text)
         if match:

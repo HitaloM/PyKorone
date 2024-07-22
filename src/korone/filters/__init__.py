@@ -4,6 +4,15 @@
 from korone.filters.admin import IsAdmin
 from korone.filters.chat import IsGroupChat, IsPrivateChat
 from korone.filters.command import Command, CommandObject
+from korone.filters.regex import Regex
 from korone.filters.sudo import IsSudo
 
-__all__ = ("Command", "CommandObject", "IsAdmin", "IsGroupChat", "IsPrivateChat", "IsSudo")
+__all__ = (
+    "Command",
+    "CommandObject",
+    "IsAdmin",
+    "IsGroupChat",
+    "IsPrivateChat",
+    "IsSudo",
+    "Regex",
+)
