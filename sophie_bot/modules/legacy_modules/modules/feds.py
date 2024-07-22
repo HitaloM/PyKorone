@@ -50,7 +50,6 @@ from aiogram.types import (
 )
 from babel.dates import format_timedelta
 from pymongo import DeleteMany, InsertOne
-from stfu_tg import Template, UserLink
 
 from sophie_bot import bot, dp
 from sophie_bot.config import CONFIG
@@ -83,6 +82,7 @@ from sophie_bot.services.redis import redis
 from sophie_bot.services.telethon import tbot
 from sophie_bot.utils.cached import cached
 from sophie_bot.utils.logger import log
+from stfu_tg import Template, UserLink
 
 
 class ImportFbansFileWait(StatesGroup):
@@ -875,9 +875,9 @@ async def del_fed_cmd(message: Message, fed, strings):
 
 @dp.callback_query(DelFedCb.filter())
 @get_strings_dec("feds")
-async def del_fed_func(event, strings, callback_data=None, **kwargs):
-    fed_id = callback_data["fed_id"]
-    fed_owner = callback_data["creator_id"]
+async def del_fed_func(event, strings, callback_data: DelFedCb, **kwargs):
+    fed_id = callback_data.fed_id
+    fed_owner = callback_data.creator_id
 
     if event.from_user.id != int(fed_owner):
         return
