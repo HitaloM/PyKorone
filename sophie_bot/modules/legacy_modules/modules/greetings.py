@@ -36,7 +36,7 @@ from aiogram.types import (
     InlineKeyboardButton,
     InlineKeyboardMarkup,
     InputMediaPhoto,
-    Message,
+    Message, ChatMemberOwner, ChatMemberRestricted, ChatMemberMember,
 )
 from apscheduler.jobstores.base import JobLookupError
 from babel.dates import format_timedelta
@@ -841,13 +841,13 @@ async def send_btn_math(message: Message, state, strings, msg_id=False):
 
 @dp.callback_query(F.data.regexp("wc_int_btn:"), WelcomeSecurityState.math)
 @get_strings_dec("greetings")
-async def wc_math_check_cb(event, strings, state=None, **kwargs):
+async def wc_math_check_cb(event, strings, state: FSMContext, **kwargs):
     num = int(event.data.split(":")[1])
 
     data = await state.get_data()
     answer = data["num"]
     if "last" in data:
-        await state.finish()
+        await state.clear()
         await event.answer(strings["math_wc_sry"], show_alert=True)
         await event.message.delete()
         return
@@ -895,18 +895,16 @@ async def welcome_security_passed(message: Union[CallbackQuery, Message], state:
 
     if isinstance(message, CallbackQuery):
         await message.answer(strings["passed_no_frm"] % title, show_alert=True)
+        message = message.message
     else:
         await message.reply(strings["passed"] % title)
 
     db_item = await get_greetings_data(chat_id)
 
-    if "message" in message:
-        message = message.message
-
     # Welcome
     if "note" in db_item and not db_item.get("welcome_disabled", False):
         text, kwargs = await t_unparse_note_item(
-            (message.reply_to_message if message.reply_to_message is not None else message),
+            (message.reply_to_message if message.reply_to_message else message),
             db_item["note"],
             chat_id,
         )
@@ -915,7 +913,11 @@ async def welcome_security_passed(message: Union[CallbackQuery, Message], state:
     # Welcome mute
     if "welcome_mute" in db_item and db_item["welcome_mute"]["enabled"] is not False:
         user = await bot.get_chat_member(chat_id, user_id)
-        if user.can_send_messages is True:
+
+        if isinstance(user, ChatMemberOwner):
+            return
+
+        if (isinstance(user, ChatMemberRestricted) and user.can_send_messages) or isinstance(user, ChatMemberMember):
             await restrict_user(
                 chat_id,
                 user_id,

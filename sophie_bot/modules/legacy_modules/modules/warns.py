@@ -22,7 +22,12 @@ from contextlib import suppress
 
 from aiogram import F
 from aiogram.exceptions import TelegramBadRequest
-from aiogram.types import InlineKeyboardButton, InlineKeyboardMarkup, Message
+from aiogram.types import (
+    CallbackQuery,
+    InlineKeyboardButton,
+    InlineKeyboardMarkup,
+    Message,
+)
 from babel.dates import format_timedelta
 from bson.objectid import ObjectId
 
@@ -145,8 +150,8 @@ async def warn_func(message: Message, chat, user, text, strings, filter_action=F
 
 @dp.callback_query(F.data.regexp(r"remove_warn_(.*)"), UserRestricting(can_restrict_members=True))
 @get_strings_dec("warns")
-async def rmv_warn_btn(event, strings, regexp=None, **kwargs):
-    warn_id = ObjectId(re.search(r"remove_warn_(.*)", str(regexp)).group(1)[:-2])
+async def rmv_warn_btn(event: CallbackQuery, strings, regexp=None, **kwargs):
+    warn_id = ObjectId(re.search(r"remove_warn_(.*)", str(event.data)).group(1)[:-2])
     user_id = event.from_user.id
     admin_link = await get_user_link(user_id)
     await db.warns.delete_one({"_id": warn_id})

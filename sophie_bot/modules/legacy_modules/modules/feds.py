@@ -40,6 +40,7 @@ from aiogram.exceptions import (
     TelegramUnauthorizedError,
 )
 from aiogram.filters.callback_data import CallbackData
+from aiogram.fsm.context import FSMContext
 from aiogram.fsm.state import State, StatesGroup
 from aiogram.types import (
     BufferedInputFile,
@@ -49,7 +50,6 @@ from aiogram.types import (
 )
 from babel.dates import format_timedelta
 from pymongo import DeleteMany, InsertOne
-from stfu_tg import Template, UserLink
 
 from sophie_bot import bot, dp
 from sophie_bot.config import CONFIG
@@ -82,6 +82,7 @@ from sophie_bot.services.redis import redis
 from sophie_bot.services.telethon import tbot
 from sophie_bot.utils.cached import cached
 from sophie_bot.utils.logger import log
+from stfu_tg import Template, UserLink
 
 
 class ImportFbansFileWait(StatesGroup):
@@ -1100,9 +1101,9 @@ async def importfbans_func(message: Message, fed, strings, document=None):
 @register(F.document, state=ImportFbansFileWait.waiting, allow_kwargs=True)
 @get_fed_dec
 @is_fed_admin
-async def import_state(message: Message, fed, state=None, **kwargs):
+async def import_state(message: Message, fed, state: FSMContext, **kwargs):
     await importfbans_func(message, fed, document=message.document)
-    await state.finish()
+    await state.clear()
 
 
 @register(only_groups=True)
@@ -1190,14 +1191,14 @@ async def fedban_check(message, fed, user, _, strings):
             if bool(fban_data):
                 if "reason" not in fban_data:
                     text += strings["fban_info:fcheck"].format(
-                        fed=fed["fed_name"],
+                        fed=html.escape(fed["fed_name"], False),
                         date=babel.dates.format_date(
                             fban_data["time"], "long", locale=strings["language_info"]["babel"]
                         ),
                     )
                 else:
                     text += strings["fban_info:fcheck:reason"].format(
-                        fed=fed["fed_name"],
+                        fed=html.escape(fed["fed_name"], False),
                         date=babel.dates.format_date(
                             fban_data["time"], "long", locale=strings["language_info"]["babel"]
                         ),
@@ -1213,7 +1214,7 @@ async def fedban_check(message, fed, user, _, strings):
                     count += 1
                     _fed = await get_fed_by_id(fban["fed_id"])
                     if _fed:
-                        fed_name = _fed["fed_name"]
+                        fed_name = html.escape(_fed["fed_name"], False)
                         text += f'{count}: {fban["fed_id"]}: {fed_name}\n'
     else:
         if total_count > 0:
@@ -1223,9 +1224,10 @@ async def fedban_check(message, fed, user, _, strings):
 
         if fbanned_fed is True:
             if "reason" in fban_data:
-                text += strings["fbanned_in_fed:reason"].format(fed=fed["fed_name"], reason=fban_data["reason"])
+                text += strings["fbanned_in_fed:reason"].format(fed=html.escape(fed["fed_name"], False),
+                                                                reason=fban_data["reason"])
             else:
-                text += strings["fbanned_in_fed"].format(fed=fed["fed_name"])
+                text += strings["fbanned_in_fed"].format(fed=html.escape(fed["fed_name"], False))
         elif fed is not None:
             text += strings["not_fbanned_in_fed"].format(fed_name=html.escape(fed["fed_name"], quote=False))
 
@@ -1240,7 +1242,7 @@ async def fedban_check(message, fed, user, _, strings):
             reply=message.message_id,
         )
 
-    await message.reply(text, parse_mode="None")
+    await message.reply(text)
 
 
 @cached()

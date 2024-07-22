@@ -50,7 +50,10 @@ from sophie_bot.modules.legacy_modules.utils.message import (
     get_args_str,
     need_args_dec,
 )
-from sophie_bot.modules.legacy_modules.utils.register import register
+from sophie_bot.modules.legacy_modules.utils.register import (
+    legacy_modules_router,
+    register,
+)
 from sophie_bot.modules.legacy_modules.utils.restrictions import (
     ban_user,
     kick_user,
@@ -177,7 +180,7 @@ class AntifloodEnforcer(BaseMiddleware):
         return await handler(message, data)
 
 
-@register(
+@legacy_modules_router.message(
     CMDFilter("setflood"),
     UserRestricting(can_restrict_members=True),
     BotHasPermissions(can_restrict_members=True),
