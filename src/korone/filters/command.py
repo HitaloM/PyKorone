@@ -1,18 +1,22 @@
 # SPDX-License-Identifier: BSD-3-Clause
 # Copyright (c) 2024 Hitalo M. <https://github.com/HitaloM>
 
+from __future__ import annotations
+
 import re
 from collections.abc import Iterable, Sequence
 from contextlib import suppress
 from dataclasses import dataclass, field, replace
-from typing import Any
+from typing import TYPE_CHECKING, Any
 
-from hydrogram import Client
 from hydrogram.filters import Filter
-from hydrogram.types import Message
-from magic_filter import MagicFilter
 
 from korone.modules import COMMANDS
+
+if TYPE_CHECKING:
+    from hydrogram import Client
+    from hydrogram.types import Message
+    from magic_filter import MagicFilter
 
 CommandPatternType = str | re.Pattern
 
@@ -29,17 +33,18 @@ class CommandObject:
     mention: str | None = None
     args: str | None = field(repr=False, default=None)
     regexp_match: re.Match[str] | None = field(repr=False, default=None)
-    magic_result: Any | None = field(repr=False, default=None)
+    magic_result: Any = field(repr=False, default=None)
 
     @staticmethod
-    def __extract(text: str) -> "CommandObject":
+    def extract(text: str) -> CommandObject:
         try:
             full_command, *args = text.split(maxsplit=1)
         except ValueError as err:
             msg = "Not enough values to unpack."
             raise CommandError(msg) from err
 
-        prefix, (command, _, mention) = full_command[0], full_command[1:].partition("@")
+        prefix = full_command[0]
+        command, _, mention = full_command[1:].partition("@")
         return CommandObject(
             prefix=prefix,
             command=command,
@@ -47,15 +52,17 @@ class CommandObject:
             args=args[0] if args else None,
         )
 
-    def parse(self) -> "CommandObject":
+    def parse(self) -> CommandObject:
         if not self.message:
             msg = "Message is required to parse a command."
             raise CommandError(msg)
 
-        if text := self.message.text or self.message.caption:
-            return self.__extract(text)
-        msg = "Message has no text"
-        raise CommandError(msg)
+        text = self.message.text or self.message.caption
+        if not text:
+            msg = "Message has no text"
+            raise CommandError(msg)
+
+        return self.extract(text)
 
 
 class Command(Filter):
@@ -71,28 +78,34 @@ class Command(Filter):
         magic: MagicFilter | None = None,
         disableable: bool = True,
     ) -> None:
-        commands = [commands] if isinstance(commands, str | re.Pattern) else (commands or [])
-        if not isinstance(commands, Iterable):
-            msg = "Command filter only supports str, re.Pattern object or their Iterable"
-            raise TypeError(msg)
-
-        self.commands = tuple(
-            self._process_command(command, ignore_case) for command in (*values, *commands)
-        )
-        if not self.commands:
+        commands = self._prepare_commands(values, commands, ignore_case)
+        if not commands:
             msg = "Command filter requires at least one command"
             raise ValueError(msg)
 
+        self.commands = tuple(commands)
         self.prefix = prefix
         self.ignore_case = ignore_case
         self.ignore_mention = ignore_mention
         self.magic = magic
         self.disableable = disableable
 
+    def _prepare_commands(self, values, commands, ignore_case):
+        if isinstance(commands, str | re.Pattern):
+            commands = [commands]
+        elif commands is None:
+            commands = []
+
+        if not isinstance(commands, Iterable):
+            msg = "Command filter only supports str, re.Pattern object or their Iterable"
+            raise TypeError(msg)
+
+        return [self._process_command(command, ignore_case) for command in (*values, *commands)]
+
     @staticmethod
     def _process_command(command, ignore_case):
         if isinstance(command, str):
-            command = re.compile(f"{re.escape(command.casefold() if ignore_case else command)}$")
+            command = re.compile(re.escape(command.casefold() if ignore_case else command) + "$")
         if not isinstance(command, re.Pattern):
             msg = "Command filter only supports str, re.Pattern object or their Iterable"
             raise TypeError(msg)
@@ -123,11 +136,10 @@ class Command(Filter):
         command_name = command.command.casefold() if self.ignore_case else command.command
 
         for allowed_command in self.commands:
-            if isinstance(allowed_command, re.Pattern) and (
-                result := allowed_command.match(command.command)
-            ):
-                return replace(command, regexp_match=result)
-            if command_name == allowed_command:
+            if isinstance(allowed_command, re.Pattern):
+                if result := allowed_command.match(command.command):
+                    return replace(command, regexp_match=result)
+            elif command_name == allowed_command:
                 return command
 
         msg = f"Invalid command: {command.command!r}"
@@ -148,9 +160,10 @@ class Command(Filter):
         return self.do_magic(self.validate_command(command))
 
     def do_magic(self, command: CommandObject) -> CommandObject:
-        if self.magic and (result := self.magic.resolve(command)):
-            return replace(command, magic_result=result)
         if self.magic:
+            result = self.magic.resolve(command)
+            if result:
+                return replace(command, magic_result=result)
             msg = "Rejected by magic filter"
             raise CommandError(msg)
         return command

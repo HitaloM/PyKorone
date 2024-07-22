@@ -11,7 +11,7 @@ from korone.handlers.abstract import MessageHandler
 
 class ErrorTest(MessageHandler):
     @staticmethod
-    @router.message(Command("error") & IsSudo)
+    @router.message(Command("error", disableable=False) & IsSudo)
     async def handle(client: Client, message: Message) -> None:
         msg = "Error Test!"
         raise Exception(msg)
