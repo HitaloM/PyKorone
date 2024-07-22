@@ -539,13 +539,13 @@ cffi = ">=1.0.0"
 
 [[package]]
 name = "captcha"
-version = "0.5.0"
+version = "0.6.0"
 description = "A captcha library that generates audio and image CAPTCHAs."
 optional = false
 python-versions = ">=3.8"
 files = [
-    {file = "captcha-0.5.0-py3-none-any.whl", hash = "sha256:9c86fdc6d453e1b41c330d07c1600e07217557a3e64f8307efe20ef4766eb46a"},
-    {file = "captcha-0.5.0.tar.gz", hash = "sha256:132cb5b9aafd1586bfa421c19f994f7b482873e7f981f80fff888954e02c35c8"},
+    {file = "captcha-0.6.0-py3-none-any.whl", hash = "sha256:148b2475be00a067b6173b7796cdc2332dbcb6fd4bfced1055bc8f69846bc924"},
+    {file = "captcha-0.6.0.tar.gz", hash = "sha256:a5ead7679cd8477bc636524d54f50e092a4b6f3db4e52bb98a689593638d1772"},
 ]
 
 [package.dependencies]
@@ -2005,20 +2005,20 @@ dev = ["twine (>=3.4.1)"]
 
 [[package]]
 name = "pytest"
-version = "8.2.2"
+version = "8.3.1"
 description = "pytest: simple powerful testing with Python"
 optional = false
 python-versions = ">=3.8"
 files = [
-    {file = "pytest-8.2.2-py3-none-any.whl", hash = "sha256:c434598117762e2bd304e526244f67bf66bbd7b5d6cf22138be51ff661980343"},
-    {file = "pytest-8.2.2.tar.gz", hash = "sha256:de4bb8104e201939ccdc688b27a89a7be2079b22e2bd2b07f806b6ba71117977"},
+    {file = "pytest-8.3.1-py3-none-any.whl", hash = "sha256:e9600ccf4f563976e2c99fa02c7624ab938296551f280835ee6516df8bc4ae8c"},
+    {file = "pytest-8.3.1.tar.gz", hash = "sha256:7e8e5c5abd6e93cb1cc151f23e57adc31fcf8cfd2a3ff2da63e23f732de35db6"},
 ]
 
 [package.dependencies]
 colorama = {version = "*", markers = "sys_platform == \"win32\""}
 iniconfig = "*"
 packaging = "*"
-pluggy = ">=1.5,<2.0"
+pluggy = ">=1.5,<2"
 
 [package.extras]
 dev = ["argcomplete", "attrs (>=19.2)", "hypothesis (>=3.56)", "mock", "pygments (>=2.7.2)", "requests", "setuptools", "xmlschema"]
@@ -2892,4 +2892,4 @@ fast = ["aiohttp", "cryptg", "cryptography"]
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.11"
-content-hash = "fc30140a17e9b9c4e46d29b867a92e66014ee7c18ae679f4e972d7130f378691"
+content-hash = "7b0eb3ca08b36064a57dc6d926c6b03371d84d518f1d65e46bc17bd19078e351"

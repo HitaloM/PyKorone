@@ -23,7 +23,7 @@ PyYAML = "^6.0"
 loguru = "^0.7.0"
 sentry-sdk = "~2"
 Babel = "^2.9.1"
-captcha = "^0.5"
+captcha = "^0.6"
 async-timeout = "^4.0.2"
 regex = "^2024.5.15"
 pydantic = { extras = ["dotenv"], version = "^2.8" }
