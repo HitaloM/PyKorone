@@ -11,7 +11,7 @@ from stfu_tg.doc import Element
 
 from sophie_bot import CONFIG
 from sophie_bot.modules.error.utils.haikus import HAIKUS
-from sophie_bot.modules.error.utils.ignored import IGNORED_EXCEPTIONS
+from sophie_bot.modules.error.utils.ignored import QUIET_EXCEPTIONS
 from sophie_bot.utils.exception import SophieException
 from sophie_bot.utils.i18n import gettext as _
 from sophie_bot.utils.logger import log
@@ -22,7 +22,7 @@ class ErrorHandler(MessageHandler):
         # We are ignoring the type because I'm sure that aiogram will have this field
         exception = self.event.exception  # type: ignore
 
-        if isinstance(exception, IGNORED_EXCEPTIONS):
+        if isinstance(exception, QUIET_EXCEPTIONS):
             return
 
         etype, value, tb = sys.exc_info()
