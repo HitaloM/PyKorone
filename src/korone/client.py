@@ -13,9 +13,10 @@ from hydrogram.enums import ParseMode
 from hydrogram.errors import MessageIdInvalid, MessageNotModified
 from hydrogram.raw.all import layer
 
-from korone import __version__, cache, constants
+from korone import __version__, cache, constants, i18n
 from korone.database.sqlite import SQLite3Connection
 from korone.modules import load_all_modules
+from korone.utils.commands_list import set_ui_commands
 from korone.utils.logging import logger
 
 if TYPE_CHECKING:
@@ -55,13 +56,14 @@ class Korone(Client):
     async def start(self) -> None:
         await super().start()
 
-        self.me = await self.get_me()
-
         async with SQLite3Connection() as conn:
             await conn.execute(constants.SQLITE3_TABLES, script=True)
             await conn.vacuum()
 
         await load_all_modules(self)
+        await set_ui_commands(self, i18n)
+
+        self.me = await self.get_me()
 
         await logger.ainfo(
             "Korone v%s running with Hydrogram v%s (Layer %s) started on @%s. Hi!",

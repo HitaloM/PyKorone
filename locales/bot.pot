@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PyKorone 1.0\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-07-22 21:28-0300\n"
+"POT-Creation-Date: 2024-07-23 19:03-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -939,4 +939,24 @@ msgstr ""
 
 #: src/korone/modules/web/handlers/whois.py:45
 msgid "An error occurred while fetching whois information: {error}"
+msgstr ""
+
+#: src/korone/utils/commands_list.py:28
+msgid "Start the bot"
+msgstr ""
+
+#: src/korone/utils/commands_list.py:32
+msgid "Show help message"
+msgstr ""
+
+#: src/korone/utils/commands_list.py:36
+msgid "Show information about the bot"
+msgstr ""
+
+#: src/korone/utils/commands_list.py:40
+msgid "Show privacy policy"
+msgstr ""
+
+#: src/korone/utils/commands_list.py:44
+msgid "Change the bot language"
 msgstr ""
