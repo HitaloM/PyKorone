@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2024-07-23 19:03-0300\n"
-"PO-Revision-Date: 2024-07-21 23:29+0000\n"
-"Last-Translator: Alisson Lauffer <alissonvitortc@gmail.com>\n"
+"PO-Revision-Date: 2024-07-23 22:08+0000\n"
+"Last-Translator: DeepL <noreply-mt-deepl@weblate.org>\n"
 "Language-Team: Portuguese (Brazil) <http://weblate.amanoteam.com/projects/"
 "korone/korone/pt_BR/>\n"
 "Language: pt_BR\n"
@@ -88,6 +88,9 @@ msgid ""
 "- <code>{command}</code>\n"
 "Check the /disableable!"
 msgstr ""
+"Comando desconhecido para reativar:\n"
+"- <code>{command}</code>\n"
+"Verifique a opção /disable!"
 
 #: src/korone/modules/disabling/handlers/disable.py:48
 msgid "This command is already disabled."
@@ -119,6 +122,9 @@ msgid ""
 "- <code>{command}</code>\n"
 "Check the /disableable!"
 msgstr ""
+"Comando desconhecido a ser desativado:\n"
+"- <code>{command}</code>\n"
+"Verifique a opção /disable!"
 
 #: src/korone/modules/disabling/handlers/enable.py:43
 msgid "This command is already enabled."
@@ -133,17 +139,16 @@ msgid "The following commands can be disabled:\n"
 msgstr "Os seguintes comandos podem ser desativados:\n"
 
 #: src/korone/modules/errors/handlers/catcher.py:74
-#, fuzzy
 msgid "An error occurred while processing this update. :/"
-msgstr "Ocorreu um erro ao buscar informações de whois: {error}"
+msgstr "Ocorreu um erro ao processar essa atualização. :/"
 
 #: src/korone/modules/errors/handlers/catcher.py:80
 msgid "Reference ID: {id}"
-msgstr ""
+msgstr "ID de referência: {id}"
 
 #: src/korone/modules/errors/handlers/catcher.py:88
 msgid "🐞 Report This Error"
-msgstr ""
+msgstr "Relatar este erro"
 
 #: src/korone/modules/gsm_arena/utils.py:97
 msgid "Status"
@@ -668,9 +673,8 @@ msgid "📚 Channel"
 msgstr "📚 Canal"
 
 #: src/korone/modules/pm_menu/handlers/about.py:31
-#, fuzzy
 msgid "🔒 Privacy Policy"
-msgstr "🔒 Privacidade"
+msgstr "🔒 Política de privacidade"
 
 #: src/korone/modules/pm_menu/handlers/about.py:51
 msgid ""
@@ -707,12 +711,17 @@ msgid ""
 "of the bot and how to use it to its full potential. Click the button below "
 "to start reading."
 msgstr ""
+"Você pode obter ajuda lendo a documentação, onde terá uma visão geral do bot "
+"e como usá-lo em todo o seu potencial. Clique no botão abaixo para começar a "
+"ler."
 
 #: src/korone/modules/pm_menu/handlers/privacy.py:27
 msgid ""
 "The privacy policy is available for review in the documentation. Click the "
 "button below to start reading."
 msgstr ""
+"A política de privacidade está disponível para análise na documentação. "
+"Clique no botão abaixo para começar a ler."
 
 #: src/korone/modules/pm_menu/handlers/start.py:29
 msgid "ℹ️ About"
@@ -736,27 +745,27 @@ msgstr ""
 
 #: src/korone/modules/regex/utils.py:43
 msgid "Invalid command: {command}"
-msgstr ""
+msgstr "Comando inválido: {command}"
 
 #: src/korone/modules/regex/utils.py:49
 msgid "Pattern is too long. Please use shorter patterns."
-msgstr ""
+msgstr "O padrão é muito longo. Por favor, use padrões mais curtos."
 
 #: src/korone/modules/regex/utils.py:54
 msgid "Unknown flag: {flag}"
-msgstr ""
+msgstr "Bandeira desconhecida: {flag}"
 
 #: src/korone/modules/regex/handlers/sed.py:41
 msgid "Regex error: {e}"
-msgstr ""
+msgstr "Erro de regex: {e}"
 
 #: src/korone/modules/regex/handlers/sed.py:49
 msgid "Your regex didn't change anything from the original message."
-msgstr ""
+msgstr "Sua regex não alterou nada da mensagem original."
 
 #: src/korone/modules/regex/handlers/sed.py:51
 msgid "No message to apply the substitution."
-msgstr ""
+msgstr "Nenhuma mensagem para aplicar a substituição."
 
 #: src/korone/modules/stickers/handlers/get_sticker.py:35
 msgid "Reply to a sticker."
@@ -854,21 +863,19 @@ msgstr ""
 
 #: src/korone/modules/users_groups/handlers/cleanup.py:20
 msgid "Removing deleted accounts..."
-msgstr ""
+msgstr "Remoção de contas excluídas..."
 
 #: src/korone/modules/users_groups/handlers/cleanup.py:24
-#, fuzzy
 msgid "No members found."
-msgstr "Nenhum dispositivo encontrado."
+msgstr "Nenhum membro encontrado."
 
 #: src/korone/modules/users_groups/handlers/cleanup.py:38
 msgid "Removed {count} deleted accounts."
-msgstr ""
+msgstr "Removido {count} contas excluídas."
 
 #: src/korone/modules/users_groups/handlers/cleanup.py:40
-#, fuzzy
 msgid "No deleted accounts found."
-msgstr "Nenhum dispositivo encontrado."
+msgstr "Nenhuma conta excluída foi encontrada."
 
 #: src/korone/modules/users_groups/handlers/groups.py:31
 #: src/korone/modules/users_groups/handlers/users.py:26
@@ -938,30 +945,32 @@ msgid "<b>Type</b>: {type}\n"
 msgstr "<b>Digite</b>: {type}\n"
 
 #: src/korone/modules/users_groups/handlers/id.py:18
-#, fuzzy
 msgid "Your ID is <code>{id}</code>"
-msgstr "<b>ID</b>: <code>{id}</code>\n"
+msgstr "Sua identificação é <code>{id}</code>"
 
 #: src/korone/modules/users_groups/handlers/id.py:21
-#, fuzzy
 msgid ""
 "\n"
 "Chat ID: <code>{id}</code>"
-msgstr "<b>ID</b>: <code>{id}</code>\n"
+msgstr ""
+"\n"
+"ID do bate-papo: <code>{id}</code>"
 
 #: src/korone/modules/users_groups/handlers/id.py:24
-#, fuzzy
 msgid ""
 "\n"
 "{user} ID: <code>{id}</code>"
-msgstr "<b>ID</b>: <code>{id}</code>\n"
+msgstr ""
+"\n"
+"{user} ID: <code>{id}</code>"
 
 #: src/korone/modules/users_groups/handlers/id.py:32
-#, fuzzy
 msgid ""
 "\n"
 "Forwarded user ID: <code>{id}</code>"
-msgstr "<b>ID</b>: <code>{id}</code>\n"
+msgstr ""
+"\n"
+"ID de usuário encaminhado: <code>{id}</code>"
 
 #: src/korone/modules/users_groups/handlers/users.py:37
 msgid "The provided user ID is invalid."
@@ -1044,25 +1053,23 @@ msgstr "Ocorreu um erro ao buscar informações de whois: {error}"
 
 #: src/korone/utils/commands_list.py:28
 msgid "Start the bot"
-msgstr ""
+msgstr "Iniciar o bot"
 
 #: src/korone/utils/commands_list.py:32
 msgid "Show help message"
-msgstr ""
+msgstr "Mostrar mensagem de ajuda"
 
 #: src/korone/utils/commands_list.py:36
 msgid "Show information about the bot"
-msgstr ""
+msgstr "Mostrar informações sobre o bot"
 
 #: src/korone/utils/commands_list.py:40
-#, fuzzy
 msgid "Show privacy policy"
-msgstr "🔒 Privacidade"
+msgstr "Exibir política de privacidade"
 
 #: src/korone/utils/commands_list.py:44
-#, fuzzy
 msgid "Change the bot language"
-msgstr "👤 Mudar seu idioma"
+msgstr "Alterar o idioma do bot"
 
 #~ msgid "This command can't be enabled or disabled."
 #~ msgstr "Este comando não pode ser ativado ou desativado."
