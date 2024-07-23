@@ -16,6 +16,10 @@ Explore and test regular expressions or correct errors in messages within a grou
 - `x`: Allows for spaces and comments in the pattern for more readable regex.
 ```
 
+```{note}
+As you may already know, PyKorone has a [module to disable commands](./disabling) from other modules, except that "s/" is not technically a command, and putting "s" in the list of disableables would not be intuitive, so it is identified as "sed", use `/disable sed` to disable the `s/`.
+```
+
 ### Examples
 
 > `s/Hello/Hi/`<br>
