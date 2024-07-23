@@ -13,7 +13,7 @@ from korone.utils.i18n import gettext as _
 
 
 class SedHandler(MessageHandler):
-    @router.message(Regex(SED_PATTERN))
+    @router.message(Regex(SED_PATTERN, friendly_name="sed"))
     async def handle(self, client: Client, message: Message) -> None:
         match = re.match(SED_PATTERN, message.text)
         if match:

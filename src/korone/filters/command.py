@@ -152,9 +152,10 @@ class Command(Filter):
 
         command_name = command.command
         if self.disableable and command_name in COMMANDS:
+            chat_id = message.chat.id
             command_name = COMMANDS[command_name].get("parent", command_name)
-            if not COMMANDS[command_name]["chat"].get(message.chat.id, True):
-                msg = f"Command {command_name} is disabled in '{message.chat.id}'."
+            if not COMMANDS[command_name]["chat"].get(chat_id, True):
+                msg = f"Command {command_name} is disabled in '{chat_id}'."
                 raise CommandError(msg)
 
         return self.do_magic(self.validate_command(command))

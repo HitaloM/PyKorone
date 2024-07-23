@@ -7,11 +7,12 @@ from datetime import timedelta
 import httpx
 from hairydogm.chat_action import ChatActionSender
 from hairydogm.keyboard import InlineKeyboardBuilder
-from hydrogram import Client, filters
+from hydrogram import Client
 from hydrogram.enums import ChatAction
 from hydrogram.types import InputMediaPhoto, InputMediaVideo, Message
 
 from korone.decorators import router
+from korone.filters import Regex
 from korone.handlers.abstract import MessageHandler
 from korone.modules.medias.utils.cache import MediaCache
 from korone.modules.medias.utils.tiktok import (
@@ -143,7 +144,7 @@ class TikTokHandler(MessageHandler):
     def build_keyboard(url: str):
         return InlineKeyboardBuilder().button(text=_("Open in TikTok"), url=url).as_markup()
 
-    @router.message(filters.regex(URL_PATTERN))
+    @router.message(Regex(URL_PATTERN))
     async def handle(self, client: Client, message: Message) -> None:
         url_match = URL_PATTERN.search(message.text)
         if not url_match:

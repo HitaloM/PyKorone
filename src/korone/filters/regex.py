@@ -10,6 +10,8 @@ from typing import TYPE_CHECKING
 
 from hydrogram.filters import Filter
 
+from korone.modules import COMMANDS
+
 if TYPE_CHECKING:
     from hydrogram import Client
     from hydrogram.types import Message
@@ -22,13 +24,14 @@ class RegexError(Exception):
 
 
 class Regex(Filter):
-    __slots__ = ("ignore_case", "patterns")
+    __slots__ = ("friendly_name", "ignore_case", "patterns")
 
     def __init__(
         self,
         *values: RegexPatternType,
         patterns: Sequence[RegexPatternType] | RegexPatternType | None = None,
         ignore_case: bool = False,
+        friendly_name: str | None = None,
     ) -> None:
         patterns = self._prepare_patterns(values, patterns, ignore_case)
         if not patterns:
@@ -37,6 +40,7 @@ class Regex(Filter):
 
         self.patterns = tuple(patterns)
         self.ignore_case = ignore_case
+        self.friendly_name = friendly_name
 
     def _prepare_patterns(self, values, patterns, ignore_case):
         if isinstance(patterns, str | re.Pattern):
@@ -75,5 +79,11 @@ class Regex(Filter):
         text = message.text or message.caption
         if not text:
             return False
+
+        if self.friendly_name and self.friendly_name in COMMANDS:
+            chat_id = message.chat.id
+            if not COMMANDS[self.friendly_name]["chat"].get(chat_id, True):
+                msg = f"Regex pattern {self.friendly_name} is disabled in '{chat_id}'"
+                raise RegexError(msg)
 
         return any(pattern.search(text) for pattern in self.patterns)

@@ -7,7 +7,7 @@ from hydrogram.types import Message
 from korone.decorators import router
 from korone.filters import Command, CommandObject, IsAdmin, IsGroupChat
 from korone.handlers.abstract import MessageHandler
-from korone.modules import COMMANDS, check_command_state
+from korone.modules import COMMANDS, fetch_command_state
 from korone.modules.disabling.database import set_command_state
 from korone.utils.i18n import gettext as _
 
@@ -42,7 +42,7 @@ class DisableHandler(MessageHandler):
             )
             return
 
-        cmd_db = await check_command_state(command)
+        cmd_db = await fetch_command_state(command)
 
         if cmd_db and not bool(cmd_db[0]["state"]):
             await message.reply(_("This command is already disabled."))
