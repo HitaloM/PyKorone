@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-07-21 19:23-0300\n"
+"POT-Creation-Date: 2024-07-23 19:03-0300\n"
 "PO-Revision-Date: 2024-06-18 13:25+0000\n"
 "Last-Translator: Hitalo <hitalomarquete331@gmail.com>\n"
 "Language-Team: Russian <http://weblate.amanoteam.com/projects/korone/korone/"
@@ -562,30 +562,30 @@ msgstr "1 год"
 msgid "All time"
 msgstr "Все время"
 
-#: src/korone/modules/medias/handlers/tiktok.py:65
-#: src/korone/modules/medias/handlers/tiktok.py:86
-#: src/korone/modules/medias/handlers/tiktok.py:92
-#: src/korone/modules/medias/handlers/twitter.py:179
-#: src/korone/modules/medias/handlers/twitter.py:230
+#: src/korone/modules/medias/handlers/tiktok.py:66
+#: src/korone/modules/medias/handlers/tiktok.py:87
+#: src/korone/modules/medias/handlers/tiktok.py:93
+#: src/korone/modules/medias/handlers/twitter.py:180
+#: src/korone/modules/medias/handlers/twitter.py:231
 msgid "Failed to send media: {error}"
 msgstr "Не удалось отправить носитель: {error}"
 
-#: src/korone/modules/medias/handlers/tiktok.py:136
-#: src/korone/modules/medias/handlers/tiktok.py:144
+#: src/korone/modules/medias/handlers/tiktok.py:137
+#: src/korone/modules/medias/handlers/tiktok.py:145
 msgid "Open in TikTok"
 msgstr "Открыть в TikTok"
 
-#: src/korone/modules/medias/handlers/twitter.py:121
-#: src/korone/modules/medias/handlers/twitter.py:219
+#: src/korone/modules/medias/handlers/twitter.py:122
+#: src/korone/modules/medias/handlers/twitter.py:220
 msgid "Open in Twitter"
 msgstr "Открыть в Twitter"
 
-#: src/korone/modules/medias/handlers/twitter.py:145
-#: src/korone/modules/medias/handlers/twitter.py:160
+#: src/korone/modules/medias/handlers/twitter.py:146
+#: src/korone/modules/medias/handlers/twitter.py:161
 msgid "Failed to send media!"
 msgstr "Не удалось отправить носитель!"
 
-#: src/korone/modules/medias/handlers/twitter.py:192
+#: src/korone/modules/medias/handlers/twitter.py:193
 msgid ""
 "\n"
 "<b>Sent from:</b> <i>{source}</i>"
@@ -753,15 +753,15 @@ msgstr ""
 msgid "Unknown flag: {flag}"
 msgstr ""
 
-#: src/korone/modules/regex/handlers/sed.py:40
+#: src/korone/modules/regex/handlers/sed.py:41
 msgid "Regex error: {e}"
 msgstr ""
 
-#: src/korone/modules/regex/handlers/sed.py:48
+#: src/korone/modules/regex/handlers/sed.py:49
 msgid "Your regex didn't change anything from the original message."
 msgstr ""
 
-#: src/korone/modules/regex/handlers/sed.py:50
+#: src/korone/modules/regex/handlers/sed.py:51
 msgid "No message to apply the substitution."
 msgstr ""
 
@@ -1043,6 +1043,27 @@ msgid "An error occurred while fetching whois information: {error}"
 msgstr ""
 "При получении данных LastFM произошла ошибка!\n"
 "Ошибка: <i>{error}</i>"
+
+#: src/korone/utils/commands_list.py:28
+msgid "Start the bot"
+msgstr ""
+
+#: src/korone/utils/commands_list.py:32
+msgid "Show help message"
+msgstr ""
+
+#: src/korone/utils/commands_list.py:36
+msgid "Show information about the bot"
+msgstr ""
+
+#: src/korone/utils/commands_list.py:40
+msgid "Show privacy policy"
+msgstr ""
+
+#: src/korone/utils/commands_list.py:44
+#, fuzzy
+msgid "Change the bot language"
+msgstr "👤 Смените язык"
 
 #~ msgid "This command can't be enabled or disabled."
 #~ msgstr "Эта команда не может быть включена или выключена."
