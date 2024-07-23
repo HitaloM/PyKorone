@@ -1,7 +1,9 @@
 # SPDX-License-Identifier: BSD-3-Clause
 # Copyright (c) 2024 Hitalo M. <https://github.com/HitaloM>
 
+import subprocess
 from dataclasses import dataclass
+from pathlib import Path
 from typing import Any
 
 import polib
@@ -88,3 +90,18 @@ def gettext(*args: Any, **kwargs: Any) -> str:
 
 def lazy_gettext(*args: Any, **kwargs: Any) -> LazyProxy:
     return LazyProxy(gettext, *args, **kwargs, enable_cache=False)
+
+
+def create_i18n_instance(locales_dir: Path) -> I18nNew:
+    try:
+        return I18nNew(path=locales_dir)
+    except RuntimeError:
+        logger.info("Compiling locales...")
+        subprocess.run(
+            f"pybabel compile -d '{locales_dir}' -D bot",
+            shell=True,
+            stdout=subprocess.DEVNULL,
+            stderr=subprocess.DEVNULL,
+            check=False,
+        )
+        return I18nNew(path=locales_dir)
