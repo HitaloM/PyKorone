@@ -50,6 +50,7 @@ from aiogram.types import (
 )
 from babel.dates import format_timedelta
 from pymongo import DeleteMany, InsertOne
+from stfu_tg import Template, UserLink
 
 from sophie_bot import bot, dp
 from sophie_bot.config import CONFIG
@@ -82,7 +83,6 @@ from sophie_bot.services.redis import redis
 from sophie_bot.services.telethon import tbot
 from sophie_bot.utils.cached import cached
 from sophie_bot.utils.logger import log
-from stfu_tg import Template, UserLink
 
 
 class ImportFbansFileWait(StatesGroup):

@@ -3,8 +3,8 @@ import sys
 from typing import Any, Dict, Optional, Tuple
 
 import better_exceptions
-from aiogram.handlers import MessageHandler
-from aiogram.types import Chat, InlineKeyboardButton, InlineKeyboardMarkup
+from aiogram.handlers import ErrorHandler
+from aiogram.types import Chat, InlineKeyboardButton, InlineKeyboardMarkup, Update
 from sentry_sdk import capture_exception
 from stfu_tg import BlockQuote, Code, Doc, Italic, KeyValue, Title
 from stfu_tg.doc import Element
@@ -17,10 +17,11 @@ from sophie_bot.utils.i18n import gettext as _
 from sophie_bot.utils.logger import log
 
 
-class ErrorHandler(MessageHandler):
+class SophieErrorHandler(ErrorHandler):
     async def handle(self) -> Any:
         # We are ignoring the type because I'm sure that aiogram will have this field
         exception = self.event.exception  # type: ignore
+        update: Update = self.event.update  # type: ignore
 
         if isinstance(exception, QUIET_EXCEPTIONS):
             return
@@ -42,6 +43,9 @@ class ErrorHandler(MessageHandler):
                 from_aiogram=exception,
                 from_sys=sys_exception,
             )
+
+        if update.inline_query:
+            return  # Do not send messages after inline query
 
         chat: Chat = self.data["event_chat"]
 
