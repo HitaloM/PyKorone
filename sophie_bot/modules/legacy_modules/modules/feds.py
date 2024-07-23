@@ -24,13 +24,13 @@ import html
 import io
 import os
 import re
-import time
 import uuid
 from contextlib import suppress
 from datetime import datetime, timedelta
 from typing import Optional
 
 import babel
+import time
 import ujson
 from aiogram import F
 from aiogram.exceptions import (
@@ -50,7 +50,6 @@ from aiogram.types import (
 )
 from babel.dates import format_timedelta
 from pymongo import DeleteMany, InsertOne
-from stfu_tg import Template, UserLink
 
 from sophie_bot import bot, dp
 from sophie_bot.config import CONFIG
@@ -83,6 +82,7 @@ from sophie_bot.services.redis import redis
 from sophie_bot.services.telethon import tbot
 from sophie_bot.utils.cached import cached
 from sophie_bot.utils.logger import log
+from stfu_tg import Template, UserLink
 
 
 class ImportFbansFileWait(StatesGroup):
@@ -1158,7 +1158,8 @@ async def check_fbanned(message: Message, chat, strings):
         if not await ban_user(chat_id, user_id):
             return
 
-        await message.reply(str(doc))
+        with suppress(TelegramBadRequest):
+            await message.reply(str(doc))
 
         await db.fed_bans.update_one({"_id": ban["_id"]}, {"$addToSet": {"banned_chats": chat_id}})
 
