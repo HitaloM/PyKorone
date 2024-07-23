@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PyKorone 1.0\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-07-09 20:30-0300\n"
+"POT-Creation-Date: 2024-07-23 19:03-0300\n"
 "PO-Revision-Date: 2024-06-18 13:25+0000\n"
 "Last-Translator: Hitalo <hitalomarquete331@gmail.com>\n"
 "Language-Team: Japanese <http://weblate.amanoteam.com/projects/korone/korone/"
@@ -32,37 +32,6 @@ msgstr ""
 #: src/korone/filters/chat.py:44
 msgid "This command was designed to be used in group chats, not in PM!"
 msgstr ""
-
-#: src/korone/modules/afk/__init__.py:10
-msgid "AFK"
-msgstr "AFK"
-
-#: src/korone/modules/afk/__init__.py:11
-#, fuzzy
-msgid ""
-"It can be challenging to communicate your availability status to others. "
-"This can lead to misunderstandings or missed messages when you're not "
-"available to respond.\n"
-"\n"
-"The AFK module addresses this issue by allowing you to set your status as "
-"'Away From Keyboard' (AFK). Korone will automatically respond to messages "
-"you receive while you're AFK, letting others know that you're currently "
-"unavailable."
-msgstr ""
-"自分 の 時間 の 状況 を 他 の 人 に 伝える の は 難しい こと が あり ます. 返"
-"信できない場合 誤解や メッセージを見逃すことがあります\n"
-"\n"
-"AFK モジュールは,ステータスを\"キーボードから離れて\" (AFK) に設定することで,"
-"この問題を解決します. PyKoroneは自動で AFK中に受信したメッセージに応答し,あな"
-"たが現在利用できないことを他の人に知らせます."
-
-#: src/korone/modules/afk/__init__.py:18
-msgid ""
-"<b>Commands:</b>\n"
-" - /afk &lt;reason&gt;: Set your status as AFK."
-msgstr ""
-"<b>コマンド:</b>\n"
-"- /afk &lt;理由&gt;:あなたの状態を AFK に設定します."
 
 #: src/korone/modules/afk/handlers/check.py:80
 msgid "🎧 Listening to: {track_artist} — {track_name}"
@@ -100,44 +69,7 @@ msgstr "AFKのステータスが更新されました!"
 msgid "You are now AFK."
 msgstr "あなたは今AFKです."
 
-#: src/korone/modules/disabling/__init__.py:10
-msgid "Disabling"
-msgstr "無効化"
-
-#: src/korone/modules/disabling/__init__.py:11
-#, fuzzy
-msgid ""
-"Not everyone wants every feature Korone offers. Some commands are best left "
-"unused to prevent spam and abuse.\n"
-"\n"
-"This allows you to disable some commonly used commands so that no one can "
-"use them."
-msgstr ""
-"Koroneが提供するすべての機能を望む人はいません。スパムや乱用を防ぐために、使"
-"用しない方がよいコマンドもあります。\n"
-"\n"
-"これにより、誰も使用できないように一般的に使用されるコマンドのいくつかを無効"
-"にすることができます。また、人々がブルーテキストするのを防ぐために自動削除す"
-"ることもできます。"
-
-#: src/korone/modules/disabling/__init__.py:16
-msgid ""
-"<b>Admin Commands:</b>\n"
-"- /disable &lt;commandname&gt;: Stop users from using \"commandname\" in "
-"this group.\n"
-"- /enable &lt;commandname&gt;: Allow users from using \"commandname\" in "
-"this group.\n"
-"- /disableable: List of commands that can be disabled.\n"
-"- /disabled: List of commands that are currently disabled in the group."
-msgstr ""
-"<b>管理者コマンド:</b>\n"
-"- /disable &lt;commandname&gt;: このグループでユーザが \"コマンド名\" を使わ"
-"ないようにする.\n"
-"このグループで\"コマンド名\"を使用できるようにします.\n"
-"- /disableable:無効にできるコマンドの一覧\n"
-"- /disabled: グループで現在無効になっているコマンドのリスト."
-
-#: src/korone/modules/disabling/handlers/disable.py:23
+#: src/korone/modules/disabling/handlers/disable.py:22
 #, fuzzy
 msgid ""
 "You need to specify a command to disable. Use <code>/disable &lt;"
@@ -146,25 +78,22 @@ msgstr ""
 "まず LastFM のユーザー名を設定してください! <code>/setlfm &lt;ユーザー名&gt;"
 "</code> を使ってください."
 
-#: src/korone/modules/disabling/handlers/disable.py:32
+#: src/korone/modules/disabling/handlers/disable.py:31
 msgid "You can only disable one command at a time."
 msgstr "一度に1つのコマンドを無効にすることができます."
 
 #: src/korone/modules/disabling/handlers/disable.py:37
-#: src/korone/modules/disabling/handlers/enable.py:32
-msgid "This command can't be enabled or disabled."
-msgstr "このコマンドは有効または無効にすることはできません."
+msgid ""
+"Unknown command to re-enable:\n"
+"- <code>{command}</code>\n"
+"Check the /disableable!"
+msgstr ""
 
-#: src/korone/modules/disabling/handlers/disable.py:43
+#: src/korone/modules/disabling/handlers/disable.py:48
 msgid "This command is already disabled."
 msgstr "このコマンドは既に無効です."
 
-#: src/korone/modules/disabling/handlers/disable.py:49
-#: src/korone/modules/disabling/handlers/enable.py:44
-msgid "Sorry! I couldn't find this command, maybe it doesn't exist?"
-msgstr "すみません! コマンドが見つかりませんでした 存在しないのでしょうか?"
-
-#: src/korone/modules/disabling/handlers/disable.py:52
+#: src/korone/modules/disabling/handlers/disable.py:53
 msgid "Command disabled."
 msgstr "コマンドは無効である。"
 
@@ -176,19 +105,26 @@ msgstr "このチャットではコマンドは無効です."
 msgid "The following commands are disabled in this chat:\n"
 msgstr "このチャットでは次のコマンドは無効です.\n"
 
-#: src/korone/modules/disabling/handlers/enable.py:22
+#: src/korone/modules/disabling/handlers/enable.py:21
 msgid "You need to specify a command to enable."
 msgstr "実行するコマンドを指定する必要があります."
 
-#: src/korone/modules/disabling/handlers/enable.py:27
+#: src/korone/modules/disabling/handlers/enable.py:26
 msgid "You can only enable one command at a time."
 msgstr "一度に1つのコマンドしか有効にすることはできません."
 
-#: src/korone/modules/disabling/handlers/enable.py:38
+#: src/korone/modules/disabling/handlers/enable.py:32
+msgid ""
+"Unknown command to disable:\n"
+"- <code>{command}</code>\n"
+"Check the /disableable!"
+msgstr ""
+
+#: src/korone/modules/disabling/handlers/enable.py:43
 msgid "This command is already enabled."
 msgstr "このコマンドは既に有効です."
 
-#: src/korone/modules/disabling/handlers/enable.py:47
+#: src/korone/modules/disabling/handlers/enable.py:48
 msgid "Command enabled."
 msgstr "コマンドが有効。"
 
@@ -196,31 +132,20 @@ msgstr "コマンドが有効。"
 msgid "The following commands can be disabled:\n"
 msgstr "次のコマンドを無効にすることができます.\n"
 
-#: src/korone/modules/gsm_arena/__init__.py:10
-msgid "GSM Arena"
-msgstr "GSM アリーナ"
-
-#: src/korone/modules/gsm_arena/__init__.py:11
-msgid ""
-"Obtaining smartphone specifications can be a tedious task, especially when "
-"it involves navigating through multiple websites or pages.\n"
-"\n"
-"This module simplifies the process by enabling users to obtain the "
-"specifications of a particular device directly from Telegram."
+#: src/korone/modules/errors/handlers/catcher.py:74
+#, fuzzy
+msgid "An error occurred while processing this update. :/"
 msgstr ""
-"スマートフォンの仕様を取得することは,特に複数のウェブサイトやページをナビゲー"
-"トすることを含む場合,退屈な作業です.\n"
-"\n"
-"このモジュールは,ユーザーが特定のデバイスの仕様を Telegramから直接取得できる"
-"ようにすることで,プロセスを簡素化します."
+"LastFMのデータを取得する際にエラーが発生しました.\n"
+"エラー: <i>{error}</i>"
 
-#: src/korone/modules/gsm_arena/__init__.py:17
-msgid ""
-"<b>Commands:</b>\n"
-"- /device &lt;device name&gt;: Returns the specifications of a device."
+#: src/korone/modules/errors/handlers/catcher.py:80
+msgid "Reference ID: {id}"
 msgstr ""
-"<b>コマンド:</b>\n"
-"- /device &lt;デバイス名&gt;: デバイスの仕様を返します。"
+
+#: src/korone/modules/errors/handlers/catcher.py:88
+msgid "🐞 Report This Error"
+msgstr ""
 
 #: src/korone/modules/gsm_arena/utils.py:97
 msgid "Status"
@@ -288,51 +213,15 @@ msgstr "デバイスが見つかりませんでした。"
 msgid "Search results for: <b>{device}</b>"
 msgstr "検索結果: <b>{device}</b>"
 
-#: src/korone/modules/language/__init__.py:10
-msgid "Languages"
-msgstr "言語"
-
-#: src/korone/modules/language/__init__.py:11
-#, fuzzy
-msgid ""
-"Not all groups are fluent in English; some prefer Korone to respond in their "
-"native language.\n"
-"\n"
-"Translations can be used to change the language of the bot's replies to the "
-"language of your choice!"
-msgstr ""
-"英語を流暢に話せるグループは皆いません. PyKoroneで母語で回答する方が好ましい"
-"グループもあります.\n"
-"\n"
-"翻訳はボットの返信の言語を 選択した言語に変更するために使用できます!"
-
-#: src/korone/modules/language/__init__.py:17
-msgid ""
-"<b>Commands:</b>\n"
-"- /languages: Returns a menu with the languages available to be applied to "
-"the current chat.\n"
-"- /language: Returns the language set for the current chat and its "
-"statistics.\n"
-"\n"
-"<b>Note:</b>\n"
-"In groups, the bot's language is set by the group's administrators."
-msgstr ""
-"<b>コマンド:</b>\n"
-"- /languages: 現在のチャットに適用可能な言語のメニューを返します。\n"
-"- /language: 現在のチャットに設定されている言語とその統計情報を返します。\n"
-"\n"
-"<b>注意:</b>\n"
-"グループでは、ボットの言語はグループの管理者によって設定されます。"
-
-#: src/korone/modules/language/handlers/apply.py:23
+#: src/korone/modules/languages/handlers/apply.py:23
 msgid "Something went wrong."
 msgstr "何かが上手くいきませんでした。"
 
-#: src/korone/modules/language/handlers/apply.py:47
+#: src/korone/modules/languages/handlers/apply.py:47
 msgid "Language changed to {new_lang}."
 msgstr "言語が{new_lang}に変更されました."
 
-#: src/korone/modules/language/handlers/apply.py:54
+#: src/korone/modules/languages/handlers/apply.py:54
 msgid ""
 "\n"
 "This is the bot's native language.\n"
@@ -342,12 +231,12 @@ msgstr ""
 "これはボットの母語です\n"
 "もしエラーが見つかったら,GitHub Repositoryに問題をファイルしてください."
 
-#: src/korone/modules/language/handlers/apply.py:61
-#: src/korone/modules/language/handlers/apply.py:82
+#: src/korone/modules/languages/handlers/apply.py:61
+#: src/korone/modules/languages/handlers/apply.py:82
 msgid "🐞 Open GitHub"
 msgstr "🐞 GitHubを開く"
 
-#: src/korone/modules/language/handlers/apply.py:72
+#: src/korone/modules/languages/handlers/apply.py:72
 msgid ""
 "\n"
 "The language is {percent}% translated."
@@ -355,7 +244,7 @@ msgstr ""
 "\n"
 "言語は{percent}%翻訳されています。"
 
-#: src/korone/modules/language/handlers/apply.py:77
+#: src/korone/modules/languages/handlers/apply.py:77
 msgid ""
 "\n"
 "In case you find any errors, please file a issue in the GitHub Repository."
@@ -363,7 +252,7 @@ msgstr ""
 "\n"
 "もしエラーが見つかったら,GitHub Repositoryに問題をファイルしてください."
 
-#: src/korone/modules/language/handlers/apply.py:86
+#: src/korone/modules/languages/handlers/apply.py:86
 msgid ""
 "\n"
 "Please help us translate this language by completing it on our translations "
@@ -372,11 +261,11 @@ msgstr ""
 "\n"
 "翻訳プラットフォームでこの言語の翻訳にご協力ください。"
 
-#: src/korone/modules/language/handlers/apply.py:92
+#: src/korone/modules/languages/handlers/apply.py:92
 msgid "🌍 Open Translations"
 msgstr "🌍 オープン翻訳"
 
-#: src/korone/modules/language/handlers/cancel.py:25
+#: src/korone/modules/languages/handlers/cancel.py:25
 msgid ""
 "Changing language was canceled, you can change language again by using /"
 "language command."
@@ -384,11 +273,11 @@ msgstr ""
 "言語変更はキャンセルされました. /language コマンドを使って言語を再び変更でき"
 "ます."
 
-#: src/korone/modules/language/handlers/info.py:24
+#: src/korone/modules/languages/handlers/info.py:26
 msgid "<b>Chat language:</b> {language}\n"
 msgstr "<b>チャット言語:</b> {language}\n"
 
-#: src/korone/modules/language/handlers/info.py:35
+#: src/korone/modules/languages/handlers/info.py:37
 #, fuzzy
 msgid ""
 "\n"
@@ -397,129 +286,48 @@ msgstr ""
 "\n"
 "<b>言語情報:</b>\n"
 
-#: src/korone/modules/language/handlers/info.py:36
+#: src/korone/modules/languages/handlers/info.py:38
 #, fuzzy
 msgid "Translated strings: <code>{translated}</code>\n"
 msgstr "翻訳済み: {translated}\n"
 
-#: src/korone/modules/language/handlers/info.py:39
+#: src/korone/modules/languages/handlers/info.py:41
 #, fuzzy
 msgid "Untranslated strings: <code>{untranslated}</code>\n"
 msgstr "訳されていない: {untranslated}\n"
 
-#: src/korone/modules/language/handlers/info.py:42
+#: src/korone/modules/languages/handlers/info.py:44
 msgid "Strings requiring review: <code>{fuzzy}</code>\n"
 msgstr ""
 
-#: src/korone/modules/language/handlers/info.py:44
+#: src/korone/modules/languages/handlers/info.py:46
 msgid "This is the bot's native language. So it is 100% translated."
 msgstr "これはボットの母国語です。ですから100％翻訳されています。"
 
-#: src/korone/modules/language/handlers/info.py:54
-#: src/korone/modules/language/handlers/info.py:74
+#: src/korone/modules/languages/handlers/info.py:56
+#: src/korone/modules/languages/handlers/info.py:76
 msgid "👤 Change your language"
 msgstr "👤 言語を変更する"
 
-#: src/korone/modules/language/handlers/info.py:56
+#: src/korone/modules/languages/handlers/info.py:58
 msgid "🌍 Change group language"
 msgstr "🌍 グループ言語の変更"
 
-#: src/korone/modules/language/handlers/info.py:63
-#: src/korone/modules/language/handlers/info.py:81
-#: src/korone/modules/language/handlers/select.py:41
-#: src/korone/modules/pm_menu/handlers/about.py:32
-#: src/korone/modules/pm_menu/handlers/help.py:34
-#: src/korone/modules/pm_menu/handlers/help.py:86
+#: src/korone/modules/languages/handlers/info.py:65
+#: src/korone/modules/languages/handlers/info.py:83
+#: src/korone/modules/languages/handlers/select.py:41
+#: src/korone/modules/pm_menu/handlers/about.py:39
+#: src/korone/modules/pm_menu/handlers/help.py:30
 msgid "⬅️ Back"
 msgstr "⬅️"
 
-#: src/korone/modules/language/handlers/select.py:34
+#: src/korone/modules/languages/handlers/select.py:34
 msgid "❌ Cancel"
 msgstr "キャンセル"
 
-#: src/korone/modules/language/handlers/select.py:49
+#: src/korone/modules/languages/handlers/select.py:49
 msgid "Please select the language you want to use for the chat."
 msgstr "チャットで使いたい言語を選択してください."
-
-#: src/korone/modules/lastfm/__init__.py:10
-msgid "LastFM"
-msgstr "ラストフム"
-
-#: src/korone/modules/lastfm/__init__.py:11
-msgid ""
-"The LastFM module allows you to retrieve and display information about your "
-"favorite music artists, albums, and tracks. You can also view your recent "
-"plays and share them with your friends."
-msgstr ""
-"LastFMモジュールは、お気に入りの音楽アーティスト、アルバム、トラックに関する"
-"情報を取得し、表示することができます。また、最近再生した曲を表示したり、友達"
-"と共有することもできます。"
-
-#: src/korone/modules/lastfm/__init__.py:16
-msgid ""
-"<b>Commands:</b>\n"
-"- /setfm &lt;your username&gt;: Set your LastFM username.\n"
-"- /lfm: Get the track you are currently listening to or the last track you "
-"listened to.\n"
-"- /lfmr: Get your last 5 played tracks.\n"
-"- /lfmar: Get the artist you are currently listening to or the last artist "
-"you listened to.\n"
-"- /lfmal: Get the album you are currently listening to or the last album you "
-"listened to.\n"
-"- /lfmu: Get your total scrobbles, tracks, artists, and albums scrobbled.\n"
-"- /lfmt: Get your top artists, tracks, or albums.\n"
-"- /lfmcomp: Get the compatibility of your music taste with another user.\n"
-"- /lfmc: Get a collage of your top albums.\n"
-"\n"
-"<b>Examples:</b>\n"
-"- Generate a collage of your top 5x5 albums in a period of 7 days:\n"
-"-> <code>/lfmc 5 7d</code>\n"
-"\n"
-"- Generate a collage of your top 7x7 albums in a period of 1 month without "
-"text:\n"
-"-> <code>/lfmc 7 1m clean</code>\n"
-"\n"
-"- Get your top 5 artists in a period of 1 year:\n"
-"-> <code>/lfmt 1y</code>\n"
-"\n"
-"- Get your top 5 tracks of all time:\n"
-"-> <code>/lfmt track</code>\n"
-"\n"
-"<b>Notes:</b>\n"
-"Supported sizes: 1, 2, 3, 4, 5, 6, 7\n"
-"Supported periods: 1d, 7d, 1m, 3m, 6m, 1y, all\n"
-"Supported types: artist, track, album"
-msgstr ""
-"<b>コマンド:</b>\n"
-"- /setfm &lt;あなたのユーザー名&gt;: あなたのLastFMユーザー名を設定します。\n"
-"- /lfm: 現在聴いているトラック、または最後に聴いたトラックを取得します。\n"
-"- /lfmr: 最後の5曲を取得します。\n"
-"- /lfmar: 現在聴いているアーティスト、または最後に聴いたアーティストを取得し"
-"ます。\n"
-"- /lfmal: 現在聴いているアルバム、または最後に聴いたアルバムを取得します。\n"
-"- /lfmu: 総スクロブル数、トラック数、アーティスト数、アルバム数を取得しま"
-"す。\n"
-"- /lfmt: トップのアーティスト、トラック、またはアルバムを取得します。\n"
-"- /lfmcomp: 別のユーザーとの音楽の相性を取得します。\n"
-"- /lfmc: トップアルバムのコラージュを取得します。\n"
-"\n"
-"<b>例:</b>\n"
-"- 7日間の期間でトップ5x5アルバムのコラージュを生成する:\n"
-"-> <code>/lfmc 5 7d</code>\n"
-"\n"
-"- 1ヶ月の期間でテキストなしのトップ7x7アルバムのコラージュを生成する:\n"
-"-> <code>/lfmc 7 1m clean</code>\n"
-"\n"
-"- 1年間の期間でトップ5アーティストを取得する:\n"
-"-> <code>/lfmt 1y</code>\n"
-"\n"
-"- すべての時間でトップ5トラックを取得する:\n"
-"-> <code>/lfmt track</code>\n"
-"\n"
-"<b>注記:</b>\n"
-"サポートされるサイズ: 1, 2, 3, 4, 5, 6, 7\n"
-"サポートされる期間: 1d, 7d, 1m, 3m, 6m, 1y, all\n"
-"サポートされるタイプ: artist, track, album"
 
 #: src/korone/modules/lastfm/handlers/album.py:29
 #: src/korone/modules/lastfm/handlers/artist.py:30
@@ -645,7 +453,7 @@ msgstr ""
 #: src/korone/modules/lastfm/handlers/set.py:28
 #, fuzzy
 msgid ""
-"You need to provide your LastFM username! Example: <code>/setfm username</"
+"You need to provide your LastFM username! Example: <code>/setlfm username</"
 "code>."
 msgstr ""
 "まず LastFM のユーザー名を設定してください! <code>/setlfm &lt;ユーザー名&gt;"
@@ -749,63 +557,30 @@ msgstr "1年"
 msgid "All time"
 msgstr "全期間"
 
-#: src/korone/modules/media_dl/__init__.py:10
-msgid "Medias"
-msgstr "メディア"
-
-#: src/korone/modules/media_dl/__init__.py:11
-msgid ""
-"Some websites, when their links are shared on Telegram, do not display a "
-"preview of the content. This module solves this problem by automatically "
-"downloading the media content from these websites and displaying it in the "
-"chat. Also having some extra features like a command to download YouTube "
-"videos and audios."
-msgstr ""
-
-#: src/korone/modules/media_dl/__init__.py:17
-#, fuzzy
-msgid ""
-"Automatic media download is available for the following websites:\n"
-"- X (Twitter)\n"
-"- TikTok\n"
-"\n"
-"<b>Commands:</b>\n"
-"- /ytdl &lt;youtubelink&gt;: Download the YouTube video or audio from the "
-"given link."
-msgstr ""
-"自動メディアダウンロードは以下のウェブサイトで有効です:\n"
-"- X (Twitter)\n"
-"- TikTok\n"
-"- Instagram\n"
-"\n"
-"<b>コマンド:</b>\n"
-"- /ytdl &lt;YouTubeリンク&gt;: 指定されたリンクからYouTubeのビデオまたはオー"
-"ディオをダウンロードします。"
-
-#: src/korone/modules/media_dl/handlers/tiktok.py:65
-#: src/korone/modules/media_dl/handlers/tiktok.py:86
-#: src/korone/modules/media_dl/handlers/tiktok.py:92
-#: src/korone/modules/media_dl/handlers/twitter.py:173
-#: src/korone/modules/media_dl/handlers/twitter.py:224
+#: src/korone/modules/medias/handlers/tiktok.py:66
+#: src/korone/modules/medias/handlers/tiktok.py:87
+#: src/korone/modules/medias/handlers/tiktok.py:93
+#: src/korone/modules/medias/handlers/twitter.py:180
+#: src/korone/modules/medias/handlers/twitter.py:231
 msgid "Failed to send media: {error}"
 msgstr "メディアの送信に失敗しました: {error}"
 
-#: src/korone/modules/media_dl/handlers/tiktok.py:136
-#: src/korone/modules/media_dl/handlers/tiktok.py:144
+#: src/korone/modules/medias/handlers/tiktok.py:137
+#: src/korone/modules/medias/handlers/tiktok.py:145
 msgid "Open in TikTok"
 msgstr "TikTokで開く"
 
-#: src/korone/modules/media_dl/handlers/twitter.py:115
-#: src/korone/modules/media_dl/handlers/twitter.py:213
+#: src/korone/modules/medias/handlers/twitter.py:122
+#: src/korone/modules/medias/handlers/twitter.py:220
 msgid "Open in Twitter"
 msgstr "Twitterで開く"
 
-#: src/korone/modules/media_dl/handlers/twitter.py:139
-#: src/korone/modules/media_dl/handlers/twitter.py:154
+#: src/korone/modules/medias/handlers/twitter.py:146
+#: src/korone/modules/medias/handlers/twitter.py:161
 msgid "Failed to send media!"
 msgstr "メディアを送信できない!"
 
-#: src/korone/modules/media_dl/handlers/twitter.py:186
+#: src/korone/modules/medias/handlers/twitter.py:193
 msgid ""
 "\n"
 "<b>Sent from:</b> <i>{source}</i>"
@@ -813,87 +588,91 @@ msgstr ""
 "\n"
 "<b>送信元:</b> <i>{source}</i>"
 
-#: src/korone/modules/media_dl/handlers/youtube.py:34
+#: src/korone/modules/medias/handlers/youtube.py:34
 msgid "<b>Title:</b> {title}\n"
 msgstr "<b>タイトル:</b> {title}\n"
 
-#: src/korone/modules/media_dl/handlers/youtube.py:35
+#: src/korone/modules/medias/handlers/youtube.py:35
 msgid "<b>Uploader:</b> {uploader}\n"
 msgstr "<b>アップローダー:</b> {uploader}\n"
 
-#: src/korone/modules/media_dl/handlers/youtube.py:47
+#: src/korone/modules/medias/handlers/youtube.py:47
 msgid "<b>Duration:</b> {hours}h {minutes}m {seconds}s\n"
 msgstr "<b>再生時間:</b> {hours}時間 {minutes}分 {seconds}秒\n"
 
-#: src/korone/modules/media_dl/handlers/youtube.py:51
+#: src/korone/modules/medias/handlers/youtube.py:51
 msgid "<b>Duration:</b> {minutes}m {seconds}s\n"
 msgstr "<b>再生時間:</b> {minutes}分 {seconds}秒\n"
 
-#: src/korone/modules/media_dl/handlers/youtube.py:55
+#: src/korone/modules/medias/handlers/youtube.py:55
 msgid "<b>Duration:</b> {seconds}s\n"
 msgstr "<b>再生時間:</b> {seconds}秒\n"
 
-#: src/korone/modules/media_dl/handlers/youtube.py:62
+#: src/korone/modules/medias/handlers/youtube.py:62
 msgid "<b>Views:</b> {view_count}\n"
 msgstr "<b>再生回数:</b> {view_count}\n"
 
-#: src/korone/modules/media_dl/handlers/youtube.py:63
+#: src/korone/modules/medias/handlers/youtube.py:63
 msgid "<b>Likes:</b> {like_count}\n"
 msgstr "<b>いいね:</b> {like_count}\n"
 
-#: src/korone/modules/media_dl/handlers/youtube.py:71
+#: src/korone/modules/medias/handlers/youtube.py:71
 msgid "Download video"
 msgstr "動画をダウンロード"
 
-#: src/korone/modules/media_dl/handlers/youtube.py:75
+#: src/korone/modules/medias/handlers/youtube.py:75
 msgid "Download audio"
 msgstr "音声ダウンロード"
 
-#: src/korone/modules/media_dl/handlers/youtube.py:90
+#: src/korone/modules/medias/handlers/youtube.py:90
 msgid "No YouTube URL found in the replied message."
 msgstr "返信したメッセージには YouTube の URL が見つかりませんでした."
 
-#: src/korone/modules/media_dl/handlers/youtube.py:97
+#: src/korone/modules/medias/handlers/youtube.py:97
 #, fuzzy
 msgid ""
 "You need to provide a URL or reply to a message that contains a URL. "
 "Example: <code>/ytdl https://www.youtube.com/watch?v=dQw4w9WgXcQ</code>"
 msgstr "URLを入力するか,URLを含むメッセージに返信する必要があります."
 
-#: src/korone/modules/media_dl/handlers/youtube.py:105
+#: src/korone/modules/medias/handlers/youtube.py:105
 msgid "Invalid YouTube URL!"
 msgstr "無効なYouTubeのURLです！"
 
-#: src/korone/modules/media_dl/handlers/youtube.py:115
+#: src/korone/modules/medias/handlers/youtube.py:115
 msgid "Failed to extract video info!"
 msgstr "ビデオ情報の抽出に失敗しました！"
 
-#: src/korone/modules/media_dl/handlers/youtube.py:134
+#: src/korone/modules/medias/handlers/youtube.py:134
 msgid "Downloading..."
 msgstr "ダウンロード中..."
 
-#: src/korone/modules/media_dl/handlers/youtube.py:145
-#: src/korone/modules/media_dl/handlers/youtube.py:151
+#: src/korone/modules/medias/handlers/youtube.py:145
+#: src/korone/modules/medias/handlers/youtube.py:151
 msgid "Failed to download the media."
 msgstr "メディアのダウンロードに失敗しました。"
 
-#: src/korone/modules/media_dl/handlers/youtube.py:154
+#: src/korone/modules/medias/handlers/youtube.py:154
 msgid "Uploading..."
 msgstr "アップロード中…"
 
-#: src/korone/modules/media_dl/handlers/youtube.py:183
+#: src/korone/modules/medias/handlers/youtube.py:183
 msgid "Failed to send the media."
 msgstr "メディアを送信できなかった."
 
-#: src/korone/modules/pm_menu/handlers/about.py:25
+#: src/korone/modules/pm_menu/handlers/about.py:28
 msgid "📦 GitHub"
 msgstr "📦 GitHub"
 
-#: src/korone/modules/pm_menu/handlers/about.py:26
+#: src/korone/modules/pm_menu/handlers/about.py:29
 msgid "📚 Channel"
 msgstr "📚 チャンネル"
 
-#: src/korone/modules/pm_menu/handlers/about.py:44
+#: src/korone/modules/pm_menu/handlers/about.py:31
+msgid "🔒 Privacy Policy"
+msgstr ""
+
+#: src/korone/modules/pm_menu/handlers/about.py:51
 #, fuzzy
 msgid ""
 "Korone is a comprehensive and cutting-edge Telegram bot that offers a wide "
@@ -919,97 +698,64 @@ msgstr ""
 "\n"
 "PyKororneバージョン: {version}"
 
-#: src/korone/modules/pm_menu/handlers/help.py:61
-#: src/korone/modules/pm_menu/handlers/start.py:32
-msgid "👮‍♂️ Help"
-msgstr "👮�"
-
-#: src/korone/modules/pm_menu/handlers/help.py:63
-msgid "Message me in PM to get help."
-msgstr "助けを求めるなら、PMでメッセージをくれ。"
-
-#: src/korone/modules/pm_menu/handlers/help.py:73
-#: src/korone/modules/pm_menu/handlers/help.py:103
-msgid "Module not found."
-msgstr "モジュールが見つかりません。"
-
+#: src/korone/modules/pm_menu/handlers/help.py:25
 #: src/korone/modules/pm_menu/handlers/privacy.py:20
+msgid "Documentation"
+msgstr ""
+
+#: src/korone/modules/pm_menu/handlers/help.py:38
 msgid ""
-"<b>Korone Privacy Policy</b>\n"
-"\n"
-"This bot is designed to prioritize and protect user privacy to the best of "
-"its ability.\n"
-"\n"
-"The bot only collects and uses the data necessary for the proper functioning "
-"of its commands that are listed in the /help section.\n"
-"\n"
-"Please note that our privacy policy may be subject to changes and updates."
+"You can get help by reading the documentation, where you'll get an overview "
+"of the bot and how to use it to its full potential. Click the button below "
+"to start reading."
 msgstr ""
 
-#: src/korone/modules/pm_menu/handlers/privacy.py:29
-msgid "What Information We Collect"
-msgstr ""
-
-#: src/korone/modules/pm_menu/handlers/privacy.py:35
-#: src/korone/modules/pm_menu/handlers/privacy.py:86
-msgid "🔙 Back"
-msgstr ""
-
-#: src/korone/modules/pm_menu/handlers/privacy.py:64
+#: src/korone/modules/pm_menu/handlers/privacy.py:27
 msgid ""
-"<b>Information We Collect</b>\n"
-"The bot collects the following information:\n"
-"- <b>User Information:</b> ID, first name, last name, and username.\n"
-"- <b>Group Information:</b> ID, title, username, and type (supergroup, "
-"group).\n"
-"- <b>Bot Settings/Configurations:</b> Any settings or configurations you've "
-"applied, such as your LastFM username for related commands.\n"
-"\n"
-"<b>How and Why We Collect Your Information</b>\n"
-"The information we process is obtained directly from you when you interact "
-"with the bot in the following ways:\n"
-"- <b>Direct Messaging:</b> When you message the bot privately or initiate a "
-"conversation using the /start command.\n"
-"- <b>Group Interactions:</b> When you interact with the bot in a group "
-"chat.\n"
-"The information collected is used to provide you with the services you "
-"request and to improve the bot's functionality.\n"
-"\n"
-"<b>Note:</b> All these informations is publicly available on Telegram, and "
-"we do not know your 'real' identity."
+"The privacy policy is available for review in the documentation. Click the "
+"button below to start reading."
 msgstr ""
 
-#: src/korone/modules/pm_menu/handlers/start.py:26
+#: src/korone/modules/pm_menu/handlers/start.py:29
 msgid "ℹ️ About"
 msgstr "i️ A"
 
-#: src/korone/modules/pm_menu/handlers/start.py:28
+#: src/korone/modules/pm_menu/handlers/start.py:31
 msgid "{lang_flag} Language"
 msgstr "{lang_flag}言語"
 
-#: src/korone/modules/pm_menu/handlers/start.py:31
-msgid "🔒 Privacy"
-msgstr ""
+#: src/korone/modules/pm_menu/handlers/start.py:34
+msgid "👮‍♂️ Help"
+msgstr "👮�"
 
-#: src/korone/modules/pm_menu/handlers/start.py:39
+#: src/korone/modules/pm_menu/handlers/start.py:41
 msgid ""
 "Hi, I'm Korone! An all-in-one bot. I can help you with lots of things. Just "
 "click on the buttons below to get started."
 msgstr ""
 
-#: src/korone/modules/stickers/__init__.py:10
-msgid "Stickers"
+#: src/korone/modules/regex/utils.py:43
+msgid "Invalid command: {command}"
 msgstr ""
 
-#: src/korone/modules/stickers/__init__.py:11
-msgid "This module contains commands for handling stickers and sticker packs."
+#: src/korone/modules/regex/utils.py:49
+msgid "Pattern is too long. Please use shorter patterns."
 msgstr ""
 
-#: src/korone/modules/stickers/__init__.py:14
-msgid ""
-"<b>Commands:</b>\n"
-"- /getsticker: Reply to a sticker to get it as a file and its file ID.\n"
-"- /kang: Reply to a sticker, image or video to add it to a sticker pack."
+#: src/korone/modules/regex/utils.py:54
+msgid "Unknown flag: {flag}"
+msgstr ""
+
+#: src/korone/modules/regex/handlers/sed.py:41
+msgid "Regex error: {e}"
+msgstr ""
+
+#: src/korone/modules/regex/handlers/sed.py:49
+msgid "Your regex didn't change anything from the original message."
+msgstr ""
+
+#: src/korone/modules/regex/handlers/sed.py:51
+msgid "No message to apply the substitution."
 msgstr ""
 
 #: src/korone/modules/stickers/handlers/get_sticker.py:35
@@ -1025,88 +771,53 @@ msgid "Failed to download sticker."
 msgstr "ステッカーのダウンロードに失敗しました。"
 
 #: src/korone/modules/stickers/handlers/kang.py:40
-msgid "You need to reply to a sticker or provide an emoji."
+msgid "You need to reply to an image, video, or sticker."
 msgstr ""
 
 #: src/korone/modules/stickers/handlers/kang.py:43
 msgid "Processing..."
 msgstr ""
 
-#: src/korone/modules/stickers/handlers/kang.py:47
-msgid "Invalid media type."
+#: src/korone/modules/stickers/handlers/kang.py:48
+msgid "Invalid media type. Please reply to an image, video, or sticker."
 msgstr ""
 
-#: src/korone/modules/stickers/handlers/kang.py:56
+#: src/korone/modules/stickers/handlers/kang.py:58
 #, fuzzy
 msgid "Error downloading media."
 msgstr "メディアのダウンロードに失敗しました。"
 
-#: src/korone/modules/stickers/handlers/kang.py:63
+#: src/korone/modules/stickers/handlers/kang.py:65
 msgid "Error processing media."
 msgstr ""
 
-#: src/korone/modules/stickers/handlers/kang.py:91
+#: src/korone/modules/stickers/handlers/kang.py:93
 msgid "View pack"
 msgstr ""
 
-#: src/korone/modules/stickers/handlers/kang.py:93
+#: src/korone/modules/stickers/handlers/kang.py:95
 msgid ""
 "Sticker <b>successfully</b> added to pack\n"
 "Emoji: {sticker_emoji}"
 msgstr ""
 
-#: src/korone/modules/stickers/handlers/kang.py:159
+#: src/korone/modules/stickers/handlers/kang.py:161
 msgid "Adding the sticker to the pack..."
 msgstr ""
 
-#: src/korone/modules/stickers/handlers/kang.py:174
+#: src/korone/modules/stickers/handlers/kang.py:176
 msgid "Creating the sticker pack..."
 msgstr ""
 
-#: src/korone/modules/stickers/handlers/kang.py:198
+#: src/korone/modules/stickers/handlers/kang.py:200
 msgid "Start"
 msgstr ""
 
-#: src/korone/modules/stickers/handlers/kang.py:200
+#: src/korone/modules/stickers/handlers/kang.py:202
 msgid ""
 "Oops, looks like I do not have enough permissions to create a sticker pack "
 "for you!\n"
 "<b>Please start the bot first.</b>"
-msgstr ""
-
-#: src/korone/modules/translator/__init__.py:10
-msgid "Translator"
-msgstr ""
-
-#: src/korone/modules/translator/__init__.py:11
-msgid ""
-"This module uses DeepL to translate text between languages. DeepL is a high-"
-"quality translation service that uses neural networks to provide accurate "
-"translations."
-msgstr ""
-
-#: src/korone/modules/translator/__init__.py:16
-msgid ""
-"<b>Commands:</b>\n"
-"- /tr &lt;source&gt;:&lt;target&gt; &lt;text&gt;: Translates text from the "
-"source language to the target language. Can also be used as reply to a "
-"message.\n"
-"\n"
-"<b>Examples:</b>\n"
-"- Translate 'Hello, world!' from English to Portuguese (Brazilian):\n"
-"-> <code>/tr en:pt-br Hello, world!</code>\n"
-"\n"
-"- Translate 'Hallo, Welt!' from German to English:\n"
-"-> <code>/tr en Hallo, Welt!</code>\n"
-"\n"
-"<b>Notes:</b>\n"
-"<b>Supported Source Languages:</b>\n"
-"BG, CS, DA, DE, EL, EN, ES, ET, FI, FR, HU, ID, IT, JA, KO, LT, LV, NB, NL, "
-"PL, PT, RO, RU, SK, SL, SV, TR, UK, ZH\n"
-"\n"
-"<b>Supported Target Languages:</b>\n"
-"BG, CS, DA, DE, EL, EN, EN-GB, EN-US, ES, ET, FI, FR, HU, ID, IT, JA, KO, "
-"LT, LV, NB, NL, PL, PT, PT-BR, PT-PT, RO, RU, SK, SL, SV, TR, UK, ZH"
 msgstr ""
 
 #: src/korone/modules/translator/handlers/translate.py:74
@@ -1117,43 +828,40 @@ msgstr ""
 msgid "Unsupported target language: {target_lang}"
 msgstr ""
 
-#: src/korone/modules/translator/handlers/translate.py:91
+#: src/korone/modules/translator/handlers/translate.py:89
 msgid ""
 "Korone has reached the translation quota. The DeepL API has a limit of "
 "500,000 characters per month for the free plan, and we have exceeded this "
 "limit."
 msgstr ""
 
-#: src/korone/modules/translator/handlers/translate.py:99
+#: src/korone/modules/translator/handlers/translate.py:97
 #, fuzzy
 msgid "Failed to translate text. Error: {error}"
 msgstr "メディアの送信に失敗しました: {error}"
 
-#: src/korone/modules/translator/handlers/translate.py:102
+#: src/korone/modules/translator/handlers/translate.py:100
 msgid ""
 "<b>Language:</b> <code>{source_lang}</code> => <code>{target_lang}</code>"
 msgstr ""
 
-#: src/korone/modules/users_groups/__init__.py:10
-msgid "Users & Groups"
+#: src/korone/modules/users_groups/handlers/cleanup.py:20
+msgid "Removing deleted accounts..."
 msgstr ""
 
-#: src/korone/modules/users_groups/__init__.py:11
-msgid ""
-"This module allows retrieval of public information about users and groups, "
-"including usernames, IDs, and first names for users, and names, IDs, and "
-"usernames for groups. \n"
-"\n"
-"All information is fetched from the Telegram API. No private information is "
-"exposed."
+#: src/korone/modules/users_groups/handlers/cleanup.py:24
+#, fuzzy
+msgid "No members found."
+msgstr "デバイスが見つかりませんでした。"
+
+#: src/korone/modules/users_groups/handlers/cleanup.py:38
+msgid "Removed {count} deleted accounts."
 msgstr ""
 
-#: src/korone/modules/users_groups/__init__.py:17
-msgid ""
-"<b>Commands:</b>\n"
-"- /user &lt;username/id&gt;: Fetches information about a user.\n"
-"- /chat &lt;username/id&gt;: Fetches information about a group."
-msgstr ""
+#: src/korone/modules/users_groups/handlers/cleanup.py:40
+#, fuzzy
+msgid "No deleted accounts found."
+msgstr "デバイスが見つかりませんでした。"
 
 #: src/korone/modules/users_groups/handlers/groups.py:31
 #: src/korone/modules/users_groups/handlers/users.py:26
@@ -1162,7 +870,7 @@ msgstr ""
 
 #: src/korone/modules/users_groups/handlers/groups.py:51
 #, fuzzy
-msgid "The provided chat ID is invalid."
+msgid "The provided group ID is invalid."
 msgstr "LastFMのユーザー名を入力してください!"
 
 #: src/korone/modules/users_groups/handlers/groups.py:52
@@ -1180,11 +888,11 @@ msgid "The provided username does not exist."
 msgstr ""
 
 #: src/korone/modules/users_groups/handlers/groups.py:57
-msgid "No chat found with the provided identifier."
+msgid "No group found with the provided identifier."
 msgstr ""
 
 #: src/korone/modules/users_groups/handlers/groups.py:58
-msgid "Error accessing chat data."
+msgid "Error accessing group data."
 msgstr ""
 
 #: src/korone/modules/users_groups/handlers/groups.py:59
@@ -1194,13 +902,13 @@ msgstr ""
 #: src/korone/modules/users_groups/handlers/groups.py:72
 #, fuzzy
 msgid ""
-"You should provide a chat ID or username. Example: <code>/chat @username</"
+"You should provide a group ID or username. Example: <code>/group @username</"
 "code>."
 msgstr "LastFMのユーザー名を入力してください!"
 
 #: src/korone/modules/users_groups/handlers/groups.py:83
 #, fuzzy
-msgid "<b>Chat info</b>:\n"
+msgid "<b>Group info</b>:\n"
 msgstr ""
 "\n"
 "<b>言語情報:</b>\n"
@@ -1224,6 +932,29 @@ msgstr ""
 #, fuzzy
 msgid "<b>Type</b>: {type}\n"
 msgstr "<b>タイトル:</b> {title}\n"
+
+#: src/korone/modules/users_groups/handlers/id.py:18
+msgid "Your ID is <code>{id}</code>"
+msgstr ""
+
+#: src/korone/modules/users_groups/handlers/id.py:21
+msgid ""
+"\n"
+"Chat ID: <code>{id}</code>"
+msgstr ""
+
+#: src/korone/modules/users_groups/handlers/id.py:24
+msgid ""
+"\n"
+"{user} ID: <code>{id}</code>"
+msgstr ""
+
+#: src/korone/modules/users_groups/handlers/id.py:32
+#, fuzzy
+msgid ""
+"\n"
+"Forwarded user ID: <code>{id}</code>"
+msgstr "翻訳済み: {translated}\n"
 
 #: src/korone/modules/users_groups/handlers/users.py:37
 msgid "The provided user ID is invalid."
@@ -1252,23 +983,6 @@ msgstr "<b>チャット言語:</b> {language}\n"
 
 #: src/korone/modules/users_groups/handlers/users.py:63
 msgid "<b>User link</b>: <a href='tg://user?id={id}'>link</a>\n"
-msgstr ""
-
-#: src/korone/modules/web/__init__.py:10
-msgid "Web Tools"
-msgstr ""
-
-#: src/korone/modules/web/__init__.py:11
-msgid ""
-"This module provides tools to interact with the web, including whois queries "
-"and IP address/domain information retrieval."
-msgstr ""
-
-#: src/korone/modules/web/__init__.py:15
-msgid ""
-"<b>Commands:</b>\n"
-"- /whois &lt;domain&gt;: Fetches whois information for a domain.\n"
-"- /ip &lt;ip/domain&gt;: Fetches information about an IP address or domain."
 msgstr ""
 
 #: src/korone/modules/web/handlers/ip.py:24
@@ -1322,6 +1036,266 @@ msgid "An error occurred while fetching whois information: {error}"
 msgstr ""
 "LastFMのデータを取得する際にエラーが発生しました.\n"
 "エラー: <i>{error}</i>"
+
+#: src/korone/utils/commands_list.py:28
+msgid "Start the bot"
+msgstr ""
+
+#: src/korone/utils/commands_list.py:32
+msgid "Show help message"
+msgstr ""
+
+#: src/korone/utils/commands_list.py:36
+msgid "Show information about the bot"
+msgstr ""
+
+#: src/korone/utils/commands_list.py:40
+msgid "Show privacy policy"
+msgstr ""
+
+#: src/korone/utils/commands_list.py:44
+#, fuzzy
+msgid "Change the bot language"
+msgstr "👤 言語を変更する"
+
+#~ msgid "This command can't be enabled or disabled."
+#~ msgstr "このコマンドは有効または無効にすることはできません."
+
+#~ msgid "Sorry! I couldn't find this command, maybe it doesn't exist?"
+#~ msgstr "すみません! コマンドが見つかりませんでした 存在しないのでしょうか?"
+
+#~ msgid "Message me in PM to get help."
+#~ msgstr "助けを求めるなら、PMでメッセージをくれ。"
+
+#~ msgid "AFK"
+#~ msgstr "AFK"
+
+#, fuzzy
+#~ msgid ""
+#~ "It can be challenging to communicate your availability status to others. "
+#~ "This can lead to misunderstandings or missed messages when you're not "
+#~ "available to respond.\n"
+#~ "\n"
+#~ "The AFK module addresses this issue by allowing you to set your status as "
+#~ "'Away From Keyboard' (AFK). Korone will automatically respond to messages "
+#~ "you receive while you're AFK, letting others know that you're currently "
+#~ "unavailable."
+#~ msgstr ""
+#~ "自分 の 時間 の 状況 を 他 の 人 に 伝える の は 難しい こと が あり ま"
+#~ "す. 返信できない場合 誤解や メッセージを見逃すことがあります\n"
+#~ "\n"
+#~ "AFK モジュールは,ステータスを\"キーボードから離れて\" (AFK) に設定すること"
+#~ "で,この問題を解決します. PyKoroneは自動で AFK中に受信したメッセージに応答"
+#~ "し,あなたが現在利用できないことを他の人に知らせます."
+
+#~ msgid ""
+#~ "<b>Commands:</b>\n"
+#~ " - /afk &lt;reason&gt;: Set your status as AFK."
+#~ msgstr ""
+#~ "<b>コマンド:</b>\n"
+#~ "- /afk &lt;理由&gt;:あなたの状態を AFK に設定します."
+
+#~ msgid "Disabling"
+#~ msgstr "無効化"
+
+#, fuzzy
+#~ msgid ""
+#~ "Not everyone wants every feature Korone offers. Some commands are best "
+#~ "left unused to prevent spam and abuse.\n"
+#~ "\n"
+#~ "This allows you to disable some commonly used commands so that no one can "
+#~ "use them."
+#~ msgstr ""
+#~ "Koroneが提供するすべての機能を望む人はいません。スパムや乱用を防ぐために、"
+#~ "使用しない方がよいコマンドもあります。\n"
+#~ "\n"
+#~ "これにより、誰も使用できないように一般的に使用されるコマンドのいくつかを無"
+#~ "効にすることができます。また、人々がブルーテキストするのを防ぐために自動削"
+#~ "除することもできます。"
+
+#~ msgid ""
+#~ "<b>Admin Commands:</b>\n"
+#~ "- /disable &lt;commandname&gt;: Stop users from using \"commandname\" in "
+#~ "this group.\n"
+#~ "- /enable &lt;commandname&gt;: Allow users from using \"commandname\" in "
+#~ "this group.\n"
+#~ "- /disableable: List of commands that can be disabled.\n"
+#~ "- /disabled: List of commands that are currently disabled in the group."
+#~ msgstr ""
+#~ "<b>管理者コマンド:</b>\n"
+#~ "- /disable &lt;commandname&gt;: このグループでユーザが \"コマンド名\" を使"
+#~ "わないようにする.\n"
+#~ "このグループで\"コマンド名\"を使用できるようにします.\n"
+#~ "- /disableable:無効にできるコマンドの一覧\n"
+#~ "- /disabled: グループで現在無効になっているコマンドのリスト."
+
+#~ msgid "GSM Arena"
+#~ msgstr "GSM アリーナ"
+
+#~ msgid ""
+#~ "Obtaining smartphone specifications can be a tedious task, especially "
+#~ "when it involves navigating through multiple websites or pages.\n"
+#~ "\n"
+#~ "This module simplifies the process by enabling users to obtain the "
+#~ "specifications of a particular device directly from Telegram."
+#~ msgstr ""
+#~ "スマートフォンの仕様を取得することは,特に複数のウェブサイトやページをナビ"
+#~ "ゲートすることを含む場合,退屈な作業です.\n"
+#~ "\n"
+#~ "このモジュールは,ユーザーが特定のデバイスの仕様を Telegramから直接取得でき"
+#~ "るようにすることで,プロセスを簡素化します."
+
+#~ msgid ""
+#~ "<b>Commands:</b>\n"
+#~ "- /device &lt;device name&gt;: Returns the specifications of a device."
+#~ msgstr ""
+#~ "<b>コマンド:</b>\n"
+#~ "- /device &lt;デバイス名&gt;: デバイスの仕様を返します。"
+
+#~ msgid "Languages"
+#~ msgstr "言語"
+
+#, fuzzy
+#~ msgid ""
+#~ "Not all groups are fluent in English; some prefer Korone to respond in "
+#~ "their native language.\n"
+#~ "\n"
+#~ "Translations can be used to change the language of the bot's replies to "
+#~ "the language of your choice!"
+#~ msgstr ""
+#~ "英語を流暢に話せるグループは皆いません. PyKoroneで母語で回答する方が好まし"
+#~ "いグループもあります.\n"
+#~ "\n"
+#~ "翻訳はボットの返信の言語を 選択した言語に変更するために使用できます!"
+
+#~ msgid ""
+#~ "<b>Commands:</b>\n"
+#~ "- /languages: Returns a menu with the languages available to be applied "
+#~ "to the current chat.\n"
+#~ "- /language: Returns the language set for the current chat and its "
+#~ "statistics.\n"
+#~ "\n"
+#~ "<b>Note:</b>\n"
+#~ "In groups, the bot's language is set by the group's administrators."
+#~ msgstr ""
+#~ "<b>コマンド:</b>\n"
+#~ "- /languages: 現在のチャットに適用可能な言語のメニューを返します。\n"
+#~ "- /language: 現在のチャットに設定されている言語とその統計情報を返しま"
+#~ "す。\n"
+#~ "\n"
+#~ "<b>注意:</b>\n"
+#~ "グループでは、ボットの言語はグループの管理者によって設定されます。"
+
+#~ msgid "LastFM"
+#~ msgstr "ラストフム"
+
+#~ msgid ""
+#~ "The LastFM module allows you to retrieve and display information about "
+#~ "your favorite music artists, albums, and tracks. You can also view your "
+#~ "recent plays and share them with your friends."
+#~ msgstr ""
+#~ "LastFMモジュールは、お気に入りの音楽アーティスト、アルバム、トラックに関す"
+#~ "る情報を取得し、表示することができます。また、最近再生した曲を表示したり、"
+#~ "友達と共有することもできます。"
+
+#~ msgid ""
+#~ "<b>Commands:</b>\n"
+#~ "- /setfm &lt;your username&gt;: Set your LastFM username.\n"
+#~ "- /lfm: Get the track you are currently listening to or the last track "
+#~ "you listened to.\n"
+#~ "- /lfmr: Get your last 5 played tracks.\n"
+#~ "- /lfmar: Get the artist you are currently listening to or the last "
+#~ "artist you listened to.\n"
+#~ "- /lfmal: Get the album you are currently listening to or the last album "
+#~ "you listened to.\n"
+#~ "- /lfmu: Get your total scrobbles, tracks, artists, and albums "
+#~ "scrobbled.\n"
+#~ "- /lfmt: Get your top artists, tracks, or albums.\n"
+#~ "- /lfmcomp: Get the compatibility of your music taste with another user.\n"
+#~ "- /lfmc: Get a collage of your top albums.\n"
+#~ "\n"
+#~ "<b>Examples:</b>\n"
+#~ "- Generate a collage of your top 5x5 albums in a period of 7 days:\n"
+#~ "-> <code>/lfmc 5 7d</code>\n"
+#~ "\n"
+#~ "- Generate a collage of your top 7x7 albums in a period of 1 month "
+#~ "without text:\n"
+#~ "-> <code>/lfmc 7 1m clean</code>\n"
+#~ "\n"
+#~ "- Get your top 5 artists in a period of 1 year:\n"
+#~ "-> <code>/lfmt 1y</code>\n"
+#~ "\n"
+#~ "- Get your top 5 tracks of all time:\n"
+#~ "-> <code>/lfmt track</code>\n"
+#~ "\n"
+#~ "<b>Notes:</b>\n"
+#~ "Supported sizes: 1, 2, 3, 4, 5, 6, 7\n"
+#~ "Supported periods: 1d, 7d, 1m, 3m, 6m, 1y, all\n"
+#~ "Supported types: artist, track, album"
+#~ msgstr ""
+#~ "<b>コマンド:</b>\n"
+#~ "- /setfm &lt;あなたのユーザー名&gt;: あなたのLastFMユーザー名を設定しま"
+#~ "す。\n"
+#~ "- /lfm: 現在聴いているトラック、または最後に聴いたトラックを取得します。\n"
+#~ "- /lfmr: 最後の5曲を取得します。\n"
+#~ "- /lfmar: 現在聴いているアーティスト、または最後に聴いたアーティストを取得"
+#~ "します。\n"
+#~ "- /lfmal: 現在聴いているアルバム、または最後に聴いたアルバムを取得しま"
+#~ "す。\n"
+#~ "- /lfmu: 総スクロブル数、トラック数、アーティスト数、アルバム数を取得しま"
+#~ "す。\n"
+#~ "- /lfmt: トップのアーティスト、トラック、またはアルバムを取得します。\n"
+#~ "- /lfmcomp: 別のユーザーとの音楽の相性を取得します。\n"
+#~ "- /lfmc: トップアルバムのコラージュを取得します。\n"
+#~ "\n"
+#~ "<b>例:</b>\n"
+#~ "- 7日間の期間でトップ5x5アルバムのコラージュを生成する:\n"
+#~ "-> <code>/lfmc 5 7d</code>\n"
+#~ "\n"
+#~ "- 1ヶ月の期間でテキストなしのトップ7x7アルバムのコラージュを生成する:\n"
+#~ "-> <code>/lfmc 7 1m clean</code>\n"
+#~ "\n"
+#~ "- 1年間の期間でトップ5アーティストを取得する:\n"
+#~ "-> <code>/lfmt 1y</code>\n"
+#~ "\n"
+#~ "- すべての時間でトップ5トラックを取得する:\n"
+#~ "-> <code>/lfmt track</code>\n"
+#~ "\n"
+#~ "<b>注記:</b>\n"
+#~ "サポートされるサイズ: 1, 2, 3, 4, 5, 6, 7\n"
+#~ "サポートされる期間: 1d, 7d, 1m, 3m, 6m, 1y, all\n"
+#~ "サポートされるタイプ: artist, track, album"
+
+#~ msgid "Medias"
+#~ msgstr "メディア"
+
+#, fuzzy
+#~ msgid ""
+#~ "Automatic media download is available for the following websites:\n"
+#~ "- X (Twitter)\n"
+#~ "- TikTok\n"
+#~ "\n"
+#~ "<b>Commands:</b>\n"
+#~ "- /ytdl &lt;youtubelink&gt;: Download the YouTube video or audio from the "
+#~ "given link."
+#~ msgstr ""
+#~ "自動メディアダウンロードは以下のウェブサイトで有効です:\n"
+#~ "- X (Twitter)\n"
+#~ "- TikTok\n"
+#~ "- Instagram\n"
+#~ "\n"
+#~ "<b>コマンド:</b>\n"
+#~ "- /ytdl &lt;YouTubeリンク&gt;: 指定されたリンクからYouTubeのビデオまたは"
+#~ "オーディオをダウンロードします。"
+
+#~ msgid "Module not found."
+#~ msgstr "モジュールが見つかりません。"
+
+#, fuzzy
+#~ msgid "<b>Chat info</b>:\n"
+#~ msgstr ""
+#~ "\n"
+#~ "<b>言語情報:</b>\n"
 
 #~ msgid "You need to specify a command to disable."
 #~ msgstr "このコマンドは,このコマンドを無効にします."
