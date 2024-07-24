@@ -39,3 +39,4 @@ def __post_setup__(_):
 
     log.info("Legacy modules: Post setup")
     dp.include_router(legacy_modules_router)
+    # gather_cmds_help(legacy_modules_router)

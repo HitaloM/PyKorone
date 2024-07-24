@@ -130,24 +130,28 @@ msgstr ""
 msgid "Text"
 msgstr ""
 
-#: types/text_rules.py:26
+#: types/text_rules.py:27
 msgid "➡️ The Argument should start with {}!"
 msgstr ""
 
-#: types/text_rules.py:30
+#: types/text_rules.py:31
 msgid "⬅️️ The Argument should end with {}!"
 msgstr ""
 
-#: types/text_rules.py:42
+#: types/text_rules.py:50
 msgid "➡️ The start text cannot have the overlapping formatting"
 msgstr ""
 
-#: types/text_rules.py:67
+#: types/text_rules.py:75
 msgid "➡️ Argument '{arg_text}' was parsed, but it has unknown text after it!"
 msgstr ""
 
-#: types/text_rules.py:84 types/text_rules.py:88
+#: types/text_rules.py:92 types/text_rules.py:96
 msgid "{} surrounded by {} and {}"
+msgstr ""
+
+#: types/text_rules.py:108
+msgid "Surrounded by {} and {}"
 msgstr ""
 
 #: types/time_arg.py:24

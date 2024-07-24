@@ -1,14 +1,14 @@
 from importlib import import_module
 from types import ModuleType
-from typing import Dict, Sequence, Union
+from typing import Sequence, Union
 
 from aiogram import Dispatcher, Router
 
 from sophie_bot.utils.logger import log
 
-LOADED_MODULES: Dict[str, ModuleType] = {}
+LOADED_MODULES: dict[str, ModuleType] = {}
 # troubleshooters always first, then legacy_modules!
-MODULES = ["troubleshooters", "legacy_modules", "error", "beta", "users", "notes", "pm_menu"]
+MODULES = ["troubleshooters", "legacy_modules", "error", "beta", "users", "notes", "pm_menu", "help"]
 
 
 def load_modules(

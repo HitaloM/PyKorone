@@ -6,6 +6,10 @@ msgstr ""
 msgid "Connected chat not found in the database. Please try to disconnect and connect again."
 msgstr ""
 
+#: sophie_bot/modules/beta/__init__.py:15 sophie_bot/modules/beta/handlers/beta_state.py:15
+msgid "Beta"
+msgstr ""
+
 #: sophie_bot/modules/beta/handlers/beta_state.py:13
 msgid "Auto"
 msgstr ""
@@ -14,16 +18,16 @@ msgstr ""
 msgid "Stable"
 msgstr ""
 
-#: sophie_bot/modules/beta/handlers/beta_state.py:15
-msgid "Beta"
-msgstr ""
-
 #: sophie_bot/modules/beta/handlers/beta_state.py:66
 msgid "Couldn't find the beta state for this chat. Please check it later."
 msgstr ""
 
 #: sophie_bot/modules/beta/handlers/beta_state.py:79
 msgid "Use '{cmd}' to change it."
+msgstr ""
+
+#: sophie_bot/modules/error/__init__.py:13
+msgid "Error"
 msgstr ""
 
 #: sophie_bot/modules/error/handlers/error.py:79
@@ -278,6 +282,14 @@ msgstr ""
 msgid "Softly whispering."
 msgstr ""
 
+#: sophie_bot/modules/help/__init__.py:14
+msgid "Help"
+msgstr ""
+
+#: sophie_bot/modules/notes/__init__.py:15
+msgid "Notes"
+msgstr ""
+
 #: sophie_bot/modules/notes/handlers/delete.py:15 sophie_bot/modules/notes/handlers/get.py:15
 msgid "Note name"
 msgstr ""
@@ -386,12 +398,20 @@ msgstr ""
 msgid "Local chat"
 msgstr ""
 
+#: sophie_bot/modules/pm_menu/__init__.py:12
+msgid "Information"
+msgstr ""
+
 #: sophie_bot/modules/pm_menu/handlers/privacy.py:12
 msgid "The privacy policy of the bot is available on our wiki page."
 msgstr ""
 
 #: sophie_bot/modules/pm_menu/handlers/privacy.py:17
 msgid "Privacy Policy"
+msgstr ""
+
+#: sophie_bot/modules/troubleshooters/__init__.py:10
+msgid "Troubleshooters"
 msgstr ""
 
 #: sophie_bot/modules/troubleshooters/handlers/cancel.py:17
