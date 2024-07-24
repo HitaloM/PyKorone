@@ -20,7 +20,7 @@ import pickle
 from dataclasses import dataclass
 from typing import Any, Awaitable, Callable, Optional
 
-from aiogram import BaseMiddleware
+from aiogram import BaseMiddleware, Router
 from aiogram.dispatcher.event.bases import CancelHandler
 from aiogram.enums import ChatType, ContentType
 from aiogram.filters.callback_data import CallbackData
@@ -67,6 +67,8 @@ from sophie_bot.services.db import db
 from sophie_bot.services.redis import bredis, redis
 from sophie_bot.utils.cached import cached
 from sophie_bot.utils.logger import log
+
+router = Router(name="antiflood")
 
 
 class CancelCb(CallbackData, prefix="cancel_state"):
@@ -211,7 +213,7 @@ async def setflood_command(message: Message, chat: dict, strings: dict, state: F
     )
 
 
-@register(state=AntiFloodConfigState.expiration_proc)
+@register(router, state=AntiFloodConfigState.expiration_proc)
 @chat_connection()
 @get_strings_dec("antiflood")
 async def antiflood_expire_proc(message: Message, chat: dict, strings: dict, state: FSMContext, **_):
@@ -240,7 +242,7 @@ async def antiflood_expire_proc(message: Message, chat: dict, strings: dict, sta
         await state.clear()
 
 
-@register(CMDFilter("antiflood", "flood"), IsAdmin(True))
+@register(router, CMDFilter("antiflood", "flood"), IsAdmin(True))
 @chat_connection(admin=True)
 @get_strings_dec("antiflood")
 async def antiflood(message: Message, chat: dict, strings: dict):
@@ -268,7 +270,7 @@ async def antiflood(message: Message, chat: dict, strings: dict):
     )
 
 
-@register(CMDFilter("setfloodaction"), UserRestricting(can_restrict_members=True))
+@register(router, CMDFilter("setfloodaction"), UserRestricting(can_restrict_members=True))
 @need_args_dec()
 @chat_connection(admin=True)
 @get_strings_dec("antiflood")

@@ -17,7 +17,7 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-from aiogram import F
+from aiogram import F, Router
 from aiogram.exceptions import TelegramForbiddenError
 from aiogram.filters import CommandStart
 from aiogram.filters.callback_data import CallbackData
@@ -46,6 +46,8 @@ from sophie_bot.modules.notes.utils.legacy_notes import BUTTONS
 from sophie_bot.services.db import db
 from sophie_bot.services.redis import redis
 
+router = Router(name="connection")
+
 
 class ConnectToChatCb(CallbackData, prefix="connect_to_chat_cb"):
     chat_id: int
@@ -63,7 +65,7 @@ async def def_connect_chat(message: Message, user_id, chat_id, chat_title, strin
 
 
 # In chat - connect directly to chat
-@register(cmds="connect", only_groups=True, no_args=True)
+@register(router, cmds="connect", only_groups=True, no_args=True)
 @get_strings_dec("connections")
 async def connect_to_chat_direct(message: Message, strings):
     user_id = message.from_user.id
@@ -91,7 +93,7 @@ async def connect_to_chat_direct(message: Message, strings):
 
 
 # In pm without args - show last connected chats
-@register(cmds="connect", no_args=True, only_pm=True)
+@register(router, cmds="connect", no_args=True, only_pm=True)
 @get_strings_dec("connections")
 @chat_connection()
 async def connect_chat_keyboard(message: Message, strings, chat):
@@ -139,7 +141,7 @@ async def connect_chat_keyboard_cb(message: Message, callback_data: ConnectToCha
 
 
 # In pm with args - connect to chat by arg
-@register(cmds="connect", has_args=True, only_pm=True)
+@register(router, cmds="connect", has_args=True, only_pm=True)
 @get_chat_dec()
 @get_strings_dec("connections")
 async def connect_to_chat_from_arg(message: Message, chat, strings):
@@ -157,7 +159,7 @@ async def connect_to_chat_from_arg(message: Message, chat, strings):
     await def_connect_chat(message, user_id, chat_id, chat["chat_title"])
 
 
-@register(cmds="disconnect", only_pm=True)
+@register(router, cmds="disconnect", only_pm=True)
 @get_strings_dec("connections")
 async def disconnect_from_chat_direct(message: Message, strings):
     if (data := await get_connection_data(message.from_user.id)) and "chat_id" in data:
@@ -167,7 +169,7 @@ async def disconnect_from_chat_direct(message: Message, strings):
         await message.reply(strings["disconnected"].format(chat_name=chat["chat_title"]))
 
 
-@register(cmds="allowusersconnect")
+@register(router, cmds="allowusersconnect")
 @get_strings_dec("connections")
 @chat_connection(admin=True, only_groups=True)
 async def allow_users_to_connect(message: Message, strings, chat):
@@ -198,7 +200,7 @@ async def allow_users_to_connect(message: Message, strings, chat):
     await message.reply(strings["chat_users_connections_cng"].format(status=status, chat_name=chat["chat_title"]))
 
 
-@register(CommandStart(), only_pm=True)
+@register(router, CommandStart(), only_pm=True)
 @get_strings_dec("connections")
 @chat_connection()
 async def connected_start_state(message: Message, strings, chat):
@@ -211,7 +213,7 @@ async def connected_start_state(message: Message, strings, chat):
 BUTTONS.update({"connect": "btn_connect_start"})
 
 
-@register(CommandStart(deep_link=True, magic=F.args.regexp(r"btn_connect_start")), allow_kwargs=True)
+@register(router, CommandStart(deep_link=True, magic=F.args.regexp(r"btn_connect_start")), allow_kwargs=True)
 @get_strings_dec("connections")
 async def connect_start(message: Message, strings, regexp=None, **kwargs):
     args = get_args_str(message).split("_")

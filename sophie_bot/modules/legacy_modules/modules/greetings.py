@@ -23,7 +23,7 @@ from contextlib import suppress
 from datetime import datetime
 from typing import Optional, Union
 
-from aiogram import F
+from aiogram import F, Router
 from aiogram.enums import ChatMemberStatus
 from aiogram.exceptions import TelegramBadRequest
 from aiogram.filters import CommandStart
@@ -78,6 +78,8 @@ from sophie_bot.services.telethon import tbot
 from sophie_bot.stuff.fonts import ALL_FONTS
 from sophie_bot.utils.cached import cached
 
+router = Router(name="greetings")
+
 
 class WelcomeSecurityState(StatesGroup):
     button = State()
@@ -85,7 +87,7 @@ class WelcomeSecurityState(StatesGroup):
     math = State()
 
 
-@register(cmds="welcome")
+@register(router, cmds="welcome")
 @chat_connection(only_groups=True)
 @get_strings_dec("greetings")
 async def welcome(message: Message, chat, strings):
@@ -154,7 +156,7 @@ async def welcome(message: Message, chat, strings):
         await send_note(send_id, text, **kwargs)
 
 
-@register(cmds=["setwelcome", "savewelcome"], user_admin=True)
+@register(router, cmds=["setwelcome", "savewelcome"], user_admin=True)
 @chat_connection(admin=True, only_groups=True)
 @get_strings_dec("greetings")
 async def set_welcome(message: Message, chat, strings):
@@ -203,7 +205,7 @@ async def set_welcome(message: Message, chat, strings):
         await message.reply(text % chat["chat_title"])
 
 
-@register(cmds="resetwelcome", user_admin=True)
+@register(router, cmds="resetwelcome", user_admin=True)
 @chat_connection(admin=True, only_groups=True)
 @get_strings_dec("greetings")
 async def reset_welcome(message: Message, chat, strings):
@@ -218,7 +220,7 @@ async def reset_welcome(message: Message, chat, strings):
     await message.reply(strings["deleted"].format(chat=chat["chat_title"]))
 
 
-@register(cmds="cleanwelcome", user_admin=True)
+@register(router, cmds="cleanwelcome", user_admin=True)
 @chat_connection(admin=True, only_groups=True)
 @get_strings_dec("greetings")
 async def clean_welcome(message: Message, chat, strings):
@@ -254,7 +256,7 @@ async def clean_welcome(message: Message, chat, strings):
         await message.reply(strings["bool_invalid_arg"])
 
 
-@register(cmds="cleanservice", user_admin=True)
+@register(router, cmds="cleanservice", user_admin=True)
 @chat_connection(admin=True, only_groups=True)
 @get_strings_dec("greetings")
 async def clean_service(message: Message, chat, strings):
@@ -290,7 +292,7 @@ async def clean_service(message: Message, chat, strings):
         await message.reply(strings["bool_invalid_arg"])
 
 
-@register(cmds="welcomemute", user_admin=True)
+@register(router, cmds="welcomemute", user_admin=True)
 @chat_connection(admin=True, only_groups=True)
 @get_strings_dec("greetings")
 async def welcome_mute(message: Message, chat, strings):
@@ -358,7 +360,7 @@ class WelcomeSecurityConf(StatesGroup):
     send_time = State()
 
 
-@register(cmds="welcomesecurity", user_admin=True)
+@register(router, cmds="welcomesecurity", user_admin=True)
 @chat_connection(admin=True, only_groups=True)
 @get_strings_dec("greetings")
 async def welcome_security(message: Message, chat, strings):
@@ -450,7 +452,7 @@ async def welcome_security_config_proc(
     await event.message.edit_text(strings["send_time"])
 
 
-@register(F.text, state=WelcomeSecurityConf.send_time, allow_kwargs=True)
+@register(router, F.text, state=WelcomeSecurityConf.send_time, allow_kwargs=True)
 @chat_connection(admin=True)
 @get_strings_dec("greetings")
 async def wlcm_sec_time_state(message: Message, chat: dict, strings: dict, state: FSMContext, **_):
@@ -478,7 +480,7 @@ async def wlcm_sec_time_state(message: Message, chat: dict, strings: dict, state
         await state.clear()
 
 
-@register(cmds=["setsecuritynote", "sevesecuritynote"], user_admin=True)
+@register(router, cmds=["setsecuritynote", "sevesecuritynote"], user_admin=True)
 @need_args_dec()
 @chat_connection(admin=True, only_groups=True)
 @get_strings_dec("greetings")
@@ -515,7 +517,7 @@ async def set_security_note(message: Message, chat, strings):
     await message.reply(text % chat["chat_title"])
 
 
-@register(cmds="delsecuritynote", user_admin=True)
+@register(router, cmds="delsecuritynote", user_admin=True)
 @chat_connection(admin=True, only_groups=True)
 @get_strings_dec("greetings")
 async def reset_security_note(message: Message, chat, strings):
@@ -532,7 +534,7 @@ async def reset_security_note(message: Message, chat, strings):
     await message.reply(text % chat["chat_title"])
 
 
-@register(only_groups=True, f="welcome")
+@register(router, only_groups=True, f="welcome")
 @get_strings_dec("greetings")
 async def welcome_security_handler(message: Message, strings):
     if len(message.new_chat_members) > 1:
@@ -764,7 +766,7 @@ async def change_captcha(event, strings, state=None, **kwargs):
     )
 
 
-@register(f="text", state=WelcomeSecurityState.captcha, allow_kwargs=True)
+@register(router, f="text", state=WelcomeSecurityState.captcha, allow_kwargs=True)
 @get_strings_dec("greetings")
 async def check_captcha_text(message: Message, strings, state=None, **kwargs):
     num = message.text.split(" ")[0]
@@ -942,7 +944,7 @@ async def welcome_security_passed(message: Union[CallbackQuery, Message], state:
 
 
 # Welcomes
-@register(only_groups=True, f="welcome")
+@register(router, only_groups=True, f="welcome")
 @get_strings_dec("greetings")
 async def welcome_trigger(message: Message, strings):
     if len(message.new_chat_members) > 1:
@@ -999,7 +1001,7 @@ async def welcome_trigger(message: Message, strings):
 
 
 # Clean service trigger
-@register(only_groups=True, f="welcome")
+@register(router, only_groups=True, f="welcome")
 @get_strings_dec("greetings")
 async def clean_service_trigger(message: Message, strings):
     chat_id = message.chat.id

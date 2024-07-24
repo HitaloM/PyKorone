@@ -24,7 +24,7 @@ from contextlib import suppress
 from string import printable
 
 import regex
-from aiogram import F
+from aiogram import F, Router
 from aiogram.exceptions import TelegramBadRequest
 from aiogram.filters.callback_data import CallbackData
 from aiogram.fsm.context import FSMContext
@@ -55,6 +55,8 @@ from sophie_bot.modules.legacy_modules.utils.user_details import (
 from sophie_bot.services.db import db
 from sophie_bot.services.redis import redis
 from sophie_bot.utils.logger import log
+
+router = Router(name="filters")
 
 
 class FilterActionCb(CallbackData, prefix="filter_action_cp"):
@@ -92,7 +94,9 @@ async def update_handlers_cache(chat_id):
     return handlers
 
 
-@register()
+@register(
+    router,
+)
 async def check_msg(message: Message):
     chat = await get_connected_chat(message, only_groups=True)
     if "err_msg" in chat or message.chat.type == "private":
@@ -143,7 +147,7 @@ async def check_msg(message: Message):
                 await FILTERS_ACTIONS[action]["handle"](message, chat, filter)
 
 
-@register(cmds=["addfilter", "newfilter"], is_admin=True)
+@register(router, cmds=["addfilter", "newfilter"], is_admin=True)
 @need_args_dec()
 @chat_connection(only_groups=True, admin=True)
 @get_strings_dec("filters")
@@ -238,7 +242,7 @@ async def register_action(event, chat, strings, callback_data: FilterActionCb, s
     await save_filter(event.message, data, strings)
 
 
-@register(state=NewFilter.setup, f="any", is_admin=True, allow_kwargs=True)
+@register(router, state=NewFilter.setup, f="any", is_admin=True, allow_kwargs=True)
 @chat_connection(only_groups=True, admin=True)
 @get_strings_dec("filters")
 async def setup_end(message: Message, chat, strings, state: FSMContext, **kwargs):
@@ -269,7 +273,7 @@ async def setup_end(message: Message, chat, strings, state: FSMContext, **kwargs
     await save_filter(message, state_data["data"], strings)
 
 
-@register(cmds=["filters", "listfilters"])
+@register(router, cmds=["filters", "listfilters"])
 @chat_connection(only_groups=True)
 @get_strings_dec("filters")
 async def list_filters(message: Message, chat, strings):
@@ -287,7 +291,7 @@ async def list_filters(message: Message, chat, strings):
     await message.reply(text + filters_text)
 
 
-@register(cmds="delfilter", is_admin=True)
+@register(router, cmds="delfilter", is_admin=True)
 @need_args_dec()
 @chat_connection(only_groups=True, admin=True)
 @get_strings_dec("filters")
@@ -337,7 +341,7 @@ async def del_filter_cb(event, chat, strings, callback_data: FilterRemoveCb, **k
     return
 
 
-@register(cmds=["delfilters", "delallfilters"])
+@register(router, cmds=["delfilters", "delallfilters"])
 @get_strings_dec("filters")
 async def delall_filters(message: Message, strings: dict):
     if not await is_chat_creator(message, message.chat.id, message.from_user.id):

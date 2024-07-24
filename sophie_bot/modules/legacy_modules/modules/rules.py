@@ -1,4 +1,4 @@
-from aiogram import F
+from aiogram import F, Router
 from aiogram.filters import CommandStart
 from aiogram.types import Message
 
@@ -16,8 +16,10 @@ from sophie_bot.modules.notes.utils.legacy_notes import (
 )
 from sophie_bot.services.db import db
 
+router = Router(name="rules")
 
-@register(cmds=["setrules", "saverules"], user_admin=True)
+
+@register(router, cmds=["setrules", "saverules"], user_admin=True)
 @chat_connection(admin=True, only_groups=True)
 @get_strings_dec("rules")
 async def set_rules(message: Message, chat, strings):
@@ -35,7 +37,7 @@ async def set_rules(message: Message, chat, strings):
     await message.reply(text % chat["chat_title"])
 
 
-@register(cmds="rules")
+@register(router, cmds="rules")
 @disableable_dec("rules")
 @chat_connection(only_groups=True)
 @get_strings_dec("rules")
@@ -64,7 +66,7 @@ async def rules(message: Message, chat, strings):
     await send_note(send_id, text, **kwargs)
 
 
-@register(cmds="resetrules", user_admin=True)
+@register(router, cmds="resetrules", user_admin=True)
 @chat_connection(admin=True, only_groups=True)
 @get_strings_dec("rules")
 async def reset_rules(message: Message, chat, strings):
@@ -80,7 +82,7 @@ async def reset_rules(message: Message, chat, strings):
 BUTTONS.update({"rules": "btn_rules"})
 
 
-@register(CommandStart(magic=F.args.regexp(r"btn_rules")))
+@register(router, CommandStart(magic=F.args.regexp(r"btn_rules")))
 @get_strings_dec("rules")
 async def rules_btn(message: Message, strings):
     chat_id = (get_args_str(message).split("_"))[2]

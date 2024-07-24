@@ -1,4 +1,4 @@
-from aiogram import F
+from aiogram import F, Router
 from aiogram.types import Message
 
 from sophie_bot.modules.legacy_modules.utils.connections import chat_connection
@@ -12,8 +12,10 @@ from sophie_bot.modules.legacy_modules.utils.user_details import (
 )
 from sophie_bot.services.db import db
 
+router = Router(name="reports")
 
-@register(F.text.regexp(r"^@admin$"))
+
+@register(router, F.text.regexp(r"^@admin$"))
 @chat_connection(only_groups=True)
 @get_strings_dec("reports")
 async def report1_cmd(message: Message, chat, strings):
@@ -25,7 +27,7 @@ async def report1_cmd(message: Message, chat, strings):
     await report(message, chat, strings)
 
 
-@register(cmds="report")
+@register(router, cmds="report")
 @chat_connection(only_groups=True)
 @disableable_dec("report")
 @get_strings_dec("reports")

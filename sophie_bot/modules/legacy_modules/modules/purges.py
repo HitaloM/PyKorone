@@ -19,7 +19,7 @@
 
 import asyncio
 
-from aiogram import F
+from aiogram import F, Router
 from aiogram.types import Message
 from telethon.errors.rpcerrorlist import MessageDeleteForbiddenError
 
@@ -30,8 +30,11 @@ from sophie_bot.modules.legacy_modules.utils.register import register
 from sophie_bot.modules.notes.utils.legacy_notes import BUTTONS
 from sophie_bot.services.telethon import tbot
 
+router = Router(name="purges")
+
 
 @register(
+    router,
     BotHasPermissions(can_delete_messages=True),
     UserRestricting(can_delete_messages=True),
     cmds="del",
@@ -46,6 +49,7 @@ async def del_message(message: Message, strings):
 
 
 @register(
+    router,
     BotHasPermissions(can_delete_messages=True),
     UserRestricting(can_delete_messages=True),
     cmds="purge",

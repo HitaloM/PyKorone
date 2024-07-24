@@ -45,7 +45,7 @@ def gather_module_help(module: ModuleType) -> Optional[ModuleHelp]:
     if not hasattr(module, "router"):
         return None
 
-    name: LazyProxy | str = getattr(module, "__module_name__", "Unknown")
+    name: LazyProxy | str = getattr(module, "__module_name__", module.__name__.split(".")[-1])
     emoji = getattr(module, "__module_emoji__", "?")
 
     return ModuleHelp(cmds=gather_cmds_help(module.router), name=name, icon=emoji)

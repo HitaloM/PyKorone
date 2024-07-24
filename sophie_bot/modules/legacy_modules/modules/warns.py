@@ -20,7 +20,7 @@ import functools
 import re
 from contextlib import suppress
 
-from aiogram import F
+from aiogram import F, Router
 from aiogram.exceptions import TelegramBadRequest
 from aiogram.types import (
     CallbackQuery,
@@ -53,8 +53,10 @@ from ..utils.connections import chat_connection
 from ..utils.restrictions import ban_user, mute_user
 from .misc import customise_reason_finish, customise_reason_start
 
+router = Router(name="warns")
 
-@register(cmds="warn", user_can_restrict_members=True, bot_can_restrict_members=True)
+
+@register(router, cmds="warn", user_can_restrict_members=True, bot_can_restrict_members=True)
 @chat_connection(admin=True, only_groups=True)
 @get_user_and_text_dec()
 async def warn_cmd(message: Message, chat, user, text):
@@ -159,7 +161,7 @@ async def rmv_warn_btn(event: CallbackQuery, strings, regexp=None, **kwargs):
         await event.message.edit_text(strings["warn_btn_rmvl_success"].format(admin=admin_link))
 
 
-@register(cmds="warns")
+@register(router, cmds="warns")
 @chat_connection(admin=True, only_groups=True)
 @get_user_dec(allow_self=True)
 @get_strings_dec("warns")
@@ -186,7 +188,7 @@ async def warns(message: Message, chat, user, strings):
     await message.reply(text, disable_notification=True)
 
 
-@register(cmds="warnlimit", user_admin=True)
+@register(router, cmds="warnlimit", user_admin=True)
 @chat_connection(admin=True, only_groups=True)
 @get_strings_dec("warns")
 async def warnlimit(message: Message, chat, strings):
@@ -215,7 +217,7 @@ async def warnlimit(message: Message, chat, strings):
         await message.reply(strings["warnlimit_updated"].format(num=int(arg[0])))
 
 
-@register(cmds=["resetwarns", "delwarns"], user_can_restrict_members=True)
+@register(router, cmds=["resetwarns", "delwarns"], user_can_restrict_members=True)
 @chat_connection(admin=True, only_groups=True)
 @get_user_dec()
 @get_strings_dec("warns")
@@ -240,7 +242,7 @@ async def reset_warn(message: Message, chat, user, strings):
         await message.reply(strings["usr_no_wrn"].format(user=user_link))
 
 
-@register(cmds=["warnmode", "warnaction"], user_admin=True, bot_can_restrict_members=True)
+@register(router, cmds=["warnmode", "warnaction"], user_admin=True, bot_can_restrict_members=True)
 @chat_connection(admin=True)
 @get_strings_dec("warns")
 async def warnmode(message: Message, chat, strings):

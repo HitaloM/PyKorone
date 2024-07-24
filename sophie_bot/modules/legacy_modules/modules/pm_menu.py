@@ -20,7 +20,7 @@
 
 from contextlib import suppress
 
-from aiogram import F
+from aiogram import F, Router
 from aiogram.exceptions import TelegramBadRequest
 from aiogram.types import (
     InlineKeyboardButton,
@@ -36,15 +36,17 @@ from sophie_bot.modules.legacy_modules.utils.register import register
 
 from .language import select_lang_keyboard
 
+router = Router(name="pm_menu")
 
-@register(cmds="start", no_args=True, only_groups=True)
+
+@register(router, cmds="start", no_args=True, only_groups=True)
 @disableable_dec("start")
 @get_strings_dec("pm_menu")
 async def start_group_cmd(message: Message, strings):
     await message.reply(strings["start_hi_group"])
 
 
-@register(cmds="start", no_args=True, only_pm=True)
+@register(router, cmds="start", no_args=True, only_pm=True)
 async def start_cmd(message):
     await get_start_func(message)
 
@@ -84,7 +86,7 @@ async def back_btn(event):
     await get_start_func(event, edit=True)
 
 
-@register(cmds="help")
+@register(router, cmds="help")
 @disableable_dec("help")
 @get_strings_dec("pm_menu")
 async def help_cmd(message: Message, strings):

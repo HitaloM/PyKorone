@@ -1,5 +1,6 @@
 import datetime
 
+from aiogram import Router
 from aiogram.types import Message
 from stfu_tg import Code, Section, Template
 
@@ -16,8 +17,10 @@ from sophie_bot.modules.legacy_modules.utils.user_details import (
 )
 from sophie_bot.services.db import db
 
+router = Router(name="users")
 
-@register(cmds="info")
+
+@register(router, cmds="info")
 @disableable_dec("info")
 @get_user_dec(allow_self=True)
 @get_strings_dec("users")
@@ -50,7 +53,7 @@ async def user_info(message: Message, user, strings):
     await message.reply(text)
 
 
-@register(cmds="admincache", is_admin=True)
+@register(router, cmds="admincache", is_admin=True)
 @chat_connection(only_groups=True, admin=True)
 @get_strings_dec("users")
 async def reset_admins_cache(message: Message, chat, strings):
@@ -58,7 +61,7 @@ async def reset_admins_cache(message: Message, chat, strings):
     await message.reply(strings["upd_cache_done"])
 
 
-@register(cmds=["id", "chatid", "userid"])
+@register(router, cmds=["id", "chatid", "userid"])
 @disableable_dec("id")
 @get_user_dec(allow_self=True)
 @get_strings_dec("misc")
@@ -89,7 +92,7 @@ async def get_id(message: Message, user, strings, chat):
     await message.reply(text)
 
 
-@register(cmds=["adminlist", "admins"])
+@register(router, cmds=["adminlist", "admins"])
 @disableable_dec("adminlist")
 @chat_connection(only_groups=True)
 @get_strings_dec("users")

@@ -16,6 +16,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 import html
 
+from aiogram import Router
 from aiogram.exceptions import TelegramForbiddenError
 from aiogram.types import Message
 
@@ -32,8 +33,11 @@ from sophie_bot.modules.legacy_modules.utils.user_details import (
 )
 from sophie_bot.services.telethon import tbot
 
+router = Router(name="promotes")
+
 
 @register(
+    router,
     BotHasPermissions(can_promote_members=True),
     UserRestricting(can_promote_members=True),
     cmds="promote",
@@ -80,6 +84,7 @@ async def promote(message: Message, chat, user, args, strings):
 
 
 @register(
+    router,
     BotHasPermissions(can_promote_members=True),
     UserRestricting(can_promote_members=True),
     cmds="demote",

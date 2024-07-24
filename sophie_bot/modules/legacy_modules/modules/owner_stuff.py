@@ -2,6 +2,7 @@ import math
 import os
 
 import ujson
+from aiogram import Router
 from aiogram.types import Message
 from stfu_tg import Code, KeyValue, Section, Template
 
@@ -18,15 +19,17 @@ from sophie_bot.modules.legacy_modules.utils.register import (
 from sophie_bot.services.db import db
 from sophie_bot.services.redis import redis
 
+router = Router(name="owner_stuff")
 
-@register(IsOP(True), cmds="event")
+
+@register(router, IsOP(True), cmds="event")
 async def get_event(message):
     print(message)
     event = str(ujson.dumps(message, indent=2))
     await message.reply(event)
 
 
-@register(IsOP(True), cmds="stats")
+@register(router, IsOP(True), cmds="stats")
 async def stats(message):
     sec = Section(title=f"Sophie {SOPHIE_VERSION}")
 

@@ -27,7 +27,7 @@ from .utils.disable import disableable_dec
 from .utils.language import get_strings_dec
 
 
-@register(cmds='getsticker')
+@register(router, cmds='getsticker')
 @disableable_dec('getsticker')
 @get_strings_dec('stickers')
 async def get_sticker(message, strings):

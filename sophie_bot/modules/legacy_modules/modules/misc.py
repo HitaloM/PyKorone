@@ -16,6 +16,7 @@
 
 from contextlib import suppress
 
+from aiogram import Router
 from aiogram.exceptions import TelegramBadRequest
 
 # You should have received a copy of the GNU Affero General Public License
@@ -31,8 +32,10 @@ from sophie_bot.modules.notes.utils.legacy_notes import (
     t_unparse_note_item,
 )
 
+router = Router(name="misc")
 
-@register(cmds="cancel", allow_kwargs=True)
+
+@register(router, cmds="cancel", allow_kwargs=True)
 async def cancel_handle(message: Message, state, **kwargs):
     await state.finish()
     await message.reply("Cancelled.")

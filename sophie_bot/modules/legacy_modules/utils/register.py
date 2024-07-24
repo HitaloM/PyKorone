@@ -16,12 +16,9 @@ legacy_modules_router = Router(name="legacy_modules")
 legacy_states_router = Router(name="legacy_states")
 
 
-def register(*reg_args, **reg_kwargs):
+def register(router: Router, *reg_args, **reg_kwargs):
     if requires_state := "state" in reg_kwargs:
         reg_args = (*reg_args, reg_kwargs["state"])
-
-    # By default use legacy modules router
-    router = legacy_modules_router
 
     if "cmds" in reg_kwargs:
         cmds_list = reg_kwargs["cmds"] if isinstance(reg_kwargs["cmds"], list) else [reg_kwargs["cmds"]]

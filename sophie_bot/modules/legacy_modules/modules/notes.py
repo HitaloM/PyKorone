@@ -3,7 +3,7 @@ import re
 from contextlib import suppress
 from datetime import datetime
 
-from aiogram import F
+from aiogram import F, Router
 from aiogram.exceptions import TelegramBadRequest
 from aiogram.filters import CommandStart
 from aiogram.types import InlineKeyboardButton, InlineKeyboardMarkup, Message
@@ -38,6 +38,9 @@ from sophie_bot.modules.notes.utils.legacy_notes import (
 from sophie_bot.services.db import db
 from sophie_bot.services.redis import redis
 from sophie_bot.services.telethon import tbot
+
+router = Router(name="notes")
+
 
 RESTRICTED_SYMBOLS_IN_NOTENAMES = [
     ":",
@@ -111,7 +114,7 @@ def clean_notes(func):
     return wrapped_1
 
 
-@register(cmds="save", user_admin=True)
+@register(router, cmds="save", user_admin=True)
 @need_args_dec()
 @chat_connection(admin=True)
 @get_strings_dec("notes")
@@ -195,7 +198,7 @@ async def get_note(
     return await send_note(send_id, text, **kwargs)
 
 
-@register(cmds="get")
+@register(router, cmds="get")
 @disableable_dec("get")
 @need_args_dec()
 @chat_connection(command="get")
@@ -231,7 +234,7 @@ async def get_note_cmd(message: Message, chat, strings):
     return await get_note(message, db_item=note, rpl_id=rpl_id, noformat=noformat, user=user)
 
 
-@register(F.text.regexp(r"^#([\w-]+)"), allow_kwargs=True)
+@register(router, F.text.regexp(r"^#([\w-]+)"), allow_kwargs=True)
 @disableable_dec("get")
 @chat_connection(command="get")
 @clean_notes
@@ -252,7 +255,7 @@ async def get_note_hashtag(message: Message, chat, **kwargs):
     return await get_note(message, db_item=note, rpl_id=rpl_id, user=user)
 
 
-@register(cmds=["notes", "saved"])
+@register(router, cmds=["notes", "saved"])
 @disableable_dec("notes")
 @chat_connection(command="notes")
 @get_strings_dec("notes")
@@ -316,7 +319,7 @@ async def get_notes_list(message: Message, strings, chat, keyword=None, pm=False
             await message.answer(text)
 
 
-@register(cmds="search")
+@register(router, cmds="search")
 @chat_connection()
 @get_strings_dec("notes")
 @clean_notes
@@ -335,7 +338,7 @@ async def search_in_note(message: Message, chat, strings):
     return await message.reply(text)
 
 
-@register(cmds=["clear", "delnote"], user_admin=True)
+@register(router, cmds=["clear", "delnote"], user_admin=True)
 @chat_connection(admin=True)
 @need_args_dec()
 @get_strings_dec("notes")
@@ -371,7 +374,7 @@ async def clear_note(message: Message, chat, strings):
         await message.reply(strings["note_removed"].format(note_name=note_name, chat_name=chat["chat_title"]))
 
 
-@register(cmds="clearall", user_admin=True)
+@register(router, cmds="clearall", user_admin=True)
 @chat_connection(admin=True)
 @get_strings_dec("notes")
 async def clear_all_notes(message: Message, chat, strings):
@@ -401,7 +404,7 @@ async def clear_all_notes_cb(event, chat, strings):
     await event.message.edit_text(text)
 
 
-@register(cmds="noteinfo", user_admin=True)
+@register(router, cmds="noteinfo", user_admin=True)
 @chat_connection()
 @need_args_dec()
 @get_strings_dec("notes")
@@ -494,7 +497,7 @@ async def note_start(message: Message, strings, regexp=None, **kwargs):
     await get_note(message, db_item=note, chat_id=chat_id, send_id=user_id, rpl_id=None)
 
 
-@register(cmds="start", only_pm=True)
+@register(router, cmds="start", only_pm=True)
 @get_strings_dec("connections")
 async def btn_note_start_state(message: Message, strings):
     key = "btn_note_start_state:" + str(message.from_user.id)
@@ -511,7 +514,7 @@ async def btn_note_start_state(message: Message, strings):
     redis.delete(key)
 
 
-@register(cmds="privatenotes", is_admin=True)
+@register(router, cmds="privatenotes", is_admin=True)
 @chat_connection(admin=True)
 @get_strings_dec("notes")
 async def private_notes_cmd(message: Message, chat, strings):
@@ -548,7 +551,7 @@ async def private_notes_cmd(message: Message, chat, strings):
         await message.reply(strings["current_state_info"].format(state=state, chat=chat_name))
 
 
-@register(cmds="cleannotes", is_admin=True)
+@register(router, cmds="cleannotes", is_admin=True)
 @chat_connection(admin=True)
 @get_strings_dec("notes")
 async def clean_notes_set(message: Message, chat, strings):
@@ -589,7 +592,7 @@ async def clean_notes_set(message: Message, chat, strings):
     await message.reply(text)
 
 
-@register(CommandStart(magic=F.args.regexp(r"notes")))
+@register(router, CommandStart(magic=F.args.regexp(r"notes")))
 @get_strings_dec("notes")
 async def private_notes_func(message: Message, strings):
     args = get_args_str(message).split("_")

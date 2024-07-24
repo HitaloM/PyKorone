@@ -1,6 +1,4 @@
-# Copyright (C) 2018 - 2020 MrYacha. All rights reserved. Source code available under the AGPL.
-# Copyright (C) 2019 Aiogram
-from aiogram import F
+from aiogram import F, Router
 from aiogram.types import InlineKeyboardButton, InlineKeyboardMarkup, Message
 
 from sophie_bot import dp
@@ -15,22 +13,10 @@ from sophie_bot.modules.legacy_modules.utils.message import get_arg, need_args_d
 from sophie_bot.modules.legacy_modules.utils.register import COMMANDS_ALIASES, register
 from sophie_bot.services.db import db
 
-#
-# This file is part of SophieBot.
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU Affero General Public License as
-# published by the Free Software Foundation, either version 3 of the
-# License, or (at your option) any later version.
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU Affero General Public License for more details.
-# You should have received a copy of the GNU Affero General Public License
-# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+router = Router(name="disabling")
 
 
-@register(cmds="disableable")
+@register(router, cmds="disableable")
 @disableable_dec("disableable")
 @get_strings_dec("disable")
 async def list_disablable(message: Message, strings):
@@ -40,7 +26,7 @@ async def list_disablable(message: Message, strings):
     await message.reply(text)
 
 
-@register(cmds="disabled")
+@register(router, cmds="disabled")
 @chat_connection(only_groups=True)
 @get_strings_dec("disable")
 async def list_disabled(message: Message, chat, strings):
@@ -56,7 +42,7 @@ async def list_disabled(message: Message, chat, strings):
     await message.reply(text)
 
 
-@register(cmds="disable", user_admin=True)
+@register(router, cmds="disable", user_admin=True)
 @need_args_dec()
 @chat_connection(admin=True, only_groups=True)
 @get_strings_dec("disable")
@@ -88,7 +74,7 @@ async def disable_command(message: Message, chat, strings):
     await message.reply(strings["disabled"].format(cmd=cmd, chat_name=chat["chat_title"]))
 
 
-@register(cmds="enable")
+@register(router, cmds="enable")
 @need_args_dec()
 @chat_connection(admin=True, only_groups=True)
 @get_strings_dec("disable")
@@ -117,7 +103,7 @@ async def enable_command(message: Message, chat, strings):
     await message.reply(strings["enabled"].format(cmd=cmd, chat_name=chat["chat_title"]))
 
 
-@register(cmds="enableall", is_admin=True)
+@register(router, cmds="enableall", is_admin=True)
 @chat_connection(admin=True, only_groups=True)
 @get_strings_dec("disable")
 async def enable_all(message: Message, chat, strings):

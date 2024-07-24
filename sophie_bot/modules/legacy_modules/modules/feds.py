@@ -32,7 +32,7 @@ from typing import Optional
 
 import babel
 import ujson
-from aiogram import F
+from aiogram import F, Router
 from aiogram.exceptions import (
     TelegramBadRequest,
     TelegramForbiddenError,
@@ -83,6 +83,8 @@ from sophie_bot.services.redis import redis
 from sophie_bot.services.telethon import tbot
 from sophie_bot.utils.cached import cached
 from sophie_bot.utils.logger import log
+
+router = Router(name="feds")
 
 
 class ImportFbansFileWait(StatesGroup):
@@ -255,7 +257,7 @@ def is_fed_admin(func):
 # cmds
 
 
-@register(cmds=["newfed", "fnew"])
+@register(router, cmds=["newfed", "fnew"])
 @need_args_dec()
 @get_strings_dec("feds")
 async def new_fed(message: Message, strings):
@@ -289,7 +291,7 @@ async def new_fed(message: Message, strings):
     )
 
 
-@register(cmds=["joinfed", "fjoin"])
+@register(router, cmds=["joinfed", "fjoin"])
 @need_args_dec()
 @chat_connection(admin=True, only_groups=True)
 @get_strings_dec("feds")
@@ -328,7 +330,7 @@ async def join_fed(message: Message, chat, strings):
     )
 
 
-@register(cmds=["leavefed", "fleave"])
+@register(router, cmds=["leavefed", "fleave"])
 @chat_connection(admin=True, only_groups=True)
 @get_current_chat_fed
 @get_strings_dec("feds")
@@ -355,7 +357,7 @@ async def leave_fed_comm(message: Message, chat, fed, strings):
     )
 
 
-@register(cmds="fsub")
+@register(router, cmds="fsub")
 @need_args_dec()
 @get_current_chat_fed
 @is_fed_owner
@@ -388,7 +390,7 @@ async def fed_sub(message: Message, fed, strings):
     )
 
 
-@register(cmds="funsub")
+@register(router, cmds="funsub")
 @need_args_dec()
 @get_current_chat_fed
 @is_fed_owner
@@ -414,7 +416,7 @@ async def fed_unsub(message: Message, fed, strings):
     )
 
 
-@register(cmds="fpromote")
+@register(router, cmds="fpromote")
 @get_fed_user_text()
 @is_fed_owner
 @get_strings_dec("feds")
@@ -442,7 +444,7 @@ async def promote_to_fed(message: Message, fed, user, text, strings):
     )
 
 
-@register(cmds="fdemote")
+@register(router, cmds="fdemote")
 @get_fed_user_text()
 @is_fed_owner
 @get_strings_dec("feds")
@@ -468,7 +470,7 @@ async def demote_from_fed(message: Message, fed, user, text, strings):
     )
 
 
-@register(cmds=["fsetlog", "setfedlog"], only_groups=True)
+@register(router, cmds=["fsetlog", "setfedlog"], only_groups=True)
 @get_fed_dec
 @get_chat_dec(allow_self=True, fed=True)
 @is_fed_owner
@@ -496,7 +498,7 @@ async def set_fed_log_chat(message: Message, fed, chat, strings):
     )
 
 
-@register(cmds=["funsetlog", "unsetfedlog"], only_groups=True)
+@register(router, cmds=["funsetlog", "unsetfedlog"], only_groups=True)
 @get_fed_dec
 @is_fed_owner
 @get_strings_dec("feds")
@@ -517,7 +519,7 @@ async def unset_fed_log_chat(message: Message, fed, strings):
     )
 
 
-@register(cmds=["fchatlist", "fchats"])
+@register(router, cmds=["fchatlist", "fchats"])
 @get_fed_dec
 @is_fed_admin
 @get_strings_dec("feds")
@@ -541,7 +543,7 @@ async def fed_chat_list(message: Message, fed, strings):
     await message.reply(text)
 
 
-@register(cmds=["fadminlist", "fadmins"])
+@register(router, cmds=["fadminlist", "fadmins"])
 @get_fed_dec
 @is_fed_admin
 @get_strings_dec("feds")
@@ -554,7 +556,7 @@ async def fed_admins_list(message: Message, fed, strings):
     await message.reply(text, disable_notification=True)
 
 
-@register(cmds=["finfo", "fedinfo"])
+@register(router, cmds=["finfo", "fedinfo"])
 @get_fed_dec
 @get_strings_dec("feds")
 async def fed_info(message: Message, fed, strings):
@@ -589,7 +591,7 @@ async def get_all_subs_feds_r(fed_id, new):
     return new
 
 
-@register(cmds=["fban", "sfban"])
+@register(router, cmds=["fban", "sfban"])
 @get_fed_user_text()
 @is_fed_admin
 @get_strings_dec("feds")
@@ -760,7 +762,7 @@ async def fed_ban_user(message: Message, fed, user, reason, strings):
         await tbot.delete_messages(message.chat.id, to_del)
 
 
-@register(cmds=["unfban", "funban"])
+@register(router, cmds=["unfban", "funban"])
 @get_fed_user_text()
 @is_fed_admin
 @get_strings_dec("feds")
@@ -851,7 +853,7 @@ async def unfed_ban_user(message: Message, fed, user, text, strings):
     await fed_post_log(fed, channel_text)
 
 
-@register(cmds=["delfed", "fdel"])
+@register(router, cmds=["delfed", "fdel"])
 @get_fed_dec
 @is_fed_owner
 @get_strings_dec("feds")
@@ -902,7 +904,7 @@ async def cancel(event):
     await event.message.delete()
 
 
-@register(cmds="frename")
+@register(router, cmds="frename")
 @need_args_dec()
 @get_fed_dec
 @is_fed_owner
@@ -929,7 +931,7 @@ async def fed_rename(message: Message, fed, strings):
     )
 
 
-@register(cmds=["fbanlist", "exportfbans", "fexport"])
+@register(router, cmds=["fbanlist", "exportfbans", "fexport"])
 @get_fed_dec
 @is_fed_admin
 @get_strings_dec("feds")
@@ -977,7 +979,7 @@ async def fban_export(message: Message, fed, strings):
     await msg.delete()
 
 
-@register(cmds=["importfbans", "fimport"])
+@register(router, cmds=["importfbans", "fimport"])
 @get_fed_dec
 @is_fed_admin
 @get_strings_dec("feds")
@@ -1098,7 +1100,7 @@ async def importfbans_func(message: Message, fed, strings, document=None):
     await msg.edit_text(strings["import_done"].format(num=real_counter))
 
 
-@register(F.document, state=ImportFbansFileWait.waiting, allow_kwargs=True)
+@register(router, F.document, state=ImportFbansFileWait.waiting, allow_kwargs=True)
 @get_fed_dec
 @is_fed_admin
 async def import_state(message: Message, fed, state: FSMContext, **kwargs):
@@ -1106,7 +1108,7 @@ async def import_state(message: Message, fed, state: FSMContext, **kwargs):
     await state.clear()
 
 
-@register(only_groups=True)
+@register(router, only_groups=True)
 @chat_connection(only_groups=True)
 @get_strings_dec("feds")
 async def check_fbanned(message: Message, chat, strings):
@@ -1164,7 +1166,7 @@ async def check_fbanned(message: Message, chat, strings):
         await db.fed_bans.update_one({"_id": ban["_id"]}, {"$addToSet": {"banned_chats": chat_id}})
 
 
-@register(cmds=["fcheck", "fbanstat"])
+@register(router, cmds=["fcheck", "fbanstat"])
 @get_fed_user_text(skip_no_fed=True, check_self_user=True, disable_self_fed_check=True)
 @get_strings_dec("feds")
 async def fedban_check(message, fed, user, _, strings):

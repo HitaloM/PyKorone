@@ -21,6 +21,7 @@ import asyncio
 import datetime  # noqa: F401
 from contextlib import suppress
 
+from aiogram import Router
 from aiogram.exceptions import TelegramBadRequest
 from aiogram.types import Message
 from babel.dates import format_timedelta
@@ -47,8 +48,11 @@ from ..utils.connections import chat_connection
 from ..utils.restrictions import ban_user, kick_user, mute_user, unban_user, unmute_user
 from .misc import customise_reason_finish, customise_reason_start
 
+router = Router(name="restrictions")
+
 
 @register(
+    router,
     BotHasPermissions(can_restrict_members=True),
     UserRestricting(can_restrict_members=True),
     cmds=["kick", "skick"],
@@ -105,6 +109,7 @@ async def kick_user_cmd(message: Message, chat, user, args, strings):
 
 
 @register(
+    router,
     BotHasPermissions(can_restrict_members=True),
     UserRestricting(can_restrict_members=True),
     cmds=["mute", "smute", "tmute", "stmute"],
@@ -182,6 +187,7 @@ async def mute_user_cmd(message: Message, chat, user, args, strings):
 
 
 @register(
+    router,
     BotHasPermissions(can_restrict_members=True),
     UserRestricting(can_restrict_members=True),
     cmds="unmute",
@@ -217,6 +223,7 @@ async def unmute_user_cmd(message: Message, chat, user, strings):
 
 
 @register(
+    router,
     BotHasPermissions(can_restrict_members=True),
     UserRestricting(can_restrict_members=True),
     cmds=["ban", "sban", "tban", "stban"],
@@ -294,6 +301,7 @@ async def ban_user_cmd(message: Message, chat, user, args, strings):
 
 
 @register(
+    router,
     BotHasPermissions(can_restrict_members=True),
     UserRestricting(can_restrict_members=True),
     cmds="unban",
@@ -328,7 +336,7 @@ async def unban_user_cmd(message: Message, chat, user, strings):
     await message.reply(text)
 
 
-@register(f="leave")
+@register(router, f="leave")
 async def leave_silent(message):
     if not message.from_user.id == CONFIG.bot_id:
         return
