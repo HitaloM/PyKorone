@@ -32,7 +32,7 @@ from babel.dates import format_timedelta
 from bson.objectid import ObjectId
 
 from sophie_bot import CONFIG, bot, dp
-from sophie_bot.filters.admin_rights import UserRestricting
+from sophie_bot.filters.admin_rights import UserRestricting, BotHasPermissions
 from sophie_bot.modules.legacy_modules.utils.deep_linking import get_start_link
 from sophie_bot.modules.legacy_modules.utils.language import get_strings_dec
 from sophie_bot.modules.legacy_modules.utils.message import (
@@ -60,7 +60,8 @@ __module_emoji__ = "⚠️"
 router = Router(name="warns")
 
 
-@register(router, cmds="warn", user_can_restrict_members=True, bot_can_restrict_members=True)
+@register(router, UserRestricting(can_restrict_members=True), BotHasPermissions(can_restrict_members=True),
+          cmds="warn")
 @chat_connection(admin=True, only_groups=True)
 @get_user_and_text_dec()
 async def warn_cmd(message: Message, chat, user, text):
@@ -221,7 +222,7 @@ async def warnlimit(message: Message, chat, strings):
         await message.reply(strings["warnlimit_updated"].format(num=int(arg[0])))
 
 
-@register(router, cmds=["resetwarns", "delwarns"], user_can_restrict_members=True)
+@register(router, UserRestricting(admin=True), cmds=["resetwarns", "delwarns"])
 @chat_connection(admin=True, only_groups=True)
 @get_user_dec()
 @get_strings_dec("warns")
@@ -246,7 +247,7 @@ async def reset_warn(message: Message, chat, user, strings):
         await message.reply(strings["usr_no_wrn"].format(user=user_link))
 
 
-@register(router, cmds=["warnmode", "warnaction"], user_admin=True, bot_can_restrict_members=True)
+@register(router, cmds=["warnmode", "warnaction"], user_admin=True)
 @chat_connection(admin=True)
 @get_strings_dec("warns")
 async def warnmode(message: Message, chat, strings):
