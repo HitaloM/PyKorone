@@ -2,8 +2,9 @@ import asyncio
 from importlib import import_module
 
 from sophie_bot import CONFIG, dp
-from .modules import ALL_MODULES, LOADED_LEGACY_MODULES
+
 from ...utils.logger import log
+from .modules import ALL_MODULES, LOADED_LEGACY_MODULES
 
 
 async def before_srv_task():

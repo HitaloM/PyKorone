@@ -282,8 +282,84 @@ msgstr ""
 msgid "Softly whispering."
 msgstr ""
 
-#: sophie_bot/modules/help/__init__.py:14
+#: sophie_bot/modules/help/__init__.py:18
 msgid "Help"
+msgstr ""
+
+#: sophie_bot/modules/help/handlers/pm_modules.py:20
+msgid "📖 Wiki (detailed information)"
+msgstr ""
+
+#: sophie_bot/modules/help/handlers/pm_modules.py:33
+msgid "There are 2 help sources, you can read the detailed wiki or get a quick commands overview."
+msgstr ""
+
+#: sophie_bot/modules/help/handlers/pm_modules.py:61
+msgid "📖 Wiki page"
+msgstr ""
+
+#: sophie_bot/modules/help/handlers/pm_modules.py:62
+msgid "⬅️ Back"
+msgstr ""
+
+#: sophie_bot/modules/legacy_modules/modules/antiflood.py:72
+msgid "Antiflood"
+msgstr ""
+
+#: sophie_bot/modules/legacy_modules/modules/connection.py:50
+msgid "Connections"
+msgstr ""
+
+#: sophie_bot/modules/legacy_modules/modules/disabling.py:17
+msgid "Disabling"
+msgstr ""
+
+#: sophie_bot/modules/legacy_modules/modules/feds.py:88
+msgid "Federations"
+msgstr ""
+
+#: sophie_bot/modules/legacy_modules/modules/filters.py:60
+msgid "Filters"
+msgstr ""
+
+#: sophie_bot/modules/legacy_modules/modules/greetings.py:82
+msgid "Greetings"
+msgstr ""
+
+#: sophie_bot/modules/legacy_modules/modules/language.py:22
+msgid "Language"
+msgstr ""
+
+#: sophie_bot/modules/legacy_modules/modules/pins.py:15
+msgid "Pins"
+msgstr ""
+
+#: sophie_bot/modules/legacy_modules/modules/promotes.py:37
+msgid "Promotes"
+msgstr ""
+
+#: sophie_bot/modules/legacy_modules/modules/purges.py:34
+msgid "Purges"
+msgstr ""
+
+#: sophie_bot/modules/legacy_modules/modules/reports.py:18
+msgid "Reports"
+msgstr ""
+
+#: sophie_bot/modules/legacy_modules/modules/restrictions.py:52
+msgid "Restrictions"
+msgstr ""
+
+#: sophie_bot/modules/legacy_modules/modules/rules.py:20
+msgid "Rules"
+msgstr ""
+
+#: sophie_bot/modules/legacy_modules/modules/users.py:21
+msgid "Users"
+msgstr ""
+
+#: sophie_bot/modules/legacy_modules/modules/warns.py:57
+msgid "Warnings"
 msgstr ""
 
 #: sophie_bot/modules/notes/__init__.py:15

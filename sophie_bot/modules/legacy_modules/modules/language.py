@@ -3,6 +3,7 @@
 from aiogram import Router
 from aiogram.filters.callback_data import CallbackData
 from aiogram.types import InlineKeyboardButton, InlineKeyboardMarkup, Message
+from stfu_tg import Code, Template
 
 from sophie_bot import dp
 from sophie_bot.filters.user_status import IsAdmin
@@ -17,7 +18,6 @@ from sophie_bot.modules.legacy_modules.utils.message import get_arg
 from sophie_bot.modules.legacy_modules.utils.register import register
 from sophie_bot.services.db import db
 from sophie_bot.utils.i18n import lazy_gettext as l_
-from stfu_tg import Code, Template
 
 __module_name__ = l_("Language")
 __module_emoji__ = "🌍"

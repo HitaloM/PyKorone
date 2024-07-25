@@ -3,9 +3,9 @@ from types import ModuleType
 from typing import Optional
 
 from aiogram import Router
+from ass_tg.types.base_abc import ArgFabric
 from babel.support import LazyProxy
 
-from ass_tg.types.base_abc import ArgFabric
 from sophie_bot.filters.admin_rights import UserRestricting
 from sophie_bot.filters.cmd import CMDFilter
 from sophie_bot.filters.user_status import IsAdmin, IsOP
@@ -45,20 +45,13 @@ def gather_cmds_help(router: Router) -> list[CmdHelp]:
 
         # Is admin
         only_admin = any(
-            (isinstance(f.callback, IsAdmin) or (isinstance(f.callback, UserRestricting)))
-            for f in handler.filters)
+            (isinstance(f.callback, IsAdmin) or (isinstance(f.callback, UserRestricting))) for f in handler.filters
+        )
         log.debug(f"Adding {cmds} to help")
 
-        only_op = any(
-            isinstance(f.callback, IsOP) for f in handler.filters
-        )
+        only_op = any(isinstance(f.callback, IsOP) for f in handler.filters)
 
-        helps.append(CmdHelp(
-            cmds=cmds,
-            args=handler.flags.get("args"),
-            only_admin=only_admin,
-            only_op=only_op
-        ))
+        helps.append(CmdHelp(cmds=cmds, args=handler.flags.get("args"), only_admin=only_admin, only_op=only_op))
     return helps
 
 

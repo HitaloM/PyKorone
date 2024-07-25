@@ -11,11 +11,9 @@ from sophie_bot.modules.legacy_modules.utils.user_details import (
     is_user_admin,
 )
 from sophie_bot.services.db import db
+from sophie_bot.utils.i18n import lazy_gettext as l_
 
 router = Router(name="reports")
-
-
-from sophie_bot.utils.i18n import lazy_gettext as l_
 
 __module_name__ = l_("Reports")
 __module_emoji__ = "🗳"

@@ -32,7 +32,7 @@ from babel.dates import format_timedelta
 from bson.objectid import ObjectId
 
 from sophie_bot import CONFIG, bot, dp
-from sophie_bot.filters.admin_rights import UserRestricting, BotHasPermissions
+from sophie_bot.filters.admin_rights import BotHasPermissions, UserRestricting
 from sophie_bot.modules.legacy_modules.utils.deep_linking import get_start_link
 from sophie_bot.modules.legacy_modules.utils.language import get_strings_dec
 from sophie_bot.modules.legacy_modules.utils.message import (
@@ -49,9 +49,10 @@ from sophie_bot.modules.legacy_modules.utils.user_details import (
 )
 from sophie_bot.services.db import db
 from sophie_bot.utils.i18n import lazy_gettext as l_
-from .misc import customise_reason_finish, customise_reason_start
+
 from ..utils.connections import chat_connection
 from ..utils.restrictions import ban_user, mute_user
+from .misc import customise_reason_finish, customise_reason_start
 
 __module_name__ = l_("Warnings")
 __module_emoji__ = "⚠️"
@@ -60,8 +61,7 @@ __module_emoji__ = "⚠️"
 router = Router(name="warns")
 
 
-@register(router, UserRestricting(can_restrict_members=True), BotHasPermissions(can_restrict_members=True),
-          cmds="warn")
+@register(router, UserRestricting(can_restrict_members=True), BotHasPermissions(can_restrict_members=True), cmds="warn")
 @chat_connection(admin=True, only_groups=True)
 @get_user_and_text_dec()
 async def warn_cmd(message: Message, chat, user, text):

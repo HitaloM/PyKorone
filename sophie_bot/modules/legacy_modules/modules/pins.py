@@ -8,11 +8,9 @@ from sophie_bot.modules.legacy_modules.utils.connections import chat_connection
 from sophie_bot.modules.legacy_modules.utils.language import get_strings_dec
 from sophie_bot.modules.legacy_modules.utils.message import get_arg
 from sophie_bot.modules.legacy_modules.utils.register import register
+from sophie_bot.utils.i18n import lazy_gettext as l_
 
 router = Router(name="pins")
-
-
-from sophie_bot.utils.i18n import lazy_gettext as l_
 
 __module_name__ = l_("Pins")
 __module_emoji__ = "📌"
