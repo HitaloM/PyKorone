@@ -12,6 +12,10 @@ from sophie_bot.modules.legacy_modules.utils.language import get_strings_dec
 from sophie_bot.modules.legacy_modules.utils.message import get_arg, need_args_dec
 from sophie_bot.modules.legacy_modules.utils.register import COMMANDS_ALIASES, register
 from sophie_bot.services.db import db
+from sophie_bot.utils.i18n import lazy_gettext as l_
+
+__module_name__ = l_("Disabling")
+__module_emoji__ = "🚫"
 
 router = Router(name="disabling")
 

@@ -66,7 +66,11 @@ from sophie_bot.modules.legacy_modules.utils.user_details import (
 from sophie_bot.services.db import db
 from sophie_bot.services.redis import bredis, redis
 from sophie_bot.utils.cached import cached
+from sophie_bot.utils.i18n import lazy_gettext as l_
 from sophie_bot.utils.logger import log
+
+__module_name__ = l_("Antiflood")
+__module_emoji__ = "📈"
 
 router = Router(name="antiflood")
 

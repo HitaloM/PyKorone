@@ -15,6 +15,10 @@ from sophie_bot.modules.notes.utils.legacy_notes import (
     t_unparse_note_item,
 )
 from sophie_bot.services.db import db
+from sophie_bot.utils.i18n import lazy_gettext as l_
+
+__module_name__ = l_("Rules")
+__module_emoji__ = "🪧"
 
 router = Router(name="rules")
 

@@ -3,10 +3,12 @@ from types import ModuleType
 from typing import Optional
 
 from aiogram import Router
-from ass_tg.types.base_abc import ArgFabric
 from babel.support import LazyProxy
 
+from ass_tg.types.base_abc import ArgFabric
+from sophie_bot.filters.admin_rights import UserRestricting
 from sophie_bot.filters.cmd import CMDFilter
+from sophie_bot.filters.user_status import IsAdmin, IsOP
 from sophie_bot.utils.logger import log
 
 
@@ -14,6 +16,8 @@ from sophie_bot.utils.logger import log
 class CmdHelp:
     cmds: tuple[str, ...]
     args: Optional[dict[str, ArgFabric]]
+    only_admin: bool
+    only_op: bool
 
 
 @dataclass
@@ -21,6 +25,10 @@ class ModuleHelp:
     cmds: list[CmdHelp]
     name: LazyProxy | str
     icon: str
+    exclude_public: bool
+
+
+HELP_MODULES: dict[str, ModuleHelp] = {}
 
 
 def gather_cmds_help(router: Router) -> list[CmdHelp]:
@@ -35,9 +43,22 @@ def gather_cmds_help(router: Router) -> list[CmdHelp]:
             continue
         cmds = cmd_filters[0].callback.cmd  # type: ignore
 
+        # Is admin
+        only_admin = any(
+            (isinstance(f.callback, IsAdmin) or (isinstance(f.callback, UserRestricting)))
+            for f in handler.filters)
         log.debug(f"Adding {cmds} to help")
 
-        helps.append(CmdHelp(cmds=cmds, args=handler.flags.get("args")))
+        only_op = any(
+            isinstance(f.callback, IsOP) for f in handler.filters
+        )
+
+        helps.append(CmdHelp(
+            cmds=cmds,
+            args=handler.flags.get("args"),
+            only_admin=only_admin,
+            only_op=only_op
+        ))
     return helps
 
 
@@ -47,5 +68,9 @@ def gather_module_help(module: ModuleType) -> Optional[ModuleHelp]:
 
     name: LazyProxy | str = getattr(module, "__module_name__", module.__name__.split(".")[-1])
     emoji = getattr(module, "__module_emoji__", "?")
+    exclude_public = getattr(module, "__exclude_public__", False)
 
-    return ModuleHelp(cmds=gather_cmds_help(module.router), name=name, icon=emoji)
+    if cmds := gather_cmds_help(module.router):
+        return ModuleHelp(cmds=cmds, name=name, icon=emoji, exclude_public=exclude_public)
+    else:
+        return None

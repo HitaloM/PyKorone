@@ -29,6 +29,11 @@ from sophie_bot.modules.legacy_modules.utils.language import get_strings_dec
 from sophie_bot.modules.legacy_modules.utils.register import register
 from sophie_bot.modules.notes.utils.legacy_notes import BUTTONS
 from sophie_bot.services.telethon import tbot
+from sophie_bot.utils.i18n import lazy_gettext as l_
+
+__module_name__ = l_("Purges")
+__module_emoji__ = "🗑"
+
 
 router = Router(name="purges")
 

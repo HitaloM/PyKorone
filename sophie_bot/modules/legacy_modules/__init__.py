@@ -2,9 +2,8 @@ import asyncio
 from importlib import import_module
 
 from sophie_bot import CONFIG, dp
-
-from ...utils.logger import log
 from .modules import ALL_MODULES, LOADED_LEGACY_MODULES
+from ...utils.logger import log
 
 
 async def before_srv_task():
@@ -45,5 +44,6 @@ def __post_setup__(_):
     from sophie_bot.modules.help import HELP_MODULES, gather_module_help
 
     for module in LOADED_LEGACY_MODULES:
+        module_name = module.__name__.split(".")[-1]
         if help := gather_module_help(module):
-            HELP_MODULES.append(help)
+            HELP_MODULES[module_name] = help

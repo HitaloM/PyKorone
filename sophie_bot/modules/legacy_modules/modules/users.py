@@ -2,7 +2,6 @@ import datetime
 
 from aiogram import Router
 from aiogram.types import Message
-from stfu_tg import Code, Section, Template
 
 from sophie_bot.modules.legacy_modules.modules import LOADED_LEGACY_MODULES
 from sophie_bot.modules.legacy_modules.utils.connections import chat_connection
@@ -16,6 +15,12 @@ from sophie_bot.modules.legacy_modules.utils.user_details import (
     is_user_admin,
 )
 from sophie_bot.services.db import db
+from sophie_bot.utils.i18n import lazy_gettext as l_
+from stfu_tg import Code, Section, Template
+
+__module_name__ = l_("Users")
+__module_emoji__ = "🫂"
+
 
 router = Router(name="users")
 

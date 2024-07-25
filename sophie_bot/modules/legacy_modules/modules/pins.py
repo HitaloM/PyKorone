@@ -12,6 +12,12 @@ from sophie_bot.modules.legacy_modules.utils.register import register
 router = Router(name="pins")
 
 
+from sophie_bot.utils.i18n import lazy_gettext as l_
+
+__module_name__ = l_("Pins")
+__module_emoji__ = "📌"
+
+
 @register(
     router,
     UserRestricting(can_restrict_members=True),

@@ -18,13 +18,11 @@ from contextlib import suppress
 
 from aiogram import Router
 from aiogram.exceptions import TelegramBadRequest
-
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 from aiogram.types import Message
 
 from sophie_bot.modules.legacy_modules.utils.language import get_strings_dec
-from sophie_bot.modules.legacy_modules.utils.register import register
 from sophie_bot.modules.legacy_modules.utils.user_details import is_user_admin
 from sophie_bot.modules.notes.utils.legacy_notes import (
     get_parsed_note_list,
@@ -33,13 +31,6 @@ from sophie_bot.modules.notes.utils.legacy_notes import (
 )
 
 router = Router(name="misc")
-
-
-@register(router, cmds="cancel", allow_kwargs=True)
-async def cancel_handle(message: Message, state, **kwargs):
-    await state.finish()
-    await message.reply("Cancelled.")
-
 
 async def delmsg_filter_handle(message: Message, chat, data):
     if await is_user_admin(data["chat_id"], message.from_user.id):

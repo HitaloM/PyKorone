@@ -48,10 +48,14 @@ from sophie_bot.modules.legacy_modules.utils.user_details import (
     is_user_admin,
 )
 from sophie_bot.services.db import db
-
+from sophie_bot.utils.i18n import lazy_gettext as l_
+from .misc import customise_reason_finish, customise_reason_start
 from ..utils.connections import chat_connection
 from ..utils.restrictions import ban_user, mute_user
-from .misc import customise_reason_finish, customise_reason_start
+
+__module_name__ = l_("Warnings")
+__module_emoji__ = "⚠️"
+
 
 router = Router(name="warns")
 

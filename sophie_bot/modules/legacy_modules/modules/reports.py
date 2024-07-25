@@ -15,6 +15,12 @@ from sophie_bot.services.db import db
 router = Router(name="reports")
 
 
+from sophie_bot.utils.i18n import lazy_gettext as l_
+
+__module_name__ = l_("Reports")
+__module_emoji__ = "🗳"
+
+
 @register(router, F.text.regexp(r"^@admin$"))
 @chat_connection(only_groups=True)
 @get_strings_dec("reports")

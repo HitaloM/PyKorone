@@ -50,7 +50,6 @@ from aiogram.types import (
 )
 from babel.dates import format_timedelta
 from pymongo import DeleteMany, InsertOne
-from stfu_tg import Template, UserLink
 
 from sophie_bot import bot, dp
 from sophie_bot.config import CONFIG
@@ -82,7 +81,13 @@ from sophie_bot.services.db import db
 from sophie_bot.services.redis import redis
 from sophie_bot.services.telethon import tbot
 from sophie_bot.utils.cached import cached
+from sophie_bot.utils.i18n import lazy_gettext as l_
 from sophie_bot.utils.logger import log
+from stfu_tg import Template, UserLink
+
+__module_name__ = l_("Federations")
+__module_emoji__ = "🏙"
+
 
 router = Router(name="feds")
 

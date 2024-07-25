@@ -4,7 +4,6 @@ import os
 import ujson
 from aiogram import Router
 from aiogram.types import Message
-from stfu_tg import Code, KeyValue, Section, Template
 
 from sophie_bot import SOPHIE_VERSION
 from sophie_bot.config import CONFIG
@@ -18,8 +17,12 @@ from sophie_bot.modules.legacy_modules.utils.register import (
 )
 from sophie_bot.services.db import db
 from sophie_bot.services.redis import redis
+from stfu_tg import Code, KeyValue, Section, Template
 
 router = Router(name="owner_stuff")
+
+
+__exclude_public__ = True
 
 
 @register(router, IsOP(True), cmds="event")

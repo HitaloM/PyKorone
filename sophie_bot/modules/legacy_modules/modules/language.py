@@ -3,7 +3,6 @@
 from aiogram import Router
 from aiogram.filters.callback_data import CallbackData
 from aiogram.types import InlineKeyboardButton, InlineKeyboardMarkup, Message
-from stfu_tg import Code, Template
 
 from sophie_bot import dp
 from sophie_bot.filters.user_status import IsAdmin
@@ -17,20 +16,11 @@ from sophie_bot.modules.legacy_modules.utils.language import (
 from sophie_bot.modules.legacy_modules.utils.message import get_arg
 from sophie_bot.modules.legacy_modules.utils.register import register
 from sophie_bot.services.db import db
+from sophie_bot.utils.i18n import lazy_gettext as l_
+from stfu_tg import Code, Template
 
-#
-# This file is part of SophieBot.
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU Affero General Public License as
-# published by the Free Software Foundation, either version 3 of the
-# License, or (at your option) any later version.
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU Affero General Public License for more details.
-# You should have received a copy of the GNU Affero General Public License
-# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+__module_name__ = l_("Language")
+__module_emoji__ = "🌍"
 
 
 router = Router(name="language")

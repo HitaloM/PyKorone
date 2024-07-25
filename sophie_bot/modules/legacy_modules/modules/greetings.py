@@ -77,6 +77,11 @@ from sophie_bot.services.redis import redis
 from sophie_bot.services.telethon import tbot
 from sophie_bot.stuff.fonts import ALL_FONTS
 from sophie_bot.utils.cached import cached
+from sophie_bot.utils.i18n import lazy_gettext as l_
+
+__module_name__ = l_("Greetings")
+__module_emoji__ = "🙋‍♂️"
+
 
 router = Router(name="greetings")
 
