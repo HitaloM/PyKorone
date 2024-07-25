@@ -4,7 +4,7 @@ from aiogram import Router
 
 from sophie_bot.filters.cmd import CMDFilter
 from sophie_bot.filters.user_status import IsOP
-from sophie_bot.modules.help.callbacks import PMHelpModule
+from sophie_bot.modules.help.callbacks import PMHelpModule, PMHelpBack
 from sophie_bot.modules.help.cmds import ModuleHelp, gather_module_help, HELP_MODULES
 from sophie_bot.modules.help.handlers.op import OpCMDSList
 from sophie_bot.modules.help.handlers.pm_modules import PMModulesList, PMModuleHelp
@@ -20,6 +20,8 @@ __module_emoji__ = "❔"
 
 def __pre_setup__():
     router.message.register(PMModulesList, CMDFilter("newhelp"))
+    router.callback_query.register(PMModulesList, PMHelpBack.filter())
+
     router.callback_query.register(PMModuleHelp, PMHelpModule.filter())
 
     router.message.register(OpCMDSList, CMDFilter("op_cmds"), IsOP(True))
