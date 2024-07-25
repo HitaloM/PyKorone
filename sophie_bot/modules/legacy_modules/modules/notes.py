@@ -38,6 +38,10 @@ from sophie_bot.modules.notes.utils.legacy_notes import (
 from sophie_bot.services.db import db
 from sophie_bot.services.redis import redis
 from sophie_bot.services.telethon import tbot
+from sophie_bot.utils.i18n import lazy_gettext as l_
+
+__module_name__ = l_("Notes")
+__module_emoji__ = "🗒"
 
 router = Router(name="notes")
 

@@ -335,6 +335,11 @@ msgstr ""
 msgid "Language"
 msgstr ""
 
+#: sophie_bot/modules/legacy_modules/modules/notes.py:43
+#: sophie_bot/modules/notes/__init__.py:15
+msgid "Notes"
+msgstr ""
+
 #: sophie_bot/modules/legacy_modules/modules/pins.py:15
 msgid "Pins"
 msgstr ""
@@ -365,10 +370,6 @@ msgstr ""
 
 #: sophie_bot/modules/legacy_modules/modules/warns.py:57
 msgid "Warnings"
-msgstr ""
-
-#: sophie_bot/modules/notes/__init__.py:15
-msgid "Notes"
 msgstr ""
 
 #: sophie_bot/modules/notes/handlers/delete.py:15

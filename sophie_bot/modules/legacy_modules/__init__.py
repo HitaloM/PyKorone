@@ -16,7 +16,7 @@ async def before_srv_task():
 
 def __pre_setup__():
     modules = CONFIG.modules_load if len(CONFIG.modules_load) > 0 and "*" not in CONFIG.modules_load else ALL_MODULES
-    modules = [x for x in modules if x not in CONFIG.modules_not_load]
+    modules = [x for x in modules if x not in CONFIG.legacy_modules_not_load]
 
     from .utils.register import legacy_states_router
 
