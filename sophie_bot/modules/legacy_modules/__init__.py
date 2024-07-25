@@ -37,12 +37,15 @@ def __pre_setup__():
 
 
 def __post_setup__(_):
+    from sophie_bot.modules.info.utils.extract_info import (
+        HELP_MODULES,
+        gather_module_help,
+    )
+
     from .utils.register import legacy_modules_router
 
     log.info("Legacy modules: Post setup")
     dp.include_router(legacy_modules_router)
-
-    from sophie_bot.modules.help import HELP_MODULES, gather_module_help
 
     for module in LOADED_LEGACY_MODULES:
         module_name = module.__name__.split(".")[-1]

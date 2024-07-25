@@ -6,7 +6,6 @@ from stfu_tg import Italic, KeyValue, Section, Template
 from sophie_bot import CONFIG
 from sophie_bot.db.models.beta import BetaModeModel, CurrentMode, PreferredMode
 from sophie_bot.utils.i18n import gettext as _
-from sophie_bot.utils.i18n import lazy_gettext as _l
 from sophie_bot.utils.i18n import lazy_gettext as l_
 
 mode_names = {
@@ -17,8 +16,9 @@ mode_names = {
 
 
 @flags.args(
-    new_state=OneOf(("auto", "stable", "beta"), _l("Preferred strategy mode")),
+    new_state=OneOf(("auto", "stable", "beta"), l_("Preferred strategy mode")),
 )
+@flags.help(description=l_("Set preferred strategy mode"))
 async def set_preferred_mode(message: Message, new_state: str):
     state = PreferredMode[new_state]
 
@@ -61,6 +61,7 @@ async def set_preferred_mode(message: Message, new_state: str):
     )
 
 
+@flags.help(description=l_("Get current strategy mode / current state"))
 async def show_beta_state(message):
     if not (beta_state := await BetaModeModel.get_by_chat_id(message.chat.id)):
         await message.reply(_("Couldn't find the beta state for this chat. Please check it later."))

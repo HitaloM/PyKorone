@@ -1,18 +1,21 @@
 from typing import Any
 
+from aiogram import flags
 from aiogram.handlers import BaseHandler, CallbackQueryHandler
 from aiogram.types import CallbackQuery, InlineKeyboardButton, Message
 from aiogram.utils.keyboard import InlineKeyboardBuilder
 from stfu_tg import Section, Title
 
 from sophie_bot import CONFIG
-from sophie_bot.modules.help import HELP_MODULES, PMHelpModule
-from sophie_bot.modules.help.callbacks import PMHelpBack
-from sophie_bot.modules.help.format_help import format_cmds
+from sophie_bot.modules.info import PMHelpBack, PMHelpModule
+from sophie_bot.modules.info.utils.extract_info import HELP_MODULES
+from sophie_bot.modules.info.utils.format_help import format_cmds
 from sophie_bot.utils.exception import SophieException
 from sophie_bot.utils.i18n import gettext as _
+from sophie_bot.utils.i18n import lazy_gettext as l_
 
 
+@flags.help(description=l_("Shows this message"))
 class PMModulesList(BaseHandler[Message | CallbackQuery]):
     async def handle(self) -> Any:
         buttons = (
@@ -45,16 +48,21 @@ class PMModuleHelp(CallbackQueryHandler):
         module = HELP_MODULES.get(module_name)
 
         if not module:
-            await self.event.answer("Module not found")
+            await self.event.answer(_("Module not found"))
             return
 
         cmds = list(filter(lambda x: not x.only_op, module.cmds))
 
         doc = Title(f"{module.icon} {module.name}")
+        if module.info:
+            doc += module.info
+            doc += " "
 
-        doc += Section(format_cmds(list(filter(lambda x: not x.only_admin, cmds))), title="Commands")
+        if user_cmds := list(filter(lambda x: not x.only_admin, cmds)):
+            doc += Section(format_cmds(user_cmds), title=_("Commands"))
 
-        doc += Section(format_cmds(list(filter(lambda x: x.only_admin, cmds))), title="Only admins")
+        if admin_only_cmds := list(filter(lambda x: x.only_admin, cmds)):
+            doc += Section(format_cmds(admin_only_cmds), title=_("Only admins"))
 
         buttons = (
             InlineKeyboardBuilder()

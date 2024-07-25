@@ -6,23 +6,42 @@ msgstr ""
 msgid "Connected chat not found in the database. Please try to disconnect and connect again."
 msgstr ""
 
-#: sophie_bot/modules/beta/__init__.py:15 sophie_bot/modules/beta/handlers/beta_state.py:15
+#: sophie_bot/modules/beta/__init__.py:15 sophie_bot/modules/beta/handlers/beta_state.py:14
 msgid "Beta"
 msgstr ""
 
-#: sophie_bot/modules/beta/handlers/beta_state.py:13
+#: sophie_bot/modules/beta/__init__.py:17
+msgid ""
+"Controls the current Sophie mode.\n"
+"Please note that Beta mode can have bugs and issues. If you encounter any problems please report it to the support "
+"chat."
+msgstr ""
+
+#: sophie_bot/modules/beta/handlers/beta_state.py:12
 msgid "Auto"
 msgstr ""
 
-#: sophie_bot/modules/beta/handlers/beta_state.py:14
+#: sophie_bot/modules/beta/handlers/beta_state.py:13
 msgid "Stable"
 msgstr ""
 
-#: sophie_bot/modules/beta/handlers/beta_state.py:66
+#: sophie_bot/modules/beta/handlers/beta_state.py:19
+msgid "Preferred strategy mode"
+msgstr ""
+
+#: sophie_bot/modules/beta/handlers/beta_state.py:21
+msgid "Set preferred strategy mode"
+msgstr ""
+
+#: sophie_bot/modules/beta/handlers/beta_state.py:64
+msgid "Get current strategy mode / current state"
+msgstr ""
+
+#: sophie_bot/modules/beta/handlers/beta_state.py:67
 msgid "Couldn't find the beta state for this chat. Please check it later."
 msgstr ""
 
-#: sophie_bot/modules/beta/handlers/beta_state.py:79
+#: sophie_bot/modules/beta/handlers/beta_state.py:80
 msgid "Use '{cmd}' to change it."
 msgstr ""
 
@@ -282,24 +301,56 @@ msgstr ""
 msgid "Softly whispering."
 msgstr ""
 
-#: sophie_bot/modules/help/__init__.py:18
-msgid "Help"
+#: sophie_bot/modules/info/__init__.py:20
+msgid "Information"
 msgstr ""
 
-#: sophie_bot/modules/help/handlers/pm_modules.py:20
+#: sophie_bot/modules/info/__init__.py:22
+msgid "Provides helpful information"
+msgstr ""
+
+#: sophie_bot/modules/info/handlers/pm_modules.py:18
+msgid "Shows this message"
+msgstr ""
+
+#: sophie_bot/modules/info/handlers/pm_modules.py:23
 msgid "📖 Wiki (detailed information)"
 msgstr ""
 
-#: sophie_bot/modules/help/handlers/pm_modules.py:33
+#: sophie_bot/modules/info/handlers/pm_modules.py:36
 msgid "There are 2 help sources, you can read the detailed wiki or get a quick commands overview."
 msgstr ""
 
-#: sophie_bot/modules/help/handlers/pm_modules.py:61
+#: sophie_bot/modules/info/handlers/pm_modules.py:51
+msgid "Module not found"
+msgstr ""
+
+#: sophie_bot/modules/info/handlers/pm_modules.py:62
+msgid "Commands"
+msgstr ""
+
+#: sophie_bot/modules/info/handlers/pm_modules.py:65
+msgid "Only admins"
+msgstr ""
+
+#: sophie_bot/modules/info/handlers/pm_modules.py:69
 msgid "📖 Wiki page"
 msgstr ""
 
-#: sophie_bot/modules/help/handlers/pm_modules.py:62
+#: sophie_bot/modules/info/handlers/pm_modules.py:70
 msgid "⬅️ Back"
+msgstr ""
+
+#: sophie_bot/modules/info/handlers/privacy.py:12
+msgid "Shows the privacy policy of the bot"
+msgstr ""
+
+#: sophie_bot/modules/info/handlers/privacy.py:15
+msgid "The privacy policy of the bot is available on our wiki page."
+msgstr ""
+
+#: sophie_bot/modules/info/handlers/privacy.py:20
+msgid "Privacy Policy"
 msgstr ""
 
 #: sophie_bot/modules/legacy_modules/modules/antiflood.py:72
@@ -472,18 +523,6 @@ msgstr ""
 
 #: sophie_bot/modules/notes/utils/text.py:28
 msgid "Local chat"
-msgstr ""
-
-#: sophie_bot/modules/pm_menu/__init__.py:12
-msgid "Information"
-msgstr ""
-
-#: sophie_bot/modules/pm_menu/handlers/privacy.py:12
-msgid "The privacy policy of the bot is available on our wiki page."
-msgstr ""
-
-#: sophie_bot/modules/pm_menu/handlers/privacy.py:17
-msgid "Privacy Policy"
 msgstr ""
 
 #: sophie_bot/modules/troubleshooters/__init__.py:10

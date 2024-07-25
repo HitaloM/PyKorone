@@ -5,6 +5,7 @@ from typing import Optional
 from aiogram import Router
 from ass_tg.types.base_abc import ArgFabric
 from babel.support import LazyProxy
+from stfu_tg import Doc
 
 from sophie_bot.filters.admin_rights import UserRestricting
 from sophie_bot.filters.cmd import CMDFilter
@@ -16,6 +17,7 @@ from sophie_bot.utils.logger import log
 class CmdHelp:
     cmds: tuple[str, ...]
     args: Optional[dict[str, ArgFabric]]
+    description: Optional[LazyProxy | str]
     only_admin: bool
     only_op: bool
 
@@ -26,6 +28,7 @@ class ModuleHelp:
     name: LazyProxy | str
     icon: str
     exclude_public: bool
+    info: str | LazyProxy | Doc
 
 
 HELP_MODULES: dict[str, ModuleHelp] = {}
@@ -51,7 +54,17 @@ def gather_cmds_help(router: Router) -> list[CmdHelp]:
 
         only_op = any(isinstance(f.callback, IsOP) for f in handler.filters)
 
-        helps.append(CmdHelp(cmds=cmds, args=handler.flags.get("args"), only_admin=only_admin, only_op=only_op))
+        help_flags = handler.flags.get("help")
+
+        helps.append(
+            CmdHelp(
+                cmds=cmds,
+                args=handler.flags.get("args"),
+                description=help_flags["description"] if help_flags else None,
+                only_admin=only_admin,
+                only_op=only_op,
+            )
+        )
     return helps
 
 
@@ -62,8 +75,9 @@ def gather_module_help(module: ModuleType) -> Optional[ModuleHelp]:
     name: LazyProxy | str = getattr(module, "__module_name__", module.__name__.split(".")[-1])
     emoji = getattr(module, "__module_emoji__", "?")
     exclude_public = getattr(module, "__exclude_public__", False)
+    info = getattr(module, "__module_info__", None)
 
     if cmds := gather_cmds_help(module.router):
-        return ModuleHelp(cmds=cmds, name=name, icon=emoji, exclude_public=exclude_public)
+        return ModuleHelp(cmds=cmds, name=name, icon=emoji, exclude_public=exclude_public, info=info)
     else:
         return None
