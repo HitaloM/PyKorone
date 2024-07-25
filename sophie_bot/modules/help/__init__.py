@@ -2,6 +2,7 @@ from types import ModuleType
 
 from aiogram import Router
 
+from sophie_bot.filters.chat_status import ChatTypeFilter
 from sophie_bot.filters.cmd import CMDFilter
 from sophie_bot.filters.user_status import IsOP
 from sophie_bot.modules.help.callbacks import PMHelpModule, PMHelpBack
@@ -19,7 +20,7 @@ __module_emoji__ = "❔"
 
 
 def __pre_setup__():
-    router.message.register(PMModulesList, CMDFilter("newhelp"))
+    router.message.register(PMModulesList, CMDFilter("help"), ChatTypeFilter("private"))
     router.callback_query.register(PMModulesList, PMHelpBack.filter())
 
     router.callback_query.register(PMModuleHelp, PMHelpModule.filter())
