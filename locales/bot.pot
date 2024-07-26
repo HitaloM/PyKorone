@@ -525,15 +525,35 @@ msgstr ""
 msgid "Local chat"
 msgstr ""
 
-#: sophie_bot/modules/troubleshooters/__init__.py:10
+#: sophie_bot/modules/troubleshooters/__init__.py:12
 msgid "Troubleshooters"
 msgstr ""
 
-#: sophie_bot/modules/troubleshooters/handlers/cancel.py:17
+#: sophie_bot/modules/troubleshooters/__init__.py:14
+msgid "Small commands for fixing problems"
+msgstr ""
+
+#: sophie_bot/modules/troubleshooters/handlers/admincache.py:13
+msgid "Reset admin rights cache, use if Sophie didn't get the recently added admin"
+msgstr ""
+
+#: sophie_bot/modules/troubleshooters/handlers/admincache.py:20
+msgid "You can't use this command in private chats."
+msgstr ""
+
+#: sophie_bot/modules/troubleshooters/handlers/admincache.py:23
+msgid "Admin rights cache has been reset."
+msgstr ""
+
+#: sophie_bot/modules/troubleshooters/handlers/cancel.py:12
+msgid "Cancel current state, use if Sophie is not responding on your message"
+msgstr ""
+
+#: sophie_bot/modules/troubleshooters/handlers/cancel.py:20
 msgid "The current state is already cleared, nothing to do here."
 msgstr ""
 
-#: sophie_bot/modules/troubleshooters/handlers/cancel.py:23
+#: sophie_bot/modules/troubleshooters/handlers/cancel.py:26
 msgid "Current state is cleared."
 msgstr ""
 
