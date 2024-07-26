@@ -15,5 +15,4 @@ cache.setup("redis://localhost", client_side=True)
 app_dir = Path(__file__).parent.parent.parent
 locales_dir: Path = app_dir / "locales"
 
-
 i18n = create_i18n_instance(locales_dir)

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PyKorone 1.0\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-07-23 19:03-0300\n"
+"POT-Creation-Date: 2024-07-26 00:32-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -88,11 +88,15 @@ msgstr ""
 msgid "Command disabled."
 msgstr ""
 
+#: src/korone/modules/disabling/handlers/disableable.py:22
+msgid "The following commands can be disabled:\n"
+msgstr ""
+
 #: src/korone/modules/disabling/handlers/disabled.py:21
 msgid "No commands are disabled in this chat."
 msgstr ""
 
-#: src/korone/modules/disabling/handlers/disabled.py:24
+#: src/korone/modules/disabling/handlers/disabled.py:26
 msgid "The following commands are disabled in this chat:\n"
 msgstr ""
 
@@ -117,10 +121,6 @@ msgstr ""
 
 #: src/korone/modules/disabling/handlers/enable.py:48
 msgid "Command enabled."
-msgstr ""
-
-#: src/korone/modules/disabling/handlers/list.py:23
-msgid "The following commands can be disabled:\n"
 msgstr ""
 
 #: src/korone/modules/errors/handlers/catcher.py:74

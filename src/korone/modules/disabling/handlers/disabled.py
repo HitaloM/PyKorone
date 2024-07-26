@@ -21,6 +21,8 @@ class DisabledHandler(MessageHandler):
             await message.reply(_("No commands are disabled in this chat."))
             return
 
+        disabled = sorted(disabled)
+
         text = _("The following commands are disabled in this chat:\n")
         for command in disabled:
             text += f"- <code>{command}</code>\n"
