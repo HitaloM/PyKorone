@@ -1,5 +1,5 @@
 from ass_tg.types.base_abc import ArgFabric
 
 
-class ButtonsArgs(ArgFabric):
+class ButtonsArg(ArgFabric):
     pass

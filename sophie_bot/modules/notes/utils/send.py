@@ -23,6 +23,8 @@ from aiogram.types import Message
 from sophie_bot import bot
 from sophie_bot.db.models.notes import Saveable, SaveableParseMode
 from sophie_bot.modules.legacy_modules.modules.notes import get_note
+from sophie_bot.modules.notes.utils.buttons_processor.unparse import unparse_buttons
+from sophie_bot.modules.notes.utils.parse import SUPPORTS_TEXT
 
 SEND_METHOD: dict[ContentType, Type[TelegramMethod[Message]]] = {
     ContentType.TEXT: SendMessage,
@@ -56,7 +58,7 @@ async def send_saveable(
 
     text = saveable.text or ""
 
-    # TODO: Buttons
+    inline_markup = unparse_buttons(saveable.buttons)
 
     # Text processing
     if len(text) > 4090:
@@ -72,8 +74,11 @@ async def send_saveable(
         "text": text,
     }
 
-    if content_type == ContentType.TEXT or not saveable.file:
+    if content_type in SUPPORTS_TEXT:
         kwargs["text"] = text
+        kwargs["reply_markup"] = inline_markup
+    elif not saveable.file:
+        raise ValueError(f"Unsupported content type: {content_type}")
     else:
         kwargs[content_type] = saveable.file.id
 

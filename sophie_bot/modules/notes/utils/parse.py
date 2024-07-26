@@ -4,9 +4,44 @@ from aiogram.enums import ContentType
 from aiogram.types import Message
 from stfu_tg import Section
 
-from sophie_bot.db.models.notes import PARSABLE_CONTENT_TYPES, NoteFile, Saveable
+from sophie_bot.db.models.notes import Button, NoteFile, Saveable
+from sophie_bot.modules.notes.utils.buttons_processor.parse_message_buttons import (
+    parse_message_buttons,
+)
 from sophie_bot.utils.exception import SophieException
 from sophie_bot.utils.i18n import gettext as _
+
+PARSABLE_CONTENT_TYPES: tuple[ContentType, ...] = (
+    ContentType.AUDIO,
+    ContentType.ANIMATION,
+    ContentType.DOCUMENT,
+    ContentType.PHOTO,  # LIST??
+    ContentType.STICKER,
+    ContentType.VIDEO,
+    ContentType.VIDEO_NOTE,
+    ContentType.VOICE,
+    # ContentType.CONTACT,
+    # ContentType.LOCATION,
+    # ContentType.POLL,
+    # ContentType.DICE
+)
+CONTENT_TYPES_WITH_FILE_ID: tuple[ContentType, ...] = (
+    ContentType.AUDIO,
+    ContentType.ANIMATION,
+    ContentType.DOCUMENT,
+    ContentType.PHOTO,
+    ContentType.STICKER,
+    ContentType.VIDEO,
+    ContentType.VIDEO_NOTE,
+    ContentType.VOICE,
+)
+
+SUPPORTS_TEXT: tuple[ContentType, ...] = (
+    ContentType.TEXT,
+    ContentType.AUDIO,
+    ContentType.ANIMATION,
+    ContentType.DOCUMENT,
+)
 
 MESSAGE_LENGTH_LIMIT = 4096
 
@@ -29,7 +64,7 @@ def extract_file_info(message: Message) -> Optional[NoteFile]:
     return NoteFile(id=file_id, type=ContentType(message.content_type)) if file_id else None
 
 
-def parse_reply_message(message: Message) -> tuple[Optional[str], Optional[NoteFile]]:
+def parse_reply_message(message: Message) -> tuple[Optional[str], Optional[NoteFile], list[list[Button]]]:
     if message.content_type not in (*PARSABLE_CONTENT_TYPES, ContentType.TEXT):
         raise SophieException(
             Section(
@@ -38,18 +73,21 @@ def parse_reply_message(message: Message) -> tuple[Optional[str], Optional[NoteF
             )
         )
 
-    # TODO: Get keyboard
+    buttons = parse_message_buttons(message.reply_markup) if message.reply_markup else []
 
-    return message.html_text, extract_file_info(message)
+    return message.html_text, extract_file_info(message), buttons
 
 
 async def parse_saveable(message: Message, text: Optional[str], allow_reply_message=True) -> Saveable:
     """Parses the given message and returns common note props to save."""
     # TODO: Make its own exception for notes saving
     note_text = text
+    buttons = []
 
     if message.reply_to_message and allow_reply_message:
-        replied_message_text, file_data = parse_reply_message(message.reply_to_message)
+        replied_message_text, file_data, replied_buttons = parse_reply_message(message.reply_to_message)
+
+        buttons.extend(replied_buttons)
 
         if replied_message_text and note_text:
             note_text = f"{replied_message_text}\n{note_text}"
@@ -69,4 +107,4 @@ async def parse_saveable(message: Message, text: Optional[str], allow_reply_mess
             )
         )
 
-    return Saveable(text=note_text, file=file_data)
+    return Saveable(text=note_text, file=file_data, buttons=buttons)

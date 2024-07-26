@@ -1,6 +1,6 @@
 from datetime import datetime
 from enum import Enum
-from typing import Annotated, List, Optional
+from typing import Annotated, Any, List, Optional
 
 from aiogram.enums import ContentType
 from beanie import Document, Indexed, Link
@@ -8,31 +8,6 @@ from beanie.odm.operators.find.comparison import In
 from pydantic import BaseModel
 
 from sophie_bot.db.models import ChatModel
-
-PARSABLE_CONTENT_TYPES: tuple[ContentType, ...] = (
-    ContentType.AUDIO,
-    ContentType.ANIMATION,
-    ContentType.DOCUMENT,
-    ContentType.PHOTO,  # LIST??
-    ContentType.STICKER,
-    ContentType.VIDEO,
-    ContentType.VIDEO_NOTE,
-    ContentType.VOICE,
-    # ContentType.CONTACT,
-    # ContentType.LOCATION,
-    # ContentType.POLL,
-    # ContentType.DICE
-)
-CONTENT_TYPES_WITH_FILE_ID: tuple[ContentType, ...] = (
-    ContentType.AUDIO,
-    ContentType.ANIMATION,
-    ContentType.DOCUMENT,
-    ContentType.PHOTO,
-    ContentType.STICKER,
-    ContentType.VIDEO,
-    ContentType.VIDEO_NOTE,
-    ContentType.VOICE,
-)
 
 
 class NoteFile(BaseModel):
@@ -48,9 +23,21 @@ class SaveableParseMode(Enum):
     html = "html"
 
 
+class ButtonAction(Enum):
+    url = "url"
+    delmsg = "delmsg"
+
+
+class Button(BaseModel):
+    text: str
+    action: ButtonAction
+    data: Any
+
+
 class Saveable(BaseModel):
     text: Optional[str] = ""
     file: Optional[NoteFile] = None
+    buttons: list[list[Button]] = []
 
     parse_mode: Optional[SaveableParseMode] = SaveableParseMode.html
     preview: Optional[bool] = False

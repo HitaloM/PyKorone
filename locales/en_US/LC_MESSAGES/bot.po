@@ -508,25 +508,25 @@ msgstr ""
 msgid "Use {cmd} to retrieve this note."
 msgstr ""
 
-#: sophie_bot/modules/notes/utils/parse.py:36
+#: sophie_bot/modules/notes/utils/parse.py:71
 msgid ""
 "Please check the notes documentation for the list of the allowed content "
 "types."
 msgstr ""
 
-#: sophie_bot/modules/notes/utils/parse.py:37
+#: sophie_bot/modules/notes/utils/parse.py:72
 msgid "Reply message content is not parsable as the note."
 msgstr ""
 
-#: sophie_bot/modules/notes/utils/parse.py:66
+#: sophie_bot/modules/notes/utils/parse.py:104
 msgid "The maximum length of the note is {limit} characters."
 msgstr ""
 
-#: sophie_bot/modules/notes/utils/parse.py:67
+#: sophie_bot/modules/notes/utils/parse.py:105
 msgid "Please try to reduce the length of the note."
 msgstr ""
 
-#: sophie_bot/modules/notes/utils/parse.py:68
+#: sophie_bot/modules/notes/utils/parse.py:106
 msgid "Note is too long."
 msgstr ""
 
