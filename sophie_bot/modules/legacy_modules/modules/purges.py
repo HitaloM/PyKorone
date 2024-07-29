@@ -89,6 +89,6 @@ async def fast_purge(message: Message, strings):
 BUTTONS.update({"delmsg": "btn_deletemsg_cb"})
 
 
-@dp.inline_query(F.data.regexp(r"btn_deletemsg:(\w+)"))
+@dp.callback_query(F.data.regexp(r"btn_deletemsg:(\w+)"))
 async def delmsg_btn(event, regexp=None, **kwargs):
     await event.message.delete()

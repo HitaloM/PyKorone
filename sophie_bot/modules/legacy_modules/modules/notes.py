@@ -398,7 +398,7 @@ async def clear_all_notes(message: Message, chat, strings):
     await message.reply(text, reply_markup=buttons)
 
 
-@dp.inline_query(F.data == "clean_all_notes_cb", IsAdmin(True))
+@dp.callback_query(F.data == "clean_all_notes_cb", IsAdmin(True))
 @chat_connection(admin=True)
 @get_strings_dec("notes")
 async def clear_all_notes_cb(event, chat, strings):
@@ -462,7 +462,7 @@ async def note_info(message: Message, chat, strings):
 BUTTONS.update({"note": "btnnotesm", "#": "btnnotesm"})
 
 
-@dp.inline_query(F.data.regexp(r"btnnotesm_(\w+)_(.*)"))
+@dp.callback_query(F.data.regexp(r"btnnotesm_(\w+)_(.*)"))
 @get_strings_dec("notes")
 async def note_btn(event, strings, regexp=None, **kwargs):
     chat_id = int(regexp.group(2))
@@ -485,7 +485,7 @@ async def note_btn(event, strings, regexp=None, **kwargs):
     )
 
 
-@dp.inline_query(F.data.regexp("btnnotesm"))
+@dp.callback_query(F.data.regexp("btnnotesm"))
 @get_strings_dec("notes")
 async def note_start(message: Message, strings, regexp=None, **kwargs):
     # Don't even ask what it means, mostly it workaround to support note names with _

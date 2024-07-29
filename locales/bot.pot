@@ -361,7 +361,7 @@ msgstr ""
 msgid "Connections"
 msgstr ""
 
-#: sophie_bot/modules/legacy_modules/modules/disabling.py:17
+#: sophie_bot/modules/legacy_modules/modules/disabling.py:16
 msgid "Disabling"
 msgstr ""
 

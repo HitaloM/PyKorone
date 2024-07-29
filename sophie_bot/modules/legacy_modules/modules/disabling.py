@@ -2,7 +2,6 @@ from aiogram import F, Router
 from aiogram.types import InlineKeyboardButton, InlineKeyboardMarkup, Message
 
 from sophie_bot import dp
-from sophie_bot.filters.user_status import IsAdmin
 from sophie_bot.modules.legacy_modules.utils.connections import chat_connection
 from sophie_bot.modules.legacy_modules.utils.disable import (
     DISABLABLE_COMMANDS,
@@ -118,18 +117,17 @@ async def enable_all(message: Message, chat, strings):
 
     text = strings["enable_all_text"].format(chat_name=chat["chat_title"])
     buttons = InlineKeyboardMarkup(
-        inline_keyboard=[[
-            InlineKeyboardButton(text=strings["enable_all_btn_yes"], callback_data="enable_all_notes_cb"),
-            InlineKeyboardButton(text=strings["enable_all_btn_no"], callback_data="cancel"),
-        ]]
+        inline_keyboard=[
+            [InlineKeyboardButton(text=strings["enable_all_btn_yes"], callback_data="enable_all_notes_cb")],
+        ]
     )
     await message.reply(text, reply_markup=buttons)
 
 
-@dp.inline_query(IsAdmin(True), F.data == "enable_all_notes_cb")
+@dp.callback_query(F.data.regexp("enable_all_notes_cb"))
 @chat_connection(admin=True)
 @get_strings_dec("disable")
-async def enable_all_notes_cb(event, chat, strings):
+async def enable_all_notes_cb(event, chat, strings, **kwargs):
     data = await db.disabled.find_one({"chat_id": chat["chat_id"]})
     await db.disabled.delete_one({"_id": data["_id"]})
 
