@@ -419,7 +419,7 @@ msgstr ""
 msgid "Users"
 msgstr ""
 
-#: sophie_bot/modules/legacy_modules/modules/warns.py:57
+#: sophie_bot/modules/legacy_modules/modules/warns.py:56
 msgid "Warnings"
 msgstr ""
 

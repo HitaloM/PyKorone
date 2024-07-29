@@ -17,7 +17,6 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 import functools
-import re
 from contextlib import suppress
 
 from aiogram import F, Router
@@ -158,7 +157,7 @@ async def warn_func(message: Message, chat, user, text, strings, filter_action=F
 @dp.callback_query(F.data.regexp(r"remove_warn_(.*)"), UserRestricting(can_restrict_members=True))
 @get_strings_dec("warns")
 async def rmv_warn_btn(event: CallbackQuery, strings, regexp=None, **kwargs):
-    warn_id = ObjectId(re.search(r"remove_warn_(.*)", str(event.data)).group(1)[:-2])
+    warn_id = ObjectId(event.data.removeprefix("remove_warn_"))
     user_id = event.from_user.id
     admin_link = await get_user_link(user_id)
     await db.warns.delete_one({"_id": warn_id})
