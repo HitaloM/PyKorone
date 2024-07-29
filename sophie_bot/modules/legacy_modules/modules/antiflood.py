@@ -38,7 +38,6 @@ from babel.dates import format_timedelta
 from sophie_bot import dp
 from sophie_bot.filters.admin_rights import BotHasPermissions, UserRestricting
 from sophie_bot.filters.cmd import CMDFilter
-from sophie_bot.filters.user_status import IsAdmin
 from sophie_bot.modules.legacy_modules.utils.connections import chat_connection
 from sophie_bot.modules.legacy_modules.utils.language import (
     get_strings,
@@ -194,7 +193,7 @@ class AntifloodEnforcer(BaseMiddleware):
 @need_args_dec()
 @chat_connection(admin=True)
 @get_strings_dec("antiflood")
-async def setflood_command(message: Message, chat: dict, strings: dict, state: FSMContext):
+async def setflood_command(message: Message, chat: dict, strings: dict, state: FSMContext, **kwargs):
     try:
         args = int(get_args(message)[0])
     except ValueError:
@@ -246,10 +245,10 @@ async def antiflood_expire_proc(message: Message, chat: dict, strings: dict, sta
         await state.clear()
 
 
-@register(router, CMDFilter("antiflood", "flood"), IsAdmin(True))
+@legacy_modules_router.message(CMDFilter(("antiflood", "flood")), UserRestricting(admin=True))
 @chat_connection(admin=True)
 @get_strings_dec("antiflood")
-async def antiflood(message: Message, chat: dict, strings: dict):
+async def antiflood_status(message: Message, chat: dict, strings: dict, **kwargs):
     if not (data := await get_data(chat["chat_id"])):
         return await message.reply(strings["not_configured"])
 

@@ -358,7 +358,7 @@ msgstr ""
 msgid "Privacy Policy"
 msgstr ""
 
-#: sophie_bot/modules/legacy_modules/modules/antiflood.py:72
+#: sophie_bot/modules/legacy_modules/modules/antiflood.py:71
 msgid "Antiflood"
 msgstr ""
 
