@@ -6,7 +6,7 @@ msgstr ""
 msgid "Connected chat not found in the database. Please try to disconnect and connect again."
 msgstr ""
 
-#: sophie_bot/modules/beta/__init__.py:15 sophie_bot/modules/beta/handlers/beta_state.py:14
+#: sophie_bot/modules/beta/__init__.py:15 sophie_bot/modules/beta/handlers/beta_state.py:15
 msgid "Beta"
 msgstr ""
 
@@ -17,31 +17,35 @@ msgid ""
 "chat."
 msgstr ""
 
-#: sophie_bot/modules/beta/handlers/beta_state.py:12
+#: sophie_bot/modules/beta/handlers/beta_state.py:13
 msgid "Auto"
 msgstr ""
 
-#: sophie_bot/modules/beta/handlers/beta_state.py:13
+#: sophie_bot/modules/beta/handlers/beta_state.py:14
 msgid "Stable"
 msgstr ""
 
-#: sophie_bot/modules/beta/handlers/beta_state.py:19
+#: sophie_bot/modules/beta/handlers/beta_state.py:20
 msgid "Preferred strategy mode"
 msgstr ""
 
-#: sophie_bot/modules/beta/handlers/beta_state.py:21
+#: sophie_bot/modules/beta/handlers/beta_state.py:22
 msgid "Set preferred strategy mode"
 msgstr ""
 
-#: sophie_bot/modules/beta/handlers/beta_state.py:64
+#: sophie_bot/modules/beta/handlers/beta_state.py:65
 msgid "Get current strategy mode / current state"
 msgstr ""
 
-#: sophie_bot/modules/beta/handlers/beta_state.py:67
+#: sophie_bot/modules/beta/handlers/beta_state.py:68
 msgid "Couldn't find the beta state for this chat. Please check it later."
 msgstr ""
 
-#: sophie_bot/modules/beta/handlers/beta_state.py:80
+#: sophie_bot/modules/beta/handlers/beta_state.py:81
+msgid "Unknown"
+msgstr ""
+
+#: sophie_bot/modules/beta/handlers/beta_state.py:90
 msgid "Use '{cmd}' to change it."
 msgstr ""
 

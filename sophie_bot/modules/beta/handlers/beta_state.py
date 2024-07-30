@@ -4,7 +4,8 @@ from ass_tg.types import OneOf
 from stfu_tg import Italic, KeyValue, Section, Template
 
 from sophie_bot import CONFIG
-from sophie_bot.db.models.beta import BetaModeModel, CurrentMode, PreferredMode
+from sophie_bot.db.models import GlobalSettings
+from sophie_bot.db.models.beta import BetaModeModel, PreferredMode
 from sophie_bot.utils.i18n import gettext as _
 from sophie_bot.utils.i18n import lazy_gettext as l_
 
@@ -68,13 +69,22 @@ async def show_beta_state(message):
         return
 
     preferred_mode = PreferredMode(beta_state.preferred_mode) if beta_state.preferred_mode else PreferredMode.auto
-    current_mode = CurrentMode(beta_state.mode) if beta_state.mode else preferred_mode
+
+    gs_beta_db = await GlobalSettings.get_by_key("beta_percentage")
+    percentage = int(gs_beta_db.value) if gs_beta_db else 0
+
+    if beta_state.mode:
+        current_mode_text = mode_names[beta_state.mode]
+    elif percentage == 0:
+        current_mode_text = mode_names[PreferredMode.stable.name]
+    else:
+        current_mode_text = l_("Unknown")
 
     await message.reply(
         str(
             Section(
                 KeyValue("Preferred mode", mode_names[preferred_mode.name]),
-                KeyValue("Current mode", mode_names[current_mode.name]),
+                KeyValue("Current mode", current_mode_text),
                 title="Beta mode information",
             )
             + Template(_("Use '{cmd}' to change it."), cmd=Italic("/enablebeta (auto / stable / beta)")),
