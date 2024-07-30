@@ -1,12 +1,12 @@
 - name: Update Stable podman image
   containers.podman.podman_image:
     name: "{{ lookup('ansible.builtin.env','IMAGE_NAME') }}"
-    tag: "stable"
+    tag: "stable-runtime"
     force: true
 
 - name: Copy Stable container quadlet file
   vars:
-    image_tag: "stable"
+    image_tag: "stable-runtime"
   ansible.builtin.template:
     src: sophie-stable.container.j2
     dest: /home/containers/.config/containers/systemd/sophie-stable.container
