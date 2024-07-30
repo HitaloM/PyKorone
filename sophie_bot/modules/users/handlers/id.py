@@ -2,21 +2,19 @@ from typing import Any, Optional
 
 from aiogram import flags
 from aiogram.handlers import MessageHandler
+from ass_tg.types import OptionalArg, UserArg
+from stfu_tg import Code, Doc, Template
 
-from ass_tg.types import UserArg, OptionalArg
 from sophie_bot.middlewares.connections import ChatConnection
 from sophie_bot.utils.i18n import gettext as _
 from sophie_bot.utils.i18n import lazy_gettext as l_
-from stfu_tg import Doc, Code, Template
 
 
-@flags.args(
-    user=OptionalArg(UserArg(l_('User')))
-)
+@flags.args(user=OptionalArg(UserArg(l_("User"))))
 class ShowIDs(MessageHandler):
     async def handle(self) -> Any:
         chat: ChatConnection = self.data["connection"]
-        user: Optional[Any] = self.data['user']
+        user: Optional[Any] = self.data["user"]
 
         doc = Doc()
 
