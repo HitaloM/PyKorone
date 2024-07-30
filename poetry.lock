@@ -752,13 +752,13 @@ files = [
 
 [[package]]
 name = "croniter"
-version = "3.0.1"
+version = "3.0.3"
 description = "croniter provides iteration for datetime object with cron like format"
 optional = false
 python-versions = "!=3.0.*,!=3.1.*,!=3.2.*,!=3.3.*,>=2.6"
 files = [
-    {file = "croniter-3.0.1-py2.py3-none-any.whl", hash = "sha256:bd95885f7241d0b3df40c7648bf1d88fa5c97c859c2ede8880e4622d58ecea57"},
-    {file = "croniter-3.0.1.tar.gz", hash = "sha256:cb7e23c4309bbacb141e0ecd2f6bd063ee8cbc9226479a831ee8b3d55328adee"},
+    {file = "croniter-3.0.3-py2.py3-none-any.whl", hash = "sha256:b3bd11f270dc54ccd1f2397b813436015a86d30ffc5a7a9438eec1ed916f2101"},
+    {file = "croniter-3.0.3.tar.gz", hash = "sha256:34117ec1741f10a7bd0ec3ad7d8f0eb8fa457a2feb9be32e6a2250e158957668"},
 ]
 
 [package.dependencies]
@@ -1871,13 +1871,13 @@ typing-extensions = ">=4.6.0,<4.7.0 || >4.7.0"
 
 [[package]]
 name = "pydantic-settings"
-version = "2.3.4"
+version = "2.4.0"
 description = "Settings management using Pydantic"
 optional = false
 python-versions = ">=3.8"
 files = [
-    {file = "pydantic_settings-2.3.4-py3-none-any.whl", hash = "sha256:11ad8bacb68a045f00e4f862c7a718c8a9ec766aa8fd4c32e39a0594b207b53a"},
-    {file = "pydantic_settings-2.3.4.tar.gz", hash = "sha256:c5802e3d62b78e82522319bbc9b8f8ffb28ad1c988a99311d04f2a6051fca0a7"},
+    {file = "pydantic_settings-2.4.0-py3-none-any.whl", hash = "sha256:bb6849dc067f1687574c12a639e231f3a6feeed0a12d710c1382045c5db1c315"},
+    {file = "pydantic_settings-2.4.0.tar.gz", hash = "sha256:ed81c3a0f46392b4d7c0a565c05884e6e54b3456e6f0fe4d8814981172dc9a88"},
 ]
 
 [package.dependencies]
@@ -1885,6 +1885,7 @@ pydantic = ">=2.7.0"
 python-dotenv = ">=0.21.0"
 
 [package.extras]
+azure-key-vault = ["azure-identity (>=1.16.0)", "azure-keyvault-secrets (>=4.8.0)"]
 toml = ["tomli (>=2.0.1)"]
 yaml = ["pyyaml (>=6.0.1)"]
 
@@ -2124,20 +2125,20 @@ files = [
 
 [[package]]
 name = "redis"
-version = "5.0.7"
+version = "5.0.8"
 description = "Python client for Redis database and key-value store"
 optional = false
 python-versions = ">=3.7"
 files = [
-    {file = "redis-5.0.7-py3-none-any.whl", hash = "sha256:0e479e24da960c690be5d9b96d21f7b918a98c0cf49af3b6fafaa0753f93a0db"},
-    {file = "redis-5.0.7.tar.gz", hash = "sha256:8f611490b93c8109b50adc317b31bfd84fff31def3475b92e7e80bf39f48175b"},
+    {file = "redis-5.0.8-py3-none-any.whl", hash = "sha256:56134ee08ea909106090934adc36f65c9bcbbaecea5b21ba704ba6fb561f8eb4"},
+    {file = "redis-5.0.8.tar.gz", hash = "sha256:0c5b10d387568dfe0698c6fad6615750c24170e548ca2deac10c649d463e9870"},
 ]
 
 [package.dependencies]
 async-timeout = {version = ">=4.0.3", markers = "python_full_version < \"3.11.3\""}
 
 [package.extras]
-hiredis = ["hiredis (>=1.0.0)"]
+hiredis = ["hiredis (>1.0.0)"]
 ocsp = ["cryptography (>=36.0.1)", "pyopenssl (==20.0.1)", "requests (>=2.26.0)"]
 
 [[package]]
@@ -2892,4 +2893,4 @@ fast = ["aiohttp", "cryptg", "cryptography"]
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.11"
-content-hash = "4a019173a030eed99cc352c4939ad0d3c7e3182953c521e3fe86eb66d9ef1173"
+content-hash = "661349e0e5d234ca891ef6de7f4c0df0e49aafc728680e9671200e42626f7cf6"

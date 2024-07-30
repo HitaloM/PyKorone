@@ -8,7 +8,7 @@ authors = ["Yacha <yacha@orangefox.tech>"]
 python = "^3.11"
 Telethon = "^1.24.0"
 aiogram = "^3.10.0"
-redis = "5.0.7"
+redis = "5.0.8"
 motor = "^3.5.0"
 dnspython = "^2.1.0"
 aiohttp = { extras = ["speedups"], version = "^3.8.1", optional = true }
@@ -28,7 +28,7 @@ async-timeout = "^4.0.2"
 regex = "^2024.7"
 pydantic = { extras = ["dotenv"], version = "^2.8" }
 emoji-country-flag = "~2"
-pydantic-settings = "~2.3"
+pydantic-settings = "~2.4"
 structlog = "^24"
 stfu-tg = "2.3"
 ass-tg = "^2.2"
