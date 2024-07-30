@@ -1,0 +1,9 @@
+---
+- name: Deploy Stable Sophie
+  hosts: "{{ ansible_limit | default('all') }}"
+  tasks:
+    - include_tasks: tasks/facts.yml
+    - include_tasks: tasks/registry.yml
+    - include_tasks: tasks/stop_proxy.yml
+    - include_tasks: tasks/deploy_stable.yml
+    - include_tasks: tasks/start_proxy.yml

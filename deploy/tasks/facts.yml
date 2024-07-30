@@ -1,0 +1,15 @@
+- name: Set vars for Staging
+  set_fact:
+    token: "{{ lookup('env', 'BETA_TOKEN') }}"
+    username: "{{ lookup('env', 'BETA_USERNAME') }}"
+    sentry_url: "{{ lookup('env', 'STAGING_SENTRY') }}"
+    role: "staging"
+  when: inventory_hostname == "sstaging"
+
+- name: Set vars for Prod
+  set_fact:
+    token: "{{ lookup('env', 'STABLE_TOKEN') }}"
+    username: "{{ lookup('env', 'STABLE_USERNAME') }}"
+    sentry_url: "{{ lookup('env', 'PROD_STABLE_SENTRY') }}"
+    role: "production"
+  when: inventory_hostname == "white"

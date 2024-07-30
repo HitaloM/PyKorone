@@ -1,0 +1,5 @@
+- name: Stop Proxy container
+  ansible.builtin.systemd_service:
+    scope: user
+    state: stopped
+    name: sophie-proxy
