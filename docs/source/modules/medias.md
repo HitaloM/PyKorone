@@ -7,6 +7,7 @@ Some websites, when their links are shared on Telegram, do not display a preview
 
 - X (Twitter)
 - TikTok
+- Instagram
 ```
 
 ## Commands
