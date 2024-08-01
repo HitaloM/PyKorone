@@ -5,7 +5,6 @@ import asyncio
 import io
 import random
 import string
-from dataclasses import dataclass
 from datetime import timedelta
 from pathlib import Path
 from typing import BinaryIO
@@ -14,30 +13,9 @@ import httpx
 
 from korone import cache
 from korone.modules.medias.utils.files import resize_thumbnail
+from korone.modules.medias.utils.tiktok.errors import TikTokError
+from korone.modules.medias.utils.tiktok.types import TikTokSlideshow, TikTokVideo
 from korone.utils.logging import logger
-
-
-class TikTokError(Exception):
-    pass
-
-
-@dataclass(frozen=True, slots=True)
-class TikTokSlideshow:
-    author: str
-    desc: str
-    images: list[BinaryIO]
-    music_url: str
-
-
-@dataclass(frozen=True, slots=True)
-class TikTokVideo:
-    author: str
-    desc: str
-    width: int
-    height: int
-    duration: int
-    video_file: BinaryIO
-    thumbnail_file: BinaryIO
 
 
 class TikTokClient:

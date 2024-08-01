@@ -3,59 +3,20 @@
 
 import io
 import re
-from dataclasses import dataclass
 from datetime import timedelta
 from typing import BinaryIO
 
 import httpx
 
 from korone import cache
+from korone.modules.medias.utils.twitter.errors import TwitterError
+from korone.modules.medias.utils.twitter.types import (
+    TweetAuthor,
+    TweetData,
+    TweetMedia,
+    TweetMediaVariants,
+)
 from korone.utils.logging import logger
-
-
-class TwitterError(Exception):
-    pass
-
-
-@dataclass(frozen=True, slots=True)
-class TweetAuthor:
-    name: str
-    screen_name: str
-
-
-@dataclass(frozen=True, slots=True)
-class TweetMediaVariants:
-    content_type: str
-    bitrate: int
-    url: str
-    binary_io: BinaryIO
-
-
-@dataclass(frozen=True, slots=True)
-class TweetMedia:
-    type: str
-    format: str
-    url: str
-    binary_io: BinaryIO
-    duration: int
-    width: int
-    height: int
-    thumbnail_io: BinaryIO | None
-    thumbnail_url: str
-    variants: list[TweetMediaVariants]
-
-
-@dataclass(frozen=True, slots=True)
-class TweetData:
-    url: str
-    text: str
-    author: TweetAuthor
-    replies: int
-    retweets: int
-    likes: int
-    created_at_timestamp: int
-    media: list[TweetMedia]
-    source: str
 
 
 class TwitterAPI:

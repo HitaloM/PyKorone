@@ -2,7 +2,6 @@
 # Copyright (c) 2024 Hitalo M. <https://github.com/HitaloM>
 
 import asyncio
-from dataclasses import dataclass
 from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any
@@ -10,40 +9,16 @@ from typing import Any
 import yt_dlp
 
 from korone.modules.medias.utils.files import resize_thumbnail
+from korone.modules.medias.utils.youtube.errors import DownloadError, InfoExtractionError
+from korone.modules.medias.utils.youtube.types import VideoInfo
 from korone.utils.logging import logger
-
-
-class YTDLError(Exception):
-    pass
-
-
-class DownloadError(YTDLError):
-    pass
-
-
-class InfoExtractionError(YTDLError):
-    pass
-
-
-@dataclass(frozen=True, slots=True)
-class VideoInfo:
-    title: str
-    video_id: str
-    thumbnail: str | None
-    url: str
-    duration: int
-    view_count: int
-    like_count: int
-    uploader: str
-    height: int
-    width: int
 
 
 class YTDL:
     __slots__ = ("download", "file_path", "options")
 
     def __init__(self, download: bool) -> None:
-        self.options = {"quiet": True, "no_warnings": True, "format": "best"}
+        self.options = {"quiet": True, "no_warnings": True}
         self.download: bool = download
         self.file_path: str | None = None
 
