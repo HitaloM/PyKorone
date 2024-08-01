@@ -8,7 +8,7 @@ from typing import Any
 
 from hairydogm.keyboard import InlineKeyboardBuilder
 from hydrogram import Client
-from hydrogram.errors import PeerIdInvalid, StickersetInvalid
+from hydrogram.errors import PeerIdInvalid, StickersetInvalid, UserIsBlocked
 from hydrogram.raw.functions.messages import GetStickerSet, SendMedia
 from hydrogram.raw.functions.stickers import AddStickerToSet, CreateStickerSet
 from hydrogram.raw.types import (
@@ -87,7 +87,8 @@ class KangHandler(MessageHandler):
             "sent_message": sent_message,
         }
 
-        await self.add_or_create_sticker_pack(pack_info)
+        if not await self.add_or_create_sticker_pack(pack_info):
+            return
 
         keyboard = InlineKeyboardBuilder()
         keyboard.button(text=_("View pack"), url=f"https://t.me/addstickers/{pack_name}")
@@ -148,7 +149,7 @@ class KangHandler(MessageHandler):
         )
 
     @staticmethod
-    async def add_or_create_sticker_pack(pack_info: dict[str, Any]) -> None:
+    async def add_or_create_sticker_pack(pack_info: dict[str, Any]) -> bool:
         client: Client = pack_info["client"]
         media = pack_info["media"]
         pack_name: str = pack_info["pack_name"]
@@ -157,26 +158,26 @@ class KangHandler(MessageHandler):
         sent_message: Message = pack_info["sent_message"]
 
         sticker_file = media.updates[-1].message.media.document
-        if pack_exists:
-            await sent_message.edit(_("Adding the sticker to the pack..."))
-            await client.invoke(
-                AddStickerToSet(
-                    stickerset=InputStickerSetShortName(short_name=pack_name),  # type: ignore
-                    sticker=InputStickerSetItem(
-                        document=InputDocument(
-                            id=sticker_file.id,
-                            access_hash=sticker_file.access_hash,
-                            file_reference=sticker_file.file_reference,
-                        ),  # type: ignore
-                        emoji=emoji,
-                    ),
+        try:
+            if pack_exists:
+                await sent_message.edit(_("Adding the sticker to the pack..."))
+                await client.invoke(
+                    AddStickerToSet(
+                        stickerset=InputStickerSetShortName(short_name=pack_name),  # type: ignore
+                        sticker=InputStickerSetItem(
+                            document=InputDocument(
+                                id=sticker_file.id,
+                                access_hash=sticker_file.access_hash,
+                                file_reference=sticker_file.file_reference,
+                            ),  # type: ignore
+                            emoji=emoji,
+                        ),
+                    )
                 )
-            )
-        else:
-            await sent_message.edit(_("Creating the sticker pack..."))
-            user: User = pack_info["user"]
-            pack_title: str = pack_info["pack_title"]
-            try:
+            else:
+                await sent_message.edit(_("Creating the sticker pack..."))
+                user: User = pack_info["user"]
+                pack_title: str = pack_info["pack_title"]
                 await client.invoke(
                     CreateStickerSet(
                         user_id=await client.resolve_peer(user.id),  # type: ignore
@@ -194,18 +195,22 @@ class KangHandler(MessageHandler):
                         ],
                     )
                 )
+        except (PeerIdInvalid, KeyError, UserIsBlocked):
+            keyboard = InlineKeyboardBuilder()
+            keyboard.button(text=_("Start"), url=f"https://t.me/{client.me.username}?start")  # type: ignore
+            await sent_message.edit(
+                _(
+                    "Oops, looks like I do not have enough permissions to create a sticker "
+                    "pack for you!\n<b>Please start the bot first.</b>"
+                ),
+                reply_markup=keyboard.as_markup(),
+            )
+            return False
+        except Exception as e:
+            await sent_message.edit(_("An error occurred: {}").format(str(e)))
+            return False
 
-            except PeerIdInvalid:
-                keyboard = InlineKeyboardBuilder()
-                keyboard.button(text=_("Start"), url=f"https://t.me/{client.me.username}?start")  # type: ignore
-                await sent_message.edit(
-                    _(
-                        "Oops, looks like I do not have enough permissions to create a sticker "
-                        "pack for you!\n<b>Please start the bot first.</b>"
-                    ),
-                    reply_markup=keyboard.as_markup(),
-                )
-                return
+        return True
 
     @staticmethod
     def extract_emoji(command: CommandObject, message: Message) -> str | None:

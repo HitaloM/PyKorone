@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PyKorone 1.0\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-07-31 23:15-0300\n"
+"POT-Creation-Date: 2024-08-01 19:39-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -724,21 +724,21 @@ msgstr ""
 msgid "Error processing media."
 msgstr ""
 
-#: src/korone/modules/stickers/handlers/kang.py:93
+#: src/korone/modules/stickers/handlers/kang.py:94
 msgid "View pack"
 msgstr ""
 
-#: src/korone/modules/stickers/handlers/kang.py:95
+#: src/korone/modules/stickers/handlers/kang.py:96
 msgid ""
 "Sticker <b>successfully</b> added to pack\n"
 "Emoji: {sticker_emoji}"
 msgstr ""
 
-#: src/korone/modules/stickers/handlers/kang.py:161
+#: src/korone/modules/stickers/handlers/kang.py:163
 msgid "Adding the sticker to the pack..."
 msgstr ""
 
-#: src/korone/modules/stickers/handlers/kang.py:176
+#: src/korone/modules/stickers/handlers/kang.py:178
 msgid "Creating the sticker pack..."
 msgstr ""
 
@@ -751,6 +751,10 @@ msgid ""
 "Oops, looks like I do not have enough permissions to create a sticker "
 "pack for you!\n"
 "<b>Please start the bot first.</b>"
+msgstr ""
+
+#: src/korone/modules/stickers/handlers/kang.py:210
+msgid "An error occurred: {}"
 msgstr ""
 
 #: src/korone/modules/translator/handlers/translate.py:74
