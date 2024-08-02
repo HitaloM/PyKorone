@@ -60,7 +60,8 @@ class InstagramHandler(MessageHandler):
     @staticmethod
     def build_caption(media_list: list[InputMediaPhoto | InputMediaVideo], url: str) -> str:
         caption = media_list[-1].caption
-        caption += f"\n<a href='{url}'>{_("Open in Instagram")}</a>"
+        if len(media_list) > 1:
+            caption += f"\n<a href='{url}'>{_("Open in Instagram")}</a>"
         return caption
 
     @staticmethod

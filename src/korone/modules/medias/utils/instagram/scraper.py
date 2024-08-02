@@ -8,11 +8,17 @@ from datetime import timedelta
 
 import httpx
 from hydrogram.types import InputMedia, InputMediaPhoto, InputMediaVideo
+from lxml import html
 
 from korone import cache
 from korone.modules.medias.utils.cache import MediaCache
 from korone.modules.medias.utils.instagram.downloader import downloader
-from korone.modules.medias.utils.instagram.types import InstagramData, Node, ShortcodeMedia
+from korone.modules.medias.utils.instagram.types import (
+    InstaFixData,
+    InstagramData,
+    Node,
+    ShortcodeMedia,
+)
 
 POST_PATTERN = re.compile(r"(?:reel(?:s?)|p)/(?P<post_id>[A-Za-z0-9_-]+)")
 
@@ -44,22 +50,36 @@ async def extract_media_data(response_text: str, post_id: str) -> dict | None:
         re.DOTALL,
     )
 
-    if not caption_data:
+    username_data = re.search(
+        r'class="UsernameText">([^<]+)</span>',
+        response_text,
+        re.DOTALL,
+    )
+
+    if not caption_data and not username_data:
         return None
 
-    owner = re.sub(r"<[^>]*>", "", caption_data.group(1)).strip()
-    caption = re.sub(r"<[^>]*>", "", caption_data.group(2)).strip()
+    owner = None
+    caption = None
+
+    if username_data:
+        owner = re.sub(r"<[^>]*>", "", username_data.group(1)).strip()
+    elif caption_data:
+        owner = re.sub(r"<[^>]*>", "", caption_data.group(1)).strip()
+
+    if caption_data:
+        caption = re.sub(r"<[^>]*>", "", caption_data.group(2)).strip()
 
     if media_type == "GraphVideo":
-        instafix_url = await get_instafix_data(post_id)
-        if not instafix_url:
+        instafix_data = await get_instafix_data(post_id)
+        if not instafix_data:
             return None
 
         return {
             "shortcode_media": {
                 "__typename": media_type,
                 "display_url": main_media_url,
-                "video_url": instafix_url,
+                "video_url": instafix_data.video_url,
                 "edge_media_to_caption": {"edges": [{"node": {"text": caption}}]},
                 "owner": {"username": owner},
             }
@@ -100,17 +120,35 @@ async def get_embed_data(post_id: str) -> InstagramData | None:
             return None
 
     gql_data = extract_gql_data(response.text)
-    if gql_data:
+    result = None
+
+    if gql_data and gql_data != "null":
         try:
-            return InstagramData.model_validate(json.loads(gql_data))
+            if gql_json := json.loads(gql_data):
+                result = InstagramData.model_validate(gql_json)
         except json.JSONDecodeError:
-            return None
+            pass
+    else:
+        instafix_data = await get_instafix_data(post_id)
+        if instafix_data:
+            instafix_dict = {
+                "shortcode_media": {
+                    "__typename": "GraphVideo",
+                    "video_url": instafix_data.video_url,
+                    "edge_media_to_caption": {
+                        "edges": [{"node": {"text": instafix_data.author_name}}]
+                    },
+                    "owner": {"username": instafix_data.username},
+                }
+            }
+            result = InstagramData.model_validate(instafix_dict)
 
-    media_data = await extract_media_data(response.text, post_id)
-    if media_data:
-        return InstagramData.model_validate(media_data)
+    if not result:
+        media_data = await extract_media_data(response.text, post_id)
+        if media_data:
+            result = InstagramData.model_validate(media_data)
 
-    return None
+    return result
 
 
 @cache(ttl=timedelta(weeks=1))
@@ -198,16 +236,46 @@ async def get_gql_data(post_id: str) -> InstagramData | None:
         return None
 
 
-async def get_instafix_data(post_id: str) -> str | None:
-    url = f"https://ddinstagram.com/videos/{post_id}/1"
+async def get_instafix_data(post_id: str) -> InstaFixData | None:
+    video_url = f"https://ddinstagram.com/videos/{post_id}/1"
+    oembed_url = f"https://www.ddinstagram.com/reels/{post_id}/"
+
     async with httpx.AsyncClient(http2=True, timeout=20, headers={"User-Agent": "bot"}) as client:
         try:
-            response = await client.get(url, follow_redirects=True)
-            response.raise_for_status()
+            video_response = await client.get(video_url)
+            if video_response.status_code != 302:
+                return None
+
+            video_tree = html.fromstring(video_response.text)
+            video_link = video_tree.xpath("//a[@href]/@href")
+            if not video_link:
+                return None
+            video_link = video_link[0]
+
+            oembed_response = await client.get(oembed_url)
+            oembed_response.raise_for_status()
+
+            oembed_tree = html.fromstring(oembed_response.text)
+            oembed_link = oembed_tree.xpath('//link[@type="application/json+oembed"]/@href')
+            if not oembed_link:
+                return None
+            oembed_link = f"https://{oembed_link[0]}"
+
+            oembed_data_response = await client.get(oembed_link)
+            oembed_data_response.raise_for_status()
+
+            oembed_data = oembed_data_response.json()
+            oembed_data["video_url"] = video_link
+
+            username = oembed_tree.xpath('//link[@type="application/json+oembed"]/@title')
+            if not username:
+                return None
+
+            oembed_data["username"] = username[0].lstrip("@")
+
+            return InstaFixData(**oembed_data)
         except httpx.HTTPStatusError:
             return None
-
-    return str(response.url)
 
 
 async def instagram(url: str) -> list[InputMediaVideo | InputMediaPhoto] | None:
@@ -303,7 +371,7 @@ async def extract_media_items(shortcode_media) -> list[InputMediaVideo | InputMe
             media_items.append(await process_video_item(shortcode_media))
     elif shortcode_media.typename in {"GraphImage", "XDTGraphImage"}:
         if shortcode_media.display_url:
-            media_items.append(await process_image_item(shortcode_media.display_url))
+            media_items.append(await process_image_item(shortcode_media))
     elif shortcode_media.typename in {"GraphSidecar", "XDTGraphSidecar"} and (
         shortcode_media.edge_sidecar_to_children and shortcode_media.edge_sidecar_to_children.edges
     ):
@@ -320,7 +388,7 @@ async def extract_media_items(shortcode_media) -> list[InputMediaVideo | InputMe
 async def process_video_item(shortcode_media: ShortcodeMedia) -> InputMedia:
     file = None
     if shortcode_media.video_url:
-        file = await downloader(shortcode_media.video_url)
+        file = await downloader(str(shortcode_media.video_url))
     thumbnail = None
     if shortcode_media.display_resources and shortcode_media.display_resources[-1].src:
         thumbnail = await downloader(shortcode_media.display_resources[-1].src)
@@ -337,14 +405,14 @@ async def process_video_item(shortcode_media: ShortcodeMedia) -> InputMedia:
     )
 
 
-async def process_image_item(display_url: str) -> InputMedia | None:
-    file = await downloader(display_url)
+async def process_image_item(shortcode_media: ShortcodeMedia) -> InputMedia | None:
+    file = await downloader(str(shortcode_media.display_url))
     return InputMediaPhoto(media=file) if file else None
 
 
 async def process_sidecar_node(node: Node) -> InputMedia | None:
     if node.is_video and node.video_url:
-        file = await downloader(node.video_url)
+        file = await downloader(str(node.video_url))
         thumbnail = None
         if node.display_resources:
             thumbnail = await downloader(node.display_resources[-1]["src"])
