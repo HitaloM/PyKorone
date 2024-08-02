@@ -49,7 +49,7 @@ def register(router: Router, *reg_args, **reg_kwargs):
     if "content_types" in reg_kwargs:
         log.error("Legacy @register: content_types filter is not supported")
 
-    if "user_admin" in reg_kwargs:
+    if "user_admin" in reg_kwargs or "is_admin" in reg_kwargs:
         reg_args = (*reg_args, IsAdmin(True))
 
     if "f" in reg_kwargs:
