@@ -19,7 +19,7 @@ __module_name__ = l_("Reports")
 __module_emoji__ = "🗳"
 
 
-@register(router, F.text.regexp(r"^@admin$"))
+@register(router, F.text.regexp(r"^@admin(s)$"))
 @chat_connection(only_groups=True)
 @get_strings_dec("reports")
 async def report1_cmd(message: Message, chat, strings):
@@ -45,7 +45,7 @@ async def report(message: Message, chat, strings):
     if (await is_user_admin(chat["chat_id"], user)) is True:
         return await message.reply(strings["user_user_admin"])
 
-    if "reply_to_message" not in message:
+    if not message.reply_to_message:
         return await message.reply(strings["no_user_to_report"])
 
     offender_id = message.reply_to_message.from_user.id
