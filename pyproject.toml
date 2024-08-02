@@ -11,7 +11,7 @@ aiogram = "^3.10.0"
 redis = "5.0.8"
 motor = "^3.5.0"
 dnspython = "^2.1.0"
-aiohttp = { extras = ["speedups"], version = "^3.8.1", optional = true }
+aiohttp = { extras = ["speedups"], version = "^3.9", optional = true }
 cryptg = { version = "^0.2.post4", optional = true }
 cryptography = { version = "^36.0.2", optional = true }
 envparse = "^0.2.0"
