@@ -173,7 +173,7 @@ async def disconnect_from_chat_direct(message: Message, strings):
         await message.reply(strings["disconnected"].format(chat_name=chat["chat_title"]))
 
 
-@register(router, cmds="allowusersconnect")
+@register(router, cmds="allowusersconnect", is_admin=True)
 @get_strings_dec("connections")
 @chat_connection(admin=True, only_groups=True)
 async def allow_users_to_connect(message: Message, strings, chat):
