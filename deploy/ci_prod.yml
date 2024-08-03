@@ -19,23 +19,6 @@ deploy_prod_beta:
   when: manual
 
 
-deploy_prod_proxy:
-  stage: deploy
-  image: willhallonline/ansible:2.16.4-alpine-3.18
-  before_script:
-    - cp $SSHKEY /tmp/sshkey
-    - chmod 600 /tmp/sshkey
-  script:
-    - ansible-playbook -i "$ANSIBLE_INV" deploy/proxy.yml --limit sprod
-  environment:
-    name: prod
-  only:
-    - proxy
-    - test_ci
-    - test-ci
-  when: manual
-
-
 deploy_prod_stable:
   stage: deploy
   image: willhallonline/ansible:2.16.4-alpine-3.18

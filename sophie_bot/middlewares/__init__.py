@@ -9,6 +9,7 @@ from sophie_bot.middlewares.localization import LocalizationMiddleware
 from sophie_bot.middlewares.logic import OrMiddleware
 from sophie_bot.middlewares.save_chats import SaveChatsMiddleware
 from sophie_bot.utils.i18n import I18nNew
+from sophie_bot.utils.logger import log
 
 i18n = I18nNew(path="locales", domain="bot", default_locale=CONFIG.default_locale)
 localization_middleware = LocalizationMiddleware(i18n)
@@ -21,23 +22,21 @@ def enable_middlewares():
 
         dp.update.middleware(UpdateDebugMiddleware())
 
+    dp.update.middleware(localization_middleware)
+
+    if CONFIG.proxy_enable:
+        log.info("Enabled Proxy!")
+        dp.update.middleware(BetaMiddleware())
+
+    dp.message.middleware(ArgsMiddleware(i18n=i18n))
+
     dp.update.outer_middleware(SaveChatsMiddleware())
     dp.message.outer_middleware(LegacySaveChats())
 
-    dp.update.middleware(localization_middleware)
     dp.update.middleware(ConnectionsMiddleware())
-
-    dp.message.middleware(ArgsMiddleware(i18n=i18n))
 
     if CONFIG.debug_mode:
         from .debug import DataDebugMiddleware, HandlerDebugMiddleware
 
         dp.update.middleware(DataDebugMiddleware())
         dp.update.middleware(HandlerDebugMiddleware())
-
-
-def enable_proxy_middlewares():
-    dp.update.middleware(localization_middleware)
-    dp.update.middleware(BetaMiddleware())
-
-    dp.message.middleware(ArgsMiddleware(i18n=i18n))

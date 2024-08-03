@@ -12,7 +12,7 @@ from aiohttp.web_app import Application
 
 from sophie_bot import bot, dp
 from sophie_bot.config import CONFIG
-from sophie_bot.middlewares import enable_middlewares, enable_proxy_middlewares
+from sophie_bot.middlewares import enable_middlewares
 from sophie_bot.modules import load_modules
 from sophie_bot.services.apscheduller import start_apscheduller
 from sophie_bot.services.db import init_db, test_db
@@ -20,18 +20,8 @@ from sophie_bot.services.telethon import start_telethon
 from sophie_bot.utils.logger import log
 from sophie_bot.utils.sentry import init_sentry
 
-if "proxy" in CONFIG.environment:
-    log.warn(
-        "Proxy mode enabled!",
-        stable_instance_url=CONFIG.proxy_stable_instance_url,
-        beta_instance_url=CONFIG.proxy_beta_instance_url,
-    )
-
-    enable_proxy_middlewares()
-    load_modules(dp, ["beta"], [])
-else:
-    enable_middlewares()
-    load_modules(dp, ["*"], CONFIG.modules_not_load)
+enable_middlewares()
+load_modules(dp, ["*"], CONFIG.modules_not_load)
 
 # Import misc stuff
 if CONFIG.sentry_url:
