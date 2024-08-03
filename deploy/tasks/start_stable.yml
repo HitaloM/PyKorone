@@ -3,4 +3,4 @@
     scope: user
     state: restarted
     daemon_reload: true
-    name: sophie-proxy
+    name: sophie-stable

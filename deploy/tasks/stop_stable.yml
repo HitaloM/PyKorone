@@ -2,4 +2,4 @@
   ansible.builtin.systemd_service:
     scope: user
     state: stopped
-    name: sophie-proxy
+    name: sophie-stable

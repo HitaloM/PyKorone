@@ -4,6 +4,7 @@
   tasks:
     - include_tasks: tasks/facts.yml
     - include_tasks: tasks/registry.yml
+    - include_tasks: tasks/stop_stable.yml
     - include_tasks: tasks/deploy_current_as_beta.yml
     - include_tasks: tasks/deploy_stable.yml
 
