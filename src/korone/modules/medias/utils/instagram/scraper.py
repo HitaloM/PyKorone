@@ -2,15 +2,14 @@
 # Copyright (c) 2024 Hitalo M. <https://github.com/HitaloM>
 
 import asyncio
+import contextlib
 import json
 import re
-from datetime import timedelta
 
 import httpx
 from hydrogram.types import InputMedia, InputMediaPhoto, InputMediaVideo
 from lxml import html
 
-from korone import cache
 from korone.modules.medias.utils.cache import MediaCache
 from korone.modules.medias.utils.instagram.downloader import downloader
 from korone.modules.medias.utils.instagram.types import (
@@ -95,7 +94,6 @@ async def extract_media_data(response_text: str, post_id: str) -> dict | None:
     }
 
 
-@cache(ttl=timedelta(weeks=1))
 async def get_embed_data(post_id: str) -> InstagramData | None:
     url = f"https://www.instagram.com/p/{post_id}/embed/captioned/"
     async with httpx.AsyncClient(http2=True, timeout=20) as client:
@@ -123,11 +121,8 @@ async def get_embed_data(post_id: str) -> InstagramData | None:
     result = None
 
     if gql_data and gql_data != "null":
-        try:
-            if gql_json := json.loads(gql_data):
-                result = InstagramData.model_validate(gql_json)
-        except json.JSONDecodeError:
-            pass
+        with contextlib.suppress(ValueError):
+            result = InstagramData.model_validate_json(gql_data)
     else:
         instafix_data = await get_instafix_data(post_id)
         if instafix_data:
@@ -151,7 +146,6 @@ async def get_embed_data(post_id: str) -> InstagramData | None:
     return result
 
 
-@cache(ttl=timedelta(weeks=1))
 async def get_gql_data(post_id: str) -> InstagramData | None:
     url = "https://www.instagram.com/api/graphql"
 
@@ -231,8 +225,8 @@ async def get_gql_data(post_id: str) -> InstagramData | None:
         return None
 
     try:
-        return InstagramData.model_validate(json.loads(response.text))
-    except json.JSONDecodeError:
+        return InstagramData.model_validate_json(response.text)
+    except ValueError:
         return None
 
 
