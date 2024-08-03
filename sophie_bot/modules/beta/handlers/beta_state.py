@@ -64,16 +64,14 @@ async def set_preferred_mode(message: Message, new_state: str):
 
 @flags.help(description=l_("Get current strategy mode / current state"))
 async def show_beta_state(message):
-    if not (beta_state := await BetaModeModel.get_by_chat_id(message.chat.id)):
-        await message.reply(_("Couldn't find the beta state for this chat. Please check it later."))
-        return
+    beta_state = await BetaModeModel.get_by_chat_id(message.chat.id)
 
-    preferred_mode = PreferredMode(beta_state.preferred_mode) if beta_state.preferred_mode else PreferredMode.auto
+    preferred_mode = PreferredMode(beta_state.preferred_mode) if beta_state else PreferredMode.auto
 
     gs_beta_db = await GlobalSettings.get_by_key("beta_percentage")
     percentage = int(gs_beta_db.value) if gs_beta_db else 0
 
-    if beta_state.mode:
+    if beta_state and beta_state.mode:
         current_mode_text = mode_names[beta_state.mode]
     elif percentage == 0:
         current_mode_text = mode_names[PreferredMode.stable.name]
