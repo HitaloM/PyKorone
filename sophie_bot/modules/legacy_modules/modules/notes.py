@@ -216,7 +216,7 @@ async def get_note_cmd(message: Message, chat, strings):
     if note_name[0] == "#":
         note_name = note_name[1:]
 
-    if "reply_to_message" in message:
+    if message.reply_to_message:
         rpl_id = message.reply_to_message.message_id
         user = message.reply_to_message.from_user
     else:
@@ -249,7 +249,7 @@ async def get_note_hashtag(message: Message, chat, **kwargs):
     if not (note := await db.notes.find_one({"chat_id": int(chat_id), "names": {"$in": [note_name]}})):
         return
 
-    if "reply_to_message" in message:
+    if message.reply_to_message:
         rpl_id = message.reply_to_message.message_id
         user = message.reply_to_message.from_user
     else:

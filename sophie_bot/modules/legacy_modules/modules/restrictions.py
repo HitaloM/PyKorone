@@ -107,7 +107,7 @@ async def kick_user_cmd(message: Message, chat, user, args, strings):
     # Del msgs if silent
     if silent:
         to_del = [msg.message_id, message.message_id]
-        if "reply_to_message" in message and message.reply_to_message.from_user.id == user_id:
+        if message.reply_to_message and message.reply_to_message.from_user.id == user_id:
             to_del.append(message.reply_to_message.message_id)
         await asyncio.sleep(5)
         await tbot.delete_messages(chat_id, to_del)
@@ -185,7 +185,7 @@ async def mute_user_cmd(message: Message, chat, user, args, strings):
     # Del msgs if silent
     if silent:
         to_del = [msg.message_id, message.message_id]
-        if "reply_to_message" in message and message.reply_to_message.from_user.id == user_id:
+        if message.reply_to_message and message.reply_to_message.from_user.id == user_id:
             to_del.append(message.reply_to_message.message_id)
         await asyncio.sleep(5)
         await tbot.delete_messages(chat_id, to_del)
@@ -299,7 +299,7 @@ async def ban_user_cmd(message: Message, chat, user, args, strings):
     # Del msgs if silent
     if silent:
         to_del = [msg.message_id, message.message_id]
-        if "reply_to_message" in message and message.reply_to_message.from_user.id == user_id:
+        if message.reply_to_message and message.reply_to_message.from_user.id == user_id:
             to_del.append(message.reply_to_message.message_id)
         await asyncio.sleep(5)
         await tbot.delete_messages(chat_id, to_del)

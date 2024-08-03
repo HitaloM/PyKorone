@@ -271,7 +271,7 @@ async def get_user(message, allow_self=False):
     user = None
 
     # Only 1 way
-    if len(args) < 2 and "reply_to_message" in message:
+    if len(args) < 2 and message.reply_to_message:
         return await get_user_by_id(message.reply_to_message.from_user.id)
 
     # Use default function to get user

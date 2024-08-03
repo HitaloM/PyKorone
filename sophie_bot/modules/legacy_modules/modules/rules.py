@@ -49,7 +49,7 @@ async def rules(message: Message, chat, strings):
     chat_id = chat["chat_id"]
     send_id = message.chat.id
 
-    if "reply_to_message" in message:
+    if message.reply_to_message:
         rpl_id = message.reply_to_message.message_id
     else:
         rpl_id = message.message_id

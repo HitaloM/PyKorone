@@ -761,7 +761,7 @@ async def fed_ban_user(message: Message, fed, user, reason, strings):
 
     if silent:
         to_del = [msg.message_id, message.message_id]
-        if "reply_to_message" in message and message.reply_to_message.from_user.id == user_id:
+        if message.reply_to_message and message.reply_to_message.from_user.id == user_id:
             to_del.append(message.reply_to_message.message_id)
         await asyncio.sleep(5)
         await tbot.delete_messages(message.chat.id, to_del)
@@ -999,15 +999,15 @@ async def importfbans_cmd(message: Message, fed, strings):
     redis.set(key, 1)
     redis.expire(key, 600)
 
-    if "document" in message:
+    if message.document:
         document = message.document
     else:
-        if "reply_to_message" not in message:
+        if not message.reply_to_message:
             await ImportFbansFileWait.waiting.set()
             await message.reply(strings["send_import_file"])
             return
 
-        elif "document" not in message.reply_to_message:
+        elif not message.reply_to_message.document:
             await message.reply(strings["rpl_to_file"])
             return
         document = message.reply_to_message.document

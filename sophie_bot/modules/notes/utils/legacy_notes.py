@@ -222,7 +222,7 @@ async def get_msg_file(message):
 
 async def get_parsed_note_list(message: Message, allow_reply_message=True, split_args=1):
     note = {}
-    if "reply_to_message" in message and allow_reply_message:
+    if message.reply_to_message and allow_reply_message:
         # Get parsed reply msg text
         text, note["parse_mode"] = get_parsed_msg(message.reply_to_message)
         # Get parsed origin msg text
@@ -236,7 +236,7 @@ async def get_parsed_note_list(message: Message, allow_reply_message=True, split
             note["parse_mode"] = mode
 
         # Get message keyboard
-        if "reply_markup" in message.reply_to_message and "inline_keyboard" in message.reply_to_message.reply_markup:
+        if message.reply_to_message.reply_markup and message.reply_to_message.reply_markup.inline_keyboard:
             text += get_reply_msg_btns_text(message.reply_to_message)
 
         # Check on attachment
