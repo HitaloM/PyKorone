@@ -34,7 +34,7 @@ class InstagramHandler(MessageHandler):
         async with ChatActionSender(
             client=client, chat_id=message.chat.id, action=ChatAction.UPLOAD_DOCUMENT
         ):
-            sent_message = await self.send_media(message, media_list, url)
+            sent_message = await self.send_media(message, media_list, url)  # type: ignore
 
         post_id = self.extract_post_id(url)
         if post_id and sent_message:
@@ -55,7 +55,7 @@ class InstagramHandler(MessageHandler):
         if len(media_list) == 1:
             return await self.send_single_media(message, media_list[0], caption, url)
         media_list[-1].caption = caption
-        return await message.reply_media_group(media_list)  # type: ignore
+        return await message.reply_media_group(media_list)
 
     @staticmethod
     def build_caption(media_list: list[InputMediaPhoto | InputMediaVideo], url: str) -> str:

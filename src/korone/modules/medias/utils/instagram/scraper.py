@@ -5,13 +5,18 @@ import asyncio
 import contextlib
 import json
 import re
+from collections.abc import Mapping, Sequence
+from datetime import timedelta
+from typing import Any
 
 import httpx
+from cashews import NOT_NONE
 from hydrogram.types import InputMedia, InputMediaPhoto, InputMediaVideo
 from lxml import html
 
+from korone import cache
 from korone.modules.medias.utils.cache import MediaCache
-from korone.modules.medias.utils.instagram.downloader import downloader
+from korone.modules.medias.utils.instagram.downloader import download_media
 from korone.modules.medias.utils.instagram.types import (
     InstaFixData,
     InstagramData,
@@ -22,6 +27,14 @@ from korone.modules.medias.utils.instagram.types import (
 POST_PATTERN = re.compile(r"(?:reel(?:s?)|p)/(?P<post_id>[A-Za-z0-9_-]+)")
 
 
+NodeDict = Mapping[str, str]
+EdgeDict = Mapping[str, NodeDict]
+EdgeMediaToCaptionDict = Mapping[str, list[EdgeDict]]
+OwnerDict = Mapping[str, str]
+ShortcodeMediaDict = Mapping[str, str | Any | EdgeMediaToCaptionDict | OwnerDict | None]
+MediaDataDict = Mapping[str, ShortcodeMediaDict]
+
+
 def extract_gql_data(response_text: str) -> str | None:
     match = re.search(r"\\\"gql_data\\\":([\s\S]*)\}\"\}", response_text)
     if match:
@@ -29,7 +42,7 @@ def extract_gql_data(response_text: str) -> str | None:
     return None
 
 
-async def extract_media_data(response_text: str, post_id: str) -> dict | None:
+async def extract_media_data(response_text: str, post_id: str) -> MediaDataDict | None:
     media_type = re.search(r'data-media-type="(.*?)"', response_text)
     if not media_type:
         return None
@@ -58,8 +71,8 @@ async def extract_media_data(response_text: str, post_id: str) -> dict | None:
     if not caption_data and not username_data:
         return None
 
-    owner = None
-    caption = None
+    owner: str | None = None
+    caption: str | None = None
 
     if username_data:
         owner = re.sub(r"<[^>]*>", "", username_data.group(1)).strip()
@@ -94,6 +107,7 @@ async def extract_media_data(response_text: str, post_id: str) -> dict | None:
     }
 
 
+@cache(ttl=timedelta(weeks=1), condition=NOT_NONE)
 async def get_embed_data(post_id: str) -> InstagramData | None:
     url = f"https://www.instagram.com/p/{post_id}/embed/captioned/"
     async with httpx.AsyncClient(http2=True, timeout=20) as client:
@@ -118,7 +132,7 @@ async def get_embed_data(post_id: str) -> InstagramData | None:
             return None
 
     gql_data = extract_gql_data(response.text)
-    result = None
+    result: InstagramData | None = None
 
     if gql_data and gql_data != "null":
         with contextlib.suppress(ValueError):
@@ -146,6 +160,7 @@ async def get_embed_data(post_id: str) -> InstagramData | None:
     return result
 
 
+@cache(ttl=timedelta(weeks=1), condition=NOT_NONE)
 async def get_gql_data(post_id: str) -> InstagramData | None:
     url = "https://www.instagram.com/api/graphql"
 
@@ -197,7 +212,7 @@ async def get_gql_data(post_id: str) -> InstagramData | None:
         "doc_id": "10015901848480474",
     }
 
-    body = "&".join([f"{key}={value}" for key, value in params.items()]).encode()
+    body: bytes = "&".join([f"{key}={value}" for key, value in params.items()]).encode()
 
     async with httpx.AsyncClient(http2=True, timeout=20) as client:
         response = await client.post(
@@ -230,6 +245,7 @@ async def get_gql_data(post_id: str) -> InstagramData | None:
         return None
 
 
+@cache(ttl=timedelta(weeks=1), condition=NOT_NONE)
 async def get_instafix_data(post_id: str) -> InstaFixData | None:
     video_url = f"https://ddinstagram.com/videos/{post_id}/1"
     oembed_url = f"https://www.ddinstagram.com/reels/{post_id}/"
@@ -272,10 +288,7 @@ async def get_instafix_data(post_id: str) -> InstaFixData | None:
             return None
 
 
-async def instagram(url: str) -> list[InputMediaVideo | InputMediaPhoto] | None:
-    media_items = []
-    caption: str = ""
-
+async def instagram(url: str) -> Sequence[InputMedia] | None:
     match = POST_PATTERN.search(url)
     if not match:
         return None
@@ -317,7 +330,7 @@ async def instagram(url: str) -> list[InputMediaVideo | InputMediaPhoto] | None:
     return media_items
 
 
-def extract_media_items_from_cache(cached_data: dict) -> list[InputMediaVideo | InputMediaPhoto]:
+def extract_media_items_from_cache(cached_data: dict) -> Sequence[InputMedia]:
     photos = [InputMediaPhoto(media=media["file"]) for media in cached_data.get("photo", [])]
     videos = [
         InputMediaVideo(
@@ -333,7 +346,7 @@ def extract_media_items_from_cache(cached_data: dict) -> list[InputMediaVideo | 
 
 
 def extract_caption(shortcode_media: ShortcodeMedia) -> str:
-    caption_builder = []
+    caption_builder: list[str] = []
     if shortcode_media.owner and shortcode_media.owner.username:
         caption_builder.append(f"<b>{shortcode_media.owner.username}:</b>")
 
@@ -358,14 +371,19 @@ def extract_caption(shortcode_media: ShortcodeMedia) -> str:
     return "\n".join(caption_builder)
 
 
-async def extract_media_items(shortcode_media) -> list[InputMediaVideo | InputMediaPhoto]:
-    media_items = []
+async def extract_media_items(shortcode_media) -> list[InputMedia] | None:
+    media_items: list[InputMedia] = []
+
     if shortcode_media.typename in {"GraphVideo", "XDTGraphVideo"}:
         if shortcode_media.video_url:
-            media_items.append(await process_video_item(shortcode_media))
+            video_item = await process_video_item(shortcode_media)
+            if video_item:
+                media_items.append(video_item)
     elif shortcode_media.typename in {"GraphImage", "XDTGraphImage"}:
         if shortcode_media.display_url:
-            media_items.append(await process_image_item(shortcode_media))
+            image_item = await process_image_item(shortcode_media)
+            if image_item:
+                media_items.append(image_item)
     elif shortcode_media.typename in {"GraphSidecar", "XDTGraphSidecar"} and (
         shortcode_media.edge_sidecar_to_children and shortcode_media.edge_sidecar_to_children.edges
     ):
@@ -376,48 +394,57 @@ async def extract_media_items(shortcode_media) -> list[InputMediaVideo | InputMe
         ]
         sidecar_medias = await asyncio.gather(*media_download_tasks)
         media_items.extend(item for item in sidecar_medias if item is not None)
-    return media_items
+
+    return media_items or None
 
 
-async def process_video_item(shortcode_media: ShortcodeMedia) -> InputMedia:
+async def process_video_item(shortcode_media: ShortcodeMedia) -> InputMedia | None:
     file = None
     if shortcode_media.video_url:
-        file = await downloader(str(shortcode_media.video_url))
+        file = await download_media(str(shortcode_media.video_url))
     thumbnail = None
     if shortcode_media.display_resources and shortcode_media.display_resources[-1].src:
-        thumbnail = await downloader(shortcode_media.display_resources[-1].src)
-    return InputMediaVideo(
-        media=file,  # type: ignore
-        thumb=thumbnail,
-        width=shortcode_media.dimensions.width
-        if shortcode_media.dimensions and shortcode_media.dimensions.width is not None
-        else 0,
-        height=shortcode_media.dimensions.height
-        if shortcode_media.dimensions and shortcode_media.dimensions.height is not None
-        else 0,
-        supports_streaming=True,
+        thumbnail = await download_media(shortcode_media.display_resources[-1].src)
+    return (
+        InputMediaVideo(
+            media=file,
+            thumb=thumbnail,
+            width=shortcode_media.dimensions.width
+            if shortcode_media.dimensions and shortcode_media.dimensions.width is not None
+            else 0,
+            height=shortcode_media.dimensions.height
+            if shortcode_media.dimensions and shortcode_media.dimensions.height is not None
+            else 0,
+            supports_streaming=True,
+        )
+        if file
+        else None
     )
 
 
 async def process_image_item(shortcode_media: ShortcodeMedia) -> InputMedia | None:
-    file = await downloader(str(shortcode_media.display_url))
+    file = await download_media(str(shortcode_media.display_url))
     return InputMediaPhoto(media=file) if file else None
 
 
 async def process_sidecar_node(node: Node) -> InputMedia | None:
     if node.is_video and node.video_url:
-        file = await downloader(str(node.video_url))
+        file = await download_media(str(node.video_url))
         thumbnail = None
         if node.display_resources:
-            thumbnail = await downloader(node.display_resources[-1]["src"])
-        return InputMediaVideo(
-            media=file,  # type: ignore
-            thumb=thumbnail,
-            width=node.dimensions["width"] if node.dimensions else 0,
-            height=node.dimensions["height"] if node.dimensions else 0,
-            supports_streaming=True,
+            thumbnail = await download_media(node.display_resources[-1]["src"])
+        return (
+            InputMediaVideo(
+                media=file,
+                thumb=thumbnail,
+                width=node.dimensions["width"] if node.dimensions else 0,
+                height=node.dimensions["height"] if node.dimensions else 0,
+                supports_streaming=True,
+            )
+            if file
+            else None
         )
     if node.display_resources:
-        file = await downloader(node.display_resources[-1]["src"])
+        file = await download_media(node.display_resources[-1]["src"])
         return InputMediaPhoto(file) if file else None
     return None

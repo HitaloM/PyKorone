@@ -1,14 +1,14 @@
 # SPDX-License-Identifier: BSD-3-Clause
 # Copyright (c) 2024 Hitalo M. <https://github.com/HitaloM>
 
-import io
+from io import BytesIO
 from pathlib import Path
 from urllib.parse import urlparse
 
 import httpx
 from PIL import Image
 
-mime_extensions = {
+MIME_EXTENSIONS = {
     "image/jpeg": "jpg",
     "image/png": "png",
     "image/gif": "gif",
@@ -20,36 +20,40 @@ mime_extensions = {
 }
 
 
-async def fetch_media(media: str) -> httpx.Response:
+def is_supported_mime_type(content_type: str) -> bool:
+    return content_type in MIME_EXTENSIONS
+
+
+async def fetch_media(media_url: str) -> httpx.Response:
     async with httpx.AsyncClient(http2=True, timeout=10) as client:
-        response = await client.get(media)
+        response = await client.get(media_url)
         response.raise_for_status()
         return response
 
 
 def get_extension(content_type: str) -> str:
-    return mime_extensions.get(content_type, "")
+    return MIME_EXTENSIONS.get(content_type, "")
 
 
-def convert_image_to_jpeg(file: io.BytesIO, file_path: Path) -> io.BytesIO:
+def convert_image_to_jpeg(file: BytesIO, file_path: Path) -> BytesIO:
     image = Image.open(file)
-    file_jpg = io.BytesIO()
+    file_jpg = BytesIO()
     image.convert("RGB").save(file_jpg, format="JPEG")
     file_jpg.name = file_path.with_suffix(".jpeg").name
     return file_jpg
 
 
-async def downloader(media: str) -> io.BytesIO | None:
+async def download_media(media_url: str) -> BytesIO | None:
     try:
-        response = await fetch_media(media)
-        content_type = response.headers.get("content-type")
-        extension = get_extension(content_type)
-        if not extension:
+        response = await fetch_media(media_url)
+        content_type = response.headers.get("content-type", "")
+
+        if not is_supported_mime_type(content_type):
             return None
 
         content = await response.aread()
-        file = io.BytesIO(content)
-        file_path = Path(urlparse(media).path)
+        file = BytesIO(content)
+        file_path = Path(urlparse(media_url).path)
         file.name = file_path.name
 
         if content_type.startswith("video"):
