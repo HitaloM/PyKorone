@@ -67,20 +67,10 @@ class YTDL:
             thumbnail = Path(self.file_path).with_suffix(".jpeg").as_posix()
             await asyncio.to_thread(resize_thumbnail, thumbnail)
 
-        uploader = info.get("artist") or info.get("uploader", "")
+        info["thumbnail"] = thumbnail
+        info["uploader"] = info.get("artist") or info.get("uploader", "")
 
-        return VideoInfo(
-            title=info.get("title", ""),
-            video_id=info.get("id", ""),
-            thumbnail=thumbnail,
-            url=info.get("webpage_url", ""),
-            duration=info.get("duration", 0),
-            view_count=info.get("view_count", 0),
-            like_count=info.get("like_count", 0),
-            uploader=uploader,
-            height=info.get("height", 0),
-            width=info.get("width", 0),
-        )
+        return VideoInfo.model_validate(info)
 
 
 class YtdlpManager:
@@ -121,7 +111,7 @@ class YtdlpManager:
         ytdl = YTDL(download=True)
         info = await ytdl._download(url, options)
 
-        self.thumbnail_path = info.thumbnail
+        self.thumbnail_path = info.thumbnail.as_posix() if info.thumbnail else None
         self.file_path = ytdl.file_path
 
         return info

@@ -16,8 +16,9 @@ from korone.decorators import router
 from korone.filters import Regex
 from korone.handlers.abstract import MessageHandler
 from korone.modules.medias.utils.cache import MediaCache
+from korone.modules.medias.utils.files import resize_thumbnail, url_to_bytes_io
 from korone.modules.medias.utils.twitter import (
-    TweetData,
+    Tweet,
     TweetMedia,
     TweetMediaVariants,
     TwitterAPI,
@@ -34,7 +35,7 @@ class TwitterMessageHandler(MessageHandler):
         if not media.variants:
             return None
 
-        return max(media.variants, key=lambda variant: variant.bitrate)
+        return max(media.variants, key=lambda variant: variant.bitrate or 0)
 
     @staticmethod
     def create_media_list(media_cache: dict, text: str) -> list[InputMediaPhoto | InputMediaVideo]:
@@ -60,26 +61,32 @@ class TwitterMessageHandler(MessageHandler):
         return media_list
 
     async def process_media(self, media: TweetMedia) -> InputMediaPhoto | InputMediaVideo | None:
-        if media.type == "photo":
-            return InputMediaPhoto(media.binary_io)
+        if media.media_type == "photo":
+            media_file = await url_to_bytes_io(media.url, video=False)
+            return InputMediaPhoto(media_file)
 
-        if media.type in {"video", "gif"}:
-            media_file = self.get_best_variant(media) or media
+        if media.media_type in {"video", "gif"}:
+            best_media = self.get_best_variant(media) or media
+            media_file = await url_to_bytes_io(best_media.url, video=True)
+            thumb_file = None
+            if media.thumbnail_url:
+                thumb_file = await url_to_bytes_io(media.thumbnail_url, video=True)
+                await asyncio.to_thread(resize_thumbnail, thumb_file)
             duration = int(timedelta(milliseconds=media.duration).total_seconds())
 
             return InputMediaVideo(
-                media=media_file.binary_io,
+                media=media_file,
                 duration=duration,
                 width=media.width,
                 height=media.height,
-                thumb=media.thumbnail_io,
+                thumb=thumb_file,
             )
         return None
 
     async def handle_multiple_media(
-        self, client: Client, message: Message, tweet: TweetData, text: str
+        self, client: Client, message: Message, tweet: Tweet, text: str
     ) -> None:
-        cache = MediaCache(tweet.url)
+        cache = MediaCache(str(tweet.url))
         media_cache = await cache.get()
 
         if media_cache:
@@ -92,7 +99,7 @@ class TwitterMessageHandler(MessageHandler):
 
         process_media_partial = partial(self.process_media)
 
-        media_tasks = [process_media_partial(media) for media in tweet.media]
+        media_tasks = [process_media_partial(media) for media in tweet.media.all_medias]
 
         media_list = []
         for coro in asyncio.as_completed(media_tasks):
@@ -116,32 +123,35 @@ class TwitterMessageHandler(MessageHandler):
         message: Message,
         media: TweetMedia,
         text: str,
-        tweet: TweetData,
+        tweet: Tweet,
         cache_data: dict | None,
     ) -> Message | None:
-        keyboard = InlineKeyboardBuilder().button(text=_("Open in Twitter"), url=tweet.url)
+        keyboard = InlineKeyboardBuilder().button(text=_("Open in Twitter"), url=str(tweet.url))
 
-        media_file = media.binary_io
         duration = (
             int(timedelta(milliseconds=media.duration).total_seconds()) if media.duration else 0
         )
         width = media.width
         height = media.height
-        thumb = media.thumbnail_io
+        thumb = media.thumbnail_url
 
         if cache_data:
-            if media.type == "photo" and cache_data.get("photo"):
-                media_file = cache_data["photo"][0].get("file", media_file)
-            elif media.type in {"video", "gif"} and cache_data.get("video"):
+            if media.media_type == "photo" and cache_data.get("photo"):
+                media_file = cache_data["photo"][0].get(
+                    "file", await url_to_bytes_io(media.url, video=False)
+                )
+            elif media.media_type in {"video", "gif"} and cache_data.get("video"):
                 video_data = cache_data["video"][0]
-                media_file = video_data.get("file", media_file)
+                media_file = video_data.get("file", await url_to_bytes_io(media.url, video=True))
                 duration = video_data.get("duration", duration)
                 width = video_data.get("width", width)
                 height = video_data.get("height", height)
                 thumb = video_data.get("thumbnail", thumb)
 
         try:
-            if media.type == "photo":
+            if media.media_type == "photo":
+                media_file = await url_to_bytes_io(media.url, video=False)
+
                 if not media_file:
                     await message.reply(_("Failed to send media!"))
                     return None
@@ -156,10 +166,16 @@ class TwitterMessageHandler(MessageHandler):
                         reply_markup=keyboard.as_markup(),
                         reply_to_message_id=message.id,
                     )
-            if media.type in {"video", "gif"}:
+            if media.media_type in {"video", "gif"}:
+                media_file = await url_to_bytes_io(media.url, video=True)
                 if not media_file:
                     await message.reply(_("Failed to send media!"))
                     return None
+
+                thumb_file = None
+                if media.thumbnail_url:
+                    thumb_file = await url_to_bytes_io(media.thumbnail_url, video=True)
+                    await asyncio.to_thread(resize_thumbnail, thumb_file)
 
                 async with ChatActionSender(
                     client=client, chat_id=message.chat.id, action=ChatAction.UPLOAD_VIDEO
@@ -173,15 +189,15 @@ class TwitterMessageHandler(MessageHandler):
                         duration=duration,
                         width=width,
                         height=height,
-                        thumb=thumb,
+                        thumb=thumb_file,
                         reply_to_message_id=message.id,
                     )
-        except Exception as e:
-            await message.reply(_("Failed to send media: {error}").format(error=e))
+        except Exception:
+            raise
         return None
 
     @staticmethod
-    def format_tweet_text(tweet: TweetData) -> str:
+    def format_tweet_text(tweet: Tweet) -> str:
         text = (
             f"<b>{tweet.author.name} (<code>@{tweet.author.screen_name}</code>)"
             f"{":" if tweet.text else ""}</b>\n"
@@ -202,11 +218,9 @@ class TwitterMessageHandler(MessageHandler):
         api = TwitterAPI(url_match.group())
 
         try:
-            await api.fetch_and_parse()
+            tweet = await api.fetch()
         except TwitterError:
             return
-
-        tweet = api.tweet
 
         if not tweet:
             return
@@ -216,19 +230,19 @@ class TwitterMessageHandler(MessageHandler):
 
         text = self.format_tweet_text(tweet)
 
-        if len(tweet.media) > 1:
-            text += f"\n<a href='{tweet.url}'>{_("Open in Twitter")}</a>"
+        if len(tweet.media.all_medias) > 1:
+            text += f"\n<a href='{tweet.url!s}'>{_("Open in Twitter")}</a>"
             await self.handle_multiple_media(client, message, tweet, text)
             return
 
-        cache = MediaCache(tweet.url)
+        cache = MediaCache(str(tweet.url))
         cache_data = await cache.get()
         try:
             sent_message = await self.send_media(
-                client, message, tweet.media[0], text, tweet, cache_data
+                client, message, tweet.media.all_medias[0], text, tweet, cache_data
             )
-        except Exception as e:
-            await message.reply(_("Failed to send media: {error}").format(error=e))
+        except Exception:
+            raise
         else:
             cache_ttl = int(timedelta(weeks=1).total_seconds())
             await cache.set(sent_message, cache_ttl) if sent_message else None

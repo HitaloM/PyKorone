@@ -6,7 +6,7 @@ from pydantic import BaseModel, Field, HttpUrl
 
 class Node(BaseModel):
     typename: str | None = Field(alias="__typename", default=None)
-    id: str | None = None
+    media_id: str | None = Field(alias="id", default=None)
     shortcode: str | None = None
     text: str | None = None
     commenter_count: int | None = None
@@ -83,7 +83,7 @@ class InstaFixData(BaseModel):
     provider_name: str
     provider_url: HttpUrl
     title: str
-    type: str
+    media_type: str = Field(alias="type")
     version: str
     video_url: HttpUrl
     username: str

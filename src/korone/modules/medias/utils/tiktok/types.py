@@ -1,24 +1,21 @@
 # SPDX-License-Identifier: BSD-3-Clause
 # Copyright (c) 2024 Hitalo M. <https://github.com/HitaloM>
 
-from dataclasses import dataclass
-from typing import BinaryIO
+from pydantic import BaseModel, HttpUrl
 
 
-@dataclass(frozen=True, slots=True)
-class TikTokSlideshow:
+class TikTokSlideshow(BaseModel):
     author: str
     desc: str
-    images: list[BinaryIO]
-    music_url: str
+    images: list[HttpUrl]
+    music_url: HttpUrl
 
 
-@dataclass(frozen=True, slots=True)
-class TikTokVideo:
+class TikTokVideo(BaseModel):
     author: str
     desc: str
     width: int
     height: int
     duration: int
-    video_file: BinaryIO
-    thumbnail_file: BinaryIO
+    video_url: HttpUrl
+    thumbnail_url: HttpUrl

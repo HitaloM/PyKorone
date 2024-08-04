@@ -1,21 +1,18 @@
 # SPDX-License-Identifier: BSD-3-Clause
 # Copyright (c) 2024 Hitalo M. <https://github.com/HitaloM>
 
-import asyncio
-import io
-import random
-import string
 from datetime import timedelta
 from pathlib import Path
-from typing import BinaryIO
 
 import httpx
 
 from korone import cache
-from korone.modules.medias.utils.files import resize_thumbnail
-from korone.modules.medias.utils.tiktok.errors import TikTokError
 from korone.modules.medias.utils.tiktok.types import TikTokSlideshow, TikTokVideo
 from korone.utils.logging import logger
+
+
+class TikTokError(Exception):
+    pass
 
 
 class TikTokClient:
@@ -34,27 +31,10 @@ class TikTokClient:
                 return response
             except httpx.HTTPStatusError as e:
                 msg = f"HTTP error: {e.response.status_code}"
-                raise TikTokError(msg, e.response.status_code) from e
+                raise TikTokError(msg) from e
             except httpx.RequestError as e:
                 msg = f"Request error: {e.request.url}"
                 raise TikTokError(msg) from e
-
-    @staticmethod
-    @cache(ttl=timedelta(weeks=1), key="tiktok_binary:{url}")
-    async def _url_to_binary_io(url: str, video: bool = True) -> BinaryIO:
-        try:
-            async with httpx.AsyncClient(http2=True) as client:
-                response = await client.get(url)
-                response.raise_for_status()
-                content = await response.aread()
-        except httpx.HTTPError as err:
-            await logger.aexception(f"Error fetching media data: {err}")
-            raise TikTokError from err
-
-        file = io.BytesIO(content)
-        random_suffix = "".join(random.choices(string.ascii_letters + string.digits, k=8))
-        file.name = f"tiktok-{random_suffix}.{"mp4" if video else "jpeg"}"
-        return file
 
     @cache(ttl=timedelta(weeks=1), key="tiktok_data:{media_id}")
     async def _fetch_tiktok_data(self, media_id: str) -> dict:
@@ -83,43 +63,26 @@ class TikTokClient:
 
         return api_response.json() if api_response.status_code == 200 else {}
 
-    async def _process_slideshow(self, aweme: dict, aweme_dict: dict) -> TikTokSlideshow:
-        image_urls = [
+    @staticmethod
+    async def _process_slideshow(aweme: dict, aweme_dict: dict) -> TikTokSlideshow:
+        images = [
             image["display_image"]["url_list"][0] for image in aweme["image_post_info"]["images"]
         ]
         music_url = aweme["music"]["play_url"]["uri"]
-        aweme_dict["image_urls"] = image_urls
-        aweme_dict["music_url"] = music_url
+        aweme_dict.update({"images": images, "music_url": music_url})
 
-        images_binary: list[BinaryIO] = []
-        for image_url in image_urls:
-            image_binary = await self._url_to_binary_io(image_url, video=False)
-            images_binary.append(image_binary)
+        return TikTokSlideshow(**aweme_dict)
 
-        return TikTokSlideshow(
-            author=aweme_dict["author"],
-            desc=aweme_dict["desc"],
-            images=images_binary,
-            music_url=aweme_dict["music_url"],
-        )
-
-    async def _process_video(self, aweme: dict, aweme_dict: dict) -> TikTokVideo:
-        video_url = aweme["video"]["play_addr"]["url_list"][0]
-        thumbnail_url = aweme["video"]["cover"]["url_list"][0]
-
-        video_file = await self._url_to_binary_io(video_url)
-        thumbnail_file = await self._url_to_binary_io(thumbnail_url, video=False)
-
-        await asyncio.to_thread(resize_thumbnail, thumbnail_file)
-
+    @staticmethod
+    async def _process_video(aweme: dict, aweme_dict: dict) -> TikTokVideo:
         return TikTokVideo(
             author=aweme_dict["author"],
             desc=aweme_dict["desc"],
             width=aweme["video"]["play_addr"]["width"],
             height=aweme["video"]["play_addr"]["height"],
             duration=aweme["video"]["duration"],
-            video_file=video_file,
-            thumbnail_file=thumbnail_file,
+            video_url=aweme["video"]["play_addr"]["url_list"][0],
+            thumbnail_url=aweme["video"]["cover"]["url_list"][0],
         )
 
     async def get(self) -> TikTokSlideshow | TikTokVideo | None:

@@ -1,6 +1,7 @@
 # SPDX-License-Identifier: BSD-3-Clause
 # Copyright (c) 2024 Hitalo M. <https://github.com/HitaloM>
 
+import asyncio
 import re
 from datetime import timedelta
 
@@ -15,6 +16,7 @@ from korone.decorators import router
 from korone.filters import Regex
 from korone.handlers.abstract import MessageHandler
 from korone.modules.medias.utils.cache import MediaCache
+from korone.modules.medias.utils.files import resize_thumbnail, url_to_bytes_io
 from korone.modules.medias.utils.tiktok import (
     TikTokClient,
     TikTokError,
@@ -47,7 +49,9 @@ class TikTokHandler(MessageHandler):
     ) -> None:
         cache = MediaCache(media_id)
         cache_data = await cache.get()
-        media_file, duration, width, height, thumb = self.get_video_details(media, cache_data)
+        media_file, duration, width, height, thumb = await self.get_video_details(
+            media, cache_data
+        )
 
         try:
             sent_message = await client.send_video(
@@ -74,7 +78,7 @@ class TikTokHandler(MessageHandler):
     ) -> None:
         cache = MediaCache(media_id)
         cache_data = await cache.get()
-        media_list = self.get_slideshow_details(media, cache_data, message.text)
+        media_list = await self.get_slideshow_details(media, cache_data, message.text)
 
         if len(media_list) == 1:
             try:
@@ -97,24 +101,29 @@ class TikTokHandler(MessageHandler):
         await cache.set(sent_message, cache_ttl) if sent_message else None
 
     @staticmethod
-    def get_video_details(media: TikTokVideo, cache_data: dict | None):
-        media_file = media.video_file
+    async def get_video_details(media: TikTokVideo, cache_data: dict | None):
+        media_file = await url_to_bytes_io(media.video_url, video=True)
+        thumb_file = await url_to_bytes_io(media.thumbnail_url, video=False)
         duration = (
             int(timedelta(milliseconds=media.duration).total_seconds()) if media.duration else 0
         )
-        width, height, thumb = media.width, media.height, media.thumbnail_file
+        width, height = media.width, media.height
 
         if cache_data:
             video_data = cache_data.get("video", [{}])[0]
-            media_file = video_data.get("file", media.video_file)
+            media_file = video_data.get("file", media_file)
             duration = video_data.get("duration", duration)
             width = video_data.get("width", width)
             height = video_data.get("height", height)
-            thumb = video_data.get("thumbnail", thumb)
+            thumb_file = video_data.get("thumbnail", thumb_file)
+            return media_file, duration, width, height, thumb_file
 
-        return media_file, duration, width, height, thumb
+        await asyncio.to_thread(resize_thumbnail, thumb_file)
+        return media_file, duration, width, height, thumb_file
 
-    def get_slideshow_details(self, media, cache_data, original_url):
+    async def get_slideshow_details(
+        self, media: TikTokSlideshow, cache_data: dict | None, original_url: str
+    ):
         if cache_data:
             media_list = [
                 InputMediaPhoto(media["file"]) for media in cache_data.get("photo", [])
@@ -129,7 +138,10 @@ class TikTokHandler(MessageHandler):
                 for media in cache_data.get("video", [])
             ]
         else:
-            media_list = [InputMediaPhoto(media) for media in media.images]
+            media_list = [
+                InputMediaPhoto(await url_to_bytes_io(media, video=False))
+                for media in media.images
+            ]
 
         if len(media_list) > 1:
             caption = (

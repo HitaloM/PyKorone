@@ -164,7 +164,7 @@ class GetYouTubeHandler(CallbackQueryHandler):
                         caption=caption,
                         no_sound=True,
                         duration=yt.duration,
-                        thumb=yt.thumbnail,
+                        thumb=yt.thumbnail.as_posix() if yt.thumbnail else None,
                         height=yt.height,
                         width=yt.width,
                     )
@@ -176,7 +176,7 @@ class GetYouTubeHandler(CallbackQueryHandler):
                         duration=yt.duration,
                         performer=yt.uploader,
                         title=yt.title,
-                        thumb=yt.thumbnail,
+                        thumb=yt.thumbnail.as_posix() if yt.thumbnail else None,
                     )
             await message.delete()
         except Exception:
