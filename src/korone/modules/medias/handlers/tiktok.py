@@ -4,13 +4,14 @@
 import asyncio
 import re
 from datetime import timedelta
+from io import BytesIO
 
 import httpx
 from hairydogm.chat_action import ChatActionSender
 from hairydogm.keyboard import InlineKeyboardBuilder
 from hydrogram import Client
 from hydrogram.enums import ChatAction
-from hydrogram.types import InputMediaPhoto, InputMediaVideo, Message
+from hydrogram.types import InlineKeyboardMarkup, InputMediaPhoto, InputMediaVideo, Message
 
 from korone.decorators import router
 from korone.filters import Regex
@@ -53,21 +54,20 @@ class TikTokHandler(MessageHandler):
             media, cache_data
         )
 
-        try:
-            sent_message = await client.send_video(
-                chat_id=message.chat.id,
-                video=media_file,
-                caption=self.format_text(media),
-                no_sound=True,
-                duration=duration,
-                width=width,
-                height=height,
-                thumb=thumb,
-                reply_markup=self.build_keyboard(message.text),
-                reply_to_message_id=message.id,
-            )
-        except Exception as e:
-            await message.reply(_("Failed to send media: {error}").format(error=e))
+        sent_message = await client.send_video(
+            chat_id=message.chat.id,
+            video=media_file,
+            caption=self.format_text(media),
+            no_sound=True,
+            duration=duration,
+            width=width,
+            height=height,
+            thumb=thumb,
+            reply_markup=self.build_keyboard(message.text),
+            reply_to_message_id=message.id,
+        )
+
+        if not sent_message:
             return
 
         cache_ttl = int(timedelta(weeks=1).total_seconds())
@@ -81,32 +81,27 @@ class TikTokHandler(MessageHandler):
         media_list = await self.get_slideshow_details(media, cache_data, message.text)
 
         if len(media_list) == 1:
-            try:
-                sent_message = await message.reply_photo(
-                    media_list[0].media,
-                    caption=self.format_text(media),
-                    reply_markup=self.build_keyboard(message.text),
-                )
-            except Exception as e:
-                await message.reply(_("Failed to send media: {error}").format(error=e))
-                return
+            sent_message = await message.reply_photo(
+                media_list[0].media,
+                caption=self.format_text(media),
+                reply_markup=self.build_keyboard(message.text),
+            )
         else:
-            try:
-                sent_message = await message.reply_media_group(media_list)  # type: ignore
-            except Exception as e:
-                await message.reply(_("Failed to send media: {error}").format(error=e))
-                return
+            sent_message = await message.reply_media_group(media_list)  # type: ignore
+
+        if not sent_message:
+            return
 
         cache_ttl = int(timedelta(weeks=1).total_seconds())
         await cache.set(sent_message, cache_ttl) if sent_message else None
 
     @staticmethod
-    async def get_video_details(media: TikTokVideo, cache_data: dict | None):
+    async def get_video_details(
+        media: TikTokVideo, cache_data: dict | None
+    ) -> tuple[BytesIO, int, int, int, BytesIO]:
         media_file = await url_to_bytes_io(media.video_url, video=True)
         thumb_file = await url_to_bytes_io(media.thumbnail_url, video=False)
-        duration = (
-            int(timedelta(milliseconds=media.duration).total_seconds()) if media.duration else 0
-        )
+        duration = int(timedelta(milliseconds=media.duration).total_seconds())
         width, height = media.width, media.height
 
         if cache_data:
@@ -153,7 +148,7 @@ class TikTokHandler(MessageHandler):
         return media_list
 
     @staticmethod
-    def build_keyboard(url: str):
+    def build_keyboard(url: str) -> InlineKeyboardMarkup:
         return InlineKeyboardBuilder().button(text=_("Open in TikTok"), url=url).as_markup()
 
     @router.message(Regex(URL_PATTERN))

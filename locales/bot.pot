@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PyKorone 1.0\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-08-04 00:11-0300\n"
+"POT-Creation-Date: 2024-08-05 01:51-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -506,28 +506,17 @@ msgstr ""
 msgid "Open in Instagram"
 msgstr ""
 
-#: src/korone/modules/medias/handlers/tiktok.py:70
-#: src/korone/modules/medias/handlers/tiktok.py:91
-#: src/korone/modules/medias/handlers/tiktok.py:97
-msgid "Failed to send media: {error}"
-msgstr ""
-
-#: src/korone/modules/medias/handlers/tiktok.py:149
-#: src/korone/modules/medias/handlers/tiktok.py:157
+#: src/korone/modules/medias/handlers/tiktok.py:144
+#: src/korone/modules/medias/handlers/tiktok.py:152
 msgid "Open in TikTok"
 msgstr ""
 
-#: src/korone/modules/medias/handlers/twitter.py:129
-#: src/korone/modules/medias/handlers/twitter.py:234
+#: src/korone/modules/medias/handlers/twitter.py:112
+#: src/korone/modules/medias/handlers/twitter.py:199
 msgid "Open in Twitter"
 msgstr ""
 
-#: src/korone/modules/medias/handlers/twitter.py:156
-#: src/korone/modules/medias/handlers/twitter.py:172
-msgid "Failed to send media!"
-msgstr ""
-
-#: src/korone/modules/medias/handlers/twitter.py:209
+#: src/korone/modules/medias/handlers/twitter.py:180
 msgid ""
 "\n"
 "<b>Sent from:</b> <i>{source}</i>"
@@ -553,55 +542,55 @@ msgstr ""
 msgid "<b>Duration:</b> {seconds}s\n"
 msgstr ""
 
-#: src/korone/modules/medias/handlers/youtube.py:62
+#: src/korone/modules/medias/handlers/youtube.py:60
 msgid "<b>Views:</b> {view_count}\n"
 msgstr ""
 
 #: src/korone/modules/medias/handlers/youtube.py:63
+msgid "<b>Likes:</b> Unknown\n"
+msgstr ""
+
+#: src/korone/modules/medias/handlers/youtube.py:66
 msgid "<b>Likes:</b> {like_count}\n"
 msgstr ""
 
-#: src/korone/modules/medias/handlers/youtube.py:71
+#: src/korone/modules/medias/handlers/youtube.py:74
 msgid "Download video"
 msgstr ""
 
-#: src/korone/modules/medias/handlers/youtube.py:75
+#: src/korone/modules/medias/handlers/youtube.py:78
 msgid "Download audio"
 msgstr ""
 
-#: src/korone/modules/medias/handlers/youtube.py:90
+#: src/korone/modules/medias/handlers/youtube.py:93
 msgid "No YouTube URL found in the replied message."
 msgstr ""
 
-#: src/korone/modules/medias/handlers/youtube.py:97
+#: src/korone/modules/medias/handlers/youtube.py:100
 msgid ""
 "You need to provide a URL or reply to a message that contains a URL. "
 "Example: <code>/ytdl https://www.youtube.com/watch?v=dQw4w9WgXcQ</code>"
 msgstr ""
 
-#: src/korone/modules/medias/handlers/youtube.py:105
+#: src/korone/modules/medias/handlers/youtube.py:108
 msgid "Invalid YouTube URL!"
 msgstr ""
 
-#: src/korone/modules/medias/handlers/youtube.py:115
+#: src/korone/modules/medias/handlers/youtube.py:118
 msgid "Failed to extract video info!"
 msgstr ""
 
-#: src/korone/modules/medias/handlers/youtube.py:134
+#: src/korone/modules/medias/handlers/youtube.py:137
 msgid "Downloading..."
 msgstr ""
 
-#: src/korone/modules/medias/handlers/youtube.py:145
-#: src/korone/modules/medias/handlers/youtube.py:151
+#: src/korone/modules/medias/handlers/youtube.py:148
+#: src/korone/modules/medias/handlers/youtube.py:154
 msgid "Failed to download the media."
 msgstr ""
 
-#: src/korone/modules/medias/handlers/youtube.py:154
+#: src/korone/modules/medias/handlers/youtube.py:157
 msgid "Uploading..."
-msgstr ""
-
-#: src/korone/modules/medias/handlers/youtube.py:183
-msgid "Failed to send the media."
 msgstr ""
 
 #: src/korone/modules/pm_menu/handlers/about.py:28

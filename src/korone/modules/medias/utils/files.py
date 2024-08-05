@@ -6,16 +6,16 @@ import string
 from datetime import timedelta
 from io import BytesIO
 from pathlib import Path
+from typing import BinaryIO
 
 import httpx
 from PIL import Image
 from pydantic import HttpUrl
 
 from korone import cache
-from korone.utils.logging import logger
 
 
-def resize_thumbnail(thumbnail_path: str | BytesIO) -> None:
+def resize_thumbnail(thumbnail_path: str | BytesIO | BinaryIO) -> None:
     with Image.open(thumbnail_path) as img:
         original_width, original_height = img.size
         aspect_ratio = original_width / original_height
@@ -54,8 +54,7 @@ async def url_to_bytes_io(url: HttpUrl, *, video: bool) -> BytesIO:
             response = await client.get(str(url))
             response.raise_for_status()
             content = await response.aread()
-    except httpx.HTTPError as err:
-        await logger.aexception("Error fetching URL: %s", err)
+    except httpx.HTTPError:
         raise
 
     file = BytesIO(content)

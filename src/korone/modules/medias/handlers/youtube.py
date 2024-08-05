@@ -57,10 +57,13 @@ class YouTubeHandler(MessageHandler):
         locale = get_i18n().current_locale
 
         view_count = format_number(yt_info.view_count, locale=locale)
-        like_count = format_number(yt_info.like_count, locale=locale)
-
         text += _("<b>Views:</b> {view_count}\n").format(view_count=view_count)
-        text += _("<b>Likes:</b> {like_count}\n").format(like_count=like_count)
+
+        if yt_info.like_count is None:
+            text += _("<b>Likes:</b> Unknown\n")
+        else:
+            like_count = format_number(yt_info.like_count, locale=locale)
+            text += _("<b>Likes:</b> {like_count}\n").format(like_count=like_count)
 
         return text
 
@@ -179,8 +182,6 @@ class GetYouTubeHandler(CallbackQueryHandler):
                         thumb=yt.thumbnail.as_posix() if yt.thumbnail else None,
                     )
             await message.delete()
-        except Exception:
-            await message.edit(_("Failed to send the media."))
         finally:
             ytdl.clear()
 

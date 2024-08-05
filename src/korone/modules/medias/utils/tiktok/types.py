@@ -16,6 +16,6 @@ class TikTokVideo(BaseModel):
     desc: str
     width: int
     height: int
-    duration: int
+    duration: int = 0
     video_url: HttpUrl
     thumbnail_url: HttpUrl

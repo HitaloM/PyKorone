@@ -9,9 +9,20 @@ from typing import Any
 import yt_dlp
 
 from korone.modules.medias.utils.files import resize_thumbnail
-from korone.modules.medias.utils.youtube.errors import DownloadError, InfoExtractionError
 from korone.modules.medias.utils.youtube.types import VideoInfo
 from korone.utils.logging import logger
+
+
+class YTDLError(Exception):
+    pass
+
+
+class DownloadError(YTDLError):
+    pass
+
+
+class InfoExtractionError(YTDLError):
+    pass
 
 
 class YTDL:
