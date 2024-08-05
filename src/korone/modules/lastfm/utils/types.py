@@ -13,10 +13,20 @@ class LastFMImage(BaseModel):
 
 class LastFMArtist(BaseModel):
     name: str
-    playcount: int = 0
+    playcount: int = Field(default=0, alias="stats")
     loved: int | None = None
     images: list[LastFMImage] | None = Field(default=None, alias="image")
     tags: list[str] | None = None
+
+    @field_validator("playcount", mode="before")
+    @classmethod
+    def validate_playcount(cls, v: Any) -> int:
+        if isinstance(v, dict):
+            if "userplaycount" in v:
+                return int(v["userplaycount"])
+            if "playcount" in v:
+                return int(v["playcount"])
+        return 0
 
     @field_validator("tags", mode="before")
     @classmethod
