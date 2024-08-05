@@ -13,10 +13,23 @@ class LastFMImage(BaseModel):
 
 class LastFMArtist(BaseModel):
     name: str
-    playcount: int = Field(default=0, alias="stats")
+    playcount: int = 0
     loved: int | None = None
     images: list[LastFMImage] | None = Field(default=None, alias="image")
     tags: list[str] | None = None
+
+    @model_validator(mode="before")
+    @classmethod
+    def handle_aliases(cls, values: dict[str, Any]) -> dict[str, Any]:
+        aliases = {"playcount": ["userplaycount", "playcount", "stats"]}
+
+        for field, possible_aliases in aliases.items():
+            for alias in possible_aliases:
+                if alias in values:
+                    values[field] = values.pop(alias)
+                    break
+
+        return values
 
     @field_validator("playcount", mode="before")
     @classmethod
@@ -26,6 +39,8 @@ class LastFMArtist(BaseModel):
                 return int(v["userplaycount"])
             if "playcount" in v:
                 return int(v["playcount"])
+        elif isinstance(v, str | int):
+            return int(v)
         return 0
 
     @field_validator("tags", mode="before")
