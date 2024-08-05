@@ -1,33 +1,13 @@
 # SPDX-License-Identifier: BSD-3-Clause
 # Copyright (c) 2024 Hitalo M. <https://github.com/HitaloM>
 
-from dataclasses import dataclass
-
 import httpx
+
+from korone.modules.lastfm.utils.types import DeezerArtist, DeezerImage
 
 
 class DeezerError(Exception):
     pass
-
-
-@dataclass(slots=True, frozen=True)
-class DeezerImage:
-    url: str
-
-    @classmethod
-    def from_dict(cls, data: dict, size: str = "xl"):
-        return cls(url=data.get(f"picture_{size}", data.get(f"cover_{size}", "")))
-
-
-@dataclass(slots=True, frozen=True)
-class DeezerArtist:
-    id: int
-    name: str
-    image: DeezerImage
-
-    @classmethod
-    def from_dict(cls, data: dict):
-        return cls(id=data["id"], name=data["name"], image=DeezerImage.from_dict(data))
 
 
 class DeezerClient:
@@ -54,6 +34,15 @@ class DeezerClient:
         }
         data = await self._request("search/artist", params)
         if data["type"] == "artist":
-            return DeezerArtist.from_dict(data)
+            return DeezerArtist(
+                id=data["id"],
+                name=data["name"],
+                image=DeezerImage(
+                    url=data.get(
+                        "picture_xl",
+                        data.get("cover_xl", ""),
+                    ),
+                ),
+            )
         msg = "No artist found"
         raise DeezerError(msg)

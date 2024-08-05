@@ -9,8 +9,8 @@ import httpx
 from PIL import Image, ImageDraw, ImageFont
 
 from korone import cache
-from korone.modules.lastfm.utils.api import LastFMAlbum
 from korone.modules.lastfm.utils.image_filter import get_biggest_lastfm_image
+from korone.modules.lastfm.utils.types import LastFMAlbum
 from korone.utils.logging import logger
 
 
@@ -84,7 +84,7 @@ async def create_album_collage(
     async def process_image(index: int, item: LastFMAlbum, img: Image.Image) -> None:
         img = img.resize((thumb_size, thumb_size), Image.Resampling.LANCZOS)
         if font and show_text:
-            text = f"{item.artist}\n{item.name}\n{item.playcount} plays"
+            text = f"{item.artist.name}\n{item.name}\n{item.playcount} plays"  # type: ignore
             await add_text_to_image(img, text, font)
 
         x, y = (index % cols) * thumb_size, (index // cols) * thumb_size

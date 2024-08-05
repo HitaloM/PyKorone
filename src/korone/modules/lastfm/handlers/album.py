@@ -38,7 +38,9 @@ class LastFMPlayingAlbumHandler(MessageHandler):
         try:
             last_played = (await last_fm.get_recent_tracks(last_fm_user, limit=1))[0]
             album_info = await last_fm.get_album_info(
-                last_played.artist, last_played.album, last_fm_user
+                last_played.artist.name,
+                last_played.album.name,  # type: ignore
+                last_fm_user,
             )
         except LastFMError as e:
             error_message = str(e)
@@ -60,7 +62,7 @@ class LastFMPlayingAlbumHandler(MessageHandler):
             text = _("{user}'s was listening to:\n").format(user=user_link)
 
         text += "💽 <i>{album_artist}</i> — <b>{album_name}</b>{loved}{time}{plays}".format(
-            album_artist=album_info.artist,
+            album_artist=album_info.artist.name,  # type: ignore
             album_name=album_info.name,
             loved=_(", ❤️ loved") if album_info.loved else "",
             time="" if last_played.now_playing else get_time_elapsed_str(last_played),

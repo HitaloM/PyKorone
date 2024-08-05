@@ -1,13 +1,7 @@
 # SPDX-License-Identifier: BSD-3-Clause
 # Copyright (c) 2024 Hitalo M. <https://github.com/HitaloM>
 
-from korone.modules.lastfm.utils.api import (
-    LastFMClient,
-    LastFMError,
-    LastFMImage,
-    LastFMTrack,
-    TimePeriod,
-)
+from korone.modules.lastfm.utils.api import LastFMClient, LastFMError, TimePeriod
 from korone.modules.lastfm.utils.collage_generator import create_album_collage
 from korone.modules.lastfm.utils.deezer_api import DeezerClient, DeezerError
 from korone.modules.lastfm.utils.formatters import (
@@ -18,6 +12,7 @@ from korone.modules.lastfm.utils.formatters import (
 )
 from korone.modules.lastfm.utils.image_filter import get_biggest_lastfm_image
 from korone.modules.lastfm.utils.parse_collage import EntryType, parse_collage_arg
+from korone.modules.lastfm.utils.types import LastFMImage, LastFMTrack
 
 __all__ = (
     "DeezerClient",

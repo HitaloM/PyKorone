@@ -38,7 +38,7 @@ class LastFMPlayingArtistHandler(MessageHandler):
 
         try:
             last_played = (await last_fm.get_recent_tracks(last_fm_user, limit=1))[0]
-            artist_info = await last_fm.get_artist_info(last_played.artist, last_fm_user)
+            artist_info = await last_fm.get_artist_info(last_played.artist.name, last_fm_user)
         except LastFMError as e:
             error_message = str(e)
             if error_message == "User not found":
@@ -58,7 +58,7 @@ class LastFMPlayingArtistHandler(MessageHandler):
         else:
             text = _("{user}'s was listening to:\n").format(user=user_link)
 
-        text += "<b>{artist_name}</b>{loved}{time}{plays}".format(
+        text += "👨‍🎤 <b>{artist_name}</b>{loved}{time}{plays}".format(
             artist_name=artist_info.name,
             loved=_(", ❤️ loved") if artist_info.loved else "",
             time="" if last_played.now_playing else get_time_elapsed_str(last_played),

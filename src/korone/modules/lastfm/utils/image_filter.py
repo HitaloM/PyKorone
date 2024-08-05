@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: BSD-3-Clause
 # Copyright (c) 2024 Hitalo M. <https://github.com/HitaloM>
 
-from korone.modules.lastfm.utils.api import LastFMAlbum, LastFMTrack, LastFMUser
+from korone.modules.lastfm.utils.types import LastFMAlbum, LastFMTrack, LastFMUser
 
 
 def get_biggest_lastfm_image(lfm_obj: LastFMAlbum | LastFMTrack | LastFMUser) -> str | None:

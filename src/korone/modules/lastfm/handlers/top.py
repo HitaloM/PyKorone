@@ -91,7 +91,7 @@ class LastFMTopHandler(MessageHandler):
         )
         for item in top_items:
             if isinstance(item, LastFMTrack):
-                text += f"{item.artist} — {item.name}"
+                text += f"{item.artist.name} — {item.name}"
             else:
                 text += item.name
 

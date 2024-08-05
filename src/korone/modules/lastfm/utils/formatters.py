@@ -6,7 +6,8 @@ from html import escape
 from pathlib import Path
 
 from korone import app_dir
-from korone.modules.lastfm.utils.api import LastFMAlbum, LastFMArtist, LastFMTrack, TimePeriod
+from korone.modules.lastfm.utils.api import TimePeriod
+from korone.modules.lastfm.utils.types import LastFMAlbum, LastFMArtist, LastFMTrack
 from korone.utils.i18n import gettext as _
 
 with Path(app_dir / "resources/misc/everynoise_genres.txt").open(encoding="utf-8") as file:
@@ -14,6 +15,9 @@ with Path(app_dir / "resources/misc/everynoise_genres.txt").open(encoding="utf-8
 
 
 def get_time_elapsed_str(track: LastFMTrack) -> str:
+    if not track.played_at:
+        return ""
+
     played_at_datetime = datetime.fromtimestamp(track.played_at, tz=UTC)
     current_datetime = datetime.now(tz=UTC)
     time_elapsed = current_datetime - played_at_datetime

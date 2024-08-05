@@ -82,4 +82,4 @@ class LastFMRecentsHandler(MessageHandler):
     def format_track(track: LastFMTrack, now_playing: bool = False) -> str:
         time_elapsed_str = "" if now_playing else get_time_elapsed_str(track)
 
-        return f"🎧 <i>{track.artist}</i> — <b>{track.name}</b>{time_elapsed_str}"
+        return f"🎧 <i>{track.artist.name}</i> — <b>{track.name}</b>{time_elapsed_str}"
