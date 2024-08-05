@@ -155,10 +155,10 @@ async def load_module(client: Client, module_name: str, handlers: list[str]) -> 
             if not await register_handler(client, component):
                 await logger.adebug("Failed to register handler for module: %s", module_name)
                 return False
-    except ModuleNotFoundError as err:
+    except ModuleNotFoundError as e:
         msg = f"Could not load module: {module_name}"
         await logger.aerror(msg)
-        raise ModuleNotFoundError(msg) from err
+        raise ModuleNotFoundError(msg) from e
 
     await logger.adebug("Module loaded successfully: %s", module_name)
     return True

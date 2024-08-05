@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PyKorone 1.0\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-08-05 16:10-0300\n"
+"POT-Creation-Date: 2024-08-05 16:45-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -512,11 +512,11 @@ msgid "Open in TikTok"
 msgstr ""
 
 #: src/korone/modules/medias/handlers/twitter.py:49
-#: src/korone/modules/medias/handlers/twitter.py:146
+#: src/korone/modules/medias/handlers/twitter.py:158
 msgid "Open in Twitter"
 msgstr ""
 
-#: src/korone/modules/medias/handlers/twitter.py:212
+#: src/korone/modules/medias/handlers/twitter.py:227
 msgid ""
 "\n"
 "<b>Sent from:</b> <i>{source}</i>"

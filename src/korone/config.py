@@ -45,10 +45,10 @@ class ConfigManager:
             logger.info("Creating configuration directory")
             try:
                 config_path.parent.mkdir(parents=True, exist_ok=True)
-            except OSError as err:
-                logger.critical("Could not create configuration directory: %s", err)
+            except OSError as e:
+                logger.critical("Could not create configuration directory: %s", e)
                 msg = "Could not create configuration directory"
-                raise ConfigError(msg) from err
+                raise ConfigError(msg) from e
 
     @staticmethod
     def _create_config_file(config_path: Path) -> None:
@@ -57,10 +57,10 @@ class ConfigManager:
             try:
                 with config_path.open("w", encoding="utf-8") as file:
                     dump(constants.DEFAULT_CONFIG_TEMPLATE, file)
-            except OSError as err:
-                logger.critical("Could not create configuration file: %s", err)
+            except OSError as e:
+                logger.critical("Could not create configuration file: %s", e)
                 msg = "Could not create configuration file"
-                raise ConfigError(msg) from err
+                raise ConfigError(msg) from e
 
     @classmethod
     def get(cls, section: str, option: str, fallback: str = "") -> Any:

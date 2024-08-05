@@ -144,8 +144,8 @@ class GetYouTubeHandler(CallbackQueryHandler):
 
         try:
             yt = await download_method(url)
-        except DownloadError as err:
-            if "requested format is not available" in str(err).lower():
+        except DownloadError as e:
+            if "requested format is not available" in str(e).lower():
                 text = (
                     "Sorry, I am unable to download this media. "
                     "It may exceed the 300MB size limit."

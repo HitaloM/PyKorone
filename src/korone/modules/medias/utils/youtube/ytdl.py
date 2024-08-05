@@ -41,9 +41,9 @@ class YTDL:
                 if self.download:
                     self.file_path = Path(ydl.prepare_filename(info)).as_posix()
                 return info
-        except yt_dlp.DownloadError as err:
+        except yt_dlp.DownloadError as e:
             await logger.aexception("Error downloading content from '%s'", url)
-            raise DownloadError(err.msg) from err
+            raise DownloadError(e.msg) from e
 
     async def _download(self, url: str, options: dict[str, Any]) -> VideoInfo:
         self.options.update(options)
@@ -62,8 +62,8 @@ class YTDL:
         self.download = False
         try:
             info = await self.process_url(url)
-        except DownloadError as err:
-            raise InfoExtractionError(err) from err
+        except DownloadError as e:
+            raise InfoExtractionError(e) from e
 
         if not info:
             msg = "Failed to extract video info!"

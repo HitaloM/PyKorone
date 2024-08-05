@@ -39,9 +39,9 @@ class CommandObject:
     def extract(text: str) -> CommandObject:
         try:
             full_command, *args = text.split(maxsplit=1)
-        except ValueError as err:
+        except ValueError as e:
             msg = "Not enough values to unpack."
-            raise CommandError(msg) from err
+            raise CommandError(msg) from e
 
         prefix = full_command[0]
         command, _, mention = full_command[1:].partition("@")

@@ -82,13 +82,25 @@ class TwitterMessageHandler(MessageHandler):
             media_list[-1].caption = text
         return media_list
 
+    @staticmethod
+    def handle_http_error(e: httpx.HTTPStatusError) -> str | None:
+        error_response = None
+        if e.response.status_code == 403:
+            error_response = e.response.json().get("error_response")
+        if error_response == "Dmcaed" or e.response.status_code == 307:
+            return "https://pbs.twimg.com/static/dmca/dmca-med.jpg"
+        return None
+
     async def prepare_media(self, media: TweetMedia) -> InputMediaPhoto | InputMediaVideo | None:
         optimal_media = self.get_optimal_variant(media) or media
         try:
             media_file = await url_to_bytes_io(
                 optimal_media.url, video=media.media_type != "photo"
             )
-        except httpx.HTTPStatusError:
+        except httpx.HTTPStatusError as e:
+            media_file = self.handle_http_error(e)
+            if media_file:
+                return InputMediaPhoto(media_file)
             return None
 
         if media.media_type == "photo":
@@ -134,8 +146,8 @@ class TwitterMessageHandler(MessageHandler):
         if sent_message:
             await cache.set(sent_message, int(timedelta(weeks=1).total_seconds()))
 
-    @staticmethod
     async def send_media(  # noqa: PLR0917
+        self,
         client: Client,
         message: Message,
         media: TweetMedia,
@@ -171,8 +183,11 @@ class TwitterMessageHandler(MessageHandler):
                 if media.media_type in {"video", "gif"} and media.thumbnail_url:
                     thumb_file = await url_to_bytes_io(media.thumbnail_url, video=True)
                     await asyncio.to_thread(resize_thumbnail, thumb_file)
-            except httpx.HTTPStatusError:
-                return None
+            except httpx.HTTPStatusError as e:
+                media_file = self.handle_http_error(e)
+                if not media_file:
+                    return None
+                media.media_type = "photo"
 
         if not media_file:
             return None
