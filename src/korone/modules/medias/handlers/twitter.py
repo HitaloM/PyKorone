@@ -30,8 +30,36 @@ URL_PATTERN = re.compile(r"(?:(?:http|https):\/\/)?(?:www.)?(twitter\.com|x\.com
 
 
 class TwitterMessageHandler(MessageHandler):
+    @router.message(Regex(URL_PATTERN))
+    async def handle(self, client: Client, message: Message) -> None:
+        url_match = URL_PATTERN.search(message.text)
+        if not url_match:
+            return
+
+        try:
+            tweet = await fetch_tweet(url_match.group())
+        except TwitterError:
+            return
+
+        if not tweet or not tweet.media or not tweet.media.all_medias:
+            return
+
+        tweet_text = self.format_tweet_text(tweet)
+        if len(tweet.media.all_medias) > 1:
+            tweet_text += f"\n<a href='{tweet.url!s}'>{_("Open in Twitter")}</a>"
+            await self.process_multiple_media(client, message, tweet, tweet_text)
+            return
+
+        cache = MediaCache(str(tweet.url))
+        cached_data = await cache.get()
+        sent_message = await self.send_media(
+            client, message, tweet.media.all_medias[0], tweet_text, tweet, cached_data
+        )
+        if sent_message:
+            await cache.set(sent_message, int(timedelta(weeks=1).total_seconds()))
+
     @staticmethod
-    def get_best_variant(media: TweetMedia) -> TweetMediaVariants | None:
+    def get_optimal_variant(media: TweetMedia) -> TweetMediaVariants | None:
         return (
             max(media.variants, key=lambda variant: variant.bitrate or 0)
             if media.variants
@@ -39,7 +67,7 @@ class TwitterMessageHandler(MessageHandler):
         )
 
     @staticmethod
-    def create_media_list(media_cache: dict, text: str) -> list[InputMediaPhoto | InputMediaVideo]:
+    def build_media_list(media_cache: dict, text: str) -> list[InputMediaPhoto | InputMediaVideo]:
         media_list = [InputMediaPhoto(media["file"]) for media in media_cache.get("photo", [])] + [
             InputMediaVideo(
                 media=media["file"],
@@ -54,41 +82,47 @@ class TwitterMessageHandler(MessageHandler):
             media_list[-1].caption = text
         return media_list
 
-    async def process_media(self, media: TweetMedia) -> InputMediaPhoto | InputMediaVideo | None:
-        best_media = self.get_best_variant(media) or media
+    async def prepare_media(self, media: TweetMedia) -> InputMediaPhoto | InputMediaVideo | None:
+        optimal_media = self.get_optimal_variant(media) or media
         try:
-            media_file = await url_to_bytes_io(best_media.url, video=media.media_type != "photo")
+            media_file = await url_to_bytes_io(
+                optimal_media.url, video=media.media_type != "photo"
+            )
         except httpx.HTTPStatusError:
             return None
+
         if media.media_type == "photo":
             return InputMediaPhoto(media_file)
+
         if media.media_type in {"video", "gif"}:
             thumb_file = (
                 await url_to_bytes_io(media.thumbnail_url, video=True)
                 if media.thumbnail_url
                 else None
             )
+
             if thumb_file:
                 await asyncio.to_thread(resize_thumbnail, thumb_file)
-            duration = int(timedelta(milliseconds=media.duration).total_seconds())
+
             return InputMediaVideo(
                 media=media_file,
-                duration=duration,
+                duration=media.duration,
                 width=media.width,
                 height=media.height,
                 thumb=thumb_file,
             )
+
         return None
 
-    async def handle_multiple_media(
+    async def process_multiple_media(
         self, client: Client, message: Message, tweet: Tweet, text: str
     ) -> None:
         cache = MediaCache(str(tweet.url))
         media_cache = await cache.get()
-        media_list = self.create_media_list(media_cache, text) if media_cache else []
+        media_list = self.build_media_list(media_cache, text) if media_cache else []
 
         if not media_list and tweet.media and tweet.media.all_medias:
-            media_tasks = [self.process_media(media) for media in tweet.media.all_medias]
+            media_tasks = [self.prepare_media(media) for media in tweet.media.all_medias]
             media_list = [media for media in await asyncio.gather(*media_tasks) if media]
             media_list[-1].caption = text
 
@@ -126,10 +160,7 @@ class TwitterMessageHandler(MessageHandler):
             elif media.media_type in {"video", "gif"} and cache_data.get("video"):
                 video_data = cache_data["video"][0]
                 media_file = video_data.get("file", await url_to_bytes_io(media.url, video=True))
-                duration = video_data.get(
-                    "duration",
-                    int(timedelta(milliseconds=duration).total_seconds()),
-                )
+                duration = video_data.get("duration", duration)
                 width = video_data.get("width", media.width)
                 height = video_data.get("height", media.height)
                 thumb_file = video_data.get("thumbnail", media.thumbnail_url)
@@ -158,6 +189,7 @@ class TwitterMessageHandler(MessageHandler):
                     reply_markup=keyboard.as_markup(),
                     reply_to_message_id=message.id,
                 )
+
             return await client.send_video(
                 chat_id=message.chat.id,
                 video=media_file,
@@ -179,31 +211,3 @@ class TwitterMessageHandler(MessageHandler):
         if tweet.source:
             text += _("\n<b>Sent from:</b> <i>{source}</i>").format(source=tweet.source)
         return text
-
-    @router.message(Regex(URL_PATTERN))
-    async def handle(self, client: Client, message: Message) -> None:
-        url_match = URL_PATTERN.search(message.text)
-        if not url_match:
-            return
-
-        try:
-            tweet = await fetch_tweet(url_match.group())
-        except TwitterError:
-            return
-
-        if not tweet or not tweet.media or not tweet.media.all_medias:
-            return
-
-        text = self.format_tweet_text(tweet)
-        if len(tweet.media.all_medias) > 1:
-            text += f"\n<a href='{tweet.url!s}'>{_("Open in Twitter")}</a>"
-            await self.handle_multiple_media(client, message, tweet, text)
-            return
-
-        cache = MediaCache(str(tweet.url))
-        cache_data = await cache.get()
-        sent_message = await self.send_media(
-            client, message, tweet.media.all_medias[0], text, tweet, cache_data
-        )
-        if sent_message:
-            await cache.set(sent_message, int(timedelta(weeks=1).total_seconds()))

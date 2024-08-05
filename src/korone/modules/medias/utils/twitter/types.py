@@ -3,10 +3,7 @@
 
 from typing import Any
 
-from pydantic import BaseModel, Field, HttpUrl, PositiveInt, TypeAdapter, field_validator
-
-url_adapter = TypeAdapter(HttpUrl)
-int_adapter = TypeAdapter(int)
+from pydantic import BaseModel, Field, HttpUrl, field_validator
 
 
 class Website(BaseModel):
@@ -14,7 +11,7 @@ class Website(BaseModel):
     display_url: str
 
 
-class TweetAuthor(BaseModel):
+class Author(BaseModel):
     author_id: str = Field(alias="id")
     name: str
     screen_name: str
@@ -23,88 +20,87 @@ class TweetAuthor(BaseModel):
     description: str
     location: str
     url: HttpUrl | None = None
-    followers: PositiveInt
-    following: PositiveInt
+    followers: int
+    following: int
     joined: str
-    likes: PositiveInt
+    likes: int
     website: Website | None = None
-    tweets: PositiveInt
+    tweets: int
     avatar_color: str | None = None
 
-    @field_validator("website", mode="before")
-    @classmethod
-    def validate_website(cls, v: Any) -> Website | None:
-        if isinstance(v, dict):
-            return Website(**v)
-        if isinstance(v, str):
-            return Website(
-                url=url_adapter.validate_python(v),
-                display_url=str(v),
-            )
-        return v
 
-    @field_validator("avatar_url", "banner_url", mode="before")
-    @classmethod
-    def validate_images(cls, v: Any) -> HttpUrl | None:
-        if isinstance(v, str) and not v:
-            return None
-        return url_adapter.validate_python(v)
-
-
-class TweetMediaVariants(BaseModel):
+class MediaVariants(BaseModel):
     content_type: str
     bitrate: int | None = None
     url: HttpUrl
 
 
-class TweetMedia(BaseModel):
+class Media(BaseModel):
     url: HttpUrl
     thumbnail_url: HttpUrl | None = None
     duration: int = 0
-    width: PositiveInt
-    height: PositiveInt
+    width: int
+    height: int
     media_format: str | None = Field(default=None, alias="format")
     media_type: str = Field(alias="type")
-    variants: list[TweetMediaVariants] | None = None
+    variants: list[MediaVariants] | None = None
 
     @field_validator("duration", mode="before")
     @classmethod
-    def validate_duration(cls, v: Any) -> PositiveInt:
+    def validate_duration(cls, v: Any) -> int:
         if isinstance(v, float):
             v = int(v)
-        return int_adapter.validate_python(v)
+        return v
 
 
-class TweetMediaContainer(BaseModel):
-    all_medias: list[TweetMedia] | None = Field(default=None, alias="all")
-    videos: list[TweetMedia] | None = None
-    photos: list[TweetMedia] | None = None
+class MediaContainer(BaseModel):
+    all_medias: list[Media] | None = Field(default=None, alias="all")
+    videos: list[Media] | None = None
+    photos: list[Media] | None = None
+
+
+class Reference(BaseModel):
+    ref_type: str = Field(alias="type")
+    url: HttpUrl
+    url_type: str = Field(alias="urlType")
+
+
+class Entities(BaseModel):
+    from_index: int = Field(alias="fromIndex")
+    to_index: int = Field(alias="toIndex")
+    ref: Reference | None = None
+
+
+class CommunityNote(BaseModel):
+    text: str
+    entities: list[Entities] | None = None
 
 
 class Tweet(BaseModel):
     url: HttpUrl
     tweet_id: str = Field(alias="id")
-    text: str = ""
-    author: TweetAuthor
-    replies: PositiveInt
-    retweets: PositiveInt
-    likes: PositiveInt
+    text: str
+    author: Author
+    replies: int
+    retweets: int
+    likes: int
     created_at: str
-    created_timestamp: PositiveInt
+    created_timestamp: int
     possibly_sensitive: bool = False
-    views: PositiveInt
+    views: int
     is_note_tweet: bool
-    community_note: str | None = None
+    community_note: CommunityNote | None = None
     lang: str
     replying_to: str | None = None
     replying_to_status: str | None = None
-    media: TweetMediaContainer | None = None
+    quote: "Tweet | None" = None
+    media: MediaContainer | None = None
     source: str
-    twitter_card: str
+    twitter_card: str | None = None
     color: str | None = None
 
 
 class Response(BaseModel):
-    code: PositiveInt
+    code: int
     message: str
     tweet: Tweet | None = None

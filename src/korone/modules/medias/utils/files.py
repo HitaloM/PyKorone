@@ -59,8 +59,5 @@ async def url_to_bytes_io(url: HttpUrl, *, video: bool) -> BytesIO:
 
     file = BytesIO(content)
     random_suffix = "".join(random.choices(string.ascii_letters + string.digits, k=8))
-    if video and url.path and Path(url.path).suffix == ".gif":
-        file.name = f"{url.host}-{random_suffix}.gif"
-    else:
-        file.name = f"{url.host}-{random_suffix}.{"mp4" if video else "jpeg"}"
+    file.name = f"{url.host}-{random_suffix}.{"mp4" if video else "jpeg"}"
     return file
