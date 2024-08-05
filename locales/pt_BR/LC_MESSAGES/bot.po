@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2024-07-23 19:03-0300\n"
-"PO-Revision-Date: 2024-07-23 22:08+0000\n"
-"Last-Translator: DeepL <noreply-mt-deepl@weblate.org>\n"
+"PO-Revision-Date: 2024-07-23 23:29+0000\n"
+"Last-Translator: Hitalo <hitalo331@outlook.com>\n"
 "Language-Team: Portuguese (Brazil) <http://weblate.amanoteam.com/projects/"
 "korone/korone/pt_BR/>\n"
 "Language: pt_BR\n"
@@ -90,7 +90,7 @@ msgid ""
 msgstr ""
 "Comando desconhecido para reativar:\n"
 "- <code>{command}</code>\n"
-"Verifique a opção /disable!"
+"Verifique a opção /disableable!"
 
 #: src/korone/modules/disabling/handlers/disable.py:48
 msgid "This command is already disabled."
@@ -124,15 +124,15 @@ msgid ""
 msgstr ""
 "Comando desconhecido a ser desativado:\n"
 "- <code>{command}</code>\n"
-"Verifique a opção /disable!"
+"Verifique a opção /disableable!"
 
 #: src/korone/modules/disabling/handlers/enable.py:43
 msgid "This command is already enabled."
-msgstr "Este comando já está habilitado."
+msgstr "Este comando já está ativado."
 
 #: src/korone/modules/disabling/handlers/enable.py:48
 msgid "Command enabled."
-msgstr "Comando habilitado."
+msgstr "Comando ativado."
 
 #: src/korone/modules/disabling/handlers/list.py:23
 msgid "The following commands can be disabled:\n"
@@ -148,7 +148,7 @@ msgstr "ID de referência: {id}"
 
 #: src/korone/modules/errors/handlers/catcher.py:88
 msgid "🐞 Report This Error"
-msgstr "Relatar este erro"
+msgstr "🐞 Relatar Este Erro"
 
 #: src/korone/modules/gsm_arena/utils.py:97
 msgid "Status"
@@ -295,15 +295,15 @@ msgstr ""
 
 #: src/korone/modules/languages/handlers/info.py:38
 msgid "Translated strings: <code>{translated}</code>\n"
-msgstr "Cordas traduzidas: <code>{translated}</code>\n"
+msgstr "Textos traduzidos: <code>{translated}</code>\n"
 
 #: src/korone/modules/languages/handlers/info.py:41
 msgid "Untranslated strings: <code>{untranslated}</code>\n"
-msgstr "Cordas não traduzidas: <code>{untranslated}</code>\n"
+msgstr "Textos não traduzidos: <code>{untranslated}</code>\n"
 
 #: src/korone/modules/languages/handlers/info.py:44
 msgid "Strings requiring review: <code>{fuzzy}</code>\n"
-msgstr "Cordas que precisam de revisão: <code>{fuzzy}</code>\n"
+msgstr "Textos que precisam de revisão: <code>{fuzzy}</code>\n"
 
 #: src/korone/modules/languages/handlers/info.py:46
 msgid "This is the bot's native language. So it is 100% translated."
@@ -426,7 +426,7 @@ msgid ""
 "set it using <code>/setlfm username</code>."
 msgstr ""
 "O usuário ao qual você respondeu não tem uma conta LastFM vinculada! Sugira "
-"que ele a configure usando <code>/setlfm username</code>."
+"que ele a configure usando <code>/setlfm nome de usuário</code>."
 
 #: src/korone/modules/lastfm/handlers/compat.py:104
 msgid "No common artists in {period}"
