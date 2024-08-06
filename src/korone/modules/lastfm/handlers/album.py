@@ -76,7 +76,7 @@ class LastFMPlayingAlbumHandler(MessageHandler):
         if album_info.tags:
             text += f"\n\n{format_tags(album_info)}"
 
-        if image := get_biggest_lastfm_image(last_played):
+        if image := await get_biggest_lastfm_image(last_played):
             await message.reply_photo(photo=image, caption=text)
             return
 

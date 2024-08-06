@@ -78,7 +78,7 @@ class LastFMPlayingArtistHandler(MessageHandler):
         except DeezerError:
             artist = None
 
-        if artist:
+        if artist and artist.image:
             await message.reply_photo(photo=artist.image.url, caption=text)
             return
 

@@ -5,24 +5,11 @@ import asyncio
 import io
 from datetime import timedelta
 
-import httpx
 from PIL import Image, ImageDraw, ImageFont
 
 from korone import cache
 from korone.modules.lastfm.utils.image_filter import get_biggest_lastfm_image
 from korone.modules.lastfm.utils.types import LastFMAlbum
-from korone.utils.logging import logger
-
-
-async def fetch_image(url: str) -> Image.Image | None:
-    try:
-        async with httpx.AsyncClient(http2=True, timeout=20) as client:
-            response = await client.get(url)
-            response.raise_for_status()
-            return Image.open(io.BytesIO(response.content))
-    except Exception:
-        await logger.aexception("Failed to fetch LastFM image")
-        return None
 
 
 async def add_text_to_image(img: Image.Image, text: str, font: ImageFont.FreeTypeFont) -> None:
@@ -55,11 +42,11 @@ async def add_text_to_image(img: Image.Image, text: str, font: ImageFont.FreeTyp
 
 async def fetch_album_arts(albums: list[LastFMAlbum]) -> list[Image.Image]:
     async def fetch_art(album):
-        image_url = get_biggest_lastfm_image(album)
+        image_url = await get_biggest_lastfm_image(album)
         return (
-            await fetch_image(image_url)
+            Image.open(image_url)
             if image_url
-            else await fetch_image("https://telegra.ph/file/d0244cd9b8bc7d0dd370d.png")
+            else Image.open("https://telegra.ph/file/d0244cd9b8bc7d0dd370d.png")
         )
 
     return [

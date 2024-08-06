@@ -18,14 +18,25 @@ class DeezerClient:
 
     async def _request(self, endpoint: str, params: dict) -> dict:
         async with httpx.AsyncClient(http2=True, timeout=20) as client:
-            response = await client.get(f"{self.base_url}{endpoint}", params=params)
-            if response.status_code != 200:
-                msg = f"Error fetching data from Deezer API: {response.status_code}"
+            try:
+                response = await client.get(f"{self.base_url}{endpoint}", params=params)
+                response.raise_for_status()
+            except httpx.RequestError as e:
+                msg = f"An error occurred while requesting {e.request.url!r}."
+                raise DeezerError(msg) from e
+            except httpx.HTTPStatusError as e:
+                msg = (
+                    f"Error response {e.response.status_code} "
+                    f"while requesting {e.request.url!r}."
+                )
+                raise DeezerError(msg) from e
+
+            data = response.json().get("data", [])
+            if not data:
+                msg = "No data found in the response."
                 raise DeezerError(msg)
-            if data := response.json().get("data", []):
-                return data[0]
-            msg = "No data found"
-            raise DeezerError(msg)
+
+            return data[0]
 
     async def get_artist(self, artist_name: str) -> DeezerArtist:
         params = {
@@ -33,16 +44,22 @@ class DeezerClient:
             "limit": 1,
         }
         data = await self._request("search/artist", params)
-        if data["type"] == "artist":
-            return DeezerArtist(
-                id=data["id"],
-                name=data["name"],
-                image=DeezerImage(
-                    url=data.get(
-                        "picture_xl",
-                        data.get("cover_xl", ""),
-                    ),
-                ),
-            )
-        msg = "No artist found"
+
+        if data.get("type") == "artist":
+            image_url = data.get("picture_xl") or data.get("cover_xl")
+            if not image_url:
+                msg = "No image found for the artist."
+                raise DeezerError(msg)
+
+            image_data = {"url": image_url}
+            image = DeezerImage.model_validate(image_data)
+
+            artist_data = {
+                "id": data["id"],
+                "name": data["name"],
+                "image": image,
+            }
+            return DeezerArtist.model_validate(artist_data)
+
+        msg = "No artist found."
         raise DeezerError(msg)

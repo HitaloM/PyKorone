@@ -49,7 +49,7 @@ class LastFMUserHandler(MessageHandler):
 
         user_mention = message.from_user.mention()
 
-        image = get_biggest_lastfm_image(user_info)
+        image = await get_biggest_lastfm_image(user_info)
 
         text = _(
             "User: <b>{user}</b>\n\n"

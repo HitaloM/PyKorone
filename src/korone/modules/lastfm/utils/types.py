@@ -145,6 +145,6 @@ class DeezerImage(BaseModel):
 
 
 class DeezerArtist(BaseModel):
-    id: int
+    artist_id: int = Field(alias="id")
     name: str
-    image: DeezerImage
+    image: DeezerImage | None = None
