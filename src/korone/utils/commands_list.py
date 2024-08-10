@@ -12,7 +12,7 @@ from hydrogram.types import (
     BotCommandScopeAllPrivateChats,
 )
 
-from korone.utils.i18n import I18nNew
+from .i18n import I18nNew
 
 
 async def set_ui_commands(client: Client, i18n: I18nNew):

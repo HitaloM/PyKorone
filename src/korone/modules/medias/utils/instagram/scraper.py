@@ -16,13 +16,9 @@ from lxml import html
 
 from korone import cache
 from korone.modules.medias.utils.cache import MediaCache
-from korone.modules.medias.utils.instagram.downloader import download_media
-from korone.modules.medias.utils.instagram.types import (
-    InstaFixData,
-    InstagramData,
-    Node,
-    ShortcodeMedia,
-)
+
+from .downloader import download_media
+from .types import InstaFixData, InstagramData, Node, ShortcodeMedia
 
 POST_PATTERN = re.compile(r"(?:reel(?:s?)|p)/(?P<post_id>[A-Za-z0-9_-]+)")
 

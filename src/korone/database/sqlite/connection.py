@@ -8,9 +8,10 @@ import aiosqlite
 
 from korone import constants
 from korone.database.connection import Connection
-from korone.database.sqlite.table import SQLite3Table
 from korone.database.table import Table
 from korone.utils.logging import logger
+
+from .table import SQLite3Table
 
 
 class SQLite3Connection(Connection):

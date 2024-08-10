@@ -5,7 +5,7 @@ from pathlib import Path
 
 from cashews import Cache
 
-from korone.utils.i18n import create_i18n_instance
+from .utils.i18n import create_i18n_instance
 
 __version__ = "1.0.0"
 

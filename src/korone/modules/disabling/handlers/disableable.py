@@ -15,12 +15,10 @@ class ListDisableableHandler(MessageHandler):
     @staticmethod
     @router.message(Command("disableable", disableable=False) & IsAdmin)
     async def handle(client: Client, message: Message) -> None:
-        disableable = sorted([
-            command for command in COMMANDS if "parent" not in COMMANDS[command]
-        ])
+        disableable_commands = sorted([cmd for cmd in COMMANDS if "parent" not in COMMANDS[cmd]])
 
         text = _("The following commands can be disabled:\n")
-        for command in disableable:
-            text += f"- <code>{command}</code>\n"
+        for cmd in disableable_commands:
+            text += f"- <code>{cmd}</code>\n"
 
         await message.reply(text)

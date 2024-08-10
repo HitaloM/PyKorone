@@ -7,8 +7,9 @@ from pathlib import Path
 import httpx
 
 from korone import cache
-from korone.modules.medias.utils.tiktok.types import TikTokSlideshow, TikTokVideo
 from korone.utils.logging import logger
+
+from .types import TikTokSlideshow, TikTokVideo
 
 
 class TikTokError(Exception):

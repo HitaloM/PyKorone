@@ -2,9 +2,10 @@
 # Copyright (c) 2024 Hitalo M. <https://github.com/HitaloM>
 
 import asyncio
-from dataclasses import dataclass
+import random
 
 import httpx
+from pydantic import BaseModel
 
 from korone.config import ConfigManager
 from korone.utils.logging import logger
@@ -20,20 +21,13 @@ class QuotaExceededError(TranslationError):
     pass
 
 
-@dataclass(frozen=True, slots=True)
-class Translation:
+class Translation(BaseModel):
     detected_source_language: str
     text: str
 
 
-@dataclass(frozen=True, slots=True)
-class TranslationResponse:
+class TranslationResponse(BaseModel):
     translations: list[Translation]
-
-    @staticmethod
-    def from_dict(data: dict) -> "TranslationResponse":
-        translations = [Translation(**translation) for translation in data["translations"]]
-        return TranslationResponse(translations=translations)
 
 
 class DeepL:
@@ -46,59 +40,65 @@ class DeepL:
     ) -> Translation:
         async with httpx.AsyncClient(http2=True) as client:
             retries = 0
-            backoff = 1
 
             while retries < self.max_retries:
                 try:
-                    data = {
-                        "text": [text],
-                        "auth_key": API_KEY,
-                        "target_lang": target_lang.upper(),
-                    }
-                    if source_lang is not None:
-                        data["source_lang"] = source_lang.upper()
-
+                    data = self._prepare_request_data(text, target_lang, source_lang)
                     response = await client.post(self.url, data=data)
                     response.raise_for_status()
-                    response_data = response.json()
-                    translation_response = TranslationResponse.from_dict(response_data)
-                    return translation_response.translations[0]
+                    return self._parse_response(response)
 
                 except httpx.HTTPStatusError as e:
-                    status_code = e.response.status_code
-                    if status_code == 429:
-                        await logger.adebug(
-                            "[DeepL] Rate limit exceeded, retrying in %s seconds...", backoff
-                        )
-                        await asyncio.sleep(backoff)
-                        retries += 1
-                        backoff *= 2
-                    elif status_code == 456:
-                        msg = "Quota exceeded."
-                        await logger.aexception(msg)
-                        raise QuotaExceededError(msg) from e
-                    elif status_code == 500:
-                        await logger.adebug(
-                            "[DeepL] Internal server error, retrying in %s seconds...", backoff
-                        )
-                        await asyncio.sleep(backoff)
-                        retries += 1
-                        backoff *= 2
-                    else:
-                        msg = f"HTTP error occurred: {status_code}"
-                        await logger.aexception(msg)
-                        raise TranslationError(msg) from e
+                    if not await self._handle_http_error(e, retries):
+                        break
+                    retries += 1
 
                 except (KeyError, IndexError) as e:
-                    msg = "Failed to parse translation response."
-                    await logger.aexception(msg)
+                    msg = "[DeepL] Failed to parse translation response."
                     raise TranslationError(msg) from e
 
                 except Exception as e:
-                    msg = f"Unexpected error: {e!s}"
-                    await logger.aexception(msg)
+                    msg = f"[DeepL] Unexpected error: {e!s}"
                     raise TranslationError(msg) from e
 
-            msg = "Maximum retries exceeded."
-            await logger.aexception(msg)
+            msg = "[DeepL] Maximum retries exceeded."
             raise TranslationError(msg)
+
+    @staticmethod
+    def _prepare_request_data(text: str, target_lang: str, source_lang: str | None) -> dict:
+        data = {
+            "text": [text],
+            "auth_key": API_KEY,
+            "target_lang": target_lang.upper(),
+        }
+        if source_lang is not None:
+            data["source_lang"] = source_lang.upper()
+        return data
+
+    @staticmethod
+    def _parse_response(response: httpx.Response) -> Translation:
+        response_data = response.json()
+        logger.debug("[DeepL] Response data: %s", response_data)
+        translation_response = TranslationResponse(**response_data)
+        return translation_response.translations[0]
+
+    @staticmethod
+    async def _handle_http_error(e: httpx.HTTPStatusError, retries: int) -> bool:
+        status_code = e.response.status_code
+        backoff = 2**retries + random.uniform(0, 1)
+        if status_code == 429:
+            await logger.aerror("[DeepL] Rate limit exceeded, retrying in %s seconds...", backoff)
+            await asyncio.sleep(backoff)
+            return True
+        if status_code == 456:
+            msg = "[DeepL] Quota exceeded."
+            await logger.aerror(msg)
+            raise QuotaExceededError(msg) from e
+        if status_code == 500:
+            await logger.adebug(
+                "[DeepL] Internal server error, retrying in %s seconds...", backoff
+            )
+            await asyncio.sleep(backoff)
+            return True
+        msg = f"[DeepL] HTTP error occurred: {status_code}"
+        raise TranslationError(msg) from e

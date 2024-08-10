@@ -12,7 +12,7 @@ from babel.support import LazyProxy
 from flag import flag
 from hairydogm.i18n import I18n
 
-from korone.utils.logging import logger
+from .logging import logger
 
 
 @dataclass(frozen=True, slots=True)

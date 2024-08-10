@@ -24,15 +24,14 @@ class BaseHandler:
     @staticmethod
     def build_keyboard(current_lang: str) -> InlineKeyboardMarkup:
         keyboard = InlineKeyboardBuilder()
-        locale = Locale.parse(current_lang)
-
         keyboard.button(text=_("ℹ️ About"), callback_data=PMMenuCallback(menu="about"))
         keyboard.button(
-            text=_("{lang_flag} Language").format(lang_flag=flag(locale.territory or "US")),
+            text=_("{lang_flag} Language").format(
+                lang_flag=flag(Locale.parse(current_lang).territory or "US")
+            ),
             callback_data=LangMenuCallback(menu="language"),
         )
         keyboard.button(text=_("👮‍♂️ Help"), callback_data=PMMenuCallback(menu="help"))
-
         keyboard.adjust(2)
         return keyboard.as_markup()
 

@@ -7,31 +7,33 @@ from korone.database.table import Document
 from korone.modules import COMMANDS
 
 
-async def set_command_state(chat_id: int, command: str, *, state: bool) -> None:
+async def set_command_state(chat_id: int, command_name: str, *, state: bool) -> None:
     async with SQLite3Connection() as conn:
-        if command not in COMMANDS:
-            msg = f"Command '{command}' has not been registered!"
+        if command_name not in COMMANDS:
+            msg = f"Command '{command_name}' has not been registered!"
             raise KeyError(msg)
 
-        if "parent" in COMMANDS[command]:
-            command = COMMANDS[command]["parent"]
+        if "parent" in COMMANDS[command_name]:
+            command_name = COMMANDS[command_name]["parent"]
 
-        COMMANDS[command]["chat"][chat_id] = state
+        COMMANDS[command_name]["chat"][chat_id] = state
 
         table = await conn.table("Commands")
         query = Query()
-        query = (query.chat_id == chat_id) & (query.command == command)
+        query = (query.chat_id == chat_id) & (query.command == command_name)
+
         if not await table.query(query):
-            await table.insert(Document(chat_id=chat_id, command=command, state=state))
+            await table.insert(Document(chat_id=chat_id, command=command_name, state=state))
             return
 
         await table.update(Document(state=state), query)
 
 
-async def disabled_commands(chat_id: int) -> list[str]:
+async def get_disabled_commands(chat_id: int) -> list[str]:
     async with SQLite3Connection() as conn:
         table = await conn.table("Commands")
         query = Query()
         query = (query.chat_id == chat_id) & (query.state == 0)
+
         result = await table.query(query)
         return [doc["command"] for doc in result]

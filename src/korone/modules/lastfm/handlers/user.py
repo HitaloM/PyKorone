@@ -34,16 +34,10 @@ class LastFMUserHandler(MessageHandler):
         try:
             user_info = await last_fm.get_user_info(last_fm_user)
         except LastFMError as e:
-            error_message = str(e)
-            if error_message == "User not found":
+            if "user not found" in e.message.lower():
                 await message.reply(_("Your LastFM username was not found! Try setting it again."))
-            else:
-                await message.reply(
-                    _(
-                        "An error occurred while fetching your LastFM data!\nError: <i>{error}</i>"
-                    ).format(error=error_message)
-                )
-            return
+                return
+            raise
 
         registered = datetime.fromtimestamp(user_info.registered, tz=UTC).strftime("%d-%m-%Y")
 

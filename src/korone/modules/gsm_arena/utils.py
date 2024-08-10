@@ -10,11 +10,12 @@ from bs4 import BeautifulSoup
 from hairydogm.keyboard import InlineKeyboardBuilder
 
 from korone import cache
-from korone.modules.gsm_arena.callback_data import DevicePageCallback, GetDeviceCallback
 from korone.utils.i18n import gettext as _
 from korone.utils.pagination import Pagination
 
-HEADERS: dict[str, str] = {
+from .callback_data import DevicePageCallback, GetDeviceCallback
+
+HEADERS = {
     "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,"
     "image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7",
     "Accept-Encoding": "gzip, deflate, br, zstd",
@@ -32,7 +33,6 @@ def create_pagination_layout(devices: list, query: str, page: int) -> InlineKeyb
         item_title=lambda i, _: i.name,
         page_data=lambda pg: DevicePageCallback(device=query, page=pg).pack(),
     )
-
     return layout.create(page, lines=8)
 
 
@@ -43,19 +43,19 @@ class PhoneSearchResult:
 
 
 def get_data_from_specs(specs_data: dict, category: str, attribute: str) -> str:
-    return specs_data.get("specs", {}).get(category, [{}]).get(attribute)
+    return specs_data.get("specs", {}).get(category, [{}]).get(attribute, "")
 
 
 def get_data_from_specs_multiple_attributes(
     specs_data: dict, category: str, attributes: list
 ) -> str:
-    details = specs_data.get("specs", {})
-    return "\n".join(details.get(category, [{}]).get(attr, "") for attr in attributes)
+    details = specs_data.get("specs", {}).get(category, [{}])
+    return "\n".join(details.get(attr, "") for attr in attributes)
 
 
 def get_camera_data(specs_data: dict, category: str) -> str | None:
-    details = specs_data.get("specs", {})
-    camera = next(iter(details.get(category, [{}]).items()), (None, None))
+    details = specs_data.get("specs", {}).get(category, [{}])
+    camera = next(iter(details.items()), (None, None))
     return f"{camera[0]} {camera[1]}" if all(camera) else None
 
 
@@ -81,11 +81,10 @@ def parse_specs(specs_data: dict) -> dict:
         data[key] = get_data_from_specs_multiple_attributes(specs_data, category, attributes)
 
     for category, key in [("Main Camera", "main_camera"), ("Selfie camera", "selfie_camera")]:
-        camera_data = get_camera_data(specs_data, category)
-        data[key] = camera_data or ""
+        data[key] = get_camera_data(specs_data, category) or ""
 
-    data["name"] = specs_data.get("name") or ""
-    data["url"] = specs_data.get("url") or ""
+    data["name"] = specs_data.get("name", "")
+    data["url"] = specs_data.get("url", "")
     data["memory"] = get_data_from_specs(specs_data, "Memory", "Internal")
 
     return data
@@ -110,9 +109,7 @@ def format_phone(phone: dict) -> str:
     }
 
     attributes = [
-        f"<b>{key}:</b> {phone[value]}"
-        for key, value in attributes_dict.items()
-        if phone[value] is not None
+        f"<b>{key}:</b> {phone[value]}" for key, value in attributes_dict.items() if phone[value]
     ]
 
     return f"<a href='{phone["url"]}'>{phone["name"]}</a>\n\n{"\n\n".join(attributes)}"
@@ -121,9 +118,7 @@ def format_phone(phone: dict) -> str:
 @cache(ttl=timedelta(days=1))
 async def fetch_and_parse(url: str) -> str:
     async with httpx.AsyncClient(headers=HEADERS, http2=True) as session:
-        response = await session.get(
-            f"https://cors-bypass.amano.workers.dev/{url}",
-        )
+        response = await session.get(f"https://cors-bypass.amano.workers.dev/{url}")
         return response.text
 
 
@@ -131,7 +126,7 @@ def extract_specs(specs_tables: list) -> dict:
     return {
         "specs": {
             feature: {
-                header if header != "\u00a0" else "info": detail
+                (header if header != "\u00a0" else "info"): detail
                 for tr in table.findAll("tr")
                 for header in [td.text.strip() for td in tr.findAll("td", {"class": "ttl"})]
                 for detail in [td.text.strip() for td in tr.findAll("td", {"class": "nfo"})]

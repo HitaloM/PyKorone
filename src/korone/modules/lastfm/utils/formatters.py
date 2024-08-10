@@ -6,9 +6,10 @@ from html import escape
 from pathlib import Path
 
 from korone import app_dir
-from korone.modules.lastfm.utils.api import TimePeriod
-from korone.modules.lastfm.utils.types import LastFMAlbum, LastFMArtist, LastFMTrack
 from korone.utils.i18n import gettext as _
+
+from .lastfm_api import TimePeriod
+from .types import LastFMAlbum, LastFMArtist, LastFMTrack
 
 with Path(app_dir / "resources/misc/everynoise_genres.txt").open(encoding="utf-8") as file:
     ACCEPTABLE_TAGS = {line.strip().lower() for line in file}

@@ -19,14 +19,10 @@ class GetSticker(MessageHandler):
     @staticmethod
     def zip_file(file: BinaryIO, file_name: str) -> BytesIO:
         zip_buffer = BytesIO()
-
         with ZipFile(zip_buffer, "w") as zip_file:
             file.seek(0)
-            file_content = file.read()
-            zip_file.writestr(file_name, file_content)
-
+            zip_file.writestr(file_name, file.read())
         zip_buffer.seek(0)
-
         return zip_buffer
 
     @router.message(Command("getsticker"))
@@ -43,15 +39,11 @@ class GetSticker(MessageHandler):
             message=message.reply_to_message, in_memory=True
         )
 
-        if isinstance(sticker_file, str):
-            return
-
-        if not sticker_file:
+        if not sticker_file or isinstance(sticker_file, str):
             await message.reply(_("Failed to download sticker."))
             return
 
         sticker = message.reply_to_message.sticker
-
         zip_buffer = await asyncio.to_thread(self.zip_file, sticker_file, f"{sticker.file_name}")
 
         await message.reply_document(

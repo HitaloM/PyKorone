@@ -15,34 +15,40 @@ from korone.utils.i18n import gettext as _
 class EnableHandler(MessageHandler):
     @staticmethod
     @router.message(Command("enable", disableable=False) & IsGroupChat & IsAdmin)
-    async def enable(client: Client, message: Message) -> None:
-        command = CommandObject(message).parse()
-        if not command.args:
-            await message.reply(_("You need to specify a command to enable."))
-            return
+    async def handle(client: Client, message: Message) -> None:
+        command_object = CommandObject(message).parse()
+        command_args = command_object.args
 
-        args = command.args.split(" ")
-        if len(args) > 1:
-            await message.reply(_("You can only enable one command at a time."))
-            return
-
-        command = args[0]
-        if command not in COMMANDS:
+        if not command_args:
             await message.reply(
                 _(
-                    "Unknown command to disable:\n"
-                    "- <code>{command}</code>\n"
-                    "Check the /disableable!"
-                ).format(command=command)
+                    "You need to specify a command to enable. "
+                    "Use <code>/enable &lt;commandname&gt;</code>."
+                )
             )
             return
 
-        cmd_db = await fetch_command_state(command)
+        command_args_list = command_args.split(" ")
+        if len(command_args_list) > 1:
+            await message.reply(_("You can only enable one command at a time."))
+            return
 
-        if cmd_db and bool(cmd_db[0]["state"]):
+        command_name = command_args_list[0]
+        if command_name not in COMMANDS:
+            await message.reply(
+                _(
+                    "Unknown command to enable:\n"
+                    "- <code>{command}</code>\n"
+                    "Check the /disableable!"
+                ).format(command=command_name)
+            )
+            return
+
+        command_state = await fetch_command_state(command_name)
+
+        if command_state and bool(command_state[0]["state"]):
             await message.reply(_("This command is already enabled."))
             return
 
-        await set_command_state(message.chat.id, command, state=True)
-
+        await set_command_state(message.chat.id, command_name, state=True)
         await message.reply(_("Command enabled."))

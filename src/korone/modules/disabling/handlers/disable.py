@@ -16,8 +16,10 @@ class DisableHandler(MessageHandler):
     @staticmethod
     @router.message(Command("disable", disableable=False) & IsGroupChat & IsAdmin)
     async def handle(client: Client, message: Message) -> None:
-        command = CommandObject(message).parse()
-        if not command.args:
+        command_object = CommandObject(message).parse()
+        command_args = command_object.args
+
+        if not command_args:
             await message.reply(
                 _(
                     "You need to specify a command to disable. "
@@ -26,28 +28,27 @@ class DisableHandler(MessageHandler):
             )
             return
 
-        args = command.args.split(" ")
-        if len(args) > 1:
+        command_args_list = command_args.split(" ")
+        if len(command_args_list) > 1:
             await message.reply(_("You can only disable one command at a time."))
             return
 
-        command = args[0]
-        if command not in COMMANDS:
+        command_name = command_args_list[0]
+        if command_name not in COMMANDS:
             await message.reply(
                 _(
-                    "Unknown command to re-enable:\n"
+                    "Unknown command to disable:\n"
                     "- <code>{command}</code>\n"
                     "Check the /disableable!"
-                ).format(command=command)
+                ).format(command=command_name)
             )
             return
 
-        cmd_db = await fetch_command_state(command)
+        command_state = await fetch_command_state(command_name)
 
-        if cmd_db and not bool(cmd_db[0]["state"]):
+        if command_state and not bool(command_state[0]["state"]):
             await message.reply(_("This command is already disabled."))
             return
 
-        await set_command_state(message.chat.id, command, state=False)
-
+        await set_command_state(message.chat.id, command_name, state=False)
         await message.reply(_("Command disabled."))

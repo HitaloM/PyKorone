@@ -14,9 +14,8 @@ class LastFMImage(BaseModel):
 class LastFMArtist(BaseModel):
     name: str
     playcount: int = 0
-    loved: int | None = None
     images: list[LastFMImage] | None = Field(default=None, alias="image")
-    tags: list[str] | None = None
+    tags: list[str] | str = ""
 
     @model_validator(mode="before")
     @classmethod
@@ -45,15 +44,19 @@ class LastFMArtist(BaseModel):
 
     @field_validator("tags", mode="before")
     @classmethod
-    def validate_tags(cls, v: Any) -> list[str] | None:
-        return [tag["name"] for tag in v.get("tag", [])] if v else None
+    def validate_tags(cls, v: Any) -> list[str] | str:
+        if isinstance(v, dict):
+            tags = v.get("tag", [])
+            if isinstance(tags, dict):
+                return [tags["name"]]
+            return [tag["name"] for tag in tags]
+        return v
 
 
 class LastFMAlbum(BaseModel):
     artist: LastFMArtist | None = None
     name: str
     playcount: int = 0
-    loved: int | None = None
     images: list[LastFMImage] | None = Field(default=None, alias="image")
     tags: list[str] | str = ""
 
@@ -81,7 +84,12 @@ class LastFMAlbum(BaseModel):
     @field_validator("tags", mode="before")
     @classmethod
     def validate_tags(cls, v: Any) -> list[str] | str:
-        return [tag["name"] for tag in v["tag"]] if isinstance(v, dict) else v
+        if isinstance(v, dict):
+            tags = v.get("tag", [])
+            if isinstance(tags, dict):
+                return [tags["name"]]
+            return [tag["name"] for tag in tags]
+        return v
 
 
 class LastFMTrack(BaseModel):
@@ -93,7 +101,7 @@ class LastFMTrack(BaseModel):
     now_playing: bool = Field(default=False, alias="@attr")
     playcount: int = 0
     played_at: int | None = Field(default=None, alias="date")
-    tags: list[str] | None = Field(default=None, alias="toptags")
+    tags: list[str] | str = Field(default="", alias="toptags")
 
     @model_validator(mode="before")
     @classmethod
@@ -120,8 +128,13 @@ class LastFMTrack(BaseModel):
 
     @field_validator("tags", mode="before")
     @classmethod
-    def validate_tags(cls, v: Any) -> list[str] | None:
-        return [tag["name"] for tag in v.get("tag", [])] if v else None
+    def validate_tags(cls, v: Any) -> list[str] | str:
+        if isinstance(v, dict):
+            tags = v.get("tag", [])
+            if isinstance(tags, dict):
+                return [tags["name"]]
+            return [tag["name"] for tag in tags]
+        return v
 
 
 class LastFMUser(BaseModel):
@@ -140,11 +153,17 @@ class LastFMUser(BaseModel):
         return int(v["unixtime"]) if isinstance(v, dict) else int(v)
 
 
-class DeezerImage(BaseModel):
-    url: str
-
-
-class DeezerArtist(BaseModel):
-    artist_id: int = Field(alias="id")
+class DeezerData(BaseModel):
+    deezer_id: int = Field(alias="id")
+    deezer_type: str = Field(alias="type")
     name: str
-    image: DeezerImage | None = None
+    link: str
+    nb_album: int
+    nb_fan: int
+    radio: bool
+    tracklist: str
+    picture: str | None = None
+    picture_small: str | None = None
+    picture_medium: str | None = None
+    picture_big: str | None = None
+    picture_xl: str | None = None

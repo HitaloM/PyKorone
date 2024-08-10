@@ -7,8 +7,9 @@ from datetime import timedelta
 import httpx
 
 from korone import cache
-from korone.modules.medias.utils.twitter.types import Response, Tweet
 from korone.utils.logging import logger
+
+from .types import Response, Tweet
 
 
 class TwitterError(Exception):
@@ -25,5 +26,5 @@ async def fetch_tweet(url: str) -> Tweet | None:
             model = Response.model_validate_json(response.text)
             return model.tweet
     except httpx.HTTPError as e:
-        await logger.aexception("Error fetching tweet data: %s", e)
+        await logger.aexception("[Medias/Twitter] Error fetching tweet data: %s", e)
         raise TwitterError from e

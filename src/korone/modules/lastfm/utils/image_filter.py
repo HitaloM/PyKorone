@@ -9,8 +9,9 @@ from io import BytesIO
 import httpx
 
 from korone import cache
-from korone.modules.lastfm.utils.types import LastFMAlbum, LastFMTrack, LastFMUser
 from korone.utils.logging import logger
+
+from .types import LastFMAlbum, LastFMTrack, LastFMUser
 
 
 @cache(ttl=timedelta(hours=1))
