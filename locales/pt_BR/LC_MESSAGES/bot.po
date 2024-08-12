@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2024-07-23 19:03-0300\n"
-"PO-Revision-Date: 2024-07-23 23:29+0000\n"
+"PO-Revision-Date: 2024-08-12 15:16+0000\n"
 "Last-Translator: Hitalo <hitalo331@outlook.com>\n"
 "Language-Team: Portuguese (Brazil) <http://weblate.amanoteam.com/projects/"
 "korone/korone/pt_BR/>\n"
@@ -27,12 +27,12 @@ msgstr "Você deve ser um administrador para usar isso."
 #: src/korone/filters/chat.py:24
 msgid "This command was designed to be used in PM, not in group chats!"
 msgstr ""
-"Esse comando foi projetado para ser usado em PM, não em bate-papos em grupo!"
+"Esse comando foi projetado para ser usado no PV, não em bate-papos em grupo!"
 
 #: src/korone/filters/chat.py:44
 msgid "This command was designed to be used in group chats, not in PM!"
 msgstr ""
-"Esse comando foi projetado para ser usado em bate-papos em grupo, não em PM!"
+"Esse comando foi projetado para ser usado em bate-papos em grupo, não no PV!"
 
 #: src/korone/modules/afk/handlers/check.py:80
 msgid "🎧 Listening to: {track_artist} — {track_name}"
@@ -90,7 +90,7 @@ msgid ""
 msgstr ""
 "Comando desconhecido para reativar:\n"
 "- <code>{command}</code>\n"
-"Verifique a opção /disableable!"
+"Verifique o /disableable!"
 
 #: src/korone/modules/disabling/handlers/disable.py:48
 msgid "This command is already disabled."
@@ -207,8 +207,8 @@ msgid ""
 "You should provide a device name to search Example: <code>/device Galaxy "
 "S24</code>."
 msgstr ""
-"Você deve fornecer um nome de dispositivo para pesquisar: <code>/device "
-"Galaxy S24</code>."
+"Você deve fornecer um nome de dispositivo para pesquisar. Exemplo: <code>/"
+"device Galaxy S24</code>."
 
 #: src/korone/modules/gsm_arena/handlers/search.py:38
 msgid "No devices found."
@@ -942,7 +942,7 @@ msgstr "<b>Nome de usuário</b>: @{username}\n"
 
 #: src/korone/modules/users_groups/handlers/groups.py:89
 msgid "<b>Type</b>: {type}\n"
-msgstr "<b>Digite</b>: {type}\n"
+msgstr "<b>Tipo</b>: {type}\n"
 
 #: src/korone/modules/users_groups/handlers/id.py:18
 msgid "Your ID is <code>{id}</code>"
