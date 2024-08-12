@@ -58,16 +58,16 @@ class LastFMTopHandler(MessageHandler):
             else:
                 top_items = await last_fm.get_top_albums(last_fm_user, period=period, limit=5)
         except LastFMError as e:
-            if "user not found" in e.message.lower():
+            if "User not found" in e.message:
                 await message.reply(_("Your LastFM username was not found! Try setting it again."))
-            else:
-                await message.reply(
-                    _(
-                        "An error occurred while fetching your LastFM data!"
-                        "\n<blockquote>{error}</blockquote>"
-                    ).format(error=e.message)
-                )
                 return
+            await message.reply(
+                _(
+                    "An error occurred while fetching your LastFM data!"
+                    "\n<blockquote>{error}</blockquote>"
+                ).format(error=e.message)
+            )
+            return
 
         user_link = name_with_link(name=str(message.from_user.first_name), username=last_fm_user)
 

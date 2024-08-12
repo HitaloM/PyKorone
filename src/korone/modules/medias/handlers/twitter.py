@@ -146,7 +146,7 @@ class TwitterMessageHandler(MessageHandler):
         if sent_message:
             await cache.set(sent_message, int(timedelta(weeks=1).total_seconds()))
 
-    async def send_media(  # noqa: PLR0917
+    async def send_media(
         self,
         client: Client,
         message: Message,
