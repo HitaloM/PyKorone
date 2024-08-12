@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-07-23 19:03-0300\n"
+"POT-Creation-Date: 2024-08-12 11:35-0300\n"
 "PO-Revision-Date: 2024-06-18 13:25+0000\n"
 "Last-Translator: Hitalo <hitalomarquete331@gmail.com>\n"
 "Language-Team: Russian <http://weblate.amanoteam.com/projects/korone/korone/"
@@ -34,15 +34,15 @@ msgstr ""
 msgid "This command was designed to be used in group chats, not in PM!"
 msgstr ""
 
-#: src/korone/modules/afk/handlers/check.py:80
-msgid "🎧 Listening to: {track_artist} — {track_name}"
-msgstr "🎧 Слушать: {track_artist} - {track_name}"
+#: src/korone/modules/afk/handlers/check.py:36
+msgid "Oh, you're back! I've removed your afk status."
+msgstr "О, ты вернулся! Я убрал твой статус афк."
 
-#: src/korone/modules/afk/handlers/check.py:84
+#: src/korone/modules/afk/handlers/check.py:89
 msgid "{user} is afk!"
 msgstr "{user} в отключке!"
 
-#: src/korone/modules/afk/handlers/check.py:86
+#: src/korone/modules/afk/handlers/check.py:92
 msgid ""
 "\n"
 "Reason: {reason}"
@@ -50,27 +50,27 @@ msgstr ""
 "\n"
 "Причина: {reason}"
 
-#: src/korone/modules/afk/handlers/check.py:102
-msgid "Oh, you're back! I've removed your afk status."
-msgstr "О, ты вернулся! Я убрал твой статус афк."
+#: src/korone/modules/afk/handlers/check.py:111
+msgid "🎧 Listening to: {track_artist} — {track_name}"
+msgstr "🎧 Слушать: {track_artist} - {track_name}"
 
-#: src/korone/modules/afk/handlers/set.py:22
+#: src/korone/modules/afk/handlers/set.py:33
 msgid "You are already AFK."
 msgstr "Вы уже находитесь в состоянии AFK."
 
-#: src/korone/modules/afk/handlers/set.py:26
+#: src/korone/modules/afk/handlers/set.py:40
 msgid "The maximum length of the AFK message is 64 characters."
 msgstr ""
 
-#: src/korone/modules/afk/handlers/set.py:32
+#: src/korone/modules/afk/handlers/set.py:47
 msgid "Your AFK status has been updated!"
 msgstr "Ваш статус AFK был обновлен!"
 
-#: src/korone/modules/afk/handlers/set.py:35
+#: src/korone/modules/afk/handlers/set.py:49
 msgid "You are now AFK."
 msgstr "Теперь вы находитесь в состоянии AFK."
 
-#: src/korone/modules/disabling/handlers/disable.py:22
+#: src/korone/modules/disabling/handlers/disable.py:24
 #, fuzzy
 msgid ""
 "You need to specify a command to disable. Use <code>/disable &lt;"
@@ -79,124 +79,129 @@ msgstr ""
 "Сначала вам нужно установить имя пользователя LastFM! Используйте <code>/"
 "setlfm &lt;имя пользователя&gt;</code>."
 
-#: src/korone/modules/disabling/handlers/disable.py:31
+#: src/korone/modules/disabling/handlers/disable.py:33
 msgid "You can only disable one command at a time."
 msgstr "Одновременно можно отключить только одну команду."
 
-#: src/korone/modules/disabling/handlers/disable.py:37
-msgid ""
-"Unknown command to re-enable:\n"
-"- <code>{command}</code>\n"
-"Check the /disableable!"
-msgstr ""
-
-#: src/korone/modules/disabling/handlers/disable.py:48
-msgid "This command is already disabled."
-msgstr "Эта команда уже отключена."
-
-#: src/korone/modules/disabling/handlers/disable.py:53
-msgid "Command disabled."
-msgstr "Команда отключена."
-
-#: src/korone/modules/disabling/handlers/disabled.py:21
-msgid "No commands are disabled in this chat."
-msgstr "В этом чате не отключены никакие команды."
-
-#: src/korone/modules/disabling/handlers/disabled.py:24
-msgid "The following commands are disabled in this chat:\n"
-msgstr "В этом чате отключены следующие команды:\n"
-
-#: src/korone/modules/disabling/handlers/enable.py:21
-msgid "You need to specify a command to enable."
-msgstr "Вам нужно указать команду для включения."
-
-#: src/korone/modules/disabling/handlers/enable.py:26
-msgid "You can only enable one command at a time."
-msgstr "Одновременно можно включить только одну команду."
-
-#: src/korone/modules/disabling/handlers/enable.py:32
+#: src/korone/modules/disabling/handlers/disable.py:39
 msgid ""
 "Unknown command to disable:\n"
 "- <code>{command}</code>\n"
 "Check the /disableable!"
 msgstr ""
 
-#: src/korone/modules/disabling/handlers/enable.py:43
-msgid "This command is already enabled."
-msgstr "Эта команда уже включена."
+#: src/korone/modules/disabling/handlers/disable.py:50
+msgid "This command is already disabled."
+msgstr "Эта команда уже отключена."
 
-#: src/korone/modules/disabling/handlers/enable.py:48
-msgid "Command enabled."
-msgstr "Команда включена."
+#: src/korone/modules/disabling/handlers/disable.py:54
+msgid "Command disabled."
+msgstr "Команда отключена."
 
-#: src/korone/modules/disabling/handlers/list.py:23
+#: src/korone/modules/disabling/handlers/disableable.py:20
 msgid "The following commands can be disabled:\n"
 msgstr "Следующие команды могут быть отключены:\n"
 
-#: src/korone/modules/errors/handlers/catcher.py:74
+#: src/korone/modules/disabling/handlers/disabled.py:22
+msgid "No commands are disabled in this chat."
+msgstr "В этом чате не отключены никакие команды."
+
+#: src/korone/modules/disabling/handlers/disabled.py:27
+msgid "The following commands are disabled in this chat:\n"
+msgstr "В этом чате отключены следующие команды:\n"
+
+#: src/korone/modules/disabling/handlers/enable.py:22
+#, fuzzy
+msgid ""
+"You need to specify a command to enable. Use <code>/enable &lt;"
+"commandname&gt;</code>."
+msgstr ""
+"Сначала вам нужно установить имя пользователя LastFM! Используйте <code>/"
+"setlfm &lt;имя пользователя&gt;</code>."
+
+#: src/korone/modules/disabling/handlers/enable.py:31
+msgid "You can only enable one command at a time."
+msgstr "Одновременно можно включить только одну команду."
+
+#: src/korone/modules/disabling/handlers/enable.py:37
+msgid ""
+"Unknown command to enable:\n"
+"- <code>{command}</code>\n"
+"Check the /disableable!"
+msgstr ""
+
+#: src/korone/modules/disabling/handlers/enable.py:47
+msgid "This command is already enabled."
+msgstr "Эта команда уже включена."
+
+#: src/korone/modules/disabling/handlers/enable.py:51
+msgid "Command enabled."
+msgstr "Команда включена."
+
+#: src/korone/modules/errors/handlers/catcher.py:72
 #, fuzzy
 msgid "An error occurred while processing this update. :/"
 msgstr ""
 "При получении данных LastFM произошла ошибка!\n"
 "Ошибка: <i>{error}</i>"
 
-#: src/korone/modules/errors/handlers/catcher.py:80
+#: src/korone/modules/errors/handlers/catcher.py:77
 msgid "Reference ID: {id}"
 msgstr ""
 
-#: src/korone/modules/errors/handlers/catcher.py:88
+#: src/korone/modules/errors/handlers/catcher.py:85
 msgid "🐞 Report This Error"
 msgstr ""
 
-#: src/korone/modules/gsm_arena/utils.py:97
+#: src/korone/modules/gsm_arena/utils.py:96
 msgid "Status"
 msgstr "Статус"
 
-#: src/korone/modules/gsm_arena/utils.py:98
+#: src/korone/modules/gsm_arena/utils.py:97
 msgid "Network"
 msgstr "Сеть"
 
-#: src/korone/modules/gsm_arena/utils.py:99
+#: src/korone/modules/gsm_arena/utils.py:98
 msgid "Weight"
 msgstr "Вес"
 
-#: src/korone/modules/gsm_arena/utils.py:100
+#: src/korone/modules/gsm_arena/utils.py:99
 msgid "Display"
 msgstr "Дисплей"
 
-#: src/korone/modules/gsm_arena/utils.py:101
+#: src/korone/modules/gsm_arena/utils.py:100
 msgid "Chipset"
 msgstr "Чипсет"
 
-#: src/korone/modules/gsm_arena/utils.py:102
+#: src/korone/modules/gsm_arena/utils.py:101
 msgid "Memory"
 msgstr "Память"
 
-#: src/korone/modules/gsm_arena/utils.py:103
+#: src/korone/modules/gsm_arena/utils.py:102
 msgid "Rear Camera"
 msgstr "Задняя камера"
 
-#: src/korone/modules/gsm_arena/utils.py:104
+#: src/korone/modules/gsm_arena/utils.py:103
 msgid "Front Camera"
 msgstr "Фронтальная камера"
 
-#: src/korone/modules/gsm_arena/utils.py:105
+#: src/korone/modules/gsm_arena/utils.py:104
 msgid "3.5mm jack"
 msgstr "3,5-мм разъем"
 
-#: src/korone/modules/gsm_arena/utils.py:106
+#: src/korone/modules/gsm_arena/utils.py:105
 msgid "USB"
 msgstr "USB"
 
-#: src/korone/modules/gsm_arena/utils.py:107
+#: src/korone/modules/gsm_arena/utils.py:106
 msgid "Sensors"
 msgstr "Датчики"
 
-#: src/korone/modules/gsm_arena/utils.py:108
+#: src/korone/modules/gsm_arena/utils.py:107
 msgid "Battery"
 msgstr "Аккумулятор"
 
-#: src/korone/modules/gsm_arena/utils.py:109
+#: src/korone/modules/gsm_arena/utils.py:108
 msgid "Charging"
 msgstr "Зарядка"
 
@@ -277,11 +282,28 @@ msgstr ""
 "Изменение языка было отменено, вы можете изменить язык снова с помощью "
 "команды /language."
 
-#: src/korone/modules/languages/handlers/info.py:26
+#: src/korone/modules/languages/handlers/info.py:25
+#: src/korone/modules/languages/handlers/info.py:76
+msgid "👤 Change your language"
+msgstr "👤 Смените язык"
+
+#: src/korone/modules/languages/handlers/info.py:27
+msgid "🌍 Change group language"
+msgstr "🌍 Изменение языка группы"
+
+#: src/korone/modules/languages/handlers/info.py:34
+#: src/korone/modules/languages/handlers/info.py:83
+#: src/korone/modules/languages/handlers/select.py:41
+#: src/korone/modules/pm_menu/handlers/about.py:39
+#: src/korone/modules/pm_menu/handlers/help.py:30
+msgid "⬅️ Back"
+msgstr "⬅️ Назад"
+
+#: src/korone/modules/languages/handlers/info.py:44
 msgid "<b>Chat language:</b> {language}\n"
 msgstr "<b>Язык чата:</b> {language}\n"
 
-#: src/korone/modules/languages/handlers/info.py:37
+#: src/korone/modules/languages/handlers/info.py:55
 #, fuzzy
 msgid ""
 "\n"
@@ -290,40 +312,23 @@ msgstr ""
 "\n"
 "<b>Информация о языке:</b>\n"
 
-#: src/korone/modules/languages/handlers/info.py:38
+#: src/korone/modules/languages/handlers/info.py:56
 #, fuzzy
 msgid "Translated strings: <code>{translated}</code>\n"
 msgstr "Переведено: {translated}\n"
 
-#: src/korone/modules/languages/handlers/info.py:41
+#: src/korone/modules/languages/handlers/info.py:59
 #, fuzzy
 msgid "Untranslated strings: <code>{untranslated}</code>\n"
 msgstr "Не переведено: {untranslated}\n"
 
-#: src/korone/modules/languages/handlers/info.py:44
+#: src/korone/modules/languages/handlers/info.py:62
 msgid "Strings requiring review: <code>{fuzzy}</code>\n"
 msgstr ""
 
-#: src/korone/modules/languages/handlers/info.py:46
+#: src/korone/modules/languages/handlers/info.py:64
 msgid "This is the bot's native language. So it is 100% translated."
 msgstr "Это родной язык бота. Поэтому он переведен на 100%."
-
-#: src/korone/modules/languages/handlers/info.py:56
-#: src/korone/modules/languages/handlers/info.py:76
-msgid "👤 Change your language"
-msgstr "👤 Смените язык"
-
-#: src/korone/modules/languages/handlers/info.py:58
-msgid "🌍 Change group language"
-msgstr "🌍 Изменение языка группы"
-
-#: src/korone/modules/languages/handlers/info.py:65
-#: src/korone/modules/languages/handlers/info.py:83
-#: src/korone/modules/languages/handlers/select.py:41
-#: src/korone/modules/pm_menu/handlers/about.py:39
-#: src/korone/modules/pm_menu/handlers/help.py:30
-msgid "⬅️ Back"
-msgstr "⬅️ Назад"
 
 #: src/korone/modules/languages/handlers/select.py:34
 msgid "❌ Cancel"
@@ -339,7 +344,7 @@ msgstr "Пожалуйста, выберите язык, который вы х�
 #: src/korone/modules/lastfm/handlers/compat.py:32
 #: src/korone/modules/lastfm/handlers/now.py:29
 #: src/korone/modules/lastfm/handlers/recent.py:28
-#: src/korone/modules/lastfm/handlers/top.py:36
+#: src/korone/modules/lastfm/handlers/top.py:30
 #: src/korone/modules/lastfm/handlers/user.py:25
 #, fuzzy
 msgid ""
@@ -349,61 +354,62 @@ msgstr ""
 "Сначала вам нужно установить имя пользователя LastFM! Используйте <code>/"
 "setlfm &lt;имя пользователя&gt;</code>."
 
-#: src/korone/modules/lastfm/handlers/album.py:46
-#: src/korone/modules/lastfm/handlers/artist.py:45
-#: src/korone/modules/lastfm/handlers/collage.py:61
-#: src/korone/modules/lastfm/handlers/compat.py:78
-#: src/korone/modules/lastfm/handlers/now.py:46
-#: src/korone/modules/lastfm/handlers/recent.py:42
-#: src/korone/modules/lastfm/handlers/top.py:75
-#: src/korone/modules/lastfm/handlers/user.py:39
+#: src/korone/modules/lastfm/handlers/album.py:47
+#: src/korone/modules/lastfm/handlers/artist.py:44
+#: src/korone/modules/lastfm/handlers/collage.py:60
+#: src/korone/modules/lastfm/handlers/compat.py:69
+#: src/korone/modules/lastfm/handlers/now.py:45
+#: src/korone/modules/lastfm/handlers/recent.py:41
+#: src/korone/modules/lastfm/handlers/top.py:62
+#: src/korone/modules/lastfm/handlers/user.py:38
 msgid "Your LastFM username was not found! Try setting it again."
 msgstr "Ваше имя пользователя LastFM не найдено! Попробуйте задать его снова."
 
-#: src/korone/modules/lastfm/handlers/album.py:49
-#: src/korone/modules/lastfm/handlers/artist.py:48
-#: src/korone/modules/lastfm/handlers/collage.py:65
-#: src/korone/modules/lastfm/handlers/compat.py:81
-#: src/korone/modules/lastfm/handlers/now.py:49
-#: src/korone/modules/lastfm/handlers/recent.py:45
-#: src/korone/modules/lastfm/handlers/top.py:78
-#: src/korone/modules/lastfm/handlers/user.py:42
+#: src/korone/modules/lastfm/handlers/album.py:50
+#: src/korone/modules/lastfm/handlers/artist.py:47
+#: src/korone/modules/lastfm/handlers/collage.py:64
+#: src/korone/modules/lastfm/handlers/compat.py:72
+#: src/korone/modules/lastfm/handlers/now.py:48
+#: src/korone/modules/lastfm/handlers/recent.py:44
+#: src/korone/modules/lastfm/handlers/top.py:65
+#: src/korone/modules/lastfm/handlers/user.py:41
+#, fuzzy
 msgid ""
 "An error occurred while fetching your LastFM data!\n"
-"Error: <i>{error}</i>"
+"<blockquote>{error}</blockquote>"
 msgstr ""
 "При получении данных LastFM произошла ошибка!\n"
 "Ошибка: <i>{error}</i>"
 
-#: src/korone/modules/lastfm/handlers/album.py:58
-#: src/korone/modules/lastfm/handlers/artist.py:57
-#: src/korone/modules/lastfm/handlers/now.py:58
+#: src/korone/modules/lastfm/handlers/album.py:57
+#: src/korone/modules/lastfm/handlers/artist.py:54
+#: src/korone/modules/lastfm/handlers/now.py:55
+msgid "No recent tracks found for your LastFM account."
+msgstr ""
+
+#: src/korone/modules/lastfm/handlers/album.py:63
+#: src/korone/modules/lastfm/handlers/artist.py:60
+#: src/korone/modules/lastfm/handlers/now.py:61
 #: src/korone/modules/lastfm/handlers/recent.py:70
 msgid "{user}'s is listening to:\n"
 msgstr "{user}слушает:\n"
 
-#: src/korone/modules/lastfm/handlers/album.py:60
-#: src/korone/modules/lastfm/handlers/artist.py:59
-#: src/korone/modules/lastfm/handlers/now.py:60
+#: src/korone/modules/lastfm/handlers/album.py:65
+#: src/korone/modules/lastfm/handlers/artist.py:62
+#: src/korone/modules/lastfm/handlers/now.py:63
 #: src/korone/modules/lastfm/handlers/recent.py:75
 msgid "{user}'s was listening to:\n"
 msgstr "{user}слушал:\n"
 
-#: src/korone/modules/lastfm/handlers/album.py:65
-#: src/korone/modules/lastfm/handlers/artist.py:63
-#: src/korone/modules/lastfm/handlers/now.py:65
-msgid ", ❤️ loved"
-msgstr ", ❤️ loved"
-
-#: src/korone/modules/lastfm/handlers/album.py:67
+#: src/korone/modules/lastfm/handlers/album.py:71
 msgid " ∙ <code>{album_playcount} plays</code>"
 msgstr " ∙ <code>{album_playcount} plays</code>"
 
-#: src/korone/modules/lastfm/handlers/artist.py:65
+#: src/korone/modules/lastfm/handlers/artist.py:67
 msgid " ∙ <code>{artist_playcount} plays</code>"
 msgstr " ∙ <code>{artist_playcount} plays</code>"
 
-#: src/korone/modules/lastfm/handlers/collage.py:80
+#: src/korone/modules/lastfm/handlers/collage.py:79
 msgid "{user}'s {period} {collage_size}x{collage_size} album collage"
 msgstr "{user}альбом-коллаж {period} {collage_size}x{collage_size}"
 
@@ -428,11 +434,11 @@ msgstr ""
 "Сначала вам нужно установить имя пользователя LastFM! Используйте <code>/"
 "setlfm &lt;имя пользователя&gt;</code>."
 
-#: src/korone/modules/lastfm/handlers/compat.py:104
+#: src/korone/modules/lastfm/handlers/compat.py:100
 msgid "No common artists in {period}"
 msgstr "Нет общих художников в {period}"
 
-#: src/korone/modules/lastfm/handlers/compat.py:106
+#: src/korone/modules/lastfm/handlers/compat.py:102
 msgid ""
 "{user1} and {user2} listen to {mutual}...\n"
 "\n"
@@ -442,7 +448,11 @@ msgstr ""
 "\n"
 "Оценка совместимости {score}%, основанная на {period}"
 
-#: src/korone/modules/lastfm/handlers/now.py:67
+#: src/korone/modules/lastfm/handlers/now.py:68
+msgid ", ❤️ loved"
+msgstr ", ❤️ loved"
+
+#: src/korone/modules/lastfm/handlers/now.py:70
 msgid " ∙ <code>{track_playcount} plays</code>"
 msgstr " ∙ <code>{track_playcount} plays</code>"
 
@@ -454,7 +464,7 @@ msgstr ""
 "\n"
 "Последние 5 игр:"
 
-#: src/korone/modules/lastfm/handlers/set.py:28
+#: src/korone/modules/lastfm/handlers/set.py:24
 #, fuzzy
 msgid ""
 "You need to provide your LastFM username! Example: <code>/setlfm username</"
@@ -463,34 +473,22 @@ msgstr ""
 "Сначала вам нужно установить имя пользователя LastFM! Используйте <code>/"
 "setlfm &lt;имя пользователя&gt;</code>."
 
-#: src/korone/modules/lastfm/handlers/set.py:37
+#: src/korone/modules/lastfm/handlers/set.py:33
 msgid "LastFM username must not contain spaces or special characters!"
 msgstr ""
 "Имя пользователя LastFM не должно содержать пробелов или специальных "
 "символов!"
 
-#: src/korone/modules/lastfm/handlers/set.py:42
+#: src/korone/modules/lastfm/handlers/set.py:38
 msgid "LastFM username set successfully!"
 msgstr "Имя пользователя LastFM установлено успешно!"
 
-#: src/korone/modules/lastfm/handlers/top.py:28
-msgid "artists"
-msgstr "художники"
-
-#: src/korone/modules/lastfm/handlers/top.py:29
-msgid "tracks"
-msgstr "треки"
-
-#: src/korone/modules/lastfm/handlers/top.py:29
-msgid "albums"
-msgstr "альбомы"
-
-#: src/korone/modules/lastfm/handlers/top.py:53
+#: src/korone/modules/lastfm/handlers/top.py:47
 msgid "Invalid entry type! Use one of the following: artist, track, album"
 msgstr ""
 "Неверный тип записи! Используйте один из следующих: исполнитель, трек, альбом"
 
-#: src/korone/modules/lastfm/handlers/top.py:87
+#: src/korone/modules/lastfm/handlers/top.py:74
 msgid ""
 "{user}'s top 5 {entry} for {period}:\n"
 "\n"
@@ -498,9 +496,21 @@ msgstr ""
 "{user}5 лучших {entry} для {period}:\n"
 "\n"
 
-#: src/korone/modules/lastfm/handlers/top.py:98
+#: src/korone/modules/lastfm/handlers/top.py:85
 msgid " -> {scrobbles} plays\n"
 msgstr " -> {scrobbles} играет\n"
+
+#: src/korone/modules/lastfm/handlers/top.py:92
+msgid "artists"
+msgstr "художники"
+
+#: src/korone/modules/lastfm/handlers/top.py:93
+msgid "tracks"
+msgstr "треки"
+
+#: src/korone/modules/lastfm/handlers/top.py:93
+msgid "albums"
+msgstr "альбомы"
 
 #: src/korone/modules/lastfm/handlers/user.py:54
 msgid ""
@@ -522,70 +532,62 @@ msgstr ""
 "\n"
 "Зарегистрированные: <i>{registered}</i>"
 
-#: src/korone/modules/lastfm/utils/formatters.py:22
+#: src/korone/modules/lastfm/utils/formatters.py:27
 msgid ", {days} day(s) ago"
 msgstr ", {days} день(ов) назад"
 
-#: src/korone/modules/lastfm/utils/formatters.py:26
+#: src/korone/modules/lastfm/utils/formatters.py:31
 msgid ", {hours} hour(s) ago"
 msgstr ", {hours} час(ов) назад"
 
-#: src/korone/modules/lastfm/utils/formatters.py:30
+#: src/korone/modules/lastfm/utils/formatters.py:35
 msgid ", {minutes} minute(s) ago"
 msgstr ", {minutes} минуту(ы) назад"
 
-#: src/korone/modules/lastfm/utils/formatters.py:30
+#: src/korone/modules/lastfm/utils/formatters.py:35
 msgid ", Just now"
 msgstr "Только что"
 
-#: src/korone/modules/lastfm/utils/formatters.py:59
+#: src/korone/modules/lastfm/utils/formatters.py:64
 msgid "1 week"
 msgstr "1 неделя"
 
-#: src/korone/modules/lastfm/utils/formatters.py:61
+#: src/korone/modules/lastfm/utils/formatters.py:66
 msgid "1 month"
 msgstr "1 месяц"
 
-#: src/korone/modules/lastfm/utils/formatters.py:63
+#: src/korone/modules/lastfm/utils/formatters.py:68
 msgid "3 months"
 msgstr "3 месяца"
 
-#: src/korone/modules/lastfm/utils/formatters.py:65
+#: src/korone/modules/lastfm/utils/formatters.py:70
 msgid "6 months"
 msgstr "6 месяцев"
 
-#: src/korone/modules/lastfm/utils/formatters.py:67
+#: src/korone/modules/lastfm/utils/formatters.py:72
 msgid "1 year"
 msgstr "1 год"
 
-#: src/korone/modules/lastfm/utils/formatters.py:68
+#: src/korone/modules/lastfm/utils/formatters.py:73
 msgid "All time"
 msgstr "Все время"
 
-#: src/korone/modules/medias/handlers/tiktok.py:66
-#: src/korone/modules/medias/handlers/tiktok.py:87
-#: src/korone/modules/medias/handlers/tiktok.py:93
-#: src/korone/modules/medias/handlers/twitter.py:180
-#: src/korone/modules/medias/handlers/twitter.py:231
-msgid "Failed to send media: {error}"
-msgstr "Не удалось отправить носитель: {error}"
+#: src/korone/modules/medias/handlers/instagram.py:64
+#: src/korone/modules/medias/handlers/instagram.py:71
+msgid "Open in Instagram"
+msgstr "Открыть в Instagram"
 
-#: src/korone/modules/medias/handlers/tiktok.py:137
-#: src/korone/modules/medias/handlers/tiktok.py:145
+#: src/korone/modules/medias/handlers/tiktok.py:189
+#: src/korone/modules/medias/handlers/tiktok.py:197
 msgid "Open in TikTok"
 msgstr "Открыть в TikTok"
 
-#: src/korone/modules/medias/handlers/twitter.py:122
-#: src/korone/modules/medias/handlers/twitter.py:220
+#: src/korone/modules/medias/handlers/twitter.py:49
+#: src/korone/modules/medias/handlers/twitter.py:158
 msgid "Open in Twitter"
 msgstr "Открыть в Twitter"
 
-#: src/korone/modules/medias/handlers/twitter.py:146
-#: src/korone/modules/medias/handlers/twitter.py:161
-msgid "Failed to send media!"
-msgstr "Не удалось отправить носитель!"
-
-#: src/korone/modules/medias/handlers/twitter.py:193
+#: src/korone/modules/medias/handlers/twitter.py:227
 msgid ""
 "\n"
 "<b>Sent from:</b> <i>{source}</i>"
@@ -593,47 +595,11 @@ msgstr ""
 "\n"
 "<b>Отправлено из:</b> <i>{source}</i>"
 
-#: src/korone/modules/medias/handlers/youtube.py:34
-msgid "<b>Title:</b> {title}\n"
-msgstr "<b>Название:</b> {title}\n"
-
-#: src/korone/modules/medias/handlers/youtube.py:35
-msgid "<b>Uploader:</b> {uploader}\n"
-msgstr "<b>Загрузчик:</b> {uploader}\n"
-
-#: src/korone/modules/medias/handlers/youtube.py:47
-msgid "<b>Duration:</b> {hours}h {minutes}m {seconds}s\n"
-msgstr "<b>Продолжительность:</b> {hours}ч {minutes}м {seconds}с\n"
-
-#: src/korone/modules/medias/handlers/youtube.py:51
-msgid "<b>Duration:</b> {minutes}m {seconds}s\n"
-msgstr "<b>Продолжительность:</b> {minutes}m {seconds}s\n"
-
-#: src/korone/modules/medias/handlers/youtube.py:55
-msgid "<b>Duration:</b> {seconds}s\n"
-msgstr "<b>Продолжительность:</b> {seconds}s\n"
-
-#: src/korone/modules/medias/handlers/youtube.py:62
-msgid "<b>Views:</b> {view_count}\n"
-msgstr "<b>Виды:</b> {view_count}\n"
-
-#: src/korone/modules/medias/handlers/youtube.py:63
-msgid "<b>Likes:</b> {like_count}\n"
-msgstr "<b>Нравится:</b> {like_count}\n"
-
-#: src/korone/modules/medias/handlers/youtube.py:71
-msgid "Download video"
-msgstr "Скачать видео"
-
-#: src/korone/modules/medias/handlers/youtube.py:75
-msgid "Download audio"
-msgstr "Скачать аудио"
-
-#: src/korone/modules/medias/handlers/youtube.py:90
+#: src/korone/modules/medias/handlers/youtube.py:41
 msgid "No YouTube URL found in the replied message."
 msgstr "В ответном сообщении не найден URL-адрес YouTube."
 
-#: src/korone/modules/medias/handlers/youtube.py:97
+#: src/korone/modules/medias/handlers/youtube.py:46
 #, fuzzy
 msgid ""
 "You need to provide a URL or reply to a message that contains a URL. "
@@ -641,44 +607,81 @@ msgid ""
 msgstr ""
 "Вам нужно указать URL-адрес или ответить на сообщение, содержащее URL-адрес."
 
-#: src/korone/modules/medias/handlers/youtube.py:105
+#: src/korone/modules/medias/handlers/youtube.py:54
 msgid "Invalid YouTube URL!"
 msgstr "Неверный URL-адрес YouTube!"
 
-#: src/korone/modules/medias/handlers/youtube.py:115
+#: src/korone/modules/medias/handlers/youtube.py:64
 msgid "Failed to extract video info!"
 msgstr "Не удалось извлечь информацию о видео!"
 
-#: src/korone/modules/medias/handlers/youtube.py:134
+#: src/korone/modules/medias/handlers/youtube.py:74
+msgid "<b>Title:</b> {title}\n"
+msgstr "<b>Название:</b> {title}\n"
+
+#: src/korone/modules/medias/handlers/youtube.py:75
+msgid "<b>Uploader:</b> {uploader}\n"
+msgstr "<b>Загрузчик:</b> {uploader}\n"
+
+#: src/korone/modules/medias/handlers/youtube.py:87
+msgid "<b>Duration:</b> {hours}h {minutes}m {seconds}s\n"
+msgstr "<b>Продолжительность:</b> {hours}ч {minutes}м {seconds}с\n"
+
+#: src/korone/modules/medias/handlers/youtube.py:91
+msgid "<b>Duration:</b> {minutes}m {seconds}s\n"
+msgstr "<b>Продолжительность:</b> {minutes}m {seconds}s\n"
+
+#: src/korone/modules/medias/handlers/youtube.py:95
+msgid "<b>Duration:</b> {seconds}s\n"
+msgstr "<b>Продолжительность:</b> {seconds}s\n"
+
+#: src/korone/modules/medias/handlers/youtube.py:99
+msgid "<b>Views:</b> {view_count}\n"
+msgstr "<b>Виды:</b> {view_count}\n"
+
+#: src/korone/modules/medias/handlers/youtube.py:102
+#, fuzzy
+msgid "<b>Likes:</b> Unknown\n"
+msgstr "<b>Нравится:</b> {like_count}\n"
+
+#: src/korone/modules/medias/handlers/youtube.py:105
+msgid "<b>Likes:</b> {like_count}\n"
+msgstr "<b>Нравится:</b> {like_count}\n"
+
+#: src/korone/modules/medias/handlers/youtube.py:113
+msgid "Download video"
+msgstr "Скачать видео"
+
+#: src/korone/modules/medias/handlers/youtube.py:117
+msgid "Download audio"
+msgstr "Скачать аудио"
+
+#: src/korone/modules/medias/handlers/youtube.py:143
 msgid "Downloading..."
 msgstr "Загрузка..."
 
-#: src/korone/modules/medias/handlers/youtube.py:145
-#: src/korone/modules/medias/handlers/youtube.py:151
+#: src/korone/modules/medias/handlers/youtube.py:154
+#: src/korone/modules/medias/handlers/youtube.py:159
 msgid "Failed to download the media."
 msgstr "Не удалось загрузить носитель."
 
-#: src/korone/modules/medias/handlers/youtube.py:154
+#: src/korone/modules/medias/handlers/youtube.py:162
 msgid "Uploading..."
 msgstr "Загрузка..."
 
-#: src/korone/modules/medias/handlers/youtube.py:183
-msgid "Failed to send the media."
-msgstr "Не удалось отправить носитель."
-
-#: src/korone/modules/pm_menu/handlers/about.py:28
+#: src/korone/modules/pm_menu/handlers/about.py:31
 msgid "📦 GitHub"
 msgstr "📦 GitHub"
 
-#: src/korone/modules/pm_menu/handlers/about.py:29
+#: src/korone/modules/pm_menu/handlers/about.py:32
 msgid "📚 Channel"
 msgstr "📚 Канал"
 
-#: src/korone/modules/pm_menu/handlers/about.py:31
+#: src/korone/modules/pm_menu/handlers/about.py:33
 msgid "🔒 Privacy Policy"
 msgstr ""
 
-#: src/korone/modules/pm_menu/handlers/about.py:51
+#: src/korone/modules/pm_menu/handlers/about.py:52
 #, fuzzy
 msgid ""
 "Korone is a comprehensive and cutting-edge Telegram bot that offers a wide "
@@ -706,7 +709,7 @@ msgstr ""
 "Версия PyKororne: {version}"
 
 #: src/korone/modules/pm_menu/handlers/help.py:25
-#: src/korone/modules/pm_menu/handlers/privacy.py:20
+#: src/korone/modules/pm_menu/handlers/privacy.py:21
 msgid "Documentation"
 msgstr ""
 
@@ -717,17 +720,17 @@ msgid ""
 "to start reading."
 msgstr ""
 
-#: src/korone/modules/pm_menu/handlers/privacy.py:27
+#: src/korone/modules/pm_menu/handlers/privacy.py:26
 msgid ""
 "The privacy policy is available for review in the documentation. Click the "
 "button below to start reading."
 msgstr ""
 
-#: src/korone/modules/pm_menu/handlers/start.py:29
+#: src/korone/modules/pm_menu/handlers/start.py:27
 msgid "ℹ️ About"
 msgstr "ℹ️ О"
 
-#: src/korone/modules/pm_menu/handlers/start.py:31
+#: src/korone/modules/pm_menu/handlers/start.py:29
 msgid "{lang_flag} Language"
 msgstr "{lang_flag} Язык"
 
@@ -735,7 +738,7 @@ msgstr "{lang_flag} Язык"
 msgid "👮‍♂️ Help"
 msgstr "👮‍♂️ Помощь"
 
-#: src/korone/modules/pm_menu/handlers/start.py:41
+#: src/korone/modules/pm_menu/handlers/start.py:40
 msgid ""
 "Hi, I'm Korone! An all-in-one bot. I can help you with lots of things. Just "
 "click on the buttons below to get started."
@@ -765,15 +768,15 @@ msgstr ""
 msgid "No message to apply the substitution."
 msgstr ""
 
-#: src/korone/modules/stickers/handlers/get_sticker.py:35
+#: src/korone/modules/stickers/handlers/get_sticker.py:22
 msgid "Reply to a sticker."
 msgstr "Ответить на наклейку."
 
-#: src/korone/modules/stickers/handlers/get_sticker.py:39
+#: src/korone/modules/stickers/handlers/get_sticker.py:26
 msgid "Reply to a sticker to get it as a file and file ID"
 msgstr "Ответьте на стикер, чтобы получить его как файл и идентификатор файла"
 
-#: src/korone/modules/stickers/handlers/get_sticker.py:50
+#: src/korone/modules/stickers/handlers/get_sticker.py:34
 msgid "Failed to download sticker."
 msgstr "Не удалось загрузить наклейку."
 
@@ -798,21 +801,21 @@ msgstr "Не удалось загрузить носитель."
 msgid "Error processing media."
 msgstr ""
 
-#: src/korone/modules/stickers/handlers/kang.py:93
+#: src/korone/modules/stickers/handlers/kang.py:94
 msgid "View pack"
 msgstr ""
 
-#: src/korone/modules/stickers/handlers/kang.py:95
+#: src/korone/modules/stickers/handlers/kang.py:96
 msgid ""
 "Sticker <b>successfully</b> added to pack\n"
 "Emoji: {sticker_emoji}"
 msgstr ""
 
-#: src/korone/modules/stickers/handlers/kang.py:161
+#: src/korone/modules/stickers/handlers/kang.py:163
 msgid "Adding the sticker to the pack..."
 msgstr ""
 
-#: src/korone/modules/stickers/handlers/kang.py:176
+#: src/korone/modules/stickers/handlers/kang.py:178
 msgid "Creating the sticker pack..."
 msgstr ""
 
@@ -827,27 +830,31 @@ msgid ""
 "<b>Please start the bot first.</b>"
 msgstr ""
 
-#: src/korone/modules/translator/handlers/translate.py:74
+#: src/korone/modules/stickers/handlers/kang.py:210
+msgid "An error occurred: {}"
+msgstr ""
+
+#: src/korone/modules/translator/handlers/translate.py:43
 msgid "Unsupported source language: {source_lang}"
 msgstr ""
 
-#: src/korone/modules/translator/handlers/translate.py:80
+#: src/korone/modules/translator/handlers/translate.py:49
 msgid "Unsupported target language: {target_lang}"
 msgstr ""
 
-#: src/korone/modules/translator/handlers/translate.py:89
+#: src/korone/modules/translator/handlers/translate.py:58
 msgid ""
 "Korone has reached the translation quota. The DeepL API has a limit of "
 "500,000 characters per month for the free plan, and we have exceeded this "
 "limit."
 msgstr ""
 
-#: src/korone/modules/translator/handlers/translate.py:97
+#: src/korone/modules/translator/handlers/translate.py:66
 #, fuzzy
 msgid "Failed to translate text. Error: {error}"
 msgstr "Не удалось отправить носитель: {error}"
 
-#: src/korone/modules/translator/handlers/translate.py:100
+#: src/korone/modules/translator/handlers/translate.py:69
 msgid ""
 "<b>Language:</b> <code>{source_lang}</code> => <code>{target_lang}</code>"
 msgstr ""
@@ -870,75 +877,64 @@ msgstr ""
 msgid "No deleted accounts found."
 msgstr "Устройства не найдены."
 
-#: src/korone/modules/users_groups/handlers/groups.py:31
-#: src/korone/modules/users_groups/handlers/users.py:26
-msgid "The provided identifier is not valid."
-msgstr ""
-
-#: src/korone/modules/users_groups/handlers/groups.py:51
-#, fuzzy
-msgid "The provided group ID is invalid."
-msgstr "Вам необходимо указать свое имя пользователя LastFM!"
-
-#: src/korone/modules/users_groups/handlers/groups.py:52
-msgid ""
-"Unable to access this channel, maybe it's private or I'm banned from it."
-msgstr ""
-
-#: src/korone/modules/users_groups/handlers/groups.py:55
-msgid "The provided username is invalid."
-msgstr ""
-
-#: src/korone/modules/users_groups/handlers/groups.py:56
-#: src/korone/modules/users_groups/handlers/users.py:38
-msgid "The provided username does not exist."
-msgstr ""
-
-#: src/korone/modules/users_groups/handlers/groups.py:57
-msgid "No group found with the provided identifier."
-msgstr ""
-
-#: src/korone/modules/users_groups/handlers/groups.py:58
-msgid "Error accessing group data."
-msgstr ""
-
-#: src/korone/modules/users_groups/handlers/groups.py:59
-msgid "The provided value is not valid."
-msgstr ""
-
-#: src/korone/modules/users_groups/handlers/groups.py:72
+#: src/korone/modules/users_groups/handlers/groups.py:25
 #, fuzzy
 msgid ""
 "You should provide a group ID or username. Example: <code>/group @username</"
 "code>."
 msgstr "Вам необходимо указать свое имя пользователя LastFM!"
 
-#: src/korone/modules/users_groups/handlers/groups.py:83
+#: src/korone/modules/users_groups/handlers/groups.py:36
 #, fuzzy
 msgid "<b>Group info</b>:\n"
 msgstr ""
 "\n"
 "<b>Информация о языке:</b>\n"
 
-#: src/korone/modules/users_groups/handlers/groups.py:84
-#: src/korone/modules/users_groups/handlers/users.py:57
+#: src/korone/modules/users_groups/handlers/groups.py:37
+#: src/korone/modules/users_groups/handlers/users.py:29
 msgid "<b>ID</b>: <code>{id}</code>\n"
 msgstr ""
 
-#: src/korone/modules/users_groups/handlers/groups.py:85
+#: src/korone/modules/users_groups/handlers/groups.py:38
 #, fuzzy
 msgid "<b>Title</b>: {title}\n"
 msgstr "<b>Название:</b> {title}\n"
 
-#: src/korone/modules/users_groups/handlers/groups.py:87
-#: src/korone/modules/users_groups/handlers/users.py:62
+#: src/korone/modules/users_groups/handlers/groups.py:40
+#: src/korone/modules/users_groups/handlers/users.py:34
 msgid "<b>Username</b>: @{username}\n"
 msgstr ""
 
-#: src/korone/modules/users_groups/handlers/groups.py:89
+#: src/korone/modules/users_groups/handlers/groups.py:42
 #, fuzzy
 msgid "<b>Type</b>: {type}\n"
 msgstr "<b>Название:</b> {title}\n"
+
+#: src/korone/modules/users_groups/handlers/groups.py:58
+msgid "The provided identifier is not valid."
+msgstr ""
+
+#: src/korone/modules/users_groups/handlers/groups.py:68
+msgid "The provided username is invalid."
+msgstr ""
+
+#: src/korone/modules/users_groups/handlers/groups.py:69
+#: src/korone/modules/users_groups/handlers/users.py:58
+msgid "The provided username does not exist."
+msgstr ""
+
+#: src/korone/modules/users_groups/handlers/groups.py:70
+msgid "No group found with the provided identifier."
+msgstr ""
+
+#: src/korone/modules/users_groups/handlers/groups.py:71
+msgid "Error accessing group data."
+msgstr ""
+
+#: src/korone/modules/users_groups/handlers/groups.py:72
+msgid "The provided value is not valid."
+msgstr ""
 
 #: src/korone/modules/users_groups/handlers/id.py:18
 msgid "Your ID is <code>{id}</code>"
@@ -963,33 +959,37 @@ msgid ""
 "Forwarded user ID: <code>{id}</code>"
 msgstr "Переведено: {translated}\n"
 
-#: src/korone/modules/users_groups/handlers/users.py:37
-msgid "The provided user ID is invalid."
-msgstr ""
-
-#: src/korone/modules/users_groups/handlers/users.py:39
-msgid "No user found with the provided identifier."
-msgstr ""
-
-#: src/korone/modules/users_groups/handlers/users.py:56
+#: src/korone/modules/users_groups/handlers/users.py:28
 #, fuzzy
 msgid "<b>User info</b>:\n"
 msgstr ""
 "\n"
 "<b>Информация о языке:</b>\n"
 
-#: src/korone/modules/users_groups/handlers/users.py:58
+#: src/korone/modules/users_groups/handlers/users.py:30
 #, fuzzy
 msgid "<b>First Name</b>: {first_name}\n"
 msgstr "<b>Название:</b> {title}\n"
 
-#: src/korone/modules/users_groups/handlers/users.py:60
+#: src/korone/modules/users_groups/handlers/users.py:32
 #, fuzzy
 msgid "<b>Last Name</b>: {last_name}\n"
 msgstr "<b>Язык чата:</b> {language}\n"
 
-#: src/korone/modules/users_groups/handlers/users.py:63
+#: src/korone/modules/users_groups/handlers/users.py:35
 msgid "<b>User link</b>: <a href='tg://user?id={id}'>link</a>\n"
+msgstr ""
+
+#: src/korone/modules/users_groups/handlers/users.py:47
+msgid "Invalid identifier provided."
+msgstr ""
+
+#: src/korone/modules/users_groups/handlers/users.py:57
+msgid "The provided user ID is invalid."
+msgstr ""
+
+#: src/korone/modules/users_groups/handlers/users.py:59
+msgid "No user found with the provided identifier."
 msgstr ""
 
 #: src/korone/modules/web/handlers/ip.py:24
@@ -1064,6 +1064,22 @@ msgstr ""
 #, fuzzy
 msgid "Change the bot language"
 msgstr "👤 Смените язык"
+
+#~ msgid "You need to specify a command to enable."
+#~ msgstr "Вам нужно указать команду для включения."
+
+#~ msgid "Failed to send media: {error}"
+#~ msgstr "Не удалось отправить носитель: {error}"
+
+#~ msgid "Failed to send media!"
+#~ msgstr "Не удалось отправить носитель!"
+
+#~ msgid "Failed to send the media."
+#~ msgstr "Не удалось отправить носитель."
+
+#, fuzzy
+#~ msgid "The provided group ID is invalid."
+#~ msgstr "Вам необходимо указать свое имя пользователя LastFM!"
 
 #~ msgid "This command can't be enabled or disabled."
 #~ msgstr "Эта команда не может быть включена или выключена."
@@ -1393,9 +1409,6 @@ msgstr "👤 Смените язык"
 #, fuzzy
 #~ msgid "User not found."
 #~ msgstr "Модуль не найден."
-
-#~ msgid "Open in Instagram"
-#~ msgstr "Открыть в Instagram"
 
 #~ msgid "This Instagram URL is not a valid post or story."
 #~ msgstr ""
