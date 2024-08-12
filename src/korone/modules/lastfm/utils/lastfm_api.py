@@ -68,14 +68,12 @@ class LastFMClient:
 
     @staticmethod
     def _build_params(method: str, user: str, **kwargs: Any) -> dict[str, Any]:
-        params = {
+        return {
             "method": method,
             "user": user,
             "api_key": API_KEY,
             "format": "json",
-        }
-        params.update(kwargs)
-        return params
+        } | kwargs
 
     @overload
     @staticmethod

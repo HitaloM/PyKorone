@@ -39,8 +39,14 @@ class LastFMRecentsHandler(MessageHandler):
         except LastFMError as e:
             if "user not found" in e.message.lower():
                 await message.reply(_("Your LastFM username was not found! Try setting it again."))
+            else:
+                await message.reply(
+                    _(
+                        "An error occurred while fetching your LastFM data!"
+                        "\n<blockquote>{error}</blockquote>"
+                    ).format(error=e.message)
+                )
                 return
-            raise
 
         if recent_tracks:
             last_played = recent_tracks[0]

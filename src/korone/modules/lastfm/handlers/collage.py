@@ -59,8 +59,14 @@ class LastFMCollageHandler(MessageHandler):
                     await message.reply(
                         _("Your LastFM username was not found! Try setting it again.")
                     )
+                else:
+                    await message.reply(
+                        _(
+                            "An error occurred while fetching your LastFM data!"
+                            "\n<blockquote>{error}</blockquote>"
+                        ).format(error=e.message)
+                    )
                     return
-                raise
 
             collage_path = await create_album_collage(
                 top_items, collage_size=(collage_size, collage_size), show_text=show_text

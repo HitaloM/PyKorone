@@ -58,9 +58,7 @@ class CheckAfk(MessageHandler):
     ) -> User | None:
         if entity.type == MessageEntityType.MENTION:
             return await self.get_user_by_username(entity, client, message)
-        if entity.type == MessageEntityType.TEXT_MENTION:
-            return entity.user
-        return None
+        return entity.user if entity.type == MessageEntityType.TEXT_MENTION else None
 
     @staticmethod
     async def get_user_by_username(

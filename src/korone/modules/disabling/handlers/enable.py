@@ -15,11 +15,9 @@ from korone.utils.i18n import gettext as _
 class EnableHandler(MessageHandler):
     @staticmethod
     @router.message(Command("enable", disableable=False) & IsGroupChat & IsAdmin)
-    async def handle(client: Client, message: Message) -> None:
-        command_object = CommandObject(message).parse()
-        command_args = command_object.args
-
-        if not command_args:
+    async def enable(client: Client, message: Message) -> None:
+        command = CommandObject(message).parse()
+        if not command.args:
             await message.reply(
                 _(
                     "You need to specify a command to enable. "
@@ -28,12 +26,12 @@ class EnableHandler(MessageHandler):
             )
             return
 
-        command_args_list = command_args.split(" ")
-        if len(command_args_list) > 1:
+        args = command.args.split(" ")
+        if len(args) > 1:
             await message.reply(_("You can only enable one command at a time."))
             return
 
-        command_name = command_args_list[0]
+        command_name = args[0]
         if command_name not in COMMANDS:
             await message.reply(
                 _(
@@ -44,9 +42,8 @@ class EnableHandler(MessageHandler):
             )
             return
 
-        command_state = await fetch_command_state(command_name)
-
-        if command_state and bool(command_state[0]["state"]):
+        cmd_db = await fetch_command_state(command_name)
+        if cmd_db and bool(cmd_db[0]["state"]):
             await message.reply(_("This command is already enabled."))
             return
 

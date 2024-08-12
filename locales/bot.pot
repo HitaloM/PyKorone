@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PyKorone 1.0\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-08-08 13:53-0300\n"
+"POT-Creation-Date: 2024-08-12 10:32-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -33,17 +33,17 @@ msgstr ""
 msgid "Oh, you're back! I've removed your afk status."
 msgstr ""
 
-#: src/korone/modules/afk/handlers/check.py:91
+#: src/korone/modules/afk/handlers/check.py:89
 msgid "{user} is afk!"
 msgstr ""
 
-#: src/korone/modules/afk/handlers/check.py:94
+#: src/korone/modules/afk/handlers/check.py:92
 msgid ""
 "\n"
 "Reason: {reason}"
 msgstr ""
 
-#: src/korone/modules/afk/handlers/check.py:113
+#: src/korone/modules/afk/handlers/check.py:111
 msgid "🎧 Listening to: {track_artist} — {track_name}"
 msgstr ""
 
@@ -100,28 +100,28 @@ msgstr ""
 msgid "The following commands are disabled in this chat:\n"
 msgstr ""
 
-#: src/korone/modules/disabling/handlers/enable.py:24
+#: src/korone/modules/disabling/handlers/enable.py:22
 msgid ""
 "You need to specify a command to enable. Use <code>/enable "
 "&lt;commandname&gt;</code>."
 msgstr ""
 
-#: src/korone/modules/disabling/handlers/enable.py:33
+#: src/korone/modules/disabling/handlers/enable.py:31
 msgid "You can only enable one command at a time."
 msgstr ""
 
-#: src/korone/modules/disabling/handlers/enable.py:39
+#: src/korone/modules/disabling/handlers/enable.py:37
 msgid ""
 "Unknown command to enable:\n"
 "- <code>{command}</code>\n"
 "Check the /disableable!"
 msgstr ""
 
-#: src/korone/modules/disabling/handlers/enable.py:50
+#: src/korone/modules/disabling/handlers/enable.py:47
 msgid "This command is already enabled."
 msgstr ""
 
-#: src/korone/modules/disabling/handlers/enable.py:54
+#: src/korone/modules/disabling/handlers/enable.py:51
 msgid "Command enabled."
 msgstr ""
 
@@ -327,35 +327,48 @@ msgstr ""
 msgid "Your LastFM username was not found! Try setting it again."
 msgstr ""
 
-#: src/korone/modules/lastfm/handlers/album.py:51
-#: src/korone/modules/lastfm/handlers/artist.py:48
-#: src/korone/modules/lastfm/handlers/now.py:49
-msgid "No recent tracks found for your LastFM account."
+#: src/korone/modules/lastfm/handlers/album.py:50
+#: src/korone/modules/lastfm/handlers/artist.py:47
+#: src/korone/modules/lastfm/handlers/collage.py:64
+#: src/korone/modules/lastfm/handlers/compat.py:72
+#: src/korone/modules/lastfm/handlers/now.py:48
+#: src/korone/modules/lastfm/handlers/recent.py:44
+#: src/korone/modules/lastfm/handlers/top.py:71
+#: src/korone/modules/lastfm/handlers/user.py:41
+msgid ""
+"An error occurred while fetching your LastFM data!\n"
+"<blockquote>{error}</blockquote>"
 msgstr ""
 
 #: src/korone/modules/lastfm/handlers/album.py:57
 #: src/korone/modules/lastfm/handlers/artist.py:54
 #: src/korone/modules/lastfm/handlers/now.py:55
-#: src/korone/modules/lastfm/handlers/recent.py:64
+msgid "No recent tracks found for your LastFM account."
+msgstr ""
+
+#: src/korone/modules/lastfm/handlers/album.py:63
+#: src/korone/modules/lastfm/handlers/artist.py:60
+#: src/korone/modules/lastfm/handlers/now.py:61
+#: src/korone/modules/lastfm/handlers/recent.py:70
 msgid "{user}'s is listening to:\n"
 msgstr ""
 
-#: src/korone/modules/lastfm/handlers/album.py:59
-#: src/korone/modules/lastfm/handlers/artist.py:56
-#: src/korone/modules/lastfm/handlers/now.py:57
-#: src/korone/modules/lastfm/handlers/recent.py:69
+#: src/korone/modules/lastfm/handlers/album.py:65
+#: src/korone/modules/lastfm/handlers/artist.py:62
+#: src/korone/modules/lastfm/handlers/now.py:63
+#: src/korone/modules/lastfm/handlers/recent.py:75
 msgid "{user}'s was listening to:\n"
 msgstr ""
 
-#: src/korone/modules/lastfm/handlers/album.py:65
+#: src/korone/modules/lastfm/handlers/album.py:71
 msgid " ∙ <code>{album_playcount} plays</code>"
 msgstr ""
 
-#: src/korone/modules/lastfm/handlers/artist.py:61
+#: src/korone/modules/lastfm/handlers/artist.py:67
 msgid " ∙ <code>{artist_playcount} plays</code>"
 msgstr ""
 
-#: src/korone/modules/lastfm/handlers/collage.py:73
+#: src/korone/modules/lastfm/handlers/collage.py:79
 msgid "{user}'s {period} {collage_size}x{collage_size} album collage"
 msgstr ""
 
@@ -377,26 +390,26 @@ msgid ""
 "to set it using <code>/setlfm username</code>."
 msgstr ""
 
-#: src/korone/modules/lastfm/handlers/compat.py:94
+#: src/korone/modules/lastfm/handlers/compat.py:100
 msgid "No common artists in {period}"
 msgstr ""
 
-#: src/korone/modules/lastfm/handlers/compat.py:96
+#: src/korone/modules/lastfm/handlers/compat.py:102
 msgid ""
 "{user1} and {user2} listen to {mutual}...\n"
 "\n"
 "Compatibility score is {score}%, based on {period}"
 msgstr ""
 
-#: src/korone/modules/lastfm/handlers/now.py:62
+#: src/korone/modules/lastfm/handlers/now.py:68
 msgid ", ❤️ loved"
 msgstr ""
 
-#: src/korone/modules/lastfm/handlers/now.py:64
+#: src/korone/modules/lastfm/handlers/now.py:70
 msgid " ∙ <code>{track_playcount} plays</code>"
 msgstr ""
 
-#: src/korone/modules/lastfm/handlers/recent.py:66
+#: src/korone/modules/lastfm/handlers/recent.py:72
 msgid ""
 "\n"
 "Last 5 plays:"
@@ -432,17 +445,17 @@ msgstr ""
 msgid "Invalid entry type! Use one of the following: artist, track, album"
 msgstr ""
 
-#: src/korone/modules/lastfm/handlers/top.py:74
+#: src/korone/modules/lastfm/handlers/top.py:80
 msgid ""
 "{user}'s top 5 {entry} for {period}:\n"
 "\n"
 msgstr ""
 
-#: src/korone/modules/lastfm/handlers/top.py:85
+#: src/korone/modules/lastfm/handlers/top.py:91
 msgid " -> {scrobbles} plays\n"
 msgstr ""
 
-#: src/korone/modules/lastfm/handlers/user.py:48
+#: src/korone/modules/lastfm/handlers/user.py:54
 msgid ""
 "User: <b>{user}</b>\n"
 "\n"
@@ -635,15 +648,14 @@ msgid "ℹ️ About"
 msgstr ""
 
 #: src/korone/modules/pm_menu/handlers/start.py:29
-#, python-format
-msgid "%s Language"
+msgid "{lang_flag} Language"
 msgstr ""
 
-#: src/korone/modules/pm_menu/handlers/start.py:32
+#: src/korone/modules/pm_menu/handlers/start.py:34
 msgid "👮‍♂️ Help"
 msgstr ""
 
-#: src/korone/modules/pm_menu/handlers/start.py:38
+#: src/korone/modules/pm_menu/handlers/start.py:40
 msgid ""
 "Hi, I'm Korone! An all-in-one bot. I can help you with lots of things. "
 "Just click on the buttons below to get started."
