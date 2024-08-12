@@ -5,29 +5,14 @@ import asyncio
 import random
 
 import httpx
-from pydantic import BaseModel
 
 from korone.config import ConfigManager
 from korone.utils.logging import logger
 
+from .errors import QuotaExceededError, TranslationError
+from .types import Translation, TranslationResponse
+
 API_KEY: str = ConfigManager.get("korone", "DEEPL_KEY")
-
-
-class TranslationError(Exception):
-    pass
-
-
-class QuotaExceededError(TranslationError):
-    pass
-
-
-class Translation(BaseModel):
-    detected_source_language: str
-    text: str
-
-
-class TranslationResponse(BaseModel):
-    translations: list[Translation]
 
 
 class DeepL:
@@ -80,6 +65,11 @@ class DeepL:
         response_data = response.json()
         logger.debug("[DeepL] Response data: %s", response_data)
         translation_response = TranslationResponse(**response_data)
+
+        if not translation_response.translations:
+            msg = "[DeepL] No translations found in the response."
+            raise TranslationError(msg)
+
         return translation_response.translations[0]
 
     @staticmethod
