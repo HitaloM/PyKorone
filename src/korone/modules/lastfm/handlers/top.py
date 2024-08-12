@@ -22,12 +22,6 @@ from korone.utils.i18n import gettext as _
 
 
 class LastFMTopHandler(MessageHandler):
-    @staticmethod
-    def entry_type_to_str(entry_type: EntryType) -> str:
-        if entry_type == EntryType.Artist:
-            return _("artists")
-        return _("tracks") if entry_type == EntryType.Track else _("albums")
-
     @router.message(Command("lfmtop"))
     async def handle(self, client: Client, message: Message) -> None:
         last_fm_user = await get_lastfm_user(message.from_user.id)
@@ -91,3 +85,9 @@ class LastFMTopHandler(MessageHandler):
             text += _(" -> {scrobbles} plays\n").format(scrobbles=item.playcount)
 
         await message.reply(text, disable_web_page_preview=True)
+
+    @staticmethod
+    def entry_type_to_str(entry_type: EntryType) -> str:
+        if entry_type == EntryType.Artist:
+            return _("artists")
+        return _("tracks") if entry_type == EntryType.Track else _("albums")

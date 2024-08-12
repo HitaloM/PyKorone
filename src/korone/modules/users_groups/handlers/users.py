@@ -13,6 +13,28 @@ from korone.utils.i18n import gettext as _
 
 
 class GetUserHandler(MessageHandler):
+    @router.message(Command(commands=["user", "info"]))
+    async def handle(self, client: Client, message: Message) -> None:
+        command = CommandObject(message).parse()
+        user_identifier = (
+            command.args or getattr(message.reply_to_message, "from_user", message.from_user).id
+        )
+
+        user = await self.fetch_user(client, message, user_identifier)
+        if not user:
+            return
+
+        text = _("<b>User info</b>:\n")
+        text += _("<b>ID</b>: <code>{id}</code>\n").format(id=user["id"])
+        text += _("<b>First Name</b>: {first_name}\n").format(first_name=user["first_name"])
+        if last_name := user.get("last_name"):
+            text += _("<b>Last Name</b>: {last_name}\n").format(last_name=last_name)
+        if username := user.get("username"):
+            text += _("<b>Username</b>: @{username}\n").format(username=username)
+        text += _("<b>User link</b>: <a href='tg://user?id={id}'>link</a>\n").format(id=user["id"])
+
+        await message.reply(text)
+
     @staticmethod
     async def validate_identifier(identifier: str | int) -> bool:
         if isinstance(identifier, int):
@@ -41,25 +63,3 @@ class GetUserHandler(MessageHandler):
             await message.reply(error_messages[type(e)])
             return None
         return user
-
-    @router.message(Command(commands=["user", "info"]))
-    async def handle(self, client: Client, message: Message) -> None:
-        command = CommandObject(message).parse()
-        user_identifier = (
-            command.args or getattr(message.reply_to_message, "from_user", message.from_user).id
-        )
-
-        user = await self.fetch_user(client, message, user_identifier)
-        if not user:
-            return
-
-        text = _("<b>User info</b>:\n")
-        text += _("<b>ID</b>: <code>{id}</code>\n").format(id=user["id"])
-        text += _("<b>First Name</b>: {first_name}\n").format(first_name=user["first_name"])
-        if last_name := user.get("last_name"):
-            text += _("<b>Last Name</b>: {last_name}\n").format(last_name=last_name)
-        if username := user.get("username"):
-            text += _("<b>Username</b>: @{username}\n").format(username=username)
-        text += _("<b>User link</b>: <a href='tg://user?id={id}'>link</a>\n").format(id=user["id"])
-
-        await message.reply(text)

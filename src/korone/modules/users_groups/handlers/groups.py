@@ -14,6 +14,34 @@ from korone.utils.i18n import gettext as _
 
 
 class GetGroupHandler(MessageHandler):
+    @router.message(Command("group"))
+    async def handle(self, client: Client, message: Message) -> None:
+        command = CommandObject(message).parse()
+        group_id = command.args or message.chat.id
+
+        if message.chat.type == ChatType.PRIVATE and not command.args:
+            await message.reply(
+                _(
+                    "You should provide a group ID or username. "
+                    "Example: <code>/group @username</code>."
+                )
+            )
+            return
+
+        group = await self.fetch_group(client, message, group_id)
+        if not group:
+            return
+
+        text = _("<b>Group info</b>:\n")
+        text += _("<b>ID</b>: <code>{id}</code>\n").format(id=group["id"])
+        text += _("<b>Title</b>: {title}\n").format(title=group["title"])
+        if username := group.get("username"):
+            text += _("<b>Username</b>: @{username}\n").format(username=username)
+        if group_type := group["type"]:
+            text += _("<b>Type</b>: {type}\n").format(type=group_type)
+
+        await message.reply(text)
+
     @staticmethod
     async def validate_identifier(identifier: str | int) -> bool:
         if isinstance(identifier, int):
@@ -61,31 +89,3 @@ class GetGroupHandler(MessageHandler):
             await message.reply(error_messages[type(e)])
             return None
         return group
-
-    @router.message(Command("group"))
-    async def handle(self, client: Client, message: Message) -> None:
-        command = CommandObject(message).parse()
-        group_id = command.args or message.chat.id
-
-        if message.chat.type == ChatType.PRIVATE and not command.args:
-            await message.reply(
-                _(
-                    "You should provide a group ID or username. "
-                    "Example: <code>/group @username</code>."
-                )
-            )
-            return
-
-        group = await self.fetch_group(client, message, group_id)
-        if not group:
-            return
-
-        text = _("<b>Group info</b>:\n")
-        text += _("<b>ID</b>: <code>{id}</code>\n").format(id=group["id"])
-        text += _("<b>Title</b>: {title}\n").format(title=group["title"])
-        if username := group.get("username"):
-            text += _("<b>Username</b>: @{username}\n").format(username=username)
-        if group_type := group["type"]:
-            text += _("<b>Type</b>: {type}\n").format(type=group_type)
-
-        await message.reply(text)

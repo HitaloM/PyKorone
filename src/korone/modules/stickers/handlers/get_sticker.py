@@ -16,15 +16,6 @@ from korone.utils.i18n import gettext as _
 
 
 class GetSticker(MessageHandler):
-    @staticmethod
-    def zip_file(file: BinaryIO, file_name: str) -> BytesIO:
-        zip_buffer = BytesIO()
-        with ZipFile(zip_buffer, "w") as zip_file:
-            file.seek(0)
-            zip_file.writestr(file_name, file.read())
-        zip_buffer.seek(0)
-        return zip_buffer
-
     @router.message(Command("getsticker"))
     async def handle(self, client: Client, message: Message) -> None:
         if not message.reply_to_message:
@@ -52,3 +43,12 @@ class GetSticker(MessageHandler):
             caption=f"<b>Sticker ID:</b> <code>{sticker.file_id}</code>",
             force_document=True,
         )
+
+    @staticmethod
+    def zip_file(file: BinaryIO, file_name: str) -> BytesIO:
+        zip_buffer = BytesIO()
+        with ZipFile(zip_buffer, "w") as zip_file:
+            file.seek(0)
+            zip_file.writestr(file_name, file.read())
+        zip_buffer.seek(0)
+        return zip_buffer
