@@ -27,7 +27,7 @@ class SQLite3Table(Table):
         values = tuple(value for value in fields.values() if value is not None)
         placeholders = ", ".join("?" for _ in values)
 
-        sql = f"INSERT INTO {self._table} ({keys}) VALUES ({placeholders})"
+        sql = f"INSERT OR IGNORE INTO {self._table} ({keys}) VALUES ({placeholders})"
 
         await logger.adebug("Inserting into table %s: %s", self._table, fields)
 

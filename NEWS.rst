@@ -15,6 +15,13 @@ Changelog
 
 .. towncrier release notes start
 
+1.0.1 (2024-08-12)
+==================
+
+Bug Fixes
+---------
+
+- Fixed an `IntegrityError` in `korone.database.sqlite.connection` within the `_execute` method. The error occurred due to a UNIQUE constraint violation on `Users.id`.
 1.0.0 (2024-08-12)
 ===================
 
