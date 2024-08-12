@@ -14,3 +14,8 @@ Changelog
 .. towncrier-draft-entries:: |release| [UNRELEASED DRAFT]
 
 .. towncrier release notes start
+
+1.0.0 (2024-08-12)
+===================
+
+Initial project release.
