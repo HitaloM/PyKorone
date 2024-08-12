@@ -8,9 +8,12 @@ from hydrogram.errors import BadRequest
 from hydrogram.types import InlineKeyboardMarkup, Message
 
 from korone import constants
+from korone.config import ConfigManager
 from korone.decorators import router
 from korone.handlers.abstract import MessageHandler
 from korone.utils.logging import logger
+
+LOGS_CHAT = ConfigManager().get("korone", "LOGS_CHAT")
 
 
 class LogGroup(MessageHandler):
@@ -47,7 +50,7 @@ class LogGroup(MessageHandler):
     async def log_group_addition(self, client: Client, message: Message) -> None:
         try:
             text = self.build_log_text(message)
-            await client.send_message(chat_id=constants.LOGS_CHAT, text=text)
+            await client.send_message(chat_id=LOGS_CHAT, text=text)
         except BadRequest:
             await logger.aexception("[LogGroup] Failed to send log message to logs chat.")
 
