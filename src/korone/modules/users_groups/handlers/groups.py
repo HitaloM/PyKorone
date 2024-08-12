@@ -3,13 +3,14 @@
 
 from hydrogram import Client
 from hydrogram.enums import ChatType
-from hydrogram.errors import ChannelPrivate, PeerIdInvalid, UsernameInvalid, UsernameNotOccupied
+from hydrogram.errors import UsernameInvalid, UsernameNotOccupied
 from hydrogram.types import Message
 
+from korone.database.table import Document
 from korone.decorators import router
 from korone.filters import Command, CommandObject
 from korone.handlers.abstract import MessageHandler
-from korone.modules.users_groups.database import get_chat_by_id, get_chat_by_username
+from korone.modules.users_groups.database import get_chat_by_id
 from korone.utils.i18n import gettext as _
 
 
@@ -28,7 +29,7 @@ class GetGroupHandler(MessageHandler):
             )
             return
 
-        group = await self.fetch_group(client, message, group_id)
+        group = await self.fetch_group(message, group_id)
         if not group:
             return
 
@@ -52,34 +53,18 @@ class GetGroupHandler(MessageHandler):
             or identifier.startswith("@")
         )
 
-    async def fetch_group(
-        self, client: Client, message: Message, identifier: str | int
-    ) -> dict | None:
+    async def fetch_group(self, message: Message, identifier: str | int) -> Document | None:
         if not await self.validate_identifier(identifier):
             await message.reply(_("The provided identifier is not valid."))
             return None
 
         try:
-            if isinstance(identifier, str) and identifier.startswith("@"):
-                username = identifier[1:]
-                group = (await get_chat_by_username(username))[0]
-            else:
-                chat_id = int(identifier)
-                group = (await get_chat_by_id(chat_id))[0]
-        except (
-            PeerIdInvalid,
-            ChannelPrivate,
-            UsernameInvalid,
-            UsernameNotOccupied,
-            IndexError,
-            KeyError,
-            ValueError,
-        ) as e:
+            if isinstance(identifier, int) or identifier.isdigit():
+                return (await get_chat_by_id(int(identifier)))[0]
+            chat_id = int(identifier)
+            return (await get_chat_by_id(chat_id))[0]
+        except (UsernameInvalid, UsernameNotOccupied, IndexError, KeyError, ValueError) as e:
             error_messages = {
-                PeerIdInvalid: _("The provided group ID is invalid."),
-                ChannelPrivate: _(
-                    "Unable to access this channel, maybe it's private or I'm banned from it."
-                ),
                 UsernameInvalid: _("The provided username is invalid."),
                 UsernameNotOccupied: _("The provided username does not exist."),
                 IndexError: _("No group found with the provided identifier."),
@@ -88,4 +73,3 @@ class GetGroupHandler(MessageHandler):
             }
             await message.reply(error_messages[type(e)])
             return None
-        return group

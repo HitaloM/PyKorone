@@ -1,6 +1,9 @@
 # SPDX-License-Identifier: BSD-3-Clause
 # Copyright (c) 2024 Hitalo M. <https://github.com/HitaloM>
 
+
+from typing import ClassVar
+
 from hydrogram import Client
 from hydrogram.types import Message
 
@@ -10,23 +13,23 @@ from korone.handlers.abstract import MessageHandler
 from korone.modules.translator.handlers.utils import DeepL, QuotaExceededError, TranslationError
 from korone.utils.i18n import gettext as _
 
-# fmt: off
-SUPPORTED_SOURCE_LANGUAGES = [
-    "BG", "CS", "DA", "DE", "EL", "EN", "ES", "ET", "FI", "FR", "HU",
-    "ID", "IT", "JA", "KO", "LT", "LV", "NB", "NL", "PL", "PT", "RO",
-    "RU", "SK", "SL", "SV", "TR", "UK", "ZH"
-]
-
-SUPPORTED_TARGET_LANGUAGES = [
-    "BG", "CS", "DA", "DE", "EL", "EN", "EN-GB", "EN-US", "ES", "ET",
-    "FI", "FR", "HU", "ID", "IT", "JA", "KO", "LT", "LV", "NB", "NL",
-    "PL", "PT", "PT-BR", "PT-PT", "RO", "RU", "SK", "SL", "SV", "TR",
-    "UK", "ZH"
-]
-# fmt: on
-
 
 class TranslateHandler(MessageHandler):
+    # fmt: off
+    SUPPORTED_SOURCE_LANGUAGES: ClassVar[list[str]] = [
+        "BG", "CS", "DA", "DE", "EL", "EN", "ES", "ET", "FI", "FR", "HU",
+        "ID", "IT", "JA", "KO", "LT", "LV", "NB", "NL", "PL", "PT", "RO",
+        "RU", "SK", "SL", "SV", "TR", "UK", "ZH"
+    ]
+
+    SUPPORTED_TARGET_LANGUAGES: ClassVar[list[str]] = [
+        "BG", "CS", "DA", "DE", "EL", "EN", "EN-GB", "EN-US", "ES", "ET",
+        "FI", "FR", "HU", "ID", "IT", "JA", "KO", "LT", "LV", "NB", "NL",
+        "PL", "PT", "PT-BR", "PT-PT", "RO", "RU", "SK", "SL", "SV", "TR",
+        "UK", "ZH"
+    ]
+    # fmt: on
+
     @router.message(Command(commands=["tr", "translate"]))
     async def handle(self, client: Client, message: Message) -> None:
         command = CommandObject(message).parse()
@@ -35,13 +38,13 @@ class TranslateHandler(MessageHandler):
         source_lang = source_lang.upper() if source_lang else None
         target_lang = target_lang.upper()
 
-        if source_lang and source_lang not in SUPPORTED_SOURCE_LANGUAGES:
+        if source_lang and source_lang not in self.SUPPORTED_SOURCE_LANGUAGES:
             await message.reply(
                 _("Unsupported source language: {source_lang}").format(source_lang=source_lang)
             )
             return
 
-        if target_lang not in SUPPORTED_TARGET_LANGUAGES:
+        if target_lang not in self.SUPPORTED_TARGET_LANGUAGES:
             await message.reply(
                 _("Unsupported target language: {target_lang}").format(target_lang=target_lang)
             )

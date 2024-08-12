@@ -5,6 +5,7 @@ from hydrogram import Client
 from hydrogram.errors import PeerIdInvalid, UsernameNotOccupied
 from hydrogram.types import Message
 
+from korone.database.table import Document
 from korone.decorators import router
 from korone.filters import Command, CommandObject
 from korone.handlers.abstract import MessageHandler
@@ -20,7 +21,7 @@ class GetUserHandler(MessageHandler):
             command.args or getattr(message.reply_to_message, "from_user", message.from_user).id
         )
 
-        user = await self.fetch_user(client, message, user_identifier)
+        user = await self.fetch_user(message, user_identifier)
         if not user:
             return
 
@@ -41,19 +42,16 @@ class GetUserHandler(MessageHandler):
             return True
         return bool(identifier.isdigit() or identifier.startswith("@"))
 
-    async def fetch_user(
-        self, client: Client, message: Message, identifier: str | int
-    ) -> dict | None:
+    async def fetch_user(self, message: Message, identifier: str | int) -> Document | None:
         if not await self.validate_identifier(identifier):
-            await message.reply(_("The provided identifier is not valid."))
+            await message.reply(_("Invalid identifier provided."))
             return None
 
         try:
-            if isinstance(identifier, str) and identifier.startswith("@"):
-                user = (await get_user_by_username(identifier[1:]))[0]
+            if isinstance(identifier, int):
+                user = (await get_user_by_id(identifier))[0]
             else:
-                user_id = int(identifier) if isinstance(identifier, str) else identifier
-                user = (await get_user_by_id(user_id))[0]
+                user = (await get_user_by_username(identifier.lstrip("@")))[0]
         except (PeerIdInvalid, UsernameNotOccupied, IndexError) as e:
             error_messages = {
                 PeerIdInvalid: _("The provided user ID is invalid."),

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PyKorone 1.0\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-08-12 11:10-0300\n"
+"POT-Creation-Date: 2024-08-12 11:35-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -750,26 +750,26 @@ msgstr ""
 msgid "An error occurred: {}"
 msgstr ""
 
-#: src/korone/modules/translator/handlers/translate.py:40
+#: src/korone/modules/translator/handlers/translate.py:43
 msgid "Unsupported source language: {source_lang}"
 msgstr ""
 
-#: src/korone/modules/translator/handlers/translate.py:46
+#: src/korone/modules/translator/handlers/translate.py:49
 msgid "Unsupported target language: {target_lang}"
 msgstr ""
 
-#: src/korone/modules/translator/handlers/translate.py:55
+#: src/korone/modules/translator/handlers/translate.py:58
 msgid ""
 "Korone has reached the translation quota. The DeepL API has a limit of "
 "500,000 characters per month for the free plan, and we have exceeded this"
 " limit."
 msgstr ""
 
-#: src/korone/modules/translator/handlers/translate.py:63
+#: src/korone/modules/translator/handlers/translate.py:66
 msgid "Failed to translate text. Error: {error}"
 msgstr ""
 
-#: src/korone/modules/translator/handlers/translate.py:66
+#: src/korone/modules/translator/handlers/translate.py:69
 msgid "<b>Language:</b> <code>{source_lang}</code> => <code>{target_lang}</code>"
 msgstr ""
 
@@ -789,65 +789,56 @@ msgstr ""
 msgid "No deleted accounts found."
 msgstr ""
 
-#: src/korone/modules/users_groups/handlers/groups.py:24
+#: src/korone/modules/users_groups/handlers/groups.py:25
 msgid ""
 "You should provide a group ID or username. Example: <code>/group "
 "@username</code>."
 msgstr ""
 
-#: src/korone/modules/users_groups/handlers/groups.py:35
+#: src/korone/modules/users_groups/handlers/groups.py:36
 msgid "<b>Group info</b>:\n"
 msgstr ""
 
-#: src/korone/modules/users_groups/handlers/groups.py:36
-#: src/korone/modules/users_groups/handlers/users.py:28
+#: src/korone/modules/users_groups/handlers/groups.py:37
+#: src/korone/modules/users_groups/handlers/users.py:29
 msgid "<b>ID</b>: <code>{id}</code>\n"
 msgstr ""
 
-#: src/korone/modules/users_groups/handlers/groups.py:37
+#: src/korone/modules/users_groups/handlers/groups.py:38
 msgid "<b>Title</b>: {title}\n"
 msgstr ""
 
-#: src/korone/modules/users_groups/handlers/groups.py:39
-#: src/korone/modules/users_groups/handlers/users.py:33
+#: src/korone/modules/users_groups/handlers/groups.py:40
+#: src/korone/modules/users_groups/handlers/users.py:34
 msgid "<b>Username</b>: @{username}\n"
 msgstr ""
 
-#: src/korone/modules/users_groups/handlers/groups.py:41
+#: src/korone/modules/users_groups/handlers/groups.py:42
 msgid "<b>Type</b>: {type}\n"
 msgstr ""
 
-#: src/korone/modules/users_groups/handlers/groups.py:59
-#: src/korone/modules/users_groups/handlers/users.py:48
+#: src/korone/modules/users_groups/handlers/groups.py:58
 msgid "The provided identifier is not valid."
 msgstr ""
 
-#: src/korone/modules/users_groups/handlers/groups.py:79
-msgid "The provided group ID is invalid."
-msgstr ""
-
-#: src/korone/modules/users_groups/handlers/groups.py:80
-msgid "Unable to access this channel, maybe it's private or I'm banned from it."
-msgstr ""
-
-#: src/korone/modules/users_groups/handlers/groups.py:83
+#: src/korone/modules/users_groups/handlers/groups.py:68
 msgid "The provided username is invalid."
 msgstr ""
 
-#: src/korone/modules/users_groups/handlers/groups.py:84
-#: src/korone/modules/users_groups/handlers/users.py:60
+#: src/korone/modules/users_groups/handlers/groups.py:69
+#: src/korone/modules/users_groups/handlers/users.py:58
 msgid "The provided username does not exist."
 msgstr ""
 
-#: src/korone/modules/users_groups/handlers/groups.py:85
+#: src/korone/modules/users_groups/handlers/groups.py:70
 msgid "No group found with the provided identifier."
 msgstr ""
 
-#: src/korone/modules/users_groups/handlers/groups.py:86
+#: src/korone/modules/users_groups/handlers/groups.py:71
 msgid "Error accessing group data."
 msgstr ""
 
-#: src/korone/modules/users_groups/handlers/groups.py:87
+#: src/korone/modules/users_groups/handlers/groups.py:72
 msgid "The provided value is not valid."
 msgstr ""
 
@@ -873,27 +864,31 @@ msgid ""
 "Forwarded user ID: <code>{id}</code>"
 msgstr ""
 
-#: src/korone/modules/users_groups/handlers/users.py:27
+#: src/korone/modules/users_groups/handlers/users.py:28
 msgid "<b>User info</b>:\n"
 msgstr ""
 
-#: src/korone/modules/users_groups/handlers/users.py:29
+#: src/korone/modules/users_groups/handlers/users.py:30
 msgid "<b>First Name</b>: {first_name}\n"
 msgstr ""
 
-#: src/korone/modules/users_groups/handlers/users.py:31
+#: src/korone/modules/users_groups/handlers/users.py:32
 msgid "<b>Last Name</b>: {last_name}\n"
 msgstr ""
 
-#: src/korone/modules/users_groups/handlers/users.py:34
+#: src/korone/modules/users_groups/handlers/users.py:35
 msgid "<b>User link</b>: <a href='tg://user?id={id}'>link</a>\n"
 msgstr ""
 
-#: src/korone/modules/users_groups/handlers/users.py:59
+#: src/korone/modules/users_groups/handlers/users.py:47
+msgid "Invalid identifier provided."
+msgstr ""
+
+#: src/korone/modules/users_groups/handlers/users.py:57
 msgid "The provided user ID is invalid."
 msgstr ""
 
-#: src/korone/modules/users_groups/handlers/users.py:61
+#: src/korone/modules/users_groups/handlers/users.py:59
 msgid "No user found with the provided identifier."
 msgstr ""
 
