@@ -1264,7 +1264,7 @@ msgid ""
 msgstr ""
 "Comando desconhecido para reativar:\n"
 "- <code>{command}</code>\n"
-"Verifique a opção /disableable!"
+"Verifique o /disableable!"
 
 #: src/korone/modules/lastfm/handlers/album.py:49
 #: src/korone/modules/lastfm/handlers/artist.py:48
