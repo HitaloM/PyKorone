@@ -3,7 +3,7 @@
 
 from enum import Enum
 
-from korone.modules.lastfm.utils.api import TimePeriod
+from .lastfm_api import TimePeriod
 
 
 class EntryType(Enum):

@@ -19,6 +19,24 @@ from korone.utils.i18n import gettext as _
 
 
 class LanguageInfoBase(MessageHandler):
+    @router.message(Command(commands=["language", "lang", "locale", "setlang"]))
+    async def handle(self, client: Client, message: Message):
+        if message.chat.type == ChatType.PRIVATE:
+            button_text = _("👤 Change your language")
+        else:
+            button_text = _("🌍 Change group language")
+
+        text, keyboard = await self.get_info_text_and_buttons(get_i18n(), button_text)
+
+        if message.chat.type == ChatType.PRIVATE:
+            keyboard.row(
+                InlineKeyboardButton(
+                    text=_("⬅️ Back"), callback_data=PMMenuCallback(menu="start").pack()
+                )
+            )
+
+        await message.reply(text, reply_markup=keyboard.as_markup())
+
     @staticmethod
     async def get_info_text_and_buttons(
         i18n_new: I18nNew, button_text: str
@@ -49,24 +67,6 @@ class LanguageInfoBase(MessageHandler):
         keyboard.button(text=button_text, callback_data=LangMenuCallback(menu="languages"))
 
         return text, keyboard
-
-    @router.message(Command(commands=["language", "lang", "locale", "setlang"]))
-    async def handle(self, client: Client, message: Message):
-        if message.chat.type == ChatType.PRIVATE:
-            button_text = _("👤 Change your language")
-        else:
-            button_text = _("🌍 Change group language")
-
-        text, keyboard = await self.get_info_text_and_buttons(get_i18n(), button_text)
-
-        if message.chat.type == ChatType.PRIVATE:
-            keyboard.row(
-                InlineKeyboardButton(
-                    text=_("⬅️ Back"), callback_data=PMMenuCallback(menu="start").pack()
-                )
-            )
-
-        await message.reply(text, reply_markup=keyboard.as_markup())
 
 
 class LanguageInfoCallback(CallbackQueryHandler):

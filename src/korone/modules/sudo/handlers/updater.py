@@ -16,15 +16,6 @@ from korone.modules.sudo.utils import generate_document, run_command
 
 
 class UpdateCommand(MessageHandler):
-    @staticmethod
-    def parse_commits(log_output: str) -> dict[str, dict[str, str]]:
-        return {
-            parts[0]: {"title": parts[1]}
-            for line in log_output.split("\n")
-            if line
-            for parts in [line.split(" ", 1)]
-        }
-
     @router.message(Command(commands=["update", "upgrade"], disableable=False) & IsSudo)
     async def handle(self, client: Client, message: Message) -> None:
         sent = await message.reply("Checking for updates...")
@@ -54,6 +45,15 @@ class UpdateCommand(MessageHandler):
             text="🆕 Update", callback_data=UpdateCallbackData()
         )
         await sent.edit(changelog, reply_markup=keyboard.as_markup())
+
+    @staticmethod
+    def parse_commits(log_output: str) -> dict[str, dict[str, str]]:
+        return {
+            parts[0]: {"title": parts[1]}
+            for line in log_output.split("\n")
+            if line
+            for parts in [line.split(" ", 1)]
+        }
 
 
 class UpdateCallback(CallbackQueryHandler):

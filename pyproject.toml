@@ -38,7 +38,7 @@ build-backend = "hatchling.build"
 
 [tool.rye]
 managed = true
-dev-dependencies = ["pre-commit>=3.8.0", "ruff>=0.5.6"]
+dev-dependencies = ["pre-commit>=3.8.0", "ruff>=0.5.7"]
 
 [project.optional-dependencies]
 docs = [
@@ -88,7 +88,10 @@ ignore = [
     "RUF001",
     "RUF002",
     "RUF003",
+    "PLR0911",
     "PLR0913",
+    "PLR0914",
+    "PLR0917",
     "PLR2004",
     "PLW2901",
     "PLW1641",
@@ -107,7 +110,7 @@ author = "Hitalo M"
 notice-rgx = "(?i)Copyright \\(C\\) \\d{4}"
 
 [tool.ruff.lint.flake8-tidy-imports]
-ban-relative-imports = "all"
+ban-relative-imports = "parents"
 
 [tool.towncrier]
 package = "korone"

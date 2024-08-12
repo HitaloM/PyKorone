@@ -11,15 +11,14 @@ from korone.filters import Command
 from korone.handlers.abstract import MessageHandler
 from korone.utils.i18n import gettext as _
 
+PRIVACY_POLICY_URL = f"{constants.DOCS_URL}/en/latest/privacy.html"
+
 
 class PrivacyBaseHandler:
     @staticmethod
     def build_keyboard(message: Message) -> InlineKeyboardMarkup:
         keyboard = InlineKeyboardBuilder()
-        keyboard.button(
-            text=_("Documentation"),
-            url=f"{constants.DOCS_URL}/en/latest/privacy.html",
-        )
+        keyboard.button(text=_("Documentation"), url=PRIVACY_POLICY_URL)
         return keyboard.as_markup()
 
     @staticmethod

@@ -22,12 +22,6 @@ from korone.utils.i18n import gettext as _
 
 
 class LastFMTopHandler(MessageHandler):
-    @staticmethod
-    def entry_type_to_str(entry_type: EntryType) -> str:
-        if entry_type == EntryType.Artist:
-            return _("artists")
-        return _("tracks") if entry_type == EntryType.Track else _("albums")
-
     @router.message(Command("lfmtop"))
     async def handle(self, client: Client, message: Message) -> None:
         last_fm_user = await get_lastfm_user(message.from_user.id)
@@ -58,28 +52,21 @@ class LastFMTopHandler(MessageHandler):
 
         try:
             if entry_type == EntryType.Artist:
-                top_items = await last_fm.get_top_artists(
-                    last_fm_user, period=period.value, limit=5
-                )
+                top_items = await last_fm.get_top_artists(last_fm_user, period=period, limit=5)
             elif entry_type == EntryType.Track:
-                top_items = await last_fm.get_top_tracks(
-                    last_fm_user, period=period.value, limit=5
-                )
+                top_items = await last_fm.get_top_tracks(last_fm_user, period=period, limit=5)
             else:
-                top_items = await last_fm.get_top_albums(
-                    last_fm_user, period=period.value, limit=5
-                )
+                top_items = await last_fm.get_top_albums(last_fm_user, period=period, limit=5)
         except LastFMError as e:
-            error_message = str(e)
-            if error_message == "User not found":
+            if "User not found" in e.message:
                 await message.reply(_("Your LastFM username was not found! Try setting it again."))
-            else:
-                await message.reply(
-                    _(
-                        "An error occurred while fetching your LastFM data!\n"
-                        "Error: <i>{error}</i>"
-                    ).format(error=error_message)
-                )
+                return
+            await message.reply(
+                _(
+                    "An error occurred while fetching your LastFM data!"
+                    "\n<blockquote>{error}</blockquote>"
+                ).format(error=e.message)
+            )
             return
 
         user_link = name_with_link(name=str(message.from_user.first_name), username=last_fm_user)
@@ -98,3 +85,9 @@ class LastFMTopHandler(MessageHandler):
             text += _(" -> {scrobbles} plays\n").format(scrobbles=item.playcount)
 
         await message.reply(text, disable_web_page_preview=True)
+
+    @staticmethod
+    def entry_type_to_str(entry_type: EntryType) -> str:
+        if entry_type == EntryType.Artist:
+            return _("artists")
+        return _("tracks") if entry_type == EntryType.Track else _("albums")

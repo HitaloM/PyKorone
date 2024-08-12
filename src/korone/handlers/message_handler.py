@@ -5,7 +5,7 @@ from hydrogram import Client
 from hydrogram.handlers import MessageHandler
 from hydrogram.types import Message
 
-from korone.handlers.base import BaseHandler
+from .base import BaseHandler
 
 
 class KoroneMessageHandler(MessageHandler, BaseHandler):

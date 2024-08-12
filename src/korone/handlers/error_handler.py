@@ -6,7 +6,8 @@ from hydrogram.handlers import ErrorHandler
 from hydrogram.types import Update
 
 from korone import i18n
-from korone.handlers.base import BaseHandler
+
+from .base import BaseHandler
 
 
 class KoroneErrorHandler(ErrorHandler, BaseHandler):

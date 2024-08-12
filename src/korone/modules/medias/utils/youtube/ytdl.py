@@ -9,8 +9,9 @@ from typing import Any
 import yt_dlp
 
 from korone.modules.medias.utils.files import resize_thumbnail
-from korone.modules.medias.utils.youtube.types import VideoInfo
 from korone.utils.logging import logger
+
+from .types import VideoInfo
 
 
 class YTDLError(Exception):
@@ -42,7 +43,7 @@ class YTDL:
                     self.file_path = Path(ydl.prepare_filename(info)).as_posix()
                 return info
         except yt_dlp.DownloadError as e:
-            await logger.aexception("Error downloading content from '%s'", url)
+            await logger.aexception("[Medias/YouTube] Error downloading content from '%s'", url)
             raise DownloadError(e.msg) from e
 
     async def _download(self, url: str, options: dict[str, Any]) -> VideoInfo:

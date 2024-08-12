@@ -8,8 +8,9 @@ from datetime import timedelta
 from PIL import Image, ImageDraw, ImageFont
 
 from korone import cache
-from korone.modules.lastfm.utils.image_filter import get_biggest_lastfm_image
-from korone.modules.lastfm.utils.types import LastFMAlbum
+
+from .image_filter import get_biggest_lastfm_image
+from .types import LastFMAlbum
 
 
 async def add_text_to_image(img: Image.Image, text: str, font: ImageFont.FreeTypeFont) -> None:

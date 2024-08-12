@@ -18,7 +18,12 @@ class EnableHandler(MessageHandler):
     async def enable(client: Client, message: Message) -> None:
         command = CommandObject(message).parse()
         if not command.args:
-            await message.reply(_("You need to specify a command to enable."))
+            await message.reply(
+                _(
+                    "You need to specify a command to enable. "
+                    "Use <code>/enable &lt;commandname&gt;</code>."
+                )
+            )
             return
 
         args = command.args.split(" ")
@@ -26,23 +31,21 @@ class EnableHandler(MessageHandler):
             await message.reply(_("You can only enable one command at a time."))
             return
 
-        command = args[0]
-        if command not in COMMANDS:
+        command_name = args[0]
+        if command_name not in COMMANDS:
             await message.reply(
                 _(
-                    "Unknown command to disable:\n"
+                    "Unknown command to enable:\n"
                     "- <code>{command}</code>\n"
                     "Check the /disableable!"
-                ).format(command=command)
+                ).format(command=command_name)
             )
             return
 
-        cmd_db = await fetch_command_state(command)
-
+        cmd_db = await fetch_command_state(command_name)
         if cmd_db and bool(cmd_db[0]["state"]):
             await message.reply(_("This command is already enabled."))
             return
 
-        await set_command_state(message.chat.id, command, state=True)
-
+        await set_command_state(message.chat.id, command_name, state=True)
         await message.reply(_("Command enabled."))

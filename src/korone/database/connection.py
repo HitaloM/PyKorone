@@ -4,7 +4,7 @@
 
 from typing import Any, Optional, Protocol
 
-from korone.database.table import Table
+from .table import Table
 
 
 class Connection(Protocol):

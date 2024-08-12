@@ -17,20 +17,20 @@ from korone.handlers.abstract import CallbackQueryHandler, MessageHandler
 from korone.modules.pm_menu.callback_data import PMMenuCallback
 from korone.utils.i18n import gettext as _
 
+LICENSE_URL = f"{constants.GITHUB_URL}/blob/main/LICENSE"
+HYDROGRAM_URL = "https://github.com/hydrogram/hydrogram"
+PYTHON_URL = "https://www.python.org/"
+MTPROTO_URL = "https://core.telegram.org/mtproto"
+PRIVACY_POLICY_URL = f"{constants.DOCS_URL}/en/latest/privacy.html"
+
 
 class BaseHandler:
-    license_url: str = f"{constants.GITHUB_URL}/blob/main/LICENSE"
-    hydrogram_url: str = "https://github.com/hydrogram/hydrogram"
-
-    @staticmethod
-    def build_keyboard(message: Message) -> InlineKeyboardMarkup:
+    @classmethod
+    def build_keyboard(cls, message: Message) -> InlineKeyboardMarkup:
         keyboard = InlineKeyboardBuilder()
         keyboard.button(text=_("📦 GitHub"), url=constants.GITHUB_URL)
         keyboard.button(text=_("📚 Channel"), url=constants.TELEGRAM_URL)
-        keyboard.button(
-            text=_("🔒 Privacy Policy"),
-            url=f"{constants.DOCS_URL}/en/latest/privacy.html",
-        )
+        keyboard.button(text=_("🔒 Privacy Policy"), url=PRIVACY_POLICY_URL)
         keyboard.adjust(2)
 
         if message.chat.type == ChatType.PRIVATE:
@@ -42,11 +42,12 @@ class BaseHandler:
 
         return keyboard.as_markup()
 
-    def build_text(self) -> str:
-        python_link = "<a href='https://www.python.org/'>Python</a>"
-        hydrogram_link = f"<a href='{self.hydrogram_url}'>Hydrogram</a>"
-        mtproto_link = "<a href='https://core.telegram.org/mtproto'>Telegram MTProto API</a>"
-        license_link = f"<a href='{self.license_url}'>BSD 3-Clause</a>"
+    @classmethod
+    def build_text(cls) -> str:
+        python_link = f"<a href='{PYTHON_URL}'>Python</a>"
+        hydrogram_link = f"<a href='{HYDROGRAM_URL}'>Hydrogram</a>"
+        mtproto_link = f"<a href='{MTPROTO_URL}'>Telegram MTProto API</a>"
+        license_link = f"<a href='{LICENSE_URL}'>BSD 3-Clause</a>"
 
         text = _(
             "Korone is a comprehensive and cutting-edge Telegram bot that offers a wide range "

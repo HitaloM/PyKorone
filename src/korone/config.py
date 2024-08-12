@@ -8,8 +8,8 @@ from typing import Any
 
 from tomlkit import dump, loads
 
-from korone import constants
-from korone.utils.logging import logger
+from . import constants
+from .utils.logging import logger
 
 
 class ConfigError(Exception):

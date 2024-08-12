@@ -13,10 +13,10 @@ import uvloop
 from cashews.exceptions import CacheBackendInteractionError
 from hydrogram import idle
 
-from korone import __version__, app_dir, cache
-from korone.client import AppParameters, Korone
-from korone.config import ConfigManager
-from korone.utils.logging import logger
+from . import __version__, app_dir, cache
+from .client import AppParameters, Korone
+from .config import ConfigManager
+from .utils.logging import logger
 
 
 async def main() -> None:

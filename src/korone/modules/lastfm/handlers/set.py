@@ -14,10 +14,6 @@ from korone.utils.i18n import gettext as _
 
 
 class SetLastFMHandler(MessageHandler):
-    @staticmethod
-    def is_valid_username(username: str) -> bool:
-        return bool(re.match("^[A-Za-z0-9]*$", username))
-
     @router.message(Command("setlfm"))
     async def handle(self, client: Client, message: Message) -> None:
         command = CommandObject(message).parse()
@@ -40,3 +36,7 @@ class SetLastFMHandler(MessageHandler):
 
         await save_lastfm_user(user_id=message.from_user.id, username=username)
         await message.reply(_("LastFM username set successfully!"))
+
+    @staticmethod
+    def is_valid_username(username: str) -> bool:
+        return bool(re.match("^[A-Za-z0-9]*$", username))

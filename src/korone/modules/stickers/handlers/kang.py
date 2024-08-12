@@ -31,7 +31,7 @@ from korone.utils.i18n import gettext as _
 
 class KangHandler(MessageHandler):
     @router.message(Command(commands=["kang", "steal", "kibe"]))
-    async def handle(self, client: Client, message: Message) -> None:  # noqa: PLR0914
+    async def handle(self, client: Client, message: Message) -> None:
         command = CommandObject(message).parse()
         user = message.from_user
 

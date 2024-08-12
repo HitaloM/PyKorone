@@ -62,26 +62,22 @@ class LastFMCompatHandler(MessageHandler):
         last_fm = LastFMClient()
 
         try:
-            artists1 = await last_fm.get_top_artists(user1_db, period.value, limit=200)
-            artists2 = await last_fm.get_top_artists(user2_db, period.value, limit=200)
+            artists1 = await last_fm.get_top_artists(user1_db, period, limit=200)
+            artists2 = await last_fm.get_top_artists(user2_db, period, limit=200)
         except LastFMError as e:
-            await self.handle_lastfm_error(e, message)
+            if "User not found" in e.message:
+                await message.reply(_("Your LastFM username was not found! Try setting it again."))
+                return
+            await message.reply(
+                _(
+                    "An error occurred while fetching your LastFM data!"
+                    "\n<blockquote>{error}</blockquote>"
+                ).format(error=e.message)
+            )
             return
 
         text = self.calculate_compatibility_text(user1, user2, artists1, artists2, period)
         await message.reply(text)
-
-    @staticmethod
-    async def handle_lastfm_error(error: LastFMError, message: Message) -> None:
-        error_message = str(error)
-        if error_message == "User not found":
-            await message.reply(_("Your LastFM username was not found! Try setting it again."))
-        else:
-            await message.reply(
-                _(
-                    "An error occurred while fetching your LastFM data!\nError: <i>{error}</i>"
-                ).format(error=error_message)
-            )
 
     @staticmethod
     def calculate_compatibility_text(user1, user2, artists1, artists2, period) -> str:

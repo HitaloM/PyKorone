@@ -5,7 +5,7 @@ from hydrogram import Client
 from hydrogram.handlers import CallbackQueryHandler
 from hydrogram.types import CallbackQuery
 
-from korone.handlers.base import BaseHandler
+from .base import BaseHandler
 
 
 class KoroneCallbackQueryHandler(CallbackQueryHandler, BaseHandler):

@@ -4,7 +4,7 @@
 
 from typing import Any, NewType, Protocol
 
-from korone.database.query import Query
+from .query import Query
 
 
 class Document(dict[str, Any]): ...

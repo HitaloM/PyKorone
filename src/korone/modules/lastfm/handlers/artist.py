@@ -40,15 +40,18 @@ class LastFMPlayingArtistHandler(MessageHandler):
             last_played = (await last_fm.get_recent_tracks(last_fm_user, limit=1))[0]
             artist_info = await last_fm.get_artist_info(last_played.artist.name, last_fm_user)
         except LastFMError as e:
-            error_message = str(e)
-            if error_message == "User not found":
+            if "User not found" in e.message:
                 await message.reply(_("Your LastFM username was not found! Try setting it again."))
-            else:
-                await message.reply(
-                    _(
-                        "An error occurred while fetching your LastFM data!\nError: <i>{error}</i>"
-                    ).format(error=error_message)
-                )
+                return
+            await message.reply(
+                _(
+                    "An error occurred while fetching your LastFM data!"
+                    "\n<blockquote>{error}</blockquote>"
+                ).format(error=e.message)
+            )
+            return
+        except IndexError:
+            await message.reply(_("No recent tracks found for your LastFM account."))
             return
 
         user_link = name_with_link(name=str(message.from_user.first_name), username=last_fm_user)
@@ -58,9 +61,8 @@ class LastFMPlayingArtistHandler(MessageHandler):
         else:
             text = _("{user}'s was listening to:\n").format(user=user_link)
 
-        text += "👨‍🎤 <b>{artist_name}</b>{loved}{time}{plays}".format(
-            artist_name=artist_info.name,
-            loved=_(", ❤️ loved") if artist_info.loved else "",
+        text += "👨‍🎤 <b>{artist_name}</b>{time}{plays}".format(
+            artist_name=last_played.artist.name,
             time="" if last_played.now_playing else get_time_elapsed_str(last_played),
             plays=_(" ∙ <code>{artist_playcount} plays</code>").format(
                 artist_playcount=artist_info.playcount
@@ -74,12 +76,12 @@ class LastFMPlayingArtistHandler(MessageHandler):
 
         deezer = DeezerClient()
         try:
-            artist = await deezer.get_artist(artist_info.name)
+            artist = await deezer.get_artist(last_played.artist.name)
         except DeezerError:
             artist = None
 
-        if artist and artist.image:
-            await message.reply_photo(photo=artist.image.url, caption=text)
+        if artist and (picture := artist.picture_xl or artist.picture_big):
+            await message.reply_photo(photo=picture, caption=text)
             return
 
         await message.reply(text, disable_web_page_preview=True)

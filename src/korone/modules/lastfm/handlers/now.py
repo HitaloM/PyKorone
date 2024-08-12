@@ -41,15 +41,18 @@ class LastFMPlayingHandler(MessageHandler):
                 last_played.artist.name, last_played.name, last_fm_user
             )
         except LastFMError as e:
-            error_message = str(e)
-            if error_message == "User not found":
+            if "User not found" in e.message:
                 await message.reply(_("Your LastFM username was not found! Try setting it again."))
-            else:
-                await message.reply(
-                    _(
-                        "An error occurred while fetching your LastFM data!\nError: <i>{error}</i>"
-                    ).format(error=error_message)
-                )
+                return
+            await message.reply(
+                _(
+                    "An error occurred while fetching your LastFM data!"
+                    "\n<blockquote>{error}</blockquote>"
+                ).format(error=e.message)
+            )
+            return
+        except IndexError:
+            await message.reply(_("No recent tracks found for your LastFM account."))
             return
 
         user_link = name_with_link(name=str(message.from_user.first_name), username=last_fm_user)
@@ -60,9 +63,9 @@ class LastFMPlayingHandler(MessageHandler):
             text = _("{user}'s was listening to:\n").format(user=user_link)
 
         text += "🎧 <i>{track_artist}</i> — <b>{track_name}</b>{loved}{time}{plays}".format(
-            track_artist=track_info.artist.name,
-            track_name=track_info.name,
-            loved=_(", ❤️ loved") if track_info.loved else "",
+            track_artist=last_played.artist.name,
+            track_name=last_played.name,
+            loved=_(", ❤️ loved") if last_played.loved else "",
             time="" if last_played.now_playing else get_time_elapsed_str(last_played),
             plays=_(" ∙ <code>{track_playcount} plays</code>").format(
                 track_playcount=track_info.playcount
