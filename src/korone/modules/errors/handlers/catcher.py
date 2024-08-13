@@ -7,6 +7,7 @@ from traceback import format_exception
 from typing import Any
 
 from hydrogram import Client
+from hydrogram.errors import ChatWriteForbidden
 from hydrogram.types import (
     CallbackQuery,
     Chat,
@@ -28,6 +29,7 @@ class ErrorsHandler(MessageHandler):
     @router.error()
     async def handle(self, client: Client, update: Update, exception: Exception) -> None:
         if isinstance(exception, IGNORED_EXCEPTIONS):
+            await self.handle_ignored_exceptions(client, update, exception)
             return
 
         if isinstance(exception, OSError):
@@ -50,6 +52,19 @@ class ErrorsHandler(MessageHandler):
 
         message_data = self.prepare_error_message(value, sentry_event_id)
         await client.send_message(chat.id, **message_data)
+
+    async def handle_ignored_exceptions(
+        self, client: Client, update: Update, exception: Exception
+    ) -> None:
+        if isinstance(exception, ChatWriteForbidden):
+            chat = self.get_chat_from_update(update)
+            if chat:
+                await logger.aerror(
+                    "[ErrorHandler] ChatWriteForbidden exception occurred, leaving chat",
+                    chat_title=chat.title,
+                    chat_id=chat.id,
+                )
+                await client.leave_chat(chat.id)
 
     @staticmethod
     def capture_exception_in_sentry(exception: Exception) -> str | None:
