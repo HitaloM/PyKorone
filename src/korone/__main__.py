@@ -13,6 +13,8 @@ import uvloop
 from cashews.exceptions import CacheBackendInteractionError
 from hydrogram import idle
 
+from korone.modules.errors.utils import IGNORED_EXCEPTIONS
+
 from . import __version__, app_dir, cache
 from .client import AppParameters, Korone
 from .config import ConfigManager
@@ -30,7 +32,11 @@ async def main() -> None:
 
     if sentry_dsn := config.get("korone", "SENTRY_DSN"):
         await logger.ainfo("Initializing Sentry integration")
-        sentry_sdk.init(dsn=sentry_dsn, release=__version__)
+        sentry_sdk.init(
+            dsn=sentry_dsn,
+            release=__version__,
+            ignore_errors=IGNORED_EXCEPTIONS,
+        )
 
     params = AppParameters(
         api_id=config.get("hydrogram", "API_ID"),

@@ -7,7 +7,6 @@ from traceback import format_exception
 from typing import Any
 
 from hydrogram import Client
-from hydrogram.errors import ChatWriteForbidden, FloodWait
 from hydrogram.types import (
     CallbackQuery,
     Chat,
@@ -20,16 +19,18 @@ from sentry_sdk import capture_exception
 
 from korone.decorators import router
 from korone.handlers.abstract import MessageHandler
+from korone.modules.errors.utils import IGNORED_EXCEPTIONS
 from korone.utils.i18n import gettext as _
 from korone.utils.logging import logger
-
-IGNORED_EXCEPTIONS: tuple[type[Exception], ...] = (FloodWait, ChatWriteForbidden)
 
 
 class ErrorsHandler(MessageHandler):
     @router.error()
     async def handle(self, client: Client, update: Update, exception: Exception) -> None:
         if isinstance(exception, IGNORED_EXCEPTIONS):
+            return
+
+        if isinstance(exception, OSError):
             return
 
         etype, value, tb = sys.exc_info()
