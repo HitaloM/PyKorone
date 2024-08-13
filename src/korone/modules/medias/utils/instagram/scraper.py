@@ -265,9 +265,8 @@ async def get_instafix_data(post_id: str) -> InstaFixData | None:
             oembed_link = oembed_tree.xpath('//link[@type="application/json+oembed"]/@href')
             if not oembed_link:
                 return None
-            oembed_link = f"https://{oembed_link[0]}"
 
-            oembed_data_response = await client.get(oembed_link)
+            oembed_data_response = await client.get(oembed_link[0])
             oembed_data_response.raise_for_status()
 
             oembed_data = oembed_data_response.json()
