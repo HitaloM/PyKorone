@@ -23,6 +23,9 @@ URL_PATTERN = re.compile(r"(?:https?://)?(?:www\.)?instagram\.com/.*?(?=\s|$)")
 class InstagramHandler(MessageHandler):
     @router.message(Regex(URL_PATTERN))
     async def handle(self, client: Client, message: Message) -> None:
+        if not message.text:
+            return
+
         url = self.extract_url(message.text)
         if not url:
             return
@@ -42,6 +45,9 @@ class InstagramHandler(MessageHandler):
 
     @staticmethod
     def extract_url(text: str) -> str | None:
+        if not text:
+            return None
+
         match = URL_PATTERN.search(text)
         return match.group() if match else None
 
