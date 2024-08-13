@@ -15,6 +15,16 @@ Changelog
 
 .. towncrier release notes start
 
+1.0.2 (2024-08-13)
+==================
+
+Bug Fixes
+---------
+
+- Fixed `ConnectError` in the instafix fallback.
+- Fixed `TypeError` if not `message.text`.
+- Silently handle `OSError`.
+
 1.0.1 (2024-08-12)
 ==================
 
@@ -22,7 +32,8 @@ Bug Fixes
 ---------
 
 - Fixed an `IntegrityError` in `korone.database.sqlite.connection` within the `_execute` method. The error occurred due to a UNIQUE constraint violation on `Users.id`.
+
 1.0.0 (2024-08-12)
 ===================
 
-Initial project release.
+- Initial project release.

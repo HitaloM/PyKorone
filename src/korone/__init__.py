@@ -7,7 +7,7 @@ from cashews import Cache
 
 from .utils.i18n import create_i18n_instance
 
-__version__ = "1.0.1"
+__version__ = "1.0.2"
 
 cache = Cache()
 cache.setup("redis://localhost", client_side=True)

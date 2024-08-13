@@ -13,7 +13,6 @@
 {{ versiondata.version }} ({{ versiondata.date }})
 {{ top_underline * ((versiondata.version + versiondata.date)|length + 3) }}
 {#
-
   The following loop will run exactly once, with ``section_name == ""``.
 
   This is due to the undocumented "sections" feature in towncrier.
@@ -40,5 +39,11 @@
 No significant changes.
 
 {% endfor -%}
+
+{# Add a blank line between each section #}
+{% if not loop.last %}
+{% endif %}
+
 {% endfor -%}
+
 {% endif -%}
