@@ -39,4 +39,4 @@ class SetLastFMHandler(MessageHandler):
 
     @staticmethod
     def is_valid_username(username: str) -> bool:
-        return bool(re.match("^[A-Za-z0-9]*$", username))
+        return bool(re.match("^[A-Za-z0-9_]*$", username))
