@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-08-12 11:35-0300\n"
+"POT-Creation-Date: 2024-08-13 16:12-0300\n"
 "PO-Revision-Date: 2024-06-18 13:23+0000\n"
 "Last-Translator: Hitalo <hitalomarquete331@gmail.com>\n"
 "Language-Team: Spanish <http://weblate.amanoteam.com/projects/korone/korone/"
@@ -137,18 +137,18 @@ msgstr "Este comando ya está activado."
 msgid "Command enabled."
 msgstr "Comando activado."
 
-#: src/korone/modules/errors/handlers/catcher.py:72
+#: src/korone/modules/errors/handlers/catcher.py:88
 #, fuzzy
 msgid "An error occurred while processing this update. :/"
 msgstr ""
 "Se ha producido un error al obtener los datos de LastFM.\n"
 "Error: <i>{error}</i>"
 
-#: src/korone/modules/errors/handlers/catcher.py:77
+#: src/korone/modules/errors/handlers/catcher.py:93
 msgid "Reference ID: {id}"
 msgstr ""
 
-#: src/korone/modules/errors/handlers/catcher.py:85
+#: src/korone/modules/errors/handlers/catcher.py:101
 msgid "🐞 Report This Error"
 msgstr ""
 
@@ -573,8 +573,8 @@ msgstr "1 año"
 msgid "All time"
 msgstr "Todos los tiempos"
 
-#: src/korone/modules/medias/handlers/instagram.py:64
-#: src/korone/modules/medias/handlers/instagram.py:71
+#: src/korone/modules/medias/handlers/instagram.py:70
+#: src/korone/modules/medias/handlers/instagram.py:77
 msgid "Open in Instagram"
 msgstr "Abrir en Instagram"
 

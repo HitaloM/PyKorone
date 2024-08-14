@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-08-12 11:35-0300\n"
+"POT-Creation-Date: 2024-08-13 16:12-0300\n"
 "PO-Revision-Date: 2024-06-18 13:25+0000\n"
 "Last-Translator: DeepL <noreply-mt-deepl@weblate.org>\n"
 "Language-Team: Ukrainian <http://weblate.amanoteam.com/projects/korone/"
@@ -138,18 +138,18 @@ msgstr "Ця команда вже увімкнена."
 msgid "Command enabled."
 msgstr "Команду дозволено."
 
-#: src/korone/modules/errors/handlers/catcher.py:72
+#: src/korone/modules/errors/handlers/catcher.py:88
 #, fuzzy
 msgid "An error occurred while processing this update. :/"
 msgstr ""
 "Виникла помилка при отриманні даних LastFM!\n"
 "Помилка: <i>{error}</i>"
 
-#: src/korone/modules/errors/handlers/catcher.py:77
+#: src/korone/modules/errors/handlers/catcher.py:93
 msgid "Reference ID: {id}"
 msgstr ""
 
-#: src/korone/modules/errors/handlers/catcher.py:85
+#: src/korone/modules/errors/handlers/catcher.py:101
 msgid "🐞 Report This Error"
 msgstr ""
 
@@ -573,8 +573,8 @@ msgstr "1 рік"
 msgid "All time"
 msgstr "Весь час"
 
-#: src/korone/modules/medias/handlers/instagram.py:64
-#: src/korone/modules/medias/handlers/instagram.py:71
+#: src/korone/modules/medias/handlers/instagram.py:70
+#: src/korone/modules/medias/handlers/instagram.py:77
 msgid "Open in Instagram"
 msgstr "Відкрийте в Instagram"
 
