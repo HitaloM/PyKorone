@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2024-08-12 11:35-0300\n"
-"PO-Revision-Date: 2024-08-12 15:16+0000\n"
+"PO-Revision-Date: 2024-08-14 15:31+0000\n"
 "Last-Translator: Hitalo <hitalo331@outlook.com>\n"
 "Language-Team: Portuguese (Brazil) <http://weblate.amanoteam.com/projects/"
 "korone/korone/pt_BR/>\n"
@@ -129,13 +129,12 @@ msgid "The following commands are disabled in this chat:\n"
 msgstr "Os seguintes comandos estão desativados neste chat:\n"
 
 #: src/korone/modules/disabling/handlers/enable.py:22
-#, fuzzy
 msgid ""
 "You need to specify a command to enable. Use <code>/enable &lt;"
 "commandname&gt;</code>."
 msgstr ""
-"Você precisa especificar um comando para desativar. Use <code>/disable &lt;"
-"commandname&gt;</code>."
+"Você precisa especificar um comando para desativar. Use <code>/enable "
+"&lt;nomedocomando&gt;</code>."
 
 #: src/korone/modules/disabling/handlers/enable.py:31
 #: src/korone/modules/disabling/handlers/enable.py:26
@@ -143,13 +142,12 @@ msgid "You can only enable one command at a time."
 msgstr "Você só pode ativar um comando de cada vez."
 
 #: src/korone/modules/disabling/handlers/enable.py:37
-#, fuzzy
 msgid ""
 "Unknown command to enable:\n"
 "- <code>{command}</code>\n"
 "Check the /disableable!"
 msgstr ""
-"Comando desconhecido para reativar:\n"
+"Comando desconhecido para ativar:\n"
 "- <code>{command}</code>\n"
 "Verifique o /disableable!"
 
@@ -428,19 +426,18 @@ msgstr ""
 #: src/korone/modules/lastfm/handlers/recent.py:44
 #: src/korone/modules/lastfm/handlers/top.py:65
 #: src/korone/modules/lastfm/handlers/user.py:41
-#, fuzzy
 msgid ""
 "An error occurred while fetching your LastFM data!\n"
 "<blockquote>{error}</blockquote>"
 msgstr ""
-"Um erro ocorreu ao buscar seus dados do LastFM!\n"
-"Erro: <i>{error}</i>"
+"Ocorreu um erro ao buscar seus dados da LastFM!\n"
+"<blockquote>{error}</blockquote>"
 
 #: src/korone/modules/lastfm/handlers/album.py:57
 #: src/korone/modules/lastfm/handlers/artist.py:54
 #: src/korone/modules/lastfm/handlers/now.py:55
 msgid "No recent tracks found for your LastFM account."
-msgstr ""
+msgstr "Não foram encontradas faixas recentes em sua conta da LastFM."
 
 #: src/korone/modules/lastfm/handlers/album.py:63
 #: src/korone/modules/lastfm/handlers/artist.py:60
@@ -708,7 +705,7 @@ msgstr "URL do YouTube inválida!"
 #: src/korone/modules/medias/handlers/youtube.py:64
 #: src/korone/modules/medias/handlers/youtube.py:115
 msgid "Failed to extract video info!"
-msgstr "Não consegui extrair informações de vídeo!"
+msgstr "Não consegui extrair informações do vídeo!"
 
 #: src/korone/modules/medias/handlers/youtube.py:74
 #: src/korone/modules/medias/handlers/youtube.py:34
@@ -741,9 +738,8 @@ msgid "<b>Views:</b> {view_count}\n"
 msgstr "<b>Visualizações:</b> {view_count}\n"
 
 #: src/korone/modules/medias/handlers/youtube.py:102
-#, fuzzy
 msgid "<b>Likes:</b> Unknown\n"
-msgstr "<b>Curtidas:</b> {like_count}\n"
+msgstr "<b>Curtidas:</b> Unknown\n"
 
 #: src/korone/modules/medias/handlers/youtube.py:105
 #: src/korone/modules/medias/handlers/youtube.py:63
@@ -965,7 +961,7 @@ msgstr ""
 
 #: src/korone/modules/stickers/handlers/kang.py:210
 msgid "An error occurred: {}"
-msgstr ""
+msgstr "Ocorreu um erro: {}"
 
 #: src/korone/modules/translator/handlers/translate.py:43
 #: src/korone/modules/translator/handlers/translate.py:74
@@ -1135,7 +1131,6 @@ msgid "<b>User link</b>: <a href='tg://user?id={id}'>link</a>\n"
 msgstr "<b>Link do usuário</b>: link <a href='tg://user?id={id}'></a>\n"
 
 #: src/korone/modules/users_groups/handlers/users.py:47
-#, fuzzy
 msgid "Invalid identifier provided."
 msgstr "O identificador fornecido não é válido."
 
