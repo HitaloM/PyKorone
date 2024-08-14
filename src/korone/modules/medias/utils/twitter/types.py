@@ -87,7 +87,7 @@ class Tweet(BaseModel):
     created_at: str
     created_timestamp: int
     possibly_sensitive: bool = False
-    views: int
+    views: int | None = None
     is_note_tweet: bool
     community_note: CommunityNote | None = None
     lang: str
