@@ -43,18 +43,18 @@ class PhoneSearchResult:
 
 
 def get_data_from_specs(specs_data: dict, category: str, attribute: str) -> str:
-    return specs_data.get("specs", {}).get(category, [{}]).get(attribute, "")
+    return specs_data.get("specs", {}).get(category, {}).get(attribute, "")
 
 
 def get_data_from_specs_multiple_attributes(
     specs_data: dict, category: str, attributes: list
 ) -> str:
-    details = specs_data.get("specs", {}).get(category, [{}])
+    details = specs_data.get("specs", {}).get(category, {})
     return "\n".join(details.get(attr, "") for attr in attributes)
 
 
 def get_camera_data(specs_data: dict, category: str) -> str | None:
-    details = specs_data.get("specs", {}).get(category, [{}])
+    details = specs_data.get("specs", {}).get(category, {})
     camera = next(iter(details.items()), (None, None))
     return f"{camera[0]} {camera[1]}" if all(camera) else None
 
@@ -109,7 +109,9 @@ def format_phone(phone: dict) -> str:
     }
 
     attributes = [
-        f"<b>{key}:</b> {phone[value]}" for key, value in attributes_dict.items() if phone[value]
+        f"<b>{key}:</b> {phone[value]}"
+        for key, value in attributes_dict.items()
+        if phone.get(value) and phone[value].strip() and phone[value].strip() != "-"
     ]
 
     return f"<a href='{phone["url"]}'>{phone["name"]}</a>\n\n{"\n\n".join(attributes)}"
