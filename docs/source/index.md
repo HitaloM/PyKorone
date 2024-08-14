@@ -17,9 +17,9 @@ Content is organized into sections consisting of self-contained topics that can 
 ### User Guide
 
 - [Getting Started](./getting_started): Teach you how to get started with the bot.
-- [Usage and Configuration](./usage_and_configuration/index): Learn how to use and configure.
-- [Modules](./modules/index): Detailed information about the available modules.
-- [Privacy](./privacy): Information about the data collected.
+- [Usage and Configuration](./usage_and_configuration/index): Learn how to use and basic configuration of the bot.
+- [Modules](./modules/index): Detailed information about the available modules, their commands, and features.
+- [Privacy](./privacy): Information about the bot's privacy policy and data handling.
 
 ### Development
 

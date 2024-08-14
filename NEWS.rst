@@ -18,12 +18,17 @@ Changelog
 1.0.2 (2024-08-13)
 ==================
 
+Features
+--------
+
+- If the bot is restricted to send messages in certain chats, it will now automatically leave those chats to avoid any problems.
+
 Bug Fixes
 ---------
 
-- Fixed `ConnectError` in the instafix fallback.
-- Fixed `TypeError` if not `message.text`.
-- Silently handle `OSError`.
+- We've made sure that if the bot runs into certain technical issues, it will handle them quietly without crashing.
+- We fixed a connection issue that sometimes happened when interacting with Instagram, so the bot should connect more reliably now.
+- We also corrected a problem where the bot might have crashed if it didn’t receive a message as expected. Now, it will keep running smoothly.
 
 1.0.1 (2024-08-12)
 ==================
@@ -31,7 +36,7 @@ Bug Fixes
 Bug Fixes
 ---------
 
-- Fixed an `IntegrityError` in `korone.database.sqlite.connection` within the `_execute` method. The error occurred due to a UNIQUE constraint violation on `Users.id`.
+- Fixed a bug where the bot would try to add a user to the database even if they already existed. This caused some random crashes in group chats.
 
 1.0.0 (2024-08-12)
 ===================
