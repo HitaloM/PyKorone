@@ -15,6 +15,20 @@ Changelog
 
 .. towncrier release notes start
 
+1.0.3 (2024-08-14)
+==================
+
+Bug Fixes
+---------
+
+- Updated the username validation regex to allow underscores (_) in LastFM usernames, ensuring users can set their usernames without issues.
+- Fixed a ValidationError caused by tweets without view counts, allowing such tweets to be processed correctly without causing crash.
+
+Improved Documentation
+----------------------
+
+- Enhanced the changelog structure and language for better clarity and user understanding of recent updates.
+
 1.0.2 (2024-08-13)
 ==================
 
