@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2024-08-13 16:12-0300\n"
-"PO-Revision-Date: 2024-08-14 15:31+0000\n"
+"PO-Revision-Date: 2024-08-15 06:32+0000\n"
 "Last-Translator: Hitalo <hitalo331@outlook.com>\n"
 "Language-Team: Portuguese (Brazil) <http://weblate.amanoteam.com/projects/"
 "korone/korone/pt_BR/>\n"
@@ -410,7 +410,7 @@ msgstr " ∙ <code>{artist_playcount} reproduções</code>"
 
 #: src/korone/modules/lastfm/handlers/collage.py:79
 msgid "{user}'s {period} {collage_size}x{collage_size} album collage"
-msgstr "{user}'s {period} {collage_size}x{collage_size} colagem de álbuns"
+msgstr "colagem de álbuns {collage_size}x{collage_size} de {user} em {period}"
 
 #: src/korone/modules/lastfm/handlers/compat.py:25
 msgid "Reply to a message to get the compatibility!"
