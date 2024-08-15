@@ -77,7 +77,7 @@ class SaveChatsMiddleware(BaseMiddleware):
     @staticmethod
     async def update_from_user(
         message: Message, current_group: ChatModel
-    ) -> Tuple[Optional[ChatModel], Optional[UserInGroupModel]]:
+    ) -> tuple[Optional[ChatModel], Optional[UserInGroupModel]]:
         if not message.from_user:
             return None, None
 

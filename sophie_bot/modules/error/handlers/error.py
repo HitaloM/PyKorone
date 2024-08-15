@@ -64,7 +64,7 @@ class SophieErrorHandler(ErrorHandler):
         return capture_exception(exception)
 
     @staticmethod
-    def get_error_message(exception: Exception) -> Tuple[str | Element, ...]:
+    def get_error_message(exception: Exception) -> tuple[str | Element, ...]:
         if isinstance(exception, SophieException):
             # It has 'docs' field
             return exception.docs
@@ -72,7 +72,7 @@ class SophieErrorHandler(ErrorHandler):
         # Return either as itself if the type is based on Core (STFU-able) or stringify as italic
         return tuple(x if isinstance(x, Element) else Italic(str(x)) for x in exception.args)
 
-    def message_data(self, exception: Exception, sentry_event_id: Optional[str]) -> Dict[str, Any]:
+    def message_data(self, exception: Exception, sentry_event_id: Optional[str]) -> dict[str, Any]:
         return {
             "text": str(
                 Doc(

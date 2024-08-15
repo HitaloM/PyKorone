@@ -39,7 +39,7 @@ def get_arg(message):
         return ""
 
 
-def get_full_command(message: Message) -> typing.Optional[typing.Tuple[str, str]]:
+def get_full_command(message: Message) -> typing.Optional[typing.tuple[str, str]]:
     text = message.text or message.caption
     command, *args = text.split(maxsplit=1)
     args = args[0] if args else ""
