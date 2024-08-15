@@ -164,7 +164,7 @@ class BaseHandler:
 
     @staticmethod
     def _create_document(chat: User | Chat, language: str) -> Document:
-        username = chat.username if isinstance(chat, User) and chat.username else ""
+        username = chat.username or ""
         title = chat.title if isinstance(chat, Chat) else None
         first_name = chat.first_name if isinstance(chat, User) else None
         chat_type = chat.type.name.lower() if isinstance(chat, Chat) else None
