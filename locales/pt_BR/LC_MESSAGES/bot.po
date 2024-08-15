@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2024-08-15 01:38-0300\n"
-"PO-Revision-Date: 2024-08-15 06:32+0000\n"
+"PO-Revision-Date: 2024-08-15 13:24+0000\n"
 "Last-Translator: Hitalo <hitalo331@outlook.com>\n"
 "Language-Team: Portuguese (Brazil) <http://weblate.amanoteam.com/projects/"
 "korone/korone/pt_BR/>\n"
@@ -839,26 +839,28 @@ msgid "An error occurred: {}"
 msgstr "Ocorreu um erro: {}"
 
 #: src/korone/modules/stickers/handlers/kang.py:280
-#, fuzzy
 msgid "Failed to get video information."
-msgstr "Não consegui extrair informações do vídeo!"
+msgstr "Falha ao obter informações do vídeo."
 
 #: src/korone/modules/stickers/handlers/kang.py:286
-#, fuzzy
 msgid "Error parsing video information: {error}"
-msgstr "Ocorreu um erro ao buscar informações de whois: {error}"
+msgstr "Erro ao analisar informações do vídeo: {error}"
 
 #: src/korone/modules/stickers/handlers/kang.py:293
 msgid ""
 "The video is too long ({duration}s)!\n"
 "Max duration is 3 seconds."
 msgstr ""
+"O vídeo é muito longo ({duration}s)!\n"
+"A duração máxima é de 3 segundos."
 
 #: src/korone/modules/stickers/handlers/kang.py:301
 msgid ""
 "The video is too big ({size}KB)!\n"
 "Max size is 256KB"
 msgstr ""
+"O vídeo é muito grande ({size}KB)!\n"
+"O tamanho máximo é 256KB"
 
 #: src/korone/modules/translator/handlers/translate.py:43
 msgid "Unsupported source language: {source_lang}"
@@ -1000,7 +1002,7 @@ msgstr "<b>Sobrenome</b>: {last_name}\n"
 
 #: src/korone/modules/users_groups/handlers/users.py:35
 msgid "<b>User link</b>: <a href='tg://user?id={id}'>link</a>\n"
-msgstr "<b>Link do usuário</b>: link <a href='tg://user?id={id}'></a>\n"
+msgstr "<b>Link do usuário</b>: <a href='tg://user?id={id}'>link</a>\n"
 
 #: src/korone/modules/users_groups/handlers/users.py:47
 msgid "Invalid identifier provided."
