@@ -70,7 +70,7 @@ else:
     if CONFIG.webhooks_filter_ips:
         # TODO: Long start
         log.info("Filtering IP addresses", ips=CONFIG.webhooks_allowed_networks)
-        app.middlewares.append(ip_filter_middleware(IPFilter(CONFIG.webhooks_allowed_networks)))
+        app.middlewares.append(ip_filter_middleware(IPFilter(CONFIG.webhooks_allowed_networks)))  # type: ignore
 
     setup_application(app, dp, bot=bot)
 

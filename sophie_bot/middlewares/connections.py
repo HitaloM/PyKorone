@@ -1,5 +1,5 @@
 from dataclasses import dataclass
-from typing import Any, Awaitable, Callable, Dict, Optional
+from typing import Any, Awaitable, Callable, Optional
 
 from aiogram import BaseMiddleware
 from aiogram.types import Chat, TelegramObject

@@ -18,19 +18,15 @@ msgstr ""
 msgid "The argument {description} has an invalid formatting!"
 msgstr ""
 
-#: types/deprecated.py:74 types/deprecated.py:78
-msgid "'{current_arg}' followed by parentheses with '{stacked_arg}' inside."
-msgstr ""
-
-#: types/keyvalue.py:30
+#: types/keyvalue.py:31
 msgid "Key-value of {}"
 msgstr ""
 
-#: types/keyvalue.py:31
+#: types/keyvalue.py:32
 msgid "Key-values of {}"
 msgstr ""
 
-#: types/keyvalue.py:63
+#: types/keyvalue.py:64
 msgid "The optional argument {name} must contain a value!"
 msgstr ""
 
@@ -38,119 +34,119 @@ msgstr ""
 msgid "Key-values"
 msgstr ""
 
-#: types/lists.py:45 types/lists.py:58
+#: types/lists.py:46 types/lists.py:59
 msgid "List of {}"
 msgstr ""
 
-#: types/lists.py:46
+#: types/lists.py:47
 msgid "Lists of {}"
 msgstr ""
 
-#: types/lists.py:64
+#: types/lists.py:65
 msgid "The starting character {} of list wasn't found!"
 msgstr ""
 
-#: types/lists.py:72
+#: types/lists.py:73
 msgid "The ending character {} of list wasn't found!"
 msgstr ""
 
-#: types/lists.py:76
+#: types/lists.py:77
 msgid "The list is empty!"
 msgstr ""
 
-#: types/lists.py:96
+#: types/lists.py:97
 msgid "➡️ The start prefix text of the lists cannot have the overlapping formatting"
 msgstr ""
 
-#: types/lists.py:151 types/lists.py:169
+#: types/lists.py:152 types/lists.py:170
 msgid "Argument '{arg_text}' was parsed, but it has unknown text after it!"
 msgstr ""
 
-#: types/lists.py:156 types/lists.py:174
+#: types/lists.py:157 types/lists.py:175
 msgid "Please ensure you correctly divided all of arguments."
 msgstr ""
 
-#: types/logic.py:19
+#: types/logic.py:20
 msgid "Optional {}"
 msgstr ""
 
-#: types/logic.py:20
+#: types/logic.py:21
 msgid "Optionals {}"
 msgstr ""
 
-#: types/logic.py:44 types/logic.py:45 types/one_of.py:28 types/one_of.py:31
+#: types/logic.py:44 types/logic.py:45 types/one_of.py:27 types/one_of.py:30
 msgid " or "
 msgstr ""
 
-#: types/logic.py:107
+#: types/logic.py:105
 msgid ", and "
 msgstr ""
 
-#: types/logic.py:123
+#: types/logic.py:121
 msgid "Example syntax"
 msgstr ""
 
-#: types/one_of.py:27 types/one_of.py:30
+#: types/one_of.py:26 types/one_of.py:29
 msgid "One of: {}"
 msgstr ""
 
-#: types/oneword.py:14
+#: types/oneword.py:13
 msgid "Word (string with no spaces)"
 msgstr ""
 
-#: types/oneword.py:14
+#: types/oneword.py:13
 msgid "Words (strings with no spaces)"
 msgstr ""
 
-#: types/oneword.py:35
+#: types/oneword.py:33
 msgid "Integer (number)"
 msgstr ""
 
-#: types/oneword.py:35
+#: types/oneword.py:33
 msgid "Integers (numbers)"
 msgstr ""
 
-#: types/oneword.py:52
+#: types/oneword.py:49
 msgid "Boolean (Yes / No value)"
 msgstr ""
 
-#: types/oneword.py:52
+#: types/oneword.py:49
 msgid "Booleans (Yes / No values)"
 msgstr ""
 
-#: types/oneword.py:57
+#: types/oneword.py:54
 msgid "True (can means Enabled or Yes)"
 msgstr ""
 
-#: types/oneword.py:58
+#: types/oneword.py:55
 msgid "False (can means Disabled or No)"
 msgstr ""
 
-#: types/text.py:19
+#: types/text.py:18
 msgid "Text"
 msgstr ""
 
-#: types/text_rules.py:26
+#: types/text_rules.py:27
 msgid "➡️ The Argument should start with {}!"
 msgstr ""
 
-#: types/text_rules.py:30
+#: types/text_rules.py:31
 msgid "⬅️️ The Argument should end with {}!"
 msgstr ""
 
-#: types/text_rules.py:42
+#: types/text_rules.py:49
 msgid "➡️ The start text cannot have the overlapping formatting"
 msgstr ""
 
-#: types/text_rules.py:67
+#: types/text_rules.py:74
 msgid "➡️ Argument '{arg_text}' was parsed, but it has unknown text after it!"
 msgstr ""
 
-#: types/text_rules.py:84 types/text_rules.py:88
+#: types/text_rules.py:91 types/text_rules.py:95
 msgid "{} surrounded by {} and {}"
 msgstr ""
 
-#: types/text_rules.py:100
+#: types/text_rules.py:107
 msgid "Surrounded by {} and {}"
 msgstr ""
 
@@ -187,75 +183,75 @@ msgstr ""
 msgid "m"
 msgstr ""
 
-#: types/time_arg.py:62
+#: types/time_arg.py:61
 msgid "Action time"
 msgstr ""
 
-#: types/time_arg.py:62
+#: types/time_arg.py:61
 msgid "Action times"
 msgstr ""
 
-#: types/user.py:19
+#: types/user.py:17
 msgid "User ID (Numeric)"
 msgstr ""
 
-#: types/user.py:19
+#: types/user.py:17
 msgid "User IDs (Numeric)"
 msgstr ""
 
-#: types/user.py:40
+#: types/user.py:37
 msgid "Username (starts with @)"
 msgstr ""
 
-#: types/user.py:50
+#: types/user.py:47
 msgid "Should start with a prefix"
 msgstr ""
 
-#: types/user.py:52
+#: types/user.py:49
 msgid "Username is too short"
 msgstr ""
 
-#: types/user.py:54
+#: types/user.py:51
 msgid "Username is too long"
 msgstr ""
 
-#: types/user.py:69
+#: types/user.py:65
 msgid "User mention (a link to user)"
 msgstr ""
 
-#: types/user.py:69
+#: types/user.py:65
 msgid "User mentions (links to users)"
 msgstr ""
 
-#: types/user.py:102
+#: types/user.py:97
 msgid "Should start with mention!"
 msgstr ""
 
-#: types/user.py:110
+#: types/user.py:105
 msgid "Unexpected error while trying to get a user! Please report this in the support chat!"
 msgstr ""
 
-#: types/user.py:111
+#: types/user.py:106
 msgid "Error ID: 95450"
 msgstr ""
 
-#: types/user.py:123
+#: types/user.py:117
 msgid "User: 'User ID (numeric) / Username (starts with @) / Mention (links to users)'"
 msgstr ""
 
-#: types/user.py:125
+#: types/user.py:119
 msgid "Users: 'User IDs (numeric) / Usernames (starts with @) / Mentions (links to users)'"
 msgstr ""
 
-#: types/user.py:132
+#: types/user.py:126
 msgid "User ID"
 msgstr ""
 
-#: types/user.py:133
+#: types/user.py:127
 msgid "Username"
 msgstr ""
 
-#: types/user.py:138
+#: types/user.py:132
 msgid "A link to user, usually creates by mentioning a user without username."
 msgstr ""
 

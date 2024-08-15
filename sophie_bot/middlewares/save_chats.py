@@ -1,4 +1,4 @@
-from typing import Any, Awaitable, Callable, Iterable, List, Optional, Tuple
+from typing import Any, Awaitable, Callable, Iterable, List, Optional
 
 from aiogram import BaseMiddleware
 from aiogram.types import Chat, ChatMemberUpdated, Message, Update, User
