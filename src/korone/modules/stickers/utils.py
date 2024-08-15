@@ -49,3 +49,38 @@ def generate_random_file_path(prefix: str, extension: str) -> Path:
 
     random_suffix = "".join(random.choices(string.ascii_letters + string.digits, k=8))
     return output_path / f"{prefix}{random_suffix}{extension}"
+
+
+async def run_ffprobe_command(file_path: str) -> str | None:
+    process = await asyncio.create_subprocess_exec(
+        "ffprobe",
+        "-v",
+        "error",
+        "-select_streams",
+        "v:0",
+        "-show_entries",
+        "format=duration",
+        "-of",
+        "default=noprint_wrappers=1:nokey=1",
+        file_path,
+        stdout=asyncio.subprocess.PIPE,
+        stderr=asyncio.subprocess.STDOUT,
+    )
+
+    stdout, _ = await process.communicate()
+
+    if stdout:
+        return stdout.decode()
+    return None
+
+
+async def ffprobe(file_path: str) -> float | None:
+    raw_output = await run_ffprobe_command(file_path)
+
+    if raw_output is None:
+        return None
+
+    try:
+        return float(raw_output.strip())
+    except ValueError:
+        return None

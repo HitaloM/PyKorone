@@ -25,7 +25,12 @@ from korone.decorators import router
 from korone.filters import Command, CommandObject
 from korone.handlers.abstract import MessageHandler
 from korone.modules.stickers.database import get_or_create_pack, update_user_pack
-from korone.modules.stickers.utils import generate_random_file_path, resize_image, resize_video
+from korone.modules.stickers.utils import (
+    ffprobe,
+    generate_random_file_path,
+    resize_image,
+    resize_video,
+)
 from korone.utils.i18n import gettext as _
 
 
@@ -56,6 +61,10 @@ class KangHandler(MessageHandler):
         file_path = await client.download_media(file_id, file_name=file_name)
         if not file_path:
             await sent_message.edit(_("Error downloading media."))
+            return
+
+        if media_type == "video" and not await self.check_video(sent_message, file_path):  # type: ignore
+            Path(file_path).unlink(missing_ok=True)  # type: ignore
             return
 
         pack_num = await get_or_create_pack(user.id, media_type)
@@ -262,7 +271,42 @@ class KangHandler(MessageHandler):
         return media_type, file_id, extension
 
     @staticmethod
+    async def check_video(message: Message, file_path: str) -> bool:
+        # https://core.telegram.org/stickers#video-requirements
+
+        duration_str = await ffprobe(file_path)
+
+        if not duration_str:
+            await message.edit(_("Failed to get video information."))
+            return False
+
+        try:
+            duration = float(duration_str)
+        except (ValueError, IndexError) as e:
+            await message.reply(_("Error parsing video information: {error}").format(error=str(e)))
+            return False
+
+        size = Path(file_path).stat().st_size
+
+        if duration > 3:
+            await message.edit(
+                _("The video is too long ({duration}s)!\nMax duration is 3 seconds.").format(
+                    duration=duration
+                )
+            )
+            return False
+
+        if size > 256000:
+            await message.edit(
+                _("The video is too big ({size}KB)!\nMax size is 256KB").format(size=size / 1000)
+            )
+            return False
+
+        return True
+
+    @staticmethod
     async def resize_media(media_type: str, file_path: str) -> str | None:
         if media_type in {"photo", "animated"}:
             return await asyncio.to_thread(resize_image, file_path)
-        return await resize_video(file_path) if media_type == "video" else None
+
+        return await resize_video(file_path)
