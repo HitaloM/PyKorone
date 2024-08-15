@@ -5,7 +5,7 @@ from hydrogram import Client
 from hydrogram.handlers import ErrorHandler
 from hydrogram.types import Update
 
-from korone import i18n
+from korone.utils.i18n import i18n
 
 from .base import BaseHandler
 

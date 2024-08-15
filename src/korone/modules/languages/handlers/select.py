@@ -7,17 +7,18 @@ from hydrogram.enums import ChatType
 from hydrogram.types import CallbackQuery, InlineKeyboardButton, InlineKeyboardMarkup, Message
 from magic_filter import F
 
-from korone import i18n
 from korone.decorators import router
 from korone.filters import Command, IsAdmin
 from korone.handlers.abstract import CallbackQueryHandler, MessageHandler
 from korone.modules.languages.callback_data import LangMenuCallback, SetLangCallback
+from korone.utils.i18n import get_i18n
 from korone.utils.i18n import gettext as _
 
 
 class SelectLanguageBase:
     @staticmethod
     def build_keyboard(chat_type: ChatType) -> InlineKeyboardMarkup:
+        i18n = get_i18n()
         keyboard = InlineKeyboardBuilder()
 
         for language in (*i18n.available_locales, i18n.default_locale):

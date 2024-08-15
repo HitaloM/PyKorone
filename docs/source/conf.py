@@ -17,17 +17,7 @@ date = date_time.date()
 copyright = f"{date.year}, {author}"
 release = korone.__version__.split(" ")[0]
 
-extensions = [
-    "sphinx.ext.autodoc",
-    "sphinx.ext.intersphinx",
-    "sphinx.ext.napoleon",
-    "sphinx.ext.viewcode",
-    "myst_parser",
-    "sphinx_copybutton",
-    "sphinxcontrib.towncrier",
-]
-
-intersphinx_mapping = {"python": ("https://docs.python.org/3", None)}
+extensions = ["myst_parser", "sphinxcontrib.towncrier"]
 
 html_use_modindex = False
 html_use_index = False
