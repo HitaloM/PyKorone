@@ -49,6 +49,7 @@ black = "~23"
 mypy = "1.10.1"
 types-ujson = "^5.10.0.20240515"
 types-pytz = "^2024.1.0.20240417"
+pytest-asyncio = "^0.23"
 
 [tool.poetry.extras]
 fast = ["aiohttp", "cryptg", "cryptography"]
