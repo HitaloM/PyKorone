@@ -31,7 +31,7 @@ emoji-country-flag = "~2"
 pydantic-settings = "~2.4"
 structlog = "^24"
 stfu-tg = "2.3"
-ass-tg = "^2.2"
+ass-tg = "^2.3"
 beanie = "^1.26.0"
 better-exceptions = "^0.3.3"
 

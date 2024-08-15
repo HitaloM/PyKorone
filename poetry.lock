@@ -238,12 +238,12 @@ zookeeper = ["kazoo"]
 
 [[package]]
 name = "ass-tg"
-version = "2.2.0"
+version = "2.3.0"
 description = "Arguments Stupendous Searcher (ASS)"
 optional = false
 python-versions = "<4.0,>=3.10"
 files = [
-    {file = "ass_tg-2.2.0-py3-none-any.whl", hash = "sha256:ac2ec60fe22fd3b469ca818b692015a7cc825fdf9b046828d7b995100a08cb59"},
+    {file = "ass_tg-2.3.0-py3-none-any.whl", hash = "sha256:2a2f631ed4b06ebd4568bec0b360f77b62040cc1fda17230836fe4f89b2213af"},
 ]
 
 [package.dependencies]
@@ -2941,4 +2941,4 @@ fast = ["aiohttp", "cryptg", "cryptography"]
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.11"
-content-hash = "ceee8c67719a36113dc114a828840290835c2a74469469beec39bf3f3e1f54b9"
+content-hash = "294903f1c2a6ca0e89c5694f84c0cd62d42428295005a58fabc12b6234cbea0a"
