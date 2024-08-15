@@ -11,7 +11,7 @@ Changelog
     we named the news folder "news".
     WARNING: Don't drop the next directive!
 
-.. towncrier-draft-entries:: |release| [UNRELEASED DRAFT]
+.. towncrier-draft-entries:: [UPCOMING UPDATE]
 
 .. towncrier release notes start
 

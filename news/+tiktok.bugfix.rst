@@ -1,0 +1,1 @@
+Fixed an issue that caused the bot to crash when trying to download TikTok media from messages that contained text in addition to the URL. Now, the bot can correctly identify and process the TikTok URL even if there is extra text in the message.

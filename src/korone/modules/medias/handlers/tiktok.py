@@ -27,7 +27,7 @@ from korone.modules.medias.utils.tiktok import (
 from korone.utils.i18n import gettext as _
 
 URL_PATTERN = re.compile(
-    r"^.*https:\/\/(?:m|www|vm)?\.?tiktok\.com\/((?:.*\b(?:(?:usr|v|embed|user|video|photo)\/|\?shareId=|\&item_id=)(\d+))|\w+)"
+    r"https:\/\/(?:m|www|vm)?\.?tiktok\.com\/((?:.*\b(?:(?:usr|v|embed|user|video|photo)\/|\?shareId=|\&item_id=)(\d+))|\w+)"
 )
 
 
@@ -38,6 +38,7 @@ class TikTokHandler(MessageHandler):
         if not url_match:
             return
 
+        tiktok_url = url_match.group(0)  # Captura a URL completa do TikTok
         media_id = await self.extract_media_id(url_match)
         if not media_id:
             return
@@ -49,33 +50,35 @@ class TikTokHandler(MessageHandler):
             if not media:
                 return
 
-            await self.process_media(client, message, media, str(media_id))
+            await self.process_media(client, message, media, str(media_id), tiktok_url)
         except TikTokError:
             return
         finally:
             tiktok_client.clear()
 
-    async def extract_media_id(self, url_match) -> str | int | None:
+    async def extract_media_id(self, url_match: re.Match[str]) -> str | int | None:
         media_id = url_match.group(2) or url_match.group(1)
         try:
             return int(media_id)
         except ValueError:
-            redirect_url = await self.resolve_redirect_url(url_match.group())
-            if url_match := URL_PATTERN.search(redirect_url):
-                return url_match.group(2)
+            redirect_url = await self.resolve_redirect_url(url_match.group(0))
+            if redirect_url_match := URL_PATTERN.search(redirect_url):
+                return redirect_url_match.group(2)
         return None
 
-    async def process_media(self, client: Client, message: Message, media, media_id: str) -> None:
+    async def process_media(
+        self, client: Client, message: Message, media, media_id: str, tiktok_url: str
+    ) -> None:
         if isinstance(media, TikTokVideo):
             async with ChatActionSender(
                 client=client, chat_id=message.chat.id, action=ChatAction.UPLOAD_VIDEO
             ):
-                await self.process_video(client, message, media, media_id)
+                await self.process_video(client, message, media, media_id, tiktok_url)
         elif isinstance(media, TikTokSlideshow):
             async with ChatActionSender(
                 client=client, chat_id=message.chat.id, action=ChatAction.UPLOAD_PHOTO
             ):
-                await self.process_slideshow(message, media, media_id)
+                await self.process_slideshow(message, media, media_id, tiktok_url)
 
     @staticmethod
     async def resolve_redirect_url(url: str) -> str:
@@ -91,7 +94,7 @@ class TikTokHandler(MessageHandler):
         return text
 
     async def process_video(
-        self, client: Client, message: Message, media: TikTokVideo, media_id: str
+        self, client: Client, message: Message, media: TikTokVideo, media_id: str, tiktok_url: str
     ) -> None:
         cache = MediaCache(media_id)
         cache_data = await cache.get()
@@ -99,7 +102,7 @@ class TikTokHandler(MessageHandler):
             media, cache_data
         )
         caption = self.format_media_text(media)
-        keyboard = self.create_keyboard(message.text)
+        keyboard = self.create_keyboard(tiktok_url)
 
         sent_message = await client.send_video(
             chat_id=message.chat.id,
@@ -119,15 +122,15 @@ class TikTokHandler(MessageHandler):
             await cache.set(sent_message, cache_ttl)
 
     async def process_slideshow(
-        self, message: Message, media: TikTokSlideshow, media_id: str
+        self, message: Message, media: TikTokSlideshow, media_id: str, tiktok_url: str
     ) -> None:
         cache = MediaCache(media_id)
         cache_data = await cache.get()
-        media_list = await self.get_slideshow_details(media, cache_data, message.text)
+        media_list = await self.get_slideshow_details(media, cache_data, tiktok_url)
 
         if len(media_list) == 1:
             caption = self.format_media_text(media)
-            keyboard = self.create_keyboard(message.text)
+            keyboard = self.create_keyboard(tiktok_url)
 
             sent_message = await message.reply_photo(
                 media_list[0].media,
