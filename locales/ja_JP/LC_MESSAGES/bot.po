@@ -8,30 +8,29 @@ msgstr ""
 "Project-Id-Version: PyKorone 1.0\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2024-08-15 01:38-0300\n"
-"PO-Revision-Date: 2024-06-18 13:25+0000\n"
-"Last-Translator: Hitalo <hitalomarquete331@gmail.com>\n"
+"PO-Revision-Date: 2024-08-15 13:24+0000\n"
+"Last-Translator: DeepL <noreply-mt-deepl@weblate.org>\n"
 "Language-Team: Japanese <http://weblate.amanoteam.com/projects/korone/korone/"
 "ja/>\n"
-"Language: ja\n"
+"Language: ja_JP\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 5.5.5\n"
+"X-Generator: Weblate 5.6.2\n"
 "Generated-By: Babel 2.15.0\n"
 
 #: src/korone/filters/admin.py:39 src/korone/filters/admin.py:44
-#, fuzzy
 msgid "You must be an administrator to use this."
-msgstr "このコマンドを使用するには管理者でなければならない。"
+msgstr "これを使うには管理者でなければならない。"
 
 #: src/korone/filters/chat.py:24
 msgid "This command was designed to be used in PM, not in group chats!"
-msgstr ""
+msgstr "このコマンドはグループチャットではなく、PMで使用するように設計されています！"
 
 #: src/korone/filters/chat.py:44
 msgid "This command was designed to be used in group chats, not in PM!"
-msgstr ""
+msgstr "このコマンドはPMではなく、グループチャットで使うように設計されている！"
 
 #: src/korone/modules/afk/handlers/check.py:36
 msgid "Oh, you're back! I've removed your afk status."
@@ -59,7 +58,7 @@ msgstr "あなたは既に AFKです."
 
 #: src/korone/modules/afk/handlers/set.py:40
 msgid "The maximum length of the AFK message is 64 characters."
-msgstr ""
+msgstr "AFKメッセージの最大長は64文字である。"
 
 #: src/korone/modules/afk/handlers/set.py:47
 msgid "Your AFK status has been updated!"
@@ -70,13 +69,11 @@ msgid "You are now AFK."
 msgstr "あなたは今AFKです."
 
 #: src/korone/modules/disabling/handlers/disable.py:24
-#, fuzzy
 msgid ""
 "You need to specify a command to disable. Use <code>/disable &lt;"
 "commandname&gt;</code>."
-msgstr ""
-"まず LastFM のユーザー名を設定してください! <code>/setlfm &lt;ユーザー名&gt;"
-"</code> を使ってください."
+msgstr "無効にするコマンドを指定する必要がある。<code>/disable&lt;commandname&gt;</"
+"code> を使用する。"
 
 #: src/korone/modules/disabling/handlers/disable.py:33
 msgid "You can only disable one command at a time."
@@ -88,6 +85,9 @@ msgid ""
 "- <code>{command}</code>\n"
 "Check the /disableable!"
 msgstr ""
+"無効にするコマンドが不明：\n"
+"-<code>{command}</code>\n"
+"disableableをチェックする！"
 
 #: src/korone/modules/disabling/handlers/disable.py:50
 msgid "This command is already disabled."
@@ -110,13 +110,11 @@ msgid "The following commands are disabled in this chat:\n"
 msgstr "このチャットでは次のコマンドは無効です.\n"
 
 #: src/korone/modules/disabling/handlers/enable.py:22
-#, fuzzy
 msgid ""
 "You need to specify a command to enable. Use <code>/enable &lt;"
 "commandname&gt;</code>."
-msgstr ""
-"まず LastFM のユーザー名を設定してください! <code>/setlfm &lt;ユーザー名&gt;"
-"</code> を使ってください."
+msgstr "有効にするコマンドを指定する必要があります。<code>/enable&lt;commandname&gt;<"
+"/code> を使用する。"
 
 #: src/korone/modules/disabling/handlers/enable.py:31
 msgid "You can only enable one command at a time."
@@ -128,6 +126,9 @@ msgid ""
 "- <code>{command}</code>\n"
 "Check the /disableable!"
 msgstr ""
+"有効にするコマンドが不明：\n"
+"-<code>{command}</code>\n"
+"disableをチェックしてください！"
 
 #: src/korone/modules/disabling/handlers/enable.py:47
 msgid "This command is already enabled."
@@ -138,19 +139,16 @@ msgid "Command enabled."
 msgstr "コマンドが有効。"
 
 #: src/korone/modules/errors/handlers/catcher.py:88
-#, fuzzy
 msgid "An error occurred while processing this update. :/"
-msgstr ""
-"LastFMのデータを取得する際にエラーが発生しました.\n"
-"エラー: <i>{error}</i>"
+msgstr "このアップデートの処理中にエラーが発生しました。"
 
 #: src/korone/modules/errors/handlers/catcher.py:93
 msgid "Reference ID: {id}"
-msgstr ""
+msgstr "リファレンスID{id}"
 
 #: src/korone/modules/errors/handlers/catcher.py:101
 msgid "🐞 Report This Error"
-msgstr ""
+msgstr "エラーを報告する"
 
 #: src/korone/modules/gsm_arena/utils.py:96
 msgid "Status"
@@ -208,7 +206,7 @@ msgstr "充電中"
 msgid ""
 "You should provide a device name to search Example: <code>/device Galaxy "
 "S24</code>."
-msgstr ""
+msgstr "検索するデバイス名を指定してください：<code>/デバイス Galaxy S24</code>."
 
 #: src/korone/modules/gsm_arena/handlers/search.py:38
 msgid "No devices found."
@@ -300,27 +298,24 @@ msgid "<b>Chat language:</b> {language}\n"
 msgstr "<b>チャット言語:</b> {language}\n"
 
 #: src/korone/modules/languages/handlers/info.py:55
-#, fuzzy
 msgid ""
 "\n"
 "<b>Language Information:</b>\n"
 msgstr ""
 "\n"
-"<b>言語情報:</b>\n"
+"<b>言語情報：</b>\n"
 
 #: src/korone/modules/languages/handlers/info.py:56
-#, fuzzy
 msgid "Translated strings: <code>{translated}</code>\n"
-msgstr "翻訳済み: {translated}\n"
+msgstr "翻訳された弦：<code>{translated}</code>\n"
 
 #: src/korone/modules/languages/handlers/info.py:59
-#, fuzzy
 msgid "Untranslated strings: <code>{untranslated}</code>\n"
-msgstr "訳されていない: {untranslated}\n"
+msgstr "未翻訳の文字列：<code>{untranslated}</code>\n"
 
 #: src/korone/modules/languages/handlers/info.py:62
 msgid "Strings requiring review: <code>{fuzzy}</code>\n"
-msgstr ""
+msgstr "見直しが必要なストリングス<code>{fuzzy}</code>\n"
 
 #: src/korone/modules/languages/handlers/info.py:64
 msgid "This is the bot's native language. So it is 100% translated."
@@ -342,13 +337,11 @@ msgstr "チャットで使いたい言語を選択してください."
 #: src/korone/modules/lastfm/handlers/recent.py:28
 #: src/korone/modules/lastfm/handlers/top.py:30
 #: src/korone/modules/lastfm/handlers/user.py:25
-#, fuzzy
 msgid ""
 "You need to set your LastFM username first! Example: <code>/setlfm username</"
 "code>."
-msgstr ""
-"まず LastFM のユーザー名を設定してください! <code>/setlfm &lt;ユーザー名&gt;"
-"</code> を使ってください."
+msgstr "最初にLastFMのユーザー名を設定してください！例<code>/setlfm "
+"ユーザー名</code>."
 
 #: src/korone/modules/lastfm/handlers/album.py:47
 #: src/korone/modules/lastfm/handlers/artist.py:44
@@ -369,19 +362,18 @@ msgstr "あなたのLastFMユーザー名が見つかりません！もう一度
 #: src/korone/modules/lastfm/handlers/recent.py:44
 #: src/korone/modules/lastfm/handlers/top.py:65
 #: src/korone/modules/lastfm/handlers/user.py:41
-#, fuzzy
 msgid ""
 "An error occurred while fetching your LastFM data!\n"
 "<blockquote>{error}</blockquote>"
 msgstr ""
-"LastFMのデータを取得する際にエラーが発生しました.\n"
-"エラー: <i>{error}</i>"
+"LastFMデータの取得中にエラーが発生しました！\n"
+"<blockquote>{error}</blockquote>"
 
 #: src/korone/modules/lastfm/handlers/album.py:57
 #: src/korone/modules/lastfm/handlers/artist.py:54
 #: src/korone/modules/lastfm/handlers/now.py:55
 msgid "No recent tracks found for your LastFM account."
-msgstr ""
+msgstr "LastFMアカウントに最近のトラックは見つかりませんでした。"
 
 #: src/korone/modules/lastfm/handlers/album.py:63
 #: src/korone/modules/lastfm/handlers/artist.py:60
@@ -422,13 +414,12 @@ msgid "Bots won't have music taste!"
 msgstr "ボットには音楽の味はない!"
 
 #: src/korone/modules/lastfm/handlers/compat.py:51
-#, fuzzy
 msgid ""
 "The user you replied to doesn't have a LastFM account linked! Hint them to "
 "set it using <code>/setlfm username</code>."
 msgstr ""
-"まず LastFM のユーザー名を設定してください! <code>/setlfm &lt;ユーザー名&gt;"
-"</code> を使ってください."
+"あなたが返信したユーザーは、LastFMアカウントをリンクしていません！<code>/setl"
+"fmユーザー名</code> を使って設定するよう指示してください。"
 
 #: src/korone/modules/lastfm/handlers/compat.py:100
 msgid "No common artists in {period}"
@@ -461,13 +452,10 @@ msgstr ""
 "最後の5プレイ:"
 
 #: src/korone/modules/lastfm/handlers/set.py:24
-#, fuzzy
 msgid ""
 "You need to provide your LastFM username! Example: <code>/setlfm username</"
 "code>."
-msgstr ""
-"まず LastFM のユーザー名を設定してください! <code>/setlfm &lt;ユーザー名&gt;"
-"</code> を使ってください."
+msgstr "LastFMのユーザー名を入力してください！例<code>/setlfm ユーザー名</code>."
 
 #: src/korone/modules/lastfm/handlers/set.py:33
 msgid "LastFM username must not contain spaces or special characters!"
@@ -595,11 +583,12 @@ msgid "No YouTube URL found in the replied message."
 msgstr "返信したメッセージには YouTube の URL が見つかりませんでした."
 
 #: src/korone/modules/medias/handlers/youtube.py:46
-#, fuzzy
 msgid ""
 "You need to provide a URL or reply to a message that contains a URL. "
 "Example: <code>/ytdl https://www.youtube.com/watch?v=dQw4w9WgXcQ</code>"
-msgstr "URLを入力するか,URLを含むメッセージに返信する必要があります."
+msgstr ""
+"URLを提供するか、URLを含むメッセージに返信する必要があります。例<code>/ytdl "
+"https://www.youtube.com/watch?v=dQw4w9WgXcQ</code>"
 
 #: src/korone/modules/medias/handlers/youtube.py:54
 msgid "Invalid YouTube URL!"
@@ -634,9 +623,8 @@ msgid "<b>Views:</b> {view_count}\n"
 msgstr "<b>再生回数:</b> {view_count}\n"
 
 #: src/korone/modules/medias/handlers/youtube.py:102
-#, fuzzy
 msgid "<b>Likes:</b> Unknown\n"
-msgstr "<b>いいね:</b> {like_count}\n"
+msgstr "<b>好き</b> 不明\n"
 
 #: src/korone/modules/medias/handlers/youtube.py:105
 msgid "<b>Likes:</b> {like_count}\n"
@@ -673,10 +661,9 @@ msgstr "📚 チャンネル"
 
 #: src/korone/modules/pm_menu/handlers/about.py:33
 msgid "🔒 Privacy Policy"
-msgstr ""
+msgstr "プライバシーポリシー"
 
 #: src/korone/modules/pm_menu/handlers/about.py:52
-#, fuzzy
 msgid ""
 "Korone is a comprehensive and cutting-edge Telegram bot that offers a wide "
 "range of features to enhance your Telegram experience. Designed to be "
@@ -689,35 +676,35 @@ msgid ""
 "\n"
 "Version: <code>{version}</code>"
 msgstr ""
-"PyKoroneは、Telegram体験を向上させるための幅広い機能を提供する包括的で最先端"
-"のTelegramボットです。多用途に対応し、適応性が高く、非常に効率的に設計されて"
-"います。\n"
+"Koroneは包括的で最先端のTelegramボットで、Telegram体験を向上させる幅広い機能"
+"を提供します。多用途、適応性、高効率に設計され、{python} "
+"のパワーを活用し、{hydrogram} フレームワーク上に構築され、{mtproto} "
+"を利用しています。\n"
 "\n"
-"Pythonを使用して構築されたPyKoroneは、Telegram MTProto APIを使用する"
-"{hydrogram}フレームワークに基づいています。\n"
+"このオープンソースプロジェクトは、{license} "
+"ライセンスの下でライセンスされており、ソースコードはGitHubで入手可能です。\n"
 "\n"
-"PyKoroneは、{license_link}ライセンスの下でライセンスされたオープンソースプロ"
-"ジェクトです。ソースコードはGitHubで見つけることができます。\n"
-"\n"
-"PyKororneバージョン: {version}"
+"バージョン<code>{version}</code>"
 
 #: src/korone/modules/pm_menu/handlers/help.py:25
 #: src/korone/modules/pm_menu/handlers/privacy.py:21
 msgid "Documentation"
-msgstr ""
+msgstr "ドキュメンテーション"
 
 #: src/korone/modules/pm_menu/handlers/help.py:38
 msgid ""
 "You can get help by reading the documentation, where you'll get an overview "
 "of the bot and how to use it to its full potential. Click the button below "
 "to start reading."
-msgstr ""
+msgstr "ドキュメントを読むことで、ボットの概要とその可能性を最大限に引き出す使い方を"
+"知ることができます。下のボタンをクリックして読み始めてください。"
 
 #: src/korone/modules/pm_menu/handlers/privacy.py:26
 msgid ""
 "The privacy policy is available for review in the documentation. Click the "
 "button below to start reading."
-msgstr ""
+msgstr "個人情報保護方針はドキュメントでご確認いただけます。下のボタンをクリックして"
+"お読みください。"
 
 #: src/korone/modules/pm_menu/handlers/start.py:27
 msgid "ℹ️ About"
@@ -735,31 +722,32 @@ msgstr "👮�"
 msgid ""
 "Hi, I'm Korone! An all-in-one bot. I can help you with lots of things. Just "
 "click on the buttons below to get started."
-msgstr ""
+msgstr "こんにちは、コロネです！オールインワンボットです。いろいろなことをお手伝いし"
+"ます。下のボタンをクリックしてください。"
 
 #: src/korone/modules/regex/utils.py:43
 msgid "Invalid command: {command}"
-msgstr ""
+msgstr "無効なコマンドです：{command}"
 
 #: src/korone/modules/regex/utils.py:49
 msgid "Pattern is too long. Please use shorter patterns."
-msgstr ""
+msgstr "パターンが長すぎます。もっと短いパターンを使ってください。"
 
 #: src/korone/modules/regex/utils.py:54
 msgid "Unknown flag: {flag}"
-msgstr ""
+msgstr "旗は不明：{flag}"
 
 #: src/korone/modules/regex/handlers/sed.py:41
 msgid "Regex error: {e}"
-msgstr ""
+msgstr "正規表現エラー：{e}"
 
 #: src/korone/modules/regex/handlers/sed.py:49
 msgid "Your regex didn't change anything from the original message."
-msgstr ""
+msgstr "あなたの正規表現は元のメッセージから何も変えていない。"
 
 #: src/korone/modules/regex/handlers/sed.py:51
 msgid "No message to apply the substitution."
-msgstr ""
+msgstr "代替を適用するメッセージはない。"
 
 #: src/korone/modules/stickers/handlers/get_sticker.py:22
 msgid "Reply to a sticker."
@@ -775,46 +763,47 @@ msgstr "ステッカーのダウンロードに失敗しました。"
 
 #: src/korone/modules/stickers/handlers/kang.py:45
 msgid "You need to reply to an image, video, or sticker."
-msgstr ""
+msgstr "画像、ビデオ、ステッカーに返信する必要があります。"
 
 #: src/korone/modules/stickers/handlers/kang.py:48
 msgid "Processing..."
-msgstr ""
+msgstr "処理..."
 
 #: src/korone/modules/stickers/handlers/kang.py:53
 msgid "Invalid media type. Please reply to an image, video, or sticker."
-msgstr ""
+msgstr "メディアの種類が無効です。画像、ビデオ、またはステッカーを返信してください。"
 
 #: src/korone/modules/stickers/handlers/kang.py:63
-#, fuzzy
 msgid "Error downloading media."
-msgstr "メディアのダウンロードに失敗しました。"
+msgstr "メディアのダウンロードでエラーが発生しました。"
 
 #: src/korone/modules/stickers/handlers/kang.py:74
 msgid "Error processing media."
-msgstr ""
+msgstr "メディアの処理エラー。"
 
 #: src/korone/modules/stickers/handlers/kang.py:103
 msgid "View pack"
-msgstr ""
+msgstr "パックを見る"
 
 #: src/korone/modules/stickers/handlers/kang.py:105
 msgid ""
 "Sticker <b>successfully</b> added to pack\n"
 "Emoji: {sticker_emoji}"
 msgstr ""
+"ステッカー<b></b> パックに追加成功\n"
+"絵文字：{sticker_emoji}"
 
 #: src/korone/modules/stickers/handlers/kang.py:172
 msgid "Adding the sticker to the pack..."
-msgstr ""
+msgstr "ステッカーをパックに追加する..."
 
 #: src/korone/modules/stickers/handlers/kang.py:187
 msgid "Creating the sticker pack..."
-msgstr ""
+msgstr "ステッカーパックの作成"
 
 #: src/korone/modules/stickers/handlers/kang.py:209
 msgid "Start"
-msgstr ""
+msgstr "スタート"
 
 #: src/korone/modules/stickers/handlers/kang.py:211
 msgid ""
@@ -822,265 +811,257 @@ msgid ""
 "for you!\n"
 "<b>Please start the bot first.</b>"
 msgstr ""
+"おっと、ステッカーパックを作成するのに十分な権限がないようです！\n"
+"<b>まずボットを起動してください。</b>"
 
 #: src/korone/modules/stickers/handlers/kang.py:219
 msgid "An error occurred: {}"
-msgstr ""
+msgstr "エラーが発生しました：{}"
 
 #: src/korone/modules/stickers/handlers/kang.py:280
-#, fuzzy
 msgid "Failed to get video information."
-msgstr "ビデオ情報の抽出に失敗しました！"
+msgstr "ビデオ情報の取得に失敗しました。"
 
 #: src/korone/modules/stickers/handlers/kang.py:286
-#, fuzzy
 msgid "Error parsing video information: {error}"
-msgstr ""
-"LastFMのデータを取得する際にエラーが発生しました.\n"
-"エラー: <i>{error}</i>"
+msgstr "ビデオ情報の解析エラー：{error}"
 
 #: src/korone/modules/stickers/handlers/kang.py:293
 msgid ""
 "The video is too long ({duration}s)!\n"
 "Max duration is 3 seconds."
 msgstr ""
+"ビデオが長すぎます ({duration}s)！\n"
+"最大再生時間は3秒です。"
 
 #: src/korone/modules/stickers/handlers/kang.py:301
 msgid ""
 "The video is too big ({size}KB)!\n"
 "Max size is 256KB"
 msgstr ""
+"動画が大きすぎます（{size}KB）！\n"
+"最大サイズは256KBです"
 
 #: src/korone/modules/translator/handlers/translate.py:43
 msgid "Unsupported source language: {source_lang}"
-msgstr ""
+msgstr "サポートされていないソース言語：{source_lang}"
 
 #: src/korone/modules/translator/handlers/translate.py:49
 msgid "Unsupported target language: {target_lang}"
-msgstr ""
+msgstr "サポートされていないターゲット言語：{target_lang}"
 
 #: src/korone/modules/translator/handlers/translate.py:58
 msgid ""
 "Korone has reached the translation quota. The DeepL API has a limit of "
 "500,000 characters per month for the free plan, and we have exceeded this "
 "limit."
-msgstr ""
+msgstr "Koroneが翻訳クォータに達しました。DeepL APIでは、無料プランの月間翻訳文字数が"
+"50万文字に制限されており、この制限を超えました。"
 
 #: src/korone/modules/translator/handlers/translate.py:66
-#, fuzzy
 msgid "Failed to translate text. Error: {error}"
-msgstr "メディアの送信に失敗しました: {error}"
+msgstr "テキストの翻訳に失敗しました。エラーが発生しました：{error}"
 
 #: src/korone/modules/translator/handlers/translate.py:69
 msgid ""
 "<b>Language:</b> <code>{source_lang}</code> => <code>{target_lang}</code>"
-msgstr ""
+msgstr "<b>言語：</b> <code>{source_lang}</code> =><code>{target_lang}</code>"
 
 #: src/korone/modules/users_groups/handlers/cleanup.py:20
 msgid "Removing deleted accounts..."
-msgstr ""
+msgstr "削除されたアカウントの削除..."
 
 #: src/korone/modules/users_groups/handlers/cleanup.py:24
-#, fuzzy
 msgid "No members found."
-msgstr "デバイスが見つかりませんでした。"
+msgstr "メンバーは見つかりませんでした。"
 
 #: src/korone/modules/users_groups/handlers/cleanup.py:38
 msgid "Removed {count} deleted accounts."
-msgstr ""
+msgstr "{count} 削除されたアカウントを削除しました。"
 
 #: src/korone/modules/users_groups/handlers/cleanup.py:40
-#, fuzzy
 msgid "No deleted accounts found."
-msgstr "デバイスが見つかりませんでした。"
+msgstr "削除されたアカウントは見つかりませんでした。"
 
 #: src/korone/modules/users_groups/handlers/groups.py:25
-#, fuzzy
 msgid ""
 "You should provide a group ID or username. Example: <code>/group @username</"
 "code>."
-msgstr "LastFMのユーザー名を入力してください!"
+msgstr "グループIDまたはユーザー名を入力してください。例<code>/group "
+"@ユーザー名</code>."
 
 #: src/korone/modules/users_groups/handlers/groups.py:36
-#, fuzzy
 msgid "<b>Group info</b>:\n"
-msgstr ""
-"\n"
-"<b>言語情報:</b>\n"
+msgstr "<b>グループ情報</b> ：\n"
 
 #: src/korone/modules/users_groups/handlers/groups.py:37
 #: src/korone/modules/users_groups/handlers/users.py:29
 msgid "<b>ID</b>: <code>{id}</code>\n"
-msgstr ""
+msgstr "<b>ID</b> ：<code>{id}</code>\n"
 
 #: src/korone/modules/users_groups/handlers/groups.py:38
-#, fuzzy
 msgid "<b>Title</b>: {title}\n"
-msgstr "<b>タイトル:</b> {title}\n"
+msgstr "<b>タイトル</b> ：{title}\n"
 
 #: src/korone/modules/users_groups/handlers/groups.py:40
 #: src/korone/modules/users_groups/handlers/users.py:34
 msgid "<b>Username</b>: @{username}\n"
-msgstr ""
+msgstr "<b>ユーザー名</b> ：@{username}\n"
 
 #: src/korone/modules/users_groups/handlers/groups.py:42
-#, fuzzy
 msgid "<b>Type</b>: {type}\n"
-msgstr "<b>タイトル:</b> {title}\n"
+msgstr "<b>タイプ</b> ：{type}\n"
 
 #: src/korone/modules/users_groups/handlers/groups.py:58
 msgid "The provided identifier is not valid."
-msgstr ""
+msgstr "指定された識別子が有効でない。"
 
 #: src/korone/modules/users_groups/handlers/groups.py:68
 msgid "The provided username is invalid."
-msgstr ""
+msgstr "指定されたユーザー名は無効です。"
 
 #: src/korone/modules/users_groups/handlers/groups.py:69
 #: src/korone/modules/users_groups/handlers/users.py:58
 msgid "The provided username does not exist."
-msgstr ""
+msgstr "指定されたユーザー名は存在しません。"
 
 #: src/korone/modules/users_groups/handlers/groups.py:70
 msgid "No group found with the provided identifier."
-msgstr ""
+msgstr "指定された識別子を持つグループが見つかりません。"
 
 #: src/korone/modules/users_groups/handlers/groups.py:71
 msgid "Error accessing group data."
-msgstr ""
+msgstr "グループデータへのアクセスエラー。"
 
 #: src/korone/modules/users_groups/handlers/groups.py:72
 msgid "The provided value is not valid."
-msgstr ""
+msgstr "指定された値は無効です。"
 
 #: src/korone/modules/users_groups/handlers/id.py:18
 msgid "Your ID is <code>{id}</code>"
-msgstr ""
+msgstr "あなたのIDは<code>{id}</code>"
 
 #: src/korone/modules/users_groups/handlers/id.py:21
 msgid ""
 "\n"
 "Chat ID: <code>{id}</code>"
 msgstr ""
+"\n"
+"チャットID<code>{id}</code>"
 
 #: src/korone/modules/users_groups/handlers/id.py:24
 msgid ""
 "\n"
 "{user} ID: <code>{id}</code>"
 msgstr ""
+"\n"
+"{user} ID：<code>{id}</code>"
 
 #: src/korone/modules/users_groups/handlers/id.py:32
-#, fuzzy
 msgid ""
 "\n"
 "Forwarded user ID: <code>{id}</code>"
-msgstr "翻訳済み: {translated}\n"
-
-#: src/korone/modules/users_groups/handlers/users.py:28
-#, fuzzy
-msgid "<b>User info</b>:\n"
 msgstr ""
 "\n"
-"<b>言語情報:</b>\n"
+"転送されたユーザーID：<code>{id}</code>"
+
+#: src/korone/modules/users_groups/handlers/users.py:28
+msgid "<b>User info</b>:\n"
+msgstr "<b>ユーザー情報</b> ：\n"
 
 #: src/korone/modules/users_groups/handlers/users.py:30
-#, fuzzy
 msgid "<b>First Name</b>: {first_name}\n"
-msgstr "<b>タイトル:</b> {title}\n"
+msgstr "<b>ファーストネーム</b> ：{first_name}\n"
 
 #: src/korone/modules/users_groups/handlers/users.py:32
-#, fuzzy
 msgid "<b>Last Name</b>: {last_name}\n"
-msgstr "<b>チャット言語:</b> {language}\n"
+msgstr "<b>姓</b> ：{last_name}\n"
 
 #: src/korone/modules/users_groups/handlers/users.py:35
 msgid "<b>User link</b>: <a href='tg://user?id={id}'>link</a>\n"
-msgstr ""
+msgstr "<b>ユーザーリンク</b>:<a href='tg://user?id={id}'>リンク</a>\n"
 
 #: src/korone/modules/users_groups/handlers/users.py:47
 msgid "Invalid identifier provided."
-msgstr ""
+msgstr "無効な識別子が指定されました。"
 
 #: src/korone/modules/users_groups/handlers/users.py:57
 msgid "The provided user ID is invalid."
-msgstr ""
+msgstr "指定されたユーザーIDは無効です。"
 
 #: src/korone/modules/users_groups/handlers/users.py:59
 msgid "No user found with the provided identifier."
-msgstr ""
+msgstr "指定された識別子を持つユーザが見つかりません。"
 
 #: src/korone/modules/web/handlers/ip.py:24
 msgid ""
 "You should provide an IP address or domain name to get information.Example: "
 "<code>/ip google.com</code>."
-msgstr ""
+msgstr "情報を取得するには、IPアドレスまたはドメイン名を指定する必要があります：<code"
+">/ip google.com</code>."
 
 #: src/korone/modules/web/handlers/ip.py:34
 msgid "No valid IP addresses or domain names found in the provided input."
-msgstr ""
+msgstr "提供された入力に有効なIPアドレスまたはドメイン名が見つかりません。"
 
 #: src/korone/modules/web/handlers/ip.py:55
 msgid "No information found for {ip_or_domain}."
-msgstr ""
+msgstr "{ip_or_domain} に関する情報は見つからなかった。"
 
 #: src/korone/modules/web/handlers/ip.py:59
-#, fuzzy
 msgid "An error occurred while fetching information: {error}"
-msgstr ""
-"LastFMのデータを取得する際にエラーが発生しました.\n"
-"エラー: <i>{error}</i>"
+msgstr "情報の取得中にエラーが発生しました：{error}"
 
 #: src/korone/modules/web/handlers/ip.py:67
 msgid "Please select an IP address:"
-msgstr ""
+msgstr "IPアドレスを選択してください："
 
 #: src/korone/modules/web/handlers/ip.py:72
 msgid "Could not find information for {ip}."
-msgstr ""
+msgstr "{ip} の情報が見つからなかった。"
 
 #: src/korone/modules/web/handlers/ip.py:80
 msgid ""
 "The provided IP address <code>{ip}</code> is a <i>bogon</i> IP address, "
 "meaning it is either not in use or is reserved for special use."
 msgstr ""
+"提供されたIPアドレス<code>{ip}</code> は、<i>bogon</i> IPアドレスで、使用され"
+"ていないか、特別な使用のために予約されていることを意味します。"
 
 #: src/korone/modules/web/handlers/whois.py:22
 msgid ""
 "You should provide a domain name to get whois information. Example: <code>/"
 "whois google.com</code>."
-msgstr ""
+msgstr "Whois情報を取得するには、ドメイン名を入力する必要があります。例<code>/whois "
+"google.com</code>."
 
 #: src/korone/modules/web/handlers/whois.py:39
 msgid "No whois information found for <code>{domain}</code>."
-msgstr ""
+msgstr "<code>{domain}</code> のwhois情報は見つからなかった。"
 
 #: src/korone/modules/web/handlers/whois.py:45
-#, fuzzy
 msgid "An error occurred while fetching whois information: {error}"
-msgstr ""
-"LastFMのデータを取得する際にエラーが発生しました.\n"
-"エラー: <i>{error}</i>"
+msgstr "Whois情報の取得中にエラーが発生しました：{error}"
 
 #: src/korone/utils/commands_list.py:28
 msgid "Start the bot"
-msgstr ""
+msgstr "ボットを起動する"
 
 #: src/korone/utils/commands_list.py:32
 msgid "Show help message"
-msgstr ""
+msgstr "ヘルプメッセージを表示する"
 
 #: src/korone/utils/commands_list.py:36
 msgid "Show information about the bot"
-msgstr ""
+msgstr "ボットに関する情報を表示する"
 
 #: src/korone/utils/commands_list.py:40
 msgid "Show privacy policy"
-msgstr ""
+msgstr "プライバシーポリシーの表示"
 
 #: src/korone/utils/commands_list.py:44
-#, fuzzy
 msgid "Change the bot language"
-msgstr "👤 言語を変更する"
+msgstr "ボットの言語を変更する"
 
 #~ msgid "You need to specify a command to enable."
 #~ msgstr "実行するコマンドを指定する必要があります."
