@@ -23,5 +23,5 @@ repos:
         name: NEWS fragment
         language: fail
         entry: NEWS fragment files must be named *.(removal|feature|bugfix|doc|misc).rst
-        exclude: ^news/(.gitignore|template.rst|.*\.(removal|feature|bugfix|doc|misc).rst)
+        exclude: ^news/(.gitignore|.template.rst.j2|.*\.(removal|feature|bugfix|doc|misc).rst)
         files: ^news/

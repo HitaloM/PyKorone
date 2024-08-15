@@ -8,5 +8,6 @@ For a more detailed and technical changelog, please visit our `GitHub Releases <
 
 You can also follow our `Telegram Channel <https://t.me/PyKorone>`_ to get updates about the project. And use our `GitHub Discussions <https://github.com/HitaloM/PyKorone/discussions>`_ to ask questions, share ideas, and communicate with other users.
 
+.. towncrier-draft-entries:: [UPCOMING UPDATE]
+
 .. include:: ../../NEWS.rst
-   :start-line: 3

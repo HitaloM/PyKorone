@@ -117,7 +117,7 @@ package = "korone"
 package_dir = "src"
 filename = "NEWS.rst"
 directory = "news/"
-template = "news/template.rst"
+template = "news/.template.rst.j2"
 issue_format = "`#{issue} <https://github.com/HitaloM/PyKorone/issues/{issue}>`_"
 type = [
     { name = "Removals", directory = "removal", showcontent = true },
