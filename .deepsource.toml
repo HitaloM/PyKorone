@@ -17,9 +17,6 @@ name = "docker"
   dockerfile_paths = ["Dockerfile"]
 
 [[transformers]]
-name = "yapf"
-
-[[transformers]]
 name = "black"
 
 [[transformers]]
