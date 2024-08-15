@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-08-13 16:12-0300\n"
+"POT-Creation-Date: 2024-08-15 01:38-0300\n"
 "PO-Revision-Date: 2024-06-19 13:29+0000\n"
 "Last-Translator: Hitalo <hitalo331@outlook.com>\n"
 "Language-Team: French <http://weblate.amanoteam.com/projects/korone/korone/"
@@ -580,8 +580,8 @@ msgstr "Tout le temps"
 msgid "Open in Instagram"
 msgstr "Ouvrir sur Instagram"
 
-#: src/korone/modules/medias/handlers/tiktok.py:189
-#: src/korone/modules/medias/handlers/tiktok.py:197
+#: src/korone/modules/medias/handlers/tiktok.py:192
+#: src/korone/modules/medias/handlers/tiktok.py:200
 msgid "Open in TikTok"
 msgstr "Ouvrir dans TikTok"
 
@@ -783,58 +783,82 @@ msgstr ""
 msgid "Failed to download sticker."
 msgstr "Le téléchargement de l'autocollant a échoué."
 
-#: src/korone/modules/stickers/handlers/kang.py:40
+#: src/korone/modules/stickers/handlers/kang.py:45
 msgid "You need to reply to an image, video, or sticker."
 msgstr ""
 
-#: src/korone/modules/stickers/handlers/kang.py:43
+#: src/korone/modules/stickers/handlers/kang.py:48
 msgid "Processing..."
 msgstr ""
 
-#: src/korone/modules/stickers/handlers/kang.py:48
+#: src/korone/modules/stickers/handlers/kang.py:53
 msgid "Invalid media type. Please reply to an image, video, or sticker."
 msgstr ""
 
-#: src/korone/modules/stickers/handlers/kang.py:58
+#: src/korone/modules/stickers/handlers/kang.py:63
 #, fuzzy
 msgid "Error downloading media."
 msgstr "Le téléchargement du support a échoué."
 
-#: src/korone/modules/stickers/handlers/kang.py:65
+#: src/korone/modules/stickers/handlers/kang.py:74
 msgid "Error processing media."
 msgstr ""
 
-#: src/korone/modules/stickers/handlers/kang.py:94
+#: src/korone/modules/stickers/handlers/kang.py:103
 msgid "View pack"
 msgstr ""
 
-#: src/korone/modules/stickers/handlers/kang.py:96
+#: src/korone/modules/stickers/handlers/kang.py:105
 msgid ""
 "Sticker <b>successfully</b> added to pack\n"
 "Emoji: {sticker_emoji}"
 msgstr ""
 
-#: src/korone/modules/stickers/handlers/kang.py:163
+#: src/korone/modules/stickers/handlers/kang.py:172
 msgid "Adding the sticker to the pack..."
 msgstr ""
 
-#: src/korone/modules/stickers/handlers/kang.py:178
+#: src/korone/modules/stickers/handlers/kang.py:187
 msgid "Creating the sticker pack..."
 msgstr ""
 
-#: src/korone/modules/stickers/handlers/kang.py:200
+#: src/korone/modules/stickers/handlers/kang.py:209
 msgid "Start"
 msgstr ""
 
-#: src/korone/modules/stickers/handlers/kang.py:202
+#: src/korone/modules/stickers/handlers/kang.py:211
 msgid ""
 "Oops, looks like I do not have enough permissions to create a sticker pack "
 "for you!\n"
 "<b>Please start the bot first.</b>"
 msgstr ""
 
-#: src/korone/modules/stickers/handlers/kang.py:210
+#: src/korone/modules/stickers/handlers/kang.py:219
 msgid "An error occurred: {}"
+msgstr ""
+
+#: src/korone/modules/stickers/handlers/kang.py:280
+#, fuzzy
+msgid "Failed to get video information."
+msgstr "Échec de l'extraction des informations vidéo !"
+
+#: src/korone/modules/stickers/handlers/kang.py:286
+#, fuzzy
+msgid "Error parsing video information: {error}"
+msgstr ""
+"Une erreur s'est produite lors de la récupération de vos données LastFM !\n"
+"Erreur : <i>{error}</i>"
+
+#: src/korone/modules/stickers/handlers/kang.py:293
+msgid ""
+"The video is too long ({duration}s)!\n"
+"Max duration is 3 seconds."
+msgstr ""
+
+#: src/korone/modules/stickers/handlers/kang.py:301
+msgid ""
+"The video is too big ({size}KB)!\n"
+"Max size is 256KB"
 msgstr ""
 
 #: src/korone/modules/translator/handlers/translate.py:43
