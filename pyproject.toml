@@ -1,13 +1,13 @@
 [tool.poetry]
 name = "sophie_bot"
-version = "3.0.19"
+version = "3.0.20"
 description = "Sophie is modern and fast Telegram chat manager bot"
 authors = ["Yacha <yacha@orangefox.tech>"]
 
 [tool.poetry.dependencies]
 python = "^3.11"
 Telethon = "^1.24.0"
-aiogram = "^3.10.0"
+aiogram = "^3.12"
 redis = "5.0.8"
 motor = "^3.5.0"
 dnspython = "^2.1.0"
@@ -31,7 +31,7 @@ emoji-country-flag = "~2"
 pydantic-settings = "~2.4"
 structlog = "^24"
 stfu-tg = "2.3"
-ass-tg = "^2.3"
+ass-tg = "^2.3.1"
 beanie = "^1.26.0"
 better-exceptions = "^0.3.3"
 
