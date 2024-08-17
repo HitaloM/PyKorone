@@ -10,6 +10,23 @@
 
 .. towncrier release notes start
 
+1.0.4 (2024-08-16)
+==================
+
+Features
+--------
+
+- Added validation to the `/kang` command to ensure videos comply with Telegram's sticker requirements. Videos must meet specific duration and size constraints before further processing.
+
+Bug Fixes
+---------
+
+- Fixed a crash when the bot attempted to download TikTok media from messages containing text in addition to the URL. The bot now correctly identifies and processes the TikTok URL even with extra text.
+- Fixed an error in LastFM when a track, album, or artist did not have an image.
+- Fixed an issue that prevented the bot from downloading media from tweets of profiles without a banner image.
+- Fixed an issue where the `/device` command failed for some devices, particularly older non-smart ones, resulting in an error message.
+- Fixed an issue where the bot attempted to send more than 10 Instagram media items, causing an error due to Telegram's limit of 10 media items per message. The bot now ensures no more than 10 media items are sent per message, even if the Instagram post contains more than 10 items.
+
 1.0.3 (2024-08-14)
 ==================
 
