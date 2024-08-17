@@ -34,6 +34,9 @@ class InstagramHandler(MessageHandler):
         if not media_list:
             return
 
+        if len(media_list) > 10:
+            media_list = media_list[:10]  # Telegram's limit
+
         async with ChatActionSender(
             client=client, chat_id=message.chat.id, action=ChatAction.UPLOAD_DOCUMENT
         ):

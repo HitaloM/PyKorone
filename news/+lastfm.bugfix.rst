@@ -1,1 +1,1 @@
-Fixed an issue that resulted in an error in LastFM if the trac/album/artist didn't have an image.
+Fixed an error in LastFM when a track, album, or artist did not have an image.

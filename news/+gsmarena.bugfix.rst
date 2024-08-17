@@ -1,1 +1,1 @@
-Fixed an issue where the `/device` command didn't work for some devices (especially old non-smart ones), resulting in an error message.
+Fixed an issue where the `/device` command failed for some devices, particularly older non-smart ones, resulting in an error message.

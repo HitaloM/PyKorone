@@ -1,0 +1,1 @@
+Fixed an issue where the bot attempted to send more than 10 Instagram media items, causing an error due to Telegram's limit of 10 media items per message. The bot now ensures no more than 10 media items are sent per message, even if the Instagram post contains more than 10 items.

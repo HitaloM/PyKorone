@@ -1,14 +1,14 @@
-# Translations template for PyKorone.
-# Copyright (C) 2024 Hitalo M.
-# This file is distributed under the same license as the PyKorone project.
+# Translations template for PROJECT.
+# Copyright (C) 2024 ORGANIZATION
+# This file is distributed under the same license as the PROJECT project.
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2024.
 #
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: PyKorone 1.0\n"
+"Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-08-15 01:38-0300\n"
+"POT-Creation-Date: 2024-08-16 23:41-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -263,7 +263,7 @@ msgstr ""
 
 #: src/korone/modules/languages/handlers/info.py:34
 #: src/korone/modules/languages/handlers/info.py:83
-#: src/korone/modules/languages/handlers/select.py:41
+#: src/korone/modules/languages/handlers/select.py:42
 #: src/korone/modules/pm_menu/handlers/about.py:39
 #: src/korone/modules/pm_menu/handlers/help.py:30
 msgid "⬅️ Back"
@@ -295,11 +295,11 @@ msgstr ""
 msgid "This is the bot's native language. So it is 100% translated."
 msgstr ""
 
-#: src/korone/modules/languages/handlers/select.py:34
+#: src/korone/modules/languages/handlers/select.py:35
 msgid "❌ Cancel"
 msgstr ""
 
-#: src/korone/modules/languages/handlers/select.py:49
+#: src/korone/modules/languages/handlers/select.py:50
 msgid "Please select the language you want to use for the chat."
 msgstr ""
 
@@ -507,8 +507,8 @@ msgstr ""
 msgid "All time"
 msgstr ""
 
-#: src/korone/modules/medias/handlers/instagram.py:70
-#: src/korone/modules/medias/handlers/instagram.py:77
+#: src/korone/modules/medias/handlers/instagram.py:73
+#: src/korone/modules/medias/handlers/instagram.py:80
 msgid "Open in Instagram"
 msgstr ""
 
