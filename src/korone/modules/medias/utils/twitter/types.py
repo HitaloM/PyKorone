@@ -15,8 +15,8 @@ class Author(BaseModel):
     author_id: str = Field(alias="id")
     name: str
     screen_name: str
-    avatar_url: HttpUrl | None = None
-    banner_url: HttpUrl | None = None
+    avatar_url: HttpUrl | str
+    banner_url: HttpUrl | str
     description: str
     location: str
     url: HttpUrl | None = None

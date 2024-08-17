@@ -1,44 +1,49 @@
-{% if top_line %}
-{{ top_line }}
-{{ top_underline * ((top_line)|length)}}
-{% elif versiondata.name %}
+{# This is a heavily customised version of towncrier's default template. #}
+
+{#-
+  Only render if there's any changes to show.
+
+  This serves as a compatibility "hack" since we render unreleased news entries
+  in our changelog with ``sphinxcontrib.towncrier``; which triggers a render even
+  when there's no entries to be rendered.
+#}
+{% if sections[''] %}
+
+{#- Heading for individual version #}
 {{ versiondata.version }} ({{ versiondata.date }})
-{{ top_underline * ((versiondata.version + versiondata.date)|length + 4)}}
-{% else %}
-{{ versiondata.version }} ({{ versiondata.date }})
-{{ top_underline * ((versiondata.version + versiondata.date)|length + 3)}}
-{% endif %}
-{% for section, _ in sections.items() %}
-{% set underline = underlines[0] %}{% if section %}{{section}}
-{{ underline * section|length }}{% set underline = underlines[1] %}
+{{ top_underline * ((versiondata.version + versiondata.date)|length + 3) }}
+{#
+  The following loop will run exactly once, with ``section_name == ""``.
 
-{% endif %}
+  This is due to the undocumented "sections" feature in towncrier.
+  See https://github.com/twisted/towncrier/issues/61.
 
-{% if sections[section] %}
-{% for category, val in definitions.items() if category in sections[section]%}
-{{ definitions[category]['name'] }}
-{{ underline * definitions[category]['name']|length }}
+  We don't use this feature, and this template doesn't render the section
+  heading for that reason.
+#}
+{% for section_name, entries_by_type in sections.items() -%}
+{# Only show types with entries and ``showcontent = true``, using the order from pyproject.toml #}
+{% for type_ in definitions if (sections[section_name][type_] and definitions[type_]['showcontent']) %}
 
-{% if definitions[category]['showcontent'] %}
-{% for text, values in sections[section][category].items() %}
-- {{ text }}
-  {{ values|join(', ') }}
+{# Heading for individual types #}
+{{ definitions[type_]['name'] }}
+{{ underlines[0] * definitions[type_]['name']|length }}
+{# This is the loop that generates individual entries #}
+{% for message, issue_reference in sections[section_name][type_]|dictsort(by='value') %}
+
+- {{ message }}{% if issue_reference %} ({{ issue_reference|sort|join(', ') }}){% endif %}
 {% endfor %}
 
 {% else %}
-- {{ sections[section][category]['']|join(', ') }}
-
-{% endif %}
-{% if sections[section][category]|length == 0 %}
+{# We only have entries where the type has ``showcontent = true``. #}
 No significant changes.
 
-{% else %}
+{% endfor -%}
+
+{# Add a blank line between each section #}
+{% if not loop.last %}
 {% endif %}
 
-{% endfor %}
-{% else %}
-No significant changes.
+{% endfor -%}
 
-
-{% endif %}
-{% endfor %}
+{% endif -%}
