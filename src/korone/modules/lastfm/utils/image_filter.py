@@ -28,6 +28,9 @@ async def get_biggest_lastfm_image(
     )
 
     for image in sorted_images:
+        if not image.url:
+            continue
+
         try:
             if "2a96cbd8b46e442fc41c2b86b821562f" not in image.url:
                 async with httpx.AsyncClient(http2=True, timeout=20) as client:
