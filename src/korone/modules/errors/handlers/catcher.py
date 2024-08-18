@@ -1,7 +1,6 @@
 # SPDX-License-Identifier: BSD-3-Clause
 # Copyright (c) 2024 Hitalo M. <https://github.com/HitaloM>
 
-import html
 import sys
 from traceback import format_exception
 from typing import Any
@@ -50,7 +49,7 @@ class ErrorsHandler(MessageHandler):
             await logger.aerror("[ErrorHandler] Unhandled update type", update=update)
             return
 
-        message_data = self.prepare_error_message(value, sentry_event_id)
+        message_data = self.prepare_error_message(sentry_event_id)
         await client.send_message(chat.id, **message_data)
 
     async def handle_ignored_exceptions(
@@ -79,18 +78,11 @@ class ErrorsHandler(MessageHandler):
         await logger.aerror("[ErrorHandler] Additional error data", **kwargs)
 
     @staticmethod
-    def format_error_message(exception: BaseException) -> str:
-        return " ".join(f"<i>{html.escape(arg)}</i>" for arg in exception.args)
-
-    def prepare_error_message(
-        self, exception: BaseException, sentry_event_id: str | None
-    ) -> dict[str, Any]:
+    def prepare_error_message(sentry_event_id: str | None) -> dict[str, Any]:
         text = _("An error occurred while processing this update. :/")
-        error_message = self.format_error_message(exception)
-        text += f"\n<blockquote>{error_message}</blockquote>\n"
 
         if sentry_event_id:
-            text += _("Reference ID: {id}").format(id=sentry_event_id)
+            text += _("\nReference ID: {id}").format(id=sentry_event_id)
 
         return {
             "text": text,

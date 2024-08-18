@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-08-16 23:41-0300\n"
+"POT-Creation-Date: 2024-08-17 22:57-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -125,15 +125,17 @@ msgstr ""
 msgid "Command enabled."
 msgstr ""
 
-#: src/korone/modules/errors/handlers/catcher.py:88
+#: src/korone/modules/errors/handlers/catcher.py:82
 msgid "An error occurred while processing this update. :/"
 msgstr ""
 
-#: src/korone/modules/errors/handlers/catcher.py:93
-msgid "Reference ID: {id}"
+#: src/korone/modules/errors/handlers/catcher.py:85
+msgid ""
+"\n"
+"Reference ID: {id}"
 msgstr ""
 
-#: src/korone/modules/errors/handlers/catcher.py:101
+#: src/korone/modules/errors/handlers/catcher.py:93
 msgid "🐞 Report This Error"
 msgstr ""
 
