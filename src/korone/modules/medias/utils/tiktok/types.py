@@ -8,7 +8,7 @@ class TikTokSlideshow(BaseModel):
     author: str
     desc: str
     images: list[HttpUrl]
-    music_url: HttpUrl
+    music_url: HttpUrl | str
 
 
 class TikTokVideo(BaseModel):
