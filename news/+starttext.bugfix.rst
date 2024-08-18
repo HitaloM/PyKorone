@@ -1,0 +1,1 @@
+Update the `/start` command text for group chats. Previously, the bot used the same text as in private chats, which caused confusion due to references to buttons that are not available in group chats.

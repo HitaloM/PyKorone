@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-08-17 22:57-0300\n"
+"POT-Creation-Date: 2024-08-17 23:38-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -661,6 +661,10 @@ msgstr ""
 msgid ""
 "Hi, I'm Korone! An all-in-one bot. I can help you with lots of things. "
 "Just click on the buttons below to get started."
+msgstr ""
+
+#: src/korone/modules/pm_menu/handlers/start.py:50
+msgid "Hi, I'm Korone!"
 msgstr ""
 
 #: src/korone/modules/regex/utils.py:43

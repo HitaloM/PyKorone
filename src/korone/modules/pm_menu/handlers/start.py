@@ -46,12 +46,11 @@ class BaseHandler:
 class Start(MessageHandler, BaseHandler):
     @router.message(Command("start"))
     async def handle(self, client: Client, message: Message) -> None:
-        text = self.build_text()
-
         if message.chat.type != ChatType.PRIVATE:
-            await message.reply(text)
+            await message.reply(_("Hi, I'm Korone!"))
             return
 
+        text = self.build_text()
         keyboard = self.build_keyboard(get_i18n().current_locale)
         await message.reply(text, reply_markup=keyboard)
 
