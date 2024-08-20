@@ -69,6 +69,18 @@ CREATE TABLE IF NOT EXISTS StickerPack (
     num INTEGER DEFAULT 1,
     type VARCHAR(16)
 );
+CREATE TABLE IF NOT EXISTS Filters (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    chat_id INTEGER,
+    filter VARCHAR(255) NOT NULL,
+    file_id VARCHAR(64),
+    message VARCHAR(255),
+    content_type VARCHAR(16) NOT NULL DEFAULT "text",
+    created_date INTEGER NOT NULL,
+    created_user INTEGER NOT NULL,
+    edited_date INTEGER NOT NULL,
+    edited_user INTEGER NOT NULL
+);
 """
 
 TRANSLATIONS_URL: str = "https://weblate.amanoteam.com/projects/korone/"
