@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-08-20 10:58-0300\n"
+"POT-Creation-Date: 2024-08-20 13:40-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -148,34 +148,54 @@ msgid "List of filters in {chatname}:\n"
 msgstr ""
 
 #: src/korone/modules/filters/handlers/list.py:29
-#: src/korone/modules/filters/handlers/save.py:68
+#: src/korone/modules/filters/handlers/save.py:80
 msgid "private chat"
 msgstr ""
 
-#: src/korone/modules/filters/handlers/save.py:23
+#: src/korone/modules/filters/handlers/save.py:22
 msgid ""
 "You need to provide a name for the filter. Example: <code>/filter "
 "filtername</code>"
 msgstr ""
 
 #: src/korone/modules/filters/handlers/save.py:32
-msgid "Invalid filter format."
+msgid ""
+"Invalid filter format. Make sure to use the correct syntax.Check "
+"<code>/help</code> for more information."
 msgstr ""
 
-#: src/korone/modules/filters/handlers/save.py:67
+#: src/korone/modules/filters/handlers/save.py:49
+msgid "Something went wrong while saving the filter."
+msgstr ""
+
+#: src/korone/modules/filters/handlers/save.py:79
 msgid "Filters in {chatname}:\n"
 msgstr ""
 
-#: src/korone/modules/filters/handlers/save.py:72
+#: src/korone/modules/filters/handlers/save.py:84
 msgid ""
 "{count} saved:\n"
 "{filters}\n"
 msgstr ""
 
-#: src/korone/modules/filters/handlers/save.py:78
+#: src/korone/modules/filters/handlers/save.py:90
 msgid ""
 "{count} updated:\n"
 "{filters}"
+msgstr ""
+
+#: src/korone/modules/filters/utils/parse_filter.py:58
+msgid ""
+"Please check the notes documentation for the list of the allowed content "
+"types."
+msgstr ""
+
+#: src/korone/modules/filters/utils/parse_filter.py:65
+msgid "The text of the replied message is empty."
+msgstr ""
+
+#: src/korone/modules/filters/utils/parse_filter.py:101
+msgid "The maximum length of the note is {length} characters."
 msgstr ""
 
 #: src/korone/modules/gsm_arena/handlers/search.py:23

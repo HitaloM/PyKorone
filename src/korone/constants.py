@@ -77,9 +77,9 @@ CREATE TABLE IF NOT EXISTS Filters (
     message VARCHAR(255),
     content_type VARCHAR(16) NOT NULL DEFAULT "text",
     created_date INTEGER NOT NULL,
-    created_user INTEGER NOT NULL,
+    creator_id INTEGER NOT NULL,
     edited_date INTEGER NOT NULL,
-    edited_user INTEGER NOT NULL
+    editor_id INTEGER NOT NULL
 );
 """
 
