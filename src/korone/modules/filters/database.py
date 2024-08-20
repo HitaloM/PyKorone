@@ -20,8 +20,8 @@ async def save_filter(
     filter_text: str,
     message_content: str,
     content_type: str,
-    created_user: int,
-    edited_user: int,
+    creator_id: int,
+    editor_id: int,
     file_id: str | None = None,
 ) -> FilterStatus:
     async with SQLite3Connection() as conn:
@@ -41,9 +41,9 @@ async def save_filter(
                     message=message_content,
                     content_type=content_type,
                     created_date=int(time.time()),
-                    created_user=created_user,
+                    creator_id=creator_id,
                     edited_date=int(time.time()),
-                    edited_user=edited_user,
+                    editor_id=editor_id,
                 )
             )
             return FilterStatus.SAVED
@@ -53,7 +53,7 @@ async def save_filter(
                 message=message_content,
                 content_type=content_type,
                 edited_date=int(time.time()),
-                edited_user=edited_user,
+                editor_id=editor_id,
             ),
             (query.chat_id == chat_id) & (query.filter == filter_text),
         )
