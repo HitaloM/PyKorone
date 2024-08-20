@@ -6,8 +6,8 @@ from dataclasses import dataclass
 from datetime import timedelta
 
 import httpx
-from bs4 import BeautifulSoup
 from hairydogm.keyboard import InlineKeyboardBuilder
+from lxml import html
 
 from korone import cache
 from korone.utils.i18n import gettext as _
@@ -23,6 +23,7 @@ HEADERS = {
     "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
     "(KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36 Edg/124.0.0.0",
     "Referer": "https://m.gsmarena.com/",
+    "Accept-Charset": "utf-8",
 }
 
 
@@ -42,13 +43,7 @@ class PhoneSearchResult:
     url: str
 
 
-def get_data_from_specs(specs_data: dict, category: str, attribute: str) -> str:
-    return specs_data.get("specs", {}).get(category, {}).get(attribute, "")
-
-
-def get_data_from_specs_multiple_attributes(
-    specs_data: dict, category: str, attributes: list
-) -> str:
+def get_data_from_specs(specs_data: dict, category: str, attributes: list) -> str:
     details = specs_data.get("specs", {}).get(category, {})
     return "\n".join(details.get(attr, "") for attr in attributes)
 
@@ -60,32 +55,30 @@ def get_camera_data(specs_data: dict, category: str) -> str | None:
 
 
 def parse_specs(specs_data: dict) -> dict:
-    data = {
-        key: get_data_from_specs(specs_data, category, attribute)
-        for category, attribute, key in [
-            ("Launch", "Status", "status"),
-            ("Network", "Technology", "network"),
-            ("Body", "Weight", "weight"),
-            ("Sound", "3.5mm jack", "jack"),
-            ("Comms", "USB", "usb"),
-            ("Features", "Sensors", "sensors"),
-            ("Battery", "Type", "battery"),
-            ("Battery", "Charging", "charging"),
-        ]
+    categories = {
+        "status": ("Launch", ["Status"]),
+        "network": ("Network", ["Technology"]),
+        "weight": ("Body", ["Weight"]),
+        "jack": ("Sound", ["3.5mm jack"]),
+        "usb": ("Comms", ["USB"]),
+        "sensors": ("Features", ["Sensors"]),
+        "battery": ("Battery", ["Type"]),
+        "charging": ("Battery", ["Charging"]),
+        "display": ("Display", ["Type", "Size", "Resolution"]),
+        "chipset": ("Platform", ["Chipset", "CPU", "GPU"]),
+        "main_camera": ("Main Camera", []),
+        "selfie_camera": ("Selfie camera", []),
+        "memory": ("Memory", ["Internal"]),
     }
 
-    for category, attributes, key in [
-        ("Display", ["Type", "Size", "Resolution"], "display"),
-        ("Platform", ["Chipset", "CPU", "GPU"], "chipset"),
-    ]:
-        data[key] = get_data_from_specs_multiple_attributes(specs_data, category, attributes)
-
-    for category, key in [("Main Camera", "main_camera"), ("Selfie camera", "selfie_camera")]:
-        data[key] = get_camera_data(specs_data, category) or ""
-
+    data = {
+        key: get_data_from_specs(specs_data, cat, attrs)
+        for key, (cat, attrs) in categories.items()
+    }
+    data["main_camera"] = get_camera_data(specs_data, "Main Camera") or ""
+    data["selfie_camera"] = get_camera_data(specs_data, "Selfie camera") or ""
     data["name"] = specs_data.get("name", "")
     data["url"] = specs_data.get("url", "")
-    data["memory"] = get_data_from_specs(specs_data, "Memory", "Internal")
 
     return data
 
@@ -118,10 +111,12 @@ def format_phone(phone: dict) -> str:
 
 
 @cache(ttl=timedelta(days=1))
-async def fetch_and_parse(url: str) -> str:
+async def fetch_html(url: str) -> str:
     async with httpx.AsyncClient(headers=HEADERS, http2=True) as session:
-        response = await session.get(f"https://cors-bypass.amano.workers.dev/{url}")
-        return response.text
+        response = await session.get(url)
+        response.raise_for_status()
+        encoding = response.encoding or "utf-8"
+        return response.content.decode(encoding)
 
 
 def extract_specs(specs_tables: list) -> dict:
@@ -129,12 +124,12 @@ def extract_specs(specs_tables: list) -> dict:
         "specs": {
             feature: {
                 (header if header != "\u00a0" else "info"): detail
-                for tr in table.findAll("tr")
-                for header in [td.text.strip() for td in tr.findAll("td", {"class": "ttl"})]
-                for detail in [td.text.strip() for td in tr.findAll("td", {"class": "nfo"})]
+                for tr in table.xpath(".//tr")
+                for header in [td.text_content().strip() for td in tr.xpath(".//td[@class='ttl']")]
+                for detail in [td.text_content().strip() for td in tr.xpath(".//td[@class='nfo']")]
             }
             for table in specs_tables
-            for feature in [th.text.strip() for th in table.findAll("th")]
+            for feature in [th.text_content().strip() for th in table.xpath(".//th")]
         }
     }
 
@@ -142,14 +137,14 @@ def extract_specs(specs_tables: list) -> dict:
 async def search_phone(phone: str) -> list[PhoneSearchResult]:
     phone_html_encoded = urllib.parse.quote_plus(phone)
     search_url = f"https://m.gsmarena.com/results.php3?sQuickSearch=yes&sName={phone_html_encoded}"
-    html = await fetch_and_parse(search_url)
-    soup = BeautifulSoup(html, "lxml")
-    found_phones = soup.select("div.general-menu.material-card ul li")
+    html_content = await fetch_html(search_url)
+    tree = html.fromstring(html_content)
+    found_phones = tree.xpath("//div[@class='general-menu material-card']//ul//li")
 
     return [
         PhoneSearchResult(
-            name=phone_tag.find("img").get("title"),  # type: ignore
-            url=f"{phone_tag.find("a").get("href")}",  # type: ignore
+            name=phone_tag.xpath(".//img/@title")[0],
+            url=phone_tag.xpath(".//a/@href")[0],
         )
         for phone_tag in found_phones
     ]
@@ -157,16 +152,25 @@ async def search_phone(phone: str) -> list[PhoneSearchResult]:
 
 async def check_phone_details(url: str) -> dict[str, str]:
     url = f"https://www.gsmarena.com/{url}"
-    html = await fetch_and_parse(url)
-    soup = BeautifulSoup(html, "lxml")
-    specs_tables = soup.findAll("table", {"cellspacing": "0"})
+    html_content = await fetch_html(url)
+    tree = html.fromstring(html_content)
+    specs_tables = tree.xpath("//table[@cellspacing='0']")
 
     phone_specs_temp = extract_specs(specs_tables)
 
-    meta = list(soup.findAll("script", {"language": "javascript"})[0].text.splitlines())
-    name = next(i for i in meta if "ITEM_NAME" in i).split('"')[1]
-    picture = next(i for i in meta if "ITEM_IMAGE" in i).split('"')[1]
+    meta_scripts = tree.xpath("//script[@language='javascript']")
+    if not meta_scripts:
+        msg = "No metadata scripts found on the page"
+        raise ValueError(msg)
+
+    meta = meta_scripts[0].text_content().splitlines()
+    name = extract_meta_data(meta, "ITEM_NAME")
+    picture = extract_meta_data(meta, "ITEM_IMAGE")
 
     phone_specs_temp.update({"name": name, "picture": picture, "url": url})
 
     return phone_specs_temp
+
+
+def extract_meta_data(meta: list[str], key: str) -> str:
+    return next((line.split('"')[1] for line in meta if key in line), "")
