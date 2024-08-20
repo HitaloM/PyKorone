@@ -1,0 +1,1 @@
+Enhanced the `/device` command to optimize the processing of GSM Arena data, resulting in improved performance and increased stability.
