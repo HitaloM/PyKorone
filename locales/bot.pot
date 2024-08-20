@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-08-17 23:38-0300\n"
+"POT-Creation-Date: 2024-08-20 09:07-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -137,6 +137,45 @@ msgstr ""
 
 #: src/korone/modules/errors/handlers/catcher.py:93
 msgid "🐞 Report This Error"
+msgstr ""
+
+#: src/korone/modules/filters/handlers/list.py:20
+msgid "No filters found for this chat."
+msgstr ""
+
+#: src/korone/modules/filters/handlers/list.py:28
+msgid "List of filters in {chatname}:\n"
+msgstr ""
+
+#: src/korone/modules/filters/handlers/list.py:29
+#: src/korone/modules/filters/handlers/save.py:68
+msgid "private chat"
+msgstr ""
+
+#: src/korone/modules/filters/handlers/save.py:23
+msgid ""
+"You need to provide a name for the filter. Example: <code>/filter "
+"filtername</code>"
+msgstr ""
+
+#: src/korone/modules/filters/handlers/save.py:32
+msgid "Invalid filter format."
+msgstr ""
+
+#: src/korone/modules/filters/handlers/save.py:67
+msgid "Filters in {chatname}:\n"
+msgstr ""
+
+#: src/korone/modules/filters/handlers/save.py:72
+msgid ""
+"{count} saved:\n"
+"{filters}\n"
+msgstr ""
+
+#: src/korone/modules/filters/handlers/save.py:78
+msgid ""
+"{count} updated:\n"
+"{filters}"
 msgstr ""
 
 #: src/korone/modules/gsm_arena/utils.py:96
