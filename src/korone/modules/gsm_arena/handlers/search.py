@@ -7,12 +7,8 @@ from hydrogram.types import Message
 from korone.decorators import router
 from korone.filters import Command, CommandObject
 from korone.handlers.abstract import MessageHandler
-from korone.modules.gsm_arena.utils import (
-    check_phone_details,
-    create_pagination_layout,
-    format_phone,
-    search_phone,
-)
+from korone.modules.gsm_arena.utils.scraper import check_phone_details, format_phone, search_phone
+from korone.modules.gsm_arena.utils.utils import create_pagination_layout
 from korone.utils.i18n import gettext as _
 
 
