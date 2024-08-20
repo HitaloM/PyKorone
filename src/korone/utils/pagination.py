@@ -31,7 +31,9 @@ class Pagination:
         while chunk := list(islice(it, size)):
             yield chunk
 
-    def create(self, page: int, lines: int = 5, columns: int = 1) -> InlineKeyboardBuilder:
+    def create(
+        self, page: int, lines: int = 5, columns: int = 1
+    ) -> InlineKeyboardBuilder[InlineKeyboardButton]:
         quant_per_page = lines * columns
         page = max(1, page)
         offset = (page - 1) * quant_per_page

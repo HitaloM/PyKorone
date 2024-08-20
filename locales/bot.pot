@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-08-17 23:38-0300\n"
+"POT-Creation-Date: 2024-08-20 10:28-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -139,70 +139,70 @@ msgstr ""
 msgid "🐞 Report This Error"
 msgstr ""
 
-#: src/korone/modules/gsm_arena/utils.py:96
-msgid "Status"
-msgstr ""
-
-#: src/korone/modules/gsm_arena/utils.py:97
-msgid "Network"
-msgstr ""
-
-#: src/korone/modules/gsm_arena/utils.py:98
-msgid "Weight"
-msgstr ""
-
-#: src/korone/modules/gsm_arena/utils.py:99
-msgid "Display"
-msgstr ""
-
-#: src/korone/modules/gsm_arena/utils.py:100
-msgid "Chipset"
-msgstr ""
-
-#: src/korone/modules/gsm_arena/utils.py:101
-msgid "Memory"
-msgstr ""
-
-#: src/korone/modules/gsm_arena/utils.py:102
-msgid "Rear Camera"
-msgstr ""
-
-#: src/korone/modules/gsm_arena/utils.py:103
-msgid "Front Camera"
-msgstr ""
-
-#: src/korone/modules/gsm_arena/utils.py:104
-msgid "3.5mm jack"
-msgstr ""
-
-#: src/korone/modules/gsm_arena/utils.py:105
-msgid "USB"
-msgstr ""
-
-#: src/korone/modules/gsm_arena/utils.py:106
-msgid "Sensors"
-msgstr ""
-
-#: src/korone/modules/gsm_arena/utils.py:107
-msgid "Battery"
-msgstr ""
-
-#: src/korone/modules/gsm_arena/utils.py:108
-msgid "Charging"
-msgstr ""
-
-#: src/korone/modules/gsm_arena/handlers/search.py:27
+#: src/korone/modules/gsm_arena/handlers/search.py:23
 msgid ""
 "You should provide a device name to search Example: <code>/device Galaxy "
 "S24</code>."
 msgstr ""
 
-#: src/korone/modules/gsm_arena/handlers/search.py:38
+#: src/korone/modules/gsm_arena/handlers/search.py:34
 msgid "No devices found."
 msgstr ""
 
-#: src/korone/modules/gsm_arena/handlers/search.py:48
+#: src/korone/modules/gsm_arena/handlers/search.py:44
 msgid "Search results for: <b>{device}</b>"
+msgstr ""
+
+#: src/korone/modules/gsm_arena/utils/scraper.py:70
+msgid "Status"
+msgstr ""
+
+#: src/korone/modules/gsm_arena/utils/scraper.py:71
+msgid "Network"
+msgstr ""
+
+#: src/korone/modules/gsm_arena/utils/scraper.py:72
+msgid "Weight"
+msgstr ""
+
+#: src/korone/modules/gsm_arena/utils/scraper.py:73
+msgid "Display"
+msgstr ""
+
+#: src/korone/modules/gsm_arena/utils/scraper.py:74
+msgid "Chipset"
+msgstr ""
+
+#: src/korone/modules/gsm_arena/utils/scraper.py:75
+msgid "Memory"
+msgstr ""
+
+#: src/korone/modules/gsm_arena/utils/scraper.py:76
+msgid "Rear Camera"
+msgstr ""
+
+#: src/korone/modules/gsm_arena/utils/scraper.py:77
+msgid "Front Camera"
+msgstr ""
+
+#: src/korone/modules/gsm_arena/utils/scraper.py:78
+msgid "3.5mm jack"
+msgstr ""
+
+#: src/korone/modules/gsm_arena/utils/scraper.py:79
+msgid "USB"
+msgstr ""
+
+#: src/korone/modules/gsm_arena/utils/scraper.py:80
+msgid "Sensors"
+msgstr ""
+
+#: src/korone/modules/gsm_arena/utils/scraper.py:81
+msgid "Battery"
+msgstr ""
+
+#: src/korone/modules/gsm_arena/utils/scraper.py:82
+msgid "Charging"
 msgstr ""
 
 #: src/korone/modules/languages/handlers/apply.py:23

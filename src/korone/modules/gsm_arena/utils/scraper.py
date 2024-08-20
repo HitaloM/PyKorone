@@ -2,18 +2,15 @@
 # Copyright (c) 2024 Hitalo M. <https://github.com/HitaloM>
 
 import urllib.parse
-from dataclasses import dataclass
 from datetime import timedelta
 
 import httpx
-from hairydogm.keyboard import InlineKeyboardBuilder
 from lxml import html
 
 from korone import cache
 from korone.utils.i18n import gettext as _
-from korone.utils.pagination import Pagination
 
-from .callback_data import DevicePageCallback, GetDeviceCallback
+from .types import PhoneSearchResult
 
 HEADERS = {
     "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,"
@@ -25,22 +22,6 @@ HEADERS = {
     "Referer": "https://m.gsmarena.com/",
     "Accept-Charset": "utf-8",
 }
-
-
-def create_pagination_layout(devices: list, query: str, page: int) -> InlineKeyboardBuilder:
-    layout = Pagination(
-        devices,
-        item_data=lambda i, _: GetDeviceCallback(device=i.url).pack(),
-        item_title=lambda i, _: i.name,
-        page_data=lambda pg: DevicePageCallback(device=query, page=pg).pack(),
-    )
-    return layout.create(page, lines=8)
-
-
-@dataclass(frozen=True, slots=True)
-class PhoneSearchResult:
-    name: str
-    url: str
 
 
 def get_data_from_specs(specs_data: dict, category: str, attributes: list) -> str:
