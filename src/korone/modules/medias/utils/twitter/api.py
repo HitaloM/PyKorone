@@ -23,6 +23,10 @@ async def fetch_tweet(url: str) -> Tweet | None:
         async with httpx.AsyncClient(http2=True) as client:
             response = await client.get(fx_url)
             response.raise_for_status()
+
+            if response.json()["code"] != 200:
+                raise TwitterError(response.json()["message"])
+
             model = Response.model_validate_json(response.text)
             return model.tweet
     except httpx.HTTPError as e:
