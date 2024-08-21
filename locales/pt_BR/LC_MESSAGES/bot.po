@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-08-15 01:38-0300\n"
+"POT-Creation-Date: 2024-08-21 02:33-0300\n"
 "PO-Revision-Date: 2024-08-15 13:24+0000\n"
 "Last-Translator: Hitalo <hitalo331@outlook.com>\n"
 "Language-Team: Portuguese (Brazil) <http://weblate.amanoteam.com/projects/"
@@ -142,71 +142,23 @@ msgstr "Este comando já está ativado."
 msgid "Command enabled."
 msgstr "Comando ativado."
 
-#: src/korone/modules/errors/handlers/catcher.py:88
-msgid "An error occurred while processing this update. :/"
+#: src/korone/modules/errors/handlers/catcher.py:82
+#, fuzzy
+msgid "An unexpected error occurred while processing this update! :/"
 msgstr "Ocorreu um erro ao processar essa atualização. :/"
 
-#: src/korone/modules/errors/handlers/catcher.py:93
-msgid "Reference ID: {id}"
+#: src/korone/modules/errors/handlers/catcher.py:85
+#, fuzzy
+msgid ""
+"\n"
+"Reference ID: {id}"
 msgstr "ID de referência: {id}"
 
-#: src/korone/modules/errors/handlers/catcher.py:101
+#: src/korone/modules/errors/handlers/catcher.py:93
 msgid "🐞 Report This Error"
 msgstr "🐞 Relatar Este Erro"
 
-#: src/korone/modules/gsm_arena/utils.py:96
-msgid "Status"
-msgstr "Status"
-
-#: src/korone/modules/gsm_arena/utils.py:97
-msgid "Network"
-msgstr "Rede"
-
-#: src/korone/modules/gsm_arena/utils.py:98
-msgid "Weight"
-msgstr "Peso"
-
-#: src/korone/modules/gsm_arena/utils.py:99
-msgid "Display"
-msgstr "Tela"
-
-#: src/korone/modules/gsm_arena/utils.py:100
-msgid "Chipset"
-msgstr "Chipset"
-
-#: src/korone/modules/gsm_arena/utils.py:101
-msgid "Memory"
-msgstr "Memória"
-
-#: src/korone/modules/gsm_arena/utils.py:102
-msgid "Rear Camera"
-msgstr "Câmera Traseira"
-
-#: src/korone/modules/gsm_arena/utils.py:103
-msgid "Front Camera"
-msgstr "Câmera Frontal"
-
-#: src/korone/modules/gsm_arena/utils.py:104
-msgid "3.5mm jack"
-msgstr "conector de 3,5 mm"
-
-#: src/korone/modules/gsm_arena/utils.py:105
-msgid "USB"
-msgstr "USB"
-
-#: src/korone/modules/gsm_arena/utils.py:106
-msgid "Sensors"
-msgstr "Sensores"
-
-#: src/korone/modules/gsm_arena/utils.py:107
-msgid "Battery"
-msgstr "Bateria"
-
-#: src/korone/modules/gsm_arena/utils.py:108
-msgid "Charging"
-msgstr "Carregamento"
-
-#: src/korone/modules/gsm_arena/handlers/search.py:27
+#: src/korone/modules/gsm_arena/handlers/search.py:23
 msgid ""
 "You should provide a device name to search Example: <code>/device Galaxy "
 "S24</code>."
@@ -214,13 +166,65 @@ msgstr ""
 "Você deve fornecer um nome de dispositivo para pesquisar. Exemplo: <code>/"
 "device Galaxy S24</code>."
 
-#: src/korone/modules/gsm_arena/handlers/search.py:38
+#: src/korone/modules/gsm_arena/handlers/search.py:34
 msgid "No devices found."
 msgstr "Nenhum dispositivo encontrado."
 
-#: src/korone/modules/gsm_arena/handlers/search.py:48
+#: src/korone/modules/gsm_arena/handlers/search.py:44
 msgid "Search results for: <b>{device}</b>"
 msgstr "Resultados da pesquisa para: <b>{device}</b>"
+
+#: src/korone/modules/gsm_arena/utils/scraper.py:80
+msgid "Status"
+msgstr "Status"
+
+#: src/korone/modules/gsm_arena/utils/scraper.py:81
+msgid "Network"
+msgstr "Rede"
+
+#: src/korone/modules/gsm_arena/utils/scraper.py:82
+msgid "Weight"
+msgstr "Peso"
+
+#: src/korone/modules/gsm_arena/utils/scraper.py:83
+msgid "Display"
+msgstr "Tela"
+
+#: src/korone/modules/gsm_arena/utils/scraper.py:84
+msgid "Chipset"
+msgstr "Chipset"
+
+#: src/korone/modules/gsm_arena/utils/scraper.py:85
+msgid "Memory"
+msgstr "Memória"
+
+#: src/korone/modules/gsm_arena/utils/scraper.py:86
+msgid "Rear Camera"
+msgstr "Câmera Traseira"
+
+#: src/korone/modules/gsm_arena/utils/scraper.py:87
+msgid "Front Camera"
+msgstr "Câmera Frontal"
+
+#: src/korone/modules/gsm_arena/utils/scraper.py:88
+msgid "3.5mm jack"
+msgstr "conector de 3,5 mm"
+
+#: src/korone/modules/gsm_arena/utils/scraper.py:89
+msgid "USB"
+msgstr "USB"
+
+#: src/korone/modules/gsm_arena/utils/scraper.py:90
+msgid "Sensors"
+msgstr "Sensores"
+
+#: src/korone/modules/gsm_arena/utils/scraper.py:91
+msgid "Battery"
+msgstr "Bateria"
+
+#: src/korone/modules/gsm_arena/utils/scraper.py:92
+msgid "Charging"
+msgstr "Carregamento"
 
 #: src/korone/modules/languages/handlers/apply.py:23
 msgid "Something went wrong."
@@ -296,7 +300,7 @@ msgstr "🌍 Mudar idioma do grupo"
 
 #: src/korone/modules/languages/handlers/info.py:34
 #: src/korone/modules/languages/handlers/info.py:83
-#: src/korone/modules/languages/handlers/select.py:41
+#: src/korone/modules/languages/handlers/select.py:42
 #: src/korone/modules/pm_menu/handlers/about.py:39
 #: src/korone/modules/pm_menu/handlers/help.py:30
 msgid "⬅️ Back"
@@ -330,11 +334,11 @@ msgstr "Textos que precisam de revisão: <code>{fuzzy}</code>\n"
 msgid "This is the bot's native language. So it is 100% translated."
 msgstr "Este é o idioma nativo do bot. Portanto, está 100% traduzido."
 
-#: src/korone/modules/languages/handlers/select.py:34
+#: src/korone/modules/languages/handlers/select.py:35
 msgid "❌ Cancel"
 msgstr "❌ Cancelar"
 
-#: src/korone/modules/languages/handlers/select.py:49
+#: src/korone/modules/languages/handlers/select.py:50
 msgid "Please select the language you want to use for the chat."
 msgstr "Por favor, selecione o idioma que você deseja usar para o chat."
 
@@ -568,13 +572,13 @@ msgstr "1 Ano"
 msgid "All time"
 msgstr "Todo o tempo"
 
-#: src/korone/modules/medias/handlers/instagram.py:70
-#: src/korone/modules/medias/handlers/instagram.py:77
+#: src/korone/modules/medias/handlers/instagram.py:73
+#: src/korone/modules/medias/handlers/instagram.py:80
 msgid "Open in Instagram"
 msgstr "Abrir no Instagram"
 
-#: src/korone/modules/medias/handlers/tiktok.py:192
-#: src/korone/modules/medias/handlers/tiktok.py:200
+#: src/korone/modules/medias/handlers/tiktok.py:209
+#: src/korone/modules/medias/handlers/tiktok.py:217
 msgid "Open in TikTok"
 msgstr "Abrir no TikTok"
 
@@ -742,6 +746,10 @@ msgid ""
 msgstr ""
 "Oi, eu sou o Korone! Um bot tudo em um. Posso ajudar você com muitas coisas. "
 "Basta clicar nos botões abaixo para começar."
+
+#: src/korone/modules/pm_menu/handlers/start.py:50
+msgid "Hi, I'm Korone!"
+msgstr ""
 
 #: src/korone/modules/regex/utils.py:43
 msgid "Invalid command: {command}"

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PyKorone 1.0\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-08-15 01:38-0300\n"
+"POT-Creation-Date: 2024-08-21 02:33-0300\n"
 "PO-Revision-Date: 2024-08-15 13:24+0000\n"
 "Last-Translator: DeepL <noreply-mt-deepl@weblate.org>\n"
 "Language-Team: Japanese <http://weblate.amanoteam.com/projects/korone/korone/"
@@ -26,7 +26,8 @@ msgstr "これを使うには管理者でなければならない。"
 
 #: src/korone/filters/chat.py:24
 msgid "This command was designed to be used in PM, not in group chats!"
-msgstr "このコマンドはグループチャットではなく、PMで使用するように設計されています！"
+msgstr ""
+"このコマンドはグループチャットではなく、PMで使用するように設計されています！"
 
 #: src/korone/filters/chat.py:44
 msgid "This command was designed to be used in group chats, not in PM!"
@@ -72,7 +73,8 @@ msgstr "あなたは今AFKです."
 msgid ""
 "You need to specify a command to disable. Use <code>/disable &lt;"
 "commandname&gt;</code>."
-msgstr "無効にするコマンドを指定する必要がある。<code>/disable&lt;commandname&gt;</"
+msgstr ""
+"無効にするコマンドを指定する必要がある。<code>/disable&lt;commandname&gt;</"
 "code> を使用する。"
 
 #: src/korone/modules/disabling/handlers/disable.py:33
@@ -113,8 +115,9 @@ msgstr "このチャットでは次のコマンドは無効です.\n"
 msgid ""
 "You need to specify a command to enable. Use <code>/enable &lt;"
 "commandname&gt;</code>."
-msgstr "有効にするコマンドを指定する必要があります。<code>/enable&lt;commandname&gt;<"
-"/code> を使用する。"
+msgstr ""
+"有効にするコマンドを指定する必要があります。<code>/enable&lt;commandname&gt;"
+"</code> を使用する。"
 
 #: src/korone/modules/disabling/handlers/enable.py:31
 msgid "You can only enable one command at a time."
@@ -138,83 +141,88 @@ msgstr "このコマンドは既に有効です."
 msgid "Command enabled."
 msgstr "コマンドが有効。"
 
-#: src/korone/modules/errors/handlers/catcher.py:88
-msgid "An error occurred while processing this update. :/"
+#: src/korone/modules/errors/handlers/catcher.py:82
+#, fuzzy
+msgid "An unexpected error occurred while processing this update! :/"
 msgstr "このアップデートの処理中にエラーが発生しました。"
 
-#: src/korone/modules/errors/handlers/catcher.py:93
-msgid "Reference ID: {id}"
+#: src/korone/modules/errors/handlers/catcher.py:85
+#, fuzzy
+msgid ""
+"\n"
+"Reference ID: {id}"
 msgstr "リファレンスID{id}"
 
-#: src/korone/modules/errors/handlers/catcher.py:101
+#: src/korone/modules/errors/handlers/catcher.py:93
 msgid "🐞 Report This Error"
 msgstr "エラーを報告する"
 
-#: src/korone/modules/gsm_arena/utils.py:96
-msgid "Status"
-msgstr "ステータス"
-
-#: src/korone/modules/gsm_arena/utils.py:97
-msgid "Network"
-msgstr "ネットワーク"
-
-#: src/korone/modules/gsm_arena/utils.py:98
-msgid "Weight"
-msgstr "重量"
-
-#: src/korone/modules/gsm_arena/utils.py:99
-msgid "Display"
-msgstr "ディスプレイ"
-
-#: src/korone/modules/gsm_arena/utils.py:100
-msgid "Chipset"
-msgstr "チップセット"
-
-#: src/korone/modules/gsm_arena/utils.py:101
-msgid "Memory"
-msgstr "メモリ"
-
-#: src/korone/modules/gsm_arena/utils.py:102
-msgid "Rear Camera"
-msgstr "後部 カメラ"
-
-#: src/korone/modules/gsm_arena/utils.py:103
-msgid "Front Camera"
-msgstr "フロントカメラ"
-
-#: src/korone/modules/gsm_arena/utils.py:104
-msgid "3.5mm jack"
-msgstr "3.5mmジャック"
-
-#: src/korone/modules/gsm_arena/utils.py:105
-msgid "USB"
-msgstr "USB"
-
-#: src/korone/modules/gsm_arena/utils.py:106
-msgid "Sensors"
-msgstr "センサー"
-
-#: src/korone/modules/gsm_arena/utils.py:107
-msgid "Battery"
-msgstr "バッテリー"
-
-#: src/korone/modules/gsm_arena/utils.py:108
-msgid "Charging"
-msgstr "充電中"
-
-#: src/korone/modules/gsm_arena/handlers/search.py:27
+#: src/korone/modules/gsm_arena/handlers/search.py:23
 msgid ""
 "You should provide a device name to search Example: <code>/device Galaxy "
 "S24</code>."
-msgstr "検索するデバイス名を指定してください：<code>/デバイス Galaxy S24</code>."
+msgstr ""
+"検索するデバイス名を指定してください：<code>/デバイス Galaxy S24</code>."
 
-#: src/korone/modules/gsm_arena/handlers/search.py:38
+#: src/korone/modules/gsm_arena/handlers/search.py:34
 msgid "No devices found."
 msgstr "デバイスが見つかりませんでした。"
 
-#: src/korone/modules/gsm_arena/handlers/search.py:48
+#: src/korone/modules/gsm_arena/handlers/search.py:44
 msgid "Search results for: <b>{device}</b>"
 msgstr "検索結果: <b>{device}</b>"
+
+#: src/korone/modules/gsm_arena/utils/scraper.py:80
+msgid "Status"
+msgstr "ステータス"
+
+#: src/korone/modules/gsm_arena/utils/scraper.py:81
+msgid "Network"
+msgstr "ネットワーク"
+
+#: src/korone/modules/gsm_arena/utils/scraper.py:82
+msgid "Weight"
+msgstr "重量"
+
+#: src/korone/modules/gsm_arena/utils/scraper.py:83
+msgid "Display"
+msgstr "ディスプレイ"
+
+#: src/korone/modules/gsm_arena/utils/scraper.py:84
+msgid "Chipset"
+msgstr "チップセット"
+
+#: src/korone/modules/gsm_arena/utils/scraper.py:85
+msgid "Memory"
+msgstr "メモリ"
+
+#: src/korone/modules/gsm_arena/utils/scraper.py:86
+msgid "Rear Camera"
+msgstr "後部 カメラ"
+
+#: src/korone/modules/gsm_arena/utils/scraper.py:87
+msgid "Front Camera"
+msgstr "フロントカメラ"
+
+#: src/korone/modules/gsm_arena/utils/scraper.py:88
+msgid "3.5mm jack"
+msgstr "3.5mmジャック"
+
+#: src/korone/modules/gsm_arena/utils/scraper.py:89
+msgid "USB"
+msgstr "USB"
+
+#: src/korone/modules/gsm_arena/utils/scraper.py:90
+msgid "Sensors"
+msgstr "センサー"
+
+#: src/korone/modules/gsm_arena/utils/scraper.py:91
+msgid "Battery"
+msgstr "バッテリー"
+
+#: src/korone/modules/gsm_arena/utils/scraper.py:92
+msgid "Charging"
+msgstr "充電中"
 
 #: src/korone/modules/languages/handlers/apply.py:23
 msgid "Something went wrong."
@@ -287,7 +295,7 @@ msgstr "🌍 グループ言語の変更"
 
 #: src/korone/modules/languages/handlers/info.py:34
 #: src/korone/modules/languages/handlers/info.py:83
-#: src/korone/modules/languages/handlers/select.py:41
+#: src/korone/modules/languages/handlers/select.py:42
 #: src/korone/modules/pm_menu/handlers/about.py:39
 #: src/korone/modules/pm_menu/handlers/help.py:30
 msgid "⬅️ Back"
@@ -321,11 +329,11 @@ msgstr "見直しが必要なストリングス<code>{fuzzy}</code>\n"
 msgid "This is the bot's native language. So it is 100% translated."
 msgstr "これはボットの母国語です。ですから100％翻訳されています。"
 
-#: src/korone/modules/languages/handlers/select.py:34
+#: src/korone/modules/languages/handlers/select.py:35
 msgid "❌ Cancel"
 msgstr "キャンセル"
 
-#: src/korone/modules/languages/handlers/select.py:49
+#: src/korone/modules/languages/handlers/select.py:50
 msgid "Please select the language you want to use for the chat."
 msgstr "チャットで使いたい言語を選択してください."
 
@@ -340,8 +348,9 @@ msgstr "チャットで使いたい言語を選択してください."
 msgid ""
 "You need to set your LastFM username first! Example: <code>/setlfm username</"
 "code>."
-msgstr "最初にLastFMのユーザー名を設定してください！例<code>/setlfm "
-"ユーザー名</code>."
+msgstr ""
+"最初にLastFMのユーザー名を設定してください！例<code>/setlfm ユーザー名</"
+"code>."
 
 #: src/korone/modules/lastfm/handlers/album.py:47
 #: src/korone/modules/lastfm/handlers/artist.py:44
@@ -418,8 +427,8 @@ msgid ""
 "The user you replied to doesn't have a LastFM account linked! Hint them to "
 "set it using <code>/setlfm username</code>."
 msgstr ""
-"あなたが返信したユーザーは、LastFMアカウントをリンクしていません！<code>/setl"
-"fmユーザー名</code> を使って設定するよう指示してください。"
+"あなたが返信したユーザーは、LastFMアカウントをリンクしていません！<code>/"
+"setlfmユーザー名</code> を使って設定するよう指示してください。"
 
 #: src/korone/modules/lastfm/handlers/compat.py:100
 msgid "No common artists in {period}"
@@ -455,7 +464,8 @@ msgstr ""
 msgid ""
 "You need to provide your LastFM username! Example: <code>/setlfm username</"
 "code>."
-msgstr "LastFMのユーザー名を入力してください！例<code>/setlfm ユーザー名</code>."
+msgstr ""
+"LastFMのユーザー名を入力してください！例<code>/setlfm ユーザー名</code>."
 
 #: src/korone/modules/lastfm/handlers/set.py:33
 msgid "LastFM username must not contain spaces or special characters!"
@@ -555,13 +565,13 @@ msgstr "1年"
 msgid "All time"
 msgstr "全期間"
 
-#: src/korone/modules/medias/handlers/instagram.py:70
-#: src/korone/modules/medias/handlers/instagram.py:77
+#: src/korone/modules/medias/handlers/instagram.py:73
+#: src/korone/modules/medias/handlers/instagram.py:80
 msgid "Open in Instagram"
 msgstr "Instagram で開く"
 
-#: src/korone/modules/medias/handlers/tiktok.py:192
-#: src/korone/modules/medias/handlers/tiktok.py:200
+#: src/korone/modules/medias/handlers/tiktok.py:209
+#: src/korone/modules/medias/handlers/tiktok.py:217
 msgid "Open in TikTok"
 msgstr "TikTokで開く"
 
@@ -677,12 +687,11 @@ msgid ""
 "Version: <code>{version}</code>"
 msgstr ""
 "Koroneは包括的で最先端のTelegramボットで、Telegram体験を向上させる幅広い機能"
-"を提供します。多用途、適応性、高効率に設計され、{python} "
-"のパワーを活用し、{hydrogram} フレームワーク上に構築され、{mtproto} "
-"を利用しています。\n"
+"を提供します。多用途、適応性、高効率に設計され、{python} のパワーを活用し、"
+"{hydrogram} フレームワーク上に構築され、{mtproto} を利用しています。\n"
 "\n"
-"このオープンソースプロジェクトは、{license} "
-"ライセンスの下でライセンスされており、ソースコードはGitHubで入手可能です。\n"
+"このオープンソースプロジェクトは、{license} ライセンスの下でライセンスされて"
+"おり、ソースコードはGitHubで入手可能です。\n"
 "\n"
 "バージョン<code>{version}</code>"
 
@@ -696,14 +705,16 @@ msgid ""
 "You can get help by reading the documentation, where you'll get an overview "
 "of the bot and how to use it to its full potential. Click the button below "
 "to start reading."
-msgstr "ドキュメントを読むことで、ボットの概要とその可能性を最大限に引き出す使い方を"
+msgstr ""
+"ドキュメントを読むことで、ボットの概要とその可能性を最大限に引き出す使い方を"
 "知ることができます。下のボタンをクリックして読み始めてください。"
 
 #: src/korone/modules/pm_menu/handlers/privacy.py:26
 msgid ""
 "The privacy policy is available for review in the documentation. Click the "
 "button below to start reading."
-msgstr "個人情報保護方針はドキュメントでご確認いただけます。下のボタンをクリックして"
+msgstr ""
+"個人情報保護方針はドキュメントでご確認いただけます。下のボタンをクリックして"
 "お読みください。"
 
 #: src/korone/modules/pm_menu/handlers/start.py:27
@@ -722,8 +733,13 @@ msgstr "👮�"
 msgid ""
 "Hi, I'm Korone! An all-in-one bot. I can help you with lots of things. Just "
 "click on the buttons below to get started."
-msgstr "こんにちは、コロネです！オールインワンボットです。いろいろなことをお手伝いし"
+msgstr ""
+"こんにちは、コロネです！オールインワンボットです。いろいろなことをお手伝いし"
 "ます。下のボタンをクリックしてください。"
+
+#: src/korone/modules/pm_menu/handlers/start.py:50
+msgid "Hi, I'm Korone!"
+msgstr ""
 
 #: src/korone/modules/regex/utils.py:43
 msgid "Invalid command: {command}"
@@ -771,7 +787,8 @@ msgstr "処理..."
 
 #: src/korone/modules/stickers/handlers/kang.py:53
 msgid "Invalid media type. Please reply to an image, video, or sticker."
-msgstr "メディアの種類が無効です。画像、ビデオ、またはステッカーを返信してください。"
+msgstr ""
+"メディアの種類が無効です。画像、ビデオ、またはステッカーを返信してください。"
 
 #: src/korone/modules/stickers/handlers/kang.py:63
 msgid "Error downloading media."
@@ -855,7 +872,8 @@ msgid ""
 "Korone has reached the translation quota. The DeepL API has a limit of "
 "500,000 characters per month for the free plan, and we have exceeded this "
 "limit."
-msgstr "Koroneが翻訳クォータに達しました。DeepL APIでは、無料プランの月間翻訳文字数が"
+msgstr ""
+"Koroneが翻訳クォータに達しました。DeepL APIでは、無料プランの月間翻訳文字数が"
 "50万文字に制限されており、この制限を超えました。"
 
 #: src/korone/modules/translator/handlers/translate.py:66
@@ -887,8 +905,9 @@ msgstr "削除されたアカウントは見つかりませんでした。"
 msgid ""
 "You should provide a group ID or username. Example: <code>/group @username</"
 "code>."
-msgstr "グループIDまたはユーザー名を入力してください。例<code>/group "
-"@ユーザー名</code>."
+msgstr ""
+"グループIDまたはユーザー名を入力してください。例<code>/group @ユーザー名</"
+"code>."
 
 #: src/korone/modules/users_groups/handlers/groups.py:36
 msgid "<b>Group info</b>:\n"
@@ -997,8 +1016,9 @@ msgstr "指定された識別子を持つユーザが見つかりません。"
 msgid ""
 "You should provide an IP address or domain name to get information.Example: "
 "<code>/ip google.com</code>."
-msgstr "情報を取得するには、IPアドレスまたはドメイン名を指定する必要があります：<code"
-">/ip google.com</code>."
+msgstr ""
+"情報を取得するには、IPアドレスまたはドメイン名を指定する必要があります："
+"<code>/ip google.com</code>."
 
 #: src/korone/modules/web/handlers/ip.py:34
 msgid "No valid IP addresses or domain names found in the provided input."
@@ -1032,7 +1052,8 @@ msgstr ""
 msgid ""
 "You should provide a domain name to get whois information. Example: <code>/"
 "whois google.com</code>."
-msgstr "Whois情報を取得するには、ドメイン名を入力する必要があります。例<code>/whois "
+msgstr ""
+"Whois情報を取得するには、ドメイン名を入力する必要があります。例<code>/whois "
 "google.com</code>."
 
 #: src/korone/modules/web/handlers/whois.py:39
