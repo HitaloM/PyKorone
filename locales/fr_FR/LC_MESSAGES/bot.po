@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2024-08-21 02:33-0300\n"
-"PO-Revision-Date: 2024-08-21 13:51+0000\n"
+"PO-Revision-Date: 2024-08-21 13:53+0000\n"
 "Last-Translator: DeepL <noreply-mt-deepl@weblate.org>\n"
 "Language-Team: French <http://weblate.amanoteam.com/projects/korone/korone/"
 "fr/>\n"
@@ -145,16 +145,18 @@ msgid "Command enabled."
 msgstr "Commande activée."
 
 #: src/korone/modules/errors/handlers/catcher.py:82
-#, fuzzy
 msgid "An unexpected error occurred while processing this update! :/"
-msgstr "Une erreur s'est produite lors du traitement de cette mise à jour :/"
+msgstr ""
+"Une erreur inattendue s'est produite lors du traitement de cette mise à jour "
+"! :/"
 
 #: src/korone/modules/errors/handlers/catcher.py:85
-#, fuzzy
 msgid ""
 "\n"
 "Reference ID: {id}"
-msgstr "ID de référence : {id}"
+msgstr ""
+"\n"
+"ID de référence : {id}"
 
 #: src/korone/modules/errors/handlers/catcher.py:93
 msgid "🐞 Report This Error"
@@ -755,7 +757,7 @@ msgstr ""
 
 #: src/korone/modules/pm_menu/handlers/start.py:50
 msgid "Hi, I'm Korone!"
-msgstr ""
+msgstr "Bonjour, je suis Korone !"
 
 #: src/korone/modules/regex/utils.py:43
 msgid "Invalid command: {command}"
