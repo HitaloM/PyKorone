@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2024-08-21 02:33-0300\n"
-"PO-Revision-Date: 2024-08-21 13:51+0000\n"
+"PO-Revision-Date: 2024-08-21 13:53+0000\n"
 "Last-Translator: DeepL <noreply-mt-deepl@weblate.org>\n"
 "Language-Team: Russian <http://weblate.amanoteam.com/projects/korone/korone/"
 "ru/>\n"
@@ -144,16 +144,16 @@ msgid "Command enabled."
 msgstr "Команда включена."
 
 #: src/korone/modules/errors/handlers/catcher.py:82
-#, fuzzy
 msgid "An unexpected error occurred while processing this update! :/"
-msgstr "При обработке этого обновления произошла ошибка. :/"
+msgstr "При обработке этого обновления произошла непредвиденная ошибка! :/"
 
 #: src/korone/modules/errors/handlers/catcher.py:85
-#, fuzzy
 msgid ""
 "\n"
 "Reference ID: {id}"
-msgstr "ID ссылки: {id}"
+msgstr ""
+"\n"
+"ID ссылки: {id}"
 
 #: src/korone/modules/errors/handlers/catcher.py:93
 msgid "🐞 Report This Error"
@@ -750,7 +750,7 @@ msgstr ""
 
 #: src/korone/modules/pm_menu/handlers/start.py:50
 msgid "Hi, I'm Korone!"
-msgstr ""
+msgstr "Привет, я Корона!"
 
 #: src/korone/modules/regex/utils.py:43
 msgid "Invalid command: {command}"
@@ -824,11 +824,11 @@ msgstr ""
 
 #: src/korone/modules/stickers/handlers/kang.py:172
 msgid "Adding the sticker to the pack..."
-msgstr ""
+msgstr "Добавление наклейки в пакет..."
 
 #: src/korone/modules/stickers/handlers/kang.py:187
 msgid "Creating the sticker pack..."
-msgstr ""
+msgstr "Создание пакета наклеек..."
 
 #: src/korone/modules/stickers/handlers/kang.py:209
 msgid "Start"
@@ -845,39 +845,39 @@ msgstr ""
 
 #: src/korone/modules/stickers/handlers/kang.py:219
 msgid "An error occurred: {}"
-msgstr ""
+msgstr "Произошла ошибка: {}"
 
 #: src/korone/modules/stickers/handlers/kang.py:280
-#, fuzzy
 msgid "Failed to get video information."
-msgstr "Не удалось извлечь информацию о видео!"
+msgstr "Не удалось получить информацию о видео."
 
 #: src/korone/modules/stickers/handlers/kang.py:286
-#, fuzzy
 msgid "Error parsing video information: {error}"
-msgstr ""
-"При получении данных LastFM произошла ошибка!\n"
-"Ошибка: <i>{error}</i>"
+msgstr "Ошибка при разборе видеоинформации: {error}"
 
 #: src/korone/modules/stickers/handlers/kang.py:293
 msgid ""
 "The video is too long ({duration}s)!\n"
 "Max duration is 3 seconds."
 msgstr ""
+"Видео слишком длинное ({duration}s)!\n"
+"Максимальная продолжительность - 3 секунды."
 
 #: src/korone/modules/stickers/handlers/kang.py:301
 msgid ""
 "The video is too big ({size}KB)!\n"
 "Max size is 256KB"
 msgstr ""
+"Видео слишком большое ({size}KB)!\n"
+"Максимальный размер - 256 КБ"
 
 #: src/korone/modules/translator/handlers/translate.py:43
 msgid "Unsupported source language: {source_lang}"
-msgstr ""
+msgstr "Неподдерживаемый исходный язык: {source_lang}"
 
 #: src/korone/modules/translator/handlers/translate.py:49
 msgid "Unsupported target language: {target_lang}"
-msgstr ""
+msgstr "Неподдерживаемый целевой язык: {target_lang}"
 
 #: src/korone/modules/translator/handlers/translate.py:58
 msgid ""
@@ -889,9 +889,8 @@ msgstr ""
 "символов в месяц для бесплатного плана, и мы превысили этот лимит."
 
 #: src/korone/modules/translator/handlers/translate.py:66
-#, fuzzy
 msgid "Failed to translate text. Error: {error}"
-msgstr "Не удалось отправить носитель: {error}"
+msgstr "Не удалось перевести текст. Ошибка: {error}"
 
 #: src/korone/modules/translator/handlers/translate.py:69
 msgid ""
@@ -903,32 +902,28 @@ msgid "Removing deleted accounts..."
 msgstr "Удаление удаленных учетных записей..."
 
 #: src/korone/modules/users_groups/handlers/cleanup.py:24
-#, fuzzy
 msgid "No members found."
-msgstr "Устройства не найдены."
+msgstr "Пользователи не найдены."
 
 #: src/korone/modules/users_groups/handlers/cleanup.py:38
 msgid "Removed {count} deleted accounts."
-msgstr ""
+msgstr "Удалено {count} удаленных учетных записей."
 
 #: src/korone/modules/users_groups/handlers/cleanup.py:40
-#, fuzzy
 msgid "No deleted accounts found."
-msgstr "Устройства не найдены."
+msgstr "Удаленных учетных записей не обнаружено."
 
 #: src/korone/modules/users_groups/handlers/groups.py:25
-#, fuzzy
 msgid ""
 "You should provide a group ID or username. Example: <code>/group @username</"
 "code>."
-msgstr "Вам необходимо указать свое имя пользователя LastFM!"
+msgstr ""
+"Необходимо указать идентификатор группы или имя пользователя. Пример: <code>/"
+"group @username</code>."
 
 #: src/korone/modules/users_groups/handlers/groups.py:36
-#, fuzzy
 msgid "<b>Group info</b>:\n"
-msgstr ""
-"\n"
-"<b>Информация о языке:</b>\n"
+msgstr "<b>Информация о группе</b>:\n"
 
 #: src/korone/modules/users_groups/handlers/groups.py:37
 #: src/korone/modules/users_groups/handlers/users.py:29
@@ -975,26 +970,31 @@ msgstr "Указанное значение недействительно."
 
 #: src/korone/modules/users_groups/handlers/id.py:18
 msgid "Your ID is <code>{id}</code>"
-msgstr ""
+msgstr "Ваш идентификатор <code>{id}</code>"
 
 #: src/korone/modules/users_groups/handlers/id.py:21
 msgid ""
 "\n"
 "Chat ID: <code>{id}</code>"
 msgstr ""
+"\n"
+"Chat ID: <code>{id}</code>"
 
 #: src/korone/modules/users_groups/handlers/id.py:24
 msgid ""
 "\n"
 "{user} ID: <code>{id}</code>"
 msgstr ""
+"\n"
+"{user} ID: <code>{id}</code>"
 
 #: src/korone/modules/users_groups/handlers/id.py:32
-#, fuzzy
 msgid ""
 "\n"
 "Forwarded user ID: <code>{id}</code>"
-msgstr "Переведено: {translated}\n"
+msgstr ""
+"\n"
+"Переданный идентификатор пользователя: <code>{id}</code>"
 
 #: src/korone/modules/users_groups/handlers/users.py:28
 msgid "<b>User info</b>:\n"
@@ -1010,7 +1010,7 @@ msgstr "<b>Фамилия</b>: {last_name}\n"
 
 #: src/korone/modules/users_groups/handlers/users.py:35
 msgid "<b>User link</b>: <a href='tg://user?id={id}'>link</a>\n"
-msgstr ""
+msgstr "<b>Ссылка на пользователя</b>: <a href='tg://user?id={id}'>ссылка</a>\n"
 
 #: src/korone/modules/users_groups/handlers/users.py:47
 msgid "Invalid identifier provided."
