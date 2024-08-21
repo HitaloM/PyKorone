@@ -79,7 +79,7 @@ class ErrorsHandler(MessageHandler):
 
     @staticmethod
     def prepare_error_message(sentry_event_id: str | None) -> dict[str, Any]:
-        text = _("An error occurred while processing this update. :/")
+        text = _("An unexpected error occurred while processing this update! :/")
 
         if sentry_event_id:
             text += _("\nReference ID: {id}").format(id=sentry_event_id)

@@ -10,6 +10,26 @@
 
 .. towncrier release notes start
 
+1.0.5 (2024-08-21)
+==================
+
+Removals
+--------
+
+- If the bot crashes, it will no longer display the detailed error message. This change has been made for security reasons to prevent leaking sensitive content.
+
+Features
+--------
+
+- Enhanced the `/device` command to optimize the processing of GSM Arena data, resulting in improved performance and increased stability. (`#258 <https://github.com/HitaloM/PyKorone/issues/258>`_)
+
+Bug Fixes
+---------
+
+- Fixed a crash issue that occurred when the bot encountered invalid TikTok URLs or experienced HTTP request timeouts.
+- Fixed an issue where downloading TikTok slideshows would result in an error if the slideshow did not have a music.
+- Update the `/start` command text for group chats. Previously, the bot used the same text as in private chats, which caused confusion due to references to buttons that are not available in group chats.
+
 1.0.4 (2024-08-16)
 ==================
 
