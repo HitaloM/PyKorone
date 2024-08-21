@@ -109,10 +109,10 @@ async def fetch_html(url: str) -> str:
             response.raise_for_status()
             return response.text
     except httpx.HTTPStatusError as e:
-        logger.error("[GSM Arena] HTTP error occurred: %s", e)
+        await logger.aerror("[GSM Arena] HTTP error occurred: %s", e)
         raise
     except httpx.RequestError as e:
-        logger.error("[GSM Arena] Request error occurred: %s", e)
+        await logger.aerror("[GSM Arena] Request error occurred: %s", e)
         raise
 
 
@@ -149,7 +149,7 @@ async def search_phone(phone: str) -> list[PhoneSearchResult]:
             for phone_tag in found_phones
         ]
     except Exception as e:
-        logger.error("[GSM Arena] Error searching for phone: %s", e)
+        await logger.aerror("[GSM Arena] Error searching for phone: %s", e)
         return []
 
 
@@ -175,7 +175,7 @@ async def check_phone_details(url: str) -> dict[str, str]:
 
         return phone_specs_temp
     except Exception as e:
-        logger.error("[GSM Arena] Error checking phone details: %s", e)
+        await logger.aerror("[GSM Arena] Error checking phone details: %s", e)
         return {}
 
 

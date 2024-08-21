@@ -25,6 +25,7 @@ from korone.modules.medias.utils.tiktok import (
     TikTokVideo,
 )
 from korone.utils.i18n import gettext as _
+from korone.utils.logging import logger
 
 URL_PATTERN = re.compile(
     r"https:\/\/(?:m|www|vm)?\.?tiktok\.com\/((?:.*\b(?:(?:usr|v|embed|user|video|photo)\/|\?shareId=|\&item_id=)(\d+))|\w+)"
@@ -38,7 +39,7 @@ class TikTokHandler(MessageHandler):
         if not url_match:
             return
 
-        tiktok_url = url_match.group(0)  # Captura a URL completa do TikTok
+        tiktok_url = url_match.group(0)
         media_id = await self.extract_media_id(url_match)
         if not media_id:
             return
@@ -57,13 +58,15 @@ class TikTokHandler(MessageHandler):
             tiktok_client.clear()
 
     async def extract_media_id(self, url_match: re.Match[str]) -> str | int | None:
-        media_id = url_match.group(2) or url_match.group(1)
+        media_id_str = url_match.group(2) or url_match.group(1)
         try:
-            return int(media_id)
+            return int(media_id_str)
         except ValueError:
             redirect_url = await self.resolve_redirect_url(url_match.group(0))
-            if redirect_url_match := URL_PATTERN.search(redirect_url):
-                return redirect_url_match.group(2)
+            if redirect_url:
+                match = URL_PATTERN.search(redirect_url)
+                if match:
+                    return match.group(2)
         return None
 
     async def process_media(
@@ -81,10 +84,24 @@ class TikTokHandler(MessageHandler):
                 await self.process_slideshow(message, media, media_id, tiktok_url)
 
     @staticmethod
-    async def resolve_redirect_url(url: str) -> str:
-        async with httpx.AsyncClient(http2=True, follow_redirects=True) as client:
-            response = await client.head(url)
-            return str(response.url)
+    async def resolve_redirect_url(url: str) -> str | None:
+        try:
+            async with httpx.AsyncClient(http2=True, timeout=20, follow_redirects=True) as client:
+                response = await client.head(url)
+                response.raise_for_status()
+                return str(response.url)
+        except httpx.RequestError as e:
+            await logger.aerror(
+                "[Medias/TikTok] An error occurred while requesting %s.", str(e.request.url)
+            )
+            return None
+        except httpx.HTTPStatusError as exc:
+            await logger.aerror(
+                "[Medias/TikTok] Error response %s while requesting %s.",
+                exc.response.status_code,
+                exc.request.url,
+            )
+            return None
 
     @staticmethod
     def format_media_text(media: TikTokVideo | TikTokSlideshow) -> str:

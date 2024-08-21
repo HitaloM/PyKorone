@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-08-20 10:49-0300\n"
+"POT-Creation-Date: 2024-08-21 02:28-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -153,55 +153,55 @@ msgstr ""
 msgid "Search results for: <b>{device}</b>"
 msgstr ""
 
-#: src/korone/modules/gsm_arena/utils/scraper.py:72
+#: src/korone/modules/gsm_arena/utils/scraper.py:80
 msgid "Status"
 msgstr ""
 
-#: src/korone/modules/gsm_arena/utils/scraper.py:73
+#: src/korone/modules/gsm_arena/utils/scraper.py:81
 msgid "Network"
 msgstr ""
 
-#: src/korone/modules/gsm_arena/utils/scraper.py:74
+#: src/korone/modules/gsm_arena/utils/scraper.py:82
 msgid "Weight"
 msgstr ""
 
-#: src/korone/modules/gsm_arena/utils/scraper.py:75
+#: src/korone/modules/gsm_arena/utils/scraper.py:83
 msgid "Display"
 msgstr ""
 
-#: src/korone/modules/gsm_arena/utils/scraper.py:76
+#: src/korone/modules/gsm_arena/utils/scraper.py:84
 msgid "Chipset"
 msgstr ""
 
-#: src/korone/modules/gsm_arena/utils/scraper.py:77
+#: src/korone/modules/gsm_arena/utils/scraper.py:85
 msgid "Memory"
 msgstr ""
 
-#: src/korone/modules/gsm_arena/utils/scraper.py:78
+#: src/korone/modules/gsm_arena/utils/scraper.py:86
 msgid "Rear Camera"
 msgstr ""
 
-#: src/korone/modules/gsm_arena/utils/scraper.py:79
+#: src/korone/modules/gsm_arena/utils/scraper.py:87
 msgid "Front Camera"
 msgstr ""
 
-#: src/korone/modules/gsm_arena/utils/scraper.py:80
+#: src/korone/modules/gsm_arena/utils/scraper.py:88
 msgid "3.5mm jack"
 msgstr ""
 
-#: src/korone/modules/gsm_arena/utils/scraper.py:81
+#: src/korone/modules/gsm_arena/utils/scraper.py:89
 msgid "USB"
 msgstr ""
 
-#: src/korone/modules/gsm_arena/utils/scraper.py:82
+#: src/korone/modules/gsm_arena/utils/scraper.py:90
 msgid "Sensors"
 msgstr ""
 
-#: src/korone/modules/gsm_arena/utils/scraper.py:83
+#: src/korone/modules/gsm_arena/utils/scraper.py:91
 msgid "Battery"
 msgstr ""
 
-#: src/korone/modules/gsm_arena/utils/scraper.py:84
+#: src/korone/modules/gsm_arena/utils/scraper.py:92
 msgid "Charging"
 msgstr ""
 
@@ -514,8 +514,8 @@ msgstr ""
 msgid "Open in Instagram"
 msgstr ""
 
-#: src/korone/modules/medias/handlers/tiktok.py:192
-#: src/korone/modules/medias/handlers/tiktok.py:200
+#: src/korone/modules/medias/handlers/tiktok.py:209
+#: src/korone/modules/medias/handlers/tiktok.py:217
 msgid "Open in TikTok"
 msgstr ""
 
