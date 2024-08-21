@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2024-08-21 02:33-0300\n"
-"PO-Revision-Date: 2024-08-21 13:51+0000\n"
+"PO-Revision-Date: 2024-08-21 13:53+0000\n"
 "Last-Translator: DeepL <noreply-mt-deepl@weblate.org>\n"
 "Language-Team: Ukrainian <http://weblate.amanoteam.com/projects/korone/"
 "korone/uk/>\n"
@@ -143,16 +143,16 @@ msgid "Command enabled."
 msgstr "Команду дозволено."
 
 #: src/korone/modules/errors/handlers/catcher.py:82
-#, fuzzy
 msgid "An unexpected error occurred while processing this update! :/"
-msgstr "Під час обробки цього оновлення сталася помилка :/."
+msgstr "Під час обробки цього оновлення сталася несподівана помилка! :/"
 
 #: src/korone/modules/errors/handlers/catcher.py:85
-#, fuzzy
 msgid ""
 "\n"
 "Reference ID: {id}"
-msgstr "Посвідчення особи: {id}"
+msgstr ""
+"\n"
+"Посвідчення особи: {id}"
 
 #: src/korone/modules/errors/handlers/catcher.py:93
 msgid "🐞 Report This Error"
@@ -751,7 +751,7 @@ msgstr ""
 
 #: src/korone/modules/pm_menu/handlers/start.py:50
 msgid "Hi, I'm Korone!"
-msgstr ""
+msgstr "Привіт, я Короне!"
 
 #: src/korone/modules/regex/utils.py:43
 msgid "Invalid command: {command}"
