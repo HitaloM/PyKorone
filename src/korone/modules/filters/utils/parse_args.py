@@ -22,9 +22,7 @@ def _parse_multiple_filters(
     match: re.Match, reply_message: Message | None = None
 ) -> tuple[tuple[str, ...], str]:
     filter_names, filter_content = match.groups()
-
-    if reply_message and not filter_content.strip():
-        filter_content = ""
+    filter_content = filter_content.strip() if not reply_message else ""
 
     filters = tuple(
         filter_name.strip().strip('"')
@@ -40,7 +38,8 @@ def _parse_single_filter(
         return ((args.strip().strip('"'),), "")
 
     if match := re.match(r'^"([^"]+)"\s+(.*)$|^(\S+)\s+(.*)$', args):
-        filter_name, filter_content = match[1] or match[3], match[2] or match[4]
+        filter_name = match[1] or match[3]
+        filter_content = match[2] or match[4]
         return ((filter_name.strip().strip('"'),), filter_content)
 
     return ((), "")

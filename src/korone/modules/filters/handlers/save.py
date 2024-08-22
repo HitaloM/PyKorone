@@ -1,15 +1,13 @@
 # SPDX-License-Identifier: BSD-3-Clause
 # Copyright (c) 2024 Hitalo M. <https://github.com/HitaloM>
 
-import asyncio
-
 from hydrogram import Client
 from hydrogram.types import Message
 
 from korone.decorators import router
 from korone.filters import Command, CommandObject
 from korone.handlers.abstract import MessageHandler
-from korone.modules.filters.database import FilterStatus, save_filter
+from korone.modules.filters.database import save_filter
 from korone.modules.filters.utils import parse_args, parse_saveable
 from korone.utils.i18n import gettext as _
 
@@ -44,20 +42,19 @@ class SaveFilter(MessageHandler):
         self, message: Message, filters: tuple[tuple[str, ...], str]
     ) -> None:
         filter_names, filter_content = filters
-        tasks = [self._save_single_filter(message, filter_names, filter_content)]
-        results = await asyncio.gather(*tasks)
-        await self._reply_filter_status(message, results)
+        result = await self._save_single_filter(message, filter_names, filter_content)
+        await self._reply_filter_status(message, [result])
 
     @staticmethod
     async def _save_single_filter(
         message: Message, filter_names: tuple[str, ...], filter_content: str
-    ) -> tuple[str, FilterStatus]:
+    ) -> tuple[str, ...]:
         save_data = await parse_saveable(message, filter_content or "", allow_reply_message=True)
         if not save_data:
-            await message.reply(_("Something went wrong while saving the filter."))
-            return ", ".join(filter_names), FilterStatus.FAILED
+            await message.reply("Something went wrong while saving the filter.")
+            return filter_names
 
-        result = await save_filter(
+        await save_filter(
             chat_id=message.chat.id,
             filter_names=filter_names,
             message_content=save_data.text,
@@ -66,48 +63,23 @@ class SaveFilter(MessageHandler):
             editor_id=message.from_user.id,
             file_id=save_data.file.file_id if save_data.file else "",
         )
-        return ", ".join(filter_names), result
+        return filter_names
 
     @staticmethod
-    async def _reply_filter_status(
-        message: Message, results: list[tuple[str, FilterStatus]]
-    ) -> None:
-        saved_filters = [
-            name.split(", ") for name, status in results if status == FilterStatus.SAVED
-        ]
-        updated_filters = [
-            name.split(", ") for name, status in results if status == FilterStatus.UPDATED
-        ]
+    async def _reply_filter_status(message: Message, results: list[tuple[str, ...]]) -> None:
+        saved_filters = [name for names in results for name in names]
 
-        if not saved_filters and not updated_filters:
+        if not saved_filters:
             return
 
         response_message = [
-            _("Filters in {chatname}:\n").format(chatname=message.chat.title or _("private chat"))
+            _("Saved {count} in {chat}:\n{filters}").format(
+                count=len(saved_filters),
+                chat=message.chat.title or _("private chat"),
+                filters="\n".join(
+                    f"- <code>{filter_name}</code>" for filter_name in saved_filters
+                ),
+            )
         ]
-
-        if saved_filters:
-            response_message.append(
-                _("{count} saved:\n{filters}\n").format(
-                    count=sum(len(names) for names in saved_filters),
-                    filters="\n".join(
-                        f" - <code>{filter_name}</code>"
-                        for names in saved_filters
-                        for filter_name in names
-                    ),
-                )
-            )
-
-        if updated_filters:
-            response_message.append(
-                _("{count} updated:\n{filters}").format(
-                    count=sum(len(names) for names in updated_filters),
-                    filters="\n".join(
-                        f" - <code>{filter_name}</code>"
-                        for names in updated_filters
-                        for filter_name in names
-                    ),
-                )
-            )
 
         await message.reply("".join(response_message))
