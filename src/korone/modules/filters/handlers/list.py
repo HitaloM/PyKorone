@@ -24,9 +24,11 @@ class ListFilters(MessageHandler):
         filter_list = "\n".join(
             f" - <code>{filter.filter_name}</code>" for filter in sorted_filters
         )
-        await message.reply(
+        response_message = (
             _("List of filters in {chatname}:\n").format(
                 chatname=message.chat.title or _("private chat")
             )
-            + filter_list,
+            + filter_list
         )
+
+        await message.reply(response_message)

@@ -13,6 +13,7 @@ from korone.modules.filters.utils.types import FilterModel
 class FilterStatus(Enum):
     SAVED = "saved"
     UPDATED = "updated"
+    FAILED = "failed"
 
 
 async def save_filter(
@@ -32,6 +33,7 @@ async def save_filter(
             (query.chat_id == chat_id) & (query.filter == filter_text)
         )
 
+        current_time = int(time.time())
         if not existing_filter:
             await table.insert(
                 Document(
@@ -40,13 +42,14 @@ async def save_filter(
                     file_id=file_id,
                     message=message_content,
                     content_type=content_type,
-                    created_date=int(time.time()),
+                    created_date=current_time,
                     creator_id=creator_id,
-                    edited_date=int(time.time()),
+                    edited_date=current_time,
                     editor_id=editor_id,
                 )
             )
             return FilterStatus.SAVED
+
         await table.update(
             Document(
                 file_id=file_id or "",

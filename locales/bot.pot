@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-08-20 13:40-0300\n"
+"POT-Creation-Date: 2024-08-21 22:41-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -148,37 +148,37 @@ msgid "List of filters in {chatname}:\n"
 msgstr ""
 
 #: src/korone/modules/filters/handlers/list.py:29
-#: src/korone/modules/filters/handlers/save.py:80
+#: src/korone/modules/filters/handlers/save.py:86
 msgid "private chat"
 msgstr ""
 
-#: src/korone/modules/filters/handlers/save.py:22
+#: src/korone/modules/filters/handlers/save.py:24
 msgid ""
 "You need to provide a name for the filter. Example: <code>/filter "
 "filtername</code>"
 msgstr ""
 
-#: src/korone/modules/filters/handlers/save.py:32
+#: src/korone/modules/filters/handlers/save.py:34
 msgid ""
-"Invalid filter format. Make sure to use the correct syntax.Check "
+"Invalid filter format. Make sure to use the correct syntax. Check "
 "<code>/help</code> for more information."
 msgstr ""
 
-#: src/korone/modules/filters/handlers/save.py:49
+#: src/korone/modules/filters/handlers/save.py:57
 msgid "Something went wrong while saving the filter."
 msgstr ""
 
-#: src/korone/modules/filters/handlers/save.py:79
+#: src/korone/modules/filters/handlers/save.py:86
 msgid "Filters in {chatname}:\n"
 msgstr ""
 
-#: src/korone/modules/filters/handlers/save.py:84
+#: src/korone/modules/filters/handlers/save.py:91
 msgid ""
 "{count} saved:\n"
 "{filters}\n"
 msgstr ""
 
-#: src/korone/modules/filters/handlers/save.py:90
+#: src/korone/modules/filters/handlers/save.py:99
 msgid ""
 "{count} updated:\n"
 "{filters}"
