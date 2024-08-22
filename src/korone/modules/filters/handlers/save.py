@@ -40,43 +40,43 @@ class SaveFilter(MessageHandler):
 
         await self._process_and_save_filters(message, filters)
 
-    async def _process_and_save_filters(self, message: Message, filters: dict[str, str]) -> None:
-        tasks = [
-            self._save_single_filter(message, filter_name, filter_content)
-            for filter_name, filter_content in filters.items()
-        ]
+    async def _process_and_save_filters(
+        self, message: Message, filters: tuple[tuple[str, ...], str]
+    ) -> None:
+        filter_names, filter_content = filters
+        tasks = [self._save_single_filter(message, filter_names, filter_content)]
         results = await asyncio.gather(*tasks)
         await self._reply_filter_status(message, results)
 
     @staticmethod
     async def _save_single_filter(
-        message: Message, filter_name: str, filter_content: str
+        message: Message, filter_names: tuple[str, ...], filter_content: str
     ) -> tuple[str, FilterStatus]:
         save_data = await parse_saveable(message, filter_content or "", allow_reply_message=True)
         if not save_data:
             await message.reply(_("Something went wrong while saving the filter."))
-            return filter_name, FilterStatus.FAILED
+            return ", ".join(filter_names), FilterStatus.FAILED
 
         result = await save_filter(
             chat_id=message.chat.id,
-            filter_text=filter_name,
+            filter_names=filter_names,
             message_content=save_data.text,
             content_type=save_data.file.file_type if save_data.file else "text",
             creator_id=message.from_user.id,
             editor_id=message.from_user.id,
             file_id=save_data.file.file_id if save_data.file else "",
         )
-        return filter_name, result
+        return ", ".join(filter_names), result
 
     @staticmethod
     async def _reply_filter_status(
         message: Message, results: list[tuple[str, FilterStatus]]
     ) -> None:
         saved_filters = [
-            f"<code>{name}</code>" for name, status in results if status == FilterStatus.SAVED
+            name.split(", ") for name, status in results if status == FilterStatus.SAVED
         ]
         updated_filters = [
-            f"<code>{name}</code>" for name, status in results if status == FilterStatus.UPDATED
+            name.split(", ") for name, status in results if status == FilterStatus.UPDATED
         ]
 
         if not saved_filters and not updated_filters:
@@ -89,16 +89,24 @@ class SaveFilter(MessageHandler):
         if saved_filters:
             response_message.append(
                 _("{count} saved:\n{filters}\n").format(
-                    count=len(saved_filters),
-                    filters="\n".join(f" - {filter}" for filter in saved_filters),
+                    count=sum(len(names) for names in saved_filters),
+                    filters="\n".join(
+                        f" - <code>{filter_name}</code>"
+                        for names in saved_filters
+                        for filter_name in names
+                    ),
                 )
             )
 
         if updated_filters:
             response_message.append(
                 _("{count} updated:\n{filters}").format(
-                    count=len(updated_filters),
-                    filters="\n".join(f" - {filter}" for filter in updated_filters),
+                    count=sum(len(names) for names in updated_filters),
+                    filters="\n".join(
+                        f" - <code>{filter_name}</code>"
+                        for names in updated_filters
+                        for filter_name in names
+                    ),
                 )
             )
 

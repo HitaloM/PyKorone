@@ -34,7 +34,7 @@ class Saveable(BaseModel):
 class FilterModel(BaseModel):
     filter_id: int = Field(alias="id")
     chat_id: int
-    filter_name: str = Field(alias="filter")
+    filter_names: tuple[str, ...] = Field(alias="filters")
     file_id: str | None = None
     message: str | None = None
     content_type: str
