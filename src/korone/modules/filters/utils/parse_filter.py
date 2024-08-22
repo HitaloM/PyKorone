@@ -11,7 +11,7 @@ from .types import Button, FilterFile, Saveable
 
 MESSAGE_LENGTH_LIMIT = 4096
 
-SUPPORTED_CONTENTS = {
+SUPPORTED_MEDIA_TYPES = {
     MessageMediaType.PHOTO: "photo",
     MessageMediaType.VIDEO: "video",
     MessageMediaType.AUDIO: "audio",
@@ -22,86 +22,78 @@ SUPPORTED_CONTENTS = {
 }
 
 
-async def extract_file_info(message: Message) -> FilterFile | None:
-    if not message:
-        return None
-
-    content_type = next(
-        (
-            content_type
-            for media_type, content_type in SUPPORTED_CONTENTS.items()
-            if getattr(message, str(media_type.value), None)
-        ),
-        None,
-    )
-
-    if not content_type:
-        return None
+async def get_file_info(message: Message) -> FilterFile | None:
+    for media_type, media_name in SUPPORTED_MEDIA_TYPES.items():
+        media_attr = getattr(message, str(media_type.value), None)
+        if media_attr:
+            file_id = getattr(media_attr, "file_id", None)
+            if file_id:
+                return FilterFile(id=file_id, type=media_name)
 
     with suppress(ValueError):
         if media_group := await message.get_media_group():
-            message = media_group[-1]
+            last_message = media_group[-1]
+            for media_type, media_name in SUPPORTED_MEDIA_TYPES.items():
+                media_attr = getattr(last_message, str(media_type.value), None)
+                if media_attr:
+                    file_id = getattr(media_attr, "file_id", None)
+                    if file_id:
+                        return FilterFile(id=file_id, type=media_name)
 
-    file_attr = getattr(message, str(content_type), None)
-    file_id = file_attr.file_id if file_attr and hasattr(file_attr, "file_id") else None
-
-    return FilterFile(id=file_id, type=content_type) if file_id else None
+    return None
 
 
-async def parse_reply_message(
+async def parse_replied_message(
     message: Message,
     replied_message: Message,
 ) -> tuple[str | None, FilterFile | None, list[list[Button]] | None]:
-    if replied_message.media is not None:
-        if replied_message.media not in SUPPORTED_CONTENTS:
-            await message.reply(
-                _(
-                    "Please check the notes documentation for "
-                    "the list of the allowed content types."
-                )
-            )
-            return None, None, None
-    elif replied_message.text is None and replied_message.caption is None:
+    if replied_message.media and replied_message.media not in SUPPORTED_MEDIA_TYPES:
+        await message.reply(
+            _("Please check the Filters documentation for the list of the allowed content types.")
+        )
+        return None, None, None
+
+    if replied_message.text:
+        message_text = replied_message.text.html
+    elif replied_message.caption:
+        message_text = replied_message.caption.html
+    else:
+        message_text = ""
+
+    if not message_text and not replied_message.media:
         await message.reply(_("The text of the replied message is empty."))
         return None, None, None
 
-    text = (
-        replied_message.text.html
-        if replied_message.text
-        else replied_message.caption.html
-        if replied_message.caption
-        else ""
-    )
-    file_info = await extract_file_info(replied_message)
+    file_info = await get_file_info(replied_message)
     buttons: list[list[Button]] = []
 
-    return text, file_info, buttons
+    return message_text, file_info, buttons
 
 
 async def parse_saveable(
     message: Message, text: str | None, allow_reply_message: bool = True
 ) -> Saveable | None:
-    note_text = text or ""
+    combined_text = text or ""
     buttons: list[list[Button]] = []
-    file_data: FilterFile | None = None
+    file_info: FilterFile | None = None
 
     if message.reply_to_message and allow_reply_message:
-        reply_text, file_data, reply_buttons = await parse_reply_message(
+        reply_text, file_info, reply_buttons = await parse_replied_message(
             message, message.reply_to_message
         )
         if reply_buttons:
             buttons.extend(reply_buttons)
 
-        note_text = f"{reply_text}\n{note_text}" if reply_text else note_text
+        combined_text = f"{reply_text}\n{combined_text}" if reply_text else combined_text
     else:
-        file_data = await extract_file_info(message)
+        file_info = await get_file_info(message)
 
-    if len(note_text) > MESSAGE_LENGTH_LIMIT:
+    if len(combined_text) > MESSAGE_LENGTH_LIMIT:
         await message.reply(
-            _("The maximum length of the note is {length} characters.").format(
+            _("The maximum length of the filter is {length} characters.").format(
                 length=MESSAGE_LENGTH_LIMIT
             )
         )
         return None
 
-    return Saveable(text=note_text, file=file_data, buttons=buttons)
+    return Saveable(text=combined_text, file=file_info, buttons=buttons)

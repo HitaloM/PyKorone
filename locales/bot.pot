@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-08-21 23:54-0300\n"
+"POT-Creation-Date: 2024-08-22 00:21-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -150,54 +150,40 @@ msgid ""
 msgstr ""
 
 #: src/korone/modules/filters/handlers/list.py:30
-#: src/korone/modules/filters/handlers/save.py:86
+#: src/korone/modules/filters/handlers/save.py:78
 msgid "private chat"
 msgstr ""
 
-#: src/korone/modules/filters/handlers/save.py:24
+#: src/korone/modules/filters/handlers/save.py:22
 msgid ""
 "You need to provide a name for the filter. Example: <code>/filter "
 "filtername</code>"
 msgstr ""
 
-#: src/korone/modules/filters/handlers/save.py:34
+#: src/korone/modules/filters/handlers/save.py:32
 msgid ""
 "Invalid filter format. Make sure to use the correct syntax. Check "
 "<code>/help</code> for more information."
 msgstr ""
 
-#: src/korone/modules/filters/handlers/save.py:57
-msgid "Something went wrong while saving the filter."
-msgstr ""
-
-#: src/korone/modules/filters/handlers/save.py:86
-msgid "Filters in {chatname}:\n"
-msgstr ""
-
-#: src/korone/modules/filters/handlers/save.py:91
+#: src/korone/modules/filters/handlers/save.py:76
 msgid ""
-"{count} saved:\n"
-"{filters}\n"
-msgstr ""
-
-#: src/korone/modules/filters/handlers/save.py:103
-msgid ""
-"{count} updated:\n"
+"Saved {count} in {chat}:\n"
 "{filters}"
 msgstr ""
 
-#: src/korone/modules/filters/utils/parse_filter.py:58
+#: src/korone/modules/filters/utils/parse_filter.py:52
 msgid ""
-"Please check the notes documentation for the list of the allowed content "
-"types."
+"Please check the Filters documentation for the list of the allowed "
+"content types."
 msgstr ""
 
-#: src/korone/modules/filters/utils/parse_filter.py:65
+#: src/korone/modules/filters/utils/parse_filter.py:64
 msgid "The text of the replied message is empty."
 msgstr ""
 
-#: src/korone/modules/filters/utils/parse_filter.py:101
-msgid "The maximum length of the note is {length} characters."
+#: src/korone/modules/filters/utils/parse_filter.py:93
+msgid "The maximum length of the filter is {length} characters."
 msgstr ""
 
 #: src/korone/modules/gsm_arena/handlers/search.py:23
