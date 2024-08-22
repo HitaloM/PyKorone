@@ -20,15 +20,14 @@ class ListFilters(MessageHandler):
             await message.reply(_("No filters found for this chat."))
             return
 
-        sorted_filters = sorted(filters, key=lambda f: f.filter_name)
-        filter_list = "\n".join(
-            f" - <code>{filter.filter_name}</code>" for filter in sorted_filters
+        filter_names = sorted(
+            filter_name for filter in filters for filter_name in filter.filter_names
         )
-        response_message = (
-            _("List of filters in {chatname}:\n").format(
-                chatname=message.chat.title or _("private chat")
-            )
-            + filter_list
+
+        filter_list = "\n".join(f" - <code>{filter_name}</code>" for filter_name in filter_names)
+
+        response_message = _("List of filters in {chatname}:\n{filter_list}").format(
+            chatname=message.chat.title or _("private chat"), filter_list=filter_list
         )
 
         await message.reply(response_message)

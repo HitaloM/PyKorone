@@ -6,36 +6,41 @@ import re
 from hydrogram.types import Message
 
 
-def parse_args(args: str, reply_message: Message | None = None) -> dict[str, str] | None:
+def parse_args(
+    args: str, reply_message: Message | None = None
+) -> tuple[tuple[str, ...], str] | None:
     if match := re.match(r"^\((.*?)\)\s*(.*)$", args):
         return _parse_multiple_filters(match, reply_message)
 
     if reply_message and not args.strip():
-        return {args.strip().strip('"'): ""}
+        return ((args.strip().strip('"'),), "")
 
     return _parse_single_filter(args, reply_message)
 
 
 def _parse_multiple_filters(
     match: re.Match, reply_message: Message | None = None
-) -> dict[str, str]:
+) -> tuple[tuple[str, ...], str]:
     filter_names, filter_content = match.groups()
 
     if reply_message and not filter_content.strip():
         filter_content = ""
 
-    return {
-        filter_name.strip().strip('"'): filter_content
+    filters = tuple(
+        filter_name.strip().strip('"')
         for filter_name in re.split(r',\s*(?=(?:[^"]*"[^"]*")*[^"]*$)', filter_names)
-    }
+    )
+    return filters, filter_content
 
 
-def _parse_single_filter(args: str, reply_message: Message | None = None) -> dict[str, str]:
+def _parse_single_filter(
+    args: str, reply_message: Message | None = None
+) -> tuple[tuple[str, ...], str]:
     if reply_message:
-        return {args.strip().strip('"'): ""}
+        return ((args.strip().strip('"'),), "")
 
     if match := re.match(r'^"([^"]+)"\s+(.*)$|^(\S+)\s+(.*)$', args):
         filter_name, filter_content = match[1] or match[3], match[2] or match[4]
-        return {filter_name.strip().strip('"'): filter_content}
+        return ((filter_name.strip().strip('"'),), filter_content)
 
-    return {}
+    return ((), "")

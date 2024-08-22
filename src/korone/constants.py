@@ -72,7 +72,7 @@ CREATE TABLE IF NOT EXISTS StickerPack (
 CREATE TABLE IF NOT EXISTS Filters (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     chat_id INTEGER,
-    filter VARCHAR(255) NOT NULL,
+    filters TEXT NOT NULL,
     file_id VARCHAR(64),
     message VARCHAR(255),
     content_type VARCHAR(16) NOT NULL DEFAULT "text",
