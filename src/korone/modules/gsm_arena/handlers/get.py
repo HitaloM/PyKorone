@@ -10,7 +10,7 @@ from hydrogram.types import CallbackQuery
 from korone.decorators import router
 from korone.handlers.abstract import CallbackQueryHandler
 from korone.modules.gsm_arena.callback_data import GetDeviceCallback
-from korone.modules.gsm_arena.utils.scraper import check_phone_details, format_phone
+from korone.modules.gsm_arena.utils import check_phone_details, format_phone
 
 
 class GetGSMArena(CallbackQueryHandler):

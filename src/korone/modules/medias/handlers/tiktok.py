@@ -16,6 +16,7 @@ from hydrogram.types import InlineKeyboardMarkup, InputMediaPhoto, InputMediaVid
 from korone.decorators import router
 from korone.filters import Regex
 from korone.handlers.abstract import MessageHandler
+from korone.modules.medias.utils import GENERIC_HEADER
 from korone.modules.medias.utils.cache import MediaCache
 from korone.modules.medias.utils.files import resize_thumbnail, url_to_bytes_io
 from korone.modules.medias.utils.tiktok import (
@@ -86,7 +87,9 @@ class TikTokHandler(MessageHandler):
     @staticmethod
     async def resolve_redirect_url(url: str) -> str | None:
         try:
-            async with httpx.AsyncClient(http2=True, timeout=20, follow_redirects=True) as client:
+            async with httpx.AsyncClient(
+                http2=True, timeout=20, follow_redirects=True, headers=GENERIC_HEADER
+            ) as client:
                 response = await client.head(url)
                 response.raise_for_status()
                 return str(response.url)
@@ -155,6 +158,9 @@ class TikTokHandler(MessageHandler):
                 reply_markup=keyboard,
             )
         else:
+            if len(media_list) > 10:
+                media_list = media_list[:10]  # Telegram's limit
+
             sent_message = await message.reply_media_group(media_list)  # type: ignore
 
         if sent_message:

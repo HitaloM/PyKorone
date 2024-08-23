@@ -13,6 +13,7 @@ from PIL import Image
 from pydantic import HttpUrl
 
 from korone import cache
+from korone.modules.medias.utils.generic_headers import GENERIC_HEADER
 
 
 def resize_thumbnail(thumbnail_path: str | BytesIO | BinaryIO) -> None:
@@ -50,7 +51,9 @@ def resize_thumbnail(thumbnail_path: str | BytesIO | BinaryIO) -> None:
 @cache(ttl=timedelta(weeks=1))
 async def url_to_bytes_io(url: HttpUrl, *, video: bool) -> BytesIO:
     try:
-        async with httpx.AsyncClient(http2=True) as client:
+        async with httpx.AsyncClient(
+            http2=True, timeout=20, follow_redirects=True, headers=GENERIC_HEADER
+        ) as client:
             response = await client.get(str(url))
             response.raise_for_status()
             content = await response.aread()

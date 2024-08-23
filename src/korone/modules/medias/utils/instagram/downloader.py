@@ -25,7 +25,7 @@ def is_supported_mime_type(content_type: str) -> bool:
 
 
 async def fetch_media(media_url: str) -> httpx.Response:
-    async with httpx.AsyncClient(http2=True, timeout=10) as client:
+    async with httpx.AsyncClient(http2=True, timeout=20) as client:
         response = await client.get(media_url)
         response.raise_for_status()
         return response

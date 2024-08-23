@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-08-21 02:33-0300\n"
+"POT-Creation-Date: 2024-08-23 11:16-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -139,17 +139,17 @@ msgstr ""
 msgid "🐞 Report This Error"
 msgstr ""
 
-#: src/korone/modules/gsm_arena/handlers/search.py:23
+#: src/korone/modules/gsm_arena/handlers/search.py:27
 msgid ""
 "You should provide a device name to search Example: <code>/device Galaxy "
 "S24</code>."
 msgstr ""
 
-#: src/korone/modules/gsm_arena/handlers/search.py:34
+#: src/korone/modules/gsm_arena/handlers/search.py:38
 msgid "No devices found."
 msgstr ""
 
-#: src/korone/modules/gsm_arena/handlers/search.py:44
+#: src/korone/modules/gsm_arena/handlers/search.py:48
 msgid "Search results for: <b>{device}</b>"
 msgstr ""
 
@@ -514,8 +514,8 @@ msgstr ""
 msgid "Open in Instagram"
 msgstr ""
 
-#: src/korone/modules/medias/handlers/tiktok.py:209
-#: src/korone/modules/medias/handlers/tiktok.py:217
+#: src/korone/modules/medias/handlers/tiktok.py:215
+#: src/korone/modules/medias/handlers/tiktok.py:223
 msgid "Open in TikTok"
 msgstr ""
 

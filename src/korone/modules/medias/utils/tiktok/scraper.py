@@ -7,6 +7,7 @@ from pathlib import Path
 import httpx
 
 from korone import cache
+from korone.modules.medias.utils.generic_headers import GENERIC_HEADER
 from korone.utils.logging import logger
 
 from .types import TikTokSlideshow, TikTokVideo
@@ -39,10 +40,6 @@ class TikTokClient:
 
     @cache(ttl=timedelta(weeks=1), key="tiktok_data:{media_id}")
     async def _fetch_tiktok_data(self, media_id: str) -> dict:
-        headers = {
-            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; "
-            "Win64; x64; rv:120.0) Gecko/20100101 Firefox/120.0"
-        }
         params = {
             "iid": "7318518857994389254",
             "device_id": "7318517321748022790",
@@ -58,7 +55,7 @@ class TikTokClient:
         api_response = await self._request(
             "OPTIONS",
             "https://api16-normal-c-useast1a.tiktokv.com/aweme/v1/feed/",
-            headers=headers,
+            headers=GENERIC_HEADER,
             params=params,
         )
 
