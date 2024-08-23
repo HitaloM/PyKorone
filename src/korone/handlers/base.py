@@ -121,14 +121,19 @@ class BaseHandler:
         return "Groups" if chat.type in {ChatType.GROUP, ChatType.SUPERGROUP} else None
 
     @staticmethod
-    async def _do_chat_migration(old_id: int, new_id: int) -> None:
+    async def _do_chat_migration(old_id: int, new_id: int) -> bool:
         async with SQLite3Connection() as conn:
             table = await conn.table("Groups")
             query = Query()
             obj = await table.query(query.id == old_id)
+
+            if not obj:
+                return False
+
             doc = obj[0]
             doc["id"] = new_id
             await table.update(doc, query.id == old_id)
+            return True
 
     async def _store_user_or_chat(
         self, user_or_chat: User | Chat, language: str | None = None
@@ -198,10 +203,11 @@ class BaseHandler:
 
     async def _process_migration(self, message: Message) -> bool:
         if message.migrate_from_chat_id:
-            await self._do_chat_migration(
-                old_id=message.migrate_from_chat_id, new_id=message.chat.id
+            return bool(
+                await self._do_chat_migration(
+                    old_id=message.migrate_from_chat_id, new_id=message.chat.id
+                )
             )
-            return True
         return bool(message.migrate_to_chat_id)
 
     async def _process_private_and_group_messages(self, message: Message) -> None:
