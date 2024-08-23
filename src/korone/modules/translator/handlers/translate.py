@@ -1,7 +1,6 @@
 # SPDX-License-Identifier: BSD-3-Clause
 # Copyright (c) 2024 Hitalo M. <https://github.com/HitaloM>
 
-
 from typing import ClassVar
 
 from hydrogram import Client
@@ -16,18 +15,18 @@ from korone.utils.i18n import gettext as _
 
 class TranslateHandler(MessageHandler):
     # fmt: off
-    SUPPORTED_SOURCE_LANGUAGES: ClassVar[list[str]] = [
+    SUPPORTED_SOURCE_LANGUAGES: ClassVar[set[str]] = {
         "BG", "CS", "DA", "DE", "EL", "EN", "ES", "ET", "FI", "FR", "HU",
         "ID", "IT", "JA", "KO", "LT", "LV", "NB", "NL", "PL", "PT", "RO",
         "RU", "SK", "SL", "SV", "TR", "UK", "ZH"
-    ]
+    }
 
-    SUPPORTED_TARGET_LANGUAGES: ClassVar[list[str]] = [
+    SUPPORTED_TARGET_LANGUAGES: ClassVar[set[str]] = {
         "BG", "CS", "DA", "DE", "EL", "EN", "EN-GB", "EN-US", "ES", "ET",
         "FI", "FR", "HU", "ID", "IT", "JA", "KO", "LT", "LV", "NB", "NL",
         "PL", "PT", "PT-BR", "PT-PT", "RO", "RU", "SK", "SL", "SV", "TR",
         "UK", "ZH"
-    ]
+    }
     # fmt: on
 
     @router.message(Command(commands=["tr", "translate"]))
@@ -48,6 +47,10 @@ class TranslateHandler(MessageHandler):
             await message.reply(
                 _("Unsupported target language: {target_lang}").format(target_lang=target_lang)
             )
+            return
+
+        if not text:
+            await message.reply(_("The text to translate is empty. Please provide some text."))
             return
 
         try:
@@ -72,9 +75,8 @@ class TranslateHandler(MessageHandler):
         response_text += f"\n<b>Translation:</b> <code>{translation.text}</code>"
         await message.reply(response_text)
 
-    @staticmethod
     def extract_translation_details(
-        message: Message, command: CommandObject
+        self, message: Message, command: CommandObject
     ) -> tuple[str | None, str, str]:
         default_lang = "EN"
         source_lang = None
@@ -85,21 +87,21 @@ class TranslateHandler(MessageHandler):
             parts = command.args.split(" ", 1)
             if parts[0].count(":") == 1:
                 source_lang, target_lang = parts[0].split(":", 1)
-                text = (
-                    parts[1]
-                    if len(parts) > 1
-                    else (message.reply_to_message.text or message.reply_to_message.caption)
-                )
+                text = parts[1] if len(parts) > 1 else self.get_reply_text(message)
             elif len(parts) == 1 and ":" not in parts[0]:
                 target_lang = parts[0]
-                text = message.reply_to_message.text or message.reply_to_message.caption
+                text = self.get_reply_text(message)
             elif len(parts) == 2:
                 target_lang, text = parts
             else:
                 text = command.args
-        elif message.reply_to_message and (
-            message.reply_to_message.text or message.reply_to_message.caption
-        ):
-            text = message.reply_to_message.text or message.reply_to_message.caption
+        elif message.reply_to_message:
+            text = self.get_reply_text(message)
 
         return source_lang, target_lang, text
+
+    @staticmethod
+    def get_reply_text(message: Message) -> str:
+        if message.reply_to_message:
+            return message.reply_to_message.text or message.reply_to_message.caption or ""
+        return ""

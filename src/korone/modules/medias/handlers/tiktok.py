@@ -91,8 +91,9 @@ class TikTokHandler(MessageHandler):
                 http2=True, timeout=20, follow_redirects=True, headers=GENERIC_HEADER
             ) as client:
                 response = await client.head(url)
+                if response.url:
+                    return str(response.url)
                 response.raise_for_status()
-                return str(response.url)
         except httpx.RequestError as e:
             await logger.aerror(
                 "[Medias/TikTok] An error occurred while requesting %s.", str(e.request.url)
