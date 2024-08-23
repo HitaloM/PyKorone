@@ -10,6 +10,16 @@
 
 .. towncrier release notes start
 
+1.0.6 (2024-08-23)
+==================
+
+Bug Fixes
+---------
+
+- Dealing with cases where the text to be translated by `/tr` was empty, which caused the bot to crash.
+- Fixed an error encountered during the TikTok media data search, causing the bot to just not respond to the request.
+- Fixed problems with migrating groups to supergroups in the database, where the bot would crash if the group was not in the database and was converted to a supergroup.
+
 1.0.5 (2024-08-21)
 ==================
 

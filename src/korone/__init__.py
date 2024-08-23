@@ -5,7 +5,7 @@ from pathlib import Path
 
 from cashews import Cache
 
-__version__ = "1.0.5"
+__version__ = "1.0.6"
 
 cache = Cache()
 cache.setup("redis://localhost", client_side=True)
