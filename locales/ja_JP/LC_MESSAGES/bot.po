@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: PyKorone 1.0\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2024-08-23 11:42-0300\n"
-"PO-Revision-Date: 2024-08-21 13:53+0000\n"
-"Last-Translator: DeepL <noreply-mt-deepl@weblate.org>\n"
+"PO-Revision-Date: 2024-08-24 20:38+0000\n"
+"Last-Translator: Hitalo <hitalo331@outlook.com>\n"
 "Language-Team: Japanese <http://weblate.amanoteam.com/projects/korone/korone/"
 "ja/>\n"
 "Language: ja_JP\n"
@@ -869,7 +869,7 @@ msgstr "サポートされていないターゲット言語：{target_lang}"
 
 #: src/korone/modules/translator/handlers/translate.py:53
 msgid "The text to translate is empty. Please provide some text."
-msgstr ""
+msgstr "翻訳するテキストが空です。テキストを入力してください。"
 
 #: src/korone/modules/translator/handlers/translate.py:61
 msgid ""
