@@ -1,15 +1,17 @@
 # SPDX-License-Identifier: BSD-3-Clause
 # Copyright (c) 2024 Hitalo M. <https://github.com/HitaloM>
 
-from korone.filters.admin import IsAdmin
-from korone.filters.chat import IsGroupChat, IsPrivateChat
-from korone.filters.command import Command, CommandObject
-from korone.filters.regex import Regex
-from korone.filters.sudo import IsSudo
+from .admin import IsAdmin
+from .chat import IsGroupChat, IsPrivateChat
+from .command import Command, CommandObject
+from .regex import Regex
+from .sudo import IsSudo
+from .text import HasText
 
 __all__ = (
     "Command",
     "CommandObject",
+    "HasText",
     "IsAdmin",
     "IsGroupChat",
     "IsPrivateChat",

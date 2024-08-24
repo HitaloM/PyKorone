@@ -12,11 +12,14 @@ from korone.utils.i18n import gettext as _
 
 
 class IsAdmin(Filter):
-    __slots__ = ("client", "update")
+    __slots__ = ("client", "show_alert", "update")
 
-    def __init__(self, client: Client, update: Message | CallbackQuery) -> None:
+    def __init__(
+        self, client: Client, update: Message | CallbackQuery, *, show_alert: bool = True
+    ) -> None:
         self.client = client
         self.update = update
+        self.show_alert = show_alert
 
     async def __call__(self) -> bool:
         update = self.update
@@ -34,14 +37,15 @@ class IsAdmin(Filter):
         if user.status in {ChatMemberStatus.ADMINISTRATOR, ChatMemberStatus.OWNER}:
             return True
 
-        if is_callback:
-            await update.answer(
-                text=_("You must be an administrator to use this."),
-                show_alert=True,
-                cache_time=60,
-            )
-        else:
-            await message.reply(_("You must be an administrator to use this."))
+        if self.show_alert:
+            if is_callback:
+                await update.answer(
+                    text=_("You must be an administrator to use this."),
+                    show_alert=True,
+                    cache_time=60,
+                )
+            else:
+                await message.reply(_("You must be an administrator to use this."))
 
         return False
 

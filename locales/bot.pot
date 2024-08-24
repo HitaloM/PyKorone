@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-08-22 00:21-0300\n"
+"POT-Creation-Date: 2024-08-23 21:58-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.16.0\n"
 
-#: src/korone/filters/admin.py:39 src/korone/filters/admin.py:44
+#: src/korone/filters/admin.py:43 src/korone/filters/admin.py:48
 msgid "You must be an administrator to use this."
 msgstr ""
 
@@ -139,17 +139,31 @@ msgstr ""
 msgid "🐞 Report This Error"
 msgstr ""
 
+#: src/korone/modules/filters/handlers/delete.py:21
+msgid ""
+"You need to provide the name of the filter to delete. Example: "
+"<code>/delfilter filtername</code>"
+msgstr ""
+
+#: src/korone/modules/filters/handlers/delete.py:33
+msgid "Filter '<code>{filter_name}</code>' does not exist."
+msgstr ""
+
+#: src/korone/modules/filters/handlers/delete.py:41
+msgid "Filter '<code>{filter_name}</code>' has been deleted."
+msgstr ""
+
 #: src/korone/modules/filters/handlers/list.py:20
 msgid "No filters found for this chat."
 msgstr ""
 
-#: src/korone/modules/filters/handlers/list.py:29
+#: src/korone/modules/filters/handlers/list.py:27
 msgid ""
 "List of filters in {chatname}:\n"
 "{filter_list}"
 msgstr ""
 
-#: src/korone/modules/filters/handlers/list.py:30
+#: src/korone/modules/filters/handlers/list.py:28
 #: src/korone/modules/filters/handlers/save.py:78
 msgid "private chat"
 msgstr ""
