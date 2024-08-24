@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-08-23 22:41-0300\n"
+"POT-Creation-Date: 2024-08-23 22:49-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -176,8 +176,8 @@ msgstr ""
 
 #: src/korone/modules/filters/handlers/save.py:32
 msgid ""
-"Invalid filter format. Make sure to use the correct syntax. Check "
-"<code>/help</code> for more information."
+"You need to provide the filter content. Check <code>/help</code> for more"
+" information."
 msgstr ""
 
 #: src/korone/modules/filters/handlers/save.py:77
@@ -186,17 +186,17 @@ msgid ""
 "{filters}"
 msgstr ""
 
-#: src/korone/modules/filters/utils/parse_filter.py:52
+#: src/korone/modules/filters/utils/parse_filter.py:49
 msgid ""
 "Please check the Filters documentation for the list of the allowed "
 "content types."
 msgstr ""
 
-#: src/korone/modules/filters/utils/parse_filter.py:64
+#: src/korone/modules/filters/utils/parse_filter.py:61
 msgid "The text of the replied message is empty."
 msgstr ""
 
-#: src/korone/modules/filters/utils/parse_filter.py:93
+#: src/korone/modules/filters/utils/parse_filter.py:90
 msgid "The maximum length of the filter is {length} characters."
 msgstr ""
 

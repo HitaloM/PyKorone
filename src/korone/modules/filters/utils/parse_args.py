@@ -22,7 +22,7 @@ def _parse_multiple_filters(
     match: re.Match, reply_message: Message | None = None
 ) -> tuple[tuple[str, ...], str]:
     filter_names, filter_content = match.groups()
-    filter_content = filter_content.strip() if not reply_message else ""
+    filter_content = "" if reply_message else filter_content.strip()
 
     filters = tuple(
         filter_name.strip().strip('"')
@@ -33,7 +33,7 @@ def _parse_multiple_filters(
 
 def _parse_single_filter(
     args: str, reply_message: Message | None = None
-) -> tuple[tuple[str, ...], str]:
+) -> tuple[tuple[str, ...], str] | None:
     if reply_message:
         return ((args.strip().strip('"'),), "")
 
@@ -42,4 +42,4 @@ def _parse_single_filter(
         filter_content = match[2] or match[4]
         return ((filter_name.strip().strip('"'),), filter_content)
 
-    return ((), "")
+    return None

@@ -3,6 +3,7 @@
 
 import json
 import time
+from collections import defaultdict
 
 from korone import cache
 from korone.database.query import Query
@@ -57,15 +58,19 @@ async def save_filter(
 def classify_filters(
     existing_filters: Documents, new_filter_names: tuple[str, ...]
 ) -> tuple[list[tuple[str, ...]], list[tuple[str, ...]]]:
-    filters_to_remove: list[tuple[str, ...]] = []
-    filters_to_update: list[tuple[str, ...]] = []
+    classified = defaultdict(list)
+    new_filter_set = set(new_filter_names)
+
     for existing_filter in existing_filters:
         existing_filter_names = tuple(json.loads(existing_filter["filter_names"]))
-        if set(existing_filter_names).issubset(set(new_filter_names)):
-            filters_to_remove.append(existing_filter_names)
-        elif set(new_filter_names).intersection(set(existing_filter_names)):
-            filters_to_update.append(existing_filter_names)
-    return filters_to_remove, filters_to_update
+        existing_filter_set = set(existing_filter_names)
+
+        if existing_filter_set.issubset(new_filter_set):
+            classified["remove"].append(existing_filter_names)
+        elif new_filter_set.intersection(existing_filter_set):
+            classified["update"].append(existing_filter_names)
+
+    return classified["remove"], classified["update"]
 
 
 async def remove_filters(
@@ -87,8 +92,9 @@ async def update_filters(
     current_timestamp: int,
 ) -> None:
     for filter_names in filters_to_update:
-        updated_filter_names = tuple(name for name in filter_names if name not in new_filter_names)
-        if updated_filter_names:
+        if updated_filter_names := tuple(
+            name for name in filter_names if name not in new_filter_names
+        ):
             updated_filter_text = json.dumps(updated_filter_names)
             await filters_table.update(
                 Document(

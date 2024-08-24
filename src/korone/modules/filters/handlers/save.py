@@ -30,7 +30,7 @@ class SaveFilter(MessageHandler):
         if not filters:
             await message.reply(
                 _(
-                    "Invalid filter format. Make sure to use the correct syntax. "
+                    "You need to provide the filter content. "
                     "Check <code>/help</code> for more information."
                 )
             )

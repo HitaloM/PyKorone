@@ -5,11 +5,10 @@ from cashews import suppress
 from hydrogram.enums import MessageMediaType
 from hydrogram.types import Message
 
+from korone.constants import MESSAGE_LENGTH_LIMIT
 from korone.utils.i18n import gettext as _
 
 from .types import Button, FilterFile, Saveable
-
-MESSAGE_LENGTH_LIMIT = 4096
 
 SUPPORTED_MEDIA_TYPES = {
     MessageMediaType.PHOTO: "photo",
@@ -24,21 +23,19 @@ SUPPORTED_MEDIA_TYPES = {
 
 async def get_file_info(message: Message) -> FilterFile | None:
     for media_type, media_name in SUPPORTED_MEDIA_TYPES.items():
-        media_attr = getattr(message, str(media_type.value), None)
-        if media_attr:
-            file_id = getattr(media_attr, "file_id", None)
-            if file_id:
-                return FilterFile(id=file_id, type=media_name)
+        if (media_attr := getattr(message, str(media_type.value), None)) and (
+            file_id := getattr(media_attr, "file_id", None)
+        ):
+            return FilterFile(id=file_id, type=media_name)
 
     with suppress(ValueError):
         if media_group := await message.get_media_group():
             last_message = media_group[-1]
             for media_type, media_name in SUPPORTED_MEDIA_TYPES.items():
-                media_attr = getattr(last_message, str(media_type.value), None)
-                if media_attr:
-                    file_id = getattr(media_attr, "file_id", None)
-                    if file_id:
-                        return FilterFile(id=file_id, type=media_name)
+                if (media_attr := getattr(last_message, str(media_type.value), None)) and (
+                    file_id := getattr(media_attr, "file_id", None)
+                ):
+                    return FilterFile(id=file_id, type=media_name)
 
     return None
 
