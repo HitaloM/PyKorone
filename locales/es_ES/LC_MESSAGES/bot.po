@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2024-08-23 11:42-0300\n"
-"PO-Revision-Date: 2024-08-21 13:53+0000\n"
+"PO-Revision-Date: 2024-08-24 20:38+0000\n"
 "Last-Translator: DeepL <noreply-mt-deepl@weblate.org>\n"
 "Language-Team: Spanish <http://weblate.amanoteam.com/projects/korone/korone/"
 "es/>\n"
@@ -882,7 +882,7 @@ msgstr "Idioma de destino no compatible: {target_lang}"
 
 #: src/korone/modules/translator/handlers/translate.py:53
 msgid "The text to translate is empty. Please provide some text."
-msgstr ""
+msgstr "El texto a traducir está vacío. Por favor, proporcione algún texto."
 
 #: src/korone/modules/translator/handlers/translate.py:61
 msgid ""
