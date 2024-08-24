@@ -78,12 +78,8 @@ class InstagramData(BaseModel):
 
 
 class InstaFixData(BaseModel):
-    author_name: str
-    author_url: HttpUrl
-    provider_name: str
-    provider_url: HttpUrl
-    title: str
-    media_type: str = Field(alias="type")
-    version: str
-    video_url: HttpUrl
-    username: str
+    title: str | None = None
+    media_type: str | None = Field(default=None, alias="type")
+    video_url: HttpUrl | None = None
+    username: str | None = None
+    description: str | None = None

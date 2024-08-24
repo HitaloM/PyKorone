@@ -3,7 +3,6 @@
 
 import asyncio
 import contextlib
-import json
 import re
 from collections.abc import Mapping, Sequence
 from datetime import timedelta
@@ -104,12 +103,17 @@ async def extract_media_data(response_text: str, post_id: str) -> MediaDataDict 
 
 
 @cache(ttl=timedelta(weeks=1), condition=NOT_NONE)
-async def get_embed_data(post_id: str) -> InstagramData | None:
-    url = f"https://www.instagram.com/p/{post_id}/embed/captioned/"
+async def get_embed_data(url: str) -> InstagramData | None:
+    match = POST_PATTERN.search(url)
+    if not match:
+        return None
+
+    post_id = match.group(1)
+    embed_url = f"https://www.instagram.com/p/{post_id}/embed/captioned/"
     async with httpx.AsyncClient(http2=True, timeout=20) as client:
         try:
             response = await client.get(
-                url,
+                embed_url,
                 headers={
                     "accept": (
                         "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,"
@@ -134,14 +138,14 @@ async def get_embed_data(post_id: str) -> InstagramData | None:
         with contextlib.suppress(ValueError):
             result = InstagramData.model_validate_json(gql_data)
     else:
-        instafix_data = await get_instafix_data(post_id)
+        instafix_data = await get_instafix_data(url)
         if instafix_data:
             instafix_dict = {
                 "shortcode_media": {
                     "__typename": "GraphVideo",
                     "video_url": instafix_data.video_url,
                     "edge_media_to_caption": {
-                        "edges": [{"node": {"text": instafix_data.author_name}}]
+                        "edges": [{"node": {"text": instafix_data.description}}]
                     },
                     "owner": {"username": instafix_data.username},
                 }
@@ -157,129 +161,50 @@ async def get_embed_data(post_id: str) -> InstagramData | None:
 
 
 @cache(ttl=timedelta(weeks=1), condition=NOT_NONE)
-async def get_gql_data(post_id: str) -> InstagramData | None:
-    url = "https://www.instagram.com/api/graphql"
+async def get_instafix_data(post_url: str) -> InstaFixData | None:
+    host = "ddinstagram.com"
+    new_url = post_url.replace("instagram.com", host)
 
-    params = {
-        "av": "0",
-        "__d": "www",
-        "__user": "0",
-        "__a": "1",
-        "__req": "3",
-        "__hs": "19734.HYP:instagram_web_pkg.2.1..0.0",
-        "dpr": "1",
-        "__ccg": "UNKNOWN",
-        "__rev": "1010782723",
-        "__s": "qg5qgx:efei15:ng6310",
-        "__hsi": "7323030086241513400",
-        "__dyn": (
-            "7xeUjG1mxu1syUbFp60DU98nwgU29zEdEc8co2qwJw5ux609vCwjE1xoswIwuo2awlU-cw5Mx62G3i1yw"
-            "Owv89k2C1Fwc60AEC7U2czXwae4UaEW2G1NwwwNwKwHw8Xxm16wUxO1px-0iS2S3qazo7u1xwIwbS1LwT"
-            "wKG1pg661pwr86C1mwrd6goK68jxe6V8"
-        ),
-        "__csr": (
-            "gps8cIy8WTDAqjWDrpda9SoLHhaVeVEgvhaJzVQ8hF-qEPBV8O4EhGmciDBQh1mVuF9V9d2FHGicAVu8G"
-            "AmfZiHzk9IxlhV94aKC5oOq6Uhx-Ku4Kaw04Jrx64-0oCdw0MXw1lm0EE2Ixcjg2Fg1JEko0N8U421tw6"
-            "2wq8989EMw1QpV60CE02BIw"
-        ),
-        "__comet_req": "7",
-        "lsd": "AVp2LurCmJw",
-        "jazoest": "2989",
-        "__spin_r": "1010782723",
-        "__spin_b": "trunk",
-        "__spin_t": "1705025808",
-        "fb_api_caller_class": "RelayModern",
-        "fb_api_req_friendly_name": "PolarisPostActionLoadPostQueryQuery",
-        "query_hash": "b3055c01b4b222b8a47dc12b090e4e64",
-        "variables": json.dumps({
-            "shortcode": post_id,
-            "fetch_comment_count": 2,
-            "fetch_related_profile_media_count": 0,
-            "parent_comment_count": 0,
-            "child_comment_count": 0,
-            "fetch_like_count": 10,
-            "fetch_tagged_user_count": None,
-            "fetch_preview_comment_count": 2,
-            "has_threaded_comments": True,
-            "hoisted_comment_id": None,
-            "hoisted_reply_id": None,
-        }),
-        "server_timestamps": "true",
-        "doc_id": "10015901848480474",
-    }
-
-    body: bytes = "&".join([f"{key}={value}" for key, value in params.items()]).encode()
-
-    async with httpx.AsyncClient(http2=True, timeout=20) as client:
-        response = await client.post(
-            url,
-            headers={
-                "User-Agent": "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:120.0) "
-                "Gecko/20100101 Firefox/120.0",
-                "Accept": "*/*",
-                "Accept-Language": "en-US;q=0.5,en;q=0.3",
-                "Content-Type": "application/x-www-form-urlencoded",
-                "X-FB-Friendly-Name": "PolarisPostActionLoadPostQueryQuery",
-                "X-CSRFToken": "-m5n6c-w1Z9RmrGqkoGTMq",
-                "X-IG-App-ID": "936619743392459",
-                "X-FB-LSD": "AVp2LurCmJw",
-                "X-ASBD-ID": "129477",
-                "DNT": "1",
-                "Sec-Fetch-Dest": "empty",
-                "Sec-Fetch-Mode": "cors",
-                "Sec-Fetch-Site": "same-origin",
-            },
-            content=body,
-        )
-
-    if response.status_code != 200:
-        return None
-
-    try:
-        return InstagramData.model_validate_json(response.text)
-    except ValueError:
-        return None
-
-
-@cache(ttl=timedelta(weeks=1), condition=NOT_NONE)
-async def get_instafix_data(post_id: str) -> InstaFixData | None:
-    video_url = f"https://ddinstagram.com/videos/{post_id}/1"
-    oembed_url = f"https://www.ddinstagram.com/reels/{post_id}/"
-
-    async with httpx.AsyncClient(http2=True, timeout=20, headers={"User-Agent": "bot"}) as client:
+    async with httpx.AsyncClient(
+        http2=True, timeout=20, headers={"User-Agent": "curl"}, max_redirects=1
+    ) as client:
         try:
-            video_response = await client.get(video_url)
-            if video_response.status_code != 302:
+            response = await client.get(new_url, follow_redirects=True)
+            if response.status_code != 200:
                 return None
 
-            video_tree = html.fromstring(video_response.text)
-            video_link = video_tree.xpath("//a[@href]/@href")
-            if not video_link:
-                return None
-            video_link = video_link[0]
-
-            oembed_response = await client.get(oembed_url)
-            oembed_response.raise_for_status()
-
-            oembed_tree = html.fromstring(oembed_response.text)
-            oembed_link = oembed_tree.xpath('//link[@type="application/json+oembed"]/@href')
-            if not oembed_link:
+            real_url = response.url
+            if not real_url:
                 return None
 
-            oembed_data_response = await client.get(oembed_link[0])
-            oembed_data_response.raise_for_status()
+            response = await client.get(real_url)
+            response.raise_for_status()
 
-            oembed_data = oembed_data_response.json()
-            oembed_data["video_url"] = video_link
+            tree = html.fromstring(response.text)
+            meta_nodes = tree.xpath("//head/meta[@property or @name]")
 
-            username = oembed_tree.xpath('//link[@type="application/json+oembed"]/@title')
-            if not username:
+            scraped_data = {}
+            for node in meta_nodes:
+                prop = node.get("property") or node.get("name")
+                content = node.get("content")
+                if prop == "og:video":
+                    scraped_data["video_url"] = f"https://{host}{content}"
+                elif prop == "twitter:title":
+                    scraped_data["username"] = content.lstrip("@")
+                elif prop == "og:description":
+                    scraped_data["description"] = content
+                elif prop == "og:image" and "video_url" not in scraped_data:
+                    scraped_data["video_url"] = f"https://{host}{content}"
+
+            if "video_url" not in scraped_data:
                 return None
 
-            oembed_data["username"] = username[0].lstrip("@")
+            video_response = await client.get(scraped_data["video_url"], follow_redirects=True)
+            scraped_data["video_url"] = str(video_response.url)
 
-            return InstaFixData(**oembed_data)
-        except httpx.HTTPStatusError:
+            return InstaFixData(**scraped_data)
+
+        except (httpx.HTTPStatusError, httpx.RequestError):
             return None
 
 
@@ -290,15 +215,13 @@ async def instagram(url: str) -> Sequence[InputMedia] | None:
 
     post_id = match.group(1)
 
-    instagram_data = await get_embed_data(post_id)
-    if not instagram_data:
-        instagram_data = await get_gql_data(post_id)
-        if (
-            not instagram_data
-            or not instagram_data.data
-            or not instagram_data.data.xdt_shortcode_media
-        ):
-            return None
+    instagram_data = await get_embed_data(url)
+    if not instagram_data and (
+        not instagram_data
+        or not instagram_data.data
+        or not instagram_data.data.xdt_shortcode_media
+    ):
+        return None
 
     shortcode_media = instagram_data.data.xdt_shortcode_media if instagram_data.data else None
     if not shortcode_media:
