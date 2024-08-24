@@ -13,6 +13,7 @@ from korone.filters import HasText, IsAdmin
 from korone.handlers.abstract import MessageHandler
 from korone.modules.filters.database import get_filters_cache, update_filters_cache
 from korone.modules.filters.utils import FilterModel
+from korone.modules.filters.utils.parse_buttons.unparse import unparse_buttons
 
 
 class CheckMsgFilter(MessageHandler):
@@ -50,11 +51,12 @@ class CheckMsgFilter(MessageHandler):
 
     @staticmethod
     async def send_filter(message: Message, filter: FilterModel) -> None:
+        buttons = unparse_buttons(filter.buttons) if filter.buttons else None
         if filter.content_type == "text" and filter.text:
-            await message.reply(filter.text)
+            await message.reply(filter.text, reply_markup=buttons)
             return
 
-        if not filter.file_id:
+        if not filter.file:
             return
 
         content_type_methods = {
@@ -68,8 +70,10 @@ class CheckMsgFilter(MessageHandler):
         }
 
         reply_method = content_type_methods.get(filter.content_type)
-        if reply_method:
+        if reply_method and filter.file:
             if filter.content_type == "sticker":
-                await reply_method(filter.file_id)
+                await reply_method(filter.file.file_id)
             else:
-                await reply_method(filter.file_id, caption=filter.text or "")
+                await reply_method(
+                    filter.file.file_id, caption=filter.text or "", reply_markup=buttons
+                )

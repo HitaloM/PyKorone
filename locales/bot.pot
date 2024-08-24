@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-08-23 11:42-0300\n"
+"POT-Creation-Date: 2024-08-24 20:57-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -137,6 +137,67 @@ msgstr ""
 
 #: src/korone/modules/errors/handlers/catcher.py:93
 msgid "🐞 Report This Error"
+msgstr ""
+
+#: src/korone/modules/filters/handlers/delete.py:21
+msgid ""
+"You need to provide the name of the filter to delete. Example: "
+"<code>/delfilter filtername</code>"
+msgstr ""
+
+#: src/korone/modules/filters/handlers/delete.py:33
+msgid "Filter '<code>{filter_name}</code>' does not exist."
+msgstr ""
+
+#: src/korone/modules/filters/handlers/delete.py:42
+msgid "Filter '<code>{filter_name}</code>' has been deleted."
+msgstr ""
+
+#: src/korone/modules/filters/handlers/list.py:22
+msgid "No filters found for this chat."
+msgstr ""
+
+#: src/korone/modules/filters/handlers/list.py:29
+msgid ""
+"List of filters in {chatname}:\n"
+"{filter_list}"
+msgstr ""
+
+#: src/korone/modules/filters/handlers/list.py:30
+#: src/korone/modules/filters/handlers/save.py:80
+msgid "private chat"
+msgstr ""
+
+#: src/korone/modules/filters/handlers/save.py:22
+msgid ""
+"You need to provide a name for the filter. Example: <code>/filter "
+"filtername</code>"
+msgstr ""
+
+#: src/korone/modules/filters/handlers/save.py:32
+msgid ""
+"You need to provide the filter content. Check <code>/help</code> for more"
+" information."
+msgstr ""
+
+#: src/korone/modules/filters/handlers/save.py:78
+msgid ""
+"Saved {count} filters in {chat}:\n"
+"{filters}"
+msgstr ""
+
+#: src/korone/modules/filters/utils/parse_filter.py:54
+msgid ""
+"Please check the Filters documentation for the list of the allowed "
+"content types."
+msgstr ""
+
+#: src/korone/modules/filters/utils/parse_filter.py:66
+msgid "The text of the replied message is empty."
+msgstr ""
+
+#: src/korone/modules/filters/utils/parse_filter.py:99
+msgid "The maximum length of the filter is {length} characters."
 msgstr ""
 
 #: src/korone/modules/gsm_arena/handlers/search.py:27
@@ -968,22 +1029,22 @@ msgstr ""
 msgid "An error occurred while fetching whois information: {error}"
 msgstr ""
 
-#: src/korone/utils/commands_list.py:28
-msgid "Start the bot"
+#: src/korone/utils/commands_list.py:21
+msgid "Start the bot."
 msgstr ""
 
-#: src/korone/utils/commands_list.py:32
-msgid "Show help message"
+#: src/korone/utils/commands_list.py:22
+msgid "Show help message."
 msgstr ""
 
-#: src/korone/utils/commands_list.py:36
-msgid "Show information about the bot"
+#: src/korone/utils/commands_list.py:23
+msgid "About the bot."
 msgstr ""
 
-#: src/korone/utils/commands_list.py:40
-msgid "Show privacy policy"
+#: src/korone/utils/commands_list.py:24
+msgid "Show privacy policy."
 msgstr ""
 
-#: src/korone/utils/commands_list.py:44
-msgid "Change the bot language"
+#: src/korone/utils/commands_list.py:25
+msgid "Change the bot language."
 msgstr ""

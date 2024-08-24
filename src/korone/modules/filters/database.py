@@ -9,7 +9,7 @@ from korone import cache
 from korone.database.query import Query
 from korone.database.sqlite import SQLite3Connection
 from korone.database.table import Document, Documents, Table
-from korone.modules.filters.utils import FilterModel
+from korone.modules.filters.utils.types import Button, FilterFile, FilterModel
 
 
 async def save_filter(
@@ -20,12 +20,19 @@ async def save_filter(
     creator_id: int,
     editor_id: int,
     file_id: str | None = None,
+    file_type: str | None = None,
+    buttons: list[list[Button]] | None = None,
 ) -> None:
+    if buttons is None:
+        buttons = []
     async with SQLite3Connection() as connection:
         filters_table = await connection.table("Filters")
         query = Query()
 
         serialized_names = json.dumps(filter_names)
+        serialized_buttons = json.dumps([
+            [button.model_dump() for button in row] for row in buttons
+        ])
         current_timestamp = int(time.time())
 
         existing_filters = await filters_table.query(query.chat_id == chat_id)
@@ -52,6 +59,8 @@ async def save_filter(
             editor_id,
             current_timestamp,
             file_id,
+            file_type,
+            serialized_buttons,
         )
 
 
@@ -120,18 +129,22 @@ async def insert_new_filter(
     editor_id: int,
     current_timestamp: int,
     file_id: str | None,
+    file_type: str | None,
+    serialized_buttons: str,
 ) -> None:
     await filters_table.insert(
         Document(
             chat_id=chat_id,
             filter_names=serialized_names,
             file_id=file_id,
+            file_type=file_type,
             filter_text=filter_text,
             content_type=content_type,
             created_date=current_timestamp,
             creator_id=creator_id,
             edited_date=current_timestamp,
             editor_id=editor_id,
+            buttons=serialized_buttons,
         )
     )
 
@@ -142,7 +155,28 @@ async def list_filters(chat_id: int) -> list[FilterModel]:
         query = Query()
         filters = await filters_table.query(query.chat_id == chat_id)
         return [
-            FilterModel(**{**filter, "filter_names": tuple(json.loads(filter["filter_names"]))})
+            FilterModel(**{
+                **filter,
+                "filter_names": tuple(json.loads(filter["filter_names"])),
+                "buttons": [
+                    [
+                        Button(**button)
+                        if isinstance(button, dict)
+                        else Button(**json.loads(button))
+                        for button in (
+                            button_row if isinstance(button_row, list) else json.loads(button_row)
+                        )
+                    ]
+                    for button_row in (
+                        filter["buttons"]
+                        if isinstance(filter["buttons"], list)
+                        else json.loads(filter["buttons"])
+                    )
+                ],
+                "file": FilterFile(id=filter["file_id"], type=filter["file_type"])
+                if filter["file_id"] and filter["file_type"]
+                else None,
+            })
             for filter in filters
         ]
 
