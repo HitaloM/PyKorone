@@ -20,9 +20,7 @@ class ListFilters(MessageHandler):
             await message.reply(_("No filters found for this chat."))
             return
 
-        filter_names = sorted(
-            filter_name for filter in filters for filter_name in filter.filter_names
-        )
+        filter_names = sorted(filter_name for filter in filters for filter_name in filter.names)
 
         filter_list = "\n".join(f" - <code>{filter_name}</code>" for filter_name in filter_names)
 

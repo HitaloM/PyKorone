@@ -17,7 +17,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.16.0\n"
 
-#: src/korone/filters/admin.py:39 src/korone/filters/admin.py:44
+#: src/korone/filters/admin.py:43 src/korone/filters/admin.py:48
 msgid "You must be an administrator to use this."
 msgstr ""
 

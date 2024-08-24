@@ -5,7 +5,7 @@ from hydrogram import Client
 from hydrogram.types import Message
 
 from korone.decorators import router
-from korone.filters import Command, CommandObject
+from korone.filters import Command, CommandObject, IsAdmin
 from korone.handlers.abstract import MessageHandler
 from korone.modules.filters.database import save_filter
 from korone.modules.filters.utils import parse_args, parse_saveable
@@ -13,7 +13,7 @@ from korone.utils.i18n import gettext as _
 
 
 class SaveFilter(MessageHandler):
-    @router.message(Command("filter"))
+    @router.message(Command("filter") & IsAdmin)
     async def handle(self, client: Client, message: Message) -> None:
         command_obj = CommandObject(message).parse()
 
@@ -57,7 +57,7 @@ class SaveFilter(MessageHandler):
         await save_filter(
             chat_id=message.chat.id,
             filter_names=filter_names,
-            message_content=save_data.text,
+            filter_text=save_data.text,
             content_type=save_data.file.file_type if save_data.file else "text",
             creator_id=message.from_user.id,
             editor_id=message.from_user.id,
