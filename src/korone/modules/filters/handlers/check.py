@@ -11,7 +11,7 @@ from hydrogram.types import Message
 from korone.decorators import router
 from korone.filters import HasText, IsAdmin
 from korone.handlers.abstract import MessageHandler
-from korone.modules.filters.database import list_filters
+from korone.modules.filters.database import get_filters_cache, update_filters_cache
 from korone.modules.filters.utils import FilterModel
 
 
@@ -20,8 +20,10 @@ class CheckMsgFilter(MessageHandler):
     async def handle(self, client: Client, message: Message) -> None:
         chat_id = message.chat.id
 
-        chat_filters = await list_filters(chat_id)
-        if not chat_filters:
+        if not (chat_filters := await get_filters_cache(chat_id)):
+            chat_filters = await update_filters_cache(chat_id)
+
+        if len(chat_filters) == 0:
             return
 
         text = message.text or message.caption
