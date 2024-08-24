@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-08-21 02:33-0300\n"
+"POT-Creation-Date: 2024-08-23 11:42-0300\n"
 "PO-Revision-Date: 2024-08-21 13:53+0000\n"
 "Last-Translator: DeepL <noreply-mt-deepl@weblate.org>\n"
 "Language-Team: Russian <http://weblate.amanoteam.com/projects/korone/korone/"
@@ -159,7 +159,7 @@ msgstr ""
 msgid "🐞 Report This Error"
 msgstr "🐞 Сообщить об ошибке"
 
-#: src/korone/modules/gsm_arena/handlers/search.py:23
+#: src/korone/modules/gsm_arena/handlers/search.py:27
 msgid ""
 "You should provide a device name to search Example: <code>/device Galaxy "
 "S24</code>."
@@ -167,11 +167,11 @@ msgstr ""
 "Для поиска необходимо указать имя устройства Пример: <code>/device Galaxy "
 "S24</code>."
 
-#: src/korone/modules/gsm_arena/handlers/search.py:34
+#: src/korone/modules/gsm_arena/handlers/search.py:38
 msgid "No devices found."
 msgstr "Устройства не найдены."
 
-#: src/korone/modules/gsm_arena/handlers/search.py:44
+#: src/korone/modules/gsm_arena/handlers/search.py:48
 msgid "Search results for: <b>{device}</b>"
 msgstr "Результаты поиска для: <b>{device}</b>"
 
@@ -578,8 +578,8 @@ msgstr "Все время"
 msgid "Open in Instagram"
 msgstr "Открыть в Instagram"
 
-#: src/korone/modules/medias/handlers/tiktok.py:209
-#: src/korone/modules/medias/handlers/tiktok.py:217
+#: src/korone/modules/medias/handlers/tiktok.py:216
+#: src/korone/modules/medias/handlers/tiktok.py:224
 msgid "Open in TikTok"
 msgstr "Открыть в TikTok"
 
@@ -871,15 +871,19 @@ msgstr ""
 "Видео слишком большое ({size}KB)!\n"
 "Максимальный размер - 256 КБ"
 
-#: src/korone/modules/translator/handlers/translate.py:43
+#: src/korone/modules/translator/handlers/translate.py:42
 msgid "Unsupported source language: {source_lang}"
 msgstr "Неподдерживаемый исходный язык: {source_lang}"
 
-#: src/korone/modules/translator/handlers/translate.py:49
+#: src/korone/modules/translator/handlers/translate.py:48
 msgid "Unsupported target language: {target_lang}"
 msgstr "Неподдерживаемый целевой язык: {target_lang}"
 
-#: src/korone/modules/translator/handlers/translate.py:58
+#: src/korone/modules/translator/handlers/translate.py:53
+msgid "The text to translate is empty. Please provide some text."
+msgstr ""
+
+#: src/korone/modules/translator/handlers/translate.py:61
 msgid ""
 "Korone has reached the translation quota. The DeepL API has a limit of "
 "500,000 characters per month for the free plan, and we have exceeded this "
@@ -888,11 +892,11 @@ msgstr ""
 "Korone превысил квоту на перевод. API DeepL имеет ограничение в 500 000 "
 "символов в месяц для бесплатного плана, и мы превысили этот лимит."
 
-#: src/korone/modules/translator/handlers/translate.py:66
+#: src/korone/modules/translator/handlers/translate.py:69
 msgid "Failed to translate text. Error: {error}"
 msgstr "Не удалось перевести текст. Ошибка: {error}"
 
-#: src/korone/modules/translator/handlers/translate.py:69
+#: src/korone/modules/translator/handlers/translate.py:72
 msgid ""
 "<b>Language:</b> <code>{source_lang}</code> => <code>{target_lang}</code>"
 msgstr "<b>Язык:</b> <code>{source_lang}</code> => <code>{target_lang}</code>"
@@ -1010,7 +1014,8 @@ msgstr "<b>Фамилия</b>: {last_name}\n"
 
 #: src/korone/modules/users_groups/handlers/users.py:35
 msgid "<b>User link</b>: <a href='tg://user?id={id}'>link</a>\n"
-msgstr "<b>Ссылка на пользователя</b>: <a href='tg://user?id={id}'>ссылка</a>\n"
+msgstr ""
+"<b>Ссылка на пользователя</b>: <a href='tg://user?id={id}'>ссылка</a>\n"
 
 #: src/korone/modules/users_groups/handlers/users.py:47
 msgid "Invalid identifier provided."

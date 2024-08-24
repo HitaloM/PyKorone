@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-08-21 02:33-0300\n"
+"POT-Creation-Date: 2024-08-23 11:42-0300\n"
 "PO-Revision-Date: 2024-08-21 13:53+0000\n"
 "Last-Translator: Hitalo <hitalo331@outlook.com>\n"
 "Language-Team: Portuguese (Brazil) <http://weblate.amanoteam.com/projects/"
@@ -158,7 +158,7 @@ msgstr ""
 msgid "🐞 Report This Error"
 msgstr "🐞 Relatar Este Erro"
 
-#: src/korone/modules/gsm_arena/handlers/search.py:23
+#: src/korone/modules/gsm_arena/handlers/search.py:27
 msgid ""
 "You should provide a device name to search Example: <code>/device Galaxy "
 "S24</code>."
@@ -166,11 +166,11 @@ msgstr ""
 "Você deve fornecer um nome de dispositivo para pesquisar. Exemplo: <code>/"
 "device Galaxy S24</code>."
 
-#: src/korone/modules/gsm_arena/handlers/search.py:34
+#: src/korone/modules/gsm_arena/handlers/search.py:38
 msgid "No devices found."
 msgstr "Nenhum dispositivo encontrado."
 
-#: src/korone/modules/gsm_arena/handlers/search.py:44
+#: src/korone/modules/gsm_arena/handlers/search.py:48
 msgid "Search results for: <b>{device}</b>"
 msgstr "Resultados da pesquisa para: <b>{device}</b>"
 
@@ -577,8 +577,8 @@ msgstr "Todo o tempo"
 msgid "Open in Instagram"
 msgstr "Abrir no Instagram"
 
-#: src/korone/modules/medias/handlers/tiktok.py:209
-#: src/korone/modules/medias/handlers/tiktok.py:217
+#: src/korone/modules/medias/handlers/tiktok.py:216
+#: src/korone/modules/medias/handlers/tiktok.py:224
 msgid "Open in TikTok"
 msgstr "Abrir no TikTok"
 
@@ -870,15 +870,19 @@ msgstr ""
 "O vídeo é muito grande ({size}KB)!\n"
 "O tamanho máximo é 256KB"
 
-#: src/korone/modules/translator/handlers/translate.py:43
+#: src/korone/modules/translator/handlers/translate.py:42
 msgid "Unsupported source language: {source_lang}"
 msgstr "Idioma de origem não suportado: {source_lang}"
 
-#: src/korone/modules/translator/handlers/translate.py:49
+#: src/korone/modules/translator/handlers/translate.py:48
 msgid "Unsupported target language: {target_lang}"
 msgstr "Idioma de destino sem suporte: {target_lang}"
 
-#: src/korone/modules/translator/handlers/translate.py:58
+#: src/korone/modules/translator/handlers/translate.py:53
+msgid "The text to translate is empty. Please provide some text."
+msgstr ""
+
+#: src/korone/modules/translator/handlers/translate.py:61
 msgid ""
 "Korone has reached the translation quota. The DeepL API has a limit of "
 "500,000 characters per month for the free plan, and we have exceeded this "
@@ -887,11 +891,11 @@ msgstr ""
 "O Korone atingiu a cota de tradução. A API DeepL tem um limite de 500.000 "
 "caracteres por mês para o plano gratuito, e nós excedemos esse limite."
 
-#: src/korone/modules/translator/handlers/translate.py:66
+#: src/korone/modules/translator/handlers/translate.py:69
 msgid "Failed to translate text. Error: {error}"
 msgstr "Falha ao traduzir o texto. Erro: {error}"
 
-#: src/korone/modules/translator/handlers/translate.py:69
+#: src/korone/modules/translator/handlers/translate.py:72
 msgid ""
 "<b>Language:</b> <code>{source_lang}</code> => <code>{target_lang}</code>"
 msgstr ""
