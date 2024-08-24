@@ -79,7 +79,8 @@ CREATE TABLE IF NOT EXISTS Filters (
     created_date INTEGER NOT NULL,
     creator_id INTEGER NOT NULL,
     edited_date INTEGER NOT NULL,
-    editor_id INTEGER NOT NULL
+    editor_id INTEGER NOT NULL,
+    buttons TEXT
 );
 """
 

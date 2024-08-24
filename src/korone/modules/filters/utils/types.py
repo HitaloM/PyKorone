@@ -15,6 +15,12 @@ class Button(BaseModel):
     text: str
     action: ButtonAction
     data: Any
+    same_row: bool = False
+
+    def model_dump(self, **kwargs) -> dict[str, Any]:
+        serialized_data = super().model_dump(**kwargs)
+        serialized_data["action"] = self.action.value
+        return serialized_data
 
 
 class FilterFile(BaseModel):
@@ -35,10 +41,14 @@ class FilterModel(BaseModel):
     filter_id: int = Field(alias="id")
     chat_id: int
     names: tuple[str, ...] = Field(default=None, alias="filter_names")
-    file_id: str | None = None
+    file: FilterFile | None = None
     text: str | None = Field(default=None, alias="filter_text")
     content_type: str
     created_date: int
     creator_id: int
     edited_date: int
     editor_id: int
+    buttons: list[list[Button]] = []
+
+    class Config:
+        arbitrary_types_allowed = True

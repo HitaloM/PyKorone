@@ -6,6 +6,11 @@ from hydrogram.enums import MessageMediaType
 from hydrogram.types import Message
 
 from korone.constants import MESSAGE_LENGTH_LIMIT
+from korone.modules.filters.utils.parse_buttons import (
+    BUTTON_URL_REGEX,
+    parse_message_buttons,
+    parse_text_buttons,
+)
 from korone.utils.i18n import gettext as _
 
 from .types import Button, FilterFile, Saveable
@@ -62,7 +67,9 @@ async def parse_replied_message(
         return None, None, None
 
     file_info = await get_file_info(replied_message)
-    buttons: list[list[Button]] = []
+    buttons = (
+        parse_message_buttons(replied_message.reply_markup) if replied_message.reply_markup else []  # type: ignore
+    )
 
     return message_text, file_info, buttons
 
@@ -84,6 +91,8 @@ async def parse_saveable(
         combined_text = f"{reply_text}\n{combined_text}" if reply_text else combined_text
     else:
         file_info = await get_file_info(message)
+        buttons = parse_text_buttons(combined_text)
+        combined_text = BUTTON_URL_REGEX.sub("", combined_text).strip()
 
     if len(combined_text) > MESSAGE_LENGTH_LIMIT:
         await message.reply(

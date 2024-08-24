@@ -63,6 +63,7 @@ class SaveFilter(MessageHandler):
             creator_id=message.from_user.id,
             editor_id=message.from_user.id,
             file_id=save_data.file.file_id if save_data.file else "",
+            buttons=save_data.buttons,
         )
         return filter_names
 
@@ -74,7 +75,7 @@ class SaveFilter(MessageHandler):
             return
 
         response_message = [
-            _("Saved {count} in {chat}:\n{filters}").format(
+            _("Saved {count} filters in {chat}:\n{filters}").format(
                 count=len(saved_filters),
                 chat=message.chat.title or _("private chat"),
                 filters="\n".join(
