@@ -28,27 +28,30 @@ class Pagination:
     @staticmethod
     def chunk_list(lst: Sequence[Any], size: int) -> Iterator[Sequence[Any]]:
         it = iter(lst)
-        while chunk := list(islice(it, size)):
-            yield chunk
+        for first in it:
+            yield [first, *list(islice(it, size - 1))]
 
     def create(
         self, page: int, lines: int = 5, columns: int = 1
     ) -> InlineKeyboardBuilder[InlineKeyboardButton]:
-        quant_per_page = lines * columns
+        items_per_page = lines * columns
         page = max(1, page)
-        offset = (page - 1) * quant_per_page
-        cutted = self.objects[offset : offset + quant_per_page]
+        offset = (page - 1) * items_per_page
+        current_page_items = self.objects[offset : offset + items_per_page]
 
-        total = len(self.objects)
-        last_page = math.ceil(total / quant_per_page)
-        pages_range = list(range(1, last_page + 1))
-        nav = self._generate_navigation_buttons(page, last_page, pages_range)
+        total_items = len(self.objects)
+        last_page = math.ceil(total_items / items_per_page)
+        pages_range = range(1, last_page + 1)
+        nav_buttons = self._generate_navigation_buttons(page, last_page, pages_range)
 
-        buttons = [(self.item_title(item, page), self.item_data(item, page)) for item in cutted]
+        buttons = [
+            (self.item_title(item, page), self.item_data(item, page))
+            for item in current_page_items
+        ]
         kb_lines = list(self.chunk_list(buttons, columns))
 
         if last_page > 1:
-            kb_lines.append(nav)
+            kb_lines.append(nav_buttons)
 
         keyboard_markup = InlineKeyboardBuilder()
         for line in kb_lines:
@@ -59,21 +62,16 @@ class Pagination:
         return keyboard_markup
 
     def _generate_navigation_buttons(
-        self, page: int, last_page: int, pages_range: list[int]
+        self, page: int, last_page: int, pages_range: range
     ) -> list[tuple[str, str]]:
-        nav = []
-
         if page <= 3:
-            nav.extend(self._generate_first_section_navigation(page, last_page, pages_range))
-        elif page >= last_page - 2:
-            nav.extend(self._generate_last_section_navigation(page, last_page, pages_range))
-        else:
-            nav.extend(self._generate_middle_section_navigation(page, last_page))
-
-        return nav
+            return self._generate_first_section_navigation(page, last_page, pages_range)
+        if page >= last_page - 2:
+            return self._generate_last_section_navigation(page, last_page, pages_range)
+        return self._generate_middle_section_navigation(page, last_page)
 
     def _generate_first_section_navigation(
-        self, page: int, last_page: int, pages_range: list[int]
+        self, page: int, last_page: int, pages_range: range
     ) -> list[tuple[str, str]]:
         nav = [(str(n) if n != page else f"· {n} ·", self.page_data(n)) for n in pages_range[:3]]
 
@@ -89,7 +87,7 @@ class Pagination:
         return nav
 
     def _generate_last_section_navigation(
-        self, page: int, last_page: int, pages_range: list[int]
+        self, page: int, last_page: int, pages_range: range
     ) -> list[tuple[str, str]]:
         nav = [("« 1" if last_page > 5 else "1", self.page_data(1))]
         if last_page > 5:
