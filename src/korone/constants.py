@@ -90,3 +90,5 @@ GITHUB_URL: str = "https://github.com/HitaloM/PyKorone"
 TELEGRAM_URL: str = "https://t.me/PyKorone"
 
 DOCS_URL: str = "https://pykorone.readthedocs.io"
+
+MESSAGE_LENGTH_LIMIT: int = 4096
