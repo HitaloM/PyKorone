@@ -4,6 +4,7 @@
 import json
 import time
 
+from korone import cache
 from korone.database.query import Query
 from korone.database.sqlite import SQLite3Connection
 from korone.database.table import Document, Documents, Table
@@ -169,3 +170,24 @@ async def delete_filter(chat_id: int, filter_names: tuple[str, ...]) -> None:
                     (query.chat_id == chat_id)
                     & (query.filter_names == json.dumps(existing_filter_names))
                 )
+
+
+async def update_filters_cache(chat_id: int) -> list[FilterModel]:
+    await cache.delete(f"filters_cache:{chat_id}")
+
+    filters = await list_filters(chat_id)
+
+    serialized_filters = [filter.model_dump(by_alias=True) for filter in filters]
+
+    await cache.set(f"filters_cache:{chat_id}", serialized_filters)
+
+    return filters
+
+
+async def get_filters_cache(chat_id: int) -> list[FilterModel]:
+    if not (filters := await cache.get(f"filters_cache:{chat_id}")):
+        filters = await update_filters_cache(chat_id)
+    else:
+        filters = [FilterModel(**filter) for filter in filters]
+
+    return filters

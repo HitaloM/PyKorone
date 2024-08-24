@@ -7,7 +7,7 @@ from hydrogram.types import Message
 from korone.decorators import router
 from korone.filters import Command, CommandObject, IsAdmin
 from korone.handlers.abstract import MessageHandler
-from korone.modules.filters.database import save_filter
+from korone.modules.filters.database import save_filter, update_filters_cache
 from korone.modules.filters.utils import parse_args, parse_saveable
 from korone.utils.i18n import gettext as _
 
@@ -43,6 +43,7 @@ class SaveFilter(MessageHandler):
     ) -> None:
         filter_names, filter_content = filters
         result = await self._save_single_filter(message, filter_names, filter_content)
+        await update_filters_cache(message.chat.id)
         await self._reply_filter_status(message, [result])
 
     @staticmethod

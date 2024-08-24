@@ -7,7 +7,7 @@ from hydrogram.types import Message
 from korone.decorators import router
 from korone.filters import Command, CommandObject, IsAdmin
 from korone.handlers.abstract import MessageHandler
-from korone.modules.filters.database import delete_filter, list_filters
+from korone.modules.filters.database import delete_filter, list_filters, update_filters_cache
 from korone.utils.i18n import gettext as _
 
 
@@ -37,6 +37,7 @@ class DeleteFilter(MessageHandler):
             return
 
         await delete_filter(message.chat.id, (filter_name,))
+        await update_filters_cache(message.chat.id)
         await message.reply(
             _("Filter '<code>{filter_name}</code>' has been deleted.").format(
                 filter_name=filter_name
