@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-08-23 11:42-0300\n"
+"POT-Creation-Date: 2024-08-25 00:12-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.16.0\n"
 
-#: src/korone/filters/admin.py:39 src/korone/filters/admin.py:44
+#: src/korone/filters/admin.py:43 src/korone/filters/admin.py:48
 msgid "You must be an administrator to use this."
 msgstr ""
 
@@ -137,6 +137,112 @@ msgstr ""
 
 #: src/korone/modules/errors/handlers/catcher.py:93
 msgid "🐞 Report This Error"
+msgstr ""
+
+#: src/korone/modules/filters/handlers/delall.py:23
+msgid "✅ Confirm Deletion"
+msgstr ""
+
+#: src/korone/modules/filters/handlers/delall.py:27
+#: src/korone/modules/languages/handlers/select.py:35
+msgid "❌ Cancel"
+msgstr ""
+
+#: src/korone/modules/filters/handlers/delall.py:32
+msgid ""
+"⚠️ Are you sure you want to delete all filters? This action cannot be "
+"undone."
+msgstr ""
+
+#: src/korone/modules/filters/handlers/delall.py:46
+msgid "All filters have been deleted."
+msgstr ""
+
+#: src/korone/modules/filters/handlers/delall.py:51
+msgid "Deletion of all filters has been canceled."
+msgstr ""
+
+#: src/korone/modules/filters/handlers/delete.py:21
+msgid ""
+"You need to provide the name of the filter to delete. Example: "
+"<code>/delfilter filtername</code>"
+msgstr ""
+
+#: src/korone/modules/filters/handlers/delete.py:33
+msgid "Filter '<code>{filter_name}</code>' does not exist."
+msgstr ""
+
+#: src/korone/modules/filters/handlers/delete.py:42
+msgid "Filter '<code>{filter_name}</code>' has been deleted."
+msgstr ""
+
+#: src/korone/modules/filters/handlers/info.py:23
+msgid ""
+"You need to provide the name of the filter. Example: <code>/filterinfo "
+"filtername</code>"
+msgstr ""
+
+#: src/korone/modules/filters/handlers/info.py:34
+msgid "Filter '{name}' not found."
+msgstr ""
+
+#: src/korone/modules/filters/handlers/info.py:40
+msgid ""
+"<b>Filter Info</b>:\n"
+"<b>Names</b>: {names}\n"
+"<b>Content Type</b>: <code>{content_type}</code>\n"
+"<b>Created Date</b>: <i>{created_date}</i>\n"
+"<b>Creator</b>: {creator}\n"
+"<b>Edited Date</b>: <i>{edited_date}</i>\n"
+"<b>Editor</b>: {editor}"
+msgstr ""
+
+#: src/korone/modules/filters/handlers/list.py:20
+msgid "No filters found for this chat."
+msgstr ""
+
+#: src/korone/modules/filters/handlers/list.py:27
+msgid ""
+"List of filters in {chatname}:\n"
+"{filter_list}"
+msgstr ""
+
+#: src/korone/modules/filters/handlers/list.py:28
+#: src/korone/modules/filters/handlers/save.py:80
+#: src/korone/modules/filters/utils/text.py:41
+msgid "private chat"
+msgstr ""
+
+#: src/korone/modules/filters/handlers/save.py:22
+msgid ""
+"You need to provide a name for the filter. Example: <code>/filter "
+"filtername</code>"
+msgstr ""
+
+#: src/korone/modules/filters/handlers/save.py:32
+msgid ""
+"You need to provide the filter content. Check <code>/help</code> for more"
+" information."
+msgstr ""
+
+#: src/korone/modules/filters/handlers/save.py:78
+msgid ""
+"Saved {count} filters in {chat}:\n"
+"{filters}"
+msgstr ""
+
+#: src/korone/modules/filters/utils/parse_filter.py:54
+msgid ""
+"Please check the Filters documentation for the list of the allowed "
+"content types."
+msgstr ""
+
+#: src/korone/modules/filters/utils/parse_filter.py:66
+msgid "The text of the replied message is empty."
+msgstr ""
+
+#: src/korone/modules/filters/utils/parse_filter.py:104
+msgid "The maximum length of the filter is {length} characters."
 msgstr ""
 
 #: src/korone/modules/gsm_arena/handlers/search.py:27
@@ -295,10 +401,6 @@ msgstr ""
 
 #: src/korone/modules/languages/handlers/info.py:64
 msgid "This is the bot's native language. So it is 100% translated."
-msgstr ""
-
-#: src/korone/modules/languages/handlers/select.py:35
-msgid "❌ Cancel"
 msgstr ""
 
 #: src/korone/modules/languages/handlers/select.py:50
@@ -679,15 +781,15 @@ msgstr ""
 msgid "Unknown flag: {flag}"
 msgstr ""
 
-#: src/korone/modules/regex/handlers/sed.py:41
+#: src/korone/modules/regex/handlers/sed.py:42
 msgid "Regex error: {e}"
 msgstr ""
 
-#: src/korone/modules/regex/handlers/sed.py:49
+#: src/korone/modules/regex/handlers/sed.py:50
 msgid "Your regex didn't change anything from the original message."
 msgstr ""
 
-#: src/korone/modules/regex/handlers/sed.py:51
+#: src/korone/modules/regex/handlers/sed.py:52
 msgid "No message to apply the substitution."
 msgstr ""
 
@@ -968,22 +1070,22 @@ msgstr ""
 msgid "An error occurred while fetching whois information: {error}"
 msgstr ""
 
-#: src/korone/utils/commands_list.py:28
-msgid "Start the bot"
+#: src/korone/utils/commands_list.py:21
+msgid "Start the bot."
 msgstr ""
 
-#: src/korone/utils/commands_list.py:32
-msgid "Show help message"
+#: src/korone/utils/commands_list.py:22
+msgid "Show help message."
 msgstr ""
 
-#: src/korone/utils/commands_list.py:36
-msgid "Show information about the bot"
+#: src/korone/utils/commands_list.py:23
+msgid "About the bot."
 msgstr ""
 
-#: src/korone/utils/commands_list.py:40
-msgid "Show privacy policy"
+#: src/korone/utils/commands_list.py:24
+msgid "Show privacy policy."
 msgstr ""
 
-#: src/korone/utils/commands_list.py:44
-msgid "Change the bot language"
+#: src/korone/utils/commands_list.py:25
+msgid "Change the bot language."
 msgstr ""

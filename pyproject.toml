@@ -22,7 +22,6 @@ dependencies = [
     "magic-filter>=1.0.12",
     "tomlkit>=0.13.0",
     "sentry-sdk>=2.12.0",
-    "regex>=2024.7.24",
     "pydantic>=2.8.2",
 ]
 readme = "README.md"

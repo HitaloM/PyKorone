@@ -69,6 +69,24 @@ CREATE TABLE IF NOT EXISTS StickerPack (
     num INTEGER DEFAULT 1,
     type VARCHAR(16)
 );
+CREATE TABLE IF NOT EXISTS Filters (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    chat_id INTEGER,
+    filter_names TEXT NOT NULL,
+    file_id VARCHAR(128),
+    filter_text VARCHAR(4096),
+    content_type VARCHAR(16) NOT NULL DEFAULT "text",
+    created_date INTEGER NOT NULL,
+    creator_id INTEGER NOT NULL,
+    edited_date INTEGER NOT NULL,
+    editor_id INTEGER NOT NULL,
+    buttons TEXT,
+    FOREIGN KEY(chat_id) REFERENCES Groups(id)
+    FOREIGN KEY(creator_id) REFERENCES Users(id)
+    FOREIGN KEY(editor_id) REFERENCES Users(id)
+);
+
+CREATE INDEX IF NOT EXISTS idx_chat_id ON Filters (chat_id);
 """
 
 TRANSLATIONS_URL: str = "https://weblate.amanoteam.com/projects/korone/"
@@ -78,3 +96,5 @@ GITHUB_URL: str = "https://github.com/HitaloM/PyKorone"
 TELEGRAM_URL: str = "https://t.me/PyKorone"
 
 DOCS_URL: str = "https://pykorone.readthedocs.io"
+
+MESSAGE_LENGTH_LIMIT: int = 4096
