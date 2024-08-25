@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-08-24 22:11-0300\n"
+"POT-Creation-Date: 2024-08-24 23:27-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -174,6 +174,27 @@ msgstr ""
 
 #: src/korone/modules/filters/handlers/delete.py:42
 msgid "Filter '<code>{filter_name}</code>' has been deleted."
+msgstr ""
+
+#: src/korone/modules/filters/handlers/info.py:23
+msgid ""
+"You need to provide the name of the filter. Example: <code>/filterinfo "
+"filtername</code>"
+msgstr ""
+
+#: src/korone/modules/filters/handlers/info.py:34
+msgid "Filter '{name}' not found."
+msgstr ""
+
+#: src/korone/modules/filters/handlers/info.py:40
+msgid ""
+"<b>Filter Info</b>:\n"
+"<b>Names</b>: {names}\n"
+"<b>Content Type</b>: <code>{content_type}</code>\n"
+"<b>Created Date</b>: <i>{created_date}</i>\n"
+"<b>Creator</b>: {creator}\n"
+"<b>Edited Date</b>: <i>{edited_date}</i>\n"
+"<b>Editor</b>: {editor}"
 msgstr ""
 
 #: src/korone/modules/filters/handlers/list.py:23
@@ -760,15 +781,15 @@ msgstr ""
 msgid "Unknown flag: {flag}"
 msgstr ""
 
-#: src/korone/modules/regex/handlers/sed.py:41
+#: src/korone/modules/regex/handlers/sed.py:42
 msgid "Regex error: {e}"
 msgstr ""
 
-#: src/korone/modules/regex/handlers/sed.py:49
+#: src/korone/modules/regex/handlers/sed.py:50
 msgid "Your regex didn't change anything from the original message."
 msgstr ""
 
-#: src/korone/modules/regex/handlers/sed.py:51
+#: src/korone/modules/regex/handlers/sed.py:52
 msgid "No message to apply the substitution."
 msgstr ""
 

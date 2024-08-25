@@ -74,7 +74,7 @@ CREATE TABLE IF NOT EXISTS Filters (
     chat_id INTEGER,
     filter_names TEXT NOT NULL,
     file_id VARCHAR(128),
-    filter_text VARCHAR(255),
+    filter_text VARCHAR(4096),
     content_type VARCHAR(16) NOT NULL DEFAULT "text",
     created_date INTEGER NOT NULL,
     creator_id INTEGER NOT NULL,
@@ -82,6 +82,8 @@ CREATE TABLE IF NOT EXISTS Filters (
     editor_id INTEGER NOT NULL,
     buttons TEXT,
     FOREIGN KEY(chat_id) REFERENCES Groups(id)
+    FOREIGN KEY(creator_id) REFERENCES Users(id)
+    FOREIGN KEY(editor_id) REFERENCES Users(id)
 );
 
 CREATE INDEX IF NOT EXISTS idx_chat_id ON Filters (chat_id);
