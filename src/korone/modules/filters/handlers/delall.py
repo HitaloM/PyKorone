@@ -36,13 +36,14 @@ async def delallfilters_cb(client: Client, callback: CallbackQuery) -> None:
     if not callback.data:
         return
 
-    chat_id = callback.message.chat.id
-    action = DeleteAllFiltersCallback.unpack(callback.data).action
+    message = callback.message
+    chat_id = message.chat.id
+    callback_data = DeleteAllFiltersCallback.unpack(callback.data)
 
-    match action:
+    match callback_data.action:
         case "confirm":
             await delete_all_filters(chat_id)
             await update_filters_cache(chat_id)
-            await callback.message.edit(_("All filters have been deleted."))
+            await message.edit(_("All filters have been deleted."))
         case "cancel":
-            await callback.message.edit(_("Deletion of all filters has been canceled."))
+            await message.edit(_("Deletion of all filters has been canceled."))

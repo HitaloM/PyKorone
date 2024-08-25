@@ -73,6 +73,4 @@ async def handle_error(client: Client, update: Update, exception: Exception) -> 
 def get_chat_from_update(update: Update) -> Chat | None:
     if isinstance(update, Message):
         return update.chat
-    if isinstance(update, CallbackQuery):
-        return update.message.chat
-    return None
+    return update.message.chat if isinstance(update, CallbackQuery) else None

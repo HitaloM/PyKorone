@@ -63,10 +63,8 @@ async def extract_media_id(url_match: re.Match[str]) -> str | int | None:
         return int(media_id_str)
     except ValueError:
         redirect_url = await resolve_redirect_url(url_match.group(0))
-        if redirect_url:
-            match = URL_PATTERN.search(redirect_url)
-            if match:
-                return match.group(2)
+        if redirect_url and (match := URL_PATTERN.search(redirect_url)):
+            return match.group(2)
     return None
 
 

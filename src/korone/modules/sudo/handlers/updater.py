@@ -78,4 +78,4 @@ async def update_callback(client: Client, callback: CallbackQuery) -> None:
         await generate_document(stdout, message)
         return
 
-    await sent.edit(f"<pre language='bash'>{html.escape(str(stdout))}</pre>")
+    await sent.edit(f"<pre language='bash'>{html.escape(stdout)}</pre>")

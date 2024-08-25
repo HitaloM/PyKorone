@@ -26,7 +26,7 @@ async def delfilter_command(client: Client, message: Message) -> None:
     filter_name = command_obj.args.lower()
     existing_filters = await list_filters(message.chat.id)
 
-    if not any(filter_name in filter.names for filter in existing_filters):
+    if all(filter_name not in filter.names for filter in existing_filters):
         await message.reply(
             _("Filter '<code>{filter_name}</code>' does not exist.").format(
                 filter_name=filter_name

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-08-25 19:41-0300\n"
+"POT-Creation-Date: 2024-08-25 20:07-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -154,11 +154,11 @@ msgid ""
 "undone."
 msgstr ""
 
-#: src/korone/modules/filters/handlers/delall.py:46
+#: src/korone/modules/filters/handlers/delall.py:47
 msgid "All filters have been deleted."
 msgstr ""
 
-#: src/korone/modules/filters/handlers/delall.py:48
+#: src/korone/modules/filters/handlers/delall.py:49
 msgid "Deletion of all filters has been canceled."
 msgstr ""
 
@@ -617,17 +617,17 @@ msgstr ""
 msgid "Open in Instagram"
 msgstr ""
 
-#: src/korone/modules/medias/handlers/tiktok.py:210
-#: src/korone/modules/medias/handlers/tiktok.py:225
+#: src/korone/modules/medias/handlers/tiktok.py:208
+#: src/korone/modules/medias/handlers/tiktok.py:223
 msgid "Open in TikTok"
 msgstr ""
 
 #: src/korone/modules/medias/handlers/twitter.py:47
-#: src/korone/modules/medias/handlers/twitter.py:152
+#: src/korone/modules/medias/handlers/twitter.py:150
 msgid "Open in Twitter"
 msgstr ""
 
-#: src/korone/modules/medias/handlers/twitter.py:219
+#: src/korone/modules/medias/handlers/twitter.py:217
 msgid ""
 "\n"
 "<b>Sent from:</b> <i>{source}</i>"

@@ -94,9 +94,7 @@ async def prepare_media(media: TweetMedia) -> InputMediaPhoto | InputMediaVideo 
         media_file = await url_to_bytes_io(optimal_media.url, video=media.media_type != "photo")
     except httpx.HTTPStatusError as e:
         media_file = handle_http_error(e)
-        if media_file:
-            return InputMediaPhoto(media_file)
-        return None
+        return InputMediaPhoto(media_file) if media_file else None
 
     if media.media_type == "photo":
         return InputMediaPhoto(media_file)

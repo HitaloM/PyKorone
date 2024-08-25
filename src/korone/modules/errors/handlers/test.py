@@ -11,4 +11,4 @@ from korone.filters import Command, IsSudo
 @router.message(Command("error", disableable=False) & IsSudo)
 async def error_command(client: Client, message: Message) -> None:  # noqa: RUF029
     msg = "Error Test!"
-    raise Exception(msg)
+    raise ValueError(msg)
