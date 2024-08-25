@@ -24,7 +24,6 @@ from .utils.logging import logger
 async def main() -> None:
     try:
         await cache.ping()
-        await cache.clear()
     except (CacheBackendInteractionError, TimeoutError):
         logger.critical("Can't connect to RedisDB! Exiting...")
         sys.exit(1)

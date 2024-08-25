@@ -22,7 +22,7 @@ def parse_text_buttons(text: str) -> list[list[Button]]:
     current_row = []
 
     for match in BUTTON_URL_REGEX.finditer(text):
-        escapes_count = sum(1 for i in range(match.start() - 1, -1, -1) if text[i] == "\\")
+        escapes_count = sum(text[i] == "\\" for i in range(match.start() - 1, -1, -1))
         is_escaped = escapes_count % 2 != 0
 
         if not is_escaped:

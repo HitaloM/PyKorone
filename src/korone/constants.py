@@ -80,8 +80,11 @@ CREATE TABLE IF NOT EXISTS Filters (
     creator_id INTEGER NOT NULL,
     edited_date INTEGER NOT NULL,
     editor_id INTEGER NOT NULL,
-    buttons TEXT
+    buttons TEXT,
+    FOREIGN KEY(chat_id) REFERENCES Groups(id)
 );
+
+CREATE INDEX IF NOT EXISTS idx_chat_id ON Filters (chat_id);
 """
 
 TRANSLATIONS_URL: str = "https://weblate.amanoteam.com/projects/korone/"

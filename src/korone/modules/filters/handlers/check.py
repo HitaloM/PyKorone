@@ -69,8 +69,7 @@ class CheckMsgFilter(MessageHandler):
             "animation": message.reply_animation,
         }
 
-        reply_method = content_type_methods.get(filter.content_type)
-        if reply_method and filter.file:
+        if reply_method := content_type_methods.get(filter.content_type):
             if filter.content_type == "sticker":
                 await reply_method(filter.file.file_id)
             else:

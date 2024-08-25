@@ -18,9 +18,10 @@ class ListFilters(MessageHandler):
         filters = await get_filters_cache(message.chat.id)
         if not filters:
             filters = await list_filters(message.chat.id)
-            if not filters:
-                await message.reply(_("No filters found for this chat."))
-                return
+
+        if not filters:
+            await message.reply(_("No filters found for this chat."))
+            return
 
         filter_names = sorted(filter_name for filter in filters for filter_name in filter.names)
 
