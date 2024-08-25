@@ -22,11 +22,9 @@ class CheckMsgFilter(MessageHandler):
     async def handle(self, client: Client, message: Message) -> None:
         chat_id = message.chat.id
 
-        chat_filters = await get_filters_cache(chat_id)
+        chat_filters = await get_filters_cache(chat_id) or await update_filters_cache(chat_id)
         if not chat_filters:
-            chat_filters = await update_filters_cache(chat_id)
-            if not chat_filters:
-                return
+            return
 
         text = message.text or message.caption
 
@@ -91,8 +89,7 @@ class CheckMsgFilter(MessageHandler):
             "animation": message.reply_animation,
         }
 
-        reply_method = content_type_methods.get(filter.content_type)
-        if reply_method:
+        if reply_method := content_type_methods.get(filter.content_type):
             if filter.content_type == "sticker":
                 await reply_method(filter.file.file_id)
             else:

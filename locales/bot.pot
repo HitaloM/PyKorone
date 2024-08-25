@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-08-25 00:05-0300\n"
+"POT-Creation-Date: 2024-08-25 00:12-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -197,17 +197,17 @@ msgid ""
 "<b>Editor</b>: {editor}"
 msgstr ""
 
-#: src/korone/modules/filters/handlers/list.py:23
+#: src/korone/modules/filters/handlers/list.py:20
 msgid "No filters found for this chat."
 msgstr ""
 
-#: src/korone/modules/filters/handlers/list.py:30
+#: src/korone/modules/filters/handlers/list.py:27
 msgid ""
 "List of filters in {chatname}:\n"
 "{filter_list}"
 msgstr ""
 
-#: src/korone/modules/filters/handlers/list.py:31
+#: src/korone/modules/filters/handlers/list.py:28
 #: src/korone/modules/filters/handlers/save.py:80
 #: src/korone/modules/filters/utils/text.py:41
 msgid "private chat"

@@ -99,8 +99,9 @@ async def update_filters(
     current_timestamp: int,
 ) -> None:
     for filter_names in filters_to_update:
-        updated_filter_names = tuple(name for name in filter_names if name not in new_filter_names)
-        if updated_filter_names:
+        if updated_filter_names := tuple(
+            name for name in filter_names if name not in new_filter_names
+        ):
             await filters_table.update(
                 Document(
                     filter_names=json.dumps(updated_filter_names),
@@ -185,10 +186,9 @@ async def delete_filter(chat_id: int, filter_names: tuple[str, ...]) -> None:
 
         for filter in filters:
             existing_filter_names = tuple(json.loads(filter["filter_names"]))
-            updated_filter_names = tuple(
+            if updated_filter_names := tuple(
                 name for name in existing_filter_names if name not in filter_names
-            )
-            if updated_filter_names:
+            ):
                 await filters_table.update(
                     Document(
                         filter_names=json.dumps(updated_filter_names),

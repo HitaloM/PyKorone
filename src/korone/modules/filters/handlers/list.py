@@ -15,10 +15,7 @@ class ListFilters(MessageHandler):
     @staticmethod
     @router.message(Command("filters"))
     async def handle(client: Client, message: Message) -> None:
-        filters = await get_filters_cache(message.chat.id)
-        if not filters:
-            filters = await list_filters(message.chat.id)
-
+        filters = await get_filters_cache(message.chat.id) or await list_filters(message.chat.id)
         if not filters:
             await message.reply(_("No filters found for this chat."))
             return
