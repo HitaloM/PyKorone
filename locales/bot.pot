@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-08-24 23:27-0300\n"
+"POT-Creation-Date: 2024-08-25 00:05-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -155,11 +155,11 @@ msgid ""
 msgstr ""
 
 #: src/korone/modules/filters/handlers/delall.py:46
-msgid "✅ All filters have been deleted."
+msgid "All filters have been deleted."
 msgstr ""
 
 #: src/korone/modules/filters/handlers/delall.py:51
-msgid "❌ Deletion of all filters has been canceled."
+msgid "Deletion of all filters has been canceled."
 msgstr ""
 
 #: src/korone/modules/filters/handlers/delete.py:21
@@ -241,7 +241,7 @@ msgstr ""
 msgid "The text of the replied message is empty."
 msgstr ""
 
-#: src/korone/modules/filters/utils/parse_filter.py:99
+#: src/korone/modules/filters/utils/parse_filter.py:104
 msgid "The maximum length of the filter is {length} characters."
 msgstr ""
 

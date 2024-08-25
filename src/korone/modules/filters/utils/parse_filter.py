@@ -71,6 +71,11 @@ async def parse_replied_message(
         parse_message_buttons(replied_message.reply_markup) if replied_message.reply_markup else []  # type: ignore
     )
 
+    text_buttons = parse_text_buttons(message_text)
+    message_text = BUTTON_URL_REGEX.sub("", message_text).strip()
+    if text_buttons:
+        buttons.extend(text_buttons)
+
     return message_text, file_info, buttons
 
 

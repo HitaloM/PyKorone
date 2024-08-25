@@ -43,9 +43,9 @@ class DeleteAllFiltersHandler(CallbackQueryHandler):
         await delete_all_filters(chat_id)
         await update_filters_cache(chat_id)
 
-        await callback.message.edit(_("✅ All filters have been deleted."))
+        await callback.message.edit(_("All filters have been deleted."))
 
     @staticmethod
     @router.callback_query(DeleteAllFiltersCallback.filter(F.action == "cancel"))
     async def handle_cancel(client: Client, callback: CallbackQuery) -> None:
-        await callback.message.edit(_("❌ Deletion of all filters has been canceled."))
+        await callback.message.edit(_("Deletion of all filters has been canceled."))

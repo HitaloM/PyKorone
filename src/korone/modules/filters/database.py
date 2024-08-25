@@ -170,8 +170,8 @@ def deserialize_filter(filter: Document) -> FilterModel:
                 else json.loads(filter["buttons"])
             )
         ],
-        "file": FilterFile(id=filter["file_id"], type=filter["file_type"])
-        if filter["file_id"] and filter["file_type"]
+        "file": FilterFile(id=filter["file_id"], type=filter["content_type"])
+        if filter["file_id"] and filter["content_type"]
         else None,
     })
 

@@ -45,12 +45,13 @@ def parse_text_buttons(text: str) -> list[list[Button]]:
     return buttons
 
 
-def parse_message_button(button: InlineKeyboardButton) -> Button | None:
+def parse_message_button(button: InlineKeyboardButton, same_row: bool = False) -> Button | None:
     if button.url:
         return Button(
             text=button.text,
             action=ButtonAction.URL,
             data=button.url,
+            same_row=same_row,
         )
     msg = "Actually, this button type is not supported. Only URL buttons are supported."
     raise UnknownMessageButtonTypeError(msg)
@@ -58,11 +59,13 @@ def parse_message_button(button: InlineKeyboardButton) -> Button | None:
 
 def parse_message_buttons_row(row: list[InlineKeyboardButton]) -> list[Button] | None:
     try:
-        return [
-            parsed_button
-            for button in row
-            if (parsed_button := parse_message_button(button)) is not None
-        ]
+        buttons = []
+        for i, button in enumerate(row):
+            same_row = i > 0
+            parsed_button = parse_message_button(button, same_row=same_row)
+            if parsed_button is not None:
+                buttons.append(parsed_button)
+        return buttons
     except UnknownMessageButtonTypeError:
         return None
 

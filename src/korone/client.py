@@ -74,8 +74,7 @@ class Korone(Client):
             self.me.username,
         )
 
-        cache_key = "korone-reboot"
-        if reboot_data := await cache.get(cache_key):
+        if reboot_data := await cache.get("korone-reboot"):
             with suppress(MessageNotModified, MessageIdInvalid, KeyError):
                 chat_id = reboot_data["chat_id"]
                 message_id = reboot_data["message_id"]
@@ -84,7 +83,7 @@ class Korone(Client):
 
                 await self.edit_message_text(chat_id, message_id, text)
 
-            await cache.delete(cache_key)
+        await cache.clear()
 
     async def stop(self) -> None:
         await super().stop()
