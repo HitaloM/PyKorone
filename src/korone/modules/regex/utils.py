@@ -1,12 +1,12 @@
 # SPDX-License-Identifier: BSD-3-Clause
 # Copyright (c) 2024 Hitalo M. <https://github.com/HitaloM>
 
-import regex as re
+import re
 
 from korone.utils.i18n import gettext as _
 
 SED_PATTERN: str = r"^s/((?:\\.|[^/])+)/((?:\\.|[^/])*)(/.*)?"
-GROUP0_RE: re.Pattern[str] = re.compile(r"(?<!\\)((?:\\\\)*)\\0")
+GROUP0_RE: re.Pattern = re.compile(r"(?<!\\)((?:\\\\)*)\\0")
 MAX_PATTERN_LENGTH: int = 1000
 
 

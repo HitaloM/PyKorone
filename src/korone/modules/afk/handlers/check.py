@@ -20,7 +20,7 @@ from korone.utils.i18n import gettext as _
 
 
 class CheckAfk(MessageHandler):
-    @router.message(~filters.private & ~filters.bot, group=-2)
+    @router.message(~filters.private & ~filters.bot)
     async def handle(self, client: Client, message: Message) -> None:
         if message.from_user and message.text and re.findall(r"^\/\bafk\b", message.text):
             return
