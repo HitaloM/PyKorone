@@ -9,66 +9,50 @@ from magic_filter import F
 
 from korone.decorators import router
 from korone.filters import Command, IsAdmin
-from korone.handlers.abstract import CallbackQueryHandler, MessageHandler
 from korone.modules.languages.callback_data import LangMenuCallback, SetLangCallback
-from korone.utils.i18n import get_i18n
+from korone.utils.i18n import I18nNew, get_i18n
 from korone.utils.i18n import gettext as _
 
 
-class SelectLanguageBase:
-    @staticmethod
-    def build_keyboard(chat_type: ChatType) -> InlineKeyboardMarkup:
-        i18n = get_i18n()
-        keyboard = InlineKeyboardBuilder()
+def build_text_and_keyboard(
+    i18n: I18nNew, chat_type: ChatType
+) -> tuple[str, InlineKeyboardMarkup]:
+    keyboard = InlineKeyboardBuilder()
 
-        for language in (*i18n.available_locales, i18n.default_locale):
-            locale = i18n.babel(language)
-            keyboard.button(
-                text=i18n.locale_display(locale), callback_data=SetLangCallback(lang=language)
-            )
-
-        keyboard.adjust(2)
-
-        if chat_type in {ChatType.GROUP, ChatType.SUPERGROUP}:
-            keyboard.row(
-                InlineKeyboardButton(
-                    text=_("❌ Cancel"), callback_data=LangMenuCallback(menu="cancel").pack()
-                )
-            )
-
-        if chat_type == ChatType.PRIVATE:
-            keyboard.row(
-                InlineKeyboardButton(
-                    text=_("⬅️ Back"), callback_data=LangMenuCallback(menu="language").pack()
-                )
-            )
-
-        return keyboard.as_markup()
-
-    @staticmethod
-    def build_text() -> str:
-        return _("Please select the language you want to use for the chat.")
-
-    async def send_message(self, message: Message):
-        await message.reply(
-            self.build_text(),
-            reply_markup=self.build_keyboard(message.chat.type),
+    for language in (*i18n.available_locales, i18n.default_locale):
+        locale = i18n.babel(language)
+        keyboard.button(
+            text=i18n.locale_display(locale), callback_data=SetLangCallback(lang=language)
         )
 
-    async def edit_message(self, callback: CallbackQuery):
-        await callback.edit_message_text(
-            self.build_text(),
-            reply_markup=self.build_keyboard(callback.message.chat.type),
+    keyboard.adjust(2)
+
+    if chat_type in {ChatType.GROUP, ChatType.SUPERGROUP}:
+        keyboard.row(
+            InlineKeyboardButton(
+                text=_("❌ Cancel"), callback_data=LangMenuCallback(menu="cancel").pack()
+            )
         )
 
+    if chat_type == ChatType.PRIVATE:
+        keyboard.row(
+            InlineKeyboardButton(
+                text=_("⬅️ Back"), callback_data=LangMenuCallback(menu="language").pack()
+            )
+        )
 
-class SelectLanguage(MessageHandler, SelectLanguageBase):
-    @router.message(Command("languages") & IsAdmin)
-    async def handle(self, client: Client, message: Message):
-        await self.send_message(message)
+    text = _("Please select the language you want to use for the chat.")
+    return text, keyboard.as_markup()
 
 
-class SelectLanguageCallback(CallbackQueryHandler, SelectLanguageBase):
-    @router.callback_query(LangMenuCallback.filter(F.menu == "languages") & IsAdmin)
-    async def handle(self, client: Client, callback: CallbackQuery):
-        await self.edit_message(callback)
+@router.message(Command("languages") & IsAdmin)
+@router.callback_query(LangMenuCallback.filter(F.menu == "languages") & IsAdmin)
+async def languages_command(client: Client, update: Message | CallbackQuery) -> None:
+    text, keyboard = build_text_and_keyboard(
+        get_i18n(), update.chat.type if isinstance(update, Message) else update.message.chat.type
+    )
+
+    if isinstance(update, Message):
+        await update.reply(text, reply_markup=keyboard)
+    else:
+        await update.edit_message_text(text, reply_markup=keyboard)

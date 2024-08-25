@@ -2,7 +2,6 @@
 # Copyright (c) 2024 Hitalo M. <https://github.com/HitaloM>
 
 from collections.abc import Callable
-from dataclasses import dataclass
 from typing import TYPE_CHECKING
 
 from hydrogram.filters import Filter
@@ -13,14 +12,6 @@ from korone.handlers.message_handler import KoroneMessageHandler
 
 if TYPE_CHECKING:
     from hydrogram.handlers.handler import Handler
-
-
-@dataclass(frozen=True, slots=True)
-class HandlerObject:
-    func: Callable
-    filters: Filter | None
-    group: int
-    event: Callable
 
 
 class Factory:
@@ -37,12 +28,15 @@ class Factory:
 
     def __call__(self, filters: Filter | None = None, group: int = 0) -> Callable:
         def wrapper(func: Callable) -> Callable:
-            func.on = self.event_name
-            func.group = group
-            func.filters = filters
-            func.handlers = HandlerObject(
-                func, filters, group, self.events_observed[self.event_name]
-            )
+            if not hasattr(func, "handlers"):
+                func.handlers = []
+
+            handler_class = self.events_observed.get(self.event_name)
+            if handler_class is None:
+                msg = f"No handler found for event: {self.event_name}"
+                raise ValueError(msg)
+
+            func.handlers.append((handler_class(func, filters), group))  # type: ignore
 
             return func
 

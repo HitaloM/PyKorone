@@ -6,12 +6,9 @@ from hydrogram.types import Message
 
 from korone.decorators import router
 from korone.filters import Command, IsSudo
-from korone.handlers.abstract import MessageHandler
 
 
-class ErrorTest(MessageHandler):
-    @staticmethod
-    @router.message(Command("error", disableable=False) & IsSudo)
-    async def handle(client: Client, message: Message) -> None:
-        msg = "Error Test!"
-        raise Exception(msg)
+@router.message(Command("error", disableable=False) & IsSudo)
+async def error_command(client: Client, message: Message) -> None:  # noqa: RUF029
+    msg = "Error Test!"
+    raise Exception(msg)

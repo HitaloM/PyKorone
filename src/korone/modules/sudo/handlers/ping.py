@@ -9,35 +9,24 @@ from hydrogram.types import CallbackQuery, Message
 
 from korone.decorators import router
 from korone.filters import Command, IsSudo
-from korone.handlers.abstract import CallbackQueryHandler, MessageHandler
 from korone.modules.sudo.callback_data import PingCallbackData
 
 
-class PingBase:
-    @staticmethod
-    async def _send_ping_response(client: Client, message: Message, edit: bool = False) -> None:
-        keyboard = InlineKeyboardBuilder()
-        keyboard.button(text="Retry", callback_data=PingCallbackData())
+@router.message(Command("ping", disableable=False) & IsSudo)
+@router.callback_query(PingCallbackData.filter() & IsSudo)
+async def ping_command(client: Client, event: Message | CallbackQuery) -> None:
+    keyboard = InlineKeyboardBuilder()
+    keyboard.button(text="Retry", callback_data=PingCallbackData())
 
-        first = datetime.now(UTC)
-        if edit:
-            await message.edit("<b>Pong!</b>")
-        else:
-            message = await message.reply("<b>Pong!</b>")
-        second = datetime.now(UTC)
-        await message.edit(
-            f"<b>Pong!</b> <code>{(second - first).microseconds / 1000}</code>ms",
-            reply_markup=keyboard.as_markup(),
-        )
+    first = datetime.now(UTC)
+    if isinstance(event, Message):
+        message = await event.reply("<b>Pong!</b>")
+    else:
+        message = event.message
+        await message.edit("<b>Pong!</b>")
 
-
-class Ping(MessageHandler, PingBase):
-    @router.message(Command("ping", disableable=False) & IsSudo)
-    async def handle(self, client: Client, message: Message) -> None:
-        await self._send_ping_response(client, message)
-
-
-class PingRetry(CallbackQueryHandler, PingBase):
-    @router.callback_query(PingCallbackData.filter() & IsSudo)
-    async def handle(self, client: Client, callback: CallbackQuery) -> None:
-        await self._send_ping_response(client, callback.message, edit=True)
+    second = datetime.now(UTC)
+    await message.edit(
+        f"<b>Pong!</b> <code>{(second - first).microseconds / 1000}</code>ms",
+        reply_markup=keyboard.as_markup(),
+    )
