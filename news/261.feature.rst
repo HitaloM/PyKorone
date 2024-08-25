@@ -1,0 +1,1 @@
+Introduce a comprehensive filters module for chats, enabling the creation, management, and application of text and media filters with support for buttons. Enhance existing filters and database schema to support these new functionalities. Read more about the new filters module in the `Modules` section of the documentation.
