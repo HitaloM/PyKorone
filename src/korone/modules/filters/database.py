@@ -210,6 +210,13 @@ async def delete_filter(chat_id: int, filter_names: tuple[str, ...]) -> None:
                 )
 
 
+async def delete_all_filters(chat_id: int) -> None:
+    async with SQLite3Connection() as connection:
+        filters_table = await connection.table("Filters")
+        query = Query()
+        await filters_table.delete(query.chat_id == chat_id)
+
+
 async def update_filters_cache(chat_id: int) -> list[FilterModel]:
     await cache.delete(f"filters_cache:{chat_id}")
 

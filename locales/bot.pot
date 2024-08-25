@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-08-24 21:33-0300\n"
+"POT-Creation-Date: 2024-08-24 22:11-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -137,6 +137,29 @@ msgstr ""
 
 #: src/korone/modules/errors/handlers/catcher.py:93
 msgid "🐞 Report This Error"
+msgstr ""
+
+#: src/korone/modules/filters/handlers/delall.py:23
+msgid "✅ Confirm Deletion"
+msgstr ""
+
+#: src/korone/modules/filters/handlers/delall.py:27
+#: src/korone/modules/languages/handlers/select.py:35
+msgid "❌ Cancel"
+msgstr ""
+
+#: src/korone/modules/filters/handlers/delall.py:32
+msgid ""
+"⚠️ Are you sure you want to delete all filters? This action cannot be "
+"undone."
+msgstr ""
+
+#: src/korone/modules/filters/handlers/delall.py:46
+msgid "✅ All filters have been deleted."
+msgstr ""
+
+#: src/korone/modules/filters/handlers/delall.py:51
+msgid "❌ Deletion of all filters has been canceled."
 msgstr ""
 
 #: src/korone/modules/filters/handlers/delete.py:21
@@ -357,10 +380,6 @@ msgstr ""
 
 #: src/korone/modules/languages/handlers/info.py:64
 msgid "This is the bot's native language. So it is 100% translated."
-msgstr ""
-
-#: src/korone/modules/languages/handlers/select.py:35
-msgid "❌ Cancel"
 msgstr ""
 
 #: src/korone/modules/languages/handlers/select.py:50

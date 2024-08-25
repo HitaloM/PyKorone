@@ -5,7 +5,7 @@ from cashews import suppress
 from hydrogram.enums import MessageMediaType
 from hydrogram.types import Message
 
-from korone.constants import MESSAGE_LENGTH_LIMIT
+from korone import constants
 from korone.modules.filters.utils.parse_buttons import (
     BUTTON_URL_REGEX,
     parse_message_buttons,
@@ -94,10 +94,10 @@ async def parse_saveable(
         buttons = parse_text_buttons(combined_text)
         combined_text = BUTTON_URL_REGEX.sub("", combined_text).strip()
 
-    if len(combined_text) > MESSAGE_LENGTH_LIMIT:
+    if len(combined_text) > constants.MESSAGE_LENGTH_LIMIT:
         await message.reply(
             _("The maximum length of the filter is {length} characters.").format(
-                length=MESSAGE_LENGTH_LIMIT
+                length=constants.MESSAGE_LENGTH_LIMIT
             )
         )
         return None
