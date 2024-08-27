@@ -39,18 +39,22 @@ async def filter_command(client: Client, message: Message) -> None:
 
 async def process_and_save_filters(message: Message, filters: tuple[tuple[str, ...], str]) -> None:
     filter_names, filter_content = filters
-    result = await save_single_filter(message, filter_names, filter_content)
-    await update_filters_cache(message.chat.id)
-    await reply_filter_status(message, [result])
+    if result := await save_single_filter(message, filter_names, filter_content):
+        await update_filters_cache(message.chat.id)
+        await reply_filter_status(message, [result])
 
 
 async def save_single_filter(
     message: Message, filter_names: tuple[str, ...], filter_content: str
-) -> tuple[str, ...]:
+) -> tuple[str, ...] | None:
     save_data = await parse_saveable(message, filter_content or "", allow_reply_message=True)
     if not save_data:
         await message.reply("Something went wrong while saving the filter.")
-        return filter_names
+        return None
+
+    if not save_data.text:
+        await message.reply("The filter cannot be saved without text.")
+        return None
 
     await save_filter(
         chat_id=message.chat.id,

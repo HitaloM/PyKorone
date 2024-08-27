@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-08-26 22:02-0300\n"
+"POT-Creation-Date: 2024-08-26 22:07-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -212,7 +212,7 @@ msgid ""
 msgstr ""
 
 #: src/korone/modules/filters/handlers/list.py:24
-#: src/korone/modules/filters/handlers/save.py:76
+#: src/korone/modules/filters/handlers/save.py:80
 #: src/korone/modules/filters/utils/text.py:41
 msgid "private chat"
 msgstr ""
@@ -229,7 +229,7 @@ msgid ""
 " information."
 msgstr ""
 
-#: src/korone/modules/filters/handlers/save.py:74
+#: src/korone/modules/filters/handlers/save.py:78
 msgid ""
 "Saved {count} filters in {chat}:\n"
 "{filters}"
