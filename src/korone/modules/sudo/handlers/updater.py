@@ -85,9 +85,8 @@ async def update_callback(client: Client, callback: CallbackQuery) -> None:
         await sent.edit(f"An error occurred:\n<code>{e}</code>")
         return
 
-    text = "Upgrade completed successfully. Reboot is required..."
     if len(stdout) > 4096:
-        await sent.edit(text)
+        await sent.edit("Upgrade completed successfully. Reboot is required...")
         await generate_document(stdout, message)
         return
 

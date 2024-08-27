@@ -12,9 +12,7 @@ from korone.utils.i18n import gettext as _
 
 async def fetch_members(client: Client, chat_id: int) -> list:
     members = client.get_chat_members(chat_id)
-    if not members:
-        return []
-    return [member async for member in members]  # type: ignore
+    return [] if not members else [member async for member in members]  # type: ignore
 
 
 async def remove_deleted_accounts(client: Client, chat_id: int, members: list) -> int:

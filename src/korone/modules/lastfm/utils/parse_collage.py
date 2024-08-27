@@ -17,9 +17,7 @@ def get_entry_type(split: str) -> EntryType | None:
         return EntryType.Artist
     if split.startswith("album"):
         return EntryType.Album
-    if split.startswith("track"):
-        return EntryType.Track
-    return None
+    return EntryType.Track if split.startswith("track") else None
 
 
 def get_size(fragment: str) -> int | None:

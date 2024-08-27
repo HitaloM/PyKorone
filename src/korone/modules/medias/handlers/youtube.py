@@ -55,8 +55,7 @@ async def get_args(command: CommandObject, message: Message) -> str | None:
     if command.args:
         return command.args
     if message.reply_to_message and message.reply_to_message.text:
-        args_match = YOUTUBE_REGEX.search(message.reply_to_message.text)
-        if args_match:
+        if args_match := YOUTUBE_REGEX.search(message.reply_to_message.text):
             return args_match.group()
         await message.reply(_("No YouTube URL found in the replied message."))
         return None

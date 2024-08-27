@@ -46,9 +46,9 @@ async def delallfilters_cb(client: Client, callback: CallbackQuery) -> None:
 
     callback_data = DelAllFiltersCallback.unpack(callback.data)
     message = callback.message
-    chat_id = message.chat.id
 
     if callback_data.action == DelAllFiltersAction.Confim:
+        chat_id = message.chat.id
         await delete_all_filters(chat_id)
         await update_filters_cache(chat_id)
         await message.edit(_("All filters have been deleted."))

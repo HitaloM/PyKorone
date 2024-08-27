@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-08-26 22:07-0300\n"
+"POT-Creation-Date: 2024-08-26 22:17-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -323,39 +323,39 @@ msgstr ""
 msgid "Language changed to {new_lang}."
 msgstr ""
 
-#: src/korone/modules/languages/handlers/apply.py:57
+#: src/korone/modules/languages/handlers/apply.py:56
 msgid ""
 "\n"
 "This is the bot's native language.\n"
 "If you find any errors, please file an issue in the GitHub Repository."
 msgstr ""
 
-#: src/korone/modules/languages/handlers/apply.py:64
-#: src/korone/modules/languages/handlers/apply.py:85
+#: src/korone/modules/languages/handlers/apply.py:63
+#: src/korone/modules/languages/handlers/apply.py:84
 msgid "🐞 Open GitHub"
 msgstr ""
 
-#: src/korone/modules/languages/handlers/apply.py:74
+#: src/korone/modules/languages/handlers/apply.py:73
 msgid ""
 "\n"
 "The language is {percent}% translated."
 msgstr ""
 
-#: src/korone/modules/languages/handlers/apply.py:80
+#: src/korone/modules/languages/handlers/apply.py:79
 msgid ""
 "\n"
 "In case you find any errors, please file an issue in the GitHub "
 "Repository."
 msgstr ""
 
-#: src/korone/modules/languages/handlers/apply.py:89
+#: src/korone/modules/languages/handlers/apply.py:88
 msgid ""
 "\n"
 "Please help us translate this language by completing it on our "
 "translations platform."
 msgstr ""
 
-#: src/korone/modules/languages/handlers/apply.py:95
+#: src/korone/modules/languages/handlers/apply.py:94
 msgid "🌍 Open Translations"
 msgstr ""
 
@@ -641,70 +641,70 @@ msgstr ""
 msgid "Invalid YouTube URL!"
 msgstr ""
 
-#: src/korone/modules/medias/handlers/youtube.py:61
+#: src/korone/modules/medias/handlers/youtube.py:60
 msgid "No YouTube URL found in the replied message."
 msgstr ""
 
-#: src/korone/modules/medias/handlers/youtube.py:64
+#: src/korone/modules/medias/handlers/youtube.py:63
 msgid ""
 "You need to provide a URL or reply to a message that contains a URL. "
 "Example: <code>/ytdl https://www.youtube.com/watch?v=dQw4w9WgXcQ</code>"
 msgstr ""
 
-#: src/korone/modules/medias/handlers/youtube.py:76
+#: src/korone/modules/medias/handlers/youtube.py:75
 msgid "Failed to extract video info!"
 msgstr ""
 
-#: src/korone/modules/medias/handlers/youtube.py:81
+#: src/korone/modules/medias/handlers/youtube.py:80
 msgid "<b>Title:</b> {title}\n"
 msgstr ""
 
-#: src/korone/modules/medias/handlers/youtube.py:82
+#: src/korone/modules/medias/handlers/youtube.py:81
 msgid "<b>Uploader:</b> {uploader}\n"
 msgstr ""
 
-#: src/korone/modules/medias/handlers/youtube.py:88
+#: src/korone/modules/medias/handlers/youtube.py:87
 msgid "<b>Duration:</b> {hours}h {minutes}m {seconds}s\n"
 msgstr ""
 
-#: src/korone/modules/medias/handlers/youtube.py:93
+#: src/korone/modules/medias/handlers/youtube.py:92
 msgid "<b>Duration:</b> {minutes}m {seconds}s\n"
 msgstr ""
 
-#: src/korone/modules/medias/handlers/youtube.py:97
+#: src/korone/modules/medias/handlers/youtube.py:96
 msgid "<b>Duration:</b> {seconds}s\n"
 msgstr ""
 
-#: src/korone/modules/medias/handlers/youtube.py:101
+#: src/korone/modules/medias/handlers/youtube.py:100
 msgid "<b>Views:</b> {view_count}\n"
 msgstr ""
 
-#: src/korone/modules/medias/handlers/youtube.py:104
+#: src/korone/modules/medias/handlers/youtube.py:103
 msgid "<b>Likes:</b> Unknown\n"
 msgstr ""
 
-#: src/korone/modules/medias/handlers/youtube.py:107
+#: src/korone/modules/medias/handlers/youtube.py:106
 msgid "<b>Likes:</b> {like_count}\n"
 msgstr ""
 
-#: src/korone/modules/medias/handlers/youtube.py:115
+#: src/korone/modules/medias/handlers/youtube.py:114
 msgid "Download video"
 msgstr ""
 
-#: src/korone/modules/medias/handlers/youtube.py:119
+#: src/korone/modules/medias/handlers/youtube.py:118
 msgid "Download audio"
 msgstr ""
 
-#: src/korone/modules/medias/handlers/youtube.py:148
+#: src/korone/modules/medias/handlers/youtube.py:147
 msgid "Downloading..."
 msgstr ""
 
-#: src/korone/modules/medias/handlers/youtube.py:154
+#: src/korone/modules/medias/handlers/youtube.py:153
 msgid "Uploading..."
 msgstr ""
 
-#: src/korone/modules/medias/handlers/youtube.py:171
-#: src/korone/modules/medias/handlers/youtube.py:186
+#: src/korone/modules/medias/handlers/youtube.py:170
+#: src/korone/modules/medias/handlers/youtube.py:185
 msgid "Failed to download the media."
 msgstr ""
 
@@ -913,19 +913,19 @@ msgstr ""
 msgid "The text to translate is empty. Please provide some text."
 msgstr ""
 
-#: src/korone/modules/users_groups/handlers/cleanup.py:35
+#: src/korone/modules/users_groups/handlers/cleanup.py:33
 msgid "Removing deleted accounts..."
 msgstr ""
 
-#: src/korone/modules/users_groups/handlers/cleanup.py:39
+#: src/korone/modules/users_groups/handlers/cleanup.py:37
 msgid "No members found."
 msgstr ""
 
-#: src/korone/modules/users_groups/handlers/cleanup.py:44
+#: src/korone/modules/users_groups/handlers/cleanup.py:42
 msgid "Removed {count} deleted accounts."
 msgstr ""
 
-#: src/korone/modules/users_groups/handlers/cleanup.py:46
+#: src/korone/modules/users_groups/handlers/cleanup.py:44
 msgid "No deleted accounts found."
 msgstr ""
 

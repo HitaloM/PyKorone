@@ -43,8 +43,7 @@ def prepare_response(i18n: I18nNew, language: str) -> tuple[str, InlineKeyboardB
     if language == i18n.default_locale:
         return prepare_default_locale_response(i18n, text, language)
 
-    stats = i18n.get_locale_stats(locale_code=language)
-    if not stats:
+    if not (stats := i18n.get_locale_stats(locale_code=language)):
         return text, None
 
     return prepare_translated_locale_response(i18n, text, language, stats.percent_translated)
