@@ -14,13 +14,46 @@ from korone.modules.sudo.callback_data import UpdateCallbackData
 from korone.modules.sudo.utils import generate_document, run_command
 
 
+async def fetch_updates() -> str:
+    await run_command("git fetch origin")
+    return await run_command("git log HEAD..origin/main --oneline")
+
+
+def parse_commits(stdout: str) -> dict[str, dict[str, str]]:
+    return {
+        parts[0]: {"title": parts[1]}
+        for line in stdout.split("\n")
+        if line
+        for parts in [line.split(" ", 1)]
+    }
+
+
+def generate_changelog(commits: dict[str, dict[str, str]]) -> str:
+    return (
+        "<b>Changelog</b>:\n"
+        + "\n".join(
+            f"  - [<code>{c_hash[:7]}</code>] {html.escape(commit["title"])}"
+            for c_hash, commit in commits.items()
+        )
+        + f"\n\n<b>New commits count</b>: <code>{len(commits)}</code>."
+    )
+
+
+async def perform_update() -> str:
+    commands = [
+        "git reset --hard origin/main",
+        "pybabel compile -d locales -D bot",
+        "rye sync --update-all --all-features",
+    ]
+    return "".join([await run_command(command) for command in commands])
+
+
 @router.message(Command(commands=["update", "upgrade"], disableable=False) & IsSudo)
 async def update_command(client: Client, message: Message) -> None:
     sent = await message.reply("Checking for updates...")
 
     try:
-        await run_command("git fetch origin")
-        stdout = await run_command("git log HEAD..origin/main --oneline")
+        stdout = await fetch_updates()
     except Exception as e:
         await sent.edit(f"An error occurred:\n<code>{e}</code>")
         return
@@ -29,21 +62,8 @@ async def update_command(client: Client, message: Message) -> None:
         await sent.edit("There is nothing to update.")
         return
 
-    commits = {
-        parts[0]: {"title": parts[1]}
-        for line in stdout.split("\n")
-        if line
-        for parts in [line.split(" ", 1)]
-    }
-
-    changelog = (
-        "<b>Changelog</b>:\n"
-        + "\n".join(
-            f"  - [<code>{c_hash[:7]}</code>] {html.escape(commit["title"])}"
-            for c_hash, commit in commits.items()
-        )
-        + f"\n\n<b>New commits count</b>: <code>{len(commits)}</code>."
-    )
+    commits = parse_commits(stdout)
+    changelog = generate_changelog(commits)
 
     keyboard = InlineKeyboardBuilder().button(text="🆕 Update", callback_data=UpdateCallbackData())
     await sent.edit(changelog, reply_markup=keyboard.as_markup())
@@ -56,18 +76,11 @@ async def update_callback(client: Client, callback: CallbackQuery) -> None:
         await cache.delete(cache_key)
 
     message = callback.message
-
     await message.edit_reply_markup()
     sent = await message.reply("Upgrading...")
 
-    commands = [
-        "git reset --hard origin/main",
-        "pybabel compile -d locales -D bot",
-        "rye sync --update-all --all-features",
-    ]
-
     try:
-        stdout = "".join([await run_command(command) for command in commands])
+        stdout = await perform_update()
     except Exception as e:
         await sent.edit(f"An error occurred:\n<code>{e}</code>")
         return

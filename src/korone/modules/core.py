@@ -80,25 +80,23 @@ async def update_command_structure(commands: list[str]) -> None:
 
 
 async def process_filters(filters: Filter) -> None:
-    async def extract_info(filter_obj: Filter, attr: str) -> tuple[bool, list[str]]:
-        if attr == "commands":
-            disableable = getattr(filter_obj, "disableable", False)
-            commands = [cmd.pattern for cmd in getattr(filter_obj, "commands", [])]
-        elif attr == "patterns":
-            disableable = bool(getattr(filter_obj, "friendly_name", None))
-            commands = [filter_obj.friendly_name] if disableable else []  # type: ignore
-        else:
-            return False, []
-
-        await logger.adebug(
-            "%s extracted: %s, disableable: %s", attr.capitalize(), commands, disableable
-        )
-        return disableable, commands
-
     for attr in ["commands", "patterns"]:
         try:
             if bfs_attr_search(filters, attr):
-                disableable, commands = await extract_info(filters, attr)
+                disableable = False
+                commands = []
+
+                if attr == "commands":
+                    disableable = getattr(filters, "disableable", False)
+                    commands = [cmd.pattern for cmd in getattr(filters, "commands", [])]
+                elif attr == "patterns":
+                    disableable = bool(getattr(filters, "friendly_name", None))
+                    commands = [filters.friendly_name] if disableable else []  # type: ignore
+
+                await logger.adebug(
+                    "%s extracted: %s, disableable: %s", attr.capitalize(), commands, disableable
+                )
+
                 if commands and disableable:
                     await update_command_structure(commands)
                 break
@@ -145,8 +143,7 @@ async def load_module(client: Client, module_name: str, handlers: list[str]) -> 
                 await logger.adebug("Handler registered successfully: %s", handler_func)
 
     except ModuleNotFoundError:
-        msg = f"Could not load module: {module_name}"
-        await logger.aerror(msg)
+        await logger.aerror("Could not load module: %s", module_name)
         raise
 
     await logger.adebug("Module loaded successfully: %s", module_name)

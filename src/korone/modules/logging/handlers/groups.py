@@ -26,28 +26,36 @@ async def log_joined_groups(client: Client, message: Message) -> None:
         return
 
     for member in message.new_chat_members:
-        if member.id == client.me.id:  # type: ignore
-            with suppress(BadRequest):
-                username = f"@{message.chat.username}" if message.chat.username else "None"
+        if member.id != client.me.id:  # type: ignore
+            continue
 
-                await client.send_message(
-                    chat_id=LOGS_CHAT,
-                    text=(
-                        f"I was added to a group!\n"
-                        f"Title: {message.chat.title}\n"
-                        f"ID: <code>{message.chat.id}</code>\n"
-                        f"Username: {username}\n"
-                    ),
-                )
+        await log_group_addition(client, message)
+        await send_welcome_message(message)
+        break
 
-            text = (
-                "Welcome to PyKorone!\n\n"
-                "Check out the documentation for more information on how to use me."
-            )
 
-            keyboard = InlineKeyboardBuilder()
-            keyboard.button(text="📄 Documentation", url=constants.DOCS_URL)
-            keyboard.button(text="📢 Channel", url=constants.TELEGRAM_URL)
+async def log_group_addition(client: Client, message: Message) -> None:
+    with suppress(BadRequest):
+        username = f"@{message.chat.username}" if message.chat.username else "None"
+        await client.send_message(
+            chat_id=LOGS_CHAT,
+            text=(
+                f"I was added to a group!\n"
+                f"Title: {message.chat.title}\n"
+                f"ID: <code>{message.chat.id}</code>\n"
+                f"Username: {username}\n"
+            ),
+        )
 
-            await message.reply(text, reply_markup=keyboard.as_markup())
-            break
+
+async def send_welcome_message(message: Message) -> None:
+    text = (
+        "Welcome to PyKorone!\n\n"
+        "Check out the documentation for more information on how to use me."
+    )
+
+    keyboard = InlineKeyboardBuilder()
+    keyboard.button(text="📄 Documentation", url=constants.DOCS_URL)
+    keyboard.button(text="📢 Channel", url=constants.TELEGRAM_URL)
+
+    await message.reply(text, reply_markup=keyboard.as_markup())

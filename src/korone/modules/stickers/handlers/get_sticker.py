@@ -34,7 +34,6 @@ async def getsticker_command(client: Client, message: Message) -> None:
         return
 
     sticker_file = await client.download_media(message=message.reply_to_message, in_memory=True)
-
     if not sticker_file or isinstance(sticker_file, str):
         await message.reply(_("Failed to download sticker."))
         return

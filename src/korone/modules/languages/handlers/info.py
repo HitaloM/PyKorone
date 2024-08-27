@@ -12,7 +12,8 @@ from magic_filter import F
 
 from korone.decorators import router
 from korone.filters import Command
-from korone.modules.languages.callback_data import LangMenuCallback, PMMenuCallback
+from korone.modules.languages.callback_data import LangMenu, LangMenuCallback
+from korone.modules.pm_menu.callback_data import PMMenu, PMMenuCallback
 from korone.utils.i18n import I18nNew, get_i18n
 from korone.utils.i18n import gettext as _
 
@@ -29,20 +30,22 @@ async def language_command(client: Client, message: Message):
     if message.chat.type == ChatType.PRIVATE:
         keyboard.row(
             InlineKeyboardButton(
-                text=_("⬅️ Back"), callback_data=PMMenuCallback(menu="start").pack()
+                text=_("⬅️ Back"), callback_data=PMMenuCallback(menu=PMMenu.Start).pack()
             )
         )
 
     await message.reply(text, reply_markup=keyboard.as_markup())
 
 
-@router.callback_query(LangMenuCallback.filter(F.menu == "language"))
+@router.callback_query(LangMenuCallback.filter(F.menu == LangMenu.Language))
 async def language_callback(client: Client, callback: CallbackQuery):
     button_text = _("👤 Change your language")
     text, keyboard = get_info_text_and_buttons(get_i18n(), button_text)
 
     keyboard.row(
-        InlineKeyboardButton(text=_("⬅️ Back"), callback_data=PMMenuCallback(menu="start").pack())
+        InlineKeyboardButton(
+            text=_("⬅️ Back"), callback_data=PMMenuCallback(menu=PMMenu.Start).pack()
+        )
     )
 
     with suppress(MessageNotModified):
@@ -55,24 +58,28 @@ def get_info_text_and_buttons(
     text = _("<b>Chat language:</b> {language}\n").format(language=i18n.current_locale_display)
 
     if i18n.current_locale != i18n.default_locale:
-        stats = i18n.get_locale_stats(i18n.current_locale)
-        if not stats:
-            return text, InlineKeyboardBuilder().button(
-                text=button_text, callback_data=LangMenuCallback(menu="languages")
-            )
-
-        text += _("\n<b>Language Information:</b>\n")
-        text += _("Translated strings: <code>{translated}</code>\n").format(
-            translated=stats.translated
-        )
-        text += _("Untranslated strings: <code>{untranslated}</code>\n").format(
-            untranslated=stats.untranslated
-        )
-        text += _("Strings requiring review: <code>{fuzzy}</code>\n").format(fuzzy=stats.fuzzy)
+        text += get_language_info(i18n)
     else:
         text += _("This is the bot's native language. So it is 100% translated.")
 
     keyboard = InlineKeyboardBuilder()
-    keyboard.button(text=button_text, callback_data=LangMenuCallback(menu="languages"))
+    keyboard.button(text=button_text, callback_data=LangMenuCallback(menu=LangMenu.Languages))
 
     return text, keyboard
+
+
+def get_language_info(i18n: I18nNew) -> str:
+    stats = i18n.get_locale_stats(i18n.current_locale)
+    if not stats:
+        return ""
+
+    info = _("\n<b>Language Information:</b>\n")
+    info += _("Translated strings: <code>{translated}</code>\n").format(
+        translated=stats.translated
+    )
+    info += _("Untranslated strings: <code>{untranslated}</code>\n").format(
+        untranslated=stats.untranslated
+    )
+    info += _("Strings requiring review: <code>{fuzzy}</code>\n").format(fuzzy=stats.fuzzy)
+
+    return info

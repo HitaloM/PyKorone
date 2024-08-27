@@ -32,8 +32,12 @@ async def filterinfo_command(client: Client, message: Message) -> None:
         await message.reply(_("Filter '{name}' not found.").format(name=filter_name))
         return
 
-    created_date = format_date(filter_info.created_date)
-    edited_date = format_date(filter_info.edited_date)
+    created_date = datetime.fromtimestamp(filter_info.created_date, tz=UTC).strftime(
+        "%d-%m-%Y %H:%M:%S %Z"
+    )
+    edited_date = datetime.fromtimestamp(filter_info.edited_date, tz=UTC).strftime(
+        "%d-%m-%Y %H:%M:%S %Z"
+    )
 
     response_message = _(
         "<b>Filter Info</b>:\n"
@@ -53,7 +57,3 @@ async def filterinfo_command(client: Client, message: Message) -> None:
     )
 
     await message.reply(response_message)
-
-
-def format_date(timestamp: int) -> str:
-    return datetime.fromtimestamp(timestamp, tz=UTC).strftime("%d-%m-%Y %H:%M:%S %Z")

@@ -10,11 +10,11 @@ from hydrogram.types import CallbackQuery
 from magic_filter import F
 
 from korone.decorators import router
-from korone.modules.languages.callback_data import LangMenuCallback
+from korone.modules.languages.callback_data import LangMenu, LangMenuCallback
 from korone.utils.i18n import gettext as _
 
 
-@router.callback_query(LangMenuCallback.filter(F.menu == "cancel"))
+@router.callback_query(LangMenuCallback.filter(F.menu == LangMenu.Cancel))
 async def language_cancel_callback(client: Client, callback: CallbackQuery):
     message = callback.message
 

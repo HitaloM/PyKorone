@@ -19,7 +19,7 @@ async def privacy_command(client: Client, message: Message) -> None:
         "Click the button below to start reading."
     )
 
-    keyboard = InlineKeyboardMarkup([
+    keyboard: InlineKeyboardMarkup = InlineKeyboardMarkup([
         [InlineKeyboardButton(text=_("Privacy Policy"), url=PRIVACY_POLICY_URL)]
     ])
 

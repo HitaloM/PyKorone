@@ -68,25 +68,6 @@ async def extract_media_id(url_match: re.Match[str]) -> str | int | None:
     return None
 
 
-async def process_media(
-    client: Client,
-    message: Message,
-    media: TikTokVideo | TikTokSlideshow,
-    media_id: str,
-    tiktok_url: str,
-) -> None:
-    if isinstance(media, TikTokVideo):
-        async with ChatActionSender(
-            client=client, chat_id=message.chat.id, action=ChatAction.UPLOAD_VIDEO
-        ):
-            await process_video(client, message, media, media_id, tiktok_url)
-    elif isinstance(media, TikTokSlideshow):
-        async with ChatActionSender(
-            client=client, chat_id=message.chat.id, action=ChatAction.UPLOAD_PHOTO
-        ):
-            await process_slideshow(message, media, media_id, tiktok_url)
-
-
 async def resolve_redirect_url(url: str) -> str | None:
     try:
         async with httpx.AsyncClient(
@@ -96,72 +77,84 @@ async def resolve_redirect_url(url: str) -> str | None:
             if response.url:
                 return str(response.url)
             response.raise_for_status()
-    except httpx.RequestError as e:
+    except (httpx.RequestError, httpx.HTTPStatusError) as e:
         await logger.aerror(
             "[Medias/TikTok] An error occurred while requesting %s.", str(e.request.url)
         )
         return None
-    except httpx.HTTPStatusError as exc:
-        await logger.aerror(
-            "[Medias/TikTok] Error response %s while requesting %s.",
-            exc.response.status_code,
-            exc.request.url,
-        )
-        return None
+
+
+async def process_media(
+    client: Client,
+    message: Message,
+    media: TikTokVideo | TikTokSlideshow,
+    media_id: str,
+    tiktok_url: str,
+) -> None:
+    if isinstance(media, TikTokVideo):
+        await process_video(client, message, media, media_id, tiktok_url)
+    elif isinstance(media, TikTokSlideshow):
+        await process_slideshow(message, media, media_id, tiktok_url)
 
 
 async def process_video(
     client: Client, message: Message, media: TikTokVideo, media_id: str, tiktok_url: str
 ) -> None:
-    cache = MediaCache(media_id)
-    cache_data = await cache.get()
-    media_file, duration, width, height, thumb = await get_video_details(media, cache_data)
-    caption = format_media_text(media)
-    keyboard = create_keyboard(tiktok_url)
+    async with ChatActionSender(
+        client=client, chat_id=message.chat.id, action=ChatAction.UPLOAD_VIDEO
+    ):
+        cache = MediaCache(media_id)
+        cache_data = await cache.get()
+        media_file, duration, width, height, thumb = await get_video_details(media, cache_data)
+        caption = format_media_text(media)
+        keyboard = create_keyboard(tiktok_url)
 
-    sent_message = await client.send_video(
-        chat_id=message.chat.id,
-        video=media_file,
-        caption=caption,
-        no_sound=True,
-        duration=duration,
-        width=width,
-        height=height,
-        thumb=thumb,
-        reply_markup=keyboard,
-        reply_to_message_id=message.id,
-    )
+        sent_message = await client.send_video(
+            chat_id=message.chat.id,
+            video=media_file,
+            caption=caption,
+            no_sound=True,
+            duration=duration,
+            width=width,
+            height=height,
+            thumb=thumb,
+            reply_markup=keyboard,
+            reply_to_message_id=message.id,
+        )
 
-    if sent_message:
-        cache_ttl = int(timedelta(weeks=1).total_seconds())
-        await cache.set(sent_message, cache_ttl)
+        if sent_message:
+            cache_ttl = int(timedelta(weeks=1).total_seconds())
+            await cache.set(sent_message, cache_ttl)
 
 
 async def process_slideshow(
     message: Message, media: TikTokSlideshow, media_id: str, tiktok_url: str
 ) -> None:
-    cache = MediaCache(media_id)
-    cache_data = await cache.get()
-    media_list = await get_slideshow_details(media, cache_data, tiktok_url)
+    async with ChatActionSender(
+        client=message._client, chat_id=message.chat.id, action=ChatAction.UPLOAD_PHOTO
+    ):
+        cache = MediaCache(media_id)
+        cache_data = await cache.get()
+        media_list = await get_slideshow_details(media, cache_data, tiktok_url)
 
-    if len(media_list) == 1:
-        caption = format_media_text(media)
-        keyboard = create_keyboard(tiktok_url)
+        if len(media_list) == 1:
+            caption = format_media_text(media)
+            keyboard = create_keyboard(tiktok_url)
 
-        sent_message = await message.reply_photo(
-            media_list[0].media,
-            caption=caption,
-            reply_markup=keyboard,
-        )
-    else:
-        if len(media_list) > 10:
-            media_list = media_list[:10]  # Telegram's limit
+            sent_message = await message.reply_photo(
+                media_list[0].media,
+                caption=caption,
+                reply_markup=keyboard,
+            )
+        else:
+            if len(media_list) > 10:
+                media_list = media_list[:10]  # Telegram's limit
 
-        sent_message = await message.reply_media_group(media_list)  # type: ignore
+            sent_message = await message.reply_media_group(media_list)  # type: ignore
 
-    if sent_message:
-        cache_ttl = int(timedelta(weeks=1).total_seconds())
-        await cache.set(sent_message, cache_ttl)
+        if sent_message:
+            cache_ttl = int(timedelta(weeks=1).total_seconds())
+            await cache.set(sent_message, cache_ttl)
 
 
 async def get_video_details(
@@ -186,7 +179,7 @@ async def get_video_details(
 
 async def get_slideshow_details(
     media: TikTokSlideshow, cache_data: dict | None, original_url: str
-):
+) -> list:
     if cache_data:
         media_list = [InputMediaPhoto(media["file"]) for media in cache_data.get("photo", [])] + [
             InputMediaVideo(

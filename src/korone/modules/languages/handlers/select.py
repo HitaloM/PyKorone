@@ -9,7 +9,7 @@ from magic_filter import F
 
 from korone.decorators import router
 from korone.filters import Command, IsAdmin
-from korone.modules.languages.callback_data import LangMenuCallback, SetLangCallback
+from korone.modules.languages.callback_data import LangMenu, LangMenuCallback, SetLangCallback
 from korone.utils.i18n import I18nNew, get_i18n
 from korone.utils.i18n import gettext as _
 
@@ -30,14 +30,14 @@ def build_text_and_keyboard(
     if chat_type in {ChatType.GROUP, ChatType.SUPERGROUP}:
         keyboard.row(
             InlineKeyboardButton(
-                text=_("❌ Cancel"), callback_data=LangMenuCallback(menu="cancel").pack()
+                text=_("❌ Cancel"), callback_data=LangMenuCallback(menu=LangMenu.Cancel).pack()
             )
         )
 
     if chat_type == ChatType.PRIVATE:
         keyboard.row(
             InlineKeyboardButton(
-                text=_("⬅️ Back"), callback_data=LangMenuCallback(menu="language").pack()
+                text=_("⬅️ Back"), callback_data=LangMenuCallback(menu=LangMenu.Languages).pack()
             )
         )
 
@@ -46,7 +46,7 @@ def build_text_and_keyboard(
 
 
 @router.message(Command("languages") & IsAdmin)
-@router.callback_query(LangMenuCallback.filter(F.menu == "languages") & IsAdmin)
+@router.callback_query(LangMenuCallback.filter(F.menu == LangMenu.Languages) & IsAdmin)
 async def languages_command(client: Client, update: Message | CallbackQuery) -> None:
     text, keyboard = build_text_and_keyboard(
         get_i18n(), update.chat.type if isinstance(update, Message) else update.message.chat.type

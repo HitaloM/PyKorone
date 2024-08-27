@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: BSD-3-Clause
 # Copyright (c) 2024 Hitalo M.
 
-from enum import Enum
+from enum import StrEnum
 from typing import Any
 
 import httpx
@@ -15,7 +15,7 @@ from .types import LastFMAlbum, LastFMArtist, LastFMTrack, LastFMUser
 API_KEY: str = ConfigManager.get("korone", "LASTFM_KEY")
 
 
-class TimePeriod(Enum):
+class TimePeriod(StrEnum):
     OneWeek = "1 week"
     OneMonth = "1 month"
     ThreeMonths = "3 months"

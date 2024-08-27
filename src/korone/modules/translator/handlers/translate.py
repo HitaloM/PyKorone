@@ -57,6 +57,32 @@ def extract_translation_details(
     return source_lang, target_lang, text
 
 
+async def handle_translation(
+    message: Message, text: str, target_lang: str, source_lang: str | None
+) -> None:
+    try:
+        deepl = DeepL()
+        translation = await deepl.translate_text(text, target_lang, source_lang)
+    except QuotaExceededError:
+        await message.reply(
+            _(
+                "Korone has reached the translation quota. The DeepL API has a limit of "
+                "500,000 characters per month for the free plan, and we have exceeded "
+                "this limit."
+            )
+        )
+        return
+    except TranslationError as e:
+        await message.reply(_("Failed to translate text. Error: {error}").format(error=e))
+        return
+
+    response_text = _(
+        "<b>Language:</b> <code>{source_lang}</code> => <code>{target_lang}</code>"
+    ).format(source_lang=translation.detected_source_language, target_lang=target_lang.upper())
+    response_text += f"\n<b>Translation:</b> <code>{translation.text}</code>"
+    await message.reply(response_text)
+
+
 @router.message(Command(commands=["tr", "translate"]))
 async def translate_command(client: Client, message: Message) -> None:
     command = CommandObject(message).parse()
@@ -81,24 +107,4 @@ async def translate_command(client: Client, message: Message) -> None:
         await message.reply(_("The text to translate is empty. Please provide some text."))
         return
 
-    try:
-        deepl = DeepL()
-        translation = await deepl.translate_text(text, target_lang, source_lang)
-    except QuotaExceededError:
-        await message.reply(
-            _(
-                "Korone has reached the translation quota. The DeepL API has a limit of "
-                "500,000 characters per month for the free plan, and we have exceeded "
-                "this limit."
-            )
-        )
-        return
-    except TranslationError as e:
-        await message.reply(_("Failed to translate text. Error: {error}").format(error=e))
-        return
-
-    response_text = _(
-        "<b>Language:</b> <code>{source_lang}</code> => <code>{target_lang}</code>"
-    ).format(source_lang=translation.detected_source_language, target_lang=target_lang.upper())
-    response_text += f"\n<b>Translation:</b> <code>{translation.text}</code>"
-    await message.reply(response_text)
+    await handle_translation(message, text, target_lang, source_lang)

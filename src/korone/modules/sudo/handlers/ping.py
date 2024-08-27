@@ -15,10 +15,10 @@ from korone.modules.sudo.callback_data import PingCallbackData
 @router.message(Command("ping", disableable=False) & IsSudo)
 @router.callback_query(PingCallbackData.filter() & IsSudo)
 async def ping_command(client: Client, event: Message | CallbackQuery) -> None:
+    first = datetime.now(UTC)
     keyboard = InlineKeyboardBuilder()
     keyboard.button(text="Retry", callback_data=PingCallbackData())
 
-    first = datetime.now(UTC)
     if isinstance(event, Message):
         message = await event.reply("<b>Pong!</b>")
     else:

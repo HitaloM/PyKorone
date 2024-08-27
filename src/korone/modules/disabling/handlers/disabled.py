@@ -22,7 +22,6 @@ async def disabled_command(client: Client, message: Message) -> None:
     disabled_commands = sorted(disabled_commands)
 
     text = _("The following commands are disabled in this chat:\n")
-    for command in disabled_commands:
-        text += f"- <code>{command}</code>\n"
+    text += "".join(f"- <code>{command}</code>\n" for command in disabled_commands)
 
     await message.reply(text)

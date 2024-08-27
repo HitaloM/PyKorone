@@ -71,12 +71,10 @@ async def reply_filter_status(message: Message, results: list[tuple[str, ...]]) 
     if not saved_filters:
         return
 
-    response_message = [
-        _("Saved {count} filters in {chat}:\n{filters}").format(
-            count=len(saved_filters),
-            chat=message.chat.title or _("private chat"),
-            filters="\n".join(f"- <code>{filter_name}</code>" for filter_name in saved_filters),
-        )
-    ]
+    response_message = _("Saved {count} filters in {chat}:\n{filters}").format(
+        count=len(saved_filters),
+        chat=message.chat.title or _("private chat"),
+        filters="\n".join(f"- <code>{filter_name}</code>" for filter_name in saved_filters),
+    )
 
-    await message.reply("".join(response_message))
+    await message.reply(response_message)

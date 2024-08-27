@@ -2,7 +2,7 @@
 # Copyright (c) 2024 Hitalo M. <https://github.com/HitaloM>
 
 from hydrogram import Client
-from hydrogram.types import Message
+from hydrogram.types import Message, User
 
 from korone.decorators import router
 from korone.filters import Command, CommandObject
@@ -14,6 +14,7 @@ from korone.modules.lastfm.utils import (
     parse_collage_arg,
     period_to_str,
 )
+from korone.modules.lastfm.utils.types import LastFMArtist
 from korone.utils.i18n import gettext as _
 
 
@@ -59,26 +60,46 @@ async def lfmcompat_command(client: Client, message: Message) -> None:
     )
     last_fm = LastFMClient()
 
-    try:
-        artists1 = await last_fm.get_top_artists(user1_db, period, limit=200)
-        artists2 = await last_fm.get_top_artists(user2_db, period, limit=200)
-    except LastFMError as e:
-        if "User not found" in e.message:
-            await message.reply(_("Your LastFM username was not found! Try setting it again."))
-            return
-        await message.reply(
-            _(
-                "An error occurred while fetching your LastFM data!"
-                "\n<blockquote>{error}</blockquote>"
-            ).format(error=e.message)
-        )
+    artists1, artists2 = await fetch_top_artists(last_fm, user1_db, user2_db, period, message)
+    if not artists1 or not artists2:
         return
 
     text = calculate_compatibility_text(user1, user2, artists1, artists2, period)
     await message.reply(text)
 
 
-def calculate_compatibility_text(user1, user2, artists1, artists2, period: TimePeriod) -> str:
+async def fetch_top_artists(
+    last_fm: LastFMClient, user1_db: str, user2_db: str, period: TimePeriod, message: Message
+) -> tuple[list[LastFMArtist], list[LastFMArtist]] | tuple[None, None]:
+    try:
+        artists1 = await last_fm.get_top_artists(user1_db, period, limit=200)
+        artists2 = await last_fm.get_top_artists(user2_db, period, limit=200)
+        return artists1, artists2
+    except LastFMError as e:
+        await handle_lastfm_error(e, message)
+        return None, None
+
+
+async def handle_lastfm_error(e: LastFMError, message: Message) -> None:
+    if "User not found" in e.message:
+        await message.reply(_("Your LastFM username was not found! Try setting it again."))
+        return
+
+    await message.reply(
+        _(
+            "An error occurred while fetching your LastFM data!"
+            "\n<blockquote>{error}</blockquote>"
+        ).format(error=e.message)
+    )
+
+
+def calculate_compatibility_text(
+    user1: User,
+    user2: User,
+    artists1: list[LastFMArtist],
+    artists2: list[LastFMArtist],
+    period: TimePeriod,
+) -> str:
     numerator = 0
     mutual = []
     denominator = min(len(artists1), len(artists2), 40)

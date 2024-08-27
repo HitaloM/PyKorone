@@ -33,34 +33,41 @@ class ConfigManager:
         logger.debug("Using path %s", cfgpath)
 
         config_path = Path(cfgpath)
-        self._create_config_directory(config_path)
-        self._create_config_file(config_path)
+        self._initialize_config(config_path)
 
         self.config: dict[str, Any] = loads(config_path.read_text(encoding="utf-8"))
         self.initialized = True
 
+    def _initialize_config(self, config_path: Path) -> None:
+        self._create_config_directory(config_path)
+        self._create_config_file(config_path)
+
     @staticmethod
     def _create_config_directory(config_path: Path) -> None:
-        if not config_path.parent.exists():
-            logger.info("Creating configuration directory")
-            try:
-                config_path.parent.mkdir(parents=True, exist_ok=True)
-            except OSError as e:
-                logger.critical("Could not create configuration directory: %s", e)
-                msg = "Could not create configuration directory"
-                raise ConfigError(msg) from e
+        if config_path.parent.exists():
+            return
+
+        logger.info("Creating configuration directory")
+        try:
+            config_path.parent.mkdir(parents=True, exist_ok=True)
+        except OSError as e:
+            logger.critical("Could not create configuration directory: %s", e)
+            msg = "Could not create configuration directory"
+            raise ConfigError(msg) from e
 
     @staticmethod
     def _create_config_file(config_path: Path) -> None:
-        if not config_path.is_file():
-            logger.info("Creating configuration file")
-            try:
-                with config_path.open("w", encoding="utf-8") as file:
-                    dump(constants.DEFAULT_CONFIG_TEMPLATE, file)
-            except OSError as e:
-                logger.critical("Could not create configuration file: %s", e)
-                msg = "Could not create configuration file"
-                raise ConfigError(msg) from e
+        if config_path.is_file():
+            return
+
+        logger.info("Creating configuration file")
+        try:
+            with config_path.open("w", encoding="utf-8") as file:
+                dump(constants.DEFAULT_CONFIG_TEMPLATE, file)
+        except OSError as e:
+            logger.critical("Could not create configuration file: %s", e)
+            msg = "Could not create configuration file"
+            raise ConfigError(msg) from e
 
     @classmethod
     def get(cls, section: str, option: str, fallback: str = "") -> Any:

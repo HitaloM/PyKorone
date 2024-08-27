@@ -1,12 +1,12 @@
 # SPDX-License-Identifier: BSD-3-Clause
 # Copyright (c) 2024 Hitalo M. <https://github.com/HitaloM>
 
-from enum import Enum
+from enum import IntEnum
 
 from .lastfm_api import TimePeriod
 
 
-class EntryType(Enum):
+class EntryType(IntEnum):
     Artist = 1
     Album = 2
     Track = 3
@@ -17,10 +17,12 @@ def get_entry_type(split: str) -> EntryType | None:
         return EntryType.Artist
     if split.startswith("album"):
         return EntryType.Album
-    return EntryType.Track if split.startswith("track") else None
+    if split.startswith("track"):
+        return EntryType.Track
+    return None
 
 
-def get_size(fragment: str):
+def get_size(fragment: str) -> int | None:
     fragment_splits = fragment.split("x")
     if fragment_splits[0].isdigit():
         size = int(fragment_splits[0])
@@ -29,7 +31,7 @@ def get_size(fragment: str):
     return None
 
 
-def get_period(split: str):
+def get_period(split: str) -> TimePeriod | None:
     fragment = split[:4]
     first_char = split[0]
     if first_char.isdigit():
@@ -64,7 +66,7 @@ def parse_collage_arg(
     arg: str | None,
     default_period: TimePeriod = TimePeriod.AllTime,
     default_entry: EntryType = EntryType.Album,
-):
+) -> tuple[int, TimePeriod, EntryType, bool]:
     if not arg:
         return 3, default_period, default_entry, False
 
@@ -72,7 +74,7 @@ def parse_collage_arg(
     size = 3
     period = default_period
     no_text = any(word in splits for word in ["notext", "nonames", "clean"])
-    entry_type = get_entry_type(default_entry.name.lower())
+    entry_type = default_entry
 
     for split in splits:
         if entry_type_candidate := get_entry_type(split):

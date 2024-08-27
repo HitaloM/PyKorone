@@ -26,16 +26,16 @@ async def delfilter_command(client: Client, message: Message) -> None:
     filter_name = command_obj.args.lower()
     existing_filters = await list_filters(message.chat.id)
 
-    if all(filter_name not in filter.names for filter in existing_filters):
+    if any(filter_name in filter.names for filter in existing_filters):
+        await delete_filter(message.chat.id, (filter_name,))
+        await update_filters_cache(message.chat.id)
         await message.reply(
-            _("Filter '<code>{filter_name}</code>' does not exist.").format(
+            _("Filter '<code>{filter_name}</code>' has been deleted.").format(
                 filter_name=filter_name
             )
         )
         return
 
-    await delete_filter(message.chat.id, (filter_name,))
-    await update_filters_cache(message.chat.id)
     await message.reply(
-        _("Filter '<code>{filter_name}</code>' has been deleted.").format(filter_name=filter_name)
+        _("Filter '<code>{filter_name}</code>' does not exist.").format(filter_name=filter_name)
     )

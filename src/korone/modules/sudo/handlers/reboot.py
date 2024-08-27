@@ -16,6 +16,7 @@ from korone.filters import Command, IsSudo
 @router.message(Command("reboot", disableable=False) & IsSudo)
 async def reboot_command(client: Client, message: Message) -> None:
     cache_key = "korone-reboot"
+
     if await cache.get(cache_key):
         await cache.delete(cache_key)
 

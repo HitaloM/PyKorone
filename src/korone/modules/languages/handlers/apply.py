@@ -21,17 +21,13 @@ async def set_lang_callback(client: Client, callback: CallbackQuery) -> None:
         await callback.answer(_("Something went wrong."))
         return
 
+    language = SetLangCallback.unpack(callback.data).lang
     is_private = callback.message.chat.type == ChatType.PRIVATE
-    language: str = SetLangCallback.unpack(callback.data).lang
 
     await set_chat_language(is_private, callback, language)
-
-    chat = callback.message.chat
-    cache_key = f"fetch_locale:{chat.id}"
-    await cache.delete(cache_key)
+    await cache.delete(f"fetch_locale:{callback.message.chat.id}")
 
     text, keyboard = prepare_response(get_i18n(), language)
-
     await callback.message.edit(
         text,
         reply_markup=keyboard.as_markup() if keyboard else None,  # type: ignore
@@ -44,27 +40,37 @@ def prepare_response(i18n: I18nNew, language: str) -> tuple[str, InlineKeyboardB
         new_lang=i18n.locale_display(i18n.babel(language))
     )
 
-    keyboard = None
     if language == i18n.default_locale:
-        keyboard = InlineKeyboardBuilder()
-        text += _(
-            "\nThis is the bot's native language."
-            "\nIf you find any errors, please file an issue in the "
-            "GitHub Repository.",
-            locale=language,
-        )
-        keyboard.button(
-            text=_("🐞 Open GitHub", locale=language),
-            url=f"{constants.GITHUB_URL}/issues",
-        )
-        return text, keyboard
+        return prepare_default_locale_response(i18n, text, language)
 
     stats = i18n.get_locale_stats(locale_code=language)
     if not stats:
-        return text, keyboard
+        return text, None
 
+    return prepare_translated_locale_response(i18n, text, language, stats.percent_translated)
+
+
+def prepare_default_locale_response(
+    i18n: I18nNew, text: str, language: str
+) -> tuple[str, InlineKeyboardBuilder]:
     keyboard = InlineKeyboardBuilder()
-    percent = 100 if i18n.default_locale == language else stats.percent_translated
+    text += _(
+        "\nThis is the bot's native language."
+        "\nIf you find any errors, please file an issue in the "
+        "GitHub Repository.",
+        locale=language,
+    )
+    keyboard.button(
+        text=_("🐞 Open GitHub", locale=language),
+        url=f"{constants.GITHUB_URL}/issues",
+    )
+    return text, keyboard
+
+
+def prepare_translated_locale_response(
+    i18n: I18nNew, text: str, language: str, percent: int
+) -> tuple[str, InlineKeyboardBuilder]:
+    keyboard = InlineKeyboardBuilder()
     text += _(
         "\nThe language is {percent}% translated.",
         locale=language,

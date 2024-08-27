@@ -87,13 +87,17 @@ async def send_filter(message: Message, filter: FilterModel, noformat: bool = Fa
         "animation": message.reply_animation,
     }
 
-    if reply_method := content_type_methods.get(filter.content_type):
-        if filter.content_type == "sticker":
-            await reply_method(filter.file.file_id)
-        else:
-            await reply_method(
-                filter.file.file_id,
-                caption=parsed_text or "",
-                reply_markup=buttons,
-                parse_mode=ParseMode.DISABLED if noformat else ParseMode.HTML,
-            )
+    reply_method = content_type_methods.get(filter.content_type)
+    if not reply_method:
+        return
+
+    if filter.content_type == "sticker":
+        await reply_method(filter.file.file_id)
+        return
+
+    await reply_method(
+        filter.file.file_id,
+        caption=parsed_text or "",
+        reply_markup=buttons,
+        parse_mode=ParseMode.DISABLED if noformat else ParseMode.HTML,
+    )

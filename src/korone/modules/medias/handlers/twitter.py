@@ -4,6 +4,7 @@
 import asyncio
 import re
 from datetime import timedelta
+from io import BytesIO
 
 import httpx
 from hairydogm.chat_action import ChatActionSender
@@ -34,11 +35,7 @@ async def handle_twitter(client: Client, message: Message) -> None:
     if not url_match:
         return
 
-    try:
-        tweet = await fetch_tweet(url_match.group())
-    except TwitterError:
-        return
-
+    tweet = await fetch_tweet_data(url_match.group())
     if not tweet or not tweet.media or not tweet.media.all_medias:
         return
 
@@ -57,10 +54,41 @@ async def handle_twitter(client: Client, message: Message) -> None:
         await cache.set(sent_message, int(timedelta(weeks=1).total_seconds()))
 
 
-def get_optimal_variant(media: TweetMedia) -> TweetMediaVariants | None:
-    return (
-        max(media.variants, key=lambda variant: variant.bitrate or 0) if media.variants else None
-    )
+async def fetch_tweet_data(url: str) -> Tweet | None:
+    try:
+        return await fetch_tweet(url)
+    except TwitterError:
+        return None
+
+
+def format_tweet_text(tweet: Tweet) -> str:
+    text = f"<b>{tweet.author.name} (<code>@{tweet.author.screen_name}</code>):</b>\n"
+    if tweet.text:
+        text += f"\n{tweet.text[:900]}{"..." if len(tweet.text) > 900 else ""}\n"
+    if tweet.source:
+        text += _("\n<b>Sent from:</b> <i>{source}</i>").format(source=tweet.source)
+    return text
+
+
+async def process_multiple_media(
+    client: Client, message: Message, tweet: Tweet, text: str
+) -> None:
+    cache = MediaCache(str(tweet.url))
+    media_cache = await cache.get()
+    media_list = build_media_list(media_cache, text) if media_cache else []
+
+    if not media_list and tweet.media and tweet.media.all_medias:
+        media_tasks = [prepare_media(media) for media in tweet.media.all_medias]
+        media_list = [media for media in await asyncio.gather(*media_tasks) if media]
+        media_list[-1].caption = text
+
+    async with ChatActionSender(
+        client=client, chat_id=message.chat.id, action=ChatAction.UPLOAD_PHOTO
+    ):
+        sent_message = await message.reply_media_group(media=media_list)
+
+    if sent_message:
+        await cache.set(sent_message, int(timedelta(weeks=1).total_seconds()))
 
 
 def build_media_list(media_cache: dict, text: str) -> list[InputMediaPhoto | InputMediaVideo]:
@@ -77,15 +105,6 @@ def build_media_list(media_cache: dict, text: str) -> list[InputMediaPhoto | Inp
     if media_list:
         media_list[-1].caption = text
     return media_list
-
-
-def handle_http_error(e: httpx.HTTPStatusError) -> str | None:
-    error_response = None
-    if e.response.status_code == 403:
-        error_response = e.response.json().get("error_response")
-    if error_response == "Dmcaed" or e.response.status_code == 307:
-        return "https://pbs.twimg.com/static/dmca/dmca-med.jpg"
-    return None
 
 
 async def prepare_media(media: TweetMedia) -> InputMediaPhoto | InputMediaVideo | None:
@@ -118,25 +137,19 @@ async def prepare_media(media: TweetMedia) -> InputMediaPhoto | InputMediaVideo 
     return None
 
 
-async def process_multiple_media(
-    client: Client, message: Message, tweet: Tweet, text: str
-) -> None:
-    cache = MediaCache(str(tweet.url))
-    media_cache = await cache.get()
-    media_list = build_media_list(media_cache, text) if media_cache else []
+def get_optimal_variant(media: TweetMedia) -> TweetMediaVariants | None:
+    return (
+        max(media.variants, key=lambda variant: variant.bitrate or 0) if media.variants else None
+    )
 
-    if not media_list and tweet.media and tweet.media.all_medias:
-        media_tasks = [prepare_media(media) for media in tweet.media.all_medias]
-        media_list = [media for media in await asyncio.gather(*media_tasks) if media]
-        media_list[-1].caption = text
 
-    async with ChatActionSender(
-        client=client, chat_id=message.chat.id, action=ChatAction.UPLOAD_PHOTO
-    ):
-        sent_message = await message.reply_media_group(media=media_list)
-
-    if sent_message:
-        await cache.set(sent_message, int(timedelta(weeks=1).total_seconds()))
+def handle_http_error(e: httpx.HTTPStatusError) -> str | None:
+    error_response = None
+    if e.response.status_code == 403:
+        error_response = e.response.json().get("error_response")
+    if error_response == "Dmcaed" or e.response.status_code == 307:
+        return "https://pbs.twimg.com/static/dmca/dmca-med.jpg"
+    return None
 
 
 async def send_media(
@@ -157,29 +170,12 @@ async def send_media(
     )
 
     if cache_data:
-        if media.media_type == "photo" and cache_data.get("photo"):
-            media_file = cache_data["photo"][0].get(
-                "file", await url_to_bytes_io(media.url, video=False)
-            )
-        elif media.media_type in {"video", "gif"} and cache_data.get("video"):
-            video_data = cache_data["video"][0]
-            media_file = video_data.get("file", await url_to_bytes_io(media.url, video=True))
-            duration = video_data.get("duration", duration)
-            width = video_data.get("width", media.width)
-            height = video_data.get("height", media.height)
-            thumb_file = video_data.get("thumbnail", media.thumbnail_url)
+        media_file, thumb_file, duration, width, height = await get_cached_media_data(
+            media, cache_data
+        )
 
     if not media_file:
-        try:
-            media_file = await url_to_bytes_io(media.url, video=media.media_type != "photo")
-            if media.media_type in {"video", "gif"} and media.thumbnail_url:
-                thumb_file = await url_to_bytes_io(media.thumbnail_url, video=True)
-                await asyncio.to_thread(resize_thumbnail, thumb_file)
-        except httpx.HTTPStatusError as e:
-            media_file = handle_http_error(e)
-            if not media_file:
-                return None
-            media.media_type = "photo"
+        media_file, thumb_file = await fetch_media_files(media)
 
     if not media_file:
         return None
@@ -209,10 +205,43 @@ async def send_media(
         )
 
 
-def format_tweet_text(tweet: Tweet) -> str:
-    text = f"<b>{tweet.author.name} (<code>@{tweet.author.screen_name}</code>):</b>\n"
-    if tweet.text:
-        text += f"\n{tweet.text[:900]}{"..." if len(tweet.text) > 900 else ""}\n"
-    if tweet.source:
-        text += _("\n<b>Sent from:</b> <i>{source}</i>").format(source=tweet.source)
-    return text
+async def get_cached_media_data(
+    media: TweetMedia, cache_data: dict
+) -> tuple[BytesIO, BytesIO | None, int, int, int]:
+    media_file: BytesIO | None = None
+    thumb_file: BytesIO | None = None
+    duration: int = media.duration
+    width: int = media.width
+    height: int = media.height
+
+    if media.media_type == "photo" and cache_data.get("photo"):
+        media_file = cache_data["photo"][0].get(
+            "file", await url_to_bytes_io(media.url, video=False)
+        )
+    elif media.media_type in {"video", "gif"} and cache_data.get("video"):
+        video_data = cache_data["video"][0]
+        media_file = video_data.get("file", await url_to_bytes_io(media.url, video=True))
+        duration = video_data.get("duration", duration)
+        width = video_data.get("width", media.width)
+        height = video_data.get("height", media.height)
+        thumb_file = video_data.get("thumbnail", media.thumbnail_url)
+
+    if media_file is None:
+        msg = "Media file cannot be None"
+        raise ValueError(msg)
+
+    return media_file, thumb_file, duration, width, height
+
+
+async def fetch_media_files(media: TweetMedia) -> tuple[BytesIO | str | None, BytesIO | None]:
+    try:
+        media_file = await url_to_bytes_io(media.url, video=media.media_type != "photo")
+        thumb_file = (
+            await url_to_bytes_io(media.thumbnail_url, video=True) if media.thumbnail_url else None
+        )
+        if thumb_file:
+            await asyncio.to_thread(resize_thumbnail, thumb_file)
+        return media_file, thumb_file
+    except httpx.HTTPStatusError as e:
+        media_file = handle_http_error(e)
+        return media_file, None

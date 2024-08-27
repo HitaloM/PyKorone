@@ -1,7 +1,6 @@
 # SPDX-License-Identifier: BSD-3-Clause
 # Copyright (c) 2024 Hitalo M.
 
-
 from hydrogram import Client
 from hydrogram.enums import ChatType
 from hydrogram.errors import UsernameInvalid, UsernameNotOccupied

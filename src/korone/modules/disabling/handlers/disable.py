@@ -42,7 +42,6 @@ async def disable_command(client: Client, message: Message) -> None:
         return
 
     command_state = await fetch_command_state(command_name)
-
     if command_state and not bool(command_state[0]["state"]):
         await message.reply(_("This command is already disabled."))
         return

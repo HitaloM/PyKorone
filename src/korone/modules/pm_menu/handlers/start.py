@@ -14,13 +14,14 @@ from magic_filter import F
 
 from korone.decorators import router
 from korone.filters import Command
-from korone.modules.pm_menu.callback_data import LangMenuCallback, PMMenuCallback
+from korone.modules.languages.callback_data import LangMenu, LangMenuCallback
+from korone.modules.pm_menu.callback_data import PMMenu, PMMenuCallback
 from korone.utils.i18n import get_i18n
 from korone.utils.i18n import gettext as _
 
 
 @router.message(Command("start"))
-@router.callback_query(PMMenuCallback.filter(F.menu == "start"))
+@router.callback_query(PMMenuCallback.filter(F.menu == PMMenu.Start))
 async def start_command(client: Client, event: Message | CallbackQuery) -> None:
     text = _(
         "Hi, I'm Korone! An all-in-one bot. I can help you with lots "
@@ -31,12 +32,12 @@ async def start_command(client: Client, event: Message | CallbackQuery) -> None:
     current_lang_flag = flag(Locale.parse(current_lang).territory or "US")
 
     keyboard = InlineKeyboardBuilder()
-    keyboard.button(text=_("ℹ️ About"), callback_data=PMMenuCallback(menu="about"))
+    keyboard.button(text=_("ℹ️ About"), callback_data=PMMenuCallback(menu=PMMenu.About))
     keyboard.button(
         text=_("{lang_flag} Language").format(lang_flag=current_lang_flag),
-        callback_data=LangMenuCallback(menu="language"),
+        callback_data=LangMenuCallback(menu=LangMenu.Language),
     )
-    keyboard.button(text=_("👮‍♂️ Help"), callback_data=PMMenuCallback(menu="help"))
+    keyboard.button(text=_("👮‍♂️ Help"), callback_data=PMMenuCallback(menu=PMMenu.Help))
     keyboard.adjust(2)
 
     if isinstance(event, Message):
@@ -45,7 +46,8 @@ async def start_command(client: Client, event: Message | CallbackQuery) -> None:
             return
 
         await event.reply(text, reply_markup=keyboard.as_markup())
+        return
 
-    elif isinstance(event, CallbackQuery):
+    if isinstance(event, CallbackQuery):
         with suppress(MessageNotModified):
             await event.message.edit(text, reply_markup=keyboard.as_markup())

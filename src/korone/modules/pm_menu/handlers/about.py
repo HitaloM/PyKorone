@@ -13,7 +13,7 @@ from magic_filter import F
 from korone import __version__, constants
 from korone.decorators import router
 from korone.filters import Command
-from korone.modules.pm_menu.callback_data import PMMenuCallback
+from korone.modules.pm_menu.callback_data import PMMenu, PMMenuCallback
 from korone.utils.i18n import gettext as _
 
 LICENSE_URL = f"{constants.GITHUB_URL}/blob/main/LICENSE"
@@ -24,7 +24,7 @@ PRIVACY_POLICY_URL = f"{constants.DOCS_URL}/en/latest/privacy.html"
 
 
 @router.message(Command("about"))
-@router.callback_query(PMMenuCallback.filter(F.menu == "about"))
+@router.callback_query(PMMenuCallback.filter(F.menu == PMMenu.About))
 async def about_command(client: Client, update: Message | CallbackQuery) -> None:
     python_link = f"<a href='{PYTHON_URL}'>Python</a>"
     hydrogram_link = f"<a href='{HYDROGRAM_URL}'>Hydrogram</a>"
@@ -57,7 +57,7 @@ async def about_command(client: Client, update: Message | CallbackQuery) -> None
     if message.chat.type == ChatType.PRIVATE:
         keyboard.row(
             InlineKeyboardButton(
-                text=_("⬅️ Back"), callback_data=PMMenuCallback(menu="start").pack()
+                text=_("⬅️ Back"), callback_data=PMMenuCallback(menu=PMMenu.Start).pack()
             )
         )
 
@@ -65,7 +65,9 @@ async def about_command(client: Client, update: Message | CallbackQuery) -> None
 
     if isinstance(update, Message):
         await update.reply(text, reply_markup=reply_markup, disable_web_page_preview=True)
-    elif isinstance(update, CallbackQuery):
+        return
+
+    if isinstance(update, CallbackQuery):
         with suppress(MessageNotModified):
             await update.message.edit(
                 text, reply_markup=reply_markup, disable_web_page_preview=True

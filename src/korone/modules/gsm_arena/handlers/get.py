@@ -19,6 +19,7 @@ async def get_gsmarena_callback(client: Client, callback: CallbackQuery) -> None
 
     query = GetDeviceCallback.unpack(callback.data).device
     phone = await check_phone_details(query)
+    formatted_phone = format_phone(phone)
 
     with suppress(MessageNotModified):
-        await callback.edit_message_text(text=format_phone(phone))
+        await callback.edit_message_text(text=formatted_phone)

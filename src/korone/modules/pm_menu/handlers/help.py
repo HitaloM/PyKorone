@@ -13,12 +13,12 @@ from magic_filter import F
 from korone import constants
 from korone.decorators import router
 from korone.filters import Command
-from korone.modules.pm_menu.callback_data import PMMenuCallback
+from korone.modules.pm_menu.callback_data import PMMenu, PMMenuCallback
 from korone.utils.i18n import gettext as _
 
 
 @router.message(Command("help"))
-@router.callback_query(PMMenuCallback.filter(F.menu == "help"))
+@router.callback_query(PMMenuCallback.filter(F.menu == PMMenu.Help))
 async def help_command(client: Client, update: Message | CallbackQuery) -> None:
     text = _(
         "You can get help by reading the documentation, where you'll get an overview of the "
@@ -32,7 +32,7 @@ async def help_command(client: Client, update: Message | CallbackQuery) -> None:
     if message.chat.type == ChatType.PRIVATE:
         keyboard.row(
             InlineKeyboardButton(
-                text=_("⬅️ Back"), callback_data=PMMenuCallback(menu="start").pack()
+                text=_("⬅️ Back"), callback_data=PMMenuCallback(menu=PMMenu.Start).pack()
             )
         )
 
@@ -40,6 +40,8 @@ async def help_command(client: Client, update: Message | CallbackQuery) -> None:
 
     if isinstance(update, Message):
         await message.reply(text, reply_markup=reply_markup)
-    elif isinstance(update, CallbackQuery):
+        return
+
+    if isinstance(update, CallbackQuery):
         with suppress(MessageNotModified):
             await message.edit(text, reply_markup=reply_markup)

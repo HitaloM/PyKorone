@@ -1,7 +1,6 @@
 # SPDX-License-Identifier: BSD-3-Clause
 # Copyright (c) 2024 Hitalo M. <https://github.com/HitaloM>
 
-
 from hydrogram import Client
 from hydrogram.errors import PeerIdInvalid, UsernameNotOccupied
 from hydrogram.types import Message
@@ -26,9 +25,8 @@ async def fetch_user(message: Message, identifier: str | int) -> Document | None
 
     try:
         if isinstance(identifier, int):
-            user = (await get_user_by_id(identifier))[0]
-        else:
-            user = (await get_user_by_username(identifier.lstrip("@")))[0]
+            return (await get_user_by_id(identifier))[0]
+        return (await get_user_by_username(identifier.lstrip("@")))[0]
     except (PeerIdInvalid, UsernameNotOccupied, IndexError) as e:
         error_messages = {
             PeerIdInvalid: _("The provided user ID is invalid."),
@@ -37,7 +35,6 @@ async def fetch_user(message: Message, identifier: str | int) -> Document | None
         }
         await message.reply(error_messages[type(e)])
         return None
-    return user
 
 
 @router.message(Command(commands=["user", "info"]))

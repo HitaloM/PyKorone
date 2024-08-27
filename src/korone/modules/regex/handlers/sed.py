@@ -38,11 +38,14 @@ async def handle_sed(client: Client, message: Message) -> None:
             await message.reply(_("Regex error: {e}").format(e=str(e)))
             return
 
-    if modified_text != original_text and message.reply_to_message:
-        await client.send_message(
-            message.chat.id, modified_text, reply_to_message_id=message.reply_to_message.id
-        )
-    elif modified_text == original_text:
-        await message.reply(_("Your regex didn't change anything from the original message."))
-    else:
+    if not message.reply_to_message:
         await message.reply(_("No message to apply the substitution."))
+        return
+
+    if modified_text == original_text:
+        await message.reply(_("Your regex didn't change anything from the original message."))
+        return
+
+    await client.send_message(
+        message.chat.id, modified_text, reply_to_message_id=message.reply_to_message.id
+    )

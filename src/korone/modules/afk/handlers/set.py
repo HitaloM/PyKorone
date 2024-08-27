@@ -28,5 +28,6 @@ async def afk_command(client: Client, message: Message) -> None:
 
     if isafk:
         await message.reply(_("Your AFK status has been updated!"))
-    else:
-        await message.reply(_("You are now AFK."))
+        return
+
+    await message.reply(_("You are now AFK."))

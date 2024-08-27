@@ -6,8 +6,7 @@ from collections.abc import Callable, Iterator, Sequence
 from itertools import islice
 from typing import Any
 
-from hairydogm.keyboard import InlineKeyboardBuilder
-from hydrogram.types import InlineKeyboardButton
+from hydrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 
 
 class Pagination:
@@ -31,9 +30,7 @@ class Pagination:
         for first in it:
             yield [first, *list(islice(it, size - 1))]
 
-    def create(
-        self, page: int, lines: int = 5, columns: int = 1
-    ) -> InlineKeyboardBuilder[InlineKeyboardButton]:
+    def create(self, page: int, lines: int = 5, columns: int = 1) -> InlineKeyboardMarkup:
         items_per_page = lines * columns
         page = max(1, page)
         offset = (page - 1) * items_per_page
@@ -53,13 +50,10 @@ class Pagination:
         if last_page > 1:
             kb_lines.append(nav_buttons)
 
-        keyboard_markup = InlineKeyboardBuilder()
-        for line in kb_lines:
-            keyboard_markup.row(
-                *(InlineKeyboardButton(text=str(text), callback_data=data) for text, data in line)
-            )
-
-        return keyboard_markup
+        return InlineKeyboardMarkup([
+            [InlineKeyboardButton(text=str(text), callback_data=data) for text, data in line]
+            for line in kb_lines
+        ])
 
     def _generate_navigation_buttons(
         self, page: int, last_page: int, pages_range: range

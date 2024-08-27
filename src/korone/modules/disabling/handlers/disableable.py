@@ -14,8 +14,11 @@ from korone.utils.i18n import gettext as _
 async def disableable_command(client: Client, message: Message) -> None:
     disableable_commands = sorted([cmd for cmd in COMMANDS if "parent" not in COMMANDS[cmd]])
 
+    if not disableable_commands:
+        await message.reply(_("No commands can be disabled."))
+        return
+
     text = _("The following commands can be disabled:\n")
-    for cmd in disableable_commands:
-        text += f"- <code>{cmd}</code>\n"
+    text += "".join(f"- <code>{cmd}</code>\n" for cmd in disableable_commands)
 
     await message.reply(text)

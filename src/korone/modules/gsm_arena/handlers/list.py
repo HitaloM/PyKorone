@@ -22,7 +22,7 @@ async def list_gsmarena_callback(client: Client, callback: CallbackQuery) -> Non
     keyboard = create_pagination_layout(devices, query, page)
 
     with suppress(MessageNotModified):
-        await callback.edit_message_reply_markup(keyboard.as_markup())
+        await callback.edit_message_reply_markup(keyboard)
 
 
 def unpack_callback_data(data: str | bytes) -> tuple[str, int]:
