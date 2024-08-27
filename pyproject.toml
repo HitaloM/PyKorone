@@ -23,6 +23,7 @@ dependencies = [
     "tomlkit>=0.13.0",
     "sentry-sdk>=2.12.0",
     "pydantic>=2.8.2",
+    "orjson>=3.10.7",
 ]
 readme = "README.md"
 license = { file = "LICENSE" }
