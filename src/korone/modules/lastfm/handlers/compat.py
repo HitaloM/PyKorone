@@ -2,7 +2,7 @@
 # Copyright (c) 2024 Hitalo M. <https://github.com/HitaloM>
 
 from hydrogram import Client
-from hydrogram.types import Message, User
+from hydrogram.types import Message
 
 from korone.decorators import router
 from korone.filters import Command, CommandObject
@@ -14,18 +14,29 @@ from korone.modules.lastfm.utils import (
     parse_collage_arg,
     period_to_str,
 )
-from korone.modules.lastfm.utils.types import LastFMArtist
 from korone.utils.i18n import gettext as _
 
 
 @router.message(Command("lfmcompat"))
-async def lfmcompat_command(client: Client, message: Message) -> None:
+async def lfmcompat_command(client: Client, message: Message) -> None:  # noqa: C901, PLR0912
     if not message.reply_to_message:
         await message.reply(_("Reply to a message to get the compatibility!"))
         return
 
     user1 = message.from_user
+    user2 = message.reply_to_message.from_user
+
+    if user1.id == user2.id:
+        await message.reply(_("You can't get the compatibility with yourself!"))
+        return
+
+    if user1.is_bot or user2.is_bot:
+        await message.reply(_("Bots won't have music taste!"))
+        return
+
     user1_db = await get_lastfm_user(user1.id)
+    user2_db = await get_lastfm_user(user2.id)
+
     if not user1_db:
         await message.reply(
             _(
@@ -35,16 +46,6 @@ async def lfmcompat_command(client: Client, message: Message) -> None:
         )
         return
 
-    user2 = message.reply_to_message.from_user
-    if user1.id == user2.id:
-        await message.reply(_("You can't get the compatibility with yourself!"))
-        return
-
-    if user1.is_bot or user2.is_bot:
-        await message.reply(_("Bots won't have music taste!"))
-        return
-
-    user2_db = await get_lastfm_user(user2.id)
     if not user2_db:
         await message.reply(
             _(
@@ -60,46 +61,25 @@ async def lfmcompat_command(client: Client, message: Message) -> None:
     )
     last_fm = LastFMClient()
 
-    artists1, artists2 = await fetch_top_artists(last_fm, user1_db, user2_db, period, message)
-    if not artists1 or not artists2:
-        return
-
-    text = calculate_compatibility_text(user1, user2, artists1, artists2, period)
-    await message.reply(text)
-
-
-async def fetch_top_artists(
-    last_fm: LastFMClient, user1_db: str, user2_db: str, period: TimePeriod, message: Message
-) -> tuple[list[LastFMArtist], list[LastFMArtist]] | tuple[None, None]:
     try:
         artists1 = await last_fm.get_top_artists(user1_db, period, limit=200)
         artists2 = await last_fm.get_top_artists(user2_db, period, limit=200)
-        return artists1, artists2
     except LastFMError as e:
-        await handle_lastfm_error(e, message)
-        return None, None
-
-
-async def handle_lastfm_error(e: LastFMError, message: Message) -> None:
-    if "User not found" in e.message:
-        await message.reply(_("Your LastFM username was not found! Try setting it again."))
+        if "User not found" in e.message:
+            await message.reply(_("Your LastFM username was not found! Try setting it again."))
+        else:
+            await message.reply(
+                _(
+                    "An error occurred while fetching your LastFM data!"
+                    "\n<blockquote>{error}</blockquote>"
+                ).format(error=e.message)
+            )
         return
 
-    await message.reply(
-        _(
-            "An error occurred while fetching your LastFM data!"
-            "\n<blockquote>{error}</blockquote>"
-        ).format(error=e.message)
-    )
+    if not artists1 or not artists2:
+        await message.reply(_("No top artists found for your LastFM account."))
+        return
 
-
-def calculate_compatibility_text(
-    user1: User,
-    user2: User,
-    artists1: list[LastFMArtist],
-    artists2: list[LastFMArtist],
-    period: TimePeriod,
-) -> str:
     numerator = 0
     mutual = []
     denominator = min(len(artists1), len(artists2), 40)
@@ -116,15 +96,17 @@ def calculate_compatibility_text(
     score = min(score, 100)
 
     if not mutual or score == 0:
-        return _("No common artists in {period}").format(period=period_to_str(period))
+        text = _("No common artists in {period}").format(period=period_to_str(period))
+    else:
+        text = _(
+            "{user1} and {user2} listen to {mutual}...\n\n"
+            "Compatibility score is {score}%, based on {period}"
+        ).format(
+            user1=user1.mention(),
+            user2=user2.mention(),
+            mutual=", ".join(mutual),
+            score=score,
+            period=period_to_str(period),
+        )
 
-    return _(
-        "{user1} and {user2} listen to {mutual}...\n\n"
-        "Compatibility score is {score}%, based on {period}"
-    ).format(
-        user1=user1.mention(),
-        user2=user2.mention(),
-        mutual=", ".join(mutual),
-        score=score,
-        period=period_to_str(period),
-    )
+    await message.reply(text)

@@ -3,49 +3,20 @@
 
 import html
 
-from hairydogm.keyboard import InlineKeyboardBuilder
 from hydrogram import Client
-from hydrogram.types import CallbackQuery, Message
+from hydrogram.types import CallbackQuery, InlineKeyboardButton, InlineKeyboardMarkup, Message
 
 from korone import cache
 from korone.decorators import router
 from korone.filters import Command, IsSudo
 from korone.modules.sudo.callback_data import UpdateCallbackData
-from korone.modules.sudo.utils import generate_document, run_command
-
-
-async def fetch_updates() -> str:
-    await run_command("git fetch origin")
-    return await run_command("git log HEAD..origin/main --oneline")
-
-
-def parse_commits(stdout: str) -> dict[str, dict[str, str]]:
-    return {
-        parts[0]: {"title": parts[1]}
-        for line in stdout.split("\n")
-        if line
-        for parts in [line.split(" ", 1)]
-    }
-
-
-def generate_changelog(commits: dict[str, dict[str, str]]) -> str:
-    return (
-        "<b>Changelog</b>:\n"
-        + "\n".join(
-            f"  - [<code>{c_hash[:7]}</code>] {html.escape(commit["title"])}"
-            for c_hash, commit in commits.items()
-        )
-        + f"\n\n<b>New commits count</b>: <code>{len(commits)}</code>."
-    )
-
-
-async def perform_update() -> str:
-    commands = [
-        "git reset --hard origin/main",
-        "pybabel compile -d locales -D bot",
-        "rye sync --update-all --all-features",
-    ]
-    return "".join([await run_command(command) for command in commands])
+from korone.modules.sudo.utils import (
+    fetch_updates,
+    generate_changelog,
+    generate_document,
+    parse_commits,
+    perform_update,
+)
 
 
 @router.message(Command(commands=["update", "upgrade"], disableable=False) & IsSudo)
@@ -65,8 +36,10 @@ async def update_command(client: Client, message: Message) -> None:
     commits = parse_commits(stdout)
     changelog = generate_changelog(commits)
 
-    keyboard = InlineKeyboardBuilder().button(text="🆕 Update", callback_data=UpdateCallbackData())
-    await sent.edit(changelog, reply_markup=keyboard.as_markup())
+    keyboard = InlineKeyboardMarkup([
+        [InlineKeyboardButton(text="Update", callback_data=UpdateCallbackData().pack())]
+    ])
+    await sent.edit(changelog, reply_markup=keyboard)
 
 
 @router.callback_query(UpdateCallbackData.filter() & IsSudo)

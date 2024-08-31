@@ -17,14 +17,11 @@ async def list_gsmarena_callback(client: Client, callback: CallbackQuery) -> Non
     if not callback.data:
         return
 
-    query, page = unpack_callback_data(callback.data)
+    callback_data = DevicePageCallback.unpack(callback.data)
+    query, page = callback_data.device, callback_data.page
+
     devices = await search_phone(query)
     keyboard = create_pagination_layout(devices, query, page)
 
     with suppress(MessageNotModified):
         await callback.edit_message_reply_markup(keyboard)
-
-
-def unpack_callback_data(data: str | bytes) -> tuple[str, int]:
-    callback_data = DevicePageCallback.unpack(data)
-    return callback_data.device, callback_data.page

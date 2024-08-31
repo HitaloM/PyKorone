@@ -36,20 +36,11 @@ async def device_command(client: Client, message: Message) -> None:
         return
 
     if len(devices) == 1:
-        await handle_single_device(message, devices[0])
-        return
-
-    await handle_multiple_devices(message, devices, query)
-
-
-async def handle_single_device(message: Message, device) -> None:
-    phone = await check_phone_details(device.url)
-    await message.reply(text=format_phone(phone))
-
-
-async def handle_multiple_devices(message: Message, devices, query: str) -> None:
-    keyboard = create_pagination_layout(devices, query, 1)
-    await message.reply(
-        _("Search results for: <b>{device}</b>").format(device=query),
-        reply_markup=keyboard,
-    )
+        phone = await check_phone_details(devices[0].url)
+        await message.reply(text=format_phone(phone))
+    else:
+        keyboard = create_pagination_layout(devices, query, 1)
+        await message.reply(
+            _("Search results for: <b>{device}</b>").format(device=query),
+            reply_markup=keyboard,
+        )

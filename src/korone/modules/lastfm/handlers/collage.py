@@ -34,28 +34,6 @@ async def lfmcollage_command(client: Client, message: Message) -> None:
         return
 
     command = CommandObject(message).parse()
-    collage_size, period, show_text = parse_command_args(command)
-
-    last_fm = LastFMClient()
-
-    async with ChatActionSender(
-        client=client, chat_id=message.chat.id, action=ChatAction.UPLOAD_PHOTO
-    ):
-        top_items = await fetch_top_albums(last_fm, last_fm_user, period, collage_size, message)
-        if not top_items:
-            return
-
-        collage_path = await create_album_collage(
-            top_items, collage_size=(collage_size, collage_size), show_text=show_text
-        )
-
-        user_link = name_with_link(name=str(message.from_user.first_name), username=last_fm_user)
-        caption = build_caption(user_link, period, collage_size)
-
-        await message.reply_photo(photo=collage_path, caption=caption)
-
-
-def parse_command_args(command: CommandObject) -> tuple[int, TimePeriod, bool]:
     collage_size = 3
     period = TimePeriod.AllTime
     show_text = True
@@ -64,38 +42,38 @@ def parse_command_args(command: CommandObject) -> tuple[int, TimePeriod, bool]:
         collage_size, period, _entry_type, no_text = parse_collage_arg(args)
         show_text = not no_text
 
-    return collage_size, period, show_text
+    last_fm = LastFMClient()
 
+    async with ChatActionSender(
+        client=client, chat_id=message.chat.id, action=ChatAction.UPLOAD_PHOTO
+    ):
+        try:
+            top_items = await last_fm.get_top_albums(last_fm_user, period, limit=collage_size**2)
+        except LastFMError as e:
+            if "User not found" in e.message:
+                await message.reply(_("Your LastFM username was not found! Try setting it again."))
+            else:
+                await message.reply(
+                    _(
+                        "An error occurred while fetching your LastFM data!"
+                        "\n<blockquote>{error}</blockquote>"
+                    ).format(error=e.message)
+                )
+            return
 
-async def fetch_top_albums(
-    last_fm: LastFMClient,
-    last_fm_user: str,
-    period: TimePeriod,
-    collage_size: int,
-    message: Message,
-) -> list | None:
-    try:
-        return await last_fm.get_top_albums(last_fm_user, period, limit=collage_size**2)
-    except LastFMError as e:
-        await handle_lastfm_error(e, message)
-        return None
+        if not top_items:
+            await message.reply(_("No top albums found for your LastFM account."))
+            return
 
-
-async def handle_lastfm_error(e: LastFMError, message: Message) -> None:
-    if "User not found" in e.message:
-        await message.reply(_("Your LastFM username was not found! Try setting it again."))
-    else:
-        await message.reply(
-            _(
-                "An error occurred while fetching your LastFM data!"
-                "\n<blockquote>{error}</blockquote>"
-            ).format(error=e.message)
+        collage_path = await create_album_collage(
+            top_items, collage_size=(collage_size, collage_size), show_text=show_text
         )
 
+        user_link = name_with_link(name=str(message.from_user.first_name), username=last_fm_user)
+        caption = _("{user}'s {period} {collage_size}x{collage_size} album collage").format(
+            user=user_link,
+            period=period_to_str(period),
+            collage_size=collage_size,
+        )
 
-def build_caption(user_link: str, period: TimePeriod, collage_size: int) -> str:
-    return _("{user}'s {period} {collage_size}x{collage_size} album collage").format(
-        user=user_link,
-        period=period_to_str(period),
-        collage_size=collage_size,
-    )
+        await message.reply_photo(photo=collage_path, caption=caption)

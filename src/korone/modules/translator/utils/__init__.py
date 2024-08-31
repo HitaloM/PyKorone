@@ -3,5 +3,6 @@
 
 from .api import DeepL
 from .errors import QuotaExceededError, TranslationError
+from .helpers import extract_translation_details
 
-__all__ = ("DeepL", "QuotaExceededError", "TranslationError")
+__all__ = ("DeepL", "QuotaExceededError", "TranslationError", "extract_translation_details")

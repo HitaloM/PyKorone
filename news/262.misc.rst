@@ -1,0 +1,1 @@
+Module handler code has been restructured to be simpler and more readable using functions instead of classes

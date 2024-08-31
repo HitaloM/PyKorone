@@ -14,8 +14,7 @@ from korone.utils.i18n import gettext as _
 
 @router.message(Regex(SED_PATTERN, friendly_name="sed"))
 async def handle_sed(client: Client, message: Message) -> None:
-    match = re.match(SED_PATTERN, message.text)
-    if not match:
+    if not (match := re.match(SED_PATTERN, message.text)):
         return
 
     substitution_commands = match[0].split(";")
@@ -26,6 +25,10 @@ async def handle_sed(client: Client, message: Message) -> None:
         command_data, error_message = process_command(command)
         if error_message:
             await message.reply(error_message)
+            return
+
+        if command_data is None:
+            await message.reply(_("Invalid command data."))
             return
 
         from_pattern, to_pattern, flags, count = command_data

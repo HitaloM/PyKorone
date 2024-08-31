@@ -34,18 +34,18 @@ HEADERS = {
 }
 
 
-def get_data_from_specs(specs_data: dict, category: str, attributes: list[str]) -> str:
+def get_data_from_specs(specs_data: dict[str, Any], category: str, attributes: list[str]) -> str:
     details = specs_data.get("specs", {}).get(category, {})
     return "\n".join(details.get(attr, "") for attr in attributes)
 
 
-def get_camera_data(specs_data: dict, category: str) -> str | None:
+def get_camera_data(specs_data: dict[str, Any], category: str) -> str | None:
     details = specs_data.get("specs", {}).get(category, {})
     camera = next(iter(details.items()), (None, None))
     return f"{camera[0]} {camera[1]}" if all(camera) else None
 
 
-def parse_specs(specs_data: dict) -> dict:
+def parse_specs(specs_data: dict[str, Any]) -> dict[str, str]:
     categories = {
         "status": ("Launch", ["Status"]),
         "network": ("Network", ["Technology"]),
@@ -74,7 +74,7 @@ def parse_specs(specs_data: dict) -> dict:
     return data
 
 
-def format_phone(phone: dict) -> str:
+def format_phone(phone: dict[str, Any]) -> str:
     phone = parse_specs(phone)
     attributes_dict = {
         _("Status"): "status",
@@ -116,7 +116,7 @@ async def fetch_html(url: str) -> str:
         raise
 
 
-def extract_specs(specs_tables: list[Any]) -> dict:
+def extract_specs(specs_tables: list[Any]) -> dict[str, Any]:
     return {
         "specs": {
             feature: {

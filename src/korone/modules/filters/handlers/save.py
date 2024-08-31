@@ -34,27 +34,11 @@ async def filter_command(client: Client, message: Message) -> None:
         )
         return
 
-    await process_and_save_filters(message, filters)
-
-
-async def process_and_save_filters(message: Message, filters: tuple[tuple[str, ...], str]) -> None:
     filter_names, filter_content = filters
-    if result := await save_single_filter(message, filter_names, filter_content):
-        await update_filters_cache(message.chat.id)
-        await reply_filter_status(message, [result])
-
-
-async def save_single_filter(
-    message: Message, filter_names: tuple[str, ...], filter_content: str
-) -> tuple[str, ...] | None:
     save_data = await parse_saveable(message, filter_content or "", allow_reply_message=True)
-    if not save_data:
+    if not save_data or not save_data.text:
         await message.reply("Something went wrong while saving the filter.")
-        return None
-
-    if not save_data.text:
-        await message.reply("The filter cannot be saved without text.")
-        return None
+        return
 
     await save_filter(
         chat_id=message.chat.id,
@@ -66,15 +50,10 @@ async def save_single_filter(
         file_id=save_data.file.file_id if save_data.file else "",
         buttons=save_data.buttons,
     )
-    return filter_names
 
+    await update_filters_cache(message.chat.id)
 
-async def reply_filter_status(message: Message, results: list[tuple[str, ...]]) -> None:
-    saved_filters = [name for names in results for name in names]
-
-    if not saved_filters:
-        return
-
+    saved_filters = list(filter_names)
     response_message = _("Saved {count} filters in {chat}:\n{filters}").format(
         count=len(saved_filters),
         chat=message.chat.title or _("private chat"),

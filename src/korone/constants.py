@@ -6,10 +6,10 @@ from pathlib import Path
 from typing import Any
 
 XDG_CONFIG_HOME: str = os.environ.get("XDG_CONFIG_HOME", str(Path.home() / ".config"))
-
 XDG_DATA_HOME: str = os.environ.get("XDG_DATA_HOME", str(Path.home() / ".local/share"))
 
 DEFAULT_CONFIG_PATH: str = f"{XDG_CONFIG_HOME}/korone/korone.toml"
+DEFAULT_DBFILE_PATH: str = f"{XDG_DATA_HOME}/korone/korone.sqlite"
 
 DEFAULT_CONFIG_TEMPLATE: dict[str, Any] = {
     "hydrogram": {
@@ -27,8 +27,6 @@ DEFAULT_CONFIG_TEMPLATE: dict[str, Any] = {
         "LASTFM_KEY": "",
     },
 }
-
-DEFAULT_DBFILE_PATH: str = f"{XDG_DATA_HOME}/korone/korone.sqlite"
 
 SQLITE3_TABLES: str = """
 CREATE TABLE IF NOT EXISTS Users (
@@ -90,11 +88,9 @@ CREATE INDEX IF NOT EXISTS idx_chat_id ON Filters (chat_id);
 """
 
 TRANSLATIONS_URL: str = "https://weblate.amanoteam.com/projects/korone/"
-
 GITHUB_URL: str = "https://github.com/HitaloM/PyKorone"
-
 TELEGRAM_URL: str = "https://t.me/PyKorone"
-
 DOCS_URL: str = "https://pykorone.readthedocs.io"
+PRIVACY_POLICY_URL = f"{DOCS_URL}/en/latest/privacy.html"
 
 MESSAGE_LENGTH_LIMIT: int = 4096
