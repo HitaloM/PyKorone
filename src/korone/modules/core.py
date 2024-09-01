@@ -3,10 +3,10 @@
 
 import inspect
 import os
+from collections.abc import Iterable
 from importlib import import_module
 from pathlib import Path
-from types import FunctionType, ModuleType
-from typing import TYPE_CHECKING, Any
+from typing import TYPE_CHECKING, Any, Protocol, cast
 
 from hydrogram import Client
 from hydrogram.filters import Filter
@@ -16,10 +16,9 @@ from korone.database.query import Query
 from korone.database.sqlite import SQLite3Connection
 from korone.database.table import Documents
 from korone.utils.logging import logger
-from korone.utils.traverse import bfs_attr_search
 
 if TYPE_CHECKING:
-    from collections.abc import Iterable
+    from types import ModuleType
 
 MODULES: dict[str, dict[str, Any]] = {}
 COMMANDS: dict[str, Any] = {}
@@ -80,34 +79,39 @@ async def update_command_structure(commands: list[str]) -> None:
 
 
 async def process_filters(filters: Filter) -> None:
-    for attr in ["commands", "patterns"]:
-        try:
-            if bfs_attr_search(filters, attr):
-                disableable = False
-                commands = []
-
-                if attr == "commands":
-                    disableable = getattr(filters, "disableable", False)
-                    commands = [cmd.pattern for cmd in getattr(filters, "commands", [])]
-                elif attr == "patterns":
-                    disableable = bool(getattr(filters, "friendly_name", None))
-                    commands = [filters.friendly_name] if disableable else []  # type: ignore
-
-                await logger.adebug(
-                    "%s extracted: %s, disableable: %s", attr.capitalize(), commands, disableable
-                )
-
-                if commands and disableable:
-                    await update_command_structure(commands)
-                break
-        except AttributeError:
-            continue
+    commands = extract_commands(filters)
+    if commands:
+        await update_command_structure(commands)
 
 
-async def register_handler(client: Client, func: FunctionType) -> bool:
+def extract_commands(filters: Filter) -> list[str]:
+    for extractor in [extract_command_filters, extract_pattern_filters]:
+        commands = extractor(filters)
+        if commands:
+            return commands
+    return []
+
+
+def extract_command_filters(filters: Filter) -> list[str]:
+    if hasattr(filters, "commands") and getattr(filters, "disableable", False):
+        return [cmd.pattern for cmd in filters.commands]  # type: ignore
+    return []
+
+
+def extract_pattern_filters(filters: Filter) -> list[str]:
+    if hasattr(filters, "friendly_name"):
+        return [filters.friendly_name]  # type: ignore
+    return []
+
+
+class HandlerProtocol(Protocol):
+    handlers: list[tuple[Handler, int]]
+
+
+async def register_handler(client: Client, func: HandlerProtocol) -> bool:
     successful = False
 
-    for handler, group in func.handlers:  # type: ignore
+    for handler, group in func.handlers:
         if isinstance(handler, Handler):
             await logger.adebug("Registering handler: %s", handler)
 
@@ -129,9 +133,13 @@ async def load_module(client: Client, module_name: str, handlers: list[str]) -> 
             component: ModuleType = import_module(f".{handler}", "korone.modules")
             await logger.adebug("Imported component: %s", component)
 
-            module_handlers: Iterable[FunctionType] = filter(
-                lambda func: hasattr(func, "handlers"),
-                filter(inspect.isfunction, (getattr(component, var) for var in vars(component))),
+            module_handlers: Iterable[HandlerProtocol] = cast(
+                Iterable[HandlerProtocol],
+                (
+                    func
+                    for func in vars(component).values()
+                    if inspect.isfunction(func) and hasattr(func, "handlers")
+                ),
             )
 
             for handler_func in module_handlers:

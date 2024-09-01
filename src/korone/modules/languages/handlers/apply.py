@@ -44,34 +44,31 @@ async def set_lang_callback(client: Client, callback: CallbackQuery) -> None:
             text=_("🐞 Open GitHub", locale=language),
             url=f"{constants.GITHUB_URL}/issues",
         )
-    else:
-        stats = i18n.get_locale_stats(locale_code=language)
-        if stats:
-            text += _(
-                "\nThe language is {percent}% translated.",
-                locale=language,
-            ).format(percent=stats.percent_translated)
+    elif stats := i18n.get_locale_stats(locale_code=language):
+        text += _(
+            "\nThe language is {percent}% translated.",
+            locale=language,
+        ).format(percent=stats.percent_translated)
 
-            if stats.percent_translated > 99:
-                text += _(
-                    "\nIn case you find any errors, please "
-                    "file an issue in the GitHub Repository.",
-                    locale=language,
-                )
-                keyboard.button(
-                    text=_("🐞 Open GitHub", locale=language),
-                    url=f"{constants.GITHUB_URL}/issues",
-                )
-            else:
-                text += _(
-                    "\nPlease help us translate this language by completing it on "
-                    "our translations platform.",
-                    locale=language,
-                )
-                keyboard.button(
-                    text=_("🌍 Open Translations", locale=language),
-                    url=constants.TRANSLATIONS_URL,
-                )
+        if stats.percent_translated > 99:
+            text += _(
+                "\nIn case you find any errors, please " "file an issue in the GitHub Repository.",
+                locale=language,
+            )
+            keyboard.button(
+                text=_("🐞 Open GitHub", locale=language),
+                url=f"{constants.GITHUB_URL}/issues",
+            )
+        else:
+            text += _(
+                "\nPlease help us translate this language by completing it on "
+                "our translations platform.",
+                locale=language,
+            )
+            keyboard.button(
+                text=_("🌍 Open Translations", locale=language),
+                url=constants.TRANSLATIONS_URL,
+            )
 
     await callback.message.edit(
         text,

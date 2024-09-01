@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-08-31 20:56-0300\n"
+"POT-Creation-Date: 2024-08-31 21:18-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -335,31 +335,31 @@ msgid ""
 msgstr ""
 
 #: src/korone/modules/languages/handlers/apply.py:44
-#: src/korone/modules/languages/handlers/apply.py:62
+#: src/korone/modules/languages/handlers/apply.py:59
 msgid "🐞 Open GitHub"
 msgstr ""
 
-#: src/korone/modules/languages/handlers/apply.py:50
+#: src/korone/modules/languages/handlers/apply.py:48
 msgid ""
 "\n"
 "The language is {percent}% translated."
 msgstr ""
 
-#: src/korone/modules/languages/handlers/apply.py:56
+#: src/korone/modules/languages/handlers/apply.py:54
 msgid ""
 "\n"
 "In case you find any errors, please file an issue in the GitHub "
 "Repository."
 msgstr ""
 
-#: src/korone/modules/languages/handlers/apply.py:66
+#: src/korone/modules/languages/handlers/apply.py:63
 msgid ""
 "\n"
 "Please help us translate this language by completing it on our "
 "translations platform."
 msgstr ""
 
-#: src/korone/modules/languages/handlers/apply.py:72
+#: src/korone/modules/languages/handlers/apply.py:69
 msgid "🌍 Open Translations"
 msgstr ""
 
@@ -381,29 +381,29 @@ msgstr ""
 msgid "<b>Chat language:</b> {language}\n"
 msgstr ""
 
-#: src/korone/modules/languages/handlers/info.py:37
+#: src/korone/modules/languages/handlers/info.py:36
+msgid "This is the bot's native language. So it is 100% translated."
+msgstr ""
+
+#: src/korone/modules/languages/handlers/info.py:38
 msgid ""
 "\n"
 "<b>Language Information:</b>\n"
 msgstr ""
 
-#: src/korone/modules/languages/handlers/info.py:38
+#: src/korone/modules/languages/handlers/info.py:39
 msgid "Translated strings: <code>{translated}</code>\n"
 msgstr ""
 
-#: src/korone/modules/languages/handlers/info.py:41
+#: src/korone/modules/languages/handlers/info.py:42
 msgid "Untranslated strings: <code>{untranslated}</code>\n"
 msgstr ""
 
-#: src/korone/modules/languages/handlers/info.py:44
+#: src/korone/modules/languages/handlers/info.py:45
 msgid "Strings requiring review: <code>{fuzzy}</code>\n"
 msgstr ""
 
-#: src/korone/modules/languages/handlers/info.py:46
-msgid "This is the bot's native language. So it is 100% translated."
-msgstr ""
-
-#: src/korone/modules/languages/handlers/info.py:53
+#: src/korone/modules/languages/handlers/info.py:52
 #: src/korone/modules/languages/handlers/select.py:45
 #: src/korone/modules/pm_menu/handlers/about.py:55
 #: src/korone/modules/pm_menu/handlers/help.py:34

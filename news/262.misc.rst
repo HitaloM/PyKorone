@@ -1,1 +1,1 @@
-Module handler code has been restructured to be simpler and more readable using functions instead of classes
+Module handler code has been restructured to be simpler and more readable using a functional approach instead of a class-based structure

@@ -16,7 +16,7 @@ async def cleanup_command(client: Client, message: Message) -> None:
 
     try:
         members = client.get_chat_members(message.chat.id)
-        members = [] if not members else [member async for member in members]  # type: ignore
+        members = [member async for member in members] if members else []  # type: ignore
     except Exception:
         await sent.edit(_("Failed to fetch members."))
         return

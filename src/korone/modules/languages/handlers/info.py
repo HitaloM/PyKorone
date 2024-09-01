@@ -31,19 +31,18 @@ async def handle_language(client: Client, event):
 
     i18n = get_i18n()
     text = _("<b>Chat language:</b> {language}\n").format(language=i18n.current_locale_display)
-    if i18n.current_locale != i18n.default_locale:
-        stats = i18n.get_locale_stats(i18n.current_locale)
-        if stats:
-            text += _("\n<b>Language Information:</b>\n")
-            text += _("Translated strings: <code>{translated}</code>\n").format(
-                translated=stats.translated
-            )
-            text += _("Untranslated strings: <code>{untranslated}</code>\n").format(
-                untranslated=stats.untranslated
-            )
-            text += _("Strings requiring review: <code>{fuzzy}</code>\n").format(fuzzy=stats.fuzzy)
-    else:
+
+    if i18n.current_locale == i18n.default_locale:
         text += _("This is the bot's native language. So it is 100% translated.")
+    elif stats := i18n.get_locale_stats(i18n.current_locale):
+        text += _("\n<b>Language Information:</b>\n")
+        text += _("Translated strings: <code>{translated}</code>\n").format(
+            translated=stats.translated
+        )
+        text += _("Untranslated strings: <code>{untranslated}</code>\n").format(
+            untranslated=stats.untranslated
+        )
+        text += _("Strings requiring review: <code>{fuzzy}</code>\n").format(fuzzy=stats.fuzzy)
 
     keyboard = InlineKeyboardBuilder()
     keyboard.button(text=button_text, callback_data=LangMenuCallback(menu=LangMenu.Languages))
