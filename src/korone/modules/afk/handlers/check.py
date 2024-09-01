@@ -75,7 +75,7 @@ async def send_afk_message(user: User, message: Message) -> None:
                     last_played.artist.name, last_played.name, last_fm_user
                 )
                 text += _("🎧 Listening to: {track_artist} — {track_name}").format(
-                    track_artist=track_info.artist, track_name=track_info.name
+                    track_artist=track_info.artist.name, track_name=track_info.name
                 )
 
     sent = await message.reply(text)
