@@ -159,8 +159,10 @@ class TikTokHandler(MessageHandler):
                 reply_markup=keyboard,
             )
         else:
-            if len(media_list) > 10:
-                media_list = media_list[:10]  # Telegram's limit
+            if len(media_list) > 10:  # Telegram's limit
+                last_caption = media_list[-1].caption
+                media_list = media_list[:10]
+                media_list[-1].caption = last_caption
 
             sent_message = await message.reply_media_group(media_list)  # type: ignore
 
