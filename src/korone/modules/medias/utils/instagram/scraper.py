@@ -2,6 +2,7 @@
 # Copyright (c) 2024 Hitalo M. <https://github.com/HitaloM>
 
 import asyncio
+import contextlib
 import re
 from collections.abc import Mapping, Sequence
 from datetime import timedelta
@@ -144,29 +145,32 @@ async def get_embed_data(url: str) -> InstagramData | None:
     if not response_data:
         return None
 
+    result = None
     gql_data = extract_gql_data(response_data)
     if gql_data and gql_data != "null":
-        return InstagramData.model_validate_json(gql_data)
-
-    instafix_data = await get_instafix_data(url)
-    if instafix_data:
-        instafix_dict = {
-            "shortcode_media": {
-                "__typename": "GraphVideo",
-                "video_url": instafix_data.video_url,
-                "edge_media_to_caption": {
-                    "edges": [{"node": {"text": instafix_data.description}}]
-                },
-                "owner": {"username": instafix_data.username},
+        with contextlib.suppress(ValueError):
+            result = InstagramData.model_validate_json(gql_data)
+    else:
+        instafix_data = await get_instafix_data(post_id)
+        if instafix_data:
+            instafix_dict = {
+                "shortcode_media": {
+                    "__typename": "GraphVideo",
+                    "video_url": instafix_data.video_url,
+                    "edge_media_to_caption": {
+                        "edges": [{"node": {"text": instafix_data.description}}]
+                    },
+                    "owner": {"username": instafix_data.username},
+                }
             }
-        }
-        return InstagramData.model_validate(instafix_dict)
+            result = InstagramData.model_validate(instafix_dict)
 
-    media_data = await extract_media_data(response_data, post_id)
-    if media_data:
-        return InstagramData.model_validate(media_data)
+    if not result:
+        media_data = await extract_media_data(response_data, post_id)
+        if media_data:
+            result = InstagramData.model_validate(media_data)
 
-    return None
+    return result
 
 
 @cache(ttl=timedelta(weeks=1), condition=NOT_NONE)
