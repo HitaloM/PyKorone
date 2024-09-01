@@ -19,8 +19,7 @@ async def set_command_state(chat_id: int, command_name: str, *, state: bool) -> 
         COMMANDS[command_name]["chat"][chat_id] = state
 
         table = await conn.table("Commands")
-        query = Query()
-        query = (query.chat_id == chat_id) & (query.command == command_name)
+        query = (Query().chat_id == chat_id) & (Query().command == command_name)
 
         if not await table.query(query):
             await table.insert(Document(chat_id=chat_id, command=command_name, state=state))
@@ -32,8 +31,7 @@ async def set_command_state(chat_id: int, command_name: str, *, state: bool) -> 
 async def get_disabled_commands(chat_id: int) -> list[str]:
     async with SQLite3Connection() as conn:
         table = await conn.table("Commands")
-        query = Query()
-        query = (query.chat_id == chat_id) & (query.state == 0)
+        query = (Query().chat_id == chat_id) & (Query().state == 0)
 
         result = await table.query(query)
         return [doc["command"] for doc in result]

@@ -3,88 +3,64 @@
 
 import html
 
-from hairydogm.keyboard import InlineKeyboardBuilder
 from hydrogram import Client
-from hydrogram.types import CallbackQuery, Message
+from hydrogram.types import CallbackQuery, InlineKeyboardButton, InlineKeyboardMarkup, Message
 
 from korone import cache
 from korone.decorators import router
 from korone.filters import Command, IsSudo
-from korone.handlers.abstract import CallbackQueryHandler, MessageHandler
 from korone.modules.sudo.callback_data import UpdateCallbackData
-from korone.modules.sudo.utils import generate_document, run_command
+from korone.modules.sudo.utils import (
+    fetch_updates,
+    generate_changelog,
+    generate_document,
+    parse_commits,
+    perform_update,
+)
 
 
-class UpdateCommand(MessageHandler):
-    @router.message(Command(commands=["update", "upgrade"], disableable=False) & IsSudo)
-    async def handle(self, client: Client, message: Message) -> None:
-        sent = await message.reply("Checking for updates...")
+@router.message(Command(commands=["update", "upgrade"], disableable=False) & IsSudo)
+async def update_command(client: Client, message: Message) -> None:
+    sent = await message.reply("Checking for updates...")
 
-        try:
-            await run_command("git fetch origin")
-            stdout = await run_command("git log HEAD..origin/main --oneline")
-        except Exception as e:
-            await sent.edit(f"An error occurred:\n<code>{e}</code>")
-            return
+    try:
+        stdout = await fetch_updates()
+    except Exception as e:
+        await sent.edit(f"An error occurred:\n<code>{e}</code>")
+        return
 
-        if not stdout.strip():
-            await sent.edit("There is nothing to update.")
-            return
+    if not stdout.strip():
+        await sent.edit("There is nothing to update.")
+        return
 
-        commits = self.parse_commits(stdout)
-        changelog = (
-            "<b>Changelog</b>:\n"
-            + "\n".join(
-                f"  - [<code>{c_hash[:7]}</code>] {html.escape(commit["title"])}"
-                for c_hash, commit in commits.items()
-            )
-            + f"\n\n<b>New commits count</b>: <code>{len(commits)}</code>."
-        )
+    commits = parse_commits(stdout)
+    changelog = generate_changelog(commits)
 
-        keyboard = InlineKeyboardBuilder().button(
-            text="🆕 Update", callback_data=UpdateCallbackData()
-        )
-        await sent.edit(changelog, reply_markup=keyboard.as_markup())
-
-    @staticmethod
-    def parse_commits(log_output: str) -> dict[str, dict[str, str]]:
-        return {
-            parts[0]: {"title": parts[1]}
-            for line in log_output.split("\n")
-            if line
-            for parts in [line.split(" ", 1)]
-        }
+    keyboard = InlineKeyboardMarkup([
+        [InlineKeyboardButton(text="Update", callback_data=UpdateCallbackData().pack())]
+    ])
+    await sent.edit(changelog, reply_markup=keyboard)
 
 
-class UpdateCallback(CallbackQueryHandler):
-    @staticmethod
-    @router.callback_query(UpdateCallbackData.filter() & IsSudo)
-    async def handle(client: Client, callback: CallbackQuery) -> None:
-        cache_key = "korone-reboot"
-        if await cache.get(cache_key):
-            await cache.delete(cache_key)
+@router.callback_query(UpdateCallbackData.filter() & IsSudo)
+async def update_callback(client: Client, callback: CallbackQuery) -> None:
+    cache_key = "korone-reboot"
+    if await cache.get(cache_key):
+        await cache.delete(cache_key)
 
-        message = callback.message
+    message = callback.message
+    await message.edit_reply_markup()
+    sent = await message.reply("Upgrading...")
 
-        await message.edit_reply_markup()
-        sent = await message.reply("Upgrading...")
+    try:
+        stdout = await perform_update()
+    except Exception as e:
+        await sent.edit(f"An error occurred:\n<code>{e}</code>")
+        return
 
-        commands = [
-            "git reset --hard origin/main",
-            "pybabel compile -d locales -D bot",
-            "rye sync --update-all --all-features",
-        ]
+    if len(stdout) > 4096:
+        await sent.edit("Upgrade completed successfully. Reboot is required...")
+        await generate_document(stdout, message)
+        return
 
-        try:
-            stdout = "".join([await run_command(command) for command in commands])
-        except Exception as e:
-            await sent.edit(f"An error occurred:\n<code>{e}</code>")
-            return
-
-        text = "Upgrade completed successfully. Reboot is required..."
-        if len(stdout) > 4096:
-            await sent.edit(text)
-            await generate_document(stdout, message)
-            return
-
-        await sent.edit(f"<pre language='bash'>{html.escape(str(stdout))}</pre>")
+    await sent.edit(f"<pre language='bash'>{html.escape(stdout)}</pre>")

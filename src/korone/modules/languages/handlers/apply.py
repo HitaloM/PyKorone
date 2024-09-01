@@ -9,73 +9,50 @@ from hydrogram.types import CallbackQuery
 from korone import cache, constants
 from korone.decorators import router
 from korone.filters import IsAdmin
-from korone.handlers.abstract import CallbackQueryHandler
 from korone.modules.languages.callback_data import SetLangCallback
 from korone.modules.languages.database import set_chat_language
 from korone.utils.i18n import get_i18n
 from korone.utils.i18n import gettext as _
 
 
-class ApplyLanguage(CallbackQueryHandler):
-    @router.callback_query(SetLangCallback.filter() & IsAdmin)
-    async def handle(self, client: Client, callback: CallbackQuery) -> None:
-        if not callback.data:
-            await callback.answer(_("Something went wrong."))
-            return
+@router.callback_query(SetLangCallback.filter() & IsAdmin)
+async def set_lang_callback(client: Client, callback: CallbackQuery) -> None:
+    if not callback.data:
+        await callback.answer(_("Something went wrong."))
+        return
 
-        is_private = callback.message.chat.type == ChatType.PRIVATE
-        language: str = SetLangCallback.unpack(callback.data).lang
+    language = SetLangCallback.unpack(callback.data).lang
+    is_private = callback.message.chat.type == ChatType.PRIVATE
 
-        await set_chat_language(is_private, callback, language)
+    await set_chat_language(is_private, callback, language)
+    await cache.delete(f"fetch_locale:{callback.message.chat.id}")
 
-        chat = callback.message.chat
-        cache_key = f"fetch_locale:{chat.id}"
-        await cache.delete(cache_key)
+    i18n = get_i18n()
+    text = _("Language changed to {new_lang}.", locale=language).format(
+        new_lang=i18n.locale_display(i18n.babel(language))
+    )
 
-        text, keyboard = await self.prepare_response(language)
-
-        await callback.message.edit(
-            text,
-            reply_markup=keyboard.as_markup() if keyboard else None,  # type: ignore
-            disable_web_page_preview=True,
+    keyboard = InlineKeyboardBuilder()
+    if language == i18n.default_locale:
+        text += _(
+            "\nThis is the bot's native language."
+            "\nIf you find any errors, please file an issue in the "
+            "GitHub Repository.",
+            locale=language,
         )
-
-    @staticmethod
-    async def prepare_response(language: str) -> tuple[str, InlineKeyboardBuilder | None]:
-        i18n = get_i18n()
-
-        text = _("Language changed to {new_lang}.", locale=language).format(
-            new_lang=i18n.locale_display(i18n.babel(language))
+        keyboard.button(
+            text=_("🐞 Open GitHub", locale=language),
+            url=f"{constants.GITHUB_URL}/issues",
         )
-
-        keyboard = None
-        if language == i18n.default_locale:
-            keyboard = InlineKeyboardBuilder()
-            text += _(
-                "\nThis is the bot's native language."
-                "\nIf you find any errors, please file a issue in the "
-                "GitHub Repository.",
-                locale=language,
-            )
-            keyboard.button(
-                text=_("🐞 Open GitHub", locale=language),
-                url=f"{constants.GITHUB_URL}/issues",
-            )
-            return text, keyboard
-
-        stats = i18n.get_locale_stats(locale_code=language)
-        if not stats:
-            return text, keyboard
-
-        keyboard = InlineKeyboardBuilder()
-        percent = 100 if i18n.default_locale == language else stats.percent_translated
+    elif stats := i18n.get_locale_stats(locale_code=language):
         text += _(
             "\nThe language is {percent}% translated.",
             locale=language,
-        ).format(percent=percent)
-        if percent > 99:
+        ).format(percent=stats.percent_translated)
+
+        if stats.percent_translated > 99:
             text += _(
-                "\nIn case you find any errors, please file a issue in the " "GitHub Repository.",
+                "\nIn case you find any errors, please " "file an issue in the GitHub Repository.",
                 locale=language,
             )
             keyboard.button(
@@ -93,4 +70,8 @@ class ApplyLanguage(CallbackQueryHandler):
                 url=constants.TRANSLATIONS_URL,
             )
 
-        return text, keyboard
+    await callback.message.edit(
+        text,
+        reply_markup=keyboard.as_markup() if keyboard else None,  # type: ignore
+        disable_web_page_preview=True,
+    )

@@ -11,20 +11,18 @@ from hydrogram.types import Message
 from korone import cache
 from korone.decorators import router
 from korone.filters import Command, IsSudo
-from korone.handlers.abstract import MessageHandler
 
 
-class Reboot(MessageHandler):
-    @staticmethod
-    @router.message(Command("reboot", disableable=False) & IsSudo)
-    async def handle(client: Client, message: Message) -> None:
-        cache_key = "korone-reboot"
-        if await cache.get(cache_key):
-            await cache.delete(cache_key)
+@router.message(Command("reboot", disableable=False) & IsSudo)
+async def reboot_command(client: Client, message: Message) -> None:
+    cache_key = "korone-reboot"
 
-        sent = await message.reply("Rebooting...")
+    if await cache.get(cache_key):
+        await cache.delete(cache_key)
 
-        value = {"chat_id": message.chat.id, "message_id": sent.id, "time": time.time()}
-        await cache.set(cache_key, value=value, expire=300)
+    sent = await message.reply("Rebooting...")
 
-        os.execv(sys.executable, [sys.executable, "-m", "korone"])
+    value = {"chat_id": message.chat.id, "message_id": sent.id, "time": time.time()}
+    await cache.set(cache_key, value=value, expire=300)
+
+    os.execv(sys.executable, [sys.executable, "-m", "korone"])

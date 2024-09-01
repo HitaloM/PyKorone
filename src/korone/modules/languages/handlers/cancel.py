@@ -10,25 +10,22 @@ from hydrogram.types import CallbackQuery
 from magic_filter import F
 
 from korone.decorators import router
-from korone.handlers.abstract import CallbackQueryHandler
-from korone.modules.languages.callback_data import LangMenuCallback
+from korone.modules.languages.callback_data import LangMenu, LangMenuCallback
 from korone.utils.i18n import gettext as _
 
 
-class ChangeLanguageCancel(CallbackQueryHandler):
-    @staticmethod
-    @router.callback_query(LangMenuCallback.filter(F.menu == "cancel"))
-    async def handle(client: Client, callback: CallbackQuery):
-        message = callback.message
+@router.callback_query(LangMenuCallback.filter(F.menu == LangMenu.Cancel))
+async def language_cancel_callback(client: Client, callback: CallbackQuery):
+    message = callback.message
 
-        await message.edit(
-            _(
-                "Changing language was canceled, you can change language again "
-                "by using /language command."
-            )
+    await message.edit(
+        _(
+            "Changing language was canceled, you can change language again "
+            "by using /language command."
         )
+    )
 
-        await asyncio.sleep(5)
-        with suppress(MessageDeleteForbidden, BadRequest):
-            await message.reply_to_message.delete()
-            await message.delete()
+    await asyncio.sleep(5)
+    with suppress(MessageDeleteForbidden, BadRequest):
+        await message.reply_to_message.delete()
+        await message.delete()

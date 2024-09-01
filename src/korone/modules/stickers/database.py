@@ -9,11 +9,9 @@ from korone.database.table import Document, Documents
 async def get_or_create_pack(user_id: int, pack_type: str) -> Documents:
     async with SQLite3Connection() as conn:
         table = await conn.table("StickerPack")
-        query = Query()
-        query = (query.user_id == user_id) & (query.type == pack_type)
-        result = await table.query(query)
+        query = (Query().user_id == user_id) & (Query().type == pack_type)
 
-        if result:
+        if result := await table.query(query):
             return result
 
         await table.insert(Document(user_id=user_id, type=pack_type, num=1))
@@ -23,6 +21,5 @@ async def get_or_create_pack(user_id: int, pack_type: str) -> Documents:
 async def update_user_pack(user_id: int, pack_type: str, num: int) -> None:
     async with SQLite3Connection() as conn:
         table = await conn.table("StickerPack")
-        query = Query()
-        query = (query.user_id == user_id) & (query.type == pack_type)
+        query = (Query().user_id == user_id) & (Query().type == pack_type)
         await table.update(Document(num=num), query)

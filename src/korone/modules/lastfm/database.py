@@ -9,10 +9,9 @@ from korone.database.table import Document
 async def save_lastfm_user(user_id: int, username: str) -> None:
     async with SQLite3Connection() as conn:
         table = await conn.table("LastFM")
-        query = Query()
 
-        if await table.query(query.id == user_id):
-            await table.update(Document(username=username), query.id == user_id)
+        if await table.query(Query().id == user_id):
+            await table.update(Document(username=username), Query().id == user_id)
             return
 
         doc = Document(id=user_id, username=username)
@@ -22,7 +21,6 @@ async def save_lastfm_user(user_id: int, username: str) -> None:
 async def get_lastfm_user(user_id: int) -> str | None:
     async with SQLite3Connection() as conn:
         table = await conn.table("LastFM")
-        query = Query()
 
-        user = await table.query(query.id == user_id)
+        user = await table.query(Query().id == user_id)
         return user[0]["username"] if user else None

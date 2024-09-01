@@ -12,7 +12,6 @@ from hydrogram.types import InputMediaPhoto, InputMediaVideo, Message
 
 from korone.decorators import router
 from korone.filters import Regex
-from korone.handlers.abstract import MessageHandler
 from korone.modules.medias.utils.cache import MediaCache
 from korone.modules.medias.utils.instagram import POST_PATTERN, instagram
 from korone.utils.i18n import gettext as _
@@ -20,78 +19,70 @@ from korone.utils.i18n import gettext as _
 URL_PATTERN = re.compile(r"(?:https?://)?(?:www\.)?instagram\.com/.*?(?=\s|$)")
 
 
-class InstagramHandler(MessageHandler):
-    @router.message(Regex(URL_PATTERN))
-    async def handle(self, client: Client, message: Message) -> None:
-        if not message.text:
-            return
+@router.message(Regex(URL_PATTERN))
+async def handle_instagram(client: Client, message: Message) -> None:
+    if not message.text:
+        return
 
-        url = self.extract_url(message.text)
-        if not url:
-            return
+    url = extract_url(message.text)
+    if not url:
+        return
 
-        media_list = await instagram(url)
-        if not media_list:
-            return
+    media_list = await instagram(url)
+    if not media_list:
+        return
 
-        if len(media_list) > 10:  # Telegram's limit
-            last_caption = media_list[-1].caption
-            media_list = media_list[:10]
-            media_list[-1].caption = last_caption
+    if len(media_list) > 10:  # Telegram's limit
+        last_caption = media_list[-1].caption
+        media_list = media_list[:10]
+        media_list[-1].caption = last_caption
 
-        async with ChatActionSender(
-            client=client, chat_id=message.chat.id, action=ChatAction.UPLOAD_DOCUMENT
-        ):
-            sent_message = await self.send_media(message, media_list, url)  # type: ignore
+    caption = format_caption(media_list, url)  # type: ignore
 
-        post_id = self.extract_post_id(url)
-        if post_id and sent_message:
-            await self.cache_media(sent_message, post_id)
+    async with ChatActionSender(
+        client=client, chat_id=message.chat.id, action=ChatAction.UPLOAD_DOCUMENT
+    ):
+        sent_message = await send_media(message, media_list, caption, url)  # type: ignore
 
-    @staticmethod
-    def extract_url(text: str) -> str | None:
-        if not text:
-            return None
+    post_id = extract_post_id(url)
+    if post_id and sent_message:
+        await cache_media(post_id, sent_message)
 
-        match = URL_PATTERN.search(text)
-        return match.group() if match else None
 
-    async def send_media(
-        self,
-        message: Message,
-        media_list: list[InputMediaPhoto | InputMediaVideo],
-        url: str,
-    ) -> Message | list[Message] | None:
-        caption = self.build_caption(media_list, url)
-        if len(media_list) == 1:
-            return await self.send_single_media(message, media_list[0], caption, url)
-        media_list[-1].caption = caption
-        return await message.reply_media_group(media_list)
+def extract_url(text: str) -> str | None:
+    match = URL_PATTERN.search(text)
+    return match.group() if match else None
 
-    @staticmethod
-    def build_caption(media_list: list[InputMediaPhoto | InputMediaVideo], url: str) -> str:
-        caption = media_list[-1].caption
-        if len(media_list) > 1:
-            caption += f"\n<a href='{url}'>{_("Open in Instagram")}</a>"
-        return caption
 
-    @staticmethod
-    async def send_single_media(
-        message: Message, media: InputMediaPhoto | InputMediaVideo, caption: str, url: str
-    ) -> Message:
-        keyboard = InlineKeyboardBuilder().button(text=_("Open in Instagram"), url=url).as_markup()
+def format_caption(media_list: list, url: str) -> str:
+    caption = media_list[-1].caption
+    if len(media_list) > 1:
+        caption += f"\n<a href='{url}'>📷 {_("Open in Instagram")}</a>"
+    return caption
+
+
+async def send_media(message: Message, media_list: list, caption: str, url: str) -> Message | None:
+    if len(media_list) == 1:
+        media = media_list[0]
+        keyboard = (
+            InlineKeyboardBuilder()
+            .button(text=f"📷 {_("Open in Instagram")}", url=url)
+            .as_markup()
+        )
         if isinstance(media, InputMediaPhoto):
             return await message.reply_photo(media.media, caption=caption, reply_markup=keyboard)
         if isinstance(media, InputMediaVideo):
             return await message.reply_video(media.media, caption=caption, reply_markup=keyboard)
         return None
+    media_list[-1].caption = caption
+    return await message.reply_media_group(media_list)  # type: ignore
 
-    @staticmethod
-    def extract_post_id(url: str) -> str | None:
-        match = POST_PATTERN.search(url)
-        return match.group(1) if match else None
 
-    @staticmethod
-    async def cache_media(message: Message | list[Message], post_id: str) -> None:
-        cache = MediaCache(post_id)
-        await cache.set(message, expire=int(timedelta(weeks=1).total_seconds()))
+def extract_post_id(url: str) -> str | None:
+    match = POST_PATTERN.search(url)
+    return match.group(1) if match else None
+
+
+async def cache_media(post_id: str, sent_message: Message) -> None:
+    cache = MediaCache(post_id)
+    await cache.set(sent_message, expire=int(timedelta(weeks=1).total_seconds()))

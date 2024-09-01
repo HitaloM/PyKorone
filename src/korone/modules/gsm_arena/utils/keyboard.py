@@ -1,16 +1,13 @@
 # SPDX-License-Identifier: BSD-3-Clause
 # Copyright (c) 2024 Hitalo M. <https://github.com/HitaloM>
 
-from hairydogm.keyboard import InlineKeyboardBuilder
-from hydrogram.types import InlineKeyboardButton
+from hydrogram.types import InlineKeyboardMarkup
 
 from korone.modules.gsm_arena.callback_data import DevicePageCallback, GetDeviceCallback
 from korone.utils.pagination import Pagination
 
 
-def create_pagination_layout(
-    devices: list, query: str, page: int
-) -> InlineKeyboardBuilder[InlineKeyboardButton]:
+def create_pagination_layout(devices: list, query: str, page: int) -> InlineKeyboardMarkup:
     layout = Pagination(
         devices,
         item_data=lambda i, _: GetDeviceCallback(device=i.url).pack(),

@@ -69,18 +69,13 @@ async def run_ffprobe_command(file_path: str) -> str | None:
 
     stdout, _ = await process.communicate()
 
-    if stdout:
-        return stdout.decode()
-    return None
+    return stdout.decode() if stdout else None
 
 
 async def ffprobe(file_path: str) -> float | None:
-    raw_output = await run_ffprobe_command(file_path)
-
-    if raw_output is None:
-        return None
-
-    try:
-        return float(raw_output.strip())
-    except ValueError:
-        return None
+    if raw_output := await run_ffprobe_command(file_path):
+        try:
+            return float(raw_output.strip())
+        except ValueError:
+            return None
+    return None

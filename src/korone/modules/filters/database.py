@@ -1,9 +1,10 @@
 # SPDX-License-Identifier: BSD-3-Clause
 # Copyright (c) 2024 Hitalo M.
 
-import json
 import time
 from collections import defaultdict
+
+import orjson
 
 from korone import cache
 from korone.database.query import Query
@@ -26,21 +27,20 @@ async def save_filter(
     buttons = buttons or []
     async with SQLite3Connection() as connection:
         filters_table = await connection.table("Filters")
-        query = Query()
 
-        serialized_names = json.dumps(filter_names)
-        serialized_buttons = json.dumps([
+        serialized_names = orjson.dumps(filter_names).decode()
+        serialized_buttons = orjson.dumps([
             [button.model_dump() for button in row] for row in buttons
-        ])
+        ]).decode()
         current_timestamp = int(time.time())
 
-        existing_filters = await filters_table.query(query.chat_id == chat_id)
+        existing_filters = await filters_table.query(Query().chat_id == chat_id)
         filters_to_remove, filters_to_update = classify_filters(existing_filters, filter_names)
 
-        await remove_filters(filters_table, query, chat_id, filters_to_remove)
+        await remove_filters(filters_table, chat_id, filters_to_remove)
         await update_filters(
             filters_table,
-            query,
+            Query(),
             chat_id,
             filters_to_update,
             filter_names,
@@ -69,7 +69,7 @@ def classify_filters(
     new_filter_set = set(new_filter_names)
 
     for existing_filter in existing_filters:
-        existing_filter_names = tuple(json.loads(existing_filter["filter_names"]))
+        existing_filter_names = tuple(orjson.loads(existing_filter["filter_names"]))
         existing_filter_set = set(existing_filter_names)
 
         if existing_filter_set.issubset(new_filter_set):
@@ -81,11 +81,12 @@ def classify_filters(
 
 
 async def remove_filters(
-    filters_table: Table, query: Query, chat_id: int, filters_to_remove: list[tuple[str, ...]]
+    filters_table: Table, chat_id: int, filters_to_remove: list[tuple[str, ...]]
 ) -> None:
     for filter_names in filters_to_remove:
         await filters_table.delete(
-            (query.chat_id == chat_id) & (query.filter_names == json.dumps(filter_names))
+            (Query().chat_id == chat_id)
+            & (Query().filter_names == orjson.dumps(filter_names).decode())
         )
 
 
@@ -104,15 +105,17 @@ async def update_filters(
         ):
             await filters_table.update(
                 Document(
-                    filter_names=json.dumps(updated_filter_names),
+                    filter_names=orjson.dumps(updated_filter_names).decode(),
                     edited_date=current_timestamp,
                     editor_id=editor_id,
                 ),
-                (query.chat_id == chat_id) & (query.filter_names == json.dumps(filter_names)),
+                (query.chat_id == chat_id)
+                & (query.filter_names == orjson.dumps(filter_names).decode()),
             )
         else:
             await filters_table.delete(
-                (query.chat_id == chat_id) & (query.filter_names == json.dumps(filter_names))
+                (query.chat_id == chat_id)
+                & (query.filter_names == orjson.dumps(filter_names).decode())
             )
 
 
@@ -149,26 +152,25 @@ async def insert_new_filter(
 async def list_filters(chat_id: int) -> list[FilterModel]:
     async with SQLite3Connection() as connection:
         filters_table = await connection.table("Filters")
-        query = Query()
-        filters = await filters_table.query(query.chat_id == chat_id)
+        filters = await filters_table.query(Query().chat_id == chat_id)
         return [deserialize_filter(filter) for filter in filters]
 
 
 def deserialize_filter(filter: Document) -> FilterModel:
     return FilterModel(**{
         **filter,
-        "filter_names": tuple(json.loads(filter["filter_names"])),
+        "filter_names": tuple(orjson.loads(filter["filter_names"])),
         "buttons": [
             [
-                Button(**button) if isinstance(button, dict) else Button(**json.loads(button))
+                Button(**button) if isinstance(button, dict) else Button(**orjson.loads(button))
                 for button in (
-                    button_row if isinstance(button_row, list) else json.loads(button_row)
+                    button_row if isinstance(button_row, list) else orjson.loads(button_row)
                 )
             ]
             for button_row in (
                 filter["buttons"]
                 if isinstance(filter["buttons"], list)
-                else json.loads(filter["buttons"])
+                else orjson.loads(filter["buttons"])
             )
         ],
         "file": FilterFile(id=filter["file_id"], type=filter["content_type"])
@@ -180,50 +182,53 @@ def deserialize_filter(filter: Document) -> FilterModel:
 async def delete_filter(chat_id: int, filter_names: tuple[str, ...]) -> None:
     async with SQLite3Connection() as connection:
         filters_table = await connection.table("Filters")
-        query = Query()
 
-        filters = await filters_table.query(query.chat_id == chat_id)
+        filters = await filters_table.query(Query().chat_id == chat_id)
 
         for filter in filters:
-            existing_filter_names = tuple(json.loads(filter["filter_names"]))
+            existing_filter_names = tuple(orjson.loads(filter["filter_names"]))
             if updated_filter_names := tuple(
                 name for name in existing_filter_names if name not in filter_names
             ):
                 await filters_table.update(
                     Document(
-                        filter_names=json.dumps(updated_filter_names),
+                        filter_names=orjson.dumps(updated_filter_names).decode(),
                         edited_date=int(time.time()),
                         editor_id=filter["editor_id"],
                     ),
-                    (query.chat_id == chat_id)
-                    & (query.filter_names == json.dumps(existing_filter_names)),
+                    (Query().chat_id == chat_id)
+                    & (Query().filter_names == orjson.dumps(existing_filter_names).decode()),
                 )
             else:
                 await filters_table.delete(
-                    (query.chat_id == chat_id)
-                    & (query.filter_names == json.dumps(existing_filter_names))
+                    (Query().chat_id == chat_id)
+                    & (Query().filter_names == orjson.dumps(existing_filter_names).decode())
                 )
 
 
-async def delete_all_filters(chat_id: int) -> None:
+async def delete_all_filters(chat_id: int) -> bool:
     async with SQLite3Connection() as connection:
         filters_table = await connection.table("Filters")
-        query = Query()
-        await filters_table.delete(query.chat_id == chat_id)
+
+        existing_filters = await filters_table.query(Query().chat_id == chat_id)
+        if not existing_filters:
+            return False
+
+        await filters_table.delete(Query().chat_id == chat_id)
+        return True
 
 
 async def get_filter_info(chat_id: int, filter_name: str) -> FilterModel | None:
     async with SQLite3Connection() as connection:
         filters_table = await connection.table("Filters")
         users_table = await connection.table("Users")
-        query = Query()
 
-        filters = await filters_table.query(query.chat_id == chat_id)
+        filters = await filters_table.query(Query().chat_id == chat_id)
 
         for filter in filters:
-            if filter_name in (filter_names := tuple(json.loads(filter["filter_names"]))):
-                creator = (await users_table.query(query.id == filter["creator_id"]))[0]
-                editor = (await users_table.query(query.id == filter["editor_id"]))[0]
+            if filter_name in (filter_names := tuple(orjson.loads(filter["filter_names"]))):
+                creator = (await users_table.query(Query().id == filter["creator_id"]))[0]
+                editor = (await users_table.query(Query().id == filter["editor_id"]))[0]
 
                 return FilterModel(**{
                     **filter,
@@ -232,17 +237,17 @@ async def get_filter_info(chat_id: int, filter_name: str) -> FilterModel | None:
                         [
                             Button(**button)
                             if isinstance(button, dict)
-                            else Button(**json.loads(button))
+                            else Button(**orjson.loads(button))
                             for button in (
                                 button_row
                                 if isinstance(button_row, list)
-                                else json.loads(button_row)
+                                else orjson.loads(button_row)
                             )
                         ]
                         for button_row in (
                             filter["buttons"]
                             if isinstance(filter["buttons"], list)
-                            else json.loads(filter["buttons"])
+                            else orjson.loads(filter["buttons"])
                         )
                     ],
                     "file": FilterFile(id=filter["file_id"], type=filter["file_type"])

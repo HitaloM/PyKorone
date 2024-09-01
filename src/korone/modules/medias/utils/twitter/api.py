@@ -20,7 +20,7 @@ class TwitterError(Exception):
 async def fetch_tweet(url: str) -> Tweet | None:
     fx_url = re.sub(r"(www\.|)(twitter\.com|x\.com)", "api.fxtwitter.com", url)
     try:
-        async with httpx.AsyncClient(http2=True) as client:
+        async with httpx.AsyncClient(http2=True, timeout=20) as client:
             response = await client.get(fx_url)
             response.raise_for_status()
 

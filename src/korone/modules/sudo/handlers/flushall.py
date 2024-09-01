@@ -9,14 +9,11 @@ from hydrogram.types import Message
 from korone import cache
 from korone.decorators import router
 from korone.filters import Command, IsSudo
-from korone.handlers.abstract import MessageHandler
 
 
-class PurgeCache(MessageHandler):
-    @staticmethod
-    @router.message(Command("flushall", disableable=False) & IsSudo)
-    async def handle(client: Client, message: Message) -> None:
-        start_time = time.time()
-        start = await message.reply("Flushing cache...")
-        await cache.clear()
-        await start.edit(f"Cache flushed in {time.time() - start_time:.2f} seconds.")
+@router.message(Command("flushall", disableable=False) & IsSudo)
+async def flushall_command(client: Client, message: Message) -> None:
+    start_time = time.time()
+    start = await message.reply("Flushing cache...")
+    await cache.clear()
+    await start.edit(f"Cache flushed in {time.time() - start_time:.2f} seconds.")

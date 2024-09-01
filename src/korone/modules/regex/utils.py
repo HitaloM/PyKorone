@@ -21,25 +21,25 @@ def build_flags_and_count(flags_str: str) -> tuple[int, int]:
     flags = 0
     count = 1
     for flag in flags_str:
-        if flag == "i":
-            flags |= re.IGNORECASE
-        elif flag == "m":
-            flags |= re.MULTILINE
-        elif flag == "s":
-            flags |= re.DOTALL
-        elif flag == "g":
-            count = 0
-        elif flag == "x":
-            flags |= re.VERBOSE
-        else:
-            msg = f"Unknown flag: {flag}"
-            raise ValueError(msg, flag)
+        match flag:
+            case "i":
+                flags |= re.IGNORECASE
+            case "m":
+                flags |= re.MULTILINE
+            case "s":
+                flags |= re.DOTALL
+            case "g":
+                count = 0
+            case "x":
+                flags |= re.VERBOSE
+            case _:
+                msg = f"Unknown flag: {flag}"
+                raise ValueError(msg, flag)
     return flags, count
 
 
-def process_command(command: str) -> tuple:
-    command_match = re.match(SED_PATTERN, command)
-    if not command_match:
+def process_command(command: str) -> tuple[None, str] | tuple[tuple[str, str, int, int], None]:
+    if not (command_match := re.match(SED_PATTERN, command)):
         return None, _("Invalid command: {command}").format(command=command)
 
     from_pattern, to_pattern = cleanup_pattern(command_match)

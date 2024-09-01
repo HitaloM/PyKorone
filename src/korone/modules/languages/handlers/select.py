@@ -1,74 +1,55 @@
 # SPDX-License-Identifier: BSD-3-Clause
 # Copyright (c) 2024 Hitalo M. <https://github.com/HitaloM>
 
+from contextlib import suppress
+
 from hairydogm.keyboard import InlineKeyboardBuilder
 from hydrogram import Client
 from hydrogram.enums import ChatType
-from hydrogram.types import CallbackQuery, InlineKeyboardButton, InlineKeyboardMarkup, Message
+from hydrogram.errors import MessageNotModified
+from hydrogram.types import CallbackQuery, InlineKeyboardButton, Message
 from magic_filter import F
 
 from korone.decorators import router
 from korone.filters import Command, IsAdmin
-from korone.handlers.abstract import CallbackQueryHandler, MessageHandler
-from korone.modules.languages.callback_data import LangMenuCallback, SetLangCallback
+from korone.modules.languages.callback_data import LangMenu, LangMenuCallback, SetLangCallback
 from korone.utils.i18n import get_i18n
 from korone.utils.i18n import gettext as _
 
 
-class SelectLanguageBase:
-    @staticmethod
-    def build_keyboard(chat_type: ChatType) -> InlineKeyboardMarkup:
-        i18n = get_i18n()
-        keyboard = InlineKeyboardBuilder()
+@router.message(Command("languages") & IsAdmin)
+@router.callback_query(LangMenuCallback.filter(F.menu == LangMenu.Languages) & IsAdmin)
+async def handle_languages(client: Client, update: Message | CallbackQuery) -> None:
+    i18n = get_i18n()
+    chat_type = update.chat.type if isinstance(update, Message) else update.message.chat.type
+    keyboard = InlineKeyboardBuilder()
 
-        for language in (*i18n.available_locales, i18n.default_locale):
-            locale = i18n.babel(language)
-            keyboard.button(
-                text=i18n.locale_display(locale), callback_data=SetLangCallback(lang=language)
-            )
-
-        keyboard.adjust(2)
-
-        if chat_type in {ChatType.GROUP, ChatType.SUPERGROUP}:
-            keyboard.row(
-                InlineKeyboardButton(
-                    text=_("❌ Cancel"), callback_data=LangMenuCallback(menu="cancel").pack()
-                )
-            )
-
-        if chat_type == ChatType.PRIVATE:
-            keyboard.row(
-                InlineKeyboardButton(
-                    text=_("⬅️ Back"), callback_data=LangMenuCallback(menu="language").pack()
-                )
-            )
-
-        return keyboard.as_markup()
-
-    @staticmethod
-    def build_text() -> str:
-        return _("Please select the language you want to use for the chat.")
-
-    async def send_message(self, message: Message):
-        await message.reply(
-            self.build_text(),
-            reply_markup=self.build_keyboard(message.chat.type),
+    for language in (*i18n.available_locales, i18n.default_locale):
+        locale = i18n.babel(language)
+        keyboard.button(
+            text=i18n.locale_display(locale), callback_data=SetLangCallback(lang=language)
         )
 
-    async def edit_message(self, callback: CallbackQuery):
-        await callback.edit_message_text(
-            self.build_text(),
-            reply_markup=self.build_keyboard(callback.message.chat.type),
+    keyboard.adjust(2)
+
+    if chat_type in {ChatType.GROUP, ChatType.SUPERGROUP}:
+        keyboard.row(
+            InlineKeyboardButton(
+                text=_("❌ Cancel"), callback_data=LangMenuCallback(menu=LangMenu.Cancel).pack()
+            )
         )
 
+    if chat_type == ChatType.PRIVATE:
+        keyboard.row(
+            InlineKeyboardButton(
+                text=_("⬅️ Back"), callback_data=LangMenuCallback(menu=LangMenu.Language).pack()
+            )
+        )
 
-class SelectLanguage(MessageHandler, SelectLanguageBase):
-    @router.message(Command("languages") & IsAdmin)
-    async def handle(self, client: Client, message: Message):
-        await self.send_message(message)
+    text = _("Please select the language you want to use for the chat.")
 
-
-class SelectLanguageCallback(CallbackQueryHandler, SelectLanguageBase):
-    @router.callback_query(LangMenuCallback.filter(F.menu == "languages") & IsAdmin)
-    async def handle(self, client: Client, callback: CallbackQuery):
-        await self.edit_message(callback)
+    if isinstance(update, Message):
+        await update.reply(text, reply_markup=keyboard.as_markup())
+    else:
+        with suppress(MessageNotModified):
+            await update.edit_message_text(text, reply_markup=keyboard.as_markup())

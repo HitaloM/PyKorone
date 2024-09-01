@@ -9,12 +9,9 @@ from hydrogram.types import Message
 
 from korone.decorators import router
 from korone.filters import Command, IsSudo
-from korone.handlers.abstract import MessageHandler
 
 
-class Shutdown(MessageHandler):
-    @staticmethod
-    @router.message(Command("shutdown", disableable=False) & IsSudo)
-    async def handle(client: Client, message: Message) -> None:
-        await message.reply("Shutting down...")
-        os.kill(os.getpid(), SIGINT)
+@router.message(Command("shutdown", disableable=False) & IsSudo)
+async def shutdown_command(client: Client, message: Message) -> None:
+    await message.reply("Shutting down...")
+    os.kill(os.getpid(), SIGINT)
