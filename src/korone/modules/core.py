@@ -1,36 +1,45 @@
 # SPDX-License-Identifier: BSD-3-Clause
 # Copyright (c) 2024 Hitalo M. <https://github.com/HitaloM>
 
+from __future__ import annotations
+
 import inspect
 import os
 from collections.abc import Iterable
 from importlib import import_module
 from pathlib import Path
-from typing import TYPE_CHECKING, Any, Protocol, cast
+from typing import TYPE_CHECKING, Annotated, cast
 
-from hydrogram import Client
-from hydrogram.filters import Filter
 from hydrogram.handlers.handler import Handler
 
 from korone.database.query import Query
 from korone.database.sqlite import SQLite3Connection
-from korone.database.table import Documents
 from korone.utils.logging import logger
 
 if TYPE_CHECKING:
     from types import ModuleType
 
-MODULES: dict[str, dict[str, Any]] = {}
-COMMANDS: dict[str, Any] = {}
+    from hydrogram import Client
+    from hydrogram.filters import Filter
+
+    from korone.database.table import Documents
+
+ModuleHandlers = list[str]
+CommandChatState = dict[str, bool]
+CommandStructure = dict[str, dict[str, CommandChatState | list[str] | str]]
+HandlerDict = list[tuple[Handler, int]]
+
+MODULES: dict[str, dict[str, ModuleHandlers]] = {}
+COMMANDS: CommandStructure = {}
 
 
 def add_handlers_to_module(module_name: str, handlers_path: Path) -> None:
-    handlers = [
+    handlers: ModuleHandlers = [
         f"{module_name}.handlers.{file.stem}"
         for file in handlers_path.glob("*.py")
         if file.name != "__init__.py"
     ]
-    MODULES[module_name]["handlers"] = handlers
+    MODULES.setdefault(module_name, {})["handlers"] = handlers
     logger.debug("Handlers added for module %s: %s", module_name, handlers)
 
 
@@ -58,6 +67,7 @@ async def fetch_command_state(command: str) -> Documents | None:
 
 async def update_command_structure(commands: list[str]) -> None:
     await logger.adebug("Updating command structure for commands: %s", commands)
+
     filtered_commands = [cmd.replace("$", "") for cmd in commands if cmd]
     if not filtered_commands:
         await logger.adebug("No commands to update.")
@@ -66,14 +76,18 @@ async def update_command_structure(commands: list[str]) -> None:
     parent, *children = filtered_commands
     COMMANDS[parent] = {"chat": {}, "children": children}
     for cmd in children:
-        COMMANDS[cmd] = {"parent": parent}
+        COMMANDS[cmd] = {"parent": parent, "chat": {}}
 
     await logger.adebug("Command structure updated for parent: %s, children: %s", parent, children)
 
     command_state = await fetch_command_state(parent)
     if command_state:
         for each in command_state:
-            COMMANDS[parent]["chat"][each["chat_id"]] = bool(each["state"])
+            chat_id = each["chat_id"]
+            state = bool(each["state"])
+            chat_state = cast(CommandChatState, COMMANDS[parent]["chat"])
+            chat_state[chat_id] = state
+            COMMANDS[parent]["chat"] = chat_state
 
     await logger.adebug("Command state integrated into command structure for %s", parent)
 
@@ -104,14 +118,16 @@ def extract_pattern_filters(filters: Filter) -> list[str]:
     return []
 
 
-class HandlerProtocol(Protocol):
-    handlers: list[tuple[Handler, int]]
-
-
-async def register_handler(client: Client, func: HandlerProtocol) -> bool:
+async def register_handler(
+    client: Client, func: Annotated[list[tuple[Handler, int]], HandlerDict]
+) -> bool:
     successful = False
 
-    for handler, group in func.handlers:
+    if not hasattr(func, "handlers"):
+        await logger.aerror("Expected function with 'handlers' attribute, got %s", type(func))
+        return successful
+
+    for handler, group in func.handlers:  # type: ignore
         if isinstance(handler, Handler):
             await logger.adebug("Registering handler: %s", handler)
 
@@ -126,15 +142,15 @@ async def register_handler(client: Client, func: HandlerProtocol) -> bool:
     return successful
 
 
-async def load_module(client: Client, module_name: str, handlers: list[str]) -> bool:
+async def load_module(client: Client, module_name: str, handlers: ModuleHandlers) -> bool:
     await logger.adebug("Loading module: %s", module_name)
     try:
         for handler in handlers:
             component: ModuleType = import_module(f".{handler}", "korone.modules")
             await logger.adebug("Imported component: %s", component)
 
-            module_handlers: Iterable[HandlerProtocol] = cast(
-                Iterable[HandlerProtocol],
+            module_handlers: Iterable[HandlerDict] = cast(
+                Iterable[HandlerDict],
                 (
                     func
                     for func in vars(component).values()
