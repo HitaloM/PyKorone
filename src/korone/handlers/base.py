@@ -12,11 +12,11 @@ from hydrogram.enums import ChatType
 from hydrogram.filters import Filter
 from hydrogram.types import CallbackQuery, Chat, Message, Update, User
 
-from korone import cache
 from korone.config import ConfigManager
 from korone.database.query import Query
 from korone.database.sqlite import SQLite3Connection
 from korone.database.table import Document, Documents, Table
+from korone.utils.caching import cache
 from korone.utils.i18n import i18n
 
 BOT_ID: int = ConfigManager.get("hydrogram", "BOT_TOKEN").split(":", 1)[0]

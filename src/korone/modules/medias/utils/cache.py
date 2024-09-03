@@ -7,7 +7,7 @@ from typing import Any
 from cashews.exceptions import CacheError
 from hydrogram.types import Message
 
-from korone import cache
+from korone.utils.caching import cache
 from korone.utils.logging import logger
 
 

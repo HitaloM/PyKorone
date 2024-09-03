@@ -7,7 +7,7 @@ from datetime import timedelta
 
 from PIL import Image, ImageDraw, ImageFont
 
-from korone import cache
+from korone.utils.caching import cache
 
 from .image_filter import get_biggest_lastfm_image
 from .types import LastFMAlbum

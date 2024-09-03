@@ -8,7 +8,7 @@ from io import BytesIO
 
 import httpx
 
-from korone import cache
+from korone.utils.caching import cache
 from korone.utils.logging import logger
 
 from .types import LastFMAlbum, LastFMTrack, LastFMUser

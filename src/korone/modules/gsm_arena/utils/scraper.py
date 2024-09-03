@@ -8,7 +8,7 @@ from typing import Any
 import httpx
 from lxml import html
 
-from korone import cache
+from korone.utils.caching import cache
 from korone.utils.i18n import gettext as _
 from korone.utils.logging import logger
 

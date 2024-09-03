@@ -13,8 +13,8 @@ from cashews import NOT_NONE
 from hydrogram.types import InputMedia, InputMediaPhoto, InputMediaVideo
 from lxml import html
 
-from korone import cache
 from korone.modules.medias.utils.cache import MediaCache
+from korone.utils.caching import cache
 from korone.utils.logging import logger
 
 from .downloader import download_media

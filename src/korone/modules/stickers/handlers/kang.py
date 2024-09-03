@@ -7,7 +7,7 @@ from hairydogm.keyboard import InlineKeyboardBuilder
 from hydrogram import Client
 from hydrogram.types import Message
 
-from korone import app_dir
+from korone import constants
 from korone.decorators import router
 from korone.filters import Command, CommandObject
 from korone.modules.stickers.database import get_or_create_pack, update_user_pack
@@ -46,7 +46,7 @@ async def kang_command(client: Client, message: Message) -> None:
         return
 
     file_name = Path(
-        app_dir / f"downloads/{generate_random_file_path("file", file_extension)}"
+        constants.BOT_ROOT_PATH / f"downloads/{generate_random_file_path("file", file_extension)}"
     ).as_posix()
 
     file_path = await client.download_media(file_id, file_name=file_name)

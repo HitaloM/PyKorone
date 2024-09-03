@@ -12,8 +12,8 @@ import httpx
 from PIL import Image
 from pydantic import HttpUrl
 
-from korone import cache
 from korone.modules.medias.utils.generic_headers import GENERIC_HEADER
+from korone.utils.caching import cache
 
 
 def resize_thumbnail(thumbnail_path: str | BytesIO | BinaryIO) -> None:

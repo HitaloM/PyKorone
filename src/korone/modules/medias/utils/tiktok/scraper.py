@@ -6,8 +6,8 @@ from pathlib import Path
 
 import httpx
 
-from korone import cache
 from korone.modules.medias.utils.generic_headers import GENERIC_HEADER
+from korone.utils.caching import cache
 from korone.utils.logging import logger
 
 from .types import TikTokSlideshow, TikTokVideo

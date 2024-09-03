@@ -5,6 +5,8 @@ import os
 from pathlib import Path
 from typing import Any
 
+BOT_ROOT_PATH = Path(__file__).parent.parent.parent
+
 XDG_CONFIG_HOME: str = os.environ.get("XDG_CONFIG_HOME", str(Path.home() / ".config"))
 XDG_DATA_HOME: str = os.environ.get("XDG_DATA_HOME", str(Path.home() / ".local/share"))
 

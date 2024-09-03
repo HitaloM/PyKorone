@@ -11,7 +11,7 @@ from babel.support import LazyProxy
 from flag import flag
 from hairydogm.i18n import I18n
 
-from korone import app_dir
+from korone import constants
 
 from .logging import logger
 
@@ -94,7 +94,7 @@ def lazy_gettext(*args: Any, **kwargs: Any) -> LazyProxy:
 
 
 try:
-    i18n = I18nNew(path=app_dir / "locales")
+    i18n = I18nNew(path=constants.BOT_ROOT_PATH / "locales")
 except RuntimeError as e:
     logger.error(
         "Failed to initialize I18n due to the following error: %s. "

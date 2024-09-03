@@ -6,11 +6,11 @@ from collections import defaultdict
 
 import orjson
 
-from korone import cache
 from korone.database.query import Query
 from korone.database.sqlite import SQLite3Connection
 from korone.database.table import Document, Documents, Table
 from korone.modules.filters.utils.types import Button, FilterFile, FilterModel, UserModel
+from korone.utils.caching import cache
 
 
 async def save_filter(

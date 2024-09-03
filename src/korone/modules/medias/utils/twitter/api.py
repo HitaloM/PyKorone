@@ -6,7 +6,7 @@ from datetime import timedelta
 
 import httpx
 
-from korone import cache
+from korone.utils.caching import cache
 from korone.utils.logging import logger
 
 from .types import Response, Tweet

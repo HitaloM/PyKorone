@@ -8,7 +8,7 @@ from pathlib import Path
 
 from PIL import Image
 
-from korone import app_dir
+from korone import constants
 
 
 def resize_image(image_path: str) -> str:
@@ -44,7 +44,7 @@ async def resize_video(video_path: str) -> str:
 
 
 def generate_random_file_path(prefix: str, extension: str) -> Path:
-    output_path = Path(app_dir / "downloads")
+    output_path = Path(constants.BOT_ROOT_PATH / "downloads")
     output_path.mkdir(exist_ok=True, parents=True)
 
     random_suffix = "".join(random.choices(string.ascii_letters + string.digits, k=8))

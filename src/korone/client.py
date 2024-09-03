@@ -13,9 +13,10 @@ from hydrogram.enums import ParseMode
 from hydrogram.errors import MessageIdInvalid, MessageNotModified
 from hydrogram.raw.all import layer
 
-from . import __version__, cache, constants
+from . import __version__, constants
 from .database.sqlite import SQLite3Connection
 from .modules import load_all_modules
+from .utils.caching import cache
 from .utils.commands_list import set_ui_commands
 from .utils.i18n import i18n
 from .utils.logging import logger

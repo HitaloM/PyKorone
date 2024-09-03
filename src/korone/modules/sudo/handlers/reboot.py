@@ -8,9 +8,9 @@ import time
 from hydrogram import Client
 from hydrogram.types import Message
 
-from korone import cache
 from korone.decorators import router
 from korone.filters import Command, IsSudo
+from korone.utils.caching import cache
 
 
 @router.message(Command("reboot", disableable=False) & IsSudo)

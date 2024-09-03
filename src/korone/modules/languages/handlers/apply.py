@@ -6,11 +6,12 @@ from hydrogram import Client
 from hydrogram.enums import ChatType
 from hydrogram.types import CallbackQuery
 
-from korone import cache, constants
+from korone import constants
 from korone.decorators import router
 from korone.filters import IsAdmin
 from korone.modules.languages.callback_data import SetLangCallback
 from korone.modules.languages.database import set_chat_language
+from korone.utils.caching import cache
 from korone.utils.i18n import get_i18n
 from korone.utils.i18n import gettext as _
 

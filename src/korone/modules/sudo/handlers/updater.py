@@ -6,7 +6,6 @@ import html
 from hydrogram import Client
 from hydrogram.types import CallbackQuery, InlineKeyboardButton, InlineKeyboardMarkup, Message
 
-from korone import cache
 from korone.decorators import router
 from korone.filters import Command, IsSudo
 from korone.modules.sudo.callback_data import UpdateCallbackData
@@ -17,6 +16,7 @@ from korone.modules.sudo.utils import (
     parse_commits,
     perform_update,
 )
+from korone.utils.caching import cache
 
 
 @router.message(Command(commands=["update", "upgrade"], disableable=False) & IsSudo)

@@ -15,9 +15,10 @@ from hydrogram import idle
 
 from korone.modules.errors.utils import IGNORED_EXCEPTIONS
 
-from . import __version__, app_dir, cache
+from . import __version__, constants
 from .client import AppParameters, Korone
 from .config import ConfigManager
+from .utils.caching import cache
 from .utils.logging import logger
 
 
@@ -52,7 +53,7 @@ async def main() -> None:
     with tempfile.TemporaryDirectory() as tmp_dir:
         for path in ("tmp", "downloads"):
             with suppress(FileNotFoundError):
-                shutil.move(Path(app_dir / path).as_posix(), tmp_dir)
+                shutil.move(Path(constants.BOT_ROOT_PATH / path).as_posix(), tmp_dir)
 
     await client.stop()
 

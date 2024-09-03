@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-08-31 21:18-0300\n"
+"POT-Creation-Date: 2024-09-03 11:42-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -319,47 +319,47 @@ msgstr ""
 msgid "Charging"
 msgstr ""
 
-#: src/korone/modules/languages/handlers/apply.py:21
+#: src/korone/modules/languages/handlers/apply.py:22
 msgid "Something went wrong."
 msgstr ""
 
-#: src/korone/modules/languages/handlers/apply.py:31
+#: src/korone/modules/languages/handlers/apply.py:32
 msgid "Language changed to {new_lang}."
 msgstr ""
 
-#: src/korone/modules/languages/handlers/apply.py:37
+#: src/korone/modules/languages/handlers/apply.py:38
 msgid ""
 "\n"
 "This is the bot's native language.\n"
 "If you find any errors, please file an issue in the GitHub Repository."
 msgstr ""
 
-#: src/korone/modules/languages/handlers/apply.py:44
-#: src/korone/modules/languages/handlers/apply.py:59
+#: src/korone/modules/languages/handlers/apply.py:45
+#: src/korone/modules/languages/handlers/apply.py:60
 msgid "🐞 Open GitHub"
 msgstr ""
 
-#: src/korone/modules/languages/handlers/apply.py:48
+#: src/korone/modules/languages/handlers/apply.py:49
 msgid ""
 "\n"
 "The language is {percent}% translated."
 msgstr ""
 
-#: src/korone/modules/languages/handlers/apply.py:54
+#: src/korone/modules/languages/handlers/apply.py:55
 msgid ""
 "\n"
 "In case you find any errors, please file an issue in the GitHub "
 "Repository."
 msgstr ""
 
-#: src/korone/modules/languages/handlers/apply.py:63
+#: src/korone/modules/languages/handlers/apply.py:64
 msgid ""
 "\n"
 "Please help us translate this language by completing it on our "
 "translations platform."
 msgstr ""
 
-#: src/korone/modules/languages/handlers/apply.py:69
+#: src/korone/modules/languages/handlers/apply.py:70
 msgid "🌍 Open Translations"
 msgstr ""
 
@@ -600,53 +600,53 @@ msgid ""
 "Registered: <i>{registered}</i>"
 msgstr ""
 
-#: src/korone/modules/lastfm/utils/formatters.py:27
+#: src/korone/modules/lastfm/utils/formatters.py:29
 msgid ", {days} day(s) ago"
 msgstr ""
 
-#: src/korone/modules/lastfm/utils/formatters.py:31
+#: src/korone/modules/lastfm/utils/formatters.py:33
 msgid ", {hours} hour(s) ago"
 msgstr ""
 
-#: src/korone/modules/lastfm/utils/formatters.py:35
+#: src/korone/modules/lastfm/utils/formatters.py:37
 msgid ", {minutes} minute(s) ago"
 msgstr ""
 
-#: src/korone/modules/lastfm/utils/formatters.py:35
+#: src/korone/modules/lastfm/utils/formatters.py:37
 msgid ", Just now"
 msgstr ""
 
-#: src/korone/modules/lastfm/utils/formatters.py:64
+#: src/korone/modules/lastfm/utils/formatters.py:66
 msgid "1 week"
 msgstr ""
 
-#: src/korone/modules/lastfm/utils/formatters.py:66
+#: src/korone/modules/lastfm/utils/formatters.py:68
 msgid "1 month"
 msgstr ""
 
-#: src/korone/modules/lastfm/utils/formatters.py:68
+#: src/korone/modules/lastfm/utils/formatters.py:70
 msgid "3 months"
 msgstr ""
 
-#: src/korone/modules/lastfm/utils/formatters.py:70
+#: src/korone/modules/lastfm/utils/formatters.py:72
 msgid "6 months"
 msgstr ""
 
-#: src/korone/modules/lastfm/utils/formatters.py:72
+#: src/korone/modules/lastfm/utils/formatters.py:74
 msgid "1 year"
 msgstr ""
 
-#: src/korone/modules/lastfm/utils/formatters.py:73
+#: src/korone/modules/lastfm/utils/formatters.py:75
 msgid "All time"
 msgstr ""
 
-#: src/korone/modules/medias/handlers/instagram.py:56
-#: src/korone/modules/medias/handlers/instagram.py:65
+#: src/korone/modules/medias/handlers/instagram.py:60
+#: src/korone/modules/medias/handlers/instagram.py:69
 msgid "Open in Instagram"
 msgstr ""
 
-#: src/korone/modules/medias/handlers/tiktok.py:201
-#: src/korone/modules/medias/handlers/tiktok.py:216
+#: src/korone/modules/medias/handlers/tiktok.py:203
+#: src/korone/modules/medias/handlers/tiktok.py:218
 msgid "Open in TikTok"
 msgstr ""
 

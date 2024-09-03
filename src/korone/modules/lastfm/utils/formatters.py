@@ -5,13 +5,15 @@ from datetime import UTC, datetime
 from html import escape
 from pathlib import Path
 
-from korone import app_dir
+from korone import constants
 from korone.utils.i18n import gettext as _
 
 from .lastfm_api import TimePeriod
 from .types import LastFMAlbum, LastFMArtist, LastFMTrack
 
-with Path(app_dir / "resources/misc/everynoise_genres.txt").open(encoding="utf-8") as file:
+with Path(
+    constants.BOT_ROOT_PATH / "resources/misc/everynoise_genres.txt",
+).open(encoding="utf-8") as file:
     ACCEPTABLE_TAGS = {line.strip().lower() for line in file}
 
 
