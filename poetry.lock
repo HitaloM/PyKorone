@@ -2196,9 +2196,6 @@ files = [
     {file = "redis-5.0.8.tar.gz", hash = "sha256:0c5b10d387568dfe0698c6fad6615750c24170e548ca2deac10c649d463e9870"},
 ]
 
-[package.dependencies]
-async-timeout = {version = ">=4.0.3", markers = "python_full_version < \"3.11.3\""}
-
 [package.extras]
 hiredis = ["hiredis (>1.0.0)"]
 ocsp = ["cryptography (>=36.0.1)", "pyopenssl (==20.0.1)", "requests (>=2.26.0)"]
@@ -2961,5 +2958,5 @@ fast = ["aiohttp", "cryptg", "cryptography"]
 
 [metadata]
 lock-version = "2.0"
-python-versions = "^3.11"
-content-hash = "b6a5e4d2873d93a1def486726138e2d99d176f009f2e3bb9b75530741299dc11"
+python-versions = "^3.12"
+content-hash = "a7af4193234c517453c0bf9d370c42349898d8c47013305d51022112c620d0d5"

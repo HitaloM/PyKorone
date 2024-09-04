@@ -1,4 +1,4 @@
-FROM python:3.11-slim as builder
+FROM python:3.12-slim as builder
 
 ENV PIP_DEFAULT_TIMEOUT=100 \
     PIP_DISABLE_PIP_VERSION_CHECK=1 \
@@ -22,7 +22,7 @@ RUN bash -c "source /venv/bin/activate; make compile_lang"
 
 RUN poetry build && /venv/bin/pip install dist/*.whl
 
-FROM python:3.11-slim as final
+FROM python:3.12-slim as final
 
 ENV PYTHONFAULTHANDLER=1 \
     PYTHONHASHSEED=random \
