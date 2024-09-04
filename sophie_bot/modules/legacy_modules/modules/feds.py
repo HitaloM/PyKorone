@@ -570,7 +570,7 @@ async def fed_info(message: Message, fed, strings):
     text = text.format(
         name=html.escape(fed["fed_name"], False),
         fed_id=fed["fed_id"],
-        creator=await get_user_link(fed["creator"]),
+        creator=f'{await get_user_link(fed["creator"])} ({fed["creator"]})',
         chats=len(fed["chats"] if "chats" in fed else []),
         fbanned=banned_num,
     )
