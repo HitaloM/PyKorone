@@ -3,18 +3,20 @@ from typing import Any, Optional
 from aiogram import flags
 from aiogram.handlers import MessageHandler
 from ass_tg.types import OptionalArg, UserArg
-from stfu_tg import Code, Doc, Template
+from sophie_bot.db.models import ChatModel
+from stfu_tg import Code, Doc, Template, UserLink
 
 from sophie_bot.middlewares.connections import ChatConnection
 from sophie_bot.utils.i18n import gettext as _
 from sophie_bot.utils.i18n import lazy_gettext as l_
+from sophie_bot.args.users import SophieUserIDArg, SophieUserArg, SophieUserMentionArg
 
 
-@flags.args(user=OptionalArg(UserArg(l_("User"))))
+@flags.args(user=SophieUserMentionArg(l_("User")))
 class ShowIDs(MessageHandler):
     async def handle(self) -> Any:
         chat: ChatConnection = self.data["connection"]
-        user: Optional[Any] = self.data["user"]
+        user: Optional[ChatModel] = self.data["user"]
 
         doc = Doc()
 
@@ -35,6 +37,13 @@ class ShowIDs(MessageHandler):
             doc += Template(_("Replied user ID: {id}"), id=Code(user_id))
 
         if user:
-            doc += user
+            doc += Template(
+                _("{user}'s ID: {id}"),
+                user=UserLink(
+                    user_id=user.chat_id,
+                    name=user.first_name_or_title
+                ),
+                id=Code(user.chat_id)
+            )
 
         return await self.event.reply(str(doc))

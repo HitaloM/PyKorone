@@ -17,6 +17,10 @@ from beanie.odm.operators.find.comparison import In
 from beanie.odm.operators.update.general import Set
 from pydantic import Field
 
+from sophie_bot.db.db_exceptions import DBNotFoundException
+from sophie_bot.utils.exception import SophieException
+from sophie_bot.utils.i18n import gettext as _
+
 
 class ChatType(Enum):
     group = "group"
@@ -128,6 +132,34 @@ class ChatModel(Document):
     @staticmethod
     async def get_by_chat_id(chat_id) -> Optional["ChatModel"]:
         return await ChatModel.find_one(ChatModel.chat_id == chat_id)
+
+    @staticmethod
+    async def find_user(user_id: int) -> "ChatModel":
+        user = await ChatModel.find_one(ChatModel.chat_id == user_id, ChatModel.type == ChatType.private)
+
+        if not user:
+            raise DBNotFoundException()
+
+        return user
+
+    @staticmethod
+    async def find_user_by_username(username: str):
+        user = await ChatModel.find_one(ChatModel.username == username)
+        if not user:
+            raise DBNotFoundException()
+
+        return user
+
+    @staticmethod
+    def user_from_id(user_id: int) -> "ChatModel":
+        return ChatModel(
+            chat_id=user_id,
+            first_name_or_title="User",
+            is_bot=False,  # We don't know, but we can assume
+            username=None,
+            type=ChatType.private,
+            last_saw=datetime.now(timezone.utc),
+        )
 
 
 class UserInGroupModel(Document):
