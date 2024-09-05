@@ -2,17 +2,16 @@ from typing import Any, Optional
 
 from aiogram import flags
 from aiogram.handlers import MessageHandler
-from ass_tg.types import OptionalArg, UserArg
-from sophie_bot.db.models import ChatModel
 from stfu_tg import Code, Doc, Template, UserLink
 
+from sophie_bot.args.users import SophieUserArg
+from sophie_bot.db.models import ChatModel
 from sophie_bot.middlewares.connections import ChatConnection
 from sophie_bot.utils.i18n import gettext as _
 from sophie_bot.utils.i18n import lazy_gettext as l_
-from sophie_bot.args.users import SophieUserIDArg, SophieUserArg, SophieUserMentionArg
 
 
-@flags.args(user=SophieUserMentionArg(l_("User")))
+@flags.args(user=SophieUserArg(l_("User")))
 class ShowIDs(MessageHandler):
     async def handle(self) -> Any:
         chat: ChatConnection = self.data["connection"]
@@ -39,11 +38,8 @@ class ShowIDs(MessageHandler):
         if user:
             doc += Template(
                 _("{user}'s ID: {id}"),
-                user=UserLink(
-                    user_id=user.chat_id,
-                    name=user.first_name_or_title
-                ),
-                id=Code(user.chat_id)
+                user=UserLink(user_id=user.chat_id, name=user.first_name_or_title),
+                id=Code(user.chat_id),
             )
 
         return await self.event.reply(str(doc))

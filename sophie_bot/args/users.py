@@ -1,20 +1,19 @@
 from typing import Optional
 
 from aiogram.types import User
-from babel.support import LazyProxy
-
 from ass_tg.entities import ArgEntities
-from ass_tg.exceptions import TypeCheckCustomError
-from ass_tg.types import UserIDArg, UsernameArg, UserMentionArg, OrArg
+from ass_tg.exceptions import ArgStrictError
+from ass_tg.types import OrArg, UserIDArg, UserMentionArg, UsernameArg
+from babel.support import LazyProxy
+from stfu_tg import UserLink
+
 from sophie_bot.db.db_exceptions import DBNotFoundException
 from sophie_bot.db.models import ChatModel
 from sophie_bot.utils.i18n import gettext as _
 from sophie_bot.utils.i18n import lazy_gettext as l_
-from stfu_tg import UserLink
 
 
 class SophieUserIDArg(UserIDArg):
-
     def __init__(self, *args, allow_unknown_id: bool = False):
         super().__init__(*args)
         self.allow_unknown_id = allow_unknown_id
@@ -27,9 +26,7 @@ class SophieUserIDArg(UserIDArg):
             return await ChatModel.find_user(user_id)
         except DBNotFoundException:
             if not self.allow_unknown_id:
-                raise TypeCheckCustomError(_(
-                    "Could not find the requested User ID in the database."
-                ))
+                raise ArgStrictError(_("Could not find the requested User ID in the database."))
 
         # Else - try to construct the user from ID
         return ChatModel.user_from_id(user_id)
@@ -43,18 +40,11 @@ class SophieUsernameArg(UsernameArg):
         try:
             return await ChatModel.find_user_by_username(username)
         except DBNotFoundException:
-            raise TypeCheckCustomError(_(
-                "Could not find the requested Username in the database."
-            ))
+            raise ArgStrictError(_("Could not find the requested Username in the database."))
 
 
 class SophieUserMentionArg(UserMentionArg):
-    async def parse(
-            self,
-            text: str,
-            offset: int,
-            entities: ArgEntities
-    ) -> tuple[int, ChatModel]:
+    async def parse(self, text: str, offset: int, entities: ArgEntities) -> tuple[int, ChatModel]:
         aiogram_user: User
         len, aiogram_user = await super().parse(text, offset, entities)
 
@@ -70,24 +60,25 @@ class SophieUserMentionArg(UserMentionArg):
 
 class SophieUserArg(OrArg):
     def __init__(self, *args, allow_unknown_id: bool = False):
-        super().__init__(SophieUserMentionArg(), SophieUserIDArg(allow_unknown_id=allow_unknown_id), SophieUsernameArg(), *args)
+        description = args[0] if args else None
+        super().__init__(
+            SophieUserMentionArg(),
+            SophieUserIDArg(allow_unknown_id=allow_unknown_id),
+            SophieUsernameArg(),
+            description=description,
+        )
 
     def needed_type(self) -> tuple[LazyProxy, LazyProxy]:
-        return l_(
-            "User: 'User ID (numeric) / Username (starts with @) / Mention (links to users)'"
-        ), l_(
+        return l_("User: 'User ID (numeric) / Username (starts with @) / Mention (links to users)'"), l_(
             "Users: 'User IDs (numeric) / Usernames (starts with @) / Mentions (links to users)'"
         )
 
     @property
     def examples(self) -> Optional[dict[str, Optional[LazyProxy]]]:
         return {
-            '1111224224': l_("User ID"),
-            '@ofoxr_bot': l_("Username"),
-            UserLink(
-                user_id=1111224224,
-                name="OrangeFox BOT"
-            ): l_(
+            "1111224224": l_("User ID"),
+            "@ofoxr_bot": l_("Username"),
+            UserLink(user_id=1111224224, name="OrangeFox BOT"): l_(
                 "A link to user, usually creates by mentioning a user without username."
-            )
+            ),
         }

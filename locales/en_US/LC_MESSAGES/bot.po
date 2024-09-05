@@ -1,3 +1,35 @@
+#: sophie_bot/args/users.py:29
+msgid "Could not find the requested User ID in the database."
+msgstr ""
+
+#: sophie_bot/args/users.py:43
+msgid "Could not find the requested Username in the database."
+msgstr ""
+
+#: sophie_bot/args/users.py:72
+msgid ""
+"User: 'User ID (numeric) / Username (starts with @) / Mention (links to "
+"users)'"
+msgstr ""
+
+#: sophie_bot/args/users.py:72
+msgid ""
+"Users: 'User IDs (numeric) / Usernames (starts with @) / Mentions (links "
+"to users)'"
+msgstr ""
+
+#: sophie_bot/args/users.py:79
+msgid "User ID"
+msgstr ""
+
+#: sophie_bot/args/users.py:80
+msgid "Username"
+msgstr ""
+
+#: sophie_bot/args/users.py:81
+msgid "A link to user, usually creates by mentioning a user without username."
+msgstr ""
+
 #: sophie_bot/middlewares/connections.py:26
 msgid "Private chat"
 msgstr ""
@@ -569,24 +601,28 @@ msgstr ""
 msgid "Current state is cleared."
 msgstr ""
 
-#: sophie_bot/modules/users/handlers/id.py:13
+#: sophie_bot/modules/users/handlers/id.py:14
 msgid "User"
 msgstr ""
 
-#: sophie_bot/modules/users/handlers/id.py:23
+#: sophie_bot/modules/users/handlers/id.py:24
 msgid "Your ID: {id}"
 msgstr ""
 
-#: sophie_bot/modules/users/handlers/id.py:26
+#: sophie_bot/modules/users/handlers/id.py:27
 msgid "Chat ID: {id}"
 msgstr ""
 
-#: sophie_bot/modules/users/handlers/id.py:29
+#: sophie_bot/modules/users/handlers/id.py:30
 msgid "Connected chat ID: {id}"
 msgstr ""
 
-#: sophie_bot/modules/users/handlers/id.py:35
+#: sophie_bot/modules/users/handlers/id.py:36
 msgid "Replied user ID: {id}"
+msgstr ""
+
+#: sophie_bot/modules/users/handlers/id.py:40
+msgid "{user}'s ID: {id}"
 msgstr ""
 
 #~ msgid "<b>Sophie stats</b>\n"

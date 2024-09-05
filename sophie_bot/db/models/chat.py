@@ -18,8 +18,6 @@ from beanie.odm.operators.update.general import Set
 from pydantic import Field
 
 from sophie_bot.db.db_exceptions import DBNotFoundException
-from sophie_bot.utils.exception import SophieException
-from sophie_bot.utils.i18n import gettext as _
 
 
 class ChatType(Enum):
