@@ -34,23 +34,21 @@ MediaDataDict = Mapping[str, ShortcodeMediaDict]
 async def fetch_with_retries(
     url: str, headers: dict, max_retries: int = 3, retry_delay: int = 2
 ) -> str | None:
-    for attempt in range(max_retries):
-        try:
-            async with httpx.AsyncClient(http2=True, timeout=20) as client:
+    async with httpx.AsyncClient(http2=True, timeout=20) as client:
+        for attempt in range(max_retries):
+            try:
                 response = await client.get(url, headers=headers)
                 response.raise_for_status()
                 return response.text
-        except httpx.ConnectError as e:
-            await logger.aerror(
-                "[Medias/Instagram] Connection attempt %s failed: %s", attempt + 1, e
-            )
-            if attempt < max_retries - 1:
-                await asyncio.sleep(retry_delay)
-            else:
-                raise
-        except httpx.HTTPStatusError as e:
-            await logger.aerror("[Medias/Instagram] HTTP error occurred: %s", e)
-            raise
+            except (httpx.ConnectError, httpx.HTTPStatusError) as e:
+                await logger.aerror("[Medias/Instagram] Attempt %s failed: %s", attempt + 1, e)
+                if attempt < max_retries - 1:
+                    sleep_time = retry_delay * (2**attempt)  # Exponential backoff
+                    logger.info("[Medias/Instagram] Retrying in %s seconds...", sleep_time)
+                    await asyncio.sleep(sleep_time)
+                else:
+                    logger.error("[Medias/Instagram] All attempts to fetch %s failed.", url)
+                    raise
     return None
 
 
