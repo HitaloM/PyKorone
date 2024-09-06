@@ -1,10 +1,12 @@
 # SPDX-License-Identifier: BSD-3-Clause
 # Copyright (c) 2024 Hitalo M. <https://github.com/HitaloM>
 
+from __future__ import annotations
+
 import asyncio
 from contextlib import suppress
+from typing import TYPE_CHECKING
 
-from hydrogram import Client
 from hydrogram.errors import FloodWait
 from hydrogram.types import (
     BotCommand,
@@ -12,7 +14,10 @@ from hydrogram.types import (
     BotCommandScopeAllPrivateChats,
 )
 
-from .i18n import I18nNew
+if TYPE_CHECKING:
+    from hydrogram import Client
+
+    from .i18n import I18nNew
 
 
 def create_bot_commands(locale: str, i18n: I18nNew) -> list[BotCommand]:

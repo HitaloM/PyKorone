@@ -1,15 +1,15 @@
 # SPDX-License-Identifier: BSD-3-Clause
 # Copyright (c) 2024 Hitalo M. <https://github.com/HitaloM>
 
+from __future__ import annotations
+
 import inspect
 import time
-from collections.abc import Callable
 from datetime import timedelta
+from typing import TYPE_CHECKING
 
 from babel import Locale, UnknownLocaleError
-from hydrogram import Client
 from hydrogram.enums import ChatType
-from hydrogram.filters import Filter
 from hydrogram.types import CallbackQuery, Chat, Message, Update, User
 
 from korone.config import ConfigManager
@@ -18,6 +18,12 @@ from korone.database.sqlite import SQLite3Connection
 from korone.database.table import Document, Documents, Table
 from korone.utils.caching import cache
 from korone.utils.i18n import i18n
+
+if TYPE_CHECKING:
+    from collections.abc import Callable
+
+    from hydrogram import Client
+    from hydrogram.filters import Filter
 
 BOT_ID: int = ConfigManager.get("hydrogram", "BOT_TOKEN").split(":", 1)[0]
 

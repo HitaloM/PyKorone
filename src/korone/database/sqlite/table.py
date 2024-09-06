@@ -2,15 +2,18 @@
 # Copyright (c) 2024 Hitalo M. <https://github.com/HitaloM>
 # Copyright (c) 2023 Victor Cebarros <https://github.com/victorcebarros>
 
+from __future__ import annotations
+
 from typing import TYPE_CHECKING
 
-from korone.database.connection import Connection
-from korone.database.query import Query
 from korone.database.table import Document, Documents, Table
 from korone.utils.logging import logger
 
 if TYPE_CHECKING:
     import aiosqlite
+
+    from korone.database.connection import Connection
+    from korone.database.query import Query
 
 
 class SQLite3Table(Table):

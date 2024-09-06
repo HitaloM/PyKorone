@@ -5,10 +5,9 @@ from __future__ import annotations
 
 import inspect
 import os
-from collections.abc import Iterable
 from importlib import import_module
 from pathlib import Path
-from typing import TYPE_CHECKING, Annotated, cast
+from typing import TYPE_CHECKING, Any, Protocol, cast
 
 from hydrogram.handlers.handler import Handler
 
@@ -17,6 +16,7 @@ from korone.database.sqlite import SQLite3Connection
 from korone.utils.logging import logger
 
 if TYPE_CHECKING:
+    from collections.abc import Generator
     from types import ModuleType
 
     from hydrogram import Client
@@ -33,14 +33,21 @@ MODULES: dict[str, dict[str, ModuleHandlers]] = {}
 COMMANDS: CommandStructure = {}
 
 
-def add_handlers_to_module(module_name: str, handlers_path: Path) -> None:
-    handlers: ModuleHandlers = [
-        f"{module_name}.handlers.{file.stem}"
-        for file in handlers_path.glob("*.py")
-        if file.name != "__init__.py"
-    ]
-    MODULES.setdefault(module_name, {})["handlers"] = handlers
-    logger.debug("Handlers added for module %s: %s", module_name, handlers)
+class CommandWithPattern(Protocol):
+    pattern: str
+
+
+class FiltersWithCommands(Protocol):
+    commands: list[CommandWithPattern]
+    disableable: bool
+
+
+class FiltersWithFriendlyName(Protocol):
+    friendly_name: str
+
+
+class HandlerFun(Protocol):
+    handlers: list[tuple[Handler, int]]
 
 
 def discover_modules() -> None:
@@ -50,19 +57,48 @@ def discover_modules() -> None:
     for entry in os.scandir(parent_path):
         if entry.is_dir() and "handlers" in os.listdir(entry.path):
             module_name = entry.name
-            MODULES[module_name] = {"handlers": []}
+
+            handlers = [
+                f"{module_name}.handlers.{file.stem}"
+                for file in (Path(entry.path) / "handlers").glob("*.py")
+                if file.name != "__init__.py"
+            ]
+
+            MODULES[module_name] = {"handlers": handlers}
             logger.debug("Discovered module: %s", module_name)
-            add_handlers_to_module(module_name, Path(entry.path) / "handlers")
 
 
 async def fetch_command_state(command: str) -> Documents | None:
     await logger.adebug("Fetching command state for: %s", command)
+
     async with SQLite3Connection() as conn:
         table = await conn.table("Commands")
-        query = Query()
-        result = await table.query(query.command == command) or None
+        result = await table.query(Query().command == command) or None
+
         await logger.adebug("Command state fetched for %s: %s", command, result)
         return result
+
+
+def extract_command_filters(filters: Filter) -> list[str] | None:
+    if hasattr(filters, "commands") and getattr(filters, "disableable", False):
+        filters_with_commands = cast(FiltersWithCommands, filters)
+        return [cast(CommandWithPattern, cmd).pattern for cmd in filters_with_commands.commands]
+    return None
+
+
+def extract_pattern_filters(filters: Filter) -> list[str] | None:
+    if hasattr(filters, "friendly_name"):
+        filters_with_friendly_name = cast(FiltersWithFriendlyName, filters)
+        return [filters_with_friendly_name.friendly_name]
+    return None
+
+
+def extract_commands(filters: Filter) -> list[str] | None:
+    for extractor in [extract_command_filters, extract_pattern_filters]:
+        commands = extractor(filters)
+        if commands:
+            return commands
+    return None
 
 
 async def update_command_structure(commands: list[str]) -> None:
@@ -75,6 +111,7 @@ async def update_command_structure(commands: list[str]) -> None:
 
     parent, *children = filtered_commands
     COMMANDS[parent] = {"chat": {}, "children": children}
+
     for cmd in children:
         COMMANDS[cmd] = {"parent": parent, "chat": {}}
 
@@ -85,6 +122,7 @@ async def update_command_structure(commands: list[str]) -> None:
         for each in command_state:
             chat_id = each["chat_id"]
             state = bool(each["state"])
+
             chat_state = cast(CommandChatState, COMMANDS[parent]["chat"])
             chat_state[chat_id] = state
             COMMANDS[parent]["chat"] = chat_state
@@ -98,40 +136,10 @@ async def process_filters(filters: Filter) -> None:
         await update_command_structure(commands)
 
 
-def extract_commands(filters: Filter) -> list[str]:
-    for extractor in [extract_command_filters, extract_pattern_filters]:
-        commands = extractor(filters)
-        if commands:
-            return commands
-    return []
-
-
-def extract_command_filters(filters: Filter) -> list[str]:
-    if hasattr(filters, "commands") and getattr(filters, "disableable", False):
-        return [cmd.pattern for cmd in filters.commands]  # type: ignore
-    return []
-
-
-def extract_pattern_filters(filters: Filter) -> list[str]:
-    if hasattr(filters, "friendly_name"):
-        return [filters.friendly_name]  # type: ignore
-    return []
-
-
-async def register_handler(
-    client: Client, func: Annotated[list[tuple[Handler, int]], HandlerDict]
-) -> bool:
-    successful = False
-
-    if not hasattr(func, "handlers"):
-        await logger.aerror("Expected function with 'handlers' attribute, got %s", type(func))
-        return successful
-
-    for handler, group in func.handlers:  # type: ignore
+async def register_handler(client: Client, handlers: list[tuple[Handler, int]]) -> bool:
+    for handler, group in handlers:
         if isinstance(handler, Handler):
             await logger.adebug("Registering handler: %s", handler)
-
-            successful = True
             client.add_handler(handler, group)
 
             if handler.filters is not None:
@@ -139,32 +147,33 @@ async def register_handler(
 
             await logger.adebug("Handler registered successfully: %s", handler)
 
-    return successful
+    return True
+
+
+def get_module_handlers(component: ModuleType) -> Generator[list[tuple[Handler, int]], Any, Any]:
+    for func in vars(component).values():
+        if inspect.isfunction(func) and hasattr(func, "handlers"):
+            func_with_handlers = cast(HandlerFun, func)
+            yield func_with_handlers.handlers
 
 
 async def load_module(client: Client, module_name: str, handlers: ModuleHandlers) -> bool:
     await logger.adebug("Loading module: %s", module_name)
+
     try:
         for handler in handlers:
             component: ModuleType = import_module(f".{handler}", "korone.modules")
             await logger.adebug("Imported component: %s", component)
 
-            module_handlers: Iterable[HandlerDict] = cast(
-                Iterable[HandlerDict],
-                (
-                    func
-                    for func in vars(component).values()
-                    if inspect.isfunction(func) and hasattr(func, "handlers")
-                ),
-            )
+            module_handlers = get_module_handlers(component)
 
-            for handler_func in module_handlers:
-                await logger.adebug("Registering handler: %s", handler_func)
-                if not await register_handler(client, handler_func):
-                    await logger.aerror("Failed to register handler: %s", handler_func)
+            for handler_funcs in module_handlers:
+                await logger.adebug("Registering handler: %s", handler_funcs)
+                if not await register_handler(client, handler_funcs):
+                    await logger.aerror("Failed to register handler: %s", handler_funcs)
                     continue
 
-                await logger.adebug("Handler registered successfully: %s", handler_func)
+                await logger.adebug("Handler registered successfully: %s", handler_funcs)
 
     except ModuleNotFoundError:
         await logger.aerror("Could not load module: %s", module_name)
@@ -176,6 +185,7 @@ async def load_module(client: Client, module_name: str, handlers: ModuleHandlers
 
 async def load_all_modules(client: Client) -> None:
     await logger.adebug("Loading all modules...")
+
     discover_modules()
 
     loaded_count = 0

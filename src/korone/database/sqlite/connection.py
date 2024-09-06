@@ -2,16 +2,21 @@
 # Copyright (c) 2024 Hitalo M. <https://github.com/HitaloM>
 # Copyright (c) 2023 Victor Cebarros <https://github.com/victorcebarros>
 
+from __future__ import annotations
+
 from pathlib import Path
+from typing import TYPE_CHECKING
 
 import aiosqlite
 
 from korone import constants
 from korone.database.connection import Connection
-from korone.database.table import Table
 from korone.utils.logging import logger
 
 from .table import SQLite3Table
+
+if TYPE_CHECKING:
+    from korone.database.table import Table
 
 
 class SQLite3Connection(Connection):
@@ -21,7 +26,7 @@ class SQLite3Connection(Connection):
         self._kwargs = kwargs
         self._conn: aiosqlite.Connection | None = None
 
-    async def __aenter__(self) -> "SQLite3Connection":
+    async def __aenter__(self) -> SQLite3Connection:
         if not await self.is_open():
             await self.connect()
         return self

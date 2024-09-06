@@ -2,6 +2,7 @@
 # Copyright (c) 2024 Hitalo M. <https://github.com/HitaloM>
 
 from collections.abc import Generator
+from typing import Any
 
 from hydrogram import Client
 from hydrogram.enums import ChatType
@@ -27,8 +28,8 @@ class IsPrivateChat(Filter):
 
         return True
 
-    def __await__(self) -> Generator:
-        return self.__call__().__await__()  # type: ignore
+    def __await__(self) -> Generator[Any, Any, bool]:
+        return self.__call__().__await__()
 
 
 class IsGroupChat(Filter):
@@ -47,5 +48,5 @@ class IsGroupChat(Filter):
 
         return True
 
-    def __await__(self) -> Generator:
-        return self.__call__().__await__()  # type: ignore
+    def __await__(self) -> Generator[Any, Any, bool]:
+        return self.__call__().__await__()

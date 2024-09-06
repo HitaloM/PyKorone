@@ -2,6 +2,8 @@
 # Copyright (c) 2024 Hitalo M. <https://github.com/HitaloM>
 # Copyright (c) 2023 Victor Cebarros <https://github.com/victorcebarros>
 
+from __future__ import annotations
+
 from copy import copy
 from typing import Any
 
@@ -37,44 +39,44 @@ class Query:
         self.operator = operator
         self.rhs = rhs
 
-    def __getattr__(self, name: str) -> "Query":
+    def __getattr__(self, name: str) -> Query:
         self.lhs = name
         return self
 
-    def __getitem__(self, item: str) -> "Query":
+    def __getitem__(self, item: str) -> Query:
         return self.__getattr__(item)
 
-    def __copy__(self) -> "Query":
+    def __copy__(self) -> Query:
         return Query(lhs=self.lhs, operator=self.operator, rhs=self.rhs)
 
-    def __and__(self, other) -> "Query":
+    def __and__(self, other) -> Query:
         return self._new_node(lhs=self, operator="AND", rhs=other)
 
-    def __or__(self, other) -> "Query":
+    def __or__(self, other) -> Query:
         return self._new_node(lhs=self, operator="OR", rhs=other)
 
-    def __invert__(self) -> "Query":
+    def __invert__(self) -> Query:
         return self._new_node(operator="NOT", rhs=self)
 
-    def __eq__(self, other) -> "Query":
+    def __eq__(self, other) -> Query:
         return self._new_node(lhs=self.lhs, operator="==", rhs=other)
 
-    def __ne__(self, other) -> "Query":
+    def __ne__(self, other) -> Query:
         return self._new_node(lhs=self.lhs, operator="!=", rhs=other)
 
-    def __lt__(self, other) -> "Query":
+    def __lt__(self, other) -> Query:
         return self._new_node(lhs=self.lhs, operator="<", rhs=other)
 
-    def __le__(self, other) -> "Query":
+    def __le__(self, other) -> Query:
         return self._new_node(lhs=self.lhs, operator="<=", rhs=other)
 
-    def __gt__(self, other) -> "Query":
+    def __gt__(self, other) -> Query:
         return self._new_node(lhs=self.lhs, operator=">", rhs=other)
 
-    def __ge__(self, other) -> "Query":
+    def __ge__(self, other) -> Query:
         return self._new_node(lhs=self.lhs, operator=">=", rhs=other)
 
-    def _new_node(self, *, lhs=None, operator=None, rhs=None) -> "Query":
+    def _new_node(self, *, lhs=None, operator=None, rhs=None) -> Query:
         query = Query(
             lhs=copy(lhs),
             operator=copy(operator),

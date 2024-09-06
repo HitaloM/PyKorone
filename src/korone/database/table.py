@@ -2,9 +2,12 @@
 # Copyright (c) 2024 Hitalo M. <https://github.com/HitaloM>
 # Copyright (c) 2023 Victor Cebarros <https://github.com/victorcebarros>
 
-from typing import Any, NewType, Protocol
+from __future__ import annotations
 
-from .query import Query
+from typing import TYPE_CHECKING, Any, NewType, Protocol
+
+if TYPE_CHECKING:
+    from .query import Query
 
 
 class Document(dict[str, Any]): ...

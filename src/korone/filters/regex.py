@@ -6,7 +6,7 @@ from __future__ import annotations
 import re
 from collections.abc import Iterable, Sequence
 from contextlib import suppress
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Any, cast
 
 from hydrogram.filters import Filter
 
@@ -42,7 +42,12 @@ class Regex(Filter):
         self.ignore_case = ignore_case
         self.friendly_name = friendly_name
 
-    def _prepare_patterns(self, values, patterns, ignore_case):
+    def _prepare_patterns(
+        self,
+        values: Sequence[RegexPatternType],
+        patterns: Sequence[RegexPatternType] | RegexPatternType | None,
+        ignore_case: bool,
+    ) -> list[re.Pattern]:
         if isinstance(patterns, str | re.Pattern):
             patterns = [patterns]
         elif patterns is None:
@@ -55,7 +60,7 @@ class Regex(Filter):
         return [self._process_pattern(pattern, ignore_case) for pattern in (*values, *patterns)]
 
     @staticmethod
-    def _process_pattern(pattern, ignore_case):
+    def _process_pattern(pattern: RegexPatternType, ignore_case: bool) -> re.Pattern:
         if isinstance(pattern, str):
             flags = re.IGNORECASE if ignore_case else 0
             pattern = re.compile(pattern, flags)
@@ -82,7 +87,15 @@ class Regex(Filter):
 
         if self.friendly_name and self.friendly_name in COMMANDS:
             chat_id = message.chat.id
-            if not COMMANDS[self.friendly_name]["chat"].get(chat_id, True):
+
+            command_info = COMMANDS[self.friendly_name]
+            if not isinstance(command_info, dict):
+                msg = f"Invalid command info for {self.friendly_name}"
+                raise RegexError(msg)
+
+            command_info = cast(dict[str, Any], command_info)
+
+            if not command_info["chat"].get(chat_id, True):
                 msg = f"Regex pattern {self.friendly_name} is disabled in '{chat_id}'"
                 raise RegexError(msg)
 

@@ -1,12 +1,16 @@
 # SPDX-License-Identifier: BSD-3-Clause
 # Copyright (c) 2024 Hitalo M. <https://github.com/HitaloM>
 
+from __future__ import annotations
+
 import math
-from collections.abc import Callable, Iterator, Sequence
 from itertools import islice
-from typing import Any
+from typing import TYPE_CHECKING, Any
 
 from hydrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
+
+if TYPE_CHECKING:
+    from collections.abc import Callable, Iterator, Sequence
 
 
 class Pagination:

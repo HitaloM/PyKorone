@@ -1,11 +1,17 @@
 # SPDX-License-Identifier: BSD-3-Clause
 # Copyright (c) 2024 Hitalo M. <https://github.com/HitaloM>
 
-from hydrogram import Client
+from __future__ import annotations
+
+from typing import TYPE_CHECKING
+
 from hydrogram.handlers import CallbackQueryHandler
-from hydrogram.types import CallbackQuery
 
 from .base import BaseHandler
+
+if TYPE_CHECKING:
+    from hydrogram import Client
+    from hydrogram.types import CallbackQuery
 
 
 class KoroneCallbackQueryHandler(CallbackQueryHandler, BaseHandler):

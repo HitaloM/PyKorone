@@ -1,16 +1,18 @@
 # SPDX-License-Identifier: BSD-3-Clause
 # Copyright (c) 2024 Hitalo M. <https://github.com/HitaloM>
 
-from collections.abc import Callable
-from typing import TYPE_CHECKING
+from __future__ import annotations
 
-from hydrogram.filters import Filter
+from typing import TYPE_CHECKING
 
 from korone.handlers.callback_query_handler import KoroneCallbackQueryHandler
 from korone.handlers.error_handler import KoroneErrorHandler
 from korone.handlers.message_handler import KoroneMessageHandler
 
 if TYPE_CHECKING:
+    from collections.abc import Callable
+
+    from hydrogram.filters import Filter
     from hydrogram.handlers.handler import Handler
 
 

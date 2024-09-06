@@ -7,7 +7,7 @@ import re
 from collections.abc import Iterable, Sequence
 from contextlib import suppress
 from dataclasses import dataclass, field, replace
-from typing import TYPE_CHECKING, Any
+from typing import TYPE_CHECKING, Any, cast
 
 from hydrogram.filters import Filter
 
@@ -153,9 +153,24 @@ class Command(Filter):
         command_name = command.command
         if self.disableable and command_name in COMMANDS:
             chat_id = message.chat.id
-            command_name = COMMANDS[command_name].get("parent", command_name)
-            if not COMMANDS[command_name]["chat"].get(chat_id, True):
-                msg = f"Command {command_name} is disabled in '{chat_id}'."
+
+            command_info = COMMANDS[command_name]
+            if not isinstance(command_info, dict):
+                msg = f"Invalid command info for {command_name}"
+                raise CommandError(msg)
+
+            command_info = cast(dict[str, Any], command_info)
+            parent_command = command_info.get("parent", command_name)
+
+            parent_info = COMMANDS[parent_command]
+            if not isinstance(parent_info, dict):
+                msg = f"Invalid parent command info for {parent_command}"
+                raise CommandError(msg)
+
+            parent_info = cast(dict[str, Any], parent_info)
+
+            if not parent_info["chat"].get(chat_id, True):
+                msg = f"Command {parent_command} is disabled in '{chat_id}'."
                 raise CommandError(msg)
 
         return self.do_magic(self.validate_command(command))

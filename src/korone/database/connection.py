@@ -2,18 +2,21 @@
 # Copyright (c) 2024 Hitalo M. <https://github.com/HitaloM>
 # Copyright (c) 2023 Victor Cebarros <https://github.com/victorcebarros>
 
-from typing import Any, Optional, Protocol
+from __future__ import annotations
 
-from .table import Table
+from typing import TYPE_CHECKING, Any, Protocol
+
+if TYPE_CHECKING:
+    from .table import Table
 
 
 class Connection(Protocol):
     _path: str
     _args: tuple
     _kwargs: dict
-    _conn: Optional["Connection"] = None
+    _conn: Connection | None = None
 
-    async def __aenter__(self) -> "Connection": ...
+    async def __aenter__(self) -> Connection: ...
 
     async def __aexit__(self, exc_type, exc_value, traceback) -> None: ...
 

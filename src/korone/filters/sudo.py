@@ -2,6 +2,7 @@
 # Copyright (c) 2024 Hitalo M. <https://github.com/HitaloM>
 
 from collections.abc import Generator
+from typing import Any
 
 from hydrogram import Client
 from hydrogram.filters import Filter
@@ -10,7 +11,8 @@ from hydrogram.types import CallbackQuery, Message
 from korone.config import ConfigManager
 from korone.utils.logging import logger
 
-SUDOERS: list[int] = ConfigManager.get("korone", "SUDOERS")
+SUDOERS = ConfigManager.get("korone", "SUDOERS")
+
 if not SUDOERS:
     msg = "The SUDOERS list has not been loaded correctly. Check your configuration file."
     logger.error(msg)
@@ -49,5 +51,5 @@ class IsSudo(Filter):
         )
         return False
 
-    def __await__(self) -> Generator:
-        return self.__call__().__await__()  # type: ignore
+    def __await__(self) -> Generator[Any, Any, bool]:
+        return self.__call__().__await__()

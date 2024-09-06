@@ -2,6 +2,7 @@
 # Copyright (c) 2024 Hitalo M. <https://github.com/HitaloM>
 
 from collections.abc import Generator
+from typing import Any
 
 from hydrogram import Client
 from hydrogram.enums import ChatMemberStatus, ChatType
@@ -33,21 +34,18 @@ class IsAdmin(Filter):
         if message.chat.type == ChatType.PRIVATE:
             return True
 
-        user = await self.client.get_chat_member(message.chat.id, user.id)
-        if user.status in {ChatMemberStatus.ADMINISTRATOR, ChatMemberStatus.OWNER}:
+        chat_member = await self.client.get_chat_member(message.chat.id, user.id)
+        if chat_member.status in {ChatMemberStatus.ADMINISTRATOR, ChatMemberStatus.OWNER}:
             return True
 
         if self.show_alert:
+            alert_text = _("You must be an administrator to use this.")
             if is_callback:
-                await update.answer(
-                    text=_("You must be an administrator to use this."),
-                    show_alert=True,
-                    cache_time=60,
-                )
+                await update.answer(text=alert_text, show_alert=True, cache_time=60)
             else:
-                await message.reply(_("You must be an administrator to use this."))
+                await message.reply(alert_text)
 
         return False
 
-    def __await__(self) -> Generator:
-        return self.__call__().__await__()  # type: ignore
+    def __await__(self) -> Generator[Any, Any, bool]:
+        return self.__call__().__await__()
