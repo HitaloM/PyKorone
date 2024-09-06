@@ -6,13 +6,13 @@ from hydrogram.types import Message
 
 from korone.decorators import router
 from korone.filters import Command, CommandObject
-from korone.modules.lastfm.database import get_lastfm_user
 from korone.modules.lastfm.utils import (
     EntryType,
     LastFMClient,
     LastFMError,
     LastFMTrack,
     TimePeriod,
+    get_lastfm_user_or_reply,
     name_with_link,
     parse_collage_arg,
     period_to_str,
@@ -22,14 +22,8 @@ from korone.utils.i18n import gettext as _
 
 @router.message(Command("lfmtop"))
 async def lfmtop_command(client: Client, message: Message) -> None:  # noqa: C901
-    last_fm_user = await get_lastfm_user(message.from_user.id)
+    last_fm_user = await get_lastfm_user_or_reply(message)
     if not last_fm_user:
-        await message.reply(
-            _(
-                "You need to set your LastFM username first! "
-                "Example: <code>/setlfm username</code>."
-            )
-        )
         return
 
     command = CommandObject(message).parse()

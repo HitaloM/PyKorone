@@ -50,6 +50,7 @@ async def handle_languages(client: Client, update: Message | CallbackQuery) -> N
 
     if isinstance(update, Message):
         await update.reply(text, reply_markup=keyboard.as_markup())
-    else:
-        with suppress(MessageNotModified):
-            await update.edit_message_text(text, reply_markup=keyboard.as_markup())
+        return
+
+    with suppress(MessageNotModified):
+        await update.edit_message_text(text, reply_markup=keyboard.as_markup())

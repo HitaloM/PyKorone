@@ -9,6 +9,7 @@ from hydrogram.types import Message
 from korone.decorators import router
 from korone.filters import Command, CommandObject, IsAdmin
 from korone.modules.filters.database import get_filter_info
+from korone.modules.filters.utils.types import FilterModel
 from korone.utils.i18n import gettext as _
 
 
@@ -32,6 +33,11 @@ async def filterinfo_command(client: Client, message: Message) -> None:
         await message.reply(_("Filter '{name}' not found.").format(name=filter_name))
         return
 
+    response_message = format_filter_info(filter_info)
+    await message.reply(response_message)
+
+
+def format_filter_info(filter_info: FilterModel) -> str:
     created_date = datetime.fromtimestamp(filter_info.created_date, tz=UTC).strftime(
         "%d-%m-%Y %H:%M:%S %Z"
     )
@@ -39,7 +45,7 @@ async def filterinfo_command(client: Client, message: Message) -> None:
         "%d-%m-%Y %H:%M:%S %Z"
     )
 
-    response_message = _(
+    return _(
         "<b>Filter Info</b>:\n"
         "<b>Names</b>: {names}\n"
         "<b>Content Type</b>: <code>{content_type}</code>\n"
@@ -55,5 +61,3 @@ async def filterinfo_command(client: Client, message: Message) -> None:
         edited_date=edited_date,
         editor=f"{filter_info.editor.first_name} {filter_info.editor.last_name}",
     )
-
-    await message.reply(response_message)

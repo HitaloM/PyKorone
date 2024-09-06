@@ -6,37 +6,28 @@ from hydrogram.types import Message
 
 from korone.decorators import router
 from korone.filters import Command
-from korone.modules.lastfm.database import get_lastfm_user
-from korone.modules.lastfm.utils import LastFMClient, LastFMError, get_time_elapsed_str
-from korone.modules.lastfm.utils.formatters import name_with_link
+from korone.modules.lastfm.utils import (
+    LastFMClient,
+    LastFMError,
+    get_lastfm_user_or_reply,
+    get_time_elapsed_str,
+    handle_lastfm_error,
+    name_with_link,
+)
 from korone.utils.i18n import gettext as _
 
 
 @router.message(Command("lfmrecent"))
 async def lfmrecent_command(client: Client, message: Message) -> None:
-    last_fm_user = await get_lastfm_user(message.from_user.id)
+    last_fm_user = await get_lastfm_user_or_reply(message)
     if not last_fm_user:
-        await message.reply(
-            _(
-                "You need to set your LastFM username first! "
-                "Example: <code>/setlfm username</code>."
-            )
-        )
         return
 
     last_fm = LastFMClient()
     try:
         recent_tracks = await last_fm.get_recent_tracks(last_fm_user, limit=6)
     except LastFMError as e:
-        error_message = (
-            _("Your LastFM username was not found! Try setting it again.")
-            if "User not found" in e.message
-            else _(
-                "An error occurred while fetching your LastFM data!"
-                "\n<blockquote>{error}</blockquote>"
-            ).format(error=e.message)
-        )
-        await message.reply(error_message)
+        await handle_lastfm_error(message, e)
         return
 
     if not recent_tracks:

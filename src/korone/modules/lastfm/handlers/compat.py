@@ -11,6 +11,7 @@ from korone.modules.lastfm.utils import (
     LastFMClient,
     LastFMError,
     TimePeriod,
+    handle_lastfm_error,
     parse_collage_arg,
     period_to_str,
 )
@@ -65,15 +66,7 @@ async def lfmcompat_command(client: Client, message: Message) -> None:  # noqa: 
         artists1 = await last_fm.get_top_artists(user1_db, period, limit=200)
         artists2 = await last_fm.get_top_artists(user2_db, period, limit=200)
     except LastFMError as e:
-        if "User not found" in e.message:
-            await message.reply(_("Your LastFM username was not found! Try setting it again."))
-        else:
-            await message.reply(
-                _(
-                    "An error occurred while fetching your LastFM data!"
-                    "\n<blockquote>{error}</blockquote>"
-                ).format(error=e.message)
-            )
+        await handle_lastfm_error(message, e)
         return
 
     if not artists1 or not artists2:

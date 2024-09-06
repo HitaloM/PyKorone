@@ -8,12 +8,13 @@ from hydrogram.types import Message
 
 from korone.decorators import router
 from korone.filters import Command, CommandObject
-from korone.modules.lastfm.database import get_lastfm_user
 from korone.modules.lastfm.utils import (
     LastFMClient,
     LastFMError,
     TimePeriod,
     create_album_collage,
+    get_lastfm_user_or_reply,
+    handle_lastfm_error,
     name_with_link,
     parse_collage_arg,
     period_to_str,
@@ -23,14 +24,8 @@ from korone.utils.i18n import gettext as _
 
 @router.message(Command("lfmcollage"))
 async def lfmcollage_command(client: Client, message: Message) -> None:
-    last_fm_user = await get_lastfm_user(message.from_user.id)
+    last_fm_user = await get_lastfm_user_or_reply(message)
     if not last_fm_user:
-        await message.reply(
-            _(
-                "You need to set your LastFM username first! "
-                "Example: <code>/setlfm username</code>."
-            )
-        )
         return
 
     command = CommandObject(message).parse()
@@ -50,15 +45,7 @@ async def lfmcollage_command(client: Client, message: Message) -> None:
         try:
             top_items = await last_fm.get_top_albums(last_fm_user, period, limit=collage_size**2)
         except LastFMError as e:
-            if "User not found" in e.message:
-                await message.reply(_("Your LastFM username was not found! Try setting it again."))
-            else:
-                await message.reply(
-                    _(
-                        "An error occurred while fetching your LastFM data!"
-                        "\n<blockquote>{error}</blockquote>"
-                    ).format(error=e.message)
-                )
+            await handle_lastfm_error(message, e)
             return
 
         if not top_items:
@@ -70,10 +57,6 @@ async def lfmcollage_command(client: Client, message: Message) -> None:
         )
 
         user_link = name_with_link(name=str(message.from_user.first_name), username=last_fm_user)
-        caption = _("{user}'s {period} {collage_size}x{collage_size} album collage").format(
-            user=user_link,
-            period=period_to_str(period),
-            collage_size=collage_size,
-        )
+        caption = f"{user_link}\n{collage_size}x{collage_size}, albums, {period_to_str(period)}"
 
         await message.reply_photo(photo=collage_path, caption=caption)

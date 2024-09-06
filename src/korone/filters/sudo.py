@@ -18,8 +18,13 @@ if not SUDOERS:
     logger.error(msg)
     raise ValueError(msg)
 
-if not isinstance(SUDOERS, list) or not all(isinstance(i, int) for i in SUDOERS):
-    msg = "The SUDOERS list must be a list of integers. Check your configuration file."
+if not isinstance(SUDOERS, list):
+    msg = "The SUDOERS list must be a list. Check your configuration file."
+    logger.error(msg)
+    raise TypeError(msg)
+
+if not all(isinstance(i, int) for i in SUDOERS):
+    msg = "The SUDOERS list must contain only integers. Check your configuration file."
     logger.error(msg)
     raise TypeError(msg)
 
@@ -36,18 +41,17 @@ class IsSudo(Filter):
         is_callback = isinstance(update, CallbackQuery)
         message = update.message if is_callback else update
 
-        if message.from_user is None:
+        if update.from_user is None:
             return False
 
-        user_id = message.from_user.id
+        user_id = update.from_user.id
         chat_id = message.chat.id
         if user_id in SUDOERS:
-            await logger.ainfo(
-                "[Filters/Sudo] Access allowed for user %s in %s.", user_id, chat_id
-            )
+            await logger.ainfo("[Filters/Sudo] Access allowed", user=user_id, chat=chat_id)
             return True
+
         await logger.awarning(
-            "[Filters/Sudo] Unauthorized access attempt by user %s in %s.", user_id, chat_id
+            "[Filters/Sudo] Unauthorized access attempt", user=user_id, chat=chat_id
         )
         return False
 

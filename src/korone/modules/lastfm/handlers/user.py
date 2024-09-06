@@ -8,35 +8,27 @@ from hydrogram.types import Message
 
 from korone.decorators import router
 from korone.filters import Command
-from korone.modules.lastfm.database import get_lastfm_user
-from korone.modules.lastfm.utils import LastFMClient, LastFMError, get_biggest_lastfm_image
+from korone.modules.lastfm.utils import (
+    LastFMClient,
+    LastFMError,
+    get_biggest_lastfm_image,
+    get_lastfm_user_or_reply,
+    handle_lastfm_error,
+)
 from korone.utils.i18n import gettext as _
 
 
 @router.message(Command("lfmuser"))
 async def lfmuser_command(client: Client, message: Message) -> None:
-    last_fm_user = await get_lastfm_user(message.from_user.id)
+    last_fm_user = await get_lastfm_user_or_reply(message)
     if not last_fm_user:
-        await message.reply(
-            _(
-                "You need to set your LastFM username first! "
-                "Example: <code>/setlfm username</code>."
-            )
-        )
         return
 
     last_fm = LastFMClient()
     try:
         user_info = await last_fm.get_user_info(last_fm_user)
     except LastFMError as e:
-        await message.reply(
-            _("Your LastFM username was not found! Try setting it again.")
-            if "User not found" in e.message
-            else _(
-                "An error occurred while fetching your LastFM data!"
-                "\n<blockquote>{error}</blockquote>"
-            ).format(error=e.message)
-        )
+        await handle_lastfm_error(message, e)
         return
 
     registered = datetime.fromtimestamp(user_info.registered, tz=UTC).strftime("%d-%m-%Y")
@@ -61,5 +53,6 @@ async def lfmuser_command(client: Client, message: Message) -> None:
 
     if image:
         await message.reply_photo(photo=image, caption=text)
-    else:
-        await message.reply(text, disable_web_page_preview=True)
+        return
+
+    await message.reply(text, disable_web_page_preview=True)

@@ -53,11 +53,14 @@ async def filter_command(client: Client, message: Message) -> None:
 
     await update_filters_cache(message.chat.id)
 
+    response_message = format_saved_filters_message(message, filter_names)
+    await message.reply(response_message)
+
+
+def format_saved_filters_message(message: Message, filter_names: tuple[str, ...]) -> str:
     saved_filters = list(filter_names)
-    response_message = _("Saved {count} filters in {chat}:\n{filters}").format(
+    return _("Saved {count} filters in {chat}:\n{filters}").format(
         count=len(saved_filters),
         chat=message.chat.title or _("private chat"),
         filters="\n".join(f"- <code>{filter_name}</code>" for filter_name in saved_filters),
     )
-
-    await message.reply(response_message)

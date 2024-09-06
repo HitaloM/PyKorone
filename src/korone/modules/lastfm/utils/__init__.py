@@ -15,6 +15,8 @@ from korone.modules.lastfm.utils.lastfm_api import LastFMClient, TimePeriod
 from korone.modules.lastfm.utils.parse_collage import EntryType, parse_collage_arg
 from korone.modules.lastfm.utils.types import LastFMImage, LastFMTrack
 
+from .commons import build_response_text, get_lastfm_user_or_reply, handle_lastfm_error
+
 __all__ = (
     "DeezerClient",
     "DeezerError",
@@ -24,10 +26,13 @@ __all__ = (
     "LastFMImage",
     "LastFMTrack",
     "TimePeriod",
+    "build_response_text",
     "create_album_collage",
     "format_tags",
     "get_biggest_lastfm_image",
+    "get_lastfm_user_or_reply",
     "get_time_elapsed_str",
+    "handle_lastfm_error",
     "name_with_link",
     "parse_collage_arg",
     "period_to_str",

@@ -6,13 +6,14 @@ from hydrogram.types import Message
 
 from korone.decorators import router
 from korone.filters import Command
-from korone.modules.lastfm.database import get_lastfm_user
 from korone.modules.lastfm.utils import (
     LastFMClient,
     LastFMError,
+    build_response_text,
     format_tags,
     get_biggest_lastfm_image,
-    get_time_elapsed_str,
+    get_lastfm_user_or_reply,
+    handle_lastfm_error,
     name_with_link,
 )
 from korone.utils.i18n import gettext as _
@@ -20,60 +21,35 @@ from korone.utils.i18n import gettext as _
 
 @router.message(Command(commands=["lfm", "lastfm", "lmu"]))
 async def lfm_command(client: Client, message: Message) -> None:
-    last_fm_user = await get_lastfm_user(message.from_user.id)
+    last_fm_user = await get_lastfm_user_or_reply(message)
     if not last_fm_user:
-        await message.reply(
-            _(
-                "You need to set your LastFM username first! "
-                "Example: <code>/setlfm username</code>."
-            )
-        )
         return
 
     last_fm = LastFMClient()
-
     try:
         last_played = (await last_fm.get_recent_tracks(last_fm_user, limit=1))[0]
         track_info = await last_fm.get_track_info(
             last_played.artist.name, last_played.name, last_fm_user
         )
     except LastFMError as e:
-        if "User not found" in e.message:
-            await message.reply(_("Your LastFM username was not found! Try setting it again."))
-        else:
-            await message.reply(
-                _(
-                    "An error occurred while fetching your LastFM data!"
-                    "\n<blockquote>{error}</blockquote>"
-                ).format(error=e.message)
-            )
+        await handle_lastfm_error(message, e)
         return
     except IndexError:
         await message.reply(_("No recent tracks found for your LastFM account."))
         return
 
     user_link = name_with_link(name=str(message.from_user.first_name), username=last_fm_user)
-    text = (
-        _("{user}'s is listening to:\n").format(user=user_link)
-        if last_played.now_playing
-        else _("{user}'s was listening to:\n").format(user=user_link)
+    text = build_response_text(
+        user_link=user_link,
+        now_playing=last_played.now_playing,
+        entity_name=f"{last_played.artist.name} — {last_played.name}",
+        entity_type="🎧",
+        playcount=track_info.playcount,
+        tags=format_tags(track_info) if track_info.tags else "",
     )
-    text += "🎧 <i>{track_artist}</i> — <b>{track_name}</b>{loved}{time}{plays}".format(
-        track_artist=last_played.artist.name,
-        track_name=last_played.name,
-        loved=_(", ❤️ loved") if last_played.loved else "",
-        time="" if last_played.now_playing else get_time_elapsed_str(last_played),
-        plays=_(" ∙ <code>{track_playcount} plays</code>").format(
-            track_playcount=track_info.playcount
-        )
-        if track_info.playcount > 0
-        else "",
-    )
-
-    if track_info.tags:
-        text += f"\n\n{format_tags(track_info)}"
 
     if image := await get_biggest_lastfm_image(last_played):
         await message.reply_photo(photo=image, caption=text)
-    else:
-        await message.reply(text, disable_web_page_preview=True)
+        return
+
+    await message.reply(text, disable_web_page_preview=True)

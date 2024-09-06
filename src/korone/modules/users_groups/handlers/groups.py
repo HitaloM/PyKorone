@@ -6,9 +6,11 @@ from hydrogram.enums import ChatType
 from hydrogram.errors import UsernameInvalid, UsernameNotOccupied
 from hydrogram.types import Message
 
+from korone.database.table import Document
 from korone.decorators import router
 from korone.filters import Command, CommandObject
 from korone.modules.users_groups.database import get_chat_by_id, get_chat_by_username
+from korone.modules.users_groups.utils import handle_error
 from korone.utils.i18n import gettext as _
 
 
@@ -27,40 +29,45 @@ async def group_command(client: Client, message: Message) -> None:
         return
 
     try:
-        if not str(identifier).isdigit():
-            msg = "Identifier must be a number"
-            raise ValueError(msg)
-
-        identifier = int(identifier)
-        if not (-9223372036854775808 <= identifier <= 9223372036854775807):
-            msg = "Identifier out of range for SQLite INTEGER"
-            raise ValueError(msg)
-
-        if isinstance(identifier, int) or identifier.isdigit():
-            group = (await get_chat_by_id(identifier))[0]
-        else:
-            group = (await get_chat_by_username(identifier))[0]
-
+        identifier = validate_identifier(str(identifier))
+        group = await get_group(str(identifier))
         if group is None:
-            msg = "No group found with the provided identifier"
-            raise IndexError(msg)
+            raise IndexError(_("No group found with the provided identifier"))
 
-        text = _("<b>Group info</b>:\n")
-        text += _("<b>ID</b>: <code>{id}</code>\n").format(id=group["id"])
-        text += _("<b>Title</b>: {title}\n").format(title=group["title"])
-        if username := group.get("username"):
-            text += _("<b>Username</b>: @{username}\n").format(username=username)
-        if group_type := group["type"]:
-            text += _("<b>Type</b>: {type}\n").format(type=group_type)
-
+        text = format_group_info(group)
         await message.reply(text)
 
     except (UsernameInvalid, UsernameNotOccupied, IndexError, KeyError, ValueError) as e:
-        error_messages = {
-            UsernameInvalid: _("The provided username is invalid."),
-            UsernameNotOccupied: _("The provided username does not exist."),
-            IndexError: _("No group found with the provided identifier."),
-            KeyError: _("Error accessing group data."),
-            ValueError: _("The provided value is not valid."),
-        }
-        await message.reply(error_messages[type(e)])
+        await handle_error(message, e)
+
+
+def validate_identifier(identifier: str) -> int:
+    if identifier.isdigit() or (identifier.startswith("-100") and identifier[4:].isdigit()):
+        identifier_int = int(identifier)
+    else:
+        raise ValueError(_("Identifier must be a number or start with -100 followed by digits"))
+
+    if not (-9223372036854775808 <= identifier_int <= 9223372036854775807):
+        raise ValueError(_("Identifier out of range for SQLite INTEGER"))
+
+    return identifier_int
+
+
+async def get_group(identifier: str) -> Document:
+    if identifier.isdigit() or (identifier.startswith("-100") and identifier[4:].isdigit()):
+        return (await get_chat_by_id(int(identifier)))[0]
+    return (await get_chat_by_username(identifier))[0]
+
+
+def format_group_info(group: dict) -> str:
+    text = _("<b>Group info</b>:\n")
+    text += _("<b>ID</b>: <code>{id}</code>\n").format(id=group["id"])
+    text += _("<b>Title</b>: {title}\n").format(title=group["title"])
+
+    if username := group.get("username"):
+        text += _("<b>Username</b>: @{username}\n").format(username=username)
+
+    if group_type := group["type"]:
+        text += _("<b>Type</b>: {type}\n").format(type=group_type)
+
+    return text
