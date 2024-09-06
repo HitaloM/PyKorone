@@ -4,7 +4,6 @@ The stickers module provides commands to manage stickers and sticker packs on Te
 
 ## Commands
 
-- `/getsticker`: Reupload the sticker from the replied message to the chat.
 - `/kang (?emoji)`: "Steals" the sticker from the replied message and adds it to a new sticker set or an existing one. If you provide the `emoji` argument, the bot will use it as the sticker's emoji.
 
 ```{note}

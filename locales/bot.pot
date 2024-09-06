@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-09-06 02:11-0300\n"
+"POT-Creation-Date: 2024-09-06 11:58-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -781,18 +781,6 @@ msgstr ""
 msgid "Your regex didn't change anything from the original message."
 msgstr ""
 
-#: src/korone/modules/stickers/handlers/get_sticker.py:29
-msgid "Reply to a sticker."
-msgstr ""
-
-#: src/korone/modules/stickers/handlers/get_sticker.py:33
-msgid "Reply to a sticker to get it as a file and file ID"
-msgstr ""
-
-#: src/korone/modules/stickers/handlers/get_sticker.py:38
-msgid "Failed to download sticker."
-msgstr ""
-
 #: src/korone/modules/stickers/handlers/kang.py:36
 msgid "You need to reply to an image, video, or sticker."
 msgstr ""
@@ -896,142 +884,113 @@ msgid ""
 "<b>Translation:</b> <code>{translated_text}</code>"
 msgstr ""
 
-#: src/korone/modules/users_groups/utils.py:12
+#: src/korone/modules/users/utils.py:12
 msgid "The provided user ID is invalid."
 msgstr ""
 
-#: src/korone/modules/users_groups/utils.py:13
+#: src/korone/modules/users/utils.py:13
 msgid "The provided username is invalid."
 msgstr ""
 
-#: src/korone/modules/users_groups/utils.py:14
+#: src/korone/modules/users/utils.py:14
 msgid "The provided username does not exist."
 msgstr ""
 
-#: src/korone/modules/users_groups/utils.py:15
+#: src/korone/modules/users/utils.py:15
 msgid "No entity found with the provided identifier."
 msgstr ""
 
-#: src/korone/modules/users_groups/utils.py:16
+#: src/korone/modules/users/utils.py:16
 msgid "Error accessing data."
 msgstr ""
 
-#: src/korone/modules/users_groups/utils.py:17
+#: src/korone/modules/users/utils.py:17
 msgid "The provided value is not valid."
 msgstr ""
 
-#: src/korone/modules/users_groups/utils.py:24
+#: src/korone/modules/users/utils.py:24
 msgid "An unexpected error occurred."
 msgstr ""
 
-#: src/korone/modules/users_groups/handlers/cleanup.py:15
+#: src/korone/modules/users/handlers/cleanup.py:15
 msgid "Removing deleted accounts..."
 msgstr ""
 
-#: src/korone/modules/users_groups/handlers/cleanup.py:21
+#: src/korone/modules/users/handlers/cleanup.py:21
 msgid "Failed to fetch members."
 msgstr ""
 
-#: src/korone/modules/users_groups/handlers/cleanup.py:25
+#: src/korone/modules/users/handlers/cleanup.py:25
 msgid "No members found."
 msgstr ""
 
-#: src/korone/modules/users_groups/handlers/cleanup.py:39
+#: src/korone/modules/users/handlers/cleanup.py:39
 msgid "Removed {count} deleted accounts."
 msgstr ""
 
-#: src/korone/modules/users_groups/handlers/cleanup.py:42
+#: src/korone/modules/users/handlers/cleanup.py:42
 msgid "No deleted accounts found."
 msgstr ""
 
-#: src/korone/modules/users_groups/handlers/groups.py:24
-msgid ""
-"You should provide a group ID or username. Example: <code>/group "
-"@username</code>."
-msgstr ""
-
-#: src/korone/modules/users_groups/handlers/groups.py:35
-msgid "No group found with the provided identifier"
-msgstr ""
-
-#: src/korone/modules/users_groups/handlers/groups.py:48
-msgid "Identifier must be a number or start with -100 followed by digits"
-msgstr ""
-
-#: src/korone/modules/users_groups/handlers/groups.py:51
-#: src/korone/modules/users_groups/handlers/users.py:46
-msgid "Identifier out of range for SQLite INTEGER"
-msgstr ""
-
-#: src/korone/modules/users_groups/handlers/groups.py:63
-msgid "<b>Group info</b>:\n"
-msgstr ""
-
-#: src/korone/modules/users_groups/handlers/groups.py:64
-#: src/korone/modules/users_groups/handlers/users.py:59
-msgid "<b>ID</b>: <code>{id}</code>\n"
-msgstr ""
-
-#: src/korone/modules/users_groups/handlers/groups.py:65
-msgid "<b>Title</b>: {title}\n"
-msgstr ""
-
-#: src/korone/modules/users_groups/handlers/groups.py:68
-#: src/korone/modules/users_groups/handlers/users.py:66
-msgid "<b>Username</b>: @{username}\n"
-msgstr ""
-
-#: src/korone/modules/users_groups/handlers/groups.py:71
-msgid "<b>Type</b>: {type}\n"
-msgstr ""
-
-#: src/korone/modules/users_groups/handlers/id.py:15
+#: src/korone/modules/users/handlers/id.py:15
 msgid "Your ID is <code>{id}</code>"
 msgstr ""
 
-#: src/korone/modules/users_groups/handlers/id.py:22
+#: src/korone/modules/users/handlers/id.py:22
 msgid ""
 "\n"
 "Chat ID: <code>{id}</code>"
 msgstr ""
 
-#: src/korone/modules/users_groups/handlers/id.py:27
+#: src/korone/modules/users/handlers/id.py:27
 msgid ""
 "\n"
 "{user} ID: <code>{id}</code>"
 msgstr ""
 
-#: src/korone/modules/users_groups/handlers/id.py:35
+#: src/korone/modules/users/handlers/id.py:35
 msgid ""
 "\n"
 "Forwarded user ID: <code>{id}</code>"
 msgstr ""
 
-#: src/korone/modules/users_groups/handlers/users.py:24
+#: src/korone/modules/users/handlers/users.py:24
 msgid "Invalid identifier provided."
 msgstr ""
 
-#: src/korone/modules/users_groups/handlers/users.py:31
+#: src/korone/modules/users/handlers/users.py:31
 msgid "No user found with the provided identifier"
 msgstr ""
 
-#: src/korone/modules/users_groups/handlers/users.py:42
+#: src/korone/modules/users/handlers/users.py:42
 msgid "Identifier must be a number"
 msgstr ""
 
-#: src/korone/modules/users_groups/handlers/users.py:58
+#: src/korone/modules/users/handlers/users.py:46
+msgid "Identifier out of range for SQLite INTEGER"
+msgstr ""
+
+#: src/korone/modules/users/handlers/users.py:58
 msgid "<b>User info</b>:\n"
 msgstr ""
 
-#: src/korone/modules/users_groups/handlers/users.py:60
+#: src/korone/modules/users/handlers/users.py:59
+msgid "<b>ID</b>: <code>{id}</code>\n"
+msgstr ""
+
+#: src/korone/modules/users/handlers/users.py:60
 msgid "<b>First Name</b>: {first_name}\n"
 msgstr ""
 
-#: src/korone/modules/users_groups/handlers/users.py:63
+#: src/korone/modules/users/handlers/users.py:63
 msgid "<b>Last Name</b>: {last_name}\n"
 msgstr ""
 
-#: src/korone/modules/users_groups/handlers/users.py:68
+#: src/korone/modules/users/handlers/users.py:66
+msgid "<b>Username</b>: @{username}\n"
+msgstr ""
+
+#: src/korone/modules/users/handlers/users.py:68
 msgid "<b>User link</b>: <a href='tg://user?id={id}'>link</a>\n"
 msgstr ""
 

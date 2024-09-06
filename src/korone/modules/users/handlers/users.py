@@ -8,8 +8,8 @@ from hydrogram.types import Message
 from korone.database.table import Document
 from korone.decorators import router
 from korone.filters import Command, CommandObject
-from korone.modules.users_groups.database import get_user_by_id, get_user_by_username
-from korone.modules.users_groups.utils import handle_error
+from korone.modules.users.database import get_user_by_id, get_user_by_username
+from korone.modules.users.utils import handle_error
 from korone.utils.i18n import gettext as _
 
 

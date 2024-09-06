@@ -18,18 +18,16 @@ async def add_text_to_image(img: Image.Image, text: str, font: ImageFont.FreeTyp
         draw = ImageDraw.Draw(img)
         lines = text.split("\n")
         font_size = font.size
-        text_x, text_y = 10, img.height - (len(lines) * font_size) - 10
+        text_height = len(lines) * font_size
+        text_x, text_y = 10, img.height - text_height - 10
 
         # Create gradient mask
-        mask = Image.new("L", (img.width, int(len(lines) * font_size + 20)))
-        for y in range(mask.height):
-            for x in range(mask.width):
-                mask.putpixel((x, y), int(255 * (y / mask.height)))
-
-        # Apply gradient
-        gradient = Image.new("RGB", (img.width, int(len(lines) * font_size + 20)), "black")
+        mask = Image.linear_gradient("L").resize((img.width, int(text_height) + 20))
+        gradient = Image.new("RGB", (img.width, int(text_height) + 20), "black")
         gradient.putalpha(mask)
-        img.paste(gradient, (0, img.height - int(len(lines) * font_size) - 20), gradient)
+        img.paste(
+            gradient, (0, int(img.height - text_height - 20), img.width, img.height), gradient
+        )
 
         # Draw text with border
         for line in lines:
@@ -42,7 +40,7 @@ async def add_text_to_image(img: Image.Image, text: str, font: ImageFont.FreeTyp
 
 
 async def fetch_album_arts(albums: list[LastFMAlbum]) -> list[Image.Image]:
-    async def fetch_art(album):
+    async def fetch_art(album: LastFMAlbum) -> Image.Image:
         image_url = await get_biggest_lastfm_image(album)
         return (
             Image.open(image_url)
@@ -50,11 +48,8 @@ async def fetch_album_arts(albums: list[LastFMAlbum]) -> list[Image.Image]:
             else Image.open("https://telegra.ph/file/d0244cd9b8bc7d0dd370d.png")
         )
 
-    return [
-        img
-        for img in await asyncio.gather(*(fetch_art(album) for album in albums))
-        if img is not None
-    ]
+    tasks = [asyncio.create_task(fetch_art(album)) for album in albums]
+    return [img for img in await asyncio.gather(*tasks) if img is not None]
 
 
 @cache(timedelta(days=1))
@@ -78,14 +73,11 @@ async def create_album_collage(
         x, y = (index % cols) * thumb_size, (index // cols) * thumb_size
         collage.paste(img, (x, y))
 
-    await asyncio.gather(
-        *(
-            process_image(index, item, img)
-            for index, (item, img) in enumerate(
-                zip(albums[: rows * cols], album_images, strict=False)
-            )
-        )
-    )
+    tasks = [
+        asyncio.create_task(process_image(index, item, img))
+        for index, (item, img) in enumerate(zip(albums[: rows * cols], album_images, strict=False))
+    ]
+    await asyncio.gather(*tasks)
 
     collage_bytes = io.BytesIO()
     await asyncio.to_thread(collage.save, collage_bytes, format="PNG")
