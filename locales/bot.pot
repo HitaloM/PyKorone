@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-09-07 14:24-0300\n"
+"POT-Creation-Date: 2024-09-07 20:50-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -592,35 +592,35 @@ msgstr ""
 msgid "All time"
 msgstr ""
 
-#: src/korone/modules/medias/handlers/bluesky.py:60
+#: src/korone/modules/medias/handlers/bluesky.py:59
 msgid "Open in BueSky"
 msgstr ""
 
-#: src/korone/modules/medias/handlers/bluesky.py:68
-msgid "Open in Bluesky"
+#: src/korone/modules/medias/handlers/bluesky.py:66
+msgid "Open in BlueSky"
 msgstr ""
 
-#: src/korone/modules/medias/handlers/instagram.py:60
-#: src/korone/modules/medias/handlers/instagram.py:68
+#: src/korone/modules/medias/handlers/instagram.py:65
+#: src/korone/modules/medias/handlers/instagram.py:72
 msgid "Open in Instagram"
 msgstr ""
 
-#: src/korone/modules/medias/handlers/threads.py:60
-#: src/korone/modules/medias/handlers/threads.py:68
+#: src/korone/modules/medias/handlers/threads.py:65
+#: src/korone/modules/medias/handlers/threads.py:72
 msgid "Open in Threads"
 msgstr ""
 
-#: src/korone/modules/medias/handlers/tiktok.py:140
-#: src/korone/modules/medias/handlers/tiktok.py:186
+#: src/korone/modules/medias/handlers/tiktok.py:148
+#: src/korone/modules/medias/handlers/tiktok.py:194
 msgid "Open in TikTok"
 msgstr ""
 
-#: src/korone/modules/medias/handlers/twitter.py:43
-#: src/korone/modules/medias/handlers/twitter.py:155
+#: src/korone/modules/medias/handlers/twitter.py:51
+#: src/korone/modules/medias/handlers/twitter.py:163
 msgid "Open in Twitter"
 msgstr ""
 
-#: src/korone/modules/medias/handlers/twitter.py:65
+#: src/korone/modules/medias/handlers/twitter.py:73
 msgid ""
 "\n"
 "<b>Sent from:</b> <i>{source}</i>"

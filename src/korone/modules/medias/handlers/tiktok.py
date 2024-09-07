@@ -8,10 +8,15 @@ from typing import cast
 
 import httpx
 from hairydogm.chat_action import ChatActionSender
-from hairydogm.keyboard import InlineKeyboardBuilder
 from hydrogram import Client
 from hydrogram.enums import ChatAction
-from hydrogram.types import InlineKeyboardMarkup, InputMediaPhoto, InputMediaVideo, Message
+from hydrogram.types import (
+    InlineKeyboardButton,
+    InlineKeyboardMarkup,
+    InputMediaPhoto,
+    InputMediaVideo,
+    Message,
+)
 
 from korone.decorators import router
 from korone.filters import Regex
@@ -30,6 +35,9 @@ URL_PATTERN = re.compile(
 
 @router.message(Regex(URL_PATTERN))
 async def handle_tiktok(client: Client, message: Message) -> None:
+    if not message.text:
+        return
+
     url_match = URL_PATTERN.search(message.text)
     if not url_match:
         return
@@ -178,9 +186,9 @@ async def prepare_slideshow_media(media: TikTokSlideshow) -> list[InputMediaPhot
 def format_media_text(media: TikTokVideo | TikTokSlideshow) -> str:
     text = f"<b>{media.author}{":" if media.desc else ""}</b>"
     if media.desc:
-        text += f"\n\n{media.desc}"
+        text += f"\n\n{media.desc[:900]}{"..." if len(media.desc) > 900 else ""}"
     return text
 
 
 def create_keyboard(url: str) -> InlineKeyboardMarkup:
-    return InlineKeyboardBuilder().button(text=_("Open in TikTok"), url=url).as_markup()
+    return InlineKeyboardMarkup([[InlineKeyboardButton(_("Open in TikTok"), url=url)]])

@@ -7,10 +7,15 @@ from datetime import timedelta
 
 import httpx
 from hairydogm.chat_action import ChatActionSender
-from hairydogm.keyboard import InlineKeyboardBuilder
 from hydrogram import Client
 from hydrogram.enums import ChatAction
-from hydrogram.types import InputMediaPhoto, InputMediaVideo, Message
+from hydrogram.types import (
+    InlineKeyboardButton,
+    InlineKeyboardMarkup,
+    InputMediaPhoto,
+    InputMediaVideo,
+    Message,
+)
 
 from korone.decorators import router
 from korone.filters import Regex
@@ -27,6 +32,9 @@ URL_PATTERN = re.compile(r"(?:(?:http|https):\/\/)?(?:www.)?(twitter\.com|x\.com
 
 @router.message(Regex(URL_PATTERN))
 async def handle_twitter(client: Client, message: Message) -> None:
+    if not message.text:
+        return
+
     url_match = URL_PATTERN.search(message.text)
     if not url_match:
         return
@@ -151,9 +159,9 @@ async def send_media(
     tweet: Tweet,
     cache_data: list[InputMediaPhoto | InputMediaVideo] | None,
 ) -> Message | None:
-    keyboard = (
-        InlineKeyboardBuilder().button(text=_("Open in Twitter"), url=str(tweet.url)).as_markup()
-    )
+    keyboard = InlineKeyboardMarkup([
+        [InlineKeyboardButton(_("Open in Twitter"), url=str(tweet.url))]
+    ])
     media_file = cache_data[0] if cache_data else await prepare_media(media)
 
     if not media_file:

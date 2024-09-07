@@ -5,10 +5,9 @@ import re
 from datetime import timedelta
 
 from hairydogm.chat_action import ChatActionSender
-from hairydogm.keyboard import InlineKeyboardBuilder
 from hydrogram.client import Client
 from hydrogram.enums import ChatAction
-from hydrogram.types import InputMediaPhoto, Message
+from hydrogram.types import InlineKeyboardButton, InlineKeyboardMarkup, InputMediaPhoto, Message
 
 from korone.decorators import router
 from korone.filters import Regex
@@ -64,9 +63,7 @@ def format_caption(media_list: list, url: str) -> str:
 async def send_media(message: Message, media_list: list, caption: str, url: str) -> Message | None:
     if len(media_list) == 1:
         media = media_list[0]
-        keyboard = (
-            InlineKeyboardBuilder().button(text=f"{_("Open in Bluesky")}", url=url).as_markup()
-        )
+        keyboard = InlineKeyboardMarkup([[InlineKeyboardButton(_("Open in BlueSky"), url=url)]])
         if isinstance(media, InputMediaPhoto):
             return await message.reply_photo(media.media, caption=caption, reply_markup=keyboard)
         return None

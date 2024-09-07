@@ -1,6 +1,8 @@
 # SPDX-License-Identifier: BSD-3-Clause
 # Copyright (c) 2024 Hitalo M. <https://github.com/HitaloM>
 
+from __future__ import annotations
+
 from typing import Any
 
 from pydantic import BaseModel, Field, HttpUrl, field_validator
@@ -93,9 +95,9 @@ class Tweet(BaseModel):
     lang: str
     replying_to: str | None = None
     replying_to_status: str | None = None
-    quote: "Tweet | None" = None
+    quote: Tweet | None = None
     media: MediaContainer | None = None
-    source: str
+    source: str | None = None
     twitter_card: str | None = None
     color: str | None = None
 
