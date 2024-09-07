@@ -8,17 +8,12 @@ from hydrogram.types import Message
 
 from korone.decorators import router
 from korone.filters import Command, CommandObject
-from korone.modules.lastfm.utils import (
-    LastFMClient,
-    LastFMError,
-    TimePeriod,
-    create_album_collage,
-    get_lastfm_user_or_reply,
-    handle_lastfm_error,
-    name_with_link,
-    parse_collage_arg,
-    period_to_str,
-)
+from korone.modules.lastfm.utils.collage_generator import create_album_collage
+from korone.modules.lastfm.utils.commons import get_lastfm_user_or_reply, handle_lastfm_error
+from korone.modules.lastfm.utils.errors import LastFMError
+from korone.modules.lastfm.utils.formatters import name_with_link, period_to_str
+from korone.modules.lastfm.utils.lastfm_api import LastFMClient, TimePeriod
+from korone.modules.lastfm.utils.parse_collage import parse_collage_arg
 from korone.utils.i18n import gettext as _
 
 

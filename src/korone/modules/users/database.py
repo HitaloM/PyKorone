@@ -1,7 +1,6 @@
 # SPDX-License-Identifier: BSD-3-Clause
 # Copyright (c) 2024 Hitalo M. <https://github.com/HitaloM>
 
-
 from korone.database.query import Query
 from korone.database.sqlite import SQLite3Connection
 from korone.database.table import Documents
@@ -16,16 +15,4 @@ async def get_user_by_id(user_id: int) -> Documents:
 async def get_user_by_username(username: str) -> Documents:
     async with SQLite3Connection() as conn:
         table = await conn.table("Users")
-        return await table.query(Query().username == username.lower())
-
-
-async def get_chat_by_id(chat_id: int) -> Documents:
-    async with SQLite3Connection() as conn:
-        table = await conn.table("Groups")
-        return await table.query(Query().id == chat_id)
-
-
-async def get_chat_by_username(username: str) -> Documents:
-    async with SQLite3Connection() as conn:
-        table = await conn.table("Groups")
         return await table.query(Query().username == username.lower())

@@ -1,6 +1,10 @@
 # SPDX-License-Identifier: BSD-3-Clause
 # Copyright (c) 2024 Hitalo M. <https://github.com/HitaloM>
 
+from __future__ import annotations
+
+from typing import Self
+
 from .factory import Factory
 
 
@@ -16,6 +20,6 @@ class Router:
         self.callback_query = Factory("callback_query")
         self.error = Factory("error")
 
-    def __getattr__(self, name: str):
+    def __getattr__(self, name: str) -> Self:
         msg = f"Event of type: '{name}' is not supported by the Korone."
         raise RouterError(msg)

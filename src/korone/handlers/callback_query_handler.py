@@ -15,5 +15,5 @@ if TYPE_CHECKING:
 
 
 class KoroneCallbackQueryHandler(CallbackQueryHandler, BaseHandler):
-    async def check(self, client: Client, callback_query: CallbackQuery) -> None:
-        return await self._check_and_handle(client, callback_query)
+    async def check(self, client: Client, callback: CallbackQuery) -> None:
+        return await self._check_and_handle(client, callback)

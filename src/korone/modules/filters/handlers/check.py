@@ -12,8 +12,9 @@ from hydrogram.types import Message
 from korone.decorators import router
 from korone.filters import HasText, IsAdmin
 from korone.modules.filters.database import get_filters_cache, update_filters_cache
-from korone.modules.filters.utils import FilterModel, vars_parser
-from korone.modules.filters.utils.parse_buttons import unparse_buttons, unparse_buttons_to_text
+from korone.modules.filters.utils.buttons import unparse_buttons, unparse_buttons_to_text
+from korone.modules.filters.utils.text import vars_parser
+from korone.modules.filters.utils.types import FilterModel
 
 
 @router.message(HasText() & ~filters.bot)

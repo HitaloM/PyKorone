@@ -13,7 +13,7 @@ from korone import constants
 from korone.config import ConfigManager
 from korone.decorators import router
 
-LOGS_CHAT = ConfigManager().get("korone", "LOGS_CHAT")
+LOGS_CHAT = ConfigManager.get("korone", "LOGS_CHAT")
 
 
 @router.message(filters.new_chat_members)

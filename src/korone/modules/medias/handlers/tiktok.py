@@ -15,15 +15,11 @@ from hydrogram.types import InlineKeyboardMarkup, InputMediaPhoto, InputMediaVid
 
 from korone.decorators import router
 from korone.filters import Regex
-from korone.modules.medias.utils import GENERIC_HEADER
 from korone.modules.medias.utils.cache import MediaCache
 from korone.modules.medias.utils.files import resize_thumbnail, url_to_bytes_io
-from korone.modules.medias.utils.tiktok import (
-    TikTokClient,
-    TikTokError,
-    TikTokSlideshow,
-    TikTokVideo,
-)
+from korone.modules.medias.utils.generic_headers import GENERIC_HEADER
+from korone.modules.medias.utils.tiktok.scraper import TikTokClient, TikTokError
+from korone.modules.medias.utils.tiktok.types import TikTokSlideshow, TikTokVideo
 from korone.utils.i18n import gettext as _
 from korone.utils.logging import logger
 

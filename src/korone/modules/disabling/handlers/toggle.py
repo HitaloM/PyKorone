@@ -6,7 +6,7 @@ from hydrogram.types import Message
 
 from korone.decorators import router
 from korone.filters import Command, CommandObject, IsAdmin, IsGroupChat
-from korone.modules import COMMANDS, fetch_command_state
+from korone.modules.core import COMMANDS, fetch_command_state
 from korone.modules.disabling.database import set_command_state
 from korone.utils.i18n import gettext as _
 

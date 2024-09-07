@@ -5,9 +5,9 @@ import re
 
 from korone.utils.i18n import gettext as _
 
-SED_PATTERN: str = r"^s/((?:\\.|[^/])+)/((?:\\.|[^/])*)(/.*)?"
-GROUP0_RE: re.Pattern = re.compile(r"(?<!\\)((?:\\\\)*)\\0")
-MAX_PATTERN_LENGTH: int = 1000
+SED_PATTERN = re.compile(r"^s/((?:\\.|[^/])+)/((?:\\.|[^/])*)(/.*)?")
+GROUP0_RE = re.compile(r"(?<!\\)((?:\\\\)*)\\0")
+MAX_PATTERN_LENGTH = 1000
 
 
 def cleanup_pattern(match: re.Match) -> tuple[str, str]:

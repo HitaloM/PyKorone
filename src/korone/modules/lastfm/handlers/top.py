@@ -6,17 +6,12 @@ from hydrogram.types import Message
 
 from korone.decorators import router
 from korone.filters import Command, CommandObject
-from korone.modules.lastfm.utils import (
-    EntryType,
-    LastFMClient,
-    LastFMError,
-    LastFMTrack,
-    TimePeriod,
-    get_lastfm_user_or_reply,
-    name_with_link,
-    parse_collage_arg,
-    period_to_str,
-)
+from korone.modules.lastfm.utils.commons import get_lastfm_user_or_reply
+from korone.modules.lastfm.utils.errors import LastFMError
+from korone.modules.lastfm.utils.formatters import name_with_link, period_to_str
+from korone.modules.lastfm.utils.lastfm_api import LastFMClient, TimePeriod
+from korone.modules.lastfm.utils.parse_collage import EntryType, parse_collage_arg
+from korone.modules.lastfm.utils.types import LastFMTrack
 from korone.utils.i18n import gettext as _
 
 

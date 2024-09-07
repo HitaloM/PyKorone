@@ -8,17 +8,15 @@ from hydrogram.types import Message
 
 from korone.decorators import router
 from korone.filters import Command
-from korone.modules.lastfm.utils import (
-    DeezerClient,
-    DeezerError,
-    LastFMClient,
-    LastFMError,
+from korone.modules.lastfm.utils.commons import (
     build_response_text,
-    format_tags,
     get_lastfm_user_or_reply,
     handle_lastfm_error,
-    name_with_link,
 )
+from korone.modules.lastfm.utils.deezer_api import DeezerClient, DeezerError
+from korone.modules.lastfm.utils.errors import LastFMError
+from korone.modules.lastfm.utils.formatters import format_tags, name_with_link
+from korone.modules.lastfm.utils.lastfm_api import LastFMClient
 from korone.utils.i18n import gettext as _
 
 

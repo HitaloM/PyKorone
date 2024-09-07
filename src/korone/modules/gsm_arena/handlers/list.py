@@ -9,7 +9,8 @@ from hydrogram.types import CallbackQuery
 
 from korone.decorators import router
 from korone.modules.gsm_arena.callback_data import DevicePageCallback
-from korone.modules.gsm_arena.utils import create_pagination_layout, search_phone
+from korone.modules.gsm_arena.utils.keyboard import create_pagination_layout
+from korone.modules.gsm_arena.utils.scraper import search_phone
 
 
 @router.callback_query(DevicePageCallback.filter())

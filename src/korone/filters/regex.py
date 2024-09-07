@@ -6,11 +6,11 @@ from __future__ import annotations
 import re
 from collections.abc import Iterable, Sequence
 from contextlib import suppress
-from typing import TYPE_CHECKING, Any, cast
+from typing import TYPE_CHECKING
 
 from hydrogram.filters import Filter
 
-from korone.modules import COMMANDS
+from korone.modules.core import COMMANDS
 
 if TYPE_CHECKING:
     from hydrogram import Client
@@ -87,15 +87,7 @@ class Regex(Filter):
 
         if self.friendly_name and self.friendly_name in COMMANDS:
             chat_id = message.chat.id
-
-            command_info = COMMANDS[self.friendly_name]
-            if not isinstance(command_info, dict):
-                msg = f"Invalid command info for {self.friendly_name}"
-                raise RegexError(msg)
-
-            command_info = cast(dict[str, Any], command_info)
-
-            if not command_info["chat"].get(chat_id, True):
+            if not COMMANDS[self.friendly_name]["chat"].get(chat_id, True):
                 msg = f"Regex pattern {self.friendly_name} is disabled in '{chat_id}'"
                 raise RegexError(msg)
 

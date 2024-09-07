@@ -6,7 +6,7 @@ from hydrogram.enums import MessageMediaType
 from hydrogram.types import Message
 
 from korone import constants
-from korone.modules.filters.utils.parse_buttons import (
+from korone.modules.filters.utils.buttons import (
     BUTTON_URL_REGEX,
     parse_message_buttons,
     parse_text_buttons,

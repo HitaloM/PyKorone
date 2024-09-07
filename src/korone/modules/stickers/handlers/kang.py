@@ -11,16 +11,17 @@ from korone import constants
 from korone.decorators import router
 from korone.filters import Command, CommandObject
 from korone.modules.stickers.database import get_or_create_pack, update_user_pack
-from korone.modules.stickers.utils import (
-    add_or_create_sticker_pack,
-    check_if_pack_exists,
+from korone.modules.stickers.utils.ffmpeg import generate_random_file_path
+from korone.modules.stickers.utils.medias import (
     check_video,
     determine_media_type,
     determine_mime_type_and_suffix,
-    extract_emoji,
-    generate_pack_names,
-    generate_random_file_path,
     resize_media,
+)
+from korone.modules.stickers.utils.methods import (
+    add_or_create_sticker_pack,
+    check_if_pack_exists,
+    generate_pack_names,
     send_media,
 )
 from korone.utils.i18n import gettext as _
@@ -31,7 +32,12 @@ async def kang_command(client: Client, message: Message) -> None:
     command = CommandObject(message).parse()
     user = message.from_user
 
-    emoji = extract_emoji(command, message)
+    emoji = "🤔"
+    if command.args:
+        emoji = command.args.split(" ")[0]
+    if message.reply_to_message and message.reply_to_message.sticker:
+        emoji = message.reply_to_message.sticker.emoji
+
     if not emoji or not message.reply_to_message:
         await message.reply(_("You need to reply to an image, video, or sticker."))
         return

@@ -17,12 +17,12 @@ if TYPE_CHECKING:
 
 
 class Factory:
-    __slots__ = ("event_name", "events_observed")
+    __slots__ = ("update_name", "updates_observed")
 
-    def __init__(self, event_name: str) -> None:
-        self.event_name = event_name
+    def __init__(self, update_name: str) -> None:
+        self.update_name = update_name
 
-        self.events_observed: dict[str, type[Handler]] = {
+        self.updates_observed: dict[str, type[Handler]] = {
             "message": KoroneMessageHandler,
             "callback_query": KoroneCallbackQueryHandler,
             "error": KoroneErrorHandler,
@@ -33,9 +33,9 @@ class Factory:
             if not hasattr(func, "handlers"):
                 func.handlers = []
 
-            handler_class = self.events_observed.get(self.event_name)
+            handler_class = self.updates_observed.get(self.update_name)
             if handler_class is None:
-                msg = f"No handler found for event: {self.event_name}"
+                msg = f"No handler found for update: {self.update_name}"
                 raise ValueError(msg)
 
             func.handlers.append((handler_class(func, filters), group))  # type: ignore

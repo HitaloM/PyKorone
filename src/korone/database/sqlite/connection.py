@@ -5,7 +5,7 @@
 from __future__ import annotations
 
 from pathlib import Path
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Any
 
 import aiosqlite
 
@@ -20,7 +20,9 @@ if TYPE_CHECKING:
 
 
 class SQLite3Connection(Connection):
-    def __init__(self, path: str = constants.DEFAULT_DBFILE_PATH, *args, **kwargs) -> None:
+    def __init__(
+        self, path: str = constants.DEFAULT_DBFILE_PATH, *args: Any, **kwargs: Any
+    ) -> None:
         self._path = path
         self._args = args
         self._kwargs = kwargs
@@ -31,7 +33,7 @@ class SQLite3Connection(Connection):
             await self.connect()
         return self
 
-    async def __aexit__(self, exc_type, exc_value, traceback) -> None:
+    async def __aexit__(self, exc_type: Any, exc_value: Any, traceback: Any) -> None:
         await self.close()
 
     async def is_open(self) -> bool:
@@ -44,7 +46,7 @@ class SQLite3Connection(Connection):
             msg = "Connection is not open."
             raise RuntimeError(msg)
 
-        await logger.adebug("Executing SQL: %s with parameters: %s", sql, parameters)
+        await logger.adebug("[Database] Executing SQL: %s with parameters: %s", sql, parameters)
 
         return await (
             self._conn.executescript(sql) if script else self._conn.execute(sql, parameters)
@@ -75,10 +77,6 @@ class SQLite3Connection(Connection):
     async def execute(
         self, sql: str, parameters: tuple = (), script: bool = False
     ) -> aiosqlite.Cursor:
-        if not await self.is_open():
-            msg = "Connection is not yet open."
-            raise RuntimeError(msg)
-
         return await self._execute(sql, parameters, script)
 
     async def close(self) -> None:

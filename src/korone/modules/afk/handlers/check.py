@@ -14,7 +14,8 @@ from hydrogram.types import Message, MessageEntity, User
 from korone.decorators import router
 from korone.modules.afk.database import get_afk_reason, get_user, is_afk, set_afk
 from korone.modules.lastfm.database import get_lastfm_user
-from korone.modules.lastfm.utils import LastFMClient, LastFMError
+from korone.modules.lastfm.utils.errors import LastFMError
+from korone.modules.lastfm.utils.lastfm_api import LastFMClient
 from korone.utils.i18n import gettext as _
 
 
@@ -65,20 +66,32 @@ async def send_afk_message(user: User, message: Message) -> None:
     if reason:
         text += _("\nReason: {reason}").format(reason=html.escape(str(reason)))
 
-    last_fm_user = await get_lastfm_user(user.id)
-    if last_fm_user:
-        last_fm = LastFMClient()
-        with suppress(LastFMError):
-            last_played = (await last_fm.get_recent_tracks(last_fm_user, limit=1))[0]
-            if last_played.now_playing:
-                track_info = await last_fm.get_track_info(
-                    last_played.artist.name, last_played.name, last_fm_user
-                )
-                text += _("🎧 Listening to: {track_artist} — {track_name}").format(
-                    track_artist=track_info.artist.name, track_name=track_info.name
-                )
+    lastfm_text = await get_lastfm_status(user.id)
+    if lastfm_text:
+        text += lastfm_text
 
     sent = await message.reply(text)
     await asyncio.sleep(5)
     with suppress(BadRequest, MessageDeleteForbidden):
         await sent.delete()
+
+
+async def get_lastfm_status(user_id: int) -> str | None:
+    last_fm_user = await get_lastfm_user(user_id)
+    if not last_fm_user:
+        return None
+
+    last_fm = LastFMClient()
+    try:
+        last_played = (await last_fm.get_recent_tracks(last_fm_user, limit=1))[0]
+        if last_played.now_playing:
+            track_info = await last_fm.get_track_info(
+                last_played.artist.name, last_played.name, last_fm_user
+            )
+            return _("🎧 Listening to: {track_artist} — {track_name}").format(
+                track_artist=track_info.artist.name, track_name=track_info.name
+            )
+    except LastFMError:
+        return None
+
+    return None

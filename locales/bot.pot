@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-09-06 12:21-0300\n"
+"POT-Creation-Date: 2024-09-06 21:04-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -29,21 +29,21 @@ msgstr ""
 msgid "This command was designed to be used in group chats, not in PM!"
 msgstr ""
 
-#: src/korone/modules/afk/handlers/check.py:28
+#: src/korone/modules/afk/handlers/check.py:29
 msgid "Oh, you're back! I've removed your afk status."
 msgstr ""
 
-#: src/korone/modules/afk/handlers/check.py:63
+#: src/korone/modules/afk/handlers/check.py:64
 msgid "{user} is afk!"
 msgstr ""
 
-#: src/korone/modules/afk/handlers/check.py:66
+#: src/korone/modules/afk/handlers/check.py:67
 msgid ""
 "\n"
 "Reason: {reason}"
 msgstr ""
 
-#: src/korone/modules/afk/handlers/check.py:77
+#: src/korone/modules/afk/handlers/check.py:91
 msgid "🎧 Listening to: {track_artist} — {track_name}"
 msgstr ""
 
@@ -207,24 +207,24 @@ msgid ""
 msgstr ""
 
 #: src/korone/modules/filters/handlers/list.py:24
-#: src/korone/modules/filters/handlers/save.py:64
+#: src/korone/modules/filters/handlers/save.py:65
 #: src/korone/modules/filters/utils/text.py:41
 msgid "private chat"
 msgstr ""
 
-#: src/korone/modules/filters/handlers/save.py:20
+#: src/korone/modules/filters/handlers/save.py:21
 msgid ""
 "You need to provide a name for the filter. Example: <code>/filter "
 "filtername</code>"
 msgstr ""
 
-#: src/korone/modules/filters/handlers/save.py:30
+#: src/korone/modules/filters/handlers/save.py:31
 msgid ""
 "You need to provide the filter content. Check <code>/help</code> for more"
 " information."
 msgstr ""
 
-#: src/korone/modules/filters/handlers/save.py:62
+#: src/korone/modules/filters/handlers/save.py:63
 msgid ""
 "Saved {count} filters in {chat}:\n"
 "{filters}"
@@ -244,17 +244,17 @@ msgstr ""
 msgid "The maximum length of the filter is {length} characters."
 msgstr ""
 
-#: src/korone/modules/gsm_arena/handlers/search.py:24
+#: src/korone/modules/gsm_arena/handlers/search.py:20
 msgid ""
 "You should provide a device name to search. Example: <code>/device Galaxy"
 " S24</code>."
 msgstr ""
 
-#: src/korone/modules/gsm_arena/handlers/search.py:35
+#: src/korone/modules/gsm_arena/handlers/search.py:31
 msgid "No devices found."
 msgstr ""
 
-#: src/korone/modules/gsm_arena/handlers/search.py:44
+#: src/korone/modules/gsm_arena/handlers/search.py:40
 msgid "Search results for: <b>{device}</b>"
 msgstr ""
 
@@ -404,71 +404,71 @@ msgstr ""
 msgid "Please select the language you want to use for the chat."
 msgstr ""
 
-#: src/korone/modules/lastfm/handlers/album.py:40
-#: src/korone/modules/lastfm/handlers/artist.py:39
-#: src/korone/modules/lastfm/handlers/now.py:38
+#: src/korone/modules/lastfm/handlers/album.py:39
+#: src/korone/modules/lastfm/handlers/artist.py:37
+#: src/korone/modules/lastfm/handlers/now.py:37
 msgid "No recent tracks found for your LastFM account."
 msgstr ""
 
-#: src/korone/modules/lastfm/handlers/collage.py:52
+#: src/korone/modules/lastfm/handlers/collage.py:47
 msgid "No top albums found for your LastFM account."
 msgstr ""
 
-#: src/korone/modules/lastfm/handlers/compat.py:24
+#: src/korone/modules/lastfm/handlers/compat.py:21
 msgid "Reply to a message to get the compatibility!"
 msgstr ""
 
-#: src/korone/modules/lastfm/handlers/compat.py:31
+#: src/korone/modules/lastfm/handlers/compat.py:28
 msgid "You can't get the compatibility with yourself!"
 msgstr ""
 
-#: src/korone/modules/lastfm/handlers/compat.py:35
+#: src/korone/modules/lastfm/handlers/compat.py:32
 msgid "Bots won't have music taste!"
 msgstr ""
 
-#: src/korone/modules/lastfm/handlers/compat.py:43
+#: src/korone/modules/lastfm/handlers/compat.py:40
 #: src/korone/modules/lastfm/utils/commons.py:15
 msgid ""
 "You need to set your LastFM username first! Example: <code>/setlfm "
 "username</code>."
 msgstr ""
 
-#: src/korone/modules/lastfm/handlers/compat.py:52
+#: src/korone/modules/lastfm/handlers/compat.py:49
 msgid ""
 "The user you replied to doesn't have a LastFM account linked! Hint them "
 "to set it using <code>/setlfm username</code>."
 msgstr ""
 
-#: src/korone/modules/lastfm/handlers/compat.py:73
+#: src/korone/modules/lastfm/handlers/compat.py:70
 msgid "No top artists found for your LastFM account."
 msgstr ""
 
-#: src/korone/modules/lastfm/handlers/compat.py:92
+#: src/korone/modules/lastfm/handlers/compat.py:89
 msgid "No common artists in {period}"
 msgstr ""
 
-#: src/korone/modules/lastfm/handlers/compat.py:94
+#: src/korone/modules/lastfm/handlers/compat.py:91
 msgid ""
 "{user1} and {user2} listen to {mutual}...\n"
 "\n"
 "Compatibility score is {score}%, based on {period}"
 msgstr ""
 
-#: src/korone/modules/lastfm/handlers/recent.py:34
+#: src/korone/modules/lastfm/handlers/recent.py:30
 msgid "No recent tracks found."
 msgstr ""
 
-#: src/korone/modules/lastfm/handlers/recent.py:44
+#: src/korone/modules/lastfm/handlers/recent.py:40
 msgid "{user} is listening to:\n"
 msgstr ""
 
-#: src/korone/modules/lastfm/handlers/recent.py:46
+#: src/korone/modules/lastfm/handlers/recent.py:42
 msgid ""
 "\n"
 "Last 5 plays:"
 msgstr ""
 
-#: src/korone/modules/lastfm/handlers/recent.py:49
+#: src/korone/modules/lastfm/handlers/recent.py:45
 msgid "{user} was listening to:\n"
 msgstr ""
 
@@ -486,49 +486,49 @@ msgstr ""
 msgid "LastFM username set successfully!"
 msgstr ""
 
-#: src/korone/modules/lastfm/handlers/top.py:40
+#: src/korone/modules/lastfm/handlers/top.py:35
 msgid "Invalid entry type! Use one of the following: artist, track, album"
 msgstr ""
 
-#: src/korone/modules/lastfm/handlers/top.py:55
+#: src/korone/modules/lastfm/handlers/top.py:50
 #: src/korone/modules/lastfm/utils/commons.py:26
 msgid "Your LastFM username was not found! Try setting it again."
 msgstr ""
 
-#: src/korone/modules/lastfm/handlers/top.py:57
+#: src/korone/modules/lastfm/handlers/top.py:52
 #: src/korone/modules/lastfm/utils/commons.py:29
 msgid ""
 "An error occurred while fetching your LastFM data!\n"
 "<blockquote>{error}</blockquote>"
 msgstr ""
 
-#: src/korone/modules/lastfm/handlers/top.py:66
+#: src/korone/modules/lastfm/handlers/top.py:61
 msgid "No top items found."
 msgstr ""
 
-#: src/korone/modules/lastfm/handlers/top.py:70
+#: src/korone/modules/lastfm/handlers/top.py:65
 msgid ""
 "{user}'s top 5 {entry} for {period}:\n"
 "\n"
 msgstr ""
 
-#: src/korone/modules/lastfm/handlers/top.py:72
+#: src/korone/modules/lastfm/handlers/top.py:67
 msgid "artists"
 msgstr ""
 
-#: src/korone/modules/lastfm/handlers/top.py:74
+#: src/korone/modules/lastfm/handlers/top.py:69
 msgid "tracks"
 msgstr ""
 
-#: src/korone/modules/lastfm/handlers/top.py:76
+#: src/korone/modules/lastfm/handlers/top.py:71
 msgid "albums"
 msgstr ""
 
-#: src/korone/modules/lastfm/handlers/top.py:85
+#: src/korone/modules/lastfm/handlers/top.py:80
 msgid " -> {scrobbles} plays\n"
 msgstr ""
 
-#: src/korone/modules/lastfm/handlers/user.py:38
+#: src/korone/modules/lastfm/handlers/user.py:35
 msgid ""
 "User: <b>{user}</b>\n"
 "\n"
@@ -597,17 +597,17 @@ msgstr ""
 msgid "Open in Instagram"
 msgstr ""
 
-#: src/korone/modules/medias/handlers/tiktok.py:203
-#: src/korone/modules/medias/handlers/tiktok.py:218
+#: src/korone/modules/medias/handlers/tiktok.py:199
+#: src/korone/modules/medias/handlers/tiktok.py:214
 msgid "Open in TikTok"
 msgstr ""
 
-#: src/korone/modules/medias/handlers/twitter.py:44
-#: src/korone/modules/medias/handlers/twitter.py:163
+#: src/korone/modules/medias/handlers/twitter.py:41
+#: src/korone/modules/medias/handlers/twitter.py:160
 msgid "Open in Twitter"
 msgstr ""
 
-#: src/korone/modules/medias/handlers/twitter.py:69
+#: src/korone/modules/medias/handlers/twitter.py:66
 msgid ""
 "\n"
 "<b>Sent from:</b> <i>{source}</i>"
@@ -781,135 +781,107 @@ msgstr ""
 msgid "Your regex didn't change anything from the original message."
 msgstr ""
 
-#: src/korone/modules/stickers/handlers/kang.py:36
+#: src/korone/modules/stickers/handlers/kang.py:42
 msgid "You need to reply to an image, video, or sticker."
 msgstr ""
 
-#: src/korone/modules/stickers/handlers/kang.py:39
+#: src/korone/modules/stickers/handlers/kang.py:45
 msgid "Processing..."
 msgstr ""
 
-#: src/korone/modules/stickers/handlers/kang.py:44
+#: src/korone/modules/stickers/handlers/kang.py:50
 msgid "Invalid media type. Please reply to an image, video, or sticker."
 msgstr ""
 
-#: src/korone/modules/stickers/handlers/kang.py:54
+#: src/korone/modules/stickers/handlers/kang.py:60
 msgid "Error downloading media."
 msgstr ""
 
-#: src/korone/modules/stickers/handlers/kang.py:65
+#: src/korone/modules/stickers/handlers/kang.py:71
 msgid "Error processing media."
 msgstr ""
 
-#: src/korone/modules/stickers/handlers/kang.py:94
+#: src/korone/modules/stickers/handlers/kang.py:100
 msgid "View pack"
 msgstr ""
 
-#: src/korone/modules/stickers/handlers/kang.py:97
+#: src/korone/modules/stickers/handlers/kang.py:103
 msgid ""
 "Sticker <b>successfully</b> added to pack\n"
 "Emoji: {sticker_emoji}"
 msgstr ""
 
-#: src/korone/modules/stickers/utils/kang.py:87
+#: src/korone/modules/stickers/utils/medias.py:66
+msgid "Failed to get video information."
+msgstr ""
+
+#: src/korone/modules/stickers/utils/medias.py:72
+msgid "Error parsing video information: {error}"
+msgstr ""
+
+#: src/korone/modules/stickers/utils/medias.py:79
+msgid ""
+"The video is too long ({duration}s)!\n"
+"Max duration is 3 seconds."
+msgstr ""
+
+#: src/korone/modules/stickers/utils/medias.py:87
+msgid ""
+"The video is too big ({size}KB)!\n"
+"Max size is 256KB"
+msgstr ""
+
+#: src/korone/modules/stickers/utils/methods.py:78
 msgid "Adding the sticker to the pack..."
 msgstr ""
 
-#: src/korone/modules/stickers/utils/kang.py:102
+#: src/korone/modules/stickers/utils/methods.py:93
 msgid "Creating the sticker pack..."
 msgstr ""
 
-#: src/korone/modules/stickers/utils/kang.py:124
+#: src/korone/modules/stickers/utils/methods.py:115
 msgid "Start"
 msgstr ""
 
-#: src/korone/modules/stickers/utils/kang.py:127
+#: src/korone/modules/stickers/utils/methods.py:118
 msgid ""
 "Oops, looks like I do not have enough permissions to create a sticker "
 "pack for you!\n"
 "<b>Please start the bot first.</b>"
 msgstr ""
 
-#: src/korone/modules/stickers/utils/kang.py:135
+#: src/korone/modules/stickers/utils/methods.py:126
 msgid "An error occurred: {}"
 msgstr ""
 
-#: src/korone/modules/stickers/utils/kang.py:194
-msgid "Failed to get video information."
-msgstr ""
-
-#: src/korone/modules/stickers/utils/kang.py:200
-msgid "Error parsing video information: {error}"
-msgstr ""
-
-#: src/korone/modules/stickers/utils/kang.py:207
-msgid ""
-"The video is too long ({duration}s)!\n"
-"Max duration is 3 seconds."
-msgstr ""
-
-#: src/korone/modules/stickers/utils/kang.py:215
-msgid ""
-"The video is too big ({size}KB)!\n"
-"Max size is 256KB"
-msgstr ""
-
-#: src/korone/modules/translator/handlers/translate.py:43
+#: src/korone/modules/translator/handlers/translate.py:40
 msgid "Unsupported source language: {source_lang}"
 msgstr ""
 
-#: src/korone/modules/translator/handlers/translate.py:49
+#: src/korone/modules/translator/handlers/translate.py:46
 msgid "Unsupported target language: {target_lang}"
 msgstr ""
 
-#: src/korone/modules/translator/handlers/translate.py:54
+#: src/korone/modules/translator/handlers/translate.py:51
 msgid "The text to translate is empty. Please provide some text."
 msgstr ""
 
-#: src/korone/modules/translator/handlers/translate.py:62
+#: src/korone/modules/translator/handlers/translate.py:59
 msgid ""
 "Korone has reached the translation quota. The DeepL API has a limit of "
 "500,000 characters per month for the free plan, and we have exceeded this"
 " limit."
 msgstr ""
 
-#: src/korone/modules/translator/handlers/translate.py:70
+#: src/korone/modules/translator/handlers/translate.py:67
 msgid "Failed to translate text. Error: {error}"
 msgstr ""
 
-#: src/korone/modules/translator/handlers/translate.py:73
+#: src/korone/modules/translator/handlers/translate.py:70
 msgid ""
 "<b>Language:</b> <code>{source_lang}</code> => <code>{target_lang}</code>"
 "\n"
 "<b>Translation:</b> <code>{translated_text}</code>"
-msgstr ""
-
-#: src/korone/modules/users/utils.py:12
-msgid "The provided user ID is invalid."
-msgstr ""
-
-#: src/korone/modules/users/utils.py:13
-msgid "The provided username is invalid."
-msgstr ""
-
-#: src/korone/modules/users/utils.py:14
-msgid "The provided username does not exist."
-msgstr ""
-
-#: src/korone/modules/users/utils.py:15
-msgid "No entity found with the provided identifier."
-msgstr ""
-
-#: src/korone/modules/users/utils.py:16
-msgid "Error accessing data."
-msgstr ""
-
-#: src/korone/modules/users/utils.py:17
-msgid "The provided value is not valid."
-msgstr ""
-
-#: src/korone/modules/users/utils.py:24
-msgid "An unexpected error occurred."
 msgstr ""
 
 #: src/korone/modules/users/handlers/cleanup.py:15
@@ -954,43 +926,71 @@ msgid ""
 "Forwarded user ID: <code>{id}</code>"
 msgstr ""
 
-#: src/korone/modules/users/handlers/users.py:24
+#: src/korone/modules/users/handlers/users.py:23
 msgid "Invalid identifier provided."
 msgstr ""
 
-#: src/korone/modules/users/handlers/users.py:31
+#: src/korone/modules/users/handlers/users.py:30
 msgid "No user found with the provided identifier"
 msgstr ""
 
+#: src/korone/modules/users/handlers/users.py:41
+msgid "The provided user ID is invalid."
+msgstr ""
+
 #: src/korone/modules/users/handlers/users.py:42
-msgid "Identifier must be a number"
+msgid "The provided username is invalid."
+msgstr ""
+
+#: src/korone/modules/users/handlers/users.py:43
+msgid "The provided username does not exist."
+msgstr ""
+
+#: src/korone/modules/users/handlers/users.py:44
+msgid "No entity found with the provided identifier."
+msgstr ""
+
+#: src/korone/modules/users/handlers/users.py:45
+msgid "Error accessing data."
 msgstr ""
 
 #: src/korone/modules/users/handlers/users.py:46
-msgid "Identifier out of range for SQLite INTEGER"
+msgid "The provided value is not valid."
+msgstr ""
+
+#: src/korone/modules/users/handlers/users.py:53
+msgid "An unexpected error occurred."
 msgstr ""
 
 #: src/korone/modules/users/handlers/users.py:58
+msgid "Identifier must be a number"
+msgstr ""
+
+#: src/korone/modules/users/handlers/users.py:62
+msgid "Identifier out of range for SQLite INTEGER"
+msgstr ""
+
+#: src/korone/modules/users/handlers/users.py:74
 msgid "<b>User info</b>:\n"
 msgstr ""
 
-#: src/korone/modules/users/handlers/users.py:59
+#: src/korone/modules/users/handlers/users.py:75
 msgid "<b>ID</b>: <code>{id}</code>\n"
 msgstr ""
 
-#: src/korone/modules/users/handlers/users.py:60
+#: src/korone/modules/users/handlers/users.py:76
 msgid "<b>First Name</b>: {first_name}\n"
 msgstr ""
 
-#: src/korone/modules/users/handlers/users.py:63
+#: src/korone/modules/users/handlers/users.py:79
 msgid "<b>Last Name</b>: {last_name}\n"
 msgstr ""
 
-#: src/korone/modules/users/handlers/users.py:66
+#: src/korone/modules/users/handlers/users.py:82
 msgid "<b>Username</b>: @{username}\n"
 msgstr ""
 
-#: src/korone/modules/users/handlers/users.py:68
+#: src/korone/modules/users/handlers/users.py:84
 msgid "<b>User link</b>: <a href='tg://user?id={id}'>link</a>\n"
 msgstr ""
 

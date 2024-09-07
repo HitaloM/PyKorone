@@ -7,14 +7,11 @@ from hydrogram.types import Message
 from korone.decorators import router
 from korone.filters import Command, CommandObject
 from korone.modules.lastfm.database import get_lastfm_user
-from korone.modules.lastfm.utils import (
-    LastFMClient,
-    LastFMError,
-    TimePeriod,
-    handle_lastfm_error,
-    parse_collage_arg,
-    period_to_str,
-)
+from korone.modules.lastfm.utils.commons import handle_lastfm_error
+from korone.modules.lastfm.utils.errors import LastFMError
+from korone.modules.lastfm.utils.formatters import period_to_str
+from korone.modules.lastfm.utils.lastfm_api import LastFMClient, TimePeriod
+from korone.modules.lastfm.utils.parse_collage import parse_collage_arg
 from korone.utils.i18n import gettext as _
 
 

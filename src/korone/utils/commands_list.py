@@ -34,27 +34,17 @@ def create_bot_commands(locale: str, i18n: I18nNew) -> list[BotCommand]:
 async def set_ui_commands(client: Client, i18n: I18nNew):
     with suppress(FloodWait):
         await client.delete_bot_commands()
-        tasks = []
 
-        for locale in (*i18n.available_locales, i18n.default_locale):
-            commands = create_bot_commands(locale, i18n)
-            language_code = locale.split("_")[0].lower() if "_" in locale else locale
-
-            tasks.extend((
-                asyncio.create_task(
-                    client.set_bot_commands(
-                        commands,
-                        scope=BotCommandScopeAllPrivateChats(),
-                        language_code=language_code,
-                    )
-                ),
-                asyncio.create_task(
-                    client.set_bot_commands(
-                        commands,
-                        scope=BotCommandScopeAllGroupChats(),
-                        language_code=language_code,
-                    )
-                ),
-            ))
+        tasks = [
+            asyncio.create_task(
+                client.set_bot_commands(
+                    create_bot_commands(locale, i18n),
+                    scope=scope,
+                    language_code=locale.split("_")[0].lower() if "_" in locale else locale,
+                )
+            )
+            for locale in (*i18n.available_locales, i18n.default_locale)
+            for scope in (BotCommandScopeAllPrivateChats(), BotCommandScopeAllGroupChats())
+        ]
 
         await asyncio.gather(*tasks)

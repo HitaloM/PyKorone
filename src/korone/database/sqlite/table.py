@@ -4,10 +4,9 @@
 
 from __future__ import annotations
 
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Any
 
 from korone.database.table import Document, Documents, Table
-from korone.utils.logging import logger
 
 if TYPE_CHECKING:
     import aiosqlite
@@ -25,6 +24,10 @@ class SQLite3Table(Table):
         self._conn = conn
         self._table = table
 
+    async def _execute_and_commit(self, sql: str, params: tuple[Any, ...]) -> None:
+        await self._conn.execute(sql, params)
+        await self._conn.commit()
+
     async def insert(self, fields: Document) -> None:
         keys = ", ".join(key for key, value in fields.items() if value is not None)
         values = tuple(value for value in fields.values() if value is not None)
@@ -32,18 +35,11 @@ class SQLite3Table(Table):
 
         sql = f"INSERT OR IGNORE INTO {self._table} ({keys}) VALUES ({placeholders})"
 
-        await logger.adebug("Inserting into table %s: %s", self._table, fields)
-
-        await self._conn.execute(sql, values)
-        await self._conn.commit()
+        await self._execute_and_commit(sql, values)
 
     async def query(self, query: Query) -> Documents:
         clause, data = query.compile()
         sql = f"SELECT * FROM {self._table} WHERE {clause}"
-
-        await logger.adebug(
-            "Querying table %s with clause: %s and data: %s", self._table, clause, data
-        )
 
         cursor: aiosqlite.Cursor = await self._conn.execute(sql, data)
         rows = await cursor.fetchall()
@@ -65,18 +61,10 @@ class SQLite3Table(Table):
         clause, data = query.compile()
         sql = f"UPDATE {self._table} SET {assignments} WHERE {clause}"
 
-        await logger.adebug(
-            "Updating table %s with fields: %s and query: %s", self._table, fields, query
-        )
-
-        await self._conn.execute(sql, (*values, *data))
-        await self._conn.commit()
+        await self._execute_and_commit(sql, (*values, *data))
 
     async def delete(self, query: Query) -> None:
         clause, data = query.compile()
         sql = f"DELETE FROM {self._table} WHERE {clause}"
 
-        await logger.adebug("Deleting from table %s with query: %s", self._table, query)
-
-        await self._conn.execute(sql, data)
-        await self._conn.commit()
+        await self._execute_and_commit(sql, data)

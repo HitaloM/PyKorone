@@ -7,13 +7,14 @@ import inspect
 import os
 from importlib import import_module
 from pathlib import Path
-from typing import TYPE_CHECKING, Any, Protocol, cast
+from typing import TYPE_CHECKING, Any
 
 from hydrogram.handlers.handler import Handler
 
 from korone.database.query import Query
 from korone.database.sqlite import SQLite3Connection
 from korone.utils.logging import logger
+from korone.utils.traverse import bfs_attr_search
 
 if TYPE_CHECKING:
     from collections.abc import Generator
@@ -24,30 +25,8 @@ if TYPE_CHECKING:
 
     from korone.database.table import Documents
 
-ModuleHandlers = list[str]
-CommandChatState = dict[str, bool]
-CommandStructure = dict[str, dict[str, CommandChatState | list[str] | str]]
-HandlerDict = list[tuple[Handler, int]]
-
-MODULES: dict[str, dict[str, ModuleHandlers]] = {}
-COMMANDS: CommandStructure = {}
-
-
-class CommandWithPattern(Protocol):
-    pattern: str
-
-
-class FiltersWithCommands(Protocol):
-    commands: list[CommandWithPattern]
-    disableable: bool
-
-
-class FiltersWithFriendlyName(Protocol):
-    friendly_name: str
-
-
-class HandlerFun(Protocol):
-    handlers: list[tuple[Handler, int]]
+MODULES: dict[str, dict[str, list[str]]] = {}
+COMMANDS: dict[str, dict[str, Any]] = {}
 
 
 def discover_modules() -> None:
@@ -80,17 +59,21 @@ async def fetch_command_state(command: str) -> Documents | None:
 
 
 def extract_command_filters(filters: Filter) -> list[str] | None:
-    if hasattr(filters, "commands") and getattr(filters, "disableable", False):
-        filters_with_commands = cast(FiltersWithCommands, filters)
-        return [cast(CommandWithPattern, cmd).pattern for cmd in filters_with_commands.commands]
-    return None
+    try:
+        commands = bfs_attr_search(filters, "commands")
+        disableable = bfs_attr_search(filters, "disableable")
+        if disableable:
+            return [cmd.pattern for cmd in commands]  # type: ignore
+    except AttributeError:
+        return None
 
 
 def extract_pattern_filters(filters: Filter) -> list[str] | None:
-    if hasattr(filters, "friendly_name"):
-        filters_with_friendly_name = cast(FiltersWithFriendlyName, filters)
-        return [filters_with_friendly_name.friendly_name]
-    return None
+    try:
+        friendly_name = bfs_attr_search(filters, "friendly_name")
+        return [friendly_name]  # type: ignore
+    except AttributeError:
+        return None
 
 
 def extract_commands(filters: Filter) -> list[str] | None:
@@ -123,7 +106,7 @@ async def update_command_structure(commands: list[str]) -> None:
             chat_id = each["chat_id"]
             state = bool(each["state"])
 
-            chat_state = cast(CommandChatState, COMMANDS[parent]["chat"])
+            chat_state = COMMANDS[parent]["chat"]
             chat_state[chat_id] = state
             COMMANDS[parent]["chat"] = chat_state
 
@@ -153,11 +136,10 @@ async def register_handler(client: Client, handlers: list[tuple[Handler, int]]) 
 def get_module_handlers(component: ModuleType) -> Generator[list[tuple[Handler, int]], Any, Any]:
     for func in vars(component).values():
         if inspect.isfunction(func) and hasattr(func, "handlers"):
-            func_with_handlers = cast(HandlerFun, func)
-            yield func_with_handlers.handlers
+            yield func.handlers  # type: ignore
 
 
-async def load_module(client: Client, module_name: str, handlers: ModuleHandlers) -> bool:
+async def load_module(client: Client, module_name: str, handlers: list[str]) -> bool:
     await logger.adebug("Loading module: %s", module_name)
 
     try:

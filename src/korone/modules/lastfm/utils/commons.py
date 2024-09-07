@@ -4,7 +4,7 @@
 from hydrogram.types import Message
 
 from korone.modules.lastfm.database import get_lastfm_user
-from korone.modules.lastfm.utils import LastFMError
+from korone.modules.lastfm.utils.errors import LastFMError
 from korone.utils.i18n import gettext as _
 
 

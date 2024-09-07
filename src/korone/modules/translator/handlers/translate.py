@@ -6,12 +6,9 @@ from hydrogram.types import Message
 
 from korone.decorators import router
 from korone.filters import Command, CommandObject
-from korone.modules.translator.utils import (
-    DeepL,
-    QuotaExceededError,
-    TranslationError,
-    extract_translation_details,
-)
+from korone.modules.translator.utils.api import DeepL
+from korone.modules.translator.utils.errors import QuotaExceededError, TranslationError
+from korone.modules.translator.utils.helpers import extract_translation_details
 from korone.utils.i18n import gettext as _
 
 # fmt: off

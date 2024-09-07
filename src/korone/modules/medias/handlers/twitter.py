@@ -17,13 +17,10 @@ from korone.decorators import router
 from korone.filters import Regex
 from korone.modules.medias.utils.cache import MediaCache
 from korone.modules.medias.utils.files import resize_thumbnail, url_to_bytes_io
-from korone.modules.medias.utils.twitter import (
-    Tweet,
-    TweetMedia,
-    TweetMediaVariants,
-    TwitterError,
-    fetch_tweet,
-)
+from korone.modules.medias.utils.twitter.api import TwitterError, fetch_tweet
+from korone.modules.medias.utils.twitter.types import Media as TweetMedia
+from korone.modules.medias.utils.twitter.types import MediaVariants as TweetMediaVariants
+from korone.modules.medias.utils.twitter.types import Tweet
 from korone.utils.i18n import gettext as _
 
 URL_PATTERN = re.compile(r"(?:(?:http|https):\/\/)?(?:www.)?(twitter\.com|x\.com)/.+?/status/\d+")

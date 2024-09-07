@@ -1,5 +1,6 @@
 PyKorone is a Telegram bot written in Python. While it can be imported,
-it is not intended for use as a library. Typing information is provided
-for convenience only and should not be considered a commitment to stability.
-Users should be prepared for potential unannounced changes to the API and
-typing information in future releases.
+it is not intended for use as a library.
+
+Typing information is provided for convenience only and should not be considered
+a commitment to stability. Users should be prepared for potential unannounced
+changes to the API and typing information in future releases.

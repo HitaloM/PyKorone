@@ -1,12 +1,10 @@
 # SPDX-License-Identifier: BSD-3-Clause
 # Copyright (c) 2024 Hitalo M. <https://github.com/HitaloM>
 
-from typing import Any, cast
-
 from korone.database.query import Query
 from korone.database.sqlite import SQLite3Connection
 from korone.database.table import Document
-from korone.modules import COMMANDS
+from korone.modules.core import COMMANDS
 
 
 async def set_command_state(chat_id: int, command_name: str, *, state: bool) -> None:
@@ -16,10 +14,9 @@ async def set_command_state(chat_id: int, command_name: str, *, state: bool) -> 
             raise KeyError(msg)
 
         if "parent" in COMMANDS[command_name]:
-            command_name = cast(str, COMMANDS[command_name]["parent"])
+            command_name = COMMANDS[command_name]["parent"]
 
-        command_info = cast(dict[str, Any], COMMANDS[command_name])
-        command_info["chat"][chat_id] = state
+        COMMANDS[command_name]["chat"][chat_id] = state
 
         table = await conn.table("Commands")
         query = (Query().chat_id == chat_id) & (Query().command == command_name)

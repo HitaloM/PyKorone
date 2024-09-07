@@ -3,6 +3,7 @@
 
 from __future__ import annotations
 
+import asyncio
 import inspect
 import time
 from datetime import timedelta
@@ -117,8 +118,7 @@ class BaseHandler:
 
         async with SQLite3Connection() as conn:
             table = await conn.table(table_name)
-            query = Query()
-            return await table.query(query.id == chat.id)
+            return await table.query(Query().id == chat.id)
 
     @staticmethod
     def _determine_table(chat: User | Chat) -> str | None:
@@ -130,15 +130,14 @@ class BaseHandler:
     async def _do_chat_migration(old_id: int, new_id: int) -> bool:
         async with SQLite3Connection() as conn:
             table = await conn.table("Groups")
-            query = Query()
-            obj = await table.query(query.id == old_id)
+            obj = await table.query(Query().id == old_id)
 
             if not obj:
                 return False
 
             doc = obj[0]
             doc["id"] = new_id
-            await table.update(doc, query.id == old_id)
+            await table.update(doc, Query().id == old_id)
             return True
 
     async def _store_user_or_chat(
@@ -151,22 +150,21 @@ class BaseHandler:
         async with SQLite3Connection() as conn:
             language = language or i18n.default_locale
             table = await conn.table(table_name)
-            query = Query()
-            obj = await table.query(query.id == user_or_chat.id)
+            obj = await table.query(Query().id == user_or_chat.id)
 
             if obj:
-                await self._update_document(user_or_chat, language, table, query, obj)
+                await self._update_document(user_or_chat, language, table, obj)
             else:
                 await self._insert_document(user_or_chat, language, table)
 
     async def _update_document(
-        self, chat: User | Chat, language: str, table: Table, query: Query, obj: Documents
+        self, chat: User | Chat, language: str, table: Table, obj: Documents
     ) -> Documents:
         doc = self._create_document(chat, language)
         doc["registry_date"] = obj[0]["registry_date"]
         doc["language"] = obj[0]["language"]
 
-        await table.update(doc, query.id == chat.id)
+        await table.update(doc, Query().id == chat.id)
         return Documents([doc])
 
     async def _insert_document(self, chat: User | Chat, language: str, table: Table) -> Documents:
@@ -234,14 +232,17 @@ class BaseHandler:
 
     async def _process_member_updates(self, message: Message) -> None:
         if message.new_chat_members:
-            for member in message.new_chat_members:
-                if not member.is_bot:
-                    await self._store_user_or_chat(member, member.language_code)
+            await asyncio.gather(*[
+                self._store_user_or_chat(member, member.language_code)
+                for member in message.new_chat_members
+                if not member.is_bot
+            ])
 
     async def _update_chats(self, chats: list[Chat | User]) -> None:
-        for chat in chats:
-            language = chat.language_code if isinstance(chat, User) else None
-            await self._store_user_or_chat(chat, language)
+        await asyncio.gather(*[
+            self._store_user_or_chat(chat, chat.language_code if isinstance(chat, User) else None)
+            for chat in chats
+        ])
 
     @staticmethod
     def _extract_replied_message_chats(message: Message) -> list[Chat | User]:

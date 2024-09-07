@@ -13,7 +13,7 @@ from hydrogram.types import InputMediaPhoto, InputMediaVideo, Message
 from korone.decorators import router
 from korone.filters import Regex
 from korone.modules.medias.utils.cache import MediaCache
-from korone.modules.medias.utils.instagram import POST_PATTERN, instagram
+from korone.modules.medias.utils.instagram.scraper import POST_PATTERN, instagram
 from korone.utils.i18n import gettext as _
 
 URL_PATTERN = re.compile(r"(?:https?://)?(?:www\.)?instagram\.com/.*?(?=\s|$)")
