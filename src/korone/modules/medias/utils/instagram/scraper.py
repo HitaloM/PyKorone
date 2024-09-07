@@ -44,10 +44,10 @@ async def fetch_with_retries(
                 await logger.aerror("[Medias/Instagram] Attempt %s failed: %s", attempt + 1, e)
                 if attempt < max_retries - 1:
                     sleep_time = retry_delay * (2**attempt)  # Exponential backoff
-                    logger.info("[Medias/Instagram] Retrying in %s seconds...", sleep_time)
+                    await logger.ainfo("[Medias/Instagram] Retrying in %s seconds...", sleep_time)
                     await asyncio.sleep(sleep_time)
                 else:
-                    logger.error("[Medias/Instagram] All attempts to fetch %s failed.", url)
+                    await logger.aerror("[Medias/Instagram] All attempts to fetch %s failed.", url)
                     raise
     return None
 
