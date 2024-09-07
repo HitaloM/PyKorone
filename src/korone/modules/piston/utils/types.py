@@ -11,11 +11,12 @@ class RunRequest:
     language: str
     code: str | None = None
     stdin: str | None = None
+    version: str = "*"
 
     def to_dict(self) -> dict:
         return {
             "language": self.language,
-            "version": "*",
+            "version": self.version,
             "files": self.code,
             "stdin": self.stdin or "",
         }

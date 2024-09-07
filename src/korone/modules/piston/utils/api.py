@@ -14,7 +14,7 @@ from korone.utils.logging import logger
 
 from .types import RunRequest, RunResponse
 
-STDIN_REGEX = re.compile(r"\s\/stdin\b")
+STDIN_PATTERN = re.compile(r"\s/stdin\b")
 
 
 @asynccontextmanager
@@ -49,8 +49,7 @@ def create_request(text: str) -> RunRequest:
     code = code.lstrip()
     stdin = None
 
-    stdin_match = STDIN_REGEX.search(code)
-    if stdin_match:
+    if stdin_match := STDIN_PATTERN.search(code):
         start, end = stdin_match.span()
         stdin = code[end + 1 :].strip()
         code = code[:start].strip()
