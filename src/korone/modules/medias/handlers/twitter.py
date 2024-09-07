@@ -4,7 +4,6 @@
 import asyncio
 import re
 from datetime import timedelta
-from io import BytesIO
 
 import httpx
 from hairydogm.chat_action import ChatActionSender
@@ -37,18 +36,18 @@ async def handle_twitter(client: Client, message: Message) -> None:
         return
 
     tweet_text = format_tweet_text(tweet)
-    if len(tweet.media.all_medias) > 1:
-        tweet_text += f"\n<a href='{tweet.url!s}'>{_("Open in Twitter")}</a>"
-        await process_multiple_media(client, message, tweet, tweet_text)
-        return
-
     cache = MediaCache(str(tweet.url))
     cached_data = await cache.get()
-    sent_message = await send_media(
-        client, message, tweet.media.all_medias[0], tweet_text, tweet, cached_data
-    )
-    if sent_message:
-        await cache.set(sent_message, int(timedelta(weeks=1).total_seconds()))
+
+    if len(tweet.media.all_medias) > 1:
+        tweet_text += f"\n<a href='{tweet.url!s}'>{_("Open in Twitter")}</a>"
+        await process_multiple_media(client, message, tweet, tweet_text, cached_data)
+    else:
+        sent_message = await send_media(
+            client, message, tweet.media.all_medias[0], tweet_text, tweet, cached_data
+        )
+        if sent_message:
+            await cache.set(sent_message, int(timedelta(weeks=1).total_seconds()))
 
 
 async def fetch_tweet_data(url: str) -> Tweet | None:
@@ -68,16 +67,23 @@ def format_tweet_text(tweet: Tweet) -> str:
 
 
 async def process_multiple_media(
-    client: Client, message: Message, tweet: Tweet, text: str
+    client: Client,
+    message: Message,
+    tweet: Tweet,
+    text: str,
+    cached_data: list[InputMediaPhoto | InputMediaVideo] | None,
 ) -> None:
     cache = MediaCache(str(tweet.url))
-    media_cache = await cache.get()
-    media_list = build_media_list(media_cache, text) if media_cache else []
 
-    if not media_list and tweet.media and tweet.media.all_medias:
-        media_tasks = [prepare_media(media) for media in tweet.media.all_medias]
-        media_list = [media for media in await asyncio.gather(*media_tasks) if media]
-        media_list[-1].caption = text
+    if not tweet.media or not tweet.media.all_medias:
+        return
+
+    media_list = cached_data or await prepare_media_list(tweet.media.all_medias, text)
+
+    if not media_list:
+        return
+
+    media_list[-1].caption = text
 
     async with ChatActionSender(
         client=client, chat_id=message.chat.id, action=ChatAction.UPLOAD_PHOTO
@@ -88,20 +94,11 @@ async def process_multiple_media(
         await cache.set(sent_message, int(timedelta(weeks=1).total_seconds()))
 
 
-def build_media_list(media_cache: dict, text: str) -> list[InputMediaPhoto | InputMediaVideo]:
-    media_list = [InputMediaPhoto(media["file"]) for media in media_cache.get("photo", [])] + [
-        InputMediaVideo(
-            media=media["file"],
-            duration=media["duration"],
-            width=media["width"],
-            height=media["height"],
-            thumb=media["thumbnail"],
-        )
-        for media in media_cache.get("video", [])
-    ]
-    if media_list:
-        media_list[-1].caption = text
-    return media_list
+async def prepare_media_list(
+    media_list: list[TweetMedia], text: str
+) -> list[InputMediaPhoto | InputMediaVideo]:
+    media_tasks = [prepare_media(media) for media in media_list]
+    return [media for media in await asyncio.gather(*media_tasks) if media]
 
 
 async def prepare_media(media: TweetMedia) -> InputMediaPhoto | InputMediaVideo | None:
@@ -119,10 +116,8 @@ async def prepare_media(media: TweetMedia) -> InputMediaPhoto | InputMediaVideo 
         thumb_file = (
             await url_to_bytes_io(media.thumbnail_url, video=True) if media.thumbnail_url else None
         )
-
         if thumb_file:
             await asyncio.to_thread(resize_thumbnail, thumb_file)
-
         return InputMediaVideo(
             media=media_file,
             duration=media.duration,
@@ -141,11 +136,10 @@ def get_optimal_variant(media: TweetMedia) -> TweetMediaVariants | None:
 
 
 def handle_http_error(e: httpx.HTTPStatusError) -> str | None:
-    error_response = None
     if e.response.status_code == 403:
         error_response = e.response.json().get("error_response")
-    if error_response == "Dmcaed" or e.response.status_code == 307:
-        return "https://pbs.twimg.com/static/dmca/dmca-med.jpg"
+        if error_response == "Dmcaed" or e.response.status_code == 307:
+            return "https://pbs.twimg.com/static/dmca/dmca-med.jpg"
     return None
 
 
@@ -155,90 +149,39 @@ async def send_media(
     media: TweetMedia,
     text: str,
     tweet: Tweet,
-    cache_data: dict | None,
+    cache_data: list[InputMediaPhoto | InputMediaVideo] | None,
 ) -> Message | None:
-    keyboard = InlineKeyboardBuilder().button(text=_("Open in Twitter"), url=str(tweet.url))
-    media_file, thumb_file, duration, width, height = (
-        None,
-        None,
-        media.duration,
-        media.width,
-        media.height,
+    keyboard = (
+        InlineKeyboardBuilder().button(text=_("Open in Twitter"), url=str(tweet.url)).as_markup()
     )
-
-    if cache_data:
-        media_file, thumb_file, duration, width, height = await get_cached_media_data(
-            media, cache_data
-        )
-
-    if not media_file:
-        media_file, thumb_file = await fetch_media_files(media)
+    media_file = cache_data[0] if cache_data else await prepare_media(media)
 
     if not media_file:
         return None
 
-    action = ChatAction.UPLOAD_PHOTO if media.media_type == "photo" else ChatAction.UPLOAD_VIDEO
+    action = (
+        ChatAction.UPLOAD_PHOTO
+        if isinstance(media_file, InputMediaPhoto)
+        else ChatAction.UPLOAD_VIDEO
+    )
     async with ChatActionSender(client=client, chat_id=message.chat.id, action=action):
-        if media.media_type == "photo":
+        if isinstance(media_file, InputMediaPhoto):
             return await client.send_photo(
                 chat_id=message.chat.id,
-                photo=media_file,
+                photo=media_file.media,
                 caption=text,
-                reply_markup=keyboard.as_markup(),
+                reply_markup=keyboard,
                 reply_to_message_id=message.id,
             )
-
         return await client.send_video(
             chat_id=message.chat.id,
-            video=media_file,
+            video=media_file.media,
             caption=text,
-            reply_markup=keyboard.as_markup(),
+            reply_markup=keyboard,
             no_sound=True,
-            duration=duration,
-            width=width,
-            height=height,
-            thumb=thumb_file,
+            duration=media_file.duration,
+            width=media_file.width,
+            height=media_file.height,
+            thumb=media_file.thumb,
             reply_to_message_id=message.id,
         )
-
-
-async def get_cached_media_data(
-    media: TweetMedia, cache_data: dict
-) -> tuple[BytesIO, BytesIO | None, int, int, int]:
-    media_file: BytesIO | None = None
-    thumb_file: BytesIO | None = None
-    duration: int = media.duration
-    width: int = media.width
-    height: int = media.height
-
-    if media.media_type == "photo" and cache_data.get("photo"):
-        media_file = cache_data["photo"][0].get(
-            "file", await url_to_bytes_io(media.url, video=False)
-        )
-    elif media.media_type in {"video", "gif"} and cache_data.get("video"):
-        video_data = cache_data["video"][0]
-        media_file = video_data.get("file", await url_to_bytes_io(media.url, video=True))
-        duration = video_data.get("duration", duration)
-        width = video_data.get("width", media.width)
-        height = video_data.get("height", media.height)
-        thumb_file = video_data.get("thumbnail", media.thumbnail_url)
-
-    if media_file is None:
-        msg = "Media file cannot be None"
-        raise ValueError(msg)
-
-    return media_file, thumb_file, duration, width, height
-
-
-async def fetch_media_files(media: TweetMedia) -> tuple[BytesIO | str | None, BytesIO | None]:
-    try:
-        media_file = await url_to_bytes_io(media.url, video=media.media_type != "photo")
-        thumb_file = (
-            await url_to_bytes_io(media.thumbnail_url, video=True) if media.thumbnail_url else None
-        )
-        if thumb_file:
-            await asyncio.to_thread(resize_thumbnail, thumb_file)
-        return media_file, thumb_file
-    except httpx.HTTPStatusError as e:
-        media_file = handle_http_error(e)
-        return media_file, None

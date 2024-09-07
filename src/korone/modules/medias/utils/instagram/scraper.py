@@ -243,36 +243,13 @@ async def fetch_instagram(url: str) -> Sequence[InputMedia] | None:
     caption = extract_caption(shortcode_media)
 
     cache = MediaCache(post_id)
-    cached_media = await cache.get()
-
-    if cached_media:
-        media_items = extract_media_items_from_cache(cached_media)
-    else:
+    if not (media_items := await cache.get()):
         media_items = await extract_media_items(shortcode_media)
 
     if media_items:
         media_items[-1].caption = caption
 
     return media_items
-
-
-def extract_media_items_from_cache(cached_data: dict) -> Sequence[InputMedia]:
-    def create_photo(media):
-        return InputMediaPhoto(media=media["file"])
-
-    def create_video(media):
-        return InputMediaVideo(
-            media=media["file"],
-            duration=media["duration"],
-            width=media["width"],
-            height=media["height"],
-            thumb=media["thumbnail"],
-        )
-
-    photos = [create_photo(media) for media in cached_data.get("photo", [])]
-    videos = [create_video(media) for media in cached_data.get("video", [])]
-
-    return photos + videos
 
 
 def extract_caption(shortcode_media: ShortcodeMedia) -> str:

@@ -57,37 +57,14 @@ async def fetch_threads(text: str) -> Sequence[InputMedia] | None:
 
     caption = get_caption(graphql_data)
 
-    media_cache = MediaCache(post_id)
-    cached_data = await media_cache.get()
-
-    if cached_data:
-        media_list = extract_media_items_from_cache(cached_data)
-        if media_list:
-            media_list[-1].caption = caption
-        return media_list
+    cache = MediaCache(post_id)
+    if cached_data := await cache.get():
+        cached_data[-1].caption = caption
+        return cached_data
 
     media_list[-1].caption = caption
 
     return media_list
-
-
-def extract_media_items_from_cache(cached_data: dict) -> Sequence[InputMedia]:
-    def create_photo(media: dict) -> InputMediaPhoto:
-        return InputMediaPhoto(media=media["file"])
-
-    def create_video(media: dict) -> InputMediaVideo:
-        return InputMediaVideo(
-            media=media["file"],
-            duration=media["duration"],
-            width=media["width"],
-            height=media["height"],
-            thumb=media["thumbnail"],
-        )
-
-    photos = [create_photo(media) for media in cached_data.get("photo", [])]
-    videos = [create_video(media) for media in cached_data.get("video", [])]
-
-    return photos + videos
 
 
 def get_shortcode(url: str) -> str | None:

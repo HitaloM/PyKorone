@@ -4,7 +4,7 @@
 import asyncio
 import re
 from datetime import timedelta
-from io import BytesIO
+from typing import cast
 
 import httpx
 from hairydogm.chat_action import ChatActionSender
@@ -101,26 +101,29 @@ async def process_video(
     ):
         cache = MediaCache(media_id)
         cache_data = await cache.get()
-        media_file, duration, width, height, thumb = await get_video_details(media, cache_data)
+        media_file = (
+            cast(InputMediaVideo, cache_data[0])
+            if cache_data
+            else await prepare_video_media(media)
+        )
+
         caption = format_media_text(media)
         keyboard = create_keyboard(tiktok_url)
 
-        sent_message = await client.send_video(
-            chat_id=message.chat.id,
-            video=media_file,
+        sent_message = await message.reply_video(
+            video=media_file.media,
             caption=caption,
             no_sound=True,
-            duration=duration,
-            width=width,
-            height=height,
-            thumb=thumb,
+            duration=media_file.duration,
+            width=media_file.width,
+            height=media_file.height,
+            thumb=media_file.thumb,
             reply_markup=keyboard,
             reply_to_message_id=message.id,
         )
 
         if sent_message:
-            cache_ttl = int(timedelta(weeks=1).total_seconds())
-            await cache.set(sent_message, cache_ttl)
+            await cache.set(sent_message, int(timedelta(weeks=1).total_seconds()))
 
 
 async def process_slideshow(
@@ -130,8 +133,11 @@ async def process_slideshow(
         client=message._client, chat_id=message.chat.id, action=ChatAction.UPLOAD_PHOTO
     ):
         cache = MediaCache(media_id)
-        cache_data = await cache.get()
-        media_list = await get_slideshow_details(media, cache_data, tiktok_url)
+        media_list = await cache.get() or await prepare_slideshow_media(media)
+
+        media_list[
+            -1
+        ].caption = f"{format_media_text(media)}\n<a href='{tiktok_url}'>{_("Open in TikTok")}</a>"
 
         if len(media_list) == 1:
             caption = format_media_text(media)
@@ -144,63 +150,29 @@ async def process_slideshow(
             )
         else:
             if len(media_list) > 10:  # Telegram's limit
-                last_caption = media_list[-1].caption
                 media_list = media_list[:10]
-                media_list[-1].caption = last_caption
 
             sent_message = await message.reply_media_group(media_list)  # type: ignore
 
         if sent_message:
-            cache_ttl = int(timedelta(weeks=1).total_seconds())
-            await cache.set(sent_message, cache_ttl)
+            await cache.set(sent_message, int(timedelta(weeks=1).total_seconds()))
 
 
-async def get_video_details(
-    media: TikTokVideo, cache_data: dict | None
-) -> tuple[BytesIO, int, int, int, BytesIO]:
+async def prepare_video_media(media: TikTokVideo) -> InputMediaVideo:
     media_file = await url_to_bytes_io(media.video_url, video=True)
     thumb_file = await url_to_bytes_io(media.thumbnail_url, video=False)
-    width, height, duration = media.width, media.height, media.duration
-
-    if cache_data:
-        video_data = cache_data.get("video", [{}])[0]
-        media_file = video_data.get("file", media_file)
-        duration = video_data.get("duration", duration)
-        width = video_data.get("width", width)
-        height = video_data.get("height", height)
-        thumb_file = video_data.get("thumbnail", thumb_file)
-        return media_file, duration, width, height, thumb_file
-
     await asyncio.to_thread(resize_thumbnail, thumb_file)
-    return media_file, duration, width, height, thumb_file
+    return InputMediaVideo(
+        media=media_file,
+        duration=media.duration,
+        width=media.width,
+        height=media.height,
+        thumb=thumb_file,
+    )
 
 
-async def get_slideshow_details(
-    media: TikTokSlideshow, cache_data: dict | None, original_url: str
-) -> list:
-    if cache_data:
-        media_list = [InputMediaPhoto(media["file"]) for media in cache_data.get("photo", [])] + [
-            InputMediaVideo(
-                media=media["file"],
-                duration=media["duration"],
-                width=media["width"],
-                height=media["height"],
-                thumb=media["thumbnail"],
-            )
-            for media in cache_data.get("video", [])
-        ]
-    else:
-        media_list = [
-            InputMediaPhoto(await url_to_bytes_io(media, video=False)) for media in media.images
-        ]
-
-    if len(media_list) > 1:
-        caption = (
-            f"{format_media_text(media)}\n" f"<a href='{original_url}'>{_("Open in TikTok")}</a>"
-        )
-        media_list[-1].caption = caption
-
-    return media_list
+async def prepare_slideshow_media(media: TikTokSlideshow) -> list[InputMediaPhoto]:
+    return [InputMediaPhoto(await url_to_bytes_io(image, video=False)) for image in media.images]
 
 
 def format_media_text(media: TikTokVideo | TikTokSlideshow) -> str:

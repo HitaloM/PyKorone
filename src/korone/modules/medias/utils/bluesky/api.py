@@ -29,16 +29,10 @@ async def fetch_bluesky(text: str):
 
     caption = get_caption(bluesky_data)
 
-    media_cache = MediaCache(post_id)
-    cached_data = await media_cache.get()
-
-    if cached_data:
-        media_list = [
-            InputMediaPhoto(media=media["file"]) for media in cached_data.get("photo", [])
-        ]
-        if media_list:
-            media_list[-1].caption = caption
-        return media_list
+    cache = MediaCache(post_id)
+    if cached_data := await cache.get():
+        cached_data[-1].caption = caption
+        return cached_data
 
     media_list = await process_media(bluesky_data)
 

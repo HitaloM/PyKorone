@@ -5,7 +5,7 @@ import pickle
 from typing import Any
 
 from cashews.exceptions import CacheError
-from hydrogram.types import Message
+from hydrogram.types import InputMediaPhoto, InputMediaVideo, Message
 
 from korone.utils.caching import cache
 from korone.utils.logging import logger
@@ -44,11 +44,25 @@ class MediaCache:
 
         return media_dict
 
-    async def get(self) -> dict | None:
+    @staticmethod
+    def _convert_to_input_media(media_dict: dict) -> list[InputMediaPhoto | InputMediaVideo]:
+        return [InputMediaPhoto(media["file"]) for media in media_dict.get("photo", [])] + [
+            InputMediaVideo(
+                media=media["file"],
+                duration=media["duration"],
+                width=media["width"],
+                height=media["height"],
+                thumb=media["thumbnail"],
+            )
+            for media in media_dict.get("video", [])
+        ]
+
+    async def get(self) -> list[InputMediaPhoto | InputMediaVideo] | None:
         try:
             cache_data = await cache.get(self.key)
             if cache_data:
-                return pickle.loads(cache_data)
+                media_dict = pickle.loads(cache_data)
+                return self._convert_to_input_media(media_dict)
         except CacheError as e:
             await logger.aexception("[Medias/Cache] Failed to get data from cache: %s", e)
         return None
