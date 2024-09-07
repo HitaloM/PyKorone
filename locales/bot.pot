@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-09-06 22:13-0300\n"
+"POT-Creation-Date: 2024-09-06 23:43-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -592,17 +592,22 @@ msgstr ""
 msgid "All time"
 msgstr ""
 
-#: src/korone/modules/medias/handlers/bluesky.py:61
+#: src/korone/modules/medias/handlers/bluesky.py:60
 msgid "Open in BueSky"
 msgstr ""
 
-#: src/korone/modules/medias/handlers/bluesky.py:69
+#: src/korone/modules/medias/handlers/bluesky.py:68
 msgid "Open in Bluesky"
 msgstr ""
 
 #: src/korone/modules/medias/handlers/instagram.py:60
 #: src/korone/modules/medias/handlers/instagram.py:68
 msgid "Open in Instagram"
+msgstr ""
+
+#: src/korone/modules/medias/handlers/threads.py:60
+#: src/korone/modules/medias/handlers/threads.py:68
+msgid "Open in Threads"
 msgstr ""
 
 #: src/korone/modules/medias/handlers/tiktok.py:199

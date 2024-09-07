@@ -18,7 +18,7 @@ from korone.utils.logging import logger
 from .types import BlueskyData
 
 
-async def handle(text: str):
+async def fetch_bluesky(text: str):
     username, post_id = get_username_and_post_id(text)
     if not post_id:
         return None
@@ -73,11 +73,9 @@ async def get_bluesky_data(username: str | None, post_id: str) -> BlueskyData | 
             try:
                 return BlueskyData.model_validate(response.json())
             except ValidationError as e:
-                await logger.aexception("Error validating response: %s", e)
+                await logger.aexception("[Medias/BlueSky] Error validating response: %s", e)
                 return None
-        else:
-            await logger.aerror("Failed to fetch Bluesky data: %s", response.status_code)
-            return None
+        return None
 
 
 def get_caption(bluesky_data: BlueskyData) -> str:

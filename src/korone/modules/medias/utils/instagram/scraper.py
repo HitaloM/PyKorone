@@ -220,7 +220,7 @@ async def get_instafix_data(post_url: str) -> InstaFixData | None:
             return None
 
 
-async def instagram(url: str) -> Sequence[InputMedia] | None:
+async def fetch_instagram(url: str) -> Sequence[InputMedia] | None:
     match = POST_PATTERN.search(url)
     if not match:
         return None

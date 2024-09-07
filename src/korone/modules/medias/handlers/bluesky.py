@@ -12,8 +12,7 @@ from hydrogram.types import InputMediaPhoto, Message
 
 from korone.decorators import router
 from korone.filters import Regex
-from korone.modules.medias.utils.bluesky.api import get_username_and_post_id
-from korone.modules.medias.utils.bluesky.api import handle as handle_bluesky
+from korone.modules.medias.utils.bluesky.api import fetch_bluesky, get_username_and_post_id
 from korone.modules.medias.utils.cache import MediaCache
 from korone.utils.i18n import gettext as _
 
@@ -29,7 +28,7 @@ async def handle_bluesky_message(client: Client, message: Message) -> None:
     if not url:
         return
 
-    media_list = await handle_bluesky(url)
+    media_list = await fetch_bluesky(url)
     if not media_list:
         return
 
