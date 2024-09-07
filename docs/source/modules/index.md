@@ -7,10 +7,12 @@ hidden:
 
 afk
 disabling
+filters
 gsm_arena
 languages
 lastfm
 medias
+piston
 regex
 stickers
 translator
@@ -39,10 +41,12 @@ Below is a list of all available modules in _PyKorone_:
 
 - [AFK (Away From Keyboard)](./afk): Sets you as away from keyboard and notifies users who mention you.
 - [Disabling](./disabling): Allows you to disable specific commands to prevent spam and abuse.
+- [Filters](./filters): Create custom commands to send predefined messages.
 - [GSM Arena](./gsm_arena): Get smartphone specifications from GSM Arena.
 - [Languages](./languages): Lets you change the bot's language.
 - [LastFM](./lastfm): Get your LastFM scrobbles.
 - [Medias](./medias): Downloads media from various websites automatically.
+- [Piston](./piston): Run code snippets using the [Piston API](https://github.com/engineer-man/piston)
 - [Regex](./regex): Test regular expressions.
 - [Stickers](./stickers): Get stickers and steal stickers to a sticker pack.
 - [Translator](./translator): Translate text to different languages using DeepL.

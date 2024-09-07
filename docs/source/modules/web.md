@@ -9,8 +9,8 @@ This module provides commands to fetch information about IP addresses and domain
 
 ### Examples
 
-> `/whois google.com`<br>
-> Will send a message with the whois information for `google.com`.
+- Will send a message with the whois information for `google.com`.
+  > `/whois google.com`
 
-> `/ip telegram.org`<br>
-> Will send a message with information about the IP address of `telegram.org`.
+- Will send a message with information about the IP address of `telegram.org`.
+  > `/ip telegram.org`

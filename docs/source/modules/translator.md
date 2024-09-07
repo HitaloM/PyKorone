@@ -16,8 +16,8 @@ The free version of the DeepL API has a limit of 500,000 characters per month. I
 
 ### Examples
 
-> `/tr en:pt-br Hello, world!`<br>
-> Send a message with the translation of _Hello, world!_ from English to Brazilian Portuguese.
+- Send a message with the translation of _Hello, world!_ from English to Brazilian Portuguese.
+  > `/tr en:pt-br Hello, world!`
 
-> `/tr en Hallo, Welt!`<br>
-> Send a message with the translation of _Hallo, Welt!_ from German to English.
+- Send a message with the translation of _Hallo, Welt!_ from German to English.
+  > `/tr en Hallo, Welt!`

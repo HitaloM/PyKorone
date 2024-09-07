@@ -22,14 +22,14 @@ As you may already know, PyKorone has a [module to disable commands](./disabling
 
 ### Examples
 
-> `s/Hello/Hi/`<br>
-> This command replaces the first occurrence of "Hello" with "Hi".
+- This command replaces the first occurrence of "Hello" with "Hi".
+  > `s/Hello/Hi/`
 
-> `s/Hello/Hi/g`<br>
-> This replaces all occurrences of "Hello" with "Hi".
+- This replaces all occurrences of "Hello" with "Hi".
+  > `s/Hello/Hi/g`
 
-> `s/Hello/Hi/gi`<br>
-> This performs a global, case-insensitive replacement of "Hello" with "Hi".
+- This performs a global, case-insensitive replacement of "Hello" with "Hi".
+  > `s/Hello/Hi/gi`
 
-> `s/Hello/Hi/gim`<br>
-> This command replaces "Hello" with "Hi" globally, with case-insensitivity, and across multiple lines.
+- This command replaces "Hello" with "Hi" globally, with case-insensitivity, and across multiple lines.
+  > `s/Hello/Hi/gim`
