@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-09-07 12:44-0300\n"
+"POT-Creation-Date: 2024-09-07 14:15-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -695,6 +695,50 @@ msgstr ""
 #: src/korone/modules/medias/handlers/youtube.py:170
 #: src/korone/modules/medias/handlers/youtube.py:185
 msgid "Failed to download the media."
+msgstr ""
+
+#: src/korone/modules/piston/handlers/langs.py:17
+#: src/korone/modules/piston/handlers/run.py:30
+msgid "Failed to fetch the available languages."
+msgstr ""
+
+#: src/korone/modules/piston/handlers/langs.py:20
+msgid "<b>Supported languages</b>:\n"
+msgstr ""
+
+#: src/korone/modules/piston/handlers/run.py:21
+msgid ""
+"You need to provide a command to run. Example: <code>/piston python "
+"print('Hello, World!')</code>"
+msgstr ""
+
+#: src/korone/modules/piston/handlers/run.py:35
+msgid ""
+"Invalid language. Use <code>/pistonlangs</code> to see the available "
+"languages."
+msgstr ""
+
+#: src/korone/modules/piston/handlers/run.py:44
+msgid "An error occurred while running the code."
+msgstr ""
+
+#: src/korone/modules/piston/handlers/run.py:47
+msgid ""
+"<b>Code</b>:\n"
+"<pre language='{lang}'>{code}</pre>\n"
+"\n"
+msgstr ""
+
+#: src/korone/modules/piston/handlers/run.py:52
+msgid ""
+"<b>Output</b>:\n"
+"<pre language='bash'>{output}</pre>\n"
+msgstr ""
+
+#: src/korone/modules/piston/handlers/run.py:57
+msgid ""
+"<b>Compiler Output</b>:\n"
+"<pre language='bash'>{output}</pre>"
 msgstr ""
 
 #: src/korone/modules/pm_menu/handlers/about.py:28
