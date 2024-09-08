@@ -7,11 +7,15 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import TYPE_CHECKING
 
+import aiocron
 import hydrogram
 from hydrogram import Client
 from hydrogram.enums import ParseMode
 from hydrogram.errors import MessageIdInvalid, MessageNotModified
 from hydrogram.raw.all import layer
+
+from korone.config import ConfigManager
+from korone.utils.backup import do_backup
 
 from . import __version__, constants
 from .database.sqlite import SQLite3Connection
@@ -75,6 +79,11 @@ class Korone(Client):
             self.me.username,
         )
 
+        if backups_chat := ConfigManager.get("korone", "BACKUPS_CHAT"):
+            aiocron.crontab(
+                "0 * * * *", do_backup, loop=self.loop, args=(self, backups_chat), start=False
+            )
+
         if reboot_data := await cache.get("korone-reboot"):
             with suppress(MessageNotModified, MessageIdInvalid, KeyError):
                 chat_id = reboot_data["chat_id"]
@@ -84,8 +93,7 @@ class Korone(Client):
 
                 await self.edit_message_text(chat_id, message_id, text)
 
-        await cache.clear()
-
     async def stop(self) -> None:
         await super().stop()
+        await cache.clear()
         await logger.ainfo("Korone stopped.")
