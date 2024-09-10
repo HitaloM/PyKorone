@@ -448,7 +448,7 @@ msgid "Rules"
 msgstr ""
 
 #: sophie_bot/modules/legacy_modules/modules/users.py:21
-#: sophie_bot/modules/users/__init__.py:15
+#: sophie_bot/modules/users/__init__.py:14
 msgid "Users"
 msgstr ""
 

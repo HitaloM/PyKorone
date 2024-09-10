@@ -4,7 +4,6 @@ from aiogram import Router
 
 from sophie_bot.utils.i18n import lazy_gettext as l_
 
-from .handlers.id import ShowIDs, optional_user
 from .stats import users_stats
 
 __stats__ = users_stats
