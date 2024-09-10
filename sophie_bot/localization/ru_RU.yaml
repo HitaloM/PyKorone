@@ -361,9 +361,9 @@ STRINGS:
     importing_process: <b>Импорт запретов федерации...</b>
     import_done: Импорт запретов фанатов завершён! {num} банов были импортированы.
     #def
-    automatic_ban: Пользователь {user} забанен в текущей федерации <b>{fed_name}</b>. Поэтому был удалён!
-    automatic_ban_sfed: Пользователь {user} забанен в под-федерации <b>{fed_name}</b>. Поэтому был удалён!
-    automatic_ban_reason: "\nПричина: <code>{text}</code>"
+    automatic_ban: Пользователь {user} забанен в текущей федерации {fed_name}. Поэтому был удалён!
+    automatic_ban_sfed: Пользователь {user} забанен в под-федерации {fed_name}. Поэтому был удалён!
+    automatic_ban_reason: "\nПричина: {text}"
     #/fcheck
     fcheck_header: "Информация о федерационном бане:\n"
     fbanned_count_pm: "Вы были забанены в {count} федераций!\n"

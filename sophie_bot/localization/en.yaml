@@ -421,9 +421,9 @@ STRINGS:
     import_done: Importing fed bans finished! {num} bans were imported.
 
     # def
-    automatic_ban: User {user} is banned in the current federation <b>{fed_name}</b> and has been removed!
-    automatic_ban_sfed: User {user} is banned in the sub federation <b>{fed_name}</b and has been removed!
-    automatic_ban_reason: "\nReason: <code>{text}</code>"
+    automatic_ban: User {user} is banned in the current federation {fed_name} and has been removed!
+    automatic_ban_sfed: User {user} is banned in the sub federation {fed_name} and has been removed!
+    automatic_ban_reason: "\nReason: {text}"
 
     # /fcheck
     fcheck_header: "Federation ban info:\n"

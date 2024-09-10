@@ -348,9 +348,9 @@ STRINGS:
     importing_process: <b>Importation des bans de fédération...</b>
     import_done: Importation des bans de fédération terminée ! Les bans de {num} ont été importés.
     #def
-    automatic_ban: L'utilisateur {user} est banni dans la fédération actuelle <b>{fed_name}</b>. L'utilisateur a donc été supprimé !
-    automatic_ban_sfed: L'utilisateur {user} est banni dans la sous-fédération <b>{fed_name}</b>. L'utilisateur a donc été supprimé !
-    automatic_ban_reason: "\nRaison : <code>{text}</code>"
+    automatic_ban: L'utilisateur {user} est banni dans la fédération actuelle {fed_name}. L'utilisateur a donc été supprimé !
+    automatic_ban_sfed: L'utilisateur {user} est banni dans la sous-fédération {fed_name}. L'utilisateur a donc été supprimé !
+    automatic_ban_reason: "\nRaison : {text}"
     #/fcheck
     fcheck_header: "Informations sur le ban de la Fédération :\n"
     fbanned_count_pm: "Vous êtes banni dans {count} fédération(s)!\n"

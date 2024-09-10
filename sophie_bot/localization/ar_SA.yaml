@@ -363,9 +363,9 @@ STRINGS:
     importing_process: <b>استيراد حظر الاتحاد...</b>
     import_done: انتهى استيراد حظر ااتحاد! تم استيراد {num} حظر.
     #def
-    automatic_ban: المستخدم {user} محظور في الاتحاد الحالي <b>{fed_name}</b>. لذلك تم إزالته!
-    automatic_ban_sfed: المستخدم {user} محظور في اتحاد فرعي <b>{fed_name}</b>. لذلك تم إزالته!
-    automatic_ban_reason: "\nالسبب: <code>{text}</code>"
+    automatic_ban: المستخدم {user} محظور في الاتحاد الحالي {fed_name}. لذلك تم إزالته!
+    automatic_ban_sfed: المستخدم {user} محظور في اتحاد فرعي {fed_name}. لذلك تم إزالته!
+    automatic_ban_reason: "\nالسبب: {text}"
     #/fcheck
     fcheck_header: "معلومات حظر الاتحاد:\n"
     fbanned_count_pm: "تم حظرك في {count} اتحاد(ات)!\n"

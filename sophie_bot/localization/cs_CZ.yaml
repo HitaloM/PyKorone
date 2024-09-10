@@ -364,9 +364,9 @@ STRINGS:
     importing_process: <b>Importuji federační bany...</b>
     import_done: Importování federačních banů dokončeno! Bylo importováno {num} banů.
     #def
-    automatic_ban: Uživatel {user} je zabanován v současné federaci <b>{fed_name}</b>. Byl tedy odstraněn!
-    automatic_ban_sfed: Uživatel {user} je zabanován v pod-federaci <b>{fed_name}</b>. Byl tedy odstraněn!
-    automatic_ban_reason: "\nDůvod: <code>{text}</code>"
+    automatic_ban: Uživatel {user} je zabanován v současné federaci {fed_name}. Byl tedy odstraněn!
+    automatic_ban_sfed: Uživatel {user} je zabanován v pod-federaci {fed_name}. Byl tedy odstraněn!
+    automatic_ban_reason: "\nDůvod: {text}"
     #/fcheck
     fcheck_header: "Informace o federačním banu:\n"
     fbanned_count_pm: "Jste federačně zabanován ve {count} federaci/federacích!\n"

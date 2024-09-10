@@ -364,9 +364,9 @@ STRINGS:
     importing_process: <b>Importando banidos da federação...</b>
     import_done: Importação de banidos da federação finalizada! {num} banidos foram importados.
     #def
-    automatic_ban: O usuário {user} está banido na atual federação <b>{fed_name}</b> e tem sido removido!
-    automatic_ban_sfed: O usuário {user} está banido na subfederação <b>{fed_name}</b> e tem sido removido!
-    automatic_ban_reason: "\nMotivo: <code>{text}</code>"
+    automatic_ban: O usuário {user} está banido na atual federação {fed_name} e tem sido removido!
+    automatic_ban_sfed: O usuário {user} está banido na subfederação {fed_name} e tem sido removido!
+    automatic_ban_reason: "\nMotivo: {text}"
     #/fcheck
     fcheck_header: "Informações de banimento da federação:\n"
     fbanned_count_pm: "Você está banido em {count} federação(ões)!\n"

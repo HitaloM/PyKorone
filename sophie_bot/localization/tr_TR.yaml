@@ -362,9 +362,9 @@ STRINGS:
     importing_process: <b>Federasyon yasakları içe aktarılıyor...</b>
     import_done: Federasyon yasaklarının içe aktarılması tamamlandı! {num} yasak içe aktarıldı.
     #def
-    automatic_ban: '{user} kullanıcısı grupta geçerli olan <b>{fed_name}</b> federasyonundan yasaklandı. Bu sebeple kullanıcı gruptan yasaklandı!'
-    automatic_ban_sfed: '{user} kullanıcısı grupta geçerli olan <b>{fed_name}</b> federasyonundan yasaklandı. Bu sebeple kullanıcı gruptan yasaklandı!'
-    automatic_ban_reason: "Sebep: <code>{text}</code>"
+    automatic_ban: '{user} kullanıcısı grupta geçerli olan {fed_name} federasyonundan yasaklandı. Bu sebeple kullanıcı gruptan yasaklandı!'
+    automatic_ban_sfed: '{user} kullanıcısı grupta geçerli olan {fed_name} federasyonundan yasaklandı. Bu sebeple kullanıcı gruptan yasaklandı!'
+    automatic_ban_reason: "Sebep: {text}"
     #/fcheck
     fcheck_header: "Federasyon yasağı bilgileri:"
     fbanned_count_pm: "{count} federasyon(lar) da yasaklandınız!"
