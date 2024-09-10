@@ -62,6 +62,8 @@ class Pagination:
     def _generate_navigation_buttons(
         self, page: int, last_page: int, pages_range: range
     ) -> list[tuple[str, str]]:
+        if last_page <= 5:
+            return [(str(n) if n != page else f"· {n} ·", self.page_data(n)) for n in pages_range]
         if page <= 3:
             return self._generate_first_section_navigation(page, last_page, pages_range)
         if page >= last_page - 2:
