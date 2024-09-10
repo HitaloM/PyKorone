@@ -9,7 +9,7 @@ build_runtime_container:
     IMAGE_NAME: "$CI_REGISTRY_IMAGE"
     IMAGE_FULL: "$CI_REGISTRY_IMAGE:$CI_COMMIT_BRANCH-runtime"
   tags:
-    - saas-linux-large-amd64
+    - saas-linux-medium-amd64
   stage: build
   services:
     - docker:dind
