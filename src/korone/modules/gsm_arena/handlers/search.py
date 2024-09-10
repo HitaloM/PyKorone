@@ -37,6 +37,6 @@ async def device_command(client: Client, message: Message) -> None:
     else:
         keyboard = create_pagination_layout(devices, query, 1)
         await message.reply(
-            _("Search results for: <b>{device}</b>").format(device=query),
+            _("Search results for: <b>{query}</b>").format(query=query),
             reply_markup=keyboard,
         )

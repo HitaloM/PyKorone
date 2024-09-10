@@ -12,6 +12,7 @@ gsm_arena
 languages
 lastfm
 medias
+minecraft
 piston
 regex
 stickers
@@ -46,6 +47,7 @@ Below is a list of all available modules in _PyKorone_:
 - [Languages](./languages): Lets you change the bot's language.
 - [LastFM](./lastfm): Get your LastFM scrobbles.
 - [Medias](./medias): Downloads media from various websites automatically.
+- [Minecraft](./minecraft): Get information about Minecraft servers and Modrinth projects.
 - [Piston](./piston): Run code snippets using the [Piston API](https://github.com/engineer-man/piston)
 - [Regex](./regex): Test regular expressions.
 - [Stickers](./stickers): Get stickers and steal stickers to a sticker pack.
