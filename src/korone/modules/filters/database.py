@@ -21,7 +21,6 @@ async def save_filter(
     creator_id: int,
     editor_id: int,
     file_id: str | None = None,
-    file_type: str | None = None,
     buttons: list[list[Button]] | None = None,
 ) -> None:
     buttons = buttons or []
@@ -57,7 +56,6 @@ async def save_filter(
             editor_id,
             current_timestamp,
             file_id,
-            file_type,
             serialized_buttons,
         )
 
@@ -129,7 +127,6 @@ async def insert_new_filter(
     editor_id: int,
     current_timestamp: int,
     file_id: str | None,
-    file_type: str | None,
     serialized_buttons: str,
 ) -> None:
     await filters_table.insert(
@@ -137,7 +134,6 @@ async def insert_new_filter(
             chat_id=chat_id,
             filter_names=serialized_names,
             file_id=file_id,
-            file_type=file_type,
             filter_text=filter_text,
             content_type=content_type,
             created_date=current_timestamp,
@@ -250,8 +246,8 @@ async def get_filter_info(chat_id: int, filter_name: str) -> FilterModel | None:
                             else orjson.loads(filter["buttons"])
                         )
                     ],
-                    "file": FilterFile(id=filter["file_id"], type=filter["file_type"])
-                    if filter["file_id"] and filter["file_type"]
+                    "file": FilterFile(id=filter["file_id"], type=filter["content_type"])
+                    if filter["file_id"] and filter["content_type"]
                     else None,
                     "creator_id": UserModel(
                         id=creator["id"],
