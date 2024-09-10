@@ -69,7 +69,7 @@ async def fetch_threads(text: str) -> Sequence[InputMedia] | None:
 
 def get_shortcode(url: str) -> str | None:
     match = re.search(r"(?:post)/([A-Za-z0-9_-]+)", url)
-    return match.group(1) if match else None
+    return match[1] if match else None
 
 
 @cache(ttl=timedelta(weeks=1), condition=NOT_NONE)
@@ -90,10 +90,7 @@ async def get_post_id(url: str) -> str:
 
     start = id_location + 10
     end = body.find('"', start)
-    if end == -1:
-        return ""
-
-    return body[start:end]
+    return "" if end == -1 else body[start:end]
 
 
 def random_string(n: int) -> str:
@@ -210,5 +207,4 @@ async def handle_image(post: Post) -> list[InputMediaPhoto] | None:
         if not file:
             return None
 
-        return [InputMediaPhoto(media=file)]
-    return None
+    return None if not file else [InputMediaPhoto(media=file)]

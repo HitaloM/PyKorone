@@ -19,7 +19,7 @@ async def filter_command(client: Client, message: Message) -> None:
     if not command_obj.args:
         await message.reply(
             _(
-                "You need to provide a name for the filter. "
+                "You need to provide arguments to save a filter. "
                 "Example: <code>/filter filtername</code>"
             )
         )
@@ -27,6 +27,13 @@ async def filter_command(client: Client, message: Message) -> None:
 
     filters = parse_args(command_obj.args.lower(), message.reply_to_message)
     if not filters:
+        await message.reply(
+            _("Invalid filter format. Check <code>/help</code> for more information.")
+        )
+        return
+
+    filter_names, filter_content = filters
+    if not filter_content:
         await message.reply(
             _(
                 "You need to provide the filter content. "

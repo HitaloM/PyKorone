@@ -38,10 +38,10 @@ The type is the category of the items that you want to get in the `/lfmtop' comm
 
 ### Examples
 
-- Creates a collage of your top 5x5 albums from the last 7 days and send it to you in chat.
+ Creates a collage of your top 5x5 albums from the last 7 days and sends it to you in chat.
   > `/lfmcollage 5 7d`
 
-- Creates a collage of your top 7x7 albums from the last month without text in album covers and send it to you in chat.
+- Creates a collage of your top 7x7 albums from the last month without text in album covers and sends it to you in chat.
   > `/lfmcollage 7 1m clean`
 
 - Sends you a list of your top 5 artists in the last year.

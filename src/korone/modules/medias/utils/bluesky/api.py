@@ -45,9 +45,8 @@ async def fetch_bluesky(text: str):
 
 
 def get_username_and_post_id(url: str):
-    match = re.search(r"([^/?#]+)/post/([A-Za-z0-9_-]+)", url)
-    if match:
-        return match.group(1), match.group(2)
+    if match := re.search(r"([^/?#]+)/post/([A-Za-z0-9_-]+)", url):
+        return match[1], match[2]
     return None, None
 
 

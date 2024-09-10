@@ -53,7 +53,6 @@ You can also customise the contents of your message with contextual data. For ex
 - `{chatname}`: The chat's name.
 - `{chatnick}`: The chat's nickname.
 
-
 #### Examples
 
 - Set a filter which uses the user's name through fillings:

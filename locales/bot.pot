@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-09-10 14:20-0300\n"
+"POT-Creation-Date: 2024-09-10 14:58-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -120,17 +120,17 @@ msgstr ""
 msgid "Command {action}."
 msgstr ""
 
-#: src/korone/modules/errors/handlers/catcher.py:85
+#: src/korone/modules/errors/handlers/catcher.py:83
 msgid "An unexpected error occurred while processing this update! :/"
 msgstr ""
 
-#: src/korone/modules/errors/handlers/catcher.py:87
+#: src/korone/modules/errors/handlers/catcher.py:85
 msgid ""
 "\n"
 "Reference ID: {id}"
 msgstr ""
 
-#: src/korone/modules/errors/handlers/catcher.py:92
+#: src/korone/modules/errors/handlers/catcher.py:90
 msgid "🐞 Report This Error"
 msgstr ""
 
@@ -207,24 +207,28 @@ msgid ""
 msgstr ""
 
 #: src/korone/modules/filters/handlers/list.py:24
-#: src/korone/modules/filters/handlers/save.py:65
+#: src/korone/modules/filters/handlers/save.py:72
 #: src/korone/modules/filters/utils/text.py:41
 msgid "private chat"
 msgstr ""
 
 #: src/korone/modules/filters/handlers/save.py:21
 msgid ""
-"You need to provide a name for the filter. Example: <code>/filter "
+"You need to provide arguments to save a filter. Example: <code>/filter "
 "filtername</code>"
 msgstr ""
 
 #: src/korone/modules/filters/handlers/save.py:31
+msgid "Invalid filter format. Check <code>/help</code> for more information."
+msgstr ""
+
+#: src/korone/modules/filters/handlers/save.py:38
 msgid ""
 "You need to provide the filter content. Check <code>/help</code> for more"
 " information."
 msgstr ""
 
-#: src/korone/modules/filters/handlers/save.py:63
+#: src/korone/modules/filters/handlers/save.py:70
 msgid ""
 "Saved {count} filters in {chat}:\n"
 "{filters}"
@@ -415,40 +419,40 @@ msgstr ""
 msgid "No top albums found for your LastFM account."
 msgstr ""
 
-#: src/korone/modules/lastfm/handlers/compat.py:21
+#: src/korone/modules/lastfm/handlers/compat.py:23
 msgid "Reply to a message to get the compatibility!"
 msgstr ""
 
-#: src/korone/modules/lastfm/handlers/compat.py:28
+#: src/korone/modules/lastfm/handlers/compat.py:49
+msgid "No top artists found for your LastFM account."
+msgstr ""
+
+#: src/korone/modules/lastfm/handlers/compat.py:58
 msgid "You can't get the compatibility with yourself!"
 msgstr ""
 
-#: src/korone/modules/lastfm/handlers/compat.py:32
+#: src/korone/modules/lastfm/handlers/compat.py:62
 msgid "Bots won't have music taste!"
 msgstr ""
 
-#: src/korone/modules/lastfm/handlers/compat.py:40
+#: src/korone/modules/lastfm/handlers/compat.py:76
 #: src/korone/modules/lastfm/utils/commons.py:15
 msgid ""
 "You need to set your LastFM username first! Example: <code>/setlfm "
 "username</code>."
 msgstr ""
 
-#: src/korone/modules/lastfm/handlers/compat.py:49
+#: src/korone/modules/lastfm/handlers/compat.py:84
 msgid ""
 "The user you replied to doesn't have a LastFM account linked! Hint them "
 "to set it using <code>/setlfm username</code>."
 msgstr ""
 
-#: src/korone/modules/lastfm/handlers/compat.py:70
-msgid "No top artists found for your LastFM account."
-msgstr ""
-
-#: src/korone/modules/lastfm/handlers/compat.py:89
+#: src/korone/modules/lastfm/handlers/compat.py:118
 msgid "No common artists in {period}"
 msgstr ""
 
-#: src/korone/modules/lastfm/handlers/compat.py:91
+#: src/korone/modules/lastfm/handlers/compat.py:119
 msgid ""
 "{user1} and {user2} listen to {mutual}...\n"
 "\n"
