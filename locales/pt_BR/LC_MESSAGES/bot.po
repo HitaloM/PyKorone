@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2024-09-10 14:58-0300\n"
-"PO-Revision-Date: 2024-08-24 20:38+0000\n"
-"Last-Translator: Hitalo <hitalo331@outlook.com>\n"
+"PO-Revision-Date: 2024-09-10 18:05+0000\n"
+"Last-Translator: DeepL <noreply-mt-deepl@weblate.org>\n"
 "Language-Team: Portuguese (Brazil) <http://weblate.amanoteam.com/projects/"
 "korone/korone/pt_BR/>\n"
 "Language: pt_BR\n"
@@ -71,9 +71,8 @@ msgid "You are now AFK."
 msgstr "Agora você está AFK."
 
 #: src/korone/modules/disabling/handlers/disableable.py:18
-#, fuzzy
 msgid "No commands can be disabled."
-msgstr "Os seguintes comandos podem ser desativados:\n"
+msgstr "Nenhum comando pode ser desativado."
 
 #: src/korone/modules/disabling/handlers/disableable.py:21
 msgid "The following commands can be disabled:\n"
@@ -89,57 +88,49 @@ msgstr "Os seguintes comandos estão desativados neste chat:\n"
 
 #: src/korone/modules/disabling/handlers/toggle.py:28
 msgid "enable"
-msgstr ""
+msgstr "ativar"
 
 #: src/korone/modules/disabling/handlers/toggle.py:28
-#, fuzzy
 msgid "disable"
-msgstr "Desativando"
+msgstr "desativar"
 
 #: src/korone/modules/disabling/handlers/toggle.py:29
-#, fuzzy
 msgid "enabled"
-msgstr "Comando ativado."
+msgstr "habilitado"
 
 #: src/korone/modules/disabling/handlers/toggle.py:29
-#, fuzzy
 msgid "disabled"
-msgstr "Comando desativado."
+msgstr "desativado"
 
 #: src/korone/modules/disabling/handlers/toggle.py:33
-#, fuzzy
 msgid ""
 "You need to specify a command to {action}. Use <code>/{action} &lt;"
 "commandname&gt;</code>."
 msgstr ""
-"Você precisa especificar um comando para desativar. Use <code>/enable &lt;"
-"nomedocomando&gt;</code>."
+"Você precisa especificar um comando para {action}. Use <code>/{action} "
+"&lt;commandname&gt;</code>."
 
 #: src/korone/modules/disabling/handlers/toggle.py:43
-#, fuzzy
 msgid "You can only {action} one command at a time."
-msgstr "Você só pode ativar um comando de cada vez."
+msgstr "Você só pode acessar {action} um comando de cada vez."
 
 #: src/korone/modules/disabling/handlers/toggle.py:50
-#, fuzzy
 msgid ""
 "Unknown command to {action}:\n"
 "- <code>{command}</code>\n"
 "Check the /disableable!"
 msgstr ""
-"Comando desconhecido para ativar:\n"
+"Comando desconhecido para {action}:\n"
 "- <code>{command}</code>\n"
-"Verifique o /disableable!"
+"Verifique o /disable!"
 
 #: src/korone/modules/disabling/handlers/toggle.py:60
-#, fuzzy
 msgid "This command is already {action}."
-msgstr "Este comando já está ativado."
+msgstr "Esse comando já é {action}."
 
 #: src/korone/modules/disabling/handlers/toggle.py:64
-#, fuzzy
 msgid "Command {action}."
-msgstr "Comando ativado."
+msgstr "Comando {action}."
 
 #: src/korone/modules/errors/handlers/catcher.py:83
 msgid "An unexpected error occurred while processing this update! :/"
@@ -159,7 +150,7 @@ msgstr "🐞 Relatar Este Erro"
 
 #: src/korone/modules/filters/handlers/delall.py:20
 msgid "✅ Confirm Deletion"
-msgstr ""
+msgstr "✅ Confirmar exclusão"
 
 #: src/korone/modules/filters/handlers/delall.py:24
 #: src/korone/modules/languages/handlers/select.py:38
@@ -170,50 +161,48 @@ msgstr "❌ Cancelar"
 msgid ""
 "⚠️ Are you sure you want to delete all filters? This action cannot be undone."
 msgstr ""
+"⚠️ Tem certeza de que deseja excluir todos os filtros? Essa ação não pode "
+"ser desfeita."
 
 #: src/korone/modules/filters/handlers/delall.py:53
 msgid "There are no filters to delete."
-msgstr ""
+msgstr "Não há filtros a serem excluídos."
 
 #: src/korone/modules/filters/handlers/delall.py:57
 msgid "All filters have been deleted."
-msgstr ""
+msgstr "Todos os filtros foram excluídos."
 
 #: src/korone/modules/filters/handlers/delall.py:61
 msgid "Deletion of all filters has been canceled."
-msgstr ""
+msgstr "A exclusão de todos os filtros foi cancelada."
 
 #: src/korone/modules/filters/handlers/delete.py:19
-#, fuzzy
 msgid ""
 "You need to provide the name of the filter to delete. Example: <code>/"
 "delfilter filtername</code>"
 msgstr ""
-"Você precisa fornecer seu nome de usuário da LastFM! Exemplo: <code>/setlfm "
-"nome de usuário</code>."
+"Você precisa fornecer o nome do filtro a ser excluído. Exemplo: <code>/"
+"delfilter filtername</code>"
 
 #: src/korone/modules/filters/handlers/delete.py:33
 msgid "Filter '<code>{filter_name}</code>' has been deleted."
-msgstr ""
+msgstr "O filtro '<code>{filter_name}</code> ' foi excluído."
 
 #: src/korone/modules/filters/handlers/delete.py:40
-#, fuzzy
 msgid "Filter '<code>{filter_name}</code>' does not exist."
-msgstr "O nome de usuário fornecido não existe."
+msgstr "O filtro '<code>{filter_name}</code> ' não existe."
 
 #: src/korone/modules/filters/handlers/info.py:22
-#, fuzzy
 msgid ""
 "You need to provide the name of the filter. Example: <code>/filterinfo "
 "filtername</code>"
 msgstr ""
-"Você precisa fornecer seu nome de usuário da LastFM! Exemplo: <code>/setlfm "
-"nome de usuário</code>."
+"Você precisa fornecer o nome do filtro. Exemplo: <code>/filterinfo "
+"filtername</code>"
 
 #: src/korone/modules/filters/handlers/info.py:33
-#, fuzzy
 msgid "Filter '{name}' not found."
-msgstr "Módulo não econtrado."
+msgstr "Filtro '{name}' não encontrado."
 
 #: src/korone/modules/filters/handlers/info.py:48
 msgid ""
@@ -225,67 +214,79 @@ msgid ""
 "<b>Edited Date</b>: <i>{edited_date}</i>\n"
 "<b>Editor</b>: {editor}"
 msgstr ""
+"<b>Informações do filtro</b>:\n"
+"<b>Nomes</b>: {names}\n"
+"<b>Tipo de conteúdo</b>: <code>{content_type}</code>\n"
+"<b>Data de criação</b>: <i>{created_date}</i>\n"
+"<b>Creator</b>: {creator}\n"
+"<b>Edited Date</b>: <i>{edited_date}</i>\n"
+"<b>Editor</b>: {editor}"
 
 #: src/korone/modules/filters/handlers/list.py:17
-#, fuzzy
 msgid "No filters found for this chat."
-msgstr "Nenhuma mídia encontrada neste tweet!"
+msgstr "Não foram encontrados filtros para esse bate-papo."
 
 #: src/korone/modules/filters/handlers/list.py:23
 msgid ""
 "List of filters in {chatname}:\n"
 "{filter_list}"
 msgstr ""
+"Lista de filtros em {chatname}:\n"
+"{filter_list}"
 
 #: src/korone/modules/filters/handlers/list.py:24
 #: src/korone/modules/filters/handlers/save.py:72
 #: src/korone/modules/filters/utils/text.py:41
 msgid "private chat"
-msgstr ""
+msgstr "bate-papo privado"
 
 #: src/korone/modules/filters/handlers/save.py:21
-#, fuzzy
 msgid ""
 "You need to provide arguments to save a filter. Example: <code>/filter "
 "filtername</code>"
 msgstr ""
-"Você precisa fornecer seu nome de usuário da LastFM! Exemplo: <code>/setlfm "
-"nome de usuário</code>."
+"Você precisa fornecer argumentos para salvar um filtro. Exemplo: <code>/"
+"filter filtername</code>"
 
 #: src/korone/modules/filters/handlers/save.py:31
 msgid "Invalid filter format. Check <code>/help</code> for more information."
 msgstr ""
+"Formato de filtro inválido. Consulte <code>/help</code> para obter mais "
+"informações."
 
 #: src/korone/modules/filters/handlers/save.py:38
 msgid ""
 "You need to provide the filter content. Check <code>/help</code> for more "
 "information."
 msgstr ""
+"Você precisa fornecer o conteúdo do filtro. Consulte <code>/help</code> para "
+"obter mais informações."
 
 #: src/korone/modules/filters/handlers/save.py:70
 msgid ""
 "Saved {count} filters in {chat}:\n"
 "{filters}"
 msgstr ""
+"Filtros salvos em {count} em {chat}:\n"
+"{filters}"
 
 #: src/korone/modules/filters/utils/parse_filter.py:54
 msgid ""
 "Please check the Filters documentation for the list of the allowed content "
 "types."
 msgstr ""
+"Consulte a documentação dos Filtros para obter a lista dos tipos de conteúdo "
+"permitidos."
 
 #: src/korone/modules/filters/utils/parse_filter.py:66
-#, fuzzy
 msgid "The text of the replied message is empty."
-msgstr "Nenhum URL do YouTube encontrado na mensagem respondida."
+msgstr "O texto da mensagem respondida está vazio."
 
 #: src/korone/modules/filters/utils/parse_filter.py:104
-#, fuzzy
 msgid "The maximum length of the filter is {length} characters."
-msgstr "O comprimento máximo da mensagem AFK é de 64 caracteres."
+msgstr "O comprimento máximo do filtro é {length} caracteres."
 
 #: src/korone/modules/gsm_arena/handlers/search.py:20
-#, fuzzy
 msgid ""
 "You should provide a device name to search. Example: <code>/device Galaxy "
 "S24</code>."
@@ -299,9 +300,8 @@ msgstr "Nenhum dispositivo encontrado."
 
 #: src/korone/modules/gsm_arena/handlers/search.py:40
 #: src/korone/modules/minecraft/handlers/modrinth.py:46
-#, fuzzy
 msgid "Search results for: <b>{query}</b>"
-msgstr "Resultados da pesquisa para: <b>{device}</b>"
+msgstr "Resultados da busca por: <b>{query}</b>"
 
 #: src/korone/modules/gsm_arena/utils/scraper.py:80
 msgid "Status"
@@ -364,16 +364,14 @@ msgid "Language changed to {new_lang}."
 msgstr "Idioma alterado para {new_lang}."
 
 #: src/korone/modules/languages/handlers/apply.py:49
-#, fuzzy
 msgid ""
 "\n"
 "This is the bot's native language.\n"
 "If you find any errors, please file an issue in the GitHub Repository."
 msgstr ""
 "\n"
-"Este é o idioma nativo do bot.\n"
-"Se você encontrar algum erro, por favor, abra uma issue no repositório do "
-"GitHub."
+"Esse é o idioma nativo do bot.\n"
+"Se você encontrar algum erro, registre um problema no Repositório do GitHub."
 
 #: src/korone/modules/languages/handlers/apply.py:56
 msgid ""
@@ -384,14 +382,12 @@ msgstr ""
 "O idioma está {percent}% traduzido."
 
 #: src/korone/modules/languages/handlers/apply.py:68
-#, fuzzy
 msgid ""
 "\n"
 "In case you find any errors, please file an issue in the GitHub Repository."
 msgstr ""
 "\n"
-"Em caso de encontrar algum erro, por favor, abra uma issue no repositório do "
-"GitHub."
+"Caso encontre algum erro, registre um problema no repositório do GitHub."
 
 #: src/korone/modules/languages/handlers/apply.py:72
 msgid ""
@@ -473,18 +469,16 @@ msgid "No recent tracks found for your LastFM account."
 msgstr "Não foram encontradas faixas recentes em sua conta da LastFM."
 
 #: src/korone/modules/lastfm/handlers/collage.py:47
-#, fuzzy
 msgid "No top albums found for your LastFM account."
-msgstr "Não foram encontradas faixas recentes em sua conta da LastFM."
+msgstr "Não foram encontrados álbuns de destaque em sua conta LastFM."
 
 #: src/korone/modules/lastfm/handlers/compat.py:23
 msgid "Reply to a message to get the compatibility!"
 msgstr "Responda a uma mensagem para obter a compatibilidade!"
 
 #: src/korone/modules/lastfm/handlers/compat.py:49
-#, fuzzy
 msgid "No top artists found for your LastFM account."
-msgstr "Não foram encontradas faixas recentes em sua conta da LastFM."
+msgstr "Não foram encontrados artistas de destaque para sua conta LastFM."
 
 #: src/korone/modules/lastfm/handlers/compat.py:58
 msgid "You can't get the compatibility with yourself!"
@@ -526,12 +520,10 @@ msgstr ""
 "A pontuação de compatibilidade é {score}%, com base em {period}"
 
 #: src/korone/modules/lastfm/handlers/recent.py:30
-#, fuzzy
 msgid "No recent tracks found."
-msgstr "Nenhum dispositivo encontrado."
+msgstr "Não foram encontrados rastros recentes."
 
 #: src/korone/modules/lastfm/handlers/recent.py:40
-#, fuzzy
 msgid "{user} is listening to:\n"
 msgstr "{user} está ouvindo:\n"
 
@@ -544,7 +536,6 @@ msgstr ""
 "Últimas 5 reproduções:"
 
 #: src/korone/modules/lastfm/handlers/recent.py:45
-#, fuzzy
 msgid "{user} was listening to:\n"
 msgstr "{user} estava ouvindo:\n"
 
@@ -571,9 +562,8 @@ msgstr ""
 "Tipo de entrada inválido! Use um dos seguintes: artists, tracks, albuns"
 
 #: src/korone/modules/lastfm/handlers/top.py:53
-#, fuzzy
 msgid "No top items found."
-msgstr "Nenhum dispositivo encontrado."
+msgstr "Não foram encontrados itens principais."
 
 #: src/korone/modules/lastfm/handlers/top.py:57
 msgid ""
@@ -641,9 +631,8 @@ msgid "{user}'s was listening to:\n"
 msgstr "{user} estava ouvindo:\n"
 
 #: src/korone/modules/lastfm/utils/commons.py:51
-#, fuzzy
 msgid " ∙ <code>{playcount} plays</code>"
-msgstr " ∙ <code>{album_playcount} reproduções</code>"
+msgstr " ∙ <code>{playcount} joga</code>"
 
 #: src/korone/modules/lastfm/utils/formatters.py:29
 msgid ", {days} day(s) ago"
@@ -686,14 +675,12 @@ msgid "All time"
 msgstr "Todo o tempo"
 
 #: src/korone/modules/medias/handlers/bluesky.py:59
-#, fuzzy
 msgid "Open in BueSky"
-msgstr "Abrir no TikTok"
+msgstr "Abrir no BueSky"
 
 #: src/korone/modules/medias/handlers/bluesky.py:66
-#, fuzzy
 msgid "Open in BlueSky"
-msgstr "Abrir no TikTok"
+msgstr "Abrir no BlueSky"
 
 #: src/korone/modules/medias/handlers/instagram.py:65
 #: src/korone/modules/medias/handlers/instagram.py:72
@@ -702,9 +689,8 @@ msgstr "Abrir no Instagram"
 
 #: src/korone/modules/medias/handlers/threads.py:65
 #: src/korone/modules/medias/handlers/threads.py:72
-#, fuzzy
 msgid "Open in Threads"
-msgstr "Abrir no Twitter"
+msgstr "Abrir em Tópicos"
 
 #: src/korone/modules/medias/handlers/tiktok.py:148
 #: src/korone/modules/medias/handlers/tiktok.py:194
@@ -798,96 +784,91 @@ msgid "Failed to download the media."
 msgstr "Falha no download da mídia."
 
 #: src/korone/modules/minecraft/handlers/modrinth.py:31
-#, fuzzy
 msgid ""
 "You need to provide a search query. Example: <code>/modrinth sodium</code>."
 msgstr ""
-"Você precisa fornecer seu nome de usuário da LastFM! Exemplo: <code>/setlfm "
-"nome de usuário</code>."
+"Você precisa fornecer uma consulta de pesquisa. Exemplo: <code>/modrinth "
+"sodium</code>."
 
 #: src/korone/modules/minecraft/handlers/modrinth.py:37
-#, fuzzy
 msgid "No projects found."
-msgstr "Nenhum dispositivo encontrado."
+msgstr "Nenhum projeto encontrado."
 
 #: src/korone/modules/minecraft/handlers/modrinth.py:108
-#, fuzzy
 msgid "Open in Modrinth"
-msgstr "Abrir no Twitter"
+msgstr "Aberto em Modrinth"
 
 #: src/korone/modules/minecraft/handlers/modrinth.py:109
 msgid "Details"
-msgstr ""
+msgstr "Detalhes"
 
 #: src/korone/modules/minecraft/handlers/modrinth.py:122
 msgid "Downloads: {downloads}\n"
-msgstr ""
+msgstr "Downloads: {downloads}\n"
 
 #: src/korone/modules/minecraft/handlers/modrinth.py:123
 msgid "Followers: {followers}\n"
-msgstr ""
+msgstr "Seguidores: {followers}\n"
 
 #: src/korone/modules/minecraft/handlers/modrinth.py:124
 msgid "Published: {published}\n"
-msgstr ""
+msgstr "Publicado: {published}\n"
 
 #: src/korone/modules/minecraft/handlers/modrinth.py:125
 msgid "Updated: {updated}\n"
-msgstr ""
+msgstr "Atualizado: {updated}\n"
 
 #: src/korone/modules/minecraft/handlers/modrinth.py:126
 msgid "Categories: {categories}\n"
-msgstr ""
+msgstr "Categorias: {categories}\n"
 
 #: src/korone/modules/minecraft/handlers/modrinth.py:141
-#, fuzzy
 msgid "<b>Platforms</b>: {platforms}\n"
-msgstr "<b>Sobrenome</b>: {last_name}\n"
+msgstr "<b>Plataformas</b>: {platforms}\n"
 
 #: src/korone/modules/minecraft/handlers/modrinth.py:142
 msgid "<b>Supported environments</b>: {environments}\n"
-msgstr ""
+msgstr "<b>Ambientes compatíveis</b>: {environments}\n"
 
 #: src/korone/modules/minecraft/handlers/modrinth.py:147
-#, fuzzy
 msgid "<b>Latest version</b>: {version}"
-msgstr "<b>Sobrenome</b>: {last_name}\n"
+msgstr "<b>Versão mais recente</b>: {version}"
 
 #: src/korone/modules/minecraft/handlers/modrinth.py:163
 msgid "Mod"
-msgstr ""
+msgstr "Mod"
 
 #: src/korone/modules/minecraft/handlers/modrinth.py:164
 msgid "Modpack"
-msgstr ""
+msgstr "Modpack"
 
 #: src/korone/modules/minecraft/handlers/modrinth.py:165
 msgid "Resource pack"
-msgstr ""
+msgstr "Pacote de recursos"
 
 #: src/korone/modules/minecraft/handlers/modrinth.py:166
-#, fuzzy
 msgid "Shader pack"
-msgstr "Ver pacote"
+msgstr "Pacote de sombreamento"
 
 #: src/korone/modules/minecraft/handlers/servers.py:26
-#, fuzzy
 msgid ""
 "You need to provide a server address. Example: <code>/mcserver mc.hypixel."
 "net</code>."
 msgstr ""
-"Você precisa fornecer seu nome de usuário da LastFM! Exemplo: <code>/setlfm "
-"nome de usuário</code>."
+"Você precisa fornecer um endereço de servidor. Exemplo: <code>/mcserver mc."
+"hypixel.net</code>."
 
 #: src/korone/modules/minecraft/handlers/servers.py:37
 msgid ""
 "Invalid server address. Please provide a valid IP address or hostname, "
 "optionally with a port."
 msgstr ""
+"Endereço de servidor inválido. Forneça um endereço IP ou nome de host "
+"válido, opcionalmente com uma porta."
 
 #: src/korone/modules/minecraft/handlers/servers.py:46
 msgid "This Minecraft server is offline."
-msgstr ""
+msgstr "Este servidor do Minecraft está off-line."
 
 #: src/korone/modules/minecraft/handlers/servers.py:49
 msgid ""
@@ -896,36 +877,39 @@ msgid ""
 "<b>Version:</b> {version}\n"
 "<b>MOTD</b>: <pre>{motd}</pre>\n"
 msgstr ""
+"<b>Status do servidor para {address}</b>:\n"
+"<b>Jogadores</b>: {player_count}\n"
+"<b>Versão:</b> {version}\n"
+"<b>MOTD</b>: <pre>{motd}</pre>\n"
 
 #: src/korone/modules/piston/handlers/langs.py:17
 #: src/korone/modules/piston/handlers/run.py:30
-#, fuzzy
 msgid "Failed to fetch the available languages."
-msgstr "Falha ao buscar vídeo do TikTok."
+msgstr "Falha ao buscar os idiomas disponíveis."
 
 #: src/korone/modules/piston/handlers/langs.py:20
 msgid "<b>Supported languages</b>:\n"
-msgstr ""
+msgstr "<b>Idiomas suportados</b>:\n"
 
 #: src/korone/modules/piston/handlers/run.py:21
-#, fuzzy
 msgid ""
 "You need to provide a command to run. Example: <code>/piston python "
 "print('Hello, World!')</code>"
 msgstr ""
-"Você precisa fornecer seu nome de usuário da LastFM! Exemplo: <code>/setlfm "
-"nome de usuário</code>."
+"Você precisa fornecer um comando a ser executado. Exemplo: <code>/piston "
+"python print('Hello, World!')</code>"
 
 #: src/korone/modules/piston/handlers/run.py:35
 msgid ""
 "Invalid language. Use <code>/pistonlangs</code> to see the available "
 "languages."
 msgstr ""
+"Idioma inválido. Use <code>/pistonlangs</code> para ver os idiomas "
+"disponíveis."
 
 #: src/korone/modules/piston/handlers/run.py:44
-#, fuzzy
 msgid "An error occurred while running the code."
-msgstr "Ocorreu um erro inesperado ao processar essa atualização! :/"
+msgstr "Ocorreu um erro durante a execução do código."
 
 #: src/korone/modules/piston/handlers/run.py:47
 msgid ""
@@ -933,18 +917,25 @@ msgid ""
 "<pre language='{lang}'>{code}</pre>\n"
 "\n"
 msgstr ""
+"<b>Código</b>:\n"
+"<pre language='{lang}'>{code}</pre>\n"
+"\n"
 
 #: src/korone/modules/piston/handlers/run.py:52
 msgid ""
 "<b>Output</b>:\n"
 "<pre language='bash'>{output}</pre>\n"
 msgstr ""
+"<b>Saída</b>:\n"
+"<pre language='bash'>{output}</pre>\n"
 
 #: src/korone/modules/piston/handlers/run.py:57
 msgid ""
 "<b>Compiler Output</b>:\n"
 "<pre language='bash'>{output}</pre>"
 msgstr ""
+"<b>Saída do compilador</b>:\n"
+"<pre language='bash'>{output}</pre>"
 
 #: src/korone/modules/pm_menu/handlers/about.py:28
 msgid ""
@@ -1005,9 +996,8 @@ msgstr ""
 "Clique no botão abaixo para começar a ler."
 
 #: src/korone/modules/pm_menu/handlers/privacy.py:21
-#, fuzzy
 msgid "Privacy Policy"
-msgstr "🔒 Política de privacidade"
+msgstr "Política de privacidade"
 
 #: src/korone/modules/pm_menu/handlers/start.py:26
 msgid ""
@@ -1022,9 +1012,8 @@ msgid "ℹ️ About"
 msgstr "ℹ️ Sobre"
 
 #: src/korone/modules/pm_menu/handlers/start.py:37
-#, fuzzy
 msgid "{flag} Language"
-msgstr "{lang_flag} Idioma"
+msgstr "{flag} Idioma"
 
 #: src/korone/modules/pm_menu/handlers/start.py:42
 msgid "👮‍♂️ Help"
@@ -1047,9 +1036,8 @@ msgid "Unknown flag: {flag}"
 msgstr "Bandeira desconhecida: {flag}"
 
 #: src/korone/modules/regex/handlers/sed.py:31
-#, fuzzy
 msgid "Invalid command data."
-msgstr "Comando inválido: {command}"
+msgstr "Dados de comando inválidos."
 
 #: src/korone/modules/regex/handlers/sed.py:41
 msgid "Regex error: {e}"
@@ -1172,21 +1160,20 @@ msgid "Failed to translate text. Error: {error}"
 msgstr "Falha ao traduzir o texto. Erro: {error}"
 
 #: src/korone/modules/translator/handlers/translate.py:70
-#, fuzzy
 msgid ""
 "<b>Language:</b> <code>{source_lang}</code> => <code>{target_lang}</code>\n"
 "<b>Translation:</b> <code>{translated_text}</code>"
 msgstr ""
-"<b>Idioma:</b> <code>{source_lang}</code> => <code>{target_lang}</code>"
+"<b>Idioma:</b> <code>{source_lang}</code> => <code>{target_lang}</code>\n"
+"<b> Tradução:</b> <code>{translated_text}</code>"
 
 #: src/korone/modules/users/handlers/cleanup.py:15
 msgid "Removing deleted accounts..."
 msgstr "Remoção de contas excluídas..."
 
 #: src/korone/modules/users/handlers/cleanup.py:21
-#, fuzzy
 msgid "Failed to fetch members."
-msgstr "Falha ao enviar a mídia."
+msgstr "Falha ao buscar membros."
 
 #: src/korone/modules/users/handlers/cleanup.py:25
 msgid "No members found."
@@ -1233,9 +1220,8 @@ msgid "Invalid identifier provided."
 msgstr "O identificador fornecido não é válido."
 
 #: src/korone/modules/users/handlers/users.py:30
-#, fuzzy
 msgid "No user found with the provided identifier"
-msgstr "Nenhum usuário foi encontrado com o identificador fornecido."
+msgstr "Nenhum usuário foi encontrado com o identificador fornecido"
 
 #: src/korone/modules/users/handlers/users.py:41
 msgid "The provided user ID is invalid."
@@ -1250,31 +1236,28 @@ msgid "The provided username does not exist."
 msgstr "O nome de usuário fornecido não existe."
 
 #: src/korone/modules/users/handlers/users.py:44
-#, fuzzy
 msgid "No entity found with the provided identifier."
-msgstr "Nenhum usuário foi encontrado com o identificador fornecido."
+msgstr "Nenhuma entidade encontrada com o identificador fornecido."
 
 #: src/korone/modules/users/handlers/users.py:45
-#, fuzzy
 msgid "Error accessing data."
-msgstr "Erro ao acessar os dados do grupo."
+msgstr "Erro ao acessar dados."
 
 #: src/korone/modules/users/handlers/users.py:46
 msgid "The provided value is not valid."
 msgstr "O valor fornecido não é válido."
 
 #: src/korone/modules/users/handlers/users.py:53
-#, fuzzy
 msgid "An unexpected error occurred."
-msgstr "Ocorreu um erro: {}"
+msgstr "Ocorreu um erro inesperado."
 
 #: src/korone/modules/users/handlers/users.py:58
 msgid "Identifier must be a number"
-msgstr ""
+msgstr "O identificador deve ser um número"
 
 #: src/korone/modules/users/handlers/users.py:62
 msgid "Identifier out of range for SQLite INTEGER"
-msgstr ""
+msgstr "Identificador fora do intervalo para o SQLite INTEGER"
 
 #: src/korone/modules/users/handlers/users.py:74
 msgid "<b>User info</b>:\n"
@@ -1350,29 +1333,24 @@ msgstr ""
 "Não foram encontradas informações de whois para <code>{domain}</code> ."
 
 #: src/korone/utils/commands_list.py:26
-#, fuzzy
 msgid "Start the bot."
-msgstr "Iniciar o bot"
+msgstr "Inicie o bot."
 
 #: src/korone/utils/commands_list.py:27
-#, fuzzy
 msgid "Show help message."
-msgstr "Mostrar mensagem de ajuda"
+msgstr "Mostrar mensagem de ajuda."
 
 #: src/korone/utils/commands_list.py:28
-#, fuzzy
 msgid "About the bot."
-msgstr "Iniciar o bot"
+msgstr "Sobre o bot."
 
 #: src/korone/utils/commands_list.py:29
-#, fuzzy
 msgid "Show privacy policy."
-msgstr "Exibir política de privacidade"
+msgstr "Mostrar política de privacidade."
 
 #: src/korone/utils/commands_list.py:30
-#, fuzzy
 msgid "Change the bot language."
-msgstr "Alterar o idioma do bot"
+msgstr "Alterar o idioma do bot."
 
 #~ msgid ""
 #~ "You need to specify a command to disable. Use <code>/disable &lt;"
