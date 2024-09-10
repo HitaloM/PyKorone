@@ -6,7 +6,7 @@ from hydrogram.types import Message
 
 from korone.decorators import router
 from korone.filters import Command, CommandObject
-from korone.modules.lastfm.utils.commons import get_lastfm_user_or_reply
+from korone.modules.lastfm.utils.commons import get_lastfm_user_or_reply, handle_lastfm_error
 from korone.modules.lastfm.utils.errors import LastFMError
 from korone.modules.lastfm.utils.formatters import name_with_link, period_to_str
 from korone.modules.lastfm.utils.lastfm_api import LastFMClient, TimePeriod
@@ -46,15 +46,7 @@ async def lfmtop_command(client: Client, message: Message) -> None:  # noqa: C90
             case EntryType.Album:
                 top_items = await last_fm.get_top_albums(last_fm_user, period=period, limit=5)
     except LastFMError as e:
-        error_message = (
-            _("Your LastFM username was not found! Try setting it again.")
-            if "User not found" in e.message
-            else _(
-                "An error occurred while fetching your LastFM data!"
-                "\n<blockquote>{error}</blockquote>"
-            ).format(error=e.message)
-        )
-        await message.reply(error_message)
+        await handle_lastfm_error(message, e)
         return
 
     if not top_items:
