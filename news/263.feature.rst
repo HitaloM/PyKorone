@@ -1,1 +1,1 @@
-Added the `/piston` command to run the Piston code evaluator. This command allows users to evaluate code snippets in various languages directly in the chat. For example, use `/piston python print("Hello, World!")` to run a Python snippet. Supported languages include Python, JavaScript, Ruby, and more (see `/pistonlangs` for a full list).
+Added the :doc:`Piston Module <modules/piston>` with commands to run code snippets through the bot.

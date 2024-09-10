@@ -10,6 +10,24 @@
 
 .. towncrier release notes start
 
+1.1.0 (2024-09-10)
+==================
+
+Features
+--------
+
+- Added support to Threads and BlueSky at automatic media download.
+- Added the :doc:`Filters Module <modules/filters>`, allowing the creation, management and application of text and media filters. (`#261 <https://github.com/HitaloM/PyKorone/issues/261>`_)
+- Added the :doc:`Piston Module <modules/piston>` with commands to run code snippets through the bot. (`#263 <https://github.com/HitaloM/PyKorone/issues/263>`_)
+- Added the :doc:`Minecraft Module <modules/minecraft>` with commands to get information about Minecraft servers and Modrinth projects. (`#264 <https://github.com/HitaloM/PyKorone/issues/264>`_)
+
+Bug Fixes
+---------
+
+- Fixed a bug that displayed the LastFM artist's name incorrectly when the bot warned that the user mentioned is AFK.
+- Some improvements have been made to the Instagram medias download, reels that weren't downloading before should now download.
+- fixed the list of commands in Telegram menu not appearing for english users.
+
 1.0.6 (2024-08-23)
 ==================
 

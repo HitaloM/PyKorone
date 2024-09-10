@@ -33,7 +33,7 @@ async def filter_command(client: Client, message: Message) -> None:
         return
 
     filter_names, filter_content = filters
-    if not filter_content:
+    if not filter_content and not message.reply_to_message:
         await message.reply(
             _(
                 "You need to provide the filter content. "
