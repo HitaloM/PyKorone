@@ -4,6 +4,7 @@
 from contextlib import suppress
 
 from hydrogram import Client
+from hydrogram.enums import ChatType
 from hydrogram.errors import MessageNotModified
 from hydrogram.types import CallbackQuery
 
@@ -20,6 +21,10 @@ async def get_gsmarena_callback(client: Client, callback: CallbackQuery) -> None
     query = GetDeviceCallback.unpack(callback.data).device
     phone = await check_phone_details(query)
     formatted_phone = format_phone(phone)
+
+    if callback.message.chat.type == ChatType.PRIVATE:
+        await callback.message.reply(text=formatted_phone)
+        return
 
     with suppress(MessageNotModified):
         await callback.edit_message_text(text=formatted_phone)
