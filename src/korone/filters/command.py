@@ -7,7 +7,7 @@ import re
 from collections.abc import Iterable, Sequence
 from contextlib import suppress
 from dataclasses import dataclass, field, replace
-from typing import TYPE_CHECKING, Any
+from typing import TYPE_CHECKING, Any, Self
 
 from hydrogram.filters import Filter
 
@@ -17,6 +17,8 @@ if TYPE_CHECKING:
     from hydrogram import Client
     from hydrogram.types import Message
     from magic_filter import MagicFilter
+
+PREFIX: str = "/"
 
 CommandPatternType = str | re.Pattern
 
@@ -28,15 +30,31 @@ class CommandError(Exception):
 @dataclass(frozen=True, slots=True)
 class CommandObject:
     message: Message | None = field(repr=False, default=None)
-    prefix: str = "/"
+    prefix: str = PREFIX
     command: str = ""
     mention: str | None = None
     args: str | None = field(repr=False, default=None)
     regexp_match: re.Match[str] | None = field(repr=False, default=None)
     magic_result: Any = field(repr=False, default=None)
 
-    @staticmethod
-    def extract(text: str) -> CommandObject:
+    def is_valid_command(self, text: str) -> bool:
+        if not text.startswith(self.prefix):
+            return False
+        command_text = text.removeprefix(self.prefix)
+        return all(char.isalnum() or char.isspace() for char in command_text)
+
+    def extract(self, text: str) -> Self:
+        if not text.startswith(self.prefix):
+            msg = f"Command must start with the prefix '{self.prefix}'."
+            raise CommandError(msg)
+
+        if not self.is_valid_command(text):
+            msg = (
+                "Command contains invalid characters. "
+                "Only alphanumeric characters and spaces are allowed."
+            )
+            raise CommandError(msg)
+
         try:
             full_command, *args = text.split(maxsplit=1)
         except ValueError as e:
@@ -45,21 +63,21 @@ class CommandObject:
 
         prefix = full_command[0]
         command, _, mention = full_command[1:].partition("@")
-        return CommandObject(
+        return self.__class__(
             prefix=prefix,
             command=command,
             mention=mention or None,
             args=args[0] if args else None,
         )
 
-    def parse(self) -> CommandObject:
+    def parse(self) -> Self:
         if not self.message:
             msg = "Message is required to parse a command."
             raise CommandError(msg)
 
         text = self.message.text or self.message.caption
         if not text:
-            msg = "Message has no text"
+            msg = "Message has no text."
             raise CommandError(msg)
 
         return self.extract(text)
@@ -72,7 +90,7 @@ class Command(Filter):
         self,
         *values: CommandPatternType,
         commands: Sequence[CommandPatternType] | CommandPatternType | None = None,
-        prefix: str = "/",
+        prefix: str = PREFIX,
         ignore_case: bool = False,
         ignore_mention: bool = False,
         magic: MagicFilter | None = None,

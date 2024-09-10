@@ -1,1 +1,0 @@
-Added the :doc:`Filters Module <modules/filters>`, allowing the creation, management and application of text and media filters.

@@ -1,1 +1,0 @@
-Added the :doc:`Minecraft Module <modules/minecraft>` with commands to get information about Minecraft servers and Modrinth projects.

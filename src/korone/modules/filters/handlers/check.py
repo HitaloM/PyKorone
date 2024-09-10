@@ -5,12 +5,14 @@ import asyncio
 import functools
 import re
 
+from cashews import suppress
 from hydrogram import Client, filters
 from hydrogram.enums import ParseMode
 from hydrogram.types import Message
 
 from korone.decorators import router
 from korone.filters import HasText, IsAdmin
+from korone.filters.command import CommandError, CommandObject
 from korone.modules.filters.database import get_filters_cache, update_filters_cache
 from korone.modules.filters.utils.buttons import unparse_buttons, unparse_buttons_to_text
 from korone.modules.filters.utils.text import vars_parser
@@ -27,11 +29,19 @@ async def check_filters(client: Client, message: Message) -> None:
 
     text = message.text or message.caption
 
-    if await IsAdmin(client, message, show_alert=False) and text[1:].startswith((
-        "filter",
-        "delfilter",
-        "filterinfo",
-    )):
+    command_obj = None
+    with suppress(CommandError):
+        command_obj = CommandObject(message).parse()
+
+    if (
+        command_obj
+        and await IsAdmin(client, message, show_alert=False)
+        and command_obj.command.startswith((
+            "filter",
+            "delfilter",
+            "filterinfo",
+        ))
+    ):
         return
 
     compiled_patterns = [
