@@ -50,6 +50,9 @@ def discover_modules() -> None:
 async def fetch_command_state(command: str) -> Documents | None:
     await logger.adebug("Fetching command state for: %s", command)
 
+    if command in COMMANDS and "parent" in COMMANDS[command]:
+        command = COMMANDS[command]["parent"]
+
     async with SQLite3Connection() as conn:
         table = await conn.table("Commands")
         result = await table.query(Query().command == command) or None

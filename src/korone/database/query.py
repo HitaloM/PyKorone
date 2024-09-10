@@ -2,9 +2,7 @@
 # Copyright (c) 2024 Hitalo M. <https://github.com/HitaloM>
 # Copyright (c) 2023 Victor Cebarros <https://github.com/victorcebarros>
 
-from __future__ import annotations
-
-from dataclasses import dataclass
+from copy import copy
 from typing import Any
 
 # Represents a string containing placeholders for the
@@ -31,56 +29,62 @@ class MalformedQueryError(Exception):
     pass
 
 
-@dataclass(slots=True)
 class Query:
-    lhs: str | Query | None = None
-    operator: str | None = None
-    rhs: Any | Query | None = None
+    __slots__ = ("lhs", "operator", "rhs")
 
-    def __getattr__(self, name: str) -> Query:
+    def __init__(self, *, lhs=None, operator=None, rhs=None) -> None:
+        self.lhs = lhs
+        self.operator = operator
+        self.rhs = rhs
+
+    def __getattr__(self, name: str) -> "Query":
         self.lhs = name
         return self
 
-    def __getitem__(self, item: str) -> Query:
+    def __getitem__(self, item: str) -> "Query":
         return self.__getattr__(item)
 
-    def __and__(self, other: Query) -> Query:
+    def __copy__(self) -> "Query":
+        return Query(lhs=self.lhs, operator=self.operator, rhs=self.rhs)
+
+    def __and__(self, other) -> "Query":
         return self._new_node(lhs=self, operator="AND", rhs=other)
 
-    def __or__(self, other: Query) -> Query:
+    def __or__(self, other) -> "Query":
         return self._new_node(lhs=self, operator="OR", rhs=other)
 
-    def __invert__(self) -> Query:
+    def __invert__(self) -> "Query":
         return self._new_node(operator="NOT", rhs=self)
 
-    def __eq__(self, other: Any) -> Query:
+    def __eq__(self, other) -> "Query":
         return self._new_node(lhs=self.lhs, operator="==", rhs=other)
 
-    def __ne__(self, other: Any) -> Query:
+    def __ne__(self, other) -> "Query":
         return self._new_node(lhs=self.lhs, operator="!=", rhs=other)
 
-    def __lt__(self, other: Any) -> Query:
+    def __lt__(self, other) -> "Query":
         return self._new_node(lhs=self.lhs, operator="<", rhs=other)
 
-    def __le__(self, other: Any) -> Query:
+    def __le__(self, other) -> "Query":
         return self._new_node(lhs=self.lhs, operator="<=", rhs=other)
 
-    def __gt__(self, other: Any) -> Query:
+    def __gt__(self, other) -> "Query":
         return self._new_node(lhs=self.lhs, operator=">", rhs=other)
 
-    def __ge__(self, other: Any) -> Query:
+    def __ge__(self, other) -> "Query":
         return self._new_node(lhs=self.lhs, operator=">=", rhs=other)
 
-    def _new_node(
-        self,
-        *,
-        lhs: str | Query | None = None,
-        operator: str | None = None,
-        rhs: Any | Query | None = None,
-    ) -> Query:
-        query = Query(lhs=lhs, operator=operator, rhs=rhs)
+    def _new_node(self, *, lhs=None, operator=None, rhs=None) -> "Query":
+        query = Query(
+            lhs=copy(lhs),
+            operator=copy(operator),
+            rhs=copy(rhs),
+        )
 
-        # Clear previously defined keys to keep a defined state
+        # consider this case, what should user by itself return?
+        # >>> user = Query()
+        # >>> (user.name == "Hyper Mega Chad Polyglot") & user
+        # to keep a defined state, we clear previously defined keys
         self.lhs = None
         self.rhs = None
 
@@ -90,7 +94,7 @@ class Query:
         def isvalidoperator(obj: Any) -> bool:
             return isinstance(obj, str) and len(obj) != 0
 
-        def visit(obj: Query) -> CompiledQuery:
+        def visit(obj: Any) -> CompiledQuery:
             if not isinstance(obj, Query):
                 msg = "Cannot visit a non-query node."
                 raise MalformedQueryError(msg)
@@ -99,18 +103,32 @@ class Query:
                 msg = "Invalid operator."
                 raise MalformedQueryError(msg)
 
-            match (obj.lhs, obj.rhs):
-                case (str(lhs), rhs) if not isinstance(rhs, Query):
-                    return f"({lhs} {obj.operator} ?)", (rhs,)
-                case (None, Query() as rhs):
-                    rhsstr, rhsph = visit(rhs)
-                    return f"{obj.operator} {rhsstr}", rhsph
-                case (Query() as lhs, Query() as rhs):
-                    lhsstr, lhsph = visit(lhs)
-                    rhsstr, rhsph = visit(rhs)
-                    return f"({lhsstr} {obj.operator} {rhsstr})", (*lhsph, *rhsph)
-                case _:
-                    msg = "Invalid query structure."
+            islhsquery = isinstance(obj.lhs, Query)
+            isrhsquery = isinstance(obj.rhs, Query)
+
+            if not islhsquery and not isrhsquery:
+                if not isinstance(obj.lhs, str):
+                    msg = "Key must be a string."
                     raise MalformedQueryError(msg)
+                return f"({obj.lhs} {obj.operator} ?)", (obj.rhs,)
+
+            if not islhsquery and isrhsquery:
+                rhsstr, rhsph = visit(obj.rhs)
+                return f"{obj.operator} {rhsstr}", (*rhsph,)
+
+            if islhsquery ^ isrhsquery:
+                member: str = "Key"
+
+                if isrhsquery:
+                    member = "Value"
+
+                msg = f"{member} cannot be a query type."
+                raise MalformedQueryError(msg)
+
+            # *ph means PlaceHolder
+            lhsstr, lhsph = visit(obj.lhs)
+            rhsstr, rhsph = visit(obj.rhs)
+
+            return f"({lhsstr} {obj.operator} {rhsstr})", (*lhsph, *rhsph)
 
         return visit(self)
