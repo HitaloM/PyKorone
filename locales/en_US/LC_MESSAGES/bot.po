@@ -419,6 +419,7 @@ msgid "Language"
 msgstr ""
 
 #: sophie_bot/modules/legacy_modules/modules/notes.py:43
+#: sophie_bot/modules/notes/__init__.py:15
 msgid "Notes"
 msgstr ""
 
@@ -447,7 +448,6 @@ msgid "Rules"
 msgstr ""
 
 #: sophie_bot/modules/legacy_modules/modules/users.py:21
-#: sophie_bot/modules/notes/__init__.py:15
 #: sophie_bot/modules/users/__init__.py:15
 msgid "Users"
 msgstr ""
@@ -601,27 +601,27 @@ msgstr ""
 msgid "Current state is cleared."
 msgstr ""
 
-#: sophie_bot/modules/users/handlers/id.py:14
+#: sophie_bot/modules/users/handlers/id.py:22
 msgid "User"
 msgstr ""
 
-#: sophie_bot/modules/users/handlers/id.py:24
+#: sophie_bot/modules/users/handlers/id.py:35
 msgid "Your ID: {id}"
 msgstr ""
 
-#: sophie_bot/modules/users/handlers/id.py:27
+#: sophie_bot/modules/users/handlers/id.py:38
 msgid "Chat ID: {id}"
 msgstr ""
 
-#: sophie_bot/modules/users/handlers/id.py:30
+#: sophie_bot/modules/users/handlers/id.py:41
 msgid "Connected chat ID: {id}"
 msgstr ""
 
-#: sophie_bot/modules/users/handlers/id.py:36
+#: sophie_bot/modules/users/handlers/id.py:47
 msgid "Replied user ID: {id}"
 msgstr ""
 
-#: sophie_bot/modules/users/handlers/id.py:40
+#: sophie_bot/modules/users/handlers/id.py:51
 msgid "{user}'s ID: {id}"
 msgstr ""
 

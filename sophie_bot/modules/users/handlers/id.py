@@ -1,21 +1,32 @@
 from typing import Any, Optional
 
-from aiogram import flags
+from aiogram import Router
 from aiogram.handlers import MessageHandler
+from aiogram.types import Message
 from stfu_tg import Code, Doc, Template, UserLink
 
 from sophie_bot.args.users import SophieUserArg
 from sophie_bot.db.models import ChatModel
+from sophie_bot.filters.cmd import CMDFilter
 from sophie_bot.middlewares.connections import ChatConnection
 from sophie_bot.utils.i18n import gettext as _
 from sophie_bot.utils.i18n import lazy_gettext as l_
 
+router = Router(name="users")
 
-@flags.args(user=SophieUserArg(l_("User")))
+
+async def optional_user(message: Message | None, _data: dict):
+    if message and message.reply_to_message:
+        return {}
+
+    return {"user": SophieUserArg(l_("User"))}
+
+
+@router.message(CMDFilter("id"), flags={"args": optional_user})
 class ShowIDs(MessageHandler):
     async def handle(self) -> Any:
         chat: ChatConnection = self.data["connection"]
-        user: Optional[ChatModel] = self.data["user"]
+        user: Optional[ChatModel] = self.data.get("user", None)
 
         doc = Doc()
 

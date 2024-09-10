@@ -12,7 +12,7 @@ from .handlers.save import SaveNote
 router = Router(name="notes")
 
 
-__module_name__ = l_("Users")
+__module_name__ = l_("Notes")
 __module_emoji__ = "🗒"
 
 

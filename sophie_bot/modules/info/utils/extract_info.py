@@ -1,6 +1,8 @@
+from asyncio import iscoroutinefunction, run
 from dataclasses import dataclass
+from mailbox import Message
 from types import ModuleType
-from typing import Optional
+from typing import Any, Callable, Coroutine, Dict, Optional
 
 from aiogram import Router
 from ass_tg.types.base_abc import ArgFabric
@@ -12,11 +14,16 @@ from sophie_bot.filters.cmd import CMDFilter
 from sophie_bot.filters.user_status import IsAdmin, IsOP
 from sophie_bot.utils.logger import log
 
+ARGS_DICT = dict[str, ArgFabric]
+ARGS_COROUTINE = Callable[
+    [Optional[Message], Dict[str, Any]], Coroutine[Any, Any, ARGS_DICT]  # Args it takes  # What function returns
+]
+
 
 @dataclass
 class CmdHelp:
     cmds: tuple[str, ...]
-    args: Optional[dict[str, ArgFabric]]
+    args: Optional[ARGS_DICT]
     description: Optional[LazyProxy | str]
     only_admin: bool
     only_op: bool
@@ -34,8 +41,23 @@ class ModuleHelp:
 HELP_MODULES: dict[str, ModuleHelp] = {}
 
 
+def gather_cmd_args(args: ARGS_DICT | ARGS_COROUTINE | None) -> ARGS_DICT | None:
+    if not args:
+        return None
+    elif isinstance(args, dict):
+        return args
+    elif iscoroutinefunction(args):
+        return run(args(None, {}))
+    else:
+        raise ValueError
+
+
 def gather_cmds_help(router: Router) -> list[CmdHelp]:
-    helps = []
+    helps: list[CmdHelp] = []
+
+    if router.sub_routers:
+        helps.extend(*(gather_cmds_help(sub_router) for sub_router in router.sub_routers))
+
     for handler in router.message.handlers:
         if not handler.filters:
             continue
@@ -59,7 +81,7 @@ def gather_cmds_help(router: Router) -> list[CmdHelp]:
         helps.append(
             CmdHelp(
                 cmds=cmds,
-                args=handler.flags.get("args"),
+                args=gather_cmd_args(handler.flags.get("args")),
                 description=help_flags["description"] if help_flags else None,
                 only_admin=only_admin,
                 only_op=only_op,
