@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2024-09-10 21:35-0300\n"
-"PO-Revision-Date: 2024-09-10 18:05+0000\n"
-"Last-Translator: DeepL <noreply-mt-deepl@weblate.org>\n"
+"PO-Revision-Date: 2024-09-11 01:03+0000\n"
+"Last-Translator: Hitalo <hitalo331@outlook.com>\n"
 "Language-Team: Portuguese (Brazil) <http://weblate.amanoteam.com/projects/"
 "korone/korone/pt_BR/>\n"
 "Language: pt_BR\n"
@@ -859,20 +859,22 @@ msgstr ""
 "hypixel.net</code>."
 
 #: src/korone/modules/minecraft/handlers/servers.py:37
-#, fuzzy
 msgid ""
 "Invalid server address. Please provide a valid IP address or hostname, "
 "optionally with a port. Example: <code>/mcserver mc.hypixel.net</code> or "
 "<code>/mcserver mc.hypixel.net:25565</code>."
 msgstr ""
 "Endereço de servidor inválido. Forneça um endereço IP ou nome de host "
-"válido, opcionalmente com uma porta."
+"válido, opcionalmente com uma porta. Exemplo: <code>/mcserver mc.hypixel."
+"net</code> ou <code>/mcserver mc.hypixel.net:25565</code>."
 
 #: src/korone/modules/minecraft/handlers/servers.py:49
 msgid ""
 "This Minecraft server is currently offline or is not a valid Minecraft "
 "server. Please check the address and try again."
 msgstr ""
+"Este servidor do Minecraft está off-line no momento ou não é um servidor "
+"válido do Minecraft. Verifique o endereço e tente novamente."
 
 #: src/korone/modules/minecraft/handlers/servers.py:56
 msgid ""
@@ -903,29 +905,29 @@ msgstr ""
 "python print('Hello, World!')</code>"
 
 #: src/korone/modules/piston/handlers/run.py:33
-#, fuzzy
 msgid ""
 "Sorry, I couldn't fetch the available languages. Please try again later."
-msgstr "Falha ao buscar os idiomas disponíveis."
+msgstr ""
+"Desculpe, não foi possível obter os idiomas disponíveis. Tente novamente "
+"mais tarde."
 
 #: src/korone/modules/piston/handlers/run.py:40
-#, fuzzy
 msgid ""
 "Invalid language. Use <code>/pistonlangs</code> to see the available "
 "languages. Then use it like this: <code>/piston python print('Hello, "
 "World!')</code>"
 msgstr ""
-"Idioma inválido. Use <code>/pistonlangs</code> para ver os idiomas "
-"disponíveis."
+"Linguagens inválida. Use <code>/pistonlangs</code> para ver as linguagens "
+"disponíveis. Em seguida, use-o desta forma: <code>/piston python print("
+"'Hello, World!')</code>"
 
 #: src/korone/modules/piston/handlers/run.py:52
-#, fuzzy
 msgid ""
 "You need to provide a valid language and code. Example: <code>/piston python "
 "print('Hello, World!')</code>"
 msgstr ""
-"Você precisa fornecer um comando a ser executado. Exemplo: <code>/piston "
-"python print('Hello, World!')</code>"
+"Você precisa fornecer uma linguagem e um código válido. Exemplo: <code>/"
+"piston python print('Hello, World!')</code>"
 
 #: src/korone/modules/piston/handlers/run.py:62
 msgid "An error occurred while running the code."
