@@ -3,7 +3,7 @@
 # Copyright (c) 2023 Victor Cebarros <https://github.com/victorcebarros>
 
 from copy import copy
-from typing import Any
+from typing import Any, Self
 
 # Represents a string containing placeholders for the
 # data which will be bound on the SQL Statement.
@@ -32,50 +32,54 @@ class MalformedQueryError(Exception):
 class Query:
     __slots__ = ("lhs", "operator", "rhs")
 
-    def __init__(self, *, lhs=None, operator=None, rhs=None) -> None:
-        self.lhs = lhs
-        self.operator = operator
-        self.rhs = rhs
+    def __init__(
+        self, *, lhs: Any | None = None, operator: str | None = None, rhs: Any | None = None
+    ) -> None:
+        self.lhs: Any | None = lhs
+        self.operator: str | None = operator
+        self.rhs: Any | None = rhs
 
-    def __getattr__(self, name: str) -> "Query":
+    def __getattr__(self, name: str) -> Self:
         self.lhs = name
         return self
 
-    def __getitem__(self, item: str) -> "Query":
+    def __getitem__(self, item: str) -> Self:
         return self.__getattr__(item)
 
-    def __copy__(self) -> "Query":
-        return Query(lhs=self.lhs, operator=self.operator, rhs=self.rhs)
+    def __copy__(self) -> Self:
+        return self.__class__(lhs=self.lhs, operator=self.operator, rhs=self.rhs)
 
-    def __and__(self, other) -> "Query":
+    def __and__(self, other: Self) -> Self:
         return self._new_node(lhs=self, operator="AND", rhs=other)
 
-    def __or__(self, other) -> "Query":
+    def __or__(self, other: Self) -> Self:
         return self._new_node(lhs=self, operator="OR", rhs=other)
 
-    def __invert__(self) -> "Query":
+    def __invert__(self) -> Self:
         return self._new_node(operator="NOT", rhs=self)
 
-    def __eq__(self, other) -> "Query":
+    def __eq__(self, other: Any) -> Self:
         return self._new_node(lhs=self.lhs, operator="==", rhs=other)
 
-    def __ne__(self, other) -> "Query":
+    def __ne__(self, other: Any) -> Self:
         return self._new_node(lhs=self.lhs, operator="!=", rhs=other)
 
-    def __lt__(self, other) -> "Query":
+    def __lt__(self, other: Any) -> Self:
         return self._new_node(lhs=self.lhs, operator="<", rhs=other)
 
-    def __le__(self, other) -> "Query":
+    def __le__(self, other: Any) -> Self:
         return self._new_node(lhs=self.lhs, operator="<=", rhs=other)
 
-    def __gt__(self, other) -> "Query":
+    def __gt__(self, other: Any) -> Self:
         return self._new_node(lhs=self.lhs, operator=">", rhs=other)
 
-    def __ge__(self, other) -> "Query":
+    def __ge__(self, other: Any) -> Self:
         return self._new_node(lhs=self.lhs, operator=">=", rhs=other)
 
-    def _new_node(self, *, lhs=None, operator=None, rhs=None) -> "Query":
-        query = Query(
+    def _new_node(
+        self, *, lhs: Any | None = None, operator: str | None = None, rhs: Any | None = None
+    ) -> Self:
+        query = self.__class__(
             lhs=copy(lhs),
             operator=copy(operator),
             rhs=copy(rhs),

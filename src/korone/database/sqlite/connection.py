@@ -5,7 +5,7 @@
 from __future__ import annotations
 
 from pathlib import Path
-from typing import TYPE_CHECKING, Any
+from typing import TYPE_CHECKING, Any, Self
 
 import aiosqlite
 
@@ -16,6 +16,8 @@ from korone.utils.logging import logger
 from .table import SQLite3Table
 
 if TYPE_CHECKING:
+    from types import TracebackType
+
     from korone.database.table import Table
 
 
@@ -28,12 +30,17 @@ class SQLite3Connection(Connection):
         self._kwargs = kwargs
         self._conn: aiosqlite.Connection | None = None
 
-    async def __aenter__(self) -> SQLite3Connection:
+    async def __aenter__(self) -> Self:
         if not await self.is_open():
             await self.connect()
         return self
 
-    async def __aexit__(self, exc_type: Any, exc_value: Any, traceback: Any) -> None:
+    async def __aexit__(
+        self,
+        exc_type: BaseException | None,
+        exc_value: BaseException | None,
+        traceback: TracebackType | None,
+    ) -> None:
         await self.close()
 
     async def is_open(self) -> bool:
@@ -75,7 +82,7 @@ class SQLite3Connection(Connection):
         return SQLite3Table(conn=self, table=name)
 
     async def execute(
-        self, sql: str, parameters: tuple = (), script: bool = False
+        self, sql: str, parameters: tuple = (), /, script: bool = False
     ) -> aiosqlite.Cursor:
         return await self._execute(sql, parameters, script)
 

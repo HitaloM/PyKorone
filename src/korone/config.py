@@ -4,7 +4,7 @@
 from __future__ import annotations
 
 from pathlib import Path
-from typing import Any
+from typing import Any, Self
 
 from tomlkit import dump, loads
 
@@ -18,9 +18,9 @@ class ConfigError(Exception):
 
 class ConfigManager:
     __slots__ = ("config", "initialized")
-    _instance: ConfigManager | None = None
+    _instance: Self | None = None
 
-    def __new__(cls, *args, **kwargs) -> ConfigManager:
+    def __new__(cls, *args, **kwargs) -> Self:
         if not cls._instance:
             cls._instance = super().__new__(cls)
         return cls._instance

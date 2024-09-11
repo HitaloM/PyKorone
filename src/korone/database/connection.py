@@ -4,9 +4,11 @@
 
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, Any, Protocol
+from typing import TYPE_CHECKING, Any, Protocol, Self
 
 if TYPE_CHECKING:
+    from types import TracebackType
+
     from .table import Table
 
 
@@ -14,11 +16,16 @@ class Connection(Protocol):
     _path: str
     _args: tuple
     _kwargs: dict
-    _conn: Connection | None = None
+    _conn: Self | None = None
 
-    async def __aenter__(self) -> Connection: ...
+    async def __aenter__(self) -> Self: ...
 
-    async def __aexit__(self, exc_type, exc_value, traceback) -> None: ...
+    async def __aexit__(
+        self,
+        exc_type: BaseException | None,
+        exc_value: BaseException | None,
+        traceback: TracebackType | None,
+    ) -> None: ...
 
     async def is_open(self) -> bool: ...
 
