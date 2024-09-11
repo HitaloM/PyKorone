@@ -13,7 +13,7 @@ from korone.utils.logging import logger
 
 async def do_backup(client: Client, backups_chat: int) -> None:
     date = datetime.now(tz=UTC).strftime("%H:%M:%S - %d/%m/%Y")
-    caption = f"PyKorone Backup\nDate: <code>{date}</code>"
+    caption = f"Korone Backup\nDate: <code>{date}</code>"
 
     files = [
         InputMediaDocument(media=constants.DEFAULT_DBFILE_PATH),

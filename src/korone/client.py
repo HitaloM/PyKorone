@@ -80,9 +80,7 @@ class Korone(Client):
         )
 
         if backups_chat := ConfigManager.get("korone", "BACKUPS_CHAT"):
-            aiocron.crontab(
-                "0 * * * *", do_backup, loop=self.loop, args=(self, backups_chat), start=False
-            )
+            aiocron.crontab("0 * * * *", do_backup, loop=self.loop, args=(self, backups_chat))
 
         if reboot_data := await cache.get("korone-reboot"):
             with suppress(MessageNotModified, MessageIdInvalid, KeyError):

@@ -42,7 +42,7 @@ async def handle_new_chat_members(client: Client, message: Message) -> None:
             )
 
         text = (
-            "Welcome to PyKorone!\n\n"
+            "Welcome to Korone!\n\n"
             "Check out the documentation for more information on how to use me."
         )
 
