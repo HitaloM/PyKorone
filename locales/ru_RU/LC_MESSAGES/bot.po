@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-09-10 21:35-0300\n"
+"POT-Creation-Date: 2024-09-10 22:39-0300\n"
 "PO-Revision-Date: 2024-08-24 20:38+0000\n"
 "Last-Translator: Hitalo <hitalo331@outlook.com>\n"
 "Language-Team: Russian <http://weblate.amanoteam.com/projects/korone/korone/"
@@ -472,7 +472,7 @@ msgstr "Пожалуйста, выберите язык, который вы х�
 msgid "No recent tracks found for your LastFM account."
 msgstr "Для вашего аккаунта LastFM не найдено ни одного свежего трека."
 
-#: src/korone/modules/lastfm/handlers/collage.py:47
+#: src/korone/modules/lastfm/handlers/collage.py:49
 #, fuzzy
 msgid "No top albums found for your LastFM account."
 msgstr "Для вашего аккаунта LastFM не найдено ни одного свежего трека."
@@ -495,7 +495,7 @@ msgid "Bots won't have music taste!"
 msgstr "У ботов не будет музыкального вкуса!"
 
 #: src/korone/modules/lastfm/handlers/compat.py:76
-#: src/korone/modules/lastfm/utils/commons.py:15
+#: src/korone/modules/lastfm/utils/commons.py:17
 msgid ""
 "You need to set your LastFM username first! Example: <code>/setlfm username</"
 "code>."
@@ -525,17 +525,17 @@ msgstr ""
 "\n"
 "Оценка совместимости {score}%, основанная на {period}"
 
-#: src/korone/modules/lastfm/handlers/recent.py:30
+#: src/korone/modules/lastfm/handlers/recent.py:32
 #, fuzzy
 msgid "No recent tracks found."
 msgstr "Устройства не найдены."
 
-#: src/korone/modules/lastfm/handlers/recent.py:40
+#: src/korone/modules/lastfm/handlers/recent.py:44
 #, fuzzy
 msgid "{user} is listening to:\n"
 msgstr "{user}слушает:\n"
 
-#: src/korone/modules/lastfm/handlers/recent.py:42
+#: src/korone/modules/lastfm/handlers/recent.py:47
 msgid ""
 "\n"
 "Last 5 plays:"
@@ -543,7 +543,7 @@ msgstr ""
 "\n"
 "Последние 5 игр:"
 
-#: src/korone/modules/lastfm/handlers/recent.py:45
+#: src/korone/modules/lastfm/handlers/recent.py:50
 #, fuzzy
 msgid "{user} was listening to:\n"
 msgstr "{user}слушал:\n"
@@ -566,17 +566,17 @@ msgstr ""
 msgid "LastFM username set successfully!"
 msgstr "Имя пользователя LastFM установлено успешно!"
 
-#: src/korone/modules/lastfm/handlers/top.py:35
+#: src/korone/modules/lastfm/handlers/top.py:37
 msgid "Invalid entry type! Use one of the following: artist, track, album"
 msgstr ""
 "Неверный тип записи! Используйте один из следующих: исполнитель, трек, альбом"
 
-#: src/korone/modules/lastfm/handlers/top.py:53
+#: src/korone/modules/lastfm/handlers/top.py:55
 #, fuzzy
 msgid "No top items found."
 msgstr "Устройства не найдены."
 
-#: src/korone/modules/lastfm/handlers/top.py:57
+#: src/korone/modules/lastfm/handlers/top.py:61
 msgid ""
 "{user}'s top 5 {entry} for {period}:\n"
 "\n"
@@ -584,19 +584,19 @@ msgstr ""
 "{user}5 лучших {entry} для {period}:\n"
 "\n"
 
-#: src/korone/modules/lastfm/handlers/top.py:59
+#: src/korone/modules/lastfm/handlers/top.py:63
 msgid "artists"
 msgstr "художники"
 
-#: src/korone/modules/lastfm/handlers/top.py:61
+#: src/korone/modules/lastfm/handlers/top.py:65
 msgid "tracks"
 msgstr "треки"
 
-#: src/korone/modules/lastfm/handlers/top.py:63
+#: src/korone/modules/lastfm/handlers/top.py:67
 msgid "albums"
 msgstr "альбомы"
 
-#: src/korone/modules/lastfm/handlers/top.py:72
+#: src/korone/modules/lastfm/handlers/top.py:76
 msgid " -> {scrobbles} plays\n"
 msgstr " -> {scrobbles} играет\n"
 
@@ -620,11 +620,11 @@ msgstr ""
 "\n"
 "Зарегистрированные: <i>{registered}</i>"
 
-#: src/korone/modules/lastfm/utils/commons.py:26
+#: src/korone/modules/lastfm/utils/commons.py:28
 msgid "Your LastFM username was not found! Try setting it again."
 msgstr "Ваше имя пользователя LastFM не найдено! Попробуйте задать его снова."
 
-#: src/korone/modules/lastfm/utils/commons.py:29
+#: src/korone/modules/lastfm/utils/commons.py:31
 msgid ""
 "An error occurred while fetching your LastFM data!\n"
 "<blockquote>{error}</blockquote>"
@@ -632,15 +632,15 @@ msgstr ""
 "При получении данных LastFM произошла ошибка!\n"
 "<blockquote>{error}</blockquote>"
 
-#: src/korone/modules/lastfm/utils/commons.py:45
+#: src/korone/modules/lastfm/utils/commons.py:47
 msgid "{user}'s is listening to:\n"
 msgstr "{user}слушает:\n"
 
-#: src/korone/modules/lastfm/utils/commons.py:47
+#: src/korone/modules/lastfm/utils/commons.py:49
 msgid "{user}'s was listening to:\n"
 msgstr "{user}слушал:\n"
 
-#: src/korone/modules/lastfm/utils/commons.py:51
+#: src/korone/modules/lastfm/utils/commons.py:53
 #, fuzzy
 msgid " ∙ <code>{playcount} plays</code>"
 msgstr " ∙ <code>{album_playcount} plays</code>"
@@ -685,38 +685,38 @@ msgstr "1 год"
 msgid "All time"
 msgstr "Все время"
 
-#: src/korone/modules/medias/handlers/bluesky.py:59
+#: src/korone/modules/medias/handlers/bluesky.py:60
 #, fuzzy
 msgid "Open in BueSky"
 msgstr "Открыть в TikTok"
 
-#: src/korone/modules/medias/handlers/bluesky.py:66
+#: src/korone/modules/medias/handlers/bluesky.py:67
 #, fuzzy
 msgid "Open in BlueSky"
 msgstr "Открыть в TikTok"
 
-#: src/korone/modules/medias/handlers/instagram.py:65
-#: src/korone/modules/medias/handlers/instagram.py:72
+#: src/korone/modules/medias/handlers/instagram.py:66
+#: src/korone/modules/medias/handlers/instagram.py:73
 msgid "Open in Instagram"
 msgstr "Открыть в Instagram"
 
-#: src/korone/modules/medias/handlers/threads.py:65
-#: src/korone/modules/medias/handlers/threads.py:72
+#: src/korone/modules/medias/handlers/threads.py:66
+#: src/korone/modules/medias/handlers/threads.py:73
 #, fuzzy
 msgid "Open in Threads"
 msgstr "Открыть в Twitter"
 
-#: src/korone/modules/medias/handlers/tiktok.py:148
-#: src/korone/modules/medias/handlers/tiktok.py:194
+#: src/korone/modules/medias/handlers/tiktok.py:149
+#: src/korone/modules/medias/handlers/tiktok.py:195
 msgid "Open in TikTok"
 msgstr "Открыть в TikTok"
 
-#: src/korone/modules/medias/handlers/twitter.py:51
-#: src/korone/modules/medias/handlers/twitter.py:163
+#: src/korone/modules/medias/handlers/twitter.py:52
+#: src/korone/modules/medias/handlers/twitter.py:164
 msgid "Open in Twitter"
 msgstr "Открыть в Twitter"
 
-#: src/korone/modules/medias/handlers/twitter.py:73
+#: src/korone/modules/medias/handlers/twitter.py:74
 msgid ""
 "\n"
 "<b>Sent from:</b> <i>{source}</i>"
@@ -724,15 +724,15 @@ msgstr ""
 "\n"
 "<b>Отправлено из:</b> <i>{source}</i>"
 
-#: src/korone/modules/medias/handlers/youtube.py:38
+#: src/korone/modules/medias/handlers/youtube.py:39
 msgid "Invalid YouTube URL!"
 msgstr "Неверный URL-адрес YouTube!"
 
-#: src/korone/modules/medias/handlers/youtube.py:60
+#: src/korone/modules/medias/handlers/youtube.py:61
 msgid "No YouTube URL found in the replied message."
 msgstr "В ответном сообщении не найден URL-адрес YouTube."
 
-#: src/korone/modules/medias/handlers/youtube.py:63
+#: src/korone/modules/medias/handlers/youtube.py:64
 msgid ""
 "You need to provide a URL or reply to a message that contains a URL. "
 "Example: <code>/ytdl https://www.youtube.com/watch?v=dQw4w9WgXcQ</code>"
@@ -740,60 +740,60 @@ msgstr ""
 "Вам нужно указать URL-адрес или ответить на сообщение, содержащее URL-адрес. "
 "Пример: <code>/ytdl https://www.youtube.com/watch?v=dQw4w9WgXcQ</code>"
 
-#: src/korone/modules/medias/handlers/youtube.py:75
+#: src/korone/modules/medias/handlers/youtube.py:76
 msgid "Failed to extract video info!"
 msgstr "Не удалось извлечь информацию о видео!"
 
-#: src/korone/modules/medias/handlers/youtube.py:80
+#: src/korone/modules/medias/handlers/youtube.py:81
 msgid "<b>Title:</b> {title}\n"
 msgstr "<b>Название:</b> {title}\n"
 
-#: src/korone/modules/medias/handlers/youtube.py:81
+#: src/korone/modules/medias/handlers/youtube.py:82
 msgid "<b>Uploader:</b> {uploader}\n"
 msgstr "<b>Загрузчик:</b> {uploader}\n"
 
-#: src/korone/modules/medias/handlers/youtube.py:87
+#: src/korone/modules/medias/handlers/youtube.py:88
 msgid "<b>Duration:</b> {hours}h {minutes}m {seconds}s\n"
 msgstr "<b>Продолжительность:</b> {hours}ч {minutes}м {seconds}с\n"
 
-#: src/korone/modules/medias/handlers/youtube.py:92
+#: src/korone/modules/medias/handlers/youtube.py:93
 msgid "<b>Duration:</b> {minutes}m {seconds}s\n"
 msgstr "<b>Продолжительность:</b> {minutes}m {seconds}s\n"
 
-#: src/korone/modules/medias/handlers/youtube.py:96
+#: src/korone/modules/medias/handlers/youtube.py:97
 msgid "<b>Duration:</b> {seconds}s\n"
 msgstr "<b>Продолжительность:</b> {seconds}s\n"
 
-#: src/korone/modules/medias/handlers/youtube.py:100
+#: src/korone/modules/medias/handlers/youtube.py:101
 msgid "<b>Views:</b> {view_count}\n"
 msgstr "<b>Виды:</b> {view_count}\n"
 
-#: src/korone/modules/medias/handlers/youtube.py:103
+#: src/korone/modules/medias/handlers/youtube.py:104
 msgid "<b>Likes:</b> Unknown\n"
 msgstr "<b>Нравится:</b> Неизвестный\n"
 
-#: src/korone/modules/medias/handlers/youtube.py:106
+#: src/korone/modules/medias/handlers/youtube.py:107
 msgid "<b>Likes:</b> {like_count}\n"
 msgstr "<b>Нравится:</b> {like_count}\n"
 
-#: src/korone/modules/medias/handlers/youtube.py:114
+#: src/korone/modules/medias/handlers/youtube.py:115
 msgid "Download video"
 msgstr "Скачать видео"
 
-#: src/korone/modules/medias/handlers/youtube.py:118
+#: src/korone/modules/medias/handlers/youtube.py:119
 msgid "Download audio"
 msgstr "Скачать аудио"
 
-#: src/korone/modules/medias/handlers/youtube.py:147
+#: src/korone/modules/medias/handlers/youtube.py:148
 msgid "Downloading..."
 msgstr "Загрузка..."
 
-#: src/korone/modules/medias/handlers/youtube.py:153
+#: src/korone/modules/medias/handlers/youtube.py:154
 msgid "Uploading..."
 msgstr "Загрузка..."
 
-#: src/korone/modules/medias/handlers/youtube.py:170
-#: src/korone/modules/medias/handlers/youtube.py:185
+#: src/korone/modules/medias/handlers/youtube.py:171
+#: src/korone/modules/medias/handlers/youtube.py:186
 msgid "Failed to download the media."
 msgstr "Не удалось загрузить носитель."
 
@@ -870,7 +870,7 @@ msgstr ""
 msgid "Shader pack"
 msgstr "Посмотреть упаковку"
 
-#: src/korone/modules/minecraft/handlers/servers.py:26
+#: src/korone/modules/minecraft/handlers/servers.py:27
 #, fuzzy
 msgid ""
 "You need to provide a server address. Example: <code>/mcserver mc.hypixel."
@@ -879,20 +879,20 @@ msgstr ""
 "Вы должны указать свое имя пользователя LastFM! Пример: <code>/setlfm имя "
 "пользователя</code>."
 
-#: src/korone/modules/minecraft/handlers/servers.py:37
+#: src/korone/modules/minecraft/handlers/servers.py:38
 msgid ""
 "Invalid server address. Please provide a valid IP address or hostname, "
 "optionally with a port. Example: <code>/mcserver mc.hypixel.net</code> or "
 "<code>/mcserver mc.hypixel.net:25565</code>."
 msgstr ""
 
-#: src/korone/modules/minecraft/handlers/servers.py:49
+#: src/korone/modules/minecraft/handlers/servers.py:50
 msgid ""
 "This Minecraft server is currently offline or is not a valid Minecraft "
 "server. Please check the address and try again."
 msgstr ""
 
-#: src/korone/modules/minecraft/handlers/servers.py:56
+#: src/korone/modules/minecraft/handlers/servers.py:57
 msgid ""
 "<b>Server Status for {address}</b>:\n"
 "<b>Players</b>: {player_count}\n"
@@ -1243,75 +1243,75 @@ msgstr ""
 "\n"
 "Переданный идентификатор пользователя: <code>{id}</code>"
 
-#: src/korone/modules/users/handlers/users.py:23
+#: src/korone/modules/users/handlers/users.py:25
 msgid "Invalid identifier provided."
 msgstr "Предоставлен недопустимый идентификатор."
 
-#: src/korone/modules/users/handlers/users.py:30
+#: src/korone/modules/users/handlers/users.py:32
 #, fuzzy
 msgid "No user found with the provided identifier"
 msgstr "Пользователь с указанным идентификатором не найден."
 
-#: src/korone/modules/users/handlers/users.py:41
+#: src/korone/modules/users/handlers/users.py:43
 msgid "The provided user ID is invalid."
 msgstr "Указанный идентификатор пользователя недействителен."
 
-#: src/korone/modules/users/handlers/users.py:42
+#: src/korone/modules/users/handlers/users.py:44
 msgid "The provided username is invalid."
 msgstr "Указанное имя пользователя недействительно."
 
-#: src/korone/modules/users/handlers/users.py:43
+#: src/korone/modules/users/handlers/users.py:45
 msgid "The provided username does not exist."
 msgstr "Указанное имя пользователя не существует."
 
-#: src/korone/modules/users/handlers/users.py:44
+#: src/korone/modules/users/handlers/users.py:46
 #, fuzzy
 msgid "No entity found with the provided identifier."
 msgstr "Пользователь с указанным идентификатором не найден."
 
-#: src/korone/modules/users/handlers/users.py:45
+#: src/korone/modules/users/handlers/users.py:47
 #, fuzzy
 msgid "Error accessing data."
 msgstr "Ошибка при доступе к групповым данным."
 
-#: src/korone/modules/users/handlers/users.py:46
+#: src/korone/modules/users/handlers/users.py:48
 msgid "The provided value is not valid."
 msgstr "Указанное значение недействительно."
 
-#: src/korone/modules/users/handlers/users.py:53
+#: src/korone/modules/users/handlers/users.py:55
 #, fuzzy
 msgid "An unexpected error occurred."
 msgstr "Произошла ошибка: {}"
 
-#: src/korone/modules/users/handlers/users.py:58
+#: src/korone/modules/users/handlers/users.py:60
 msgid "Identifier must be a number"
 msgstr ""
 
-#: src/korone/modules/users/handlers/users.py:62
+#: src/korone/modules/users/handlers/users.py:64
 msgid "Identifier out of range for SQLite INTEGER"
 msgstr ""
 
-#: src/korone/modules/users/handlers/users.py:74
+#: src/korone/modules/users/handlers/users.py:76
 msgid "<b>User info</b>:\n"
 msgstr "<b>Информация о пользователе</b>:\n"
 
-#: src/korone/modules/users/handlers/users.py:75
+#: src/korone/modules/users/handlers/users.py:77
 msgid "<b>ID</b>: <code>{id}</code>\n"
 msgstr "<b>ID</b>: <code>{id}</code>\n"
 
-#: src/korone/modules/users/handlers/users.py:76
+#: src/korone/modules/users/handlers/users.py:78
 msgid "<b>First Name</b>: {first_name}\n"
 msgstr "<b>Первое имя</b>: {first_name}\n"
 
-#: src/korone/modules/users/handlers/users.py:79
+#: src/korone/modules/users/handlers/users.py:83
 msgid "<b>Last Name</b>: {last_name}\n"
 msgstr "<b>Фамилия</b>: {last_name}\n"
 
-#: src/korone/modules/users/handlers/users.py:82
+#: src/korone/modules/users/handlers/users.py:86
 msgid "<b>Username</b>: @{username}\n"
 msgstr "<b>Имя пользователя</b>: @{username}\n"
 
-#: src/korone/modules/users/handlers/users.py:84
+#: src/korone/modules/users/handlers/users.py:88
 msgid "<b>User link</b>: <a href='tg://user?id={id}'>link</a>\n"
 msgstr ""
 "<b>Ссылка на пользователя</b>: <a href='tg://user?id={id}'>ссылка</a>\n"
