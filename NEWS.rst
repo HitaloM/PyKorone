@@ -10,6 +10,36 @@
 
 .. towncrier release notes start
 
+1.1.1 (2024-09-10)
+==================
+
+Bug Fixes
+---------
+
+- Fixed an issue where `/piston` would raise error when processing code containing blank lines at the start. Also fixed an error when only the language of the code snippet was provided.
+- Fixed an issue where the `/filtersinfo` command would raise error when fetching information about filters.
+- Fixed an issue where the filters module would raise error when processing messages containing emojis.
+
+Improved Documentation
+----------------------
+
+- Added a better documentation of how to format Filters messages with HTML tags, buttons and filings, take a look :doc:`here <modules/formatting>`.
+
+1.1.1 (2024-09-10)
+==================
+
+Bug Fixes
+---------
+
+- Fixed an issue where `/piston` would raise error when processing code containing blank lines at the start. Also fixed an error when only the language of the code snippet was provided.
+- Fixed an issue where the `/filtersinfo` command would raise error when fetching information about filters.
+- Fixed an issue where the filters module would raise error when processing messages containing emojis.
+
+Improved Documentation
+----------------------
+
+- Added a better documentation of how to format Filters messages with HTML tags, buttons and filings, take a look :doc:`here <modules/formatting>`.
+
 1.1.0 (2024-09-10)
 ==================
 
