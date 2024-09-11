@@ -37,22 +37,13 @@ class CommandObject:
     regexp_match: re.Match[str] | None = field(repr=False, default=None)
     magic_result: Any = field(repr=False, default=None)
 
-    def is_valid_command(self, text: str) -> bool:
-        if not text.startswith(self.prefix):
-            return False
-        command_text = text.removeprefix(self.prefix)
-        return all(char.isalnum() or char.isspace() for char in command_text)
+    @staticmethod
+    def is_valid_command(command: str) -> bool:
+        return all(char.isalnum() or char.isspace() for char in command)
 
     def extract(self, text: str) -> Self:
         if not text.startswith(self.prefix):
             msg = f"Command must start with the prefix '{self.prefix}'."
-            raise CommandError(msg)
-
-        if not self.is_valid_command(text):
-            msg = (
-                "Command contains invalid characters. "
-                "Only alphanumeric characters and spaces are allowed."
-            )
             raise CommandError(msg)
 
         try:
@@ -63,6 +54,14 @@ class CommandObject:
 
         prefix = full_command[0]
         command, _, mention = full_command[1:].partition("@")
+
+        if not self.is_valid_command(command):
+            msg = (
+                "Command contains invalid characters. "
+                "Only alphanumeric characters and spaces are allowed."
+            )
+            raise CommandError(msg)
+
         return self.__class__(
             prefix=prefix,
             command=command,

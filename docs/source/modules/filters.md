@@ -1,5 +1,13 @@
 # Filters
 
+```{toctree}
+---
+hidden:
+---
+
+formatting
+```
+
 The Filters module is great for everything! Filters are used to filter words or sentences in your chat – send notes, warn, or ban the sender!
 
 ## Commands
@@ -36,27 +44,6 @@ The Filters module is great for everything! Filters are used to filter words or 
 - To save a file, image, gif, or any other attachment, simply reply to file with:
   > `/filter trigger`
 
-### Fillings
+## Formatting
 
-You can also customise the contents of your message with contextual data. For example, you could mention a user by name in the message!
-
-#### Supported fillings:
-
-- `{first}`: The user's first name.
-- `{last}`: The user's last name.
-- `{fullname}`: The user's full name.
-- `{username}`: The user's username. If they don't have one, mentions the user instead.
-- `{mention}`: Mentions the user with their firstname.
-- `{id}`: The user's ID.
-- `{userid}`: The user's ID.
-- `{chatid}`: The chat's ID.
-- `{chatname}`: The chat's name.
-- `{chatnick}`: The chat's nickname.
-
-#### Examples
-
-- Set a filter which uses the user's name through fillings:
-  > `/filter hello Hello there {first}! How are you?`
-
-- Set a filter which mentions the user and the chat:
-  > `/filter hello Hello there {mention}! You are in {chatname}.`
+Now that you know how to set filters, you can customise the contents of your message with contextual data. For example, you could mention a user by name in the message! Refer to the [Formatting](./formatting) page for more information.
