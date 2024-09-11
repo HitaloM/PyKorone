@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-09-10 21:12-0300\n"
+"POT-Creation-Date: 2024-09-10 21:33-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -794,7 +794,6 @@ msgid ""
 msgstr ""
 
 #: src/korone/modules/piston/handlers/langs.py:17
-#: src/korone/modules/piston/handlers/run.py:30
 msgid "Failed to fetch the available languages."
 msgstr ""
 
@@ -808,30 +807,41 @@ msgid ""
 "print('Hello, World!')</code>"
 msgstr ""
 
-#: src/korone/modules/piston/handlers/run.py:35
-msgid ""
-"Invalid language. Use <code>/pistonlangs</code> to see the available "
-"languages."
+#: src/korone/modules/piston/handlers/run.py:31
+msgid "Sorry, I couldn't fetch the available languages. Please try again later."
 msgstr ""
 
-#: src/korone/modules/piston/handlers/run.py:44
+#: src/korone/modules/piston/handlers/run.py:38
+msgid ""
+"Invalid language. Use <code>/pistonlangs</code> to see the available "
+"languages. Then use it like this: <code>/piston python print('Hello, "
+"World!')</code>"
+msgstr ""
+
+#: src/korone/modules/piston/handlers/run.py:50
+msgid ""
+"You need to provide a valid language and code. Example: <code>/piston "
+"python print('Hello, World!')</code>"
+msgstr ""
+
+#: src/korone/modules/piston/handlers/run.py:60
 msgid "An error occurred while running the code."
 msgstr ""
 
-#: src/korone/modules/piston/handlers/run.py:47
+#: src/korone/modules/piston/handlers/run.py:63
 msgid ""
 "<b>Code</b>:\n"
 "<pre language='{lang}'>{code}</pre>\n"
 "\n"
 msgstr ""
 
-#: src/korone/modules/piston/handlers/run.py:52
+#: src/korone/modules/piston/handlers/run.py:68
 msgid ""
 "<b>Output</b>:\n"
 "<pre language='bash'>{output}</pre>\n"
 msgstr ""
 
-#: src/korone/modules/piston/handlers/run.py:57
+#: src/korone/modules/piston/handlers/run.py:73
 msgid ""
 "<b>Compiler Output</b>:\n"
 "<pre language='bash'>{output}</pre>"

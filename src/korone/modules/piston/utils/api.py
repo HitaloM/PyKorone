@@ -39,24 +39,24 @@ async def get_languages() -> list[str] | None:
 
 
 def create_request(text: str) -> RunRequest:
-    text = text.strip()
-    try:
-        lang, code = text.split(" ", 1)
-    except ValueError as err:
-        msg = "Input must contain both language and code."
-        raise ValueError(msg) from err
-
-    code = code.lstrip()
-    stdin = None
-
-    if stdin_match := STDIN_PATTERN.search(code):
-        start, end = stdin_match.span()
-        stdin = code[end + 1 :].strip()
-        code = code[:start].strip()
+    lang, code = "", ""
+    for index, char in enumerate(text):
+        if char in {" ", "\n"}:
+            lang, code = text[:index], text[index + 1 :]
+            break
 
     if not code:
         msg = "Bad query: Code is empty."
         raise ValueError(msg)
+
+    code = code.lstrip(" \n")
+
+    stdin = None
+    stdin_match = STDIN_PATTERN.search(code)
+    if stdin_match:
+        start, end = stdin_match.span()
+        if end + 1 < len(code):
+            code, stdin = code[:start], code[end + 1 :]
 
     return RunRequest(language=lang, code=code, stdin=stdin)
 

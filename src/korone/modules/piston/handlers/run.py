@@ -27,17 +27,33 @@ async def piston_command(client: Client, message: Message) -> None:
 
     languages = await get_languages()
     if not languages:
-        await message.reply(_("Failed to fetch the available languages."))
+        await message.reply(
+            _("Sorry, I couldn't fetch the available languages. Please try again later.")
+        )
         return
 
-    if command.args.split()[0] not in languages:
+    lang = command.args.split()[0]
+    if lang not in languages:
         await message.reply(
-            _("Invalid language. Use <code>/pistonlangs</code> to see the available languages.")
+            _(
+                "Invalid language. Use <code>/pistonlangs</code> to see the available languages. "
+                "Then use it like this: <code>/piston python print('Hello, World!')</code>"
+            )
         )
         return
 
     async with ChatActionSender(client=client, chat_id=message.chat.id, action=ChatAction.TYPING):
-        request = create_request(command.args)
+        try:
+            request = create_request(command.args)
+        except ValueError:
+            await message.reply(
+                _(
+                    "You need to provide a valid language and code. "
+                    "Example: <code>/piston python print('Hello, World!')</code>"
+                )
+            )
+            return
+
         response = await run_code(request)
 
         if response.result == "error":
@@ -45,7 +61,7 @@ async def piston_command(client: Client, message: Message) -> None:
             return
 
         text = _("<b>Code</b>:\n<pre language='{lang}'>{code}</pre>\n\n").format(
-            lang=command.args.split()[0], code=request.code
+            lang=lang, code=request.code
         )
 
         if response.output:
