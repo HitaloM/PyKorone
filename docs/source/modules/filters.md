@@ -12,7 +12,7 @@ The Filters module is great for everything! Filters are used to filter words or 
 
 ## Commands
 
-- `/filter (trigger) (reply)`: Every time someone says "trigger", the bot will reply with "sentence". For multiple word filters, quote the trigger.
+- `/filter (trigger) (?sentence)`: Every time someone says "trigger", the bot will reply with "sentence". For multiple word filters, quote the trigger. Can also be used as a reply to a message to save the message as a filter.
 - `/filterinfo (trigger)`: Get information about a filter.
 - `/filters`: List all active filters in the chat.
 - `/delfilter (trigger)`: Stop the bot from replying to "trigger".

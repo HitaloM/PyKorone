@@ -17,7 +17,7 @@ async def do_backup(client: Client, backups_chat: int) -> None:
 
     files = [
         InputMediaDocument(media=constants.DEFAULT_DBFILE_PATH),
-        InputMediaDocument(media=Path(client.workdir / str(client.name)).as_posix()),
+        InputMediaDocument(media=Path(client.workdir / str(client.name + ".session")).as_posix()),
         InputMediaDocument(media=constants.DEFAULT_CONFIG_PATH, caption=caption),
     ]
 
