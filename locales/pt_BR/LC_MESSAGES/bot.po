@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-09-10 14:58-0300\n"
+"POT-Creation-Date: 2024-09-10 21:35-0300\n"
 "PO-Revision-Date: 2024-09-10 18:05+0000\n"
 "Last-Translator: DeepL <noreply-mt-deepl@weblate.org>\n"
 "Language-Team: Portuguese (Brazil) <http://weblate.amanoteam.com/projects/"
@@ -107,8 +107,8 @@ msgid ""
 "You need to specify a command to {action}. Use <code>/{action} &lt;"
 "commandname&gt;</code>."
 msgstr ""
-"Você precisa especificar um comando para {action}. Use <code>/{action} "
-"&lt;commandname&gt;</code>."
+"Você precisa especificar um comando para {action}. Use <code>/{action} &lt;"
+"commandname&gt;</code>."
 
 #: src/korone/modules/disabling/handlers/toggle.py:43
 msgid "You can only {action} one command at a time."
@@ -161,8 +161,8 @@ msgstr "❌ Cancelar"
 msgid ""
 "⚠️ Are you sure you want to delete all filters? This action cannot be undone."
 msgstr ""
-"⚠️ Tem certeza de que deseja excluir todos os filtros? Essa ação não pode "
-"ser desfeita."
+"⚠️ Tem certeza de que deseja excluir todos os filtros? Essa ação não pode ser "
+"desfeita."
 
 #: src/korone/modules/filters/handlers/delall.py:53
 msgid "There are no filters to delete."
@@ -859,18 +859,22 @@ msgstr ""
 "hypixel.net</code>."
 
 #: src/korone/modules/minecraft/handlers/servers.py:37
+#, fuzzy
 msgid ""
 "Invalid server address. Please provide a valid IP address or hostname, "
-"optionally with a port."
+"optionally with a port. Example: <code>/mcserver mc.hypixel.net</code> or "
+"<code>/mcserver mc.hypixel.net:25565</code>."
 msgstr ""
 "Endereço de servidor inválido. Forneça um endereço IP ou nome de host "
 "válido, opcionalmente com uma porta."
 
-#: src/korone/modules/minecraft/handlers/servers.py:46
-msgid "This Minecraft server is offline."
-msgstr "Este servidor do Minecraft está off-line."
-
 #: src/korone/modules/minecraft/handlers/servers.py:49
+msgid ""
+"This Minecraft server is currently offline or is not a valid Minecraft "
+"server. Please check the address and try again."
+msgstr ""
+
+#: src/korone/modules/minecraft/handlers/servers.py:56
 msgid ""
 "<b>Server Status for {address}</b>:\n"
 "<b>Players</b>: {player_count}\n"
@@ -883,7 +887,6 @@ msgstr ""
 "<b>MOTD</b>: <pre>{motd}</pre>\n"
 
 #: src/korone/modules/piston/handlers/langs.py:17
-#: src/korone/modules/piston/handlers/run.py:30
 msgid "Failed to fetch the available languages."
 msgstr "Falha ao buscar os idiomas disponíveis."
 
@@ -891,7 +894,7 @@ msgstr "Falha ao buscar os idiomas disponíveis."
 msgid "<b>Supported languages</b>:\n"
 msgstr "<b>Idiomas suportados</b>:\n"
 
-#: src/korone/modules/piston/handlers/run.py:21
+#: src/korone/modules/piston/handlers/run.py:23
 msgid ""
 "You need to provide a command to run. Example: <code>/piston python "
 "print('Hello, World!')</code>"
@@ -899,19 +902,36 @@ msgstr ""
 "Você precisa fornecer um comando a ser executado. Exemplo: <code>/piston "
 "python print('Hello, World!')</code>"
 
-#: src/korone/modules/piston/handlers/run.py:35
+#: src/korone/modules/piston/handlers/run.py:33
+#, fuzzy
+msgid ""
+"Sorry, I couldn't fetch the available languages. Please try again later."
+msgstr "Falha ao buscar os idiomas disponíveis."
+
+#: src/korone/modules/piston/handlers/run.py:40
+#, fuzzy
 msgid ""
 "Invalid language. Use <code>/pistonlangs</code> to see the available "
-"languages."
+"languages. Then use it like this: <code>/piston python print('Hello, "
+"World!')</code>"
 msgstr ""
 "Idioma inválido. Use <code>/pistonlangs</code> para ver os idiomas "
 "disponíveis."
 
-#: src/korone/modules/piston/handlers/run.py:44
+#: src/korone/modules/piston/handlers/run.py:52
+#, fuzzy
+msgid ""
+"You need to provide a valid language and code. Example: <code>/piston python "
+"print('Hello, World!')</code>"
+msgstr ""
+"Você precisa fornecer um comando a ser executado. Exemplo: <code>/piston "
+"python print('Hello, World!')</code>"
+
+#: src/korone/modules/piston/handlers/run.py:62
 msgid "An error occurred while running the code."
 msgstr "Ocorreu um erro durante a execução do código."
 
-#: src/korone/modules/piston/handlers/run.py:47
+#: src/korone/modules/piston/handlers/run.py:65
 msgid ""
 "<b>Code</b>:\n"
 "<pre language='{lang}'>{code}</pre>\n"
@@ -921,7 +941,7 @@ msgstr ""
 "<pre language='{lang}'>{code}</pre>\n"
 "\n"
 
-#: src/korone/modules/piston/handlers/run.py:52
+#: src/korone/modules/piston/handlers/run.py:70
 msgid ""
 "<b>Output</b>:\n"
 "<pre language='bash'>{output}</pre>\n"
@@ -929,7 +949,7 @@ msgstr ""
 "<b>Saída</b>:\n"
 "<pre language='bash'>{output}</pre>\n"
 
-#: src/korone/modules/piston/handlers/run.py:57
+#: src/korone/modules/piston/handlers/run.py:75
 msgid ""
 "<b>Compiler Output</b>:\n"
 "<pre language='bash'>{output}</pre>"
@@ -1351,6 +1371,9 @@ msgstr "Mostrar política de privacidade."
 #: src/korone/utils/commands_list.py:30
 msgid "Change the bot language."
 msgstr "Alterar o idioma do bot."
+
+#~ msgid "This Minecraft server is offline."
+#~ msgstr "Este servidor do Minecraft está off-line."
 
 #~ msgid ""
 #~ "You need to specify a command to disable. Use <code>/disable &lt;"

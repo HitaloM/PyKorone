@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PyKorone 1.0\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-09-10 14:58-0300\n"
+"POT-Creation-Date: 2024-09-10 21:35-0300\n"
 "PO-Revision-Date: 2024-08-24 20:38+0000\n"
 "Last-Translator: Hitalo <hitalo331@outlook.com>\n"
 "Language-Team: Japanese <http://weblate.amanoteam.com/projects/korone/korone/"
@@ -870,14 +870,17 @@ msgstr ""
 #: src/korone/modules/minecraft/handlers/servers.py:37
 msgid ""
 "Invalid server address. Please provide a valid IP address or hostname, "
-"optionally with a port."
-msgstr ""
-
-#: src/korone/modules/minecraft/handlers/servers.py:46
-msgid "This Minecraft server is offline."
+"optionally with a port. Example: <code>/mcserver mc.hypixel.net</code> or "
+"<code>/mcserver mc.hypixel.net:25565</code>."
 msgstr ""
 
 #: src/korone/modules/minecraft/handlers/servers.py:49
+msgid ""
+"This Minecraft server is currently offline or is not a valid Minecraft "
+"server. Please check the address and try again."
+msgstr ""
+
+#: src/korone/modules/minecraft/handlers/servers.py:56
 msgid ""
 "<b>Server Status for {address}</b>:\n"
 "<b>Players</b>: {player_count}\n"
@@ -886,7 +889,6 @@ msgid ""
 msgstr ""
 
 #: src/korone/modules/piston/handlers/langs.py:17
-#: src/korone/modules/piston/handlers/run.py:30
 #, fuzzy
 msgid "Failed to fetch the available languages."
 msgstr "TikTokの動画をダウンロードできませんでした."
@@ -895,7 +897,7 @@ msgstr "TikTokの動画をダウンロードできませんでした."
 msgid "<b>Supported languages</b>:\n"
 msgstr ""
 
-#: src/korone/modules/piston/handlers/run.py:21
+#: src/korone/modules/piston/handlers/run.py:23
 #, fuzzy
 msgid ""
 "You need to provide a command to run. Example: <code>/piston python "
@@ -903,31 +905,46 @@ msgid ""
 msgstr ""
 "LastFMのユーザー名を入力してください！例<code>/setlfm ユーザー名</code>."
 
-#: src/korone/modules/piston/handlers/run.py:35
+#: src/korone/modules/piston/handlers/run.py:33
+#, fuzzy
+msgid ""
+"Sorry, I couldn't fetch the available languages. Please try again later."
+msgstr "TikTokの動画をダウンロードできませんでした."
+
+#: src/korone/modules/piston/handlers/run.py:40
 msgid ""
 "Invalid language. Use <code>/pistonlangs</code> to see the available "
-"languages."
+"languages. Then use it like this: <code>/piston python print('Hello, "
+"World!')</code>"
 msgstr ""
 
-#: src/korone/modules/piston/handlers/run.py:44
+#: src/korone/modules/piston/handlers/run.py:52
+#, fuzzy
+msgid ""
+"You need to provide a valid language and code. Example: <code>/piston python "
+"print('Hello, World!')</code>"
+msgstr ""
+"LastFMのユーザー名を入力してください！例<code>/setlfm ユーザー名</code>."
+
+#: src/korone/modules/piston/handlers/run.py:62
 #, fuzzy
 msgid "An error occurred while running the code."
 msgstr "このアップデートの処理中に予期せぬエラーが発生しました！:/"
 
-#: src/korone/modules/piston/handlers/run.py:47
+#: src/korone/modules/piston/handlers/run.py:65
 msgid ""
 "<b>Code</b>:\n"
 "<pre language='{lang}'>{code}</pre>\n"
 "\n"
 msgstr ""
 
-#: src/korone/modules/piston/handlers/run.py:52
+#: src/korone/modules/piston/handlers/run.py:70
 msgid ""
 "<b>Output</b>:\n"
 "<pre language='bash'>{output}</pre>\n"
 msgstr ""
 
-#: src/korone/modules/piston/handlers/run.py:57
+#: src/korone/modules/piston/handlers/run.py:75
 msgid ""
 "<b>Compiler Output</b>:\n"
 "<pre language='bash'>{output}</pre>"
