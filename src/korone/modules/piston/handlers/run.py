@@ -1,6 +1,8 @@
 # SPDX-License-Identifier: BSD-3-Clause
 # Copyright (c) 2024 Hitalo M. <https://github.com/HitaloM>
 
+import html
+
 from hairydogm.chat_action import ChatActionSender
 from hydrogram import Client
 from hydrogram.enums import ChatAction
@@ -61,17 +63,17 @@ async def piston_command(client: Client, message: Message) -> None:
             return
 
         text = _("<b>Code</b>:\n<pre language='{lang}'>{code}</pre>\n\n").format(
-            lang=lang, code=request.code
+            lang=lang, code=html.escape(request.code)
         )
 
         if response.output:
             text += _("<b>Output</b>:\n<pre language='bash'>{output}</pre>\n").format(
-                output=response.output
+                output=html.escape(response.output)
             )
 
         if response.compiler_output:
             text += _("<b>Compiler Output</b>:\n<pre language='bash'>{output}</pre>").format(
-                output=response.compiler_output
+                output=html.escape(response.compiler_output)
             )
 
         await message.reply(text, disable_web_page_preview=True)

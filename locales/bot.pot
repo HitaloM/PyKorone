@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-09-10 21:33-0300\n"
+"POT-Creation-Date: 2024-09-10 21:35-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -801,47 +801,47 @@ msgstr ""
 msgid "<b>Supported languages</b>:\n"
 msgstr ""
 
-#: src/korone/modules/piston/handlers/run.py:21
+#: src/korone/modules/piston/handlers/run.py:23
 msgid ""
 "You need to provide a command to run. Example: <code>/piston python "
 "print('Hello, World!')</code>"
 msgstr ""
 
-#: src/korone/modules/piston/handlers/run.py:31
+#: src/korone/modules/piston/handlers/run.py:33
 msgid "Sorry, I couldn't fetch the available languages. Please try again later."
 msgstr ""
 
-#: src/korone/modules/piston/handlers/run.py:38
+#: src/korone/modules/piston/handlers/run.py:40
 msgid ""
 "Invalid language. Use <code>/pistonlangs</code> to see the available "
 "languages. Then use it like this: <code>/piston python print('Hello, "
 "World!')</code>"
 msgstr ""
 
-#: src/korone/modules/piston/handlers/run.py:50
+#: src/korone/modules/piston/handlers/run.py:52
 msgid ""
 "You need to provide a valid language and code. Example: <code>/piston "
 "python print('Hello, World!')</code>"
 msgstr ""
 
-#: src/korone/modules/piston/handlers/run.py:60
+#: src/korone/modules/piston/handlers/run.py:62
 msgid "An error occurred while running the code."
 msgstr ""
 
-#: src/korone/modules/piston/handlers/run.py:63
+#: src/korone/modules/piston/handlers/run.py:65
 msgid ""
 "<b>Code</b>:\n"
 "<pre language='{lang}'>{code}</pre>\n"
 "\n"
 msgstr ""
 
-#: src/korone/modules/piston/handlers/run.py:68
+#: src/korone/modules/piston/handlers/run.py:70
 msgid ""
 "<b>Output</b>:\n"
 "<pre language='bash'>{output}</pre>\n"
 msgstr ""
 
-#: src/korone/modules/piston/handlers/run.py:73
+#: src/korone/modules/piston/handlers/run.py:75
 msgid ""
 "<b>Compiler Output</b>:\n"
 "<pre language='bash'>{output}</pre>"

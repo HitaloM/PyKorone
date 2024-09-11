@@ -9,7 +9,7 @@ from dataclasses import dataclass
 @dataclass(frozen=True, slots=True)
 class RunRequest:
     language: str
-    code: str | None = None
+    code: str
     stdin: str | None = None
     version: str = "*"
 
