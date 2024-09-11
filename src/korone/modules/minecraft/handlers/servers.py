@@ -36,14 +36,21 @@ async def handle_mcserver_command(client: Client, message: Message) -> None:
         await message.reply(
             _(
                 "Invalid server address. Please provide a valid "
-                "IP address or hostname, optionally with a port."
+                "IP address or hostname, optionally with a port. "
+                "Example: <code>/mcserver mc.hypixel.net</code> or "
+                "<code>/mcserver mc.hypixel.net:25565</code>."
             )
         )
         return
 
     server_status = await MinecraftServerStatus.from_address(address)
     if not server_status.online:
-        await message.reply(_("This Minecraft server is offline."))
+        await message.reply(
+            _(
+                "This Minecraft server is currently offline or is not a valid "
+                "Minecraft server. Please check the address and try again."
+            )
+        )
         return
 
     status_message = _(

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-09-10 20:14-0300\n"
+"POT-Creation-Date: 2024-09-10 21:09-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -775,14 +775,17 @@ msgstr ""
 #: src/korone/modules/minecraft/handlers/servers.py:37
 msgid ""
 "Invalid server address. Please provide a valid IP address or hostname, "
-"optionally with a port."
-msgstr ""
-
-#: src/korone/modules/minecraft/handlers/servers.py:46
-msgid "This Minecraft server is offline."
+"optionally with a port. Example: <code>/mcserver mc.hypixel.net</code> or"
+" <code>/mcserver mc.hypixel.net:25565</code>."
 msgstr ""
 
 #: src/korone/modules/minecraft/handlers/servers.py:49
+msgid ""
+"This Minecraft server is currently offline or is not a valid Minecraft "
+"server. Please check the address and try again."
+msgstr ""
+
+#: src/korone/modules/minecraft/handlers/servers.py:56
 msgid ""
 "<b>Server Status for {address}</b>:\n"
 "<b>Players</b>: {player_count}\n"
