@@ -2,6 +2,7 @@
 # Copyright (c) 2024 Hitalo M. <https://github.com/HitaloM>
 
 import asyncio
+import html
 import re
 from datetime import timedelta
 
@@ -68,7 +69,7 @@ async def fetch_tweet_data(url: str) -> Tweet | None:
 def format_tweet_text(tweet: Tweet) -> str:
     text = f"<b>{tweet.author.name} (<code>@{tweet.author.screen_name}</code>):</b>\n"
     if tweet.text:
-        text += f"\n{tweet.text[:900]}{"..." if len(tweet.text) > 900 else ""}\n"
+        text += html.escape(f"\n{tweet.text[:900]}{"..." if len(tweet.text) > 900 else ""}\n")
     if tweet.source:
         text += _("\n<b>Sent from:</b> <i>{source}</i>").format(source=tweet.source)
     return text

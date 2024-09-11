@@ -1,6 +1,7 @@
 # SPDX-License-Identifier: BSD-3-Clause
 # Copyright (c) 2024 Hitalo M. <https://github.com/HitaloM>
 
+import html
 import re
 
 from babel.numbers import format_number
@@ -77,8 +78,8 @@ async def fetch_video_info(ytdl: YtdlpManager, url: str, message: Message) -> Vi
 
 
 def build_video_info_text(yt_info: VideoInfo) -> str:
-    text = _("<b>Title:</b> {title}\n").format(title=yt_info.title)
-    text += _("<b>Uploader:</b> {uploader}\n").format(uploader=yt_info.uploader)
+    text = _("<b>Title:</b> {title}\n").format(title=html.escape(yt_info.title))
+    text += _("<b>Uploader:</b> {uploader}\n").format(uploader=html.escape(yt_info.uploader))
 
     match yt_info.duration:
         case duration if duration >= 3600:

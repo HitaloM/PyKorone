@@ -1,6 +1,8 @@
 # SPDX-License-Identifier: BSD-3-Clause
 # Copyright (c) 2024 Hitalo M. <https://github.com/HitaloM>
 
+import html
+
 from hydrogram import Client
 from hydrogram.types import Message
 
@@ -53,7 +55,9 @@ async def lfmtop_command(client: Client, message: Message) -> None:  # noqa: C90
         await message.reply(_("No top items found."))
         return
 
-    user_link = name_with_link(name=str(message.from_user.first_name), username=last_fm_user)
+    user_link = name_with_link(
+        name=html.escape(str(message.from_user.first_name)), username=last_fm_user
+    )
     text = _("{user}'s top 5 {entry} for {period}:\n\n").format(
         user=user_link,
         entry=_("artists")
@@ -66,9 +70,9 @@ async def lfmtop_command(client: Client, message: Message) -> None:  # noqa: C90
 
     for item in top_items:
         if isinstance(item, LastFMTrack):
-            text += f"{item.artist.name} — {item.name}"
+            text += f"{html.escape(item.artist.name)} — {html.escape(item.name)}"
         else:
-            text += item.name
+            text += html.escape(item.name)
         text += _(" -> {scrobbles} plays\n").format(scrobbles=item.playcount)
 
     await message.reply(text, disable_web_page_preview=True)

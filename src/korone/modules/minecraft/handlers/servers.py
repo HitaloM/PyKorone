@@ -1,6 +1,7 @@
 # SPDX-License-Identifier: BSD-3-Clause
 # Copyright (c) 2024 Hitalo M. <https://github.com/HitaloM>
 
+import html
 import re
 
 from hydrogram import Client
@@ -62,7 +63,7 @@ async def handle_mcserver_command(client: Client, message: Message) -> None:
         address=address,
         player_count=server_status.player_count,
         version=server_status.version,
-        motd=" ".join(server_status.motd),
+        motd=html.escape(" ".join(server_status.motd)),
     )
 
     await message.reply(status_message, disable_web_page_preview=True)

@@ -1,6 +1,8 @@
 # SPDX-License-Identifier: BSD-3-Clause
 # Copyright (c) 2024 Hitalo M. <https://github.com/HitaloM>
 
+import html
+
 from hydrogram import Client
 from hydrogram.types import Message
 
@@ -32,20 +34,24 @@ async def lfmrecent_command(client: Client, message: Message) -> None:
 
     last_played = recent_tracks[0]
     played_tracks = recent_tracks[1:6] if last_played.now_playing else recent_tracks[:5]
-    user_link = name_with_link(name=str(message.from_user.first_name), username=last_fm_user)
+    user_link = name_with_link(
+        name=html.escape(str(message.from_user.first_name)), username=last_fm_user
+    )
 
     formatted_tracks = []
     if last_played.now_playing:
         formatted_tracks.extend((
             _("{user} is listening to:\n").format(user=user_link)
-            + f"🎧 <i>{last_played.artist.name}</i> — <b>{last_played.name}</b>",
+            + f"🎧 <i>{html.escape(last_played.artist.name)}</i> — "
+            f"<b>{html.escape(last_played.name)}</b>",
             _("\nLast 5 plays:"),
         ))
     else:
         formatted_tracks.append(_("{user} was listening to:\n").format(user=user_link))
 
     formatted_tracks.extend(
-        f"🎧 <i>{track.artist.name}</i> — <b>{track.name}</b>{get_time_elapsed_str(track)}"
+        f"🎧 <i>{html.escape(track.artist.name)}</i> — "
+        f"<b>{html.escape(track.name)}</b>{get_time_elapsed_str(track)}"
         for track in played_tracks
     )
     await message.reply("\n".join(formatted_tracks), disable_web_page_preview=True)

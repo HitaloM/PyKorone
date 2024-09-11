@@ -1,6 +1,8 @@
 # SPDX-License-Identifier: BSD-3-Clause
 # Copyright (c) 2024 Hitalo M. <https://github.com/HitaloM>
 
+import html
+
 from hydrogram.types import Message
 
 from korone.modules.lastfm.database import get_lastfm_user
@@ -46,7 +48,7 @@ def build_response_text(
         if now_playing
         else _("{user}'s was listening to:\n").format(user=user_link)
     )
-    text += f"{entity_type} <b>{entity_name}</b>"
+    text += f"{entity_type} <b>{html.escape(entity_name)}</b>"
     if playcount > 0:
         text += _(" ∙ <code>{playcount} plays</code>").format(playcount=playcount)
     if tags:

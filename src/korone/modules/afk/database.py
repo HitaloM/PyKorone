@@ -27,7 +27,7 @@ async def is_afk(user_id: int) -> bool:
         return bool(doc[0]["state"]) if doc else False
 
 
-async def get_afk_reason(user_id: int) -> Documents | None:
+async def get_afk_reason(user_id: int) -> str | None:
     async with SQLite3Connection() as conn:
         table = await conn.table("Afk")
         doc = await table.query(Query().id == user_id)

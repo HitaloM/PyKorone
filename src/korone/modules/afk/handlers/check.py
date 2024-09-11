@@ -64,7 +64,7 @@ async def send_afk_message(user: User, message: Message) -> None:
     text = _("{user} is afk!").format(user=user.first_name)
     reason = await get_afk_reason(user.id)
     if reason:
-        text += _("\nReason: {reason}").format(reason=html.escape(str(reason)))
+        text += _("\nReason: {reason}").format(reason=html.escape(reason))
 
     lastfm_text = await get_lastfm_status(user.id)
     if lastfm_text:
@@ -89,7 +89,8 @@ async def get_lastfm_status(user_id: int) -> str | None:
                 last_played.artist.name, last_played.name, last_fm_user
             )
             return _("🎧 Listening to: {track_artist} — {track_name}").format(
-                track_artist=track_info.artist.name, track_name=track_info.name
+                track_artist=html.escape(track_info.artist.name),
+                track_name=html.escape(track_info.name),
             )
     except LastFMError:
         return None

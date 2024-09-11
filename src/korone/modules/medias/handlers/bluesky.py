@@ -1,6 +1,7 @@
 # SPDX-License-Identifier: BSD-3-Clause
 # Copyright (c) 2024 Hitalo M. <https://github.com/HitaloM>
 
+import html
 import re
 from datetime import timedelta
 
@@ -54,7 +55,7 @@ def extract_url(text: str) -> str | None:
 
 
 def format_caption(media_list: list, url: str) -> str:
-    caption = media_list[-1].caption
+    caption = html.escape(media_list[-1].caption)
     if len(media_list) > 1:
         caption += f"\n<a href='{url}'>{_("Open in BueSky")}</a>"
     return caption

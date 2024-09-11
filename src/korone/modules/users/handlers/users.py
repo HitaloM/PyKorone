@@ -1,6 +1,8 @@
 # SPDX-License-Identifier: BSD-3-Clause
 # Copyright (c) 2024 Hitalo M.
 
+import html
+
 from hydrogram import Client
 from hydrogram.errors import PeerIdInvalid, UsernameInvalid, UsernameNotOccupied
 from hydrogram.types import Message
@@ -73,10 +75,12 @@ async def get_user(identifier: str) -> Document:
 def format_user_info(user: dict) -> str:
     text = _("<b>User info</b>:\n")
     text += _("<b>ID</b>: <code>{id}</code>\n").format(id=user["id"])
-    text += _("<b>First Name</b>: {first_name}\n").format(first_name=user["first_name"])
+    text += _("<b>First Name</b>: {first_name}\n").format(
+        first_name=html.escape(user["first_name"])
+    )
 
     if last_name := user.get("last_name"):
-        text += _("<b>Last Name</b>: {last_name}\n").format(last_name=last_name)
+        text += _("<b>Last Name</b>: {last_name}\n").format(last_name=html.escape(last_name))
 
     if username := user.get("username"):
         text += _("<b>Username</b>: @{username}\n").format(username=username)

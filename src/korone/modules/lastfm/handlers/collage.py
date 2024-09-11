@@ -1,6 +1,8 @@
 # SPDX-License-Identifier: BSD-3-Clause
 # Copyright (c) 2024 Hitalo M. <https://github.com/HitaloM>
 
+import html
+
 from hairydogm.chat_action import ChatActionSender
 from hydrogram import Client
 from hydrogram.enums import ChatAction
@@ -51,7 +53,9 @@ async def lfmcollage_command(client: Client, message: Message) -> None:
             top_items, collage_size=(collage_size, collage_size), show_text=show_text
         )
 
-        user_link = name_with_link(name=str(message.from_user.first_name), username=last_fm_user)
+        user_link = name_with_link(
+            name=html.escape(str(message.from_user.first_name)), username=last_fm_user
+        )
         caption = f"{user_link}\n{collage_size}x{collage_size}, albums, {period_to_str(period)}"
 
         await message.reply_photo(photo=collage_path, caption=caption)
