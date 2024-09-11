@@ -907,6 +907,7 @@ msgstr ""
 "hypixel.net</code>."
 
 #: src/korone/modules/minecraft/handlers/servers.py:38
+#: src/korone/modules/minecraft/handlers/servers.py:37
 msgid ""
 "Invalid server address. Please provide a valid IP address or hostname, "
 "optionally with a port. Example: <code>/mcserver mc.hypixel.net</code> or "
@@ -917,6 +918,7 @@ msgstr ""
 "net</code> ou <code>/mcserver mc.hypixel.net:25565</code>."
 
 #: src/korone/modules/minecraft/handlers/servers.py:50
+#: src/korone/modules/minecraft/handlers/servers.py:49
 msgid ""
 "This Minecraft server is currently offline or is not a valid Minecraft "
 "server. Please check the address and try again."
