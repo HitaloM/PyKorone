@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-09-10 22:39-0300\n"
+"POT-Creation-Date: 2024-09-12 16:23-0300\n"
 "PO-Revision-Date: 2024-08-24 20:38+0000\n"
 "Last-Translator: Hitalo <hitalo331@outlook.com>\n"
 "Language-Team: Russian <http://weblate.amanoteam.com/projects/korone/korone/"
@@ -685,38 +685,38 @@ msgstr "1 год"
 msgid "All time"
 msgstr "Все время"
 
-#: src/korone/modules/medias/handlers/bluesky.py:60
+#: src/korone/modules/medias/handlers/bluesky.py:65
 #, fuzzy
 msgid "Open in BueSky"
 msgstr "Открыть в TikTok"
 
-#: src/korone/modules/medias/handlers/bluesky.py:67
+#: src/korone/modules/medias/handlers/bluesky.py:72
 #, fuzzy
 msgid "Open in BlueSky"
 msgstr "Открыть в TikTok"
 
-#: src/korone/modules/medias/handlers/instagram.py:66
-#: src/korone/modules/medias/handlers/instagram.py:73
+#: src/korone/modules/medias/handlers/instagram.py:65
+#: src/korone/modules/medias/handlers/instagram.py:72
 msgid "Open in Instagram"
 msgstr "Открыть в Instagram"
 
-#: src/korone/modules/medias/handlers/threads.py:66
-#: src/korone/modules/medias/handlers/threads.py:73
+#: src/korone/modules/medias/handlers/threads.py:65
+#: src/korone/modules/medias/handlers/threads.py:72
 #, fuzzy
 msgid "Open in Threads"
 msgstr "Открыть в Twitter"
 
-#: src/korone/modules/medias/handlers/tiktok.py:149
-#: src/korone/modules/medias/handlers/tiktok.py:195
+#: src/korone/modules/medias/handlers/tiktok.py:150
+#: src/korone/modules/medias/handlers/tiktok.py:212
 msgid "Open in TikTok"
 msgstr "Открыть в TikTok"
 
-#: src/korone/modules/medias/handlers/twitter.py:52
-#: src/korone/modules/medias/handlers/twitter.py:164
+#: src/korone/modules/medias/handlers/twitter.py:53
+#: src/korone/modules/medias/handlers/twitter.py:167
 msgid "Open in Twitter"
 msgstr "Открыть в Twitter"
 
-#: src/korone/modules/medias/handlers/twitter.py:74
+#: src/korone/modules/medias/handlers/twitter.py:75
 msgid ""
 "\n"
 "<b>Sent from:</b> <i>{source}</i>"

@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-09-10 22:39-0300\n"
-"PO-Revision-Date: 2024-09-11 01:03+0000\n"
+"POT-Creation-Date: 2024-09-12 16:23-0300\n"
+"PO-Revision-Date: 2024-09-12 17:20+0000\n"
 "Last-Translator: Hitalo <hitalo331@outlook.com>\n"
 "Language-Team: Portuguese (Brazil) <http://weblate.amanoteam.com/projects/"
 "korone/korone/pt_BR/>\n"
@@ -267,7 +267,7 @@ msgid ""
 "Saved {count} filters in {chat}:\n"
 "{filters}"
 msgstr ""
-"Filtros salvos em {count} em {chat}:\n"
+"Salvos {count} filtros em {chat}:\n"
 "{filters}"
 
 #: src/korone/modules/filters/utils/parse_filter.py:54
@@ -632,7 +632,7 @@ msgstr "{user} estava ouvindo:\n"
 
 #: src/korone/modules/lastfm/utils/commons.py:53
 msgid " ∙ <code>{playcount} plays</code>"
-msgstr " ∙ <code>{playcount} joga</code>"
+msgstr " ∙ <code>{playcount} reproduções</code>"
 
 #: src/korone/modules/lastfm/utils/formatters.py:29
 msgid ", {days} day(s) ago"
@@ -674,41 +674,41 @@ msgstr "1 Ano"
 msgid "All time"
 msgstr "Todo o tempo"
 
-#: src/korone/modules/medias/handlers/bluesky.py:60
+#: src/korone/modules/medias/handlers/bluesky.py:65
 msgid "Open in BueSky"
 msgstr "Abrir no BueSky"
 
-#: src/korone/modules/medias/handlers/bluesky.py:67
+#: src/korone/modules/medias/handlers/bluesky.py:72
 msgid "Open in BlueSky"
 msgstr "Abrir no BlueSky"
 
-#: src/korone/modules/medias/handlers/instagram.py:66
-#: src/korone/modules/medias/handlers/instagram.py:73
+#: src/korone/modules/medias/handlers/instagram.py:65
+#: src/korone/modules/medias/handlers/instagram.py:72
 msgid "Open in Instagram"
 msgstr "Abrir no Instagram"
 
-#: src/korone/modules/medias/handlers/threads.py:66
-#: src/korone/modules/medias/handlers/threads.py:73
+#: src/korone/modules/medias/handlers/threads.py:65
+#: src/korone/modules/medias/handlers/threads.py:72
 msgid "Open in Threads"
 msgstr "Abrir em Tópicos"
 
-#: src/korone/modules/medias/handlers/tiktok.py:149
-#: src/korone/modules/medias/handlers/tiktok.py:195
+#: src/korone/modules/medias/handlers/tiktok.py:150
+#: src/korone/modules/medias/handlers/tiktok.py:212
 msgid "Open in TikTok"
 msgstr "Abrir no TikTok"
 
-#: src/korone/modules/medias/handlers/twitter.py:52
-#: src/korone/modules/medias/handlers/twitter.py:164
+#: src/korone/modules/medias/handlers/twitter.py:53
+#: src/korone/modules/medias/handlers/twitter.py:167
 msgid "Open in Twitter"
 msgstr "Abrir no Twitter"
 
-#: src/korone/modules/medias/handlers/twitter.py:74
+#: src/korone/modules/medias/handlers/twitter.py:75
 msgid ""
 "\n"
 "<b>Sent from:</b> <i>{source}</i>"
 msgstr ""
 "\n"
-"<b> Enviado de:</b> <i>{source}</i>"
+"<b>Enviado de:</b> <i>{source}</i>"
 
 #: src/korone/modules/medias/handlers/youtube.py:39
 msgid "Invalid YouTube URL!"
@@ -796,7 +796,7 @@ msgstr "Nenhum projeto encontrado."
 
 #: src/korone/modules/minecraft/handlers/modrinth.py:108
 msgid "Open in Modrinth"
-msgstr "Aberto em Modrinth"
+msgstr "Abrir no Modrinth"
 
 #: src/korone/modules/minecraft/handlers/modrinth.py:109
 msgid "Details"
@@ -2051,3 +2051,17 @@ msgstr "Alterar o idioma do bot."
 
 #~ msgid "I couldn't find any tweet data!"
 #~ msgstr "Não consegui encontrar nenhum dado de tweet!"
+
+#~ msgid ""
+#~ "Invalid server address. Please provide a valid IP address or hostname, "
+#~ "optionally with a port."
+#~ msgstr ""
+#~ "Endereço de servidor inválido. Forneça um endereço IP ou nome de host "
+#~ "válido, opcionalmente com uma porta."
+
+#~ msgid ""
+#~ "Invalid language. Use <code>/pistonlangs</code> to see the available "
+#~ "languages."
+#~ msgstr ""
+#~ "Idioma inválido. Use <code>/pistonlangs</code> para ver os idiomas "
+#~ "disponíveis."
