@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2024-09-10 22:39-0300\n"
-"PO-Revision-Date: 2024-09-12 16:24+0000\n"
+"PO-Revision-Date: 2024-09-12 17:20+0000\n"
 "Last-Translator: Hitalo <hitalo331@outlook.com>\n"
 "Language-Team: Portuguese (Brazil) <http://weblate.amanoteam.com/projects/"
 "korone/korone/pt_BR/>\n"
@@ -737,7 +737,7 @@ msgid ""
 "<b>Sent from:</b> <i>{source}</i>"
 msgstr ""
 "\n"
-"<b> Enviado de:</b> <i>{source}</i>"
+"<b>Enviado de:</b> <i>{source}</i>"
 
 #: src/korone/modules/medias/handlers/youtube.py:39
 #: src/korone/modules/medias/handlers/youtube.py:38
