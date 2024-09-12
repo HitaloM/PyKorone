@@ -2,6 +2,7 @@
 # Copyright (c) 2024 Hitalo M. <https://github.com/HitaloM>
 
 import asyncio
+import html
 import re
 from datetime import timedelta
 
@@ -18,7 +19,7 @@ from korone.utils.logging import logger
 from .types import BlueskyData
 
 
-async def fetch_bluesky(text: str):
+async def fetch_bluesky(text: str) -> list[InputMediaPhoto] | None:
     username, post_id = get_username_and_post_id(text)
     if not post_id:
         return None
@@ -32,7 +33,7 @@ async def fetch_bluesky(text: str):
     cache = MediaCache(post_id)
     if cached_data := await cache.get():
         cached_data[-1].caption = caption
-        return cached_data
+        return cached_data  # type: ignore
 
     media_list = await process_media(bluesky_data)
 
@@ -74,8 +75,14 @@ async def get_bluesky_data(username: str | None, post_id: str) -> BlueskyData | 
 def get_caption(bluesky_data: BlueskyData) -> str:
     post = bluesky_data.thread.post
     display_name = post.author.display_name or "Unknown"
-    text = post.record.text or ""
-    return f"<b>{display_name} (<code>{post.author.handle}</code>)</b>:\n{text}"
+    handle = post.author.handle
+    text = post.record.text
+
+    caption = f"<b>{html.escape(display_name)} (<code>@{handle}</code>)</b>"
+    if text:
+        caption += f":\n\n{html.escape(text)}"
+
+    return caption
 
 
 async def process_media(bluesky_data: BlueskyData) -> list[InputMediaPhoto] | None:

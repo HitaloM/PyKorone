@@ -96,10 +96,5 @@ def lazy_gettext(*args: Any, **kwargs: Any) -> LazyProxy:
 try:
     i18n = I18nNew(path=constants.BOT_ROOT_PATH / "locales")
 except RuntimeError as e:
-    logger.error(
-        "Failed to initialize I18n due to the following error: %s. "
-        "This usually happens when the locale files are not compiled. "
-        "Please compile the locales using 'rye run compile-locales' and try again.",
-        e,
-    )
+    logger.error("Failed to initialize I18n due to the following error: %s. ", e)
     sys.exit(1)

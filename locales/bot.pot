@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-09-10 22:39-0300\n"
+"POT-Creation-Date: 2024-09-12 14:20-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -595,21 +595,21 @@ msgstr ""
 msgid "All time"
 msgstr ""
 
-#: src/korone/modules/medias/handlers/bluesky.py:60
+#: src/korone/modules/medias/handlers/bluesky.py:59
 msgid "Open in BueSky"
 msgstr ""
 
-#: src/korone/modules/medias/handlers/bluesky.py:67
+#: src/korone/modules/medias/handlers/bluesky.py:66
 msgid "Open in BlueSky"
 msgstr ""
 
-#: src/korone/modules/medias/handlers/instagram.py:66
-#: src/korone/modules/medias/handlers/instagram.py:73
+#: src/korone/modules/medias/handlers/instagram.py:65
+#: src/korone/modules/medias/handlers/instagram.py:72
 msgid "Open in Instagram"
 msgstr ""
 
-#: src/korone/modules/medias/handlers/threads.py:66
-#: src/korone/modules/medias/handlers/threads.py:73
+#: src/korone/modules/medias/handlers/threads.py:65
+#: src/korone/modules/medias/handlers/threads.py:72
 msgid "Open in Threads"
 msgstr ""
 

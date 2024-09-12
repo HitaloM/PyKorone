@@ -2,6 +2,7 @@
 # Copyright (c) 2024 Hitalo M. <https://github.com/HitaloM>
 
 import asyncio
+import html
 import json
 import random
 import re
@@ -139,8 +140,14 @@ async def get_gql_data(post_id: str) -> ThreadsData | None:
 
 def get_caption(threads_data: ThreadsData) -> str:
     post = threads_data.data.data.edges[0].node.thread_items[0].post
-    caption_text = post.caption.text if post.caption else ""
-    return f"<b>{post.user.username}</b>:\n{caption_text}"
+    username = post.user.username
+    text = post.caption.text if post.caption else None
+
+    caption = f"<b>{username}</b>"
+    if text:
+        caption += f":\n{html.escape(text)}"
+
+    return caption
 
 
 async def handle_carousel(post: Post) -> list[InputMedia]:

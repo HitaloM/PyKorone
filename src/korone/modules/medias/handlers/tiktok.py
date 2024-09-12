@@ -187,7 +187,7 @@ async def prepare_slideshow_media(media: TikTokSlideshow) -> list[InputMediaPhot
 def format_media_text(media: TikTokVideo | TikTokSlideshow) -> str:
     text = f"<b>{media.author}{":" if media.desc else ""}</b>"
     if media.desc:
-        text += html.escape(f"\n\n{media.desc[:900]}{"..." if len(media.desc) > 900 else ""}")
+        text += html.escape(f"\n{media.desc[:900]}{"..." if len(media.desc) > 900 else ""}")
     return text
 
 
