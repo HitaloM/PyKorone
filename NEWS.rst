@@ -10,6 +10,19 @@
 
 .. towncrier release notes start
 
+1.1.2 (2024-09-12)
+==================
+
+Features
+--------
+
+- Added support for automatic video downloads from BlueSky, allowing PyKorone to seamlessly download videos from the platform.
+
+Bug Fixes
+---------
+
+- Fixed incorrect HTML escaping that caused formatting issues in the captions of media sent by the automatic media downloader.
+
 1.1.1 (2024-09-10)
 ==================
 
