@@ -14,10 +14,10 @@ from hydrogram.types import InputMedia, InputMediaPhoto, InputMediaVideo
 from lxml import html
 
 from korone.modules.medias.utils.cache import MediaCache
+from korone.modules.medias.utils.downloader import download_media
 from korone.utils.caching import cache
 from korone.utils.logging import logger
 
-from .downloader import download_media
 from .types import InstaFixData, InstagramData, Node, ShortcodeMedia
 
 POST_PATTERN = re.compile(r"(?:reel(?:s?)|p)/(?P<post_id>[A-Za-z0-9_-]+)")

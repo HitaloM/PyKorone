@@ -21,7 +21,8 @@ from hydrogram.types import (
 from korone.decorators import router
 from korone.filters import Regex
 from korone.modules.medias.utils.cache import MediaCache
-from korone.modules.medias.utils.files import resize_thumbnail, url_to_bytes_io
+from korone.modules.medias.utils.downloader import download_media
+from korone.modules.medias.utils.files import resize_thumbnail
 from korone.modules.medias.utils.twitter.api import TwitterError, fetch_tweet
 from korone.modules.medias.utils.twitter.types import Media as TweetMedia
 from korone.modules.medias.utils.twitter.types import MediaVariants as TweetMediaVariants
@@ -113,7 +114,9 @@ async def prepare_media_list(
 async def prepare_media(media: TweetMedia) -> InputMediaPhoto | InputMediaVideo | None:
     optimal_media = get_optimal_variant(media) or media
     try:
-        media_file = await url_to_bytes_io(optimal_media.url, video=media.media_type != "photo")
+        media_file = await download_media(str(optimal_media.url))
+        if not media_file:
+            return None
     except httpx.HTTPStatusError as e:
         media_file = handle_http_error(e)
         return InputMediaPhoto(media_file) if media_file else None
@@ -123,7 +126,7 @@ async def prepare_media(media: TweetMedia) -> InputMediaPhoto | InputMediaVideo 
 
     if media.media_type in {"video", "gif"}:
         thumb_file = (
-            await url_to_bytes_io(media.thumbnail_url, video=True) if media.thumbnail_url else None
+            await download_media(str(media.thumbnail_url)) if media.thumbnail_url else None
         )
         if thumb_file:
             await asyncio.to_thread(resize_thumbnail, thumb_file)

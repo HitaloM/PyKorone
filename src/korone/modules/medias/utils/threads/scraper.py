@@ -16,7 +16,7 @@ from hydrogram.types import InputMedia, InputMediaPhoto, InputMediaVideo
 from pydantic import ValidationError
 
 from korone.modules.medias.utils.cache import MediaCache
-from korone.modules.medias.utils.instagram.downloader import download_media
+from korone.modules.medias.utils.downloader import download_media
 from korone.modules.medias.utils.instagram.scraper import fetch_instagram
 from korone.utils.caching import cache
 from korone.utils.logging import logger

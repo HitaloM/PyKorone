@@ -24,6 +24,8 @@ dependencies = [
     "pydantic>=2.9.0",
     "orjson>=3.10.7",
     "aiocron>=1.8",
+    "m3u8>=6.0.0",
+    "aiofiles>=24.1.0",
 ]
 readme = "README.md"
 license = { file = "LICENSE" }

@@ -18,7 +18,10 @@ class Image(BaseModel):
 
 class Embed(BaseModel):
     embed_type: str | None = Field(None, alias="$type")
-    images: list[Image] | None
+    images: list[Image] | None = None
+    playlist: str | None = None
+    thumbnail: HttpUrl | None = None
+    aspect_ratio: AspectRatio | None = Field(None, alias="aspectRatio")
 
 
 class Record(BaseModel):

@@ -7,7 +7,13 @@ from datetime import timedelta
 from hairydogm.chat_action import ChatActionSender
 from hydrogram.client import Client
 from hydrogram.enums import ChatAction
-from hydrogram.types import InlineKeyboardButton, InlineKeyboardMarkup, InputMediaPhoto, Message
+from hydrogram.types import (
+    InlineKeyboardButton,
+    InlineKeyboardMarkup,
+    InputMediaPhoto,
+    InputMediaVideo,
+    Message,
+)
 
 from korone.decorators import router
 from korone.filters import Regex
@@ -39,7 +45,7 @@ async def handle_bluesky_message(client: Client, message: Message) -> None:
     caption = format_caption(media_list, url)  # type: ignore
 
     async with ChatActionSender(
-        client=client, chat_id=message.chat.id, action=ChatAction.UPLOAD_PHOTO
+        client=client, chat_id=message.chat.id, action=ChatAction.UPLOAD_DOCUMENT
     ):
         sent_message = await send_media(message, media_list, caption, url)
 
@@ -66,6 +72,8 @@ async def send_media(message: Message, media_list: list, caption: str, url: str)
         keyboard = InlineKeyboardMarkup([[InlineKeyboardButton(_("Open in BlueSky"), url=url)]])
         if isinstance(media, InputMediaPhoto):
             return await message.reply_photo(media.media, caption=caption, reply_markup=keyboard)
+        if isinstance(media, InputMediaVideo):
+            return await message.reply_video(media.media, caption=caption, reply_markup=keyboard)
         return None
     media_list[-1].caption = caption
     return await message.reply_media_group(media_list)  # type: ignore

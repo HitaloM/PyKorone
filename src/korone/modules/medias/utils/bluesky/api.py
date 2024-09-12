@@ -5,21 +5,23 @@ import asyncio
 import html
 import re
 from datetime import timedelta
+from urllib.parse import urljoin
 
 import httpx
+import m3u8
 from cashews import NOT_NONE
-from hydrogram.types import InputMediaPhoto
-from pydantic import ValidationError
+from hydrogram.types import InputMediaPhoto, InputMediaVideo
+from pydantic import HttpUrl, ValidationError
 
 from korone.modules.medias.utils.cache import MediaCache
-from korone.modules.medias.utils.files import url_to_bytes_io
+from korone.modules.medias.utils.downloader import download_media
 from korone.utils.caching import cache
 from korone.utils.logging import logger
 
-from .types import BlueskyData
+from .types import BlueskyData, Image
 
 
-async def fetch_bluesky(text: str) -> list[InputMediaPhoto] | None:
+async def fetch_bluesky(text: str) -> list[InputMediaPhoto] | list[InputMediaVideo] | None:
     username, post_id = get_username_and_post_id(text)
     if not post_id:
         return None
@@ -54,7 +56,7 @@ def get_username_and_post_id(url: str):
 @cache(ttl=timedelta(weeks=1), condition=NOT_NONE)
 async def get_bluesky_data(username: str | None, post_id: str) -> BlueskyData | None:
     url = "https://public.api.bsky.app/xrpc/app.bsky.feed.getPostThread"
-    params = {"uri": f"at://{username}/app.bsky.feed.post/{post_id}", "depth": "10"}
+    params = {"uri": f"at://{username}/app.bsky.feed.post/{post_id}", "depth": "0"}
     headers = {
         "Content-Type": "application/json",
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
@@ -85,13 +87,55 @@ def get_caption(bluesky_data: BlueskyData) -> str:
     return caption
 
 
-async def process_media(bluesky_data: BlueskyData) -> list[InputMediaPhoto] | None:
-    images = bluesky_data.thread.post.embed.images if bluesky_data.thread.post.embed else []
-    if images is None:
-        return None
+async def process_media(
+    bluesky_data: BlueskyData,
+) -> list[InputMediaPhoto] | list[InputMediaVideo] | None:
+    embed = bluesky_data.thread.post.embed
 
-    tasks = [url_to_bytes_io(image.fullsize, video=False) for image in images]
+    if embed and embed.embed_type:
+        if "image" in embed.embed_type and embed.images:
+            return await handle_image(embed.images)
+        if "video" in embed.embed_type and embed.playlist and embed.thumbnail:
+            return await handle_video(embed.playlist, embed.thumbnail)
 
+    return None
+
+
+async def handle_image(images: list[Image]) -> list[InputMediaPhoto]:
+    tasks = [download_media(str(image.fullsize)) for image in images]
     results = await asyncio.gather(*tasks)
-
     return [InputMediaPhoto(media=result) for result in results if result]
+
+
+async def handle_video(playlist_url: str, thumbnail_url: HttpUrl) -> list[InputMediaVideo] | None:
+    async with httpx.AsyncClient(http2=True, timeout=20) as client:
+        response = await client.get(playlist_url)
+        if response.status_code != 200:
+            return None
+
+        playlist = m3u8.loads(response.text)
+        highest_variant = max(playlist.playlists, key=lambda p: p.stream_info.bandwidth)
+
+        video_url = urljoin(playlist_url, highest_variant.uri)
+        resolution = highest_variant.stream_info.resolution
+
+        if resolution:
+            width, height = resolution
+        else:
+            width, height = 0, 0
+
+        video = await download_media(video_url)
+        if not video:
+            return None
+
+        thumbnail = await download_media(str(thumbnail_url))
+
+        return [
+            InputMediaVideo(
+                media=video,
+                thumb=thumbnail,
+                width=width,
+                height=height,
+                supports_streaming=True,
+            )
+        ]

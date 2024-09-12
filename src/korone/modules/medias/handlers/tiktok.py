@@ -22,7 +22,8 @@ from hydrogram.types import (
 from korone.decorators import router
 from korone.filters import Regex
 from korone.modules.medias.utils.cache import MediaCache
-from korone.modules.medias.utils.files import resize_thumbnail, url_to_bytes_io
+from korone.modules.medias.utils.downloader import download_media
+from korone.modules.medias.utils.files import resize_thumbnail
 from korone.modules.medias.utils.generic_headers import GENERIC_HEADER
 from korone.modules.medias.utils.tiktok.scraper import TikTokClient, TikTokError
 from korone.modules.medias.utils.tiktok.types import TikTokSlideshow, TikTokVideo
@@ -168,8 +169,16 @@ async def process_slideshow(
 
 
 async def prepare_video_media(media: TikTokVideo) -> InputMediaVideo:
-    media_file = await url_to_bytes_io(media.video_url, video=True)
-    thumb_file = await url_to_bytes_io(media.thumbnail_url, video=False)
+    media_file = await download_media(str(media.video_url))
+    if not media_file:
+        msg = "Failed to download video."
+        raise TikTokError(msg)
+
+    thumb_file = await download_media(str(media.thumbnail_url))
+    if not thumb_file:
+        msg = "Failed to download thumbnail."
+        raise TikTokError(msg)
+
     await asyncio.to_thread(resize_thumbnail, thumb_file)
     return InputMediaVideo(
         media=media_file,
@@ -181,7 +190,15 @@ async def prepare_video_media(media: TikTokVideo) -> InputMediaVideo:
 
 
 async def prepare_slideshow_media(media: TikTokSlideshow) -> list[InputMediaPhoto]:
-    return [InputMediaPhoto(await url_to_bytes_io(image, video=False)) for image in media.images]
+    media_list = []
+    for image in media.images:
+        media_file = await download_media(str(image))
+        if media_file:
+            media_list.append(InputMediaPhoto(media=media_file))
+        else:
+            msg = "Failed to download image."
+            raise TikTokError(msg)
+    return media_list
 
 
 def format_media_text(media: TikTokVideo | TikTokSlideshow) -> str:
