@@ -26,9 +26,9 @@ Babel = "^2.9.1"
 captcha = "^0.6"
 async-timeout = "^4.0.2"
 regex = "^2024.7"
-pydantic = { extras = ["dotenv"], version = "^2.8" }
+pydantic = { extras = ["dotenv"], version = "^2" }
 emoji-country-flag = "~2"
-pydantic-settings = "~2.4"
+pydantic-settings = "~2"
 structlog = "^24"
 stfu-tg = "2.3"
 ass-tg = "^2.3.1"
