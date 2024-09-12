@@ -23,6 +23,8 @@ class FedBanMiddleware(BaseMiddleware):
             return False
         if message.chat.type not in {"group", "supergroup"}:
             return False
+        if not message.from_user:
+            return False
 
         user_id = message.from_user.id
         user_name = message.from_user.first_name
@@ -80,8 +82,12 @@ class FedBanMiddleware(BaseMiddleware):
         return False
 
     async def __call__(
-        self, handler: Callable[[TelegramObject, Dict[str, Any]], Awaitable[Any]], event: Message, data: Dict[str, Any]
+        self,
+        handler: Callable[[TelegramObject, Dict[str, Any]], Awaitable[Any]],
+        event: TelegramObject,
+        data: Dict[str, Any],
     ) -> Any:
-        if await self.is_fbanned(event):
+        if isinstance(event, Message) and await self.is_fbanned(event):
             return
+
         return await handler(event, data)

@@ -76,7 +76,7 @@ msgstr ""
 msgid "Optionals {}"
 msgstr ""
 
-#: types/logic.py:44 types/logic.py:45 types/one_of.py:27 types/one_of.py:30
+#: types/logic.py:44 types/logic.py:45 types/one_of.py:25 types/one_of.py:28
 msgid " or "
 msgstr ""
 
@@ -88,7 +88,7 @@ msgstr ""
 msgid "Example syntax"
 msgstr ""
 
-#: types/one_of.py:26 types/one_of.py:29
+#: types/one_of.py:24 types/one_of.py:27
 msgid "One of: {}"
 msgstr ""
 
@@ -217,49 +217,49 @@ msgstr ""
 msgid "Username is too long"
 msgstr ""
 
-#: types/user.py:65
+#: types/user.py:67
 msgid "User mention (a link to user)"
 msgstr ""
 
-#: types/user.py:65
+#: types/user.py:67
 msgid "User mentions (links to users)"
 msgstr ""
 
-#: types/user.py:97
+#: types/user.py:99
 msgid "Should start with mention!"
 msgstr ""
 
-#: types/user.py:105
+#: types/user.py:107
 msgid ""
-"Unexpected error while trying to get a user! Please report this in the "
+"Unexpected error while trying to get the user! Please report this in the "
 "support chat!"
 msgstr ""
 
-#: types/user.py:106
-msgid "Error ID: 95450"
+#: types/user.py:108
+msgid "Could not find the user mention"
 msgstr ""
 
-#: types/user.py:117
+#: types/user.py:119
 msgid ""
 "User: 'User ID (numeric) / Username (starts with @) / Mention (links to "
 "users)'"
 msgstr ""
 
-#: types/user.py:119
+#: types/user.py:121
 msgid ""
 "Users: 'User IDs (numeric) / Usernames (starts with @) / Mentions (links "
 "to users)'"
 msgstr ""
 
-#: types/user.py:126
+#: types/user.py:128
 msgid "User ID"
 msgstr ""
 
-#: types/user.py:127
+#: types/user.py:129
 msgid "Username"
 msgstr ""
 
-#: types/user.py:132
+#: types/user.py:133
 msgid "A link to user, usually creates by mentioning a user without username."
 msgstr ""
 
@@ -279,5 +279,14 @@ msgstr ""
 #~ msgstr ""
 
 #~ msgid "'{current_arg}' followed by parentheses with '{stacked_arg}' inside."
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Unexpected error while trying to get "
+#~ "a user! Please report this in the"
+#~ " support chat!"
+#~ msgstr ""
+
+#~ msgid "Error ID: 95450"
 #~ msgstr ""
 

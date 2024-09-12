@@ -30,6 +30,7 @@ from contextlib import suppress
 from datetime import datetime, timedelta
 from typing import Optional
 
+import babel
 import ujson
 from aiogram import F, Router
 from aiogram.exceptions import (

@@ -402,7 +402,7 @@ msgstr ""
 msgid "Disabling"
 msgstr ""
 
-#: sophie_bot/modules/legacy_modules/modules/feds.py:84
+#: sophie_bot/modules/legacy_modules/modules/feds.py:85
 msgid "Federations"
 msgstr ""
 
