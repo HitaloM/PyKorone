@@ -40,13 +40,9 @@ async def add_text_to_image(img: Image.Image, text: str, font: ImageFont.FreeTyp
 
 
 async def fetch_album_arts(albums: list[LastFMAlbum]) -> list[Image.Image]:
-    async def fetch_art(album: LastFMAlbum) -> Image.Image:
-        image_url = await get_biggest_lastfm_image(album)
-        return (
-            Image.open(image_url)
-            if image_url
-            else Image.open("https://telegra.ph/file/d0244cd9b8bc7d0dd370d.png")
-        )
+    async def fetch_art(album: LastFMAlbum) -> Image.Image | None:
+        image = await get_biggest_lastfm_image(album)
+        return Image.open(image) if image else Image.open("resources/lastfm/dummy_image.png")
 
     tasks = [asyncio.create_task(fetch_art(album)) for album in albums]
     return [img for img in await asyncio.gather(*tasks) if img is not None]
@@ -60,7 +56,7 @@ async def create_album_collage(
     thumb_size = 300
     collage = Image.new("RGB", (thumb_size * cols, thumb_size * rows))
 
-    font = ImageFont.truetype("resources/fonts/DejaVuSans-Bold.ttf", 24) if show_text else None
+    font = ImageFont.truetype("resources/lastfm/DejaVuSans-Bold.ttf", 24) if show_text else None
 
     album_images = await fetch_album_arts(albums[: rows * cols])
 

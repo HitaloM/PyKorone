@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-09-12 16:23-0300\n"
+"POT-Creation-Date: 2024-09-13 14:02-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -801,50 +801,56 @@ msgstr ""
 msgid "<b>Supported languages</b>:\n"
 msgstr ""
 
-#: src/korone/modules/piston/handlers/run.py:23
+#: src/korone/modules/piston/handlers/run.py:24
 msgid ""
 "You need to provide a command to run. Example: <code>/piston python "
 "print('Hello, World!')</code>"
 msgstr ""
 
-#: src/korone/modules/piston/handlers/run.py:33
+#: src/korone/modules/piston/handlers/run.py:34
 msgid "Sorry, I couldn't fetch the available languages. Please try again later."
 msgstr ""
 
-#: src/korone/modules/piston/handlers/run.py:40
+#: src/korone/modules/piston/handlers/run.py:41
 msgid ""
 "Invalid language. Use <code>/pistonlangs</code> to see the available "
 "languages. Then use it like this: <code>/piston python print('Hello, "
 "World!')</code>"
 msgstr ""
 
-#: src/korone/modules/piston/handlers/run.py:52
+#: src/korone/modules/piston/handlers/run.py:53
 msgid ""
 "You need to provide a valid language and code. Example: <code>/piston "
 "python print('Hello, World!')</code>"
 msgstr ""
 
-#: src/korone/modules/piston/handlers/run.py:62
+#: src/korone/modules/piston/handlers/run.py:63
 msgid "An error occurred while running the code."
 msgstr ""
 
-#: src/korone/modules/piston/handlers/run.py:65
+#: src/korone/modules/piston/handlers/run.py:66
 msgid ""
 "<b>Code</b>:\n"
 "<pre language='{lang}'>{code}</pre>\n"
 "\n"
 msgstr ""
 
-#: src/korone/modules/piston/handlers/run.py:70
+#: src/korone/modules/piston/handlers/run.py:71
 msgid ""
 "<b>Output</b>:\n"
 "<pre language='bash'>{output}</pre>\n"
 msgstr ""
 
-#: src/korone/modules/piston/handlers/run.py:75
+#: src/korone/modules/piston/handlers/run.py:76
 msgid ""
 "<b>Compiler Output</b>:\n"
 "<pre language='bash'>{output}</pre>"
+msgstr ""
+
+#: src/korone/modules/piston/handlers/run.py:84
+msgid ""
+"The result exceeds the 4096 character limit of Telegram. Please refine "
+"your code."
 msgstr ""
 
 #: src/korone/modules/pm_menu/handlers/about.py:28

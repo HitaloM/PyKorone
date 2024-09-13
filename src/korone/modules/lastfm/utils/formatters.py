@@ -12,7 +12,7 @@ from .lastfm_api import TimePeriod
 from .types import LastFMAlbum, LastFMArtist, LastFMTrack
 
 with Path(
-    constants.BOT_ROOT_PATH / "resources/misc/everynoise_genres.txt",
+    constants.BOT_ROOT_PATH / "resources/lastfm/everynoise_genres.txt",
 ).open(encoding="utf-8") as file:
     ACCEPTABLE_TAGS = {line.strip().lower() for line in file}
 
