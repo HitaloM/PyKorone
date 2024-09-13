@@ -10,6 +10,16 @@
 
 .. towncrier release notes start
 
+1.1.3 (2024-09-13)
+==================
+
+Bug Fixes
+---------
+
+- Fixed a bug where the bot did not respond to the `/lfmcollage` command if one of the albums in the collage lacked a cover.
+- Fixed an error that occurred when the result of `/piston` evaluation exceeded the 4096-character limit for Telegram messages.
+- Resolved an issue where some Instagram reels were not being downloaded by the automatic media downloader.
+
 1.1.2 (2024-09-12)
 ==================
 
