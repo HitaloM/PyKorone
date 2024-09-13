@@ -3,9 +3,8 @@
 
 import os
 from pathlib import Path
-from typing import Any
 
-BOT_ROOT_PATH = Path(__file__).parent.parent.parent
+BOT_ROOT_PATH: Path = Path(__file__).parent.parent.parent
 
 XDG_CONFIG_HOME: str = os.environ.get("XDG_CONFIG_HOME", str(Path.home() / ".config"))
 XDG_DATA_HOME: str = os.environ.get("XDG_DATA_HOME", str(Path.home() / ".local/share"))
@@ -13,7 +12,7 @@ XDG_DATA_HOME: str = os.environ.get("XDG_DATA_HOME", str(Path.home() / ".local/s
 DEFAULT_CONFIG_PATH: str = f"{XDG_CONFIG_HOME}/korone/korone.toml"
 DEFAULT_DBFILE_PATH: str = f"{XDG_DATA_HOME}/korone/korone.sqlite"
 
-DEFAULT_CONFIG_TEMPLATE: dict[str, Any] = {
+DEFAULT_CONFIG_TEMPLATE: dict[str, dict[str, str | bool | int] | dict[str, list[str] | str]] = {
     "hydrogram": {
         "API_ID": "",
         "API_HASH": "",
@@ -22,9 +21,9 @@ DEFAULT_CONFIG_TEMPLATE: dict[str, Any] = {
         "WORKERS": 24,
     },
     "korone": {
-        "SUDOERS": [918317361],
-        "LOGS_CHAT": -100123456789,
-        "BACKUPS_CHAT": -100123456789,
+        "SUDOERS": ["918317361"],
+        "LOGS_CHAT": "-100123456789",
+        "BACKUPS_CHAT": "-100123456789",
         "SENTRY_DSN": "",
         "DEEPL_KEY": "",
         "LASTFM_KEY": "",
@@ -93,7 +92,7 @@ CREATE INDEX IF NOT EXISTS idx_chat_id ON Filters (chat_id);
 TRANSLATIONS_URL: str = "https://weblate.amanoteam.com/projects/korone/"
 GITHUB_URL: str = "https://github.com/HitaloM/PyKorone"
 TELEGRAM_URL: str = "https://t.me/PyKorone"
-DOCS_URL: str = "https://pykorone.readthedocs.io"
-PRIVACY_POLICY_URL = f"{DOCS_URL}/en/latest/privacy.html"
+DOCS_URL: str = "https://pykorone.rtfd.io"
+PRIVACY_POLICY_URL: str = f"{DOCS_URL}/en/latest/privacy.html"
 
 MESSAGE_LENGTH_LIMIT: int = 4096

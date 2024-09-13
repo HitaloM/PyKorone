@@ -13,6 +13,7 @@ import httpx
 import m3u8
 from PIL import Image
 
+from korone.modules.medias.utils.generic_headers import GENERIC_HEADER
 from korone.utils.logging import logger
 
 MIME_EXTENSIONS = {
@@ -32,9 +33,13 @@ def is_supported_mime_type(content_type: str) -> bool:
     return content_type in MIME_EXTENSIONS
 
 
+def is_bsky_thumb(media_url: str, content: str) -> bool:
+    return "bsky.app" in media_url and "application/octet-stream" in content
+
+
 async def fetch_media(media_url: str) -> httpx.Response:
     async with httpx.AsyncClient(
-        http2=True, timeout=20, follow_redirects=True, max_redirects=5
+        headers=GENERIC_HEADER, http2=True, timeout=20, follow_redirects=True, max_redirects=5
     ) as client:
         response = await client.get(media_url)
         response.raise_for_status()
@@ -77,7 +82,7 @@ async def download_segment(segment_url: str, stack: AsyncExitStack) -> str | Non
         content = await response.aread()
 
         temp_file = tempfile.NamedTemporaryFile(delete=False, suffix=".ts")  # noqa: SIM115
-        stack.callback(lambda: Path(temp_file.name).unlink(missing_ok=True))  # Apaga após uso
+        stack.callback(lambda: Path(temp_file.name).unlink(missing_ok=True))
 
         async with aiofiles.open(temp_file.name, mode="wb") as file:
             await file.write(content)
@@ -142,9 +147,9 @@ async def merge_segments(segment_files: list[str], stack: AsyncExitStack) -> Byt
 async def download_media(media_url: str) -> BytesIO | None:
     try:
         response = await fetch_media(media_url)
-        content_type = response.headers.get("content-type", "")
+        content_type: str = response.headers.get("content-type", "")
 
-        if not is_supported_mime_type(content_type):
+        if not is_bsky_thumb(media_url, content_type) and not is_supported_mime_type(content_type):
             await logger.awarning("[Medias/Downloader] Unsupported MIME type: %s", content_type)
             return None
 

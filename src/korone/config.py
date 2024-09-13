@@ -29,7 +29,7 @@ class ConfigManager:
         if hasattr(self, "initialized") and self.initialized:
             return
 
-        logger.info("Initializing configuration module")
+        logger.info("Initializing configuration manager")
         logger.debug("Using path %s", cfgpath)
 
         config_path = Path(cfgpath)
