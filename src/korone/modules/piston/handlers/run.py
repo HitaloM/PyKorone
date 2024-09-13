@@ -6,6 +6,7 @@ import html
 from hairydogm.chat_action import ChatActionSender
 from hydrogram import Client
 from hydrogram.enums import ChatAction
+from hydrogram.errors import MessageTooLong
 from hydrogram.types import Message
 
 from korone.decorators import router
@@ -76,4 +77,12 @@ async def piston_command(client: Client, message: Message) -> None:
                 output=html.escape(response.compiler_output)
             )
 
-        await message.reply(text, disable_web_page_preview=True)
+        try:
+            await message.reply(text, disable_web_page_preview=True)
+        except MessageTooLong:
+            await message.reply(
+                _(
+                    "The result exceeds the 4096 character limit of Telegram. "
+                    "Please refine your code."
+                )
+            )
