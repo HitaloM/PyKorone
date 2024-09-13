@@ -60,7 +60,7 @@ def extract_gql_data(response_text: str) -> str | None:
     return None
 
 
-async def extract_media_data(response_text: str, post_id: str) -> dict[str, Any] | None:
+async def extract_media_data(response_text: str, post_id: str, url: str) -> dict[str, Any] | None:
     def clean_html(raw_html: str) -> str:
         return re.sub(r"<[^>]*>", "", raw_html).strip()
 
@@ -91,7 +91,7 @@ async def extract_media_data(response_text: str, post_id: str) -> dict[str, Any]
     caption = clean_html(caption_match.group(2)) if caption_match else None
 
     if media_type == "GraphVideo":
-        instafix_data = await get_instafix_data(post_id)
+        instafix_data = await get_instafix_data(url)
         if not instafix_data:
             return None
         return {
@@ -149,7 +149,7 @@ async def get_embed_data(url: str) -> InstagramData | None:
         with contextlib.suppress(ValueError):
             result = InstagramData.model_validate_json(gql_data)
     else:
-        instafix_data = await get_instafix_data(post_id)
+        instafix_data = await get_instafix_data(url)
         if instafix_data:
             instafix_dict = {
                 "shortcode_media": {
@@ -164,7 +164,7 @@ async def get_embed_data(url: str) -> InstagramData | None:
             result = InstagramData.model_validate(instafix_dict)
 
     if not result:
-        media_data = await extract_media_data(response_data, post_id)
+        media_data = await extract_media_data(response_data, post_id, url)
         if media_data:
             result = InstagramData.model_validate(media_data)
 
@@ -217,6 +217,9 @@ async def get_instafix_data(post_url: str) -> InstaFixData | None:
             return InstaFixData.model_validate(scraped_data)
 
         except (httpx.HTTPStatusError, httpx.RequestError):
+            await logger.aerror(
+                "[Medias/Instagram] Failed to fetch InstaFix data. URL: %s", post_url
+            )
             return None
 
 
