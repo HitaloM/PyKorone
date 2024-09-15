@@ -993,16 +993,18 @@ async def welcome_trigger(message: Message, strings):
         return
     if "welcome_mute" in db_item and db_item["welcome_mute"]["enabled"] is not False:
         user = await bot.get_chat_member(chat_id, user_id)
-        if user.can_send_messages is True:
-            if not await check_admin_rights(message, chat_id, CONFIG.bot_id, ["can_restrict_members"]):
-                await message.reply(strings["not_admin_wm"])
-                return
+        if user.status == "restricted":
+            return
 
-            await restrict_user(
-                chat_id,
-                user_id,
-                until_date=convert_time(db_item["welcome_mute"]["time"]),
-            )
+        if not await check_admin_rights(message, chat_id, CONFIG.bot_id, ["can_restrict_members"]):
+            await message.reply(strings["not_admin_wm"])
+            return
+
+        await restrict_user(
+            chat_id,
+            user_id,
+            until_date=convert_time(db_item["welcome_mute"]["time"]),
+        )
 
 
 # Clean service trigger
