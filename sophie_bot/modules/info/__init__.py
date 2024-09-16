@@ -12,6 +12,7 @@ from .callbacks import PMHelpBack, PMHelpModule
 from .handlers.op import OpCMDSList
 from .handlers.pm_modules import PMModuleHelp, PMModulesList
 from .handlers.privacy import PrivacyInfo
+from .stats import __stats__
 from .utils.extract_info import HELP_MODULES, gather_module_help
 
 router = Router(name="info")
@@ -41,3 +42,6 @@ def __post_setup__(modules: dict[str, ModuleType]):
                 module_help.cmds = HELP_MODULES[name].cmds + module_help.cmds
 
             HELP_MODULES[name] = module_help
+
+
+__all__ = ["__stats__"]

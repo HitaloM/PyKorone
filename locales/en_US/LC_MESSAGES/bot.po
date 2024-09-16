@@ -336,11 +336,11 @@ msgstr ""
 msgid "Softly whispering."
 msgstr ""
 
-#: sophie_bot/modules/info/__init__.py:20
+#: sophie_bot/modules/info/__init__.py:21
 msgid "Information"
 msgstr ""
 
-#: sophie_bot/modules/info/__init__.py:22
+#: sophie_bot/modules/info/__init__.py:23
 msgid "Provides helpful information"
 msgstr ""
 
@@ -447,7 +447,7 @@ msgstr ""
 msgid "Rules"
 msgstr ""
 
-#: sophie_bot/modules/legacy_modules/modules/users.py:21
+#: sophie_bot/modules/legacy_modules/modules/users.py:17
 #: sophie_bot/modules/users/__init__.py:14
 msgid "Users"
 msgstr ""

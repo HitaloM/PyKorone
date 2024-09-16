@@ -1,10 +1,9 @@
 import math
-import os
 
 import ujson
 from aiogram import Router
 from aiogram.types import Message
-from stfu_tg import Code, KeyValue, Section, Template
+from stfu_tg import Bold, Code, Doc, Italic, KeyValue, Section, Template
 
 from sophie_bot import SOPHIE_VERSION
 from sophie_bot.config import CONFIG
@@ -18,6 +17,7 @@ from sophie_bot.modules.legacy_modules.utils.register import (
 )
 from sophie_bot.services.db import db
 from sophie_bot.services.redis import redis
+from sophie_bot.versions import SOPHIE_BRANCH, SOPHIE_COMMIT
 
 router = Router(name="owner_stuff")
 
@@ -34,7 +34,7 @@ async def get_event(message):
 
 @register(router, IsOP(True), cmds="stats")
 async def stats(message):
-    sec = Section(title=f"Sophie {SOPHIE_VERSION}")
+    sec = Doc()
 
     all_modules = [*LOADED_LEGACY_MODULES, *LOADED_MODULES.values()]
 
@@ -55,28 +55,44 @@ def convert_size(size_bytes):
 
 
 async def __stats__():
-    sec = Section(title="Technical information")
+    doc = Doc()
 
-    if os.getenv("WEBHOOKS", False):
-        sec += f"Webhooks mode, listen port: <code>{os.getenv('WEBHOOKS_PORT', 8080)}</code>"
-    else:
-        sec += "Long-polling mode"
+    doc += Section(
+        Italic(CONFIG.environment),
+        Bold("Debug mode enabled!") if CONFIG.debug_mode else None,
+        KeyValue("Version", Italic(SOPHIE_VERSION)),
+        KeyValue("Commit", Code(SOPHIE_COMMIT)),
+        KeyValue("Branch", Italic(SOPHIE_BRANCH)),
+        KeyValue("Webhooks", Code(CONFIG.webhooks_port)) if CONFIG.webhooks_enable else "Long-polling mode",
+        title="Environment",
+    )
+
+    technical_section = Section(title="Technical info")
+
     local_db = await db.command("dbstats")
     if "fsTotalSize" in local_db:
-        sec += Template(
-            "Database size is {db_size}, free {db_free}",
-            db_size=Code(convert_size(local_db["dataSize"])),
-            db_free=Code(convert_size(local_db["fsTotalSize"] - local_db["fsUsedSize"])),
+        technical_section += KeyValue(
+            "Database size",
+            Template(
+                "{db_size}, free {db_free}",
+                db_size=Code(convert_size(local_db["dataSize"])),
+                db_free=Code(convert_size(local_db["fsTotalSize"] - local_db["fsUsedSize"])),
+            ),
         )
     else:
-        sec += Template(
-            "Database size is {db_size}, free {db_free}",
-            db_size=Code(convert_size(local_db["storageSize"])),
-            db_free=Code(convert_size(536870912 - local_db["storageSize"])),
+        technical_section += KeyValue(
+            "Database size",
+            Template(
+                "{db_size}, free {db_free}",
+                db_size=Code(convert_size(local_db["storageSize"])),
+                db_free=Code(convert_size(536870912 - local_db["storageSize"])),
+            ),
         )
 
-    sec += Template("{redis_keys} total keys in Redis database", redis_keys=Code(len(redis.keys())))
-    sec += KeyValue(
+    technical_section += KeyValue("Redis keys", Code(len(redis.keys())))
+
+    technical_section += KeyValue("Modules", Template("{modules} loaded", modules=Code(len(LOADED_MODULES))))
+    technical_section += KeyValue(
         "Legacy modules",
         Template(
             "{cmds} total commands registered, in {modules} modules",
@@ -84,8 +100,10 @@ async def __stats__():
             modules=Code(len(LOADED_LEGACY_MODULES)),
         ),
     )
-    sec += KeyValue("Modules", Template("{modules} loaded", modules=Code(len(LOADED_MODULES))))
-    return sec
+
+    doc += technical_section
+
+    return doc
 
 
 @get_strings_dec("owner_stuff")

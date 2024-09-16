@@ -1,5 +1,3 @@
-from importlib import metadata
-
 from aiogram import Bot, Dispatcher
 from aiogram.client.default import DefaultBotProperties
 from aiogram.client.telegram import PRODUCTION, TelegramAPIServer
@@ -10,8 +8,7 @@ from redis.asyncio import Redis
 
 from sophie_bot.config import CONFIG
 from sophie_bot.utils.logger import log
-
-SOPHIE_VERSION = metadata.version("sophie_bot")
+from sophie_bot.versions import SOPHIE_VERSION
 
 log.info("----------------------")
 log.info("|      SophieBot     |")
