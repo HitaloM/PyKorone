@@ -102,29 +102,3 @@ async def adminlist(message: Message, chat, strings):
         text += "- {} ({})\n".format(await get_user_link(admin), admin)
 
     await message.reply(text, disable_notification=True)
-
-
-async def __stats__():
-    total_users = await db.user_list.count_documents({})
-    total_chats = await db.chat_list.count_documents({})
-
-    users_24h = await db.user_list.count_documents(
-        {"first_detected_date": {"$gte": datetime.datetime.now() - datetime.timedelta(days=2)}}
-    )
-    chats_24h = await db.chat_list.count_documents(
-        {"first_detected_date": {"$gte": datetime.datetime.now() - datetime.timedelta(days=2)}}
-    )
-
-    return Section(
-        Template(
-            "{total_users} total users, in {total_chats} chats",
-            total_users=Code(total_users),
-            total_chats=Code(total_chats),
-        ),
-        Template(
-            "{users_24h} new users and {chats_24h} new chats in the last 48 hours",
-            users_24h=Code(users_24h),
-            chats_24h=Code(chats_24h),
-        ),
-        title="Users (legacy)",
-    )
