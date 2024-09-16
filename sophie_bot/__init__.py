@@ -8,12 +8,14 @@ from redis.asyncio import Redis
 
 from sophie_bot.config import CONFIG
 from sophie_bot.utils.logger import log
-from sophie_bot.versions import SOPHIE_VERSION
+from sophie_bot.versions import SOPHIE_BRANCH, SOPHIE_COMMIT, SOPHIE_VERSION
 
-log.info("----------------------")
-log.info("|      SophieBot     |")
-log.info("----------------------")
+log.info("-------------------")
+log.info("|      Sophie     |")
+log.info("-------------------")
 log.info("Version: " + SOPHIE_VERSION)
+log.info("Commit: " + SOPHIE_COMMIT)
+log.info("Branch: " + SOPHIE_BRANCH)
 
 # Support for custom BotAPI servers
 bot_api = TelegramAPIServer.from_base(str(CONFIG.botapi_server)) if CONFIG.botapi_server else PRODUCTION

@@ -5,7 +5,7 @@ ENV PIP_DEFAULT_TIMEOUT=100 \
     PIP_NO_CACHE_DIR=1
 
 RUN apt update
-RUN apt install build-essential gcc -y
+RUN apt install build-essential gcc git -y
 RUN pip install poetry wheel
 RUN python -m venv /venv
 
@@ -22,6 +22,14 @@ RUN bash -c "source /venv/bin/activate; make compile_lang"
 
 RUN poetry build && /venv/bin/pip install dist/*.whl
 
+COPY ../../.git .git
+RUN BRANCH_NAME=$(git rev-parse --abbrev-ref HEAD) && \
+    COMMIT_HASH=$(git rev-parse --short HEAD) && \
+    echo "Branch: $BRANCH_NAME, Commit: $COMMIT_HASH" && \
+    echo "SOPHIE_COMMIT = \"$COMMIT_HASH\"" >> /build/sophie_bot/versions.py && \
+    echo "SOPHIE_BRANCH = \"$BRANCH_NAME\"" >> /build/sophie_bot/versions.py
+
+
 FROM python:3.12-slim as final
 
 ENV PYTHONFAULTHANDLER=1 \
@@ -31,7 +39,7 @@ ENV PYTHONFAULTHANDLER=1 \
 # RUN apk add --no-cache libffi libpq
 
 COPY --from=builder /venv /venv
-COPY ../../sophie_bot /sophie_bot
+COPY --from=builder /build/sophie_bot /sophie_bot
 
 COPY --from=builder /build/locales /locales
 
