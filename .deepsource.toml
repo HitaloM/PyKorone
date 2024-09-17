@@ -15,9 +15,3 @@ name = "docker"
 
   [analyzers.meta]
   dockerfile_paths = ["Dockerfile"]
-
-[[transformers]]
-name = "black"
-
-[[transformers]]
-name = "isort"
