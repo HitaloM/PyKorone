@@ -12,7 +12,6 @@ from sophie_bot.modules.legacy_modules.utils.language import get_strings
 from sophie_bot.modules.legacy_modules.utils.restrictions import ban_user
 from sophie_bot.modules.legacy_modules.utils.user_details import is_user_admin
 from sophie_bot.services.db import db
-from sophie_bot.utils.exception import SophieException
 from sophie_bot.utils.logger import log
 
 
