@@ -37,7 +37,7 @@ class BetaMiddleware(BaseMiddleware):
     ) -> Any:
         chat: Optional[Chat] = data.get("event_chat")
 
-        if CONFIG.proxy_always_beta or (chat and await self.is_beta(chat.id)):
+        if chat and await self.is_beta(chat.id):
             json_request = self.get_data(update)
             log.debug("Sending request to Beta Sophie...", json_request=json_request)
             return await self.send_request(json_request, CONFIG.proxy_beta_instance_url)

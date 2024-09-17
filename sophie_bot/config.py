@@ -76,7 +76,6 @@ class Config(BaseSettings):
     proxy_enable: bool = False
     proxy_stable_instance_url: str = "http://host.container.internal:8071"
     proxy_beta_instance_url: str = "http://host.container.internal:8072"
-    proxy_always_beta: bool = False
 
     class Config:
         env_file = "data/config.env"

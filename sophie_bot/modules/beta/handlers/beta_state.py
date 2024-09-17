@@ -72,7 +72,7 @@ async def show_beta_state(message):
     percentage = int(gs_beta_db.value) if gs_beta_db else 0
 
     if beta_state and beta_state.mode:
-        current_mode_text = mode_names[beta_state.mode]
+        current_mode_text = mode_names[beta_state.mode.name]
     elif percentage == 0:
         current_mode_text = mode_names[PreferredMode.stable.name]
     else:
