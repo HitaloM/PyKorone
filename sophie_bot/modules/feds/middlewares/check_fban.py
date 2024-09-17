@@ -57,16 +57,11 @@ class FedBanMiddleware(BaseMiddleware):
                 )
             else:
                 s_fed = await get_fed_by_id(ban["fed_id"] if "origin_fed" not in ban else ban["origin_fed"])
-                if s_fed is None:
-                    # We found a ban but we cannot find the federation.
-                    # TODO: Implement a silent crash
-                    return False
-                    #raise SophieException("The user is banned in the subscribed fed, but I cannot find it.")
 
                 doc = Template(
                     strings["automatic_ban_sfed"],
                     user=UserLink(user_id, user_name),
-                    fed_name=s_fed["fed_name"],
+                    fed_name=s_fed["fed_name"] if s_fed else "Unknown",
                 )
 
             if "reason" in ban:
