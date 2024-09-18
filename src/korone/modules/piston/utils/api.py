@@ -61,7 +61,6 @@ def create_request(text: str) -> RunRequest:
     return RunRequest(language=lang, code=code, stdin=stdin)
 
 
-@cache(ttl=timedelta(weeks=1), condition=NOT_NONE)
 async def run_code(request: RunRequest) -> RunResponse:
     url = "https://emkc.org/api/v2/piston/execute"
     json_body = orjson.dumps(request.to_dict())
