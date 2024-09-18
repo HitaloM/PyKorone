@@ -11,7 +11,7 @@ from hydrogram.enums import ParseMode
 from hydrogram.types import Message
 
 from korone.decorators import router
-from korone.filters import HasText, IsAdmin
+from korone.filters import HasText, UserIsAdmin
 from korone.filters.command import CommandError, CommandObject
 from korone.modules.filters.database import get_filters_cache, update_filters_cache
 from korone.modules.filters.utils.buttons import unparse_buttons, unparse_buttons_to_text
@@ -35,7 +35,7 @@ async def check_filters(client: Client, message: Message) -> None:
 
     if (
         command_obj
-        and await IsAdmin(client, message, show_alert=False)
+        and await UserIsAdmin(client, message, show_alert=False)
         and command_obj.command.startswith((
             "filter",
             "delfilter",

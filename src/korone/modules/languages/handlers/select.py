@@ -11,14 +11,14 @@ from hydrogram.types import CallbackQuery, InlineKeyboardButton, Message
 from magic_filter import F
 
 from korone.decorators import router
-from korone.filters import Command, IsAdmin
+from korone.filters import Command, UserIsAdmin
 from korone.modules.languages.callback_data import LangMenu, LangMenuCallback, SetLangCallback
 from korone.utils.i18n import get_i18n
 from korone.utils.i18n import gettext as _
 
 
-@router.message(Command("languages") & IsAdmin)
-@router.callback_query(LangMenuCallback.filter(F.menu == LangMenu.Languages) & IsAdmin)
+@router.message(Command("languages") & UserIsAdmin)
+@router.callback_query(LangMenuCallback.filter(F.menu == LangMenu.Languages) & UserIsAdmin)
 async def handle_languages(client: Client, update: Message | CallbackQuery) -> None:
     i18n = get_i18n()
     chat_type = update.chat.type if isinstance(update, Message) else update.message.chat.type

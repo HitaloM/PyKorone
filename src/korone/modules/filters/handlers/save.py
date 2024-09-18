@@ -5,14 +5,14 @@ from hydrogram import Client
 from hydrogram.types import Message
 
 from korone.decorators import router
-from korone.filters import Command, CommandObject, IsAdmin
+from korone.filters import Command, CommandObject, UserIsAdmin
 from korone.modules.filters.database import save_filter, update_filters_cache
 from korone.modules.filters.utils.parse_args import parse_args
 from korone.modules.filters.utils.parse_filter import parse_saveable
 from korone.utils.i18n import gettext as _
 
 
-@router.message(Command("filter") & IsAdmin)
+@router.message(Command("filter") & UserIsAdmin)
 async def filter_command(client: Client, message: Message) -> None:
     command_obj = CommandObject(message).parse()
 

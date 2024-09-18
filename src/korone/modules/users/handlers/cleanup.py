@@ -3,15 +3,21 @@
 
 from hydrogram import Client
 from hydrogram.errors import BadRequest
-from hydrogram.types import Message
+from hydrogram.types import ChatPrivileges, Message
 
 from korone.decorators import router
-from korone.filters import Command, IsAdmin, IsGroupChat
+from korone.filters import Command, IsGroupChat, UserIsAdmin
+from korone.filters.admin import BotIsAdmin
 from korone.utils.i18n import gettext as _
 
 
-@router.message(Command("cleanup") & IsGroupChat & IsAdmin)
+@router.message(Command("cleanup") & IsGroupChat & UserIsAdmin)
 async def cleanup_command(client: Client, message: Message) -> None:
+    if not await BotIsAdmin(
+        client, message, permissions=ChatPrivileges(can_restrict_members=True), show_alert=True
+    ):
+        return
+
     sent = await message.reply(_("Removing deleted accounts..."))
 
     try:

@@ -5,18 +5,18 @@ from hydrogram import Client
 from hydrogram.types import Message
 
 from korone.decorators import router
-from korone.filters import Command, CommandObject, IsAdmin, IsGroupChat
+from korone.filters import Command, CommandObject, IsGroupChat, UserIsAdmin
 from korone.modules.core import COMMANDS, fetch_command_state
 from korone.modules.disabling.database import set_command_state
 from korone.utils.i18n import gettext as _
 
 
-@router.message(Command("enable", disableable=False) & IsGroupChat & IsAdmin)
+@router.message(Command("enable", disableable=False) & IsGroupChat & UserIsAdmin)
 async def enable_command(client: Client, message: Message) -> None:
     await change_command_state(client, message, enable=True)
 
 
-@router.message(Command("disable", disableable=False) & IsGroupChat & IsAdmin)
+@router.message(Command("disable", disableable=False) & IsGroupChat & UserIsAdmin)
 async def disable_command(client: Client, message: Message) -> None:
     await change_command_state(client, message, enable=False)
 

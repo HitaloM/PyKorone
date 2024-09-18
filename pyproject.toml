@@ -40,7 +40,7 @@ build-backend = "hatchling.build"
 
 [tool.rye]
 managed = true
-dev-dependencies = ["pre-commit>=3.8.0", "ruff>=0.6.4"]
+dev-dependencies = ["pre-commit>=3.8.0", "ruff>=0.6.5"]
 
 [project.optional-dependencies]
 docs = [

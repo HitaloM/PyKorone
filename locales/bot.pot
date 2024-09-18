@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-09-13 14:02-0300\n"
+"POT-Creation-Date: 2024-09-18 19:20-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -19,6 +19,14 @@ msgstr ""
 
 #: src/korone/filters/admin.py:42
 msgid "You must be an administrator to use this."
+msgstr ""
+
+#: src/korone/filters/admin.py:93
+msgid "I'm missing the following permissions: {permissions}"
+msgstr ""
+
+#: src/korone/filters/admin.py:103
+msgid "I must be an administrator to do this."
 msgstr ""
 
 #: src/korone/filters/chat.py:25
@@ -1053,23 +1061,23 @@ msgid ""
 "<b>Translation:</b> <code>{translated_text}</code>"
 msgstr ""
 
-#: src/korone/modules/users/handlers/cleanup.py:15
+#: src/korone/modules/users/handlers/cleanup.py:21
 msgid "Removing deleted accounts..."
 msgstr ""
 
-#: src/korone/modules/users/handlers/cleanup.py:21
+#: src/korone/modules/users/handlers/cleanup.py:27
 msgid "Failed to fetch members."
 msgstr ""
 
-#: src/korone/modules/users/handlers/cleanup.py:25
+#: src/korone/modules/users/handlers/cleanup.py:31
 msgid "No members found."
 msgstr ""
 
-#: src/korone/modules/users/handlers/cleanup.py:39
+#: src/korone/modules/users/handlers/cleanup.py:45
 msgid "Removed {count} deleted accounts."
 msgstr ""
 
-#: src/korone/modules/users/handlers/cleanup.py:42
+#: src/korone/modules/users/handlers/cleanup.py:48
 msgid "No deleted accounts found."
 msgstr ""
 

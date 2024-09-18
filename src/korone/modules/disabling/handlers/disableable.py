@@ -5,12 +5,12 @@ from hydrogram import Client
 from hydrogram.types import Message
 
 from korone.decorators import router
-from korone.filters import Command, IsAdmin
+from korone.filters import Command, UserIsAdmin
 from korone.modules.core import COMMANDS
 from korone.utils.i18n import gettext as _
 
 
-@router.message(Command("disableable", disableable=False) & IsAdmin)
+@router.message(Command("disableable", disableable=False) & UserIsAdmin)
 async def disableable_command(client: Client, message: Message) -> None:
     disableable_commands = sorted([cmd for cmd in COMMANDS if "parent" not in COMMANDS[cmd]])
 

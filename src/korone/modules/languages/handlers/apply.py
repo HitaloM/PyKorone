@@ -8,7 +8,7 @@ from hydrogram.types import CallbackQuery
 
 from korone import constants
 from korone.decorators import router
-from korone.filters import IsAdmin
+from korone.filters import UserIsAdmin
 from korone.modules.languages.callback_data import SetLangCallback
 from korone.modules.languages.database import set_chat_language
 from korone.utils.caching import cache
@@ -16,7 +16,7 @@ from korone.utils.i18n import get_i18n
 from korone.utils.i18n import gettext as _
 
 
-@router.callback_query(SetLangCallback.filter() & IsAdmin)
+@router.callback_query(SetLangCallback.filter() & UserIsAdmin)
 async def set_lang_callback(client: Client, callback: CallbackQuery) -> None:
     if not callback.data:
         await callback.answer(_("Something went wrong."))

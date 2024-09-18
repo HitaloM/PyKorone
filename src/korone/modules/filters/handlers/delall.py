@@ -7,13 +7,13 @@ from hydrogram.types import CallbackQuery, Message
 from magic_filter import F
 
 from korone.decorators import router
-from korone.filters import Command, IsAdmin
+from korone.filters import Command, UserIsAdmin
 from korone.modules.filters.callback_data import DelAllFiltersAction, DelAllFiltersCallback
 from korone.modules.filters.database import delete_all_filters, update_filters_cache
 from korone.utils.i18n import gettext as _
 
 
-@router.message(Command("delallfilters") & IsAdmin)
+@router.message(Command("delallfilters") & UserIsAdmin)
 async def delallfilters_command(client: Client, message: Message) -> None:
     keyboard = InlineKeyboardBuilder()
     keyboard.button(

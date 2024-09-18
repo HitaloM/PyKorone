@@ -5,12 +5,12 @@ from hydrogram import Client
 from hydrogram.types import Message
 
 from korone.decorators import router
-from korone.filters import Command, IsAdmin, IsGroupChat
+from korone.filters import Command, IsGroupChat, UserIsAdmin
 from korone.modules.disabling.database import get_disabled_commands
 from korone.utils.i18n import gettext as _
 
 
-@router.message(Command("disabled", disableable=False) & IsGroupChat & IsAdmin)
+@router.message(Command("disabled", disableable=False) & IsGroupChat & UserIsAdmin)
 async def disabled_command(client: Client, message: Message) -> None:
     chat_id = message.chat.id
 
