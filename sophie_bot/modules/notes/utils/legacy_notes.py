@@ -20,7 +20,8 @@ from sophie_bot.modules.legacy_modules.utils.language import get_chat_lang
 from sophie_bot.modules.legacy_modules.utils.message import (
     get_args,
     get_args_str,
-    get_cmd, get_full_command,
+    get_cmd,
+    get_full_command,
 )
 from sophie_bot.modules.legacy_modules.utils.tmarkdown import (
     tbold,
