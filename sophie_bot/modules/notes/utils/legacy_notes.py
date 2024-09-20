@@ -20,7 +20,7 @@ from sophie_bot.modules.legacy_modules.utils.language import get_chat_lang
 from sophie_bot.modules.legacy_modules.utils.message import (
     get_args,
     get_args_str,
-    get_cmd,
+    get_cmd, get_full_command,
 )
 from sophie_bot.modules.legacy_modules.utils.tmarkdown import (
     tbold,
@@ -230,7 +230,9 @@ async def get_parsed_note_list(message: Message, allow_reply_message=True, split
         to_split = "".join([" " + q for q in get_args(message)[:split_args]])
         if not to_split:
             to_split = " "
-        text += get_parsed_msg(message)[0].partition(message.get_command() + to_split)[2][1:]
+
+        cmd_command, _args = get_full_command(message)
+        text += get_parsed_msg(message)[0].partition(cmd_command + to_split)[2][1:]
         # Set parse_mode if origin msg override it
         if mode := get_msg_parse(message.text, default_md=False):
             note["parse_mode"] = mode
