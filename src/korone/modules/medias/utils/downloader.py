@@ -27,6 +27,9 @@ MIME_TYPE_TO_EXTENSION = {
     "video/x-msvideo": "avi",
     "application/vnd.apple.mpegurl": "m3u8",
 }
+MAX_FILE_SIZE: int = 10 * 1024 * 1024  # 10 MB
+MAX_DIMENSION: int = 10000
+MAX_RATIO: int = 20
 
 
 def is_supported_mime_type(mime_type: str) -> bool:
@@ -144,6 +147,28 @@ async def download_m3u8_playlist(media_url: str, content: bytes) -> BytesIO | No
             return None
 
 
+def resize_image(image: Image.Image) -> BytesIO:
+    width, height = image.size
+    ratio = width / height
+
+    if ratio > MAX_RATIO:
+        if width > height:
+            width = MAX_RATIO * height
+        else:
+            height = MAX_RATIO * width
+
+    if width + height > MAX_DIMENSION:
+        scale = MAX_DIMENSION / (width + height)
+        width = int(width * scale)
+        height = int(height * scale)
+
+    resized_image = image.resize((width, height), Image.Resampling.LANCZOS)
+    buffer = BytesIO()
+    resized_image.save(buffer, format="JPEG")
+    buffer.seek(0)
+    return buffer
+
+
 async def download_media(media_url: str) -> BytesIO | None:
     try:
         response = await fetch_media_url(media_url)
@@ -158,13 +183,32 @@ async def download_media(media_url: str) -> BytesIO | None:
         raw_data = await response.aread()
         buffer = BytesIO(raw_data)
         file_path = Path(urlparse(media_url).path)
-        buffer.name = file_path.name
+
+        if not file_path.name:
+            extension = get_file_extension(content_type)
+            buffer.name = f"downloaded_media.{extension}"
+        else:
+            buffer.name = file_path.name
+            if not file_path.suffix:
+                extension = get_file_extension(content_type)
+                buffer.name = f"{buffer.name}.{extension}"
 
         if b"#EXTM3U" in raw_data:
             return await download_m3u8_playlist(media_url, raw_data)
 
         if file_path.suffix.lower() in {".webp", ".heic"}:
             return convert_to_jpeg(buffer, file_path)
+
+        if content_type.startswith("image/"):
+            image = Image.open(buffer)
+            buffer.seek(0, 2)  # Move to the end of the buffer
+            if (
+                buffer.tell() > MAX_FILE_SIZE
+                or image.width + image.height > MAX_DIMENSION
+                or image.width / image.height > MAX_RATIO
+            ):
+                buffer = resize_image(image)
+                buffer.name = file_path.with_suffix(".jpeg").name
 
         return buffer
 
