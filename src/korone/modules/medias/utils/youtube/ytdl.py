@@ -8,10 +8,13 @@ from typing import Any
 
 import yt_dlp
 
+from korone.config import ConfigManager
 from korone.modules.medias.utils.files import resize_thumbnail
 from korone.utils.logging import logger
 
 from .types import VideoInfo
+
+PROXY = ConfigManager.get("korone", "PROXY_URL")
 
 
 class YTDLError(Exception):
@@ -30,7 +33,11 @@ class YTDL:
     __slots__ = ("download", "file_path", "options")
 
     def __init__(self, download: bool) -> None:
-        self.options = {"quiet": True, "no_warnings": True}
+        self.options = {
+            "quiet": True,
+            "no_warnings": True,
+            "proxy": PROXY,
+        }
         self.download: bool = download
         self.file_path: str | None = None
 
@@ -112,6 +119,7 @@ class YtdlpManager:
             "writethumbnail": True,
             "outtmpl": f"downloads/%(title)s [%(id)s] {self.timestamp}.%(ext)s",
             "format": format_str,
+            "proxy": PROXY,
         }
 
     @staticmethod
