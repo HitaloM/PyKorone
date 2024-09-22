@@ -4,7 +4,7 @@ from aiogram import flags
 from aiogram.handlers import BaseHandler, CallbackQueryHandler
 from aiogram.types import CallbackQuery, InlineKeyboardButton, Message
 from aiogram.utils.keyboard import InlineKeyboardBuilder
-from stfu_tg import Section, Title
+from stfu_tg import Doc, HList, Section, Title
 
 from sophie_bot import CONFIG
 from sophie_bot.modules.info import PMHelpBack, PMHelpModule
@@ -53,16 +53,37 @@ class PMModuleHelp(CallbackQueryHandler):
 
         cmds = list(filter(lambda x: not x.only_op, module.cmds))
 
-        doc = Title(f"{module.icon} {module.name}")
+        doc = Doc(
+            HList(
+                Title(f"{module.icon} {module.name}"),
+                ("- " + module.description) if module.description else None,
+            )
+        )
         if module.info:
             doc += module.info
-            doc += " "
 
-        if user_cmds := list(filter(lambda x: not x.only_admin, cmds)):
-            doc += Section(format_cmds(user_cmds), title=_("Commands"))
+        doc += " "
 
-        if admin_only_cmds := list(filter(lambda x: x.only_admin, cmds)):
-            doc += Section(format_cmds(admin_only_cmds), title=_("Only admins"))
+        cmds_sec = Section(title=_("Commands"))
+        pm_cmds_sec = Section(title=_("PM-only"))
+        admin_only_cmds_sec = Section(title=_("Only admins"))
+
+        for cmd in cmds:
+            if cmd.only_pm:
+                pm_cmds_sec += format_cmds([cmd])
+            elif cmd.only_admin:
+                admin_only_cmds_sec += format_cmds([cmd])
+            else:
+                cmds_sec += format_cmds([cmd])
+
+        if cmds_sec:
+            doc += cmds_sec
+
+        if pm_cmds_sec:
+            doc += pm_cmds_sec
+
+        if admin_only_cmds_sec:
+            doc += admin_only_cmds_sec
 
         buttons = (
             InlineKeyboardBuilder()

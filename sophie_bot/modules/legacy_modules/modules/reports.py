@@ -1,4 +1,4 @@
-from aiogram import F, Router
+from aiogram import F, Router, flags
 from aiogram.types import Message
 
 from sophie_bot.modules.legacy_modules.utils.connections import chat_connection
@@ -32,6 +32,7 @@ async def report1_cmd(message: Message, chat, strings):
 
 
 @register(router, cmds="report")
+@flags.help(description=l_("Reports the replied message."))
 @chat_connection(only_groups=True)
 @disableable_dec("report")
 @get_strings_dec("reports")

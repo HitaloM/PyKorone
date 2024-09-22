@@ -1,4 +1,4 @@
-from aiogram import Router
+from aiogram import Router, flags
 from aiogram.types import Message
 
 from sophie_bot.modules.legacy_modules.modules import LOADED_LEGACY_MODULES
@@ -22,6 +22,7 @@ router = Router(name="users")
 
 
 @register(router, cmds="info")
+@flags.help(description=l_("Shows the additional information about the user."))
 @disableable_dec("info")
 @get_user_dec(allow_self=True)
 @get_strings_dec("users")
@@ -55,6 +56,7 @@ async def user_info(message: Message, user, strings):
 
 
 @register(router, cmds=["id", "chatid", "userid"])
+@flags.help(description=l_("Shows IDs."))
 @disableable_dec("id")
 @get_user_dec(allow_self=True)
 @get_strings_dec("misc")
@@ -86,6 +88,7 @@ async def get_id(message: Message, user, strings, chat):
 
 
 @register(router, cmds=["adminlist", "admins"])
+@flags.help(description=l_("Lists all the chats admins."))
 @disableable_dec("adminlist")
 @chat_connection(only_groups=True)
 @get_strings_dec("users")

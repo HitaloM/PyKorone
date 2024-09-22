@@ -32,7 +32,7 @@ from typing import Optional
 
 import babel
 import ujson
-from aiogram import F, Router
+from aiogram import F, Router, flags
 from aiogram.exceptions import (
     TelegramBadRequest,
     TelegramForbiddenError,
@@ -48,6 +48,7 @@ from aiogram.types import (
     InlineKeyboardMarkup,
     Message,
 )
+from ass_tg.types import TextArg
 from babel.dates import format_timedelta
 from pymongo import DeleteMany, InsertOne
 
@@ -260,6 +261,7 @@ def is_fed_admin(func):
 
 
 @register(router, cmds=["newfed", "fnew"])
+@flags.help(description=l_("Creates a new Federation."), args={"name": TextArg(l_("Command"))})
 @need_args_dec()
 @get_strings_dec("feds")
 async def new_fed(message: Message, strings):
@@ -294,6 +296,7 @@ async def new_fed(message: Message, strings):
 
 
 @register(router, cmds=["joinfed", "fjoin"])
+@flags.help(description=l_("Joins the current chat to the federation."), args={"name": TextArg(l_("Fed ID"))})
 @need_args_dec()
 @chat_connection(admin=True, only_groups=True)
 @get_strings_dec("feds")
@@ -333,6 +336,7 @@ async def join_fed(message: Message, chat, strings):
 
 
 @register(router, cmds=["leavefed", "fleave"])
+@flags.help(description=l_("Leaves the current chat from the federation."))
 @chat_connection(admin=True, only_groups=True)
 @get_current_chat_fed
 @get_strings_dec("feds")
@@ -360,6 +364,7 @@ async def leave_fed_comm(message: Message, chat, fed, strings):
 
 
 @register(router, cmds="fsub")
+@flags.help(description=l_("Subscribes federation to another."), args={"name": TextArg(l_("Fed ID to subscribe"))})
 @need_args_dec()
 @get_current_chat_fed
 @is_fed_owner
@@ -393,6 +398,7 @@ async def fed_sub(message: Message, fed, strings):
 
 
 @register(router, cmds="funsub")
+@flags.help(description=l_("Unsubscribes the federation."), args={"name": TextArg(l_("Subscribed Fed ID"))})
 @need_args_dec()
 @get_current_chat_fed
 @is_fed_owner
@@ -419,6 +425,7 @@ async def fed_unsub(message: Message, fed, strings):
 
 
 @register(router, cmds="fpromote")
+@flags.help(description=l_("Promotes the user to the Federation admins."), args={"user": TextArg(l_("User"))})
 @get_fed_user_text()
 @is_fed_owner
 @get_strings_dec("feds")
@@ -447,6 +454,7 @@ async def promote_to_fed(message: Message, fed, user, text, strings):
 
 
 @register(router, cmds="fdemote")
+@flags.help(description=l_("Demotes the user from the Federation admins."), args={"user": TextArg(l_("User"))})
 @get_fed_user_text()
 @is_fed_owner
 @get_strings_dec("feds")
@@ -473,6 +481,7 @@ async def demote_from_fed(message: Message, fed, user, text, strings):
 
 
 @register(router, cmds=["fsetlog", "setfedlog"], only_groups=True)
+@flags.help(description=l_("Sets the Federation logs channel."))
 @get_fed_dec
 @get_chat_dec(allow_self=True, fed=True)
 @is_fed_owner
@@ -501,6 +510,7 @@ async def set_fed_log_chat(message: Message, fed, chat, strings):
 
 
 @register(router, cmds=["funsetlog", "unsetfedlog"], only_groups=True)
+@flags.help(description=l_("Removes the Federation logs channel."))
 @get_fed_dec
 @is_fed_owner
 @get_strings_dec("feds")
@@ -522,6 +532,7 @@ async def unset_fed_log_chat(message: Message, fed, strings):
 
 
 @register(router, cmds=["fchatlist", "fchats"])
+@flags.help(description=l_("Shows a list of chats in the Federation."))
 @get_fed_dec
 @is_fed_admin
 @get_strings_dec("feds")
@@ -546,6 +557,7 @@ async def fed_chat_list(message: Message, fed, strings):
 
 
 @register(router, cmds=["fadminlist", "fadmins"])
+@flags.help(description=l_("Shows a list of admins in the Federation."))
 @get_fed_dec
 @is_fed_admin
 @get_strings_dec("feds")
@@ -559,6 +571,7 @@ async def fed_admins_list(message: Message, fed, strings):
 
 
 @register(router, cmds=["finfo", "fedinfo"])
+@flags.help(description=l_("Shows the information about the Federation."))
 @get_fed_dec
 @get_strings_dec("feds")
 async def fed_info(message: Message, fed, strings):
@@ -594,6 +607,7 @@ async def get_all_subs_feds_r(fed_id, new):
 
 
 @register(router, cmds=["fban", "sfban"])
+@flags.help(description=l_("Bans the user in the whole Federation."), args={"user": TextArg(l_("User"))})
 @get_fed_user_text()
 @is_fed_admin
 @get_strings_dec("feds")
@@ -765,6 +779,7 @@ async def fed_ban_user(message: Message, fed, user, reason, strings):
 
 
 @register(router, cmds=["unfban", "funban"])
+@flags.help(description=l_("Unbans the user from the Federation."), args={"user": TextArg(l_("User"))})
 @get_fed_user_text()
 @is_fed_admin
 @get_strings_dec("feds")
@@ -856,6 +871,7 @@ async def unfed_ban_user(message: Message, fed, user, text, strings):
 
 
 @register(router, cmds=["delfed", "fdel"])
+@flags.help(description=l_("Deletes the federation."))
 @get_fed_dec
 @is_fed_owner
 @get_strings_dec("feds")
@@ -907,6 +923,7 @@ async def cancel(event):
 
 
 @register(router, cmds="frename")
+@flags.help(description=l_("Renames the federation."), args={"name": TextArg(l_("New name"))})
 @need_args_dec()
 @get_fed_dec
 @is_fed_owner
@@ -934,6 +951,7 @@ async def fed_rename(message: Message, fed, strings):
 
 
 @register(router, cmds=["fbanlist", "exportfbans", "fexport"])
+@flags.help(description=l_("Exports the list of bans."))
 @get_fed_dec
 @is_fed_admin
 @get_strings_dec("feds")
@@ -982,6 +1000,7 @@ async def fban_export(message: Message, fed, strings):
 
 
 @register(router, cmds=["importfbans", "fimport"])
+@flags.help(description=l_("Imports the list of bans."))
 @get_fed_dec
 @is_fed_admin
 @get_strings_dec("feds")
@@ -1111,6 +1130,7 @@ async def import_state(message: Message, fed, state: FSMContext, **kwargs):
 
 
 @register(router, cmds=["fcheck", "fbanstat"])
+@flags.help(description=l_("Checks the user ban status (can be used to check yourself)."))
 @get_fed_user_text(skip_no_fed=True, check_self_user=True, disable_self_fed_check=True)
 @get_strings_dec("feds")
 async def fedban_check(message, fed, user, _, strings):

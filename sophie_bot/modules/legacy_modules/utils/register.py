@@ -75,6 +75,8 @@ def register(router: Router, *reg_args, **reg_kwargs):
             await func(message, **kwargs)
             raise SkipHandler
 
+        setattr(handler_func, "aiogram_flag", getattr(func, "aiogram_flag", {}))
+
         log.warn(f"Legacy @register: Registering message handler: {reg_args} {reg_kwargs}")
         router.message.register(handler_func, *reg_args)
 

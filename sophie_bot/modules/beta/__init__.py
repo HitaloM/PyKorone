@@ -14,7 +14,7 @@ router = Router(name="beta")
 
 __module_name__ = l_("Beta")
 __module_emoji__ = "🐞"
-__module_info__ = l_(
+__module_description__ = l_(
     """Controls the current Sophie mode.
 Please note that Beta mode can have bugs and issues. If you encounter any problems please report it to the support chat."""
 )

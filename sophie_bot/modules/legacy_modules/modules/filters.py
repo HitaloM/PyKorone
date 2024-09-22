@@ -24,7 +24,7 @@ from contextlib import suppress
 from string import printable
 
 import regex
-from aiogram import F, Router
+from aiogram import F, Router, flags
 from aiogram.exceptions import TelegramBadRequest
 from aiogram.filters.callback_data import CallbackData
 from aiogram.fsm.context import FSMContext
@@ -35,6 +35,7 @@ from aiogram.types import (
     InlineKeyboardMarkup,
     Message,
 )
+from ass_tg.types import TextArg
 from async_timeout import timeout
 from bson.objectid import ObjectId
 from pymongo import UpdateOne
@@ -152,6 +153,7 @@ async def check_msg(message: Message):
 
 
 @register(router, cmds=["addfilter", "newfilter"], is_admin=True)
+@flags.help(description=l_("Adds a new filter."), args={"trigger": TextArg(l_("Trigger"))})
 @need_args_dec()
 @chat_connection(only_groups=True, admin=True)
 @get_strings_dec("filters")
@@ -278,6 +280,7 @@ async def setup_end(message: Message, chat, strings, state: FSMContext, **kwargs
 
 
 @register(router, cmds=["filters", "listfilters"])
+@flags.help(description=l_("Shows the list of filters."))
 @chat_connection(only_groups=True)
 @get_strings_dec("filters")
 async def list_filters(message: Message, chat, strings):
@@ -296,6 +299,7 @@ async def list_filters(message: Message, chat, strings):
 
 
 @register(router, cmds="delfilter", is_admin=True)
+@flags.help(description=l_("Removes the filter."), args={"trigger": TextArg(l_("Trigger"))})
 @need_args_dec()
 @chat_connection(only_groups=True, admin=True)
 @get_strings_dec("filters")
@@ -346,6 +350,7 @@ async def del_filter_cb(event, chat, strings, callback_data: FilterRemoveCb, **k
 
 
 @register(router, cmds=["delfilters", "delallfilters"])
+@flags.help(description=l_("Removes all the filters in the chat."))
 @get_strings_dec("filters")
 async def delall_filters(message: Message, strings: dict):
     if not await is_chat_creator(message, message.chat.id, message.from_user.id):

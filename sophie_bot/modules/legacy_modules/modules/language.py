@@ -1,8 +1,9 @@
 # Copyright (C) 2018 - 2020 MrYacha. All rights reserved. Source code available under the AGPL.
 # Copyright (C) 2019 Aiogram
-from aiogram import Router
+from aiogram import Router, flags
 from aiogram.filters.callback_data import CallbackData
 from aiogram.types import InlineKeyboardButton, InlineKeyboardMarkup, Message
+from ass_tg.types import TextArg
 from stfu_tg import Code, Template
 
 from sophie_bot import dp
@@ -36,6 +37,7 @@ class TranslatorsLangCb(CallbackData, prefix="translators_lang_cb"):
 
 
 @register(router, cmds="lang", user_admin=True, no_args=True)
+@flags.help(description=l_("Asks for the new language for the chat."))
 async def select_lang_cmd(message):
     await select_lang_keyboard(message)
 
@@ -109,6 +111,7 @@ async def change_lang(message: Message, lang, e=False, back_btn=False):
 
 
 @register(router, cmds="lang", user_admin=True, has_args=True)
+@flags.help(description=l_("Sets the new language for the chat"), args={"status": TextArg(l_("New language"))})
 @get_strings_dec("language")
 async def select_lang_msg(message: Message, strings):
     lang = get_arg(message).lower()

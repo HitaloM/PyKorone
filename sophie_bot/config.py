@@ -77,6 +77,9 @@ class Config(BaseSettings):
     proxy_stable_instance_url: str = "http://host.container.internal:8071"
     proxy_beta_instance_url: str = "http://host.container.internal:8072"
 
+    openai_key: str
+    ai_emoji: str = "✨"
+
     class Config:
         env_file = "data/config.env"
         env_file_encoding = "utf-8"

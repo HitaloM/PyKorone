@@ -19,7 +19,7 @@
 
 import asyncio
 
-from aiogram import F, Router
+from aiogram import F, Router, flags
 from aiogram.types import Message
 from telethon.errors.rpcerrorlist import MessageDeleteForbiddenError
 
@@ -44,6 +44,7 @@ router = Router(name="purges")
     UserRestricting(can_delete_messages=True),
     cmds="del",
 )
+@flags.help(description=l_("Deletes the replied message"))
 @get_strings_dec("msg_deleting")
 async def del_message(message: Message, strings):
     if not message.reply_to_message:
@@ -59,6 +60,7 @@ async def del_message(message: Message, strings):
     UserRestricting(can_delete_messages=True),
     cmds="purge",
 )
+@flags.help(description=l_("Purges all messages after replied message (incl. the replied message)"))
 @get_strings_dec("msg_deleting")
 async def fast_purge(message: Message, strings):
     if not message.reply_to_message:

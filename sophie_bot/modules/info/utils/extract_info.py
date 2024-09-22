@@ -10,6 +10,11 @@ from babel.support import LazyProxy
 from stfu_tg import Doc
 
 from sophie_bot.filters.admin_rights import UserRestricting
+from sophie_bot.filters.chat_status import (
+    ChatTypeFilter,
+    LegacyOnlyGroups,
+    LegacyOnlyPM,
+)
 from sophie_bot.filters.cmd import CMDFilter
 from sophie_bot.filters.user_status import IsAdmin, IsOP
 from sophie_bot.utils.logger import log
@@ -27,6 +32,8 @@ class CmdHelp:
     description: Optional[LazyProxy | str]
     only_admin: bool
     only_op: bool
+    only_pm: bool
+    only_chats: bool
 
 
 @dataclass
@@ -36,6 +43,7 @@ class ModuleHelp:
     icon: str
     exclude_public: bool
     info: str | LazyProxy | Doc
+    description: str | LazyProxy | Doc
 
 
 HELP_MODULES: dict[str, ModuleHelp] = {}
@@ -72,19 +80,45 @@ def gather_cmds_help(router: Router) -> list[CmdHelp]:
         only_admin = any(
             (isinstance(f.callback, IsAdmin) or (isinstance(f.callback, UserRestricting))) for f in handler.filters
         )
+
+        # Only PMs
+        only_pm = any(
+            (
+                (isinstance(f.callback, ChatTypeFilter) and f.callback.chat_type == "private")
+                or (isinstance(f.callback, LegacyOnlyPM))
+            )
+            for f in handler.filters
+        )
+
+        # Only chats
+        only_chats = any(
+            (
+                (isinstance(f.callback, ChatTypeFilter) and f.callback.chat_type != "private")
+                or (isinstance(f.callback, LegacyOnlyGroups))
+            )
+            for f in handler.filters
+        )
+
         log.debug(f"Adding {cmds} to help")
 
         only_op = any(isinstance(f.callback, IsOP) for f in handler.filters)
 
         help_flags = handler.flags.get("help")
 
+        if help_flags and help_flags.get("args"):
+            args = gather_cmd_args(help_flags["args"])
+        else:
+            args = gather_cmd_args(handler.flags.get("args"))
+
         helps.append(
             CmdHelp(
                 cmds=cmds,
-                args=gather_cmd_args(handler.flags.get("args")),
+                args=args,
                 description=help_flags["description"] if help_flags else None,
                 only_admin=only_admin,
                 only_op=only_op,
+                only_pm=only_pm,
+                only_chats=only_chats,
             )
         )
     return helps
@@ -98,8 +132,11 @@ def gather_module_help(module: ModuleType) -> Optional[ModuleHelp]:
     emoji = getattr(module, "__module_emoji__", "?")
     exclude_public = getattr(module, "__exclude_public__", False)
     info = getattr(module, "__module_info__", None)
+    description = getattr(module, "__module_description__", None)
 
     if cmds := gather_cmds_help(module.router):
-        return ModuleHelp(cmds=cmds, name=name, icon=emoji, exclude_public=exclude_public, info=info)
+        return ModuleHelp(
+            cmds=cmds, name=name, icon=emoji, exclude_public=exclude_public, info=info, description=description
+        )
     else:
         return None

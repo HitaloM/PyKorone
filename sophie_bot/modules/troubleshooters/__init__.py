@@ -11,7 +11,7 @@ router = Router(name="troubleshooters")
 
 __module_name__ = l_("Troubleshooters")
 __module_emoji__ = "🧰"
-__module_info__ = l_("Small commands for fixing problems")
+__module_description__ = l_("Small commands for fixing problems")
 
 
 def __pre_setup__():

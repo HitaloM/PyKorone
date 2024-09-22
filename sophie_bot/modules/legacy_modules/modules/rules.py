@@ -1,6 +1,7 @@
-from aiogram import F, Router
+from aiogram import F, Router, flags
 from aiogram.filters import CommandStart
 from aiogram.types import Message
+from ass_tg.types import TextArg
 
 from sophie_bot.modules.legacy_modules.utils.connections import chat_connection
 from sophie_bot.modules.legacy_modules.utils.disable import disableable_dec
@@ -24,6 +25,7 @@ router = Router(name="rules")
 
 
 @register(router, cmds=["setrules", "saverules"], user_admin=True)
+@flags.help(description=l_("Sets the chat rules."), args={"text": TextArg(l_("Content"))})
 @chat_connection(admin=True, only_groups=True)
 @get_strings_dec("rules")
 async def set_rules(message: Message, chat, strings):
@@ -42,6 +44,7 @@ async def set_rules(message: Message, chat, strings):
 
 
 @register(router, cmds="rules")
+@flags.help(description=l_("Shows the rules."))
 @disableable_dec("rules")
 @chat_connection(only_groups=True)
 @get_strings_dec("rules")
@@ -71,6 +74,7 @@ async def rules(message: Message, chat, strings):
 
 
 @register(router, cmds="resetrules", user_admin=True)
+@flags.help(description=l_("Resets the chat rules."))
 @chat_connection(admin=True, only_groups=True)
 @get_strings_dec("rules")
 async def reset_rules(message: Message, chat, strings):

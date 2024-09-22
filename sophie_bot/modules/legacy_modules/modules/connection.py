@@ -17,7 +17,7 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-from aiogram import F, Router
+from aiogram import F, Router, flags
 from aiogram.exceptions import TelegramForbiddenError
 from aiogram.filters import CommandStart
 from aiogram.filters.callback_data import CallbackData
@@ -27,6 +27,7 @@ from aiogram.types import (
     InlineKeyboardMarkup,
     Message,
 )
+from ass_tg.types import BooleanArg, IntArg
 
 from sophie_bot import bot, dp
 from sophie_bot.modules.legacy_modules.utils.connections import (
@@ -70,6 +71,7 @@ async def def_connect_chat(message: Message, user_id, chat_id, chat_title, strin
 
 # In chat - connect directly to chat
 @register(router, cmds="connect", only_groups=True, no_args=True)
+@flags.help(description=l_("Connects PM with bot to the current chat."))
 @get_strings_dec("connections")
 async def connect_to_chat_direct(message: Message, strings):
     user_id = message.from_user.id
@@ -98,6 +100,7 @@ async def connect_to_chat_direct(message: Message, strings):
 
 # In pm without args - show last connected chats
 @register(router, cmds="connect", no_args=True, only_pm=True)
+@flags.help(description=l_("Connects to the latest chat."))
 @get_strings_dec("connections")
 @chat_connection()
 async def connect_chat_keyboard(message: Message, strings, chat):
@@ -146,6 +149,7 @@ async def connect_chat_keyboard_cb(message: Message, callback_data: ConnectToCha
 
 # In pm with args - connect to chat by arg
 @register(router, cmds="connect", has_args=True, only_pm=True)
+@flags.help(description=l_("Connected to the chat by its ID."), args={"state": IntArg(l_("Chat ID"))})
 @get_chat_dec()
 @get_strings_dec("connections")
 async def connect_to_chat_from_arg(message: Message, chat, strings):
@@ -164,6 +168,7 @@ async def connect_to_chat_from_arg(message: Message, chat, strings):
 
 
 @register(router, cmds="disconnect", only_pm=True)
+@flags.help(description=l_("Disconnects the PM from connected chat."))
 @get_strings_dec("connections")
 async def disconnect_from_chat_direct(message: Message, strings):
     if (data := await get_connection_data(message.from_user.id)) and "chat_id" in data:
@@ -174,6 +179,10 @@ async def disconnect_from_chat_direct(message: Message, strings):
 
 
 @register(router, cmds="allowusersconnect", is_admin=True)
+@flags.help(
+    description=l_("Sets whatever normal users (non admins) are allowed to connect"),
+    args={"state": BooleanArg(l_("New state"))},
+)
 @get_strings_dec("connections")
 @chat_connection(admin=True, only_groups=True)
 async def allow_users_to_connect(message: Message, strings, chat):

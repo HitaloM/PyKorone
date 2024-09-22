@@ -20,7 +20,7 @@ import pickle
 from dataclasses import dataclass
 from typing import Any, Awaitable, Callable, Optional
 
-from aiogram import BaseMiddleware, Router
+from aiogram import BaseMiddleware, Router, flags
 from aiogram.dispatcher.event.bases import CancelHandler
 from aiogram.enums import ChatType, ContentType
 from aiogram.filters.callback_data import CallbackData
@@ -33,6 +33,7 @@ from aiogram.types import (
     Message,
     TelegramObject,
 )
+from ass_tg.types import BooleanArg, IntArg
 from babel.dates import format_timedelta
 
 from sophie_bot import dp
@@ -49,10 +50,7 @@ from sophie_bot.modules.legacy_modules.utils.message import (
     get_args_str,
     need_args_dec,
 )
-from sophie_bot.modules.legacy_modules.utils.register import (
-    legacy_modules_router,
-    register,
-)
+from sophie_bot.modules.legacy_modules.utils.register import register
 from sophie_bot.modules.legacy_modules.utils.restrictions import (
     ban_user,
     kick_user,
@@ -185,11 +183,12 @@ class AntifloodEnforcer(BaseMiddleware):
         return await handler(message, data)
 
 
-@legacy_modules_router.message(
+@router.message(
     CMDFilter("setflood"),
     UserRestricting(can_restrict_members=True),
     BotHasPermissions(can_restrict_members=True),
 )
+@flags.help(description=l_("Set the antiflood limit for this chat."), args={"num": IntArg(l_("Number of messages"))})
 @need_args_dec()
 @chat_connection(admin=True)
 @get_strings_dec("antiflood")
@@ -245,7 +244,8 @@ async def antiflood_expire_proc(message: Message, chat: dict, strings: dict, sta
         await state.clear()
 
 
-@legacy_modules_router.message(CMDFilter(("antiflood", "flood")), UserRestricting(admin=True))
+@router.message(CMDFilter(("antiflood", "flood")), UserRestricting(admin=True))
+@flags.help(description=l_("Controls the antiflood state."), args={"state": BooleanArg(l_("New state"))})
 @chat_connection(admin=True)
 @get_strings_dec("antiflood")
 async def antiflood_status(message: Message, chat: dict, strings: dict, **kwargs):
@@ -273,11 +273,12 @@ async def antiflood_status(message: Message, chat: dict, strings: dict, **kwargs
     )
 
 
-@register(router, CMDFilter("setfloodaction"), UserRestricting(can_restrict_members=True))
+@router.message(CMDFilter("setfloodaction"), UserRestricting(can_restrict_members=True))
+@flags.help(description=l_("Sets the antiflood action."), args={"action": BooleanArg(l_("New action"))})
 @need_args_dec()
 @chat_connection(admin=True)
 @get_strings_dec("antiflood")
-async def setfloodaction(message: Message, chat: dict, strings: dict):
+async def setfloodaction(message: Message, chat: dict, strings: dict, **kwargs):
     SUPPORTED_ACTIONS = ["kick", "ban", "mute"]  # noqa
     if (action := get_args(message)[0].lower()) not in SUPPORTED_ACTIONS:
         return await message.reply(strings["invalid_args"].format(supported_actions=", ".join(SUPPORTED_ACTIONS)))

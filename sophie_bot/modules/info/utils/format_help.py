@@ -2,6 +2,7 @@ from ass_tg.types.base_abc import ArgFabric
 from stfu_tg import HList, Italic, Section, Template, VList
 
 from sophie_bot.modules.info.utils.extract_info import CmdHelp
+from sophie_bot.utils.i18n import gettext as _
 
 
 def format_cmd(cmd: str):
@@ -13,8 +14,14 @@ def format_cmd_args(args: dict[str, ArgFabric]):
 
 
 def format_handler(handler: CmdHelp):
+
+    template = "{cmd} {args}"
+
+    if handler.only_chats:
+        template += _(" - Only in chats")
+
     cmd_and_args = Template(
-        "{cmd} {args}",
+        template,
         cmd=HList(*(format_cmd(cmd) for cmd in handler.cmds)),
         args=format_cmd_args(handler.args) if handler.args else "",
     )

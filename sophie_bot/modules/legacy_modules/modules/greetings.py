@@ -23,7 +23,7 @@ from contextlib import suppress
 from datetime import datetime
 from typing import Optional, Union
 
-from aiogram import F, Router
+from aiogram import F, Router, flags
 from aiogram.enums import ChatMemberStatus
 from aiogram.exceptions import TelegramBadRequest
 from aiogram.filters import CommandStart
@@ -42,6 +42,7 @@ from aiogram.types import (
     Message,
 )
 from apscheduler.jobstores.base import JobLookupError
+from ass_tg.types import BooleanArg, TextArg
 from babel.dates import format_timedelta
 from captcha.image import ImageCaptcha
 from telethon.tl.custom import Button
@@ -93,6 +94,7 @@ class WelcomeSecurityState(StatesGroup):
 
 
 @register(router, cmds="welcome")
+@flags.help(description=l_("Shows the current welcome."))
 @chat_connection(only_groups=True)
 @get_strings_dec("greetings")
 async def welcome(message: Message, chat, strings):
@@ -162,6 +164,7 @@ async def welcome(message: Message, chat, strings):
 
 
 @register(router, cmds=["setwelcome", "savewelcome"], user_admin=True)
+@flags.help(description=l_("Sets the welcome message."), args={"text": TextArg(l_("Message"))})
 @chat_connection(admin=True, only_groups=True)
 @get_strings_dec("greetings")
 async def set_welcome(message: Message, chat, strings):
@@ -211,6 +214,7 @@ async def set_welcome(message: Message, chat, strings):
 
 
 @register(router, cmds="resetwelcome", user_admin=True)
+@flags.help(description=l_("Resets the welcome message."))
 @chat_connection(admin=True, only_groups=True)
 @get_strings_dec("greetings")
 async def reset_welcome(message: Message, chat, strings):
@@ -226,6 +230,7 @@ async def reset_welcome(message: Message, chat, strings):
 
 
 @register(router, cmds="cleanwelcome", user_admin=True)
+@flags.help(description=l_("Controls the automatic welcome cleanup"), args={"status": BooleanArg(l_("New status"))})
 @chat_connection(admin=True, only_groups=True)
 @get_strings_dec("greetings")
 async def clean_welcome(message: Message, chat, strings):
@@ -262,6 +267,9 @@ async def clean_welcome(message: Message, chat, strings):
 
 
 @register(router, cmds="cleanservice", user_admin=True)
+@flags.help(
+    description=l_("Controls the automatic service messages cleanup"), args={"status": BooleanArg(l_("New status"))}
+)
 @chat_connection(admin=True, only_groups=True)
 @get_strings_dec("greetings")
 async def clean_service(message: Message, chat, strings):
@@ -298,6 +306,7 @@ async def clean_service(message: Message, chat, strings):
 
 
 @register(router, cmds="welcomemute", user_admin=True)
+@flags.help(description=l_("Restricts new users from sending media"), args={"time": BooleanArg(l_("Time"))})
 @chat_connection(admin=True, only_groups=True)
 @get_strings_dec("greetings")
 async def welcome_mute(message: Message, chat, strings):
@@ -366,6 +375,7 @@ class WelcomeSecurityConf(StatesGroup):
 
 
 @register(router, cmds="welcomesecurity", user_admin=True)
+@flags.help(description=l_("Controls the welcome captcha"))
 @chat_connection(admin=True, only_groups=True)
 @get_strings_dec("greetings")
 async def welcome_security(message: Message, chat, strings):
@@ -486,6 +496,7 @@ async def wlcm_sec_time_state(message: Message, chat: dict, strings: dict, state
 
 
 @register(router, cmds=["setsecuritynote", "sevesecuritynote"], user_admin=True)
+@flags.help(description=l_("Sets the specific message for the captcha initiation process"))
 @need_args_dec()
 @chat_connection(admin=True, only_groups=True)
 @get_strings_dec("greetings")
@@ -523,6 +534,7 @@ async def set_security_note(message: Message, chat, strings):
 
 
 @register(router, cmds="delsecuritynote", user_admin=True)
+@flags.help(description=l_("Resets the captcha initiation process message"))
 @chat_connection(admin=True, only_groups=True)
 @get_strings_dec("greetings")
 async def reset_security_note(message: Message, chat, strings):

@@ -1,5 +1,6 @@
-from aiogram import F, Router
+from aiogram import F, Router, flags
 from aiogram.types import InlineKeyboardButton, InlineKeyboardMarkup, Message
+from ass_tg.types import TextArg
 
 from sophie_bot import dp
 from sophie_bot.modules.legacy_modules.utils.connections import chat_connection
@@ -20,6 +21,7 @@ router = Router(name="disabling")
 
 
 @register(router, cmds="disableable")
+@flags.help(description=l_("Lists all commands that can be disabled."))
 @disableable_dec("disableable")
 @get_strings_dec("disable")
 async def list_disablable(message: Message, strings):
@@ -30,6 +32,7 @@ async def list_disablable(message: Message, strings):
 
 
 @register(router, cmds="disabled")
+@flags.help(description=l_("Lists all disabled commands."))
 @chat_connection(only_groups=True)
 @get_strings_dec("disable")
 async def list_disabled(message: Message, chat, strings):
@@ -46,6 +49,7 @@ async def list_disabled(message: Message, chat, strings):
 
 
 @register(router, cmds="disable", user_admin=True)
+@flags.help(description=l_("Disables the command."), args={"cmd": TextArg(l_("Command"))})
 @need_args_dec()
 @chat_connection(admin=True, only_groups=True)
 @get_strings_dec("disable")
@@ -78,6 +82,7 @@ async def disable_command(message: Message, chat, strings):
 
 
 @register(router, cmds="enable")
+@flags.help(description=l_("Enables the command."), args={"cmd": TextArg(l_("Command"))})
 @need_args_dec()
 @chat_connection(admin=True, only_groups=True)
 @get_strings_dec("disable")
@@ -107,6 +112,7 @@ async def enable_command(message: Message, chat, strings):
 
 
 @register(router, cmds="enableall", is_admin=True)
+@flags.help(description=l_("Enables all previously disabled commands"))
 @chat_connection(admin=True, only_groups=True)
 @get_strings_dec("disable")
 async def enable_all(message: Message, chat, strings):

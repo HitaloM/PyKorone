@@ -3,6 +3,7 @@
     token: "{{ lookup('env', 'BETA_TOKEN') }}"
     username: "{{ lookup('env', 'BETA_USERNAME') }}"
     sentry_url: "{{ lookup('env', 'STAGING_SENTRY') }}"
+    openai_key: "{{ lookup('env', 'OPENAI_KEY') }}"
     role: "staging"
   when: inventory_hostname == "sstaging"
 
@@ -11,5 +12,6 @@
     token: "{{ lookup('env', 'STABLE_TOKEN') }}"
     username: "{{ lookup('env', 'STABLE_USERNAME') }}"
     sentry_url: "{{ lookup('env', 'PROD_STABLE_SENTRY') }}"
+    openai_key: "{{ lookup('env', 'OPENAI_KEY') }}"
     role: "production"
   when: inventory_hostname == "white"

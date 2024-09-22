@@ -1,4 +1,4 @@
-from aiogram import Router
+from aiogram import Router, flags
 from aiogram.exceptions import TelegramBadRequest
 from aiogram.types import Message
 
@@ -22,6 +22,7 @@ __module_emoji__ = "📌"
     BotHasPermissions(can_pin_messages=True),
     cmds="unpin",
 )
+@flags.help(description=l_("Pins replied message"))
 @chat_connection(admin=True)
 @get_strings_dec("pins")
 async def unpin_message(message: Message, chat, strings):
@@ -42,6 +43,7 @@ async def unpin_message(message: Message, chat, strings):
     BotHasPermissions(can_pin_messages=True),
     cmds="pin",
 )
+@flags.help(description=l_("Unpins the last pinned message"))
 @get_strings_dec("pins")
 async def pin_message(message: Message, strings):
     if not message.reply_to_message:

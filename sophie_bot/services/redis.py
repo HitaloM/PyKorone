@@ -19,6 +19,7 @@
 import sys
 
 import redis as redis_lib
+from redis.asyncio import Redis
 
 from sophie_bot import log
 from sophie_bot.config import CONFIG
@@ -27,7 +28,7 @@ from sophie_bot.config import CONFIG
 redis = redis_lib.StrictRedis(
     host=CONFIG.redis_host,
     port=CONFIG.redis_port,
-    db=CONFIG.redis_db_fsm,
+    db=CONFIG.redis_db_states,
     decode_responses=True,
     max_connections=25,
     single_connection_client=True,
@@ -36,8 +37,14 @@ redis = redis_lib.StrictRedis(
 bredis = redis_lib.StrictRedis(
     host=CONFIG.redis_host,
     port=CONFIG.redis_port,
-    db=CONFIG.redis_db_fsm,
+    db=CONFIG.redis_db_states,
     max_connections=25,
+    single_connection_client=True,
+)
+aredis = Redis(
+    host=CONFIG.redis_host,
+    port=CONFIG.redis_port,
+    db=CONFIG.redis_db_states,
     single_connection_client=True,
 )
 

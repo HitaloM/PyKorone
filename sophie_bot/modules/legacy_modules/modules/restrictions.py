@@ -21,9 +21,10 @@ import asyncio
 import datetime  # noqa: F401
 from contextlib import suppress
 
-from aiogram import Router
+from aiogram import Router, flags
 from aiogram.exceptions import TelegramBadRequest
 from aiogram.types import Message
+from ass_tg.types import TextArg
 from babel.dates import format_timedelta
 
 from sophie_bot import CONFIG, bot
@@ -61,6 +62,10 @@ router = Router(name="restrictions")
     BotHasPermissions(can_restrict_members=True),
     UserRestricting(can_restrict_members=True),
     cmds=["kick", "skick"],
+)
+@flags.help(
+    description=l_("Kicks the user from the chat. The user would be able to join back."),
+    args={"cmd": TextArg(l_("User"))},
 )
 @chat_connection(admin=True, only_groups=True)
 @get_user_and_text_dec()
@@ -119,6 +124,7 @@ async def kick_user_cmd(message: Message, chat, user, args, strings):
     UserRestricting(can_restrict_members=True),
     cmds=["mute", "smute", "tmute", "stmute"],
 )
+@flags.help(description=l_("Mutes the user."), args={"cmd": TextArg(l_("User"))})
 @chat_connection(admin=True, only_groups=True)
 @get_user_and_text_dec()
 @get_strings_dec("restrictions")
@@ -197,6 +203,7 @@ async def mute_user_cmd(message: Message, chat, user, args, strings):
     UserRestricting(can_restrict_members=True),
     cmds="unmute",
 )
+@flags.help(description=l_("Unmutes the user (also lets the user send media)."), args={"cmd": TextArg(l_("User"))})
 @chat_connection(admin=True, only_groups=True)
 @get_user_dec()
 @get_strings_dec("restrictions")
@@ -233,6 +240,7 @@ async def unmute_user_cmd(message: Message, chat, user, strings):
     UserRestricting(can_restrict_members=True),
     cmds=["ban", "sban", "tban", "stban"],
 )
+@flags.help(description=l_("Unmutes the user (also lets the user send media)."), args={"cmd": TextArg(l_("User"))})
 @chat_connection(admin=True, only_groups=True)
 @get_user_and_text_dec()
 @get_strings_dec("restrictions")
@@ -311,6 +319,7 @@ async def ban_user_cmd(message: Message, chat, user, args, strings):
     UserRestricting(can_restrict_members=True),
     cmds="unban",
 )
+@flags.help(description=l_("Unbans the user."), args={"cmd": TextArg(l_("User"))})
 @chat_connection(admin=True, only_groups=True)
 @get_user_dec()
 @get_strings_dec("restrictions")

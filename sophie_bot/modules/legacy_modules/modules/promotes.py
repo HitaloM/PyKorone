@@ -16,9 +16,10 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 import html
 
-from aiogram import Router
+from aiogram import Router, flags
 from aiogram.exceptions import TelegramForbiddenError
 from aiogram.types import Message
+from ass_tg.types import TextArg
 
 from sophie_bot import CONFIG, bot
 from sophie_bot.filters.admin_rights import BotHasPermissions, UserRestricting
@@ -35,7 +36,7 @@ from sophie_bot.services.telethon import tbot
 from sophie_bot.utils.i18n import lazy_gettext as l_
 
 __module_name__ = l_("Promotes")
-__module_emoji__ = "⭐️"
+__module_emoji__ = "⛔️"
 
 router = Router(name="promotes")
 
@@ -46,6 +47,7 @@ router = Router(name="promotes")
     UserRestricting(can_promote_members=True),
     cmds="promote",
 )
+@flags.help(description=l_("Promotes the user to admins."), args={"cmd": TextArg(l_("User"))})
 @chat_connection(admin=True, only_groups=True)
 @get_user_and_text_dec()
 @get_strings_dec("promotes")
@@ -93,6 +95,7 @@ async def promote(message: Message, chat, user, args, strings):
     UserRestricting(can_promote_members=True),
     cmds="demote",
 )
+@flags.help(description=l_("Demotes the user from admins."), args={"cmd": TextArg(l_("User"))})
 @chat_connection(admin=True, only_groups=True)
 @get_user_dec()
 @get_strings_dec("promotes")

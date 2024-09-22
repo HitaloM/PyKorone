@@ -3,10 +3,11 @@ import re
 from contextlib import suppress
 from datetime import datetime
 
-from aiogram import F, Router
+from aiogram import F, Router, flags
 from aiogram.exceptions import TelegramBadRequest
 from aiogram.filters import CommandStart
 from aiogram.types import InlineKeyboardButton, InlineKeyboardMarkup, Message
+from ass_tg.types import BooleanArg, TextArg
 from babel.dates import format_datetime
 from pymongo import ReplaceOne
 from stfu_tg import Code, Template
@@ -119,6 +120,7 @@ def clean_notes(func):
 
 
 @register(router, cmds="save", user_admin=True)
+@flags.help(description=l_("Saves the note."), args={"cmd": TextArg(l_("Note name")), "text": TextArg(l_("Content"))})
 @need_args_dec()
 @chat_connection(admin=True)
 @get_strings_dec("notes")
@@ -203,6 +205,7 @@ async def get_note(
 
 
 @register(router, cmds="get")
+@flags.help(description=l_("Get the note."), args={"cmd": TextArg(l_("Note name"))})
 @disableable_dec("get")
 @need_args_dec()
 @chat_connection(command="get")
@@ -260,6 +263,7 @@ async def get_note_hashtag(message: Message, chat, **kwargs):
 
 
 @register(router, cmds=["notes", "saved"])
+@flags.help(description=l_("Lists saved notes"))
 @disableable_dec("notes")
 @chat_connection(command="notes")
 @get_strings_dec("notes")
@@ -324,6 +328,7 @@ async def get_notes_list(message: Message, strings, chat, keyword=None, pm=False
 
 
 @register(router, cmds="search")
+@flags.help(description=l_("Searches text across all notes."), args={"cmd": TextArg(l_("Text"))})
 @chat_connection()
 @get_strings_dec("notes")
 @clean_notes
@@ -343,6 +348,7 @@ async def search_in_note(message: Message, chat, strings):
 
 
 @register(router, cmds=["clear", "delnote"], user_admin=True)
+@flags.help(description=l_("Deletes the note"), args={"cmd": TextArg(l_("Note name"))})
 @chat_connection(admin=True)
 @need_args_dec()
 @get_strings_dec("notes")
@@ -379,6 +385,7 @@ async def clear_note(message: Message, chat, strings):
 
 
 @register(router, cmds="clearall", user_admin=True)
+@flags.help(description=l_("Deletes all the notes in the chat"))
 @chat_connection(admin=True)
 @get_strings_dec("notes")
 async def clear_all_notes(message: Message, chat, strings):
@@ -409,6 +416,7 @@ async def clear_all_notes_cb(event, chat, strings):
 
 
 @register(router, cmds="noteinfo", user_admin=True)
+@flags.help(description=l_("Shows additional information about the note"), args={"cmd": TextArg(l_("Note name"))})
 @chat_connection()
 @need_args_dec()
 @get_strings_dec("notes")
@@ -519,6 +527,10 @@ async def btn_note_start_state(message: Message, strings):
 
 
 @register(router, cmds="privatenotes", is_admin=True)
+@flags.help(
+    description=l_("Controls the feature, that would recommend users to use PM with bot to use notes"),
+    args={"cmd": BooleanArg(l_("New state"))},
+)
 @chat_connection(admin=True)
 @get_strings_dec("notes")
 async def private_notes_cmd(message: Message, chat, strings):
@@ -556,6 +568,7 @@ async def private_notes_cmd(message: Message, chat, strings):
 
 
 @register(router, cmds="cleannotes", is_admin=True)
+@flags.help(description=l_("Controls the automatic clean-up for notes"), args={"cmd": BooleanArg(l_("New state"))})
 @chat_connection(admin=True)
 @get_strings_dec("notes")
 async def clean_notes_set(message: Message, chat, strings):
