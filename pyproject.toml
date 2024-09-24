@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "sophie_bot"
-version = "3.0.22"
+version = "3.1.0"
 description = "Sophie is modern and fast Telegram chat manager bot"
 authors = ["Yacha <yacha@orangefox.tech>"]
 
