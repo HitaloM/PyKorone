@@ -7,9 +7,9 @@ authors = ["Yacha <yacha@orangefox.tech>"]
 [tool.poetry.dependencies]
 python = "^3.12"
 Telethon = "^1.24.0"
-aiogram = "^3.12"
+aiogram = "^3.13"
 redis = "5.0.8"
-motor = "^3.5.0"
+motor = "^3.6"
 dnspython = "^2.1.0"
 aiohttp = { extras = ["speedups"], version = "^3.9", optional = true }
 cryptg = { version = "^0.2.post4", optional = true }
@@ -34,7 +34,7 @@ stfu-tg = "2.3"
 ass-tg = "^2.3.1"
 beanie = "^1.26.0"
 better-exceptions = "^0.3.3"
-openai = "^1.47.0"
+openai = "^1.47"
 
 [tool.poetry.group.dev.dependencies]
 Nuitka = "2.3.4"
