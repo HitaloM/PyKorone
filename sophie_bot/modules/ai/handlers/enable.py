@@ -8,7 +8,7 @@ from stfu_tg import Bold, Doc, Italic, KeyValue, Section, Template, Url
 
 from sophie_bot import CONFIG
 from sophie_bot.db.models.ai_enabled import AIEnabledModel
-from sophie_bot.filters.chat_status import ChatTypeFilter
+from sophie_bot.filters.admin_rights import UserRestricting
 from sophie_bot.filters.cmd import CMDFilter
 from sophie_bot.filters.message_status import HasArgs
 from sophie_bot.middlewares.connections import ChatConnection
@@ -21,7 +21,7 @@ from sophie_bot.utils.i18n import lazy_gettext as l_
 class AIStatus(MessageHandler):
     @staticmethod
     def filters() -> tuple[CallbackType, ...]:
-        return CMDFilter(("enableai", "aienable")), ChatTypeFilter("private")
+        return (CMDFilter(("enableai", "aienable")),)
 
     async def handle(self) -> Any:
         connection: ChatConnection = self.data["connection"]
@@ -52,7 +52,7 @@ class AIStatus(MessageHandler):
 class EnableAI(MessageHandler):
     @staticmethod
     def filters() -> tuple[CallbackType, ...]:
-        return CMDFilter(("enableai", "aienable")), ChatTypeFilter("private"), HasArgs(True)
+        return CMDFilter(("enableai", "aienable")), HasArgs(True), UserRestricting(admin=True)
 
     async def handle(self) -> Any:
         new_state: bool = self.data["new_state"]
