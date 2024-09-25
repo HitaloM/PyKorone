@@ -15,7 +15,10 @@ class AIEnabledFilter(Filter):
         return bool(await AIEnabledModel.get_state(chat_db.id))
 
     async def __call__(self, message: Message, chat_db: ChatModel) -> Union[bool, Dict[str, Any]]:
-        if not self.get_status(chat_db):
+
+        status = await self.get_status(chat_db)
+
+        if not status:
             await message.reply(
                 str(
                     Doc(
