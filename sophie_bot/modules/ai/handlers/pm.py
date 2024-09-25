@@ -1,11 +1,16 @@
 from typing import Any
 
-from aiogram import flags
+from aiogram import F, flags
+from aiogram.dispatcher.event.handler import CallbackType
 from aiogram.handlers import MessageHandler
 from aiogram.types import KeyboardButton, ReplyKeyboardMarkup, ReplyKeyboardRemove
 from stfu_tg import Bold, Doc, Template, Title, Url
 
 from sophie_bot import CONFIG, bot
+from sophie_bot.filters.chat_status import ChatTypeFilter
+from sophie_bot.filters.cmd import CMDFilter
+from sophie_bot.modules.ai.filters.ai_enabled import AIEnabledFilter
+from sophie_bot.modules.ai.filters.throttle import AIThrottleFilter
 from sophie_bot.modules.ai.fsm.pm import AI_PM_STOP_TEXT, AiPMFSM
 from sophie_bot.modules.ai.utils.ai_chatbot import handle_message
 from sophie_bot.modules.ai.utils.message_history import get_message_history
@@ -15,6 +20,10 @@ from sophie_bot.utils.i18n import lazy_gettext as l_
 
 @flags.help(description=l_("Start the AI ChatBot mode"))
 class AiPmInitialize(MessageHandler):
+    @staticmethod
+    def filters() -> tuple[CallbackType, ...]:
+        return CMDFilter("ai"), ChatTypeFilter("private"), AIEnabledFilter()
+
     async def handle(self) -> Any:
         doc = Doc(
             Title(_("Beta")),
@@ -48,12 +57,20 @@ class AiPmInitialize(MessageHandler):
 
 
 class AiPmStop(MessageHandler):
+    @staticmethod
+    def filters() -> tuple[CallbackType, ...]:
+        return F.text == AI_PM_STOP_TEXT, ChatTypeFilter("private")  # type: ignore
+
     async def handle(self) -> Any:
         await self.data["state"].clear()
         await self.event.reply(_("The AI mode has been exited."), reply_markup=ReplyKeyboardRemove())
 
 
 class AiPmHandle(MessageHandler):
+    @staticmethod
+    def filters() -> tuple[CallbackType, ...]:
+        return (AiPMFSM.in_ai, ChatTypeFilter("private"), AIThrottleFilter())
+
     async def handle(self) -> Any:
         text = self.event.text
         if not text:

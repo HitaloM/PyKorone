@@ -34,25 +34,33 @@ msgstr ""
 msgid "Private chat"
 msgstr ""
 
-#: sophie_bot/middlewares/connections.py:35
+#: sophie_bot/middlewares/connections.py:38
 msgid ""
 "Connected chat not found in the database. Please try to disconnect and "
 "connect again."
 msgstr ""
 
-#: sophie_bot/modules/ai/__init__.py:15
+#: sophie_bot/modules/ai/__init__.py:12
 msgid "Sophie AI"
 msgstr ""
 
-#: sophie_bot/modules/ai/__init__.py:17
+#: sophie_bot/modules/ai/__init__.py:14
 msgid "Rainbow sparkles and shininess"
 msgstr ""
 
-#: sophie_bot/modules/ai/__init__.py:18
+#: sophie_bot/modules/ai/__init__.py:15
 msgid "Please note that you can make a limited amount of AI requests per day."
 msgstr ""
 
-#: sophie_bot/modules/ai/filters/throttle.py:17
+#: sophie_bot/modules/ai/filters/ai_enabled.py:22
+msgid "The AI Features are currently deactivated for this chat."
+msgstr ""
+
+#: sophie_bot/modules/ai/filters/ai_enabled.py:23
+msgid "Please use \"{cmd}\" to activate them."
+msgstr ""
+
+#: sophie_bot/modules/ai/filters/throttle.py:18
 msgid "❗️ You've reached the daily AI limit, please try again tomorrow."
 msgstr ""
 
@@ -64,49 +72,117 @@ msgstr ""
 msgid "✨ AI"
 msgstr ""
 
-#: sophie_bot/modules/ai/handlers/ai_cmd.py:11
+#: sophie_bot/modules/ai/handlers/ai_cmd.py:14
 msgid "Prompt"
 msgstr ""
 
-#: sophie_bot/modules/ai/handlers/ai_cmd.py:12
+#: sophie_bot/modules/ai/handlers/ai_cmd.py:15
 msgid "Ask Sophie a question"
 msgstr ""
 
-#: sophie_bot/modules/ai/handlers/pm.py:16
+#: sophie_bot/modules/ai/handlers/enable.py:20
+msgid "Show current state of AI features"
+msgstr ""
+
+#: sophie_bot/modules/ai/handlers/enable.py:36
+#: sophie_bot/modules/notes/handlers/delete.py:31
+msgid "Chat"
+msgstr ""
+
+#: sophie_bot/modules/ai/handlers/enable.py:37
+msgid "Current state"
+msgstr ""
+
+#: sophie_bot/modules/ai/handlers/enable.py:37
+msgid "Enabled"
+msgstr ""
+
+#: sophie_bot/modules/ai/handlers/enable.py:37
+msgid "Disabled"
+msgstr ""
+
+#: sophie_bot/modules/ai/handlers/enable.py:38
+msgid "✨ AI Features"
+msgstr ""
+
+#: sophie_bot/modules/ai/handlers/enable.py:41
+msgid ""
+"By using AI feature you agree to the our {policy} and third-party AI "
+"provider's."
+msgstr ""
+
+#: sophie_bot/modules/ai/handlers/enable.py:42
+#: sophie_bot/modules/ai/handlers/enable.py:77
+#: sophie_bot/modules/ai/handlers/pm.py:38
+msgid "privacy policy"
+msgstr ""
+
+#: sophie_bot/modules/ai/handlers/enable.py:44
+#: sophie_bot/modules/beta/handlers/beta_state.py:88
+msgid "Use '{cmd}' to change it."
+msgstr ""
+
+#: sophie_bot/modules/ai/handlers/enable.py:50
+#: sophie_bot/modules/legacy_modules/modules/antiflood.py:248
+#: sophie_bot/modules/legacy_modules/modules/connection.py:184
+#: sophie_bot/modules/legacy_modules/modules/notes.py:532
+#: sophie_bot/modules/legacy_modules/modules/notes.py:571
+msgid "New state"
+msgstr ""
+
+#: sophie_bot/modules/ai/handlers/enable.py:51
+msgid "Control AI features"
+msgstr ""
+
+#: sophie_bot/modules/ai/handlers/enable.py:66
+msgid "enabled"
+msgstr ""
+
+#: sophie_bot/modules/ai/handlers/enable.py:66
+msgid "disabled"
+msgstr ""
+
+#: sophie_bot/modules/ai/handlers/enable.py:71
+msgid "✨ AI Features have been {status} in {chat}."
+msgstr ""
+
+#: sophie_bot/modules/ai/handlers/enable.py:76
+msgid ""
+"By using AI feature you agree to the our {policy} and third-party AI "
+"provider."
+msgstr ""
+
+#: sophie_bot/modules/ai/handlers/pm.py:21
 msgid "Start the AI ChatBot mode"
 msgstr ""
 
-#: sophie_bot/modules/ai/handlers/pm.py:20
+#: sophie_bot/modules/ai/handlers/pm.py:29
 #: sophie_bot/modules/beta/__init__.py:15
 #: sophie_bot/modules/beta/handlers/beta_state.py:15
 msgid "Beta"
 msgstr ""
 
-#: sophie_bot/modules/ai/handlers/pm.py:23
+#: sophie_bot/modules/ai/handlers/pm.py:32
 msgid ""
 "{ai_emoji} Entered to the AI Mode, in this mode you can directly interact"
 " with the AI."
 msgstr ""
 
-#: sophie_bot/modules/ai/handlers/pm.py:28
+#: sophie_bot/modules/ai/handlers/pm.py:37
 msgid ""
 "By using the AI, you agree to the {privacy_policy} of the bot and third "
 "party AI services used."
 msgstr ""
 
-#: sophie_bot/modules/ai/handlers/pm.py:29
-msgid "privacy policy"
-msgstr ""
-
-#: sophie_bot/modules/ai/handlers/pm.py:31
+#: sophie_bot/modules/ai/handlers/pm.py:40
 msgid "Click on the button below to exit."
 msgstr ""
 
-#: sophie_bot/modules/ai/handlers/pm.py:46
+#: sophie_bot/modules/ai/handlers/pm.py:55
 msgid "Hello! How can I help you?"
 msgstr ""
 
-#: sophie_bot/modules/ai/handlers/pm.py:53
+#: sophie_bot/modules/ai/handlers/pm.py:66
 msgid "The AI mode has been exited."
 msgstr ""
 
@@ -143,10 +219,6 @@ msgstr ""
 
 #: sophie_bot/modules/beta/handlers/beta_state.py:79
 msgid "Unknown"
-msgstr ""
-
-#: sophie_bot/modules/beta/handlers/beta_state.py:88
-msgid "Use '{cmd}' to change it."
 msgstr ""
 
 #: sophie_bot/modules/error/__init__.py:13
@@ -481,13 +553,6 @@ msgstr ""
 
 #: sophie_bot/modules/legacy_modules/modules/antiflood.py:248
 msgid "Controls the antiflood state."
-msgstr ""
-
-#: sophie_bot/modules/legacy_modules/modules/antiflood.py:248
-#: sophie_bot/modules/legacy_modules/modules/connection.py:184
-#: sophie_bot/modules/legacy_modules/modules/notes.py:532
-#: sophie_bot/modules/legacy_modules/modules/notes.py:571
-msgid "New state"
 msgstr ""
 
 #: sophie_bot/modules/legacy_modules/modules/antiflood.py:277
@@ -927,10 +992,6 @@ msgstr ""
 
 #: sophie_bot/modules/notes/handlers/delete.py:24
 msgid "No notes was found with {name} name."
-msgstr ""
-
-#: sophie_bot/modules/notes/handlers/delete.py:31
-msgid "Chat"
 msgstr ""
 
 #: sophie_bot/modules/notes/handlers/delete.py:32

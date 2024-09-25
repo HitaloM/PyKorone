@@ -1,5 +1,6 @@
 from typing import Any, Dict, Union
 
+from aiogram.dispatcher.event.bases import SkipHandler
 from aiogram.filters import Filter
 from aiogram.types import Message
 
@@ -15,7 +16,7 @@ class AIThrottleFilter(Filter):
 
         if usage >= DAY_LIMIT:
             await message.reply(_("❗️ You've reached the daily AI limit, please try again tomorrow."))
-            return False
+            raise SkipHandler
 
         await AIUsageModel.increase_today(chat_db)
 

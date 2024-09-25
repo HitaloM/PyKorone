@@ -4,6 +4,7 @@ from aiogram import BaseMiddleware
 from aiogram.types import Message, TelegramObject
 from pydantic import BaseModel
 
+from sophie_bot.modules.ai.filters.ai_enabled import AIEnabledFilter
 from sophie_bot.services.redis import aredis
 
 
@@ -45,12 +46,15 @@ class CacheMessagesMiddleware(BaseMiddleware):
         event: TelegramObject,
         data: Dict[str, Any],
     ) -> Any:
-        if isinstance(event, Message):
+        chat_db = data["chat_db"]
+        ai_enabled = await AIEnabledFilter.get_status(chat_db)
+
+        if isinstance(event, Message) and ai_enabled:
             data["cached_messages"] = await self.retrieve_messages(event.chat.id)
 
         result = await handler(event, data)
 
-        if isinstance(event, Message):
+        if isinstance(event, Message) and ai_enabled:
             await self.save_message(event)
 
         return result

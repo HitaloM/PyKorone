@@ -2,6 +2,7 @@ from typing import List, Type
 
 from beanie import Document
 
+from sophie_bot.db.models.ai_enabled import AIEnabledModel
 from sophie_bot.db.models.ai_usage import AIUsageModel
 from sophie_bot.db.models.beta import BetaModeModel
 from sophie_bot.db.models.chat import ChatModel, ChatTopicModel, UserInGroupModel
@@ -19,5 +20,6 @@ models: List[Type[Document]] = [
     NoteModel,
     BetaModeModel,
     GlobalSettings,
+    AIEnabledModel,
     AIUsageModel,
 ]

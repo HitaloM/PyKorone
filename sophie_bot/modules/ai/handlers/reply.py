@@ -1,9 +1,11 @@
 from typing import Any
 
+from aiogram.dispatcher.event.handler import CallbackType
 from aiogram.handlers import MessageHandler
 from aiogram.types import Message
 
 from sophie_bot import CONFIG, bot
+from sophie_bot.modules.ai.filters.throttle import AIThrottleFilter
 from sophie_bot.modules.ai.utils.ai_chatbot import handle_message
 from sophie_bot.modules.ai.utils.message_history import get_message_history
 from sophie_bot.modules.ai.utils.self_reply import is_ai_message
@@ -22,6 +24,10 @@ class AiReplyHandler(MessageHandler):
             return True
 
         return False
+
+    @staticmethod
+    def filters() -> tuple[CallbackType, ...]:
+        return AiReplyHandler.filter, AIThrottleFilter()
 
     async def handle(self) -> Any:
         text = self.event.text or ""

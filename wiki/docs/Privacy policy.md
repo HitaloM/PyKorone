@@ -17,7 +17,8 @@ Here are all the non-obvious things we are saving:
 - Chat admins.
 
 ## Messages
-- Cached message time history, authors and count (only when antiflood feature is activated).
+- Temporary cached message time history, authors and count (only when antiflood feature is activated).
+- Temporary cached temporary message text, author and count (only when AI is activated) 
 
 ## Crashlytics
 Crashlytics significantly help Sophie to be stable. We are trying to log as few data as possible.
@@ -42,3 +43,8 @@ the chats/users or/and percentage and total amount of data that being used for o
 # Deleting the data
 Currently, removing Sophie from the chat she's in would trigger an automatic data purge task. For users, it is not 
 yet possible to automatically purge the data.
+
+# AI
+When AI features are activated, you automatically agree with the OpenAI's privacy policy - https://openai.com/enterprise-privacy/
+For some AI features, such as ChatBot feature, we would pass the context that could include cached chat's message 
+history (typically less than 20 messages)

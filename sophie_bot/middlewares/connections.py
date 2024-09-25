@@ -22,9 +22,12 @@ class ChatConnection:
 
 class ConnectionsMiddleware(BaseMiddleware):
     @staticmethod
-    def get_current_chat_info(chat: Chat) -> ChatConnection:
+    async def get_current_chat_info(chat: Chat) -> ChatConnection:
         title = chat.title if chat.type != "private" and chat.title else _("Private chat")
-        return ChatConnection(is_connected=False, id=chat.id, type=ChatType[chat.type], title=title, db_model=None)
+
+        db_model = await ChatModel.get_by_chat_id(chat.id)
+
+        return ChatConnection(is_connected=False, id=chat.id, type=ChatType[chat.type], title=title, db_model=db_model)
 
     @staticmethod
     async def get_chat_from_db(chat_id: int, is_connected: bool) -> ChatConnection:
@@ -50,13 +53,13 @@ class ConnectionsMiddleware(BaseMiddleware):
         # Handle non-private chats
         if real_chat.type != "private":
             log.debug("Connections: Non-private chat")
-            data["connection"] = self.get_current_chat_info(real_chat)
+            data["connection"] = await self.get_current_chat_info(real_chat)
             return await handler(event, data)
 
         connection = await ChatConnectionModel.get_by_user_id(real_chat.id)
         if not connection or not connection.chat_id:
             log.debug("Connections: Not connected!")
-            data["connection"] = self.get_current_chat_info(real_chat)
+            data["connection"] = await self.get_current_chat_info(real_chat)
             return await handler(event, data)
 
         log.debug("Connections: connected!")

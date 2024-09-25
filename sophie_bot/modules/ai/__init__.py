@@ -1,10 +1,7 @@
-from aiogram import F, Router
+from aiogram import Router
 
-from sophie_bot.filters.chat_status import ChatTypeFilter
-from sophie_bot.filters.cmd import CMDFilter
-from sophie_bot.modules.ai.filters.throttle import AIThrottleFilter
-from sophie_bot.modules.ai.fsm.pm import AI_PM_STOP_TEXT, AiPMFSM
 from sophie_bot.modules.ai.handlers.ai_cmd import AiCmd
+from sophie_bot.modules.ai.handlers.enable import AIStatus, EnableAI
 from sophie_bot.modules.ai.handlers.pm import AiPmHandle, AiPmInitialize, AiPmStop
 from sophie_bot.modules.ai.handlers.reply import AiReplyHandler
 from sophie_bot.modules.ai.middlewares.cache_messages import CacheMessagesMiddleware
@@ -21,11 +18,14 @@ __module_info__ = l_("Please note that you can make a limited amount of AI reque
 def __pre_setup__():
     router.message.outer_middleware(CacheMessagesMiddleware())
 
-    router.message.register(AiReplyHandler, AiReplyHandler.filter, AIThrottleFilter())
+    router.message.register(EnableAI, *EnableAI.filters())
+    router.message.register(AIStatus, *AIStatus.filters())
 
-    router.message.register(AiPmInitialize, CMDFilter("ai"), ChatTypeFilter("private"))
-    router.message.register(AiPmStop, F.text == AI_PM_STOP_TEXT, ChatTypeFilter("private"))
+    router.message.register(AiReplyHandler, *AiReplyHandler.filters())
 
-    router.message.register(AiPmHandle, AiPMFSM.in_ai, ChatTypeFilter("private"), AIThrottleFilter())
+    router.message.register(AiPmInitialize, *AiPmInitialize.filters())
+    router.message.register(AiPmStop, *AiPmStop.filters())
 
-    router.message.register(AiCmd, CMDFilter("ai"))
+    router.message.register(AiPmHandle, *AiPmHandle.filters())
+
+    router.message.register(AiCmd, *AiCmd.filters())
