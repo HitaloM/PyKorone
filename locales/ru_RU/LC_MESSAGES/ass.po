@@ -1,17 +1,3 @@
-msgid ""
-msgstr ""
-"Plural-Forms: nplurals=4; plural=((n%10==1 && n%100!=11) ? 0 : ((n%10 >= 2 && n%10 <=4 && (n%100 < 12 || n%100 > 14)) ? 1 : ((n%10 == 0 || (n%10 >= 5 && n%10 <=9)) || (n%100 >= 11 && n%100 <= 14)) ? 2 : 3));\n"
-"X-Crowdin-Project: sophiebot\n"
-"X-Crowdin-Project-ID: 356879\n"
-"X-Crowdin-Language: ru\n"
-"X-Crowdin-File: /beta/locales/ass.pot\n"
-"X-Crowdin-File-ID: 270\n"
-"Project-Id-Version: sophiebot\n"
-"Content-Type: text/plain; charset=UTF-8\n"
-"Language-Team: Russian\n"
-"Language: ru_RU\n"
-"PO-Revision-Date: 2024-07-08 23:11\n"
-
 #: exceptions.py:33
 msgid "Examples"
 msgstr "Примеры"
@@ -32,19 +18,15 @@ msgstr "Требуемый аргумент {description} не был предо
 msgid "The argument {description} has an invalid formatting!"
 msgstr "Аргумент {description} имеет неверное форматирование!"
 
-#: types/deprecated.py:74 types/deprecated.py:78
-msgid "'{current_arg}' followed by parentheses with '{stacked_arg}' inside."
-msgstr "'{current_arg}', за которым идут скобки с '{stacked_arg}' внутри."
-
-#: types/keyvalue.py:30
+#: types/keyvalue.py:31
 msgid "Key-value of {}"
 msgstr "Ключевое значение {}"
 
-#: types/keyvalue.py:31
+#: types/keyvalue.py:32
 msgid "Key-values of {}"
 msgstr "Ключевые значения {}"
 
-#: types/keyvalue.py:63
+#: types/keyvalue.py:64
 msgid "The optional argument {name} must contain a value!"
 msgstr "Необязательный аргумент {name} должен содержать значение!"
 
@@ -52,113 +34,127 @@ msgstr "Необязательный аргумент {name} должен сод
 msgid "Key-values"
 msgstr "Ключевые значения"
 
-#: types/lists.py:45 types/lists.py:58
+#: types/lists.py:46 types/lists.py:59
 msgid "List of {}"
 msgstr "Список из {}"
 
-#: types/lists.py:46
+#: types/lists.py:47
 msgid "Lists of {}"
 msgstr "Списки из {}"
 
-#: types/lists.py:64
+#: types/lists.py:65
 msgid "The starting character {} of list wasn't found!"
 msgstr "Начальный символ списка {} не найден!"
 
-#: types/lists.py:72
+#: types/lists.py:73
 msgid "The ending character {} of list wasn't found!"
 msgstr "Завершающий символ списка {} не найден!"
 
-#: types/lists.py:76
+#: types/lists.py:77
 msgid "The list is empty!"
 msgstr "Список пуст!"
 
-#: types/lists.py:96
-msgid "➡️ The start prefix text of the lists cannot have the overlapping formatting"
+#: types/lists.py:97
+msgid ""
+"➡️ The start prefix text of the lists cannot have the overlapping "
+"formatting"
 msgstr "➡️ Начальный префикс списка не может иметь перекрывающегося форматирования"
 
-#: types/lists.py:151 types/lists.py:169
+#: types/lists.py:152 types/lists.py:170
 msgid "Argument '{arg_text}' was parsed, but it has unknown text after it!"
-msgstr "Аргумент '{arg_text}' был распознан, но после него находится неизвестный текст!"
+msgstr ""
+"Аргумент '{arg_text}' был распознан, но после него находится неизвестный "
+"текст!"
 
-#: types/lists.py:156 types/lists.py:174
+#: types/lists.py:157 types/lists.py:175
 msgid "Please ensure you correctly divided all of arguments."
 msgstr "Пожалуйста, убедитесь, что вы правильно разделили все аргументы."
 
-#: types/logic.py:19
+#: types/logic.py:20
 msgid "Optional {}"
 msgstr "Необязательно {}"
 
-#: types/logic.py:20
+#: types/logic.py:21
 msgid "Optionals {}"
 msgstr "Необязательно {}"
 
-#: types/logic.py:43 types/logic.py:44
+#: types/logic.py:44 types/logic.py:45 types/one_of.py:25 types/one_of.py:28
 msgid " or "
 msgstr " или "
 
-#: types/logic.py:106
+#: types/logic.py:105
 msgid ", and "
 msgstr ", и "
 
-#: types/logic.py:122
+#: types/logic.py:121
 msgid "Example syntax"
 msgstr "Пример синтаксиса"
 
-#: types/oneword.py:14
+#: types/one_of.py:24 types/one_of.py:27
+msgid "One of: {}"
+msgstr "Один из {}"
+
+#: types/oneword.py:13
 msgid "Word (string with no spaces)"
 msgstr "Слово (строка без пробелов)"
 
-#: types/oneword.py:14
+#: types/oneword.py:13
 msgid "Words (strings with no spaces)"
 msgstr "Слова (строки без пробелов)"
 
-#: types/oneword.py:35
+#: types/oneword.py:33
 msgid "Integer (number)"
 msgstr "Число"
 
-#: types/oneword.py:35
+#: types/oneword.py:33
 msgid "Integers (numbers)"
 msgstr "Числа"
 
-#: types/oneword.py:52
+#: types/oneword.py:49
 msgid "Boolean (Yes / No value)"
 msgstr "Логическое значение (Да или Нет)"
 
-#: types/oneword.py:52
+#: types/oneword.py:49
 msgid "Booleans (Yes / No values)"
 msgstr "Логические значения (Да или Нет)"
 
-#: types/oneword.py:57
+#: types/oneword.py:54
 msgid "True (can means Enabled or Yes)"
 msgstr "Правда (может иметь в виду Включено или Да)"
 
-#: types/oneword.py:58
+#: types/oneword.py:55
 msgid "False (can means Disabled or No)"
 msgstr "Неправда (может иметь в виду Выключено или Нет)"
 
-#: types/text.py:19
+#: types/text.py:18
 msgid "Text"
 msgstr "Текст"
 
-#: types/text_rules.py:26
+#: types/text_rules.py:27
 msgid "➡️ The Argument should start with {}!"
 msgstr "➡️ Аргумент должен начинаться с {}!"
 
-#: types/text_rules.py:30
+#: types/text_rules.py:31
 msgid "⬅️️ The Argument should end with {}!"
 msgstr "⬅️ Аргумент должен заканчиваться с {}!"
 
-#: types/text_rules.py:42
+#: types/text_rules.py:49
 msgid "➡️ The start text cannot have the overlapping formatting"
 msgstr "➡️ Начальный текст не может иметь перекрывающееся форматирование"
 
-#: types/text_rules.py:67
+#: types/text_rules.py:74
 msgid "➡️ Argument '{arg_text}' was parsed, but it has unknown text after it!"
-msgstr "➡️ Аргумент '{arg_text}' был распознан, но после него находится неизвестный текст!"
+msgstr ""
+"➡️ Аргумент '{arg_text}' был распознан, но после него находится "
+"неизвестный текст!"
 
-#: types/text_rules.py:84 types/text_rules.py:88
+#: types/text_rules.py:91 types/text_rules.py:95
 msgid "{} surrounded by {} and {}"
 msgstr "{} окружен {} и {}"
+
+#: types/text_rules.py:107
+msgid "Surrounded by {} and {}"
+msgstr "Окружен {} и {}"
 
 #: types/time_arg.py:24
 msgid "2 days"
@@ -193,75 +189,89 @@ msgstr "ч"
 msgid "m"
 msgstr "м"
 
-#: types/time_arg.py:62
+#: types/time_arg.py:61
 msgid "Action time"
 msgstr "Время действия"
 
-#: types/time_arg.py:62
+#: types/time_arg.py:61
 msgid "Action times"
 msgstr "Времена действия"
 
-#: types/user.py:19
+#: types/user.py:17
 msgid "User ID (Numeric)"
 msgstr "ID пользователя (число)"
 
-#: types/user.py:19
+#: types/user.py:17
 msgid "User IDs (Numeric)"
 msgstr "ID пользователей (число)"
 
-#: types/user.py:40
+#: types/user.py:37
 msgid "Username (starts with @)"
 msgstr "Юзернейм (начинается с @)"
 
-#: types/user.py:50
+#: types/user.py:47
 msgid "Should start with a prefix"
 msgstr "Должно начинаться с префикса"
 
-#: types/user.py:52
+#: types/user.py:49
 msgid "Username is too short"
 msgstr "Юзернейм слишком короткий"
 
-#: types/user.py:54
+#: types/user.py:51
 msgid "Username is too long"
 msgstr "Юзернейм слишком длинный"
 
-#: types/user.py:69
+#: types/user.py:67
 msgid "User mention (a link to user)"
 msgstr "Упоминание пользователя (ссылка на пользователя)"
 
-#: types/user.py:69
+#: types/user.py:67
 msgid "User mentions (links to users)"
 msgstr "Упоминания пользователя (ссылки на пользователей)"
 
-#: types/user.py:102
+#: types/user.py:99
 msgid "Should start with mention!"
 msgstr "Должно начинаться с упоминания!"
 
-#: types/user.py:110
-msgid "Unexpected error while trying to get a user! Please report this in the support chat!"
-msgstr "Непредвиденная ошибка при попытке получить пользователя! Пожалуйста, сообщите об этом в чате поддержки!"
+#: types/user.py:107
+msgid ""
+"Unexpected error while trying to get the user! Please report this in the "
+"support chat!"
+msgstr ""
+"Непредвиденная ошибка при попытке получить пользователя! Пожалуйста, "
+"сообщите об этом в чате поддержки!"
 
-#: types/user.py:111
-msgid "Error ID: 95450"
-msgstr "ID ошибки: 95450"
+#: types/user.py:108
+msgid "Could not find the user mention"
+msgstr "Не возможно найти упоминание на пользователя!"
 
-#: types/user.py:123
-msgid "User: 'User ID (numeric) / Username (starts with @) / Mention (links to users)'"
-msgstr "Пользователь: 'ID пользователя (число) / Юзернем (начинается с @) / Упоминание (ссылки на пользователей)'"
+#: types/user.py:119
+msgid ""
+"User: 'User ID (numeric) / Username (starts with @) / Mention (links to "
+"users)'"
+msgstr ""
+"Пользователь: 'ID пользователя (число) / Юзернем (начинается с @) / "
+"Упоминание (ссылки на пользователей)'"
 
-#: types/user.py:125
-msgid "Users: 'User IDs (numeric) / Usernames (starts with @) / Mentions (links to users)'"
-msgstr "Пользователи: 'ID пользователей (числа) / Юзернеймы (начинаются с @) / Упоминания (ссылки на пользователей)'"
+#: types/user.py:121
+msgid ""
+"Users: 'User IDs (numeric) / Usernames (starts with @) / Mentions (links "
+"to users)'"
+msgstr ""
+"Пользователи: 'ID пользователей (числа) / Юзернеймы (начинаются с @) / "
+"Упоминания (ссылки на пользователей)'"
 
-#: types/user.py:132
+#: types/user.py:128
 msgid "User ID"
 msgstr "ID пользователя"
 
-#: types/user.py:133
+#: types/user.py:129
 msgid "Username"
 msgstr "Юзернейм"
 
-#: types/user.py:138
+#: types/user.py:133
 msgid "A link to user, usually creates by mentioning a user without username."
-msgstr "Ссылка на пользователя, обычно создается путём упоминания на пользователя без юзернейма."
+msgstr ""
+"Ссылка на пользователя, обычно создается путём упоминания на пользователя"
+" без юзернейма."
 

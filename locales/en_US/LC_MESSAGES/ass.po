@@ -263,30 +263,3 @@ msgstr ""
 msgid "A link to user, usually creates by mentioning a user without username."
 msgstr ""
 
-#~ msgid "The starting charter {} of list wasn't found!"
-#~ msgstr ""
-
-#~ msgid "The ending charter {} of list wasn't found!"
-#~ msgstr ""
-
-#~ msgid "❌ The required argument {description} wasn't provided!"
-#~ msgstr ""
-
-#~ msgid "⚠️ Argument validation error"
-#~ msgstr ""
-
-#~ msgid "Surrounded by {} and {}"
-#~ msgstr ""
-
-#~ msgid "'{current_arg}' followed by parentheses with '{stacked_arg}' inside."
-#~ msgstr ""
-
-#~ msgid ""
-#~ "Unexpected error while trying to get "
-#~ "a user! Please report this in the"
-#~ " support chat!"
-#~ msgstr ""
-
-#~ msgid "Error ID: 95450"
-#~ msgstr ""
-

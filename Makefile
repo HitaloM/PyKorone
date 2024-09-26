@@ -71,6 +71,7 @@ update_lang:
 
 compile_lang:
 	pybabel compile -d "$(LOCALES_DIR)" -D "bot" --use-fuzzy --statistics
+	pybabel compile -d "$(LOCALES_DIR)" -D "ass" --use-fuzzy --statistics
 
 
 new_locale:
