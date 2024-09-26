@@ -56,7 +56,9 @@ class BetaMiddleware(BaseMiddleware):
 
         # If it has a preferred mode
         if model and model.preferred_mode:
-            await BetaModeModel.set_mode(chat_id=chat_id, new_mode=CurrentMode[model.preferred_mode.name])
+            # Set the current preferred mode as current
+            if model.preferred_mode != PreferredMode.auto:
+                await BetaModeModel.set_mode(chat_id=chat_id, new_mode=CurrentMode[model.preferred_mode.name])
 
             if model.preferred_mode == PreferredMode.beta:
                 return True
