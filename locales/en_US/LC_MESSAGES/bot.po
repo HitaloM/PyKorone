@@ -485,41 +485,42 @@ msgid "Provides helpful information"
 msgstr ""
 
 #: sophie_bot/modules/info/handlers/pm_modules.py:18
-msgid "Shows this message"
+msgid "Shows help overview for all modules"
 msgstr ""
 
-#: sophie_bot/modules/info/handlers/pm_modules.py:23
+#: sophie_bot/modules/info/handlers/pm_modules.py:25
 msgid "📖 Wiki (detailed information)"
 msgstr ""
 
-#: sophie_bot/modules/info/handlers/pm_modules.py:36
+#: sophie_bot/modules/info/handlers/pm_modules.py:42
+#: sophie_bot/modules/info/handlers/pm_modules.py:101
+msgid "⬅️ Back"
+msgstr ""
+
+#: sophie_bot/modules/info/handlers/pm_modules.py:44
 msgid ""
 "There are 2 help sources, you can read the detailed wiki or get a quick "
 "commands overview."
 msgstr ""
 
-#: sophie_bot/modules/info/handlers/pm_modules.py:51
+#: sophie_bot/modules/info/handlers/pm_modules.py:59
 msgid "Module not found"
 msgstr ""
 
-#: sophie_bot/modules/info/handlers/pm_modules.py:67
+#: sophie_bot/modules/info/handlers/pm_modules.py:75
 msgid "Commands"
 msgstr ""
 
-#: sophie_bot/modules/info/handlers/pm_modules.py:68
+#: sophie_bot/modules/info/handlers/pm_modules.py:76
 msgid "PM-only"
 msgstr ""
 
-#: sophie_bot/modules/info/handlers/pm_modules.py:69
+#: sophie_bot/modules/info/handlers/pm_modules.py:77
 msgid "Only admins"
 msgstr ""
 
-#: sophie_bot/modules/info/handlers/pm_modules.py:90
+#: sophie_bot/modules/info/handlers/pm_modules.py:98
 msgid "📖 Wiki page"
-msgstr ""
-
-#: sophie_bot/modules/info/handlers/pm_modules.py:91
-msgid "⬅️ Back"
 msgstr ""
 
 #: sophie_bot/modules/info/handlers/privacy.py:12
@@ -1148,5 +1149,8 @@ msgstr ""
 #~ "By using AI feature you agree to"
 #~ " the our {policy} and third-party "
 #~ "AI provider."
+#~ msgstr ""
+
+#~ msgid "Shows this message"
 #~ msgstr ""
 

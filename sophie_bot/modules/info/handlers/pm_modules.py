@@ -1,4 +1,4 @@
-from typing import Any
+from typing import Any, Optional
 
 from aiogram import flags
 from aiogram.handlers import BaseHandler, CallbackQueryHandler
@@ -7,7 +7,7 @@ from aiogram.utils.keyboard import InlineKeyboardBuilder
 from stfu_tg import Doc, HList, Section, Title
 
 from sophie_bot import CONFIG
-from sophie_bot.modules.info import PMHelpBack, PMHelpModule
+from sophie_bot.modules.info import PMHelpModule, PMHelpModules
 from sophie_bot.modules.info.utils.extract_info import HELP_MODULES
 from sophie_bot.modules.info.utils.format_help import format_cmds
 from sophie_bot.utils.exception import SophieException
@@ -15,16 +15,21 @@ from sophie_bot.utils.i18n import gettext as _
 from sophie_bot.utils.i18n import lazy_gettext as l_
 
 
-@flags.help(description=l_("Shows this message"))
+@flags.help(description=l_("Shows help overview for all modules"))
 class PMModulesList(BaseHandler[Message | CallbackQuery]):
     async def handle(self) -> Any:
+        callback_data: Optional[PMHelpModules] = self.data.get('callback_data', None)
+
         buttons = (
             InlineKeyboardBuilder()
             .add(InlineKeyboardButton(text=_("📖 Wiki (detailed information)"), url=CONFIG.wiki_link))
             .row(
                 *(
                     InlineKeyboardButton(
-                        text=f"{module.icon} {module.name}", callback_data=PMHelpModule(module_name=module_name).pack()
+                        text=f"{module.icon} {module.name}",
+                        callback_data=PMHelpModule(
+                            module_name=module_name, back_to_start=bool(callback_data and callback_data.back_to_start)
+                        ).pack(),
                     )
                     for module_name, module in HELP_MODULES.items()
                     if not module.exclude_public
@@ -32,6 +37,9 @@ class PMModulesList(BaseHandler[Message | CallbackQuery]):
                 width=2,
             )
         )
+
+        if callback_data and callback_data.back_to_start:
+            buttons.row(InlineKeyboardButton(text=_("⬅️ Back"), callback_data="go_to_start"))
 
         text = _("There are 2 help sources, you can read the detailed wiki or get a quick commands overview.")
 
@@ -88,7 +96,11 @@ class PMModuleHelp(CallbackQueryHandler):
         buttons = (
             InlineKeyboardBuilder()
             .row(InlineKeyboardButton(text=_("📖 Wiki page"), url=CONFIG.wiki_link))
-            .row(InlineKeyboardButton(text=_("⬅️ Back"), callback_data=PMHelpBack().pack()))
+            .row(
+                InlineKeyboardButton(
+                    text=_("⬅️ Back"), callback_data=PMHelpModules(back_to_start=callback_data.back_to_start).pack()
+                )
+            )
         )
 
         if not self.event.message:

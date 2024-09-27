@@ -18,6 +18,7 @@ from .language import select_lang_keyboard
 
 __exclude_public__ = True
 
+from ...info import PMHelpModules
 
 router = Router(name="pm_menu")
 
@@ -41,7 +42,7 @@ async def get_start_func(event: TelegramObject, strings, edit=False):
     buttons = InlineKeyboardMarkup(
         inline_keyboard=[
             # [InlineKeyboardButton(text=strings["btn_lang"], callback_data="lang_btn")],
-            [InlineKeyboardButton(text=strings["btn_help"], url=CONFIG.wiki_link)],
+            [InlineKeyboardButton(text=strings["btn_help"], callback_data=PMHelpModules(back_to_start=True).pack())],
             [
                 InlineKeyboardButton(text=strings["btn_chat"], url=CONFIG.support_link),
                 InlineKeyboardButton(text=strings["btn_channel"], url=CONFIG.news_channel),

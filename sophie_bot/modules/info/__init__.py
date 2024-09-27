@@ -8,7 +8,7 @@ from ...filters.chat_status import ChatTypeFilter
 from ...filters.cmd import CMDFilter
 from ...filters.user_status import IsOP
 from ...utils.logger import log
-from .callbacks import PMHelpBack, PMHelpModule
+from .callbacks import PMHelpModule, PMHelpModules
 from .handlers.op import OpCMDSList
 from .handlers.pm_modules import PMModuleHelp, PMModulesList
 from .handlers.privacy import PrivacyInfo
@@ -25,7 +25,7 @@ __module_description__ = l_("Provides helpful information")
 
 def __pre_setup__():
     router.message.register(PMModulesList, CMDFilter("help"), ChatTypeFilter("private"))
-    router.callback_query.register(PMModulesList, PMHelpBack.filter())
+    router.callback_query.register(PMModulesList, PMHelpModules.filter())
 
     router.callback_query.register(PMModuleHelp, PMHelpModule.filter())
 
