@@ -4,47 +4,61 @@
 For the proper functionality of the bot, we are saving some data inconspicuously.
 Here are all the non-obvious things we are saving:
 
-## Users
+### Settings and save-able content
+Configurations and content such as notes, filters, etc.
+
+### Users
 - First and second names;
 - User ID, Telegram username;
 - Telegram language;
 - Timestamp of the date when Sophie had seen the user for the first and the last time.
+- Chat memeberships
 
-## Chats
+### Chats
 - Chat name;
 - Chat ID;
 - Username and Chat ID;
 - Chat admins.
 
-## Messages
-- Temporary cached message time history, authors and count (only when antiflood feature is activated).
-- Temporary cached temporary message text, author and count (only when AI is activated) 
-
-## Crashlytics
-Crashlytics significantly help Sophie to be stable. We are trying to log as few data as possible.
-By using Sophie you agree to the Sentry's privacy policy as well - https://sentry.io/privacy.
-
-We are collecting:
-- Crash traceback with code variables states
-- In some cases, a raw update data which caused the crash
-
-This data is automatically purged after the issues are closed or stale.
-The crashlytics are not hidden. You will be clearly notified about it with the "crash" message Sophie would send.
-In some cases, if it's not possible to send the message (the bot is blocked or another reason Telegram doesn't sends 
-the message), this guarantee can be withdrawn.
+### Messages
+- If the Antiflood is explicitly enabled - cached message send times and authors.
+- If the AI Features are explicitly activates - cached message texts and authors (last 48h)
 
 # How we use the data
 We are processing, storing, managing all the data strictly only on the Sophie's virtual machines, with all the latest 
 security updates automatically installed weekly.
 
-We are not sharing any kinds of the data with third-parties except the anonymous statistics (such as total count of 
-the chats/users or/and percentage and total amount of data that being used for overall number of chats) and crashlytics.
+# Rights to process
 
-# Deleting the data
-Currently, removing Sophie from the chat she's in would trigger an automatic data purge task. For users, it is not 
-yet possible to automatically purge the data.
+### Retrieve your data
+Use '/export' command in your Private Message with Sophie to retrieve stored information.
 
-# AI
+### Remove your consent and delete data
+You are able to remove your consent at any time. 
+You can do that by stopping using Sophie (sending Telegram messages) and removing the previously saved content 
+(such as notes, filters, etc).
+The non-critical information would be automatically removed typically after 48 hours automatically.
+
+We have legitimate interest to store the essential information (such as: Warnings, Federation Bans and User ID with Names.) indefinitely that are required to the functioning of 
+Sophie. Sophie is using those data to protect chats/groups/channels.
+
+# Third parties
+
+### AI
 When AI features are activated, you automatically agree with the OpenAI's privacy policy - https://openai.com/enterprise-privacy/
 For some AI features, such as ChatBot feature, we would pass the context that could include cached chat's message 
 history (typically less than 20 messages)
+
+
+### Crashlytics
+Crashlytics significantly help Sophie to be stable. We are trying to log as few data as possible.
+By using Sophie you agree to the Sentry's privacy policy as well - https://sentry.io/privacy.
+
+We are collecting:
+- Crash traceback with code variables states
+- In some cases, code variables could contain the raw update data which caused the crash
+
+This data is automatically purged after the issues are closed or/and stale or after 48 hours.
+The crashlytics are not hidden. You will be clearly notified about it with the "crash" message Sophie would send.
+In some cases, if it's not possible to send the message (the bot is blocked or another reason Telegram doesn't sends 
+the message), this guarantee can be withdrawn.
