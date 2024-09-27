@@ -40,7 +40,7 @@ async def get_start_func(event: TelegramObject, strings, edit=False):
     task = msg.edit_text if edit else msg.reply
     buttons = InlineKeyboardMarkup(
         inline_keyboard=[
-            [InlineKeyboardButton(text=strings["btn_lang"], callback_data="lang_btn")],
+            # [InlineKeyboardButton(text=strings["btn_lang"], callback_data="lang_btn")],
             [InlineKeyboardButton(text=strings["btn_help"], url=CONFIG.wiki_link)],
             [
                 InlineKeyboardButton(text=strings["btn_chat"], url=CONFIG.support_link),
