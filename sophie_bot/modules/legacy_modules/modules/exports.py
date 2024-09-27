@@ -16,6 +16,7 @@ from sophie_bot.services.redis import redis
 VERSION = 5
 
 router = Router(name="exports")
+__exclude_public__ = True
 
 
 @register(router, cmds="export", user_admin=True)
@@ -34,7 +35,7 @@ async def export_chat_data(message: Message, strings):
     msg = await message.reply(strings["started_exporting"])
     data = {
         "general": {
-            "chat_name": "Private",
+            "chat_name": message.chat.title or "Private",
             "chat_id": chat_id,
             "date": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
             "version": VERSION,
@@ -46,7 +47,7 @@ async def export_chat_data(message: Message, strings):
         if k := await module.__export__(chat_id):
             data.update(k)
 
-    jfile = BufferedInputFile(str(ujson.dumps(data, indent=2)).encode(), filename="fban_info.txt")
-    text = strings["export_done"].format(chat_name="Private")
+    jfile = BufferedInputFile(str(ujson.dumps(data, indent=2)).encode(), filename="export.txt")
+    text = strings["export_done"].format(chat_name=message.chat.title or "Private")
     await message.answer_document(jfile, caption=text, reply=message.message_id)
     await msg.delete()
