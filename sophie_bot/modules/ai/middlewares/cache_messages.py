@@ -20,12 +20,13 @@ class CacheMessagesMiddleware(BaseMiddleware):
         return f"messages:{chat_id}"
 
     async def save_message(self, message: Message):
-        if not (message.text and message.from_user):
+        if not ((message.text or message.caption) and message.from_user):
             return
 
         chat_id = message.chat.id
 
-        msg = MessageType(user_id=message.from_user.id, message_id=message.message_id, text=message.text)
+        msg = MessageType(user_id=message.from_user.id, message_id=message.message_id, text=message.text
+        or message.caption)
         json_str = msg.model_dump_json()
 
         key = self.get_key(message.chat.id)

@@ -24,10 +24,11 @@ async def get_message_history(message: Message, data: dict):
     messages = await gather(*[message_transform(msg) for msg in data.get("cached_messages", [])])
 
     # Reply to the user
-    if message.reply_to_message and message.reply_to_message.text and message.reply_to_message.from_user:
+    reply_to_message = message.reply_to_message
+    if reply_to_message and (reply_to_message.text or reply_to_message.caption) and reply_to_message.from_user:
 
         replied_id = message.reply_to_message.from_user.id
-        reply_text = message.reply_to_message.text
+        reply_text = message.reply_to_message.text or reply_to_message.caption
 
         if replied_id == CONFIG.bot_id:
             if is_ai_message(reply_text):
