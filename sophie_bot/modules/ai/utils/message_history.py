@@ -24,11 +24,17 @@ async def get_message_history(message: Message, data: dict):
     messages = await gather(*[message_transform(msg) for msg in data.get("cached_messages", [])])
 
     # Reply to the user
-    reply_to_message = message.reply_to_message
-    if reply_to_message and (reply_to_message.text or reply_to_message.caption) and reply_to_message.from_user:
+    if (
+        message.reply_to_message
+        and (message.reply_to_message.text or message.reply_to_message.caption)
+        and message.reply_to_message.from_user
+    ):
 
         replied_id = message.reply_to_message.from_user.id
-        reply_text = message.reply_to_message.text or reply_to_message.caption
+        reply_text = message.reply_to_message.text or message.reply_to_message.caption or ""
+
+        reply_from = message.from_user.first_name if message.from_user else "Unknown"
+        reply_to = message.reply_to_message.from_user.first_name if message.reply_to_message.from_user else "Unknown"
 
         if replied_id == CONFIG.bot_id:
             if is_ai_message(reply_text):
@@ -45,8 +51,8 @@ async def get_message_history(message: Message, data: dict):
             messages.append(
                 ChatCompletionUserMessageParam(
                     role="user",
-                    content="REPLIED MESSAGE:" + message.reply_to_message.text,
-                    name=sanitize_name(message.reply_to_message.from_user.first_name),
+                    content=f"<REPLY TO USER {sanitize_name(reply_to)}>: {reply_text}",
+                    name=sanitize_name(reply_from),
                 )
             )
 

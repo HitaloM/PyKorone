@@ -25,8 +25,11 @@ class CacheMessagesMiddleware(BaseMiddleware):
 
         chat_id = message.chat.id
 
-        msg = MessageType(user_id=message.from_user.id, message_id=message.message_id, text=message.text
-        or message.caption)
+        msg = MessageType(
+            user_id=message.from_user.id,
+            message_id=message.message_id,
+            text=message.text or message.caption or "<No text>",
+        )
         json_str = msg.model_dump_json()
 
         key = self.get_key(message.chat.id)
