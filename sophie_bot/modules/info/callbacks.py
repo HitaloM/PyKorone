@@ -8,3 +8,7 @@ class PMHelpModule(CallbackData, prefix="pmhelpmod"):
 
 class PMHelpModules(CallbackData, prefix="pmhelpback"):
     back_to_start: bool = False
+
+
+class PMPrivacy(CallbackData, prefix="privacy"):
+    back_to_start: bool = False

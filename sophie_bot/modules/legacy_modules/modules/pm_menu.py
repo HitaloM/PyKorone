@@ -8,17 +8,19 @@ from aiogram.types import (
     Message,
     TelegramObject,
 )
+from stfu_tg import Doc, Template, Url
 
 from sophie_bot import CONFIG, dp
 from sophie_bot.modules.legacy_modules.utils.disable import disableable_dec
 from sophie_bot.modules.legacy_modules.utils.language import get_strings_dec
 from sophie_bot.modules.legacy_modules.utils.register import register
+from sophie_bot.utils.i18n import gettext as _
 
 from .language import select_lang_keyboard
 
 __exclude_public__ = True
 
-from ...info import PMHelpModules
+from ...info import PMHelpModules, PMPrivacy
 
 router = Router(name="pm_menu")
 
@@ -41,23 +43,30 @@ async def get_start_func(event: TelegramObject, strings, edit=False):
     task = msg.edit_text if edit else msg.reply
     buttons = InlineKeyboardMarkup(
         inline_keyboard=[
-            # [InlineKeyboardButton(text=strings["btn_lang"], callback_data="lang_btn")],
-            [InlineKeyboardButton(text=strings["btn_help"], callback_data=PMHelpModules(back_to_start=True).pack())],
-            [
-                InlineKeyboardButton(text=strings["btn_chat"], url=CONFIG.support_link),
-                InlineKeyboardButton(text=strings["btn_channel"], url=CONFIG.news_channel),
-            ],
             [
                 InlineKeyboardButton(
                     text=strings["btn_add"],
                     url=f"https://telegram.me/{CONFIG.username}?startgroup=true",
                 )
             ],
+            # [InlineKeyboardButton(text=strings["btn_lang"], callback_data="lang_btn")],
+            [InlineKeyboardButton(text=_("🕵️‍♂️ Privacy"), callback_data=PMPrivacy(back_to_start=True).pack())],
+            [InlineKeyboardButton(text=strings["btn_help"], callback_data=PMHelpModules(back_to_start=True).pack())],
         ]
     )
+
+    text = Doc(
+        strings["start_hi"],
+        Template(
+            "Join our {chat} and {channel}.",
+            chat=Url(_("💬 Support Chat"), CONFIG.support_link),
+            channel=Url(_("📢 NEWS Channel"), CONFIG.news_channel),
+        ),
+    )
+
     # Handle error when user click the button 2 or more times simultaneously
     with suppress(TelegramBadRequest):
-        await task(strings["start_hi"], reply_markup=buttons)
+        await task(str(text), reply_markup=buttons, disable_web_page_preview=True)
 
 
 @dp.callback_query(F.data == "lang_btn")

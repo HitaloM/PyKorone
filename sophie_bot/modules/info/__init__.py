@@ -8,7 +8,7 @@ from ...filters.chat_status import ChatTypeFilter
 from ...filters.cmd import CMDFilter
 from ...filters.user_status import IsOP
 from ...utils.logger import log
-from .callbacks import PMHelpModule, PMHelpModules
+from .callbacks import PMHelpModule, PMHelpModules, PMPrivacy
 from .handlers.op import OpCMDSList
 from .handlers.pm_modules import PMModuleHelp, PMModulesList
 from .handlers.privacy import PrivacyInfo
@@ -32,6 +32,7 @@ def __pre_setup__():
     router.message.register(OpCMDSList, CMDFilter("op_cmds"), IsOP(True))
 
     router.message.register(PrivacyInfo, CMDFilter("privacy"), ChatTypeFilter("private"))
+    router.callback_query.register(PrivacyInfo, PMPrivacy.filter())
 
 
 def __post_setup__(modules: dict[str, ModuleType]):

@@ -18,7 +18,7 @@ from sophie_bot.utils.i18n import lazy_gettext as l_
 @flags.help(description=l_("Shows help overview for all modules"))
 class PMModulesList(BaseHandler[Message | CallbackQuery]):
     async def handle(self) -> Any:
-        callback_data: Optional[PMHelpModules] = self.data.get('callback_data', None)
+        callback_data: Optional[PMHelpModules] = self.data.get("callback_data", None)
 
         buttons = (
             InlineKeyboardBuilder()

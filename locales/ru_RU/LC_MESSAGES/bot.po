@@ -494,6 +494,7 @@ msgstr ""
 
 #: sophie_bot/modules/info/handlers/pm_modules.py:42
 #: sophie_bot/modules/info/handlers/pm_modules.py:101
+#: sophie_bot/modules/info/handlers/privacy.py:29
 msgid "⬅️ Back"
 msgstr ""
 
@@ -523,15 +524,15 @@ msgstr ""
 msgid "📖 Wiki page"
 msgstr ""
 
-#: sophie_bot/modules/info/handlers/privacy.py:12
+#: sophie_bot/modules/info/handlers/privacy.py:15
 msgid "Shows the privacy policy of the bot"
 msgstr ""
 
-#: sophie_bot/modules/info/handlers/privacy.py:15
+#: sophie_bot/modules/info/handlers/privacy.py:20
 msgid "The privacy policy of the bot is available on our wiki page."
 msgstr ""
 
-#: sophie_bot/modules/info/handlers/privacy.py:20
+#: sophie_bot/modules/info/handlers/privacy.py:23
 msgid "Privacy Policy"
 msgstr ""
 
@@ -898,6 +899,18 @@ msgstr ""
 
 #: sophie_bot/modules/legacy_modules/modules/pins.py:46
 msgid "Unpins the last pinned message"
+msgstr ""
+
+#: sophie_bot/modules/legacy_modules/modules/pm_menu.py:53
+msgid "🕵️‍♂️ Privacy"
+msgstr ""
+
+#: sophie_bot/modules/legacy_modules/modules/pm_menu.py:62
+msgid "💬 Support Chat"
+msgstr ""
+
+#: sophie_bot/modules/legacy_modules/modules/pm_menu.py:63
+msgid "📢 NEWS Channel"
 msgstr ""
 
 #: sophie_bot/modules/legacy_modules/modules/promotes.py:38
