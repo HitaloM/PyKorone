@@ -510,6 +510,7 @@ async def note_start(message: Message, strings, regexp=None, **kwargs):
 
 
 @register(router, cmds="start", only_pm=True)
+@flags.help(exclude=True)
 @get_strings_dec("connections")
 async def btn_note_start_state(message: Message, strings):
     key = "btn_note_start_state:" + str(message.from_user.id)

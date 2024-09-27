@@ -130,8 +130,8 @@ msgstr ""
 #: sophie_bot/modules/ai/handlers/enable.py:51
 #: sophie_bot/modules/legacy_modules/modules/antiflood.py:248
 #: sophie_bot/modules/legacy_modules/modules/connection.py:184
-#: sophie_bot/modules/legacy_modules/modules/notes.py:532
-#: sophie_bot/modules/legacy_modules/modules/notes.py:571
+#: sophie_bot/modules/legacy_modules/modules/notes.py:533
+#: sophie_bot/modules/legacy_modules/modules/notes.py:572
 msgid "New state"
 msgstr ""
 
@@ -879,13 +879,13 @@ msgstr ""
 msgid "Shows additional information about the note"
 msgstr ""
 
-#: sophie_bot/modules/legacy_modules/modules/notes.py:531
+#: sophie_bot/modules/legacy_modules/modules/notes.py:532
 msgid ""
 "Controls the feature, that would recommend users to use PM with bot to "
 "use notes"
 msgstr ""
 
-#: sophie_bot/modules/legacy_modules/modules/notes.py:571
+#: sophie_bot/modules/legacy_modules/modules/notes.py:572
 msgid "Controls the automatic clean-up for notes"
 msgstr ""
 

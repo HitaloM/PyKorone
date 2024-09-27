@@ -105,6 +105,9 @@ def gather_cmds_help(router: Router) -> list[CmdHelp]:
 
         help_flags = handler.flags.get("help")
 
+        if help_flags and help_flags.get("exclude"):
+            continue
+
         if help_flags and help_flags.get("args"):
             args = gather_cmd_args(help_flags["args"])
         else:
