@@ -9,4 +9,4 @@ class AiPMFSM(StatesGroup):
 
 AI_PM_STOP_TEXT = l_("🛑 Exit AI mode")
 
-AI_GENERATED_TEXT = l_("✨ AI")
+AI_GENERATED_TEXT = l_("✨ Beta AI")

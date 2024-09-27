@@ -1,10 +1,13 @@
 from aiogram import Router
+from babel.support import LazyProxy
+from stfu_tg import Doc
 
 from sophie_bot.modules.ai.handlers.ai_cmd import AiCmd
 from sophie_bot.modules.ai.handlers.enable import AIStatus, EnableAI
 from sophie_bot.modules.ai.handlers.pm import AiPmHandle, AiPmInitialize, AiPmStop
 from sophie_bot.modules.ai.handlers.reply import AiReplyHandler
 from sophie_bot.modules.ai.middlewares.cache_messages import CacheMessagesMiddleware
+from sophie_bot.modules.ai.texts import AI_POLICY
 from sophie_bot.utils.i18n import lazy_gettext as l_
 
 router = Router(name="ai")
@@ -12,7 +15,9 @@ router = Router(name="ai")
 __module_name__ = l_("Sophie AI")
 __module_emoji__ = "✨"
 __module_description__ = l_("Rainbow sparkles and shininess")
-__module_info__ = l_("Please note that you can make a limited amount of AI requests per day.")
+__module_info__ = LazyProxy(
+    lambda: Doc(AI_POLICY, l_("Please note that you can make a limited amount of AI requests per day."))
+)
 
 
 def __pre_setup__():

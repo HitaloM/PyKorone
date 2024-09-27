@@ -12,6 +12,7 @@ from sophie_bot.filters.admin_rights import UserRestricting
 from sophie_bot.filters.cmd import CMDFilter
 from sophie_bot.filters.message_status import HasArgs
 from sophie_bot.middlewares.connections import ChatConnection
+from sophie_bot.modules.ai.texts import AI_POLICY
 from sophie_bot.utils.exception import SophieException
 from sophie_bot.utils.i18n import gettext as _
 from sophie_bot.utils.i18n import lazy_gettext as l_
@@ -71,14 +72,7 @@ class EnableAI(MessageHandler):
                     _("✨ AI Features have been {status} in {chat}."), status=status_text.lower(), chat=connection.title
                 )
             ),
-            (
-                Template(
-                    _("By using AI feature you agree to the our {policy} and third-party AI provider."),
-                    policy=Url(_("privacy policy"), CONFIG.privacy_link),
-                )
-                if new_state
-                else None
-            ),
+            (AI_POLICY if new_state else None),
         )
 
         await self.event.reply(str(doc), disable_web_page_preview=True)
