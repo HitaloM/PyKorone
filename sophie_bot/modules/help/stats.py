@@ -1,6 +1,6 @@
 from stfu_tg import Code, KeyValue, Section, Template
 
-from sophie_bot.modules.info.utils.extract_info import HELP_MODULES
+from sophie_bot.modules.help.utils.extract_info import HELP_MODULES
 
 
 async def __stats__():

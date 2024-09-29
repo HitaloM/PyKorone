@@ -37,7 +37,7 @@ def __pre_setup__():
 
 
 def __post_setup__(_):
-    from sophie_bot.modules.info.utils.extract_info import (
+    from sophie_bot.modules.help.utils.extract_info import (
         HELP_MODULES,
         gather_module_help,
     )

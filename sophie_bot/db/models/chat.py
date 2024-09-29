@@ -16,8 +16,10 @@ from beanie import (
 from beanie.odm.operators.find.comparison import In
 from beanie.odm.operators.update.general import Set
 from pydantic import Field
+from pydantic_core.core_schema import SerializerFunctionWrapHandler
 
 from sophie_bot.db.db_exceptions import DBNotFoundException
+from sophie_bot.db.models import AIEnabledModel, AIUsageModel
 
 
 class ChatType(Enum):
@@ -25,6 +27,81 @@ class ChatType(Enum):
     supergroup = "supergroup"
     private = "private"
     channel = "channel"
+
+
+class UserInGroupModel(Document):
+    user: Link["ChatModel"]
+    group: Link["ChatModel"]
+    first_saw: datetime = Field(default_factory=datetime.utcnow)
+    last_saw: datetime
+
+    class Settings:
+        name = "users_in_groups"
+
+    @staticmethod
+    async def ensure_user_in_group(user: "ChatModel", group: "ChatModel"):
+        current_timedate = datetime.now(timezone.utc)
+
+        return await UserInGroupModel.find_one(
+            UserInGroupModel.user.id == user.id,
+            UserInGroupModel.group.id == group.id,
+        ).upsert(
+            Set({UserInGroupModel.last_saw: current_timedate}),
+            on_insert=UserInGroupModel(
+                user=user,
+                group=group,
+                last_saw=current_timedate,
+            ),
+        )
+
+    @staticmethod
+    async def remove_user_in_chat(user_iid: PydanticObjectId, group_iid: PydanticObjectId):
+        user_in_chat = await UserInGroupModel.find_one(
+            UserInGroupModel.user.id == user_iid, UserInGroupModel.group.id == group_iid
+        )
+        if user_in_chat:
+            await user_in_chat.delete()
+        return user_in_chat
+
+    @staticmethod
+    async def ensure_delete(user: "ChatModel", group: "ChatModel") -> Optional["UserInGroupModel"]:
+        if user_in_chat := await UserInGroupModel.find_one(
+            UserInGroupModel.user.id == user.id, UserInGroupModel.group.id == group.id
+        ):
+            await user_in_chat.delete()
+            return user_in_chat
+        return None
+
+
+class ChatTopicModel(Document):
+    group: Link["ChatModel"]
+    thread_id: int
+    name: Optional[str] = None
+    last_active: datetime = Field(default_factory=datetime.utcnow)
+
+    class Settings:
+        name = "chat_topics"
+
+    @staticmethod
+    async def ensure_topic(group: "ChatModel", thread_id: int, topic_name: Optional[str]):
+        model: Optional[ChatTopicModel] = await ChatTopicModel.find_one(
+            ChatTopicModel.group.id == group.id, ChatTopicModel.thread_id == thread_id
+        )
+
+        if not model:
+            model = ChatTopicModel(group=group, thread_id=thread_id, name=topic_name)
+            await model.save()
+            return model
+
+        if (topic_name and topic_name != model.name) or (topic_name and not model.name):
+            model.name = topic_name
+            await model.save()
+
+        return model
+
+
+def ser_wrap(v: Any, nxt: SerializerFunctionWrapHandler) -> str:
+    return nxt(v)
 
 
 class ChatModel(Document):
@@ -39,14 +116,19 @@ class ChatModel(Document):
     last_saw: datetime
 
     # User in groups
-    user_in_groups: BackLink["UserInGroupModel"] = Field(original_field="user")  # type: ignore[call-arg]
-    groups_of_user: BackLink["UserInGroupModel"] = Field(original_field="group")  # type: ignore[call-arg]
+    user_in_groups: list[BackLink[UserInGroupModel]] = Field(original_field="user")  # type: ignore[call-arg]
+    groups_of_user: list[BackLink[UserInGroupModel]] = Field(original_field="group")  # type: ignore[call-arg]
 
     # Topics
-    chat_topics: BackLink["ChatTopicModel"] = Field(original_field="group")  # type: ignore[call-arg]
+    chat_topics: list[BackLink[ChatTopicModel]] = Field(original_field="group")  # type: ignore[call-arg]
+
+    # AI
+    ai_enabled: list[BackLink[AIEnabledModel]] = Field(original_field="chat")  # type: ignore[call-arg]
+    ai_usage: list[BackLink[AIUsageModel]] = Field(original_field="chat")  # type: ignore[call-arg]
 
     class Settings:
         name = "chats"
+        max_nesting_depths_per_field = {"groups_of_user": 1}
 
     @staticmethod
     def _get_user_data(user: User) -> dict[str, Any]:
@@ -129,7 +211,7 @@ class ChatModel(Document):
 
     @staticmethod
     async def get_by_chat_id(chat_id) -> Optional["ChatModel"]:
-        return await ChatModel.find_one(ChatModel.chat_id == chat_id)
+        return await ChatModel.find_one(ChatModel.chat_id == chat_id, fetch_links=True)
 
     @staticmethod
     async def find_user(user_id: int) -> "ChatModel":
@@ -159,73 +241,6 @@ class ChatModel(Document):
             last_saw=datetime.now(timezone.utc),
         )
 
-
-class UserInGroupModel(Document):
-    user: Link[ChatModel]
-    group: Link[ChatModel]
-    first_saw: datetime = Field(default_factory=datetime.utcnow)
-    last_saw: datetime
-
-    class Settings:
-        name = "users_in_groups"
-
     @staticmethod
-    async def ensure_user_in_group(user: ChatModel, group: ChatModel):
-        current_timedate = datetime.now(timezone.utc)
-
-        return await UserInGroupModel.find_one(
-            UserInGroupModel.user.id == user.id,
-            UserInGroupModel.group.id == group.id,
-        ).upsert(
-            Set({UserInGroupModel.last_saw: current_timedate}),
-            on_insert=UserInGroupModel(
-                user=user,
-                group=group,
-                last_saw=current_timedate,
-            ),
-        )
-
-    @staticmethod
-    async def remove_user_in_chat(user_iid: PydanticObjectId, group_iid: PydanticObjectId):
-        user_in_chat = await UserInGroupModel.find_one(
-            UserInGroupModel.user.id == user_iid, UserInGroupModel.group.id == group_iid
-        )
-        if user_in_chat:
-            await user_in_chat.delete()
-        return user_in_chat
-
-    @staticmethod
-    async def ensure_delete(user: ChatModel, group: ChatModel) -> Optional["UserInGroupModel"]:
-        if user_in_chat := await UserInGroupModel.find_one(
-            UserInGroupModel.user.id == user.id, UserInGroupModel.group.id == group.id
-        ):
-            await user_in_chat.delete()
-            return user_in_chat
-        return None
-
-
-class ChatTopicModel(Document):
-    group: Link[ChatModel]
-    thread_id: int
-    name: Optional[str] = None
-    last_active: datetime = Field(default_factory=datetime.utcnow)
-
-    class Settings:
-        name = "chat_topics"
-
-    @staticmethod
-    async def ensure_topic(group: ChatModel, thread_id: int, topic_name: Optional[str]):
-        model: Optional[ChatTopicModel] = await ChatTopicModel.find_one(
-            ChatTopicModel.group.id == group.id, ChatTopicModel.thread_id == thread_id
-        )
-
-        if not model:
-            model = ChatTopicModel(group=group, thread_id=thread_id, name=topic_name)
-            await model.save()
-            return model
-
-        if (topic_name and topic_name != model.name) or (topic_name and not model.name):
-            model.name = topic_name
-            await model.save()
-
-        return model
+    def export_dict(chat: "ChatModel") -> dict[str, Any]:
+        return chat.model_dump(mode="json", exclude_none=True, exclude_unset=True, exclude_defaults=True)

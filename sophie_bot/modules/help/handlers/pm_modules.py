@@ -4,12 +4,12 @@ from aiogram import flags
 from aiogram.handlers import BaseHandler, CallbackQueryHandler
 from aiogram.types import CallbackQuery, InlineKeyboardButton, Message
 from aiogram.utils.keyboard import InlineKeyboardBuilder
-from stfu_tg import Doc, HList, Section, Title
+from stfu_tg import Doc, HList, Section, Title, Url
 
 from sophie_bot import CONFIG
-from sophie_bot.modules.info import PMHelpModule, PMHelpModules
-from sophie_bot.modules.info.utils.extract_info import HELP_MODULES
-from sophie_bot.modules.info.utils.format_help import format_cmds
+from sophie_bot.modules.help import PMHelpModule, PMHelpModules
+from sophie_bot.modules.help.utils.extract_info import HELP_MODULES
+from sophie_bot.modules.help.utils.format_help import format_cmds
 from sophie_bot.utils.exception import SophieException
 from sophie_bot.utils.i18n import gettext as _
 from sophie_bot.utils.i18n import lazy_gettext as l_
@@ -20,33 +20,33 @@ class PMModulesList(BaseHandler[Message | CallbackQuery]):
     async def handle(self) -> Any:
         callback_data: Optional[PMHelpModules] = self.data.get("callback_data", None)
 
-        buttons = (
-            InlineKeyboardBuilder()
-            .add(InlineKeyboardButton(text=_("📖 Wiki (detailed information)"), url=CONFIG.wiki_link))
-            .row(
-                *(
-                    InlineKeyboardButton(
-                        text=f"{module.icon} {module.name}",
-                        callback_data=PMHelpModule(
-                            module_name=module_name, back_to_start=bool(callback_data and callback_data.back_to_start)
-                        ).pack(),
-                    )
-                    for module_name, module in HELP_MODULES.items()
-                    if not module.exclude_public
-                ),
-                width=2,
-            )
+        buttons = InlineKeyboardBuilder().row(
+            *(
+                InlineKeyboardButton(
+                    text=f"{module.icon} {module.name}",
+                    callback_data=PMHelpModule(
+                        module_name=module_name, back_to_start=bool(callback_data and callback_data.back_to_start)
+                    ).pack(),
+                )
+                for module_name, module in HELP_MODULES.items()
+                if not module.exclude_public
+            ),
+            width=2,
         )
 
         if callback_data and callback_data.back_to_start:
             buttons.row(InlineKeyboardButton(text=_("⬅️ Back"), callback_data="go_to_start"))
 
-        text = _("There are 2 help sources, you can read the detailed wiki or get a quick commands overview.")
+        doc = Doc(
+            Title(_("Help")),
+            _("There are 2 help sources, you can read the detailed wiki or get a quick commands by modules overview."),
+            Url(_("📖 Wiki (detailed information)"), CONFIG.wiki_link),
+        )
 
         if isinstance(self.event, CallbackQuery):
-            await self.event.message.edit_text(text, reply_markup=buttons.as_markup())  # type: ignore
+            await self.event.message.edit_text(str(doc), reply_markup=buttons.as_markup(), disable_web_page_preview=True)  # type: ignore
         else:
-            await self.event.reply(text, reply_markup=buttons.as_markup())
+            await self.event.reply(str(doc), reply_markup=buttons.as_markup(), disable_web_page_preview=True)
 
 
 class PMModuleHelp(CallbackQueryHandler):

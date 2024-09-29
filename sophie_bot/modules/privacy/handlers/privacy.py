@@ -7,15 +7,16 @@ from aiogram.utils.keyboard import InlineKeyboardBuilder
 from babel.messages import Message
 
 from sophie_bot import CONFIG
-from sophie_bot.modules.info.callbacks import PMPrivacy
 from sophie_bot.utils.i18n import gettext as _
 from sophie_bot.utils.i18n import lazy_gettext as l_
 
+from ..callbacks import PrivacyMenuCallback
+
 
 @flags.help(description=l_("Shows the privacy policy of the bot"))
-class PrivacyInfo(BaseHandler[Message | CallbackQuery]):
+class PrivacyMenu(BaseHandler[Message | CallbackQuery]):
     async def handle(self) -> Any:
-        callback_data: Optional[PMPrivacy] = self.data.get("callback_data", None)
+        callback_data: Optional[PrivacyMenuCallback] = self.data.get("callback_data", None)
 
         text = _("The privacy policy of the bot is available on our wiki page.")
         buttons = InlineKeyboardBuilder().add(

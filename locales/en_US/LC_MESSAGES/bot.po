@@ -186,6 +186,7 @@ msgid "The AI mode has been exited."
 msgstr ""
 
 #: sophie_bot/modules/ai/utils/ai_chatbot.py:56
+#: sophie_bot/modules/privacy/__init__.py:17
 msgid "Privacy"
 msgstr ""
 
@@ -476,67 +477,57 @@ msgstr ""
 msgid "Softly whispering."
 msgstr ""
 
-#: sophie_bot/modules/info/__init__.py:21
-msgid "Information"
+#: sophie_bot/modules/help/__init__.py:20
+#: sophie_bot/modules/help/handlers/pm_modules.py:41
+msgid "Help"
 msgstr ""
 
-#: sophie_bot/modules/info/__init__.py:23
+#: sophie_bot/modules/help/__init__.py:22
+#: sophie_bot/modules/privacy/__init__.py:19
 msgid "Provides helpful information"
 msgstr ""
 
-#: sophie_bot/modules/info/handlers/pm_modules.py:18
+#: sophie_bot/modules/help/handlers/pm_modules.py:18
 msgid "Shows help overview for all modules"
 msgstr ""
 
-#: sophie_bot/modules/info/handlers/pm_modules.py:25
-msgid "📖 Wiki (detailed information)"
-msgstr ""
-
-#: sophie_bot/modules/info/handlers/pm_modules.py:42
-#: sophie_bot/modules/info/handlers/pm_modules.py:101
-#: sophie_bot/modules/info/handlers/privacy.py:29
+#: sophie_bot/modules/help/handlers/pm_modules.py:38
+#: sophie_bot/modules/help/handlers/pm_modules.py:101
+#: sophie_bot/modules/privacy/handlers/privacy.py:30
 msgid "⬅️ Back"
 msgstr ""
 
-#: sophie_bot/modules/info/handlers/pm_modules.py:44
+#: sophie_bot/modules/help/handlers/pm_modules.py:42
 msgid ""
 "There are 2 help sources, you can read the detailed wiki or get a quick "
-"commands overview."
+"commands by modules overview."
 msgstr ""
 
-#: sophie_bot/modules/info/handlers/pm_modules.py:59
+#: sophie_bot/modules/help/handlers/pm_modules.py:43
+msgid "📖 Wiki (detailed information)"
+msgstr ""
+
+#: sophie_bot/modules/help/handlers/pm_modules.py:59
 msgid "Module not found"
 msgstr ""
 
-#: sophie_bot/modules/info/handlers/pm_modules.py:75
+#: sophie_bot/modules/help/handlers/pm_modules.py:75
 msgid "Commands"
 msgstr ""
 
-#: sophie_bot/modules/info/handlers/pm_modules.py:76
+#: sophie_bot/modules/help/handlers/pm_modules.py:76
 msgid "PM-only"
 msgstr ""
 
-#: sophie_bot/modules/info/handlers/pm_modules.py:77
+#: sophie_bot/modules/help/handlers/pm_modules.py:77
 msgid "Only admins"
 msgstr ""
 
-#: sophie_bot/modules/info/handlers/pm_modules.py:98
+#: sophie_bot/modules/help/handlers/pm_modules.py:98
 msgid "📖 Wiki page"
 msgstr ""
 
-#: sophie_bot/modules/info/handlers/privacy.py:15
-msgid "Shows the privacy policy of the bot"
-msgstr ""
-
-#: sophie_bot/modules/info/handlers/privacy.py:20
-msgid "The privacy policy of the bot is available on our wiki page."
-msgstr ""
-
-#: sophie_bot/modules/info/handlers/privacy.py:23
-msgid "Privacy Policy"
-msgstr ""
-
-#: sophie_bot/modules/info/utils/format_help.py:21
+#: sophie_bot/modules/help/utils/format_help.py:21
 msgid " - Only in chats"
 msgstr ""
 
@@ -901,15 +892,15 @@ msgstr ""
 msgid "Unpins the last pinned message"
 msgstr ""
 
-#: sophie_bot/modules/legacy_modules/modules/pm_menu.py:53
+#: sophie_bot/modules/legacy_modules/modules/pm_menu.py:54
 msgid "🕵️‍♂️ Privacy"
 msgstr ""
 
-#: sophie_bot/modules/legacy_modules/modules/pm_menu.py:62
+#: sophie_bot/modules/legacy_modules/modules/pm_menu.py:63
 msgid "💬 Support Chat"
 msgstr ""
 
-#: sophie_bot/modules/legacy_modules/modules/pm_menu.py:63
+#: sophie_bot/modules/legacy_modules/modules/pm_menu.py:64
 msgid "📢 NEWS Channel"
 msgstr ""
 
@@ -983,7 +974,7 @@ msgid "Resets the chat rules."
 msgstr ""
 
 #: sophie_bot/modules/legacy_modules/modules/users.py:17
-#: sophie_bot/modules/users/__init__.py:14
+#: sophie_bot/modules/users/__init__.py:15
 msgid "Users"
 msgstr ""
 
@@ -1101,6 +1092,26 @@ msgstr ""
 msgid "Local chat"
 msgstr ""
 
+#: sophie_bot/modules/privacy/handlers/export.py:35
+msgid "Export is started, this may take a while."
+msgstr ""
+
+#: sophie_bot/modules/privacy/handlers/export.py:44
+msgid "Export is done."
+msgstr ""
+
+#: sophie_bot/modules/privacy/handlers/privacy.py:16
+msgid "Shows the privacy policy of the bot"
+msgstr ""
+
+#: sophie_bot/modules/privacy/handlers/privacy.py:21
+msgid "The privacy policy of the bot is available on our wiki page."
+msgstr ""
+
+#: sophie_bot/modules/privacy/handlers/privacy.py:24
+msgid "Privacy Policy"
+msgstr ""
+
 #: sophie_bot/modules/troubleshooters/__init__.py:12
 msgid "Troubleshooters"
 msgstr ""
@@ -1165,5 +1176,14 @@ msgstr ""
 #~ msgstr ""
 
 #~ msgid "Shows this message"
+#~ msgstr ""
+
+#~ msgid "Information"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "There are 2 help sources, you can"
+#~ " read the detailed wiki or get "
+#~ "a quick commands overview."
 #~ msgstr ""
 

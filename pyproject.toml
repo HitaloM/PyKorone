@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "sophie_bot"
-version = "3.1.0"
+version = "3.2.0"
 description = "Sophie is modern and fast Telegram chat manager bot"
 authors = ["Yacha <yacha@orangefox.tech>"]
 
@@ -8,12 +8,12 @@ authors = ["Yacha <yacha@orangefox.tech>"]
 python = "^3.12"
 Telethon = "^1.24.0"
 aiogram = "^3.13"
-redis = "5.0.8"
+redis = "^5"
 motor = "^3.6"
 dnspython = "^2.1.0"
-aiohttp = { extras = ["speedups"], version = "^3.9", optional = true }
+aiohttp = { extras = ["speedups"], version = "^3", optional = true }
 cryptg = { version = "^0.2.post4", optional = true }
-cryptography = { version = "^36.0.2", optional = true }
+cryptography = { version = "^43", optional = true }
 envparse = "^0.2.0"
 aiocron = "^1.8"
 APScheduler = "^3.8.1"
@@ -21,7 +21,7 @@ requests = "^2.26.0"
 ujson = "^5.1.0"
 PyYAML = "^6.0"
 loguru = "^0.7.0"
-sentry-sdk = "~2"
+sentry-sdk = "^2"
 Babel = "^2.9.1"
 captcha = "^0.6"
 async-timeout = "^4.0.2"
@@ -34,7 +34,7 @@ stfu-tg = "2.3"
 ass-tg = "^2.3.1"
 beanie = "^1.26.0"
 better-exceptions = "^0.3.3"
-openai = "^1.47"
+openai = "^1"
 
 [tool.poetry.group.dev.dependencies]
 Nuitka = "2.3.4"

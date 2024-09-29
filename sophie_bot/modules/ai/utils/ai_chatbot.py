@@ -52,8 +52,7 @@ async def handle_message(
     doc = Doc(
         HList(
             Title(AI_GENERATED_TEXT),
-            Title("4o-", bold=False) if model != Models.GPT_4O_MINI else None,
-            Url(_("Privacy"), CONFIG.privacy_link),
+            Title("4o-", bold=False) if model != Models.GPT_4O_MINI else None
         ),
         chat_completion.choices[0].message.content,
     )

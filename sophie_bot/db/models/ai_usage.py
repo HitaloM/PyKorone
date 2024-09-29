@@ -1,12 +1,14 @@
 from datetime import date
+from typing import TYPE_CHECKING
 
 from beanie import Document, Link
 
-from sophie_bot.db.models.chat import ChatModel
+if TYPE_CHECKING:
+    from .chat import ChatModel
 
 
 class AIUsageModel(Document):
-    chat: Link[ChatModel]
+    chat: Link["ChatModel"]
     days: dict[date, int]
 
     class Settings:
@@ -22,7 +24,7 @@ class AIUsageModel(Document):
         return usage.days.get(date.today(), 0)
 
     @staticmethod
-    async def increase_today(chat: ChatModel) -> "AIUsageModel":
+    async def increase_today(chat: "ChatModel") -> "AIUsageModel":
         usage = await AIUsageModel.find_one(AIUsageModel.chat.id == chat.id)
 
         date_today = date.today()

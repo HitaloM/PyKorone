@@ -20,7 +20,8 @@ from .language import select_lang_keyboard
 
 __exclude_public__ = True
 
-from ...info import PMHelpModules, PMPrivacy
+from ...help import PMHelpModules
+from ...privacy import PrivacyMenuCallback
 
 router = Router(name="pm_menu")
 
@@ -50,7 +51,7 @@ async def get_start_func(event: TelegramObject, strings, edit=False):
                 )
             ],
             # [InlineKeyboardButton(text=strings["btn_lang"], callback_data="lang_btn")],
-            [InlineKeyboardButton(text=_("🕵️‍♂️ Privacy"), callback_data=PMPrivacy(back_to_start=True).pack())],
+            [InlineKeyboardButton(text=_("🕵️‍♂️ Privacy"), callback_data=PrivacyMenuCallback(back_to_start=True).pack())],
             [InlineKeyboardButton(text=strings["btn_help"], callback_data=PMHelpModules(back_to_start=True).pack())],
         ]
     )

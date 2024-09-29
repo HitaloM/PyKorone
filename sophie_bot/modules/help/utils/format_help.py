@@ -1,7 +1,7 @@
 from ass_tg.types.base_abc import ArgFabric
 from stfu_tg import HList, Italic, Section, Template, VList
 
-from sophie_bot.modules.info.utils.extract_info import CmdHelp
+from sophie_bot.modules.help.utils.extract_info import CmdHelp
 from sophie_bot.utils.i18n import gettext as _
 
 

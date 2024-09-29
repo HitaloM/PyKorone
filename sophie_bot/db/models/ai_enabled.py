@@ -1,10 +1,13 @@
+from typing import TYPE_CHECKING
+
 from beanie import Document, Link
 
-from sophie_bot.db.models.chat import ChatModel
+if TYPE_CHECKING:
+    from .chat import ChatModel
 
 
 class AIEnabledModel(Document):
-    chat: Link[ChatModel]
+    chat: Link["ChatModel"]
 
     class Settings:
         name = "ai_enabled"
@@ -19,7 +22,7 @@ class AIEnabledModel(Document):
         return True
 
     @staticmethod
-    async def set_state(chat: ChatModel, new_state: bool):
+    async def set_state(chat: "ChatModel", new_state: bool):
         model = await AIEnabledModel.find_one(AIEnabledModel.chat.id == chat.id)
         if model and not new_state:
             return await model.delete()

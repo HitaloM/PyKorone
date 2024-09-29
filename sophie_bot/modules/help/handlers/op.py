@@ -1,8 +1,8 @@
 from aiogram.handlers import MessageHandler
 from stfu_tg import Doc, Section
 
-from sophie_bot.modules.info.utils.extract_info import HELP_MODULES
-from sophie_bot.modules.info.utils.format_help import format_cmds
+from sophie_bot.modules.help.utils.extract_info import HELP_MODULES
+from sophie_bot.modules.help.utils.format_help import format_cmds
 
 
 class OpCMDSList(MessageHandler):
