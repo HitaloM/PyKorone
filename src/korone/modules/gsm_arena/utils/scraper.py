@@ -8,11 +8,14 @@ from typing import Any
 import httpx
 from lxml import html
 
+from korone.config import ConfigManager
 from korone.utils.caching import cache
 from korone.utils.i18n import gettext as _
 from korone.utils.logging import logger
 
 from .types import PhoneSearchResult
+
+CORS: str = ConfigManager.get("korone", "CORS_BYPASS")
 
 HEADERS = {
     "accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,"
@@ -105,7 +108,7 @@ def format_phone(phone: dict[str, Any]) -> str:
 async def fetch_html(url: str) -> str:
     try:
         async with httpx.AsyncClient(headers=HEADERS, http2=True) as session:
-            response = await session.get(f"https://cors-bypass.amano.workers.dev/{url}")
+            response = await session.get(f"{CORS}/{url}")
             response.raise_for_status()
             return response.text
     except httpx.HTTPStatusError as e:

@@ -27,6 +27,7 @@ DEFAULT_CONFIG_TEMPLATE: dict[str, dict[str, str | bool | int] | dict[str, list[
         "SENTRY_DSN": "",
         "DEEPL_KEY": "",
         "LASTFM_KEY": "",
+        "CORS_BYPASS": "",
     },
 }
 
