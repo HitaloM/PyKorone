@@ -27,6 +27,7 @@ import re
 import time
 import uuid
 from contextlib import suppress
+from csv import DictWriter
 from datetime import datetime, timedelta
 from typing import Optional
 
@@ -968,8 +969,8 @@ async def fban_export(message: Message, fed, strings):
 
     msg = await message.reply(strings["creating_fbanlist"])
     fields = ["user_id", "reason", "by", "time", "banned_chats"]
-    with io.BytesIO() as f:
-        writer = csv.dictWriter(f, fields)
+    with io.StringIO() as f:
+        writer = DictWriter(f, fields)
         writer.writeheader()
         async for banned_data in db.fed_bans.find({"fed_id": fed_id}):
             await asyncio.sleep(0)
@@ -993,7 +994,7 @@ async def fban_export(message: Message, fed, strings):
         text = strings["fbanlist_done"] % html.escape(fed["fed_name"], False)
         f.seek(0)
         await message.answer_document(
-            BufferedInputFile(f.read(), filename="fban_info.txt"),
+            BufferedInputFile(f.read().encode(), filename="fban_info.txt"),
             caption=text,
         )
     await msg.delete()

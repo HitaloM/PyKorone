@@ -590,7 +590,7 @@ msgid "Disables the command."
 msgstr ""
 
 #: sophie_bot/modules/legacy_modules/modules/disabling.py:52 sophie_bot/modules/legacy_modules/modules/disabling.py:85
-#: sophie_bot/modules/legacy_modules/modules/feds.py:264
+#: sophie_bot/modules/legacy_modules/modules/feds.py:265
 msgid "Command"
 msgstr ""
 
@@ -602,48 +602,48 @@ msgstr ""
 msgid "Enables all previously disabled commands"
 msgstr ""
 
-#: sophie_bot/modules/legacy_modules/modules/feds.py:86
+#: sophie_bot/modules/legacy_modules/modules/feds.py:87
 msgid "Federations"
 msgstr ""
 
-#: sophie_bot/modules/legacy_modules/modules/feds.py:264
+#: sophie_bot/modules/legacy_modules/modules/feds.py:265
 msgid "Creates a new Federation."
 msgstr ""
 
-#: sophie_bot/modules/legacy_modules/modules/feds.py:299
+#: sophie_bot/modules/legacy_modules/modules/feds.py:300
 msgid "Joins the current chat to the federation."
 msgstr ""
 
-#: sophie_bot/modules/legacy_modules/modules/feds.py:299
+#: sophie_bot/modules/legacy_modules/modules/feds.py:300
 msgid "Fed ID"
 msgstr ""
 
-#: sophie_bot/modules/legacy_modules/modules/feds.py:339
+#: sophie_bot/modules/legacy_modules/modules/feds.py:340
 msgid "Leaves the current chat from the federation."
 msgstr ""
 
-#: sophie_bot/modules/legacy_modules/modules/feds.py:367
+#: sophie_bot/modules/legacy_modules/modules/feds.py:368
 msgid "Subscribes federation to another."
 msgstr ""
 
-#: sophie_bot/modules/legacy_modules/modules/feds.py:367
+#: sophie_bot/modules/legacy_modules/modules/feds.py:368
 msgid "Fed ID to subscribe"
 msgstr ""
 
-#: sophie_bot/modules/legacy_modules/modules/feds.py:401
+#: sophie_bot/modules/legacy_modules/modules/feds.py:402
 msgid "Unsubscribes the federation."
 msgstr ""
 
-#: sophie_bot/modules/legacy_modules/modules/feds.py:401
+#: sophie_bot/modules/legacy_modules/modules/feds.py:402
 msgid "Subscribed Fed ID"
 msgstr ""
 
-#: sophie_bot/modules/legacy_modules/modules/feds.py:428
+#: sophie_bot/modules/legacy_modules/modules/feds.py:429
 msgid "Promotes the user to the Federation admins."
 msgstr ""
 
-#: sophie_bot/modules/legacy_modules/modules/feds.py:428 sophie_bot/modules/legacy_modules/modules/feds.py:457
-#: sophie_bot/modules/legacy_modules/modules/feds.py:610 sophie_bot/modules/legacy_modules/modules/feds.py:782
+#: sophie_bot/modules/legacy_modules/modules/feds.py:429 sophie_bot/modules/legacy_modules/modules/feds.py:458
+#: sophie_bot/modules/legacy_modules/modules/feds.py:611 sophie_bot/modules/legacy_modules/modules/feds.py:783
 #: sophie_bot/modules/legacy_modules/modules/promotes.py:50 sophie_bot/modules/legacy_modules/modules/promotes.py:98
 #: sophie_bot/modules/legacy_modules/modules/restrictions.py:68
 #: sophie_bot/modules/legacy_modules/modules/restrictions.py:127
@@ -653,59 +653,59 @@ msgstr ""
 msgid "User"
 msgstr ""
 
-#: sophie_bot/modules/legacy_modules/modules/feds.py:457
+#: sophie_bot/modules/legacy_modules/modules/feds.py:458
 msgid "Demotes the user from the Federation admins."
 msgstr ""
 
-#: sophie_bot/modules/legacy_modules/modules/feds.py:484
+#: sophie_bot/modules/legacy_modules/modules/feds.py:485
 msgid "Sets the Federation logs channel."
 msgstr ""
 
-#: sophie_bot/modules/legacy_modules/modules/feds.py:513
+#: sophie_bot/modules/legacy_modules/modules/feds.py:514
 msgid "Removes the Federation logs channel."
 msgstr ""
 
-#: sophie_bot/modules/legacy_modules/modules/feds.py:535
+#: sophie_bot/modules/legacy_modules/modules/feds.py:536
 msgid "Shows a list of chats in the Federation."
 msgstr ""
 
-#: sophie_bot/modules/legacy_modules/modules/feds.py:560
+#: sophie_bot/modules/legacy_modules/modules/feds.py:561
 msgid "Shows a list of admins in the Federation."
 msgstr ""
 
-#: sophie_bot/modules/legacy_modules/modules/feds.py:574
+#: sophie_bot/modules/legacy_modules/modules/feds.py:575
 msgid "Shows the information about the Federation."
 msgstr ""
 
-#: sophie_bot/modules/legacy_modules/modules/feds.py:610
+#: sophie_bot/modules/legacy_modules/modules/feds.py:611
 msgid "Bans the user in the whole Federation."
 msgstr ""
 
-#: sophie_bot/modules/legacy_modules/modules/feds.py:782
+#: sophie_bot/modules/legacy_modules/modules/feds.py:783
 msgid "Unbans the user from the Federation."
 msgstr ""
 
-#: sophie_bot/modules/legacy_modules/modules/feds.py:874
+#: sophie_bot/modules/legacy_modules/modules/feds.py:875
 msgid "Deletes the federation."
 msgstr ""
 
-#: sophie_bot/modules/legacy_modules/modules/feds.py:926
+#: sophie_bot/modules/legacy_modules/modules/feds.py:927
 msgid "Renames the federation."
 msgstr ""
 
-#: sophie_bot/modules/legacy_modules/modules/feds.py:926
+#: sophie_bot/modules/legacy_modules/modules/feds.py:927
 msgid "New name"
 msgstr ""
 
-#: sophie_bot/modules/legacy_modules/modules/feds.py:954
+#: sophie_bot/modules/legacy_modules/modules/feds.py:955
 msgid "Exports the list of bans."
 msgstr ""
 
-#: sophie_bot/modules/legacy_modules/modules/feds.py:1003
+#: sophie_bot/modules/legacy_modules/modules/feds.py:1004
 msgid "Imports the list of bans."
 msgstr ""
 
-#: sophie_bot/modules/legacy_modules/modules/feds.py:1133
+#: sophie_bot/modules/legacy_modules/modules/feds.py:1134
 msgid "Checks the user ban status (can be used to check yourself)."
 msgstr ""
 
