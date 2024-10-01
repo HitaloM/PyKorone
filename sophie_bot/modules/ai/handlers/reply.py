@@ -33,4 +33,4 @@ class AiReplyHandler(MessageHandler):
         text = self.event.text or ""
 
         await bot.send_chat_action(self.event.chat.id, "typing")
-        await handle_message(self.event, text, await get_message_history(self.event, self.data))
+        await handle_message(self.event, text, await get_message_history(self.event))

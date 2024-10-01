@@ -22,4 +22,4 @@ class AiCmd(MessageHandler):
         user_text = self.data["text"]
 
         await bot.send_chat_action(self.event.chat.id, "typing")
-        await handle_message(self.event, user_text, await get_message_history(self.event, self.data))
+        await handle_message(self.event, user_text, await get_message_history(self.event))

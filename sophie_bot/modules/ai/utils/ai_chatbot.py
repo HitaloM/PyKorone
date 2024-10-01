@@ -30,10 +30,14 @@ class Models(str, Enum):
 
 
 async def handle_message(
-    message: Message, user_text: str, history: Iterable[ChatCompletionMessageParam], model=Models.GPT_4O_MINI
+    message: Message,
+    user_text: str,
+    history: Iterable[ChatCompletionMessageParam],
+    model=Models.GPT_4O_MINI,
+    system_message: str = "",
 ) -> Message:
     messages = [
-        ChatCompletionSystemMessageParam(content=AI_PROMPT, role="system"),
+        ChatCompletionSystemMessageParam(content=AI_PROMPT + system_message, role="system"),
         *history,
         ChatCompletionUserMessageParam(
             content=user_text,

@@ -38,12 +38,6 @@ class CacheMessagesMiddleware(BaseMiddleware):
         await aredis.expire(key, 86400 * 2, lt=True)  # type: ignore[misc] # 2 days
         await aredis.rpush(self.get_key(chat_id), json_str)  # type: ignore[misc]
 
-    async def retrieve_messages(self, chat_id: int) -> tuple[MessageType, ...]:
-        return tuple(
-            MessageType.model_validate_json(raw_msg)
-            for raw_msg in await aredis.lrange(self.get_key(chat_id), 0, -1)  # type: ignore[misc]
-        )
-
     async def __call__(
         self,
         handler: Callable[[TelegramObject, Dict[str, Any]], Awaitable[Any]],
@@ -52,9 +46,6 @@ class CacheMessagesMiddleware(BaseMiddleware):
     ) -> Any:
         chat_db = data["chat_db"]
         ai_enabled = await AIEnabledFilter.get_status(chat_db)
-
-        if isinstance(event, Message) and ai_enabled:
-            data["cached_messages"] = await self.retrieve_messages(event.chat.id)
 
         result = await handler(event, data)
 

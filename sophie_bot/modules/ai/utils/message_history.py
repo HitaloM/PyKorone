@@ -8,8 +8,13 @@ from openai.types.chat import (
 
 from sophie_bot import CONFIG
 from sophie_bot.db.models import ChatModel
+from sophie_bot.modules.ai.middlewares.cache_messages import (
+    CacheMessagesMiddleware,
+    MessageType,
+)
 from sophie_bot.modules.ai.utils.ai_chatbot import sanitize_name
 from sophie_bot.modules.ai.utils.self_reply import cut_titlebar, is_ai_message
+from sophie_bot.services.redis import aredis
 
 
 async def message_transform(msg):
@@ -20,8 +25,15 @@ async def message_transform(msg):
     return ChatCompletionUserMessageParam(role="user", content=msg.text, name=sanitize_name(first_name))
 
 
-async def get_message_history(message: Message, data: dict):
-    messages = await gather(*[message_transform(msg) for msg in data.get("cached_messages", [])])
+async def retrieve_messages(chat_id: int) -> tuple[MessageType, ...]:
+    return tuple(
+        MessageType.model_validate_json(raw_msg)
+        for raw_msg in await aredis.lrange(CacheMessagesMiddleware.get_key(chat_id), 0, -1)  # type: ignore[misc]
+    )
+
+
+async def get_message_history(message: Message):
+    messages = await gather(*[message_transform(msg) for msg in await retrieve_messages(message.chat.id)])
 
     # Reply to the user
     if (
