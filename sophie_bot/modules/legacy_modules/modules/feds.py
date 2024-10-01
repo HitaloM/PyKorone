@@ -19,7 +19,6 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import asyncio
-import csv
 import html
 import io
 import os
@@ -27,7 +26,7 @@ import re
 import time
 import uuid
 from contextlib import suppress
-from csv import DictWriter
+from csv import DictReader, DictWriter
 from datetime import datetime, timedelta
 from typing import Optional
 
@@ -45,6 +44,7 @@ from aiogram.fsm.context import FSMContext
 from aiogram.fsm.state import State, StatesGroup
 from aiogram.types import (
     BufferedInputFile,
+    Document,
     InlineKeyboardButton,
     InlineKeyboardMarkup,
     Message,
@@ -994,7 +994,7 @@ async def fban_export(message: Message, fed, strings):
         text = strings["fbanlist_done"] % html.escape(fed["fed_name"], False)
         f.seek(0)
         await message.answer_document(
-            BufferedInputFile(f.read().encode(), filename="fban_info.txt"),
+            BufferedInputFile(f.read().encode(), filename="fed_export.csv"),
             caption=text,
         )
     await msg.delete()
@@ -1033,23 +1033,23 @@ async def importfbans_cmd(message: Message, fed, strings):
 
 
 @get_strings_dec("feds")
-async def importfbans_func(message: Message, fed, strings, document=None):
+async def importfbans_func(message: Message, fed, strings, document: Document = None):
     global user_id
-    file_type = os.path.splitext(document["file_name"])[1][1:]
+    file_type = os.path.splitext(document.file_name)[1][1:]
 
     if file_type == "json":
-        if document["file_size"] > 1000000:
+        if document.file_size > 1000000:
             await message.reply(strings["big_file_json"].format(num="1"))
             return
     elif file_type == "csv":
-        if document["file_size"] > 52428800:
+        if document.file_size > 52428800:
             await message.reply(strings["big_file_csv"].format(num="50"))
             return
     else:
         await message.reply(strings["wrong_file_ext"])
         return
 
-    f = await bot.download_file_by_id(document.file_id, io.BytesIO())
+    f = await bot.download(document.file_id, io.BytesIO())
     msg = await message.reply(strings["importing_process"])
 
     data = None
@@ -1059,7 +1059,7 @@ async def importfbans_func(message: Message, fed, strings, document=None):
         except ValueError:
             return await message.reply(strings["invalid_file"])
     elif file_type == "csv":
-        data = csv.dictReader(io.TextIOWrapper(f))
+        data = DictReader(io.TextIOWrapper(f))
 
     real_counter = 0
 
