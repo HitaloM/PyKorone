@@ -5,7 +5,6 @@ from typing import Annotated, Any, Optional
 
 from aiogram.types import Chat, User
 from beanie import (
-    BackLink,
     DeleteRules,
     Document,
     Indexed,
@@ -19,7 +18,6 @@ from pydantic import Field
 from pydantic_core.core_schema import SerializerFunctionWrapHandler
 
 from sophie_bot.db.db_exceptions import DBNotFoundException
-from sophie_bot.db.models import AIEnabledModel, AIUsageModel
 
 
 class ChatType(Enum):
@@ -116,19 +114,19 @@ class ChatModel(Document):
     last_saw: datetime
 
     # User in groups
-    user_in_groups: list[BackLink[UserInGroupModel]] = Field(original_field="user")  # type: ignore[call-arg]
-    groups_of_user: list[BackLink[UserInGroupModel]] = Field(original_field="group")  # type: ignore[call-arg]
+    # user_in_groups: list[BackLink[UserInGroupModel]] = Field(original_field="user")  # type: ignore[call-arg]
+    # groups_of_user: list[BackLink[UserInGroupModel]] = Field(original_field="group")  # type: ignore[call-arg]
 
     # Topics
-    chat_topics: list[BackLink[ChatTopicModel]] = Field(original_field="group")  # type: ignore[call-arg]
+    # chat_topics: list[BackLink[ChatTopicModel]] = Field(original_field="group")  # type: ignore[call-arg]
 
     # AI
-    ai_enabled: list[BackLink[AIEnabledModel]] = Field(original_field="chat")  # type: ignore[call-arg]
-    ai_usage: list[BackLink[AIUsageModel]] = Field(original_field="chat")  # type: ignore[call-arg]
+    # ai_enabled: list[BackLink[AIEnabledModel]] = Field(original_field="chat")  # type: ignore[call-arg]
+    # ai_usage: list[BackLink[AIUsageModel]] = Field(original_field="chat")  # type: ignore[call-arg]
 
     class Settings:
         name = "chats"
-        max_nesting_depths_per_field = {"groups_of_user": 1}
+        max_nesting_depth = 2
 
     @staticmethod
     def _get_user_data(user: User) -> dict[str, Any]:
@@ -211,7 +209,7 @@ class ChatModel(Document):
 
     @staticmethod
     async def get_by_chat_id(chat_id) -> Optional["ChatModel"]:
-        return await ChatModel.find_one(ChatModel.chat_id == chat_id, fetch_links=True)
+        return await ChatModel.find_one(ChatModel.chat_id == chat_id)
 
     @staticmethod
     async def find_user(user_id: int) -> "ChatModel":
