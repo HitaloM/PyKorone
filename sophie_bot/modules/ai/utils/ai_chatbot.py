@@ -7,12 +7,10 @@ from openai.types.chat import (
     ChatCompletionSystemMessageParam,
     ChatCompletionUserMessageParam,
 )
-from stfu_tg import Doc, HList, Title, Url
+from stfu_tg import Doc, HList, Title
 
-from sophie_bot import CONFIG
 from sophie_bot.modules.ai.fsm.pm import AI_GENERATED_TEXT
 from sophie_bot.services.ai import ai_client
-from sophie_bot.utils.i18n import gettext as _
 
 AI_PROMPT = """
 You're a Telegram Bot named Sophie.
@@ -50,10 +48,7 @@ async def handle_message(
     )
 
     doc = Doc(
-        HList(
-            Title(AI_GENERATED_TEXT),
-            Title("4o-", bold=False) if model != Models.GPT_4O_MINI else None
-        ),
+        HList(Title(AI_GENERATED_TEXT), Title("4o-", bold=False) if model != Models.GPT_4O_MINI else None),
         chat_completion.choices[0].message.content,
     )
 

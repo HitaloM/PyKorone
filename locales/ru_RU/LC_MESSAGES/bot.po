@@ -40,15 +40,15 @@ msgid ""
 "connect again."
 msgstr ""
 
-#: sophie_bot/modules/ai/__init__.py:15
+#: sophie_bot/modules/ai/__init__.py:16
 msgid "Sophie AI"
 msgstr ""
 
-#: sophie_bot/modules/ai/__init__.py:17
+#: sophie_bot/modules/ai/__init__.py:18
 msgid "Rainbow sparkles and shininess"
 msgstr ""
 
-#: sophie_bot/modules/ai/__init__.py:19
+#: sophie_bot/modules/ai/__init__.py:20
 msgid "Please note that you can make a limited amount of AI requests per day."
 msgstr ""
 
@@ -151,6 +151,28 @@ msgstr ""
 msgid "✨ AI Features have been {status} in {chat}."
 msgstr ""
 
+#: sophie_bot/modules/ai/handlers/filter.py:20
+msgid "Please send me the AI instruction to proceed!"
+msgstr ""
+
+#: sophie_bot/modules/ai/handlers/filter.py:21
+msgid "The AI will try to remember the chat context and will respond accordingly!"
+msgstr ""
+
+#: sophie_bot/modules/ai/handlers/filter.py:22
+msgid ""
+"For example, you can combine it with the warn filter: 'Tell the user how "
+"bad it is to speak profanity'"
+msgstr ""
+
+#: sophie_bot/modules/ai/handlers/filter.py:33
+msgid "Should be AI prompt, please try again!"
+msgstr ""
+
+#: sophie_bot/modules/ai/handlers/filter.py:53
+msgid "✨ AI Response"
+msgstr ""
+
 #: sophie_bot/modules/ai/handlers/pm.py:21
 msgid "Start the AI ChatBot mode"
 msgstr ""
@@ -183,11 +205,6 @@ msgstr ""
 
 #: sophie_bot/modules/ai/handlers/pm.py:66
 msgid "The AI mode has been exited."
-msgstr ""
-
-#: sophie_bot/modules/ai/utils/ai_chatbot.py:56
-#: sophie_bot/modules/privacy/__init__.py:17
-msgid "Privacy"
 msgstr ""
 
 #: sophie_bot/modules/beta/__init__.py:17
@@ -724,28 +741,28 @@ msgstr ""
 msgid "Checks the user ban status (can be used to check yourself)."
 msgstr ""
 
-#: sophie_bot/modules/legacy_modules/modules/filters.py:61
+#: sophie_bot/modules/legacy_modules/modules/filters.py:62
 msgid "Filters"
 msgstr ""
 
-#: sophie_bot/modules/legacy_modules/modules/filters.py:156
+#: sophie_bot/modules/legacy_modules/modules/filters.py:157
 msgid "Adds a new filter."
 msgstr ""
 
-#: sophie_bot/modules/legacy_modules/modules/filters.py:156
-#: sophie_bot/modules/legacy_modules/modules/filters.py:302
+#: sophie_bot/modules/legacy_modules/modules/filters.py:157
+#: sophie_bot/modules/legacy_modules/modules/filters.py:310
 msgid "Trigger"
 msgstr ""
 
-#: sophie_bot/modules/legacy_modules/modules/filters.py:283
+#: sophie_bot/modules/legacy_modules/modules/filters.py:291
 msgid "Shows the list of filters."
 msgstr ""
 
-#: sophie_bot/modules/legacy_modules/modules/filters.py:302
+#: sophie_bot/modules/legacy_modules/modules/filters.py:310
 msgid "Removes the filter."
 msgstr ""
 
-#: sophie_bot/modules/legacy_modules/modules/filters.py:353
+#: sophie_bot/modules/legacy_modules/modules/filters.py:361
 msgid "Removes all the filters in the chat."
 msgstr ""
 
@@ -1090,6 +1107,10 @@ msgstr ""
 
 #: sophie_bot/modules/notes/utils/text.py:28
 msgid "Local chat"
+msgstr ""
+
+#: sophie_bot/modules/privacy/__init__.py:17
+msgid "Privacy"
 msgstr ""
 
 #: sophie_bot/modules/privacy/handlers/export.py:35

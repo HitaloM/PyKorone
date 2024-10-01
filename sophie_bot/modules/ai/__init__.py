@@ -4,6 +4,7 @@ from stfu_tg import Doc
 
 from sophie_bot.modules.ai.handlers.ai_cmd import AiCmd
 from sophie_bot.modules.ai.handlers.enable import AIStatus, EnableAI
+from sophie_bot.modules.ai.handlers.filter import get_filter
 from sophie_bot.modules.ai.handlers.pm import AiPmHandle, AiPmInitialize, AiPmStop
 from sophie_bot.modules.ai.handlers.reply import AiReplyHandler
 from sophie_bot.modules.ai.middlewares.cache_messages import CacheMessagesMiddleware
@@ -18,6 +19,8 @@ __module_description__ = l_("Rainbow sparkles and shininess")
 __module_info__ = LazyProxy(
     lambda: Doc(AI_POLICY, l_("Please note that you can make a limited amount of AI requests per day."))
 )
+
+__filters__ = get_filter()
 
 
 def __pre_setup__():

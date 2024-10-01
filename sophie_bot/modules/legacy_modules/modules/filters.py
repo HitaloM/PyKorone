@@ -41,6 +41,7 @@ from bson.objectid import ObjectId
 from pymongo import UpdateOne
 
 from sophie_bot import bot, dp
+from sophie_bot.modules import LOADED_MODULES
 from sophie_bot.modules.legacy_modules.modules import LOADED_LEGACY_MODULES
 from sophie_bot.modules.legacy_modules.utils.connections import (
     chat_connection,
@@ -182,12 +183,19 @@ async def add_handler(message: Message, chat, strings):
         filter_id = action[0]
         data = action[1]
 
-        buttons.inline_keyboard.append([
-            InlineKeyboardButton(
-                text=await get_string(chat["chat_id"], data["title"]["module"], data["title"]["string"]),
-                callback_data=FilterActionCb(filter_id=filter_id).pack(),
-            )
-        ])
+        if "module" in data["title"]:
+            btn_text = await get_string(chat["chat_id"], data["title"]["module"], data["title"]["string"])
+        else:
+            btn_text = str(data["title"])
+
+        buttons.inline_keyboard.append(
+            [
+                InlineKeyboardButton(
+                    text=btn_text,
+                    callback_data=FilterActionCb(filter_id=filter_id).pack(),
+                )
+            ]
+        )
     buttons.inline_keyboard.append([InlineKeyboardButton(text=strings["cancel_btn"], callback_data="cancel")])
 
     user_id = message.from_user.id
@@ -387,7 +395,7 @@ async def delall_filters_no(event: CallbackQuery, strings: dict):
 
 async def __before_serving__(loop):
     log.debug("Adding filters actions")
-    for module in LOADED_LEGACY_MODULES:
+    for module in (*LOADED_LEGACY_MODULES, *LOADED_MODULES.values()):
         if not getattr(module, "__filters__", None):
             continue
 

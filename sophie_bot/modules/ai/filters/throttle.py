@@ -7,7 +7,7 @@ from aiogram.types import Message
 from sophie_bot.db.models import AIUsageModel, ChatModel
 from sophie_bot.utils.i18n import gettext as _
 
-DAY_LIMIT = 70
+DAY_LIMIT = 150
 
 
 class AIThrottleFilter(Filter):
