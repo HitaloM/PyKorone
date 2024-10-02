@@ -13,6 +13,7 @@ from sophie_bot.utils.i18n import lazy_gettext as l_
 
 
 @flags.args(search=OptionalArg(TextArg(l_("Search notes"))))
+@flags.help(description=l_("Lists available notes."))
 class NotesList(MessageHandler):
     @staticmethod
     async def note_names(
@@ -44,7 +45,9 @@ class NotesList(MessageHandler):
     def format_notes_list_group(self, notes: List[NoteModel], note_group: Optional[str]) -> Section:
         group_notes = list(filter(lambda note: note.note_group == note_group, notes))
 
-        return Section(self.format_notes_list(group_notes), title=f"${note_group or 'DEFAULT'}", title_bold=True)
+        return Section(
+            self.format_notes_list(group_notes), title=f"${(note_group or 'default').upper()}", title_bold=True
+        )
 
     def format_notes_list_optional_groups(self, notes: List[NoteModel]) -> tuple[VList | Section, ...]:
         groups = {note.note_group for note in notes}

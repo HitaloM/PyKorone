@@ -19,7 +19,6 @@ from sophie_bot.modules.legacy_modules.utils.connections import (
     chat_connection,
     set_connected_command,
 )
-from sophie_bot.modules.legacy_modules.utils.deep_linking import get_start_link
 from sophie_bot.modules.legacy_modules.utils.disable import disableable_dec
 from sophie_bot.modules.legacy_modules.utils.language import get_string, get_strings_dec
 from sophie_bot.modules.legacy_modules.utils.message import (
@@ -204,41 +203,41 @@ async def get_note(
     return await send_note(send_id, text, **kwargs)
 
 
-@register(router, cmds="get")
-@flags.help(description=l_("Get the note."), args={"cmd": TextArg(l_("Note name"))})
-@disableable_dec("get")
-@need_args_dec()
-@chat_connection(command="get")
-@get_strings_dec("notes")
-@clean_notes
-async def get_note_cmd(message: Message, chat, strings):
-    chat_id = chat["chat_id"]
-    chat_name = chat["chat_title"]
-
-    note_name = get_arg(message).lower()
-    if note_name[0] == "#":
-        note_name = note_name[1:]
-
-    if message.reply_to_message:
-        rpl_id = message.reply_to_message.message_id
-        user = message.reply_to_message.from_user
-    else:
-        rpl_id = message.message_id
-        user = message.from_user
-
-    if not (note := await db.notes.find_one({"chat_id": int(chat_id), "names": {"$in": [note_name]}})):
-        text = strings["cant_find_note"].format(chat_name=chat_name)
-        if alleged_note_name := await get_similar_note(chat_id, note_name):
-            text += strings["u_mean"].format(note_name=alleged_note_name)
-        await message.reply(text)
-        return
-
-    noformat = False
-    if len(args := message.text.split(" ")) > 2:
-        arg2 = args[2].lower()
-        noformat = arg2 in ("noformat", "raw")
-
-    return await get_note(message, db_item=note, rpl_id=rpl_id, noformat=noformat, user=user)
+# @register(router, cmds="get")
+# @flags.help(description=l_("Get the note."), args={"cmd": TextArg(l_("Note name"))})
+# @disableable_dec("get")
+# @need_args_dec()
+# @chat_connection(command="get")
+# @get_strings_dec("notes")
+# @clean_notes
+# async def get_note_cmd(message: Message, chat, strings):
+#     chat_id = chat["chat_id"]
+#     chat_name = chat["chat_title"]
+#
+#     note_name = get_arg(message).lower()
+#     if note_name[0] == "#":
+#         note_name = note_name[1:]
+#
+#     if message.reply_to_message:
+#         rpl_id = message.reply_to_message.message_id
+#         user = message.reply_to_message.from_user
+#     else:
+#         rpl_id = message.message_id
+#         user = message.from_user
+#
+#     if not (note := await db.notes.find_one({"chat_id": int(chat_id), "names": {"$in": [note_name]}})):
+#         text = strings["cant_find_note"].format(chat_name=chat_name)
+#         if alleged_note_name := await get_similar_note(chat_id, note_name):
+#             text += strings["u_mean"].format(note_name=alleged_note_name)
+#         await message.reply(text)
+#         return
+#
+#     noformat = False
+#     if len(args := message.text.split(" ")) > 2:
+#         arg2 = args[2].lower()
+#         noformat = arg2 in ("noformat", "raw")
+#
+#     return await get_note(message, db_item=note, rpl_id=rpl_id, noformat=noformat, user=user)
 
 
 @register(router, F.text.regexp(r"^#([\w-]+)"), allow_kwargs=True)
@@ -262,30 +261,30 @@ async def get_note_hashtag(message: Message, chat, **kwargs):
     return await get_note(message, db_item=note, rpl_id=rpl_id, user=user)
 
 
-@register(router, cmds=["notes", "saved"])
-@flags.help(description=l_("Lists saved notes"))
-@disableable_dec("notes")
-@chat_connection(command="notes")
-@get_strings_dec("notes")
-@clean_notes
-async def get_notes_list_cmd(message: Message, chat, strings):
-    if (
-        await db.privatenotes.find_one({"chat_id": chat["chat_id"]}) and message.chat.id == chat["chat_id"]
-    ):  # Workaround to avoid sending PN to connected PM
-        text = strings["notes_in_private"]
-        if not (keyword := get_args_str(message)):
-            keyword = None
-        button = InlineKeyboardMarkup(
-            inline_keyboard=[[
-                InlineKeyboardButton(
-                    text="Click here",
-                    url=await get_start_link(f"notes_{chat['chat_id']}_{keyword}"),
-                )
-            ]]
-        )
-        return await message.reply(text, reply_markup=button, disable_web_page_preview=True)
-    else:
-        return await get_notes_list(message, chat=chat)
+# @register(router, cmds=["notes", "saved"])
+# @flags.help(description=l_("Lists saved notes"))
+# @disableable_dec("notes")
+# @chat_connection(command="notes")
+# @get_strings_dec("notes")
+# @clean_notes
+# async def get_notes_list_cmd(message: Message, chat, strings):
+#     if (
+#         await db.privatenotes.find_one({"chat_id": chat["chat_id"]}) and message.chat.id == chat["chat_id"]
+#     ):  # Workaround to avoid sending PN to connected PM
+#         text = strings["notes_in_private"]
+#         if not (keyword := get_args_str(message)):
+#             keyword = None
+#         button = InlineKeyboardMarkup(
+#             inline_keyboard=[[
+#                 InlineKeyboardButton(
+#                     text="Click here",
+#                     url=await get_start_link(f"notes_{chat['chat_id']}_{keyword}"),
+#                 )
+#             ]]
+#         )
+#         return await message.reply(text, reply_markup=button, disable_web_page_preview=True)
+#     else:
+#         return await get_notes_list(message, chat=chat)
 
 
 @get_strings_dec("notes")
@@ -408,7 +407,7 @@ async def clear_all_notes(message: Message, chat, strings):
 @dp.callback_query(F.data == "clean_all_notes_cb", IsAdmin(True))
 @chat_connection(admin=True)
 @get_strings_dec("notes")
-async def clear_all_notes_cb(event, chat, strings):
+async def clear_all_notes_cb(event, chat, strings, **kwargs):
     num = (await db.notes.delete_many({"chat_id": chat["chat_id"]})).deleted_count
 
     text = strings["clearall_done"].format(num=num, chat_name=chat["chat_title"])

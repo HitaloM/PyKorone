@@ -3,8 +3,9 @@ import re
 import sys
 from datetime import datetime
 
-from aiogram.types import InlineKeyboardButton, InlineKeyboardMarkup, Message
+from aiogram.types import InlineKeyboardButton, Message
 from aiogram.utils import markdown
+from aiogram.utils.keyboard import InlineKeyboardBuilder
 from babel.dates import format_date, format_datetime, format_time
 from telethon.errors import (
     BadRequestError,
@@ -293,7 +294,7 @@ async def t_unparse_note_item(message, db_item, chat_id, noformat=None, event=No
 
     else:
         pm = True if message.chat.type == "private" else False
-        text, markup = button_parser(chat_id, text, pm=pm)
+        text, markup = legacy_button_parser(chat_id, text, pm=pm)
 
         if not text and not file_id:
             text = ("#" + db_item["names"][0]) if "names" in db_item else "404"
@@ -337,8 +338,8 @@ async def send_note(send_id, text, **kwargs):
         log.error("Something happened on sending note", exc_info=err)
 
 
-def button_parser(chat_id, texts, pm=False, aio=False, row_width=None):
-    buttons = InlineKeyboardMarkup(row_width=row_width) if aio else []
+def legacy_button_parser(chat_id, texts, pm=False, aio=False, row_width=None):
+    buttons = InlineKeyboardBuilder() if aio else []
     pattern = r"\[(.+?)\]\((button|btn|#)(.+?)(:.+?|)(:same|)\)(\n|)"
     raw_buttons = re.findall(pattern, texts)
     text = re.sub(pattern, "", texts)
@@ -393,7 +394,7 @@ def button_parser(chat_id, texts, pm=False, aio=False, row_width=None):
 
         if btn:
             if aio:
-                buttons.insert(btn) if raw_button[4] else buttons.add(btn)
+                buttons.row(btn) if raw_button[4] else buttons.add(btn)
             else:
                 if len(buttons) < 1 and raw_button[4]:
                     buttons.add(btn) if aio else buttons.append([btn])
@@ -405,6 +406,9 @@ def button_parser(chat_id, texts, pm=False, aio=False, row_width=None):
 
     if not text or text.isspace():  # TODO: Sometimes we can return text == ' '
         text = None
+
+    if aio:
+        return text, buttons.as_markup()
 
     return text, buttons
 

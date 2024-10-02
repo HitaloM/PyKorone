@@ -3,6 +3,7 @@ from babel.support import LazyProxy
 from stfu_tg import Doc
 
 from sophie_bot.modules.ai.handlers.ai_cmd import AiCmd
+from sophie_bot.modules.ai.handlers.aisave import AISaveNote
 from sophie_bot.modules.ai.handlers.enable import AIStatus, EnableAI
 from sophie_bot.modules.ai.handlers.filter import get_filter
 from sophie_bot.modules.ai.handlers.pm import AiPmHandle, AiPmInitialize, AiPmStop
@@ -25,6 +26,9 @@ __filters__ = get_filter()
 
 def __pre_setup__():
     router.message.outer_middleware(CacheMessagesMiddleware())
+
+    # Notes
+    router.message.register(AISaveNote, *AISaveNote.filters())
 
     router.message.register(EnableAI, *EnableAI.filters())
     router.message.register(AIStatus, *AIStatus.filters())

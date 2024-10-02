@@ -6,7 +6,7 @@ from stfu_tg import Doc
 
 from sophie_bot.db.models import ChatModel
 from sophie_bot.modules.ai.filters.throttle import AIThrottleFilter
-from sophie_bot.modules.ai.utils.ai_chatbot import handle_message
+from sophie_bot.modules.ai.utils.ai_chatbot import handle_ai_chatbot
 from sophie_bot.modules.ai.utils.message_history import get_message_history
 from sophie_bot.utils.exception import SophieException
 from sophie_bot.utils.i18n import gettext as _
@@ -48,7 +48,7 @@ async def ai_filter_handle(message: Message, chat: dict, data):
 
     if text and await AIThrottleFilter().__call__(message, chat_db):
         history = await get_message_history(message)
-        await handle_message(message, text, history, system_message=prompt)
+        await handle_ai_chatbot(message, text, history, system_message=prompt)
 
 
 def get_filter():

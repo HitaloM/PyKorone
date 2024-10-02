@@ -8,7 +8,7 @@ from stfu_tg import Doc, HList, Section, Title, Url
 
 from sophie_bot import CONFIG
 from sophie_bot.modules.help import PMHelpModule, PMHelpModules
-from sophie_bot.modules.help.utils.extract_info import HELP_MODULES
+from sophie_bot.modules.help.utils.extract_info import HELP_MODULES, get_aliased_cmds
 from sophie_bot.modules.help.utils.format_help import format_cmds
 from sophie_bot.utils.exception import SophieException
 from sophie_bot.utils.i18n import gettext as _
@@ -92,6 +92,13 @@ class PMModuleHelp(CallbackQueryHandler):
 
         if admin_only_cmds_sec:
             doc += admin_only_cmds_sec
+
+        for mod_name, cmds in get_aliased_cmds(module_name).items():
+            module = HELP_MODULES[mod_name]
+            doc += Section(
+                format_cmds(cmds),
+                title=_("Aliased commands from {module}").format(module=f"{module.icon} {module.name}"),
+            )
 
         buttons = (
             InlineKeyboardBuilder()

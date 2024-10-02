@@ -28,6 +28,7 @@ from sophie_bot.utils.i18n import lazy_gettext as l_
     description=OptionalArg(SurroundedArg(TextArg(l_("Description")))),
     raw_text=OptionalArg(TextArg(l_("Text"), parse_entities=True)),
 )
+@flags.help(description=l_("Save the note."))
 class SaveNote(MessageHandler):
     async def handle(self) -> Any:
         return await self.handle_save()

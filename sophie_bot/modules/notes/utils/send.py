@@ -19,11 +19,12 @@ from aiogram.methods import (
     TelegramMethod,
 )
 from aiogram.types import Message
+from stfu_tg.doc import Element
 
 from sophie_bot import bot
 from sophie_bot.db.models.notes import Saveable, SaveableParseMode
 from sophie_bot.modules.legacy_modules.modules.notes import get_note
-from sophie_bot.modules.notes.utils.buttons_processor.unparse import unparse_buttons
+from sophie_bot.modules.notes.utils.legacy_notes import legacy_button_parser
 from sophie_bot.modules.notes.utils.parse import SUPPORTS_TEXT
 
 SEND_METHOD: dict[ContentType, Type[TelegramMethod[Message]]] = {
@@ -46,7 +47,12 @@ SEND_METHOD: dict[ContentType, Type[TelegramMethod[Message]]] = {
 
 
 async def send_saveable(
-    message: Message, send_to: int, saveable: Saveable, reply_to: Optional[int] = None, raw: Optional[bool] = False
+    message: Message,
+    send_to: int,
+    saveable: Saveable,
+    reply_to: Optional[int] = None,
+    title: Optional[Element] = None,
+    raw: Optional[bool] = False,
 ):
     # Legacy note
     if saveable.parse_mode != SaveableParseMode.html:
@@ -56,9 +62,13 @@ async def send_saveable(
         )
         return await get_note(message, db_item=compatible_db_item, rpl_id=reply_to, noformat=raw)
 
-    text = saveable.text or ""
+    text = str(title) + "\n" if title else ""
+    text += saveable.text or ""
 
-    inline_markup = unparse_buttons(saveable.buttons)
+    # Extract buttons
+    text, inline_markup = legacy_button_parser(message.chat.id, text, aio=True)
+
+    # inline_markup = unparse_buttons(saveable.buttons)
 
     # Text processing
     if len(text) > 4090:

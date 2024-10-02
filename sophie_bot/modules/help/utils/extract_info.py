@@ -34,6 +34,7 @@ class CmdHelp:
     only_op: bool
     only_pm: bool
     only_chats: bool
+    alias_to_modules: list[str]
 
 
 @dataclass
@@ -47,6 +48,15 @@ class ModuleHelp:
 
 
 HELP_MODULES: dict[str, ModuleHelp] = {}
+
+
+def get_aliased_cmds(module_name) -> dict[str, list[CmdHelp]]:
+    return {
+        mod_name: [cmd for cmd in module.cmds if cmd.alias_to_modules and module_name in cmd.alias_to_modules]
+        for mod_name, module in HELP_MODULES.items()
+        if any(cmd.alias_to_modules for cmd in module.cmds)
+        and any(cmd.alias_to_modules and module_name in cmd.alias_to_modules for cmd in module.cmds)
+    }
 
 
 def gather_cmd_args(args: ARGS_DICT | ARGS_COROUTINE | None) -> ARGS_DICT | None:
@@ -117,11 +127,12 @@ def gather_cmds_help(router: Router) -> list[CmdHelp]:
             CmdHelp(
                 cmds=cmds,
                 args=args,
-                description=help_flags["description"] if help_flags else None,
+                description=help_flags.get("description", None) if help_flags else None,
                 only_admin=only_admin,
                 only_op=only_op,
                 only_pm=only_pm,
                 only_chats=only_chats,
+                alias_to_modules=help_flags.get("alias_to_modules", None) if help_flags else [],
             )
         )
     return helps

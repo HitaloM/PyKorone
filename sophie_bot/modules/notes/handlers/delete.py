@@ -13,6 +13,7 @@ from sophie_bot.utils.i18n import lazy_gettext as l_
 
 
 @flags.args(notename=WordArg(l_("Note name")))
+@flags.help(description=l_("Deletes notes."))
 class DelNote(MessageHandler):
     async def handle(self) -> Any:
         chat: ChatConnection = self.data["connection"]

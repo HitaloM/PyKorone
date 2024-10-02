@@ -1,6 +1,6 @@
 from datetime import datetime
 from enum import Enum
-from typing import Annotated, Any, List, Optional
+from typing import Annotated, Any, List, Optional, Sequence
 
 from aiogram.enums import ContentType
 from beanie import Document, Indexed, Link
@@ -67,5 +67,5 @@ class NoteModel(Saveable, Document):
         return await NoteModel.find(NoteModel.chat_id == chat_id).to_list()
 
     @staticmethod
-    async def get_by_notenames(chat_id: int, notenames: tuple[str, ...]) -> Optional["NoteModel"]:
+    async def get_by_notenames(chat_id: int, notenames: Sequence[str]) -> Optional["NoteModel"]:
         return await NoteModel.find_one(NoteModel.chat_id == chat_id, In(NoteModel.names, notenames))

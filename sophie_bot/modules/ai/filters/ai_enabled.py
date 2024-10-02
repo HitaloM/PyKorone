@@ -15,6 +15,8 @@ class AIEnabledFilter(Filter):
         return bool(await AIEnabledModel.get_state(chat_db.id))
 
     async def __call__(self, message: Message, chat_db: ChatModel) -> Union[bool, Dict[str, Any]]:
+        if message.chat.type == "private":
+            return True
 
         status = await self.get_status(chat_db)
 

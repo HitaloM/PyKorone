@@ -3,7 +3,7 @@ from typing import Any
 from aiogram import flags
 from aiogram.handlers import MessageHandler
 from ass_tg.types import WordArg
-from stfu_tg import Italic
+from stfu_tg import Italic, Title
 
 from sophie_bot.db.models import NoteModel
 from sophie_bot.middlewares.connections import ChatConnection
@@ -13,6 +13,7 @@ from sophie_bot.utils.i18n import lazy_gettext as l_
 
 
 @flags.args(notename=WordArg(l_("Note name")))
+@flags.help(description=l_("Retrieve the note."))
 class GetNote(MessageHandler):
     async def handle(self) -> Any:
         chat: ChatConnection = self.data["connection"]
@@ -23,4 +24,9 @@ class GetNote(MessageHandler):
         if not note:
             return await self.event.reply(_("No note was found with {name} name.").format(name=Italic(note)))
 
-        await send_saveable(self.event, self.chat.id, note)
+        title_text = f"🗒 #{note_name}"
+
+        if note.description:
+            title_text += f"- {note.description}"
+
+        await send_saveable(self.event, self.chat.id, note, title=Title(title_text))

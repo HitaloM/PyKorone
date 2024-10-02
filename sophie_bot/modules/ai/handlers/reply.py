@@ -6,7 +6,7 @@ from aiogram.types import Message
 
 from sophie_bot import CONFIG, bot
 from sophie_bot.modules.ai.filters.throttle import AIThrottleFilter
-from sophie_bot.modules.ai.utils.ai_chatbot import handle_message
+from sophie_bot.modules.ai.utils.ai_chatbot import handle_ai_chatbot
 from sophie_bot.modules.ai.utils.message_history import get_message_history
 from sophie_bot.modules.ai.utils.self_reply import is_ai_message
 
@@ -33,4 +33,4 @@ class AiReplyHandler(MessageHandler):
         text = self.event.text or ""
 
         await bot.send_chat_action(self.event.chat.id, "typing")
-        await handle_message(self.event, text, await get_message_history(self.event))
+        await handle_ai_chatbot(self.event, text, await get_message_history(self.event))

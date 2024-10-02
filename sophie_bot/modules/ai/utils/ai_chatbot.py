@@ -1,7 +1,8 @@
 from enum import Enum
-from typing import Iterable
+from typing import Iterable, Optional
 
 from aiogram.types import Message
+from openai.types import ResponseFormatJSONSchema, ResponseFormatText
 from openai.types.chat import (
     ChatCompletionMessageParam,
     ChatCompletionSystemMessageParam,
@@ -29,31 +30,55 @@ class Models(str, Enum):
     GPT_4O = "gpt-4o"
 
 
-async def handle_message(
-    message: Message,
+DEFAULT_MODEL = Models.GPT_4O_MINI
+
+
+async def ai_response(
+    messages: Iterable[ChatCompletionMessageParam],
+    model: Models = DEFAULT_MODEL,
+    json_schema: Optional[ResponseFormatJSONSchema] = None,
+) -> str:
+    chat_completion = await ai_client.chat.completions.create(  # type: ignore
+        messages=messages,
+        model=model,
+        response_format=json_schema if json_schema else ResponseFormatText(type="text"),
+    )
+
+    return chat_completion.choices[0].message.content
+
+
+def build_history(
     user_text: str,
-    history: Iterable[ChatCompletionMessageParam],
-    model=Models.GPT_4O_MINI,
     system_message: str = "",
-) -> Message:
-    messages = [
+    additional_history: Iterable[ChatCompletionMessageParam] = (),
+    user_name: str = "Unknown",
+) -> Iterable[ChatCompletionMessageParam]:
+    return [
         ChatCompletionSystemMessageParam(content=AI_PROMPT + system_message, role="system"),
-        *history,
+        *additional_history,
         ChatCompletionUserMessageParam(
             content=user_text,
             role="user",
-            name=sanitize_name(message.from_user.first_name) if message.from_user else "Unknown",
+            name=sanitize_name(user_name),
         ),
     ]
 
-    chat_completion = await ai_client.chat.completions.create(
-        messages=messages,
-        model=model,
-    )
+
+async def handle_ai_chatbot(
+    message: Message,
+    user_text: str,
+    history: Iterable[ChatCompletionMessageParam],
+    model: Models = DEFAULT_MODEL,
+    system_message: str = "",
+) -> Message:
+    user_name = message.from_user.first_name if message.from_user else "Unknown"
+    messages = build_history(user_text, system_message, history, user_name)
+
+    response = await ai_response(messages, model)
 
     doc = Doc(
-        HList(Title(AI_GENERATED_TEXT), Title("4o-", bold=False) if model != Models.GPT_4O_MINI else None),
-        chat_completion.choices[0].message.content,
+        HList(Title(AI_GENERATED_TEXT), Title("4o+", bold=False) if model != Models.GPT_4O_MINI else None),
+        response,
     )
 
     return await message.reply(str(doc), disable_web_page_preview=True)
