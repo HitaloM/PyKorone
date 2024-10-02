@@ -52,7 +52,7 @@ class NotesList(MessageHandler):
     def format_notes_list_optional_groups(self, notes: List[NoteModel]) -> tuple[VList | Section, ...]:
         groups = {note.note_group for note in notes}
 
-        if groups == {None}:
+        if groups == {None} or True:
             return (self.format_notes_list(notes),)
 
         return tuple(self.format_notes_list_group(notes, group) for group in groups)
