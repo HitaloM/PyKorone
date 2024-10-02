@@ -27,7 +27,7 @@ AISAVE_JSON_SCHEMA = {
                     "An array of UNIQUE keywords (no spaces) of note title, limited to a maximum of 2. Users would "
                     "need to"
                     " call one of keywords to access this note. Write the best most specific keyword matching the text"
-                    " content and the aliases for users to choose.Make it as short as possible, if that's possible -"
+                    " content and the aliases for users to choose. Make them short, if that's possible -"
                     " use one word, else - divide the words with _"
                 ),
                 "items": {"type": "string", "description": "A keyword that best describes the content of the note."},

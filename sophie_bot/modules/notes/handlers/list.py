@@ -33,7 +33,14 @@ class NotesList(MessageHandler):
     def format_notes_list(notes: List[NoteModel]) -> VList:
         formatted_notes = [
             (
-                KeyValue(format_notes_aliases(note.names), note.description)
+                Section(
+                    Italic(note.description),
+                    title=format_notes_aliases(note.names),
+                    title_bold=False,
+                    title_underline=False,
+                    title_postfix="",
+                    indent=3,
+                )
                 if note.description
                 else format_notes_aliases(note.names)
             )

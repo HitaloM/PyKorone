@@ -1020,27 +1020,27 @@ msgstr ""
 msgid "Lists available notes."
 msgstr ""
 
-#: sophie_bot/modules/notes/handlers/list.py:70
+#: sophie_bot/modules/notes/handlers/list.py:77
 msgid "No notes found by the provided search pattern {pattern}."
 msgstr ""
 
-#: sophie_bot/modules/notes/handlers/list.py:73
+#: sophie_bot/modules/notes/handlers/list.py:80
 msgid "No notes found."
 msgstr ""
 
-#: sophie_bot/modules/notes/handlers/list.py:77
+#: sophie_bot/modules/notes/handlers/list.py:84
 msgid "Search pattern"
 msgstr ""
 
-#: sophie_bot/modules/notes/handlers/list.py:79
+#: sophie_bot/modules/notes/handlers/list.py:86
 msgid "Notes in {chat_name}"
 msgstr ""
 
-#: sophie_bot/modules/notes/handlers/list.py:82
+#: sophie_bot/modules/notes/handlers/list.py:90
 msgid "Use {cmd} to retrieve a note. Example: {cmd_example}"
 msgstr ""
 
-#: sophie_bot/modules/notes/handlers/list.py:83
+#: sophie_bot/modules/notes/handlers/list.py:91
 msgid "#(Note name)"
 msgstr ""
 
