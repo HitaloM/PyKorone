@@ -78,6 +78,7 @@ class NotesList(MessageHandler):
                 *self.format_notes_list_optional_groups(notes),
                 title=_("Notes in {chat_name}").format(chat_name=connection.title),
             ),
+            " ",
             Template(
                 _("Use {cmd} to retrieve a note. Example: {cmd_example}"),
                 cmd=Italic(_("#(Note name)")),
