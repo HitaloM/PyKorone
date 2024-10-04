@@ -1,4 +1,3 @@
----
 language_info:
   flag: "🇧🇷Bandeira"
   code: pt Código
@@ -60,6 +59,8 @@ STRINGS:
     disabled: 'Desativado'
     #/cleannotes
     clean_notes_enable: "Limpeza de notas ativadas com sucesso em <b>{chat_name}</b>"
+    clean_notes_enable_keep: "Mantendo os últimos <i>{keep_num}</i> eventos (mensagem de ativação + saída da nota)."
+    keep_num_invalid: "O número deve estar entre <i>0</i> e <i>50</i>."
     clean_notes_disable: "Limpeza de notas desativadas com sucesso em <b>{chat_name}</b>"
     clean_notes_enabled: "A limpeza de notas está atualmente <b>ativada</b> em <b>{chat_name}</b>"
     clean_notes_disabled: "A limpeza de notas está atualmente <b>desativada</b> em <b>{chat_name}</b>"
