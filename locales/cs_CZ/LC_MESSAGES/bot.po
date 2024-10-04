@@ -1,0 +1,1183 @@
+msgid ""
+msgstr ""
+"Plural-Forms: nplurals=4; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 3;\n"
+"X-Crowdin-Project: sophiebot\n"
+"X-Crowdin-Project-ID: 356879\n"
+"X-Crowdin-Language: cs\n"
+"X-Crowdin-File: /beta/locales/bot.pot\n"
+"X-Crowdin-File-ID: 272\n"
+"Project-Id-Version: sophiebot\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language-Team: Czech\n"
+"Language: cs_CZ\n"
+"PO-Revision-Date: 2024-10-04 20:16\n"
+
+#: sophie_bot/args/users.py:29
+msgid "Could not find the requested User ID in the database."
+msgstr "Could not find the requested User ID in the database."
+
+#: sophie_bot/args/users.py:43
+msgid "Could not find the requested Username in the database."
+msgstr "Could not find the requested Username in the database."
+
+#: sophie_bot/args/users.py:72
+msgid "User: 'User ID (numeric) / Username (starts with @) / Mention (links to users)'"
+msgstr "User: 'User ID (numeric) / Username (starts with @) / Mention (links to users)'"
+
+#: sophie_bot/args/users.py:72
+msgid "Users: 'User IDs (numeric) / Usernames (starts with @) / Mentions (links to users)'"
+msgstr "Users: 'User IDs (numeric) / Usernames (starts with @) / Mentions (links to users)'"
+
+#: sophie_bot/args/users.py:79
+msgid "User ID"
+msgstr "User ID"
+
+#: sophie_bot/args/users.py:80
+msgid "Username"
+msgstr "Username"
+
+#: sophie_bot/args/users.py:81
+msgid "A link to user, usually creates by mentioning a user without username."
+msgstr "A link to user, usually creates by mentioning a user without username."
+
+#: sophie_bot/middlewares/connections.py:26
+msgid "Private chat"
+msgstr "Private chat"
+
+#: sophie_bot/middlewares/connections.py:38
+msgid "Connected chat not found in the database. Please try to disconnect and connect again."
+msgstr "Connected chat not found in the database. Please try to disconnect and connect again."
+
+#: sophie_bot/modules/ai/__init__.py:17
+msgid "Sophie AI"
+msgstr "Sophie AI"
+
+#: sophie_bot/modules/ai/__init__.py:19
+msgid "Rainbow sparkles and shininess"
+msgstr "Rainbow sparkles and shininess"
+
+#: sophie_bot/modules/ai/__init__.py:21
+msgid "Please note that you can make a limited amount of AI requests per day."
+msgstr "Please note that you can make a limited amount of AI requests per day."
+
+#: sophie_bot/modules/ai/texts.py:3
+msgid "By using AI features you agree to the our Privacy Policy (/privacy) and third party AI services used."
+msgstr "Používáním funkcí AI souhlasíte s našimi Zásadami ochrany soukromí (/privacy) a se službami AI třetích stran."
+
+#: sophie_bot/modules/ai/filters/ai_enabled.py:27
+msgid "The AI Features are currently deactivated for this chat."
+msgstr "Funkce AI jsou aktuálně deaktivovány pro tento chat."
+
+#: sophie_bot/modules/ai/filters/ai_enabled.py:28
+msgid "Please use \"{cmd}\" to activate them."
+msgstr "Pro aktivaci použijte \"{cmd}\"."
+
+#: sophie_bot/modules/ai/filters/throttle.py:18
+msgid "❗️ You've reached the daily AI limit, please try again tomorrow."
+msgstr "❗️ You've reached the daily AI limit, please try again tomorrow."
+
+#: sophie_bot/modules/ai/fsm/pm.py:10
+msgid "🛑 Exit AI mode"
+msgstr "🛑 Exit AI mode"
+
+#: sophie_bot/modules/ai/fsm/pm.py:12
+msgid "✨ Beta AI"
+msgstr "✨ Beta AI"
+
+#: sophie_bot/modules/ai/handlers/ai_cmd.py:14 sophie_bot/modules/ai/handlers/aisave.py:25
+msgid "Prompt"
+msgstr "Prompt"
+
+#: sophie_bot/modules/ai/handlers/ai_cmd.py:15
+msgid "Ask Sophie a question"
+msgstr "Ask Sophie a question"
+
+#: sophie_bot/modules/ai/handlers/aisave.py:27
+msgid "Generate a new note using AI"
+msgstr "Vytvoří novou poznámku pomocí AI"
+
+#: sophie_bot/modules/ai/handlers/aisave.py:36
+msgid "✨ Generating..."
+msgstr "✨ Generování..."
+
+#: sophie_bot/modules/ai/handlers/aisave.py:46
+msgid "AI Generation failed, note already exists! Please try again."
+msgstr "Generování AI selhalo, poznámka již existuje! Zkuste to prosím znovu."
+
+#: sophie_bot/modules/ai/handlers/aisave.py:55
+msgid "✨ Note was successfully generated"
+msgstr "✨ Poznámka byla úspěšně vygenerována"
+
+#: sophie_bot/modules/ai/handlers/aisave.py:58 sophie_bot/modules/notes/handlers/save.py:50
+msgid "Use {cmd} to retrieve this note."
+msgstr "Use {cmd} to retrieve this note."
+
+#: sophie_bot/modules/ai/handlers/enable.py:21
+msgid "Show current state of AI features"
+msgstr "Zobrazí aktuální stav funkcí AI"
+
+#: sophie_bot/modules/ai/handlers/enable.py:37 sophie_bot/modules/notes/handlers/delete.py:32
+msgid "Chat"
+msgstr "Chat"
+
+#: sophie_bot/modules/ai/handlers/enable.py:38
+msgid "Current state"
+msgstr "Aktuální stav"
+
+#: sophie_bot/modules/ai/handlers/enable.py:38
+msgid "Enabled"
+msgstr "Povoleno"
+
+#: sophie_bot/modules/ai/handlers/enable.py:38
+msgid "Disabled"
+msgstr "Zakázáno"
+
+#: sophie_bot/modules/ai/handlers/enable.py:39
+msgid "✨ AI Features"
+msgstr "✨ Funkce AI"
+
+#: sophie_bot/modules/ai/handlers/enable.py:42
+msgid "By using AI feature you agree to the our {policy} and third-party AI provider's."
+msgstr "Používáním AI souhlasíte s našimi {policy} a s poskytovateli AI třetí strany."
+
+#: sophie_bot/modules/ai/handlers/enable.py:43 sophie_bot/modules/ai/handlers/pm.py:38
+msgid "privacy policy"
+msgstr "privacy policy"
+
+#: sophie_bot/modules/ai/handlers/enable.py:45 sophie_bot/modules/beta/handlers/beta_state.py:88
+msgid "Use '{cmd}' to change it."
+msgstr "Use '{cmd}' to change it."
+
+#: sophie_bot/modules/ai/handlers/enable.py:51 sophie_bot/modules/legacy_modules/modules/antiflood.py:248
+#: sophie_bot/modules/legacy_modules/modules/connection.py:184 sophie_bot/modules/legacy_modules/modules/notes.py:532
+#: sophie_bot/modules/legacy_modules/modules/notes.py:571
+msgid "New state"
+msgstr "New state"
+
+#: sophie_bot/modules/ai/handlers/enable.py:52
+msgid "Control AI features"
+msgstr "Ovládat funkce AI"
+
+#: sophie_bot/modules/ai/handlers/enable.py:67
+msgid "enabled"
+msgstr "povoleno"
+
+#: sophie_bot/modules/ai/handlers/enable.py:67
+msgid "disabled"
+msgstr "zakázáno"
+
+#: sophie_bot/modules/ai/handlers/enable.py:72
+msgid "✨ AI Features have been {status} in {chat}."
+msgstr "✨ Funkce AI byly {status} v {chat}."
+
+#: sophie_bot/modules/ai/handlers/filter.py:21
+msgid "Please send me the AI instruction to proceed!"
+msgstr "Prosím pošlete mi pokyny AI k pokračování!"
+
+#: sophie_bot/modules/ai/handlers/filter.py:22
+msgid "The AI will try to remember the chat context and will respond accordingly!"
+msgstr "AI se pokusí zapamatovat si kontext chatu a bude reagovat odpovídajícím způsobem!"
+
+#: sophie_bot/modules/ai/handlers/filter.py:23
+msgid "For example, you can combine it with the warn filter: 'Tell the user how bad it is to speak profanity'"
+msgstr "Například to můžete zkombinovat s filtrem varování: 'Povězte uživateli, jak špatné je mluvit obscénně'"
+
+#: sophie_bot/modules/ai/handlers/filter.py:34
+msgid "Should be AI prompt, please try again!"
+msgstr "Mělo by to být AI prompt, zkuste to prosím znovu!"
+
+#: sophie_bot/modules/ai/handlers/filter.py:57
+msgid "✨ AI Response"
+msgstr "✨ AI odpověď"
+
+#: sophie_bot/modules/ai/handlers/pm.py:21
+msgid "Start the AI ChatBot mode"
+msgstr "Start the AI ChatBot mode"
+
+#: sophie_bot/modules/ai/handlers/pm.py:29 sophie_bot/modules/beta/__init__.py:15
+#: sophie_bot/modules/beta/handlers/beta_state.py:15
+msgid "Beta"
+msgstr "Beta"
+
+#: sophie_bot/modules/ai/handlers/pm.py:32
+msgid "{ai_emoji} Entered to the AI Mode, in this mode you can directly interact with the AI."
+msgstr "{ai_emoji} Entered to the AI Mode, in this mode you can directly interact with the AI."
+
+#: sophie_bot/modules/ai/handlers/pm.py:37
+msgid "By using the AI, you agree to the {privacy_policy} of the bot and third party AI services used."
+msgstr "By using the AI, you agree to the {privacy_policy} of the bot and third party AI services used."
+
+#: sophie_bot/modules/ai/handlers/pm.py:40
+msgid "Click on the button below to exit."
+msgstr "Click on the button below to exit."
+
+#: sophie_bot/modules/ai/handlers/pm.py:55
+msgid "Hello! How can I help you?"
+msgstr "Hello! How can I help you?"
+
+#: sophie_bot/modules/ai/handlers/pm.py:66
+msgid "The AI mode has been exited."
+msgstr "The AI mode has been exited."
+
+#: sophie_bot/modules/beta/__init__.py:17
+msgid "Controls the current Sophie mode.\n"
+"Please note that Beta mode can have bugs and issues. If you encounter any problems please report it to the support chat."
+msgstr "Controls the current Sophie mode.\n"
+"Please note that Beta mode can have bugs and issues. If you encounter any problems please report it to the support chat."
+
+#: sophie_bot/modules/beta/handlers/beta_state.py:13
+msgid "Auto"
+msgstr "Auto"
+
+#: sophie_bot/modules/beta/handlers/beta_state.py:14
+msgid "Stable"
+msgstr "Stable"
+
+#: sophie_bot/modules/beta/handlers/beta_state.py:20
+msgid "Preferred strategy mode"
+msgstr "Preferred strategy mode"
+
+#: sophie_bot/modules/beta/handlers/beta_state.py:22
+msgid "Set preferred strategy mode"
+msgstr "Set preferred strategy mode"
+
+#: sophie_bot/modules/beta/handlers/beta_state.py:65
+msgid "Get current strategy mode / current state"
+msgstr "Get current strategy mode / current state"
+
+#: sophie_bot/modules/beta/handlers/beta_state.py:79
+msgid "Unknown"
+msgstr "Unknown"
+
+#: sophie_bot/modules/error/__init__.py:13
+msgid "Error"
+msgstr "Error"
+
+#: sophie_bot/modules/error/handlers/error.py:79
+msgid "😞 I've got an error trying to process this update"
+msgstr "😞 I've got an error trying to process this update"
+
+#: sophie_bot/modules/error/handlers/error.py:92
+msgid "Reference ID"
+msgstr "Reference ID"
+
+#: sophie_bot/modules/error/handlers/error.py:100
+msgid "💬 Contact Sophie support"
+msgstr "💬 Contact Sophie support"
+
+#: sophie_bot/modules/error/utils/haikus.py:5
+msgid "Code dances with bugs,"
+msgstr "Code dances with bugs,"
+
+#: sophie_bot/modules/error/utils/haikus.py:6
+msgid "Exceptions arise, yet learn —"
+msgstr "Exceptions arise, yet learn —"
+
+#: sophie_bot/modules/error/utils/haikus.py:7
+msgid "Errors guide our way."
+msgstr "Errors guide our way."
+
+#: sophie_bot/modules/error/utils/haikus.py:10
+msgid "Silent lines disrupted,"
+msgstr "Silent lines disrupted,"
+
+#: sophie_bot/modules/error/utils/haikus.py:11
+msgid "Errors speak a language new,"
+msgstr "Errors speak a language new,"
+
+#: sophie_bot/modules/error/utils/haikus.py:12
+msgid "In flaws, growth takes root."
+msgstr "In flaws, growth takes root."
+
+#: sophie_bot/modules/error/utils/haikus.py:15
+msgid "Through the mist of bugs,"
+msgstr "Through the mist of bugs,"
+
+#: sophie_bot/modules/error/utils/haikus.py:16
+msgid "Learning blooms in lines of code,"
+msgstr "Learning blooms in lines of code,"
+
+#: sophie_bot/modules/error/utils/haikus.py:17
+msgid "Exceptional growth."
+msgstr "Exceptional growth."
+
+#: sophie_bot/modules/error/utils/haikus.py:20
+msgid "In errors we find,"
+msgstr "In errors we find,"
+
+#: sophie_bot/modules/error/utils/haikus.py:21
+msgid "Opportunities to learn,"
+msgstr "Opportunities to learn,"
+
+#: sophie_bot/modules/error/utils/haikus.py:22
+msgid "Software's hidden gifts."
+msgstr "Software's hidden gifts."
+
+#: sophie_bot/modules/error/utils/haikus.py:25
+msgid "Paths diverge, glitch calls,"
+msgstr "Paths diverge, glitch calls,"
+
+#: sophie_bot/modules/error/utils/haikus.py:26
+msgid "Embrace the flaw, seek the fix,"
+msgstr "Embrace the flaw, seek the fix,"
+
+#: sophie_bot/modules/error/utils/haikus.py:27
+msgid "Errors sculpt progress."
+msgstr "Errors sculpt progress."
+
+#: sophie_bot/modules/error/utils/haikus.py:30
+msgid "A glitchy waltz starts,"
+msgstr "A glitchy waltz starts,"
+
+#: sophie_bot/modules/error/utils/haikus.py:31
+msgid "Errors lead to graceful steps,"
+msgstr "Errors lead to graceful steps,"
+
+#: sophie_bot/modules/error/utils/haikus.py:32
+msgid "Software learns to dance."
+msgstr "Software learns to dance."
+
+#: sophie_bot/modules/error/utils/haikus.py:35
+msgid "Beneath error's mask,"
+msgstr "Beneath error's mask,"
+
+#: sophie_bot/modules/error/utils/haikus.py:36
+msgid "Lies chance to refine and mend,"
+msgstr "Lies chance to refine and mend,"
+
+#: sophie_bot/modules/error/utils/haikus.py:37
+msgid "Stronger code emerges."
+msgstr "Stronger code emerges."
+
+#: sophie_bot/modules/error/utils/haikus.py:40
+msgid "Flawed notes in the code,"
+msgstr "Flawed notes in the code,"
+
+#: sophie_bot/modules/error/utils/haikus.py:41
+msgid "Create the symphony of growth,"
+msgstr "Create the symphony of growth,"
+
+#: sophie_bot/modules/error/utils/haikus.py:42
+msgid "Exceptions compose."
+msgstr "Exceptions compose."
+
+#: sophie_bot/modules/error/utils/haikus.py:45
+msgid "Bright stars in the code,"
+msgstr "Bright stars in the code,"
+
+#: sophie_bot/modules/error/utils/haikus.py:46
+msgid "Errors guide us through the dark,"
+msgstr "Errors guide us through the dark,"
+
+#: sophie_bot/modules/error/utils/haikus.py:47
+msgid "To a better dawn."
+msgstr "To a better dawn."
+
+#: sophie_bot/modules/error/utils/haikus.py:50
+msgid "Software's journey,"
+msgstr "Software's journey,"
+
+#: sophie_bot/modules/error/utils/haikus.py:51
+msgid "Marked by errors, yet they forge,"
+msgstr "Marked by errors, yet they forge,"
+
+#: sophie_bot/modules/error/utils/haikus.py:52
+msgid "A path to brilliance."
+msgstr "A path to brilliance."
+
+#: sophie_bot/modules/error/utils/haikus.py:55
+msgid "In lines of debug,"
+msgstr "In lines of debug,"
+
+#: sophie_bot/modules/error/utils/haikus.py:56
+msgid "Lies the tale of perseverance,"
+msgstr "Lies the tale of perseverance,"
+
+#: sophie_bot/modules/error/utils/haikus.py:57
+msgid "Errors write our story."
+msgstr "Errors write our story."
+
+#: sophie_bot/modules/error/utils/haikus.py:60
+msgid "Bugs like stepping stones,"
+msgstr "Bugs like stepping stones,"
+
+#: sophie_bot/modules/error/utils/haikus.py:61
+msgid "Lead us towards understanding,"
+msgstr "Lead us towards understanding,"
+
+#: sophie_bot/modules/error/utils/haikus.py:62
+msgid "Paths of enlightenment."
+msgstr "Paths of enlightenment."
+
+#: sophie_bot/modules/error/utils/haikus.py:65
+msgid "Amidst lines of code,"
+msgstr "Amidst lines of code,"
+
+#: sophie_bot/modules/error/utils/haikus.py:66
+msgid "Errors whisper secrets deep,"
+msgstr "Errors whisper secrets deep,"
+
+#: sophie_bot/modules/error/utils/haikus.py:67
+msgid "Knowledge blooms from flaws."
+msgstr "Knowledge blooms from flaws."
+
+#: sophie_bot/modules/error/utils/haikus.py:70
+msgid "A puzzle of bugs,"
+msgstr "A puzzle of bugs,"
+
+#: sophie_bot/modules/error/utils/haikus.py:71
+msgid "Each exception a clue to solve,"
+msgstr "Each exception a clue to solve,"
+
+#: sophie_bot/modules/error/utils/haikus.py:72
+msgid "The software's riddle."
+msgstr "The software's riddle."
+
+#: sophie_bot/modules/error/utils/haikus.py:75
+msgid "In realm of errors,"
+msgstr "In realm of errors,"
+
+#: sophie_bot/modules/error/utils/haikus.py:76
+msgid "Patience and insight converge,"
+msgstr "Patience and insight converge,"
+
+#: sophie_bot/modules/error/utils/haikus.py:77
+msgid "Solutions are born."
+msgstr "Solutions are born."
+
+#: sophie_bot/modules/error/utils/haikus.py:80
+msgid "Through crashes and burns,"
+msgstr "Through crashes and burns,"
+
+#: sophie_bot/modules/error/utils/haikus.py:81
+msgid "Rises phoenix of progress,"
+msgstr "Rises phoenix of progress,"
+
+#: sophie_bot/modules/error/utils/haikus.py:82
+msgid "From ashes of bugs."
+msgstr "From ashes of bugs."
+
+#: sophie_bot/modules/error/utils/haikus.py:85
+msgid "Software's heartbeat,"
+msgstr "Software's heartbeat,"
+
+#: sophie_bot/modules/error/utils/haikus.py:86
+msgid "Pulsing with each error found,"
+msgstr "Pulsing with each error found,"
+
+#: sophie_bot/modules/error/utils/haikus.py:87
+msgid "Lifeblood of growth flows."
+msgstr "Lifeblood of growth flows."
+
+#: sophie_bot/modules/error/utils/haikus.py:90
+msgid "Errors like raindrops,"
+msgstr "Errors like raindrops,"
+
+#: sophie_bot/modules/error/utils/haikus.py:91
+msgid "Quenching the thirst for knowledge,"
+msgstr "Quenching the thirst for knowledge,"
+
+#: sophie_bot/modules/error/utils/haikus.py:92
+msgid "Nourishing progress."
+msgstr "Nourishing progress."
+
+#: sophie_bot/modules/error/utils/haikus.py:95
+msgid "Through the maze of bugs,"
+msgstr "Through the maze of bugs,"
+
+#: sophie_bot/modules/error/utils/haikus.py:96
+msgid "A labyrinth of learning,"
+msgstr "A labyrinth of learning,"
+
+#: sophie_bot/modules/error/utils/haikus.py:97
+msgid "Exceptional minds."
+msgstr "Exceptional minds."
+
+#: sophie_bot/modules/error/utils/haikus.py:100
+msgid "In the code's embrace,"
+msgstr "In the code's embrace,"
+
+#: sophie_bot/modules/error/utils/haikus.py:101
+msgid "Errors cradle innovation,"
+msgstr "Errors cradle innovation,"
+
+#: sophie_bot/modules/error/utils/haikus.py:102
+msgid "Softly whispering."
+msgstr "Softly whispering."
+
+#: sophie_bot/modules/help/__init__.py:20 sophie_bot/modules/help/handlers/pm_modules.py:41
+msgid "Help"
+msgstr "Pomoc"
+
+#: sophie_bot/modules/help/__init__.py:22 sophie_bot/modules/privacy/__init__.py:19
+msgid "Provides helpful information"
+msgstr "Provides helpful information"
+
+#: sophie_bot/modules/help/handlers/pm_modules.py:18
+msgid "Shows help overview for all modules"
+msgstr "Zobrazuje přehled nápovědy pro všechny moduly"
+
+#: sophie_bot/modules/help/handlers/pm_modules.py:38 sophie_bot/modules/help/handlers/pm_modules.py:108
+#: sophie_bot/modules/privacy/handlers/privacy.py:30
+msgid "⬅️ Back"
+msgstr "⬅️ Back"
+
+#: sophie_bot/modules/help/handlers/pm_modules.py:42
+msgid "There are 2 help sources, you can read the detailed wiki or get a quick commands by modules overview."
+msgstr "Existují 2 zdroje nápovědy, můžete si přečíst podrobnou wiki nebo rychle získat přehled příkazů podle modulů."
+
+#: sophie_bot/modules/help/handlers/pm_modules.py:43
+msgid "📖 Wiki (detailed information)"
+msgstr "📖 Wiki (detailed information)"
+
+#: sophie_bot/modules/help/handlers/pm_modules.py:59
+msgid "Module not found"
+msgstr "Module not found"
+
+#: sophie_bot/modules/help/handlers/pm_modules.py:75
+msgid "Commands"
+msgstr "Commands"
+
+#: sophie_bot/modules/help/handlers/pm_modules.py:76
+msgid "PM-only"
+msgstr "PM-only"
+
+#: sophie_bot/modules/help/handlers/pm_modules.py:77
+msgid "Only admins"
+msgstr "Only admins"
+
+#: sophie_bot/modules/help/handlers/pm_modules.py:100
+msgid "Aliased commands from {module}"
+msgstr "Přezdívané příkazy z {module}"
+
+#: sophie_bot/modules/help/handlers/pm_modules.py:105
+msgid "📖 Wiki page"
+msgstr "📖 Wiki page"
+
+#: sophie_bot/modules/help/utils/format_help.py:21
+msgid " - Only in chats"
+msgstr " - Only in chats"
+
+#: sophie_bot/modules/legacy_modules/modules/antiflood.py:69
+msgid "Antiflood"
+msgstr "Antiflood"
+
+#: sophie_bot/modules/legacy_modules/modules/antiflood.py:191
+msgid "Set the antiflood limit for this chat."
+msgstr "Set the antiflood limit for this chat."
+
+#: sophie_bot/modules/legacy_modules/modules/antiflood.py:191
+msgid "Number of messages"
+msgstr "Number of messages"
+
+#: sophie_bot/modules/legacy_modules/modules/antiflood.py:248
+msgid "Controls the antiflood state."
+msgstr "Controls the antiflood state."
+
+#: sophie_bot/modules/legacy_modules/modules/antiflood.py:277
+msgid "Sets the antiflood action."
+msgstr "Nastaví akci proti povodním."
+
+#: sophie_bot/modules/legacy_modules/modules/antiflood.py:277
+msgid "New action"
+msgstr "Nová akce"
+
+#: sophie_bot/modules/legacy_modules/modules/connection.py:51
+msgid "Connections"
+msgstr "Connections"
+
+#: sophie_bot/modules/legacy_modules/modules/connection.py:74
+msgid "Connects PM with bot to the current chat."
+msgstr "Spojuje soukromou zprávu s botem do aktuálního chatu."
+
+#: sophie_bot/modules/legacy_modules/modules/connection.py:103
+msgid "Connects to the latest chat."
+msgstr "Spojuje se s nejnovějším chatem."
+
+#: sophie_bot/modules/legacy_modules/modules/connection.py:152
+msgid "Connected to the chat by its ID."
+msgstr "Připojeno k chatu podle jeho ID."
+
+#: sophie_bot/modules/legacy_modules/modules/connection.py:152
+msgid "Chat ID"
+msgstr "ID chatu"
+
+#: sophie_bot/modules/legacy_modules/modules/connection.py:171
+msgid "Disconnects the PM from connected chat."
+msgstr "Odpojí soukromou zprávu od připojeného chatu."
+
+#: sophie_bot/modules/legacy_modules/modules/connection.py:183
+msgid "Sets whatever normal users (non admins) are allowed to connect"
+msgstr "Nastavuje, které běžné uživatele (ne administrátory) je povoleno připojit"
+
+#: sophie_bot/modules/legacy_modules/modules/disabling.py:17
+msgid "Disabling"
+msgstr "Disabling"
+
+#: sophie_bot/modules/legacy_modules/modules/disabling.py:24
+msgid "Lists all commands that can be disabled."
+msgstr "Zobrazuje všechny příkazy, které lze zakázat."
+
+#: sophie_bot/modules/legacy_modules/modules/disabling.py:35
+msgid "Lists all disabled commands."
+msgstr "Zobrazuje všechny zakázané příkazy."
+
+#: sophie_bot/modules/legacy_modules/modules/disabling.py:52
+msgid "Disables the command."
+msgstr "Zakáže příkaz."
+
+#: sophie_bot/modules/legacy_modules/modules/disabling.py:52 sophie_bot/modules/legacy_modules/modules/disabling.py:85
+#: sophie_bot/modules/legacy_modules/modules/feds.py:265
+msgid "Command"
+msgstr "Příkaz"
+
+#: sophie_bot/modules/legacy_modules/modules/disabling.py:85
+msgid "Enables the command."
+msgstr "Povolí příkaz."
+
+#: sophie_bot/modules/legacy_modules/modules/disabling.py:115
+msgid "Enables all previously disabled commands"
+msgstr "Povolí všechny dříve zakázané příkazy"
+
+#: sophie_bot/modules/legacy_modules/modules/feds.py:87
+msgid "Federations"
+msgstr "Federations"
+
+#: sophie_bot/modules/legacy_modules/modules/feds.py:265
+msgid "Creates a new Federation."
+msgstr "Vytvoří novou federaci."
+
+#: sophie_bot/modules/legacy_modules/modules/feds.py:300
+msgid "Joins the current chat to the federation."
+msgstr "Připojí aktuální chat k federaci."
+
+#: sophie_bot/modules/legacy_modules/modules/feds.py:300
+msgid "Fed ID"
+msgstr "ID federace"
+
+#: sophie_bot/modules/legacy_modules/modules/feds.py:340
+msgid "Leaves the current chat from the federation."
+msgstr "Opustí aktuální chat z federace."
+
+#: sophie_bot/modules/legacy_modules/modules/feds.py:368
+msgid "Subscribes federation to another."
+msgstr "Přihlásí federaci k jiné."
+
+#: sophie_bot/modules/legacy_modules/modules/feds.py:368
+msgid "Fed ID to subscribe"
+msgstr "ID federace pro přihlášení"
+
+#: sophie_bot/modules/legacy_modules/modules/feds.py:402
+msgid "Unsubscribes the federation."
+msgstr "Odhlásí federaci."
+
+#: sophie_bot/modules/legacy_modules/modules/feds.py:402
+msgid "Subscribed Fed ID"
+msgstr "ID přihlášené federace"
+
+#: sophie_bot/modules/legacy_modules/modules/feds.py:429
+msgid "Promotes the user to the Federation admins."
+msgstr "Povýší uživatele na administrátory federace."
+
+#: sophie_bot/modules/legacy_modules/modules/feds.py:429 sophie_bot/modules/legacy_modules/modules/feds.py:458
+#: sophie_bot/modules/legacy_modules/modules/feds.py:611 sophie_bot/modules/legacy_modules/modules/feds.py:783
+#: sophie_bot/modules/legacy_modules/modules/promotes.py:50 sophie_bot/modules/legacy_modules/modules/promotes.py:98
+#: sophie_bot/modules/legacy_modules/modules/restrictions.py:68
+#: sophie_bot/modules/legacy_modules/modules/restrictions.py:127
+#: sophie_bot/modules/legacy_modules/modules/restrictions.py:206
+#: sophie_bot/modules/legacy_modules/modules/restrictions.py:243
+#: sophie_bot/modules/legacy_modules/modules/restrictions.py:322 sophie_bot/modules/users/handlers/id.py:22
+msgid "User"
+msgstr "User"
+
+#: sophie_bot/modules/legacy_modules/modules/feds.py:458
+msgid "Demotes the user from the Federation admins."
+msgstr "Degraduje uživatele z administrátorů federace."
+
+#: sophie_bot/modules/legacy_modules/modules/feds.py:485
+msgid "Sets the Federation logs channel."
+msgstr "Nastaví kanál pro záznamy federace."
+
+#: sophie_bot/modules/legacy_modules/modules/feds.py:514
+msgid "Removes the Federation logs channel."
+msgstr "Odstraní kanál pro záznamy federace."
+
+#: sophie_bot/modules/legacy_modules/modules/feds.py:536
+msgid "Shows a list of chats in the Federation."
+msgstr "Zobrazuje seznam chatů ve federaci."
+
+#: sophie_bot/modules/legacy_modules/modules/feds.py:561
+msgid "Shows a list of admins in the Federation."
+msgstr "Zobrazuje seznam administrátorů ve federaci."
+
+#: sophie_bot/modules/legacy_modules/modules/feds.py:575
+msgid "Shows the information about the Federation."
+msgstr "Zobrazuje informace o federaci."
+
+#: sophie_bot/modules/legacy_modules/modules/feds.py:611
+msgid "Bans the user in the whole Federation."
+msgstr "Zabanovat uživatele v celé federaci."
+
+#: sophie_bot/modules/legacy_modules/modules/feds.py:783
+msgid "Unbans the user from the Federation."
+msgstr "Odblokuje uživatele z federace."
+
+#: sophie_bot/modules/legacy_modules/modules/feds.py:875
+msgid "Deletes the federation."
+msgstr "Smaže federaci."
+
+#: sophie_bot/modules/legacy_modules/modules/feds.py:927
+msgid "Renames the federation."
+msgstr "Přejmenuje federaci."
+
+#: sophie_bot/modules/legacy_modules/modules/feds.py:927
+msgid "New name"
+msgstr "Nové jméno"
+
+#: sophie_bot/modules/legacy_modules/modules/feds.py:955
+msgid "Exports the list of bans."
+msgstr "Exportuje seznam zákazů."
+
+#: sophie_bot/modules/legacy_modules/modules/feds.py:1004
+msgid "Imports the list of bans."
+msgstr "Importuje seznam zákazů."
+
+#: sophie_bot/modules/legacy_modules/modules/feds.py:1134
+msgid "Checks the user ban status (can be used to check yourself)."
+msgstr "Kontroluje stav zákazu uživatele (může se použít pro kontrolu sebe)."
+
+#: sophie_bot/modules/legacy_modules/modules/filters.py:62
+msgid "Filters"
+msgstr "Filters"
+
+#: sophie_bot/modules/legacy_modules/modules/filters.py:157
+msgid "Adds a new filter."
+msgstr "Přidá nový filtr."
+
+#: sophie_bot/modules/legacy_modules/modules/filters.py:157 sophie_bot/modules/legacy_modules/modules/filters.py:310
+msgid "Trigger"
+msgstr "Spouštěč"
+
+#: sophie_bot/modules/legacy_modules/modules/filters.py:291
+msgid "Shows the list of filters."
+msgstr "Zobrazuje seznam filtrů."
+
+#: sophie_bot/modules/legacy_modules/modules/filters.py:310
+msgid "Removes the filter."
+msgstr "Odstraní filtr."
+
+#: sophie_bot/modules/legacy_modules/modules/filters.py:361
+msgid "Removes all the filters in the chat."
+msgstr "Odstraní všechny filtry v chatu."
+
+#: sophie_bot/modules/legacy_modules/modules/greetings.py:83
+msgid "Greetings"
+msgstr "Greetings"
+
+#: sophie_bot/modules/legacy_modules/modules/greetings.py:97
+msgid "Shows the current welcome."
+msgstr "Zobrazuje aktuální uvítání."
+
+#: sophie_bot/modules/legacy_modules/modules/greetings.py:167
+msgid "Sets the welcome message."
+msgstr "Nastaví uvítací zprávu."
+
+#: sophie_bot/modules/legacy_modules/modules/greetings.py:167
+msgid "Message"
+msgstr "Zpráva"
+
+#: sophie_bot/modules/legacy_modules/modules/greetings.py:217
+msgid "Resets the welcome message."
+msgstr "Resetuje uvítací zprávu."
+
+#: sophie_bot/modules/legacy_modules/modules/greetings.py:233
+msgid "Controls the automatic welcome cleanup"
+msgstr "Ovládá automatické odstranění uvítacích zpráv"
+
+#: sophie_bot/modules/legacy_modules/modules/greetings.py:233 sophie_bot/modules/legacy_modules/modules/greetings.py:271
+msgid "New status"
+msgstr "Nový stav"
+
+#: sophie_bot/modules/legacy_modules/modules/greetings.py:271
+msgid "Controls the automatic service messages cleanup"
+msgstr "Ovládá automatické odstranění služebních zpráv"
+
+#: sophie_bot/modules/legacy_modules/modules/greetings.py:309
+msgid "Restricts new users from sending media"
+msgstr "Omezuje nové uživatele od odesílání médií"
+
+#: sophie_bot/modules/legacy_modules/modules/greetings.py:309
+msgid "Time"
+msgstr "Čas"
+
+#: sophie_bot/modules/legacy_modules/modules/greetings.py:378
+msgid "Controls the welcome captcha"
+msgstr "Ovládá captcha na uvítací obrazovce"
+
+#: sophie_bot/modules/legacy_modules/modules/greetings.py:499
+msgid "Sets the specific message for the captcha initiation process"
+msgstr "Nastavuje specifickou zprávu pro proces iniciace captcha"
+
+#: sophie_bot/modules/legacy_modules/modules/greetings.py:537
+msgid "Resets the captcha initiation process message"
+msgstr "Resetuje zprávu procesu iniciace captcha"
+
+#: sophie_bot/modules/legacy_modules/modules/language.py:23
+msgid "Language"
+msgstr "Language"
+
+#: sophie_bot/modules/legacy_modules/modules/language.py:40
+msgid "Asks for the new language for the chat."
+msgstr "Ptá se na nový jazyk pro chat."
+
+#: sophie_bot/modules/legacy_modules/modules/language.py:114
+msgid "Sets the new language for the chat"
+msgstr "Nastavuje novou jazykovou mutaci pro chat"
+
+#: sophie_bot/modules/legacy_modules/modules/language.py:114
+msgid "New language"
+msgstr "Nový jazyk"
+
+#: sophie_bot/modules/legacy_modules/modules/notes.py:43 sophie_bot/modules/notes/__init__.py:13
+msgid "Notes"
+msgstr "Notes"
+
+#: sophie_bot/modules/legacy_modules/modules/notes.py:122
+msgid "Saves the note."
+msgstr "Uloží poznámku."
+
+#: sophie_bot/modules/legacy_modules/modules/notes.py:122 sophie_bot/modules/legacy_modules/modules/notes.py:350
+#: sophie_bot/modules/legacy_modules/modules/notes.py:418 sophie_bot/modules/notes/handlers/delete.py:15
+#: sophie_bot/modules/notes/handlers/get.py:15
+msgid "Note name"
+msgstr "Note name"
+
+#: sophie_bot/modules/legacy_modules/modules/notes.py:122 sophie_bot/modules/legacy_modules/modules/rules.py:28
+msgid "Content"
+msgstr "Obsah"
+
+#: sophie_bot/modules/legacy_modules/modules/notes.py:330
+msgid "Searches text across all notes."
+msgstr "Hledá text ve všech poznámkách."
+
+#: sophie_bot/modules/legacy_modules/modules/notes.py:330 sophie_bot/modules/notes/handlers/save.py:29
+msgid "Text"
+msgstr "Text"
+
+#: sophie_bot/modules/legacy_modules/modules/notes.py:350
+msgid "Deletes the note"
+msgstr "Odstraní poznámku"
+
+#: sophie_bot/modules/legacy_modules/modules/notes.py:387
+msgid "Deletes all the notes in the chat"
+msgstr "Odstraní všechny poznámky v chatu"
+
+#: sophie_bot/modules/legacy_modules/modules/notes.py:418
+msgid "Shows additional information about the note"
+msgstr "Zobrazuje další informace o poznámce"
+
+#: sophie_bot/modules/legacy_modules/modules/notes.py:531
+msgid "Controls the feature, that would recommend users to use PM with bot to use notes"
+msgstr "Ovládá funkci, která doporučuje uživatelům používat soukromé zprávy s botem pro používání poznámek"
+
+#: sophie_bot/modules/legacy_modules/modules/notes.py:571
+msgid "Controls the automatic clean-up for notes"
+msgstr "Ovládá automatické odstranění poznámek"
+
+#: sophie_bot/modules/legacy_modules/modules/pins.py:15
+msgid "Pins"
+msgstr "Pins"
+
+#: sophie_bot/modules/legacy_modules/modules/pins.py:25
+msgid "Pins replied message"
+msgstr "Připne odpovězenou zprávu"
+
+#: sophie_bot/modules/legacy_modules/modules/pins.py:46
+msgid "Unpins the last pinned message"
+msgstr "Odpiná poslední připnutou zprávu"
+
+#: sophie_bot/modules/legacy_modules/modules/pm_menu.py:54
+msgid "🕵️‍♂️ Privacy"
+msgstr "🕵️‍♂️ Ochrana soukromí"
+
+#: sophie_bot/modules/legacy_modules/modules/pm_menu.py:63
+msgid "💬 Support Chat"
+msgstr "💬 Podpora chatu"
+
+#: sophie_bot/modules/legacy_modules/modules/pm_menu.py:64
+msgid "📢 NEWS Channel"
+msgstr "📢 Zpravodaj kanál"
+
+#: sophie_bot/modules/legacy_modules/modules/promotes.py:38
+msgid "Promotes"
+msgstr "Promotes"
+
+#: sophie_bot/modules/legacy_modules/modules/promotes.py:50
+msgid "Promotes the user to admins."
+msgstr "Povýší uživatele na administrátory."
+
+#: sophie_bot/modules/legacy_modules/modules/promotes.py:98
+msgid "Demotes the user from admins."
+msgstr "Degraduje uživatele z administrátorů."
+
+#: sophie_bot/modules/legacy_modules/modules/purges.py:34
+msgid "Purges"
+msgstr "Purges"
+
+#: sophie_bot/modules/legacy_modules/modules/purges.py:47
+msgid "Deletes the replied message"
+msgstr "Odstraní odpovězenou zprávu"
+
+#: sophie_bot/modules/legacy_modules/modules/purges.py:63
+msgid "Purges all messages after replied message (incl. the replied message)"
+msgstr "Odstraní všechny zprávy po odpovězené zprávě (včetně odpovězené zprávy)"
+
+#: sophie_bot/modules/legacy_modules/modules/reports.py:18
+msgid "Reports"
+msgstr "Reports"
+
+#: sophie_bot/modules/legacy_modules/modules/reports.py:35
+msgid "Reports the replied message."
+msgstr "Nahlásí odpovězenou zprávu."
+
+#: sophie_bot/modules/legacy_modules/modules/restrictions.py:53
+msgid "Restrictions"
+msgstr "Restrictions"
+
+#: sophie_bot/modules/legacy_modules/modules/restrictions.py:67
+msgid "Kicks the user from the chat. The user would be able to join back."
+msgstr "Vykopne uživatele z chatu. Uživatel se může vrátit."
+
+#: sophie_bot/modules/legacy_modules/modules/restrictions.py:127
+msgid "Mutes the user."
+msgstr "Ztlumit uživatele."
+
+#: sophie_bot/modules/legacy_modules/modules/restrictions.py:206
+#: sophie_bot/modules/legacy_modules/modules/restrictions.py:243
+msgid "Unmutes the user (also lets the user send media)."
+msgstr "Odmtí uživatele (rovněž mu dovolí posílat média)."
+
+#: sophie_bot/modules/legacy_modules/modules/restrictions.py:322
+msgid "Unbans the user."
+msgstr "Odblokuje uživatele."
+
+#: sophie_bot/modules/legacy_modules/modules/rules.py:21
+msgid "Rules"
+msgstr "Rules"
+
+#: sophie_bot/modules/legacy_modules/modules/rules.py:28
+msgid "Sets the chat rules."
+msgstr "Nastaví pravidla chatu."
+
+#: sophie_bot/modules/legacy_modules/modules/rules.py:47
+msgid "Shows the rules."
+msgstr "Zobrazuje pravidla."
+
+#: sophie_bot/modules/legacy_modules/modules/rules.py:77
+msgid "Resets the chat rules."
+msgstr "Resetuje pravidla chatu."
+
+#: sophie_bot/modules/legacy_modules/modules/users.py:17 sophie_bot/modules/users/__init__.py:15
+msgid "Users"
+msgstr "Users"
+
+#: sophie_bot/modules/legacy_modules/modules/users.py:25
+msgid "Shows the additional information about the user."
+msgstr "Zobrazuje dodatečné informace o uživateli."
+
+#: sophie_bot/modules/legacy_modules/modules/users.py:59
+msgid "Shows IDs."
+msgstr "Zobrazuje ID."
+
+#: sophie_bot/modules/legacy_modules/modules/users.py:91
+msgid "Lists all the chats admins."
+msgstr "Zobrazuje všechny administrátory chatů."
+
+#: sophie_bot/modules/legacy_modules/modules/warns.py:56
+msgid "Warnings"
+msgstr "Warnings"
+
+#: sophie_bot/modules/notes/handlers/delete.py:16
+msgid "Deletes notes."
+msgstr "Smaže poznámky."
+
+#: sophie_bot/modules/notes/handlers/delete.py:25
+msgid "No notes was found with {name} name."
+msgstr "No notes was found with {name} name."
+
+#: sophie_bot/modules/notes/handlers/delete.py:33
+msgid "Name"
+msgstr "Name"
+
+#: sophie_bot/modules/notes/handlers/delete.py:33
+msgid "Names"
+msgstr "Names"
+
+#: sophie_bot/modules/notes/handlers/delete.py:34
+msgid "Note was successfully deleted"
+msgstr "Note was successfully deleted"
+
+#: sophie_bot/modules/notes/handlers/get.py:16
+msgid "Retrieve the note."
+msgstr "Získá poznámku."
+
+#: sophie_bot/modules/notes/handlers/get.py:25
+msgid "No note was found with {name} name."
+msgstr "No note was found with {name} name."
+
+#: sophie_bot/modules/notes/handlers/list.py:16
+msgid "Search notes"
+msgstr "Search notes"
+
+#: sophie_bot/modules/notes/handlers/list.py:17
+msgid "Lists available notes."
+msgstr "Zobrazí dostupné poznámky."
+
+#: sophie_bot/modules/notes/handlers/list.py:79
+msgid "No notes found by the provided search pattern {pattern}."
+msgstr "No notes found by the provided search pattern {pattern}."
+
+#: sophie_bot/modules/notes/handlers/list.py:82
+msgid "No notes found."
+msgstr "No notes found."
+
+#: sophie_bot/modules/notes/handlers/list.py:86
+msgid "Search pattern"
+msgstr "Search pattern"
+
+#: sophie_bot/modules/notes/handlers/list.py:88
+msgid "Notes in {chat_name}"
+msgstr "Notes in {chat_name}"
+
+#: sophie_bot/modules/notes/handlers/list.py:92
+msgid "Use {cmd} to retrieve a note. Example: {cmd_example}"
+msgstr "Use {cmd} to retrieve a note. Example: {cmd_example}"
+
+#: sophie_bot/modules/notes/handlers/list.py:93
+msgid "#(Note name)"
+msgstr "#(Note name)"
+
+#: sophie_bot/modules/notes/handlers/save.py:26
+msgid "Note names"
+msgstr "Note names"
+
+#: sophie_bot/modules/notes/handlers/save.py:27
+msgid "Group"
+msgstr "Group"
+
+#: sophie_bot/modules/notes/handlers/save.py:28
+msgid "Description"
+msgstr "Description"
+
+#: sophie_bot/modules/notes/handlers/save.py:31
+msgid "Save the note."
+msgstr "Uloží poznámku."
+
+#: sophie_bot/modules/notes/handlers/save.py:47
+msgid "Note was successfully created"
+msgstr "Note was successfully created"
+
+#: sophie_bot/modules/notes/handlers/save.py:47
+msgid "Note was successfully updated"
+msgstr "Note was successfully updated"
+
+#: sophie_bot/modules/notes/utils/parse.py:71
+msgid "Please check the notes documentation for the list of the allowed content types."
+msgstr "Please check the notes documentation for the list of the allowed content types."
+
+#: sophie_bot/modules/notes/utils/parse.py:72
+msgid "Reply message content is not parsable as the note."
+msgstr "Reply message content is not parsable as the note."
+
+#: sophie_bot/modules/notes/utils/parse.py:104
+msgid "The maximum length of the note is {limit} characters."
+msgstr "The maximum length of the note is {limit} characters."
+
+#: sophie_bot/modules/notes/utils/parse.py:105
+msgid "Please try to reduce the length of the note."
+msgstr "Please try to reduce the length of the note."
+
+#: sophie_bot/modules/notes/utils/parse.py:106
+msgid "Note is too long."
+msgstr "Note is too long."
+
+#: sophie_bot/modules/notes/utils/text.py:28
+msgid "Local chat"
+msgstr "Local chat"
+
+#: sophie_bot/modules/privacy/__init__.py:17
+msgid "Privacy"
+msgstr "Privacy"
+
+#: sophie_bot/modules/privacy/handlers/export.py:35
+msgid "Export is started, this may take a while."
+msgstr "Export byl zahájen, to může trvat chvíli."
+
+#: sophie_bot/modules/privacy/handlers/export.py:44
+msgid "Export is done."
+msgstr "Export byl dokončen."
+
+#: sophie_bot/modules/privacy/handlers/privacy.py:16
+msgid "Shows the privacy policy of the bot"
+msgstr "Shows the privacy policy of the bot"
+
+#: sophie_bot/modules/privacy/handlers/privacy.py:21
+msgid "The privacy policy of the bot is available on our wiki page."
+msgstr "The privacy policy of the bot is available on our wiki page."
+
+#: sophie_bot/modules/privacy/handlers/privacy.py:24
+msgid "Privacy Policy"
+msgstr "Privacy Policy"
+
+#: sophie_bot/modules/troubleshooters/__init__.py:12
+msgid "Troubleshooters"
+msgstr "Troubleshooters"
+
+#: sophie_bot/modules/troubleshooters/__init__.py:14
+msgid "Small commands for fixing problems"
+msgstr "Small commands for fixing problems"
+
+#: sophie_bot/modules/troubleshooters/handlers/admincache.py:13
+msgid "Reset admin rights cache, use if Sophie didn't get the recently added admin"
+msgstr "Reset admin rights cache, use if Sophie didn't get the recently added admin"
+
+#: sophie_bot/modules/troubleshooters/handlers/admincache.py:20
+msgid "You can't use this command in private chats."
+msgstr "You can't use this command in private chats."
+
+#: sophie_bot/modules/troubleshooters/handlers/admincache.py:23
+msgid "Admin rights cache has been reset."
+msgstr "Admin rights cache has been reset."
+
+#: sophie_bot/modules/troubleshooters/handlers/cancel.py:12
+msgid "Cancel current state, use if Sophie is not responding on your message"
+msgstr "Cancel current state, use if Sophie is not responding on your message"
+
+#: sophie_bot/modules/troubleshooters/handlers/cancel.py:20
+msgid "The current state is already cleared, nothing to do here."
+msgstr "The current state is already cleared, nothing to do here."
+
+#: sophie_bot/modules/troubleshooters/handlers/cancel.py:26
+msgid "Current state is cleared."
+msgstr "Current state is cleared."
+
+#: sophie_bot/modules/users/handlers/id.py:35
+msgid "Your ID: {id}"
+msgstr "Your ID: {id}"
+
+#: sophie_bot/modules/users/handlers/id.py:38
+msgid "Chat ID: {id}"
+msgstr "Chat ID: {id}"
+
+#: sophie_bot/modules/users/handlers/id.py:41
+msgid "Connected chat ID: {id}"
+msgstr "Connected chat ID: {id}"
+
+#: sophie_bot/modules/users/handlers/id.py:47
+msgid "Replied user ID: {id}"
+msgstr "Replied user ID: {id}"
+
+#: sophie_bot/modules/users/handlers/id.py:51
+msgid "{user}'s ID: {id}"
+msgstr "{user}'s ID: {id}"
+
