@@ -81,11 +81,7 @@ compile_lang:
 		PO_FILE_2="$$LANG_DIR/ass.po"; \
 		PO_FILE_3="$$LANG_DIR/sophie.po"; \
 		# Check if both 1.po and 2.po exist \
-		if [[ -f "$$PO_FILE_1" && -f "$$PO_FILE_2" ]]; then \
-			cat "$$PO_FILE_1" "$$PO_FILE_2" > "$$PO_FILE_3"; \
-		else \
-			echo "Skipping $$LANGUAGE: 1.po or 2.po not found."; \
-		fi; \
+        cat "$$PO_FILE_1" "$$PO_FILE_2" > "$$PO_FILE_3"; \
 	done
 
 	pybabel compile -d "$(LOCALES_DIR)" -D "sophie" --use-fuzzy --statistics
