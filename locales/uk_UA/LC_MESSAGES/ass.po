@@ -1,0 +1,271 @@
+msgid ""
+msgstr ""
+"Plural-Forms: nplurals=4; plural=((n%10==1 && n%100!=11) ? 0 : ((n%10 >= 2 && n%10 <=4 && (n%100 < 12 || n%100 > 14)) ? 1 : ((n%10 == 0 || (n%10 >= 5 && n%10 <=9)) || (n%100 >= 11 && n%100 <= 14)) ? 2 : 3));\n"
+"X-Crowdin-Project: sophiebot\n"
+"X-Crowdin-Project-ID: 356879\n"
+"X-Crowdin-Language: uk\n"
+"X-Crowdin-File: /beta/locales/ass.pot\n"
+"X-Crowdin-File-ID: 270\n"
+"Project-Id-Version: sophiebot\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language-Team: Ukrainian\n"
+"Language: uk_UA\n"
+"PO-Revision-Date: 2024-10-04 20:16\n"
+
+#: exceptions.py:33
+msgid "Examples"
+msgstr "Приклади"
+
+#: exceptions.py:61
+msgid "The argument {description} has an invalid type"
+msgstr "Аргумент {description} має неправильний тип"
+
+#: exceptions.py:65 exceptions.py:120
+msgid "Needed type"
+msgstr "Потрібний тип"
+
+#: exceptions.py:116
+msgid "The required argument {description} wasn't provided!"
+msgstr "Обов'язковий аргумент {description} не було надано!"
+
+#: exceptions.py:164
+msgid "The argument {description} has an invalid formatting!"
+msgstr "Аргумент {description} має неправильний тип!"
+
+#: types/keyvalue.py:31
+msgid "Key-value of {}"
+msgstr "Ключ-значення з {}"
+
+#: types/keyvalue.py:32
+msgid "Key-values of {}"
+msgstr "Ключ-значення з {}"
+
+#: types/keyvalue.py:64
+msgid "The optional argument {name} must contain a value!"
+msgstr "Опціональний аргумент {name} повинен містити значення!"
+
+#: types/keyvalue.py:90 types/keyvalue.py:91
+msgid "Key-values"
+msgstr "Ключ-значення"
+
+#: types/lists.py:46 types/lists.py:59
+msgid "List of {}"
+msgstr "Список з {}"
+
+#: types/lists.py:47
+msgid "Lists of {}"
+msgstr "Списки з {}"
+
+#: types/lists.py:65
+msgid "The starting character {} of list wasn't found!"
+msgstr "Початковий символ {} списку не знайдений!"
+
+#: types/lists.py:73
+msgid "The ending character {} of list wasn't found!"
+msgstr "Кінцевий символ {} списку не знайдений!"
+
+#: types/lists.py:77
+msgid "The list is empty!"
+msgstr "Цей список пустий!"
+
+#: types/lists.py:97
+msgid "➡️ The start prefix text of the lists cannot have the overlapping formatting"
+msgstr "➡️ Початковий текст префікса списків не може мати накладаючого форматування"
+
+#: types/lists.py:152 types/lists.py:170
+msgid "Argument '{arg_text}' was parsed, but it has unknown text after it!"
+msgstr "Аргумент '{arg_text}' було розпарсено, але після нього є невідомий текст!"
+
+#: types/lists.py:157 types/lists.py:175
+msgid "Please ensure you correctly divided all of arguments."
+msgstr "Будь ласка, переконайтеся, що ви правильно розділили всі аргументи."
+
+#: types/logic.py:20
+msgid "Optional {}"
+msgstr "Опціональний {}"
+
+#: types/logic.py:21
+msgid "Optionals {}"
+msgstr "Опціональні {}"
+
+#: types/logic.py:44 types/logic.py:45 types/one_of.py:25 types/one_of.py:28
+msgid " or "
+msgstr " або "
+
+#: types/logic.py:105
+msgid ", and "
+msgstr ", та "
+
+#: types/logic.py:121
+msgid "Example syntax"
+msgstr "Приклад синтаксису"
+
+#: types/one_of.py:24 types/one_of.py:27
+msgid "One of: {}"
+msgstr "Один з: {}"
+
+#: types/oneword.py:13
+msgid "Word (string with no spaces)"
+msgstr "Слово (строка без пропусків)"
+
+#: types/oneword.py:13
+msgid "Words (strings with no spaces)"
+msgstr "Слова (строки без пропусків)"
+
+#: types/oneword.py:33
+msgid "Integer (number)"
+msgstr "Ціле число"
+
+#: types/oneword.py:33
+msgid "Integers (numbers)"
+msgstr "Цілі числа"
+
+#: types/oneword.py:49
+msgid "Boolean (Yes / No value)"
+msgstr "Булеве (значення Так / Ні)"
+
+#: types/oneword.py:49
+msgid "Booleans (Yes / No values)"
+msgstr "Булеві (значення Так / Ні)"
+
+#: types/oneword.py:54
+msgid "True (can means Enabled or Yes)"
+msgstr "Істина (може означати Активовано або Так)"
+
+#: types/oneword.py:55
+msgid "False (can means Disabled or No)"
+msgstr "Лож (може означати Вимкнено або Ні)"
+
+#: types/text.py:18
+msgid "Text"
+msgstr "Текст"
+
+#: types/text_rules.py:27
+msgid "➡️ The Argument should start with {}!"
+msgstr "➡️ Аргумент повинен починатися з {}!"
+
+#: types/text_rules.py:31
+msgid "⬅️️ The Argument should end with {}!"
+msgstr "⬅️️ Аргумент повинен закінчуватися з {}!"
+
+#: types/text_rules.py:49
+msgid "➡️ The start text cannot have the overlapping formatting"
+msgstr "➡️ Початковий текст не може мати накладаючого форматування"
+
+#: types/text_rules.py:74
+msgid "➡️ Argument '{arg_text}' was parsed, but it has unknown text after it!"
+msgstr "➡️ Аргумент '{arg_text}' було розпарсено, але після нього є невідомий текст!"
+
+#: types/text_rules.py:91 types/text_rules.py:95
+msgid "{} surrounded by {} and {}"
+msgstr "{} оточено {} та {}"
+
+#: types/text_rules.py:107
+msgid "Surrounded by {} and {}"
+msgstr "Оточено {} та {}"
+
+#: types/time_arg.py:24
+msgid "2 days"
+msgstr "2 дні"
+
+#: types/time_arg.py:25
+msgid "3 weeks and 2 days"
+msgstr "3 тижня і 2 дні"
+
+#. NOTE: Please use the first letter of the "years" in your language
+#: types/time_arg.py:41
+msgid "y"
+msgstr "y"
+
+#. NOTE: Please use the first letter of the "weeks" in your language
+#: types/time_arg.py:44
+msgid "w"
+msgstr "w"
+
+#. NOTE: Please use the first letter of the "days" in your language
+#: types/time_arg.py:47
+msgid "d"
+msgstr "d"
+
+#. NOTE: Please use the first letter of the "hours" in your language
+#: types/time_arg.py:50
+msgid "h"
+msgstr "h"
+
+#. NOTE: Please use the first letter of the "minutes" in your language
+#: types/time_arg.py:53
+msgid "m"
+msgstr "m"
+
+#: types/time_arg.py:61
+msgid "Action time"
+msgstr "Час дії"
+
+#: types/time_arg.py:61
+msgid "Action times"
+msgstr "Часи дії"
+
+#: types/user.py:17
+msgid "User ID (Numeric)"
+msgstr "Ідентифікатор користвувача (числовий)"
+
+#: types/user.py:17
+msgid "User IDs (Numeric)"
+msgstr "Ідентифікатори користвувачів (числові)"
+
+#: types/user.py:37
+msgid "Username (starts with @)"
+msgstr "Ім'я користувача (починається з @)"
+
+#: types/user.py:47
+msgid "Should start with a prefix"
+msgstr "Повинно починатися з префікса"
+
+#: types/user.py:49
+msgid "Username is too short"
+msgstr "Ім'я користувача занадто коротке"
+
+#: types/user.py:51
+msgid "Username is too long"
+msgstr "Ім'я користувача занадто довге"
+
+#: types/user.py:67
+msgid "User mention (a link to user)"
+msgstr "Згадка користувача (посилання на користувача)"
+
+#: types/user.py:67
+msgid "User mentions (links to users)"
+msgstr "Згадки користувача (посилання на користувачів)"
+
+#: types/user.py:99
+msgid "Should start with mention!"
+msgstr "Повинно починатися із згадки!"
+
+#: types/user.py:107
+msgid "Unexpected error while trying to get the user! Please report this in the support chat!"
+msgstr "Несподівана помилка під час спроби отримати користувача! Будь ласка, повідомте про це в чаті підтримки!"
+
+#: types/user.py:108
+msgid "Could not find the user mention"
+msgstr "Не вдалося знайти згадку користувача"
+
+#: types/user.py:119
+msgid "User: 'User ID (numeric) / Username (starts with @) / Mention (links to users)'"
+msgstr "Користувач: 'Ідентифікатор користувача (числовий) / Ім'я користувача (починається з @) / Згадка (посилання на користувачів)'"
+
+#: types/user.py:121
+msgid "Users: 'User IDs (numeric) / Usernames (starts with @) / Mentions (links to users)'"
+msgstr "Користувачі: 'Ідентифікатори користувачів (числові) / Імена користувачів (починаються з @) / Згадки (посилання на користувачів)'"
+
+#: types/user.py:128
+msgid "User ID"
+msgstr "Ідентифікатор користувача"
+
+#: types/user.py:129
+msgid "Username"
+msgstr "Ім'я користувача"
+
+#: types/user.py:133
+msgid "A link to user, usually creates by mentioning a user without username."
+msgstr "Посилання на користувача, яке зазвичай створюється, коли згадують користувача без імені."
+
