@@ -1,0 +1,666 @@
+language_info:
+  flag: "🇺🇸"
+  code: nl
+STRINGS:
+  notes:
+    #/save
+    note_saved: "🗒 Notitie <code>{note_name}</code> opgeslagen in <b>{chat_title}</b>!"
+    note_updated: "🗒 Notitie <code>{note_name}</code> opgeslagen in <b>{chat_title}</b>!"
+    you_can_get_note: "\nJe kan de notitie weer opvragen door <code>/get {note_name}</code>, of <code>#{note_name}</code>"
+    #Translator note: please keep sure that you don't have space in the end of string
+    note_aliases: "\nNotitie aliassen:"
+    blank_note: "Lege notitie opslaan is niet toegestaan!"
+    notename_cant_contain: "Notitie naam mag geen \"<code>{symbol}</code>\" bevatten!"
+    #/get
+    cant_find_note: Ik kan deze notitie niet vinden in <b>{chat_name}</b>!
+    no_note: "Kan deze notitie niet vinden."
+    no_notes_pattern: "Geen notities gevonden met patroon <code>%s</code>"
+    u_mean: "\nBedoelde je <code>#{note_name}</code>?"
+    #/notes
+    notelist_no_notes: "Er zijn geen notities in <b>{chat_title}</b>!"
+    notelist_header: "<b>Notities in {chat_name}</b>:"
+    notes_in_private: "Klik op onderstaande knop om de notities lijst te krijgen."
+    notelist_search: |
+      <b>Patroon:</b> <code>{request}</code>
+      <b>Overeenkomende notities:</b>
+    #/clear
+    note_removed: "Notitie <code>#{note_name}</code> verwijderd in <b>{chat_name}</b>!"
+    note_removed_multiple: |
+      Meerdere notities verwijderd in <b>{chat_name}</b>
+      <b>Verwijderd:</b><code>{removed}</code>
+    not_removed_multiple: "<b>Niet verwijderd:</b><code>{not_removed}</code>"
+    #/clearall
+    clear_all_text: "Dit zal alle notities verwijderen van {chat_name}. Weet je het zeker?"
+    clearall_btn_yes: "Ja. Verwijder al mijn notities!"
+    clearall_btn_no: "Nee!"
+    clearall_done: "Alle (<code>{num}</code>) notities in {chat_name} zijn verwijderd!"
+    #/search
+    search_header: |
+      <b>Zoekverzoek in {chat_name}</b>:
+      <b>Patroon:</b> <code>{request}</code>
+      <b>Overeenkomende notities:</b>
+    #/noteinfo
+    note_info_title: "<b>Notitie info</b>\n"
+    note_info_note: "Notitie namen: %s\n"
+    note_info_content: "Inhoud van notitie: %s\n"
+    note_info_parsing: "Parseer modus: <code>%s</code>\n"
+    note_info_created: "Is gemaakt in: <code>{date}</code> door {user}\n"
+    note_info_updated: "Laatst bijgewerkt in: <code>{date}</code> door {user}\n"
+    user_blocked: "Schrijf /start in mijn PM!"
+    #/privatenotes
+    private_notes_false_args: "Je hebt 2 opties <code>Uitschakelen</code> en <code>Ins schakelen</code>!"
+    already_enabled: "Privé notas zijn al ingeschakeld in %s"
+    current_state_info: "Privé notities zijn momenteel <code>{state}</code> in <b>{chat}</b>!"
+    enabled_successfully: "Privé notities zijn <b>Ingeschakeld</b> in %s met succes!"
+    disabled_successfully: "Privé notities zijn <b>Uitgeschakeld</b> in %s met succes!"
+    not_enabled: "Privé notities zijn niet ingeschakeld."
+    privatenotes_notif: "Je bent succesvol verbonden met <b>{chat}</b> notities! Om te ontkoppelen gebruik alstublieft opdracht <code>/disconnect</code>!"
+    enabled: 'Ingeschakeld'
+    disabled: 'Uitgeschakeld'
+    #/cleannotes
+    clean_notes_enable: "Opkuisnotities succesvol ingeschakeld in <b>{chat_name}</b>"
+    clean_notes_enable_keep: "Laatste <i>{keep_num}</i> gebeurtenissen behouden (triggerbericht + notitie-uitvoer)."
+    keep_num_invalid: "Aantal moet tussen <i>0</i> en <i>50</i> zijn."
+    clean_notes_disable: "Het opschonen van notities is succesvol uitgeschakeld in <b>{chat_name}</b>"
+    clean_notes_enabled: "Het opschonen van notities is momenteel <b>ingeschakeld</b> in <b>{chat_name}</b>"
+    clean_notes_disabled: "Het opschonen van notities is momenteel <b>uitgeschakeld</b> in <b>{chat_name}</b>"
+    #Filter
+    filters_title: 'Notitie verzenden'
+    filters_setup_start: 'Stuur een notitie naam.'
+  #delmsg_no_arg: "deletemsg button can contain only 'admin' or 'user' argument!"
+  #bot_msg: "I'm sorry, I am not able to get this message, probably this a other bot's message, so I can't save it."
+  filters:
+    no_filters_found: "Er zijn geen filters gevonden in <b>{chat_name}</b>!"
+    #/addfilter
+    anon_detected: Als anonieme admin, kun je geen nieuwe filters toevoegen, gebruik in plaats daarvan verbindingen.
+    regex_too_slow: "Je regex-patroon komt te langzaam overeen (meer dan de helft van een seconde) en kan niet worden toegevoegd!"
+    cancel_btn: "🛑 Annuleren"
+    adding_filter: |
+      Filter <code>{handler}</code> toevoegen in <b>{chat_name}</b>
+      Selecteer hieronder een actie:
+    saved: "Nieuw filter is succesvol opgeslagen!"
+    #/filters
+    list_filters: "Filters in <b>{chat_name}</b>:\n"
+    #/delfilter
+    no_such_filter: Ik kan die filter niet vinden in <b>{chat_name}</b>, je kunt controleren welke filters zijn ingeschakeld met de <code>/filters</code> opdracht.
+    del_filter: "Filter met handler '<code>{handler}</code>' is succesvol verwijderd!"
+    select_filter_to_remove: |
+      Ik heb veel filters gevonden met handler '<code>{handler}</code>'.
+      Selecteer er één om te verwijderen:
+    #/delfilters or /delallfilters
+    not_chat_creator: Alleen chatmakers kunnen deze opdracht gebruiken!
+    delall_header: Dit zou alle filters in deze chat verwijderen. Dit IS onomkeerbaar.
+    confirm_yes: '⚠ Verwijder alles'
+    confirm_no: '❌ Annuleren'
+    delall_success: Alle ({count}) filters zijn succesvol verwijderd in deze chat!
+  warns:
+    #/warn
+    warn_sofi: "Haha geen manier om mezelf te waarschuwen!"
+    warn_self: "Wil je jezelf waarschuwen? Verlaat dan gewoon de chat."
+    warn_admin: "Nou.. je hebt het mis. Je kunt een admin niet waarschuwen."
+    warn: "{admin} heeft {user} gewaarschuwd in <b>{chat_name}</b>\n"
+    warn_bun: "Waarschuwingen zijn overschreden! {user} is verbannen!"
+    warn_num: "Waarschuwingen: {curr_warns}/{max_warns}\n"
+    warn_rsn: "Reden: <code>{reason}</code>\n"
+    max_warn_exceeded: Waarschuwingen zijn overschreden! {user} is {action}!
+    "max_warn_exceeded:tmute": Waarschuwingen zijn overschreden! {user} is gecensureerd voor {time}!
+    #warn rmv callback
+    warn_no_admin_alert: "⚠ Je bent GEEN admin en kunt geen waarschuwings verwijderen!"
+    warn_btn_rmvl_success: "✅ Waarschuwing verwijderd door {admin}!"
+    #/warns
+    warns_header: "Hier zijn je waarschuwingen in deze chat \n\n"
+    warns: "{count} : <code>{reason}</code> door {admin}\n"
+    no_warns: "Nou, {user} heeft nog geen waarschuwingen."
+    #/warnlimit
+    warn_limit: "Waarschuwingslimiet in <b>{chat_name}</b> is momenteel: <code>{num}</code>"
+    warnlimit_short: 'Waarschuwingslimiet moet minimaal 2 zijn!'
+    warnlimit_long: 'Waarschuwingslimiet moet korter zijn dan 1.000!'
+    warnlimit_updated: '✅ Waarschuwingslimiet succesvol bijgewerkt naar {num}'
+    #/delwarns
+    purged_warns: "{admin} reset <code>{num}</code> waarschuwingen van {user} in <b>{chat_title}</b>!"
+    usr_no_wrn: "{user} heeft geen waarschuwingen om te resetten."
+    rst_wrn_sofi: 'Sophie heeft nooit waarschuwingen gehad om te resetten.'
+    not_digit: Waarschuwingslimieten moeten cijfers zijn!
+    #/warnmode
+    same_mode: Dit is de huidige modus! Hoe kan ik het wijzigen?
+    no_time: Voor het selecteren van modus 'tmute' moet je tijd vermelden!
+    invalid_time: Ongeldige tijd!
+    warnmode_success: Waarschuwingsmodus van <b>%s</b> is succesvol gewijzigd naar <b>%s</b>!
+    wrng_args: |
+      Dit zijn de beschikbare opties:
+    mode_info: |
+      Huidige modus in deze chat is <b>%s</b>.
+    banned: verbannen
+    muted: gedempt
+    filters_title: Waarschuw de gebruiker
+    filter_handle_rsn: Geautomatiseerde filteractie!
+  msg_deleting:
+    no_rights_purge: "Je hebt niet genoeg rechten om in deze groep op te ruimen!"
+    reply_to_msg: "Antwoord op een bericht om het te verwijderen!"
+    purge_error: "Ik kan niet verder gaan met opruimen, vooral omdat je bent begonnen met het opruimen vanaf een bericht dat meer dan 2 dagen geleden is verzonden."
+    fast_purge_done: "<b>Snel opruimen voltooid!</b>\nDit bericht zal na 5 seconden verwijderd worden."
+    purge_user_done: "Alle berichten van {user} zijn succesvol verwijderd!"
+  misc:
+    your_id: "Uw ID: <code>{id}</code>\n"
+    chat_id: "Groeps-ID: <code>{id}</code>\n"
+    user_id: "{user}'s ID: <code>{id}</code>\n"
+    conn_chat_id: "Huidige verbonden chat ID: <code>{id}</code>"
+    help_btn: "Klik hier voor hulp!"
+    help_txt: "Klik op de knop hieronder voor hulp!"
+    delmsg_filter_title: 'Bericht verwijderen'
+    send_text: Stuur het antwoordbericht!
+    replymsg_filter_title: 'Antwoord op bericht'
+    send_customised_reason: Stuur de <i>reden</i> die je wilt opnemen in het actiebericht. "<code>Geen</code>" voor <i>geen reden</i> die moet worden gegeven!
+    expected_text: Verwachtte een tekstbericht!
+  promotes:
+    promote_success: "{user} is succesvol gepromoveerd in {chat_name}!"
+    promote_title: "\nMet aangepaste rol <code>{role}</code>!"
+    rank_to_loong: "Aangepaste rol tekst mag niet langer zijn dan 16 tekens."
+    promote_failed: "Promotie is mislukt! Controleer of ik de rechten heb."
+    demote_success: "{user} is succesvol gedegradeerd in {chat_name}!"
+    demote_not_admin: "Die gebruiker is geen admin."
+    demote_failed: "Degradatie mislukt. Misschien kan ik niet degradaren of de persoon is al gepromoveerd door iemand anders?"
+    cant_get_user: "Ik kon de gebruiker niet krijgen! Als je het goed vindt, antwoord dan op zijn/haar bericht en probeer het opnieuw."
+    cant_promote_yourself: "Je kunt jezelf niet promoveren."
+    emoji_not_allowed: "Het spijt me, maar admin rollen kunnen geen emoji's hebben 😞"
+  pm_menu:
+    start_hi_group: 'Hey daar! Mijn naam is Sophie'
+    start_hi: "Hey daar! Mijn naam is Sophie, ik help je met het efficiënt beheren van je groep!"
+    btn_add: "➕ Voeg me toe aan je chat"
+    btn_help: "❔ Help"
+    btn_lang: "🇺🇦 Taal"
+    btn_chat: "👥 Sophie's Groep"
+    btn_channel: "📡 Sophie's Nieuws"
+    back: Terug
+    #/help
+    help_header: Hey! Bekijk onze wiki voor hulp
+    click_btn: Klik hier
+  disable:
+    #/disableable
+    disablable: "<b>Uitschakelbare commando's:</b>\n"
+    #/disabled
+    no_disabled_cmds: Geen uitgeschakelde opdrachten in <b>{chat_name}</b>!
+    disabled_list: "<b>Uitgeschakelde commando's in {chat_name}:</b>\n"
+    #/disable
+    wot_to_disable: "Wat wil je uitschakelen?"
+    already_disabled: "Deze opdracht is al uitgeschakeld!"
+    disabled: "Opdracht <code>{cmd}</code> is uitgeschakeld in <b>{chat_name}</b>!"
+    #/enable
+    wot_to_enable: "Wat wil je inschakelen?"
+    already_enabled: "Deze opdracht is niet uitgeschakeld!"
+    enabled: "Opdracht <code>{cmd}</code> is ingeschakeld in <b>{chat_name}</b>!"
+    #/enableall
+    not_disabled_anything: "Er is niets uitgeschakeld in <b>{chat_title}</b>!"
+    enable_all_text: "Dit zal alle commando's inschakelen in de <b>{chat_name}</b>. Weet je het zeker?"
+    enable_all_btn_yes: "Ja. Schakel alle commando's in!"
+    enable_all_btn_no: "Nee!"
+    enable_all_done: "Alle (<code>{num}</code>) commando's zijn ingeschakeld in de <b>{chat_name}</b>!"
+  bot_rights:
+    change_info: "Ik heb geen rechten om groepsinformatie te wijzigen, maak me alstublieft administrator met dat recht."
+    edit_messages: "Ik heb geen rechten om berichten te bewerken!"
+    delete_messages: "Ik heb geen rechten om berichten hier te verwijderen."
+    ban_user: "Ik heb geen rechten om gebruikers te verbannen, maak me alstublieft administrator met dat recht."
+    pin_messages: "Ik heb geen rechten om berichten vast te zetten, maak me alstublieft administrator met dat recht."
+    add_admins: "Ik heb geen rechten om admins toe te voegen, maak me alstublieft administrator met dat recht."
+  feds:
+    #decorators
+    need_fed_admin: "Je bent geen admin in <b>{name}</b> federatie"
+    need_fed_owner: "Je bent geen eigenaar van <b>{name}</b> federatie"
+    cant_get_user: "Sorry, ik kan deze gebruiker niet krijgen, probeer hun gebruikers-ID te gebruiken"
+    #/fnew
+    fed_name_long: "Federatie naam mag niet langer zijn dan 60 symbolen!"
+    can_only_1_fed: "Gebruikers kunnen slechts 1 federatie maken, verwijder er een."
+    name_not_avaible: "Federatie met naam <code>{name}</code> bestaat al! Gebruik een andere naam."
+    created_fed: |
+      Gefeliciteerd, je hebt met succes een federatie aangemaakt.
+      <b>Naam:</b> {name}
+      <b>ID:</b> <code>{id}</code>
+      <b>Creator:</b> {creator}
+      Gebruik <code>/fjoin {id}</code> om federatie aan chat te verbinden\
+    disallow_anon: Als anonieme admin kun je geen nieuwe federatie aanmaken!
+    #/fjoin
+    only_creators: "Je moet de chatmaker zijn om de chat aan een federatie te kunnen verbinden."
+    fed_id_invalid: "De opgegeven federatie-ID is ongeldig! Geef me alstublieft een geldig ID."
+    joined_fed_already: "Deze chat is al toegetreden tot een federatie! Gebruik /fleave om die federatie te verlaten"
+    join_fed_success: "Geweldig! Chat <b>{chat}</b> is nu onderdeel van <b>{fed}</b> federatie!"
+    join_chat_fed_log: |
+      <b>Chat is toegetreden tot federatie</b> #ChatJoined
+      <b>Fed:</b> {fed_name} (<code>{fed_id}</code>)
+      <b>Chat:</b> {chat_name} (<code>{chat_id}</code>)
+    #/leavefed
+    chat_not_in_fed: "Deze chat is nog niet in een federatie."
+    leave_fed_success: "Chat <b>{chat}</b> heeft de <b>{fed}</b> federatie verlaten."
+    leave_chat_fed_log: |
+      <b>Chat heeft Federatie verlaten</b> #ChatLeaved
+      <b>Fed:</b> {fed_name} (<code>{fed_id}</code>)
+      <b>Chat:</b> {chat_name} (<code>{chat_id}</code>)
+    #/fsub
+    already_subsed: "Federatie <b>{name}</b> is al ingeschreven bij <b>{name2}</b>"
+    subsed_success: "Federatie <b>{name}</b> is ingeschreven bij <b>{name2}</b>!"
+    #/funsub
+    not_subsed: "Federatie <b>{name}</b> is niet geabonneerd op <b>{name2}</b>"
+    unsubsed_success: "Federatie <b>{name}</b> heeft zich afgemeld van <b>{name2}</b>!"
+    #/fpromote
+    #admin_already_in_fed: "User {user} is already a fed admin in <b>{name}</b> Federation."
+    admin_added_to_fed: "Gebruiker {user} toegevoegd aan <b>{name}</b> federatie beheerders."
+    promote_user_fed_log: |
+      <b>Gebruiker gepromoveerd naar de federatie beheerders</b> #UserPromoted
+      <b>Federatie:</b> {fed_name} (<code>{fed_id}</code>)
+      <b>Gebruiker:</b> {user} (<code>{user_id}</code>)
+    "restricted_user:promote": Deze gebruiker is beperkt in het worden van federatie beheerder!
+    #/fdemote
+    #admin_not_in_fed: "User {user} is not <b>{name}</b> Federation admin."
+    admin_demoted_from_fed: "Gebruiker {user} gedegradeerd van <b>{name}</b> federatie beheerders."
+    demote_user_fed_log: |
+      <b>Gebruiker gedegradeerd van de federatie beheerders</b> #UserDemoted
+      <b>Federatie:</b> {fed_name} (<code>{fed_id}</code>)
+      <b>Gebruiker:</b> {user} (<code>{user_id}</code>)
+    #/fsetlog
+    already_have_chatlog: "<b>{name}</b> federatie heeft al logging ingeschakeld in een andere chat/kanaal!"
+    set_chat_log: |
+      Deze chat logt nu alle acties in <b>{name}</b> federatie
+
+      Federatie logging wordt gebruikt voor interne beoordeling van de federatie en zijn prestaties.
+      De federatie zou <b>NIET</b> moeten worden gebruikt als een publieke schande wand, respecteer daarmee gebruikersdata en onze privacy richtlijnen.
+    set_log_fed_log: |
+      <b>Logging ingeschakeld</b> #LoggingEnabled
+      <b>Federatie:</b> {fed_name} (<code>{fed_id}</code>)
+    no_right_to_post: Ik heb geen rechten om berichten in dat kanaal te plaatsen!
+    #/funsetlog
+    not_logging: "<b>{name}</b> federatie logt niet naar een chat/kanaal!"
+    logging_removed: "Logging succesvol verwijderd van <b>{name}</b> federatie."
+    unset_log_fed_log: |
+      <b>Logging uitgeschakeld</b> #LoggingDisabled
+      <b>Federatie:</b> {fed_name} (<code>{fed_id}</code>)
+    #/fchatlist
+    no_chats: "Er zijn geen chats bij deze <b>{name}</b> federatie gevoegd"
+    chats_in_fed: "<b>Chats verbonden met {name} federatie:</b>\n"
+    too_large: "Output te groot, wordt verzonden als bestand"
+    #/finfo
+    finfo_text: |
+      <b>Federatie info</b>
+      <b>Naam:</b> {name}
+      <b>ID:</b> <code>{fed_id}</code>
+      <b>Maker:</b> {creator}
+      <b>Chats in de federatie:</b> {chats}
+      <b>Verbannen gebruikers in de federatie:</b> {fbanned}
+    finfo_subs_title: "<b>Federaties geabonneerd op deze federaties:</b>\n"
+    #/fadminlist
+    fadmins_header: "Beheerders in <b>{fed_name}</b> federatie:\n"
+    #no_fbanned_in_fed: "There isn't any banned users in {fed_name} Federation!"
+    #/fban
+    user_wl: "Deze gebruiker staat op de witte lijst voor verbanning."
+    fban_self: "Dat is een mooie show!"
+    fban_creator: "Hoe kan ik de federatie maker verbannen?! Ik denk niet dat dit grappig gaat worden."
+    fban_fed_admin: "Ik ga geen federatie beheerder uit hun eigen federatie bannen!"
+    update_fban: "Deze gebruiker was al verbannen, daarom werk ik de reden bij naar <code>{reason}</code>"
+    already_fbanned: "{user} is al verbannen in deze federatie."
+    fbanned_header: "<b>Nieuwe FedBan</b>\n"
+    fban_info: |
+      <b>Federatie:</b> {fed}
+      <b>Federatie admin:</b> {fadmin}
+      <b>Gebruiker:</b> {user} (<code>{user_id}</code>)
+    fbanned_reason: "<b>Reden:</b> <code>{reason}</code>"
+    fbanned_process: "\n<b>Status:</b> Verbannen in <code>{num}</code> federatie chats..."
+    fbanned_done: "\n<b>Status:</b> Klaar! Verbannen in <code>{num}</code> chats!"
+    fbanned_silence: "Dit bericht zal in 5 seconden worden verwijderd"
+    fbanned_subs_process: "\n<b>Status:</b> Verbannen in <code>{feds}</code> geabonneerde federaties..."
+    fbanned_subs_done: "\n<b>Status:</b> Klaar! Verbannen in <code>{chats}</code> chats van deze federatie en <code>{subs_chats}</code> chats van de <code>{feds}</code> geabonneerde federaties"
+    fban_usr_rmvd: |
+      Gebruiker {user} is momenteel verbannen in <b>{fed}</b> federatie en is verwijderd!
+      Reden: <code>{rsn}</code>
+    fban_log_fed_log: |
+      <b>Verbannen gebruiker in de federatie</b> #FedBan
+      <b>Federatie:</b> {fed_name} (<code>{fed_id}</code>)
+      <b>Gebruiker:</b> {user} ({user_id})
+      <b>Door:</b> {by}
+      <b>Chats verbannen:</b> gebruiker verbannen in <code>{chat_count}</code>/<code>{all_chats}</code> chats
+    fban_reason_fed_log: "<b>Reden:</b> <code>{reason}</code>\n"
+    fban_subs_fed_log: "\n<b>Geabonneerde federaties:</b> verbannen in <code>{subs_chats}</code> chats van <code>{feds}</code> federaties"
+    #/unfban
+    unfban_self: "Bedenk iets anders om plezier te maken in plaats van dit."
+    user_not_fbanned: "{user} is niet verbannen in deze federatie."
+    un_fbanned_header: "<b>Nieuwe Un-FedBan</b>\n"
+    un_fbanned_process: "\n<b>Status:</b> Unbannen in <code>{num}</code> chats..."
+    un_fbanned_done: "\n<b>Status:</b> Klaar! Unbanned in <code>{num}</code> chats!"
+    un_fbanned_subs_process: "\n<b>Status:</b> Unbannen in <code>{feds}</code> geabonneerde federaties..."
+    un_fbanned_subs_done: "\n<b>Status:</b> Klaar! Unbanned in <code>{chats}</code> chats van deze federatie en <code>{subs_chats}</code> chats van <code>{feds}</code> geabonneerde federaties"
+    un_fban_log_fed_log: |
+      <b>Unban gebruiker in de federatie</b> #FedUnBan
+      <b>Federatie:</b> {fed_name} (<code>{fed_id}</code>)
+      <b>Gebruiker:</b> {user} ({user_id})
+      <b>Door:</b> {by}
+      <b>Chats:</b> gebruiker unbanned in <code>{chat_count}</code>/<code>{all_chats}</code> chats
+    un_fban_subs_fed_log: "\n<b>Geabonneerde federaties:</b> unbanned in <code>{subs_chats}</code> chats van <code>{feds}</code> federaties"
+    #/delfed
+    delfed_btn_yes: Ja. Verwijder federatie
+    delfed_btn_no: Nee.
+    delfed: |
+      Weet je zeker dat je de <b>%s</b> federatie wilt verwijderen?
+
+      <i>Disclaimer: Het verwijderen van deze federatie verwijdert alle gegevens die eraan zijn gekoppeld uit onze database!
+      Deze actie is permanent en kan niet worden teruggedraaid!</i>
+    delfed_success: De federatie is met succes verwijderd!
+    #/frename
+    frename_same_name: Voer een andere naam in, niet dezelfde!
+    frename_success: De federatie <b>{old_name}</b> is succesvol hernoemd naar <b>{new_name}</b>!
+    #/fbanlist
+    fbanlist_locked: Wacht tot %s om weer fbanlist te gebruiken.
+    creating_fbanlist: Fbanlijst aanmaken! Een ogenblik geduld ..
+    fbanlist_done: Fbanlijst van federatie <b>%s</b>!
+    #/importfbans
+    send_import_file: |
+      Stuur het importbestand!
+
+      Gebruik /cancel om dit proces te annuleren
+    rpl_to_file: Reageer alstublieft op een bestand!
+    importfbans_locked: Importeren van fbans is geblokkeerd voor %s in deze federatie.
+    big_file_csv: Ondersteunt alleen import csv bestanden kleiner dan {num} megabytes!
+    big_file_json: |
+      Momenteel zijn json bestanden beperkt tot {num} megabytes!
+      Gebruik het csv formaat als je grotere bestanden wilt importeren.
+    invalid_file: "Het bestand is ongeldig"
+    wrong_file_ext: "Verkeerd bestandsformaat! Ondersteunde formaten zijn: json, csv"
+    importing_process: <b>Importeren federatie verbanningen...</b>
+    import_done: Importeren van federatie verbanningen voltooid! {num} verbanningen waren geïmporteerd.
+    #def
+    automatic_ban: Gebruiker {user} is verbannen in de huidige federatie {fed_name} en is verwijderd!
+    automatic_ban_sfed: Gebruiker {user} is verbannen in de sub federatie {fed_name} en is verwijderd!
+    automatic_ban_reason: "\nReden: {text}"
+    #/fcheck
+    fcheck_header: "Federatie ban info:\n"
+    fbanned_count_pm: "Je bent fbanned in {count} federatie(s)!\n"
+    "fban_info:fcheck": "Je bent fbanned in {fed} federatie op {date}, er is geen reden opgegeven!"
+    "fban_info:fcheck:reason": "Je bent fbanned in {fed} federatie op {date} om reden -\n {reason}\n"
+    fbanned_data: "{user} is fbanned in {count} federatie(s).\n"
+    fbanned_nowhere: "{user} is nergens fbanned!\n"
+    fbanned_in_fed: "Inclusief de <b>{fed}</b> federatie!\n"
+    "fbanned_in_fed:reason": "Inclusief de <b>{fed}</b> federatie om reden -\n <code>{reason}</code>"
+    contact_in_pm: "\n\nVoor meer info over je fbans, stuur me een direct bericht voor privacy!"
+    too_long_fbaninfo: "Goed! je fbans info vereist een bestand!"
+    didnt_fbanned: "Je bent niet fbanned in deze federatie."
+    not_fbanned_in_fed: Ze zijn niet fbanned in de <b>{fed_name}</b> federatie
+  reports:
+    user_user_admin: "Je bent hier een beheerder, waarom moet je iemand rapporteren?.."
+    user_is_whitelisted: "Je bent een gebruiker op de toegestane uitzonderingen lijst, waarom wil je iemand rapporteren?.."
+    reports_disabled: "Rapporten zijn momenteel <b>uitgeschakeld</b> in deze groep."
+    no_user_to_report: "Welke gebruiker wil je rapporteren?"
+    report_admin: "Je <b>kan geen</b> beheerders rapporteren."
+    report_whitedlisted: "Je <b>kan geen</b> gebruiker rapporteren die voorkomt op de toegestane lijst met uitzonderingen."
+    reported_user: "<b>Gerapporteerd</b> {user} <b>naar beheerders.</b>"
+    reported_reason: "\n<b>Reden:</b>\n<code>{reason}</code>"
+    reports_on: "Rapporten zijn ingeschakeld <b>in</b> deze groep."
+    reports_off: "Rapporten zijn <b>uitgeschakeld</b> in deze groep."
+    reports_already_on: "<b>Rapporten zijn al ingeschakeld.</b>"
+    reports_turned_on: "Rapporten zijn <b>ingeschakeld.</b>"
+    reports_already_off: "<b>Rapporten zijn al uitgeschakeld.</b>"
+    wrong_argument: "<b>Onjuist argument.</b>"
+  language:
+    your_lang: "Je huidige taal: <b>{lang}</b>"
+    chat_lang: "Huidige chat taal: <b>{lang}</b>"
+    select_pm_lang: "\n<b>Selecteer je nieuwe taal:</b>"
+    select_chat_lang: "\n<b>Selecteer nieuwe chat taal:</b>"
+    crowdin_btn: "🌎 Help ons met vertalingen"
+    help_us_translate: "\n\n<a href=\"https://crowdin.com/project/sophiebot\">🌎 Help ons talen te verbeteren</a>"
+    not_supported_lang: Deze taal wordt niet ondersteund!
+    lang_changed: Taal is gewijzigd naar <b>{lang_name}</b>.
+    see_translators: '👥 Bekijk vertalers'
+    back: Terug
+  connections:
+    pm_connected: "Je PM is succesvol verbonden met <b>{chat_name}</b>!"
+    connected_pm_to_me: "Je PM is succesvol verbonden met <b>{chat_name}</b>! Stuur me een privé bericht om met het gebruik van de verbinding te starten."
+    chat_connection_tlt: "<b>Chatverbinding</b>\n"
+    connected_chat: |
+      <b>Huidige verbonden chat:</b>
+      {chat_name}
+      Schrijf /disconect om verbinding te maken met de chat
+    "connected_chat:cmds": |
+      <b>Huidige verbonden chat:</b>
+      {chat_name}, (verbonden commando's zijn {commands}),
+      ⚠ <i>Je kunt alleen toegang krijgen tot de verbonden commando's van de aangesloten chat! Alle andere commando's worden behandeld als lokale chat</i>
+      Schrijf /disconect om verbinding te maken met de chat.
+    u_wasnt_connected: "Je was niet eerder verbonden met een chat!"
+    select_chat_to_connect: "\n<b>Selecteer een chat om te verbinden:</b>"
+    disconnected: "Je bent verbroken van <b>{chat_name}</b>."
+    cant_find_chat: "Ik kan deze chat niet vinden."
+    cant_find_chat_use_id: "Ik kan deze chat niet vinden. Gebruik chat ID."
+    bad_arg_bool: "Verkeerde keuze: alleen ondersteund <code>op</code>/<code>uit</code> <code>inschakelen</code>/<code>uitschakelen</code>"
+    enabled: ingeschakeld
+    disabled: uitgeschakeld
+    chat_users_connections_info: "Verbindingen voor normale gebruikers zijn momenteel <b>{status}</b> voor <b>{chat_name}</b>"
+    chat_users_connections_cng: "Verbindingen voor normale gebruikers veranderd naar <b>{status}</b> voor <b>{chat_name}</b>"
+    not_in_group: "Je bent niet in de groep waarmee je probeert te verbinden, word lid en stuur een bericht."
+    history_empty: "Je bent niet verbonden met een chat voor geschiedenis, verbind via `/connect (chat id)`"
+    not_in_chat: "Je bent niet meer in deze chat, ik verbreek de verbinding."
+    u_should_be_admin: "Je moet een beheerder zijn in {}!"
+    usage_only_in_groups: "Gebruik beperkt tot groepen!"
+    anon_admin_conn: |
+      Klik op de onderstaande knop om te verbinden!
+    click_here: Klik hier!
+  global:
+    u_not_admin: Je moet een beheerder zijn om dit te doen!
+    #Rights
+    "bot_no_right:not_admin": Ik ben geen beheerder!
+    bot_no_right: "Ik heb hier geen toestemming om {permission}!"
+    user_no_right: "Je hebt hier geen toestemming om {permission}!"
+    "user_no_right:not_admin": Je moet een beheerder zijn om het te kunnen doen!
+    #is chat creator
+    unable_identify_creator: "Kan anonieme chat maker niet identificeren, duplicaat handtekening (titels) gevonden!"
+  owner_stuff:
+    father: "\nHij is mijn maker."
+    sudo_crown: "\nHey! Kijk, die gebruiker heeft een kroon, laat me het zien... Wow, het heeft een gravure - <b>'sudo gebruiker'</b>!"
+  stickers:
+    rpl_to_sticker: "Reageer op een sticker!"
+    ur_sticker: |
+      <b>Emoji:</b> <code>{emoji}</code>
+      <b>Sticker ID:</b> <code>{id}</code>
+  pins:
+    no_reply_msg: "Reageer op een bericht om het vast te pinnen!"
+    chat_not_modified_pin: "Reageer op een bericht om het te verwijderen!"
+    chat_not_modified_unpin: "Dat bericht is al vastgezet!"
+    pinned_success: "Er is geen bericht vastgezet om los te maken!"
+    unpin_success: "Succesvol vastgezet!"
+  users:
+    user_info: "<b>Gebruikersinformatie:</b>\n"
+    info_id: "ID: <code>{id}</code>"
+    info_first: "\nVoornaam: {first_name}"
+    info_last: "\nAchternaam: {last_name}"
+    info_username: "\nGebruikersnaam: {username}"
+    info_link: "\nGebruikerslink: {user_link}"
+    info_saw: "\nIk zag ze in <code>{num}</code> groepen"
+    info_fbanned: "\nVerbannen in huidige Federatie: "
+    info_admeme: "\nGebruiker heeft beheerdersrechten in deze chat."
+    upd_cache: "Cache nu bijwerken..."
+    upd_cache_done: "Admins cache is bijgewerkt."
+    admins: "<b>Beheerder in deze groep:</b>\n"
+  imports_exports:
+    #Exporting
+    started_exporting: Exporteren gestart! Een ogenblik geduld...
+    export_done: Exporteren van <b>{chat_name}</b> gedaan!
+    exports_locked: Wacht %s voordat je opnieuw exporteert!
+    #Importing
+    invalid_file: "Het bestand is ongeldig"
+    send_import_file: Stuur een bestand voor importeren!
+    rpl_to_file: Reageer op een bestand!
+    big_file: Momenteel ondersteunen we alleen csv bestanden onder de {num} megabytes!
+    started_importing: Importeren gestart! Een ogenblik geduld...
+    bad_file: Slecht bestand! Verwacht <code>'algemeen'</code> kolom.
+    file_version_so_new: De geëxporteerde bestandversie is nieuwer dan wat Sophie momenteel ondersteunt!
+    imports_locked: Wacht %s alvorens je de importfunctie opnieuw gebruikt!
+    import_done: Importeren klaar!
+  restrictions:
+    user_not_in_chat: Gebruiker is niet in deze chat!
+    #Kicks
+    kick_sophie: In plaats van te proberen om me eruit te schoppen, zou je je tijd beter kunnen gebruiken. Dit is gewoon saai.
+    kick_admin: Beheerders eruit proberen te schoppen is nooit een slim idee.
+    kick_self: Als je jezelf eruit wilt schoppen - verlaat deze chat gewoon. Ik zie je liever niet dan toekijken hoe je met deze zielige pogingen jezelf probeert te straffen.
+    user_kicked: "{user} is gekickt door {admin} in {chat_name}."
+    #Mutes
+    mute_sophie: Eigenlijk zou ik je met plezier zelf het zwijgen op leggen.
+    mute_admin: Als je denkt dat je een beheerder het zwijgen op kan leggen, dan heb je het mis!
+    mute_self: Als je jezelf wilt dempen - stop dan gewoon met praten! Beter een dwaas denken dan je mond open doen en alle twijfel wegnemen.
+    user_muted: "{user} is gedempt door {admin} in {chat_name}."
+    unmute_sophie: Eigenlijk, ben ik niet gedempt.
+    unmute_admin: Maar, dat is geen goed idee!
+    unmute_self: Moet ik je eerst dempen?
+    user_unmuted: "{user} mag weer praten dankzij {admin} in {chat_name}."
+    #Bans
+    ban_sophie: Hmmm, het lijkt erop dat deze gebruiker geen berichten kan verzenden/right link!
+    ban_admin: Haha, laten we <code>/demote</code> hen eerst.
+    ban_self: Waarom probeer je jezelf te verbannen?
+    user_banned: "{user} is verbannen door {admin} in {chat_name}."
+    unban_sophie: Eigenlijk ben ik niet verbannen.
+    unban_admin: Haha nee, probeer ze eerst te verbannen!
+    unban_self: Moet ik je eerst verbannen?
+    user_unband: "{user}'s ban is verwijderd door {admin} in {chat_name}."
+    invalid_time: Ongeldige tijd!
+    enter_time: Gelieve een tijd op te geven!
+    on_time: "\nVoor <code>%s</code>"
+    reason: "\nReden: <code>%s</code>"
+    purge: "\nBerichten worden over 5 seconden gewist!"
+    filter_title_ban: Verbannen gebruiker
+    filter_action_rsn: <code>Automatische filteractie!</code>
+    filtr_ban_success: '%s verbannen %s voor %s'
+    filtr_mute_success: '%s gedempt %s voor %s'
+    filtr_tmute_success: |
+      %s gedempt %s voor %s
+      reden is %s
+    time_setup_start: Gelieve een tijd op te geven!
+    filtr_tban_success: |
+      %s verbannen %s voor %s
+      reden is %s
+    filter_title_tmute: tMute de gebruiker
+    filter_title_mute: Mute de gebruiker
+    filter_title_tban: tBan de gebruiker
+    filter_title_kick: Kick gebruiker
+  rules:
+    #Set
+    saved: Regels zijn opgeslagen in <b>%s</b>
+    updated: Regels zijn bijgewerkt in <b>%s</b>
+    #Reset
+    deleted: Regels zijn verwijderd!
+    not_found: Regels zijn niet gevonden!
+    #Callback
+    user_blocked: "Schrijf /start in mijn PM!"
+    rules_was_pmed: Regels zijn verstuurd via PM!
+  #cannot_find_note: "I can't find the note <code>{}</code>"
+  #set_note: "Successfully set the rules note to <code>{}</code>"
+  #didnt_set_note: "This group doesn't have rules note set."
+  #cannot_find_set_note: "I can't find the rules note."
+  #havent_set_rules_note: "You haven't set the rules note yet."
+  #success_remove_rules_note: "Successfully removed rules note in <b>{}</b>."
+  greetings:
+    default_welcome: "Welkom {mention}! Hoi?"
+    default_security_note: "Welkom {mention}! Druk op de knop hieronder ter verificatie dat je een mens bent!"
+    bool_invalid_arg: Ongeldig argument, verwacht <code>op</code>/<code>uit</code>.
+    #/setwelcome
+    saved: Welkomstbericht is opgeslagen in <b>%s</b>
+    updated: Welkomstbericht is bijgewerkt in <b>%s</b>
+    #/turnwelcome
+    turnwelcome_status: Welkoms is <code>{status}</code> in <b>{chat_name}</b>
+    turnwelcome_enabled: Welkomsbericht ingeschakeld in <b>%s</b>
+    turnwelcome_disabled: Welkomsbericht uitgeschakeld in <b>%s</b>
+    #/welcome
+    enabled: ingeschakeld
+    disabled: uitgeschakeld
+    wlcm_security_enabled: "ingeschakeld, gezet op {level}"
+    wlcm_mutes_enabled: "ingeschakeld, gezet op {time}"
+    welcome_info: |
+      <b>Welkomstbericht instellingen in {chat_name}:</b>
+      Welkomstbericht is <code>{welcomes_status}</code>
+      Welkomstbeveiliging is <code>{wlcm_security}</code>
+      Welkomdemping is <code>{wlcm_mutes}</code>
+      Verwijderen van oude verwelkomingen is <code>{clean_welcomes}</code>
+      Verwijderen van serviceberichten is <code>{clean_service}</code>
+    wlcm_note: "\n\nWelkomstbericht is:"
+    raw_wlcm_note: "Onopgemaakt welkomstbericht is:"
+    security_note: "Welkomstbeveiligingsmelding is:"
+    #/setsecuritynote
+    security_note_saved: "Aangepaste beveiligingstekst is opgeslagen <b>%s</b>"
+    security_note_updated: "Aangepaste beveiligingstekst is bijgewerkt <b>%s</b>"
+    #/delsecuritynote
+    security_note_not_found: Beveiligingstekst in <b>%s</b> is eerder nog niet ingesteld
+    del_security_note_ok: Beveiligingstekst is teruggezet naar standaard in <b>%s</b>
+    #/cleanwelcome
+    cleanwelcome_enabled: Opschonen van verwelkomingen ingeschakeld in <b>%s</b>
+    cleanwelcome_disabled: Opschonen van verwelkomingen uitgeschakeld in <b>%s</b>
+    cleanwelcome_status: Opschonen van verwelkomingen is <code>{status}</code> in <b>{chat_name}</b>
+    #/cleanservice
+    cleanservice_enabled: Opschonen van serviceberichten ingeschakeld in <b>%s</b>
+    cleanservice_disabled: Opschonen van serviceberichten uitgeschakeld in <b>%s</b>
+    cleanservice_status: Opschonen van serviceberichten is <code>{status}</code> in <b>{chat_name}</b>
+    #/welcomemute
+    welcomemute_invalid_arg: Ongeldig argument, verwacht een tijd.
+    welcomemute_enabled: Welkomstmute ingeschakeld in <b>%s</b>
+    welcomemute_disabled: Welkomstmute uitgeschakeld in <b>%s</b>
+    welcomemute_status: Welkomstmute is <code>{status}</code> in <b>{chat_name}</b>
+    #/welcomesecurity
+    welcomesecurity_enabled: Welkomstbeveiliging ingeschakeld in <b>{chat_name}</b> op <code>{level}</code>.
+    "welcomesecurity_enabled:customized_time": |
+      Welkomstbeveiliging ingeschakeld in <b>{chat_name}</b> op <code>{level}</code>, en kick gebruikers die niet geverifieerd zijn binnen {time}.
+    ask_for_time_customization: |
+      Wil je de tijdsperiode aanpassen om niet-geverifieerde gebruikers te kicken? (standaard is het {time})
+    send_time: Gelieve een tijd op te geven.
+    invalid_time: "Ongeldige tijd!"
+    welcomesecurity_enabled_word: ingeschakeld, gezet op niveau {level}
+    welcomesecurity_disabled: Welkomstbeveiliging is uitgeschakeld in <b>%s</b>.
+    welcomesecurity_invalid_arg: Ongeldig argument, verwacht <code>knop</code>/<code>captcha</code>.
+    welcomesecurity_status: Welkomstbeveiliging is <code>{status}</code> in <b>{chat_name}</b>
+    yes_btn: "Ja"
+    no_btn: "Nee"
+    #Welcomesecurity handler
+    click_here: Klik hier!
+    not_allowed: Je mag dit niet gebruiken!
+    ws_captcha_text: Hallo {user}, voer alstublieft het codenummer in om in de chat weer te mogen spreken.
+    regen_captcha_btn: '🔄 Verander captcha'
+    num_is_not_digit: Voer alsjeblieft alleen cijfers in!
+    bad_num: Verkeerd nummer! Probeer het opnieuw.
+    passed: Verificatie geslaagd, je mag weer praten in <b>%s</b>!
+    passed_no_frm: Verificatie geslaagd, je mag weer praten in %s!
+    last_chance: Je hebt nog een laatste kans om captcha in te voeren!
+    btn_button_text: "Klik op de knop hieronder om jezelf te bewijzen."
+    btn_wc_text: |
+      Druk op de juiste knop die bij deze uitdrukking hoort:
+      %s
+    math_wc_rtr_text: "Je hebt een laatste kans! Wees voorzichtig.\n"
+    math_wc_wrong: Verkeerd, probeer het opnieuw!
+    math_wc_sry: Sorry, je hebt de laatste poging gebruikt. Vraag de chatbeheerders.
+    not_admin_wm: Ik kan hier geen mensen beperken, dus ik gebruik geen welkomstmute!
+    not_admin_ws: Ik kan hier geen mensen beperken, dus ik gebruik geen welkomstbeveiliging!
+    not_admin_wsr: Ik kan hier geen berichten verwijderen, dus ik verwijder geen serviceberichten!
+    #/resetwelcome
+    deleted: Welkomstberichten succesvol gereset in <b>{chat}</b>!
+    not_found: Er is niets om opnieuw in te stellen!
+    #...
+    verification_done: Verificatie is voltooid! Je bent weer gedempt.
+  locks:
+    locks_header: "Hier zijn de huidige vergrendelingsinstellingen in {chat_title} \n\n"
+    no_lock_args: Geef me wat argumenten om te vergrendelen!
+    already_locked: Dit is al vergrendeld, bruh
+    no_such_lock: Zie /locks om te ontdekken wat kan worden vergrendeld en ontgrendeld!
+    locked_successfully: Succesvol {lock} vergrendeld in {chat}!
+    no_unlock_args: Geef me wat argumenten om te ontgrendelen!
+    not_locked: Bruh, het is niet vergrendeld om te ontgrendelen.
+    unlocked_successfully: Succesvol {lock} ontgrendeld in {chat}!
+  antiflood:
+    #enforcer
+    flood_exceeded: "{action} {user} voor overstroming!"
+    #/setflood
+    "invalid_args:setflood": "Verwachte een nummer!"
+    overflowed_count: Maximale hoeveelheid moet minder zijn dan 200!
+    config_proc_1: Geef de vervaltijd op, '0' (nul) voor niet vervalt.
+    cancel: '❌ Annuleren'
+    setup_success: Antiflood succesvol geconfigureerd, handhaaft nu tegen degenen die {count} berichten binnen {time} verzenden!
+    "setup_success:no_exp": Antiflood succesvol geconfigureerd, staat {count} berichten achtereenvolgend toe!
+    invalid_time: Ongeldige tijd!
+    #/antiflood | /flood
+    not_configured: Antiflood is nog niet geconfigureerd in deze chat!
+    turned_off: Antiflood is uitgeschakeld in <b>{chat_title}</b>!
+    "configuration_info:with_time": Antiflood is geconfigureerd in deze chat, degenen die {count} berichten binnen {time} verzenden zullen {action}!
+    configuration_info: Antiflood is geconfigureerd in deze chat, degenen die {count} achtereenvolgend zullen {action}!
+    ban: verbannen
+    mute: gedempt
+    kick: geknokt
+    #/setfloodaction
+    invalid_args: "Ongeldige actie, verwacht {supported_actions}!"
+    setfloodaction_success: "Succesvol bijgewerkt floodactie naar <b>{action}</b>!"
