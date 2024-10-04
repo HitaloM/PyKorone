@@ -1,4 +1,3 @@
----
 language_info:
   flag: "Saea"
   code: tr
@@ -60,6 +59,8 @@ STRINGS:
     disabled: 'Devre dışı bırakıldı'
     #/cleannotes
     clean_notes_enable: "<b>{chat_name}</b> grubunda temizleme servisi başarıyla etkinleştirildi"
+    clean_notes_enable_keep: "Son <i>{keep_num}</i> olayı saklıyor (tetik mesajı + not çıktısı)."
+    keep_num_invalid: "Sayı <i>0</i> ile <i>50</i> arasında olmalıdır."
     clean_notes_disable: "<b>{chat_name}</b> grubunda temizleme servisi başarıyla devre dışı bırakıldı"
     clean_notes_enabled: "<b>{chat_name}</b> grubunda temizleme servisi başarıyla <b>etkinleştirildi</b>"
     clean_notes_disabled: "<b>{chat_name}</b> grubunda temizleme servisi başarıyla <b>devre dışı bırakıldı</b>"
