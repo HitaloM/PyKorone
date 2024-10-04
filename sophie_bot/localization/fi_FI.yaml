@@ -1,0 +1,666 @@
+language_info:
+  flag: "🇺🇸"
+  code: en
+STRINGS:
+  notes:
+    #/save
+    note_saved: "🗒 Muistiinpano <code>{note_name}</code> tallennettu <b>{chat_title}</b>!"
+    note_updated: "🗒 Muistiinpano <code>{note_name}</code> päivitetty <b>{chat_title}</b>!"
+    you_can_get_note: "\nVoit noutaa tämän muistiinpanon käyttämällä <code>/get {note_name}</code>, tai <code>#{note_name}</code>"
+    #Translator note: please keep sure that you don't have space in the end of string
+    note_aliases: "\nMuistiinpanon alias:"
+    blank_note: "Tyhjän muistiinpanon tallentaminen ei ole sallittua!"
+    notename_cant_contain: "Muistiinpanon nimi ei voi sisältää \"<code>{symbol}</code>\"!"
+    #/get
+    cant_find_note: En löydä tätä muistiinpanoa <b>{chat_name}</b>!
+    no_note: "En löydä sitä muistiinpanoa."
+    no_notes_pattern: "Ei muistiinpanoja löytynyt kuvion <code>%s</code> mukaan"
+    u_mean: "\nTarkoitatko <code>#{note_name}</code>?"
+    #/notes
+    notelist_no_notes: "Ei ole muistiinpanoja <b>{chat_title}</b>!"
+    notelist_header: "<b>Muistiinpanot {chat_name}</b>:"
+    notes_in_private: "Napsauta alla olevaa painiketta saadaksesi muistiinpanojen luettelon."
+    notelist_search: |
+      <b>Kuvio:</b> <code>{request}</code>
+      <b>Vastaavat muistiinpanot:</b>
+    #/clear
+    note_removed: "Muistiinpano <code>#{note_name}</code> poistettu <b>{chat_name}</b>!"
+    note_removed_multiple: |
+      Poistettu useita muistiinpanoja <b>{chat_name}</b>
+      <b>Poistetut:</b><code>{removed}</code>
+    not_removed_multiple: "<b>Ei poistettu:</b><code>{not_removed}</code>"
+    #/clearall
+    clear_all_text: "Tämä poistaa kaikki muistiinpanot {chat_name}. Oletko varma?"
+    clearall_btn_yes: "Kyllä. Poista kaikki muistiinpanoni!"
+    clearall_btn_no: "Ei!"
+    clearall_done: "Kaikki (<code>{num}</code>) muistiinpanot {chat_name} poistettiin!"
+    #/search
+    search_header: |
+      <b>Hakupyyntö {chat_name}</b>:
+      <b>Kuvio:</b> <code>{request}</code>
+      <b>Vastaavat muistiinpanot:</b>
+    #/noteinfo
+    note_info_title: "<b>Muistiinpanon tiedot</b>\n"
+    note_info_note: "Muistiinpanon nimet: %s\n"
+    note_info_content: "Muistiinpanon sisältö: %s\n"
+    note_info_parsing: "Tulkitsemismoodi: <code>%s</code>\n"
+    note_info_created: "Luotu: <code>{date}</code> käyttäjän {user} toimesta\n"
+    note_info_updated: "Viimeksi päivitetty: <code>{date}</code> käyttäjän {user} toimesta\n"
+    user_blocked: "Kirjoita /start yksityisviestiini!"
+    #/privatenotes
+    private_notes_false_args: "Sinulla on 2 vaihtoehtoa <code>Poista</code> ja <code>Ota käyttöön</code>!"
+    already_enabled: "Yksityiset muistiinpanot on jo otettu käyttöön %s"
+    current_state_info: "Yksityiset muistiinpanot ovat tällä hetkellä <code>{state}</code> <b>{chat}</b>!"
+    enabled_successfully: "Yksityiset muistiinpanot ovat <b>Otetut käyttöön</b> %s onnistuneesti!"
+    disabled_successfully: "Yksityiset muistiinpanot ovat <b>Poistettu</b> %s onnistuneesti!"
+    not_enabled: "Yksityisiä muistiinpanoja ei ole otettu käyttöön."
+    privatenotes_notif: "Olet onnistuneesti yhdistetty <b>{chat}</b> muistiinpanoihin! Poistuaksesi, käytä komentoa <code>/disconnect</code>!"
+    enabled: 'Otetut käyttöön'
+    disabled: 'Poistettu'
+    #/cleannotes
+    clean_notes_enable: "Muistiinpanojen siivoaminen otettiin onnistuneesti käyttöön <b>{chat_name}</b>"
+    clean_notes_enable_keep: "Pidetään viimeiset <i>{keep_num}</i> tapahtumaa (liipaisuviesti + muistiinpanon tuloste)."
+    keep_num_invalid: "Numeron on oltava <i>0</i> ja <i>50</i> välillä."
+    clean_notes_disable: "Muistiinpanojen siivoaminen poistettiin onnistuneesti <b>{chat_name}</b>"
+    clean_notes_enabled: "Muistiinpanojen siivoaminen on tällä hetkellä <b>otettu käyttöön</b> <b>{chat_name}</b>"
+    clean_notes_disabled: "Muistiinpanojen siivoaminen on tällä hetkellä <b>poistettu</b> <b>{chat_name}</b>"
+    #Filter
+    filters_title: 'Lähetä muistiinpano'
+    filters_setup_start: 'Ole hyvä ja lähetä muistiinpanon nimi.'
+  #delmsg_no_arg: "deletemsg button can contain only 'admin' or 'user' argument!"
+  #bot_msg: "I'm sorry, I am not able to get this message, probably this a other bot's message, so I can't save it."
+  filters:
+    no_filters_found: "Ei suodattimia löytynyt <b>{chat_name}</b>!"
+    #/addfilter
+    anon_detected: Ollessasi nimettömänä ylläpitäjänä, et voi lisätä uusia suodattimia, käytä sen sijaan yhteyksiä.
+    regex_too_slow: "Regex-malli vastaa liian hitaasti (yli puoli sekuntia) eikä sitä voida lisätä!"
+    cancel_btn: "🛑 Peruuta"
+    adding_filter: |
+      Lisätään suodatin <code>{handler}</code> <b>{chat_name}</b>
+      Valitse toiminto alla:
+    saved: "Uusi suodatin tallennettiin onnistuneesti!"
+    #/filters
+    list_filters: "Suodattimet <b>{chat_name}</b>:\n"
+    #/delfilter
+    no_such_filter: En löydä sitä suodatinta <b>{chat_name}</b>, voit tarkistaa mitä suodattimia on otettu käyttöön <code>/filters</code> komennolla.
+    del_filter: "Suodatin, jonka käsittelijä on '<code>{handler}</code>' poistettiin onnistuneesti!"
+    select_filter_to_remove: |
+      Olen löytänyt useita suodattimia, joiden käsittelijä on '<code>{handler}</code>'.
+      Ole hyvä ja valitse yksi poistettavaksi:
+    #/delfilters or /delallfilters
+    not_chat_creator: Vain keskustelun luojat voivat käyttää tätä komentoa!
+    delall_header: Tämä poistaa kaikki suodattimet tästä keskustelusta. Tämä on peruuttamatonta.
+    confirm_yes: '⚠ Poista kaikki'
+    confirm_no: '❌ Peruuta'
+    delall_success: Kaikki ({count}) suodatinta poistettiin onnistuneesti tästä keskustelusta!
+  warns:
+    #/warn
+    warn_sofi: "Haha, ei tapaa varoittaa itseäni!"
+    warn_self: "Haluatko varoittaa itseäsi? Jätä sitten keskustelu."
+    warn_admin: "No.. olet väärässä. Et voi varoittaa ylläpitäjää."
+    warn: "{admin} on varoittanut {user} <b>{chat_name}</b>\n"
+    warn_bun: "Varoituksia on ylittynyt! {user} on banattu!"
+    warn_num: "Varoitukset: {curr_warns}/{max_warns}\n"
+    warn_rsn: "Syys: <code>{reason}</code>\n"
+    max_warn_exceeded: Varoitukset on ylittynyt! {user} on {action}!
+    "max_warn_exceeded:tmute": Varoitukset on ylittynyt! {user} on hiljennetty {time}!
+    #warn rmv callback
+    warn_no_admin_alert: "⚠ Et ole ylläpitäjä etkä voi poistaa varoituksia!"
+    warn_btn_rmvl_success: "✅ Varoitus poistettiin {admin}!"
+    #/warns
+    warns_header: "Tässä ovat varoituksesi tässä keskustelussa \n\n"
+    warns: "{count} : <code>{reason}</code> käyttäjän {admin}\n"
+    no_warns: "No, {user} ei ole varoituksia."
+    #/warnlimit
+    warn_limit: "Varoitusraja <b>{chat_name}</b> on tällä hetkellä: <code>{num}</code>"
+    warnlimit_short: 'Varoitusrajan on oltava vähintään 2!'
+    warnlimit_long: 'Varoitusrajan on oltava alle 1 000!'
+    warnlimit_updated: '✅ Varoitusraja päivitettiin onnistuneesti {num}'
+    #/delwarns
+    purged_warns: "{admin} nollasi <code>{num}</code> varoitusta käyttäjältä {user} <b>{chat_title}</b>!"
+    usr_no_wrn: "{user} ei ole varoituksia nollattavana."
+    rst_wrn_sofi: 'Sophie ei koskaan ollut varoituksia nollattavana.'
+    not_digit: Varoitusrajat pitäisi olla numeroita!
+    #/warnmode
+    same_mode: Tämä on nykyinen tila! Kuinka voin muuttaa sen?
+    no_time: Valittaessa tilaa 'tmute', sinun on mainittava aika!
+    invalid_time: Virheellinen aika!
+    warnmode_success: Varoitustila <b>%s</b> on onnistuneesti muutettu <b>%s</b>!
+    wrng_args: |
+      Nämä ovat saatavilla olevat vaihtoehdot:
+    mode_info: |
+      Nykyinen tila tässä keskustelussa on <b>%s</b>.
+    banned: banattu
+    muted: hiljennettiin
+    filters_title: Varoita käyttäjää
+    filter_handle_rsn: Automaattinen suodatin toiminta!
+  msg_deleting:
+    no_rights_purge: "Sinulla ei ole tarpeeksi oikeuksia puhdistaa tässä ryhmässä!"
+    reply_to_msg: "Vastaa viestiin poistaaksesi sen!"
+    purge_error: "En voi jatkaa puhdistusta, koska aloitat puhdistuksen viestistä, joka on lähetetty yli 2 päivää sitten."
+    fast_purge_done: "<b>Nopea puhdistus suoritettu!</b>\nTämä viesti poistetaan 5 sekunnissa."
+    purge_user_done: "Kaikki {user} viestit poistettiin onnistuneesti!"
+  misc:
+    your_id: "ID: <code>{id}</code>\n"
+    chat_id: "Ryhmän ID: <code>{id}</code>\n"
+    user_id: "{user} ID: <code>{id}</code>\n"
+    conn_chat_id: "Nykyinen yhdistetty keskustelu ID: <code>{id}</code>"
+    help_btn: "Napsauta minua saadaksesi apua!"
+    help_txt: "Napsauta alla olevaa painiketta saadaksesi apua!"
+    delmsg_filter_title: 'Poista viesti'
+    send_text: Ole hyvä ja lähetä vastausviesti!
+    replymsg_filter_title: 'Vastaaviin viesteihin'
+    send_customised_reason: Lähetä <i>syy</i>, jonka haluat sisällyttää toimenpideviestiin. "<code>Ei mitään</code>" <i>ilman syytä</i> annettavaksi!
+    expected_text: Odotin tekstiviestiä!
+  promotes:
+    promote_success: "{user} ylennettiin onnistuneesti {chat_name}!"
+    promote_title: "\nMukautetulla roolilla <code>{role}</code>!"
+    rank_to_loong: "Mukautetun roolin teksti ei voi olla pidempi kuin 16 merkkiä."
+    promote_failed: "Ylennys epäonnistui! Tarkista onko minulla oikeudet."
+    demote_success: "{user} alennettiin onnistuneesti {chat_name}!"
+    demote_not_admin: "Se käyttäjä ei ole ylläpitäjä."
+    demote_failed: "Alennus epäonnistui. Ehkä en voi alentaa tai henkilö on ylentänyt joku muu?"
+    cant_get_user: "En saanut käyttäjää! Jos voit, vastaa hänen viestiinsä ja yritä uudelleen."
+    cant_promote_yourself: "Et voi ylentää itseäsi."
+    emoji_not_allowed: "Anteeksi, mutta ylläpitäjien rooleissa ei voi olla emojeja 😞"
+  pm_menu:
+    start_hi_group: 'Hei! Nimeni on Sophie'
+    start_hi: "Hei! Nimeni on Sophie, autan sinua hallitsemaan ryhmääsi tehokkaasti!"
+    btn_add: "➕ Lisää minut keskusteluusi"
+    btn_help: "❔ Apua"
+    btn_lang: "🇺🇦 Kieli"
+    btn_chat: "👥 Sophie Ryhmä"
+    btn_channel: "📡 Sophie Uutiset"
+    back: Takaisin
+    #/help
+    help_header: Hei! Tutustu wikiimme saadaksesi apua
+    click_btn: Napsauta tätä
+  disable:
+    #/disableable
+    disablable: "<b>Poistettavat komennot:</b>\n"
+    #/disabled
+    no_disabled_cmds: Ei poistettuja komentoja <b>{chat_name}</b>!
+    disabled_list: "<b>Poistetut komennot {chat_name}:</b>\n"
+    #/disable
+    wot_to_disable: "Mitä haluat poistaa?"
+    already_disabled: "Tämä komento on jo poistettu!"
+    disabled: "Komentoa <code>{cmd}</code> on poistettu <b>{chat_name}</b>!"
+    #/enable
+    wot_to_enable: "Mitä haluat ottaa käyttöön?"
+    already_enabled: "Tämä komento ei ole poistettu!"
+    enabled: "Komentoa <code>{cmd}</code> on otettu käyttöön <b>{chat_name}</b>!"
+    #/enableall
+    not_disabled_anything: "Ei mitään poistettu <b>{chat_title}</b>!"
+    enable_all_text: "Tämä ottaa käyttöön kaikki komennot <b>{chat_name}</b>. Oletko varma?"
+    enable_all_btn_yes: "Kyllä. Ota kaikki komennot käyttöön!"
+    enable_all_btn_no: "Ei!"
+    enable_all_done: "Kaikki (<code>{num}</code>) komennot on otettu käyttöön <b>{chat_name}</b>!"
+  bot_rights:
+    change_info: "Minulla ei ole oikeuksia muuttaa ryhmän tietoja, tee minut ylläpitäjäksi tälle oikeudelle."
+    edit_messages: "Minulla ei ole oikeuksia muokata viestejä!"
+    delete_messages: "Minulla ei ole oikeuksia poistaa viestejä täällä."
+    ban_user: "Minulla ei ole oikeuksia banata käyttäjiä, tee minut ylläpitäjäksi tälle oikeudelle."
+    pin_messages: "Minulla ei ole oikeuksia kiinnittää viestejä, tee minut ylläpitäjäksi tälle oikeudelle."
+    add_admins: "Minulla ei ole oikeuksia lisätä ylläpitäjiä, tee minut ylläpitäjäksi tälle oikeudelle."
+  feds:
+    #decorators
+    need_fed_admin: "Et ole ylläpitäjä <b>{name}</b> federaatiossa"
+    need_fed_owner: "Et ole omistaja <b>{name}</b> federaatiossa"
+    cant_get_user: "Anteeksi, en voi saada tuota käyttäjää, yritä käyttää heidän käyttäjätunnustaan"
+    #/fnew
+    fed_name_long: "Federaation nimen on oltava enintään 60 merkkiä!"
+    can_only_1_fed: "Käyttäjät voivat luoda vain yhden federaation, poista yksi."
+    name_not_avaible: "Federaatio nimeltä <code>{name}</code> on jo olemassa! Käytä toista nimeä."
+    created_fed: |
+      Onnittelut, olet onnistuneesti luonut federaation.
+      <b>Nimi:</b> {name}
+      <b>ID:</b> <code>{id}</code>
+      <b>Luoja:</b> {creator}
+      Käytä <code>/fjoin {id}</code> yhdistääksesi federaation keskusteluun\
+    disallow_anon: Nimettömänä ylläpitäjänä et voi luoda uutta federaatiota!
+    #/fjoin
+    only_creators: "Sinun on oltava keskustelun luoja, jotta voit liittää keskustelun federaatioon."
+    fed_id_invalid: "Annettu federaation ID on virheellinen! Anna minulle voimassa oleva ID."
+    joined_fed_already: "Tämä keskustelu on jo liittynyt federaatioon! Käytä /fleave poistuaksesi tuosta federaatiosta"
+    join_fed_success: "Hienoa! Keskustelu <b>{chat}</b> on nyt osa <b>{fed}</b> federaatiota!"
+    join_chat_fed_log: |
+      <b>Keskustelu liittyi federaatioon</b> #ChatJoined
+      <b>Fed:</b> {fed_name} (<code>{fed_id}</code>)
+      <b>Keskustelu:</b> {chat_name} (<code>{chat_id}</code>)
+    #/leavefed
+    chat_not_in_fed: "Tämä keskustelu ei ole vielä missään federaatiossa."
+    leave_fed_success: "Keskustelu <b>{chat}</b> lähti <b>{fed}</b> federaatiosta."
+    leave_chat_fed_log: |
+      <b>Keskustelu lähti federaatiosta</b> #ChatLeaved
+      <b>Fed:</b> {fed_name} (<code>{fed_id}</code>)
+      <b>Keskustelu:</b> {chat_name} (<code>{chat_id}</code>)
+    #/fsub
+    already_subsed: "Federaatio <b>{name}</b> on jo tilattu <b>{name2}</b>"
+    subsed_success: "Federaatio <b>{name}</b> tilattiin <b>{name2}</b>!"
+    #/funsub
+    not_subsed: "Sopimus <b>{name}</b> ei ole tilannut <b>{name2}</b>"
+    unsubsed_success: "Sopimus <b>{name}</b> perui tilauksen <b>{name2}</b>!"
+    #/fpromote
+    #admin_already_in_fed: "User {user} is already a fed admin in <b>{name}</b> Federation."
+    admin_added_to_fed: "Käyttäjä {user} lisättiin <b>{name}</b> sopimuksen ylläpitäjiksi."
+    promote_user_fed_log: |
+      <b>Käyttäjä nostettu sopimuksen ylläpitäjiksi</b> #UserPromoted
+      <b>Sopimus:</b> {fed_name} (<code>{fed_id}</code>)
+      <b>Käyttäjä:</b> {user} (<code>{user_id}</code>)
+    "restricted_user:promote": Tätä käyttäjää on rajoitettu tulemasta sopimuksen ylläpitäjäksi!
+    #/fdemote
+    #admin_not_in_fed: "User {user} is not <b>{name}</b> Federation admin."
+    admin_demoted_from_fed: "Käyttäjä {user} alennettiin <b>{name}</b> sopimuksen ylläpitäjiltä."
+    demote_user_fed_log: |
+      <b>Käyttäjä alennettu sopimuksen ylläpitäjiltä</b> #UserDemoted
+      <b>Sopimus:</b> {fed_name} (<code>{fed_id}</code>)
+      <b>Käyttäjä:</b> {user} (<code>{user_id}</code>)
+    #/fsetlog
+    already_have_chatlog: "<b>{name}</b> sopimuksessa on jo lokitus aktivoituna toisessa keskustelussa/kanavassa!"
+    set_chat_log: |
+      Tämä keskustelu tallentaa nyt kaikki toiminnot <b>{name}</b> sopimuksessa
+
+      Sopimuksen lokitusta käytetään sisäiseen arviointiin sopimuksesta ja sen suorituskyvystä.
+      Sopimusta ei <b>PIDÄ</b> käyttää julkisena häpeäseinänä, kunnioittaen käyttäjätietoja ja yksityisyysohjeitamme.
+    set_log_fed_log: |
+      <b>Lokitus aktivoitu</b> #LoggingEnabled
+      <b>Sopimus:</b> {fed_name} (<code>{fed_id}</code>)
+    no_right_to_post: Minulla ei ole oikeuksia lähettää viestejä tuossa kanavassa!
+    #/funsetlog
+    not_logging: "<b>{name}</b> sopimus ei lokita mihinkään keskusteluun/kanavaan!"
+    logging_removed: "Lokitus poistettiin onnistuneesti <b>{name}</b> sopimuksesta."
+    unset_log_fed_log: |
+      <b>Lokitus pois käytöstä</b> #LoggingDisabled
+      <b>Sopimus:</b> {fed_name} (<code>{fed_id}</code>)
+    #/fchatlist
+    no_chats: "Tässä <b>{name}</b> sopimuksessa ei ole liitettyjä keskusteluja"
+    chats_in_fed: "<b>Keskustelut, jotka on liitetty {name} sopimukseen:</b>\n"
+    too_large: "Tuloste on liian suuri, lähetetään tiedostona"
+    #/finfo
+    finfo_text: |
+      <b>Sopimusinfo</b>
+      <b>Nimi:</b> {name}
+      <b>ID:</b> <code>{fed_id}</code>
+      <b>Luojan:</b> {creator}
+      <b>Keskustelut sopimuksessa:</b> {chats}
+      <b>Kielletyt käyttäjät sopimuksessa:</b> {fbanned}
+    finfo_subs_title: "<b>Sopimukset, jotka on liitetty näihin sopimuksiin:</b>\n"
+    #/fadminlist
+    fadmins_header: "Ylläpitäjät <b>{fed_name}</b> sopimuksessa:\n"
+    #no_fbanned_in_fed: "There isn't any banned users in {fed_name} Federation!"
+    #/fban
+    user_wl: "Tätä käyttäjää on valkoistettu kieltämisestä."
+    fban_self: "Se on hieno esitys!"
+    fban_creator: "Kuinka voin kieltää sopimuksen luojan?! En usko, että tämä tulee olemaan hauskaa."
+    fban_fed_admin: "En aio kieltää sopimuksen ylläpitäjää omasta sopimuksestaan!"
+    update_fban: "Tätä käyttäjää on jo kielletty, joten päivitän syyn <code>{reason}</code>"
+    already_fbanned: "{user} on jo kielletty tässä sopimuksessa."
+    fbanned_header: "<b>Uusi FedBan</b>\n"
+    fban_info: |
+      <b>Sopimus:</b> {fed}
+      <b>Sopimus ylläpitäjä:</b> {fadmin}
+      <b>Käyttäjä:</b> {user} (<code>{user_id}</code>)
+    fbanned_reason: "<b>Syy:</b> <code>{reason}</code>"
+    fbanned_process: "\n<b>Tilanne:</b> Kieltäminen <code>{num}</code> sopimuskeskustelussa..."
+    fbanned_done: "\n<b>Tilanne:</b> Valmis! Kielletty <code>{num}</code> keskustelussa!"
+    fbanned_silence: "Tämä viesti poistetaan 5 sekunnissa"
+    fbanned_subs_process: "\n<b>Tilanne:</b> Kieltäminen <code>{feds}</code> liitetyissä sopimuksissa..."
+    fbanned_subs_done: "\n<b>Tilanne:</b> Valmis! Kielletty <code>{chats}</code> keskustelussa tämän sopimuksen ja <code>{subs_chats}</code> keskustelussa <code>{feds}</code> liitetyissä sopimuksissa"
+    fban_usr_rmvd: |
+      Käyttäjä {user} on tällä hetkellä kielletty <b>{fed}</b> sopimuksessa ja on poistettu!
+      Syy: <code>{rsn}</code>
+    fban_log_fed_log: |
+      <b>Käyttäjän kieltäminen sopimuksessa</b> #FedBan
+      <b>Sopimus:</b> {fed_name} (<code>{fed_id}</code>)
+      <b>Käyttäjä:</b> {user} ({user_id})
+      <b>By:</b> {by}
+      <b>Keskustelut kielletty:</b> käyttäjä kielletty <code>{chat_count}</code>/<code>{all_chats}</code> keskustelusta
+    fban_reason_fed_log: "<b>Syy:</b> <code>{reason}</code>\n"
+    fban_subs_fed_log: "\n<b>Liitetyt sopimukset:</b> kielletty <code>{subs_chats}</code> keskustelussa <code>{feds}</code> sopimuksissa"
+    #/unfban
+    unfban_self: "Mieti jotain muuta hauskaa tämän sijaan."
+    user_not_fbanned: "{user} ei ole kielletty tässä sopimuksessa."
+    un_fbanned_header: "<b>Uusi Un-FedBan</b>\n"
+    un_fbanned_process: "\n<b>Tilanne:</b> Vapautus <code>{num}</code> keskustelusta..."
+    un_fbanned_done: "\n<b>Tilanne:</b> Valmis! Vapautettu <code>{num}</code> keskustelusta!"
+    un_fbanned_subs_process: "\n<b>Tilanne:</b> Vapautus <code>{feds}</code> liitetyistä sopimuksista..."
+    un_fbanned_subs_done: "\n<b>Tilanne:</b> Valmis! Vapautettu <code>{chats}</code> keskustelusta tämän sopimuksen ja <code>{subs_chats}</code> keskustelusta <code>{feds}</code> liitetyissä sopimuksissa"
+    un_fban_log_fed_log: |
+      <b>Vapauta käyttäjä sopimuksessa</b> #FedUnBan
+      <b>Sopimus:</b> {fed_name} (<code>{fed_id}</code>)
+      <b>Käyttäjä:</b> {user} ({user_id})
+      <b>By:</b> {by}
+      <b>Keskustelut:</b> käyttäjä vapautettu <code>{chat_count}</code>/<code>{all_chats}</code> keskustelusta
+    un_fban_subs_fed_log: "\n<b>Liitetyt sopimukset:</b> vapautettu <code>{subs_chats}</code> keskustelussa <code>{feds}</code> sopimuksissa"
+    #/delfed
+    delfed_btn_yes: Kyllä. Poista sopimus
+    delfed_btn_no: Ei.
+    delfed: |
+      Oletko varma, että haluat poistaa <b>%s</b> sopimuksen?
+
+      <i>Huomautus: Tämän sopimuksen poistaminen poistaa kaikki siihen liittyvät tiedot tietokannastamme!
+      Tämä toimenpide on pysyvä eikä sitä voida kumota!</i>
+    delfed_success: Sopimus on poistettu onnistuneesti!
+    #/frename
+    frename_same_name: Syötä toinen nimi, ei samaa!
+    frename_success: Sopimus <b>{old_name}</b> nimettiin uudelleen <b>{new_name}</b> onnistuneesti!
+    #/fbanlist
+    fbanlist_locked: Ole hyvä ja odota %s ennen kuin käytät uudelleen fbanlist.
+    creating_fbanlist: Luodaan fban-listaa! Ole hyvä ja odota ..
+    fbanlist_done: Fban-lista sopimuksesta <b>%s</b>!
+    #/importfbans
+    send_import_file: |
+      Lähetä tuontitiedosto!
+
+      Keskeyttääksesi tämän prosessin käytä /cancel
+    rpl_to_file: Ole hyvä ja vastaa tiedostoon!
+    importfbans_locked: Fbans-tuonti on lukittu %s tässä sopimuksessa.
+    big_file_csv: Tukee vain enintään {num} megatavun csv-tuontitiedostoja!
+    big_file_json: |
+      Tällä hetkellä json-tiedostot on rajoitettu {num} megatavuun!
+      Jos haluat tuoda suurempia tiedostoja, käytä csv-muotoa.
+    invalid_file: "Tiedosto on virheellinen"
+    wrong_file_ext: "Väärä tiedostomuoto! Tällä hetkellä tuetaan: json, csv"
+    importing_process: <b>Fbansin tuonti...</b>
+    import_done: Fbansin tuonti valmis! {num} kieltoa tuotiin.
+    #def
+    automatic_ban: Käyttäjä {user} on bannattu nykyisessä liittovaltiossa {fed_name} ja on poistettu!
+    automatic_ban_sfed: Käyttäjä {user} on bannattu alaliitossa {fed_name} ja on poistettu!
+    automatic_ban_reason: "\nSyynä: {text}"
+    #/fcheck
+    fcheck_header: "Liittovaltion bannausinfo:\n"
+    fbanned_count_pm: "Olet fbannattu {count} federaatiossa!\n"
+    "fban_info:fcheck": "Olet kielletty {fed} sopimuksessa päivämäärällä {date}, syytä ei annettu!"
+    "fban_info:fcheck:reason": "Olet kielletty {fed} sopimuksessa päivämäärällä {date} syystä -\n {reason}\n"
+    fbanned_data: "{user} on fbannattu {count} federaatiossa.\n"
+    fbanned_nowhere: "{user} ei ole kielletty missään!\n"
+    fbanned_in_fed: "Sisältäen <b>{fed}</b> sopimuksen!\n"
+    "fbanned_in_fed:reason": "Sisältäen <b>{fed}</b> sopimuksen syystä -\n <code>{reason}</code>"
+    contact_in_pm: "\n\nLisätietoja fbansista saat lähettämällä minulle suoran viestin yksityisyyden vuoksi!"
+    too_long_fbaninfo: "No niin! fbansinfo vaatii tiedoston!"
+    didnt_fbanned: "Et ole kielletty tässä sopimuksessa."
+    not_fbanned_in_fed: He eivät ole kielletty <b>{fed_name}</b> sopimuksessa
+  reports:
+    user_user_admin: "Olet ylläpitäjä täällä, miksi sinun tarvitsee raportoida joku?.."
+    user_is_whitelisted: "Olet valkoistetun käyttäjä, miksi sinun tarvitsee raportoida joku?.."
+    reports_disabled: "Raportointi on tällä hetkellä <b>poistettu käytöstä</b> tässä ryhmässä."
+    no_user_to_report: "Minkä käyttäjän haluat raportoida?"
+    report_admin: "Et <b>voi</b> raportoida ylläpitäjiä."
+    report_whitedlisted: "Et <b>voi</b> raportoida valkoistettua käyttäjää."
+    reported_user: "<b>Raportoitu</b> {user} ylläpitäjille."
+    reported_reason: "\n<b>Syy:</b>\n<code>{reason}</code>"
+    reports_on: "Raportointi on kytketty <b>päälle</b> tässä ryhmässä."
+    reports_off: "Raportointi on kytketty <b>pois</b> tässä ryhmässä."
+    reports_already_on: "<b>Raportointi on jo kytketty päälle.</b>"
+    reports_turned_on: "Raportointi kytketty <b>päälle.</b>"
+    reports_already_off: "<b>Raportointi on jo kytketty pois.</b>"
+    wrong_argument: "<b> Väärä argumentti. </b>"
+  language:
+    your_lang: "Nykyinen kielesi: <b>{lang}</b>"
+    chat_lang: "Nykyisen keskustelun kieli: <b>{lang}</b>"
+    select_pm_lang: "\n<b>Valitse uusi kieli:</b>"
+    select_chat_lang: "\n<b>Valitse uusi keskustelunkieli:</b>"
+    crowdin_btn: "🌎 Auta meitä käännöksessä"
+    help_us_translate: "\n\n<a href=\"https://crowdin.com/project/sophiebot\">🌎 Auta me parantamaan käännöksiämme</a>"
+    not_supported_lang: Tätä kieltä ei tueta!
+    lang_changed: Kieli muutettiin <b>{lang_name}</b>.
+    see_translators: '👥 Katso kääntäjät'
+    back: Takaisin
+  connections:
+    pm_connected: "Yksityisviestisi on onnistuneesti yhdistetty <b>{chat_name}</b>!"
+    connected_pm_to_me: "Yksityisviestisi on onnistuneesti yhdistetty <b>{chat_name}</b>! Ole hyvä ja lähetä minulle viesti käyttääkksesi yhteyttä."
+    chat_connection_tlt: "<b>Keskusteluyhteys</b>\n"
+    connected_chat: |
+      <b>Nykyinen yhdistetty keskustelu:</b>
+      {chat_name}
+      Kirjoita /disconect irrottaaksesi keskustelusta
+    "connected_chat:cmds": |
+      <b>Nykyinen yhdistetty keskustelu:</b>
+      {chat_name}, (siltojen komennot ovat {commands}),
+      ⚠ <i>Voit käyttää vain yhdistetyn keskustelun siltojen komentoja! Kaikista muista komennoista käsitellään paikallisena keskusteluna</i>
+      Kirjoita /disconect irrottaaksesi keskustelusta.
+    u_wasnt_connected: "Et ollut yhdistettynä mihinkään keskusteluun aiemmin!"
+    select_chat_to_connect: "\n<b>Valitse keskustelu yhdistettäväksi:</b>"
+    disconnected: "Olet irrottanut <b>{chat_name}</b>."
+    cant_find_chat: "En voi löytää tätä keskustelua."
+    cant_find_chat_use_id: "En löydä tätä keskustelua. Käytä keskustelun ID:tä."
+    bad_arg_bool: "Huono valinta: tuetaan vain <code>on</code>/<code>off</code> <code>enable</code>/<code>disable</code>"
+    enabled: aktivoitu
+    disabled: poistettu käytöstä
+    chat_users_connections_info: "Pääkäyttäjille on tällä hetkellä <b>{status}</b> <b>{chat_name}</b> keskustelussa"
+    chat_users_connections_cng: "Pääkäyttäjille on muutettu <b>{status}</b> <b>{chat_name}</b> keskustelussa"
+    not_in_group: "Et ole ryhmässä, johon yrität yhdistää, liity ja lähetä viesti."
+    history_empty: "Et ole yhdistettynä mihinkään keskusteluun historiaksi, yhdistä käyttämällä `/connect (chat id)`"
+    not_in_chat: "Et ole enää tässä keskustelussa, irrotan sinut."
+    u_should_be_admin: "Sinun tulisi olla ylläpitäjä {}!"
+    usage_only_in_groups: "Käyttö rajattu vain ryhmiin!"
+    anon_admin_conn: |
+      Ole hyvä ja napsauta alla olevaa painiketta yhdittääksesi!
+    click_here: Napsauta täällä!
+  global:
+    u_not_admin: Sinun pitäisi olla ylläpitäjä tehdäksesi tämän!
+    #Rights
+    "bot_no_right:not_admin": En ole ylläpitäjä!
+    bot_no_right: "Minulla ei ole oikeutta {permission} täällä!"
+    user_no_right: "Sinulla ei ole oikeutta {permission} täällä!"
+    "user_no_right:not_admin": Sinun pitäisi olla ylläpitäjä tehdäksesi tämän!
+    #is chat creator
+    unable_identify_creator: "Voimattomaksi jääneen keskustelun luojan tunnistaminen ei ole mahdollista, löytyi duplicaatin allekirjoitus (otsikot)!"
+  owner_stuff:
+    father: "\nHän on luojani."
+    sudo_crown: "\nHei! Katso, että käyttäjällä on kruunu, anna minun nähdä se... Vau, siihen on kaiverrettu - <b>'sudo käyttäjä'</b>!"
+  stickers:
+    rpl_to_sticker: "Vastaa tarraan!"
+    ur_sticker: |
+      <b>Emoji:</b> <code>{emoji}</code>
+      <b>Tarran ID:</b> <code>{id}</code>
+  pins:
+    no_reply_msg: "Vastaa viestiin kiinnittääksesi!"
+    chat_not_modified_pin: "Tätä viestiä on jo kiinnitetty!"
+    chat_not_modified_unpin: "Ei ole mitään kiinnitettyä viestiä irrotettavaksi!"
+    pinned_success: "Onnistui kiinnittää!"
+    unpin_success: "Onnistui irrottaa!"
+  users:
+    user_info: "<b>Käyttäjätiedot:</b>\n"
+    info_id: "ID: <code>{id}</code>"
+    info_first: "\nEtunimi: {first_name}"
+    info_last: "\nSukunimi: {last_name}"
+    info_username: "\nKäyttäjänimi: {username}"
+    info_link: "\nKäyttäjän linkki: {user_link}"
+    info_saw: "\nNäin heidät <code>{num}</code> ryhmässä"
+    info_fbanned: "\nKielletty nykyisessä Sopimuksessa: "
+    info_admeme: "\nKäyttäjällä on ylläpitämä oikeudet tässä keskustelussa."
+    upd_cache: "Päivitän välimuistin nyt..."
+    upd_cache_done: "Ylläpitäjien välimuisti on päivitetty."
+    admins: "<b>Ylläpitäjät tässä ryhmässä:</b>\n"
+  imports_exports:
+    #Exporting
+    started_exporting: Vienti alkoi! Ole hyvä ja odota...
+    export_done: Vienti <b>{chat_name}</b> valmis!
+    exports_locked: Ole hyvä ja odota %s ennen kuin käytät vientiä uudelleen!
+    #Importing
+    invalid_file: "Tiedosto on virheellinen"
+    send_import_file: Ole hyvä ja lähetä tiedosto tuontia varten!
+    rpl_to_file: Ole hyvä ja vastaa tiedostoon!
+    big_file: Vain alle 50 MB tiedostoja tuetaan!
+    started_importing: Tuonti aloitettu! Ole hyvä ja odota...
+    bad_file: Väärä tiedosto! Odotettiin <code>'general'</code> saraketta.
+    file_version_so_new: Viedyn tiedoston versio on uudempi kuin mitä Sophie tällä hetkellä tukee!
+    imports_locked: Ole hyvä ja odota %s ennen kuin käytät tuontia uudelleen!
+    import_done: Tuonti valmis!
+  restrictions:
+    user_not_in_chat: Käyttäjää ei ole tässä keskustelussa!
+    #Kicks
+    kick_sophie: Sen sijaan että yrittäisit heittää minut ulos, voisit käyttää aikasi paremmin. Se on vain tylsää.
+    kick_admin: Ylläpitäjän heittäminen ulos ei ole ehkä paras idea.
+    kick_self: Jos haluat heittää itsesi ulos, jätä vain tämä keskustelu. En haluaisi nähdä sinua ennemmin kuin katsoa näitä surullisia itsekurin yrityksiä.
+    user_kicked: "{user} heitettiin ulos {admin} toimesta keskustelussa {chat_name}."
+    #Mutes
+    mute_sophie: Itse asiassa, olen iloinen puhuessasi sen sijaan.
+    mute_admin: Jos luulet, että voit vaimentaa ylläpitäjän, olet väärässä!
+    mute_self: Jos haluat vaimentaa itsesi, lopeta vain puhuminen! Parempi olla tyhmän näköinen kuin avata suusi ja poistaa kaikki epäilykset.
+    user_muted: "{user} vaiennettiin {admin} toimesta keskustelussa {chat_name}."
+    unmute_sophie: Itse asiassa, en ole vaiennettu.
+    unmute_admin: Haha ei, yritä vaimentaa heidät ensin!
+    unmute_self: Pitäisikö minun vaimentaa sinut ensin?
+    user_unmuted: "{user} vapautettiin vaitiolosta {admin} toimesta keskustelussa {chat_name}."
+    #Bans
+    ban_sophie: Ei, en aio tehdä sitä! Pyydä keskustelun luojaa tekemään se!
+    ban_admin: Haha, yrittäkäämme ensin <code>/demote</code> heidät.
+    ban_self: Miksi yrität heittää itsesi ulos?
+    user_banned: "{user} heitettiin ulos {admin} toimesta keskustelussa {chat_name}."
+    unban_sophie: Itse asiassa, en ole heitetty ulos.
+    unban_admin: Haha ei, yritä heittää heidät ensin ulos!
+    unban_self: Pitäisikö minun heittää sinut ensin ulos?
+    user_unband: "{user} vapautettiin heittämisestä {admin} toimesta keskustelussa {chat_name}."
+    invalid_time: Virheellinen aika!
+    enter_time: Ole hyvä ja määrittele aika!
+    on_time: "\nKohdisti <code>%s</code>"
+    reason: "\nSyynä: <code>%s</code>"
+    purge: "\nViestejä puhdistetaan 5 sekunnin kuluttua!"
+    filter_title_ban: Käyttäjän bannaus
+    filter_action_rsn: <code>Automaattinen suodatin toiminto!</code>
+    filtr_ban_success: '%s bannasi %s %s'
+    filtr_mute_success: '%s vaimensi %s %s'
+    filtr_tmute_success: |
+      %s vaimensi %s %s
+      syy on %s
+    time_setup_start: Ole hyvä ja määrittele aika!
+    filtr_tban_success: |
+      %s bannasi %s %s
+      syy on %s
+    filter_title_tmute: tMute käyttäjän
+    filter_title_mute: Vaimea käyttäjän
+    filter_title_tban: tBannaa käyttäjän
+    filter_title_kick: Heitä ulos käyttäjä
+  rules:
+    #Set
+    saved: Säännöt on tallennettu <b>%s</b>
+    updated: Säännöt on päivitetty <b>%s</b>
+    #Reset
+    deleted: Säännöt on poistettu!
+    not_found: Sääntöjä ei löytynyt!
+    #Callback
+    user_blocked: "Kirjoita /start yksityisviestissäni!"
+    rules_was_pmed: Säännöt on lähetetty yksityisviestissäsi!
+  #cannot_find_note: "I can't find the note <code>{}</code>"
+  #set_note: "Successfully set the rules note to <code>{}</code>"
+  #didnt_set_note: "This group doesn't have rules note set."
+  #cannot_find_set_note: "I can't find the rules note."
+  #havent_set_rules_note: "You haven't set the rules note yet."
+  #success_remove_rules_note: "Successfully removed rules note in <b>{}</b>."
+  greetings:
+    default_welcome: "Tervetuloa {mention}! Miten menee?"
+    default_security_note: "Tervetuloa {mention}! Ole hyvä ja paina alla olevaa painiketta vahvistaaksesi itsesi ihmiseksi!"
+    bool_invalid_arg: Virheellinen argumentti, odotettiin <code>on</code>/<code>off</code>.
+    #/setwelcome
+    saved: Tervetuloviesti on tallennettu <b>%s</b>
+    updated: Tervetuloviesti on päivitetty <b>%s</b>
+    #/turnwelcome
+    turnwelcome_status: Tervetulossa on <code>{status}</code> <b>{chat_name}</b>
+    turnwelcome_enabled: Tervetulossa on <b>%s</b>
+    turnwelcome_disabled: Tervetulossa on poistettu <b>%s</b>
+    #/welcome
+    enabled: käytössä
+    disabled: pois käytöstä
+    wlcm_security_enabled: "käytössä, asetettu tasolle {level}"
+    wlcm_mutes_enabled: "käytössä, asetettu ajaksi {time}"
+    welcome_info: |
+      <b>Tervetulon asetukset {chat_name}:</b>
+      Tervetulossa on <code>{welcomes_status}</code>
+      Tervetulon suojaus on <code>{wlcm_security}</code>
+      Tervetulon vaimennus on <code>{wlcm_mutes}</code>
+      Vanhojen tervetuloja poistaminen on <code>{clean_welcomes}</code>
+      Palveluviestien poistaminen on <code>{clean_service}</code>
+    wlcm_note: "\n\nTervetuloviesti on:"
+    raw_wlcm_note: "Raaka tervetuloviesti on:"
+    security_note: "Tervetulon suojausteksti on:"
+    #/setsecuritynote
+    security_note_saved: "Mukautettu suojausteksti on tallennettu <b>%s</b>"
+    security_note_updated: "Mukautettu suojausteksti on päivitetty <b>%s</b>"
+    #/delsecuritynote
+    security_note_not_found: Suojaustekstiä <b>%s</b> ei ole asetettu aikaisemmin
+    del_security_note_ok: Suojausteksti on nollattu oletusarvoon <b>%s</b>
+    #/cleanwelcome
+    cleanwelcome_enabled: Tervetulon puhdistus on käytössä <b>%s</b>
+    cleanwelcome_disabled: Tervetulon puhdistus on pois käytöstä <b>%s</b>
+    cleanwelcome_status: Puhdistus on <code>{status}</code> <b>{chat_name}</b>
+    #/cleanservice
+    cleanservice_enabled: Palveluviestien puhdistus käytössä <b>%s</b>
+    cleanservice_disabled: Palveluviestien puhdistus pois käytöstä <b>%s</b>
+    cleanservice_status: Palveluviestien puhdistus on <code>{status}</code> <b>{chat_name}</b>
+    #/welcomemute
+    welcomemute_invalid_arg: Virheellinen argumentti, odotettiin aikaa.
+    welcomemute_enabled: Tervetulon vaimennus on käytössä <b>%s</b>
+    welcomemute_disabled: Tervetulon vaimennus on pois käytöstä <b>%s</b>
+    welcomemute_status: Tervetulon vaimennus on <code>{status}</code> <b>{chat_name}</b>
+    #/welcomesecurity
+    welcomesecurity_enabled: Tervetulon suojaus on käytössä <b>{chat_name}</b> tasolle <code>{level}</code>.
+    "welcomesecurity_enabled:customized_time": |
+      Tervetulon suojaus on käytössä <b>{chat_name}</b> tasolle <code>{level}</code>, ja potkii käyttäjiä, jotka eivät ole vahvistettu {time} kuluessa.
+    ask_for_time_customization: |
+      Haluatko mukauttaa aikajakson potkia vahvistamattomalla käyttäjällä? (oletuksena se on {time})
+    send_time: Ole hyvä ja määrittele aika.
+    invalid_time: "Virheellinen aika!"
+    welcomesecurity_enabled_word: käytössä, asetettu tasolle {level}
+    welcomesecurity_disabled: Tervetulon suojaus on pois käytöstä <b>%s</b>.
+    welcomesecurity_invalid_arg: Virheellinen argumentti, odotettiin <code>painiketta</code>/<code>captcha</code>.
+    welcomesecurity_status: Tervetulon suojaus on <code>{status}</code> <b>{chat_name}</b>
+    yes_btn: "Kyllä"
+    no_btn: "Ei"
+    #Welcomesecurity handler
+    click_here: Napsauta tästä!
+    not_allowed: Sinun ei ole sallittua käyttää tätä!
+    ws_captcha_text: Hei {user}, ole hyvä ja syötä captcha-numero tai tulla palautetuksi keskustelussa.
+    regen_captcha_btn: '🔄 Muuta captcha'
+    num_is_not_digit: Ole hyvä ja syötä vain numeroita!
+    bad_num: Väärä numero! Ole hyvä ja yritä uudelleen.
+    passed: Vahvistus onnistui, sinut on vapautettu <b>%s</b>!
+    passed_no_frm: Vahvistus onnistui, sinut on vapautettu %s!
+    last_chance: Sinulla on viimeinen mahdollisuus syöttää captcha!
+    btn_button_text: "Ole hyvä ja napsauta alla olevaa painiketta todistaaksesi itsesi."
+    btn_wc_text: |
+      Ole hyvä ja paina oikeaa painiketta, joka vastaa tätä ilmaisua:
+      %s
+    math_wc_rtr_text: "Sinulla on viimeinen mahdollisuus! Ole varovainen.\n"
+    math_wc_wrong: Väärin, yritä uudelleen!
+    math_wc_sry: Anteeksi, käytit viimeistä yritystä. Kysy keskustelun ylläpitäjiltä.
+    not_admin_wm: En voi rajoittaa ihmisiä täällä, joten en aio käyttää tervetulon vaimennusta!
+    not_admin_ws: En voi rajoittaa ihmisiä täällä, joten en aio käyttää tervetulon suojaa!
+    not_admin_wsr: En voi poistaa viestejä täällä, joten en aio poistaa palveluviestejä!
+    #/resetwelcome
+    deleted: Tervetulot on resetointu onnistuneesti <b>{chat}</b>!
+    not_found: Ei ole mitään nollattavaa!
+    #...
+    verification_done: Vahvistus on valmis! Olet vapautettu.
+  locks:
+    locks_header: "Tässä ovat nykyiset lukitusasetukset {chat_title} \n\n"
+    no_lock_args: Anna minulle joitain argumentteja lukittavaksi!
+    already_locked: Tämä on jo lukittu, veli
+    no_such_lock: Katso /locks selvittääksesi, mitä voidaan lukita ja avata!
+    locked_successfully: Lukittu {lock} keskustelussa {chat} onnistuneesti!
+    no_unlock_args: Anna minulle joitain argumentteja avattavaksi!
+    not_locked: Veli, sitä ei ole lukittu avattavaksi.
+    unlocked_successfully: Avattu {lock} keskustelussa {chat} onnistuneesti!
+  antiflood:
+    #enforcer
+    flood_exceeded: "{action} {user} tulvasta!"
+    #/setflood
+    "invalid_args:setflood": "Odotettiin numeroa!"
+    overflowed_count: Maksimitilanteen tulisi olla alle 200!
+    config_proc_1: Ole hyvä ja lähetä erääntymisaika, '0' (nolla) ei ole vanhentunut.
+    cancel: '❌ Peruuta'
+    setup_success: Antiflood on konfiguroitu onnistuneesti, se valvoo nyt niitä, jotka lähettävät {count} viestiä {time} kuluessa!
+    "setup_success:no_exp": Antiflood on konfiguroitu onnistuneesti, se sallii {count} viestiä peräkkäin!
+    invalid_time: Virheellinen aika!
+    #/antiflood | /flood
+    not_configured: Antifloodia ei ole konfiguroitu tässä keskustelussa vielä!
+    turned_off: Antiflood on pois käytöstä <b>{chat_title}</b>!
+    "configuration_info:with_time": Antifloodia on konfiguroitu tässä keskustelussa, niitä, jotka lähettävät {count} viestiä {time}, tullaan {action}!
+    configuration_info: Antifloodia on konfiguroitu tässä keskustelussa, niitä, jotka lähettävät {count}, peräkkäin tullaan {action}!
+    ban: bannattu
+    mute: vaimennettu
+    kick: heitetty ulos
+    #/setfloodaction
+    invalid_args: "Tuettu toimenpide, odotettiin {supported_actions}!"
+    setfloodaction_success: "Päivitys flood toimenpiteeseen onnistuneesti <b>{action}</b>!"
