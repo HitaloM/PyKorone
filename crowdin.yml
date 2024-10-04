@@ -2,4 +2,4 @@ files:
   - source: sophie_bot/localization/en.yaml
     translation: /**/sophie_bot/localization/%locale_with_underscore%.yaml
   - source: /locales/*.pot
-    translation: /**/locales/%locale_with_underscore%/%file_name%.po
+    translation: /**/locales/%locale_with_underscore%/LC_MESSAGES/%file_name%.po
