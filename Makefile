@@ -70,8 +70,25 @@ update_lang:
 	pybabel update -d "$(LOCALES_DIR)" -D "ass" -i "$(LOCALES_DIR)/ass.pot" --omit-header
 
 compile_lang:
-	pybabel compile -d "$(LOCALES_DIR)" -D "bot" --use-fuzzy --statistics
-	pybabel compile -d "$(LOCALES_DIR)" -D "ass" --use-fuzzy --statistics
+	# pybabel compile -d "$(LOCALES_DIR)" -D "bot" --use-fuzzy --statistics
+	# pybabel compile -d "$(LOCALES_DIR)" -D "ass" --use-fuzzy --statistics
+
+	@for LANG_DIR in $(LOCALES_DIR)/*/LC_MESSAGES; do \
+		# Extract language name from the directory path \
+		LANGUAGE=$$(basename "$$(dirname $$LANG_DIR)"); \
+		# Paths to the .po files \
+		PO_FILE_1="$$LANG_DIR/bot.po"; \
+		PO_FILE_2="$$LANG_DIR/ass.po"; \
+		PO_FILE_3="$$LANG_DIR/sophie.po"; \
+		# Check if both 1.po and 2.po exist \
+		if [[ -f "$$PO_FILE_1" && -f "$$PO_FILE_2" ]]; then \
+			cat "$$PO_FILE_1" "$$PO_FILE_2" > "$$PO_FILE_3"; \
+		else \
+			echo "Skipping $$LANGUAGE: 1.po or 2.po not found."; \
+		fi; \
+	done
+
+	pybabel compile -d "$(LOCALES_DIR)" -D "sophie" --use-fuzzy --statistics
 
 
 new_locale:

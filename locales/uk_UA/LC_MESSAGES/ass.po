@@ -1,17 +1,3 @@
-msgid ""
-msgstr ""
-"Plural-Forms: nplurals=4; plural=((n%10==1 && n%100!=11) ? 0 : ((n%10 >= 2 && n%10 <=4 && (n%100 < 12 || n%100 > 14)) ? 1 : ((n%10 == 0 || (n%10 >= 5 && n%10 <=9)) || (n%100 >= 11 && n%100 <= 14)) ? 2 : 3));\n"
-"X-Crowdin-Project: sophiebot\n"
-"X-Crowdin-Project-ID: 356879\n"
-"X-Crowdin-Language: uk\n"
-"X-Crowdin-File: /beta/locales/ass.pot\n"
-"X-Crowdin-File-ID: 270\n"
-"Project-Id-Version: sophiebot\n"
-"Content-Type: text/plain; charset=UTF-8\n"
-"Language-Team: Ukrainian\n"
-"Language: uk_UA\n"
-"PO-Revision-Date: 2024-10-04 20:16\n"
-
 #: exceptions.py:33
 msgid "Examples"
 msgstr "Приклади"
@@ -69,8 +55,12 @@ msgid "The list is empty!"
 msgstr "Цей список пустий!"
 
 #: types/lists.py:97
-msgid "➡️ The start prefix text of the lists cannot have the overlapping formatting"
-msgstr "➡️ Початковий текст префікса списків не може мати накладаючого форматування"
+msgid ""
+"➡️ The start prefix text of the lists cannot have the overlapping "
+"formatting"
+msgstr ""
+"➡️ Початковий текст префікса списків не може мати накладаючого "
+"форматування"
 
 #: types/lists.py:152 types/lists.py:170
 msgid "Argument '{arg_text}' was parsed, but it has unknown text after it!"
@@ -154,7 +144,9 @@ msgstr "➡️ Початковий текст не може мати накла
 
 #: types/text_rules.py:74
 msgid "➡️ Argument '{arg_text}' was parsed, but it has unknown text after it!"
-msgstr "➡️ Аргумент '{arg_text}' було розпарсено, але після нього є невідомий текст!"
+msgstr ""
+"➡️ Аргумент '{arg_text}' було розпарсено, але після нього є невідомий "
+"текст!"
 
 #: types/text_rules.py:91 types/text_rules.py:95
 msgid "{} surrounded by {} and {}"
@@ -242,20 +234,32 @@ msgid "Should start with mention!"
 msgstr "Повинно починатися із згадки!"
 
 #: types/user.py:107
-msgid "Unexpected error while trying to get the user! Please report this in the support chat!"
-msgstr "Несподівана помилка під час спроби отримати користувача! Будь ласка, повідомте про це в чаті підтримки!"
+msgid ""
+"Unexpected error while trying to get the user! Please report this in the "
+"support chat!"
+msgstr ""
+"Несподівана помилка під час спроби отримати користувача! Будь ласка, "
+"повідомте про це в чаті підтримки!"
 
 #: types/user.py:108
 msgid "Could not find the user mention"
 msgstr "Не вдалося знайти згадку користувача"
 
 #: types/user.py:119
-msgid "User: 'User ID (numeric) / Username (starts with @) / Mention (links to users)'"
-msgstr "Користувач: 'Ідентифікатор користувача (числовий) / Ім'я користувача (починається з @) / Згадка (посилання на користувачів)'"
+msgid ""
+"User: 'User ID (numeric) / Username (starts with @) / Mention (links to "
+"users)'"
+msgstr ""
+"Користувач: 'Ідентифікатор користувача (числовий) / Ім'я користувача "
+"(починається з @) / Згадка (посилання на користувачів)'"
 
 #: types/user.py:121
-msgid "Users: 'User IDs (numeric) / Usernames (starts with @) / Mentions (links to users)'"
-msgstr "Користувачі: 'Ідентифікатори користувачів (числові) / Імена користувачів (починаються з @) / Згадки (посилання на користувачів)'"
+msgid ""
+"Users: 'User IDs (numeric) / Usernames (starts with @) / Mentions (links "
+"to users)'"
+msgstr ""
+"Користувачі: 'Ідентифікатори користувачів (числові) / Імена користувачів "
+"(починаються з @) / Згадки (посилання на користувачів)'"
 
 #: types/user.py:128
 msgid "User ID"
@@ -267,5 +271,7 @@ msgstr "Ім'я користувача"
 
 #: types/user.py:133
 msgid "A link to user, usually creates by mentioning a user without username."
-msgstr "Посилання на користувача, яке зазвичай створюється, коли згадують користувача без імені."
+msgstr ""
+"Посилання на користувача, яке зазвичай створюється, коли згадують "
+"користувача без імені."
 
