@@ -1,4 +1,3 @@
----
 language_info:
   flag: "🇪🇸"
   code: es
@@ -60,6 +59,8 @@ STRINGS:
     disabled: 'Desactivado'
     #/cleannotes
     clean_notes_enable: "Se activó correctamente la limpieza de notas en <b>{chat_name}</b>"
+    clean_notes_enable_keep: "Conservando los últimos <i>{keep_num}</i> eventos (mensaje desencadenante + salida de notas)."
+    keep_num_invalid: "El número debe estar entre <i>0</i> y <i>50</i>."
     clean_notes_disable: "Se desactivó correctamente la limpieza de notas en <b>{chat_name}</b>"
     clean_notes_enabled: "La limpieza de notas está actualmente <b>activada</b> en <b>{chat_name}</b>"
     clean_notes_disabled: "La limpieza de notas está actualmente <b>desactivada</b> en <b>{chat_name}</b>"
