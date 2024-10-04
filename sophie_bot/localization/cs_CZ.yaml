@@ -1,4 +1,3 @@
----
 language_info:
   flag: "🇨🇿"
   code: cs
@@ -60,6 +59,8 @@ STRINGS:
     disabled: 'Zakázáno'
     #/cleannotes
     clean_notes_enable: "Vymazání poznámek bylo úspěšně povoleno v <b>{chat_name}</b>"
+    clean_notes_enable_keep: "Ukládání posledních <i>{keep_num}</i> událostí (spouštěcí zpráva + výstup poznámky)."
+    keep_num_invalid: "Číslo musí být mezi <i>0</i> a <i>50</i>."
     clean_notes_disable: "Vymazání poznámek bylo úspěšně zakázáno v <b>{chat_name}</b>"
     clean_notes_enabled: "Čištění poznámek je v současné době <b>povoleno</b> v <b>{chat_name}</b>"
     clean_notes_disabled: "Čištění poznámek je v současné době <b>zakázáno</b> v <b>{chat_name}</b>"
