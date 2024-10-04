@@ -1,0 +1,271 @@
+msgid ""
+msgstr ""
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"X-Crowdin-Project: sophiebot\n"
+"X-Crowdin-Project-ID: 356879\n"
+"X-Crowdin-Language: fr\n"
+"X-Crowdin-File: /beta/locales/ass.pot\n"
+"X-Crowdin-File-ID: 270\n"
+"Project-Id-Version: sophiebot\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language-Team: French\n"
+"Language: fr_FR\n"
+"PO-Revision-Date: 2024-10-04 20:15\n"
+
+#: exceptions.py:33
+msgid "Examples"
+msgstr "Exemples"
+
+#: exceptions.py:61
+msgid "The argument {description} has an invalid type"
+msgstr "L'argument {description} a un type invalide"
+
+#: exceptions.py:65 exceptions.py:120
+msgid "Needed type"
+msgstr "Type requis"
+
+#: exceptions.py:116
+msgid "The required argument {description} wasn't provided!"
+msgstr "L'argument requis {description} n'a pas été fourni !"
+
+#: exceptions.py:164
+msgid "The argument {description} has an invalid formatting!"
+msgstr "L'argument {description} a un format invalide !"
+
+#: types/keyvalue.py:31
+msgid "Key-value of {}"
+msgstr "Valeur clé de {}"
+
+#: types/keyvalue.py:32
+msgid "Key-values of {}"
+msgstr "Valeurs clés de {}"
+
+#: types/keyvalue.py:64
+msgid "The optional argument {name} must contain a value!"
+msgstr "L'argument facultatif {name} doit contenir une valeur !"
+
+#: types/keyvalue.py:90 types/keyvalue.py:91
+msgid "Key-values"
+msgstr "Valeurs clés"
+
+#: types/lists.py:46 types/lists.py:59
+msgid "List of {}"
+msgstr "Liste de {}"
+
+#: types/lists.py:47
+msgid "Lists of {}"
+msgstr "Listes de {}"
+
+#: types/lists.py:65
+msgid "The starting character {} of list wasn't found!"
+msgstr "Le caractère de départ {} de la liste n'a pas été trouvé !"
+
+#: types/lists.py:73
+msgid "The ending character {} of list wasn't found!"
+msgstr "Le caractère de fin {} de la liste n'a pas été trouvé !"
+
+#: types/lists.py:77
+msgid "The list is empty!"
+msgstr "La liste est vide !"
+
+#: types/lists.py:97
+msgid "➡️ The start prefix text of the lists cannot have the overlapping formatting"
+msgstr "➡️ Le texte de préfixe de départ des listes ne peut pas avoir le formatage qui se chevauche"
+
+#: types/lists.py:152 types/lists.py:170
+msgid "Argument '{arg_text}' was parsed, but it has unknown text after it!"
+msgstr "L'argument '{arg_text}' a été analysé, mais il a du texte inconnu après !"
+
+#: types/lists.py:157 types/lists.py:175
+msgid "Please ensure you correctly divided all of arguments."
+msgstr "Veuillez vous assurer que vous avez correctement divisé tous les arguments."
+
+#: types/logic.py:20
+msgid "Optional {}"
+msgstr "Optionnel {}"
+
+#: types/logic.py:21
+msgid "Optionals {}"
+msgstr "Optionnels {}"
+
+#: types/logic.py:44 types/logic.py:45 types/one_of.py:25 types/one_of.py:28
+msgid " or "
+msgstr " ou "
+
+#: types/logic.py:105
+msgid ", and "
+msgstr ", et "
+
+#: types/logic.py:121
+msgid "Example syntax"
+msgstr "Syntaxe d'exemple"
+
+#: types/one_of.py:24 types/one_of.py:27
+msgid "One of: {}"
+msgstr "Un de : {}"
+
+#: types/oneword.py:13
+msgid "Word (string with no spaces)"
+msgstr "Mot (chaîne sans espaces)"
+
+#: types/oneword.py:13
+msgid "Words (strings with no spaces)"
+msgstr "Mots (chaînes sans espaces)"
+
+#: types/oneword.py:33
+msgid "Integer (number)"
+msgstr "Entier (nombre)"
+
+#: types/oneword.py:33
+msgid "Integers (numbers)"
+msgstr "Entiers (nombres)"
+
+#: types/oneword.py:49
+msgid "Boolean (Yes / No value)"
+msgstr "Booléen (valeur Oui / Non)"
+
+#: types/oneword.py:49
+msgid "Booleans (Yes / No values)"
+msgstr "Booléens (valeurs Oui / Non)"
+
+#: types/oneword.py:54
+msgid "True (can means Enabled or Yes)"
+msgstr "Vrai (peut signifier Activé ou Oui)"
+
+#: types/oneword.py:55
+msgid "False (can means Disabled or No)"
+msgstr "Faux (peut signifier Désactivé ou Non)"
+
+#: types/text.py:18
+msgid "Text"
+msgstr "Texte"
+
+#: types/text_rules.py:27
+msgid "➡️ The Argument should start with {}!"
+msgstr "➡️ L'argument doit commencer par {} !"
+
+#: types/text_rules.py:31
+msgid "⬅️️ The Argument should end with {}!"
+msgstr "⬅️️ L'argument doit se terminer par {} !"
+
+#: types/text_rules.py:49
+msgid "➡️ The start text cannot have the overlapping formatting"
+msgstr "➡️ Le texte de départ ne peut pas avoir le formatage qui se chevauche"
+
+#: types/text_rules.py:74
+msgid "➡️ Argument '{arg_text}' was parsed, but it has unknown text after it!"
+msgstr "➡️ L'argument '{arg_text}' a été analysé, mais il a du texte inconnu après !"
+
+#: types/text_rules.py:91 types/text_rules.py:95
+msgid "{} surrounded by {} and {}"
+msgstr "{} entouré par {} et {}"
+
+#: types/text_rules.py:107
+msgid "Surrounded by {} and {}"
+msgstr "Entouré par {} et {}"
+
+#: types/time_arg.py:24
+msgid "2 days"
+msgstr "2 jours"
+
+#: types/time_arg.py:25
+msgid "3 weeks and 2 days"
+msgstr "3 semaines et 2 jours"
+
+#. NOTE: Please use the first letter of the "years" in your language
+#: types/time_arg.py:41
+msgid "y"
+msgstr "a"
+
+#. NOTE: Please use the first letter of the "weeks" in your language
+#: types/time_arg.py:44
+msgid "w"
+msgstr "s"
+
+#. NOTE: Please use the first letter of the "days" in your language
+#: types/time_arg.py:47
+msgid "d"
+msgstr "j"
+
+#. NOTE: Please use the first letter of the "hours" in your language
+#: types/time_arg.py:50
+msgid "h"
+msgstr "h"
+
+#. NOTE: Please use the first letter of the "minutes" in your language
+#: types/time_arg.py:53
+msgid "m"
+msgstr "m"
+
+#: types/time_arg.py:61
+msgid "Action time"
+msgstr "Temps d'action"
+
+#: types/time_arg.py:61
+msgid "Action times"
+msgstr "Temps d'action"
+
+#: types/user.py:17
+msgid "User ID (Numeric)"
+msgstr "ID utilisateur (numérique)"
+
+#: types/user.py:17
+msgid "User IDs (Numeric)"
+msgstr "IDs d'utilisateur (numériques)"
+
+#: types/user.py:37
+msgid "Username (starts with @)"
+msgstr "Nom d'utilisateur (commence par @)"
+
+#: types/user.py:47
+msgid "Should start with a prefix"
+msgstr "Doit commencer par un préfixe"
+
+#: types/user.py:49
+msgid "Username is too short"
+msgstr "Le nom d'utilisateur est trop court"
+
+#: types/user.py:51
+msgid "Username is too long"
+msgstr "Le nom d'utilisateur est trop long"
+
+#: types/user.py:67
+msgid "User mention (a link to user)"
+msgstr "Mention d'utilisateur (un lien vers un utilisateur)"
+
+#: types/user.py:67
+msgid "User mentions (links to users)"
+msgstr "Mentions d'utilisateur (liens vers des utilisateurs)"
+
+#: types/user.py:99
+msgid "Should start with mention!"
+msgstr "Doit commencer par une mention !"
+
+#: types/user.py:107
+msgid "Unexpected error while trying to get the user! Please report this in the support chat!"
+msgstr "Erreur inattendue lors de la tentative d'obtenir l'utilisateur ! Veuillez le signaler dans le chat de support !"
+
+#: types/user.py:108
+msgid "Could not find the user mention"
+msgstr "Impossible de trouver la mention d'utilisateur"
+
+#: types/user.py:119
+msgid "User: 'User ID (numeric) / Username (starts with @) / Mention (links to users)'"
+msgstr "Utilisateur : 'ID utilisateur (numérique) / Nom d'utilisateur (commence par @) / Mention (liens vers des utilisateurs)'"
+
+#: types/user.py:121
+msgid "Users: 'User IDs (numeric) / Usernames (starts with @) / Mentions (links to users)'"
+msgstr "Utilisateurs : 'IDs d'utilisateur (numériques) / Noms d'utilisateur (commencent par @) / Mentions (liens vers des utilisateurs)'"
+
+#: types/user.py:128
+msgid "User ID"
+msgstr "ID utilisateur"
+
+#: types/user.py:129
+msgid "Username"
+msgstr "Nom d'utilisateur"
+
+#: types/user.py:133
+msgid "A link to user, usually creates by mentioning a user without username."
+msgstr "Un lien vers un utilisateur, généralement créé en mentionnant un utilisateur sans nom d'utilisateur."
+
