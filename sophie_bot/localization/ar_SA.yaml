@@ -1,4 +1,3 @@
----
 language_info:
   flag: "🇪🇬"
   code: ar
@@ -59,6 +58,8 @@ STRINGS:
     disabled: 'مُعطّلٌ'
     #/cleannotes
     clean_notes_enable: "تمّ تفعيل مسح الرسائل بنجاح في <b>{chat_name}</b>"
+    clean_notes_enable_keep: "الإبقاء على آخر <i>{keep_num}</i> حدث (رسالة التحفيز + ملاحظة الإخراج)."
+    keep_num_invalid: "يجب أن تكون القيمة بين <i>0</i> و <i>50</i>."
     clean_notes_disable: "تمّ تعطيل مسح الرسائل بنجاح في <b>{chat_name}</b>"
     clean_notes_enabled: "وضع مسح الرسائل حاليا هو <b>enabled</b> in <b>{chat_name}</b>"
     clean_notes_disabled: "وضع مسح الرسائل حاليا هو <b>disabled</b> in <b>{chat_name}</b>"
