@@ -1,4 +1,3 @@
----
 language_info:
   flag: "🇫🇷"
   code: fr
@@ -60,6 +59,8 @@ STRINGS:
     disabled: 'Désactivé'
     #/cleannotes
     clean_notes_enable: "Nettoyage des notes activé avec succès dans <b>{chat_name}</b>"
+    clean_notes_enable_keep: "Conserver les <i>{keep_num}</i> derniers événements (message de déclenchement + sortie de note)."
+    keep_num_invalid: "Le nombre doit être compris entre <i>0</i> et <i>50</i>."
     clean_notes_disable: "Nettoyage des notes désactivé avec succès dans <b>{chat_name}</b>"
     clean_notes_enabled: "Le nettoyage des notes est actuellement <b>activé</b> dans <b>{chat_name}</b>"
     clean_notes_disabled: "Le nettoyage des notes est actuellement <b>désactivé</b> dans <b>{chat_name}</b>"
@@ -71,9 +72,13 @@ STRINGS:
   filters:
     no_filters_found: "Aucun filtre n'a été trouvé dans <b>{chat_name}</b>!"
     #/addfilter
+    anon_detected: En tant qu'administrateur anonyme, vous ne pouvez pas ajouter de nouveaux filtres, utilisez plutôt des connexions.
+    regex_too_slow: "Votre modèle regex correspond trop lentement (plus d'une demi-seconde) et ne peut pas être ajouté !"
+    cancel_btn: "🛑 Annuler"
     adding_filter: |
       Ajout du filtre <code>{handler}</code> dans <b>{chat_name}</b>
       Sélectionnez l'action ci-dessous :
+    saved: "Le nouveau filtre a été enregistré avec succès !"
     #/filters
     list_filters: "Filtres dans <b>{chat_name}</b>:\n"
     #/delfilter
@@ -82,6 +87,12 @@ STRINGS:
     select_filter_to_remove: |
       J'ai trouvé beaucoup de filtres avec le gestionnaire '<code>{handler}</code>'.
       Veuillez en sélectionner un à supprimer :
+    #/delfilters or /delallfilters
+    not_chat_creator: Seuls les créateurs de chats peuvent utiliser cette commande !
+    delall_header: Cela supprimera tous les filtres dans ce chat. Ceci est irréversible.
+    confirm_yes: '⚠ Supprimer tout'
+    confirm_no: '❌ Annuler'
+    delall_success: Tous les ({count}) filtres dans ce chat ont été supprimés avec succès !
   warns:
     #/warn
     warn_sofi: "Haha aucun moyen d'avertir sois-même !"
@@ -118,7 +129,8 @@ STRINGS:
     wrng_args: |
       Voici les options disponibles :
       <code>%s</code>
-    mode_info: 'Le mode actuel dans ce chat est <b>%s</b>.'
+    mode_info: |
+      Le mode actuel dans ce chat est <b>%s</b>.
     banned: banni
     muted: en sourdine
     filters_title: Avertir l'utilisateur
@@ -139,6 +151,8 @@ STRINGS:
     delmsg_filter_title: 'Supprimer le message'
     send_text: Veuillez envoyer le message de réponse !
     replymsg_filter_title: 'Répondre au message'
+    send_customised_reason: Envoyez le <i>raison</i> que vous souhaitez inclure dans le message d'action. "<code>Aucune</code>" pour <i>aucune raison</i> à donner !
+    expected_text: Message texte attendu !
   promotes:
     promote_success: "{user} a été promu avec succès dans {chat_name}!"
     promote_title: "\nAvec un rôle personnalisé <code>{role}</code>!"
@@ -153,6 +167,7 @@ STRINGS:
   pm_menu:
     start_hi_group: 'Salut ! Je m''appelle Sophie'
     start_hi: "Bonjour! Je m'appelle Sophie, je vous aide à gérer votre groupe de manière efficace !"
+    btn_add: "➕ Ajoutez-moi à votre chat"
     btn_help: "❔ Aide"
     btn_lang: "🇷🇺 Langue"
     btn_chat: "👥 Groupe Sophie"
@@ -203,6 +218,7 @@ STRINGS:
       <b>ID :</b> <code>{id}</code>
       <b>Créateur :</b> {creator}
       Utilisez <code>/fjoin {id}</code> pour connecter la fédération au chat
+    disallow_anon: En tant qu'administrateur anonyme, vous ne pouvez pas créer de nouvelle fédération !
     #/fjoin
     only_creators: "Vous devriez être un créateur de chat pour pouvoir connecter le chat à la fédération."
     fed_id_invalid: "L'ID de la Fédération est invalide ! Veuillez me donner un ID valide."
@@ -232,6 +248,7 @@ STRINGS:
       <b>Utilisateur promu dans les admins de Fédération </b> #UserPromoted
       <b>Fédération :</b> {fed_name} (<code>{fed_id}</code>)
       <b>Utilisateur :</b> {user} (<code>{user_id}</code>)
+    "restricted_user:promote": Cet utilisateur est restreint de devenir administrateur de fédération !
     #/fdemote
     #admin_not_in_fed: "User {user} is not <b>{name}</b> Federation admin."
     admin_demoted_from_fed: "L'utilisateur {user} rétrogradé de <b>{name}</b> administrateurs de la Fédération."
@@ -242,7 +259,7 @@ STRINGS:
     #/fsetlog
     already_have_chatlog: "<b>{name}</b> La Fédération a déjà activé la connexion dans un autre discussion/chaîne !"
     set_chat_log: |
-      Ce chat enregistre désormais toutes les actions dans la Fédération <b>{name}</b> 
+      Ce chat enregistre désormais toutes les actions dans la Fédération <b>{name}</b>
 
       Les logs de la Fédération ont pour but une évaluation interne ainsi que pour ses performances.
       Il ne doit PAS être utilisé dans un usage public et doit au contraire respecter les données de l'utilisateur ainsi que nos directives de confidentialité.
@@ -334,7 +351,7 @@ STRINGS:
     fbanlist_done: Fban liste de la Fédération <b>%s</b>!
     #/importfbans
     send_import_file: |
-      Envoyer le fichier d'importation ! 
+      Envoyer le fichier d'importation !
 
       Pour annuler ce processus ; utilisez /cancel
     rpl_to_file: Veuillez répondre avec un fichier !
@@ -363,6 +380,7 @@ STRINGS:
     contact_in_pm: "\n\nPour plus d'informations sur vos fbans, veuillez me contacter afin que votre vie privée soit sécurisée !"
     too_long_fbaninfo: "« Eh bien! Votre fbaninfo a besoin d'un fichier»!"
     didnt_fbanned: "Vous n'êtes pas fbanni dans cette fédération."
+    not_fbanned_in_fed: Ils ne sont pas fbanned dans la fédération <b>{fed_name}</b>
   reports:
     user_user_admin: "Vous êtes un administrateur ici, pourquoi auriez-vous besoin de signaler quelqu'un ?.."
     user_is_whitelisted: "Vous êtes un utilisateur sur liste blanche, pourquoi auriez-vous besoin de signaler quelqu'un ?.."
@@ -397,6 +415,11 @@ STRINGS:
       <b>Chat actuel connecté :</b>
       {chat_name}
       Écrire /disconect pour se déconnecter du chat
+    "connected_chat:cmds": |
+      <b>Chat connecté actuel :</b>
+      {chat_name}, (les commandes jumelées sont {commands}),
+      ⚠ <i>Vous ne pouvez accéder qu'aux commandes jumelées du chat connecté ! Toutes les autres commandes seront traitées comme un chat local</i>
+      Écrivez /disconect pour vous déconnecter du chat.
     u_wasnt_connected: "Vous n'étiez connecté à aucune conversation auparavant !"
     select_chat_to_connect: "\n<b>Sélectionnez un chat à connecter:</b>"
     disconnected: "Vous avez été déconnecté de <b>{chat_name}</b>."
@@ -412,6 +435,9 @@ STRINGS:
     not_in_chat: "Vous n'êtes plus dans ce chat, je vais vous déconnecter."
     u_should_be_admin: "Vous devriez être administrateur dans {} !"
     usage_only_in_groups: "Utilisation limitée uniquement dans les groupes!"
+    anon_admin_conn: |
+      Veuillez cliquer sur le bouton ci-dessous pour vous connecter !
+    click_here: Cliquez ici !
   global:
     u_not_admin: Vous devriez être un administrateur pour faire ça !
     #Rights
@@ -419,6 +445,8 @@ STRINGS:
     bot_no_right: "Je n'ai pas besoin de la permission de le faire ! \nPermission manquante : <b>%s</b>"
     user_no_right: "Vous devriez avoir la permission de le faire ! \nPermission manquante : <b>%s</b>"
     "user_no_right:not_admin": Vous devriez être administrateur pour le faire !
+    #is chat creator
+    unable_identify_creator: "Impossible d'identifier le créateur de chat anonyme, signature dupliquée (titres) trouvée !"
   owner_stuff:
     father: "\nIl est mon créateur."
     sudo_crown: "\nHé ! Regardez, cet utilisateur a une couronne, laissez-moi la voir... Wow, il a une gravure - <b>'utilisateur sudo'</b>!"
@@ -569,10 +597,18 @@ STRINGS:
     welcomemute_status: Bienvenue avec sourdine est <code>{status}</code> dans <b>{chat_name}</b>
     #/welcomesecurity
     welcomesecurity_enabled: La sécurité de bienvenue est activée dans <b>{chat_name}</b> au niveau <code>{level}</code>.
+    "welcomesecurity_enabled:customized_time": |
+      Bienvenue sécurité activée dans <b>{chat_name}</b> à <code>{level}</code>, et expulser les utilisateurs qui ne sont pas vérifiés dans {time}.
+    ask_for_time_customization: |
+      Voulez-vous personnaliser la période de temps pour expulser l'utilisateur non vérifié ? (par défaut, c'est {time})
+    send_time: Veuillez spécifier une durée.
+    invalid_time: "Temps invalide !"
     welcomesecurity_enabled_word: activé, défini au niveau {level}
     welcomesecurity_disabled: La sécurité de bienvenue est désactivée dans <b>%s</b>.
     welcomesecurity_invalid_arg: Argument invalide, bouton <code>attendu</code>/<code>captcha</code>.
     welcomesecurity_status: La sécurité de bienvenue est <code>{status}</code> dans <b>{chat_name}</b>
+    yes_btn: "Oui"
+    no_btn: "Non"
     #Welcomesecurity handler
     click_here: Cliquez ici !
     not_allowed: Vous n'êtes pas autorisé à utiliser ceci !
@@ -596,20 +632,8 @@ STRINGS:
     #/resetwelcome
     deleted: Les salutations ont été réinitialisées avec succès dans <b>{chat}</b>!
     not_found: Il n'y a rien à réinitialiser!
-    #/welcomerestrict
-    del_url: Le message contenant l'URL de {user} a été supprimé !
-    del_fwd: Le message transféré de {user} a été supprimé !
-    del_media: Le message contenant le média de {user} a été supprimé !
-    banned: '{by} a été banni {user}!'
-    whitelisted: '{by} a mis {user} sur liste blanche!'
-    enabled_sucessfully: La sécurité du chat a été activée avec succès dans <b>{chat}</b>
-    disabled_sucessfully: La sécurité du chat a été désactivée avec succès dans <b>{chat}</b>
-    already_enabled: La sécurité du chat est déjà activée!
-    already_disabled: La sécurité du chat est déjà désactivée!
-    restrict_status: La sécurité de bienvenue est <b>{state}</b> dans <b>{chat}</b>!
-    unkown_option: Veuillez me donner une option valide! (<code>activer</code> ou <code>désactiver</code>)
-    whitelist: '🏳️ Whitelister'
-    ban: '❌ Ban'
+    #...
+    verification_done: La vérification est terminée ! Vous avez été rétabli.
   locks:
     locks_header: "Voici les paramètres de verrouillage actuels dans {chat_title} \n\n"
     no_lock_args: Donnez-moi quelques arguments à verrouiller !
@@ -619,3 +643,25 @@ STRINGS:
     no_unlock_args: Donnez-moi quelques arguments à débloquer!
     not_locked: Poto, il n'est pas verrouillé pour déverrouiller.
     unlocked_successfully: '{lock} a été déverrouillé avec succès dans {chat}!'
+  antiflood:
+    #enforcer
+    flood_exceeded: "{action} {user} pour inondation !"
+    #/setflood
+    "invalid_args:setflood": "Un nombre attendu !"
+    overflowed_count: Le nombre maximum doit être inférieur à 200 !
+    config_proc_1: Veuillez envoyer le temps d'expiration, '0' (zéro) pour ne pas expirer.
+    cancel: '❌ Annuler'
+    setup_success: Antiflood configuré avec succès, maintenant applicable contre ceux qui envoient {count} messages dans {time} !
+    "setup_success:no_exp": Antiflood configuré avec succès, permet {count} messages consécutifs !
+    invalid_time: Temps invalide !
+    #/antiflood | /flood
+    not_configured: Antiflood n'est pas encore configuré dans ce chat !
+    turned_off: Antiflood désactivé dans <b>{chat_title}</b> !
+    "configuration_info:with_time": Antiflood est configuré dans ce chat, ceux qui envoient {count} message dans {time} seront {action} !
+    configuration_info: Antiflood est configuré dans ce chat, ceux qui envoient {count} consécutivement seront {action} !
+    ban: banni
+    mute: en sourdine
+    kick: expulsé
+    #/setfloodaction
+    invalid_args: "Action non prise en charge, attendu {supported_actions} !"
+    setfloodaction_success: "Action de inondation mise à jour avec succès à <b>{action}</b> !"
