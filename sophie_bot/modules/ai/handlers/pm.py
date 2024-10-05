@@ -12,8 +12,8 @@ from sophie_bot.filters.cmd import CMDFilter
 from sophie_bot.modules.ai.filters.ai_enabled import AIEnabledFilter
 from sophie_bot.modules.ai.filters.throttle import AIThrottleFilter
 from sophie_bot.modules.ai.fsm.pm import AI_PM_STOP_TEXT, AiPMFSM
-from sophie_bot.modules.ai.utils.ai_chatbot import handle_ai_chatbot
-from sophie_bot.modules.ai.utils.message_history import get_message_history
+from sophie_bot.modules.ai.utils.ai_chatbot import ai_reply
+from sophie_bot.modules.ai.utils.message_history import MessageHistory
 from sophie_bot.utils.i18n import gettext as _
 from sophie_bot.utils.i18n import lazy_gettext as l_
 
@@ -69,12 +69,9 @@ class AiPmStop(MessageHandler):
 class AiPmHandle(MessageHandler):
     @staticmethod
     def filters() -> tuple[CallbackType, ...]:
-        return (AiPMFSM.in_ai, ChatTypeFilter("private"), AIThrottleFilter())
+        return AiPMFSM.in_ai, ChatTypeFilter("private"), AIThrottleFilter()
 
     async def handle(self) -> Any:
-        text = self.event.text
-        if not text:
-            return
-
         await bot.send_chat_action(self.event.chat.id, "typing")
-        await handle_ai_chatbot(self.event, text, await get_message_history(self.event))
+        messages = await MessageHistory.chatbot(self.event)
+        await ai_reply(self.event, messages)

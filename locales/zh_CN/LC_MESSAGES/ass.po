@@ -1,17 +1,3 @@
-msgid ""
-msgstr ""
-"Plural-Forms: nplurals=1; plural=0;\n"
-"X-Crowdin-Project: sophiebot\n"
-"X-Crowdin-Project-ID: 356879\n"
-"X-Crowdin-Language: zh-CN\n"
-"X-Crowdin-File: /beta/locales/ass.pot\n"
-"X-Crowdin-File-ID: 270\n"
-"Project-Id-Version: sophiebot\n"
-"Content-Type: text/plain; charset=UTF-8\n"
-"Language-Team: Chinese Simplified\n"
-"Language: zh_CN\n"
-"PO-Revision-Date: 2024-10-04 21:54\n"
-
 #: exceptions.py:33
 msgid "Examples"
 msgstr "示例"
@@ -69,7 +55,9 @@ msgid "The list is empty!"
 msgstr "列表为空！"
 
 #: types/lists.py:97
-msgid "➡️ The start prefix text of the lists cannot have the overlapping formatting"
+msgid ""
+"➡️ The start prefix text of the lists cannot have the overlapping "
+"formatting"
 msgstr "➡️ 列表的起始前缀文本不能有重叠的格式"
 
 #: types/lists.py:152 types/lists.py:170
@@ -242,7 +230,9 @@ msgid "Should start with mention!"
 msgstr "应该以提及开始！"
 
 #: types/user.py:107
-msgid "Unexpected error while trying to get the user! Please report this in the support chat!"
+msgid ""
+"Unexpected error while trying to get the user! Please report this in the "
+"support chat!"
 msgstr "尝试获取用户时出现意外错误！请在支持聊天中报告此事！"
 
 #: types/user.py:108
@@ -250,11 +240,15 @@ msgid "Could not find the user mention"
 msgstr "未找到用户提及"
 
 #: types/user.py:119
-msgid "User: 'User ID (numeric) / Username (starts with @) / Mention (links to users)'"
+msgid ""
+"User: 'User ID (numeric) / Username (starts with @) / Mention (links to "
+"users)'"
 msgstr "用户：'用户 ID（数字）/用户名（以 @ 开头）/提及（链接到用户）'"
 
 #: types/user.py:121
-msgid "Users: 'User IDs (numeric) / Usernames (starts with @) / Mentions (links to users)'"
+msgid ""
+"Users: 'User IDs (numeric) / Usernames (starts with @) / Mentions (links "
+"to users)'"
 msgstr "用户：'用户 ID（数字）/用户名（以 @ 开头）/提及（链接到用户）'"
 
 #: types/user.py:128

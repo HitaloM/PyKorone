@@ -15,8 +15,8 @@ from sophie_bot.modules.ai.json_schemas.aisave import (
     AISAVE_JSON_SCHEMA,
     AISaveResponseSchema,
 )
-from sophie_bot.modules.ai.utils.ai_chatbot import ai_response, build_history
-from sophie_bot.modules.ai.utils.message_history import get_message_history
+from sophie_bot.modules.ai.utils.ai_chatbot import ai_generate
+from sophie_bot.modules.ai.utils.message_history import MessageHistory
 from sophie_bot.utils.i18n import gettext as _
 from sophie_bot.utils.i18n import lazy_gettext as l_
 
@@ -82,11 +82,8 @@ class AISaveNote(MessageHandler):
             f" {', '.join(all_notenames)}"
         )
 
-        history = build_history(
-            user_text=prompt,
-            additional_history=await get_message_history(self.event),
-            user_name=self.event.from_user.full_name if self.event.from_user else "Unknown",
-        )
+        messages = await MessageHistory.chatbot(self.event, custom_user_text=prompt)
+
         return self.parse_data(
-            await ai_response(history, json_schema={"type": "json_schema", "json_schema": AISAVE_JSON_SCHEMA})  # type: ignore
+            await ai_generate(messages, json_schema={"type": "json_schema", "json_schema": AISAVE_JSON_SCHEMA})  # type: ignore
         )

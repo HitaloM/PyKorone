@@ -3,26 +3,12 @@ from typing import Iterable, Optional
 
 from aiogram.types import Message
 from openai.types import ResponseFormatJSONSchema, ResponseFormatText
-from openai.types.chat import (
-    ChatCompletionMessageParam,
-    ChatCompletionSystemMessageParam,
-    ChatCompletionUserMessageParam,
-)
+from openai.types.chat import ChatCompletionMessageParam
 from stfu_tg import Doc, HList, Title
 
 from sophie_bot.modules.ai.fsm.pm import AI_GENERATED_TEXT
+from sophie_bot.modules.ai.utils.message_history import MessageHistory
 from sophie_bot.services.ai import ai_client
-
-AI_PROMPT = """
-You're a Telegram Bot named Sophie.
-Respond concisely, be friendly, stick to the current topic.
-Do not use markdown or html. You can use emojis.
-"""
-
-
-def sanitize_name(name: str) -> str:
-    allowed_chars = set("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_-")
-    return "".join(char for char in name if char in allowed_chars) or "Unknown"
 
 
 class Models(str, Enum):
@@ -33,7 +19,7 @@ class Models(str, Enum):
 DEFAULT_MODEL = Models.GPT_4O_MINI
 
 
-async def ai_response(
+async def ai_generate(
     messages: Iterable[ChatCompletionMessageParam],
     model: Models = DEFAULT_MODEL,
     json_schema: Optional[ResponseFormatJSONSchema] = None,
@@ -47,34 +33,12 @@ async def ai_response(
     return chat_completion.choices[0].message.content
 
 
-def build_history(
-    user_text: str,
-    system_message: str = "",
-    additional_history: Iterable[ChatCompletionMessageParam] = (),
-    user_name: str = "Unknown",
-) -> Iterable[ChatCompletionMessageParam]:
-    return [
-        ChatCompletionSystemMessageParam(content=AI_PROMPT + system_message, role="system"),
-        *additional_history,
-        ChatCompletionUserMessageParam(
-            content=user_text,
-            role="user",
-            name=sanitize_name(user_name),
-        ),
-    ]
-
-
-async def handle_ai_chatbot(
+async def ai_reply(
     message: Message,
-    user_text: str,
-    history: Iterable[ChatCompletionMessageParam],
+    messages: MessageHistory,
     model: Models = DEFAULT_MODEL,
-    system_message: str = "",
 ) -> Message:
-    user_name = message.from_user.first_name if message.from_user else "Unknown"
-    messages = build_history(user_text, system_message, history, user_name)
-
-    response = await ai_response(messages, model)
+    response = await ai_generate(messages, model)
 
     doc = Doc(
         HList(Title(AI_GENERATED_TEXT), Title("4o+", bold=False) if model != Models.GPT_4O_MINI else None),
