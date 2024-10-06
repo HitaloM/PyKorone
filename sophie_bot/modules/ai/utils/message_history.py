@@ -126,6 +126,4 @@ class MessageHistory(list[ChatCompletionMessageParam]):
 
         await messages.add_from_message(message, reply_to_user=reply_to_user, custom_user_text=custom_user_text)
 
-        debug(messages)
-
         return messages
