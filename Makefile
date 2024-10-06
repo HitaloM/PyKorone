@@ -54,36 +54,24 @@ test_codeanalysis:
 # Locale
 
 new_lang:
-	pybabel init -i "$(LOCALES_DIR)/bot.pot" -d "$(LOCALES_DIR)" -D bot -l "$(LANG)"
-	pybabel init -i "$(LOCALES_DIR)/ass.pot" -d "$(LOCALES_DIR)" -D ass -l "$(LANG)"
+	pybabel init -i "$(LOCALES_DIR)/sophie.pot" -d "$(LOCALES_DIR)" -D sophie -l "$(LANG)"
 
 extract_lang:
 	pybabel extract -k "pl_:1,2" -k "p_:1,2" -k "l_:1" \
-	--add-comments="NOTE: " -o "$(LOCALES_DIR)/bot.pot" -w 120 --omit-header $(PROJECT_DIR)
+	--add-comments="NOTE: " -o "$(LOCALES_DIR)/bot.pot" -w 120 $(PROJECT_DIR)
 
 	cd "$(ASS_PATH)" && \
 	pybabel extract -k "pl_:1,2" -k "p_:1,2" -k "l_:1" \
 	--add-comments="NOTE: " -o "$(LOCALES_DIR)/ass.pot" -w 120 --omit-header .
 
+	# Merge
+	cp "$(LOCALES_DIR)/bot.pot" "$(LOCALES_DIR)/sophie.pot"
+	cat "$(LOCALES_DIR)/ass.pot" >> "$(LOCALES_DIR)/sophie.pot"
+
 update_lang:
-	pybabel update -d "$(LOCALES_DIR)" -D "bot" -i "$(LOCALES_DIR)/bot.pot" --omit-header
-	pybabel update -d "$(LOCALES_DIR)" -D "ass" -i "$(LOCALES_DIR)/ass.pot" --omit-header
+	pybabel update -d "$(LOCALES_DIR)" -D "sophie" -i "$(LOCALES_DIR)/sophie.pot" --omit-header
 
 compile_lang:
-	# pybabel compile -d "$(LOCALES_DIR)" -D "bot" --use-fuzzy --statistics
-	# pybabel compile -d "$(LOCALES_DIR)" -D "ass" --use-fuzzy --statistics
-
-	@for LANG_DIR in $(LOCALES_DIR)/*/LC_MESSAGES; do \
-		# Extract language name from the directory path \
-		LANGUAGE=$$(basename "$$(dirname $$LANG_DIR)"); \
-		# Paths to the .po files \
-		PO_FILE_1="$$LANG_DIR/bot.po"; \
-		PO_FILE_2="$$LANG_DIR/ass.po"; \
-		PO_FILE_3="$$LANG_DIR/sophie.po"; \
-		# Check if both 1.po and 2.po exist \
-        cat "$$PO_FILE_1" "$$PO_FILE_2" > "$$PO_FILE_3"; \
-	done
-
 	pybabel compile -d "$(LOCALES_DIR)" -D "sophie" --use-fuzzy --statistics
 
 
