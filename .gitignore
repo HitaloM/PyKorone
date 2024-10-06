@@ -21,7 +21,7 @@ venv/
 .idea/
 
 # Localization
-
+sophie.mo
 
 # Test coverage results
 allure_results/

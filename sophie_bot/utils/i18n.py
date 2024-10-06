@@ -5,7 +5,6 @@ from typing import Any, Optional
 
 from aiogram.utils.i18n import I18n
 from babel.core import Locale
-from babel.support import LazyProxy
 from flag import flag
 
 from sophie_bot.utils.logger import log
@@ -98,22 +97,26 @@ def gettext(*args: Any, **kwargs: Any) -> str:
     return get_i18n().gettext(*args, **kwargs)
 
 
-def lazy_gettext(*args: Any, **kwargs: Any) -> LazyProxy:
-    return LazyPluralProxy(gettext, *args, **kwargs)
+class LazyProxy:
+    def __init__(self, *args, **kwargs):
+        self.args = args
+        self.kwargs = kwargs
 
+    def _i18n(self):
+        return gettext(*self.args, **self.kwargs)
 
-class LazyPluralProxy(LazyProxy):
-    def plural(self, n: int):
-        try:
-            return self._func(*self._args, n=n, **self._kwargs)
-        except AttributeError as error:
-            object.__setattr__(self, "_attribute_error", error)
-            raise
+    def __str__(self):
+        return self._i18n()
+
+    def __eq__(self, other):
+        text = self._i18n()
+        return text == other
 
 
 def lazy_plural_gettext(*args: Any, **kwargs: Any):
     return lambda n: get_i18n().gettext(*args, n=n, **kwargs)
 
 
+lazy_gettext = LazyProxy
 ngettext = gettext
 lazy_ngettext = lazy_gettext

@@ -4,11 +4,11 @@ from aiogram.types import User
 from ass_tg.entities import ArgEntities
 from ass_tg.exceptions import ArgStrictError
 from ass_tg.types import OrArg, UserIDArg, UserMentionArg, UsernameArg
-from babel.support import LazyProxy
 from stfu_tg import UserLink
 
 from sophie_bot.db.db_exceptions import DBNotFoundException
 from sophie_bot.db.models import ChatModel
+from sophie_bot.utils.i18n import LazyProxy
 from sophie_bot.utils.i18n import gettext as _
 from sophie_bot.utils.i18n import lazy_gettext as l_
 

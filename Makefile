@@ -58,18 +58,18 @@ new_lang:
 
 extract_lang:
 	pybabel extract -k "pl_:1,2" -k "p_:1,2" -k "l_:1" \
-	--add-comments="NOTE: " -o "$(LOCALES_DIR)/bot.pot" -w 120 $(PROJECT_DIR)
+	--add-comments="NOTE: " -o "$(LOCALES_DIR)/bot.pot" --no-wrap $(PROJECT_DIR)
 
 	cd "$(ASS_PATH)" && \
 	pybabel extract -k "pl_:1,2" -k "p_:1,2" -k "l_:1" \
-	--add-comments="NOTE: " -o "$(LOCALES_DIR)/ass.pot" -w 120 --omit-header .
+	--add-comments="NOTE: " -o "$(LOCALES_DIR)/ass.pot" --omit-header --no-wrap .
 
 	# Merge
 	cp "$(LOCALES_DIR)/bot.pot" "$(LOCALES_DIR)/sophie.pot"
 	cat "$(LOCALES_DIR)/ass.pot" >> "$(LOCALES_DIR)/sophie.pot"
 
 update_lang:
-	pybabel update -d "$(LOCALES_DIR)" -D "sophie" -i "$(LOCALES_DIR)/sophie.pot" --omit-header
+	pybabel update -d "$(LOCALES_DIR)" -D "sophie" -i "$(LOCALES_DIR)/sophie.pot" --no-wrap
 
 compile_lang:
 	pybabel compile -d "$(LOCALES_DIR)" -D "sophie" --use-fuzzy --statistics
