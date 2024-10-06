@@ -1,9 +1,10 @@
-from typing import Any, Awaitable, Callable, Dict
+from typing import Any, Awaitable, Callable, Dict, Optional
 
 from aiogram import BaseMiddleware
 from aiogram.types import Message, TelegramObject
 from pydantic import BaseModel
 
+from sophie_bot.db.models import ChatModel
 from sophie_bot.modules.ai.filters.ai_enabled import AIEnabledFilter
 from sophie_bot.services.redis import aredis
 
@@ -44,12 +45,11 @@ class CacheMessagesMiddleware(BaseMiddleware):
         event: TelegramObject,
         data: Dict[str, Any],
     ) -> Any:
-        chat_db = data["chat_db"]
-        ai_enabled = await AIEnabledFilter.get_status(chat_db)
+        chat_db: Optional[ChatModel] = data.get("chat_db", None)
 
         result = await handler(event, data)
 
-        if isinstance(event, Message) and ai_enabled:
+        if isinstance(event, Message) and chat_db and await AIEnabledFilter.get_status(chat_db):
             await self.save_message(event)
 
         return result
