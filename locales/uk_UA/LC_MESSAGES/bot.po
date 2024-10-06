@@ -10,7 +10,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Language-Team: Ukrainian\n"
 "Language: uk_UA\n"
-"PO-Revision-Date: 2024-10-06 13:45\n"
+"PO-Revision-Date: 2024-10-06 17:50\n"
 
 #: sophie_bot/args/users.py:29
 msgid "Could not find the requested User ID in the database."
@@ -26,7 +26,7 @@ msgstr "User: 'User ID (numeric) / Username (starts with @) / Mention (links to 
 
 #: sophie_bot/args/users.py:72
 msgid "Users: 'User IDs (numeric) / Usernames (starts with @) / Mentions (links to users)'"
-msgstr "Users: 'User IDs (numeric) / Usernames (starts with @) / Mentions (links to users)'"
+msgstr "Користувачі: 'ID користувачів (числові) / Імена користувачів (починаються з @) / Згадки (посилання на користувачів)'"
 
 #: sophie_bot/args/users.py:79
 msgid "User ID"
@@ -38,7 +38,7 @@ msgstr "Username"
 
 #: sophie_bot/args/users.py:81
 msgid "A link to user, usually creates by mentioning a user without username."
-msgstr "A link to user, usually creates by mentioning a user without username."
+msgstr "Посилання на користувача, яке зазвичай створюється, коли згадують користувача без імені."
 
 #: sophie_bot/middlewares/connections.py:26
 msgid "Private chat"
@@ -46,7 +46,7 @@ msgstr "Private chat"
 
 #: sophie_bot/middlewares/connections.py:38
 msgid "Connected chat not found in the database. Please try to disconnect and connect again."
-msgstr "Connected chat not found in the database. Please try to disconnect and connect again."
+msgstr "Підключений чат не знайдено в базі даних. Будь ласка, спробуйте відключитися і підключитися знову."
 
 #: sophie_bot/modules/ai/__init__.py:17
 msgid "Sophie AI"
@@ -58,7 +58,7 @@ msgstr "Райдужні блискітки та яскравість"
 
 #: sophie_bot/modules/ai/__init__.py:21
 msgid "Please note that you can make a limited amount of AI requests per day."
-msgstr "Please note that you can make a limited amount of AI requests per day."
+msgstr "Будь ласка, зауважте, що ви можете зробити обмежену кількість запитів до AI на день."
 
 #: sophie_bot/modules/ai/texts.py:3
 msgid "By using AI features you agree to the our Privacy Policy (/privacy) and third party AI services used."
@@ -74,7 +74,7 @@ msgstr "Будь ласка, використайте \"{cmd}\", щоб акти
 
 #: sophie_bot/modules/ai/filters/throttle.py:18
 msgid "❗️ You've reached the daily AI limit, please try again tomorrow."
-msgstr "❗️ You've reached the daily AI limit, please try again tomorrow."
+msgstr "❗️ Ви досягли добового ліміту AI, будь ласка, спробуйте ще раз завтра."
 
 #: sophie_bot/modules/ai/fsm/pm.py:10
 msgid "🛑 Exit AI mode"
@@ -90,7 +90,7 @@ msgstr "Prompt"
 
 #: sophie_bot/modules/ai/handlers/ai_cmd.py:15
 msgid "Ask Sophie a question"
-msgstr "Ask Sophie a question"
+msgstr "Запитайте Софі питання"
 
 #: sophie_bot/modules/ai/handlers/aisave.py:27
 msgid "Generate a new note using AI"
@@ -146,7 +146,7 @@ msgstr "privacy policy"
 
 #: sophie_bot/modules/ai/handlers/enable.py:45 sophie_bot/modules/beta/handlers/beta_state.py:88
 msgid "Use '{cmd}' to change it."
-msgstr "Use '{cmd}' to change it."
+msgstr "Використовуйте '{cmd}', щоб змінити це."
 
 #: sophie_bot/modules/ai/handlers/enable.py:51 sophie_bot/modules/legacy_modules/modules/antiflood.py:248
 #: sophie_bot/modules/legacy_modules/modules/connection.py:184 sophie_bot/modules/legacy_modules/modules/notes.py:532
@@ -192,7 +192,7 @@ msgstr "✨ Відповідь AI"
 
 #: sophie_bot/modules/ai/handlers/pm.py:21
 msgid "Start the AI ChatBot mode"
-msgstr "Start the AI ChatBot mode"
+msgstr "Запустити режим чат-бота AI"
 
 #: sophie_bot/modules/ai/handlers/pm.py:29 sophie_bot/modules/beta/__init__.py:15
 #: sophie_bot/modules/beta/handlers/beta_state.py:15
@@ -201,11 +201,11 @@ msgstr "Beta"
 
 #: sophie_bot/modules/ai/handlers/pm.py:32
 msgid "{ai_emoji} Entered to the AI Mode, in this mode you can directly interact with the AI."
-msgstr "{ai_emoji} Entered to the AI Mode, in this mode you can directly interact with the AI."
+msgstr "{ai_emoji} Увійшли в режим AI, в цьому режимі ви можете безпосередньо взаємодіяти з AI."
 
 #: sophie_bot/modules/ai/handlers/pm.py:37
 msgid "By using the AI, you agree to the {privacy_policy} of the bot and third party AI services used."
-msgstr "By using the AI, you agree to the {privacy_policy} of the bot and third party AI services used."
+msgstr "Використовуючи AI, ви погоджуєтеся з {privacy_policy} бота та третьої сторони AI-сервісів."
 
 #: sophie_bot/modules/ai/handlers/pm.py:40
 msgid "Click on the button below to exit."
@@ -213,41 +213,41 @@ msgstr "Click on the button below to exit."
 
 #: sophie_bot/modules/ai/handlers/pm.py:55
 msgid "Hello! How can I help you?"
-msgstr "Hello! How can I help you?"
+msgstr "Привіт! Як я можу допомогти вам?"
 
 #: sophie_bot/modules/ai/handlers/pm.py:66
 msgid "The AI mode has been exited."
-msgstr "The AI mode has been exited."
+msgstr "Режим AI був закритий."
 
-#: sophie_bot/modules/ai/utils/message_history.py:49
+#: sophie_bot/modules/ai/utils/message_history.py:48
 msgid "You're a Telegram Bot named Sophie."
 msgstr "Ви — це бот Telegram на ім'я Софі."
 
-#: sophie_bot/modules/ai/utils/message_history.py:50
+#: sophie_bot/modules/ai/utils/message_history.py:49
 msgid "Respond concisely, be friendly, stick to the current topic."
 msgstr "Відповідайте лаконічно, будьте дружніми, дотримуйтесь поточної теми."
 
-#: sophie_bot/modules/ai/utils/message_history.py:51
+#: sophie_bot/modules/ai/utils/message_history.py:50
 msgid "Do not use markdown or html. You can use emojis."
 msgstr "Не використовуйте markdown або html. Ви можете використовувати емодзі."
 
-#: sophie_bot/modules/ai/utils/message_history.py:72
+#: sophie_bot/modules/ai/utils/message_history.py:71
 msgid "<No text provided>"
 msgstr "<No text provided>"
 
-#: sophie_bot/modules/ai/utils/message_history.py:81
+#: sophie_bot/modules/ai/utils/message_history.py:80
 msgid "MESSAGE REPLIES TO PREVIOUS MESSAGE FROM"
 msgstr "ПОВІДОМЛЕННЯ ВІДПОВІДАЄ НА ПРЕДИ ДНЬ ВІД"
 
-#: sophie_bot/modules/ai/utils/message_history.py:92
+#: sophie_bot/modules/ai/utils/message_history.py:91
 msgid "Photo is empty"
 msgstr "Фотографія порожня"
 
 #: sophie_bot/modules/beta/__init__.py:17
 msgid "Controls the current Sophie mode.\n"
 "Please note that Beta mode can have bugs and issues. If you encounter any problems please report it to the support chat."
-msgstr "Controls the current Sophie mode.\n"
-"Please note that Beta mode can have bugs and issues. If you encounter any problems please report it to the support chat."
+msgstr "Контролює поточний режим Софі.\n"
+"Будь ласка, зауважте, що бета-режим може містити помилки та проблеми. Якщо ви зіткнетеся з будь-якими проблемами, будь ласка, повідомте про це в чат підтримки."
 
 #: sophie_bot/modules/beta/handlers/beta_state.py:13
 msgid "Auto"
@@ -259,15 +259,15 @@ msgstr "Stable"
 
 #: sophie_bot/modules/beta/handlers/beta_state.py:20
 msgid "Preferred strategy mode"
-msgstr "Preferred strategy mode"
+msgstr "Переважна стратегія"
 
 #: sophie_bot/modules/beta/handlers/beta_state.py:22
 msgid "Set preferred strategy mode"
-msgstr "Set preferred strategy mode"
+msgstr "Встановити переважну стратегію"
 
 #: sophie_bot/modules/beta/handlers/beta_state.py:65
 msgid "Get current strategy mode / current state"
-msgstr "Get current strategy mode / current state"
+msgstr "Отримати поточну стратегію / поточний стан"
 
 #: sophie_bot/modules/beta/handlers/beta_state.py:79
 msgid "Unknown"
@@ -279,31 +279,31 @@ msgstr "Error"
 
 #: sophie_bot/modules/error/handlers/error.py:79
 msgid "😞 I've got an error trying to process this update"
-msgstr "😞 I've got an error trying to process this update"
+msgstr "😞 У мене виникла помилка при обробці цього оновлення"
 
 #: sophie_bot/modules/error/handlers/error.py:92
 msgid "Reference ID"
-msgstr "Reference ID"
+msgstr "Ідентифікатор посилання"
 
 #: sophie_bot/modules/error/handlers/error.py:100
 msgid "💬 Contact Sophie support"
-msgstr "💬 Contact Sophie support"
+msgstr "💬 Зв'язатися з підтримкою Софі"
 
 #: sophie_bot/modules/error/utils/haikus.py:5
 msgid "Code dances with bugs,"
-msgstr "Code dances with bugs,"
+msgstr "Код танцює з помилками,"
 
 #: sophie_bot/modules/error/utils/haikus.py:6
 msgid "Exceptions arise, yet learn —"
-msgstr "Exceptions arise, yet learn —"
+msgstr "Винятки виникають, але навчання —"
 
 #: sophie_bot/modules/error/utils/haikus.py:7
 msgid "Errors guide our way."
-msgstr "Errors guide our way."
+msgstr "Помилки ведуть нашим шляхом."
 
 #: sophie_bot/modules/error/utils/haikus.py:10
 msgid "Silent lines disrupted,"
-msgstr "Silent lines disrupted,"
+msgstr "Тихі рядки перервані,"
 
 #: sophie_bot/modules/error/utils/haikus.py:11
 msgid "Errors speak a language new,"
@@ -311,19 +311,19 @@ msgstr "Errors speak a language new,"
 
 #: sophie_bot/modules/error/utils/haikus.py:12
 msgid "In flaws, growth takes root."
-msgstr "In flaws, growth takes root."
+msgstr "У недоліках росте нове."
 
 #: sophie_bot/modules/error/utils/haikus.py:15
 msgid "Through the mist of bugs,"
-msgstr "Through the mist of bugs,"
+msgstr "Через туман помилок,"
 
 #: sophie_bot/modules/error/utils/haikus.py:16
 msgid "Learning blooms in lines of code,"
-msgstr "Learning blooms in lines of code,"
+msgstr "Навчання розквітає в рядках коду,"
 
 #: sophie_bot/modules/error/utils/haikus.py:17
 msgid "Exceptional growth."
-msgstr "Exceptional growth."
+msgstr "Винятковий розвиток."
 
 #: sophie_bot/modules/error/utils/haikus.py:20
 msgid "In errors we find,"
@@ -335,11 +335,11 @@ msgstr "Opportunities to learn,"
 
 #: sophie_bot/modules/error/utils/haikus.py:22
 msgid "Software's hidden gifts."
-msgstr "Software's hidden gifts."
+msgstr "Приховані подарунки програмного забезпечення."
 
 #: sophie_bot/modules/error/utils/haikus.py:25
 msgid "Paths diverge, glitch calls,"
-msgstr "Paths diverge, glitch calls,"
+msgstr "Шляхи розгалужуються, збої кличуть,"
 
 #: sophie_bot/modules/error/utils/haikus.py:26
 msgid "Embrace the flaw, seek the fix,"
@@ -351,7 +351,7 @@ msgstr "Errors sculpt progress."
 
 #: sophie_bot/modules/error/utils/haikus.py:30
 msgid "A glitchy waltz starts,"
-msgstr "A glitchy waltz starts,"
+msgstr "Починається збоєвий вальс,"
 
 #: sophie_bot/modules/error/utils/haikus.py:31
 msgid "Errors lead to graceful steps,"
@@ -367,23 +367,23 @@ msgstr "Beneath error's mask,"
 
 #: sophie_bot/modules/error/utils/haikus.py:36
 msgid "Lies chance to refine and mend,"
-msgstr "Lies chance to refine and mend,"
+msgstr "Ховається шанс вдосконалити та виправити,"
 
 #: sophie_bot/modules/error/utils/haikus.py:37
 msgid "Stronger code emerges."
-msgstr "Stronger code emerges."
+msgstr "Виникає більш міцний код."
 
 #: sophie_bot/modules/error/utils/haikus.py:40
 msgid "Flawed notes in the code,"
-msgstr "Flawed notes in the code,"
+msgstr "Недосконалі примітки в коді,"
 
 #: sophie_bot/modules/error/utils/haikus.py:41
 msgid "Create the symphony of growth,"
-msgstr "Create the symphony of growth,"
+msgstr "Створюють симфонію зростання,"
 
 #: sophie_bot/modules/error/utils/haikus.py:42
 msgid "Exceptions compose."
-msgstr "Exceptions compose."
+msgstr "Винятки складають."
 
 #: sophie_bot/modules/error/utils/haikus.py:45
 msgid "Bright stars in the code,"
@@ -391,7 +391,7 @@ msgstr "Bright stars in the code,"
 
 #: sophie_bot/modules/error/utils/haikus.py:46
 msgid "Errors guide us through the dark,"
-msgstr "Errors guide us through the dark,"
+msgstr "Помилки ведуть нас крізь темряву,"
 
 #: sophie_bot/modules/error/utils/haikus.py:47
 msgid "To a better dawn."
@@ -403,7 +403,7 @@ msgstr "Software's journey,"
 
 #: sophie_bot/modules/error/utils/haikus.py:51
 msgid "Marked by errors, yet they forge,"
-msgstr "Marked by errors, yet they forge,"
+msgstr "Позначена помилками, проте вони формують,"
 
 #: sophie_bot/modules/error/utils/haikus.py:52
 msgid "A path to brilliance."
@@ -411,11 +411,11 @@ msgstr "A path to brilliance."
 
 #: sophie_bot/modules/error/utils/haikus.py:55
 msgid "In lines of debug,"
-msgstr "In lines of debug,"
+msgstr "В рядках налагодження,"
 
 #: sophie_bot/modules/error/utils/haikus.py:56
 msgid "Lies the tale of perseverance,"
-msgstr "Lies the tale of perseverance,"
+msgstr "Ховається оповідь про наполегливість,"
 
 #: sophie_bot/modules/error/utils/haikus.py:57
 msgid "Errors write our story."
@@ -423,7 +423,7 @@ msgstr "Errors write our story."
 
 #: sophie_bot/modules/error/utils/haikus.py:60
 msgid "Bugs like stepping stones,"
-msgstr "Bugs like stepping stones,"
+msgstr "Бugs like stepping stones,"
 
 #: sophie_bot/modules/error/utils/haikus.py:61
 msgid "Lead us towards understanding,"
@@ -439,23 +439,23 @@ msgstr "Amidst lines of code,"
 
 #: sophie_bot/modules/error/utils/haikus.py:66
 msgid "Errors whisper secrets deep,"
-msgstr "Errors whisper secrets deep,"
+msgstr "Помилки шепочуть таємниці поглибокі,"
 
 #: sophie_bot/modules/error/utils/haikus.py:67
 msgid "Knowledge blooms from flaws."
-msgstr "Knowledge blooms from flaws."
+msgstr "Знання розквітає з недоліків."
 
 #: sophie_bot/modules/error/utils/haikus.py:70
 msgid "A puzzle of bugs,"
-msgstr "A puzzle of bugs,"
+msgstr "Головоломка помилок,"
 
 #: sophie_bot/modules/error/utils/haikus.py:71
 msgid "Each exception a clue to solve,"
-msgstr "Each exception a clue to solve,"
+msgstr "Кожен виняток — це підказка для розв'язання,"
 
 #: sophie_bot/modules/error/utils/haikus.py:72
 msgid "The software's riddle."
-msgstr "The software's riddle."
+msgstr "Головоломка програмного забезпечення."
 
 #: sophie_bot/modules/error/utils/haikus.py:75
 msgid "In realm of errors,"
@@ -463,7 +463,7 @@ msgstr "In realm of errors,"
 
 #: sophie_bot/modules/error/utils/haikus.py:76
 msgid "Patience and insight converge,"
-msgstr "Patience and insight converge,"
+msgstr "Зустрічаються терпіння та прозорливість,"
 
 #: sophie_bot/modules/error/utils/haikus.py:77
 msgid "Solutions are born."
@@ -471,15 +471,15 @@ msgstr "Solutions are born."
 
 #: sophie_bot/modules/error/utils/haikus.py:80
 msgid "Through crashes and burns,"
-msgstr "Through crashes and burns,"
+msgstr "Через збої та поразки,"
 
 #: sophie_bot/modules/error/utils/haikus.py:81
 msgid "Rises phoenix of progress,"
-msgstr "Rises phoenix of progress,"
+msgstr "Піднімається фенікс прогресу,"
 
 #: sophie_bot/modules/error/utils/haikus.py:82
 msgid "From ashes of bugs."
-msgstr "From ashes of bugs."
+msgstr "З попелу помилок."
 
 #: sophie_bot/modules/error/utils/haikus.py:85
 msgid "Software's heartbeat,"
@@ -495,7 +495,7 @@ msgstr "Lifeblood of growth flows."
 
 #: sophie_bot/modules/error/utils/haikus.py:90
 msgid "Errors like raindrops,"
-msgstr "Errors like raindrops,"
+msgstr "Помилки, схожі на краплі дощу,"
 
 #: sophie_bot/modules/error/utils/haikus.py:91
 msgid "Quenching the thirst for knowledge,"
@@ -503,11 +503,11 @@ msgstr "Quenching the thirst for knowledge,"
 
 #: sophie_bot/modules/error/utils/haikus.py:92
 msgid "Nourishing progress."
-msgstr "Nourishing progress."
+msgstr "Підживлюючи прогрес."
 
 #: sophie_bot/modules/error/utils/haikus.py:95
 msgid "Through the maze of bugs,"
-msgstr "Through the maze of bugs,"
+msgstr "Через лабіринт помилок,"
 
 #: sophie_bot/modules/error/utils/haikus.py:96
 msgid "A labyrinth of learning,"
@@ -523,11 +523,11 @@ msgstr "In the code's embrace,"
 
 #: sophie_bot/modules/error/utils/haikus.py:101
 msgid "Errors cradle innovation,"
-msgstr "Errors cradle innovation,"
+msgstr "Помилки колихають інновації,"
 
 #: sophie_bot/modules/error/utils/haikus.py:102
 msgid "Softly whispering."
-msgstr "Softly whispering."
+msgstr "Тихо шепочучи."
 
 #: sophie_bot/modules/help/__init__.py:20 sophie_bot/modules/help/handlers/pm_modules.py:41
 msgid "Help"
@@ -564,7 +564,7 @@ msgstr "Commands"
 
 #: sophie_bot/modules/help/handlers/pm_modules.py:76
 msgid "PM-only"
-msgstr "PM-only"
+msgstr "Тільки PM"
 
 #: sophie_bot/modules/help/handlers/pm_modules.py:77
 msgid "Only admins"
@@ -576,7 +576,7 @@ msgstr "Команди-аліаси з {module}"
 
 #: sophie_bot/modules/help/handlers/pm_modules.py:105
 msgid "📖 Wiki page"
-msgstr "📖 Wiki page"
+msgstr "📖 Сторінка Вікі"
 
 #: sophie_bot/modules/help/utils/format_help.py:21
 msgid " - Only in chats"
@@ -588,7 +588,7 @@ msgstr "Antiflood"
 
 #: sophie_bot/modules/legacy_modules/modules/antiflood.py:191
 msgid "Set the antiflood limit for this chat."
-msgstr "Set the antiflood limit for this chat."
+msgstr "Встановіть обмеження антифлуду для цього чату."
 
 #: sophie_bot/modules/legacy_modules/modules/antiflood.py:191
 msgid "Number of messages"
@@ -636,7 +636,7 @@ msgstr "Встановлює, чи можуть звичайні користу�
 
 #: sophie_bot/modules/legacy_modules/modules/disabling.py:17
 msgid "Disabling"
-msgstr "Disabling"
+msgstr "Кількість повідомлень"
 
 #: sophie_bot/modules/legacy_modules/modules/disabling.py:24
 msgid "Lists all commands that can be disabled."
@@ -772,7 +772,7 @@ msgstr "Перевіряє статус заборони користувача 
 
 #: sophie_bot/modules/legacy_modules/modules/filters.py:62
 msgid "Filters"
-msgstr "Filters"
+msgstr "Новий стан"
 
 #: sophie_bot/modules/legacy_modules/modules/filters.py:157
 msgid "Adds a new filter."
@@ -864,7 +864,7 @@ msgstr "Нова мова"
 
 #: sophie_bot/modules/legacy_modules/modules/notes.py:43 sophie_bot/modules/notes/__init__.py:13
 msgid "Notes"
-msgstr "Notes"
+msgstr "Замітки"
 
 #: sophie_bot/modules/legacy_modules/modules/notes.py:122
 msgid "Saves the note."
@@ -934,7 +934,7 @@ msgstr "📢 Канал новин"
 
 #: sophie_bot/modules/legacy_modules/modules/promotes.py:38
 msgid "Promotes"
-msgstr "Promotes"
+msgstr "Підвищення"
 
 #: sophie_bot/modules/legacy_modules/modules/promotes.py:50
 msgid "Promotes the user to admins."
@@ -958,7 +958,7 @@ msgstr "Очищає всі повідомлення після відповід
 
 #: sophie_bot/modules/legacy_modules/modules/reports.py:18
 msgid "Reports"
-msgstr "Reports"
+msgstr "Доповіді"
 
 #: sophie_bot/modules/legacy_modules/modules/reports.py:35
 msgid "Reports the replied message."
@@ -1027,7 +1027,7 @@ msgstr "Видаляє примітки."
 
 #: sophie_bot/modules/notes/handlers/delete.py:25
 msgid "No notes was found with {name} name."
-msgstr "No notes was found with {name} name."
+msgstr "Заміток не знайдено з іменем {name}."
 
 #: sophie_bot/modules/notes/handlers/delete.py:33
 msgid "Name"
@@ -1039,7 +1039,7 @@ msgstr "Names"
 
 #: sophie_bot/modules/notes/handlers/delete.py:34
 msgid "Note was successfully deleted"
-msgstr "Note was successfully deleted"
+msgstr "Примітка була успішно видалена"
 
 #: sophie_bot/modules/notes/handlers/get.py:16
 msgid "Retrieve the note."
@@ -1047,7 +1047,7 @@ msgstr "Одержати примітку."
 
 #: sophie_bot/modules/notes/handlers/get.py:25
 msgid "No note was found with {name} name."
-msgstr "No note was found with {name} name."
+msgstr "Не знайдено примітки з іменем {name}."
 
 #: sophie_bot/modules/notes/handlers/list.py:16
 msgid "Search notes"
@@ -1059,11 +1059,11 @@ msgstr "Перелічує доступні примітки."
 
 #: sophie_bot/modules/notes/handlers/list.py:79
 msgid "No notes found by the provided search pattern {pattern}."
-msgstr "No notes found by the provided search pattern {pattern}."
+msgstr "Жодних приміток не знайдено за наданим шаблоном пошуку {pattern}."
 
 #: sophie_bot/modules/notes/handlers/list.py:82
 msgid "No notes found."
-msgstr "No notes found."
+msgstr "Немає жодної примітки."
 
 #: sophie_bot/modules/notes/handlers/list.py:86
 msgid "Search pattern"
@@ -1099,23 +1099,23 @@ msgstr "Зберегти примітку."
 
 #: sophie_bot/modules/notes/handlers/save.py:47
 msgid "Note was successfully created"
-msgstr "Note was successfully created"
+msgstr "Примітка була успішно створена"
 
 #: sophie_bot/modules/notes/handlers/save.py:47
 msgid "Note was successfully updated"
-msgstr "Note was successfully updated"
+msgstr "Примітка була успішно оновлена"
 
 #: sophie_bot/modules/notes/utils/parse.py:71
 msgid "Please check the notes documentation for the list of the allowed content types."
-msgstr "Please check the notes documentation for the list of the allowed content types."
+msgstr "Будь ласка, перевірте документацію приміток для списку дозволених типів вмісту."
 
 #: sophie_bot/modules/notes/utils/parse.py:72
 msgid "Reply message content is not parsable as the note."
-msgstr "Reply message content is not parsable as the note."
+msgstr "Вміст відповіді не може бути оброблений як примітка."
 
 #: sophie_bot/modules/notes/utils/parse.py:104
 msgid "The maximum length of the note is {limit} characters."
-msgstr "The maximum length of the note is {limit} characters."
+msgstr "Максимальна довжина примітки — {limit} символів."
 
 #: sophie_bot/modules/notes/utils/parse.py:105
 msgid "Please try to reduce the length of the note."
@@ -1127,7 +1127,7 @@ msgstr "Note is too long."
 
 #: sophie_bot/modules/notes/utils/text.py:28
 msgid "Local chat"
-msgstr "Local chat"
+msgstr "Локальний чат"
 
 #: sophie_bot/modules/privacy/__init__.py:17
 msgid "Privacy"
@@ -1155,15 +1155,15 @@ msgstr "Privacy Policy"
 
 #: sophie_bot/modules/troubleshooters/__init__.py:12
 msgid "Troubleshooters"
-msgstr "Troubleshooters"
+msgstr "Служби для усунення неполадок"
 
 #: sophie_bot/modules/troubleshooters/__init__.py:14
 msgid "Small commands for fixing problems"
-msgstr "Small commands for fixing problems"
+msgstr "Малі команди для виправлення проблем"
 
 #: sophie_bot/modules/troubleshooters/handlers/admincache.py:13
 msgid "Reset admin rights cache, use if Sophie didn't get the recently added admin"
-msgstr "Reset admin rights cache, use if Sophie didn't get the recently added admin"
+msgstr "Скидає кеш адміністративних прав, використовуйте, якщо Софі не отримала нещодавно доданого адміністратора"
 
 #: sophie_bot/modules/troubleshooters/handlers/admincache.py:20
 msgid "You can't use this command in private chats."
@@ -1171,7 +1171,7 @@ msgstr "You can't use this command in private chats."
 
 #: sophie_bot/modules/troubleshooters/handlers/admincache.py:23
 msgid "Admin rights cache has been reset."
-msgstr "Admin rights cache has been reset."
+msgstr "Кеш адміністративних прав був скинутий."
 
 #: sophie_bot/modules/troubleshooters/handlers/cancel.py:12
 msgid "Cancel current state, use if Sophie is not responding on your message"
@@ -1179,7 +1179,7 @@ msgstr "Cancel current state, use if Sophie is not responding on your message"
 
 #: sophie_bot/modules/troubleshooters/handlers/cancel.py:20
 msgid "The current state is already cleared, nothing to do here."
-msgstr "The current state is already cleared, nothing to do here."
+msgstr "Теперішній стан вже очищено, нічого тут робити."
 
 #: sophie_bot/modules/troubleshooters/handlers/cancel.py:26
 msgid "Current state is cleared."
@@ -1199,9 +1199,9 @@ msgstr "Connected chat ID: {id}"
 
 #: sophie_bot/modules/users/handlers/id.py:47
 msgid "Replied user ID: {id}"
-msgstr "Replied user ID: {id}"
+msgstr "ID користувача, на якого відповіли: {id}"
 
 #: sophie_bot/modules/users/handlers/id.py:51
 msgid "{user}'s ID: {id}"
-msgstr "{user}'s ID: {id}"
+msgstr "{user} ID: {id}"
 
