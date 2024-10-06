@@ -80,7 +80,7 @@ new_locale:
 	mkdir locales/
 
 	make extract_lang
-	make new_lang LANG=en_US
+	make new_lang LANG=uk_UA
 	make update_lang
 	make compile_lang
 
