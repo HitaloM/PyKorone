@@ -1,3 +1,17 @@
+msgid ""
+msgstr ""
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Crowdin-Project: sophiebot\n"
+"X-Crowdin-Project-ID: 356879\n"
+"X-Crowdin-Language: de\n"
+"X-Crowdin-File: /beta/locales/ass.pot\n"
+"X-Crowdin-File-ID: 270\n"
+"Project-Id-Version: sophiebot\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language-Team: German\n"
+"Language: de_DE\n"
+"PO-Revision-Date: 2024-10-06 13:45\n"
+
 #: exceptions.py:33
 msgid "Examples"
 msgstr "Beispiele"
@@ -55,12 +69,8 @@ msgid "The list is empty!"
 msgstr "Die Liste ist leer!"
 
 #: types/lists.py:97
-msgid ""
-"➡️ The start prefix text of the lists cannot have the overlapping "
-"formatting"
-msgstr ""
-"➡️ Der Startpräfixtext der Listen darf keine überlappende Formatierung "
-"haben"
+msgid "➡️ The start prefix text of the lists cannot have the overlapping formatting"
+msgstr "➡️ Der Startpräfixtext der Listen darf keine überlappende Formatierung haben"
 
 #: types/lists.py:152 types/lists.py:170
 msgid "Argument '{arg_text}' was parsed, but it has unknown text after it!"
@@ -68,9 +78,7 @@ msgstr "Argument '{arg_text}' wurde geparst, aber es gibt unbekannten Text danac
 
 #: types/lists.py:157 types/lists.py:175
 msgid "Please ensure you correctly divided all of arguments."
-msgstr ""
-"Bitte stellen Sie sicher, dass Sie alle Argumente korrekt aufgeteilt "
-"haben."
+msgstr "Bitte stellen Sie sicher, dass Sie alle Argumente korrekt aufgeteilt haben."
 
 #: types/logic.py:20
 msgid "Optional {}"
@@ -146,9 +154,7 @@ msgstr "➡️ Der Starttext darf keine überlappende Formatierung haben"
 
 #: types/text_rules.py:74
 msgid "➡️ Argument '{arg_text}' was parsed, but it has unknown text after it!"
-msgstr ""
-"➡️ Argument '{arg_text}' wurde geparst, aber es gibt unbekannten Text "
-"danach!"
+msgstr "➡️ Argument '{arg_text}' wurde geparst, aber es gibt unbekannten Text danach!"
 
 #: types/text_rules.py:91 types/text_rules.py:95
 msgid "{} surrounded by {} and {}"
@@ -236,32 +242,20 @@ msgid "Should start with mention!"
 msgstr "Soll mit einer Erwähnung beginnen!"
 
 #: types/user.py:107
-msgid ""
-"Unexpected error while trying to get the user! Please report this in the "
-"support chat!"
-msgstr ""
-"Unerwarteter Fehler beim Abrufen des Benutzers! Bitte melden Sie dies im "
-"Support-Chat!"
+msgid "Unexpected error while trying to get the user! Please report this in the support chat!"
+msgstr "Unerwarteter Fehler beim Abrufen des Benutzers! Bitte melden Sie dies im Support-Chat!"
 
 #: types/user.py:108
 msgid "Could not find the user mention"
 msgstr "Konnte die Benutzererwähnung nicht finden"
 
 #: types/user.py:119
-msgid ""
-"User: 'User ID (numeric) / Username (starts with @) / Mention (links to "
-"users)'"
-msgstr ""
-"Benutzer: 'Benutzer-ID (numerisch) / Benutzername (beginnt mit @) / "
-"Erwähnung (Links zu Benutzern)'"
+msgid "User: 'User ID (numeric) / Username (starts with @) / Mention (links to users)'"
+msgstr "Benutzer: 'Benutzer-ID (numerisch) / Benutzername (beginnt mit @) / Erwähnung (Links zu Benutzern)'"
 
 #: types/user.py:121
-msgid ""
-"Users: 'User IDs (numeric) / Usernames (starts with @) / Mentions (links "
-"to users)'"
-msgstr ""
-"Benutzer: 'Benutzer-IDs (numerisch) / Benutzernamen (beginnt mit @) / "
-"Erwähnungen (Links zu Benutzern)'"
+msgid "Users: 'User IDs (numeric) / Usernames (starts with @) / Mentions (links to users)'"
+msgstr "Benutzer: 'Benutzer-IDs (numerisch) / Benutzernamen (beginnt mit @) / Erwähnungen (Links zu Benutzern)'"
 
 #: types/user.py:128
 msgid "User ID"
@@ -273,7 +267,5 @@ msgstr "Benutzername"
 
 #: types/user.py:133
 msgid "A link to user, usually creates by mentioning a user without username."
-msgstr ""
-"Ein Link zu einem Benutzer, der gewöhnlich erstellt wird, indem ein "
-"Benutzer ohne Benutzernamen erwähnt wird."
+msgstr "Ein Link zu einem Benutzer, der gewöhnlich erstellt wird, indem ein Benutzer ohne Benutzernamen erwähnt wird."
 

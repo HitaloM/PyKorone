@@ -1,3 +1,17 @@
+msgid ""
+msgstr ""
+"Plural-Forms: nplurals=4; plural=((n%10==1 && n%100!=11) ? 0 : ((n%10 >= 2 && n%10 <=4 && (n%100 < 12 || n%100 > 14)) ? 1 : ((n%10 == 0 || (n%10 >= 5 && n%10 <=9)) || (n%100 >= 11 && n%100 <= 14)) ? 2 : 3));\n"
+"X-Crowdin-Project: sophiebot\n"
+"X-Crowdin-Project-ID: 356879\n"
+"X-Crowdin-Language: ru\n"
+"X-Crowdin-File: /beta/locales/ass.pot\n"
+"X-Crowdin-File-ID: 270\n"
+"Project-Id-Version: sophiebot\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language-Team: Russian\n"
+"Language: ru_RU\n"
+"PO-Revision-Date: 2024-10-06 13:45\n"
+
 #: exceptions.py:33
 msgid "Examples"
 msgstr "Примеры"
@@ -55,16 +69,12 @@ msgid "The list is empty!"
 msgstr "Список пуст!"
 
 #: types/lists.py:97
-msgid ""
-"➡️ The start prefix text of the lists cannot have the overlapping "
-"formatting"
+msgid "➡️ The start prefix text of the lists cannot have the overlapping formatting"
 msgstr "➡️ Начальный префикс списка не может иметь перекрывающегося форматирования"
 
 #: types/lists.py:152 types/lists.py:170
 msgid "Argument '{arg_text}' was parsed, but it has unknown text after it!"
-msgstr ""
-"Аргумент '{arg_text}' был распознан, но после него находится неизвестный "
-"текст!"
+msgstr "Аргумент '{arg_text}' был распознан, но после него находится неизвестный текст!"
 
 #: types/lists.py:157 types/lists.py:175
 msgid "Please ensure you correctly divided all of arguments."
@@ -144,9 +154,7 @@ msgstr "➡️ Начальный текст не может иметь пере
 
 #: types/text_rules.py:74
 msgid "➡️ Argument '{arg_text}' was parsed, but it has unknown text after it!"
-msgstr ""
-"➡️ Аргумент '{arg_text}' был распознан, но после него находится "
-"неизвестный текст!"
+msgstr "➡️ Аргумент '{arg_text}' был распознан, но после него находится неизвестный текст!"
 
 #: types/text_rules.py:91 types/text_rules.py:95
 msgid "{} surrounded by {} and {}"
@@ -234,32 +242,20 @@ msgid "Should start with mention!"
 msgstr "Должно начинаться с упоминания!"
 
 #: types/user.py:107
-msgid ""
-"Unexpected error while trying to get the user! Please report this in the "
-"support chat!"
-msgstr ""
-"Непредвиденная ошибка при попытке получить пользователя! Пожалуйста, "
-"сообщите об этом в чате поддержки!"
+msgid "Unexpected error while trying to get the user! Please report this in the support chat!"
+msgstr "Непредвиденная ошибка при попытке получить пользователя! Пожалуйста, сообщите об этом в чате поддержки!"
 
 #: types/user.py:108
 msgid "Could not find the user mention"
 msgstr "Не возможно найти упоминание на пользователя!"
 
 #: types/user.py:119
-msgid ""
-"User: 'User ID (numeric) / Username (starts with @) / Mention (links to "
-"users)'"
-msgstr ""
-"Пользователь: 'ID пользователя (число) / Юзернем (начинается с @) / "
-"Упоминание (ссылки на пользователей)'"
+msgid "User: 'User ID (numeric) / Username (starts with @) / Mention (links to users)'"
+msgstr "Пользователь: 'ID пользователя (число) / Юзернем (начинается с @) / Упоминание (ссылки на пользователей)'"
 
 #: types/user.py:121
-msgid ""
-"Users: 'User IDs (numeric) / Usernames (starts with @) / Mentions (links "
-"to users)'"
-msgstr ""
-"Пользователи: 'ID пользователей (числа) / Юзернеймы (начинаются с @) / "
-"Упоминания (ссылки на пользователей)'"
+msgid "Users: 'User IDs (numeric) / Usernames (starts with @) / Mentions (links to users)'"
+msgstr "Пользователи: 'ID пользователей (числа) / Юзернеймы (начинаются с @) / Упоминания (ссылки на пользователей)'"
 
 #: types/user.py:128
 msgid "User ID"
@@ -271,7 +267,5 @@ msgstr "Юзернейм"
 
 #: types/user.py:133
 msgid "A link to user, usually creates by mentioning a user without username."
-msgstr ""
-"Ссылка на пользователя, обычно создается путём упоминания на пользователя"
-" без юзернейма."
+msgstr "Ссылка на пользователя, обычно создается путём упоминания на пользователя без юзернейма."
 
