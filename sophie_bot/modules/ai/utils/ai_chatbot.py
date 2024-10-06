@@ -1,7 +1,7 @@
 from enum import Enum
 from typing import Iterable, Optional
 
-from aiogram.types import Message
+from aiogram.types import Message, ReplyKeyboardMarkup
 from openai.types import ResponseFormatJSONSchema, ResponseFormatText
 from openai.types.chat import ChatCompletionMessageParam
 from stfu_tg import Doc, HList, Title
@@ -37,6 +37,7 @@ async def ai_reply(
     message: Message,
     messages: MessageHistory,
     model: Models = DEFAULT_MODEL,
+    markup: Optional[ReplyKeyboardMarkup] = None,
 ) -> Message:
     response = await ai_generate(messages, model)
 
@@ -45,4 +46,4 @@ async def ai_reply(
         response,
     )
 
-    return await message.reply(str(doc), disable_web_page_preview=True)
+    return await message.reply(str(doc), disable_web_page_preview=True, reply_markup=markup)

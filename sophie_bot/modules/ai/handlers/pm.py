@@ -74,4 +74,12 @@ class AiPmHandle(MessageHandler):
     async def handle(self) -> Any:
         await bot.send_chat_action(self.event.chat.id, "typing")
         messages = await MessageHistory.chatbot(self.event)
-        await ai_reply(self.event, messages)
+
+        buttons = ReplyKeyboardMarkup(
+            keyboard=[[
+                KeyboardButton(text=str(AI_PM_STOP_TEXT)),
+            ]],
+            resize_keyboard=True,
+        )
+
+        await ai_reply(self.event, messages, markup=buttons)

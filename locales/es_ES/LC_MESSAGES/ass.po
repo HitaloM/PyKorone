@@ -1,17 +1,3 @@
-msgid ""
-msgstr ""
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Crowdin-Project: sophiebot\n"
-"X-Crowdin-Project-ID: 356879\n"
-"X-Crowdin-Language: es-ES\n"
-"X-Crowdin-File: /beta/locales/ass.pot\n"
-"X-Crowdin-File-ID: 270\n"
-"Project-Id-Version: sophiebot\n"
-"Content-Type: text/plain; charset=UTF-8\n"
-"Language-Team: Spanish\n"
-"Language: es_ES\n"
-"PO-Revision-Date: 2024-10-06 13:45\n"
-
 #: exceptions.py:33
 msgid "Examples"
 msgstr "Ejemplos"
@@ -69,12 +55,18 @@ msgid "The list is empty!"
 msgstr "¡La lista está vacía!"
 
 #: types/lists.py:97
-msgid "➡️ The start prefix text of the lists cannot have the overlapping formatting"
-msgstr "➡️ El texto del prefijo de inicio de las listas no puede tener formato superpuesto"
+msgid ""
+"➡️ The start prefix text of the lists cannot have the overlapping "
+"formatting"
+msgstr ""
+"➡️ El texto del prefijo de inicio de las listas no puede tener formato "
+"superpuesto"
 
 #: types/lists.py:152 types/lists.py:170
 msgid "Argument '{arg_text}' was parsed, but it has unknown text after it!"
-msgstr "¡El argumento '{arg_text}' fue analizado, pero tiene texto desconocido después de él!"
+msgstr ""
+"¡El argumento '{arg_text}' fue analizado, pero tiene texto desconocido "
+"después de él!"
 
 #: types/lists.py:157 types/lists.py:175
 msgid "Please ensure you correctly divided all of arguments."
@@ -154,7 +146,9 @@ msgstr "➡️ El texto de inicio no puede tener el formato superpuesto"
 
 #: types/text_rules.py:74
 msgid "➡️ Argument '{arg_text}' was parsed, but it has unknown text after it!"
-msgstr "➡️ ¡El argumento '{arg_text}' fue analizado, pero tiene texto desconocido después de él!"
+msgstr ""
+"➡️ ¡El argumento '{arg_text}' fue analizado, pero tiene texto desconocido"
+" después de él!"
 
 #: types/text_rules.py:91 types/text_rules.py:95
 msgid "{} surrounded by {} and {}"
@@ -242,20 +236,32 @@ msgid "Should start with mention!"
 msgstr "¡Debe comenzar con una mención!"
 
 #: types/user.py:107
-msgid "Unexpected error while trying to get the user! Please report this in the support chat!"
-msgstr "¡Error inesperado al intentar obtener al usuario! ¡Por favor, informe esto en el chat de soporte!"
+msgid ""
+"Unexpected error while trying to get the user! Please report this in the "
+"support chat!"
+msgstr ""
+"¡Error inesperado al intentar obtener al usuario! ¡Por favor, informe "
+"esto en el chat de soporte!"
 
 #: types/user.py:108
 msgid "Could not find the user mention"
 msgstr "No se pudo encontrar la mención de usuario"
 
 #: types/user.py:119
-msgid "User: 'User ID (numeric) / Username (starts with @) / Mention (links to users)'"
-msgstr "Usuario: 'ID de usuario (numérico) / Nombre de usuario (comienza con @) / Mención (enlaces a usuarios)'"
+msgid ""
+"User: 'User ID (numeric) / Username (starts with @) / Mention (links to "
+"users)'"
+msgstr ""
+"Usuario: 'ID de usuario (numérico) / Nombre de usuario (comienza con @) /"
+" Mención (enlaces a usuarios)'"
 
 #: types/user.py:121
-msgid "Users: 'User IDs (numeric) / Usernames (starts with @) / Mentions (links to users)'"
-msgstr "Usuarios: 'IDs de usuario (numéricos) / Nombres de usuario (comienzan con @) / Menciones (enlaces a usuarios)'"
+msgid ""
+"Users: 'User IDs (numeric) / Usernames (starts with @) / Mentions (links "
+"to users)'"
+msgstr ""
+"Usuarios: 'IDs de usuario (numéricos) / Nombres de usuario (comienzan con"
+" @) / Menciones (enlaces a usuarios)'"
 
 #: types/user.py:128
 msgid "User ID"
@@ -267,5 +273,7 @@ msgstr "Nombre de usuario"
 
 #: types/user.py:133
 msgid "A link to user, usually creates by mentioning a user without username."
-msgstr "Un enlace al usuario, generalmente se crea al mencionar a un usuario sin nombre de usuario."
+msgstr ""
+"Un enlace al usuario, generalmente se crea al mencionar a un usuario sin "
+"nombre de usuario."
 

@@ -1,17 +1,3 @@
-msgid ""
-msgstr ""
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Crowdin-Project: sophiebot\n"
-"X-Crowdin-Project-ID: 356879\n"
-"X-Crowdin-Language: tr\n"
-"X-Crowdin-File: /beta/locales/bot.pot\n"
-"X-Crowdin-File-ID: 272\n"
-"Project-Id-Version: sophiebot\n"
-"Content-Type: text/plain; charset=UTF-8\n"
-"Language-Team: Turkish\n"
-"Language: tr_TR\n"
-"PO-Revision-Date: 2024-10-06 13:45\n"
-
 #: sophie_bot/args/users.py:29
 msgid "Could not find the requested User ID in the database."
 msgstr "Veritabanında istenen Kullanıcı ID'si bulunamadı."
@@ -21,12 +7,20 @@ msgid "Could not find the requested Username in the database."
 msgstr "Veritabanında istenen Kullanıcı Adı bulunamadı."
 
 #: sophie_bot/args/users.py:72
-msgid "User: 'User ID (numeric) / Username (starts with @) / Mention (links to users)'"
-msgstr "Kullanıcı: 'Kullanıcı ID'si (sayısal) / Kullanıcı adı ( @ ile başlar) / Kullanma (kullanıcılara bağlantılar)'"
+msgid ""
+"User: 'User ID (numeric) / Username (starts with @) / Mention (links to "
+"users)'"
+msgstr ""
+"Kullanıcı: 'Kullanıcı ID'si (sayısal) / Kullanıcı adı ( @ ile başlar) / "
+"Kullanma (kullanıcılara bağlantılar)'"
 
 #: sophie_bot/args/users.py:72
-msgid "Users: 'User IDs (numeric) / Usernames (starts with @) / Mentions (links to users)'"
-msgstr "Kullanıcılar: 'Kullanıcı ID'leri (sayısal) / Kullanıcı adları ( @ ile başlar) / Kullanma (kullanıcılara bağlantılar)'"
+msgid ""
+"Users: 'User IDs (numeric) / Usernames (starts with @) / Mentions (links "
+"to users)'"
+msgstr ""
+"Kullanıcılar: 'Kullanıcı ID'leri (sayısal) / Kullanıcı adları ( @ ile "
+"başlar) / Kullanma (kullanıcılara bağlantılar)'"
 
 #: sophie_bot/args/users.py:79
 msgid "User ID"
@@ -38,15 +32,21 @@ msgstr "Kullanıcı adı"
 
 #: sophie_bot/args/users.py:81
 msgid "A link to user, usually creates by mentioning a user without username."
-msgstr "Bir kullanıcıya bağlantı, genellikle kullanıcıyı kullanıcı adı olmadan anarak oluşturulur."
+msgstr ""
+"Bir kullanıcıya bağlantı, genellikle kullanıcıyı kullanıcı adı olmadan "
+"anarak oluşturulur."
 
 #: sophie_bot/middlewares/connections.py:26
 msgid "Private chat"
 msgstr "Özel sohbet"
 
 #: sophie_bot/middlewares/connections.py:38
-msgid "Connected chat not found in the database. Please try to disconnect and connect again."
-msgstr "Bağlı sohbet veritabanında bulunamadı. Lütfen yeniden bağlantıyı kesip bağlanmayı deneyin."
+msgid ""
+"Connected chat not found in the database. Please try to disconnect and "
+"connect again."
+msgstr ""
+"Bağlı sohbet veritabanında bulunamadı. Lütfen yeniden bağlantıyı kesip "
+"bağlanmayı deneyin."
 
 #: sophie_bot/modules/ai/__init__.py:17
 msgid "Sophie AI"
@@ -61,8 +61,12 @@ msgid "Please note that you can make a limited amount of AI requests per day."
 msgstr "Günde sınırlı sayıda AI talebi yapabileceğinizi unutmayın."
 
 #: sophie_bot/modules/ai/texts.py:3
-msgid "By using AI features you agree to the our Privacy Policy (/privacy) and third party AI services used."
-msgstr "AI özelliklerini kullanarak, Gizlilik Politikamıza (/privacy) ve kullanılan üçüncü parti AI hizmetlerine onay vermiş olursunuz."
+msgid ""
+"By using AI features you agree to the our Privacy Policy (/privacy) and "
+"third party AI services used."
+msgstr ""
+"AI özelliklerini kullanarak, Gizlilik Politikamıza (/privacy) ve "
+"kullanılan üçüncü parti AI hizmetlerine onay vermiş olursunuz."
 
 #: sophie_bot/modules/ai/filters/ai_enabled.py:27
 msgid "The AI Features are currently deactivated for this chat."
@@ -84,7 +88,8 @@ msgstr "🛑 AI modundan çık"
 msgid "✨ Beta AI"
 msgstr "✨ Beta AI"
 
-#: sophie_bot/modules/ai/handlers/ai_cmd.py:14 sophie_bot/modules/ai/handlers/aisave.py:25
+#: sophie_bot/modules/ai/handlers/ai_cmd.py:14
+#: sophie_bot/modules/ai/handlers/aisave.py:25
 msgid "Prompt"
 msgstr "İstek"
 
@@ -108,7 +113,8 @@ msgstr "AI oluşturma başarısız oldu, not zaten mevcut! Lütfen tekrar deneyi
 msgid "✨ Note was successfully generated"
 msgstr "✨ Not başarıyla oluşturuldu"
 
-#: sophie_bot/modules/ai/handlers/aisave.py:58 sophie_bot/modules/notes/handlers/save.py:50
+#: sophie_bot/modules/ai/handlers/aisave.py:58
+#: sophie_bot/modules/notes/handlers/save.py:50
 msgid "Use {cmd} to retrieve this note."
 msgstr "Bu notu almak için {cmd} kullanın."
 
@@ -116,7 +122,8 @@ msgstr "Bu notu almak için {cmd} kullanın."
 msgid "Show current state of AI features"
 msgstr "AI özelliklerinin mevcut durumunu gösterir"
 
-#: sophie_bot/modules/ai/handlers/enable.py:37 sophie_bot/modules/notes/handlers/delete.py:32
+#: sophie_bot/modules/ai/handlers/enable.py:37
+#: sophie_bot/modules/notes/handlers/delete.py:32
 msgid "Chat"
 msgstr "Sohbet"
 
@@ -137,19 +144,27 @@ msgid "✨ AI Features"
 msgstr "✨ AI Özellikleri"
 
 #: sophie_bot/modules/ai/handlers/enable.py:42
-msgid "By using AI feature you agree to the our {policy} and third-party AI provider's."
-msgstr "AI özelliğini kullanarak, {policy} ve üçüncü parti AI sağlayıcısının politikalarına onay vermiş olursunuz."
+msgid ""
+"By using AI feature you agree to the our {policy} and third-party AI "
+"provider's."
+msgstr ""
+"AI özelliğini kullanarak, {policy} ve üçüncü parti AI sağlayıcısının "
+"politikalarına onay vermiş olursunuz."
 
-#: sophie_bot/modules/ai/handlers/enable.py:43 sophie_bot/modules/ai/handlers/pm.py:38
+#: sophie_bot/modules/ai/handlers/enable.py:43
+#: sophie_bot/modules/ai/handlers/pm.py:38
 msgid "privacy policy"
 msgstr "gizlilik politikası"
 
-#: sophie_bot/modules/ai/handlers/enable.py:45 sophie_bot/modules/beta/handlers/beta_state.py:88
+#: sophie_bot/modules/ai/handlers/enable.py:45
+#: sophie_bot/modules/beta/handlers/beta_state.py:88
 msgid "Use '{cmd}' to change it."
 msgstr "'{cmd}' kullanarak bunu değiştirin."
 
-#: sophie_bot/modules/ai/handlers/enable.py:51 sophie_bot/modules/legacy_modules/modules/antiflood.py:248
-#: sophie_bot/modules/legacy_modules/modules/connection.py:184 sophie_bot/modules/legacy_modules/modules/notes.py:532
+#: sophie_bot/modules/ai/handlers/enable.py:51
+#: sophie_bot/modules/legacy_modules/modules/antiflood.py:248
+#: sophie_bot/modules/legacy_modules/modules/connection.py:184
+#: sophie_bot/modules/legacy_modules/modules/notes.py:532
 #: sophie_bot/modules/legacy_modules/modules/notes.py:571
 msgid "New state"
 msgstr "Yeni durum"
@@ -179,8 +194,12 @@ msgid "The AI will try to remember the chat context and will respond accordingly
 msgstr "AI sohbet bağlamını hatırlamaya çalışacak ve buna göre yanıt verecektir!"
 
 #: sophie_bot/modules/ai/handlers/filter.py:23
-msgid "For example, you can combine it with the warn filter: 'Tell the user how bad it is to speak profanity'"
-msgstr "Örneğin, bunu uyarı filtresi ile birleştirebilirsiniz: 'Kullanıcıya küfür etmenin ne kadar kötü olduğunu söyle'"
+msgid ""
+"For example, you can combine it with the warn filter: 'Tell the user how "
+"bad it is to speak profanity'"
+msgstr ""
+"Örneğin, bunu uyarı filtresi ile birleştirebilirsiniz: 'Kullanıcıya küfür"
+" etmenin ne kadar kötü olduğunu söyle'"
 
 #: sophie_bot/modules/ai/handlers/filter.py:34
 msgid "Should be AI prompt, please try again!"
@@ -194,18 +213,27 @@ msgstr "✨ AI Yanıtı"
 msgid "Start the AI ChatBot mode"
 msgstr "AI ChatBot modunu başlat"
 
-#: sophie_bot/modules/ai/handlers/pm.py:29 sophie_bot/modules/beta/__init__.py:15
+#: sophie_bot/modules/ai/handlers/pm.py:29
+#: sophie_bot/modules/beta/__init__.py:15
 #: sophie_bot/modules/beta/handlers/beta_state.py:15
 msgid "Beta"
 msgstr "Beta"
 
 #: sophie_bot/modules/ai/handlers/pm.py:32
-msgid "{ai_emoji} Entered to the AI Mode, in this mode you can directly interact with the AI."
-msgstr "{ai_emoji} AI Moduna geçildi, bu modda AI ile doğrudan etkileşimde bulunabilirsiniz."
+msgid ""
+"{ai_emoji} Entered to the AI Mode, in this mode you can directly interact"
+" with the AI."
+msgstr ""
+"{ai_emoji} AI Moduna geçildi, bu modda AI ile doğrudan etkileşimde "
+"bulunabilirsiniz."
 
 #: sophie_bot/modules/ai/handlers/pm.py:37
-msgid "By using the AI, you agree to the {privacy_policy} of the bot and third party AI services used."
-msgstr "AI kullanarak, botun {privacy_policy} ve kullanılan üçüncü taraf AI hizmetlerinin şartlarını kabul ediyorsunuz."
+msgid ""
+"By using the AI, you agree to the {privacy_policy} of the bot and third "
+"party AI services used."
+msgstr ""
+"AI kullanarak, botun {privacy_policy} ve kullanılan üçüncü taraf AI "
+"hizmetlerinin şartlarını kabul ediyorsunuz."
 
 #: sophie_bot/modules/ai/handlers/pm.py:40
 msgid "Click on the button below to exit."
@@ -219,35 +247,39 @@ msgstr "Merhaba! Size nasıl yardımcı olabilirim?"
 msgid "The AI mode has been exited."
 msgstr "AI modu kapatıldı."
 
-#: sophie_bot/modules/ai/utils/message_history.py:49
+#: sophie_bot/modules/ai/utils/message_history.py:48
 msgid "You're a Telegram Bot named Sophie."
 msgstr "Telegram'da Sophie adında bir botsun."
 
-#: sophie_bot/modules/ai/utils/message_history.py:50
+#: sophie_bot/modules/ai/utils/message_history.py:49
 msgid "Respond concisely, be friendly, stick to the current topic."
 msgstr "Kısa ve dostça cevap ver, mevcut konuya sadık kal."
 
-#: sophie_bot/modules/ai/utils/message_history.py:51
+#: sophie_bot/modules/ai/utils/message_history.py:50
 msgid "Do not use markdown or html. You can use emojis."
 msgstr "Markdown veya html kullanmayın. Emojileri kullanabilirsiniz."
 
-#: sophie_bot/modules/ai/utils/message_history.py:72
+#: sophie_bot/modules/ai/utils/message_history.py:71
 msgid "<No text provided>"
 msgstr "<No text provided>"
 
-#: sophie_bot/modules/ai/utils/message_history.py:81
+#: sophie_bot/modules/ai/utils/message_history.py:80
 msgid "MESSAGE REPLIES TO PREVIOUS MESSAGE FROM"
 msgstr "MESAJ, ŞU ANDAN ÖNCE GÖNDERİLEN MESAJA CEVAP VERİYOR"
 
-#: sophie_bot/modules/ai/utils/message_history.py:92
+#: sophie_bot/modules/ai/utils/message_history.py:91
 msgid "Photo is empty"
 msgstr "Fotoğraf boş"
 
 #: sophie_bot/modules/beta/__init__.py:17
-msgid "Controls the current Sophie mode.\n"
-"Please note that Beta mode can have bugs and issues. If you encounter any problems please report it to the support chat."
-msgstr "Geçerli Sophie modunu kontrol eder.\n"
-"Beta modunun hataları ve sorunları olabilir. Herhangi bir sorunla karşılaşırsanız, lütfen destek sohbetine bildirin."
+msgid ""
+"Controls the current Sophie mode.\n"
+"Please note that Beta mode can have bugs and issues. If you encounter any"
+" problems please report it to the support chat."
+msgstr ""
+"Geçerli Sophie modunu kontrol eder.\n"
+"Beta modunun hataları ve sorunları olabilir. Herhangi bir sorunla "
+"karşılaşırsanız, lütfen destek sohbetine bildirin."
 
 #: sophie_bot/modules/beta/handlers/beta_state.py:13
 msgid "Auto"
@@ -529,11 +561,13 @@ msgstr "Hatalar yeniliği kucaklar,"
 msgid "Softly whispering."
 msgstr "Nazik fısıldayan."
 
-#: sophie_bot/modules/help/__init__.py:20 sophie_bot/modules/help/handlers/pm_modules.py:41
+#: sophie_bot/modules/help/__init__.py:20
+#: sophie_bot/modules/help/handlers/pm_modules.py:41
 msgid "Help"
 msgstr "Yardım"
 
-#: sophie_bot/modules/help/__init__.py:22 sophie_bot/modules/privacy/__init__.py:19
+#: sophie_bot/modules/help/__init__.py:22
+#: sophie_bot/modules/privacy/__init__.py:19
 msgid "Provides helpful information"
 msgstr "Yardımcı bilgiler sağlar"
 
@@ -541,14 +575,19 @@ msgstr "Yardımcı bilgiler sağlar"
 msgid "Shows help overview for all modules"
 msgstr "Tüm modüller için yardım genel görünümünü gösterir"
 
-#: sophie_bot/modules/help/handlers/pm_modules.py:38 sophie_bot/modules/help/handlers/pm_modules.py:108
+#: sophie_bot/modules/help/handlers/pm_modules.py:38
+#: sophie_bot/modules/help/handlers/pm_modules.py:108
 #: sophie_bot/modules/privacy/handlers/privacy.py:30
 msgid "⬅️ Back"
 msgstr "⬅️ Geri"
 
 #: sophie_bot/modules/help/handlers/pm_modules.py:42
-msgid "There are 2 help sources, you can read the detailed wiki or get a quick commands by modules overview."
-msgstr "2 yardım kaynağı var, ayrıntılı wiki okuyabilir veya modüllere göre hızlı komutlar alabilirsiniz."
+msgid ""
+"There are 2 help sources, you can read the detailed wiki or get a quick "
+"commands by modules overview."
+msgstr ""
+"2 yardım kaynağı var, ayrıntılı wiki okuyabilir veya modüllere göre hızlı"
+" komutlar alabilirsiniz."
 
 #: sophie_bot/modules/help/handlers/pm_modules.py:43
 msgid "📖 Wiki (detailed information)"
@@ -632,7 +671,9 @@ msgstr "PM'yi bağlı sohbetten ayırır."
 
 #: sophie_bot/modules/legacy_modules/modules/connection.py:183
 msgid "Sets whatever normal users (non admins) are allowed to connect"
-msgstr "Normal kullanıcıların (yönetici olmayan) bağlanmasına izin verilen ayarları belirler"
+msgstr ""
+"Normal kullanıcıların (yönetici olmayan) bağlanmasına izin verilen "
+"ayarları belirler"
 
 #: sophie_bot/modules/legacy_modules/modules/disabling.py:17
 msgid "Disabling"
@@ -650,7 +691,8 @@ msgstr "Devre dışı bırakılmış tüm komutları listeler."
 msgid "Disables the command."
 msgstr "Komutu devre dışı bırakır."
 
-#: sophie_bot/modules/legacy_modules/modules/disabling.py:52 sophie_bot/modules/legacy_modules/modules/disabling.py:85
+#: sophie_bot/modules/legacy_modules/modules/disabling.py:52
+#: sophie_bot/modules/legacy_modules/modules/disabling.py:85
 #: sophie_bot/modules/legacy_modules/modules/feds.py:265
 msgid "Command"
 msgstr "Komut"
@@ -703,14 +745,18 @@ msgstr "Abone olunan Fed ID"
 msgid "Promotes the user to the Federation admins."
 msgstr "Kullanıcıyı Federasyon yöneticisi olarak terfi ettirir."
 
-#: sophie_bot/modules/legacy_modules/modules/feds.py:429 sophie_bot/modules/legacy_modules/modules/feds.py:458
-#: sophie_bot/modules/legacy_modules/modules/feds.py:611 sophie_bot/modules/legacy_modules/modules/feds.py:783
-#: sophie_bot/modules/legacy_modules/modules/promotes.py:50 sophie_bot/modules/legacy_modules/modules/promotes.py:98
+#: sophie_bot/modules/legacy_modules/modules/feds.py:429
+#: sophie_bot/modules/legacy_modules/modules/feds.py:458
+#: sophie_bot/modules/legacy_modules/modules/feds.py:611
+#: sophie_bot/modules/legacy_modules/modules/feds.py:783
+#: sophie_bot/modules/legacy_modules/modules/promotes.py:50
+#: sophie_bot/modules/legacy_modules/modules/promotes.py:98
 #: sophie_bot/modules/legacy_modules/modules/restrictions.py:68
 #: sophie_bot/modules/legacy_modules/modules/restrictions.py:127
 #: sophie_bot/modules/legacy_modules/modules/restrictions.py:206
 #: sophie_bot/modules/legacy_modules/modules/restrictions.py:243
-#: sophie_bot/modules/legacy_modules/modules/restrictions.py:322 sophie_bot/modules/users/handlers/id.py:22
+#: sophie_bot/modules/legacy_modules/modules/restrictions.py:322
+#: sophie_bot/modules/users/handlers/id.py:22
 msgid "User"
 msgstr "Kullanıcı"
 
@@ -768,7 +814,9 @@ msgstr "Yasakların listesini içe aktarır."
 
 #: sophie_bot/modules/legacy_modules/modules/feds.py:1134
 msgid "Checks the user ban status (can be used to check yourself)."
-msgstr "Kullanıcı yasak durumunu kontrol eder (kendi durumunuzu kontrol etmek için kullanılabilir)."
+msgstr ""
+"Kullanıcı yasak durumunu kontrol eder (kendi durumunuzu kontrol etmek "
+"için kullanılabilir)."
 
 #: sophie_bot/modules/legacy_modules/modules/filters.py:62
 msgid "Filters"
@@ -778,7 +826,8 @@ msgstr "Filtreler"
 msgid "Adds a new filter."
 msgstr "Yeni bir filtre ekler."
 
-#: sophie_bot/modules/legacy_modules/modules/filters.py:157 sophie_bot/modules/legacy_modules/modules/filters.py:310
+#: sophie_bot/modules/legacy_modules/modules/filters.py:157
+#: sophie_bot/modules/legacy_modules/modules/filters.py:310
 msgid "Trigger"
 msgstr "Tetikleyici"
 
@@ -818,7 +867,8 @@ msgstr "Karşılama mesajını sıfırlar."
 msgid "Controls the automatic welcome cleanup"
 msgstr "Otomatik karşılama temizliğini kontrol eder"
 
-#: sophie_bot/modules/legacy_modules/modules/greetings.py:233 sophie_bot/modules/legacy_modules/modules/greetings.py:271
+#: sophie_bot/modules/legacy_modules/modules/greetings.py:233
+#: sophie_bot/modules/legacy_modules/modules/greetings.py:271
 msgid "New status"
 msgstr "Yeni durum"
 
@@ -862,7 +912,8 @@ msgstr "Sohbet için yeni dili ayarlar"
 msgid "New language"
 msgstr "Yeni dil"
 
-#: sophie_bot/modules/legacy_modules/modules/notes.py:43 sophie_bot/modules/notes/__init__.py:13
+#: sophie_bot/modules/legacy_modules/modules/notes.py:43
+#: sophie_bot/modules/notes/__init__.py:13
 msgid "Notes"
 msgstr "Notlar"
 
@@ -870,13 +921,16 @@ msgstr "Notlar"
 msgid "Saves the note."
 msgstr "Notu kaydeder."
 
-#: sophie_bot/modules/legacy_modules/modules/notes.py:122 sophie_bot/modules/legacy_modules/modules/notes.py:350
-#: sophie_bot/modules/legacy_modules/modules/notes.py:418 sophie_bot/modules/notes/handlers/delete.py:15
+#: sophie_bot/modules/legacy_modules/modules/notes.py:122
+#: sophie_bot/modules/legacy_modules/modules/notes.py:350
+#: sophie_bot/modules/legacy_modules/modules/notes.py:418
+#: sophie_bot/modules/notes/handlers/delete.py:15
 #: sophie_bot/modules/notes/handlers/get.py:15
 msgid "Note name"
 msgstr "Not adı"
 
-#: sophie_bot/modules/legacy_modules/modules/notes.py:122 sophie_bot/modules/legacy_modules/modules/rules.py:28
+#: sophie_bot/modules/legacy_modules/modules/notes.py:122
+#: sophie_bot/modules/legacy_modules/modules/rules.py:28
 msgid "Content"
 msgstr "İçerik"
 
@@ -884,7 +938,8 @@ msgstr "İçerik"
 msgid "Searches text across all notes."
 msgstr "Tüm notlar arasında metin arar."
 
-#: sophie_bot/modules/legacy_modules/modules/notes.py:330 sophie_bot/modules/notes/handlers/save.py:29
+#: sophie_bot/modules/legacy_modules/modules/notes.py:330
+#: sophie_bot/modules/notes/handlers/save.py:29
 msgid "Text"
 msgstr "Metin"
 
@@ -901,8 +956,12 @@ msgid "Shows additional information about the note"
 msgstr "Not hakkında ek bilgi gösterir"
 
 #: sophie_bot/modules/legacy_modules/modules/notes.py:531
-msgid "Controls the feature, that would recommend users to use PM with bot to use notes"
-msgstr "Kullanıcıları notları kullanmak için bot ile özel mesaj kullanmaya yönlendiren özelliği kontrol eder"
+msgid ""
+"Controls the feature, that would recommend users to use PM with bot to "
+"use notes"
+msgstr ""
+"Kullanıcıları notları kullanmak için bot ile özel mesaj kullanmaya "
+"yönlendiren özelliği kontrol eder"
 
 #: sophie_bot/modules/legacy_modules/modules/notes.py:571
 msgid "Controls the automatic clean-up for notes"
@@ -954,7 +1013,9 @@ msgstr "Cevaplanan mesajı siler"
 
 #: sophie_bot/modules/legacy_modules/modules/purges.py:63
 msgid "Purges all messages after replied message (incl. the replied message)"
-msgstr "Cevaplanan mesajdan sonraki tüm mesajları temizler (cevaplanan mesaj dahil)"
+msgstr ""
+"Cevaplanan mesajdan sonraki tüm mesajları temizler (cevaplanan mesaj "
+"dahil)"
 
 #: sophie_bot/modules/legacy_modules/modules/reports.py:18
 msgid "Reports"
@@ -979,7 +1040,9 @@ msgstr "Kullanıcıyı susturur."
 #: sophie_bot/modules/legacy_modules/modules/restrictions.py:206
 #: sophie_bot/modules/legacy_modules/modules/restrictions.py:243
 msgid "Unmutes the user (also lets the user send media)."
-msgstr "Kullanıcının susturmasını kaldırır (aynı zamanda kullanıcının medya göndermesine izin verir)."
+msgstr ""
+"Kullanıcının susturmasını kaldırır (aynı zamanda kullanıcının medya "
+"göndermesine izin verir)."
 
 #: sophie_bot/modules/legacy_modules/modules/restrictions.py:322
 msgid "Unbans the user."
@@ -1001,7 +1064,8 @@ msgstr "Kuralları gösterir."
 msgid "Resets the chat rules."
 msgstr "Sohbet kurallarını sıfırlar."
 
-#: sophie_bot/modules/legacy_modules/modules/users.py:17 sophie_bot/modules/users/__init__.py:15
+#: sophie_bot/modules/legacy_modules/modules/users.py:17
+#: sophie_bot/modules/users/__init__.py:15
 msgid "Users"
 msgstr "Kullanıcılar"
 
@@ -1106,7 +1170,9 @@ msgid "Note was successfully updated"
 msgstr "Not başarıyla güncellendi"
 
 #: sophie_bot/modules/notes/utils/parse.py:71
-msgid "Please check the notes documentation for the list of the allowed content types."
+msgid ""
+"Please check the notes documentation for the list of the allowed content "
+"types."
 msgstr "Lütfen notlar belgelerindeki izin verilen içerik türleri listesine bakın."
 
 #: sophie_bot/modules/notes/utils/parse.py:72
@@ -1162,8 +1228,12 @@ msgid "Small commands for fixing problems"
 msgstr "Sorunları düzeltmek için küçük komutlar"
 
 #: sophie_bot/modules/troubleshooters/handlers/admincache.py:13
-msgid "Reset admin rights cache, use if Sophie didn't get the recently added admin"
-msgstr "Yönetici hakları önbelleğini sıfırlar, Sophie'nin yeni eklenen yöneticiyi almadığı durumlarda kullanın"
+msgid ""
+"Reset admin rights cache, use if Sophie didn't get the recently added "
+"admin"
+msgstr ""
+"Yönetici hakları önbelleğini sıfırlar, Sophie'nin yeni eklenen yöneticiyi"
+" almadığı durumlarda kullanın"
 
 #: sophie_bot/modules/troubleshooters/handlers/admincache.py:20
 msgid "You can't use this command in private chats."
@@ -1175,7 +1245,9 @@ msgstr "Yönetici hakları önbelleği sıfırlanmıştır."
 
 #: sophie_bot/modules/troubleshooters/handlers/cancel.py:12
 msgid "Cancel current state, use if Sophie is not responding on your message"
-msgstr "Geçerli durumu iptal edin, eğer Sophie mesajınıza yanıt vermiyorsa kullanın"
+msgstr ""
+"Geçerli durumu iptal edin, eğer Sophie mesajınıza yanıt vermiyorsa "
+"kullanın"
 
 #: sophie_bot/modules/troubleshooters/handlers/cancel.py:20
 msgid "The current state is already cleared, nothing to do here."
