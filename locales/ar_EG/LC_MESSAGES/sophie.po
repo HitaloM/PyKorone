@@ -3,711 +3,711 @@ msgstr ""
 "Project-Id-Version: sophiebot\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2024-10-06 18:06+0000\n"
-"PO-Revision-Date: 2024-10-06 18:26\n"
+"PO-Revision-Date: 2024-10-06 18:17\n"
 "Last-Translator: \n"
-"Language-Team: Ukrainian\n"
+"Language-Team: Arabic, Egypt\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.15.0\n"
-"Plural-Forms: nplurals=4; plural=((n%10==1 && n%100!=11) ? 0 : ((n%10 >= 2 && n%10 <=4 && (n%100 < 12 || n%100 > 14)) ? 1 : ((n%10 == 0 || (n%10 >= 5 && n%10 <=9)) || (n%100 >= 11 && n%100 <= 14)) ? 2 : 3));\n"
+"Plural-Forms: nplurals=6; plural=(n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5);\n"
 "X-Crowdin-Project: sophiebot\n"
 "X-Crowdin-Project-ID: 356879\n"
-"X-Crowdin-Language: uk\n"
+"X-Crowdin-Language: ar-EG\n"
 "X-Crowdin-File: /beta/locales/sophie.pot\n"
 "X-Crowdin-File-ID: 288\n"
-"Language: uk_UA\n"
+"Language: ar_EG\n"
 
 #: sophie_bot/args/users.py:29
 msgid "Could not find the requested User ID in the database."
-msgstr "Не вдалося знайти запитаний Ідентифікатор користувача в базі даних."
+msgstr "لم يتم العثور على معرف المستخدم المطلوب في قاعدة البيانات."
 
 #: sophie_bot/args/users.py:43
 msgid "Could not find the requested Username in the database."
-msgstr "Не вдалося знайти запитане Ім'я користувача в базі даних."
+msgstr "لم يتم العثور على اسم المستخدم المطلوب في قاعدة البيانات."
 
 #: sophie_bot/args/users.py:72
 msgid "User: 'User ID (numeric) / Username (starts with @) / Mention (links to users)'"
-msgstr "Користувач: 'Ідентифікатор користувача (числовий) / Ім'я користувача (починається з @) / Згадка (посилання на користувачів)'"
+msgstr "المستخدم: 'معرف المستخدم (رقمي) / اسم المستخدم (يبدأ بـ @) / ذكر (روابط للمستخدمين)'"
 
 #: sophie_bot/args/users.py:72
 msgid "Users: 'User IDs (numeric) / Usernames (starts with @) / Mentions (links to users)'"
-msgstr "Користувачі: 'ID користувачів (числові) / Імена користувачів (починаються з @) / Згадки (посилання на користувачів)'"
+msgstr "المستخدمون: 'معرفات المستخدم (رقمي) / أسماء المستخدمين (تبدأ بـ @) / الإشارات (روابط للمستخدمين)'"
 
 #: sophie_bot/args/users.py:79
 msgid "User ID"
-msgstr "Ідентифікатор користувача"
+msgstr "معرف المستخدم"
 
 #: sophie_bot/args/users.py:80
 msgid "Username"
-msgstr "Ім'я користувача"
+msgstr "اسم المستخدم"
 
 #: sophie_bot/args/users.py:81
 msgid "A link to user, usually creates by mentioning a user without username."
-msgstr "Посилання на користувача, яке зазвичай створюється, коли згадують користувача без імені."
+msgstr "رابط إلى المستخدم، غالبًا ما يتم إنشاؤه عن طريق ذكر المستخدم بدون اسم المستخدم."
 
 #: sophie_bot/middlewares/connections.py:26
 msgid "Private chat"
-msgstr "Приватний чат"
+msgstr "الدردشة الخاصة"
 
 #: sophie_bot/middlewares/connections.py:38
 msgid "Connected chat not found in the database. Please try to disconnect and connect again."
-msgstr "Підключений чат не знайдено в базі даних. Будь ласка, спробуйте відключитися і підключитися знову."
+msgstr "لم يتم العثور على دردشة متصلة في قاعدة البيانات. يرجى المحاولة بفصل الاتصال وإعادة الاتصال مرة أخرى."
 
 #: sophie_bot/modules/ai/__init__.py:17
 msgid "Sophie AI"
-msgstr "Софі AI"
+msgstr "صوفي AI"
 
 #: sophie_bot/modules/ai/__init__.py:19
 msgid "Rainbow sparkles and shininess"
-msgstr "Райдужні блискітки та яскравість"
+msgstr "شرارات قوس قزح والتألق"
 
 #: sophie_bot/modules/ai/__init__.py:21
 msgid "Please note that you can make a limited amount of AI requests per day."
-msgstr "Будь ласка, зауважте, що ви можете зробити обмежену кількість запитів до AI на день."
+msgstr "يرجى ملاحظة أنه يمكنك إجراء عدد محدود من الطلبات من AI يوميًا."
 
 #: sophie_bot/modules/ai/texts.py:3
 msgid "By using AI features you agree to the our Privacy Policy (/privacy) and third party AI services used."
-msgstr "Використовуючи AI-функції, ви погоджуєтеся з нашою Політикою конфіденційності (/privacy) та використанням третіх особи AI-сервісів."
+msgstr "باستخدام ميزات الذكاء الاصطناعي، أنت توافق على سياسة الخصوصية الخاصة بنا (/privacy) وخدمات الذكاء الاصطناعي من الأطراف الثالثة المستخدمة."
 
 #: sophie_bot/modules/ai/filters/ai_enabled.py:27
 msgid "The AI Features are currently deactivated for this chat."
-msgstr "AI-функції зараз деактивовані для цього чату."
+msgstr "ميزات الذكاء الاصطناعي معطلة حاليًا لهذه الدردشة."
 
 #: sophie_bot/modules/ai/filters/ai_enabled.py:28
 msgid "Please use \"{cmd}\" to activate them."
-msgstr "Будь ласка, використайте \"{cmd}\", щоб активувати їх."
+msgstr "يرجى استخدام \"{cmd}\" لتفعيلها."
 
 #: sophie_bot/modules/ai/filters/throttle.py:18
 msgid "❗️ You've reached the daily AI limit, please try again tomorrow."
-msgstr "❗️ Ви досягли добового ліміту AI, будь ласка, спробуйте ще раз завтра."
+msgstr "❗️ لقد وصلت إلى حد AI اليومي، يرجى المحاولة مرة أخرى غدًا."
 
 #: sophie_bot/modules/ai/fsm/pm.py:10
 msgid "🛑 Exit AI mode"
-msgstr "🛑 Вийти з режиму ШІ"
+msgstr "🛑 خروج من وضع AI"
 
 #: sophie_bot/modules/ai/fsm/pm.py:12
 msgid "✨ Beta AI"
-msgstr "✨ Бета AI"
+msgstr "✨ النسخة التجريبية للذكاء الاصطناعي"
 
 #: sophie_bot/modules/ai/handlers/ai_cmd.py:14 sophie_bot/modules/ai/handlers/aisave.py:25
 msgid "Prompt"
-msgstr "Запит"
+msgstr "سؤال"
 
 #: sophie_bot/modules/ai/handlers/ai_cmd.py:15
 msgid "Ask Sophie a question"
-msgstr "Запитайте Софі питання"
+msgstr "اسأل صوفي سؤالاً"
 
 #: sophie_bot/modules/ai/handlers/aisave.py:27
 msgid "Generate a new note using AI"
-msgstr "Генерує нову примітку за допомогою AI"
+msgstr "إنشاء ملاحظة جديدة باستخدام الذكاء الاصطناعي"
 
 #: sophie_bot/modules/ai/handlers/aisave.py:36
 msgid "✨ Generating..."
-msgstr "✨ Генерація..."
+msgstr "✨ يتم الإنشاء..."
 
 #: sophie_bot/modules/ai/handlers/aisave.py:46
 msgid "AI Generation failed, note already exists! Please try again."
-msgstr "Генерація AI не вдалася, примітка вже існує! Будь ласка, спробуйте ще раз."
+msgstr "فشل إنشاء الذكاء الاصطناعي، الملاحظة موجودة بالفعل! يرجى المحاولة مرة أخرى."
 
 #: sophie_bot/modules/ai/handlers/aisave.py:55
 msgid "✨ Note was successfully generated"
-msgstr "✨ Примітка була успішно згенерована"
+msgstr "✨ تم إنشاء الملاحظة بنجاح"
 
 #: sophie_bot/modules/ai/handlers/aisave.py:58 sophie_bot/modules/notes/handlers/save.py:50
 msgid "Use {cmd} to retrieve this note."
-msgstr "Використовуйте {cmd}, щоб отримати цю замітку."
+msgstr "استخدم {cmd} لاسترجاع هذه الملاحظة."
 
 #: sophie_bot/modules/ai/handlers/enable.py:21
 msgid "Show current state of AI features"
-msgstr "Показати поточний стан AI-функцій"
+msgstr "عرض الحالة الحالية لميزات الذكاء الاصطناعي"
 
 #: sophie_bot/modules/ai/handlers/enable.py:37 sophie_bot/modules/notes/handlers/delete.py:32
 msgid "Chat"
-msgstr "Чат"
+msgstr "الدردشة"
 
 #: sophie_bot/modules/ai/handlers/enable.py:38
 msgid "Current state"
-msgstr "Поточний стан"
+msgstr "الحالة الحالية"
 
 #: sophie_bot/modules/ai/handlers/enable.py:38
 msgid "Enabled"
-msgstr "Увімкнено"
+msgstr "مفعل"
 
 #: sophie_bot/modules/ai/handlers/enable.py:38
 msgid "Disabled"
-msgstr "Вимкнено"
+msgstr "معطل"
 
 #: sophie_bot/modules/ai/handlers/enable.py:39
 msgid "✨ AI Features"
-msgstr "✨ AI-функції"
+msgstr "✨ ميزات الذكاء الاصطناعي"
 
 #: sophie_bot/modules/ai/handlers/enable.py:42
 msgid "By using AI feature you agree to the our {policy} and third-party AI provider's."
-msgstr "Використовуючи функцію AI, ви погоджуєтеся з нашим {policy} та третім особам постачальників AI."
+msgstr "باستخدام ميزة الذكاء الاصطناعي، أنت توافق على {policy} الخاصة بنا ومزودي الذكاء الاصطناعي من الأطراف الثالثة."
 
 #: sophie_bot/modules/ai/handlers/enable.py:43 sophie_bot/modules/ai/handlers/pm.py:38
 msgid "privacy policy"
-msgstr "політика конфіденційності"
+msgstr "سياسة الخصوصية"
 
 #: sophie_bot/modules/ai/handlers/enable.py:45 sophie_bot/modules/beta/handlers/beta_state.py:88
 msgid "Use '{cmd}' to change it."
-msgstr "Використовуйте '{cmd}', щоб змінити це."
+msgstr "استخدم '{cmd}' لتغييره."
 
 #: sophie_bot/modules/ai/handlers/enable.py:51 sophie_bot/modules/legacy_modules/modules/antiflood.py:248
 #: sophie_bot/modules/legacy_modules/modules/connection.py:184 sophie_bot/modules/legacy_modules/modules/notes.py:532
 #: sophie_bot/modules/legacy_modules/modules/notes.py:571
 msgid "New state"
-msgstr "Новий стан"
+msgstr "حالة جديدة"
 
 #: sophie_bot/modules/ai/handlers/enable.py:52
 msgid "Control AI features"
-msgstr "Контроль AI-функцій"
+msgstr "تحكم في ميزات الذكاء الاصطناعي"
 
 #: sophie_bot/modules/ai/handlers/enable.py:67
 msgid "enabled"
-msgstr "увімкнено"
+msgstr "مفعل"
 
 #: sophie_bot/modules/ai/handlers/enable.py:67
 msgid "disabled"
-msgstr "вимкнено"
+msgstr "معطل"
 
 #: sophie_bot/modules/ai/handlers/enable.py:72
 msgid "✨ AI Features have been {status} in {chat}."
-msgstr "✨ AI-функції були {status} у {chat}."
+msgstr "✨ ميزات الذكاء الاصطناعي كانت {status} في {chat}."
 
 #: sophie_bot/modules/ai/handlers/filter.py:21
 msgid "Please send me the AI instruction to proceed!"
-msgstr "Будь ласка, надішліть мені інструкцію AI, щоб продовжити!"
+msgstr "يرجى إرسال تعليمات الذكاء الاصطناعي للمتابعة!"
 
 #: sophie_bot/modules/ai/handlers/filter.py:22
 msgid "The AI will try to remember the chat context and will respond accordingly!"
-msgstr "AI спробує запам'ятати контекст чату і відповідно відповідати!"
+msgstr "سوف يحاول الذكاء الاصطناعي تذكر سياق الدردشة وسيستجيب وفقًا لذلك!"
 
 #: sophie_bot/modules/ai/handlers/filter.py:23
 msgid "For example, you can combine it with the warn filter: 'Tell the user how bad it is to speak profanity'"
-msgstr "Наприклад, ви можете поєднати це з фільтром попередження: 'Скажіть користувачеві, як погано говорити ненормативною лексикою'"
+msgstr "على سبيل المثال، يمكنك دمجه مع فلتر التحذير: 'أخبر المستخدم بمدى سوء التحدث بالشتائم'"
 
 #: sophie_bot/modules/ai/handlers/filter.py:34
 msgid "Should be AI prompt, please try again!"
-msgstr "Це має бути запитом AI, будь ласка, спробуйте ще раз!"
+msgstr "يجب أن يكون تحفيز الذكاء الاصطناعي، يرجى المحاولة مرة أخرى!"
 
 #: sophie_bot/modules/ai/handlers/filter.py:55
 msgid "✨ AI Response"
-msgstr "✨ Відповідь AI"
+msgstr "✨ استجابة الذكاء الاصطناعي"
 
 #: sophie_bot/modules/ai/handlers/pm.py:21
 msgid "Start the AI ChatBot mode"
-msgstr "Запустити режим чат-бота AI"
+msgstr "بدء وضع AI ChatBot"
 
 #: sophie_bot/modules/ai/handlers/pm.py:29 sophie_bot/modules/beta/__init__.py:15
 #: sophie_bot/modules/beta/handlers/beta_state.py:15
 msgid "Beta"
-msgstr "Бета"
+msgstr "بيتا"
 
 #: sophie_bot/modules/ai/handlers/pm.py:32
 msgid "{ai_emoji} Entered to the AI Mode, in this mode you can directly interact with the AI."
-msgstr "{ai_emoji} Увійшли в режим AI, в цьому режимі ви можете безпосередньо взаємодіяти з AI."
+msgstr "{ai_emoji} تم الدخول إلى وضع AI، في هذا الوضع يمكنك التفاعل مباشرة مع AI."
 
 #: sophie_bot/modules/ai/handlers/pm.py:37
 msgid "By using the AI, you agree to the {privacy_policy} of the bot and third party AI services used."
-msgstr "Використовуючи AI, ви погоджуєтеся з {privacy_policy} бота та третьої сторони AI-сервісів."
+msgstr "باستخدام AI، أنت توافق على {privacy_policy} للروبوت وخدمات AI الطرف الثالث المستخدمة."
 
 #: sophie_bot/modules/ai/handlers/pm.py:40
 msgid "Click on the button below to exit."
-msgstr "Натисніть кнопку нижче, щоб вийти."
+msgstr "اضغط على الزر أدناه للخروج."
 
 #: sophie_bot/modules/ai/handlers/pm.py:55
 msgid "Hello! How can I help you?"
-msgstr "Привіт! Як я можу допомогти вам?"
+msgstr "مرحبًا! كيف يمكنني مساعدتك؟"
 
 #: sophie_bot/modules/ai/handlers/pm.py:66
 msgid "The AI mode has been exited."
-msgstr "Режим AI був закритий."
+msgstr "تم الخروج من وضع AI."
 
 #: sophie_bot/modules/ai/utils/message_history.py:48
 msgid "You're a Telegram Bot named Sophie."
-msgstr "Ви — це бот Telegram на ім'я Софі."
+msgstr "أنت بوت تيليجرام يُدعى صوفي."
 
 #: sophie_bot/modules/ai/utils/message_history.py:49
 msgid "Respond concisely, be friendly, stick to the current topic."
-msgstr "Відповідайте лаконічно, будьте дружніми, дотримуйтесь поточної теми."
+msgstr "استجب بإيجاز، كن ودودًا، وركز على الموضوع الحالي."
 
 #: sophie_bot/modules/ai/utils/message_history.py:50
 msgid "Do not use markdown or html. You can use emojis."
-msgstr "Не використовуйте markdown або html. Ви можете використовувати емодзі."
+msgstr "لا تستخدم التنسيق أو HTML. يمكنك استخدام الرموز التعبيرية."
 
 #: sophie_bot/modules/ai/utils/message_history.py:71
 msgid "<No text provided>"
-msgstr "<No text provided>"
+msgstr "<لا يوجد نص مقدم>"
 
 #: sophie_bot/modules/ai/utils/message_history.py:80
 msgid "MESSAGE REPLIES TO PREVIOUS MESSAGE FROM"
-msgstr "ПОВІДОМЛЕННЯ ВІДПОВІДАЄ НА ПРЕДИ ДНЬ ВІД"
+msgstr "الرسائل ترد على الرسالة السابقة من"
 
 #: sophie_bot/modules/ai/utils/message_history.py:91
 msgid "Photo is empty"
-msgstr "Фотографія порожня"
+msgstr "الصورة فارغة"
 
 #: sophie_bot/modules/beta/__init__.py:17
 msgid "Controls the current Sophie mode.\n"
 "Please note that Beta mode can have bugs and issues. If you encounter any problems please report it to the support chat."
-msgstr "Контролює поточний режим Софі.\n"
-"Будь ласка, зауважте, що бета-режим може містити помилки та проблеми. Якщо ви зіткнетеся з будь-якими проблемами, будь ласка, повідомте про це в чат підтримки."
+msgstr "يتحكم في الوضع الحالي لصوفي.\n"
+"يرجى ملاحظة أن وضع بيتا قد يحتوي على أخطاء ومشكلات. إذا واجهت أي مشاكل، يرجى الإبلاغ عنها في دردشة الدعم."
 
 #: sophie_bot/modules/beta/handlers/beta_state.py:13
 msgid "Auto"
-msgstr "Авто"
+msgstr "تلقائي"
 
 #: sophie_bot/modules/beta/handlers/beta_state.py:14
 msgid "Stable"
-msgstr "Стабільний"
+msgstr "مستقر"
 
 #: sophie_bot/modules/beta/handlers/beta_state.py:20
 msgid "Preferred strategy mode"
-msgstr "Переважна стратегія"
+msgstr "وضع الاستراتيجية المفضل"
 
 #: sophie_bot/modules/beta/handlers/beta_state.py:22
 msgid "Set preferred strategy mode"
-msgstr "Встановити переважну стратегію"
+msgstr "تعيين وضع الاستراتيجية المفضل"
 
 #: sophie_bot/modules/beta/handlers/beta_state.py:65
 msgid "Get current strategy mode / current state"
-msgstr "Отримати поточну стратегію / поточний стан"
+msgstr "الحصول على وضع الاستراتيجية الحالي / الحالة الحالية"
 
 #: sophie_bot/modules/beta/handlers/beta_state.py:79
 msgid "Unknown"
-msgstr "Невідомо"
+msgstr "غير معروف"
 
 #: sophie_bot/modules/error/__init__.py:13
 msgid "Error"
-msgstr "Помилка"
+msgstr "خطأ"
 
 #: sophie_bot/modules/error/handlers/error.py:79
 msgid "😞 I've got an error trying to process this update"
-msgstr "😞 У мене виникла помилка при обробці цього оновлення"
+msgstr "😞 لقد حدث خطأ أثناء معالجة هذا التحديث"
 
 #: sophie_bot/modules/error/handlers/error.py:92
 msgid "Reference ID"
-msgstr "Ідентифікатор посилання"
+msgstr "معرف المرجع"
 
 #: sophie_bot/modules/error/handlers/error.py:100
 msgid "💬 Contact Sophie support"
-msgstr "💬 Зв'язатися з підтримкою Софі"
+msgstr "💬 اتصل بدعم صوفي"
 
 #: sophie_bot/modules/error/utils/haikus.py:5
 msgid "Code dances with bugs,"
-msgstr "Код танцює з помилками,"
+msgstr "تتراقص الأكواد مع الأخطاء،"
 
 #: sophie_bot/modules/error/utils/haikus.py:6
 msgid "Exceptions arise, yet learn —"
-msgstr "Винятки виникають, але навчання —"
+msgstr "تظهر الاستثناءات، لكن نتعلم —"
 
 #: sophie_bot/modules/error/utils/haikus.py:7
 msgid "Errors guide our way."
-msgstr "Помилки ведуть нашим шляхом."
+msgstr "توجهنا الأخطاء."
 
 #: sophie_bot/modules/error/utils/haikus.py:10
 msgid "Silent lines disrupted,"
-msgstr "Тихі рядки перервані,"
+msgstr "أسطر صامتة مقطوعة،"
 
 #: sophie_bot/modules/error/utils/haikus.py:11
 msgid "Errors speak a language new,"
-msgstr "Помилки говорять новою мовою,"
+msgstr "الأخطاء تتحدث بلغة جديدة،"
 
 #: sophie_bot/modules/error/utils/haikus.py:12
 msgid "In flaws, growth takes root."
-msgstr "У недоліках росте нове."
+msgstr "تنمو الجذور في العيوب."
 
 #: sophie_bot/modules/error/utils/haikus.py:15
 msgid "Through the mist of bugs,"
-msgstr "Через туман помилок,"
+msgstr "خلال ضباب الأخطاء،"
 
 #: sophie_bot/modules/error/utils/haikus.py:16
 msgid "Learning blooms in lines of code,"
-msgstr "Навчання розквітає в рядках коду,"
+msgstr "تتفتح المعرفة في أسطر الكود،"
 
 #: sophie_bot/modules/error/utils/haikus.py:17
 msgid "Exceptional growth."
-msgstr "Винятковий розвиток."
+msgstr "نمو استثنائي."
 
 #: sophie_bot/modules/error/utils/haikus.py:20
 msgid "In errors we find,"
-msgstr "В помилках ми знаходимо,"
+msgstr "في الأخطاء نجد،"
 
 #: sophie_bot/modules/error/utils/haikus.py:21
 msgid "Opportunities to learn,"
-msgstr "Можливості навчитися,"
+msgstr "فرص للتعلم،"
 
 #: sophie_bot/modules/error/utils/haikus.py:22
 msgid "Software's hidden gifts."
-msgstr "Приховані подарунки програмного забезпечення."
+msgstr "هدايا مخفية من البرمجيات."
 
 #: sophie_bot/modules/error/utils/haikus.py:25
 msgid "Paths diverge, glitch calls,"
-msgstr "Шляхи розгалужуються, збої кличуть,"
+msgstr "تتقاطع الطرق، عطل ينادي،"
 
 #: sophie_bot/modules/error/utils/haikus.py:26
 msgid "Embrace the flaw, seek the fix,"
-msgstr "Обіймайте недолік, шукайте виправлення,"
+msgstr "احتضن العيب، وابحث عن الحل،"
 
 #: sophie_bot/modules/error/utils/haikus.py:27
 msgid "Errors sculpt progress."
-msgstr "Помилки формують прогрес."
+msgstr "الأخطاء تنحت التقدم."
 
 #: sophie_bot/modules/error/utils/haikus.py:30
 msgid "A glitchy waltz starts,"
-msgstr "Починається збоєвий вальс,"
+msgstr "رقصة متقطع تبدأ،"
 
 #: sophie_bot/modules/error/utils/haikus.py:31
 msgid "Errors lead to graceful steps,"
-msgstr "Помилки ведуть до витончених кроків,"
+msgstr "الأخطاء تقود إلى خطوات رشيقة،"
 
 #: sophie_bot/modules/error/utils/haikus.py:32
 msgid "Software learns to dance."
-msgstr "Програмне забезпечення вчиться танцювати."
+msgstr "البرمجيات تتعلم الرقصة."
 
 #: sophie_bot/modules/error/utils/haikus.py:35
 msgid "Beneath error's mask,"
-msgstr "Під маскою помилки,"
+msgstr "تحت قناع الخطأ،"
 
 #: sophie_bot/modules/error/utils/haikus.py:36
 msgid "Lies chance to refine and mend,"
-msgstr "Ховається шанс вдосконалити та виправити,"
+msgstr "توجد فرصة لتحسين وإصلاح،"
 
 #: sophie_bot/modules/error/utils/haikus.py:37
 msgid "Stronger code emerges."
-msgstr "Виникає більш міцний код."
+msgstr "يظهر كود أقوى."
 
 #: sophie_bot/modules/error/utils/haikus.py:40
 msgid "Flawed notes in the code,"
-msgstr "Недосконалі примітки в коді,"
+msgstr "نوتات معيبة في الكود،"
 
 #: sophie_bot/modules/error/utils/haikus.py:41
 msgid "Create the symphony of growth,"
-msgstr "Створюють симфонію зростання,"
+msgstr "اصنع سمفونية من النمو،"
 
 #: sophie_bot/modules/error/utils/haikus.py:42
 msgid "Exceptions compose."
-msgstr "Винятки складають."
+msgstr "الاستثناءات تتكون."
 
 #: sophie_bot/modules/error/utils/haikus.py:45
 msgid "Bright stars in the code,"
-msgstr "Яскраві зірки в коді,"
+msgstr "نجوم ساطعة في الكود،"
 
 #: sophie_bot/modules/error/utils/haikus.py:46
 msgid "Errors guide us through the dark,"
-msgstr "Помилки ведуть нас крізь темряву,"
+msgstr "الأخطاء تقودنا عبر الظلام،"
 
 #: sophie_bot/modules/error/utils/haikus.py:47
 msgid "To a better dawn."
-msgstr "До кращого світанку."
+msgstr "إلى فجر أفضل."
 
 #: sophie_bot/modules/error/utils/haikus.py:50
 msgid "Software's journey,"
-msgstr "Подорож програмного забезпечення,"
+msgstr "رحلة البرمجيات،"
 
 #: sophie_bot/modules/error/utils/haikus.py:51
 msgid "Marked by errors, yet they forge,"
-msgstr "Позначена помилками, проте вони формують,"
+msgstr "مميزة بالأخطاء، ومع ذلك تصنع،"
 
 #: sophie_bot/modules/error/utils/haikus.py:52
 msgid "A path to brilliance."
-msgstr "Шлях до білого."
+msgstr "مسار إلى اللمعان."
 
 #: sophie_bot/modules/error/utils/haikus.py:55
 msgid "In lines of debug,"
-msgstr "В рядках налагодження,"
+msgstr "في أسطر التصحيح،"
 
 #: sophie_bot/modules/error/utils/haikus.py:56
 msgid "Lies the tale of perseverance,"
-msgstr "Ховається оповідь про наполегливість,"
+msgstr "توجد حكاية الإصرار،"
 
 #: sophie_bot/modules/error/utils/haikus.py:57
 msgid "Errors write our story."
-msgstr "Помилки пишуть нашу історію."
+msgstr "تكتب الأخطاء قصتنا."
 
 #: sophie_bot/modules/error/utils/haikus.py:60
 msgid "Bugs like stepping stones,"
-msgstr "Бugs like stepping stones,"
+msgstr "الأخطاء كالعقبات،"
 
 #: sophie_bot/modules/error/utils/haikus.py:61
 msgid "Lead us towards understanding,"
-msgstr "Ведуть нас до розуміння,"
+msgstr "تقودنا نحو الفهم،"
 
 #: sophie_bot/modules/error/utils/haikus.py:62
 msgid "Paths of enlightenment."
-msgstr "Шляхи просвітлення."
+msgstr "طرق التنوير."
 
 #: sophie_bot/modules/error/utils/haikus.py:65
 msgid "Amidst lines of code,"
-msgstr "Серед рядків коду,"
+msgstr "بين سطور الكود،"
 
 #: sophie_bot/modules/error/utils/haikus.py:66
 msgid "Errors whisper secrets deep,"
-msgstr "Помилки шепочуть таємниці поглибокі,"
+msgstr "تهمس الأخطاء بأسرار عميقة،"
 
 #: sophie_bot/modules/error/utils/haikus.py:67
 msgid "Knowledge blooms from flaws."
-msgstr "Знання розквітає з недоліків."
+msgstr "تنمو المعرفة من العيوب."
 
 #: sophie_bot/modules/error/utils/haikus.py:70
 msgid "A puzzle of bugs,"
-msgstr "Головоломка помилок,"
+msgstr "لغز من الأخطاء،"
 
 #: sophie_bot/modules/error/utils/haikus.py:71
 msgid "Each exception a clue to solve,"
-msgstr "Кожен виняток — це підказка для розв'язання,"
+msgstr "كل استثناء دليل للحل،"
 
 #: sophie_bot/modules/error/utils/haikus.py:72
 msgid "The software's riddle."
-msgstr "Головоломка програмного забезпечення."
+msgstr "لغز البرمجيات."
 
 #: sophie_bot/modules/error/utils/haikus.py:75
 msgid "In realm of errors,"
-msgstr "У царстві помилок,"
+msgstr "في عالم الأخطاء،"
 
 #: sophie_bot/modules/error/utils/haikus.py:76
 msgid "Patience and insight converge,"
-msgstr "Зустрічаються терпіння та прозорливість,"
+msgstr "تتقارب الصبر والبصيرة،"
 
 #: sophie_bot/modules/error/utils/haikus.py:77
 msgid "Solutions are born."
-msgstr "Рішення народжуються."
+msgstr "تولد الحلول."
 
 #: sophie_bot/modules/error/utils/haikus.py:80
 msgid "Through crashes and burns,"
-msgstr "Через збої та поразки,"
+msgstr "من خلال التحطمات والنيران،"
 
 #: sophie_bot/modules/error/utils/haikus.py:81
 msgid "Rises phoenix of progress,"
-msgstr "Піднімається фенікс прогресу,"
+msgstr "تحلق فينيق التقدم،"
 
 #: sophie_bot/modules/error/utils/haikus.py:82
 msgid "From ashes of bugs."
-msgstr "З попелу помилок."
+msgstr "من رماد الأخطاء."
 
 #: sophie_bot/modules/error/utils/haikus.py:85
 msgid "Software's heartbeat,"
-msgstr "Серце програмного забезпечення,"
+msgstr "نبض البرمجيات،"
 
 #: sophie_bot/modules/error/utils/haikus.py:86
 msgid "Pulsing with each error found,"
-msgstr "Пульсація з кожною знайденою помилкою,"
+msgstr "يخفق مع كل خطأ يتم اكتشافه،"
 
 #: sophie_bot/modules/error/utils/haikus.py:87
 msgid "Lifeblood of growth flows."
-msgstr "Життєва сила зростання тече."
+msgstr "تتدفق حياة النمو."
 
 #: sophie_bot/modules/error/utils/haikus.py:90
 msgid "Errors like raindrops,"
-msgstr "Помилки, схожі на краплі дощу,"
+msgstr "الأخطاء كقطرات المطر،"
 
 #: sophie_bot/modules/error/utils/haikus.py:91
 msgid "Quenching the thirst for knowledge,"
-msgstr "Гасіть спрагу знань,"
+msgstr "تروي عطش المعرفة،"
 
 #: sophie_bot/modules/error/utils/haikus.py:92
 msgid "Nourishing progress."
-msgstr "Підживлюючи прогрес."
+msgstr "تغذي التقدم."
 
 #: sophie_bot/modules/error/utils/haikus.py:95
 msgid "Through the maze of bugs,"
-msgstr "Через лабіринт помилок,"
+msgstr "من خلال متاهة الأخطاء،"
 
 #: sophie_bot/modules/error/utils/haikus.py:96
 msgid "A labyrinth of learning,"
-msgstr "Лабіринт навчання,"
+msgstr "متاهة من التعلم،"
 
 #: sophie_bot/modules/error/utils/haikus.py:97
 msgid "Exceptional minds."
-msgstr "Виняткові уми."
+msgstr "عقول استثنائية."
 
 #: sophie_bot/modules/error/utils/haikus.py:100
 msgid "In the code's embrace,"
-msgstr "В обіймах коду,"
+msgstr "في حضن الكود،"
 
 #: sophie_bot/modules/error/utils/haikus.py:101
 msgid "Errors cradle innovation,"
-msgstr "Помилки колихають інновації,"
+msgstr "الأخطاء تحتضن الابتكار،"
 
 #: sophie_bot/modules/error/utils/haikus.py:102
 msgid "Softly whispering."
-msgstr "Тихо шепочучи."
+msgstr "تتهمس برفق."
 
 #: sophie_bot/modules/help/__init__.py:20 sophie_bot/modules/help/handlers/pm_modules.py:41
 msgid "Help"
-msgstr "Допомога"
+msgstr "مساعدة"
 
 #: sophie_bot/modules/help/__init__.py:22 sophie_bot/modules/privacy/__init__.py:19
 msgid "Provides helpful information"
-msgstr "Надходить корисна інформація"
+msgstr "يوفر معلومات مفيدة"
 
 #: sophie_bot/modules/help/handlers/pm_modules.py:18
 msgid "Shows help overview for all modules"
-msgstr "Показує загальний огляд допомоги для всіх модулів"
+msgstr "يعرض نظرة عامة على المساعدة لجميع الوحدات"
 
 #: sophie_bot/modules/help/handlers/pm_modules.py:38 sophie_bot/modules/help/handlers/pm_modules.py:108
 #: sophie_bot/modules/privacy/handlers/privacy.py:30
 msgid "⬅️ Back"
-msgstr "⬅️ Назад"
+msgstr "⬅️ العودة"
 
 #: sophie_bot/modules/help/handlers/pm_modules.py:42
 msgid "There are 2 help sources, you can read the detailed wiki or get a quick commands by modules overview."
-msgstr "Існує 2 джерела допомоги, ви можете прочитати детальну вікі або отримати швидкий огляд команд за модулями."
+msgstr "هناك مصدرين للمساعدة، يمكنك قراءة ويكي المفصل أو الحصول على أوامر سريعة حسب نظرة عامة على الوحدات."
 
 #: sophie_bot/modules/help/handlers/pm_modules.py:43
 msgid "📖 Wiki (detailed information)"
-msgstr "📖 Вікі (докладна інформація)"
+msgstr "📖 ويكي (معلومات مفصلة)"
 
 #: sophie_bot/modules/help/handlers/pm_modules.py:59
 msgid "Module not found"
-msgstr "Модуль не знайдено"
+msgstr "لم يتم العثور على الوحدة"
 
 #: sophie_bot/modules/help/handlers/pm_modules.py:75
 msgid "Commands"
-msgstr "Команди"
+msgstr "الأوامر"
 
 #: sophie_bot/modules/help/handlers/pm_modules.py:76
 msgid "PM-only"
-msgstr "Тільки PM"
+msgstr "خاص فقط"
 
 #: sophie_bot/modules/help/handlers/pm_modules.py:77
 msgid "Only admins"
-msgstr "Тільки адміністратори"
+msgstr "فقط المسؤولون"
 
 #: sophie_bot/modules/help/handlers/pm_modules.py:100
 msgid "Aliased commands from {module}"
-msgstr "Команди-аліаси з {module}"
+msgstr "أوامر بديلة من {module}"
 
 #: sophie_bot/modules/help/handlers/pm_modules.py:105
 msgid "📖 Wiki page"
-msgstr "📖 Сторінка Вікі"
+msgstr "📖 صفحة ويكي"
 
 #: sophie_bot/modules/help/utils/format_help.py:21
 msgid " - Only in chats"
-msgstr " - Тільки в чатах"
+msgstr " - فقط في الدردشات"
 
 #: sophie_bot/modules/legacy_modules/modules/antiflood.py:69
 msgid "Antiflood"
-msgstr "Антифлуд"
+msgstr "مقاومة الفيضانات"
 
 #: sophie_bot/modules/legacy_modules/modules/antiflood.py:191
 msgid "Set the antiflood limit for this chat."
-msgstr "Встановіть обмеження антифлуду для цього чату."
+msgstr "قم بتعيين حد مكافحة الفيضانات لهذه الدردشة."
 
 #: sophie_bot/modules/legacy_modules/modules/antiflood.py:191
 msgid "Number of messages"
-msgstr "Кількість повідомлень"
+msgstr "عدد الرسائل"
 
 #: sophie_bot/modules/legacy_modules/modules/antiflood.py:248
 msgid "Controls the antiflood state."
-msgstr "Керує станом антифлуду."
+msgstr "يتحكم في حالة مكافحة الفيضانات."
 
 #: sophie_bot/modules/legacy_modules/modules/antiflood.py:277
 msgid "Sets the antiflood action."
-msgstr "Встановлює дію антифлуду."
+msgstr "يحدد إجراء مكافحة الفيضانات."
 
 #: sophie_bot/modules/legacy_modules/modules/antiflood.py:277
 msgid "New action"
-msgstr "Нова дія"
+msgstr "إجراء جديد"
 
 #: sophie_bot/modules/legacy_modules/modules/connection.py:51
 msgid "Connections"
-msgstr "З'єднання"
+msgstr "اتصالات"
 
 #: sophie_bot/modules/legacy_modules/modules/connection.py:74
 msgid "Connects PM with bot to the current chat."
-msgstr "Підключає PM до бота в поточному чаті."
+msgstr "يتصل بـ PM مع الروبوت في الدردشة الحالية."
 
 #: sophie_bot/modules/legacy_modules/modules/connection.py:103
 msgid "Connects to the latest chat."
-msgstr "Підключається до останнього чату."
+msgstr "يتصل بأحدث دردشة."
 
 #: sophie_bot/modules/legacy_modules/modules/connection.py:152
 msgid "Connected to the chat by its ID."
-msgstr "Підключений до чату за його ID."
+msgstr "متصل بالدردشة باستخدام الرقم التعريفي لها."
 
 #: sophie_bot/modules/legacy_modules/modules/connection.py:152
 msgid "Chat ID"
-msgstr "ID чату"
+msgstr "رقم تعريف الدردشة"
 
 #: sophie_bot/modules/legacy_modules/modules/connection.py:171
 msgid "Disconnects the PM from connected chat."
-msgstr "Відключає PM від підключеного чату."
+msgstr "يفصل الـ PM عن الدردشة المتصلة."
 
 #: sophie_bot/modules/legacy_modules/modules/connection.py:183
 msgid "Sets whatever normal users (non admins) are allowed to connect"
-msgstr "Встановлює, чи можуть звичайні користувачі (не адміністратори) підключатися"
+msgstr "يحدد ما إذا كان يمكن للمستخدمين العاديين (غير الإداريين) الاتصال"
 
 #: sophie_bot/modules/legacy_modules/modules/disabling.py:17
 msgid "Disabling"
-msgstr "Кількість повідомлень"
+msgstr "تعطيل"
 
 #: sophie_bot/modules/legacy_modules/modules/disabling.py:24
 msgid "Lists all commands that can be disabled."
-msgstr "Перелічує всі команди, які можна вимкнути."
+msgstr "يسرد جميع الأوامر التي يمكن تعطيلها."
 
 #: sophie_bot/modules/legacy_modules/modules/disabling.py:35
 msgid "Lists all disabled commands."
-msgstr "Перелічує всі вимкнені команди."
+msgstr "يسرد جميع الأوامر المعطلة."
 
 #: sophie_bot/modules/legacy_modules/modules/disabling.py:52
 msgid "Disables the command."
-msgstr "Вимикає команду."
+msgstr "يعطل الأمر."
 
 #: sophie_bot/modules/legacy_modules/modules/disabling.py:52 sophie_bot/modules/legacy_modules/modules/disabling.py:85
 #: sophie_bot/modules/legacy_modules/modules/feds.py:265
 msgid "Command"
-msgstr "Команда"
+msgstr "الأمر"
 
 #: sophie_bot/modules/legacy_modules/modules/disabling.py:85
 msgid "Enables the command."
-msgstr "Увімкнути команду."
+msgstr "يمكن الأمر."
 
 #: sophie_bot/modules/legacy_modules/modules/disabling.py:115
 msgid "Enables all previously disabled commands"
-msgstr "Увімкнути всі раніше вимкнені команди"
+msgstr "يمكن جميع الأوامر المعطلة سابقًا"
 
 #: sophie_bot/modules/legacy_modules/modules/feds.py:87
 msgid "Federations"
-msgstr "Федерації"
+msgstr "الاتحادات"
 
 #: sophie_bot/modules/legacy_modules/modules/feds.py:265
 msgid "Creates a new Federation."
-msgstr "Створює нову федерацію."
+msgstr "ينشئ اتحادًا جديدًا."
 
 #: sophie_bot/modules/legacy_modules/modules/feds.py:300
 msgid "Joins the current chat to the federation."
-msgstr "Долучає поточний чат до федерації."
+msgstr "ينضم للدردشة الحالية في الاتحاد."
 
 #: sophie_bot/modules/legacy_modules/modules/feds.py:300
 msgid "Fed ID"
-msgstr "ID федерації"
+msgstr "معرف الاتحاد"
 
 #: sophie_bot/modules/legacy_modules/modules/feds.py:340
 msgid "Leaves the current chat from the federation."
-msgstr "Виходить з поточного чату з федерації."
+msgstr "يترك الدردشة الحالية من الاتحاد."
 
 #: sophie_bot/modules/legacy_modules/modules/feds.py:368
 msgid "Subscribes federation to another."
-msgstr "Підписує федерацію на іншу."
+msgstr "يشترك الاتحاد في آخر."
 
 #: sophie_bot/modules/legacy_modules/modules/feds.py:368
 msgid "Fed ID to subscribe"
-msgstr "ID федерації для підписки"
+msgstr "معرف الاتحاد للاشتراك"
 
 #: sophie_bot/modules/legacy_modules/modules/feds.py:402
 msgid "Unsubscribes the federation."
-msgstr "Відписує федерацію."
+msgstr "يلغي اشتراك الاتحاد."
 
 #: sophie_bot/modules/legacy_modules/modules/feds.py:402
 msgid "Subscribed Fed ID"
-msgstr "Підписаний ID федерації"
+msgstr "معرف الاتحاد المشترك"
 
 #: sophie_bot/modules/legacy_modules/modules/feds.py:429
 msgid "Promotes the user to the Federation admins."
-msgstr "Підвищує користувача до адміністраторів федерації."
+msgstr "يرقي المستخدم إلى مشرفين الاتحاد."
 
 #: sophie_bot/modules/legacy_modules/modules/feds.py:429 sophie_bot/modules/legacy_modules/modules/feds.py:458
 #: sophie_bot/modules/legacy_modules/modules/feds.py:611 sophie_bot/modules/legacy_modules/modules/feds.py:783
@@ -718,753 +718,753 @@ msgstr "Підвищує користувача до адміністратор�
 #: sophie_bot/modules/legacy_modules/modules/restrictions.py:243
 #: sophie_bot/modules/legacy_modules/modules/restrictions.py:322 sophie_bot/modules/users/handlers/id.py:22
 msgid "User"
-msgstr "Користувач"
+msgstr "المستخدم"
 
 #: sophie_bot/modules/legacy_modules/modules/feds.py:458
 msgid "Demotes the user from the Federation admins."
-msgstr "Понижує користувача з адміністраторів федерації."
+msgstr "يخفض المستخدم من مشرفي الاتحاد."
 
 #: sophie_bot/modules/legacy_modules/modules/feds.py:485
 msgid "Sets the Federation logs channel."
-msgstr "Встановлює канал для журналів федерації."
+msgstr "حدد قناة سجلات الاتحاد."
 
 #: sophie_bot/modules/legacy_modules/modules/feds.py:514
 msgid "Removes the Federation logs channel."
-msgstr "Видаляє канал для журналів федерації."
+msgstr "إزالة قناة سجلات الاتحاد."
 
 #: sophie_bot/modules/legacy_modules/modules/feds.py:536
 msgid "Shows a list of chats in the Federation."
-msgstr "Показує список чатів у федерації."
+msgstr "يعرض قائمة الدردشات في الاتحاد."
 
 #: sophie_bot/modules/legacy_modules/modules/feds.py:561
 msgid "Shows a list of admins in the Federation."
-msgstr "Показує список адміністраторів у федерації."
+msgstr "يعرض قائمة المشرفين في الاتحاد."
 
 #: sophie_bot/modules/legacy_modules/modules/feds.py:575
 msgid "Shows the information about the Federation."
-msgstr "Показує інформацію про федерацію."
+msgstr "يعرض المعلومات عن الاتحاد."
 
 #: sophie_bot/modules/legacy_modules/modules/feds.py:611
 msgid "Bans the user in the whole Federation."
-msgstr "Блокує користувача у всій федерації."
+msgstr "يحظر المستخدم في جميع أنحاء الاتحاد."
 
 #: sophie_bot/modules/legacy_modules/modules/feds.py:783
 msgid "Unbans the user from the Federation."
-msgstr "Розблокує користувача з федерації."
+msgstr "يلغي حظر المستخدم من الاتحاد."
 
 #: sophie_bot/modules/legacy_modules/modules/feds.py:875
 msgid "Deletes the federation."
-msgstr "Видаляє федерацію."
+msgstr "يحذف الاتحاد."
 
 #: sophie_bot/modules/legacy_modules/modules/feds.py:927
 msgid "Renames the federation."
-msgstr "Перейменовує федерацію."
+msgstr "يعيد تسمية الاتحاد."
 
 #: sophie_bot/modules/legacy_modules/modules/feds.py:927
 msgid "New name"
-msgstr "Нова назва"
+msgstr "اسم جديد"
 
 #: sophie_bot/modules/legacy_modules/modules/feds.py:955
 msgid "Exports the list of bans."
-msgstr "Експортує список заборон."
+msgstr "يصدر قائمة الحظر."
 
 #: sophie_bot/modules/legacy_modules/modules/feds.py:1004
 msgid "Imports the list of bans."
-msgstr "Імпортує список заборон."
+msgstr "يستورد قائمة الحظر."
 
 #: sophie_bot/modules/legacy_modules/modules/feds.py:1134
 msgid "Checks the user ban status (can be used to check yourself)."
-msgstr "Перевіряє статус заборони користувача (може бути використано, щоб перевірити себе)."
+msgstr "يحقق في حالة حظر المستخدم (يمكن استخدامه للتحقق من نفسك)."
 
 #: sophie_bot/modules/legacy_modules/modules/filters.py:62
 msgid "Filters"
-msgstr "Новий стан"
+msgstr "مرشحات"
 
 #: sophie_bot/modules/legacy_modules/modules/filters.py:157
 msgid "Adds a new filter."
-msgstr "Додає новий фільтр."
+msgstr "يضيف فلتر جديد."
 
 #: sophie_bot/modules/legacy_modules/modules/filters.py:157 sophie_bot/modules/legacy_modules/modules/filters.py:310
 msgid "Trigger"
-msgstr "Тригер"
+msgstr "مشغل"
 
 #: sophie_bot/modules/legacy_modules/modules/filters.py:291
 msgid "Shows the list of filters."
-msgstr "Показує список фільтрів."
+msgstr "يعرض قائمة الفلاتر."
 
 #: sophie_bot/modules/legacy_modules/modules/filters.py:310
 msgid "Removes the filter."
-msgstr "Видаляє фільтр."
+msgstr "يزيل الفلتر."
 
 #: sophie_bot/modules/legacy_modules/modules/filters.py:361
 msgid "Removes all the filters in the chat."
-msgstr "Видаляє всі фільтри в чаті."
+msgstr "يزيل جميع الفلاتر في الدردشة."
 
 #: sophie_bot/modules/legacy_modules/modules/greetings.py:83
 msgid "Greetings"
-msgstr "Привітання"
+msgstr "تحيات"
 
 #: sophie_bot/modules/legacy_modules/modules/greetings.py:97
 msgid "Shows the current welcome."
-msgstr "Показує поточне вітання."
+msgstr "يعرض الترحيب الحالي."
 
 #: sophie_bot/modules/legacy_modules/modules/greetings.py:167
 msgid "Sets the welcome message."
-msgstr "Встановлює повідомлення-привітання."
+msgstr "يحدد رسالة الترحيب."
 
 #: sophie_bot/modules/legacy_modules/modules/greetings.py:167
 msgid "Message"
-msgstr "Повідомлення"
+msgstr "رسالة"
 
 #: sophie_bot/modules/legacy_modules/modules/greetings.py:217
 msgid "Resets the welcome message."
-msgstr "Скидає повідомлення-привітання."
+msgstr "يعيد تعيين رسالة الترحيب."
 
 #: sophie_bot/modules/legacy_modules/modules/greetings.py:233
 msgid "Controls the automatic welcome cleanup"
-msgstr "Контролює автоматичне очищення привітань"
+msgstr "يتحكم في التنظيف التلقائي للترحيب"
 
 #: sophie_bot/modules/legacy_modules/modules/greetings.py:233 sophie_bot/modules/legacy_modules/modules/greetings.py:271
 msgid "New status"
-msgstr "Новий статус"
+msgstr "حالة جديدة"
 
 #: sophie_bot/modules/legacy_modules/modules/greetings.py:271
 msgid "Controls the automatic service messages cleanup"
-msgstr "Контролює автоматичне очищення сервісних повідомлень"
+msgstr "يتحكم في تنظيف الرسائل الخدمة التلقائي"
 
 #: sophie_bot/modules/legacy_modules/modules/greetings.py:309
 msgid "Restricts new users from sending media"
-msgstr "Обмежує нових користувачів у надсиланні медіа"
+msgstr "يمنع المستخدمين الجدد من إرسال الوسائط"
 
 #: sophie_bot/modules/legacy_modules/modules/greetings.py:309
 msgid "Time"
-msgstr "Час"
+msgstr "الوقت"
 
 #: sophie_bot/modules/legacy_modules/modules/greetings.py:378
 msgid "Controls the welcome captcha"
-msgstr "Контролює капчу привітання"
+msgstr "يتحكم في كابتشا الترحيب"
 
 #: sophie_bot/modules/legacy_modules/modules/greetings.py:499
 msgid "Sets the specific message for the captcha initiation process"
-msgstr "Встановлює конкретне повідомлення для ініціації капчі"
+msgstr "يحدد الرسالة الخاصة بعملية كابتشا"
 
 #: sophie_bot/modules/legacy_modules/modules/greetings.py:537
 msgid "Resets the captcha initiation process message"
-msgstr "Скидає повідомлення ініціації капчі"
+msgstr "يعيد تعيين رسالة عملية كابتشا"
 
 #: sophie_bot/modules/legacy_modules/modules/language.py:23
 msgid "Language"
-msgstr "Мова"
+msgstr "لغة"
 
 #: sophie_bot/modules/legacy_modules/modules/language.py:40
 msgid "Asks for the new language for the chat."
-msgstr "Запитує нову мову для чату."
+msgstr "يسأل عن اللغة الجديدة للدردشة."
 
 #: sophie_bot/modules/legacy_modules/modules/language.py:114
 msgid "Sets the new language for the chat"
-msgstr "Встановлює нову мову для чату"
+msgstr "يحدد اللغة الجديدة للدردشة"
 
 #: sophie_bot/modules/legacy_modules/modules/language.py:114
 msgid "New language"
-msgstr "Нова мова"
+msgstr "لغة جديدة"
 
 #: sophie_bot/modules/legacy_modules/modules/notes.py:43 sophie_bot/modules/notes/__init__.py:13
 msgid "Notes"
-msgstr "Замітки"
+msgstr "ملاحظات"
 
 #: sophie_bot/modules/legacy_modules/modules/notes.py:122
 msgid "Saves the note."
-msgstr "Зберігає примітку."
+msgstr "يحفظ الملاحظة."
 
 #: sophie_bot/modules/legacy_modules/modules/notes.py:122 sophie_bot/modules/legacy_modules/modules/notes.py:350
 #: sophie_bot/modules/legacy_modules/modules/notes.py:418 sophie_bot/modules/notes/handlers/delete.py:15
 #: sophie_bot/modules/notes/handlers/get.py:15
 msgid "Note name"
-msgstr "Назва примітки"
+msgstr "اسم الملاحظة"
 
 #: sophie_bot/modules/legacy_modules/modules/notes.py:122 sophie_bot/modules/legacy_modules/modules/rules.py:28
 msgid "Content"
-msgstr "Зміст"
+msgstr "المحتوى"
 
 #: sophie_bot/modules/legacy_modules/modules/notes.py:330
 msgid "Searches text across all notes."
-msgstr "Шукає текст в усіх примітках."
+msgstr "يبحث عن نص في جميع الملاحظات."
 
 #: sophie_bot/modules/legacy_modules/modules/notes.py:330 sophie_bot/modules/notes/handlers/save.py:29
 msgid "Text"
-msgstr "Текст"
+msgstr "نص"
 
 #: sophie_bot/modules/legacy_modules/modules/notes.py:350
 msgid "Deletes the note"
-msgstr "Видаляє примітку"
+msgstr "يحذف الملاحظة"
 
 #: sophie_bot/modules/legacy_modules/modules/notes.py:387
 msgid "Deletes all the notes in the chat"
-msgstr "Видаляє всі примітки в чаті"
+msgstr "يحذف جميع الملاحظات في الدردشة"
 
 #: sophie_bot/modules/legacy_modules/modules/notes.py:418
 msgid "Shows additional information about the note"
-msgstr "Показує додаткову інформацію про примітку"
+msgstr "يعرض معلومات إضافية حول الملاحظة"
 
 #: sophie_bot/modules/legacy_modules/modules/notes.py:531
 msgid "Controls the feature, that would recommend users to use PM with bot to use notes"
-msgstr "Контролює функцію, яка рекомендує користувачам використовувати PM з ботом для використання приміток"
+msgstr "يتحكم في الميزة، التي توصي المستخدمين باستخدام PM مع الروبوت لاستخدام الملاحظات"
 
 #: sophie_bot/modules/legacy_modules/modules/notes.py:571
 msgid "Controls the automatic clean-up for notes"
-msgstr "Контролює автоматичне очищення приміток"
+msgstr "يتحكم في التنظيف التلقائي للملاحظات"
 
 #: sophie_bot/modules/legacy_modules/modules/pins.py:15
 msgid "Pins"
-msgstr "Закріплені"
+msgstr "تثبيتات"
 
 #: sophie_bot/modules/legacy_modules/modules/pins.py:25
 msgid "Pins replied message"
-msgstr "Закріплює відповідь на повідомлення"
+msgstr "يثبت الرسالة التي تم الرد عليها"
 
 #: sophie_bot/modules/legacy_modules/modules/pins.py:46
 msgid "Unpins the last pinned message"
-msgstr "Відкреплює останнє закріплене повідомлення"
+msgstr "يلغي تثبيت آخر رسالة مثبتة"
 
 #: sophie_bot/modules/legacy_modules/modules/pm_menu.py:54
 msgid "🕵️‍♂️ Privacy"
-msgstr "🕵️‍♂️ Конфіденційність"
+msgstr "🕵️‍♂️ الخصوصية"
 
 #: sophie_bot/modules/legacy_modules/modules/pm_menu.py:63
 msgid "💬 Support Chat"
-msgstr "💬 Чат підтримки"
+msgstr "💬 دردشة الدعم"
 
 #: sophie_bot/modules/legacy_modules/modules/pm_menu.py:64
 msgid "📢 NEWS Channel"
-msgstr "📢 Канал новин"
+msgstr "📢 قناة الأخبار"
 
 #: sophie_bot/modules/legacy_modules/modules/promotes.py:38
 msgid "Promotes"
-msgstr "Підвищення"
+msgstr "ترقيات"
 
 #: sophie_bot/modules/legacy_modules/modules/promotes.py:50
 msgid "Promotes the user to admins."
-msgstr "Підвищує користувача до адміністраторів."
+msgstr "يرقي المستخدم إلى المشرفين."
 
 #: sophie_bot/modules/legacy_modules/modules/promotes.py:98
 msgid "Demotes the user from admins."
-msgstr "Понижує користувача з адміністраторів."
+msgstr "يخفض المستخدم من المشرفين."
 
 #: sophie_bot/modules/legacy_modules/modules/purges.py:34
 msgid "Purges"
-msgstr "Очищення"
+msgstr "عمليات التطهير"
 
 #: sophie_bot/modules/legacy_modules/modules/purges.py:47
 msgid "Deletes the replied message"
-msgstr "Видаляє відповідь на повідомлення"
+msgstr "يحذف الرسالة التي تم الرد عليها"
 
 #: sophie_bot/modules/legacy_modules/modules/purges.py:63
 msgid "Purges all messages after replied message (incl. the replied message)"
-msgstr "Очищає всі повідомлення після відповіді на повідомлення (включно з відповіді на повідомлення)"
+msgstr "يمحو جميع الرسائل بعد الرسالة التي تم الرد عليها (بما في ذلك الرسالة التي تم الرد عليها)"
 
 #: sophie_bot/modules/legacy_modules/modules/reports.py:18
 msgid "Reports"
-msgstr "Доповіді"
+msgstr "تقارير"
 
 #: sophie_bot/modules/legacy_modules/modules/reports.py:35
 msgid "Reports the replied message."
-msgstr "Повідомляє про відповісти на повідомлення."
+msgstr "يبلغ عن الرسالة التي تم الرد عليها."
 
 #: sophie_bot/modules/legacy_modules/modules/restrictions.py:53
 msgid "Restrictions"
-msgstr "Обмеження"
+msgstr "قيود"
 
 #: sophie_bot/modules/legacy_modules/modules/restrictions.py:67
 msgid "Kicks the user from the chat. The user would be able to join back."
-msgstr "Вигнало користувача з чату. Користувач зможе зайти знову."
+msgstr "يخرج المستخدم من الدردشة. سيكون بإمكان المستخدم العودة."
 
 #: sophie_bot/modules/legacy_modules/modules/restrictions.py:127
 msgid "Mutes the user."
-msgstr "Заглушити користувача."
+msgstr "يخفف صوت المستخدم."
 
 #: sophie_bot/modules/legacy_modules/modules/restrictions.py:206
 #: sophie_bot/modules/legacy_modules/modules/restrictions.py:243
 msgid "Unmutes the user (also lets the user send media)."
-msgstr "Розгалужує користувача (також дозволяє користувачу надсилати медіа)."
+msgstr "يفك كتم صوت المستخدم (يسمح أيضًا للمستخدم بإرسال الوسائط)."
 
 #: sophie_bot/modules/legacy_modules/modules/restrictions.py:322
 msgid "Unbans the user."
-msgstr "Розблокує користувача."
+msgstr "يلغي حظر المستخدم."
 
 #: sophie_bot/modules/legacy_modules/modules/rules.py:21
 msgid "Rules"
-msgstr "Правила"
+msgstr "قواعد"
 
 #: sophie_bot/modules/legacy_modules/modules/rules.py:28
 msgid "Sets the chat rules."
-msgstr "Встановлює правила чату."
+msgstr "يحدد قواعد الدردشة."
 
 #: sophie_bot/modules/legacy_modules/modules/rules.py:47
 msgid "Shows the rules."
-msgstr "Показує правила."
+msgstr "يعرض القواعد."
 
 #: sophie_bot/modules/legacy_modules/modules/rules.py:77
 msgid "Resets the chat rules."
-msgstr "Скидає правила чату."
+msgstr "يعيد تعيين قواعد الدردشة."
 
 #: sophie_bot/modules/legacy_modules/modules/users.py:17 sophie_bot/modules/users/__init__.py:15
 msgid "Users"
-msgstr "Користувачі"
+msgstr "المستخدمون"
 
 #: sophie_bot/modules/legacy_modules/modules/users.py:25
 msgid "Shows the additional information about the user."
-msgstr "Показує додаткову інформацію про користувача."
+msgstr "يعرض المعلومات الإضافية عن المستخدم."
 
 #: sophie_bot/modules/legacy_modules/modules/users.py:59
 msgid "Shows IDs."
-msgstr "Показує ID."
+msgstr "يعرض المعرفات."
 
 #: sophie_bot/modules/legacy_modules/modules/users.py:91
 msgid "Lists all the chats admins."
-msgstr "Перелічує всіх адміністраторів чатів."
+msgstr "يسرد جميعadmins للدردشة."
 
 #: sophie_bot/modules/legacy_modules/modules/warns.py:56
 msgid "Warnings"
-msgstr "Попередження"
+msgstr "تحذيرات"
 
 #: sophie_bot/modules/notes/handlers/delete.py:16
 msgid "Deletes notes."
-msgstr "Видаляє примітки."
+msgstr "يحذف الملاحظات."
 
 #: sophie_bot/modules/notes/handlers/delete.py:25
 msgid "No notes was found with {name} name."
-msgstr "Заміток не знайдено з іменем {name}."
+msgstr "لم يتم العثور على أي ملاحظات تحمل اسم {name}."
 
 #: sophie_bot/modules/notes/handlers/delete.py:33
 msgid "Name"
-msgstr "Ім’я"
+msgstr "اسم"
 
 #: sophie_bot/modules/notes/handlers/delete.py:33
 msgid "Names"
-msgstr "Назви"
+msgstr "أسماء"
 
 #: sophie_bot/modules/notes/handlers/delete.py:34
 msgid "Note was successfully deleted"
-msgstr "Примітка була успішно видалена"
+msgstr "تم حذف الملاحظة بنجاح"
 
 #: sophie_bot/modules/notes/handlers/get.py:16
 msgid "Retrieve the note."
-msgstr "Одержати примітку."
+msgstr "استرجع الملاحظة."
 
 #: sophie_bot/modules/notes/handlers/get.py:25
 msgid "No note was found with {name} name."
-msgstr "Не знайдено примітки з іменем {name}."
+msgstr "لم يتم العثور على ملاحظة تحمل اسم {name}."
 
 #: sophie_bot/modules/notes/handlers/list.py:16
 msgid "Search notes"
-msgstr "Шукати примітки"
+msgstr "ابحث عن الملاحظات"
 
 #: sophie_bot/modules/notes/handlers/list.py:17
 msgid "Lists available notes."
-msgstr "Перелічує доступні примітки."
+msgstr "يسرد الملاحظات المتاحة."
 
 #: sophie_bot/modules/notes/handlers/list.py:79
 msgid "No notes found by the provided search pattern {pattern}."
-msgstr "Жодних приміток не знайдено за наданим шаблоном пошуку {pattern}."
+msgstr "لم يتم العثور على ملاحظات بناءً على نمط البحث المقدم {pattern}."
 
 #: sophie_bot/modules/notes/handlers/list.py:82
 msgid "No notes found."
-msgstr "Немає жодної примітки."
+msgstr "لم يتم العثور على ملاحظات."
 
 #: sophie_bot/modules/notes/handlers/list.py:86
 msgid "Search pattern"
-msgstr "Шаблон пошуку"
+msgstr "نمط البحث"
 
 #: sophie_bot/modules/notes/handlers/list.py:88
 msgid "Notes in {chat_name}"
-msgstr "Примітки в {chat_name}"
+msgstr "الملاحظات في {chat_name}"
 
 #: sophie_bot/modules/notes/handlers/list.py:92
 msgid "Use {cmd} to retrieve a note. Example: {cmd_example}"
-msgstr "Використовуйте {cmd}, щоб отримати примітку. Приклад: {cmd_example}"
+msgstr "استخدم {cmd} لاسترجاع ملاحظة. مثال: {cmd_example}"
 
 #: sophie_bot/modules/notes/handlers/list.py:93
 msgid "#(Note name)"
-msgstr "#(Назва примітки)"
+msgstr "#(اسم الملاحظة)"
 
 #: sophie_bot/modules/notes/handlers/save.py:26
 msgid "Note names"
-msgstr "Назва примітки"
+msgstr "أسماء الملاحظات"
 
 #: sophie_bot/modules/notes/handlers/save.py:27
 msgid "Group"
-msgstr "Група"
+msgstr "مجموعة"
 
 #: sophie_bot/modules/notes/handlers/save.py:28
 msgid "Description"
-msgstr "Опис"
+msgstr "وصف"
 
 #: sophie_bot/modules/notes/handlers/save.py:31
 msgid "Save the note."
-msgstr "Зберегти примітку."
+msgstr "احفظ الملاحظة."
 
 #: sophie_bot/modules/notes/handlers/save.py:47
 msgid "Note was successfully created"
-msgstr "Примітка була успішно створена"
+msgstr "تم إنشاء الملاحظة بنجاح"
 
 #: sophie_bot/modules/notes/handlers/save.py:47
 msgid "Note was successfully updated"
-msgstr "Примітка була успішно оновлена"
+msgstr "تم تحديث الملاحظة بنجاح"
 
 #: sophie_bot/modules/notes/utils/parse.py:71
 msgid "Please check the notes documentation for the list of the allowed content types."
-msgstr "Будь ласка, перевірте документацію приміток для списку дозволених типів вмісту."
+msgstr "يرجى مراجعة وثائق الملاحظات للحصول على قائمة بأنواع المحتوى المسموح بها."
 
 #: sophie_bot/modules/notes/utils/parse.py:72
 msgid "Reply message content is not parsable as the note."
-msgstr "Вміст відповіді не може бути оброблений як примітка."
+msgstr "محتوى رسالة الرد غير قابل للتحليل كملاحظة."
 
 #: sophie_bot/modules/notes/utils/parse.py:104
 msgid "The maximum length of the note is {limit} characters."
-msgstr "Максимальна довжина примітки — {limit} символів."
+msgstr "الطول الأقصى للملاحظة هو {limit} حرفًا."
 
 #: sophie_bot/modules/notes/utils/parse.py:105
 msgid "Please try to reduce the length of the note."
-msgstr "Спробуйте зменшити довжину замітки."
+msgstr "يرجى محاولة تقليل طول الملاحظة."
 
 #: sophie_bot/modules/notes/utils/parse.py:106
 msgid "Note is too long."
-msgstr "Замітка занадто довга."
+msgstr "الملاحظة طويلة جدًا."
 
 #: sophie_bot/modules/notes/utils/text.py:28
 msgid "Local chat"
-msgstr "Локальний чат"
+msgstr "الدردشة المحلية"
 
 #: sophie_bot/modules/privacy/__init__.py:17
 msgid "Privacy"
-msgstr "Конфіденційність"
+msgstr "خصوصية"
 
 #: sophie_bot/modules/privacy/handlers/export.py:35
 msgid "Export is started, this may take a while."
-msgstr "Експорт розпочато, це може зайняти деякий час."
+msgstr "تم بدء التصدير، قد يستغرق بعض الوقت."
 
 #: sophie_bot/modules/privacy/handlers/export.py:44
 msgid "Export is done."
-msgstr "Експорт завершено."
+msgstr "اكتمل التصدير."
 
 #: sophie_bot/modules/privacy/handlers/privacy.py:16
 msgid "Shows the privacy policy of the bot"
-msgstr "Показує політику конфіденційності бота"
+msgstr "يعرض سياسة الخصوصية للروبوت"
 
 #: sophie_bot/modules/privacy/handlers/privacy.py:21
 msgid "The privacy policy of the bot is available on our wiki page."
-msgstr "Політика конфіденційності бота доступна на нашій вікі-сторінці."
+msgstr "سياسة الخصوصية للروبوت متاحة على صفحة ويكي الخاصة بنا."
 
 #: sophie_bot/modules/privacy/handlers/privacy.py:24
 msgid "Privacy Policy"
-msgstr "Політика конфіденційності"
+msgstr "سياسة الخصوصية"
 
 #: sophie_bot/modules/troubleshooters/__init__.py:12
 msgid "Troubleshooters"
-msgstr "Служби для усунення неполадок"
+msgstr "مستطلعات"
 
 #: sophie_bot/modules/troubleshooters/__init__.py:14
 msgid "Small commands for fixing problems"
-msgstr "Малі команди для виправлення проблем"
+msgstr "أوامر صغيرة لإصلاح المشاكل"
 
 #: sophie_bot/modules/troubleshooters/handlers/admincache.py:13
 msgid "Reset admin rights cache, use if Sophie didn't get the recently added admin"
-msgstr "Скидає кеш адміністративних прав, використовуйте, якщо Софі не отримала нещодавно доданого адміністратора"
+msgstr "إعادة تعيين ذاكرة حق الإدارة، استخدمها إذا لم تقم صوفي باكتشاف المسؤول المضاف مؤخرًا"
 
 #: sophie_bot/modules/troubleshooters/handlers/admincache.py:20
 msgid "You can't use this command in private chats."
-msgstr "Ви не можете використовувати цю команду в приватних чатах."
+msgstr "لا يمكنك استخدام هذا الأمر في الدردشات الخاصة."
 
 #: sophie_bot/modules/troubleshooters/handlers/admincache.py:23
 msgid "Admin rights cache has been reset."
-msgstr "Кеш адміністративних прав був скинутий."
+msgstr "تمت إعادة تعيين ذاكرة حقوق المسؤول."
 
 #: sophie_bot/modules/troubleshooters/handlers/cancel.py:12
 msgid "Cancel current state, use if Sophie is not responding on your message"
-msgstr "Скасувати поточний стан, використовуйте, якщо Софі не відповідає на ваше повідомлення"
+msgstr "إلغاء الحالة الحالية، استخدمه إذا لم تكن صوفي تستجيب لرسالتك"
 
 #: sophie_bot/modules/troubleshooters/handlers/cancel.py:20
 msgid "The current state is already cleared, nothing to do here."
-msgstr "Теперішній стан вже очищено, нічого тут робити."
+msgstr "تمت تصفية الحالة الحالية بالفعل، لا يوجد شيء هنا."
 
 #: sophie_bot/modules/troubleshooters/handlers/cancel.py:26
 msgid "Current state is cleared."
-msgstr "Поточний стан очищено."
+msgstr "تم مسح الحالة الحالية."
 
 #: sophie_bot/modules/users/handlers/id.py:35
 msgid "Your ID: {id}"
-msgstr "Ваш ID: {id}"
+msgstr "معرفك: {id}"
 
 #: sophie_bot/modules/users/handlers/id.py:38
 msgid "Chat ID: {id}"
-msgstr "ID чату: {id}"
+msgstr "معرف الدردشة: {id}"
 
 #: sophie_bot/modules/users/handlers/id.py:41
 msgid "Connected chat ID: {id}"
-msgstr "ID підключеного чату: {id}"
+msgstr "معرف الدردشة المتصل: {id}"
 
 #: sophie_bot/modules/users/handlers/id.py:47
 msgid "Replied user ID: {id}"
-msgstr "ID користувача, на якого відповіли: {id}"
+msgstr "معرف المستخدم الذي تم الرد عليه: {id}"
 
 #: sophie_bot/modules/users/handlers/id.py:51
 msgid "{user}'s ID: {id}"
-msgstr "{user} ID: {id}"
+msgstr "معرف {user}: {id}"
 
 #: exceptions.py:33
 msgid "Examples"
-msgstr "Приклади"
+msgstr "أمثلة"
 
 #: exceptions.py:61
 msgid "The argument {description} has an invalid type"
-msgstr "Аргумент {description} має неправильний тип"
+msgstr "الوسيط {description} له نوع غير صالح"
 
 #: exceptions.py:65 exceptions.py:120
 msgid "Needed type"
-msgstr "Потрібний тип"
+msgstr "نوع مطلوب"
 
 #: exceptions.py:116
 msgid "The required argument {description} wasn't provided!"
-msgstr "Обов'язковий аргумент {description} не було надано!"
+msgstr "لم يتم توفير الوسيط المطلوب {description}!"
 
 #: exceptions.py:164
 msgid "The argument {description} has an invalid formatting!"
-msgstr "Аргумент {description} має неправильний тип!"
+msgstr "الوسيط {description} له تنسيق غير صالح!"
 
 #: types/keyvalue.py:31
 msgid "Key-value of {}"
-msgstr "Ключ-значення з {}"
+msgstr "مفتاح-قيمة من {}"
 
 #: types/keyvalue.py:32
 msgid "Key-values of {}"
-msgstr "Ключ-значення з {}"
+msgstr "مفاتيح-قيم من {}"
 
 #: types/keyvalue.py:64
 msgid "The optional argument {name} must contain a value!"
-msgstr "Опціональний аргумент {name} повинен містити значення!"
+msgstr "الوسيط الاختياري {name} يجب أن يحتوي على قيمة!"
 
 #: types/keyvalue.py:90 types/keyvalue.py:91
 msgid "Key-values"
-msgstr "Ключ-значення"
+msgstr "مفاتيح-قيم"
 
 #: types/lists.py:46 types/lists.py:59
 msgid "List of {}"
-msgstr "Список з {}"
+msgstr "قائمة من {}"
 
 #: types/lists.py:47
 msgid "Lists of {}"
-msgstr "Списки з {}"
+msgstr "قوائم من {}"
 
 #: types/lists.py:65
 msgid "The starting character {} of list wasn't found!"
-msgstr "Початковий символ {} списку не знайдений!"
+msgstr "لم يتم العثور على الحرف الابتدائي {} من القائمة!"
 
 #: types/lists.py:73
 msgid "The ending character {} of list wasn't found!"
-msgstr "Кінцевий символ {} списку не знайдений!"
+msgstr "لم يتم العثور على الحرف الختامي {} من القائمة!"
 
 #: types/lists.py:77
 msgid "The list is empty!"
-msgstr "Цей список пустий!"
+msgstr "القائمة فارغة!"
 
 #: types/lists.py:97
 msgid "➡️ The start prefix text of the lists cannot have the overlapping formatting"
-msgstr "➡️ Початковий текст префікса списків не може мати накладаючого форматування"
+msgstr "➡️ لا يمكن أن يحتوي نص البادئة في القوائم على تنسيق متداخل"
 
 #: types/lists.py:152 types/lists.py:170
 msgid "Argument '{arg_text}' was parsed, but it has unknown text after it!"
-msgstr "Аргумент '{arg_text}' було розпарсено, але після нього є невідомий текст!"
+msgstr "تم تحليل الوسيط '{arg_text}'، ولكنه يحتوي على نص غير معروف بعده!"
 
 #: types/lists.py:157 types/lists.py:175
 msgid "Please ensure you correctly divided all of arguments."
-msgstr "Будь ласка, переконайтеся, що ви правильно розділили всі аргументи."
+msgstr "يرجى التأكد من أنك قمت بتقسيم جميع الوسائط بشكل صحيح."
 
 #: types/logic.py:20
 msgid "Optional {}"
-msgstr "Опціональний {}"
+msgstr "اختياري {}"
 
 #: types/logic.py:21
 msgid "Optionals {}"
-msgstr "Опціональні {}"
+msgstr "اختيارات {}"
 
 #: types/logic.py:44 types/logic.py:45 types/one_of.py:25 types/one_of.py:28
 msgid " or "
-msgstr " або "
+msgstr " أو "
 
 #: types/logic.py:105
 msgid ", and "
-msgstr ", та "
+msgstr "، و "
 
 #: types/logic.py:121
 msgid "Example syntax"
-msgstr "Приклад синтаксису"
+msgstr "بنية المثال"
 
 #: types/one_of.py:24 types/one_of.py:27
 msgid "One of: {}"
-msgstr "Один з: {}"
+msgstr "واحد من: {}"
 
 #: types/oneword.py:13
 msgid "Word (string with no spaces)"
-msgstr "Слово (строка без пропусків)"
+msgstr "كلمة (نص بدون مسافات)"
 
 #: types/oneword.py:13
 msgid "Words (strings with no spaces)"
-msgstr "Слова (строки без пропусків)"
+msgstr "كلمات (نصوص بدون مسافات)"
 
 #: types/oneword.py:33
 msgid "Integer (number)"
-msgstr "Ціле число"
+msgstr "عدد صحيح (رقم)"
 
 #: types/oneword.py:33
 msgid "Integers (numbers)"
-msgstr "Цілі числа"
+msgstr "أعداد صحيحة (أرقام)"
 
 #: types/oneword.py:49
 msgid "Boolean (Yes / No value)"
-msgstr "Булеве (значення Так / Ні)"
+msgstr "قيمة منطقية (نعم / لا)"
 
 #: types/oneword.py:49
 msgid "Booleans (Yes / No values)"
-msgstr "Булеві (значення Так / Ні)"
+msgstr "قيم منطقية (نعم / لا)"
 
 #: types/oneword.py:54
 msgid "True (can means Enabled or Yes)"
-msgstr "Істина (може означати Активовано або Так)"
+msgstr "صحيح (يمكن أن يعني مفعل أو نعم)"
 
 #: types/oneword.py:55
 msgid "False (can means Disabled or No)"
-msgstr "Лож (може означати Вимкнено або Ні)"
+msgstr "خطأ (يمكن أن يعني معطل أو لا)"
 
 #: types/text.py:18
 msgid "Text"
-msgstr "Текст"
+msgstr "نص"
 
 #: types/text_rules.py:27
 msgid "➡️ The Argument should start with {}!"
-msgstr "➡️ Аргумент повинен починатися з {}!"
+msgstr "➡️ يجب أن يبدأ الوسيط بـ {}!"
 
 #: types/text_rules.py:31
 msgid "⬅️️ The Argument should end with {}!"
-msgstr "⬅️️ Аргумент повинен закінчуватися з {}!"
+msgstr "⬅️️ يجب أن ينتهي الوسيط بـ {}!"
 
 #: types/text_rules.py:49
 msgid "➡️ The start text cannot have the overlapping formatting"
-msgstr "➡️ Початковий текст не може мати накладаючого форматування"
+msgstr "➡️ لا يمكن أن يحتوي النص على تنسيق متداخل"
 
 #: types/text_rules.py:74
 msgid "➡️ Argument '{arg_text}' was parsed, but it has unknown text after it!"
-msgstr "➡️ Аргумент '{arg_text}' було розпарсено, але після нього є невідомий текст!"
+msgstr "➡️ تم تحليل الوسيط '{arg_text}'، ولكنه يحتوي على نص غير معروف بعده!"
 
 #: types/text_rules.py:91 types/text_rules.py:95
 msgid "{} surrounded by {} and {}"
-msgstr "{} оточено {} та {}"
+msgstr "{} محاط بـ {} و {}"
 
 #: types/text_rules.py:107
 msgid "Surrounded by {} and {}"
-msgstr "Оточено {} та {}"
+msgstr "محاط بـ {} و {}"
 
 #: types/time_arg.py:24
 msgid "2 days"
-msgstr "2 дні"
+msgstr "يومين"
 
 #: types/time_arg.py:25
 msgid "3 weeks and 2 days"
-msgstr "3 тижня і 2 дні"
+msgstr "3 أسابيع و يومين"
 
 #. NOTE: Please use the first letter of the "years" in your language
 #: types/time_arg.py:41
 msgid "y"
-msgstr "y"
+msgstr "س"
 
 #. NOTE: Please use the first letter of the "weeks" in your language
 #: types/time_arg.py:44
 msgid "w"
-msgstr "w"
+msgstr "أ"
 
 #. NOTE: Please use the first letter of the "days" in your language
 #: types/time_arg.py:47
 msgid "d"
-msgstr "d"
+msgstr "ي"
 
 #. NOTE: Please use the first letter of the "hours" in your language
 #: types/time_arg.py:50
 msgid "h"
-msgstr "h"
+msgstr "س"
 
 #. NOTE: Please use the first letter of the "minutes" in your language
 #: types/time_arg.py:53
 msgid "m"
-msgstr "m"
+msgstr "د"
 
 #: types/time_arg.py:61
 msgid "Action time"
-msgstr "Час дії"
+msgstr "وقت الإجراء"
 
 #: types/time_arg.py:61
 msgid "Action times"
-msgstr "Часи дії"
+msgstr "أوقات الإجراءات"
 
 #: types/user.py:17
 msgid "User ID (Numeric)"
-msgstr "Ідентифікатор користвувача (числовий)"
+msgstr "معرف المستخدم (رقمي)"
 
 #: types/user.py:17
 msgid "User IDs (Numeric)"
-msgstr "Ідентифікатори користвувачів (числові)"
+msgstr "معرفات المستخدمين (رقمي)"
 
 #: types/user.py:37
 msgid "Username (starts with @)"
-msgstr "Ім'я користувача (починається з @)"
+msgstr "اسم المستخدم (يبدأ بـ @)"
 
 #: types/user.py:47
 msgid "Should start with a prefix"
-msgstr "Повинно починатися з префікса"
+msgstr "يجب أن يبدأ ببادئة"
 
 #: types/user.py:49
 msgid "Username is too short"
-msgstr "Ім'я користувача занадто коротке"
+msgstr "اسم المستخدم قصير جداً"
 
 #: types/user.py:51
 msgid "Username is too long"
-msgstr "Ім'я користувача занадто довге"
+msgstr "اسم المستخدم طويل جداً"
 
 #: types/user.py:67
 msgid "User mention (a link to user)"
-msgstr "Згадка користувача (посилання на користувача)"
+msgstr "الإشارة إلى المستخدم (رابط إلى مستخدم)"
 
 #: types/user.py:67
 msgid "User mentions (links to users)"
-msgstr "Згадки користувача (посилання на користувачів)"
+msgstr "الإشارات إلى المستخدمين (روابط إلى مستخدمين)"
 
 #: types/user.py:99
 msgid "Should start with mention!"
-msgstr "Повинно починатися із згадки!"
+msgstr "يجب أن تبدأ بالإشارة!"
 
 #: types/user.py:107
 msgid "Unexpected error while trying to get the user! Please report this in the support chat!"
-msgstr "Несподівана помилка під час спроби отримати користувача! Будь ласка, повідомте про це в чаті підтримки!"
+msgstr "حدث خطأ غير متوقع أثناء محاولة الحصول على المستخدم! يرجى الإبلاغ عن ذلك في دردشة الدعم!"
 
 #: types/user.py:108
 msgid "Could not find the user mention"
-msgstr "Не вдалося знайти згадку користувача"
+msgstr "لم يتم العثور على الإشارة إلى المستخدم"
 
 #: types/user.py:119
 msgid "User: 'User ID (numeric) / Username (starts with @) / Mention (links to users)'"
-msgstr "Користувач: 'Ідентифікатор користувача (числовий) / Ім'я користувача (починається з @) / Згадка (посилання на користувачів)'"
+msgstr "المستخدم: 'معرف المستخدم (رقمي) / اسم المستخدم (يبدأ بـ @) / إشارة (روابط إلى المستخدمين)'"
 
 #: types/user.py:121
 msgid "Users: 'User IDs (numeric) / Usernames (starts with @) / Mentions (links to users)'"
-msgstr "Користувачі: 'Ідентифікатори користувачів (числові) / Імена користувачів (починаються з @) / Згадки (посилання на користувачів)'"
+msgstr "المستخدمون: 'معرفات المستخدمين (رقمي) / أسماء المستخدمين (تبدأ بـ @) / إشارات (روابط إلى المستخدمين)'"
 
 #: types/user.py:128
 msgid "User ID"
-msgstr "Ідентифікатор користувача"
+msgstr "معرف المستخدم"
 
 #: types/user.py:129
 msgid "Username"
-msgstr "Ім'я користувача"
+msgstr "اسم المستخدم"
 
 #: types/user.py:133
 msgid "A link to user, usually creates by mentioning a user without username."
-msgstr "Посилання на користувача, яке зазвичай створюється, коли згадують користувача без імені."
+msgstr "رابط إلى المستخدم، يتم إنشاؤه عادةً عن طريق الإشارة إلى مستخدم بدون اسم مستخدم."
 
