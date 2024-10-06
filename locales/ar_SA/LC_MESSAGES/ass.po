@@ -1,3 +1,17 @@
+msgid ""
+msgstr ""
+"Plural-Forms: nplurals=6; plural=(n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5);\n"
+"X-Crowdin-Project: sophiebot\n"
+"X-Crowdin-Project-ID: 356879\n"
+"X-Crowdin-Language: ar-SA\n"
+"X-Crowdin-File: /beta/locales/ass.pot\n"
+"X-Crowdin-File-ID: 270\n"
+"Project-Id-Version: sophiebot\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language-Team: Arabic, Saudi Arabia\n"
+"Language: ar_SA\n"
+"PO-Revision-Date: 2024-10-06 13:46\n"
+
 #: exceptions.py:33
 msgid "Examples"
 msgstr "أمثلة"
@@ -55,9 +69,7 @@ msgid "The list is empty!"
 msgstr "القائمة فارغة!"
 
 #: types/lists.py:97
-msgid ""
-"➡️ The start prefix text of the lists cannot have the overlapping "
-"formatting"
+msgid "➡️ The start prefix text of the lists cannot have the overlapping formatting"
 msgstr "➡️ نص البادئة لبداية القائمة لا يمكن أن يحتوي على تنسيق متداخل"
 
 #: types/lists.py:152 types/lists.py:170
@@ -230,32 +242,20 @@ msgid "Should start with mention!"
 msgstr "يجب أن تبدأ بالذكر!"
 
 #: types/user.py:107
-msgid ""
-"Unexpected error while trying to get the user! Please report this in the "
-"support chat!"
-msgstr ""
-"حدث خطأ غير متوقع أثناء محاولة الحصول على المستخدم! يرجى الإبلاغ عن ذلك "
-"في دردشة الدعم!"
+msgid "Unexpected error while trying to get the user! Please report this in the support chat!"
+msgstr "حدث خطأ غير متوقع أثناء محاولة الحصول على المستخدم! يرجى الإبلاغ عن ذلك في دردشة الدعم!"
 
 #: types/user.py:108
 msgid "Could not find the user mention"
 msgstr "لم يتم العثور على إشارة المستخدم"
 
 #: types/user.py:119
-msgid ""
-"User: 'User ID (numeric) / Username (starts with @) / Mention (links to "
-"users)'"
-msgstr ""
-"المستخدم: 'معرف المستخدم (رقمي) / اسم المستخدم (يبدأ بـ @) / الإشارة "
-"(روابط إلى المستخدمين)'"
+msgid "User: 'User ID (numeric) / Username (starts with @) / Mention (links to users)'"
+msgstr "المستخدم: 'معرف المستخدم (رقمي) / اسم المستخدم (يبدأ بـ @) / الإشارة (روابط إلى المستخدمين)'"
 
 #: types/user.py:121
-msgid ""
-"Users: 'User IDs (numeric) / Usernames (starts with @) / Mentions (links "
-"to users)'"
-msgstr ""
-"المستخدمون: 'معرفات المستخدم (عددية) / أسماء المستخدمين (تبدأ بـ @) / "
-"الإشارات (روابط إلى المستخدمين)'"
+msgid "Users: 'User IDs (numeric) / Usernames (starts with @) / Mentions (links to users)'"
+msgstr "المستخدمون: 'معرفات المستخدم (عددية) / أسماء المستخدمين (تبدأ بـ @) / الإشارات (روابط إلى المستخدمين)'"
 
 #: types/user.py:128
 msgid "User ID"
@@ -267,7 +267,5 @@ msgstr "اسم المستخدم"
 
 #: types/user.py:133
 msgid "A link to user, usually creates by mentioning a user without username."
-msgstr ""
-"رابط إلى المستخدم، غالباً ما يتم إنشاؤه عن طريق الإشارة إلى مستخدم بدون "
-"اسم مستخدم."
+msgstr "رابط إلى المستخدم، غالباً ما يتم إنشاؤه عن طريق الإشارة إلى مستخدم بدون اسم مستخدم."
 
