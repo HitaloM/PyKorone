@@ -1,18 +1,22 @@
-
 msgid ""
 msgstr ""
-"Project-Id-Version:  sophiebot\n"
+"Project-Id-Version: sophiebot\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2024-10-06 18:45+0000\n"
-"PO-Revision-Date: 2024-10-06 18:26+0000\n"
+"PO-Revision-Date: 2024-10-06 20:35\n"
 "Last-Translator: \n"
-"Language: uk_UA\n"
 "Language-Team: Ukrainian\n"
-"Plural-Forms: nplurals=4; plural=((n%10==1 && n%100!=11) ? 0 : ((n%10 >= 2 && n%10 <=4 && (n%100 < 12 || n%100 > 14)) ? 1 : ((n%10 == 0 || (n%10 >= 5 && n%10 <=9)) || (n%100 >= 11 && n%100 <= 14)) ? 2 : 3));\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=utf-8\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.15.0\n"
+"Plural-Forms: nplurals=4; plural=((n%10==1 && n%100!=11) ? 0 : ((n%10 >= 2 && n%10 <=4 && (n%100 < 12 || n%100 > 14)) ? 1 : ((n%10 == 0 || (n%10 >= 5 && n%10 <=9)) || (n%100 >= 11 && n%100 <= 14)) ? 2 : 3));\n"
+"X-Crowdin-Project: sophiebot\n"
+"X-Crowdin-Project-ID: 356879\n"
+"X-Crowdin-Language: uk\n"
+"X-Crowdin-File: /beta/locales/sophie.pot\n"
+"X-Crowdin-File-ID: 288\n"
+"Language: uk_UA\n"
 
 #: sophie_bot/args/users.py:29
 msgid "Could not find the requested User ID in the database."
@@ -22,23 +26,23 @@ msgstr "Не вдалося знайти запитаний Ідентифіка
 msgid "Could not find the requested Username in the database."
 msgstr "Не вдалося знайти запитане Ім'я користувача в базі даних."
 
-#: sophie_bot/args/users.py:72 types/user.py:119
+#: sophie_bot/args/users.py:72
 msgid "User: 'User ID (numeric) / Username (starts with @) / Mention (links to users)'"
 msgstr "Користувач: 'Ідентифікатор користувача (числовий) / Ім'я користувача (починається з @) / Згадка (посилання на користувачів)'"
 
-#: sophie_bot/args/users.py:72 types/user.py:121
+#: sophie_bot/args/users.py:72
 msgid "Users: 'User IDs (numeric) / Usernames (starts with @) / Mentions (links to users)'"
 msgstr "Користувачі: 'ID користувачів (числові) / Імена користувачів (починаються з @) / Згадки (посилання на користувачів)'"
 
-#: sophie_bot/args/users.py:79 types/user.py:128
+#: sophie_bot/args/users.py:79
 msgid "User ID"
 msgstr "Ідентифікатор користувача"
 
-#: sophie_bot/args/users.py:80 types/user.py:129
+#: sophie_bot/args/users.py:80
 msgid "Username"
 msgstr "Ім'я користувача"
 
-#: sophie_bot/args/users.py:81 types/user.py:133
+#: sophie_bot/args/users.py:81
 msgid "A link to user, usually creates by mentioning a user without username."
 msgstr "Посилання на користувача, яке зазвичай створюється, коли згадують користувача без імені."
 
@@ -254,11 +258,9 @@ msgid "Photo is empty"
 msgstr "Фотографія порожня"
 
 #: sophie_bot/modules/beta/__init__.py:17
-msgid ""
-"Controls the current Sophie mode.\n"
+msgid "Controls the current Sophie mode.\n"
 "Please note that Beta mode can have bugs and issues. If you encounter any problems please report it to the support chat."
-msgstr ""
-"Контролює поточний режим Софі.\n"
+msgstr "Контролює поточний режим Софі.\n"
 "Будь ласка, зауважте, що бета-режим може містити помилки та проблеми. Якщо ви зіткнетеся з будь-якими проблемами, будь ласка, повідомте про це в чат підтримки."
 
 #: sophie_bot/modules/beta/handlers/beta_state.py:13
@@ -911,7 +913,7 @@ msgid "Searches text across all notes."
 msgstr "Шукає текст в усіх примітках."
 
 #: sophie_bot/modules/legacy_modules/modules/notes.py:330
-#: sophie_bot/modules/notes/handlers/save.py:29 types/text.py:18
+#: sophie_bot/modules/notes/handlers/save.py:29
 msgid "Text"
 msgstr "Текст"
 
@@ -1357,6 +1359,10 @@ msgstr "Істина (може означати Активовано або Та
 msgid "False (can means Disabled or No)"
 msgstr "Лож (може означати Вимкнено або Ні)"
 
+#: types/text.py:18
+msgid "Text"
+msgstr "Текст"
+
 #: types/text_rules.py:27
 msgid "➡️ The Argument should start with {}!"
 msgstr "➡️ Аргумент повинен починатися з {}!"
@@ -1465,4 +1471,24 @@ msgstr "Несподівана помилка під час спроби отр�
 #: types/user.py:108
 msgid "Could not find the user mention"
 msgstr "Не вдалося знайти згадку користувача"
+
+#: types/user.py:119
+msgid "User: 'User ID (numeric) / Username (starts with @) / Mention (links to users)'"
+msgstr "Користувач: 'Ідентифікатор користувача (числовий) / Ім'я користувача (починається з @) / Згадка (посилання на користувачів)'"
+
+#: types/user.py:121
+msgid "Users: 'User IDs (numeric) / Usernames (starts with @) / Mentions (links to users)'"
+msgstr "Користувачі: 'Ідентифікатори користувачів (числові) / Імена користувачів (починаються з @) / Згадки (посилання на користувачів)'"
+
+#: types/user.py:128
+msgid "User ID"
+msgstr "Ідентифікатор користувача"
+
+#: types/user.py:129
+msgid "Username"
+msgstr "Ім'я користувача"
+
+#: types/user.py:133
+msgid "A link to user, usually creates by mentioning a user without username."
+msgstr "Посилання на користувача, яке зазвичай створюється, коли згадують користувача без імені."
 
