@@ -183,7 +183,7 @@ async def add_handler(message: Message, chat, strings):
         filter_id = action[0]
         data = action[1]
 
-        if "module" in data["title"]:
+        if type(data) is dict and "module" in data["title"]:
             btn_text = await get_string(chat["chat_id"], data["title"]["module"], data["title"]["string"])
         else:
             btn_text = str(data["title"])
@@ -196,7 +196,9 @@ async def add_handler(message: Message, chat, strings):
                 )
             ]
         )
-    buttons.inline_keyboard.append([InlineKeyboardButton(text=strings["cancel_btn"], callback_data="cancel")])
+    buttons.inline_keyboard.append(
+        [InlineKeyboardButton(text=strings["cancel_btn"], callback_data="btn_deletemsg:123")]
+    )
 
     user_id = message.from_user.id
     chat_id = chat["chat_id"]

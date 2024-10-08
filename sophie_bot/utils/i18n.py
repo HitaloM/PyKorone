@@ -112,6 +112,9 @@ class LazyProxy:
         text = self._i18n()
         return text == other
 
+    def __contains__(self, item):
+        return self._i18n() in item
+
 
 def lazy_plural_gettext(*args: Any, **kwargs: Any):
     return lambda n: get_i18n().gettext(*args, n=n, **kwargs)

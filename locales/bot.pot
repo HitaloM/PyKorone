@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-10-06 18:45+0000\n"
+"POT-Creation-Date: 2024-10-08 13:31+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -800,19 +800,19 @@ msgid "Adds a new filter."
 msgstr ""
 
 #: sophie_bot/modules/legacy_modules/modules/filters.py:157
-#: sophie_bot/modules/legacy_modules/modules/filters.py:310
+#: sophie_bot/modules/legacy_modules/modules/filters.py:312
 msgid "Trigger"
 msgstr ""
 
-#: sophie_bot/modules/legacy_modules/modules/filters.py:291
+#: sophie_bot/modules/legacy_modules/modules/filters.py:293
 msgid "Shows the list of filters."
 msgstr ""
 
-#: sophie_bot/modules/legacy_modules/modules/filters.py:310
+#: sophie_bot/modules/legacy_modules/modules/filters.py:312
 msgid "Removes the filter."
 msgstr ""
 
-#: sophie_bot/modules/legacy_modules/modules/filters.py:361
+#: sophie_bot/modules/legacy_modules/modules/filters.py:363
 msgid "Removes all the filters in the chat."
 msgstr ""
 
