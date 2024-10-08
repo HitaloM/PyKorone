@@ -1,18 +1,22 @@
-
 msgid ""
 msgstr ""
-"Project-Id-Version:  sophiebot\n"
+"Project-Id-Version: sophiebot\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2024-10-08 13:46+0000\n"
-"PO-Revision-Date: 2024-10-06 20:35+0000\n"
+"PO-Revision-Date: 2024-10-08 13:49\n"
 "Last-Translator: \n"
-"Language: es_ES\n"
 "Language-Team: Spanish\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=utf-8\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.15.0\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Crowdin-Project: sophiebot\n"
+"X-Crowdin-Project-ID: 356879\n"
+"X-Crowdin-Language: es-ES\n"
+"X-Crowdin-File: /beta/locales/sophie.pot\n"
+"X-Crowdin-File-ID: 288\n"
+"Language: es_ES\n"
 
 #: sophie_bot/args/users.py:29
 msgid "Could not find the requested User ID in the database."
@@ -22,23 +26,23 @@ msgstr "No se pudo encontrar el ID de usuario solicitado en la base de datos."
 msgid "Could not find the requested Username in the database."
 msgstr "No se pudo encontrar el nombre de usuario solicitado en la base de datos."
 
-#: sophie_bot/args/users.py:72 types/user.py:119
+#: sophie_bot/args/users.py:72
 msgid "User: 'User ID (numeric) / Username (starts with @) / Mention (links to users)'"
 msgstr "Usuario: 'ID de usuario (numérico) / Nombre de usuario (comienza con @) / Mención (enlaces a usuarios)'"
 
-#: sophie_bot/args/users.py:72 types/user.py:121
+#: sophie_bot/args/users.py:72
 msgid "Users: 'User IDs (numeric) / Usernames (starts with @) / Mentions (links to users)'"
 msgstr "Usuarios: 'ID de usuario (numérico) / Nombres de usuario (comienza con @) / Menciones (enlaces a usuarios)'"
 
-#: sophie_bot/args/users.py:79 types/user.py:128
+#: sophie_bot/args/users.py:79
 msgid "User ID"
 msgstr "ID de usuario"
 
-#: sophie_bot/args/users.py:80 types/user.py:129
+#: sophie_bot/args/users.py:80
 msgid "Username"
 msgstr "Nombre de usuario"
 
-#: sophie_bot/args/users.py:81 types/user.py:133
+#: sophie_bot/args/users.py:81
 msgid "A link to user, usually creates by mentioning a user without username."
 msgstr "Un enlace al usuario, generalmente se crea al mencionar a un usuario sin nombre de usuario."
 
@@ -254,11 +258,9 @@ msgid "Photo is empty"
 msgstr "La foto está vacía"
 
 #: sophie_bot/modules/beta/__init__.py:17
-msgid ""
-"Controls the current Sophie mode.\n"
+msgid "Controls the current Sophie mode.\n"
 "Please note that Beta mode can have bugs and issues. If you encounter any problems please report it to the support chat."
-msgstr ""
-"Controla el modo actual de Sophie.\n"
+msgstr "Controla el modo actual de Sophie.\n"
 "Tenga en cuenta que el modo Beta puede tener errores e inconvenientes. Si encuentra algún problema, por favor repórtelo al chat de soporte."
 
 #: sophie_bot/modules/beta/handlers/beta_state.py:13
@@ -911,7 +913,7 @@ msgid "Searches text across all notes."
 msgstr "Busca texto en todas las notas."
 
 #: sophie_bot/modules/legacy_modules/modules/notes.py:330
-#: sophie_bot/modules/notes/handlers/save.py:29 types/text.py:18
+#: sophie_bot/modules/notes/handlers/save.py:29
 msgid "Text"
 msgstr "Texto"
 
@@ -1357,6 +1359,10 @@ msgstr "Verdadero (puede significar Habilitado o Sí)"
 msgid "False (can means Disabled or No)"
 msgstr "Falso (puede significar Deshabilitado o No)"
 
+#: types/text.py:18
+msgid "Text"
+msgstr "Texto"
+
 #: types/text_rules.py:27
 msgid "➡️ The Argument should start with {}!"
 msgstr "➡️ ¡El argumento debe comenzar con {}!"
@@ -1465,4 +1471,24 @@ msgstr "¡Error inesperado al intentar obtener al usuario! ¡Por favor, informe 
 #: types/user.py:108
 msgid "Could not find the user mention"
 msgstr "No se pudo encontrar la mención de usuario"
+
+#: types/user.py:119
+msgid "User: 'User ID (numeric) / Username (starts with @) / Mention (links to users)'"
+msgstr "Usuario: 'ID de usuario (numérico) / Nombre de usuario (comienza con @) / Mención (enlaces a usuarios)'"
+
+#: types/user.py:121
+msgid "Users: 'User IDs (numeric) / Usernames (starts with @) / Mentions (links to users)'"
+msgstr "Usuarios: 'IDs de usuario (numéricos) / Nombres de usuario (comienzan con @) / Menciones (enlaces a usuarios)'"
+
+#: types/user.py:128
+msgid "User ID"
+msgstr "ID de usuario"
+
+#: types/user.py:129
+msgid "Username"
+msgstr "Nombre de usuario"
+
+#: types/user.py:133
+msgid "A link to user, usually creates by mentioning a user without username."
+msgstr "Un enlace al usuario, generalmente se crea al mencionar a un usuario sin nombre de usuario."
 
