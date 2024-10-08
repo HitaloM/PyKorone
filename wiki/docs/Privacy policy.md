@@ -47,7 +47,7 @@ Sophie. Sophie is using those data to protect chats/groups/channels.
 ### AI
 When AI features are activated, you automatically agree with the OpenAI's privacy policy - https://openai.com/enterprise-privacy/
 For some AI features, such as ChatBot feature, we would pass the context that could include cached chat's message 
-history (typically less than 20 messages)
+history (typically less than 41 messages, including bot's responses)
 
 
 ### Crashlytics

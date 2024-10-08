@@ -706,7 +706,7 @@ async def setup_finish(message: Message, data):
 
 __filters__ = {
     "get_note": {
-        "title": {"module": "notes", "string": "filters_title"},
+        "title": l_("🗒 Send a note"),
         "handle": filter_handle,
         "setup": {"start": setup_start, "finish": setup_finish},
         "del_btn_name": lambda msg, data: f"Get note: {data['note_name']}",

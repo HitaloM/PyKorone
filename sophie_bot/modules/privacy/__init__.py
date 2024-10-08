@@ -16,14 +16,14 @@ router = Router(name="info")
 
 __module_name__ = l_("Privacy")
 __module_emoji__ = "🕵️‍♂️️"
-__module_description__ = l_("Provides helpful information")
+__module_description__ = l_("Data protection")
 
 
 def __pre_setup__():
     router.message.register(PrivacyMenu, CMDFilter("privacy"), ChatTypeFilter("private"))
     router.callback_query.register(PrivacyMenu, PrivacyMenuCallback.filter())
 
-    router.message.register(TriggerExport, CMDFilter("export"))
+    router.message.register(TriggerExport, CMDFilter("export"), ChatTypeFilter("private"))
 
 
 def __post_setup__(modules: dict[str, ModuleType]):

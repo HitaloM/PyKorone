@@ -22,7 +22,7 @@ from sophie_bot.utils.i18n import lazy_gettext as l_
 class AIStatus(MessageHandler):
     @staticmethod
     def filters() -> tuple[CallbackType, ...]:
-        return (CMDFilter(("enableai", "aienable")),)
+        return (CMDFilter(("aienable", "enableai")),)
 
     async def handle(self) -> Any:
         connection: ChatConnection = self.data["connection"]

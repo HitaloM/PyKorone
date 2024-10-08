@@ -1,10 +1,11 @@
 from enum import Enum
-from typing import Iterable, Optional
+from typing import Iterable, Optional, Sequence
 
 from aiogram.types import Message, ReplyKeyboardMarkup
 from openai.types import ResponseFormatJSONSchema, ResponseFormatText
 from openai.types.chat import ChatCompletionMessageParam
-from stfu_tg import Doc, HList, Title
+from stfu_tg import HList, Title
+from stfu_tg.doc import Doc, Element
 
 from sophie_bot.modules.ai.fsm.pm import AI_GENERATED_TEXT
 from sophie_bot.modules.ai.utils.message_history import MessageHistory
@@ -38,12 +39,15 @@ async def ai_reply(
     messages: MessageHistory,
     model: Models = DEFAULT_MODEL,
     markup: Optional[ReplyKeyboardMarkup] = None,
+    header_items: Sequence[Element] = (),
+    doc_items: Sequence[Element] = (),
 ) -> Message:
     response = await ai_generate(messages, model)
 
-    doc = Doc(
-        HList(Title(AI_GENERATED_TEXT), Title("4o+", bold=False) if model != Models.GPT_4O_MINI else None),
-        response,
+    header = HList(
+        Title(AI_GENERATED_TEXT), Title("4o+", bold=False) if model != Models.GPT_4O_MINI else None, *header_items
     )
+
+    doc = Doc(header, *doc_items, response)
 
     return await message.reply(str(doc), disable_web_page_preview=True, reply_markup=markup)

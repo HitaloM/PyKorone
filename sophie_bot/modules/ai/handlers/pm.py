@@ -4,7 +4,7 @@ from aiogram import F, flags
 from aiogram.dispatcher.event.handler import CallbackType
 from aiogram.handlers import MessageHandler
 from aiogram.types import KeyboardButton, ReplyKeyboardMarkup, ReplyKeyboardRemove
-from stfu_tg import Bold, Doc, Template, Title, Url
+from stfu_tg import Bold, Doc, Template, Url
 
 from sophie_bot import CONFIG, bot
 from sophie_bot.filters.chat_status import ChatTypeFilter
@@ -26,7 +26,6 @@ class AiPmInitialize(MessageHandler):
 
     async def handle(self) -> Any:
         doc = Doc(
-            Title(_("Beta")),
             Bold(
                 Template(
                     _("{ai_emoji} Entered to the AI Mode, in this mode you can directly interact with the AI."),
@@ -68,6 +67,7 @@ class AiPmStop(MessageHandler):
         await self.event.reply(_("The AI mode has been exited."), reply_markup=ReplyKeyboardRemove())
 
 
+@flags.ai_cache(cache_handler_result=True)
 class AiPmHandle(MessageHandler):
     @staticmethod
     def filters() -> tuple[CallbackType, ...]:
@@ -86,4 +86,5 @@ class AiPmHandle(MessageHandler):
             resize_keyboard=True,
         )
 
-        await ai_reply(self.event, messages, markup=buttons)
+        self.data["ai_msg_cache"] = True
+        return await ai_reply(self.event, messages, markup=buttons)

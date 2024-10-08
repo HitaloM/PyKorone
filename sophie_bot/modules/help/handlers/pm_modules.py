@@ -102,7 +102,7 @@ class PMModuleHelp(CallbackQueryHandler):
 
         buttons = (
             InlineKeyboardBuilder()
-            .row(InlineKeyboardButton(text=_("📖 Wiki page"), url=CONFIG.wiki_link))
+            # .row(InlineKeyboardButton(text=_("📖 Wiki page"), url=CONFIG.wiki_link))
             .row(
                 InlineKeyboardButton(
                     text=_("⬅️ Back"), callback_data=PMHelpModules(back_to_start=callback_data.back_to_start).pack()

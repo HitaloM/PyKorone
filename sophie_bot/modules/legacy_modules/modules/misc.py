@@ -30,6 +30,7 @@ from sophie_bot.modules.notes.utils.legacy_notes import (
     send_note,
     t_unparse_note_item,
 )
+from sophie_bot.utils.i18n import lazy_gettext as l_
 
 router = Router(name="misc")
 
@@ -76,12 +77,12 @@ async def customise_reason_finish(message: Message, _: dict, strings: dict):
 
 __filters__ = {
     "delete_message": {
-        "title": {"module": "misc", "string": "delmsg_filter_title"},
+        "title": l_("🗑 Delete message"),
         "handle": delmsg_filter_handle,
         "del_btn_name": lambda msg, data: f"Del message: {data['handler']}",
     },
     "reply_message": {
-        "title": {"module": "misc", "string": "replymsg_filter_title"},
+        "title": l_("💭 Reply to message"),
         "handle": replymsg_filter_handler,
         "setup": {"start": replymsg_setup_start, "finish": replymsg_setup_finish},
         "del_btn_name": lambda msg, data: f"Reply to {data['handler']}: \"{data['reply_text'].get('text', 'None')}\" ",

@@ -1,12 +1,15 @@
 from typing import Any, Awaitable, Callable, Dict, Optional
 
 from aiogram import BaseMiddleware
+from aiogram.dispatcher.flags import get_flag
 from aiogram.types import Message, TelegramObject
 from pydantic import BaseModel
 
+from sophie_bot import CONFIG
 from sophie_bot.db.models import ChatModel
-from sophie_bot.modules.ai.filters.ai_enabled import AIEnabledFilter
+from sophie_bot.modules.ai.utils.cache_messages import cache_message
 from sophie_bot.services.redis import aredis
+from sophie_bot.utils.logger import log
 
 
 class MessageType(BaseModel):
@@ -15,7 +18,7 @@ class MessageType(BaseModel):
     text: str
 
 
-class CacheMessagesMiddleware(BaseMiddleware):
+class CacheBotMessagesMiddleware(BaseMiddleware):
     @staticmethod
     def get_key(chat_id: int | str) -> str:
         return f"messages:{chat_id}"
@@ -45,11 +48,21 @@ class CacheMessagesMiddleware(BaseMiddleware):
         event: TelegramObject,
         data: Dict[str, Any],
     ) -> Any:
+        result = await handler(event, data)
         chat_db: Optional[ChatModel] = data.get("chat_db", None)
 
-        result = await handler(event, data)
+        ai_enabled: bool = data.get("ai_enabled", False)
 
-        if isinstance(event, Message) and chat_db and await AIEnabledFilter.get_status(chat_db):
-            await self.save_message(event)
+        sent_message_text = result.text if isinstance(result, Message) else None
+        sent_message_id = result.message_id if isinstance(result, Message) else None
+
+        ai_cache_flag = get_flag(data, "ai_cache", default={})
+        cache_handler_result = ai_cache_flag.get("cache_handler_result", False)
+
+        to_cache: Optional[str] = sent_message_text if cache_handler_result else None
+
+        if ai_enabled and to_cache and sent_message_id and chat_db:
+            log.debug("CacheBotMessagesMiddleware: caching message", message=to_cache)
+            await cache_message(to_cache, chat_db.chat_id, CONFIG.bot_id, sent_message_id)
 
         return result

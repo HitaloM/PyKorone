@@ -2,6 +2,7 @@ from typing import List, Type
 
 from beanie import Document
 
+from sophie_bot.db.models.ai_autotranslate import AIAutotranslateModel
 from sophie_bot.db.models.ai_enabled import AIEnabledModel
 from sophie_bot.db.models.ai_usage import AIUsageModel
 from sophie_bot.db.models.beta import BetaModeModel
@@ -22,4 +23,5 @@ models: List[Type[Document]] = [
     GlobalSettings,
     AIEnabledModel,
     AIUsageModel,
+    AIAutotranslateModel,
 ]

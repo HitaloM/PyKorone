@@ -346,7 +346,7 @@ async def filter_handle(message: Message, chat, data, string=None):
 
 __filters__ = {
     "warn_user": {
-        "title": {"module": "warns", "string": "filters_title"},
+        "title": l_("⚠️ Warn"),
         "setup": {"start": customise_reason_start, "finish": customise_reason_finish},
         "handle": filter_handle,
     }

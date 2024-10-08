@@ -12,12 +12,11 @@ from sophie_bot.utils.i18n import lazy_gettext as l_
 
 
 @flags.args(text=TextArg(l_("Prompt")))
-@flags.help(description=l_("Ask Sophie a question"))
-@flags.ai_cache(cache_handler_result=True)
-class AiCmd(MessageHandler):
+@flags.help(description=l_("Generates a new AI mode"))
+class AiGenerateMode(MessageHandler):
     @staticmethod
     def filters() -> tuple[CallbackType, ...]:
-        return CMDFilter("ai"), AIEnabledFilter()
+        return CMDFilter("aimode"), AIEnabledFilter()
 
     async def handle(self):
         user_text = self.data["text"]
@@ -26,4 +25,4 @@ class AiCmd(MessageHandler):
 
         messages = await MessageHistory.chatbot(self.event, custom_user_text=user_text)
 
-        return await ai_reply(self.event, messages)
+        await ai_reply(self.event, messages)

@@ -5,6 +5,7 @@ from types import ModuleType
 from typing import Any, Callable, Coroutine, Dict, Optional
 
 from aiogram import Router
+from aiogram.filters.logic import _InvertFilter
 from ass_tg.types.base_abc import ArgFabric
 from babel.support import LazyProxy
 from stfu_tg import Doc
@@ -104,6 +105,11 @@ def gather_cmds_help(router: Router) -> list[CmdHelp]:
         only_chats = any(
             (
                 (isinstance(f.callback, ChatTypeFilter) and f.callback.chat_type != "private")
+                or (
+                    isinstance(f.callback, _InvertFilter)
+                    and isinstance(f.callback.target.callback, ChatTypeFilter)
+                    and f.callback.target.callback.chat_type == "private"
+                )
                 or (isinstance(f.callback, LegacyOnlyGroups))
             )
             for f in handler.filters

@@ -1,5 +1,6 @@
 from typing import Any
 
+from aiogram import flags
 from aiogram.dispatcher.event.handler import CallbackType
 from aiogram.handlers import MessageHandler
 from aiogram.types import Message
@@ -11,6 +12,7 @@ from sophie_bot.modules.ai.utils.message_history import MessageHistory
 from sophie_bot.modules.ai.utils.self_reply import is_ai_message
 
 
+@flags.ai_cache(cache_handler_result=True)
 class AiReplyHandler(MessageHandler):
     @staticmethod
     async def filter(message: Message):
@@ -28,4 +30,4 @@ class AiReplyHandler(MessageHandler):
 
     async def handle(self) -> Any:
         await bot.send_chat_action(self.event.chat.id, "typing")
-        await ai_reply(self.event, await MessageHistory.chatbot(self.event))
+        return await ai_reply(self.event, await MessageHistory.chatbot(self.event))

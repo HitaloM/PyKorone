@@ -1,22 +1,18 @@
+
 msgid ""
 msgstr ""
-"Project-Id-Version: sophiebot\n"
+"Project-Id-Version:  sophiebot\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-10-08 13:46+0000\n"
-"PO-Revision-Date: 2024-10-08 13:49\n"
+"POT-Creation-Date: 2024-10-09 01:21+0200\n"
+"PO-Revision-Date: 2024-10-08 13:49+0000\n"
 "Last-Translator: \n"
+"Language: cs_CZ\n"
 "Language-Team: Czech\n"
+"Plural-Forms: nplurals=4; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 3;\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.15.0\n"
-"Plural-Forms: nplurals=4; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 3;\n"
-"X-Crowdin-Project: sophiebot\n"
-"X-Crowdin-Project-ID: 356879\n"
-"X-Crowdin-Language: cs\n"
-"X-Crowdin-File: /beta/locales/sophie.pot\n"
-"X-Crowdin-File-ID: 288\n"
-"Language: cs_CZ\n"
 
 #: sophie_bot/args/users.py:29
 msgid "Could not find the requested User ID in the database."
@@ -26,23 +22,23 @@ msgstr "Nebylo možné najít požadované ID uživatele v databázi."
 msgid "Could not find the requested Username in the database."
 msgstr "Nebylo možné najít požadované uživatelské jméno v databázi."
 
-#: sophie_bot/args/users.py:72
+#: sophie_bot/args/users.py:72 types/user.py:119
 msgid "User: 'User ID (numeric) / Username (starts with @) / Mention (links to users)'"
 msgstr "Uživatel: 'ID uživatele (číslicové) / Uživatelské jméno (začíná na @) / Zmínka (odkazy na uživatele)'"
 
-#: sophie_bot/args/users.py:72
+#: sophie_bot/args/users.py:72 types/user.py:121
 msgid "Users: 'User IDs (numeric) / Usernames (starts with @) / Mentions (links to users)'"
 msgstr "Uživatelé: 'ID uživatelů (číslicové) / Uživatelská jména (začínají na @) / Zmínky (odkazy na uživatele)'"
 
-#: sophie_bot/args/users.py:79
+#: sophie_bot/args/users.py:79 types/user.py:128
 msgid "User ID"
 msgstr "ID uživatele"
 
-#: sophie_bot/args/users.py:80
+#: sophie_bot/args/users.py:80 types/user.py:129
 msgid "Username"
 msgstr "Uživatelské jméno"
 
-#: sophie_bot/args/users.py:81
+#: sophie_bot/args/users.py:81 types/user.py:133
 msgid "A link to user, usually creates by mentioning a user without username."
 msgstr "Odkaz na uživatele, obvykle se vytvoří zmíněním uživatele bez uživatelského jména."
 
@@ -54,21 +50,17 @@ msgstr "Soukromý chat"
 msgid "Connected chat not found in the database. Please try to disconnect and connect again."
 msgstr "Připojený chat nebyl nalezen v databázi. Zkuste se prosím odpojit a znovu připojit."
 
-#: sophie_bot/modules/ai/__init__.py:17
+#: sophie_bot/modules/ai/__init__.py:28
 msgid "Sophie AI"
 msgstr "Sophie AI"
 
-#: sophie_bot/modules/ai/__init__.py:19
+#: sophie_bot/modules/ai/__init__.py:30
 msgid "Rainbow sparkles and shininess"
 msgstr "Duha třpyt a lesk"
 
-#: sophie_bot/modules/ai/__init__.py:21
+#: sophie_bot/modules/ai/__init__.py:32
 msgid "Please note that you can make a limited amount of AI requests per day."
 msgstr "Upozorňujeme, že můžete denně provést omezený počet požadavků na AI."
-
-#: sophie_bot/modules/ai/texts.py:3
-msgid "By using AI features you agree to the our Privacy Policy (/privacy) and third party AI services used."
-msgstr "Používáním funkcí AI souhlasíte s našimi Zásadami ochrany soukromí (/privacy) a se službami AI třetích stran."
 
 #: sophie_bot/modules/ai/filters/ai_enabled.py:27
 msgid "The AI Features are currently deactivated for this chat."
@@ -87,11 +79,13 @@ msgid "🛑 Exit AI mode"
 msgstr "🛑 Ukončit režim AI"
 
 #: sophie_bot/modules/ai/fsm/pm.py:12
-msgid "✨ Beta AI"
-msgstr "✨ Beta AI"
+#, fuzzy
+msgid "✨ Sophie AI"
+msgstr "Sophie AI"
 
 #: sophie_bot/modules/ai/handlers/ai_cmd.py:14
 #: sophie_bot/modules/ai/handlers/aisave.py:25
+#: sophie_bot/modules/ai/handlers/mode.py:14
 msgid "Prompt"
 msgstr "Pokyn"
 
@@ -120,46 +114,55 @@ msgstr "✨ Poznámka byla úspěšně vygenerována"
 msgid "Use {cmd} to retrieve this note."
 msgstr "Použijte {cmd} pro načtení této poznámky."
 
-#: sophie_bot/modules/ai/handlers/enable.py:21
-msgid "Show current state of AI features"
+#: sophie_bot/modules/ai/handlers/autotranslate_setting.py:22
+#, fuzzy
+msgid "Show current state of AI Autotranslate"
 msgstr "Zobrazí aktuální stav funkcí AI"
 
-#: sophie_bot/modules/ai/handlers/enable.py:37
+#: sophie_bot/modules/ai/handlers/autotranslate_setting.py:38
+#: sophie_bot/modules/ai/handlers/enable_setting.py:37
 #: sophie_bot/modules/notes/handlers/delete.py:32
 msgid "Chat"
 msgstr "Chat"
 
-#: sophie_bot/modules/ai/handlers/enable.py:38
+#: sophie_bot/modules/ai/handlers/autotranslate_setting.py:39
+#: sophie_bot/modules/ai/handlers/enable_setting.py:38
 msgid "Current state"
 msgstr "Aktuální stav"
 
-#: sophie_bot/modules/ai/handlers/enable.py:38
+#: sophie_bot/modules/ai/handlers/autotranslate_setting.py:39
+#: sophie_bot/modules/ai/handlers/enable_setting.py:38
 msgid "Enabled"
 msgstr "Povoleno"
 
-#: sophie_bot/modules/ai/handlers/enable.py:38
+#: sophie_bot/modules/ai/handlers/autotranslate_setting.py:39
+#: sophie_bot/modules/ai/handlers/enable_setting.py:38
 msgid "Disabled"
 msgstr "Zakázáno"
 
-#: sophie_bot/modules/ai/handlers/enable.py:39
-msgid "✨ AI Features"
-msgstr "✨ Funkce AI"
+#: sophie_bot/modules/ai/handlers/autotranslate_setting.py:40
+msgid "✨ AI Auto translate"
+msgstr ""
 
-#: sophie_bot/modules/ai/handlers/enable.py:42
-msgid "By using AI feature you agree to the our {policy} and third-party AI provider's."
+#: sophie_bot/modules/ai/handlers/autotranslate_setting.py:43
+#, fuzzy
+msgid "By using AI features you agree to the our {policy} and third-party AI provider's."
 msgstr "Používáním AI souhlasíte s našimi {policy} a s poskytovateli AI třetí strany."
 
-#: sophie_bot/modules/ai/handlers/enable.py:43
-#: sophie_bot/modules/ai/handlers/pm.py:38
+#: sophie_bot/modules/ai/handlers/autotranslate_setting.py:44
+#: sophie_bot/modules/ai/handlers/enable_setting.py:43
+#: sophie_bot/modules/ai/handlers/pm.py:37
 msgid "privacy policy"
 msgstr "zásady ochrany soukromí"
 
-#: sophie_bot/modules/ai/handlers/enable.py:45
-#: sophie_bot/modules/beta/handlers/beta_state.py:88
+#: sophie_bot/modules/ai/handlers/autotranslate_setting.py:46
+#: sophie_bot/modules/ai/handlers/enable_setting.py:45
+#: sophie_bot/modules/troubleshooters/handlers/beta_state.py:88
 msgid "Use '{cmd}' to change it."
 msgstr "Použijte '{cmd}' pro změnu."
 
-#: sophie_bot/modules/ai/handlers/enable.py:51
+#: sophie_bot/modules/ai/handlers/autotranslate_setting.py:52
+#: sophie_bot/modules/ai/handlers/enable_setting.py:51
 #: sophie_bot/modules/legacy_modules/modules/antiflood.py:250
 #: sophie_bot/modules/legacy_modules/modules/connection.py:184
 #: sophie_bot/modules/legacy_modules/modules/notes.py:534
@@ -167,19 +170,43 @@ msgstr "Použijte '{cmd}' pro změnu."
 msgid "New state"
 msgstr "Nový stav"
 
-#: sophie_bot/modules/ai/handlers/enable.py:52
-msgid "Control AI features"
+#: sophie_bot/modules/ai/handlers/autotranslate_setting.py:53
+#, fuzzy
+msgid "Controls AI Autotranslate"
 msgstr "Ovládat funkce AI"
 
-#: sophie_bot/modules/ai/handlers/enable.py:67
+#: sophie_bot/modules/ai/handlers/autotranslate_setting.py:73
+#: sophie_bot/modules/ai/handlers/enable_setting.py:67
 msgid "enabled"
 msgstr "povoleno"
 
-#: sophie_bot/modules/ai/handlers/enable.py:67
+#: sophie_bot/modules/ai/handlers/autotranslate_setting.py:73
+#: sophie_bot/modules/ai/handlers/enable_setting.py:67
 msgid "disabled"
 msgstr "zakázáno"
 
-#: sophie_bot/modules/ai/handlers/enable.py:72
+#: sophie_bot/modules/ai/handlers/autotranslate_setting.py:78
+#, fuzzy
+msgid "✨ AI Auto translate have been {status} in {chat}."
+msgstr "✨ Funkce AI byly {status} v {chat}."
+
+#: sophie_bot/modules/ai/handlers/enable_setting.py:21
+msgid "Show current state of AI features"
+msgstr "Zobrazí aktuální stav funkcí AI"
+
+#: sophie_bot/modules/ai/handlers/enable_setting.py:39
+msgid "✨ AI Features"
+msgstr "✨ Funkce AI"
+
+#: sophie_bot/modules/ai/handlers/enable_setting.py:42
+msgid "By using AI feature you agree to the our {policy} and third-party AI provider's."
+msgstr "Používáním AI souhlasíte s našimi {policy} a s poskytovateli AI třetí strany."
+
+#: sophie_bot/modules/ai/handlers/enable_setting.py:52
+msgid "Control AI features"
+msgstr "Ovládat funkce AI"
+
+#: sophie_bot/modules/ai/handlers/enable_setting.py:72
 msgid "✨ AI Features have been {status} in {chat}."
 msgstr "✨ Funkce AI byly {status} v {chat}."
 
@@ -203,89 +230,91 @@ msgstr "Mělo by to být AI prompt, zkuste to prosím znovu!"
 msgid "✨ AI Response"
 msgstr "✨ AI odpověď"
 
+#: sophie_bot/modules/ai/handlers/mode.py:15
+#, fuzzy
+msgid "Generates a new AI mode"
+msgstr "Vytvoří novou poznámku pomocí AI"
+
 #: sophie_bot/modules/ai/handlers/pm.py:21
 msgid "Start the AI ChatBot mode"
 msgstr "Spusťte mód AI ChatBot"
 
-#: sophie_bot/modules/ai/handlers/pm.py:29
-#: sophie_bot/modules/beta/__init__.py:15
-#: sophie_bot/modules/beta/handlers/beta_state.py:15
-msgid "Beta"
-msgstr "Beta"
-
-#: sophie_bot/modules/ai/handlers/pm.py:32
+#: sophie_bot/modules/ai/handlers/pm.py:31
 msgid "{ai_emoji} Entered to the AI Mode, in this mode you can directly interact with the AI."
 msgstr "{ai_emoji} Vstoupili jste do režimu AI, v tomto režimu můžete přímo interagovat s AI."
 
-#: sophie_bot/modules/ai/handlers/pm.py:37
+#: sophie_bot/modules/ai/handlers/pm.py:36
 msgid "By using the AI, you agree to the {privacy_policy} of the bot and third party AI services used."
 msgstr "Používáním AI souhlasíte s {privacy_policy} bota a službami AI třetích stran."
 
-#: sophie_bot/modules/ai/handlers/pm.py:40
+#: sophie_bot/modules/ai/handlers/pm.py:39
 msgid "Click on the button below to exit."
 msgstr "Klikněte na tlačítko níže pro odhlášení."
 
-#: sophie_bot/modules/ai/handlers/pm.py:57
+#: sophie_bot/modules/ai/handlers/pm.py:56
 msgid "Hello! How can I help you?"
 msgstr "Ahoj! Jak mohu pomoci?"
 
-#: sophie_bot/modules/ai/handlers/pm.py:68
+#: sophie_bot/modules/ai/handlers/pm.py:67
 msgid "The AI mode has been exited."
 msgstr "Režim AI byl ukončen."
 
-#: sophie_bot/modules/ai/utils/message_history.py:49
+#: sophie_bot/modules/ai/handlers/translate.py:21
+msgid "Text to translate"
+msgstr ""
+
+#: sophie_bot/modules/ai/handlers/translate.py:27
+msgid "Translates the given (or replied) text to the chat's selected language"
+msgstr ""
+
+#: sophie_bot/modules/ai/handlers/translate.py:47
+msgid "You're the professional AI translator, try to translate the texts word to word."
+msgstr ""
+
+#: sophie_bot/modules/ai/handlers/translate.py:48
+msgid "If it needs any explanations or clarifications, write them briefly afterwards separately."
+msgstr ""
+
+#: sophie_bot/modules/ai/handlers/translate.py:58
+msgid "Auto Translator"
+msgstr ""
+
+#: sophie_bot/modules/ai/handlers/translate.py:60
+msgid "Translator"
+msgstr ""
+
+#: sophie_bot/modules/ai/handlers/translate.py:62
+#, fuzzy
+msgid "Translated to {language}"
+msgstr "Nový jazyk"
+
+#: sophie_bot/modules/ai/texts.py:3
+msgid "By using AI features you agree to the our Privacy Policy (/privacy) and third party AI services used."
+msgstr "Používáním funkcí AI souhlasíte s našimi Zásadami ochrany soukromí (/privacy) a se službami AI třetích stran."
+
+#: sophie_bot/modules/ai/utils/message_history.py:47
 msgid "You're a Telegram Bot named Sophie."
 msgstr "Jsi Telegram bot jménem Sophie."
 
-#: sophie_bot/modules/ai/utils/message_history.py:50
+#: sophie_bot/modules/ai/utils/message_history.py:48
 msgid "Respond concisely, be friendly, stick to the current topic."
 msgstr "Reaguj stručně, buď přátelský, drž se aktuálního tématu."
 
-#: sophie_bot/modules/ai/utils/message_history.py:51
+#: sophie_bot/modules/ai/utils/message_history.py:49
 msgid "Do not use markdown or html. You can use emojis."
 msgstr "Nepoužívej markdown ani html. Můžeš používat emoji."
 
-#: sophie_bot/modules/ai/utils/message_history.py:73
+#: sophie_bot/modules/ai/utils/message_history.py:71
 msgid "<No text provided>"
 msgstr "<No text provided>"
 
-#: sophie_bot/modules/ai/utils/message_history.py:82
+#: sophie_bot/modules/ai/utils/message_history.py:80
 msgid "MESSAGE REPLIES TO PREVIOUS MESSAGE FROM"
 msgstr "ZPRÁVA ODPOVÍDÁ NA PŘEDCHOZÍ ZPRÁVU OD"
 
-#: sophie_bot/modules/ai/utils/message_history.py:93
+#: sophie_bot/modules/ai/utils/message_history.py:91
 msgid "Photo is empty"
 msgstr "Foto je prázdné"
-
-#: sophie_bot/modules/beta/__init__.py:17
-msgid "Controls the current Sophie mode.\n"
-"Please note that Beta mode can have bugs and issues. If you encounter any problems please report it to the support chat."
-msgstr "Ovládá aktuální režim Sophie.\n"
-"Upozorňujeme, že beta režim může mít chyby a problémy. Pokud narazíte na nějaké problémy, prosím, nahlaste to do podpůrného chatu."
-
-#: sophie_bot/modules/beta/handlers/beta_state.py:13
-msgid "Auto"
-msgstr "Automatické"
-
-#: sophie_bot/modules/beta/handlers/beta_state.py:14
-msgid "Stable"
-msgstr "Stabilní"
-
-#: sophie_bot/modules/beta/handlers/beta_state.py:20
-msgid "Preferred strategy mode"
-msgstr "Preferovaný strategický režim"
-
-#: sophie_bot/modules/beta/handlers/beta_state.py:22
-msgid "Set preferred strategy mode"
-msgstr "Nastavit preferovaný strategický režim"
-
-#: sophie_bot/modules/beta/handlers/beta_state.py:65
-msgid "Get current strategy mode / current state"
-msgstr "Získejte aktuální strategický režim / aktuální stav"
-
-#: sophie_bot/modules/beta/handlers/beta_state.py:79
-msgid "Unknown"
-msgstr "Neznámý"
 
 #: sophie_bot/modules/error/__init__.py:13
 msgid "Error"
@@ -549,7 +578,6 @@ msgid "Help"
 msgstr "Pomoc"
 
 #: sophie_bot/modules/help/__init__.py:22
-#: sophie_bot/modules/privacy/__init__.py:19
 msgid "Provides helpful information"
 msgstr "Poskytuje užitečné informace"
 
@@ -591,12 +619,9 @@ msgstr "Pouze administrátoři"
 msgid "Aliased commands from {module}"
 msgstr "Přezdívané příkazy z {module}"
 
-#: sophie_bot/modules/help/handlers/pm_modules.py:105
-msgid "📖 Wiki page"
-msgstr "📖 Wiki stránka"
-
-#: sophie_bot/modules/help/utils/format_help.py:21
-msgid " - Only in chats"
+#: sophie_bot/modules/help/utils/format_help.py:20
+#, fuzzy
+msgid "— Only in groups"
 msgstr " - Pouze v chatech"
 
 #: sophie_bot/modules/legacy_modules/modules/antiflood.py:69
@@ -792,28 +817,37 @@ msgstr "Importuje seznam zákazů."
 msgid "Checks the user ban status (can be used to check yourself)."
 msgstr "Kontroluje stav zákazu uživatele (může se použít pro kontrolu sebe)."
 
-#: sophie_bot/modules/legacy_modules/modules/filters.py:62
+#: sophie_bot/modules/legacy_modules/modules/filters.py:64
 msgid "Filters"
 msgstr "Filtry"
 
-#: sophie_bot/modules/legacy_modules/modules/filters.py:157
+#: sophie_bot/modules/legacy_modules/modules/filters.py:161
 msgid "Adds a new filter."
 msgstr "Přidá nový filtr."
 
-#: sophie_bot/modules/legacy_modules/modules/filters.py:157
-#: sophie_bot/modules/legacy_modules/modules/filters.py:314
+#: sophie_bot/modules/legacy_modules/modules/filters.py:161
+#: sophie_bot/modules/legacy_modules/modules/filters.py:315
 msgid "Trigger"
 msgstr "Spouštěč"
 
-#: sophie_bot/modules/legacy_modules/modules/filters.py:295
+#: sophie_bot/modules/legacy_modules/modules/filters.py:202
+msgid "❌ Cancel"
+msgstr ""
+
+#: sophie_bot/modules/legacy_modules/modules/filters.py:296
 msgid "Shows the list of filters."
 msgstr "Zobrazuje seznam filtrů."
 
-#: sophie_bot/modules/legacy_modules/modules/filters.py:314
+#: sophie_bot/modules/legacy_modules/modules/filters.py:310
+#, fuzzy
+msgid "Filters in {chat_name}"
+msgstr "Poznámky v {chat_name}"
+
+#: sophie_bot/modules/legacy_modules/modules/filters.py:315
 msgid "Removes the filter."
 msgstr "Odstraní filtr."
 
-#: sophie_bot/modules/legacy_modules/modules/filters.py:369
+#: sophie_bot/modules/legacy_modules/modules/filters.py:370
 msgid "Removes all the filters in the chat."
 msgstr "Odstraní všechny filtry v chatu."
 
@@ -886,6 +920,16 @@ msgstr "Nastavuje novou jazykovou mutaci pro chat"
 msgid "New language"
 msgstr "Nový jazyk"
 
+#: sophie_bot/modules/legacy_modules/modules/misc.py:80
+#, fuzzy
+msgid "🗑 Delete message"
+msgstr "Připne odpovězenou zprávu"
+
+#: sophie_bot/modules/legacy_modules/modules/misc.py:85
+#, fuzzy
+msgid "💭 Reply to message"
+msgstr "Připne odpovězenou zprávu"
+
 #: sophie_bot/modules/legacy_modules/modules/notes.py:43
 #: sophie_bot/modules/notes/__init__.py:13
 msgid "Notes"
@@ -913,7 +957,7 @@ msgid "Searches text across all notes."
 msgstr "Hledá text ve všech poznámkách."
 
 #: sophie_bot/modules/legacy_modules/modules/notes.py:330
-#: sophie_bot/modules/notes/handlers/save.py:29
+#: sophie_bot/modules/notes/handlers/save.py:29 types/text.py:18
 msgid "Text"
 msgstr "Text"
 
@@ -936,6 +980,11 @@ msgstr "Ovládá funkci, která doporučuje uživatelům používat soukromé zp
 #: sophie_bot/modules/legacy_modules/modules/notes.py:573
 msgid "Controls the automatic clean-up for notes"
 msgstr "Ovládá automatické odstranění poznámek"
+
+#: sophie_bot/modules/legacy_modules/modules/notes.py:709
+#, fuzzy
+msgid "🗒 Send a note"
+msgstr "Hledat poznámky"
 
 #: sophie_bot/modules/legacy_modules/modules/pins.py:15
 msgid "Pins"
@@ -1014,6 +1063,27 @@ msgstr "Odmtí uživatele (rovněž mu dovolí posílat média)."
 msgid "Unbans the user."
 msgstr "Odblokuje uživatele."
 
+#: sophie_bot/modules/legacy_modules/modules/restrictions.py:456
+msgid "🚪 Kick"
+msgstr ""
+
+#: sophie_bot/modules/legacy_modules/modules/restrictions.py:460
+#, fuzzy
+msgid "🚷 Ban"
+msgstr ", a "
+
+#: sophie_bot/modules/legacy_modules/modules/restrictions.py:465
+msgid "⏳🚷 Temporary ban"
+msgstr ""
+
+#: sophie_bot/modules/legacy_modules/modules/restrictions.py:473
+msgid "🔕 Mute"
+msgstr ""
+
+#: sophie_bot/modules/legacy_modules/modules/restrictions.py:478
+msgid "⏳🔕 Temporary mute"
+msgstr ""
+
 #: sophie_bot/modules/legacy_modules/modules/rules.py:21
 msgid "Rules"
 msgstr "Pravidla"
@@ -1050,6 +1120,10 @@ msgstr "Zobrazuje všechny administrátory chatů."
 #: sophie_bot/modules/legacy_modules/modules/warns.py:56
 msgid "Warnings"
 msgstr "Varování"
+
+#: sophie_bot/modules/legacy_modules/modules/warns.py:349
+msgid "⚠️ Warn"
+msgstr ""
 
 #: sophie_bot/modules/notes/handlers/delete.py:16
 msgid "Deletes notes."
@@ -1163,11 +1237,19 @@ msgstr "Místní chat"
 msgid "Privacy"
 msgstr "Ochrana soukromí"
 
-#: sophie_bot/modules/privacy/handlers/export.py:35
+#: sophie_bot/modules/privacy/__init__.py:19
+msgid "Data protection"
+msgstr ""
+
+#: sophie_bot/modules/privacy/handlers/export.py:23
+msgid "Exports your data to a JSON file"
+msgstr ""
+
+#: sophie_bot/modules/privacy/handlers/export.py:38
 msgid "Export is started, this may take a while."
 msgstr "Export byl zahájen, to může trvat chvíli."
 
-#: sophie_bot/modules/privacy/handlers/export.py:44
+#: sophie_bot/modules/privacy/handlers/export.py:47
 msgid "Export is done."
 msgstr "Export byl dokončen."
 
@@ -1183,11 +1265,11 @@ msgstr "Zásady ochrany soukromí bota jsou k dispozici na naší wiki stránce.
 msgid "Privacy Policy"
 msgstr "Zásady ochrany soukromí"
 
-#: sophie_bot/modules/troubleshooters/__init__.py:12
+#: sophie_bot/modules/troubleshooters/__init__.py:17
 msgid "Troubleshooters"
 msgstr "Odstraňovače problémů"
 
-#: sophie_bot/modules/troubleshooters/__init__.py:14
+#: sophie_bot/modules/troubleshooters/__init__.py:19
 msgid "Small commands for fixing problems"
 msgstr "Malé příkazy pro řešení problémů"
 
@@ -1202,6 +1284,34 @@ msgstr "Tento příkaz nemůžete použít v soukromých chatech."
 #: sophie_bot/modules/troubleshooters/handlers/admincache.py:23
 msgid "Admin rights cache has been reset."
 msgstr "Cache práv admina byla resetována."
+
+#: sophie_bot/modules/troubleshooters/handlers/beta_state.py:13
+msgid "Auto"
+msgstr "Automatické"
+
+#: sophie_bot/modules/troubleshooters/handlers/beta_state.py:14
+msgid "Stable"
+msgstr "Stabilní"
+
+#: sophie_bot/modules/troubleshooters/handlers/beta_state.py:15
+msgid "Beta"
+msgstr "Beta"
+
+#: sophie_bot/modules/troubleshooters/handlers/beta_state.py:20
+msgid "Preferred strategy mode"
+msgstr "Preferovaný strategický režim"
+
+#: sophie_bot/modules/troubleshooters/handlers/beta_state.py:22
+msgid "Set preferred strategy mode"
+msgstr "Nastavit preferovaný strategický režim"
+
+#: sophie_bot/modules/troubleshooters/handlers/beta_state.py:65
+msgid "Get current strategy mode / current state"
+msgstr "Získejte aktuální strategický režim / aktuální stav"
+
+#: sophie_bot/modules/troubleshooters/handlers/beta_state.py:79
+msgid "Unknown"
+msgstr "Neznámý"
 
 #: sophie_bot/modules/troubleshooters/handlers/cancel.py:12
 msgid "Cancel current state, use if Sophie is not responding on your message"
@@ -1359,10 +1469,6 @@ msgstr "Pravda (může znamenat Povolené nebo Ano)"
 msgid "False (can means Disabled or No)"
 msgstr "Faleš (může znamenat Zakázané nebo Ne)"
 
-#: types/text.py:18
-msgid "Text"
-msgstr "Text"
-
 #: types/text_rules.py:27
 msgid "➡️ The Argument should start with {}!"
 msgstr "➡️ Argument by měl začínat {}!"
@@ -1472,23 +1578,22 @@ msgstr "Neočekávaná chyba při pokusu o získání uživatele! Prosím, nahla
 msgid "Could not find the user mention"
 msgstr "Nepodařilo se najít zmínku o uživateli"
 
-#: types/user.py:119
-msgid "User: 'User ID (numeric) / Username (starts with @) / Mention (links to users)'"
-msgstr "Uživatel: 'ID uživatele (číslicové) / Uživatelské jméno (začíná na @) / Zmínka (odkazy na uživatele)'"
+#~ msgid "Translates the given text to the chat's selected language"
+#~ msgstr ""
 
-#: types/user.py:121
-msgid "Users: 'User IDs (numeric) / Usernames (starts with @) / Mentions (links to users)'"
-msgstr "Uživatelé: 'ID uživatelů (číslicové) / Uživatelská jména (začínají na @) / Zmínky (odkazy na uživatele)'"
+#~ msgid "✨ Beta AI"
+#~ msgstr "✨ Beta AI"
 
-#: types/user.py:128
-msgid "User ID"
-msgstr "ID uživatele"
+#~ msgid "📖 Wiki page"
+#~ msgstr "📖 Wiki stránka"
 
-#: types/user.py:129
-msgid "Username"
-msgstr "Uživatelské jméno"
+#~ msgid ""
+#~ "Controls the current Sophie mode.\n"
+#~ "Please note that Beta mode can have bugs and issues. If you encounter any problems please report it to the support chat."
+#~ msgstr ""
+#~ "Ovládá aktuální režim Sophie.\n"
+#~ "Upozorňujeme, že beta režim může mít chyby a problémy. Pokud narazíte na nějaké problémy, prosím, nahlaste to do podpůrného chatu."
 
-#: types/user.py:133
-msgid "A link to user, usually creates by mentioning a user without username."
-msgstr "Odkaz na uživatele, obvykle se vytvoří zmíněním uživatele bez uživatelského jména."
+#~ msgid "🗒 Reply with a note"
+#~ msgstr ""
 

@@ -1,22 +1,18 @@
+
 msgid ""
 msgstr ""
-"Project-Id-Version: sophiebot\n"
+"Project-Id-Version:  sophiebot\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-10-08 13:46+0000\n"
-"PO-Revision-Date: 2024-10-08 13:49\n"
+"POT-Creation-Date: 2024-10-09 01:21+0200\n"
+"PO-Revision-Date: 2024-10-08 13:49+0000\n"
 "Last-Translator: \n"
+"Language: zh_CN\n"
 "Language-Team: Chinese Simplified\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.15.0\n"
-"Plural-Forms: nplurals=1; plural=0;\n"
-"X-Crowdin-Project: sophiebot\n"
-"X-Crowdin-Project-ID: 356879\n"
-"X-Crowdin-Language: zh-CN\n"
-"X-Crowdin-File: /beta/locales/sophie.pot\n"
-"X-Crowdin-File-ID: 288\n"
-"Language: zh_CN\n"
 
 #: sophie_bot/args/users.py:29
 msgid "Could not find the requested User ID in the database."
@@ -26,23 +22,23 @@ msgstr "未能在数据库中找到请求的用户 ID。"
 msgid "Could not find the requested Username in the database."
 msgstr "未能在数据库中找到请求的用户名。"
 
-#: sophie_bot/args/users.py:72
+#: sophie_bot/args/users.py:72 types/user.py:119
 msgid "User: 'User ID (numeric) / Username (starts with @) / Mention (links to users)'"
 msgstr "用户：‘用户 ID（数字）/ 用户名（以@开头）/ 提及（链接到用户）’"
 
-#: sophie_bot/args/users.py:72
+#: sophie_bot/args/users.py:72 types/user.py:121
 msgid "Users: 'User IDs (numeric) / Usernames (starts with @) / Mentions (links to users)'"
 msgstr "用户：‘用户 ID（数字）/ 用户名（以@开头）/ 提及（链接到用户）’"
 
-#: sophie_bot/args/users.py:79
+#: sophie_bot/args/users.py:79 types/user.py:128
 msgid "User ID"
 msgstr "用户 ID"
 
-#: sophie_bot/args/users.py:80
+#: sophie_bot/args/users.py:80 types/user.py:129
 msgid "Username"
 msgstr "用户名"
 
-#: sophie_bot/args/users.py:81
+#: sophie_bot/args/users.py:81 types/user.py:133
 msgid "A link to user, usually creates by mentioning a user without username."
 msgstr "用户的链接，通常通过提及用户而不使用用户名创建。"
 
@@ -54,21 +50,17 @@ msgstr "私聊"
 msgid "Connected chat not found in the database. Please try to disconnect and connect again."
 msgstr "未能在数据库中找到连接的聊天。请尝试断开后重新连接。"
 
-#: sophie_bot/modules/ai/__init__.py:17
+#: sophie_bot/modules/ai/__init__.py:28
 msgid "Sophie AI"
 msgstr "Sophie AI"
 
-#: sophie_bot/modules/ai/__init__.py:19
+#: sophie_bot/modules/ai/__init__.py:30
 msgid "Rainbow sparkles and shininess"
 msgstr "彩虹闪耀与光辉"
 
-#: sophie_bot/modules/ai/__init__.py:21
+#: sophie_bot/modules/ai/__init__.py:32
 msgid "Please note that you can make a limited amount of AI requests per day."
 msgstr "请注意，您每天只能进行有限的 AI 请求。"
-
-#: sophie_bot/modules/ai/texts.py:3
-msgid "By using AI features you agree to the our Privacy Policy (/privacy) and third party AI services used."
-msgstr "使用 AI 功能即表示您同意我们的隐私政策 (/privacy) 和使用的第三方 AI 服务。"
 
 #: sophie_bot/modules/ai/filters/ai_enabled.py:27
 msgid "The AI Features are currently deactivated for this chat."
@@ -87,11 +79,13 @@ msgid "🛑 Exit AI mode"
 msgstr "🛑 退出 AI 模式"
 
 #: sophie_bot/modules/ai/fsm/pm.py:12
-msgid "✨ Beta AI"
-msgstr "✨ 测试版 AI"
+#, fuzzy
+msgid "✨ Sophie AI"
+msgstr "Sophie AI"
 
 #: sophie_bot/modules/ai/handlers/ai_cmd.py:14
 #: sophie_bot/modules/ai/handlers/aisave.py:25
+#: sophie_bot/modules/ai/handlers/mode.py:14
 msgid "Prompt"
 msgstr "提示"
 
@@ -120,46 +114,55 @@ msgstr "✨ 笔记生成成功"
 msgid "Use {cmd} to retrieve this note."
 msgstr "使用 {cmd} 检索此笔记。"
 
-#: sophie_bot/modules/ai/handlers/enable.py:21
-msgid "Show current state of AI features"
+#: sophie_bot/modules/ai/handlers/autotranslate_setting.py:22
+#, fuzzy
+msgid "Show current state of AI Autotranslate"
 msgstr "显示 AI 功能的当前状态"
 
-#: sophie_bot/modules/ai/handlers/enable.py:37
+#: sophie_bot/modules/ai/handlers/autotranslate_setting.py:38
+#: sophie_bot/modules/ai/handlers/enable_setting.py:37
 #: sophie_bot/modules/notes/handlers/delete.py:32
 msgid "Chat"
 msgstr "聊天"
 
-#: sophie_bot/modules/ai/handlers/enable.py:38
+#: sophie_bot/modules/ai/handlers/autotranslate_setting.py:39
+#: sophie_bot/modules/ai/handlers/enable_setting.py:38
 msgid "Current state"
 msgstr "当前状态"
 
-#: sophie_bot/modules/ai/handlers/enable.py:38
+#: sophie_bot/modules/ai/handlers/autotranslate_setting.py:39
+#: sophie_bot/modules/ai/handlers/enable_setting.py:38
 msgid "Enabled"
 msgstr "已启用"
 
-#: sophie_bot/modules/ai/handlers/enable.py:38
+#: sophie_bot/modules/ai/handlers/autotranslate_setting.py:39
+#: sophie_bot/modules/ai/handlers/enable_setting.py:38
 msgid "Disabled"
 msgstr "未启用"
 
-#: sophie_bot/modules/ai/handlers/enable.py:39
-msgid "✨ AI Features"
-msgstr "✨ AI 功能"
+#: sophie_bot/modules/ai/handlers/autotranslate_setting.py:40
+msgid "✨ AI Auto translate"
+msgstr ""
 
-#: sophie_bot/modules/ai/handlers/enable.py:42
-msgid "By using AI feature you agree to the our {policy} and third-party AI provider's."
+#: sophie_bot/modules/ai/handlers/autotranslate_setting.py:43
+#, fuzzy
+msgid "By using AI features you agree to the our {policy} and third-party AI provider's."
 msgstr "使用 AI 功能即表示您同意我们的 {policy} 和第三方 AI 提供商的条款。"
 
-#: sophie_bot/modules/ai/handlers/enable.py:43
-#: sophie_bot/modules/ai/handlers/pm.py:38
+#: sophie_bot/modules/ai/handlers/autotranslate_setting.py:44
+#: sophie_bot/modules/ai/handlers/enable_setting.py:43
+#: sophie_bot/modules/ai/handlers/pm.py:37
 msgid "privacy policy"
 msgstr "隐私政策"
 
-#: sophie_bot/modules/ai/handlers/enable.py:45
-#: sophie_bot/modules/beta/handlers/beta_state.py:88
+#: sophie_bot/modules/ai/handlers/autotranslate_setting.py:46
+#: sophie_bot/modules/ai/handlers/enable_setting.py:45
+#: sophie_bot/modules/troubleshooters/handlers/beta_state.py:88
 msgid "Use '{cmd}' to change it."
 msgstr "使用 '{cmd}' 来更改它。"
 
-#: sophie_bot/modules/ai/handlers/enable.py:51
+#: sophie_bot/modules/ai/handlers/autotranslate_setting.py:52
+#: sophie_bot/modules/ai/handlers/enable_setting.py:51
 #: sophie_bot/modules/legacy_modules/modules/antiflood.py:250
 #: sophie_bot/modules/legacy_modules/modules/connection.py:184
 #: sophie_bot/modules/legacy_modules/modules/notes.py:534
@@ -167,19 +170,43 @@ msgstr "使用 '{cmd}' 来更改它。"
 msgid "New state"
 msgstr "新状态"
 
-#: sophie_bot/modules/ai/handlers/enable.py:52
-msgid "Control AI features"
+#: sophie_bot/modules/ai/handlers/autotranslate_setting.py:53
+#, fuzzy
+msgid "Controls AI Autotranslate"
 msgstr "控制 AI 功能"
 
-#: sophie_bot/modules/ai/handlers/enable.py:67
+#: sophie_bot/modules/ai/handlers/autotranslate_setting.py:73
+#: sophie_bot/modules/ai/handlers/enable_setting.py:67
 msgid "enabled"
 msgstr "已启用"
 
-#: sophie_bot/modules/ai/handlers/enable.py:67
+#: sophie_bot/modules/ai/handlers/autotranslate_setting.py:73
+#: sophie_bot/modules/ai/handlers/enable_setting.py:67
 msgid "disabled"
 msgstr "未启用"
 
-#: sophie_bot/modules/ai/handlers/enable.py:72
+#: sophie_bot/modules/ai/handlers/autotranslate_setting.py:78
+#, fuzzy
+msgid "✨ AI Auto translate have been {status} in {chat}."
+msgstr "✨ AI 功能在 {chat} 中已被 {status}。"
+
+#: sophie_bot/modules/ai/handlers/enable_setting.py:21
+msgid "Show current state of AI features"
+msgstr "显示 AI 功能的当前状态"
+
+#: sophie_bot/modules/ai/handlers/enable_setting.py:39
+msgid "✨ AI Features"
+msgstr "✨ AI 功能"
+
+#: sophie_bot/modules/ai/handlers/enable_setting.py:42
+msgid "By using AI feature you agree to the our {policy} and third-party AI provider's."
+msgstr "使用 AI 功能即表示您同意我们的 {policy} 和第三方 AI 提供商的条款。"
+
+#: sophie_bot/modules/ai/handlers/enable_setting.py:52
+msgid "Control AI features"
+msgstr "控制 AI 功能"
+
+#: sophie_bot/modules/ai/handlers/enable_setting.py:72
 msgid "✨ AI Features have been {status} in {chat}."
 msgstr "✨ AI 功能在 {chat} 中已被 {status}。"
 
@@ -203,89 +230,91 @@ msgstr "应该是 AI 提示，请重试！"
 msgid "✨ AI Response"
 msgstr "✨ AI 响应"
 
+#: sophie_bot/modules/ai/handlers/mode.py:15
+#, fuzzy
+msgid "Generates a new AI mode"
+msgstr "使用 AI 生成新备注"
+
 #: sophie_bot/modules/ai/handlers/pm.py:21
 msgid "Start the AI ChatBot mode"
 msgstr "启动 AI 聊天机器人模式"
 
-#: sophie_bot/modules/ai/handlers/pm.py:29
-#: sophie_bot/modules/beta/__init__.py:15
-#: sophie_bot/modules/beta/handlers/beta_state.py:15
-msgid "Beta"
-msgstr "测试版"
-
-#: sophie_bot/modules/ai/handlers/pm.py:32
+#: sophie_bot/modules/ai/handlers/pm.py:31
 msgid "{ai_emoji} Entered to the AI Mode, in this mode you can directly interact with the AI."
 msgstr "{ai_emoji} 进入 AI 模式，在此模式中，您可以直接与 AI 互动。"
 
-#: sophie_bot/modules/ai/handlers/pm.py:37
+#: sophie_bot/modules/ai/handlers/pm.py:36
 msgid "By using the AI, you agree to the {privacy_policy} of the bot and third party AI services used."
 msgstr "使用 AI 代表您同意机器人的 {privacy_policy} 和使用的第三方 AI 服务。"
 
-#: sophie_bot/modules/ai/handlers/pm.py:40
+#: sophie_bot/modules/ai/handlers/pm.py:39
 msgid "Click on the button below to exit."
 msgstr "点击下方按钮退出。"
 
-#: sophie_bot/modules/ai/handlers/pm.py:57
+#: sophie_bot/modules/ai/handlers/pm.py:56
 msgid "Hello! How can I help you?"
 msgstr "你好！我能帮你什么？"
 
-#: sophie_bot/modules/ai/handlers/pm.py:68
+#: sophie_bot/modules/ai/handlers/pm.py:67
 msgid "The AI mode has been exited."
 msgstr "AI 模式已经退出。"
 
-#: sophie_bot/modules/ai/utils/message_history.py:49
+#: sophie_bot/modules/ai/handlers/translate.py:21
+msgid "Text to translate"
+msgstr ""
+
+#: sophie_bot/modules/ai/handlers/translate.py:27
+msgid "Translates the given (or replied) text to the chat's selected language"
+msgstr ""
+
+#: sophie_bot/modules/ai/handlers/translate.py:47
+msgid "You're the professional AI translator, try to translate the texts word to word."
+msgstr ""
+
+#: sophie_bot/modules/ai/handlers/translate.py:48
+msgid "If it needs any explanations or clarifications, write them briefly afterwards separately."
+msgstr ""
+
+#: sophie_bot/modules/ai/handlers/translate.py:58
+msgid "Auto Translator"
+msgstr ""
+
+#: sophie_bot/modules/ai/handlers/translate.py:60
+msgid "Translator"
+msgstr ""
+
+#: sophie_bot/modules/ai/handlers/translate.py:62
+#, fuzzy
+msgid "Translated to {language}"
+msgstr "新语言"
+
+#: sophie_bot/modules/ai/texts.py:3
+msgid "By using AI features you agree to the our Privacy Policy (/privacy) and third party AI services used."
+msgstr "使用 AI 功能即表示您同意我们的隐私政策 (/privacy) 和使用的第三方 AI 服务。"
+
+#: sophie_bot/modules/ai/utils/message_history.py:47
 msgid "You're a Telegram Bot named Sophie."
 msgstr "您是一个名为Sophie的Telegram机器人。"
 
-#: sophie_bot/modules/ai/utils/message_history.py:50
+#: sophie_bot/modules/ai/utils/message_history.py:48
 msgid "Respond concisely, be friendly, stick to the current topic."
 msgstr "简明回答，保持友好，专注于当前主题。"
 
-#: sophie_bot/modules/ai/utils/message_history.py:51
+#: sophie_bot/modules/ai/utils/message_history.py:49
 msgid "Do not use markdown or html. You can use emojis."
 msgstr "请不要使用markdown或html。您可以使用emoji。"
 
-#: sophie_bot/modules/ai/utils/message_history.py:73
+#: sophie_bot/modules/ai/utils/message_history.py:71
 msgid "<No text provided>"
 msgstr "<未提供文本>"
 
-#: sophie_bot/modules/ai/utils/message_history.py:82
+#: sophie_bot/modules/ai/utils/message_history.py:80
 msgid "MESSAGE REPLIES TO PREVIOUS MESSAGE FROM"
 msgstr "消息回复来自先前的消息"
 
-#: sophie_bot/modules/ai/utils/message_history.py:93
+#: sophie_bot/modules/ai/utils/message_history.py:91
 msgid "Photo is empty"
 msgstr "照片为空"
-
-#: sophie_bot/modules/beta/__init__.py:17
-msgid "Controls the current Sophie mode.\n"
-"Please note that Beta mode can have bugs and issues. If you encounter any problems please report it to the support chat."
-msgstr "控制当前的 Sophie 模式。\n"
-"请注意，Beta 模式可能存在错误和问题。如果您遇到任何问题，请向支持聊天报告。"
-
-#: sophie_bot/modules/beta/handlers/beta_state.py:13
-msgid "Auto"
-msgstr "自动"
-
-#: sophie_bot/modules/beta/handlers/beta_state.py:14
-msgid "Stable"
-msgstr "稳定"
-
-#: sophie_bot/modules/beta/handlers/beta_state.py:20
-msgid "Preferred strategy mode"
-msgstr "首选策略模式"
-
-#: sophie_bot/modules/beta/handlers/beta_state.py:22
-msgid "Set preferred strategy mode"
-msgstr "设置首选策略模式"
-
-#: sophie_bot/modules/beta/handlers/beta_state.py:65
-msgid "Get current strategy mode / current state"
-msgstr "获取当前的策略模式 / 当前状态"
-
-#: sophie_bot/modules/beta/handlers/beta_state.py:79
-msgid "Unknown"
-msgstr "未知"
 
 #: sophie_bot/modules/error/__init__.py:13
 msgid "Error"
@@ -549,7 +578,6 @@ msgid "Help"
 msgstr "帮助"
 
 #: sophie_bot/modules/help/__init__.py:22
-#: sophie_bot/modules/privacy/__init__.py:19
 msgid "Provides helpful information"
 msgstr "提供有用的信息"
 
@@ -591,12 +619,9 @@ msgstr "仅管理员"
 msgid "Aliased commands from {module}"
 msgstr "{module} 的别名命令"
 
-#: sophie_bot/modules/help/handlers/pm_modules.py:105
-msgid "📖 Wiki page"
-msgstr "📖 Wiki 页面"
-
-#: sophie_bot/modules/help/utils/format_help.py:21
-msgid " - Only in chats"
+#: sophie_bot/modules/help/utils/format_help.py:20
+#, fuzzy
+msgid "— Only in groups"
 msgstr " - 仅在聊天中"
 
 #: sophie_bot/modules/legacy_modules/modules/antiflood.py:69
@@ -792,28 +817,37 @@ msgstr "导入禁令列表。"
 msgid "Checks the user ban status (can be used to check yourself)."
 msgstr "检查用户禁用状态（可以用来检查你自己）。"
 
-#: sophie_bot/modules/legacy_modules/modules/filters.py:62
+#: sophie_bot/modules/legacy_modules/modules/filters.py:64
 msgid "Filters"
 msgstr "过滤器"
 
-#: sophie_bot/modules/legacy_modules/modules/filters.py:157
+#: sophie_bot/modules/legacy_modules/modules/filters.py:161
 msgid "Adds a new filter."
 msgstr "添加新过滤器。"
 
-#: sophie_bot/modules/legacy_modules/modules/filters.py:157
-#: sophie_bot/modules/legacy_modules/modules/filters.py:314
+#: sophie_bot/modules/legacy_modules/modules/filters.py:161
+#: sophie_bot/modules/legacy_modules/modules/filters.py:315
 msgid "Trigger"
 msgstr "触发器"
 
-#: sophie_bot/modules/legacy_modules/modules/filters.py:295
+#: sophie_bot/modules/legacy_modules/modules/filters.py:202
+msgid "❌ Cancel"
+msgstr ""
+
+#: sophie_bot/modules/legacy_modules/modules/filters.py:296
 msgid "Shows the list of filters."
 msgstr "显示过滤器列表。"
 
-#: sophie_bot/modules/legacy_modules/modules/filters.py:314
+#: sophie_bot/modules/legacy_modules/modules/filters.py:310
+#, fuzzy
+msgid "Filters in {chat_name}"
+msgstr "在 {chat_name} 中的笔记"
+
+#: sophie_bot/modules/legacy_modules/modules/filters.py:315
 msgid "Removes the filter."
 msgstr "移除过滤器。"
 
-#: sophie_bot/modules/legacy_modules/modules/filters.py:369
+#: sophie_bot/modules/legacy_modules/modules/filters.py:370
 msgid "Removes all the filters in the chat."
 msgstr "移除聊天中的所有过滤器。"
 
@@ -886,6 +920,16 @@ msgstr "设置聊天的新语言"
 msgid "New language"
 msgstr "新语言"
 
+#: sophie_bot/modules/legacy_modules/modules/misc.py:80
+#, fuzzy
+msgid "🗑 Delete message"
+msgstr "固定回复消息"
+
+#: sophie_bot/modules/legacy_modules/modules/misc.py:85
+#, fuzzy
+msgid "💭 Reply to message"
+msgstr "固定回复消息"
+
 #: sophie_bot/modules/legacy_modules/modules/notes.py:43
 #: sophie_bot/modules/notes/__init__.py:13
 msgid "Notes"
@@ -913,7 +957,7 @@ msgid "Searches text across all notes."
 msgstr "在所有备注中搜索文本。"
 
 #: sophie_bot/modules/legacy_modules/modules/notes.py:330
-#: sophie_bot/modules/notes/handlers/save.py:29
+#: sophie_bot/modules/notes/handlers/save.py:29 types/text.py:18
 msgid "Text"
 msgstr "文本"
 
@@ -936,6 +980,11 @@ msgstr "控制建议用户使用 PM 与机器人使用备注的功能"
 #: sophie_bot/modules/legacy_modules/modules/notes.py:573
 msgid "Controls the automatic clean-up for notes"
 msgstr "控制备注的自动清理"
+
+#: sophie_bot/modules/legacy_modules/modules/notes.py:709
+#, fuzzy
+msgid "🗒 Send a note"
+msgstr "搜索笔记"
 
 #: sophie_bot/modules/legacy_modules/modules/pins.py:15
 msgid "Pins"
@@ -1014,6 +1063,27 @@ msgstr "取消静音用户（也允许用户发送媒体）。"
 msgid "Unbans the user."
 msgstr "取消对该用户的禁令。"
 
+#: sophie_bot/modules/legacy_modules/modules/restrictions.py:456
+msgid "🚪 Kick"
+msgstr ""
+
+#: sophie_bot/modules/legacy_modules/modules/restrictions.py:460
+#, fuzzy
+msgid "🚷 Ban"
+msgstr "，和 "
+
+#: sophie_bot/modules/legacy_modules/modules/restrictions.py:465
+msgid "⏳🚷 Temporary ban"
+msgstr ""
+
+#: sophie_bot/modules/legacy_modules/modules/restrictions.py:473
+msgid "🔕 Mute"
+msgstr ""
+
+#: sophie_bot/modules/legacy_modules/modules/restrictions.py:478
+msgid "⏳🔕 Temporary mute"
+msgstr ""
+
 #: sophie_bot/modules/legacy_modules/modules/rules.py:21
 msgid "Rules"
 msgstr "规则"
@@ -1050,6 +1120,10 @@ msgstr "列出所有的聊天管理员。"
 #: sophie_bot/modules/legacy_modules/modules/warns.py:56
 msgid "Warnings"
 msgstr "警告"
+
+#: sophie_bot/modules/legacy_modules/modules/warns.py:349
+msgid "⚠️ Warn"
+msgstr ""
 
 #: sophie_bot/modules/notes/handlers/delete.py:16
 msgid "Deletes notes."
@@ -1163,11 +1237,19 @@ msgstr "本地聊天"
 msgid "Privacy"
 msgstr "隐私"
 
-#: sophie_bot/modules/privacy/handlers/export.py:35
+#: sophie_bot/modules/privacy/__init__.py:19
+msgid "Data protection"
+msgstr ""
+
+#: sophie_bot/modules/privacy/handlers/export.py:23
+msgid "Exports your data to a JSON file"
+msgstr ""
+
+#: sophie_bot/modules/privacy/handlers/export.py:38
 msgid "Export is started, this may take a while."
 msgstr "导出已开始，这可能需要一段时间。"
 
-#: sophie_bot/modules/privacy/handlers/export.py:44
+#: sophie_bot/modules/privacy/handlers/export.py:47
 msgid "Export is done."
 msgstr "导出完成。"
 
@@ -1183,11 +1265,11 @@ msgstr "机器人的隐私政策可在我们的 Wiki 页面上查看。"
 msgid "Privacy Policy"
 msgstr "隐私政策"
 
-#: sophie_bot/modules/troubleshooters/__init__.py:12
+#: sophie_bot/modules/troubleshooters/__init__.py:17
 msgid "Troubleshooters"
 msgstr "故障排除"
 
-#: sophie_bot/modules/troubleshooters/__init__.py:14
+#: sophie_bot/modules/troubleshooters/__init__.py:19
 msgid "Small commands for fixing problems"
 msgstr "修复问题的小命令"
 
@@ -1202,6 +1284,34 @@ msgstr "您无法在私人聊天中使用此命令。"
 #: sophie_bot/modules/troubleshooters/handlers/admincache.py:23
 msgid "Admin rights cache has been reset."
 msgstr "管理员权限缓存已重置。"
+
+#: sophie_bot/modules/troubleshooters/handlers/beta_state.py:13
+msgid "Auto"
+msgstr "自动"
+
+#: sophie_bot/modules/troubleshooters/handlers/beta_state.py:14
+msgid "Stable"
+msgstr "稳定"
+
+#: sophie_bot/modules/troubleshooters/handlers/beta_state.py:15
+msgid "Beta"
+msgstr "测试版"
+
+#: sophie_bot/modules/troubleshooters/handlers/beta_state.py:20
+msgid "Preferred strategy mode"
+msgstr "首选策略模式"
+
+#: sophie_bot/modules/troubleshooters/handlers/beta_state.py:22
+msgid "Set preferred strategy mode"
+msgstr "设置首选策略模式"
+
+#: sophie_bot/modules/troubleshooters/handlers/beta_state.py:65
+msgid "Get current strategy mode / current state"
+msgstr "获取当前的策略模式 / 当前状态"
+
+#: sophie_bot/modules/troubleshooters/handlers/beta_state.py:79
+msgid "Unknown"
+msgstr "未知"
 
 #: sophie_bot/modules/troubleshooters/handlers/cancel.py:12
 msgid "Cancel current state, use if Sophie is not responding on your message"
@@ -1359,10 +1469,6 @@ msgstr "真（可以意味着启用或是）"
 msgid "False (can means Disabled or No)"
 msgstr "假（可以意味着禁用或否）"
 
-#: types/text.py:18
-msgid "Text"
-msgstr "文本"
-
 #: types/text_rules.py:27
 msgid "➡️ The Argument should start with {}!"
 msgstr "➡️ 参数应该以 {} 开头！"
@@ -1472,23 +1578,22 @@ msgstr "尝试获取用户时出现意外错误！请在支持聊天中报告此
 msgid "Could not find the user mention"
 msgstr "未找到用户提及"
 
-#: types/user.py:119
-msgid "User: 'User ID (numeric) / Username (starts with @) / Mention (links to users)'"
-msgstr "用户：'用户 ID（数字）/用户名（以 @ 开头）/提及（链接到用户）'"
+#~ msgid "Translates the given text to the chat's selected language"
+#~ msgstr ""
 
-#: types/user.py:121
-msgid "Users: 'User IDs (numeric) / Usernames (starts with @) / Mentions (links to users)'"
-msgstr "用户：'用户 ID（数字）/用户名（以 @ 开头）/提及（链接到用户）'"
+#~ msgid "✨ Beta AI"
+#~ msgstr "✨ 测试版 AI"
 
-#: types/user.py:128
-msgid "User ID"
-msgstr "用户 ID"
+#~ msgid "📖 Wiki page"
+#~ msgstr "📖 Wiki 页面"
 
-#: types/user.py:129
-msgid "Username"
-msgstr "用户名"
+#~ msgid ""
+#~ "Controls the current Sophie mode.\n"
+#~ "Please note that Beta mode can have bugs and issues. If you encounter any problems please report it to the support chat."
+#~ msgstr ""
+#~ "控制当前的 Sophie 模式。\n"
+#~ "请注意，Beta 模式可能存在错误和问题。如果您遇到任何问题，请向支持聊天报告。"
 
-#: types/user.py:133
-msgid "A link to user, usually creates by mentioning a user without username."
-msgstr "用户的链接，通常通过提及用户而不带用户名来创建。"
+#~ msgid "🗒 Reply with a note"
+#~ msgstr ""
 

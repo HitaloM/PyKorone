@@ -2,12 +2,14 @@ from datetime import datetime
 from types import ModuleType
 from typing import Any
 
+from aiogram import flags
 from aiogram.handlers import BaseHandler
 from aiogram.types import BufferedInputFile, Message
 from ujson import dumps
 
 from sophie_bot.middlewares.connections import ChatConnection
 from sophie_bot.utils.i18n import gettext as _
+from sophie_bot.utils.i18n import lazy_gettext as l_
 
 VERSION = 6
 
@@ -18,6 +20,7 @@ def text_to_buffered_file(text: str, filename: str = "data.txt") -> BufferedInpu
     return BufferedInputFile(text.encode(), filename=filename)
 
 
+@flags.help(description=l_("Exports your data to a JSON file"))
 class TriggerExport(BaseHandler[Message]):
     @staticmethod
     async def get_data(chat_id: int) -> list[dict[str, Any]]:

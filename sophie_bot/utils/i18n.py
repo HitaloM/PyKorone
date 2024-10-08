@@ -1,7 +1,7 @@
 from dataclasses import dataclass
 from pathlib import Path
 from re import compile
-from typing import Any, Optional
+from typing import Any, Callable, Optional
 
 from aiogram.utils.i18n import I18n
 from babel.core import Locale
@@ -41,6 +41,9 @@ class I18nNew(I18n):
             self.stats[locale] = self.parse_stats(locale)
             if not self.stats[locale]:
                 log.warning(f"Can't parse stats for locale {locale}!")
+
+        # add en
+        self.babels["en"] = self.babel("en_US")
 
     def parse_stats(self, locale_code: str) -> Optional[LocaleStats]:
         # Load a file
@@ -98,12 +101,14 @@ def gettext(*args: Any, **kwargs: Any) -> str:
 
 
 class LazyProxy:
-    def __init__(self, *args, **kwargs):
-        self.args = args
+    def __init__(self, *items: str | Callable, **kwargs):
+        self.items = items
         self.kwargs = kwargs
 
     def _i18n(self):
-        return gettext(*self.args, **self.kwargs)
+        if callable(self.items[0]):
+            return str(self.items[0](**self.kwargs))
+        return gettext(*self.items, **self.kwargs)
 
     def __str__(self):
         return self._i18n()

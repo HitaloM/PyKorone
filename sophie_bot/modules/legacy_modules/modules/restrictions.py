@@ -452,34 +452,34 @@ async def filter_handle_kick(message: Message, chat, data, strings=None):
 
 
 __filters__ = {
+    "kick_user": {
+        "title": l_("🚪 Kick"),
+        "handle": filter_handle_kick,
+    },
     "ban_user": {
-        "title": {"module": "restrictions", "string": "filter_title_ban"},
+        "title": l_("🚷 Ban"),
         "setup": {"start": customise_reason_start, "finish": customise_reason_finish},
         "handle": filter_handle_ban,
     },
-    "mute_user": {
-        "title": {"module": "restrictions", "string": "filter_title_mute"},
-        "setup": {"start": customise_reason_start, "finish": customise_reason_finish},
-        "handle": filter_handle_mute,
-    },
-    "tmute_user": {
-        "title": {"module": "restrictions", "string": "filter_title_tmute"},
-        "handle": filter_handle_tmute,
-        "setup": [
-            {"start": time_setup_start, "finish": time_setup_finish},
-            {"start": customise_reason_start, "finish": customise_reason_finish},
-        ],
-    },
     "tban_user": {
-        "title": {"module": "restrictions", "string": "filter_title_tban"},
+        "title": l_("⏳🚷 Temporary ban"),
         "handle": filter_handle_tban,
         "setup": [
             {"start": time_setup_start, "finish": time_setup_finish},
             {"start": customise_reason_start, "finish": customise_reason_finish},
         ],
     },
-    "kick_user": {
-        "title": {"module": "restrictions", "string": "filter_title_kick"},
-        "handle": filter_handle_kick,
+    "mute_user": {
+        "title": l_("🔕 Mute"),
+        "setup": {"start": customise_reason_start, "finish": customise_reason_finish},
+        "handle": filter_handle_mute,
+    },
+    "tmute_user": {
+        "title": l_("⏳🔕 Temporary mute"),
+        "handle": filter_handle_tmute,
+        "setup": [
+            {"start": time_setup_start, "finish": time_setup_finish},
+            {"start": customise_reason_start, "finish": customise_reason_finish},
+        ],
     },
 }

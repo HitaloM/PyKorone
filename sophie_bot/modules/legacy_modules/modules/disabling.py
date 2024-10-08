@@ -27,7 +27,7 @@ router = Router(name="disabling")
 async def list_disablable(message: Message, strings):
     text = strings["disablable"]
     for command in DISABLABLE_COMMANDS:
-        text += f"* <code>/{command}</code>\n"
+        text += f"  - <code>/{command}</code>\n"
     await message.reply(text)
 
 
@@ -44,7 +44,7 @@ async def list_disabled(message: Message, chat, strings):
 
     commands = disabled["cmds"]
     for command in commands:
-        text += f"* <code>/{command}</code>\n"
+        text += f"  - <code>/{command}</code>\n"
     await message.reply(text)
 
 

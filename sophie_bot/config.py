@@ -79,6 +79,7 @@ class Config(BaseSettings):
 
     openai_key: str
     ai_emoji: str = "✨"
+    ai_autotrans_lowmem: bool = False
 
     class Config:
         env_file = "data/config.env"

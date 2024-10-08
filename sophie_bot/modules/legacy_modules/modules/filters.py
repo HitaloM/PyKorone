@@ -35,6 +35,7 @@ from aiogram.types import (
     InlineKeyboardMarkup,
     Message,
 )
+from aiogram.utils.keyboard import InlineKeyboardBuilder
 from ass_tg.types import TextArg
 from async_timeout import timeout
 from bson.objectid import ObjectId
@@ -56,11 +57,14 @@ from sophie_bot.modules.legacy_modules.utils.user_details import (
 )
 from sophie_bot.services.db import db
 from sophie_bot.services.redis import redis
+from sophie_bot.utils.i18n import gettext as _
 from sophie_bot.utils.i18n import lazy_gettext as l_
 from sophie_bot.utils.logger import log
 
 __module_name__ = l_("Filters")
 __module_emoji__ = "🪄"
+
+from stfu_tg import Code, KeyValue, Section, Template, VList
 
 router = Router(name="filters")
 
@@ -178,7 +182,8 @@ async def add_handler(message: Message, chat, strings):
 
     text = strings["adding_filter"].format(handler=handler, chat_name=chat["chat_title"])
 
-    buttons = InlineKeyboardMarkup(inline_keyboard=[])
+    buttons = InlineKeyboardBuilder()
+    buttons.max_width = 2
     for action in FILTERS_ACTIONS.items():
         filter_id = action[0]
         data = action[1]
@@ -188,23 +193,19 @@ async def add_handler(message: Message, chat, strings):
         else:
             btn_text = str(data["title"])
 
-        buttons.inline_keyboard.append(
-            [
-                InlineKeyboardButton(
-                    text=btn_text,
-                    callback_data=FilterActionCb(filter_id=filter_id).pack(),
-                )
-            ]
+        buttons.add(
+            InlineKeyboardButton(
+                text=btn_text,
+                callback_data=FilterActionCb(filter_id=filter_id).pack(),
+            )
         )
-    buttons.inline_keyboard.append(
-        [InlineKeyboardButton(text=strings["cancel_btn"], callback_data="btn_deletemsg:123")]
-    )
+    buttons.row(InlineKeyboardButton(text=_("❌ Cancel"), callback_data="btn_deletemsg:123"))
 
     user_id = message.from_user.id
     chat_id = chat["chat_id"]
     redis.set(f"add_filter:{user_id}:{chat_id}", handler)
     if handler is not None:
-        await message.reply(text, reply_markup=buttons)
+        await message.reply(text, reply_markup=buttons.as_markup())
 
 
 async def save_filter(message: Message, data, strings):
@@ -296,18 +297,18 @@ async def setup_end(message: Message, chat, strings, state: FSMContext, **kwargs
 @chat_connection(only_groups=True)
 @get_strings_dec("filters")
 async def list_filters(message: Message, chat, strings):
-    text = strings["list_filters"].format(chat_name=chat["chat_title"])
+    filters_list = VList()
+    async for filter_item in db.filters.find({"chat_id": chat["chat_id"]}):
+        action_title = str(FILTERS_ACTIONS[filter_item["action"]]["title"])
+        filters_list += KeyValue(Code(filter_item["handler"]), action_title, title_bold=False)
 
-    filters = db.filters.find({"chat_id": chat["chat_id"]})
-    filters_text = ""
-    async for filter in filters:
-        filters_text += f"- {filter['handler']}: {filter['action']}\n"
-
-    if not filters_text:
+    if not filters_list:
         await message.reply(strings["no_filters_found"].format(chat_name=chat["chat_title"]))
         return
 
-    await message.reply(text + filters_text)
+    await message.reply(
+        str(Section(filters_list, title=Template(_("Filters in {chat_name}"), chat_name=chat["chat_title"])))
+    )
 
 
 @register(router, cmds="delfilter", is_admin=True)
@@ -413,6 +414,8 @@ async def __before_serving__(loop):
         log.debug(f"Adding filter action from {module_name} module")
         for data in module.__filters__.items():
             FILTERS_ACTIONS[data[0]] = data[1]
+
+    log.debug("Filters actions", actions=FILTERS_ACTIONS)
 
 
 async def __export__(chat_id):

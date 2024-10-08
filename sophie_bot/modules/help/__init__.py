@@ -20,6 +20,7 @@ router = Router(name="info")
 __module_name__ = l_("Help")
 __module_emoji__ = "ℹ️"
 __module_description__ = l_("Provides helpful information")
+__exclude_public__ = True
 
 
 def __pre_setup__():

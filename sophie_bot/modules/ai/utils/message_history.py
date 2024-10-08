@@ -4,6 +4,7 @@ from typing import BinaryIO, Optional
 
 from aiogram.types import Message
 from openai.types.chat import (
+    ChatCompletionAssistantMessageParam,
     ChatCompletionContentPartImageParam,
     ChatCompletionContentPartParam,
     ChatCompletionContentPartTextParam,
@@ -15,14 +16,11 @@ from openai.types.chat.chat_completion_content_part_image_param import ImageURL
 
 from sophie_bot import CONFIG, bot
 from sophie_bot.db.models import ChatModel
-from sophie_bot.modules.ai.middlewares.cache_messages import (
-    CacheMessagesMiddleware,
-    MessageType,
-)
+from sophie_bot.modules.ai.utils.cache_messages import MessageType, get_cached_messages
 from sophie_bot.modules.ai.utils.self_reply import cut_titlebar, is_ai_message
-from sophie_bot.services.redis import aredis
 from sophie_bot.utils.exception import SophieException
 from sophie_bot.utils.i18n import gettext as _
+from sophie_bot.utils.logger import log
 
 
 class MessageHistory(list[ChatCompletionMessageParam]):
@@ -31,17 +29,17 @@ class MessageHistory(list[ChatCompletionMessageParam]):
         allowed_chars = set("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_-")
         return "".join(char for char in name if char in allowed_chars) or "Unknown"
 
-    async def _cache_transform_msg(self, msg: MessageType) -> ChatCompletionUserMessageParam:
+    async def _cache_transform_msg(
+        self, msg: MessageType
+    ) -> ChatCompletionUserMessageParam | ChatCompletionAssistantMessageParam:
         user = await ChatModel.get_by_chat_id(msg.user_id)
         first_name = user.first_name_or_title if user else "Unknown"
-        return ChatCompletionUserMessageParam(role="user", content=msg.text, name=self._sanitize_name(first_name))
 
-    @staticmethod
-    async def _cache_retrieve_msgs(chat_id: int) -> tuple[MessageType, ...]:
-        return tuple(
-            MessageType.model_validate_json(raw_msg)
-            for raw_msg in await aredis.lrange(CacheMessagesMiddleware.get_key(chat_id), 0, -1)  # type: ignore[misc]
-        )
+        if msg.user_id == CONFIG.bot_id:
+            text = cut_titlebar(msg.text)
+            return ChatCompletionAssistantMessageParam(role="assistant", content=text, name="Sophie")
+
+        return ChatCompletionUserMessageParam(role="user", content=msg.text, name=self._sanitize_name(first_name))
 
     def add_system_msg(self, additional: str = ""):
         system_message = "\n".join(
@@ -54,7 +52,7 @@ class MessageHistory(list[ChatCompletionMessageParam]):
         self.append(ChatCompletionSystemMessageParam(content=system_message + additional, role="system"))
 
     async def add_from_cache(self, chat_id: int):
-        self.extend(await gather(*[self._cache_transform_msg(msg) for msg in await self._cache_retrieve_msgs(chat_id)]))
+        self.extend(await gather(*[self._cache_transform_msg(msg) for msg in await get_cached_messages(chat_id)]))
 
     async def add_from_message(
         self,
@@ -129,4 +127,5 @@ class MessageHistory(list[ChatCompletionMessageParam]):
 
         await messages.add_from_message(message, reply_to_user=reply_to_user, custom_user_text=custom_user_text)
 
+        log.debug("MessageHistory: chatbot", messages=messages)
         return messages
