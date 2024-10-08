@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "sophie_bot"
-version = "3.2.0"
+version = "3.2.2"
 description = "Sophie is modern and fast Telegram chat manager bot"
 authors = ["Yacha <yacha@orangefox.tech>"]
 
@@ -37,7 +37,7 @@ better-exceptions = "^0.3.3"
 openai = "^1"
 
 [tool.poetry.group.dev.dependencies]
-Nuitka = "2.3.4"
+Nuitka = "^2"
 pycln = "^2.1"
 bandit = "^1.7"
 flake8 = "~7"
@@ -46,11 +46,11 @@ yapf = "~0.40"
 devtools = { extras = ["pygments"], version = "~0.12" }
 pytest = "^8"
 pyright = "^1.1.274"
-black = "~23"
-mypy = "1.10.1"
+black = "~24"
+mypy = "^1.11"
 types-ujson = "^5.10.0.20240515"
 types-pytz = "^2024.1.0.20240417"
-pytest-asyncio = "^0.23"
+pytest-asyncio = "^0.24"
 
 [tool.poetry.extras]
 fast = ["aiohttp", "cryptg", "cryptography"]
