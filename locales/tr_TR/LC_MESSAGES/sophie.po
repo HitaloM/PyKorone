@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version:  sophiebot\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-10-08 13:31+0000\n"
+"POT-Creation-Date: 2024-10-08 13:46+0000\n"
 "PO-Revision-Date: 2024-10-06 20:35+0000\n"
 "Last-Translator: \n"
 "Language: tr_TR\n"
@@ -156,10 +156,10 @@ msgid "Use '{cmd}' to change it."
 msgstr "'{cmd}' kullanarak bunu değiştirin."
 
 #: sophie_bot/modules/ai/handlers/enable.py:51
-#: sophie_bot/modules/legacy_modules/modules/antiflood.py:248
+#: sophie_bot/modules/legacy_modules/modules/antiflood.py:250
 #: sophie_bot/modules/legacy_modules/modules/connection.py:184
-#: sophie_bot/modules/legacy_modules/modules/notes.py:532
-#: sophie_bot/modules/legacy_modules/modules/notes.py:571
+#: sophie_bot/modules/legacy_modules/modules/notes.py:534
+#: sophie_bot/modules/legacy_modules/modules/notes.py:573
 msgid "New state"
 msgstr "Yeni durum"
 
@@ -221,35 +221,35 @@ msgstr "AI kullanarak, botun {privacy_policy} ve kullanılan üçüncü taraf AI
 msgid "Click on the button below to exit."
 msgstr "Çıkmak için aşağıdaki düğmeye tıklayın."
 
-#: sophie_bot/modules/ai/handlers/pm.py:55
+#: sophie_bot/modules/ai/handlers/pm.py:57
 msgid "Hello! How can I help you?"
 msgstr "Merhaba! Size nasıl yardımcı olabilirim?"
 
-#: sophie_bot/modules/ai/handlers/pm.py:66
+#: sophie_bot/modules/ai/handlers/pm.py:68
 msgid "The AI mode has been exited."
 msgstr "AI modu kapatıldı."
 
-#: sophie_bot/modules/ai/utils/message_history.py:48
+#: sophie_bot/modules/ai/utils/message_history.py:49
 msgid "You're a Telegram Bot named Sophie."
 msgstr "Telegram'da Sophie adında bir botsun."
 
-#: sophie_bot/modules/ai/utils/message_history.py:49
+#: sophie_bot/modules/ai/utils/message_history.py:50
 msgid "Respond concisely, be friendly, stick to the current topic."
 msgstr "Kısa ve dostça cevap ver, mevcut konuya sadık kal."
 
-#: sophie_bot/modules/ai/utils/message_history.py:50
+#: sophie_bot/modules/ai/utils/message_history.py:51
 msgid "Do not use markdown or html. You can use emojis."
 msgstr "Markdown veya html kullanmayın. Emojileri kullanabilirsiniz."
 
-#: sophie_bot/modules/ai/utils/message_history.py:71
+#: sophie_bot/modules/ai/utils/message_history.py:73
 msgid "<No text provided>"
 msgstr "<No text provided>"
 
-#: sophie_bot/modules/ai/utils/message_history.py:80
+#: sophie_bot/modules/ai/utils/message_history.py:82
 msgid "MESSAGE REPLIES TO PREVIOUS MESSAGE FROM"
 msgstr "MESAJ, ŞU ANDAN ÖNCE GÖNDERİLEN MESAJA CEVAP VERİYOR"
 
-#: sophie_bot/modules/ai/utils/message_history.py:91
+#: sophie_bot/modules/ai/utils/message_history.py:93
 msgid "Photo is empty"
 msgstr "Fotoğraf boş"
 
@@ -609,15 +609,15 @@ msgstr "Bu sohbet için antiflood limitini ayarlayın."
 msgid "Number of messages"
 msgstr "Mesaj sayısı"
 
-#: sophie_bot/modules/legacy_modules/modules/antiflood.py:248
+#: sophie_bot/modules/legacy_modules/modules/antiflood.py:250
 msgid "Controls the antiflood state."
 msgstr "Antiflood durumunu kontrol eder."
 
-#: sophie_bot/modules/legacy_modules/modules/antiflood.py:277
+#: sophie_bot/modules/legacy_modules/modules/antiflood.py:279
 msgid "Sets the antiflood action."
 msgstr "Flood önleme eylemini ayarlar."
 
-#: sophie_bot/modules/legacy_modules/modules/antiflood.py:277
+#: sophie_bot/modules/legacy_modules/modules/antiflood.py:279
 msgid "New action"
 msgstr "Yeni eylem"
 
@@ -770,23 +770,23 @@ msgstr "Kullanıcıyı Federasyondan yasaktan çıkarır."
 msgid "Deletes the federation."
 msgstr "Federasyonu siler."
 
-#: sophie_bot/modules/legacy_modules/modules/feds.py:927
+#: sophie_bot/modules/legacy_modules/modules/feds.py:929
 msgid "Renames the federation."
 msgstr "Federasyonu yeniden adlandırır."
 
-#: sophie_bot/modules/legacy_modules/modules/feds.py:927
+#: sophie_bot/modules/legacy_modules/modules/feds.py:929
 msgid "New name"
 msgstr "Yeni ad"
 
-#: sophie_bot/modules/legacy_modules/modules/feds.py:955
+#: sophie_bot/modules/legacy_modules/modules/feds.py:957
 msgid "Exports the list of bans."
 msgstr "Yasakların listesini dışa aktarır."
 
-#: sophie_bot/modules/legacy_modules/modules/feds.py:1004
+#: sophie_bot/modules/legacy_modules/modules/feds.py:1006
 msgid "Imports the list of bans."
 msgstr "Yasakların listesini içe aktarır."
 
-#: sophie_bot/modules/legacy_modules/modules/feds.py:1134
+#: sophie_bot/modules/legacy_modules/modules/feds.py:1136
 msgid "Checks the user ban status (can be used to check yourself)."
 msgstr "Kullanıcı yasak durumunu kontrol eder (kendi durumunuzu kontrol etmek için kullanılabilir)."
 
@@ -799,19 +799,19 @@ msgid "Adds a new filter."
 msgstr "Yeni bir filtre ekler."
 
 #: sophie_bot/modules/legacy_modules/modules/filters.py:157
-#: sophie_bot/modules/legacy_modules/modules/filters.py:312
+#: sophie_bot/modules/legacy_modules/modules/filters.py:314
 msgid "Trigger"
 msgstr "Tetikleyici"
 
-#: sophie_bot/modules/legacy_modules/modules/filters.py:293
+#: sophie_bot/modules/legacy_modules/modules/filters.py:295
 msgid "Shows the list of filters."
 msgstr "Filtrelerin listesini gösterir."
 
-#: sophie_bot/modules/legacy_modules/modules/filters.py:312
+#: sophie_bot/modules/legacy_modules/modules/filters.py:314
 msgid "Removes the filter."
 msgstr "Filtreyi kaldırır."
 
-#: sophie_bot/modules/legacy_modules/modules/filters.py:363
+#: sophie_bot/modules/legacy_modules/modules/filters.py:369
 msgid "Removes all the filters in the chat."
 msgstr "Sohbetteki tüm filtreleri kaldırır."
 
@@ -860,11 +860,11 @@ msgstr "Zaman"
 msgid "Controls the welcome captcha"
 msgstr "Karşılama captcha'sını kontrol eder"
 
-#: sophie_bot/modules/legacy_modules/modules/greetings.py:499
+#: sophie_bot/modules/legacy_modules/modules/greetings.py:501
 msgid "Sets the specific message for the captcha initiation process"
 msgstr "Captcha başlatma süreci için özel mesajı ayarlar"
 
-#: sophie_bot/modules/legacy_modules/modules/greetings.py:537
+#: sophie_bot/modules/legacy_modules/modules/greetings.py:539
 msgid "Resets the captcha initiation process message"
 msgstr "Captcha başlatma süreci mesajını sıfırlar"
 
@@ -876,11 +876,11 @@ msgstr "Dil"
 msgid "Asks for the new language for the chat."
 msgstr "Sohbet için yeni dili sorar."
 
-#: sophie_bot/modules/legacy_modules/modules/language.py:114
+#: sophie_bot/modules/legacy_modules/modules/language.py:118
 msgid "Sets the new language for the chat"
 msgstr "Sohbet için yeni dili ayarlar"
 
-#: sophie_bot/modules/legacy_modules/modules/language.py:114
+#: sophie_bot/modules/legacy_modules/modules/language.py:118
 msgid "New language"
 msgstr "Yeni dil"
 
@@ -895,7 +895,7 @@ msgstr "Notu kaydeder."
 
 #: sophie_bot/modules/legacy_modules/modules/notes.py:122
 #: sophie_bot/modules/legacy_modules/modules/notes.py:350
-#: sophie_bot/modules/legacy_modules/modules/notes.py:418
+#: sophie_bot/modules/legacy_modules/modules/notes.py:420
 #: sophie_bot/modules/notes/handlers/delete.py:15
 #: sophie_bot/modules/notes/handlers/get.py:15
 msgid "Note name"
@@ -923,15 +923,15 @@ msgstr "Notu sil"
 msgid "Deletes all the notes in the chat"
 msgstr "Sohbetteki tüm notları siler"
 
-#: sophie_bot/modules/legacy_modules/modules/notes.py:418
+#: sophie_bot/modules/legacy_modules/modules/notes.py:420
 msgid "Shows additional information about the note"
 msgstr "Not hakkında ek bilgi gösterir"
 
-#: sophie_bot/modules/legacy_modules/modules/notes.py:531
+#: sophie_bot/modules/legacy_modules/modules/notes.py:533
 msgid "Controls the feature, that would recommend users to use PM with bot to use notes"
 msgstr "Kullanıcıları notları kullanmak için bot ile özel mesaj kullanmaya yönlendiren özelliği kontrol eder"
 
-#: sophie_bot/modules/legacy_modules/modules/notes.py:571
+#: sophie_bot/modules/legacy_modules/modules/notes.py:573
 msgid "Controls the automatic clean-up for notes"
 msgstr "Notlar için otomatik temizleme işlemini kontrol eder"
 

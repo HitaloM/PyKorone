@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version:  sophiebot\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-10-08 13:31+0000\n"
+"POT-Creation-Date: 2024-10-08 13:46+0000\n"
 "PO-Revision-Date: 2024-10-06 20:35+0000\n"
 "Last-Translator: \n"
 "Language: cs_CZ\n"
@@ -156,10 +156,10 @@ msgid "Use '{cmd}' to change it."
 msgstr "Použijte '{cmd}' pro změnu."
 
 #: sophie_bot/modules/ai/handlers/enable.py:51
-#: sophie_bot/modules/legacy_modules/modules/antiflood.py:248
+#: sophie_bot/modules/legacy_modules/modules/antiflood.py:250
 #: sophie_bot/modules/legacy_modules/modules/connection.py:184
-#: sophie_bot/modules/legacy_modules/modules/notes.py:532
-#: sophie_bot/modules/legacy_modules/modules/notes.py:571
+#: sophie_bot/modules/legacy_modules/modules/notes.py:534
+#: sophie_bot/modules/legacy_modules/modules/notes.py:573
 msgid "New state"
 msgstr "Nový stav"
 
@@ -221,35 +221,35 @@ msgstr "Používáním AI souhlasíte s {privacy_policy} bota a službami AI tř
 msgid "Click on the button below to exit."
 msgstr "Klikněte na tlačítko níže pro odhlášení."
 
-#: sophie_bot/modules/ai/handlers/pm.py:55
+#: sophie_bot/modules/ai/handlers/pm.py:57
 msgid "Hello! How can I help you?"
 msgstr "Ahoj! Jak mohu pomoci?"
 
-#: sophie_bot/modules/ai/handlers/pm.py:66
+#: sophie_bot/modules/ai/handlers/pm.py:68
 msgid "The AI mode has been exited."
 msgstr "Režim AI byl ukončen."
 
-#: sophie_bot/modules/ai/utils/message_history.py:48
+#: sophie_bot/modules/ai/utils/message_history.py:49
 msgid "You're a Telegram Bot named Sophie."
 msgstr "Jsi Telegram bot jménem Sophie."
 
-#: sophie_bot/modules/ai/utils/message_history.py:49
+#: sophie_bot/modules/ai/utils/message_history.py:50
 msgid "Respond concisely, be friendly, stick to the current topic."
 msgstr "Reaguj stručně, buď přátelský, drž se aktuálního tématu."
 
-#: sophie_bot/modules/ai/utils/message_history.py:50
+#: sophie_bot/modules/ai/utils/message_history.py:51
 msgid "Do not use markdown or html. You can use emojis."
 msgstr "Nepoužívej markdown ani html. Můžeš používat emoji."
 
-#: sophie_bot/modules/ai/utils/message_history.py:71
+#: sophie_bot/modules/ai/utils/message_history.py:73
 msgid "<No text provided>"
 msgstr "<No text provided>"
 
-#: sophie_bot/modules/ai/utils/message_history.py:80
+#: sophie_bot/modules/ai/utils/message_history.py:82
 msgid "MESSAGE REPLIES TO PREVIOUS MESSAGE FROM"
 msgstr "ZPRÁVA ODPOVÍDÁ NA PŘEDCHOZÍ ZPRÁVU OD"
 
-#: sophie_bot/modules/ai/utils/message_history.py:91
+#: sophie_bot/modules/ai/utils/message_history.py:93
 msgid "Photo is empty"
 msgstr "Foto je prázdné"
 
@@ -609,15 +609,15 @@ msgstr "Nastavit limit antiflood pro tento chat."
 msgid "Number of messages"
 msgstr "Počet zpráv"
 
-#: sophie_bot/modules/legacy_modules/modules/antiflood.py:248
+#: sophie_bot/modules/legacy_modules/modules/antiflood.py:250
 msgid "Controls the antiflood state."
 msgstr "Ovládá stav antifloodu."
 
-#: sophie_bot/modules/legacy_modules/modules/antiflood.py:277
+#: sophie_bot/modules/legacy_modules/modules/antiflood.py:279
 msgid "Sets the antiflood action."
 msgstr "Nastaví akci proti povodním."
 
-#: sophie_bot/modules/legacy_modules/modules/antiflood.py:277
+#: sophie_bot/modules/legacy_modules/modules/antiflood.py:279
 msgid "New action"
 msgstr "Nová akce"
 
@@ -770,23 +770,23 @@ msgstr "Odblokuje uživatele z federace."
 msgid "Deletes the federation."
 msgstr "Smaže federaci."
 
-#: sophie_bot/modules/legacy_modules/modules/feds.py:927
+#: sophie_bot/modules/legacy_modules/modules/feds.py:929
 msgid "Renames the federation."
 msgstr "Přejmenuje federaci."
 
-#: sophie_bot/modules/legacy_modules/modules/feds.py:927
+#: sophie_bot/modules/legacy_modules/modules/feds.py:929
 msgid "New name"
 msgstr "Nové jméno"
 
-#: sophie_bot/modules/legacy_modules/modules/feds.py:955
+#: sophie_bot/modules/legacy_modules/modules/feds.py:957
 msgid "Exports the list of bans."
 msgstr "Exportuje seznam zákazů."
 
-#: sophie_bot/modules/legacy_modules/modules/feds.py:1004
+#: sophie_bot/modules/legacy_modules/modules/feds.py:1006
 msgid "Imports the list of bans."
 msgstr "Importuje seznam zákazů."
 
-#: sophie_bot/modules/legacy_modules/modules/feds.py:1134
+#: sophie_bot/modules/legacy_modules/modules/feds.py:1136
 msgid "Checks the user ban status (can be used to check yourself)."
 msgstr "Kontroluje stav zákazu uživatele (může se použít pro kontrolu sebe)."
 
@@ -799,19 +799,19 @@ msgid "Adds a new filter."
 msgstr "Přidá nový filtr."
 
 #: sophie_bot/modules/legacy_modules/modules/filters.py:157
-#: sophie_bot/modules/legacy_modules/modules/filters.py:312
+#: sophie_bot/modules/legacy_modules/modules/filters.py:314
 msgid "Trigger"
 msgstr "Spouštěč"
 
-#: sophie_bot/modules/legacy_modules/modules/filters.py:293
+#: sophie_bot/modules/legacy_modules/modules/filters.py:295
 msgid "Shows the list of filters."
 msgstr "Zobrazuje seznam filtrů."
 
-#: sophie_bot/modules/legacy_modules/modules/filters.py:312
+#: sophie_bot/modules/legacy_modules/modules/filters.py:314
 msgid "Removes the filter."
 msgstr "Odstraní filtr."
 
-#: sophie_bot/modules/legacy_modules/modules/filters.py:363
+#: sophie_bot/modules/legacy_modules/modules/filters.py:369
 msgid "Removes all the filters in the chat."
 msgstr "Odstraní všechny filtry v chatu."
 
@@ -860,11 +860,11 @@ msgstr "Čas"
 msgid "Controls the welcome captcha"
 msgstr "Ovládá captcha na uvítací obrazovce"
 
-#: sophie_bot/modules/legacy_modules/modules/greetings.py:499
+#: sophie_bot/modules/legacy_modules/modules/greetings.py:501
 msgid "Sets the specific message for the captcha initiation process"
 msgstr "Nastavuje specifickou zprávu pro proces iniciace captcha"
 
-#: sophie_bot/modules/legacy_modules/modules/greetings.py:537
+#: sophie_bot/modules/legacy_modules/modules/greetings.py:539
 msgid "Resets the captcha initiation process message"
 msgstr "Resetuje zprávu procesu iniciace captcha"
 
@@ -876,11 +876,11 @@ msgstr "Jazyk"
 msgid "Asks for the new language for the chat."
 msgstr "Ptá se na nový jazyk pro chat."
 
-#: sophie_bot/modules/legacy_modules/modules/language.py:114
+#: sophie_bot/modules/legacy_modules/modules/language.py:118
 msgid "Sets the new language for the chat"
 msgstr "Nastavuje novou jazykovou mutaci pro chat"
 
-#: sophie_bot/modules/legacy_modules/modules/language.py:114
+#: sophie_bot/modules/legacy_modules/modules/language.py:118
 msgid "New language"
 msgstr "Nový jazyk"
 
@@ -895,7 +895,7 @@ msgstr "Uloží poznámku."
 
 #: sophie_bot/modules/legacy_modules/modules/notes.py:122
 #: sophie_bot/modules/legacy_modules/modules/notes.py:350
-#: sophie_bot/modules/legacy_modules/modules/notes.py:418
+#: sophie_bot/modules/legacy_modules/modules/notes.py:420
 #: sophie_bot/modules/notes/handlers/delete.py:15
 #: sophie_bot/modules/notes/handlers/get.py:15
 msgid "Note name"
@@ -923,15 +923,15 @@ msgstr "Odstraní poznámku"
 msgid "Deletes all the notes in the chat"
 msgstr "Odstraní všechny poznámky v chatu"
 
-#: sophie_bot/modules/legacy_modules/modules/notes.py:418
+#: sophie_bot/modules/legacy_modules/modules/notes.py:420
 msgid "Shows additional information about the note"
 msgstr "Zobrazuje další informace o poznámce"
 
-#: sophie_bot/modules/legacy_modules/modules/notes.py:531
+#: sophie_bot/modules/legacy_modules/modules/notes.py:533
 msgid "Controls the feature, that would recommend users to use PM with bot to use notes"
 msgstr "Ovládá funkci, která doporučuje uživatelům používat soukromé zprávy s botem pro používání poznámek"
 
-#: sophie_bot/modules/legacy_modules/modules/notes.py:571
+#: sophie_bot/modules/legacy_modules/modules/notes.py:573
 msgid "Controls the automatic clean-up for notes"
 msgstr "Ovládá automatické odstranění poznámek"
 

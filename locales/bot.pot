@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-10-08 13:31+0000\n"
+"POT-Creation-Date: 2024-10-08 13:46+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -159,10 +159,10 @@ msgid "Use '{cmd}' to change it."
 msgstr ""
 
 #: sophie_bot/modules/ai/handlers/enable.py:51
-#: sophie_bot/modules/legacy_modules/modules/antiflood.py:248
+#: sophie_bot/modules/legacy_modules/modules/antiflood.py:250
 #: sophie_bot/modules/legacy_modules/modules/connection.py:184
-#: sophie_bot/modules/legacy_modules/modules/notes.py:532
-#: sophie_bot/modules/legacy_modules/modules/notes.py:571
+#: sophie_bot/modules/legacy_modules/modules/notes.py:534
+#: sophie_bot/modules/legacy_modules/modules/notes.py:573
 msgid "New state"
 msgstr ""
 
@@ -224,35 +224,35 @@ msgstr ""
 msgid "Click on the button below to exit."
 msgstr ""
 
-#: sophie_bot/modules/ai/handlers/pm.py:55
+#: sophie_bot/modules/ai/handlers/pm.py:57
 msgid "Hello! How can I help you?"
 msgstr ""
 
-#: sophie_bot/modules/ai/handlers/pm.py:66
+#: sophie_bot/modules/ai/handlers/pm.py:68
 msgid "The AI mode has been exited."
 msgstr ""
 
-#: sophie_bot/modules/ai/utils/message_history.py:48
+#: sophie_bot/modules/ai/utils/message_history.py:49
 msgid "You're a Telegram Bot named Sophie."
 msgstr ""
 
-#: sophie_bot/modules/ai/utils/message_history.py:49
+#: sophie_bot/modules/ai/utils/message_history.py:50
 msgid "Respond concisely, be friendly, stick to the current topic."
 msgstr ""
 
-#: sophie_bot/modules/ai/utils/message_history.py:50
+#: sophie_bot/modules/ai/utils/message_history.py:51
 msgid "Do not use markdown or html. You can use emojis."
 msgstr ""
 
-#: sophie_bot/modules/ai/utils/message_history.py:71
+#: sophie_bot/modules/ai/utils/message_history.py:73
 msgid "<No text provided>"
 msgstr ""
 
-#: sophie_bot/modules/ai/utils/message_history.py:80
+#: sophie_bot/modules/ai/utils/message_history.py:82
 msgid "MESSAGE REPLIES TO PREVIOUS MESSAGE FROM"
 msgstr ""
 
-#: sophie_bot/modules/ai/utils/message_history.py:91
+#: sophie_bot/modules/ai/utils/message_history.py:93
 msgid "Photo is empty"
 msgstr ""
 
@@ -610,15 +610,15 @@ msgstr ""
 msgid "Number of messages"
 msgstr ""
 
-#: sophie_bot/modules/legacy_modules/modules/antiflood.py:248
+#: sophie_bot/modules/legacy_modules/modules/antiflood.py:250
 msgid "Controls the antiflood state."
 msgstr ""
 
-#: sophie_bot/modules/legacy_modules/modules/antiflood.py:277
+#: sophie_bot/modules/legacy_modules/modules/antiflood.py:279
 msgid "Sets the antiflood action."
 msgstr ""
 
-#: sophie_bot/modules/legacy_modules/modules/antiflood.py:277
+#: sophie_bot/modules/legacy_modules/modules/antiflood.py:279
 msgid "New action"
 msgstr ""
 
@@ -771,23 +771,23 @@ msgstr ""
 msgid "Deletes the federation."
 msgstr ""
 
-#: sophie_bot/modules/legacy_modules/modules/feds.py:927
+#: sophie_bot/modules/legacy_modules/modules/feds.py:929
 msgid "Renames the federation."
 msgstr ""
 
-#: sophie_bot/modules/legacy_modules/modules/feds.py:927
+#: sophie_bot/modules/legacy_modules/modules/feds.py:929
 msgid "New name"
 msgstr ""
 
-#: sophie_bot/modules/legacy_modules/modules/feds.py:955
+#: sophie_bot/modules/legacy_modules/modules/feds.py:957
 msgid "Exports the list of bans."
 msgstr ""
 
-#: sophie_bot/modules/legacy_modules/modules/feds.py:1004
+#: sophie_bot/modules/legacy_modules/modules/feds.py:1006
 msgid "Imports the list of bans."
 msgstr ""
 
-#: sophie_bot/modules/legacy_modules/modules/feds.py:1134
+#: sophie_bot/modules/legacy_modules/modules/feds.py:1136
 msgid "Checks the user ban status (can be used to check yourself)."
 msgstr ""
 
@@ -800,19 +800,19 @@ msgid "Adds a new filter."
 msgstr ""
 
 #: sophie_bot/modules/legacy_modules/modules/filters.py:157
-#: sophie_bot/modules/legacy_modules/modules/filters.py:312
+#: sophie_bot/modules/legacy_modules/modules/filters.py:314
 msgid "Trigger"
 msgstr ""
 
-#: sophie_bot/modules/legacy_modules/modules/filters.py:293
+#: sophie_bot/modules/legacy_modules/modules/filters.py:295
 msgid "Shows the list of filters."
 msgstr ""
 
-#: sophie_bot/modules/legacy_modules/modules/filters.py:312
+#: sophie_bot/modules/legacy_modules/modules/filters.py:314
 msgid "Removes the filter."
 msgstr ""
 
-#: sophie_bot/modules/legacy_modules/modules/filters.py:363
+#: sophie_bot/modules/legacy_modules/modules/filters.py:369
 msgid "Removes all the filters in the chat."
 msgstr ""
 
@@ -861,11 +861,11 @@ msgstr ""
 msgid "Controls the welcome captcha"
 msgstr ""
 
-#: sophie_bot/modules/legacy_modules/modules/greetings.py:499
+#: sophie_bot/modules/legacy_modules/modules/greetings.py:501
 msgid "Sets the specific message for the captcha initiation process"
 msgstr ""
 
-#: sophie_bot/modules/legacy_modules/modules/greetings.py:537
+#: sophie_bot/modules/legacy_modules/modules/greetings.py:539
 msgid "Resets the captcha initiation process message"
 msgstr ""
 
@@ -877,11 +877,11 @@ msgstr ""
 msgid "Asks for the new language for the chat."
 msgstr ""
 
-#: sophie_bot/modules/legacy_modules/modules/language.py:114
+#: sophie_bot/modules/legacy_modules/modules/language.py:118
 msgid "Sets the new language for the chat"
 msgstr ""
 
-#: sophie_bot/modules/legacy_modules/modules/language.py:114
+#: sophie_bot/modules/legacy_modules/modules/language.py:118
 msgid "New language"
 msgstr ""
 
@@ -896,7 +896,7 @@ msgstr ""
 
 #: sophie_bot/modules/legacy_modules/modules/notes.py:122
 #: sophie_bot/modules/legacy_modules/modules/notes.py:350
-#: sophie_bot/modules/legacy_modules/modules/notes.py:418
+#: sophie_bot/modules/legacy_modules/modules/notes.py:420
 #: sophie_bot/modules/notes/handlers/delete.py:15
 #: sophie_bot/modules/notes/handlers/get.py:15
 msgid "Note name"
@@ -924,15 +924,15 @@ msgstr ""
 msgid "Deletes all the notes in the chat"
 msgstr ""
 
-#: sophie_bot/modules/legacy_modules/modules/notes.py:418
+#: sophie_bot/modules/legacy_modules/modules/notes.py:420
 msgid "Shows additional information about the note"
 msgstr ""
 
-#: sophie_bot/modules/legacy_modules/modules/notes.py:531
+#: sophie_bot/modules/legacy_modules/modules/notes.py:533
 msgid "Controls the feature, that would recommend users to use PM with bot to use notes"
 msgstr ""
 
-#: sophie_bot/modules/legacy_modules/modules/notes.py:571
+#: sophie_bot/modules/legacy_modules/modules/notes.py:573
 msgid "Controls the automatic clean-up for notes"
 msgstr ""
 

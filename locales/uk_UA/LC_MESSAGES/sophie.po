@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version:  sophiebot\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-10-08 13:31+0000\n"
+"POT-Creation-Date: 2024-10-08 13:46+0000\n"
 "PO-Revision-Date: 2024-10-06 20:35+0000\n"
 "Last-Translator: \n"
 "Language: uk_UA\n"
@@ -156,10 +156,10 @@ msgid "Use '{cmd}' to change it."
 msgstr "Використовуйте '{cmd}', щоб змінити це."
 
 #: sophie_bot/modules/ai/handlers/enable.py:51
-#: sophie_bot/modules/legacy_modules/modules/antiflood.py:248
+#: sophie_bot/modules/legacy_modules/modules/antiflood.py:250
 #: sophie_bot/modules/legacy_modules/modules/connection.py:184
-#: sophie_bot/modules/legacy_modules/modules/notes.py:532
-#: sophie_bot/modules/legacy_modules/modules/notes.py:571
+#: sophie_bot/modules/legacy_modules/modules/notes.py:534
+#: sophie_bot/modules/legacy_modules/modules/notes.py:573
 msgid "New state"
 msgstr "Новий стан"
 
@@ -221,35 +221,35 @@ msgstr "Використовуючи AI, ви погоджуєтеся з {priva
 msgid "Click on the button below to exit."
 msgstr "Натисніть кнопку нижче, щоб вийти."
 
-#: sophie_bot/modules/ai/handlers/pm.py:55
+#: sophie_bot/modules/ai/handlers/pm.py:57
 msgid "Hello! How can I help you?"
 msgstr "Привіт! Як я можу допомогти вам?"
 
-#: sophie_bot/modules/ai/handlers/pm.py:66
+#: sophie_bot/modules/ai/handlers/pm.py:68
 msgid "The AI mode has been exited."
 msgstr "Режим AI був закритий."
 
-#: sophie_bot/modules/ai/utils/message_history.py:48
+#: sophie_bot/modules/ai/utils/message_history.py:49
 msgid "You're a Telegram Bot named Sophie."
 msgstr "Ви — це бот Telegram на ім'я Софі."
 
-#: sophie_bot/modules/ai/utils/message_history.py:49
+#: sophie_bot/modules/ai/utils/message_history.py:50
 msgid "Respond concisely, be friendly, stick to the current topic."
 msgstr "Відповідайте лаконічно, будьте дружніми, дотримуйтесь поточної теми."
 
-#: sophie_bot/modules/ai/utils/message_history.py:50
+#: sophie_bot/modules/ai/utils/message_history.py:51
 msgid "Do not use markdown or html. You can use emojis."
 msgstr "Не використовуйте markdown або html. Ви можете використовувати емодзі."
 
-#: sophie_bot/modules/ai/utils/message_history.py:71
+#: sophie_bot/modules/ai/utils/message_history.py:73
 msgid "<No text provided>"
 msgstr "<No text provided>"
 
-#: sophie_bot/modules/ai/utils/message_history.py:80
+#: sophie_bot/modules/ai/utils/message_history.py:82
 msgid "MESSAGE REPLIES TO PREVIOUS MESSAGE FROM"
 msgstr "ПОВІДОМЛЕННЯ ВІДПОВІДАЄ НА ПРЕДИ ДНЬ ВІД"
 
-#: sophie_bot/modules/ai/utils/message_history.py:91
+#: sophie_bot/modules/ai/utils/message_history.py:93
 msgid "Photo is empty"
 msgstr "Фотографія порожня"
 
@@ -609,15 +609,15 @@ msgstr "Встановіть обмеження антифлуду для цьо
 msgid "Number of messages"
 msgstr "Кількість повідомлень"
 
-#: sophie_bot/modules/legacy_modules/modules/antiflood.py:248
+#: sophie_bot/modules/legacy_modules/modules/antiflood.py:250
 msgid "Controls the antiflood state."
 msgstr "Керує станом антифлуду."
 
-#: sophie_bot/modules/legacy_modules/modules/antiflood.py:277
+#: sophie_bot/modules/legacy_modules/modules/antiflood.py:279
 msgid "Sets the antiflood action."
 msgstr "Встановлює дію антифлуду."
 
-#: sophie_bot/modules/legacy_modules/modules/antiflood.py:277
+#: sophie_bot/modules/legacy_modules/modules/antiflood.py:279
 msgid "New action"
 msgstr "Нова дія"
 
@@ -770,23 +770,23 @@ msgstr "Розблокує користувача з федерації."
 msgid "Deletes the federation."
 msgstr "Видаляє федерацію."
 
-#: sophie_bot/modules/legacy_modules/modules/feds.py:927
+#: sophie_bot/modules/legacy_modules/modules/feds.py:929
 msgid "Renames the federation."
 msgstr "Перейменовує федерацію."
 
-#: sophie_bot/modules/legacy_modules/modules/feds.py:927
+#: sophie_bot/modules/legacy_modules/modules/feds.py:929
 msgid "New name"
 msgstr "Нова назва"
 
-#: sophie_bot/modules/legacy_modules/modules/feds.py:955
+#: sophie_bot/modules/legacy_modules/modules/feds.py:957
 msgid "Exports the list of bans."
 msgstr "Експортує список заборон."
 
-#: sophie_bot/modules/legacy_modules/modules/feds.py:1004
+#: sophie_bot/modules/legacy_modules/modules/feds.py:1006
 msgid "Imports the list of bans."
 msgstr "Імпортує список заборон."
 
-#: sophie_bot/modules/legacy_modules/modules/feds.py:1134
+#: sophie_bot/modules/legacy_modules/modules/feds.py:1136
 msgid "Checks the user ban status (can be used to check yourself)."
 msgstr "Перевіряє статус заборони користувача (може бути використано, щоб перевірити себе)."
 
@@ -799,19 +799,19 @@ msgid "Adds a new filter."
 msgstr "Додає новий фільтр."
 
 #: sophie_bot/modules/legacy_modules/modules/filters.py:157
-#: sophie_bot/modules/legacy_modules/modules/filters.py:312
+#: sophie_bot/modules/legacy_modules/modules/filters.py:314
 msgid "Trigger"
 msgstr "Тригер"
 
-#: sophie_bot/modules/legacy_modules/modules/filters.py:293
+#: sophie_bot/modules/legacy_modules/modules/filters.py:295
 msgid "Shows the list of filters."
 msgstr "Показує список фільтрів."
 
-#: sophie_bot/modules/legacy_modules/modules/filters.py:312
+#: sophie_bot/modules/legacy_modules/modules/filters.py:314
 msgid "Removes the filter."
 msgstr "Видаляє фільтр."
 
-#: sophie_bot/modules/legacy_modules/modules/filters.py:363
+#: sophie_bot/modules/legacy_modules/modules/filters.py:369
 msgid "Removes all the filters in the chat."
 msgstr "Видаляє всі фільтри в чаті."
 
@@ -860,11 +860,11 @@ msgstr "Час"
 msgid "Controls the welcome captcha"
 msgstr "Контролює капчу привітання"
 
-#: sophie_bot/modules/legacy_modules/modules/greetings.py:499
+#: sophie_bot/modules/legacy_modules/modules/greetings.py:501
 msgid "Sets the specific message for the captcha initiation process"
 msgstr "Встановлює конкретне повідомлення для ініціації капчі"
 
-#: sophie_bot/modules/legacy_modules/modules/greetings.py:537
+#: sophie_bot/modules/legacy_modules/modules/greetings.py:539
 msgid "Resets the captcha initiation process message"
 msgstr "Скидає повідомлення ініціації капчі"
 
@@ -876,11 +876,11 @@ msgstr "Мова"
 msgid "Asks for the new language for the chat."
 msgstr "Запитує нову мову для чату."
 
-#: sophie_bot/modules/legacy_modules/modules/language.py:114
+#: sophie_bot/modules/legacy_modules/modules/language.py:118
 msgid "Sets the new language for the chat"
 msgstr "Встановлює нову мову для чату"
 
-#: sophie_bot/modules/legacy_modules/modules/language.py:114
+#: sophie_bot/modules/legacy_modules/modules/language.py:118
 msgid "New language"
 msgstr "Нова мова"
 
@@ -895,7 +895,7 @@ msgstr "Зберігає примітку."
 
 #: sophie_bot/modules/legacy_modules/modules/notes.py:122
 #: sophie_bot/modules/legacy_modules/modules/notes.py:350
-#: sophie_bot/modules/legacy_modules/modules/notes.py:418
+#: sophie_bot/modules/legacy_modules/modules/notes.py:420
 #: sophie_bot/modules/notes/handlers/delete.py:15
 #: sophie_bot/modules/notes/handlers/get.py:15
 msgid "Note name"
@@ -923,15 +923,15 @@ msgstr "Видаляє примітку"
 msgid "Deletes all the notes in the chat"
 msgstr "Видаляє всі примітки в чаті"
 
-#: sophie_bot/modules/legacy_modules/modules/notes.py:418
+#: sophie_bot/modules/legacy_modules/modules/notes.py:420
 msgid "Shows additional information about the note"
 msgstr "Показує додаткову інформацію про примітку"
 
-#: sophie_bot/modules/legacy_modules/modules/notes.py:531
+#: sophie_bot/modules/legacy_modules/modules/notes.py:533
 msgid "Controls the feature, that would recommend users to use PM with bot to use notes"
 msgstr "Контролює функцію, яка рекомендує користувачам використовувати PM з ботом для використання приміток"
 
-#: sophie_bot/modules/legacy_modules/modules/notes.py:571
+#: sophie_bot/modules/legacy_modules/modules/notes.py:573
 msgid "Controls the automatic clean-up for notes"
 msgstr "Контролює автоматичне очищення приміток"
 

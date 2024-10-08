@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version:  sophiebot\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-10-08 13:31+0000\n"
+"POT-Creation-Date: 2024-10-08 13:46+0000\n"
 "PO-Revision-Date: 2024-10-06 20:35+0000\n"
 "Last-Translator: \n"
 "Language: zh_CN\n"
@@ -156,10 +156,10 @@ msgid "Use '{cmd}' to change it."
 msgstr "使用 '{cmd}' 来更改它。"
 
 #: sophie_bot/modules/ai/handlers/enable.py:51
-#: sophie_bot/modules/legacy_modules/modules/antiflood.py:248
+#: sophie_bot/modules/legacy_modules/modules/antiflood.py:250
 #: sophie_bot/modules/legacy_modules/modules/connection.py:184
-#: sophie_bot/modules/legacy_modules/modules/notes.py:532
-#: sophie_bot/modules/legacy_modules/modules/notes.py:571
+#: sophie_bot/modules/legacy_modules/modules/notes.py:534
+#: sophie_bot/modules/legacy_modules/modules/notes.py:573
 msgid "New state"
 msgstr "新状态"
 
@@ -221,35 +221,35 @@ msgstr "使用 AI 代表您同意机器人的 {privacy_policy} 和使用的第�
 msgid "Click on the button below to exit."
 msgstr "点击下方按钮退出。"
 
-#: sophie_bot/modules/ai/handlers/pm.py:55
+#: sophie_bot/modules/ai/handlers/pm.py:57
 msgid "Hello! How can I help you?"
 msgstr "你好！我能帮你什么？"
 
-#: sophie_bot/modules/ai/handlers/pm.py:66
+#: sophie_bot/modules/ai/handlers/pm.py:68
 msgid "The AI mode has been exited."
 msgstr "AI 模式已经退出。"
 
-#: sophie_bot/modules/ai/utils/message_history.py:48
+#: sophie_bot/modules/ai/utils/message_history.py:49
 msgid "You're a Telegram Bot named Sophie."
 msgstr "您是一个名为Sophie的Telegram机器人。"
 
-#: sophie_bot/modules/ai/utils/message_history.py:49
+#: sophie_bot/modules/ai/utils/message_history.py:50
 msgid "Respond concisely, be friendly, stick to the current topic."
 msgstr "简明回答，保持友好，专注于当前主题。"
 
-#: sophie_bot/modules/ai/utils/message_history.py:50
+#: sophie_bot/modules/ai/utils/message_history.py:51
 msgid "Do not use markdown or html. You can use emojis."
 msgstr "请不要使用markdown或html。您可以使用emoji。"
 
-#: sophie_bot/modules/ai/utils/message_history.py:71
+#: sophie_bot/modules/ai/utils/message_history.py:73
 msgid "<No text provided>"
 msgstr "<未提供文本>"
 
-#: sophie_bot/modules/ai/utils/message_history.py:80
+#: sophie_bot/modules/ai/utils/message_history.py:82
 msgid "MESSAGE REPLIES TO PREVIOUS MESSAGE FROM"
 msgstr "消息回复来自先前的消息"
 
-#: sophie_bot/modules/ai/utils/message_history.py:91
+#: sophie_bot/modules/ai/utils/message_history.py:93
 msgid "Photo is empty"
 msgstr "照片为空"
 
@@ -609,15 +609,15 @@ msgstr "为此聊天设置防洪限制。"
 msgid "Number of messages"
 msgstr "消息数量"
 
-#: sophie_bot/modules/legacy_modules/modules/antiflood.py:248
+#: sophie_bot/modules/legacy_modules/modules/antiflood.py:250
 msgid "Controls the antiflood state."
 msgstr "控制防洪状态。"
 
-#: sophie_bot/modules/legacy_modules/modules/antiflood.py:277
+#: sophie_bot/modules/legacy_modules/modules/antiflood.py:279
 msgid "Sets the antiflood action."
 msgstr "设置防洪操作。"
 
-#: sophie_bot/modules/legacy_modules/modules/antiflood.py:277
+#: sophie_bot/modules/legacy_modules/modules/antiflood.py:279
 msgid "New action"
 msgstr "新操作"
 
@@ -770,23 +770,23 @@ msgstr "取消该用户在联盟中的禁令。"
 msgid "Deletes the federation."
 msgstr "删除联盟。"
 
-#: sophie_bot/modules/legacy_modules/modules/feds.py:927
+#: sophie_bot/modules/legacy_modules/modules/feds.py:929
 msgid "Renames the federation."
 msgstr "重命名联盟。"
 
-#: sophie_bot/modules/legacy_modules/modules/feds.py:927
+#: sophie_bot/modules/legacy_modules/modules/feds.py:929
 msgid "New name"
 msgstr "新名称"
 
-#: sophie_bot/modules/legacy_modules/modules/feds.py:955
+#: sophie_bot/modules/legacy_modules/modules/feds.py:957
 msgid "Exports the list of bans."
 msgstr "导出禁令列表。"
 
-#: sophie_bot/modules/legacy_modules/modules/feds.py:1004
+#: sophie_bot/modules/legacy_modules/modules/feds.py:1006
 msgid "Imports the list of bans."
 msgstr "导入禁令列表。"
 
-#: sophie_bot/modules/legacy_modules/modules/feds.py:1134
+#: sophie_bot/modules/legacy_modules/modules/feds.py:1136
 msgid "Checks the user ban status (can be used to check yourself)."
 msgstr "检查用户禁用状态（可以用来检查你自己）。"
 
@@ -799,19 +799,19 @@ msgid "Adds a new filter."
 msgstr "添加新过滤器。"
 
 #: sophie_bot/modules/legacy_modules/modules/filters.py:157
-#: sophie_bot/modules/legacy_modules/modules/filters.py:312
+#: sophie_bot/modules/legacy_modules/modules/filters.py:314
 msgid "Trigger"
 msgstr "触发器"
 
-#: sophie_bot/modules/legacy_modules/modules/filters.py:293
+#: sophie_bot/modules/legacy_modules/modules/filters.py:295
 msgid "Shows the list of filters."
 msgstr "显示过滤器列表。"
 
-#: sophie_bot/modules/legacy_modules/modules/filters.py:312
+#: sophie_bot/modules/legacy_modules/modules/filters.py:314
 msgid "Removes the filter."
 msgstr "移除过滤器。"
 
-#: sophie_bot/modules/legacy_modules/modules/filters.py:363
+#: sophie_bot/modules/legacy_modules/modules/filters.py:369
 msgid "Removes all the filters in the chat."
 msgstr "移除聊天中的所有过滤器。"
 
@@ -860,11 +860,11 @@ msgstr "时间"
 msgid "Controls the welcome captcha"
 msgstr "控制欢迎验证码"
 
-#: sophie_bot/modules/legacy_modules/modules/greetings.py:499
+#: sophie_bot/modules/legacy_modules/modules/greetings.py:501
 msgid "Sets the specific message for the captcha initiation process"
 msgstr "设置验证码启动过程的特定消息"
 
-#: sophie_bot/modules/legacy_modules/modules/greetings.py:537
+#: sophie_bot/modules/legacy_modules/modules/greetings.py:539
 msgid "Resets the captcha initiation process message"
 msgstr "重置验证码启动过程消息"
 
@@ -876,11 +876,11 @@ msgstr "语言"
 msgid "Asks for the new language for the chat."
 msgstr "询问聊天的新语言。"
 
-#: sophie_bot/modules/legacy_modules/modules/language.py:114
+#: sophie_bot/modules/legacy_modules/modules/language.py:118
 msgid "Sets the new language for the chat"
 msgstr "设置聊天的新语言"
 
-#: sophie_bot/modules/legacy_modules/modules/language.py:114
+#: sophie_bot/modules/legacy_modules/modules/language.py:118
 msgid "New language"
 msgstr "新语言"
 
@@ -895,7 +895,7 @@ msgstr "保存备注。"
 
 #: sophie_bot/modules/legacy_modules/modules/notes.py:122
 #: sophie_bot/modules/legacy_modules/modules/notes.py:350
-#: sophie_bot/modules/legacy_modules/modules/notes.py:418
+#: sophie_bot/modules/legacy_modules/modules/notes.py:420
 #: sophie_bot/modules/notes/handlers/delete.py:15
 #: sophie_bot/modules/notes/handlers/get.py:15
 msgid "Note name"
@@ -923,15 +923,15 @@ msgstr "删除备注"
 msgid "Deletes all the notes in the chat"
 msgstr "删除聊天中的所有备注"
 
-#: sophie_bot/modules/legacy_modules/modules/notes.py:418
+#: sophie_bot/modules/legacy_modules/modules/notes.py:420
 msgid "Shows additional information about the note"
 msgstr "显示有关备注的更多信息"
 
-#: sophie_bot/modules/legacy_modules/modules/notes.py:531
+#: sophie_bot/modules/legacy_modules/modules/notes.py:533
 msgid "Controls the feature, that would recommend users to use PM with bot to use notes"
 msgstr "控制建议用户使用 PM 与机器人使用备注的功能"
 
-#: sophie_bot/modules/legacy_modules/modules/notes.py:571
+#: sophie_bot/modules/legacy_modules/modules/notes.py:573
 msgid "Controls the automatic clean-up for notes"
 msgstr "控制备注的自动清理"
 
