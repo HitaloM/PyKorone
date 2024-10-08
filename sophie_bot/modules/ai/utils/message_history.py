@@ -44,11 +44,13 @@ class MessageHistory(list[ChatCompletionMessageParam]):
         )
 
     def add_system_msg(self, additional: str = ""):
-        system_message = "\n".join((
-            _("You're a Telegram Bot named Sophie."),
-            _("Respond concisely, be friendly, stick to the current topic."),
-            _("Do not use markdown or html. You can use emojis."),
-        ))
+        system_message = "\n".join(
+            (
+                _("You're a Telegram Bot named Sophie."),
+                _("Respond concisely, be friendly, stick to the current topic."),
+                _("Do not use markdown or html. You can use emojis."),
+            )
+        )
         self.append(ChatCompletionSystemMessageParam(content=system_message + additional, role="system"))
 
     async def add_from_cache(self, chat_id: int):
@@ -99,11 +101,13 @@ class MessageHistory(list[ChatCompletionMessageParam]):
                 )
             )
 
-        self.append({
-            "role": "assistant" if is_sophie else "user",
-            "content": content,
-            "name": user_name,
-        })  # type: ignore
+        self.append(
+            {  # type: ignore
+                "role": "assistant" if is_sophie else "user",
+                "content": content,
+                "name": user_name,
+            }
+        )
 
     @staticmethod
     async def chatbot(

@@ -61,12 +61,16 @@ async def select_lang_keyboard(message: Message, strings, edit=False):
 
     for lang in LANGUAGES.values():
         lang_info = lang["language_info"]
-        markup.inline_keyboard.append([
-            InlineKeyboardButton(
-                text=lang_info["flag"] + " " + lang_info["babel"].display_name,
-                callback_data=SelectLangCb(lang=lang_info["code"], back_btn=False if edit is False else True).pack(),
-            )
-        ])
+        markup.inline_keyboard.append(
+            [
+                InlineKeyboardButton(
+                    text=lang_info["flag"] + " " + lang_info["babel"].display_name,
+                    callback_data=SelectLangCb(
+                        lang=lang_info["code"], back_btn=False if edit is False else True
+                    ).pack(),
+                )
+            ]
+        )
 
     markup.inline_keyboard.append(
         [InlineKeyboardButton(text=strings["crowdin_btn"], url="https://crowdin.com/project/sophiebot")]

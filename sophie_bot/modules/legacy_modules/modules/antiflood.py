@@ -205,12 +205,14 @@ async def setflood_command(message: Message, chat: dict, strings: dict, state: F
     await message.reply(
         strings["config_proc_1"],
         reply_markup=InlineKeyboardMarkup(
-            inline_keyboard=[[
-                InlineKeyboardButton(
-                    text=strings["cancel"],
-                    callback_data=CancelCb(user_id=message.from_user.id).pack(),
-                )
-            ]]
+            inline_keyboard=[
+                [
+                    InlineKeyboardButton(
+                        text=strings["cancel"],
+                        callback_data=CancelCb(user_id=message.from_user.id).pack(),
+                    )
+                ]
+            ]
         ),
     )
 

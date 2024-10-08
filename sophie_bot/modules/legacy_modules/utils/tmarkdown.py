@@ -99,11 +99,13 @@ def parse(message, delimiters=None, url_re=None):
             if end != -1:
 
                 # Remove the delimiter from the string
-                message = "".join((
-                    message[:i],
-                    message[i + len(delim) : end],
-                    message[end + len(delim) :],
-                ))
+                message = "".join(
+                    (
+                        message[:i],
+                        message[i + len(delim) : end],
+                        message[end + len(delim) :],
+                    )
+                )
 
                 # Check other affected entities
                 for ent in result:

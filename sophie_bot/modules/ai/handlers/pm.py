@@ -41,9 +41,11 @@ class AiPmInitialize(MessageHandler):
         )
 
         buttons = ReplyKeyboardMarkup(
-            keyboard=[[
-                KeyboardButton(text=str(AI_PM_STOP_TEXT)),
-            ]],
+            keyboard=[
+                [
+                    KeyboardButton(text=str(AI_PM_STOP_TEXT)),
+                ]
+            ],
             resize_keyboard=True,
         )
 
@@ -76,9 +78,11 @@ class AiPmHandle(MessageHandler):
         messages = await MessageHistory.chatbot(self.event)
 
         buttons = ReplyKeyboardMarkup(
-            keyboard=[[
-                KeyboardButton(text=str(AI_PM_STOP_TEXT)),
-            ]],
+            keyboard=[
+                [
+                    KeyboardButton(text=str(AI_PM_STOP_TEXT)),
+                ]
+            ],
             resize_keyboard=True,
         )
 

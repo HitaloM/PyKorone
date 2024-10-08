@@ -91,12 +91,14 @@ async def warn_func(message: Message, chat, user, text, strings, filter_action=F
     reason = text
     warn_id = str(
         (
-            await db.warns.insert_one({
-                "user_id": user_id,
-                "chat_id": chat_id,
-                "reason": str(reason),
-                "by": by_id,
-            })
+            await db.warns.insert_one(
+                {
+                    "user_id": user_id,
+                    "chat_id": chat_id,
+                    "reason": str(reason),
+                    "by": by_id,
+                }
+            )
         ).inserted_id
     )
 

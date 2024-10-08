@@ -241,13 +241,15 @@ async def register_action(event, chat, strings, callback_data: FilterActionCb, s
         await state.set_state(NewFilter.setup)
         setup_co = len(action["setup"]) - 1 if type(action["setup"]) is list else 0
 
-        await state.update_data({
-            "data": data,
-            "filter_id": filter_id,
-            "setup_co": setup_co,
-            "setup_done": 0,
-            "msg_id": event.message.message_id,
-        })
+        await state.update_data(
+            {
+                "data": data,
+                "filter_id": filter_id,
+                "setup_co": setup_co,
+                "setup_done": 0,
+                "msg_id": event.message.message_id,
+            }
+        )
 
         if setup_co > 0:
             await action["setup"][0]["start"](event.message)
@@ -334,13 +336,17 @@ async def del_filter(message: Message, chat, strings):
     text = strings["select_filter_to_remove"].format(handler=handler)
     for filter in filters:
         action = FILTERS_ACTIONS[filter["action"]]
-        buttons.inline_keyboard.append([
-            InlineKeyboardButton(
-                # If module's filter support custom del btn names else just show action name
-                text=("" + action["del_btn_name"](message, filter) if "del_btn_name" in action else filter["action"]),
-                callback_data=FilterRemoveCb(id=str(filter["_id"])).pack(),
-            )
-        ])
+        buttons.inline_keyboard.append(
+            [
+                InlineKeyboardButton(
+                    # If module's filter support custom del btn names else just show action name
+                    text=(
+                        "" + action["del_btn_name"](message, filter) if "del_btn_name" in action else filter["action"]
+                    ),
+                    callback_data=FilterRemoveCb(id=str(filter["_id"])).pack(),
+                )
+            ]
+        )
 
     await message.reply(text, reply_markup=buttons)
 
@@ -366,13 +372,15 @@ async def delall_filters(message: Message, strings: dict):
     if not await is_chat_creator(message, message.chat.id, message.from_user.id):
         return await message.reply(strings["not_chat_creator"])
     buttons = InlineKeyboardMarkup(
-        inline_keyboard=[[
-            InlineKeyboardButton(
-                text=strings["confirm_yes"],
-                callback_data=FilterDelallYesCb(chat_id=message.chat.id).pack(),
-            ),
-            InlineKeyboardButton(text=strings["confirm_no"], callback_data="filter_delall_no_cb"),
-        ]]
+        inline_keyboard=[
+            [
+                InlineKeyboardButton(
+                    text=strings["confirm_yes"],
+                    callback_data=FilterDelallYesCb(chat_id=message.chat.id).pack(),
+                ),
+                InlineKeyboardButton(text=strings["confirm_no"], callback_data="filter_delall_no_cb"),
+            ]
+        ]
     )
     return await message.reply(strings["delall_header"], reply_markup=buttons)
 

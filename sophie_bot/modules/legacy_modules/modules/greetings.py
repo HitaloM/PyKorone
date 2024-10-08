@@ -417,16 +417,18 @@ async def welcome_security(message: Message, chat, strings):
     )
     await get_greetings_data.reset_cache(chat_id)
     buttons = InlineKeyboardMarkup(
-        inline_keyboard=[[
-            InlineKeyboardButton(
-                text=strings["no_btn"],
-                callback_data=WlcmSecConfigCancel(user_id=message.from_user.id, level=level).pack(),
-            ),
-            InlineKeyboardButton(
-                text=strings["yes_btn"],
-                callback_data=WlcmSecConfigProc(chat_id=chat_id, user_id=message.from_user.id, level=level).pack(),
-            ),
-        ]]
+        inline_keyboard=[
+            [
+                InlineKeyboardButton(
+                    text=strings["no_btn"],
+                    callback_data=WlcmSecConfigCancel(user_id=message.from_user.id, level=level).pack(),
+                ),
+                InlineKeyboardButton(
+                    text=strings["yes_btn"],
+                    callback_data=WlcmSecConfigProc(chat_id=chat_id, user_id=message.from_user.id, level=level).pack(),
+                ),
+            ]
+        ]
     )
 
     await message.reply(

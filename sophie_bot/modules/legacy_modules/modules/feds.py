@@ -882,13 +882,15 @@ async def del_fed_cmd(message: Message, fed, strings):
     fed_owner = fed["creator"]
 
     buttons = InlineKeyboardMarkup(
-        inline_keyboard=[[
-            InlineKeyboardButton(
-                text=strings["delfed_btn_yes"],
-                callback_data=DelFedCb(fed_id=fed_id, creator_id=fed_owner).pack(),
-            ),
-            InlineKeyboardButton(text=strings["delfed_btn_no"], callback_data=f"cancel_{fed_owner}"),
-        ]]
+        inline_keyboard=[
+            [
+                InlineKeyboardButton(
+                    text=strings["delfed_btn_yes"],
+                    callback_data=DelFedCb(fed_id=fed_id, creator_id=fed_owner).pack(),
+                ),
+                InlineKeyboardButton(text=strings["delfed_btn_no"], callback_data=f"cancel_{fed_owner}"),
+            ]
+        ]
     )
 
     await message.reply(strings["delfed"] % fed_name, reply_markup=buttons)

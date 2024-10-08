@@ -395,10 +395,12 @@ async def clear_all_notes(message: Message, chat, strings):
 
     text = strings["clear_all_text"].format(chat_name=chat["chat_title"])
     buttons = InlineKeyboardMarkup(
-        inline_keyboard=[[
-            InlineKeyboardButton(text=strings["clearall_btn_yes"], callback_data="clean_all_notes_cb"),
-            InlineKeyboardButton(text=strings["clearall_btn_no"], callback_data="cancel"),
-        ]]
+        inline_keyboard=[
+            [
+                InlineKeyboardButton(text=strings["clearall_btn_yes"], callback_data="clean_all_notes_cb"),
+                InlineKeyboardButton(text=strings["clearall_btn_no"], callback_data="cancel"),
+            ]
+        ]
     )
 
     await message.reply(text, reply_markup=buttons)

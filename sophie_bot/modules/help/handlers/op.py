@@ -9,9 +9,11 @@ class OpCMDSList(MessageHandler):
     def handle(self):
         return self.event.reply(
             str(
-                Doc(*(
-                    Section(format_cmds(module.cmds), title=f"{module.name} {module.icon}")
-                    for module in HELP_MODULES.values()
-                ))
+                Doc(
+                    *(
+                        Section(format_cmds(module.cmds), title=f"{module.name} {module.icon}")
+                        for module in HELP_MODULES.values()
+                    )
+                )
             )
         )
