@@ -115,6 +115,12 @@ class LazyProxy:
     def __contains__(self, item):
         return self._i18n() in item
 
+    def __add__(self, other):
+        return self._i18n() + other
+
+    def __radd__(self, other):
+        return other + self._i18n()
+
 
 def lazy_plural_gettext(*args: Any, **kwargs: Any):
     return lambda n: get_i18n().gettext(*args, n=n, **kwargs)
