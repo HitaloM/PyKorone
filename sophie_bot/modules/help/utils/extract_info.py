@@ -36,6 +36,7 @@ class CmdHelp:
     only_pm: bool
     only_chats: bool
     alias_to_modules: list[str]
+    disableable: Optional[str]
 
 
 @dataclass
@@ -49,6 +50,7 @@ class ModuleHelp:
 
 
 HELP_MODULES: dict[str, ModuleHelp] = {}
+DISABLEABLE_CMDS: list[CmdHelp] = []
 
 
 def get_aliased_cmds(module_name) -> dict[str, list[CmdHelp]]:
@@ -129,18 +131,26 @@ def gather_cmds_help(router: Router) -> list[CmdHelp]:
         else:
             args = gather_cmd_args(handler.flags.get("args"))
 
-        helps.append(
-            CmdHelp(
-                cmds=cmds,
-                args=args,
-                description=help_flags.get("description", None) if help_flags else None,
-                only_admin=only_admin,
-                only_op=only_op,
-                only_pm=only_pm,
-                only_chats=only_chats,
-                alias_to_modules=help_flags.get("alias_to_modules", None) if help_flags else [],
-            )
+        disableable = None
+        if disableable_flag := handler.flags.get("disableable"):
+            disableable = disableable_flag.name
+
+        cmd = CmdHelp(
+            cmds=cmds,
+            args=args,
+            description=help_flags.get("description", None) if help_flags else None,
+            only_admin=only_admin,
+            only_op=only_op,
+            only_pm=only_pm,
+            only_chats=only_chats,
+            alias_to_modules=help_flags.get("alias_to_modules", None) if help_flags else [],
+            disableable=disableable,
         )
+        helps.append(cmd)
+
+        if disableable:
+            DISABLEABLE_CMDS.append(cmd)
+
     return helps
 
 

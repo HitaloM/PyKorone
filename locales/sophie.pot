@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-10-09 19:54+0200\n"
+"POT-Creation-Date: 2024-10-11 01:01+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -264,23 +264,23 @@ msgstr ""
 msgid "Translates the given (or replied) text to the chat's selected language"
 msgstr ""
 
-#: sophie_bot/modules/ai/handlers/translate.py:47
+#: sophie_bot/modules/ai/handlers/translate.py:48
 msgid "You're the professional AI translator, try to translate the texts word to word."
 msgstr ""
 
-#: sophie_bot/modules/ai/handlers/translate.py:48
+#: sophie_bot/modules/ai/handlers/translate.py:49
 msgid "If it needs any explanations or clarifications, write them briefly afterwards separately."
 msgstr ""
 
-#: sophie_bot/modules/ai/handlers/translate.py:58
+#: sophie_bot/modules/ai/handlers/translate.py:59
 msgid "Auto Translator"
 msgstr ""
 
-#: sophie_bot/modules/ai/handlers/translate.py:60
+#: sophie_bot/modules/ai/handlers/translate.py:61
 msgid "Translator"
 msgstr ""
 
-#: sophie_bot/modules/ai/handlers/translate.py:62
+#: sophie_bot/modules/ai/handlers/translate.py:63
 msgid "Translated to {language}"
 msgstr ""
 
@@ -619,6 +619,10 @@ msgstr ""
 msgid "— Only in groups"
 msgstr ""
 
+#: sophie_bot/modules/help/utils/format_help.py:21
+msgid "Disable-able"
+msgstr ""
+
 #: sophie_bot/modules/legacy_modules/modules/antiflood.py:69
 msgid "Antiflood"
 msgstr ""
@@ -671,33 +675,33 @@ msgstr ""
 msgid "Sets whatever normal users (non admins) are allowed to connect"
 msgstr ""
 
-#: sophie_bot/modules/legacy_modules/modules/disabling.py:17
+#: sophie_bot/modules/legacy_modules/modules/disabling.py:18
 msgid "Disabling"
 msgstr ""
 
-#: sophie_bot/modules/legacy_modules/modules/disabling.py:24
+#: sophie_bot/modules/legacy_modules/modules/disabling.py:25
 msgid "Lists all commands that can be disabled."
 msgstr ""
 
-#: sophie_bot/modules/legacy_modules/modules/disabling.py:35
+#: sophie_bot/modules/legacy_modules/modules/disabling.py:36
 msgid "Lists all disabled commands."
 msgstr ""
 
-#: sophie_bot/modules/legacy_modules/modules/disabling.py:52
+#: sophie_bot/modules/legacy_modules/modules/disabling.py:53
 msgid "Disables the command."
 msgstr ""
 
-#: sophie_bot/modules/legacy_modules/modules/disabling.py:52
-#: sophie_bot/modules/legacy_modules/modules/disabling.py:85
+#: sophie_bot/modules/legacy_modules/modules/disabling.py:53
+#: sophie_bot/modules/legacy_modules/modules/disabling.py:86
 #: sophie_bot/modules/legacy_modules/modules/feds.py:265
 msgid "Command"
 msgstr ""
 
-#: sophie_bot/modules/legacy_modules/modules/disabling.py:85
+#: sophie_bot/modules/legacy_modules/modules/disabling.py:86
 msgid "Enables the command."
 msgstr ""
 
-#: sophie_bot/modules/legacy_modules/modules/disabling.py:115
+#: sophie_bot/modules/legacy_modules/modules/disabling.py:116
 msgid "Enables all previously disabled commands"
 msgstr ""
 

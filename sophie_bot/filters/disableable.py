@@ -2,7 +2,7 @@ from aiogram.dispatcher.event.bases import SkipHandler
 from aiogram.filters import Filter
 from aiogram.types import Message
 
-from sophie_bot.modules.legacy_modules.utils.disable import DISABLABLE_COMMANDS
+from sophie_bot.modules.legacy_modules.utils.disable import LEGACY_DISABLABLE_COMMANDS
 from sophie_bot.modules.legacy_modules.utils.user_details import is_user_admin
 from sophie_bot.services.db import db
 from sophie_bot.utils.logger import log
@@ -14,8 +14,8 @@ class DisableableCMD(Filter):
 
         self.command = command
 
-        if command not in DISABLABLE_COMMANDS:
-            DISABLABLE_COMMANDS.append(command)
+        if command not in LEGACY_DISABLABLE_COMMANDS:
+            LEGACY_DISABLABLE_COMMANDS.append(command)
 
     async def __call__(self, message: Message) -> bool:
         # TODO: Refactor legacy code here

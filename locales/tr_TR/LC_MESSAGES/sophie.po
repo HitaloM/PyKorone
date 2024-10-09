@@ -261,23 +261,23 @@ msgstr "Text to translate"
 msgid "Translates the given (or replied) text to the chat's selected language"
 msgstr "Translates the given (or replied) text to the chat's selected language"
 
-#: sophie_bot/modules/ai/handlers/translate.py:47
+#: sophie_bot/modules/ai/handlers/translate.py:48
 msgid "You're the professional AI translator, try to translate the texts word to word."
 msgstr "You're the professional AI translator, try to translate the texts word to word."
 
-#: sophie_bot/modules/ai/handlers/translate.py:48
+#: sophie_bot/modules/ai/handlers/translate.py:49
 msgid "If it needs any explanations or clarifications, write them briefly afterwards separately."
 msgstr "If it needs any explanations or clarifications, write them briefly afterwards separately."
 
-#: sophie_bot/modules/ai/handlers/translate.py:58
+#: sophie_bot/modules/ai/handlers/translate.py:59
 msgid "Auto Translator"
 msgstr "Auto Translator"
 
-#: sophie_bot/modules/ai/handlers/translate.py:60
+#: sophie_bot/modules/ai/handlers/translate.py:61
 msgid "Translator"
 msgstr "Translator"
 
-#: sophie_bot/modules/ai/handlers/translate.py:62
+#: sophie_bot/modules/ai/handlers/translate.py:63
 msgid "Translated to {language}"
 msgstr "Translated to {language}"
 
@@ -616,6 +616,11 @@ msgstr "{module} modülünden takma adlı komutlar"
 msgid "— Only in groups"
 msgstr "— Only in groups"
 
+#: sophie_bot/modules/help/utils/format_help.py:21
+#, fuzzy
+msgid "Disable-able"
+msgstr "devre dışı"
+
 #: sophie_bot/modules/legacy_modules/modules/antiflood.py:69
 msgid "Antiflood"
 msgstr "Antiflood"
@@ -668,33 +673,33 @@ msgstr "PM'yi bağlı sohbetten ayırır."
 msgid "Sets whatever normal users (non admins) are allowed to connect"
 msgstr "Normal kullanıcıların (yönetici olmayan) bağlanmasına izin verilen ayarları belirler"
 
-#: sophie_bot/modules/legacy_modules/modules/disabling.py:17
+#: sophie_bot/modules/legacy_modules/modules/disabling.py:18
 msgid "Disabling"
 msgstr "Devre dışı bırakma"
 
-#: sophie_bot/modules/legacy_modules/modules/disabling.py:24
+#: sophie_bot/modules/legacy_modules/modules/disabling.py:25
 msgid "Lists all commands that can be disabled."
 msgstr "Devre dışı bırakılabilen tüm komutları listeler."
 
-#: sophie_bot/modules/legacy_modules/modules/disabling.py:35
+#: sophie_bot/modules/legacy_modules/modules/disabling.py:36
 msgid "Lists all disabled commands."
 msgstr "Devre dışı bırakılmış tüm komutları listeler."
 
-#: sophie_bot/modules/legacy_modules/modules/disabling.py:52
+#: sophie_bot/modules/legacy_modules/modules/disabling.py:53
 msgid "Disables the command."
 msgstr "Komutu devre dışı bırakır."
 
-#: sophie_bot/modules/legacy_modules/modules/disabling.py:52
-#: sophie_bot/modules/legacy_modules/modules/disabling.py:85
+#: sophie_bot/modules/legacy_modules/modules/disabling.py:53
+#: sophie_bot/modules/legacy_modules/modules/disabling.py:86
 #: sophie_bot/modules/legacy_modules/modules/feds.py:265
 msgid "Command"
 msgstr "Komut"
 
-#: sophie_bot/modules/legacy_modules/modules/disabling.py:85
+#: sophie_bot/modules/legacy_modules/modules/disabling.py:86
 msgid "Enables the command."
 msgstr "Komutu etkinleştirir."
 
-#: sophie_bot/modules/legacy_modules/modules/disabling.py:115
+#: sophie_bot/modules/legacy_modules/modules/disabling.py:116
 msgid "Enables all previously disabled commands"
 msgstr "Daha önce devre dışı bırakılan tüm komutları etkinleştirir"
 

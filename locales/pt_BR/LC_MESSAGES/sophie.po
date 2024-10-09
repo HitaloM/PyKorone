@@ -261,23 +261,23 @@ msgstr "Texto para traduzir"
 msgid "Translates the given (or replied) text to the chat's selected language"
 msgstr "Traduz o texto dado (ou respondido) para a língua selecionada do chat"
 
-#: sophie_bot/modules/ai/handlers/translate.py:47
+#: sophie_bot/modules/ai/handlers/translate.py:48
 msgid "You're the professional AI translator, try to translate the texts word to word."
 msgstr "Você é o tradutor profissional de IA, tente traduzir os textos palavra por palavra."
 
-#: sophie_bot/modules/ai/handlers/translate.py:48
+#: sophie_bot/modules/ai/handlers/translate.py:49
 msgid "If it needs any explanations or clarifications, write them briefly afterwards separately."
 msgstr "Se precisar de explicações ou esclarecimentos, escreva-os brevemente depois separadamente."
 
-#: sophie_bot/modules/ai/handlers/translate.py:58
+#: sophie_bot/modules/ai/handlers/translate.py:59
 msgid "Auto Translator"
 msgstr "Autotradução"
 
-#: sophie_bot/modules/ai/handlers/translate.py:60
+#: sophie_bot/modules/ai/handlers/translate.py:61
 msgid "Translator"
 msgstr "Tradutor"
 
-#: sophie_bot/modules/ai/handlers/translate.py:62
+#: sophie_bot/modules/ai/handlers/translate.py:63
 msgid "Translated to {language}"
 msgstr "Traduzido para {language}"
 
@@ -616,6 +616,11 @@ msgstr "Comandos alias de {module}"
 msgid "— Only in groups"
 msgstr "— Apenas em grupos"
 
+#: sophie_bot/modules/help/utils/format_help.py:21
+#, fuzzy
+msgid "Disable-able"
+msgstr "desativado"
+
 #: sophie_bot/modules/legacy_modules/modules/antiflood.py:69
 msgid "Antiflood"
 msgstr "Antiflood"
@@ -668,33 +673,33 @@ msgstr "Desconecta o PM do chat conectado."
 msgid "Sets whatever normal users (non admins) are allowed to connect"
 msgstr "Define se usuários normais (não admins) podem se conectar"
 
-#: sophie_bot/modules/legacy_modules/modules/disabling.py:17
+#: sophie_bot/modules/legacy_modules/modules/disabling.py:18
 msgid "Disabling"
 msgstr "Desativando"
 
-#: sophie_bot/modules/legacy_modules/modules/disabling.py:24
+#: sophie_bot/modules/legacy_modules/modules/disabling.py:25
 msgid "Lists all commands that can be disabled."
 msgstr "Lista todos os comandos que podem ser desabilitados."
 
-#: sophie_bot/modules/legacy_modules/modules/disabling.py:35
+#: sophie_bot/modules/legacy_modules/modules/disabling.py:36
 msgid "Lists all disabled commands."
 msgstr "Lista todos os comandos desabilitados."
 
-#: sophie_bot/modules/legacy_modules/modules/disabling.py:52
+#: sophie_bot/modules/legacy_modules/modules/disabling.py:53
 msgid "Disables the command."
 msgstr "Desabilita o comando."
 
-#: sophie_bot/modules/legacy_modules/modules/disabling.py:52
-#: sophie_bot/modules/legacy_modules/modules/disabling.py:85
+#: sophie_bot/modules/legacy_modules/modules/disabling.py:53
+#: sophie_bot/modules/legacy_modules/modules/disabling.py:86
 #: sophie_bot/modules/legacy_modules/modules/feds.py:265
 msgid "Command"
 msgstr "Comando"
 
-#: sophie_bot/modules/legacy_modules/modules/disabling.py:85
+#: sophie_bot/modules/legacy_modules/modules/disabling.py:86
 msgid "Enables the command."
 msgstr "Ativa o comando."
 
-#: sophie_bot/modules/legacy_modules/modules/disabling.py:115
+#: sophie_bot/modules/legacy_modules/modules/disabling.py:116
 msgid "Enables all previously disabled commands"
 msgstr "Ativa todos os comandos que foram desabilitados anteriormente"
 

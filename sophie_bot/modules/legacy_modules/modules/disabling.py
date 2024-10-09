@@ -3,9 +3,10 @@ from aiogram.types import InlineKeyboardButton, InlineKeyboardMarkup, Message
 from ass_tg.types import TextArg
 
 from sophie_bot import dp
+from sophie_bot.modules.help.utils.extract_info import DISABLEABLE_CMDS
 from sophie_bot.modules.legacy_modules.utils.connections import chat_connection
 from sophie_bot.modules.legacy_modules.utils.disable import (
-    DISABLABLE_COMMANDS,
+    LEGACY_DISABLABLE_COMMANDS,
     disableable_dec,
 )
 from sophie_bot.modules.legacy_modules.utils.language import get_strings_dec
@@ -26,7 +27,7 @@ router = Router(name="disabling")
 @get_strings_dec("disable")
 async def list_disablable(message: Message, strings):
     text = strings["disablable"]
-    for command in DISABLABLE_COMMANDS:
+    for command in (*LEGACY_DISABLABLE_COMMANDS, *(x.disableable for x in DISABLEABLE_CMDS)):
         text += f"  - <code>/{command}</code>\n"
     await message.reply(text)
 
@@ -64,7 +65,7 @@ async def disable_command(message: Message, chat, strings):
             cmd = name
             break
 
-    if cmd not in DISABLABLE_COMMANDS:
+    if cmd not in (*LEGACY_DISABLABLE_COMMANDS, *(x.disableable for x in DISABLEABLE_CMDS)):
         await message.reply(strings["wot_to_disable"])
         return
 
@@ -98,7 +99,7 @@ async def enable_command(message: Message, chat, strings):
             cmd = name
             break
 
-    if cmd not in DISABLABLE_COMMANDS:
+    if cmd not in (*LEGACY_DISABLABLE_COMMANDS, *(x.disableable for x in DISABLEABLE_CMDS)):
         await message.reply(strings["wot_to_enable"])
         return
 
@@ -150,7 +151,7 @@ async def __export__(chat_id):
 async def __import__(chat_id, data):
     new = []
     for cmd in data:
-        if cmd not in DISABLABLE_COMMANDS:
+        if cmd not in LEGACY_DISABLABLE_COMMANDS:
             continue
 
         new.append(cmd)

@@ -14,6 +14,7 @@ from sophie_bot.utils.i18n import lazy_gettext as l_
 @flags.args(text=TextArg(l_("Prompt")))
 @flags.help(description=l_("Ask Sophie a question"))
 @flags.ai_cache(cache_handler_result=True)
+@flags.disableable(name="ai")
 class AiCmd(MessageHandler):
     @staticmethod
     def filters() -> tuple[CallbackType, ...]:
