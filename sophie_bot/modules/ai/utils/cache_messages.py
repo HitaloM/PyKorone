@@ -25,7 +25,7 @@ async def cache_message(text: Optional[str], chat_id: int, user_id: int, message
 
     key = get_key(chat_id)
 
-    await aredis.ltrim(key, -40, -1)  # type: ignore[misc]
+    await aredis.ltrim(key, -25, -1)  # type: ignore[misc]
     await aredis.expire(key, 86400 * 2, lt=True)  # type: ignore[misc] # 2 days
     await aredis.rpush(get_key(chat_id), json_str)  # type: ignore[misc]
 
