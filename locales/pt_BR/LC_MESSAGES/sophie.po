@@ -757,6 +757,9 @@ msgstr "Promove o usuário para administradores da Federação."
 #: sophie_bot/modules/legacy_modules/modules/restrictions.py:206
 #: sophie_bot/modules/legacy_modules/modules/restrictions.py:243
 #: sophie_bot/modules/legacy_modules/modules/restrictions.py:322
+#: sophie_bot/modules/legacy_modules/modules/warns.py:67
+#: sophie_bot/modules/legacy_modules/modules/warns.py:178
+#: sophie_bot/modules/legacy_modules/modules/warns.py:242
 #: sophie_bot/modules/users/handlers/id.py:22
 msgid "User"
 msgstr "Usuário"
@@ -1117,11 +1120,43 @@ msgstr "Mostra IDs."
 msgid "Lists all the chats admins."
 msgstr "Lista todos os administradores do chat."
 
-#: sophie_bot/modules/legacy_modules/modules/warns.py:56
+#: sophie_bot/modules/legacy_modules/modules/warns.py:57
 msgid "Warnings"
 msgstr "Advertências"
 
-#: sophie_bot/modules/legacy_modules/modules/warns.py:349
+#: sophie_bot/modules/legacy_modules/modules/warns.py:66
+#, fuzzy
+msgid "Warns the user."
+msgstr "Desbane o usuário."
+
+#: sophie_bot/modules/legacy_modules/modules/warns.py:177
+#, fuzzy
+msgid "Shows the warnings history."
+msgstr "Mostra as regras."
+
+#: sophie_bot/modules/legacy_modules/modules/warns.py:208
+#, fuzzy
+msgid "Sets the limit of warnings in the chat."
+msgstr "Mostra uma lista de administradores na federação."
+
+#: sophie_bot/modules/legacy_modules/modules/warns.py:209
+msgid "New limit"
+msgstr ""
+
+#: sophie_bot/modules/legacy_modules/modules/warns.py:241
+msgid "Deletes all warnings"
+msgstr ""
+
+#: sophie_bot/modules/legacy_modules/modules/warns.py:270
+msgid "Changes the punishment action after hitting the warning limit."
+msgstr ""
+
+#: sophie_bot/modules/legacy_modules/modules/warns.py:271
+#, fuzzy
+msgid "New mode"
+msgstr "Novo nome"
+
+#: sophie_bot/modules/legacy_modules/modules/warns.py:370
 msgid "⚠️ Warn"
 msgstr ""
 

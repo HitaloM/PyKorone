@@ -19,7 +19,7 @@
 import functools
 from contextlib import suppress
 
-from aiogram import F, Router
+from aiogram import F, Router, flags
 from aiogram.exceptions import TelegramBadRequest
 from aiogram.types import (
     CallbackQuery,
@@ -27,6 +27,7 @@ from aiogram.types import (
     InlineKeyboardMarkup,
     Message,
 )
+from ass_tg.types import TextArg
 from babel.dates import format_timedelta
 from bson.objectid import ObjectId
 
@@ -61,6 +62,10 @@ router = Router(name="warns")
 
 
 @register(router, UserRestricting(can_restrict_members=True), BotHasPermissions(can_restrict_members=True), cmds="warn")
+@flags.help(
+    description=l_("Warns the user."),
+    args={"cmd": TextArg(l_("User"))},
+)
 @chat_connection(admin=True, only_groups=True)
 @get_user_and_text_dec()
 async def warn_cmd(message: Message, chat, user, text):
@@ -168,6 +173,10 @@ async def rmv_warn_btn(event: CallbackQuery, strings, regexp=None, **kwargs):
 
 
 @register(router, cmds="warns")
+@flags.help(
+    description=l_("Shows the warnings history."),
+    args={"cmd": TextArg(l_("User"))},
+)
 @chat_connection(admin=True, only_groups=True)
 @get_user_dec(allow_self=True)
 @get_strings_dec("warns")
@@ -195,6 +204,10 @@ async def warns(message: Message, chat, user, strings):
 
 
 @register(router, cmds="warnlimit", user_admin=True)
+@flags.help(
+    description=l_("Sets the limit of warnings in the chat."),
+    args={"int": TextArg(l_("New limit"))},
+)
 @chat_connection(admin=True, only_groups=True)
 @get_strings_dec("warns")
 async def warnlimit(message: Message, chat, strings):
@@ -224,6 +237,10 @@ async def warnlimit(message: Message, chat, strings):
 
 
 @register(router, UserRestricting(admin=True), cmds=["resetwarns", "delwarns"])
+@flags.help(
+    description=l_("Deletes all warnings"),
+    args={"int": TextArg(l_("User"))},
+)
 @chat_connection(admin=True, only_groups=True)
 @get_user_dec()
 @get_strings_dec("warns")
@@ -249,6 +266,10 @@ async def reset_warn(message: Message, chat, user, strings):
 
 
 @register(router, cmds=["warnmode", "warnaction"], user_admin=True)
+@flags.help(
+    description=l_("Changes the punishment action after hitting the warning limit."),
+    args={"int": TextArg(l_("New mode"))},
+)
 @chat_connection(admin=True)
 @get_strings_dec("warns")
 async def warnmode(message: Message, chat, strings):
