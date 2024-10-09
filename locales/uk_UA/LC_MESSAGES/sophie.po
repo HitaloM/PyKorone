@@ -1,18 +1,22 @@
-
 msgid ""
 msgstr ""
-"Project-Id-Version:  sophiebot\n"
+"Project-Id-Version: sophiebot\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-10-09 01:21+0200\n"
-"PO-Revision-Date: 2024-10-08 13:54+0000\n"
+"POT-Creation-Date: 2024-10-09 18:23+0200\n"
+"PO-Revision-Date: 2024-10-09 16:40\n"
 "Last-Translator: \n"
-"Language: uk_UA\n"
 "Language-Team: Ukrainian\n"
-"Plural-Forms: nplurals=4; plural=((n%10==1 && n%100!=11) ? 0 : ((n%10 >= 2 && n%10 <=4 && (n%100 < 12 || n%100 > 14)) ? 1 : ((n%10 == 0 || (n%10 >= 5 && n%10 <=9)) || (n%100 >= 11 && n%100 <= 14)) ? 2 : 3));\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=utf-8\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.15.0\n"
+"Plural-Forms: nplurals=4; plural=((n%10==1 && n%100!=11) ? 0 : ((n%10 >= 2 && n%10 <=4 && (n%100 < 12 || n%100 > 14)) ? 1 : ((n%10 == 0 || (n%10 >= 5 && n%10 <=9)) || (n%100 >= 11 && n%100 <= 14)) ? 2 : 3));\n"
+"X-Crowdin-Project: sophiebot\n"
+"X-Crowdin-Project-ID: 356879\n"
+"X-Crowdin-Language: uk\n"
+"X-Crowdin-File: /beta/locales/sophie.pot\n"
+"X-Crowdin-File-ID: 288\n"
+"Language: uk_UA\n"
 
 #: sophie_bot/args/users.py:29
 msgid "Could not find the requested User ID in the database."
@@ -22,23 +26,23 @@ msgstr "Не вдалося знайти запитаний Ідентифіка
 msgid "Could not find the requested Username in the database."
 msgstr "Не вдалося знайти запитане Ім'я користувача в базі даних."
 
-#: sophie_bot/args/users.py:72 types/user.py:119
+#: sophie_bot/args/users.py:72
 msgid "User: 'User ID (numeric) / Username (starts with @) / Mention (links to users)'"
 msgstr "Користувач: 'Ідентифікатор користувача (числовий) / Ім'я користувача (починається з @) / Згадка (посилання на користувачів)'"
 
-#: sophie_bot/args/users.py:72 types/user.py:121
+#: sophie_bot/args/users.py:72
 msgid "Users: 'User IDs (numeric) / Usernames (starts with @) / Mentions (links to users)'"
 msgstr "Користувачі: 'ID користувачів (числові) / Імена користувачів (починаються з @) / Згадки (посилання на користувачів)'"
 
-#: sophie_bot/args/users.py:79 types/user.py:128
+#: sophie_bot/args/users.py:79
 msgid "User ID"
 msgstr "Ідентифікатор користувача"
 
-#: sophie_bot/args/users.py:80 types/user.py:129
+#: sophie_bot/args/users.py:80
 msgid "Username"
 msgstr "Ім'я користувача"
 
-#: sophie_bot/args/users.py:81 types/user.py:133
+#: sophie_bot/args/users.py:81
 msgid "A link to user, usually creates by mentioning a user without username."
 msgstr "Посилання на користувача, яке зазвичай створюється, коли згадують користувача без імені."
 
@@ -79,9 +83,8 @@ msgid "🛑 Exit AI mode"
 msgstr "🛑 Вийти з режиму ШІ"
 
 #: sophie_bot/modules/ai/fsm/pm.py:12
-#, fuzzy
 msgid "✨ Sophie AI"
-msgstr "Софі AI"
+msgstr "✨ Софі AI"
 
 #: sophie_bot/modules/ai/handlers/ai_cmd.py:14
 #: sophie_bot/modules/ai/handlers/aisave.py:25
@@ -115,9 +118,8 @@ msgid "Use {cmd} to retrieve this note."
 msgstr "Використовуйте {cmd}, щоб отримати цю замітку."
 
 #: sophie_bot/modules/ai/handlers/autotranslate_setting.py:22
-#, fuzzy
 msgid "Show current state of AI Autotranslate"
-msgstr "Показати поточний стан AI-функцій"
+msgstr "Показати поточний стан AI Autotranslate"
 
 #: sophie_bot/modules/ai/handlers/autotranslate_setting.py:38
 #: sophie_bot/modules/ai/handlers/enable_setting.py:37
@@ -142,12 +144,11 @@ msgstr "Вимкнено"
 
 #: sophie_bot/modules/ai/handlers/autotranslate_setting.py:40
 msgid "✨ AI Auto translate"
-msgstr ""
+msgstr "✨ AI Авто переклад"
 
 #: sophie_bot/modules/ai/handlers/autotranslate_setting.py:43
-#, fuzzy
 msgid "By using AI features you agree to the our {policy} and third-party AI provider's."
-msgstr "Використовуючи функцію AI, ви погоджуєтеся з нашим {policy} та третім особам постачальників AI."
+msgstr "Використовуючи AI-функції, ви погоджуєтеся з нашим {policy} та третім особам постачальників AI."
 
 #: sophie_bot/modules/ai/handlers/autotranslate_setting.py:44
 #: sophie_bot/modules/ai/handlers/enable_setting.py:43
@@ -171,9 +172,8 @@ msgid "New state"
 msgstr "Новий стан"
 
 #: sophie_bot/modules/ai/handlers/autotranslate_setting.py:53
-#, fuzzy
 msgid "Controls AI Autotranslate"
-msgstr "Контроль AI-функцій"
+msgstr "Управляє AI Авто перекладом"
 
 #: sophie_bot/modules/ai/handlers/autotranslate_setting.py:73
 #: sophie_bot/modules/ai/handlers/enable_setting.py:67
@@ -186,9 +186,8 @@ msgid "disabled"
 msgstr "вимкнено"
 
 #: sophie_bot/modules/ai/handlers/autotranslate_setting.py:78
-#, fuzzy
 msgid "✨ AI Auto translate have been {status} in {chat}."
-msgstr "✨ AI-функції були {status} у {chat}."
+msgstr "✨ AI Авто переклад був {status} у {chat}."
 
 #: sophie_bot/modules/ai/handlers/enable_setting.py:21
 msgid "Show current state of AI features"
@@ -231,9 +230,8 @@ msgid "✨ AI Response"
 msgstr "✨ Відповідь AI"
 
 #: sophie_bot/modules/ai/handlers/mode.py:15
-#, fuzzy
 msgid "Generates a new AI mode"
-msgstr "Генерує нову примітку за допомогою AI"
+msgstr "Генерує новий режим AI"
 
 #: sophie_bot/modules/ai/handlers/pm.py:21
 msgid "Start the AI ChatBot mode"
@@ -261,32 +259,31 @@ msgstr "Режим AI був закритий."
 
 #: sophie_bot/modules/ai/handlers/translate.py:21
 msgid "Text to translate"
-msgstr ""
+msgstr "Текст для перекладу"
 
 #: sophie_bot/modules/ai/handlers/translate.py:27
 msgid "Translates the given (or replied) text to the chat's selected language"
-msgstr ""
+msgstr "Перекладає даний (або відповіданий) текст на вибрану мову чату"
 
 #: sophie_bot/modules/ai/handlers/translate.py:47
 msgid "You're the professional AI translator, try to translate the texts word to word."
-msgstr ""
+msgstr "Ви професійний перекладач AI, спробуйте перекласти тексти слово в слово."
 
 #: sophie_bot/modules/ai/handlers/translate.py:48
 msgid "If it needs any explanations or clarifications, write them briefly afterwards separately."
-msgstr ""
+msgstr "Якщо це потребує пояснень або уточнень, написати їх коротко окремо."
 
 #: sophie_bot/modules/ai/handlers/translate.py:58
 msgid "Auto Translator"
-msgstr ""
+msgstr "Авто Перекладач"
 
 #: sophie_bot/modules/ai/handlers/translate.py:60
 msgid "Translator"
-msgstr ""
+msgstr "Перекладач"
 
 #: sophie_bot/modules/ai/handlers/translate.py:62
-#, fuzzy
 msgid "Translated to {language}"
-msgstr "Нова мова"
+msgstr "Перекладено на {language}"
 
 #: sophie_bot/modules/ai/texts.py:3
 msgid "By using AI features you agree to the our Privacy Policy (/privacy) and third party AI services used."
@@ -620,9 +617,8 @@ msgid "Aliased commands from {module}"
 msgstr "Команди-аліаси з {module}"
 
 #: sophie_bot/modules/help/utils/format_help.py:20
-#, fuzzy
 msgid "— Only in groups"
-msgstr " - Тільки в чатах"
+msgstr "— Тільки в групах"
 
 #: sophie_bot/modules/legacy_modules/modules/antiflood.py:69
 msgid "Antiflood"
@@ -835,16 +831,15 @@ msgstr "Тригер"
 
 #: sophie_bot/modules/legacy_modules/modules/filters.py:202
 msgid "❌ Cancel"
-msgstr ""
+msgstr "❌ Скасувати"
 
 #: sophie_bot/modules/legacy_modules/modules/filters.py:296
 msgid "Shows the list of filters."
 msgstr "Показує список фільтрів."
 
 #: sophie_bot/modules/legacy_modules/modules/filters.py:310
-#, fuzzy
 msgid "Filters in {chat_name}"
-msgstr "Примітки в {chat_name}"
+msgstr "Фільтри в {chat_name}"
 
 #: sophie_bot/modules/legacy_modules/modules/filters.py:315
 msgid "Removes the filter."
@@ -924,14 +919,12 @@ msgid "New language"
 msgstr "Нова мова"
 
 #: sophie_bot/modules/legacy_modules/modules/misc.py:80
-#, fuzzy
 msgid "🗑 Delete message"
-msgstr "Закріплює відповідь на повідомлення"
+msgstr "🗑 Видалити повідомлення"
 
 #: sophie_bot/modules/legacy_modules/modules/misc.py:85
-#, fuzzy
 msgid "💭 Reply to message"
-msgstr "Закріплює відповідь на повідомлення"
+msgstr "💭 Відповісти на повідомлення"
 
 #: sophie_bot/modules/legacy_modules/modules/notes.py:43
 #: sophie_bot/modules/notes/__init__.py:13
@@ -960,7 +953,7 @@ msgid "Searches text across all notes."
 msgstr "Шукає текст в усіх примітках."
 
 #: sophie_bot/modules/legacy_modules/modules/notes.py:330
-#: sophie_bot/modules/notes/handlers/save.py:29 types/text.py:18
+#: sophie_bot/modules/notes/handlers/save.py:29
 msgid "Text"
 msgstr "Текст"
 
@@ -985,9 +978,8 @@ msgid "Controls the automatic clean-up for notes"
 msgstr "Контролює автоматичне очищення приміток"
 
 #: sophie_bot/modules/legacy_modules/modules/notes.py:709
-#, fuzzy
 msgid "🗒 Send a note"
-msgstr "Шукати примітки"
+msgstr "🗒 Відправити примітку"
 
 #: sophie_bot/modules/legacy_modules/modules/pins.py:15
 msgid "Pins"
@@ -1068,24 +1060,23 @@ msgstr "Розблокує користувача."
 
 #: sophie_bot/modules/legacy_modules/modules/restrictions.py:456
 msgid "🚪 Kick"
-msgstr ""
+msgstr "🚪 Виключити"
 
 #: sophie_bot/modules/legacy_modules/modules/restrictions.py:460
-#, fuzzy
 msgid "🚷 Ban"
-msgstr ", та "
+msgstr "🚷 Заборонити"
 
 #: sophie_bot/modules/legacy_modules/modules/restrictions.py:465
 msgid "⏳🚷 Temporary ban"
-msgstr ""
+msgstr "⏳🚷 Тимчасова заборона"
 
 #: sophie_bot/modules/legacy_modules/modules/restrictions.py:473
 msgid "🔕 Mute"
-msgstr ""
+msgstr "🔕 Заглушити"
 
 #: sophie_bot/modules/legacy_modules/modules/restrictions.py:478
 msgid "⏳🔕 Temporary mute"
-msgstr ""
+msgstr "⏳🔕 Тимчасова заглушка"
 
 #: sophie_bot/modules/legacy_modules/modules/rules.py:21
 msgid "Rules"
@@ -1125,40 +1116,36 @@ msgid "Warnings"
 msgstr "Попередження"
 
 #: sophie_bot/modules/legacy_modules/modules/warns.py:66
-#, fuzzy
 msgid "Warns the user."
-msgstr "Розблокує користувача."
+msgstr "Попереджає користувача."
 
 #: sophie_bot/modules/legacy_modules/modules/warns.py:177
-#, fuzzy
 msgid "Shows the warnings history."
-msgstr "Показує правила."
+msgstr "Показує історію попереджень."
 
 #: sophie_bot/modules/legacy_modules/modules/warns.py:208
-#, fuzzy
 msgid "Sets the limit of warnings in the chat."
-msgstr "Показує список адміністраторів у федерації."
+msgstr "Встановлює ліміт попереджень у чаті."
 
 #: sophie_bot/modules/legacy_modules/modules/warns.py:209
 msgid "New limit"
-msgstr ""
+msgstr "Новий ліміт"
 
 #: sophie_bot/modules/legacy_modules/modules/warns.py:241
 msgid "Deletes all warnings"
-msgstr ""
+msgstr "Видаляє всі попередження"
 
 #: sophie_bot/modules/legacy_modules/modules/warns.py:270
 msgid "Changes the punishment action after hitting the warning limit."
-msgstr ""
+msgstr "Змінює дії покарання після досягнення ліміту попереджень."
 
 #: sophie_bot/modules/legacy_modules/modules/warns.py:271
-#, fuzzy
 msgid "New mode"
-msgstr "Нова назва"
+msgstr "Новий режим"
 
 #: sophie_bot/modules/legacy_modules/modules/warns.py:370
 msgid "⚠️ Warn"
-msgstr ""
+msgstr "⚠️ Попередження"
 
 #: sophie_bot/modules/notes/handlers/delete.py:16
 msgid "Deletes notes."
@@ -1274,11 +1261,11 @@ msgstr "Конфіденційність"
 
 #: sophie_bot/modules/privacy/__init__.py:19
 msgid "Data protection"
-msgstr ""
+msgstr "Захист даних"
 
 #: sophie_bot/modules/privacy/handlers/export.py:23
 msgid "Exports your data to a JSON file"
-msgstr ""
+msgstr "Експортує ваші дані у файл JSON"
 
 #: sophie_bot/modules/privacy/handlers/export.py:38
 msgid "Export is started, this may take a while."
@@ -1504,6 +1491,10 @@ msgstr "Істина (може означати Активовано або Та
 msgid "False (can means Disabled or No)"
 msgstr "Лож (може означати Вимкнено або Ні)"
 
+#: types/text.py:18
+msgid "Text"
+msgstr "Текст"
+
 #: types/text_rules.py:27
 msgid "➡️ The Argument should start with {}!"
 msgstr "➡️ Аргумент повинен починатися з {}!"
@@ -1613,22 +1604,23 @@ msgstr "Несподівана помилка під час спроби отр�
 msgid "Could not find the user mention"
 msgstr "Не вдалося знайти згадку користувача"
 
-#~ msgid "Translates the given text to the chat's selected language"
-#~ msgstr ""
+#: types/user.py:119
+msgid "User: 'User ID (numeric) / Username (starts with @) / Mention (links to users)'"
+msgstr "Користувач: 'Ідентифікатор користувача (числовий) / Ім'я користувача (починається з @) / Згадка (посилання на користувачів)'"
 
-#~ msgid "✨ Beta AI"
-#~ msgstr "✨ Бета AI"
+#: types/user.py:121
+msgid "Users: 'User IDs (numeric) / Usernames (starts with @) / Mentions (links to users)'"
+msgstr "Користувачі: 'Ідентифікатори користувачів (числові) / Імена користувачів (починаються з @) / Згадки (посилання на користувачів)'"
 
-#~ msgid "📖 Wiki page"
-#~ msgstr "📖 Сторінка Вікі"
+#: types/user.py:128
+msgid "User ID"
+msgstr "Ідентифікатор користувача"
 
-#~ msgid ""
-#~ "Controls the current Sophie mode.\n"
-#~ "Please note that Beta mode can have bugs and issues. If you encounter any problems please report it to the support chat."
-#~ msgstr ""
-#~ "Контролює поточний режим Софі.\n"
-#~ "Будь ласка, зауважте, що бета-режим може містити помилки та проблеми. Якщо ви зіткнетеся з будь-якими проблемами, будь ласка, повідомте про це в чат підтримки."
+#: types/user.py:129
+msgid "Username"
+msgstr "Ім'я користувача"
 
-#~ msgid "🗒 Reply with a note"
-#~ msgstr ""
+#: types/user.py:133
+msgid "A link to user, usually creates by mentioning a user without username."
+msgstr "Посилання на користувача, яке зазвичай створюється, коли згадують користувача без імені."
 
