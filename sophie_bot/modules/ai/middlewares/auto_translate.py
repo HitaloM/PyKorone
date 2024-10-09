@@ -43,7 +43,7 @@ class AiAutoTranslateMiddleware(BaseMiddleware):
                 log.debug("AiAutoTranslateMiddleware: Ignoring short message")
                 return result
 
-            detected_lang = detect(data["text"], low_memory=CONFIG.ai_autotrans_lowmem)
+            detected_lang = detect(data["text"].replace("\n", ""), low_memory=CONFIG.ai_autotrans_lowmem)
             log.debug("AiAutoTranslateMiddleware: Detected language", chat_lang=chat_lang, lang=detected_lang)
 
             if not chat_lang.startswith(detected_lang["lang"]) and detected_lang["score"] >= 0.3:
