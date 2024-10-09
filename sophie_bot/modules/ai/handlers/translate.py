@@ -51,7 +51,7 @@ class AiTranslate(MessageHandler):
         user_prompt = _(f"Translate the following text to {language_name}:\n{to_translate}")
 
         ai_context = await MessageHistory.chatbot(
-            self.event, additional_system_prompt=system_prompt, custom_user_text=user_prompt
+            self.event, additional_system_prompt=system_prompt, custom_user_text=user_prompt, add_cached_messages=False
         )
 
         if self.data.get("autotranslate"):

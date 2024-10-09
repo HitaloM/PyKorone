@@ -112,12 +112,15 @@ class MessageHistory(list[ChatCompletionMessageParam]):
         message: Message,
         custom_user_text: Optional[str] = None,
         additional_system_prompt: str = "",
+        add_cached_messages: bool = True,
     ) -> "MessageHistory":
         """A simple chat-bot case"""
 
         messages = MessageHistory()
         messages.add_system_msg(additional=additional_system_prompt)
-        await messages.add_from_cache(message.chat.id)
+
+        if add_cached_messages:
+            await messages.add_from_cache(message.chat.id)
 
         if message.reply_to_message and message.reply_to_message.from_user:
             await messages.add_from_message(message.reply_to_message)
