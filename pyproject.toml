@@ -46,7 +46,6 @@ flake8-isort = "~6"
 yapf = "~0.40"
 devtools = { extras = ["pygments"], version = "~0.12" }
 pytest = "^8"
-pyright = "^1.1.274"
 black = "~24"
 mypy = "^1.11"
 types-ujson = "^5.10.0.20240515"
