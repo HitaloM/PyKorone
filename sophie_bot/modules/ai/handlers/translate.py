@@ -33,11 +33,12 @@ class AiTranslate(MessageHandler):
         return CMDFilter(("aitranslate", "translate", "tr")), AIEnabledFilter()
 
     async def handle(self):
+        is_autotranslate: bool = self.data.get("autotranslate", False)
         await bot.send_chat_action(self.event.chat.id, "typing")
 
         language_name = self.data["i18n"].current_locale_display
 
-        if self.event.reply_to_message:
+        if self.event.reply_to_message and not is_autotranslate:
             to_translate = self.event.reply_to_message.text or ""
         else:
             to_translate = self.data.get("text", "")
@@ -54,7 +55,7 @@ class AiTranslate(MessageHandler):
             self.event, additional_system_prompt=system_prompt, custom_user_text=user_prompt, add_cached_messages=False
         )
 
-        if self.data.get("autotranslate"):
+        if is_autotranslate:
             header_items = [_("Auto Translator")]
         else:
             header_items = [_("Translator")]
