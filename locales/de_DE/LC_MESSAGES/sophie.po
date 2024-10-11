@@ -255,31 +255,41 @@ msgstr "Hallo! Wie kann ich dir helfen?"
 msgid "The AI mode has been exited."
 msgstr "Der KI-Modus wurde beendet."
 
-#: sophie_bot/modules/ai/handlers/translate.py:21
+#: sophie_bot/modules/ai/handlers/translate.py:22
 msgid "Text to translate"
 msgstr "Text zur Übersetzung"
 
-#: sophie_bot/modules/ai/handlers/translate.py:27
-msgid "Translates the given (or replied) text to the chat's selected language"
+#: sophie_bot/modules/ai/handlers/translate.py:28
+#, fuzzy
+msgid "Translates the given (or replied) text to the chat's selected language. Also transcribes the replied voice message to text"
 msgstr "Übersetzt den gegebenen (oder beantworteten) Text in die gewählte Sprache des Chats"
 
-#: sophie_bot/modules/ai/handlers/translate.py:49
-msgid "You're the professional AI translator, try to translate the texts word to word."
+#: sophie_bot/modules/ai/handlers/translate.py:60
+#, fuzzy
+msgid "You're the professional AI translator/transcriber, try to translate the texts word to word."
 msgstr "Sie sind der professionelle KI-Übersetzer, versuchen Sie, die Texte Wort für Wort zu übersetzen."
 
-#: sophie_bot/modules/ai/handlers/translate.py:50
+#: sophie_bot/modules/ai/handlers/translate.py:61
+msgid "If the message is already in a required language, just copy it."
+msgstr ""
+
+#: sophie_bot/modules/ai/handlers/translate.py:62
 msgid "If it needs any explanations or clarifications, write them briefly afterwards separately."
 msgstr "Wenn es Erklärungen oder Klarstellungen benötigt, schreiben Sie diese bitte kurz danach separat."
 
-#: sophie_bot/modules/ai/handlers/translate.py:60
+#: sophie_bot/modules/ai/handlers/translate.py:74
 msgid "Auto Translator"
 msgstr "Automatische Übersetzung"
 
-#: sophie_bot/modules/ai/handlers/translate.py:62
+#: sophie_bot/modules/ai/handlers/translate.py:76
 msgid "Translator"
 msgstr "Übersetzer"
 
-#: sophie_bot/modules/ai/handlers/translate.py:64
+#: sophie_bot/modules/ai/handlers/translate.py:79
+msgid "Voice"
+msgstr ""
+
+#: sophie_bot/modules/ai/handlers/translate.py:81
 msgid "Translated to {language}"
 msgstr "Übersetzt in {language}"
 

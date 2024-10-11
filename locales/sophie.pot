@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-10-11 19:35+0200\n"
+"POT-Creation-Date: 2024-10-11 20:14+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -258,31 +258,39 @@ msgstr ""
 msgid "The AI mode has been exited."
 msgstr ""
 
-#: sophie_bot/modules/ai/handlers/translate.py:21
+#: sophie_bot/modules/ai/handlers/translate.py:22
 msgid "Text to translate"
 msgstr ""
 
-#: sophie_bot/modules/ai/handlers/translate.py:27
-msgid "Translates the given (or replied) text to the chat's selected language"
-msgstr ""
-
-#: sophie_bot/modules/ai/handlers/translate.py:49
-msgid "You're the professional AI translator, try to translate the texts word to word."
-msgstr ""
-
-#: sophie_bot/modules/ai/handlers/translate.py:50
-msgid "If it needs any explanations or clarifications, write them briefly afterwards separately."
+#: sophie_bot/modules/ai/handlers/translate.py:28
+msgid "Translates the given (or replied) text to the chat's selected language. Also transcribes the replied voice message to text"
 msgstr ""
 
 #: sophie_bot/modules/ai/handlers/translate.py:60
-msgid "Auto Translator"
+msgid "You're the professional AI translator/transcriber, try to translate the texts word to word."
+msgstr ""
+
+#: sophie_bot/modules/ai/handlers/translate.py:61
+msgid "If the message is already in a required language, just copy it."
 msgstr ""
 
 #: sophie_bot/modules/ai/handlers/translate.py:62
+msgid "If it needs any explanations or clarifications, write them briefly afterwards separately."
+msgstr ""
+
+#: sophie_bot/modules/ai/handlers/translate.py:74
+msgid "Auto Translator"
+msgstr ""
+
+#: sophie_bot/modules/ai/handlers/translate.py:76
 msgid "Translator"
 msgstr ""
 
-#: sophie_bot/modules/ai/handlers/translate.py:64
+#: sophie_bot/modules/ai/handlers/translate.py:79
+msgid "Voice"
+msgstr ""
+
+#: sophie_bot/modules/ai/handlers/translate.py:81
 msgid "Translated to {language}"
 msgstr ""
 

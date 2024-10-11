@@ -10,6 +10,7 @@ from sophie_bot.filters.cmd import CMDFilter
 from sophie_bot.modules.ai.filters.ai_enabled import AIEnabledFilter
 from sophie_bot.modules.ai.utils.ai_chatbot import ai_reply
 from sophie_bot.modules.ai.utils.message_history import MessageHistory
+from sophie_bot.modules.ai.utils.transform_audio import transform_voice_to_text
 from sophie_bot.utils.i18n import gettext as _
 from sophie_bot.utils.i18n import lazy_gettext as l_
 
@@ -24,7 +25,10 @@ async def text_or_reply(message: Message | None, _data: dict):
 
 @flags.help(
     alias_to_modules=["language"],
-    description=l_("Translates the given (or replied) text to the chat's selected language"),
+    description=l_(
+        "Translates the given (or replied) text to the chat's selected language. Also transcribes the "
+        "replied voice message to text"
+    ),
 )
 @flags.disableable(name="translate")
 @flags.ai_cache(cache_handler_result=True)
@@ -39,14 +43,22 @@ class AiTranslate(MessageHandler):
 
         language_name = self.data["i18n"].current_locale_display
 
-        if self.event.reply_to_message and not is_autotranslate:
+        is_voice = False
+        if self.event.reply_to_message and self.event.reply_to_message.voice and not is_autotranslate:
+            to_translate = await transform_voice_to_text(self.event.reply_to_message.voice)
+            is_voice = True
+        elif self.event.reply_to_message and not is_autotranslate:
             to_translate = self.event.reply_to_message.text or ""
+        elif self.data.get("voice"):
+            to_translate = ""
+            is_voice = True
         else:
             to_translate = self.data.get("text", "")
 
         system_prompt = "".join(
             (
-                _("You're the professional AI translator, try to translate the texts word to word."),
+                _("You're the professional AI translator/transcriber, try to translate the texts word to word."),
+                _("If the message is already in a required language, just copy it."),
                 _("If it needs any explanations or clarifications, write them briefly afterwards separately."),
             )
         )
@@ -56,10 +68,15 @@ class AiTranslate(MessageHandler):
             self.event, additional_system_prompt=system_prompt, custom_user_text=user_prompt, add_cached_messages=False
         )
 
+        header_items = []
+
         if is_autotranslate:
-            header_items = [_("Auto Translator")]
+            header_items.append(_("Auto Translator"))
         else:
-            header_items = [_("Translator")]
+            header_items.append(_("Translator"))
+
+        if is_voice:
+            header_items.append(f"({_('Voice')})")
 
         doc_items = [Bold(Template(_("Translated to {language}"), language=language_name))]
 

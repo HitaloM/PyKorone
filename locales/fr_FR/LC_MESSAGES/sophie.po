@@ -255,31 +255,41 @@ msgstr "Bonjour! Comment puis-je vous aider?"
 msgid "The AI mode has been exited."
 msgstr "Le mode IA a été quitté."
 
-#: sophie_bot/modules/ai/handlers/translate.py:21
+#: sophie_bot/modules/ai/handlers/translate.py:22
 msgid "Text to translate"
 msgstr "Texte à traduire"
 
-#: sophie_bot/modules/ai/handlers/translate.py:27
-msgid "Translates the given (or replied) text to the chat's selected language"
+#: sophie_bot/modules/ai/handlers/translate.py:28
+#, fuzzy
+msgid "Translates the given (or replied) text to the chat's selected language. Also transcribes the replied voice message to text"
 msgstr "Traduit le texte donné (ou répondu) dans la langue sélectionnée du chat"
 
-#: sophie_bot/modules/ai/handlers/translate.py:49
-msgid "You're the professional AI translator, try to translate the texts word to word."
+#: sophie_bot/modules/ai/handlers/translate.py:60
+#, fuzzy
+msgid "You're the professional AI translator/transcriber, try to translate the texts word to word."
 msgstr "Vous êtes le traducteur IA professionnel, essayez de traduire les textes mot à mot."
 
-#: sophie_bot/modules/ai/handlers/translate.py:50
+#: sophie_bot/modules/ai/handlers/translate.py:61
+msgid "If the message is already in a required language, just copy it."
+msgstr ""
+
+#: sophie_bot/modules/ai/handlers/translate.py:62
 msgid "If it needs any explanations or clarifications, write them briefly afterwards separately."
 msgstr "S'il a besoin d'explications ou de clarifications, écrivez-les brièvement ensuite séparément."
 
-#: sophie_bot/modules/ai/handlers/translate.py:60
+#: sophie_bot/modules/ai/handlers/translate.py:74
 msgid "Auto Translator"
 msgstr "Traducteur automatique"
 
-#: sophie_bot/modules/ai/handlers/translate.py:62
+#: sophie_bot/modules/ai/handlers/translate.py:76
 msgid "Translator"
 msgstr "Traductor"
 
-#: sophie_bot/modules/ai/handlers/translate.py:64
+#: sophie_bot/modules/ai/handlers/translate.py:79
+msgid "Voice"
+msgstr ""
+
+#: sophie_bot/modules/ai/handlers/translate.py:81
 msgid "Translated to {language}"
 msgstr "Traduit en {language}"
 
