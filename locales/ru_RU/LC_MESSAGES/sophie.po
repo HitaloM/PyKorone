@@ -119,6 +119,8 @@ msgstr "Показать текущее состояние AI автоперев
 
 #: sophie_bot/modules/ai/handlers/autotranslate_setting.py:38
 #: sophie_bot/modules/ai/handlers/enable_setting.py:37
+#: sophie_bot/modules/disabling/handlers/disable.py:48
+#: sophie_bot/modules/disabling/handlers/enable.py:51
 #: sophie_bot/modules/notes/handlers/delete.py:32
 msgid "Chat"
 msgstr "Чат"
@@ -308,6 +310,94 @@ msgstr "СООБЩЕНИЕ ОТВЕЧАЕТ НА ПРЕДЫДУЩЕЕ СООБЩ
 #: sophie_bot/modules/ai/utils/message_history.py:91
 msgid "Photo is empty"
 msgstr "Фото пустое"
+
+#: sophie_bot/modules/disabling/__init__.py:17
+msgid "Disabling"
+msgstr "Выключение"
+
+#: sophie_bot/modules/disabling/handlers/disable.py:18
+#: sophie_bot/modules/disabling/handlers/disable.py:49
+#: sophie_bot/modules/disabling/handlers/enable.py:20
+#: sophie_bot/modules/disabling/handlers/enable.py:52
+#: sophie_bot/modules/legacy_modules/modules/feds.py:265
+msgid "Command"
+msgstr "Команда"
+
+#: sophie_bot/modules/disabling/handlers/disable.py:19
+msgid "Disables the command."
+msgstr "Отключает команду."
+
+#: sophie_bot/modules/disabling/handlers/disable.py:36
+#: sophie_bot/modules/disabling/handlers/enable.py:39
+#, fuzzy
+msgid "Command {cmd} not found."
+msgstr "Заметок не найдено."
+
+#: sophie_bot/modules/disabling/handlers/disable.py:40
+#: sophie_bot/modules/disabling/handlers/enable.py:43
+#, fuzzy
+msgid "Command {cmd} is already disabled."
+msgstr "отключено"
+
+#: sophie_bot/modules/disabling/handlers/disable.py:51
+#, fuzzy
+msgid "Command disabled"
+msgstr "отключено"
+
+#: sophie_bot/modules/disabling/handlers/disable_able.py:13
+msgid "Lists all commands that can be disabled."
+msgstr "Перечисляет все команды, которые могут быть отключены."
+
+#: sophie_bot/modules/disabling/handlers/disable_able.py:29
+#, fuzzy
+msgid "Disable-able commands"
+msgstr "Отключает команду."
+
+#: sophie_bot/modules/disabling/handlers/disabled.py:14
+msgid "Lists all disabled commands."
+msgstr "Перечисляет все отключенные команды."
+
+#: sophie_bot/modules/disabling/handlers/disabled.py:27
+#, fuzzy
+msgid "No disabled commands found."
+msgstr "Перечисляет все отключенные команды."
+
+#: sophie_bot/modules/disabling/handlers/disabled.py:30
+#, fuzzy
+msgid "Disabled commands"
+msgstr "Отключает команду."
+
+#: sophie_bot/modules/disabling/handlers/enable.py:21
+#, fuzzy
+msgid "Enables previously disabled command."
+msgstr "Включает все ранее отключенные команды"
+
+#: sophie_bot/modules/disabling/handlers/enable.py:54
+#, fuzzy
+msgid "Command enabled"
+msgstr "отключено"
+
+#: sophie_bot/modules/disabling/handlers/enable_all.py:32
+#, fuzzy
+msgid "✅ Enable all"
+msgstr "включено"
+
+#: sophie_bot/modules/disabling/handlers/enable_all.py:36
+#, fuzzy
+msgid "🚫 Cancel"
+msgstr "❌ Отмена"
+
+#: sophie_bot/modules/disabling/handlers/enable_all.py:40
+msgid "Do you want to enable all commands in the {chat_name}?"
+msgstr ""
+
+#: sophie_bot/modules/disabling/handlers/enable_all.py:60
+msgid "Only the initiator can confirm disabling all commands"
+msgstr ""
+
+#: sophie_bot/modules/disabling/handlers/enable_all.py:69
+msgid "✅ All the commands ({removed_count}) have been enabled in the {chat_name}"
+msgstr ""
 
 #: sophie_bot/modules/error/__init__.py:13
 msgid "Error"
@@ -612,11 +702,11 @@ msgstr "Только администраторы"
 msgid "Aliased commands from {module}"
 msgstr "Команды из {module}"
 
-#: sophie_bot/modules/help/utils/format_help.py:20
+#: sophie_bot/modules/help/utils/format_help.py:22
 msgid "— Only in groups"
 msgstr "— Только в группах"
 
-#: sophie_bot/modules/help/utils/format_help.py:21
+#: sophie_bot/modules/help/utils/format_help.py:23
 #, fuzzy
 msgid "Disable-able"
 msgstr "отключено"
@@ -672,36 +762,6 @@ msgstr "Отключает PM от подключенного чата."
 #: sophie_bot/modules/legacy_modules/modules/connection.py:183
 msgid "Sets whatever normal users (non admins) are allowed to connect"
 msgstr "Устанавливает, каким обычным пользователям (не администраторам) разрешено подключаться"
-
-#: sophie_bot/modules/legacy_modules/modules/disabling.py:18
-msgid "Disabling"
-msgstr "Выключение"
-
-#: sophie_bot/modules/legacy_modules/modules/disabling.py:25
-msgid "Lists all commands that can be disabled."
-msgstr "Перечисляет все команды, которые могут быть отключены."
-
-#: sophie_bot/modules/legacy_modules/modules/disabling.py:36
-msgid "Lists all disabled commands."
-msgstr "Перечисляет все отключенные команды."
-
-#: sophie_bot/modules/legacy_modules/modules/disabling.py:53
-msgid "Disables the command."
-msgstr "Отключает команду."
-
-#: sophie_bot/modules/legacy_modules/modules/disabling.py:53
-#: sophie_bot/modules/legacy_modules/modules/disabling.py:86
-#: sophie_bot/modules/legacy_modules/modules/feds.py:265
-msgid "Command"
-msgstr "Команда"
-
-#: sophie_bot/modules/legacy_modules/modules/disabling.py:86
-msgid "Enables the command."
-msgstr "Включает команду."
-
-#: sophie_bot/modules/legacy_modules/modules/disabling.py:116
-msgid "Enables all previously disabled commands"
-msgstr "Включает все ранее отключенные команды"
 
 #: sophie_bot/modules/legacy_modules/modules/feds.py:87
 msgid "Federations"
@@ -928,7 +988,7 @@ msgid "💭 Reply to message"
 msgstr "💭 Ответить на сообщение"
 
 #: sophie_bot/modules/legacy_modules/modules/notes.py:43
-#: sophie_bot/modules/notes/__init__.py:13
+#: sophie_bot/modules/notes/__init__.py:12
 msgid "Notes"
 msgstr "Заметки"
 
@@ -1176,35 +1236,35 @@ msgstr "Получить заметку."
 msgid "No note was found with {name} name."
 msgstr "Не найдена ни одна заметка с именем {name}."
 
-#: sophie_bot/modules/notes/handlers/list.py:16
+#: sophie_bot/modules/notes/handlers/list.py:15
 msgid "Search notes"
 msgstr "Поиск заметок"
 
-#: sophie_bot/modules/notes/handlers/list.py:17
+#: sophie_bot/modules/notes/handlers/list.py:16
 msgid "Lists available notes."
 msgstr "Перечисляет доступные заметки."
 
-#: sophie_bot/modules/notes/handlers/list.py:79
+#: sophie_bot/modules/notes/handlers/list.py:78
 msgid "No notes found by the provided search pattern {pattern}."
 msgstr "Не найдено заметок по указанному шаблону поиска {pattern}."
 
-#: sophie_bot/modules/notes/handlers/list.py:82
+#: sophie_bot/modules/notes/handlers/list.py:81
 msgid "No notes found."
 msgstr "Заметок не найдено."
 
-#: sophie_bot/modules/notes/handlers/list.py:86
+#: sophie_bot/modules/notes/handlers/list.py:85
 msgid "Search pattern"
 msgstr "Шаблон поиска"
 
-#: sophie_bot/modules/notes/handlers/list.py:88
+#: sophie_bot/modules/notes/handlers/list.py:87
 msgid "Notes in {chat_name}"
 msgstr "Заметки в {chat_name}"
 
-#: sophie_bot/modules/notes/handlers/list.py:92
+#: sophie_bot/modules/notes/handlers/list.py:91
 msgid "Use {cmd} to retrieve a note. Example: {cmd_example}"
 msgstr "Используйте {cmd}, чтобы получить заметку. Пример: {cmd_example}"
 
-#: sophie_bot/modules/notes/handlers/list.py:93
+#: sophie_bot/modules/notes/handlers/list.py:92
 msgid "#(Note name)"
 msgstr "#(Название заметки)"
 
@@ -1600,4 +1660,10 @@ msgstr "Непредвиденная ошибка при попытке полу
 #: types/user.py:108
 msgid "Could not find the user mention"
 msgstr "Не возможно найти упоминание на пользователя!"
+
+#~ msgid "Enables the command."
+#~ msgstr "Включает команду."
+
+#~ msgid "Enables all previously disabled commands"
+#~ msgstr "Включает все ранее отключенные команды"
 

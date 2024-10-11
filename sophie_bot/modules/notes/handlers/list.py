@@ -7,7 +7,6 @@ from stfu_tg import Code, Doc, Italic, KeyValue, Section, Template, VList
 
 from sophie_bot.db.models.notes import NoteModel
 from sophie_bot.middlewares.connections import ChatConnection
-from sophie_bot.modules.legacy_modules.utils.disable import disableable_dec
 from sophie_bot.modules.notes.utils.names import format_notes_aliases
 from sophie_bot.utils.i18n import gettext as _
 from sophie_bot.utils.i18n import lazy_gettext as l_
@@ -15,7 +14,7 @@ from sophie_bot.utils.i18n import lazy_gettext as l_
 
 @flags.args(search=OptionalArg(TextArg(l_("Search notes"))))
 @flags.help(description=l_("Lists available notes."))
-@disableable_dec("notes")
+@flags.disableable(name="notes")
 class NotesList(MessageHandler):
     @staticmethod
     async def note_names(

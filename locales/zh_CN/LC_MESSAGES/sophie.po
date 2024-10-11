@@ -119,6 +119,8 @@ msgstr "Show current state of AI Autotranslate"
 
 #: sophie_bot/modules/ai/handlers/autotranslate_setting.py:38
 #: sophie_bot/modules/ai/handlers/enable_setting.py:37
+#: sophie_bot/modules/disabling/handlers/disable.py:48
+#: sophie_bot/modules/disabling/handlers/enable.py:51
 #: sophie_bot/modules/notes/handlers/delete.py:32
 msgid "Chat"
 msgstr "聊天"
@@ -308,6 +310,94 @@ msgstr "消息回复来自先前的消息"
 #: sophie_bot/modules/ai/utils/message_history.py:91
 msgid "Photo is empty"
 msgstr "照片为空"
+
+#: sophie_bot/modules/disabling/__init__.py:17
+msgid "Disabling"
+msgstr "禁用"
+
+#: sophie_bot/modules/disabling/handlers/disable.py:18
+#: sophie_bot/modules/disabling/handlers/disable.py:49
+#: sophie_bot/modules/disabling/handlers/enable.py:20
+#: sophie_bot/modules/disabling/handlers/enable.py:52
+#: sophie_bot/modules/legacy_modules/modules/feds.py:265
+msgid "Command"
+msgstr "命令"
+
+#: sophie_bot/modules/disabling/handlers/disable.py:19
+msgid "Disables the command."
+msgstr "禁用该命令。"
+
+#: sophie_bot/modules/disabling/handlers/disable.py:36
+#: sophie_bot/modules/disabling/handlers/enable.py:39
+#, fuzzy
+msgid "Command {cmd} not found."
+msgstr "未找到任何笔记。"
+
+#: sophie_bot/modules/disabling/handlers/disable.py:40
+#: sophie_bot/modules/disabling/handlers/enable.py:43
+#, fuzzy
+msgid "Command {cmd} is already disabled."
+msgstr "未启用"
+
+#: sophie_bot/modules/disabling/handlers/disable.py:51
+#, fuzzy
+msgid "Command disabled"
+msgstr "未启用"
+
+#: sophie_bot/modules/disabling/handlers/disable_able.py:13
+msgid "Lists all commands that can be disabled."
+msgstr "列出所有可以禁用的命令。"
+
+#: sophie_bot/modules/disabling/handlers/disable_able.py:29
+#, fuzzy
+msgid "Disable-able commands"
+msgstr "禁用该命令。"
+
+#: sophie_bot/modules/disabling/handlers/disabled.py:14
+msgid "Lists all disabled commands."
+msgstr "列出所有已禁用的命令。"
+
+#: sophie_bot/modules/disabling/handlers/disabled.py:27
+#, fuzzy
+msgid "No disabled commands found."
+msgstr "列出所有已禁用的命令。"
+
+#: sophie_bot/modules/disabling/handlers/disabled.py:30
+#, fuzzy
+msgid "Disabled commands"
+msgstr "禁用该命令。"
+
+#: sophie_bot/modules/disabling/handlers/enable.py:21
+#, fuzzy
+msgid "Enables previously disabled command."
+msgstr "启用所有之前被禁用的命令"
+
+#: sophie_bot/modules/disabling/handlers/enable.py:54
+#, fuzzy
+msgid "Command enabled"
+msgstr "未启用"
+
+#: sophie_bot/modules/disabling/handlers/enable_all.py:32
+#, fuzzy
+msgid "✅ Enable all"
+msgstr "已启用"
+
+#: sophie_bot/modules/disabling/handlers/enable_all.py:36
+#, fuzzy
+msgid "🚫 Cancel"
+msgstr "❌ Cancel"
+
+#: sophie_bot/modules/disabling/handlers/enable_all.py:40
+msgid "Do you want to enable all commands in the {chat_name}?"
+msgstr ""
+
+#: sophie_bot/modules/disabling/handlers/enable_all.py:60
+msgid "Only the initiator can confirm disabling all commands"
+msgstr ""
+
+#: sophie_bot/modules/disabling/handlers/enable_all.py:69
+msgid "✅ All the commands ({removed_count}) have been enabled in the {chat_name}"
+msgstr ""
 
 #: sophie_bot/modules/error/__init__.py:13
 msgid "Error"
@@ -612,11 +702,11 @@ msgstr "仅管理员"
 msgid "Aliased commands from {module}"
 msgstr "{module} 的别名命令"
 
-#: sophie_bot/modules/help/utils/format_help.py:20
+#: sophie_bot/modules/help/utils/format_help.py:22
 msgid "— Only in groups"
 msgstr "— Only in groups"
 
-#: sophie_bot/modules/help/utils/format_help.py:21
+#: sophie_bot/modules/help/utils/format_help.py:23
 #, fuzzy
 msgid "Disable-able"
 msgstr "未启用"
@@ -672,36 +762,6 @@ msgstr "断开连接的私人消息与连接的聊天。"
 #: sophie_bot/modules/legacy_modules/modules/connection.py:183
 msgid "Sets whatever normal users (non admins) are allowed to connect"
 msgstr "设置普通用户 (非管理员) 允许连接的内容"
-
-#: sophie_bot/modules/legacy_modules/modules/disabling.py:18
-msgid "Disabling"
-msgstr "禁用"
-
-#: sophie_bot/modules/legacy_modules/modules/disabling.py:25
-msgid "Lists all commands that can be disabled."
-msgstr "列出所有可以禁用的命令。"
-
-#: sophie_bot/modules/legacy_modules/modules/disabling.py:36
-msgid "Lists all disabled commands."
-msgstr "列出所有已禁用的命令。"
-
-#: sophie_bot/modules/legacy_modules/modules/disabling.py:53
-msgid "Disables the command."
-msgstr "禁用该命令。"
-
-#: sophie_bot/modules/legacy_modules/modules/disabling.py:53
-#: sophie_bot/modules/legacy_modules/modules/disabling.py:86
-#: sophie_bot/modules/legacy_modules/modules/feds.py:265
-msgid "Command"
-msgstr "命令"
-
-#: sophie_bot/modules/legacy_modules/modules/disabling.py:86
-msgid "Enables the command."
-msgstr "启用该命令。"
-
-#: sophie_bot/modules/legacy_modules/modules/disabling.py:116
-msgid "Enables all previously disabled commands"
-msgstr "启用所有之前被禁用的命令"
 
 #: sophie_bot/modules/legacy_modules/modules/feds.py:87
 msgid "Federations"
@@ -928,7 +988,7 @@ msgid "💭 Reply to message"
 msgstr "💭 Reply to message"
 
 #: sophie_bot/modules/legacy_modules/modules/notes.py:43
-#: sophie_bot/modules/notes/__init__.py:13
+#: sophie_bot/modules/notes/__init__.py:12
 msgid "Notes"
 msgstr "笔记"
 
@@ -1176,35 +1236,35 @@ msgstr "检索备注。"
 msgid "No note was found with {name} name."
 msgstr "未找到名为 {name} 的笔记。"
 
-#: sophie_bot/modules/notes/handlers/list.py:16
+#: sophie_bot/modules/notes/handlers/list.py:15
 msgid "Search notes"
 msgstr "搜索笔记"
 
-#: sophie_bot/modules/notes/handlers/list.py:17
+#: sophie_bot/modules/notes/handlers/list.py:16
 msgid "Lists available notes."
 msgstr "列出可用的备注。"
 
-#: sophie_bot/modules/notes/handlers/list.py:79
+#: sophie_bot/modules/notes/handlers/list.py:78
 msgid "No notes found by the provided search pattern {pattern}."
 msgstr "未能根据提供的搜索模式 {pattern} 找到任何笔记。"
 
-#: sophie_bot/modules/notes/handlers/list.py:82
+#: sophie_bot/modules/notes/handlers/list.py:81
 msgid "No notes found."
 msgstr "未找到任何笔记。"
 
-#: sophie_bot/modules/notes/handlers/list.py:86
+#: sophie_bot/modules/notes/handlers/list.py:85
 msgid "Search pattern"
 msgstr "搜索模式"
 
-#: sophie_bot/modules/notes/handlers/list.py:88
+#: sophie_bot/modules/notes/handlers/list.py:87
 msgid "Notes in {chat_name}"
 msgstr "在 {chat_name} 中的笔记"
 
-#: sophie_bot/modules/notes/handlers/list.py:92
+#: sophie_bot/modules/notes/handlers/list.py:91
 msgid "Use {cmd} to retrieve a note. Example: {cmd_example}"
 msgstr "使用 {cmd} 来检索笔记。示例：{cmd_example}"
 
-#: sophie_bot/modules/notes/handlers/list.py:93
+#: sophie_bot/modules/notes/handlers/list.py:92
 msgid "#(Note name)"
 msgstr "#(备注名称)"
 
@@ -1600,4 +1660,10 @@ msgstr "尝试获取用户时出现意外错误！请在支持聊天中报告此
 #: types/user.py:108
 msgid "Could not find the user mention"
 msgstr "未找到用户提及"
+
+#~ msgid "Enables the command."
+#~ msgstr "启用该命令。"
+
+#~ msgid "Enables all previously disabled commands"
+#~ msgstr "启用所有之前被禁用的命令"
 

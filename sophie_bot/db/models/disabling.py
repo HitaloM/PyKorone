@@ -1,4 +1,4 @@
-from typing import Annotated
+from typing import Annotated, Optional
 
 from beanie import Document, Indexed, UpdateResponse
 from beanie.odm.operators.find.comparison import In
@@ -30,7 +30,7 @@ class DisablingModel(Document):
 
     @staticmethod
     async def disable(chat_id: int, cmd: str) -> "DisablingModel":
-        return await DisablingModel.find_one(DisablingModel.chat.id == chat_id).upsert(
+        return await DisablingModel.find_one(DisablingModel.chat_id == chat_id).upsert(
             AddToSet({DisablingModel.cmds: cmd}),
             on_insert=DisablingModel(chat_id=chat_id, cmds=[cmd]),
             response_type=UpdateResponse.NEW_DOCUMENT,
@@ -38,9 +38,18 @@ class DisablingModel(Document):
 
     @staticmethod
     async def enable(chat_id: int, cmd: str) -> "DisablingModel":
-        model = await DisablingModel.find_one(DisablingModel.chat.id == chat_id, In(DisablingModel.cmds, cmd))
+        model = await DisablingModel.find_one(DisablingModel.chat_id == chat_id, In(DisablingModel.cmds, [cmd]))
 
         if not model:
             raise DBNotFoundException()
 
-        return await model.update(Pull(In(DisablingModel.cmds, cmd)))
+        return await model.update(Pull({DisablingModel.cmds: cmd}))
+
+    @staticmethod
+    async def enable_all(chat_id: int) -> Optional["DisablingModel"]:
+        model = await DisablingModel.find_one(DisablingModel.chat_id == chat_id)
+
+        if model:
+            await model.delete()
+
+        return model

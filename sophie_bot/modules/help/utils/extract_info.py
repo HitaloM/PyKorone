@@ -62,6 +62,10 @@ def get_aliased_cmds(module_name) -> dict[str, list[CmdHelp]]:
     }
 
 
+def get_all_cmds() -> list[CmdHelp]:
+    return [cmd for module in HELP_MODULES.values() for cmd in module.cmds]
+
+
 def gather_cmd_args(args: ARGS_DICT | ARGS_COROUTINE | None) -> ARGS_DICT | None:
     if not args:
         return None

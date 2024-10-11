@@ -1,0 +1,32 @@
+from aiogram import flags
+from aiogram.dispatcher.event.handler import CallbackType
+from aiogram.handlers import MessageHandler
+from stfu_tg import Section
+
+from sophie_bot.filters.cmd import CMDFilter
+from sophie_bot.modules.help.utils.extract_info import DISABLEABLE_CMDS, CmdHelp
+from sophie_bot.modules.help.utils.format_help import format_cmds
+from sophie_bot.utils.i18n import gettext as _
+from sophie_bot.utils.i18n import lazy_gettext as l_
+
+
+@flags.help(description=l_("Lists all commands that can be disabled."))
+@flags.disableable(name="disableable")
+class ListDisableable(MessageHandler):
+    @staticmethod
+    def filters() -> tuple[CallbackType, ...]:
+        return (CMDFilter("disableable"),)
+
+    @staticmethod
+    def get_disable_able_commands() -> list[CmdHelp]:
+        return list(x for x in DISABLEABLE_CMDS if x.disableable)
+
+    async def handle(self):
+        await self.event.reply(
+            str(
+                Section(
+                    format_cmds(self.get_disable_able_commands(), show_only_in_groups=False, show_disable_able=False),
+                    title=_("Disable-able commands"),
+                )
+            )
+        )
