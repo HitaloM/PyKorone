@@ -1,18 +1,22 @@
-
 msgid ""
 msgstr ""
-"Project-Id-Version:  sophiebot\n"
+"Project-Id-Version: sophiebot\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-10-09 18:23+0200\n"
-"PO-Revision-Date: 2024-10-09 16:40+0000\n"
+"POT-Creation-Date: 2024-10-11 20:14+0200\n"
+"PO-Revision-Date: 2024-10-11 18:39\n"
 "Last-Translator: \n"
-"Language: tr_TR\n"
 "Language-Team: Turkish\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=utf-8\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.15.0\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Crowdin-Project: sophiebot\n"
+"X-Crowdin-Project-ID: 356879\n"
+"X-Crowdin-Language: tr\n"
+"X-Crowdin-File: /beta/locales/sophie.pot\n"
+"X-Crowdin-File-ID: 288\n"
+"Language: tr_TR\n"
 
 #: sophie_bot/args/users.py:29
 msgid "Could not find the requested User ID in the database."
@@ -22,23 +26,23 @@ msgstr "Veritabanında istenen Kullanıcı ID'si bulunamadı."
 msgid "Could not find the requested Username in the database."
 msgstr "Veritabanında istenen Kullanıcı Adı bulunamadı."
 
-#: sophie_bot/args/users.py:72 types/user.py:119
+#: sophie_bot/args/users.py:72
 msgid "User: 'User ID (numeric) / Username (starts with @) / Mention (links to users)'"
 msgstr "Kullanıcı: 'Kullanıcı ID'si (sayısal) / Kullanıcı adı ( @ ile başlar) / Kullanma (kullanıcılara bağlantılar)'"
 
-#: sophie_bot/args/users.py:72 types/user.py:121
+#: sophie_bot/args/users.py:72
 msgid "Users: 'User IDs (numeric) / Usernames (starts with @) / Mentions (links to users)'"
 msgstr "Kullanıcılar: 'Kullanıcı ID'leri (sayısal) / Kullanıcı adları ( @ ile başlar) / Kullanma (kullanıcılara bağlantılar)'"
 
-#: sophie_bot/args/users.py:79 types/user.py:128
+#: sophie_bot/args/users.py:79
 msgid "User ID"
 msgstr "Kullanıcı ID'si"
 
-#: sophie_bot/args/users.py:80 types/user.py:129
+#: sophie_bot/args/users.py:80
 msgid "Username"
 msgstr "Kullanıcı adı"
 
-#: sophie_bot/args/users.py:81 types/user.py:133
+#: sophie_bot/args/users.py:81
 msgid "A link to user, usually creates by mentioning a user without username."
 msgstr "Bir kullanıcıya bağlantı, genellikle kullanıcıyı kullanıcı adı olmadan anarak oluşturulur."
 
@@ -260,18 +264,16 @@ msgid "Text to translate"
 msgstr "Text to translate"
 
 #: sophie_bot/modules/ai/handlers/translate.py:28
-#, fuzzy
 msgid "Translates the given (or replied) text to the chat's selected language. Also transcribes the replied voice message to text"
-msgstr "Translates the given (or replied) text to the chat's selected language"
+msgstr "Verilen (veya yanıtlanan) metni sohbetin seçilen diline çevirir. Ayrıca yanıtlanan sesli mesajı metne dönüştürür"
 
 #: sophie_bot/modules/ai/handlers/translate.py:60
-#, fuzzy
 msgid "You're the professional AI translator/transcriber, try to translate the texts word to word."
-msgstr "You're the professional AI translator, try to translate the texts word to word."
+msgstr "Profesyonel bir AI çevirmen/transkriptoru olduğunuz için metinleri kelime kelime çevirmeye çalışın."
 
 #: sophie_bot/modules/ai/handlers/translate.py:61
 msgid "If the message is already in a required language, just copy it."
-msgstr ""
+msgstr "Mesaj zaten gerekli dildeyse, sadece kopyalayın."
 
 #: sophie_bot/modules/ai/handlers/translate.py:62
 msgid "If it needs any explanations or clarifications, write them briefly afterwards separately."
@@ -287,7 +289,7 @@ msgstr "Translator"
 
 #: sophie_bot/modules/ai/handlers/translate.py:79
 msgid "Voice"
-msgstr ""
+msgstr "Ses"
 
 #: sophie_bot/modules/ai/handlers/translate.py:81
 msgid "Translated to {language}"
@@ -339,79 +341,69 @@ msgstr "Komutu devre dışı bırakır."
 
 #: sophie_bot/modules/disabling/handlers/disable.py:37
 #: sophie_bot/modules/disabling/handlers/enable.py:40
-#, fuzzy
 msgid "Command {cmd} not found."
-msgstr "Not bulunamadı."
+msgstr "Komut {cmd} bulunamadı."
 
 #: sophie_bot/modules/disabling/handlers/disable.py:41
 #: sophie_bot/modules/disabling/handlers/enable.py:44
-#, fuzzy
 msgid "Command {cmd} is already disabled."
-msgstr "devre dışı"
+msgstr "Komut {cmd} zaten devre dışı."
 
 #: sophie_bot/modules/disabling/handlers/disable.py:52
-#, fuzzy
 msgid "Command disabled"
-msgstr "devre dışı"
+msgstr "Komut devre dışı"
 
 #: sophie_bot/modules/disabling/handlers/disable_able.py:13
 msgid "Lists all commands that can be disabled."
 msgstr "Devre dışı bırakılabilen tüm komutları listeler."
 
 #: sophie_bot/modules/disabling/handlers/disable_able.py:29
-#, fuzzy
 msgid "Disable-able commands"
-msgstr "Komutu devre dışı bırakır."
+msgstr "Devredışı bırakılabilen komutlar"
 
 #: sophie_bot/modules/disabling/handlers/disabled.py:14
 msgid "Lists all disabled commands."
 msgstr "Devre dışı bırakılmış tüm komutları listeler."
 
 #: sophie_bot/modules/disabling/handlers/disabled.py:27
-#, fuzzy
 msgid "No disabled commands found."
-msgstr "Devre dışı bırakılmış tüm komutları listeler."
+msgstr "Devre dışı bırakılmış hiçbir komut bulunamadı."
 
 #: sophie_bot/modules/disabling/handlers/disabled.py:30
-#, fuzzy
 msgid "Disabled commands"
-msgstr "Komutu devre dışı bırakır."
+msgstr "Devre dışı bırakılan komutlar"
 
 #: sophie_bot/modules/disabling/handlers/enable.py:22
-#, fuzzy
 msgid "Enables previously disabled command."
-msgstr "Daha önce devre dışı bırakılan tüm komutları etkinleştirir"
+msgstr "Daha önce devre dışı bırakılan komutu etkinleştirir."
 
 #: sophie_bot/modules/disabling/handlers/enable.py:55
-#, fuzzy
 msgid "Command enabled"
-msgstr "devre dışı"
+msgstr "Komut etkinleştirildi"
 
 #: sophie_bot/modules/disabling/handlers/enable_all.py:33
-#, fuzzy
 msgid "✅ Enable all"
-msgstr "etkin"
+msgstr "✅ Tümünü Etkinleştir"
 
 #: sophie_bot/modules/disabling/handlers/enable_all.py:37
-#, fuzzy
 msgid "🚫 Cancel"
-msgstr "❌ Cancel"
+msgstr "🚫 İptal"
 
 #: sophie_bot/modules/disabling/handlers/enable_all.py:41
 msgid "Do you want to enable all commands in the {chat_name}?"
-msgstr ""
+msgstr "{chat_name} içinde tüm komutları etkinleştirmek ister misiniz?"
 
 #: sophie_bot/modules/disabling/handlers/enable_all.py:61
 msgid "Only the initiator can confirm disabling all commands"
-msgstr ""
+msgstr "Tüm komutları devre dışı bırakmayı yalnızca başlatıcı onaylayabilir"
 
 #: sophie_bot/modules/disabling/handlers/enable_all.py:64
 msgid "The message is inaccessible. Please write the /enableall command again"
-msgstr ""
+msgstr "Mesaj erişilemez. Lütfen /enableall komutunu yeniden yazın"
 
 #: sophie_bot/modules/disabling/handlers/enable_all.py:73
 msgid "✅ All the commands ({removed_count}) have been enabled in the {chat_name}"
-msgstr ""
+msgstr "✅ Tüm komutlar ({removed_count}) {chat_name} içinde etkinleştirildi"
 
 #: sophie_bot/modules/error/__init__.py:13
 msgid "Error"
@@ -721,9 +713,8 @@ msgid "— Only in groups"
 msgstr "— Only in groups"
 
 #: sophie_bot/modules/help/utils/format_help.py:23
-#, fuzzy
 msgid "Disable-able"
-msgstr "devre dışı"
+msgstr "Devredışı bırakılabilen"
 
 #: sophie_bot/modules/legacy_modules/modules/antiflood.py:69
 msgid "Antiflood"
@@ -1028,7 +1019,7 @@ msgid "Searches text across all notes."
 msgstr "Tüm notlar arasında metin arar."
 
 #: sophie_bot/modules/legacy_modules/modules/notes.py:330
-#: sophie_bot/modules/notes/handlers/save.py:29 types/text.py:18
+#: sophie_bot/modules/notes/handlers/save.py:29
 msgid "Text"
 msgstr "Metin"
 
@@ -1566,6 +1557,10 @@ msgstr "Doğru (Etkin veya Evet anlamına gelebilir)"
 msgid "False (can means Disabled or No)"
 msgstr "Yanlış (Devre dışı veya Hayır anlamına gelebilir)"
 
+#: types/text.py:18
+msgid "Text"
+msgstr "Metin"
+
 #: types/text_rules.py:27
 msgid "➡️ The Argument should start with {}!"
 msgstr "➡️ Argument şunlarla başlamalı: {}!"
@@ -1675,9 +1670,23 @@ msgstr "Kullanıcıyı almaya çalışırken beklenmedik bir hata oluştu! Lütf
 msgid "Could not find the user mention"
 msgstr "Kullanıcı bahsini bulamadı"
 
-#~ msgid "Enables the command."
-#~ msgstr "Komutu etkinleştirir."
+#: types/user.py:119
+msgid "User: 'User ID (numeric) / Username (starts with @) / Mention (links to users)'"
+msgstr "Kullanıcı: 'Kullanıcı ID (sayısal) / Kullanıcı adı (şu şekilde başlar: @) / Bahis (kullanıcılara bağlantılar)'"
 
-#~ msgid "Enables all previously disabled commands"
-#~ msgstr "Daha önce devre dışı bırakılan tüm komutları etkinleştirir"
+#: types/user.py:121
+msgid "Users: 'User IDs (numeric) / Usernames (starts with @) / Mentions (links to users)'"
+msgstr "Kullanıcılar: 'Kullanıcı ID'leri (sayısal) / Kullanıcı adları (şu şekilde başlar: @) / Bahisler (kullanıcılara bağlantılar)'"
+
+#: types/user.py:128
+msgid "User ID"
+msgstr "Kullanıcı ID"
+
+#: types/user.py:129
+msgid "Username"
+msgstr "Kullanıcı adı"
+
+#: types/user.py:133
+msgid "A link to user, usually creates by mentioning a user without username."
+msgstr "Bir kullanıcıya bağlantı, genellikle kullanıcı adı olmadan bir kullanıcı bahsi yaparak oluşturulur."
 

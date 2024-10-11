@@ -1,18 +1,22 @@
-
 msgid ""
 msgstr ""
-"Project-Id-Version:  sophiebot\n"
+"Project-Id-Version: sophiebot\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-10-09 18:23+0200\n"
-"PO-Revision-Date: 2024-10-09 16:40+0000\n"
+"POT-Creation-Date: 2024-10-11 20:14+0200\n"
+"PO-Revision-Date: 2024-10-11 18:39\n"
 "Last-Translator: \n"
-"Language: uk_UA\n"
 "Language-Team: Ukrainian\n"
-"Plural-Forms: nplurals=4; plural=((n%10==1 && n%100!=11) ? 0 : ((n%10 >= 2 && n%10 <=4 && (n%100 < 12 || n%100 > 14)) ? 1 : ((n%10 == 0 || (n%10 >= 5 && n%10 <=9)) || (n%100 >= 11 && n%100 <= 14)) ? 2 : 3));\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=utf-8\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.15.0\n"
+"Plural-Forms: nplurals=4; plural=((n%10==1 && n%100!=11) ? 0 : ((n%10 >= 2 && n%10 <=4 && (n%100 < 12 || n%100 > 14)) ? 1 : ((n%10 == 0 || (n%10 >= 5 && n%10 <=9)) || (n%100 >= 11 && n%100 <= 14)) ? 2 : 3));\n"
+"X-Crowdin-Project: sophiebot\n"
+"X-Crowdin-Project-ID: 356879\n"
+"X-Crowdin-Language: uk\n"
+"X-Crowdin-File: /beta/locales/sophie.pot\n"
+"X-Crowdin-File-ID: 288\n"
+"Language: uk_UA\n"
 
 #: sophie_bot/args/users.py:29
 msgid "Could not find the requested User ID in the database."
@@ -22,23 +26,23 @@ msgstr "Не вдалося знайти запитаний Ідентифіка
 msgid "Could not find the requested Username in the database."
 msgstr "Не вдалося знайти запитане Ім'я користувача в базі даних."
 
-#: sophie_bot/args/users.py:72 types/user.py:119
+#: sophie_bot/args/users.py:72
 msgid "User: 'User ID (numeric) / Username (starts with @) / Mention (links to users)'"
 msgstr "Користувач: 'Ідентифікатор користувача (числовий) / Ім'я користувача (починається з @) / Згадка (посилання на користувачів)'"
 
-#: sophie_bot/args/users.py:72 types/user.py:121
+#: sophie_bot/args/users.py:72
 msgid "Users: 'User IDs (numeric) / Usernames (starts with @) / Mentions (links to users)'"
 msgstr "Користувачі: 'ID користувачів (числові) / Імена користувачів (починаються з @) / Згадки (посилання на користувачів)'"
 
-#: sophie_bot/args/users.py:79 types/user.py:128
+#: sophie_bot/args/users.py:79
 msgid "User ID"
 msgstr "Ідентифікатор користувача"
 
-#: sophie_bot/args/users.py:80 types/user.py:129
+#: sophie_bot/args/users.py:80
 msgid "Username"
 msgstr "Ім'я користувача"
 
-#: sophie_bot/args/users.py:81 types/user.py:133
+#: sophie_bot/args/users.py:81
 msgid "A link to user, usually creates by mentioning a user without username."
 msgstr "Посилання на користувача, яке зазвичай створюється, коли згадують користувача без імені."
 
@@ -260,18 +264,16 @@ msgid "Text to translate"
 msgstr "Текст для перекладу"
 
 #: sophie_bot/modules/ai/handlers/translate.py:28
-#, fuzzy
 msgid "Translates the given (or replied) text to the chat's selected language. Also transcribes the replied voice message to text"
-msgstr "Перекладає даний (або відповіданий) текст на вибрану мову чату"
+msgstr "Перекладає даний (або відповіданий) текст на вибрану мову чату. Також транскрибує відповідане голосове повідомлення в текст"
 
 #: sophie_bot/modules/ai/handlers/translate.py:60
-#, fuzzy
 msgid "You're the professional AI translator/transcriber, try to translate the texts word to word."
-msgstr "Ви професійний перекладач AI, спробуйте перекласти тексти слово в слово."
+msgstr "Ви професійний перекладач AI/транскрибатор, спробуйте перекласти тексти слово в слово."
 
 #: sophie_bot/modules/ai/handlers/translate.py:61
 msgid "If the message is already in a required language, just copy it."
-msgstr ""
+msgstr "Якщо повідомлення вже на потрібній мові, просто скопіюйте його."
 
 #: sophie_bot/modules/ai/handlers/translate.py:62
 msgid "If it needs any explanations or clarifications, write them briefly afterwards separately."
@@ -287,7 +289,7 @@ msgstr "Перекладач"
 
 #: sophie_bot/modules/ai/handlers/translate.py:79
 msgid "Voice"
-msgstr ""
+msgstr "Голос"
 
 #: sophie_bot/modules/ai/handlers/translate.py:81
 msgid "Translated to {language}"
@@ -339,79 +341,69 @@ msgstr "Вимикає команду."
 
 #: sophie_bot/modules/disabling/handlers/disable.py:37
 #: sophie_bot/modules/disabling/handlers/enable.py:40
-#, fuzzy
 msgid "Command {cmd} not found."
-msgstr "Немає жодної примітки."
+msgstr "Команда {cmd} не знайдена."
 
 #: sophie_bot/modules/disabling/handlers/disable.py:41
 #: sophie_bot/modules/disabling/handlers/enable.py:44
-#, fuzzy
 msgid "Command {cmd} is already disabled."
-msgstr "вимкнено"
+msgstr "Команда {cmd} вже відключена."
 
 #: sophie_bot/modules/disabling/handlers/disable.py:52
-#, fuzzy
 msgid "Command disabled"
-msgstr "вимкнено"
+msgstr "Команда вимкнена"
 
 #: sophie_bot/modules/disabling/handlers/disable_able.py:13
 msgid "Lists all commands that can be disabled."
 msgstr "Перелічує всі команди, які можна вимкнути."
 
 #: sophie_bot/modules/disabling/handlers/disable_able.py:29
-#, fuzzy
 msgid "Disable-able commands"
-msgstr "Вимикає команду."
+msgstr "Команди, доступні для відключення"
 
 #: sophie_bot/modules/disabling/handlers/disabled.py:14
 msgid "Lists all disabled commands."
 msgstr "Перелічує всі вимкнені команди."
 
 #: sophie_bot/modules/disabling/handlers/disabled.py:27
-#, fuzzy
 msgid "No disabled commands found."
-msgstr "Перелічує всі вимкнені команди."
+msgstr "Не знайдено відключених команд."
 
 #: sophie_bot/modules/disabling/handlers/disabled.py:30
-#, fuzzy
 msgid "Disabled commands"
-msgstr "Вимикає команду."
+msgstr "Відключені команди"
 
 #: sophie_bot/modules/disabling/handlers/enable.py:22
-#, fuzzy
 msgid "Enables previously disabled command."
-msgstr "Увімкнути всі раніше вимкнені команди"
+msgstr "Увімкнути раніше вимкнену команду."
 
 #: sophie_bot/modules/disabling/handlers/enable.py:55
-#, fuzzy
 msgid "Command enabled"
-msgstr "вимкнено"
+msgstr "Команда увімкнена"
 
 #: sophie_bot/modules/disabling/handlers/enable_all.py:33
-#, fuzzy
 msgid "✅ Enable all"
-msgstr "увімкнено"
+msgstr "✅ Увімкнути все"
 
 #: sophie_bot/modules/disabling/handlers/enable_all.py:37
-#, fuzzy
 msgid "🚫 Cancel"
-msgstr "❌ Скасувати"
+msgstr "🚫 Скасувати"
 
 #: sophie_bot/modules/disabling/handlers/enable_all.py:41
 msgid "Do you want to enable all commands in the {chat_name}?"
-msgstr ""
+msgstr "Ви хочете увімкнути всі команди в {chat_name}?"
 
 #: sophie_bot/modules/disabling/handlers/enable_all.py:61
 msgid "Only the initiator can confirm disabling all commands"
-msgstr ""
+msgstr "Тільки ініціатор може підтвердити відключення всіх команд"
 
 #: sophie_bot/modules/disabling/handlers/enable_all.py:64
 msgid "The message is inaccessible. Please write the /enableall command again"
-msgstr ""
+msgstr "Повідомлення недоступне. Будь ласка, напишіть команду /enableall ще раз"
 
 #: sophie_bot/modules/disabling/handlers/enable_all.py:73
 msgid "✅ All the commands ({removed_count}) have been enabled in the {chat_name}"
-msgstr ""
+msgstr "✅ Усі команди ({removed_count}) були увімкнені в {chat_name}"
 
 #: sophie_bot/modules/error/__init__.py:13
 msgid "Error"
@@ -721,9 +713,8 @@ msgid "— Only in groups"
 msgstr "— Тільки в групах"
 
 #: sophie_bot/modules/help/utils/format_help.py:23
-#, fuzzy
 msgid "Disable-able"
-msgstr "вимкнено"
+msgstr "Команди, доступні для відключення"
 
 #: sophie_bot/modules/legacy_modules/modules/antiflood.py:69
 msgid "Antiflood"
@@ -1028,7 +1019,7 @@ msgid "Searches text across all notes."
 msgstr "Шукає текст в усіх примітках."
 
 #: sophie_bot/modules/legacy_modules/modules/notes.py:330
-#: sophie_bot/modules/notes/handlers/save.py:29 types/text.py:18
+#: sophie_bot/modules/notes/handlers/save.py:29
 msgid "Text"
 msgstr "Текст"
 
@@ -1566,6 +1557,10 @@ msgstr "Істина (може означати Активовано або Та
 msgid "False (can means Disabled or No)"
 msgstr "Лож (може означати Вимкнено або Ні)"
 
+#: types/text.py:18
+msgid "Text"
+msgstr "Текст"
+
 #: types/text_rules.py:27
 msgid "➡️ The Argument should start with {}!"
 msgstr "➡️ Аргумент повинен починатися з {}!"
@@ -1675,9 +1670,23 @@ msgstr "Несподівана помилка під час спроби отр�
 msgid "Could not find the user mention"
 msgstr "Не вдалося знайти згадку користувача"
 
-#~ msgid "Enables the command."
-#~ msgstr "Увімкнути команду."
+#: types/user.py:119
+msgid "User: 'User ID (numeric) / Username (starts with @) / Mention (links to users)'"
+msgstr "Користувач: 'Ідентифікатор користувача (числовий) / Ім'я користувача (починається з @) / Згадка (посилання на користувачів)'"
 
-#~ msgid "Enables all previously disabled commands"
-#~ msgstr "Увімкнути всі раніше вимкнені команди"
+#: types/user.py:121
+msgid "Users: 'User IDs (numeric) / Usernames (starts with @) / Mentions (links to users)'"
+msgstr "Користувачі: 'Ідентифікатори користувачів (числові) / Імена користувачів (починаються з @) / Згадки (посилання на користувачів)'"
+
+#: types/user.py:128
+msgid "User ID"
+msgstr "Ідентифікатор користувача"
+
+#: types/user.py:129
+msgid "Username"
+msgstr "Ім'я користувача"
+
+#: types/user.py:133
+msgid "A link to user, usually creates by mentioning a user without username."
+msgstr "Посилання на користувача, яке зазвичай створюється, коли згадують користувача без імені."
 
