@@ -6,6 +6,7 @@ from ass_tg.types import WordArg
 from stfu_tg import Code, Italic, KeyValue, Section, Template
 
 from sophie_bot.db.models import DisablingModel
+from sophie_bot.filters.admin_rights import UserRestricting
 from sophie_bot.filters.cmd import CMDFilter
 from sophie_bot.modules.disabling.utils.get_disabled import (
     get_cmd_help_by_name,
@@ -23,7 +24,7 @@ class EnableHandler(SophieMessageHandler):
 
     @staticmethod
     def filters() -> tuple[CallbackType, ...]:
-        return (CMDFilter("enable"),)
+        return CMDFilter("enable"), UserRestricting(admin=True)
 
     @staticmethod
     async def enable_cmd(chat_id: int, cmd: str):
