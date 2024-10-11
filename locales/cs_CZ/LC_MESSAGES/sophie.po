@@ -287,27 +287,27 @@ msgstr "Translated to {language}"
 msgid "By using AI features you agree to the our Privacy Policy (/privacy) and third party AI services used."
 msgstr "Používáním funkcí AI souhlasíte s našimi Zásadami ochrany soukromí (/privacy) a se službami AI třetích stran."
 
-#: sophie_bot/modules/ai/utils/message_history.py:47
+#: sophie_bot/modules/ai/utils/message_history.py:48
 msgid "You're a Telegram Bot named Sophie."
 msgstr "Jsi Telegram bot jménem Sophie."
 
-#: sophie_bot/modules/ai/utils/message_history.py:48
+#: sophie_bot/modules/ai/utils/message_history.py:49
 msgid "Respond concisely, be friendly, stick to the current topic."
 msgstr "Reaguj stručně, buď přátelský, drž se aktuálního tématu."
 
-#: sophie_bot/modules/ai/utils/message_history.py:49
+#: sophie_bot/modules/ai/utils/message_history.py:50
 msgid "Do not use markdown or html. You can use emojis."
 msgstr "Nepoužívej markdown ani html. Můžeš používat emoji."
 
-#: sophie_bot/modules/ai/utils/message_history.py:71
+#: sophie_bot/modules/ai/utils/message_history.py:72
 msgid "<No text provided>"
 msgstr "<No text provided>"
 
-#: sophie_bot/modules/ai/utils/message_history.py:80
+#: sophie_bot/modules/ai/utils/message_history.py:81
 msgid "MESSAGE REPLIES TO PREVIOUS MESSAGE FROM"
 msgstr "ZPRÁVA ODPOVÍDÁ NA PŘEDCHOZÍ ZPRÁVU OD"
 
-#: sophie_bot/modules/ai/utils/message_history.py:91
+#: sophie_bot/modules/ai/utils/message_history.py:92
 msgid "Photo is empty"
 msgstr "Foto je prázdné"
 

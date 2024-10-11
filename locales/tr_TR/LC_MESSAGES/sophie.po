@@ -287,27 +287,27 @@ msgstr "Translated to {language}"
 msgid "By using AI features you agree to the our Privacy Policy (/privacy) and third party AI services used."
 msgstr "AI özelliklerini kullanarak, Gizlilik Politikamıza (/privacy) ve kullanılan üçüncü parti AI hizmetlerine onay vermiş olursunuz."
 
-#: sophie_bot/modules/ai/utils/message_history.py:47
+#: sophie_bot/modules/ai/utils/message_history.py:48
 msgid "You're a Telegram Bot named Sophie."
 msgstr "Telegram'da Sophie adında bir botsun."
 
-#: sophie_bot/modules/ai/utils/message_history.py:48
+#: sophie_bot/modules/ai/utils/message_history.py:49
 msgid "Respond concisely, be friendly, stick to the current topic."
 msgstr "Kısa ve dostça cevap ver, mevcut konuya sadık kal."
 
-#: sophie_bot/modules/ai/utils/message_history.py:49
+#: sophie_bot/modules/ai/utils/message_history.py:50
 msgid "Do not use markdown or html. You can use emojis."
 msgstr "Markdown veya html kullanmayın. Emojileri kullanabilirsiniz."
 
-#: sophie_bot/modules/ai/utils/message_history.py:71
+#: sophie_bot/modules/ai/utils/message_history.py:72
 msgid "<No text provided>"
 msgstr "<No text provided>"
 
-#: sophie_bot/modules/ai/utils/message_history.py:80
+#: sophie_bot/modules/ai/utils/message_history.py:81
 msgid "MESSAGE REPLIES TO PREVIOUS MESSAGE FROM"
 msgstr "MESAJ, ŞU ANDAN ÖNCE GÖNDERİLEN MESAJA CEVAP VERİYOR"
 
-#: sophie_bot/modules/ai/utils/message_history.py:91
+#: sophie_bot/modules/ai/utils/message_history.py:92
 msgid "Photo is empty"
 msgstr "Fotoğraf boş"
 

@@ -18,6 +18,7 @@ from sophie_bot import CONFIG, bot
 from sophie_bot.db.models import ChatModel
 from sophie_bot.modules.ai.utils.cache_messages import MessageType, get_cached_messages
 from sophie_bot.modules.ai.utils.self_reply import cut_titlebar, is_ai_message
+from sophie_bot.modules.ai.utils.transform_audio import transform_voice_to_text
 from sophie_bot.utils.exception import SophieException
 from sophie_bot.utils.i18n import gettext as _
 from sophie_bot.utils.logger import log
@@ -98,6 +99,10 @@ class MessageHistory(list[ChatCompletionMessageParam]):
                     image_url=ImageURL(url=f"data:image/jpeg;base64,{photo_base64.decode()}", detail="auto"),
                 )
             )
+
+        if message.voice:
+            text = await transform_voice_to_text(message.voice)
+            content.append(ChatCompletionContentPartTextParam(type="text", text=text))
 
         self.append(
             {  # type: ignore
