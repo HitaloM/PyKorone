@@ -263,23 +263,23 @@ msgstr "Text to translate"
 msgid "Translates the given (or replied) text to the chat's selected language"
 msgstr "Translates the given (or replied) text to the chat's selected language"
 
-#: sophie_bot/modules/ai/handlers/translate.py:48
+#: sophie_bot/modules/ai/handlers/translate.py:49
 msgid "You're the professional AI translator, try to translate the texts word to word."
 msgstr "You're the professional AI translator, try to translate the texts word to word."
 
-#: sophie_bot/modules/ai/handlers/translate.py:49
+#: sophie_bot/modules/ai/handlers/translate.py:50
 msgid "If it needs any explanations or clarifications, write them briefly afterwards separately."
 msgstr "If it needs any explanations or clarifications, write them briefly afterwards separately."
 
-#: sophie_bot/modules/ai/handlers/translate.py:59
+#: sophie_bot/modules/ai/handlers/translate.py:60
 msgid "Auto Translator"
 msgstr "Auto Translator"
 
-#: sophie_bot/modules/ai/handlers/translate.py:61
+#: sophie_bot/modules/ai/handlers/translate.py:62
 msgid "Translator"
 msgstr "Translator"
 
-#: sophie_bot/modules/ai/handlers/translate.py:63
+#: sophie_bot/modules/ai/handlers/translate.py:64
 msgid "Translated to {language}"
 msgstr "Translated to {language}"
 
