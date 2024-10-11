@@ -1,5 +1,5 @@
 from aiogram.dispatcher.event.handler import CallbackType
-from aiogram.types import InlineKeyboardButton
+from aiogram.types import InaccessibleMessage, InlineKeyboardButton
 from aiogram.utils.keyboard import InlineKeyboardBuilder
 from stfu_tg import Italic, Template
 
@@ -58,6 +58,9 @@ class DisableAllCbHandler(SophieCallbackQueryHandler):
 
         if user_id != data.user_id:
             return await self.event.answer(_("Only the initiator can confirm disabling all commands"))
+
+        if not self.event.message or isinstance(self.event.message, InaccessibleMessage):
+            return await self.event.answer(_("The message is inaccessible. Please write the /enableall command again"))
 
         model = await DisablingModel.enable_all(connection.id)
 

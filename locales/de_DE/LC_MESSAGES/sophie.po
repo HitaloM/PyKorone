@@ -395,7 +395,11 @@ msgstr ""
 msgid "Only the initiator can confirm disabling all commands"
 msgstr ""
 
-#: sophie_bot/modules/disabling/handlers/enable_all.py:69
+#: sophie_bot/modules/disabling/handlers/enable_all.py:63
+msgid "The message is inaccessible. Please write the /enableall command again"
+msgstr ""
+
+#: sophie_bot/modules/disabling/handlers/enable_all.py:72
 msgid "✅ All the commands ({removed_count}) have been enabled in the {chat_name}"
 msgstr ""
 
