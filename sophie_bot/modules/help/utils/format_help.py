@@ -1,14 +1,15 @@
 from typing import Sequence
 
 from ass_tg.types.base_abc import ArgFabric
-from stfu_tg import HList, Italic, Section, VList
+from stfu_tg import Code, HList, Italic, Section, VList
+from stfu_tg.doc import Element
 
 from sophie_bot.modules.help.utils.extract_info import CmdHelp
 from sophie_bot.utils.i18n import gettext as _
 
 
-def format_cmd(cmd: str):
-    return f"/{cmd}"
+def format_cmd(cmd: str) -> Element:
+    return Code(f"/{cmd}")
 
 
 def format_cmd_args(args: dict[str, ArgFabric]):
