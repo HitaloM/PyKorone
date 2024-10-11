@@ -1,18 +1,22 @@
-
 msgid ""
 msgstr ""
-"Project-Id-Version:  sophiebot\n"
+"Project-Id-Version: sophiebot\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-10-09 18:23+0200\n"
-"PO-Revision-Date: 2024-10-09 16:40+0000\n"
+"POT-Creation-Date: 2024-10-11 20:14+0200\n"
+"PO-Revision-Date: 2024-10-11 18:39\n"
 "Last-Translator: \n"
-"Language: de_DE\n"
 "Language-Team: German\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=utf-8\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.15.0\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Crowdin-Project: sophiebot\n"
+"X-Crowdin-Project-ID: 356879\n"
+"X-Crowdin-Language: de\n"
+"X-Crowdin-File: /beta/locales/sophie.pot\n"
+"X-Crowdin-File-ID: 288\n"
+"Language: de_DE\n"
 
 #: sophie_bot/args/users.py:29
 msgid "Could not find the requested User ID in the database."
@@ -22,23 +26,23 @@ msgstr "Die angeforderte Benutzer-ID konnte nicht in der Datenbank gefunden werd
 msgid "Could not find the requested Username in the database."
 msgstr "Die angeforderte Benutzername konnte nicht in der Datenbank gefunden werden."
 
-#: sophie_bot/args/users.py:72 types/user.py:119
+#: sophie_bot/args/users.py:72
 msgid "User: 'User ID (numeric) / Username (starts with @) / Mention (links to users)'"
 msgstr "Benutzer: 'Benutzer-ID (numerisch) / Benutzername (beginnt mit @) / Erwähnung (verlinkt auf Benutzer)'"
 
-#: sophie_bot/args/users.py:72 types/user.py:121
+#: sophie_bot/args/users.py:72
 msgid "Users: 'User IDs (numeric) / Usernames (starts with @) / Mentions (links to users)'"
 msgstr "Benutzer: 'Benutzer IDs (numerisch) / Benutzernamen (beginnt mit @) / Erwähnungen (verlinkt auf Benutzer)'"
 
-#: sophie_bot/args/users.py:79 types/user.py:128
+#: sophie_bot/args/users.py:79
 msgid "User ID"
 msgstr "Benutzer-ID"
 
-#: sophie_bot/args/users.py:80 types/user.py:129
+#: sophie_bot/args/users.py:80
 msgid "Username"
 msgstr "Benutzername"
 
-#: sophie_bot/args/users.py:81 types/user.py:133
+#: sophie_bot/args/users.py:81
 msgid "A link to user, usually creates by mentioning a user without username."
 msgstr "Ein Link zum Benutzer, der normalerweise erstellt wird, indem ein Benutzer ohne Benutzernamen erwähnt wird."
 
@@ -260,18 +264,16 @@ msgid "Text to translate"
 msgstr "Text zur Übersetzung"
 
 #: sophie_bot/modules/ai/handlers/translate.py:28
-#, fuzzy
 msgid "Translates the given (or replied) text to the chat's selected language. Also transcribes the replied voice message to text"
-msgstr "Übersetzt den gegebenen (oder beantworteten) Text in die gewählte Sprache des Chats"
+msgstr "Übersetzt den gegebenen (oder beantworteten) Text in die ausgewählte Sprache des Chats. Transkribiert auch die beantwortete Sprachnachricht in Text"
 
 #: sophie_bot/modules/ai/handlers/translate.py:60
-#, fuzzy
 msgid "You're the professional AI translator/transcriber, try to translate the texts word to word."
-msgstr "Sie sind der professionelle KI-Übersetzer, versuchen Sie, die Texte Wort für Wort zu übersetzen."
+msgstr "Sie sind der professionelle KI-Übersetzer/Transkribierer, versuchen Sie, die Texte Wort für Wort zu übersetzen."
 
 #: sophie_bot/modules/ai/handlers/translate.py:61
 msgid "If the message is already in a required language, just copy it."
-msgstr ""
+msgstr "Wenn die Nachricht bereits in der erforderlichen Sprache vorliegt, kopieren Sie sie einfach."
 
 #: sophie_bot/modules/ai/handlers/translate.py:62
 msgid "If it needs any explanations or clarifications, write them briefly afterwards separately."
@@ -287,7 +289,7 @@ msgstr "Übersetzer"
 
 #: sophie_bot/modules/ai/handlers/translate.py:79
 msgid "Voice"
-msgstr ""
+msgstr "Stimme"
 
 #: sophie_bot/modules/ai/handlers/translate.py:81
 msgid "Translated to {language}"
@@ -339,79 +341,69 @@ msgstr "Deaktiviert den Befehl."
 
 #: sophie_bot/modules/disabling/handlers/disable.py:37
 #: sophie_bot/modules/disabling/handlers/enable.py:40
-#, fuzzy
 msgid "Command {cmd} not found."
-msgstr "Keine Notizen gefunden."
+msgstr "Befehl {cmd} nicht gefunden."
 
 #: sophie_bot/modules/disabling/handlers/disable.py:41
 #: sophie_bot/modules/disabling/handlers/enable.py:44
-#, fuzzy
 msgid "Command {cmd} is already disabled."
-msgstr "deaktiviert"
+msgstr "Befehl {cmd} ist bereits deaktiviert."
 
 #: sophie_bot/modules/disabling/handlers/disable.py:52
-#, fuzzy
 msgid "Command disabled"
-msgstr "deaktiviert"
+msgstr "Befehl deaktiviert"
 
 #: sophie_bot/modules/disabling/handlers/disable_able.py:13
 msgid "Lists all commands that can be disabled."
 msgstr "Listet alle Befehle auf, die deaktiviert werden können."
 
 #: sophie_bot/modules/disabling/handlers/disable_able.py:29
-#, fuzzy
 msgid "Disable-able commands"
-msgstr "Deaktiviert den Befehl."
+msgstr "Deaktivierbare Befehle"
 
 #: sophie_bot/modules/disabling/handlers/disabled.py:14
 msgid "Lists all disabled commands."
 msgstr "Listet alle deaktivierten Befehle auf."
 
 #: sophie_bot/modules/disabling/handlers/disabled.py:27
-#, fuzzy
 msgid "No disabled commands found."
-msgstr "Listet alle deaktivierten Befehle auf."
+msgstr "Keine deaktivierten Befehle gefunden."
 
 #: sophie_bot/modules/disabling/handlers/disabled.py:30
-#, fuzzy
 msgid "Disabled commands"
-msgstr "Deaktiviert den Befehl."
+msgstr "Deaktivierte Befehle"
 
 #: sophie_bot/modules/disabling/handlers/enable.py:22
-#, fuzzy
 msgid "Enables previously disabled command."
-msgstr "Aktiviert alle zuvor deaktivierten Befehle"
+msgstr "Aktiviert zuvor deaktivierten Befehl."
 
 #: sophie_bot/modules/disabling/handlers/enable.py:55
-#, fuzzy
 msgid "Command enabled"
-msgstr "deaktiviert"
+msgstr "Befehl aktiviert"
 
 #: sophie_bot/modules/disabling/handlers/enable_all.py:33
-#, fuzzy
 msgid "✅ Enable all"
-msgstr "aktiviert"
+msgstr "✅ Alle aktivieren"
 
 #: sophie_bot/modules/disabling/handlers/enable_all.py:37
-#, fuzzy
 msgid "🚫 Cancel"
-msgstr "❌ Abbrechen"
+msgstr "🚫 Abbrechen"
 
 #: sophie_bot/modules/disabling/handlers/enable_all.py:41
 msgid "Do you want to enable all commands in the {chat_name}?"
-msgstr ""
+msgstr "Möchten Sie alle Befehle im {chat_name} aktivieren?"
 
 #: sophie_bot/modules/disabling/handlers/enable_all.py:61
 msgid "Only the initiator can confirm disabling all commands"
-msgstr ""
+msgstr "Nur der Initiator kann das Deaktivieren aller Befehle bestätigen"
 
 #: sophie_bot/modules/disabling/handlers/enable_all.py:64
 msgid "The message is inaccessible. Please write the /enableall command again"
-msgstr ""
+msgstr "Die Nachricht ist nicht zugänglich. Bitte schreibe den /enableall-Befehl erneut"
 
 #: sophie_bot/modules/disabling/handlers/enable_all.py:73
 msgid "✅ All the commands ({removed_count}) have been enabled in the {chat_name}"
-msgstr ""
+msgstr "✅ Alle Befehle ({removed_count}) wurden in den {chat_name} aktiviert"
 
 #: sophie_bot/modules/error/__init__.py:13
 msgid "Error"
@@ -721,9 +713,8 @@ msgid "— Only in groups"
 msgstr "— Nur in Gruppen"
 
 #: sophie_bot/modules/help/utils/format_help.py:23
-#, fuzzy
 msgid "Disable-able"
-msgstr "deaktiviert"
+msgstr "Deaktivierbare"
 
 #: sophie_bot/modules/legacy_modules/modules/antiflood.py:69
 msgid "Antiflood"
@@ -1028,7 +1019,7 @@ msgid "Searches text across all notes."
 msgstr "Durchsucht den Text in allen Notizen."
 
 #: sophie_bot/modules/legacy_modules/modules/notes.py:330
-#: sophie_bot/modules/notes/handlers/save.py:29 types/text.py:18
+#: sophie_bot/modules/notes/handlers/save.py:29
 msgid "Text"
 msgstr "Text"
 
@@ -1566,6 +1557,10 @@ msgstr "Wahr (kann Aktiviert oder Ja bedeuten)"
 msgid "False (can means Disabled or No)"
 msgstr "Falsch (kann Deaktiviert oder Nein bedeuten)"
 
+#: types/text.py:18
+msgid "Text"
+msgstr "Text"
+
 #: types/text_rules.py:27
 msgid "➡️ The Argument should start with {}!"
 msgstr "➡️ Das Argument sollte mit {} beginnen!"
@@ -1675,9 +1670,23 @@ msgstr "Unerwarteter Fehler beim Abrufen des Benutzers! Bitte melden Sie dies im
 msgid "Could not find the user mention"
 msgstr "Konnte die Benutzererwähnung nicht finden"
 
-#~ msgid "Enables the command."
-#~ msgstr "Aktiviert den Befehl."
+#: types/user.py:119
+msgid "User: 'User ID (numeric) / Username (starts with @) / Mention (links to users)'"
+msgstr "Benutzer: 'Benutzer-ID (numerisch) / Benutzername (beginnt mit @) / Erwähnung (Links zu Benutzern)'"
 
-#~ msgid "Enables all previously disabled commands"
-#~ msgstr "Aktiviert alle zuvor deaktivierten Befehle"
+#: types/user.py:121
+msgid "Users: 'User IDs (numeric) / Usernames (starts with @) / Mentions (links to users)'"
+msgstr "Benutzer: 'Benutzer-IDs (numerisch) / Benutzernamen (beginnt mit @) / Erwähnungen (Links zu Benutzern)'"
+
+#: types/user.py:128
+msgid "User ID"
+msgstr "Benutzer-ID"
+
+#: types/user.py:129
+msgid "Username"
+msgstr "Benutzername"
+
+#: types/user.py:133
+msgid "A link to user, usually creates by mentioning a user without username."
+msgstr "Ein Link zu einem Benutzer, der gewöhnlich erstellt wird, indem ein Benutzer ohne Benutzernamen erwähnt wird."
 
