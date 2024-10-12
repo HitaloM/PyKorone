@@ -52,7 +52,8 @@ class AIMessageHistory(list[ChatCompletionMessageParam]):
         first_name = user.first_name_or_title if user else "Unknown"
 
         if msg.user_id == CONFIG.bot_id:
-            text = cut_titlebar(msg.text)
+            # TODO: remove the line below
+            text = cut_titlebar(msg.text) if is_ai_message(msg.text) else msg.text
             return ChatCompletionAssistantMessageParam(role="assistant", content=text, name="Sophie")
 
         return ChatCompletionUserMessageParam(role="user", content=msg.text, name=self._sanitize_name(first_name))

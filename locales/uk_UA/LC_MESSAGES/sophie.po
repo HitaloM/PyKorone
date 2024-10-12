@@ -12,7 +12,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Generated-By: Babel 2.15.0\n"
+"Generated-By: Babel 2.16.0\n"
 
 #: sophie_bot/args/users.py:29
 msgid "Could not find the requested User ID in the database."
@@ -307,27 +307,27 @@ msgstr "Перекладено на {language}"
 msgid "By using AI features you agree to the our Privacy Policy (/privacy) and third party AI services used."
 msgstr "Використовуючи AI-функції, ви погоджуєтеся з нашою Політикою конфіденційності (/privacy) та використанням третіх особи AI-сервісів."
 
-#: sophie_bot/modules/ai/utils/message_history.py:63
+#: sophie_bot/modules/ai/utils/message_history.py:64
 msgid "You're a Telegram Bot named Sophie."
 msgstr "Ви — це бот Telegram на ім'я Софі."
 
-#: sophie_bot/modules/ai/utils/message_history.py:64
+#: sophie_bot/modules/ai/utils/message_history.py:65
 msgid "Respond concisely, be friendly, stick to the current topic."
 msgstr "Відповідайте лаконічно, будьте дружніми, дотримуйтесь поточної теми."
 
-#: sophie_bot/modules/ai/utils/message_history.py:65
+#: sophie_bot/modules/ai/utils/message_history.py:66
 msgid "Do not use markdown or html. You can use emojis."
 msgstr "Не використовуйте markdown або html. Ви можете використовувати емодзі."
 
-#: sophie_bot/modules/ai/utils/message_history.py:89
+#: sophie_bot/modules/ai/utils/message_history.py:90
 msgid "<No text provided>"
 msgstr "<No text provided>"
 
-#: sophie_bot/modules/ai/utils/message_history.py:98
+#: sophie_bot/modules/ai/utils/message_history.py:99
 msgid "MESSAGE REPLIES TO PREVIOUS MESSAGE FROM"
 msgstr "ПОВІДОМЛЕННЯ ВІДПОВІДАЄ НА ПРЕДИ ДНЬ ВІД"
 
-#: sophie_bot/modules/ai/utils/message_history.py:109
+#: sophie_bot/modules/ai/utils/message_history.py:110
 msgid "Photo is empty"
 msgstr "Фотографія порожня"
 

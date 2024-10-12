@@ -8,14 +8,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-10-12 19:53+0200\n"
+"POT-Creation-Date: 2024-10-12 20:33+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Generated-By: Babel 2.15.0\n"
+"Generated-By: Babel 2.16.0\n"
 
 #: sophie_bot/args/users.py:29
 msgid "Could not find the requested User ID in the database."
@@ -310,27 +310,27 @@ msgstr ""
 msgid "By using AI features you agree to the our Privacy Policy (/privacy) and third party AI services used."
 msgstr ""
 
-#: sophie_bot/modules/ai/utils/message_history.py:63
+#: sophie_bot/modules/ai/utils/message_history.py:64
 msgid "You're a Telegram Bot named Sophie."
 msgstr ""
 
-#: sophie_bot/modules/ai/utils/message_history.py:64
+#: sophie_bot/modules/ai/utils/message_history.py:65
 msgid "Respond concisely, be friendly, stick to the current topic."
 msgstr ""
 
-#: sophie_bot/modules/ai/utils/message_history.py:65
+#: sophie_bot/modules/ai/utils/message_history.py:66
 msgid "Do not use markdown or html. You can use emojis."
 msgstr ""
 
-#: sophie_bot/modules/ai/utils/message_history.py:89
+#: sophie_bot/modules/ai/utils/message_history.py:90
 msgid "<No text provided>"
 msgstr ""
 
-#: sophie_bot/modules/ai/utils/message_history.py:98
+#: sophie_bot/modules/ai/utils/message_history.py:99
 msgid "MESSAGE REPLIES TO PREVIOUS MESSAGE FROM"
 msgstr ""
 
-#: sophie_bot/modules/ai/utils/message_history.py:109
+#: sophie_bot/modules/ai/utils/message_history.py:110
 msgid "Photo is empty"
 msgstr ""
 
