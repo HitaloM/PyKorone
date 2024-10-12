@@ -7,6 +7,7 @@ from datetime import timedelta
 from hairydogm.chat_action import ChatActionSender
 from hydrogram.client import Client
 from hydrogram.enums import ChatAction
+from hydrogram.errors import PhotoInvalidDimensions
 from hydrogram.types import (
     InlineKeyboardButton,
     InlineKeyboardMarkup,
@@ -70,10 +71,19 @@ async def send_media(message: Message, media_list: list, caption: str, url: str)
     if len(media_list) == 1:
         media = media_list[0]
         keyboard = InlineKeyboardMarkup([[InlineKeyboardButton(_("Open in Instagram"), url=url)]])
-        if isinstance(media, InputMediaPhoto):
-            return await message.reply_photo(media.media, caption=caption, reply_markup=keyboard)
-        if isinstance(media, InputMediaVideo):
-            return await message.reply_video(media.media, caption=caption, reply_markup=keyboard)
+        try:
+            if isinstance(media, InputMediaPhoto):
+                return await message.reply_photo(
+                    media.media, caption=caption, reply_markup=keyboard
+                )
+            if isinstance(media, InputMediaVideo):
+                return await message.reply_video(
+                    media.media, caption=caption, reply_markup=keyboard
+                )
+        except PhotoInvalidDimensions:
+            return await message.reply_document(
+                media.media, caption=caption, reply_markup=keyboard
+            )
         return None
     media_list[-1].caption = caption
     return await message.reply_media_group(media_list)  # type: ignore

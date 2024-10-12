@@ -162,10 +162,22 @@ def resize_image(image: Image.Image) -> BytesIO:
         width = int(width * scale)
         height = int(height * scale)
 
+    width = max(10, min(width, MAX_DIMENSION))
+    height = max(10, min(height, MAX_DIMENSION))
+
     resized_image = image.resize((width, height), Image.Resampling.LANCZOS)
     buffer = BytesIO()
     resized_image.save(buffer, format="JPEG")
     buffer.seek(0)
+
+    if buffer.tell() > MAX_FILE_SIZE:
+        quality = 95
+        while buffer.tell() > MAX_FILE_SIZE and quality > 10:
+            buffer = BytesIO()
+            resized_image.save(buffer, format="JPEG", quality=quality)
+            buffer.seek(0)
+            quality -= 5
+
     return buffer
 
 

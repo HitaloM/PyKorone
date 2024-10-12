@@ -16,12 +16,12 @@ dependencies = [
     "meval>=2.5",
     "pillow>=10.4.0",
     "httpx[http2,brotli,zstd]>=0.27.2",
-    "cashews[redis,speedup]>=7.3.0",
-    "yt-dlp>=2024.8.6",
+    "cashews[redis,speedup]>=7.3.2",
+    "yt-dlp>=2024.10.7",
     "magic-filter>=1.0.12",
     "tomlkit>=0.13.2",
-    "sentry-sdk>=2.13.0",
-    "pydantic>=2.9.0",
+    "sentry-sdk>=2.16.0",
+    "pydantic>=2.9.2",
     "orjson>=3.10.7",
     "aiocron>=1.8",
     "m3u8>=6.0.0",
@@ -40,13 +40,13 @@ build-backend = "hatchling.build"
 
 [tool.rye]
 managed = true
-dev-dependencies = ["pre-commit>=3.8.0", "ruff>=0.6.8"]
+dev-dependencies = ["pre-commit>=4.0.1", "ruff>=0.6.9"]
 
 [project.optional-dependencies]
 docs = [
-    "sphinx>=8.0.2",
+    "sphinx>=8.1.1",
     "furo>=2024.8.6",
-    "sphinx-autobuild>=2024.9.3",
+    "sphinx-autobuild>=2024.10.3",
     "sphinx-copybutton>=0.5.2",
     "myst-parser>=4.0.0",
     "towncrier==23.11.0",               # 24.7 is incompatible with sphinxcontrib-towncrier
