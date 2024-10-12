@@ -19,7 +19,7 @@ class AiAutoTranslateMiddleware(BaseMiddleware):
         data: Dict[str, Any],
     ) -> Any:
         chat_db: Optional[ChatModel] = data.get("chat_db", None)
-        chat_lang: str = data["i18n"].default_locale
+        chat_lang: str = data["i18n"].current_locale
 
         result = await handler(event, data)
 
