@@ -10,6 +10,21 @@
 
 .. towncrier release notes start
 
+1.1.4 (2024-10-12)
+==================
+
+Features
+--------
+
+- Ensure the bot checks for admin privileges before executing `/cleanup` command.
+- Prevent caching of `/piston` command results to avoid returning incorrect outputs.
+- Rewritten the Instagram download feature to utilize a new API, enhancing the reliability of the download process.
+
+Bug Fixes
+---------
+
+- Fixed `/ytdl` command, which was broken due to a recent change in the YouTube API.
+
 1.1.3 (2024-09-13)
 ==================
 
