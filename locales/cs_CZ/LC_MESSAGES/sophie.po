@@ -1,22 +1,18 @@
+
 msgid ""
 msgstr ""
-"Project-Id-Version: sophiebot\n"
+"Project-Id-Version:  sophiebot\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2024-10-12 19:18+0200\n"
-"PO-Revision-Date: 2024-10-12 17:30\n"
+"PO-Revision-Date: 2024-10-12 17:30+0000\n"
 "Last-Translator: \n"
+"Language: cs_CZ\n"
 "Language-Team: Czech\n"
+"Plural-Forms: nplurals=4; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 3;\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.15.0\n"
-"Plural-Forms: nplurals=4; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 3;\n"
-"X-Crowdin-Project: sophiebot\n"
-"X-Crowdin-Project-ID: 356879\n"
-"X-Crowdin-Language: cs\n"
-"X-Crowdin-File: /beta/locales/sophie.pot\n"
-"X-Crowdin-File-ID: 288\n"
-"Language: cs_CZ\n"
 
 #: sophie_bot/args/users.py:29
 msgid "Could not find the requested User ID in the database."
@@ -26,23 +22,23 @@ msgstr "Nebylo možné najít požadované ID uživatele v databázi."
 msgid "Could not find the requested Username in the database."
 msgstr "Nebylo možné najít požadované uživatelské jméno v databázi."
 
-#: sophie_bot/args/users.py:72
+#: sophie_bot/args/users.py:72 types/user.py:119
 msgid "User: 'User ID (numeric) / Username (starts with @) / Mention (links to users)'"
 msgstr "Uživatel: 'ID uživatele (číslicové) / Uživatelské jméno (začíná na @) / Zmínka (odkazy na uživatele)'"
 
-#: sophie_bot/args/users.py:72
+#: sophie_bot/args/users.py:72 types/user.py:121
 msgid "Users: 'User IDs (numeric) / Usernames (starts with @) / Mentions (links to users)'"
 msgstr "Uživatelé: 'ID uživatelů (číslicové) / Uživatelská jména (začínají na @) / Zmínky (odkazy na uživatele)'"
 
-#: sophie_bot/args/users.py:79
+#: sophie_bot/args/users.py:79 types/user.py:128
 msgid "User ID"
 msgstr "ID uživatele"
 
-#: sophie_bot/args/users.py:80
+#: sophie_bot/args/users.py:80 types/user.py:129
 msgid "Username"
 msgstr "Uživatelské jméno"
 
-#: sophie_bot/args/users.py:81
+#: sophie_bot/args/users.py:81 types/user.py:133
 msgid "A link to user, usually creates by mentioning a user without username."
 msgstr "Odkaz na uživatele, obvykle se vytvoří zmíněním uživatele bez uživatelského jména."
 
@@ -263,11 +259,11 @@ msgstr "Ahoj! Jak mohu pomoci?"
 msgid "The AI mode has been exited."
 msgstr "Režim AI byl ukončen."
 
-#: sophie_bot/modules/ai/handlers/reset_context.py:18
+#: sophie_bot/modules/ai/handlers/reset_context.py:17
 msgid "Reset the chat's AI context"
 msgstr "Reset the chat's AI context"
 
-#: sophie_bot/modules/ai/handlers/reset_context.py:33
+#: sophie_bot/modules/ai/handlers/reset_context.py:36
 msgid "🔄 AI context was successfully reset. AI will now operate in a clean state."
 msgstr "🔄 AI context was successfully reset. AI will now operate in a clean state."
 
@@ -1031,7 +1027,7 @@ msgid "Searches text across all notes."
 msgstr "Hledá text ve všech poznámkách."
 
 #: sophie_bot/modules/legacy_modules/modules/notes.py:330
-#: sophie_bot/modules/notes/handlers/save.py:29
+#: sophie_bot/modules/notes/handlers/save.py:29 types/text.py:18
 msgid "Text"
 msgstr "Text"
 
@@ -1569,10 +1565,6 @@ msgstr "Pravda (může znamenat Povolené nebo Ano)"
 msgid "False (can means Disabled or No)"
 msgstr "Faleš (může znamenat Zakázané nebo Ne)"
 
-#: types/text.py:18
-msgid "Text"
-msgstr "Text"
-
 #: types/text_rules.py:27
 msgid "➡️ The Argument should start with {}!"
 msgstr "➡️ Argument by měl začínat {}!"
@@ -1681,24 +1673,4 @@ msgstr "Neočekávaná chyba při pokusu o získání uživatele! Prosím, nahla
 #: types/user.py:108
 msgid "Could not find the user mention"
 msgstr "Nepodařilo se najít zmínku o uživateli"
-
-#: types/user.py:119
-msgid "User: 'User ID (numeric) / Username (starts with @) / Mention (links to users)'"
-msgstr "Uživatel: 'ID uživatele (číslicové) / Uživatelské jméno (začíná na @) / Zmínka (odkazy na uživatele)'"
-
-#: types/user.py:121
-msgid "Users: 'User IDs (numeric) / Usernames (starts with @) / Mentions (links to users)'"
-msgstr "Uživatelé: 'ID uživatelů (číslicové) / Uživatelská jména (začínají na @) / Zmínky (odkazy na uživatele)'"
-
-#: types/user.py:128
-msgid "User ID"
-msgstr "ID uživatele"
-
-#: types/user.py:129
-msgid "Username"
-msgstr "Uživatelské jméno"
-
-#: types/user.py:133
-msgid "A link to user, usually creates by mentioning a user without username."
-msgstr "Odkaz na uživatele, obvykle se vytvoří zmíněním uživatele bez uživatelského jména."
 

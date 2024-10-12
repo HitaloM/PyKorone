@@ -49,6 +49,7 @@ def __pre_setup__():
 
     # AI Context reset
     router.message.register(AIContextReset, *AIContextReset.filters())
+    router.message.register(AIContextReset, *AIContextReset.filters_alt())
 
     # AI mode
     # router.message.register(AiGenerateMode, *AiGenerateMode.filters())

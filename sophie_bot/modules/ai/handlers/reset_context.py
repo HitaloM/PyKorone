@@ -2,7 +2,6 @@ from typing import Any
 
 from aiogram import F, flags
 from aiogram.dispatcher.event.handler import CallbackType
-from aiogram.filters import or_f
 
 from sophie_bot.filters.admin_rights import UserRestricting
 from sophie_bot.filters.cmd import CMDFilter
@@ -19,7 +18,11 @@ from sophie_bot.utils.i18n import lazy_gettext as l_
 class AIContextReset(SophieMessageHandler):
     @staticmethod
     def filters() -> tuple[CallbackType, ...]:
-        return (or_f(CMDFilter("aireset"), F.text == AI_PM_RESET), UserRestricting(admin=True), AIEnabledFilter())
+        return CMDFilter("aireset"), UserRestricting(admin=True), AIEnabledFilter()
+
+    @staticmethod
+    def filters_alt() -> tuple[CallbackType, ...]:
+        return F.text == AI_PM_RESET, UserRestricting(admin=True), AIEnabledFilter()  # type: ignore
 
     @staticmethod
     def filters_callback() -> tuple[CallbackType, ...]:
