@@ -1,18 +1,22 @@
-
 msgid ""
 msgstr ""
-"Project-Id-Version:  sophiebot\n"
+"Project-Id-Version: sophiebot\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-10-11 20:14+0200\n"
-"PO-Revision-Date: 2024-10-11 18:39+0000\n"
+"POT-Creation-Date: 2024-10-12 19:18+0200\n"
+"PO-Revision-Date: 2024-10-12 17:30\n"
 "Last-Translator: \n"
-"Language: zh_CN\n"
 "Language-Team: Chinese Simplified\n"
-"Plural-Forms: nplurals=1; plural=0;\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=utf-8\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.15.0\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Crowdin-Project: sophiebot\n"
+"X-Crowdin-Project-ID: 356879\n"
+"X-Crowdin-Language: zh-CN\n"
+"X-Crowdin-File: /beta/locales/sophie.pot\n"
+"X-Crowdin-File-ID: 288\n"
+"Language: zh_CN\n"
 
 #: sophie_bot/args/users.py:29
 msgid "Could not find the requested User ID in the database."
@@ -22,23 +26,23 @@ msgstr "未能在数据库中找到请求的用户 ID。"
 msgid "Could not find the requested Username in the database."
 msgstr "未能在数据库中找到请求的用户名。"
 
-#: sophie_bot/args/users.py:72 types/user.py:119
+#: sophie_bot/args/users.py:72
 msgid "User: 'User ID (numeric) / Username (starts with @) / Mention (links to users)'"
 msgstr "用户：‘用户 ID（数字）/ 用户名（以@开头）/ 提及（链接到用户）’"
 
-#: sophie_bot/args/users.py:72 types/user.py:121
+#: sophie_bot/args/users.py:72
 msgid "Users: 'User IDs (numeric) / Usernames (starts with @) / Mentions (links to users)'"
 msgstr "用户：‘用户 ID（数字）/ 用户名（以@开头）/ 提及（链接到用户）’"
 
-#: sophie_bot/args/users.py:79 types/user.py:128
+#: sophie_bot/args/users.py:79
 msgid "User ID"
 msgstr "用户 ID"
 
-#: sophie_bot/args/users.py:80 types/user.py:129
+#: sophie_bot/args/users.py:80
 msgid "Username"
 msgstr "用户名"
 
-#: sophie_bot/args/users.py:81 types/user.py:133
+#: sophie_bot/args/users.py:81
 msgid "A link to user, usually creates by mentioning a user without username."
 msgstr "用户的链接，通常通过提及用户而不使用用户名创建。"
 
@@ -79,9 +83,8 @@ msgid "🛑 Exit AI mode"
 msgstr "🛑 退出 AI 模式"
 
 #: sophie_bot/modules/ai/fsm/pm.py:11
-#, fuzzy
 msgid "🔄 Reset AI context"
-msgstr "重置聊天规则。"
+msgstr "🔄 重置 AI 上下文"
 
 #: sophie_bot/modules/ai/fsm/pm.py:14
 msgid "✨ Sophie AI"
@@ -261,13 +264,12 @@ msgid "The AI mode has been exited."
 msgstr "AI 模式已经退出。"
 
 #: sophie_bot/modules/ai/handlers/reset_context.py:18
-#, fuzzy
 msgid "Reset the chat's AI context"
-msgstr "重置聊天规则。"
+msgstr "重置聊天的 AI 上下文"
 
 #: sophie_bot/modules/ai/handlers/reset_context.py:33
 msgid "🔄 AI context was successfully reset. AI will now operate in a clean state."
-msgstr ""
+msgstr "🔄 AI 上下文已成功重置。AI 现在将以干净状态操作。"
 
 #: sophie_bot/modules/ai/handlers/translate.py:22
 msgid "Text to translate"
@@ -1029,7 +1031,7 @@ msgid "Searches text across all notes."
 msgstr "在所有备注中搜索文本。"
 
 #: sophie_bot/modules/legacy_modules/modules/notes.py:330
-#: sophie_bot/modules/notes/handlers/save.py:29 types/text.py:18
+#: sophie_bot/modules/notes/handlers/save.py:29
 msgid "Text"
 msgstr "文本"
 
@@ -1567,6 +1569,10 @@ msgstr "真（可以意味着启用或是）"
 msgid "False (can means Disabled or No)"
 msgstr "假（可以意味着禁用或否）"
 
+#: types/text.py:18
+msgid "Text"
+msgstr "文本"
+
 #: types/text_rules.py:27
 msgid "➡️ The Argument should start with {}!"
 msgstr "➡️ 参数应该以 {} 开头！"
@@ -1675,4 +1681,24 @@ msgstr "尝试获取用户时出现意外错误！请在支持聊天中报告此
 #: types/user.py:108
 msgid "Could not find the user mention"
 msgstr "未找到用户提及"
+
+#: types/user.py:119
+msgid "User: 'User ID (numeric) / Username (starts with @) / Mention (links to users)'"
+msgstr "用户：'用户 ID（数字）/用户名（以 @ 开头）/提及（链接到用户）'"
+
+#: types/user.py:121
+msgid "Users: 'User IDs (numeric) / Usernames (starts with @) / Mentions (links to users)'"
+msgstr "用户：'用户 ID（数字）/用户名（以 @ 开头）/提及（链接到用户）'"
+
+#: types/user.py:128
+msgid "User ID"
+msgstr "用户 ID"
+
+#: types/user.py:129
+msgid "Username"
+msgstr "用户名"
+
+#: types/user.py:133
+msgid "A link to user, usually creates by mentioning a user without username."
+msgstr "用户的链接，通常通过提及用户而不带用户名来创建。"
 

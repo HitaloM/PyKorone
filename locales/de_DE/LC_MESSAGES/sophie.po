@@ -1,18 +1,22 @@
-
 msgid ""
 msgstr ""
-"Project-Id-Version:  sophiebot\n"
+"Project-Id-Version: sophiebot\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-10-11 20:14+0200\n"
-"PO-Revision-Date: 2024-10-11 18:39+0000\n"
+"POT-Creation-Date: 2024-10-12 19:18+0200\n"
+"PO-Revision-Date: 2024-10-12 17:30\n"
 "Last-Translator: \n"
-"Language: de_DE\n"
 "Language-Team: German\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=utf-8\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.15.0\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Crowdin-Project: sophiebot\n"
+"X-Crowdin-Project-ID: 356879\n"
+"X-Crowdin-Language: de\n"
+"X-Crowdin-File: /beta/locales/sophie.pot\n"
+"X-Crowdin-File-ID: 288\n"
+"Language: de_DE\n"
 
 #: sophie_bot/args/users.py:29
 msgid "Could not find the requested User ID in the database."
@@ -22,23 +26,23 @@ msgstr "Die angeforderte Benutzer-ID konnte nicht in der Datenbank gefunden werd
 msgid "Could not find the requested Username in the database."
 msgstr "Die angeforderte Benutzername konnte nicht in der Datenbank gefunden werden."
 
-#: sophie_bot/args/users.py:72 types/user.py:119
+#: sophie_bot/args/users.py:72
 msgid "User: 'User ID (numeric) / Username (starts with @) / Mention (links to users)'"
 msgstr "Benutzer: 'Benutzer-ID (numerisch) / Benutzername (beginnt mit @) / Erwähnung (verlinkt auf Benutzer)'"
 
-#: sophie_bot/args/users.py:72 types/user.py:121
+#: sophie_bot/args/users.py:72
 msgid "Users: 'User IDs (numeric) / Usernames (starts with @) / Mentions (links to users)'"
 msgstr "Benutzer: 'Benutzer IDs (numerisch) / Benutzernamen (beginnt mit @) / Erwähnungen (verlinkt auf Benutzer)'"
 
-#: sophie_bot/args/users.py:79 types/user.py:128
+#: sophie_bot/args/users.py:79
 msgid "User ID"
 msgstr "Benutzer-ID"
 
-#: sophie_bot/args/users.py:80 types/user.py:129
+#: sophie_bot/args/users.py:80
 msgid "Username"
 msgstr "Benutzername"
 
-#: sophie_bot/args/users.py:81 types/user.py:133
+#: sophie_bot/args/users.py:81
 msgid "A link to user, usually creates by mentioning a user without username."
 msgstr "Ein Link zum Benutzer, der normalerweise erstellt wird, indem ein Benutzer ohne Benutzernamen erwähnt wird."
 
@@ -79,9 +83,8 @@ msgid "🛑 Exit AI mode"
 msgstr "🛑 Verlasse den KI-Modus"
 
 #: sophie_bot/modules/ai/fsm/pm.py:11
-#, fuzzy
 msgid "🔄 Reset AI context"
-msgstr "Setzt die Chat-Regeln zurück."
+msgstr "🔄 AI-Kontext zurücksetzen"
 
 #: sophie_bot/modules/ai/fsm/pm.py:14
 msgid "✨ Sophie AI"
@@ -261,13 +264,12 @@ msgid "The AI mode has been exited."
 msgstr "Der KI-Modus wurde beendet."
 
 #: sophie_bot/modules/ai/handlers/reset_context.py:18
-#, fuzzy
 msgid "Reset the chat's AI context"
-msgstr "Setzt die Chat-Regeln zurück."
+msgstr "Setze den AI-Kontext des Chats zurück"
 
 #: sophie_bot/modules/ai/handlers/reset_context.py:33
 msgid "🔄 AI context was successfully reset. AI will now operate in a clean state."
-msgstr ""
+msgstr "🔄 AI-Kontext wurde erfolgreich zurückgesetzt. AI wird jetzt im sauberen Zustand betrieben."
 
 #: sophie_bot/modules/ai/handlers/translate.py:22
 msgid "Text to translate"
@@ -1029,7 +1031,7 @@ msgid "Searches text across all notes."
 msgstr "Durchsucht den Text in allen Notizen."
 
 #: sophie_bot/modules/legacy_modules/modules/notes.py:330
-#: sophie_bot/modules/notes/handlers/save.py:29 types/text.py:18
+#: sophie_bot/modules/notes/handlers/save.py:29
 msgid "Text"
 msgstr "Text"
 
@@ -1567,6 +1569,10 @@ msgstr "Wahr (kann Aktiviert oder Ja bedeuten)"
 msgid "False (can means Disabled or No)"
 msgstr "Falsch (kann Deaktiviert oder Nein bedeuten)"
 
+#: types/text.py:18
+msgid "Text"
+msgstr "Text"
+
 #: types/text_rules.py:27
 msgid "➡️ The Argument should start with {}!"
 msgstr "➡️ Das Argument sollte mit {} beginnen!"
@@ -1675,4 +1681,24 @@ msgstr "Unerwarteter Fehler beim Abrufen des Benutzers! Bitte melden Sie dies im
 #: types/user.py:108
 msgid "Could not find the user mention"
 msgstr "Konnte die Benutzererwähnung nicht finden"
+
+#: types/user.py:119
+msgid "User: 'User ID (numeric) / Username (starts with @) / Mention (links to users)'"
+msgstr "Benutzer: 'Benutzer-ID (numerisch) / Benutzername (beginnt mit @) / Erwähnung (Links zu Benutzern)'"
+
+#: types/user.py:121
+msgid "Users: 'User IDs (numeric) / Usernames (starts with @) / Mentions (links to users)'"
+msgstr "Benutzer: 'Benutzer-IDs (numerisch) / Benutzernamen (beginnt mit @) / Erwähnungen (Links zu Benutzern)'"
+
+#: types/user.py:128
+msgid "User ID"
+msgstr "Benutzer-ID"
+
+#: types/user.py:129
+msgid "Username"
+msgstr "Benutzername"
+
+#: types/user.py:133
+msgid "A link to user, usually creates by mentioning a user without username."
+msgstr "Ein Link zu einem Benutzer, der gewöhnlich erstellt wird, indem ein Benutzer ohne Benutzernamen erwähnt wird."
 
