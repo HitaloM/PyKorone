@@ -50,15 +50,15 @@ msgstr "دردشة خاصة"
 msgid "Connected chat not found in the database. Please try to disconnect and connect again."
 msgstr "لم يتم العثور على الدردشة المتصلة في قاعدة البيانات. يرجى محاولة قطع الاتصال وإعادة الاتصال."
 
-#: sophie_bot/modules/ai/__init__.py:28
+#: sophie_bot/modules/ai/__init__.py:29
 msgid "Sophie AI"
 msgstr "صوفي AI"
 
-#: sophie_bot/modules/ai/__init__.py:30
+#: sophie_bot/modules/ai/__init__.py:31
 msgid "Rainbow sparkles and shininess"
 msgstr "بريق قوس قزح والتألق"
 
-#: sophie_bot/modules/ai/__init__.py:32
+#: sophie_bot/modules/ai/__init__.py:33
 msgid "Please note that you can make a limited amount of AI requests per day."
 msgstr "يرجى ملاحظة أنه يمكنك تقديم عدد محدود من طلبات الذكاء الاصطناعي في اليوم."
 
@@ -78,7 +78,12 @@ msgstr "❗️ لقد وصلت إلى الحد اليومي للاستعلاما
 msgid "🛑 Exit AI mode"
 msgstr "🛑 خروج من وضع الذكاء الاصطناعي"
 
-#: sophie_bot/modules/ai/fsm/pm.py:12
+#: sophie_bot/modules/ai/fsm/pm.py:11
+#, fuzzy
+msgid "🔄 Reset AI context"
+msgstr "يعيد ضبط قواعد الدردشة."
+
+#: sophie_bot/modules/ai/fsm/pm.py:14
 msgid "✨ Sophie AI"
 msgstr "✨ صوفي AI"
 
@@ -247,13 +252,22 @@ msgstr "باستخدام الذكاء الاصطناعي، أنت توافق ع�
 msgid "Click on the button below to exit."
 msgstr "اضغط على الزر أدناه للخروج."
 
-#: sophie_bot/modules/ai/handlers/pm.py:56
+#: sophie_bot/modules/ai/handlers/pm.py:52
 msgid "Hello! How can I help you?"
 msgstr "مرحبًا! كيف يمكنني مساعدتك؟"
 
-#: sophie_bot/modules/ai/handlers/pm.py:67
+#: sophie_bot/modules/ai/handlers/pm.py:63
 msgid "The AI mode has been exited."
 msgstr "تم الخروج من وضع AI."
+
+#: sophie_bot/modules/ai/handlers/reset_context.py:18
+#, fuzzy
+msgid "Reset the chat's AI context"
+msgstr "يعيد ضبط قواعد الدردشة."
+
+#: sophie_bot/modules/ai/handlers/reset_context.py:33
+msgid "🔄 AI context was successfully reset. AI will now operate in a clean state."
+msgstr ""
 
 #: sophie_bot/modules/ai/handlers/translate.py:22
 msgid "Text to translate"
@@ -275,19 +289,19 @@ msgstr "إذا كانت الرسالة بالفعل باللغة المطلوب�
 msgid "If it needs any explanations or clarifications, write them briefly afterwards separately."
 msgstr "إذا كنت بحاجة إلى أي تفسيرات أو توضيحات، اكتبها باختصار بعد ذلك بشكل منفصل."
 
-#: sophie_bot/modules/ai/handlers/translate.py:74
+#: sophie_bot/modules/ai/handlers/translate.py:78
 msgid "Auto Translator"
 msgstr "المترجم التلقائي"
 
-#: sophie_bot/modules/ai/handlers/translate.py:76
+#: sophie_bot/modules/ai/handlers/translate.py:80
 msgid "Translator"
 msgstr "المترجم"
 
-#: sophie_bot/modules/ai/handlers/translate.py:79
+#: sophie_bot/modules/ai/handlers/translate.py:83
 msgid "Voice"
 msgstr "صوت"
 
-#: sophie_bot/modules/ai/handlers/translate.py:81
+#: sophie_bot/modules/ai/handlers/translate.py:85
 msgid "Translated to {language}"
 msgstr "ترجم إلى {language}"
 
@@ -295,27 +309,27 @@ msgstr "ترجم إلى {language}"
 msgid "By using AI features you agree to the our Privacy Policy (/privacy) and third party AI services used."
 msgstr "باستخدام ميزات الذكاء الاصطناعي، فإنك توافق على سياسة الخصوصية لدينا (/privacy) والخدمات الذكية المستخدمة من طرف ثالث."
 
-#: sophie_bot/modules/ai/utils/message_history.py:48
+#: sophie_bot/modules/ai/utils/message_history.py:63
 msgid "You're a Telegram Bot named Sophie."
 msgstr "أنت بوت تيليجرام يُدعى صوفي."
 
-#: sophie_bot/modules/ai/utils/message_history.py:49
+#: sophie_bot/modules/ai/utils/message_history.py:64
 msgid "Respond concisely, be friendly, stick to the current topic."
 msgstr "رد بشكل مختصر، كن ودودًا، التزم بالموضوع الحالي."
 
-#: sophie_bot/modules/ai/utils/message_history.py:50
+#: sophie_bot/modules/ai/utils/message_history.py:65
 msgid "Do not use markdown or html. You can use emojis."
 msgstr "لا تستخدم Markdown أو HTML. يمكنك استخدام الرموز التعبيرية."
 
-#: sophie_bot/modules/ai/utils/message_history.py:72
+#: sophie_bot/modules/ai/utils/message_history.py:89
 msgid "<No text provided>"
 msgstr "<No text provided>"
 
-#: sophie_bot/modules/ai/utils/message_history.py:81
+#: sophie_bot/modules/ai/utils/message_history.py:98
 msgid "MESSAGE REPLIES TO PREVIOUS MESSAGE FROM"
 msgstr "الرد على الرسالة السابقة من"
 
-#: sophie_bot/modules/ai/utils/message_history.py:92
+#: sophie_bot/modules/ai/utils/message_history.py:109
 msgid "Photo is empty"
 msgstr "الصورة فارغة"
 

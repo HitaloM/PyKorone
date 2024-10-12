@@ -3,6 +3,7 @@ from base64 import b64encode
 from typing import BinaryIO, Optional
 
 from aiogram.types import Message
+from attr import dataclass
 from openai.types.chat import (
     ChatCompletionAssistantMessageParam,
     ChatCompletionContentPartImageParam,
@@ -16,7 +17,11 @@ from openai.types.chat.chat_completion_content_part_image_param import ImageURL
 
 from sophie_bot import CONFIG, bot
 from sophie_bot.db.models import ChatModel
-from sophie_bot.modules.ai.utils.cache_messages import MessageType, get_cached_messages
+from sophie_bot.modules.ai.utils.cache_messages import (
+    MessageType,
+    cache_message,
+    get_cached_messages,
+)
 from sophie_bot.modules.ai.utils.self_reply import cut_titlebar, is_ai_message
 from sophie_bot.modules.ai.utils.transform_audio import transform_voice_to_text
 from sophie_bot.utils.exception import SophieException
@@ -24,7 +29,17 @@ from sophie_bot.utils.i18n import gettext as _
 from sophie_bot.utils.logger import log
 
 
-class MessageHistory(list[ChatCompletionMessageParam]):
+@dataclass
+class ToCache:
+    text: str
+    chat_id: int
+    user_id: int
+    msg_id: int
+
+
+class AIMessageHistory(list[ChatCompletionMessageParam]):
+    to_cache: list[ToCache] = []
+
     @staticmethod
     def _sanitize_name(name: str) -> str:
         allowed_chars = set("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_-")
@@ -61,6 +76,8 @@ class MessageHistory(list[ChatCompletionMessageParam]):
         reply_to_user: Optional[str] = None,
         custom_user_text: Optional[str] = None,
     ):
+        """Adds a user message to the context, returns a list of additional messages to cache for future use."""
+
         if not message.from_user:
             return
 
@@ -100,9 +117,18 @@ class MessageHistory(list[ChatCompletionMessageParam]):
                 )
             )
 
+        # Voice
         if message.voice:
-            text = await transform_voice_to_text(message.voice)
-            content.append(ChatCompletionContentPartTextParam(type="text", text=text))
+            voice_text = await transform_voice_to_text(message.voice)
+            content.append(ChatCompletionContentPartTextParam(type="text", text=voice_text))
+            self.to_cache.append(
+                ToCache(
+                    text=voice_text,
+                    chat_id=message.chat.id,
+                    user_id=user_id,
+                    msg_id=message.message_id,
+                )
+            )
 
         self.append(
             {  # type: ignore
@@ -115,13 +141,14 @@ class MessageHistory(list[ChatCompletionMessageParam]):
     @staticmethod
     async def chatbot(
         message: Message,
+        data: dict,
         custom_user_text: Optional[str] = None,
         additional_system_prompt: str = "",
         add_cached_messages: bool = True,
-    ) -> "MessageHistory":
+    ) -> "AIMessageHistory":
         """A simple chat-bot case"""
 
-        messages = MessageHistory()
+        messages = AIMessageHistory()
         messages.add_system_msg(additional=additional_system_prompt)
 
         if add_cached_messages:
@@ -134,6 +161,11 @@ class MessageHistory(list[ChatCompletionMessageParam]):
             reply_to_user = None
 
         await messages.add_from_message(message, reply_to_user=reply_to_user, custom_user_text=custom_user_text)
+
+        # Cache additional messages to context
+        for msg_to_cache in messages.to_cache:
+            log.debug("MessageHistory: caching additional message", message=msg_to_cache)
+            await cache_message(msg_to_cache.text, msg_to_cache.chat_id, msg_to_cache.user_id, msg_to_cache.msg_id)
 
         log.debug("MessageHistory: chatbot", messages=messages)
         return messages

@@ -11,6 +11,7 @@ from sophie_bot.modules.ai.handlers.enable_setting import AIStatus, EnableAI
 from sophie_bot.modules.ai.handlers.filter import get_filter
 from sophie_bot.modules.ai.handlers.pm import AiPmHandle, AiPmInitialize, AiPmStop
 from sophie_bot.modules.ai.handlers.reply import AiReplyHandler
+from sophie_bot.modules.ai.handlers.reset_context import AIContextReset
 from sophie_bot.modules.ai.handlers.translate import AiTranslate, text_or_reply
 from sophie_bot.modules.ai.middlewares.auto_translate import AiAutoTranslateMiddleware
 from sophie_bot.modules.ai.middlewares.cache_bot_messages import (
@@ -45,6 +46,9 @@ def __pre_setup__():
     # AI Status
     router.message.register(EnableAI, *EnableAI.filters())
     router.message.register(AIStatus, *AIStatus.filters())
+
+    # AI Context reset
+    router.message.register(AIContextReset, *AIContextReset.filters())
 
     # AI mode
     # router.message.register(AiGenerateMode, *AiGenerateMode.filters())

@@ -8,7 +8,7 @@ from stfu_tg import HList, Title
 from stfu_tg.doc import Doc, Element
 
 from sophie_bot.modules.ai.fsm.pm import AI_GENERATED_TEXT
-from sophie_bot.modules.ai.utils.message_history import MessageHistory
+from sophie_bot.modules.ai.utils.message_history import AIMessageHistory
 from sophie_bot.services.ai import ai_client
 
 
@@ -36,7 +36,7 @@ async def ai_generate(
 
 async def ai_reply(
     message: Message,
-    messages: MessageHistory,
+    messages: AIMessageHistory,
     model: Models = DEFAULT_MODEL,
     markup: Optional[ReplyKeyboardMarkup] = None,
     header_items: Sequence[Element] = (),

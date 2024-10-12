@@ -8,6 +8,7 @@ from pydantic import BaseModel
 from sophie_bot import CONFIG
 from sophie_bot.db.models import ChatModel
 from sophie_bot.modules.ai.utils.cache_messages import cache_message
+from sophie_bot.modules.ai.utils.self_reply import cut_titlebar, is_ai_message
 from sophie_bot.services.redis import aredis
 from sophie_bot.utils.logger import log
 
@@ -62,6 +63,9 @@ class CacheBotMessagesMiddleware(BaseMiddleware):
         to_cache: Optional[str] = sent_message_text if cache_handler_result else None
 
         if ai_enabled and to_cache and sent_message_id and chat_db:
+            if is_ai_message(to_cache):
+                to_cache = cut_titlebar(to_cache)
+
             log.debug("CacheBotMessagesMiddleware: caching message", message=to_cache)
             await cache_message(to_cache, chat_db.chat_id, CONFIG.bot_id, sent_message_id)
 

@@ -8,5 +8,7 @@ class AiPMFSM(StatesGroup):
 
 
 AI_PM_STOP_TEXT = l_("🛑 Exit AI mode")
+AI_PM_RESET = l_("🔄 Reset AI context")
+
 
 AI_GENERATED_TEXT = l_("✨ Sophie AI")

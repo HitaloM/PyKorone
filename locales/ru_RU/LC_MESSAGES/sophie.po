@@ -50,15 +50,15 @@ msgstr "Приватный чат"
 msgid "Connected chat not found in the database. Please try to disconnect and connect again."
 msgstr "Подключенный чат не найден в базе данных. Пожалуйста, отключите и подключитесь снова."
 
-#: sophie_bot/modules/ai/__init__.py:28
+#: sophie_bot/modules/ai/__init__.py:29
 msgid "Sophie AI"
 msgstr "Софи AI"
 
-#: sophie_bot/modules/ai/__init__.py:30
+#: sophie_bot/modules/ai/__init__.py:31
 msgid "Rainbow sparkles and shininess"
 msgstr "Радужные искры и блеск"
 
-#: sophie_bot/modules/ai/__init__.py:32
+#: sophie_bot/modules/ai/__init__.py:33
 msgid "Please note that you can make a limited amount of AI requests per day."
 msgstr "Пожалуйста, обратите внимание, что вы можете делать ограниченное количество запросов AI в день."
 
@@ -78,7 +78,12 @@ msgstr "❗️ Вы достигли дневного лимита AI, пожа�
 msgid "🛑 Exit AI mode"
 msgstr "🛑 Выйти из режима AI"
 
-#: sophie_bot/modules/ai/fsm/pm.py:12
+#: sophie_bot/modules/ai/fsm/pm.py:11
+#, fuzzy
+msgid "🔄 Reset AI context"
+msgstr "Сбрасывает правила чата."
+
+#: sophie_bot/modules/ai/fsm/pm.py:14
 msgid "✨ Sophie AI"
 msgstr "✨ Софи AI"
 
@@ -247,13 +252,22 @@ msgstr "Используя AI, вы соглашаетесь с {privacy_policy}
 msgid "Click on the button below to exit."
 msgstr "Нажмите на кнопку ниже, чтобы выйти."
 
-#: sophie_bot/modules/ai/handlers/pm.py:56
+#: sophie_bot/modules/ai/handlers/pm.py:52
 msgid "Hello! How can I help you?"
 msgstr "Здравствуйте! Как я могу вам помочь?"
 
-#: sophie_bot/modules/ai/handlers/pm.py:67
+#: sophie_bot/modules/ai/handlers/pm.py:63
 msgid "The AI mode has been exited."
 msgstr "Режим AI был завершён."
+
+#: sophie_bot/modules/ai/handlers/reset_context.py:18
+#, fuzzy
+msgid "Reset the chat's AI context"
+msgstr "Сбрасывает правила чата."
+
+#: sophie_bot/modules/ai/handlers/reset_context.py:33
+msgid "🔄 AI context was successfully reset. AI will now operate in a clean state."
+msgstr ""
 
 #: sophie_bot/modules/ai/handlers/translate.py:22
 msgid "Text to translate"
@@ -275,19 +289,19 @@ msgstr "Если сообщение уже на требуемом языке, �
 msgid "If it needs any explanations or clarifications, write them briefly afterwards separately."
 msgstr "Если нужны объяснения или разъяснения, напишите их кратко отдельно."
 
-#: sophie_bot/modules/ai/handlers/translate.py:74
+#: sophie_bot/modules/ai/handlers/translate.py:78
 msgid "Auto Translator"
 msgstr "Авто переводчик"
 
-#: sophie_bot/modules/ai/handlers/translate.py:76
+#: sophie_bot/modules/ai/handlers/translate.py:80
 msgid "Translator"
 msgstr "Переводчик"
 
-#: sophie_bot/modules/ai/handlers/translate.py:79
+#: sophie_bot/modules/ai/handlers/translate.py:83
 msgid "Voice"
 msgstr "Голос"
 
-#: sophie_bot/modules/ai/handlers/translate.py:81
+#: sophie_bot/modules/ai/handlers/translate.py:85
 msgid "Translated to {language}"
 msgstr "Переведено на {language}"
 
@@ -295,27 +309,27 @@ msgstr "Переведено на {language}"
 msgid "By using AI features you agree to the our Privacy Policy (/privacy) and third party AI services used."
 msgstr "Используя функции AI, вы соглашаетесь с нашей Политикой конфиденциальности (/privacy) и использованными сторонними AI-сервисами."
 
-#: sophie_bot/modules/ai/utils/message_history.py:48
+#: sophie_bot/modules/ai/utils/message_history.py:63
 msgid "You're a Telegram Bot named Sophie."
 msgstr "Вы Телеграм-бот по имени Софи."
 
-#: sophie_bot/modules/ai/utils/message_history.py:49
+#: sophie_bot/modules/ai/utils/message_history.py:64
 msgid "Respond concisely, be friendly, stick to the current topic."
 msgstr "Ответьте кратко, будьте дружелюбны, придерживайтесь текущей темы."
 
-#: sophie_bot/modules/ai/utils/message_history.py:50
+#: sophie_bot/modules/ai/utils/message_history.py:65
 msgid "Do not use markdown or html. You can use emojis."
 msgstr "Не используйте markdown или html. Вы можете использовать эмодзи."
 
-#: sophie_bot/modules/ai/utils/message_history.py:72
+#: sophie_bot/modules/ai/utils/message_history.py:89
 msgid "<No text provided>"
 msgstr "<No text provided>"
 
-#: sophie_bot/modules/ai/utils/message_history.py:81
+#: sophie_bot/modules/ai/utils/message_history.py:98
 msgid "MESSAGE REPLIES TO PREVIOUS MESSAGE FROM"
 msgstr "СООБЩЕНИЕ ОТВЕЧАЕТ НА ПРЕДЫДУЩЕЕ СООБЩЕНИЕ ОТ"
 
-#: sophie_bot/modules/ai/utils/message_history.py:92
+#: sophie_bot/modules/ai/utils/message_history.py:109
 msgid "Photo is empty"
 msgstr "Фото пустое"
 

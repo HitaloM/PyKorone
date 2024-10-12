@@ -9,7 +9,7 @@ from sophie_bot import bot
 from sophie_bot.filters.cmd import CMDFilter
 from sophie_bot.modules.ai.filters.ai_enabled import AIEnabledFilter
 from sophie_bot.modules.ai.utils.ai_chatbot import ai_reply
-from sophie_bot.modules.ai.utils.message_history import MessageHistory
+from sophie_bot.modules.ai.utils.message_history import AIMessageHistory
 from sophie_bot.modules.ai.utils.transform_audio import transform_voice_to_text
 from sophie_bot.utils.i18n import gettext as _
 from sophie_bot.utils.i18n import lazy_gettext as l_
@@ -64,8 +64,12 @@ class AiTranslate(MessageHandler):
         )
         user_prompt = _(f"Translate the following text to {language_name}:\n{to_translate}")
 
-        ai_context = await MessageHistory.chatbot(
-            self.event, additional_system_prompt=system_prompt, custom_user_text=user_prompt, add_cached_messages=False
+        ai_context = await AIMessageHistory.chatbot(
+            self.event,
+            self.data,
+            additional_system_prompt=system_prompt,
+            custom_user_text=user_prompt,
+            add_cached_messages=False,
         )
 
         header_items = []

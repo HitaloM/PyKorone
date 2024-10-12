@@ -50,15 +50,15 @@ msgstr "私聊"
 msgid "Connected chat not found in the database. Please try to disconnect and connect again."
 msgstr "未能在数据库中找到连接的聊天。请尝试断开后重新连接。"
 
-#: sophie_bot/modules/ai/__init__.py:28
+#: sophie_bot/modules/ai/__init__.py:29
 msgid "Sophie AI"
 msgstr "Sophie AI"
 
-#: sophie_bot/modules/ai/__init__.py:30
+#: sophie_bot/modules/ai/__init__.py:31
 msgid "Rainbow sparkles and shininess"
 msgstr "彩虹闪耀与光辉"
 
-#: sophie_bot/modules/ai/__init__.py:32
+#: sophie_bot/modules/ai/__init__.py:33
 msgid "Please note that you can make a limited amount of AI requests per day."
 msgstr "请注意，您每天只能进行有限的 AI 请求。"
 
@@ -78,7 +78,12 @@ msgstr "❗️ 您已经达到每日 AI 请求限制，请明天再试。"
 msgid "🛑 Exit AI mode"
 msgstr "🛑 退出 AI 模式"
 
-#: sophie_bot/modules/ai/fsm/pm.py:12
+#: sophie_bot/modules/ai/fsm/pm.py:11
+#, fuzzy
+msgid "🔄 Reset AI context"
+msgstr "重置聊天规则。"
+
+#: sophie_bot/modules/ai/fsm/pm.py:14
 msgid "✨ Sophie AI"
 msgstr "✨ Sophie AI"
 
@@ -247,13 +252,22 @@ msgstr "使用 AI 代表您同意机器人的 {privacy_policy} 和使用的第�
 msgid "Click on the button below to exit."
 msgstr "点击下方按钮退出。"
 
-#: sophie_bot/modules/ai/handlers/pm.py:56
+#: sophie_bot/modules/ai/handlers/pm.py:52
 msgid "Hello! How can I help you?"
 msgstr "你好！我能帮你什么？"
 
-#: sophie_bot/modules/ai/handlers/pm.py:67
+#: sophie_bot/modules/ai/handlers/pm.py:63
 msgid "The AI mode has been exited."
 msgstr "AI 模式已经退出。"
+
+#: sophie_bot/modules/ai/handlers/reset_context.py:18
+#, fuzzy
+msgid "Reset the chat's AI context"
+msgstr "重置聊天规则。"
+
+#: sophie_bot/modules/ai/handlers/reset_context.py:33
+msgid "🔄 AI context was successfully reset. AI will now operate in a clean state."
+msgstr ""
 
 #: sophie_bot/modules/ai/handlers/translate.py:22
 msgid "Text to translate"
@@ -275,19 +289,19 @@ msgstr "如果消息已经是所需语言，请直接复制。"
 msgid "If it needs any explanations or clarifications, write them briefly afterwards separately."
 msgstr "If it needs any explanations or clarifications, write them briefly afterwards separately."
 
-#: sophie_bot/modules/ai/handlers/translate.py:74
+#: sophie_bot/modules/ai/handlers/translate.py:78
 msgid "Auto Translator"
 msgstr "Auto Translator"
 
-#: sophie_bot/modules/ai/handlers/translate.py:76
+#: sophie_bot/modules/ai/handlers/translate.py:80
 msgid "Translator"
 msgstr "Translator"
 
-#: sophie_bot/modules/ai/handlers/translate.py:79
+#: sophie_bot/modules/ai/handlers/translate.py:83
 msgid "Voice"
 msgstr "声音"
 
-#: sophie_bot/modules/ai/handlers/translate.py:81
+#: sophie_bot/modules/ai/handlers/translate.py:85
 msgid "Translated to {language}"
 msgstr "Translated to {language}"
 
@@ -295,27 +309,27 @@ msgstr "Translated to {language}"
 msgid "By using AI features you agree to the our Privacy Policy (/privacy) and third party AI services used."
 msgstr "使用 AI 功能即表示您同意我们的隐私政策 (/privacy) 和使用的第三方 AI 服务。"
 
-#: sophie_bot/modules/ai/utils/message_history.py:48
+#: sophie_bot/modules/ai/utils/message_history.py:63
 msgid "You're a Telegram Bot named Sophie."
 msgstr "您是一个名为Sophie的Telegram机器人。"
 
-#: sophie_bot/modules/ai/utils/message_history.py:49
+#: sophie_bot/modules/ai/utils/message_history.py:64
 msgid "Respond concisely, be friendly, stick to the current topic."
 msgstr "简明回答，保持友好，专注于当前主题。"
 
-#: sophie_bot/modules/ai/utils/message_history.py:50
+#: sophie_bot/modules/ai/utils/message_history.py:65
 msgid "Do not use markdown or html. You can use emojis."
 msgstr "请不要使用markdown或html。您可以使用emoji。"
 
-#: sophie_bot/modules/ai/utils/message_history.py:72
+#: sophie_bot/modules/ai/utils/message_history.py:89
 msgid "<No text provided>"
 msgstr "<未提供文本>"
 
-#: sophie_bot/modules/ai/utils/message_history.py:81
+#: sophie_bot/modules/ai/utils/message_history.py:98
 msgid "MESSAGE REPLIES TO PREVIOUS MESSAGE FROM"
 msgstr "消息回复来自先前的消息"
 
-#: sophie_bot/modules/ai/utils/message_history.py:92
+#: sophie_bot/modules/ai/utils/message_history.py:109
 msgid "Photo is empty"
 msgstr "照片为空"
 

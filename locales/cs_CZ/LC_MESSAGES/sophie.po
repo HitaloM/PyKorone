@@ -50,15 +50,15 @@ msgstr "Soukromý chat"
 msgid "Connected chat not found in the database. Please try to disconnect and connect again."
 msgstr "Připojený chat nebyl nalezen v databázi. Zkuste se prosím odpojit a znovu připojit."
 
-#: sophie_bot/modules/ai/__init__.py:28
+#: sophie_bot/modules/ai/__init__.py:29
 msgid "Sophie AI"
 msgstr "Sophie AI"
 
-#: sophie_bot/modules/ai/__init__.py:30
+#: sophie_bot/modules/ai/__init__.py:31
 msgid "Rainbow sparkles and shininess"
 msgstr "Duha třpyt a lesk"
 
-#: sophie_bot/modules/ai/__init__.py:32
+#: sophie_bot/modules/ai/__init__.py:33
 msgid "Please note that you can make a limited amount of AI requests per day."
 msgstr "Upozorňujeme, že můžete denně provést omezený počet požadavků na AI."
 
@@ -78,7 +78,12 @@ msgstr "❗️ Dosáhli jste denního limitu AI, zkuste to zítra znovu."
 msgid "🛑 Exit AI mode"
 msgstr "🛑 Ukončit režim AI"
 
-#: sophie_bot/modules/ai/fsm/pm.py:12
+#: sophie_bot/modules/ai/fsm/pm.py:11
+#, fuzzy
+msgid "🔄 Reset AI context"
+msgstr "Resetuje pravidla chatu."
+
+#: sophie_bot/modules/ai/fsm/pm.py:14
 msgid "✨ Sophie AI"
 msgstr "✨ Sophie AI"
 
@@ -247,13 +252,22 @@ msgstr "Používáním AI souhlasíte s {privacy_policy} bota a službami AI tř
 msgid "Click on the button below to exit."
 msgstr "Klikněte na tlačítko níže pro odhlášení."
 
-#: sophie_bot/modules/ai/handlers/pm.py:56
+#: sophie_bot/modules/ai/handlers/pm.py:52
 msgid "Hello! How can I help you?"
 msgstr "Ahoj! Jak mohu pomoci?"
 
-#: sophie_bot/modules/ai/handlers/pm.py:67
+#: sophie_bot/modules/ai/handlers/pm.py:63
 msgid "The AI mode has been exited."
 msgstr "Režim AI byl ukončen."
+
+#: sophie_bot/modules/ai/handlers/reset_context.py:18
+#, fuzzy
+msgid "Reset the chat's AI context"
+msgstr "Resetuje pravidla chatu."
+
+#: sophie_bot/modules/ai/handlers/reset_context.py:33
+msgid "🔄 AI context was successfully reset. AI will now operate in a clean state."
+msgstr ""
 
 #: sophie_bot/modules/ai/handlers/translate.py:22
 msgid "Text to translate"
@@ -275,19 +289,19 @@ msgstr "Pokud je zpráva již v požadovaném jazyce, jednoduše ji zkopírujte.
 msgid "If it needs any explanations or clarifications, write them briefly afterwards separately."
 msgstr "If it needs any explanations or clarifications, write them briefly afterwards separately."
 
-#: sophie_bot/modules/ai/handlers/translate.py:74
+#: sophie_bot/modules/ai/handlers/translate.py:78
 msgid "Auto Translator"
 msgstr "Auto Translator"
 
-#: sophie_bot/modules/ai/handlers/translate.py:76
+#: sophie_bot/modules/ai/handlers/translate.py:80
 msgid "Translator"
 msgstr "Translator"
 
-#: sophie_bot/modules/ai/handlers/translate.py:79
+#: sophie_bot/modules/ai/handlers/translate.py:83
 msgid "Voice"
 msgstr "Hlas"
 
-#: sophie_bot/modules/ai/handlers/translate.py:81
+#: sophie_bot/modules/ai/handlers/translate.py:85
 msgid "Translated to {language}"
 msgstr "Translated to {language}"
 
@@ -295,27 +309,27 @@ msgstr "Translated to {language}"
 msgid "By using AI features you agree to the our Privacy Policy (/privacy) and third party AI services used."
 msgstr "Používáním funkcí AI souhlasíte s našimi Zásadami ochrany soukromí (/privacy) a se službami AI třetích stran."
 
-#: sophie_bot/modules/ai/utils/message_history.py:48
+#: sophie_bot/modules/ai/utils/message_history.py:63
 msgid "You're a Telegram Bot named Sophie."
 msgstr "Jsi Telegram bot jménem Sophie."
 
-#: sophie_bot/modules/ai/utils/message_history.py:49
+#: sophie_bot/modules/ai/utils/message_history.py:64
 msgid "Respond concisely, be friendly, stick to the current topic."
 msgstr "Reaguj stručně, buď přátelský, drž se aktuálního tématu."
 
-#: sophie_bot/modules/ai/utils/message_history.py:50
+#: sophie_bot/modules/ai/utils/message_history.py:65
 msgid "Do not use markdown or html. You can use emojis."
 msgstr "Nepoužívej markdown ani html. Můžeš používat emoji."
 
-#: sophie_bot/modules/ai/utils/message_history.py:72
+#: sophie_bot/modules/ai/utils/message_history.py:89
 msgid "<No text provided>"
 msgstr "<No text provided>"
 
-#: sophie_bot/modules/ai/utils/message_history.py:81
+#: sophie_bot/modules/ai/utils/message_history.py:98
 msgid "MESSAGE REPLIES TO PREVIOUS MESSAGE FROM"
 msgstr "ZPRÁVA ODPOVÍDÁ NA PŘEDCHOZÍ ZPRÁVU OD"
 
-#: sophie_bot/modules/ai/utils/message_history.py:92
+#: sophie_bot/modules/ai/utils/message_history.py:109
 msgid "Photo is empty"
 msgstr "Foto je prázdné"
 

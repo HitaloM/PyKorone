@@ -16,4 +16,6 @@ async def transform_voice_to_text(voice: Voice) -> str:
         file=("test.ogg", audio_bytes), model="whisper-1", response_format="text"
     )
 
+    respond = respond.removesuffix("\n")
+
     return respond
