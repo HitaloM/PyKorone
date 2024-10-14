@@ -5,7 +5,6 @@ from datetime import datetime
 
 from aiogram import F, Router, flags
 from aiogram.exceptions import TelegramBadRequest
-from aiogram.filters import CommandStart
 from aiogram.types import InlineKeyboardButton, InlineKeyboardMarkup, Message
 from ass_tg.types import BooleanArg, TextArg
 from babel.dates import format_datetime
@@ -15,10 +14,7 @@ from telethon.errors.rpcerrorlist import MessageDeleteForbiddenError
 
 from sophie_bot import bot, dp
 from sophie_bot.filters.user_status import IsAdmin
-from sophie_bot.modules.legacy_modules.utils.connections import (
-    chat_connection,
-    set_connected_command,
-)
+from sophie_bot.modules.legacy_modules.utils.connections import chat_connection
 from sophie_bot.modules.legacy_modules.utils.disable import disableable_dec
 from sophie_bot.modules.legacy_modules.utils.language import get_string, get_strings_dec
 from sophie_bot.modules.legacy_modules.utils.message import (
@@ -609,18 +605,6 @@ async def clean_notes_set(message: Message, chat, strings):
             text = strings["clean_notes_disabled"].format(chat_name=chat["chat_title"])
 
     await message.reply(text)
-
-
-@register(router, CommandStart(magic=F.args.regexp(r"notes")))
-@get_strings_dec("notes")
-async def private_notes_func(message: Message, strings):
-    args = get_args_str(message).split("_")
-    chat_id = args[1]
-    keyword = args[2] if args[2] != "None" else None
-    await set_connected_command(message.from_user.id, int(chat_id), ["get", "notes"])
-    chat = await db.chat_list.find_one({"chat_id": int(chat_id)})
-    await message.answer(strings["privatenotes_notif"].format(chat=chat["chat_title"]))
-    await get_notes_list(message, chat=chat, keyword=keyword, pm=True)
 
 
 async def __stats__():

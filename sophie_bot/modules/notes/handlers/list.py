@@ -1,21 +1,53 @@
 from typing import Any, List, Optional
 
 from aiogram import flags
-from aiogram.handlers import MessageHandler
+from aiogram.dispatcher.event.handler import CallbackType
+from aiogram.types import InlineKeyboardButton
+from aiogram.utils.keyboard import InlineKeyboardBuilder
 from ass_tg.types import OptionalArg, TextArg
 from stfu_tg import Code, Doc, Italic, KeyValue, Section, Template, VList
 
 from sophie_bot.db.models.notes import NoteModel
+from sophie_bot.filters.chat_status import ChatTypeFilter
+from sophie_bot.filters.cmd import CMDFilter
 from sophie_bot.middlewares.connections import ChatConnection
+from sophie_bot.modules.notes.callbacks import PrivateNotesStartUrlCallback
+from sophie_bot.modules.notes.filters.pm_notes import PMNotesFilter
 from sophie_bot.modules.notes.utils.names import format_notes_aliases
+from sophie_bot.modules.utils_.base_handler import SophieMessageHandler
 from sophie_bot.utils.i18n import gettext as _
 from sophie_bot.utils.i18n import lazy_gettext as l_
+
+LIST_CMD_FILTER = CMDFilter(("notes", "saved", "notelist"))
+
+
+class PrivateNotesRedirectHandler(SophieMessageHandler):
+    @staticmethod
+    def filters() -> tuple[CallbackType, ...]:
+        return ~ChatTypeFilter("private"), LIST_CMD_FILTER, PMNotesFilter()
+
+    async def handle(self) -> Any:
+        text = _("Please connect to the chat to interact with chat notes")
+        buttons = InlineKeyboardBuilder()
+
+        connection = self.connection()
+        buttons.add(
+            InlineKeyboardButton(
+                text=_("🔌 Connect"),
+                url=PrivateNotesStartUrlCallback(chat_id=connection.id).pack(),
+            )
+        )
+        await self.event.reply(text, reply_markup=buttons.as_markup())
 
 
 @flags.args(search=OptionalArg(TextArg(l_("Search notes"))))
 @flags.help(description=l_("Lists available notes."))
 @flags.disableable(name="notes")
-class NotesList(MessageHandler):
+class NotesList(SophieMessageHandler):
+    @staticmethod
+    def filters() -> tuple[CallbackType, ...]:
+        return (LIST_CMD_FILTER,)
+
     @staticmethod
     async def note_names(
         notes: List[NoteModel], note_group: Optional[str], to_search: Optional[str]
@@ -66,7 +98,7 @@ class NotesList(MessageHandler):
         return tuple(self.format_notes_list_group(notes, group) for group in groups)
 
     async def handle(self) -> Any:
-        to_search: Optional[str] = self.data["search"]
+        to_search: Optional[str] = self.data.get("search")
         connection: ChatConnection = self.data["connection"]
 
         notes = await NoteModel.get_chat_notes(connection.id)

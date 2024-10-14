@@ -1,10 +1,10 @@
 from dataclasses import replace
-from typing import Any, List, Optional, Pattern, Sequence, Union, cast
+from typing import List, Optional, Pattern, Sequence, Union, cast
 
 from aiogram import Bot
 from aiogram.filters import BaseFilter
 from aiogram.filters.command import CommandException, CommandObject
-from aiogram.types import Message, MessageEntity
+from aiogram.types import Chat, Message, MessageEntity
 from magic_filter import MagicFilter
 
 from sophie_bot import CONFIG
@@ -95,7 +95,7 @@ class CMDFilter(BaseFilter):
     def check_mono(entities: List[MessageEntity]) -> bool:
         return any((ent for ent in entities if ent.offset == 0 and ent.type in {"code", "pre"}))
 
-    async def __call__(self, message: Message, bot: Bot) -> Union[bool, dict[str, Any]]:
+    async def __call__(self, message: Message, bot: Bot, event_chat: Chat) -> Union[bool, dict[str, CommandObject]]:
         if not (text := ((message.text or message.caption) if self.allow_caption else message.text)):
             return False
 

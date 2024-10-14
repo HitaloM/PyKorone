@@ -168,8 +168,8 @@ msgstr "'{cmd}' kullanarak bunu değiştirin."
 #: sophie_bot/modules/ai/handlers/enable_setting.py:51
 #: sophie_bot/modules/legacy_modules/modules/antiflood.py:250
 #: sophie_bot/modules/legacy_modules/modules/connection.py:184
-#: sophie_bot/modules/legacy_modules/modules/notes.py:534
-#: sophie_bot/modules/legacy_modules/modules/notes.py:573
+#: sophie_bot/modules/legacy_modules/modules/notes.py:530
+#: sophie_bot/modules/legacy_modules/modules/notes.py:569
 msgid "New state"
 msgstr "Yeni durum"
 
@@ -1000,58 +1000,58 @@ msgstr "🗑 Delete message"
 msgid "💭 Reply to message"
 msgstr "💭 Reply to message"
 
-#: sophie_bot/modules/legacy_modules/modules/notes.py:43
-#: sophie_bot/modules/notes/__init__.py:12
+#: sophie_bot/modules/legacy_modules/modules/notes.py:39
+#: sophie_bot/modules/notes/__init__.py:13
 msgid "Notes"
 msgstr "Notlar"
 
-#: sophie_bot/modules/legacy_modules/modules/notes.py:122
+#: sophie_bot/modules/legacy_modules/modules/notes.py:118
 msgid "Saves the note."
 msgstr "Notu kaydeder."
 
-#: sophie_bot/modules/legacy_modules/modules/notes.py:122
-#: sophie_bot/modules/legacy_modules/modules/notes.py:350
-#: sophie_bot/modules/legacy_modules/modules/notes.py:420
+#: sophie_bot/modules/legacy_modules/modules/notes.py:118
+#: sophie_bot/modules/legacy_modules/modules/notes.py:346
+#: sophie_bot/modules/legacy_modules/modules/notes.py:416
 #: sophie_bot/modules/notes/handlers/delete.py:15
 #: sophie_bot/modules/notes/handlers/get.py:15
 msgid "Note name"
 msgstr "Not adı"
 
-#: sophie_bot/modules/legacy_modules/modules/notes.py:122
+#: sophie_bot/modules/legacy_modules/modules/notes.py:118
 #: sophie_bot/modules/legacy_modules/modules/rules.py:28
 msgid "Content"
 msgstr "İçerik"
 
-#: sophie_bot/modules/legacy_modules/modules/notes.py:330
+#: sophie_bot/modules/legacy_modules/modules/notes.py:326
 msgid "Searches text across all notes."
 msgstr "Tüm notlar arasında metin arar."
 
-#: sophie_bot/modules/legacy_modules/modules/notes.py:330
+#: sophie_bot/modules/legacy_modules/modules/notes.py:326
 #: sophie_bot/modules/notes/handlers/save.py:29 types/text.py:18
 msgid "Text"
 msgstr "Metin"
 
-#: sophie_bot/modules/legacy_modules/modules/notes.py:350
+#: sophie_bot/modules/legacy_modules/modules/notes.py:346
 msgid "Deletes the note"
 msgstr "Notu sil"
 
-#: sophie_bot/modules/legacy_modules/modules/notes.py:387
+#: sophie_bot/modules/legacy_modules/modules/notes.py:383
 msgid "Deletes all the notes in the chat"
 msgstr "Sohbetteki tüm notları siler"
 
-#: sophie_bot/modules/legacy_modules/modules/notes.py:420
+#: sophie_bot/modules/legacy_modules/modules/notes.py:416
 msgid "Shows additional information about the note"
 msgstr "Not hakkında ek bilgi gösterir"
 
-#: sophie_bot/modules/legacy_modules/modules/notes.py:533
+#: sophie_bot/modules/legacy_modules/modules/notes.py:529
 msgid "Controls the feature, that would recommend users to use PM with bot to use notes"
 msgstr "Kullanıcıları notları kullanmak için bot ile özel mesaj kullanmaya yönlendiren özelliği kontrol eder"
 
-#: sophie_bot/modules/legacy_modules/modules/notes.py:573
+#: sophie_bot/modules/legacy_modules/modules/notes.py:569
 msgid "Controls the automatic clean-up for notes"
 msgstr "Notlar için otomatik temizleme işlemini kontrol eder"
 
-#: sophie_bot/modules/legacy_modules/modules/notes.py:709
+#: sophie_bot/modules/legacy_modules/modules/notes.py:693
 msgid "🗒 Send a note"
 msgstr "🗒 Send a note"
 
@@ -1249,37 +1249,55 @@ msgstr "Notu al."
 msgid "No note was found with {name} name."
 msgstr "{name} ismine sahip bir not bulunamadı."
 
-#: sophie_bot/modules/notes/handlers/list.py:15
+#: sophie_bot/modules/notes/handlers/list.py:30
+msgid "Please connect to the chat to interact with chat notes"
+msgstr ""
+
+#: sophie_bot/modules/notes/handlers/list.py:36
+#, fuzzy
+msgid "🔌 Connect"
+msgstr "Bağlantılar"
+
+#: sophie_bot/modules/notes/handlers/list.py:43
 msgid "Search notes"
 msgstr "Notları ara"
 
-#: sophie_bot/modules/notes/handlers/list.py:16
+#: sophie_bot/modules/notes/handlers/list.py:44
 msgid "Lists available notes."
 msgstr "Mevcut notları listeler."
 
-#: sophie_bot/modules/notes/handlers/list.py:78
+#: sophie_bot/modules/notes/handlers/list.py:110
 msgid "No notes found by the provided search pattern {pattern}."
 msgstr "Verilen arama deseninde not bulunamadı {pattern}."
 
-#: sophie_bot/modules/notes/handlers/list.py:81
+#: sophie_bot/modules/notes/handlers/list.py:113
 msgid "No notes found."
 msgstr "Not bulunamadı."
 
-#: sophie_bot/modules/notes/handlers/list.py:85
+#: sophie_bot/modules/notes/handlers/list.py:117
 msgid "Search pattern"
 msgstr "Arama deseni"
 
-#: sophie_bot/modules/notes/handlers/list.py:87
+#: sophie_bot/modules/notes/handlers/list.py:119
 msgid "Notes in {chat_name}"
 msgstr "{chat_name}'deki notlar"
 
-#: sophie_bot/modules/notes/handlers/list.py:91
+#: sophie_bot/modules/notes/handlers/list.py:123
 msgid "Use {cmd} to retrieve a note. Example: {cmd_example}"
 msgstr "Bir not almak için {cmd} kullanın. Örnek: {cmd_example}"
 
-#: sophie_bot/modules/notes/handlers/list.py:92
+#: sophie_bot/modules/notes/handlers/list.py:124
 msgid "#(Note name)"
 msgstr "#(Not adı)"
+
+#: sophie_bot/modules/notes/handlers/privatenotes.py:32
+msgid "Connected to chat {chat_name} successfully!"
+msgstr ""
+
+#: sophie_bot/modules/notes/handlers/privatenotes.py:33
+#, fuzzy
+msgid "Use {command} to disconnect"
+msgstr "'{cmd}' kullanarak bunu değiştirin."
 
 #: sophie_bot/modules/notes/handlers/save.py:26
 msgid "Note names"

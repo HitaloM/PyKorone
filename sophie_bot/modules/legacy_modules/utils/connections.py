@@ -134,16 +134,6 @@ async def set_connected_chat(user_id, chat_id):
     return await get_connection_data.reset_cache(user_id)
 
 
-async def set_connected_command(user_id, chat_id, command):
-    command.append("disconnect")
-    await db.connections.update_one(
-        {"user_id": user_id},
-        {"$set": {"user_id": user_id, "chat_id": chat_id, "command": list(command)}},
-        upsert=True,
-    )
-    return await get_connection_data.reset_cache(user_id)
-
-
 @cached()
 async def get_connection_data(user_id: int) -> dict:
     return await db.connections.find_one({"user_id": user_id})
