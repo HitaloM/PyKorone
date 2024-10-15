@@ -5,6 +5,7 @@ from aiogram.dispatcher.event.handler import CallbackType
 from aiogram.types import InlineKeyboardButton
 from aiogram.utils.keyboard import InlineKeyboardBuilder
 from ass_tg.types import OptionalArg, TextArg
+from sophie_bot.filters.admin_rights import UserRestricting
 from stfu_tg import Code, Doc, Italic, KeyValue, Section, Template, VList
 
 from sophie_bot.db.models.notes import NoteModel
@@ -24,7 +25,7 @@ LIST_CMD_FILTER = CMDFilter(("notes", "saved", "notelist"))
 class PrivateNotesRedirectHandler(SophieMessageHandler):
     @staticmethod
     def filters() -> tuple[CallbackType, ...]:
-        return ~ChatTypeFilter("private"), LIST_CMD_FILTER, PMNotesFilter()
+        return ~ChatTypeFilter("private"), LIST_CMD_FILTER, PMNotesFilter(), ~UserRestricting(admin=True)
 
     async def handle(self) -> Any:
         text = _("Please connect to the chat to interact with chat notes")
