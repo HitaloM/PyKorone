@@ -67,7 +67,9 @@ async def send_saveable(
     text += saveable.text or ""
 
     # Extract buttons
-    text, inline_markup = legacy_button_parser(message.chat.id, text, aio=True)
+    inline_markup = None
+    if not raw:
+        text, inline_markup = legacy_button_parser(message.chat.id, text, aio=True)
 
     # inline_markup = unparse_buttons(saveable.buttons)
 

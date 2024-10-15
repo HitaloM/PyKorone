@@ -2,7 +2,7 @@ from typing import Any
 
 from aiogram import F, flags
 from aiogram.dispatcher.event.handler import CallbackType
-from ass_tg.types import WordArg
+from ass_tg.types import OneOf, OptionalArg, WordArg
 from stfu_tg import Bold, HList, Italic, Title
 
 from sophie_bot.db.models import NoteModel
@@ -14,7 +14,7 @@ from sophie_bot.utils.i18n import gettext as _
 from sophie_bot.utils.i18n import lazy_gettext as l_
 
 
-@flags.args(notename=WordArg(l_("Note name")))
+@flags.args(notename=WordArg(l_("Note name")), raw=OptionalArg(OneOf("noformat", "raw")))
 @flags.help(description=l_("Retrieve the note."))
 class GetNote(SophieMessageHandler):
     @staticmethod
@@ -35,7 +35,8 @@ class GetNote(SophieMessageHandler):
         title = Bold(HList(Title(f"📗 #{note_name}", bold=False), note.description or ""))
         legacy_title = HList(Title(f"📙 #{note_name}", bold=False), note.description or "")
 
-        await send_saveable(self.event, self.event.chat.id, note, title=title, legacy_title=str(legacy_title))
+        raw = bool(self.data.get("raw", False))
+        await send_saveable(self.event, self.event.chat.id, note, title=title, legacy_title=str(legacy_title), raw=raw)
 
 
 class HashtagGetNote(SophieMessageHandler):

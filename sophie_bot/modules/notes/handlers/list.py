@@ -23,6 +23,7 @@ from sophie_bot.utils.i18n import lazy_gettext as l_
 LIST_CMD_FILTER = CMDFilter(("notes", "saved", "notelist"))
 
 
+@flags.help(exclude=True)
 class PrivateNotesRedirectHandler(SophieMessageHandler):
     @staticmethod
     def filters() -> tuple[CallbackType, ...]:
@@ -87,18 +88,18 @@ class NotesList(SophieMessageHandler):
     def format_notes_list_group(self, notes: List[NoteModel], note_group: str) -> Element:
         group_notes = list(filter(lambda note: note.note_group == note_group, notes))
 
-        # return Section(self.format_notes_list(group_notes), title=f"${note_group.upper()}", title_bold=True)
-        return self.format_notes_list(group_notes)
+        return Section(self.format_notes_list(group_notes), title=f"${note_group.upper()}", title_bold=True)
 
     def format_notes_list_optional_groups(self, notes: List[NoteModel]) -> list[VList | Section]:
         groups = {note.note_group for note in notes}
 
+        # TODO: groups
         content = []
         for group in groups:
             # if not group:
-            #     content.append(self.format_notes_list(list(note for note in notes if not note.note_group)))
+            #
             # else:
-            content.append(self.format_notes_list_group(notes, group))
+            content.append(self.format_notes_list(list(note for note in notes if note.note_group == group)))
 
         return content
 

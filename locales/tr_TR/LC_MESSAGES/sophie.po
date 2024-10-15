@@ -113,7 +113,7 @@ msgid "✨ Note was successfully generated"
 msgstr "✨ Not başarıyla oluşturuldu"
 
 #: sophie_bot/modules/ai/handlers/aisave.py:58
-#: sophie_bot/modules/notes/handlers/save.py:50
+#: sophie_bot/modules/notes/handlers/save.py:45
 msgid "Use {cmd} to retrieve this note."
 msgstr "Bu notu almak için {cmd} kullanın."
 
@@ -1027,7 +1027,7 @@ msgid "Searches text across all notes."
 msgstr "Tüm notlar arasında metin arar."
 
 #: sophie_bot/modules/legacy_modules/modules/notes.py:330
-#: sophie_bot/modules/notes/handlers/save.py:29 types/text.py:18
+#: sophie_bot/modules/notes/handlers/save.py:23 types/text.py:18
 msgid "Text"
 msgstr "Metin"
 
@@ -1245,44 +1245,44 @@ msgstr "Notu al."
 msgid "No note was found with {name} name."
 msgstr "{name} ismine sahip bir not bulunamadı."
 
-#: sophie_bot/modules/notes/handlers/list.py:32
+#: sophie_bot/modules/notes/handlers/list.py:33
 msgid "Please connect to the chat to interact with chat notes"
 msgstr ""
 
-#: sophie_bot/modules/notes/handlers/list.py:38
+#: sophie_bot/modules/notes/handlers/list.py:39
 #, fuzzy
 msgid "🔌 Connect"
 msgstr "Bağlantılar"
 
-#: sophie_bot/modules/notes/handlers/list.py:45
+#: sophie_bot/modules/notes/handlers/list.py:46
 msgid "Search notes"
 msgstr "Notları ara"
 
-#: sophie_bot/modules/notes/handlers/list.py:46
+#: sophie_bot/modules/notes/handlers/list.py:47
 msgid "Lists available notes."
 msgstr "Mevcut notları listeler."
 
-#: sophie_bot/modules/notes/handlers/list.py:115
+#: sophie_bot/modules/notes/handlers/list.py:116
 msgid "No notes found by the provided search pattern {pattern}."
 msgstr "Verilen arama deseninde not bulunamadı {pattern}."
 
-#: sophie_bot/modules/notes/handlers/list.py:118
+#: sophie_bot/modules/notes/handlers/list.py:119
 msgid "No notes found."
 msgstr "Not bulunamadı."
 
-#: sophie_bot/modules/notes/handlers/list.py:122
+#: sophie_bot/modules/notes/handlers/list.py:123
 msgid "Search pattern"
 msgstr "Arama deseni"
 
-#: sophie_bot/modules/notes/handlers/list.py:124
+#: sophie_bot/modules/notes/handlers/list.py:125
 msgid "Notes in {chat_name}"
 msgstr "{chat_name}'deki notlar"
 
-#: sophie_bot/modules/notes/handlers/list.py:128
+#: sophie_bot/modules/notes/handlers/list.py:129
 msgid "Use {cmd} to retrieve a note. Example: {cmd_example}"
 msgstr "Bir not almak için {cmd} kullanın. Örnek: {cmd_example}"
 
-#: sophie_bot/modules/notes/handlers/list.py:129
+#: sophie_bot/modules/notes/handlers/list.py:130
 msgid "#(Note name)"
 msgstr "#(Not adı)"
 
@@ -1295,27 +1295,28 @@ msgstr ""
 msgid "Use {command} to disconnect"
 msgstr "'{cmd}' kullanarak bunu değiştirin."
 
-#: sophie_bot/modules/notes/handlers/save.py:26
+#: sophie_bot/modules/notes/handlers/save.py:20
 msgid "Note names"
 msgstr "Not adları"
 
-#: sophie_bot/modules/notes/handlers/save.py:27
-msgid "Group"
-msgstr "Grup"
-
-#: sophie_bot/modules/notes/handlers/save.py:28
+#: sophie_bot/modules/notes/handlers/save.py:22
 msgid "Description"
 msgstr "Açıklama"
 
-#: sophie_bot/modules/notes/handlers/save.py:31
+#: sophie_bot/modules/notes/handlers/save.py:25
 msgid "Save the note."
 msgstr "Notu kaydet."
 
-#: sophie_bot/modules/notes/handlers/save.py:47
+#: sophie_bot/modules/notes/handlers/save.py:38
+#, fuzzy
+msgid "Legacy mode"
+msgstr "Yeni mod"
+
+#: sophie_bot/modules/notes/handlers/save.py:42
 msgid "Note was successfully created"
 msgstr "Not başarıyla oluşturuldu"
 
-#: sophie_bot/modules/notes/handlers/save.py:47
+#: sophie_bot/modules/notes/handlers/save.py:42
 msgid "Note was successfully updated"
 msgstr "Not başarıyla güncellendi"
 
@@ -1690,4 +1691,7 @@ msgstr "Kullanıcı bahsini bulamadı"
 
 #~ msgid "Shows additional information about the note"
 #~ msgstr "Not hakkında ek bilgi gösterir"
+
+#~ msgid "Group"
+#~ msgstr "Grup"
 
