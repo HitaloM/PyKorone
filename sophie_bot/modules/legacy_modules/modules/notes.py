@@ -111,8 +111,10 @@ def clean_notes(func):
     return wrapped_1
 
 
-@register(router, cmds="save", user_admin=True)
-@flags.help(description=l_("Saves the note."), args={"cmd": TextArg(l_("Note name")), "text": TextArg(l_("Content"))})
+@register(router, cmds="lsave", user_admin=True)
+@flags.help(
+    description=l_("Saves the note (legacy)."), args={"cmd": TextArg(l_("Note name")), "text": TextArg(l_("Content"))}
+)
 @need_args_dec()
 @chat_connection(admin=True)
 @get_strings_dec("notes")

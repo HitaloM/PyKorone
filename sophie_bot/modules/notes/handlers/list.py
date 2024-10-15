@@ -82,20 +82,22 @@ class NotesList(SophieMessageHandler):
 
         return VList(*formatted_notes)
 
-    def format_notes_list_group(self, notes: List[NoteModel], note_group: Optional[str]) -> Section:
+    def format_notes_list_group(self, notes: List[NoteModel], note_group: str) -> Section:
         group_notes = list(filter(lambda note: note.note_group == note_group, notes))
 
-        return Section(
-            self.format_notes_list(group_notes), title=f"${(note_group or 'default').upper()}", title_bold=True
-        )
+        return Section(self.format_notes_list(group_notes), title=f"${note_group.upper()}", title_bold=True)
 
-    def format_notes_list_optional_groups(self, notes: List[NoteModel]) -> tuple[VList | Section, ...]:
+    def format_notes_list_optional_groups(self, notes: List[NoteModel]) -> list[VList | Section]:
         groups = {note.note_group for note in notes}
 
-        if groups == {None} or True:
-            return (self.format_notes_list(notes),)
+        content = []
+        for group in groups:
+            if not group:
+                content.append(self.format_notes_list(list(note for note in notes if not note.note_group)))
+            else:
+                content.append(self.format_notes_list_group(notes, group))
 
-        return tuple(self.format_notes_list_group(notes, group) for group in groups)
+        return content
 
     async def handle(self) -> Any:
         to_search: Optional[str] = self.data.get("search")

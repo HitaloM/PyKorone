@@ -168,8 +168,8 @@ msgstr "Використовуйте '{cmd}', щоб змінити це."
 #: sophie_bot/modules/ai/handlers/enable_setting.py:51
 #: sophie_bot/modules/legacy_modules/modules/antiflood.py:250
 #: sophie_bot/modules/legacy_modules/modules/connection.py:184
-#: sophie_bot/modules/legacy_modules/modules/notes.py:480
-#: sophie_bot/modules/legacy_modules/modules/notes.py:519
+#: sophie_bot/modules/legacy_modules/modules/notes.py:482
+#: sophie_bot/modules/legacy_modules/modules/notes.py:521
 msgid "New state"
 msgstr "Новий стан"
 
@@ -1001,52 +1001,53 @@ msgid "💭 Reply to message"
 msgstr "💭 Відповісти на повідомлення"
 
 #: sophie_bot/modules/legacy_modules/modules/notes.py:36
-#: sophie_bot/modules/notes/__init__.py:12
+#: sophie_bot/modules/notes/__init__.py:15
 msgid "Notes"
 msgstr "Замітки"
 
-#: sophie_bot/modules/legacy_modules/modules/notes.py:115
-msgid "Saves the note."
+#: sophie_bot/modules/legacy_modules/modules/notes.py:116
+#, fuzzy
+msgid "Saves the note (legacy)."
 msgstr "Зберігає примітку."
 
-#: sophie_bot/modules/legacy_modules/modules/notes.py:115
-#: sophie_bot/modules/legacy_modules/modules/notes.py:348
+#: sophie_bot/modules/legacy_modules/modules/notes.py:116
+#: sophie_bot/modules/legacy_modules/modules/notes.py:350
 #: sophie_bot/modules/notes/handlers/delete.py:15
 #: sophie_bot/modules/notes/handlers/get.py:17
 msgid "Note name"
 msgstr "Назва примітки"
 
-#: sophie_bot/modules/legacy_modules/modules/notes.py:115
+#: sophie_bot/modules/legacy_modules/modules/notes.py:116
 #: sophie_bot/modules/legacy_modules/modules/rules.py:28
 msgid "Content"
 msgstr "Зміст"
 
-#: sophie_bot/modules/legacy_modules/modules/notes.py:328
+#: sophie_bot/modules/legacy_modules/modules/notes.py:330
 msgid "Searches text across all notes."
 msgstr "Шукає текст в усіх примітках."
 
-#: sophie_bot/modules/legacy_modules/modules/notes.py:328
+#: sophie_bot/modules/legacy_modules/modules/notes.py:330
 #: sophie_bot/modules/notes/handlers/save.py:29 types/text.py:18
 msgid "Text"
 msgstr "Текст"
 
-#: sophie_bot/modules/legacy_modules/modules/notes.py:348
+#: sophie_bot/modules/legacy_modules/modules/notes.py:350
 msgid "Deletes the note"
 msgstr "Видаляє примітку"
 
-#: sophie_bot/modules/legacy_modules/modules/notes.py:385
+#: sophie_bot/modules/legacy_modules/modules/notes.py:387
 msgid "Deletes all the notes in the chat"
 msgstr "Видаляє всі примітки в чаті"
 
-#: sophie_bot/modules/legacy_modules/modules/notes.py:479
+#: sophie_bot/modules/legacy_modules/modules/notes.py:481
 msgid "Controls the feature, that would recommend users to use PM with bot to use notes"
 msgstr "Контролює функцію, яка рекомендує користувачам використовувати PM з ботом для використання приміток"
 
-#: sophie_bot/modules/legacy_modules/modules/notes.py:519
+#: sophie_bot/modules/legacy_modules/modules/notes.py:521
 msgid "Controls the automatic clean-up for notes"
 msgstr "Контролює автоматичне очищення приміток"
 
-#: sophie_bot/modules/legacy_modules/modules/notes.py:643
+#: sophie_bot/modules/legacy_modules/modules/notes.py:645
 msgid "🗒 Send a note"
 msgstr "🗒 Відправити примітку"
 
@@ -1261,27 +1262,27 @@ msgstr "Шукати примітки"
 msgid "Lists available notes."
 msgstr "Перелічує доступні примітки."
 
-#: sophie_bot/modules/notes/handlers/list.py:110
+#: sophie_bot/modules/notes/handlers/list.py:112
 msgid "No notes found by the provided search pattern {pattern}."
 msgstr "Жодних приміток не знайдено за наданим шаблоном пошуку {pattern}."
 
-#: sophie_bot/modules/notes/handlers/list.py:113
+#: sophie_bot/modules/notes/handlers/list.py:115
 msgid "No notes found."
 msgstr "Немає жодної примітки."
 
-#: sophie_bot/modules/notes/handlers/list.py:117
+#: sophie_bot/modules/notes/handlers/list.py:119
 msgid "Search pattern"
 msgstr "Шаблон пошуку"
 
-#: sophie_bot/modules/notes/handlers/list.py:119
+#: sophie_bot/modules/notes/handlers/list.py:121
 msgid "Notes in {chat_name}"
 msgstr "Примітки в {chat_name}"
 
-#: sophie_bot/modules/notes/handlers/list.py:123
+#: sophie_bot/modules/notes/handlers/list.py:125
 msgid "Use {cmd} to retrieve a note. Example: {cmd_example}"
 msgstr "Використовуйте {cmd}, щоб отримати примітку. Приклад: {cmd_example}"
 
-#: sophie_bot/modules/notes/handlers/list.py:124
+#: sophie_bot/modules/notes/handlers/list.py:126
 msgid "#(Note name)"
 msgstr "#(Назва примітки)"
 

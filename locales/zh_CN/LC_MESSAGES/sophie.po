@@ -168,8 +168,8 @@ msgstr "使用 '{cmd}' 来更改它。"
 #: sophie_bot/modules/ai/handlers/enable_setting.py:51
 #: sophie_bot/modules/legacy_modules/modules/antiflood.py:250
 #: sophie_bot/modules/legacy_modules/modules/connection.py:184
-#: sophie_bot/modules/legacy_modules/modules/notes.py:480
-#: sophie_bot/modules/legacy_modules/modules/notes.py:519
+#: sophie_bot/modules/legacy_modules/modules/notes.py:482
+#: sophie_bot/modules/legacy_modules/modules/notes.py:521
 msgid "New state"
 msgstr "新状态"
 
@@ -1001,52 +1001,53 @@ msgid "💭 Reply to message"
 msgstr "💭 Reply to message"
 
 #: sophie_bot/modules/legacy_modules/modules/notes.py:36
-#: sophie_bot/modules/notes/__init__.py:12
+#: sophie_bot/modules/notes/__init__.py:15
 msgid "Notes"
 msgstr "笔记"
 
-#: sophie_bot/modules/legacy_modules/modules/notes.py:115
-msgid "Saves the note."
+#: sophie_bot/modules/legacy_modules/modules/notes.py:116
+#, fuzzy
+msgid "Saves the note (legacy)."
 msgstr "保存备注。"
 
-#: sophie_bot/modules/legacy_modules/modules/notes.py:115
-#: sophie_bot/modules/legacy_modules/modules/notes.py:348
+#: sophie_bot/modules/legacy_modules/modules/notes.py:116
+#: sophie_bot/modules/legacy_modules/modules/notes.py:350
 #: sophie_bot/modules/notes/handlers/delete.py:15
 #: sophie_bot/modules/notes/handlers/get.py:17
 msgid "Note name"
 msgstr "备注名称"
 
-#: sophie_bot/modules/legacy_modules/modules/notes.py:115
+#: sophie_bot/modules/legacy_modules/modules/notes.py:116
 #: sophie_bot/modules/legacy_modules/modules/rules.py:28
 msgid "Content"
 msgstr "内容"
 
-#: sophie_bot/modules/legacy_modules/modules/notes.py:328
+#: sophie_bot/modules/legacy_modules/modules/notes.py:330
 msgid "Searches text across all notes."
 msgstr "在所有备注中搜索文本。"
 
-#: sophie_bot/modules/legacy_modules/modules/notes.py:328
+#: sophie_bot/modules/legacy_modules/modules/notes.py:330
 #: sophie_bot/modules/notes/handlers/save.py:29 types/text.py:18
 msgid "Text"
 msgstr "文本"
 
-#: sophie_bot/modules/legacy_modules/modules/notes.py:348
+#: sophie_bot/modules/legacy_modules/modules/notes.py:350
 msgid "Deletes the note"
 msgstr "删除备注"
 
-#: sophie_bot/modules/legacy_modules/modules/notes.py:385
+#: sophie_bot/modules/legacy_modules/modules/notes.py:387
 msgid "Deletes all the notes in the chat"
 msgstr "删除聊天中的所有备注"
 
-#: sophie_bot/modules/legacy_modules/modules/notes.py:479
+#: sophie_bot/modules/legacy_modules/modules/notes.py:481
 msgid "Controls the feature, that would recommend users to use PM with bot to use notes"
 msgstr "控制建议用户使用 PM 与机器人使用备注的功能"
 
-#: sophie_bot/modules/legacy_modules/modules/notes.py:519
+#: sophie_bot/modules/legacy_modules/modules/notes.py:521
 msgid "Controls the automatic clean-up for notes"
 msgstr "控制备注的自动清理"
 
-#: sophie_bot/modules/legacy_modules/modules/notes.py:643
+#: sophie_bot/modules/legacy_modules/modules/notes.py:645
 msgid "🗒 Send a note"
 msgstr "🗒 Send a note"
 
@@ -1261,27 +1262,27 @@ msgstr "搜索笔记"
 msgid "Lists available notes."
 msgstr "列出可用的备注。"
 
-#: sophie_bot/modules/notes/handlers/list.py:110
+#: sophie_bot/modules/notes/handlers/list.py:112
 msgid "No notes found by the provided search pattern {pattern}."
 msgstr "未能根据提供的搜索模式 {pattern} 找到任何笔记。"
 
-#: sophie_bot/modules/notes/handlers/list.py:113
+#: sophie_bot/modules/notes/handlers/list.py:115
 msgid "No notes found."
 msgstr "未找到任何笔记。"
 
-#: sophie_bot/modules/notes/handlers/list.py:117
+#: sophie_bot/modules/notes/handlers/list.py:119
 msgid "Search pattern"
 msgstr "搜索模式"
 
-#: sophie_bot/modules/notes/handlers/list.py:119
+#: sophie_bot/modules/notes/handlers/list.py:121
 msgid "Notes in {chat_name}"
 msgstr "在 {chat_name} 中的笔记"
 
-#: sophie_bot/modules/notes/handlers/list.py:123
+#: sophie_bot/modules/notes/handlers/list.py:125
 msgid "Use {cmd} to retrieve a note. Example: {cmd_example}"
 msgstr "使用 {cmd} 来检索笔记。示例：{cmd_example}"
 
-#: sophie_bot/modules/notes/handlers/list.py:124
+#: sophie_bot/modules/notes/handlers/list.py:126
 msgid "#(Note name)"
 msgstr "#(备注名称)"
 

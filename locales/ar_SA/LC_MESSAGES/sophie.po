@@ -168,8 +168,8 @@ msgstr "استخدم '{cmd}' لتغييره."
 #: sophie_bot/modules/ai/handlers/enable_setting.py:51
 #: sophie_bot/modules/legacy_modules/modules/antiflood.py:250
 #: sophie_bot/modules/legacy_modules/modules/connection.py:184
-#: sophie_bot/modules/legacy_modules/modules/notes.py:480
-#: sophie_bot/modules/legacy_modules/modules/notes.py:519
+#: sophie_bot/modules/legacy_modules/modules/notes.py:482
+#: sophie_bot/modules/legacy_modules/modules/notes.py:521
 msgid "New state"
 msgstr "حالة جديدة"
 
@@ -1001,52 +1001,53 @@ msgid "💭 Reply to message"
 msgstr "💭 الرد على الرسالة"
 
 #: sophie_bot/modules/legacy_modules/modules/notes.py:36
-#: sophie_bot/modules/notes/__init__.py:12
+#: sophie_bot/modules/notes/__init__.py:15
 msgid "Notes"
 msgstr "ملاحظات"
 
-#: sophie_bot/modules/legacy_modules/modules/notes.py:115
-msgid "Saves the note."
+#: sophie_bot/modules/legacy_modules/modules/notes.py:116
+#, fuzzy
+msgid "Saves the note (legacy)."
 msgstr "يحفظ الملاحظة."
 
-#: sophie_bot/modules/legacy_modules/modules/notes.py:115
-#: sophie_bot/modules/legacy_modules/modules/notes.py:348
+#: sophie_bot/modules/legacy_modules/modules/notes.py:116
+#: sophie_bot/modules/legacy_modules/modules/notes.py:350
 #: sophie_bot/modules/notes/handlers/delete.py:15
 #: sophie_bot/modules/notes/handlers/get.py:17
 msgid "Note name"
 msgstr "اسم الملاحظة"
 
-#: sophie_bot/modules/legacy_modules/modules/notes.py:115
+#: sophie_bot/modules/legacy_modules/modules/notes.py:116
 #: sophie_bot/modules/legacy_modules/modules/rules.py:28
 msgid "Content"
 msgstr "محتوى"
 
-#: sophie_bot/modules/legacy_modules/modules/notes.py:328
+#: sophie_bot/modules/legacy_modules/modules/notes.py:330
 msgid "Searches text across all notes."
 msgstr "يبحث عن نص في جميع الملاحظات."
 
-#: sophie_bot/modules/legacy_modules/modules/notes.py:328
+#: sophie_bot/modules/legacy_modules/modules/notes.py:330
 #: sophie_bot/modules/notes/handlers/save.py:29 types/text.py:18
 msgid "Text"
 msgstr "نص"
 
-#: sophie_bot/modules/legacy_modules/modules/notes.py:348
+#: sophie_bot/modules/legacy_modules/modules/notes.py:350
 msgid "Deletes the note"
 msgstr "يحذف الملاحظة"
 
-#: sophie_bot/modules/legacy_modules/modules/notes.py:385
+#: sophie_bot/modules/legacy_modules/modules/notes.py:387
 msgid "Deletes all the notes in the chat"
 msgstr "يحذف جميع الملاحظات في الدردشة"
 
-#: sophie_bot/modules/legacy_modules/modules/notes.py:479
+#: sophie_bot/modules/legacy_modules/modules/notes.py:481
 msgid "Controls the feature, that would recommend users to use PM with bot to use notes"
 msgstr "يتحكم في الميزة التي توصي المستخدمين باستخدام المراسلة الخاصة مع الروبوت لاستخدام الملاحظات"
 
-#: sophie_bot/modules/legacy_modules/modules/notes.py:519
+#: sophie_bot/modules/legacy_modules/modules/notes.py:521
 msgid "Controls the automatic clean-up for notes"
 msgstr "يتحكم في التنظيف التلقائي للملاحظات"
 
-#: sophie_bot/modules/legacy_modules/modules/notes.py:643
+#: sophie_bot/modules/legacy_modules/modules/notes.py:645
 msgid "🗒 Send a note"
 msgstr "🗒 أرسل ملاحظة"
 
@@ -1261,27 +1262,27 @@ msgstr "ابحث عن الملاحظات"
 msgid "Lists available notes."
 msgstr "يعدد الملاحظات المتاحة."
 
-#: sophie_bot/modules/notes/handlers/list.py:110
+#: sophie_bot/modules/notes/handlers/list.py:112
 msgid "No notes found by the provided search pattern {pattern}."
 msgstr "لم يتم العثور على ملاحظات بالأنماط البحث المقدمة {pattern}."
 
-#: sophie_bot/modules/notes/handlers/list.py:113
+#: sophie_bot/modules/notes/handlers/list.py:115
 msgid "No notes found."
 msgstr "لم يتم العثور على ملاحظات."
 
-#: sophie_bot/modules/notes/handlers/list.py:117
+#: sophie_bot/modules/notes/handlers/list.py:119
 msgid "Search pattern"
 msgstr "نمط البحث"
 
-#: sophie_bot/modules/notes/handlers/list.py:119
+#: sophie_bot/modules/notes/handlers/list.py:121
 msgid "Notes in {chat_name}"
 msgstr "الملاحظات في {chat_name}"
 
-#: sophie_bot/modules/notes/handlers/list.py:123
+#: sophie_bot/modules/notes/handlers/list.py:125
 msgid "Use {cmd} to retrieve a note. Example: {cmd_example}"
 msgstr "استخدم {cmd} لاسترجاع ملاحظة. المثال: {cmd_example}"
 
-#: sophie_bot/modules/notes/handlers/list.py:124
+#: sophie_bot/modules/notes/handlers/list.py:126
 msgid "#(Note name)"
 msgstr "#(اسم الملاحظة)"
 
