@@ -42,7 +42,7 @@ class SaveNote(MessageHandler):
             str(
                 Section(
                     KeyValue("Note names", ", ".join(self.data["notenames"])),
-                    KeyValue("Group", self.data.get("note_group", "-")),
+                    # KeyValue("Group", self.data.get("note_group", "-")),
                     KeyValue("Description", self.data.get("description", "-")),
                     title=_("Note was successfully created") if created else _("Note was successfully updated"),
                 )

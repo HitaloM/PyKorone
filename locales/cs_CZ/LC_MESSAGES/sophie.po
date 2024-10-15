@@ -1245,44 +1245,44 @@ msgstr "Získá poznámku."
 msgid "No note was found with {name} name."
 msgstr "Nebyla nalezena žádná poznámka s názvem {name}."
 
-#: sophie_bot/modules/notes/handlers/list.py:30
+#: sophie_bot/modules/notes/handlers/list.py:31
 msgid "Please connect to the chat to interact with chat notes"
 msgstr ""
 
-#: sophie_bot/modules/notes/handlers/list.py:36
+#: sophie_bot/modules/notes/handlers/list.py:37
 #, fuzzy
 msgid "🔌 Connect"
 msgstr "Spojení"
 
-#: sophie_bot/modules/notes/handlers/list.py:43
+#: sophie_bot/modules/notes/handlers/list.py:44
 msgid "Search notes"
 msgstr "Hledat poznámky"
 
-#: sophie_bot/modules/notes/handlers/list.py:44
+#: sophie_bot/modules/notes/handlers/list.py:45
 msgid "Lists available notes."
 msgstr "Zobrazí dostupné poznámky."
 
-#: sophie_bot/modules/notes/handlers/list.py:112
+#: sophie_bot/modules/notes/handlers/list.py:113
 msgid "No notes found by the provided search pattern {pattern}."
 msgstr "Nebyly nalezeny žádné poznámky podle zadaného vzoru hledání {pattern}."
 
-#: sophie_bot/modules/notes/handlers/list.py:115
+#: sophie_bot/modules/notes/handlers/list.py:116
 msgid "No notes found."
 msgstr "Nebyly nalezeny žádné poznámky."
 
-#: sophie_bot/modules/notes/handlers/list.py:119
+#: sophie_bot/modules/notes/handlers/list.py:120
 msgid "Search pattern"
 msgstr "Vzor hledání"
 
-#: sophie_bot/modules/notes/handlers/list.py:121
+#: sophie_bot/modules/notes/handlers/list.py:122
 msgid "Notes in {chat_name}"
 msgstr "Poznámky v {chat_name}"
 
-#: sophie_bot/modules/notes/handlers/list.py:125
+#: sophie_bot/modules/notes/handlers/list.py:126
 msgid "Use {cmd} to retrieve a note. Example: {cmd_example}"
 msgstr "Použijte {cmd} pro načtení poznámky. Příklad: {cmd_example}"
 
-#: sophie_bot/modules/notes/handlers/list.py:126
+#: sophie_bot/modules/notes/handlers/list.py:127
 msgid "#(Note name)"
 msgstr "#(Název poznámky)"
 

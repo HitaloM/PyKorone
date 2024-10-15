@@ -1245,44 +1245,44 @@ msgstr "Ruft die Notiz ab."
 msgid "No note was found with {name} name."
 msgstr "Es wurde keine Notiz mit dem Namen {name} gefunden."
 
-#: sophie_bot/modules/notes/handlers/list.py:30
+#: sophie_bot/modules/notes/handlers/list.py:31
 msgid "Please connect to the chat to interact with chat notes"
 msgstr ""
 
-#: sophie_bot/modules/notes/handlers/list.py:36
+#: sophie_bot/modules/notes/handlers/list.py:37
 #, fuzzy
 msgid "🔌 Connect"
 msgstr "Verbindungen"
 
-#: sophie_bot/modules/notes/handlers/list.py:43
+#: sophie_bot/modules/notes/handlers/list.py:44
 msgid "Search notes"
 msgstr "Notizen suchen"
 
-#: sophie_bot/modules/notes/handlers/list.py:44
+#: sophie_bot/modules/notes/handlers/list.py:45
 msgid "Lists available notes."
 msgstr "Listet verfügbare Notizen auf."
 
-#: sophie_bot/modules/notes/handlers/list.py:112
+#: sophie_bot/modules/notes/handlers/list.py:113
 msgid "No notes found by the provided search pattern {pattern}."
 msgstr "Es wurden keine Notizen nach dem bereitgestellten Suchmuster {pattern} gefunden."
 
-#: sophie_bot/modules/notes/handlers/list.py:115
+#: sophie_bot/modules/notes/handlers/list.py:116
 msgid "No notes found."
 msgstr "Keine Notizen gefunden."
 
-#: sophie_bot/modules/notes/handlers/list.py:119
+#: sophie_bot/modules/notes/handlers/list.py:120
 msgid "Search pattern"
 msgstr "Suchmuster"
 
-#: sophie_bot/modules/notes/handlers/list.py:121
+#: sophie_bot/modules/notes/handlers/list.py:122
 msgid "Notes in {chat_name}"
 msgstr "Notizen in {chat_name}"
 
-#: sophie_bot/modules/notes/handlers/list.py:125
+#: sophie_bot/modules/notes/handlers/list.py:126
 msgid "Use {cmd} to retrieve a note. Example: {cmd_example}"
 msgstr "Benutze {cmd} um eine Notiz abzurufen. Beispiel: {cmd_example}"
 
-#: sophie_bot/modules/notes/handlers/list.py:126
+#: sophie_bot/modules/notes/handlers/list.py:127
 msgid "#(Note name)"
 msgstr "#(Notizname)"
 

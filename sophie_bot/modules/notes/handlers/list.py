@@ -5,10 +5,10 @@ from aiogram.dispatcher.event.handler import CallbackType
 from aiogram.types import InlineKeyboardButton
 from aiogram.utils.keyboard import InlineKeyboardBuilder
 from ass_tg.types import OptionalArg, TextArg
-from sophie_bot.filters.admin_rights import UserRestricting
 from stfu_tg import Code, Doc, Italic, KeyValue, Section, Template, VList
 
 from sophie_bot.db.models.notes import NoteModel
+from sophie_bot.filters.admin_rights import UserRestricting
 from sophie_bot.filters.chat_status import ChatTypeFilter
 from sophie_bot.filters.cmd import CMDFilter
 from sophie_bot.middlewares.connections import ChatConnection
@@ -18,6 +18,7 @@ from sophie_bot.modules.notes.utils.names import format_notes_aliases
 from sophie_bot.modules.utils_.base_handler import SophieMessageHandler
 from sophie_bot.utils.i18n import gettext as _
 from sophie_bot.utils.i18n import lazy_gettext as l_
+from stfu_tg.doc import Element
 
 LIST_CMD_FILTER = CMDFilter(("notes", "saved", "notelist"))
 
@@ -83,20 +84,21 @@ class NotesList(SophieMessageHandler):
 
         return VList(*formatted_notes)
 
-    def format_notes_list_group(self, notes: List[NoteModel], note_group: str) -> Section:
+    def format_notes_list_group(self, notes: List[NoteModel], note_group: str) -> Element:
         group_notes = list(filter(lambda note: note.note_group == note_group, notes))
 
-        return Section(self.format_notes_list(group_notes), title=f"${note_group.upper()}", title_bold=True)
+        # return Section(self.format_notes_list(group_notes), title=f"${note_group.upper()}", title_bold=True)
+        return self.format_notes_list(group_notes)
 
     def format_notes_list_optional_groups(self, notes: List[NoteModel]) -> list[VList | Section]:
         groups = {note.note_group for note in notes}
 
         content = []
         for group in groups:
-            if not group:
-                content.append(self.format_notes_list(list(note for note in notes if not note.note_group)))
-            else:
-                content.append(self.format_notes_list_group(notes, group))
+            # if not group:
+            #     content.append(self.format_notes_list(list(note for note in notes if not note.note_group)))
+            # else:
+            content.append(self.format_notes_list_group(notes, group))
 
         return content
 
