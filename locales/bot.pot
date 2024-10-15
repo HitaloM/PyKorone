@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-10-15 19:07+0200\n"
+"POT-Creation-Date: 2024-10-15 19:42+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -171,8 +171,8 @@ msgstr ""
 #: sophie_bot/modules/ai/handlers/enable_setting.py:51
 #: sophie_bot/modules/legacy_modules/modules/antiflood.py:250
 #: sophie_bot/modules/legacy_modules/modules/connection.py:184
-#: sophie_bot/modules/legacy_modules/modules/notes.py:530
-#: sophie_bot/modules/legacy_modules/modules/notes.py:569
+#: sophie_bot/modules/legacy_modules/modules/notes.py:476
+#: sophie_bot/modules/legacy_modules/modules/notes.py:515
 msgid "New state"
 msgstr ""
 
@@ -1003,58 +1003,53 @@ msgstr ""
 msgid "💭 Reply to message"
 msgstr ""
 
-#: sophie_bot/modules/legacy_modules/modules/notes.py:39
+#: sophie_bot/modules/legacy_modules/modules/notes.py:37
 #: sophie_bot/modules/notes/__init__.py:13
 msgid "Notes"
 msgstr ""
 
-#: sophie_bot/modules/legacy_modules/modules/notes.py:118
+#: sophie_bot/modules/legacy_modules/modules/notes.py:116
 msgid "Saves the note."
 msgstr ""
 
-#: sophie_bot/modules/legacy_modules/modules/notes.py:118
-#: sophie_bot/modules/legacy_modules/modules/notes.py:346
-#: sophie_bot/modules/legacy_modules/modules/notes.py:416
+#: sophie_bot/modules/legacy_modules/modules/notes.py:116
+#: sophie_bot/modules/legacy_modules/modules/notes.py:344
 #: sophie_bot/modules/notes/handlers/delete.py:15
 #: sophie_bot/modules/notes/handlers/get.py:15
 msgid "Note name"
 msgstr ""
 
-#: sophie_bot/modules/legacy_modules/modules/notes.py:118
+#: sophie_bot/modules/legacy_modules/modules/notes.py:116
 #: sophie_bot/modules/legacy_modules/modules/rules.py:28
 msgid "Content"
 msgstr ""
 
-#: sophie_bot/modules/legacy_modules/modules/notes.py:326
+#: sophie_bot/modules/legacy_modules/modules/notes.py:324
 msgid "Searches text across all notes."
 msgstr ""
 
-#: sophie_bot/modules/legacy_modules/modules/notes.py:326
+#: sophie_bot/modules/legacy_modules/modules/notes.py:324
 #: sophie_bot/modules/notes/handlers/save.py:29
 msgid "Text"
 msgstr ""
 
-#: sophie_bot/modules/legacy_modules/modules/notes.py:346
+#: sophie_bot/modules/legacy_modules/modules/notes.py:344
 msgid "Deletes the note"
 msgstr ""
 
-#: sophie_bot/modules/legacy_modules/modules/notes.py:383
+#: sophie_bot/modules/legacy_modules/modules/notes.py:381
 msgid "Deletes all the notes in the chat"
 msgstr ""
 
-#: sophie_bot/modules/legacy_modules/modules/notes.py:416
-msgid "Shows additional information about the note"
-msgstr ""
-
-#: sophie_bot/modules/legacy_modules/modules/notes.py:529
+#: sophie_bot/modules/legacy_modules/modules/notes.py:475
 msgid "Controls the feature, that would recommend users to use PM with bot to use notes"
 msgstr ""
 
-#: sophie_bot/modules/legacy_modules/modules/notes.py:569
+#: sophie_bot/modules/legacy_modules/modules/notes.py:515
 msgid "Controls the automatic clean-up for notes"
 msgstr ""
 
-#: sophie_bot/modules/legacy_modules/modules/notes.py:693
+#: sophie_bot/modules/legacy_modules/modules/notes.py:639
 msgid "🗒 Send a note"
 msgstr ""
 

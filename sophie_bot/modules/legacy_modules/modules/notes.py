@@ -7,7 +7,6 @@ from aiogram import F, Router, flags
 from aiogram.exceptions import TelegramBadRequest
 from aiogram.types import InlineKeyboardButton, InlineKeyboardMarkup, Message
 from ass_tg.types import BooleanArg, TextArg
-from babel.dates import format_datetime
 from pymongo import ReplaceOne
 from stfu_tg import Code, Template
 from telethon.errors.rpcerrorlist import MessageDeleteForbiddenError
@@ -23,7 +22,6 @@ from sophie_bot.modules.legacy_modules.utils.message import (
     need_args_dec,
 )
 from sophie_bot.modules.legacy_modules.utils.register import register
-from sophie_bot.modules.legacy_modules.utils.user_details import get_user_link
 from sophie_bot.modules.notes.utils.legacy_notes import (
     ALLOWED_COLUMNS,
     BUTTONS,
@@ -410,58 +408,6 @@ async def clear_all_notes_cb(event, chat, strings, **kwargs):
 
     text = strings["clearall_done"].format(num=num, chat_name=chat["chat_title"])
     await event.message.edit_text(text)
-
-
-@register(router, cmds="noteinfo", user_admin=True)
-@flags.help(description=l_("Shows additional information about the note"), args={"cmd": TextArg(l_("Note name"))})
-@chat_connection()
-@need_args_dec()
-@get_strings_dec("notes")
-@clean_notes
-async def note_info(message: Message, chat, strings):
-    note_name = get_arg(message).lower()
-    if note_name[0] == "#":
-        note_name = note_name[1:]
-
-    if not (note := await db.notes.find_one({"chat_id": chat["chat_id"], "names": {"$in": [note_name]}})):
-        text = strings["cant_find_note"].format(chat_name=chat["chat_title"])
-        if alleged_note_name := await get_similar_note(chat["chat_id"], note_name):
-            text += strings["u_mean"].format(note_name=alleged_note_name)
-        return await message.reply(text)
-
-    text = strings["note_info_title"]
-
-    note_names = ""
-    for note_name in note["names"]:
-        note_names += f" <code>#{note_name}</code>"
-
-    text += strings["note_info_note"] % note_names
-    text += strings["note_info_content"] % ("text" if "file" not in note else note["file"]["type"])
-
-    if "parse_mode" not in note or note["parse_mode"] == "md":
-        parse_mode = "Markdown"
-    elif note["parse_mode"] == "html":
-        parse_mode = "HTML"
-    elif note["parse_mode"] == "none":
-        parse_mode = "None"
-    else:
-        raise TypeError()
-
-    text += strings["note_info_parsing"] % parse_mode
-
-    if "created_date" in note:
-        text += strings["note_info_created"].format(
-            date=format_datetime(note["created_date"], locale=strings["language_info"]["babel"]),
-            user=await get_user_link(note["created_user"]),
-        )
-
-    if "edited_date" in note:
-        text += strings["note_info_updated"].format(
-            date=format_datetime(note["edited_date"], locale=strings["language_info"]["babel"]),
-            user=await get_user_link(note["edited_user"]),
-        )
-
-    return await message.reply(text)
 
 
 BUTTONS.update({"note": "btnnotesm", "#": "btnnotesm"})

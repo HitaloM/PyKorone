@@ -168,8 +168,8 @@ msgstr "استخدم '{cmd}' لتغييره."
 #: sophie_bot/modules/ai/handlers/enable_setting.py:51
 #: sophie_bot/modules/legacy_modules/modules/antiflood.py:250
 #: sophie_bot/modules/legacy_modules/modules/connection.py:184
-#: sophie_bot/modules/legacy_modules/modules/notes.py:530
-#: sophie_bot/modules/legacy_modules/modules/notes.py:569
+#: sophie_bot/modules/legacy_modules/modules/notes.py:476
+#: sophie_bot/modules/legacy_modules/modules/notes.py:515
 msgid "New state"
 msgstr "حالة جديدة"
 
@@ -1000,58 +1000,53 @@ msgstr "🗑 حذف الرسالة"
 msgid "💭 Reply to message"
 msgstr "💭 الرد على الرسالة"
 
-#: sophie_bot/modules/legacy_modules/modules/notes.py:39
+#: sophie_bot/modules/legacy_modules/modules/notes.py:37
 #: sophie_bot/modules/notes/__init__.py:13
 msgid "Notes"
 msgstr "ملاحظات"
 
-#: sophie_bot/modules/legacy_modules/modules/notes.py:118
+#: sophie_bot/modules/legacy_modules/modules/notes.py:116
 msgid "Saves the note."
 msgstr "يحفظ الملاحظة."
 
-#: sophie_bot/modules/legacy_modules/modules/notes.py:118
-#: sophie_bot/modules/legacy_modules/modules/notes.py:346
-#: sophie_bot/modules/legacy_modules/modules/notes.py:416
+#: sophie_bot/modules/legacy_modules/modules/notes.py:116
+#: sophie_bot/modules/legacy_modules/modules/notes.py:344
 #: sophie_bot/modules/notes/handlers/delete.py:15
 #: sophie_bot/modules/notes/handlers/get.py:15
 msgid "Note name"
 msgstr "اسم الملاحظة"
 
-#: sophie_bot/modules/legacy_modules/modules/notes.py:118
+#: sophie_bot/modules/legacy_modules/modules/notes.py:116
 #: sophie_bot/modules/legacy_modules/modules/rules.py:28
 msgid "Content"
 msgstr "المحتوى"
 
-#: sophie_bot/modules/legacy_modules/modules/notes.py:326
+#: sophie_bot/modules/legacy_modules/modules/notes.py:324
 msgid "Searches text across all notes."
 msgstr "يبحث عن نص في جميع الملاحظات."
 
-#: sophie_bot/modules/legacy_modules/modules/notes.py:326
+#: sophie_bot/modules/legacy_modules/modules/notes.py:324
 #: sophie_bot/modules/notes/handlers/save.py:29 types/text.py:18
 msgid "Text"
 msgstr "نص"
 
-#: sophie_bot/modules/legacy_modules/modules/notes.py:346
+#: sophie_bot/modules/legacy_modules/modules/notes.py:344
 msgid "Deletes the note"
 msgstr "يحذف الملاحظة"
 
-#: sophie_bot/modules/legacy_modules/modules/notes.py:383
+#: sophie_bot/modules/legacy_modules/modules/notes.py:381
 msgid "Deletes all the notes in the chat"
 msgstr "يحذف جميع الملاحظات في الدردشة"
 
-#: sophie_bot/modules/legacy_modules/modules/notes.py:416
-msgid "Shows additional information about the note"
-msgstr "يعرض معلومات إضافية حول الملاحظة"
-
-#: sophie_bot/modules/legacy_modules/modules/notes.py:529
+#: sophie_bot/modules/legacy_modules/modules/notes.py:475
 msgid "Controls the feature, that would recommend users to use PM with bot to use notes"
 msgstr "يتحكم في الميزة، التي توصي المستخدمين باستخدام PM مع الروبوت لاستخدام الملاحظات"
 
-#: sophie_bot/modules/legacy_modules/modules/notes.py:569
+#: sophie_bot/modules/legacy_modules/modules/notes.py:515
 msgid "Controls the automatic clean-up for notes"
 msgstr "يتحكم في التنظيف التلقائي للملاحظات"
 
-#: sophie_bot/modules/legacy_modules/modules/notes.py:693
+#: sophie_bot/modules/legacy_modules/modules/notes.py:639
 msgid "🗒 Send a note"
 msgstr "🗒 أرسل ملاحظة"
 
@@ -1691,4 +1686,7 @@ msgstr "حدث خطأ غير متوقع أثناء محاولة الحصول ع�
 #: types/user.py:108
 msgid "Could not find the user mention"
 msgstr "لم يتم العثور على الإشارة إلى المستخدم"
+
+#~ msgid "Shows additional information about the note"
+#~ msgstr "يعرض معلومات إضافية حول الملاحظة"
 

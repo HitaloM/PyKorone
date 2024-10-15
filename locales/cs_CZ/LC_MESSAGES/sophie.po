@@ -168,8 +168,8 @@ msgstr "Použijte '{cmd}' pro změnu."
 #: sophie_bot/modules/ai/handlers/enable_setting.py:51
 #: sophie_bot/modules/legacy_modules/modules/antiflood.py:250
 #: sophie_bot/modules/legacy_modules/modules/connection.py:184
-#: sophie_bot/modules/legacy_modules/modules/notes.py:530
-#: sophie_bot/modules/legacy_modules/modules/notes.py:569
+#: sophie_bot/modules/legacy_modules/modules/notes.py:476
+#: sophie_bot/modules/legacy_modules/modules/notes.py:515
 msgid "New state"
 msgstr "Nový stav"
 
@@ -1000,58 +1000,53 @@ msgstr "🗑 Delete message"
 msgid "💭 Reply to message"
 msgstr "💭 Reply to message"
 
-#: sophie_bot/modules/legacy_modules/modules/notes.py:39
+#: sophie_bot/modules/legacy_modules/modules/notes.py:37
 #: sophie_bot/modules/notes/__init__.py:13
 msgid "Notes"
 msgstr "Poznámky"
 
-#: sophie_bot/modules/legacy_modules/modules/notes.py:118
+#: sophie_bot/modules/legacy_modules/modules/notes.py:116
 msgid "Saves the note."
 msgstr "Uloží poznámku."
 
-#: sophie_bot/modules/legacy_modules/modules/notes.py:118
-#: sophie_bot/modules/legacy_modules/modules/notes.py:346
-#: sophie_bot/modules/legacy_modules/modules/notes.py:416
+#: sophie_bot/modules/legacy_modules/modules/notes.py:116
+#: sophie_bot/modules/legacy_modules/modules/notes.py:344
 #: sophie_bot/modules/notes/handlers/delete.py:15
 #: sophie_bot/modules/notes/handlers/get.py:15
 msgid "Note name"
 msgstr "Název poznámky"
 
-#: sophie_bot/modules/legacy_modules/modules/notes.py:118
+#: sophie_bot/modules/legacy_modules/modules/notes.py:116
 #: sophie_bot/modules/legacy_modules/modules/rules.py:28
 msgid "Content"
 msgstr "Obsah"
 
-#: sophie_bot/modules/legacy_modules/modules/notes.py:326
+#: sophie_bot/modules/legacy_modules/modules/notes.py:324
 msgid "Searches text across all notes."
 msgstr "Hledá text ve všech poznámkách."
 
-#: sophie_bot/modules/legacy_modules/modules/notes.py:326
+#: sophie_bot/modules/legacy_modules/modules/notes.py:324
 #: sophie_bot/modules/notes/handlers/save.py:29 types/text.py:18
 msgid "Text"
 msgstr "Text"
 
-#: sophie_bot/modules/legacy_modules/modules/notes.py:346
+#: sophie_bot/modules/legacy_modules/modules/notes.py:344
 msgid "Deletes the note"
 msgstr "Odstraní poznámku"
 
-#: sophie_bot/modules/legacy_modules/modules/notes.py:383
+#: sophie_bot/modules/legacy_modules/modules/notes.py:381
 msgid "Deletes all the notes in the chat"
 msgstr "Odstraní všechny poznámky v chatu"
 
-#: sophie_bot/modules/legacy_modules/modules/notes.py:416
-msgid "Shows additional information about the note"
-msgstr "Zobrazuje další informace o poznámce"
-
-#: sophie_bot/modules/legacy_modules/modules/notes.py:529
+#: sophie_bot/modules/legacy_modules/modules/notes.py:475
 msgid "Controls the feature, that would recommend users to use PM with bot to use notes"
 msgstr "Ovládá funkci, která doporučuje uživatelům používat soukromé zprávy s botem pro používání poznámek"
 
-#: sophie_bot/modules/legacy_modules/modules/notes.py:569
+#: sophie_bot/modules/legacy_modules/modules/notes.py:515
 msgid "Controls the automatic clean-up for notes"
 msgstr "Ovládá automatické odstranění poznámek"
 
-#: sophie_bot/modules/legacy_modules/modules/notes.py:693
+#: sophie_bot/modules/legacy_modules/modules/notes.py:639
 msgid "🗒 Send a note"
 msgstr "🗒 Send a note"
 
@@ -1691,4 +1686,7 @@ msgstr "Neočekávaná chyba při pokusu o získání uživatele! Prosím, nahla
 #: types/user.py:108
 msgid "Could not find the user mention"
 msgstr "Nepodařilo se najít zmínku o uživateli"
+
+#~ msgid "Shows additional information about the note"
+#~ msgstr "Zobrazuje další informace o poznámce"
 
