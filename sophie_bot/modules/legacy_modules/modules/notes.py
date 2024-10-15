@@ -14,7 +14,6 @@ from telethon.errors.rpcerrorlist import MessageDeleteForbiddenError
 from sophie_bot import bot, dp
 from sophie_bot.filters.user_status import IsAdmin
 from sophie_bot.modules.legacy_modules.utils.connections import chat_connection
-from sophie_bot.modules.legacy_modules.utils.disable import disableable_dec
 from sophie_bot.modules.legacy_modules.utils.language import get_string, get_strings_dec
 from sophie_bot.modules.legacy_modules.utils.message import (
     get_arg,
@@ -175,6 +174,7 @@ async def get_note(
     noformat=False,
     event=None,
     user=None,
+    title=None,
 ):
     if not chat_id:
         chat_id = message.chat.id
@@ -192,6 +192,10 @@ async def get_note(
         return
 
     text, kwargs = await t_unparse_note_item(message, db_item, chat_id, noformat=noformat, event=event, user=user)
+
+    if title:
+        text = f"{title}\n{text}"
+
     kwargs["reply_to"] = rpl_id
 
     return await send_note(send_id, text, **kwargs)
@@ -234,25 +238,25 @@ async def get_note(
 #     return await get_note(message, db_item=note, rpl_id=rpl_id, noformat=noformat, user=user)
 
 
-@register(router, F.text.regexp(r"^#([\w-]+)"), allow_kwargs=True)
-@disableable_dec("get")
-@chat_connection(command="get")
-@clean_notes
-async def get_note_hashtag(message: Message, chat, **kwargs):
-    chat_id = chat["chat_id"]
-
-    note_name = re.search(r"^#([\w-]+)", message.text)[1].lower()
-    if not (note := await db.notes.find_one({"chat_id": int(chat_id), "names": {"$in": [note_name]}})):
-        return
-
-    if message.reply_to_message:
-        rpl_id = message.reply_to_message.message_id
-        user = message.reply_to_message.from_user
-    else:
-        rpl_id = message.message_id
-        user = message.from_user
-
-    return await get_note(message, db_item=note, rpl_id=rpl_id, user=user)
+# @register(router, F.text.regexp(r"^#([\w-]+)"), allow_kwargs=True)
+# @disableable_dec("get")
+# @chat_connection(command="get")
+# @clean_notes
+# async def get_note_hashtag(message: Message, chat, **kwargs):
+#     chat_id = chat["chat_id"]
+#
+#     note_name = re.search(r"^#([\w-]+)", message.text)[1].lower()
+#     if not (note := await db.notes.find_one({"chat_id": int(chat_id), "names": {"$in": [note_name]}})):
+#         return
+#
+#     if message.reply_to_message:
+#         rpl_id = message.reply_to_message.message_id
+#         user = message.reply_to_message.from_user
+#     else:
+#         rpl_id = message.message_id
+#         user = message.from_user
+#
+#     return await get_note(message, db_item=note, rpl_id=rpl_id, user=user)
 
 
 # @register(router, cmds=["notes", "saved"])

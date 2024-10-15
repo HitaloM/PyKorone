@@ -52,6 +52,7 @@ async def send_saveable(
     saveable: Saveable,
     reply_to: Optional[int] = None,
     title: Optional[Element] = None,
+    legacy_title: Optional[str] = None,
     raw: Optional[bool] = False,
 ):
     # Legacy note
@@ -60,7 +61,7 @@ async def send_saveable(
         compatible_db_item["parse_mode"] = (
             saveable.parse_mode.value if saveable.parse_mode else SaveableParseMode.markdown
         )
-        return await get_note(message, db_item=compatible_db_item, rpl_id=reply_to, noformat=raw)
+        return await get_note(message, db_item=compatible_db_item, rpl_id=reply_to, noformat=raw, title=legacy_title)
 
     text = str(title) + "\n" if title else ""
     text += saveable.text or ""
