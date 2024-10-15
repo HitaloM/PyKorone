@@ -1245,44 +1245,44 @@ msgstr "Notu al."
 msgid "No note was found with {name} name."
 msgstr "{name} ismine sahip bir not bulunamadı."
 
-#: sophie_bot/modules/notes/handlers/list.py:31
+#: sophie_bot/modules/notes/handlers/list.py:32
 msgid "Please connect to the chat to interact with chat notes"
 msgstr ""
 
-#: sophie_bot/modules/notes/handlers/list.py:37
+#: sophie_bot/modules/notes/handlers/list.py:38
 #, fuzzy
 msgid "🔌 Connect"
 msgstr "Bağlantılar"
 
-#: sophie_bot/modules/notes/handlers/list.py:44
+#: sophie_bot/modules/notes/handlers/list.py:45
 msgid "Search notes"
 msgstr "Notları ara"
 
-#: sophie_bot/modules/notes/handlers/list.py:45
+#: sophie_bot/modules/notes/handlers/list.py:46
 msgid "Lists available notes."
 msgstr "Mevcut notları listeler."
 
-#: sophie_bot/modules/notes/handlers/list.py:113
+#: sophie_bot/modules/notes/handlers/list.py:115
 msgid "No notes found by the provided search pattern {pattern}."
 msgstr "Verilen arama deseninde not bulunamadı {pattern}."
 
-#: sophie_bot/modules/notes/handlers/list.py:116
+#: sophie_bot/modules/notes/handlers/list.py:118
 msgid "No notes found."
 msgstr "Not bulunamadı."
 
-#: sophie_bot/modules/notes/handlers/list.py:120
+#: sophie_bot/modules/notes/handlers/list.py:122
 msgid "Search pattern"
 msgstr "Arama deseni"
 
-#: sophie_bot/modules/notes/handlers/list.py:122
+#: sophie_bot/modules/notes/handlers/list.py:124
 msgid "Notes in {chat_name}"
 msgstr "{chat_name}'deki notlar"
 
-#: sophie_bot/modules/notes/handlers/list.py:126
+#: sophie_bot/modules/notes/handlers/list.py:128
 msgid "Use {cmd} to retrieve a note. Example: {cmd_example}"
 msgstr "Bir not almak için {cmd} kullanın. Örnek: {cmd_example}"
 
-#: sophie_bot/modules/notes/handlers/list.py:127
+#: sophie_bot/modules/notes/handlers/list.py:129
 msgid "#(Note name)"
 msgstr "#(Not adı)"
 

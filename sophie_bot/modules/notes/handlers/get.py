@@ -32,8 +32,8 @@ class GetNote(SophieMessageHandler):
         elif not note:
             return
 
-        legacy_title = HList(Title(f"📒 #{note_name}", bold=False), note.description or "")
-        title = Bold(legacy_title)
+        title = Bold(HList(Title(f"📗 #{note_name}", bold=False), note.description or ""))
+        legacy_title = HList(Title(f"📙 #{note_name}", bold=False), note.description or "")
 
         await send_saveable(self.event, self.event.chat.id, note, title=title, legacy_title=str(legacy_title))
 

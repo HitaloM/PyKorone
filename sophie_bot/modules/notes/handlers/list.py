@@ -6,6 +6,7 @@ from aiogram.types import InlineKeyboardButton
 from aiogram.utils.keyboard import InlineKeyboardBuilder
 from ass_tg.types import OptionalArg, TextArg
 from stfu_tg import Code, Doc, Italic, KeyValue, Section, Template, VList
+from stfu_tg.doc import Element
 
 from sophie_bot.db.models.notes import NoteModel
 from sophie_bot.filters.admin_rights import UserRestricting
@@ -18,7 +19,6 @@ from sophie_bot.modules.notes.utils.names import format_notes_aliases
 from sophie_bot.modules.utils_.base_handler import SophieMessageHandler
 from sophie_bot.utils.i18n import gettext as _
 from sophie_bot.utils.i18n import lazy_gettext as l_
-from stfu_tg.doc import Element
 
 LIST_CMD_FILTER = CMDFilter(("notes", "saved", "notelist"))
 
