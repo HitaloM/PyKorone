@@ -14,7 +14,7 @@ from sophie_bot.utils.i18n import gettext as _
 from sophie_bot.utils.i18n import lazy_gettext as l_
 
 
-@flags.args(notename=WordArg(l_("Note name")), raw=OptionalArg(OneOf("noformat", "raw")))
+@flags.args(notename=WordArg(l_("Note name")), raw=OptionalArg(OneOf("noformat", "?raw")))
 @flags.help(description=l_("Retrieve the note."))
 class GetNote(SophieMessageHandler):
     @staticmethod

@@ -12,7 +12,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Generated-By: Babel 2.15.0\n"
+"Generated-By: Babel 2.16.0\n"
 
 #: sophie_bot/args/users.py:29
 msgid "Could not find the requested User ID in the database."
@@ -1101,6 +1101,7 @@ msgid "Sets the chat rules."
 msgstr "设置聊天规则。"
 
 #: sophie_bot/modules/legacy_modules/modules/rules.py:28
+#: sophie_bot/modules/notes/handlers/save.py:25
 msgid "Content"
 msgstr "内容"
 
@@ -1165,7 +1166,7 @@ msgstr "新模式"
 msgid "⚠️ Warn"
 msgstr "⚠️ Warn"
 
-#: sophie_bot/modules/notes/__init__.py:21
+#: sophie_bot/modules/notes/__init__.py:22
 msgid "Notes"
 msgstr "笔记"
 
@@ -1225,7 +1226,8 @@ msgid "No note was found with {name} name."
 msgstr "未找到名为 {name} 的笔记。"
 
 #: sophie_bot/modules/notes/handlers/list.py:18
-msgid "Search notes"
+#, fuzzy
+msgid "?Search notes"
 msgstr "搜索笔记"
 
 #: sophie_bot/modules/notes/handlers/list.py:19
@@ -1285,12 +1287,9 @@ msgid "Note names"
 msgstr "备注名称"
 
 #: sophie_bot/modules/notes/handlers/save.py:24
-msgid "Description"
+#, fuzzy
+msgid "?Description"
 msgstr "描述"
-
-#: sophie_bot/modules/notes/handlers/save.py:25 types/text.py:18
-msgid "Text"
-msgstr "文本"
 
 #: sophie_bot/modules/notes/handlers/save.py:27
 msgid "Save the note."
@@ -1335,23 +1334,23 @@ msgstr ""
 msgid "🗒 Send a note"
 msgstr "🗒 Send a note"
 
-#: sophie_bot/modules/notes/utils/parse.py:71
+#: sophie_bot/modules/notes/utils/parse.py:68
 msgid "Please check the notes documentation for the list of the allowed content types."
 msgstr "请检查备注文档，获取允许的内容类型列表。"
 
-#: sophie_bot/modules/notes/utils/parse.py:72
+#: sophie_bot/modules/notes/utils/parse.py:69
 msgid "Reply message content is not parsable as the note."
 msgstr "回复消息内容无法解析为笔记。"
 
-#: sophie_bot/modules/notes/utils/parse.py:104
+#: sophie_bot/modules/notes/utils/parse.py:102
 msgid "The maximum length of the note is {limit} characters."
 msgstr "笔记的最大长度为 {limit} 个字符。"
 
-#: sophie_bot/modules/notes/utils/parse.py:105
+#: sophie_bot/modules/notes/utils/parse.py:103
 msgid "Please try to reduce the length of the note."
 msgstr "请尝试减小笔记的长度。"
 
-#: sophie_bot/modules/notes/utils/parse.py:106
+#: sophie_bot/modules/notes/utils/parse.py:104
 msgid "Note is too long."
 msgstr "笔记过长。"
 
@@ -1599,6 +1598,10 @@ msgstr "真（可以意味着启用或是）"
 #: types/oneword.py:55
 msgid "False (can means Disabled or No)"
 msgstr "假（可以意味着禁用或否）"
+
+#: types/text.py:18
+msgid "Text"
+msgstr "文本"
 
 #: types/text_rules.py:27
 msgid "➡️ The Argument should start with {}!"

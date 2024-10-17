@@ -15,7 +15,7 @@ from sophie_bot.utils.i18n import lazy_gettext as l_
 LIST_CMDS = ("notes", "saved", "notelist")
 
 
-@flags.args(search=OptionalArg(TextArg(l_("Search notes"))))
+@flags.args(search=OptionalArg(TextArg(l_("?Search notes"))))
 @flags.help(description=l_("Lists available notes."))
 @flags.disableable(name="notes")
 class NotesList(SophieMessageHandler):

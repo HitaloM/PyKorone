@@ -12,7 +12,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Generated-By: Babel 2.15.0\n"
+"Generated-By: Babel 2.16.0\n"
 
 #: sophie_bot/args/users.py:29
 msgid "Could not find the requested User ID in the database."
@@ -1101,6 +1101,7 @@ msgid "Sets the chat rules."
 msgstr "يحدد قواعد الدردشة."
 
 #: sophie_bot/modules/legacy_modules/modules/rules.py:28
+#: sophie_bot/modules/notes/handlers/save.py:25
 msgid "Content"
 msgstr "محتوى"
 
@@ -1165,7 +1166,7 @@ msgstr "وضع جديد"
 msgid "⚠️ Warn"
 msgstr "⚠️ تحذير"
 
-#: sophie_bot/modules/notes/__init__.py:21
+#: sophie_bot/modules/notes/__init__.py:22
 msgid "Notes"
 msgstr "ملاحظات"
 
@@ -1225,7 +1226,8 @@ msgid "No note was found with {name} name."
 msgstr "لم يتم العثور على ملاحظة تحمل اسم {name}."
 
 #: sophie_bot/modules/notes/handlers/list.py:18
-msgid "Search notes"
+#, fuzzy
+msgid "?Search notes"
 msgstr "ابحث عن الملاحظات"
 
 #: sophie_bot/modules/notes/handlers/list.py:19
@@ -1285,12 +1287,9 @@ msgid "Note names"
 msgstr "أسماء الملاحظات"
 
 #: sophie_bot/modules/notes/handlers/save.py:24
-msgid "Description"
+#, fuzzy
+msgid "?Description"
 msgstr "وصف"
-
-#: sophie_bot/modules/notes/handlers/save.py:25 types/text.py:18
-msgid "Text"
-msgstr "نص"
 
 #: sophie_bot/modules/notes/handlers/save.py:27
 msgid "Save the note."
@@ -1335,23 +1334,23 @@ msgstr ""
 msgid "🗒 Send a note"
 msgstr "🗒 أرسل ملاحظة"
 
-#: sophie_bot/modules/notes/utils/parse.py:71
+#: sophie_bot/modules/notes/utils/parse.py:68
 msgid "Please check the notes documentation for the list of the allowed content types."
 msgstr "يرجى التحقق من وثائق الملاحظات لقائمة أنواع المحتوى المسموح بها."
 
-#: sophie_bot/modules/notes/utils/parse.py:72
+#: sophie_bot/modules/notes/utils/parse.py:69
 msgid "Reply message content is not parsable as the note."
 msgstr "محتوى رسالة الرد غير قابل للتحليل كملاحظة."
 
-#: sophie_bot/modules/notes/utils/parse.py:104
+#: sophie_bot/modules/notes/utils/parse.py:102
 msgid "The maximum length of the note is {limit} characters."
 msgstr "الحد الأقصى لطول الملاحظة هو {limit} حرف."
 
-#: sophie_bot/modules/notes/utils/parse.py:105
+#: sophie_bot/modules/notes/utils/parse.py:103
 msgid "Please try to reduce the length of the note."
 msgstr "يرجى محاولة تقليل طول الملاحظة."
 
-#: sophie_bot/modules/notes/utils/parse.py:106
+#: sophie_bot/modules/notes/utils/parse.py:104
 msgid "Note is too long."
 msgstr "الملاحظة طويلة جدًا."
 
@@ -1599,6 +1598,10 @@ msgstr "صحيح (يمكن أن يعني مفعل أو نعم)"
 #: types/oneword.py:55
 msgid "False (can means Disabled or No)"
 msgstr "خطأ (يمكن أن يعني معطل أو لا)"
+
+#: types/text.py:18
+msgid "Text"
+msgstr "نص"
 
 #: types/text_rules.py:27
 msgid "➡️ The Argument should start with {}!"

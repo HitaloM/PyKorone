@@ -12,7 +12,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Generated-By: Babel 2.15.0\n"
+"Generated-By: Babel 2.16.0\n"
 
 #: sophie_bot/args/users.py:29
 msgid "Could not find the requested User ID in the database."
@@ -1101,6 +1101,7 @@ msgid "Sets the chat rules."
 msgstr "Définit les règles du chat."
 
 #: sophie_bot/modules/legacy_modules/modules/rules.py:28
+#: sophie_bot/modules/notes/handlers/save.py:25
 msgid "Content"
 msgstr "Contenu"
 
@@ -1165,7 +1166,7 @@ msgstr "Nouveau mode"
 msgid "⚠️ Warn"
 msgstr "⚠️ Warn"
 
-#: sophie_bot/modules/notes/__init__.py:21
+#: sophie_bot/modules/notes/__init__.py:22
 msgid "Notes"
 msgstr "Notes"
 
@@ -1225,7 +1226,8 @@ msgid "No note was found with {name} name."
 msgstr "Aucune note trouvée avec le nom {name}."
 
 #: sophie_bot/modules/notes/handlers/list.py:18
-msgid "Search notes"
+#, fuzzy
+msgid "?Search notes"
 msgstr "Rechercher des notes"
 
 #: sophie_bot/modules/notes/handlers/list.py:19
@@ -1285,12 +1287,9 @@ msgid "Note names"
 msgstr "Noms de notes"
 
 #: sophie_bot/modules/notes/handlers/save.py:24
-msgid "Description"
+#, fuzzy
+msgid "?Description"
 msgstr "Description"
-
-#: sophie_bot/modules/notes/handlers/save.py:25 types/text.py:18
-msgid "Text"
-msgstr "Texte"
 
 #: sophie_bot/modules/notes/handlers/save.py:27
 msgid "Save the note."
@@ -1335,23 +1334,23 @@ msgstr ""
 msgid "🗒 Send a note"
 msgstr "🗒 Envoyer une note"
 
-#: sophie_bot/modules/notes/utils/parse.py:71
+#: sophie_bot/modules/notes/utils/parse.py:68
 msgid "Please check the notes documentation for the list of the allowed content types."
 msgstr "Veuillez consulter la documentation des notes pour la liste des types de contenu autorisés."
 
-#: sophie_bot/modules/notes/utils/parse.py:72
+#: sophie_bot/modules/notes/utils/parse.py:69
 msgid "Reply message content is not parsable as the note."
 msgstr "Le contenu du message de réponse n'est pas analysable comme note."
 
-#: sophie_bot/modules/notes/utils/parse.py:104
+#: sophie_bot/modules/notes/utils/parse.py:102
 msgid "The maximum length of the note is {limit} characters."
 msgstr "La longueur maximale de la note est de {limit} caractères."
 
-#: sophie_bot/modules/notes/utils/parse.py:105
+#: sophie_bot/modules/notes/utils/parse.py:103
 msgid "Please try to reduce the length of the note."
 msgstr "Veuillez essayer de réduire la longueur de la note."
 
-#: sophie_bot/modules/notes/utils/parse.py:106
+#: sophie_bot/modules/notes/utils/parse.py:104
 msgid "Note is too long."
 msgstr "La note est trop longue."
 
@@ -1599,6 +1598,10 @@ msgstr "Vrai (peut signifier Activé ou Oui)"
 #: types/oneword.py:55
 msgid "False (can means Disabled or No)"
 msgstr "Faux (peut signifier Désactivé ou Non)"
+
+#: types/text.py:18
+msgid "Text"
+msgstr "Texte"
 
 #: types/text_rules.py:27
 msgid "➡️ The Argument should start with {}!"

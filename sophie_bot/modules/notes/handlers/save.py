@@ -21,14 +21,14 @@ from sophie_bot.utils.i18n import lazy_gettext as l_
 @flags.args(
     notenames=DividedArg(WordArg(l_("Note names"))),
     # note_group=OptionalArg(StartsWithArg("$", WordArg(l_("Group")))),
-    description=OptionalArg(SurroundedArg(TextArg(l_("Description")))),
-    raw_text=OptionalArg(TextArg(l_("Text"), parse_entities=True)),
+    description=OptionalArg(SurroundedArg(TextArg(l_("?Description")))),
+    raw_text=OptionalArg(TextArg(l_("Content"), parse_entities=True)),
 )
 @flags.help(description=l_("Save the note."))
 class SaveNote(SophieMessageHandler):
     @staticmethod
     def filters() -> tuple[CallbackType, ...]:
-        return CMDFilter(("save", "addnote", "savenote")), UserRestricting(admin=True)
+        return CMDFilter(("save", "addnote")), UserRestricting(admin=True)
 
     async def handle(self) -> Any:
         connection: ChatConnection = self.data["connection"]

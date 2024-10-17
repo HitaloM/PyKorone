@@ -5,9 +5,6 @@ from aiogram.types import Message
 from stfu_tg import Section
 
 from sophie_bot.db.models.notes import Button, NoteFile, Saveable
-from sophie_bot.modules.notes.utils.buttons_processor.parse_message_buttons import (
-    parse_message_buttons,
-)
 from sophie_bot.utils.exception import SophieException
 from sophie_bot.utils.i18n import gettext as _
 
@@ -73,7 +70,8 @@ def parse_reply_message(message: Message) -> tuple[Optional[str], Optional[NoteF
             )
         )
 
-    buttons = parse_message_buttons(message.reply_markup) if message.reply_markup else []
+    # buttons = parse_message_buttons(message.reply_markup) if message.reply_markup else []
+    buttons: list = []
 
     return message.html_text, extract_file_info(message), buttons
 
