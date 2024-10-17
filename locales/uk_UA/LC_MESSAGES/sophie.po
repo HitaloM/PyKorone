@@ -126,21 +126,25 @@ msgstr "Показати поточний стан AI Autotranslate"
 #: sophie_bot/modules/disabling/handlers/disable.py:49
 #: sophie_bot/modules/disabling/handlers/enable.py:52
 #: sophie_bot/modules/notes/handlers/delete.py:39
+#: sophie_bot/modules/notes/handlers/pmnotes_setting.py:36
 msgid "Chat"
 msgstr "Чат"
 
 #: sophie_bot/modules/ai/handlers/autotranslate_setting.py:39
 #: sophie_bot/modules/ai/handlers/enable_setting.py:38
+#: sophie_bot/modules/notes/handlers/pmnotes_setting.py:37
 msgid "Current state"
 msgstr "Поточний стан"
 
 #: sophie_bot/modules/ai/handlers/autotranslate_setting.py:39
 #: sophie_bot/modules/ai/handlers/enable_setting.py:38
+#: sophie_bot/modules/notes/handlers/pmnotes_setting.py:37
 msgid "Enabled"
 msgstr "Увімкнено"
 
 #: sophie_bot/modules/ai/handlers/autotranslate_setting.py:39
 #: sophie_bot/modules/ai/handlers/enable_setting.py:38
+#: sophie_bot/modules/notes/handlers/pmnotes_setting.py:37
 msgid "Disabled"
 msgstr "Вимкнено"
 
@@ -160,6 +164,7 @@ msgstr "політика конфіденційності"
 
 #: sophie_bot/modules/ai/handlers/autotranslate_setting.py:46
 #: sophie_bot/modules/ai/handlers/enable_setting.py:45
+#: sophie_bot/modules/notes/handlers/pmnotes_setting.py:40
 #: sophie_bot/modules/troubleshooters/handlers/beta_state.py:88
 msgid "Use '{cmd}' to change it."
 msgstr "Використовуйте '{cmd}', щоб змінити це."
@@ -168,6 +173,7 @@ msgstr "Використовуйте '{cmd}', щоб змінити це."
 #: sophie_bot/modules/ai/handlers/enable_setting.py:51
 #: sophie_bot/modules/legacy_modules/modules/antiflood.py:250
 #: sophie_bot/modules/legacy_modules/modules/connection.py:184
+#: sophie_bot/modules/notes/handlers/pmnotes_setting.py:46
 msgid "New state"
 msgstr "Новий стан"
 
@@ -177,11 +183,13 @@ msgstr "Управляє AI Авто перекладом"
 
 #: sophie_bot/modules/ai/handlers/autotranslate_setting.py:73
 #: sophie_bot/modules/ai/handlers/enable_setting.py:67
+#: sophie_bot/modules/notes/handlers/pmnotes_setting.py:67
 msgid "enabled"
 msgstr "увімкнено"
 
 #: sophie_bot/modules/ai/handlers/autotranslate_setting.py:73
 #: sophie_bot/modules/ai/handlers/enable_setting.py:67
+#: sophie_bot/modules/notes/handlers/pmnotes_setting.py:67
 msgid "disabled"
 msgstr "вимкнено"
 
@@ -1166,7 +1174,7 @@ msgstr "Новий режим"
 msgid "⚠️ Warn"
 msgstr "⚠️ Попередження"
 
-#: sophie_bot/modules/notes/__init__.py:22
+#: sophie_bot/modules/notes/__init__.py:25
 msgid "Notes"
 msgstr "Замітки"
 
@@ -1264,23 +1272,43 @@ msgstr "Використовуйте {cmd}, щоб отримати приміт
 msgid "#(Note name)"
 msgstr "#(Назва примітки)"
 
-#: sophie_bot/modules/notes/handlers/pmnotes_handler.py:31
+#: sophie_bot/modules/notes/handlers/pmnotes_handler.py:34
 msgid "Please connect to the chat to interact with chat notes"
 msgstr ""
 
-#: sophie_bot/modules/notes/handlers/pmnotes_handler.py:37
+#: sophie_bot/modules/notes/handlers/pmnotes_handler.py:40
 #, fuzzy
 msgid "🔌 Connect"
 msgstr "З'єднання"
 
-#: sophie_bot/modules/notes/handlers/pmnotes_setting.py:32
+#: sophie_bot/modules/notes/handlers/pmnotes_handler.py:65
 msgid "Connected to chat {chat_name} successfully!"
 msgstr ""
 
-#: sophie_bot/modules/notes/handlers/pmnotes_setting.py:33
+#: sophie_bot/modules/notes/handlers/pmnotes_handler.py:66
 #, fuzzy
 msgid "Use {command} to disconnect"
 msgstr "Використовуйте '{cmd}', щоб змінити це."
+
+#: sophie_bot/modules/notes/handlers/pmnotes_setting.py:20
+#, fuzzy
+msgid "Show current state of Private Notes"
+msgstr "Показати поточний стан AI-функцій"
+
+#: sophie_bot/modules/notes/handlers/pmnotes_setting.py:38
+#, fuzzy
+msgid "Private Notes"
+msgstr "Приватний чат"
+
+#: sophie_bot/modules/notes/handlers/pmnotes_setting.py:47
+#, fuzzy
+msgid "Control Private Notes"
+msgstr "Контроль AI-функцій"
+
+#: sophie_bot/modules/notes/handlers/pmnotes_setting.py:72
+#, fuzzy
+msgid "PrivateNotes have been {status} in {chat}."
+msgstr "✨ AI-функції були {status} у {chat}."
 
 #: sophie_bot/modules/notes/handlers/save.py:22
 msgid "Note names"

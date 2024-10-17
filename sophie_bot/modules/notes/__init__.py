@@ -8,8 +8,11 @@ from .handlers.get import GetNote, HashtagGetNote
 from .handlers.legacy_button import LegacyStartNoteButton
 from .handlers.legacy_save import LegacySaveNote
 from .handlers.list import NotesList
-from .handlers.pmnotes_handler import PrivateNotesRedirectHandler
-from .handlers.pmnotes_setting import PrivateNotesConnectHandler
+from .handlers.pmnotes_handler import (
+    PrivateNotesConnectHandler,
+    PrivateNotesRedirectHandler,
+)
+from .handlers.pmnotes_setting import PMNotesControl, PMNotesStatus
 from .handlers.save import SaveNote
 from .handlers.search import NotesSearchHandler
 from .magic_handlers.export import export
@@ -31,6 +34,9 @@ BUTTONS.update({"note": "btnnotesm", "#": "btnnotesm"})
 
 def __pre_setup__():
     # PM notes
+    router.message.register(PMNotesControl, *PMNotesControl.filters())
+    router.message.register(PMNotesStatus, *PMNotesStatus.filters())
+
     router.message.register(PrivateNotesConnectHandler, *PrivateNotesConnectHandler.filters())
     router.message.register(PrivateNotesRedirectHandler, *PrivateNotesRedirectHandler.filters())
 

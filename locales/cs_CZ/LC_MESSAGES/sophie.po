@@ -126,21 +126,25 @@ msgstr "Show current state of AI Autotranslate"
 #: sophie_bot/modules/disabling/handlers/disable.py:49
 #: sophie_bot/modules/disabling/handlers/enable.py:52
 #: sophie_bot/modules/notes/handlers/delete.py:39
+#: sophie_bot/modules/notes/handlers/pmnotes_setting.py:36
 msgid "Chat"
 msgstr "Chat"
 
 #: sophie_bot/modules/ai/handlers/autotranslate_setting.py:39
 #: sophie_bot/modules/ai/handlers/enable_setting.py:38
+#: sophie_bot/modules/notes/handlers/pmnotes_setting.py:37
 msgid "Current state"
 msgstr "Aktuální stav"
 
 #: sophie_bot/modules/ai/handlers/autotranslate_setting.py:39
 #: sophie_bot/modules/ai/handlers/enable_setting.py:38
+#: sophie_bot/modules/notes/handlers/pmnotes_setting.py:37
 msgid "Enabled"
 msgstr "Povoleno"
 
 #: sophie_bot/modules/ai/handlers/autotranslate_setting.py:39
 #: sophie_bot/modules/ai/handlers/enable_setting.py:38
+#: sophie_bot/modules/notes/handlers/pmnotes_setting.py:37
 msgid "Disabled"
 msgstr "Zakázáno"
 
@@ -160,6 +164,7 @@ msgstr "zásady ochrany soukromí"
 
 #: sophie_bot/modules/ai/handlers/autotranslate_setting.py:46
 #: sophie_bot/modules/ai/handlers/enable_setting.py:45
+#: sophie_bot/modules/notes/handlers/pmnotes_setting.py:40
 #: sophie_bot/modules/troubleshooters/handlers/beta_state.py:88
 msgid "Use '{cmd}' to change it."
 msgstr "Použijte '{cmd}' pro změnu."
@@ -168,6 +173,7 @@ msgstr "Použijte '{cmd}' pro změnu."
 #: sophie_bot/modules/ai/handlers/enable_setting.py:51
 #: sophie_bot/modules/legacy_modules/modules/antiflood.py:250
 #: sophie_bot/modules/legacy_modules/modules/connection.py:184
+#: sophie_bot/modules/notes/handlers/pmnotes_setting.py:46
 msgid "New state"
 msgstr "Nový stav"
 
@@ -177,11 +183,13 @@ msgstr "Controls AI Autotranslate"
 
 #: sophie_bot/modules/ai/handlers/autotranslate_setting.py:73
 #: sophie_bot/modules/ai/handlers/enable_setting.py:67
+#: sophie_bot/modules/notes/handlers/pmnotes_setting.py:67
 msgid "enabled"
 msgstr "povoleno"
 
 #: sophie_bot/modules/ai/handlers/autotranslate_setting.py:73
 #: sophie_bot/modules/ai/handlers/enable_setting.py:67
+#: sophie_bot/modules/notes/handlers/pmnotes_setting.py:67
 msgid "disabled"
 msgstr "zakázáno"
 
@@ -1166,7 +1174,7 @@ msgstr "Nový režim"
 msgid "⚠️ Warn"
 msgstr "⚠️ Warn"
 
-#: sophie_bot/modules/notes/__init__.py:22
+#: sophie_bot/modules/notes/__init__.py:25
 msgid "Notes"
 msgstr "Poznámky"
 
@@ -1264,23 +1272,43 @@ msgstr "Použijte {cmd} pro načtení poznámky. Příklad: {cmd_example}"
 msgid "#(Note name)"
 msgstr "#(Název poznámky)"
 
-#: sophie_bot/modules/notes/handlers/pmnotes_handler.py:31
+#: sophie_bot/modules/notes/handlers/pmnotes_handler.py:34
 msgid "Please connect to the chat to interact with chat notes"
 msgstr ""
 
-#: sophie_bot/modules/notes/handlers/pmnotes_handler.py:37
+#: sophie_bot/modules/notes/handlers/pmnotes_handler.py:40
 #, fuzzy
 msgid "🔌 Connect"
 msgstr "Spojení"
 
-#: sophie_bot/modules/notes/handlers/pmnotes_setting.py:32
+#: sophie_bot/modules/notes/handlers/pmnotes_handler.py:65
 msgid "Connected to chat {chat_name} successfully!"
 msgstr ""
 
-#: sophie_bot/modules/notes/handlers/pmnotes_setting.py:33
+#: sophie_bot/modules/notes/handlers/pmnotes_handler.py:66
 #, fuzzy
 msgid "Use {command} to disconnect"
 msgstr "Použijte '{cmd}' pro změnu."
+
+#: sophie_bot/modules/notes/handlers/pmnotes_setting.py:20
+#, fuzzy
+msgid "Show current state of Private Notes"
+msgstr "Zobrazí aktuální stav funkcí AI"
+
+#: sophie_bot/modules/notes/handlers/pmnotes_setting.py:38
+#, fuzzy
+msgid "Private Notes"
+msgstr "Soukromý chat"
+
+#: sophie_bot/modules/notes/handlers/pmnotes_setting.py:47
+#, fuzzy
+msgid "Control Private Notes"
+msgstr "Ovládat funkce AI"
+
+#: sophie_bot/modules/notes/handlers/pmnotes_setting.py:72
+#, fuzzy
+msgid "PrivateNotes have been {status} in {chat}."
+msgstr "✨ Funkce AI byly {status} v {chat}."
 
 #: sophie_bot/modules/notes/handlers/save.py:22
 msgid "Note names"

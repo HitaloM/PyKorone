@@ -1,39 +1,77 @@
 from typing import Any
 
+from aiogram import flags
 from aiogram.dispatcher.event.handler import CallbackType
-from stfu_tg import Bold, Doc, Template
+from aiogram.handlers import MessageHandler
+from ass_tg.types import BooleanArg
+from stfu_tg import Bold, Doc, Italic, KeyValue, Section, Template
 
-from sophie_bot.middlewares.connections import ConnectionsMiddleware
-from sophie_bot.modules.legacy_modules.utils.connections import set_connected_chat
-from sophie_bot.modules.notes.callbacks import PrivateNotesStartUrlCallback
-from sophie_bot.modules.notes.handlers.list import NotesList
-from sophie_bot.modules.utils_.base_handler import SophieMessageHandler
+from sophie_bot.db.models import PrivateNotesModel
+from sophie_bot.filters.admin_rights import UserRestricting
+from sophie_bot.filters.chat_status import ChatTypeFilter
+from sophie_bot.filters.cmd import CMDFilter
+from sophie_bot.filters.message_status import HasArgs
+from sophie_bot.middlewares.connections import ChatConnection
+from sophie_bot.utils.exception import SophieException
 from sophie_bot.utils.i18n import gettext as _
+from sophie_bot.utils.i18n import lazy_gettext as l_
 
 
-class PrivateNotesConnectHandler(SophieMessageHandler):
+@flags.help(description=l_("Show current state of Private Notes"))
+class PMNotesStatus(MessageHandler):
     @staticmethod
     def filters() -> tuple[CallbackType, ...]:
-        return (PrivateNotesStartUrlCallback.filter(),)
+        return CMDFilter(("pmnotes", "privatenotes")), ~ChatTypeFilter("private")
 
     async def handle(self) -> Any:
-        if not self.event.from_user:
-            return
+        connection: ChatConnection = self.data["connection"]
 
-        user_id = self.event.from_user.id
-        command_start: PrivateNotesStartUrlCallback = self.data["command_start"]
-        chat_id = command_start.chat_id
+        if not connection.db_model:
+            raise SophieException("Chat has no database model saved.")
 
-        # Connect to the chat
-        await set_connected_chat(user_id, chat_id)
-        connection = self.data["connection"] = await ConnectionsMiddleware.get_chat_from_db(chat_id, is_connected=True)
+        state = await PrivateNotesModel.get_state(connection.id)
 
         doc = Doc(
-            Bold(Template(_("Connected to chat {chat_name} successfully!"), chat_name=connection.title)),
-            Template(_("Use {command} to disconnect"), command="/disconnect"),
+            Section(
+                KeyValue(_("Chat"), connection.title),
+                KeyValue(_("Current state"), _("Enabled") if state else _("Disabled")),
+                title=_("Private Notes"),
+            ),
+            Template(_("Use '{cmd}' to change it."), cmd=Italic("/pmnotes (on / off)")),
         )
 
-        await self.event.reply(str(doc))
+        await self.event.reply(str(doc), disable_web_page_preview=True)
 
-        # List notes
-        return await NotesList(self.event, **self.data)
+
+@flags.args(new_state=BooleanArg(l_("New state")))
+@flags.help(description=l_("Control Private Notes"))
+class PMNotesControl(MessageHandler):
+    @staticmethod
+    def filters() -> tuple[CallbackType, ...]:
+        return (
+            CMDFilter(("pmnotes", "privatenotes")),
+            ~ChatTypeFilter("private"),
+            HasArgs(True),
+            UserRestricting(admin=True),
+        )
+
+    async def handle(self) -> Any:
+        new_state: bool = self.data["new_state"]
+        connection: ChatConnection = self.data["connection"]
+
+        if not connection.db_model:
+            raise SophieException("Chat has no database model saved.")
+
+        await PrivateNotesModel.set_state(connection.id, new_state)
+
+        status_text = _("enabled") if new_state else _("disabled")
+
+        doc = Doc(
+            Bold(
+                Template(
+                    _("PrivateNotes have been {status} in {chat}."), status=status_text.lower(), chat=connection.title
+                )
+            )
+        )
+
+        await self.event.reply(str(doc), disable_web_page_preview=True)

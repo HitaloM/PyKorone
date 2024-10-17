@@ -126,21 +126,25 @@ msgstr "Show current state of AI Autotranslate"
 #: sophie_bot/modules/disabling/handlers/disable.py:49
 #: sophie_bot/modules/disabling/handlers/enable.py:52
 #: sophie_bot/modules/notes/handlers/delete.py:39
+#: sophie_bot/modules/notes/handlers/pmnotes_setting.py:36
 msgid "Chat"
 msgstr "聊天"
 
 #: sophie_bot/modules/ai/handlers/autotranslate_setting.py:39
 #: sophie_bot/modules/ai/handlers/enable_setting.py:38
+#: sophie_bot/modules/notes/handlers/pmnotes_setting.py:37
 msgid "Current state"
 msgstr "当前状态"
 
 #: sophie_bot/modules/ai/handlers/autotranslate_setting.py:39
 #: sophie_bot/modules/ai/handlers/enable_setting.py:38
+#: sophie_bot/modules/notes/handlers/pmnotes_setting.py:37
 msgid "Enabled"
 msgstr "已启用"
 
 #: sophie_bot/modules/ai/handlers/autotranslate_setting.py:39
 #: sophie_bot/modules/ai/handlers/enable_setting.py:38
+#: sophie_bot/modules/notes/handlers/pmnotes_setting.py:37
 msgid "Disabled"
 msgstr "未启用"
 
@@ -160,6 +164,7 @@ msgstr "隐私政策"
 
 #: sophie_bot/modules/ai/handlers/autotranslate_setting.py:46
 #: sophie_bot/modules/ai/handlers/enable_setting.py:45
+#: sophie_bot/modules/notes/handlers/pmnotes_setting.py:40
 #: sophie_bot/modules/troubleshooters/handlers/beta_state.py:88
 msgid "Use '{cmd}' to change it."
 msgstr "使用 '{cmd}' 来更改它。"
@@ -168,6 +173,7 @@ msgstr "使用 '{cmd}' 来更改它。"
 #: sophie_bot/modules/ai/handlers/enable_setting.py:51
 #: sophie_bot/modules/legacy_modules/modules/antiflood.py:250
 #: sophie_bot/modules/legacy_modules/modules/connection.py:184
+#: sophie_bot/modules/notes/handlers/pmnotes_setting.py:46
 msgid "New state"
 msgstr "新状态"
 
@@ -177,11 +183,13 @@ msgstr "Controls AI Autotranslate"
 
 #: sophie_bot/modules/ai/handlers/autotranslate_setting.py:73
 #: sophie_bot/modules/ai/handlers/enable_setting.py:67
+#: sophie_bot/modules/notes/handlers/pmnotes_setting.py:67
 msgid "enabled"
 msgstr "已启用"
 
 #: sophie_bot/modules/ai/handlers/autotranslate_setting.py:73
 #: sophie_bot/modules/ai/handlers/enable_setting.py:67
+#: sophie_bot/modules/notes/handlers/pmnotes_setting.py:67
 msgid "disabled"
 msgstr "未启用"
 
@@ -1166,7 +1174,7 @@ msgstr "新模式"
 msgid "⚠️ Warn"
 msgstr "⚠️ Warn"
 
-#: sophie_bot/modules/notes/__init__.py:22
+#: sophie_bot/modules/notes/__init__.py:25
 msgid "Notes"
 msgstr "笔记"
 
@@ -1264,23 +1272,43 @@ msgstr "使用 {cmd} 来检索笔记。示例：{cmd_example}"
 msgid "#(Note name)"
 msgstr "#(备注名称)"
 
-#: sophie_bot/modules/notes/handlers/pmnotes_handler.py:31
+#: sophie_bot/modules/notes/handlers/pmnotes_handler.py:34
 msgid "Please connect to the chat to interact with chat notes"
 msgstr ""
 
-#: sophie_bot/modules/notes/handlers/pmnotes_handler.py:37
+#: sophie_bot/modules/notes/handlers/pmnotes_handler.py:40
 #, fuzzy
 msgid "🔌 Connect"
 msgstr "连接"
 
-#: sophie_bot/modules/notes/handlers/pmnotes_setting.py:32
+#: sophie_bot/modules/notes/handlers/pmnotes_handler.py:65
 msgid "Connected to chat {chat_name} successfully!"
 msgstr ""
 
-#: sophie_bot/modules/notes/handlers/pmnotes_setting.py:33
+#: sophie_bot/modules/notes/handlers/pmnotes_handler.py:66
 #, fuzzy
 msgid "Use {command} to disconnect"
 msgstr "使用 '{cmd}' 来更改它。"
+
+#: sophie_bot/modules/notes/handlers/pmnotes_setting.py:20
+#, fuzzy
+msgid "Show current state of Private Notes"
+msgstr "显示 AI 功能的当前状态"
+
+#: sophie_bot/modules/notes/handlers/pmnotes_setting.py:38
+#, fuzzy
+msgid "Private Notes"
+msgstr "私聊"
+
+#: sophie_bot/modules/notes/handlers/pmnotes_setting.py:47
+#, fuzzy
+msgid "Control Private Notes"
+msgstr "控制 AI 功能"
+
+#: sophie_bot/modules/notes/handlers/pmnotes_setting.py:72
+#, fuzzy
+msgid "PrivateNotes have been {status} in {chat}."
+msgstr "✨ AI 功能在 {chat} 中已被 {status}。"
 
 #: sophie_bot/modules/notes/handlers/save.py:22
 msgid "Note names"

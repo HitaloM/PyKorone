@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-10-17 22:58+0200\n"
+"POT-Creation-Date: 2024-10-17 23:38+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -129,21 +129,25 @@ msgstr ""
 #: sophie_bot/modules/disabling/handlers/disable.py:49
 #: sophie_bot/modules/disabling/handlers/enable.py:52
 #: sophie_bot/modules/notes/handlers/delete.py:39
+#: sophie_bot/modules/notes/handlers/pmnotes_setting.py:36
 msgid "Chat"
 msgstr ""
 
 #: sophie_bot/modules/ai/handlers/autotranslate_setting.py:39
 #: sophie_bot/modules/ai/handlers/enable_setting.py:38
+#: sophie_bot/modules/notes/handlers/pmnotes_setting.py:37
 msgid "Current state"
 msgstr ""
 
 #: sophie_bot/modules/ai/handlers/autotranslate_setting.py:39
 #: sophie_bot/modules/ai/handlers/enable_setting.py:38
+#: sophie_bot/modules/notes/handlers/pmnotes_setting.py:37
 msgid "Enabled"
 msgstr ""
 
 #: sophie_bot/modules/ai/handlers/autotranslate_setting.py:39
 #: sophie_bot/modules/ai/handlers/enable_setting.py:38
+#: sophie_bot/modules/notes/handlers/pmnotes_setting.py:37
 msgid "Disabled"
 msgstr ""
 
@@ -163,6 +167,7 @@ msgstr ""
 
 #: sophie_bot/modules/ai/handlers/autotranslate_setting.py:46
 #: sophie_bot/modules/ai/handlers/enable_setting.py:45
+#: sophie_bot/modules/notes/handlers/pmnotes_setting.py:40
 #: sophie_bot/modules/troubleshooters/handlers/beta_state.py:88
 msgid "Use '{cmd}' to change it."
 msgstr ""
@@ -171,6 +176,7 @@ msgstr ""
 #: sophie_bot/modules/ai/handlers/enable_setting.py:51
 #: sophie_bot/modules/legacy_modules/modules/antiflood.py:250
 #: sophie_bot/modules/legacy_modules/modules/connection.py:184
+#: sophie_bot/modules/notes/handlers/pmnotes_setting.py:46
 msgid "New state"
 msgstr ""
 
@@ -180,11 +186,13 @@ msgstr ""
 
 #: sophie_bot/modules/ai/handlers/autotranslate_setting.py:73
 #: sophie_bot/modules/ai/handlers/enable_setting.py:67
+#: sophie_bot/modules/notes/handlers/pmnotes_setting.py:67
 msgid "enabled"
 msgstr ""
 
 #: sophie_bot/modules/ai/handlers/autotranslate_setting.py:73
 #: sophie_bot/modules/ai/handlers/enable_setting.py:67
+#: sophie_bot/modules/notes/handlers/pmnotes_setting.py:67
 msgid "disabled"
 msgstr ""
 
@@ -1169,7 +1177,7 @@ msgstr ""
 msgid "⚠️ Warn"
 msgstr ""
 
-#: sophie_bot/modules/notes/__init__.py:22
+#: sophie_bot/modules/notes/__init__.py:25
 msgid "Notes"
 msgstr ""
 
@@ -1260,20 +1268,36 @@ msgstr ""
 msgid "#(Note name)"
 msgstr ""
 
-#: sophie_bot/modules/notes/handlers/pmnotes_handler.py:31
+#: sophie_bot/modules/notes/handlers/pmnotes_handler.py:34
 msgid "Please connect to the chat to interact with chat notes"
 msgstr ""
 
-#: sophie_bot/modules/notes/handlers/pmnotes_handler.py:37
+#: sophie_bot/modules/notes/handlers/pmnotes_handler.py:40
 msgid "🔌 Connect"
 msgstr ""
 
-#: sophie_bot/modules/notes/handlers/pmnotes_setting.py:32
+#: sophie_bot/modules/notes/handlers/pmnotes_handler.py:65
 msgid "Connected to chat {chat_name} successfully!"
 msgstr ""
 
-#: sophie_bot/modules/notes/handlers/pmnotes_setting.py:33
+#: sophie_bot/modules/notes/handlers/pmnotes_handler.py:66
 msgid "Use {command} to disconnect"
+msgstr ""
+
+#: sophie_bot/modules/notes/handlers/pmnotes_setting.py:20
+msgid "Show current state of Private Notes"
+msgstr ""
+
+#: sophie_bot/modules/notes/handlers/pmnotes_setting.py:38
+msgid "Private Notes"
+msgstr ""
+
+#: sophie_bot/modules/notes/handlers/pmnotes_setting.py:47
+msgid "Control Private Notes"
+msgstr ""
+
+#: sophie_bot/modules/notes/handlers/pmnotes_setting.py:72
+msgid "PrivateNotes have been {status} in {chat}."
 msgstr ""
 
 #: sophie_bot/modules/notes/handlers/save.py:22
