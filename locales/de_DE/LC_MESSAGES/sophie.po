@@ -12,7 +12,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Generated-By: Babel 2.16.0\n"
+"Generated-By: Babel 2.15.0\n"
 
 #: sophie_bot/args/users.py:29
 msgid "Could not find the requested User ID in the database."
@@ -87,7 +87,7 @@ msgid "✨ Sophie AI"
 msgstr "✨ Sophie KI"
 
 #: sophie_bot/modules/ai/handlers/ai_cmd.py:14
-#: sophie_bot/modules/ai/handlers/aisave.py:25
+#: sophie_bot/modules/ai/handlers/aisave.py:26
 #: sophie_bot/modules/ai/handlers/mode.py:14
 msgid "Prompt"
 msgstr "Eingabeaufforderung"
@@ -96,24 +96,24 @@ msgstr "Eingabeaufforderung"
 msgid "Ask Sophie a question"
 msgstr "Fragen Sie Sophie eine Frage"
 
-#: sophie_bot/modules/ai/handlers/aisave.py:27
+#: sophie_bot/modules/ai/handlers/aisave.py:28
 msgid "Generate a new note using AI"
 msgstr "Generiert eine neue Notiz mit KI"
 
-#: sophie_bot/modules/ai/handlers/aisave.py:36
+#: sophie_bot/modules/ai/handlers/aisave.py:37
 msgid "✨ Generating..."
 msgstr "✨ Generiere..."
 
-#: sophie_bot/modules/ai/handlers/aisave.py:46
+#: sophie_bot/modules/ai/handlers/aisave.py:47
 msgid "AI Generation failed, note already exists! Please try again."
 msgstr "KI-Generierung fehlgeschlagen, die Notiz existiert bereits! Bitte versuchen Sie es erneut."
 
-#: sophie_bot/modules/ai/handlers/aisave.py:55
+#: sophie_bot/modules/ai/handlers/aisave.py:56
 msgid "✨ Note was successfully generated"
 msgstr "✨ Notiz wurde erfolgreich erstellt"
 
-#: sophie_bot/modules/ai/handlers/aisave.py:58
-#: sophie_bot/modules/notes/handlers/save.py:45
+#: sophie_bot/modules/ai/handlers/aisave.py:59
+#: sophie_bot/modules/notes/handlers/save.py:51
 msgid "Use {cmd} to retrieve this note."
 msgstr "Benutze {cmd} um diese Notiz abzurufen."
 
@@ -125,7 +125,7 @@ msgstr "Zeigt den aktuellen Zustand der KI-Autotranslation an"
 #: sophie_bot/modules/ai/handlers/enable_setting.py:37
 #: sophie_bot/modules/disabling/handlers/disable.py:49
 #: sophie_bot/modules/disabling/handlers/enable.py:52
-#: sophie_bot/modules/notes/handlers/delete.py:32
+#: sophie_bot/modules/notes/handlers/delete.py:39
 msgid "Chat"
 msgstr "Chat"
 
@@ -168,8 +168,6 @@ msgstr "Benutze '{cmd}' um es zu ändern."
 #: sophie_bot/modules/ai/handlers/enable_setting.py:51
 #: sophie_bot/modules/legacy_modules/modules/antiflood.py:250
 #: sophie_bot/modules/legacy_modules/modules/connection.py:184
-#: sophie_bot/modules/legacy_modules/modules/notes.py:482
-#: sophie_bot/modules/legacy_modules/modules/notes.py:521
 msgid "New state"
 msgstr "Neuer Zustand"
 
@@ -394,20 +392,17 @@ msgid "✅ Enable all"
 msgstr "✅ Alle aktivieren"
 
 #: sophie_bot/modules/disabling/handlers/enable_all.py:37
+#: sophie_bot/modules/notes/handlers/delete_all.py:41
 msgid "🚫 Cancel"
 msgstr "🚫 Abbrechen"
 
-#: sophie_bot/modules/disabling/handlers/enable_all.py:41
+#: sophie_bot/modules/disabling/handlers/enable_all.py:43
 msgid "Do you want to enable all commands in the {chat_name}?"
 msgstr "Möchten Sie alle Befehle im {chat_name} aktivieren?"
 
-#: sophie_bot/modules/disabling/handlers/enable_all.py:61
+#: sophie_bot/modules/disabling/handlers/enable_all.py:64
 msgid "Only the initiator can confirm disabling all commands"
 msgstr "Nur der Initiator kann das Deaktivieren aller Befehle bestätigen"
-
-#: sophie_bot/modules/disabling/handlers/enable_all.py:64
-msgid "The message is inaccessible. Please write the /enableall command again"
-msgstr "Die Nachricht ist nicht zugänglich. Bitte schreibe den /enableall-Befehl erneut"
 
 #: sophie_bot/modules/disabling/handlers/enable_all.py:73
 msgid "✅ All the commands ({removed_count}) have been enabled in the {chat_name}"
@@ -1000,57 +995,6 @@ msgstr "🗑 Nachricht löschen"
 msgid "💭 Reply to message"
 msgstr "💭 Auf Nachricht antworten"
 
-#: sophie_bot/modules/legacy_modules/modules/notes.py:36
-#: sophie_bot/modules/notes/__init__.py:15
-msgid "Notes"
-msgstr "Notizen"
-
-#: sophie_bot/modules/legacy_modules/modules/notes.py:116
-#, fuzzy
-msgid "Saves the note (legacy)."
-msgstr "Speichert die Notiz."
-
-#: sophie_bot/modules/legacy_modules/modules/notes.py:116
-#: sophie_bot/modules/legacy_modules/modules/notes.py:350
-#: sophie_bot/modules/notes/handlers/delete.py:15
-#: sophie_bot/modules/notes/handlers/get.py:17
-msgid "Note name"
-msgstr "Notizname"
-
-#: sophie_bot/modules/legacy_modules/modules/notes.py:116
-#: sophie_bot/modules/legacy_modules/modules/rules.py:28
-msgid "Content"
-msgstr "Inhalt"
-
-#: sophie_bot/modules/legacy_modules/modules/notes.py:330
-msgid "Searches text across all notes."
-msgstr "Durchsucht den Text in allen Notizen."
-
-#: sophie_bot/modules/legacy_modules/modules/notes.py:330
-#: sophie_bot/modules/notes/handlers/save.py:23 types/text.py:18
-msgid "Text"
-msgstr "Text"
-
-#: sophie_bot/modules/legacy_modules/modules/notes.py:350
-msgid "Deletes the note"
-msgstr "Löscht die Notiz"
-
-#: sophie_bot/modules/legacy_modules/modules/notes.py:387
-msgid "Deletes all the notes in the chat"
-msgstr "Löscht alle Notizen im Chat"
-
-#: sophie_bot/modules/legacy_modules/modules/notes.py:481
-msgid "Controls the feature, that would recommend users to use PM with bot to use notes"
-msgstr "Steuert die Funktion, die Benutzer empfiehlt, PM mit dem Bot zu verwenden, um Notizen zu verwenden"
-
-#: sophie_bot/modules/legacy_modules/modules/notes.py:521
-msgid "Controls the automatic clean-up for notes"
-msgstr "Steuert die automatische Bereinigung von Notizen"
-
-#: sophie_bot/modules/legacy_modules/modules/notes.py:645
-msgid "🗒 Send a note"
-msgstr "🗒 Sende eine Notiz"
-
 #: sophie_bot/modules/legacy_modules/modules/pins.py:15
 msgid "Pins"
 msgstr "Anheften"
@@ -1156,6 +1100,10 @@ msgstr "Regeln"
 msgid "Sets the chat rules."
 msgstr "Legt die Chat-Regeln fest."
 
+#: sophie_bot/modules/legacy_modules/modules/rules.py:28
+msgid "Content"
+msgstr "Inhalt"
+
 #: sophie_bot/modules/legacy_modules/modules/rules.py:47
 msgid "Shows the rules."
 msgstr "Zeigt die Regeln an."
@@ -1217,25 +1165,56 @@ msgstr "Neuer Modus"
 msgid "⚠️ Warn"
 msgstr "⚠️ Warn"
 
-#: sophie_bot/modules/notes/handlers/delete.py:16
+#: sophie_bot/modules/notes/__init__.py:21
+msgid "Notes"
+msgstr "Notizen"
+
+#: sophie_bot/modules/notes/handlers/delete.py:18
+#: sophie_bot/modules/notes/handlers/get.py:17
+#: sophie_bot/modules/notes/handlers/legacy_save.py:17
+msgid "Note name"
+msgstr "Notizname"
+
+#: sophie_bot/modules/notes/handlers/delete.py:19
+#: sophie_bot/modules/notes/handlers/delete_all.py:22
 msgid "Deletes notes."
 msgstr "Notizen löschen."
 
-#: sophie_bot/modules/notes/handlers/delete.py:25
+#: sophie_bot/modules/notes/handlers/delete.py:32
 msgid "No notes was found with {name} name."
 msgstr "Es wurde keine Notiz mit dem Namen {name} gefunden."
 
-#: sophie_bot/modules/notes/handlers/delete.py:33
+#: sophie_bot/modules/notes/handlers/delete.py:40
 msgid "Name"
 msgstr "Name"
 
-#: sophie_bot/modules/notes/handlers/delete.py:33
+#: sophie_bot/modules/notes/handlers/delete.py:40
 msgid "Names"
 msgstr "Namen"
 
-#: sophie_bot/modules/notes/handlers/delete.py:34
+#: sophie_bot/modules/notes/handlers/delete.py:41
 msgid "Note was successfully deleted"
 msgstr "Notiz wurde erfolgreich gelöscht"
+
+#: sophie_bot/modules/notes/handlers/delete_all.py:37
+#, fuzzy
+msgid "🗑 Delete all"
+msgstr "🗑 Nachricht löschen"
+
+#: sophie_bot/modules/notes/handlers/delete_all.py:47
+#, fuzzy
+msgid "Do you want to delete all the notes in the {chat_name}?"
+msgstr "Möchten Sie alle Befehle im {chat_name} aktivieren?"
+
+#: sophie_bot/modules/notes/handlers/delete_all.py:69
+#, fuzzy
+msgid "Only the initiator can confirm deleting all notes"
+msgstr "Nur der Initiator kann das Deaktivieren aller Befehle bestätigen"
+
+#: sophie_bot/modules/notes/handlers/delete_all.py:74
+#, fuzzy
+msgid "🗑 All the notes ({removed_count}) have been deleted in the {chat_name}"
+msgstr "✅ Alle Befehle ({removed_count}) wurden in den {chat_name} aktiviert"
 
 #: sophie_bot/modules/notes/handlers/get.py:18
 msgid "Retrieve the note."
@@ -1245,80 +1224,116 @@ msgstr "Ruft die Notiz ab."
 msgid "No note was found with {name} name."
 msgstr "Es wurde keine Notiz mit dem Namen {name} gefunden."
 
-#: sophie_bot/modules/notes/handlers/list.py:33
+#: sophie_bot/modules/notes/handlers/list.py:18
+msgid "Search notes"
+msgstr "Notizen suchen"
+
+#: sophie_bot/modules/notes/handlers/list.py:19
+msgid "Lists available notes."
+msgstr "Listet verfügbare Notizen auf."
+
+#: sophie_bot/modules/notes/handlers/list.py:38
+#, fuzzy
+msgid "No notes found by the provided search pattern {pattern} in {chat_name}."
+msgstr "Es wurden keine Notizen nach dem bereitgestellten Suchmuster {pattern} gefunden."
+
+#: sophie_bot/modules/notes/handlers/list.py:46
+#, fuzzy
+msgid "No notes found in {chat_name}."
+msgstr "Notizen in {chat_name}"
+
+#: sophie_bot/modules/notes/handlers/list.py:51
+#: sophie_bot/modules/notes/handlers/search.py:38
+msgid "Search pattern"
+msgstr "Suchmuster"
+
+#: sophie_bot/modules/notes/handlers/list.py:53
+#: sophie_bot/modules/notes/handlers/search.py:40
+msgid "Notes in {chat_name}"
+msgstr "Notizen in {chat_name}"
+
+#: sophie_bot/modules/notes/handlers/list.py:57
+#: sophie_bot/modules/notes/handlers/search.py:44
+msgid "Use {cmd} to retrieve a note. Example: {cmd_example}"
+msgstr "Benutze {cmd} um eine Notiz abzurufen. Beispiel: {cmd_example}"
+
+#: sophie_bot/modules/notes/handlers/list.py:58
+#: sophie_bot/modules/notes/handlers/search.py:45
+msgid "#(Note name)"
+msgstr "#(Notizname)"
+
+#: sophie_bot/modules/notes/handlers/pmnotes_handler.py:31
 msgid "Please connect to the chat to interact with chat notes"
 msgstr ""
 
-#: sophie_bot/modules/notes/handlers/list.py:39
+#: sophie_bot/modules/notes/handlers/pmnotes_handler.py:37
 #, fuzzy
 msgid "🔌 Connect"
 msgstr "Verbindungen"
 
-#: sophie_bot/modules/notes/handlers/list.py:46
-msgid "Search notes"
-msgstr "Notizen suchen"
-
-#: sophie_bot/modules/notes/handlers/list.py:47
-msgid "Lists available notes."
-msgstr "Listet verfügbare Notizen auf."
-
-#: sophie_bot/modules/notes/handlers/list.py:116
-msgid "No notes found by the provided search pattern {pattern}."
-msgstr "Es wurden keine Notizen nach dem bereitgestellten Suchmuster {pattern} gefunden."
-
-#: sophie_bot/modules/notes/handlers/list.py:119
-msgid "No notes found."
-msgstr "Keine Notizen gefunden."
-
-#: sophie_bot/modules/notes/handlers/list.py:123
-msgid "Search pattern"
-msgstr "Suchmuster"
-
-#: sophie_bot/modules/notes/handlers/list.py:125
-msgid "Notes in {chat_name}"
-msgstr "Notizen in {chat_name}"
-
-#: sophie_bot/modules/notes/handlers/list.py:129
-msgid "Use {cmd} to retrieve a note. Example: {cmd_example}"
-msgstr "Benutze {cmd} um eine Notiz abzurufen. Beispiel: {cmd_example}"
-
-#: sophie_bot/modules/notes/handlers/list.py:130
-msgid "#(Note name)"
-msgstr "#(Notizname)"
-
-#: sophie_bot/modules/notes/handlers/privatenotes.py:32
+#: sophie_bot/modules/notes/handlers/pmnotes_setting.py:32
 msgid "Connected to chat {chat_name} successfully!"
 msgstr ""
 
-#: sophie_bot/modules/notes/handlers/privatenotes.py:33
+#: sophie_bot/modules/notes/handlers/pmnotes_setting.py:33
 #, fuzzy
 msgid "Use {command} to disconnect"
 msgstr "Benutze '{cmd}' um es zu ändern."
 
-#: sophie_bot/modules/notes/handlers/save.py:20
+#: sophie_bot/modules/notes/handlers/save.py:22
 msgid "Note names"
 msgstr "Notiznamen"
 
-#: sophie_bot/modules/notes/handlers/save.py:22
+#: sophie_bot/modules/notes/handlers/save.py:24
 msgid "Description"
 msgstr "Beschreibung"
 
-#: sophie_bot/modules/notes/handlers/save.py:25
+#: sophie_bot/modules/notes/handlers/save.py:25 types/text.py:18
+msgid "Text"
+msgstr "Text"
+
+#: sophie_bot/modules/notes/handlers/save.py:27
 msgid "Save the note."
 msgstr "Speichert die Notiz."
 
-#: sophie_bot/modules/notes/handlers/save.py:38
-#, fuzzy
-msgid "Legacy mode"
-msgstr "Neuer Modus"
-
-#: sophie_bot/modules/notes/handlers/save.py:42
+#: sophie_bot/modules/notes/handlers/save.py:48
 msgid "Note was successfully created"
 msgstr "Notiz wurde erfolgreich erstellt"
 
-#: sophie_bot/modules/notes/handlers/save.py:42
+#: sophie_bot/modules/notes/handlers/save.py:48
 msgid "Note was successfully updated"
 msgstr "Notiz wurde erfolgreich aktualisiert"
+
+#: sophie_bot/modules/notes/handlers/search.py:18
+msgid "Text to search"
+msgstr ""
+
+#: sophie_bot/modules/notes/handlers/search.py:33
+msgid "No notes found by the provided search pattern {pattern}."
+msgstr "Es wurden keine Notizen nach dem bereitgestellten Suchmuster {pattern} gefunden."
+
+#: sophie_bot/modules/notes/magic_handlers/filter.py:19
+#, fuzzy
+msgid "#{name} note was not found."
+msgstr "Modul nicht gefunden"
+
+#: sophie_bot/modules/notes/magic_handlers/filter.py:22
+#: sophie_bot/modules/notes/magic_handlers/filter.py:23
+#, fuzzy
+msgid "Filter action"
+msgstr "Neue Aktion"
+
+#: sophie_bot/modules/notes/magic_handlers/filter.py:36
+msgid "Now, please type the note name you want to automatically send."
+msgstr ""
+
+#: sophie_bot/modules/notes/magic_handlers/filter.py:47
+msgid "Cannot find the note with this name. Please make sure it exists and try again."
+msgstr ""
+
+#: sophie_bot/modules/notes/magic_handlers/filter.py:56
+msgid "🗒 Send a note"
+msgstr "🗒 Sende eine Notiz"
 
 #: sophie_bot/modules/notes/utils/parse.py:71
 msgid "Please check the notes documentation for the list of the allowed content types."
@@ -1455,6 +1470,11 @@ msgstr "Antworten Benutzer-ID: {id}"
 #: sophie_bot/modules/users/handlers/id.py:51
 msgid "{user}'s ID: {id}"
 msgstr "{user}'s ID: {id}"
+
+#: sophie_bot/modules/utils_/base_handler.py:35
+#, fuzzy
+msgid "The message is inaccessible. Please write the command again"
+msgstr "Die Nachricht ist nicht zugänglich. Bitte schreibe den /enableall-Befehl erneut"
 
 #: exceptions.py:33
 msgid "Examples"
@@ -1694,4 +1714,28 @@ msgstr "Konnte die Benutzererwähnung nicht finden"
 
 #~ msgid "Group"
 #~ msgstr "Gruppe"
+
+#~ msgid "Legacy mode"
+#~ msgstr "Neuer Modus"
+
+#~ msgid "Searches text across all notes."
+#~ msgstr "Durchsucht den Text in allen Notizen."
+
+#~ msgid "Deletes the note"
+#~ msgstr "Löscht die Notiz"
+
+#~ msgid "Deletes all the notes in the chat"
+#~ msgstr "Löscht alle Notizen im Chat"
+
+#~ msgid "Controls the feature, that would recommend users to use PM with bot to use notes"
+#~ msgstr "Steuert die Funktion, die Benutzer empfiehlt, PM mit dem Bot zu verwenden, um Notizen zu verwenden"
+
+#~ msgid "Controls the automatic clean-up for notes"
+#~ msgstr "Steuert die automatische Bereinigung von Notizen"
+
+#~ msgid "No notes found."
+#~ msgstr "Keine Notizen gefunden."
+
+#~ msgid "Saves the note (legacy)."
+#~ msgstr "Speichert die Notiz."
 

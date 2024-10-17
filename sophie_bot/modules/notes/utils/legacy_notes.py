@@ -240,8 +240,8 @@ async def get_parsed_note_list(message: Message, allow_reply_message=True, split
             note["parse_mode"] = mode
 
         # Get message keyboard
-        if message.reply_to_message.reply_markup and message.reply_to_message.reply_markup.inline_keyboard:
-            text += get_reply_msg_btns_text(message.reply_to_message)
+        # if message.reply_to_message.reply_markup and message.reply_to_message.reply_markup.inline_keyboard:
+        #   text += get_reply_msg_btns_text(message.reply_to_message)
 
         # Check on attachment
         if msg_file := await get_msg_file(message.reply_to_message):

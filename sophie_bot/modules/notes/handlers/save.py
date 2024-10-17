@@ -1,17 +1,19 @@
-from typing import Any, Tuple
+from typing import Any, Optional, Sequence
 
 from aiogram import flags
-from aiogram.handlers import MessageHandler
-from aiogram.types import Message
+from aiogram.dispatcher.event.handler import CallbackType
 from ass_tg.types import DividedArg, OptionalArg, SurroundedArg, TextArg, WordArg
 from bson import Code
 from stfu_tg import KeyValue, Section, Template
 
 from sophie_bot.db.models import NoteModel
 from sophie_bot.db.models.notes import Saveable
+from sophie_bot.filters.admin_rights import UserRestricting
+from sophie_bot.filters.cmd import CMDFilter
 from sophie_bot.middlewares.connections import ChatConnection
-from sophie_bot.modules.notes.utils.legacy_notes import get_parsed_note_list
+from sophie_bot.modules.notes.utils.names import format_notes_aliases
 from sophie_bot.modules.notes.utils.parse import parse_saveable
+from sophie_bot.modules.utils_.base_handler import SophieMessageHandler
 from sophie_bot.utils.i18n import gettext as _
 from sophie_bot.utils.i18n import lazy_gettext as l_
 
@@ -23,23 +25,27 @@ from sophie_bot.utils.i18n import lazy_gettext as l_
     raw_text=OptionalArg(TextArg(l_("Text"), parse_entities=True)),
 )
 @flags.help(description=l_("Save the note."))
-class SaveNote(MessageHandler):
+class SaveNote(SophieMessageHandler):
+    @staticmethod
+    def filters() -> tuple[CallbackType, ...]:
+        return CMDFilter(("save", "addnote", "savenote")), UserRestricting(admin=True)
+
     async def handle(self) -> Any:
-        return await self.handle_save()
-
-    async def handle_save(self) -> Any:
         connection: ChatConnection = self.data["connection"]
+        raw_text: Optional[str] = self.data.get("raw_text")
 
-        created, is_legacy = await self.save(self.event, connection.id, self.data)
+        notenames: tuple[str, ...] = tuple(name.lower() for name in self.data["notenames"])
+
+        saveable = await parse_saveable(self.event, raw_text)
+        is_created = await self.save(saveable, notenames, connection.id, self.data)
 
         await self.event.reply(
             str(
                 Section(
-                    _("Legacy mode") if is_legacy else None,
-                    KeyValue("Note names", ", ".join(self.data["notenames"])),
+                    KeyValue("Note names", format_notes_aliases(notenames)),
                     # KeyValue("Group", self.data.get("note_group", "-")),
                     KeyValue("Description", self.data.get("description", "-")),
-                    title=_("Note was successfully created") if created else _("Note was successfully updated"),
+                    title=_("Note was successfully created") if is_created else _("Note was successfully updated"),
                 )
                 + Template(
                     _("Use {cmd} to retrieve this note."),
@@ -48,40 +54,21 @@ class SaveNote(MessageHandler):
             )
         )
 
-    async def parse_legacy(self) -> Saveable:
-        note = await get_parsed_note_list(self.event)
+    async def save(self, saveable: Saveable, notenames: Sequence[str], chat_id: int, data: dict) -> bool:
+        model = await NoteModel.get_by_notenames(chat_id, notenames)
 
-        return Saveable(
-            text=note.get("text", ""),
-            file=note.get("file"),
-            # buttons=note.get("buttons"),
-            parse_mode=note["parse_mode"],
-            preview=note.get("preview", False),
-        )
-
-    async def save(self, message: Message, chat_id: int, data: dict) -> Tuple[bool, bool]:
-        model = await NoteModel.get_by_notenames(chat_id, data["notenames"])
-
-        # Legacy
-        if message.reply_to_message:
-            note_data = await self.parse_legacy()
-            legacy_parse = True
-        else:
-            note_data = await parse_saveable(message, data.get("raw_text"))
-            legacy_parse = False
-
-        data = {
+        saveable_data = {
             "chat_id": chat_id,
-            "names": data["notenames"],
+            "names": notenames,
             "note_group": data.get("note_group"),
             "description": data.get("description"),
-            **note_data.model_dump(),
+            **saveable.model_dump(),
         }
 
         if not model:
-            model = NoteModel(**data)
+            model = NoteModel(**saveable_data)
             await model.create()
-            return True, legacy_parse
+            return True
 
-        await model.set(data)
-        return False, legacy_parse
+        await model.set(saveable_data)
+        return False

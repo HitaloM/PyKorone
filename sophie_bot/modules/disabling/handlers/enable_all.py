@@ -1,5 +1,5 @@
 from aiogram.dispatcher.event.handler import CallbackType
-from aiogram.types import InaccessibleMessage, InlineKeyboardButton
+from aiogram.types import InlineKeyboardButton
 from aiogram.utils.keyboard import InlineKeyboardBuilder
 from stfu_tg import Italic, Template
 
@@ -38,7 +38,11 @@ class EnableAllHandler(SophieMessageHandler):
         )
 
         return await self.event.reply(
-            text=str(Template(_("Do you want to enable all commands in the {chat_name}?"), chat_name=connection.title)),
+            text=str(
+                Template(
+                    _("Do you want to enable all commands in the {chat_name}?"), chat_name=Italic(connection.title)
+                )
+            ),
             reply_markup=buttons.as_markup(),
         )
 
@@ -51,8 +55,7 @@ class DisableAllCbHandler(SophieCallbackQueryHandler):
     async def handle(self):
         connection = self.connection()
 
-        if not self.event.from_user:
-            raise SophieException("Not a user clicked a button")
+        await self.check_for_message()
 
         data: EnableAllCallback = self.data["callback_data"]
         user_id = self.event.from_user.id
@@ -60,14 +63,11 @@ class DisableAllCbHandler(SophieCallbackQueryHandler):
         if user_id != data.user_id:
             return await self.event.answer(_("Only the initiator can confirm disabling all commands"))
 
-        if not self.event.message or isinstance(self.event.message, InaccessibleMessage):
-            return await self.event.answer(_("The message is inaccessible. Please write the /enableall command again"))
-
         model = await DisablingModel.enable_all(connection.id)
 
         removed_count: int = len(model.cmds) if model else 0
 
-        return await self.event.message.edit_text(
+        return await self.event.message.edit_text(  # type: ignore
             str(
                 Template(
                     _("✅ All the commands ({removed_count}) have been enabled in the {chat_name}"),

@@ -12,7 +12,6 @@ from pydantic import BaseModel
 
 from sophie_bot import CONFIG
 from sophie_bot.filters.cmd import CMDFilter
-from sophie_bot.utils.exception import SophieException
 
 
 class CmdStartFilter(Filter):
@@ -42,10 +41,10 @@ class CmdStartFilter(Filter):
         if not args:
             return False
 
-        # try:
-        unpacked = self.cmd_start.unpack(args)
-        # except (TypeError, ValueError):
-        #     return False
+        try:
+            unpacked = self.cmd_start.unpack(args)
+        except (TypeError, ValueError):
+            return False
 
         return {"command": command, "command_start": unpacked}
 
@@ -102,11 +101,9 @@ class CmdStart(BaseModel):
         prefix, *parts = value.split(cls.__separator__)
         names = cls.model_fields.keys()
         if len(parts) != len(names):
-            raise SophieException(
-                f"CmdStart {cls.__name__!r} takes {len(names)} arguments " f"but {len(parts)} were given"
-            )
+            raise ValueError(f"CmdStart {cls.__name__!r} takes {len(names)} arguments " f"but {len(parts)} were given")
         if prefix != cls.__prefix__:
-            raise SophieException(f"Bad prefix ({prefix!r} != {cls.__prefix__!r})")
+            raise ValueError(f"Bad prefix ({prefix!r} != {cls.__prefix__!r})")
         payload = {}
         for k, v in zip(names, parts):  # type: str, Optional[str]
             if field := cls.model_fields.get(k):

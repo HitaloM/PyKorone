@@ -18,13 +18,16 @@ from aiogram.methods import (
     SendVoice,
     TelegramMethod,
 )
-from aiogram.types import Message
+from aiogram.types import Message, ReplyParameters
 from stfu_tg.doc import Element
 
 from sophie_bot import bot
 from sophie_bot.db.models.notes import Saveable, SaveableParseMode
-from sophie_bot.modules.legacy_modules.modules.notes import get_note
-from sophie_bot.modules.notes.utils.legacy_notes import legacy_button_parser
+from sophie_bot.modules.notes.utils.legacy_notes import (
+    legacy_button_parser,
+    send_note,
+    t_unparse_note_item,
+)
 from sophie_bot.modules.notes.utils.parse import SUPPORTS_TEXT
 
 SEND_METHOD: dict[ContentType, Type[TelegramMethod[Message]]] = {
@@ -46,6 +49,28 @@ SEND_METHOD: dict[ContentType, Type[TelegramMethod[Message]]] = {
 }
 
 
+async def send_saveable_legacy(
+    message: Message,
+    saveable: Saveable,
+    send_to: int,
+    reply_to: Optional[int] = None,
+    legacy_title: Optional[str] = None,
+    raw: Optional[bool] = False,
+):
+    compatible_db_item = saveable.model_dump()
+    compatible_db_item["parse_mode"] = saveable.parse_mode.value if saveable.parse_mode else SaveableParseMode.markdown
+    text, kwargs = await t_unparse_note_item(
+        message, compatible_db_item, send_to, noformat=raw, event=message, user=message.from_user
+    )
+
+    if legacy_title:
+        text = f"{legacy_title}\n{text}"
+
+    kwargs["reply_to"] = reply_to
+
+    await send_note(send_to, text, **kwargs)
+
+
 async def send_saveable(
     message: Message,
     send_to: int,
@@ -57,11 +82,14 @@ async def send_saveable(
 ):
     # Legacy note
     if saveable.parse_mode != SaveableParseMode.html:
-        compatible_db_item = saveable.model_dump()
-        compatible_db_item["parse_mode"] = (
-            saveable.parse_mode.value if saveable.parse_mode else SaveableParseMode.markdown
+        return await send_saveable_legacy(
+            message=message,
+            saveable=saveable,
+            send_to=send_to,
+            reply_to=reply_to,
+            legacy_title=legacy_title,
+            raw=raw,
         )
-        return await get_note(message, db_item=compatible_db_item, rpl_id=reply_to, noformat=raw, title=legacy_title)
 
     text = str(title) + "\n" if title else ""
     text += saveable.text or ""
@@ -96,6 +124,6 @@ async def send_saveable(
         kwargs[content_type] = saveable.file.id
 
     if reply_to:
-        kwargs["reply_to_message"] = reply_to
+        kwargs["reply_parameters"] = ReplyParameters(message_id=reply_to)
 
     return await SEND_METHOD[content_type](**kwargs).emit(bot)  # type: ignore

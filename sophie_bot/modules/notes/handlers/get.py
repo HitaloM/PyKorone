@@ -36,7 +36,25 @@ class GetNote(SophieMessageHandler):
         legacy_title = HList(Title(f"📙 #{note_name}", bold=False), note.description or "")
 
         raw = bool(self.data.get("raw", False))
-        await send_saveable(self.event, self.event.chat.id, note, title=title, legacy_title=str(legacy_title), raw=raw)
+
+        # Reply
+        # TODO: Handle chat topics!
+        if self.event.reply_to_message:
+            reply_to = self.event.reply_to_message.message_id
+        else:
+            reply_to = self.event.message_id
+
+        message = await send_saveable(
+            self.event,
+            self.event.chat.id,
+            note,
+            title=title,
+            legacy_title=str(legacy_title),
+            raw=raw,
+            reply_to=reply_to,
+        )
+
+        return message
 
 
 class HashtagGetNote(SophieMessageHandler):

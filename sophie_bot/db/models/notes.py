@@ -1,11 +1,14 @@
 from datetime import datetime
 from enum import Enum
-from typing import Annotated, Any, List, Optional, Sequence
+from typing import Annotated, Any, Optional, Sequence
 
 from aiogram.enums import ContentType
 from beanie import Document, Indexed, Link
 from beanie.odm.operators.find.comparison import In
+from beanie.odm.operators.find.evaluation import Text
 from pydantic import BaseModel
+from pymongo import TEXT
+from pymongo.results import DeleteResult
 
 from sophie_bot.db.models import ChatModel
 
@@ -35,7 +38,8 @@ class Button(BaseModel):
 
 
 class Saveable(BaseModel):
-    text: Optional[str] = ""
+    text: Annotated[Optional[str], Indexed(index_type=TEXT)]
+
     file: Optional[NoteFile] = None
     buttons: list[list[Button]] = []
 
@@ -63,9 +67,17 @@ class NoteModel(Saveable, Document):
         name = "notes"
 
     @staticmethod
-    async def get_chat_notes(chat_id: int) -> List["NoteModel"]:
+    async def get_chat_notes(chat_id: int) -> list["NoteModel"]:
         return await NoteModel.find(NoteModel.chat_id == chat_id).to_list()
+
+    @staticmethod
+    async def search_chat_notes(chat_id: int, text: str) -> list["NoteModel"]:
+        return await NoteModel.find(NoteModel.chat_id == chat_id, Text(text)).to_list()
 
     @staticmethod
     async def get_by_notenames(chat_id: int, notenames: Sequence[str]) -> Optional["NoteModel"]:
         return await NoteModel.find_one(NoteModel.chat_id == chat_id, In(NoteModel.names, notenames))
+
+    @staticmethod
+    async def delete_all_notes(chat_id: int) -> DeleteResult | None:
+        return await NoteModel.find(NoteModel.chat_id == chat_id).delete()

@@ -5,7 +5,7 @@ from aiogram import flags
 from aiogram.dispatcher.event.handler import CallbackType
 from aiogram.handlers import MessageHandler
 from ass_tg.types import TextArg
-from stfu_tg import Code, HList, KeyValue, Section, Template
+from stfu_tg import Code, KeyValue, Section, Template
 
 from sophie_bot.db.models.notes import NoteModel
 from sophie_bot.filters.admin_rights import UserRestricting
@@ -17,6 +17,7 @@ from sophie_bot.modules.ai.json_schemas.aisave import (
 )
 from sophie_bot.modules.ai.utils.ai_chatbot import ai_generate
 from sophie_bot.modules.ai.utils.message_history import AIMessageHistory
+from sophie_bot.modules.notes.utils.names import format_notes_aliases
 from sophie_bot.utils.i18n import gettext as _
 from sophie_bot.utils.i18n import lazy_gettext as l_
 
@@ -50,7 +51,7 @@ class AISaveNote(MessageHandler):
         await message.edit_text(
             str(
                 Section(
-                    KeyValue("Note names", HList(*(f"#{note}" for note in data.notenames))),
+                    KeyValue("Note names", format_notes_aliases(data.notenames)),
                     KeyValue("Description", data.description),
                     title=_("✨ Note was successfully generated"),
                 )
@@ -65,7 +66,7 @@ class AISaveNote(MessageHandler):
     async def save(chat_id: int, data: AISaveResponseSchema) -> bool:
         model = NoteModel(
             chat_id=chat_id,
-            names=tuple(data.notenames),
+            names=tuple(name.lower() for name in data.notenames),
             note_group=data.group,
             description=data.description,
             text=data.text,
