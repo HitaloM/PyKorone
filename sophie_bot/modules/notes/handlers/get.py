@@ -24,7 +24,7 @@ class GetNote(SophieMessageHandler):
     async def handle(self) -> Any:
         chat: ChatConnection = self.data["connection"]
 
-        note_name = self.data["notename"]
+        note_name: str = self.data["notename"].removeprefix('#')
         note = await NoteModel.get_by_notenames(chat.id, (note_name,))
 
         if not note and self.data.get("get_error_on_404", True):
