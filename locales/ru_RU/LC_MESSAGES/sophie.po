@@ -1,18 +1,22 @@
-
 msgid ""
 msgstr ""
-"Project-Id-Version:  sophiebot\n"
+"Project-Id-Version: sophiebot\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-10-12 19:18+0200\n"
-"PO-Revision-Date: 2024-10-12 17:30+0000\n"
+"POT-Creation-Date: 2024-10-17 23:38+0200\n"
+"PO-Revision-Date: 2024-10-17 21:45\n"
 "Last-Translator: \n"
-"Language: ru_RU\n"
 "Language-Team: Russian\n"
-"Plural-Forms: nplurals=4; plural=((n%10==1 && n%100!=11) ? 0 : ((n%10 >= 2 && n%10 <=4 && (n%100 < 12 || n%100 > 14)) ? 1 : ((n%10 == 0 || (n%10 >= 5 && n%10 <=9)) || (n%100 >= 11 && n%100 <= 14)) ? 2 : 3));\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=utf-8\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.16.0\n"
+"Plural-Forms: nplurals=4; plural=((n%10==1 && n%100!=11) ? 0 : ((n%10 >= 2 && n%10 <=4 && (n%100 < 12 || n%100 > 14)) ? 1 : ((n%10 == 0 || (n%10 >= 5 && n%10 <=9)) || (n%100 >= 11 && n%100 <= 14)) ? 2 : 3));\n"
+"X-Crowdin-Project: sophiebot\n"
+"X-Crowdin-Project-ID: 356879\n"
+"X-Crowdin-Language: ru\n"
+"X-Crowdin-File: /beta/locales/sophie.pot\n"
+"X-Crowdin-File-ID: 288\n"
+"Language: ru_RU\n"
 
 #: sophie_bot/args/users.py:29
 msgid "Could not find the requested User ID in the database."
@@ -22,23 +26,23 @@ msgstr "Не удалось найти запрашиваемый ID польз�
 msgid "Could not find the requested Username in the database."
 msgstr "Не удалось найти запрашиваемое имя пользователя в базе данных."
 
-#: sophie_bot/args/users.py:72 types/user.py:119
+#: sophie_bot/args/users.py:72
 msgid "User: 'User ID (numeric) / Username (starts with @) / Mention (links to users)'"
 msgstr "Пользователь: 'ID пользователя (число) / Имя пользователя (начинается с @) / Упоминание (ссылки на пользователей)'"
 
-#: sophie_bot/args/users.py:72 types/user.py:121
+#: sophie_bot/args/users.py:72
 msgid "Users: 'User IDs (numeric) / Usernames (starts with @) / Mentions (links to users)'"
 msgstr "Пользователи: 'ID пользователей (числа) / Имена пользователей (начинаются с @) / Упоминания (ссылки на пользователей)'"
 
-#: sophie_bot/args/users.py:79 types/user.py:128
+#: sophie_bot/args/users.py:79
 msgid "User ID"
 msgstr "ID пользователя"
 
-#: sophie_bot/args/users.py:80 types/user.py:129
+#: sophie_bot/args/users.py:80
 msgid "Username"
 msgstr "Имя пользователя"
 
-#: sophie_bot/args/users.py:81 types/user.py:133
+#: sophie_bot/args/users.py:81
 msgid "A link to user, usually creates by mentioning a user without username."
 msgstr "Ссылка на пользователя, обычно создается путём упоминания пользователя без имени."
 
@@ -1206,24 +1210,20 @@ msgid "Note was successfully deleted"
 msgstr "Заметка была успешно удалена"
 
 #: sophie_bot/modules/notes/handlers/delete_all.py:37
-#, fuzzy
 msgid "🗑 Delete all"
-msgstr "🗑 Удалить сообщение"
+msgstr "🗑 Удалить все"
 
 #: sophie_bot/modules/notes/handlers/delete_all.py:47
-#, fuzzy
 msgid "Do you want to delete all the notes in the {chat_name}?"
-msgstr "Вы хотите включить все команды в {chat_name}?"
+msgstr "Вы хотите удалить все заметки в {chat_name}?"
 
 #: sophie_bot/modules/notes/handlers/delete_all.py:69
-#, fuzzy
 msgid "Only the initiator can confirm deleting all notes"
-msgstr "Только инициатор может подтвердить отключение всех команд"
+msgstr "Только инициатор может подтвердить удаление всех заметок"
 
 #: sophie_bot/modules/notes/handlers/delete_all.py:74
-#, fuzzy
 msgid "🗑 All the notes ({removed_count}) have been deleted in the {chat_name}"
-msgstr "✅ Все команды ({removed_count}) были включены в {chat_name}"
+msgstr "🗑 Все заметки ({removed_count}) были удалены в {chat_name}"
 
 #: sophie_bot/modules/notes/handlers/get.py:18
 msgid "Retrieve the note."
@@ -1234,23 +1234,20 @@ msgid "No note was found with {name} name."
 msgstr "Не найдена ни одна заметка с именем {name}."
 
 #: sophie_bot/modules/notes/handlers/list.py:18
-#, fuzzy
 msgid "?Search notes"
-msgstr "Поиск заметок"
+msgstr "?Поиск заметок"
 
 #: sophie_bot/modules/notes/handlers/list.py:19
 msgid "Lists available notes."
 msgstr "Перечисляет доступные заметки."
 
 #: sophie_bot/modules/notes/handlers/list.py:38
-#, fuzzy
 msgid "No notes found by the provided search pattern {pattern} in {chat_name}."
-msgstr "Не найдено заметок по указанному шаблону поиска {pattern}."
+msgstr "Не найдено заметок по указанному шаблону поиска {pattern} в {chat_name}."
 
 #: sophie_bot/modules/notes/handlers/list.py:46
-#, fuzzy
 msgid "No notes found in {chat_name}."
-msgstr "Заметки в {chat_name}"
+msgstr "Не найдено заметок в {chat_name}."
 
 #: sophie_bot/modules/notes/handlers/list.py:51
 #: sophie_bot/modules/notes/handlers/search.py:38
@@ -1274,50 +1271,43 @@ msgstr "#(Название заметки)"
 
 #: sophie_bot/modules/notes/handlers/pmnotes_handler.py:34
 msgid "Please connect to the chat to interact with chat notes"
-msgstr ""
+msgstr "Пожалуйста, подключитесь к чату, чтобы взаимодействовать с заметками чата"
 
 #: sophie_bot/modules/notes/handlers/pmnotes_handler.py:40
-#, fuzzy
 msgid "🔌 Connect"
-msgstr "Соединения"
+msgstr "🔌 Подключить"
 
 #: sophie_bot/modules/notes/handlers/pmnotes_handler.py:65
 msgid "Connected to chat {chat_name} successfully!"
-msgstr ""
+msgstr "Успешно подключено к чату {chat_name}!"
 
 #: sophie_bot/modules/notes/handlers/pmnotes_handler.py:66
-#, fuzzy
 msgid "Use {command} to disconnect"
-msgstr "Используйте '{cmd}' для изменения."
+msgstr "Используйте {command}, чтобы отключиться"
 
 #: sophie_bot/modules/notes/handlers/pmnotes_setting.py:20
-#, fuzzy
 msgid "Show current state of Private Notes"
-msgstr "Показать текущее состояние функций AI"
+msgstr "Показать текущее состояние Приватных Заметок"
 
 #: sophie_bot/modules/notes/handlers/pmnotes_setting.py:38
-#, fuzzy
 msgid "Private Notes"
-msgstr "Приватный чат"
+msgstr "Приватные Заметки"
 
 #: sophie_bot/modules/notes/handlers/pmnotes_setting.py:47
-#, fuzzy
 msgid "Control Private Notes"
-msgstr "Управление функциями AI"
+msgstr "Управление Приватными Заметками"
 
 #: sophie_bot/modules/notes/handlers/pmnotes_setting.py:72
-#, fuzzy
 msgid "PrivateNotes have been {status} in {chat}."
-msgstr "✨ Возможности AI были {status} в {chat}."
+msgstr "Приватные Заметки были {status} в {chat}."
 
 #: sophie_bot/modules/notes/handlers/save.py:22
 msgid "Note names"
 msgstr "Названия заметки"
 
 #: sophie_bot/modules/notes/handlers/save.py:24
-#, fuzzy
 msgid "?Description"
-msgstr "Описание"
+msgstr "?Описание"
 
 #: sophie_bot/modules/notes/handlers/save.py:27
 msgid "Save the note."
@@ -1333,30 +1323,28 @@ msgstr "Заметка была успешно обновлена"
 
 #: sophie_bot/modules/notes/handlers/search.py:18
 msgid "Text to search"
-msgstr ""
+msgstr "Текст для поиска"
 
 #: sophie_bot/modules/notes/handlers/search.py:33
 msgid "No notes found by the provided search pattern {pattern}."
 msgstr "Не найдено заметок по указанному шаблону поиска {pattern}."
 
 #: sophie_bot/modules/notes/magic_handlers/filter.py:19
-#, fuzzy
 msgid "#{name} note was not found."
-msgstr "Модуль не найден"
+msgstr "#{name} заметка не найдена."
 
 #: sophie_bot/modules/notes/magic_handlers/filter.py:22
 #: sophie_bot/modules/notes/magic_handlers/filter.py:23
-#, fuzzy
 msgid "Filter action"
-msgstr "Новое действие"
+msgstr "Действие фильтра"
 
 #: sophie_bot/modules/notes/magic_handlers/filter.py:36
 msgid "Now, please type the note name you want to automatically send."
-msgstr ""
+msgstr "Теперь введите название заметки, которую хотите автоматически отправить."
 
 #: sophie_bot/modules/notes/magic_handlers/filter.py:47
 msgid "Cannot find the note with this name. Please make sure it exists and try again."
-msgstr ""
+msgstr "Не удается найти заметку с таким названием. Пожалуйста, убедитесь, что она существует, и попробуйте снова."
 
 #: sophie_bot/modules/notes/magic_handlers/filter.py:56
 msgid "🗒 Send a note"
@@ -1499,9 +1487,8 @@ msgid "{user}'s ID: {id}"
 msgstr "{user} ID: {id}"
 
 #: sophie_bot/modules/utils_/base_handler.py:35
-#, fuzzy
 msgid "The message is inaccessible. Please write the command again"
-msgstr "Сообщение недоступно. Пожалуйста, напишите команду /enableall ещё раз"
+msgstr "Сообщение недоступно. Пожалуйста, напишите команду снова"
 
 #: exceptions.py:33
 msgid "Examples"
@@ -1740,33 +1727,23 @@ msgstr "Непредвиденная ошибка при попытке полу
 msgid "Could not find the user mention"
 msgstr "Не возможно найти упоминание на пользователя!"
 
-#~ msgid "Shows additional information about the note"
-#~ msgstr "Показывает дополнительную информацию о заметке"
+#: types/user.py:119
+msgid "User: 'User ID (numeric) / Username (starts with @) / Mention (links to users)'"
+msgstr "Пользователь: 'ID пользователя (число) / Юзернем (начинается с @) / Упоминание (ссылки на пользователей)'"
 
-#~ msgid "Group"
-#~ msgstr "Группа"
+#: types/user.py:121
+msgid "Users: 'User IDs (numeric) / Usernames (starts with @) / Mentions (links to users)'"
+msgstr "Пользователи: 'ID пользователей (числа) / Юзернеймы (начинаются с @) / Упоминания (ссылки на пользователей)'"
 
-#~ msgid "Legacy mode"
-#~ msgstr "Новый режим"
+#: types/user.py:128
+msgid "User ID"
+msgstr "ID пользователя"
 
-#~ msgid "Searches text across all notes."
-#~ msgstr "Ищет текст по всем заметкам."
+#: types/user.py:129
+msgid "Username"
+msgstr "Юзернейм"
 
-#~ msgid "Deletes the note"
-#~ msgstr "Удаляет заметку"
-
-#~ msgid "Deletes all the notes in the chat"
-#~ msgstr "Удаляет все заметки в чате"
-
-#~ msgid "Controls the feature, that would recommend users to use PM with bot to use notes"
-#~ msgstr "Контролирует функцию, которая будет рекомендовать пользователям использовать PM с ботом для использования заметок"
-
-#~ msgid "Controls the automatic clean-up for notes"
-#~ msgstr "Контролирует автоматическую очистку для заметок"
-
-#~ msgid "No notes found."
-#~ msgstr "Заметок не найдено."
-
-#~ msgid "Saves the note (legacy)."
-#~ msgstr "Сохраняет заметку."
+#: types/user.py:133
+msgid "A link to user, usually creates by mentioning a user without username."
+msgstr "Ссылка на пользователя, обычно создается путём упоминания на пользователя без юзернейма."
 

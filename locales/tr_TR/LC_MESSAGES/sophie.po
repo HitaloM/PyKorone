@@ -1,18 +1,22 @@
-
 msgid ""
 msgstr ""
-"Project-Id-Version:  sophiebot\n"
+"Project-Id-Version: sophiebot\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-10-12 19:18+0200\n"
-"PO-Revision-Date: 2024-10-12 17:30+0000\n"
+"POT-Creation-Date: 2024-10-17 23:38+0200\n"
+"PO-Revision-Date: 2024-10-17 21:45\n"
 "Last-Translator: \n"
-"Language: tr_TR\n"
 "Language-Team: Turkish\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=utf-8\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.16.0\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Crowdin-Project: sophiebot\n"
+"X-Crowdin-Project-ID: 356879\n"
+"X-Crowdin-Language: tr\n"
+"X-Crowdin-File: /beta/locales/sophie.pot\n"
+"X-Crowdin-File-ID: 288\n"
+"Language: tr_TR\n"
 
 #: sophie_bot/args/users.py:29
 msgid "Could not find the requested User ID in the database."
@@ -22,23 +26,23 @@ msgstr "Veritabanında istenen Kullanıcı ID'si bulunamadı."
 msgid "Could not find the requested Username in the database."
 msgstr "Veritabanında istenen Kullanıcı Adı bulunamadı."
 
-#: sophie_bot/args/users.py:72 types/user.py:119
+#: sophie_bot/args/users.py:72
 msgid "User: 'User ID (numeric) / Username (starts with @) / Mention (links to users)'"
 msgstr "Kullanıcı: 'Kullanıcı ID'si (sayısal) / Kullanıcı adı ( @ ile başlar) / Kullanma (kullanıcılara bağlantılar)'"
 
-#: sophie_bot/args/users.py:72 types/user.py:121
+#: sophie_bot/args/users.py:72
 msgid "Users: 'User IDs (numeric) / Usernames (starts with @) / Mentions (links to users)'"
 msgstr "Kullanıcılar: 'Kullanıcı ID'leri (sayısal) / Kullanıcı adları ( @ ile başlar) / Kullanma (kullanıcılara bağlantılar)'"
 
-#: sophie_bot/args/users.py:79 types/user.py:128
+#: sophie_bot/args/users.py:79
 msgid "User ID"
 msgstr "Kullanıcı ID'si"
 
-#: sophie_bot/args/users.py:80 types/user.py:129
+#: sophie_bot/args/users.py:80
 msgid "Username"
 msgstr "Kullanıcı adı"
 
-#: sophie_bot/args/users.py:81 types/user.py:133
+#: sophie_bot/args/users.py:81
 msgid "A link to user, usually creates by mentioning a user without username."
 msgstr "Bir kullanıcıya bağlantı, genellikle kullanıcıyı kullanıcı adı olmadan anarak oluşturulur."
 
@@ -1206,24 +1210,20 @@ msgid "Note was successfully deleted"
 msgstr "Not başarıyla silindi"
 
 #: sophie_bot/modules/notes/handlers/delete_all.py:37
-#, fuzzy
 msgid "🗑 Delete all"
-msgstr "🗑 Delete message"
+msgstr "🗑 Tümünü sil"
 
 #: sophie_bot/modules/notes/handlers/delete_all.py:47
-#, fuzzy
 msgid "Do you want to delete all the notes in the {chat_name}?"
-msgstr "{chat_name} içinde tüm komutları etkinleştirmek ister misiniz?"
+msgstr "{chat_name} içinde tüm notları silmek ister misiniz?"
 
 #: sophie_bot/modules/notes/handlers/delete_all.py:69
-#, fuzzy
 msgid "Only the initiator can confirm deleting all notes"
-msgstr "Tüm komutları devre dışı bırakmayı yalnızca başlatıcı onaylayabilir"
+msgstr "Tüm notları silmeyi yalnızca başlatıcı onaylayabilir"
 
 #: sophie_bot/modules/notes/handlers/delete_all.py:74
-#, fuzzy
 msgid "🗑 All the notes ({removed_count}) have been deleted in the {chat_name}"
-msgstr "✅ Tüm komutlar ({removed_count}) {chat_name} içinde etkinleştirildi"
+msgstr "🗑 Tüm notlar ({removed_count}) {chat_name} içinde silindi"
 
 #: sophie_bot/modules/notes/handlers/get.py:18
 msgid "Retrieve the note."
@@ -1234,23 +1234,20 @@ msgid "No note was found with {name} name."
 msgstr "{name} ismine sahip bir not bulunamadı."
 
 #: sophie_bot/modules/notes/handlers/list.py:18
-#, fuzzy
 msgid "?Search notes"
-msgstr "Notları ara"
+msgstr "?Notları ara"
 
 #: sophie_bot/modules/notes/handlers/list.py:19
 msgid "Lists available notes."
 msgstr "Mevcut notları listeler."
 
 #: sophie_bot/modules/notes/handlers/list.py:38
-#, fuzzy
 msgid "No notes found by the provided search pattern {pattern} in {chat_name}."
-msgstr "Verilen arama deseninde not bulunamadı {pattern}."
+msgstr "Verilen arama deseninde not bulunamadı {pattern} içinde {chat_name}."
 
 #: sophie_bot/modules/notes/handlers/list.py:46
-#, fuzzy
 msgid "No notes found in {chat_name}."
-msgstr "{chat_name}'deki notlar"
+msgstr "{chat_name} içinde not bulunamadı."
 
 #: sophie_bot/modules/notes/handlers/list.py:51
 #: sophie_bot/modules/notes/handlers/search.py:38
@@ -1274,50 +1271,43 @@ msgstr "#(Not adı)"
 
 #: sophie_bot/modules/notes/handlers/pmnotes_handler.py:34
 msgid "Please connect to the chat to interact with chat notes"
-msgstr ""
+msgstr "Lütfen sohbet ile bağlantı kurun ve sohbet notlarıyla etkileşimde bulunun"
 
 #: sophie_bot/modules/notes/handlers/pmnotes_handler.py:40
-#, fuzzy
 msgid "🔌 Connect"
-msgstr "Bağlantılar"
+msgstr "🔌 Bağlan"
 
 #: sophie_bot/modules/notes/handlers/pmnotes_handler.py:65
 msgid "Connected to chat {chat_name} successfully!"
-msgstr ""
+msgstr "{chat_name} sohbetine başarıyla bağlandınız!"
 
 #: sophie_bot/modules/notes/handlers/pmnotes_handler.py:66
-#, fuzzy
 msgid "Use {command} to disconnect"
-msgstr "'{cmd}' kullanarak bunu değiştirin."
+msgstr "Bağlantıyı kesmek için {command} kullanın"
 
 #: sophie_bot/modules/notes/handlers/pmnotes_setting.py:20
-#, fuzzy
 msgid "Show current state of Private Notes"
-msgstr "AI özelliklerinin mevcut durumunu gösterir"
+msgstr "Özel Notların mevcut durumunu göster"
 
 #: sophie_bot/modules/notes/handlers/pmnotes_setting.py:38
-#, fuzzy
 msgid "Private Notes"
-msgstr "Özel sohbet"
+msgstr "Özel Notlar"
 
 #: sophie_bot/modules/notes/handlers/pmnotes_setting.py:47
-#, fuzzy
 msgid "Control Private Notes"
-msgstr "AI özelliklerini kontrol et"
+msgstr "Özel Notları kontrol et"
 
 #: sophie_bot/modules/notes/handlers/pmnotes_setting.py:72
-#, fuzzy
 msgid "PrivateNotes have been {status} in {chat}."
-msgstr "✨ AI Özellikleri, {chat} içinde {status} oldu."
+msgstr "Özel Notlar {chat} içinde {status} oldu."
 
 #: sophie_bot/modules/notes/handlers/save.py:22
 msgid "Note names"
 msgstr "Not adları"
 
 #: sophie_bot/modules/notes/handlers/save.py:24
-#, fuzzy
 msgid "?Description"
-msgstr "Açıklama"
+msgstr "?Açıklama"
 
 #: sophie_bot/modules/notes/handlers/save.py:27
 msgid "Save the note."
@@ -1333,30 +1323,28 @@ msgstr "Not başarıyla güncellendi"
 
 #: sophie_bot/modules/notes/handlers/search.py:18
 msgid "Text to search"
-msgstr ""
+msgstr "Aranacak metin"
 
 #: sophie_bot/modules/notes/handlers/search.py:33
 msgid "No notes found by the provided search pattern {pattern}."
 msgstr "Verilen arama deseninde not bulunamadı {pattern}."
 
 #: sophie_bot/modules/notes/magic_handlers/filter.py:19
-#, fuzzy
 msgid "#{name} note was not found."
-msgstr "Modül bulunamadı"
+msgstr "#{name} notası bulunamadı."
 
 #: sophie_bot/modules/notes/magic_handlers/filter.py:22
 #: sophie_bot/modules/notes/magic_handlers/filter.py:23
-#, fuzzy
 msgid "Filter action"
-msgstr "Yeni eylem"
+msgstr "Filtre eylemi"
 
 #: sophie_bot/modules/notes/magic_handlers/filter.py:36
 msgid "Now, please type the note name you want to automatically send."
-msgstr ""
+msgstr "Şimdi, otomatik olarak göndermek istediğiniz nota adını yazın."
 
 #: sophie_bot/modules/notes/magic_handlers/filter.py:47
 msgid "Cannot find the note with this name. Please make sure it exists and try again."
-msgstr ""
+msgstr "Bu isimle nota bulunamadı. Lütfen mevcut olduğunu kontrol edin ve tekrar deneyin."
 
 #: sophie_bot/modules/notes/magic_handlers/filter.py:56
 msgid "🗒 Send a note"
@@ -1499,9 +1487,8 @@ msgid "{user}'s ID: {id}"
 msgstr "{user}'in ID'si: {id}"
 
 #: sophie_bot/modules/utils_/base_handler.py:35
-#, fuzzy
 msgid "The message is inaccessible. Please write the command again"
-msgstr "Mesaj erişilemez. Lütfen /enableall komutunu yeniden yazın"
+msgstr "Mesaj erişilemez. Lütfen komutu yeniden yazın"
 
 #: exceptions.py:33
 msgid "Examples"
@@ -1740,33 +1727,23 @@ msgstr "Kullanıcıyı almaya çalışırken beklenmedik bir hata oluştu! Lütf
 msgid "Could not find the user mention"
 msgstr "Kullanıcı bahsini bulamadı"
 
-#~ msgid "Shows additional information about the note"
-#~ msgstr "Not hakkında ek bilgi gösterir"
+#: types/user.py:119
+msgid "User: 'User ID (numeric) / Username (starts with @) / Mention (links to users)'"
+msgstr "Kullanıcı: 'Kullanıcı ID (sayısal) / Kullanıcı adı (şu şekilde başlar: @) / Bahis (kullanıcılara bağlantılar)'"
 
-#~ msgid "Group"
-#~ msgstr "Grup"
+#: types/user.py:121
+msgid "Users: 'User IDs (numeric) / Usernames (starts with @) / Mentions (links to users)'"
+msgstr "Kullanıcılar: 'Kullanıcı ID'leri (sayısal) / Kullanıcı adları (şu şekilde başlar: @) / Bahisler (kullanıcılara bağlantılar)'"
 
-#~ msgid "Legacy mode"
-#~ msgstr "Yeni mod"
+#: types/user.py:128
+msgid "User ID"
+msgstr "Kullanıcı ID"
 
-#~ msgid "Searches text across all notes."
-#~ msgstr "Tüm notlar arasında metin arar."
+#: types/user.py:129
+msgid "Username"
+msgstr "Kullanıcı adı"
 
-#~ msgid "Deletes the note"
-#~ msgstr "Notu sil"
-
-#~ msgid "Deletes all the notes in the chat"
-#~ msgstr "Sohbetteki tüm notları siler"
-
-#~ msgid "Controls the feature, that would recommend users to use PM with bot to use notes"
-#~ msgstr "Kullanıcıları notları kullanmak için bot ile özel mesaj kullanmaya yönlendiren özelliği kontrol eder"
-
-#~ msgid "Controls the automatic clean-up for notes"
-#~ msgstr "Notlar için otomatik temizleme işlemini kontrol eder"
-
-#~ msgid "No notes found."
-#~ msgstr "Not bulunamadı."
-
-#~ msgid "Saves the note (legacy)."
-#~ msgstr "Notu kaydeder."
+#: types/user.py:133
+msgid "A link to user, usually creates by mentioning a user without username."
+msgstr "Bir kullanıcıya bağlantı, genellikle kullanıcı adı olmadan bir kullanıcı bahsi yaparak oluşturulur."
 

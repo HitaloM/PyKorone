@@ -1,18 +1,22 @@
-
 msgid ""
 msgstr ""
-"Project-Id-Version:  sophiebot\n"
+"Project-Id-Version: sophiebot\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-10-12 19:18+0200\n"
-"PO-Revision-Date: 2024-10-12 17:30+0000\n"
+"POT-Creation-Date: 2024-10-17 23:38+0200\n"
+"PO-Revision-Date: 2024-10-17 21:45\n"
 "Last-Translator: \n"
-"Language: fr_FR\n"
 "Language-Team: French\n"
-"Plural-Forms: nplurals=2; plural=(n > 1);\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=utf-8\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.16.0\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"X-Crowdin-Project: sophiebot\n"
+"X-Crowdin-Project-ID: 356879\n"
+"X-Crowdin-Language: fr\n"
+"X-Crowdin-File: /beta/locales/sophie.pot\n"
+"X-Crowdin-File-ID: 288\n"
+"Language: fr_FR\n"
 
 #: sophie_bot/args/users.py:29
 msgid "Could not find the requested User ID in the database."
@@ -22,23 +26,23 @@ msgstr "Impossible de trouver l'ID d'utilisateur demandé dans la base de donné
 msgid "Could not find the requested Username in the database."
 msgstr "Impossible de trouver le nom d'utilisateur demandé dans la base de données."
 
-#: sophie_bot/args/users.py:72 types/user.py:119
+#: sophie_bot/args/users.py:72
 msgid "User: 'User ID (numeric) / Username (starts with @) / Mention (links to users)'"
 msgstr "Utilisateur : 'ID utilisateur (numérique) / Nom d'utilisateur (commence par @) / Mention (liens vers des utilisateurs)'"
 
-#: sophie_bot/args/users.py:72 types/user.py:121
+#: sophie_bot/args/users.py:72
 msgid "Users: 'User IDs (numeric) / Usernames (starts with @) / Mentions (links to users)'"
 msgstr "Utilisateurs : 'IDs utilisateur (numériques) / Noms d'utilisateur (commence par @) / Mentions (liens vers des utilisateurs)'"
 
-#: sophie_bot/args/users.py:79 types/user.py:128
+#: sophie_bot/args/users.py:79
 msgid "User ID"
 msgstr "ID de l'utilisateur"
 
-#: sophie_bot/args/users.py:80 types/user.py:129
+#: sophie_bot/args/users.py:80
 msgid "Username"
 msgstr "Nom d'utilisateur"
 
-#: sophie_bot/args/users.py:81 types/user.py:133
+#: sophie_bot/args/users.py:81
 msgid "A link to user, usually creates by mentioning a user without username."
 msgstr "Un lien vers l'utilisateur, généralement créé en mentionnant un utilisateur sans nom d'utilisateur."
 
@@ -1206,24 +1210,20 @@ msgid "Note was successfully deleted"
 msgstr "La note a été supprimée avec succès"
 
 #: sophie_bot/modules/notes/handlers/delete_all.py:37
-#, fuzzy
 msgid "🗑 Delete all"
-msgstr "🗑 Supprimer le message"
+msgstr "🗑 Supprimer tout"
 
 #: sophie_bot/modules/notes/handlers/delete_all.py:47
-#, fuzzy
 msgid "Do you want to delete all the notes in the {chat_name}?"
-msgstr "Voulez-vous activer toutes les commandes dans le {chat_name} ?"
+msgstr "Voulez-vous supprimer toutes les notes dans le {chat_name} ?"
 
 #: sophie_bot/modules/notes/handlers/delete_all.py:69
-#, fuzzy
 msgid "Only the initiator can confirm deleting all notes"
-msgstr "Seul l'initiateur peut confirmer la désactivation de toutes les commandes"
+msgstr "Seul l'initiateur peut confirmer la suppression de toutes les notes"
 
 #: sophie_bot/modules/notes/handlers/delete_all.py:74
-#, fuzzy
 msgid "🗑 All the notes ({removed_count}) have been deleted in the {chat_name}"
-msgstr "✅ Toutes les commandes ({removed_count}) ont été activées dans le {chat_name}"
+msgstr "🗑 Toutes les notes ({removed_count}) ont été supprimées dans le {chat_name}"
 
 #: sophie_bot/modules/notes/handlers/get.py:18
 msgid "Retrieve the note."
@@ -1234,23 +1234,20 @@ msgid "No note was found with {name} name."
 msgstr "Aucune note trouvée avec le nom {name}."
 
 #: sophie_bot/modules/notes/handlers/list.py:18
-#, fuzzy
 msgid "?Search notes"
-msgstr "Rechercher des notes"
+msgstr "?Rechercher des notes"
 
 #: sophie_bot/modules/notes/handlers/list.py:19
 msgid "Lists available notes."
 msgstr "Liste les notes disponibles."
 
 #: sophie_bot/modules/notes/handlers/list.py:38
-#, fuzzy
 msgid "No notes found by the provided search pattern {pattern} in {chat_name}."
-msgstr "Aucune note trouvée par le motif de recherche fourni {pattern}."
+msgstr "Aucune note trouvée par le motif de recherche fourni {pattern} dans {chat_name}."
 
 #: sophie_bot/modules/notes/handlers/list.py:46
-#, fuzzy
 msgid "No notes found in {chat_name}."
-msgstr "Notes dans {chat_name}"
+msgstr "Aucune note trouvée dans {chat_name}."
 
 #: sophie_bot/modules/notes/handlers/list.py:51
 #: sophie_bot/modules/notes/handlers/search.py:38
@@ -1274,50 +1271,43 @@ msgstr "#(Nom de la note)"
 
 #: sophie_bot/modules/notes/handlers/pmnotes_handler.py:34
 msgid "Please connect to the chat to interact with chat notes"
-msgstr ""
+msgstr "Veuillez vous connecter au chat pour interagir avec les notes de chat"
 
 #: sophie_bot/modules/notes/handlers/pmnotes_handler.py:40
-#, fuzzy
 msgid "🔌 Connect"
-msgstr "Connexions"
+msgstr "🔌 Connecter"
 
 #: sophie_bot/modules/notes/handlers/pmnotes_handler.py:65
 msgid "Connected to chat {chat_name} successfully!"
-msgstr ""
+msgstr "✅ Connecté au chat {chat_name} avec succès !"
 
 #: sophie_bot/modules/notes/handlers/pmnotes_handler.py:66
-#, fuzzy
 msgid "Use {command} to disconnect"
-msgstr "Utilisez '{cmd}' pour le changer."
+msgstr "Utilisez {command} pour vous déconnecter"
 
 #: sophie_bot/modules/notes/handlers/pmnotes_setting.py:20
-#, fuzzy
 msgid "Show current state of Private Notes"
-msgstr "Afficher l'état actuel des fonctionnalités d'IA"
+msgstr "Afficher l'état actuel des notes privées"
 
 #: sophie_bot/modules/notes/handlers/pmnotes_setting.py:38
-#, fuzzy
 msgid "Private Notes"
-msgstr "Chat privé"
+msgstr "Notes privées"
 
 #: sophie_bot/modules/notes/handlers/pmnotes_setting.py:47
-#, fuzzy
 msgid "Control Private Notes"
-msgstr "Contrôle les fonctionnalités d'IA"
+msgstr "Contrôler les notes privées"
 
 #: sophie_bot/modules/notes/handlers/pmnotes_setting.py:72
-#, fuzzy
 msgid "PrivateNotes have been {status} in {chat}."
-msgstr "✨ Les fonctionnalités d'IA ont été {status} dans {chat}."
+msgstr "Les notes privées ont été {status} dans {chat}."
 
 #: sophie_bot/modules/notes/handlers/save.py:22
 msgid "Note names"
 msgstr "Noms de notes"
 
 #: sophie_bot/modules/notes/handlers/save.py:24
-#, fuzzy
 msgid "?Description"
-msgstr "Description"
+msgstr "?Description"
 
 #: sophie_bot/modules/notes/handlers/save.py:27
 msgid "Save the note."
@@ -1333,30 +1323,28 @@ msgstr "La note a été mise à jour avec succès"
 
 #: sophie_bot/modules/notes/handlers/search.py:18
 msgid "Text to search"
-msgstr ""
+msgstr "Texte à rechercher"
 
 #: sophie_bot/modules/notes/handlers/search.py:33
 msgid "No notes found by the provided search pattern {pattern}."
 msgstr "Aucune note trouvée par le motif de recherche fourni {pattern}."
 
 #: sophie_bot/modules/notes/magic_handlers/filter.py:19
-#, fuzzy
 msgid "#{name} note was not found."
-msgstr "Module introuvable"
+msgstr "La note #{name} n'a pas été trouvée."
 
 #: sophie_bot/modules/notes/magic_handlers/filter.py:22
 #: sophie_bot/modules/notes/magic_handlers/filter.py:23
-#, fuzzy
 msgid "Filter action"
-msgstr "Nouvelle action"
+msgstr "Action de filtre"
 
 #: sophie_bot/modules/notes/magic_handlers/filter.py:36
 msgid "Now, please type the note name you want to automatically send."
-msgstr ""
+msgstr "Maintenant, veuillez taper le nom de la note que vous souhaitez envoyer automatiquement."
 
 #: sophie_bot/modules/notes/magic_handlers/filter.py:47
 msgid "Cannot find the note with this name. Please make sure it exists and try again."
-msgstr ""
+msgstr "Impossible de trouver la note avec ce nom. Veuillez vous assurer qu'elle existe et réessayer."
 
 #: sophie_bot/modules/notes/magic_handlers/filter.py:56
 msgid "🗒 Send a note"
@@ -1499,7 +1487,6 @@ msgid "{user}'s ID: {id}"
 msgstr "ID de {user} : {id}"
 
 #: sophie_bot/modules/utils_/base_handler.py:35
-#, fuzzy
 msgid "The message is inaccessible. Please write the command again"
 msgstr "Le message est inaccessible. Veuillez écrire à nouveau la commande /enableall"
 
@@ -1740,33 +1727,23 @@ msgstr "Erreur inattendue lors de la tentative d'obtenir l'utilisateur ! Veuill
 msgid "Could not find the user mention"
 msgstr "Impossible de trouver la mention d'utilisateur"
 
-#~ msgid "Shows additional information about the note"
-#~ msgstr "Affiche des informations supplémentaires sur la note"
+#: types/user.py:119
+msgid "User: 'User ID (numeric) / Username (starts with @) / Mention (links to users)'"
+msgstr "Utilisateur : 'ID utilisateur (numérique) / Nom d'utilisateur (commence par @) / Mention (liens vers des utilisateurs)'"
 
-#~ msgid "Group"
-#~ msgstr "Groupe"
+#: types/user.py:121
+msgid "Users: 'User IDs (numeric) / Usernames (starts with @) / Mentions (links to users)'"
+msgstr "Utilisateurs : 'IDs d'utilisateur (numériques) / Noms d'utilisateur (commencent par @) / Mentions (liens vers des utilisateurs)'"
 
-#~ msgid "Legacy mode"
-#~ msgstr "Nouveau mode"
+#: types/user.py:128
+msgid "User ID"
+msgstr "ID utilisateur"
 
-#~ msgid "Searches text across all notes."
-#~ msgstr "Recherche le texte dans toutes les notes."
+#: types/user.py:129
+msgid "Username"
+msgstr "Nom d'utilisateur"
 
-#~ msgid "Deletes the note"
-#~ msgstr "Supprime la note"
-
-#~ msgid "Deletes all the notes in the chat"
-#~ msgstr "Supprime toutes les notes dans le chat"
-
-#~ msgid "Controls the feature, that would recommend users to use PM with bot to use notes"
-#~ msgstr "Contrôle la fonctionnalité qui recommanderait aux utilisateurs d'utiliser le PM avec le bot pour utiliser des notes"
-
-#~ msgid "Controls the automatic clean-up for notes"
-#~ msgstr "Contrôle le nettoyage automatique des notes"
-
-#~ msgid "No notes found."
-#~ msgstr "Aucune note trouvée."
-
-#~ msgid "Saves the note (legacy)."
-#~ msgstr "Sauvegarde la note."
+#: types/user.py:133
+msgid "A link to user, usually creates by mentioning a user without username."
+msgstr "Un lien vers un utilisateur, généralement créé en mentionnant un utilisateur sans nom d'utilisateur."
 
