@@ -58,18 +58,18 @@ class UserRestricting(Filter):
         user_id = await self.get_target_id(event)
         message = event.message if hasattr(event, "message") else event
 
-        chat_id = connection.id if connection else message.chat.id
+        chat_id = connection.id if connection else message.chat.id  # type: ignore
         is_connected = connection.is_connected if connection else False
 
         # Skip if in PM and not connected to the chat
-        if not is_connected and message.chat.type == "private":
+        if not is_connected and message.chat.type == "private":  # type: ignore
             log.debug("Admin rights: Private message without connection")
             return True
 
         elif is_connected:
             log.debug("Admin rights: Connection to the chat detected")
 
-        check = await check_admin_rights(message, chat_id, user_id, self.required_permissions.keys())
+        check = await check_admin_rights(message, chat_id, user_id, self.required_permissions.keys())  # type: ignore
         if check is not True:
             # check = missing permission in this scope
             await self.no_rights_msg(event, check)
