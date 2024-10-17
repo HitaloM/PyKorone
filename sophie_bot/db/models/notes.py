@@ -38,7 +38,7 @@ class Button(BaseModel):
 
 
 class Saveable(BaseModel):
-    text: Annotated[Optional[str], Indexed(index_type=TEXT)]
+    text: Annotated[Optional[str], Indexed(index_type=TEXT)] = ""
 
     file: Optional[NoteFile] = None
     buttons: list[list[Button]] = []
