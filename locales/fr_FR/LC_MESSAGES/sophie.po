@@ -1346,27 +1346,27 @@ msgstr "Impossible de trouver la note avec ce nom. Veuillez vous assurer qu'elle
 msgid "🗒 Send a note"
 msgstr "🗒 Envoyer une note"
 
-#: sophie_bot/modules/notes/utils/parse.py:68
+#: sophie_bot/modules/notes/utils/parse.py:67
 msgid "Please check the notes documentation for the list of the allowed content types."
 msgstr "Veuillez consulter la documentation des notes pour la liste des types de contenu autorisés."
 
-#: sophie_bot/modules/notes/utils/parse.py:69
+#: sophie_bot/modules/notes/utils/parse.py:68
 msgid "Reply message content is not parsable as the note."
 msgstr "Le contenu du message de réponse n'est pas analysable comme note."
 
-#: sophie_bot/modules/notes/utils/parse.py:102
+#: sophie_bot/modules/notes/utils/parse.py:101
 msgid "The maximum length of the note is {limit} characters."
 msgstr "La longueur maximale de la note est de {limit} caractères."
 
-#: sophie_bot/modules/notes/utils/parse.py:103
+#: sophie_bot/modules/notes/utils/parse.py:102
 msgid "Please try to reduce the length of the note."
 msgstr "Veuillez essayer de réduire la longueur de la note."
 
-#: sophie_bot/modules/notes/utils/parse.py:104
+#: sophie_bot/modules/notes/utils/parse.py:103
 msgid "Note is too long."
 msgstr "La note est trop longue."
 
-#: sophie_bot/modules/notes/utils/send.py:115
+#: sophie_bot/modules/notes/utils/send.py:118
 #, fuzzy
 msgid "The text is too long"
 msgstr "La note est trop longue."

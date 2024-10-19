@@ -28,7 +28,10 @@ from sophie_bot.modules.notes.utils.legacy_notes import (
     send_note,
     t_unparse_note_item,
 )
-from sophie_bot.modules.notes.utils.parse import SUPPORTS_TEXT
+from sophie_bot.modules.notes.utils.parse import (
+    PARSABLE_CONTENT_TYPES,
+    SUPPORTS_CAPTION,
+)
 from sophie_bot.modules.notes.utils.text import parse_vars_chat, parse_vars_user
 from sophie_bot.modules.notes.utils.unparse_legacy import legacy_markdown_to_html
 from sophie_bot.modules.utils_.common_try import common_try
@@ -88,7 +91,7 @@ async def send_saveable(
     text = str(title) + "\n" if title else ""
 
     # Legacy note
-    if saveable.parse_mode != SaveableParseMode.html and saveable.file:
+    if saveable.parse_mode != SaveableParseMode.html and saveable.file and False:
         return await send_saveable_legacy(
             message=message,
             saveable=saveable,
@@ -124,13 +127,21 @@ async def send_saveable(
         "text": text,
     }
 
-    if content_type in SUPPORTS_TEXT:
+    # Text
+    if content_type == ContentType.TEXT:
         kwargs["text"] = text
         kwargs["reply_markup"] = inline_markup
+    elif content_type in SUPPORTS_CAPTION:
+        kwargs["caption"] = text
+        kwargs["reply_markup"] = inline_markup
+
+    # File
+    if content_type == ContentType.TEXT:
+        pass
+    elif content_type in PARSABLE_CONTENT_TYPES and saveable.file:
+        kwargs[content_type] = saveable.file.id
     elif not saveable.file:
         raise ValueError(f"Unsupported content type: {content_type}")
-    else:
-        kwargs[content_type] = saveable.file.id
 
     if reply_to:
         kwargs["reply_parameters"] = ReplyParameters(message_id=reply_to)

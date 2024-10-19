@@ -33,8 +33,7 @@ CONTENT_TYPES_WITH_FILE_ID: tuple[ContentType, ...] = (
     ContentType.VOICE,
 )
 
-SUPPORTS_TEXT: tuple[ContentType, ...] = (
-    ContentType.TEXT,
+SUPPORTS_CAPTION: tuple[ContentType, ...] = (
     ContentType.AUDIO,
     ContentType.ANIMATION,
     ContentType.DOCUMENT,

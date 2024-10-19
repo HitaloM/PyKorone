@@ -1346,27 +1346,27 @@ msgstr "Не удается найти заметку с таким назван
 msgid "🗒 Send a note"
 msgstr "🗒 Отправить заметку"
 
-#: sophie_bot/modules/notes/utils/parse.py:68
+#: sophie_bot/modules/notes/utils/parse.py:67
 msgid "Please check the notes documentation for the list of the allowed content types."
 msgstr "Пожалуйста, проверьте документацию по заметкам, чтобы узнать список разрешенных типов контента."
 
-#: sophie_bot/modules/notes/utils/parse.py:69
+#: sophie_bot/modules/notes/utils/parse.py:68
 msgid "Reply message content is not parsable as the note."
 msgstr "Содержимое сообщения ответа не может быть преобразовано в заметку."
 
-#: sophie_bot/modules/notes/utils/parse.py:102
+#: sophie_bot/modules/notes/utils/parse.py:101
 msgid "The maximum length of the note is {limit} characters."
 msgstr "Максимальная длина заметки составляет {limit} символов."
 
-#: sophie_bot/modules/notes/utils/parse.py:103
+#: sophie_bot/modules/notes/utils/parse.py:102
 msgid "Please try to reduce the length of the note."
 msgstr "Пожалуйста, попытайтесь уменьшить длину заметки."
 
-#: sophie_bot/modules/notes/utils/parse.py:104
+#: sophie_bot/modules/notes/utils/parse.py:103
 msgid "Note is too long."
 msgstr "Заметка слишком длинная."
 
-#: sophie_bot/modules/notes/utils/send.py:115
+#: sophie_bot/modules/notes/utils/send.py:118
 #, fuzzy
 msgid "The text is too long"
 msgstr "Заметка слишком длинная."

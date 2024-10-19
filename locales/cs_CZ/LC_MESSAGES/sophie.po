@@ -1346,27 +1346,27 @@ msgstr "Nelze najít poznámku s tímto názvem. Ujistěte se, že existuje, a z
 msgid "🗒 Send a note"
 msgstr "🗒 Send a note"
 
-#: sophie_bot/modules/notes/utils/parse.py:68
+#: sophie_bot/modules/notes/utils/parse.py:67
 msgid "Please check the notes documentation for the list of the allowed content types."
 msgstr "Zkontrolujte prosím dokumentaci k poznámkám pro seznam povolených typů obsahu."
 
-#: sophie_bot/modules/notes/utils/parse.py:69
+#: sophie_bot/modules/notes/utils/parse.py:68
 msgid "Reply message content is not parsable as the note."
 msgstr "Obsah odpovědní zprávy nelze zpracovat jako poznámku."
 
-#: sophie_bot/modules/notes/utils/parse.py:102
+#: sophie_bot/modules/notes/utils/parse.py:101
 msgid "The maximum length of the note is {limit} characters."
 msgstr "Maximální délka poznámky je {limit} znaků."
 
-#: sophie_bot/modules/notes/utils/parse.py:103
+#: sophie_bot/modules/notes/utils/parse.py:102
 msgid "Please try to reduce the length of the note."
 msgstr "Snažte se prosím zkrátit délku poznámky."
 
-#: sophie_bot/modules/notes/utils/parse.py:104
+#: sophie_bot/modules/notes/utils/parse.py:103
 msgid "Note is too long."
 msgstr "Poznámka je příliš dlouhá."
 
-#: sophie_bot/modules/notes/utils/send.py:115
+#: sophie_bot/modules/notes/utils/send.py:118
 #, fuzzy
 msgid "The text is too long"
 msgstr "Poznámka je příliš dlouhá."

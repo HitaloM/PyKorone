@@ -213,7 +213,7 @@ async def get_msg_file(message):
         "voice",
     ]
     for file_type in file_types:
-        if file_type not in message:
+        if not getattr(message, file_type):
             continue
         if not tmsg.file:
             # FIXME: NoneType is unexpected here
