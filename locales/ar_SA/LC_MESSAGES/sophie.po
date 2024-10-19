@@ -12,7 +12,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Generated-By: Babel 2.16.0\n"
+"Generated-By: Babel 2.15.0\n"
 
 #: sophie_bot/args/users.py:29
 msgid "Could not find the requested User ID in the database."
@@ -1366,7 +1366,12 @@ msgstr "يرجى محاولة تقليل طول الملاحظة."
 msgid "Note is too long."
 msgstr "الملاحظة طويلة جدًا."
 
-#: sophie_bot/modules/notes/utils/text.py:28
+#: sophie_bot/modules/notes/utils/send.py:111
+#, fuzzy
+msgid "The text is too long"
+msgstr "الملاحظة طويلة جدًا."
+
+#: sophie_bot/modules/notes/utils/text.py:11
 msgid "Local chat"
 msgstr "محادثة محلية"
 

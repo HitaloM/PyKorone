@@ -29,7 +29,10 @@ from sophie_bot.modules.notes.utils.legacy_notes import (
     t_unparse_note_item,
 )
 from sophie_bot.modules.notes.utils.parse import SUPPORTS_TEXT
+from sophie_bot.modules.notes.utils.text import parse_vars_chat, parse_vars_user
 from sophie_bot.modules.utils_.common_try import common_try
+from sophie_bot.utils.exception import SophieException
+from sophie_bot.utils.i18n import gettext as _
 
 SEND_METHOD: dict[ContentType, Type[TelegramMethod[Message]]] = {
     ContentType.TEXT: SendMessage,
@@ -95,16 +98,17 @@ async def send_saveable(
     text = str(title) + "\n" if title else ""
     text += saveable.text or ""
 
-    # Extract buttons
+    # Extract buttons and process text
     inline_markup = None
     if not raw:
         text, inline_markup = legacy_button_parser(message.chat.id, text, aio=True)
+        text = parse_vars_chat(text, message)
+        text = parse_vars_user(text, message, message.from_user)
 
     # inline_markup = unparse_buttons(saveable.buttons)
 
-    # Text processing
     if len(text) > 4090:
-        text = f"{text[:4087]}..."
+        raise SophieException(_("The text is too long"))
 
     # TODO: Media groups
     # TODO: Multi messages
