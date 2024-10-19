@@ -29,6 +29,7 @@ from sophie_bot.modules.notes.utils.legacy_notes import (
     t_unparse_note_item,
 )
 from sophie_bot.modules.notes.utils.parse import SUPPORTS_TEXT
+from sophie_bot.modules.utils_.common_try import common_try
 
 SEND_METHOD: dict[ContentType, Type[TelegramMethod[Message]]] = {
     ContentType.TEXT: SendMessage,
@@ -126,4 +127,12 @@ async def send_saveable(
     if reply_to:
         kwargs["reply_parameters"] = ReplyParameters(message_id=reply_to)
 
-    return await SEND_METHOD[content_type](**kwargs).emit(bot)  # type: ignore
+    def to_try(**cb_kwargs):
+        return SEND_METHOD[content_type](**cb_kwargs).emit(bot)  # type: ignore
+
+    async def reply_not_found():
+        if "reply_parameters" in kwargs:
+            del kwargs["reply_parameters"]
+        return await to_try(**kwargs)
+
+    return await common_try(to_try=to_try(**kwargs), reply_not_found=reply_not_found)
