@@ -9,10 +9,13 @@ from sophie_bot.db.models.beta import BetaModeModel
 from sophie_bot.db.models.chat import ChatModel, ChatTopicModel, UserInGroupModel
 from sophie_bot.db.models.chat_connections import ChatConnectionModel
 from sophie_bot.db.models.disabling import DisablingModel
+from sophie_bot.db.models.greetings import GreetingsModel
 from sophie_bot.db.models.language import LanguageModel
 from sophie_bot.db.models.notes import NoteModel
 from sophie_bot.db.models.privatenotes import PrivateNotesModel
+from sophie_bot.db.models.rules import RulesModel
 from sophie_bot.db.models.settings_keyvalue import GlobalSettings
+from sophie_bot.db.models.ws_user import WSUserModel
 
 models: List[Type[Document]] = [
     ChatModel,
@@ -28,4 +31,7 @@ models: List[Type[Document]] = [
     AIAutotranslateModel,
     DisablingModel,
     PrivateNotesModel,
+    RulesModel,
+    GreetingsModel,
+    WSUserModel,
 ]

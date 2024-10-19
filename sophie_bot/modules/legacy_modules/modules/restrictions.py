@@ -43,12 +43,11 @@ from sophie_bot.modules.legacy_modules.utils.user_details import (
     is_user_admin,
 )
 from sophie_bot.services.redis import redis
-from sophie_bot.services.telethon import tbot
 from sophie_bot.utils.i18n import lazy_gettext as l_
 
 from ..utils.connections import chat_connection
 from ..utils.restrictions import ban_user, kick_user, mute_user, unban_user, unmute_user
-from .misc import customise_reason_finish, customise_reason_start
+from .warns import customise_reason_finish, customise_reason_start
 
 __module_name__ = l_("Restrictions")
 __module_emoji__ = "🛑"
@@ -115,7 +114,7 @@ async def kick_user_cmd(message: Message, chat, user, args, strings):
         if message.reply_to_message and message.reply_to_message.from_user.id == user_id:
             to_del.append(message.reply_to_message.message_id)
         await asyncio.sleep(5)
-        await tbot.delete_messages(chat_id, to_del)
+        await bot.delete_messages(chat_id, to_del)
 
 
 @register(
@@ -194,7 +193,7 @@ async def mute_user_cmd(message: Message, chat, user, args, strings):
         if message.reply_to_message and message.reply_to_message.from_user.id == user_id:
             to_del.append(message.reply_to_message.message_id)
         await asyncio.sleep(5)
-        await tbot.delete_messages(chat_id, to_del)
+        await bot.delete_messages(chat_id, to_del)
 
 
 @register(
@@ -310,7 +309,7 @@ async def ban_user_cmd(message: Message, chat, user, args, strings):
         if message.reply_to_message and message.reply_to_message.from_user.id == user_id:
             to_del.append(message.reply_to_message.message_id)
         await asyncio.sleep(5)
-        await tbot.delete_messages(chat_id, to_del)
+        await bot.delete_messages(chat_id, to_del)
 
 
 @register(

@@ -1,8 +1,11 @@
 from aiogram.types import Message
-from stfu_tg import Bold, HList, Title
+from stfu_tg import Bold, HList, Template, Title
 
 from sophie_bot.db.models import NoteModel
+from sophie_bot.db.models.notes import Saveable
+from sophie_bot.modules.notes.utils.parse import parse_saveable
 from sophie_bot.modules.notes.utils.send import send_saveable
+from sophie_bot.modules.utils_.common_try import common_try
 from sophie_bot.utils.i18n import gettext as _
 from sophie_bot.utils.i18n import lazy_gettext as l_
 
@@ -20,14 +23,12 @@ async def filter_handle(message: Message, chat, data: dict):
         return
 
     title = Bold(HList(Title(f"📗 #{note_name}", bold=False), _("Filter action")))
-    legacy_title = HList(Title(f"📙 #{note_name}", bold=False), _("Filter action"))
 
     await send_saveable(
         message,
         current_chat_id,
         note,
         title=title,
-        legacy_title=str(legacy_title),
         reply_to=message.message_id,
     )
 
@@ -50,12 +51,47 @@ async def setup_finish(message: Message, data: dict):
     return {"note_name": note_name}
 
 
+async def replymsg_filter_handler(message: Message, chat, data):
+    saveable = Saveable(**data["reply_text"])
+
+    title = Bold(Title(Template("🪄 {text}", text=_("Reply filter"))))
+
+    return await common_try(
+        send_saveable(
+            message,
+            message.chat.id,
+            saveable,
+            title=title,
+            reply_to=message.message_id,
+        )
+    )
+
+
+async def replymsg_setup_start(message: Message):
+    await message.edit_text(
+        _("Now, please type the text you want to automatically send. It supports buttons and " "custom formatting.")
+    )
+
+
+async def replymsg_setup_finish(message: Message, data):
+    raw_text: str = message.html_text
+
+    saveable: Saveable = await parse_saveable(message, raw_text)
+    return {"reply_text": saveable.model_dump(mode="json")}
+
+
 def get_filter():
     return {
+        "reply_message": {
+            "title": l_("💭 Reply to message"),
+            "handle": replymsg_filter_handler,
+            "setup": {"start": replymsg_setup_start, "finish": replymsg_setup_finish},
+            "del_btn_name": lambda msg, data: f"Reply to {data['handler']}: {data['reply_text'].get('text', 'None')}\" ",
+        },
         "get_note": {
             "title": l_("🗒 Send a note"),
             "handle": filter_handle,
             "setup": {"start": setup_start, "finish": setup_finish},
             "del_btn_name": lambda msg, data: f"Get note: {data['note_name']}",
-        }
+        },
     }

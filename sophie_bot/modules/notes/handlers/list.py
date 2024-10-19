@@ -25,7 +25,7 @@ class NotesList(SophieMessageHandler):
 
     async def handle(self) -> Any:
         to_search: Optional[str] = self.data.get("search")
-        connection = self.connection()
+        connection = self.connection
 
         notes = await NoteModel.get_chat_notes(connection.id)
         if to_search:

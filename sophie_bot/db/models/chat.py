@@ -70,6 +70,14 @@ class UserInGroupModel(Document):
             return user_in_chat
         return None
 
+    @staticmethod
+    async def get_user_in_group(
+        user_iid: PydanticObjectId, group_iid: PydanticObjectId
+    ) -> Optional["UserInGroupModel"]:
+        return await UserInGroupModel.find_one(
+            UserInGroupModel.user.id == user_iid, UserInGroupModel.group.id == group_iid
+        )
+
 
 class ChatTopicModel(Document):
     group: Link["ChatModel"]
@@ -208,8 +216,12 @@ class ChatModel(Document):
         await self.delete(link_rule=DeleteRules.DELETE_LINKS)
 
     @staticmethod
-    async def get_by_chat_id(chat_id) -> Optional["ChatModel"]:
+    async def get_by_chat_id(chat_id: int) -> Optional["ChatModel"]:
         return await ChatModel.find_one(ChatModel.chat_id == chat_id)
+
+    @staticmethod
+    async def get_by_iid(iid: PydanticObjectId) -> Optional["ChatModel"]:
+        return await ChatModel.find_one(ChatModel.id == iid)
 
     @staticmethod
     async def find_user(user_id: int) -> "ChatModel":

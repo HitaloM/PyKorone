@@ -29,7 +29,7 @@ class AIContextReset(SophieMessageHandler):
         return AIResetContext.filter(), UserRestricting(admin=True), AIEnabledFilter()
 
     async def handle(self) -> Any:
-        connection = self.connection()
+        connection = self.connection
         await reset_messages(connection.id)
 
         return await self.event.reply(

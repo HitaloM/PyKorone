@@ -28,7 +28,7 @@ class DisableHandler(SophieMessageHandler):
         await DisablingModel.disable(chat_id, cmd)
 
     async def handle(self):
-        connection = self.connection()
+        connection = self.connection
         cmd_name: str = self.data["cmd"].lower().removeprefix("/").removeprefix("!")
 
         handler = get_cmd_help_by_name(cmd_name)

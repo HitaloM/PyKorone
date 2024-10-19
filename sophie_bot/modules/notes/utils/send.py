@@ -18,21 +18,17 @@ from aiogram.methods import (
     SendVoice,
     TelegramMethod,
 )
-from aiogram.types import Message, ReplyParameters
-from stfu_tg import HList
+from aiogram.types import InlineKeyboardMarkup, Message, ReplyParameters
+from stfu_tg.doc import Element
 
 from sophie_bot import bot
 from sophie_bot.db.models.notes import Saveable, SaveableParseMode
-from sophie_bot.modules.notes.utils.legacy_notes import (
-    legacy_button_parser,
-    send_note,
-    t_unparse_note_item,
-)
+from sophie_bot.modules.notes.utils.fillings import process_fillings
+from sophie_bot.modules.notes.utils.legacy_buttons import legacy_button_parser
 from sophie_bot.modules.notes.utils.parse import (
     PARSABLE_CONTENT_TYPES,
     SUPPORTS_CAPTION,
 )
-from sophie_bot.modules.notes.utils.text import parse_vars_chat, parse_vars_user
 from sophie_bot.modules.notes.utils.unparse_legacy import legacy_markdown_to_html
 from sophie_bot.modules.utils_.common_try import common_try
 from sophie_bot.utils.exception import SophieException
@@ -57,26 +53,11 @@ SEND_METHOD: dict[ContentType, Type[TelegramMethod[Message]]] = {
 }
 
 
-async def send_saveable_legacy(
-    message: Message,
-    saveable: Saveable,
-    send_to: int,
-    reply_to: Optional[int] = None,
-    legacy_title: Optional[str] = None,
-    raw: Optional[bool] = False,
-):
-    compatible_db_item = saveable.model_dump()
-    compatible_db_item["parse_mode"] = saveable.parse_mode.value if saveable.parse_mode else SaveableParseMode.markdown
-    text, kwargs = await t_unparse_note_item(
-        message, compatible_db_item, send_to, noformat=raw, event=message, user=message.from_user
-    )
-
-    if legacy_title:
-        text = f"{legacy_title}\n{text}"
-
-    kwargs["reply_to"] = reply_to
-
-    await send_note(send_to, text, **kwargs)
+def saveable_to_text(saveable: Saveable) -> str:
+    if saveable.parse_mode != SaveableParseMode.html:
+        return legacy_markdown_to_html(saveable.text or "")
+    else:
+        return saveable.text or ""
 
 
 async def send_saveable(
@@ -84,33 +65,21 @@ async def send_saveable(
     send_to: int,
     saveable: Saveable,
     reply_to: Optional[int] = None,
-    title: Optional[HList] = None,
-    legacy_title: Optional[str] = None,
+    title: Optional[Element] = None,
     raw: Optional[bool] = False,
+    additional_keyboard: InlineKeyboardMarkup = InlineKeyboardMarkup(inline_keyboard=[]),
+    additional_fillings: Optional[dict[str, str]] = None,
 ):
     text = str(title) + "\n" if title else ""
-
-    # Legacy note
-    if saveable.parse_mode != SaveableParseMode.html and saveable.file and False:
-        return await send_saveable_legacy(
-            message=message,
-            saveable=saveable,
-            send_to=send_to,
-            reply_to=reply_to,
-            legacy_title=legacy_title,
-            raw=raw,
-        )
-    elif saveable.parse_mode != SaveableParseMode.html:
-        text += legacy_markdown_to_html(saveable.text or "")
-    else:
-        text += saveable.text or ""
+    text += saveable_to_text(saveable)
 
     # Extract buttons and process text
-    inline_markup = None
+    inline_markup = InlineKeyboardMarkup(inline_keyboard=[])
     if not raw:
-        text, inline_markup = legacy_button_parser(message.chat.id, text, aio=True)
-        text = parse_vars_chat(text, message)
-        text = parse_vars_user(text, message, message.from_user)
+        text, inline_markup = legacy_button_parser(message.chat.id, text)
+        text = process_fillings(text, message, message.from_user, additional_fillings)
+
+        inline_markup.inline_keyboard.extend(additional_keyboard.inline_keyboard)
 
     # inline_markup = unparse_buttons(saveable.buttons)
 

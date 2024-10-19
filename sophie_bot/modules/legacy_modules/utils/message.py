@@ -63,7 +63,10 @@ def get_cmd(message: Message):
     return cmd
 
 
-def convert_time(time_val):
+def convert_time(time_val: str | timedelta) -> timedelta:
+    if isinstance(time_val, timedelta):
+        return time_val
+
     if not any(time_val.endswith(unit) for unit in ("m", "h", "d")):
         raise TypeError
 

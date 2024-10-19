@@ -10,14 +10,13 @@ from aiogram.dispatcher.event.bases import SkipHandler
 from aiogram.enums import ChatMemberStatus
 from aiogram.exceptions import TelegramBadRequest
 from aiogram.types import CallbackQuery, Message, MessageEntity
-from telethon.tl.functions.users import GetFullUserRequest
 
 from sophie_bot import bot
 from sophie_bot.config import CONFIG
 from sophie_bot.modules.legacy_modules.utils.message import get_arg, get_args_str
 from sophie_bot.services.db import db
 from sophie_bot.services.redis import bredis
-from sophie_bot.services.telethon import tbot
+from sophie_bot.utils.logger import log
 
 from .language import get_string
 
@@ -44,16 +43,6 @@ async def get_user_by_id(user_id: int):
     if not user:
         return None
 
-    return user
-
-
-async def get_id_by_nick(data):
-    # Check if data is user_id
-    user = await db.user_list.find_one({"username": data.replace("@", "")})
-    if user:
-        return user["user_id"]
-
-    user = await tbot(GetFullUserRequest(data))
     return user
 
 
@@ -130,6 +119,8 @@ async def get_admins_rights(chat_id, force_update=False):
 
 
 async def is_user_admin(chat_id, user_id):
+    log.debug("is_user_admin", chat_id=chat_id, user_id=user_id)
+
     # User's pm should have admin rights
     if chat_id == user_id:
         return True

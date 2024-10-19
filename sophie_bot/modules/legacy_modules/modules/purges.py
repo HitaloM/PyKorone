@@ -18,17 +18,18 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import asyncio
+from contextlib import suppress
 
 from aiogram import F, Router, flags
+from aiogram.exceptions import TelegramBadRequest
 from aiogram.types import Message
-from telethon.errors.rpcerrorlist import MessageDeleteForbiddenError
 
 from sophie_bot import bot, dp
 from sophie_bot.filters.admin_rights import BotHasPermissions, UserRestricting
 from sophie_bot.modules.legacy_modules.utils.language import get_strings_dec
 from sophie_bot.modules.legacy_modules.utils.register import register
-from sophie_bot.modules.notes.utils.legacy_notes import BUTTONS
-from sophie_bot.services.telethon import tbot
+from sophie_bot.modules.legacy_modules.utils.user_details import is_user_admin
+from sophie_bot.modules.notes.utils.legacy_buttons import BUTTONS
 from sophie_bot.utils.i18n import lazy_gettext as l_
 
 __module_name__ = l_("Purges")
@@ -51,7 +52,7 @@ async def del_message(message: Message, strings):
         await message.reply(strings["reply_to_msg"])
         return
     msgs = [message.message_id, message.reply_to_message.message_id]
-    await tbot.delete_messages(message.chat.id, msgs)
+    await bot.delete_messages(message.chat.id, msgs)
 
 
 @register(
@@ -74,14 +75,10 @@ async def fast_purge(message: Message, strings):
     for m_id in range(int(delete_to), msg_id - 1, -1):
         msgs.append(m_id)
         if len(msgs) == 100:
-            await tbot.delete_messages(chat_id, msgs)
+            await bot.delete_messages(chat_id, msgs)
             msgs = []
 
-    try:
-        await tbot.delete_messages(chat_id, msgs)
-    except MessageDeleteForbiddenError:
-        await message.reply(strings["purge_error"])
-        return
+    await bot.delete_messages(chat_id, msgs)
 
     msg = await bot.send_message(chat_id, strings["fast_purge_done"])
     await asyncio.sleep(5)
@@ -94,3 +91,19 @@ BUTTONS.update({"delmsg": "btn_deletemsg_cb"})
 @dp.callback_query(F.data.regexp(r"btn_deletemsg:(\w+)"))
 async def delmsg_btn(event, regexp=None, **kwargs):
     await event.message.delete()
+
+
+async def delmsg_filter_handle(message: Message, chat, data):
+    if await is_user_admin(data["chat_id"], message.from_user.id):
+        return
+    with suppress(TelegramBadRequest):
+        await message.delete()
+
+
+__filters__ = {
+    "delete_message": {
+        "title": l_("🗑 Delete message"),
+        "handle": delmsg_filter_handle,
+        "del_btn_name": lambda msg, data: f"Del message: {data['handler']}",
+    },
+}

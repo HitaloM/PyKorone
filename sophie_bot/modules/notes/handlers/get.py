@@ -33,7 +33,6 @@ class GetNote(SophieMessageHandler):
             return
 
         title = Bold(HList(Title(f"📗 #{note_name}", bold=False), note.description or ""))
-        legacy_title = HList(Title(f"📙 #{note_name}", bold=False), note.description or "")
 
         raw = bool(self.data.get("raw", False))
 
@@ -49,7 +48,6 @@ class GetNote(SophieMessageHandler):
             self.event.chat.id,
             note,
             title=title,
-            legacy_title=str(legacy_title),
             raw=raw,
             reply_to=reply_to,
         )

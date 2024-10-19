@@ -80,7 +80,6 @@ from sophie_bot.modules.legacy_modules.utils.user_details import (
 )
 from sophie_bot.services.db import db
 from sophie_bot.services.redis import redis
-from sophie_bot.services.telethon import tbot
 from sophie_bot.utils.cached import cached
 from sophie_bot.utils.i18n import lazy_gettext as l_
 
@@ -776,7 +775,7 @@ async def fed_ban_user(message: Message, fed, user, reason, strings):
         if message.reply_to_message and message.reply_to_message.from_user.id == user_id:
             to_del.append(message.reply_to_message.message_id)
         await asyncio.sleep(5)
-        await tbot.delete_messages(message.chat.id, to_del)
+        await bot.delete_messages(message.chat.id, to_del)
 
 
 @register(router, cmds=["unfban", "funban"])

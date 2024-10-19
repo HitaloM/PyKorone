@@ -6,7 +6,6 @@ from .handlers.delete import DelNote
 from .handlers.delete_all import DelAllNotesCallbackHandler, DelAllNotesHandler
 from .handlers.get import GetNote, HashtagGetNote
 from .handlers.legacy_button import LegacyStartNoteButton
-from .handlers.legacy_save import LegacySaveNote
 from .handlers.list import NotesList
 from .handlers.pmnotes_handler import (
     PrivateNotesConnectHandler,
@@ -17,7 +16,7 @@ from .handlers.save import SaveNote
 from .handlers.search import NotesSearchHandler
 from .magic_handlers.export import export
 from .magic_handlers.filter import get_filter
-from .utils.legacy_notes import BUTTONS
+from .utils.legacy_buttons import BUTTONS
 
 router = Router(name="notes")
 
@@ -53,6 +52,3 @@ def __pre_setup__():
 
     # Legacy note buttons
     router.message.register(LegacyStartNoteButton, *LegacyStartNoteButton.filters())
-
-    # Legacy save
-    router.message.register(LegacySaveNote, *LegacySaveNote.filters())

@@ -52,7 +52,6 @@ from sophie_bot.utils.i18n import lazy_gettext as l_
 
 from ..utils.connections import chat_connection
 from ..utils.restrictions import ban_user, mute_user
-from .misc import customise_reason_finish, customise_reason_start
 
 __module_name__ = l_("Warnings")
 __module_emoji__ = "⚠️"
@@ -363,6 +362,21 @@ async def filter_handle(message: Message, chat, data, string=None):
     target_user = message.from_user.id
     text = data.get("reason", None) or string["filter_handle_rsn"]
     await warn_func(message, chat, target_user, text, filter_action=True)
+
+
+@get_strings_dec("misc")
+async def customise_reason_start(message: Message, strings: dict):
+    await message.reply(strings["send_customised_reason"])
+
+
+@get_strings_dec("misc")
+async def customise_reason_finish(message: Message, _: dict, strings: dict):
+    if message.text is None:
+        await message.reply(strings["expected_text"])
+        return False
+    elif message.text in {"None"}:
+        return {"reason": None}
+    return {"reason": message.text}
 
 
 __filters__ = {

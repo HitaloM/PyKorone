@@ -23,7 +23,7 @@ class NotesSearchHandler(SophieMessageHandler):
         return (CMDFilter(SEARCH_CMD),)
 
     async def handle(self) -> Any:
-        connection = self.connection()
+        connection = self.connection
 
         to_search: str = self.data["text"]
         notes = await NoteModel.search_chat_notes(connection.id, to_search)

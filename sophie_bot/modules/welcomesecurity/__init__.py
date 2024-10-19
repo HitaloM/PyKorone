@@ -1,0 +1,36 @@
+from aiogram import Router
+
+from sophie_bot.modules.notes.utils.legacy_buttons import BUTTONS
+from sophie_bot.modules.welcomesecurity.handlers.captcha_confirm import (
+    CaptchaConfirmHandler,
+)
+from sophie_bot.modules.welcomesecurity.handlers.captcha_get import CaptchaGetHandler
+from sophie_bot.modules.welcomesecurity.handlers.enable_welcomemute import (
+    EnableWelcomeMute,
+)
+from sophie_bot.modules.welcomesecurity.handlers.enable_ws import EnableWSHandlerABC
+from sophie_bot.modules.welcomesecurity.handlers.legacy_button import (
+    LegacyWSButtonHandler,
+)
+from sophie_bot.modules.welcomesecurity.middlewares.lock_muted_users import (
+    LockMutedUsers,
+)
+from sophie_bot.utils.i18n import lazy_gettext as l_
+
+__module_name__ = l_("Welcome Security")
+__module_emoji__ = "🛡️"
+__module_info__ = l_(
+    "Welcome Security contains a bunch of tools that can help filter bots that tries to join your groups, as well as make sure the new users acknowledged the chat rules before being able to speak"
+)
+
+router = Router(name="welcomesecurity")
+
+
+BUTTONS.update({"welcomesecurity": "btnwelcomesecuritystart"})
+
+
+__handlers__ = (CaptchaGetHandler, LegacyWSButtonHandler, CaptchaConfirmHandler, EnableWSHandlerABC, EnableWelcomeMute)
+
+
+def __pre_setup__():
+    router.message.outer_middleware(LockMutedUsers())

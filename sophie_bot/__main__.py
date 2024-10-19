@@ -16,7 +16,6 @@ from sophie_bot.middlewares import enable_middlewares
 from sophie_bot.modules import load_modules
 from sophie_bot.services.apscheduller import start_apscheduller
 from sophie_bot.services.db import init_db, test_db
-from sophie_bot.services.telethon import start_telethon
 from sophie_bot.utils.logger import log
 from sophie_bot.utils.sentry import init_sentry
 
@@ -34,7 +33,6 @@ async def start():
     await test_db()
 
     if "proxy" not in CONFIG.environment:
-        await start_telethon()
         await start_apscheduller()
 
 

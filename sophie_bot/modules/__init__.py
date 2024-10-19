@@ -1,14 +1,30 @@
 from importlib import import_module
 from types import ModuleType
-from typing import Sequence, Union
+from typing import Sequence, Type, Union
 
 from aiogram import Dispatcher, Router
 
+from sophie_bot.modules.utils_.base_handler import SophieBaseHandler
 from sophie_bot.utils.logger import log
 
 LOADED_MODULES: dict[str, ModuleType] = {}
 # troubleshooters always first, then legacy_modules!
-MODULES = ["troubleshooters", "legacy_modules", "error", "users", "notes", "help", "feds", "privacy", "disabling", "ai"]
+MODULES = [
+    "troubleshooters",
+    "legacy_modules",
+    "error",
+    "users",
+    "notes",
+    "help",
+    "feds",
+    "privacy",
+    "disabling",
+    "rules",
+    "promotes",
+    "greetings",
+    "welcomesecurity",
+    "ai",
+]
 
 
 def load_modules(
@@ -28,12 +44,21 @@ def load_modules(
 
         module = import_module(path)
 
-        if hasattr(module, "router"):
-            dp.include_router(getattr(module, "router"))
+        if router := getattr(module, "router", None):
+            dp.include_router(router)
         else:
             log.warning(f"Module {module_name} has no router!")
 
         LOADED_MODULES[module.__name__.split(".", 3)[2]] = module
+
+    # Load handlers
+    for module_name, module in LOADED_MODULES.items():
+        if not (router := getattr(module, "router", None)):
+            continue
+
+        handlers: Sequence[Type[SophieBaseHandler]] = getattr(module, "__handlers__", [])
+        for handler in handlers:
+            handler.register(router)
 
     # Pre setup
     for module_name, module in LOADED_MODULES.items():

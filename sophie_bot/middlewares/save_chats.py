@@ -112,8 +112,11 @@ class SaveChatsMiddleware(BaseMiddleware):
         # Forum topics
         await self.save_topic(message, chat)
 
-        # New chat members / removed chat member
-        await self._handle_member_updates(message, chat, user)
+        # New chat members
+        data["new_users"] = await self._handle_new_chat_members(message, chat, user)
+
+        # Left chat members
+        await self._handle_left_chat_member(message, chat)
 
     @staticmethod
     async def _handle_migration(data: dict, message: Message):
@@ -158,20 +161,31 @@ class SaveChatsMiddleware(BaseMiddleware):
 
         return chats_to_update
 
-    async def _handle_member_updates(self, message: Message, group: ChatModel, user_db: ChatModel):
-        if message.new_chat_members:
-            for member in message.new_chat_members:
-                # Let's skip updating the user if it was already updated before in the _handle_message_update.
-                if member.id == user_db.id:
-                    continue
+    @staticmethod
+    async def _handle_new_chat_members(message: Message, group: ChatModel, user_db: ChatModel) -> list[ChatModel]:
+        if not message.new_chat_members:
+            return []
 
-                new_user = await ChatModel.upsert_user(member)
-                await UserInGroupModel.ensure_user_in_group(new_user, group)
-        elif message.left_chat_member:
-            if CONFIG.bot_id == message.left_chat_member.id:
-                await group.delete_chat()
-            else:
-                await self._delete_user_in_chat_by_user_id(message.left_chat_member.id, group)
+        new_users = []
+        for member in message.new_chat_members:
+            # Let's skip updating the user if it was already updated before in the _handle_message_update.
+            if member.id == user_db.id:
+                continue
+
+            new_user = await ChatModel.upsert_user(member)
+            await UserInGroupModel.ensure_user_in_group(new_user, group)
+            new_users.append(new_user)
+
+        return new_users
+
+    async def _handle_left_chat_member(self, message: Message, group: ChatModel):
+        if not message.left_chat_member:
+            return
+
+        if CONFIG.bot_id == message.left_chat_member.id:
+            await group.delete_chat()
+        else:
+            await self._delete_user_in_chat_by_user_id(message.left_chat_member.id, group)
 
     @staticmethod
     async def save_from_user(data: dict):

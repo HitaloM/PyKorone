@@ -26,7 +26,7 @@ class DelAllNotesHandler(SophieMessageHandler):
         return CMDFilter(("clearall")), UserRestricting(admin=True)
 
     async def handle(self) -> Any:
-        connection = self.connection()
+        connection = self.connection
 
         if not self.event.from_user:
             raise SophieException("No user")
@@ -57,7 +57,7 @@ class DelAllNotesCallbackHandler(SophieCallbackQueryHandler):
         return DeleteAllNotesCallback.filter(), UserRestricting(admin=True)
 
     async def handle(self) -> Any:
-        connection = self.connection()
+        connection = self.connection
 
         if not self.event.message:
             raise SophieException("No message")

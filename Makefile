@@ -1,10 +1,16 @@
 PROJECT_DIR := "sophie_bot"
 
-PYTHON := $(shell poetry env info --path)
+ENV := $(shell poetry env info --path)
 #PYTHON := $(subst \,/,$(PYTHON))
-PYTHON := "$(PYTHON)/scripts/python"
+PYTHON := "$(ENV)/scripts/python"
 
 ASS_PATH := $(shell poetry run python -c "import ass_tg as _; print(_.__path__[0])")
+
+ifneq ("$(wildcard $(ENV)/scripts)","")
+	PYBABEL := "$(ENV)/scripts/pybabel"
+else
+	PYBABEL := "$(ENV)/bin/pybabel"
+endif
 
 NUITKA := "python" "-m" "nuitka"
 NUITKA_ARGS := "--prefer-source-code" "--plugin-enable=pylint-warnings" "--follow-imports" \
@@ -54,14 +60,14 @@ test_codeanalysis:
 # Locale
 
 new_lang:
-	pybabel init -i "$(LOCALES_DIR)/sophie.pot" -d "$(LOCALES_DIR)" -D sophie -l "$(LANG)"
+	$(PYBABEL) init -i "$(LOCALES_DIR)/sophie.pot" -d "$(LOCALES_DIR)" -D sophie -l "$(LANG)"
 
 extract_lang:
-	pybabel extract -k "pl_:1,2" -k "p_:1,2" -k "l_:1" \
+	$(PYBABEL) extract -k "pl_:1,2" -k "p_:1,2" -k "l_:1" \
 	--add-comments="NOTE: " -o "$(LOCALES_DIR)/bot.pot" --sort-by-file --no-wrap $(PROJECT_DIR)
 
 	cd "$(ASS_PATH)" && \
-	pybabel extract -k "pl_:1,2" -k "p_:1,2" -k "l_:1" \
+	$(PYBABEL) extract -k "pl_:1,2" -k "p_:1,2" -k "l_:1" \
 	--add-comments="NOTE: " -o "$(LOCALES_DIR)/ass.pot" --omit-header --sort-by-file --no-wrap .
 
 	# Merge
@@ -69,11 +75,11 @@ extract_lang:
 	cat "$(LOCALES_DIR)/ass.pot" >> "$(LOCALES_DIR)/sophie.pot"
 
 update_lang:
-	pybabel update -d "$(LOCALES_DIR)" -D "sophie" -i "$(LOCALES_DIR)/sophie.pot" \
+	$(PYBABEL) update -d "$(LOCALES_DIR)" -D "sophie" -i "$(LOCALES_DIR)/sophie.pot" \
 	--ignore-pot-creation-date --no-wrap
 
 compile_lang:
-	pybabel compile -d "$(LOCALES_DIR)" -D "sophie" --use-fuzzy --statistics
+	$(PYBABEL) compile -d "$(LOCALES_DIR)" -D "sophie" --use-fuzzy --statistics
 
 
 new_locale:

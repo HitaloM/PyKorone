@@ -34,7 +34,7 @@ class PrivateNotesRedirectHandler(SophieMessageHandler):
         text = _("Please connect to the chat to interact with chat notes")
         buttons = InlineKeyboardBuilder()
 
-        connection = self.connection()
+        connection = self.connection
         buttons.add(
             InlineKeyboardButton(
                 text=_("🔌 Connect"),

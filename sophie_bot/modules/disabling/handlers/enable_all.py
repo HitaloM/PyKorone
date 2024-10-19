@@ -22,7 +22,7 @@ class EnableAllHandler(SophieMessageHandler):
 
     async def handle(self):
 
-        connection = self.connection()
+        connection = self.connection
 
         if not self.event.from_user:
             raise SophieException("Not a user clicked a button")
@@ -53,7 +53,7 @@ class DisableAllCbHandler(SophieCallbackQueryHandler):
         return EnableAllCallback.filter(), UserRestricting(admin=True)
 
     async def handle(self):
-        connection = self.connection()
+        connection = self.connection
 
         await self.check_for_message()
 
