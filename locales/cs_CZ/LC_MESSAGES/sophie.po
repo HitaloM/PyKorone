@@ -1366,7 +1366,7 @@ msgstr "Snažte se prosím zkrátit délku poznámky."
 msgid "Note is too long."
 msgstr "Poznámka je příliš dlouhá."
 
-#: sophie_bot/modules/notes/utils/send.py:111
+#: sophie_bot/modules/notes/utils/send.py:115
 #, fuzzy
 msgid "The text is too long"
 msgstr "Poznámka je příliš dlouhá."

@@ -1366,7 +1366,7 @@ msgstr "Bitte versuche, die Länge der Notiz zu reduzieren."
 msgid "Note is too long."
 msgstr "Notiz ist zu lang."
 
-#: sophie_bot/modules/notes/utils/send.py:111
+#: sophie_bot/modules/notes/utils/send.py:115
 #, fuzzy
 msgid "The text is too long"
 msgstr "Notiz ist zu lang."

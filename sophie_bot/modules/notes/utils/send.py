@@ -19,7 +19,7 @@ from aiogram.methods import (
     TelegramMethod,
 )
 from aiogram.types import Message, ReplyParameters
-from stfu_tg.doc import Element
+from stfu_tg import HList
 
 from sophie_bot import bot
 from sophie_bot.db.models.notes import Saveable, SaveableParseMode
@@ -30,6 +30,7 @@ from sophie_bot.modules.notes.utils.legacy_notes import (
 )
 from sophie_bot.modules.notes.utils.parse import SUPPORTS_TEXT
 from sophie_bot.modules.notes.utils.text import parse_vars_chat, parse_vars_user
+from sophie_bot.modules.notes.utils.unparse_legacy import legacy_markdown_to_html
 from sophie_bot.modules.utils_.common_try import common_try
 from sophie_bot.utils.exception import SophieException
 from sophie_bot.utils.i18n import gettext as _
@@ -80,12 +81,14 @@ async def send_saveable(
     send_to: int,
     saveable: Saveable,
     reply_to: Optional[int] = None,
-    title: Optional[Element] = None,
+    title: Optional[HList] = None,
     legacy_title: Optional[str] = None,
     raw: Optional[bool] = False,
 ):
+    text = str(title) + "\n" if title else ""
+
     # Legacy note
-    if saveable.parse_mode != SaveableParseMode.html:
+    if saveable.parse_mode != SaveableParseMode.html and saveable.file:
         return await send_saveable_legacy(
             message=message,
             saveable=saveable,
@@ -94,9 +97,10 @@ async def send_saveable(
             legacy_title=legacy_title,
             raw=raw,
         )
-
-    text = str(title) + "\n" if title else ""
-    text += saveable.text or ""
+    elif saveable.parse_mode != SaveableParseMode.html:
+        text += legacy_markdown_to_html(saveable.text or "")
+    else:
+        text += saveable.text or ""
 
     # Extract buttons and process text
     inline_markup = None

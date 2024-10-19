@@ -1366,7 +1366,7 @@ msgstr "Por favor, tente reduzir o comprimento da nota."
 msgid "Note is too long."
 msgstr "Nota muito longa."
 
-#: sophie_bot/modules/notes/utils/send.py:111
+#: sophie_bot/modules/notes/utils/send.py:115
 #, fuzzy
 msgid "The text is too long"
 msgstr "Nota muito longa."
