@@ -89,6 +89,10 @@ class TikTokClient:
             return None
 
         aweme = tiktok_data["aweme_list"][0]
+
+        if aweme.get("aweme_id") != self.media_id:
+            return None
+
         aweme_dict = {
             "author": aweme["author"]["nickname"]
             if aweme.get("author") and aweme["author"].get("nickname")
