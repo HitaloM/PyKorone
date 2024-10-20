@@ -15,6 +15,7 @@ from pydantic import HttpUrl, ValidationError
 
 from korone.modules.medias.utils.cache import MediaCache
 from korone.modules.medias.utils.downloader import download_media
+from korone.modules.medias.utils.files import resize_thumbnail
 from korone.utils.caching import cache
 from korone.utils.logging import logger
 
@@ -129,11 +130,13 @@ async def handle_video(playlist_url: str, thumbnail_url: HttpUrl) -> list[InputM
             return None
 
         thumbnail = await download_media(str(thumbnail_url))
+        if thumbnail:
+            resized_thumbnail = await asyncio.to_thread(resize_thumbnail, thumbnail)
 
         return [
             InputMediaVideo(
                 media=video,
-                thumb=thumbnail,
+                thumb=resized_thumbnail,
                 width=width,
                 height=height,
                 supports_streaming=True,

@@ -17,6 +17,7 @@ from pydantic import ValidationError
 
 from korone.modules.medias.utils.cache import MediaCache
 from korone.modules.medias.utils.downloader import download_media
+from korone.modules.medias.utils.files import resize_thumbnail
 from korone.modules.medias.utils.instagram.scraper import fetch_instagram
 from korone.utils.caching import cache
 from korone.utils.logging import logger
@@ -193,6 +194,8 @@ async def handle_video(post: Post) -> list[InputMediaVideo] | None:
         if post.image_versions2 and post.image_versions2.candidates
         else None
     )
+    if thumbnail:
+        resized_thumbnail = await asyncio.to_thread(resize_thumbnail, thumbnail)
 
     if post.original_width is None or post.original_height is None:
         return None
@@ -203,7 +206,7 @@ async def handle_video(post: Post) -> list[InputMediaVideo] | None:
             width=post.original_width,
             height=post.original_height,
             supports_streaming=True,
-            thumb=thumbnail,
+            thumb=resized_thumbnail,
         )
     ]
 
