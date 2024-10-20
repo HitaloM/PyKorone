@@ -152,7 +152,7 @@ async def download_and_send_media(
         return
 
     await message.edit(_("Uploading..."))
-    caption = f"<a href='{yt.url}'>{yt.title}</a>"
+    caption = f"<a href='{url}'>{yt.title}</a>"
 
     await upload_media(client, message, action, media_type, ytdl, yt, caption)
     await message.delete()
