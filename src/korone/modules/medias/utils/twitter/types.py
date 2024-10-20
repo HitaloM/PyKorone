@@ -9,7 +9,7 @@ from pydantic import BaseModel, Field, HttpUrl, field_validator
 
 
 class Website(BaseModel):
-    url: HttpUrl
+    url: HttpUrl | str
     display_url: str
 
 
