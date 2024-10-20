@@ -10,6 +10,21 @@
 
 .. towncrier release notes start
 
+1.1.5 (2024-10-20)
+==================
+
+Features
+--------
+
+- Added support for TikTok URLs with the `vt` subdomain in the automatic media download feature.
+- Enhanced support for Threads and BlueSky thumbnails: PyKorone now automatically resizes images to meet Telegram's requirements.
+
+Bug Fixes
+---------
+
+- Fix a validation error in the Twitter automatic media download that was causing the process to fail.
+- Fixed an issue where the automatic media download was downloading the incorrect TikTok video. Now, the bot will not download the video.
+
 1.1.4 (2024-10-12)
 ==================
 
