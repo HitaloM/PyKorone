@@ -31,7 +31,7 @@ from korone.utils.i18n import gettext as _
 from korone.utils.logging import logger
 
 URL_PATTERN = re.compile(
-    r"https:\/\/(?:m|www|vm)?\.?tiktok\.com\/((?:.*\b(?:(?:usr|v|embed|user|video|photo)\/|\?shareId=|\&item_id=)(\d+))|\w+)"
+    r"https:\/\/(?:m|www|vm|vt)?\.?tiktok\.com\/((?:.*\b(?:(?:usr|v|embed|user|video|photo)\/|\?shareId=|\&item_id=)(\d+))|\w+)"
 )
 
 
