@@ -50,14 +50,14 @@ CREATE TABLE IF NOT EXISTS Groups (
 );
 CREATE TABLE IF NOT EXISTS Afk (
     id INTEGER PRIMARY KEY,
-    state BIT,
+    state BOOLEAN,
     reason VARCHAR(64)
 );
 CREATE TABLE IF NOT EXISTS Commands (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     chat_id INTEGER,
     command VARCHAR(32),
-    state BIT,
+    state BOOLEAN,
     FOREIGN KEY(chat_id) REFERENCES Groups(id)
 );
 CREATE TABLE IF NOT EXISTS LastFM (
@@ -82,12 +82,15 @@ CREATE TABLE IF NOT EXISTS Filters (
     edited_date INTEGER NOT NULL,
     editor_id INTEGER NOT NULL,
     buttons TEXT,
-    FOREIGN KEY(chat_id) REFERENCES Groups(id)
-    FOREIGN KEY(creator_id) REFERENCES Users(id)
+    FOREIGN KEY(chat_id) REFERENCES Groups(id),
+    FOREIGN KEY(creator_id) REFERENCES Users(id),
     FOREIGN KEY(editor_id) REFERENCES Users(id)
 );
 
+CREATE INDEX IF NOT EXISTS idx_username ON Users (username);
 CREATE INDEX IF NOT EXISTS idx_chat_id ON Filters (chat_id);
+CREATE INDEX IF NOT EXISTS idx_creator_id ON Filters (creator_id);
+CREATE INDEX IF NOT EXISTS idx_editor_id ON Filters (editor_id);
 """
 
 TRANSLATIONS_URL: str = "https://weblate.amanoteam.com/projects/korone/"

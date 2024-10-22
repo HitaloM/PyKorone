@@ -23,6 +23,7 @@ from .utils.caching import cache
 from .utils.commands_list import set_ui_commands
 from .utils.i18n import i18n
 from .utils.logging import logger
+from .database.sqlite.connection import SQLite3Connection
 
 if TYPE_CHECKING:
     from hydrogram.types import User
@@ -39,7 +40,7 @@ class AppParameters:
 
 
 class Korone(Client):
-    __slots__ = ("me", "parameters")
+    __slots__ = ("me", "parameters", "db_connection")
 
     def __init__(self, parameters: AppParameters):
         super().__init__(
@@ -57,9 +58,13 @@ class Korone(Client):
 
         self.parameters = parameters
         self.me: User | None = None
+        self.db_connection: SQLite3Connection | None = None
 
     async def start(self) -> None:
         await super().start()
+
+        self.db_connection = SQLite3Connection()
+        await self.db_connection.connect()
 
         await load_all_modules(self)
         await set_ui_commands(self, i18n)
@@ -87,5 +92,7 @@ class Korone(Client):
                 await self.edit_message_text(chat_id, message_id, text)
 
     async def stop(self) -> None:
+        if self.db_connection:
+            await self.db_connection.close()
         await super().stop()
         await logger.ainfo("Korone stopped.")

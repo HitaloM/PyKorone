@@ -76,6 +76,12 @@ class Query:
     def __ge__(self, other: Any) -> Self:
         return self._new_node(lhs=self.lhs, operator=">=", rhs=other)
 
+    def join(self, other: Self, on: str, how: str = "INNER") -> Self:
+        return self._new_node(lhs=self, operator=f"{how} JOIN {other} ON {on}", rhs=None)
+
+    def subquery(self, alias: str) -> Self:
+        return self._new_node(lhs=f"({self})", operator="AS", rhs=alias)
+
     def _new_node(
         self, *, lhs: Any | None = None, operator: str | None = None, rhs: Any | None = None
     ) -> Self:
