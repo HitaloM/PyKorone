@@ -46,8 +46,14 @@ class BaseHandler:
         raise ValueError(msg)
 
     async def _fetch_locale(self, update: Update) -> str:
-        message, user = await self._extract_message_and_user(update)
+        try:
+            message, user = await self._extract_message_and_user(update)
+        except ValueError:
+            return i18n.default_locale
+
         chat = message.chat
+        if chat is None:
+            return i18n.default_locale
 
         if user and chat.type == ChatType.PRIVATE:
             return await self._fetch_locale_from_db(user)
