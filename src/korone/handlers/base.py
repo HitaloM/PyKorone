@@ -95,6 +95,9 @@ class BaseHandler:
         except ValueError:
             return None
 
+        if message.chat is None:
+            return None
+
         if isinstance(update, CallbackQuery):
             await self._store_user_or_chat(user)
         else:
@@ -201,6 +204,9 @@ class BaseHandler:
         if await self._process_migration(message):
             return
 
+        if message.chat is None:
+            return
+
         await self._process_private_and_group_messages(message)
 
         if message.chat.type not in {ChatType.GROUP, ChatType.SUPERGROUP}:
@@ -221,6 +227,9 @@ class BaseHandler:
         return bool(message.migrate_to_chat_id)
 
     async def _process_private_and_group_messages(self, message: Message) -> None:
+        if message.chat is None:
+            return
+
         if message.from_user and not message.from_user.is_bot:
             await self._store_user_or_chat(message.from_user, message.from_user.language_code)
         if message.chat.type in {ChatType.GROUP, ChatType.SUPERGROUP}:

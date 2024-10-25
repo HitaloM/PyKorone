@@ -16,4 +16,7 @@ if TYPE_CHECKING:
 
 class KoroneMessageHandler(MessageHandler, BaseHandler):
     async def check(self, client: Client, message: Message) -> None:
+        if message.chat is None:
+            return
+
         return await self._check_and_handle(client, message)
