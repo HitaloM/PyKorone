@@ -17,6 +17,6 @@ if TYPE_CHECKING:
 class KoroneCallbackQueryHandler(CallbackQueryHandler, BaseHandler):
     async def check(self, client: Client, callback: CallbackQuery) -> None:
         if callback.message.chat is None:
-            return
+            return None
 
         return await self._check_and_handle(client, callback)
