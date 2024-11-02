@@ -26,7 +26,7 @@ LOGS_CHAT = ConfigManager.get("korone", "LOGS_CHAT")
 def generate_pack_names(
     user: User, client: Client, pack_num: list, pack_name_suffix: str
 ) -> tuple[str, str]:
-    pack_title = f"@{user.username}'s kang pack v{pack_num[0]["num"]} {pack_name_suffix}"
+    pack_title = f"@{user.username}'s kang pack v{pack_num[0]['num']} {pack_name_suffix}"
     user_id_hash = hashlib.sha1(
         user.id.to_bytes((user.id.bit_length() + 7) // 8, "big")
     ).hexdigest()

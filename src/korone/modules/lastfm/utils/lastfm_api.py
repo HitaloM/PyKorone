@@ -41,7 +41,7 @@ class LastFMClient:
             error_message = "API request failed"
             try:
                 error_json = response.json()
-                error_message = f"API request failed: {error_json.get("message", "Unknown error")}"
+                error_message = f"API request failed: {error_json.get('message', 'Unknown error')}"
                 error_code = error_json.get("error")
                 error_class = ERROR_CODE_MAP.get(error_code, LastFMError)
                 raise error_class(error_message, error_code, response) from e

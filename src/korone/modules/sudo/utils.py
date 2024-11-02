@@ -42,7 +42,7 @@ def generate_changelog(commits: dict[str, dict[str, str]]) -> str:
     return (
         "<b>Changelog</b>:\n"
         + "\n".join(
-            f"  - [<code>{c_hash[:7]}</code>] {html.escape(commit["title"])}"
+            f"  - [<code>{c_hash[:7]}</code>] {html.escape(commit['title'])}"
             for c_hash, commit in commits.items()
         )
         + f"\n\n<b>New commits count</b>: <code>{len(commits)}</code>."

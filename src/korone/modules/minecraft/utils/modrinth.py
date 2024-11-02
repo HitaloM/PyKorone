@@ -158,7 +158,7 @@ class ModrinthSearch:
         if self.licenses:
             facets.append(f'["license:{",".join(self.licenses)}"]')
 
-        return f"&facets=[{",".join(facets)}]" if facets else ""
+        return f"&facets=[{','.join(facets)}]" if facets else ""
 
 
 class ModrinthVersion:

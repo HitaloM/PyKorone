@@ -70,8 +70,7 @@ def get_translation_status_message(percent_translated: int, language: str) -> st
             locale=language,
         )
     return _(
-        "\nPlease help us translate this language by completing it on "
-        "our translations platform.",
+        "\nPlease help us translate this language by completing it on our translations platform.",
         locale=language,
     )
 

@@ -48,9 +48,7 @@ async def change_command_state(client: Client, message: Message, enable: bool) -
     if command_name not in COMMANDS:
         await message.reply(
             _(
-                "Unknown command to {action}:\n"
-                "- <code>{command}</code>\n"
-                "Check the /disableable!"
+                "Unknown command to {action}:\n- <code>{command}</code>\nCheck the /disableable!"
             ).format(action=action, command=command_name)
         )
         return

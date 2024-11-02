@@ -43,17 +43,17 @@ def format_tags(item: LastFMTrack | LastFMAlbum | LastFMArtist) -> str:
     if item:
         tags_text = " ".join(
             f"#{
-                t.replace("(", "_")
-                .replace(")", "_")
-                .replace(",", "_")
-                .replace('"', "_")
-                .replace(".", "_")
-                .replace(";", "_")
-                .replace(":", "_")
-                .replace("'", "_")
-                .replace("-", "_")
-                .replace(" ", "_")
-                .replace("/", "_")
+                t.replace('(', '_')
+                .replace(')', '_')
+                .replace(',', '_')
+                .replace('"', '_')
+                .replace('.', '_')
+                .replace(';', '_')
+                .replace(':', '_')
+                .replace("'", '_')
+                .replace('-', '_')
+                .replace(' ', '_')
+                .replace('/', '_')
             }"
             for t in (tag.lower() for tag in item.tags or [])
             if any(x in ACCEPTABLE_TAGS for x in t.split(" "))

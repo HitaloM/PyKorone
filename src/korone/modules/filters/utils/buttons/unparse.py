@@ -10,7 +10,7 @@ def unparse_buttons_to_text(buttons: list[list[Button]]) -> str:
     text_rows = []
     for row in buttons:
         text_buttons = [
-            f"[{button.text}](buttonurl:{button.data}{":same" if button.same_row else ""})"
+            f"[{button.text}](buttonurl:{button.data}{':same' if button.same_row else ''})"
             for button in row
         ]
         text_rows.append(" ".join(text_buttons))

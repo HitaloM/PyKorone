@@ -52,7 +52,7 @@ async def kang_command(client: Client, message: Message) -> None:
         return
 
     file_name = Path(
-        constants.BOT_ROOT_PATH / f"downloads/{generate_random_file_path("file", file_extension)}"
+        constants.BOT_ROOT_PATH / f"downloads/{generate_random_file_path('file', file_extension)}"
     ).as_posix()
 
     file_path = await client.download_media(file_id, file_name=file_name)

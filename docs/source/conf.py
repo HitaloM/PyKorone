@@ -38,7 +38,7 @@ html_static_path = ["_static"]
 html_logo = "_static/img/korone-alone.png"
 html_theme = "furo"
 html_title = f"{project} {release} documentation"
-html_last_updated_fmt = f"{date_time.strftime("%d/%m/%Y, %H:%M:%S")} UTC"
+html_last_updated_fmt = f"{date_time.strftime('%d/%m/%Y, %H:%M:%S')} UTC"
 html_copy_source = False
 
 html_theme_options = {

@@ -101,7 +101,7 @@ def format_phone(phone: dict[str, Any]) -> str:
         if phone.get(value) and phone[value].strip() and phone[value].strip() != "-"
     ]
 
-    return f"<a href='{phone["url"]}'>{phone["name"]}</a>\n\n{"\n\n".join(attributes)}"
+    return f"<a href='{phone['url']}'>{phone['name']}</a>\n\n{'\n\n'.join(attributes)}"
 
 
 @cache(ttl=timedelta(days=1))

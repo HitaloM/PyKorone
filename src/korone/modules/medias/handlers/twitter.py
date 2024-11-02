@@ -50,7 +50,7 @@ async def handle_twitter(client: Client, message: Message) -> None:
     cached_data = await cache.get()
 
     if len(tweet.media.all_medias) > 1:
-        tweet_text += f"\n<a href='{tweet.url!s}'>{_("Open in Twitter")}</a>"
+        tweet_text += f"\n<a href='{tweet.url!s}'>{_('Open in Twitter')}</a>"
         await process_multiple_media(client, message, tweet, tweet_text, cached_data)
     else:
         sent_message = await send_media(
@@ -70,7 +70,7 @@ async def fetch_tweet_data(url: str) -> Tweet | None:
 def format_tweet_text(tweet: Tweet) -> str:
     text = f"<b>{tweet.author.name} (<code>@{tweet.author.screen_name}</code>):</b>\n"
     if tweet.text:
-        text += html.escape(f"\n{tweet.text[:900]}{"..." if len(tweet.text) > 900 else ""}\n")
+        text += html.escape(f"\n{tweet.text[:900]}{'...' if len(tweet.text) > 900 else ''}\n")
     if tweet.source:
         text += _("\n<b>Sent from:</b> <i>{source}</i>").format(source=tweet.source)
     return text

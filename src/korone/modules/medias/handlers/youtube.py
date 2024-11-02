@@ -164,9 +164,7 @@ async def download_media(download_method, url: str, message: Message) -> VideoIn
         return await download_method(url)
     except DownloadError as e:
         if "requested format is not available" in str(e).lower():
-            text = (
-                "Sorry, I am unable to download this media. " "It may exceed the 300MB size limit."
-            )
+            text = "Sorry, I am unable to download this media. It may exceed the 300MB size limit."
         else:
             text = _("Failed to download the media.")
         await message.edit(text)

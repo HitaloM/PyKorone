@@ -62,7 +62,7 @@ def extract_url(text: str) -> str | None:
 def format_caption(media_list: list, url: str) -> str:
     caption = media_list[-1].caption
     if len(media_list) > 1:
-        caption += f"\n<a href='{url}'>{_("Open in BueSky")}</a>"
+        caption += f"\n<a href='{url}'>{_('Open in BueSky')}</a>"
     return caption
 
 
