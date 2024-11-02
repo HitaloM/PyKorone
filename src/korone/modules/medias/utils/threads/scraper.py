@@ -3,7 +3,6 @@
 
 import asyncio
 import html
-import json
 import random
 import re
 import string
@@ -11,6 +10,7 @@ from collections.abc import Sequence
 from datetime import timedelta
 
 import httpx
+import orjson
 from cashews import NOT_NONE
 from hydrogram.types import InputMedia, InputMediaPhoto, InputMediaVideo
 from pydantic import ValidationError
@@ -114,7 +114,7 @@ async def get_gql_data(post_id: str) -> ThreadsData | None:
         "Sec-Fetch-Site": "same-origin",
     }
     body = {
-        "variables": json.dumps({
+        "variables": orjson.dumps({
             "first": 1,
             "postID": post_id,
             "__relay_internal__pv__BarcelonaIsLoggedInrelayprovider": False,
@@ -124,7 +124,7 @@ async def get_gql_data(post_id: str) -> ThreadsData | None:
             "__relay_internal__pv__BarcelonaOptionalCookiesEnabledrelayprovider": False,
             "__relay_internal__pv__BarcelonaIsViewCountEnabledrelayprovider": False,
             "__relay_internal__pv__BarcelonaShouldShowFediverseM075Featuresrelayprovider": False,
-        }),
+        }).decode(),
         "doc_id": "7448594591874178",
         "lsd": lsd,
     }
@@ -152,32 +152,39 @@ def get_caption(threads_data: ThreadsData) -> str:
 
 
 async def handle_carousel(post: Post) -> list[InputMedia]:
-    tasks = []
+    media_list = []
     if post.carousel_media:
         for media in post.carousel_media:
             if media.video_versions:
+                media_file = await download_media(media.video_versions[0].url)
+
+                if not media_file:
+                    continue
+
+                thumbnail = None
                 if media.image_versions2 and media.image_versions2.candidates:
-                    tasks.append(download_media(media.video_versions[0].url))
-            elif media.image_versions2 and media.image_versions2.candidates:
-                tasks.append(download_media(media.image_versions2.candidates[0].url))
-    media_files = await asyncio.gather(*tasks)
-    media_list = []
-    if media_files is not None and post.carousel_media is not None:
-        for media, media_file in zip(post.carousel_media, media_files, strict=False):
-            if media.video_versions:
+                    thumbnail_url = media.image_versions2.candidates[0].url
+                    thumbnail = await download_media(thumbnail_url)
+
+                    if thumbnail:
+                        await asyncio.to_thread(resize_thumbnail, thumbnail)
+
                 media_list.append(
                     InputMediaVideo(
                         media=media_file,
                         width=media.original_width,
                         height=media.original_height,
                         supports_streaming=True,
-                        thumb=media.image_versions2.candidates[0].url
-                        if media.image_versions2 and media.image_versions2.candidates
-                        else None,
+                        thumb=thumbnail,
                     )
                 )
-            else:
+            elif media.image_versions2 and media.image_versions2.candidates:
+                media_file = await download_media(media.image_versions2.candidates[0].url)
+                if not media_file:
+                    continue
+
                 media_list.append(InputMediaPhoto(media=media_file))
+
     return media_list
 
 
@@ -189,13 +196,11 @@ async def handle_video(post: Post) -> list[InputMediaVideo] | None:
     if not file:
         return None
 
-    thumbnail = (
-        await download_media(post.image_versions2.candidates[0].url)
-        if post.image_versions2 and post.image_versions2.candidates
-        else None
-    )
-    if thumbnail:
-        resized_thumbnail = await asyncio.to_thread(resize_thumbnail, thumbnail)
+    thumbnail = None
+    if post.image_versions2 and post.image_versions2.candidates:
+        thumbnail = await download_media(post.image_versions2.candidates[0].url)
+        if thumbnail:
+            await asyncio.to_thread(resize_thumbnail, thumbnail)
 
     if post.original_width is None or post.original_height is None:
         return None
@@ -206,15 +211,17 @@ async def handle_video(post: Post) -> list[InputMediaVideo] | None:
             width=post.original_width,
             height=post.original_height,
             supports_streaming=True,
-            thumb=resized_thumbnail,
+            thumb=thumbnail,
         )
     ]
 
 
 async def handle_image(post: Post) -> list[InputMediaPhoto] | None:
-    if post.image_versions2 and post.image_versions2.candidates:
-        file = await download_media(post.image_versions2.candidates[0].url)
-        if not file:
-            return None
+    if not post.image_versions2 or not post.image_versions2.candidates:
+        return None
 
-    return None if not file else [InputMediaPhoto(media=file)]
+    file = await download_media(post.image_versions2.candidates[0].url)
+    if not file:
+        return None
+
+    return [InputMediaPhoto(media=file)]

@@ -38,3 +38,4 @@ def resize_thumbnail(thumbnail_path: str | BytesIO | BinaryIO) -> None:
             thumbnail_path.seek(0)
             resized_img.save(thumbnail_path, "JPEG", quality=85)
             thumbnail_path.truncate()
+            thumbnail_path.seek(0)
