@@ -37,22 +37,20 @@ class BaseHandler:
         self.filters = filters
 
     @staticmethod
-    async def _extract_message_and_user(update: Update) -> tuple[Message, User]:
+    async def _extract_message_and_user(update: Update) -> tuple[Message | None, User | None]:
         if isinstance(update, CallbackQuery):
             return update.message, update.from_user
         if isinstance(update, Message):
             return update, update.from_user
-        msg = f"Invalid update type: {type(update)}"
-        raise ValueError(msg)
+        return None, None
 
     async def _fetch_locale(self, update: Update) -> str:
-        try:
-            message, user = await self._extract_message_and_user(update)
-        except ValueError:
+        message, user = await self._extract_message_and_user(update)
+        if not message or not user:
             return i18n.default_locale
 
         chat = message.chat
-        if chat is None:
+        if not chat:
             return i18n.default_locale
 
         if user and chat.type == ChatType.PRIVATE:
@@ -85,18 +83,20 @@ class BaseHandler:
 
     @staticmethod
     def _is_valid_chat(chat: User | Chat) -> bool:
-        return (isinstance(chat, User) and not chat.is_bot) or (
-            isinstance(chat, Chat) and chat.type in {ChatType.GROUP, ChatType.SUPERGROUP}
-        )
+        if isinstance(chat, User):
+            return not chat.is_bot
+        if isinstance(chat, Chat):
+            return chat.type in {ChatType.GROUP, ChatType.SUPERGROUP}
+        return False
 
     async def _process_update(self, client: Client, update: Update) -> Callable | None:
-        try:
-            message, user = await self._extract_message_and_user(update)
-        except ValueError:
+        message, user = await self._extract_message_and_user(update)
+        if not message:
             return None
 
         if isinstance(update, CallbackQuery):
-            await self._store_user_or_chat(user)
+            if user:
+                await self._store_user_or_chat(user)
         else:
             await self._process_message(message)
 
@@ -105,11 +105,7 @@ class BaseHandler:
         return None
 
     async def _validate(self, client: Client, update: Update) -> bool:
-        try:
-            message, _ = await self._extract_message_and_user(update)
-        except ValueError:
-            return False
-
+        message, _ = await self._extract_message_and_user(update)
         if not message or not callable(self.filters):
             return False
 
@@ -128,9 +124,11 @@ class BaseHandler:
 
     @staticmethod
     def _determine_table(chat: User | Chat) -> str | None:
-        if isinstance(chat, User) or chat.type == ChatType.PRIVATE:
+        if isinstance(chat, User) or (isinstance(chat, Chat) and chat.type == ChatType.PRIVATE):
             return "Users"
-        return "Groups" if chat.type in {ChatType.GROUP, ChatType.SUPERGROUP} else None
+        if isinstance(chat, Chat) and chat.type in {ChatType.GROUP, ChatType.SUPERGROUP}:
+            return "Groups"
+        return None
 
     @staticmethod
     async def _do_chat_migration(old_id: int, new_id: int) -> bool:
@@ -181,10 +179,14 @@ class BaseHandler:
     @staticmethod
     def _create_document(chat: User | Chat, language: str) -> Document:
         username = chat.username or ""
-        title = chat.title if isinstance(chat, Chat) else None
-        first_name = chat.first_name if isinstance(chat, User) else None
-        chat_type = chat.type.name.lower() if isinstance(chat, Chat) else None
-        last_name = None if isinstance(chat, Chat) else (chat.last_name or "")
+        title = getattr(chat, "title", None)
+        first_name = getattr(chat, "first_name", None)
+        chat_type = (
+            getattr(chat.type, "name", "").lower()
+            if isinstance(chat, Chat) and chat.type
+            else None
+        )
+        last_name = getattr(chat, "last_name", "") if isinstance(chat, User) else None
 
         return Document(
             id=chat.id,
@@ -203,7 +205,7 @@ class BaseHandler:
 
         await self._process_private_and_group_messages(message)
 
-        if message.chat.type not in {ChatType.GROUP, ChatType.SUPERGROUP}:
+        if not message.chat or message.chat.type not in {ChatType.GROUP, ChatType.SUPERGROUP}:
             return
 
         chats_to_update = self._extract_chats_to_update(message)
@@ -213,27 +215,29 @@ class BaseHandler:
 
     async def _process_migration(self, message: Message) -> bool:
         if message.migrate_from_chat_id:
-            return bool(
-                await self._do_chat_migration(
-                    old_id=message.migrate_from_chat_id, new_id=message.chat.id
-                )
-            )
+            new_id = message.chat.id if message.chat else 0
+            return await self._do_chat_migration(message.migrate_from_chat_id, new_id)
         return bool(message.migrate_to_chat_id)
 
     async def _process_private_and_group_messages(self, message: Message) -> None:
         if message.from_user and not message.from_user.is_bot:
             await self._store_user_or_chat(message.from_user, message.from_user.language_code)
-        if message.chat.type in {ChatType.GROUP, ChatType.SUPERGROUP}:
+        if message.chat and message.chat.type in {ChatType.GROUP, ChatType.SUPERGROUP}:
             await self._store_user_or_chat(message.chat)
 
     def _extract_chats_to_update(self, message: Message) -> list[Chat | User]:
         chats_to_update = []
-        if reply_message := message.reply_to_message:
+        reply_message = message.reply_to_message
+        if reply_message:
             chats_to_update.extend(self._extract_replied_message_chats(reply_message))
-        if message.forward_from or (
-            message.forward_from_chat and message.forward_from_chat.id != message.chat.id
-        ):
-            chats_to_update.append(message.forward_from_chat or message.forward_from)
+        forward_from_chat = message.forward_from_chat
+        forward_from = message.forward_from
+
+        if forward_from_chat and (not message.chat or forward_from_chat.id != message.chat.id):
+            chats_to_update.append(forward_from_chat)
+        if forward_from:
+            chats_to_update.append(forward_from)
+
         return chats_to_update
 
     async def _process_member_updates(self, message: Message) -> None:

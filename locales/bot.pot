@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-10-12 12:14-0300\n"
+"POT-Creation-Date: 2024-11-02 22:19-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -120,11 +120,11 @@ msgid ""
 "Check the /disableable!"
 msgstr ""
 
-#: src/korone/modules/disabling/handlers/toggle.py:60
+#: src/korone/modules/disabling/handlers/toggle.py:58
 msgid "This command is already {action}."
 msgstr ""
 
-#: src/korone/modules/disabling/handlers/toggle.py:64
+#: src/korone/modules/disabling/handlers/toggle.py:62
 msgid "Command {action}."
 msgstr ""
 
@@ -358,11 +358,11 @@ msgid ""
 "translations platform."
 msgstr ""
 
-#: src/korone/modules/languages/handlers/apply.py:92
+#: src/korone/modules/languages/handlers/apply.py:91
 msgid "🐞 Open GitHub"
 msgstr ""
 
-#: src/korone/modules/languages/handlers/apply.py:93
+#: src/korone/modules/languages/handlers/apply.py:92
 msgid "🌍 Open Translations"
 msgstr ""
 
@@ -703,8 +703,8 @@ msgstr ""
 msgid "Uploading..."
 msgstr ""
 
-#: src/korone/modules/medias/handlers/youtube.py:171
-#: src/korone/modules/medias/handlers/youtube.py:186
+#: src/korone/modules/medias/handlers/youtube.py:169
+#: src/korone/modules/medias/handlers/youtube.py:184
 msgid "Failed to download the media."
 msgstr ""
 
