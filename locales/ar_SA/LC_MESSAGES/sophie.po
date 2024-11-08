@@ -1,18 +1,22 @@
-
 msgid ""
 msgstr ""
-"Project-Id-Version:  sophiebot\n"
+"Project-Id-Version: sophiebot\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-10-17 23:38+0200\n"
-"PO-Revision-Date: 2024-10-17 21:45+0000\n"
+"POT-Creation-Date: 2024-11-08 17:23+0100\n"
+"PO-Revision-Date: 2024-11-08 18:02\n"
 "Last-Translator: \n"
-"Language: ar_SA\n"
 "Language-Team: Arabic, Saudi Arabia\n"
-"Plural-Forms: nplurals=6; plural=(n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5);\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=utf-8\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.16.0\n"
+"Plural-Forms: nplurals=6; plural=(n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5);\n"
+"X-Crowdin-Project: sophiebot\n"
+"X-Crowdin-Project-ID: 356879\n"
+"X-Crowdin-Language: ar-SA\n"
+"X-Crowdin-File: /beta/locales/sophie.pot\n"
+"X-Crowdin-File-ID: 288\n"
+"Language: ar_SA\n"
 
 #: sophie_bot/args/users.py:29
 msgid "Could not find the requested User ID in the database."
@@ -22,23 +26,23 @@ msgstr "لم يتم العثور على معرف المستخدم المطلوب
 msgid "Could not find the requested Username in the database."
 msgstr "لم يتم العثور على اسم المستخدم المطلوب في قاعدة البيانات."
 
-#: sophie_bot/args/users.py:72 types/user.py:119
+#: sophie_bot/args/users.py:72
 msgid "User: 'User ID (numeric) / Username (starts with @) / Mention (links to users)'"
 msgstr "المستخدم: 'معرف المستخدم (عددي) / اسم المستخدم (يبدأ بـ @) / ذكر (يرتبط بالمستخدمين)'"
 
-#: sophie_bot/args/users.py:72 types/user.py:121
+#: sophie_bot/args/users.py:72
 msgid "Users: 'User IDs (numeric) / Usernames (starts with @) / Mentions (links to users)'"
 msgstr "المستخدمون: 'معرفات المستخدم (عددية) / أسماء المستخدمين (تبدأ بـ @) / إشارات (ترتبط بالمستخدمين)'"
 
-#: sophie_bot/args/users.py:79 types/user.py:128
+#: sophie_bot/args/users.py:79
 msgid "User ID"
 msgstr "معرف المستخدم"
 
-#: sophie_bot/args/users.py:80 types/user.py:129
+#: sophie_bot/args/users.py:80
 msgid "Username"
 msgstr "اسم المستخدم"
 
-#: sophie_bot/args/users.py:81 types/user.py:133
+#: sophie_bot/args/users.py:81
 msgid "A link to user, usually creates by mentioning a user without username."
 msgstr "رابط إلى المستخدم، عادة ما يتم إنشاؤه من خلال ذكر مستخدم دون اسم مستخدم."
 
@@ -683,55 +687,50 @@ msgid "Softly whispering."
 msgstr "همسًا برفق."
 
 #: sophie_bot/modules/greetings/__init__.py:20
-#, fuzzy
 msgid "Greetings"
-msgstr "اتحادات"
+msgstr "تحيات"
 
 #: sophie_bot/modules/greetings/__init__.py:22
-msgid ""
-"This module helps you to welcome new users automatically, while keeping the chat clean.\n"
+msgid "This module helps you to welcome new users automatically, while keeping the chat clean.\n"
 "If you want to enforce captcha / rules verification, please see 'Welcome Security' module instead."
-msgstr ""
+msgstr "تساعدك هذه الوحدة على استقبال المستخدمين الجدد تلقائيًا، مع الحفاظ على نظافة الدردشة.\n"
+"إذا كنت ترغب في فرض التحقق من الكابتشا أو القواعد، فيرجى الاطلاع على وحدة 'أمان الترحيب' بدلاً من ذلك."
 
 #: sophie_bot/modules/greetings/default_welcome.py:9
 msgid "Hi {mentions}! Welcome in the group."
-msgstr ""
+msgstr "مرحبًا {mentions}! أهلاً بك في المجموعة."
 
 #: sophie_bot/modules/greetings/default_welcome.py:10
-#, fuzzy
 msgid "Group rules"
-msgstr "قواعد"
+msgstr "قواعد المجموعة"
 
 #: sophie_bot/modules/greetings/default_welcome.py:10
 msgid "There are no rules in this group, have fun!"
-msgstr ""
+msgstr "لا توجد قواعد في هذه المجموعة، استمتع!"
 
 #: sophie_bot/modules/greetings/handlers/enablewelcome.py:11
 msgid "Shows / changes the state of sending greetings"
-msgstr ""
+msgstr "يعرض / يغير حالة إرسال التحيات"
 
 #: sophie_bot/modules/greetings/handlers/enablewelcome.py:13
-#, fuzzy
 msgid "Welcome messages"
-msgstr "🗑 حذف الرسالة"
+msgstr "رسائل الترحيب"
 
 #: sophie_bot/modules/greetings/handlers/status_cleanservice.py:11
 msgid "Shows / changes the state of automatic service messages cleanup."
-msgstr ""
+msgstr "يعرض / يغير حالة تنظيف الرسائل الخدمية التلقائية."
 
 #: sophie_bot/modules/greetings/handlers/status_cleanservice.py:13
-#, fuzzy
 msgid "Automatic service messages cleanup"
-msgstr "🗑 حذف الرسالة"
+msgstr "تنظيف الرسائل الخدمية التلقائية"
 
 #: sophie_bot/modules/greetings/handlers/status_cleanwelcome.py:11
 msgid "Shows / changes the state of automatic welcome messages cleanup."
-msgstr ""
+msgstr "يعرض / يغير حالة تنظيف رسائل الترحيب التلقائية."
 
 #: sophie_bot/modules/greetings/handlers/status_cleanwelcome.py:13
-#, fuzzy
 msgid "Automatic welcome messages cleanup"
-msgstr "🗑 حذف الرسالة"
+msgstr "تنظيف رسائل الترحيب التلقائية"
 
 #: sophie_bot/modules/greetings/handlers/status_greetings.py:17
 #: sophie_bot/modules/notes/handlers/save.py:25
@@ -740,107 +739,95 @@ msgid "Content"
 msgstr "محتوى"
 
 #: sophie_bot/modules/greetings/handlers/status_greetings.py:18
-#, fuzzy
 msgid "Sets welcome message."
-msgstr "🗑 حذف الرسالة"
+msgstr "يحدد رسالة الترحيب."
 
 #: sophie_bot/modules/greetings/handlers/status_greetings.py:33
-#, fuzzy
 msgid "Please the '{cmd}' to control the welcome status."
-msgstr "يرجى استخدام \"{cmd}\" لتنشيطها."
+msgstr "يرجى استخدام '{cmd}' للتحكم في حالة الترحيب."
 
 #: sophie_bot/modules/greetings/handlers/status_greetings.py:43
-#, fuzzy
 msgid "Welcome message was successfully updated in {chat_title}."
-msgstr "تم تحديث الملاحظة بنجاح"
+msgstr "تم تحديث رسالة الترحيب بنجاح في {chat_title}."
 
 #: sophie_bot/modules/greetings/handlers/status_greetings.py:45
-#, fuzzy
 msgid "Use {cmd} to retrieve the welcome message."
-msgstr "استخدم {cmd} لاسترجاع هذه الملاحظة."
+msgstr "استخدم {cmd} لاسترجاع رسالة الترحيب."
 
 #: sophie_bot/modules/greetings/handlers/status_greetings.py:51
 msgid "⚠️ Please note, that the welcome messages are currently disabled in the chat, use '{cmd}' to enable it."
-msgstr ""
+msgstr "⚠️ يُرجى ملاحظة أن رسائل الترحيب معطلة حاليًا في الدردشة، استخدم '{cmd}' لتمكينها."
 
 #: sophie_bot/modules/greetings/handlers/status_overall.py:17
 msgid "Shows welcome settings"
-msgstr ""
+msgstr "يعرض إعدادات الترحيب"
 
 #: sophie_bot/modules/greetings/handlers/status_overall.py:21
 msgid "Yes"
-msgstr ""
+msgstr "أجل"
 
 #: sophie_bot/modules/greetings/handlers/status_overall.py:21
 msgid "No"
-msgstr ""
+msgstr "لا"
 
 #: sophie_bot/modules/greetings/handlers/status_overall.py:34
 msgid "Greet new users"
-msgstr ""
+msgstr "قم بتحية المستخدمين الجدد"
 
 #: sophie_bot/modules/greetings/handlers/status_overall.py:36
-#, fuzzy
 msgid "Clean welcome messages"
-msgstr "🗑 حذف الرسالة"
+msgstr "تنظيف رسائل الترحيب"
 
 #: sophie_bot/modules/greetings/handlers/status_overall.py:40
-#, fuzzy
 msgid "Clean service messages"
-msgstr "🗑 حذف الرسالة"
+msgstr "تنظيف الرسائل الخدمية"
 
 #: sophie_bot/modules/greetings/handlers/status_overall.py:43
-#, fuzzy
 msgid "Welcome Settings"
-msgstr "🗑 حذف الرسالة"
+msgstr "إعدادات الترحيب"
 
 #: sophie_bot/modules/greetings/handlers/status_overall.py:45
 msgid "Use {cmd} to Disable / Enable new users greetings"
-msgstr ""
+msgstr "استخدم {cmd} لتعطيل / تمكين تحيات المستخدمين الجدد"
 
 #: sophie_bot/modules/greetings/handlers/status_overall.py:46
-#, fuzzy
 msgid "Use {cmd} to set custom welcome message"
-msgstr "استخدم {cmd} لاسترجاع هذه الملاحظة."
+msgstr "استخدم {cmd} لتعيين رسالة ترحيب مخصصة"
 
 #: sophie_bot/modules/greetings/handlers/status_overall.py:47
-#, fuzzy
 msgid "Use {cmd} to retrieve Welcome Security settings"
-msgstr "استخدم {cmd} لاسترجاع هذه الملاحظة."
+msgstr "استخدم {cmd} لاسترجاع إعدادات أمان الترحيب"
 
 #: sophie_bot/modules/greetings/handlers/status_overall.py:48
 #: sophie_bot/modules/welcomesecurity/handlers/status_overall.py:74
 msgid "Check out {cmd} to learn more about Welcome settings."
-msgstr ""
+msgstr "تحقق من {cmd} لمعرفة المزيد حول إعدادات الترحيب."
 
 #: sophie_bot/modules/greetings/handlers/status_overall.py:52
-#, fuzzy
 msgid "Welcome Message"
-msgstr "🗑 حذف الرسالة"
+msgstr "رسالة الترحيب"
 
 #: sophie_bot/modules/greetings/handlers/status_overall.py:55
 #: sophie_bot/modules/greetings/utils/send_welcome.py:17
 #: sophie_bot/modules/welcomesecurity/handlers/status_overall.py:81
-#, fuzzy
 msgid "No chat rules, have fun!"
-msgstr "تم إعادة تعيين ذاكرة حقوق المدير."
+msgstr "لا توجد قواعد دردشة، استمتع!"
 
 #: sophie_bot/modules/greetings/middlewares/new_user.py:53
 msgid "Hi, Thank you for choosing Sophie for your group!"
-msgstr ""
+msgstr "مرحبًا، شكرًا لاختيارك صوفي لمجموعتك!"
 
 #: sophie_bot/modules/greetings/middlewares/new_user.py:54
 msgid "Please read the documentation to learn more about Sophie and do not hesitate to join the Support Chat"
-msgstr ""
+msgstr "يرجى قراءة الوثائق لمعرفة المزيد عن صوفي ولا تتردد في الانضمام إلى دردشة الدعم"
 
 #: sophie_bot/modules/greetings/middlewares/new_user.py:59
 msgid "Documentation"
-msgstr ""
+msgstr "الوثائق"
 
 #: sophie_bot/modules/greetings/middlewares/new_user.py:60
-#, fuzzy
 msgid "Support Chat"
-msgstr "💬 دردشة الدعم"
+msgstr "دردشة الدعم"
 
 #: sophie_bot/modules/help/__init__.py:20
 #: sophie_bot/modules/help/handlers/pm_modules.py:41
@@ -1424,14 +1411,12 @@ msgid "Cannot find the note with this name. Please make sure it exists and try a
 msgstr "لا يمكنني العثور على الملاحظة بهذا الاسم. يرجى التأكد من وجودها وحاول مرة أخرى."
 
 #: sophie_bot/modules/notes/magic_handlers/filter.py:57
-#, fuzzy
 msgid "Reply filter"
-msgstr "مرشحات"
+msgstr "مرشح الرد"
 
 #: sophie_bot/modules/notes/magic_handlers/filter.py:72
-#, fuzzy
 msgid "Now, please type the text you want to automatically send. It supports buttons and custom formatting."
-msgstr "الآن، يرجى كتابة اسم الملاحظة التي تريد إرسالها تلقائيًا."
+msgstr "الآن، يرجى كتابة النص الذي تريد إرساله تلقائيًا. يدعم الأزرار والتنسيق المخصص."
 
 #: sophie_bot/modules/notes/magic_handlers/filter.py:86
 msgid "💭 Reply to message"
@@ -1466,9 +1451,8 @@ msgid "Note is too long."
 msgstr "الملاحظة طويلة جدًا."
 
 #: sophie_bot/modules/notes/utils/send.py:92
-#, fuzzy
 msgid "The text is too long"
-msgstr "الملاحظة طويلة جدًا."
+msgstr "النص طويل جدًا"
 
 #: sophie_bot/modules/privacy/__init__.py:17
 msgid "Privacy"
@@ -1503,71 +1487,64 @@ msgid "Privacy Policy"
 msgstr "سياسة الخصوصية"
 
 #: sophie_bot/modules/promotes/__init__.py:7
-#, fuzzy
 msgid "Promotes"
-msgstr "تنبيه"
+msgstr "ترقيات"
 
 #: sophie_bot/modules/promotes/handlers/demote.py:22
-#, fuzzy
 msgid "Demotes the user from admins."
-msgstr "يقلل رتبة المستخدم من مشرفي الاتحاد."
+msgstr "يقلل رتبة المستخدم من المشرفين."
 
 #: sophie_bot/modules/promotes/handlers/demote.py:45
 msgid "I cannot demote myself."
-msgstr ""
+msgstr "لا أستطيع خفض رتبتي."
 
 #: sophie_bot/modules/promotes/handlers/demote.py:48
 msgid "You cannot demote yourself."
-msgstr ""
+msgstr "لا يمكنك خفض رتبتك."
 
 #: sophie_bot/modules/promotes/handlers/demote.py:67
 msgid "Demoted by"
-msgstr ""
+msgstr "خفضت رتبتك بواسطة"
 
 #: sophie_bot/modules/promotes/handlers/demote.py:68
 msgid "User demoted successfully"
-msgstr ""
+msgstr "تم خفض رتبة المستخدم بنجاح"
 
 #: sophie_bot/modules/promotes/handlers/promote.py:23
-#, fuzzy
 msgid "Promotes the user to admins."
-msgstr "يرتقي بالمستخدم إلى مشرفي الاتحاد."
+msgstr "يرتقي بالمستخدم إلى مشرفين."
 
 #: sophie_bot/modules/promotes/handlers/promote.py:40
-#, fuzzy
 msgid "?Admin title"
-msgstr "وقت الإجراء"
+msgstr "?عنوان المدير"
 
 #: sophie_bot/modules/promotes/handlers/promote.py:55
 msgid "I cannot promote myself."
-msgstr ""
+msgstr "لا أستطيع ترقيتي."
 
 #: sophie_bot/modules/promotes/handlers/promote.py:58
 msgid "You cannot promote yourself."
-msgstr ""
+msgstr "لا يمكنك ترقية نفسك."
 
 #: sophie_bot/modules/promotes/handlers/promote.py:61
-#, fuzzy
 msgid "Admin title is too long."
-msgstr "الملاحظة طويلة جدًا."
+msgstr "عنوان المدير طويل جدًا."
 
 #: sophie_bot/modules/promotes/handlers/promote.py:85
 msgid "Promoted by"
-msgstr ""
+msgstr "تمت ترقيتك بواسطة"
 
 #: sophie_bot/modules/promotes/handlers/promote.py:86
-#, fuzzy
 msgid "Admin title"
-msgstr "وقت الإجراء"
+msgstr "عنوان المدير"
 
 #: sophie_bot/modules/promotes/handlers/promote.py:86
 msgid "No admin title"
-msgstr ""
+msgstr "لا يوجد عنوان مدير"
 
 #: sophie_bot/modules/promotes/handlers/promote.py:87
-#, fuzzy
 msgid "Admin promoted successfully"
-msgstr "تم تحديث الملاحظة بنجاح"
+msgstr "تمت ترقية المدير بنجاح"
 
 #: sophie_bot/modules/rules/__init__.py:11
 #: sophie_bot/modules/rules/handlers/get.py:34
@@ -1577,52 +1554,46 @@ msgid "Rules"
 msgstr "قواعد"
 
 #: sophie_bot/modules/rules/handlers/get.py:16
-#, fuzzy
 msgid "Gets chat rules"
-msgstr "يحدد قواعد الدردشة."
+msgstr "يسترجع قواعد الدردشة"
 
 #: sophie_bot/modules/rules/handlers/get.py:27
 msgid "Private chats can not have rules. Have fun."
-msgstr ""
+msgstr "لا يمكن أن تحتوي الدردشات الخاصة على قواعد. استمتع."
 
 #: sophie_bot/modules/rules/handlers/get.py:32
 #: sophie_bot/modules/rules/handlers/legacy_button.py:31
 #: sophie_bot/modules/rules/magic_handlers/filter.py:14
 msgid "No rules are set for this chat."
-msgstr ""
+msgstr "لم يتم تعيين قواعد لهذه الدردشة."
 
 #: sophie_bot/modules/rules/handlers/legacy_button.py:31
 msgid "Rules button failed"
-msgstr ""
+msgstr "فشل زر القواعد"
 
 #: sophie_bot/modules/rules/handlers/reset.py:15
-#, fuzzy
 msgid "Resets chat rules to default settings."
-msgstr "يعيد ضبط قواعد الدردشة."
+msgstr "يعيد تعيين قواعد الدردشة إلى الإعدادات الافتراضية."
 
 #: sophie_bot/modules/rules/handlers/reset.py:25
-#, fuzzy
 msgid "🗑 Chat rules have been reset."
-msgstr "تم إعادة تعيين ذاكرة حقوق المدير."
+msgstr "🗑 تم إعادة تعيين قواعد الدردشة."
 
 #: sophie_bot/modules/rules/handlers/set.py:18
-#, fuzzy
 msgid "Sets chat rules"
-msgstr "يحدد قواعد الدردشة."
+msgstr "يحدد قواعد الدردشة"
 
 #: sophie_bot/modules/rules/handlers/set.py:38
-#, fuzzy
 msgid "🪧 Rules have been set in {chat_name} successfully."
-msgstr "تم الاتصال بالدردشة {chat_name} بنجاح!"
+msgstr "🪧 تم تعيين القواعد في {chat_name} بنجاح."
 
 #: sophie_bot/modules/rules/magic_handlers/filter.py:14
 msgid "Rules filter failed"
-msgstr ""
+msgstr "فشل فلتر القواعد"
 
 #: sophie_bot/modules/rules/magic_handlers/filter.py:29
-#, fuzzy
 msgid "🪧 Send chat rules"
-msgstr "يعيد ضبط قواعد الدردشة."
+msgstr "🪧 أرسل قواعد الدردشة"
 
 #: sophie_bot/modules/troubleshooters/__init__.py:17
 msgid "Troubleshooters"
@@ -1711,122 +1682,112 @@ msgid "The message is inaccessible. Please write the command again"
 msgstr "الرسالة غير متاحة. يرجى كتابة الأمر مرة أخرى"
 
 #: sophie_bot/modules/utils_/status_handler.py:28
-#, fuzzy
 msgid "?New status"
-msgstr "حالة جديدة"
+msgstr "?حالة جديدة"
 
 #: sophie_bot/modules/utils_/status_handler.py:61
-#, fuzzy
 msgid "The current status is already {state}"
-msgstr "تم مسح الحالة الحالية."
+msgstr "الحالة الحالية هي بالفعل {state}"
 
 #: sophie_bot/modules/utils_/status_handler.py:68
-#, fuzzy
 msgid "The state was successfully changed"
-msgstr "تم إنشاء الملاحظة بنجاح"
+msgstr "تم تغيير الحالة بنجاح"
 
 #: sophie_bot/modules/welcomesecurity/__init__.py:25
 msgid "Welcome Security"
-msgstr ""
+msgstr "أمان الترحيب"
 
 #: sophie_bot/modules/welcomesecurity/__init__.py:27
 msgid "Welcome Security contains a bunch of tools that can help filter bots that tries to join your groups, as well as make sure the new users acknowledged the chat rules before being able to speak"
-msgstr ""
+msgstr "تحتوي أمان الترحيب على مجموعة من الأدوات التي يمكن أن تساعد في تصفية الروبوتات التي تحاول الانضمام إلى مجموعاتك، وكذلك التأكد من أن المستخدمين الجدد قد أقروا قواعد الدردشة قبل أن يتمكنوا من التحدث"
 
 #: sophie_bot/modules/welcomesecurity/handlers/captcha_get.py:60
 msgid "Complete the '{emoji_name}' emoji in order to complete the captcha and participate in the {group_name}."
-msgstr ""
+msgstr "أكمل رمز '{emoji_name}' لإكمال الكابتشا والمشاركة في {group_name}."
 
 #: sophie_bot/modules/welcomesecurity/handlers/captcha_get.py:69
 msgid "❌ Incorrect solution. Please, try again."
-msgstr ""
+msgstr "❌ الحل غير صحيح. يرجى المحاولة مرة أخرى."
 
 #: sophie_bot/modules/welcomesecurity/handlers/enable_welcomemute.py:26
 msgid "Shows / changes the state of Welcome Restrict (Media restricting)."
-msgstr ""
+msgstr "يعرض / يغير حالة تقييد الترحيب (تقييد الوسائط)."
 
 #: sophie_bot/modules/welcomesecurity/handlers/enable_welcomemute.py:27
 msgid "?New status or restrict time"
-msgstr ""
+msgstr "?حالة جديدة أو وقت التقييد"
 
 #: sophie_bot/modules/welcomesecurity/handlers/enable_welcomemute.py:30
 msgid "Welcome Mute (Automatic new users media restricting)"
-msgstr ""
+msgstr "كتم الترحيب (تقييد الوسائط تلقائيًا للمستخدمين الجدد)"
 
 #: sophie_bot/modules/welcomesecurity/handlers/enable_welcomemute.py:36
-#, fuzzy
 msgid "? Action time"
-msgstr "وقت الإجراء"
+msgstr "? وقت الإجراء"
 
 #: sophie_bot/modules/welcomesecurity/handlers/enable_welcomemute.py:55
 msgid "Enabled, set to {time}"
-msgstr ""
+msgstr "مفعل، تعيين إلى {time}"
 
 #: sophie_bot/modules/welcomesecurity/handlers/enable_ws.py:11
 msgid "Shows / changes the state of Welcome Captcha."
-msgstr ""
+msgstr "يعرض / يغير حالة كابتشا الترحيب."
 
 #: sophie_bot/modules/welcomesecurity/handlers/enable_ws.py:13
-#, fuzzy
 msgid "Welcome Captcha"
-msgstr "🗑 حذف الرسالة"
+msgstr "كابتشا الترحيب"
 
 #: sophie_bot/modules/welcomesecurity/handlers/legacy_button.py:36
 msgid "It seems like you are not belong to the chat anymore. Are you sure you joined the group?"
-msgstr ""
+msgstr "يبدو أنك لم تعد جزءًا من الدردشة. هل أنت متأكد أنك انضمت إلى المجموعة؟"
 
 #: sophie_bot/modules/welcomesecurity/handlers/legacy_button.py:42
 msgid "You already an admin in the chat, therefore you don't need to pass the authentication!"
-msgstr ""
+msgstr "أنت بالفعل مدير في الدردشة، لذلك لا تحتاج إلى اجتياز المصادقة!"
 
 #: sophie_bot/modules/welcomesecurity/handlers/legacy_button.py:47
 msgid "It seems like you do not have to pass the welcome security authentication"
-msgstr ""
+msgstr "يبدو أنك لا تحتاج إلى اجتياز مصادقة أمان الترحيب"
 
 #: sophie_bot/modules/welcomesecurity/handlers/status_overall.py:24
-#, fuzzy
 msgid "Shows Welcome Security settings"
-msgstr "استخدم {cmd} لاسترجاع هذه الملاحظة."
+msgstr "يعرض إعدادات أمان الترحيب"
 
 #: sophie_bot/modules/welcomesecurity/handlers/status_overall.py:42
 msgid "Captcha"
-msgstr ""
+msgstr "كابتشا"
 
 #: sophie_bot/modules/welcomesecurity/handlers/status_overall.py:45
 msgid "Enabled, expires in {time}"
-msgstr ""
+msgstr "مفعل، تنتهي في {time}"
 
 #: sophie_bot/modules/welcomesecurity/handlers/status_overall.py:59
-#, fuzzy
 msgid "Media restriction"
-msgstr "قيود"
+msgstr "تقييد الوسائط"
 
 #: sophie_bot/modules/welcomesecurity/handlers/status_overall.py:62
 msgid "Enabled, on {time}"
-msgstr ""
+msgstr "مفعل، في {time}"
 
 #: sophie_bot/modules/welcomesecurity/handlers/status_overall.py:72
-#, fuzzy
 msgid "Use {cmd} to control Welcome Captcha"
-msgstr "استخدم {cmd} لاسترجاع هذه الملاحظة."
+msgstr "استخدم {cmd} للتحكم بكابتشا الترحيب"
 
 #: sophie_bot/modules/welcomesecurity/handlers/status_overall.py:73
-#, fuzzy
 msgid "Use {cmd} to control Media restriction"
-msgstr "استخدم {cmd} لاسترجاع هذه الملاحظة."
+msgstr "استخدم {cmd} للتحكم في تقييد الوسائط"
 
 #: sophie_bot/modules/welcomesecurity/handlers/status_overall.py:78
-#, fuzzy
 msgid "Welcome Security message"
-msgstr "🗑 حذف الرسالة"
+msgstr "رسالة أمان الترحيب"
 
 #: sophie_bot/modules/welcomesecurity/utils_/captcha_done.py:31
 msgid "You're all set, and can now participate in the conversation"
-msgstr ""
+msgstr "أنت مستعد تمامًا ويمكنك الآن المشاركة في المحادثة"
 
 #: sophie_bot/modules/welcomesecurity/utils_/captcha_done.py:36
 msgid "Due to group's security policy, you were restricted to send media for the next {time}"
-msgstr ""
+msgstr "بسبب سياسة أمان المجموعة، تم تقييدك من إرسال الوسائط لمدة {time} القادمة"
 
 #: exceptions.py:33
 msgid "Examples"
@@ -2065,99 +2026,23 @@ msgstr "حدث خطأ غير متوقع أثناء محاولة الحصول ع�
 msgid "Could not find the user mention"
 msgstr "لم يتم العثور على إشارة المستخدم"
 
-#~ msgid "Shows the rules."
-#~ msgstr "يعرض القواعد."
+#: types/user.py:119
+msgid "User: 'User ID (numeric) / Username (starts with @) / Mention (links to users)'"
+msgstr "المستخدم: 'معرف المستخدم (رقمي) / اسم المستخدم (يبدأ بـ @) / الإشارة (روابط إلى المستخدمين)'"
 
-#~ msgid "Greetings"
-#~ msgstr "تحيات"
+#: types/user.py:121
+msgid "Users: 'User IDs (numeric) / Usernames (starts with @) / Mentions (links to users)'"
+msgstr "المستخدمون: 'معرفات المستخدم (عددية) / أسماء المستخدمين (تبدأ بـ @) / الإشارات (روابط إلى المستخدمين)'"
 
-#~ msgid "Shows the current welcome."
-#~ msgstr "يعرض الترحيب الحالي."
+#: types/user.py:128
+msgid "User ID"
+msgstr "معرف المستخدم"
 
-#~ msgid "Sets the welcome message."
-#~ msgstr "يحدد رسالة الترحيب."
+#: types/user.py:129
+msgid "Username"
+msgstr "اسم المستخدم"
 
-#~ msgid "Message"
-#~ msgstr "رسالة"
-
-#~ msgid "Resets the welcome message."
-#~ msgstr "يعيد ضبط رسالة الترحيب."
-
-#~ msgid "Controls the automatic welcome cleanup"
-#~ msgstr "يتحكم في تنظيف الترحيب التلقائي"
-
-#~ msgid "New status"
-#~ msgstr "حالة جديدة"
-
-#~ msgid "Controls the automatic service messages cleanup"
-#~ msgstr "يتحكم في تنظيف الرسائل الخدمية التلقائية"
-
-#~ msgid "Restricts new users from sending media"
-#~ msgstr "يمنع المستخدمين الجدد من إرسال الوسائط"
-
-#~ msgid "Time"
-#~ msgstr "الوقت"
-
-#~ msgid "Controls the welcome captcha"
-#~ msgstr "يتحكم في كابتشا الترحيب"
-
-#~ msgid "Sets the specific message for the captcha initiation process"
-#~ msgstr "يحدد الرسالة المحددة لعملية بدء الكابتشا"
-
-#~ msgid "Resets the captcha initiation process message"
-#~ msgstr "يعيد ضبط رسالة بدء عملية الكابتشا"
-
-#~ msgid "Promotes"
-#~ msgstr "ترقيات"
-
-#~ msgid "Promotes the user to admins."
-#~ msgstr "يرتقي بالمستخدم إلى مشرفين."
-
-#~ msgid "Demotes the user from admins."
-#~ msgstr "يقلل رتبة المستخدم من المشرفين."
-
-#~ msgid "I cannot find the user."
-#~ msgstr "لم يتم العثور على إشارة المستخدم"
-
-#~ msgid "Shows / changes the state of sending welcome messages"
-#~ msgstr ""
-
-#~ msgid ""
-#~ "This module helps you to welcome new users automatically, while keeping the chat clean.\n"
-#~ "If you want to enforce captcha / rules verification, please see 'Welcome Security' module instead"
-#~ msgstr ""
-
-#~ msgid "Welcome security is disabled in this chat!"
-#~ msgstr ""
-
-#~ msgid "Hi {mention}! Welcome here."
-#~ msgstr ""
-
-#~ msgid ""
-#~ "Hi {mention}! Welcome to the {chatname}!\n"
-#~ "⬇️Please click the button below to participate in the group.[I am not a bot!](btnwelcomesecurity)️"
-#~ msgstr ""
-
-#~ msgid "Hi {mentions}! Welcome here."
-#~ msgstr ""
-
-#~ msgid ""
-#~ "Hi {mentions}! Welcome to the {chatname}!\n"
-#~ "⬇️Please click the button below to participate in the group.[I am not a bot!](btnwelcomesecurity)️"
-#~ msgstr ""
-
-#~ msgid "Before participating in the group, please rules the rules"
-#~ msgstr ""
-
-#~ msgid "✅ I agree"
-#~ msgstr ""
-
-#~ msgid "Shows / changes the state of Welcome Mute (Automatic new users media restricting)."
-#~ msgstr ""
-
-#~ msgid "Shows / changes the state of Welcome Security (Welcome Captcha)."
-#~ msgstr ""
-
-#~ msgid "Welcome Security (Welcome Captcha)"
-#~ msgstr ""
+#: types/user.py:133
+msgid "A link to user, usually creates by mentioning a user without username."
+msgstr "رابط إلى المستخدم، غالباً ما يتم إنشاؤه عن طريق الإشارة إلى مستخدم بدون اسم مستخدم."
 
