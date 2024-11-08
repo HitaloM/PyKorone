@@ -1465,7 +1465,7 @@ msgstr "يرجى محاولة تقليل طول الملاحظة."
 msgid "Note is too long."
 msgstr "الملاحظة طويلة جدًا."
 
-#: sophie_bot/modules/notes/utils/send.py:87
+#: sophie_bot/modules/notes/utils/send.py:92
 #, fuzzy
 msgid "The text is too long"
 msgstr "الملاحظة طويلة جدًا."

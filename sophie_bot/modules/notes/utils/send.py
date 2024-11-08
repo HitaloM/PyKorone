@@ -18,7 +18,12 @@ from aiogram.methods import (
     SendVoice,
     TelegramMethod,
 )
-from aiogram.types import InlineKeyboardMarkup, Message, ReplyParameters
+from aiogram.types import (
+    InlineKeyboardMarkup,
+    LinkPreviewOptions,
+    Message,
+    ReplyParameters,
+)
 from stfu_tg.doc import Element
 
 from sophie_bot import bot
@@ -100,6 +105,9 @@ async def send_saveable(
     if content_type == ContentType.TEXT:
         kwargs["text"] = text
         kwargs["reply_markup"] = inline_markup
+
+        # TODO: Settings?
+        kwargs["link_preview_options"] = LinkPreviewOptions(is_disabled=True)
     elif content_type in SUPPORTS_CAPTION:
         kwargs["caption"] = text
         kwargs["reply_markup"] = inline_markup

@@ -1465,7 +1465,7 @@ msgstr "请尝试减小笔记的长度。"
 msgid "Note is too long."
 msgstr "笔记过长。"
 
-#: sophie_bot/modules/notes/utils/send.py:87
+#: sophie_bot/modules/notes/utils/send.py:92
 #, fuzzy
 msgid "The text is too long"
 msgstr "笔记过长。"
