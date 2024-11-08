@@ -11,7 +11,7 @@ from sophie_bot.utils.i18n import lazy_gettext as l_
 @flags.help(description=l_("Shows / changes the state of sending greetings"))
 class EnableWelcomeHandlerABC(StatusBoolHandlerABC):
     header_text = l_("Welcome messages")
-    change_command = "welcome"
+    change_command = "enablewelcome"
 
     @staticmethod
     def filters() -> tuple[CallbackType, ...]:

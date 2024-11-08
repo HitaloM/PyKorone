@@ -8,14 +8,14 @@ from sophie_bot.modules.utils_.status_handler import StatusBoolHandlerABC
 from sophie_bot.utils.i18n import lazy_gettext as l_
 
 
-@flags.help(description=l_("Shows / changes the state of Welcome Security (Welcome Captcha)."))
-class EnableWSHandlerABC(StatusBoolHandlerABC):
-    header_text = l_("")
-    change_command = "/enablewelcomesecurity"
+@flags.help(description=l_("Shows / changes the state of Welcome Captcha."))
+class EnableWelcomeCaptchaHandlerABC(StatusBoolHandlerABC):
+    header_text = l_("Welcome Captcha")
+    change_command = "enablewelcomecaptcha"
 
     @staticmethod
     def filters() -> tuple[CallbackType, ...]:
-        return CMDFilter("enablewelcomesecurity"), UserRestricting(admin=True)
+        return CMDFilter("enablewelcomecaptcha"), UserRestricting(admin=True)
 
     async def get_status(self) -> bool:
         chat_id = self.connection.id

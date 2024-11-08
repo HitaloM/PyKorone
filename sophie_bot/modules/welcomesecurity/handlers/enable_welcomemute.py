@@ -4,7 +4,7 @@ from typing import Literal, Optional
 from aiogram import flags
 from aiogram.dispatcher.event.handler import CallbackType
 from aiogram.types import Message
-from ass_tg.types import ActionTimeArg, BooleanArg, OptionalArg, OrArg
+from ass_tg.types import ActionTimeArg, BooleanArg, OptionalArg, OrArg, TextArg
 from ass_tg.types.base_abc import ArgFabric
 from babel.dates import format_timedelta
 from stfu_tg import Italic, Template
@@ -22,10 +22,13 @@ from sophie_bot.utils.i18n import gettext as _
 from sophie_bot.utils.i18n import lazy_gettext as l_
 
 
-@flags.help(description=l_("Shows / changes the state of Welcome Mute (Automatic new users media restricting)."))
+@flags.help(
+    description=l_("Shows / changes the state of Welcome Restrict (Media restricting)."),
+    args={"NewStatus": TextArg(l_("?New status or restrict time"))},
+)
 class EnableWelcomeMute(StatusHandlerABC[timedelta | str | Literal[False]]):
     header_text = l_("Welcome Mute (Automatic new users media restricting)")
-    change_command = "welcomemute"
+    change_command = "welcomerestrict"
     change_args = "off / 12h / 2d / 1w"
 
     @classmethod
@@ -34,7 +37,7 @@ class EnableWelcomeMute(StatusHandlerABC[timedelta | str | Literal[False]]):
 
     @staticmethod
     def filters() -> tuple[CallbackType, ...]:
-        return CMDFilter("welcomemute"), UserRestricting(admin=True)
+        return CMDFilter("welcomerestrict"), UserRestricting(admin=True)
 
     def status_text(self, status_data: timedelta | str | bool) -> Element | str:
         locale = self.current_locale

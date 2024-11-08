@@ -17,14 +17,18 @@ class CleanService(BaseModel):
     enabled: bool = False
 
 
+WELCOMEMUTE_DEFALT_VALUE = "48h"
+WELCOMESECURITY_EXPIRE_DEFALT_VALUE = "48h"
+
+
 class WelcomeMute(BaseModel):
     enabled: bool = False
-    time: Optional[str | timedelta] = "48h"  # TODO: convert to datetime
+    time: Optional[str | timedelta] = WELCOMEMUTE_DEFALT_VALUE  # TODO: convert to datetime
 
 
 class WelcomeSecurity(BaseModel):
     enabled: bool = False
-    expire: Optional[str] = None  # TODO: convert to datetime
+    expire: Optional[str] = WELCOMESECURITY_EXPIRE_DEFALT_VALUE  # TODO: convert to datetime
 
 
 class GreetingsModel(Document):

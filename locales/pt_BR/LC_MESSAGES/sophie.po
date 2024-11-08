@@ -151,7 +151,9 @@ msgstr "Ativado"
 #: sophie_bot/modules/ai/handlers/enable_setting.py:38
 #: sophie_bot/modules/notes/handlers/pmnotes_setting.py:37
 #: sophie_bot/modules/utils_/status_handler.py:85
-#: sophie_bot/modules/welcomesecurity/handlers/enable_welcomemute.py:46
+#: sophie_bot/modules/welcomesecurity/handlers/enable_welcomemute.py:49
+#: sophie_bot/modules/welcomesecurity/handlers/status_overall.py:54
+#: sophie_bot/modules/welcomesecurity/handlers/status_overall.py:69
 msgid "Disabled"
 msgstr "Desativado"
 
@@ -798,20 +800,27 @@ msgstr ""
 
 #: sophie_bot/modules/greetings/handlers/status_overall.py:46
 #, fuzzy
-msgid "Use {cmd} to retrieve Welcome Security settings"
+msgid "Use {cmd} to set custom welcome message"
 msgstr "Use {cmd} para recuperar esta nota."
 
 #: sophie_bot/modules/greetings/handlers/status_overall.py:47
+#, fuzzy
+msgid "Use {cmd} to retrieve Welcome Security settings"
+msgstr "Use {cmd} para recuperar esta nota."
+
+#: sophie_bot/modules/greetings/handlers/status_overall.py:48
+#: sophie_bot/modules/welcomesecurity/handlers/status_overall.py:74
 msgid "Check out {cmd} to learn more about Welcome settings."
 msgstr ""
 
-#: sophie_bot/modules/greetings/handlers/status_overall.py:51
+#: sophie_bot/modules/greetings/handlers/status_overall.py:52
 #, fuzzy
 msgid "Welcome Message"
 msgstr "🗑 Excluir mensagem"
 
-#: sophie_bot/modules/greetings/handlers/status_overall.py:54
+#: sophie_bot/modules/greetings/handlers/status_overall.py:55
 #: sophie_bot/modules/greetings/utils/send_welcome.py:17
+#: sophie_bot/modules/welcomesecurity/handlers/status_overall.py:81
 #, fuzzy
 msgid "No chat rules, have fun!"
 msgstr "O cache de direitos administrativos foi reiniciado."
@@ -1716,11 +1725,11 @@ msgstr "Estado atual limpo."
 msgid "The state was successfully changed"
 msgstr "Nota criada com sucesso"
 
-#: sophie_bot/modules/welcomesecurity/__init__.py:20
+#: sophie_bot/modules/welcomesecurity/__init__.py:25
 msgid "Welcome Security"
 msgstr ""
 
-#: sophie_bot/modules/welcomesecurity/__init__.py:22
+#: sophie_bot/modules/welcomesecurity/__init__.py:27
 msgid "Welcome Security contains a bunch of tools that can help filter bots that tries to join your groups, as well as make sure the new users acknowledged the chat rules before being able to speak"
 msgstr ""
 
@@ -1732,26 +1741,35 @@ msgstr ""
 msgid "❌ Incorrect solution. Please, try again."
 msgstr ""
 
-#: sophie_bot/modules/welcomesecurity/handlers/enable_welcomemute.py:25
-msgid "Shows / changes the state of Welcome Mute (Automatic new users media restricting)."
+#: sophie_bot/modules/welcomesecurity/handlers/enable_welcomemute.py:26
+msgid "Shows / changes the state of Welcome Restrict (Media restricting)."
 msgstr ""
 
 #: sophie_bot/modules/welcomesecurity/handlers/enable_welcomemute.py:27
+msgid "?New status or restrict time"
+msgstr ""
+
+#: sophie_bot/modules/welcomesecurity/handlers/enable_welcomemute.py:30
 msgid "Welcome Mute (Automatic new users media restricting)"
 msgstr ""
 
-#: sophie_bot/modules/welcomesecurity/handlers/enable_welcomemute.py:33
+#: sophie_bot/modules/welcomesecurity/handlers/enable_welcomemute.py:36
 #, fuzzy
 msgid "? Action time"
 msgstr "Tempo da ação"
 
-#: sophie_bot/modules/welcomesecurity/handlers/enable_welcomemute.py:52
+#: sophie_bot/modules/welcomesecurity/handlers/enable_welcomemute.py:55
 msgid "Enabled, set to {time}"
 msgstr ""
 
 #: sophie_bot/modules/welcomesecurity/handlers/enable_ws.py:11
-msgid "Shows / changes the state of Welcome Security (Welcome Captcha)."
+msgid "Shows / changes the state of Welcome Captcha."
 msgstr ""
+
+#: sophie_bot/modules/welcomesecurity/handlers/enable_ws.py:13
+#, fuzzy
+msgid "Welcome Captcha"
+msgstr "🗑 Excluir mensagem"
 
 #: sophie_bot/modules/welcomesecurity/handlers/legacy_button.py:36
 msgid "It seems like you are not belong to the chat anymore. Are you sure you joined the group?"
@@ -1764,6 +1782,43 @@ msgstr ""
 #: sophie_bot/modules/welcomesecurity/handlers/legacy_button.py:47
 msgid "It seems like you do not have to pass the welcome security authentication"
 msgstr ""
+
+#: sophie_bot/modules/welcomesecurity/handlers/status_overall.py:24
+#, fuzzy
+msgid "Shows Welcome Security settings"
+msgstr "Use {cmd} para recuperar esta nota."
+
+#: sophie_bot/modules/welcomesecurity/handlers/status_overall.py:42
+msgid "Captcha"
+msgstr ""
+
+#: sophie_bot/modules/welcomesecurity/handlers/status_overall.py:45
+msgid "Enabled, expires in {time}"
+msgstr ""
+
+#: sophie_bot/modules/welcomesecurity/handlers/status_overall.py:59
+#, fuzzy
+msgid "Media restriction"
+msgstr "Restrições"
+
+#: sophie_bot/modules/welcomesecurity/handlers/status_overall.py:62
+msgid "Enabled, on {time}"
+msgstr ""
+
+#: sophie_bot/modules/welcomesecurity/handlers/status_overall.py:72
+#, fuzzy
+msgid "Use {cmd} to control Welcome Captcha"
+msgstr "Use {cmd} para recuperar esta nota."
+
+#: sophie_bot/modules/welcomesecurity/handlers/status_overall.py:73
+#, fuzzy
+msgid "Use {cmd} to control Media restriction"
+msgstr "Use {cmd} para recuperar esta nota."
+
+#: sophie_bot/modules/welcomesecurity/handlers/status_overall.py:78
+#, fuzzy
+msgid "Welcome Security message"
+msgstr "🗑 Excluir mensagem"
 
 #: sophie_bot/modules/welcomesecurity/utils_/captcha_done.py:31
 msgid "You're all set, and can now participate in the conversation"
@@ -2095,5 +2150,14 @@ msgstr "Não foi possível encontrar a menção do usuário"
 #~ msgstr ""
 
 #~ msgid "✅ I agree"
+#~ msgstr ""
+
+#~ msgid "Shows / changes the state of Welcome Mute (Automatic new users media restricting)."
+#~ msgstr ""
+
+#~ msgid "Shows / changes the state of Welcome Security (Welcome Captcha)."
+#~ msgstr ""
+
+#~ msgid "Welcome Security (Welcome Captcha)"
 #~ msgstr ""
 

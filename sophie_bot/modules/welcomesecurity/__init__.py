@@ -8,9 +8,14 @@ from sophie_bot.modules.welcomesecurity.handlers.captcha_get import CaptchaGetHa
 from sophie_bot.modules.welcomesecurity.handlers.enable_welcomemute import (
     EnableWelcomeMute,
 )
-from sophie_bot.modules.welcomesecurity.handlers.enable_ws import EnableWSHandlerABC
+from sophie_bot.modules.welcomesecurity.handlers.enable_ws import (
+    EnableWelcomeCaptchaHandlerABC,
+)
 from sophie_bot.modules.welcomesecurity.handlers.legacy_button import (
     LegacyWSButtonHandler,
+)
+from sophie_bot.modules.welcomesecurity.handlers.status_overall import (
+    WelcomeSecuritySettingsShowHandler,
 )
 from sophie_bot.modules.welcomesecurity.middlewares.lock_muted_users import (
     LockMutedUsers,
@@ -29,7 +34,14 @@ router = Router(name="welcomesecurity")
 BUTTONS.update({"welcomesecurity": "btnwelcomesecuritystart"})
 
 
-__handlers__ = (CaptchaGetHandler, LegacyWSButtonHandler, CaptchaConfirmHandler, EnableWSHandlerABC, EnableWelcomeMute)
+__handlers__ = (
+    CaptchaGetHandler,
+    LegacyWSButtonHandler,
+    CaptchaConfirmHandler,
+    EnableWelcomeCaptchaHandlerABC,
+    EnableWelcomeMute,
+    WelcomeSecuritySettingsShowHandler,
+)
 
 
 def __pre_setup__():
