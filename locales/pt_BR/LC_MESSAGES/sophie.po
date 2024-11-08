@@ -1,22 +1,18 @@
+
 msgid ""
 msgstr ""
-"Project-Id-Version: sophiebot\n"
+"Project-Id-Version:  sophiebot\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2024-11-08 17:23+0100\n"
-"PO-Revision-Date: 2024-11-08 18:02\n"
+"PO-Revision-Date: 2024-11-08 18:02+0000\n"
 "Last-Translator: \n"
+"Language: pt_BR\n"
 "Language-Team: Portuguese, Brazilian\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.16.0\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Crowdin-Project: sophiebot\n"
-"X-Crowdin-Project-ID: 356879\n"
-"X-Crowdin-Language: pt-BR\n"
-"X-Crowdin-File: /beta/locales/sophie.pot\n"
-"X-Crowdin-File-ID: 288\n"
-"Language: pt_BR\n"
 
 #: sophie_bot/args/users.py:29
 msgid "Could not find the requested User ID in the database."
@@ -26,23 +22,23 @@ msgstr "Não foi possível encontrar o ID do usuário solicitado no banco de dad
 msgid "Could not find the requested Username in the database."
 msgstr "Não foi possível encontrar o nome de usuário solicitado no banco de dados."
 
-#: sophie_bot/args/users.py:72
+#: sophie_bot/args/users.py:72 types/user.py:119
 msgid "User: 'User ID (numeric) / Username (starts with @) / Mention (links to users)'"
 msgstr "Usuário: 'ID do usuário (numérico) / Nome de usuário (começa com @) / Menção (links para usuários)'"
 
-#: sophie_bot/args/users.py:72
+#: sophie_bot/args/users.py:72 types/user.py:121
 msgid "Users: 'User IDs (numeric) / Usernames (starts with @) / Mentions (links to users)'"
 msgstr "Usuários: 'IDs de usuário (numéricos) / Nomes de usuário (começa com @) / Menções (links para usuários)'"
 
-#: sophie_bot/args/users.py:79
+#: sophie_bot/args/users.py:79 types/user.py:128
 msgid "User ID"
 msgstr "ID do usuário"
 
-#: sophie_bot/args/users.py:80
+#: sophie_bot/args/users.py:80 types/user.py:129
 msgid "Username"
 msgstr "Nome de usuário"
 
-#: sophie_bot/args/users.py:81
+#: sophie_bot/args/users.py:81 types/user.py:133
 msgid "A link to user, usually creates by mentioning a user without username."
 msgstr "Um link para o usuário, geralmente é criado mencionando um usuário sem nome de usuário."
 
@@ -691,9 +687,11 @@ msgid "Greetings"
 msgstr "Saudações"
 
 #: sophie_bot/modules/greetings/__init__.py:22
-msgid "This module helps you to welcome new users automatically, while keeping the chat clean.\n"
+msgid ""
+"This module helps you to welcome new users automatically, while keeping the chat clean.\n"
 "If you want to enforce captcha / rules verification, please see 'Welcome Security' module instead."
-msgstr "Este módulo ajuda a dar boas-vindas a novos usuários automaticamente, enquanto mantém o chat limpo.\n"
+msgstr ""
+"Este módulo ajuda a dar boas-vindas a novos usuários automaticamente, enquanto mantém o chat limpo.\n"
 "Se você quiser impor a verificação de captcha/regras, por favor veja o módulo 'Segurança de Boas-Vindas' em vez disso."
 
 #: sophie_bot/modules/greetings/default_welcome.py:9
@@ -1693,11 +1691,11 @@ msgstr "O estado atual já é {state}"
 msgid "The state was successfully changed"
 msgstr "O estado foi alterado com sucesso"
 
-#: sophie_bot/modules/welcomesecurity/__init__.py:25
+#: sophie_bot/modules/welcomesecurity/__init__.py:26
 msgid "Welcome Security"
 msgstr "Segurança de Boas-Vindas"
 
-#: sophie_bot/modules/welcomesecurity/__init__.py:27
+#: sophie_bot/modules/welcomesecurity/__init__.py:28
 msgid "Welcome Security contains a bunch of tools that can help filter bots that tries to join your groups, as well as make sure the new users acknowledged the chat rules before being able to speak"
 msgstr "A Segurança de Boas-Vindas contém um conjunto de ferramentas que podem ajudar a filtrar bots que tentam se juntar aos seus grupos, bem como garantir que os novos usuários reconheçam as regras do chat antes de poderem falar"
 
@@ -1737,15 +1735,15 @@ msgstr "Exibe / altera o estado do Captcha de Boas-Vindas."
 msgid "Welcome Captcha"
 msgstr "Captcha"
 
-#: sophie_bot/modules/welcomesecurity/handlers/legacy_button.py:36
+#: sophie_bot/modules/welcomesecurity/handlers/legacy_button.py:50
 msgid "It seems like you are not belong to the chat anymore. Are you sure you joined the group?"
 msgstr "Parece que você não pertence mais ao chat. Tem certeza de que se juntou ao grupo?"
 
-#: sophie_bot/modules/welcomesecurity/handlers/legacy_button.py:42
+#: sophie_bot/modules/welcomesecurity/handlers/legacy_button.py:56
 msgid "You already an admin in the chat, therefore you don't need to pass the authentication!"
 msgstr "Você já é um admin no chat, portanto não precisa passar pela autenticação!"
 
-#: sophie_bot/modules/welcomesecurity/handlers/legacy_button.py:47
+#: sophie_bot/modules/welcomesecurity/handlers/legacy_button.py:61
 msgid "It seems like you do not have to pass the welcome security authentication"
 msgstr "Parece que você não precisa passar pela autenticação da segurança de boas-vindas"
 
@@ -2025,24 +2023,4 @@ msgstr "Erro inesperado ao tentar obter o usuário! Por favor, informe isso no c
 #: types/user.py:108
 msgid "Could not find the user mention"
 msgstr "Não foi possível encontrar a menção do usuário"
-
-#: types/user.py:119
-msgid "User: 'User ID (numeric) / Username (starts with @) / Mention (links to users)'"
-msgstr "Usuário: 'ID do usuário (numérico) / Nome de usuário (começa com @) / Menção (links para usuários)'"
-
-#: types/user.py:121
-msgid "Users: 'User IDs (numeric) / Usernames (starts with @) / Mentions (links to users)'"
-msgstr "Usuários: 'IDs dos usuários (numéricos) / Nomes de usuários (começam com @) / Menções (links para usuários)'"
-
-#: types/user.py:128
-msgid "User ID"
-msgstr "ID do usuário"
-
-#: types/user.py:129
-msgid "Username"
-msgstr "Nome de usuário"
-
-#: types/user.py:133
-msgid "A link to user, usually creates by mentioning a user without username."
-msgstr "Um link para o usuário, geralmente criado mencionando um usuário sem nome de usuário."
 

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-11-08 17:23+0100\n"
+"POT-Creation-Date: 2024-11-08 21:16+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1692,11 +1692,11 @@ msgstr ""
 msgid "The state was successfully changed"
 msgstr ""
 
-#: sophie_bot/modules/welcomesecurity/__init__.py:25
+#: sophie_bot/modules/welcomesecurity/__init__.py:26
 msgid "Welcome Security"
 msgstr ""
 
-#: sophie_bot/modules/welcomesecurity/__init__.py:27
+#: sophie_bot/modules/welcomesecurity/__init__.py:28
 msgid "Welcome Security contains a bunch of tools that can help filter bots that tries to join your groups, as well as make sure the new users acknowledged the chat rules before being able to speak"
 msgstr ""
 
@@ -1736,15 +1736,15 @@ msgstr ""
 msgid "Welcome Captcha"
 msgstr ""
 
-#: sophie_bot/modules/welcomesecurity/handlers/legacy_button.py:36
+#: sophie_bot/modules/welcomesecurity/handlers/legacy_button.py:50
 msgid "It seems like you are not belong to the chat anymore. Are you sure you joined the group?"
 msgstr ""
 
-#: sophie_bot/modules/welcomesecurity/handlers/legacy_button.py:42
+#: sophie_bot/modules/welcomesecurity/handlers/legacy_button.py:56
 msgid "You already an admin in the chat, therefore you don't need to pass the authentication!"
 msgstr ""
 
-#: sophie_bot/modules/welcomesecurity/handlers/legacy_button.py:47
+#: sophie_bot/modules/welcomesecurity/handlers/legacy_button.py:61
 msgid "It seems like you do not have to pass the welcome security authentication"
 msgstr ""
 

@@ -3,6 +3,7 @@ from typing import Any
 from aiogram import F
 from aiogram.dispatcher.event.handler import CallbackType
 
+from sophie_bot import CONFIG
 from sophie_bot.db.models import (
     ChatModel,
     GreetingsModel,
@@ -10,11 +11,24 @@ from sophie_bot.db.models import (
     WSUserModel,
 )
 from sophie_bot.modules.legacy_modules.utils.user_details import is_user_admin
-from sophie_bot.modules.utils_.base_handler import SophieMessageHandler
+from sophie_bot.modules.utils_.base_handler import (
+    SophieCallbackQueryHandler,
+    SophieMessageHandler,
+)
 from sophie_bot.modules.welcomesecurity.handlers.captcha_get import CaptchaGetHandler
 from sophie_bot.utils.exception import SophieException
 from sophie_bot.utils.i18n import gettext as _
 from sophie_bot.utils.logger import log
+
+
+class LegacyStableWSButtonRedirectHandler(SophieCallbackQueryHandler):
+    @staticmethod
+    def filters() -> tuple[CallbackType, ...]:
+        return (F.data.startswith("ws_"),)
+
+    async def handle(self) -> Any:
+        chat_id = self.event.message.chat.id
+        return self.event.answer(url=f"https://t.me/{CONFIG.username}?start=btnwelcomesecuritystart_{chat_id}")
 
 
 class LegacyWSButtonHandler(SophieMessageHandler):

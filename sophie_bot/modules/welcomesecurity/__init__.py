@@ -12,6 +12,7 @@ from sophie_bot.modules.welcomesecurity.handlers.enable_ws import (
     EnableWelcomeCaptchaHandlerABC,
 )
 from sophie_bot.modules.welcomesecurity.handlers.legacy_button import (
+    LegacyStableWSButtonRedirectHandler,
     LegacyWSButtonHandler,
 )
 from sophie_bot.modules.welcomesecurity.handlers.status_overall import (
@@ -41,6 +42,7 @@ __handlers__ = (
     EnableWelcomeCaptchaHandlerABC,
     EnableWelcomeMute,
     WelcomeSecuritySettingsShowHandler,
+    LegacyStableWSButtonRedirectHandler,
 )
 
 

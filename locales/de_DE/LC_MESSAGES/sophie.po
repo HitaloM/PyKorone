@@ -1,22 +1,18 @@
+
 msgid ""
 msgstr ""
-"Project-Id-Version: sophiebot\n"
+"Project-Id-Version:  sophiebot\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2024-11-08 17:23+0100\n"
-"PO-Revision-Date: 2024-11-08 18:02\n"
+"PO-Revision-Date: 2024-11-08 18:02+0000\n"
 "Last-Translator: \n"
+"Language: de_DE\n"
 "Language-Team: German\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.16.0\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Crowdin-Project: sophiebot\n"
-"X-Crowdin-Project-ID: 356879\n"
-"X-Crowdin-Language: de\n"
-"X-Crowdin-File: /beta/locales/sophie.pot\n"
-"X-Crowdin-File-ID: 288\n"
-"Language: de_DE\n"
 
 #: sophie_bot/args/users.py:29
 msgid "Could not find the requested User ID in the database."
@@ -26,23 +22,23 @@ msgstr "Die angeforderte Benutzer-ID konnte nicht in der Datenbank gefunden werd
 msgid "Could not find the requested Username in the database."
 msgstr "Die angeforderte Benutzername konnte nicht in der Datenbank gefunden werden."
 
-#: sophie_bot/args/users.py:72
+#: sophie_bot/args/users.py:72 types/user.py:119
 msgid "User: 'User ID (numeric) / Username (starts with @) / Mention (links to users)'"
 msgstr "Benutzer: 'Benutzer-ID (numerisch) / Benutzername (beginnt mit @) / Erwähnung (verlinkt auf Benutzer)'"
 
-#: sophie_bot/args/users.py:72
+#: sophie_bot/args/users.py:72 types/user.py:121
 msgid "Users: 'User IDs (numeric) / Usernames (starts with @) / Mentions (links to users)'"
 msgstr "Benutzer: 'Benutzer IDs (numerisch) / Benutzernamen (beginnt mit @) / Erwähnungen (verlinkt auf Benutzer)'"
 
-#: sophie_bot/args/users.py:79
+#: sophie_bot/args/users.py:79 types/user.py:128
 msgid "User ID"
 msgstr "Benutzer-ID"
 
-#: sophie_bot/args/users.py:80
+#: sophie_bot/args/users.py:80 types/user.py:129
 msgid "Username"
 msgstr "Benutzername"
 
-#: sophie_bot/args/users.py:81
+#: sophie_bot/args/users.py:81 types/user.py:133
 msgid "A link to user, usually creates by mentioning a user without username."
 msgstr "Ein Link zum Benutzer, der normalerweise erstellt wird, indem ein Benutzer ohne Benutzernamen erwähnt wird."
 
@@ -691,9 +687,11 @@ msgid "Greetings"
 msgstr "Grüße"
 
 #: sophie_bot/modules/greetings/__init__.py:22
-msgid "This module helps you to welcome new users automatically, while keeping the chat clean.\n"
+msgid ""
+"This module helps you to welcome new users automatically, while keeping the chat clean.\n"
 "If you want to enforce captcha / rules verification, please see 'Welcome Security' module instead."
-msgstr "Dieses Modul hilft Ihnen, neue Benutzer automatisch willkommen zu heißen, während der Chat sauber bleibt.\n"
+msgstr ""
+"Dieses Modul hilft Ihnen, neue Benutzer automatisch willkommen zu heißen, während der Chat sauber bleibt.\n"
 "Wenn Sie die Captcha- / Regelüberprüfung durchsetzen möchten, sehen Sie sich stattdessen das Modul \"Willkommenssicherheit\" an."
 
 #: sophie_bot/modules/greetings/default_welcome.py:9
@@ -1693,11 +1691,11 @@ msgstr "Der aktuelle Status ist bereits {state}"
 msgid "The state was successfully changed"
 msgstr "Der Zustand wurde erfolgreich geändert"
 
-#: sophie_bot/modules/welcomesecurity/__init__.py:25
+#: sophie_bot/modules/welcomesecurity/__init__.py:26
 msgid "Welcome Security"
 msgstr "Willkommenssicherheit"
 
-#: sophie_bot/modules/welcomesecurity/__init__.py:27
+#: sophie_bot/modules/welcomesecurity/__init__.py:28
 msgid "Welcome Security contains a bunch of tools that can help filter bots that tries to join your groups, as well as make sure the new users acknowledged the chat rules before being able to speak"
 msgstr "Die Willkommenssicherheit enthält eine Reihe von Werkzeugen, die dabei helfen können, Bots zu filtern, die versuchen, Ihren Gruppen beizutreten, sowie sicherzustellen, dass die neuen Benutzer die Chatregeln anerkennen, bevor sie sprechen können"
 
@@ -1737,15 +1735,15 @@ msgstr "Zeigt / ändert den Zustand des Willkommens-Captchas"
 msgid "Welcome Captcha"
 msgstr "Willkommens-Captcha"
 
-#: sophie_bot/modules/welcomesecurity/handlers/legacy_button.py:36
+#: sophie_bot/modules/welcomesecurity/handlers/legacy_button.py:50
 msgid "It seems like you are not belong to the chat anymore. Are you sure you joined the group?"
 msgstr "Es scheint, als würden Sie nicht mehr zum Chat gehören. Sind Sie sicher, dass Sie der Gruppe beigetreten sind?"
 
-#: sophie_bot/modules/welcomesecurity/handlers/legacy_button.py:42
+#: sophie_bot/modules/welcomesecurity/handlers/legacy_button.py:56
 msgid "You already an admin in the chat, therefore you don't need to pass the authentication!"
 msgstr "Sie sind bereits ein Admin im Chat, daher müssen Sie nicht die Authentifizierung durchlaufen!"
 
-#: sophie_bot/modules/welcomesecurity/handlers/legacy_button.py:47
+#: sophie_bot/modules/welcomesecurity/handlers/legacy_button.py:61
 msgid "It seems like you do not have to pass the welcome security authentication"
 msgstr "Es scheint, dass Sie sich nicht der Authentifizierung der Willkommenssicherheit unterziehen müssen"
 
@@ -2025,24 +2023,4 @@ msgstr "Unerwarteter Fehler beim Abrufen des Benutzers! Bitte melden Sie dies im
 #: types/user.py:108
 msgid "Could not find the user mention"
 msgstr "Konnte die Benutzererwähnung nicht finden"
-
-#: types/user.py:119
-msgid "User: 'User ID (numeric) / Username (starts with @) / Mention (links to users)'"
-msgstr "Benutzer: 'Benutzer-ID (numerisch) / Benutzername (beginnt mit @) / Erwähnung (Links zu Benutzern)'"
-
-#: types/user.py:121
-msgid "Users: 'User IDs (numeric) / Usernames (starts with @) / Mentions (links to users)'"
-msgstr "Benutzer: 'Benutzer-IDs (numerisch) / Benutzernamen (beginnt mit @) / Erwähnungen (Links zu Benutzern)'"
-
-#: types/user.py:128
-msgid "User ID"
-msgstr "Benutzer-ID"
-
-#: types/user.py:129
-msgid "Username"
-msgstr "Benutzername"
-
-#: types/user.py:133
-msgid "A link to user, usually creates by mentioning a user without username."
-msgstr "Ein Link zu einem Benutzer, der gewöhnlich erstellt wird, indem ein Benutzer ohne Benutzernamen erwähnt wird."
 
