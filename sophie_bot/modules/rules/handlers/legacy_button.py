@@ -38,6 +38,5 @@ class LegacyRulesButton(SophieMessageHandler):
             self.event.chat.id,
             rules,
             title=title,
-            legacy_title=str(title),
             reply_to=self.event.message_id,
         )

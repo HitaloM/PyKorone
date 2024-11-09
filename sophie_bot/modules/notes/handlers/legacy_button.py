@@ -35,13 +35,11 @@ class LegacyStartNoteButton(SophieMessageHandler):
             raise SophieException("No such note")
 
         title = Bold(HList(Title(f"📗 #{note_name}", bold=False), note.description or ""))
-        legacy_title = HList(Title(f"📙 #{note_name}", bold=False), note.description or "")
 
         await send_saveable(
             message,
             user_id,
             note,
             title=title,
-            legacy_title=str(legacy_title),
             reply_to=message.message_id,
         )
