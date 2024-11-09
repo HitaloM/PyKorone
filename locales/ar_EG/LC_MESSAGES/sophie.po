@@ -1123,22 +1123,6 @@ msgstr "💬 دردشة الدعم"
 msgid "📢 NEWS Channel"
 msgstr "📢 قناة الأخبار"
 
-#: sophie_bot/modules/legacy_modules/modules/purges.py:35
-msgid "Purges"
-msgstr "عمليات التطهير"
-
-#: sophie_bot/modules/legacy_modules/modules/purges.py:48
-msgid "Deletes the replied message"
-msgstr "يحذف الرسالة التي تم الرد عليها"
-
-#: sophie_bot/modules/legacy_modules/modules/purges.py:64
-msgid "Purges all messages after replied message (incl. the replied message)"
-msgstr "يمحو جميع الرسائل بعد الرسالة التي تم الرد عليها (بما في ذلك الرسالة التي تم الرد عليها)"
-
-#: sophie_bot/modules/legacy_modules/modules/purges.py:105
-msgid "🗑 Delete message"
-msgstr "🗑 حذف الرسالة"
-
 #: sophie_bot/modules/legacy_modules/modules/reports.py:18
 msgid "Reports"
 msgstr "تقارير"
@@ -1543,6 +1527,45 @@ msgstr "لا يوجد عنوان مدير"
 #: sophie_bot/modules/promotes/handlers/promote.py:87
 msgid "Admin promoted successfully"
 msgstr "تمت ترقية المدير بنجاح"
+
+#: sophie_bot/modules/purges/__init__.py:10
+msgid "Purges"
+msgstr "عمليات التطهير"
+
+#: sophie_bot/modules/purges/handlers/delete.py:14
+msgid "Deletes the replied message"
+msgstr "يحذف الرسالة التي تم الرد عليها"
+
+#: sophie_bot/modules/purges/handlers/delete.py:26
+#, fuzzy
+msgid "Reply to a message to delete it."
+msgstr "💭 الرد على الرسالة"
+
+#: sophie_bot/modules/purges/handlers/delete.py:30
+msgid "Couldn't delete the message older than 48 hours (2 days). You can delete it nevertheless using the Telegram's admin tools."
+msgstr ""
+
+#: sophie_bot/modules/purges/handlers/purge.py:18
+#, fuzzy
+msgid "Purges all messages after replied message (including the replied message)"
+msgstr "يمحو جميع الرسائل بعد الرسالة التي تم الرد عليها (بما في ذلك الرسالة التي تم الرد عليها)"
+
+#: sophie_bot/modules/purges/handlers/purge.py:31
+#, fuzzy
+msgid "Reply to a message to start."
+msgstr "💭 الرد على الرسالة"
+
+#: sophie_bot/modules/purges/handlers/purge.py:35
+msgid "Couldn't delete the messages older than 48 hours (2 days). You can delete it nevertheless using the Telegram's admin tools."
+msgstr ""
+
+#: sophie_bot/modules/purges/handlers/purge.py:55
+msgid "Purge completed. This message will be removed in 5 seconds."
+msgstr ""
+
+#: sophie_bot/modules/purges/magic_handlers/filter.py:21
+msgid "🗑 Delete message"
+msgstr "🗑 حذف الرسالة"
 
 #: sophie_bot/modules/rules/__init__.py:11
 #: sophie_bot/modules/rules/handlers/get.py:34

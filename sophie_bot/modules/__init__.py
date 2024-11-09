@@ -23,6 +23,7 @@ MODULES = [
     "promotes",
     "greetings",
     "welcomesecurity",
+    "purges",
     "ai",
 ]
 

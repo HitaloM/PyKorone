@@ -1123,22 +1123,6 @@ msgstr "💬 Podpora chatu"
 msgid "📢 NEWS Channel"
 msgstr "📢 Zpravodaj kanál"
 
-#: sophie_bot/modules/legacy_modules/modules/purges.py:35
-msgid "Purges"
-msgstr "Vymazání"
-
-#: sophie_bot/modules/legacy_modules/modules/purges.py:48
-msgid "Deletes the replied message"
-msgstr "Odstraní odpovězenou zprávu"
-
-#: sophie_bot/modules/legacy_modules/modules/purges.py:64
-msgid "Purges all messages after replied message (incl. the replied message)"
-msgstr "Odstraní všechny zprávy po odpovězené zprávě (včetně odpovězené zprávy)"
-
-#: sophie_bot/modules/legacy_modules/modules/purges.py:105
-msgid "🗑 Delete message"
-msgstr "🗑 Delete message"
-
 #: sophie_bot/modules/legacy_modules/modules/reports.py:18
 msgid "Reports"
 msgstr "Zprávy"
@@ -1543,6 +1527,45 @@ msgstr "Žádný admin titul"
 #: sophie_bot/modules/promotes/handlers/promote.py:87
 msgid "Admin promoted successfully"
 msgstr "Admin byl úspěšně povýšen"
+
+#: sophie_bot/modules/purges/__init__.py:10
+msgid "Purges"
+msgstr "Vymazání"
+
+#: sophie_bot/modules/purges/handlers/delete.py:14
+msgid "Deletes the replied message"
+msgstr "Odstraní odpovězenou zprávu"
+
+#: sophie_bot/modules/purges/handlers/delete.py:26
+#, fuzzy
+msgid "Reply to a message to delete it."
+msgstr "💭 Reply to message"
+
+#: sophie_bot/modules/purges/handlers/delete.py:30
+msgid "Couldn't delete the message older than 48 hours (2 days). You can delete it nevertheless using the Telegram's admin tools."
+msgstr ""
+
+#: sophie_bot/modules/purges/handlers/purge.py:18
+#, fuzzy
+msgid "Purges all messages after replied message (including the replied message)"
+msgstr "Odstraní všechny zprávy po odpovězené zprávě (včetně odpovězené zprávy)"
+
+#: sophie_bot/modules/purges/handlers/purge.py:31
+#, fuzzy
+msgid "Reply to a message to start."
+msgstr "💭 Reply to message"
+
+#: sophie_bot/modules/purges/handlers/purge.py:35
+msgid "Couldn't delete the messages older than 48 hours (2 days). You can delete it nevertheless using the Telegram's admin tools."
+msgstr ""
+
+#: sophie_bot/modules/purges/handlers/purge.py:55
+msgid "Purge completed. This message will be removed in 5 seconds."
+msgstr ""
+
+#: sophie_bot/modules/purges/magic_handlers/filter.py:21
+msgid "🗑 Delete message"
+msgstr "🗑 Delete message"
 
 #: sophie_bot/modules/rules/__init__.py:11
 #: sophie_bot/modules/rules/handlers/get.py:34
