@@ -4,6 +4,7 @@
 from dataclasses import dataclass
 from typing import Any, Optional, Union
 
+from aiogram.dispatcher.event.bases import SkipHandler
 from aiogram.exceptions import TelegramBadRequest
 from aiogram.filters import Filter
 from aiogram.types import TelegramObject
@@ -73,7 +74,7 @@ class UserRestricting(Filter):
         if check is not True:
             # check = missing permission in this scope
             await self.no_rights_msg(event, check)
-            return False
+            raise SkipHandler
 
         return True
 
