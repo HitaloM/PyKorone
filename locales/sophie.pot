@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-11-09 16:46+0100\n"
+"POT-Creation-Date: 2024-11-12 00:37+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -826,6 +826,10 @@ msgstr ""
 
 #: sophie_bot/modules/greetings/middlewares/new_user.py:60
 msgid "Support Chat"
+msgstr ""
+
+#: sophie_bot/modules/greetings/middlewares/new_user.py:81
+msgid "I am not a robot"
 msgstr ""
 
 #: sophie_bot/modules/help/__init__.py:20

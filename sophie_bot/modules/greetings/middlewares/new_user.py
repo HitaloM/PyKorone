@@ -62,6 +62,35 @@ class NewUserMiddleware(BaseMiddleware):
 
         return await message.reply(str(doc))
 
+    @staticmethod
+    async def on_captcha(
+        message: Message,
+        db_item: GreetingsModel,
+        chat_db: ChatModel,
+        new_users: list[ChatModel],
+        cleanservice_enabled: bool,
+        chat_rules: Optional[RulesModel],
+    ) -> Optional[Message]:
+        muted_users = await ws_on_new_users(new_users, chat_db)
+
+        # If no users were welcomesecurity muted - just send a greetings message
+        ws_saveable: Saveable = db_item.security_note or get_default_security_message()
+
+        # FIXME: A workaround to add a missing (btnwelcomesecurity)️ button if not exists
+        if "(btnwelcomesecurity)️" not in (ws_saveable.text or ""):
+            ws_saveable.text = (ws_saveable.text or "") + f"\n [{_('I am not a robot')}](btnwelcomesecurity)️"
+
+        if not any(muted_users):
+            return None
+
+        sent_message = await send_welcome(message, ws_saveable, cleanservice_enabled, chat_rules)
+
+        # Save sent message to cleanup it later. TODO: do not use redis
+        if len(muted_users) == 1:
+            await aredis.set(f"chat_ws_message:{chat_db.id}:{new_users[0].id}", sent_message.message_id)
+
+        return sent_message
+
     async def __call__(
         self,
         handler: Callable[[TelegramObject, Dict[str, Any]], Awaitable[Any]],
@@ -112,17 +141,9 @@ class NewUserMiddleware(BaseMiddleware):
                     await on_welcomemute(chat_id, user_id, db_item.welcome_mute.time)
 
             elif not is_admin and db_item.welcome_security and db_item.welcome_security.enabled:
-                muted_users = await ws_on_new_users(new_users, chat_db)
-
-                # If no users were welcomesecurity muted - just send a greetings message
-                ws_saveable: Optional[Saveable] = (
-                    (db_item.security_note or get_default_security_message()) if any(muted_users) else None
+                sent_message = await self.on_captcha(
+                    event, db_item, chat_db, new_users, cleanservice_enabled, chat_rules
                 )
-                sent_message = await send_welcome(event, ws_saveable, cleanservice_enabled, chat_rules)
-
-                # TODO: do not use redis
-                if len(muted_users) == 1:
-                    await aredis.set(f"chat_ws_message:{chat_db.id}:{new_users[0].id}", sent_message.message_id)
 
             # Cleanup
             await self.cleanup(db_item, event, sent_message)

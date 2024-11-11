@@ -827,6 +827,10 @@ msgstr "Documentación"
 msgid "Support Chat"
 msgstr "Chat de Soporte"
 
+#: sophie_bot/modules/greetings/middlewares/new_user.py:81
+msgid "I am not a robot"
+msgstr ""
+
 #: sophie_bot/modules/help/__init__.py:20
 #: sophie_bot/modules/help/handlers/pm_modules.py:41
 msgid "Help"
