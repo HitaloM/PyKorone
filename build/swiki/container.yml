@@ -30,3 +30,8 @@ build_swiki_container:
     key: wiki_docker_cache
     paths:
       - docker_cache
+  only:
+    - beta
+    - stable
+    - dev_*
+    - dev-*
