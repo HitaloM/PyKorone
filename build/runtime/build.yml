@@ -30,3 +30,9 @@ build_runtime_container:
     key: bot_runtime_docker_cache
     paths:
       - docker_cache
+
+  only:
+    - beta
+    - stable
+    - dev_*
+    - dev-*
