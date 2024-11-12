@@ -1,18 +1,22 @@
-
 msgid ""
 msgstr ""
-"Project-Id-Version:  sophiebot\n"
+"Project-Id-Version: sophiebot\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-11-08 17:23+0100\n"
-"PO-Revision-Date: 2024-11-08 18:02+0000\n"
+"POT-Creation-Date: 2024-11-09 16:46+0100\n"
+"PO-Revision-Date: 2024-11-12 00:56\n"
 "Last-Translator: \n"
-"Language: de_DE\n"
 "Language-Team: German\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=utf-8\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.16.0\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Crowdin-Project: sophiebot\n"
+"X-Crowdin-Project-ID: 356879\n"
+"X-Crowdin-Language: de\n"
+"X-Crowdin-File: /beta/locales/sophie.pot\n"
+"X-Crowdin-File-ID: 288\n"
+"Language: de_DE\n"
 
 #: sophie_bot/args/users.py:29
 msgid "Could not find the requested User ID in the database."
@@ -22,23 +26,23 @@ msgstr "Die angeforderte Benutzer-ID konnte nicht in der Datenbank gefunden werd
 msgid "Could not find the requested Username in the database."
 msgstr "Die angeforderte Benutzername konnte nicht in der Datenbank gefunden werden."
 
-#: sophie_bot/args/users.py:72 types/user.py:119
+#: sophie_bot/args/users.py:72
 msgid "User: 'User ID (numeric) / Username (starts with @) / Mention (links to users)'"
 msgstr "Benutzer: 'Benutzer-ID (numerisch) / Benutzername (beginnt mit @) / Erwähnung (verlinkt auf Benutzer)'"
 
-#: sophie_bot/args/users.py:72 types/user.py:121
+#: sophie_bot/args/users.py:72
 msgid "Users: 'User IDs (numeric) / Usernames (starts with @) / Mentions (links to users)'"
 msgstr "Benutzer: 'Benutzer IDs (numerisch) / Benutzernamen (beginnt mit @) / Erwähnungen (verlinkt auf Benutzer)'"
 
-#: sophie_bot/args/users.py:79 types/user.py:128
+#: sophie_bot/args/users.py:79
 msgid "User ID"
 msgstr "Benutzer-ID"
 
-#: sophie_bot/args/users.py:80 types/user.py:129
+#: sophie_bot/args/users.py:80
 msgid "Username"
 msgstr "Benutzername"
 
-#: sophie_bot/args/users.py:81 types/user.py:133
+#: sophie_bot/args/users.py:81
 msgid "A link to user, usually creates by mentioning a user without username."
 msgstr "Ein Link zum Benutzer, der normalerweise erstellt wird, indem ein Benutzer ohne Benutzernamen erwähnt wird."
 
@@ -687,11 +691,9 @@ msgid "Greetings"
 msgstr "Grüße"
 
 #: sophie_bot/modules/greetings/__init__.py:22
-msgid ""
-"This module helps you to welcome new users automatically, while keeping the chat clean.\n"
+msgid "This module helps you to welcome new users automatically, while keeping the chat clean.\n"
 "If you want to enforce captcha / rules verification, please see 'Welcome Security' module instead."
-msgstr ""
-"Dieses Modul hilft Ihnen, neue Benutzer automatisch willkommen zu heißen, während der Chat sauber bleibt.\n"
+msgstr "Dieses Modul hilft Ihnen, neue Benutzer automatisch willkommen zu heißen, während der Chat sauber bleibt.\n"
 "Wenn Sie die Captcha- / Regelüberprüfung durchsetzen möchten, sehen Sie sich stattdessen das Modul \"Willkommenssicherheit\" an."
 
 #: sophie_bot/modules/greetings/default_welcome.py:9
@@ -826,10 +828,6 @@ msgstr "Dokumentation"
 #: sophie_bot/modules/greetings/middlewares/new_user.py:60
 msgid "Support Chat"
 msgstr "Support-Chat"
-
-#: sophie_bot/modules/greetings/middlewares/new_user.py:81
-msgid "I am not a robot"
-msgstr ""
 
 #: sophie_bot/modules/help/__init__.py:20
 #: sophie_bot/modules/help/handlers/pm_modules.py:41
@@ -1541,31 +1539,28 @@ msgid "Deletes the replied message"
 msgstr "Löscht die beantwortete Nachricht"
 
 #: sophie_bot/modules/purges/handlers/delete.py:26
-#, fuzzy
 msgid "Reply to a message to delete it."
-msgstr "💭 Auf Nachricht antworten"
+msgstr "Antworte auf eine Nachricht, um sie zu löschen."
 
 #: sophie_bot/modules/purges/handlers/delete.py:30
 msgid "Couldn't delete the message older than 48 hours (2 days). You can delete it nevertheless using the Telegram's admin tools."
-msgstr ""
+msgstr "Die Nachricht, die älter als 48 Stunden (2 Tage) ist, konnte nicht gelöscht werden. Du kannst sie dennoch mit den Admin-Tools von Telegram löschen."
 
 #: sophie_bot/modules/purges/handlers/purge.py:18
-#, fuzzy
 msgid "Purges all messages after replied message (including the replied message)"
-msgstr "Entfernt alle Nachrichten nach der beantworteten Nachricht (inkl. der beantworteten Nachricht)"
+msgstr "Entfernt alle Nachrichten nach der beantworteten Nachricht (inklusive der beantworteten Nachricht)"
 
 #: sophie_bot/modules/purges/handlers/purge.py:31
-#, fuzzy
 msgid "Reply to a message to start."
-msgstr "💭 Auf Nachricht antworten"
+msgstr "Antworte auf eine Nachricht, um zu starten."
 
 #: sophie_bot/modules/purges/handlers/purge.py:35
 msgid "Couldn't delete the messages older than 48 hours (2 days). You can delete it nevertheless using the Telegram's admin tools."
-msgstr ""
+msgstr "Die Nachrichten, die älter als 48 Stunden (2 Tage) sind, konnten nicht gelöscht werden. Du kannst sie dennoch mit den Admin-Tools von Telegram löschen."
 
 #: sophie_bot/modules/purges/handlers/purge.py:55
 msgid "Purge completed. This message will be removed in 5 seconds."
-msgstr ""
+msgstr "Löschen abgeschlossen. Diese Nachricht wird in 5 Sekunden entfernt."
 
 #: sophie_bot/modules/purges/magic_handlers/filter.py:21
 msgid "🗑 Delete message"
@@ -2050,4 +2045,24 @@ msgstr "Unerwarteter Fehler beim Abrufen des Benutzers! Bitte melden Sie dies im
 #: types/user.py:108
 msgid "Could not find the user mention"
 msgstr "Konnte die Benutzererwähnung nicht finden"
+
+#: types/user.py:119
+msgid "User: 'User ID (numeric) / Username (starts with @) / Mention (links to users)'"
+msgstr "Benutzer: 'Benutzer-ID (numerisch) / Benutzername (beginnt mit @) / Erwähnung (Links zu Benutzern)'"
+
+#: types/user.py:121
+msgid "Users: 'User IDs (numeric) / Usernames (starts with @) / Mentions (links to users)'"
+msgstr "Benutzer: 'Benutzer-IDs (numerisch) / Benutzernamen (beginnt mit @) / Erwähnungen (Links zu Benutzern)'"
+
+#: types/user.py:128
+msgid "User ID"
+msgstr "Benutzer-ID"
+
+#: types/user.py:129
+msgid "Username"
+msgstr "Benutzername"
+
+#: types/user.py:133
+msgid "A link to user, usually creates by mentioning a user without username."
+msgstr "Ein Link zu einem Benutzer, der gewöhnlich erstellt wird, indem ein Benutzer ohne Benutzernamen erwähnt wird."
 
