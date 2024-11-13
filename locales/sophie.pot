@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-11-13 22:52+0100\n"
+"POT-Creation-Date: 2024-11-13 22:54+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -335,7 +335,7 @@ msgid "You're a Telegram Bot named Sophie."
 msgstr ""
 
 #: sophie_bot/modules/ai/utils/message_history.py:65
-msgid "Respond concisely, be friendly, stick to the current topic."
+msgid "Respond concisely and stick to the current topic."
 msgstr ""
 
 #: sophie_bot/modules/ai/utils/message_history.py:66
@@ -343,7 +343,7 @@ msgid "Please use only the following markdown elements: ** for bold, __ for ital
 msgstr ""
 
 #: sophie_bot/modules/ai/utils/message_history.py:69
-msgid "You can use emojis."
+msgid "Do not use Tables. You can use emojis."
 msgstr ""
 
 #: sophie_bot/modules/ai/utils/message_history.py:93

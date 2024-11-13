@@ -332,7 +332,8 @@ msgid "You're a Telegram Bot named Sophie."
 msgstr "Você é um bot do Telegram chamado Sophie."
 
 #: sophie_bot/modules/ai/utils/message_history.py:65
-msgid "Respond concisely, be friendly, stick to the current topic."
+#, fuzzy
+msgid "Respond concisely and stick to the current topic."
 msgstr "Responda de forma concisa, seja amigável, mantenha-se no tópico atual."
 
 #: sophie_bot/modules/ai/utils/message_history.py:66
@@ -340,7 +341,7 @@ msgid "Please use only the following markdown elements: ** for bold, __ for ital
 msgstr ""
 
 #: sophie_bot/modules/ai/utils/message_history.py:69
-msgid "You can use emojis."
+msgid "Do not use Tables. You can use emojis."
 msgstr ""
 
 #: sophie_bot/modules/ai/utils/message_history.py:93
@@ -2058,4 +2059,7 @@ msgstr "Não foi possível encontrar a menção do usuário"
 
 #~ msgid "Do not use markdown or html. You can use emojis."
 #~ msgstr "Não use markdown ou html. Você pode usar emojis."
+
+#~ msgid "You can use emojis."
+#~ msgstr ""
 

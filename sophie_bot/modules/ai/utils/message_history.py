@@ -62,11 +62,11 @@ class AIMessageHistory(list[ChatCompletionMessageParam]):
         system_message = "\n".join(
             (
                 _("You're a Telegram Bot named Sophie."),
-                _("Respond concisely, be friendly, stick to the current topic."),
+                _("Respond concisely and stick to the current topic."),
                 _(
                     "Please use only the following markdown elements: ** for bold, __ for italic, ~~ for strikethrough, ++ for underline, ` for code, and ``` for preformatted text."
                 ),
-                _("You can use emojis."),
+                _("Do not use Tables. You can use emojis."),
             )
         )
         self.append(ChatCompletionSystemMessageParam(content=system_message + additional, role="system"))
