@@ -6,6 +6,7 @@ from typing import Any
 
 from hydrogram import Client
 from hydrogram.enums import ChatMemberStatus, ChatType
+from hydrogram.errors import ChatAdminRequired
 from hydrogram.filters import Filter
 from hydrogram.types import CallbackQuery, ChatPrivileges, Message
 
@@ -34,9 +35,18 @@ class UserIsAdmin(Filter):
         if message.chat.type == ChatType.PRIVATE:
             return True
 
-        chat_member = await message.chat.get_member(user.id)
-        if chat_member.status in {ChatMemberStatus.ADMINISTRATOR, ChatMemberStatus.OWNER}:
-            return True
+        try:
+            chat_member = await message.chat.get_member(user.id)
+            if chat_member.status in {ChatMemberStatus.ADMINISTRATOR, ChatMemberStatus.OWNER}:
+                return True
+        except ChatAdminRequired:
+            if self.show_alert:
+                alert_text = _("I need to be an administrator to perform that action!")
+                if is_callback:
+                    await update.answer(text=alert_text, show_alert=True, cache_time=60)
+                else:
+                    await message.reply(alert_text)
+            return False
 
         if self.show_alert:
             alert_text = _("You must be an administrator to use this.")
