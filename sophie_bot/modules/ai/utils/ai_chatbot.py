@@ -1,5 +1,5 @@
 from enum import Enum
-from typing import Iterable, Optional, Sequence
+from typing import Iterable, Optional, Sequence, TypeVar
 
 from aiogram.types import Message, ReplyKeyboardMarkup
 from openai.types import ResponseFormatJSONSchema, ResponseFormatText
@@ -10,6 +10,7 @@ from stfu_tg.doc import Doc, Element
 from sophie_bot.modules.ai.fsm.pm import AI_GENERATED_TEXT
 from sophie_bot.modules.ai.utils.message_history import AIMessageHistory
 from sophie_bot.services.ai import ai_client
+from sophie_bot.utils.logger import log
 
 
 class Models(str, Enum):
@@ -18,6 +19,9 @@ class Models(str, Enum):
 
 
 DEFAULT_MODEL = Models.GPT_4O_MINI
+
+
+RESPONSE_TYPE = TypeVar("RESPONSE_TYPE")
 
 
 async def ai_generate(
@@ -31,7 +35,25 @@ async def ai_generate(
         response_format=json_schema if json_schema else ResponseFormatText(type="text"),
     )
 
+    log.debug("ai_generate", content=chat_completion.choices[0].message.content)
+
     return chat_completion.choices[0].message.content
+
+
+async def ai_generate_schema(
+    messages: Iterable[ChatCompletionMessageParam],
+    schema: RESPONSE_TYPE,
+    model: Models = DEFAULT_MODEL,
+) -> RESPONSE_TYPE:
+    chat_completion = await ai_client.beta.chat.completions.parse(  # type: ignore
+        messages=messages,
+        model=model,
+        response_format=schema,  # type: ignore
+    )
+
+    log.debug("ai_generate_schema", content=chat_completion.choices[0].message.content)
+
+    return chat_completion.choices[0].message.parsed  # type: ignore
 
 
 async def ai_reply(

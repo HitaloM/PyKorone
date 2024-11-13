@@ -88,6 +88,18 @@ class I18nNew(I18n):
     def is_current_locale_default(self) -> bool:
         return self.ctx_locale.get() == self.default_locale
 
+    @staticmethod
+    def to_iso_639_1(lang_code: str):
+        return lang_code.split("_", 1)[0]
+
+    @property
+    def locales_iso_639_1(self) -> tuple[str, ...]:
+        return tuple(self.to_iso_639_1(lang_code) for lang_code in self.available_locales)
+
+    @property
+    def current_locale_iso_639_1(self):
+        return self.to_iso_639_1(self.current_locale)
+
 
 def get_i18n():
     i18n = I18nNew.get_current(no_error=True)

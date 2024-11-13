@@ -2,12 +2,15 @@ from typing import Any, Awaitable, Callable, Dict, Optional
 
 from aiogram import BaseMiddleware
 from aiogram.types import Message, TelegramObject
-from fast_langdetect import detect
 
-from sophie_bot import CONFIG
 from sophie_bot.db.models import AIAutotranslateModel, ChatModel
 from sophie_bot.db.models.chat import ChatType
 from sophie_bot.modules.ai.handlers.translate import AiTranslate
+from sophie_bot.modules.ai.utils.detect_lang import (
+    is_text_language,
+    lang_code_to_language,
+)
+from sophie_bot.utils.i18n import I18nNew
 from sophie_bot.utils.logger import log
 
 
@@ -19,7 +22,7 @@ class AiAutoTranslateMiddleware(BaseMiddleware):
         data: Dict[str, Any],
     ) -> Any:
         chat_db: Optional[ChatModel] = data.get("chat_db", None)
-        chat_lang: str = data["i18n"].current_locale
+        i18n: I18nNew = data["i18n"]
 
         result = await handler(event, data)
 
@@ -45,12 +48,15 @@ class AiAutoTranslateMiddleware(BaseMiddleware):
                     log.debug("AiAutoTranslateMiddleware: Ignoring short message")
                     return result
 
-            text_to_detect = data["text"].replace("\n", "").lower()
-            detected_lang = detect(text_to_detect, low_memory=CONFIG.ai_autotrans_lowmem)
-            log.debug("AiAutoTranslateMiddleware: Detected language", chat_lang=chat_lang, lang=detected_lang)
+            text_to_detect = data["text"].lower()
 
-            if (not chat_lang.startswith(detected_lang["lang"]) and detected_lang["score"] >= 0.3) or data.get("voice"):
-                log.debug("AiAutoTranslateMiddleware: Translating...")
+            if data.get("voice"):
+                log.debug("AiAutoTranslateMiddleware: Voice message - Translating anyway!")
+                await AiTranslate(event, **data)
+
+            # Detect language
+            if not is_text_language(text_to_detect, lang_code_to_language(i18n.current_locale_iso_639_1)):
+                log.debug("AiAutoTranslateMiddleware: Detected another language, translating!")
                 await AiTranslate(event, **data)
 
         return result

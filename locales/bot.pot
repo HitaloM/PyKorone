@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-11-12 00:37+0100\n"
+"POT-Creation-Date: 2024-11-13 20:47+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -286,40 +286,44 @@ msgstr ""
 msgid "🔄 AI context was successfully reset. AI will now operate in a clean state."
 msgstr ""
 
-#: sophie_bot/modules/ai/handlers/translate.py:22
+#: sophie_bot/modules/ai/handlers/translate.py:25
 msgid "Text to translate"
 msgstr ""
 
-#: sophie_bot/modules/ai/handlers/translate.py:28
+#: sophie_bot/modules/ai/handlers/translate.py:31
 msgid "Translates the given (or replied) text to the chat's selected language. Also transcribes the replied voice message to text"
 msgstr ""
 
-#: sophie_bot/modules/ai/handlers/translate.py:60
+#: sophie_bot/modules/ai/handlers/translate.py:63
 msgid "You're the professional AI translator/transcriber, try to translate the texts word to word."
 msgstr ""
 
-#: sophie_bot/modules/ai/handlers/translate.py:61
+#: sophie_bot/modules/ai/handlers/translate.py:64
 msgid "If the message is already in a required language, just copy it."
 msgstr ""
 
-#: sophie_bot/modules/ai/handlers/translate.py:62
+#: sophie_bot/modules/ai/handlers/translate.py:65
 msgid "If it needs any explanations or clarifications, write them briefly afterwards separately."
 msgstr ""
 
-#: sophie_bot/modules/ai/handlers/translate.py:78
+#: sophie_bot/modules/ai/handlers/translate.py:86
 msgid "Auto Translator"
 msgstr ""
 
-#: sophie_bot/modules/ai/handlers/translate.py:80
+#: sophie_bot/modules/ai/handlers/translate.py:86
 msgid "Translator"
 msgstr ""
 
-#: sophie_bot/modules/ai/handlers/translate.py:83
+#: sophie_bot/modules/ai/handlers/translate.py:87
 msgid "Voice"
 msgstr ""
 
-#: sophie_bot/modules/ai/handlers/translate.py:85
-msgid "Translated to {language}"
+#: sophie_bot/modules/ai/handlers/translate.py:92
+msgid "From {from_lang} to {to_lang}"
+msgstr ""
+
+#: sophie_bot/modules/ai/handlers/translate.py:102
+msgid "Translation Notes"
 msgstr ""
 
 #: sophie_bot/modules/ai/texts.py:3

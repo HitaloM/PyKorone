@@ -3,16 +3,19 @@ from aiogram.dispatcher.event.handler import CallbackType
 from aiogram.handlers import MessageHandler
 from aiogram.types import Message
 from ass_tg.types import TextArg
-from stfu_tg import Bold, Template
+from stfu_tg import Bold, Doc, HList, Section, Template, Title
 
 from sophie_bot import bot
 from sophie_bot.filters.cmd import CMDFilter
 from sophie_bot.modules.ai.filters.ai_enabled import AIEnabledFilter
-from sophie_bot.modules.ai.utils.ai_chatbot import ai_reply
+from sophie_bot.modules.ai.fsm.pm import AI_GENERATED_TEXT
+from sophie_bot.modules.ai.json_schemas.translate import AITranslateResponseSchema
+from sophie_bot.modules.ai.utils.ai_chatbot import ai_generate_schema
 from sophie_bot.modules.ai.utils.message_history import AIMessageHistory
 from sophie_bot.modules.ai.utils.transform_audio import transform_voice_to_text
 from sophie_bot.utils.i18n import gettext as _
 from sophie_bot.utils.i18n import lazy_gettext as l_
+from sophie_bot.utils.logger import log
 
 
 async def text_or_reply(message: Message | None, _data: dict):
@@ -72,16 +75,34 @@ class AiTranslate(MessageHandler):
             add_cached_messages=False,
         )
 
-        header_items = []
+        translated = await ai_generate_schema(ai_context, AITranslateResponseSchema)
 
-        if is_autotranslate:
-            header_items.append(_("Auto Translator"))
-        else:
-            header_items.append(_("Translator"))
+        if is_autotranslate and not translated.needs_translation:
+            log.debug("AiTranslate: AI do not think it needs translation, skipping.")
 
-        if is_voice:
-            header_items.append(f"({_('Voice')})")
+        doc = Doc(
+            HList(
+                Title(AI_GENERATED_TEXT),
+                _("Auto Translator") if is_autotranslate else _("Translator"),
+                f"({_('Voice')})" if is_voice else None,
+            ),
+            (
+                Bold(
+                    Template(
+                        _("From {from_lang} to {to_lang}"),
+                        from_lang=f"{translated.origin_language_emoji} {translated.origin_language_name}",
+                        to_lang=language_name,
+                    )
+                )
+                if not is_voice
+                else None
+            ),
+            translated.translated_text,
+            (
+                Section(translated.translation_explanations, title=_("Translation Notes"))
+                if translated.translation_explanations
+                else None
+            ),
+        )
 
-        doc_items = [Bold(Template(_("Translated to {language}"), language=language_name))]
-
-        return await ai_reply(self.event, ai_context, header_items=header_items, doc_items=doc_items)
+        await self.event.reply(str(doc))
