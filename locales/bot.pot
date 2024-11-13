@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-11-13 20:47+0100\n"
+"POT-Creation-Date: 2024-11-13 21:01+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -306,23 +306,23 @@ msgstr ""
 msgid "If it needs any explanations or clarifications, write them briefly afterwards separately."
 msgstr ""
 
-#: sophie_bot/modules/ai/handlers/translate.py:86
+#: sophie_bot/modules/ai/handlers/translate.py:87
 msgid "Auto Translator"
 msgstr ""
 
-#: sophie_bot/modules/ai/handlers/translate.py:86
+#: sophie_bot/modules/ai/handlers/translate.py:87
 msgid "Translator"
 msgstr ""
 
-#: sophie_bot/modules/ai/handlers/translate.py:87
+#: sophie_bot/modules/ai/handlers/translate.py:88
 msgid "Voice"
 msgstr ""
 
-#: sophie_bot/modules/ai/handlers/translate.py:92
+#: sophie_bot/modules/ai/handlers/translate.py:93
 msgid "From {from_lang} to {to_lang}"
 msgstr ""
 
-#: sophie_bot/modules/ai/handlers/translate.py:102
+#: sophie_bot/modules/ai/handlers/translate.py:103
 msgid "Translation Notes"
 msgstr ""
 

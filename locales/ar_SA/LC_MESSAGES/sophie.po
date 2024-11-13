@@ -1,22 +1,18 @@
+
 msgid ""
 msgstr ""
-"Project-Id-Version: sophiebot\n"
+"Project-Id-Version:  sophiebot\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2024-11-13 20:47+0100\n"
-"PO-Revision-Date: 2024-11-13 19:55\n"
+"PO-Revision-Date: 2024-11-13 19:55+0000\n"
 "Last-Translator: \n"
+"Language: ar_SA\n"
 "Language-Team: Arabic, Saudi Arabia\n"
+"Plural-Forms: nplurals=6; plural=(n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5);\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.16.0\n"
-"Plural-Forms: nplurals=6; plural=(n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5);\n"
-"X-Crowdin-Project: sophiebot\n"
-"X-Crowdin-Project-ID: 356879\n"
-"X-Crowdin-Language: ar-SA\n"
-"X-Crowdin-File: /beta/locales/sophie.pot\n"
-"X-Crowdin-File-ID: 288\n"
-"Language: ar_SA\n"
 
 #: sophie_bot/args/users.py:29
 msgid "Could not find the requested User ID in the database."
@@ -26,23 +22,23 @@ msgstr "لم يتم العثور على معرف المستخدم المطلوب
 msgid "Could not find the requested Username in the database."
 msgstr "لم يتم العثور على اسم المستخدم المطلوب في قاعدة البيانات."
 
-#: sophie_bot/args/users.py:72
+#: sophie_bot/args/users.py:72 types/user.py:119
 msgid "User: 'User ID (numeric) / Username (starts with @) / Mention (links to users)'"
 msgstr "المستخدم: 'معرف المستخدم (عددي) / اسم المستخدم (يبدأ بـ @) / ذكر (يرتبط بالمستخدمين)'"
 
-#: sophie_bot/args/users.py:72
+#: sophie_bot/args/users.py:72 types/user.py:121
 msgid "Users: 'User IDs (numeric) / Usernames (starts with @) / Mentions (links to users)'"
 msgstr "المستخدمون: 'معرفات المستخدم (عددية) / أسماء المستخدمين (تبدأ بـ @) / إشارات (ترتبط بالمستخدمين)'"
 
-#: sophie_bot/args/users.py:79
+#: sophie_bot/args/users.py:79 types/user.py:128
 msgid "User ID"
 msgstr "معرف المستخدم"
 
-#: sophie_bot/args/users.py:80
+#: sophie_bot/args/users.py:80 types/user.py:129
 msgid "Username"
 msgstr "اسم المستخدم"
 
-#: sophie_bot/args/users.py:81
+#: sophie_bot/args/users.py:81 types/user.py:133
 msgid "A link to user, usually creates by mentioning a user without username."
 msgstr "رابط إلى المستخدم، عادة ما يتم إنشاؤه من خلال ذكر مستخدم دون اسم مستخدم."
 
@@ -307,23 +303,23 @@ msgstr "إذا كانت الرسالة بالفعل باللغة المطلوب�
 msgid "If it needs any explanations or clarifications, write them briefly afterwards separately."
 msgstr "إذا كنت بحاجة إلى أي تفسيرات أو توضيحات، اكتبها باختصار بعد ذلك بشكل منفصل."
 
-#: sophie_bot/modules/ai/handlers/translate.py:86
+#: sophie_bot/modules/ai/handlers/translate.py:87
 msgid "Auto Translator"
 msgstr "المترجم التلقائي"
 
-#: sophie_bot/modules/ai/handlers/translate.py:86
+#: sophie_bot/modules/ai/handlers/translate.py:87
 msgid "Translator"
 msgstr "المترجم"
 
-#: sophie_bot/modules/ai/handlers/translate.py:87
+#: sophie_bot/modules/ai/handlers/translate.py:88
 msgid "Voice"
 msgstr "صوت"
 
-#: sophie_bot/modules/ai/handlers/translate.py:92
+#: sophie_bot/modules/ai/handlers/translate.py:93
 msgid "From {from_lang} to {to_lang}"
 msgstr "From {from_lang} to {to_lang}"
 
-#: sophie_bot/modules/ai/handlers/translate.py:102
+#: sophie_bot/modules/ai/handlers/translate.py:103
 msgid "Translation Notes"
 msgstr "Translation Notes"
 
@@ -695,9 +691,11 @@ msgid "Greetings"
 msgstr "تحيات"
 
 #: sophie_bot/modules/greetings/__init__.py:22
-msgid "This module helps you to welcome new users automatically, while keeping the chat clean.\n"
+msgid ""
+"This module helps you to welcome new users automatically, while keeping the chat clean.\n"
 "If you want to enforce captcha / rules verification, please see 'Welcome Security' module instead."
-msgstr "تساعدك هذه الوحدة على استقبال المستخدمين الجدد تلقائيًا، مع الحفاظ على نظافة الدردشة.\n"
+msgstr ""
+"تساعدك هذه الوحدة على استقبال المستخدمين الجدد تلقائيًا، مع الحفاظ على نظافة الدردشة.\n"
 "إذا كنت ترغب في فرض التحقق من الكابتشا أو القواعد، فيرجى الاطلاع على وحدة 'أمان الترحيب' بدلاً من ذلك."
 
 #: sophie_bot/modules/greetings/default_welcome.py:9
@@ -2053,24 +2051,4 @@ msgstr "حدث خطأ غير متوقع أثناء محاولة الحصول ع�
 #: types/user.py:108
 msgid "Could not find the user mention"
 msgstr "لم يتم العثور على إشارة المستخدم"
-
-#: types/user.py:119
-msgid "User: 'User ID (numeric) / Username (starts with @) / Mention (links to users)'"
-msgstr "المستخدم: 'معرف المستخدم (رقمي) / اسم المستخدم (يبدأ بـ @) / الإشارة (روابط إلى المستخدمين)'"
-
-#: types/user.py:121
-msgid "Users: 'User IDs (numeric) / Usernames (starts with @) / Mentions (links to users)'"
-msgstr "المستخدمون: 'معرفات المستخدم (عددية) / أسماء المستخدمين (تبدأ بـ @) / الإشارات (روابط إلى المستخدمين)'"
-
-#: types/user.py:128
-msgid "User ID"
-msgstr "معرف المستخدم"
-
-#: types/user.py:129
-msgid "Username"
-msgstr "اسم المستخدم"
-
-#: types/user.py:133
-msgid "A link to user, usually creates by mentioning a user without username."
-msgstr "رابط إلى المستخدم، غالباً ما يتم إنشاؤه عن طريق الإشارة إلى مستخدم بدون اسم مستخدم."
 

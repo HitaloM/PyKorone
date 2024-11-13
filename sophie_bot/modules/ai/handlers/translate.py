@@ -77,8 +77,9 @@ class AiTranslate(MessageHandler):
 
         translated = await ai_generate_schema(ai_context, AITranslateResponseSchema)
 
-        if is_autotranslate and not translated.needs_translation:
+        if is_autotranslate and not is_voice and not translated.needs_translation:
             log.debug("AiTranslate: AI do not think it needs translation, skipping.")
+            return
 
         doc = Doc(
             HList(
