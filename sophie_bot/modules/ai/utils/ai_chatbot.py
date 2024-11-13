@@ -9,8 +9,10 @@ from stfu_tg.doc import Doc, Element
 
 from sophie_bot.modules.ai.fsm.pm import AI_GENERATED_TEXT
 from sophie_bot.modules.ai.utils.message_history import AIMessageHistory
+from sophie_bot.modules.notes.utils.unparse_legacy import legacy_markdown_to_html
 from sophie_bot.services.ai import ai_client
 from sophie_bot.utils.logger import log
+from sophie_bot.utils.temp_stfu import PreformattedHTML
 
 
 class Models(str, Enum):
@@ -65,6 +67,7 @@ async def ai_reply(
     doc_items: Sequence[Element] = (),
 ) -> Message:
     response = await ai_generate(messages, model)
+    response = PreformattedHTML(legacy_markdown_to_html(response))
 
     header = HList(
         Title(AI_GENERATED_TEXT), Title("4o+", bold=False) if model != Models.GPT_4O_MINI else None, *header_items

@@ -87,7 +87,7 @@ msgid "✨ Sophie AI"
 msgstr "✨ Sophie AI"
 
 #: sophie_bot/modules/ai/handlers/ai_cmd.py:14
-#: sophie_bot/modules/ai/handlers/aisave.py:26
+#: sophie_bot/modules/ai/handlers/aisave.py:27
 #: sophie_bot/modules/ai/handlers/mode.py:14
 msgid "Prompt"
 msgstr "Invite"
@@ -96,23 +96,23 @@ msgstr "Invite"
 msgid "Ask Sophie a question"
 msgstr "Posez une question à Sophie"
 
-#: sophie_bot/modules/ai/handlers/aisave.py:28
+#: sophie_bot/modules/ai/handlers/aisave.py:29
 msgid "Generate a new note using AI"
 msgstr "Générer une nouvelle note en utilisant l'IA"
 
-#: sophie_bot/modules/ai/handlers/aisave.py:37
+#: sophie_bot/modules/ai/handlers/aisave.py:38
 msgid "✨ Generating..."
 msgstr "✨ Génération..."
 
-#: sophie_bot/modules/ai/handlers/aisave.py:47
+#: sophie_bot/modules/ai/handlers/aisave.py:48
 msgid "AI Generation failed, note already exists! Please try again."
 msgstr "Échec de la génération de l'IA, la note existe déjà ! Veuillez réessayer."
 
-#: sophie_bot/modules/ai/handlers/aisave.py:56
+#: sophie_bot/modules/ai/handlers/aisave.py:57
 msgid "✨ Note was successfully generated"
 msgstr "✨ La note a été générée avec succès"
 
-#: sophie_bot/modules/ai/handlers/aisave.py:59
+#: sophie_bot/modules/ai/handlers/aisave.py:60
 #: sophie_bot/modules/notes/handlers/save.py:51
 msgid "Use {cmd} to retrieve this note."
 msgstr "Utilisez {cmd} pour récupérer cette note."
@@ -283,43 +283,43 @@ msgstr "Réinitialiser le contexte IA du chat"
 msgid "🔄 AI context was successfully reset. AI will now operate in a clean state."
 msgstr "🔄 Le contexte IA a été réinitialisé avec succès. L'IA fonctionnera désormais dans un état propre."
 
-#: sophie_bot/modules/ai/handlers/translate.py:25
+#: sophie_bot/modules/ai/handlers/translate.py:27
 msgid "Text to translate"
 msgstr "Texte à traduire"
 
-#: sophie_bot/modules/ai/handlers/translate.py:31
+#: sophie_bot/modules/ai/handlers/translate.py:33
 msgid "Translates the given (or replied) text to the chat's selected language. Also transcribes the replied voice message to text"
 msgstr "Traduit le texte donné (ou répondu) dans la langue sélectionnée du chat. Transcrit également le message vocal répondu en texte"
 
-#: sophie_bot/modules/ai/handlers/translate.py:63
+#: sophie_bot/modules/ai/handlers/translate.py:65
 msgid "You're the professional AI translator/transcriber, try to translate the texts word to word."
 msgstr "Vous êtes le traducteur/transcripteur IA professionnel, essayez de traduire les textes mot à mot."
 
-#: sophie_bot/modules/ai/handlers/translate.py:64
+#: sophie_bot/modules/ai/handlers/translate.py:66
 msgid "If the message is already in a required language, just copy it."
 msgstr "Si le message est déjà dans une langue requise, il suffit de le copier."
 
-#: sophie_bot/modules/ai/handlers/translate.py:65
+#: sophie_bot/modules/ai/handlers/translate.py:67
 msgid "If it needs any explanations or clarifications, write them briefly afterwards separately."
 msgstr "S'il a besoin d'explications ou de clarifications, écrivez-les brièvement ensuite séparément."
 
-#: sophie_bot/modules/ai/handlers/translate.py:87
+#: sophie_bot/modules/ai/handlers/translate.py:89
 msgid "Auto Translator"
 msgstr "Traducteur automatique"
 
-#: sophie_bot/modules/ai/handlers/translate.py:87
+#: sophie_bot/modules/ai/handlers/translate.py:89
 msgid "Translator"
 msgstr "Traductor"
 
-#: sophie_bot/modules/ai/handlers/translate.py:88
+#: sophie_bot/modules/ai/handlers/translate.py:90
 msgid "Voice"
 msgstr "Voix"
 
-#: sophie_bot/modules/ai/handlers/translate.py:93
+#: sophie_bot/modules/ai/handlers/translate.py:95
 msgid "From {from_lang} to {to_lang}"
 msgstr "From {from_lang} to {to_lang}"
 
-#: sophie_bot/modules/ai/handlers/translate.py:103
+#: sophie_bot/modules/ai/handlers/translate.py:105
 msgid "Translation Notes"
 msgstr "Translation Notes"
 
@@ -336,18 +336,22 @@ msgid "Respond concisely, be friendly, stick to the current topic."
 msgstr "Répondez de manière concise, soyez amical, restez sur le sujet actuel."
 
 #: sophie_bot/modules/ai/utils/message_history.py:66
-msgid "Do not use markdown or html. You can use emojis."
-msgstr "N'utilisez pas de markdown ou de html. Vous pouvez utiliser des émojis."
+msgid "Please use only the following markdown elements: ** for bold, __ for italic, ~~ for strikethrough, ++ for underline, ` for code, and ``` for preformatted text."
+msgstr ""
 
-#: sophie_bot/modules/ai/utils/message_history.py:90
+#: sophie_bot/modules/ai/utils/message_history.py:69
+msgid "You can use emojis."
+msgstr ""
+
+#: sophie_bot/modules/ai/utils/message_history.py:93
 msgid "<No text provided>"
 msgstr "<No text provided>"
 
-#: sophie_bot/modules/ai/utils/message_history.py:99
+#: sophie_bot/modules/ai/utils/message_history.py:102
 msgid "MESSAGE REPLIES TO PREVIOUS MESSAGE FROM"
 msgstr "LE MESSAGE RÉPOND AU MESSAGE PRÉCÉDENT DE"
 
-#: sophie_bot/modules/ai/utils/message_history.py:110
+#: sophie_bot/modules/ai/utils/message_history.py:113
 msgid "Photo is empty"
 msgstr "La photo est vide"
 
@@ -2051,4 +2055,7 @@ msgstr "Erreur inattendue lors de la tentative d'obtenir l'utilisateur ! Veuill
 #: types/user.py:108
 msgid "Could not find the user mention"
 msgstr "Impossible de trouver la mention d'utilisateur"
+
+#~ msgid "Do not use markdown or html. You can use emojis."
+#~ msgstr "N'utilisez pas de markdown ou de html. Vous pouvez utiliser des émojis."
 

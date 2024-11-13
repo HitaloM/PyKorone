@@ -18,6 +18,7 @@ from sophie_bot.modules.ai.json_schemas.aisave import (
 from sophie_bot.modules.ai.utils.ai_chatbot import ai_generate
 from sophie_bot.modules.ai.utils.message_history import AIMessageHistory
 from sophie_bot.modules.notes.utils.names import format_notes_aliases
+from sophie_bot.modules.notes.utils.unparse_legacy import legacy_markdown_to_html
 from sophie_bot.utils.i18n import gettext as _
 from sophie_bot.utils.i18n import lazy_gettext as l_
 
@@ -69,7 +70,7 @@ class AISaveNote(MessageHandler):
             names=tuple(name.lower() for name in data.notenames),
             note_group=data.group,
             description=data.description,
-            text=data.text,
+            text=legacy_markdown_to_html(data.text),
         )
         return await model.save()  # type: ignore
 

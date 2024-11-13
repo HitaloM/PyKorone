@@ -13,9 +13,11 @@ from sophie_bot.modules.ai.json_schemas.translate import AITranslateResponseSche
 from sophie_bot.modules.ai.utils.ai_chatbot import ai_generate_schema
 from sophie_bot.modules.ai.utils.message_history import AIMessageHistory
 from sophie_bot.modules.ai.utils.transform_audio import transform_voice_to_text
+from sophie_bot.modules.notes.utils.unparse_legacy import legacy_markdown_to_html
 from sophie_bot.utils.i18n import gettext as _
 from sophie_bot.utils.i18n import lazy_gettext as l_
 from sophie_bot.utils.logger import log
+from sophie_bot.utils.temp_stfu import PreformattedHTML
 
 
 async def text_or_reply(message: Message | None, _data: dict):
@@ -98,7 +100,7 @@ class AiTranslate(MessageHandler):
                 if not is_voice
                 else None
             ),
-            translated.translated_text,
+            PreformattedHTML(legacy_markdown_to_html(translated.translated_text)),
             (
                 Section(translated.translation_explanations, title=_("Translation Notes"))
                 if translated.translation_explanations
