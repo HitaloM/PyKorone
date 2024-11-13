@@ -1,18 +1,22 @@
-
 msgid ""
 msgstr ""
-"Project-Id-Version:  sophiebot\n"
+"Project-Id-Version: sophiebot\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-11-13 20:47+0100\n"
-"PO-Revision-Date: 2024-11-13 19:55+0000\n"
+"POT-Creation-Date: 2024-11-13 22:54+0100\n"
+"PO-Revision-Date: 2024-11-13 22:02\n"
 "Last-Translator: \n"
-"Language: uk_UA\n"
 "Language-Team: Ukrainian\n"
-"Plural-Forms: nplurals=4; plural=((n%10==1 && n%100!=11) ? 0 : ((n%10 >= 2 && n%10 <=4 && (n%100 < 12 || n%100 > 14)) ? 1 : ((n%10 == 0 || (n%10 >= 5 && n%10 <=9)) || (n%100 >= 11 && n%100 <= 14)) ? 2 : 3));\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=utf-8\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.16.0\n"
+"Plural-Forms: nplurals=4; plural=((n%10==1 && n%100!=11) ? 0 : ((n%10 >= 2 && n%10 <=4 && (n%100 < 12 || n%100 > 14)) ? 1 : ((n%10 == 0 || (n%10 >= 5 && n%10 <=9)) || (n%100 >= 11 && n%100 <= 14)) ? 2 : 3));\n"
+"X-Crowdin-Project: sophiebot\n"
+"X-Crowdin-Project-ID: 356879\n"
+"X-Crowdin-Language: uk\n"
+"X-Crowdin-File: /beta/locales/sophie.pot\n"
+"X-Crowdin-File-ID: 288\n"
+"Language: uk_UA\n"
 
 #: sophie_bot/args/users.py:29
 msgid "Could not find the requested User ID in the database."
@@ -22,23 +26,23 @@ msgstr "Не вдалося знайти запитаний Ідентифіка
 msgid "Could not find the requested Username in the database."
 msgstr "Не вдалося знайти запитане Ім'я користувача в базі даних."
 
-#: sophie_bot/args/users.py:72 types/user.py:119
+#: sophie_bot/args/users.py:72
 msgid "User: 'User ID (numeric) / Username (starts with @) / Mention (links to users)'"
 msgstr "Користувач: 'Ідентифікатор користувача (числовий) / Ім'я користувача (починається з @) / Згадка (посилання на користувачів)'"
 
-#: sophie_bot/args/users.py:72 types/user.py:121
+#: sophie_bot/args/users.py:72
 msgid "Users: 'User IDs (numeric) / Usernames (starts with @) / Mentions (links to users)'"
 msgstr "Користувачі: 'ID користувачів (числові) / Імена користувачів (починаються з @) / Згадки (посилання на користувачів)'"
 
-#: sophie_bot/args/users.py:79 types/user.py:128
+#: sophie_bot/args/users.py:79
 msgid "User ID"
 msgstr "Ідентифікатор користувача"
 
-#: sophie_bot/args/users.py:80 types/user.py:129
+#: sophie_bot/args/users.py:80
 msgid "Username"
 msgstr "Ім'я користувача"
 
-#: sophie_bot/args/users.py:81 types/user.py:133
+#: sophie_bot/args/users.py:81
 msgid "A link to user, usually creates by mentioning a user without username."
 msgstr "Посилання на користувача, яке зазвичай створюється, коли згадують користувача без імені."
 
@@ -332,17 +336,16 @@ msgid "You're a Telegram Bot named Sophie."
 msgstr "Ви — це бот Telegram на ім'я Софі."
 
 #: sophie_bot/modules/ai/utils/message_history.py:65
-#, fuzzy
 msgid "Respond concisely and stick to the current topic."
-msgstr "Відповідайте лаконічно, будьте дружніми, дотримуйтесь поточної теми."
+msgstr "Відповідайте лаконічно і дотримуйтесь поточного теми."
 
 #: sophie_bot/modules/ai/utils/message_history.py:66
 msgid "Please use only the following markdown elements: ** for bold, __ for italic, ~~ for strikethrough, ++ for underline, ` for code, and ``` for preformatted text."
-msgstr ""
+msgstr "Будь ласка, використовуйте лише наступні елементи markdown: ** для жирного, __ для курсиву, ~~ для закреслення, ++ для підкреслення, ` для коду та ``` для попередньо відформатованого тексту."
 
 #: sophie_bot/modules/ai/utils/message_history.py:69
 msgid "Do not use Tables. You can use emojis."
-msgstr ""
+msgstr "Не використовуйте таблиці. Ви можете використовувати емодзі."
 
 #: sophie_bot/modules/ai/utils/message_history.py:93
 msgid "<No text provided>"
@@ -696,11 +699,9 @@ msgid "Greetings"
 msgstr "Привітання"
 
 #: sophie_bot/modules/greetings/__init__.py:22
-msgid ""
-"This module helps you to welcome new users automatically, while keeping the chat clean.\n"
+msgid "This module helps you to welcome new users automatically, while keeping the chat clean.\n"
 "If you want to enforce captcha / rules verification, please see 'Welcome Security' module instead."
-msgstr ""
-"Цей модуль допомагає автоматично вітати нових користувачів, водночас підтримуючи чистоту чату.\n"
+msgstr "Цей модуль допомагає автоматично вітати нових користувачів, водночас підтримуючи чистоту чату.\n"
 "Якщо ви хочете реалізувати перевірку captcha / перевірку правил, будь ласка, перегляньте модуль 'Привітальна безпека'."
 
 #: sophie_bot/modules/greetings/default_welcome.py:9
@@ -2057,9 +2058,23 @@ msgstr "Несподівана помилка під час спроби отр�
 msgid "Could not find the user mention"
 msgstr "Не вдалося знайти згадку користувача"
 
-#~ msgid "Do not use markdown or html. You can use emojis."
-#~ msgstr "Не використовуйте markdown або html. Ви можете використовувати емодзі."
+#: types/user.py:119
+msgid "User: 'User ID (numeric) / Username (starts with @) / Mention (links to users)'"
+msgstr "Користувач: 'Ідентифікатор користувача (числовий) / Ім'я користувача (починається з @) / Згадка (посилання на користувачів)'"
 
-#~ msgid "You can use emojis."
-#~ msgstr ""
+#: types/user.py:121
+msgid "Users: 'User IDs (numeric) / Usernames (starts with @) / Mentions (links to users)'"
+msgstr "Користувачі: 'Ідентифікатори користувачів (числові) / Імена користувачів (починаються з @) / Згадки (посилання на користувачів)'"
+
+#: types/user.py:128
+msgid "User ID"
+msgstr "Ідентифікатор користувача"
+
+#: types/user.py:129
+msgid "Username"
+msgstr "Ім'я користувача"
+
+#: types/user.py:133
+msgid "A link to user, usually creates by mentioning a user without username."
+msgstr "Посилання на користувача, яке зазвичай створюється, коли згадують користувача без імені."
 
