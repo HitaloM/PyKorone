@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2024-11-15 18:09-0300\n"
-"PO-Revision-Date: 2024-09-12 17:20+0000\n"
+"PO-Revision-Date: 2024-11-15 21:57+0000\n"
 "Last-Translator: Hitalo <hitalo331@outlook.com>\n"
 "Language-Team: Portuguese (Brazil) <http://weblate.amanoteam.com/projects/"
 "korone/korone/pt_BR/>\n"
@@ -22,28 +22,23 @@ msgstr ""
 
 #: src/korone/filters/admin.py:68
 msgid "I am missing the following permissions: {permissions}"
-msgstr ""
+msgstr "Estou sem as seguintes permissões: {permissions}"
 
 #: src/korone/filters/admin.py:80
 msgid "You must be an administrator to use this."
 msgstr "Você deve ser um administrador para usar isso."
 
 #: src/korone/filters/admin.py:82
-#, fuzzy
 msgid "I need to be an administrator to perform this action."
-msgstr "Você deve ser um administrador para usar isso."
+msgstr "Preciso ser um administrador para realizar essa ação."
 
 #: src/korone/filters/chat.py:42
-#, fuzzy
 msgid "This command is designed to be used in PM, not in groups!"
-msgstr ""
-"Esse comando foi projetado para ser usado no PV, não em bate-papos em grupo!"
+msgstr "Esse comando foi projetado para ser usado no PV, não em grupos!"
 
 #: src/korone/filters/chat.py:52
-#, fuzzy
 msgid "This command is designed to be used in groups, not in PM!"
-msgstr ""
-"Esse comando foi projetado para ser usado em bate-papos em grupo, não no PV!"
+msgstr "Esse comando foi projetado para ser usado em grupos, não no PV!"
 
 #: src/korone/modules/afk/handlers/check.py:29
 msgid "Oh, you're back! I've removed your afk status."
@@ -975,6 +970,8 @@ msgid ""
 "The result exceeds the 4096 character limit of Telegram. Please refine your "
 "code."
 msgstr ""
+"O resultado excede o limite de 4096 caracteres do Telegram. Por favor, "
+"refine seu código."
 
 #: src/korone/modules/pm_menu/handlers/about.py:28
 msgid ""
