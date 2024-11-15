@@ -11,22 +11,29 @@ from hydrogram.types import CallbackQuery, Message
 from korone.config import ConfigManager
 from korone.utils.logging import logger
 
-SUDOERS = ConfigManager.get("korone", "SUDOERS")
 
-if not SUDOERS:
-    msg = "The SUDOERS list has not been loaded correctly. Check your configuration file."
-    logger.error(msg)
-    raise ValueError(msg)
+def load_sudoers() -> set[int]:
+    sudoers = ConfigManager.get("korone", "SUDOERS")
 
-if not isinstance(SUDOERS, list):
-    msg = "The SUDOERS list must be a list. Check your configuration file."
-    logger.error(msg)
-    raise TypeError(msg)
+    if not sudoers:
+        msg = "The SUDOERS list was not loaded correctly. Please check your configuration file."
+        logger.error(msg)
+        raise ValueError(msg)
 
-if not all(isinstance(i, int) for i in SUDOERS):
-    msg = "The SUDOERS list must contain only integers. Check your configuration file."
-    logger.error(msg)
-    raise TypeError(msg)
+    if not isinstance(sudoers, list):
+        msg = "The SUDOERS list must be a list. Please check your configuration file."
+        logger.error(msg)
+        raise TypeError(msg)
+
+    if not all(isinstance(user_id, int) for user_id in sudoers):
+        msg = "The SUDOERS list must contain only integers. Please check your configuration file."
+        logger.error(msg)
+        raise TypeError(msg)
+
+    return set(sudoers)
+
+
+SUDOERS = load_sudoers()
 
 
 class IsSudo(Filter):
@@ -41,17 +48,22 @@ class IsSudo(Filter):
         is_callback = isinstance(update, CallbackQuery)
         message = update.message if is_callback else update
 
-        if update.from_user is None:
+        user = update.from_user
+        if user is None:
+            await logger.awarning(
+                "[Filters/Sudo] Update without originating user.", chat=message.chat.id
+            )
             return False
 
-        user_id = update.from_user.id
+        user_id = user.id
         chat_id = message.chat.id
+
         if user_id in SUDOERS:
-            await logger.ainfo("[Filters/Sudo] Access allowed", user=user_id, chat=chat_id)
+            await logger.ainfo("[Filters/Sudo] Access granted.", user=user_id, chat=chat_id)
             return True
 
         await logger.awarning(
-            "[Filters/Sudo] Unauthorized access attempt", user=user_id, chat=chat_id
+            "[Filters/Sudo] Unauthorized access attempt.", user=user_id, chat=chat_id
         )
         return False
 
