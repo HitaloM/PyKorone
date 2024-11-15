@@ -10,6 +10,19 @@
 
 .. towncrier release notes start
 
+1.1.6 (2024-11-15)
+==================
+
+Features
+--------
+
+- Enhanced Bluesky media handling with parallel downloading of video content. When downloading videos from Bluesky posts, the system now downloads multiple segments simultaneously, making video retrieval significantly faster and more efficient.
+
+Bug Fixes
+---------
+
+- Fixed the automatic media download for Threads posts containing multiple media items.
+
 1.1.5 (2024-10-20)
 ==================
 

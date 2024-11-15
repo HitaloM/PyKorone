@@ -1,1 +1,0 @@
-Enhanced Bluesky media handling with parallel downloading of video content. When downloading videos from Bluesky posts, the system now downloads multiple segments simultaneously, making video retrieval significantly faster and more efficient.
