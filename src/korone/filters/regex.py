@@ -6,6 +6,7 @@ from __future__ import annotations
 import re
 from collections.abc import Iterable, Sequence
 from contextlib import suppress
+from re import Pattern
 from typing import TYPE_CHECKING
 
 from hydrogram.filters import Filter
@@ -16,7 +17,7 @@ if TYPE_CHECKING:
     from hydrogram import Client
     from hydrogram.types import Message
 
-RegexPatternType = str | re.Pattern
+RegexPatternType = str | Pattern[str]
 
 
 class RegexError(Exception):
@@ -33,42 +34,44 @@ class Regex(Filter):
         ignore_case: bool = False,
         friendly_name: str | None = None,
     ) -> None:
-        patterns = self._prepare_patterns(values, patterns, ignore_case)
-        if not patterns:
-            msg = "Regex filter requires at least one pattern"
+        prepared_patterns = self._prepare_patterns(values, patterns, ignore_case)
+        if not prepared_patterns:
+            msg = "Regex filter requires at least one pattern."
             raise ValueError(msg)
 
-        self.patterns = tuple(patterns)
+        self.patterns: tuple[Pattern[str], ...] = tuple(prepared_patterns)
         self.ignore_case = ignore_case
         self.friendly_name = friendly_name
 
     def _prepare_patterns(
         self,
-        values: Sequence[RegexPatternType],
+        values: Iterable[RegexPatternType],
         patterns: Sequence[RegexPatternType] | RegexPatternType | None,
         ignore_case: bool,
-    ) -> list[re.Pattern]:
-        if isinstance(patterns, str | re.Pattern):
+    ) -> list[Pattern[str]]:
+        if isinstance(patterns, str | Pattern):
             patterns = [patterns]
         elif patterns is None:
             patterns = []
-
-        if not isinstance(patterns, Iterable):
-            msg = "Regex filter only supports str, re.Pattern object or their Iterable"
+        elif not isinstance(patterns, Iterable):
+            msg = "Regex filter only supports str, re.Pattern objects or their Iterable."
             raise TypeError(msg)
 
-        return [self._process_pattern(pattern, ignore_case) for pattern in (*values, *patterns)]
+        combined_patterns = list(values) + list(patterns)
+        return [self._process_pattern(p, ignore_case) for p in combined_patterns]
 
     @staticmethod
-    def _process_pattern(pattern: RegexPatternType, ignore_case: bool) -> re.Pattern:
+    def _process_pattern(pattern: RegexPatternType, ignore_case: bool) -> Pattern[str]:
         if isinstance(pattern, str):
             flags = re.IGNORECASE if ignore_case else 0
-            pattern = re.compile(pattern, flags)
-
-        if not isinstance(pattern, re.Pattern):
-            msg = "Regex filter only supports str, re.Pattern object or their Iterable"
+            try:
+                return re.compile(pattern, flags)
+            except re.error as e:
+                msg = f"Invalid regex pattern: {pattern}. Please check the pattern syntax."
+                raise RegexError(msg) from e
+        if not isinstance(pattern, Pattern):
+            msg = "Regex filter only supports str or re.Pattern objects."
             raise TypeError(msg)
-
         return pattern
 
     async def __call__(self, client: Client, message: Message) -> bool:
@@ -77,7 +80,6 @@ class Regex(Filter):
 
         with suppress(RegexError):
             return await self.parse_regex(message)
-
         return False
 
     async def parse_regex(self, message: Message) -> bool:
@@ -88,7 +90,7 @@ class Regex(Filter):
         if self.friendly_name and self.friendly_name in COMMANDS:
             chat_id = message.chat.id
             if not COMMANDS[self.friendly_name]["chat"].get(chat_id, True):
-                msg = f"Regex pattern {self.friendly_name} is disabled in '{chat_id}'"
+                msg = f"Regex pattern '{self.friendly_name}' is disabled in chat '{chat_id}'"
                 raise RegexError(msg)
 
         return any(pattern.search(text) for pattern in self.patterns)
