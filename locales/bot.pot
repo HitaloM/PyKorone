@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-11-02 22:19-0300\n"
+"POT-Creation-Date: 2024-11-15 18:01-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,16 +17,16 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.16.0\n"
 
-#: src/korone/filters/admin.py:42
+#: src/korone/filters/admin.py:68
+msgid "I am missing the following permissions: {permissions}"
+msgstr ""
+
+#: src/korone/filters/admin.py:80
 msgid "You must be an administrator to use this."
 msgstr ""
 
-#: src/korone/filters/admin.py:93
-msgid "I'm missing the following permissions: {permissions}"
-msgstr ""
-
-#: src/korone/filters/admin.py:103
-msgid "I must be an administrator to do this."
+#: src/korone/filters/admin.py:82
+msgid "I need to be an administrator to perform this action."
 msgstr ""
 
 #: src/korone/filters/chat.py:25

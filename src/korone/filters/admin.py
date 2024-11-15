@@ -13,15 +13,32 @@ from hydrogram.types import CallbackQuery, ChatPrivileges, Message
 from korone.utils.i18n import gettext as _
 
 
-class UserIsAdmin(Filter):
-    __slots__ = ("client", "show_alert", "update")
+class AdminFilter(Filter):
+    __slots__ = ("client", "permissions", "show_alert", "update")
 
     def __init__(
-        self, client: Client, update: Message | CallbackQuery, *, show_alert: bool = True
+        self,
+        client: Client,
+        update: Message | CallbackQuery,
+        permissions: ChatPrivileges | None = None,
+        show_alert: bool = True,
     ) -> None:
         self.client = client
         self.update = update
         self.show_alert = show_alert
+        self.permissions = permissions
+
+    async def check_admin(self, user_id: int) -> bool:
+        try:
+            chat = (
+                self.update.message.chat
+                if isinstance(self.update, CallbackQuery)
+                else self.update.chat
+            )
+            chat_member = await chat.get_member(user_id)
+            return chat_member.status in {ChatMemberStatus.ADMINISTRATOR, ChatMemberStatus.OWNER}
+        except ChatAdminRequired:
+            return False
 
     async def __call__(self) -> bool:
         update = self.update
@@ -35,82 +52,35 @@ class UserIsAdmin(Filter):
         if message.chat.type == ChatType.PRIVATE:
             return True
 
-        try:
-            chat_member = await message.chat.get_member(user.id)
-            if chat_member.status in {ChatMemberStatus.ADMINISTRATOR, ChatMemberStatus.OWNER}:
-                return True
-        except ChatAdminRequired:
-            if self.show_alert:
-                alert_text = _("I need to be an administrator to perform that action!")
-                if is_callback:
-                    await update.answer(text=alert_text, show_alert=True, cache_time=60)
-                else:
-                    await message.reply(alert_text)
-            return False
+        user_id = user.id if isinstance(self, UserIsAdmin) else self.client.me.id  # type: ignore
+        is_admin = await self.check_admin(user_id)
 
-        if self.show_alert:
-            alert_text = _("You must be an administrator to use this.")
-            if is_callback:
-                await update.answer(text=alert_text, show_alert=True, cache_time=60)
-            else:
-                await message.reply(alert_text)
-
-        return False
-
-    def __await__(self) -> Generator[Any, Any, bool]:
-        return self.__call__().__await__()
-
-
-class BotIsAdmin(Filter):
-    __slots__ = ("client", "permissions", "show_alert", "update")
-
-    def __init__(
-        self,
-        client: Client,
-        update: Message | CallbackQuery,
-        *,
-        permissions: ChatPrivileges | None = None,
-        show_alert: bool = True,
-    ) -> None:
-        self.client = client
-        self.update = update
-        self.show_alert = show_alert
-        self.permissions = permissions
-
-    async def __call__(self) -> bool:
-        update = self.update
-        is_callback = isinstance(update, CallbackQuery)
-        message = update.message if is_callback else update
-
-        if message.chat.type == ChatType.PRIVATE:
+        if is_admin:
+            if isinstance(self, BotIsAdmin) and self.permissions:
+                bot_member = await message.chat.get_member(self.client.me.id)  # type: ignore
+                missing_perms = [
+                    perm
+                    for perm, value in self.permissions.__dict__.items()
+                    if value and not getattr(bot_member.privileges, perm)
+                ]
+                if missing_perms:
+                    if self.show_alert:
+                        msg = _("I am missing the following permissions: {permissions}").format(
+                            permissions=", ".join(missing_perms)
+                        )
+                        if is_callback:
+                            await update.answer(msg, show_alert=True)
+                        else:
+                            await message.reply_text(msg)
+                    return False
             return True
 
-        bot_member = await message.chat.get_member(self.client.me.id)  # type: ignore
-        if bot_member.status in {ChatMemberStatus.ADMINISTRATOR, ChatMemberStatus.OWNER}:
-            if not self.permissions or bot_member.status == ChatMemberStatus.OWNER:
-                return True
-
-            missing_perms = [
-                perm
-                for perm, value in self.permissions.__dict__.items()
-                if value and not getattr(bot_member.privileges, perm)
-            ]
-
-            if not missing_perms:
-                return True
-
-            if self.show_alert:
-                msg = _("I'm missing the following permissions: {permissions}").format(
-                    permissions=", ".join(missing_perms)
-                )
-                if is_callback:
-                    await update.answer(msg, show_alert=True)
-                else:
-                    await message.reply_text(msg)
-            return False
-
         if self.show_alert:
-            alert_text = _("I must be an administrator to do this.")
+            alert_text = (
+                _("You must be an administrator to use this.")
+                if isinstance(self, UserIsAdmin)
+                else _("I need to be an administrator to perform this action.")
+            )
             if is_callback:
                 await update.answer(text=alert_text, show_alert=True, cache_time=60)
             else:
@@ -120,3 +90,11 @@ class BotIsAdmin(Filter):
 
     def __await__(self) -> Generator[Any, Any, bool]:
         return self.__call__().__await__()
+
+
+class UserIsAdmin(AdminFilter):
+    pass
+
+
+class BotIsAdmin(AdminFilter):
+    pass
