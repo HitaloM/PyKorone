@@ -3,7 +3,8 @@
 
 from __future__ import annotations
 
-from typing import TYPE_CHECKING
+from collections.abc import Callable
+from typing import TYPE_CHECKING, ClassVar
 
 from korone.handlers.callback_query_handler import KoroneCallbackQueryHandler
 from korone.handlers.error_handler import KoroneErrorHandler
@@ -17,16 +18,16 @@ if TYPE_CHECKING:
 
 
 class Factory:
-    __slots__ = ("update_name", "updates_observed")
+    __slots__ = ("update_name",)
+
+    updates_observed: ClassVar[dict[str, type[Handler]]] = {
+        "message": KoroneMessageHandler,
+        "callback_query": KoroneCallbackQueryHandler,
+        "error": KoroneErrorHandler,
+    }
 
     def __init__(self, update_name: str) -> None:
         self.update_name = update_name
-
-        self.updates_observed: dict[str, type[Handler]] = {
-            "message": KoroneMessageHandler,
-            "callback_query": KoroneCallbackQueryHandler,
-            "error": KoroneErrorHandler,
-        }
 
     def __call__(self, filters: Filter | None = None, group: int = 0) -> Callable:
         def wrapper(func: Callable) -> Callable:
