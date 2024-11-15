@@ -7,7 +7,8 @@ import re
 from collections.abc import Iterable, Sequence
 from contextlib import suppress
 from dataclasses import dataclass, field, replace
-from typing import TYPE_CHECKING, Any, Self
+from re import Pattern
+from typing import TYPE_CHECKING, Any, Final, Self
 
 from hydrogram.filters import Filter
 
@@ -18,9 +19,8 @@ if TYPE_CHECKING:
     from hydrogram.types import Message
     from magic_filter import MagicFilter
 
-PREFIX: str = "/"
-
-CommandPatternType = str | re.Pattern
+PREFIX: Final[str] = "/"
+CommandPatternType = str | Pattern[str]
 
 
 class CommandError(Exception):
@@ -37,23 +37,30 @@ class CommandObject:
     regexp_match: re.Match[str] | None = field(repr=False, default=None)
     magic_result: Any = field(repr=False, default=None)
 
+    def __str__(self) -> str:
+        return (
+            f"Command(prefix={self.prefix!r}, command={self.command!r}, mention={self.mention!r})"
+        )
+
     @staticmethod
     def is_valid_command(command: str) -> bool:
-        return all(char.isalnum() or char.isspace() for char in command)
+        return bool(command) and all(char.isalnum() or char.isspace() for char in command)
 
     def extract(self, text: str) -> Self:
         if not text.startswith(self.prefix):
             msg = f"Command must start with the prefix '{self.prefix}'."
             raise CommandError(msg)
 
-        try:
-            full_command, *args = text.split(maxsplit=1)
-        except ValueError as e:
-            msg = "Not enough values to unpack."
-            raise CommandError(msg) from e
+        command_text = text[len(self.prefix) :].strip()
+        if not command_text:
+            msg = "No command found after the prefix."
+            raise CommandError(msg)
 
-        prefix = full_command[0]
-        command, _, mention = full_command[1:].partition("@")
+        parts = command_text.split(maxsplit=1)
+        full_command = parts[0]
+        args = parts[1] if len(parts) > 1 else None
+
+        command, _, mention = full_command.partition("@")
 
         if not self.is_valid_command(command):
             msg = (
@@ -62,12 +69,7 @@ class CommandObject:
             )
             raise CommandError(msg)
 
-        return self.__class__(
-            prefix=prefix,
-            command=command,
-            mention=mention or None,
-            args=args[0] if args else None,
-        )
+        return replace(self, command=command, mention=mention or None, args=args)
 
     def parse(self) -> Self:
         if not self.message:
@@ -95,36 +97,43 @@ class Command(Filter):
         magic: MagicFilter | None = None,
         disableable: bool = True,
     ) -> None:
-        commands = self._prepare_commands(values, commands, ignore_case)
-        if not commands:
-            msg = "Command filter requires at least one command"
-            raise ValueError(msg)
-
-        self.commands = tuple(commands)
         self.prefix = prefix
         self.ignore_case = ignore_case
         self.ignore_mention = ignore_mention
         self.magic = magic
         self.disableable = disableable
+        self.commands = tuple(self._prepare_commands(values, commands, ignore_case))
 
-    def _prepare_commands(self, values, commands, ignore_case):
-        if isinstance(commands, str | re.Pattern):
+        if not self.commands:
+            msg = "Command filter requires at least one command."
+            raise ValueError(msg)
+
+    def _prepare_commands(
+        self,
+        values: Iterable[CommandPatternType],
+        commands: Sequence[CommandPatternType] | CommandPatternType | None,
+        ignore_case: bool,
+    ) -> Iterable[Pattern[str]]:
+        if isinstance(commands, str | Pattern):
             commands = [commands]
         elif commands is None:
             commands = []
 
         if not isinstance(commands, Iterable):
-            msg = "Command filter only supports str, re.Pattern object or their Iterable"
+            msg = "Command filter only supports str, Pattern objects or their iterable."
             raise TypeError(msg)
 
-        return [self._process_command(command, ignore_case) for command in (*values, *commands)]
+        combined_commands = list(values) + list(commands)
+        return [self._process_command(command, ignore_case) for command in combined_commands]
 
     @staticmethod
-    def _process_command(command, ignore_case):
+    def _process_command(command: CommandPatternType, ignore_case: bool) -> Pattern[str]:
         if isinstance(command, str):
-            command = re.compile(re.escape(command.casefold() if ignore_case else command) + "$")
-        if not isinstance(command, re.Pattern):
-            msg = "Command filter only supports str, re.Pattern object or their Iterable"
+            command_str = command.lower() if ignore_case else command
+            pattern = re.escape(command_str) + r"$"
+            return re.compile(pattern)
+        if not isinstance(command, Pattern):
+            msg = "Command filter only supports str or Pattern objects."
             raise TypeError(msg)
         return command
 
@@ -139,49 +148,48 @@ class Command(Filter):
 
     def validate_prefix(self, command: CommandObject) -> None:
         if command.prefix != self.prefix:
-            msg = f"Invalid prefix: {command.prefix!r}"
+            msg = f"Invalid prefix: {command.prefix!r}."
             raise CommandError(msg)
 
     async def validate_mention(self, client: Client, command: CommandObject) -> None:
         if command.mention and not self.ignore_mention:
             me = client.me or await client.get_me()
             if me.username and command.mention.lower() != me.username.lower():
-                msg = f"Invalid mention: {command.mention!r}"
+                msg = f"Invalid mention: {command.mention!r}."
                 raise CommandError(msg)
 
     def validate_command(self, command: CommandObject) -> CommandObject:
-        command_name = command.command.casefold() if self.ignore_case else command.command
+        command_name = command.command.lower() if self.ignore_case else command.command
 
         for allowed_command in self.commands:
-            if isinstance(allowed_command, re.Pattern):
-                if result := allowed_command.match(command.command):
-                    return replace(command, regexp_match=result)
-            elif command_name == allowed_command:
+            if match := allowed_command.match(command.command):
+                return replace(command, regexp_match=match)
+            if command_name == allowed_command.pattern.rstrip("$"):
                 return command
 
-        msg = f"Invalid command: {command.command!r}"
+        msg = f"Invalid command: {command.command!r}."
         raise CommandError(msg)
 
     async def parse_command(self, client: Client, message: Message) -> CommandObject:
-        command = CommandObject(message).parse()
+        command = CommandObject(message=message).parse()
         self.validate_prefix(command)
         await self.validate_mention(client, command)
 
         command_name = command.command
         if self.disableable and command_name in COMMANDS:
             chat_id = message.chat.id
-            command_name = COMMANDS[command_name].get("parent", command_name)
-            if not COMMANDS[command_name]["chat"].get(chat_id, True):
-                msg = f"Command {command_name} is disabled in '{chat_id}'."
+            parent_command = COMMANDS[command_name].get("parent", command_name)
+            if not COMMANDS[parent_command]["chat"].get(chat_id, True):
+                msg = f"Command '{command_name}' is disabled in chat '{chat_id}'."
                 raise CommandError(msg)
 
-        return self.do_magic(self.validate_command(command))
+        validated_command = self.validate_command(command)
+        return self.do_magic(validated_command)
 
     def do_magic(self, command: CommandObject) -> CommandObject:
         if self.magic:
-            result = self.magic.resolve(command)
-            if result:
+            if result := self.magic.resolve(command):
                 return replace(command, magic_result=result)
-            msg = "Rejected by magic filter"
+            msg = "Rejected by magic filter."
             raise CommandError(msg)
         return command
