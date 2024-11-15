@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: sophiebot\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2024-11-13 22:54+0100\n"
-"PO-Revision-Date: 2024-11-13 22:02\n"
+"PO-Revision-Date: 2024-11-13 23:10\n"
 "Last-Translator: \n"
 "Language-Team: French\n"
 "MIME-Version: 1.0\n"
@@ -32,11 +32,11 @@ msgstr "Utilisateur : 'ID utilisateur (numérique) / Nom d'utilisateur (commence
 
 #: sophie_bot/args/users.py:72
 msgid "Users: 'User IDs (numeric) / Usernames (starts with @) / Mentions (links to users)'"
-msgstr "Utilisateurs : 'IDs utilisateur (numériques) / Noms d'utilisateur (commence par @) / Mentions (liens vers des utilisateurs)'"
+msgstr "Utilisateurs : 'IDs d'utilisateur (numériques) / Noms d'utilisateur (commencent par @) / Mentions (liens vers des utilisateurs)'"
 
 #: sophie_bot/args/users.py:79
 msgid "User ID"
-msgstr "ID de l'utilisateur"
+msgstr "ID utilisateur"
 
 #: sophie_bot/args/users.py:80
 msgid "Username"
@@ -44,7 +44,7 @@ msgstr "Nom d'utilisateur"
 
 #: sophie_bot/args/users.py:81
 msgid "A link to user, usually creates by mentioning a user without username."
-msgstr "Un lien vers l'utilisateur, généralement créé en mentionnant un utilisateur sans nom d'utilisateur."
+msgstr "Un lien vers un utilisateur, généralement créé en mentionnant un utilisateur sans nom d'utilisateur."
 
 #: sophie_bot/middlewares/connections.py:26
 msgid "Private chat"

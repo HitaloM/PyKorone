@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: sophiebot\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2024-11-13 22:54+0100\n"
-"PO-Revision-Date: 2024-11-13 22:02\n"
+"PO-Revision-Date: 2024-11-14 17:33\n"
 "Last-Translator: \n"
 "Language-Team: Russian\n"
 "MIME-Version: 1.0\n"
@@ -28,11 +28,11 @@ msgstr "Не удалось найти запрашиваемое имя пол�
 
 #: sophie_bot/args/users.py:72
 msgid "User: 'User ID (numeric) / Username (starts with @) / Mention (links to users)'"
-msgstr "Пользователь: 'ID пользователя (число) / Имя пользователя (начинается с @) / Упоминание (ссылки на пользователей)'"
+msgstr "Пользователь: 'ID пользователя (число) / Юзернем (начинается с @) / Упоминание (ссылки на пользователей)'"
 
 #: sophie_bot/args/users.py:72
 msgid "Users: 'User IDs (numeric) / Usernames (starts with @) / Mentions (links to users)'"
-msgstr "Пользователи: 'ID пользователей (числа) / Имена пользователей (начинаются с @) / Упоминания (ссылки на пользователей)'"
+msgstr "Пользователи: 'ID пользователей (числа) / Юзернеймы (начинаются с @) / Упоминания (ссылки на пользователей)'"
 
 #: sophie_bot/args/users.py:79
 msgid "User ID"
@@ -40,11 +40,11 @@ msgstr "ID пользователя"
 
 #: sophie_bot/args/users.py:80
 msgid "Username"
-msgstr "Имя пользователя"
+msgstr "Юзернейм"
 
 #: sophie_bot/args/users.py:81
 msgid "A link to user, usually creates by mentioning a user without username."
-msgstr "Ссылка на пользователя, обычно создается путём упоминания пользователя без имени."
+msgstr "Ссылка на пользователя, обычно создается путём упоминания на пользователя без юзернейма."
 
 #: sophie_bot/middlewares/connections.py:26
 msgid "Private chat"
@@ -839,7 +839,7 @@ msgstr "Чат поддержки"
 
 #: sophie_bot/modules/greetings/middlewares/new_user.py:81
 msgid "I am not a robot"
-msgstr "I am not a robot"
+msgstr "Я не робот"
 
 #: sophie_bot/modules/help/__init__.py:20
 #: sophie_bot/modules/help/handlers/pm_modules.py:41

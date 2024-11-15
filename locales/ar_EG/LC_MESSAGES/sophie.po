@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: sophiebot\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2024-11-13 22:54+0100\n"
-"PO-Revision-Date: 2024-11-13 22:02\n"
+"PO-Revision-Date: 2024-11-13 23:10\n"
 "Last-Translator: \n"
 "Language-Team: Arabic, Egypt\n"
 "MIME-Version: 1.0\n"
@@ -28,11 +28,11 @@ msgstr "لم يتم العثور على اسم المستخدم المطلوب �
 
 #: sophie_bot/args/users.py:72
 msgid "User: 'User ID (numeric) / Username (starts with @) / Mention (links to users)'"
-msgstr "المستخدم: 'معرف المستخدم (رقمي) / اسم المستخدم (يبدأ بـ @) / ذكر (روابط للمستخدمين)'"
+msgstr "المستخدم: 'معرف المستخدم (رقمي) / اسم المستخدم (يبدأ بـ @) / إشارة (روابط إلى المستخدمين)'"
 
 #: sophie_bot/args/users.py:72
 msgid "Users: 'User IDs (numeric) / Usernames (starts with @) / Mentions (links to users)'"
-msgstr "المستخدمون: 'معرفات المستخدم (رقمي) / أسماء المستخدمين (تبدأ بـ @) / الإشارات (روابط للمستخدمين)'"
+msgstr "المستخدمون: 'معرفات المستخدمين (رقمي) / أسماء المستخدمين (تبدأ بـ @) / إشارات (روابط إلى المستخدمين)'"
 
 #: sophie_bot/args/users.py:79
 msgid "User ID"
@@ -44,7 +44,7 @@ msgstr "اسم المستخدم"
 
 #: sophie_bot/args/users.py:81
 msgid "A link to user, usually creates by mentioning a user without username."
-msgstr "رابط إلى المستخدم، غالبًا ما يتم إنشاؤه عن طريق ذكر المستخدم بدون اسم المستخدم."
+msgstr "رابط إلى المستخدم، يتم إنشاؤه عادةً عن طريق الإشارة إلى مستخدم بدون اسم مستخدم."
 
 #: sophie_bot/middlewares/connections.py:26
 msgid "Private chat"
