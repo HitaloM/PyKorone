@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PyKorone 1.0\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-09-12 16:23-0300\n"
+"POT-Creation-Date: 2024-11-15 18:09-0300\n"
 "PO-Revision-Date: 2024-08-24 20:38+0000\n"
 "Last-Translator: Hitalo <hitalo331@outlook.com>\n"
 "Language-Team: Japanese <http://weblate.amanoteam.com/projects/korone/korone/"
@@ -20,17 +20,28 @@ msgstr ""
 "X-Generator: Weblate 5.6.2\n"
 "Generated-By: Babel 2.15.0\n"
 
-#: src/korone/filters/admin.py:42
+#: src/korone/filters/admin.py:68
+msgid "I am missing the following permissions: {permissions}"
+msgstr ""
+
+#: src/korone/filters/admin.py:80
 msgid "You must be an administrator to use this."
 msgstr "これを使うには管理者でなければならない。"
 
-#: src/korone/filters/chat.py:25
-msgid "This command was designed to be used in PM, not in group chats!"
+#: src/korone/filters/admin.py:82
+#, fuzzy
+msgid "I need to be an administrator to perform this action."
+msgstr "これを使うには管理者でなければならない。"
+
+#: src/korone/filters/chat.py:42
+#, fuzzy
+msgid "This command is designed to be used in PM, not in groups!"
 msgstr ""
 "このコマンドはグループチャットではなく、PMで使用するように設計されています！"
 
-#: src/korone/filters/chat.py:45
-msgid "This command was designed to be used in group chats, not in PM!"
+#: src/korone/filters/chat.py:52
+#, fuzzy
+msgid "This command is designed to be used in groups, not in PM!"
 msgstr "このコマンドはPMではなく、グループチャットで使うように設計されている！"
 
 #: src/korone/modules/afk/handlers/check.py:29
@@ -130,12 +141,12 @@ msgstr ""
 "-<code>{command}</code>\n"
 "disableをチェックしてください！"
 
-#: src/korone/modules/disabling/handlers/toggle.py:60
+#: src/korone/modules/disabling/handlers/toggle.py:58
 #, fuzzy
 msgid "This command is already {action}."
 msgstr "このコマンドは既に有効です."
 
-#: src/korone/modules/disabling/handlers/toggle.py:64
+#: src/korone/modules/disabling/handlers/toggle.py:62
 #, fuzzy
 msgid "Command {action}."
 msgstr "コマンドが有効。"
@@ -298,55 +309,55 @@ msgstr "デバイスが見つかりませんでした。"
 msgid "Search results for: <b>{query}</b>"
 msgstr "検索結果: <b>{device}</b>"
 
-#: src/korone/modules/gsm_arena/utils/scraper.py:80
+#: src/korone/modules/gsm_arena/utils/scraper.py:83
 msgid "Status"
 msgstr "ステータス"
 
-#: src/korone/modules/gsm_arena/utils/scraper.py:81
+#: src/korone/modules/gsm_arena/utils/scraper.py:84
 msgid "Network"
 msgstr "ネットワーク"
 
-#: src/korone/modules/gsm_arena/utils/scraper.py:82
+#: src/korone/modules/gsm_arena/utils/scraper.py:85
 msgid "Weight"
 msgstr "重量"
 
-#: src/korone/modules/gsm_arena/utils/scraper.py:83
+#: src/korone/modules/gsm_arena/utils/scraper.py:86
 msgid "Display"
 msgstr "ディスプレイ"
 
-#: src/korone/modules/gsm_arena/utils/scraper.py:84
+#: src/korone/modules/gsm_arena/utils/scraper.py:87
 msgid "Chipset"
 msgstr "チップセット"
 
-#: src/korone/modules/gsm_arena/utils/scraper.py:85
+#: src/korone/modules/gsm_arena/utils/scraper.py:88
 msgid "Memory"
 msgstr "メモリ"
 
-#: src/korone/modules/gsm_arena/utils/scraper.py:86
+#: src/korone/modules/gsm_arena/utils/scraper.py:89
 msgid "Rear Camera"
 msgstr "後部 カメラ"
 
-#: src/korone/modules/gsm_arena/utils/scraper.py:87
+#: src/korone/modules/gsm_arena/utils/scraper.py:90
 msgid "Front Camera"
 msgstr "フロントカメラ"
 
-#: src/korone/modules/gsm_arena/utils/scraper.py:88
+#: src/korone/modules/gsm_arena/utils/scraper.py:91
 msgid "3.5mm jack"
 msgstr "3.5mmジャック"
 
-#: src/korone/modules/gsm_arena/utils/scraper.py:89
+#: src/korone/modules/gsm_arena/utils/scraper.py:92
 msgid "USB"
 msgstr "USB"
 
-#: src/korone/modules/gsm_arena/utils/scraper.py:90
+#: src/korone/modules/gsm_arena/utils/scraper.py:93
 msgid "Sensors"
 msgstr "センサー"
 
-#: src/korone/modules/gsm_arena/utils/scraper.py:91
+#: src/korone/modules/gsm_arena/utils/scraper.py:94
 msgid "Battery"
 msgstr "バッテリー"
 
-#: src/korone/modules/gsm_arena/utils/scraper.py:92
+#: src/korone/modules/gsm_arena/utils/scraper.py:95
 msgid "Charging"
 msgstr "充電中"
 
@@ -395,11 +406,11 @@ msgstr ""
 "\n"
 "翻訳プラットフォームでこの言語の翻訳にご協力ください。"
 
-#: src/korone/modules/languages/handlers/apply.py:92
+#: src/korone/modules/languages/handlers/apply.py:91
 msgid "🐞 Open GitHub"
 msgstr "🐞 GitHubを開く"
 
-#: src/korone/modules/languages/handlers/apply.py:93
+#: src/korone/modules/languages/handlers/apply.py:92
 msgid "🌍 Open Translations"
 msgstr "🌍 オープン翻訳"
 
@@ -685,8 +696,8 @@ msgstr "TikTokで開く"
 msgid "Open in BlueSky"
 msgstr "TikTokで開く"
 
-#: src/korone/modules/medias/handlers/instagram.py:65
-#: src/korone/modules/medias/handlers/instagram.py:72
+#: src/korone/modules/medias/handlers/instagram.py:66
+#: src/korone/modules/medias/handlers/instagram.py:73
 msgid "Open in Instagram"
 msgstr "Instagram で開く"
 
@@ -782,8 +793,8 @@ msgstr "ダウンロード中..."
 msgid "Uploading..."
 msgstr "アップロード中…"
 
-#: src/korone/modules/medias/handlers/youtube.py:171
-#: src/korone/modules/medias/handlers/youtube.py:186
+#: src/korone/modules/medias/handlers/youtube.py:169
+#: src/korone/modules/medias/handlers/youtube.py:184
 msgid "Failed to download the media."
 msgstr "メディアのダウンロードに失敗しました。"
 
@@ -897,7 +908,7 @@ msgstr "TikTokの動画をダウンロードできませんでした."
 msgid "<b>Supported languages</b>:\n"
 msgstr ""
 
-#: src/korone/modules/piston/handlers/run.py:23
+#: src/korone/modules/piston/handlers/run.py:24
 #, fuzzy
 msgid ""
 "You need to provide a command to run. Example: <code>/piston python "
@@ -905,20 +916,20 @@ msgid ""
 msgstr ""
 "LastFMのユーザー名を入力してください！例<code>/setlfm ユーザー名</code>."
 
-#: src/korone/modules/piston/handlers/run.py:33
+#: src/korone/modules/piston/handlers/run.py:34
 #, fuzzy
 msgid ""
 "Sorry, I couldn't fetch the available languages. Please try again later."
 msgstr "TikTokの動画をダウンロードできませんでした."
 
-#: src/korone/modules/piston/handlers/run.py:40
+#: src/korone/modules/piston/handlers/run.py:41
 msgid ""
 "Invalid language. Use <code>/pistonlangs</code> to see the available "
 "languages. Then use it like this: <code>/piston python print('Hello, "
 "World!')</code>"
 msgstr ""
 
-#: src/korone/modules/piston/handlers/run.py:52
+#: src/korone/modules/piston/handlers/run.py:53
 #, fuzzy
 msgid ""
 "You need to provide a valid language and code. Example: <code>/piston python "
@@ -926,28 +937,34 @@ msgid ""
 msgstr ""
 "LastFMのユーザー名を入力してください！例<code>/setlfm ユーザー名</code>."
 
-#: src/korone/modules/piston/handlers/run.py:62
+#: src/korone/modules/piston/handlers/run.py:63
 #, fuzzy
 msgid "An error occurred while running the code."
 msgstr "このアップデートの処理中に予期せぬエラーが発生しました！:/"
 
-#: src/korone/modules/piston/handlers/run.py:65
+#: src/korone/modules/piston/handlers/run.py:66
 msgid ""
 "<b>Code</b>:\n"
 "<pre language='{lang}'>{code}</pre>\n"
 "\n"
 msgstr ""
 
-#: src/korone/modules/piston/handlers/run.py:70
+#: src/korone/modules/piston/handlers/run.py:71
 msgid ""
 "<b>Output</b>:\n"
 "<pre language='bash'>{output}</pre>\n"
 msgstr ""
 
-#: src/korone/modules/piston/handlers/run.py:75
+#: src/korone/modules/piston/handlers/run.py:76
 msgid ""
 "<b>Compiler Output</b>:\n"
 "<pre language='bash'>{output}</pre>"
+msgstr ""
+
+#: src/korone/modules/piston/handlers/run.py:84
+msgid ""
+"The result exceeds the 4096 character limit of Telegram. Please refine your "
+"code."
 msgstr ""
 
 #: src/korone/modules/pm_menu/handlers/about.py:28
@@ -1178,24 +1195,24 @@ msgid ""
 "<b>Translation:</b> <code>{translated_text}</code>"
 msgstr "<b>言語：</b> <code>{source_lang}</code> =><code>{target_lang}</code>"
 
-#: src/korone/modules/users/handlers/cleanup.py:15
+#: src/korone/modules/users/handlers/cleanup.py:21
 msgid "Removing deleted accounts..."
 msgstr "削除されたアカウントの削除..."
 
-#: src/korone/modules/users/handlers/cleanup.py:21
+#: src/korone/modules/users/handlers/cleanup.py:27
 #, fuzzy
 msgid "Failed to fetch members."
 msgstr "メディアを送信できなかった."
 
-#: src/korone/modules/users/handlers/cleanup.py:25
+#: src/korone/modules/users/handlers/cleanup.py:31
 msgid "No members found."
 msgstr "メンバーは見つかりませんでした。"
 
-#: src/korone/modules/users/handlers/cleanup.py:39
+#: src/korone/modules/users/handlers/cleanup.py:45
 msgid "Removed {count} deleted accounts."
 msgstr "{count} 削除されたアカウントを削除しました。"
 
-#: src/korone/modules/users/handlers/cleanup.py:42
+#: src/korone/modules/users/handlers/cleanup.py:48
 msgid "No deleted accounts found."
 msgstr "削除されたアカウントは見つかりませんでした。"
 
