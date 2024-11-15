@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: sophiebot\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2024-11-13 22:54+0100\n"
-"PO-Revision-Date: 2024-11-13 22:02\n"
+"PO-Revision-Date: 2024-11-13 23:10\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
 "MIME-Version: 1.0\n"
@@ -28,11 +28,11 @@ msgstr "未能在数据库中找到请求的用户名。"
 
 #: sophie_bot/args/users.py:72
 msgid "User: 'User ID (numeric) / Username (starts with @) / Mention (links to users)'"
-msgstr "用户：‘用户 ID（数字）/ 用户名（以@开头）/ 提及（链接到用户）’"
+msgstr "用户：'用户 ID（数字）/用户名（以 @ 开头）/提及（链接到用户）'"
 
 #: sophie_bot/args/users.py:72
 msgid "Users: 'User IDs (numeric) / Usernames (starts with @) / Mentions (links to users)'"
-msgstr "用户：‘用户 ID（数字）/ 用户名（以@开头）/ 提及（链接到用户）’"
+msgstr "用户：'用户 ID（数字）/用户名（以 @ 开头）/提及（链接到用户）'"
 
 #: sophie_bot/args/users.py:79
 msgid "User ID"
@@ -44,7 +44,7 @@ msgstr "用户名"
 
 #: sophie_bot/args/users.py:81
 msgid "A link to user, usually creates by mentioning a user without username."
-msgstr "用户的链接，通常通过提及用户而不使用用户名创建。"
+msgstr "用户的链接，通常通过提及用户而不带用户名来创建。"
 
 #: sophie_bot/middlewares/connections.py:26
 msgid "Private chat"

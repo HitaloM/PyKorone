@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: sophiebot\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2024-11-13 22:54+0100\n"
-"PO-Revision-Date: 2024-11-13 22:02\n"
+"PO-Revision-Date: 2024-11-13 23:10\n"
 "Last-Translator: \n"
 "Language-Team: Turkish\n"
 "MIME-Version: 1.0\n"
@@ -28,15 +28,15 @@ msgstr "Veritabanında istenen Kullanıcı Adı bulunamadı."
 
 #: sophie_bot/args/users.py:72
 msgid "User: 'User ID (numeric) / Username (starts with @) / Mention (links to users)'"
-msgstr "Kullanıcı: 'Kullanıcı ID'si (sayısal) / Kullanıcı adı ( @ ile başlar) / Kullanma (kullanıcılara bağlantılar)'"
+msgstr "Kullanıcı: 'Kullanıcı ID (sayısal) / Kullanıcı adı (şu şekilde başlar: @) / Bahis (kullanıcılara bağlantılar)'"
 
 #: sophie_bot/args/users.py:72
 msgid "Users: 'User IDs (numeric) / Usernames (starts with @) / Mentions (links to users)'"
-msgstr "Kullanıcılar: 'Kullanıcı ID'leri (sayısal) / Kullanıcı adları ( @ ile başlar) / Kullanma (kullanıcılara bağlantılar)'"
+msgstr "Kullanıcılar: 'Kullanıcı ID'leri (sayısal) / Kullanıcı adları (şu şekilde başlar: @) / Bahisler (kullanıcılara bağlantılar)'"
 
 #: sophie_bot/args/users.py:79
 msgid "User ID"
-msgstr "Kullanıcı ID'si"
+msgstr "Kullanıcı ID"
 
 #: sophie_bot/args/users.py:80
 msgid "Username"
@@ -44,7 +44,7 @@ msgstr "Kullanıcı adı"
 
 #: sophie_bot/args/users.py:81
 msgid "A link to user, usually creates by mentioning a user without username."
-msgstr "Bir kullanıcıya bağlantı, genellikle kullanıcıyı kullanıcı adı olmadan anarak oluşturulur."
+msgstr "Bir kullanıcıya bağlantı, genellikle kullanıcı adı olmadan bir kullanıcı bahsi yaparak oluşturulur."
 
 #: sophie_bot/middlewares/connections.py:26
 msgid "Private chat"

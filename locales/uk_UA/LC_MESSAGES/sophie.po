@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: sophiebot\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2024-11-13 22:54+0100\n"
-"PO-Revision-Date: 2024-11-13 22:02\n"
+"PO-Revision-Date: 2024-11-13 23:10\n"
 "Last-Translator: \n"
 "Language-Team: Ukrainian\n"
 "MIME-Version: 1.0\n"
@@ -32,7 +32,7 @@ msgstr "Користувач: 'Ідентифікатор користувача
 
 #: sophie_bot/args/users.py:72
 msgid "Users: 'User IDs (numeric) / Usernames (starts with @) / Mentions (links to users)'"
-msgstr "Користувачі: 'ID користувачів (числові) / Імена користувачів (починаються з @) / Згадки (посилання на користувачів)'"
+msgstr "Користувачі: 'Ідентифікатори користувачів (числові) / Імена користувачів (починаються з @) / Згадки (посилання на користувачів)'"
 
 #: sophie_bot/args/users.py:79
 msgid "User ID"
