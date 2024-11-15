@@ -12,41 +12,42 @@ from hydrogram.types import Message
 from korone.utils.i18n import gettext as _
 
 
-class IsPrivateChat(Filter):
-    __slots__ = ("client", "message")
+class ChatTypeFilter(Filter):
+    __slots__ = ("client", "error_message", "expected_types", "message")
 
-    def __init__(self, client: Client, message: Message) -> None:
+    def __init__(
+        self, client: Client, message: Message, expected_types: set[ChatType], error_message: str
+    ) -> None:
         self.client = client
         self.message = message
+        self.expected_types = expected_types
+        self.error_message = error_message
 
     async def __call__(self) -> bool:
-        if self.message.chat.type != ChatType.PRIVATE:
-            await self.message.reply(
-                _("This command was designed to be used in PM, not in group chats!")
-            )
+        if self.message.chat.type not in self.expected_types:
+            await self.message.reply(self.error_message)
             return False
-
         return True
 
     def __await__(self) -> Generator[Any, Any, bool]:
         return self.__call__().__await__()
 
 
-class IsGroupChat(Filter):
-    __slots__ = ("client", "message")
-
+class IsPrivateChat(ChatTypeFilter):
     def __init__(self, client: Client, message: Message) -> None:
-        self.client = client
-        self.message = message
+        super().__init__(
+            client,
+            message,
+            expected_types={ChatType.PRIVATE},
+            error_message=_("This command is designed to be used in PM, not in groups!"),
+        )
 
-    async def __call__(self) -> bool:
-        if self.message.chat.type not in {ChatType.GROUP, ChatType.SUPERGROUP}:
-            await self.message.reply(
-                _("This command was designed to be used in group chats, not in PM!")
-            )
-            return False
 
-        return True
-
-    def __await__(self) -> Generator[Any, Any, bool]:
-        return self.__call__().__await__()
+class IsGroupChat(ChatTypeFilter):
+    def __init__(self, client: Client, message: Message) -> None:
+        super().__init__(
+            client,
+            message,
+            expected_types={ChatType.GROUP, ChatType.SUPERGROUP},
+            error_message=_("This command is designed to be used in groups, not in PM!"),
+        )
