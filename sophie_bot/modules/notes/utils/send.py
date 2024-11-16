@@ -58,13 +58,6 @@ SEND_METHOD: dict[ContentType, Type[TelegramMethod[Message]]] = {
 }
 
 
-def saveable_to_text(saveable: Saveable) -> str:
-    if saveable.parse_mode != SaveableParseMode.html:
-        return legacy_markdown_to_html(saveable.text or "")
-    else:
-        return saveable.text or ""
-
-
 async def send_saveable(
     message: Message,
     send_to: int,
@@ -75,8 +68,7 @@ async def send_saveable(
     additional_keyboard: InlineKeyboardMarkup = InlineKeyboardMarkup(inline_keyboard=[]),
     additional_fillings: Optional[dict[str, str]] = None,
 ):
-    text = str(title) + "\n" if title else ""
-    text += saveable_to_text(saveable)
+    text = saveable.text or ""
 
     # Extract buttons and process text
     inline_markup = InlineKeyboardMarkup(inline_keyboard=[])
@@ -85,6 +77,13 @@ async def send_saveable(
         text = process_fillings(text, message, message.from_user, additional_fillings)
 
         inline_markup.inline_keyboard.extend(additional_keyboard.inline_keyboard)
+
+    # Convert legacy markdown to HTML
+    if saveable.parse_mode != SaveableParseMode.html:
+        text = legacy_markdown_to_html(text)
+
+    # Add title
+    text = (str(title) + "\n" if title else "") + text
 
     # inline_markup = unparse_buttons(saveable.buttons)
 

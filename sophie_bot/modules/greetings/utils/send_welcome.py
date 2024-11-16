@@ -3,9 +3,10 @@ from typing import Optional
 from aiogram.types import Message
 
 from sophie_bot.db.models import RulesModel
-from sophie_bot.db.models.notes import Saveable
+from sophie_bot.db.models.notes import Saveable, SaveableParseMode
 from sophie_bot.modules.greetings.default_welcome import get_default_welcome_message
-from sophie_bot.modules.notes.utils.send import saveable_to_text, send_saveable
+from sophie_bot.modules.notes.utils.send import send_saveable
+from sophie_bot.modules.notes.utils.unparse_legacy import legacy_markdown_to_html
 from sophie_bot.utils.i18n import gettext as _
 
 
@@ -14,7 +15,11 @@ async def send_welcome(
 ) -> Message:
     chat_id = message.chat.id
 
-    additional_fillings = {"rules": saveable_to_text(chat_rules) if chat_rules else _("No chat rules, have fun!")}
+    rules_text = saveable.text or "" if saveable else _("No chat rules, have fun!")
+    if chat_rules and chat_rules.parse_mode != SaveableParseMode.html:
+        rules_text = legacy_markdown_to_html(rules_text)
+
+    additional_fillings = {"rules": rules_text}
 
     saveable = saveable or get_default_welcome_message(bool(chat_rules))
 
