@@ -9,7 +9,6 @@ from sophie_bot import CONFIG
 from sophie_bot.db.models import ChatModel
 from sophie_bot.modules.ai.utils.cache_messages import cache_message
 from sophie_bot.modules.ai.utils.self_reply import cut_titlebar, is_ai_message
-from sophie_bot.services.redis import aredis
 from sophie_bot.utils.logger import log
 
 
@@ -23,25 +22,6 @@ class CacheBotMessagesMiddleware(BaseMiddleware):
     @staticmethod
     def get_key(chat_id: int | str) -> str:
         return f"messages:{chat_id}"
-
-    async def save_message(self, message: Message):
-        if not ((message.text or message.caption) and message.from_user):
-            return
-
-        chat_id = message.chat.id
-
-        msg = MessageType(
-            user_id=message.from_user.id,
-            message_id=message.message_id,
-            text=message.text or message.caption or "<No text>",
-        )
-        json_str = msg.model_dump_json()
-
-        key = self.get_key(message.chat.id)
-
-        await aredis.ltrim(key, -15, -1)  # type: ignore[misc]
-        await aredis.expire(key, 86400 * 2, lt=True)  # type: ignore[misc] # 2 days
-        await aredis.rpush(self.get_key(chat_id), json_str)  # type: ignore[misc]
 
     async def __call__(
         self,

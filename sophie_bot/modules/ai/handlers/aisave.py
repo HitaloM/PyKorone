@@ -84,7 +84,7 @@ class AISaveNote(MessageHandler):
             f" {', '.join(all_notenames)}"
         )
 
-        messages = await AIMessageHistory.chatbot(self.event, self.data, custom_user_text=prompt)
+        messages = await AIMessageHistory.chatbot(self.event, custom_user_text=prompt)
 
         return self.parse_data(
             await ai_generate(messages, json_schema={"type": "json_schema", "json_schema": AISAVE_JSON_SCHEMA})  # type: ignore

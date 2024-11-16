@@ -23,6 +23,6 @@ class AiGenerateMode(MessageHandler):
 
         await bot.send_chat_action(self.event.chat.id, "typing")
 
-        messages = await AIMessageHistory.chatbot(self.event, self.data, custom_user_text=user_text)
+        messages = await AIMessageHistory.chatbot(self.event, custom_user_text=user_text)
 
         await ai_reply(self.event, messages)

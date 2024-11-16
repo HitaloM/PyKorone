@@ -20,12 +20,20 @@ class CacheUserMessagesMiddleware(BaseMiddleware):
 
         data["ai_enabled"] = await AIEnabledFilter.get_status(chat_db)  # type: ignore
 
+        result = await handler(event, data)
+
         if isinstance(event, Message) and chat_db and data["ai_enabled"] and event.from_user:
             log.debug("CacheUserMessagesMiddleware: caching message", chat_id=chat_db.chat_id)
 
             text = event.text or event.caption
+
+            # TODO: extract command from handlers? or a flag?
+            if text and text.startswith("/aireset"):
+                log.debug("CacheUserMessagesMiddleware, skpping due to reset command")
+                return result
+
             user_id = event.from_user.id
             msg_id = event.message_id
             await cache_message(text, chat_db.chat_id, user_id, msg_id)
 
-        return await handler(event, data)
+        return result

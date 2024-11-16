@@ -45,7 +45,7 @@ async def ai_filter_handle(message: Message, chat: dict, data: dict):
         raise SophieException("Chat not found in database")
 
     if message.text or message.caption and await AIThrottleFilter().__call__(message, chat_db):
-        messages = await AIMessageHistory.chatbot(message, data, additional_system_prompt=prompt)
+        messages = await AIMessageHistory.chatbot(message, additional_system_prompt=prompt)
         await ai_reply(message, messages)
 
 

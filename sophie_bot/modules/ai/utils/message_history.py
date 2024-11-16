@@ -61,12 +61,12 @@ class AIMessageHistory(list[ChatCompletionMessageParam]):
     def add_system_msg(self, additional: str = ""):
         system_message = "\n".join(
             (
-                _("You're a Telegram Bot named Sophie."),
+                _("You're a bot named Sophie."),
                 _("Respond concisely and stick to the current topic."),
                 _(
-                    "Please use only the following markdown elements: ** for bold, __ for italic, ~~ for strikethrough, ++ for underline, ` for code, and ``` for preformatted text."
+                    "Please use only the following markdown elements: ** for bold, ~~ for strikethrough, ` for code, and ``` for preformatted text."
                 ),
-                _("Do not use Tables. You can use emojis."),
+                _("Don't use Tables. You can use emojis."),
             )
         )
         self.append(ChatCompletionSystemMessageParam(content=system_message + additional, role="system"))
@@ -99,8 +99,8 @@ class AIMessageHistory(list[ChatCompletionMessageParam]):
             text = cut_titlebar(text)
 
         if reply_to_user:
-            reply_prompt = _("MESSAGE REPLIES TO PREVIOUS MESSAGE FROM").upper()
-            text = f"<{reply_prompt}: {reply_to_user}> {text}"
+            reply_prompt = _("REPLY TO").upper()
+            text = f"<{reply_prompt} {reply_to_user}>: {text}"
 
         content.append(ChatCompletionContentPartTextParam(type="text", text=text))
 
@@ -145,10 +145,10 @@ class AIMessageHistory(list[ChatCompletionMessageParam]):
     @staticmethod
     async def chatbot(
         message: Message,
-        data: dict,
         custom_user_text: Optional[str] = None,
         additional_system_prompt: str = "",
         add_cached_messages: bool = True,
+        add_from_message: bool = True,
     ) -> "AIMessageHistory":
         """A simple chat-bot case"""
 
@@ -164,7 +164,8 @@ class AIMessageHistory(list[ChatCompletionMessageParam]):
         else:
             reply_to_user = None
 
-        await messages.add_from_message(message, reply_to_user=reply_to_user, custom_user_text=custom_user_text)
+        if add_from_message:
+            await messages.add_from_message(message, reply_to_user=reply_to_user, custom_user_text=custom_user_text)
 
         # Cache additional messages to context
         for msg_to_cache in messages.to_cache:

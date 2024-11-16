@@ -71,7 +71,6 @@ class AiTranslate(MessageHandler):
 
         ai_context = await AIMessageHistory.chatbot(
             self.event,
-            self.data,
             additional_system_prompt=system_prompt,
             custom_user_text=user_prompt,
             add_cached_messages=False,

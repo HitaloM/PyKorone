@@ -30,4 +30,4 @@ class AiReplyHandler(MessageHandler):
 
     async def handle(self) -> Any:
         await bot.send_chat_action(self.event.chat.id, "typing")
-        return await ai_reply(self.event, await AIMessageHistory.chatbot(self.event, self.data))
+        return await ai_reply(self.event, await AIMessageHistory.chatbot(self.event))
