@@ -36,7 +36,7 @@ __module_info__ = LazyProxy(
 __filters__ = get_filter()
 
 
-def __pre_setup__():
+async def __pre_setup__():
     router.message.outer_middleware(CacheUserMessagesMiddleware())
     router.message.middleware(CacheBotMessagesMiddleware())
 

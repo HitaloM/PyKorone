@@ -1,3 +1,4 @@
+from asyncio import gather
 from importlib import import_module
 from types import ModuleType
 from typing import Sequence, Type, Union
@@ -28,7 +29,7 @@ MODULES = [
 ]
 
 
-def load_modules(
+async def load_modules(
     dp: Union[Dispatcher, Router],
     to_load: Sequence[str],
     to_not_load: Sequence[str] = (),
@@ -62,14 +63,17 @@ def load_modules(
             handler.register(router)
 
     # Pre setup
-    for module_name, module in LOADED_MODULES.items():
-        if hasattr(module, "__pre_setup__"):
-            getattr(module, "__pre_setup__")()
+    await gather(
+        *(func() for module_name, module in LOADED_MODULES.items() if (func := getattr(module, "__pre_setup__", None)))
+    )
 
     # Post setup
-    for module_name, module in LOADED_MODULES.items():
-        if hasattr(module, "__post_setup__"):
-            log.debug("Running post setup...", module=module_name)
-            getattr(module, "__post_setup__")(LOADED_MODULES)
+    await gather(
+        *(
+            func(LOADED_MODULES)
+            for module_name, module in LOADED_MODULES.items()
+            if (func := getattr(module, "__post_setup__", None))
+        )
+    )
 
     log.info(f"Loaded modules - {', '.join(LOADED_MODULES.keys())}")

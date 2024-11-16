@@ -23,7 +23,7 @@ __module_description__ = l_("Provides helpful information")
 __exclude_public__ = True
 
 
-def __pre_setup__():
+async def __pre_setup__():
     router.message.register(PMModulesList, CMDFilter("help"), ChatTypeFilter("private"))
     router.callback_query.register(PMModulesList, PMHelpModules.filter())
 
@@ -32,9 +32,9 @@ def __pre_setup__():
     router.message.register(OpCMDSList, CMDFilter("op_cmds"), IsOP(True))
 
 
-def __post_setup__(modules: dict[str, ModuleType]):
+async def __post_setup__(modules: dict[str, ModuleType]):
     for name, module in modules.items():
-        if module_help := gather_module_help(module):
+        if module_help := await gather_module_help(module):
             if name in HELP_MODULES:
                 log.debug(f"Module {name} already in help modules, merging")
                 module_help.cmds = HELP_MODULES[name].cmds + module_help.cmds

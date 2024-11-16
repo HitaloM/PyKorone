@@ -31,7 +31,7 @@ __export__ = export
 BUTTONS.update({"note": "btnnotesm", "#": "btnnotesm"})
 
 
-def __pre_setup__():
+async def __pre_setup__():
     # PM notes
     router.message.register(PMNotesControl, *PMNotesControl.filters())
     router.message.register(PMNotesStatus, *PMNotesStatus.filters())

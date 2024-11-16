@@ -22,7 +22,7 @@ __module_description__ = l_("Small commands for fixing problems")
 __stats__ = beta_stats
 
 
-def __pre_setup__():
+async def __pre_setup__():
     # Beta
     router.message.register(set_preferred_mode, CMDFilter("enablebeta"), HasArgs(True), UserRestricting(admin=True))
     router.message.register(show_beta_state, CMDFilter("enablebeta"), UserRestricting(admin=True))

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-11-16 20:38+0100\n"
+"POT-Creation-Date: 2024-11-17 01:58+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -89,13 +89,13 @@ msgstr ""
 msgid "✨ Sophie AI"
 msgstr ""
 
-#: sophie_bot/modules/ai/handlers/ai_cmd.py:14
+#: sophie_bot/modules/ai/handlers/ai_cmd.py:17
 #: sophie_bot/modules/ai/handlers/aisave.py:27
 #: sophie_bot/modules/ai/handlers/mode.py:14
 msgid "Prompt"
 msgstr ""
 
-#: sophie_bot/modules/ai/handlers/ai_cmd.py:15
+#: sophie_bot/modules/ai/handlers/ai_cmd.py:19
 msgid "Ask Sophie a question"
 msgstr ""
 
@@ -306,23 +306,23 @@ msgstr ""
 msgid "If it needs any explanations or clarifications, write them briefly afterwards separately."
 msgstr ""
 
-#: sophie_bot/modules/ai/handlers/translate.py:89
+#: sophie_bot/modules/ai/handlers/translate.py:88
 msgid "Auto Translator"
 msgstr ""
 
-#: sophie_bot/modules/ai/handlers/translate.py:89
+#: sophie_bot/modules/ai/handlers/translate.py:88
 msgid "Translator"
 msgstr ""
 
-#: sophie_bot/modules/ai/handlers/translate.py:90
+#: sophie_bot/modules/ai/handlers/translate.py:89
 msgid "Voice"
 msgstr ""
 
-#: sophie_bot/modules/ai/handlers/translate.py:95
+#: sophie_bot/modules/ai/handlers/translate.py:94
 msgid "From {from_lang} to {to_lang}"
 msgstr ""
 
-#: sophie_bot/modules/ai/handlers/translate.py:105
+#: sophie_bot/modules/ai/handlers/translate.py:104
 msgid "Translation Notes"
 msgstr ""
 
@@ -331,7 +331,7 @@ msgid "By using AI features you agree to the our Privacy Policy (/privacy) and t
 msgstr ""
 
 #: sophie_bot/modules/ai/utils/message_history.py:64
-msgid "You're a Telegram Bot named Sophie."
+msgid "You're a bot named Sophie."
 msgstr ""
 
 #: sophie_bot/modules/ai/utils/message_history.py:65
@@ -339,11 +339,11 @@ msgid "Respond concisely and stick to the current topic."
 msgstr ""
 
 #: sophie_bot/modules/ai/utils/message_history.py:66
-msgid "Please use only the following markdown elements: ** for bold, __ for italic, ~~ for strikethrough, ++ for underline, ` for code, and ``` for preformatted text."
+msgid "Please use only the following markdown elements: ** for bold, ~~ for strikethrough, ` for code, and ``` for preformatted text."
 msgstr ""
 
 #: sophie_bot/modules/ai/utils/message_history.py:69
-msgid "Do not use Tables. You can use emojis."
+msgid "Don't use Tables. You can use emojis."
 msgstr ""
 
 #: sophie_bot/modules/ai/utils/message_history.py:93
@@ -351,7 +351,7 @@ msgid "<No text provided>"
 msgstr ""
 
 #: sophie_bot/modules/ai/utils/message_history.py:102
-msgid "MESSAGE REPLIES TO PREVIOUS MESSAGE FROM"
+msgid "REPLY TO"
 msgstr ""
 
 #: sophie_bot/modules/ai/utils/message_history.py:113

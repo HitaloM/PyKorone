@@ -1,22 +1,18 @@
+
 msgid ""
 msgstr ""
-"Project-Id-Version: sophiebot\n"
+"Project-Id-Version:  sophiebot\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2024-11-16 20:38+0100\n"
-"PO-Revision-Date: 2024-11-16 20:10\n"
+"PO-Revision-Date: 2024-11-16 20:10+0000\n"
 "Last-Translator: \n"
+"Language: pt_BR\n"
 "Language-Team: Portuguese, Brazilian\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.16.0\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Crowdin-Project: sophiebot\n"
-"X-Crowdin-Project-ID: 356879\n"
-"X-Crowdin-Language: pt-BR\n"
-"X-Crowdin-File: /beta/locales/sophie.pot\n"
-"X-Crowdin-File-ID: 288\n"
-"Language: pt_BR\n"
 
 #: sophie_bot/args/users.py:29
 msgid "Could not find the requested User ID in the database."
@@ -26,23 +22,23 @@ msgstr "Não foi possível encontrar o ID do usuário solicitado no banco de dad
 msgid "Could not find the requested Username in the database."
 msgstr "Não foi possível encontrar o nome de usuário solicitado no banco de dados."
 
-#: sophie_bot/args/users.py:72
+#: sophie_bot/args/users.py:72 types/user.py:119
 msgid "User: 'User ID (numeric) / Username (starts with @) / Mention (links to users)'"
 msgstr "Usuário: 'ID do usuário (numérico) / Nome de usuário (começa com @) / Menção (links para usuários)'"
 
-#: sophie_bot/args/users.py:72
+#: sophie_bot/args/users.py:72 types/user.py:121
 msgid "Users: 'User IDs (numeric) / Usernames (starts with @) / Mentions (links to users)'"
 msgstr "Usuários: 'IDs dos usuários (numéricos) / Nomes de usuários (começam com @) / Menções (links para usuários)'"
 
-#: sophie_bot/args/users.py:79
+#: sophie_bot/args/users.py:79 types/user.py:128
 msgid "User ID"
 msgstr "ID do usuário"
 
-#: sophie_bot/args/users.py:80
+#: sophie_bot/args/users.py:80 types/user.py:129
 msgid "Username"
 msgstr "Nome de usuário"
 
-#: sophie_bot/args/users.py:81
+#: sophie_bot/args/users.py:81 types/user.py:133
 msgid "A link to user, usually creates by mentioning a user without username."
 msgstr "Um link para o usuário, geralmente criado mencionando um usuário sem nome de usuário."
 
@@ -90,13 +86,13 @@ msgstr "🔄 Reset AI context"
 msgid "✨ Sophie AI"
 msgstr "✨ Sophie IA"
 
-#: sophie_bot/modules/ai/handlers/ai_cmd.py:14
+#: sophie_bot/modules/ai/handlers/ai_cmd.py:17
 #: sophie_bot/modules/ai/handlers/aisave.py:27
 #: sophie_bot/modules/ai/handlers/mode.py:14
 msgid "Prompt"
 msgstr "Solicitação"
 
-#: sophie_bot/modules/ai/handlers/ai_cmd.py:15
+#: sophie_bot/modules/ai/handlers/ai_cmd.py:19
 msgid "Ask Sophie a question"
 msgstr "Pergunte à Sophie uma pergunta"
 
@@ -307,23 +303,23 @@ msgstr "Se a mensagem já estiver em uma língua necessária, apenas copie-a."
 msgid "If it needs any explanations or clarifications, write them briefly afterwards separately."
 msgstr "Se precisar de explicações ou esclarecimentos, escreva-os brevemente depois separadamente."
 
-#: sophie_bot/modules/ai/handlers/translate.py:89
+#: sophie_bot/modules/ai/handlers/translate.py:88
 msgid "Auto Translator"
 msgstr "Autotradução"
 
-#: sophie_bot/modules/ai/handlers/translate.py:89
+#: sophie_bot/modules/ai/handlers/translate.py:88
 msgid "Translator"
 msgstr "Tradutor"
 
-#: sophie_bot/modules/ai/handlers/translate.py:90
+#: sophie_bot/modules/ai/handlers/translate.py:89
 msgid "Voice"
 msgstr "Voz"
 
-#: sophie_bot/modules/ai/handlers/translate.py:95
+#: sophie_bot/modules/ai/handlers/translate.py:94
 msgid "From {from_lang} to {to_lang}"
 msgstr "From {from_lang} to {to_lang}"
 
-#: sophie_bot/modules/ai/handlers/translate.py:105
+#: sophie_bot/modules/ai/handlers/translate.py:104
 msgid "Translation Notes"
 msgstr "Translation Notes"
 
@@ -332,7 +328,8 @@ msgid "By using AI features you agree to the our Privacy Policy (/privacy) and t
 msgstr "Ao usar os recursos de IA, você concorda com nossa Política de Privacidade (/privacy) e com os serviços de IA de terceiros utilizados."
 
 #: sophie_bot/modules/ai/utils/message_history.py:64
-msgid "You're a Telegram Bot named Sophie."
+#, fuzzy
+msgid "You're a bot named Sophie."
 msgstr "Você é um bot do Telegram chamado Sophie."
 
 #: sophie_bot/modules/ai/utils/message_history.py:65
@@ -340,11 +337,13 @@ msgid "Respond concisely and stick to the current topic."
 msgstr "Responda de forma concisa e mantenha-se no tópico atual."
 
 #: sophie_bot/modules/ai/utils/message_history.py:66
-msgid "Please use only the following markdown elements: ** for bold, __ for italic, ~~ for strikethrough, ++ for underline, ` for code, and ``` for preformatted text."
+#, fuzzy
+msgid "Please use only the following markdown elements: ** for bold, ~~ for strikethrough, ` for code, and ``` for preformatted text."
 msgstr "Por favor, use apenas os seguintes elementos de markdown: ** para negrito, __ para itálico, ~~ para tachado, ++ para sublinhado, ` para código, e ``` para texto pré-formatado."
 
 #: sophie_bot/modules/ai/utils/message_history.py:69
-msgid "Do not use Tables. You can use emojis."
+#, fuzzy
+msgid "Don't use Tables. You can use emojis."
 msgstr "Não use tabelas. Você pode usar emojis."
 
 #: sophie_bot/modules/ai/utils/message_history.py:93
@@ -352,8 +351,9 @@ msgid "<No text provided>"
 msgstr "<No text provided>"
 
 #: sophie_bot/modules/ai/utils/message_history.py:102
-msgid "MESSAGE REPLIES TO PREVIOUS MESSAGE FROM"
-msgstr "MENSAGEM RESPOSTA À MENSAGEM ANTERIOR DE"
+#, fuzzy
+msgid "REPLY TO"
+msgstr "Filtro de resposta"
 
 #: sophie_bot/modules/ai/utils/message_history.py:113
 msgid "Photo is empty"
@@ -699,9 +699,11 @@ msgid "Greetings"
 msgstr "Saudações"
 
 #: sophie_bot/modules/greetings/__init__.py:22
-msgid "This module helps you to welcome new users automatically, while keeping the chat clean.\n"
+msgid ""
+"This module helps you to welcome new users automatically, while keeping the chat clean.\n"
 "If you want to enforce captcha / rules verification, please see 'Welcome Security' module instead."
-msgstr "Este módulo ajuda a dar boas-vindas a novos usuários automaticamente, enquanto mantém o chat limpo.\n"
+msgstr ""
+"Este módulo ajuda a dar boas-vindas a novos usuários automaticamente, enquanto mantém o chat limpo.\n"
 "Se você quiser impor a verificação de captcha/regras, por favor veja o módulo 'Segurança de Boas-Vindas' em vez disso."
 
 #: sophie_bot/modules/greetings/default_welcome.py:9
@@ -2058,23 +2060,6 @@ msgstr "Erro inesperado ao tentar obter o usuário! Por favor, informe isso no c
 msgid "Could not find the user mention"
 msgstr "Não foi possível encontrar a menção do usuário"
 
-#: types/user.py:119
-msgid "User: 'User ID (numeric) / Username (starts with @) / Mention (links to users)'"
-msgstr "Usuário: 'ID do usuário (numérico) / Nome de usuário (começa com @) / Menção (links para usuários)'"
-
-#: types/user.py:121
-msgid "Users: 'User IDs (numeric) / Usernames (starts with @) / Mentions (links to users)'"
-msgstr "Usuários: 'IDs dos usuários (numéricos) / Nomes de usuários (começam com @) / Menções (links para usuários)'"
-
-#: types/user.py:128
-msgid "User ID"
-msgstr "ID do usuário"
-
-#: types/user.py:129
-msgid "Username"
-msgstr "Nome de usuário"
-
-#: types/user.py:133
-msgid "A link to user, usually creates by mentioning a user without username."
-msgstr "Um link para o usuário, geralmente criado mencionando um usuário sem nome de usuário."
+#~ msgid "MESSAGE REPLIES TO PREVIOUS MESSAGE FROM"
+#~ msgstr "MENSAGEM RESPOSTA À MENSAGEM ANTERIOR DE"
 

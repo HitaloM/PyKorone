@@ -1,28 +1,6 @@
-# Copyright (C) 2018 - 2020 MrYacha. All rights reserved. Source code available under the AGPL.
-# Copyright (C) 2019 Aiogram
-#
-# This file is part of SophieBot.
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU Affero General Public License as
-# published by the Free Software Foundation, either version 3 of the
-# License, or (at your option) any later version.
-
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU Affero General Public License for more details.
-
-# You should have received a copy of the GNU Affero General Public License
-# along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
-import sys
-
 from beanie import init_beanie
 from motor.motor_asyncio import AsyncIOMotorClient
-from pymongo.errors import ServerSelectionTimeoutError
 
-from sophie_bot import log
 from sophie_bot.config import CONFIG
 from sophie_bot.db.models import models
 
@@ -32,10 +10,3 @@ db = motor[CONFIG.mongo_db]
 
 async def init_db():
     await init_beanie(database=db, document_models=models)  # type: ignore
-
-
-async def test_db():
-    try:
-        await motor.server_info()
-    except ServerSelectionTimeoutError:
-        sys.exit(log.critical("Can't connect to mongodb! Exiting..."))

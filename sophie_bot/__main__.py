@@ -1,4 +1,5 @@
 import ssl
+from asyncio import gather
 from typing import Optional
 
 from aiogram.webhook.aiohttp_server import (
@@ -14,13 +15,12 @@ from sophie_bot import bot, dp
 from sophie_bot.config import CONFIG
 from sophie_bot.middlewares import enable_middlewares
 from sophie_bot.modules import load_modules
-from sophie_bot.services.apscheduller import start_apscheduller
-from sophie_bot.services.db import init_db, test_db
+from sophie_bot.services.db import init_db
 from sophie_bot.utils.logger import log
 from sophie_bot.utils.sentry import init_sentry
 
 enable_middlewares()
-load_modules(dp, ["*"], CONFIG.modules_not_load)
+
 
 # Import misc stuff
 if CONFIG.sentry_url:
@@ -29,11 +29,10 @@ if CONFIG.sentry_url:
 
 @dp.startup()
 async def start():
-    await init_db()
-    await test_db()
-
-    if "proxy" not in CONFIG.environment:
-        await start_apscheduller()
+    await gather(
+        init_db(),
+        load_modules(dp, ["*"], CONFIG.modules_not_load),
+    )
 
 
 if not CONFIG.webhooks_enable:
@@ -82,9 +81,4 @@ else:
         ssl_context = None
         log.warn("Using HTTP (use it only for reverse-proxy or development)!")
 
-    run_app(
-        app,
-        host=CONFIG.webhooks_listen,
-        port=CONFIG.webhooks_port,
-        ssl_context=ssl_context,
-    )
+    run_app(app, host=CONFIG.webhooks_listen, port=CONFIG.webhooks_port, ssl_context=ssl_context)

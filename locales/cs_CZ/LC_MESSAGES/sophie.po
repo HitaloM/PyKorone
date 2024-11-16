@@ -1,22 +1,18 @@
+
 msgid ""
 msgstr ""
-"Project-Id-Version: sophiebot\n"
+"Project-Id-Version:  sophiebot\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2024-11-16 20:38+0100\n"
-"PO-Revision-Date: 2024-11-16 20:10\n"
+"PO-Revision-Date: 2024-11-16 20:10+0000\n"
 "Last-Translator: \n"
+"Language: cs_CZ\n"
 "Language-Team: Czech\n"
+"Plural-Forms: nplurals=4; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 3;\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.16.0\n"
-"Plural-Forms: nplurals=4; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 3;\n"
-"X-Crowdin-Project: sophiebot\n"
-"X-Crowdin-Project-ID: 356879\n"
-"X-Crowdin-Language: cs\n"
-"X-Crowdin-File: /beta/locales/sophie.pot\n"
-"X-Crowdin-File-ID: 288\n"
-"Language: cs_CZ\n"
 
 #: sophie_bot/args/users.py:29
 msgid "Could not find the requested User ID in the database."
@@ -26,23 +22,23 @@ msgstr "Nebylo možné najít požadované ID uživatele v databázi."
 msgid "Could not find the requested Username in the database."
 msgstr "Nebylo možné najít požadované uživatelské jméno v databázi."
 
-#: sophie_bot/args/users.py:72
+#: sophie_bot/args/users.py:72 types/user.py:119
 msgid "User: 'User ID (numeric) / Username (starts with @) / Mention (links to users)'"
 msgstr "Uživatel: 'ID uživatele (číslicové) / Uživatelské jméno (začíná na @) / Zmínka (odkazy na uživatele)'"
 
-#: sophie_bot/args/users.py:72
+#: sophie_bot/args/users.py:72 types/user.py:121
 msgid "Users: 'User IDs (numeric) / Usernames (starts with @) / Mentions (links to users)'"
 msgstr "Uživatelé: 'ID uživatelů (číslicové) / Uživatelská jména (začínají na @) / Zmínky (odkazy na uživatele)'"
 
-#: sophie_bot/args/users.py:79
+#: sophie_bot/args/users.py:79 types/user.py:128
 msgid "User ID"
 msgstr "ID uživatele"
 
-#: sophie_bot/args/users.py:80
+#: sophie_bot/args/users.py:80 types/user.py:129
 msgid "Username"
 msgstr "Uživatelské jméno"
 
-#: sophie_bot/args/users.py:81
+#: sophie_bot/args/users.py:81 types/user.py:133
 msgid "A link to user, usually creates by mentioning a user without username."
 msgstr "Odkaz na uživatele, obvykle se vytvoří zmíněním uživatele bez uživatelského jména."
 
@@ -90,13 +86,13 @@ msgstr "🔄 Reset AI context"
 msgid "✨ Sophie AI"
 msgstr "✨ Sophie AI"
 
-#: sophie_bot/modules/ai/handlers/ai_cmd.py:14
+#: sophie_bot/modules/ai/handlers/ai_cmd.py:17
 #: sophie_bot/modules/ai/handlers/aisave.py:27
 #: sophie_bot/modules/ai/handlers/mode.py:14
 msgid "Prompt"
 msgstr "Pokyn"
 
-#: sophie_bot/modules/ai/handlers/ai_cmd.py:15
+#: sophie_bot/modules/ai/handlers/ai_cmd.py:19
 msgid "Ask Sophie a question"
 msgstr "Položte Sophii otázku"
 
@@ -307,23 +303,23 @@ msgstr "Pokud je zpráva již v požadovaném jazyce, jednoduše ji zkopírujte.
 msgid "If it needs any explanations or clarifications, write them briefly afterwards separately."
 msgstr "If it needs any explanations or clarifications, write them briefly afterwards separately."
 
-#: sophie_bot/modules/ai/handlers/translate.py:89
+#: sophie_bot/modules/ai/handlers/translate.py:88
 msgid "Auto Translator"
 msgstr "Auto Translator"
 
-#: sophie_bot/modules/ai/handlers/translate.py:89
+#: sophie_bot/modules/ai/handlers/translate.py:88
 msgid "Translator"
 msgstr "Translator"
 
-#: sophie_bot/modules/ai/handlers/translate.py:90
+#: sophie_bot/modules/ai/handlers/translate.py:89
 msgid "Voice"
 msgstr "Hlas"
 
-#: sophie_bot/modules/ai/handlers/translate.py:95
+#: sophie_bot/modules/ai/handlers/translate.py:94
 msgid "From {from_lang} to {to_lang}"
 msgstr "From {from_lang} to {to_lang}"
 
-#: sophie_bot/modules/ai/handlers/translate.py:105
+#: sophie_bot/modules/ai/handlers/translate.py:104
 msgid "Translation Notes"
 msgstr "Translation Notes"
 
@@ -332,7 +328,8 @@ msgid "By using AI features you agree to the our Privacy Policy (/privacy) and t
 msgstr "Používáním funkcí AI souhlasíte s našimi Zásadami ochrany soukromí (/privacy) a se službami AI třetích stran."
 
 #: sophie_bot/modules/ai/utils/message_history.py:64
-msgid "You're a Telegram Bot named Sophie."
+#, fuzzy
+msgid "You're a bot named Sophie."
 msgstr "Jsi Telegram bot jménem Sophie."
 
 #: sophie_bot/modules/ai/utils/message_history.py:65
@@ -340,11 +337,13 @@ msgid "Respond concisely and stick to the current topic."
 msgstr "Reaguj stručně a drž se aktuálního tématu."
 
 #: sophie_bot/modules/ai/utils/message_history.py:66
-msgid "Please use only the following markdown elements: ** for bold, __ for italic, ~~ for strikethrough, ++ for underline, ` for code, and ``` for preformatted text."
+#, fuzzy
+msgid "Please use only the following markdown elements: ** for bold, ~~ for strikethrough, ` for code, and ``` for preformatted text."
 msgstr "Pouze používej následující markdown prvky: ** pro tučné písmo, __ pro kurzívu, ~~ pro přeškrtnutí, ++ pro podtržení, ` pro kód, a ``` pro formátovaný text."
 
 #: sophie_bot/modules/ai/utils/message_history.py:69
-msgid "Do not use Tables. You can use emojis."
+#, fuzzy
+msgid "Don't use Tables. You can use emojis."
 msgstr "Nepoužívej tabulky. Můžeš používat emoji."
 
 #: sophie_bot/modules/ai/utils/message_history.py:93
@@ -352,8 +351,9 @@ msgid "<No text provided>"
 msgstr "<No text provided>"
 
 #: sophie_bot/modules/ai/utils/message_history.py:102
-msgid "MESSAGE REPLIES TO PREVIOUS MESSAGE FROM"
-msgstr "ZPRÁVA ODPOVÍDÁ NA PŘEDCHOZÍ ZPRÁVU OD"
+#, fuzzy
+msgid "REPLY TO"
+msgstr "Filtr odpovědí"
 
 #: sophie_bot/modules/ai/utils/message_history.py:113
 msgid "Photo is empty"
@@ -699,9 +699,11 @@ msgid "Greetings"
 msgstr "Pozdravy"
 
 #: sophie_bot/modules/greetings/__init__.py:22
-msgid "This module helps you to welcome new users automatically, while keeping the chat clean.\n"
+msgid ""
+"This module helps you to welcome new users automatically, while keeping the chat clean.\n"
 "If you want to enforce captcha / rules verification, please see 'Welcome Security' module instead."
-msgstr "Tento modul vám pomáhá automaticky vítat nové uživatele, přičemž udržuje chat čistý.\n"
+msgstr ""
+"Tento modul vám pomáhá automaticky vítat nové uživatele, přičemž udržuje chat čistý.\n"
 "Pokud chcete vynutit ověření captcha / pravidla, podívejte se raději na modul 'Bezpečnost vítání'."
 
 #: sophie_bot/modules/greetings/default_welcome.py:9
@@ -2058,23 +2060,6 @@ msgstr "Neočekávaná chyba při pokusu o získání uživatele! Prosím, nahla
 msgid "Could not find the user mention"
 msgstr "Nepodařilo se najít zmínku o uživateli"
 
-#: types/user.py:119
-msgid "User: 'User ID (numeric) / Username (starts with @) / Mention (links to users)'"
-msgstr "Uživatel: 'ID uživatele (číslicové) / Uživatelské jméno (začíná na @) / Zmínka (odkazy na uživatele)'"
-
-#: types/user.py:121
-msgid "Users: 'User IDs (numeric) / Usernames (starts with @) / Mentions (links to users)'"
-msgstr "Uživatelé: 'ID uživatelů (číslicové) / Uživatelská jména (začínají na @) / Zmínky (odkazy na uživatele)'"
-
-#: types/user.py:128
-msgid "User ID"
-msgstr "ID uživatele"
-
-#: types/user.py:129
-msgid "Username"
-msgstr "Uživatelské jméno"
-
-#: types/user.py:133
-msgid "A link to user, usually creates by mentioning a user without username."
-msgstr "Odkaz na uživatele, obvykle se vytvoří zmíněním uživatele bez uživatelského jména."
+#~ msgid "MESSAGE REPLIES TO PREVIOUS MESSAGE FROM"
+#~ msgstr "ZPRÁVA ODPOVÍDÁ NA PŘEDCHOZÍ ZPRÁVU OD"
 

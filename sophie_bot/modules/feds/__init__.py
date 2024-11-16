@@ -5,5 +5,5 @@ from sophie_bot.modules.feds.middlewares.check_fban import FedBanMiddleware
 router = Router(name="info")
 
 
-def __pre_setup__():
+async def __pre_setup__():
     router.message.outer_middleware(FedBanMiddleware())

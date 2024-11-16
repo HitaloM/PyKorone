@@ -20,7 +20,7 @@ __module_emoji__ = "🚫"
 __export__ = export_disabled
 
 
-def __pre_setup__():
+async def __pre_setup__():
     router.message.register(ListDisableable, *ListDisableable.filters())
     router.message.register(ListDisabled, *ListDisabled.filters())
     router.message.register(DisableHandler, *DisableHandler.filters())

@@ -1,4 +1,4 @@
-from asyncio import iscoroutinefunction, run
+from asyncio import iscoroutinefunction
 from dataclasses import dataclass
 from mailbox import Message
 from types import ModuleType
@@ -66,22 +66,22 @@ def get_all_cmds() -> list[CmdHelp]:
     return [cmd for module in HELP_MODULES.values() for cmd in module.cmds]
 
 
-def gather_cmd_args(args: ARGS_DICT | ARGS_COROUTINE | None) -> ARGS_DICT | None:
+async def gather_cmd_args(args: ARGS_DICT | ARGS_COROUTINE | None) -> ARGS_DICT | None:
     if not args:
         return None
     elif isinstance(args, dict):
         return args
     elif iscoroutinefunction(args):
-        return run(args(None, {}))
+        return await args(None, {})
     else:
         raise ValueError
 
 
-def gather_cmds_help(router: Router) -> list[CmdHelp]:
+async def gather_cmds_help(router: Router) -> list[CmdHelp]:
     helps: list[CmdHelp] = []
 
-    if router.sub_routers:
-        helps.extend(*(gather_cmds_help(sub_router) for sub_router in router.sub_routers))
+    for sub_router in router.sub_routers:
+        helps.extend(await gather_cmds_help(sub_router))
 
     for handler in router.message.handlers:
         if not handler.filters:
@@ -131,9 +131,9 @@ def gather_cmds_help(router: Router) -> list[CmdHelp]:
             continue
 
         if help_flags and help_flags.get("args"):
-            args = gather_cmd_args(help_flags["args"])
+            args = await gather_cmd_args(help_flags["args"])
         else:
-            args = gather_cmd_args(handler.flags.get("args"))
+            args = await gather_cmd_args(handler.flags.get("args"))
 
         disableable = None
         if disableable_flag := handler.flags.get("disableable"):
@@ -158,7 +158,7 @@ def gather_cmds_help(router: Router) -> list[CmdHelp]:
     return helps
 
 
-def gather_module_help(module: ModuleType) -> Optional[ModuleHelp]:
+async def gather_module_help(module: ModuleType) -> Optional[ModuleHelp]:
     if not hasattr(module, "router"):
         return None
 
@@ -168,7 +168,7 @@ def gather_module_help(module: ModuleType) -> Optional[ModuleHelp]:
     info = getattr(module, "__module_info__", None)
     description = getattr(module, "__module_description__", None)
 
-    if cmds := gather_cmds_help(module.router):
+    if cmds := await gather_cmds_help(module.router):
         return ModuleHelp(
             cmds=cmds, name=name, icon=emoji, exclude_public=exclude_public, info=info, description=description
         )

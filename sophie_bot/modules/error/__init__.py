@@ -15,7 +15,7 @@ __module_emoji__ = "🚫"
 __exclude_public__ = True
 
 
-def __pre_setup__():
+async def __pre_setup__():
     router.message.register(crash_handler, CMDFilter("test_crash"), IsOP(True))
 
     router.error.middleware(try_localization_middleware)

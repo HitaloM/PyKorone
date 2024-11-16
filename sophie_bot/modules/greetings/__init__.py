@@ -36,6 +36,6 @@ __handlers__ = (
 )
 
 
-def __pre_setup__():
+async def __pre_setup__():
     router.message.outer_middleware(LeaveUserMiddleware())
     router.message.outer_middleware(NewUserMiddleware())

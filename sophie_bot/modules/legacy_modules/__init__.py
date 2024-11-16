@@ -14,7 +14,7 @@ async def before_srv_task():
         await module.__before_serving__(loop)
 
 
-def __pre_setup__():
+async def __pre_setup__():
     modules = CONFIG.modules_load if len(CONFIG.modules_load) > 0 and "*" not in CONFIG.modules_load else ALL_MODULES
     modules = [x for x in modules if x not in CONFIG.legacy_modules_not_load]
 
@@ -29,14 +29,14 @@ def __pre_setup__():
 
     log.info("Legacy modules: Modules loaded!")
 
-    asyncio.get_event_loop().run_until_complete(before_srv_task())
+    await before_srv_task()
 
     log.info("Legacy modules: Pre setup")
 
     dp.include_router(legacy_states_router)
 
 
-def __post_setup__(_):
+async def __post_setup__(_):
     from sophie_bot.modules.help.utils.extract_info import (
         HELP_MODULES,
         gather_module_help,
@@ -49,5 +49,5 @@ def __post_setup__(_):
 
     for module in LOADED_LEGACY_MODULES:
         module_name = module.__name__.split(".")[-1]
-        if help := gather_module_help(module):
-            HELP_MODULES[module_name] = help
+        if module_help := await gather_module_help(module):
+            HELP_MODULES[module_name] = module_help

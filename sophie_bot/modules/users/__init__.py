@@ -19,5 +19,5 @@ __module_emoji__ = "🫂"
 __export__ = privacy_export
 
 
-def __pre_setup__():
+async def __pre_setup__():
     router.include_router(importlib.import_module(".handlers.id", __package__).router)
