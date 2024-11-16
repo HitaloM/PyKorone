@@ -28,8 +28,8 @@ from stfu_tg.doc import Element
 
 from sophie_bot import bot
 from sophie_bot.db.models.notes import Saveable, SaveableParseMode
+from sophie_bot.modules.notes.utils.buttons_processor.legacy import legacy_button_parser
 from sophie_bot.modules.notes.utils.fillings import process_fillings
-from sophie_bot.modules.notes.utils.legacy_buttons import legacy_button_parser
 from sophie_bot.modules.notes.utils.parse import (
     PARSABLE_CONTENT_TYPES,
     SUPPORTS_CAPTION,
@@ -79,7 +79,7 @@ async def send_saveable(
         inline_markup.inline_keyboard.extend(additional_keyboard.inline_keyboard)
 
     # Convert legacy markdown to HTML
-    if saveable.parse_mode != SaveableParseMode.html:
+    if text and saveable.parse_mode != SaveableParseMode.html:
         text = legacy_markdown_to_html(text)
 
     # Add title

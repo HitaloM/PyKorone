@@ -43,7 +43,7 @@ from sophie_bot.modules.legacy_modules.utils.user_details import (
     get_chat_dec,
     is_user_admin,
 )
-from sophie_bot.modules.notes.utils.legacy_buttons import BUTTONS
+from sophie_bot.modules.notes.utils.buttons_processor.legacy import BUTTONS
 from sophie_bot.services.db import db
 from sophie_bot.services.redis import redis
 from sophie_bot.utils.i18n import lazy_gettext as l_

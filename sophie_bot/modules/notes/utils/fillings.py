@@ -49,6 +49,9 @@ def custom_fillings(text: str, additional_fillings: Optional[dict[str, str]]):
 def process_fillings(
     text: str, message: Message, user: Optional[User], additional_fillings: Optional[dict[str, str]] = None
 ) -> str:
+    if not text:
+        return text
+
     text = chat_fillings(text, message)
     text = user_fillings(text, message, user)
     text = custom_fillings(text, additional_fillings)

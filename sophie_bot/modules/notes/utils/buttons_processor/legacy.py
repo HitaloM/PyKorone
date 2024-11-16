@@ -1,15 +1,14 @@
 from re import findall, sub
 
 from aiogram.types import InlineKeyboardButton, InlineKeyboardMarkup
-from aiogram.utils.keyboard import InlineKeyboardBuilder
 
 from sophie_bot import CONFIG
 
-BUTTONS = {}
+BUTTONS: dict[str, str] = {}
 
 
-def legacy_button_parser(chat_id, texts, pm=False, row_width=None) -> tuple[str, InlineKeyboardMarkup]:
-    buttons = InlineKeyboardBuilder()
+def legacy_button_parser(chat_id, texts, pm=False) -> tuple[str, InlineKeyboardMarkup]:
+    buttons: list[list[InlineKeyboardButton]] = []
     pattern = r"\[(.+?)\]\((button|btn|#)(.+?)(:.+?|)(:same|)\)(\n|)"
     raw_buttons = findall(pattern, texts)
     text = sub(pattern, "", texts)
@@ -20,7 +19,7 @@ def legacy_button_parser(chat_id, texts, pm=False, row_width=None) -> tuple[str,
 
         if raw_button[3]:
             argument = raw_button[3][1:].lower().replace("`", "")
-        elif action in ("#"):
+        elif action == "#":
             argument = raw_button[2]
             print(raw_button[2])
         else:
@@ -59,9 +58,9 @@ def legacy_button_parser(chat_id, texts, pm=False, row_width=None) -> tuple[str,
                 continue
 
         if btn:
-            buttons.row(btn) if raw_button[4] else buttons.add(btn)
+            buttons[-1].append(btn) if raw_button[4] and buttons and len(buttons[-1]) > 0 else buttons.append([btn])
 
     if not text or text.isspace():  # TODO: Sometimes we can return text == ' '
-        text = None
+        text = ""
 
-    return text, buttons.as_markup()
+    return text, InlineKeyboardMarkup(inline_keyboard=buttons)

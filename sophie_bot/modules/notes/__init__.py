@@ -16,7 +16,7 @@ from .handlers.save import SaveNote
 from .handlers.search import NotesSearchHandler
 from .magic_handlers.export import export
 from .magic_handlers.filter import get_filter
-from .utils.legacy_buttons import BUTTONS
+from .utils.buttons_processor.legacy import BUTTONS
 
 router = Router(name="notes")
 

@@ -1,6 +1,6 @@
 from aiogram import Router
 
-from sophie_bot.modules.notes.utils.legacy_buttons import BUTTONS
+from sophie_bot.modules.notes.utils.buttons_processor.legacy import BUTTONS
 from sophie_bot.modules.welcomesecurity.handlers.captcha_confirm import (
     CaptchaConfirmHandler,
 )
