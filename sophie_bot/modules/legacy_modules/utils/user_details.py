@@ -184,19 +184,6 @@ async def check_admin_rights(event: Union[Message, CallbackQuery], chat_id, user
     return True
 
 
-async def check_group_admin(event, user_id, no_msg=False):
-    if hasattr(event, "chat_id"):
-        chat_id = event.chat_id
-    elif hasattr(event, "chat"):
-        chat_id = event.chat.id
-    if await is_user_admin(chat_id, user_id) is True:
-        return True
-    else:
-        if no_msg is False:
-            await event.reply("You should be a admin to do it!")
-        return False
-
-
 async def is_chat_creator(event: Union[Message, CallbackQuery], chat_id, user_id):
     admin_rights = await get_admins_rights(chat_id)
 
@@ -300,28 +287,6 @@ async def get_user_and_text(message, **kwargs):
         return user, message.text.split(" ", 1)[1]
     else:
         return user, ""
-
-
-async def get_users(message):
-    args = message.text.split(None, 2)
-    text = args[1]
-    users = []
-
-    for text in text.split("|"):
-        if user := await get_user_by_text(message, text):
-            users.append(user)
-
-    return users
-
-
-async def get_users_and_text(message):
-    users = await get_users(message)
-    args = message.text.split(None, 2)
-
-    if len(args) > 1:
-        return users, args[1]
-    else:
-        return users, ""
 
 
 def get_user_and_text_dec(**dec_kwargs):

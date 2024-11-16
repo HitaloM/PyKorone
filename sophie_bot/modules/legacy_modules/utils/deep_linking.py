@@ -44,7 +44,7 @@ Decode it back example:
 """
 
 import re
-from base64 import urlsafe_b64decode, urlsafe_b64encode
+from base64 import urlsafe_b64encode
 
 from sophie_bot import bot
 
@@ -64,24 +64,6 @@ async def get_start_link(payload: str, encode=False) -> str:
     """
     return await _create_link(
         link_type="start",
-        payload=payload,
-        encode=encode,
-    )
-
-
-async def get_startgroup_link(payload: str, encode=False) -> str:
-    """
-    Get 'startgroup' deep link with your payload.
-
-    If you need to encode payload or pass special characters -
-        set encode as True
-
-    :param payload: args passed with /start
-    :param encode: encode payload with base64url
-    :return: link
-    """
-    return await _create_link(
-        link_type="startgroup",
         payload=payload,
         encode=encode,
     )
@@ -123,13 +105,6 @@ def encode_payload(payload: str) -> str:
     bytes_payload: bytes = urlsafe_b64encode(payload.encode())
     str_payload = bytes_payload.decode()
     return str_payload.replace("=", "")
-
-
-def decode_payload(payload: str) -> str:
-    """Decode payload with URL-safe base64url."""
-    payload += "=" * (4 - len(payload) % 4)
-    result: bytes = urlsafe_b64decode(payload)
-    return result.decode()
 
 
 async def _get_bot_user():
