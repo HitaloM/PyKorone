@@ -37,6 +37,7 @@ SUPPORTS_CAPTION: tuple[ContentType, ...] = (
     ContentType.AUDIO,
     ContentType.ANIMATION,
     ContentType.DOCUMENT,
+    ContentType.PHOTO,
 )
 
 MESSAGE_LENGTH_LIMIT = 4096

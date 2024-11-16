@@ -1425,23 +1425,23 @@ msgstr "🗒 Send a note"
 msgid "Local chat"
 msgstr "Yerel sohbet"
 
-#: sophie_bot/modules/notes/utils/parse.py:67
+#: sophie_bot/modules/notes/utils/parse.py:68
 msgid "Please check the notes documentation for the list of the allowed content types."
 msgstr "Lütfen notlar belgelerindeki izin verilen içerik türleri listesine bakın."
 
-#: sophie_bot/modules/notes/utils/parse.py:68
+#: sophie_bot/modules/notes/utils/parse.py:69
 msgid "Reply message content is not parsable as the note."
 msgstr "Cevap mesajı içeriği not olarak ayrıştırılamaz."
 
-#: sophie_bot/modules/notes/utils/parse.py:101
+#: sophie_bot/modules/notes/utils/parse.py:102
 msgid "The maximum length of the note is {limit} characters."
 msgstr "Notun maksimum uzunluğu {limit} karakterdir."
 
-#: sophie_bot/modules/notes/utils/parse.py:102
+#: sophie_bot/modules/notes/utils/parse.py:103
 msgid "Please try to reduce the length of the note."
 msgstr "Lütfen notun uzunluğunu azaltmayı deneyin."
 
-#: sophie_bot/modules/notes/utils/parse.py:103
+#: sophie_bot/modules/notes/utils/parse.py:104
 msgid "Note is too long."
 msgstr "Not çok uzun."
 

@@ -1424,23 +1424,23 @@ msgstr "🗒 Enviar uma nota"
 msgid "Local chat"
 msgstr "Chat local"
 
-#: sophie_bot/modules/notes/utils/parse.py:67
+#: sophie_bot/modules/notes/utils/parse.py:68
 msgid "Please check the notes documentation for the list of the allowed content types."
 msgstr "Por favor, verifique a documentação das notas para a lista de tipos de conteúdo permitidos."
 
-#: sophie_bot/modules/notes/utils/parse.py:68
+#: sophie_bot/modules/notes/utils/parse.py:69
 msgid "Reply message content is not parsable as the note."
 msgstr "O conteúdo da mensagem de resposta não é legível como a nota."
 
-#: sophie_bot/modules/notes/utils/parse.py:101
+#: sophie_bot/modules/notes/utils/parse.py:102
 msgid "The maximum length of the note is {limit} characters."
 msgstr "O comprimento máximo da nota é {limit} caracteres."
 
-#: sophie_bot/modules/notes/utils/parse.py:102
+#: sophie_bot/modules/notes/utils/parse.py:103
 msgid "Please try to reduce the length of the note."
 msgstr "Por favor, tente reduzir o comprimento da nota."
 
-#: sophie_bot/modules/notes/utils/parse.py:103
+#: sophie_bot/modules/notes/utils/parse.py:104
 msgid "Note is too long."
 msgstr "Nota muito longa."
 
