@@ -22,16 +22,17 @@ def user_fillings(text: str, message: Message, user: Optional[User]) -> str:
     if not user:
         return text
 
+    users: list[User] = message.new_chat_members or [user]
+
     return (
         text.replace("{first}", str(EscapedStr(user.first_name)))
         .replace("{last}", str(EscapedStr(user.last_name or "")))
         .replace("{fullname}", f"{user.first_name} {user.last_name}")
         .replace("{id}", str(user.id))
         .replace("{username}", user.first_name or user.first_name)
-        .replace("{mention}", str(UserLink(user.id, user.first_name)))
         .replace(
-            "{mentions}",
-            str(HList(*(UserLink(user.id, user.first_name) for user in message.new_chat_members or []), divider=",")),
+            "{mention}",
+            str(HList(*(UserLink(user.id, user.first_name) for user in users), divider=",")),
         )
     )
 
