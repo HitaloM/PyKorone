@@ -1,4 +1,3 @@
-from aiogram.utils.chat_action import ChatActionMiddleware
 from aiogram.utils.i18n import ConstI18nMiddleware
 from ass_tg.middleware import ArgsMiddleware
 
@@ -37,7 +36,6 @@ def enable_middlewares():
 
     dp.update.middleware(ConnectionsMiddleware())
     dp.message.middleware(DisablingMiddleware())
-    dp.message.middleware(ChatActionMiddleware())
 
     if CONFIG.debug_mode:
         from .debug import DataDebugMiddleware, HandlerDebugMiddleware

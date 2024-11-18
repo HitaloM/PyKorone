@@ -5,7 +5,7 @@ from aiogram.dispatcher.event.handler import CallbackType
 from aiogram.handlers import MessageHandler
 from ass_tg.types import OptionalArg, TextArg
 
-from sophie_bot import CONFIG
+from sophie_bot import CONFIG, bot
 from sophie_bot.filters.cmd import CMDFilter
 from sophie_bot.modules.ai.filters.ai_enabled import AIEnabledFilter
 from sophie_bot.modules.ai.utils.ai_chatbot import DEFAULT_MODEL, Models, ai_reply
@@ -19,7 +19,6 @@ from sophie_bot.utils.i18n import lazy_gettext as l_
 @flags.help(description=l_("Ask Sophie a question"))
 @flags.ai_cache(cache_handler_result=True)
 @flags.disableable(name="ai")
-@flags.chat_action("typing")
 class AiCmd(MessageHandler):
     @staticmethod
     def filters() -> tuple[CallbackType, ...]:
@@ -27,6 +26,8 @@ class AiCmd(MessageHandler):
 
     async def handle(self):
         user_text: Optional[str] = self.data["text"]
+
+        await bot.send_chat_action(self.event.chat.id, "typing")
 
         model = DEFAULT_MODEL
         if self.from_user and self.from_user.id == CONFIG.owner_id and user_text and user_text.endswith("?"):
