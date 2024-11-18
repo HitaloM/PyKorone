@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-11-17 01:58+0100\n"
+"POT-Creation-Date: 2024-11-19 00:26+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -704,7 +704,7 @@ msgid ""
 msgstr ""
 
 #: sophie_bot/modules/greetings/default_welcome.py:9
-msgid "Hi {mentions}! Welcome in the group."
+msgid "Hi {mention}! Welcome in the group."
 msgstr ""
 
 #: sophie_bot/modules/greetings/default_welcome.py:10
@@ -713,6 +713,14 @@ msgstr ""
 
 #: sophie_bot/modules/greetings/default_welcome.py:10
 msgid "There are no rules in this group, have fun!"
+msgstr ""
+
+#: sophie_bot/modules/greetings/default_welcome.py:17
+msgid "Hi {mention}! Welcome to the {chatname}!"
+msgstr ""
+
+#: sophie_bot/modules/greetings/default_welcome.py:18
+msgid "⬇️ Please click the button below to participate in the group."
 msgstr ""
 
 #: sophie_bot/modules/greetings/handlers/enablewelcome.py:11

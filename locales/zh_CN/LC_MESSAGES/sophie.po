@@ -707,7 +707,8 @@ msgstr ""
 "如果您想强制执行验证码/规则验证，请查看“欢迎安全”模块。"
 
 #: sophie_bot/modules/greetings/default_welcome.py:9
-msgid "Hi {mentions}! Welcome in the group."
+#, fuzzy
+msgid "Hi {mention}! Welcome in the group."
 msgstr "嗨 {mentions}！欢迎加入群组。"
 
 #: sophie_bot/modules/greetings/default_welcome.py:10
@@ -717,6 +718,16 @@ msgstr "群组规则"
 #: sophie_bot/modules/greetings/default_welcome.py:10
 msgid "There are no rules in this group, have fun!"
 msgstr "这个群组没有规则，玩得开心！"
+
+#: sophie_bot/modules/greetings/default_welcome.py:17
+#, fuzzy
+msgid "Hi {mention}! Welcome to the {chatname}!"
+msgstr "嗨 {mentions}！欢迎加入群组。"
+
+#: sophie_bot/modules/greetings/default_welcome.py:18
+#, fuzzy
+msgid "⬇️ Please click the button below to participate in the group."
+msgstr "点击下方按钮退出。"
 
 #: sophie_bot/modules/greetings/handlers/enablewelcome.py:11
 msgid "Shows / changes the state of sending greetings"

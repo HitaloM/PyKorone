@@ -705,7 +705,7 @@ msgid ""
 msgstr ""
 
 #: sophie_bot/modules/greetings/default_welcome.py:9
-msgid "Hi {mentions}! Welcome in the group."
+msgid "Hi {mention}! Welcome in the group."
 msgstr ""
 
 #: sophie_bot/modules/greetings/default_welcome.py:10
@@ -714,6 +714,14 @@ msgstr ""
 
 #: sophie_bot/modules/greetings/default_welcome.py:10
 msgid "There are no rules in this group, have fun!"
+msgstr ""
+
+#: sophie_bot/modules/greetings/default_welcome.py:17
+msgid "Hi {mention}! Welcome to the {chatname}!"
+msgstr ""
+
+#: sophie_bot/modules/greetings/default_welcome.py:18
+msgid "⬇️ Please click the button below to participate in the group."
 msgstr ""
 
 #: sophie_bot/modules/greetings/handlers/enablewelcome.py:11
@@ -2083,5 +2091,8 @@ msgstr ""
 #~ msgstr ""
 
 #~ msgid "MESSAGE REPLIES TO PREVIOUS MESSAGE FROM"
+#~ msgstr ""
+
+#~ msgid "Hi {mentions}! Welcome in the group."
 #~ msgstr ""
 

@@ -707,7 +707,8 @@ msgstr ""
 "إذا كنت ترغب في فرض التحقق من captcha / القواعد، يرجى مراجعة وحدة 'أمان الترحيب' بدلاً من ذلك."
 
 #: sophie_bot/modules/greetings/default_welcome.py:9
-msgid "Hi {mentions}! Welcome in the group."
+#, fuzzy
+msgid "Hi {mention}! Welcome in the group."
 msgstr "مرحبًا {mentions}! مرحبًا بك في المجموعة."
 
 #: sophie_bot/modules/greetings/default_welcome.py:10
@@ -717,6 +718,16 @@ msgstr "قواعد المجموعة"
 #: sophie_bot/modules/greetings/default_welcome.py:10
 msgid "There are no rules in this group, have fun!"
 msgstr "لا توجد قواعد في هذه المجموعة، استمتع!"
+
+#: sophie_bot/modules/greetings/default_welcome.py:17
+#, fuzzy
+msgid "Hi {mention}! Welcome to the {chatname}!"
+msgstr "مرحبًا {mentions}! مرحبًا بك في المجموعة."
+
+#: sophie_bot/modules/greetings/default_welcome.py:18
+#, fuzzy
+msgid "⬇️ Please click the button below to participate in the group."
+msgstr "اضغط على الزر أدناه للخروج."
 
 #: sophie_bot/modules/greetings/handlers/enablewelcome.py:11
 msgid "Shows / changes the state of sending greetings"

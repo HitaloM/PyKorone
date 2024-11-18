@@ -708,7 +708,8 @@ msgstr ""
 "Eğer captcha / kurallar doğrulamasını zorlamak istiyorsanız, lütfen 'Karşılama Güvenliği' modülüne bakın."
 
 #: sophie_bot/modules/greetings/default_welcome.py:9
-msgid "Hi {mentions}! Welcome in the group."
+#, fuzzy
+msgid "Hi {mention}! Welcome in the group."
 msgstr "Merhaba {mentions}! Gruba hoş geldin."
 
 #: sophie_bot/modules/greetings/default_welcome.py:10
@@ -718,6 +719,16 @@ msgstr "Grup kuralları"
 #: sophie_bot/modules/greetings/default_welcome.py:10
 msgid "There are no rules in this group, have fun!"
 msgstr "Bu grupta kural yok, iyi eğlenceler!"
+
+#: sophie_bot/modules/greetings/default_welcome.py:17
+#, fuzzy
+msgid "Hi {mention}! Welcome to the {chatname}!"
+msgstr "Merhaba {mentions}! Gruba hoş geldin."
+
+#: sophie_bot/modules/greetings/default_welcome.py:18
+#, fuzzy
+msgid "⬇️ Please click the button below to participate in the group."
+msgstr "Çıkmak için aşağıdaki düğmeye tıklayın."
 
 #: sophie_bot/modules/greetings/handlers/enablewelcome.py:11
 msgid "Shows / changes the state of sending greetings"
