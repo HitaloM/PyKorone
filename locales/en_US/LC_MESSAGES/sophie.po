@@ -1749,6 +1749,10 @@ msgstr ""
 msgid "❌ Incorrect solution. Please, try again."
 msgstr ""
 
+#: sophie_bot/modules/welcomesecurity/handlers/captcha_get.py:76
+msgid "Confirm"
+msgstr ""
+
 #: sophie_bot/modules/welcomesecurity/handlers/enable_welcomemute.py:26
 msgid "Shows / changes the state of Welcome Restrict (Media restricting)."
 msgstr ""
@@ -1827,6 +1831,18 @@ msgstr ""
 
 #: sophie_bot/modules/welcomesecurity/utils_/captcha_done.py:36
 msgid "Due to group's security policy, you were restricted to send media for the next {time}"
+msgstr ""
+
+#: sophie_bot/modules/welcomesecurity/utils_/captcha_done.py:43
+msgid "Back to the group"
+msgstr ""
+
+#: sophie_bot/modules/welcomesecurity/utils_/captcha_rules.py:17
+msgid "Please read the chat rules"
+msgstr ""
+
+#: sophie_bot/modules/welcomesecurity/utils_/captcha_rules.py:21
+msgid "I agree"
 msgstr ""
 
 #: exceptions.py:33

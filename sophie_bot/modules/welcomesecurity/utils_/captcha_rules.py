@@ -6,6 +6,7 @@ from sophie_bot.db.models import RulesModel
 from sophie_bot.modules.welcomesecurity.callbacks import WelcomeSecurityRulesAgreeCB
 from sophie_bot.modules.welcomesecurity.utils_.emoji_captcha import EmojiCaptcha
 from sophie_bot.modules.welcomesecurity.utils_.send_captcha import send_captcha_message
+from sophie_bot.utils.i18n import gettext as _
 
 
 async def captcha_send_rules(message: Message, rules: RulesModel):
@@ -13,10 +14,10 @@ async def captcha_send_rules(message: Message, rules: RulesModel):
     captcha.show_emoji("🪧")
 
     doc = Doc()
-    doc += Title("Please read the chat rules")
+    doc += Title(_("Please read the chat rules"))
     doc += rules.text
 
     buttons = InlineKeyboardBuilder()
-    buttons.add(InlineKeyboardButton(text="✅ I agree", callback_data=WelcomeSecurityRulesAgreeCB().pack()))
+    buttons.add(InlineKeyboardButton(text=f"✅ {_('I agree')}", callback_data=WelcomeSecurityRulesAgreeCB().pack()))
 
     return await send_captcha_message(message, captcha, str(doc), reply_markup=buttons.as_markup())

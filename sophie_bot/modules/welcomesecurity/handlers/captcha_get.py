@@ -73,7 +73,7 @@ class CaptchaGetHandler(SophieMessageCallbackQueryHandler):
             InlineKeyboardButton(text="⬅️", callback_data=WelcomeSecurityMoveCB(direction="left").pack()),
             InlineKeyboardButton(text="▶️", callback_data=WelcomeSecurityMoveCB(direction="right").pack()),
         )
-        buttons.row(InlineKeyboardButton(text="☑️ Confirm", callback_data=WelcomeSecurityConfirmCB().pack()))
+        buttons.row(InlineKeyboardButton(text=f"☑️ {_('Confirm')}", callback_data=WelcomeSecurityConfirmCB().pack()))
 
         await self.answer_media(
             BufferedInputFile(captcha.image, "captcha.jpeg"),

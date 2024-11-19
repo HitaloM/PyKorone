@@ -40,7 +40,7 @@ async def captcha_done(query: CallbackQuery, user: ChatModel, group: ChatModel, 
     buttons = InlineKeyboardBuilder()
 
     if group.username:
-        buttons.add(InlineKeyboardButton(text="👥 Back to the group", url=f"https://t.me/{group.username}"))
+        buttons.add(InlineKeyboardButton(text=f"👥 {_('Back to the group')}", url=f"https://t.me/{group.username}"))
 
     await send_captcha_message(query.message, captcha, str(doc), reply_markup=buttons.as_markup())
 
