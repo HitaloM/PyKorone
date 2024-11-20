@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-11-19 02:23+0100\n"
+"POT-Creation-Date: 2024-11-20 03:54+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1453,7 +1453,7 @@ msgstr ""
 msgid "Note is too long."
 msgstr ""
 
-#: sophie_bot/modules/notes/utils/send.py:91
+#: sophie_bot/modules/notes/utils/send.py:96
 msgid "The text is too long"
 msgstr ""
 

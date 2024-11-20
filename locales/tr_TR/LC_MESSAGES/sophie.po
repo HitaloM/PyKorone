@@ -1453,7 +1453,7 @@ msgstr "Lütfen notun uzunluğunu azaltmayı deneyin."
 msgid "Note is too long."
 msgstr "Not çok uzun."
 
-#: sophie_bot/modules/notes/utils/send.py:91
+#: sophie_bot/modules/notes/utils/send.py:96
 msgid "The text is too long"
 msgstr "Metin çok uzun"
 

@@ -70,17 +70,22 @@ async def send_saveable(
 ):
     text = saveable.text or ""
 
-    # Extract buttons and process text
+    # Note - the order of those operations are actually more important than whatd you think
+    # We want to extract the buttons as the very first, since laterly, the markdown convertor would convert them to the normal URLs, which we don't want!
+    # And we want to process the fillings the last, as they produce formatting HTML formatting that would be escaped.
+
+    # Extract buttons
     inline_markup = InlineKeyboardMarkup(inline_keyboard=[])
     if not raw:
         text, inline_markup = legacy_button_parser(message.chat.id, text)
-        text = process_fillings(text, message, message.from_user, additional_fillings)
-
         inline_markup.inline_keyboard.extend(additional_keyboard.inline_keyboard)
 
     # Convert legacy markdown to HTML
     if text and saveable.parse_mode != SaveableParseMode.html:
         text = legacy_markdown_to_html(text)
+
+    # Process fillings
+    text = process_fillings(text, message, message.from_user, additional_fillings)
 
     # Add title
     text = (str(title) + "\n" if title else "") + text
