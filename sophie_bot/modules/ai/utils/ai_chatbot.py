@@ -5,14 +5,13 @@ from aiogram.types import Message, ReplyKeyboardMarkup
 from openai.types import ResponseFormatJSONSchema, ResponseFormatText
 from openai.types.chat import ChatCompletionMessageParam
 from stfu_tg import HList, Title
-from stfu_tg.doc import Doc, Element
+from stfu_tg.doc import Doc, Element, PreformattedHTML
 
 from sophie_bot.modules.ai.fsm.pm import AI_GENERATED_TEXT
 from sophie_bot.modules.ai.utils.message_history import AIMessageHistory
 from sophie_bot.modules.notes.utils.unparse_legacy import legacy_markdown_to_html
 from sophie_bot.services.ai import ai_client
 from sophie_bot.utils.logger import log
-from sophie_bot.utils.temp_stfu import PreformattedHTML
 
 
 class Models(str, Enum):
