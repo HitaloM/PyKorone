@@ -22,7 +22,7 @@ pydantic = { extras = ["dotenv"], version = "^2" }
 emoji-country-flag = "~2"
 pydantic-settings = "~2"
 structlog = "^24"
-stfu-tg = "3.0"
+stfu-tg = "3.1"
 ass-tg = "2.4.2"
 beanie = "^1.26.0"
 better-exceptions = "^0.3.3"
