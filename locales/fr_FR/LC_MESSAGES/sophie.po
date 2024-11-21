@@ -1,22 +1,18 @@
+
 msgid ""
 msgstr ""
-"Project-Id-Version: sophiebot\n"
+"Project-Id-Version:  sophiebot\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2024-11-20 03:54+0100\n"
-"PO-Revision-Date: 2024-11-20 03:00\n"
+"PO-Revision-Date: 2024-11-20 03:00+0000\n"
 "Last-Translator: \n"
+"Language: fr_FR\n"
 "Language-Team: French\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.16.0\n"
-"Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Crowdin-Project: sophiebot\n"
-"X-Crowdin-Project-ID: 356879\n"
-"X-Crowdin-Language: fr\n"
-"X-Crowdin-File: /beta/locales/sophie.pot\n"
-"X-Crowdin-File-ID: 288\n"
-"Language: fr_FR\n"
 
 #: sophie_bot/args/users.py:29
 msgid "Could not find the requested User ID in the database."
@@ -26,23 +22,23 @@ msgstr "Impossible de trouver l'ID d'utilisateur demandé dans la base de donné
 msgid "Could not find the requested Username in the database."
 msgstr "Impossible de trouver le nom d'utilisateur demandé dans la base de données."
 
-#: sophie_bot/args/users.py:72
+#: sophie_bot/args/users.py:72 types/user.py:119
 msgid "User: 'User ID (numeric) / Username (starts with @) / Mention (links to users)'"
 msgstr "Utilisateur : 'ID utilisateur (numérique) / Nom d'utilisateur (commence par @) / Mention (liens vers des utilisateurs)'"
 
-#: sophie_bot/args/users.py:72
+#: sophie_bot/args/users.py:72 types/user.py:121
 msgid "Users: 'User IDs (numeric) / Usernames (starts with @) / Mentions (links to users)'"
 msgstr "Utilisateurs : 'IDs d'utilisateur (numériques) / Noms d'utilisateur (commencent par @) / Mentions (liens vers des utilisateurs)'"
 
-#: sophie_bot/args/users.py:79
+#: sophie_bot/args/users.py:79 types/user.py:128
 msgid "User ID"
 msgstr "ID utilisateur"
 
-#: sophie_bot/args/users.py:80
+#: sophie_bot/args/users.py:80 types/user.py:129
 msgid "Username"
 msgstr "Nom d'utilisateur"
 
-#: sophie_bot/args/users.py:81
+#: sophie_bot/args/users.py:81 types/user.py:133
 msgid "A link to user, usually creates by mentioning a user without username."
 msgstr "Un lien vers un utilisateur, généralement créé en mentionnant un utilisateur sans nom d'utilisateur."
 
@@ -287,43 +283,36 @@ msgstr "Réinitialiser le contexte IA du chat"
 msgid "🔄 AI context was successfully reset. AI will now operate in a clean state."
 msgstr "🔄 Le contexte IA a été réinitialisé avec succès. L'IA fonctionnera désormais dans un état propre."
 
-#: sophie_bot/modules/ai/handlers/translate.py:27
+#: sophie_bot/modules/ai/handlers/translate.py:26
 msgid "Text to translate"
 msgstr "Texte à traduire"
 
-#: sophie_bot/modules/ai/handlers/translate.py:33
+#: sophie_bot/modules/ai/handlers/translate.py:32
 msgid "Translates the given (or replied) text to the chat's selected language. Also transcribes the replied voice message to text"
 msgstr "Traduit le texte donné (ou répondu) dans la langue sélectionnée du chat. Transcrit également le message vocal répondu en texte"
 
-#: sophie_bot/modules/ai/handlers/translate.py:65
-msgid "You're the professional AI translator/transcriber, try to translate the texts word to word."
+#: sophie_bot/modules/ai/handlers/translate.py:62
+#, fuzzy
+msgid "You're the professional AI translator/transcriber."
 msgstr "Vous êtes le traducteur/transcripteur IA professionnel, essayez de traduire les textes mot à mot."
 
-#: sophie_bot/modules/ai/handlers/translate.py:66
-msgid "If the message is already in a required language, just copy it."
-msgstr "Si le message est déjà dans une langue requise, il suffit de le copier."
-
-#: sophie_bot/modules/ai/handlers/translate.py:67
-msgid "If it needs any explanations or clarifications, write them briefly afterwards separately."
-msgstr "S'il a besoin d'explications ou de clarifications, écrivez-les brièvement ensuite séparément."
-
-#: sophie_bot/modules/ai/handlers/translate.py:88
+#: sophie_bot/modules/ai/handlers/translate.py:85
 msgid "Auto Translator"
 msgstr "Traducteur automatique"
 
-#: sophie_bot/modules/ai/handlers/translate.py:88
+#: sophie_bot/modules/ai/handlers/translate.py:85
 msgid "Translator"
 msgstr "Traductor"
 
-#: sophie_bot/modules/ai/handlers/translate.py:89
+#: sophie_bot/modules/ai/handlers/translate.py:86
 msgid "Voice"
 msgstr "Voix"
 
-#: sophie_bot/modules/ai/handlers/translate.py:94
+#: sophie_bot/modules/ai/handlers/translate.py:91
 msgid "From {from_lang} to {to_lang}"
 msgstr "From {from_lang} to {to_lang}"
 
-#: sophie_bot/modules/ai/handlers/translate.py:104
+#: sophie_bot/modules/ai/handlers/translate.py:101
 msgid "Translation Notes"
 msgstr "Translation Notes"
 
@@ -699,9 +688,11 @@ msgid "Greetings"
 msgstr "Salutations"
 
 #: sophie_bot/modules/greetings/__init__.py:22
-msgid "This module helps you to welcome new users automatically, while keeping the chat clean.\n"
+msgid ""
+"This module helps you to welcome new users automatically, while keeping the chat clean.\n"
 "If you want to enforce captcha / rules verification, please see 'Welcome Security' module instead."
-msgstr "Ce module vous aide à accueillir automatiquement de nouveaux utilisateurs, tout en gardant le chat propre.\n"
+msgstr ""
+"Ce module vous aide à accueillir automatiquement de nouveaux utilisateurs, tout en gardant le chat propre.\n"
 "Si vous souhaitez appliquer la vérification de captcha / règles, veuillez consulter le module 'Sécurité d'accueil' à la place."
 
 #: sophie_bot/modules/greetings/default_welcome.py:9
@@ -2082,23 +2073,9 @@ msgstr "Erreur inattendue lors de la tentative d'obtenir l'utilisateur ! Veuill
 msgid "Could not find the user mention"
 msgstr "Impossible de trouver la mention d'utilisateur"
 
-#: types/user.py:119
-msgid "User: 'User ID (numeric) / Username (starts with @) / Mention (links to users)'"
-msgstr "Utilisateur : 'ID utilisateur (numérique) / Nom d'utilisateur (commence par @) / Mention (liens vers des utilisateurs)'"
+#~ msgid "If the message is already in a required language, just copy it."
+#~ msgstr "Si le message est déjà dans une langue requise, il suffit de le copier."
 
-#: types/user.py:121
-msgid "Users: 'User IDs (numeric) / Usernames (starts with @) / Mentions (links to users)'"
-msgstr "Utilisateurs : 'IDs d'utilisateur (numériques) / Noms d'utilisateur (commencent par @) / Mentions (liens vers des utilisateurs)'"
-
-#: types/user.py:128
-msgid "User ID"
-msgstr "ID utilisateur"
-
-#: types/user.py:129
-msgid "Username"
-msgstr "Nom d'utilisateur"
-
-#: types/user.py:133
-msgid "A link to user, usually creates by mentioning a user without username."
-msgstr "Un lien vers un utilisateur, généralement créé en mentionnant un utilisateur sans nom d'utilisateur."
+#~ msgid "If it needs any explanations or clarifications, write them briefly afterwards separately."
+#~ msgstr "S'il a besoin d'explications ou de clarifications, écrivez-les brièvement ensuite séparément."
 

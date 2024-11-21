@@ -3,7 +3,7 @@ from aiogram.dispatcher.event.handler import CallbackType
 from aiogram.handlers import MessageHandler
 from aiogram.types import Message
 from ass_tg.types import TextArg
-from stfu_tg import Bold, Doc, HList, Section, Template, Title, PreformattedHTML
+from stfu_tg import Bold, Doc, HList, PreformattedHTML, Section, Template, Title
 
 from sophie_bot import bot
 from sophie_bot.filters.cmd import CMDFilter
