@@ -59,13 +59,7 @@ class AiTranslate(MessageHandler):
         else:
             to_translate = self.data.get("text", "")
 
-        system_prompt = "".join(
-            (
-                _("You're the professional AI translator/transcriber, try to translate the texts word to word."),
-                _("If the message is already in a required language, just copy it."),
-                _("If it needs any explanations or clarifications, write them briefly afterwards separately."),
-            )
-        )
+        system_prompt = _("You're the professional AI translator/transcriber.")
         user_prompt = _(f"Translate the following text to {language_name}:\n{to_translate}")
 
         ai_context = await AIMessageHistory.chatbot(
@@ -77,8 +71,12 @@ class AiTranslate(MessageHandler):
 
         translated = await ai_generate_schema(ai_context, AITranslateResponseSchema)
 
+        # Prevent extra translating
         if is_autotranslate and not is_voice and not translated.needs_translation:
             log.debug("AiTranslate: AI do not think it needs translation, skipping.")
+            return
+        elif to_translate.lower().strip() == translated.translated_text.lower().strip():
+            log.debug("AiTranslate: AI gave the exact same text, skipping.")
             return
 
         doc = Doc(
