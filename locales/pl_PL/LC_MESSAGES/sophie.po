@@ -1,22 +1,18 @@
+
 msgid ""
 msgstr ""
-"Project-Id-Version: sophiebot\n"
+"Project-Id-Version:  sophiebot\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2024-11-22 00:19+0100\n"
-"PO-Revision-Date: 2024-11-21 23:26\n"
+"PO-Revision-Date: 2024-11-21 23:26+0000\n"
 "Last-Translator: \n"
+"Language: pl_PL\n"
 "Language-Team: Polish\n"
+"Plural-Forms: nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.16.0\n"
-"Plural-Forms: nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);\n"
-"X-Crowdin-Project: sophiebot\n"
-"X-Crowdin-Project-ID: 356879\n"
-"X-Crowdin-Language: pl\n"
-"X-Crowdin-File: /beta/locales/sophie.pot\n"
-"X-Crowdin-File-ID: 288\n"
-"Language: pl_PL\n"
 
 #: sophie_bot/args/users.py:29
 msgid "Could not find the requested User ID in the database."
@@ -691,9 +687,11 @@ msgid "Greetings"
 msgstr "Powitania"
 
 #: sophie_bot/modules/greetings/__init__.py:22
-msgid "This module helps you to welcome new users automatically, while keeping the chat clean.\n"
+msgid ""
+"This module helps you to welcome new users automatically, while keeping the chat clean.\n"
 "If you want to enforce captcha / rules verification, please see 'Welcome Security' module instead."
-msgstr "Ten moduł pomaga automatycznie witać nowych użytkowników, jednocześnie utrzymując czat w czystości.\n"
+msgstr ""
+"Ten moduł pomaga automatycznie witać nowych użytkowników, jednocześnie utrzymując czat w czystości.\n"
 "Jeśli chcesz wymusić weryfikację captcha / zasad, zapoznaj się z modułem 'Welcome Security'."
 
 #: sophie_bot/modules/greetings/default_welcome.py:9
@@ -1837,260 +1835,177 @@ msgstr "Proszę przeczytać zasady czatu"
 msgid "I agree"
 msgstr "Zgadzam się"
 
-#: exceptions.py:33
-msgid "Examples"
-msgstr "Przykłady"
+#~ msgid "Examples"
+#~ msgstr "Przykłady"
 
-#: exceptions.py:61
-msgid "The argument {description} has an invalid type"
-msgstr "Argument {description} ma nieprawidłowy typ"
+#~ msgid "The argument {description} has an invalid type"
+#~ msgstr "Argument {description} ma nieprawidłowy typ"
 
-#: exceptions.py:65 exceptions.py:120
-msgid "Needed type"
-msgstr "Potrzebny typ"
+#~ msgid "Needed type"
+#~ msgstr "Potrzebny typ"
 
-#: exceptions.py:116
-msgid "The required argument {description} wasn't provided!"
-msgstr "Wymagany argument {description} nie został podany!"
+#~ msgid "The required argument {description} wasn't provided!"
+#~ msgstr "Wymagany argument {description} nie został podany!"
 
-#: exceptions.py:164
-msgid "The argument {description} has an invalid formatting!"
-msgstr "Argument {description} ma nieprawidłowe formatowanie!"
+#~ msgid "The argument {description} has an invalid formatting!"
+#~ msgstr "Argument {description} ma nieprawidłowe formatowanie!"
 
-#: types/keyvalue.py:31
-msgid "Key-value of {}"
-msgstr "Para klucz-wartość {}"
+#~ msgid "Key-value of {}"
+#~ msgstr "Para klucz-wartość {}"
 
-#: types/keyvalue.py:32
-msgid "Key-values of {}"
-msgstr "Pary klucz-wartość {}"
+#~ msgid "Key-values of {}"
+#~ msgstr "Pary klucz-wartość {}"
 
-#: types/keyvalue.py:64
-msgid "The optional argument {name} must contain a value!"
-msgstr "Opcjonalny argument {name} musi zawierać wartość!"
+#~ msgid "The optional argument {name} must contain a value!"
+#~ msgstr "Opcjonalny argument {name} musi zawierać wartość!"
 
-#: types/keyvalue.py:90 types/keyvalue.py:91
-msgid "Key-values"
-msgstr "Pary klucz-wartość"
+#~ msgid "Key-values"
+#~ msgstr "Pary klucz-wartość"
 
-#: types/lists.py:46 types/lists.py:59
-msgid "List of {}"
-msgstr "Lista {}"
+#~ msgid "List of {}"
+#~ msgstr "Lista {}"
 
-#: types/lists.py:47
-msgid "Lists of {}"
-msgstr "Listy {}"
+#~ msgid "Lists of {}"
+#~ msgstr "Listy {}"
 
-#: types/lists.py:65
-msgid "The starting character {} of list wasn't found!"
-msgstr "Nie znaleziono początkowego znaku {} listy!"
+#~ msgid "The starting character {} of list wasn't found!"
+#~ msgstr "Nie znaleziono początkowego znaku {} listy!"
 
-#: types/lists.py:73
-msgid "The ending character {} of list wasn't found!"
-msgstr "Nie znaleziono końcowego znaku {} listy!"
+#~ msgid "The ending character {} of list wasn't found!"
+#~ msgstr "Nie znaleziono końcowego znaku {} listy!"
 
-#: types/lists.py:77
-msgid "The list is empty!"
-msgstr "Lista jest pusta!"
+#~ msgid "The list is empty!"
+#~ msgstr "Lista jest pusta!"
 
-#: types/lists.py:97
-msgid "➡️ The start prefix text of the lists cannot have the overlapping formatting"
-msgstr "➡️ Tekst prefiksu na początku listy nie może mieć nakładającego się formatowania"
+#~ msgid "➡️ The start prefix text of the lists cannot have the overlapping formatting"
+#~ msgstr "➡️ Tekst prefiksu na początku listy nie może mieć nakładającego się formatowania"
 
-#: types/lists.py:152 types/lists.py:170
-msgid "Argument '{arg_text}' was parsed, but it has unknown text after it!"
-msgstr "Argument '{arg_text}' został sparsowany, ale ma nieznany tekst po nim!"
+#~ msgid "Argument '{arg_text}' was parsed, but it has unknown text after it!"
+#~ msgstr "Argument '{arg_text}' został sparsowany, ale ma nieznany tekst po nim!"
 
-#: types/lists.py:157 types/lists.py:175
-msgid "Please ensure you correctly divided all of arguments."
-msgstr "Proszę upewnić się, że poprawnie podzieliłeś wszystkie argumenty."
+#~ msgid "Please ensure you correctly divided all of arguments."
+#~ msgstr "Proszę upewnić się, że poprawnie podzieliłeś wszystkie argumenty."
 
-#: types/logic.py:20
-msgid "Optional {}"
-msgstr "Opcjonalny {}"
+#~ msgid "Optional {}"
+#~ msgstr "Opcjonalny {}"
 
-#: types/logic.py:21
-msgid "Optionals {}"
-msgstr "Opcjonalne {}"
+#~ msgid "Optionals {}"
+#~ msgstr "Opcjonalne {}"
 
-#: types/logic.py:44 types/logic.py:45 types/one_of.py:25 types/one_of.py:28
-msgid " or "
-msgstr " lub "
+#~ msgid " or "
+#~ msgstr " lub "
 
-#: types/logic.py:105
-msgid ", and "
-msgstr ", i "
+#~ msgid ", and "
+#~ msgstr ", i "
 
-#: types/logic.py:121
-msgid "Example syntax"
-msgstr "Składnia przykładu"
+#~ msgid "Example syntax"
+#~ msgstr "Składnia przykładu"
 
-#: types/one_of.py:24 types/one_of.py:27
-msgid "One of: {}"
-msgstr "Jedno z: {}"
+#~ msgid "One of: {}"
+#~ msgstr "Jedno z: {}"
 
-#: types/oneword.py:13
-msgid "Word (string with no spaces)"
-msgstr "Słowo (ciąg bez spacji)"
+#~ msgid "Word (string with no spaces)"
+#~ msgstr "Słowo (ciąg bez spacji)"
 
-#: types/oneword.py:13
-msgid "Words (strings with no spaces)"
-msgstr "Słowa (ciągi bez spacji)"
+#~ msgid "Words (strings with no spaces)"
+#~ msgstr "Słowa (ciągi bez spacji)"
 
-#: types/oneword.py:33
-msgid "Integer (number)"
-msgstr "Liczba całkowita (numer)"
+#~ msgid "Integer (number)"
+#~ msgstr "Liczba całkowita (numer)"
 
-#: types/oneword.py:33
-msgid "Integers (numbers)"
-msgstr "Liczby całkowite (numery)"
+#~ msgid "Integers (numbers)"
+#~ msgstr "Liczby całkowite (numery)"
 
-#: types/oneword.py:49
-msgid "Boolean (Yes / No value)"
-msgstr "Boolean (wartość Tak / Nie)"
+#~ msgid "Boolean (Yes / No value)"
+#~ msgstr "Boolean (wartość Tak / Nie)"
 
-#: types/oneword.py:49
-msgid "Booleans (Yes / No values)"
-msgstr "Booleany (wartości Tak / Nie)"
+#~ msgid "Booleans (Yes / No values)"
+#~ msgstr "Booleany (wartości Tak / Nie)"
 
-#: types/oneword.py:54
-msgid "True (can means Enabled or Yes)"
-msgstr "Prawda (może oznaczać Włączone lub Tak)"
+#~ msgid "True (can means Enabled or Yes)"
+#~ msgstr "Prawda (może oznaczać Włączone lub Tak)"
 
-#: types/oneword.py:55
-msgid "False (can means Disabled or No)"
-msgstr "Fałsz (może oznaczać Wyłączone lub Nie)"
+#~ msgid "False (can means Disabled or No)"
+#~ msgstr "Fałsz (może oznaczać Wyłączone lub Nie)"
 
-#: types/text.py:18
-msgid "Text"
-msgstr "Tekst"
+#~ msgid "Text"
+#~ msgstr "Tekst"
 
-#: types/text_rules.py:27
-msgid "➡️ The Argument should start with {}!"
-msgstr "➡️ Argument powinien zaczynać się od {}!"
+#~ msgid "➡️ The Argument should start with {}!"
+#~ msgstr "➡️ Argument powinien zaczynać się od {}!"
 
-#: types/text_rules.py:31
-msgid "⬅️️ The Argument should end with {}!"
-msgstr "⬅️️ Argument powinien kończyć się na {}!"
+#~ msgid "⬅️️ The Argument should end with {}!"
+#~ msgstr "⬅️️ Argument powinien kończyć się na {}!"
 
-#: types/text_rules.py:49
-msgid "➡️ The start text cannot have the overlapping formatting"
-msgstr "➡️ Tekst na początku nie może mieć nakładającego się formatowania"
+#~ msgid "➡️ The start text cannot have the overlapping formatting"
+#~ msgstr "➡️ Tekst na początku nie może mieć nakładającego się formatowania"
 
-#: types/text_rules.py:74
-msgid "➡️ Argument '{arg_text}' was parsed, but it has unknown text after it!"
-msgstr "➡️ Argument '{arg_text}' został sparsowany, ale ma nieznany tekst po nim!"
+#~ msgid "➡️ Argument '{arg_text}' was parsed, but it has unknown text after it!"
+#~ msgstr "➡️ Argument '{arg_text}' został sparsowany, ale ma nieznany tekst po nim!"
 
-#: types/text_rules.py:91 types/text_rules.py:95
-msgid "{} surrounded by {} and {}"
-msgstr "{} otoczone przez {} i {}"
+#~ msgid "{} surrounded by {} and {}"
+#~ msgstr "{} otoczone przez {} i {}"
 
-#: types/text_rules.py:107
-msgid "Surrounded by {} and {}"
-msgstr "Otoczone przez {} i {}"
+#~ msgid "Surrounded by {} and {}"
+#~ msgstr "Otoczone przez {} i {}"
 
-#: types/time_arg.py:24
-msgid "2 days"
-msgstr "2 dni"
+#~ msgid "2 days"
+#~ msgstr "2 dni"
 
-#: types/time_arg.py:25
-msgid "3 weeks and 2 days"
-msgstr "3 tygodnie i 2 dni"
+#~ msgid "3 weeks and 2 days"
+#~ msgstr "3 tygodnie i 2 dni"
 
-#. NOTE: Please use the first letter of the "years" in your language
-#: types/time_arg.py:41
-msgid "y"
-msgstr "y"
+#~ msgid "y"
+#~ msgstr "y"
 
-#. NOTE: Please use the first letter of the "weeks" in your language
-#: types/time_arg.py:44
-msgid "w"
-msgstr "w"
+#~ msgid "w"
+#~ msgstr "w"
 
-#. NOTE: Please use the first letter of the "days" in your language
-#: types/time_arg.py:47
-msgid "d"
-msgstr "d"
+#~ msgid "d"
+#~ msgstr "d"
 
-#. NOTE: Please use the first letter of the "hours" in your language
-#: types/time_arg.py:50
-msgid "h"
-msgstr "h"
+#~ msgid "h"
+#~ msgstr "h"
 
-#. NOTE: Please use the first letter of the "minutes" in your language
-#: types/time_arg.py:53
-msgid "m"
-msgstr "m"
+#~ msgid "m"
+#~ msgstr "m"
 
-#: types/time_arg.py:61
-msgid "Action time"
-msgstr "Czas akcji"
+#~ msgid "Action time"
+#~ msgstr "Czas akcji"
 
-#: types/time_arg.py:61
-msgid "Action times"
-msgstr "Czasy akcji"
+#~ msgid "Action times"
+#~ msgstr "Czasy akcji"
 
-#: types/user.py:17
-msgid "User ID (Numeric)"
-msgstr "ID użytkownika (numeryczne)"
+#~ msgid "User ID (Numeric)"
+#~ msgstr "ID użytkownika (numeryczne)"
 
-#: types/user.py:17
-msgid "User IDs (Numeric)"
-msgstr "ID użytkowników (numeryczne)"
+#~ msgid "User IDs (Numeric)"
+#~ msgstr "ID użytkowników (numeryczne)"
 
-#: types/user.py:37
-msgid "Username (starts with @)"
-msgstr "Nazwa użytkownika (zaczyna się od @)"
+#~ msgid "Username (starts with @)"
+#~ msgstr "Nazwa użytkownika (zaczyna się od @)"
 
-#: types/user.py:47
-msgid "Should start with a prefix"
-msgstr "Powinien zaczynać się od prefiksu"
+#~ msgid "Should start with a prefix"
+#~ msgstr "Powinien zaczynać się od prefiksu"
 
-#: types/user.py:49
-msgid "Username is too short"
-msgstr "Nazwa użytkownika jest zbyt krótka"
+#~ msgid "Username is too short"
+#~ msgstr "Nazwa użytkownika jest zbyt krótka"
 
-#: types/user.py:51
-msgid "Username is too long"
-msgstr "Nazwa użytkownika jest zbyt długa"
+#~ msgid "Username is too long"
+#~ msgstr "Nazwa użytkownika jest zbyt długa"
 
-#: types/user.py:67
-msgid "User mention (a link to user)"
-msgstr "Wzmianka użytkownika (łączy do użytkownika)"
+#~ msgid "User mention (a link to user)"
+#~ msgstr "Wzmianka użytkownika (łączy do użytkownika)"
 
-#: types/user.py:67
-msgid "User mentions (links to users)"
-msgstr "Wzmianki użytkowników (łączy do użytkowników)"
+#~ msgid "User mentions (links to users)"
+#~ msgstr "Wzmianki użytkowników (łączy do użytkowników)"
 
-#: types/user.py:99
-msgid "Should start with mention!"
-msgstr "Powinien zaczynać się od wzmianki!"
+#~ msgid "Should start with mention!"
+#~ msgstr "Powinien zaczynać się od wzmianki!"
 
-#: types/user.py:107
-msgid "Unexpected error while trying to get the user! Please report this in the support chat!"
-msgstr "Nieoczekiwany błąd podczas próby uzyskania użytkownika! Proszę zgłosić to na czacie wsparcia!"
+#~ msgid "Unexpected error while trying to get the user! Please report this in the support chat!"
+#~ msgstr "Nieoczekiwany błąd podczas próby uzyskania użytkownika! Proszę zgłosić to na czacie wsparcia!"
 
-#: types/user.py:108
-msgid "Could not find the user mention"
-msgstr "Nie znaleziono wzmianki o użytkowniku"
-
-#: types/user.py:119
-msgid "User: 'User ID (numeric) / Username (starts with @) / Mention (links to users)'"
-msgstr "Użytkownik: 'ID użytkownika (numeryczne) / Nazwa użytkownika (zaczyna się od @) / Wzmianka (linki do użytkowników)'"
-
-#: types/user.py:121
-msgid "Users: 'User IDs (numeric) / Usernames (starts with @) / Mentions (links to users)'"
-msgstr "Użytkownicy: 'ID użytkowników (numeryczne) / Nazwy użytkowników (zaczyna się od @) / Wzmianki (linki do użytkowników)'"
-
-#: types/user.py:128
-msgid "User ID"
-msgstr "ID użytkownika"
-
-#: types/user.py:129
-msgid "Username"
-msgstr "Nazwa użytkownika"
-
-#: types/user.py:133
-msgid "A link to user, usually creates by mentioning a user without username."
-msgstr "Link do użytkownika, zwykle tworzony przez wspomnienie użytkownika bez nazwy użytkownika."
+#~ msgid "Could not find the user mention"
+#~ msgstr "Nie znaleziono wzmianki o użytkowniku"
 

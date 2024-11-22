@@ -1,22 +1,18 @@
+
 msgid ""
 msgstr ""
-"Project-Id-Version: sophiebot\n"
+"Project-Id-Version:  sophiebot\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2024-11-22 00:19+0100\n"
-"PO-Revision-Date: 2024-11-21 23:25\n"
+"PO-Revision-Date: 2024-11-21 23:25+0000\n"
 "Last-Translator: \n"
+"Language: zh_CN\n"
 "Language-Team: Chinese Simplified\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.16.0\n"
-"Plural-Forms: nplurals=1; plural=0;\n"
-"X-Crowdin-Project: sophiebot\n"
-"X-Crowdin-Project-ID: 356879\n"
-"X-Crowdin-Language: zh-CN\n"
-"X-Crowdin-File: /beta/locales/sophie.pot\n"
-"X-Crowdin-File-ID: 288\n"
-"Language: zh_CN\n"
 
 #: sophie_bot/args/users.py:29
 msgid "Could not find the requested User ID in the database."
@@ -691,9 +687,11 @@ msgid "Greetings"
 msgstr "问候"
 
 #: sophie_bot/modules/greetings/__init__.py:22
-msgid "This module helps you to welcome new users automatically, while keeping the chat clean.\n"
+msgid ""
+"This module helps you to welcome new users automatically, while keeping the chat clean.\n"
 "If you want to enforce captcha / rules verification, please see 'Welcome Security' module instead."
-msgstr "此模块帮助您自动欢迎新用户，同时保持聊天清洁。\n"
+msgstr ""
+"此模块帮助您自动欢迎新用户，同时保持聊天清洁。\n"
 "如果您想强制执行验证码/规则验证，请查看“欢迎安全”模块。"
 
 #: sophie_bot/modules/greetings/default_welcome.py:9
@@ -1837,260 +1835,177 @@ msgstr "请阅读聊天规则"
 msgid "I agree"
 msgstr "我同意"
 
-#: exceptions.py:33
-msgid "Examples"
-msgstr "示例"
+#~ msgid "Examples"
+#~ msgstr "示例"
 
-#: exceptions.py:61
-msgid "The argument {description} has an invalid type"
-msgstr "参数 {description} 的类型无效"
+#~ msgid "The argument {description} has an invalid type"
+#~ msgstr "参数 {description} 的类型无效"
 
-#: exceptions.py:65 exceptions.py:120
-msgid "Needed type"
-msgstr "所需类型"
+#~ msgid "Needed type"
+#~ msgstr "所需类型"
 
-#: exceptions.py:116
-msgid "The required argument {description} wasn't provided!"
-msgstr "必需参数 {description} 未提供！"
+#~ msgid "The required argument {description} wasn't provided!"
+#~ msgstr "必需参数 {description} 未提供！"
 
-#: exceptions.py:164
-msgid "The argument {description} has an invalid formatting!"
-msgstr "参数 {description} 的格式无效！"
+#~ msgid "The argument {description} has an invalid formatting!"
+#~ msgstr "参数 {description} 的格式无效！"
 
-#: types/keyvalue.py:31
-msgid "Key-value of {}"
-msgstr "键值 {}"
+#~ msgid "Key-value of {}"
+#~ msgstr "键值 {}"
 
-#: types/keyvalue.py:32
-msgid "Key-values of {}"
-msgstr "键值 {}"
+#~ msgid "Key-values of {}"
+#~ msgstr "键值 {}"
 
-#: types/keyvalue.py:64
-msgid "The optional argument {name} must contain a value!"
-msgstr "可选参数 {name} 必须包含一个值！"
+#~ msgid "The optional argument {name} must contain a value!"
+#~ msgstr "可选参数 {name} 必须包含一个值！"
 
-#: types/keyvalue.py:90 types/keyvalue.py:91
-msgid "Key-values"
-msgstr "键值对"
+#~ msgid "Key-values"
+#~ msgstr "键值对"
 
-#: types/lists.py:46 types/lists.py:59
-msgid "List of {}"
-msgstr "列表 {}"
+#~ msgid "List of {}"
+#~ msgstr "列表 {}"
 
-#: types/lists.py:47
-msgid "Lists of {}"
-msgstr "列表 {}"
+#~ msgid "Lists of {}"
+#~ msgstr "列表 {}"
 
-#: types/lists.py:65
-msgid "The starting character {} of list wasn't found!"
-msgstr "未找到列表的起始字符 {}！"
+#~ msgid "The starting character {} of list wasn't found!"
+#~ msgstr "未找到列表的起始字符 {}！"
 
-#: types/lists.py:73
-msgid "The ending character {} of list wasn't found!"
-msgstr "未找到列表的结束字符 {}！"
+#~ msgid "The ending character {} of list wasn't found!"
+#~ msgstr "未找到列表的结束字符 {}！"
 
-#: types/lists.py:77
-msgid "The list is empty!"
-msgstr "列表为空！"
+#~ msgid "The list is empty!"
+#~ msgstr "列表为空！"
 
-#: types/lists.py:97
-msgid "➡️ The start prefix text of the lists cannot have the overlapping formatting"
-msgstr "➡️ 列表的起始前缀文本不能有重叠的格式"
+#~ msgid "➡️ The start prefix text of the lists cannot have the overlapping formatting"
+#~ msgstr "➡️ 列表的起始前缀文本不能有重叠的格式"
 
-#: types/lists.py:152 types/lists.py:170
-msgid "Argument '{arg_text}' was parsed, but it has unknown text after it!"
-msgstr "参数 '{arg_text}' 已被解析，但其后有未知文本！"
+#~ msgid "Argument '{arg_text}' was parsed, but it has unknown text after it!"
+#~ msgstr "参数 '{arg_text}' 已被解析，但其后有未知文本！"
 
-#: types/lists.py:157 types/lists.py:175
-msgid "Please ensure you correctly divided all of arguments."
-msgstr "请确保您正确划分了所有参数。"
+#~ msgid "Please ensure you correctly divided all of arguments."
+#~ msgstr "请确保您正确划分了所有参数。"
 
-#: types/logic.py:20
-msgid "Optional {}"
-msgstr "可选的 {}"
+#~ msgid "Optional {}"
+#~ msgstr "可选的 {}"
 
-#: types/logic.py:21
-msgid "Optionals {}"
-msgstr "可选项 {}"
+#~ msgid "Optionals {}"
+#~ msgstr "可选项 {}"
 
-#: types/logic.py:44 types/logic.py:45 types/one_of.py:25 types/one_of.py:28
-msgid " or "
-msgstr " 或 "
+#~ msgid " or "
+#~ msgstr " 或 "
 
-#: types/logic.py:105
-msgid ", and "
-msgstr "，和 "
+#~ msgid ", and "
+#~ msgstr "，和 "
 
-#: types/logic.py:121
-msgid "Example syntax"
-msgstr "示例语法"
+#~ msgid "Example syntax"
+#~ msgstr "示例语法"
 
-#: types/one_of.py:24 types/one_of.py:27
-msgid "One of: {}"
-msgstr "其中之一：{}"
+#~ msgid "One of: {}"
+#~ msgstr "其中之一：{}"
 
-#: types/oneword.py:13
-msgid "Word (string with no spaces)"
-msgstr "单词（没有空格的字符串）"
+#~ msgid "Word (string with no spaces)"
+#~ msgstr "单词（没有空格的字符串）"
 
-#: types/oneword.py:13
-msgid "Words (strings with no spaces)"
-msgstr "单词（没有空格的字符串）"
+#~ msgid "Words (strings with no spaces)"
+#~ msgstr "单词（没有空格的字符串）"
 
-#: types/oneword.py:33
-msgid "Integer (number)"
-msgstr "整数（数字）"
+#~ msgid "Integer (number)"
+#~ msgstr "整数（数字）"
 
-#: types/oneword.py:33
-msgid "Integers (numbers)"
-msgstr "整数（数字）"
+#~ msgid "Integers (numbers)"
+#~ msgstr "整数（数字）"
 
-#: types/oneword.py:49
-msgid "Boolean (Yes / No value)"
-msgstr "布尔值（是/否值）"
+#~ msgid "Boolean (Yes / No value)"
+#~ msgstr "布尔值（是/否值）"
 
-#: types/oneword.py:49
-msgid "Booleans (Yes / No values)"
-msgstr "布尔值（是/否值）"
+#~ msgid "Booleans (Yes / No values)"
+#~ msgstr "布尔值（是/否值）"
 
-#: types/oneword.py:54
-msgid "True (can means Enabled or Yes)"
-msgstr "真（可以意味着启用或是）"
+#~ msgid "True (can means Enabled or Yes)"
+#~ msgstr "真（可以意味着启用或是）"
 
-#: types/oneword.py:55
-msgid "False (can means Disabled or No)"
-msgstr "假（可以意味着禁用或否）"
+#~ msgid "False (can means Disabled or No)"
+#~ msgstr "假（可以意味着禁用或否）"
 
-#: types/text.py:18
-msgid "Text"
-msgstr "文本"
+#~ msgid "Text"
+#~ msgstr "文本"
 
-#: types/text_rules.py:27
-msgid "➡️ The Argument should start with {}!"
-msgstr "➡️ 参数应该以 {} 开头！"
+#~ msgid "➡️ The Argument should start with {}!"
+#~ msgstr "➡️ 参数应该以 {} 开头！"
 
-#: types/text_rules.py:31
-msgid "⬅️️ The Argument should end with {}!"
-msgstr "⬅️️ 参数应该以 {} 结束！"
+#~ msgid "⬅️️ The Argument should end with {}!"
+#~ msgstr "⬅️️ 参数应该以 {} 结束！"
 
-#: types/text_rules.py:49
-msgid "➡️ The start text cannot have the overlapping formatting"
-msgstr "➡️ 起始文本不能有重叠的格式"
+#~ msgid "➡️ The start text cannot have the overlapping formatting"
+#~ msgstr "➡️ 起始文本不能有重叠的格式"
 
-#: types/text_rules.py:74
-msgid "➡️ Argument '{arg_text}' was parsed, but it has unknown text after it!"
-msgstr "➡️ 参数 '{arg_text}' 已被解析，但其后有未知文本！"
+#~ msgid "➡️ Argument '{arg_text}' was parsed, but it has unknown text after it!"
+#~ msgstr "➡️ 参数 '{arg_text}' 已被解析，但其后有未知文本！"
 
-#: types/text_rules.py:91 types/text_rules.py:95
-msgid "{} surrounded by {} and {}"
-msgstr "{} 被 {} 和 {} 包围"
+#~ msgid "{} surrounded by {} and {}"
+#~ msgstr "{} 被 {} 和 {} 包围"
 
-#: types/text_rules.py:107
-msgid "Surrounded by {} and {}"
-msgstr "被 {} 和 {} 包围"
+#~ msgid "Surrounded by {} and {}"
+#~ msgstr "被 {} 和 {} 包围"
 
-#: types/time_arg.py:24
-msgid "2 days"
-msgstr "2 天"
+#~ msgid "2 days"
+#~ msgstr "2 天"
 
-#: types/time_arg.py:25
-msgid "3 weeks and 2 days"
-msgstr "3 周和 2 天"
+#~ msgid "3 weeks and 2 days"
+#~ msgstr "3 周和 2 天"
 
-#. NOTE: Please use the first letter of the "years" in your language
-#: types/time_arg.py:41
-msgid "y"
-msgstr "y"
+#~ msgid "y"
+#~ msgstr "y"
 
-#. NOTE: Please use the first letter of the "weeks" in your language
-#: types/time_arg.py:44
-msgid "w"
-msgstr "w"
+#~ msgid "w"
+#~ msgstr "w"
 
-#. NOTE: Please use the first letter of the "days" in your language
-#: types/time_arg.py:47
-msgid "d"
-msgstr "d"
+#~ msgid "d"
+#~ msgstr "d"
 
-#. NOTE: Please use the first letter of the "hours" in your language
-#: types/time_arg.py:50
-msgid "h"
-msgstr "h"
+#~ msgid "h"
+#~ msgstr "h"
 
-#. NOTE: Please use the first letter of the "minutes" in your language
-#: types/time_arg.py:53
-msgid "m"
-msgstr "m"
+#~ msgid "m"
+#~ msgstr "m"
 
-#: types/time_arg.py:61
-msgid "Action time"
-msgstr "操作时间"
+#~ msgid "Action time"
+#~ msgstr "操作时间"
 
-#: types/time_arg.py:61
-msgid "Action times"
-msgstr "操作时间"
+#~ msgid "Action times"
+#~ msgstr "操作时间"
 
-#: types/user.py:17
-msgid "User ID (Numeric)"
-msgstr "用户 ID（数字）"
+#~ msgid "User ID (Numeric)"
+#~ msgstr "用户 ID（数字）"
 
-#: types/user.py:17
-msgid "User IDs (Numeric)"
-msgstr "用户 ID（数字）"
+#~ msgid "User IDs (Numeric)"
+#~ msgstr "用户 ID（数字）"
 
-#: types/user.py:37
-msgid "Username (starts with @)"
-msgstr "用户名（以 @ 开头）"
+#~ msgid "Username (starts with @)"
+#~ msgstr "用户名（以 @ 开头）"
 
-#: types/user.py:47
-msgid "Should start with a prefix"
-msgstr "应该以前缀开头"
+#~ msgid "Should start with a prefix"
+#~ msgstr "应该以前缀开头"
 
-#: types/user.py:49
-msgid "Username is too short"
-msgstr "用户名太短"
+#~ msgid "Username is too short"
+#~ msgstr "用户名太短"
 
-#: types/user.py:51
-msgid "Username is too long"
-msgstr "用户名太长"
+#~ msgid "Username is too long"
+#~ msgstr "用户名太长"
 
-#: types/user.py:67
-msgid "User mention (a link to user)"
-msgstr "用户提及（链接到用户）"
+#~ msgid "User mention (a link to user)"
+#~ msgstr "用户提及（链接到用户）"
 
-#: types/user.py:67
-msgid "User mentions (links to users)"
-msgstr "用户提及（链接到用户）"
+#~ msgid "User mentions (links to users)"
+#~ msgstr "用户提及（链接到用户）"
 
-#: types/user.py:99
-msgid "Should start with mention!"
-msgstr "应该以提及开始！"
+#~ msgid "Should start with mention!"
+#~ msgstr "应该以提及开始！"
 
-#: types/user.py:107
-msgid "Unexpected error while trying to get the user! Please report this in the support chat!"
-msgstr "尝试获取用户时出现意外错误！请在支持聊天中报告此事！"
+#~ msgid "Unexpected error while trying to get the user! Please report this in the support chat!"
+#~ msgstr "尝试获取用户时出现意外错误！请在支持聊天中报告此事！"
 
-#: types/user.py:108
-msgid "Could not find the user mention"
-msgstr "未找到用户提及"
-
-#: types/user.py:119
-msgid "User: 'User ID (numeric) / Username (starts with @) / Mention (links to users)'"
-msgstr "用户：'用户 ID（数字）/用户名（以 @ 开头）/提及（链接到用户）'"
-
-#: types/user.py:121
-msgid "Users: 'User IDs (numeric) / Usernames (starts with @) / Mentions (links to users)'"
-msgstr "用户：'用户 ID（数字）/用户名（以 @ 开头）/提及（链接到用户）'"
-
-#: types/user.py:128
-msgid "User ID"
-msgstr "用户 ID"
-
-#: types/user.py:129
-msgid "Username"
-msgstr "用户名"
-
-#: types/user.py:133
-msgid "A link to user, usually creates by mentioning a user without username."
-msgstr "用户的链接，通常通过提及用户而不带用户名来创建。"
+#~ msgid "Could not find the user mention"
+#~ msgstr "未找到用户提及"
 
