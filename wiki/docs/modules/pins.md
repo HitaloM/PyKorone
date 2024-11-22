@@ -1,4 +1,13 @@
+
+# Pins 📌
+
+
 ## Available commands
-### For admins
-- `/pin`: Pins the replied message
-- `/unpin`: unpins the last message
+
+
+### Only admins
+
+| Commands | Description | Remarks |
+| --- | --- | --- |
+| `/unpin` | Pins replied message |  |
+| `/pin` | Unpins the last pinned message |  |

@@ -1,6 +1,10 @@
 PROJECT_DIR := "sophie_bot"
 
 ENV := $(shell poetry env info --path)
+
+# Replace \ with \\ for windows
+ENV := $(shell cygpath "${ENV}")
+
 #PYTHON := $(subst \,/,$(PYTHON))
 PYTHON := "$(ENV)/scripts/python"
 
@@ -21,7 +25,7 @@ LOCALES_DIR := $(CURDIR)/locales
 
 
 all: fix_code_style locale test_all clean build_onefile
-commit: fix_code_style locale test_code_style test_codeanalysis
+commit: fix_code_style locale test_code_style gen_wiki test_codeanalysis
 test_all: test_code_style test_codeanalysis
 locale: extract_lang update_lang compile_lang
 
@@ -91,33 +95,15 @@ new_locale:
 	make update_lang
 	make compile_lang
 
+# Wiki
+
+gen_wiki:
+	poetry run python tools/wiki_gen/start.py
 
 
-# Test things for locales
+dev_deps:
+	rm -rf "$(ENV)/lib/site-packages/ass_tg"
+	rm -rf "$(ENV)/lib/site-packages/stfu_tg"
 
-#test_extract:
-#	locales_dir='tests/unit/middlewares/locales'
-#	rm -rf tests/unit/middlewares/locales/*
-#	pybabel extract --input-dirs=tests -k "__:1,2" --add-comments=NOTE -o "$locales_dir/bot.pot"
-#	pybabel init -i "$locales_dir/bot.pot" -d "$locales_dir" -D bot -l en
-#	pybabel init -i "$locales_dir/bot.pot" -d "$locales_dir" -D bot -l ru
-#
-#test_compile():
-#	locales_dir='tests/unit/middlewares/locales'
-#	pybabel compile -d "$locales_dir" -D "bot"
-
-
-# Database migration things
-
-db_drop_migrations:
-	# Deletes all current migrations and create a new one
-	rm -rf migrations/
-
-	aerich init-db
-	aerich upgrade
-
-db_migrate:
-	aerich upgrade
-
-db_new_migrate:
-	aerich migrate
+	ln -s "$(realpath ../ass/ass_tg)" "$(ENV)/lib/site-packages/"
+	ln -s "$(realpath ../stf/stfu_tg)" "$(ENV)/lib/site-packages/"

@@ -1,7 +1,10 @@
+from asyncio import create_task
+
 from aiogram import Router
 
 from sophie_bot.utils.i18n import lazy_gettext as l_
 
+from ... import CONFIG
 from .handlers.delete import DelNote
 from .handlers.delete_all import DelAllNotesCallbackHandler, DelAllNotesHandler
 from .handlers.get import GetNote, HashtagGetNote
@@ -14,6 +17,7 @@ from .handlers.pmnotes_handler import (
 from .handlers.pmnotes_setting import PMNotesControl, PMNotesStatus
 from .handlers.save import SaveNote
 from .handlers.search import NotesSearchHandler
+from .magic_handlers.descriptions_scheduler import NotesDescriptionsScheduler
 from .magic_handlers.export import export
 from .magic_handlers.filter import get_filter
 from .utils.buttons_processor.legacy import BUTTONS
@@ -52,3 +56,8 @@ async def __pre_setup__():
 
     # Legacy note buttons
     router.message.register(LegacyStartNoteButton, *LegacyStartNoteButton.filters())
+
+
+async def __post_setup__(_):
+    if CONFIG.scheduler:
+        create_task(NotesDescriptionsScheduler().handle())

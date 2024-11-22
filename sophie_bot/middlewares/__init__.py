@@ -9,10 +9,9 @@ from sophie_bot.middlewares.legacy_save_chats import LegacySaveChats
 from sophie_bot.middlewares.localization import LocalizationMiddleware
 from sophie_bot.middlewares.logic import OrMiddleware
 from sophie_bot.middlewares.save_chats import SaveChatsMiddleware
-from sophie_bot.utils.i18n import I18nNew
+from sophie_bot.services.i18n import i18n
 from sophie_bot.utils.logger import log
 
-i18n = I18nNew(path="locales", domain="sophie", default_locale=CONFIG.default_locale)
 localization_middleware = LocalizationMiddleware(i18n)
 try_localization_middleware = OrMiddleware(localization_middleware, ConstI18nMiddleware("en_US", i18n))
 

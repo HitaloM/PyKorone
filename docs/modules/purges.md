@@ -1,0 +1,1 @@
+> ⚠️ Telegram does not allow bots to delete messages older than 48h. Deleting / purging messages older than this will not work. Please do this manually.

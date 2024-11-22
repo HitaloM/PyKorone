@@ -9,7 +9,7 @@ from stfu_tg import Doc, HList, Section, Title, Url
 from sophie_bot import CONFIG
 from sophie_bot.modules.help import PMHelpModule, PMHelpModules
 from sophie_bot.modules.help.utils.extract_info import HELP_MODULES, get_aliased_cmds
-from sophie_bot.modules.help.utils.format_help import format_cmds
+from sophie_bot.modules.help.utils.format_help import format_handlers, group_handlers
 from sophie_bot.utils.exception import SophieException
 from sophie_bot.utils.i18n import gettext as _
 from sophie_bot.utils.i18n import lazy_gettext as l_
@@ -59,7 +59,7 @@ class PMModuleHelp(CallbackQueryHandler):
             await self.event.answer(_("Module not found"))
             return
 
-        cmds = list(filter(lambda x: not x.only_op, module.cmds))
+        cmds = list(filter(lambda x: not x.only_op, module.handlers))
 
         doc = Doc(
             HList(
@@ -72,37 +72,19 @@ class PMModuleHelp(CallbackQueryHandler):
 
         doc += " "
 
-        cmds_sec = Section(title=_("Commands"))
-        pm_cmds_sec = Section(title=_("PM-only"))
-        admin_only_cmds_sec = Section(title=_("Only admins"))
-
-        for cmd in cmds:
-            if cmd.only_pm:
-                pm_cmds_sec += format_cmds([cmd])
-            elif cmd.only_admin:
-                admin_only_cmds_sec += format_cmds([cmd])
-            else:
-                cmds_sec += format_cmds([cmd])
-
-        if cmds_sec:
-            doc += cmds_sec
-
-        if pm_cmds_sec:
-            doc += pm_cmds_sec
-
-        if admin_only_cmds_sec:
-            doc += admin_only_cmds_sec
+        for section_title, handlers in group_handlers(cmds):
+            doc += Section(*format_handlers(handlers), title=section_title)
 
         for mod_name, cmds in get_aliased_cmds(module_name).items():
             module = HELP_MODULES[mod_name]
             doc += Section(
-                format_cmds(cmds),
+                format_handlers(cmds),
                 title=_("Aliased commands from {module}").format(module=f"{module.icon} {module.name}"),
             )
 
         buttons = (
             InlineKeyboardBuilder()
-            # .row(InlineKeyboardButton(text=_("📖 Wiki page"), url=CONFIG.wiki_link))
+            .row(InlineKeyboardButton(text=_("📖 Wiki page"), url=CONFIG.wiki_modules_link + module_name))
             .row(
                 InlineKeyboardButton(
                     text=_("⬅️ Back"), callback_data=PMHelpModules(back_to_start=callback_data.back_to_start).pack()

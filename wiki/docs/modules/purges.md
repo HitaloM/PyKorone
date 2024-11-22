@@ -1,8 +1,15 @@
-The Purges module helps you delete certain messages or a range of them.
+
+# Purges 🗑
+
 
 ## Available commands
-- `/purge`: Deletes all messages from the message you replied to, up to the current message
-- `/del`: Deletes the message you replied to, and also your "/del" command message
 
-:warning: **Warning:** Telegram does not allow bots to delete messages older than 48h.
-Deleting / purging messages older than this will not work. Please do this manually.
+
+### Only admins
+
+| Commands | Description | Remarks |
+| --- | --- | --- |
+| `/delete` `/del` | Deletes the replied message |  |
+| `/purge` | Purges all messages after replied message (including the replied message) | *Only in groups* |
+---
+> ⚠️ Telegram does not allow bots to delete messages older than 48h. Deleting / purging messages older than this will not work. Please do this manually.

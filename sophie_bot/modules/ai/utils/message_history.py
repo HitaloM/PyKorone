@@ -58,7 +58,7 @@ class AIMessageHistory(list[ChatCompletionMessageParam]):
 
         return ChatCompletionUserMessageParam(role="user", content=msg.text, name=self._sanitize_name(first_name))
 
-    def add_system_msg(self, additional: str = ""):
+    def add_chatbot_system_msg(self, additional: str = ""):
         system_message = "\n".join(
             (
                 _("You're a bot named Sophie."),
@@ -73,6 +73,12 @@ class AIMessageHistory(list[ChatCompletionMessageParam]):
 
     async def add_from_cache(self, chat_id: int):
         self.extend(await gather(*[self._cache_transform_msg(msg) for msg in await get_cached_messages(chat_id)]))
+
+    def add_system(self, content: str):
+        self.append(ChatCompletionSystemMessageParam(content=content, role="system"))
+
+    def add_custom(self, content: str, name: Optional[str]):
+        self.append(ChatCompletionUserMessageParam(content=content, role="user", name=name or "User"))
 
     async def add_from_message(
         self,
@@ -153,7 +159,7 @@ class AIMessageHistory(list[ChatCompletionMessageParam]):
         """A simple chat-bot case"""
 
         messages = AIMessageHistory()
-        messages.add_system_msg(additional=additional_system_prompt)
+        messages.add_chatbot_system_msg(additional=additional_system_prompt)
 
         if add_cached_messages:
             await messages.add_from_cache(message.chat.id)

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-11-22 10:08+0100\n"
+"POT-Creation-Date: 2024-11-27 08:48+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -43,6 +43,10 @@ msgstr ""
 
 #: sophie_bot/args/users.py:81
 msgid "A link to user, usually creates by mentioning a user without username."
+msgstr ""
+
+#: sophie_bot/filters/user_status.py:25
+msgid "Admin permission required!"
 msgstr ""
 
 #: sophie_bot/middlewares/connections.py:26
@@ -338,15 +342,15 @@ msgstr ""
 msgid "Don't use Tables. You can use emojis."
 msgstr ""
 
-#: sophie_bot/modules/ai/utils/message_history.py:93
+#: sophie_bot/modules/ai/utils/message_history.py:99
 msgid "<No text provided>"
 msgstr ""
 
-#: sophie_bot/modules/ai/utils/message_history.py:102
+#: sophie_bot/modules/ai/utils/message_history.py:108
 msgid "REPLY TO"
 msgstr ""
 
-#: sophie_bot/modules/ai/utils/message_history.py:113
+#: sophie_bot/modules/ai/utils/message_history.py:119
 msgid "Photo is empty"
 msgstr ""
 
@@ -384,7 +388,7 @@ msgstr ""
 msgid "Lists all commands that can be disabled."
 msgstr ""
 
-#: sophie_bot/modules/disabling/handlers/disable_able.py:29
+#: sophie_bot/modules/disabling/handlers/disable_able.py:31
 msgid "Disable-able commands"
 msgstr ""
 
@@ -854,7 +858,7 @@ msgid "Shows help overview for all modules"
 msgstr ""
 
 #: sophie_bot/modules/help/handlers/pm_modules.py:38
-#: sophie_bot/modules/help/handlers/pm_modules.py:108
+#: sophie_bot/modules/help/handlers/pm_modules.py:90
 #: sophie_bot/modules/privacy/handlers/privacy.py:30
 msgid "⬅️ Back"
 msgstr ""
@@ -871,28 +875,32 @@ msgstr ""
 msgid "Module not found"
 msgstr ""
 
-#: sophie_bot/modules/help/handlers/pm_modules.py:75
-msgid "Commands"
-msgstr ""
-
-#: sophie_bot/modules/help/handlers/pm_modules.py:76
-msgid "PM-only"
-msgstr ""
-
-#: sophie_bot/modules/help/handlers/pm_modules.py:77
-msgid "Only admins"
-msgstr ""
-
-#: sophie_bot/modules/help/handlers/pm_modules.py:100
+#: sophie_bot/modules/help/handlers/pm_modules.py:82
 msgid "Aliased commands from {module}"
 msgstr ""
 
-#: sophie_bot/modules/help/utils/format_help.py:23
+#: sophie_bot/modules/help/handlers/pm_modules.py:87
+msgid "📖 Wiki page"
+msgstr ""
+
+#: sophie_bot/modules/help/utils/format_help.py:25
 msgid "— Only in groups"
 msgstr ""
 
-#: sophie_bot/modules/help/utils/format_help.py:24
+#: sophie_bot/modules/help/utils/format_help.py:26
 msgid "Disable-able"
+msgstr ""
+
+#: sophie_bot/modules/help/utils/format_help.py:66
+msgid "Commands"
+msgstr ""
+
+#: sophie_bot/modules/help/utils/format_help.py:68
+msgid "PM-only"
+msgstr ""
+
+#: sophie_bot/modules/help/utils/format_help.py:70
+msgid "Only admins"
 msgstr ""
 
 #: sophie_bot/modules/legacy_modules/modules/antiflood.py:69
@@ -1238,7 +1246,7 @@ msgstr ""
 msgid "⚠️ Warn"
 msgstr ""
 
-#: sophie_bot/modules/notes/__init__.py:24
+#: sophie_bot/modules/notes/__init__.py:28
 msgid "Notes"
 msgstr ""
 
@@ -1386,6 +1394,10 @@ msgstr ""
 
 #: sophie_bot/modules/notes/handlers/search.py:33
 msgid "No notes found by the provided search pattern {pattern}."
+msgstr ""
+
+#: sophie_bot/modules/notes/magic_handlers/descriptions_scheduler.py:51
+msgid "You need to update the data of the chat notes. Generate the note data from the provided note text"
 msgstr ""
 
 #: sophie_bot/modules/notes/magic_handlers/filter.py:22
@@ -1631,7 +1643,7 @@ msgid "Troubleshooters"
 msgstr ""
 
 #: sophie_bot/modules/troubleshooters/__init__.py:19
-msgid "Small commands for fixing problems"
+msgid "Small commands for fixing problems and issues"
 msgstr ""
 
 #: sophie_bot/modules/troubleshooters/handlers/admincache.py:13
@@ -1706,9 +1718,9 @@ msgstr ""
 msgid "{user}'s ID: {id}"
 msgstr ""
 
-#: sophie_bot/modules/utils_/base_handler.py:77
-#: sophie_bot/modules/utils_/base_handler.py:84
-#: sophie_bot/modules/utils_/base_handler.py:100
+#: sophie_bot/modules/utils_/base_handler.py:79
+#: sophie_bot/modules/utils_/base_handler.py:86
+#: sophie_bot/modules/utils_/base_handler.py:102
 msgid "The message is inaccessible. Please write the command again"
 msgstr ""
 

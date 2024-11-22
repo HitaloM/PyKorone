@@ -16,7 +16,7 @@ router = Router(name="troubleshooters")
 
 __module_name__ = l_("Troubleshooters")
 __module_emoji__ = "🧰"
-__module_description__ = l_("Small commands for fixing problems")
+__module_info__ = l_("Small commands for fixing problems and issues")
 
 
 __stats__ = beta_stats

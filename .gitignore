@@ -32,3 +32,4 @@ output/
 # Wiki
 wiki/node_modules
 wiki/.*
+# wiki/docs/modules/

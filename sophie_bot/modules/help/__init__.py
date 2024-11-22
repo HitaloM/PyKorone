@@ -37,7 +37,7 @@ async def __post_setup__(modules: dict[str, ModuleType]):
         if module_help := await gather_module_help(module):
             if name in HELP_MODULES:
                 log.debug(f"Module {name} already in help modules, merging")
-                module_help.cmds = HELP_MODULES[name].cmds + module_help.cmds
+                module_help.handlers = HELP_MODULES[name].handlers + module_help.handlers
 
             HELP_MODULES[name] = module_help
 

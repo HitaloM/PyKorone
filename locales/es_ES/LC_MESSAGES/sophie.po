@@ -22,25 +22,29 @@ msgstr "No se pudo encontrar el ID de usuario solicitado en la base de datos."
 msgid "Could not find the requested Username in the database."
 msgstr "No se pudo encontrar el nombre de usuario solicitado en la base de datos."
 
-#: sophie_bot/args/users.py:72
+#: sophie_bot/args/users.py:72 types/user.py:119
 msgid "User: 'User ID (numeric) / Username (starts with @) / Mention (links to users)'"
 msgstr "Usuario: 'ID de usuario (numérico) / Nombre de usuario (comienza con @) / Mención (enlaces a usuarios)'"
 
-#: sophie_bot/args/users.py:72
+#: sophie_bot/args/users.py:72 types/user.py:121
 msgid "Users: 'User IDs (numeric) / Usernames (starts with @) / Mentions (links to users)'"
 msgstr "Usuarios: 'IDs de usuario (numéricos) / Nombres de usuario (comienzan con @) / Menciones (enlaces a usuarios)'"
 
-#: sophie_bot/args/users.py:79
+#: sophie_bot/args/users.py:79 types/user.py:128
 msgid "User ID"
 msgstr "ID de usuario"
 
-#: sophie_bot/args/users.py:80
+#: sophie_bot/args/users.py:80 types/user.py:129
 msgid "Username"
 msgstr "Nombre de usuario"
 
-#: sophie_bot/args/users.py:81
+#: sophie_bot/args/users.py:81 types/user.py:133
 msgid "A link to user, usually creates by mentioning a user without username."
 msgstr "Un enlace al usuario, generalmente se crea al mencionar a un usuario sin nombre de usuario."
+
+#: sophie_bot/filters/user_status.py:25
+msgid "Admin permission required!"
+msgstr ""
 
 #: sophie_bot/middlewares/connections.py:26
 msgid "Private chat"
@@ -335,15 +339,15 @@ msgstr "Por favor, usa solo los siguientes elementos de markdown: ** para negrit
 msgid "Don't use Tables. You can use emojis."
 msgstr "No uses tablas. Puedes usar emojis."
 
-#: sophie_bot/modules/ai/utils/message_history.py:93
+#: sophie_bot/modules/ai/utils/message_history.py:99
 msgid "<No text provided>"
 msgstr "<No text provided>"
 
-#: sophie_bot/modules/ai/utils/message_history.py:102
+#: sophie_bot/modules/ai/utils/message_history.py:108
 msgid "REPLY TO"
 msgstr "RESPONDER A"
 
-#: sophie_bot/modules/ai/utils/message_history.py:113
+#: sophie_bot/modules/ai/utils/message_history.py:119
 msgid "Photo is empty"
 msgstr "La foto está vacía"
 
@@ -381,7 +385,7 @@ msgstr "Comando deshabilitado"
 msgid "Lists all commands that can be disabled."
 msgstr "Lista todos los comandos que se pueden deshabilitar."
 
-#: sophie_bot/modules/disabling/handlers/disable_able.py:29
+#: sophie_bot/modules/disabling/handlers/disable_able.py:31
 msgid "Disable-able commands"
 msgstr "Comandos habilitables"
 
@@ -853,7 +857,7 @@ msgid "Shows help overview for all modules"
 msgstr "Muestra una visión general de ayuda para todos los módulos"
 
 #: sophie_bot/modules/help/handlers/pm_modules.py:38
-#: sophie_bot/modules/help/handlers/pm_modules.py:108
+#: sophie_bot/modules/help/handlers/pm_modules.py:90
 #: sophie_bot/modules/privacy/handlers/privacy.py:30
 msgid "⬅️ Back"
 msgstr "⬅️ Atrás"
@@ -870,29 +874,33 @@ msgstr "📖 Wiki (información detallada)"
 msgid "Module not found"
 msgstr "Módulo no encontrado"
 
-#: sophie_bot/modules/help/handlers/pm_modules.py:75
-msgid "Commands"
-msgstr "Comandos"
-
-#: sophie_bot/modules/help/handlers/pm_modules.py:76
-msgid "PM-only"
-msgstr "Solo PM"
-
-#: sophie_bot/modules/help/handlers/pm_modules.py:77
-msgid "Only admins"
-msgstr "Solo administradores"
-
-#: sophie_bot/modules/help/handlers/pm_modules.py:100
+#: sophie_bot/modules/help/handlers/pm_modules.py:82
 msgid "Aliased commands from {module}"
 msgstr "Comandos alias de {module}"
 
-#: sophie_bot/modules/help/utils/format_help.py:23
+#: sophie_bot/modules/help/handlers/pm_modules.py:87
+msgid "📖 Wiki page"
+msgstr ""
+
+#: sophie_bot/modules/help/utils/format_help.py:25
 msgid "— Only in groups"
 msgstr "— Solo en grupos"
 
-#: sophie_bot/modules/help/utils/format_help.py:24
+#: sophie_bot/modules/help/utils/format_help.py:26
 msgid "Disable-able"
 msgstr "Comandos habilitables"
+
+#: sophie_bot/modules/help/utils/format_help.py:66
+msgid "Commands"
+msgstr "Comandos"
+
+#: sophie_bot/modules/help/utils/format_help.py:68
+msgid "PM-only"
+msgstr "Solo PM"
+
+#: sophie_bot/modules/help/utils/format_help.py:70
+msgid "Only admins"
+msgstr "Solo administradores"
 
 #: sophie_bot/modules/legacy_modules/modules/antiflood.py:69
 msgid "Antiflood"
@@ -1237,7 +1245,7 @@ msgstr "Nuevo modo"
 msgid "⚠️ Warn"
 msgstr "⚠️ Advertir"
 
-#: sophie_bot/modules/notes/__init__.py:24
+#: sophie_bot/modules/notes/__init__.py:28
 msgid "Notes"
 msgstr "Notas"
 
@@ -1386,6 +1394,10 @@ msgstr "Texto a buscar"
 #: sophie_bot/modules/notes/handlers/search.py:33
 msgid "No notes found by the provided search pattern {pattern}."
 msgstr "No se encontraron notas con el patrón de búsqueda proporcionado {pattern}."
+
+#: sophie_bot/modules/notes/magic_handlers/descriptions_scheduler.py:51
+msgid "You need to update the data of the chat notes. Generate the note data from the provided note text"
+msgstr ""
 
 #: sophie_bot/modules/notes/magic_handlers/filter.py:22
 msgid "#{name} note was not found."
@@ -1630,7 +1642,8 @@ msgid "Troubleshooters"
 msgstr "Solucionadores de problemas"
 
 #: sophie_bot/modules/troubleshooters/__init__.py:19
-msgid "Small commands for fixing problems"
+#, fuzzy
+msgid "Small commands for fixing problems and issues"
 msgstr "Pequeños comandos para resolver problemas"
 
 #: sophie_bot/modules/troubleshooters/handlers/admincache.py:13
@@ -1705,9 +1718,9 @@ msgstr "ID del usuario respondido: {id}"
 msgid "{user}'s ID: {id}"
 msgstr "ID de {user}: {id}"
 
-#: sophie_bot/modules/utils_/base_handler.py:77
-#: sophie_bot/modules/utils_/base_handler.py:84
-#: sophie_bot/modules/utils_/base_handler.py:100
+#: sophie_bot/modules/utils_/base_handler.py:79
+#: sophie_bot/modules/utils_/base_handler.py:86
+#: sophie_bot/modules/utils_/base_handler.py:102
 msgid "The message is inaccessible. Please write the command again"
 msgstr "El mensaje es inaccesible. Por favor, escribe el comando nuevamente"
 
@@ -1834,6 +1847,250 @@ msgstr "Please read the chat rules"
 #: sophie_bot/modules/welcomesecurity/utils_/captcha_rules.py:21
 msgid "I agree"
 msgstr "I agree"
+
+#: exceptions.py:33
+#, fuzzy
+msgid "Examples"
+msgstr "Nombres"
+
+#: exceptions.py:61
+msgid "The argument {description} has an invalid type"
+msgstr ""
+
+#: exceptions.py:65 exceptions.py:120
+msgid "Needed type"
+msgstr ""
+
+#: exceptions.py:116
+msgid "The required argument {description} wasn't provided!"
+msgstr ""
+
+#: exceptions.py:164
+msgid "The argument {description} has an invalid formatting!"
+msgstr ""
+
+#: types/keyvalue.py:31
+msgid "Key-value of {}"
+msgstr ""
+
+#: types/keyvalue.py:32
+msgid "Key-values of {}"
+msgstr ""
+
+#: types/keyvalue.py:64
+msgid "The optional argument {name} must contain a value!"
+msgstr ""
+
+#: types/keyvalue.py:90 types/keyvalue.py:91
+msgid "Key-values"
+msgstr ""
+
+#: types/lists.py:46 types/lists.py:59
+msgid "List of {}"
+msgstr ""
+
+#: types/lists.py:47
+msgid "Lists of {}"
+msgstr ""
+
+#: types/lists.py:65
+msgid "The starting character {} of list wasn't found!"
+msgstr ""
+
+#: types/lists.py:73
+msgid "The ending character {} of list wasn't found!"
+msgstr ""
+
+#: types/lists.py:77
+#, fuzzy
+msgid "The list is empty!"
+msgstr "La foto está vacía"
+
+#: types/lists.py:97
+msgid "➡️ The start prefix text of the lists cannot have the overlapping formatting"
+msgstr ""
+
+#: types/lists.py:152 types/lists.py:170
+msgid "Argument '{arg_text}' was parsed, but it has unknown text after it!"
+msgstr ""
+
+#: types/lists.py:157 types/lists.py:175
+msgid "Please ensure you correctly divided all of arguments."
+msgstr ""
+
+#: types/logic.py:20
+msgid "Optional {}"
+msgstr ""
+
+#: types/logic.py:21
+msgid "Optionals {}"
+msgstr ""
+
+#: types/logic.py:44 types/logic.py:45 types/one_of.py:25 types/one_of.py:28
+msgid " or "
+msgstr ""
+
+#: types/logic.py:105
+#, fuzzy
+msgid ", and "
+msgstr "🚷 Ban"
+
+#: types/logic.py:121
+msgid "Example syntax"
+msgstr ""
+
+#: types/one_of.py:24 types/one_of.py:27
+msgid "One of: {}"
+msgstr ""
+
+#: types/oneword.py:13
+msgid "Word (string with no spaces)"
+msgstr ""
+
+#: types/oneword.py:13
+msgid "Words (strings with no spaces)"
+msgstr ""
+
+#: types/oneword.py:33
+msgid "Integer (number)"
+msgstr ""
+
+#: types/oneword.py:33
+msgid "Integers (numbers)"
+msgstr ""
+
+#: types/oneword.py:49
+msgid "Boolean (Yes / No value)"
+msgstr ""
+
+#: types/oneword.py:49
+msgid "Booleans (Yes / No values)"
+msgstr ""
+
+#: types/oneword.py:54
+msgid "True (can means Enabled or Yes)"
+msgstr ""
+
+#: types/oneword.py:55
+msgid "False (can means Disabled or No)"
+msgstr ""
+
+#: types/text.py:18
+msgid "Text"
+msgstr ""
+
+#: types/text_rules.py:27
+msgid "➡️ The Argument should start with {}!"
+msgstr ""
+
+#: types/text_rules.py:31
+msgid "⬅️️ The Argument should end with {}!"
+msgstr ""
+
+#: types/text_rules.py:49
+msgid "➡️ The start text cannot have the overlapping formatting"
+msgstr ""
+
+#: types/text_rules.py:74
+msgid "➡️ Argument '{arg_text}' was parsed, but it has unknown text after it!"
+msgstr ""
+
+#: types/text_rules.py:91 types/text_rules.py:95
+msgid "{} surrounded by {} and {}"
+msgstr ""
+
+#: types/text_rules.py:107
+msgid "Surrounded by {} and {}"
+msgstr ""
+
+#: types/time_arg.py:24
+msgid "2 days"
+msgstr ""
+
+#: types/time_arg.py:25
+msgid "3 weeks and 2 days"
+msgstr ""
+
+#. NOTE: Please use the first letter of the "years" in your language
+#: types/time_arg.py:41
+msgid "y"
+msgstr ""
+
+#. NOTE: Please use the first letter of the "weeks" in your language
+#: types/time_arg.py:44
+msgid "w"
+msgstr ""
+
+#. NOTE: Please use the first letter of the "days" in your language
+#: types/time_arg.py:47
+msgid "d"
+msgstr ""
+
+#. NOTE: Please use the first letter of the "hours" in your language
+#: types/time_arg.py:50
+msgid "h"
+msgstr ""
+
+#. NOTE: Please use the first letter of the "minutes" in your language
+#: types/time_arg.py:53
+msgid "m"
+msgstr ""
+
+#: types/time_arg.py:61
+#, fuzzy
+msgid "Action time"
+msgstr "? Tiempo de acción"
+
+#: types/time_arg.py:61
+#, fuzzy
+msgid "Action times"
+msgstr "? Tiempo de acción"
+
+#: types/user.py:17
+msgid "User ID (Numeric)"
+msgstr ""
+
+#: types/user.py:17
+msgid "User IDs (Numeric)"
+msgstr ""
+
+#: types/user.py:37
+msgid "Username (starts with @)"
+msgstr ""
+
+#: types/user.py:47
+msgid "Should start with a prefix"
+msgstr ""
+
+#: types/user.py:49
+msgid "Username is too short"
+msgstr ""
+
+#: types/user.py:51
+#, fuzzy
+msgid "Username is too long"
+msgstr "La nota es demasiado larga."
+
+#: types/user.py:67
+msgid "User mention (a link to user)"
+msgstr ""
+
+#: types/user.py:67
+msgid "User mentions (links to users)"
+msgstr ""
+
+#: types/user.py:99
+msgid "Should start with mention!"
+msgstr ""
+
+#: types/user.py:107
+msgid "Unexpected error while trying to get the user! Please report this in the support chat!"
+msgstr ""
+
+#: types/user.py:108
+#, fuzzy
+msgid "Could not find the user mention"
+msgstr "No se pudo encontrar el nombre de usuario solicitado en la base de datos."
 
 #~ msgid "Examples"
 #~ msgstr "Ejemplos"

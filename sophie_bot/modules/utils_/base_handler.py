@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from typing import Optional, TypeVar
+from typing import TYPE_CHECKING, Optional, TypeVar
 
 from aiogram import Router
 from aiogram.dispatcher.event.handler import CallbackType
@@ -16,16 +16,18 @@ from ass_tg.types.base_abc import ArgFabric
 from stfu_tg.doc import Element
 
 from sophie_bot import bot
-from sophie_bot.middlewares.connections import ChatConnection
 from sophie_bot.utils.exception import SophieException
 from sophie_bot.utils.i18n import gettext as _
+
+if TYPE_CHECKING:
+    from sophie_bot.middlewares.connections import ChatConnection
 
 T = TypeVar("T")
 
 
 class SophieBaseHandler(BaseHandler[T], BaseHandlerMixin[T], ABC):
     @property
-    def connection(self) -> ChatConnection:
+    def connection(self) -> "ChatConnection":
         return self.data["connection"]
 
     @property

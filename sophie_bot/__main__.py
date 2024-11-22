@@ -19,9 +19,6 @@ from sophie_bot.services.db import init_db
 from sophie_bot.utils.logger import log
 from sophie_bot.utils.sentry import init_sentry
 
-enable_middlewares()
-
-
 # Import misc stuff
 if CONFIG.sentry_url:
     init_sentry()
@@ -33,6 +30,7 @@ async def start():
         init_db(),
         load_modules(dp, ["*"], CONFIG.modules_not_load),
     )
+    enable_middlewares()
 
 
 if not CONFIG.webhooks_enable:

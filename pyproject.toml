@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "sophie_bot"
-version = "3.5.4"
+version = "3.6.0"
 description = "Sophie is modern and fast Telegram chat manager bot"
 authors = ["Yacha <yacha@orangefox.tech>"]
 
@@ -10,7 +10,6 @@ aiogram = "^3.13"
 redis = "^5"
 motor = "^3.6"
 dnspython = "^2.1.0"
-APScheduler = "^3.8.1"
 ujson = "^5.1.0"
 PyYAML = "^6.0"
 sentry-sdk = "^2"
@@ -22,7 +21,7 @@ pydantic = { extras = ["dotenv"], version = "^2" }
 emoji-country-flag = "~2"
 pydantic-settings = "~2"
 structlog = "^24"
-stfu-tg = "3.1"
+stfu-tg = "3.2"
 ass-tg = "2.4.2"
 beanie = "^1.26.0"
 better-exceptions = "^0.3.3"

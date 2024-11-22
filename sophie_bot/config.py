@@ -67,6 +67,7 @@ class Config(BaseSettings):
     support_link: str = "https://t.me/SophieSupport"
     news_channel: str = "https://t.me/SophieNEWS"
     wiki_link: str = "https://sophie-wiki.orangefox.tech/"
+    wiki_modules_link: str = "https://sophie-wiki.orangefox.tech/docs/modules/"
     privacy_link: str = "https://sophie-wiki.orangefox.tech/docs/Privacy%20policy"
 
     default_locale: str = "en_US"
@@ -80,6 +81,8 @@ class Config(BaseSettings):
     openai_key: str
     ai_emoji: str = "✨"
     ai_autotrans_lowmem: bool = False
+
+    scheduler: bool = False
 
     class Config:
         env_file = "data/config.env"

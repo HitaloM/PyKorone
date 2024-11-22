@@ -56,7 +56,9 @@ class NoteModel(Saveable, Document):
 
     names: tuple[str, ...]
     note_group: Optional[str] = None
+
     description: Optional[str] = None
+    ai_description: bool = False
 
     created_date: Optional[datetime] = None
     created_user: Optional[int] = None

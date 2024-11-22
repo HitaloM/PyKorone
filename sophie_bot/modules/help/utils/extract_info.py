@@ -27,7 +27,7 @@ ARGS_COROUTINE = Callable[
 
 
 @dataclass
-class CmdHelp:
+class HandlerHelp:
     cmds: tuple[str, ...]
     args: Optional[ARGS_DICT]
     description: Optional[LazyProxy | str]
@@ -41,7 +41,7 @@ class CmdHelp:
 
 @dataclass
 class ModuleHelp:
-    cmds: list[CmdHelp]
+    handlers: list[HandlerHelp]
     name: LazyProxy | str
     icon: str
     exclude_public: bool
@@ -50,20 +50,20 @@ class ModuleHelp:
 
 
 HELP_MODULES: dict[str, ModuleHelp] = {}
-DISABLEABLE_CMDS: list[CmdHelp] = []
+DISABLEABLE_CMDS: list[HandlerHelp] = []
 
 
-def get_aliased_cmds(module_name) -> dict[str, list[CmdHelp]]:
+def get_aliased_cmds(module_name) -> dict[str, list[HandlerHelp]]:
     return {
-        mod_name: [cmd for cmd in module.cmds if cmd.alias_to_modules and module_name in cmd.alias_to_modules]
+        mod_name: [cmd for cmd in module.handlers if cmd.alias_to_modules and module_name in cmd.alias_to_modules]
         for mod_name, module in HELP_MODULES.items()
-        if any(cmd.alias_to_modules for cmd in module.cmds)
-        and any(cmd.alias_to_modules and module_name in cmd.alias_to_modules for cmd in module.cmds)
+        if any(cmd.alias_to_modules for cmd in module.handlers)
+        and any(cmd.alias_to_modules and module_name in cmd.alias_to_modules for cmd in module.handlers)
     }
 
 
-def get_all_cmds() -> list[CmdHelp]:
-    return [cmd for module in HELP_MODULES.values() for cmd in module.cmds]
+def get_all_cmds() -> list[HandlerHelp]:
+    return [cmd for module in HELP_MODULES.values() for cmd in module.handlers]
 
 
 async def gather_cmd_args(args: ARGS_DICT | ARGS_COROUTINE | None) -> ARGS_DICT | None:
@@ -77,8 +77,8 @@ async def gather_cmd_args(args: ARGS_DICT | ARGS_COROUTINE | None) -> ARGS_DICT 
         raise ValueError
 
 
-async def gather_cmds_help(router: Router) -> list[CmdHelp]:
-    helps: list[CmdHelp] = []
+async def gather_cmds_help(router: Router) -> list[HandlerHelp]:
+    helps: list[HandlerHelp] = []
 
     for sub_router in router.sub_routers:
         helps.extend(await gather_cmds_help(sub_router))
@@ -139,7 +139,7 @@ async def gather_cmds_help(router: Router) -> list[CmdHelp]:
         if disableable_flag := handler.flags.get("disableable"):
             disableable = disableable_flag.name
 
-        cmd = CmdHelp(
+        cmd = HandlerHelp(
             cmds=cmds,
             args=args,
             description=help_flags.get("description", None) if help_flags else None,
@@ -170,7 +170,7 @@ async def gather_module_help(module: ModuleType) -> Optional[ModuleHelp]:
 
     if cmds := await gather_cmds_help(module.router):
         return ModuleHelp(
-            cmds=cmds, name=name, icon=emoji, exclude_public=exclude_public, info=info, description=description
+            handlers=cmds, name=name, icon=emoji, exclude_public=exclude_public, info=info, description=description
         )
     else:
         return None

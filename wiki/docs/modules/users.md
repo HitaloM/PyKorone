@@ -1,8 +1,15 @@
-## Available commands
-### For everyone
-- `/adminlist` or `/admins`: Shows the list of admins in the chat
-- `/id`: Shows different IDs
-- `/info (user)`: Shows information about the user
 
-### For admins
-- `/admincache`: Updates the chat's admin cache
+# Users 🫂
+
+
+## Available commands
+
+
+### Commands
+
+| Commands | Description | Remarks |
+| --- | --- | --- |
+| `/info` | Shows the additional information about the user. | *Disable-able* |
+| `/id` `/chatid` `/userid` | Shows IDs. | *Disable-able* |
+| `/adminlist` `/admins` | Lists all the chats admins. | *Disable-able* |
+| `/id` | - |  |

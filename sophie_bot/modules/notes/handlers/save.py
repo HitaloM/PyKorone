@@ -62,6 +62,7 @@ class SaveNote(SophieMessageHandler):
             "names": notenames,
             "note_group": data.get("note_group"),
             "description": data.get("description"),
+            "ai_description": False,
             **saveable.model_dump(),
         }
 

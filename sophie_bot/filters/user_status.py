@@ -1,9 +1,10 @@
+from aiogram.dispatcher.event.bases import SkipHandler
 from aiogram.filters import Filter
 from aiogram.types import Message
 
 from sophie_bot.config import CONFIG
-from sophie_bot.modules.legacy_modules.utils.language import get_strings_dec
 from sophie_bot.modules.legacy_modules.utils.user_details import is_user_admin
+from sophie_bot.utils.i18n import gettext as _
 
 
 class IsAdmin(Filter):
@@ -12,8 +13,7 @@ class IsAdmin(Filter):
     def __init__(self, is_admin):
         self.is_admin = is_admin
 
-    @get_strings_dec("global")
-    async def __call__(self, event, strings, *args, **kwargs):
+    async def __call__(self, event, *args, **kwargs):
 
         if hasattr(event, "message"):
             chat_id = event.message.chat.id
@@ -22,8 +22,8 @@ class IsAdmin(Filter):
 
         if not await is_user_admin(chat_id, event.from_user.id):
             task = event.answer if hasattr(event, "message") else event.reply
-            await task(strings["u_not_admin"])
-            return False
+            await task(_("Admin permission required!"))
+            raise SkipHandler
         return True
 
 

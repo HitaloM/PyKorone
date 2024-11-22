@@ -1,12 +1,21 @@
-**The Disabling module allows you to disable certain commands from being executed by users.**
+
+# Disabling 🚫
+
 
 ## Available commands
-- `/disableable`: Shows commands which can be disabled
-- `/disabled`: Shows the all disabled commands of the chat
-- `/disable (command name)`: Disables the command. Command should be disable-able
-- `/enable (command name)`: Enables the disabled command back.
-- `/enableall`: Enables all disabled commands
 
-**Examples**
-- `/disable help`: This would disable usauge of /help command in the chat!
-- `/enable help`:  This enables previously disable command /help.
+
+### Commands
+
+| Commands | Description | Remarks |
+| --- | --- | --- |
+| `/disableable` | Lists all commands that can be disabled. | *Disable-able* |
+| `/disabled` | Lists all disabled commands. | *Disable-able* |
+
+### Only admins
+
+| Commands | Description | Remarks |
+| --- | --- | --- |
+| `/disable` | Disables the command. |  |
+| `/enable` | Enables previously disabled command. |  |
+| `/enableall` | - |  |

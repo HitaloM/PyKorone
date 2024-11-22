@@ -1,14 +1,66 @@
-## Available commands
-### For all users
-- `#(name)` or `/get (name)`: Gets the saved note
-- `/notes` or `/saved`: Shows the list of notes
-- `/notes (pattern)` or `/saved (pattern)`: Filters note names by the following pattern.
-- `/search (pattern)`: Searches notes by text pattern
 
-### For admins
-- `/save (note name) (note data)`: Saves note data content under note name
-- `/clear (name)`: Deletes the note
-- `/clearall`: Deletes all notes
-- `/privatenotes`: Enables notes only in PM mode
-- `/cleannotes (number)`: Automatically cleans note threads (request and respond messages) after provided number of 
-  times. Useful to keep the chat clear.
+# Notes 📗
+
+
+## Available commands
+
+
+### Commands
+
+| Commands | Description | Remarks |
+| --- | --- | --- |
+| `/pmnotes` `/privatenotes` | Show current state of Private Notes | *Only in groups* |
+| `/notes` `/saved` `/notelist` | Lists available notes. | *Disable-able* |
+| `/get` | Retrieve the note. |  |
+| `/search` | - | *Disable-able* |
+
+### Only admins
+
+| Commands | Description | Remarks |
+| --- | --- | --- |
+| `/pmnotes` `/privatenotes` | Control Private Notes | *Only in groups* |
+| `/delnote` `/clear` | Deletes notes. |  |
+| `/save` `/addnote` | Save the note. |  |
+| `/clearall` | Deletes notes. |  |
+
+### Aliased commands from [✨ Sophie AI](/modules/ai)
+
+| Commands | Description | Remarks |
+| --- | --- | --- |
+| `/aisave` | Generate a new note using AI |  |
+---
+# Features
+
+
+## AI notes generation
+Please refer to the [AI help page](ai).
+
+## Saving photos / stickers, adding buttons and fillings
+Please refer to the [Saveables help page](/Others/Saveables) of Sophie, as this information is global and work in many other places.
+
+## Note searching
+Sophie implements 2 ways to search notes.
+The simplest way is to filer by the note names using `/notes <filter>`.
+
+Additionally, you can search by the content using `/search <content>`.
+
+## PM Notes / Private Notes
+By default, the notes are being shown in the group, but if you want to redirect users to the private messages of Sophie, you can enable private notes mode.
+This would redirect users with a button to the PM, every time they request `/notes` or `/search`,
+
+> Please note, that admins still can still access the `/notes` and other commands in the group directly.
+> Additionally, users would still be able to `/get` the note.
+
+# Advanced usage
+
+### Multiple note names
+Sophie supports setting many note names for the note, this helps users to retrieve the note by the expected note name.
+
+For example
+`/save pie | pierecipe | pie_recipes To cook the Pie you would need...`.
+This would save the note with 3 different note names and you can retrieve it by using any of them.
+
+### Note Descriptions
+Notes could have description that could help users indentify the note's content.
+To add a description use following syntax:
+`/saave pie "Tasty pie recipe"`. Of course you can also add multiple note names, by just splitting them with `|`. See above for more information.

@@ -1,4 +1,13 @@
+
+# Promotes ⭐️
+
+
 ## Available commands
-### For admins
-- `/promote (user) (?tag)`: Promotes the user with optional admin tag
-- `/demote (user)`: Demotes the user 
+
+
+### Only admins
+
+| Commands | Description | Remarks |
+| --- | --- | --- |
+| `/promote` | Promotes the user to admins. |  |
+| `/demote` | Demotes the user from admins. |  |

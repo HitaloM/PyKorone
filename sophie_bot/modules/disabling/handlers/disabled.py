@@ -5,7 +5,7 @@ from stfu_tg import Section
 from sophie_bot.filters.cmd import CMDFilter
 from sophie_bot.middlewares.connections import ChatConnection
 from sophie_bot.modules.disabling.utils.get_disabled import get_disabled_handlers
-from sophie_bot.modules.help.utils.format_help import format_cmds
+from sophie_bot.modules.help.utils.format_help import format_handlers
 from sophie_bot.modules.utils_.base_handler import SophieMessageHandler
 from sophie_bot.utils.i18n import gettext as _
 from sophie_bot.utils.i18n import lazy_gettext as l_
@@ -27,4 +27,4 @@ class ListDisabled(SophieMessageHandler):
             await self.event.reply(_("No disabled commands found."))
             return
 
-        await self.event.reply(str(Section(format_cmds(disabled), title=_("Disabled commands"))))
+        await self.event.reply(str(Section(format_handlers(disabled), title=_("Disabled commands"))))
