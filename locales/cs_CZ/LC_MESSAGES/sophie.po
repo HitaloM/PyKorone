@@ -1,18 +1,22 @@
-
 msgid ""
 msgstr ""
-"Project-Id-Version:  sophiebot\n"
+"Project-Id-Version: sophiebot\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-11-22 00:19+0100\n"
-"PO-Revision-Date: 2024-11-21 23:25+0000\n"
+"POT-Creation-Date: 2024-11-27 08:48+0100\n"
+"PO-Revision-Date: 2024-11-27 10:32\n"
 "Last-Translator: \n"
-"Language: cs_CZ\n"
 "Language-Team: Czech\n"
-"Plural-Forms: nplurals=4; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 3;\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=utf-8\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.16.0\n"
+"Plural-Forms: nplurals=4; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 3;\n"
+"X-Crowdin-Project: sophiebot\n"
+"X-Crowdin-Project-ID: 356879\n"
+"X-Crowdin-Language: cs\n"
+"X-Crowdin-File: /beta/locales/sophie.pot\n"
+"X-Crowdin-File-ID: 288\n"
+"Language: cs_CZ\n"
 
 #: sophie_bot/args/users.py:29
 msgid "Could not find the requested User ID in the database."
@@ -22,29 +26,29 @@ msgstr "Nebylo možné najít požadované ID uživatele v databázi."
 msgid "Could not find the requested Username in the database."
 msgstr "Nebylo možné najít požadované uživatelské jméno v databázi."
 
-#: sophie_bot/args/users.py:72 types/user.py:119
+#: sophie_bot/args/users.py:72
 msgid "User: 'User ID (numeric) / Username (starts with @) / Mention (links to users)'"
 msgstr "Uživatel: 'ID uživatele (číslicové) / Uživatelské jméno (začíná na @) / Zmínka (odkazy na uživatele)'"
 
-#: sophie_bot/args/users.py:72 types/user.py:121
+#: sophie_bot/args/users.py:72
 msgid "Users: 'User IDs (numeric) / Usernames (starts with @) / Mentions (links to users)'"
 msgstr "Uživatelé: 'ID uživatelů (číslicové) / Uživatelská jména (začínají na @) / Zmínky (odkazy na uživatele)'"
 
-#: sophie_bot/args/users.py:79 types/user.py:128
+#: sophie_bot/args/users.py:79
 msgid "User ID"
 msgstr "ID uživatele"
 
-#: sophie_bot/args/users.py:80 types/user.py:129
+#: sophie_bot/args/users.py:80
 msgid "Username"
 msgstr "Uživatelské jméno"
 
-#: sophie_bot/args/users.py:81 types/user.py:133
+#: sophie_bot/args/users.py:81
 msgid "A link to user, usually creates by mentioning a user without username."
 msgstr "Odkaz na uživatele, obvykle se vytvoří zmíněním uživatele bez uživatelského jména."
 
 #: sophie_bot/filters/user_status.py:25
 msgid "Admin permission required!"
-msgstr ""
+msgstr "Admin permission required!"
 
 #: sophie_bot/middlewares/connections.py:26
 msgid "Private chat"
@@ -691,11 +695,9 @@ msgid "Greetings"
 msgstr "Pozdravy"
 
 #: sophie_bot/modules/greetings/__init__.py:22
-msgid ""
-"This module helps you to welcome new users automatically, while keeping the chat clean.\n"
+msgid "This module helps you to welcome new users automatically, while keeping the chat clean.\n"
 "If you want to enforce captcha / rules verification, please see 'Welcome Security' module instead."
-msgstr ""
-"Tento modul vám pomáhá automaticky vítat nové uživatele, přičemž udržuje chat čistý.\n"
+msgstr "Tento modul vám pomáhá automaticky vítat nové uživatele, přičemž udržuje chat čistý.\n"
 "Pokud chcete vynutit ověření captcha / pravidla, podívejte se raději na modul 'Bezpečnost vítání'."
 
 #: sophie_bot/modules/greetings/default_welcome.py:9
@@ -880,7 +882,7 @@ msgstr "Přezdívané příkazy z {module}"
 
 #: sophie_bot/modules/help/handlers/pm_modules.py:87
 msgid "📖 Wiki page"
-msgstr ""
+msgstr "📖 Wiki page"
 
 #: sophie_bot/modules/help/utils/format_help.py:25
 msgid "— Only in groups"
@@ -1397,7 +1399,7 @@ msgstr "Nebyly nalezeny žádné poznámky podle zadaného vzoru hledání {patt
 
 #: sophie_bot/modules/notes/magic_handlers/descriptions_scheduler.py:51
 msgid "You need to update the data of the chat notes. Generate the note data from the provided note text"
-msgstr ""
+msgstr "You need to update the data of the chat notes. Generate the note data from the provided note text"
 
 #: sophie_bot/modules/notes/magic_handlers/filter.py:22
 msgid "#{name} note was not found."
@@ -1642,9 +1644,8 @@ msgid "Troubleshooters"
 msgstr "Odstraňovače problémů"
 
 #: sophie_bot/modules/troubleshooters/__init__.py:19
-#, fuzzy
 msgid "Small commands for fixing problems and issues"
-msgstr "Malé příkazy pro řešení problémů"
+msgstr "Small commands for fixing problems and issues"
 
 #: sophie_bot/modules/troubleshooters/handlers/admincache.py:13
 msgid "Reset admin rights cache, use if Sophie didn't get the recently added admin"
@@ -1849,420 +1850,259 @@ msgid "I agree"
 msgstr "Souhlasím"
 
 #: exceptions.py:33
-#, fuzzy
 msgid "Examples"
-msgstr "Názvy"
+msgstr "Examples"
 
 #: exceptions.py:61
 msgid "The argument {description} has an invalid type"
-msgstr ""
+msgstr "The argument {description} has an invalid type"
 
 #: exceptions.py:65 exceptions.py:120
 msgid "Needed type"
-msgstr ""
+msgstr "Needed type"
 
 #: exceptions.py:116
 msgid "The required argument {description} wasn't provided!"
-msgstr ""
+msgstr "The required argument {description} wasn't provided!"
 
 #: exceptions.py:164
 msgid "The argument {description} has an invalid formatting!"
-msgstr ""
+msgstr "The argument {description} has an invalid formatting!"
 
 #: types/keyvalue.py:31
 msgid "Key-value of {}"
-msgstr ""
+msgstr "Key-value of {}"
 
 #: types/keyvalue.py:32
 msgid "Key-values of {}"
-msgstr ""
+msgstr "Key-values of {}"
 
 #: types/keyvalue.py:64
 msgid "The optional argument {name} must contain a value!"
-msgstr ""
+msgstr "The optional argument {name} must contain a value!"
 
 #: types/keyvalue.py:90 types/keyvalue.py:91
 msgid "Key-values"
-msgstr ""
+msgstr "Key-values"
 
 #: types/lists.py:46 types/lists.py:59
 msgid "List of {}"
-msgstr ""
+msgstr "List of {}"
 
 #: types/lists.py:47
 msgid "Lists of {}"
-msgstr ""
+msgstr "Lists of {}"
 
 #: types/lists.py:65
 msgid "The starting character {} of list wasn't found!"
-msgstr ""
+msgstr "The starting character {} of list wasn't found!"
 
 #: types/lists.py:73
 msgid "The ending character {} of list wasn't found!"
-msgstr ""
+msgstr "The ending character {} of list wasn't found!"
 
 #: types/lists.py:77
-#, fuzzy
 msgid "The list is empty!"
-msgstr "Foto je prázdné"
+msgstr "The list is empty!"
 
 #: types/lists.py:97
 msgid "➡️ The start prefix text of the lists cannot have the overlapping formatting"
-msgstr ""
+msgstr "➡️ The start prefix text of the lists cannot have the overlapping formatting"
 
 #: types/lists.py:152 types/lists.py:170
 msgid "Argument '{arg_text}' was parsed, but it has unknown text after it!"
-msgstr ""
+msgstr "Argument '{arg_text}' was parsed, but it has unknown text after it!"
 
 #: types/lists.py:157 types/lists.py:175
 msgid "Please ensure you correctly divided all of arguments."
-msgstr ""
+msgstr "Please ensure you correctly divided all of arguments."
 
 #: types/logic.py:20
 msgid "Optional {}"
-msgstr ""
+msgstr "Optional {}"
 
 #: types/logic.py:21
 msgid "Optionals {}"
-msgstr ""
+msgstr "Optionals {}"
 
 #: types/logic.py:44 types/logic.py:45 types/one_of.py:25 types/one_of.py:28
 msgid " or "
-msgstr ""
+msgstr " or "
 
 #: types/logic.py:105
-#, fuzzy
 msgid ", and "
-msgstr "🚷 Ban"
+msgstr ", and "
 
 #: types/logic.py:121
 msgid "Example syntax"
-msgstr ""
+msgstr "Example syntax"
 
 #: types/one_of.py:24 types/one_of.py:27
 msgid "One of: {}"
-msgstr ""
+msgstr "One of: {}"
 
 #: types/oneword.py:13
 msgid "Word (string with no spaces)"
-msgstr ""
+msgstr "Word (string with no spaces)"
 
 #: types/oneword.py:13
 msgid "Words (strings with no spaces)"
-msgstr ""
+msgstr "Words (strings with no spaces)"
 
 #: types/oneword.py:33
 msgid "Integer (number)"
-msgstr ""
+msgstr "Integer (number)"
 
 #: types/oneword.py:33
 msgid "Integers (numbers)"
-msgstr ""
+msgstr "Integers (numbers)"
 
 #: types/oneword.py:49
 msgid "Boolean (Yes / No value)"
-msgstr ""
+msgstr "Boolean (Yes / No value)"
 
 #: types/oneword.py:49
 msgid "Booleans (Yes / No values)"
-msgstr ""
+msgstr "Booleans (Yes / No values)"
 
 #: types/oneword.py:54
 msgid "True (can means Enabled or Yes)"
-msgstr ""
+msgstr "True (can means Enabled or Yes)"
 
 #: types/oneword.py:55
 msgid "False (can means Disabled or No)"
-msgstr ""
+msgstr "False (can means Disabled or No)"
 
 #: types/text.py:18
 msgid "Text"
-msgstr ""
+msgstr "Text"
 
 #: types/text_rules.py:27
 msgid "➡️ The Argument should start with {}!"
-msgstr ""
+msgstr "➡️ The Argument should start with {}!"
 
 #: types/text_rules.py:31
 msgid "⬅️️ The Argument should end with {}!"
-msgstr ""
+msgstr "⬅️️ The Argument should end with {}!"
 
 #: types/text_rules.py:49
 msgid "➡️ The start text cannot have the overlapping formatting"
-msgstr ""
+msgstr "➡️ The start text cannot have the overlapping formatting"
 
 #: types/text_rules.py:74
 msgid "➡️ Argument '{arg_text}' was parsed, but it has unknown text after it!"
-msgstr ""
+msgstr "➡️ Argument '{arg_text}' was parsed, but it has unknown text after it!"
 
 #: types/text_rules.py:91 types/text_rules.py:95
 msgid "{} surrounded by {} and {}"
-msgstr ""
+msgstr "{} surrounded by {} and {}"
 
 #: types/text_rules.py:107
 msgid "Surrounded by {} and {}"
-msgstr ""
+msgstr "Surrounded by {} and {}"
 
 #: types/time_arg.py:24
 msgid "2 days"
-msgstr ""
+msgstr "2 days"
 
 #: types/time_arg.py:25
 msgid "3 weeks and 2 days"
-msgstr ""
+msgstr "3 weeks and 2 days"
 
 #. NOTE: Please use the first letter of the "years" in your language
 #: types/time_arg.py:41
 msgid "y"
-msgstr ""
+msgstr "y"
 
 #. NOTE: Please use the first letter of the "weeks" in your language
 #: types/time_arg.py:44
 msgid "w"
-msgstr ""
+msgstr "w"
 
 #. NOTE: Please use the first letter of the "days" in your language
 #: types/time_arg.py:47
 msgid "d"
-msgstr ""
+msgstr "d"
 
 #. NOTE: Please use the first letter of the "hours" in your language
 #: types/time_arg.py:50
 msgid "h"
-msgstr ""
+msgstr "h"
 
 #. NOTE: Please use the first letter of the "minutes" in your language
 #: types/time_arg.py:53
 msgid "m"
-msgstr ""
+msgstr "m"
 
 #: types/time_arg.py:61
-#, fuzzy
 msgid "Action time"
-msgstr "? Čas akce"
+msgstr "Action time"
 
 #: types/time_arg.py:61
-#, fuzzy
 msgid "Action times"
-msgstr "? Čas akce"
+msgstr "Action times"
 
 #: types/user.py:17
 msgid "User ID (Numeric)"
-msgstr ""
+msgstr "User ID (Numeric)"
 
 #: types/user.py:17
 msgid "User IDs (Numeric)"
-msgstr ""
+msgstr "User IDs (Numeric)"
 
 #: types/user.py:37
 msgid "Username (starts with @)"
-msgstr ""
+msgstr "Username (starts with @)"
 
 #: types/user.py:47
 msgid "Should start with a prefix"
-msgstr ""
+msgstr "Should start with a prefix"
 
 #: types/user.py:49
 msgid "Username is too short"
-msgstr ""
+msgstr "Username is too short"
 
 #: types/user.py:51
-#, fuzzy
 msgid "Username is too long"
-msgstr "Poznámka je příliš dlouhá."
+msgstr "Username is too long"
 
 #: types/user.py:67
 msgid "User mention (a link to user)"
-msgstr ""
+msgstr "User mention (a link to user)"
 
 #: types/user.py:67
 msgid "User mentions (links to users)"
-msgstr ""
+msgstr "User mentions (links to users)"
 
 #: types/user.py:99
 msgid "Should start with mention!"
-msgstr ""
+msgstr "Should start with mention!"
 
 #: types/user.py:107
 msgid "Unexpected error while trying to get the user! Please report this in the support chat!"
-msgstr ""
+msgstr "Unexpected error while trying to get the user! Please report this in the support chat!"
 
 #: types/user.py:108
-#, fuzzy
 msgid "Could not find the user mention"
-msgstr "Nebylo možné najít požadované uživatelské jméno v databázi."
+msgstr "Could not find the user mention"
 
-#~ msgid "Examples"
-#~ msgstr "Příklady"
+#: types/user.py:119
+msgid "User: 'User ID (numeric) / Username (starts with @) / Mention (links to users)'"
+msgstr "Uživatel: 'ID uživatele (číslicové) / Uživatelské jméno (začíná na @) / Zmínka (odkazy na uživatele)'"
 
-#~ msgid "The argument {description} has an invalid type"
-#~ msgstr "Argument {description} má neplatný typ"
+#: types/user.py:121
+msgid "Users: 'User IDs (numeric) / Usernames (starts with @) / Mentions (links to users)'"
+msgstr "Uživatelé: 'ID uživatelů (číslicové) / Uživatelská jména (začínají na @) / Zmínky (odkazy na uživatele)'"
 
-#~ msgid "Needed type"
-#~ msgstr "Potřebný typ"
+#: types/user.py:128
+msgid "User ID"
+msgstr "ID uživatele"
 
-#~ msgid "The required argument {description} wasn't provided!"
-#~ msgstr "Požadovaný argument {description} nebyl poskytnut!"
+#: types/user.py:129
+msgid "Username"
+msgstr "Uživatelské jméno"
 
-#~ msgid "The argument {description} has an invalid formatting!"
-#~ msgstr "Argument {description} má neplatné formátování!"
-
-#~ msgid "Key-value of {}"
-#~ msgstr "Klíčová hodnota {}"
-
-#~ msgid "Key-values of {}"
-#~ msgstr "Klíčové hodnoty {}"
-
-#~ msgid "The optional argument {name} must contain a value!"
-#~ msgstr "Nepovinný argument {name} musí obsahovat hodnotu!"
-
-#~ msgid "Key-values"
-#~ msgstr "Klíčové hodnoty"
-
-#~ msgid "List of {}"
-#~ msgstr "Seznam {}"
-
-#~ msgid "Lists of {}"
-#~ msgstr "Seznamy {}"
-
-#~ msgid "The starting character {} of list wasn't found!"
-#~ msgstr "Počáteční znak {} seznamu nebyl nalezen!"
-
-#~ msgid "The ending character {} of list wasn't found!"
-#~ msgstr "Konečný znak {} seznamu nebyl nalezen!"
-
-#~ msgid "The list is empty!"
-#~ msgstr "Seznam je prázdný!"
-
-#~ msgid "➡️ The start prefix text of the lists cannot have the overlapping formatting"
-#~ msgstr "➡️ Počáteční prefixový text seznamů nemůže mít překrývající se formátování"
-
-#~ msgid "Argument '{arg_text}' was parsed, but it has unknown text after it!"
-#~ msgstr "Argument '{arg_text}' byl zpracován, ale má po něm neznámý text!"
-
-#~ msgid "Please ensure you correctly divided all of arguments."
-#~ msgstr "Zkontrolujte, zda jste správně rozdělili všechny argumenty."
-
-#~ msgid "Optional {}"
-#~ msgstr "Nepovinné {}"
-
-#~ msgid "Optionals {}"
-#~ msgstr "Nepovinné {}"
-
-#~ msgid " or "
-#~ msgstr " nebo "
-
-#~ msgid ", and "
-#~ msgstr ", a "
-
-#~ msgid "Example syntax"
-#~ msgstr "Příkladová syntaxe"
-
-#~ msgid "One of: {}"
-#~ msgstr "Jedna z: {}"
-
-#~ msgid "Word (string with no spaces)"
-#~ msgstr "Slovo (řetězec bez mezer)"
-
-#~ msgid "Words (strings with no spaces)"
-#~ msgstr "Slova (řetězce bez mezer)"
-
-#~ msgid "Integer (number)"
-#~ msgstr "Celé číslo (číslo)"
-
-#~ msgid "Integers (numbers)"
-#~ msgstr "Celá čísla (čísla)"
-
-#~ msgid "Boolean (Yes / No value)"
-#~ msgstr "Boolean (Hodnota Ano / Ne)"
-
-#~ msgid "Booleans (Yes / No values)"
-#~ msgstr "Booleany (Hodnoty Ano / Ne)"
-
-#~ msgid "True (can means Enabled or Yes)"
-#~ msgstr "Pravda (může znamenat Povolené nebo Ano)"
-
-#~ msgid "False (can means Disabled or No)"
-#~ msgstr "Faleš (může znamenat Zakázané nebo Ne)"
-
-#~ msgid "Text"
-#~ msgstr "Text"
-
-#~ msgid "➡️ The Argument should start with {}!"
-#~ msgstr "➡️ Argument by měl začínat {}!"
-
-#~ msgid "⬅️️ The Argument should end with {}!"
-#~ msgstr "⬅️️ Argument by měl končit {}!"
-
-#~ msgid "➡️ The start text cannot have the overlapping formatting"
-#~ msgstr "➡️ Počáteční text nemůže mít překrývající se formátování"
-
-#~ msgid "➡️ Argument '{arg_text}' was parsed, but it has unknown text after it!"
-#~ msgstr "➡️ Argument '{arg_text}' byl zpracován, ale má po něm neznámý text!"
-
-#~ msgid "{} surrounded by {} and {}"
-#~ msgstr "{} obklopený {} a {}"
-
-#~ msgid "Surrounded by {} and {}"
-#~ msgstr "Obklopeno {} a {}"
-
-#~ msgid "2 days"
-#~ msgstr "2 dny"
-
-#~ msgid "3 weeks and 2 days"
-#~ msgstr "3 týdny a 2 dny"
-
-#~ msgid "y"
-#~ msgstr "y"
-
-#~ msgid "w"
-#~ msgstr "w"
-
-#~ msgid "d"
-#~ msgstr "d"
-
-#~ msgid "h"
-#~ msgstr "h"
-
-#~ msgid "m"
-#~ msgstr "m"
-
-#~ msgid "Action time"
-#~ msgstr "Čas akce"
-
-#~ msgid "Action times"
-#~ msgstr "Časy akcí"
-
-#~ msgid "User ID (Numeric)"
-#~ msgstr "ID uživatele (číslicové)"
-
-#~ msgid "User IDs (Numeric)"
-#~ msgstr "ID uživatelů (číslicové)"
-
-#~ msgid "Username (starts with @)"
-#~ msgstr "Uživatelské jméno (začíná na @)"
-
-#~ msgid "Should start with a prefix"
-#~ msgstr "Mělo by začínat prefixem"
-
-#~ msgid "Username is too short"
-#~ msgstr "Uživatelské jméno je příliš krátké"
-
-#~ msgid "Username is too long"
-#~ msgstr "Uživatelské jméno je příliš dlouhé"
-
-#~ msgid "User mention (a link to user)"
-#~ msgstr "Zmínka o uživateli (odkaz na uživatele)"
-
-#~ msgid "User mentions (links to users)"
-#~ msgstr "Zmínky o uživatelích (odkazy na uživatele)"
-
-#~ msgid "Should start with mention!"
-#~ msgstr "Mělo by začínat zmínkou!"
-
-#~ msgid "Unexpected error while trying to get the user! Please report this in the support chat!"
-#~ msgstr "Neočekávaná chyba při pokusu o získání uživatele! Prosím, nahlaste to v podpoře chatu!"
-
-#~ msgid "Could not find the user mention"
-#~ msgstr "Nepodařilo se najít zmínku o uživateli"
+#: types/user.py:133
+msgid "A link to user, usually creates by mentioning a user without username."
+msgstr "Odkaz na uživatele, obvykle se vytvoří zmíněním uživatele bez uživatelského jména."
 

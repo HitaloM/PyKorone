@@ -1,18 +1,22 @@
-
 msgid ""
 msgstr ""
-"Project-Id-Version:  sophiebot\n"
+"Project-Id-Version: sophiebot\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-11-22 00:19+0100\n"
-"PO-Revision-Date: 2024-11-21 23:25+0000\n"
+"POT-Creation-Date: 2024-11-27 08:48+0100\n"
+"PO-Revision-Date: 2024-11-27 10:32\n"
 "Last-Translator: \n"
-"Language: uk_UA\n"
 "Language-Team: Ukrainian\n"
-"Plural-Forms: nplurals=4; plural=((n%10==1 && n%100!=11) ? 0 : ((n%10 >= 2 && n%10 <=4 && (n%100 < 12 || n%100 > 14)) ? 1 : ((n%10 == 0 || (n%10 >= 5 && n%10 <=9)) || (n%100 >= 11 && n%100 <= 14)) ? 2 : 3));\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=utf-8\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.16.0\n"
+"Plural-Forms: nplurals=4; plural=((n%10==1 && n%100!=11) ? 0 : ((n%10 >= 2 && n%10 <=4 && (n%100 < 12 || n%100 > 14)) ? 1 : ((n%10 == 0 || (n%10 >= 5 && n%10 <=9)) || (n%100 >= 11 && n%100 <= 14)) ? 2 : 3));\n"
+"X-Crowdin-Project: sophiebot\n"
+"X-Crowdin-Project-ID: 356879\n"
+"X-Crowdin-Language: uk\n"
+"X-Crowdin-File: /beta/locales/sophie.pot\n"
+"X-Crowdin-File-ID: 288\n"
+"Language: uk_UA\n"
 
 #: sophie_bot/args/users.py:29
 msgid "Could not find the requested User ID in the database."
@@ -22,29 +26,29 @@ msgstr "Не вдалося знайти запитаний Ідентифіка
 msgid "Could not find the requested Username in the database."
 msgstr "Не вдалося знайти запитане Ім'я користувача в базі даних."
 
-#: sophie_bot/args/users.py:72 types/user.py:119
+#: sophie_bot/args/users.py:72
 msgid "User: 'User ID (numeric) / Username (starts with @) / Mention (links to users)'"
 msgstr "Користувач: 'Ідентифікатор користувача (числовий) / Ім'я користувача (починається з @) / Згадка (посилання на користувачів)'"
 
-#: sophie_bot/args/users.py:72 types/user.py:121
+#: sophie_bot/args/users.py:72
 msgid "Users: 'User IDs (numeric) / Usernames (starts with @) / Mentions (links to users)'"
 msgstr "Користувачі: 'Ідентифікатори користувачів (числові) / Імена користувачів (починаються з @) / Згадки (посилання на користувачів)'"
 
-#: sophie_bot/args/users.py:79 types/user.py:128
+#: sophie_bot/args/users.py:79
 msgid "User ID"
 msgstr "Ідентифікатор користувача"
 
-#: sophie_bot/args/users.py:80 types/user.py:129
+#: sophie_bot/args/users.py:80
 msgid "Username"
 msgstr "Ім'я користувача"
 
-#: sophie_bot/args/users.py:81 types/user.py:133
+#: sophie_bot/args/users.py:81
 msgid "A link to user, usually creates by mentioning a user without username."
 msgstr "Посилання на користувача, яке зазвичай створюється, коли згадують користувача без імені."
 
 #: sophie_bot/filters/user_status.py:25
 msgid "Admin permission required!"
-msgstr ""
+msgstr "Потрібно адміністраторське дозволення!"
 
 #: sophie_bot/middlewares/connections.py:26
 msgid "Private chat"
@@ -691,11 +695,9 @@ msgid "Greetings"
 msgstr "Привітання"
 
 #: sophie_bot/modules/greetings/__init__.py:22
-msgid ""
-"This module helps you to welcome new users automatically, while keeping the chat clean.\n"
+msgid "This module helps you to welcome new users automatically, while keeping the chat clean.\n"
 "If you want to enforce captcha / rules verification, please see 'Welcome Security' module instead."
-msgstr ""
-"Цей модуль допомагає автоматично вітати нових користувачів, водночас підтримуючи чистоту чату.\n"
+msgstr "Цей модуль допомагає автоматично вітати нових користувачів, водночас підтримуючи чистоту чату.\n"
 "Якщо ви хочете реалізувати перевірку captcha / перевірку правил, будь ласка, перегляньте модуль 'Привітальна безпека'."
 
 #: sophie_bot/modules/greetings/default_welcome.py:9
@@ -880,7 +882,7 @@ msgstr "Команди-аліаси з {module}"
 
 #: sophie_bot/modules/help/handlers/pm_modules.py:87
 msgid "📖 Wiki page"
-msgstr ""
+msgstr "📖 Сторінка Вікі"
 
 #: sophie_bot/modules/help/utils/format_help.py:25
 msgid "— Only in groups"
@@ -1397,7 +1399,7 @@ msgstr "Жодних приміток не знайдено за наданим 
 
 #: sophie_bot/modules/notes/magic_handlers/descriptions_scheduler.py:51
 msgid "You need to update the data of the chat notes. Generate the note data from the provided note text"
-msgstr ""
+msgstr "Вам потрібно оновити дані нотаток чату. Згенеруйте дані нотатки з наданого тексту нотатки"
 
 #: sophie_bot/modules/notes/magic_handlers/filter.py:22
 msgid "#{name} note was not found."
@@ -1642,9 +1644,8 @@ msgid "Troubleshooters"
 msgstr "Усунення неполадок"
 
 #: sophie_bot/modules/troubleshooters/__init__.py:19
-#, fuzzy
 msgid "Small commands for fixing problems and issues"
-msgstr "Малі команди для виправлення проблем"
+msgstr "Малі команди для виправлення проблем та питань"
 
 #: sophie_bot/modules/troubleshooters/handlers/admincache.py:13
 msgid "Reset admin rights cache, use if Sophie didn't get the recently added admin"
@@ -1849,420 +1850,259 @@ msgid "I agree"
 msgstr "I agree"
 
 #: exceptions.py:33
-#, fuzzy
 msgid "Examples"
-msgstr "Назви"
+msgstr "Приклади"
 
 #: exceptions.py:61
 msgid "The argument {description} has an invalid type"
-msgstr ""
+msgstr "Аргумент {description} має неправильний тип"
 
 #: exceptions.py:65 exceptions.py:120
 msgid "Needed type"
-msgstr ""
+msgstr "Потрібний тип"
 
 #: exceptions.py:116
 msgid "The required argument {description} wasn't provided!"
-msgstr ""
+msgstr "Обов'язковий аргумент {description} не було надано!"
 
 #: exceptions.py:164
 msgid "The argument {description} has an invalid formatting!"
-msgstr ""
+msgstr "Аргумент {description} має неправильний тип!"
 
 #: types/keyvalue.py:31
 msgid "Key-value of {}"
-msgstr ""
+msgstr "Ключ-значення з {}"
 
 #: types/keyvalue.py:32
 msgid "Key-values of {}"
-msgstr ""
+msgstr "Ключ-значення з {}"
 
 #: types/keyvalue.py:64
 msgid "The optional argument {name} must contain a value!"
-msgstr ""
+msgstr "Опціональний аргумент {name} повинен містити значення!"
 
 #: types/keyvalue.py:90 types/keyvalue.py:91
 msgid "Key-values"
-msgstr ""
+msgstr "Ключ-значення"
 
 #: types/lists.py:46 types/lists.py:59
 msgid "List of {}"
-msgstr ""
+msgstr "Список з {}"
 
 #: types/lists.py:47
 msgid "Lists of {}"
-msgstr ""
+msgstr "Списки з {}"
 
 #: types/lists.py:65
 msgid "The starting character {} of list wasn't found!"
-msgstr ""
+msgstr "Початковий символ {} списку не знайдений!"
 
 #: types/lists.py:73
 msgid "The ending character {} of list wasn't found!"
-msgstr ""
+msgstr "Кінцевий символ {} списку не знайдений!"
 
 #: types/lists.py:77
-#, fuzzy
 msgid "The list is empty!"
-msgstr "Фотографія порожня"
+msgstr "Цей список пустий!"
 
 #: types/lists.py:97
 msgid "➡️ The start prefix text of the lists cannot have the overlapping formatting"
-msgstr ""
+msgstr "➡️ Початковий текст префікса списків не може мати накладаючого форматування"
 
 #: types/lists.py:152 types/lists.py:170
 msgid "Argument '{arg_text}' was parsed, but it has unknown text after it!"
-msgstr ""
+msgstr "Аргумент '{arg_text}' було розпарсено, але після нього є невідомий текст!"
 
 #: types/lists.py:157 types/lists.py:175
 msgid "Please ensure you correctly divided all of arguments."
-msgstr ""
+msgstr "Будь ласка, переконайтеся, що ви правильно розділили всі аргументи."
 
 #: types/logic.py:20
 msgid "Optional {}"
-msgstr ""
+msgstr "Опціональний {}"
 
 #: types/logic.py:21
 msgid "Optionals {}"
-msgstr ""
+msgstr "Опціональні {}"
 
 #: types/logic.py:44 types/logic.py:45 types/one_of.py:25 types/one_of.py:28
 msgid " or "
-msgstr ""
+msgstr " або "
 
 #: types/logic.py:105
-#, fuzzy
 msgid ", and "
-msgstr "🚷 Заборонити"
+msgstr "，та "
 
 #: types/logic.py:121
 msgid "Example syntax"
-msgstr ""
+msgstr "Приклад синтаксису"
 
 #: types/one_of.py:24 types/one_of.py:27
 msgid "One of: {}"
-msgstr ""
+msgstr "Один з: {}"
 
 #: types/oneword.py:13
 msgid "Word (string with no spaces)"
-msgstr ""
+msgstr "Слово (строка без пропусків)"
 
 #: types/oneword.py:13
 msgid "Words (strings with no spaces)"
-msgstr ""
+msgstr "Слова (строки без пропусків)"
 
 #: types/oneword.py:33
 msgid "Integer (number)"
-msgstr ""
+msgstr "Ціле число"
 
 #: types/oneword.py:33
 msgid "Integers (numbers)"
-msgstr ""
+msgstr "Цілі числа"
 
 #: types/oneword.py:49
 msgid "Boolean (Yes / No value)"
-msgstr ""
+msgstr "Булеве (значення Так / Ні)"
 
 #: types/oneword.py:49
 msgid "Booleans (Yes / No values)"
-msgstr ""
+msgstr "Булеві (значення Так / Ні)"
 
 #: types/oneword.py:54
 msgid "True (can means Enabled or Yes)"
-msgstr ""
+msgstr "Істина (може означати Активовано або Так)"
 
 #: types/oneword.py:55
 msgid "False (can means Disabled or No)"
-msgstr ""
+msgstr "Лож (може означати Вимкнено або Ні)"
 
 #: types/text.py:18
 msgid "Text"
-msgstr ""
+msgstr "Текст"
 
 #: types/text_rules.py:27
 msgid "➡️ The Argument should start with {}!"
-msgstr ""
+msgstr "➡️ Аргумент повинен починатися з {}!"
 
 #: types/text_rules.py:31
 msgid "⬅️️ The Argument should end with {}!"
-msgstr ""
+msgstr "⬅️️ Аргумент повинен закінчуватися з {}!"
 
 #: types/text_rules.py:49
 msgid "➡️ The start text cannot have the overlapping formatting"
-msgstr ""
+msgstr "➡️ Початковий текст не може мати накладаючого форматування"
 
 #: types/text_rules.py:74
 msgid "➡️ Argument '{arg_text}' was parsed, but it has unknown text after it!"
-msgstr ""
+msgstr "➡️ Argument '{arg_text}' was parsed, but it has unknown text after it!"
 
 #: types/text_rules.py:91 types/text_rules.py:95
 msgid "{} surrounded by {} and {}"
-msgstr ""
+msgstr "{} surrounded by {} and {}"
 
 #: types/text_rules.py:107
 msgid "Surrounded by {} and {}"
-msgstr ""
+msgstr "Surrounded by {} and {}"
 
 #: types/time_arg.py:24
 msgid "2 days"
-msgstr ""
+msgstr "2 days"
 
 #: types/time_arg.py:25
 msgid "3 weeks and 2 days"
-msgstr ""
+msgstr "3 weeks and 2 days"
 
 #. NOTE: Please use the first letter of the "years" in your language
 #: types/time_arg.py:41
 msgid "y"
-msgstr ""
+msgstr "y"
 
 #. NOTE: Please use the first letter of the "weeks" in your language
 #: types/time_arg.py:44
 msgid "w"
-msgstr ""
+msgstr "w"
 
 #. NOTE: Please use the first letter of the "days" in your language
 #: types/time_arg.py:47
 msgid "d"
-msgstr ""
+msgstr "d"
 
 #. NOTE: Please use the first letter of the "hours" in your language
 #: types/time_arg.py:50
 msgid "h"
-msgstr ""
+msgstr "h"
 
 #. NOTE: Please use the first letter of the "minutes" in your language
 #: types/time_arg.py:53
 msgid "m"
-msgstr ""
+msgstr "m"
 
 #: types/time_arg.py:61
-#, fuzzy
 msgid "Action time"
-msgstr "? Час дії"
+msgstr "Action time"
 
 #: types/time_arg.py:61
-#, fuzzy
 msgid "Action times"
-msgstr "? Час дії"
+msgstr "Action times"
 
 #: types/user.py:17
 msgid "User ID (Numeric)"
-msgstr ""
+msgstr "User ID (Numeric)"
 
 #: types/user.py:17
 msgid "User IDs (Numeric)"
-msgstr ""
+msgstr "User IDs (Numeric)"
 
 #: types/user.py:37
 msgid "Username (starts with @)"
-msgstr ""
+msgstr "Username (starts with @)"
 
 #: types/user.py:47
 msgid "Should start with a prefix"
-msgstr ""
+msgstr "Should start with a prefix"
 
 #: types/user.py:49
 msgid "Username is too short"
-msgstr ""
+msgstr "Username is too short"
 
 #: types/user.py:51
-#, fuzzy
 msgid "Username is too long"
-msgstr "Замітка занадто довга."
+msgstr "Username is too long"
 
 #: types/user.py:67
 msgid "User mention (a link to user)"
-msgstr ""
+msgstr "User mention (a link to user)"
 
 #: types/user.py:67
 msgid "User mentions (links to users)"
-msgstr ""
+msgstr "User mentions (links to users)"
 
 #: types/user.py:99
 msgid "Should start with mention!"
-msgstr ""
+msgstr "Should start with mention!"
 
 #: types/user.py:107
 msgid "Unexpected error while trying to get the user! Please report this in the support chat!"
-msgstr ""
+msgstr "Unexpected error while trying to get the user! Please report this in the support chat!"
 
 #: types/user.py:108
-#, fuzzy
 msgid "Could not find the user mention"
-msgstr "Не вдалося знайти запитане Ім'я користувача в базі даних."
+msgstr "Could not find the user mention"
 
-#~ msgid "Examples"
-#~ msgstr "Приклади"
+#: types/user.py:119
+msgid "User: 'User ID (numeric) / Username (starts with @) / Mention (links to users)'"
+msgstr "Користувач: 'Ідентифікатор користувача (числовий) / Ім'я користувача (починається з @) / Згадка (посилання на користувачів)'"
 
-#~ msgid "The argument {description} has an invalid type"
-#~ msgstr "Аргумент {description} має неправильний тип"
+#: types/user.py:121
+msgid "Users: 'User IDs (numeric) / Usernames (starts with @) / Mentions (links to users)'"
+msgstr "Користувачі: 'Ідентифікатори користувачів (числові) / Імена користувачів (починаються з @) / Згадки (посилання на користувачів)'"
 
-#~ msgid "Needed type"
-#~ msgstr "Потрібний тип"
+#: types/user.py:128
+msgid "User ID"
+msgstr "Ідентифікатор користувача"
 
-#~ msgid "The required argument {description} wasn't provided!"
-#~ msgstr "Обов'язковий аргумент {description} не було надано!"
+#: types/user.py:129
+msgid "Username"
+msgstr "Ім'я користувача"
 
-#~ msgid "The argument {description} has an invalid formatting!"
-#~ msgstr "Аргумент {description} має неправильний тип!"
-
-#~ msgid "Key-value of {}"
-#~ msgstr "Ключ-значення з {}"
-
-#~ msgid "Key-values of {}"
-#~ msgstr "Ключ-значення з {}"
-
-#~ msgid "The optional argument {name} must contain a value!"
-#~ msgstr "Опціональний аргумент {name} повинен містити значення!"
-
-#~ msgid "Key-values"
-#~ msgstr "Ключ-значення"
-
-#~ msgid "List of {}"
-#~ msgstr "Список з {}"
-
-#~ msgid "Lists of {}"
-#~ msgstr "Списки з {}"
-
-#~ msgid "The starting character {} of list wasn't found!"
-#~ msgstr "Початковий символ {} списку не знайдений!"
-
-#~ msgid "The ending character {} of list wasn't found!"
-#~ msgstr "Кінцевий символ {} списку не знайдений!"
-
-#~ msgid "The list is empty!"
-#~ msgstr "Цей список пустий!"
-
-#~ msgid "➡️ The start prefix text of the lists cannot have the overlapping formatting"
-#~ msgstr "➡️ Початковий текст префікса списків не може мати накладаючого форматування"
-
-#~ msgid "Argument '{arg_text}' was parsed, but it has unknown text after it!"
-#~ msgstr "Аргумент '{arg_text}' було розпарсено, але після нього є невідомий текст!"
-
-#~ msgid "Please ensure you correctly divided all of arguments."
-#~ msgstr "Будь ласка, переконайтеся, що ви правильно розділили всі аргументи."
-
-#~ msgid "Optional {}"
-#~ msgstr "Опціональний {}"
-
-#~ msgid "Optionals {}"
-#~ msgstr "Опціональні {}"
-
-#~ msgid " or "
-#~ msgstr " або "
-
-#~ msgid ", and "
-#~ msgstr ", та "
-
-#~ msgid "Example syntax"
-#~ msgstr "Приклад синтаксису"
-
-#~ msgid "One of: {}"
-#~ msgstr "Один з: {}"
-
-#~ msgid "Word (string with no spaces)"
-#~ msgstr "Слово (строка без пропусків)"
-
-#~ msgid "Words (strings with no spaces)"
-#~ msgstr "Слова (строки без пропусків)"
-
-#~ msgid "Integer (number)"
-#~ msgstr "Ціле число"
-
-#~ msgid "Integers (numbers)"
-#~ msgstr "Цілі числа"
-
-#~ msgid "Boolean (Yes / No value)"
-#~ msgstr "Булеве (значення Так / Ні)"
-
-#~ msgid "Booleans (Yes / No values)"
-#~ msgstr "Булеві (значення Так / Ні)"
-
-#~ msgid "True (can means Enabled or Yes)"
-#~ msgstr "Істина (може означати Активовано або Так)"
-
-#~ msgid "False (can means Disabled or No)"
-#~ msgstr "Лож (може означати Вимкнено або Ні)"
-
-#~ msgid "Text"
-#~ msgstr "Текст"
-
-#~ msgid "➡️ The Argument should start with {}!"
-#~ msgstr "➡️ Аргумент повинен починатися з {}!"
-
-#~ msgid "⬅️️ The Argument should end with {}!"
-#~ msgstr "⬅️️ Аргумент повинен закінчуватися з {}!"
-
-#~ msgid "➡️ The start text cannot have the overlapping formatting"
-#~ msgstr "➡️ Початковий текст не може мати накладаючого форматування"
-
-#~ msgid "➡️ Argument '{arg_text}' was parsed, but it has unknown text after it!"
-#~ msgstr "➡️ Аргумент '{arg_text}' було розпарсено, але після нього є невідомий текст!"
-
-#~ msgid "{} surrounded by {} and {}"
-#~ msgstr "{} оточено {} та {}"
-
-#~ msgid "Surrounded by {} and {}"
-#~ msgstr "Оточено {} та {}"
-
-#~ msgid "2 days"
-#~ msgstr "2 дні"
-
-#~ msgid "3 weeks and 2 days"
-#~ msgstr "3 тижня і 2 дні"
-
-#~ msgid "y"
-#~ msgstr "y"
-
-#~ msgid "w"
-#~ msgstr "w"
-
-#~ msgid "d"
-#~ msgstr "d"
-
-#~ msgid "h"
-#~ msgstr "h"
-
-#~ msgid "m"
-#~ msgstr "m"
-
-#~ msgid "Action time"
-#~ msgstr "Час дії"
-
-#~ msgid "Action times"
-#~ msgstr "Часи дії"
-
-#~ msgid "User ID (Numeric)"
-#~ msgstr "Ідентифікатор користвувача (числовий)"
-
-#~ msgid "User IDs (Numeric)"
-#~ msgstr "Ідентифікатори користвувачів (числові)"
-
-#~ msgid "Username (starts with @)"
-#~ msgstr "Ім'я користувача (починається з @)"
-
-#~ msgid "Should start with a prefix"
-#~ msgstr "Повинно починатися з префікса"
-
-#~ msgid "Username is too short"
-#~ msgstr "Ім'я користувача занадто коротке"
-
-#~ msgid "Username is too long"
-#~ msgstr "Ім'я користувача занадто довге"
-
-#~ msgid "User mention (a link to user)"
-#~ msgstr "Згадка користувача (посилання на користувача)"
-
-#~ msgid "User mentions (links to users)"
-#~ msgstr "Згадки користувача (посилання на користувачів)"
-
-#~ msgid "Should start with mention!"
-#~ msgstr "Повинно починатися із згадки!"
-
-#~ msgid "Unexpected error while trying to get the user! Please report this in the support chat!"
-#~ msgstr "Несподівана помилка під час спроби отримати користувача! Будь ласка, повідомте про це в чаті підтримки!"
-
-#~ msgid "Could not find the user mention"
-#~ msgstr "Не вдалося знайти згадку користувача"
+#: types/user.py:133
+msgid "A link to user, usually creates by mentioning a user without username."
+msgstr "Посилання на користувача, яке зазвичай створюється, коли згадують користувача без імені."
 
