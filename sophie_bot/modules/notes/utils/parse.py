@@ -82,7 +82,7 @@ async def parse_saveable(message: Message, text: Optional[str], allow_reply_mess
     note_text = text
     buttons = []
 
-    if message.reply_to_message and allow_reply_message:
+    if allow_reply_message and message.reply_to_message and not message.reply_to_message.forum_topic_created:
         replied_message_text, file_data, replied_buttons = parse_reply_message(message.reply_to_message)
 
         buttons.extend(replied_buttons)
