@@ -8,14 +8,14 @@
 
 ### Commands
 
-| Commands | Description | Remarks |
-| --- | --- | --- |
-| `/cancel` | Cancel current state, use if Sophie is not responding on your message |  |
+| Commands | Arguments | Description | Remarks |
+| --- | --- | --- | --- |
+| `/cancel` | - | Cancel current state, use if Sophie is not responding on your message |  |
 
 ### Only admins
 
-| Commands | Description | Remarks |
-| --- | --- | --- |
-| `/enablebeta` | Set preferred strategy mode |  |
-| `/enablebeta` | Get current strategy mode / current state |  |
-| `/admincache` | Reset admin rights cache, use if Sophie didn't get the recently added admin |  |
+| Commands | Arguments | Description | Remarks |
+| --- | --- | --- | --- |
+| `/enablebeta` | `<Preferred strategy mode>` | Set preferred strategy mode |  |
+| `/enablebeta` | - | Get current strategy mode / current state |  |
+| `/admincache` | - | Reset admin rights cache, use if Sophie didn't get the recently added admin |  |

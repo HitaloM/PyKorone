@@ -7,8 +7,8 @@
 
 ### Only admins
 
-| Commands | Description | Remarks |
-| --- | --- | --- |
-| `/setflood` | Set the antiflood limit for this chat. |  |
-| `/antiflood` `/flood` | Controls the antiflood state. |  |
-| `/setfloodaction` | Sets the antiflood action. |  |
+| Commands | Arguments | Description | Remarks |
+| --- | --- | --- | --- |
+| `/setflood` | `<Number of messages>` | Set the antiflood limit for this chat. |  |
+| `/antiflood` `/flood` | `<New state>` | Controls the antiflood state. |  |
+| `/setfloodaction` | `<New action>` | Sets the antiflood action. |  |

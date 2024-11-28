@@ -11,7 +11,11 @@ from sophie_bot.modules.help.utils.extract_info import (
     ModuleHelp,
     get_aliased_cmds,
 )
-from sophie_bot.modules.help.utils.format_help import format_cmd, group_handlers
+from sophie_bot.modules.help.utils.format_help import (
+    format_cmd,
+    format_cmd_args,
+    group_handlers,
+)
 from sophie_bot.services.i18n import i18n
 from sophie_bot.utils.i18n import LazyProxy
 from sophie_bot.utils.logger import log
@@ -29,7 +33,7 @@ class ModuleWikiPage:
         self.module = module
 
     @staticmethod
-    def _table_row(handler: HandlerHelp) -> tuple[Element, LazyProxy | str, Element]:
+    def _table_row(handler: HandlerHelp) -> tuple[Element, Element, LazyProxy | str, Element]:
         remarks = HList(divider=', ')
 
         if handler.only_chats:
@@ -39,14 +43,17 @@ class ModuleWikiPage:
             remarks.append(Italic('Disable-able'))
 
         return (
-            HList(*(format_cmd(cmd) for cmd in handler.cmds)),
+            HList(
+                *(format_cmd(cmd) for cmd in handler.cmds),
+            ),
+            format_cmd_args(handler.args, as_code=True) if handler.args else '-',
             handler.description or "-",
             remarks,
         )
 
     def _table(self, handlers: Sequence[HandlerHelp]):
         return TableMD(
-            ('Commands', 'Description', 'Remarks'),
+            ('Commands', 'Arguments', 'Description', 'Remarks'),
             *(self._table_row(handler) for handler in handlers)
         )
 

@@ -7,6 +7,6 @@
 
 ### Commands
 
-| Commands | Description | Remarks |
-| --- | --- | --- |
-| `/report` | Reports the replied message. |  |
+| Commands | Arguments | Description | Remarks |
+| --- | --- | --- | --- |
+| `/report` | - | Reports the replied message. |  |

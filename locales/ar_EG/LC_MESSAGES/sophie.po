@@ -882,23 +882,23 @@ msgstr "أوامر بديلة من {module}"
 msgid "📖 Wiki page"
 msgstr "📖 صفحة ويكي"
 
-#: sophie_bot/modules/help/utils/format_help.py:25
+#: sophie_bot/modules/help/utils/format_help.py:28
 msgid "— Only in groups"
 msgstr "— فقط في المجموعات"
 
-#: sophie_bot/modules/help/utils/format_help.py:26
+#: sophie_bot/modules/help/utils/format_help.py:29
 msgid "Disable-able"
 msgstr "الأوامر القابلة للتعطيل"
 
-#: sophie_bot/modules/help/utils/format_help.py:66
+#: sophie_bot/modules/help/utils/format_help.py:69
 msgid "Commands"
 msgstr "الأوامر"
 
-#: sophie_bot/modules/help/utils/format_help.py:68
+#: sophie_bot/modules/help/utils/format_help.py:71
 msgid "PM-only"
 msgstr "خاص فقط"
 
-#: sophie_bot/modules/help/utils/format_help.py:70
+#: sophie_bot/modules/help/utils/format_help.py:73
 msgid "Only admins"
 msgstr "فقط المسؤولون"
 

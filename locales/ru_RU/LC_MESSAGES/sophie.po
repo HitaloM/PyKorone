@@ -882,23 +882,23 @@ msgstr "Команды из {module}"
 msgid "📖 Wiki page"
 msgstr "📖 Страница вики"
 
-#: sophie_bot/modules/help/utils/format_help.py:25
+#: sophie_bot/modules/help/utils/format_help.py:28
 msgid "— Only in groups"
 msgstr "— Только в группах"
 
-#: sophie_bot/modules/help/utils/format_help.py:26
+#: sophie_bot/modules/help/utils/format_help.py:29
 msgid "Disable-able"
 msgstr "Отключаемые"
 
-#: sophie_bot/modules/help/utils/format_help.py:66
+#: sophie_bot/modules/help/utils/format_help.py:69
 msgid "Commands"
 msgstr "Команды"
 
-#: sophie_bot/modules/help/utils/format_help.py:68
+#: sophie_bot/modules/help/utils/format_help.py:71
 msgid "PM-only"
 msgstr "Только PM"
 
-#: sophie_bot/modules/help/utils/format_help.py:70
+#: sophie_bot/modules/help/utils/format_help.py:73
 msgid "Only admins"
 msgstr "Только администраторы"
 

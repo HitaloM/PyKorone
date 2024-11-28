@@ -8,13 +8,13 @@
 
 ### Commands
 
-| Commands | Description | Remarks |
-| --- | --- | --- |
-| `/welcomesecurity` | Shows Welcome Security settings | *Disable-able* |
+| Commands | Arguments | Description | Remarks |
+| --- | --- | --- | --- |
+| `/welcomesecurity` | - | Shows Welcome Security settings | *Disable-able* |
 
 ### Only admins
 
-| Commands | Description | Remarks |
-| --- | --- | --- |
-| `/enablewelcomecaptcha` | Shows / changes the state of Welcome Captcha. |  |
-| `/welcomerestrict` | Shows / changes the state of Welcome Restrict (Media restricting). |  |
+| Commands | Arguments | Description | Remarks |
+| --- | --- | --- | --- |
+| `/enablewelcomecaptcha` | `<?New status>` | Shows / changes the state of Welcome Captcha. |  |
+| `/welcomerestrict` | `<?New status or restrict time>` | Shows / changes the state of Welcome Restrict (Media restricting). |  |

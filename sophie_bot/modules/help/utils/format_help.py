@@ -14,8 +14,11 @@ def format_cmd(cmd: str) -> Element:
     return Code(f"/{cmd}")
 
 
-def format_cmd_args(args: dict[str, ArgFabric]):
-    return HList(*(f"<{arg.description}>" for arg in args.values()))
+def format_cmd_args(arguments: dict[str, ArgFabric], as_code: bool = False) -> HList:
+    formatted_descriptions = (
+        Code(f"<{arg.description}>") if as_code else f"<{arg.description}>" for arg in arguments.values()
+    )
+    return HList(*formatted_descriptions)
 
 
 def format_handler(handler: HandlerHelp, show_only_in_groups: bool = True, show_disable_able: bool = True):

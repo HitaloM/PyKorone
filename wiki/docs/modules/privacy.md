@@ -10,7 +10,7 @@
 
 ### PM-only
 
-| Commands | Description | Remarks |
-| --- | --- | --- |
-| `/privacy` | Shows the privacy policy of the bot |  |
-| `/export` | Exports your data to a JSON file |  |
+| Commands | Arguments | Description | Remarks |
+| --- | --- | --- | --- |
+| `/privacy` | - | Shows the privacy policy of the bot |  |
+| `/export` | - | Exports your data to a JSON file |  |

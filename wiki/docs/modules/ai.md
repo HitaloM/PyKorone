@@ -12,24 +12,24 @@
 
 ### Commands
 
-| Commands | Description | Remarks |
-| --- | --- | --- |
-| `/aienable` `/enableai` | Show current state of AI features |  |
-| `/aitranslate` `/translate` `/tr` | Translates the given (or replied) text to the chat's selected language. Also transcribes the replied voice message to text | *Disable-able* |
-| `/aiautotranslate` `/autotranslate` | Show current state of AI Autotranslate | *Only in groups* |
-| `/ai` | Ask Sophie a question | *Disable-able* |
+| Commands | Arguments | Description | Remarks |
+| --- | --- | --- | --- |
+| `/aienable` `/enableai` | - | Show current state of AI features |  |
+| `/aitranslate` `/translate` `/tr` | `<Text to translate>` | Translates the given (or replied) text to the chat's selected language. Also transcribes the replied voice message to text | *Disable-able* |
+| `/aiautotranslate` `/autotranslate` | - | Show current state of AI Autotranslate | *Only in groups* |
+| `/ai` | `<Prompt>` | Ask Sophie a question | *Disable-able* |
 
 ### PM-only
 
-| Commands | Description | Remarks |
-| --- | --- | --- |
-| `/ai` | Start the AI ChatBot mode |  |
+| Commands | Arguments | Description | Remarks |
+| --- | --- | --- | --- |
+| `/ai` | - | Start the AI ChatBot mode |  |
 
 ### Only admins
 
-| Commands | Description | Remarks |
-| --- | --- | --- |
-| `/aisave` | Generate a new note using AI |  |
-| `/enableai` `/aienable` | Control AI features |  |
-| `/aireset` | Reset the chat's AI context |  |
-| `/aiautotranslate` `/autotranslate` | Controls AI Autotranslate | *Only in groups* |
+| Commands | Arguments | Description | Remarks |
+| --- | --- | --- | --- |
+| `/aisave` | `<Prompt>` | Generate a new note using AI |  |
+| `/enableai` `/aienable` | `<New state>` | Control AI features |  |
+| `/aireset` | - | Reset the chat's AI context |  |
+| `/aiautotranslate` `/autotranslate` | `<New state>` | Controls AI Autotranslate | *Only in groups* |

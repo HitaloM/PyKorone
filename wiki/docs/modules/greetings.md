@@ -9,15 +9,15 @@
 
 ### Commands
 
-| Commands | Description | Remarks |
-| --- | --- | --- |
-| `/welcome` | Shows welcome settings | *Disable-able* |
+| Commands | Arguments | Description | Remarks |
+| --- | --- | --- | --- |
+| `/welcome` | - | Shows welcome settings | *Disable-able* |
 
 ### Only admins
 
-| Commands | Description | Remarks |
-| --- | --- | --- |
-| `/enablewelcome` | Shows / changes the state of sending greetings |  |
-| `/setwelcome` | Sets welcome message. |  |
-| `/cleanservice` | Shows / changes the state of automatic service messages cleanup. |  |
-| `/cleanwelcome` | Shows / changes the state of automatic welcome messages cleanup. |  |
+| Commands | Arguments | Description | Remarks |
+| --- | --- | --- | --- |
+| `/enablewelcome` | `<?New status>` | Shows / changes the state of sending greetings |  |
+| `/setwelcome` | `<Content>` | Sets welcome message. |  |
+| `/cleanservice` | `<?New status>` | Shows / changes the state of automatic service messages cleanup. |  |
+| `/cleanwelcome` | `<?New status>` | Shows / changes the state of automatic welcome messages cleanup. |  |

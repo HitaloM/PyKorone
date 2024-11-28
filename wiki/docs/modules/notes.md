@@ -7,27 +7,27 @@
 
 ### Commands
 
-| Commands | Description | Remarks |
-| --- | --- | --- |
-| `/pmnotes` `/privatenotes` | Show current state of Private Notes | *Only in groups* |
-| `/notes` `/saved` `/notelist` | Lists available notes. | *Disable-able* |
-| `/get` | Retrieve the note. |  |
-| `/search` | - | *Disable-able* |
+| Commands | Arguments | Description | Remarks |
+| --- | --- | --- | --- |
+| `/pmnotes` `/privatenotes` | - | Show current state of Private Notes | *Only in groups* |
+| `/notes` `/saved` `/notelist` | `<?Search notes>` | Lists available notes. | *Disable-able* |
+| `/get` | `<Note name>` `<?raw>` | Retrieve the note. |  |
+| `/search` | `<Text to search>` | - | *Disable-able* |
 
 ### Only admins
 
-| Commands | Description | Remarks |
-| --- | --- | --- |
-| `/pmnotes` `/privatenotes` | Control Private Notes | *Only in groups* |
-| `/delnote` `/clear` | Deletes notes. |  |
-| `/save` `/addnote` | Save the note. |  |
-| `/clearall` | Deletes notes. |  |
+| Commands | Arguments | Description | Remarks |
+| --- | --- | --- | --- |
+| `/pmnotes` `/privatenotes` | `<New state>` | Control Private Notes | *Only in groups* |
+| `/delnote` `/clear` | `<Note name>` | Deletes notes. |  |
+| `/save` `/addnote` | `<Note names>` `<?Description>` `<Content>` | Save the note. |  |
+| `/clearall` | - | Deletes notes. |  |
 
 ### Aliased commands from [✨ Sophie AI](ai)
 
-| Commands | Description | Remarks |
-| --- | --- | --- |
-| `/aisave` | Generate a new note using AI |  |
+| Commands | Arguments | Description | Remarks |
+| --- | --- | --- | --- |
+| `/aisave` | `<Prompt>` | Generate a new note using AI |  |
 ---
 # Features
 
