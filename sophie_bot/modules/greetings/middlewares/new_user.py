@@ -134,7 +134,7 @@ class NewUserMiddleware(BaseMiddleware):
             if not (db_item.welcome_disabled or (db_item.welcome_security and db_item.welcome_security.enabled)) or (
                 not db_item.welcome_disabled and is_admin
             ):
-                welcome_saveable = get_default_welcome_message(bool(chat_rules))
+                welcome_saveable: Saveable = db_item.note or get_default_welcome_message(bool(chat_rules))
                 sent_message = await send_welcome(event, welcome_saveable, cleanservice_enabled, chat_rules)
 
                 if db_item.welcome_mute and db_item.welcome_mute.enabled and db_item.welcome_mute.time:
