@@ -15,7 +15,7 @@ async def send_welcome(
 ) -> Message:
     chat_id = message.chat.id
 
-    rules_text = saveable.text or "" if saveable else _("No chat rules, have fun!")
+    rules_text = chat_rules.text or "" if chat_rules else _("No chat rules, have fun!")
     if chat_rules and chat_rules.parse_mode != SaveableParseMode.html:
         rules_text = legacy_markdown_to_html(rules_text)
 
