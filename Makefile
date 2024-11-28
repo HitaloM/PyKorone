@@ -3,7 +3,7 @@ PROJECT_DIR := "sophie_bot"
 ENV := $(shell poetry env info --path)
 
 # Replace \ with \\ for windows
-ENV := $(shell cygpath "${ENV}")
+# ENV := $(shell cygpath "${ENV}")
 
 #PYTHON := $(subst \,/,$(PYTHON))
 PYTHON := "$(ENV)/scripts/python"
