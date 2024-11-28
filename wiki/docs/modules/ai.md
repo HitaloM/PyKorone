@@ -33,6 +33,3 @@
 | `/enableai` `/aienable` | Control AI features |  |
 | `/aireset` | Reset the chat's AI context |  |
 | `/aiautotranslate` `/autotranslate` | Controls AI Autotranslate | *Only in groups* |
----
-# Privacy regards about AI module
-blah blah blah blah blah blah blah blah blah blah blah blah blah blah
