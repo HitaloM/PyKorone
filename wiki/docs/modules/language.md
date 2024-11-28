@@ -12,7 +12,7 @@
 | `/lang` | Asks for the new language for the chat. |  |
 | `/lang` | Sets the new language for the chat |  |
 
-### Aliased commands from [✨ Sophie AI](/modules/ai)
+### Aliased commands from [✨ Sophie AI](ai)
 
 | Commands | Description | Remarks |
 | --- | --- | --- |

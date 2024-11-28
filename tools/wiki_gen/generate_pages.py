@@ -65,7 +65,7 @@ class ModuleWikiPage:
                 *(
                     Title(Template('Aliased commands from {module}', module=Url(
                         f"{HELP_MODULES[mod_name].icon} {HELP_MODULES[mod_name].name}",
-                        f'/modules/{mod_name}'
+                        mod_name
                     )), level=3) + self._table(handlers) for mod_name, handlers in get_aliased_cmds(self.name).items()
                 )
 

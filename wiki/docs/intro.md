@@ -31,7 +31,7 @@ Sophie comes with several useful features right out of the box:
 - **Warnings:** Use `/warn` to warn users, and define actions after a member receives warnings.
   [→ Warnings](/docs/modules/warns)
 - **Reports:** Members can report messages with `/report`.
-  [→ Reports](/docs/modules/reportings)
+  [→ Reports](/docs/modules/reports)
 
 ## Configuration and Advanced Features
 
