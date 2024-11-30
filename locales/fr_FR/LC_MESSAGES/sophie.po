@@ -902,7 +902,7 @@ msgid "ℹ️ Help"
 msgstr "Aide"
 
 #: sophie_bot/modules/help/handlers/start_pm.py:49
-msgid "Hey there! My name is Sophie, I help you manage your group in an efficient"
+msgid "Hey there! My name is Sophie, I help you manage your group in an efficient way!"
 msgstr ""
 
 #: sophie_bot/modules/help/handlers/start_pm.py:51
@@ -2108,4 +2108,7 @@ msgstr "Erreur inattendue lors de la tentative d'obtenir l'utilisateur ! Veuill
 #: types/user.py:108
 msgid "Could not find the user mention"
 msgstr "Impossible de trouver la mention d'utilisateur"
+
+#~ msgid "Hey there! My name is Sophie, I help you manage your group in an efficient"
+#~ msgstr ""
 

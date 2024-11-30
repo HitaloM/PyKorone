@@ -46,7 +46,7 @@ class StartPMHandler(SophieMessageCallbackQueryHandler):
         )
 
         text = Doc(
-            _("Hey there! My name is Sophie, I help you manage your group in an efficient"),
+            _("Hey there! My name is Sophie, I help you manage your group in an efficient way!"),
             Template(
                 _("Join our {chat} and {channel}."),
                 chat=Url(_("💬 Support Chat"), CONFIG.support_link),
