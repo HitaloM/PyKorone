@@ -33,11 +33,6 @@ async def start_group_cmd(message: Message, strings):
     await message.reply(strings["start_hi_group"])
 
 
-@register(router, cmds="start", no_args=True, only_pm=True)
-async def start_cmd(message):
-    await get_start_func(message)
-
-
 @get_strings_dec("pm_menu")
 async def get_start_func(event: TelegramObject, strings, edit=False):
     msg = event.message if hasattr(event, "message") else event
@@ -75,11 +70,6 @@ async def set_lang_cb(event):
     await select_lang_keyboard(event.message, edit=True)
 
 
-@dp.callback_query(F.data == "go_to_start")
-async def back_btn(event):
-    await get_start_func(event, edit=True)
-
-
 @register(router, cmds="help")
 @disableable_dec("help")
 @get_strings_dec("pm_menu")
@@ -87,4 +77,4 @@ async def help_cmd(message: Message, strings):
     button = InlineKeyboardMarkup(
         inline_keyboard=[[InlineKeyboardButton(text=strings["click_btn"], url="https://sophiebot.rocks/")]]
     )
-    await message.reply(strings["help_header"], reply_markup=button)
+    await message.reply(strings["help_header"], reply_markup=button, disable_web_page_preview=True)

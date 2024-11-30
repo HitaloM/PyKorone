@@ -11,6 +11,7 @@ from ...utils.logger import log
 from .callbacks import PMHelpModule, PMHelpModules
 from .handlers.op import OpCMDSList
 from .handlers.pm_modules import PMModuleHelp, PMModulesList
+from .handlers.start_pm import StartPMHandler
 from .stats import __stats__
 from .utils.extract_info import HELP_MODULES, gather_module_help
 
@@ -23,7 +24,11 @@ __module_description__ = l_("Provides helpful information")
 __exclude_public__ = True
 
 
+__handlers__ = (StartPMHandler,)
+
+
 async def __pre_setup__():
+    # Help
     router.message.register(PMModulesList, CMDFilter("help"), ChatTypeFilter("private"))
     router.callback_query.register(PMModulesList, PMHelpModules.filter())
 

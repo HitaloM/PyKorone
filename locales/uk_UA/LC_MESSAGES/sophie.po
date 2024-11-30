@@ -843,12 +843,12 @@ msgstr "Чат підтримки"
 msgid "I am not a robot"
 msgstr "I am not a robot"
 
-#: sophie_bot/modules/help/__init__.py:20
+#: sophie_bot/modules/help/__init__.py:21
 #: sophie_bot/modules/help/handlers/pm_modules.py:41
 msgid "Help"
 msgstr "Допомога"
 
-#: sophie_bot/modules/help/__init__.py:22
+#: sophie_bot/modules/help/__init__.py:23
 msgid "Provides helpful information"
 msgstr "Надходить корисна інформація"
 
@@ -881,6 +881,43 @@ msgstr "Команди-аліаси з {module}"
 #: sophie_bot/modules/help/handlers/pm_modules.py:87
 msgid "📖 Wiki page"
 msgstr "📖 Сторінка Вікі"
+
+#: sophie_bot/modules/help/handlers/start_pm.py:34
+msgid "➕ Add me to your chat"
+msgstr ""
+
+#: sophie_bot/modules/help/handlers/start_pm.py:38
+#, fuzzy
+msgid "🌍 Language"
+msgstr "Мова"
+
+#: sophie_bot/modules/help/handlers/start_pm.py:41
+#: sophie_bot/modules/legacy_modules/modules/pm_menu.py:49
+msgid "🕵️‍♂️ Privacy"
+msgstr "🕵️‍♂️ Конфіденційність"
+
+#: sophie_bot/modules/help/handlers/start_pm.py:44
+#, fuzzy
+msgid "ℹ️ Help"
+msgstr "Допомога"
+
+#: sophie_bot/modules/help/handlers/start_pm.py:49
+msgid "Hey there! My name is Sophie, I help you manage your group in an efficient"
+msgstr ""
+
+#: sophie_bot/modules/help/handlers/start_pm.py:51
+msgid "Join our {chat} and {channel}."
+msgstr ""
+
+#: sophie_bot/modules/help/handlers/start_pm.py:52
+#: sophie_bot/modules/legacy_modules/modules/pm_menu.py:58
+msgid "💬 Support Chat"
+msgstr "💬 Чат підтримки"
+
+#: sophie_bot/modules/help/handlers/start_pm.py:53
+#: sophie_bot/modules/legacy_modules/modules/pm_menu.py:59
+msgid "📢 NEWS Channel"
+msgstr "📢 Канал новин"
 
 #: sophie_bot/modules/help/utils/format_help.py:28
 msgid "— Only in groups"
@@ -1130,18 +1167,6 @@ msgstr "Закріплює відповідь на повідомлення"
 #: sophie_bot/modules/legacy_modules/modules/pins.py:46
 msgid "Unpins the last pinned message"
 msgstr "Відкреплює останнє закріплене повідомлення"
-
-#: sophie_bot/modules/legacy_modules/modules/pm_menu.py:54
-msgid "🕵️‍♂️ Privacy"
-msgstr "🕵️‍♂️ Конфіденційність"
-
-#: sophie_bot/modules/legacy_modules/modules/pm_menu.py:63
-msgid "💬 Support Chat"
-msgstr "💬 Чат підтримки"
-
-#: sophie_bot/modules/legacy_modules/modules/pm_menu.py:64
-msgid "📢 NEWS Channel"
-msgstr "📢 Канал новин"
 
 #: sophie_bot/modules/legacy_modules/modules/reports.py:18
 msgid "Reports"
