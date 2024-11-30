@@ -882,39 +882,39 @@ msgstr "Команди-аліаси з {module}"
 msgid "📖 Wiki page"
 msgstr "📖 Сторінка Вікі"
 
-#: sophie_bot/modules/help/handlers/start_pm.py:34
+#: sophie_bot/modules/help/handlers/start_pm.py:35
 msgid "➕ Add me to your chat"
 msgstr ""
-
-#: sophie_bot/modules/help/handlers/start_pm.py:38
-#, fuzzy
-msgid "🌍 Language"
-msgstr "Мова"
 
 #: sophie_bot/modules/help/handlers/start_pm.py:41
 #: sophie_bot/modules/legacy_modules/modules/pm_menu.py:49
 msgid "🕵️‍♂️ Privacy"
 msgstr "🕵️‍♂️ Конфіденційність"
 
-#: sophie_bot/modules/help/handlers/start_pm.py:44
+#: sophie_bot/modules/help/handlers/start_pm.py:43
+#, fuzzy
+msgid "🌍 Language"
+msgstr "Мова"
+
+#: sophie_bot/modules/help/handlers/start_pm.py:45
 #, fuzzy
 msgid "ℹ️ Help"
 msgstr "Допомога"
 
-#: sophie_bot/modules/help/handlers/start_pm.py:49
+#: sophie_bot/modules/help/handlers/start_pm.py:50
 msgid "Hey there! My name is Sophie, I help you manage your group in an efficient way!"
 msgstr ""
 
-#: sophie_bot/modules/help/handlers/start_pm.py:51
+#: sophie_bot/modules/help/handlers/start_pm.py:52
 msgid "Join our {chat} and {channel}."
 msgstr ""
 
-#: sophie_bot/modules/help/handlers/start_pm.py:52
+#: sophie_bot/modules/help/handlers/start_pm.py:53
 #: sophie_bot/modules/legacy_modules/modules/pm_menu.py:58
 msgid "💬 Support Chat"
 msgstr "💬 Чат підтримки"
 
-#: sophie_bot/modules/help/handlers/start_pm.py:53
+#: sophie_bot/modules/help/handlers/start_pm.py:54
 #: sophie_bot/modules/legacy_modules/modules/pm_menu.py:59
 msgid "📢 NEWS Channel"
 msgstr "📢 Канал новин"

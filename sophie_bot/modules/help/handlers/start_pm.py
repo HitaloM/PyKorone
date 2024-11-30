@@ -8,6 +8,7 @@ from stfu_tg import Doc, Template, Url
 from sophie_bot import CONFIG
 from sophie_bot.filters.chat_status import ChatTypeFilter
 from sophie_bot.filters.cmd import CMDFilter
+from sophie_bot.filters.message_status import NoArgs
 from sophie_bot.modules.help.callbacks import PMHelpModules
 from sophie_bot.modules.privacy import PrivacyMenuCallback
 from sophie_bot.modules.utils_.base_handler import SophieMessageCallbackQueryHandler
@@ -18,7 +19,7 @@ from sophie_bot.utils.i18n import gettext as _
 class StartPMHandler(SophieMessageCallbackQueryHandler):
     @classmethod
     def register(cls, router: Router):
-        router.message.register(cls, CMDFilter("start"), ChatTypeFilter("private"))
+        router.message.register(cls, CMDFilter("start"), ChatTypeFilter("private"), NoArgs(True))
         router.callback_query.register(cls, ChatTypeFilter("private"), F.data == "go_to_start")
 
     async def handle(self) -> Any:
@@ -35,11 +36,11 @@ class StartPMHandler(SophieMessageCallbackQueryHandler):
                         url=f"https://telegram.me/{CONFIG.username}?startgroup=true",
                     )
                 ],
-                [InlineKeyboardButton(text=_("🌍 Language"), callback_data="lang_btn")],
                 [
                     InlineKeyboardButton(
                         text=_("🕵️‍♂️ Privacy"), callback_data=PrivacyMenuCallback(back_to_start=True).pack()
-                    )
+                    ),
+                    InlineKeyboardButton(text=_("🌍 Language"), callback_data="lang_btn"),
                 ],
                 [InlineKeyboardButton(text=_("ℹ️ Help"), callback_data=PMHelpModules(back_to_start=True).pack())],
             ]
