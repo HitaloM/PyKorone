@@ -52,16 +52,21 @@ class ConnectionsMiddleware(BaseMiddleware):
 
         # Handle non-private chats
         if real_chat.type != "private":
-            log.debug("Connections: Non-private chat")
+            log.debug("ConnectionsMiddleware: Non-private chat")
             data["connection"] = await self.get_current_chat_info(real_chat)
             return await handler(event, data)
 
         connection = await ChatConnectionModel.get_by_user_id(real_chat.id)
+
         if not connection or not connection.chat_id:
-            log.debug("Connections: Not connected!")
+            log.debug("ConnectionsMiddleware: Not connected!")
+            data["connection"] = await self.get_current_chat_info(real_chat)
+            return await handler(event, data)
+        elif not (connection_chat := await self.get_chat_from_db(connection.chat_id, True)):
+            log.debug("ConnectionsMiddleware: connected, but chat were not found in database, skipping...")
             data["connection"] = await self.get_current_chat_info(real_chat)
             return await handler(event, data)
 
-        log.debug("Connections: connected!")
-        data["connection"] = await self.get_chat_from_db(connection.chat_id, True)
+        log.debug("ConnectionsMiddleware: connected!")
+        data["connection"] = connection_chat
         return await handler(event, data)
