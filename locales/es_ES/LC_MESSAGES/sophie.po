@@ -1341,22 +1341,22 @@ msgid "No notes found in {chat_name}."
 msgstr "No se encontraron notas en {chat_name}."
 
 #: sophie_bot/modules/notes/handlers/list.py:51
-#: sophie_bot/modules/notes/handlers/search.py:38
+#: sophie_bot/modules/notes/handlers/search.py:39
 msgid "Search pattern"
 msgstr "Patrón de búsqueda"
 
 #: sophie_bot/modules/notes/handlers/list.py:53
-#: sophie_bot/modules/notes/handlers/search.py:40
+#: sophie_bot/modules/notes/handlers/search.py:41
 msgid "Notes in {chat_name}"
 msgstr "Notas en {chat_name}"
 
 #: sophie_bot/modules/notes/handlers/list.py:57
-#: sophie_bot/modules/notes/handlers/search.py:44
+#: sophie_bot/modules/notes/handlers/search.py:45
 msgid "Use {cmd} to retrieve a note. Example: {cmd_example}"
 msgstr "Use {cmd} para recuperar una nota. Ejemplo: {cmd_example}"
 
 #: sophie_bot/modules/notes/handlers/list.py:58
-#: sophie_bot/modules/notes/handlers/search.py:45
+#: sophie_bot/modules/notes/handlers/search.py:46
 msgid "#(Note name)"
 msgstr "#(Nombre de la nota)"
 
@@ -1416,7 +1416,12 @@ msgstr "Nota actualizada con éxito"
 msgid "Text to search"
 msgstr "Texto a buscar"
 
-#: sophie_bot/modules/notes/handlers/search.py:33
+#: sophie_bot/modules/notes/handlers/search.py:20
+#, fuzzy
+msgid "Searches for note contents"
+msgstr "?Buscar notas"
+
+#: sophie_bot/modules/notes/handlers/search.py:34
 msgid "No notes found by the provided search pattern {pattern}."
 msgstr "No se encontraron notas con el patrón de búsqueda proporcionado {pattern}."
 

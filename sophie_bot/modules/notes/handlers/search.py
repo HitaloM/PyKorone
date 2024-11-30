@@ -17,6 +17,7 @@ SEARCH_CMD = "search"
 
 @flags.args(text=TextArg(l_("Text to search")))
 @flags.disableable(name="notes")
+@flags.help(description=l_("Searches for note contents"))
 class NotesSearchHandler(SophieMessageHandler):
     @staticmethod
     def filters() -> tuple[CallbackType, ...]:
