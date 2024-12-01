@@ -1,22 +1,35 @@
 from typing import Any, Optional
 
-from aiogram import flags
-from aiogram.handlers import BaseHandler, CallbackQueryHandler
-from aiogram.types import CallbackQuery, InlineKeyboardButton, Message
+from aiogram import Router, flags
+from aiogram.handlers import CallbackQueryHandler
+from aiogram.types import CallbackQuery, InlineKeyboardButton
 from aiogram.utils.keyboard import InlineKeyboardBuilder
 from stfu_tg import Doc, HList, Section, Title, Url
 
 from sophie_bot import CONFIG
-from sophie_bot.modules.help import PMHelpModule, PMHelpModules
+from sophie_bot.filters.chat_status import ChatTypeFilter
+from sophie_bot.filters.cmd import CMDFilter
+from sophie_bot.modules.help.callbacks import (
+    PMHelpModule,
+    PMHelpModules,
+    PMHelpStartUrlCallback,
+)
 from sophie_bot.modules.help.utils.extract_info import HELP_MODULES, get_aliased_cmds
 from sophie_bot.modules.help.utils.format_help import format_handlers, group_handlers
+from sophie_bot.modules.utils_.base_handler import SophieMessageCallbackQueryHandler
 from sophie_bot.utils.exception import SophieException
 from sophie_bot.utils.i18n import gettext as _
 from sophie_bot.utils.i18n import lazy_gettext as l_
 
 
 @flags.help(description=l_("Shows help overview for all modules"))
-class PMModulesList(BaseHandler[Message | CallbackQuery]):
+class PMModulesList(SophieMessageCallbackQueryHandler):
+    @classmethod
+    def register(cls, router: Router):
+        router.message.register(cls, PMHelpStartUrlCallback.filter(), ChatTypeFilter("private"))
+        router.message.register(cls, CMDFilter("help"), ChatTypeFilter("private"))
+        router.callback_query.register(cls, PMHelpModules.filter())
+
     async def handle(self) -> Any:
         callback_data: Optional[PMHelpModules] = self.data.get("callback_data", None)
 

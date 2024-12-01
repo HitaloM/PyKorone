@@ -20,8 +20,8 @@ from .language import select_lang_keyboard
 
 __exclude_public__ = True
 
-from ...help import PMHelpModules
-from ...privacy import PrivacyMenuCallback
+from ...help.callbacks import PMHelpModules
+from ...privacy.callbacks import PrivacyMenuCallback
 
 router = Router(name="pm_menu")
 
