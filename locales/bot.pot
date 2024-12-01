@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-11-30 10:32+0100\n"
+"POT-Creation-Date: 2024-12-01 12:45+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -844,43 +844,77 @@ msgstr ""
 msgid "I am not a robot"
 msgstr ""
 
-#: sophie_bot/modules/help/__init__.py:21
-#: sophie_bot/modules/help/handlers/pm_modules.py:41
+#: sophie_bot/modules/help/__init__.py:22
+#: sophie_bot/modules/help/handlers/help_group.py:27
+#: sophie_bot/modules/help/handlers/pm_modules.py:54
+#: sophie_bot/modules/help/handlers/start_group.py:34
 msgid "Help"
 msgstr ""
 
-#: sophie_bot/modules/help/__init__.py:23
+#: sophie_bot/modules/help/__init__.py:24
 msgid "Provides helpful information"
 msgstr ""
 
-#: sophie_bot/modules/help/handlers/pm_modules.py:18
+#: sophie_bot/modules/help/handlers/help_group.py:17
+msgid "Shows the help message"
+msgstr ""
+
+#: sophie_bot/modules/help/handlers/help_group.py:24
+msgid "The help information available in the private messages with Sophie"
+msgstr ""
+
+#: sophie_bot/modules/help/handlers/pm_modules.py:25
 msgid "Shows help overview for all modules"
 msgstr ""
 
-#: sophie_bot/modules/help/handlers/pm_modules.py:38
-#: sophie_bot/modules/help/handlers/pm_modules.py:90
+#: sophie_bot/modules/help/handlers/pm_modules.py:51
+#: sophie_bot/modules/help/handlers/pm_modules.py:103
 #: sophie_bot/modules/privacy/handlers/privacy.py:30
 msgid "⬅️ Back"
 msgstr ""
 
-#: sophie_bot/modules/help/handlers/pm_modules.py:42
+#: sophie_bot/modules/help/handlers/pm_modules.py:55
 msgid "There are 2 help sources, you can read the detailed wiki or get a quick commands by modules overview."
 msgstr ""
 
-#: sophie_bot/modules/help/handlers/pm_modules.py:43
+#: sophie_bot/modules/help/handlers/pm_modules.py:56
 msgid "📖 Wiki (detailed information)"
 msgstr ""
 
-#: sophie_bot/modules/help/handlers/pm_modules.py:59
+#: sophie_bot/modules/help/handlers/pm_modules.py:72
 msgid "Module not found"
 msgstr ""
 
-#: sophie_bot/modules/help/handlers/pm_modules.py:82
+#: sophie_bot/modules/help/handlers/pm_modules.py:95
 msgid "Aliased commands from {module}"
 msgstr ""
 
-#: sophie_bot/modules/help/handlers/pm_modules.py:87
+#: sophie_bot/modules/help/handlers/pm_modules.py:100
 msgid "📖 Wiki page"
+msgstr ""
+
+#: sophie_bot/modules/help/handlers/start_group.py:20
+msgid "Shows the start message"
+msgstr ""
+
+#: sophie_bot/modules/help/handlers/start_group.py:37
+msgid "My name is Sophie, I help manage this group in an efficient way!"
+msgstr ""
+
+#: sophie_bot/modules/help/handlers/start_group.py:39
+msgid "Join the {chat} and {channel}."
+msgstr ""
+
+#: sophie_bot/modules/help/handlers/start_group.py:40
+#: sophie_bot/modules/help/handlers/start_pm.py:53
+#: sophie_bot/modules/legacy_modules/modules/pm_menu.py:58
+msgid "💬 Support Chat"
+msgstr ""
+
+#: sophie_bot/modules/help/handlers/start_group.py:41
+#: sophie_bot/modules/help/handlers/start_pm.py:54
+#: sophie_bot/modules/legacy_modules/modules/pm_menu.py:59
+msgid "📢 NEWS Channel"
 msgstr ""
 
 #: sophie_bot/modules/help/handlers/start_pm.py:35
@@ -906,16 +940,6 @@ msgstr ""
 
 #: sophie_bot/modules/help/handlers/start_pm.py:52
 msgid "Join our {chat} and {channel}."
-msgstr ""
-
-#: sophie_bot/modules/help/handlers/start_pm.py:53
-#: sophie_bot/modules/legacy_modules/modules/pm_menu.py:58
-msgid "💬 Support Chat"
-msgstr ""
-
-#: sophie_bot/modules/help/handlers/start_pm.py:54
-#: sophie_bot/modules/legacy_modules/modules/pm_menu.py:59
-msgid "📢 NEWS Channel"
 msgstr ""
 
 #: sophie_bot/modules/help/utils/format_help.py:28
