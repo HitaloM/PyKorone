@@ -1,18 +1,22 @@
-
 msgid ""
 msgstr ""
-"Project-Id-Version:  sophiebot\n"
+"Project-Id-Version: sophiebot\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-11-30 10:32+0100\n"
-"PO-Revision-Date: 2024-11-30 09:37+0000\n"
+"POT-Creation-Date: 2024-12-01 12:52+0100\n"
+"PO-Revision-Date: 2024-12-01 14:00\n"
 "Last-Translator: \n"
-"Language: cs_CZ\n"
 "Language-Team: Czech\n"
-"Plural-Forms: nplurals=4; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 3;\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=utf-8\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.16.0\n"
+"Plural-Forms: nplurals=4; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 3;\n"
+"X-Crowdin-Project: sophiebot\n"
+"X-Crowdin-Project-ID: 356879\n"
+"X-Crowdin-Language: cs\n"
+"X-Crowdin-File: /beta/locales/sophie.pot\n"
+"X-Crowdin-File-ID: 288\n"
+"Language: cs_CZ\n"
 
 #: sophie_bot/args/users.py:29
 msgid "Could not find the requested User ID in the database."
@@ -22,23 +26,23 @@ msgstr "Nebylo možné najít požadované ID uživatele v databázi."
 msgid "Could not find the requested Username in the database."
 msgstr "Nebylo možné najít požadované uživatelské jméno v databázi."
 
-#: sophie_bot/args/users.py:72 types/user.py:119
+#: sophie_bot/args/users.py:72
 msgid "User: 'User ID (numeric) / Username (starts with @) / Mention (links to users)'"
 msgstr "Uživatel: 'ID uživatele (číslicové) / Uživatelské jméno (začíná na @) / Zmínka (odkazy na uživatele)'"
 
-#: sophie_bot/args/users.py:72 types/user.py:121
+#: sophie_bot/args/users.py:72
 msgid "Users: 'User IDs (numeric) / Usernames (starts with @) / Mentions (links to users)'"
 msgstr "Uživatelé: 'ID uživatelů (číslicové) / Uživatelská jména (začínají na @) / Zmínky (odkazy na uživatele)'"
 
-#: sophie_bot/args/users.py:79 types/user.py:128
+#: sophie_bot/args/users.py:79
 msgid "User ID"
 msgstr "ID uživatele"
 
-#: sophie_bot/args/users.py:80 types/user.py:129
+#: sophie_bot/args/users.py:80
 msgid "Username"
 msgstr "Uživatelské jméno"
 
-#: sophie_bot/args/users.py:81 types/user.py:133
+#: sophie_bot/args/users.py:81
 msgid "A link to user, usually creates by mentioning a user without username."
 msgstr "Odkaz na uživatele, obvykle se vytvoří zmíněním uživatele bez uživatelského jména."
 
@@ -691,11 +695,9 @@ msgid "Greetings"
 msgstr "Pozdravy"
 
 #: sophie_bot/modules/greetings/__init__.py:22
-msgid ""
-"This module helps you to welcome new users automatically, while keeping the chat clean.\n"
+msgid "This module helps you to welcome new users automatically, while keeping the chat clean.\n"
 "If you want to enforce captcha / rules verification, please see 'Welcome Security' module instead."
-msgstr ""
-"Tento modul vám pomáhá automaticky vítat nové uživatele, přičemž udržuje chat čistý.\n"
+msgstr "Tento modul vám pomáhá automaticky vítat nové uživatele, přičemž udržuje chat čistý.\n"
 "Pokud chcete vynutit ověření captcha / pravidla, podívejte se raději na modul 'Bezpečnost vítání'."
 
 #: sophie_bot/modules/greetings/default_welcome.py:9
@@ -855,13 +857,12 @@ msgid "Provides helpful information"
 msgstr "Poskytuje užitečné informace"
 
 #: sophie_bot/modules/help/handlers/help_group.py:17
-#, fuzzy
 msgid "Shows the help message"
-msgstr "Nahlásí odpovězenou zprávu."
+msgstr "Zobrazuje pomocnou zprávu"
 
 #: sophie_bot/modules/help/handlers/help_group.py:24
 msgid "The help information available in the private messages with Sophie"
-msgstr ""
+msgstr "Informace o nápovědě dostupné v soukromých zprávách se Sophií"
 
 #: sophie_bot/modules/help/handlers/pm_modules.py:25
 msgid "Shows help overview for all modules"
@@ -894,19 +895,16 @@ msgid "📖 Wiki page"
 msgstr "📖 Wiki page"
 
 #: sophie_bot/modules/help/handlers/start_group.py:20
-#, fuzzy
 msgid "Shows the start message"
-msgstr "Nahlásí odpovězenou zprávu."
+msgstr "Zobrazuje počáteční zprávu"
 
 #: sophie_bot/modules/help/handlers/start_group.py:37
-#, fuzzy
 msgid "My name is Sophie, I help manage this group in an efficient way!"
-msgstr "Ahoj! Mé jméno je Sophie, pomáhám ti efektivně spravovat skupinu!"
+msgstr "Mé jméno je Sophie, pomáhám spravovat tuto skupinu efektivně!"
 
 #: sophie_bot/modules/help/handlers/start_group.py:39
-#, fuzzy
 msgid "Join the {chat} and {channel}."
-msgstr "Připoj se k našemu {chat} a {channel}."
+msgstr "Připoj se k {chat} a {channel}."
 
 #: sophie_bot/modules/help/handlers/start_group.py:40
 #: sophie_bot/modules/help/handlers/start_pm.py:53
@@ -2135,4 +2133,24 @@ msgstr "Unexpected error while trying to get the user! Please report this in the
 #: types/user.py:108
 msgid "Could not find the user mention"
 msgstr "Could not find the user mention"
+
+#: types/user.py:119
+msgid "User: 'User ID (numeric) / Username (starts with @) / Mention (links to users)'"
+msgstr "Uživatel: 'ID uživatele (číslicové) / Uživatelské jméno (začíná na @) / Zmínka (odkazy na uživatele)'"
+
+#: types/user.py:121
+msgid "Users: 'User IDs (numeric) / Usernames (starts with @) / Mentions (links to users)'"
+msgstr "Uživatelé: 'ID uživatelů (číslicové) / Uživatelská jména (začínají na @) / Zmínky (odkazy na uživatele)'"
+
+#: types/user.py:128
+msgid "User ID"
+msgstr "ID uživatele"
+
+#: types/user.py:129
+msgid "Username"
+msgstr "Uživatelské jméno"
+
+#: types/user.py:133
+msgid "A link to user, usually creates by mentioning a user without username."
+msgstr "Odkaz na uživatele, obvykle se vytvoří zmíněním uživatele bez uživatelského jména."
 
