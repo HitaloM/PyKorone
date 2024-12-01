@@ -843,14 +843,14 @@ msgstr "Чат підтримки"
 msgid "I am not a robot"
 msgstr "I am not a robot"
 
-#: sophie_bot/modules/help/__init__.py:22
+#: sophie_bot/modules/help/__init__.py:23
 #: sophie_bot/modules/help/handlers/help_group.py:27
 #: sophie_bot/modules/help/handlers/pm_modules.py:54
 #: sophie_bot/modules/help/handlers/start_group.py:34
 msgid "Help"
 msgstr "Допомога"
 
-#: sophie_bot/modules/help/__init__.py:24
+#: sophie_bot/modules/help/__init__.py:25
 msgid "Provides helpful information"
 msgstr "Надходить корисна інформація"
 
@@ -910,13 +910,11 @@ msgstr "Приєднуйтесь до нашого {chat} та {channel}."
 
 #: sophie_bot/modules/help/handlers/start_group.py:40
 #: sophie_bot/modules/help/handlers/start_pm.py:53
-#: sophie_bot/modules/legacy_modules/modules/pm_menu.py:58
 msgid "💬 Support Chat"
 msgstr "💬 Чат підтримки"
 
 #: sophie_bot/modules/help/handlers/start_group.py:41
 #: sophie_bot/modules/help/handlers/start_pm.py:54
-#: sophie_bot/modules/legacy_modules/modules/pm_menu.py:59
 msgid "📢 NEWS Channel"
 msgstr "📢 Канал новин"
 
@@ -925,7 +923,6 @@ msgid "➕ Add me to your chat"
 msgstr "➕ Додайте мене у Ваш чат"
 
 #: sophie_bot/modules/help/handlers/start_pm.py:41
-#: sophie_bot/modules/legacy_modules/modules/pm_menu.py:49
 msgid "🕵️‍♂️ Privacy"
 msgstr "🕵️‍♂️ Конфіденційність"
 

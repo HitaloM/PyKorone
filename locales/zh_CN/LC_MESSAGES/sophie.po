@@ -843,14 +843,14 @@ msgstr "支持聊天"
 msgid "I am not a robot"
 msgstr "I am not a robot"
 
-#: sophie_bot/modules/help/__init__.py:22
+#: sophie_bot/modules/help/__init__.py:23
 #: sophie_bot/modules/help/handlers/help_group.py:27
 #: sophie_bot/modules/help/handlers/pm_modules.py:54
 #: sophie_bot/modules/help/handlers/start_group.py:34
 msgid "Help"
 msgstr "帮助"
 
-#: sophie_bot/modules/help/__init__.py:24
+#: sophie_bot/modules/help/__init__.py:25
 msgid "Provides helpful information"
 msgstr "提供有用的信息"
 
@@ -910,13 +910,11 @@ msgstr "加入我们的 {chat} 和 {channel}。"
 
 #: sophie_bot/modules/help/handlers/start_group.py:40
 #: sophie_bot/modules/help/handlers/start_pm.py:53
-#: sophie_bot/modules/legacy_modules/modules/pm_menu.py:58
 msgid "💬 Support Chat"
 msgstr "💬 支持聊天"
 
 #: sophie_bot/modules/help/handlers/start_group.py:41
 #: sophie_bot/modules/help/handlers/start_pm.py:54
-#: sophie_bot/modules/legacy_modules/modules/pm_menu.py:59
 msgid "📢 NEWS Channel"
 msgstr "📢 新闻频道"
 
@@ -925,7 +923,6 @@ msgid "➕ Add me to your chat"
 msgstr "➕ 将我添加到您的群组"
 
 #: sophie_bot/modules/help/handlers/start_pm.py:41
-#: sophie_bot/modules/legacy_modules/modules/pm_menu.py:49
 msgid "🕵️‍♂️ Privacy"
 msgstr "🕵️‍♂️ 隐私"
 

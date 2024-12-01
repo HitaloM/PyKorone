@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-12-01 12:45+0100\n"
+"POT-Creation-Date: 2024-12-01 12:52+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -844,14 +844,14 @@ msgstr ""
 msgid "I am not a robot"
 msgstr ""
 
-#: sophie_bot/modules/help/__init__.py:22
+#: sophie_bot/modules/help/__init__.py:23
 #: sophie_bot/modules/help/handlers/help_group.py:27
 #: sophie_bot/modules/help/handlers/pm_modules.py:54
 #: sophie_bot/modules/help/handlers/start_group.py:34
 msgid "Help"
 msgstr ""
 
-#: sophie_bot/modules/help/__init__.py:24
+#: sophie_bot/modules/help/__init__.py:25
 msgid "Provides helpful information"
 msgstr ""
 
@@ -907,13 +907,11 @@ msgstr ""
 
 #: sophie_bot/modules/help/handlers/start_group.py:40
 #: sophie_bot/modules/help/handlers/start_pm.py:53
-#: sophie_bot/modules/legacy_modules/modules/pm_menu.py:58
 msgid "💬 Support Chat"
 msgstr ""
 
 #: sophie_bot/modules/help/handlers/start_group.py:41
 #: sophie_bot/modules/help/handlers/start_pm.py:54
-#: sophie_bot/modules/legacy_modules/modules/pm_menu.py:59
 msgid "📢 NEWS Channel"
 msgstr ""
 
@@ -922,7 +920,6 @@ msgid "➕ Add me to your chat"
 msgstr ""
 
 #: sophie_bot/modules/help/handlers/start_pm.py:41
-#: sophie_bot/modules/legacy_modules/modules/pm_menu.py:49
 msgid "🕵️‍♂️ Privacy"
 msgstr ""
 
