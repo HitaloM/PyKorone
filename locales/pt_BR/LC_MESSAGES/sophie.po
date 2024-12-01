@@ -1,18 +1,22 @@
-
 msgid ""
 msgstr ""
-"Project-Id-Version:  sophiebot\n"
+"Project-Id-Version: sophiebot\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-11-30 10:32+0100\n"
-"PO-Revision-Date: 2024-11-30 09:38+0000\n"
+"POT-Creation-Date: 2024-12-01 12:52+0100\n"
+"PO-Revision-Date: 2024-12-01 14:00\n"
 "Last-Translator: \n"
-"Language: pt_BR\n"
 "Language-Team: Portuguese, Brazilian\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=utf-8\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.16.0\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Crowdin-Project: sophiebot\n"
+"X-Crowdin-Project-ID: 356879\n"
+"X-Crowdin-Language: pt-BR\n"
+"X-Crowdin-File: /beta/locales/sophie.pot\n"
+"X-Crowdin-File-ID: 288\n"
+"Language: pt_BR\n"
 
 #: sophie_bot/args/users.py:29
 msgid "Could not find the requested User ID in the database."
@@ -22,23 +26,23 @@ msgstr "Não foi possível encontrar o ID do usuário solicitado no banco de dad
 msgid "Could not find the requested Username in the database."
 msgstr "Não foi possível encontrar o nome de usuário solicitado no banco de dados."
 
-#: sophie_bot/args/users.py:72 types/user.py:119
+#: sophie_bot/args/users.py:72
 msgid "User: 'User ID (numeric) / Username (starts with @) / Mention (links to users)'"
 msgstr "Usuário: 'ID do usuário (numérico) / Nome de usuário (começa com @) / Menção (links para usuários)'"
 
-#: sophie_bot/args/users.py:72 types/user.py:121
+#: sophie_bot/args/users.py:72
 msgid "Users: 'User IDs (numeric) / Usernames (starts with @) / Mentions (links to users)'"
 msgstr "Usuários: 'IDs dos usuários (numéricos) / Nomes de usuários (começam com @) / Menções (links para usuários)'"
 
-#: sophie_bot/args/users.py:79 types/user.py:128
+#: sophie_bot/args/users.py:79
 msgid "User ID"
 msgstr "ID do usuário"
 
-#: sophie_bot/args/users.py:80 types/user.py:129
+#: sophie_bot/args/users.py:80
 msgid "Username"
 msgstr "Nome de usuário"
 
-#: sophie_bot/args/users.py:81 types/user.py:133
+#: sophie_bot/args/users.py:81
 msgid "A link to user, usually creates by mentioning a user without username."
 msgstr "Um link para o usuário, geralmente criado mencionando um usuário sem nome de usuário."
 
@@ -691,11 +695,9 @@ msgid "Greetings"
 msgstr "Saudações"
 
 #: sophie_bot/modules/greetings/__init__.py:22
-msgid ""
-"This module helps you to welcome new users automatically, while keeping the chat clean.\n"
+msgid "This module helps you to welcome new users automatically, while keeping the chat clean.\n"
 "If you want to enforce captcha / rules verification, please see 'Welcome Security' module instead."
-msgstr ""
-"Este módulo ajuda a dar boas-vindas a novos usuários automaticamente, enquanto mantém o chat limpo.\n"
+msgstr "Este módulo ajuda a dar boas-vindas a novos usuários automaticamente, enquanto mantém o chat limpo.\n"
 "Se você quiser impor a verificação de captcha/regras, por favor veja o módulo 'Segurança de Boas-Vindas' em vez disso."
 
 #: sophie_bot/modules/greetings/default_welcome.py:9
@@ -855,13 +857,12 @@ msgid "Provides helpful information"
 msgstr "Fornece informações úteis"
 
 #: sophie_bot/modules/help/handlers/help_group.py:17
-#, fuzzy
 msgid "Shows the help message"
-msgstr "Relata a mensagem respondida."
+msgstr "Mostra a mensagem de ajuda"
 
 #: sophie_bot/modules/help/handlers/help_group.py:24
 msgid "The help information available in the private messages with Sophie"
-msgstr ""
+msgstr "As informações de ajuda estão disponíveis nas mensagens privadas com Sophie"
 
 #: sophie_bot/modules/help/handlers/pm_modules.py:25
 msgid "Shows help overview for all modules"
@@ -894,19 +895,16 @@ msgid "📖 Wiki page"
 msgstr "📖 Página da Wiki"
 
 #: sophie_bot/modules/help/handlers/start_group.py:20
-#, fuzzy
 msgid "Shows the start message"
-msgstr "Relata a mensagem respondida."
+msgstr "Mostra a mensagem de início"
 
 #: sophie_bot/modules/help/handlers/start_group.py:37
-#, fuzzy
 msgid "My name is Sophie, I help manage this group in an efficient way!"
-msgstr "Olá! Meu nome é Sophie, eu ajudo você a gerenciar seu grupo de forma eficiente!"
+msgstr "Meu nome é Sophie, eu ajudo a gerenciar este grupo de forma eficiente!"
 
 #: sophie_bot/modules/help/handlers/start_group.py:39
-#, fuzzy
 msgid "Join the {chat} and {channel}."
-msgstr "Junte-se ao nosso {chat} e {channel}."
+msgstr "Junte-se ao {chat} e {channel}."
 
 #: sophie_bot/modules/help/handlers/start_group.py:40
 #: sophie_bot/modules/help/handlers/start_pm.py:53
@@ -2135,4 +2133,24 @@ msgstr "Unexpected error while trying to get the user! Please report this in the
 #: types/user.py:108
 msgid "Could not find the user mention"
 msgstr "Could not find the user mention"
+
+#: types/user.py:119
+msgid "User: 'User ID (numeric) / Username (starts with @) / Mention (links to users)'"
+msgstr "Usuário: 'ID do usuário (numérico) / Nome de usuário (começa com @) / Menção (links para usuários)'"
+
+#: types/user.py:121
+msgid "Users: 'User IDs (numeric) / Usernames (starts with @) / Mentions (links to users)'"
+msgstr "Usuários: 'IDs dos usuários (numéricos) / Nomes de usuários (começam com @) / Menções (links para usuários)'"
+
+#: types/user.py:128
+msgid "User ID"
+msgstr "ID do usuário"
+
+#: types/user.py:129
+msgid "Username"
+msgstr "Nome de usuário"
+
+#: types/user.py:133
+msgid "A link to user, usually creates by mentioning a user without username."
+msgstr "Um link para o usuário, geralmente criado mencionando um usuário sem nome de usuário."
 
