@@ -690,6 +690,11 @@ msgstr "Помилки колихають інновації,"
 msgid "Softly whispering."
 msgstr "Тихо шепочучи."
 
+#: sophie_bot/modules/filters/__init__.py:6
+#: sophie_bot/modules/legacy_modules/modules/filters.py:67
+msgid "Filters"
+msgstr "Фільтри"
+
 #: sophie_bot/modules/greetings/__init__.py:20
 msgid "Greetings"
 msgstr "Привітання"
@@ -1128,36 +1133,32 @@ msgstr "Імпортує список заборон."
 msgid "Checks the user ban status (can be used to check yourself)."
 msgstr "Перевіряє статус заборони користувача (може бути використано, щоб перевірити себе)."
 
-#: sophie_bot/modules/legacy_modules/modules/filters.py:64
-msgid "Filters"
-msgstr "Фільтри"
-
-#: sophie_bot/modules/legacy_modules/modules/filters.py:161
+#: sophie_bot/modules/legacy_modules/modules/filters.py:169
 msgid "Adds a new filter."
 msgstr "Додає новий фільтр."
 
-#: sophie_bot/modules/legacy_modules/modules/filters.py:161
-#: sophie_bot/modules/legacy_modules/modules/filters.py:315
+#: sophie_bot/modules/legacy_modules/modules/filters.py:169
+#: sophie_bot/modules/legacy_modules/modules/filters.py:323
 msgid "Trigger"
 msgstr "Тригер"
 
-#: sophie_bot/modules/legacy_modules/modules/filters.py:202
+#: sophie_bot/modules/legacy_modules/modules/filters.py:210
 msgid "❌ Cancel"
 msgstr "❌ Скасувати"
 
-#: sophie_bot/modules/legacy_modules/modules/filters.py:296
+#: sophie_bot/modules/legacy_modules/modules/filters.py:304
 msgid "Shows the list of filters."
 msgstr "Показує список фільтрів."
 
-#: sophie_bot/modules/legacy_modules/modules/filters.py:310
+#: sophie_bot/modules/legacy_modules/modules/filters.py:318
 msgid "Filters in {chat_name}"
 msgstr "Фільтри в {chat_name}"
 
-#: sophie_bot/modules/legacy_modules/modules/filters.py:315
+#: sophie_bot/modules/legacy_modules/modules/filters.py:323
 msgid "Removes the filter."
 msgstr "Видаляє фільтр."
 
-#: sophie_bot/modules/legacy_modules/modules/filters.py:370
+#: sophie_bot/modules/legacy_modules/modules/filters.py:378
 msgid "Removes all the filters in the chat."
 msgstr "Видаляє всі фільтри в чаті."
 

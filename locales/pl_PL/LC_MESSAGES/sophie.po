@@ -690,6 +690,11 @@ msgstr "Błędy kołyszą innowację,"
 msgid "Softly whispering."
 msgstr "Cicho szepcząc."
 
+#: sophie_bot/modules/filters/__init__.py:6
+#: sophie_bot/modules/legacy_modules/modules/filters.py:67
+msgid "Filters"
+msgstr "Filtry"
+
 #: sophie_bot/modules/greetings/__init__.py:20
 msgid "Greetings"
 msgstr "Powitania"
@@ -1128,36 +1133,32 @@ msgstr "Importuje listę banów."
 msgid "Checks the user ban status (can be used to check yourself)."
 msgstr "Sprawdza status bana użytkownika (może być używane do sprawdzenia siebie)."
 
-#: sophie_bot/modules/legacy_modules/modules/filters.py:64
-msgid "Filters"
-msgstr "Filtry"
-
-#: sophie_bot/modules/legacy_modules/modules/filters.py:161
+#: sophie_bot/modules/legacy_modules/modules/filters.py:169
 msgid "Adds a new filter."
 msgstr "Dodaje nowy filtr."
 
-#: sophie_bot/modules/legacy_modules/modules/filters.py:161
-#: sophie_bot/modules/legacy_modules/modules/filters.py:315
+#: sophie_bot/modules/legacy_modules/modules/filters.py:169
+#: sophie_bot/modules/legacy_modules/modules/filters.py:323
 msgid "Trigger"
 msgstr "Wyzwalacz"
 
-#: sophie_bot/modules/legacy_modules/modules/filters.py:202
+#: sophie_bot/modules/legacy_modules/modules/filters.py:210
 msgid "❌ Cancel"
 msgstr "❌ Anuluj"
 
-#: sophie_bot/modules/legacy_modules/modules/filters.py:296
+#: sophie_bot/modules/legacy_modules/modules/filters.py:304
 msgid "Shows the list of filters."
 msgstr "Wyświetla listę filtrów."
 
-#: sophie_bot/modules/legacy_modules/modules/filters.py:310
+#: sophie_bot/modules/legacy_modules/modules/filters.py:318
 msgid "Filters in {chat_name}"
 msgstr "Filtry w {chat_name}"
 
-#: sophie_bot/modules/legacy_modules/modules/filters.py:315
+#: sophie_bot/modules/legacy_modules/modules/filters.py:323
 msgid "Removes the filter."
 msgstr "Usuwa filtr."
 
-#: sophie_bot/modules/legacy_modules/modules/filters.py:370
+#: sophie_bot/modules/legacy_modules/modules/filters.py:378
 msgid "Removes all the filters in the chat."
 msgstr "Usuwa wszystkie filtry w czacie."
 

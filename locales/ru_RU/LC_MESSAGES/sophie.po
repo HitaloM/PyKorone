@@ -690,6 +690,11 @@ msgstr "Ошибки колыбели инновацию,"
 msgid "Softly whispering."
 msgstr "Тихо шепча."
 
+#: sophie_bot/modules/filters/__init__.py:6
+#: sophie_bot/modules/legacy_modules/modules/filters.py:67
+msgid "Filters"
+msgstr "Фильтры"
+
 #: sophie_bot/modules/greetings/__init__.py:20
 msgid "Greetings"
 msgstr "Приветствия"
@@ -1128,36 +1133,32 @@ msgstr "Импортирует список банов."
 msgid "Checks the user ban status (can be used to check yourself)."
 msgstr "Проверяет статус бана пользователя (может быть использовано для проверки себя)."
 
-#: sophie_bot/modules/legacy_modules/modules/filters.py:64
-msgid "Filters"
-msgstr "Фильтры"
-
-#: sophie_bot/modules/legacy_modules/modules/filters.py:161
+#: sophie_bot/modules/legacy_modules/modules/filters.py:169
 msgid "Adds a new filter."
 msgstr "Добавляет новый фильтр."
 
-#: sophie_bot/modules/legacy_modules/modules/filters.py:161
-#: sophie_bot/modules/legacy_modules/modules/filters.py:315
+#: sophie_bot/modules/legacy_modules/modules/filters.py:169
+#: sophie_bot/modules/legacy_modules/modules/filters.py:323
 msgid "Trigger"
 msgstr "Триггер"
 
-#: sophie_bot/modules/legacy_modules/modules/filters.py:202
+#: sophie_bot/modules/legacy_modules/modules/filters.py:210
 msgid "❌ Cancel"
 msgstr "❌ Отмена"
 
-#: sophie_bot/modules/legacy_modules/modules/filters.py:296
+#: sophie_bot/modules/legacy_modules/modules/filters.py:304
 msgid "Shows the list of filters."
 msgstr "Показывает список фильтров."
 
-#: sophie_bot/modules/legacy_modules/modules/filters.py:310
+#: sophie_bot/modules/legacy_modules/modules/filters.py:318
 msgid "Filters in {chat_name}"
 msgstr "Фильтры в {chat_name}"
 
-#: sophie_bot/modules/legacy_modules/modules/filters.py:315
+#: sophie_bot/modules/legacy_modules/modules/filters.py:323
 msgid "Removes the filter."
 msgstr "Удаляет фильтр."
 
-#: sophie_bot/modules/legacy_modules/modules/filters.py:370
+#: sophie_bot/modules/legacy_modules/modules/filters.py:378
 msgid "Removes all the filters in the chat."
 msgstr "Удаляет все фильтры в чате."
 

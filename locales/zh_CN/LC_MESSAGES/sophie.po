@@ -690,6 +690,11 @@ msgstr "错误摇篮般呵护着创新，"
 msgid "Softly whispering."
 msgstr "轻声细语。"
 
+#: sophie_bot/modules/filters/__init__.py:6
+#: sophie_bot/modules/legacy_modules/modules/filters.py:67
+msgid "Filters"
+msgstr "过滤器"
+
 #: sophie_bot/modules/greetings/__init__.py:20
 msgid "Greetings"
 msgstr "问候"
@@ -1128,36 +1133,32 @@ msgstr "导入禁令列表。"
 msgid "Checks the user ban status (can be used to check yourself)."
 msgstr "检查用户禁用状态（可以用来检查你自己）。"
 
-#: sophie_bot/modules/legacy_modules/modules/filters.py:64
-msgid "Filters"
-msgstr "过滤器"
-
-#: sophie_bot/modules/legacy_modules/modules/filters.py:161
+#: sophie_bot/modules/legacy_modules/modules/filters.py:169
 msgid "Adds a new filter."
 msgstr "添加新过滤器。"
 
-#: sophie_bot/modules/legacy_modules/modules/filters.py:161
-#: sophie_bot/modules/legacy_modules/modules/filters.py:315
+#: sophie_bot/modules/legacy_modules/modules/filters.py:169
+#: sophie_bot/modules/legacy_modules/modules/filters.py:323
 msgid "Trigger"
 msgstr "触发器"
 
-#: sophie_bot/modules/legacy_modules/modules/filters.py:202
+#: sophie_bot/modules/legacy_modules/modules/filters.py:210
 msgid "❌ Cancel"
 msgstr "❌ Cancel"
 
-#: sophie_bot/modules/legacy_modules/modules/filters.py:296
+#: sophie_bot/modules/legacy_modules/modules/filters.py:304
 msgid "Shows the list of filters."
 msgstr "显示过滤器列表。"
 
-#: sophie_bot/modules/legacy_modules/modules/filters.py:310
+#: sophie_bot/modules/legacy_modules/modules/filters.py:318
 msgid "Filters in {chat_name}"
 msgstr "Filters in {chat_name}"
 
-#: sophie_bot/modules/legacy_modules/modules/filters.py:315
+#: sophie_bot/modules/legacy_modules/modules/filters.py:323
 msgid "Removes the filter."
 msgstr "移除过滤器。"
 
-#: sophie_bot/modules/legacy_modules/modules/filters.py:370
+#: sophie_bot/modules/legacy_modules/modules/filters.py:378
 msgid "Removes all the filters in the chat."
 msgstr "移除聊天中的所有过滤器。"
 

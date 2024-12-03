@@ -22,6 +22,7 @@ import random
 import re
 from contextlib import suppress
 from string import printable
+from typing import Any, Awaitable, Callable, TypedDict
 
 import regex
 from aiogram import F, Router, flags
@@ -31,6 +32,7 @@ from aiogram.fsm.context import FSMContext
 from aiogram.fsm.state import State, StatesGroup
 from aiogram.types import (
     CallbackQuery,
+    Chat,
     InlineKeyboardButton,
     InlineKeyboardMarkup,
     Message,
@@ -57,6 +59,7 @@ from sophie_bot.modules.legacy_modules.utils.user_details import (
 )
 from sophie_bot.services.db import db
 from sophie_bot.services.redis import redis
+from sophie_bot.utils.i18n import LazyProxy
 from sophie_bot.utils.i18n import gettext as _
 from sophie_bot.utils.i18n import lazy_gettext as l_
 from sophie_bot.utils.logger import log
@@ -81,7 +84,15 @@ class FilterDelallYesCb(CallbackData, prefix="filter_delall_yes_cb"):
     chat_id: int
 
 
-FILTERS_ACTIONS = {}
+class LegacyFilterAction(TypedDict):
+    title: LazyProxy
+    handle: Callable[[Message, Chat, dict], Awaitable[Any]]
+    action: Callable[[Message, dict], str]
+    del_btn_name: Callable[[Message, dict], str] | None
+    setup: list[dict] | dict | None
+
+
+LEGACY_FILTERS_ACTIONS: dict[str, LegacyFilterAction] = {}
 
 
 class NewFilter(StatesGroup):
@@ -104,9 +115,6 @@ async def update_handlers_cache(chat_id):
     return handlers
 
 
-@register(
-    router,
-)
 async def check_msg(message: Message):
     chat = await get_connected_chat(message, only_groups=True)
     if "err_msg" in chat or message.chat.type == "private":
@@ -154,7 +162,7 @@ async def check_msg(message: Message):
             filters = db.filters.find({"chat_id": chat_id, "handler": handler})
             async for filter in filters:
                 action = filter["action"]
-                await FILTERS_ACTIONS[action]["handle"](message, chat, filter)
+                await LEGACY_FILTERS_ACTIONS[action]["handle"](message, chat, filter)
 
 
 @register(router, cmds=["addfilter", "newfilter"], is_admin=True)
@@ -184,7 +192,7 @@ async def add_handler(message: Message, chat, strings):
 
     buttons = InlineKeyboardBuilder()
     buttons.max_width = 2
-    for action in FILTERS_ACTIONS.items():
+    for action in LEGACY_FILTERS_ACTIONS.items():
         filter_id = action[0]
         data = action[1]
 
@@ -226,7 +234,7 @@ async def register_action(event, chat, strings, callback_data: FilterActionCb, s
     if not await is_user_admin(event.message.chat.id, event.from_user.id):
         return await event.answer("You are not admin to do this")
     filter_id = callback_data.filter_id
-    action = FILTERS_ACTIONS[filter_id]
+    action = LEGACY_FILTERS_ACTIONS[filter_id]
 
     user_id = event.from_user.id
     chat_id = chat["chat_id"]
@@ -270,7 +278,7 @@ async def setup_end(message: Message, chat, strings, state: FSMContext, **kwargs
     with suppress(TelegramBadRequest):
         await bot.delete_message(message.chat.id, state_data.get("msg_id"))
 
-    action = FILTERS_ACTIONS[state_data["filter_id"]]
+    action = LEGACY_FILTERS_ACTIONS[state_data["filter_id"]]
 
     curr_step = state_data.get("setup_done", 0)
 
@@ -299,7 +307,7 @@ async def setup_end(message: Message, chat, strings, state: FSMContext, **kwargs
 async def list_filters(message: Message, chat, strings):
     filters_list = VList()
     async for filter_item in db.filters.find({"chat_id": chat["chat_id"]}):
-        action_title = str(FILTERS_ACTIONS[filter_item["action"]]["title"])
+        action_title = str(LEGACY_FILTERS_ACTIONS[filter_item["action"]]["title"])
         filters_list += KeyValue(Code(filter_item["handler"]), action_title, title_bold=False)
 
     if not filters_list:
@@ -336,7 +344,7 @@ async def del_filter(message: Message, chat, strings):
     buttons = InlineKeyboardMarkup(inline_keyboard=[])
     text = strings["select_filter_to_remove"].format(handler=handler)
     for filter in filters:
-        action = FILTERS_ACTIONS[filter["action"]]
+        action = LEGACY_FILTERS_ACTIONS[filter["action"]]
         buttons.inline_keyboard.append(
             [
                 InlineKeyboardButton(
@@ -405,17 +413,17 @@ async def delall_filters_no(event: CallbackQuery, strings: dict):
 
 
 async def __before_serving__(loop):
-    log.debug("Adding filters actions")
+    log.debug("Legacy filters __before_serving__: Adding filters actions")
     for module in (*LOADED_LEGACY_MODULES, *LOADED_MODULES.values()):
         if not getattr(module, "__filters__", None):
             continue
 
         module_name = module.__name__.split(".")[-1]
-        log.debug(f"Adding filter action from {module_name} module")
+        log.debug(f"Legacy filters __before_serving__: Adding filter action from {module_name} module")
         for data in module.__filters__.items():
-            FILTERS_ACTIONS[data[0]] = data[1]
+            LEGACY_FILTERS_ACTIONS[data[0]] = data[1]
 
-    log.debug("Filters actions", actions=FILTERS_ACTIONS)
+    log.debug("Legacy filters __before_serving__: Filters actions", actions=LEGACY_FILTERS_ACTIONS)
 
 
 async def __export__(chat_id):

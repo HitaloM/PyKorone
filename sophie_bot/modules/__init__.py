@@ -13,6 +13,7 @@ LOADED_MODULES: dict[str, ModuleType] = {}
 MODULES = [
     "troubleshooters",
     "legacy_modules",
+    "filters",
     "error",
     "users",
     "notes",
