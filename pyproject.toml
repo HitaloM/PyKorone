@@ -15,14 +15,14 @@ dependencies = [
     "lxml>=5.3.0",
     "meval>=2.5",
     "pillow>=11.0.0",
-    "httpx[http2,brotli,zstd]>=0.27.2",
-    "cashews[redis,speedup]>=7.3.2",
-    "yt-dlp>=2024.10.7",
+    "httpx[http2,brotli,zstd]>=0.28.0",
+    "cashews[redis,speedup]>=7.4.0",
+    "yt-dlp>=2024.12.3",
     "magic-filter>=1.0.12",
     "tomlkit>=0.13.2",
-    "sentry-sdk>=2.17.0",
-    "pydantic>=2.9.2",
-    "orjson>=3.10.9",
+    "sentry-sdk>=2.19.1",
+    "pydantic>=2.10.3",
+    "orjson>=3.10.12",
     "aiocron>=1.8",
     "m3u8>=6.0.0",
     "aiofiles>=24.1.0",
@@ -40,7 +40,7 @@ build-backend = "hatchling.build"
 
 [tool.rye]
 managed = true
-dev-dependencies = ["pre-commit>=4.0.1", "ruff>=0.7.2"]
+dev-dependencies = ["pre-commit>=4.0.1", "ruff>=0.8.2"]
 
 [project.optional-dependencies]
 docs = [

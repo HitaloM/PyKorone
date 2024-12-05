@@ -112,7 +112,7 @@ async def process_video(
         cache = MediaCache(media_id)
         cache_data = await cache.get()
         media_file = (
-            cast(InputMediaVideo, cache_data[0])
+            cast("InputMediaVideo", cache_data[0])
             if cache_data
             else await prepare_video_media(media)
         )

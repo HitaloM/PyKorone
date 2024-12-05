@@ -22,7 +22,7 @@ async def setlfm_command(client: Client, message: Message) -> None:
         )
         return
 
-    if not re.match("^[A-Za-z0-9_]*$", username):
+    if not re.match(r"^[A-Za-z0-9_]*$", username):
         await message.reply(_("LastFM username must not contain spaces or special characters!"))
         return
 

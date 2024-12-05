@@ -4,7 +4,6 @@
 from __future__ import annotations
 
 import inspect
-import os
 from importlib import import_module
 from pathlib import Path
 from typing import TYPE_CHECKING, Any
@@ -31,13 +30,13 @@ def discover_modules() -> None:
     parent_path = Path(__file__).parent
     logger.debug("Discovering modules...")
 
-    for entry in os.scandir(parent_path):
-        if entry.is_dir() and "handlers" in os.listdir(entry.path):
+    for entry in parent_path.iterdir():
+        if entry.is_dir() and (entry / "handlers").exists():
             module_name = entry.name
 
             handlers = [
                 f"{module_name}.handlers.{file.stem}"
-                for file in (Path(entry.path) / "handlers").glob("*.py")
+                for file in (entry / "handlers").glob("*.py")
                 if file.name != "__init__.py"
             ]
 
