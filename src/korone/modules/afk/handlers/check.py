@@ -92,7 +92,7 @@ async def get_lastfm_status(user_id: int) -> str | None:
                 track_artist=html.escape(track_info.artist.name),
                 track_name=html.escape(track_info.name),
             )
-    except LastFMError:
+    except (LastFMError, IndexError):
         return None
 
     return None
