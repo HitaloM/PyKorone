@@ -18,7 +18,7 @@ async def handle_sed(client: Client, message: Message) -> None:
         return
 
     substitution_commands = match[0].split(";")
-    original_text = message.reply_to_message.text if message.reply_to_message else ""
+    original_text = message.reply_to_message.text or (message.reply_to_message.caption or "")
     modified_text = original_text
 
     for command in substitution_commands:
