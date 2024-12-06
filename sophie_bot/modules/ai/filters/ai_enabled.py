@@ -1,8 +1,11 @@
+import logging
 from typing import Any, Dict, Union
 
 from aiogram.dispatcher.event.bases import SkipHandler
 from aiogram.filters import Filter
 from aiogram.types import Message
+from typing_extensions import Optional
+
 from stfu_tg import Doc, Italic, Template
 
 from sophie_bot.db.models import AIEnabledModel, ChatModel
@@ -14,9 +17,13 @@ class AIEnabledFilter(Filter):
     async def get_status(chat_db: ChatModel) -> bool:
         return bool(await AIEnabledModel.get_state(chat_db.id))
 
-    async def __call__(self, message: Message, chat_db: ChatModel) -> Union[bool, Dict[str, Any]]:
+    async def __call__(self, message: Message, chat_db: Optional[ChatModel]) -> Union[bool, Dict[str, Any]]:
         if message.chat.type == "private":
             return True
+
+        if not chat_db:
+            logging.error("AIEnabledFilter: Chat not found in database, skipping")
+            raise SkipHandler
 
         status = await self.get_status(chat_db)
 
