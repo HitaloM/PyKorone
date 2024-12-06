@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sophiebot\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-12-01 12:52+0100\n"
-"PO-Revision-Date: 2024-12-01 14:00\n"
+"POT-Creation-Date: 2024-12-06 11:40+0100\n"
+"PO-Revision-Date: 2024-12-06 11:17\n"
 "Last-Translator: \n"
 "Language-Team: German\n"
 "MIME-Version: 1.0\n"
@@ -690,6 +690,11 @@ msgstr "Fehler wiegen die Innovation,"
 msgid "Softly whispering."
 msgstr "Leise wispern."
 
+#: sophie_bot/modules/filters/__init__.py:6
+#: sophie_bot/modules/legacy_modules/modules/filters.py:67
+msgid "Filters"
+msgstr "Filter"
+
 #: sophie_bot/modules/greetings/__init__.py:20
 msgid "Greetings"
 msgstr "Grüße"
@@ -1128,36 +1133,32 @@ msgstr "Importiert die Liste der Sperren."
 msgid "Checks the user ban status (can be used to check yourself)."
 msgstr "Überprüft den Bannstatus des Benutzers (kann verwendet werden, um sich selbst zu überprüfen)."
 
-#: sophie_bot/modules/legacy_modules/modules/filters.py:64
-msgid "Filters"
-msgstr "Filter"
-
-#: sophie_bot/modules/legacy_modules/modules/filters.py:161
+#: sophie_bot/modules/legacy_modules/modules/filters.py:169
 msgid "Adds a new filter."
 msgstr "Fügt einen neuen Filter hinzu."
 
-#: sophie_bot/modules/legacy_modules/modules/filters.py:161
-#: sophie_bot/modules/legacy_modules/modules/filters.py:315
+#: sophie_bot/modules/legacy_modules/modules/filters.py:169
+#: sophie_bot/modules/legacy_modules/modules/filters.py:323
 msgid "Trigger"
 msgstr "Auslöser"
 
-#: sophie_bot/modules/legacy_modules/modules/filters.py:202
+#: sophie_bot/modules/legacy_modules/modules/filters.py:210
 msgid "❌ Cancel"
 msgstr "❌ Abbrechen"
 
-#: sophie_bot/modules/legacy_modules/modules/filters.py:296
+#: sophie_bot/modules/legacy_modules/modules/filters.py:304
 msgid "Shows the list of filters."
 msgstr "Zeigt die Liste der Filter an."
 
-#: sophie_bot/modules/legacy_modules/modules/filters.py:310
+#: sophie_bot/modules/legacy_modules/modules/filters.py:318
 msgid "Filters in {chat_name}"
 msgstr "Filter in {chat_name}"
 
-#: sophie_bot/modules/legacy_modules/modules/filters.py:315
+#: sophie_bot/modules/legacy_modules/modules/filters.py:323
 msgid "Removes the filter."
 msgstr "Entfernt den Filter."
 
-#: sophie_bot/modules/legacy_modules/modules/filters.py:370
+#: sophie_bot/modules/legacy_modules/modules/filters.py:378
 msgid "Removes all the filters in the chat."
 msgstr "Entfernt alle Filter im Chat."
 
