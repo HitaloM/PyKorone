@@ -1,22 +1,18 @@
+
 msgid ""
 msgstr ""
-"Project-Id-Version: sophiebot\n"
+"Project-Id-Version:  sophiebot\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2024-12-01 12:52+0100\n"
-"PO-Revision-Date: 2024-12-01 14:00\n"
+"PO-Revision-Date: 2024-12-01 14:00+0000\n"
 "Last-Translator: \n"
+"Language: ru_RU\n"
 "Language-Team: Russian\n"
+"Plural-Forms: nplurals=4; plural=((n%10==1 && n%100!=11) ? 0 : ((n%10 >= 2 && n%10 <=4 && (n%100 < 12 || n%100 > 14)) ? 1 : ((n%10 == 0 || (n%10 >= 5 && n%10 <=9)) || (n%100 >= 11 && n%100 <= 14)) ? 2 : 3));\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.16.0\n"
-"Plural-Forms: nplurals=4; plural=((n%10==1 && n%100!=11) ? 0 : ((n%10 >= 2 && n%10 <=4 && (n%100 < 12 || n%100 > 14)) ? 1 : ((n%10 == 0 || (n%10 >= 5 && n%10 <=9)) || (n%100 >= 11 && n%100 <= 14)) ? 2 : 3));\n"
-"X-Crowdin-Project: sophiebot\n"
-"X-Crowdin-Project-ID: 356879\n"
-"X-Crowdin-Language: ru\n"
-"X-Crowdin-File: /beta/locales/sophie.pot\n"
-"X-Crowdin-File-ID: 288\n"
-"Language: ru_RU\n"
 
 #: sophie_bot/args/users.py:29
 msgid "Could not find the requested User ID in the database."
@@ -26,23 +22,23 @@ msgstr "Не удалось найти запрашиваемый ID польз�
 msgid "Could not find the requested Username in the database."
 msgstr "Не удалось найти запрашиваемое имя пользователя в базе данных."
 
-#: sophie_bot/args/users.py:72
+#: sophie_bot/args/users.py:72 types/user.py:119
 msgid "User: 'User ID (numeric) / Username (starts with @) / Mention (links to users)'"
 msgstr "Пользователь: 'ID пользователя (число) / Юзернем (начинается с @) / Упоминание (ссылки на пользователей)'"
 
-#: sophie_bot/args/users.py:72
+#: sophie_bot/args/users.py:72 types/user.py:121
 msgid "Users: 'User IDs (numeric) / Usernames (starts with @) / Mentions (links to users)'"
 msgstr "Пользователи: 'ID пользователей (числа) / Юзернеймы (начинаются с @) / Упоминания (ссылки на пользователей)'"
 
-#: sophie_bot/args/users.py:79
+#: sophie_bot/args/users.py:79 types/user.py:128
 msgid "User ID"
 msgstr "ID пользователя"
 
-#: sophie_bot/args/users.py:80
+#: sophie_bot/args/users.py:80 types/user.py:129
 msgid "Username"
 msgstr "Юзернейм"
 
-#: sophie_bot/args/users.py:81
+#: sophie_bot/args/users.py:81 types/user.py:133
 msgid "A link to user, usually creates by mentioning a user without username."
 msgstr "Ссылка на пользователя, обычно создается путём упоминания на пользователя без юзернейма."
 
@@ -700,9 +696,11 @@ msgid "Greetings"
 msgstr "Приветствия"
 
 #: sophie_bot/modules/greetings/__init__.py:22
-msgid "This module helps you to welcome new users automatically, while keeping the chat clean.\n"
+msgid ""
+"This module helps you to welcome new users automatically, while keeping the chat clean.\n"
 "If you want to enforce captcha / rules verification, please see 'Welcome Security' module instead."
-msgstr "Этот модуль помогает вам автоматически приветствовать новых пользователей, сохраняя чат в чистоте.\n"
+msgstr ""
+"Этот модуль помогает вам автоматически приветствовать новых пользователей, сохраняя чат в чистоте.\n"
 "Если вы хотите обеспечить проверку капчи / правил, пожалуйста, посмотрите модуль 'Безопасность приветствия' вместо этого."
 
 #: sophie_bot/modules/greetings/default_welcome.py:9
@@ -2134,24 +2132,4 @@ msgstr "Unexpected error while trying to get the user! Please report this in the
 #: types/user.py:108
 msgid "Could not find the user mention"
 msgstr "Could not find the user mention"
-
-#: types/user.py:119
-msgid "User: 'User ID (numeric) / Username (starts with @) / Mention (links to users)'"
-msgstr "Пользователь: 'ID пользователя (число) / Юзернем (начинается с @) / Упоминание (ссылки на пользователей)'"
-
-#: types/user.py:121
-msgid "Users: 'User IDs (numeric) / Usernames (starts with @) / Mentions (links to users)'"
-msgstr "Пользователи: 'ID пользователей (числа) / Юзернеймы (начинаются с @) / Упоминания (ссылки на пользователей)'"
-
-#: types/user.py:128
-msgid "User ID"
-msgstr "ID пользователя"
-
-#: types/user.py:129
-msgid "Username"
-msgstr "Юзернейм"
-
-#: types/user.py:133
-msgid "A link to user, usually creates by mentioning a user without username."
-msgstr "Ссылка на пользователя, обычно создается путём упоминания на пользователя без юзернейма."
 

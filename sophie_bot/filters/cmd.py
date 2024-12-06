@@ -45,6 +45,9 @@ class CMDFilter(BaseFilter):
         except ValueError:
             raise CommandException("not enough values to unpack")
 
+        if not full_command:
+            raise CommandException("empty command")
+
         # Separate command into valuable parts
         # "/command@mention" -> "/", ("command", "@", "mention")
         prefix, (command, _, mention) = full_command[0], full_command[1:].partition("@")
