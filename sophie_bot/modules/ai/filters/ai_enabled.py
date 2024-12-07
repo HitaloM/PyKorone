@@ -4,9 +4,8 @@ from typing import Any, Dict, Union
 from aiogram.dispatcher.event.bases import SkipHandler
 from aiogram.filters import Filter
 from aiogram.types import Message
-from typing_extensions import Optional
-
 from stfu_tg import Doc, Italic, Template
+from typing_extensions import Optional
 
 from sophie_bot.db.models import AIEnabledModel, ChatModel
 from sophie_bot.utils.i18n import gettext as _
