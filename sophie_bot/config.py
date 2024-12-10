@@ -27,6 +27,7 @@ class Config(BaseSettings):
     mongo_host: str = "mongodb://localhost"
     mongo_port: int = 27017
     mongo_db: str = "sophie"
+    mongo_allow_index_dropping: bool = True
 
     redis_host: str = "localhost"
     redis_port: int = 6379
