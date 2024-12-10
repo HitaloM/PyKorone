@@ -5,7 +5,6 @@ from aiohttp import ClientError, ClientSession
 from sophie_bot import CONFIG
 from sophie_bot.db.models import BetaModeModel, GlobalSettings
 from sophie_bot.db.models.beta import CurrentMode, PreferredMode
-from sophie_bot.utils.exception import SophieException
 from sophie_bot.utils.logger import log
 
 try:
@@ -101,7 +100,8 @@ class BetaMiddleware(BaseMiddleware):
             session = await self.get_session()
             await session.post(instance_url, data=json_request)
         except ClientError as e:
-            raise SophieException(
+            log.error(
                 "Failed to send request to the second backend.",
-                "Please contact support chat.",
-            ) from e
+                instance_url=instance_url,
+                error=e,
+            )

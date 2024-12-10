@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-12-06 11:40+0100\n"
+"POT-Creation-Date: 2024-12-10 16:10+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -69,11 +69,11 @@ msgstr ""
 msgid "Please note that you can make a limited amount of AI requests per day."
 msgstr ""
 
-#: sophie_bot/modules/ai/filters/ai_enabled.py:27
+#: sophie_bot/modules/ai/filters/ai_enabled.py:33
 msgid "The AI Features are currently deactivated for this chat."
 msgstr ""
 
-#: sophie_bot/modules/ai/filters/ai_enabled.py:28
+#: sophie_bot/modules/ai/filters/ai_enabled.py:34
 msgid "Please use \"{cmd}\" to activate them."
 msgstr ""
 

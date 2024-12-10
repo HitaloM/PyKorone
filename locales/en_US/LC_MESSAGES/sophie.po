@@ -70,11 +70,11 @@ msgstr ""
 msgid "Please note that you can make a limited amount of AI requests per day."
 msgstr ""
 
-#: sophie_bot/modules/ai/filters/ai_enabled.py:27
+#: sophie_bot/modules/ai/filters/ai_enabled.py:33
 msgid "The AI Features are currently deactivated for this chat."
 msgstr ""
 
-#: sophie_bot/modules/ai/filters/ai_enabled.py:28
+#: sophie_bot/modules/ai/filters/ai_enabled.py:34
 msgid "Please use \"{cmd}\" to activate them."
 msgstr ""
 
