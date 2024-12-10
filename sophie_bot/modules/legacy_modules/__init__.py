@@ -2,8 +2,8 @@ import asyncio
 from importlib import import_module
 
 from sophie_bot import CONFIG, dp
+from sophie_bot.utils.logger import log
 
-from ...utils.logger import log
 from .modules import ALL_MODULES, LOADED_LEGACY_MODULES
 
 

@@ -12,7 +12,7 @@ from sophie_bot.filters.admin_rights import UserRestricting
 from sophie_bot.filters.chat_status import ChatTypeFilter
 from sophie_bot.filters.cmd import CMDFilter
 from sophie_bot.modules.filters.callbacks import FilterActionCallback
-from sophie_bot.modules.filters.fsm import NewFilterFSM
+from sophie_bot.modules.filters.fsm import FilterEditFSM
 from sophie_bot.modules.filters.handlers.confirm import ConfirmAddFilter
 from sophie_bot.modules.filters.utils_.filter_abc import (
     ALL_FILTER_ACTIONS,
@@ -81,7 +81,7 @@ class FilterActionClickHandler(SophieCallbackQueryHandler):
 
     async def setup_message(self, filter_title: LazyProxy, text: LazyProxy | str, reply_markup: InlineKeyboardMarkup):
         # Set FSM state
-        await self.state.set_state(NewFilterFSM.action_setup)
+        await self.state.set_state(FilterEditFSM.action_setup)
 
         doc = Doc(Title(f'{filter_title} {_("setup")}'), text)
         reply_markup.inline_keyboard.append(
@@ -113,7 +113,7 @@ class FilterActionConfirmHandler(SophieMessageHandler):
     @staticmethod
     def filters() -> tuple[CallbackType, ...]:
         # No admin verification to omit the possibility to stuck in the state if admin was removed in the middle of the process
-        return NewFilterFSM.action_setup, ~ChatTypeFilter("private")
+        return FilterEditFSM.action_setup, ~ChatTypeFilter("private")
 
     async def handle(self) -> Any:
         filter_action_raw: Optional[str] = await self.state.get_value("filter_action")

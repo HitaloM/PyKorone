@@ -1,0 +1,48 @@
+from typing import Any
+
+from aiogram.dispatcher.event.handler import CallbackType
+from bson import ObjectId
+from stfu_tg import Code, Template
+
+from sophie_bot.db.models import FiltersModel
+from sophie_bot.db.models.filters import FilterInSetupType
+from sophie_bot.filters.admin_rights import UserRestricting
+from sophie_bot.filters.is_connected import GroupOrConnectedFilter
+from sophie_bot.modules.filters.callbacks import SaveFilterCallback
+from sophie_bot.modules.filters.utils_.legacy_filter_handler import (
+    check_legacy_filter_handler,
+)
+from sophie_bot.modules.utils_.base_handler import SophieCallbackQueryHandler
+from sophie_bot.utils.i18n import gettext as _
+
+
+class FilterSaveHandler(SophieCallbackQueryHandler):
+    @staticmethod
+    def filters() -> tuple[CallbackType, ...]:
+        return (
+            SaveFilterCallback.filter(),
+            UserRestricting(admin=True),
+            GroupOrConnectedFilter(),
+        )
+
+    async def save_filter(self, filter_setup: FilterInSetupType):
+        # Update instead of save
+        if filter_setup.oid:
+            filter_model = await FiltersModel.get_by_id(ObjectId(filter_setup.oid))
+            await filter_model.update_fields(filter_setup)
+            return await filter_model.save()
+
+        filter_model = filter_setup.to_model(self.connection.id)
+        await filter_model.save()
+
+    async def handle(self) -> Any:
+        filter_item: FilterInSetupType = await FilterInSetupType.get_filter(self.state)
+
+        # Check
+        await check_legacy_filter_handler(self.event, filter_item.handler.keyword, self.connection)
+
+        await self.save_filter(filter_item)
+
+        doc = Template(_("Filter on {keyword} was saved."), keyword=Code(filter_item.handler.keyword))
+
+        return await self.edit_text(doc.to_html())

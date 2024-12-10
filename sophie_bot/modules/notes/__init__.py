@@ -1,10 +1,12 @@
 from asyncio import create_task
 
 from aiogram import Router
+from stfu_tg import Doc
 
+from sophie_bot import CONFIG
+from sophie_bot.utils.i18n import LazyProxy
 from sophie_bot.utils.i18n import lazy_gettext as l_
 
-from ... import CONFIG
 from .handlers.delete import DelNote
 from .handlers.delete_all import DelAllNotesCallbackHandler, DelAllNotesHandler
 from .handlers.get import GetNote, HashtagGetNote
@@ -20,7 +22,8 @@ from .handlers.search import NotesSearchHandler
 from .magic_handlers.descriptions_scheduler import NotesDescriptionsScheduler
 from .magic_handlers.export import export
 from .magic_handlers.filter import get_filter
-from .magic_handlers.modern_filter import ReplyFilterAction
+from .magic_handlers.reply_action import ReplyModernAction
+from .magic_handlers.send_note_action import SendNoteAction
 from .utils.buttons_processor.legacy import BUTTONS
 
 router = Router(name="notes")
@@ -28,9 +31,20 @@ router = Router(name="notes")
 
 __module_name__ = l_("Notes")
 __module_emoji__ = "📗"
+__module_info__ = LazyProxy(
+    lambda: Doc(
+        l_(
+            "If you want to save some frequently-used content in your chat, such as a FAQ, response templates, your favourite stickers or the whole interactive menu, you can do that with notes."
+        ),
+        l_(
+            "Notes allows saving different kind of content, from normal text messages to stickers and audio messages, notes also support adding inline message buttons."
+        ),
+    )
+)
+__advertise_wiki_page__ = True
 
 __filters__ = get_filter()
-__modern_filters__ = (ReplyFilterAction,)
+__modern_actions__ = (ReplyModernAction, SendNoteAction)
 
 __export__ = export
 

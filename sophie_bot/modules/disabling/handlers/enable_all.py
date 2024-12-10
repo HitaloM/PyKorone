@@ -55,8 +55,6 @@ class DisableAllCbHandler(SophieCallbackQueryHandler):
     async def handle(self):
         connection = self.connection
 
-        await self.check_for_message()
-
         data: EnableAllCallback = self.data["callback_data"]
         user_id = self.event.from_user.id
 

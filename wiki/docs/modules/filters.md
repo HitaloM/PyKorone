@@ -1,6 +1,9 @@
 
 # Filters 🪄
 
+> Filters allows to invoke different actions for different messages. \
+> For example muting the users when they mention crypto. \
+> Sophie supports many different actions you can configure to automatize chat moderation in many different ways.
 
 ## Available commands
 
@@ -9,12 +12,49 @@
 
 | Commands | Arguments | Description | Remarks |
 | --- | --- | --- | --- |
-| `/filters` `/listfilters` | - | Shows the list of filters. |  |
-| `/delfilters` `/delallfilters` | - | Removes all the filters in the chat. |  |
+| `/filters` | - | Lists all filters in the chat | *Disable-able* |
 
 ### Only admins
 
 | Commands | Arguments | Description | Remarks |
 | --- | --- | --- | --- |
-| `/addfilter` `/newfilter` | `<Trigger>` | Adds a new filter. |  |
-| `/delfilter` | `<Trigger>` | Removes the filter. |  |
+| `/addfilter` `/newfilter` | `<Text to match>` | Adds a new filter |  |
+| `/delfilter` | `<Text to match>` | Deletes a filter |  |
+| `/editfilter` | `<Filter's keyword>` | - |  |
+---
+## Regex handlers
+Sophie's filters implementation supports handling regex patterns.
+To achieve this, you would need to add `re:` before the regex pattern.
+For example: `/addfilter re:@\w+` will match if there's a username in the message.
+
+Some regex could be very slow to handle,
+the [DoS practice](https://en.wikipedia.org/wiki/ReDoS) of invoking slow regex patterns exists, 
+therefore, Sophie will test the entered regex against the speed of execution.
+In the case the pattern is too slow, it'll be rejected from adding to filters.
+
+## Multiple filter actions and multiple filters
+Sophie supports having many filter actions for one filter handler.
+This means you can trigger complicated actions like warning users and deleting the user's message.
+Or triggering the AI Respond with a prompt that will try to describe users why is it bad to tag admins in chats, while in the same time deleting the trigger message and muting the user.
+
+However, limits exist. 
+The maximum number of actions per filter is currently three, and Sophie will only trigger the first two of matching filters.
+
+# How the Filters Engine Works for Admins vs. Non-Admins
+To enable admins to manage the bot's settings, Sophie ignores filters for known commands (listed in /help) when they're used by admins.
+For regular users, filters apply to all messages, even overriding known commands.
+If a filter is triggered, Sophie skips executing any part of the command.
+
+For example, if the command is `/notes`, a regular user will trigger a filter action (like message deletion) instead of getting the notes list.
+But admins? They get the list of notes instead.
+Also, filters don't apply in PMs, regardless of user status, even if using chat connections.
+
+## Remarks about AI Response filter action
+The AI Response action does not require AI features to be enabled. Since only admins can add filters and filter actions, 
+adding the AI Response filter implies consent for AI features (see the AI help page).
+
+AI Responses enhance interactions in situations where standard responses may seem "too dry".
+Sophie will use the message content as context to generate more suitable responses. 
+Admins can provide additional information in the prompt to help Sophie's AI module better assist users with their specific needs.
+
+Once the AI Response is generated, users can interact with it by simply replying to the message, which can be invaluable for addressing follow-up questions.

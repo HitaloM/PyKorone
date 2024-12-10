@@ -19,4 +19,4 @@
 
 | Commands | Arguments | Description | Remarks |
 | --- | --- | --- | --- |
-| `/help` | - | Shows help overview for all modules |  |
+| `/help` | - | Shows help overview for all modules | *Only in groups* |

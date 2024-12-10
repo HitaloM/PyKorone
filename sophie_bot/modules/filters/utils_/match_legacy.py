@@ -4,7 +4,7 @@ from regex import regex
 from sophie_bot.utils.exception import SophieException
 
 
-def match_legacy_filter(message: Message, handler: str) -> bool:
+def match_legacy_handler(message: Message, handler: str) -> bool:
     # Lower handler
     handler = handler.lower()
 

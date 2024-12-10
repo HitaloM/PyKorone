@@ -4,6 +4,9 @@
 
 ### Rainbow sparkles and shininess
 
+> Sophie supports quite a few ways to use AI features. \
+> From a simple chat-bot, to the automatic translator. Have fun. \
+>   \
 > By using AI features you agree to the our Privacy Policy (/privacy) and third party AI services used. \
 > Please note that you can make a limited amount of AI requests per day.
 
@@ -23,7 +26,7 @@
 
 | Commands | Arguments | Description | Remarks |
 | --- | --- | --- | --- |
-| `/ai` | - | Start the AI ChatBot mode |  |
+| `/ai` | - | Start the AI ChatBot mode | *Only in groups* |
 
 ### Only admins
 

@@ -1,14 +1,15 @@
 from aiogram import types
-from aiogram.filters import BaseFilter, Filter
+from aiogram.enums import ChatType
+from aiogram.filters import Filter
 from aiogram.types import Chat, TelegramObject
 
 
-class ChatTypeFilter(BaseFilter):
-    def __init__(self, chat_type: str):
-        self.chat_type = chat_type
+class ChatTypeFilter(Filter):
+    def __init__(self, *chat_types: str | ChatType):
+        self.chat_types = chat_types
 
-    async def __call__(self, event: TelegramObject, event_chat: Chat) -> bool:
-        return event_chat.type == self.chat_type
+    async def __call__(self, event: TelegramObject, event_chat: Chat, **kwargs) -> bool:
+        return event_chat.type in self.chat_types
 
 
 class LegacyOnlyPM(Filter):

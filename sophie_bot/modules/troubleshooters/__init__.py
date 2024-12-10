@@ -9,6 +9,7 @@ from ...filters.user_status import IsOP
 from .handlers.admincache import ResetAdminCache
 from .handlers.beta_state import set_preferred_mode, show_beta_state
 from .handlers.cancel import CancelState
+from .handlers.cancel_callback import CancelCallbackHandler, TypedCancelCallbackHandler
 from .handlers.op_settings import ResetBetaChats, SetBetaPercentage
 from .stats import beta_stats
 
@@ -20,6 +21,8 @@ __module_info__ = l_("Small commands for fixing problems and issues")
 
 
 __stats__ = beta_stats
+
+__handlers__ = (CancelCallbackHandler, TypedCancelCallbackHandler)
 
 
 async def __pre_setup__():

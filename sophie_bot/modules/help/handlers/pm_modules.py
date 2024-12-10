@@ -95,17 +95,20 @@ class PMModuleHelp(CallbackQueryHandler):
                 title=_("Aliased commands from {module}").format(module=f"{module.icon} {module.name}"),
             )
 
-        buttons = (
-            InlineKeyboardBuilder()
-            .row(InlineKeyboardButton(text=_("📖 Wiki page"), url=CONFIG.wiki_modules_link + module_name))
-            .row(
-                InlineKeyboardButton(
-                    text=_("⬅️ Back"), callback_data=PMHelpModules(back_to_start=callback_data.back_to_start).pack()
-                )
+        buttons = InlineKeyboardBuilder()
+
+        if module.advertise_wiki_page:
+            doc += " "
+            doc += Url(_("📖 Look the module's wiki page for more information"), CONFIG.wiki_modules_link + module_name)
+            buttons.row(InlineKeyboardButton(text=_("📖 Wiki page"), url=CONFIG.wiki_modules_link + module_name))
+
+        buttons.row(
+            InlineKeyboardButton(
+                text=_("⬅️ Back"), callback_data=PMHelpModules(back_to_start=callback_data.back_to_start).pack()
             )
         )
 
         if not self.event.message:
             raise SophieException("Message not found")
 
-        await self.event.message.edit_text(str(doc), reply_markup=buttons.as_markup())  # type: ignore
+        await self.event.message.edit_text(str(doc), reply_markup=buttons.as_markup(), disable_web_page_preview=True)  # type: ignore

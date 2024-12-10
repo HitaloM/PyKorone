@@ -24,6 +24,8 @@ MODULES = [
     "greetings",  # After feds
     "welcomesecurity",
     "purges",
+    "warns",
+    "restrictions",
     "ai",
     "legacy_modules",  # Legacy last
 ]

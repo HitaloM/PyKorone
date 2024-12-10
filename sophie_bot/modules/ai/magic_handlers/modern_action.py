@@ -1,0 +1,86 @@
+from typing import Any
+
+from aiogram.types import (
+    CallbackQuery,
+    Message,
+)
+from pydantic import BaseModel
+from stfu_tg import Italic, Section
+from stfu_tg.doc import Doc, Element
+
+from sophie_bot.db.models import ChatModel
+from sophie_bot.middlewares.connections import ChatConnection
+from sophie_bot.modules.ai.filters.throttle import AIThrottleFilter
+from sophie_bot.modules.ai.utils.ai_chatbot import ai_reply
+from sophie_bot.modules.ai.utils.message_history import AIMessageHistory
+from sophie_bot.modules.filters.types.modern_action_abc import (
+    ActionSetupMessage,
+    ActionSetupTryAgainException,
+    ModernActionABC,
+    ModernActionSetting,
+)
+from sophie_bot.utils.exception import SophieException
+from sophie_bot.utils.i18n import gettext as _
+from sophie_bot.utils.i18n import lazy_gettext as l_
+
+
+class AIReplyActionDataModel(BaseModel):
+    prompt: str
+
+
+async def set_reply_text(event: Message | CallbackQuery, data: dict[str, Any]) -> AIReplyActionDataModel:
+    if isinstance(event, CallbackQuery):
+        raise ValueError("This handlers setup_confirm can only be used with messages")
+
+    prompt = event.text
+
+    if not prompt:
+        raise ActionSetupTryAgainException(_("Please enter AI prompt"))
+
+    return AIReplyActionDataModel(prompt=prompt)
+
+
+async def reply_action_setup_message(_event: Message | CallbackQuery, _data: dict[str, Any]) -> ActionSetupMessage:
+    text = Doc(
+        _("Please send me the AI instruction to proceed!"),
+        _("The AI will try to remember the chat context and will respond accordingly!"),
+        _("For example, you can combine it with the warn filter: 'Tell the user how bad it is to speak profanity'"),
+    ).to_html()
+
+    return ActionSetupMessage(text=text)
+
+
+class AIReplyAction(ModernActionABC[AIReplyActionDataModel]):
+    name = "ai_text"
+
+    icon = "✨"
+    title = l_("AI Response")
+
+    interactive_setup = ModernActionSetting(
+        title=l_("Reply to message"), setup_message=reply_action_setup_message, setup_confirm=set_reply_text
+    )
+    data_object = AIReplyActionDataModel
+
+    @staticmethod
+    def description(data: AIReplyActionDataModel) -> Element | str:
+        return Section(Italic(data.prompt), title=_("Send an AI Respond with prompt"), title_underline=False)
+
+    def settings(self, data: AIReplyActionDataModel) -> dict[str, ModernActionSetting]:
+        return {
+            "reply_text": ModernActionSetting(
+                title=l_("Change AI prompt"),
+                icon="✨",
+                setup_message=reply_action_setup_message,
+                setup_confirm=set_reply_text,
+            ),
+        }
+
+    async def handle(self, message: Message, data: dict, filter_data: AIReplyActionDataModel):
+        connection: ChatConnection = data["connection"]
+
+        if not (chat_db := await ChatModel.get_by_chat_id(connection.id)):
+            raise SophieException("Chat not found in database")
+
+        if message.text or message.caption and await AIThrottleFilter().__call__(message, chat_db):
+            messages = await AIMessageHistory.chatbot(message, additional_system_prompt=filter_data.prompt)
+            await ai_reply(message, messages)

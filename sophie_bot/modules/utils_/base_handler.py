@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from typing import TYPE_CHECKING, Optional, TypeVar
+from typing import TYPE_CHECKING, Any, Optional, TypeVar
 
 from aiogram import Router
 from aiogram.dispatcher.event.handler import CallbackType
@@ -72,6 +72,12 @@ class SophieCallbackQueryHandler(SophieBaseHandler[CallbackQuery], ABC):
     def register(cls, router: Router):
         router.callback_query.register(cls, *cls.filters())
 
+    @property
+    def callback_data(self):
+        # no type here because mypy cries if I put type[CallbackData] here, it says assigment issue
+        # when I later try to assign a more specific type of the class that is based on CallbackData
+        return self.data["callback_data"]
+
     async def check_for_message(self):
         if not self.event.from_user:
             raise SophieException("Not a user clicked a button")
@@ -79,8 +85,16 @@ class SophieCallbackQueryHandler(SophieBaseHandler[CallbackQuery], ABC):
         if not self.event.message or isinstance(self.event.message, InaccessibleMessage):
             raise SophieException(_("The message is inaccessible. Please write the command again"))
 
+    async def edit_text(self, text: Element | str, **kwargs):
+        await self.check_for_message()
+        await self.event.message.edit_text(str(text), **kwargs)  # type: ignore
+
 
 class SophieMessageCallbackQueryHandler(SophieBaseHandler[Message | CallbackQuery], ABC):
+
+    @property
+    def callback_data(self) -> Optional[Any]:
+        return self.data.get("callback_data")
 
     async def answer_media(self, f: InputFile, caption: Optional[str] = None, **kwargs) -> Message | bool:
         if isinstance(self.event, InaccessibleMessage):

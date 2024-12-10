@@ -13,6 +13,7 @@ from sophie_bot.modules.ai.handlers.pm import AiPmHandle, AiPmInitialize, AiPmSt
 from sophie_bot.modules.ai.handlers.reply import AiReplyHandler
 from sophie_bot.modules.ai.handlers.reset_context import AIContextReset
 from sophie_bot.modules.ai.handlers.translate import AiTranslate, text_or_reply
+from sophie_bot.modules.ai.magic_handlers.modern_action import AIReplyAction
 from sophie_bot.modules.ai.middlewares.auto_translate import AiAutoTranslateMiddleware
 from sophie_bot.modules.ai.middlewares.cache_bot_messages import (
     CacheBotMessagesMiddleware,
@@ -30,10 +31,17 @@ __module_name__ = l_("Sophie AI")
 __module_emoji__ = "✨"
 __module_description__ = l_("Rainbow sparkles and shininess")
 __module_info__ = LazyProxy(
-    lambda: Doc(AI_POLICY, l_("Please note that you can make a limited amount of AI requests per day."))
+    lambda: Doc(
+        l_("Sophie supports quite a few ways to use AI features."),
+        l_("From a simple chat-bot, to the automatic translator. Have fun."),
+        " ",
+        AI_POLICY,
+        l_("Please note that you can make a limited amount of AI requests per day."),
+    )
 )
 
 __filters__ = get_filter()
+__modern_actions__ = (AIReplyAction,)
 
 
 async def __pre_setup__():

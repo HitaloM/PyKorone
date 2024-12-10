@@ -48,6 +48,7 @@ class ModuleHelp:
     exclude_public: bool
     info: str | LazyProxy | Doc
     description: str | LazyProxy | Doc
+    advertise_wiki_page: bool
 
 
 HELP_MODULES: dict[str, ModuleHelp] = {}
@@ -65,6 +66,10 @@ def get_aliased_cmds(module_name) -> dict[str, list[HandlerHelp]]:
 
 def get_all_cmds() -> list[HandlerHelp]:
     return [cmd for module in HELP_MODULES.values() for cmd in module.handlers]
+
+
+def get_all_cmds_raw() -> tuple[str, ...]:
+    return tuple(cmd for cmds in get_all_cmds() for cmd in cmds.cmds)
 
 
 async def gather_cmd_args(args: ARGS_DICT | ARGS_COROUTINE | None) -> ARGS_DICT | None:
@@ -102,7 +107,7 @@ async def gather_cmds_help(router: Router) -> list[HandlerHelp]:
         # Only PMs
         only_pm = any(
             (
-                (isinstance(f.callback, ChatTypeFilter) and f.callback.chat_type == "private")
+                (isinstance(f.callback, ChatTypeFilter) and f.callback.chat_types == ("private",))
                 or (isinstance(f.callback, LegacyOnlyPM))
             )
             for f in handler.filters
@@ -111,11 +116,11 @@ async def gather_cmds_help(router: Router) -> list[HandlerHelp]:
         # Only chats
         only_chats = any(
             (
-                (isinstance(f.callback, ChatTypeFilter) and f.callback.chat_type != "private")
+                (isinstance(f.callback, ChatTypeFilter) and f.callback.chat_types == ("private",))
                 or (
                     isinstance(f.callback, _InvertFilter)
                     and isinstance(f.callback.target.callback, ChatTypeFilter)
-                    and f.callback.target.callback.chat_type == "private"
+                    and f.callback.target.callback.chat_types == ("private",)
                 )
                 or (isinstance(f.callback, LegacyOnlyGroups))
             )
@@ -167,10 +172,17 @@ async def gather_module_help(module: ModuleType) -> Optional[ModuleHelp]:
     exclude_public = getattr(module, "__exclude_public__", False)
     info = getattr(module, "__module_info__", None)
     description = getattr(module, "__module_description__", None)
+    advertise_wiki_page = getattr(module, "__advertise_wiki_page__", False)
 
     if cmds := await gather_cmds_help(module.router):
         return ModuleHelp(
-            handlers=cmds, name=name, icon=emoji, exclude_public=exclude_public, info=info, description=description
+            handlers=cmds,
+            name=name,
+            icon=emoji,
+            exclude_public=exclude_public,
+            info=info,
+            description=description,
+            advertise_wiki_page=advertise_wiki_page,
         )
     else:
         return None

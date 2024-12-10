@@ -4,7 +4,7 @@ from .chat import ChatModel
 
 
 class AIEnabledModel(Document):
-    chat: Link["ChatModel"]
+    chat: Link[ChatModel]
 
     class Settings:
         name = "ai_enabled"
