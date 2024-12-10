@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sophiebot\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-12-06 11:40+0100\n"
-"PO-Revision-Date: 2024-12-06 11:17\n"
+"POT-Creation-Date: 2024-12-10 16:12+0100\n"
+"PO-Revision-Date: 2024-12-10 15:17\n"
 "Last-Translator: \n"
 "Language-Team: French\n"
 "MIME-Version: 1.0\n"
@@ -70,11 +70,11 @@ msgstr "Paillettes et brillance arc-en-ciel"
 msgid "Please note that you can make a limited amount of AI requests per day."
 msgstr "Veuillez noter que vous pouvez faire un nombre limité de demandes d'IA par jour."
 
-#: sophie_bot/modules/ai/filters/ai_enabled.py:27
+#: sophie_bot/modules/ai/filters/ai_enabled.py:33
 msgid "The AI Features are currently deactivated for this chat."
 msgstr "Les fonctionnalités d'IA sont actuellement désactivées pour ce chat."
 
-#: sophie_bot/modules/ai/filters/ai_enabled.py:28
+#: sophie_bot/modules/ai/filters/ai_enabled.py:34
 msgid "Please use \"{cmd}\" to activate them."
 msgstr "Veuillez utiliser \"{cmd}\" pour les activer."
 
