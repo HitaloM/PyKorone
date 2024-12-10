@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sophiebot\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-12-06 11:40+0100\n"
-"PO-Revision-Date: 2024-12-06 11:17\n"
+"POT-Creation-Date: 2024-12-10 16:12+0100\n"
+"PO-Revision-Date: 2024-12-10 15:17\n"
 "Last-Translator: \n"
 "Language-Team: Arabic, Saudi Arabia\n"
 "MIME-Version: 1.0\n"
@@ -70,11 +70,11 @@ msgstr "بريق قوس قزح والتألق"
 msgid "Please note that you can make a limited amount of AI requests per day."
 msgstr "يرجى ملاحظة أنه يمكنك تقديم عدد محدود من طلبات الذكاء الاصطناعي في اليوم."
 
-#: sophie_bot/modules/ai/filters/ai_enabled.py:27
+#: sophie_bot/modules/ai/filters/ai_enabled.py:33
 msgid "The AI Features are currently deactivated for this chat."
 msgstr "ميزات الذكاء الاصطناعي معطلة حاليًا لهذه الدردشة."
 
-#: sophie_bot/modules/ai/filters/ai_enabled.py:28
+#: sophie_bot/modules/ai/filters/ai_enabled.py:34
 msgid "Please use \"{cmd}\" to activate them."
 msgstr "يرجى استخدام \"{cmd}\" لتنشيطها."
 
