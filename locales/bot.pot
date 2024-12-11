@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-12-11 11:08-0300\n"
+"POT-Creation-Date: 2024-12-11 12:38-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1139,35 +1139,39 @@ msgstr ""
 msgid "An unexpected error occurred."
 msgstr ""
 
-#: src/korone/modules/users/handlers/users.py:60
-msgid "Identifier must be a number"
-msgstr ""
-
-#: src/korone/modules/users/handlers/users.py:64
+#: src/korone/modules/users/handlers/users.py:62
 msgid "Identifier out of range for SQLite INTEGER"
 msgstr ""
 
-#: src/korone/modules/users/handlers/users.py:76
+#: src/korone/modules/users/handlers/users.py:67
+msgid "Username must be at least 2 characters long"
+msgstr ""
+
+#: src/korone/modules/users/handlers/users.py:70
+msgid "Identifier must be a number or a username starting with @"
+msgstr ""
+
+#: src/korone/modules/users/handlers/users.py:80
 msgid "<b>User info</b>:\n"
 msgstr ""
 
-#: src/korone/modules/users/handlers/users.py:77
+#: src/korone/modules/users/handlers/users.py:81
 msgid "<b>ID</b>: <code>{id}</code>\n"
 msgstr ""
 
-#: src/korone/modules/users/handlers/users.py:78
+#: src/korone/modules/users/handlers/users.py:82
 msgid "<b>First Name</b>: {first_name}\n"
 msgstr ""
 
-#: src/korone/modules/users/handlers/users.py:83
+#: src/korone/modules/users/handlers/users.py:87
 msgid "<b>Last Name</b>: {last_name}\n"
 msgstr ""
 
-#: src/korone/modules/users/handlers/users.py:86
+#: src/korone/modules/users/handlers/users.py:90
 msgid "<b>Username</b>: @{username}\n"
 msgstr ""
 
-#: src/korone/modules/users/handlers/users.py:88
+#: src/korone/modules/users/handlers/users.py:92
 msgid "<b>User link</b>: <a href='tg://user?id={id}'>link</a>\n"
 msgstr ""
 
