@@ -1,5 +1,4 @@
-from datetime import datetime
-from typing import Annotated, Optional
+from typing import Annotated, Any, Optional
 
 from beanie import Document, Indexed
 from pydantic import ConfigDict
@@ -11,7 +10,7 @@ class FiltersModel(Document):
 
     handler: str
     action: str
-    time: Optional[datetime] = None
+    time: Optional[Any] = None
 
     model_config = ConfigDict(
         extra="allow",
