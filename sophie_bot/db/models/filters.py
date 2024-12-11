@@ -7,7 +7,7 @@ from pydantic import ConfigDict
 
 class FiltersModel(Document):
     # Old ID
-    chat_id: Annotated[int, Indexed(unique=True)]
+    chat_id: Annotated[int, Indexed(unique=False)]
 
     handler: str
     action: str
