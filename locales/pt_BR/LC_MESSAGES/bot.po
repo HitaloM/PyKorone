@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2024-12-11 12:38-0300\n"
-"PO-Revision-Date: 2024-11-15 21:57+0000\n"
+"PO-Revision-Date: 2024-12-11 15:42+0000\n"
 "Last-Translator: Hitalo <hitalo331@outlook.com>\n"
 "Language-Team: Portuguese (Brazil) <http://weblate.amanoteam.com/projects/"
 "korone/korone/pt_BR/>\n"
@@ -1293,12 +1293,12 @@ msgstr "Identificador fora do intervalo para o SQLite INTEGER"
 
 #: src/korone/modules/users/handlers/users.py:67
 msgid "Username must be at least 2 characters long"
-msgstr ""
+msgstr "O nome de usuário deve ter pelo menos 2 caracteres"
 
 #: src/korone/modules/users/handlers/users.py:70
-#, fuzzy
 msgid "Identifier must be a number or a username starting with @"
-msgstr "O identificador deve ser um número"
+msgstr ""
+"O identificador deve ser um número ou um nome de usuário que comece com @"
 
 #: src/korone/modules/users/handlers/users.py:80
 msgid "<b>User info</b>:\n"
