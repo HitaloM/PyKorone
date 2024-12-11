@@ -1,5 +1,5 @@
 # SPDX-License-Identifier: BSD-3-Clause
-# Copyright (c) 2024 Hitalo M.
+# Copyright (c) 2024 Hitalo M. <https://github.com/HitaloM>
 
 import html
 
@@ -55,15 +55,19 @@ async def handle_error(message: Message, error: Exception) -> None:
         await message.reply(_("An unexpected error occurred."))
 
 
-def validate_identifier(identifier: str) -> int:
-    if not identifier.isdigit():
-        raise ValueError(_("Identifier must be a number"))
+def validate_identifier(identifier: str) -> str:
+    if identifier.isdigit():
+        identifier_int = int(identifier)
+        if not (-9223372036854775808 <= identifier_int <= 9223372036854775807):
+            raise ValueError(_("Identifier out of range for SQLite INTEGER"))
+        return identifier
 
-    identifier_int = int(identifier)
-    if not (-9223372036854775808 <= identifier_int <= 9223372036854775807):
-        raise ValueError(_("Identifier out of range for SQLite INTEGER"))
+    if identifier.startswith("@"):
+        if len(identifier) < 2:
+            raise ValueError(_("Username must be at least 2 characters long"))
+        return identifier
 
-    return identifier_int
+    raise ValueError(_("Identifier must be a number or a username starting with @"))
 
 
 async def get_user(identifier: str) -> Document:

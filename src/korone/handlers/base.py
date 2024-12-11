@@ -178,7 +178,7 @@ class BaseHandler:
 
     @staticmethod
     def _create_document(chat: User | Chat, language: str) -> Document:
-        username = chat.username or ""
+        username = (chat.username or "").lower()
         title = getattr(chat, "title", None)
         first_name = getattr(chat, "first_name", None)
         chat_type = (
