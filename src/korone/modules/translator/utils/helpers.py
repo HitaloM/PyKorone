@@ -25,11 +25,6 @@ def extract_translation_details(
         if parts[0].count(":") == 1:
             source_lang, target_lang = parts[0].split(":", 1)
             text = parts[1] if len(parts) > 1 else get_reply_text(message)
-        elif len(parts) == 1 and ":" not in parts[0]:
-            target_lang = parts[0]
-            text = get_reply_text(message)
-        elif len(parts) == 2:
-            target_lang, text = parts
         else:
             text = command.args
     elif message.reply_to_message:

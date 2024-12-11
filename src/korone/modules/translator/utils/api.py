@@ -56,7 +56,7 @@ class DeepL:
             "auth_key": API_KEY,
             "target_lang": target_lang.upper(),
         }
-        if source_lang is not None:
+        if source_lang:
             data["source_lang"] = source_lang.upper()
         return data
 
