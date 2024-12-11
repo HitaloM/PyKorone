@@ -25,7 +25,7 @@ LOCALES_DIR := $(CURDIR)/locales
 
 
 all: fix_code_style locale test_all clean build_onefile
-commit: fix_code_style locale test_code_style gen_wiki test_codeanalysis
+commit: fix_code_style extract_lang test_code_style gen_wiki test_codeanalysis
 test_all: test_code_style test_codeanalysis
 locale: extract_lang update_lang compile_lang
 
@@ -68,7 +68,7 @@ new_lang:
 
 extract_lang:
 	$(PYBABEL) extract -k "pl_:1,2" -k "p_:1,2" -k "l_:1" \
-	--add-comments="NOTE: " -o "$(LOCALES_DIR)/bot.pot" --sort-by-file --no-wrap $(PROJECT_DIR)
+	--add-comments="NOTE: " -o "$(LOCALES_DIR)/bot.pot" --omit-header --sort-by-file --no-wrap $(PROJECT_DIR)
 
 	cd "$(ASS_PATH)" && \
 	$(PYBABEL) extract -k "pl_:1,2" -k "p_:1,2" -k "l_:1" \
@@ -80,7 +80,7 @@ extract_lang:
 
 update_lang:
 	$(PYBABEL) update -d "$(LOCALES_DIR)" -D "sophie" -i "$(LOCALES_DIR)/sophie.pot" \
-	--ignore-pot-creation-date --no-wrap
+	--ignore-pot-creation-date --omit-header --no-wrap
 
 compile_lang:
 	$(PYBABEL) compile -d "$(LOCALES_DIR)" -D "sophie" --use-fuzzy --statistics
