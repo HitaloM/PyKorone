@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-11-15 18:09-0300\n"
+"POT-Creation-Date: 2024-12-11 12:38-0300\n"
 "PO-Revision-Date: 2024-08-24 20:38+0000\n"
 "Last-Translator: Hitalo <hitalo331@outlook.com>\n"
 "Language-Team: French <http://weblate.amanoteam.com/projects/korone/korone/"
@@ -1311,35 +1311,39 @@ msgstr "La valeur fournie n'est pas valide."
 msgid "An unexpected error occurred."
 msgstr "Une erreur s'est produite : {}"
 
-#: src/korone/modules/users/handlers/users.py:60
-msgid "Identifier must be a number"
-msgstr ""
-
-#: src/korone/modules/users/handlers/users.py:64
+#: src/korone/modules/users/handlers/users.py:62
 msgid "Identifier out of range for SQLite INTEGER"
 msgstr ""
 
-#: src/korone/modules/users/handlers/users.py:76
+#: src/korone/modules/users/handlers/users.py:67
+msgid "Username must be at least 2 characters long"
+msgstr ""
+
+#: src/korone/modules/users/handlers/users.py:70
+msgid "Identifier must be a number or a username starting with @"
+msgstr ""
+
+#: src/korone/modules/users/handlers/users.py:80
 msgid "<b>User info</b>:\n"
 msgstr "<b>Info utilisateur</b>:\n"
 
-#: src/korone/modules/users/handlers/users.py:77
+#: src/korone/modules/users/handlers/users.py:81
 msgid "<b>ID</b>: <code>{id}</code>\n"
 msgstr "<b>ID</b>: <code>{id}</code>\n"
 
-#: src/korone/modules/users/handlers/users.py:78
+#: src/korone/modules/users/handlers/users.py:82
 msgid "<b>First Name</b>: {first_name}\n"
 msgstr "<b>Prénom</b>: {first_name}\n"
 
-#: src/korone/modules/users/handlers/users.py:83
+#: src/korone/modules/users/handlers/users.py:87
 msgid "<b>Last Name</b>: {last_name}\n"
 msgstr "<b>Nom de famille</b>: {last_name}\n"
 
-#: src/korone/modules/users/handlers/users.py:86
+#: src/korone/modules/users/handlers/users.py:90
 msgid "<b>Username</b>: @{username}\n"
 msgstr "<b>Nom d'utilisateur</b>: @{username}\n"
 
-#: src/korone/modules/users/handlers/users.py:88
+#: src/korone/modules/users/handlers/users.py:92
 msgid "<b>User link</b>: <a href='tg://user?id={id}'>link</a>\n"
 msgstr "<b>Lien utilisateur</b>: lien <a href='tg://user?id={id}'></a>\n"
 
@@ -1419,6 +1423,16 @@ msgstr "Afficher la politique de confidentialité"
 #, fuzzy
 msgid "Change the bot language."
 msgstr "Modifier la langue du robot"
+
+#~ msgid "This command was designed to be used in PM, not in group chats!"
+#~ msgstr ""
+#~ "Cette commande a été conçue pour être utilisée en PM, pas dans les chats "
+#~ "de groupe !"
+
+#~ msgid "This command was designed to be used in group chats, not in PM!"
+#~ msgstr ""
+#~ "Cette commande a été conçue pour être utilisée dans les chats de groupe, "
+#~ "pas dans les MP !"
 
 #~ msgid ""
 #~ "You need to specify a command to disable. Use <code>/disable &lt;"

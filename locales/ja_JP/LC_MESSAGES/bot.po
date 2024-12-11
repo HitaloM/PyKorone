@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PyKorone 1.0\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-11-15 18:09-0300\n"
+"POT-Creation-Date: 2024-12-11 12:38-0300\n"
 "PO-Revision-Date: 2024-08-24 20:38+0000\n"
 "Last-Translator: Hitalo <hitalo331@outlook.com>\n"
 "Language-Team: Japanese <http://weblate.amanoteam.com/projects/korone/korone/"
@@ -1284,35 +1284,39 @@ msgstr "指定された値は無効です。"
 msgid "An unexpected error occurred."
 msgstr "エラーが発生しました：{}"
 
-#: src/korone/modules/users/handlers/users.py:60
-msgid "Identifier must be a number"
-msgstr ""
-
-#: src/korone/modules/users/handlers/users.py:64
+#: src/korone/modules/users/handlers/users.py:62
 msgid "Identifier out of range for SQLite INTEGER"
 msgstr ""
 
-#: src/korone/modules/users/handlers/users.py:76
+#: src/korone/modules/users/handlers/users.py:67
+msgid "Username must be at least 2 characters long"
+msgstr ""
+
+#: src/korone/modules/users/handlers/users.py:70
+msgid "Identifier must be a number or a username starting with @"
+msgstr ""
+
+#: src/korone/modules/users/handlers/users.py:80
 msgid "<b>User info</b>:\n"
 msgstr "<b>ユーザー情報</b> ：\n"
 
-#: src/korone/modules/users/handlers/users.py:77
+#: src/korone/modules/users/handlers/users.py:81
 msgid "<b>ID</b>: <code>{id}</code>\n"
 msgstr "<b>ID</b> ：<code>{id}</code>\n"
 
-#: src/korone/modules/users/handlers/users.py:78
+#: src/korone/modules/users/handlers/users.py:82
 msgid "<b>First Name</b>: {first_name}\n"
 msgstr "<b>ファーストネーム</b> ：{first_name}\n"
 
-#: src/korone/modules/users/handlers/users.py:83
+#: src/korone/modules/users/handlers/users.py:87
 msgid "<b>Last Name</b>: {last_name}\n"
 msgstr "<b>姓</b> ：{last_name}\n"
 
-#: src/korone/modules/users/handlers/users.py:86
+#: src/korone/modules/users/handlers/users.py:90
 msgid "<b>Username</b>: @{username}\n"
 msgstr "<b>ユーザー名</b> ：@{username}\n"
 
-#: src/korone/modules/users/handlers/users.py:88
+#: src/korone/modules/users/handlers/users.py:92
 msgid "<b>User link</b>: <a href='tg://user?id={id}'>link</a>\n"
 msgstr "<b>ユーザーリンク</b>:<a href='tg://user?id={id}'>リンク</a>\n"
 
@@ -1386,6 +1390,15 @@ msgstr "プライバシーポリシーの表示"
 #, fuzzy
 msgid "Change the bot language."
 msgstr "ボットの言語を変更する"
+
+#~ msgid "This command was designed to be used in PM, not in group chats!"
+#~ msgstr ""
+#~ "このコマンドはグループチャットではなく、PMで使用するように設計されていま"
+#~ "す！"
+
+#~ msgid "This command was designed to be used in group chats, not in PM!"
+#~ msgstr ""
+#~ "このコマンドはPMではなく、グループチャットで使うように設計されている！"
 
 #~ msgid ""
 #~ "You need to specify a command to disable. Use <code>/disable &lt;"

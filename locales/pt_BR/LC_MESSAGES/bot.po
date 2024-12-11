@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-11-15 18:09-0300\n"
-"PO-Revision-Date: 2024-11-15 21:57+0000\n"
+"POT-Creation-Date: 2024-12-11 12:38-0300\n"
+"PO-Revision-Date: 2024-12-11 15:42+0000\n"
 "Last-Translator: Hitalo <hitalo331@outlook.com>\n"
 "Language-Team: Portuguese (Brazil) <http://weblate.amanoteam.com/projects/"
 "korone/korone/pt_BR/>\n"
@@ -1287,35 +1287,40 @@ msgstr "O valor fornecido não é válido."
 msgid "An unexpected error occurred."
 msgstr "Ocorreu um erro inesperado."
 
-#: src/korone/modules/users/handlers/users.py:60
-msgid "Identifier must be a number"
-msgstr "O identificador deve ser um número"
-
-#: src/korone/modules/users/handlers/users.py:64
+#: src/korone/modules/users/handlers/users.py:62
 msgid "Identifier out of range for SQLite INTEGER"
 msgstr "Identificador fora do intervalo para o SQLite INTEGER"
 
-#: src/korone/modules/users/handlers/users.py:76
+#: src/korone/modules/users/handlers/users.py:67
+msgid "Username must be at least 2 characters long"
+msgstr "O nome de usuário deve ter pelo menos 2 caracteres"
+
+#: src/korone/modules/users/handlers/users.py:70
+msgid "Identifier must be a number or a username starting with @"
+msgstr ""
+"O identificador deve ser um número ou um nome de usuário que comece com @"
+
+#: src/korone/modules/users/handlers/users.py:80
 msgid "<b>User info</b>:\n"
 msgstr "<b>Informações do usuário</b>:\n"
 
-#: src/korone/modules/users/handlers/users.py:77
+#: src/korone/modules/users/handlers/users.py:81
 msgid "<b>ID</b>: <code>{id}</code>\n"
 msgstr "<b>ID</b>: <code>{id}</code>\n"
 
-#: src/korone/modules/users/handlers/users.py:78
+#: src/korone/modules/users/handlers/users.py:82
 msgid "<b>First Name</b>: {first_name}\n"
 msgstr "<b>Nome próprio</b>: {first_name}\n"
 
-#: src/korone/modules/users/handlers/users.py:83
+#: src/korone/modules/users/handlers/users.py:87
 msgid "<b>Last Name</b>: {last_name}\n"
 msgstr "<b>Sobrenome</b>: {last_name}\n"
 
-#: src/korone/modules/users/handlers/users.py:86
+#: src/korone/modules/users/handlers/users.py:90
 msgid "<b>Username</b>: @{username}\n"
 msgstr "<b>Nome de usuário</b>: @{username}\n"
 
-#: src/korone/modules/users/handlers/users.py:88
+#: src/korone/modules/users/handlers/users.py:92
 msgid "<b>User link</b>: <a href='tg://user?id={id}'>link</a>\n"
 msgstr "<b>Link do usuário</b>: <a href='tg://user?id={id}'>link</a>\n"
 
@@ -1387,6 +1392,16 @@ msgstr "Mostrar política de privacidade."
 #: src/korone/utils/commands_list.py:30
 msgid "Change the bot language."
 msgstr "Alterar o idioma do bot."
+
+#~ msgid "This command was designed to be used in PM, not in group chats!"
+#~ msgstr ""
+#~ "Esse comando foi projetado para ser usado no PV, não em bate-papos em "
+#~ "grupo!"
+
+#~ msgid "This command was designed to be used in group chats, not in PM!"
+#~ msgstr ""
+#~ "Esse comando foi projetado para ser usado em bate-papos em grupo, não no "
+#~ "PV!"
 
 #~ msgid "This Minecraft server is offline."
 #~ msgstr "Este servidor do Minecraft está off-line."
