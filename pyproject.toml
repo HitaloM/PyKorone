@@ -57,7 +57,7 @@ allow-direct-references = true
 
 [tool.ruff]
 line-length = 99
-target-version = "py312"
+target-version = "py313"
 
 [tool.ruff.lint]
 select = [
