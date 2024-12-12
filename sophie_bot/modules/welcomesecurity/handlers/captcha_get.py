@@ -30,7 +30,7 @@ class CaptchaGetHandler(SophieMessageCallbackQueryHandler):
         state_data = await self.state.get_data()
 
         if not (chat_iid := state_data.get("ws_chat_iid", self.data.get("ws_chat_iid"))):
-            raise SophieException(
+            await self.answer(
                 _(
                     (
                         "The chat initiated the Welcome Security procedure were not found! "
@@ -38,6 +38,8 @@ class CaptchaGetHandler(SophieMessageCallbackQueryHandler):
                     )
                 )
             )
+            await self.state.clear()
+            return
 
         chat_db = await ChatModel.get_by_iid(PydanticObjectId(chat_iid))
 

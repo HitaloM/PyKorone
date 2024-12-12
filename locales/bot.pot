@@ -1774,15 +1774,15 @@ msgstr ""
 msgid "Welcome Security contains a bunch of tools that can help filter bots that tries to join your groups, as well as make sure the new users acknowledged the chat rules before being able to speak"
 msgstr ""
 
-#: sophie_bot/modules/welcomesecurity/handlers/captcha_get.py:60
+#: sophie_bot/modules/welcomesecurity/handlers/captcha_get.py:62
 msgid "Complete the '{emoji_name}' emoji in order to complete the captcha and participate in the {group_name}."
 msgstr ""
 
-#: sophie_bot/modules/welcomesecurity/handlers/captcha_get.py:69
+#: sophie_bot/modules/welcomesecurity/handlers/captcha_get.py:71
 msgid "❌ Incorrect solution. Please, try again."
 msgstr ""
 
-#: sophie_bot/modules/welcomesecurity/handlers/captcha_get.py:76
+#: sophie_bot/modules/welcomesecurity/handlers/captcha_get.py:78
 msgid "Confirm"
 msgstr ""
 
