@@ -48,8 +48,8 @@ docs = [
     "sphinx-autobuild>=2024.10.3",
     "sphinx-copybutton>=0.5.2",
     "myst-parser>=4.0.0",
-    "towncrier==23.11.0",               # 24.7 is incompatible with sphinxcontrib-towncrier
-    "sphinxcontrib-towncrier>=0.4.0a0",
+    "towncrier>=24.8.0",                                                                                             # 24.7 is incompatible with sphinxcontrib-towncrier
+    "sphinxcontrib-towncrier @ git+https://github.com/bennyrowland/sphinxcontrib-towncrier@92_towncrier24_7_compat",
 ]
 
 [tool.hatch.metadata]
