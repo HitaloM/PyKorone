@@ -10,7 +10,7 @@
 
 .. towncrier release notes start
 
-1.1.6 (2024-12-12)
+1.2.0 (2024-12-12)
 ==================
 
 Features
