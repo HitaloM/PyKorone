@@ -16,6 +16,7 @@ from beanie.odm.operators.find.comparison import In
 from beanie.odm.operators.update.general import Set
 from pydantic import Field
 from pydantic_core.core_schema import SerializerFunctionWrapHandler
+from pymongo import IndexModel
 
 from sophie_bot.db.db_exceptions import DBNotFoundException
 
@@ -35,6 +36,9 @@ class UserInGroupModel(Document):
 
     class Settings:
         name = "users_in_groups"
+        indexes = [
+            IndexModel(("user.$id", "group.$id"), unique=True),
+        ]
 
     @staticmethod
     async def ensure_user_in_group(user: "ChatModel", group: "ChatModel"):
