@@ -10,6 +10,24 @@
 
 .. towncrier release notes start
 
+1.1.6 (2024-12-12)
+==================
+
+Features
+--------
+
+- Added `!` as a command prefix and enhanced command prefix handling and validation for improved command processing.
+- Added support for files captions in the `Regex` module, now you can use `s/regex/replace/` to a file caption.
+- New `Weather` module to get weather information for a location, read more in :doc:`Weather module <modules/weather>`.
+
+Bug Fixes
+---------
+
+- Fixed the `/user` command not working to get the user's information trough the username.
+- Handling some crashes in the AFK system because of the LastFM integration.
+- Improved command state handling in the `Disabling` module to ensure better performance and reliability.
+- Improved how the `Translator` module detects the source language of a message when no language is specified.
+
 1.1.6 (2024-11-15)
 ==================
 
