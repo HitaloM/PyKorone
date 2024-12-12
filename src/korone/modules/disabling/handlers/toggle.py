@@ -23,40 +23,37 @@ async def disable_command(client: Client, message: Message) -> None:
 
 async def change_command_state(client: Client, message: Message, enable: bool) -> None:
     command_object = CommandObject(message).parse()
-    command_args = command_object.args
+    command_name = command_object.args.split(" ")[0] if command_object.args else None
 
-    action = _("enable") if enable else _("disable")
-    action_past = _("enabled") if enable else _("disabled")
-
-    if not command_args:
+    if not command_name:
         await message.reply(
             _(
-                "You need to specify a command to {action}. "
-                "Use <code>/{action} &lt;commandname&gt;</code>."
-            ).format(action=action)
+                "You need to specify a command to {action}. Use <code>/{action} "
+                "&lt;commandname&gt;</code>."
+            ).format(action=_("enable") if enable else _("disable"))
         )
         return
 
-    command_args_list = command_args.split(" ")
-    if len(command_args_list) > 1:
-        await message.reply(
-            _("You can only {action} one command at a time.").format(action=action)
-        )
-        return
-
-    command_name = command_args_list[0]
     if command_name not in COMMANDS:
         await message.reply(
             _(
                 "Unknown command to {action}:\n- <code>{command}</code>\nCheck the /disableable!"
-            ).format(action=action, command=command_name)
+            ).format(action=_("enable") if enable else _("disable"), command=command_name)
         )
         return
 
-    command_state = await fetch_command_state(command_name)
+    command_state = await fetch_command_state(command_name) or []
+    command_state = [cs for cs in command_state if cs["chat_id"] == message.chat.id]
+
     if command_state and bool(command_state[0]["state"]) == enable:
-        await message.reply(_("This command is already {action}.").format(action=action_past))
+        await message.reply(
+            _("This command is already {action}.").format(
+                action=_("enabled") if enable else _("disabled")
+            )
+        )
         return
 
     await set_command_state(message.chat.id, command_name, state=enable)
-    await message.reply(_("Command {action}.").format(action=action_past))
+    await message.reply(
+        _("Command {action}.").format(action=_("enabled") if enable else _("disabled"))
+    )
