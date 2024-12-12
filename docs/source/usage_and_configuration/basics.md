@@ -6,7 +6,7 @@ You can learn more about modules and the available modules in the [Modules](/mod
 
 ## Invoking Commands
 
-To interact with _PyKorone_, you must use commands. Commands are messages that start with a slash (`/`) followed by the command name. For example, to check if _PyKorone_ is available, you can send the command `/start`.
+To interact with _PyKorone_, you must use commands. Commands are messages that start with a slash (`/`) or an exclamation mark (`!`) followed by the command name. For example, to check if _PyKorone_ is available, you can send the command `/start` or `!start`.
 
 Commands can be used in both group and private chats. In group chats, you can optionally mention _PyKorone_ along with the command name to avoid conflicts with other bots. For example, you can use `/start@PyKoroneBot` to check the availability of _PyKorone_ without invoking the `/start` command of other bots.
 

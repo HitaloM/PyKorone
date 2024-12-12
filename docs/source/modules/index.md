@@ -50,7 +50,7 @@ Below is a list of all available modules in _PyKorone_:
 - [Minecraft](./minecraft): Get information about Minecraft servers and Modrinth projects.
 - [Piston](./piston): Run code snippets using the [Piston API](https://github.com/engineer-man/piston)
 - [Regex](./regex): Test regular expressions.
-- [Stickers](./stickers): Get stickers and steal stickers to a sticker pack.
+- [Stickers](./stickers): Steal stickers from sticker packs.
 - [Translator](./translator): Translate text to different languages using DeepL.
 - [Users](./users): Fetches information about Telegram and _PyKorone_ users.
 - [Web Tools](./web): Get information about IP addresses and domains.
