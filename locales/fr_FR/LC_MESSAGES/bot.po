@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-12-12 18:33-0300\n"
+"POT-Creation-Date: 2024-12-12 18:50-0300\n"
 "PO-Revision-Date: 2024-08-24 20:38+0000\n"
 "Last-Translator: Hitalo <hitalo331@outlook.com>\n"
 "Language-Team: French <http://weblate.amanoteam.com/projects/korone/korone/"
@@ -1347,7 +1347,7 @@ msgid "<b>User link</b>: <a href='tg://user?id={id}'>link</a>\n"
 msgstr "<b>Lien utilisateur</b>: lien <a href='tg://user?id={id}'></a>\n"
 
 #: src/korone/modules/weather/handlers/get.py:31
-msgid "Temperature"
+msgid "Temperature:"
 msgstr ""
 
 #: src/korone/modules/weather/handlers/get.py:32
@@ -1359,10 +1359,10 @@ msgid "Air humidity:"
 msgstr ""
 
 #: src/korone/modules/weather/handlers/get.py:34
-msgid "Wind Speed"
+msgid "Wind Speed:"
 msgstr ""
 
-#: src/korone/modules/weather/handlers/get.py:46
+#: src/korone/modules/weather/handlers/get.py:45
 #, fuzzy
 msgid ""
 "No location provided. You should provide a location. Example: <code>/weather "
@@ -1371,27 +1371,27 @@ msgstr ""
 "Vous devez fournir votre nom d'utilisateur LastFM ! Exemple : <code>/setlfm "
 "nom d'utilisateur</code>."
 
-#: src/korone/modules/weather/handlers/get.py:55
-#: src/korone/modules/weather/handlers/get.py:112
+#: src/korone/modules/weather/handlers/get.py:61
+#: src/korone/modules/weather/handlers/get.py:125
 #, fuzzy
 msgid "Failed to fetch weather data."
 msgstr "Échec de l'envoi du média."
 
-#: src/korone/modules/weather/handlers/get.py:66
+#: src/korone/modules/weather/handlers/get.py:72
 #, fuzzy
 msgid "No locations found for the provided query."
 msgstr "Aucun utilisateur n'a été trouvé avec l'identifiant fourni."
 
-#: src/korone/modules/weather/handlers/get.py:79
+#: src/korone/modules/weather/handlers/get.py:85
 #, fuzzy
 msgid "Please select a location:"
 msgstr "Veuillez sélectionner une adresse IP :"
 
-#: src/korone/modules/weather/handlers/get.py:93
+#: src/korone/modules/weather/handlers/get.py:99
 msgid "Session expired. Please try again."
 msgstr ""
 
-#: src/korone/modules/weather/handlers/get.py:119
+#: src/korone/modules/weather/handlers/get.py:132
 msgid "Incomplete weather data received."
 msgstr ""
 

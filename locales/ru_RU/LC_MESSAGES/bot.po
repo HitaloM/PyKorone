@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-12-12 18:33-0300\n"
+"POT-Creation-Date: 2024-12-12 18:50-0300\n"
 "PO-Revision-Date: 2024-08-24 20:38+0000\n"
 "Last-Translator: Hitalo <hitalo331@outlook.com>\n"
 "Language-Team: Russian <http://weblate.amanoteam.com/projects/korone/korone/"
@@ -1337,7 +1337,7 @@ msgstr ""
 "<b>Ссылка на пользователя</b>: <a href='tg://user?id={id}'>ссылка</a>\n"
 
 #: src/korone/modules/weather/handlers/get.py:31
-msgid "Temperature"
+msgid "Temperature:"
 msgstr ""
 
 #: src/korone/modules/weather/handlers/get.py:32
@@ -1349,10 +1349,10 @@ msgid "Air humidity:"
 msgstr ""
 
 #: src/korone/modules/weather/handlers/get.py:34
-msgid "Wind Speed"
+msgid "Wind Speed:"
 msgstr ""
 
-#: src/korone/modules/weather/handlers/get.py:46
+#: src/korone/modules/weather/handlers/get.py:45
 #, fuzzy
 msgid ""
 "No location provided. You should provide a location. Example: <code>/weather "
@@ -1361,27 +1361,27 @@ msgstr ""
 "Вы должны указать свое имя пользователя LastFM! Пример: <code>/setlfm имя "
 "пользователя</code>."
 
-#: src/korone/modules/weather/handlers/get.py:55
-#: src/korone/modules/weather/handlers/get.py:112
+#: src/korone/modules/weather/handlers/get.py:61
+#: src/korone/modules/weather/handlers/get.py:125
 #, fuzzy
 msgid "Failed to fetch weather data."
 msgstr "Не удалось отправить носитель."
 
-#: src/korone/modules/weather/handlers/get.py:66
+#: src/korone/modules/weather/handlers/get.py:72
 #, fuzzy
 msgid "No locations found for the provided query."
 msgstr "Пользователь с указанным идентификатором не найден."
 
-#: src/korone/modules/weather/handlers/get.py:79
+#: src/korone/modules/weather/handlers/get.py:85
 #, fuzzy
 msgid "Please select a location:"
 msgstr "Пожалуйста, выберите IP-адрес:"
 
-#: src/korone/modules/weather/handlers/get.py:93
+#: src/korone/modules/weather/handlers/get.py:99
 msgid "Session expired. Please try again."
 msgstr ""
 
-#: src/korone/modules/weather/handlers/get.py:119
+#: src/korone/modules/weather/handlers/get.py:132
 msgid "Incomplete weather data received."
 msgstr ""
 
