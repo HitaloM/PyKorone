@@ -11,29 +11,28 @@ from korone.modules.weather.utils.api import get_weather_observations, search_lo
 from korone.modules.weather.utils.types import WeatherResult, WeatherSearch
 from korone.modules.weather.utils.weather_icons import get_status_emoji
 from korone.utils.caching import cache
+from korone.utils.i18n import get_i18n
 from korone.utils.i18n import gettext as _
 from korone.utils.pagination import Pagination
 
 
-async def fetch_location_data(command_args):
+async def fetch_location_data(command_args: str, language: str) -> dict:
     cache_key = f"weather_location_{command_args}"
-    data = await cache.get(cache_key) or await search_location(command_args)
+    data = await cache.get(cache_key) or await search_location(command_args, language)
     if data:
         await cache.set(cache_key, data, expire=3600)
     return data
 
 
-def format_weather_text(weather_result):
+def format_weather_text(weather_result: WeatherResult) -> str:
     return (
-        f"<b>{weather_result.city}, "
-        f"{weather_result.admin_district}, "
+        f"<b>{weather_result.city}, {weather_result.admin_district}, "
         f"{weather_result.country}</b>:\n\n"
-        f"🌡️ <b>{_('Temperature')}</b>: {weather_result.temperature}°C\n"
-        f"🌡️ <b>{_('Temperature feels like:')}</b>: {weather_result.temperature_feels_like}°C\n"
-        f"💧 <b>{_('Air humidity:')}</b>: {weather_result.relative_humidity}%\n"
-        f"💨 <b>{_('Wind Speed')}</b>: {weather_result.wind_speed} km/h\n\n"
-        f"- {get_status_emoji(weather_result.icon_code)} "
-        f"<i>{weather_result.wx_phrase_long}</i>"
+        f"🌡️ <b>{_('Temperature:')}</b> {weather_result.temperature}°C\n"
+        f"🌡️ <b>{_('Temperature feels like:')}</b> {weather_result.temperature_feels_like}°C\n"
+        f"💧 <b>{_('Air humidity:')}</b> {weather_result.relative_humidity}%\n"
+        f"💨 <b>{_('Wind Speed:')}</b> {weather_result.wind_speed} km/h\n\n"
+        f"- {get_status_emoji(weather_result.icon_code)} <i>{weather_result.wx_phrase_long}</i>"
     )
 
 
@@ -50,7 +49,14 @@ async def get_weather(client: Client, message: Message) -> None:
         )
         return
 
-    data = await fetch_location_data(command.args)
+    current_locale = get_i18n().current_locale_babel
+    language = (
+        f"{current_locale.language}-{current_locale.territory}"
+        if current_locale.language and current_locale.territory
+        else "en-US"
+    )
+
+    data = await fetch_location_data(command.args, language)
     if not data:
         await message.reply_text(_("Failed to fetch weather data."))
         return
@@ -106,8 +112,15 @@ async def callback_weather(client: Client, callback_query: CallbackQuery) -> Non
         await callback_query.edit_message_reply_markup(reply_markup=keyboard_markup)
         return
 
+    current_locale = get_i18n().current_locale_babel
+    language = (
+        f"{current_locale.language}-{current_locale.territory}"
+        if current_locale.language and current_locale.territory
+        else "en-US"
+    )
+
     if data.latitude and data.longitude:
-        weather_data = await get_weather_observations(data.latitude, data.longitude)
+        weather_data = await get_weather_observations(data.latitude, data.longitude, language)
         if not weather_data:
             await callback_query.answer(_("Failed to fetch weather data."), show_alert=True)
             return

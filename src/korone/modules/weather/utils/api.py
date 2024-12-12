@@ -14,7 +14,6 @@ LOCATION_SEARCH_URL = "https://api.weather.com/v3/location/search"
 WEATHER_OBSERVATIONS_URL = (
     "https://api.weather.com/v3/aggcommon/v3-wx-observations-current;v3-location-point"
 )
-LANGUAGE = "en-US"
 FORMAT = "json"
 UNITS = "m"
 
@@ -31,21 +30,23 @@ async def fetch_json(url: str, params: dict) -> dict:
 
 
 @cache(ttl=timedelta(days=1))
-async def search_location(query: str) -> dict[str, Any]:
+async def search_location(query: str, language: str) -> dict[str, Any]:
     params = {
         "apiKey": WEATHER_API_KEY,
         "query": query,
-        "language": LANGUAGE,
+        "language": language,
         "format": FORMAT,
     }
     return await fetch_json(LOCATION_SEARCH_URL, params)
 
 
-async def get_weather_observations(latitude: float, longitude: float) -> dict[str, Any]:
+async def get_weather_observations(
+    latitude: float, longitude: float, language: str
+) -> dict[str, Any]:
     params = {
         "apiKey": WEATHER_API_KEY,
         "geocode": f"{latitude},{longitude}",
-        "language": LANGUAGE,
+        "language": language,
         "units": UNITS,
         "format": FORMAT,
     }
