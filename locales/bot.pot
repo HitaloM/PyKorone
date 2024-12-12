@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-12-12 18:14-0300\n"
+"POT-Creation-Date: 2024-12-12 18:33-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1175,47 +1175,47 @@ msgstr ""
 msgid "<b>User link</b>: <a href='tg://user?id={id}'>link</a>\n"
 msgstr ""
 
-#: src/korone/modules/weather/handlers/get.py:23
+#: src/korone/modules/weather/handlers/get.py:31
+msgid "Temperature"
+msgstr ""
+
+#: src/korone/modules/weather/handlers/get.py:32
+msgid "Temperature feels like:"
+msgstr ""
+
+#: src/korone/modules/weather/handlers/get.py:33
+msgid "Air humidity:"
+msgstr ""
+
+#: src/korone/modules/weather/handlers/get.py:34
+msgid "Wind Speed"
+msgstr ""
+
+#: src/korone/modules/weather/handlers/get.py:46
 msgid ""
 "No location provided. You should provide a location. Example: "
 "<code>/weather Rio de Janeiro</code>"
 msgstr ""
 
-#: src/korone/modules/weather/handlers/get.py:36
-#: src/korone/modules/weather/handlers/get.py:99
+#: src/korone/modules/weather/handlers/get.py:55
+#: src/korone/modules/weather/handlers/get.py:112
 msgid "Failed to fetch weather data."
 msgstr ""
 
-#: src/korone/modules/weather/handlers/get.py:47
+#: src/korone/modules/weather/handlers/get.py:66
 msgid "No locations found for the provided query."
 msgstr ""
 
-#: src/korone/modules/weather/handlers/get.py:60
+#: src/korone/modules/weather/handlers/get.py:79
 msgid "Please select a location:"
 msgstr ""
 
-#: src/korone/modules/weather/handlers/get.py:74
+#: src/korone/modules/weather/handlers/get.py:93
 msgid "Session expired. Please try again."
 msgstr ""
 
-#: src/korone/modules/weather/handlers/get.py:106
+#: src/korone/modules/weather/handlers/get.py:119
 msgid "Incomplete weather data received."
-msgstr ""
-
-#: src/korone/modules/weather/handlers/get.py:121
-msgid "Temperature"
-msgstr ""
-
-#: src/korone/modules/weather/handlers/get.py:122
-msgid "Temperature feels like:"
-msgstr ""
-
-#: src/korone/modules/weather/handlers/get.py:123
-msgid "Air humidity:"
-msgstr ""
-
-#: src/korone/modules/weather/handlers/get.py:124
-msgid "Wind Speed"
 msgstr ""
 
 #: src/korone/modules/web/handlers/ip.py:20

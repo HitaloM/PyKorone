@@ -18,6 +18,7 @@ class WeatherResult(BaseModel):
     temperature_feels_like: float = Field(alias="temperatureFeelsLike")
     relative_humidity: float = Field(alias="relativeHumidity")
     wind_speed: float = Field(alias="windSpeed")
+    icon_code: int = Field(alias="iconCode")
     wx_phrase_long: str = Field(alias="wxPhraseLong")
     city: str = Field(alias="city")
     admin_district: str = Field(alias="adminDistrict")
