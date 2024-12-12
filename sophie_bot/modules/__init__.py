@@ -9,10 +9,8 @@ from sophie_bot.modules.utils_.base_handler import SophieBaseHandler
 from sophie_bot.utils.logger import log
 
 LOADED_MODULES: dict[str, ModuleType] = {}
-# troubleshooters always first, then legacy_modules!
 MODULES = [
-    "troubleshooters",
-    "legacy_modules",
+    "troubleshooters",  # troubleshooters always first!
     "filters",
     "error",
     "users",
@@ -23,10 +21,11 @@ MODULES = [
     "disabling",
     "rules",
     "promotes",
-    "greetings",
+    "greetings",  # After feds
     "welcomesecurity",
     "purges",
     "ai",
+    "legacy_modules",  # Legacy last
 ]
 
 
@@ -37,7 +36,7 @@ async def load_modules(
 ):
     log.debug("Importing modules...")
     if "*" in to_load:
-        log.debug("Loading all modules...")
+        log.debug("Loading all modules...", modules=MODULES)
         to_load = MODULES
     else:
         log.info("Loading modules", to_load=to_load)
@@ -54,8 +53,8 @@ async def load_modules(
 
         LOADED_MODULES[module.__name__.split(".", 3)[2]] = module
 
-    # Load handlers
     for module_name, module in LOADED_MODULES.items():
+        # Load handlers
         if not (router := getattr(module, "router", None)):
             continue
 

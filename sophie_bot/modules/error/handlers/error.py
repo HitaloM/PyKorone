@@ -44,6 +44,12 @@ class SophieErrorHandler(ErrorHandler):
                 from_sys=sys_exception,
             )
 
+        # Try to reset state
+        try:
+            await self.data["state"].clear()
+        except Exception as err:
+            log.error("Failed to clear state", err=err)
+
         if update.inline_query:
             return  # Do not send messages after inline query
 

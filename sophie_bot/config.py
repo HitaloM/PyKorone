@@ -83,7 +83,11 @@ class Config(BaseSettings):
     ai_emoji: str = "✨"
     ai_autotrans_lowmem: bool = False
 
+    filters_max_triggers: int = 3
+
+    # Features toggles
     scheduler: bool = False
+    new_filters: bool = False
 
     class Config:
         env_file = "data/config.env"

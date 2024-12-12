@@ -13,6 +13,7 @@ from aiogram.types import (
     Message,
 )
 from ass_tg.types.base_abc import ArgFabric
+from sophie_bot.modules.utils_.reply_or_edit import reply_or_edit
 from stfu_tg.doc import Element
 
 from sophie_bot import bot
@@ -97,12 +98,4 @@ class SophieMessageCallbackQueryHandler(SophieBaseHandler[Message | CallbackQuer
             raise ValueError("answer_media: Wrong event type")
 
     async def answer(self, text: Element | str, **kwargs) -> Message | bool:
-        if isinstance(self.event, CallbackQuery) and self.event.message:
-            if isinstance(self.event.message, InaccessibleMessage):
-                raise SophieException(_("The message is inaccessible. Please write the command again"))
-
-            return await self.event.message.edit_text(str(text), **kwargs)
-        elif isinstance(self.event, Message):
-            return await self.event.reply(str(text), **kwargs)
-        else:
-            raise ValueError("answer: Wrong event type")
+        return await reply_or_edit(self.event, text, **kwargs)

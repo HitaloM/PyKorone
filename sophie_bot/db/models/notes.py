@@ -6,7 +6,7 @@ from aiogram.enums import ContentType
 from beanie import Document, Indexed, Link
 from beanie.odm.operators.find.comparison import In
 from beanie.odm.operators.find.evaluation import Text
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 from pymongo import TEXT
 from pymongo.results import DeleteResult
 
@@ -41,7 +41,7 @@ class Saveable(BaseModel):
     text: Annotated[Optional[str], Indexed(index_type=TEXT)] = ""
 
     file: Optional[NoteFile] = None
-    buttons: list[list[Button]] = []
+    buttons: list[list[Button]] = Field(default_factory=list)
 
     parse_mode: Optional[SaveableParseMode] = SaveableParseMode.html
     preview: Optional[bool] = False

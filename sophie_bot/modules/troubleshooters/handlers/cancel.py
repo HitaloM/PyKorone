@@ -7,6 +7,7 @@ from aiogram.types import ReplyKeyboardRemove
 
 from sophie_bot.utils.i18n import gettext as _
 from sophie_bot.utils.i18n import lazy_gettext as l_
+from stfu_tg import Template, Italic
 
 
 @flags.help(description=l_("Cancel current state, use if Sophie is not responding on your message"))
@@ -17,12 +18,14 @@ class CancelState(MessageHandler):
         current_state = await state.get_state()
         if current_state is None:
             await self.event.answer(
-                _("The current state is already cleared, nothing to do here."),
+                _("The current state is already cleared, wiping its data anyway..."),
             )
+            await state.clear()
             return
 
         await state.clear()
+        current_state = await state.get_state()
         await self.event.answer(
-            _("Current state is cleared."),
+            Template(_("Current state {state} is cleared."), state=Italic(current_state)).to_html(),
             reply_markup=ReplyKeyboardRemove(),
         )

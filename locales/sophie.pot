@@ -398,6 +398,7 @@ msgid "✅ Enable all"
 msgstr ""
 
 #: sophie_bot/modules/disabling/handlers/enable_all.py:37
+#: sophie_bot/modules/filters/handlers/confirm.py:42
 #: sophie_bot/modules/notes/handlers/delete_all.py:41
 msgid "🚫 Cancel"
 msgstr ""
@@ -670,9 +671,49 @@ msgstr ""
 msgid "Softly whispering."
 msgstr ""
 
-#: sophie_bot/modules/filters/__init__.py:6
+#: sophie_bot/modules/filters/__init__.py:15
 #: sophie_bot/modules/legacy_modules/modules/filters.py:67
 msgid "Filters"
+msgstr ""
+
+#: sophie_bot/modules/filters/handlers/add.py:43
+msgid "Text to match"
+msgstr ""
+
+#: sophie_bot/modules/filters/handlers/add.py:53
+#: sophie_bot/modules/filters/handlers/confirm.py:30
+msgid "New filter"
+msgstr ""
+
+#: sophie_bot/modules/filters/handlers/add.py:55
+#: sophie_bot/modules/filters/handlers/confirm.py:31
+msgid "Handles"
+msgstr ""
+
+#: sophie_bot/modules/filters/handlers/add.py:57
+msgid "Select a filter action:"
+msgstr ""
+
+#: sophie_bot/modules/filters/handlers/add.py:70
+#: sophie_bot/modules/filters/handlers/add.py:87
+#: sophie_bot/modules/legacy_modules/modules/filters.py:210
+msgid "❌ Cancel"
+msgstr ""
+
+#: sophie_bot/modules/filters/handlers/add.py:84
+msgid "setup"
+msgstr ""
+
+#: sophie_bot/modules/filters/handlers/confirm.py:32
+msgid "Action"
+msgstr ""
+
+#: sophie_bot/modules/filters/handlers/confirm.py:38
+msgid "➕ Add another action"
+msgstr ""
+
+#: sophie_bot/modules/filters/handlers/confirm.py:43
+msgid "✅ Confirm"
 msgstr ""
 
 #: sophie_bot/modules/greetings/__init__.py:20
@@ -831,97 +872,125 @@ msgid "I am not a robot"
 msgstr ""
 
 #: sophie_bot/modules/help/__init__.py:23
+#: sophie_bot/modules/help/__init__.sync-conflict-20241203-200019-UMZMHAB.py:23
 #: sophie_bot/modules/help/handlers/help_group.py:27
+#: sophie_bot/modules/help/handlers/help_group.sync-conflict-20241203-200011-UMZMHAB.py:27
 #: sophie_bot/modules/help/handlers/pm_modules.py:54
+#: sophie_bot/modules/help/handlers/pm_modules.sync-conflict-20241203-200103-UMZMHAB.py:54
 #: sophie_bot/modules/help/handlers/start_group.py:34
+#: sophie_bot/modules/help/handlers/start_group.sync-conflict-20241203-200059-UMZMHAB.py:34
 msgid "Help"
 msgstr ""
 
 #: sophie_bot/modules/help/__init__.py:25
+#: sophie_bot/modules/help/__init__.sync-conflict-20241203-200019-UMZMHAB.py:25
 msgid "Provides helpful information"
 msgstr ""
 
 #: sophie_bot/modules/help/handlers/help_group.py:17
+#: sophie_bot/modules/help/handlers/help_group.sync-conflict-20241203-200011-UMZMHAB.py:17
 msgid "Shows the help message"
 msgstr ""
 
 #: sophie_bot/modules/help/handlers/help_group.py:24
+#: sophie_bot/modules/help/handlers/help_group.sync-conflict-20241203-200011-UMZMHAB.py:24
 msgid "The help information available in the private messages with Sophie"
 msgstr ""
 
 #: sophie_bot/modules/help/handlers/pm_modules.py:25
+#: sophie_bot/modules/help/handlers/pm_modules.sync-conflict-20241203-200103-UMZMHAB.py:25
 msgid "Shows help overview for all modules"
 msgstr ""
 
 #: sophie_bot/modules/help/handlers/pm_modules.py:51
 #: sophie_bot/modules/help/handlers/pm_modules.py:103
+#: sophie_bot/modules/help/handlers/pm_modules.sync-conflict-20241203-200103-UMZMHAB.py:51
+#: sophie_bot/modules/help/handlers/pm_modules.sync-conflict-20241203-200103-UMZMHAB.py:103
 #: sophie_bot/modules/privacy/handlers/privacy.py:30
 msgid "⬅️ Back"
 msgstr ""
 
 #: sophie_bot/modules/help/handlers/pm_modules.py:55
+#: sophie_bot/modules/help/handlers/pm_modules.sync-conflict-20241203-200103-UMZMHAB.py:55
 msgid "There are 2 help sources, you can read the detailed wiki or get a quick commands by modules overview."
 msgstr ""
 
 #: sophie_bot/modules/help/handlers/pm_modules.py:56
+#: sophie_bot/modules/help/handlers/pm_modules.sync-conflict-20241203-200103-UMZMHAB.py:56
 msgid "📖 Wiki (detailed information)"
 msgstr ""
 
 #: sophie_bot/modules/help/handlers/pm_modules.py:72
+#: sophie_bot/modules/help/handlers/pm_modules.sync-conflict-20241203-200103-UMZMHAB.py:72
 msgid "Module not found"
 msgstr ""
 
 #: sophie_bot/modules/help/handlers/pm_modules.py:95
+#: sophie_bot/modules/help/handlers/pm_modules.sync-conflict-20241203-200103-UMZMHAB.py:95
 msgid "Aliased commands from {module}"
 msgstr ""
 
 #: sophie_bot/modules/help/handlers/pm_modules.py:100
+#: sophie_bot/modules/help/handlers/pm_modules.sync-conflict-20241203-200103-UMZMHAB.py:100
 msgid "📖 Wiki page"
 msgstr ""
 
 #: sophie_bot/modules/help/handlers/start_group.py:20
+#: sophie_bot/modules/help/handlers/start_group.sync-conflict-20241203-200059-UMZMHAB.py:20
 msgid "Shows the start message"
 msgstr ""
 
 #: sophie_bot/modules/help/handlers/start_group.py:37
+#: sophie_bot/modules/help/handlers/start_group.sync-conflict-20241203-200059-UMZMHAB.py:37
 msgid "My name is Sophie, I help manage this group in an efficient way!"
 msgstr ""
 
 #: sophie_bot/modules/help/handlers/start_group.py:39
+#: sophie_bot/modules/help/handlers/start_group.sync-conflict-20241203-200059-UMZMHAB.py:39
 msgid "Join the {chat} and {channel}."
 msgstr ""
 
 #: sophie_bot/modules/help/handlers/start_group.py:40
+#: sophie_bot/modules/help/handlers/start_group.sync-conflict-20241203-200059-UMZMHAB.py:40
 #: sophie_bot/modules/help/handlers/start_pm.py:53
+#: sophie_bot/modules/help/handlers/start_pm.sync-conflict-20241203-200058-UMZMHAB.py:53
 msgid "💬 Support Chat"
 msgstr ""
 
 #: sophie_bot/modules/help/handlers/start_group.py:41
+#: sophie_bot/modules/help/handlers/start_group.sync-conflict-20241203-200059-UMZMHAB.py:41
 #: sophie_bot/modules/help/handlers/start_pm.py:54
+#: sophie_bot/modules/help/handlers/start_pm.sync-conflict-20241203-200058-UMZMHAB.py:54
 msgid "📢 NEWS Channel"
 msgstr ""
 
 #: sophie_bot/modules/help/handlers/start_pm.py:35
+#: sophie_bot/modules/help/handlers/start_pm.sync-conflict-20241203-200058-UMZMHAB.py:35
 msgid "➕ Add me to your chat"
 msgstr ""
 
 #: sophie_bot/modules/help/handlers/start_pm.py:41
+#: sophie_bot/modules/help/handlers/start_pm.sync-conflict-20241203-200058-UMZMHAB.py:41
 msgid "🕵️‍♂️ Privacy"
 msgstr ""
 
 #: sophie_bot/modules/help/handlers/start_pm.py:43
+#: sophie_bot/modules/help/handlers/start_pm.sync-conflict-20241203-200058-UMZMHAB.py:43
 msgid "🌍 Language"
 msgstr ""
 
 #: sophie_bot/modules/help/handlers/start_pm.py:45
+#: sophie_bot/modules/help/handlers/start_pm.sync-conflict-20241203-200058-UMZMHAB.py:45
 msgid "ℹ️ Help"
 msgstr ""
 
 #: sophie_bot/modules/help/handlers/start_pm.py:50
+#: sophie_bot/modules/help/handlers/start_pm.sync-conflict-20241203-200058-UMZMHAB.py:50
 msgid "Hey there! My name is Sophie, I help you manage your group in an efficient way!"
 msgstr ""
 
 #: sophie_bot/modules/help/handlers/start_pm.py:52
+#: sophie_bot/modules/help/handlers/start_pm.sync-conflict-20241203-200058-UMZMHAB.py:52
 msgid "Join our {chat} and {channel}."
 msgstr ""
 
@@ -1122,10 +1191,6 @@ msgstr ""
 msgid "Trigger"
 msgstr ""
 
-#: sophie_bot/modules/legacy_modules/modules/filters.py:210
-msgid "❌ Cancel"
-msgstr ""
-
 #: sophie_bot/modules/legacy_modules/modules/filters.py:304
 msgid "Shows the list of filters."
 msgstr ""
@@ -1272,7 +1337,7 @@ msgstr ""
 msgid "⚠️ Warn"
 msgstr ""
 
-#: sophie_bot/modules/notes/__init__.py:28
+#: sophie_bot/modules/notes/__init__.py:29
 msgid "Notes"
 msgstr ""
 
@@ -1461,6 +1526,30 @@ msgstr ""
 
 #: sophie_bot/modules/notes/magic_handlers/filter.py:92
 msgid "🗒 Send a note"
+msgstr ""
+
+#: sophie_bot/modules/notes/magic_handlers/modern_filter.py:32
+msgid "Reply to message"
+msgstr ""
+
+#: sophie_bot/modules/notes/magic_handlers/modern_filter.py:38
+msgid "Change reply text"
+msgstr ""
+
+#: sophie_bot/modules/notes/magic_handlers/modern_filter.py:45
+msgid "Replies to the message with {text}"
+msgstr ""
+
+#: sophie_bot/modules/notes/magic_handlers/modern_filter.py:47
+msgid "Replies to the message"
+msgstr ""
+
+#: sophie_bot/modules/notes/magic_handlers/modern_filter.py:51
+msgid "Now, please type the text you want to automatically send."
+msgstr ""
+
+#: sophie_bot/modules/notes/magic_handlers/modern_filter.py:52
+msgid "Markup help"
 msgstr ""
 
 #: sophie_bot/modules/notes/utils/fillings.py:12

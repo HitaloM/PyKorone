@@ -77,7 +77,7 @@ def register(router: Router, *reg_args, **reg_kwargs):
 
         setattr(handler_func, "aiogram_flag", getattr(func, "aiogram_flag", {}))
 
-        log.warn(f"Legacy @register: Registering message handler: {reg_args} {reg_kwargs}")
+        # log.warn(f"Legacy @register: Registering message handler: {reg_args} {reg_kwargs}")
         router.message.register(handler_func, *reg_args)
 
     return wrapper

@@ -20,9 +20,9 @@ async def __pre_setup__():
 
     from .utils.register import legacy_states_router
 
-    log.info("Legacy modules: to load: %s", str(modules))
+    log.info("Legacy modules", to_load=modules)
+
     for module_name in modules:
-        log.debug(f"Legacy modules: Importing <d><n>{module_name}</></>")
         imported_module = import_module(f"sophie_bot.modules.legacy_modules.modules.{module_name}")
         LOADED_LEGACY_MODULES.append(imported_module)
         legacy_states_router.include_router(imported_module.router)

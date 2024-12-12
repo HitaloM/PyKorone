@@ -1,9 +1,7 @@
 import html
-from contextlib import suppress
 from typing import Any, Awaitable, Callable, Dict
 
 from aiogram import BaseMiddleware
-from aiogram.exceptions import TelegramBadRequest
 from aiogram.types import Message, TelegramObject
 from stfu_tg import Template, UserLink
 
@@ -11,6 +9,7 @@ from sophie_bot.modules.legacy_modules.modules.feds import get_fed_by_id, get_fe
 from sophie_bot.modules.legacy_modules.utils.language import get_strings
 from sophie_bot.modules.legacy_modules.utils.restrictions import ban_user
 from sophie_bot.modules.legacy_modules.utils.user_details import is_user_admin
+from sophie_bot.modules.utils_.common_try import common_try
 from sophie_bot.services.db import db
 from sophie_bot.utils.logger import log
 
@@ -69,8 +68,7 @@ class FedBanMiddleware(BaseMiddleware):
             if not await ban_user(chat_id, user_id):
                 return True
 
-            with suppress(TelegramBadRequest):
-                await message.reply(str(doc))
+            await common_try(message.reply(str(doc)))
 
             await db.fed_bans.update_one({"_id": ban["_id"]}, {"$addToSet": {"banned_chats": chat_id}})
 

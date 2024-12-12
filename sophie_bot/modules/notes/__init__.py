@@ -20,6 +20,7 @@ from .handlers.search import NotesSearchHandler
 from .magic_handlers.descriptions_scheduler import NotesDescriptionsScheduler
 from .magic_handlers.export import export
 from .magic_handlers.filter import get_filter
+from .magic_handlers.modern_filter import ReplyFilterAction
 from .utils.buttons_processor.legacy import BUTTONS
 
 router = Router(name="notes")
@@ -29,6 +30,8 @@ __module_name__ = l_("Notes")
 __module_emoji__ = "📗"
 
 __filters__ = get_filter()
+__modern_filters__ = (ReplyFilterAction,)
+
 __export__ = export
 
 

@@ -1,5 +1,6 @@
 from asyncio import iscoroutinefunction
 from dataclasses import dataclass
+from itertools import chain
 from mailbox import Message
 from types import ModuleType
 from typing import Any, Callable, Coroutine, Dict, Optional
@@ -121,8 +122,6 @@ async def gather_cmds_help(router: Router) -> list[HandlerHelp]:
             for f in handler.filters
         )
 
-        log.debug(f"Adding {cmds} to help")
-
         only_op = any(isinstance(f.callback, IsOP) for f in handler.filters)
 
         help_flags = handler.flags.get("help")
@@ -155,6 +154,7 @@ async def gather_cmds_help(router: Router) -> list[HandlerHelp]:
         if disableable:
             DISABLEABLE_CMDS.append(cmd)
 
+    log.debug(f"gather_cmds_help: {router.name}", cmds=list(chain.from_iterable(mhelp.cmds for mhelp in helps)))
     return helps
 
 
