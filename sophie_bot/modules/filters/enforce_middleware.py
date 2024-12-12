@@ -45,12 +45,20 @@ class EnforceFiltersMiddleware(BaseMiddleware):
         all_filters = await FiltersModel.get_filters(chat_id)
         matched_filters: list[FiltersModel] = [fil for fil in all_filters if match_legacy_filter(message, fil.handler)]
 
+        # We don't want to handle many times of same action, therefore keep a log of previously handled actions
+        triggered_actions: list[str] = []
         triggered = 0
         for matched_filter in matched_filters:
             if triggered >= MAXIMUM_MESSAGE_TRIGGERS:
                 # TODO: Sort filters by action group
                 log.debug("EnforceFiltersMiddleware: triggered maximum number of filters, dropping...")
                 break
+
+            if matched_filter.action in triggered_actions:
+                log.debug("EnforceFiltersMiddleware: already triggered action, dropping...")
+                continue
+
+            triggered_actions.append(matched_filter.action)
 
             await handle_legacy_filter(matched_filter, message)
 
