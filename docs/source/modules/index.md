@@ -53,4 +53,5 @@ Below is a list of all available modules in _PyKorone_:
 - [Stickers](./stickers): Steal stickers from sticker packs.
 - [Translator](./translator): Translate text to different languages using DeepL.
 - [Users](./users): Fetches information about Telegram and _PyKorone_ users.
+- [Weather](./weather): Get weather information for a specific location.
 - [Web Tools](./web): Get information about IP addresses and domains.
