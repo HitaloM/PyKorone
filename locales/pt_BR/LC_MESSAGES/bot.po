@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2024-12-12 18:33-0300\n"
-"PO-Revision-Date: 2024-12-11 15:42+0000\n"
+"PO-Revision-Date: 2024-12-12 21:50+0000\n"
 "Last-Translator: Hitalo <hitalo331@outlook.com>\n"
 "Language-Team: Portuguese (Brazil) <http://weblate.amanoteam.com/projects/"
 "korone/korone/pt_BR/>\n"
@@ -1326,52 +1326,48 @@ msgstr "<b>Link do usuário</b>: <a href='tg://user?id={id}'>link</a>\n"
 
 #: src/korone/modules/weather/handlers/get.py:31
 msgid "Temperature"
-msgstr ""
+msgstr "Temperatura"
 
 #: src/korone/modules/weather/handlers/get.py:32
 msgid "Temperature feels like:"
-msgstr ""
+msgstr "Sensação térmica:"
 
 #: src/korone/modules/weather/handlers/get.py:33
 msgid "Air humidity:"
-msgstr ""
+msgstr "Umidade do ar:"
 
 #: src/korone/modules/weather/handlers/get.py:34
 msgid "Wind Speed"
-msgstr ""
+msgstr "Velocidade do vento:"
 
 #: src/korone/modules/weather/handlers/get.py:46
-#, fuzzy
 msgid ""
 "No location provided. You should provide a location. Example: <code>/weather "
 "Rio de Janeiro</code>"
 msgstr ""
-"Você precisa fornecer argumentos para salvar um filtro. Exemplo: <code>/"
-"filter filtername</code>"
+"Nenhum local fornecido. Você deve fornecer um local. Exemplo: <code>/weather "
+"Rio de Janeiro</code>"
 
 #: src/korone/modules/weather/handlers/get.py:55
 #: src/korone/modules/weather/handlers/get.py:112
-#, fuzzy
 msgid "Failed to fetch weather data."
-msgstr "Falha ao buscar membros."
+msgstr "Falha ao buscar dados meteorológicos."
 
 #: src/korone/modules/weather/handlers/get.py:66
-#, fuzzy
 msgid "No locations found for the provided query."
-msgstr "Nenhum chat encontrado com o identificador fornecido."
+msgstr "Não foram encontrados locais para a consulta fornecida."
 
 #: src/korone/modules/weather/handlers/get.py:79
-#, fuzzy
 msgid "Please select a location:"
-msgstr "Selecione um endereço IP:"
+msgstr "Por favor selecione o local:"
 
 #: src/korone/modules/weather/handlers/get.py:93
 msgid "Session expired. Please try again."
-msgstr ""
+msgstr "A sessão expirou. Tente novamente."
 
 #: src/korone/modules/weather/handlers/get.py:119
 msgid "Incomplete weather data received."
-msgstr ""
+msgstr "Dados meteorológicos incompletos recebidos."
 
 #: src/korone/modules/web/handlers/ip.py:20
 msgid ""
