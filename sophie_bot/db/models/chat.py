@@ -37,7 +37,7 @@ class UserInGroupModel(Document):
     class Settings:
         name = "users_in_groups"
         indexes = [
-            IndexModel(("user.$id", "group.$id"), unique=True),
+            IndexModel(("user.$id", "group.$id"), unique=False),  # TODO: Should be unique but has duplicates
         ]
 
     @staticmethod
