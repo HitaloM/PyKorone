@@ -1325,9 +1325,8 @@ msgid "<b>User link</b>: <a href='tg://user?id={id}'>link</a>\n"
 msgstr "<b>Link do usuário</b>: <a href='tg://user?id={id}'>link</a>\n"
 
 #: src/korone/modules/weather/handlers/get.py:31
-#, fuzzy
 msgid "Temperature:"
-msgstr "Temperatura"
+msgstr "Temperatura:"
 
 #: src/korone/modules/weather/handlers/get.py:32
 msgid "Temperature feels like:"
@@ -1338,7 +1337,6 @@ msgid "Air humidity:"
 msgstr "Umidade do ar:"
 
 #: src/korone/modules/weather/handlers/get.py:34
-#, fuzzy
 msgid "Wind Speed:"
 msgstr "Velocidade do vento:"
 
