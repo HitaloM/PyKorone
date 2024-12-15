@@ -1,22 +1,16 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: sophiebot\n"
-"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-12-10 16:12+0100\n"
-"PO-Revision-Date: 2024-12-10 15:17\n"
-"Last-Translator: \n"
-"Language-Team: Turkish\n"
-"MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: 8bit\n"
-"Generated-By: Babel 2.16.0\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Crowdin-Project: sophiebot\n"
 "X-Crowdin-Project-ID: 356879\n"
 "X-Crowdin-Language: tr\n"
 "X-Crowdin-File: /beta/locales/sophie.pot\n"
 "X-Crowdin-File-ID: 288\n"
+"Project-Id-Version: sophiebot\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language-Team: Turkish\n"
 "Language: tr_TR\n"
+"PO-Revision-Date: 2024-12-15 22:09\n"
 
 #: sophie_bot/args/users.py:29
 msgid "Could not find the requested User ID in the database."
@@ -418,6 +412,7 @@ msgid "✅ Enable all"
 msgstr "✅ Tümünü Etkinleştir"
 
 #: sophie_bot/modules/disabling/handlers/enable_all.py:37
+#: sophie_bot/modules/filters/handlers/confirm.py:62
 #: sophie_bot/modules/notes/handlers/delete_all.py:41
 msgid "🚫 Cancel"
 msgstr "🚫 İptal"
@@ -438,15 +433,15 @@ msgstr "✅ Tüm komutlar ({removed_count}) {chat_name} içinde etkinleştirildi
 msgid "Error"
 msgstr "Hata"
 
-#: sophie_bot/modules/error/handlers/error.py:79
+#: sophie_bot/modules/error/handlers/error.py:85
 msgid "😞 I've got an error trying to process this update"
 msgstr "😞 Bu güncellemeyi işlemek için bir hata aldım"
 
-#: sophie_bot/modules/error/handlers/error.py:92
+#: sophie_bot/modules/error/handlers/error.py:98
 msgid "Reference ID"
 msgstr "Referans ID"
 
-#: sophie_bot/modules/error/handlers/error.py:100
+#: sophie_bot/modules/error/handlers/error.py:106
 msgid "💬 Contact Sophie support"
 msgstr "💬 Sophie destek ile iletişime geçin"
 
@@ -690,10 +685,57 @@ msgstr "Hatalar yeniliği kucaklar,"
 msgid "Softly whispering."
 msgstr "Nazik fısıldayan."
 
-#: sophie_bot/modules/filters/__init__.py:6
+#: sophie_bot/modules/filters/__init__.py:10
 #: sophie_bot/modules/legacy_modules/modules/filters.py:67
 msgid "Filters"
 msgstr "Filtreler"
+
+#: sophie_bot/modules/filters/handlers/add.py:45
+msgid "Text to match"
+msgstr "Eşleşecek metin"
+
+#: sophie_bot/modules/filters/handlers/add.py:55
+#: sophie_bot/modules/filters/handlers/confirm.py:38
+msgid "New filter"
+msgstr "Yeni filtre"
+
+#: sophie_bot/modules/filters/handlers/add.py:57
+#: sophie_bot/modules/filters/handlers/confirm.py:39
+msgid "When {handler} in message"
+msgstr "Mesajda {handler} olduğunda"
+
+#: sophie_bot/modules/filters/handlers/add.py:57
+#: sophie_bot/modules/filters/handlers/confirm.py:39
+msgid "Handles"
+msgstr "Yönetir"
+
+#: sophie_bot/modules/filters/handlers/add.py:59
+msgid "Select a filter action:"
+msgstr "Bir filtre eylemi seçin:"
+
+#: sophie_bot/modules/filters/handlers/add.py:72
+#: sophie_bot/modules/filters/handlers/add.py:89
+#: sophie_bot/modules/legacy_modules/modules/filters.py:210
+msgid "❌ Cancel"
+msgstr "❌ Cancel"
+
+#: sophie_bot/modules/filters/handlers/add.py:86
+msgid "setup"
+msgstr "ayarlama"
+
+#: sophie_bot/modules/filters/handlers/confirm.py:47
+msgid "Action"
+msgid_plural "Actions"
+msgstr[0] "Eylem"
+msgstr[1] "Actions"
+
+#: sophie_bot/modules/filters/handlers/confirm.py:58
+msgid "➕ Add another action"
+msgstr "➕ Başka bir eylem ekle"
+
+#: sophie_bot/modules/filters/handlers/confirm.py:63
+msgid "✅ Confirm"
+msgstr "✅ Onayla"
 
 #: sophie_bot/modules/greetings/__init__.py:20
 msgid "Greetings"
@@ -1142,10 +1184,6 @@ msgstr "Yeni bir filtre ekler."
 msgid "Trigger"
 msgstr "Tetikleyici"
 
-#: sophie_bot/modules/legacy_modules/modules/filters.py:210
-msgid "❌ Cancel"
-msgstr "❌ Cancel"
-
 #: sophie_bot/modules/legacy_modules/modules/filters.py:304
 msgid "Shows the list of filters."
 msgstr "Filtrelerin listesini gösterir."
@@ -1292,7 +1330,7 @@ msgstr "Yeni mod"
 msgid "⚠️ Warn"
 msgstr "⚠️ Warn"
 
-#: sophie_bot/modules/notes/__init__.py:28
+#: sophie_bot/modules/notes/__init__.py:29
 msgid "Notes"
 msgstr "Notlar"
 
@@ -1482,6 +1520,30 @@ msgstr "💭 Reply to message"
 #: sophie_bot/modules/notes/magic_handlers/filter.py:92
 msgid "🗒 Send a note"
 msgstr "🗒 Send a note"
+
+#: sophie_bot/modules/notes/magic_handlers/modern_filter.py:31
+msgid "Reply to message"
+msgstr "Mesaja cevap verin"
+
+#: sophie_bot/modules/notes/magic_handlers/modern_filter.py:37
+msgid "Change reply text"
+msgstr "Cevap metnini değiştirin"
+
+#: sophie_bot/modules/notes/magic_handlers/modern_filter.py:45
+msgid "Replies to the message with"
+msgstr "Mesaja şu ile cevap verir"
+
+#: sophie_bot/modules/notes/magic_handlers/modern_filter.py:47
+msgid "Replies to the message"
+msgstr "Mesajlara cevap veriyor"
+
+#: sophie_bot/modules/notes/magic_handlers/modern_filter.py:51
+msgid "Now, please type the text you want to automatically send."
+msgstr "Şimdi, otomatik olarak göndermek istediğiniz metni yazın."
+
+#: sophie_bot/modules/notes/magic_handlers/modern_filter.py:52
+msgid "Markup help"
+msgstr "Biçimlendirme yardımı"
 
 #: sophie_bot/modules/notes/utils/fillings.py:12
 msgid "Local chat"
@@ -1736,17 +1798,17 @@ msgstr "Mevcut strateji modu / mevcut durumu al"
 msgid "Unknown"
 msgstr "Bilinmeyen"
 
-#: sophie_bot/modules/troubleshooters/handlers/cancel.py:12
+#: sophie_bot/modules/troubleshooters/handlers/cancel.py:13
 msgid "Cancel current state, use if Sophie is not responding on your message"
 msgstr "Geçerli durumu iptal edin, eğer Sophie mesajınıza yanıt vermiyorsa kullanın"
 
-#: sophie_bot/modules/troubleshooters/handlers/cancel.py:20
-msgid "The current state is already cleared, nothing to do here."
-msgstr "Mevcut durum zaten temizlendi, burada yapılacak bir şey yok."
+#: sophie_bot/modules/troubleshooters/handlers/cancel.py:21
+msgid "The current state is already cleared, wiping its data anyway..."
+msgstr "Mevcut durum zaten temizlendi, burada yapılacak bir şey yok..."
 
-#: sophie_bot/modules/troubleshooters/handlers/cancel.py:26
-msgid "Current state is cleared."
-msgstr "Mevcut durum temizlendi."
+#: sophie_bot/modules/troubleshooters/handlers/cancel.py:29
+msgid "Current state {state} is cleared."
+msgstr "Mevcut durum {state} temizlendi."
 
 #: sophie_bot/modules/users/handlers/id.py:35
 msgid "Your ID: {id}"
@@ -1768,9 +1830,9 @@ msgstr "Yanıtlanan kullanıcı ID'si: {id}"
 msgid "{user}'s ID: {id}"
 msgstr "{user}'in ID'si: {id}"
 
-#: sophie_bot/modules/utils_/base_handler.py:79
-#: sophie_bot/modules/utils_/base_handler.py:86
-#: sophie_bot/modules/utils_/base_handler.py:102
+#: sophie_bot/modules/utils_/base_handler.py:80
+#: sophie_bot/modules/utils_/base_handler.py:87
+#: sophie_bot/modules/utils_/reply_or_edit.py:11
 msgid "The message is inaccessible. Please write the command again"
 msgstr "Mesaj erişilemez. Lütfen komutu yeniden yazın"
 
@@ -1794,15 +1856,15 @@ msgstr "Karşılama Güvenliği"
 msgid "Welcome Security contains a bunch of tools that can help filter bots that tries to join your groups, as well as make sure the new users acknowledged the chat rules before being able to speak"
 msgstr "Karşılama Güvenliği, gruplarınıza katılmaya çalışan botları filtrelemenize yardımcı olabilecek bir dizi araç içerir. Ayrıca yeni kullanıcıların konuşmadan önce sohbet kurallarını kabul ettiklerinden emin olmanızı sağlar"
 
-#: sophie_bot/modules/welcomesecurity/handlers/captcha_get.py:60
+#: sophie_bot/modules/welcomesecurity/handlers/captcha_get.py:62
 msgid "Complete the '{emoji_name}' emoji in order to complete the captcha and participate in the {group_name}."
 msgstr "'{emoji_name}' emojisini tamamlayarak captcha işlemini tamamlayın ve {group_name} grubuna katılın."
 
-#: sophie_bot/modules/welcomesecurity/handlers/captcha_get.py:69
+#: sophie_bot/modules/welcomesecurity/handlers/captcha_get.py:71
 msgid "❌ Incorrect solution. Please, try again."
 msgstr "❌ Yanlış çözüm. Lütfen tekrar deneyin."
 
-#: sophie_bot/modules/welcomesecurity/handlers/captcha_get.py:76
+#: sophie_bot/modules/welcomesecurity/handlers/captcha_get.py:78
 msgid "Confirm"
 msgstr "Confirm"
 

@@ -1,22 +1,16 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: sophiebot\n"
-"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-12-10 16:12+0100\n"
-"PO-Revision-Date: 2024-12-10 15:17\n"
-"Last-Translator: \n"
-"Language-Team: French\n"
-"MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: 8bit\n"
-"Generated-By: Babel 2.16.0\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 "X-Crowdin-Project: sophiebot\n"
 "X-Crowdin-Project-ID: 356879\n"
 "X-Crowdin-Language: fr\n"
 "X-Crowdin-File: /beta/locales/sophie.pot\n"
 "X-Crowdin-File-ID: 288\n"
+"Project-Id-Version: sophiebot\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language-Team: French\n"
 "Language: fr_FR\n"
+"PO-Revision-Date: 2024-12-15 22:09\n"
 
 #: sophie_bot/args/users.py:29
 msgid "Could not find the requested User ID in the database."
@@ -418,6 +412,7 @@ msgid "✅ Enable all"
 msgstr "✅ Activer tout"
 
 #: sophie_bot/modules/disabling/handlers/enable_all.py:37
+#: sophie_bot/modules/filters/handlers/confirm.py:62
 #: sophie_bot/modules/notes/handlers/delete_all.py:41
 msgid "🚫 Cancel"
 msgstr "🚫 Annuler"
@@ -438,15 +433,15 @@ msgstr "✅ Toutes les commandes ({removed_count}) ont été activées dans le {
 msgid "Error"
 msgstr "Erreur"
 
-#: sophie_bot/modules/error/handlers/error.py:79
+#: sophie_bot/modules/error/handlers/error.py:85
 msgid "😞 I've got an error trying to process this update"
 msgstr "😞 J'ai une erreur en essayant de traiter cette mise à jour"
 
-#: sophie_bot/modules/error/handlers/error.py:92
+#: sophie_bot/modules/error/handlers/error.py:98
 msgid "Reference ID"
 msgstr "ID de référence"
 
-#: sophie_bot/modules/error/handlers/error.py:100
+#: sophie_bot/modules/error/handlers/error.py:106
 msgid "💬 Contact Sophie support"
 msgstr "💬 Contacter le support Sophie"
 
@@ -690,10 +685,57 @@ msgstr "Les erreurs bercent l'innovation,"
 msgid "Softly whispering."
 msgstr "Doucement chuchotent."
 
-#: sophie_bot/modules/filters/__init__.py:6
+#: sophie_bot/modules/filters/__init__.py:10
 #: sophie_bot/modules/legacy_modules/modules/filters.py:67
 msgid "Filters"
 msgstr "Filtres"
+
+#: sophie_bot/modules/filters/handlers/add.py:45
+msgid "Text to match"
+msgstr "Texte à rechercher"
+
+#: sophie_bot/modules/filters/handlers/add.py:55
+#: sophie_bot/modules/filters/handlers/confirm.py:38
+msgid "New filter"
+msgstr "Nouveau filtre"
+
+#: sophie_bot/modules/filters/handlers/add.py:57
+#: sophie_bot/modules/filters/handlers/confirm.py:39
+msgid "When {handler} in message"
+msgstr "Lorsque {handler} dans le message"
+
+#: sophie_bot/modules/filters/handlers/add.py:57
+#: sophie_bot/modules/filters/handlers/confirm.py:39
+msgid "Handles"
+msgstr "Gère"
+
+#: sophie_bot/modules/filters/handlers/add.py:59
+msgid "Select a filter action:"
+msgstr "Sélectionnez une action de filtre :"
+
+#: sophie_bot/modules/filters/handlers/add.py:72
+#: sophie_bot/modules/filters/handlers/add.py:89
+#: sophie_bot/modules/legacy_modules/modules/filters.py:210
+msgid "❌ Cancel"
+msgstr "❌ Cancel"
+
+#: sophie_bot/modules/filters/handlers/add.py:86
+msgid "setup"
+msgstr "configuration"
+
+#: sophie_bot/modules/filters/handlers/confirm.py:47
+msgid "Action"
+msgid_plural "Actions"
+msgstr[0] "Action"
+msgstr[1] "Actions"
+
+#: sophie_bot/modules/filters/handlers/confirm.py:58
+msgid "➕ Add another action"
+msgstr "➕ Ajouter une autre action"
+
+#: sophie_bot/modules/filters/handlers/confirm.py:63
+msgid "✅ Confirm"
+msgstr "✅ Confirmer"
 
 #: sophie_bot/modules/greetings/__init__.py:20
 msgid "Greetings"
@@ -1142,10 +1184,6 @@ msgstr "Ajoute un nouveau filtre."
 msgid "Trigger"
 msgstr "Déclencheur"
 
-#: sophie_bot/modules/legacy_modules/modules/filters.py:210
-msgid "❌ Cancel"
-msgstr "❌ Cancel"
-
 #: sophie_bot/modules/legacy_modules/modules/filters.py:304
 msgid "Shows the list of filters."
 msgstr "Affiche la liste des filtres."
@@ -1292,7 +1330,7 @@ msgstr "Nouveau mode"
 msgid "⚠️ Warn"
 msgstr "⚠️ Warn"
 
-#: sophie_bot/modules/notes/__init__.py:28
+#: sophie_bot/modules/notes/__init__.py:29
 msgid "Notes"
 msgstr "Notes"
 
@@ -1482,6 +1520,30 @@ msgstr "💭 Répondre au message"
 #: sophie_bot/modules/notes/magic_handlers/filter.py:92
 msgid "🗒 Send a note"
 msgstr "🗒 Envoyer une note"
+
+#: sophie_bot/modules/notes/magic_handlers/modern_filter.py:31
+msgid "Reply to message"
+msgstr "Répondre au message"
+
+#: sophie_bot/modules/notes/magic_handlers/modern_filter.py:37
+msgid "Change reply text"
+msgstr "Changer le texte de réponse"
+
+#: sophie_bot/modules/notes/magic_handlers/modern_filter.py:45
+msgid "Replies to the message with"
+msgstr "Réponds au message avec"
+
+#: sophie_bot/modules/notes/magic_handlers/modern_filter.py:47
+msgid "Replies to the message"
+msgstr "Répondre au message"
+
+#: sophie_bot/modules/notes/magic_handlers/modern_filter.py:51
+msgid "Now, please type the text you want to automatically send."
+msgstr "Maintenant, veuillez taper le texte que vous souhaitez envoyer automatiquement."
+
+#: sophie_bot/modules/notes/magic_handlers/modern_filter.py:52
+msgid "Markup help"
+msgstr "Aide au balisage"
 
 #: sophie_bot/modules/notes/utils/fillings.py:12
 msgid "Local chat"
@@ -1736,17 +1798,17 @@ msgstr "Obtenir le mode de stratégie actuel / l'état actuel"
 msgid "Unknown"
 msgstr "Inconnu"
 
-#: sophie_bot/modules/troubleshooters/handlers/cancel.py:12
+#: sophie_bot/modules/troubleshooters/handlers/cancel.py:13
 msgid "Cancel current state, use if Sophie is not responding on your message"
 msgstr "Annuler l'état actuel, à utiliser si Sophie ne répond pas à votre message"
 
-#: sophie_bot/modules/troubleshooters/handlers/cancel.py:20
-msgid "The current state is already cleared, nothing to do here."
-msgstr "L'état actuel est déjà effacé, rien à faire ici."
+#: sophie_bot/modules/troubleshooters/handlers/cancel.py:21
+msgid "The current state is already cleared, wiping its data anyway..."
+msgstr "L'état actuel est déjà effacé, effaçant ses données de toute façon..."
 
-#: sophie_bot/modules/troubleshooters/handlers/cancel.py:26
-msgid "Current state is cleared."
-msgstr "L'état actuel est effacé."
+#: sophie_bot/modules/troubleshooters/handlers/cancel.py:29
+msgid "Current state {state} is cleared."
+msgstr "L'état actuel {state} est effacé."
 
 #: sophie_bot/modules/users/handlers/id.py:35
 msgid "Your ID: {id}"
@@ -1768,9 +1830,9 @@ msgstr "ID de l'utilisateur répondu : {id}"
 msgid "{user}'s ID: {id}"
 msgstr "ID de {user} : {id}"
 
-#: sophie_bot/modules/utils_/base_handler.py:79
-#: sophie_bot/modules/utils_/base_handler.py:86
-#: sophie_bot/modules/utils_/base_handler.py:102
+#: sophie_bot/modules/utils_/base_handler.py:80
+#: sophie_bot/modules/utils_/base_handler.py:87
+#: sophie_bot/modules/utils_/reply_or_edit.py:11
 msgid "The message is inaccessible. Please write the command again"
 msgstr "Le message est inaccessible. Veuillez écrire à nouveau la commande /enableall"
 
@@ -1794,15 +1856,15 @@ msgstr "Sécurité d'accueil"
 msgid "Welcome Security contains a bunch of tools that can help filter bots that tries to join your groups, as well as make sure the new users acknowledged the chat rules before being able to speak"
 msgstr "La sécurité d'accueil contient une série d'outils qui peuvent aider à filtrer les bots qui essaient de rejoindre vos groupes, ainsi qu'à s'assurer que les nouveaux utilisateurs ont reconnu les règles du chat avant de pouvoir parler"
 
-#: sophie_bot/modules/welcomesecurity/handlers/captcha_get.py:60
+#: sophie_bot/modules/welcomesecurity/handlers/captcha_get.py:62
 msgid "Complete the '{emoji_name}' emoji in order to complete the captcha and participate in the {group_name}."
 msgstr "Complétez l'emoji '{emoji_name}' afin de compléter le captcha et participer au {group_name}."
 
-#: sophie_bot/modules/welcomesecurity/handlers/captcha_get.py:69
+#: sophie_bot/modules/welcomesecurity/handlers/captcha_get.py:71
 msgid "❌ Incorrect solution. Please, try again."
 msgstr "❌ Solution incorrecte. Veuillez réessayer."
 
-#: sophie_bot/modules/welcomesecurity/handlers/captcha_get.py:76
+#: sophie_bot/modules/welcomesecurity/handlers/captcha_get.py:78
 msgid "Confirm"
 msgstr "Confirm"
 

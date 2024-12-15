@@ -1,22 +1,16 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: sophiebot\n"
-"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-12-10 16:12+0100\n"
-"PO-Revision-Date: 2024-12-10 15:17\n"
-"Last-Translator: \n"
-"Language-Team: Czech\n"
-"MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: 8bit\n"
-"Generated-By: Babel 2.16.0\n"
 "Plural-Forms: nplurals=4; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 3;\n"
 "X-Crowdin-Project: sophiebot\n"
 "X-Crowdin-Project-ID: 356879\n"
 "X-Crowdin-Language: cs\n"
 "X-Crowdin-File: /beta/locales/sophie.pot\n"
 "X-Crowdin-File-ID: 288\n"
+"Project-Id-Version: sophiebot\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language-Team: Czech\n"
 "Language: cs_CZ\n"
+"PO-Revision-Date: 2024-12-15 22:09\n"
 
 #: sophie_bot/args/users.py:29
 msgid "Could not find the requested User ID in the database."
@@ -418,6 +412,7 @@ msgid "✅ Enable all"
 msgstr "✅ Povolte všechny"
 
 #: sophie_bot/modules/disabling/handlers/enable_all.py:37
+#: sophie_bot/modules/filters/handlers/confirm.py:62
 #: sophie_bot/modules/notes/handlers/delete_all.py:41
 msgid "🚫 Cancel"
 msgstr "🚫 Zrušit"
@@ -438,15 +433,15 @@ msgstr "✅ Všech ({removed_count}) příkazů bylo povoleno ve {chat_name}"
 msgid "Error"
 msgstr "Chyba"
 
-#: sophie_bot/modules/error/handlers/error.py:79
+#: sophie_bot/modules/error/handlers/error.py:85
 msgid "😞 I've got an error trying to process this update"
 msgstr "😞 Došlo k chybě při zpracovávání této aktualizace"
 
-#: sophie_bot/modules/error/handlers/error.py:92
+#: sophie_bot/modules/error/handlers/error.py:98
 msgid "Reference ID"
 msgstr "Referenční ID"
 
-#: sophie_bot/modules/error/handlers/error.py:100
+#: sophie_bot/modules/error/handlers/error.py:106
 msgid "💬 Contact Sophie support"
 msgstr "💬 Kontaktujte podporu Sophie"
 
@@ -690,10 +685,59 @@ msgstr "Chyby kolébají inovaci,"
 msgid "Softly whispering."
 msgstr "Tiše šeptající."
 
-#: sophie_bot/modules/filters/__init__.py:6
+#: sophie_bot/modules/filters/__init__.py:10
 #: sophie_bot/modules/legacy_modules/modules/filters.py:67
 msgid "Filters"
 msgstr "Filtry"
+
+#: sophie_bot/modules/filters/handlers/add.py:45
+msgid "Text to match"
+msgstr "Text k vyhledání"
+
+#: sophie_bot/modules/filters/handlers/add.py:55
+#: sophie_bot/modules/filters/handlers/confirm.py:38
+msgid "New filter"
+msgstr "Nový filtr"
+
+#: sophie_bot/modules/filters/handlers/add.py:57
+#: sophie_bot/modules/filters/handlers/confirm.py:39
+msgid "When {handler} in message"
+msgstr "Když je {handler} ve zprávě"
+
+#: sophie_bot/modules/filters/handlers/add.py:57
+#: sophie_bot/modules/filters/handlers/confirm.py:39
+msgid "Handles"
+msgstr "Zpracovává"
+
+#: sophie_bot/modules/filters/handlers/add.py:59
+msgid "Select a filter action:"
+msgstr "Vyberte akci filtru:"
+
+#: sophie_bot/modules/filters/handlers/add.py:72
+#: sophie_bot/modules/filters/handlers/add.py:89
+#: sophie_bot/modules/legacy_modules/modules/filters.py:210
+msgid "❌ Cancel"
+msgstr "❌ Cancel"
+
+#: sophie_bot/modules/filters/handlers/add.py:86
+msgid "setup"
+msgstr "nastavení"
+
+#: sophie_bot/modules/filters/handlers/confirm.py:47
+msgid "Action"
+msgid_plural "Actions"
+msgstr[0] "Akce"
+msgstr[1] "Akce"
+msgstr[2] "Akce"
+msgstr[3] "Akce"
+
+#: sophie_bot/modules/filters/handlers/confirm.py:58
+msgid "➕ Add another action"
+msgstr "➕ Přidat další akci"
+
+#: sophie_bot/modules/filters/handlers/confirm.py:63
+msgid "✅ Confirm"
+msgstr "✅ Potvrdit"
 
 #: sophie_bot/modules/greetings/__init__.py:20
 msgid "Greetings"
@@ -1142,10 +1186,6 @@ msgstr "Přidá nový filtr."
 msgid "Trigger"
 msgstr "Spouštěč"
 
-#: sophie_bot/modules/legacy_modules/modules/filters.py:210
-msgid "❌ Cancel"
-msgstr "❌ Cancel"
-
 #: sophie_bot/modules/legacy_modules/modules/filters.py:304
 msgid "Shows the list of filters."
 msgstr "Zobrazuje seznam filtrů."
@@ -1292,7 +1332,7 @@ msgstr "Nový režim"
 msgid "⚠️ Warn"
 msgstr "⚠️ Warn"
 
-#: sophie_bot/modules/notes/__init__.py:28
+#: sophie_bot/modules/notes/__init__.py:29
 msgid "Notes"
 msgstr "Poznámky"
 
@@ -1482,6 +1522,30 @@ msgstr "💭 Reply to message"
 #: sophie_bot/modules/notes/magic_handlers/filter.py:92
 msgid "🗒 Send a note"
 msgstr "🗒 Send a note"
+
+#: sophie_bot/modules/notes/magic_handlers/modern_filter.py:31
+msgid "Reply to message"
+msgstr "Odpověz na zprávu"
+
+#: sophie_bot/modules/notes/magic_handlers/modern_filter.py:37
+msgid "Change reply text"
+msgstr "Změňte text odpovědi"
+
+#: sophie_bot/modules/notes/magic_handlers/modern_filter.py:45
+msgid "Replies to the message with"
+msgstr "Odpovědi na zprávu s"
+
+#: sophie_bot/modules/notes/magic_handlers/modern_filter.py:47
+msgid "Replies to the message"
+msgstr "Odpovědi na zprávu"
+
+#: sophie_bot/modules/notes/magic_handlers/modern_filter.py:51
+msgid "Now, please type the text you want to automatically send."
+msgstr "Nyní prosím napište text, který chcete automaticky posílat."
+
+#: sophie_bot/modules/notes/magic_handlers/modern_filter.py:52
+msgid "Markup help"
+msgstr "Nápověda k formátování"
 
 #: sophie_bot/modules/notes/utils/fillings.py:12
 msgid "Local chat"
@@ -1736,17 +1800,17 @@ msgstr "Získejte aktuální strategický režim / aktuální stav"
 msgid "Unknown"
 msgstr "Neznámý"
 
-#: sophie_bot/modules/troubleshooters/handlers/cancel.py:12
+#: sophie_bot/modules/troubleshooters/handlers/cancel.py:13
 msgid "Cancel current state, use if Sophie is not responding on your message"
 msgstr "Zrušit aktuální stav, použijte, pokud na vaši zprávu Sophie nereaguje"
 
-#: sophie_bot/modules/troubleshooters/handlers/cancel.py:20
-msgid "The current state is already cleared, nothing to do here."
-msgstr "Aktuální stav již byl vymazán, zde není co dělat."
+#: sophie_bot/modules/troubleshooters/handlers/cancel.py:21
+msgid "The current state is already cleared, wiping its data anyway..."
+msgstr "Aktuální stav již byl vymazán, zde není co dělat..."
 
-#: sophie_bot/modules/troubleshooters/handlers/cancel.py:26
-msgid "Current state is cleared."
-msgstr "Aktuální stav byl vymazán."
+#: sophie_bot/modules/troubleshooters/handlers/cancel.py:29
+msgid "Current state {state} is cleared."
+msgstr "Aktuální stav {state} byl vymazán."
 
 #: sophie_bot/modules/users/handlers/id.py:35
 msgid "Your ID: {id}"
@@ -1768,9 +1832,9 @@ msgstr "Odpověděl uživatel ID: {id}"
 msgid "{user}'s ID: {id}"
 msgstr "{user} má ID: {id}"
 
-#: sophie_bot/modules/utils_/base_handler.py:79
-#: sophie_bot/modules/utils_/base_handler.py:86
-#: sophie_bot/modules/utils_/base_handler.py:102
+#: sophie_bot/modules/utils_/base_handler.py:80
+#: sophie_bot/modules/utils_/base_handler.py:87
+#: sophie_bot/modules/utils_/reply_or_edit.py:11
 msgid "The message is inaccessible. Please write the command again"
 msgstr "Zpráva je nedostupná. Prosím, napište příkaz znovu"
 
@@ -1794,15 +1858,15 @@ msgstr "Bezpečnost vítání"
 msgid "Welcome Security contains a bunch of tools that can help filter bots that tries to join your groups, as well as make sure the new users acknowledged the chat rules before being able to speak"
 msgstr "Bezpečnost vítání obsahuje řadu nástrojů, které mohou pomoci filtrovat roboty, kteří se pokoušejí připojit k vašim skupinám, a také zajistit, aby noví uživatelé potvrdili pravidla chatu před tím, než budou moci mluvit"
 
-#: sophie_bot/modules/welcomesecurity/handlers/captcha_get.py:60
+#: sophie_bot/modules/welcomesecurity/handlers/captcha_get.py:62
 msgid "Complete the '{emoji_name}' emoji in order to complete the captcha and participate in the {group_name}."
 msgstr "Dokončete emoji '{emoji_name}', abyste se dostali přes captcha a mohli se účastnit {group_name}."
 
-#: sophie_bot/modules/welcomesecurity/handlers/captcha_get.py:69
+#: sophie_bot/modules/welcomesecurity/handlers/captcha_get.py:71
 msgid "❌ Incorrect solution. Please, try again."
 msgstr "❌ Nesprávné řešení. Prosím, zkuste to znovu."
 
-#: sophie_bot/modules/welcomesecurity/handlers/captcha_get.py:76
+#: sophie_bot/modules/welcomesecurity/handlers/captcha_get.py:78
 msgid "Confirm"
 msgstr "Potvrdit"
 

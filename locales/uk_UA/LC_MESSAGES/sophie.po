@@ -1,22 +1,16 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: sophiebot\n"
-"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-12-10 16:12+0100\n"
-"PO-Revision-Date: 2024-12-10 15:17\n"
-"Last-Translator: \n"
-"Language-Team: Ukrainian\n"
-"MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: 8bit\n"
-"Generated-By: Babel 2.16.0\n"
 "Plural-Forms: nplurals=4; plural=((n%10==1 && n%100!=11) ? 0 : ((n%10 >= 2 && n%10 <=4 && (n%100 < 12 || n%100 > 14)) ? 1 : ((n%10 == 0 || (n%10 >= 5 && n%10 <=9)) || (n%100 >= 11 && n%100 <= 14)) ? 2 : 3));\n"
 "X-Crowdin-Project: sophiebot\n"
 "X-Crowdin-Project-ID: 356879\n"
 "X-Crowdin-Language: uk\n"
 "X-Crowdin-File: /beta/locales/sophie.pot\n"
 "X-Crowdin-File-ID: 288\n"
+"Project-Id-Version: sophiebot\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language-Team: Ukrainian\n"
 "Language: uk_UA\n"
+"PO-Revision-Date: 2024-12-15 22:09\n"
 
 #: sophie_bot/args/users.py:29
 msgid "Could not find the requested User ID in the database."
@@ -418,6 +412,7 @@ msgid "✅ Enable all"
 msgstr "✅ Увімкнути все"
 
 #: sophie_bot/modules/disabling/handlers/enable_all.py:37
+#: sophie_bot/modules/filters/handlers/confirm.py:62
 #: sophie_bot/modules/notes/handlers/delete_all.py:41
 msgid "🚫 Cancel"
 msgstr "🚫 Скасувати"
@@ -438,15 +433,15 @@ msgstr "✅ Усі команди ({removed_count}) були увімкнені 
 msgid "Error"
 msgstr "Помилка"
 
-#: sophie_bot/modules/error/handlers/error.py:79
+#: sophie_bot/modules/error/handlers/error.py:85
 msgid "😞 I've got an error trying to process this update"
 msgstr "😞 У мене виникла помилка при обробці цього оновлення"
 
-#: sophie_bot/modules/error/handlers/error.py:92
+#: sophie_bot/modules/error/handlers/error.py:98
 msgid "Reference ID"
 msgstr "Ідентифікатор посилання"
 
-#: sophie_bot/modules/error/handlers/error.py:100
+#: sophie_bot/modules/error/handlers/error.py:106
 msgid "💬 Contact Sophie support"
 msgstr "💬 Зв'язатися з підтримкою Софі"
 
@@ -690,10 +685,59 @@ msgstr "Помилки колихають інновації,"
 msgid "Softly whispering."
 msgstr "Тихо шепочучи."
 
-#: sophie_bot/modules/filters/__init__.py:6
+#: sophie_bot/modules/filters/__init__.py:10
 #: sophie_bot/modules/legacy_modules/modules/filters.py:67
 msgid "Filters"
 msgstr "Фільтри"
+
+#: sophie_bot/modules/filters/handlers/add.py:45
+msgid "Text to match"
+msgstr "Текст для пошуку"
+
+#: sophie_bot/modules/filters/handlers/add.py:55
+#: sophie_bot/modules/filters/handlers/confirm.py:38
+msgid "New filter"
+msgstr "Новий фільтр"
+
+#: sophie_bot/modules/filters/handlers/add.py:57
+#: sophie_bot/modules/filters/handlers/confirm.py:39
+msgid "When {handler} in message"
+msgstr "Коли {handler} у повідомленні"
+
+#: sophie_bot/modules/filters/handlers/add.py:57
+#: sophie_bot/modules/filters/handlers/confirm.py:39
+msgid "Handles"
+msgstr "Обробляє"
+
+#: sophie_bot/modules/filters/handlers/add.py:59
+msgid "Select a filter action:"
+msgstr "Оберіть дію фільтра:"
+
+#: sophie_bot/modules/filters/handlers/add.py:72
+#: sophie_bot/modules/filters/handlers/add.py:89
+#: sophie_bot/modules/legacy_modules/modules/filters.py:210
+msgid "❌ Cancel"
+msgstr "❌ Скасувати"
+
+#: sophie_bot/modules/filters/handlers/add.py:86
+msgid "setup"
+msgstr "налаштування"
+
+#: sophie_bot/modules/filters/handlers/confirm.py:47
+msgid "Action"
+msgid_plural "Actions"
+msgstr[0] "Дія"
+msgstr[1] "Дії"
+msgstr[2] "Дії"
+msgstr[3] "Дії"
+
+#: sophie_bot/modules/filters/handlers/confirm.py:58
+msgid "➕ Add another action"
+msgstr "➕ Додати ще одну дію"
+
+#: sophie_bot/modules/filters/handlers/confirm.py:63
+msgid "✅ Confirm"
+msgstr "✅ Підтвердити"
 
 #: sophie_bot/modules/greetings/__init__.py:20
 msgid "Greetings"
@@ -1142,10 +1186,6 @@ msgstr "Додає новий фільтр."
 msgid "Trigger"
 msgstr "Тригер"
 
-#: sophie_bot/modules/legacy_modules/modules/filters.py:210
-msgid "❌ Cancel"
-msgstr "❌ Скасувати"
-
 #: sophie_bot/modules/legacy_modules/modules/filters.py:304
 msgid "Shows the list of filters."
 msgstr "Показує список фільтрів."
@@ -1292,7 +1332,7 @@ msgstr "Новий режим"
 msgid "⚠️ Warn"
 msgstr "⚠️ Попередження"
 
-#: sophie_bot/modules/notes/__init__.py:28
+#: sophie_bot/modules/notes/__init__.py:29
 msgid "Notes"
 msgstr "Замітки"
 
@@ -1482,6 +1522,30 @@ msgstr "💭 Відповісти на повідомлення"
 #: sophie_bot/modules/notes/magic_handlers/filter.py:92
 msgid "🗒 Send a note"
 msgstr "🗒 Відправити примітку"
+
+#: sophie_bot/modules/notes/magic_handlers/modern_filter.py:31
+msgid "Reply to message"
+msgstr "Відповісти на повідомлення"
+
+#: sophie_bot/modules/notes/magic_handlers/modern_filter.py:37
+msgid "Change reply text"
+msgstr "Змініть текст відповіді"
+
+#: sophie_bot/modules/notes/magic_handlers/modern_filter.py:45
+msgid "Replies to the message with"
+msgstr "Відповіді на повідомлення з"
+
+#: sophie_bot/modules/notes/magic_handlers/modern_filter.py:47
+msgid "Replies to the message"
+msgstr "Відповіді на повідомлення"
+
+#: sophie_bot/modules/notes/magic_handlers/modern_filter.py:51
+msgid "Now, please type the text you want to automatically send."
+msgstr "Тепер, будь ласка, введіть текст, який ви хочете автоматично відправити."
+
+#: sophie_bot/modules/notes/magic_handlers/modern_filter.py:52
+msgid "Markup help"
+msgstr "Допомога з розміткою"
 
 #: sophie_bot/modules/notes/utils/fillings.py:12
 msgid "Local chat"
@@ -1736,17 +1800,17 @@ msgstr "Отримати поточну стратегію / поточний с
 msgid "Unknown"
 msgstr "Невідомо"
 
-#: sophie_bot/modules/troubleshooters/handlers/cancel.py:12
+#: sophie_bot/modules/troubleshooters/handlers/cancel.py:13
 msgid "Cancel current state, use if Sophie is not responding on your message"
 msgstr "Скасувати поточний стан, використовуйте, якщо Софі не відповідає на ваше повідомлення"
 
-#: sophie_bot/modules/troubleshooters/handlers/cancel.py:20
-msgid "The current state is already cleared, nothing to do here."
-msgstr "Теперішній стан вже очищено, нічого тут робити."
+#: sophie_bot/modules/troubleshooters/handlers/cancel.py:21
+msgid "The current state is already cleared, wiping its data anyway..."
+msgstr "Теперішній стан вже очищено, нічого тут робити..."
 
-#: sophie_bot/modules/troubleshooters/handlers/cancel.py:26
-msgid "Current state is cleared."
-msgstr "Поточний стан очищено."
+#: sophie_bot/modules/troubleshooters/handlers/cancel.py:29
+msgid "Current state {state} is cleared."
+msgstr "Поточний стан {state} очищено."
 
 #: sophie_bot/modules/users/handlers/id.py:35
 msgid "Your ID: {id}"
@@ -1768,9 +1832,9 @@ msgstr "ID користувача, на якого відповіли: {id}"
 msgid "{user}'s ID: {id}"
 msgstr "{user} ID: {id}"
 
-#: sophie_bot/modules/utils_/base_handler.py:79
-#: sophie_bot/modules/utils_/base_handler.py:86
-#: sophie_bot/modules/utils_/base_handler.py:102
+#: sophie_bot/modules/utils_/base_handler.py:80
+#: sophie_bot/modules/utils_/base_handler.py:87
+#: sophie_bot/modules/utils_/reply_or_edit.py:11
 msgid "The message is inaccessible. Please write the command again"
 msgstr "Повідомлення недоступне. Будь ласка, напишіть команду ще раз"
 
@@ -1794,15 +1858,15 @@ msgstr "Привітальна безпека"
 msgid "Welcome Security contains a bunch of tools that can help filter bots that tries to join your groups, as well as make sure the new users acknowledged the chat rules before being able to speak"
 msgstr "Welcome Security contains a bunch of tools that can help filter bots that tries to join your groups, as well as make sure the new users acknowledged the chat rules before being able to speak"
 
-#: sophie_bot/modules/welcomesecurity/handlers/captcha_get.py:60
+#: sophie_bot/modules/welcomesecurity/handlers/captcha_get.py:62
 msgid "Complete the '{emoji_name}' emoji in order to complete the captcha and participate in the {group_name}."
 msgstr "Завершіть емодзі '{emoji_name}', щоб завершити капчу та взяти участь у {group_name}."
 
-#: sophie_bot/modules/welcomesecurity/handlers/captcha_get.py:69
+#: sophie_bot/modules/welcomesecurity/handlers/captcha_get.py:71
 msgid "❌ Incorrect solution. Please, try again."
 msgstr "❌ Неправильне рішення. Будь ласка, спробуйте ще раз."
 
-#: sophie_bot/modules/welcomesecurity/handlers/captcha_get.py:76
+#: sophie_bot/modules/welcomesecurity/handlers/captcha_get.py:78
 msgid "Confirm"
 msgstr "Confirm"
 

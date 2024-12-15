@@ -1,22 +1,16 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: sophiebot\n"
-"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-12-10 16:12+0100\n"
-"PO-Revision-Date: 2024-12-10 15:17\n"
-"Last-Translator: \n"
-"Language-Team: Chinese Simplified\n"
-"MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: 8bit\n"
-"Generated-By: Babel 2.16.0\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Crowdin-Project: sophiebot\n"
 "X-Crowdin-Project-ID: 356879\n"
 "X-Crowdin-Language: zh-CN\n"
 "X-Crowdin-File: /beta/locales/sophie.pot\n"
 "X-Crowdin-File-ID: 288\n"
+"Project-Id-Version: sophiebot\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language-Team: Chinese Simplified\n"
 "Language: zh_CN\n"
+"PO-Revision-Date: 2024-12-15 22:09\n"
 
 #: sophie_bot/args/users.py:29
 msgid "Could not find the requested User ID in the database."
@@ -418,6 +412,7 @@ msgid "✅ Enable all"
 msgstr "✅ 启用所有"
 
 #: sophie_bot/modules/disabling/handlers/enable_all.py:37
+#: sophie_bot/modules/filters/handlers/confirm.py:62
 #: sophie_bot/modules/notes/handlers/delete_all.py:41
 msgid "🚫 Cancel"
 msgstr "🚫 取消"
@@ -438,15 +433,15 @@ msgstr "✅ 所有命令 ({removed_count}) 已在 {chat_name} 中启用"
 msgid "Error"
 msgstr "错误"
 
-#: sophie_bot/modules/error/handlers/error.py:79
+#: sophie_bot/modules/error/handlers/error.py:85
 msgid "😞 I've got an error trying to process this update"
 msgstr "😞 我在处理此更新时遇到错误"
 
-#: sophie_bot/modules/error/handlers/error.py:92
+#: sophie_bot/modules/error/handlers/error.py:98
 msgid "Reference ID"
 msgstr "参考 ID"
 
-#: sophie_bot/modules/error/handlers/error.py:100
+#: sophie_bot/modules/error/handlers/error.py:106
 msgid "💬 Contact Sophie support"
 msgstr "💬 联系 Sophie 支持"
 
@@ -690,10 +685,56 @@ msgstr "错误摇篮般呵护着创新，"
 msgid "Softly whispering."
 msgstr "轻声细语。"
 
-#: sophie_bot/modules/filters/__init__.py:6
+#: sophie_bot/modules/filters/__init__.py:10
 #: sophie_bot/modules/legacy_modules/modules/filters.py:67
 msgid "Filters"
 msgstr "过滤器"
+
+#: sophie_bot/modules/filters/handlers/add.py:45
+msgid "Text to match"
+msgstr "要搜索的文本"
+
+#: sophie_bot/modules/filters/handlers/add.py:55
+#: sophie_bot/modules/filters/handlers/confirm.py:38
+msgid "New filter"
+msgstr "新过滤器"
+
+#: sophie_bot/modules/filters/handlers/add.py:57
+#: sophie_bot/modules/filters/handlers/confirm.py:39
+msgid "When {handler} in message"
+msgstr "当 {handler} 在消息中"
+
+#: sophie_bot/modules/filters/handlers/add.py:57
+#: sophie_bot/modules/filters/handlers/confirm.py:39
+msgid "Handles"
+msgstr "处理"
+
+#: sophie_bot/modules/filters/handlers/add.py:59
+msgid "Select a filter action:"
+msgstr "选择过滤器操作:"
+
+#: sophie_bot/modules/filters/handlers/add.py:72
+#: sophie_bot/modules/filters/handlers/add.py:89
+#: sophie_bot/modules/legacy_modules/modules/filters.py:210
+msgid "❌ Cancel"
+msgstr "❌ Cancel"
+
+#: sophie_bot/modules/filters/handlers/add.py:86
+msgid "setup"
+msgstr "设置"
+
+#: sophie_bot/modules/filters/handlers/confirm.py:47
+msgid "Action"
+msgid_plural "Actions"
+msgstr[0] "操作"
+
+#: sophie_bot/modules/filters/handlers/confirm.py:58
+msgid "➕ Add another action"
+msgstr "➕ 添加另一个操作"
+
+#: sophie_bot/modules/filters/handlers/confirm.py:63
+msgid "✅ Confirm"
+msgstr "✅ 确认"
 
 #: sophie_bot/modules/greetings/__init__.py:20
 msgid "Greetings"
@@ -1142,10 +1183,6 @@ msgstr "添加新过滤器。"
 msgid "Trigger"
 msgstr "触发器"
 
-#: sophie_bot/modules/legacy_modules/modules/filters.py:210
-msgid "❌ Cancel"
-msgstr "❌ Cancel"
-
 #: sophie_bot/modules/legacy_modules/modules/filters.py:304
 msgid "Shows the list of filters."
 msgstr "显示过滤器列表。"
@@ -1292,7 +1329,7 @@ msgstr "新模式"
 msgid "⚠️ Warn"
 msgstr "⚠️ Warn"
 
-#: sophie_bot/modules/notes/__init__.py:28
+#: sophie_bot/modules/notes/__init__.py:29
 msgid "Notes"
 msgstr "笔记"
 
@@ -1482,6 +1519,30 @@ msgstr "💭 Reply to message"
 #: sophie_bot/modules/notes/magic_handlers/filter.py:92
 msgid "🗒 Send a note"
 msgstr "🗒 Send a note"
+
+#: sophie_bot/modules/notes/magic_handlers/modern_filter.py:31
+msgid "Reply to message"
+msgstr "回复消息"
+
+#: sophie_bot/modules/notes/magic_handlers/modern_filter.py:37
+msgid "Change reply text"
+msgstr "更改回复文本"
+
+#: sophie_bot/modules/notes/magic_handlers/modern_filter.py:45
+msgid "Replies to the message with"
+msgstr "回复消息时使用"
+
+#: sophie_bot/modules/notes/magic_handlers/modern_filter.py:47
+msgid "Replies to the message"
+msgstr "回复消息"
+
+#: sophie_bot/modules/notes/magic_handlers/modern_filter.py:51
+msgid "Now, please type the text you want to automatically send."
+msgstr "现在，请输入您想要自动发送的文本。"
+
+#: sophie_bot/modules/notes/magic_handlers/modern_filter.py:52
+msgid "Markup help"
+msgstr "格式帮助"
 
 #: sophie_bot/modules/notes/utils/fillings.py:12
 msgid "Local chat"
@@ -1736,17 +1797,17 @@ msgstr "获取当前的策略模式 / 当前状态"
 msgid "Unknown"
 msgstr "未知"
 
-#: sophie_bot/modules/troubleshooters/handlers/cancel.py:12
+#: sophie_bot/modules/troubleshooters/handlers/cancel.py:13
 msgid "Cancel current state, use if Sophie is not responding on your message"
 msgstr "取消当前状态，如果 Sophie 在您的消息中未响应，请使用此命令"
 
-#: sophie_bot/modules/troubleshooters/handlers/cancel.py:20
-msgid "The current state is already cleared, nothing to do here."
-msgstr "当前状态已经清除，此处无事可做。"
+#: sophie_bot/modules/troubleshooters/handlers/cancel.py:21
+msgid "The current state is already cleared, wiping its data anyway..."
+msgstr "当前状态已经清除，无论如何都清空其数据..."
 
-#: sophie_bot/modules/troubleshooters/handlers/cancel.py:26
-msgid "Current state is cleared."
-msgstr "当前状态已清除。"
+#: sophie_bot/modules/troubleshooters/handlers/cancel.py:29
+msgid "Current state {state} is cleared."
+msgstr "当前状态 {state} 已被清除。"
 
 #: sophie_bot/modules/users/handlers/id.py:35
 msgid "Your ID: {id}"
@@ -1768,9 +1829,9 @@ msgstr "回复的用户 ID：{id}"
 msgid "{user}'s ID: {id}"
 msgstr "{user} 的 ID：{id}"
 
-#: sophie_bot/modules/utils_/base_handler.py:79
-#: sophie_bot/modules/utils_/base_handler.py:86
-#: sophie_bot/modules/utils_/base_handler.py:102
+#: sophie_bot/modules/utils_/base_handler.py:80
+#: sophie_bot/modules/utils_/base_handler.py:87
+#: sophie_bot/modules/utils_/reply_or_edit.py:11
 msgid "The message is inaccessible. Please write the command again"
 msgstr "消息无法访问。请再次写下命令"
 
@@ -1794,15 +1855,15 @@ msgstr "欢迎安全"
 msgid "Welcome Security contains a bunch of tools that can help filter bots that tries to join your groups, as well as make sure the new users acknowledged the chat rules before being able to speak"
 msgstr "欢迎安全包含一系列工具，可以帮助过滤试图加入您群组的机器人，并确保新用户在能够发言之前已确认聊天规则。"
 
-#: sophie_bot/modules/welcomesecurity/handlers/captcha_get.py:60
+#: sophie_bot/modules/welcomesecurity/handlers/captcha_get.py:62
 msgid "Complete the '{emoji_name}' emoji in order to complete the captcha and participate in the {group_name}."
 msgstr "完成 '{emoji_name}' 表情以完成验证码并参与 {group_name}。"
 
-#: sophie_bot/modules/welcomesecurity/handlers/captcha_get.py:69
+#: sophie_bot/modules/welcomesecurity/handlers/captcha_get.py:71
 msgid "❌ Incorrect solution. Please, try again."
 msgstr "❌ 不正确的解决方案。请重试。"
 
-#: sophie_bot/modules/welcomesecurity/handlers/captcha_get.py:76
+#: sophie_bot/modules/welcomesecurity/handlers/captcha_get.py:78
 msgid "Confirm"
 msgstr "确认"
 
