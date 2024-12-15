@@ -1,8 +1,8 @@
-from aiogram.types import CallbackQuery, Message, InaccessibleMessage
+from aiogram.types import CallbackQuery, InaccessibleMessage, Message
+from stfu_tg.doc import Element
 
 from sophie_bot.utils.exception import SophieException
 from sophie_bot.utils.i18n import gettext as _
-from stfu_tg.doc import Element
 
 
 async def reply_or_edit(event: Message | CallbackQuery, text: Element | str, **kwargs):

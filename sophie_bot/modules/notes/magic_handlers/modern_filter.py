@@ -1,7 +1,7 @@
-from typing import Any, Optional
+from typing import Any
 
 from aiogram.types import InlineKeyboardButton, InlineKeyboardMarkup, Message
-from stfu_tg import Italic, Template, Section
+from stfu_tg import Italic, Section
 from stfu_tg.doc import Element
 
 from sophie_bot.db.models.notes import Saveable
@@ -10,7 +10,6 @@ from sophie_bot.modules.filters.utils_.filter_abc import (
     FilterActionABC,
     FilterActionSetting,
     FilterActionSetupHandlerABC,
-    T,
 )
 from sophie_bot.modules.notes.utils.parse import parse_saveable
 from sophie_bot.utils.i18n import gettext as _
@@ -25,7 +24,7 @@ class ReplyFilterConfirmHandler(FilterActionSetupHandlerABC):
         return await ConfirmAddFilter(self.event, **self.data)
 
 
-class ReplyFilterAction(FilterActionABC):
+class ReplyFilterAction(FilterActionABC[dict[str, Any]]):
     name = "reply"
 
     icon = "💭"
@@ -39,8 +38,8 @@ class ReplyFilterAction(FilterActionABC):
         ),
     )
 
-    @classmethod
-    def description(cls, data: str) -> Element | str:
+    @staticmethod
+    def description(data: dict[str, Any]) -> Element | str:
         saveable = Saveable.model_validate(data)
         if saveable.text:
             return Section(Italic(saveable.text), title=_("Replies to the message with"), title_underline=False)
@@ -54,8 +53,8 @@ class ReplyFilterAction(FilterActionABC):
         )
 
     @classmethod
-    async def setup_confirm(cls, message: Message, data: dict[Any]) -> str:
+    async def setup_confirm(cls, message: Message, data: dict[str, Any]) -> dict[str, Any]:
         return (await parse_saveable(message, message.html_text)).model_dump(mode="json")
 
-    async def handle(self, message: Message, data: dict, filter_data: str):
+    async def handle(self, message: Message, data: dict, filter_data: dict[str, Any]):
         pass

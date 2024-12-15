@@ -25,7 +25,7 @@ LOCALES_DIR := $(CURDIR)/locales
 
 
 all: fix_code_style locale test_all clean build_onefile
-commit: fix_code_style extract_lang test_code_style gen_wiki test_codeanalysis
+commit: fix_code_style extract_lang test_code_style test_codeanalysis gen_wiki
 test_all: test_code_style test_codeanalysis
 locale: extract_lang update_lang compile_lang
 

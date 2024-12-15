@@ -1,4 +1,4 @@
-from typing import Any
+from typing import Any, Optional
 
 from aiogram.dispatcher.event.handler import CallbackType
 from aiogram.fsm.storage.base import DEFAULT_DESTINY
@@ -6,8 +6,6 @@ from aiogram.types import InlineKeyboardButton, InlineKeyboardMarkup, Message
 from aiogram.utils.keyboard import InlineKeyboardBuilder
 from ass_tg.types import TextArg
 from ass_tg.types.base_abc import ArgFabric
-from sophie_bot.modules.utils_.reply_or_edit import reply_or_edit
-from sophie_bot.utils.exception import SophieException
 from stfu_tg import Code, Doc, Section, Template, Title
 
 from sophie_bot.filters.admin_rights import UserRestricting
@@ -24,6 +22,8 @@ from sophie_bot.modules.utils_.base_handler import (
     SophieCallbackQueryHandler,
     SophieMessageHandler,
 )
+from sophie_bot.modules.utils_.reply_or_edit import reply_or_edit
+from sophie_bot.utils.exception import SophieException
 from sophie_bot.utils.i18n import LazyProxy
 from sophie_bot.utils.i18n import gettext as _
 from sophie_bot.utils.i18n import lazy_gettext as l_
@@ -79,7 +79,7 @@ class FilterActionClickHandler(SophieCallbackQueryHandler):
     def filters() -> tuple[CallbackType, ...]:
         return FilterActionCallback.filter(), ~ChatTypeFilter("private"), UserRestricting(admin=True)
 
-    async def setup_message(self, filter_title: str, text: LazyProxy | str, reply_markup: InlineKeyboardMarkup):
+    async def setup_message(self, filter_title: LazyProxy, text: LazyProxy | str, reply_markup: InlineKeyboardMarkup):
         # Set FSM state
         await self.state.set_state(NewFilterFSM.action_setup)
 
@@ -116,18 +116,23 @@ class FilterActionConfirmHandler(SophieMessageHandler):
         return NewFilterFSM.action_setup, ~ChatTypeFilter("private")
 
     async def handle(self) -> Any:
-        filter_action: FilterActionABC = ALL_FILTER_ACTIONS.get(await self.state.get_value("filter_action"))
+        filter_action_raw: Optional[str] = await self.state.get_value("filter_action")
+
+        if not filter_action_raw:
+            raise SophieException("No filter action in state")
+
+        filter_action: FilterActionABC = ALL_FILTER_ACTIONS[filter_action_raw]
 
         state_data = await self.state.get_data()
-        if 'filters' not in state_data:
-            state_data['filters'] = {}
+        if "filters" not in state_data:
+            state_data["filters"] = {}
 
         # Check
-        if filter_action.name in state_data['filters']:
+        if filter_action.name in state_data["filters"]:
             raise SophieException("Filter already exists")
 
         # Add new filter
-        state_data['filters'][filter_action.name] = await filter_action.setup_confirm(self.event, self.data)
+        state_data["filters"][filter_action.name] = await filter_action.setup_confirm(self.event, self.data)
 
         await self.state.set_data(state_data)
         await self.state.set_state(DEFAULT_DESTINY)  # Reset to default state but do not flush the state data

@@ -13,10 +13,10 @@ from aiogram.types import (
     Message,
 )
 from ass_tg.types.base_abc import ArgFabric
-from sophie_bot.modules.utils_.reply_or_edit import reply_or_edit
 from stfu_tg.doc import Element
 
 from sophie_bot import bot
+from sophie_bot.modules.utils_.reply_or_edit import reply_or_edit
 from sophie_bot.utils.exception import SophieException
 from sophie_bot.utils.i18n import gettext as _
 

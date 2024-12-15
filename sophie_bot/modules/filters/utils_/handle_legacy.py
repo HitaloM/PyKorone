@@ -8,7 +8,12 @@ from sophie_bot.utils.logger import log
 
 
 async def handle_legacy_filter(matched_filter: FiltersModel, message: Message):
-    if not (action := LEGACY_FILTERS_ACTIONS.get(matched_filter.action)):
+    filter_action_raw = matched_filter.action
+
+    if not filter_action_raw:
+        raise SophieException("No filter_action_raw in the filter!")
+
+    if not (action := LEGACY_FILTERS_ACTIONS.get(filter_action_raw)):
         raise SophieException("The filter action is not supported!")
 
     log.debug("handle_legacy_filter", matched_filter=matched_filter)

@@ -4,10 +4,10 @@ from aiogram import flags
 from aiogram.fsm.context import FSMContext
 from aiogram.handlers import MessageHandler
 from aiogram.types import ReplyKeyboardRemove
+from stfu_tg import Italic, Template
 
 from sophie_bot.utils.i18n import gettext as _
 from sophie_bot.utils.i18n import lazy_gettext as l_
-from stfu_tg import Template, Italic
 
 
 @flags.help(description=l_("Cancel current state, use if Sophie is not responding on your message"))
