@@ -11,6 +11,7 @@ from sophie_bot.modules.ai.fsm.pm import AI_GENERATED_TEXT
 from sophie_bot.modules.ai.utils.message_history import AIMessageHistory
 from sophie_bot.modules.notes.utils.unparse_legacy import legacy_markdown_to_html
 from sophie_bot.services.ai import ai_client
+from sophie_bot.utils.i18n import gettext as _
 from sophie_bot.utils.logger import log
 
 
@@ -38,7 +39,7 @@ async def ai_generate(
 
     log.debug("ai_generate", content=chat_completion.choices[0].message.content)
 
-    return chat_completion.choices[0].message.content
+    return chat_completion.choices[0].message.content or _("No text from AI")
 
 
 async def ai_generate_schema(

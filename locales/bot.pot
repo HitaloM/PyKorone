@@ -307,6 +307,10 @@ msgstr ""
 msgid "By using AI features you agree to the our Privacy Policy (/privacy) and third party AI services used."
 msgstr ""
 
+#: sophie_bot/modules/ai/utils/ai_chatbot.py:42
+msgid "No text from AI"
+msgstr ""
+
 #: sophie_bot/modules/ai/utils/message_history.py:64
 msgid "You're a bot named Sophie."
 msgstr ""
