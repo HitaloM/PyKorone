@@ -10,7 +10,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Language-Team: Czech\n"
 "Language: cs_CZ\n"
-"PO-Revision-Date: 2024-12-15 22:09\n"
+"PO-Revision-Date: 2024-12-16 18:22\n"
 
 #: sophie_bot/args/users.py:29
 msgid "Could not find the requested User ID in the database."
@@ -320,6 +320,10 @@ msgstr "Translation Notes"
 #: sophie_bot/modules/ai/texts.py:3
 msgid "By using AI features you agree to the our Privacy Policy (/privacy) and third party AI services used."
 msgstr "Používáním funkcí AI souhlasíte s našimi Zásadami ochrany soukromí (/privacy) a se službami AI třetích stran."
+
+#: sophie_bot/modules/ai/utils/ai_chatbot.py:42
+msgid "No text from AI"
+msgstr "Žádný text od AI"
 
 #: sophie_bot/modules/ai/utils/message_history.py:64
 msgid "You're a bot named Sophie."
@@ -1104,7 +1108,7 @@ msgstr "Povýší uživatele na administrátory federace."
 #: sophie_bot/modules/legacy_modules/modules/feds.py:428
 #: sophie_bot/modules/legacy_modules/modules/feds.py:457
 #: sophie_bot/modules/legacy_modules/modules/feds.py:610
-#: sophie_bot/modules/legacy_modules/modules/feds.py:782
+#: sophie_bot/modules/legacy_modules/modules/feds.py:785
 #: sophie_bot/modules/legacy_modules/modules/restrictions.py:67
 #: sophie_bot/modules/legacy_modules/modules/restrictions.py:126
 #: sophie_bot/modules/legacy_modules/modules/restrictions.py:205
@@ -1149,31 +1153,31 @@ msgstr "Zobrazuje informace o federaci."
 msgid "Bans the user in the whole Federation."
 msgstr "Zabanovat uživatele v celé federaci."
 
-#: sophie_bot/modules/legacy_modules/modules/feds.py:782
+#: sophie_bot/modules/legacy_modules/modules/feds.py:785
 msgid "Unbans the user from the Federation."
 msgstr "Odblokuje uživatele z federace."
 
-#: sophie_bot/modules/legacy_modules/modules/feds.py:874
+#: sophie_bot/modules/legacy_modules/modules/feds.py:879
 msgid "Deletes the federation."
 msgstr "Smaže federaci."
 
-#: sophie_bot/modules/legacy_modules/modules/feds.py:928
+#: sophie_bot/modules/legacy_modules/modules/feds.py:933
 msgid "Renames the federation."
 msgstr "Přejmenuje federaci."
 
-#: sophie_bot/modules/legacy_modules/modules/feds.py:928
+#: sophie_bot/modules/legacy_modules/modules/feds.py:933
 msgid "New name"
 msgstr "Nové jméno"
 
-#: sophie_bot/modules/legacy_modules/modules/feds.py:956
+#: sophie_bot/modules/legacy_modules/modules/feds.py:961
 msgid "Exports the list of bans."
 msgstr "Exportuje seznam zákazů."
 
-#: sophie_bot/modules/legacy_modules/modules/feds.py:1005
+#: sophie_bot/modules/legacy_modules/modules/feds.py:1010
 msgid "Imports the list of bans."
 msgstr "Importuje seznam zákazů."
 
-#: sophie_bot/modules/legacy_modules/modules/feds.py:1135
+#: sophie_bot/modules/legacy_modules/modules/feds.py:1140
 msgid "Checks the user ban status (can be used to check yourself)."
 msgstr "Kontroluje stav zákazu uživatele (může se použít pro kontrolu sebe)."
 
