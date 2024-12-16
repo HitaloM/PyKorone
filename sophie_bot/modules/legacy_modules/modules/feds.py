@@ -669,8 +669,10 @@ async def fed_ban_user(message: Message, fed, user, reason, strings):
 
             if chat_id in user["chats"]:
                 await asyncio.sleep(0)  # Do not slow down other updates
-                if await ban_user(chat_id, user_id):
-                    banned_chats.append(chat_id)
+
+                with suppress(TelegramForbiddenError):
+                    if await ban_user(chat_id, user_id):
+                        banned_chats.append(chat_id)
 
     new = {
         "fed_id": fed["fed_id"],
@@ -745,12 +747,13 @@ async def fed_ban_user(message: Message, fed, user, reason, strings):
                 # Do not slow down other updates
                 await asyncio.sleep(0.2)
 
-                if await ban_user(chat_id, user_id):
-                    banned_chats.append(chat_id)
-                    all_banned_chats_count += 1
+                with suppress(TelegramForbiddenError):
+                    if await ban_user(chat_id, user_id):
+                        banned_chats.append(chat_id)
+                        all_banned_chats_count += 1
 
-                    if reason:
-                        new["reason"] = reason
+                        if reason:
+                            new["reason"] = reason
 
             await db.fed_bans.insert_one(new)
 
@@ -812,8 +815,9 @@ async def unfed_ban_user(message: Message, fed, user, text, strings):
     counter = 0
     for chat_id in banned_chats:
         await asyncio.sleep(0)  # Do not slow down other updates
-        if await unban_user(chat_id, user_id):
-            counter += 1
+        with suppress(TelegramForbiddenError):
+            if await unban_user(chat_id, user_id):
+                counter += 1
 
     await db.fed_bans.delete_one({"fed_id": fed["fed_id"], "user_id": user_id})
 
@@ -849,10 +853,11 @@ async def unfed_ban_user(message: Message, fed, user, text, strings):
 
             for chat_id in banned_chats:
                 await asyncio.sleep(0.2)  # Do not slow down other updates
-                if await unban_user(chat_id, user_id):
-                    all_unbanned_chats_count += 1
+                with suppress(TelegramForbiddenError):
+                    if await unban_user(chat_id, user_id):
+                        all_unbanned_chats_count += 1
 
-                    await db.fed_bans.delete_one({"fed_id": sfed_id, "user_id": user_id})
+                        await db.fed_bans.delete_one({"fed_id": sfed_id, "user_id": user_id})
 
         await msg.edit_text(
             text
