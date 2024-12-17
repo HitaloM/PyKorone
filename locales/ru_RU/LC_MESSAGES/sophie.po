@@ -10,7 +10,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Language-Team: Russian\n"
 "Language: ru_RU\n"
-"PO-Revision-Date: 2024-12-15 22:09\n"
+"PO-Revision-Date: 2024-12-16 18:22\n"
 
 #: sophie_bot/args/users.py:29
 msgid "Could not find the requested User ID in the database."
@@ -320,6 +320,10 @@ msgstr "Translation Notes"
 #: sophie_bot/modules/ai/texts.py:3
 msgid "By using AI features you agree to the our Privacy Policy (/privacy) and third party AI services used."
 msgstr "Используя функции AI, вы соглашаетесь с нашей Политикой конфиденциальности (/privacy) и использованными сторонними AI-сервисами."
+
+#: sophie_bot/modules/ai/utils/ai_chatbot.py:42
+msgid "No text from AI"
+msgstr "Нет текста от ИИ"
 
 #: sophie_bot/modules/ai/utils/message_history.py:64
 msgid "You're a bot named Sophie."
@@ -1104,7 +1108,7 @@ msgstr "Поднимает пользователя до администрат�
 #: sophie_bot/modules/legacy_modules/modules/feds.py:428
 #: sophie_bot/modules/legacy_modules/modules/feds.py:457
 #: sophie_bot/modules/legacy_modules/modules/feds.py:610
-#: sophie_bot/modules/legacy_modules/modules/feds.py:782
+#: sophie_bot/modules/legacy_modules/modules/feds.py:785
 #: sophie_bot/modules/legacy_modules/modules/restrictions.py:67
 #: sophie_bot/modules/legacy_modules/modules/restrictions.py:126
 #: sophie_bot/modules/legacy_modules/modules/restrictions.py:205
@@ -1149,31 +1153,31 @@ msgstr "Показывает информацию о Федерации."
 msgid "Bans the user in the whole Federation."
 msgstr "Забанивает пользователя в всей Федерации."
 
-#: sophie_bot/modules/legacy_modules/modules/feds.py:782
+#: sophie_bot/modules/legacy_modules/modules/feds.py:785
 msgid "Unbans the user from the Federation."
 msgstr "Снимает бан с пользователя в Федерации."
 
-#: sophie_bot/modules/legacy_modules/modules/feds.py:874
+#: sophie_bot/modules/legacy_modules/modules/feds.py:879
 msgid "Deletes the federation."
 msgstr "Удаляет федерацию."
 
-#: sophie_bot/modules/legacy_modules/modules/feds.py:928
+#: sophie_bot/modules/legacy_modules/modules/feds.py:933
 msgid "Renames the federation."
 msgstr "Переименовывает федерацию."
 
-#: sophie_bot/modules/legacy_modules/modules/feds.py:928
+#: sophie_bot/modules/legacy_modules/modules/feds.py:933
 msgid "New name"
 msgstr "Новое название"
 
-#: sophie_bot/modules/legacy_modules/modules/feds.py:956
+#: sophie_bot/modules/legacy_modules/modules/feds.py:961
 msgid "Exports the list of bans."
 msgstr "Экспортирует список банов."
 
-#: sophie_bot/modules/legacy_modules/modules/feds.py:1005
+#: sophie_bot/modules/legacy_modules/modules/feds.py:1010
 msgid "Imports the list of bans."
 msgstr "Импортирует список банов."
 
-#: sophie_bot/modules/legacy_modules/modules/feds.py:1135
+#: sophie_bot/modules/legacy_modules/modules/feds.py:1140
 msgid "Checks the user ban status (can be used to check yourself)."
 msgstr "Проверяет статус бана пользователя (может быть использовано для проверки себя)."
 
