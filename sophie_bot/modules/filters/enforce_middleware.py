@@ -8,6 +8,7 @@ from sophie_bot import CONFIG
 from sophie_bot.db.models import FiltersModel
 from sophie_bot.modules.filters.utils_.handle_legacy import handle_legacy_filter
 from sophie_bot.modules.filters.utils_.match_legacy import match_legacy_filter
+from sophie_bot.modules.legacy_modules.utils.user_details import is_user_admin
 from sophie_bot.utils.exception import SophieException
 from sophie_bot.utils.logger import log
 
@@ -33,9 +34,19 @@ class EnforceFiltersMiddleware(BaseMiddleware):
         #     return True
 
         # Whatever the sender is an admin
-        # if await is_user_admin(chat_id, sender_id):
-        #     log.debug('EnforceFiltersMiddleware: admin, dropping...')
-        #     return True
+        # TODO: Use fitler match of /delfilter handler here instead of hard-coding
+
+        chat_id = message.chat.id
+        text = message.text
+        delfilter_text: str = "/delfilter"
+
+        is_delfilter_cmd: bool = bool(
+            text and len(text) > 1 and CONFIG.commands_prefix in text[0] and delfilter_text in text
+        )
+
+        if is_delfilter_cmd and await is_user_admin(chat_id, sender.id):
+            log.debug("EnforceFiltersMiddleware: admin, dropping...")
+            return True
 
         return False
 
