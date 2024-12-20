@@ -36,17 +36,22 @@ class EnforceFiltersMiddleware(BaseMiddleware):
         # Whatever the sender is an admin
         # TODO: Use fitler match of /delfilter handler here instead of hard-coding
 
-        chat_id = message.chat.id
         text = message.text
-        delfilter_text: str = "delfilter"
+        chat_id = message.chat.id
+        if text and len(text) > 5 and any(text.startswith(prefix) for prefix in CONFIG.commands_prefix):
+            cmd_text = text[1:].split(" ", 1)[0]
 
-        is_delfilter_cmd: bool = bool(
-            text and len(text) > 1 and text[0] in CONFIG.commands_prefix and delfilter_text in text
-        )
-
-        if is_delfilter_cmd and await is_user_admin(chat_id, sender.id):
-            log.debug("EnforceFiltersMiddleware: admin, dropping...")
-            return True
+            if cmd_text in {
+                "filters",
+                "listfilters",
+                "delfilters",
+                "delallfilters",
+                "addfilter",
+                "newfilter",
+                "delfilter",
+            } and await is_user_admin(chat_id, sender.id):
+                log.debug("EnforceFiltersMiddleware: admin, dropping...")
+                return True
 
         return False
 
