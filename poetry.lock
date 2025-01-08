@@ -386,20 +386,6 @@ jupyter = ["ipython (>=7.8.0)", "tokenize-rt (>=3.2.0)"]
 uvloop = ["uvloop (>=0.15.2)"]
 
 [[package]]
-name = "captcha"
-version = "0.6.0"
-description = "A captcha library that generates audio and image CAPTCHAs."
-optional = false
-python-versions = ">=3.8"
-files = [
-    {file = "captcha-0.6.0-py3-none-any.whl", hash = "sha256:148b2475be00a067b6173b7796cdc2332dbcb6fd4bfced1055bc8f69846bc924"},
-    {file = "captcha-0.6.0.tar.gz", hash = "sha256:a5ead7679cd8477bc636524d54f50e092a4b6f3db4e52bb98a689593638d1772"},
-]
-
-[package.dependencies]
-Pillow = "*"
-
-[[package]]
 name = "certifi"
 version = "2024.12.14"
 description = "Python package for providing Mozilla's CA Bundle."
@@ -2789,4 +2775,4 @@ fast = []
 [metadata]
 lock-version = "2.0"
 python-versions = "~3.12"
-content-hash = "184726551757fce1eec4fffccf857b704e7210a9f3ad9d86bbf3fbfd6a15cd3b"
+content-hash = "ab57f065e607dd1d34cc114adfe33cdbe80b04e0b2f30d8588a434c2fa44f7d5"
