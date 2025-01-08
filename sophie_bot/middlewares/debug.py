@@ -31,10 +31,10 @@ class DataDebugMiddleware(BaseMiddleware):
 
 class HandlerDebugMiddleware(BaseMiddleware):
     async def __call__(
-        self,
-        handler: Callable[[TelegramObject, dict[str, Any]], Awaitable[Any]],
-        event: TelegramObject,
-        data: dict[str, Any],
+            self,
+            handler: Callable[[TelegramObject, dict[str, Any]], Awaitable[Any]],
+            event: TelegramObject,
+            data: dict[str, Any],
     ) -> Any:
         debug(handler)
         result = await handler(event, data)

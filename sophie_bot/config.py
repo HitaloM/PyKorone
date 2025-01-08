@@ -37,7 +37,10 @@ class Config(BaseSettings):
 
     botapi_server: Optional[AnyHttpUrl] = None
 
-    debug_mode: bool = False
+    # Debugging
+    debug_mode: bool = False  # Debug console output
+    memory_debug: bool = False  # Memory leaks debugging
+
     modules_load: List[str] = ["*"]
     modules_not_load: List[str] = []
     legacy_modules_not_load: List[str] = []

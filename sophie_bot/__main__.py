@@ -1,4 +1,5 @@
 import ssl
+import tracemalloc
 from asyncio import gather
 from typing import Optional
 
@@ -22,6 +23,11 @@ from sophie_bot.utils.sentry import init_sentry
 # Import misc stuff
 if CONFIG.sentry_url:
     init_sentry()
+
+
+if CONFIG.memory_debug:
+    log.warning("Enabling memory debug!")
+    tracemalloc.start()
 
 
 @dp.startup()

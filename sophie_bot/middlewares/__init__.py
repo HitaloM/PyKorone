@@ -8,6 +8,7 @@ from sophie_bot.middlewares.disabling import DisablingMiddleware
 from sophie_bot.middlewares.legacy_save_chats import LegacySaveChats
 from sophie_bot.middlewares.localization import LocalizationMiddleware
 from sophie_bot.middlewares.logic import OrMiddleware
+from sophie_bot.middlewares.memory_debug import TracemallocMiddleware
 from sophie_bot.middlewares.save_chats import SaveChatsMiddleware
 from sophie_bot.services.i18n import i18n
 from sophie_bot.utils.logger import log
@@ -41,3 +42,6 @@ def enable_middlewares():
 
         dp.update.middleware(DataDebugMiddleware())
         dp.update.middleware(HandlerDebugMiddleware())
+
+    if CONFIG.memory_debug:
+        dp.update.middleware(TracemallocMiddleware())
