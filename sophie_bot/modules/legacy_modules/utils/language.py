@@ -45,11 +45,7 @@ for filename in os.listdir("sophie_bot/localization"):
 
         LANGUAGES[lang_code] = lang
 
-log.info(
-    "Legacy languages loaded: {}".format(
-        [language["language_info"]['code'] for language in LANGUAGES.values()]
-    )
-)
+log.info("Legacy languages loaded: {}".format([language["language_info"]["code"] for language in LANGUAGES.values()]))
 
 
 async def get_chat_lang(chat_id):

@@ -1,7 +1,8 @@
 import logging.config
+
 import structlog
-from structlog.typing import EventDict
 from aiogram.loggers import event
+from structlog.typing import EventDict
 
 from sophie_bot import CONFIG
 
@@ -9,8 +10,8 @@ timestamper = structlog.processors.TimeStamper(fmt="%Y-%m-%d %H:%M:%S")
 
 
 def silence_processor(logger: logging.Logger, method_name: str, event_dict: EventDict):
-    if event_dict.get('logger', None) == "aiogram.event":
-        event_dict['level'] = 'debug'
+    if event_dict.get("logger", None) == "aiogram.event":
+        event_dict["level"] = "debug"
 
     return event_dict
 
@@ -24,6 +25,7 @@ pre_chain = [
 
 level = logging.DEBUG if CONFIG.debug_mode else logging.INFO
 
+
 def extract_from_record(_, __, event_dict):
     """
     Extract thread and process names and add them to the event dict.
@@ -32,6 +34,7 @@ def extract_from_record(_, __, event_dict):
     event_dict["thread_name"] = record.threadName
     event_dict["process_name"] = record.processName
     return event_dict
+
 
 logging.config.dictConfig(
     {
@@ -83,7 +86,6 @@ structlog.configure(
         # structlog.stdlib.PositionalArgumentsFormatter(),
         timestamper,
         structlog.processors.StackInfoRenderer(),
-
         structlog.processors.format_exc_info,
         structlog.stdlib.add_logger_name,
         structlog.stdlib.ProcessorFormatter.wrap_for_formatter,

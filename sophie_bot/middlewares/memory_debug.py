@@ -12,10 +12,10 @@ FIRST_SNAPSHOT = None
 
 class TracemallocMiddleware(BaseMiddleware):
     async def __call__(
-            self,
-            handler: Callable[[TelegramObject, dict[str, Any]], Awaitable[Any]],
-            event: TelegramObject,
-            data: dict[str, Any],
+        self,
+        handler: Callable[[TelegramObject, dict[str, Any]], Awaitable[Any]],
+        event: TelegramObject,
+        data: dict[str, Any],
     ) -> Any:
         result = await handler(event, data)
 
@@ -31,7 +31,7 @@ class TracemallocMiddleware(BaseMiddleware):
 
         snapshot = tracemalloc.take_snapshot()
 
-        top_stats = snapshot.compare_to(FIRST_SNAPSHOT, 'lineno')
+        top_stats = snapshot.compare_to(FIRST_SNAPSHOT, "lineno")
 
         log.info("Tracemalloc: " + "\n".join(map(str, top_stats[:10])))
 
