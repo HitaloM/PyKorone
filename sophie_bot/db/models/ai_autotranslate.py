@@ -1,13 +1,10 @@
-from typing import TYPE_CHECKING
-
 from beanie import Document, Link, PydanticObjectId
 
-if TYPE_CHECKING:
-    from .chat import ChatModel
+from .chat import ChatModel
 
 
 class AIAutotranslateModel(Document):
-    chat: Link["ChatModel"]
+    chat: Link[ChatModel]
 
     class Settings:
         name = "ai_autotranslate"

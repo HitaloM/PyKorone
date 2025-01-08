@@ -1,10 +1,8 @@
 from datetime import date
-from typing import TYPE_CHECKING
 
 from beanie import Document, Link
 
-if TYPE_CHECKING:
-    from .chat import ChatModel
+from .chat import ChatModel
 
 
 class AIUsageModel(Document):
