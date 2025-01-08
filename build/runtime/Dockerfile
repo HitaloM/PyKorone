@@ -9,6 +9,8 @@ RUN apt install build-essential gcc git -y
 RUN pip install poetry wheel
 RUN python -m venv /venv
 
+RUN poetry self add poetry-plugin-export
+
 WORKDIR /build
 COPY ../../pyproject.toml poetry.lock ./
 

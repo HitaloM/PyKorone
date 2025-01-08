@@ -49,6 +49,9 @@ babel = "^2.16.0"
 [tool.poetry.extras]
 fast = ["aiohttp", "cryptg", "cryptography"]
 
+#[tool.poetry.requires-plugins]
+#poetry-plugin-export = ">1.8"
+
 [tool.yapf]
 based_on_style = "yapf"
 indent_width = 4
