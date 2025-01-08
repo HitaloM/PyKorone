@@ -64,12 +64,12 @@ logging.config.dictConfig(
                 "class": "logging.StreamHandler",
                 "formatter": "colored",
             },
-            "file": {
-                "level": level,
-                "class": "logging.handlers.WatchedFileHandler",
-                "filename": "test.log",
-                "formatter": "plain",
-            },
+            # "file": {
+            #     "level": level,
+            #     "class": "logging.handlers.WatchedFileHandler",
+            #     "filename": "test.log",
+            #     "formatter": "plain",
+            # },
         },
         "loggers": {
             "": {
