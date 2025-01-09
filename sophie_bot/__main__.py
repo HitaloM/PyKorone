@@ -1,4 +1,3 @@
-import gc
 import ssl
 import tracemalloc
 from asyncio import gather

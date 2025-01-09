@@ -1,4 +1,3 @@
-import gc
 import tracemalloc
 from random import randint
 from typing import Any, Awaitable, Callable
