@@ -1,3 +1,4 @@
+import gc
 import ssl
 import tracemalloc
 from asyncio import gather
@@ -28,6 +29,7 @@ if CONFIG.sentry_url:
 if CONFIG.memory_debug:
     log.warning("Enabling memory debug!")
     tracemalloc.start()
+    # gc.set_debug(gc.DEBUG_LEAK)
 
 
 @dp.startup()

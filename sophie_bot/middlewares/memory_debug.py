@@ -1,9 +1,11 @@
+import gc
 import tracemalloc
 from random import randint
 from typing import Any, Awaitable, Callable
 
 from aiogram import BaseMiddleware
 from aiogram.types import TelegramObject
+from mem_top import mem_top
 
 from sophie_bot.utils.logger import log
 
@@ -26,13 +28,14 @@ class TracemallocMiddleware(BaseMiddleware):
             return result
 
         # 1% that it'll handle
-        if randint(0, 100) != 0:
+        if randint(0, 100) == 0:
             return result
 
         snapshot = tracemalloc.take_snapshot()
 
         top_stats = snapshot.compare_to(FIRST_SNAPSHOT, "lineno")
 
-        log.info("Tracemalloc: " + "\n".join(map(str, top_stats[:10])))
+        log.info("Tracemalloc: \n" + "\n".join(map(str, top_stats[:10])))
+        log.info("Mem top: \n" + mem_top(width=500))
 
         return result
