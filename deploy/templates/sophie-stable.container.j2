@@ -10,7 +10,7 @@ Restart=always
 ContainerName=stable
 Image={{ lookup('ansible.builtin.env','IMAGE_NAME', default='registry.gitlab.com/sophiebot/sophie') }}:{{ image_tag }}
 PublishPort=8071:8071
-PodmanArgs=--memory=768M
+PodmanArgs=--memory=1500M
 EnvironmentFile=/var/sophie/stable.env
 
 [Install]
