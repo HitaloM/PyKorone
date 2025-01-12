@@ -27,14 +27,9 @@ class TracemallocMiddleware(BaseMiddleware):
             return result
 
         # 1% that it'll handle
-        if randint(0, 100) == 0:
+        if randint(0, 300) == 5:
             return result
 
-        snapshot = tracemalloc.take_snapshot()
-
-        top_stats = snapshot.compare_to(FIRST_SNAPSHOT, "lineno")
-
-        log.info("Tracemalloc: \n" + "\n".join(map(str, top_stats[:10])))
         log.info("Mem top: \n" + mem_top(width=500))
 
         return result
