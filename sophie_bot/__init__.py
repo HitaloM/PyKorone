@@ -1,5 +1,6 @@
 from aiogram import Bot, Dispatcher
 from aiogram.client.default import DefaultBotProperties
+from aiogram.client.session.aiohttp import AiohttpSession
 from aiogram.client.telegram import PRODUCTION, TelegramAPIServer
 from aiogram.fsm.storage.base import DefaultKeyBuilder
 from aiogram.fsm.storage.memory import SimpleEventIsolation
@@ -19,9 +20,11 @@ log.info("Branch: " + SOPHIE_BRANCH)
 
 # Support for custom BotAPI servers
 bot_api = TelegramAPIServer.from_base(str(CONFIG.botapi_server)) if CONFIG.botapi_server else PRODUCTION
+session = AiohttpSession(api=bot_api)
+log.debug(f"Using BotAPI server: {bot_api}")
 
 # AIOGram
-bot = Bot(token=CONFIG.token, default=DefaultBotProperties(parse_mode="html"), server=bot_api)
+bot = Bot(token=CONFIG.token, default=DefaultBotProperties(parse_mode="html"), session=session)
 redis = Redis(
     host=CONFIG.redis_host,
     port=CONFIG.redis_port,
