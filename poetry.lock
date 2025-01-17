@@ -1117,13 +1117,13 @@ files = [
 
 [[package]]
 name = "motor"
-version = "3.6.0"
+version = "3.6.1"
 description = "Non-blocking MongoDB driver for Tornado or asyncio"
 optional = false
 python-versions = ">=3.8"
 files = [
-    {file = "motor-3.6.0-py3-none-any.whl", hash = "sha256:9f07ed96f1754963d4386944e1b52d403a5350c687edc60da487d66f98dbf894"},
-    {file = "motor-3.6.0.tar.gz", hash = "sha256:0ef7f520213e852bf0eac306adf631aabe849227d8aec900a2612512fb9c5b8d"},
+    {file = "motor-3.6.1-py3-none-any.whl", hash = "sha256:7fe552353aded4fa9f05ae515a179df5b1d192b1da56726f422dbb2d8c3b5962"},
+    {file = "motor-3.6.1.tar.gz", hash = "sha256:ee2b18386292f9ceb3cc8279a4cd34e4c641c5ac8de3500c30374081c76a9d03"},
 ]
 
 [package.dependencies]
@@ -1389,13 +1389,13 @@ files = [
 
 [[package]]
 name = "openai"
-version = "1.59.6"
+version = "1.59.8"
 description = "The official Python library for the openai API"
 optional = false
 python-versions = ">=3.8"
 files = [
-    {file = "openai-1.59.6-py3-none-any.whl", hash = "sha256:b28ed44eee3d5ebe1a3ea045ee1b4b50fea36ecd50741aaa5ce5a5559c900cb6"},
-    {file = "openai-1.59.6.tar.gz", hash = "sha256:c7670727c2f1e4473f62fea6fa51475c8bc098c9ffb47bfb9eef5be23c747934"},
+    {file = "openai-1.59.8-py3-none-any.whl", hash = "sha256:a8b8ee35c4083b88e6da45406d883cf6bd91a98ab7dd79178b8bc24c8bfb09d9"},
+    {file = "openai-1.59.8.tar.gz", hash = "sha256:ac4bda5fa9819fdc6127e8ea8a63501f425c587244bc653c7c11a8ad84f953e1"},
 ]
 
 [package.dependencies]
@@ -2219,13 +2219,13 @@ jupyter = ["ipywidgets (>=7.5.1,<9)"]
 
 [[package]]
 name = "sentry-sdk"
-version = "2.19.2"
+version = "2.20.0"
 description = "Python client for Sentry (https://sentry.io)"
 optional = false
 python-versions = ">=3.6"
 files = [
-    {file = "sentry_sdk-2.19.2-py2.py3-none-any.whl", hash = "sha256:ebdc08228b4d131128e568d696c210d846e5b9d70aa0327dec6b1272d9d40b84"},
-    {file = "sentry_sdk-2.19.2.tar.gz", hash = "sha256:467df6e126ba242d39952375dd816fbee0f217d119bf454a8ce74cf1e7909e8d"},
+    {file = "sentry_sdk-2.20.0-py2.py3-none-any.whl", hash = "sha256:c359a1edf950eb5e80cffd7d9111f3dbeef57994cb4415df37d39fda2cf22364"},
+    {file = "sentry_sdk-2.20.0.tar.gz", hash = "sha256:afa82713a92facf847df3c6f63cec71eb488d826a50965def3d7722aa6f0fdab"},
 ]
 
 [package.dependencies]
@@ -2270,6 +2270,7 @@ sqlalchemy = ["sqlalchemy (>=1.2)"]
 starlette = ["starlette (>=0.19.1)"]
 starlite = ["starlite (>=1.48)"]
 tornado = ["tornado (>=6)"]
+unleash = ["UnleashClient (>=6.0.1)"]
 
 [[package]]
 name = "shellingham"
