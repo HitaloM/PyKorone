@@ -9,7 +9,7 @@ from ass_tg.i18n import gettext_ctx
 from ass_tg.types import ActionTimeArg
 from babel.dates import format_timedelta
 from pydantic import BaseModel
-from stfu_tg import KeyValue, Template, Title
+from stfu_tg import KeyValue, Template, Title, UserLink
 from stfu_tg.doc import Doc, Element
 
 from sophie_bot.modules.filters.types.modern_action_abc import (
@@ -108,7 +108,7 @@ class MuteModernAction(ModernActionABC[MuteActionDataModel]):
             Title(_("Filter action")),
             Template(
                 _("User {user} was automatically muted based on a filter action"),
-                user=await get_user_link(message.from_user.id),
+                user=UserLink(message.from_user.id, message.from_user.first_name),
             ),
         )
 

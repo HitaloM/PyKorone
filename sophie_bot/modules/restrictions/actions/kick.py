@@ -1,5 +1,5 @@
 from aiogram.types import Message
-from stfu_tg import Template, Title
+from stfu_tg import Template, Title, UserLink
 from stfu_tg.doc import Doc, Element
 
 from sophie_bot.modules.filters.types.modern_action_abc import ModernActionABC
@@ -39,7 +39,7 @@ class KickModernAction(ModernActionABC[None]):
             Title(_("Filter action")),
             Template(
                 _("User {user} was automatically kicked based on a filter action"),
-                user=await get_user_link(message.from_user.id),
+                user=UserLink(message.from_user.id, message.from_user.first_name),
             ),
         )
 
