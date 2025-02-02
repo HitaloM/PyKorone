@@ -1,9 +1,6 @@
 from typing import Any
 
-from aiogram.types import (
-    CallbackQuery,
-    Message,
-)
+from aiogram.types import CallbackQuery, Message
 from pydantic import BaseModel
 from stfu_tg import Italic, Section
 from stfu_tg.doc import Doc, Element

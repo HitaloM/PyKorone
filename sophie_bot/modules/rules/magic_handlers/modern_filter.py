@@ -1,14 +1,10 @@
-from aiogram.types import (
-    Message,
-)
+from aiogram.types import Message
 from stfu_tg import Bold, HList, Section, Title
 from stfu_tg.doc import Element
 
 from sophie_bot.db.models import RulesModel
 from sophie_bot.middlewares.connections import ChatConnection
-from sophie_bot.modules.filters.types.modern_action_abc import (
-    ModernActionABC,
-)
+from sophie_bot.modules.filters.types.modern_action_abc import ModernActionABC
 from sophie_bot.modules.notes.utils.send import send_saveable
 from sophie_bot.modules.utils_.common_try import common_try
 from sophie_bot.utils.i18n import gettext as _

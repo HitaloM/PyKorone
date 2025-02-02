@@ -1,9 +1,6 @@
 from typing import Any, Optional
 
-from aiogram.types import (
-    CallbackQuery,
-    Message,
-)
+from aiogram.types import CallbackQuery, Message
 from pydantic import BaseModel
 from stfu_tg import Section
 from stfu_tg.doc import Element
@@ -15,9 +12,7 @@ from sophie_bot.modules.filters.types.modern_action_abc import (
 )
 from sophie_bot.modules.legacy_modules.modules.warns import warn_func
 from sophie_bot.modules.legacy_modules.utils.connections import get_connected_chat
-from sophie_bot.modules.legacy_modules.utils.user_details import (
-    is_user_admin,
-)
+from sophie_bot.modules.legacy_modules.utils.user_details import is_user_admin
 from sophie_bot.utils.i18n import gettext as _
 from sophie_bot.utils.i18n import lazy_gettext as l_
 

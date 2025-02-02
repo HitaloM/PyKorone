@@ -1,12 +1,8 @@
-from aiogram.types import (
-    Message,
-)
+from aiogram.types import Message
 from stfu_tg import Template, Title
 from stfu_tg.doc import Doc, Element
 
-from sophie_bot.modules.filters.types.modern_action_abc import (
-    ModernActionABC,
-)
+from sophie_bot.modules.filters.types.modern_action_abc import ModernActionABC
 from sophie_bot.modules.legacy_modules.utils.restrictions import kick_user
 from sophie_bot.modules.legacy_modules.utils.user_details import (
     get_user_link,

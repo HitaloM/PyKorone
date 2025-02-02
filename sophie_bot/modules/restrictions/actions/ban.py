@@ -1,10 +1,7 @@
 from datetime import timedelta
 from typing import Any, Optional
 
-from aiogram.types import (
-    CallbackQuery,
-    Message,
-)
+from aiogram.types import CallbackQuery, Message
 from aiogram.utils.i18n import I18n
 from ass_tg.entities import ArgEntities
 from ass_tg.exceptions import ARGS_EXCEPTIONS

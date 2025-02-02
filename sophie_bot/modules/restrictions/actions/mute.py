@@ -1,10 +1,7 @@
 from datetime import timedelta
 from typing import Any, Optional
 
-from aiogram.types import (
-    CallbackQuery,
-    Message,
-)
+from aiogram.types import CallbackQuery, Message
 from aiogram.utils.i18n import I18n
 from ass_tg.entities import ArgEntities
 from ass_tg.exceptions import ARGS_EXCEPTIONS
@@ -21,7 +18,7 @@ from sophie_bot.modules.filters.types.modern_action_abc import (
     ModernActionABC,
     ModernActionSetting,
 )
-from sophie_bot.modules.legacy_modules.utils.restrictions import ban_user
+from sophie_bot.modules.legacy_modules.utils.restrictions import mute_user
 from sophie_bot.modules.legacy_modules.utils.user_details import (
     get_user_link,
     is_user_admin,
@@ -33,7 +30,7 @@ from sophie_bot.utils.logger import log
 
 
 class MuteActionDataModel(BaseModel):
-    ban_duration: Optional[timedelta]
+    mute_duration: Optional[timedelta]
 
 
 async def setup_confirm(event: Message | CallbackQuery, data: dict[str, Any]) -> MuteActionDataModel:
@@ -44,7 +41,7 @@ async def setup_confirm(event: Message | CallbackQuery, data: dict[str, Any]) ->
 
     # Permanent ban
     if raw_text == "0":
-        return MuteActionDataModel(ban_duration=None)
+        return MuteActionDataModel(mute_duration=None)
 
     try:
         i18n = I18n(path="/")
@@ -57,7 +54,7 @@ async def setup_confirm(event: Message | CallbackQuery, data: dict[str, Any]) ->
         await event.reply(_("Invalid mute duration, please try again."))
         raise ActionSetupTryAgainException()
 
-    return MuteActionDataModel(ban_duration=arg)
+    return MuteActionDataModel(mute_duration=arg)
 
 
 async def setup_message(_event: Message | CallbackQuery, _data: dict[str, Any]) -> ActionSetupMessage:
@@ -74,21 +71,21 @@ class MuteModernAction(ModernActionABC[MuteActionDataModel]):
     icon = "🔕"
     title = l_("Mute")
     data_object = MuteActionDataModel
-    default_data = MuteActionDataModel(ban_duration=None)
+    default_data = MuteActionDataModel(mute_duration=None)
 
     @staticmethod
     def description(data: MuteActionDataModel) -> Element | str:
 
-        if data.ban_duration:
+        if data.mute_duration:
             # TODO: not en_US
-            return Template(_("Mutes user for {time}"), time=format_timedelta(data.ban_duration, locale="en_US"))
+            return Template(_("Mutes user for {time}"), time=format_timedelta(data.mute_duration, locale="en_US"))
 
         return _("Mutes user indefinitely")
 
     def settings(self, data: MuteActionDataModel) -> dict[str, ModernActionSetting]:
         return {
-            "change_ban_duration": ModernActionSetting(
-                title=l_("Change ban duration"),
+            "change_mute_duration": ModernActionSetting(
+                title=l_("Change mute duration"),
                 icon="⏰",
                 setup_message=setup_message,
                 setup_confirm=setup_confirm,
@@ -115,8 +112,8 @@ class MuteModernAction(ModernActionABC[MuteActionDataModel]):
             ),
         )
 
-        if filter_data.ban_duration:
-            doc += KeyValue(_("For"), format_timedelta(filter_data.ban_duration, locale=locale))
+        if filter_data.mute_duration:
+            doc += KeyValue(_("For"), format_timedelta(filter_data.mute_duration, locale=locale))
 
-        if await ban_user(chat_id, message.from_user.id, until_date=filter_data.ban_duration):
+        if await mute_user(chat_id, message.from_user.id, until_date=filter_data.mute_duration):
             await common_try(message.reply(doc.to_html()))
