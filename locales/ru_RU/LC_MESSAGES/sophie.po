@@ -10,7 +10,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Language-Team: Russian\n"
 "Language: ru_RU\n"
-"PO-Revision-Date: 2025-02-02 19:10\n"
+"PO-Revision-Date: 2025-02-02 20:20\n"
 
 #: sophie_bot/args/users.py:29
 msgid "Could not find the requested User ID in the database."
@@ -1694,9 +1694,9 @@ msgstr "#{name} заметка не найдена."
 
 #: sophie_bot/modules/notes/magic_handlers/filter.py:25
 #: sophie_bot/modules/notes/magic_handlers/send_note_action.py:85
-#: sophie_bot/modules/restrictions/actions/ban.py:105
-#: sophie_bot/modules/restrictions/actions/kick.py:36
-#: sophie_bot/modules/restrictions/actions/mute.py:105
+#: sophie_bot/modules/restrictions/actions/ban.py:108
+#: sophie_bot/modules/restrictions/actions/kick.py:39
+#: sophie_bot/modules/restrictions/actions/mute.py:108
 #: sophie_bot/modules/rules/magic_handlers/filter.py:16
 #: sophie_bot/modules/rules/magic_handlers/modern_filter.py:34
 msgid "Filter action"
@@ -1937,73 +1937,73 @@ msgstr "Удалить сообщение"
 msgid "Deletes the message"
 msgstr "Удаляет сообщение"
 
-#: sophie_bot/modules/restrictions/actions/ban.py:51
+#: sophie_bot/modules/restrictions/actions/ban.py:54
 msgid "Invalid ban duration, please try again."
 msgstr "Неверная длительность бана, пожалуйста, попробуйте еще раз."
 
-#: sophie_bot/modules/restrictions/actions/ban.py:59
-#: sophie_bot/modules/restrictions/actions/mute.py:59
+#: sophie_bot/modules/restrictions/actions/ban.py:62
+#: sophie_bot/modules/restrictions/actions/mute.py:62
 msgid "Please write the ban duration, for example 2h for 2 hours, 7d for 7 days or 2w for 2 weeks. Or 0 for a permanent ban."
 msgstr "Пожалуйста, напишите длительность бана, например 2ч для 2 часов, 7д для 7 дней или 2н для 2 недель. Или 0 для перманентного бана."
 
-#: sophie_bot/modules/restrictions/actions/ban.py:69
+#: sophie_bot/modules/restrictions/actions/ban.py:72
 msgid "Ban"
 msgstr "Забанить"
 
-#: sophie_bot/modules/restrictions/actions/ban.py:78
+#: sophie_bot/modules/restrictions/actions/ban.py:81
 msgid "Bans user for {time}"
 msgstr "Запрещает пользователя на {time}"
 
-#: sophie_bot/modules/restrictions/actions/ban.py:80
+#: sophie_bot/modules/restrictions/actions/ban.py:83
 msgid "Bans user indefinitely"
 msgstr "Запрещает пользователя на неопределенный срок"
 
-#: sophie_bot/modules/restrictions/actions/ban.py:85
+#: sophie_bot/modules/restrictions/actions/ban.py:88
 msgid "Change ban duration"
 msgstr "Изменить длительность бана"
 
-#: sophie_bot/modules/restrictions/actions/ban.py:107
+#: sophie_bot/modules/restrictions/actions/ban.py:110
 msgid "User {user} was automatically banned based on a filter action"
 msgstr "Пользователь {user} был автоматически заблокирован на основе действия фильтра"
 
-#: sophie_bot/modules/restrictions/actions/ban.py:113
-#: sophie_bot/modules/restrictions/actions/mute.py:113
+#: sophie_bot/modules/restrictions/actions/ban.py:116
+#: sophie_bot/modules/restrictions/actions/mute.py:116
 msgid "For"
 msgstr "Для"
 
-#: sophie_bot/modules/restrictions/actions/kick.py:18
+#: sophie_bot/modules/restrictions/actions/kick.py:21
 msgid "Kick"
 msgstr "Выгнать"
 
-#: sophie_bot/modules/restrictions/actions/kick.py:22
+#: sophie_bot/modules/restrictions/actions/kick.py:25
 msgid "Kicks a user"
 msgstr "Кикнуть пользователя"
 
-#: sophie_bot/modules/restrictions/actions/kick.py:38
+#: sophie_bot/modules/restrictions/actions/kick.py:41
 msgid "User {user} was automatically kicked based on a filter action"
 msgstr "Пользователь {user} был автоматически кикнут на основе фильтра"
 
-#: sophie_bot/modules/restrictions/actions/mute.py:51
+#: sophie_bot/modules/restrictions/actions/mute.py:54
 msgid "Invalid mute duration, please try again."
 msgstr "Неверная продолжительность глушения, пожалуйста, попробуйте снова."
 
-#: sophie_bot/modules/restrictions/actions/mute.py:69
+#: sophie_bot/modules/restrictions/actions/mute.py:72
 msgid "Mute"
 msgstr "Заглушить"
 
-#: sophie_bot/modules/restrictions/actions/mute.py:78
+#: sophie_bot/modules/restrictions/actions/mute.py:81
 msgid "Mutes user for {time}"
 msgstr "Заглушить пользователя на {time}"
 
-#: sophie_bot/modules/restrictions/actions/mute.py:80
+#: sophie_bot/modules/restrictions/actions/mute.py:83
 msgid "Mutes user indefinitely"
 msgstr "Заглушить пользователя на неопределенный срок"
 
-#: sophie_bot/modules/restrictions/actions/mute.py:85
+#: sophie_bot/modules/restrictions/actions/mute.py:88
 msgid "Change mute duration"
 msgstr "Измените время отключения звука"
 
-#: sophie_bot/modules/restrictions/actions/mute.py:107
+#: sophie_bot/modules/restrictions/actions/mute.py:110
 msgid "User {user} was automatically muted based on a filter action"
 msgstr "Пользователь {user} был автоматически заглушен на основе фильтра"
 
