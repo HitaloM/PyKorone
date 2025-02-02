@@ -10,7 +10,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Language-Team: Spanish\n"
 "Language: es_ES\n"
-"PO-Revision-Date: 2024-12-16 18:22\n"
+"PO-Revision-Date: 2025-02-02 19:10\n"
 
 #: sophie_bot/args/users.py:29
 msgid "Could not find the requested User ID in the database."
@@ -40,6 +40,14 @@ msgstr "Nombre de usuario"
 msgid "A link to user, usually creates by mentioning a user without username."
 msgstr "Un enlace al usuario, generalmente se crea al mencionar a un usuario sin nombre de usuario."
 
+#: sophie_bot/filters/is_connected.py:52
+msgid "This command can only be used in a group or while being connected to a group in PM."
+msgstr "Este comando solo se puede usar en un grupo o mientras está conectado a un grupo en PM."
+
+#: sophie_bot/filters/is_connected.py:53
+msgid "Refer to /help for more information about connections."
+msgstr "Consulte /help para más información sobre las conexiones."
+
 #: sophie_bot/filters/user_status.py:25
 msgid "Admin permission required!"
 msgstr "¡Se requiere permiso de administrador!"
@@ -52,15 +60,23 @@ msgstr "Chat privado"
 msgid "Connected chat not found in the database. Please try to disconnect and connect again."
 msgstr "Chat conectado no encontrado en la base de datos. Por favor, intente desconectarse y volver a conectarse."
 
-#: sophie_bot/modules/ai/__init__.py:29
+#: sophie_bot/modules/ai/__init__.py:30
 msgid "Sophie AI"
 msgstr "Sophie IA"
 
-#: sophie_bot/modules/ai/__init__.py:31
+#: sophie_bot/modules/ai/__init__.py:32
 msgid "Rainbow sparkles and shininess"
 msgstr "Brillos y destellos de arcoíris"
 
-#: sophie_bot/modules/ai/__init__.py:33
+#: sophie_bot/modules/ai/__init__.py:35
+msgid "Sophie supports quite a few ways to use AI features."
+msgstr "Sophie admite varias formas de utilizar las funciones de IA."
+
+#: sophie_bot/modules/ai/__init__.py:36
+msgid "From a simple chat-bot, to the automatic translator. Have fun."
+msgstr "Desde un simple chatbot hasta el traductor automático. Diviértete."
+
+#: sophie_bot/modules/ai/__init__.py:39
 msgid "Please note that you can make a limited amount of AI requests per day."
 msgstr "Tenga en cuenta que puede hacer un número limitado de solicitudes de IA por día."
 
@@ -230,22 +246,30 @@ msgid "✨ AI Features have been {status} in {chat}."
 msgstr "✨ Las características de IA han sido {status} en {chat}."
 
 #: sophie_bot/modules/ai/handlers/filter.py:21
+#: sophie_bot/modules/ai/magic_handlers/filter.py:21
+#: sophie_bot/modules/ai/magic_handlers/modern_action.py:42
 msgid "Please send me the AI instruction to proceed!"
 msgstr "¡Por favor, envíame la instrucción de IA para continuar!"
 
 #: sophie_bot/modules/ai/handlers/filter.py:22
+#: sophie_bot/modules/ai/magic_handlers/filter.py:22
+#: sophie_bot/modules/ai/magic_handlers/modern_action.py:43
 msgid "The AI will try to remember the chat context and will respond accordingly!"
 msgstr "¡La IA intentará recordar el contexto del chat y responderá en consecuencia!"
 
 #: sophie_bot/modules/ai/handlers/filter.py:23
+#: sophie_bot/modules/ai/magic_handlers/filter.py:23
+#: sophie_bot/modules/ai/magic_handlers/modern_action.py:44
 msgid "For example, you can combine it with the warn filter: 'Tell the user how bad it is to speak profanity'"
 msgstr "Por ejemplo, puedes combinarlo con el filtro de advertencia: 'Dile al usuario lo malo que es hablar con groserías'"
 
 #: sophie_bot/modules/ai/handlers/filter.py:34
+#: sophie_bot/modules/ai/magic_handlers/filter.py:34
 msgid "Should be AI prompt, please try again!"
 msgstr "¡Debiera ser un prompt de IA, por favor inténtalo de nuevo!"
 
 #: sophie_bot/modules/ai/handlers/filter.py:55
+#: sophie_bot/modules/ai/magic_handlers/filter.py:55
 msgid "✨ AI Response"
 msgstr "✨ Respuesta de IA"
 
@@ -316,6 +340,29 @@ msgstr "From {from_lang} to {to_lang}"
 #: sophie_bot/modules/ai/handlers/translate.py:101
 msgid "Translation Notes"
 msgstr "Translation Notes"
+
+#: sophie_bot/modules/ai/magic_handlers/modern_action.py:35
+msgid "Please enter AI prompt"
+msgstr "Por favor, ingresa el prompt de IA"
+
+#: sophie_bot/modules/ai/magic_handlers/modern_action.py:54
+msgid "AI Response"
+msgstr "Respuesta de IA"
+
+#: sophie_bot/modules/ai/magic_handlers/modern_action.py:57
+#: sophie_bot/modules/notes/magic_handlers/modern_filter.py:31
+#: sophie_bot/modules/notes/magic_handlers/reply_action.py:45
+#: sophie_bot/modules/notes/magic_handlers/reply_action.py:48
+msgid "Reply to message"
+msgstr "Responder al mensaje"
+
+#: sophie_bot/modules/ai/magic_handlers/modern_action.py:63
+msgid "Send an AI Respond with prompt"
+msgstr "Enviar una respuesta de IA con prompt"
+
+#: sophie_bot/modules/ai/magic_handlers/modern_action.py:68
+msgid "Change AI prompt"
+msgstr "Cambiar el aviso de IA"
 
 #: sophie_bot/modules/ai/texts.py:3
 msgid "By using AI features you agree to the our Privacy Policy (/privacy) and third party AI services used."
@@ -417,6 +464,7 @@ msgstr "✅ Habilitar todos"
 
 #: sophie_bot/modules/disabling/handlers/enable_all.py:37
 #: sophie_bot/modules/filters/handlers/confirm.py:62
+#: sophie_bot/modules/filters/handlers/filter_confirm.py:97
 #: sophie_bot/modules/notes/handlers/delete_all.py:41
 msgid "🚫 Cancel"
 msgstr "🚫 Cancelar"
@@ -425,11 +473,11 @@ msgstr "🚫 Cancelar"
 msgid "Do you want to enable all commands in the {chat_name}?"
 msgstr "¿Deseas habilitar todos los comandos en {chat_name}?"
 
-#: sophie_bot/modules/disabling/handlers/enable_all.py:64
+#: sophie_bot/modules/disabling/handlers/enable_all.py:62
 msgid "Only the initiator can confirm disabling all commands"
 msgstr "Solo el iniciador puede confirmar la desactivación de todos los comandos"
 
-#: sophie_bot/modules/disabling/handlers/enable_all.py:73
+#: sophie_bot/modules/disabling/handlers/enable_all.py:71
 msgid "✅ All the commands ({removed_count}) have been enabled in the {chat_name}"
 msgstr "✅ Todos los comandos ({removed_count}) han sido habilitados en {chat_name}"
 
@@ -689,57 +737,204 @@ msgstr "Los errores acunan la innovación,"
 msgid "Softly whispering."
 msgstr "Susurrando suavemente."
 
-#: sophie_bot/modules/filters/__init__.py:10
-#: sophie_bot/modules/legacy_modules/modules/filters.py:67
+#: sophie_bot/modules/filters/__init__.py:22
+#: sophie_bot/modules/filters/handlers/filter_del.py:50
 msgid "Filters"
 msgstr "Filtros"
 
+#: sophie_bot/modules/filters/__init__.py:26
+msgid "Filters allows to invoke different actions for different messages."
+msgstr "Los filtros permiten invocar diferentes acciones para diferentes mensajes."
+
+#: sophie_bot/modules/filters/__init__.py:27
+msgid "For example muting the users when they mention crypto."
+msgstr "Por ejemplo, silenciar a los usuarios cuando mencionan criptomonedas."
+
+#: sophie_bot/modules/filters/__init__.py:28
+msgid "Sophie supports many different actions you can configure to automatize chat moderation in many different ways."
+msgstr "Sophie admite muchas acciones diferentes que puedes configurar para automatizar la moderación del chat de diversas maneras."
+
+#: sophie_bot/modules/filters/handlers/action_select.py:39
+#: sophie_bot/modules/filters/handlers/add.py:86
+msgid "setup"
+msgstr "configuración"
+
+#: sophie_bot/modules/filters/handlers/action_select.py:47
+msgid "⬅ Back"
+msgstr "⬅ Atrás"
+
+#: sophie_bot/modules/filters/handlers/action_select.py:50
+#: sophie_bot/modules/filters/handlers/actions_list.py:66
+#: sophie_bot/modules/filters/handlers/add.py:72
+#: sophie_bot/modules/filters/handlers/add.py:89
+msgid "❌ Cancel"
+msgstr "❌ Cancelar"
+
+#: sophie_bot/modules/filters/handlers/actions_list.py:48
+#: sophie_bot/modules/filters/handlers/add.py:59
+msgid "Select a filter action:"
+msgstr "Seleccione una acción de filtro:"
+
+#: sophie_bot/modules/filters/handlers/actions_list.py:51
+msgid "No additional actions available."
+msgstr "No hay acciones adicionales disponibles."
+
+#: sophie_bot/modules/filters/handlers/actions_list.py:69
+msgid "⬅️ Do not add an action (Back)"
+msgstr "⬅️ No agregar una acción (Atrás)"
+
+#: sophie_bot/modules/filters/handlers/actions_list_to_remove.py:37
+msgid "Select a filter action to remove:"
+msgstr "Seleccione una acción de filtro para eliminar:"
+
+#: sophie_bot/modules/filters/handlers/actions_list_to_remove.py:52
+msgid "⬅️ Do not remove actions (Back)"
+msgstr "⬅️ No eliminar acciones (Atrás)"
+
 #: sophie_bot/modules/filters/handlers/add.py:45
+#: sophie_bot/modules/filters/handlers/filter_del.py:23
+#: sophie_bot/modules/filters/handlers/filter_del.py:38
+#: sophie_bot/modules/filters/handlers/filter_new.py:38
 msgid "Text to match"
 msgstr "Texto a buscar"
 
 #: sophie_bot/modules/filters/handlers/add.py:55
 #: sophie_bot/modules/filters/handlers/confirm.py:38
+#: sophie_bot/modules/filters/handlers/filter_confirm.py:46
+#: sophie_bot/modules/filters/handlers/filter_new.py:50
 msgid "New filter"
 msgstr "Nuevo filtro"
 
 #: sophie_bot/modules/filters/handlers/add.py:57
 #: sophie_bot/modules/filters/handlers/confirm.py:39
-msgid "When {handler} in message"
-msgstr "Cuando {handler} en el mensaje"
-
-#: sophie_bot/modules/filters/handlers/add.py:57
-#: sophie_bot/modules/filters/handlers/confirm.py:39
+#: sophie_bot/modules/filters/handlers/filter_confirm.py:48
+#: sophie_bot/modules/filters/handlers/filter_new.py:51
 msgid "Handles"
 msgstr "Maneja"
 
-#: sophie_bot/modules/filters/handlers/add.py:59
-msgid "Select a filter action:"
-msgstr "Seleccione una acción de filtro:"
-
-#: sophie_bot/modules/filters/handlers/add.py:72
-#: sophie_bot/modules/filters/handlers/add.py:89
-#: sophie_bot/modules/legacy_modules/modules/filters.py:210
-msgid "❌ Cancel"
-msgstr "❌ Cancelar"
-
-#: sophie_bot/modules/filters/handlers/add.py:86
-msgid "setup"
-msgstr "configuración"
+#: sophie_bot/modules/filters/handlers/add.py:57
+#: sophie_bot/modules/filters/handlers/confirm.py:39
+#: sophie_bot/modules/filters/handlers/filter_confirm.py:48
+#: sophie_bot/modules/filters/utils_/legacy_filter_handler.py:49
+msgid "When {handler} in message"
+msgstr "Cuando {handler} en el mensaje"
 
 #: sophie_bot/modules/filters/handlers/confirm.py:47
+#: sophie_bot/modules/filters/handlers/filter_confirm.py:62
 msgid "Action"
 msgid_plural "Actions"
 msgstr[0] "Acción"
 msgstr[1] "Acciones"
 
 #: sophie_bot/modules/filters/handlers/confirm.py:58
+#: sophie_bot/modules/filters/handlers/filter_confirm.py:82
 msgid "➕ Add another action"
 msgstr "➕ Añadir otra acción"
 
 #: sophie_bot/modules/filters/handlers/confirm.py:63
+#: sophie_bot/modules/filters/handlers/filter_confirm.py:99
 msgid "✅ Confirm"
 msgstr "✅ Confirmar"
+
+#: sophie_bot/modules/filters/handlers/filter_confirm.py:87
+msgid "➖ Remove actions"
+msgstr "➖ Eliminar acciones"
+
+#: sophie_bot/modules/filters/handlers/filter_del.py:22
+msgid "Deletes a filter"
+msgstr "Elimina un filtro"
+
+#: sophie_bot/modules/filters/handlers/filter_del.py:37
+msgid "?Filter index"
+msgstr "?Índice del filtro"
+
+#: sophie_bot/modules/filters/handlers/filter_del.py:44
+msgid "There are multiple filters with keyword {keyword}!"
+msgstr "¡Hay múltiples filtros con la palabra clave {keyword}!"
+
+#: sophie_bot/modules/filters/handlers/filter_del.py:53
+msgid "Please specify the filter index using {cmd} command."
+msgstr "Por favor, especifica el índice del filtro usando el comando {cmd}."
+
+#: sophie_bot/modules/filters/handlers/filter_del.py:55
+msgid "For example: {cmd}"
+msgstr "Por ejemplo: {cmd}"
+
+#: sophie_bot/modules/filters/handlers/filter_del.py:66
+msgid "The filter with keyword {keyword} does not exist!"
+msgstr "¡El filtro con la palabra clave {keyword} no existe!"
+
+#: sophie_bot/modules/filters/handlers/filter_del.py:67
+msgid "Please check the available filters using {cmd} command."
+msgstr "Por favor, revisa los filtros disponibles usando el comando {cmd}."
+
+#: sophie_bot/modules/filters/handlers/filter_del.py:77
+msgid "🗑 The filter with keyword {keyword} was deleted!"
+msgstr "🗑 ¡El filtro con la palabra clave {keyword} fue eliminado!"
+
+#: sophie_bot/modules/filters/handlers/filter_edit.py:32
+msgid "Filter's keyword"
+msgstr "Palabra clave del filtro"
+
+#: sophie_bot/modules/filters/handlers/filter_edit.py:42
+msgid "Filter with handler {handler} can not be found! Check all filters using {cmd} command"
+msgstr "¡El filtro con el manejador {handler} no se puede encontrar! Verifica todos los filtros usando el comando {cmd}"
+
+#: sophie_bot/modules/filters/handlers/filter_edit.py:51
+msgid "Filter with handler {handler} can not be edited right now!"
+msgstr "¡El filtro con el manejador {handler} no se puede editar ahora!"
+
+#: sophie_bot/modules/filters/handlers/filter_edit.py:52
+msgid "The given filter was created before the filters update, and considered 'legacy'"
+msgstr "El filtro dado fue creado antes de la actualización de los filtros y se considera 'heredado'"
+
+#: sophie_bot/modules/filters/handlers/filter_edit.py:53
+msgid "Stay tuned for an update of Sophie."
+msgstr "Mantente atento a una actualización de Sophie."
+
+#: sophie_bot/modules/filters/handlers/filter_edit.py:54
+msgid "Alternatively you can delete this filter and create again."
+msgstr "Alternativamente, puedes eliminar este filtro y crear uno nuevo."
+
+#: sophie_bot/modules/filters/handlers/filter_new.py:24
+msgid "Adds a new filter"
+msgstr "Añade un nuevo filtro"
+
+#: sophie_bot/modules/filters/handlers/filter_save.py:46
+msgid "Filter on {keyword} was saved."
+msgstr "El filtro sobre {keyword} fue guardado."
+
+#: sophie_bot/modules/filters/handlers/filters_list.py:16
+msgid "Lists all filters in the chat"
+msgstr "Lista todos los filtros en el chat"
+
+#: sophie_bot/modules/filters/handlers/filters_list.py:26
+msgid "There are no filters in this chat!"
+msgstr "¡No hay filtros en este chat!"
+
+#: sophie_bot/modules/filters/handlers/filters_list.py:34
+msgid "Filters in {chat_name}"
+msgstr "Filtros en {chat_name}"
+
+#: sophie_bot/modules/filters/handlers/filters_list.py:38
+msgid "Additionally rules from 'Antiflood' module can be enforced."
+msgstr "Además, se pueden hacer cumplir las reglas del módulo 'Antiflood'."
+
+#: sophie_bot/modules/filters/utils_/legacy_filter_handler.py:22
+msgid "Filter with the handler {handler} already exists!"
+msgstr "¡El filtro con el manejador {handler} ya existe!"
+
+#: sophie_bot/modules/filters/utils_/legacy_filter_handler.py:25
+msgid "You can edit the filter's actions with {cmd}."
+msgstr "Puedes editar las acciones del filtro con {cmd}."
+
+#: sophie_bot/modules/filters/utils_/legacy_filter_handler.py:38
+msgid "Provided regex pattern is too slow to execute. Please review the pattern and try adding the filter again."
+msgstr "El patrón regex proporcionado es demasiado lento para ejecutarse. Por favor, revisa el patrón y prueba a añadir el filtro nuevamente."
+
+#: sophie_bot/modules/filters/utils_/legacy_filter_handler.py:47
+msgid "When messages matches the regex pattern {pattern}"
+msgstr "Cuando los mensajes coinciden con el patrón regex {pattern}"
 
 #: sophie_bot/modules/greetings/__init__.py:20
 msgid "Greetings"
@@ -920,7 +1115,7 @@ msgid "Shows help overview for all modules"
 msgstr "Muestra una visión general de ayuda para todos los módulos"
 
 #: sophie_bot/modules/help/handlers/pm_modules.py:51
-#: sophie_bot/modules/help/handlers/pm_modules.py:103
+#: sophie_bot/modules/help/handlers/pm_modules.py:107
 #: sophie_bot/modules/privacy/handlers/privacy.py:30
 msgid "⬅️ Back"
 msgstr "⬅️ Atrás"
@@ -941,7 +1136,11 @@ msgstr "Módulo no encontrado"
 msgid "Aliased commands from {module}"
 msgstr "Comandos alias de {module}"
 
-#: sophie_bot/modules/help/handlers/pm_modules.py:100
+#: sophie_bot/modules/help/handlers/pm_modules.py:102
+msgid "📖 Look the module's wiki page for more information"
+msgstr "📖 Consulta la página wiki del módulo para más información"
+
+#: sophie_bot/modules/help/handlers/pm_modules.py:103
 msgid "📖 Wiki page"
 msgstr "📖 Página de wiki"
 
@@ -1179,31 +1378,6 @@ msgstr "Importa la lista de prohibiciones."
 msgid "Checks the user ban status (can be used to check yourself)."
 msgstr "Verifica el estado de prohibición del usuario (se puede usar para verificarte a ti mismo)."
 
-#: sophie_bot/modules/legacy_modules/modules/filters.py:169
-msgid "Adds a new filter."
-msgstr "Añade un nuevo filtro."
-
-#: sophie_bot/modules/legacy_modules/modules/filters.py:169
-#: sophie_bot/modules/legacy_modules/modules/filters.py:323
-msgid "Trigger"
-msgstr "Desencadenante"
-
-#: sophie_bot/modules/legacy_modules/modules/filters.py:304
-msgid "Shows the list of filters."
-msgstr "Muestra la lista de filtros."
-
-#: sophie_bot/modules/legacy_modules/modules/filters.py:318
-msgid "Filters in {chat_name}"
-msgstr "Filtros en {chat_name}"
-
-#: sophie_bot/modules/legacy_modules/modules/filters.py:323
-msgid "Removes the filter."
-msgstr "Remueve el filtro."
-
-#: sophie_bot/modules/legacy_modules/modules/filters.py:378
-msgid "Removes all the filters in the chat."
-msgstr "Remueve todos los filtros en el chat."
-
 #: sophie_bot/modules/legacy_modules/modules/language.py:23
 msgid "Language"
 msgstr "Idioma"
@@ -1334,9 +1508,25 @@ msgstr "Nuevo modo"
 msgid "⚠️ Warn"
 msgstr "⚠️ Advertir"
 
-#: sophie_bot/modules/notes/__init__.py:29
+#: sophie_bot/modules/locks/__init__.py:6
+msgid "Locks"
+msgstr "Bloqueos"
+
+#: sophie_bot/modules/locks/handlers/lockable.py:10
+msgid "Shows all lockable entities"
+msgstr "Muestra todas las entidades bloqueables"
+
+#: sophie_bot/modules/notes/__init__.py:32
 msgid "Notes"
 msgstr "Notas"
+
+#: sophie_bot/modules/notes/__init__.py:36
+msgid "If you want to save some frequently-used content in your chat, such as a FAQ, response templates, your favourite stickers or the whole interactive menu, you can do that with notes."
+msgstr "Si deseas guardar contenido que se usa frecuentemente en tu chat, como un FAQ, plantillas de respuesta, tus stickers favoritos o todo el menú interactivo, puedes hacerlo con notas."
+
+#: sophie_bot/modules/notes/__init__.py:39
+msgid "Notes allows saving different kind of content, from normal text messages to stickers and audio messages, notes also support adding inline message buttons."
+msgstr "Las notas permiten guardar diferentes tipos de contenido, desde mensajes de texto normales hasta stickers y mensajes de audio; las notas también admiten añadir botones de mensaje en línea."
 
 #: sophie_bot/modules/notes/handlers/delete.py:18
 #: sophie_bot/modules/notes/handlers/get.py:17
@@ -1344,7 +1534,6 @@ msgid "Note name"
 msgstr "Nombre de la nota"
 
 #: sophie_bot/modules/notes/handlers/delete.py:19
-#: sophie_bot/modules/notes/handlers/delete_all.py:22
 msgid "Deletes notes."
 msgstr "Elimina notas."
 
@@ -1363,6 +1552,10 @@ msgstr "Nombres"
 #: sophie_bot/modules/notes/handlers/delete.py:41
 msgid "Note was successfully deleted"
 msgstr "Nota eliminada con éxito"
+
+#: sophie_bot/modules/notes/handlers/delete_all.py:22
+msgid "Deletes all notes."
+msgstr "Elimina todas las notas."
 
 #: sophie_bot/modules/notes/handlers/delete_all.py:37
 msgid "🗑 Delete all"
@@ -1493,11 +1686,17 @@ msgid "You need to update the data of the chat notes. Generate the note data fro
 msgstr "Necesita actualizar los datos de las notas del chat. Genere los datos de la nota a partir del texto de nota proporcionado"
 
 #: sophie_bot/modules/notes/magic_handlers/filter.py:22
+#: sophie_bot/modules/notes/magic_handlers/send_note_action.py:82
 msgid "#{name} note was not found."
 msgstr "#{name} nota no fue encontrada."
 
 #: sophie_bot/modules/notes/magic_handlers/filter.py:25
+#: sophie_bot/modules/notes/magic_handlers/send_note_action.py:85
+#: sophie_bot/modules/restrictions/actions/ban.py:105
+#: sophie_bot/modules/restrictions/actions/kick.py:36
+#: sophie_bot/modules/restrictions/actions/mute.py:105
 #: sophie_bot/modules/rules/magic_handlers/filter.py:16
+#: sophie_bot/modules/rules/magic_handlers/modern_filter.py:34
 msgid "Filter action"
 msgstr "Acción de filtro"
 
@@ -1510,6 +1709,7 @@ msgid "Cannot find the note with this name. Please make sure it exists and try a
 msgstr "No se puede encontrar la nota con este nombre. Por favor, asegúrate de que existe y vuelve a intentarlo."
 
 #: sophie_bot/modules/notes/magic_handlers/filter.py:57
+#: sophie_bot/modules/notes/magic_handlers/reply_action.py:70
 msgid "Reply filter"
 msgstr "Filtro de respuesta"
 
@@ -1525,29 +1725,51 @@ msgstr "💭 Responder a un mensaje"
 msgid "🗒 Send a note"
 msgstr "🗒 Enviar una nota"
 
-#: sophie_bot/modules/notes/magic_handlers/modern_filter.py:31
-msgid "Reply to message"
-msgstr "Responder al mensaje"
-
 #: sophie_bot/modules/notes/magic_handlers/modern_filter.py:37
+#: sophie_bot/modules/notes/magic_handlers/reply_action.py:62
 msgid "Change reply text"
 msgstr "Cambiar el texto de respuesta"
 
 #: sophie_bot/modules/notes/magic_handlers/modern_filter.py:45
+#: sophie_bot/modules/notes/magic_handlers/reply_action.py:55
 msgid "Replies to the message with"
 msgstr "Responde al mensaje con"
 
 #: sophie_bot/modules/notes/magic_handlers/modern_filter.py:47
+#: sophie_bot/modules/notes/magic_handlers/reply_action.py:57
 msgid "Replies to the message"
 msgstr "Responder al mensaje"
 
 #: sophie_bot/modules/notes/magic_handlers/modern_filter.py:51
+#: sophie_bot/modules/notes/magic_handlers/reply_action.py:34
 msgid "Now, please type the text you want to automatically send."
 msgstr "Ahora, por favor escribe el texto que deseas enviar automáticamente."
 
 #: sophie_bot/modules/notes/magic_handlers/modern_filter.py:52
+#: sophie_bot/modules/notes/magic_handlers/reply_action.py:36
 msgid "Markup help"
 msgstr "Ayuda de marcado"
+
+#: sophie_bot/modules/notes/magic_handlers/send_note_action.py:36
+msgid "Note with this name does not exist. Please try again."
+msgstr "La nota con este nombre no existe. Por favor, intenta de nuevo."
+
+#: sophie_bot/modules/notes/magic_handlers/send_note_action.py:44
+msgid "Please write the note name you want to send as a filter trigger."
+msgstr "Por favor, escribe el nombre de la nota que deseas enviar como un desencadenador de filtro."
+
+#: sophie_bot/modules/notes/magic_handlers/send_note_action.py:52
+#: sophie_bot/modules/notes/magic_handlers/send_note_action.py:55
+msgid "Send note"
+msgstr "Enviar nota"
+
+#: sophie_bot/modules/notes/magic_handlers/send_note_action.py:62
+msgid "Replies to the message with the note with {notename} note name"
+msgstr "Responde al mensaje con la nota con el nombre de nota {notename}"
+
+#: sophie_bot/modules/notes/magic_handlers/send_note_action.py:68
+msgid "Change note name"
+msgstr "Cambiar nombre de la nota"
 
 #: sophie_bot/modules/notes/utils/fillings.py:12
 msgid "Local chat"
@@ -1669,7 +1891,7 @@ msgstr "Sin título de administrador"
 msgid "Admin promoted successfully"
 msgstr "Administrador promovido con éxito"
 
-#: sophie_bot/modules/purges/__init__.py:10
+#: sophie_bot/modules/purges/__init__.py:11
 msgid "Purges"
 msgstr "Purgas"
 
@@ -1705,10 +1927,89 @@ msgstr "¡Purga completada! Este mensaje se eliminará en 5 segundos."
 msgid "🗑 Delete message"
 msgstr "🗑 Borrar mensaje"
 
-#: sophie_bot/modules/rules/__init__.py:11
+#: sophie_bot/modules/purges/magic_handlers/modern_filter.py:19
+msgid "Delete the message"
+msgstr "Eliminar el mensaje"
+
+#: sophie_bot/modules/purges/magic_handlers/modern_filter.py:25
+msgid "Deletes the message"
+msgstr "Elimina el mensaje"
+
+#: sophie_bot/modules/restrictions/actions/ban.py:51
+msgid "Invalid ban duration, please try again."
+msgstr "Duración de baneo inválida, por favor intenta de nuevo."
+
+#: sophie_bot/modules/restrictions/actions/ban.py:59
+#: sophie_bot/modules/restrictions/actions/mute.py:59
+msgid "Please write the ban duration, for example 2h for 2 hours, 7d for 7 days or 2w for 2 weeks. Or 0 for a permanent ban."
+msgstr "Por favor, escribe la duración del baneo, por ejemplo, 2h para 2 horas, 7d para 7 días o 2w para 2 semanas. O 0 para un baneo permanente."
+
+#: sophie_bot/modules/restrictions/actions/ban.py:69
+msgid "Ban"
+msgstr "Baneo"
+
+#: sophie_bot/modules/restrictions/actions/ban.py:78
+msgid "Bans user for {time}"
+msgstr "Bane a un usuario por {time}"
+
+#: sophie_bot/modules/restrictions/actions/ban.py:80
+msgid "Bans user indefinitely"
+msgstr "Bane a un usuario indefinidamente"
+
+#: sophie_bot/modules/restrictions/actions/ban.py:85
+msgid "Change ban duration"
+msgstr "Cambiar duración del baneo"
+
+#: sophie_bot/modules/restrictions/actions/ban.py:107
+msgid "User {user} was automatically banned based on a filter action"
+msgstr "El usuario {user} fue baneado automáticamente basado en una acción de filtro"
+
+#: sophie_bot/modules/restrictions/actions/ban.py:113
+#: sophie_bot/modules/restrictions/actions/mute.py:113
+msgid "For"
+msgstr "Por"
+
+#: sophie_bot/modules/restrictions/actions/kick.py:18
+msgid "Kick"
+msgstr "Expulsar"
+
+#: sophie_bot/modules/restrictions/actions/kick.py:22
+msgid "Kicks a user"
+msgstr "Expulsa a un usuario"
+
+#: sophie_bot/modules/restrictions/actions/kick.py:38
+msgid "User {user} was automatically kicked based on a filter action"
+msgstr "El usuario {user} fue expulsado automáticamente basado en una acción de filtro"
+
+#: sophie_bot/modules/restrictions/actions/mute.py:51
+msgid "Invalid mute duration, please try again."
+msgstr "Duración de silencio inválida, por favor intenta de nuevo."
+
+#: sophie_bot/modules/restrictions/actions/mute.py:69
+msgid "Mute"
+msgstr "Silenciar"
+
+#: sophie_bot/modules/restrictions/actions/mute.py:78
+msgid "Mutes user for {time}"
+msgstr "Silencia a un usuario por {time}"
+
+#: sophie_bot/modules/restrictions/actions/mute.py:80
+msgid "Mutes user indefinitely"
+msgstr "Silencia a un usuario indefinidamente"
+
+#: sophie_bot/modules/restrictions/actions/mute.py:85
+msgid "Change mute duration"
+msgstr "Cambiar la duración del silencio"
+
+#: sophie_bot/modules/restrictions/actions/mute.py:107
+msgid "User {user} was automatically muted based on a filter action"
+msgstr "El usuario {user} fue silenciado automáticamente basado en una acción de filtro"
+
+#: sophie_bot/modules/rules/__init__.py:12
 #: sophie_bot/modules/rules/handlers/get.py:34
 #: sophie_bot/modules/rules/handlers/legacy_button.py:34
 #: sophie_bot/modules/rules/magic_handlers/filter.py:16
+#: sophie_bot/modules/rules/magic_handlers/modern_filter.py:34
 msgid "Rules"
 msgstr "Reglas"
 
@@ -1723,6 +2024,7 @@ msgstr "Los chats privados no pueden tener reglas. Diviértete."
 #: sophie_bot/modules/rules/handlers/get.py:32
 #: sophie_bot/modules/rules/handlers/legacy_button.py:31
 #: sophie_bot/modules/rules/magic_handlers/filter.py:14
+#: sophie_bot/modules/rules/magic_handlers/modern_filter.py:31
 msgid "No rules are set for this chat."
 msgstr "No se han establecido reglas para este chat."
 
@@ -1747,6 +2049,7 @@ msgid "🪧 Rules have been set in {chat_name} successfully."
 msgstr "🪧 Las reglas se han establecido en {chat_name} con éxito."
 
 #: sophie_bot/modules/rules/magic_handlers/filter.py:14
+#: sophie_bot/modules/rules/magic_handlers/modern_filter.py:31
 msgid "Rules filter failed"
 msgstr "El filtro de reglas falló"
 
@@ -1754,11 +2057,19 @@ msgstr "El filtro de reglas falló"
 msgid "🪧 Send chat rules"
 msgstr "🪧 Enviar reglas del chat"
 
-#: sophie_bot/modules/troubleshooters/__init__.py:17
+#: sophie_bot/modules/rules/magic_handlers/modern_filter.py:18
+msgid "Send chat rules"
+msgstr "Enviar reglas del chat"
+
+#: sophie_bot/modules/rules/magic_handlers/modern_filter.py:22
+msgid "Replies to the message with the chat rules"
+msgstr "Responde al mensaje con las reglas del chat"
+
+#: sophie_bot/modules/troubleshooters/__init__.py:18
 msgid "Troubleshooters"
 msgstr "Solucionadores de problemas"
 
-#: sophie_bot/modules/troubleshooters/__init__.py:19
+#: sophie_bot/modules/troubleshooters/__init__.py:20
 msgid "Small commands for fixing problems and issues"
 msgstr "Pequeños comandos para resolver problemas y cuestiones"
 
@@ -1814,6 +2125,16 @@ msgstr "El estado actual ya ha sido borrado, borrando sus datos de todas maneras
 msgid "Current state {state} is cleared."
 msgstr "El estado actual {state} ha sido borrado."
 
+#: sophie_bot/modules/troubleshooters/handlers/cancel_callback.py:29
+#: sophie_bot/modules/troubleshooters/handlers/cancel_callback.py:46
+msgid "You are not allowed to cancel this action!"
+msgstr "¡No tienes permiso para cancelar esta acción!"
+
+#: sophie_bot/modules/troubleshooters/handlers/cancel_callback.py:32
+#: sophie_bot/modules/troubleshooters/handlers/cancel_callback.py:49
+msgid "❌ Cancelled."
+msgstr "❌ Cancelado."
+
 #: sophie_bot/modules/users/handlers/id.py:35
 msgid "Your ID: {id}"
 msgstr "Tu ID: {id}"
@@ -1834,8 +2155,8 @@ msgstr "ID del usuario respondido: {id}"
 msgid "{user}'s ID: {id}"
 msgstr "ID de {user}: {id}"
 
-#: sophie_bot/modules/utils_/base_handler.py:80
-#: sophie_bot/modules/utils_/base_handler.py:87
+#: sophie_bot/modules/utils_/base_handler.py:86
+#: sophie_bot/modules/utils_/base_handler.py:101
 #: sophie_bot/modules/utils_/reply_or_edit.py:11
 msgid "The message is inaccessible. Please write the command again"
 msgstr "El mensaje es inaccesible. Por favor, escribe el comando nuevamente"
@@ -1851,6 +2172,30 @@ msgstr "El estado actual ya es {state}"
 #: sophie_bot/modules/utils_/status_handler.py:68
 msgid "The state was successfully changed"
 msgstr "El estado se cambió con éxito"
+
+#: sophie_bot/modules/warns/magic_handlers/modern_action.py:35
+msgid "Please write the warn reason."
+msgstr "Por favor, escribe la razón de la advertencia."
+
+#: sophie_bot/modules/warns/magic_handlers/modern_action.py:43
+msgid "Warn"
+msgstr "Advertir"
+
+#: sophie_bot/modules/warns/magic_handlers/modern_action.py:52
+msgid "Warn user with the reason"
+msgstr "Advertir a un usuario con la razón"
+
+#: sophie_bot/modules/warns/magic_handlers/modern_action.py:54
+msgid "Warns user with no reason"
+msgstr "Advertencias al usuario sin razón"
+
+#: sophie_bot/modules/warns/magic_handlers/modern_action.py:59
+msgid "Change warn reason"
+msgstr "Cambiar razón de advertencia"
+
+#: sophie_bot/modules/warns/magic_handlers/modern_action.py:76
+msgid "No reason"
+msgstr "Sin razón"
 
 #: sophie_bot/modules/welcomesecurity/__init__.py:26
 msgid "Welcome Security"
