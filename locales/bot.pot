@@ -894,12 +894,16 @@ msgstr ""
 msgid "Lists all filters in the chat"
 msgstr ""
 
-#: sophie_bot/modules/filters/handlers/filters_list.py:31
+#: sophie_bot/modules/filters/handlers/filters_list.py:26
+msgid "There are no filters in this chat!"
+msgstr ""
+
+#: sophie_bot/modules/filters/handlers/filters_list.py:34
 msgid "Filters in {chat_name}"
 msgstr ""
 
-#: sophie_bot/modules/filters/handlers/filters_list.py:35
-msgid "Additionally rules from 'Locks' and 'Antiflood' modules are enforced."
+#: sophie_bot/modules/filters/handlers/filters_list.py:38
+msgid "Additionally rules from 'Antiflood' module can be enforced."
 msgstr ""
 
 #: sophie_bot/modules/filters/utils_/legacy_filter_handler.py:22

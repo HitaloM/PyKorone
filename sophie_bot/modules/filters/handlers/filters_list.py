@@ -22,6 +22,9 @@ class FiltersListHandler(SophieMessageHandler):
     async def handle(self) -> Any:
         all_filters = await FiltersModel.get_filters(self.connection.id)
 
+        if not all_filters:
+            return await self.event.reply(_("There are no filters in this chat!"))
+
         doc = Doc(
             Section(
                 *(
@@ -32,5 +35,5 @@ class FiltersListHandler(SophieMessageHandler):
             )
         )
         doc += " "
-        doc += _("Additionally rules from 'Locks' and 'Antiflood' modules are enforced.")
+        doc += _("Additionally rules from 'Antiflood' module can be enforced.")
         await self.event.reply(doc.to_html())
