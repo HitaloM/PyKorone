@@ -114,7 +114,7 @@ class EnforceFiltersMiddleware(BaseMiddleware):
         triggered_actions: list[str] = []  # TODO: Rather try to group filter actions
         triggered = 0
         for matched_filter in matched_filters:
-            if triggered >= CONFIG.filters_max_triggers:
+            if triggered > CONFIG.filters_max_triggers:
                 log.debug("EnforceFiltersMiddleware: triggered maximum number of filters, dropping...")
                 break
 
@@ -124,11 +124,10 @@ class EnforceFiltersMiddleware(BaseMiddleware):
                 triggered_actions.extend(
                     await self._handle_modern_action(matched_filter, triggered_actions, message, data)
                 )
-            elif matched_filter.action and (
-                action := await self._handle_legacy_action(matched_filter, triggered_actions, message)
-            ):
+            elif matched_filter.action:
                 # Legacy
-                triggered_actions.append(action)
+                if action := await self._handle_legacy_action(matched_filter, triggered_actions, message):
+                    triggered_actions.append(action)
             else:
                 raise SophieException("EnforceFiltersMiddleware: no actions found")
 
