@@ -58,9 +58,9 @@ class GetNote(SophieMessageHandler):
 class HashtagGetNote(SophieMessageHandler):
     @staticmethod
     def filters() -> tuple[CallbackType, ...]:
-        return (F.text.regexp(r"^#([\w-]+)"),)
+        return (F.text.regexp(r"^#([\w-]+).*"),)
 
     async def handle(self) -> Any:
         self.data["get_error_on_404"] = False
-        self.data["notename"] = (self.event.text or "").removeprefix("#")
+        self.data["notename"] = (self.event.text or "").split(" ", 1)[0].removeprefix("#")
         return await GetNote(self.event, **self.data)

@@ -10,7 +10,7 @@ msgstr ""
 msgid "User: 'User ID (numeric) / Username (starts with @) / Mention (links to users)'"
 msgstr ""
 
-#: sophie_bot/args/users.py:72
+#: sophie_bot/args/users.py:73
 msgid "Users: 'User IDs (numeric) / Usernames (starts with @) / Mentions (links to users)'"
 msgstr ""
 
@@ -22,7 +22,7 @@ msgstr ""
 msgid "Username"
 msgstr ""
 
-#: sophie_bot/args/users.py:81
+#: sophie_bot/args/users.py:82
 msgid "A link to user, usually creates by mentioning a user without username."
 msgstr ""
 
@@ -71,6 +71,7 @@ msgid "The AI Features are currently deactivated for this chat."
 msgstr ""
 
 #: sophie_bot/modules/ai/filters/ai_enabled.py:34
+#, python-brace-format
 msgid "Please use \"{cmd}\" to activate them."
 msgstr ""
 
@@ -118,6 +119,7 @@ msgstr ""
 
 #: sophie_bot/modules/ai/handlers/aisave.py:60
 #: sophie_bot/modules/notes/handlers/save.py:51
+#, python-brace-format
 msgid "Use {cmd} to retrieve this note."
 msgstr ""
 
@@ -166,6 +168,7 @@ msgid "✨ AI Auto translate"
 msgstr ""
 
 #: sophie_bot/modules/ai/handlers/autotranslate_setting.py:43
+#, python-brace-format
 msgid "By using AI features you agree to the our {policy} and third-party AI provider's."
 msgstr ""
 
@@ -180,6 +183,7 @@ msgstr ""
 #: sophie_bot/modules/notes/handlers/pmnotes_setting.py:40
 #: sophie_bot/modules/troubleshooters/handlers/beta_state.py:88
 #: sophie_bot/modules/utils_/status_handler.py:51
+#, python-brace-format
 msgid "Use '{cmd}' to change it."
 msgstr ""
 
@@ -208,6 +212,7 @@ msgid "disabled"
 msgstr ""
 
 #: sophie_bot/modules/ai/handlers/autotranslate_setting.py:78
+#, python-brace-format
 msgid "✨ AI Auto translate have been {status} in {chat}."
 msgstr ""
 
@@ -220,6 +225,7 @@ msgid "✨ AI Features"
 msgstr ""
 
 #: sophie_bot/modules/ai/handlers/enable_setting.py:42
+#, python-brace-format
 msgid "By using AI feature you agree to the our {policy} and third-party AI provider's."
 msgstr ""
 
@@ -228,6 +234,7 @@ msgid "Control AI features"
 msgstr ""
 
 #: sophie_bot/modules/ai/handlers/enable_setting.py:72
+#, python-brace-format
 msgid "✨ AI Features have been {status} in {chat}."
 msgstr ""
 
@@ -243,8 +250,8 @@ msgstr ""
 msgid "The AI will try to remember the chat context and will respond accordingly!"
 msgstr ""
 
-#: sophie_bot/modules/ai/handlers/filter.py:23
-#: sophie_bot/modules/ai/magic_handlers/filter.py:23
+#: sophie_bot/modules/ai/handlers/filter.py:24
+#: sophie_bot/modules/ai/magic_handlers/filter.py:24
 #: sophie_bot/modules/ai/magic_handlers/modern_action.py:44
 msgid "For example, you can combine it with the warn filter: 'Tell the user how bad it is to speak profanity'"
 msgstr ""
@@ -268,10 +275,12 @@ msgid "Start the AI ChatBot mode"
 msgstr ""
 
 #: sophie_bot/modules/ai/handlers/pm.py:31
+#, python-brace-format
 msgid "{ai_emoji} Entered to the AI Mode, in this mode you can directly interact with the AI."
 msgstr ""
 
 #: sophie_bot/modules/ai/handlers/pm.py:36
+#, python-brace-format
 msgid "By using the AI, you agree to the {privacy_policy} of the bot and third party AI services used."
 msgstr ""
 
@@ -299,7 +308,7 @@ msgstr ""
 msgid "Text to translate"
 msgstr ""
 
-#: sophie_bot/modules/ai/handlers/translate.py:32
+#: sophie_bot/modules/ai/handlers/translate.py:33
 msgid "Translates the given (or replied) text to the chat's selected language. Also transcribes the replied voice message to text"
 msgstr ""
 
@@ -320,6 +329,7 @@ msgid "Voice"
 msgstr ""
 
 #: sophie_bot/modules/ai/handlers/translate.py:91
+#, python-brace-format
 msgid "From {from_lang} to {to_lang}"
 msgstr ""
 
@@ -366,7 +376,7 @@ msgstr ""
 msgid "Respond concisely and stick to the current topic."
 msgstr ""
 
-#: sophie_bot/modules/ai/utils/message_history.py:66
+#: sophie_bot/modules/ai/utils/message_history.py:67
 msgid "Please use only the following markdown elements: ** for bold, ~~ for strikethrough, ` for code, and ``` for preformatted text."
 msgstr ""
 
@@ -404,11 +414,13 @@ msgstr ""
 
 #: sophie_bot/modules/disabling/handlers/disable.py:37
 #: sophie_bot/modules/disabling/handlers/enable.py:40
+#, python-brace-format
 msgid "Command {cmd} not found."
 msgstr ""
 
 #: sophie_bot/modules/disabling/handlers/disable.py:41
 #: sophie_bot/modules/disabling/handlers/enable.py:44
+#, python-brace-format
 msgid "Command {cmd} is already disabled."
 msgstr ""
 
@@ -456,6 +468,7 @@ msgid "🚫 Cancel"
 msgstr ""
 
 #: sophie_bot/modules/disabling/handlers/enable_all.py:43
+#, python-brace-format
 msgid "Do you want to enable all commands in the {chat_name}?"
 msgstr ""
 
@@ -464,6 +477,7 @@ msgid "Only the initiator can confirm disabling all commands"
 msgstr ""
 
 #: sophie_bot/modules/disabling/handlers/enable_all.py:71
+#, python-brace-format
 msgid "✅ All the commands ({removed_count}) have been enabled in the {chat_name}"
 msgstr ""
 
@@ -736,7 +750,7 @@ msgstr ""
 msgid "For example muting the users when they mention crypto."
 msgstr ""
 
-#: sophie_bot/modules/filters/__init__.py:28
+#: sophie_bot/modules/filters/__init__.py:29
 msgid "Sophie supports many different actions you can configure to automatize chat moderation in many different ways."
 msgstr ""
 
@@ -802,6 +816,7 @@ msgstr ""
 #: sophie_bot/modules/filters/handlers/confirm.py:39
 #: sophie_bot/modules/filters/handlers/filter_confirm.py:48
 #: sophie_bot/modules/filters/utils_/legacy_filter_handler.py:49
+#, python-brace-format
 msgid "When {handler} in message"
 msgstr ""
 
@@ -835,26 +850,32 @@ msgid "?Filter index"
 msgstr ""
 
 #: sophie_bot/modules/filters/handlers/filter_del.py:44
+#, python-brace-format
 msgid "There are multiple filters with keyword {keyword}!"
 msgstr ""
 
 #: sophie_bot/modules/filters/handlers/filter_del.py:53
+#, python-brace-format
 msgid "Please specify the filter index using {cmd} command."
 msgstr ""
 
 #: sophie_bot/modules/filters/handlers/filter_del.py:55
+#, python-brace-format
 msgid "For example: {cmd}"
 msgstr ""
 
 #: sophie_bot/modules/filters/handlers/filter_del.py:66
+#, python-brace-format
 msgid "The filter with keyword {keyword} does not exist!"
 msgstr ""
 
 #: sophie_bot/modules/filters/handlers/filter_del.py:67
+#, python-brace-format
 msgid "Please check the available filters using {cmd} command."
 msgstr ""
 
 #: sophie_bot/modules/filters/handlers/filter_del.py:77
+#, python-brace-format
 msgid "🗑 The filter with keyword {keyword} was deleted!"
 msgstr ""
 
@@ -863,10 +884,12 @@ msgid "Filter's keyword"
 msgstr ""
 
 #: sophie_bot/modules/filters/handlers/filter_edit.py:42
+#, python-brace-format
 msgid "Filter with handler {handler} can not be found! Check all filters using {cmd} command"
 msgstr ""
 
 #: sophie_bot/modules/filters/handlers/filter_edit.py:51
+#, python-brace-format
 msgid "Filter with handler {handler} can not be edited right now!"
 msgstr ""
 
@@ -887,6 +910,7 @@ msgid "Adds a new filter"
 msgstr ""
 
 #: sophie_bot/modules/filters/handlers/filter_save.py:46
+#, python-brace-format
 msgid "Filter on {keyword} was saved."
 msgstr ""
 
@@ -899,6 +923,7 @@ msgid "There are no filters in this chat!"
 msgstr ""
 
 #: sophie_bot/modules/filters/handlers/filters_list.py:34
+#, python-brace-format
 msgid "Filters in {chat_name}"
 msgstr ""
 
@@ -907,18 +932,21 @@ msgid "Additionally rules from 'Antiflood' module can be enforced."
 msgstr ""
 
 #: sophie_bot/modules/filters/utils_/legacy_filter_handler.py:22
+#, python-brace-format
 msgid "Filter with the handler {handler} already exists!"
 msgstr ""
 
 #: sophie_bot/modules/filters/utils_/legacy_filter_handler.py:25
+#, python-brace-format
 msgid "You can edit the filter's actions with {cmd}."
 msgstr ""
 
-#: sophie_bot/modules/filters/utils_/legacy_filter_handler.py:38
+#: sophie_bot/modules/filters/utils_/legacy_filter_handler.py:39
 msgid "Provided regex pattern is too slow to execute. Please review the pattern and try adding the filter again."
 msgstr ""
 
 #: sophie_bot/modules/filters/utils_/legacy_filter_handler.py:47
+#, python-brace-format
 msgid "When messages matches the regex pattern {pattern}"
 msgstr ""
 
@@ -926,13 +954,14 @@ msgstr ""
 msgid "Greetings"
 msgstr ""
 
-#: sophie_bot/modules/greetings/__init__.py:22
+#: sophie_bot/modules/greetings/__init__.py:23
 msgid ""
 "This module helps you to welcome new users automatically, while keeping the chat clean.\n"
 "If you want to enforce captcha / rules verification, please see 'Welcome Security' module instead."
 msgstr ""
 
 #: sophie_bot/modules/greetings/default_welcome.py:9
+#, python-brace-format
 msgid "Hi {mention}! Welcome in the group."
 msgstr ""
 
@@ -945,6 +974,7 @@ msgid "There are no rules in this group, have fun!"
 msgstr ""
 
 #: sophie_bot/modules/greetings/default_welcome.py:17
+#, python-brace-format
 msgid "Hi {mention}! Welcome to the {chatname}!"
 msgstr ""
 
@@ -987,18 +1017,22 @@ msgid "Sets welcome message."
 msgstr ""
 
 #: sophie_bot/modules/greetings/handlers/status_greetings.py:33
+#, python-brace-format
 msgid "Please the '{cmd}' to control the welcome status."
 msgstr ""
 
 #: sophie_bot/modules/greetings/handlers/status_greetings.py:43
+#, python-brace-format
 msgid "Welcome message was successfully updated in {chat_title}."
 msgstr ""
 
 #: sophie_bot/modules/greetings/handlers/status_greetings.py:45
+#, python-brace-format
 msgid "Use {cmd} to retrieve the welcome message."
 msgstr ""
 
-#: sophie_bot/modules/greetings/handlers/status_greetings.py:51
+#: sophie_bot/modules/greetings/handlers/status_greetings.py:52
+#, python-brace-format
 msgid "⚠️ Please note, that the welcome messages are currently disabled in the chat, use '{cmd}' to enable it."
 msgstr ""
 
@@ -1031,19 +1065,23 @@ msgid "Welcome Settings"
 msgstr ""
 
 #: sophie_bot/modules/greetings/handlers/status_overall.py:45
+#, python-brace-format
 msgid "Use {cmd} to Disable / Enable new users greetings"
 msgstr ""
 
 #: sophie_bot/modules/greetings/handlers/status_overall.py:46
+#, python-brace-format
 msgid "Use {cmd} to set custom welcome message"
 msgstr ""
 
 #: sophie_bot/modules/greetings/handlers/status_overall.py:47
+#, python-brace-format
 msgid "Use {cmd} to retrieve Welcome Security settings"
 msgstr ""
 
 #: sophie_bot/modules/greetings/handlers/status_overall.py:48
 #: sophie_bot/modules/welcomesecurity/handlers/status_overall.py:74
+#, python-brace-format
 msgid "Check out {cmd} to learn more about Welcome settings."
 msgstr ""
 
@@ -1119,6 +1157,7 @@ msgid "Module not found"
 msgstr ""
 
 #: sophie_bot/modules/help/handlers/pm_modules.py:95
+#, python-brace-format
 msgid "Aliased commands from {module}"
 msgstr ""
 
@@ -1139,6 +1178,7 @@ msgid "My name is Sophie, I help manage this group in an efficient way!"
 msgstr ""
 
 #: sophie_bot/modules/help/handlers/start_group.py:39
+#, python-brace-format
 msgid "Join the {chat} and {channel}."
 msgstr ""
 
@@ -1173,6 +1213,7 @@ msgid "Hey there! My name is Sophie, I help you manage your group in an efficien
 msgstr ""
 
 #: sophie_bot/modules/help/handlers/start_pm.py:52
+#, python-brace-format
 msgid "Join our {chat} and {channel}."
 msgstr ""
 
@@ -1506,11 +1547,11 @@ msgstr ""
 msgid "Notes"
 msgstr ""
 
-#: sophie_bot/modules/notes/__init__.py:36
+#: sophie_bot/modules/notes/__init__.py:37
 msgid "If you want to save some frequently-used content in your chat, such as a FAQ, response templates, your favourite stickers or the whole interactive menu, you can do that with notes."
 msgstr ""
 
-#: sophie_bot/modules/notes/__init__.py:39
+#: sophie_bot/modules/notes/__init__.py:40
 msgid "Notes allows saving different kind of content, from normal text messages to stickers and audio messages, notes also support adding inline message buttons."
 msgstr ""
 
@@ -1524,6 +1565,7 @@ msgid "Deletes notes."
 msgstr ""
 
 #: sophie_bot/modules/notes/handlers/delete.py:32
+#, python-brace-format
 msgid "No notes was found with {name} name."
 msgstr ""
 
@@ -1548,6 +1590,7 @@ msgid "🗑 Delete all"
 msgstr ""
 
 #: sophie_bot/modules/notes/handlers/delete_all.py:47
+#, python-brace-format
 msgid "Do you want to delete all the notes in the {chat_name}?"
 msgstr ""
 
@@ -1556,6 +1599,7 @@ msgid "Only the initiator can confirm deleting all notes"
 msgstr ""
 
 #: sophie_bot/modules/notes/handlers/delete_all.py:74
+#, python-brace-format
 msgid "🗑 All the notes ({removed_count}) have been deleted in the {chat_name}"
 msgstr ""
 
@@ -1564,6 +1608,7 @@ msgid "Retrieve the note."
 msgstr ""
 
 #: sophie_bot/modules/notes/handlers/get.py:31
+#, python-brace-format
 msgid "No note was found with {name} name."
 msgstr ""
 
@@ -1576,10 +1621,12 @@ msgid "Lists available notes."
 msgstr ""
 
 #: sophie_bot/modules/notes/handlers/list.py:38
+#, python-brace-format
 msgid "No notes found by the provided search pattern {pattern} in {chat_name}."
 msgstr ""
 
 #: sophie_bot/modules/notes/handlers/list.py:46
+#, python-brace-format
 msgid "No notes found in {chat_name}."
 msgstr ""
 
@@ -1590,11 +1637,13 @@ msgstr ""
 
 #: sophie_bot/modules/notes/handlers/list.py:53
 #: sophie_bot/modules/notes/handlers/search.py:41
+#, python-brace-format
 msgid "Notes in {chat_name}"
 msgstr ""
 
 #: sophie_bot/modules/notes/handlers/list.py:57
 #: sophie_bot/modules/notes/handlers/search.py:45
+#, python-brace-format
 msgid "Use {cmd} to retrieve a note. Example: {cmd_example}"
 msgstr ""
 
@@ -1612,10 +1661,12 @@ msgid "🔌 Connect"
 msgstr ""
 
 #: sophie_bot/modules/notes/handlers/pmnotes_handler.py:65
+#, python-brace-format
 msgid "Connected to chat {chat_name} successfully!"
 msgstr ""
 
 #: sophie_bot/modules/notes/handlers/pmnotes_handler.py:66
+#, python-brace-format
 msgid "Use {command} to disconnect"
 msgstr ""
 
@@ -1632,6 +1683,7 @@ msgid "Control Private Notes"
 msgstr ""
 
 #: sophie_bot/modules/notes/handlers/pmnotes_setting.py:72
+#, python-brace-format
 msgid "PrivateNotes have been {status} in {chat}."
 msgstr ""
 
@@ -1664,23 +1716,25 @@ msgid "Searches for note contents"
 msgstr ""
 
 #: sophie_bot/modules/notes/handlers/search.py:34
+#, python-brace-format
 msgid "No notes found by the provided search pattern {pattern}."
 msgstr ""
 
-#: sophie_bot/modules/notes/magic_handlers/descriptions_scheduler.py:51
+#: sophie_bot/modules/notes/magic_handlers/descriptions_scheduler.py:52
 msgid "You need to update the data of the chat notes. Generate the note data from the provided note text"
 msgstr ""
 
 #: sophie_bot/modules/notes/magic_handlers/filter.py:22
 #: sophie_bot/modules/notes/magic_handlers/send_note_action.py:82
+#, python-brace-format
 msgid "#{name} note was not found."
 msgstr ""
 
 #: sophie_bot/modules/notes/magic_handlers/filter.py:25
 #: sophie_bot/modules/notes/magic_handlers/send_note_action.py:85
-#: sophie_bot/modules/restrictions/actions/ban.py:108
-#: sophie_bot/modules/restrictions/actions/kick.py:39
-#: sophie_bot/modules/restrictions/actions/mute.py:108
+#: sophie_bot/modules/restrictions/actions/ban.py:105
+#: sophie_bot/modules/restrictions/actions/kick.py:36
+#: sophie_bot/modules/restrictions/actions/mute.py:105
 #: sophie_bot/modules/rules/magic_handlers/filter.py:16
 #: sophie_bot/modules/rules/magic_handlers/modern_filter.py:34
 msgid "Filter action"
@@ -1750,6 +1804,7 @@ msgid "Send note"
 msgstr ""
 
 #: sophie_bot/modules/notes/magic_handlers/send_note_action.py:62
+#, python-brace-format
 msgid "Replies to the message with the note with {notename} note name"
 msgstr ""
 
@@ -1770,6 +1825,7 @@ msgid "Reply message content is not parsable as the note."
 msgstr ""
 
 #: sophie_bot/modules/notes/utils/parse.py:102
+#, python-brace-format
 msgid "The maximum length of the note is {limit} characters."
 msgstr ""
 
@@ -1889,7 +1945,7 @@ msgstr ""
 msgid "Reply to a message to delete it."
 msgstr ""
 
-#: sophie_bot/modules/purges/handlers/delete.py:30
+#: sophie_bot/modules/purges/handlers/delete.py:31
 msgid "Couldn't delete the message older than 48 hours (2 days). You can delete it nevertheless using the Telegram's admin tools."
 msgstr ""
 
@@ -1901,7 +1957,7 @@ msgstr ""
 msgid "Reply to a message to start."
 msgstr ""
 
-#: sophie_bot/modules/purges/handlers/purge.py:35
+#: sophie_bot/modules/purges/handlers/purge.py:36
 msgid "Couldn't delete the messages older than 48 hours (2 days). You can delete it nevertheless using the Telegram's admin tools."
 msgstr ""
 
@@ -1921,73 +1977,78 @@ msgstr ""
 msgid "Deletes the message"
 msgstr ""
 
-#: sophie_bot/modules/restrictions/actions/ban.py:54
+#: sophie_bot/modules/restrictions/actions/ban.py:51
 msgid "Invalid ban duration, please try again."
 msgstr ""
 
-#: sophie_bot/modules/restrictions/actions/ban.py:62
-#: sophie_bot/modules/restrictions/actions/mute.py:62
+#: sophie_bot/modules/restrictions/actions/ban.py:60
+#: sophie_bot/modules/restrictions/actions/mute.py:60
 msgid "Please write the ban duration, for example 2h for 2 hours, 7d for 7 days or 2w for 2 weeks. Or 0 for a permanent ban."
 msgstr ""
 
-#: sophie_bot/modules/restrictions/actions/ban.py:72
+#: sophie_bot/modules/restrictions/actions/ban.py:69
 msgid "Ban"
 msgstr ""
 
-#: sophie_bot/modules/restrictions/actions/ban.py:81
+#: sophie_bot/modules/restrictions/actions/ban.py:78
+#, python-brace-format
 msgid "Bans user for {time}"
 msgstr ""
 
-#: sophie_bot/modules/restrictions/actions/ban.py:83
+#: sophie_bot/modules/restrictions/actions/ban.py:80
 msgid "Bans user indefinitely"
 msgstr ""
 
-#: sophie_bot/modules/restrictions/actions/ban.py:88
+#: sophie_bot/modules/restrictions/actions/ban.py:85
 msgid "Change ban duration"
 msgstr ""
 
-#: sophie_bot/modules/restrictions/actions/ban.py:110
+#: sophie_bot/modules/restrictions/actions/ban.py:107
+#, python-brace-format
 msgid "User {user} was automatically banned based on a filter action"
 msgstr ""
 
-#: sophie_bot/modules/restrictions/actions/ban.py:116
-#: sophie_bot/modules/restrictions/actions/mute.py:116
+#: sophie_bot/modules/restrictions/actions/ban.py:113
+#: sophie_bot/modules/restrictions/actions/mute.py:113
 msgid "For"
 msgstr ""
 
-#: sophie_bot/modules/restrictions/actions/kick.py:21
+#: sophie_bot/modules/restrictions/actions/kick.py:18
 msgid "Kick"
 msgstr ""
 
-#: sophie_bot/modules/restrictions/actions/kick.py:25
+#: sophie_bot/modules/restrictions/actions/kick.py:22
 msgid "Kicks a user"
 msgstr ""
 
-#: sophie_bot/modules/restrictions/actions/kick.py:41
+#: sophie_bot/modules/restrictions/actions/kick.py:38
+#, python-brace-format
 msgid "User {user} was automatically kicked based on a filter action"
 msgstr ""
 
-#: sophie_bot/modules/restrictions/actions/mute.py:54
+#: sophie_bot/modules/restrictions/actions/mute.py:51
 msgid "Invalid mute duration, please try again."
 msgstr ""
 
-#: sophie_bot/modules/restrictions/actions/mute.py:72
+#: sophie_bot/modules/restrictions/actions/mute.py:69
 msgid "Mute"
 msgstr ""
 
-#: sophie_bot/modules/restrictions/actions/mute.py:81
+#: sophie_bot/modules/restrictions/actions/mute.py:78
+#, python-brace-format
 msgid "Mutes user for {time}"
 msgstr ""
 
-#: sophie_bot/modules/restrictions/actions/mute.py:83
+#: sophie_bot/modules/restrictions/actions/mute.py:80
 msgid "Mutes user indefinitely"
 msgstr ""
 
-#: sophie_bot/modules/restrictions/actions/mute.py:88
+#: sophie_bot/modules/restrictions/actions/mute.py:85
 msgid "Change mute duration"
 msgstr ""
 
-#: sophie_bot/modules/restrictions/actions/mute.py:110
+#: sophie_bot/modules/restrictions/actions/mute.py:107
+#, python-brace-format
 msgid "User {user} was automatically muted based on a filter action"
 msgstr ""
 
@@ -2031,6 +2092,7 @@ msgid "Sets chat rules"
 msgstr ""
 
 #: sophie_bot/modules/rules/handlers/set.py:38
+#, python-brace-format
 msgid "🪧 Rules have been set in {chat_name} successfully."
 msgstr ""
 
@@ -2108,6 +2170,7 @@ msgid "The current state is already cleared, wiping its data anyway..."
 msgstr ""
 
 #: sophie_bot/modules/troubleshooters/handlers/cancel.py:29
+#, python-brace-format
 msgid "Current state {state} is cleared."
 msgstr ""
 
@@ -2122,22 +2185,27 @@ msgid "❌ Cancelled."
 msgstr ""
 
 #: sophie_bot/modules/users/handlers/id.py:35
+#, python-brace-format
 msgid "Your ID: {id}"
 msgstr ""
 
 #: sophie_bot/modules/users/handlers/id.py:38
+#, python-brace-format
 msgid "Chat ID: {id}"
 msgstr ""
 
 #: sophie_bot/modules/users/handlers/id.py:41
+#, python-brace-format
 msgid "Connected chat ID: {id}"
 msgstr ""
 
 #: sophie_bot/modules/users/handlers/id.py:47
+#, python-brace-format
 msgid "Replied user ID: {id}"
 msgstr ""
 
 #: sophie_bot/modules/users/handlers/id.py:51
+#, python-brace-format
 msgid "{user}'s ID: {id}"
 msgstr ""
 
@@ -2152,6 +2220,7 @@ msgid "?New status"
 msgstr ""
 
 #: sophie_bot/modules/utils_/status_handler.py:61
+#, python-brace-format
 msgid "The current status is already {state}"
 msgstr ""
 
@@ -2187,11 +2256,12 @@ msgstr ""
 msgid "Welcome Security"
 msgstr ""
 
-#: sophie_bot/modules/welcomesecurity/__init__.py:28
+#: sophie_bot/modules/welcomesecurity/__init__.py:29
 msgid "Welcome Security contains a bunch of tools that can help filter bots that tries to join your groups, as well as make sure the new users acknowledged the chat rules before being able to speak"
 msgstr ""
 
-#: sophie_bot/modules/welcomesecurity/handlers/captcha_get.py:62
+#: sophie_bot/modules/welcomesecurity/handlers/captcha_get.py:63
+#, python-brace-format
 msgid "Complete the '{emoji_name}' emoji in order to complete the captcha and participate in the {group_name}."
 msgstr ""
 
@@ -2220,6 +2290,7 @@ msgid "? Action time"
 msgstr ""
 
 #: sophie_bot/modules/welcomesecurity/handlers/enable_welcomemute.py:55
+#, python-brace-format
 msgid "Enabled, set to {time}"
 msgstr ""
 
@@ -2252,6 +2323,7 @@ msgid "Captcha"
 msgstr ""
 
 #: sophie_bot/modules/welcomesecurity/handlers/status_overall.py:45
+#, python-brace-format
 msgid "Enabled, expires in {time}"
 msgstr ""
 
@@ -2260,14 +2332,17 @@ msgid "Media restriction"
 msgstr ""
 
 #: sophie_bot/modules/welcomesecurity/handlers/status_overall.py:62
+#, python-brace-format
 msgid "Enabled, on {time}"
 msgstr ""
 
 #: sophie_bot/modules/welcomesecurity/handlers/status_overall.py:72
+#, python-brace-format
 msgid "Use {cmd} to control Welcome Captcha"
 msgstr ""
 
 #: sophie_bot/modules/welcomesecurity/handlers/status_overall.py:73
+#, python-brace-format
 msgid "Use {cmd} to control Media restriction"
 msgstr ""
 
@@ -2280,6 +2355,7 @@ msgid "You're all set, and can now participate in the conversation"
 msgstr ""
 
 #: sophie_bot/modules/welcomesecurity/utils_/captcha_done.py:36
+#, python-brace-format
 msgid "Due to group's security policy, you were restricted to send media for the next {time}"
 msgstr ""
 
@@ -2300,6 +2376,7 @@ msgid "Examples"
 msgstr ""
 
 #: exceptions.py:61
+#, python-brace-format
 msgid "The argument {description} has an invalid type"
 msgstr ""
 
@@ -2308,22 +2385,27 @@ msgid "Needed type"
 msgstr ""
 
 #: exceptions.py:116
+#, python-brace-format
 msgid "The required argument {description} wasn't provided!"
 msgstr ""
 
 #: exceptions.py:164
+#, python-brace-format
 msgid "The argument {description} has an invalid formatting!"
 msgstr ""
 
 #: types/keyvalue.py:31
+#, python-brace-format
 msgid "Key-value of {}"
 msgstr ""
 
 #: types/keyvalue.py:32
+#, python-brace-format
 msgid "Key-values of {}"
 msgstr ""
 
-#: types/keyvalue.py:64
+#: types/keyvalue.py:65
+#, python-brace-format
 msgid "The optional argument {name} must contain a value!"
 msgstr ""
 
@@ -2332,18 +2414,22 @@ msgid "Key-values"
 msgstr ""
 
 #: types/lists.py:46 types/lists.py:59
+#, python-brace-format
 msgid "List of {}"
 msgstr ""
 
 #: types/lists.py:47
+#, python-brace-format
 msgid "Lists of {}"
 msgstr ""
 
 #: types/lists.py:65
+#, python-brace-format
 msgid "The starting character {} of list wasn't found!"
 msgstr ""
 
 #: types/lists.py:73
+#, python-brace-format
 msgid "The ending character {} of list wasn't found!"
 msgstr ""
 
@@ -2355,7 +2441,8 @@ msgstr ""
 msgid "➡️ The start prefix text of the lists cannot have the overlapping formatting"
 msgstr ""
 
-#: types/lists.py:152 types/lists.py:170
+#: types/lists.py:153 types/lists.py:171
+#, python-brace-format
 msgid "Argument '{arg_text}' was parsed, but it has unknown text after it!"
 msgstr ""
 
@@ -2364,10 +2451,12 @@ msgid "Please ensure you correctly divided all of arguments."
 msgstr ""
 
 #: types/logic.py:20
+#, python-brace-format
 msgid "Optional {}"
 msgstr ""
 
 #: types/logic.py:21
+#, python-brace-format
 msgid "Optionals {}"
 msgstr ""
 
@@ -2384,6 +2473,7 @@ msgid "Example syntax"
 msgstr ""
 
 #: types/one_of.py:24 types/one_of.py:27
+#, python-brace-format
 msgid "One of: {}"
 msgstr ""
 
@@ -2424,10 +2514,12 @@ msgid "Text"
 msgstr ""
 
 #: types/text_rules.py:27
+#, python-brace-format
 msgid "➡️ The Argument should start with {}!"
 msgstr ""
 
 #: types/text_rules.py:31
+#, python-brace-format
 msgid "⬅️️ The Argument should end with {}!"
 msgstr ""
 
@@ -2435,15 +2527,18 @@ msgstr ""
 msgid "➡️ The start text cannot have the overlapping formatting"
 msgstr ""
 
-#: types/text_rules.py:74
+#: types/text_rules.py:75
+#, python-brace-format
 msgid "➡️ Argument '{arg_text}' was parsed, but it has unknown text after it!"
 msgstr ""
 
 #: types/text_rules.py:91 types/text_rules.py:95
+#, python-brace-format
 msgid "{} surrounded by {} and {}"
 msgstr ""
 
 #: types/text_rules.py:107
+#, python-brace-format
 msgid "Surrounded by {} and {}"
 msgstr ""
 
@@ -2532,11 +2627,11 @@ msgstr ""
 msgid "Could not find the user mention"
 msgstr ""
 
-#: types/user.py:119
+#: types/user.py:120
 msgid "User: 'User ID (numeric) / Username (starts with @) / Mention (links to users)'"
 msgstr ""
 
-#: types/user.py:121
+#: types/user.py:122
 msgid "Users: 'User IDs (numeric) / Usernames (starts with @) / Mentions (links to users)'"
 msgstr ""
 
@@ -2548,7 +2643,7 @@ msgstr ""
 msgid "Username"
 msgstr ""
 
-#: types/user.py:133
+#: types/user.py:134
 msgid "A link to user, usually creates by mentioning a user without username."
 msgstr ""
 
