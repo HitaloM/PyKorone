@@ -86,5 +86,10 @@ class ModernActionABC(ABC, Generic[ACTION_DATA]):
         raise NotImplementedError
 
     @abstractmethod
-    async def handle(self, message: Message, data: dict, filter_data: ACTION_DATA):
+    async def handle(
+        self, message: Message, data: dict, filter_data: ACTION_DATA
+    ) -> Optional[Element | str | LazyProxy]:
+        """
+        Handler of the action, returns the text of the actions done.
+        """
         raise NotImplementedError

@@ -2,13 +2,13 @@ from typing import Any
 
 from aiogram.types import CallbackQuery, Message
 from pydantic import BaseModel
-from stfu_tg import Italic, Section
-from stfu_tg.doc import Doc, Element
+from stfu_tg import Italic, Section, Title
+from stfu_tg.doc import Doc, Element, PreformattedHTML
 
 from sophie_bot.db.models import ChatModel
 from sophie_bot.middlewares.connections import ChatConnection
 from sophie_bot.modules.ai.filters.throttle import AIThrottleFilter
-from sophie_bot.modules.ai.utils.ai_chatbot import ai_reply
+from sophie_bot.modules.ai.utils.ai_chatbot import ai_generate
 from sophie_bot.modules.ai.utils.message_history import AIMessageHistory
 from sophie_bot.modules.filters.types.modern_action_abc import (
     ActionSetupMessage,
@@ -16,6 +16,7 @@ from sophie_bot.modules.filters.types.modern_action_abc import (
     ModernActionABC,
     ModernActionSetting,
 )
+from sophie_bot.modules.notes.utils.unparse_legacy import legacy_markdown_to_html
 from sophie_bot.utils.exception import SophieException
 from sophie_bot.utils.i18n import gettext as _
 from sophie_bot.utils.i18n import lazy_gettext as l_
@@ -72,12 +73,16 @@ class AIReplyAction(ModernActionABC[AIReplyActionDataModel]):
             ),
         }
 
-    async def handle(self, message: Message, data: dict, filter_data: AIReplyActionDataModel):
+    async def handle(self, message: Message, data: dict, filter_data: AIReplyActionDataModel) -> Element:
         connection: ChatConnection = data["connection"]
 
         if not (chat_db := await ChatModel.get_by_chat_id(connection.id)):
             raise SophieException("Chat not found in database")
 
-        if message.text or message.caption and await AIThrottleFilter().__call__(message, chat_db):
-            messages = await AIMessageHistory.chatbot(message, additional_system_prompt=filter_data.prompt)
-            await ai_reply(message, messages)
+        if not (message.text or message.caption and await AIThrottleFilter().__call__(message, chat_db)):
+            return
+
+        messages = await AIMessageHistory.chatbot(message, additional_system_prompt=filter_data.prompt)
+
+        response = await ai_generate(messages)
+        return Doc(Title(_("✨ AI Response")), PreformattedHTML(legacy_markdown_to_html(response)))

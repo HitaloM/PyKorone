@@ -240,19 +240,19 @@ msgstr ""
 
 #: sophie_bot/modules/ai/handlers/filter.py:21
 #: sophie_bot/modules/ai/magic_handlers/filter.py:21
-#: sophie_bot/modules/ai/magic_handlers/modern_action.py:42
+#: sophie_bot/modules/ai/magic_handlers/modern_action.py:43
 msgid "Please send me the AI instruction to proceed!"
 msgstr ""
 
 #: sophie_bot/modules/ai/handlers/filter.py:22
 #: sophie_bot/modules/ai/magic_handlers/filter.py:22
-#: sophie_bot/modules/ai/magic_handlers/modern_action.py:43
+#: sophie_bot/modules/ai/magic_handlers/modern_action.py:44
 msgid "The AI will try to remember the chat context and will respond accordingly!"
 msgstr ""
 
 #: sophie_bot/modules/ai/handlers/filter.py:24
 #: sophie_bot/modules/ai/magic_handlers/filter.py:24
-#: sophie_bot/modules/ai/magic_handlers/modern_action.py:44
+#: sophie_bot/modules/ai/magic_handlers/modern_action.py:45
 msgid "For example, you can combine it with the warn filter: 'Tell the user how bad it is to speak profanity'"
 msgstr ""
 
@@ -263,6 +263,7 @@ msgstr ""
 
 #: sophie_bot/modules/ai/handlers/filter.py:55
 #: sophie_bot/modules/ai/magic_handlers/filter.py:55
+#: sophie_bot/modules/ai/magic_handlers/modern_action.py:88
 msgid "✨ AI Response"
 msgstr ""
 
@@ -337,26 +338,26 @@ msgstr ""
 msgid "Translation Notes"
 msgstr ""
 
-#: sophie_bot/modules/ai/magic_handlers/modern_action.py:35
+#: sophie_bot/modules/ai/magic_handlers/modern_action.py:36
 msgid "Please enter AI prompt"
 msgstr ""
 
-#: sophie_bot/modules/ai/magic_handlers/modern_action.py:54
+#: sophie_bot/modules/ai/magic_handlers/modern_action.py:55
 msgid "AI Response"
 msgstr ""
 
-#: sophie_bot/modules/ai/magic_handlers/modern_action.py:57
+#: sophie_bot/modules/ai/magic_handlers/modern_action.py:58
 #: sophie_bot/modules/notes/magic_handlers/modern_filter.py:31
 #: sophie_bot/modules/notes/magic_handlers/reply_action.py:45
 #: sophie_bot/modules/notes/magic_handlers/reply_action.py:48
 msgid "Reply to message"
 msgstr ""
 
-#: sophie_bot/modules/ai/magic_handlers/modern_action.py:63
+#: sophie_bot/modules/ai/magic_handlers/modern_action.py:64
 msgid "Send an AI Respond with prompt"
 msgstr ""
 
-#: sophie_bot/modules/ai/magic_handlers/modern_action.py:68
+#: sophie_bot/modules/ai/magic_handlers/modern_action.py:69
 msgid "Change AI prompt"
 msgstr ""
 
@@ -1732,9 +1733,9 @@ msgstr ""
 
 #: sophie_bot/modules/notes/magic_handlers/filter.py:25
 #: sophie_bot/modules/notes/magic_handlers/send_note_action.py:85
-#: sophie_bot/modules/restrictions/actions/ban.py:105
-#: sophie_bot/modules/restrictions/actions/kick.py:36
-#: sophie_bot/modules/restrictions/actions/mute.py:105
+#: sophie_bot/modules/restrictions/actions/ban.py:104
+#: sophie_bot/modules/restrictions/actions/kick.py:35
+#: sophie_bot/modules/restrictions/actions/mute.py:104
 #: sophie_bot/modules/rules/magic_handlers/filter.py:16
 #: sophie_bot/modules/rules/magic_handlers/modern_filter.py:34
 msgid "Filter action"
@@ -1749,7 +1750,6 @@ msgid "Cannot find the note with this name. Please make sure it exists and try a
 msgstr ""
 
 #: sophie_bot/modules/notes/magic_handlers/filter.py:57
-#: sophie_bot/modules/notes/magic_handlers/reply_action.py:70
 msgid "Reply filter"
 msgstr ""
 
@@ -1788,6 +1788,10 @@ msgstr ""
 #: sophie_bot/modules/notes/magic_handlers/modern_filter.py:52
 #: sophie_bot/modules/notes/magic_handlers/reply_action.py:36
 msgid "Markup help"
+msgstr ""
+
+#: sophie_bot/modules/notes/magic_handlers/reply_action.py:70
+msgid "Reply"
 msgstr ""
 
 #: sophie_bot/modules/notes/magic_handlers/send_note_action.py:36
@@ -1977,77 +1981,77 @@ msgstr ""
 msgid "Deletes the message"
 msgstr ""
 
-#: sophie_bot/modules/restrictions/actions/ban.py:51
+#: sophie_bot/modules/restrictions/actions/ban.py:50
 msgid "Invalid ban duration, please try again."
 msgstr ""
 
-#: sophie_bot/modules/restrictions/actions/ban.py:60
-#: sophie_bot/modules/restrictions/actions/mute.py:60
+#: sophie_bot/modules/restrictions/actions/ban.py:59
+#: sophie_bot/modules/restrictions/actions/mute.py:59
 msgid "Please write the ban duration, for example 2h for 2 hours, 7d for 7 days or 2w for 2 weeks. Or 0 for a permanent ban."
 msgstr ""
 
-#: sophie_bot/modules/restrictions/actions/ban.py:69
+#: sophie_bot/modules/restrictions/actions/ban.py:68
 msgid "Ban"
 msgstr ""
 
-#: sophie_bot/modules/restrictions/actions/ban.py:78
+#: sophie_bot/modules/restrictions/actions/ban.py:77
 #, python-brace-format
 msgid "Bans user for {time}"
 msgstr ""
 
-#: sophie_bot/modules/restrictions/actions/ban.py:80
+#: sophie_bot/modules/restrictions/actions/ban.py:79
 msgid "Bans user indefinitely"
 msgstr ""
 
-#: sophie_bot/modules/restrictions/actions/ban.py:85
+#: sophie_bot/modules/restrictions/actions/ban.py:84
 msgid "Change ban duration"
 msgstr ""
 
-#: sophie_bot/modules/restrictions/actions/ban.py:107
+#: sophie_bot/modules/restrictions/actions/ban.py:106
 #, python-brace-format
 msgid "User {user} was automatically banned based on a filter action"
 msgstr ""
 
-#: sophie_bot/modules/restrictions/actions/ban.py:113
-#: sophie_bot/modules/restrictions/actions/mute.py:113
+#: sophie_bot/modules/restrictions/actions/ban.py:112
+#: sophie_bot/modules/restrictions/actions/mute.py:112
 msgid "For"
 msgstr ""
 
-#: sophie_bot/modules/restrictions/actions/kick.py:18
+#: sophie_bot/modules/restrictions/actions/kick.py:17
 msgid "Kick"
 msgstr ""
 
-#: sophie_bot/modules/restrictions/actions/kick.py:22
+#: sophie_bot/modules/restrictions/actions/kick.py:21
 msgid "Kicks a user"
 msgstr ""
 
-#: sophie_bot/modules/restrictions/actions/kick.py:38
+#: sophie_bot/modules/restrictions/actions/kick.py:37
 #, python-brace-format
 msgid "User {user} was automatically kicked based on a filter action"
 msgstr ""
 
-#: sophie_bot/modules/restrictions/actions/mute.py:51
+#: sophie_bot/modules/restrictions/actions/mute.py:50
 msgid "Invalid mute duration, please try again."
 msgstr ""
 
-#: sophie_bot/modules/restrictions/actions/mute.py:69
+#: sophie_bot/modules/restrictions/actions/mute.py:68
 msgid "Mute"
 msgstr ""
 
-#: sophie_bot/modules/restrictions/actions/mute.py:78
+#: sophie_bot/modules/restrictions/actions/mute.py:77
 #, python-brace-format
 msgid "Mutes user for {time}"
 msgstr ""
 
-#: sophie_bot/modules/restrictions/actions/mute.py:80
+#: sophie_bot/modules/restrictions/actions/mute.py:79
 msgid "Mutes user indefinitely"
 msgstr ""
 
-#: sophie_bot/modules/restrictions/actions/mute.py:85
+#: sophie_bot/modules/restrictions/actions/mute.py:84
 msgid "Change mute duration"
 msgstr ""
 
-#: sophie_bot/modules/restrictions/actions/mute.py:107
+#: sophie_bot/modules/restrictions/actions/mute.py:106
 #, python-brace-format
 msgid "User {user} was automatically muted based on a filter action"
 msgstr ""

@@ -1,6 +1,6 @@
 from aiogram.types import Message
 from stfu_tg import Bold, HList, Section, Title
-from stfu_tg.doc import Element
+from stfu_tg.doc import Doc, Element, PreformattedHTML
 
 from sophie_bot.db.models import RulesModel
 from sophie_bot.middlewares.connections import ChatConnection
@@ -33,12 +33,19 @@ class SendRulesAction(ModernActionABC[None]):
 
         title = Bold(HList(Title(f'🪧 {_("Rules")}'), _("Filter action")))
 
-        return await common_try(
-            send_saveable(
-                message,
-                message.chat.id,
-                rules,
-                title=title,
-                reply_to=message.message_id,
+        if rules.buttons or rules.file:
+            # We have to send the note separately
+            return await common_try(
+                send_saveable(
+                    message,
+                    message.chat.id,
+                    rules,
+                    title=title,
+                    reply_to=message.message_id,
+                )
             )
+
+        return Doc(
+            title,
+            PreformattedHTML(rules.text),
         )

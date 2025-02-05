@@ -20,7 +20,6 @@ from sophie_bot.modules.filters.types.modern_action_abc import (
 )
 from sophie_bot.modules.legacy_modules.utils.restrictions import ban_user
 from sophie_bot.modules.legacy_modules.utils.user_details import is_user_admin
-from sophie_bot.modules.utils_.common_try import common_try
 from sophie_bot.utils.i18n import gettext as _
 from sophie_bot.utils.i18n import lazy_gettext as l_
 from sophie_bot.utils.logger import log
@@ -89,7 +88,7 @@ class BanModernAction(ModernActionABC[BanActionDataModel]):
             ),
         }
 
-    async def handle(self, message: Message, data: dict, filter_data: BanActionDataModel):
+    async def handle(self, message: Message, data: dict, filter_data: BanActionDataModel) -> Element:
         if not message.from_user:
             return
 
@@ -112,5 +111,7 @@ class BanModernAction(ModernActionABC[BanActionDataModel]):
         if filter_data.ban_duration:
             doc += KeyValue(_("For"), format_timedelta(filter_data.ban_duration, locale=locale))
 
-        if await ban_user(chat_id, message.from_user.id, until_date=filter_data.ban_duration):
-            await common_try(message.reply(doc.to_html()))
+        if not await ban_user(chat_id, message.from_user.id, until_date=filter_data.ban_duration):
+            return
+
+        return doc

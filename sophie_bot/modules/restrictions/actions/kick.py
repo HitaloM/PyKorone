@@ -5,7 +5,6 @@ from stfu_tg.doc import Doc, Element
 from sophie_bot.modules.filters.types.modern_action_abc import ModernActionABC
 from sophie_bot.modules.legacy_modules.utils.restrictions import kick_user
 from sophie_bot.modules.legacy_modules.utils.user_details import is_user_admin
-from sophie_bot.modules.utils_.common_try import common_try
 from sophie_bot.utils.i18n import gettext as _
 from sophie_bot.utils.i18n import lazy_gettext as l_
 from sophie_bot.utils.logger import log
@@ -21,7 +20,7 @@ class KickModernAction(ModernActionABC[None]):
     def description(data: None) -> Element | str:
         return _("Kicks a user")
 
-    async def handle(self, message: Message, data: dict, filter_data: None):
+    async def handle(self, message: Message, data: dict, filter_data: None) -> Element:
         if not message.from_user:
             return
 
@@ -40,5 +39,7 @@ class KickModernAction(ModernActionABC[None]):
             ),
         )
 
-        if await kick_user(chat_id, message.from_user.id):
-            await common_try(message.reply(doc.to_html()))
+        if not await kick_user(chat_id, message.from_user.id):
+            return
+
+        return doc

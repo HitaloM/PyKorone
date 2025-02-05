@@ -1,4 +1,4 @@
-from typing import Any
+from typing import Any, Optional
 
 from aiogram.types import (
     CallbackQuery,
@@ -6,7 +6,7 @@ from aiogram.types import (
     InlineKeyboardMarkup,
     Message,
 )
-from stfu_tg import Bold, Italic, Section, Template, Title
+from stfu_tg import Bold, Doc, Italic, PreformattedHTML, Section, Template, Title
 from stfu_tg.doc import Element
 
 from sophie_bot.db.models.notes import Saveable
@@ -66,15 +66,22 @@ class ReplyModernAction(ModernActionABC[Saveable]):
             ),
         }
 
-    async def handle(self, message: Message, data: dict, filter_data: Saveable):
-        title = Bold(Title(Template("🪄 {text}", text=_("Reply filter"))))
+    async def handle(self, message: Message, data: dict, filter_data: Saveable) -> Optional[Element]:
+        title = Bold(Title(Template("🪄 {text}", text=_("Reply"))))
 
-        return await common_try(
-            send_saveable(
-                message,
-                message.chat.id,
-                filter_data,
-                title=title,
-                reply_to=message.message_id,
+        if filter_data.buttons or filter_data.file:
+            # We have to send the note separately
+            return await common_try(
+                send_saveable(
+                    message,
+                    message.chat.id,
+                    filter_data,
+                    title=title,
+                    reply_to=message.message_id,
+                )
             )
+
+        return Doc(
+            title,
+            PreformattedHTML(filter_data.text),
         )
