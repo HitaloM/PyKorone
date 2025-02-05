@@ -11,7 +11,6 @@ from sophie_bot.utils.logger import log
 LOADED_MODULES: dict[str, ModuleType] = {}
 MODULES = [
     "troubleshooters",  # troubleshooters always first!
-    "filters",
     "error",
     "users",
     "notes",
@@ -27,6 +26,7 @@ MODULES = [
     "warns",
     "restrictions",
     "ai",
+    "filters",
     "legacy_modules",  # Legacy last
 ]
 
