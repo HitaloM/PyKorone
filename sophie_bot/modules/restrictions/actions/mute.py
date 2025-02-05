@@ -114,4 +114,4 @@ class MuteModernAction(ModernActionABC[MuteActionDataModel]):
         if not await mute_user(chat_id, message.from_user.id, until_date=filter_data.mute_duration):
             return
 
-        await doc
+        return doc
