@@ -62,7 +62,7 @@ class HashtagGetNote(SophieMessageHandler):
 
     @staticmethod
     def filters() -> tuple[CallbackType, ...]:
-        return (F.text.regexp(r"#([\w-]+).*"),)
+        return (F.text.regexp(r".*#([\w-]+).*"),)
 
     async def _fine_note(self, note_name: str) -> Optional[NoteModel]:
         chat: ChatConnection = self.data["connection"]
@@ -75,9 +75,12 @@ class HashtagGetNote(SophieMessageHandler):
     async def handle(self) -> Any:
         raw_text = self.event.text or ""
 
-        notes_to_stack = [
-            note for match in self.hashtag_regex.finditer(raw_text) if (note := await self._fine_note(match.group(1)))
-        ]
+        matches = self.hashtag_regex.findall(raw_text)
+
+        # Remove duplicates
+        matches = list(set(matches))
+
+        notes_to_stack = [note for match in matches if (note := await self._fine_note(match))]
 
         # Limit to 3 first items
         if len(notes_to_stack) > 3:
