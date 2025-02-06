@@ -1,4 +1,5 @@
-from typing import Any
+import re
+from typing import Any, Optional
 
 from aiogram import F, flags
 from aiogram.dispatcher.event.handler import CallbackType
@@ -8,6 +9,7 @@ from stfu_tg import Bold, HList, Italic, Title
 from sophie_bot.db.models import NoteModel
 from sophie_bot.filters.cmd import CMDFilter
 from sophie_bot.middlewares.connections import ChatConnection
+from sophie_bot.modules.notes.utils.combine import combine_saveables
 from sophie_bot.modules.notes.utils.send import send_saveable
 from sophie_bot.modules.utils_.base_handler import SophieMessageHandler
 from sophie_bot.utils.i18n import gettext as _
@@ -56,11 +58,38 @@ class GetNote(SophieMessageHandler):
 
 
 class HashtagGetNote(SophieMessageHandler):
+    hashtag_regex = re.compile(r"#([\w-]+)")
+
     @staticmethod
     def filters() -> tuple[CallbackType, ...]:
-        return (F.text.regexp(r"^#([\w-]+).*"),)
+        return (F.text.regexp(r"#([\w-]+).*"),)
+
+    async def _fine_note(self, note_name: str) -> Optional[NoteModel]:
+        chat: ChatConnection = self.data["connection"]
+        return await NoteModel.get_by_notenames(chat.id, (note_name,))
+
+    @staticmethod
+    def _get_note_title(note_model: NoteModel) -> str:
+        return Bold(HList(Title(f"📗 #{note_model.names[0]}", bold=False), note_model.description or ""))
 
     async def handle(self) -> Any:
-        self.data["get_error_on_404"] = False
-        self.data["notename"] = (self.event.text or "").split(" ", 1)[0].removeprefix("#")
-        return await GetNote(self.event, **self.data)
+        raw_text = self.event.text or ""
+
+        notes_to_stack = [
+            note for match in self.hashtag_regex.finditer(raw_text) if (note := await self._fine_note(match.group(1)))
+        ]
+
+        # Limit to 3 first items
+        if len(notes_to_stack) > 3:
+            notes_to_stack = notes_to_stack[:3]
+
+        saveable = combine_saveables(*((item, self._get_note_title(item)) for item in notes_to_stack))
+
+        # Reply
+        # TODO: Handle chat topics!
+        if self.event.reply_to_message:
+            reply_to = self.event.reply_to_message.message_id
+        else:
+            reply_to = self.event.message_id
+
+        return await send_saveable(self.event, self.event.chat.id, saveable, reply_to=reply_to)
