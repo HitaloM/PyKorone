@@ -40,7 +40,7 @@ class I18nNew(I18n):
             self.babels[locale] = babel
             self.stats[locale] = self.parse_stats(locale)
             if not self.stats[locale]:
-                log.warning(f"Can't parse stats for locale {locale}!")
+                log.debug(f"! Can't parse stats for locale {locale}!")
 
         # add en
         self.babels["en"] = self.babel("en_US")

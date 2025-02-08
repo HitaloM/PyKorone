@@ -14,3 +14,9 @@
 | `/unmute` | `<User>` | Unmutes the user (also lets the user send media). |  |
 | `/ban` `/sban` `/tban` `/stban` | `<User>` | Unmutes the user (also lets the user send media). |  |
 | `/unban` | `<User>` | Unbans the user. |  |
+
+### Aliased commands from [✨ Sophie AI](ai)
+
+| Commands | Arguments | Description | Remarks |
+| --- | --- | --- | --- |
+| `/aimoderator` | `<?New status>` | Controls AI Moderator features |  |

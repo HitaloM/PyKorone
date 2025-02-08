@@ -3,11 +3,13 @@ from types import ModuleType
 from aiogram import Router
 from stfu_tg import Doc
 
-from sophie_bot.modules.filters.enforce_middleware import EnforceFiltersMiddleware
 from sophie_bot.utils.i18n import LazyProxy
 from sophie_bot.utils.i18n import lazy_gettext as l_
 from sophie_bot.utils.logger import log
 
+from .. import LOADED_MODULES
+from ..legacy_modules import LOADED_LEGACY_MODULES
+from .enforce_middleware import EnforceFiltersMiddleware
 from .handlers.action_change_setting_confirm import ActionChangeSettingConfirm
 from .handlers.action_remove import ActionRemoveHandler
 from .handlers.action_select import ActionSelectHandler
@@ -15,10 +17,16 @@ from .handlers.action_setting_select import ActionSettingSelectHandler
 from .handlers.action_setup_confirm import ActionSetupConfirmHandler
 from .handlers.actions_list import ActionsListHandler
 from .handlers.actions_list_to_remove import ActionsListToRemoveHandler
+from .handlers.filter_confirm import FilterConfirmHandler
 from .handlers.filter_del import FilterDeleteHandler
 from .handlers.filter_edit import FilterEditHandler
 from .handlers.filter_new import FilterNewHandler
+from .handlers.filter_save import FilterSaveHandler
+from .handlers.filters_list import FiltersListHandler
+from .utils_.all_modern_actions import ALL_MODERN_ACTIONS
+from .utils_.legacy_filter_actions import LEGACY_FILTERS_ACTIONS
 
+router = Router(name="filters")
 __module_name__ = l_("Filters")
 __module_emoji__ = "🪄"
 __module_info__ = LazyProxy(
@@ -31,17 +39,6 @@ __module_info__ = LazyProxy(
     )
 )
 __advertise_wiki_page__ = True
-
-from .. import LOADED_MODULES
-from ..legacy_modules import LOADED_LEGACY_MODULES
-from ..notes.magic_handlers.reply_action import ReplyModernAction
-from .handlers.filter_confirm import FilterConfirmHandler
-from .handlers.filter_save import FilterSaveHandler
-from .handlers.filters_list import FiltersListHandler
-from .utils_.all_modern_actions import ALL_MODERN_ACTIONS
-from .utils_.legacy_filter_actions import LEGACY_FILTERS_ACTIONS
-
-router = Router(name="filters")
 
 __handlers__ = (
     FilterNewHandler,
@@ -67,6 +64,8 @@ async def __pre_setup__():
 
 
 async def __post_setup__(modules: dict[str, ModuleType]):
+    from ..notes.magic_handlers.reply_action import ReplyModernAction
+
     for name, module in modules.items():
         action_filters: tuple[type[ReplyModernAction], ...] = getattr(module, "__modern_actions__", tuple())
 

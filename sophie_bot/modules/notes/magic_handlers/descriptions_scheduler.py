@@ -6,12 +6,11 @@ from sophie_bot.middlewares import i18n
 from sophie_bot.modules.ai.json_schemas.update_note_description import AIUpdateNoteData
 from sophie_bot.modules.ai.utils.ai_chatbot import ai_generate_schema
 from sophie_bot.modules.ai.utils.message_history import AIMessageHistory
-from sophie_bot.modules.utils_.scheduler import SophieSchedulerABC
 from sophie_bot.utils.i18n import gettext as _
 from sophie_bot.utils.logger import log
 
 
-class NotesDescriptionsScheduler(SophieSchedulerABC):
+class NotesDescriptionsScheduler:
     async def handle(self):
         await sleep(5)
 

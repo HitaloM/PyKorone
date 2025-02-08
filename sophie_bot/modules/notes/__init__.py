@@ -1,12 +1,10 @@
-from asyncio import create_task
-
 from aiogram import Router
 from stfu_tg import Doc
 
-from sophie_bot import CONFIG
 from sophie_bot.utils.i18n import LazyProxy
 from sophie_bot.utils.i18n import lazy_gettext as l_
 
+from ...modes import SOPHIE_MODE
 from .handlers.delete import DelNote
 from .handlers.delete_all import DelAllNotesCallbackHandler, DelAllNotesHandler
 from .handlers.get import GetNote, HashtagGetNote
@@ -19,7 +17,6 @@ from .handlers.pmnotes_handler import (
 from .handlers.pmnotes_setting import PMNotesControl, PMNotesStatus
 from .handlers.save import SaveNote
 from .handlers.search import NotesSearchHandler
-from .magic_handlers.descriptions_scheduler import NotesDescriptionsScheduler
 from .magic_handlers.export import export
 from .magic_handlers.filter import get_filter
 from .magic_handlers.reply_action import ReplyModernAction
@@ -76,5 +73,6 @@ async def __pre_setup__():
 
 
 async def __post_setup__(_):
-    if CONFIG.scheduler:
-        create_task(NotesDescriptionsScheduler().handle())
+    if SOPHIE_MODE == "scheduler":
+        pass
+        # scheduler.add_job(GenerateAITitles().handle, "interval", minutes=1, jobstore="ram")

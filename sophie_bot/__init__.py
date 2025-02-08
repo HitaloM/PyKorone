@@ -11,9 +11,7 @@ from sophie_bot.config import CONFIG
 from sophie_bot.utils.logger import log
 from sophie_bot.versions import SOPHIE_BRANCH, SOPHIE_COMMIT, SOPHIE_VERSION
 
-log.info("-------------------")
-log.info("|      Sophie     |")
-log.info("-------------------")
+log.info("Sophie!")
 log.info("Version: " + SOPHIE_VERSION)
 log.info("Commit: " + SOPHIE_COMMIT)
 log.info("Branch: " + SOPHIE_BRANCH)
@@ -21,7 +19,7 @@ log.info("Branch: " + SOPHIE_BRANCH)
 # Support for custom BotAPI servers
 bot_api = TelegramAPIServer.from_base(str(CONFIG.botapi_server)) if CONFIG.botapi_server else PRODUCTION
 session = AiohttpSession(api=bot_api)
-log.debug(f"Using BotAPI server: {bot_api}")
+log.info(f"Using BotAPI server: {bot_api}")
 
 # AIOGram
 bot = Bot(token=CONFIG.token, default=DefaultBotProperties(parse_mode="html"), session=session)

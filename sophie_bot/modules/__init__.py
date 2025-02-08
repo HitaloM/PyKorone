@@ -10,6 +10,7 @@ from sophie_bot.utils.logger import log
 
 LOADED_MODULES: dict[str, ModuleType] = {}
 MODULES = [
+    "op",
     "troubleshooters",  # troubleshooters always first!
     "error",
     "users",
@@ -36,7 +37,7 @@ async def load_modules(
     to_load: Sequence[str],
     to_not_load: Sequence[str] = (),
 ):
-    log.debug("Importing modules...")
+    log.info("Importing modules...")
     if "*" in to_load:
         log.debug("Loading all modules...", modules=MODULES)
         to_load = MODULES
@@ -51,7 +52,7 @@ async def load_modules(
         if router := getattr(module, "router", None):
             dp.include_router(router)
         else:
-            log.warning(f"Module {module_name} has no router!")
+            log.debug(f"! Module {module_name} has no router!")
 
         LOADED_MODULES[module.__name__.split(".", 3)[2]] = module
 

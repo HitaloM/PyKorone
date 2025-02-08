@@ -1,9 +1,11 @@
 from asyncio import gather
 from base64 import b64encode
+from itertools import chain
 from typing import BinaryIO, Optional
 
 from aiogram.types import Message
 from attr import dataclass
+from openai.types import ModerationMultiModalInputParam
 from openai.types.chat import (
     ChatCompletionAssistantMessageParam,
     ChatCompletionContentPartImageParam,
@@ -148,35 +150,36 @@ class AIMessageHistory(list[ChatCompletionMessageParam]):
             }
         )
 
+    async def cache(self):
+        for msg_to_cache in self.to_cache:
+            log.debug("MessageHistory: caching additional message", message=msg_to_cache)
+            await cache_message(msg_to_cache.text, msg_to_cache.chat_id, msg_to_cache.user_id, msg_to_cache.msg_id)
+
     @staticmethod
     async def chatbot(
-        message: Message,
-        custom_user_text: Optional[str] = None,
-        additional_system_prompt: str = "",
-        add_cached_messages: bool = True,
-        add_from_message: bool = True,
+        message: Message, custom_user_text: Optional[str] = None, additional_system_prompt: str = ""
     ) -> "AIMessageHistory":
         """A simple chat-bot case"""
 
-        messages = AIMessageHistory()
-        messages.add_chatbot_system_msg(additional=additional_system_prompt)
+        history = AIMessageHistory()
+        history.add_chatbot_system_msg(additional=additional_system_prompt)
+        await history.add_from_cache(message.chat.id)
 
-        if add_cached_messages:
-            await messages.add_from_cache(message.chat.id)
-
+        # Handle message reply
         if message.reply_to_message and message.reply_to_message.from_user:
-            await messages.add_from_message(message.reply_to_message)
+            await history.add_from_message(message.reply_to_message)
             reply_to_user = message.reply_to_message.from_user.full_name
         else:
             reply_to_user = None
 
-        if add_from_message:
-            await messages.add_from_message(message, reply_to_user=reply_to_user, custom_user_text=custom_user_text)
+        await history.add_from_message(message, reply_to_user=reply_to_user, custom_user_text=custom_user_text)
 
-        # Cache additional messages to context
-        for msg_to_cache in messages.to_cache:
-            log.debug("MessageHistory: caching additional message", message=msg_to_cache)
-            await cache_message(msg_to_cache.text, msg_to_cache.chat_id, msg_to_cache.user_id, msg_to_cache.msg_id)
+        # Cache additional messages
+        await history.cache()
 
-        log.debug("MessageHistory: chatbot", messages=messages)
-        return messages
+        log.debug("MessageHistory: chatbot", history=history)
+        return history
+
+    @property
+    def to_moderation(self) -> list[ModerationMultiModalInputParam]:
+        return list(chain(*(item["content"] for item in self)))  # type: ignore

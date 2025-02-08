@@ -31,7 +31,7 @@ async def __pre_setup__():
 
     await before_srv_task()
 
-    log.info("Legacy modules: Pre setup")
+    log.debug("Legacy modules: Pre setup")
 
     dp.include_router(legacy_states_router)
 
@@ -44,7 +44,7 @@ async def __post_setup__(_):
 
     from .utils.register import legacy_modules_router
 
-    log.info("Legacy modules: Post setup")
+    log.debug("Legacy modules: Post setup")
     dp.include_router(legacy_modules_router)
 
     for module in LOADED_LEGACY_MODULES:

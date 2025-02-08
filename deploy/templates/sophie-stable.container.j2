@@ -12,6 +12,7 @@ Image={{ lookup('ansible.builtin.env','IMAGE_NAME', default='registry.gitlab.com
 PublishPort=8071:8071
 PodmanArgs=--memory=1500M
 EnvironmentFile=/var/sophie/stable.env
+Exec=bot
 
 [Install]
 WantedBy=multi-user.target default.target

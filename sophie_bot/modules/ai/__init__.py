@@ -2,18 +2,19 @@ from aiogram import Router
 from stfu_tg import Doc
 
 from sophie_bot.modules.ai.handlers.ai_cmd import AiCmd
+from sophie_bot.modules.ai.handlers.ai_moderator_setting import AIModerator
 from sophie_bot.modules.ai.handlers.aisave import AISaveNote
 from sophie_bot.modules.ai.handlers.autotranslate_setting import (
-    AIAutotransStatus,
-    ControlAIAutotrans,
+    AIAutotrans,
 )
-from sophie_bot.modules.ai.handlers.enable_setting import AIStatus, EnableAI
+from sophie_bot.modules.ai.handlers.enable_setting import EnableAI
 from sophie_bot.modules.ai.handlers.filter import get_filter
 from sophie_bot.modules.ai.handlers.pm import AiPmHandle, AiPmInitialize, AiPmStop
 from sophie_bot.modules.ai.handlers.reply import AiReplyHandler
 from sophie_bot.modules.ai.handlers.reset_context import AIContextReset
 from sophie_bot.modules.ai.handlers.translate import AiTranslate, text_or_reply
 from sophie_bot.modules.ai.magic_handlers.modern_action import AIReplyAction
+from sophie_bot.modules.ai.middlewares.ai_moderator import AiModeratorMiddleware
 from sophie_bot.modules.ai.middlewares.auto_translate import AiAutoTranslateMiddleware
 from sophie_bot.modules.ai.middlewares.cache_bot_messages import (
     CacheBotMessagesMiddleware,
@@ -42,6 +43,7 @@ __module_info__ = LazyProxy(
 
 __filters__ = get_filter()
 __modern_actions__ = (AIReplyAction,)
+__handlers__ = (EnableAI, AIModerator, AIAutotrans)
 
 
 async def __pre_setup__():
@@ -51,9 +53,8 @@ async def __pre_setup__():
     # Notes
     router.message.register(AISaveNote, *AISaveNote.filters())
 
-    # AI Status
-    router.message.register(EnableAI, *EnableAI.filters())
-    router.message.register(AIStatus, *AIStatus.filters())
+    # AI Moderator
+    router.message.outer_middleware(AiModeratorMiddleware())
 
     # AI Context reset
     router.message.register(AIContextReset, *AIContextReset.filters())
@@ -65,10 +66,6 @@ async def __pre_setup__():
     # AI translate
     router.message.register(AiTranslate, *AiTranslate.filters(), flags={"args": text_or_reply})
     router.message.outer_middleware(AiAutoTranslateMiddleware())
-
-    # AI Auto translate
-    router.message.register(ControlAIAutotrans, *ControlAIAutotrans.filters())
-    router.message.register(AIAutotransStatus, *AIAutotransStatus.filters())
 
     # Trigger AI
     router.message.register(AiReplyHandler, *AiReplyHandler.filters())

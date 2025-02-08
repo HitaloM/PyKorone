@@ -48,7 +48,3 @@ __handlers__ = (
 
 async def __pre_setup__():
     router.message.outer_middleware(LockMutedUsers())
-
-
-# async def __post_setup__(_):
-#     create_task(WelcomeSecurityScheduler().handle())

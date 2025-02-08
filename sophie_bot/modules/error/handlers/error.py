@@ -1,8 +1,8 @@
 import random
 import sys
+from traceback import format_exception
 from typing import Any, Optional
 
-import better_exceptions
 from aiogram.handlers import ErrorHandler
 from aiogram.types import Chat, InlineKeyboardButton, InlineKeyboardMarkup, Update
 from sentry_sdk import capture_exception
@@ -60,7 +60,7 @@ class SophieErrorHandler(ErrorHandler):
 
     @staticmethod
     def log_to_console(etype, value, tb, **kwargs):
-        formatted_exception = better_exceptions.format_exception(etype, value, tb)
+        formatted_exception = format_exception(etype, value, tb)
         log.error("".join(formatted_exception))
 
         log.error("Additional error data", **kwargs)

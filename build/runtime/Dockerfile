@@ -47,4 +47,5 @@ COPY --from=builder /build/locales /locales
 
 WORKDIR /
 
-CMD ["/venv/bin/python", "-m", "sophie_bot"]
+ENTRYPOINT ["/venv/bin/python", "-m", "sophie_bot"]
+CMD ["bot"]

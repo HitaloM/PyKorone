@@ -1,0 +1,25 @@
+from aiogram import flags
+from aiogram.dispatcher.event.handler import CallbackType
+
+from sophie_bot.db.models import AIModeratorModel
+from sophie_bot.filters.admin_rights import UserRestricting
+from sophie_bot.filters.cmd import CMDFilter
+from sophie_bot.modules.utils_.status_handler import StatusBoolHandlerABC
+from sophie_bot.utils.i18n import lazy_gettext as l_
+
+
+@flags.help(alias_to_modules=["restrictions"], description=l_("Controls AI Moderator features"))
+class AIModerator(StatusBoolHandlerABC):
+    header_text = l_("✨ AI Moderator")
+    change_command = "aimoderator"
+
+    @staticmethod
+    def filters() -> tuple[CallbackType, ...]:
+        return CMDFilter("aimoderator"), UserRestricting(admin=True)
+
+    async def get_status(self) -> bool:
+        db_model = await AIModeratorModel.get_state(self.connection.db_model)
+        return bool(db_model)
+
+    async def set_status(self, new_status: bool):
+        await AIModeratorModel.set_state(self.connection.db_model, new_status)

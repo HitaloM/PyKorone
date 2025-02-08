@@ -27,7 +27,7 @@ from sophie_bot.utils.logger import log
 
 LANGUAGES = {}
 
-log.info("Loading localizations...")
+log.debug("Loading legacy localizations...")
 
 for filename in os.listdir("sophie_bot/localization"):
     log.debug("Loading language file " + filename)

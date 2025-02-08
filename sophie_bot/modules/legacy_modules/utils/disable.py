@@ -4,7 +4,7 @@ from sophie_bot.utils.logger import log
 
 
 def disableable_dec(command):
-    log.warn(f"Legacy @disableable_dec: Adding {command} to the disableable commands...")
+    log.debug(f"Legacy @disableable_dec: Adding {command} to the disableable commands...")
 
     def wrapped(func):
 

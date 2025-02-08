@@ -2,6 +2,8 @@ from typing import Annotated
 
 from beanie import Document, Indexed
 
+from sophie_bot import CONFIG
+
 
 class LanguageModel(Document):
     # Old ID
@@ -14,3 +16,8 @@ class LanguageModel(Document):
 
     class Settings:
         name = "lang"
+
+    @staticmethod
+    async def get_locale(chat_id: int) -> str:
+        item = await LanguageModel.find_one(LanguageModel.chat_id == chat_id)
+        return item.lang if item else CONFIG.default_locale

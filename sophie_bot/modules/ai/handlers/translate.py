@@ -59,14 +59,16 @@ class AiTranslate(MessageHandler):
         else:
             to_translate = self.data.get("text", "")
 
-        system_prompt = _("You're the professional AI translator/transcriber.")
-        user_prompt = _(f"Translate the following text to {language_name}:\n{to_translate}")
-
-        ai_context = await AIMessageHistory.chatbot(
-            self.event,
-            additional_system_prompt=system_prompt,
-            custom_user_text=user_prompt,
-            add_cached_messages=False,
+        # AI Context
+        ai_context = AIMessageHistory()
+        await ai_context.add_from_message(self.event)
+        ai_context.add_system(
+            "\n".join(
+                (
+                    _("You're the professional AI translator/transcriber."),
+                    _(f"Translate the following text to {language_name}:\n{to_translate}"),
+                )
+            )
         )
 
         translated = await ai_generate_schema(ai_context, AITranslateResponseSchema)

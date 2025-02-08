@@ -1,0 +1,24 @@
+- name: Copy Beta's quadlet for scheduler
+  vars:
+    image_tag: "beta-runtime"
+  ansible.builtin.template:
+    src: sophie-beta.container.j2
+    dest: /home/containers/.config/containers/systemd/sophie-scheduler.container
+    owner: containers
+    group: containers
+    mode: u=rw,g=r,o=r
+
+- name: Copy Scheduler env file
+  ansible.builtin.template:
+    src: beta.env.j2
+    dest: /var/sophie/scheduler.env
+    owner: containers
+    group: containers
+    mode: u=rw,g=r,o=r
+
+- name: Restart Scheduler container
+  ansible.builtin.systemd_service:
+    scope: user
+    state: restarted
+    daemon_reload: true
+    name: sophie-scheduler

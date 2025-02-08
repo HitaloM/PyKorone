@@ -34,5 +34,5 @@ build_runtime_container:
   only:
     - beta
     - stable
-    - dev_*
-    - dev-*
+    - /^dev_.*/
+    - /^dev-.*/

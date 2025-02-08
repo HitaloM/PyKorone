@@ -12,7 +12,7 @@ from sophie_bot.utils.logger import log
 
 
 def lang_code_to_language(lang_code: str) -> Language:
-    # IsoCode639_1 is stupid enum, it doesn't support any kind of magic getter, therefore we get its attribute
+    # IsoCode639_1 is a stupid enum, it doesn't support any kind of magic getter, therefore we get its attribute
     return Language.from_iso_code_639_1(getattr(IsoCode639_1, lang_code.upper()))
 
 

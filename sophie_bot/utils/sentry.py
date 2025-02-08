@@ -23,6 +23,7 @@ from sentry_sdk.integrations.redis import RedisIntegration
 
 from sophie_bot import SOPHIE_VERSION
 from sophie_bot.config import CONFIG
+from sophie_bot.modes import SOPHIE_MODE
 from sophie_bot.modules.error.utils.ignored import IGNORED_EXCEPTIONS
 from sophie_bot.utils.logger import log
 
@@ -33,7 +34,7 @@ def init_sentry():
     sentry_sdk.init(
         str(CONFIG.sentry_url),
         integrations=[RedisIntegration(), AioHttpIntegration(), PyMongoIntegration()],
-        environment=CONFIG.environment,
+        environment=f"{CONFIG.environment}_{SOPHIE_MODE}",
         release=SOPHIE_VERSION,
         ignore_errors=IGNORED_EXCEPTIONS,
     )

@@ -26,7 +26,7 @@ def register(router: Router, *reg_args, **reg_kwargs):
 
         for idx, cmd in enumerate(cmds_list):
             if cmd in REGISTRED_COMMANDS:
-                log.warn(f"Legacy @register: Duplication of /{cmd} command")
+                log.debug(f"! Legacy @register: Duplication of /{cmd} command")
             REGISTRED_COMMANDS.append(cmd)
 
             if not idx == len(cmds_list) - 1:

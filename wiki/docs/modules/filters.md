@@ -20,7 +20,7 @@
 | --- | --- | --- | --- |
 | `/addfilter` `/newfilter` | `<Text to match>` | Adds a new filter |  |
 | `/delfilter` | `<Text to match>` | Deletes a filter |  |
-| `/editfilter` | `<Filter's keyword>` | - |  |
+| `/editfilter` | `<Filter's keyword>` | Edits filter settings |  |
 ---
 ## Regex handlers
 Sophie's filters implementation supports handling regex patterns.
