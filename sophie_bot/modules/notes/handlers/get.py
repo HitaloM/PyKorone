@@ -82,6 +82,9 @@ class HashtagGetNote(SophieMessageHandler):
 
         notes_to_stack = [note for match in matches if (note := await self._fine_note(match))]
 
+        if not notes_to_stack:
+            return
+
         # Limit to 3 first items
         if len(notes_to_stack) > 3:
             notes_to_stack = notes_to_stack[:3]
