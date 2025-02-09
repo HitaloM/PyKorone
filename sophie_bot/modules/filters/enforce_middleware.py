@@ -8,7 +8,7 @@ from aiogram.types import Chat, Message, TelegramObject, User
 from stfu_tg import Doc
 from stfu_tg.doc import Element
 
-from sophie_bot import CONFIG
+from sophie_bot import CONFIG, bot
 from sophie_bot.db.models import FiltersModel
 from sophie_bot.modules.filters.fsm import FilterEditFSM
 from sophie_bot.modules.filters.utils_.handle_action import (
@@ -18,6 +18,7 @@ from sophie_bot.modules.filters.utils_.handle_action import (
 from sophie_bot.modules.filters.utils_.match_legacy import match_legacy_handler
 from sophie_bot.modules.help.utils.extract_info import get_all_cmds_raw
 from sophie_bot.modules.legacy_modules.utils.user_details import is_user_admin
+from sophie_bot.modules.utils_.common_try import common_try
 from sophie_bot.utils.exception import SophieException
 from sophie_bot.utils.i18n import LazyProxy
 from sophie_bot.utils.logger import log
@@ -114,7 +115,10 @@ class EnforceFiltersMiddleware(BaseMiddleware):
             doc += " "
             doc += msg
 
-        await message.reply(doc.to_html())
+        async def send_message():
+            return await bot.send_message(chat_id=message.chat.id, text=doc.to_html())
+
+        await common_try(message.reply(doc.to_html()), reply_not_found=send_message)
 
     async def _process_filter(
         self, message: Message, data: dict[str, Any], matched_filter: FiltersModel, triggered_groups: list[str] = []
