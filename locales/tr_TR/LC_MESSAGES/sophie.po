@@ -10,7 +10,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Language-Team: Turkish\n"
 "Language: tr_TR\n"
-"PO-Revision-Date: 2025-02-05 16:31\n"
+"PO-Revision-Date: 2025-02-06 15:19\n"
 
 #: sophie_bot/args/users.py:29
 msgid "Could not find the requested User ID in the database."
@@ -1571,7 +1571,7 @@ msgid "Notes allows saving different kind of content, from normal text messages 
 msgstr "Notlar, normal metin mesajlarından çıkartmalara ve sesli mesajlara kadar farklı türde içerikleri kaydetmeye olanak tanır, notlar ayrıca satır içi mesaj butonları eklemeyi destekler."
 
 #: sophie_bot/modules/notes/handlers/delete.py:18
-#: sophie_bot/modules/notes/handlers/get.py:17
+#: sophie_bot/modules/notes/handlers/get.py:19
 msgid "Note name"
 msgstr "Not adı"
 
@@ -1618,11 +1618,11 @@ msgstr "Tüm notları silmeyi yalnızca başlatıcı onaylayabilir"
 msgid "🗑 All the notes ({removed_count}) have been deleted in the {chat_name}"
 msgstr "🗑 Tüm notlar ({removed_count}) {chat_name} içinde silindi"
 
-#: sophie_bot/modules/notes/handlers/get.py:18
+#: sophie_bot/modules/notes/handlers/get.py:20
 msgid "Retrieve the note."
 msgstr "Notu al."
 
-#: sophie_bot/modules/notes/handlers/get.py:31
+#: sophie_bot/modules/notes/handlers/get.py:33
 #, python-brace-format
 msgid "No note was found with {name} name."
 msgstr "{name} ismine sahip bir not bulunamadı."
