@@ -10,7 +10,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Language-Team: Ukrainian\n"
 "Language: uk_UA\n"
-"PO-Revision-Date: 2025-02-05 16:31\n"
+"PO-Revision-Date: 2025-02-06 15:19\n"
 
 #: sophie_bot/args/users.py:29
 msgid "Could not find the requested User ID in the database."
@@ -1573,7 +1573,7 @@ msgid "Notes allows saving different kind of content, from normal text messages 
 msgstr "Альтернативно, ви можете видалити цей фільтр і створити його знову."
 
 #: sophie_bot/modules/notes/handlers/delete.py:18
-#: sophie_bot/modules/notes/handlers/get.py:17
+#: sophie_bot/modules/notes/handlers/get.py:19
 msgid "Note name"
 msgstr "Назва примітки"
 
@@ -1620,11 +1620,11 @@ msgstr "Тільки ініціатор може підтвердити вида
 msgid "🗑 All the notes ({removed_count}) have been deleted in the {chat_name}"
 msgstr "🗑 Усі примітки ({removed_count}) були видалені в {chat_name}"
 
-#: sophie_bot/modules/notes/handlers/get.py:18
+#: sophie_bot/modules/notes/handlers/get.py:20
 msgid "Retrieve the note."
 msgstr "Одержати примітку."
 
-#: sophie_bot/modules/notes/handlers/get.py:31
+#: sophie_bot/modules/notes/handlers/get.py:33
 #, python-brace-format
 msgid "No note was found with {name} name."
 msgstr "Не знайдено примітки з іменем {name}."

@@ -10,7 +10,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Language-Team: Portuguese, Brazilian\n"
 "Language: pt_BR\n"
-"PO-Revision-Date: 2025-02-05 16:31\n"
+"PO-Revision-Date: 2025-02-06 15:19\n"
 
 #: sophie_bot/args/users.py:29
 msgid "Could not find the requested User ID in the database."
@@ -1571,7 +1571,7 @@ msgid "Notes allows saving different kind of content, from normal text messages 
 msgstr "Notas permitem salvar diferentes tipos de conteúdo, desde mensagens de texto normais até adesivos e mensagens de áudio; notas também suportam adicionar botões de mensagem em linha."
 
 #: sophie_bot/modules/notes/handlers/delete.py:18
-#: sophie_bot/modules/notes/handlers/get.py:17
+#: sophie_bot/modules/notes/handlers/get.py:19
 msgid "Note name"
 msgstr "Nome da nota"
 
@@ -1618,11 +1618,11 @@ msgstr "Apenas o iniciador pode confirmar a exclusão de todas as notas"
 msgid "🗑 All the notes ({removed_count}) have been deleted in the {chat_name}"
 msgstr "🗑 Todas as notas ({removed_count}) foram apagadas em {chat_name}"
 
-#: sophie_bot/modules/notes/handlers/get.py:18
+#: sophie_bot/modules/notes/handlers/get.py:20
 msgid "Retrieve the note."
 msgstr "Recupera a nota."
 
-#: sophie_bot/modules/notes/handlers/get.py:31
+#: sophie_bot/modules/notes/handlers/get.py:33
 #, python-brace-format
 msgid "No note was found with {name} name."
 msgstr "Nenhuma nota foi encontrada com o nome {name}."
