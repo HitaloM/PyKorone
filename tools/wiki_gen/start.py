@@ -16,6 +16,8 @@ def generate_wiki(*_):
     log.info("Starting wiki generation task...")
     dp = Dispatcher()
 
+    CONFIG.mode = "nostart"
+
     asyncio.run(load_modules(dp, ["*"], CONFIG.modules_not_load))
 
     from tools.wiki_gen.generate_pages import generate_wiki_pages

@@ -1,5 +1,6 @@
-import sys
 from enum import Enum
+
+from sophie_bot import CONFIG
 
 
 class SophieModes(str, Enum):
@@ -8,11 +9,7 @@ class SophieModes(str, Enum):
     nostart = "nostart"
 
 
-SOPHIE_MODE: str = SophieModes.nostart
-
-args = sys.argv
-if len(args) > 1:
-    SOPHIE_MODE = args[1]
+SOPHIE_MODE: str = CONFIG.mode
 
 if SOPHIE_MODE not in SophieModes.__members__:
     raise ValueError(f"Unknown mode: {SOPHIE_MODE}")

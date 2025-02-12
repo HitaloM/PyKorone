@@ -9,10 +9,10 @@ Restart=always
 [Container]
 ContainerName=scheduler
 Image={{ lookup('ansible.builtin.env','IMAGE_NAME', default='registry.gitlab.com/sophiebot/sophie') }}:{{ image_tag }}
-PublishPort=8072:8072
+PublishPort=8073:8073
 PodmanArgs=--memory=1G
+Environment=MODE=scheduler
 EnvironmentFile=/var/sophie/scheduler.env
-Exec=scheduler
 
 [Install]
 WantedBy=multi-user.target default.target

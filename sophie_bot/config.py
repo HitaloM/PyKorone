@@ -1,5 +1,5 @@
 from ipaddress import IPv4Network
-from typing import Annotated, List, Optional
+from typing import Annotated, List, Literal, Optional
 
 from aiogram.webhook.security import DEFAULT_TELEGRAM_NETWORKS
 from pydantic import (
@@ -23,6 +23,8 @@ class Config(BaseSettings):
 
     owner_id: int
     operators: List[int]
+
+    mode: Literal["bot", "scheduler", "nostart"] = "bot"
 
     mongo_host: str = "mongodb://localhost"
     mongo_port: int = 27017
