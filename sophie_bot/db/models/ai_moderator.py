@@ -7,7 +7,7 @@ class AIModeratorModel(Document):
     chat: Link[ChatModel]
 
     class Settings:
-        name = "ai_enabled"
+        name = "ai_moderator"
 
     @staticmethod
     async def get_state(chat_id: int) -> bool:
