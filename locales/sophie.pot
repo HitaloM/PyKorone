@@ -286,7 +286,7 @@ msgstr ""
 msgid "Message author"
 msgstr ""
 
-#: sophie_bot/modules/ai/middlewares/ai_moderator.py:37
+#: sophie_bot/modules/ai/middlewares/ai_moderator.py:40
 msgid "Reason"
 msgid_plural "Reasons"
 msgstr[0] ""

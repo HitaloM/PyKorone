@@ -31,7 +31,10 @@ class AiModeratorMiddleware(BaseMiddleware):
             KeyValue(_("Message author"), UserLink(message.from_user.id, message.from_user.first_name)),  # type: ignore
             Section(
                 VList(
-                    *(MODERATION_CATEGORIES_TRANSLATES[key] for key in triggered_categories.keys()),
+                    *(
+                        MODERATION_CATEGORIES_TRANSLATES[key] if key in MODERATION_CATEGORIES_TRANSLATES else key
+                        for key in triggered_categories.keys()
+                    ),
                     prefix="- " if len(triggered_categories) > 1 else ""
                 ),
                 title=pl_("Reason", "Reasons", len(triggered_categories)),
