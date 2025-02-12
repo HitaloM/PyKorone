@@ -18,6 +18,9 @@ class AIModerator(StatusBoolHandlerABC):
         return CMDFilter("aimoderator"), UserRestricting(admin=True)
 
     async def get_status(self) -> bool:
+        if not self.connection.db_model:
+            return False
+
         db_model = await AIModeratorModel.get_state(self.connection.db_model.id)
         return bool(db_model)
 
