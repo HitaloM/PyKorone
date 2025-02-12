@@ -60,7 +60,7 @@ class AiModeratorMiddleware(BaseMiddleware):
             if not event.from_user:
                 return await handler(event, data)
 
-            if await is_user_admin(event.from_user.id, chat_db.chat_id):
+            if await is_user_admin(chat_db.chat_id, event.from_user.id):
                 return await handler(event, data)
 
             result = await check_moderator(event)
