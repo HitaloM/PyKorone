@@ -33,6 +33,12 @@ class PMModulesList(SophieMessageCallbackQueryHandler):
     async def handle(self) -> Any:
         callback_data: Optional[PMHelpModules] = self.data.get("callback_data", None)
 
+        # Sort item by the module title
+        modules = {k: v for k, v in sorted(HELP_MODULES.items(), key=lambda item: str(item[1].name)) if k != "ai"}
+        # Put the featured module to the bottom
+        if CONFIG.help_featured_module in HELP_MODULES:
+            modules[CONFIG.help_featured_module] = HELP_MODULES[CONFIG.help_featured_module]
+
         buttons = InlineKeyboardBuilder().row(
             *(
                 InlineKeyboardButton(
@@ -41,7 +47,7 @@ class PMModulesList(SophieMessageCallbackQueryHandler):
                         module_name=module_name, back_to_start=bool(callback_data and callback_data.back_to_start)
                     ).pack(),
                 )
-                for module_name, module in HELP_MODULES.items()
+                for module_name, module in modules.items()
                 if not module.exclude_public
             ),
             width=2,
@@ -66,7 +72,7 @@ class PMModuleHelp(CallbackQueryHandler):
     async def handle(self) -> Any:
         callback_data: PMHelpModule = self.data["callback_data"]
         module_name = callback_data.module_name
-        module = HELP_MODULES.get(module_name)
+        module = HELP_MODULES[module_name]
 
         if not module:
             await self.event.answer(_("Module not found"))
@@ -88,11 +94,11 @@ class PMModuleHelp(CallbackQueryHandler):
         for section_title, handlers in group_handlers(cmds):
             doc += Section(*format_handlers(handlers), title=section_title)
 
-        for mod_name, cmds in get_aliased_cmds(module_name).items():
-            module = HELP_MODULES[mod_name]
+        for a_mod_name, a_cmds in get_aliased_cmds(module_name).items():
+            a_module = HELP_MODULES[a_mod_name]
             doc += Section(
-                format_handlers(cmds),
-                title=_("Aliased commands from {module}").format(module=f"{module.icon} {module.name}"),
+                format_handlers(a_cmds),
+                title=_("Aliased commands from {module}").format(module=f"{a_module.icon} {a_module.name}"),
             )
 
         buttons = InlineKeyboardBuilder()

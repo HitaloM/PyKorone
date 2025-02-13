@@ -1,4 +1,5 @@
 from asyncio import iscoroutinefunction
+from collections import OrderedDict
 from dataclasses import dataclass
 from itertools import chain
 from mailbox import Message
@@ -51,7 +52,7 @@ class ModuleHelp:
     advertise_wiki_page: bool
 
 
-HELP_MODULES: dict[str, ModuleHelp] = {}
+HELP_MODULES: OrderedDict[str, ModuleHelp] = OrderedDict()
 DISABLEABLE_CMDS: list[HandlerHelp] = []
 
 
@@ -173,6 +174,8 @@ async def gather_module_help(module: ModuleType) -> Optional[ModuleHelp]:
     info = getattr(module, "__module_info__", None)
     description = getattr(module, "__module_description__", None)
     advertise_wiki_page = getattr(module, "__advertise_wiki_page__", False)
+
+    log.debug(f"gather_module_help: {module.__name__}", name=name, emoji=emoji, advertise_wiki_page=advertise_wiki_page)
 
     if cmds := await gather_cmds_help(module.router):
         return ModuleHelp(
