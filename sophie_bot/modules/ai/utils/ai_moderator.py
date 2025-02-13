@@ -21,21 +21,21 @@ MODERATION_CATEGORIES_TRANSLATES = {
     "illicit/violent": l_(
         "Content that includes instructions or advice that facilitate the planning or execution of wrongdoing that also includes violence, or that gives advice or instruction on the procurement of any weapon."
     ),
-    "self_harm": l_(
+    "self-harm": l_(
         "Content that promotes, encourages, or depicts acts of self-harm, such as suicide, cutting, and eating disorders."
     ),
-    "self_harm/instructions": l_(
+    "self-harm/instructions": l_(
         "Content that encourages performing acts of self-harm, such as suicide, cutting, and eating disorders, or that gives instructions or advice on how to commit such acts."
     ),
-    "self_harm/intent": l_(
+    "self-harm/intent": l_(
         "Content where the speaker expresses that they are engaging or intend to engage in acts of self-harm, such as suicide, cutting, and eating disorders."
     ),
     "sexual": l_(
         "Content meant to arouse sexual excitement, such as the description of sexual activity, or that promotes sexual services (excluding sex education and wellness)."
     ),
-    "sexual_minors": l_("Sexual content that includes an individual who is under 18 years old."),
+    "sexual-minors": l_("Sexual content that includes an individual who is under 18 years old."),
     "violence": l_("Content that depicts death, violence, or physical injury."),
-    "violence_graphic": l_("Content that depicts death, violence, or physical injury in graphic detail."),
+    "violence/graphic": l_("Content that depicts death, violence, or physical injury in graphic detail."),
 }
 
 
