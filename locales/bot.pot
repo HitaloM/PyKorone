@@ -1116,7 +1116,7 @@ msgstr ""
 
 #: sophie_bot/modules/help/__init__.py:23
 #: sophie_bot/modules/help/handlers/help_group.py:27
-#: sophie_bot/modules/help/handlers/pm_modules.py:54
+#: sophie_bot/modules/help/handlers/pm_modules.py:60
 #: sophie_bot/modules/help/handlers/start_group.py:34
 msgid "Help"
 msgstr ""
@@ -1137,34 +1137,34 @@ msgstr ""
 msgid "Shows help overview for all modules"
 msgstr ""
 
-#: sophie_bot/modules/help/handlers/pm_modules.py:51
-#: sophie_bot/modules/help/handlers/pm_modules.py:107
+#: sophie_bot/modules/help/handlers/pm_modules.py:57
+#: sophie_bot/modules/help/handlers/pm_modules.py:113
 #: sophie_bot/modules/privacy/handlers/privacy.py:30
 msgid "⬅️ Back"
 msgstr ""
 
-#: sophie_bot/modules/help/handlers/pm_modules.py:55
+#: sophie_bot/modules/help/handlers/pm_modules.py:61
 msgid "There are 2 help sources, you can read the detailed wiki or get a quick commands by modules overview."
 msgstr ""
 
-#: sophie_bot/modules/help/handlers/pm_modules.py:56
+#: sophie_bot/modules/help/handlers/pm_modules.py:62
 msgid "📖 Wiki (detailed information)"
 msgstr ""
 
-#: sophie_bot/modules/help/handlers/pm_modules.py:72
+#: sophie_bot/modules/help/handlers/pm_modules.py:78
 msgid "Module not found"
 msgstr ""
 
-#: sophie_bot/modules/help/handlers/pm_modules.py:95
+#: sophie_bot/modules/help/handlers/pm_modules.py:101
 #, python-brace-format
 msgid "Aliased commands from {module}"
 msgstr ""
 
-#: sophie_bot/modules/help/handlers/pm_modules.py:102
+#: sophie_bot/modules/help/handlers/pm_modules.py:108
 msgid "📖 Look the module's wiki page for more information"
 msgstr ""
 
-#: sophie_bot/modules/help/handlers/pm_modules.py:103
+#: sophie_bot/modules/help/handlers/pm_modules.py:109
 msgid "📖 Wiki page"
 msgstr ""
 

@@ -76,7 +76,7 @@ class Config(BaseSettings):
     wiki_modules_link: str = "https://sophie-wiki.orangefox.tech/docs/modules/"
     privacy_link: str = "https://sophie-wiki.orangefox.tech/docs/Privacy%20policy"
 
-    help_featured_module: str = 'ai'
+    help_featured_module: str = "ai"
 
     default_locale: str = "en_US"
 
