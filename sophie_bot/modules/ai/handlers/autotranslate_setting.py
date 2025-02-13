@@ -18,7 +18,10 @@ class AIAutotrans(StatusBoolHandlerABC):
         return CMDFilter(("aiautotranslate", "autotranslate")), UserRestricting(admin=True)
 
     async def get_status(self) -> bool:
-        db_model = await AIAutotranslateModel.get_state(self.connection.db_model)
+        if not self.connection.db_model:
+            return False
+
+        db_model = await AIAutotranslateModel.get_state(self.connection.db_model.id)
         return bool(db_model)
 
     async def set_status(self, new_status: bool):
