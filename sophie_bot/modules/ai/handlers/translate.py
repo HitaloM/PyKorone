@@ -61,7 +61,7 @@ class AiTranslate(MessageHandler):
 
         # AI Context
         ai_context = AIMessageHistory()
-        await ai_context.add_from_message(self.event)
+        await ai_context.add_from_message_with_reply(self.event)
         ai_context.add_system(
             "\n".join(
                 (
