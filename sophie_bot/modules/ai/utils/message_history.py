@@ -155,7 +155,16 @@ class AIMessageHistory(list[ChatCompletionMessageParam]):
             log.debug("MessageHistory: caching additional message", message=msg_to_cache)
             await cache_message(msg_to_cache.text, msg_to_cache.chat_id, msg_to_cache.user_id, msg_to_cache.msg_id)
 
-    @staticmethod
+    async def add_from_message_with_reply(self, message: Message, custom_user_text: Optional[str] = None):
+        if message.reply_to_message and message.reply_to_message.from_user:
+            await self.add_from_message(message.reply_to_message)
+            reply_to_user = message.reply_to_message.from_user.full_name
+        else:
+            reply_to_user = None
+
+        await self.add_from_message(message, reply_to_user=reply_to_user, custom_user_text=custom_user_text)
+
+    @staticmethod  # TODO: Unstatic it
     async def chatbot(
         message: Message, custom_user_text: Optional[str] = None, additional_system_prompt: str = ""
     ) -> "AIMessageHistory":
@@ -166,13 +175,7 @@ class AIMessageHistory(list[ChatCompletionMessageParam]):
         await history.add_from_cache(message.chat.id)
 
         # Handle message reply
-        if message.reply_to_message and message.reply_to_message.from_user:
-            await history.add_from_message(message.reply_to_message)
-            reply_to_user = message.reply_to_message.from_user.full_name
-        else:
-            reply_to_user = None
-
-        await history.add_from_message(message, reply_to_user=reply_to_user, custom_user_text=custom_user_text)
+        await history.add_from_message_with_reply(message, custom_user_text=custom_user_text)
 
         # Cache additional messages
         await history.cache()
