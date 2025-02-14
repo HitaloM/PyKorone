@@ -1,4 +1,4 @@
-from sophie_bot.db.models import BetaModeModel, ChatModel, NoteModel
+from sophie_bot.db.models import BetaModeModel, ChatModel, NoteModel, AIAutotranslateModel, AIEnabledModel
 from sophie_bot.db.models.beta import CurrentMode
 from sophie_bot.modules.ai.json_schemas.update_note_description import AIUpdateNoteData
 from sophie_bot.modules.ai.utils.ai_chatbot import ai_generate_schema
@@ -13,7 +13,7 @@ class GenerateAITitles:
     @staticmethod
     async def generate_data(note: NoteModel) -> AIUpdateNoteData:
         system_prompt = _(
-            "You need to update the data of the chat notes. " "Generate the note data from the provided note text"
+            "You need to update the data of the chat notes. Generate the note data from the provided note text"
         )
 
         messages = AIMessageHistory()
@@ -30,8 +30,17 @@ class GenerateAITitles:
         await note.save()
 
     async def process_chat(self, chat: ChatModel):
-        async for note in NoteModel.find(NoteModel.chat_id == chat.chat_id):
+        log.debug("generate_ai_titles: processing chat", chat=chat)
+
+        chat_notes = NoteModel.find(NoteModel.chat_id == chat.chat_id)
+
+        if await chat_notes.count() > 30:
+            log.debug("generate_ai_titles: chat has too many notes, skipping...", chat=chat)
+            return
+
+        async for note in chat_notes:
             if note.description:
+                log.debug("generate_ai_titles: note already has description, skipping...", note=note)
                 continue
 
             generated_data = await self.generate_data(note)
@@ -39,7 +48,7 @@ class GenerateAITitles:
 
     async def handle(self):
         async for chat in ForChats():
-            status = await BetaModeModel.get_by_chat_id(chat.id)
+            status = await BetaModeModel.get_by_chat_id(chat.chat_id)
             if not status:
                 log.debug("generate_ai_titles: no mode found, skipping...", chat=chat.id)
                 continue
@@ -47,6 +56,9 @@ class GenerateAITitles:
             if status.mode != CurrentMode.beta:
                 log.debug("generate_ai_titles: not in beta mode, skipping...", chat=chat.id)
                 continue
+
+            if not await AIEnabledModel.get_state(chat.id):  # iID
+                log.debug("generate_ai_titles: AI features are not enabled, skipping...", chat=chat.id)
 
             async with UseChatLanguage(chat.id):
                 await self.process_chat(chat)

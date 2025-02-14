@@ -3,6 +3,7 @@ from stfu_tg import Doc
 
 from sophie_bot.utils.i18n import LazyProxy
 from sophie_bot.utils.i18n import lazy_gettext as l_
+from .schedules.generate_ai_titles import GenerateAITitles
 
 from ...modes import SOPHIE_MODE
 from .handlers.delete import DelNote
@@ -22,6 +23,7 @@ from .magic_handlers.filter import get_filter
 from .magic_handlers.reply_action import ReplyModernAction
 from .magic_handlers.send_note_action import SendNoteAction
 from .utils.buttons_processor.legacy import BUTTONS
+from ...services.scheduler import scheduler
 
 router = Router(name="notes")
 
@@ -74,5 +76,4 @@ async def __pre_setup__():
 
 async def __post_setup__(_):
     if SOPHIE_MODE == "scheduler":
-        pass
-        # scheduler.add_job(GenerateAITitles().handle, "interval", minutes=1, jobstore="ram")
+        scheduler.add_job(GenerateAITitles().handle, "interval", minutes=1, jobstore="ram")
