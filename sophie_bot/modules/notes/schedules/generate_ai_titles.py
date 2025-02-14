@@ -43,6 +43,9 @@ class GenerateAITitles:
                 log.debug("generate_ai_titles: note already has description, skipping...", note=note)
                 continue
 
+            if not note.text:
+                log.debug("generate_ai_titles: note has no text, skipping...", note=note)
+
             generated_data = await self.generate_data(note)
             await self.update_note(note, generated_data)
 
