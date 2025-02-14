@@ -3,9 +3,9 @@ from stfu_tg import Doc
 
 from sophie_bot.utils.i18n import LazyProxy
 from sophie_bot.utils.i18n import lazy_gettext as l_
-from .schedules.generate_ai_titles import GenerateAITitles
 
 from ...modes import SOPHIE_MODE
+from ...services.scheduler import scheduler
 from .handlers.delete import DelNote
 from .handlers.delete_all import DelAllNotesCallbackHandler, DelAllNotesHandler
 from .handlers.get import GetNote, HashtagGetNote
@@ -22,8 +22,8 @@ from .magic_handlers.export import export
 from .magic_handlers.filter import get_filter
 from .magic_handlers.reply_action import ReplyModernAction
 from .magic_handlers.send_note_action import SendNoteAction
+from .schedules.generate_ai_titles import GenerateAITitles
 from .utils.buttons_processor.legacy import BUTTONS
-from ...services.scheduler import scheduler
 
 router = Router(name="notes")
 

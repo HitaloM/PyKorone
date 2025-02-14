@@ -1,4 +1,4 @@
-from sophie_bot.db.models import BetaModeModel, ChatModel, NoteModel, AIAutotranslateModel, AIEnabledModel
+from sophie_bot.db.models import AIEnabledModel, BetaModeModel, ChatModel, NoteModel
 from sophie_bot.db.models.beta import CurrentMode
 from sophie_bot.modules.ai.json_schemas.update_note_description import AIUpdateNoteData
 from sophie_bot.modules.ai.utils.ai_chatbot import ai_generate_schema
