@@ -4,9 +4,12 @@ from typing import Any
 from aiogram import flags
 from aiogram.dispatcher.event.handler import CallbackType
 
+from sophie_bot import bot
 from sophie_bot.filters.admin_rights import BotHasPermissions, UserRestricting
+from sophie_bot.filters.chat_status import ChatTypeFilter
 from sophie_bot.filters.cmd import CMDFilter
 from sophie_bot.modules.utils_.base_handler import SophieMessageHandler
+from sophie_bot.modules.utils_.common_try import common_try
 from sophie_bot.utils.i18n import gettext as _
 from sophie_bot.utils.i18n import lazy_gettext as l_
 
@@ -19,6 +22,7 @@ class DelMsgCmdHandler(SophieMessageHandler):
             CMDFilter(("delete", "del")),
             UserRestricting(admin=True, can_delete_messages=True),
             BotHasPermissions(can_delete_messages=True),
+            ~ChatTypeFilter("private"),
         )
 
     async def handle(self) -> Any:
@@ -32,4 +36,10 @@ class DelMsgCmdHandler(SophieMessageHandler):
                 )
             )
 
-        await self.event.delete()
+        await common_try(bot.delete_messages(
+            self.event.chat.id,
+            [
+                self.event.message_id,
+                self.event.reply_to_message.message_id
+            ]
+        ))
