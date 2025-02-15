@@ -36,10 +36,6 @@ class DelMsgCmdHandler(SophieMessageHandler):
                 )
             )
 
-        await common_try(bot.delete_messages(
-            self.event.chat.id,
-            [
-                self.event.message_id,
-                self.event.reply_to_message.message_id
-            ]
-        ))
+        await common_try(
+            bot.delete_messages(self.event.chat.id, [self.event.message_id, self.event.reply_to_message.message_id])
+        )
