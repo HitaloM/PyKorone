@@ -41,7 +41,7 @@ MODERATION_CATEGORIES_TRANSLATES = {
 
 async def check_moderator(message: Message) -> Moderation:
     history = AIMessageHistory()
-    await history.add_from_message(message)
+    await history.add_from_message(message, normalize_texts=True)
 
     results = await openai_client.moderations.create(input=history.to_moderation, model="omni-moderation-latest")
     result = results.results[0]
