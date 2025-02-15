@@ -352,31 +352,32 @@ msgstr ""
 msgid "Content that depicts death, violence, or physical injury in graphic detail."
 msgstr ""
 
-#: sophie_bot/modules/ai/utils/message_history.py:66
+#: sophie_bot/modules/ai/utils/message_history.py:67
 msgid "You're a bot named Sophie."
 msgstr ""
 
-#: sophie_bot/modules/ai/utils/message_history.py:67
+#: sophie_bot/modules/ai/utils/message_history.py:68
 msgid "Respond concisely and stick to the current topic."
 msgstr ""
 
-#: sophie_bot/modules/ai/utils/message_history.py:69
+#: sophie_bot/modules/ai/utils/message_history.py:70
 msgid "Please use only the following markdown elements: ** for bold, ~~ for strikethrough, ` for code, and ``` for preformatted text."
 msgstr ""
 
-#: sophie_bot/modules/ai/utils/message_history.py:71
+#: sophie_bot/modules/ai/utils/message_history.py:72
 msgid "Don't use Tables. You can use emojis."
 msgstr ""
 
-#: sophie_bot/modules/ai/utils/message_history.py:101
+#: sophie_bot/modules/ai/utils/message_history.py:103
+#: sophie_bot/modules/ai/utils/message_history.py:105
 msgid "<No text provided>"
 msgstr ""
 
-#: sophie_bot/modules/ai/utils/message_history.py:110
+#: sophie_bot/modules/ai/utils/message_history.py:114
 msgid "REPLY TO"
 msgstr ""
 
-#: sophie_bot/modules/ai/utils/message_history.py:121
+#: sophie_bot/modules/ai/utils/message_history.py:125
 msgid "Photo is empty"
 msgstr ""
 

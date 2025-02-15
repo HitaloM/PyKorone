@@ -1,17 +1,18 @@
 from aiogram.types import Message
+from normality import normalize
 from regex import regex
 
 from sophie_bot.utils.exception import SophieException
-from normality import normalize
-
 from sophie_bot.utils.logger import log
 
 
 def match_legacy_handler(message: Message, handler: str) -> bool:
-    # Lower handler
-    handler = normalize(handler.lower())
+    # Normalize handler
+    if not (handler := normalize(handler)):  # type: ignore
+        return False
 
-    message_text: str = normalize(message.caption or message.text or "")
+    if not (message_text := normalize(message.caption or message.text or "")):
+        return False
 
     log.debug(f"match_legacy_handler: {handler} in {message_text}")
 

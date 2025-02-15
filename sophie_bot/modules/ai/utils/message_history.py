@@ -5,6 +5,7 @@ from typing import BinaryIO, Optional
 
 from aiogram.types import Message
 from attr import dataclass
+from normality import normalize
 from openai.types import ModerationMultiModalInputParam
 from openai.types.chat import (
     ChatCompletionAssistantMessageParam,
@@ -15,7 +16,6 @@ from openai.types.chat import (
     ChatCompletionSystemMessageParam,
     ChatCompletionUserMessageParam,
 )
-from normality import normalize
 from openai.types.chat.chat_completion_content_part_image_param import ImageURL
 
 from sophie_bot import CONFIG, bot
@@ -102,7 +102,7 @@ class AIMessageHistory(list[ChatCompletionMessageParam]):
 
         text = custom_user_text or message.text or message.caption or _("<No text provided>")
         if normalize_texts:
-            text = normalize(text)
+            text = normalize(text) or _("<No text provided>")
 
         content: list[ChatCompletionContentPartParam] = []
 
@@ -159,11 +159,7 @@ class AIMessageHistory(list[ChatCompletionMessageParam]):
             log.debug("MessageHistory: caching additional message", message=msg_to_cache)
             await cache_message(msg_to_cache.text, msg_to_cache.chat_id, msg_to_cache.user_id, msg_to_cache.msg_id)
 
-    async def add_from_message_with_reply(
-            self,
-            message: Message,
-            custom_user_text: Optional[str] = None
-    ):
+    async def add_from_message_with_reply(self, message: Message, custom_user_text: Optional[str] = None):
         if message.reply_to_message and message.reply_to_message.from_user:
             await self.add_from_message(message.reply_to_message)
             reply_to_user = message.reply_to_message.from_user.full_name
