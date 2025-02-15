@@ -10,7 +10,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Language-Team: French\n"
 "Language: fr_FR\n"
-"PO-Revision-Date: 2025-02-12 22:28\n"
+"PO-Revision-Date: 2025-02-13 14:37\n"
 
 #: sophie_bot/args/users.py:29
 msgid "Could not find the requested User ID in the database."
@@ -300,7 +300,7 @@ msgstr "Ce message enfreint la politique de modération d'IA et a donc été sup
 msgid "Message author"
 msgstr "Auteur du message"
 
-#: sophie_bot/modules/ai/middlewares/ai_moderator.py:37
+#: sophie_bot/modules/ai/middlewares/ai_moderator.py:40
 msgid "Reason"
 msgid_plural "Reasons"
 msgstr[0] "Raison"
