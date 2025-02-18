@@ -22,7 +22,7 @@ from korone.modules.medias.utils.cache import MediaCache
 from korone.modules.medias.utils.instagram.scraper import POST_PATTERN, fetch_instagram
 from korone.utils.i18n import gettext as _
 
-URL_PATTERN = re.compile(r"(?:https?://)?(?:www\.)?instagram\.com/.*?(?=\s|$)")
+URL_PATTERN = re.compile(r"(?:https?://)?(?:www\.)?(instagram\.com|ddinstagram\.com)/.*?(?=\s|$)")
 
 
 @router.message(Regex(URL_PATTERN))
