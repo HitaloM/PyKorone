@@ -29,7 +29,9 @@ from korone.modules.medias.utils.twitter.types import MediaVariants as TweetMedi
 from korone.modules.medias.utils.twitter.types import Tweet
 from korone.utils.i18n import gettext as _
 
-URL_PATTERN = re.compile(r"(?:(?:http|https):\/\/)?(?:www.)?(twitter\.com|x\.com|vxtwitter\.com|fxtwitter\.com|fixupx\.com|fixvx\.com)/.+?/status/\d+")
+URL_PATTERN = re.compile(
+    r"(?:(?:http|https):\/\/)?(?:www.)?(twitter\.com|x\.com|vxtwitter\.com|fxtwitter\.com|fixupx\.com|fixvx\.com)/.+?/status/\d+"
+)
 
 
 @router.message(Regex(URL_PATTERN))
