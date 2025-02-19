@@ -67,8 +67,8 @@ async def __pre_setup__():
     router.message.register(DelNote, *DelNote.filters())
     router.message.register(SaveNote, *SaveNote.filters())
 
-    router.message.register(DelAllNotesHandler, *DelAllNotesHandler.filters())
-    router.callback_query.register(DelAllNotesCallbackHandler, *DelAllNotesCallbackHandler.filters())
+    # router.message.register(DelAllNotesHandler, *DelAllNotesHandler.filters())
+    # router.callback_query.register(DelAllNotesCallbackHandler, *DelAllNotesCallbackHandler.filters())
 
     # Legacy note buttons
     router.message.register(LegacyStartNoteButton, *LegacyStartNoteButton.filters())
