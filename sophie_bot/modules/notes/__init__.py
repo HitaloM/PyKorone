@@ -7,7 +7,6 @@ from sophie_bot.utils.i18n import lazy_gettext as l_
 from ...modes import SOPHIE_MODE
 from ...services.scheduler import scheduler
 from .handlers.delete import DelNote
-from .handlers.delete_all import DelAllNotesCallbackHandler, DelAllNotesHandler
 from .handlers.get import GetNote, HashtagGetNote
 from .handlers.legacy_button import LegacyStartNoteButton
 from .handlers.list import NotesList
