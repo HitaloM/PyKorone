@@ -18,6 +18,7 @@ regex
 stickers
 translator
 users
+weather
 web
 ```
 

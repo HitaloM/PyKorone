@@ -6,23 +6,23 @@ authors = [{ name = "Hitalo" }]
 dependencies = [
     "hydrogram[fast] @ git+https://github.com/hydrogram/hydrogram@dev",
     "hairydogm>=0.4.1",
-    "structlog>=24.4.0",
+    "structlog>=25.1.0",
     "uvloop>=0.21.0",
-    "aiosqlite>=0.20.0",
+    "aiosqlite>=0.21.0",
     "emoji-country-flag>=2.0.1",
     "polib>=1.2.0",
-    "lxml>=5.3.0",
+    "lxml>=5.3.1",
     "meval>=2.5",
-    "pillow>=11.0.0",
-    "httpx[http2,brotli,zstd]>=0.28.0",
+    "pillow>=11.1.0",
+    "httpx[http2,brotli,zstd]>=0.28.1",
     "cashews[redis,speedup]>=7.4.0",
-    "yt-dlp>=2024.12.3",
+    "yt-dlp>=2025.2.19",
     "magic-filter>=1.0.12",
     "tomlkit>=0.13.2",
-    "sentry-sdk>=2.19.1",
-    "pydantic>=2.10.3",
-    "orjson>=3.10.12",
-    "aiocron>=1.8",
+    "sentry-sdk>=2.22.0",
+    "pydantic>=2.10.6",
+    "orjson>=3.10.15",
+    "aiocron>=2.1",
     "m3u8>=6.0.0",
     "aiofiles>=24.1.0",
 ]
@@ -39,17 +39,17 @@ build-backend = "hatchling.build"
 
 [tool.rye]
 managed = true
-dev-dependencies = ["pre-commit>=4.0.1", "ruff>=0.8.2"]
+dev-dependencies = ["pre-commit>=4.1.0", "ruff>=0.9.9"]
 
 [project.optional-dependencies]
 docs = [
-    "sphinx>=8.1.3",
+    "sphinx>=8.2.2",
     "furo>=2024.8.6",
     "sphinx-autobuild>=2024.10.3",
     "sphinx-copybutton>=0.5.2",
-    "myst-parser>=4.0.0",
-    "towncrier>=24.8.0",                                                                                             # 24.7 is incompatible with sphinxcontrib-towncrier
-    "sphinxcontrib-towncrier @ git+https://github.com/bennyrowland/sphinxcontrib-towncrier@92_towncrier24_7_compat",
+    "myst-parser>=4.0.1",
+    "towncrier>=24.8.0",
+    "sphinxcontrib-towncrier>=0.5.0a0",
 ]
 
 [tool.hatch.metadata]
