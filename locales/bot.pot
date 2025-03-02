@@ -1,23 +1,24 @@
 # Translations template for PROJECT.
-# Copyright (C) 2024 ORGANIZATION
+# Copyright (C) 2025 ORGANIZATION
 # This file is distributed under the same license as the PROJECT project.
-# FIRST AUTHOR <EMAIL@ADDRESS>, 2024.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2025.
 #
 #, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-12-12 18:50-0300\n"
+"POT-Creation-Date: 2025-03-02 18:34-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Generated-By: Babel 2.16.0\n"
+"Generated-By: Babel 2.17.0\n"
 
 #: src/korone/filters/admin.py:68
+#, python-brace-format
 msgid "I am missing the following permissions: {permissions}"
 msgstr ""
 
@@ -42,16 +43,19 @@ msgid "Oh, you're back! I've removed your afk status."
 msgstr ""
 
 #: src/korone/modules/afk/handlers/check.py:64
+#, python-brace-format
 msgid "{user} is afk!"
 msgstr ""
 
 #: src/korone/modules/afk/handlers/check.py:67
+#, python-brace-format
 msgid ""
 "\n"
 "Reason: {reason}"
 msgstr ""
 
 #: src/korone/modules/afk/handlers/check.py:91
+#, python-brace-format
 msgid "🎧 Listening to: {track_artist} — {track_name}"
 msgstr ""
 
@@ -87,7 +91,8 @@ msgstr ""
 msgid "The following commands are disabled in this chat:\n"
 msgstr ""
 
-#: src/korone/modules/disabling/handlers/toggle.py:30
+#: src/korone/modules/disabling/handlers/toggle.py:31
+#, python-brace-format
 msgid ""
 "You need to specify a command to {action}. Use <code>/{action} "
 "&lt;commandname&gt;</code>."
@@ -103,7 +108,8 @@ msgstr ""
 msgid "disable"
 msgstr ""
 
-#: src/korone/modules/disabling/handlers/toggle.py:39
+#: src/korone/modules/disabling/handlers/toggle.py:40
+#, python-brace-format
 msgid ""
 "Unknown command to {action}:\n"
 "- <code>{command}</code>\n"
@@ -111,6 +117,7 @@ msgid ""
 msgstr ""
 
 #: src/korone/modules/disabling/handlers/toggle.py:50
+#, python-brace-format
 msgid "This command is already {action}."
 msgstr ""
 
@@ -125,6 +132,7 @@ msgid "disabled"
 msgstr ""
 
 #: src/korone/modules/disabling/handlers/toggle.py:58
+#, python-brace-format
 msgid "Command {action}."
 msgstr ""
 
@@ -133,6 +141,7 @@ msgid "An unexpected error occurred while processing this update! :/"
 msgstr ""
 
 #: src/korone/modules/errors/handlers/catcher.py:85
+#, python-brace-format
 msgid ""
 "\n"
 "Reference ID: {id}"
@@ -169,31 +178,35 @@ msgstr ""
 msgid "Deletion of all filters has been canceled."
 msgstr ""
 
-#: src/korone/modules/filters/handlers/delete.py:19
+#: src/korone/modules/filters/handlers/delete.py:20
 msgid ""
 "You need to provide the name of the filter to delete. Example: "
 "<code>/delfilter filtername</code>"
 msgstr ""
 
 #: src/korone/modules/filters/handlers/delete.py:33
+#, python-brace-format
 msgid "Filter '<code>{filter_name}</code>' has been deleted."
 msgstr ""
 
 #: src/korone/modules/filters/handlers/delete.py:40
+#, python-brace-format
 msgid "Filter '<code>{filter_name}</code>' does not exist."
 msgstr ""
 
-#: src/korone/modules/filters/handlers/info.py:22
+#: src/korone/modules/filters/handlers/info.py:23
 msgid ""
 "You need to provide the name of the filter. Example: <code>/filterinfo "
 "filtername</code>"
 msgstr ""
 
 #: src/korone/modules/filters/handlers/info.py:33
+#, python-brace-format
 msgid "Filter '{name}' not found."
 msgstr ""
 
-#: src/korone/modules/filters/handlers/info.py:48
+#: src/korone/modules/filters/handlers/info.py:49
+#, python-brace-format
 msgid ""
 "<b>Filter Info</b>:\n"
 "<b>Names</b>: {names}\n"
@@ -209,6 +222,7 @@ msgid "No filters found for this chat."
 msgstr ""
 
 #: src/korone/modules/filters/handlers/list.py:23
+#, python-brace-format
 msgid ""
 "List of filters in {chatname}:\n"
 "{filter_list}"
@@ -220,7 +234,7 @@ msgstr ""
 msgid "private chat"
 msgstr ""
 
-#: src/korone/modules/filters/handlers/save.py:21
+#: src/korone/modules/filters/handlers/save.py:22
 msgid ""
 "You need to provide arguments to save a filter. Example: <code>/filter "
 "filtername</code>"
@@ -230,13 +244,14 @@ msgstr ""
 msgid "Invalid filter format. Check <code>/help</code> for more information."
 msgstr ""
 
-#: src/korone/modules/filters/handlers/save.py:38
+#: src/korone/modules/filters/handlers/save.py:39
 msgid ""
 "You need to provide the filter content. Check <code>/help</code> for more"
 " information."
 msgstr ""
 
 #: src/korone/modules/filters/handlers/save.py:70
+#, python-brace-format
 msgid ""
 "Saved {count} filters in {chat}:\n"
 "{filters}"
@@ -253,10 +268,11 @@ msgid "The text of the replied message is empty."
 msgstr ""
 
 #: src/korone/modules/filters/utils/parse_filter.py:104
+#, python-brace-format
 msgid "The maximum length of the filter is {length} characters."
 msgstr ""
 
-#: src/korone/modules/gsm_arena/handlers/search.py:20
+#: src/korone/modules/gsm_arena/handlers/search.py:21
 msgid ""
 "You should provide a device name to search. Example: <code>/device Galaxy"
 " S24</code>."
@@ -268,6 +284,7 @@ msgstr ""
 
 #: src/korone/modules/gsm_arena/handlers/search.py:40
 #: src/korone/modules/minecraft/handlers/modrinth.py:46
+#, python-brace-format
 msgid "Search results for: <b>{query}</b>"
 msgstr ""
 
@@ -328,30 +345,32 @@ msgid "Something went wrong."
 msgstr ""
 
 #: src/korone/modules/languages/handlers/apply.py:44
+#, python-brace-format
 msgid "Language changed to {new_lang}."
 msgstr ""
 
-#: src/korone/modules/languages/handlers/apply.py:49
+#: src/korone/modules/languages/handlers/apply.py:50
 msgid ""
 "\n"
 "This is the bot's native language.\n"
 "If you find any errors, please file an issue in the GitHub Repository."
 msgstr ""
 
-#: src/korone/modules/languages/handlers/apply.py:56
+#: src/korone/modules/languages/handlers/apply.py:57
+#, python-brace-format
 msgid ""
 "\n"
 "The language is {percent}% translated."
 msgstr ""
 
-#: src/korone/modules/languages/handlers/apply.py:68
+#: src/korone/modules/languages/handlers/apply.py:69
 msgid ""
 "\n"
 "In case you find any errors, please file an issue in the GitHub "
 "Repository."
 msgstr ""
 
-#: src/korone/modules/languages/handlers/apply.py:72
+#: src/korone/modules/languages/handlers/apply.py:73
 msgid ""
 "\n"
 "Please help us translate this language by completing it on our "
@@ -366,13 +385,14 @@ msgstr ""
 msgid "🌍 Open Translations"
 msgstr ""
 
-#: src/korone/modules/languages/handlers/cancel.py:22
+#: src/korone/modules/languages/handlers/cancel.py:23
 msgid ""
 "Changing language was canceled, you can change language again by using "
 "/language command."
 msgstr ""
 
 #: src/korone/modules/languages/handlers/info.py:41
+#, python-brace-format
 msgid "<b>Chat language:</b> {language}\n"
 msgstr ""
 
@@ -387,14 +407,17 @@ msgid ""
 msgstr ""
 
 #: src/korone/modules/languages/handlers/info.py:47
+#, python-brace-format
 msgid "Translated strings: <code>{translated}</code>\n"
 msgstr ""
 
 #: src/korone/modules/languages/handlers/info.py:50
+#, python-brace-format
 msgid "Untranslated strings: <code>{untranslated}</code>\n"
 msgstr ""
 
 #: src/korone/modules/languages/handlers/info.py:53
+#, python-brace-format
 msgid "Strings requiring review: <code>{fuzzy}</code>\n"
 msgstr ""
 
@@ -443,24 +466,26 @@ msgstr ""
 msgid "Bots won't have music taste!"
 msgstr ""
 
-#: src/korone/modules/lastfm/handlers/compat.py:76
-#: src/korone/modules/lastfm/utils/commons.py:17
+#: src/korone/modules/lastfm/handlers/compat.py:77
+#: src/korone/modules/lastfm/utils/commons.py:18
 msgid ""
 "You need to set your LastFM username first! Example: <code>/setlfm "
 "username</code>."
 msgstr ""
 
-#: src/korone/modules/lastfm/handlers/compat.py:84
+#: src/korone/modules/lastfm/handlers/compat.py:85
 msgid ""
 "The user you replied to doesn't have a LastFM account linked! Hint them "
 "to set it using <code>/setlfm username</code>."
 msgstr ""
 
 #: src/korone/modules/lastfm/handlers/compat.py:118
+#, python-brace-format
 msgid "No common artists in {period}"
 msgstr ""
 
-#: src/korone/modules/lastfm/handlers/compat.py:119
+#: src/korone/modules/lastfm/handlers/compat.py:120
+#, python-brace-format
 msgid ""
 "{user1} and {user2} listen to {mutual}...\n"
 "\n"
@@ -472,6 +497,7 @@ msgid "No recent tracks found."
 msgstr ""
 
 #: src/korone/modules/lastfm/handlers/recent.py:44
+#, python-brace-format
 msgid "{user} is listening to:\n"
 msgstr ""
 
@@ -482,6 +508,7 @@ msgid ""
 msgstr ""
 
 #: src/korone/modules/lastfm/handlers/recent.py:50
+#, python-brace-format
 msgid "{user} was listening to:\n"
 msgstr ""
 
@@ -508,6 +535,7 @@ msgid "No top items found."
 msgstr ""
 
 #: src/korone/modules/lastfm/handlers/top.py:61
+#, python-brace-format
 msgid ""
 "{user}'s top 5 {entry} for {period}:\n"
 "\n"
@@ -526,10 +554,12 @@ msgid "albums"
 msgstr ""
 
 #: src/korone/modules/lastfm/handlers/top.py:76
+#, python-brace-format
 msgid " -> {scrobbles} plays\n"
 msgstr ""
 
-#: src/korone/modules/lastfm/handlers/user.py:35
+#: src/korone/modules/lastfm/handlers/user.py:36
+#, python-brace-format
 msgid ""
 "User: <b>{user}</b>\n"
 "\n"
@@ -545,33 +575,40 @@ msgstr ""
 msgid "Your LastFM username was not found! Try setting it again."
 msgstr ""
 
-#: src/korone/modules/lastfm/utils/commons.py:31
+#: src/korone/modules/lastfm/utils/commons.py:32
+#, python-brace-format
 msgid ""
 "An error occurred while fetching your LastFM data!\n"
 "<blockquote>{error}</blockquote>"
 msgstr ""
 
 #: src/korone/modules/lastfm/utils/commons.py:47
+#, python-brace-format
 msgid "{user}'s is listening to:\n"
 msgstr ""
 
 #: src/korone/modules/lastfm/utils/commons.py:49
+#, python-brace-format
 msgid "{user}'s was listening to:\n"
 msgstr ""
 
 #: src/korone/modules/lastfm/utils/commons.py:53
+#, python-brace-format
 msgid " ∙ <code>{playcount} plays</code>"
 msgstr ""
 
 #: src/korone/modules/lastfm/utils/formatters.py:29
+#, python-brace-format
 msgid ", {days} day(s) ago"
 msgstr ""
 
 #: src/korone/modules/lastfm/utils/formatters.py:33
+#, python-brace-format
 msgid ", {hours} hour(s) ago"
 msgstr ""
 
 #: src/korone/modules/lastfm/utils/formatters.py:37
+#, python-brace-format
 msgid ", {minutes} minute(s) ago"
 msgstr ""
 
@@ -632,6 +669,7 @@ msgid "Open in Twitter"
 msgstr ""
 
 #: src/korone/modules/medias/handlers/twitter.py:75
+#, python-brace-format
 msgid ""
 "\n"
 "<b>Sent from:</b> <i>{source}</i>"
@@ -645,7 +683,7 @@ msgstr ""
 msgid "No YouTube URL found in the replied message."
 msgstr ""
 
-#: src/korone/modules/medias/handlers/youtube.py:64
+#: src/korone/modules/medias/handlers/youtube.py:65
 msgid ""
 "You need to provide a URL or reply to a message that contains a URL. "
 "Example: <code>/ytdl https://www.youtube.com/watch?v=dQw4w9WgXcQ</code>"
@@ -656,26 +694,32 @@ msgid "Failed to extract video info!"
 msgstr ""
 
 #: src/korone/modules/medias/handlers/youtube.py:81
+#, python-brace-format
 msgid "<b>Title:</b> {title}\n"
 msgstr ""
 
 #: src/korone/modules/medias/handlers/youtube.py:82
+#, python-brace-format
 msgid "<b>Uploader:</b> {uploader}\n"
 msgstr ""
 
 #: src/korone/modules/medias/handlers/youtube.py:88
+#, python-brace-format
 msgid "<b>Duration:</b> {hours}h {minutes}m {seconds}s\n"
 msgstr ""
 
 #: src/korone/modules/medias/handlers/youtube.py:93
+#, python-brace-format
 msgid "<b>Duration:</b> {minutes}m {seconds}s\n"
 msgstr ""
 
 #: src/korone/modules/medias/handlers/youtube.py:97
+#, python-brace-format
 msgid "<b>Duration:</b> {seconds}s\n"
 msgstr ""
 
 #: src/korone/modules/medias/handlers/youtube.py:101
+#, python-brace-format
 msgid "<b>Views:</b> {view_count}\n"
 msgstr ""
 
@@ -684,6 +728,7 @@ msgid "<b>Likes:</b> Unknown\n"
 msgstr ""
 
 #: src/korone/modules/medias/handlers/youtube.py:107
+#, python-brace-format
 msgid "<b>Likes:</b> {like_count}\n"
 msgstr ""
 
@@ -727,34 +772,42 @@ msgid "Details"
 msgstr ""
 
 #: src/korone/modules/minecraft/handlers/modrinth.py:122
+#, python-brace-format
 msgid "Downloads: {downloads}\n"
 msgstr ""
 
 #: src/korone/modules/minecraft/handlers/modrinth.py:123
+#, python-brace-format
 msgid "Followers: {followers}\n"
 msgstr ""
 
 #: src/korone/modules/minecraft/handlers/modrinth.py:124
+#, python-brace-format
 msgid "Published: {published}\n"
 msgstr ""
 
 #: src/korone/modules/minecraft/handlers/modrinth.py:125
+#, python-brace-format
 msgid "Updated: {updated}\n"
 msgstr ""
 
 #: src/korone/modules/minecraft/handlers/modrinth.py:126
+#, python-brace-format
 msgid "Categories: {categories}\n"
 msgstr ""
 
 #: src/korone/modules/minecraft/handlers/modrinth.py:141
+#, python-brace-format
 msgid "<b>Platforms</b>: {platforms}\n"
 msgstr ""
 
 #: src/korone/modules/minecraft/handlers/modrinth.py:142
+#, python-brace-format
 msgid "<b>Supported environments</b>: {environments}\n"
 msgstr ""
 
 #: src/korone/modules/minecraft/handlers/modrinth.py:147
+#, python-brace-format
 msgid "<b>Latest version</b>: {version}"
 msgstr ""
 
@@ -774,26 +827,27 @@ msgstr ""
 msgid "Shader pack"
 msgstr ""
 
-#: src/korone/modules/minecraft/handlers/servers.py:27
+#: src/korone/modules/minecraft/handlers/servers.py:28
 msgid ""
 "You need to provide a server address. Example: <code>/mcserver "
 "mc.hypixel.net</code>."
 msgstr ""
 
-#: src/korone/modules/minecraft/handlers/servers.py:38
+#: src/korone/modules/minecraft/handlers/servers.py:39
 msgid ""
 "Invalid server address. Please provide a valid IP address or hostname, "
 "optionally with a port. Example: <code>/mcserver mc.hypixel.net</code> or"
 " <code>/mcserver mc.hypixel.net:25565</code>."
 msgstr ""
 
-#: src/korone/modules/minecraft/handlers/servers.py:50
+#: src/korone/modules/minecraft/handlers/servers.py:51
 msgid ""
 "This Minecraft server is currently offline or is not a valid Minecraft "
 "server. Please check the address and try again."
 msgstr ""
 
-#: src/korone/modules/minecraft/handlers/servers.py:57
+#: src/korone/modules/minecraft/handlers/servers.py:58
+#, python-brace-format
 msgid ""
 "<b>Server Status for {address}</b>:\n"
 "<b>Players</b>: {player_count}\n"
@@ -809,7 +863,7 @@ msgstr ""
 msgid "<b>Supported languages</b>:\n"
 msgstr ""
 
-#: src/korone/modules/piston/handlers/run.py:24
+#: src/korone/modules/piston/handlers/run.py:25
 msgid ""
 "You need to provide a command to run. Example: <code>/piston python "
 "print('Hello, World!')</code>"
@@ -819,14 +873,14 @@ msgstr ""
 msgid "Sorry, I couldn't fetch the available languages. Please try again later."
 msgstr ""
 
-#: src/korone/modules/piston/handlers/run.py:41
+#: src/korone/modules/piston/handlers/run.py:42
 msgid ""
 "Invalid language. Use <code>/pistonlangs</code> to see the available "
 "languages. Then use it like this: <code>/piston python print('Hello, "
 "World!')</code>"
 msgstr ""
 
-#: src/korone/modules/piston/handlers/run.py:53
+#: src/korone/modules/piston/handlers/run.py:54
 msgid ""
 "You need to provide a valid language and code. Example: <code>/piston "
 "python print('Hello, World!')</code>"
@@ -837,6 +891,7 @@ msgid "An error occurred while running the code."
 msgstr ""
 
 #: src/korone/modules/piston/handlers/run.py:66
+#, python-brace-format
 msgid ""
 "<b>Code</b>:\n"
 "<pre language='{lang}'>{code}</pre>\n"
@@ -844,24 +899,27 @@ msgid ""
 msgstr ""
 
 #: src/korone/modules/piston/handlers/run.py:71
+#, python-brace-format
 msgid ""
 "<b>Output</b>:\n"
 "<pre language='bash'>{output}</pre>\n"
 msgstr ""
 
 #: src/korone/modules/piston/handlers/run.py:76
+#, python-brace-format
 msgid ""
 "<b>Compiler Output</b>:\n"
 "<pre language='bash'>{output}</pre>"
 msgstr ""
 
-#: src/korone/modules/piston/handlers/run.py:84
+#: src/korone/modules/piston/handlers/run.py:85
 msgid ""
 "The result exceeds the 4096 character limit of Telegram. Please refine "
 "your code."
 msgstr ""
 
-#: src/korone/modules/pm_menu/handlers/about.py:28
+#: src/korone/modules/pm_menu/handlers/about.py:29
+#, python-brace-format
 msgid ""
 "Korone is a comprehensive and cutting-edge Telegram bot that offers a "
 "wide range of features to enhance your Telegram experience. Designed to "
@@ -887,7 +945,7 @@ msgstr ""
 msgid "🔒 Privacy Policy"
 msgstr ""
 
-#: src/korone/modules/pm_menu/handlers/help.py:23
+#: src/korone/modules/pm_menu/handlers/help.py:24
 msgid ""
 "You can get help by reading the documentation, where you'll get an "
 "overview of the bot and how to use it to its full potential. Click the "
@@ -898,7 +956,7 @@ msgstr ""
 msgid "Documentation"
 msgstr ""
 
-#: src/korone/modules/pm_menu/handlers/privacy.py:15
+#: src/korone/modules/pm_menu/handlers/privacy.py:16
 msgid ""
 "The privacy policy is available for review in the documentation. Click "
 "the button below to start reading."
@@ -908,7 +966,7 @@ msgstr ""
 msgid "Privacy Policy"
 msgstr ""
 
-#: src/korone/modules/pm_menu/handlers/start.py:26
+#: src/korone/modules/pm_menu/handlers/start.py:27
 msgid ""
 "Hi, I'm Korone! An all-in-one bot. I can help you with lots of things. "
 "Just click on the buttons below to get started."
@@ -919,6 +977,7 @@ msgid "ℹ️ About"
 msgstr ""
 
 #: src/korone/modules/pm_menu/handlers/start.py:37
+#, python-brace-format
 msgid "{flag} Language"
 msgstr ""
 
@@ -931,6 +990,7 @@ msgid "Hi, I'm Korone!"
 msgstr ""
 
 #: src/korone/modules/regex/utils.py:43
+#, python-brace-format
 msgid "Invalid command: {command}"
 msgstr ""
 
@@ -939,6 +999,7 @@ msgid "Pattern is too long. Please use shorter patterns."
 msgstr ""
 
 #: src/korone/modules/regex/utils.py:54
+#, python-brace-format
 msgid "Unknown flag: {flag}"
 msgstr ""
 
@@ -947,6 +1008,7 @@ msgid "Invalid command data."
 msgstr ""
 
 #: src/korone/modules/regex/handlers/sed.py:41
+#, python-brace-format
 msgid "Regex error: {e}"
 msgstr ""
 
@@ -983,6 +1045,7 @@ msgid "View pack"
 msgstr ""
 
 #: src/korone/modules/stickers/handlers/kang.py:103
+#, python-brace-format
 msgid ""
 "Sticker <b>successfully</b> added to pack\n"
 "Emoji: {sticker_emoji}"
@@ -993,16 +1056,19 @@ msgid "Failed to get video information."
 msgstr ""
 
 #: src/korone/modules/stickers/utils/medias.py:72
+#, python-brace-format
 msgid "Error parsing video information: {error}"
 msgstr ""
 
 #: src/korone/modules/stickers/utils/medias.py:79
+#, python-brace-format
 msgid ""
 "The video is too long ({duration}s)!\n"
 "Max duration is 3 seconds."
 msgstr ""
 
 #: src/korone/modules/stickers/utils/medias.py:87
+#, python-brace-format
 msgid ""
 "The video is too big ({size}KB)!\n"
 "Max size is 256KB"
@@ -1020,7 +1086,7 @@ msgstr ""
 msgid "Start"
 msgstr ""
 
-#: src/korone/modules/stickers/utils/methods.py:118
+#: src/korone/modules/stickers/utils/methods.py:119
 msgid ""
 "Oops, looks like I do not have enough permissions to create a sticker "
 "pack for you!\n"
@@ -1028,14 +1094,17 @@ msgid ""
 msgstr ""
 
 #: src/korone/modules/stickers/utils/methods.py:126
+#, python-brace-format
 msgid "An error occurred: {}"
 msgstr ""
 
 #: src/korone/modules/translator/handlers/translate.py:40
+#, python-brace-format
 msgid "Unsupported source language: {source_lang}"
 msgstr ""
 
 #: src/korone/modules/translator/handlers/translate.py:46
+#, python-brace-format
 msgid "Unsupported target language: {target_lang}"
 msgstr ""
 
@@ -1043,7 +1112,7 @@ msgstr ""
 msgid "The text to translate is empty. Please provide some text."
 msgstr ""
 
-#: src/korone/modules/translator/handlers/translate.py:59
+#: src/korone/modules/translator/handlers/translate.py:60
 msgid ""
 "Korone has reached the translation quota. The DeepL API has a limit of "
 "500,000 characters per month for the free plan, and we have exceeded this"
@@ -1051,10 +1120,12 @@ msgid ""
 msgstr ""
 
 #: src/korone/modules/translator/handlers/translate.py:67
+#, python-brace-format
 msgid "Failed to translate text. Error: {error}"
 msgstr ""
 
-#: src/korone/modules/translator/handlers/translate.py:70
+#: src/korone/modules/translator/handlers/translate.py:71
+#, python-brace-format
 msgid ""
 "<b>Language:</b> <code>{source_lang}</code> => <code>{target_lang}</code>"
 "\n"
@@ -1074,6 +1145,7 @@ msgid "No members found."
 msgstr ""
 
 #: src/korone/modules/users/handlers/cleanup.py:45
+#, python-brace-format
 msgid "Removed {count} deleted accounts."
 msgstr ""
 
@@ -1082,22 +1154,26 @@ msgid "No deleted accounts found."
 msgstr ""
 
 #: src/korone/modules/users/handlers/id.py:15
+#, python-brace-format
 msgid "Your ID is <code>{id}</code>"
 msgstr ""
 
 #: src/korone/modules/users/handlers/id.py:22
+#, python-brace-format
 msgid ""
 "\n"
 "Chat ID: <code>{id}</code>"
 msgstr ""
 
 #: src/korone/modules/users/handlers/id.py:27
+#, python-brace-format
 msgid ""
 "\n"
 "{user} ID: <code>{id}</code>"
 msgstr ""
 
 #: src/korone/modules/users/handlers/id.py:35
+#, python-brace-format
 msgid ""
 "\n"
 "Forwarded user ID: <code>{id}</code>"
@@ -1156,22 +1232,27 @@ msgid "<b>User info</b>:\n"
 msgstr ""
 
 #: src/korone/modules/users/handlers/users.py:81
+#, python-brace-format
 msgid "<b>ID</b>: <code>{id}</code>\n"
 msgstr ""
 
 #: src/korone/modules/users/handlers/users.py:82
+#, python-brace-format
 msgid "<b>First Name</b>: {first_name}\n"
 msgstr ""
 
 #: src/korone/modules/users/handlers/users.py:87
+#, python-brace-format
 msgid "<b>Last Name</b>: {last_name}\n"
 msgstr ""
 
 #: src/korone/modules/users/handlers/users.py:90
+#, python-brace-format
 msgid "<b>Username</b>: @{username}\n"
 msgstr ""
 
 #: src/korone/modules/users/handlers/users.py:92
+#, python-brace-format
 msgid "<b>User link</b>: <a href='tg://user?id={id}'>link</a>\n"
 msgstr ""
 
@@ -1191,7 +1272,7 @@ msgstr ""
 msgid "Wind Speed:"
 msgstr ""
 
-#: src/korone/modules/weather/handlers/get.py:45
+#: src/korone/modules/weather/handlers/get.py:46
 msgid ""
 "No location provided. You should provide a location. Example: "
 "<code>/weather Rio de Janeiro</code>"
@@ -1218,7 +1299,7 @@ msgstr ""
 msgid "Incomplete weather data received."
 msgstr ""
 
-#: src/korone/modules/web/handlers/ip.py:20
+#: src/korone/modules/web/handlers/ip.py:21
 msgid ""
 "You should provide an IP address or domain name to get "
 "information.Example: <code>/ip google.com</code>."
@@ -1230,11 +1311,13 @@ msgstr ""
 
 #: src/korone/modules/web/handlers/ip.py:39
 #: src/korone/modules/web/handlers/ip.py:73
+#, python-brace-format
 msgid "No information found for {ip_or_domain}."
 msgstr ""
 
-#: src/korone/modules/web/handlers/ip.py:45
-#: src/korone/modules/web/handlers/ip.py:79
+#: src/korone/modules/web/handlers/ip.py:46
+#: src/korone/modules/web/handlers/ip.py:80
+#, python-brace-format
 msgid ""
 "The provided IP address <code>{ip}</code> is a <i>bogon</i> IP address, "
 "meaning it is either not in use or is reserved for special use."
@@ -1244,17 +1327,19 @@ msgstr ""
 msgid "Please select an IP address:"
 msgstr ""
 
-#: src/korone/modules/web/handlers/whois.py:19
+#: src/korone/modules/web/handlers/whois.py:20
 msgid ""
 "You should provide a domain name to get whois information. Example: "
 "<code>/whois google.com</code>."
 msgstr ""
 
 #: src/korone/modules/web/handlers/whois.py:33
+#, python-brace-format
 msgid "An error occurred while fetching whois information: {error}"
 msgstr ""
 
 #: src/korone/modules/web/handlers/whois.py:39
+#, python-brace-format
 msgid "No whois information found for <code>{domain}</code>."
 msgstr ""
 

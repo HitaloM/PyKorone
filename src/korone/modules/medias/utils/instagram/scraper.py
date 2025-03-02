@@ -1,5 +1,5 @@
 # SPDX-License-Identifier: BSD-3-Clause
-# Copyright (c) 2024 Hitalo M.
+# Copyright (c) 2025 Hitalo M.
 
 import re
 from collections.abc import Sequence

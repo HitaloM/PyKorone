@@ -1,11 +1,12 @@
 # SPDX-License-Identifier: BSD-3-Clause
-# Copyright (c) 2024 Hitalo M. <https://github.com/HitaloM>
+# Copyright (c) 2025 Hitalo M. <https://github.com/HitaloM>
 
 from __future__ import annotations
 
 import asyncio
 import inspect
 import time
+from dataclasses import dataclass
 from datetime import timedelta
 from typing import TYPE_CHECKING
 
@@ -29,12 +30,10 @@ if TYPE_CHECKING:
 BOT_ID: int = ConfigManager.get("hydrogram", "BOT_TOKEN").split(":", 1)[0]
 
 
+@dataclass(slots=True)
 class BaseHandler:
-    __slots__ = ("callback", "filters")
-
-    def __init__(self, callback: Callable, filters: Filter | None = None) -> None:
-        self.callback = callback
-        self.filters = filters
+    callback: Callable
+    filters: Filter | None = None
 
     @staticmethod
     async def _extract_message_and_user(update: Update) -> tuple[Message | None, User | None]:
