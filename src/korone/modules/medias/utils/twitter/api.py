@@ -18,7 +18,12 @@ class TwitterError(Exception):
 
 @cache(ttl=timedelta(weeks=1))
 async def fetch_tweet(url: str) -> Tweet | None:
-    fx_url = re.sub(r"(www\.|)(twitter\.com|x\.com)", "api.fxtwitter.com", url)
+    fx_url = re.sub(
+        r"(https?://)(?:www\.)?(?:(?:twitter|x|fxtwitter|vxtwitter|fix(?:upx|vx))\.com)",
+        r"\1api.fxtwitter.com",
+        url,
+        flags=re.IGNORECASE,
+    )
     try:
         async with httpx.AsyncClient(http2=True, timeout=20) as client:
             response = await client.get(fx_url)

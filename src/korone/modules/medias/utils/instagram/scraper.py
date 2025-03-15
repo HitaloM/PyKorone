@@ -26,7 +26,7 @@ MAX_REDIRECTS = 1
 
 
 async def fetch_instagram(post_url: str) -> Sequence[InputMedia] | None:
-    match = POST_PATTERN.search(post_url)
+    match = POST_PATTERN.search(post_url, re.IGNORECASE)
     if not match:
         return None
 
@@ -70,7 +70,10 @@ def format_caption(username: str | None, description: str | None) -> str:
 
 @cache(ttl=timedelta(weeks=1), condition=NOT_NONE)
 async def get_instafix_data(post_url: str) -> InstaFixData | None:
-    new_url = post_url.replace(INSTAGRAM_HOST, INSTAFIX_HOST)
+    if INSTAFIX_HOST in post_url:
+        new_url = post_url
+    else:
+        new_url = post_url.replace(INSTAGRAM_HOST, INSTAFIX_HOST)
 
     async with httpx.AsyncClient(
         http2=True,

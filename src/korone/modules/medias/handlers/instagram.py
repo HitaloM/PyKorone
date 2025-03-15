@@ -17,7 +17,12 @@ from korone.modules.medias.handlers.base_media_handler import BaseMediaHandler
 from korone.modules.medias.utils.instagram.scraper import POST_PATTERN, fetch_instagram
 from korone.utils.i18n import gettext as _
 
-URL_PATTERN = re.compile(r"(?:https?://)?(?:www\.)?instagram\.com/.*?(?=\s|$)")
+URL_PATTERN = re.compile(
+    r"(?:https?://)?"
+    r"(?:www\.)?"
+    r"(?:instagram|ddinstagram)\.com/\S+",
+    re.IGNORECASE,
+)
 
 
 @router.message(Regex(URL_PATTERN))

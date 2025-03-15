@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2025-03-15 19:46-0300\n"
+"POT-Creation-Date: 2025-03-15 20:07-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -650,8 +650,8 @@ msgstr ""
 msgid "BlueSky"
 msgstr ""
 
-#: src/korone/modules/medias/handlers/instagram.py:41
-#: src/korone/modules/medias/handlers/instagram.py:47
+#: src/korone/modules/medias/handlers/instagram.py:46
+#: src/korone/modules/medias/handlers/instagram.py:52
 msgid "Instagram"
 msgstr ""
 
@@ -665,12 +665,12 @@ msgstr ""
 msgid "Open in TikTok"
 msgstr ""
 
-#: src/korone/modules/medias/handlers/twitter.py:53
-#: src/korone/modules/medias/handlers/twitter.py:167
+#: src/korone/modules/medias/handlers/twitter.py:59
+#: src/korone/modules/medias/handlers/twitter.py:173
 msgid "Open in Twitter"
 msgstr ""
 
-#: src/korone/modules/medias/handlers/twitter.py:75
+#: src/korone/modules/medias/handlers/twitter.py:81
 #, python-brace-format
 msgid ""
 "\n"
