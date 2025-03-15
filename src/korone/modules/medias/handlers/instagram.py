@@ -7,18 +7,13 @@ from datetime import timedelta
 from hairydogm.chat_action import ChatActionSender
 from hydrogram.client import Client
 from hydrogram.enums import ChatAction
-from hydrogram.errors import PhotoInvalidDimensions
 from hydrogram.types import (
-    InlineKeyboardButton,
-    InlineKeyboardMarkup,
-    InputMediaPhoto,
-    InputMediaVideo,
     Message,
 )
 
 from korone.decorators import router
 from korone.filters import Regex
-from korone.modules.medias.utils.cache import MediaCache
+from korone.modules.medias.handlers.base_media_handler import BaseMediaHandler
 from korone.modules.medias.utils.instagram.scraper import POST_PATTERN, fetch_instagram
 from korone.utils.i18n import gettext as _
 
@@ -30,7 +25,7 @@ async def handle_instagram(client: Client, message: Message) -> None:
     if not message.text:
         return
 
-    url = extract_url(message.text)
+    url = BaseMediaHandler.extract_url(message.text, URL_PATTERN)
     if not url:
         return
 
@@ -43,57 +38,22 @@ async def handle_instagram(client: Client, message: Message) -> None:
         media_list = media_list[:10]
         media_list[-1].caption = last_caption
 
-    caption = format_caption(media_list, url)  # type: ignore
+    caption = BaseMediaHandler.format_caption(media_list, url, _("Instagram"))
 
     async with ChatActionSender(
         client=client, chat_id=message.chat.id, action=ChatAction.UPLOAD_DOCUMENT
     ):
-        sent_message = await send_media(message, media_list, caption, url)  # type: ignore
+        sent_message = await BaseMediaHandler.send_media(
+            message, media_list, caption, url, _("Instagram")
+        )
 
     post_id = extract_post_id(url)
     if post_id and sent_message:
-        await cache_media(post_id, sent_message)
-
-
-def extract_url(text: str) -> str | None:
-    match = URL_PATTERN.search(text)
-    return match.group() if match else None
-
-
-def format_caption(media_list: list, url: str) -> str:
-    caption = media_list[-1].caption
-    if len(media_list) > 1:
-        caption += f"\n<a href='{url}'>{_('Open in Instagram')}</a>"
-    return caption
-
-
-async def send_media(message: Message, media_list: list, caption: str, url: str) -> Message | None:
-    if len(media_list) == 1:
-        media = media_list[0]
-        keyboard = InlineKeyboardMarkup([[InlineKeyboardButton(_("Open in Instagram"), url=url)]])
-        try:
-            if isinstance(media, InputMediaPhoto):
-                return await message.reply_photo(
-                    media.media, caption=caption, reply_markup=keyboard
-                )
-            if isinstance(media, InputMediaVideo):
-                return await message.reply_video(
-                    media.media, caption=caption, reply_markup=keyboard
-                )
-        except PhotoInvalidDimensions:
-            return await message.reply_document(
-                media.media, caption=caption, reply_markup=keyboard
-            )
-        return None
-    media_list[-1].caption = caption
-    return await message.reply_media_group(media_list)  # type: ignore
+        await BaseMediaHandler.cache_media(
+            post_id, sent_message, int(timedelta(weeks=1).total_seconds())
+        )
 
 
 def extract_post_id(url: str) -> str | None:
     match = POST_PATTERN.search(url)
     return match.group(1) if match else None
-
-
-async def cache_media(post_id: str, sent_message: Message) -> None:
-    cache = MediaCache(post_id)
-    await cache.set(sent_message, expire=int(timedelta(weeks=1).total_seconds()))
