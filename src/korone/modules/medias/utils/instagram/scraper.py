@@ -126,6 +126,8 @@ def scrape_instafix_data(html_content: str) -> dict:
             scraped_data["description"] = content
         elif prop == "og:image" and not scraped_data["media_url"]:
             scraped_data["type"] = "photo"
+            content = content.replace(r"/images/", "/grid/")
+            content = re.sub(r"/\d+$", "/", content)
             scraped_data["media_url"] = f"https://{INSTAFIX_HOST}{content}"
 
     return scraped_data
