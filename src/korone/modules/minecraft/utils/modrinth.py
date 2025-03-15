@@ -1,6 +1,7 @@
 # SPDX-License-Identifier: BSD-3-Clause
 # Copyright (c) 2025 Hitalo M. <https://github.com/HitaloM>
 
+import asyncio
 from datetime import timedelta
 from enum import StrEnum
 
@@ -10,6 +11,20 @@ from cashews import NOT_NONE
 from korone.utils.caching import cache
 
 API_BASE_URL = "https://api.modrinth.com/v2"
+
+
+async def _fetch_json(url: str) -> dict:
+    try:
+        async with httpx.AsyncClient(http2=True) as client:
+            response = await client.get(url)
+            response.raise_for_status()
+        return response.json()
+    except (httpx.RequestError, httpx.HTTPStatusError) as exc:
+        msg = f"Error occurred while requesting {url}: {exc}"
+        raise RuntimeError(msg) from exc
+    except ValueError as exc:
+        msg = f"Failed to parse JSON response from {url}."
+        raise RuntimeError(msg) from exc
 
 
 class HashMethods(StrEnum):
@@ -59,25 +74,7 @@ class ModrinthProject:
     @cache(ttl=timedelta(hours=1), key="modrinth_project:{project}", condition=NOT_NONE)
     async def from_id(cls, project: str):
         url = f"{API_BASE_URL}/project/{project}"
-        try:
-            async with httpx.AsyncClient(http2=True) as client:
-                response = await client.get(url)
-                response.raise_for_status()
-        except httpx.RequestError as exc:
-            msg = f"An error occurred while requesting {exc.request.url!r}."
-            raise RuntimeError(msg) from exc
-        except httpx.HTTPStatusError as exc:
-            msg = (
-                f"Error response {exc.response.status_code} while requesting {exc.request.url!r}."
-            )
-            raise RuntimeError(msg) from exc
-
-        try:
-            data = response.json()
-        except ValueError as exc:
-            msg = f"Failed to parse JSON response from {url}."
-            raise RuntimeError(msg) from exc
-
+        data = await _fetch_json(url)
         return cls(project, data)
 
     @property
@@ -122,27 +119,10 @@ class ModrinthSearch:
             f"{API_BASE_URL}/search?query={self.query}&index={self.index}"
             f"&offset={self.offset}&limit={self.limit}&filters={self.filters}{facets}"
         )
-
-        try:
-            async with httpx.AsyncClient(http2=True) as client:
-                response = await client.get(url)
-                response.raise_for_status()
-        except httpx.RequestError as exc:
-            msg = f"An error occurred while requesting {exc.request.url!r}."
-            raise RuntimeError(msg) from exc
-        except httpx.HTTPStatusError as exc:
-            msg = (
-                f"Error response {exc.response.status_code} while requesting {exc.request.url!r}."
-            )
-            raise RuntimeError(msg) from exc
-
-        try:
-            data = response.json()
-        except ValueError as exc:
-            msg = f"Failed to parse JSON response from {url}."
-            raise RuntimeError(msg) from exc
-
-        self.hits = [await ModrinthProject.from_id(hit["project_id"]) for hit in data["hits"]]
+        data = await _fetch_json(url)
+        self.hits = await asyncio.gather(
+            *(ModrinthProject.from_id(hit["project_id"]) for hit in data["hits"])
+        )
         self.offset = data["offset"]
         self.limit = data["limit"]
         self.total = data["total_hits"]
@@ -191,23 +171,5 @@ class ModrinthVersion:
     @cache(ttl=timedelta(hours=1), key="modrinth_version:{project}:{version}", condition=NOT_NONE)
     async def from_id(cls, project: ModrinthProject, version: str):
         url = f"{API_BASE_URL}/version/{version}"
-        try:
-            async with httpx.AsyncClient(http2=True) as client:
-                response = await client.get(url)
-                response.raise_for_status()
-        except httpx.RequestError as exc:
-            msg = f"An error occurred while requesting {exc.request.url!r}."
-            raise RuntimeError(msg) from exc
-        except httpx.HTTPStatusError as exc:
-            msg = (
-                f"Error response {exc.response.status_code} while requesting {exc.request.url!r}."
-            )
-            raise RuntimeError(msg) from exc
-
-        try:
-            data = response.json()
-        except ValueError as exc:
-            msg = f"Failed to parse JSON response from {url}."
-            raise RuntimeError(msg) from exc
-
+        data = await _fetch_json(url)
         return cls(project, version, data)
