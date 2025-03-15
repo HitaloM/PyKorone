@@ -61,6 +61,7 @@ async def main() -> None:
         api_hash=config.get("hydrogram", "API_HASH"),
         bot_token=config.get("hydrogram", "BOT_TOKEN"),
     )
+    print(params)
 
     client = Korone(params)
 

@@ -1,0 +1,54 @@
+line-length = 99
+
+[lint]
+select = [
+    "ASYNC", # flake8-async
+    "B",     # flake8-bugbear
+    "C4",    # flake8-comprehensions
+    "C90",   # mccabe
+    "CPY",   # flake8-copyright
+    "DTZ",   # flake8-datetimez
+    "E",     # pycodestyle
+    "EM",    # flake8-errmsg
+    "F",     # pyflakes
+    "FURB",  # refurb
+    "G",     # flake8-logging-format
+    "I",     # isort
+    "N",     # pep8-naming
+    "PERF",  # perflint
+    "PL",    # pylint
+    "PTH",   # flake8-use-pathlib
+    "RET",   # flake8-return
+    "RUF",   # ruff
+    "SIM",   # flake8-simplify
+    "TID",   # flake8-tidy-imports
+    "UP",    # pyupgrade
+    "W",     # pycodestyle
+]
+ignore = [
+    "RUF001",
+    "RUF002",
+    "RUF003",
+    "PLR0911",
+    "PLR0913",
+    "PLR0914",
+    "PLR0917",
+    "PLR2004",
+    "PLW2901",
+    "PLW1641",
+]
+preview = true
+
+[lint.isort]
+known-first-party = ["src"]
+
+[lint.flake8-copyright]
+author = "Hitalo M"
+notice-rgx = "(?i)Copyright \\(C\\) \\d{4}"
+
+[lint.flake8-tidy-imports]
+ban-relative-imports = "parents"
+
+[format]
+docstring-code-format = true
+preview = true
