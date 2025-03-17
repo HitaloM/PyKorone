@@ -17,7 +17,15 @@ from korone.modules.medias.handlers.base_media_handler import BaseMediaHandler
 from korone.modules.medias.utils.threads.scraper import fetch_threads, get_post_id
 from korone.utils.i18n import gettext as _
 
-POST_PATTERN = re.compile(r"(?:https?://)?(?:www\.)?threads\.net/.*?(?=\s|$)")
+POST_PATTERN = re.compile(
+    r"""
+    (?:(?:https?)://)?
+    (?:www\.)?
+    threads\.net/
+    .*?(?=\s|$)
+    """,
+    re.IGNORECASE | re.VERBOSE,
+)
 
 
 @router.message(Regex(POST_PATTERN))

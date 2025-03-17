@@ -115,8 +115,10 @@ async def handle_video(playlist_url: str, thumbnail_url: HttpUrl) -> list[InputM
             return None
 
         playlist = m3u8.loads(response.text)
-        highest_variant = max(playlist.playlists, key=lambda p: p.stream_info.bandwidth)
-
+        highest_variant = max(
+            playlist.playlists,
+            key=lambda p: p.stream_info.bandwidth if p.stream_info.bandwidth is not None else 0,
+        )
         video_url = urljoin(playlist_url, highest_variant.uri)
         resolution = highest_variant.stream_info.resolution
 

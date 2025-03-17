@@ -1,113 +1,204 @@
 # SPDX-License-Identifier: BSD-3-Clause
 # Copyright (c) 2025 Hitalo M. <https://github.com/HitaloM>
 
+import asyncio
+import re
 from datetime import timedelta
-from pathlib import Path
+from typing import BinaryIO, cast
 
 import httpx
+from hydrogram.types import InputMediaPhoto, InputMediaVideo
 
+from korone.modules.medias.utils.downloader import download_media
+from korone.modules.medias.utils.files import resize_thumbnail
 from korone.modules.medias.utils.generic_headers import GENERIC_HEADER
 from korone.utils.caching import cache
-from korone.utils.logging import logger
 
 from .types import TikTokSlideshow, TikTokVideo
+
+URL_PATTERN = re.compile(
+    r"""https:\/\/
+    (?:(?:m|www|vm|vt)\.)?
+    (?:
+        tiktok\.com|
+        vxtiktok\.com|
+        tfxktok\.com
+    )
+    \/
+    (
+        (?:
+            .*?\b(?:
+                usr|v|embed|user|video|photo
+            )\/|
+            \?shareId=|
+            \&item_id=
+        )
+        (\d+)
+    |
+        \w+
+    )
+    """,
+    re.VERBOSE | re.IGNORECASE,
+)
 
 
 class TikTokError(Exception):
     pass
 
 
-class TikTokClient:
-    __slots__ = ("files_path", "media_id")
+async def request_tiktok(method: str, url: str, **kwargs) -> httpx.Response:
+    async with httpx.AsyncClient(http2=True) as client:
+        try:
+            response = await client.request(method=method, url=url, **kwargs)
+            response.raise_for_status()
+            return response
+        except (httpx.HTTPStatusError, httpx.RequestError) as e:
+            msg = f"[Medias/TikTok] - Failed to fetch data: {e}"
+            raise TikTokError(msg) from e
 
-    def __init__(self, media_id: str):
-        self.media_id = media_id
-        self.files_path = []
 
-    @staticmethod
-    async def _request(method: str, url: str, **kwargs) -> httpx.Response:
-        async with httpx.AsyncClient(http2=True) as client:
-            try:
-                response = await client.request(method=method, url=url, **kwargs)
-                response.raise_for_status()
-                return response
-            except httpx.HTTPStatusError as e:
-                msg = f"HTTP error: {e.response.status_code}"
-                raise TikTokError(msg) from e
-            except httpx.RequestError as e:
-                msg = f"Request error: {e.request.url}"
-                raise TikTokError(msg) from e
+@cache(ttl=timedelta(weeks=1), key="tiktok_data:{media_id}")
+async def fetch_tiktok_data(media_id: str) -> dict:
+    params = {
+        "iid": "7318518857994389254",
+        "device_id": "7318517321748022790",
+        "channel": "googleplay",
+        "version_code": "300904",
+        "device_platform": "android",
+        "device_type": "ASUS_Z01QD",
+        "os_version": "9",
+        "aweme_id": media_id,
+        "aid": "1128",
+    }
+    response = await request_tiktok(
+        "OPTIONS",
+        "https://api16-normal-c-useast1a.tiktokv.com/aweme/v1/feed/",
+        headers=GENERIC_HEADER,
+        params=params,
+    )
+    return response.json() if response.status_code == 200 else {}
 
-    @cache(ttl=timedelta(weeks=1), key="tiktok_data:{media_id}")
-    async def _fetch_tiktok_data(self, media_id: str) -> dict:
-        params = {
-            "iid": "7318518857994389254",
-            "device_id": "7318517321748022790",
-            "channel": "googleplay",
-            "version_code": "300904",
-            "device_platform": "android",
-            "device_type": "ASUS_Z01QD",
-            "os_version": "9",
-            "aweme_id": media_id,
-            "aid": "1128",
-        }
 
-        api_response = await self._request(
-            "OPTIONS",
-            "https://api16-normal-c-useast1a.tiktokv.com/aweme/v1/feed/",
+def process_slideshow(aweme: dict, data: dict) -> TikTokSlideshow:
+    data["images"] = [
+        img["display_image"]["url_list"][0] for img in aweme["image_post_info"]["images"]
+    ]
+    data["music_url"] = aweme["music"]["play_url"]["uri"]
+    return TikTokSlideshow(**data)
+
+
+def process_video(aweme: dict, data: dict) -> TikTokVideo:
+    return TikTokVideo(
+        author=data["author"],
+        desc=data["desc"],
+        width=aweme["video"]["play_addr"]["width"],
+        height=aweme["video"]["play_addr"]["height"],
+        duration=aweme["video"]["duration"],
+        video_url=aweme["video"]["play_addr"]["url_list"][0],
+        thumbnail_url=aweme["video"]["cover"]["url_list"][0],
+    )
+
+
+async def get_tiktok_media_by_id(media_id: str) -> TikTokSlideshow | TikTokVideo | None:
+    tiktok_data = await fetch_tiktok_data(media_id)
+    aweme_list = tiktok_data.get("aweme_list")
+    if not aweme_list:
+        return None
+
+    aweme = aweme_list[0]
+    if aweme.get("aweme_id") != media_id:
+        return None
+
+    data = {
+        "author": aweme.get("author", {}).get("nickname"),
+        "desc": aweme.get("desc"),
+    }
+    return (
+        process_slideshow(aweme, data)
+        if aweme.get("aweme_type") in {2, 68, 150}
+        else process_video(aweme, data)
+    )
+
+
+async def safe_download(url: str) -> BinaryIO:
+    result = await download_media(url)
+    if not result:
+        msg = f"[Medias/TikTok] - Failed to download media from {url}"
+        raise TikTokError(msg)
+    return result
+
+
+async def prepare_video_media(media: TikTokVideo) -> InputMediaVideo:
+    video_file, thumb_file = await asyncio.gather(
+        safe_download(str(media.video_url)), safe_download(str(media.thumbnail_url))
+    )
+    await asyncio.to_thread(resize_thumbnail, thumb_file)
+    return InputMediaVideo(
+        media=video_file,
+        duration=media.duration,
+        width=media.width,
+        height=media.height,
+        thumb=thumb_file,
+    )
+
+
+async def prepare_slideshow_media(media: TikTokSlideshow) -> list[InputMediaPhoto]:
+    img_tasks = [asyncio.create_task(safe_download(str(img))) for img in media.images]
+    results = await asyncio.gather(*img_tasks)
+    return [InputMediaPhoto(media=cast(BinaryIO, r)) for r in results]
+
+
+async def extract_media_id(url_match: re.Match[str]) -> int | None:
+    media_id_str = url_match.group(2) or url_match.group(1)
+    try:
+        return int(media_id_str)
+    except ValueError:
+        redirect = await resolve_redirect_url(url_match.group(0))
+        if redirect:
+            match = URL_PATTERN.search(redirect)
+            if match:
+                try:
+                    return int(match.group(2))
+                except (TypeError, ValueError):
+                    pass
+        return None
+
+
+async def resolve_redirect_url(url: str) -> str | None:
+    try:
+        async with httpx.AsyncClient(
+            http2=True,
+            timeout=20,
+            follow_redirects=True,
             headers=GENERIC_HEADER,
-            params=params,
-        )
+        ) as client:
+            response = await client.head(url)
+            return str(response.url) if response.url else None
+    except (httpx.RequestError, httpx.HTTPStatusError):
+        return None
 
-        return api_response.json() if api_response.status_code == 200 else {}
 
-    @staticmethod
-    async def _process_slideshow(aweme: dict, aweme_dict: dict) -> TikTokSlideshow:
-        images = [
-            image["display_image"]["url_list"][0] for image in aweme["image_post_info"]["images"]
-        ]
-        music_url = aweme["music"]["play_url"]["uri"]
-        aweme_dict.update({"images": images, "music_url": music_url})
+async def fetch_tiktok_media(tiktok_url: str):
+    url_match = URL_PATTERN.search(tiktok_url)
+    if not url_match:
+        return None
 
-        return TikTokSlideshow(**aweme_dict)
+    media_id = await extract_media_id(url_match)
+    if not media_id:
+        return None
 
-    @staticmethod
-    async def _process_video(aweme: dict, aweme_dict: dict) -> TikTokVideo:
-        return TikTokVideo(
-            author=aweme_dict["author"],
-            desc=aweme_dict["desc"],
-            width=aweme["video"]["play_addr"]["width"],
-            height=aweme["video"]["play_addr"]["height"],
-            duration=aweme["video"]["duration"],
-            video_url=aweme["video"]["play_addr"]["url_list"][0],
-            thumbnail_url=aweme["video"]["cover"]["url_list"][0],
-        )
-
-    async def get(self) -> TikTokSlideshow | TikTokVideo | None:
-        tiktok_data = await self._fetch_tiktok_data(self.media_id)
-        if not tiktok_data.get("aweme_list"):
+    try:
+        media_obj = await get_tiktok_media_by_id(str(media_id))
+        if not media_obj:
             return None
 
-        aweme = tiktok_data["aweme_list"][0]
+        if isinstance(media_obj, TikTokVideo):
+            media = await prepare_video_media(media_obj)
+            mtype = "video"
+        else:
+            media = await prepare_slideshow_media(media_obj)
+            mtype = "slideshow"
 
-        if aweme.get("aweme_id") != self.media_id:
-            return None
-
-        aweme_dict = {
-            "author": aweme["author"]["nickname"]
-            if aweme.get("author") and aweme["author"].get("nickname")
-            else None,
-            "desc": aweme.get("desc"),
-        }
-
-        if aweme.get("aweme_type") in {2, 68, 150}:
-            return await self._process_slideshow(aweme, aweme_dict)
-        return await self._process_video(aweme, aweme_dict)
-
-    def clear(self) -> None:
-        for path in self.files_path:
-            if path and Path(path).exists():
-                Path(path).unlink(missing_ok=True)
-                logger.debug("Removed file %s", path)
-
-        self.files_path.clear()
+        return media, mtype, str(media_id), media_obj
+    except TikTokError:
+        return None

@@ -18,10 +18,17 @@ from korone.modules.medias.utils.instagram.scraper import POST_PATTERN, fetch_in
 from korone.utils.i18n import gettext as _
 
 URL_PATTERN = re.compile(
-    r"(?:https?://)?"
-    r"(?:www\.)?"
-    r"(?:instagram|ddinstagram)\.com/\S+",
-    re.IGNORECASE,
+    r"""
+    (?:https?://)?
+    (?:www\.)?
+    (?:
+        instagram
+        | ddinstagram
+    )
+    \.com
+    /\S+
+    """,
+    re.IGNORECASE | re.VERBOSE,
 )
 
 

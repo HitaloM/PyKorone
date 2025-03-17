@@ -24,7 +24,20 @@ from korone.utils.i18n import get_i18n
 from korone.utils.i18n import gettext as _
 
 YOUTUBE_REGEX = re.compile(
-    r"(?m)http(?:s?):\/\/(?:www\.)?(?:music\.)?youtu(?:be\.com\/(watch\?v=|shorts/|embed/)|\.be\/)[^\s&]+"
+    r"""
+    https?://
+    (?:www\.)?
+    (?:music\.)?
+    youtu(?:be\.com/
+        (?:
+            watch\?v= |
+            shorts/   |
+            embed/
+        )
+    |\.be/)
+    ([^\s&]+)
+    """,
+    re.VERBOSE | re.IGNORECASE,
 )
 
 
@@ -139,14 +152,13 @@ async def download_and_send_media(
     ytdl = YtdlpManager()
     message = callback.message
     action = (
-        ChatAction.UPLOAD_VIDEO if media_type == YtMediaType.Audio else ChatAction.UPLOAD_AUDIO
+        ChatAction.UPLOAD_VIDEO if media_type == YtMediaType.Video else ChatAction.UPLOAD_AUDIO
     )
     download_method = (
         ytdl.download_video if media_type == YtMediaType.Video else ytdl.download_audio
     )
 
     await message.edit(_("Downloading..."))
-
     yt = await download_media(download_method, url, message)
     if not yt:
         return

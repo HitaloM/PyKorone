@@ -15,7 +15,16 @@ from korone.modules.medias.handlers.base_media_handler import BaseMediaHandler
 from korone.modules.medias.utils.bluesky.api import fetch_bluesky, get_username_and_post_id
 from korone.utils.i18n import gettext as _
 
-URL_PATTERN = re.compile(r"(?:https?://)?(?:www\.)?bsky\.app/.*?(?=\s|$)")
+URL_PATTERN = re.compile(
+    r"""
+    (?:(?:https?://))?
+    (?:www\.)?
+    bsky\.app
+    /
+    .+?(?=\s|$)
+    """,
+    re.VERBOSE | re.IGNORECASE,
+)
 
 
 @router.message(Regex(URL_PATTERN))

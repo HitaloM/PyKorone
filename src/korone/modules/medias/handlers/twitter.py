@@ -30,11 +30,21 @@ from korone.modules.medias.utils.twitter.types import Tweet
 from korone.utils.i18n import gettext as _
 
 URL_PATTERN = re.compile(
-    r"(?:(?:https?):\/\/)?"
-    r"(?:www\.)?"
-    r"(?:(?:twitter|x|fxtwitter|vxtwitter|fix(?:upx|vx))\.com)"
-    r"/.+?/status/\d+",
-    re.IGNORECASE,
+    r"""
+    (?:(?:https?):\/\/)?
+    (?:www\.)?
+    (?:
+        twitter |
+        x |
+        fxtwitter |
+        vxtwitter |
+        fix(?:upx|vx)
+    )
+    \.com
+    /.+?/status/
+    \d+
+    """,
+    re.IGNORECASE | re.VERBOSE,
 )
 
 
