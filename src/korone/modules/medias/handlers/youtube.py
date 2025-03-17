@@ -3,6 +3,7 @@
 
 import html
 import re
+from pathlib import Path
 
 from babel.numbers import format_number
 from hairydogm.chat_action import ChatActionSender
@@ -43,23 +44,19 @@ YOUTUBE_REGEX = re.compile(
 
 @router.message(Command("ytdl"))
 async def ytdl_command(client: Client, message: Message) -> None:
-    command = CommandObject(message).parse()
-    args = await get_args(command, message)
-    if not args:
+    args = await get_args(CommandObject(message).parse(), message)
+    if args is None:
         return
 
     if not YOUTUBE_REGEX.search(args):
-        await message.reply(_("Invalid YouTube URL!"))
+        await message.reply(_("Invalid or missing YouTube URL!"))
         return
 
     ytdl = YtdlpManager()
-    chat_id = message.chat.id
-
-    async with ChatActionSender(client=client, chat_id=chat_id):
+    async with ChatActionSender(client=client, chat_id=message.chat.id):
         yt_info = await fetch_video_info(ytdl, args, message)
         if not yt_info:
             return
-
         text = build_video_info_text(yt_info)
         keyboard = build_keyboard(yt_info)
         await message.reply(text, reply_markup=keyboard)
@@ -69,16 +66,12 @@ async def get_args(command: CommandObject, message: Message) -> str | None:
     if command.args:
         return command.args
     if message.reply_to_message and message.reply_to_message.text:
-        if args_match := YOUTUBE_REGEX.search(message.reply_to_message.text):
-            return args_match.group()
+        match = YOUTUBE_REGEX.search(message.reply_to_message.text)
+        if match:
+            return match.group()
         await message.reply(_("No YouTube URL found in the replied message."))
-        return None
-    await message.reply(
-        _(
-            "You need to provide a URL or reply to a message that contains a URL. "
-            "Example: <code>/ytdl https://www.youtube.com/watch?v=dQw4w9WgXcQ</code>"
-        )
-    )
+    else:
+        await message.reply(_("Provide a URL or reply with one."))
     return None
 
 
@@ -90,36 +83,37 @@ async def fetch_video_info(ytdl: YtdlpManager, url: str, message: Message) -> Vi
         return None
 
 
+def format_duration(duration: int) -> str:
+    hours, remainder = divmod(duration, 3600)
+    minutes, seconds = divmod(remainder, 60)
+    if hours:
+        return _("<b>Duration:</b> {hours}h {minutes}m {seconds}s\n").format(
+            hours=hours, minutes=minutes, seconds=seconds
+        )
+    if minutes:
+        return _("<b>Duration:</b> {minutes}m {seconds}s\n").format(
+            minutes=minutes, seconds=seconds
+        )
+    return _("<b>Duration:</b> {seconds}s\n").format(seconds=seconds)
+
+
 def build_video_info_text(yt_info: VideoInfo) -> str:
-    text = _("<b>Title:</b> {title}\n").format(title=html.escape(yt_info.title))
-    text += _("<b>Uploader:</b> {uploader}\n").format(uploader=html.escape(yt_info.uploader))
-
-    match yt_info.duration:
-        case duration if duration >= 3600:
-            hours, remaining_seconds = divmod(duration, 3600)
-            minutes, seconds = divmod(remaining_seconds, 60)
-            text += _("<b>Duration:</b> {hours}h {minutes}m {seconds}s\n").format(
-                hours=hours, minutes=minutes, seconds=seconds
-            )
-        case duration if duration >= 60:
-            minutes, seconds = divmod(duration, 60)
-            text += _("<b>Duration:</b> {minutes}m {seconds}s\n").format(
-                minutes=minutes, seconds=seconds
-            )
-        case seconds:
-            text += _("<b>Duration:</b> {seconds}s\n").format(seconds=seconds)
-
     locale = get_i18n().current_locale
-    view_count = format_number(yt_info.view_count, locale=locale)
-    text += _("<b>Views:</b> {view_count}\n").format(view_count=view_count)
-
-    if yt_info.like_count is None:
-        text += _("<b>Likes:</b> Unknown\n")
-    else:
-        like_count = format_number(yt_info.like_count, locale=locale)
-        text += _("<b>Likes:</b> {like_count}\n").format(like_count=like_count)
-
-    return text
+    return (
+        _("<b>Title:</b> {title}\n").format(title=html.escape(yt_info.title))
+        + _("<b>Uploader:</b> {uploader}\n").format(uploader=html.escape(yt_info.uploader))
+        + format_duration(yt_info.duration)
+        + _("<b>Views:</b> {views}\n").format(
+            views=format_number(yt_info.view_count, locale=locale)
+        )
+        + (
+            _("<b>Likes:</b> {likes}\n").format(
+                likes=format_number(yt_info.like_count, locale=locale)
+            )
+            if yt_info.like_count is not None
+            else _("<b>Likes:</b> Unknown\n")
+        )
+    )
 
 
 def build_keyboard(yt_info: VideoInfo) -> InlineKeyboardMarkup:
@@ -139,7 +133,6 @@ def build_keyboard(yt_info: VideoInfo) -> InlineKeyboardMarkup:
 async def handle_ytdl_callback(client: Client, callback: CallbackQuery) -> None:
     if not callback.data:
         return
-
     query = YtGetCallback.unpack(callback.data)
     if query.media_type in {YtMediaType.Video, YtMediaType.Audio}:
         url = f"https://www.youtube.com/watch?v={query.media_id}"
@@ -159,26 +152,26 @@ async def download_and_send_media(
     )
 
     await message.edit(_("Downloading..."))
-    yt = await download_media(download_method, url, message)
+    yt = await download_and_handle(download_method, url, message)
     if not yt:
         return
 
     await message.edit(_("Uploading..."))
     caption = f"<a href='{url}'>{yt.title}</a>"
-
     await upload_media(client, message, action, media_type, ytdl, yt, caption)
     await message.delete()
     ytdl.clear()
 
 
-async def download_media(download_method, url: str, message: Message) -> VideoInfo | None:
+async def download_and_handle(download_method, url: str, message: Message) -> VideoInfo | None:
     try:
         return await download_method(url)
     except DownloadError as e:
-        if "requested format is not available" in str(e).lower():
-            text = "Sorry, I am unable to download this media. It may exceed the 300MB size limit."
-        else:
-            text = _("Failed to download the media.")
+        text = (
+            "Sorry, I am unable to download this media. It may exceed the 300MB size limit."
+            if "requested format is not available" in str(e).lower()
+            else _("Failed to download the media.")
+        )
         await message.edit(text)
         return None
 
@@ -195,8 +188,8 @@ async def upload_media(
     if not ytdl.file_path:
         await message.edit(_("Failed to download the media."))
         return
-
     async with ChatActionSender(client=client, chat_id=message.chat.id, action=action):
+        thumb = Path(str(yt.thumbnail)).as_posix() if yt.thumbnail else None
         if media_type == YtMediaType.Video:
             await client.send_video(
                 message.chat.id,
@@ -204,7 +197,7 @@ async def upload_media(
                 caption=caption,
                 no_sound=True,
                 duration=yt.duration,
-                thumb=yt.thumbnail.as_posix() if yt.thumbnail else None,
+                thumb=thumb,
                 height=yt.height,
                 width=yt.width,
             )
@@ -216,5 +209,5 @@ async def upload_media(
                 duration=yt.duration,
                 performer=yt.uploader,
                 title=yt.title,
-                thumb=yt.thumbnail.as_posix() if yt.thumbnail else None,
+                thumb=thumb,
             )

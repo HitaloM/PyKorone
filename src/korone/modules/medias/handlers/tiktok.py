@@ -7,11 +7,7 @@ from typing import cast
 
 from hairydogm.chat_action import ChatActionSender
 from hydrogram.enums import ChatAction
-from hydrogram.types import (
-    InputMediaPhoto,
-    InputMediaVideo,
-    Message,
-)
+from hydrogram.types import InputMediaPhoto, InputMediaVideo, Message
 
 from korone.decorators import router
 from korone.filters import Regex

@@ -33,13 +33,13 @@ class YTDL:
     __slots__ = ("download", "file_path", "options")
 
     def __init__(self, download: bool) -> None:
+        self.download = download
+        self.file_path = None
         self.options = {
             "quiet": True,
             "no_warnings": True,
             "proxy": PROXY,
         }
-        self.download: bool = download
-        self.file_path: str | None = None
 
     async def process_url(self, url: str) -> dict[str, Any] | None:
         try:
@@ -50,20 +50,8 @@ class YTDL:
                     self.file_path = Path(ydl.prepare_filename(info)).as_posix()
                 return info
         except yt_dlp.DownloadError as e:
-            await logger.aexception("[Medias/YouTube] Error downloading content from '%s'", url)
+            await logger.aexception("[YouTube] Error downloading '%s'", url)
             raise DownloadError(e.msg) from e
-
-    async def _download(self, url: str, options: dict[str, Any]) -> VideoInfo:
-        self.options.update(options)
-        self.download = True
-        info = await self.process_url(url)
-        if not info or not self.file_path:
-            msg = "Failed to download content!"
-            raise DownloadError(msg)
-
-        await logger.adebug("Download completed for %s, saved to %s", url, self.file_path)
-
-        return await self.generate_videoinfo(info)
 
     async def get_info(self, url: str, options: dict[str, Any]) -> VideoInfo:
         self.options.update(options)
@@ -72,23 +60,28 @@ class YTDL:
             info = await self.process_url(url)
         except DownloadError as e:
             raise InfoExtractionError(e) from e
-
         if not info:
-            msg = "Failed to extract video info!"
+            msg = "No info extracted!"
             raise InfoExtractionError(msg)
+        await logger.adebug("Info extracted for %s", url)
+        return await self.generate_videoinfo(info)
 
-        await logger.adebug("Information extracted for %s", url)
+    async def _download(self, url: str, options: dict[str, Any]) -> VideoInfo:
+        self.options.update(options)
+        self.download = True
+        info = await self.process_url(url)
+        if not info or not self.file_path:
+            msg = "Download failed!"
+            raise DownloadError(msg)
+        await logger.adebug("Downloaded %s to %s", url, self.file_path)
         return await self.generate_videoinfo(info)
 
     async def generate_videoinfo(self, info: dict[str, Any]) -> VideoInfo:
-        thumbnail = None
         if self.download and self.file_path:
             thumbnail = Path(self.file_path).with_suffix(".jpeg").as_posix()
             await asyncio.to_thread(resize_thumbnail, thumbnail)
-
-        info["thumbnail"] = thumbnail
+            info["thumbnail"] = thumbnail
         info["uploader"] = info.get("artist") or info.get("uploader", "")
-
         return VideoInfo.model_validate(info)
 
 
@@ -96,29 +89,23 @@ class YtdlpManager:
     __slots__ = ("audio_options", "file_path", "thumbnail_path", "timestamp", "video_options")
 
     def __init__(self) -> None:
-        self.thumbnail_path: str | None = None
-        self.file_path: str | None = None
+        self.file_path = None
+        self.thumbnail_path = None
         self.timestamp = datetime.now(UTC).strftime("%d%m%Y%H%M%S")
-
         self.audio_options = self._get_options("bestaudio[filesize<=300M][ext=m4a]")
         self.video_options = self._get_options(
             "mergeall[filesize<=300M][height<=1080][ext=mp4]+140"
         )
 
-    def _get_options(self, format_str: str) -> dict[str, Any]:
+    def _get_options(self, fmt: str) -> dict[str, Any]:
         return {
             "quiet": True,
             "no_warnings": True,
             "format_sort": ["size"],
-            "postprocessors": [
-                {
-                    "key": "FFmpegThumbnailsConvertor",
-                    "format": "jpeg",
-                },
-            ],
+            "postprocessors": [{"key": "FFmpegThumbnailsConvertor", "format": "jpeg"}],
             "writethumbnail": True,
             "outtmpl": f"downloads/%(title)s [%(id)s] {self.timestamp}.%(ext)s",
-            "format": format_str,
+            "format": fmt,
             "proxy": PROXY,
         }
 
@@ -130,10 +117,10 @@ class YtdlpManager:
     async def download(self, url: str, options: dict[str, Any]) -> VideoInfo:
         ytdl = YTDL(download=True)
         info = await ytdl._download(url, options)
-
-        self.thumbnail_path = info.thumbnail.as_posix() if info.thumbnail else None
         self.file_path = ytdl.file_path
-
+        self.thumbnail_path = (
+            Path(self.file_path).with_suffix(".jpeg").as_posix() if self.file_path else None
+        )
         return info
 
     async def download_video(self, url: str) -> VideoInfo:
@@ -146,4 +133,4 @@ class YtdlpManager:
         for path in [self.file_path, self.thumbnail_path]:
             if path and Path(path).exists():
                 Path(path).unlink(missing_ok=True)
-                logger.debug("Removed file %s", path)
+                logger.debug("Removed %s", path)
