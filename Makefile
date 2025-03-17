@@ -59,7 +59,9 @@ test_code_style:
 test_codeanalysis:
 	# poetry run python -m bandit sophie_bot/ -r
 	poetry run mypy -p sophie_bot
-	# python -m pytest tests -v --alluredir=allure_results
+
+tests:
+	poetry run pytest sophie_bot -v --alluredir=allure_results .
 
 # Locale
 
