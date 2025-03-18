@@ -78,6 +78,7 @@ live-docs = { cmd = "sphinx-autobuild  docs/source docs/build --watch src" }
 extract-locales = { cmd = "pybabel extract --keywords='__ _' --input-dirs=. -o locales/bot.pot" }
 compile-locales = { cmd = "pybabel compile -d locales -D bot" }
 clean-locales = { cmd = "find . -name '*.mo' -type f -delete" }
+update-locales = { cmd = "pybabel update -i locales/bot.pot -d locales -D bot" }
 
 towncrier = { cmd = "towncrier build --yes" }
 towncrier-draft = { cmd = "towncrier build --draft" }
