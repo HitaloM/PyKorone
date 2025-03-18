@@ -8,15 +8,16 @@ msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2025-03-16 21:29-0300\n"
-"PO-Revision-Date: 2024-12-12 21:50+0000\n"
-"Last-Translator: Hitalo <hitalo331@outlook.com>\n"
+"PO-Revision-Date: 2025-03-18 19:03+0000\n"
+"Last-Translator: \"Hitalo M.\" <hitalo331@outlook.com>\n"
+"Language-Team: Portuguese (Brazil) <http://weblate.amanoteam.com/projects/"
+"korone/korone/pt_BR/>\n"
 "Language: pt_BR\n"
-"Language-Team: Portuguese (Brazil) "
-"<http://weblate.amanoteam.com/projects/korone/korone/pt_BR/>\n"
-"Plural-Forms: nplurals=2; plural=n > 1;\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n > 1;\n"
+"X-Generator: Weblate 5.9.2\n"
 "Generated-By: Babel 2.17.0\n"
 
 #: src/korone/filters/admin.py:68
@@ -722,32 +723,27 @@ msgstr "Todo o tempo"
 
 #: src/korone/modules/medias/handlers/base_media_handler.py:30
 #: src/korone/modules/medias/handlers/base_media_handler.py:42
-#, fuzzy
 msgid "Open in"
-msgstr "Abrir no TikTok"
+msgstr "Abrir em"
 
 #: src/korone/modules/medias/handlers/bluesky.py:48
 #: src/korone/modules/medias/handlers/bluesky.py:54
-#, fuzzy
 msgid "BlueSky"
-msgstr "Abrir no BlueSky"
+msgstr "BlueSky"
 
 #: src/korone/modules/medias/handlers/instagram.py:53
 #: src/korone/modules/medias/handlers/instagram.py:59
-#, fuzzy
 msgid "Instagram"
-msgstr "Abrir no Instagram"
+msgstr "Instagram"
 
 #: src/korone/modules/medias/handlers/threads.py:49
 #: src/korone/modules/medias/handlers/threads.py:55
-#, fuzzy
 msgid "Threads"
-msgstr "Abrir em Tópicos"
+msgstr "Threads"
 
 #: src/korone/modules/medias/handlers/tiktok.py:48
-#, fuzzy
 msgid "TikTok"
-msgstr "Abrir no TikTok"
+msgstr "TikTok"
 
 #: src/korone/modules/medias/handlers/twitter.py:69
 #: src/korone/modules/medias/handlers/twitter.py:183
@@ -764,9 +760,8 @@ msgstr ""
 "<b>Enviado de:</b> <i>{source}</i>"
 
 #: src/korone/modules/medias/handlers/youtube.py:52
-#, fuzzy
 msgid "Invalid or missing YouTube URL!"
-msgstr "URL do YouTube inválida!"
+msgstr "URL do YouTube inválido ou ausente!"
 
 #: src/korone/modules/medias/handlers/youtube.py:72
 msgid "No YouTube URL found in the replied message."
@@ -774,7 +769,7 @@ msgstr "Nenhum URL do YouTube encontrado na mensagem respondida."
 
 #: src/korone/modules/medias/handlers/youtube.py:74
 msgid "Provide a URL or reply with one."
-msgstr ""
+msgstr "Forneça um URL ou responda a um."
 
 #: src/korone/modules/medias/handlers/youtube.py:82
 msgid "Failed to extract video info!"
@@ -806,14 +801,14 @@ msgid "<b>Uploader:</b> {uploader}\n"
 msgstr "<b>Uploader:</b> {uploader}\n"
 
 #: src/korone/modules/medias/handlers/youtube.py:106
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "<b>Views:</b> {views}\n"
-msgstr "<b>Visualizações:</b> {view_count}\n"
+msgstr "<b>Visualizações:</b> {views}\n"
 
 #: src/korone/modules/medias/handlers/youtube.py:110
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "<b>Likes:</b> {likes}\n"
-msgstr "<b>Curtidas:</b> {like_count}\n"
+msgstr "<b>Curtidas:</b> {likes}\n"
 
 #: src/korone/modules/medias/handlers/youtube.py:114
 msgid "<b>Likes:</b> Unknown\n"
