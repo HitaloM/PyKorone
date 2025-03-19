@@ -3,7 +3,7 @@ from unittest.mock import patch
 
 from aiogram import Dispatcher
 
-from sophie_bot import CONFIG
+from sophie_bot.config import CONFIG
 from sophie_bot.modules import load_modules
 from sophie_bot.utils.logger import log
 

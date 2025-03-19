@@ -46,7 +46,7 @@ from ass_tg.types import BooleanArg, TextArg
 from babel.dates import format_timedelta
 from captcha.image import ImageCaptcha
 
-from sophie_bot import CONFIG, bot, dp
+from sophie_bot.config import CONFIG, bot, dp
 from sophie_bot.modules.legacy_modules.utils.connections import chat_connection
 from sophie_bot.modules.legacy_modules.utils.language import get_strings_dec
 from sophie_bot.modules.legacy_modules.utils.message import (

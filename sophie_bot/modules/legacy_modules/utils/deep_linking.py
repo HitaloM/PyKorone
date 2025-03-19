@@ -46,7 +46,7 @@ Decode it back example:
 import re
 from base64 import urlsafe_b64encode
 
-from sophie_bot import bot
+from sophie_bot.services.bot import bot
 
 BAD_PATTERN = re.compile(r"[^_A-z0-9-]")
 

@@ -1,6 +1,6 @@
 from openai import AsyncOpenAI
 
-from sophie_bot import CONFIG
+from sophie_bot.config import CONFIG
 
 openai_client = AsyncOpenAI(
     api_key=CONFIG.openai_key,

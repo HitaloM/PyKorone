@@ -10,7 +10,7 @@ from aiogram.filters.callback_data import _check_field_is_nullable
 from aiogram.types import Chat, Message
 from pydantic import BaseModel
 
-from sophie_bot import CONFIG
+from sophie_bot.config import CONFIG
 from sophie_bot.filters.cmd import CMDFilter
 
 

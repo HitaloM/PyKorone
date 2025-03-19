@@ -2,7 +2,7 @@ from random import randint
 
 from aiohttp import ClientError, ClientSession
 
-from sophie_bot import CONFIG
+from sophie_bot.config import CONFIG
 from sophie_bot.db.models import BetaModeModel, GlobalSettings
 from sophie_bot.db.models.beta import CurrentMode, PreferredMode
 from sophie_bot.utils.logger import log

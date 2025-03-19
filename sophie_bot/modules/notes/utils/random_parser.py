@@ -13,23 +13,35 @@ def parse_random_text(text: str) -> str:
     Input: "Hello\n%%%\nworld\n%%%\nuniverse\n%%%\n"
     Output: "Hello\nworld"
     """
-    # If no delimiters, return the text as is
     if "%%%" not in text:
         return text
 
-    result = []
     parts = text.split("%%%")
+    result = []
 
-    for i in range(0, len(parts), 2):
-        # Add non-delimited parts
-        if parts[i].strip():
-            result.append(parts[i])
+    i = 0
+    while i < len(parts):
+        # Non-delimited part, keep as-is
+        result.append(parts[i])
 
-        # Handle random selection for delimited parts
+        # Delimited segment follows if not at the end
         if i + 1 < len(parts):
-            # Split and strip options, keeping whitespace (including newlines)
-            options = [opt for opt in parts[i + 1].split('%%%') if opt.strip()]
+            options = []
+            # Gather delimited options until next regular part or end
+            j = i + 1
+            while j < len(parts) and parts[j].strip() == "":
+                # Skip empty segments (consecutive delimiters)
+                j += 1
+            if j < len(parts):
+                options.append(parts[j])
+                j += 1
+            while j < len(parts) and parts[j].strip() != "":
+                options.append(parts[j])
+                j += 1
             if options:
-                result.append(choice(options))
+                selected_option = choice([opt for opt in options if opt.strip() != ""])
+                result.append(selected_option)
+            i = j - 1  # adjust the index to right position
+        i += 1
 
-    return ''.join(result)
+    return "".join(result).rstrip()

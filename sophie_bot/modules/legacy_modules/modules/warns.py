@@ -31,7 +31,7 @@ from ass_tg.types import TextArg
 from babel.dates import format_timedelta
 from bson.objectid import ObjectId
 
-from sophie_bot import CONFIG, bot, dp
+from sophie_bot.config import CONFIG
 from sophie_bot.filters.admin_rights import BotHasPermissions, UserRestricting
 from sophie_bot.modules.legacy_modules.utils.deep_linking import get_start_link
 from sophie_bot.modules.legacy_modules.utils.language import get_strings_dec
@@ -47,6 +47,7 @@ from sophie_bot.modules.legacy_modules.utils.user_details import (
     get_user_link,
     is_user_admin,
 )
+from sophie_bot.services.bot import bot, dp
 from sophie_bot.services.db import db
 from sophie_bot.utils.i18n import lazy_gettext as l_
 

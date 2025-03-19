@@ -3,11 +3,11 @@ from aiogram.dispatcher.event.handler import CallbackType
 from aiogram.handlers import MessageHandler
 from ass_tg.types import TextArg
 
-from sophie_bot import bot
 from sophie_bot.filters.cmd import CMDFilter
 from sophie_bot.modules.ai.filters.ai_enabled import AIEnabledFilter
 from sophie_bot.modules.ai.utils.ai_chatbot import ai_reply
 from sophie_bot.modules.ai.utils.message_history import AIMessageHistory
+from sophie_bot.services.bot import bot
 from sophie_bot.utils.i18n import lazy_gettext as l_
 
 

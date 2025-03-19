@@ -36,7 +36,6 @@ from aiogram.types import (
 from ass_tg.types import BooleanArg, IntArg
 from babel.dates import format_timedelta
 
-from sophie_bot import dp
 from sophie_bot.filters.admin_rights import BotHasPermissions, UserRestricting
 from sophie_bot.filters.cmd import CMDFilter
 from sophie_bot.modules.legacy_modules.utils.connections import chat_connection
@@ -60,6 +59,7 @@ from sophie_bot.modules.legacy_modules.utils.user_details import (
     get_user_link,
     is_user_admin,
 )
+from sophie_bot.services.bot import dp
 from sophie_bot.services.db import db
 from sophie_bot.services.redis import bredis, redis
 from sophie_bot.utils.cached import cached

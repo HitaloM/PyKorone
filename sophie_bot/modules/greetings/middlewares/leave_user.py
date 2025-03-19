@@ -4,7 +4,7 @@ from aiogram import BaseMiddleware
 from aiogram.dispatcher.event.bases import SkipHandler
 from aiogram.types import Message, TelegramObject
 
-from sophie_bot import CONFIG
+from sophie_bot.config import CONFIG
 from sophie_bot.db.models import GreetingsModel
 
 

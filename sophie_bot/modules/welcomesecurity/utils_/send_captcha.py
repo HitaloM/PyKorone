@@ -7,8 +7,8 @@ from aiogram.types import (
     Message,
 )
 
-from sophie_bot import bot
 from sophie_bot.modules.welcomesecurity.utils_.emoji_captcha import EmojiCaptcha
+from sophie_bot.services.bot import bot
 
 
 async def send_captcha_message(

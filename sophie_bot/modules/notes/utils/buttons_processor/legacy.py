@@ -2,7 +2,7 @@ from re import findall, sub
 
 from aiogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 
-from sophie_bot import CONFIG
+from sophie_bot.config import CONFIG
 
 BUTTONS: dict[str, str] = {}
 

@@ -9,7 +9,7 @@ from sentry_sdk import capture_exception
 from stfu_tg import BlockQuote, Code, Doc, Italic, KeyValue, Title
 from stfu_tg.doc import Element
 
-from sophie_bot import CONFIG
+from sophie_bot.config import CONFIG
 from sophie_bot.modules.error.utils.haikus import HAIKUS
 from sophie_bot.modules.error.utils.ignored import QUIET_EXCEPTIONS
 from sophie_bot.utils.exception import SophieException

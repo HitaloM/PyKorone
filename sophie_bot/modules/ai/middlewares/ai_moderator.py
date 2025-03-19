@@ -6,7 +6,6 @@ from aiogram.types import Message, TelegramObject
 from openai.types.moderation import Categories
 from stfu_tg import Doc, KeyValue, Section, Title, UserLink, VList
 
-from sophie_bot import bot
 from sophie_bot.db.models import AIModeratorModel, ChatModel
 from sophie_bot.db.models.chat import ChatType
 from sophie_bot.modules.ai.utils.ai_moderator import (
@@ -14,6 +13,7 @@ from sophie_bot.modules.ai.utils.ai_moderator import (
     check_moderator,
 )
 from sophie_bot.modules.legacy_modules.utils.user_details import is_user_admin
+from sophie_bot.services.bot import bot
 from sophie_bot.utils.i18n import gettext as _
 from sophie_bot.utils.i18n import ngettext as pl_
 

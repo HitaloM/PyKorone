@@ -5,7 +5,7 @@ from aiogram.types import InlineKeyboardButton
 from aiogram.utils.keyboard import InlineKeyboardBuilder
 from stfu_tg import Code, Doc, HList, Section, Template, Title, VList
 
-from sophie_bot import CONFIG
+from sophie_bot.config import CONFIG
 from sophie_bot.db.models.filters import FilterInSetupType
 from sophie_bot.filters.admin_rights import UserRestricting
 from sophie_bot.filters.is_connected import GroupOrConnectedFilter

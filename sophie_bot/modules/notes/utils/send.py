@@ -26,7 +26,6 @@ from aiogram.types import (
 )
 from stfu_tg.doc import Element
 
-from sophie_bot import bot
 from sophie_bot.db.models.notes import Saveable, SaveableParseMode
 from sophie_bot.modules.notes.utils.buttons_processor.legacy import legacy_button_parser
 from sophie_bot.modules.notes.utils.fillings import process_fillings
@@ -36,6 +35,7 @@ from sophie_bot.modules.notes.utils.parse import (
 )
 from sophie_bot.modules.notes.utils.unparse_legacy import legacy_markdown_to_html
 from sophie_bot.modules.utils_.common_try import common_try
+from sophie_bot.services.bot import bot
 from sophie_bot.utils.exception import SophieException
 from sophie_bot.utils.i18n import gettext as _
 

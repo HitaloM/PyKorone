@@ -6,7 +6,7 @@ from aiogram.types import CallbackQuery, InlineKeyboardButton
 from aiogram.utils.keyboard import InlineKeyboardBuilder
 from stfu_tg import Doc, HList, Section, Title, Url
 
-from sophie_bot import CONFIG
+from sophie_bot.config import CONFIG
 from sophie_bot.filters.chat_status import ChatTypeFilter
 from sophie_bot.filters.cmd import CMDFilter
 from sophie_bot.modules.help.callbacks import (

@@ -5,11 +5,12 @@ from aiogram.dispatcher.event.handler import CallbackType
 from aiogram.handlers import MessageHandler
 from aiogram.types import Message
 
-from sophie_bot import CONFIG, bot
+from sophie_bot.config import CONFIG
 from sophie_bot.modules.ai.filters.throttle import AIThrottleFilter
 from sophie_bot.modules.ai.utils.ai_chatbot import ai_reply
 from sophie_bot.modules.ai.utils.message_history import AIMessageHistory
 from sophie_bot.modules.ai.utils.self_reply import is_ai_message
+from sophie_bot.services.bot import bot
 
 
 @flags.ai_cache(cache_handler_result=True)

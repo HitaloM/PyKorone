@@ -6,7 +6,7 @@ from aiogram.types import CallbackQuery, InlineKeyboardButton
 from aiogram.utils.keyboard import InlineKeyboardBuilder
 from babel.messages import Message
 
-from sophie_bot import CONFIG
+from sophie_bot.config import CONFIG
 from sophie_bot.utils.i18n import gettext as _
 from sophie_bot.utils.i18n import lazy_gettext as l_
 

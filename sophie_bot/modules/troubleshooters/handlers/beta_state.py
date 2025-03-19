@@ -3,7 +3,7 @@ from aiogram.types import InlineKeyboardButton, InlineKeyboardMarkup, Message
 from ass_tg.types import OneOf
 from stfu_tg import Italic, KeyValue, Section, Template
 
-from sophie_bot import CONFIG
+from sophie_bot.config import CONFIG
 from sophie_bot.db.models import GlobalSettings
 from sophie_bot.db.models.beta import BetaModeModel, PreferredMode
 from sophie_bot.utils.i18n import gettext as _

@@ -3,7 +3,7 @@ from typing import Any, Awaitable, Callable, Iterable, List, Optional
 from aiogram import BaseMiddleware
 from aiogram.types import Chat, ChatMemberUpdated, Message, Update, User
 
-from sophie_bot import CONFIG
+from sophie_bot.config import CONFIG
 from sophie_bot.db.models import ChatModel
 from sophie_bot.db.models.chat import ChatTopicModel, UserInGroupModel
 

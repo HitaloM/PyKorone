@@ -6,7 +6,7 @@ from aiogram.handlers import MessageHandler
 from aiogram.types import KeyboardButton, ReplyKeyboardMarkup, ReplyKeyboardRemove
 from stfu_tg import Bold, Doc, Template, Url
 
-from sophie_bot import CONFIG, bot
+from sophie_bot.config import CONFIG
 from sophie_bot.filters.chat_status import ChatTypeFilter
 from sophie_bot.filters.cmd import CMDFilter
 from sophie_bot.modules.ai.filters.ai_enabled import AIEnabledFilter
@@ -14,6 +14,7 @@ from sophie_bot.modules.ai.filters.throttle import AIThrottleFilter
 from sophie_bot.modules.ai.fsm.pm import AI_PM_RESET, AI_PM_STOP_TEXT, AiPMFSM
 from sophie_bot.modules.ai.utils.ai_chatbot import ai_reply
 from sophie_bot.modules.ai.utils.message_history import AIMessageHistory
+from sophie_bot.services.bot import bot
 from sophie_bot.utils.i18n import gettext as _
 from sophie_bot.utils.i18n import lazy_gettext as l_
 

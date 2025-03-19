@@ -25,8 +25,8 @@ LOCALES_DIR := $(CURDIR)/locales
 
 
 all: fix_code_style locale test_all clean build_onefile
-commit: fix_code_style extract_lang test_code_style test_codeanalysis gen_wiki
-test_all: test_code_style test_codeanalysis
+commit: fix_code_style extract_lang test_code_style test_codeanalysis run_tests gen_wiki
+test_all: test_code_style test_codeanalysis run_tests
 locale: extract_lang update_lang compile_lang
 
 
@@ -60,8 +60,8 @@ test_codeanalysis:
 	# poetry run python -m bandit sophie_bot/ -r
 	poetry run mypy -p sophie_bot
 
-tests:
-	poetry run pytest sophie_bot -v --alluredir=allure_results .
+run_tests:
+	poetry run pytest tests/ -v --alluredir=allure_results
 
 # Locale
 

@@ -4,7 +4,7 @@ import structlog
 from aiogram.loggers import event
 from structlog.typing import EventDict
 
-from sophie_bot import CONFIG
+from sophie_bot.config import CONFIG
 
 timestamper = structlog.processors.TimeStamper(fmt="%Y-%m-%d %H:%M:%S")
 

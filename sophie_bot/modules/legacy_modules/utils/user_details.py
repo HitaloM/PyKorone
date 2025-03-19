@@ -11,9 +11,9 @@ from aiogram.enums import ChatMemberStatus
 from aiogram.exceptions import TelegramBadRequest
 from aiogram.types import CallbackQuery, Message, MessageEntity
 
-from sophie_bot import bot
 from sophie_bot.config import CONFIG
 from sophie_bot.modules.legacy_modules.utils.message import get_arg, get_args_str
+from sophie_bot.services.bot import bot
 from sophie_bot.services.db import db
 from sophie_bot.services.redis import bredis
 from sophie_bot.utils.logger import log

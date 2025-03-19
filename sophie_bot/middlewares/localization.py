@@ -3,7 +3,7 @@ from typing import Any, Optional
 from aiogram.types import TelegramObject
 from aiogram.utils.i18n.middleware import I18nMiddleware
 
-from sophie_bot import CONFIG
+from sophie_bot.config import CONFIG
 from sophie_bot.db.models import ChatModel
 from sophie_bot.modules.legacy_modules.utils.language import get_chat_lang
 from sophie_bot.utils.logger import log

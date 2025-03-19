@@ -53,7 +53,6 @@ from ass_tg.types import TextArg
 from babel.dates import format_timedelta
 from pymongo import DeleteMany, InsertOne
 
-from sophie_bot import bot, dp
 from sophie_bot.config import CONFIG
 from sophie_bot.modules.legacy_modules.utils.connections import (
     chat_connection,
@@ -78,6 +77,7 @@ from sophie_bot.modules.legacy_modules.utils.user_details import (
     get_user_link,
     is_chat_creator,
 )
+from sophie_bot.services.bot import bot, dp
 from sophie_bot.services.db import db
 from sophie_bot.services.redis import redis
 from sophie_bot.utils.cached import cached

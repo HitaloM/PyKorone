@@ -27,7 +27,7 @@ from aiogram.types import Message
 from ass_tg.types import TextArg
 from babel.dates import format_timedelta
 
-from sophie_bot import CONFIG, bot
+from sophie_bot.config import CONFIG
 from sophie_bot.filters.admin_rights import BotHasPermissions, UserRestricting
 from sophie_bot.modules.legacy_modules.utils.language import get_strings_dec
 from sophie_bot.modules.legacy_modules.utils.message import (
@@ -42,6 +42,7 @@ from sophie_bot.modules.legacy_modules.utils.user_details import (
     get_user_link,
     is_user_admin,
 )
+from sophie_bot.services.bot import bot
 from sophie_bot.services.redis import redis
 from sophie_bot.utils.i18n import lazy_gettext as l_
 

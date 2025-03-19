@@ -10,9 +10,9 @@ from aiogram.webhook.security import IPFilter
 from aiohttp.web import run_app
 from aiohttp.web_app import Application
 
-from sophie_bot import bot, dp
 from sophie_bot.config import CONFIG
 from sophie_bot.middlewares import enable_middlewares
+from sophie_bot.services.bot import bot, dp
 from sophie_bot.startup import start_init
 from sophie_bot.utils.logger import log
 

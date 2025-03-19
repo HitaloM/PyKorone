@@ -40,7 +40,6 @@ flake8 = "~7"
 flake8-isort = "~6"
 yapf = "*"
 devtools = { extras = ["pygments"], version = "~0.12" }
-pytest = "^8"
 black = "~24"
 mypy = "^1.11"
 types-ujson = "^5.10.0.20240515"
@@ -48,6 +47,8 @@ types-pytz = "^2024.1.0.20240417"
 pytest-asyncio = "^0.24"
 babel = "^2.16.0"
 allure-pytest = "^2.13.5"
+pytest = "^8.3.5"
+fakeredis = "^2.27.0"
 
 [tool.poetry.extras]
 fast = ["aiohttp", "cryptg", "cryptography"]

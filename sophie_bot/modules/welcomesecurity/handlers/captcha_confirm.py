@@ -5,7 +5,6 @@ from aiogram.filters import or_f
 from aiogram.types import Message
 from beanie import PydanticObjectId
 
-from sophie_bot import bot
 from sophie_bot.db.models import ChatModel, GreetingsModel, RulesModel
 from sophie_bot.modules.utils_.base_handler import SophieCallbackQueryHandler
 from sophie_bot.modules.utils_.common_try import common_try
@@ -17,6 +16,7 @@ from sophie_bot.modules.welcomesecurity.handlers.captcha_get import CaptchaGetHa
 from sophie_bot.modules.welcomesecurity.utils_.captcha_done import captcha_done
 from sophie_bot.modules.welcomesecurity.utils_.captcha_rules import captcha_send_rules
 from sophie_bot.modules.welcomesecurity.utils_.emoji_captcha import EmojiCaptcha
+from sophie_bot.services.bot import bot
 from sophie_bot.services.redis import aredis
 from sophie_bot.utils.exception import SophieException
 

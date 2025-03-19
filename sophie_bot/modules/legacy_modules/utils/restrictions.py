@@ -5,7 +5,7 @@ from aiogram.exceptions import (
 )
 from aiogram.types.chat_permissions import ChatPermissions
 
-from sophie_bot import bot
+from sophie_bot.services.bot import bot
 
 
 async def ban_user(chat_id, user_id, until_date=None):

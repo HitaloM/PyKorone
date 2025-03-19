@@ -21,11 +21,11 @@ from sentry_sdk.integrations.aiohttp import AioHttpIntegration
 from sentry_sdk.integrations.pymongo import PyMongoIntegration
 from sentry_sdk.integrations.redis import RedisIntegration
 
-from sophie_bot import SOPHIE_VERSION
 from sophie_bot.config import CONFIG
 from sophie_bot.modes import SOPHIE_MODE
 from sophie_bot.modules.error.utils.ignored import IGNORED_EXCEPTIONS
 from sophie_bot.utils.logger import log
+from sophie_bot.versions import SOPHIE_VERSION
 
 
 def init_sentry():

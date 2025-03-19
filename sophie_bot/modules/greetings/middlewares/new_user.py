@@ -6,7 +6,7 @@ from aiogram.types import InlineKeyboardButton, Message, TelegramObject
 from aiogram.utils.keyboard import InlineKeyboardBuilder
 from stfu_tg import Doc
 
-from sophie_bot import CONFIG, bot
+from sophie_bot.config import CONFIG
 from sophie_bot.db.models import ChatModel, GreetingsModel, RulesModel
 from sophie_bot.db.models.notes import Saveable
 from sophie_bot.modules.greetings.default_welcome import (
@@ -18,6 +18,7 @@ from sophie_bot.modules.legacy_modules.utils.user_details import is_user_admin
 from sophie_bot.modules.utils_.common_try import common_try
 from sophie_bot.modules.welcomesecurity.utils_.on_new_user import ws_on_new_users
 from sophie_bot.modules.welcomesecurity.utils_.welcomemute import on_welcomemute
+from sophie_bot.services.bot import bot
 from sophie_bot.services.redis import aredis
 from sophie_bot.utils.i18n import gettext as _
 

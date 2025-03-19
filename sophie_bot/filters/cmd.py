@@ -7,7 +7,7 @@ from aiogram.filters.command import CommandException, CommandObject
 from aiogram.types import Chat, Message, MessageEntity
 from magic_filter import MagicFilter
 
-from sophie_bot import CONFIG
+from sophie_bot.config import CONFIG
 
 CMD_TYPE = Union[str, Pattern]
 

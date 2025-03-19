@@ -3,8 +3,8 @@ from typing import BinaryIO, Optional
 
 from aiogram.types import Voice
 
-from sophie_bot import bot
 from sophie_bot.services.ai import openai_client
+from sophie_bot.services.bot import bot
 
 
 async def transform_voice_to_text(voice: Voice) -> str:

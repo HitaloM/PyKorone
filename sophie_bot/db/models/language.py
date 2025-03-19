@@ -2,7 +2,7 @@ from typing import Annotated
 
 from beanie import Document, Indexed
 
-from sophie_bot import CONFIG
+from sophie_bot.config import CONFIG
 
 
 class LanguageModel(Document):

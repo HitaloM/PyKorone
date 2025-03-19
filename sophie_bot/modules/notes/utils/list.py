@@ -1,6 +1,6 @@
 from stfu_tg import HList, Italic, Section, Spacer, VList
 
-from sophie_bot import CONFIG
+from sophie_bot.config import CONFIG
 from sophie_bot.db.models import NoteModel
 from sophie_bot.modules.notes.utils.names import format_notes_aliases
 

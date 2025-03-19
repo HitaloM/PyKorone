@@ -2,7 +2,7 @@ from asyncio import gather
 
 from aiogram import Dispatcher
 
-from sophie_bot import CONFIG
+from sophie_bot.config import CONFIG
 from sophie_bot.modules import load_modules
 from sophie_bot.services.db import init_db
 

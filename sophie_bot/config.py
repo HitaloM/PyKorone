@@ -15,14 +15,14 @@ from pydantic_settings import BaseSettings
 
 
 class Config(BaseSettings):
-    token: str
+    token: str = "12345:ABCDEFG"
 
-    app_id: int
-    app_hash: str
-    username: str
+    app_id: int | None = None
+    app_hash: str | None = None
+    username: str | None = None
 
-    owner_id: int
-    operators: List[int]
+    owner_id: int | None = None
+    operators: List[int] = []
 
     mode: Literal["bot", "scheduler", "nostart"] = "bot"
 
@@ -86,7 +86,7 @@ class Config(BaseSettings):
     proxy_stable_instance_url: str = "http://host.container.internal:8071"
     proxy_beta_instance_url: str = "http://host.container.internal:8072"
 
-    openai_key: str
+    openai_key: str | None = None
     deepseek_key: Optional[str] = None
     ai_emoji: str = "✨"
     ai_autotrans_lowmem: bool = False
@@ -106,8 +106,12 @@ class Config(BaseSettings):
         return int(self.token.split(":")[0])
 
     @validator("operators")
-    def validate_operators(cls, value: List[int], values) -> List[int]:
+    def validate_operators(cls, value: List[int] | None, values) -> List[int]:
         owner_id = values["owner_id"]
+
+        if not value:
+            return [owner_id]
+
         if owner_id not in value:
             value.append(owner_id)
         return value

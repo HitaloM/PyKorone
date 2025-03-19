@@ -3,7 +3,7 @@ from typing import Any
 from aiogram import F
 from aiogram.dispatcher.event.handler import CallbackType
 
-from sophie_bot import CONFIG
+from sophie_bot.config import CONFIG
 from sophie_bot.db.models import (
     ChatModel,
     GreetingsModel,

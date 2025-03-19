@@ -1,6 +1,6 @@
 from enum import Enum
 
-from sophie_bot import CONFIG
+from sophie_bot.config import CONFIG
 
 
 class SophieModes(str, Enum):

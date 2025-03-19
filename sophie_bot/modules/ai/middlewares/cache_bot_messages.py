@@ -5,7 +5,7 @@ from aiogram.dispatcher.flags import get_flag
 from aiogram.types import Message, TelegramObject
 from pydantic import BaseModel
 
-from sophie_bot import CONFIG
+from sophie_bot.config import CONFIG
 from sophie_bot.db.models import ChatModel
 from sophie_bot.modules.ai.utils.cache_messages import cache_message
 from sophie_bot.modules.ai.utils.self_reply import cut_titlebar, is_ai_message

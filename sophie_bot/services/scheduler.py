@@ -4,7 +4,7 @@ from apscheduler.jobstores.memory import MemoryJobStore
 from apscheduler.jobstores.mongodb import MongoDBJobStore
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
 
-from sophie_bot import CONFIG
+from sophie_bot.config import CONFIG
 
 scheduler_loop = asyncio.new_event_loop()
 mongo_store = MongoDBJobStore(

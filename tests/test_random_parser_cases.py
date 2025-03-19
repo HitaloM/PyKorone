@@ -1,6 +1,7 @@
 import unittest
 from unittest.mock import patch
-from random_parser import parse_random_text
+
+from sophie_bot.modules.notes.utils.random_parser import parse_random_text
 
 
 class TestRandomParser(unittest.TestCase):
@@ -14,7 +15,7 @@ class TestRandomParser(unittest.TestCase):
         """Test empty string input."""
         self.assertEqual(parse_random_text(""), "")
 
-    @patch('random_parser.choice')
+    @patch('sophie_bot.modules.notes.utils.random_parser.choice')
     def test_single_choice(self, mock_choice):
         """Test a single choice between options."""
         mock_choice.return_value = "world"
@@ -24,7 +25,7 @@ class TestRandomParser(unittest.TestCase):
         # Verify choice was called with correct options
         mock_choice.assert_called_once_with(['world', 'universe'])
 
-    @patch('random_parser.choice')
+    @patch('sophie_bot.modules.notes.utils.random_parser.choice')
     def test_multiple_choice_sections(self, mock_choice):
         """Test multiple choice sections."""
         mock_choice.side_effect = ["good", "day"]
@@ -50,7 +51,7 @@ class TestRandomParser(unittest.TestCase):
         text = "%%%Hello%%%Hi%%% world"
         self.assertEqual(parse_random_text(text).strip(), "Hello world" or "Hi world")
 
-    @patch('random_parser.choice')
+    @patch('sophie_bot.modules.notes.utils.random_parser.choice')
     def test_multiline_options(self, mock_choice):
         """Test multiline options."""
         mock_choice.return_value = "world\nplanet"
@@ -74,7 +75,7 @@ planet
     def test_multiline_with_multiple_sections(self, mock_choice):
         """Test multiple multiline sections."""
         mock_choice.side_effect = ["morning\n", "world"]
-        text = """Good 
+        text = """Good
 %%%
 morning
 
@@ -82,13 +83,13 @@ morning
 evening
 
 %%%
- 
+
 %%%
 world
 %%%
 universe
 %%%"""
-        expected = """Good 
+        expected = """Good
 morning
 
 world"""

@@ -27,6 +27,10 @@ LOADED_LEGACY_MODULES = []
 def list_all_modules() -> list:
     modules_directory = "sophie_bot/modules/legacy_modules/modules"
 
+    if not os.path.exists(modules_directory):
+        log.error("Modules directory not found!")
+        return []
+
     all_modules = []
     for module_name in os.listdir(modules_directory):
         path = modules_directory + "/" + module_name

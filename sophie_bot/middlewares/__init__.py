@@ -1,7 +1,7 @@
 from aiogram.utils.i18n import ConstI18nMiddleware
 from ass_tg.middleware import ArgsMiddleware
 
-from sophie_bot import CONFIG, dp
+from sophie_bot.config import CONFIG
 from sophie_bot.middlewares.beta import BetaMiddleware
 from sophie_bot.middlewares.connections import ConnectionsMiddleware
 from sophie_bot.middlewares.disabling import DisablingMiddleware
@@ -10,6 +10,7 @@ from sophie_bot.middlewares.localization import LocalizationMiddleware
 from sophie_bot.middlewares.logic import OrMiddleware
 from sophie_bot.middlewares.memory_debug import TracemallocMiddleware
 from sophie_bot.middlewares.save_chats import SaveChatsMiddleware
+from sophie_bot.services.bot import dp
 from sophie_bot.services.i18n import i18n
 from sophie_bot.utils.logger import log
 
