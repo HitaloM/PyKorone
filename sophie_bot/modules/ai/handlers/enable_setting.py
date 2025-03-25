@@ -23,5 +23,4 @@ class EnableAI(StatusBoolHandlerABC):
         return bool(db_model)
 
     async def set_status(self, new_status: bool):
-        chat_id = self.connection.id
-        await AIEnabledModel.set_state(chat_id, new_status)
+        await AIEnabledModel.set_state(self.connection, new_status)
