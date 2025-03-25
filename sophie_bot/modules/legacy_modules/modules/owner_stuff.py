@@ -5,7 +5,6 @@ from aiogram import Router
 from aiogram.types import Message
 from stfu_tg import Bold, Code, Doc, Italic, KeyValue, Section, Template
 
-from sophie_bot import SOPHIE_VERSION
 from sophie_bot.config import CONFIG
 from sophie_bot.filters.user_status import IsOP
 from sophie_bot.modules import LOADED_MODULES
@@ -17,7 +16,7 @@ from sophie_bot.modules.legacy_modules.utils.register import (
 )
 from sophie_bot.services.db import db
 from sophie_bot.services.redis import redis
-from sophie_bot.versions import SOPHIE_BRANCH, SOPHIE_COMMIT
+from sophie_bot.versions import SOPHIE_BRANCH, SOPHIE_COMMIT, SOPHIE_VERSION
 
 router = Router(name="owner_stuff")
 
