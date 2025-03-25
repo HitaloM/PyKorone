@@ -10,7 +10,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Language-Team: Arabic, Saudi Arabia\n"
 "Language: ar_SA\n"
-"PO-Revision-Date: 2025-02-13 14:38\n"
+"PO-Revision-Date: 2025-02-15 18:06\n"
 
 #: sophie_bot/args/users.py:29
 msgid "Could not find the requested User ID in the database."
@@ -370,31 +370,32 @@ msgstr "المحتوى الذي يصور الموت، العنف، أو إصاب
 msgid "Content that depicts death, violence, or physical injury in graphic detail."
 msgstr "محتوى يصور الموت أو العنف أو الإصابة البدنية بالتفصيل الغرافي."
 
-#: sophie_bot/modules/ai/utils/message_history.py:66
+#: sophie_bot/modules/ai/utils/message_history.py:67
 msgid "You're a bot named Sophie."
 msgstr "أنت بوت يُدعى صوفي."
 
-#: sophie_bot/modules/ai/utils/message_history.py:67
+#: sophie_bot/modules/ai/utils/message_history.py:68
 msgid "Respond concisely and stick to the current topic."
 msgstr "رد بشكل مختصر، كن ودودًا، التزم بالموضوع الحالي."
 
-#: sophie_bot/modules/ai/utils/message_history.py:69
+#: sophie_bot/modules/ai/utils/message_history.py:70
 msgid "Please use only the following markdown elements: ** for bold, ~~ for strikethrough, ` for code, and ``` for preformatted text."
 msgstr "يرجى استخدام العناصر التالية فقط: ** للنص العريض، ~~ للشطب، ` للكود، و``` للنص المسبق التنسيق."
 
-#: sophie_bot/modules/ai/utils/message_history.py:71
+#: sophie_bot/modules/ai/utils/message_history.py:72
 msgid "Don't use Tables. You can use emojis."
 msgstr "لا تستخدم الجداول. يمكنك استخدام الرموز التعبيرية."
 
-#: sophie_bot/modules/ai/utils/message_history.py:101
+#: sophie_bot/modules/ai/utils/message_history.py:103
+#: sophie_bot/modules/ai/utils/message_history.py:105
 msgid "<No text provided>"
 msgstr "<No text provided>"
 
-#: sophie_bot/modules/ai/utils/message_history.py:110
+#: sophie_bot/modules/ai/utils/message_history.py:114
 msgid "REPLY TO"
 msgstr "رد على"
 
-#: sophie_bot/modules/ai/utils/message_history.py:121
+#: sophie_bot/modules/ai/utils/message_history.py:125
 msgid "Photo is empty"
 msgstr "الصورة فارغة"
 
@@ -1138,7 +1139,7 @@ msgstr "I am not a robot"
 
 #: sophie_bot/modules/help/__init__.py:23
 #: sophie_bot/modules/help/handlers/help_group.py:27
-#: sophie_bot/modules/help/handlers/pm_modules.py:54
+#: sophie_bot/modules/help/handlers/pm_modules.py:60
 #: sophie_bot/modules/help/handlers/start_group.py:34
 msgid "Help"
 msgstr "مساعدة"
@@ -1159,34 +1160,34 @@ msgstr "معلومات المساعدة المتاحة في الرسائل ال�
 msgid "Shows help overview for all modules"
 msgstr "يعرض نظرة عامة على المساعدة لجميع الوحدات"
 
-#: sophie_bot/modules/help/handlers/pm_modules.py:51
-#: sophie_bot/modules/help/handlers/pm_modules.py:107
+#: sophie_bot/modules/help/handlers/pm_modules.py:57
+#: sophie_bot/modules/help/handlers/pm_modules.py:113
 #: sophie_bot/modules/privacy/handlers/privacy.py:30
 msgid "⬅️ Back"
 msgstr "⬅️ الرجوع"
 
-#: sophie_bot/modules/help/handlers/pm_modules.py:55
+#: sophie_bot/modules/help/handlers/pm_modules.py:61
 msgid "There are 2 help sources, you can read the detailed wiki or get a quick commands by modules overview."
 msgstr "هناك مصدران للمساعدة، يمكنك قراءة الويكي المفصل أو الحصول على أوامر سريعة حسب الوحدات."
 
-#: sophie_bot/modules/help/handlers/pm_modules.py:56
+#: sophie_bot/modules/help/handlers/pm_modules.py:62
 msgid "📖 Wiki (detailed information)"
 msgstr "📖 ويكي (معلومات مفصلة)"
 
-#: sophie_bot/modules/help/handlers/pm_modules.py:72
+#: sophie_bot/modules/help/handlers/pm_modules.py:78
 msgid "Module not found"
 msgstr "لم يتم العثور على الوحدة"
 
-#: sophie_bot/modules/help/handlers/pm_modules.py:95
+#: sophie_bot/modules/help/handlers/pm_modules.py:101
 #, python-brace-format
 msgid "Aliased commands from {module}"
 msgstr "الأوامر المخصصة من {module}"
 
-#: sophie_bot/modules/help/handlers/pm_modules.py:102
+#: sophie_bot/modules/help/handlers/pm_modules.py:108
 msgid "📖 Look the module's wiki page for more information"
 msgstr "معطّل"
 
-#: sophie_bot/modules/help/handlers/pm_modules.py:103
+#: sophie_bot/modules/help/handlers/pm_modules.py:109
 msgid "📖 Wiki page"
 msgstr "📖 Wiki page"
 
@@ -1562,15 +1563,15 @@ msgstr "أقفال"
 msgid "Shows all lockable entities"
 msgstr "عرض الحالة الحالية لميزات الذكاء الاصطناعي"
 
-#: sophie_bot/modules/notes/__init__.py:29
+#: sophie_bot/modules/notes/__init__.py:31
 msgid "Notes"
 msgstr "ملاحظات"
 
-#: sophie_bot/modules/notes/__init__.py:34
+#: sophie_bot/modules/notes/__init__.py:36
 msgid "If you want to save some frequently-used content in your chat, such as a FAQ, response templates, your favourite stickers or the whole interactive menu, you can do that with notes."
 msgstr "إذا كنت تريد حفظ بعض المحتويات المستخدمة بشكل متكرر في دردشتك، مثل FAQ، ونماذج الرد، وملصقاتك المفضلة أو قائمة تفاعلية كاملة، يمكنك القيام بذلك باستخدام الملاحظات."
 
-#: sophie_bot/modules/notes/__init__.py:37
+#: sophie_bot/modules/notes/__init__.py:39
 msgid "Notes allows saving different kind of content, from normal text messages to stickers and audio messages, notes also support adding inline message buttons."
 msgstr "من خلال استخدام ميزات الذكاء الاصطناعي، فإنك توافق على {policy} وسياسة الخصوصية لمزود الذكاء الاصطناعي من طرف ثالث."
 
@@ -1992,15 +1993,15 @@ msgstr "تمت ترقية المدير بنجاح"
 msgid "Purges"
 msgstr "تطهير"
 
-#: sophie_bot/modules/purges/handlers/delete.py:14
+#: sophie_bot/modules/purges/handlers/delete.py:17
 msgid "Deletes the replied message"
 msgstr "يحذف الرسالة المردودة"
 
-#: sophie_bot/modules/purges/handlers/delete.py:26
+#: sophie_bot/modules/purges/handlers/delete.py:30
 msgid "Reply to a message to delete it."
 msgstr "قم بالرد على رسالة للحذف."
 
-#: sophie_bot/modules/purges/handlers/delete.py:31
+#: sophie_bot/modules/purges/handlers/delete.py:35
 msgid "Couldn't delete the message older than 48 hours (2 days). You can delete it nevertheless using the Telegram's admin tools."
 msgstr "لا يمكن حذف الرسالة التي مضى عليها أكثر من <b>٤٨</b> ساعة (<b>٢</b> يوم). يمكنك حذفها على أي حال باستخدام أدوات الإدارة في تيليجرام."
 
