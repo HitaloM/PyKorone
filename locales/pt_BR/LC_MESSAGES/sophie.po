@@ -10,7 +10,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Language-Team: Portuguese, Brazilian\n"
 "Language: pt_BR\n"
-"PO-Revision-Date: 2025-02-13 14:38\n"
+"PO-Revision-Date: 2025-02-15 18:06\n"
 
 #: sophie_bot/args/users.py:29
 msgid "Could not find the requested User ID in the database."
@@ -366,31 +366,32 @@ msgstr "Conteúdo que retrata morte, violência ou lesão física."
 msgid "Content that depicts death, violence, or physical injury in graphic detail."
 msgstr "Conteúdo que retrata morte, violência ou lesão física em detalhes gráficos."
 
-#: sophie_bot/modules/ai/utils/message_history.py:66
+#: sophie_bot/modules/ai/utils/message_history.py:67
 msgid "You're a bot named Sophie."
 msgstr "Você é um bot chamado Sophie."
 
-#: sophie_bot/modules/ai/utils/message_history.py:67
+#: sophie_bot/modules/ai/utils/message_history.py:68
 msgid "Respond concisely and stick to the current topic."
 msgstr "Responda de forma concisa e mantenha-se no tópico atual."
 
-#: sophie_bot/modules/ai/utils/message_history.py:69
+#: sophie_bot/modules/ai/utils/message_history.py:70
 msgid "Please use only the following markdown elements: ** for bold, ~~ for strikethrough, ` for code, and ``` for preformatted text."
 msgstr "Por favor, use apenas os seguintes elementos de markdown: ** para negrito, ~~ para tachado, ` para código, e ``` para texto pré-formatado."
 
-#: sophie_bot/modules/ai/utils/message_history.py:71
+#: sophie_bot/modules/ai/utils/message_history.py:72
 msgid "Don't use Tables. You can use emojis."
 msgstr "Não use tabelas. Você pode usar emojis."
 
-#: sophie_bot/modules/ai/utils/message_history.py:101
+#: sophie_bot/modules/ai/utils/message_history.py:103
+#: sophie_bot/modules/ai/utils/message_history.py:105
 msgid "<No text provided>"
 msgstr "<No text provided>"
 
-#: sophie_bot/modules/ai/utils/message_history.py:110
+#: sophie_bot/modules/ai/utils/message_history.py:114
 msgid "REPLY TO"
 msgstr "RESPONDER A"
 
-#: sophie_bot/modules/ai/utils/message_history.py:121
+#: sophie_bot/modules/ai/utils/message_history.py:125
 msgid "Photo is empty"
 msgstr "Foto está vazia"
 
@@ -1130,7 +1131,7 @@ msgstr "I am not a robot"
 
 #: sophie_bot/modules/help/__init__.py:23
 #: sophie_bot/modules/help/handlers/help_group.py:27
-#: sophie_bot/modules/help/handlers/pm_modules.py:54
+#: sophie_bot/modules/help/handlers/pm_modules.py:60
 #: sophie_bot/modules/help/handlers/start_group.py:34
 msgid "Help"
 msgstr "Ajuda"
@@ -1151,34 +1152,34 @@ msgstr "As informações de ajuda estão disponíveis nas mensagens privadas com
 msgid "Shows help overview for all modules"
 msgstr "Mostra a visão geral de ajuda para todos os módulos"
 
-#: sophie_bot/modules/help/handlers/pm_modules.py:51
-#: sophie_bot/modules/help/handlers/pm_modules.py:107
+#: sophie_bot/modules/help/handlers/pm_modules.py:57
+#: sophie_bot/modules/help/handlers/pm_modules.py:113
 #: sophie_bot/modules/privacy/handlers/privacy.py:30
 msgid "⬅️ Back"
 msgstr "⬅️ Voltar"
 
-#: sophie_bot/modules/help/handlers/pm_modules.py:55
+#: sophie_bot/modules/help/handlers/pm_modules.py:61
 msgid "There are 2 help sources, you can read the detailed wiki or get a quick commands by modules overview."
 msgstr "Existem 2 fontes de ajuda, você pode ler a wiki detalhada ou obter um resumo rápido dos comandos por módulos."
 
-#: sophie_bot/modules/help/handlers/pm_modules.py:56
+#: sophie_bot/modules/help/handlers/pm_modules.py:62
 msgid "📖 Wiki (detailed information)"
 msgstr "📖 Wiki (informações detalhadas)"
 
-#: sophie_bot/modules/help/handlers/pm_modules.py:72
+#: sophie_bot/modules/help/handlers/pm_modules.py:78
 msgid "Module not found"
 msgstr "Módulo não encontrado"
 
-#: sophie_bot/modules/help/handlers/pm_modules.py:95
+#: sophie_bot/modules/help/handlers/pm_modules.py:101
 #, python-brace-format
 msgid "Aliased commands from {module}"
 msgstr "Comandos alias de {module}"
 
-#: sophie_bot/modules/help/handlers/pm_modules.py:102
+#: sophie_bot/modules/help/handlers/pm_modules.py:108
 msgid "📖 Look the module's wiki page for more information"
 msgstr "📖 Veja a página wiki do módulo para mais informações"
 
-#: sophie_bot/modules/help/handlers/pm_modules.py:103
+#: sophie_bot/modules/help/handlers/pm_modules.py:109
 msgid "📖 Wiki page"
 msgstr "📖 Página da Wiki"
 
@@ -1554,15 +1555,15 @@ msgstr "Trancas"
 msgid "Shows all lockable entities"
 msgstr "Mostra todas as entidades bloqueáveis"
 
-#: sophie_bot/modules/notes/__init__.py:29
+#: sophie_bot/modules/notes/__init__.py:31
 msgid "Notes"
 msgstr "Notas"
 
-#: sophie_bot/modules/notes/__init__.py:34
+#: sophie_bot/modules/notes/__init__.py:36
 msgid "If you want to save some frequently-used content in your chat, such as a FAQ, response templates, your favourite stickers or the whole interactive menu, you can do that with notes."
 msgstr "Se você deseja salvar algum conteúdo frequentemente usado no seu chat, como perguntas frequentes, modelos de resposta, seus adesivos favoritos ou o menu interativo completo, você pode fazer isso com notas."
 
-#: sophie_bot/modules/notes/__init__.py:37
+#: sophie_bot/modules/notes/__init__.py:39
 msgid "Notes allows saving different kind of content, from normal text messages to stickers and audio messages, notes also support adding inline message buttons."
 msgstr "Notas permitem salvar diferentes tipos de conteúdo, desde mensagens de texto normais até adesivos e mensagens de áudio; notas também suportam adicionar botões de mensagem em linha."
 
@@ -1984,15 +1985,15 @@ msgstr "Admin promovido com sucesso"
 msgid "Purges"
 msgstr "Limpezas"
 
-#: sophie_bot/modules/purges/handlers/delete.py:14
+#: sophie_bot/modules/purges/handlers/delete.py:17
 msgid "Deletes the replied message"
 msgstr "Exclui a mensagem respondida"
 
-#: sophie_bot/modules/purges/handlers/delete.py:26
+#: sophie_bot/modules/purges/handlers/delete.py:30
 msgid "Reply to a message to delete it."
 msgstr "Responda a uma mensagem para excluí-la."
 
-#: sophie_bot/modules/purges/handlers/delete.py:31
+#: sophie_bot/modules/purges/handlers/delete.py:35
 msgid "Couldn't delete the message older than 48 hours (2 days). You can delete it nevertheless using the Telegram's admin tools."
 msgstr "Não foi possível excluir a mensagem com mais de 48 horas (2 dias). Você pode excluí-la, no entanto, usando as ferramentas de administração do Telegram."
 

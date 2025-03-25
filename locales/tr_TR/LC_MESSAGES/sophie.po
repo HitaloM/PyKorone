@@ -10,7 +10,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Language-Team: Turkish\n"
 "Language: tr_TR\n"
-"PO-Revision-Date: 2025-02-13 14:38\n"
+"PO-Revision-Date: 2025-02-15 18:06\n"
 
 #: sophie_bot/args/users.py:29
 msgid "Could not find the requested User ID in the database."
@@ -366,31 +366,32 @@ msgstr "Ölüm, şiddet veya fiziksel yaralanmaları tasvir eden içerik."
 msgid "Content that depicts death, violence, or physical injury in graphic detail."
 msgstr "Grafik detaylarla ölümü, şiddeti veya fiziksel yaralanmaları tasvir eden içerik."
 
-#: sophie_bot/modules/ai/utils/message_history.py:66
+#: sophie_bot/modules/ai/utils/message_history.py:67
 msgid "You're a bot named Sophie."
 msgstr "You're a bot named Sophie."
 
-#: sophie_bot/modules/ai/utils/message_history.py:67
+#: sophie_bot/modules/ai/utils/message_history.py:68
 msgid "Respond concisely and stick to the current topic."
 msgstr "Respond concisely and stick to the current topic."
 
-#: sophie_bot/modules/ai/utils/message_history.py:69
+#: sophie_bot/modules/ai/utils/message_history.py:70
 msgid "Please use only the following markdown elements: ** for bold, ~~ for strikethrough, ` for code, and ``` for preformatted text."
 msgstr "Please use only the following markdown elements: ** for bold, ~~ for strikethrough, ` for code, and ``` for preformatted text."
 
-#: sophie_bot/modules/ai/utils/message_history.py:71
+#: sophie_bot/modules/ai/utils/message_history.py:72
 msgid "Don't use Tables. You can use emojis."
 msgstr "Don't use Tables. You can use emojis."
 
-#: sophie_bot/modules/ai/utils/message_history.py:101
+#: sophie_bot/modules/ai/utils/message_history.py:103
+#: sophie_bot/modules/ai/utils/message_history.py:105
 msgid "<No text provided>"
 msgstr "<No text provided>"
 
-#: sophie_bot/modules/ai/utils/message_history.py:110
+#: sophie_bot/modules/ai/utils/message_history.py:114
 msgid "REPLY TO"
 msgstr "REPLY TO"
 
-#: sophie_bot/modules/ai/utils/message_history.py:121
+#: sophie_bot/modules/ai/utils/message_history.py:125
 msgid "Photo is empty"
 msgstr "Fotoğraf boş"
 
@@ -1130,7 +1131,7 @@ msgstr "I am not a robot"
 
 #: sophie_bot/modules/help/__init__.py:23
 #: sophie_bot/modules/help/handlers/help_group.py:27
-#: sophie_bot/modules/help/handlers/pm_modules.py:54
+#: sophie_bot/modules/help/handlers/pm_modules.py:60
 #: sophie_bot/modules/help/handlers/start_group.py:34
 msgid "Help"
 msgstr "Yardım"
@@ -1151,34 +1152,34 @@ msgstr "Sophie ile özel mesajlarda mevcut yardım bilgisi"
 msgid "Shows help overview for all modules"
 msgstr "Tüm modüller için yardım genel görünümünü gösterir"
 
-#: sophie_bot/modules/help/handlers/pm_modules.py:51
-#: sophie_bot/modules/help/handlers/pm_modules.py:107
+#: sophie_bot/modules/help/handlers/pm_modules.py:57
+#: sophie_bot/modules/help/handlers/pm_modules.py:113
 #: sophie_bot/modules/privacy/handlers/privacy.py:30
 msgid "⬅️ Back"
 msgstr "⬅️ Geri"
 
-#: sophie_bot/modules/help/handlers/pm_modules.py:55
+#: sophie_bot/modules/help/handlers/pm_modules.py:61
 msgid "There are 2 help sources, you can read the detailed wiki or get a quick commands by modules overview."
 msgstr "2 yardım kaynağı var, ayrıntılı wiki okuyabilir veya modüllere göre hızlı komutlar alabilirsiniz."
 
-#: sophie_bot/modules/help/handlers/pm_modules.py:56
+#: sophie_bot/modules/help/handlers/pm_modules.py:62
 msgid "📖 Wiki (detailed information)"
 msgstr "📖 Wiki (detaylı bilgi)"
 
-#: sophie_bot/modules/help/handlers/pm_modules.py:72
+#: sophie_bot/modules/help/handlers/pm_modules.py:78
 msgid "Module not found"
 msgstr "Modül bulunamadı"
 
-#: sophie_bot/modules/help/handlers/pm_modules.py:95
+#: sophie_bot/modules/help/handlers/pm_modules.py:101
 #, python-brace-format
 msgid "Aliased commands from {module}"
 msgstr "{module} modülünden takma adlı komutlar"
 
-#: sophie_bot/modules/help/handlers/pm_modules.py:102
+#: sophie_bot/modules/help/handlers/pm_modules.py:108
 msgid "📖 Look the module's wiki page for more information"
 msgstr "📖 Modülün wiki sayfasına daha fazla bilgi için bakın"
 
-#: sophie_bot/modules/help/handlers/pm_modules.py:103
+#: sophie_bot/modules/help/handlers/pm_modules.py:109
 msgid "📖 Wiki page"
 msgstr "📖 Wiki page"
 
@@ -1554,15 +1555,15 @@ msgstr "Kilitleme"
 msgid "Shows all lockable entities"
 msgstr "Kilitleyebilen tüm varlıkları gösterir"
 
-#: sophie_bot/modules/notes/__init__.py:29
+#: sophie_bot/modules/notes/__init__.py:31
 msgid "Notes"
 msgstr "Notlar"
 
-#: sophie_bot/modules/notes/__init__.py:34
+#: sophie_bot/modules/notes/__init__.py:36
 msgid "If you want to save some frequently-used content in your chat, such as a FAQ, response templates, your favourite stickers or the whole interactive menu, you can do that with notes."
 msgstr "Eğer sohbetinizde SSS, yanıt şablonları, favori etiketleriniz veya tüm etkileşimli menü gibi sıkça kullanılan bazı içerikleri kaydetmek isterseniz, bunu notlarla yapabilirsiniz."
 
-#: sophie_bot/modules/notes/__init__.py:37
+#: sophie_bot/modules/notes/__init__.py:39
 msgid "Notes allows saving different kind of content, from normal text messages to stickers and audio messages, notes also support adding inline message buttons."
 msgstr "Notlar, normal metin mesajlarından çıkartmalara ve sesli mesajlara kadar farklı türde içerikleri kaydetmeye olanak tanır, notlar ayrıca satır içi mesaj butonları eklemeyi destekler."
 
@@ -1984,15 +1985,15 @@ msgstr "Yönetici başarıyla terfi ettirildi"
 msgid "Purges"
 msgstr "Temizlemeler"
 
-#: sophie_bot/modules/purges/handlers/delete.py:14
+#: sophie_bot/modules/purges/handlers/delete.py:17
 msgid "Deletes the replied message"
 msgstr "Cevaplanan mesajı siler"
 
-#: sophie_bot/modules/purges/handlers/delete.py:26
+#: sophie_bot/modules/purges/handlers/delete.py:30
 msgid "Reply to a message to delete it."
 msgstr "Bir mesaja cevap verin, silmek için."
 
-#: sophie_bot/modules/purges/handlers/delete.py:31
+#: sophie_bot/modules/purges/handlers/delete.py:35
 msgid "Couldn't delete the message older than 48 hours (2 days). You can delete it nevertheless using the Telegram's admin tools."
 msgstr "48 saatin (2 gün) üzerindeki mesajı silemedim. Yine de Telegram'ın admin araçlarını kullanarak silebilirsiniz."
 

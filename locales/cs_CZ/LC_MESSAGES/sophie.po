@@ -10,7 +10,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Language-Team: Czech\n"
 "Language: cs_CZ\n"
-"PO-Revision-Date: 2025-02-13 14:38\n"
+"PO-Revision-Date: 2025-02-15 18:05\n"
 
 #: sophie_bot/args/users.py:29
 msgid "Could not find the requested User ID in the database."
@@ -368,31 +368,32 @@ msgstr "Obsah, který zobrazuje smrt, násilí nebo fyzickou újmu."
 msgid "Content that depicts death, violence, or physical injury in graphic detail."
 msgstr "Obsah, který zobrazuje smrt, násilí nebo fyzickou újmu v grafických podrobnostech."
 
-#: sophie_bot/modules/ai/utils/message_history.py:66
+#: sophie_bot/modules/ai/utils/message_history.py:67
 msgid "You're a bot named Sophie."
 msgstr "Jsi bot jménem Sophie."
 
-#: sophie_bot/modules/ai/utils/message_history.py:67
+#: sophie_bot/modules/ai/utils/message_history.py:68
 msgid "Respond concisely and stick to the current topic."
 msgstr "Reaguj stručně a drž se aktuálního tématu."
 
-#: sophie_bot/modules/ai/utils/message_history.py:69
+#: sophie_bot/modules/ai/utils/message_history.py:70
 msgid "Please use only the following markdown elements: ** for bold, ~~ for strikethrough, ` for code, and ``` for preformatted text."
 msgstr "Pouze používej následující markdown prvky: ** pro tučné písmo, ~~ pro přeškrtnutí, ` pro kód, a ``` pro formátovaný text."
 
-#: sophie_bot/modules/ai/utils/message_history.py:71
+#: sophie_bot/modules/ai/utils/message_history.py:72
 msgid "Don't use Tables. You can use emojis."
 msgstr "Nepoužívej tabulky. Můžeš používat emoji."
 
-#: sophie_bot/modules/ai/utils/message_history.py:101
+#: sophie_bot/modules/ai/utils/message_history.py:103
+#: sophie_bot/modules/ai/utils/message_history.py:105
 msgid "<No text provided>"
 msgstr "<No text provided>"
 
-#: sophie_bot/modules/ai/utils/message_history.py:110
+#: sophie_bot/modules/ai/utils/message_history.py:114
 msgid "REPLY TO"
 msgstr "ODPOVĚDĚT NA"
 
-#: sophie_bot/modules/ai/utils/message_history.py:121
+#: sophie_bot/modules/ai/utils/message_history.py:125
 msgid "Photo is empty"
 msgstr "Foto je prázdné"
 
@@ -1134,7 +1135,7 @@ msgstr "I am not a robot"
 
 #: sophie_bot/modules/help/__init__.py:23
 #: sophie_bot/modules/help/handlers/help_group.py:27
-#: sophie_bot/modules/help/handlers/pm_modules.py:54
+#: sophie_bot/modules/help/handlers/pm_modules.py:60
 #: sophie_bot/modules/help/handlers/start_group.py:34
 msgid "Help"
 msgstr "Pomoc"
@@ -1155,34 +1156,34 @@ msgstr "Informace o nápovědě dostupné v soukromých zprávách se Sophií"
 msgid "Shows help overview for all modules"
 msgstr "Zobrazuje přehled nápovědy pro všechny moduly"
 
-#: sophie_bot/modules/help/handlers/pm_modules.py:51
-#: sophie_bot/modules/help/handlers/pm_modules.py:107
+#: sophie_bot/modules/help/handlers/pm_modules.py:57
+#: sophie_bot/modules/help/handlers/pm_modules.py:113
 #: sophie_bot/modules/privacy/handlers/privacy.py:30
 msgid "⬅️ Back"
 msgstr "⬅️ Zpět"
 
-#: sophie_bot/modules/help/handlers/pm_modules.py:55
+#: sophie_bot/modules/help/handlers/pm_modules.py:61
 msgid "There are 2 help sources, you can read the detailed wiki or get a quick commands by modules overview."
 msgstr "Existují 2 zdroje nápovědy, můžete si přečíst podrobnou wiki nebo rychle získat přehled příkazů podle modulů."
 
-#: sophie_bot/modules/help/handlers/pm_modules.py:56
+#: sophie_bot/modules/help/handlers/pm_modules.py:62
 msgid "📖 Wiki (detailed information)"
 msgstr "📖 Wiki (podrobné informace)"
 
-#: sophie_bot/modules/help/handlers/pm_modules.py:72
+#: sophie_bot/modules/help/handlers/pm_modules.py:78
 msgid "Module not found"
 msgstr "Modul nebyl nalezen"
 
-#: sophie_bot/modules/help/handlers/pm_modules.py:95
+#: sophie_bot/modules/help/handlers/pm_modules.py:101
 #, python-brace-format
 msgid "Aliased commands from {module}"
 msgstr "Přezdívané příkazy z {module}"
 
-#: sophie_bot/modules/help/handlers/pm_modules.py:102
+#: sophie_bot/modules/help/handlers/pm_modules.py:108
 msgid "📖 Look the module's wiki page for more information"
 msgstr "📖 Podívejte se na wiki stránky modulu pro více informací"
 
-#: sophie_bot/modules/help/handlers/pm_modules.py:103
+#: sophie_bot/modules/help/handlers/pm_modules.py:109
 msgid "📖 Wiki page"
 msgstr "📖 Wiki page"
 
@@ -1558,15 +1559,15 @@ msgstr "Zamky"
 msgid "Shows all lockable entities"
 msgstr "Zobrazí všechny zamykatelné entity"
 
-#: sophie_bot/modules/notes/__init__.py:29
+#: sophie_bot/modules/notes/__init__.py:31
 msgid "Notes"
 msgstr "Poznámky"
 
-#: sophie_bot/modules/notes/__init__.py:34
+#: sophie_bot/modules/notes/__init__.py:36
 msgid "If you want to save some frequently-used content in your chat, such as a FAQ, response templates, your favourite stickers or the whole interactive menu, you can do that with notes."
 msgstr "Pokud chcete uložit nějaký často používaný obsah ve svém chatu, jako je FAQ, šablony odpovědí, vaše oblíbené nálepky nebo celé interaktivní menu, můžete to udělat pomocí poznámek."
 
-#: sophie_bot/modules/notes/__init__.py:37
+#: sophie_bot/modules/notes/__init__.py:39
 msgid "Notes allows saving different kind of content, from normal text messages to stickers and audio messages, notes also support adding inline message buttons."
 msgstr "Poznámky umožňují ukládání různých typů obsahu, od běžných textových zpráv po nálepky a audio zprávy, poznámky také podporují přidávání inline tlačítek zpráv."
 
@@ -1988,15 +1989,15 @@ msgstr "Admin byl úspěšně povýšen"
 msgid "Purges"
 msgstr "Vymazání"
 
-#: sophie_bot/modules/purges/handlers/delete.py:14
+#: sophie_bot/modules/purges/handlers/delete.py:17
 msgid "Deletes the replied message"
 msgstr "Odstraní odpovězenou zprávu"
 
-#: sophie_bot/modules/purges/handlers/delete.py:26
+#: sophie_bot/modules/purges/handlers/delete.py:30
 msgid "Reply to a message to delete it."
 msgstr "Odpověz na zprávu pro odstranění."
 
-#: sophie_bot/modules/purges/handlers/delete.py:31
+#: sophie_bot/modules/purges/handlers/delete.py:35
 msgid "Couldn't delete the message older than 48 hours (2 days). You can delete it nevertheless using the Telegram's admin tools."
 msgstr "Nelze odstranit zprávu starší než 48 hodin (2 dny). Můžeš ji však odstranit pomocí administrativních nástrojů Telegramu."
 
