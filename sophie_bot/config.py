@@ -87,6 +87,8 @@ class Config(BaseSettings):
     proxy_beta_instance_url: str = "http://host.container.internal:8072"
 
     openai_key: str | None = None
+    gemini_api_key: str | None = None
+
     deepseek_key: Optional[str] = None
     ai_emoji: str = "✨"
     ai_autotrans_lowmem: bool = False

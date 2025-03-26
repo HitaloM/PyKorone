@@ -11,6 +11,7 @@ from sophie_bot.modules.ai.filters.ai_enabled import AIEnabledFilter
 from sophie_bot.modules.ai.utils.ai_chatbot import ai_reply
 from sophie_bot.modules.ai.utils.llms import DEFAULT_MODEL, Models
 from sophie_bot.modules.ai.utils.message_history import AIMessageHistory
+from sophie_bot.modules.ai.utils.new_ai_chatbot import new_ai_reply
 from sophie_bot.services.bot import bot
 from sophie_bot.utils.i18n import lazy_gettext as l_
 
@@ -35,6 +36,9 @@ class AiCmd(MessageHandler):
         if self.from_user and self.from_user.id == CONFIG.owner_id and user_text and user_text.endswith("?"):
             model = Models.GPT_4O
 
-        messages = await AIMessageHistory.chatbot(self.event, custom_user_text=user_text)
+        # messages = await AIMessageHistory.chatbot(self.event, custom_user_text=user_text)
+        #
+        # return await ai_reply(self.event, messages, model=model)
 
-        return await ai_reply(self.event, messages, model=model)
+
+        await new_ai_reply()
