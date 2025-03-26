@@ -31,6 +31,7 @@ pillow = "^11.1.0"
 mem-top = "^0.2.1"
 apscheduler = "^3.11.0"
 normality = "^2.6.1"
+pydantic-ai-slim = {extras = ["openai", "vertexai"], version = "^0.0.44"}
 
 [tool.poetry.group.dev.dependencies]
 Nuitka = "^2"
