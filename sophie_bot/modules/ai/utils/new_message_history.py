@@ -5,7 +5,7 @@ from aiogram.types import Message
 from attr import dataclass
 from normality import normalize
 from pydantic_ai.messages import ModelRequest, UserPromptPart, BinaryContent, \
-    ImageMediaType, UserContent, SystemPromptPart, ModelRequestPart, ModelResponse, TextPart
+    UserContent, SystemPromptPart, ModelRequestPart, ModelResponse, TextPart
 
 from sophie_bot.config import CONFIG
 from sophie_bot.db.models import ChatModel
@@ -50,7 +50,9 @@ class AIUserMessageFormatter:
         return f'<From {name}>:\n{text}'
 
 
-class NewAIMessageHistory(list[ModelRequest | ModelResponse]):
+class NewAIMessageHistory:
+    message_history: list[ModelRequest | ModelResponse] = []
+    prompt: list[UserContent]
 
     async def _cache_transform_msg(
             self, msg: MessageType
@@ -69,22 +71,23 @@ class NewAIMessageHistory(list[ModelRequest | ModelResponse]):
         system_message = "\n".join(
             (
                 _("You're a telegram bot named Sophie."),
-                _("Respond friendly."),
+                _("Respond sarcastically."),
                 _(
                     "Do not use tables, use only the following markdown elements: ** for bold, ~~ for strikethrough, ` for code, ``` for code blocks and []() for links."
                 ),
             )
         )
-        self.append(ModelRequest(parts=[SystemPromptPart(content=system_message + additional)]))
+        self.message_history.append(ModelRequest(parts=[SystemPromptPart(content=system_message + additional)]))
 
     async def add_from_cache(self, chat_id: int):
-        self.extend(await gather(*[self._cache_transform_msg(msg) for msg in await get_cached_messages(chat_id)]))
+        self.message_history.extend(
+            await gather(*[self._cache_transform_msg(msg) for msg in await get_cached_messages(chat_id)]))
 
     def add_system(self, content: str):
-        self.append(ModelRequest(parts=[SystemPromptPart(content=content)]))
+        self.message_history.append(ModelRequest(parts=[SystemPromptPart(content=content)]))
 
     def add_custom(self, content: str, name: str):
-        self.append(ModelRequest(parts=[UserPromptPart(
+        self.message_history.append(ModelRequest(parts=[UserPromptPart(
             content=AIUserMessageFormatter.user_message(content, name),
         )]))
 
@@ -122,7 +125,7 @@ class NewAIMessageHistory(list[ModelRequest | ModelResponse]):
 
         # Photos
         if message.photo:
-            photo = message.photo[-1]  # last is the highest quality
+            photo = message.photo[-1]
             downloaded_photo: Optional[BinaryIO] = await bot.download(photo)
 
             if not downloaded_photo:
@@ -130,8 +133,8 @@ class NewAIMessageHistory(list[ModelRequest | ModelResponse]):
 
             content.append(
                 BinaryContent(
-                    media_type=ImageMediaType,
-                    data=downloaded_photo,
+                    media_type='image/jpeg',
+                    data=downloaded_photo.read(),
                 )
             )
 
@@ -148,25 +151,23 @@ class NewAIMessageHistory(list[ModelRequest | ModelResponse]):
             #     )
             # )
 
-        self.append(ModelRequest(parts=[UserPromptPart(
-            content=content,
-            timestamp=message.date
-        )]))
+        self.prompt = content
 
-    # async def add_from_message_with_reply(self, message: Message, custom_user_text: Optional[str] = None):
-    #     if message.reply_to_message and message.reply_to_message.from_user:
-    #         await self.add_from_message(message.reply_to_message)
-    #         reply_to_user = message.reply_to_message.from_user.full_name
-    #     else:
-    #         reply_to_user = None
-    #
-    #     await self.add_from_message(message, reply_to_user=reply_to_user, custom_user_text=custom_user_text)
+    async def add_from_message_with_reply(self, message: Message, custom_user_text: Optional[str] = None):
+        # TODO: THIS
+        if message.reply_to_message and message.reply_to_message.from_user:
+            reply_to_user = message.reply_to_message.from_user.full_name
+            await self.add_from_message(message.reply_to_message, reply_to_user=reply_to_user,
+                                        custom_user_text=custom_user_text)
+        else:
+            reply_to_user = None
+            await self.add_from_message(message, reply_to_user=reply_to_user, custom_user_text=custom_user_text)
 
     @staticmethod
     async def chatbot_history(chat_id: int, additional_system_prompt: str = ""):
         history = NewAIMessageHistory()
         history.add_chatbot_system_msg(additional=additional_system_prompt)
-        await history.add_from_cache(chat_id)
+        # await history.add_from_cache(chat_id)
 
-        log.debug("MessageHistory: chatbot", history=history)
+        log.debug("MessageHistory: message_history", history=history.message_history)
         return history

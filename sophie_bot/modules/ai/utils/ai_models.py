@@ -55,9 +55,9 @@ AI_MODEL_TO_SHORT_NAME = {
     GoogleModels.gemini_2_0_flash.value: 'Gemini 2.0 Flash',
     GoogleModels.gemini_2_5_pro.value: 'Gemini 2.5 Pro (Experimental)',
 
-    OpenAIModels.o3_mini.value: 'o3 Mini',
+    OpenAIModels.o3_mini.value: 'o3 mini',
     OpenAIModels.gpt_4o.value: 'GPT-4o',
-    OpenAIModels.gpt_4o_mini.value: 'GTP-4o Mini',
+    OpenAIModels.gpt_4o_mini.value: 'GTP-4o mini',
 }
 
 
@@ -82,4 +82,4 @@ AI_MODELS: dict[str, Provider] = {
     ) for model_name, provider in AI_MODEL_TO_PROVIDER.items()
 }
 
-DEFAULT_PROVIDER = AI_MODELS[OpenAIModels.gpt_4o_mini.name]
+DEFAULT_PROVIDER = AI_MODELS[GoogleModels.gemini_2_0_flash.name]
