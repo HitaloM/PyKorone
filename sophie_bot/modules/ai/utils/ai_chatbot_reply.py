@@ -42,7 +42,8 @@ async def ai_chatbot_reply(
     history = NewAIMessageHistory()
     await history.chatbot_history(
         message.chat.id,
-        additional_system_prompt=_("Use DuckDuckGo to search for information. Include information sources as links.")
+        additional_system_prompt=_(
+            "You can use DuckDuckGo to search for information. Include information sources as links.")
     )
     await history.add_from_message_with_reply(message, custom_user_text=user_text)
 
