@@ -10,25 +10,56 @@ from pydantic_ai.providers.openai import OpenAIProvider
 from sophie_bot.config import CONFIG
 
 ai_http_client = AsyncClient(timeout=30)
+
+
+class AIProviders(str, Enum):
+    google = "google"
+    openai = "openai"
+
+
 AI_PROVIDERS = {
-    'google': GoogleGLAProvider(api_key=CONFIG.gemini_api_key, http_client=ai_http_client),
-    'openai': OpenAIProvider(api_key=CONFIG.openai_key, http_client=ai_http_client)
+    AIProviders.google.name: GoogleGLAProvider(api_key=CONFIG.gemini_api_key, http_client=ai_http_client),
+    AIProviders.openai.name: OpenAIProvider(api_key=CONFIG.openai_key, http_client=ai_http_client)
 }
 AI_MODEL_CLASSES = {
-    'google': GeminiModel,
-    'openai': OpenAIModel
+    AIProviders.google.name: GeminiModel,
+    AIProviders.openai.name: OpenAIModel
 }
+AI_PROVIDER_TO_NAME = {
+    AIProviders.google.name: 'Google Gemini',
+    AIProviders.openai.name: 'OpenAI (ChatGPT)'
+}
+
 
 class GoogleModels(Enum):
-    gemini_1_5_flash = "gemini-1.5-flash"
+    gemini_2_0_flash = "gemini-2.0-flash"
+    gemini_2_5_pro = "gemini-2.5-pro-exp-03-25"
+
 
 class OpenAIModels(Enum):
-    gpt_4 = "gpt-4"
+    o3_mini = "o3-mini"
+    gpt_4o = "gpt-4o"
+    gpt_4o_mini = "gpt-4o-mini"
+
 
 AI_MODEL_TO_PROVIDER = {
-    'gemini_1_5_flash': 'google',
-    'gpt_4': 'openai',
+    GoogleModels.gemini_2_0_flash.name: 'google',
+    GoogleModels.gemini_2_5_pro.name: 'google',
+
+    OpenAIModels.o3_mini.name: 'openai',
+    OpenAIModels.gpt_4o.name: 'openai',
+    OpenAIModels.gpt_4o_mini.name: 'openai',
 }
+
+AI_MODEL_TO_SHORT_NAME = {
+    GoogleModels.gemini_2_0_flash.value: 'Gemini 2.0 Flash',
+    GoogleModels.gemini_2_5_pro.value: 'Gemini 2.5 Pro (Experimental)',
+
+    OpenAIModels.o3_mini.value: 'o3 Mini',
+    OpenAIModels.gpt_4o.value: 'GPT-4o',
+    OpenAIModels.gpt_4o_mini.value: 'GTP-4o Mini',
+}
+
 
 def build_models(provider: str, model: str) -> Provider:
     if provider not in AI_MODEL_CLASSES:
@@ -51,4 +82,4 @@ AI_MODELS: dict[str, Provider] = {
     ) for model_name, provider in AI_MODEL_TO_PROVIDER.items()
 }
 
-DEFAULT_MODEL = AI_MODELS[GoogleModels.gemini_1_5_flash.name]
+DEFAULT_PROVIDER = AI_MODELS[OpenAIModels.gpt_4o_mini.name]

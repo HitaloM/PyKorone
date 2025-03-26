@@ -68,12 +68,11 @@ class NewAIMessageHistory(list[ModelRequest | ModelResponse]):
     def add_chatbot_system_msg(self, additional: str = ""):
         system_message = "\n".join(
             (
-                _("You're a bot named Sophie."),
-                _("Respond concisely and stick to the current topic."),
+                _("You're a telegram bot named Sophie."),
+                _("Respond friendly."),
                 _(
-                    "Please use only the following markdown elements: ** for bold, ~~ for strikethrough, ` for code, and ``` for preformatted text."
+                    "Do not use tables, use only the following markdown elements: ** for bold, ~~ for strikethrough, ` for code, ``` for code blocks and []() for links."
                 ),
-                _("Don't use Tables. You can use emojis."),
             )
         )
         self.append(ModelRequest(parts=[SystemPromptPart(content=system_message + additional)]))
