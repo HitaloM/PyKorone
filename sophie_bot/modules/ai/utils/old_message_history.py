@@ -41,7 +41,7 @@ class ToCache:
     msg_id: int
 
 
-class AIMessageHistory(list[ChatCompletionMessageParam]):
+class OldAIMessageHistory(list[ChatCompletionMessageParam]):
     to_cache: list[ToCache] = []
 
     @staticmethod
@@ -172,10 +172,10 @@ class AIMessageHistory(list[ChatCompletionMessageParam]):
     @staticmethod  # TODO: Unstatic it
     async def chatbot(
         message: Message, custom_user_text: Optional[str] = None, additional_system_prompt: str = ""
-    ) -> "AIMessageHistory":
+    ) -> "OldAIMessageHistory":
         """A simple chat-bot case"""
 
-        history = AIMessageHistory()
+        history = OldAIMessageHistory()
         history.add_chatbot_system_msg(additional=additional_system_prompt)
         await history.add_from_cache(message.chat.id)
 

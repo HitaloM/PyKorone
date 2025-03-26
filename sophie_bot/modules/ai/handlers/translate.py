@@ -9,8 +9,8 @@ from sophie_bot.filters.cmd import CMDFilter
 from sophie_bot.modules.ai.filters.ai_enabled import AIEnabledFilter
 from sophie_bot.modules.ai.fsm.pm import AI_GENERATED_TEXT
 from sophie_bot.modules.ai.json_schemas.translate import AITranslateResponseSchema
-from sophie_bot.modules.ai.utils.ai_chatbot import ai_generate_schema
-from sophie_bot.modules.ai.utils.message_history import AIMessageHistory
+from sophie_bot.modules.ai.utils.old_ai_chatbot import ai_generate_schema
+from sophie_bot.modules.ai.utils.old_message_history import OldAIMessageHistory
 from sophie_bot.modules.ai.utils.transform_audio import transform_voice_to_text
 from sophie_bot.modules.notes.utils.unparse_legacy import legacy_markdown_to_html
 from sophie_bot.services.bot import bot
@@ -60,7 +60,7 @@ class AiTranslate(MessageHandler):
             to_translate = self.data.get("text", "")
 
         # AI Context
-        ai_context = AIMessageHistory()
+        ai_context = OldAIMessageHistory()
         await ai_context.add_from_message_with_reply(self.event)
         ai_context.add_system(
             "\n".join(

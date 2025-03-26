@@ -8,7 +8,7 @@ from stfu_tg.doc import Doc, Element, PreformattedHTML
 
 from sophie_bot.modules.ai.fsm.pm import AI_GENERATED_TEXT
 from sophie_bot.modules.ai.utils.llms import DEFAULT_MODEL, Models
-from sophie_bot.modules.ai.utils.message_history import AIMessageHistory
+from sophie_bot.modules.ai.utils.old_message_history import OldAIMessageHistory
 from sophie_bot.modules.notes.utils.unparse_legacy import legacy_markdown_to_html
 from sophie_bot.services.ai import openai_client
 from sophie_bot.utils.i18n import gettext as _
@@ -51,7 +51,7 @@ async def ai_generate_schema(
 
 async def ai_reply(
     message: Message,
-    messages: AIMessageHistory,
+    messages: OldAIMessageHistory,
     model: Models = DEFAULT_MODEL,
     markup: Optional[ReplyKeyboardMarkup] = None,
     header_items: Sequence[Element] = (),

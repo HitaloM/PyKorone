@@ -3,15 +3,14 @@ from typing import Optional
 from aiogram import flags
 from aiogram.dispatcher.event.handler import CallbackType
 from aiogram.handlers import MessageHandler
-from ass_tg.types import OptionalArg, TextArg
 
+from ass_tg.types import OptionalArg, TextArg
 from sophie_bot.config import CONFIG
 from sophie_bot.filters.cmd import CMDFilter
 from sophie_bot.modules.ai.filters.ai_enabled import AIEnabledFilter
-from sophie_bot.modules.ai.utils.ai_chatbot import ai_reply
 from sophie_bot.modules.ai.utils.llms import DEFAULT_MODEL, Models
-from sophie_bot.modules.ai.utils.message_history import AIMessageHistory
 from sophie_bot.modules.ai.utils.new_ai_chatbot import new_ai_reply
+from sophie_bot.modules.ai.utils.new_message_history import NewAIMessageHistory
 from sophie_bot.services.bot import bot
 from sophie_bot.utils.i18n import lazy_gettext as l_
 
@@ -40,5 +39,10 @@ class AiCmd(MessageHandler):
         #
         # return await ai_reply(self.event, messages, model=model)
 
+        history = NewAIMessageHistory()
+        result = await new_ai_reply(
+            user_text,
+            history=await NewAIMessageHistory.chatbot_history(self.event.chat.id)
+        )
 
-        await new_ai_reply()
+        print(result)

@@ -25,7 +25,6 @@ class GoogleModels(Enum):
 class OpenAIModels(Enum):
     gpt_4 = "gpt-4"
 
-# Create proper mapping of models to providers
 AI_MODEL_TO_PROVIDER = {
     'gemini_1_5_flash': 'google',
     'gpt_4': 'openai',
@@ -45,9 +44,11 @@ def build_models(provider: str, model: str) -> Provider:
     ModelClass = AI_MODEL_CLASSES[provider]
     return ModelClass(model_value, provider=AI_PROVIDERS[provider])
 
-# Build the models dictionary properly
-AI_MODELS: dict[str, Provider] = {}
-for model_name, provider in AI_MODEL_TO_PROVIDER.items():
-    AI_MODELS[model_name] = build_models(provider, model_name)
 
-DEFAULT_MODEL = AI_MODELS[GoogleModels.gemini_1_5_flash.value]
+AI_MODELS: dict[str, Provider] = {
+    model_name: build_models(
+        provider, model_name
+    ) for model_name, provider in AI_MODEL_TO_PROVIDER.items()
+}
+
+DEFAULT_MODEL = AI_MODELS[GoogleModels.gemini_1_5_flash.name]

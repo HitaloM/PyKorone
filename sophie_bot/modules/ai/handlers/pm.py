@@ -12,8 +12,8 @@ from sophie_bot.filters.cmd import CMDFilter
 from sophie_bot.modules.ai.filters.ai_enabled import AIEnabledFilter
 from sophie_bot.modules.ai.filters.throttle import AIThrottleFilter
 from sophie_bot.modules.ai.fsm.pm import AI_PM_RESET, AI_PM_STOP_TEXT, AiPMFSM
-from sophie_bot.modules.ai.utils.ai_chatbot import ai_reply
-from sophie_bot.modules.ai.utils.message_history import AIMessageHistory
+from sophie_bot.modules.ai.utils.old_ai_chatbot import ai_reply
+from sophie_bot.modules.ai.utils.old_message_history import OldAIMessageHistory
 from sophie_bot.services.bot import bot
 from sophie_bot.utils.i18n import gettext as _
 from sophie_bot.utils.i18n import lazy_gettext as l_
@@ -72,7 +72,7 @@ class AiPmHandle(MessageHandler):
 
     async def handle(self) -> Any:
         await bot.send_chat_action(self.event.chat.id, "typing")
-        messages = await AIMessageHistory.chatbot(self.event)
+        messages = await OldAIMessageHistory.chatbot(self.event)
 
         buttons = ReplyKeyboardMarkup(
             keyboard=[[KeyboardButton(text=str(AI_PM_STOP_TEXT)), KeyboardButton(text=str(AI_PM_RESET))]],
