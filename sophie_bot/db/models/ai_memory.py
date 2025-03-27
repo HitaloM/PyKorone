@@ -1,0 +1,26 @@
+from beanie import Document, Link
+
+from .chat import ChatModel
+
+
+class AIMemoryModel(Document):
+    chat: Link[ChatModel]
+    lines: list[str] = []
+
+    class Settings:
+        name = "ai_memory"
+
+    @staticmethod
+    async def get_lines(chat_id: int) -> list[str]:
+        model = await AIMemoryModel.find_one(AIMemoryModel.chat.id == chat_id)
+
+        return model.lines if model else []
+
+    @staticmethod
+    async def append_line(chat: "ChatModel", new_line: str):
+        model = await AIMemoryModel.find_one(AIMemoryModel.chat.id == chat.id)
+        if not model:
+            model = AIMemoryModel(chat=chat)
+
+        model.lines = [*model.lines, new_line] if model else [new_line]
+        await model.save()
