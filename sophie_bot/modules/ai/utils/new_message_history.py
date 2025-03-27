@@ -1,3 +1,4 @@
+import datetime
 from asyncio import gather
 from typing import BinaryIO, Optional
 
@@ -18,6 +19,7 @@ from sophie_bot.modules.ai.utils.transform_audio import transform_voice_to_text
 from sophie_bot.services.bot import bot
 from sophie_bot.utils.exception import SophieException
 from sophie_bot.utils.i18n import gettext as _
+from stfu_tg import Template
 from sophie_bot.utils.logger import log
 
 
@@ -68,13 +70,15 @@ class NewAIMessageHistory:
         return ModelRequest(parts=[UserPromptPart(content=AIUserMessageFormatter.user_message(msg.text, first_name))])
 
     def add_chatbot_system_msg(self, additional: str = ""):
+        today = datetime.datetime.now()
         system_message = "\n".join(
             (
                 _("You're a telegram bot named Sophie."),
-                _("Respond sarcastically."),
+                _("Be funny when the topic is casual."),
                 _(
                     "Do not use tables, use only the following markdown elements: ** for bold, ~~ for strikethrough, ` for code, ``` for code blocks and []() for links."
                 ),
+                _("Today is ") + today.strftime("%d %B %Y, %H:%M"),
             )
         )
         self.message_history.append(ModelRequest(parts=[SystemPromptPart(content=system_message + additional)]))
