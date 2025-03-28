@@ -13,7 +13,7 @@ def match_regex_handler(message_text: str, pattern: str) -> bool:
     except TimeoutError:
         raise SophieException(
             f'The regex in the filter with pattern "{pattern}" is taking too long to execute. '
-            f'Sophie will not function properly until it will be removed.'
+            f"Sophie will not function properly until it will be removed."
         )
 
 
