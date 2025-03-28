@@ -29,10 +29,9 @@ LANGUAGES = {}
 
 log.debug("Loading legacy localizations...")
 
-
 PATH = "sophie_bot/localization"
 
-if not os.path.exists(PATH):
+if os.path.exists(PATH):
     for filename in os.listdir(PATH):
         log.debug("Loading language file " + filename)
         with open("sophie_bot/localization/" + filename, "r", encoding="utf8") as f:
