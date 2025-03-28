@@ -33,7 +33,7 @@ def match_contains_handler(message_text: str, text: str) -> bool:
 
 def match_legacy_handler(message: Message, handler: str) -> bool:
     """Match a message against different types of handlers (regex, exact, contains)."""
-    if not (message_text := normalize(message.caption or message.text or "")):
+    if not (message_text := message.caption or message.text or ""):
         return False
 
     # Legacy regex support
