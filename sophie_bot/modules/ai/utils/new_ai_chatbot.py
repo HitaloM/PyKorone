@@ -15,7 +15,7 @@ async def new_ai_generate(
     if agent_kwargs is None:
         agent_kwargs = dict()
 
-    agent = Agent(model, **kwargs)
+    agent = Agent(model, **kwargs)  # type: ignore
     result = await ai_agent_run(
         agent, user_prompt=history.prompt, message_history=history.message_history, **agent_kwargs
     )

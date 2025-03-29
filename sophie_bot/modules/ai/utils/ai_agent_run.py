@@ -2,7 +2,6 @@ from pydantic import BaseModel
 from pydantic_ai import Agent
 from pydantic_ai.messages import ModelRequest, ModelResponse
 from pydantic_ai.usage import Usage
-from pydantic_graph import GraphRunContext
 
 
 class AIAgentResult(BaseModel):
@@ -21,7 +20,7 @@ async def ai_agent_run(agent: Agent, **kwargs) -> AIAgentResult:
     # Sanity checks
     assert result and result.result is not None, "The graph run did not finish properly"
 
-    context: GraphRunContext = result.ctx
+    context = result.ctx
     state = context.state
 
     return AIAgentResult(

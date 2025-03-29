@@ -8,7 +8,6 @@ from normality import normalize
 from pydantic_ai.messages import (
     BinaryContent,
     ModelRequest,
-    ModelRequestPart,
     ModelResponse,
     SystemPromptPart,
     TextPart,
@@ -82,7 +81,7 @@ class NewAIMessageHistory:
         self.message_history.append(ModelRequest(parts=[SystemPromptPart(content=system_message + additional)]))
 
     @staticmethod
-    async def _cache_transform_msg(msg: MessageType) -> ModelRequestPart:
+    async def _cache_transform_msg(msg: MessageType) -> ModelResponse | ModelRequest:
         """Transforms a message from the cache to a message that can be sent to the AI."""
         user = await ChatModel.get_by_chat_id(msg.user_id)
         first_name = user.first_name_or_title if user else "Unknown"

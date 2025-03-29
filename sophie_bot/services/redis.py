@@ -8,14 +8,12 @@ from redis.asyncio import Redis
 from sophie_bot.config import CONFIG
 
 if TYPE_CHECKING:
-
     redis: StrictRedis | "FakeStrictRedis"
     bredis: StrictRedis | "FakeStrictRedis"
-    aredis: Redis | "FakeRedis"
-
+    aredis: Redis | "FakeAsyncRedis"
 
 if "pytest" in sys.modules or os.environ.get("TESTING") == "1":
-    from fakeredis import FakeRedis, FakeStrictRedis
+    from fakeredis import FakeAsyncRedis, FakeStrictRedis
 
     redis = FakeStrictRedis(
         decode_responses=True,
@@ -24,7 +22,7 @@ if "pytest" in sys.modules or os.environ.get("TESTING") == "1":
     bredis = FakeStrictRedis(
         single_connection_client=True,
     )
-    aredis = FakeRedis(
+    aredis = FakeAsyncRedis(
         single_connection_client=True,
     )
 else:

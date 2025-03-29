@@ -1,3 +1,5 @@
+from typing import Sequence
+
 from pydantic import TypeAdapter
 from pydantic_ai import RunContext
 from typing_extensions import TypedDict
@@ -7,7 +9,7 @@ from sophie_bot.modules.ai.utils.ai_chatbot_reply import SophieAIToolContenxt
 
 
 class AIChatNote(TypedDict):
-    names: list[str]
+    names: Sequence[str]
     text: str | None
 
 

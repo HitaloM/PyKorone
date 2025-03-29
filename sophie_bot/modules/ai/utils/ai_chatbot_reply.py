@@ -7,6 +7,7 @@ from pydantic_ai.messages import (
     ToolCallPart,
     ToolReturnPart,
 )
+from pydantic_ai.providers import Provider
 from stfu_tg import Doc, HList, PreformattedHTML, Section, VList
 from stfu_tg.doc import Element
 
@@ -52,6 +53,9 @@ async def ai_chatbot_reply(message: Message, connection: ChatConnection, user_te
     Sends a reply from AI based on user input and message history.
     """
 
+    if not connection.db_model:
+        return
+
     await bot.send_chat_action(message.chat.id, "typing")
 
     # Chat memory
@@ -65,14 +69,14 @@ async def ai_chatbot_reply(message: Message, connection: ChatConnection, user_te
     await history.chatbot_history(message.chat.id, additional_system_prompt=system_prompt.to_md())
     await history.add_from_message(message, custom_text=user_text)
 
-    model = DEFAULT_PROVIDER
+    provider: Provider = DEFAULT_PROVIDER
     result = await new_ai_generate(
-        history, tools=CHATBOT_TOOLS, model=model, agent_kwargs={"deps": SophieAIToolContenxt(connection=connection)}
+        history, tools=CHATBOT_TOOLS, model=provider, agent_kwargs={"deps": SophieAIToolContenxt(connection=connection)}
     )
 
     header_items = [*retrieve_tools_titles(result.message_history), HList(divider=", ")]
 
-    doc = Doc(ai_header(model, *header_items), PreformattedHTML(legacy_markdown_to_html(result.output)))
+    doc = Doc(ai_header(provider, *header_items), PreformattedHTML(legacy_markdown_to_html(result.output)))
 
     # if CONFIG.debug_mode:
     #     doc += " "

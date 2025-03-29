@@ -72,4 +72,4 @@ AI_MODELS: dict[str, Provider] = {
     model_name: build_models(provider, model_name) for model_name, provider in AI_MODEL_TO_PROVIDER.items()
 }
 
-DEFAULT_PROVIDER = AI_MODELS[GoogleModels.gemini_2_0_flash.name]
+DEFAULT_PROVIDER: Provider = AI_MODELS[GoogleModels.gemini_2_0_flash.name]
