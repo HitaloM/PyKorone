@@ -2,19 +2,18 @@ from typing import Any
 
 from aiogram import flags
 from aiogram.dispatcher.event.handler import CallbackType
-from aiogram.handlers import MessageHandler
 from aiogram.types import Message
 
 from sophie_bot.config import CONFIG
 from sophie_bot.modules.ai.filters.throttle import AIThrottleFilter
-from sophie_bot.modules.ai.utils.old_ai_chatbot import ai_reply
-from sophie_bot.modules.ai.utils.old_message_history import OldAIMessageHistory
+from sophie_bot.modules.ai.utils.ai_chatbot_reply import ai_chatbot_reply
 from sophie_bot.modules.ai.utils.self_reply import is_ai_message
+from sophie_bot.modules.utils_.base_handler import SophieMessageHandler
 from sophie_bot.services.bot import bot
 
 
 @flags.ai_cache(cache_handler_result=True)
-class AiReplyHandler(MessageHandler):
+class AiReplyHandler(SophieMessageHandler):
     @staticmethod
     async def filter(message: Message):
         if not message.reply_to_message:
@@ -31,4 +30,4 @@ class AiReplyHandler(MessageHandler):
 
     async def handle(self) -> Any:
         await bot.send_chat_action(self.event.chat.id, "typing")
-        return await ai_reply(self.event, await OldAIMessageHistory.chatbot(self.event))
+        return await ai_chatbot_reply(self.event, self.connection)
