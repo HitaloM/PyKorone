@@ -19,7 +19,6 @@ from sophie_bot.modules.ai.utils.transform_audio import transform_voice_to_text
 from sophie_bot.services.bot import bot
 from sophie_bot.utils.exception import SophieException
 from sophie_bot.utils.i18n import gettext as _
-from stfu_tg import Template
 from sophie_bot.utils.logger import log
 
 
@@ -53,21 +52,12 @@ class AIUserMessageFormatter:
 
 
 class NewAIMessageHistory:
+    """
+    This class is used to store and construct the messages that are sent to the AI.
+    """
+
     message_history: list[ModelRequest | ModelResponse] = []
     prompt: list[UserContent]
-
-    async def _cache_transform_msg(
-            self, msg: MessageType
-    ) -> ModelRequestPart:
-        user = await ChatModel.get_by_chat_id(msg.user_id)
-        first_name = user.first_name_or_title if user else "Unknown"
-
-        if msg.user_id == CONFIG.bot_id:
-            # TODO: remove the line below
-            text = cut_titlebar(msg.text) if is_ai_message(msg.text) else msg.text
-            return TextPart(content=text)
-
-        return ModelRequest(parts=[UserPromptPart(content=AIUserMessageFormatter.user_message(msg.text, first_name))])
 
     def add_chatbot_system_msg(self, additional: str = ""):
         today = datetime.datetime.now()
@@ -83,48 +73,62 @@ class NewAIMessageHistory:
         )
         self.message_history.append(ModelRequest(parts=[SystemPromptPart(content=system_message + additional)]))
 
+    @staticmethod
+    async def _cache_transform_msg(
+            msg: MessageType
+    ) -> ModelRequestPart:
+        """Transforms a message from the cache to a message that can be sent to the AI."""
+        user = await ChatModel.get_by_chat_id(msg.user_id)
+        first_name = user.first_name_or_title if user else "Unknown"
+
+        if msg.user_id == CONFIG.bot_id:
+            # TODO: remove the line below
+            text = cut_titlebar(msg.text) if is_ai_message(msg.text) else msg.text
+            return ModelResponse(parts=[TextPart(content=text)])
+
+        return ModelRequest(parts=[UserPromptPart(content=AIUserMessageFormatter.user_message(msg.text, first_name))])
+
     async def add_from_cache(self, chat_id: int):
+        """Adds messages from the cache to the message history."""
         self.message_history.extend(
             await gather(*[self._cache_transform_msg(msg) for msg in await get_cached_messages(chat_id)]))
-
-    def add_system(self, content: str):
-        self.message_history.append(ModelRequest(parts=[SystemPromptPart(content=content)]))
-
-    def add_custom(self, content: str, name: str):
-        self.message_history.append(ModelRequest(parts=[UserPromptPart(
-            content=AIUserMessageFormatter.user_message(content, name),
-        )]))
 
     async def add_from_message(
             self,
             message: Message,
-            reply_to_user: Optional[str] = None,
-            custom_user_text: Optional[str] = None,
+            custom_text: Optional[str] = None,
             normalize_texts: bool = False,
+            allow_reply_messages: bool = True,
     ):
         """Adds a user message to the context, returns a list of additional messages to cache for future use."""
 
-        if not message.from_user:
+        # Handle replied message first
+        replied_user_name: str | None = None
+        if allow_reply_messages and message.reply_to_message and message.reply_to_message.from_user:
+            replied_user_name = message.reply_to_message.from_user.full_name
+            await self.add_from_message(message.reply_to_message, allow_reply_messages=False)
+
+        if not message.from_user:  # Linter insists on checking this
             return
 
         user_id = message.from_user.id
         is_sophie = user_id == CONFIG.bot_id
 
-        text = custom_user_text or message.text or message.caption or _("<No text provided>")
+        message_text = custom_text or message.text or message.caption or _("<No text provided>")
         if normalize_texts:
-            text = normalize(text) or _("<No text provided>")
+            message_text = normalize(message_text) or _("<No text provided>")
 
         content: list[UserContent] = []
 
         # Cut the AI titlebar
-        if is_sophie and is_ai_message(text):
-            text = cut_titlebar(text)
+        if is_sophie and is_ai_message(message_text):
+            text = cut_titlebar(message_text)
 
         # Message's text
         content.append(AIUserMessageFormatter.user_message(
-            text=text,
+            text=message_text,
             name=message.from_user.full_name,
-            reply_to_user=reply_to_user,
+            reply_to_user=replied_user_name,
         ))
 
         # Photos
@@ -146,32 +150,15 @@ class NewAIMessageHistory:
         if message.voice:
             voice_text = await transform_voice_to_text(message.voice)
             content.append(voice_text)
-            # self.to_cache.append(
-            #     ToCache(
-            #         text=voice_text,
-            #         chat_id=message.chat.id,
-            #         user_id=user_id,
-            #         msg_id=message.message_id,
-            #     )
-            # )
+            # TODO: Cache message somehow again?
 
         self.prompt = content
-
-    async def add_from_message_with_reply(self, message: Message, custom_user_text: Optional[str] = None):
-        # TODO: THIS
-        if message.reply_to_message and message.reply_to_message.from_user:
-            reply_to_user = message.reply_to_message.from_user.full_name
-            await self.add_from_message(message.reply_to_message, reply_to_user=reply_to_user,
-                                        custom_user_text=custom_user_text)
-        else:
-            reply_to_user = None
-            await self.add_from_message(message, reply_to_user=reply_to_user, custom_user_text=custom_user_text)
 
     @staticmethod
     async def chatbot_history(chat_id: int, additional_system_prompt: str = ""):
         history = NewAIMessageHistory()
         history.add_chatbot_system_msg(additional=additional_system_prompt)
-        # await history.add_from_cache(chat_id)
+        await history.add_from_cache(chat_id)
 
         log.debug("MessageHistory: message_history", history=history.message_history)
         return history
