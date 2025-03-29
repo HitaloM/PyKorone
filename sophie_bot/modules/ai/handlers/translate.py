@@ -2,9 +2,8 @@ from aiogram import flags
 from aiogram.dispatcher.event.handler import CallbackType
 from aiogram.handlers import MessageHandler
 from aiogram.types import Message
-from ass_tg.types import TextArg
-from stfu_tg import Bold, Doc, HList, PreformattedHTML, Section, Template, Title
 
+from ass_tg.types import TextArg
 from sophie_bot.filters.cmd import CMDFilter
 from sophie_bot.modules.ai.filters.ai_enabled import AIEnabledFilter
 from sophie_bot.modules.ai.fsm.pm import AI_GENERATED_TEXT
@@ -13,10 +12,10 @@ from sophie_bot.modules.ai.utils.old_ai_chatbot import ai_generate_schema
 from sophie_bot.modules.ai.utils.old_message_history import OldAIMessageHistory
 from sophie_bot.modules.ai.utils.transform_audio import transform_voice_to_text
 from sophie_bot.modules.notes.utils.unparse_legacy import legacy_markdown_to_html
-from sophie_bot.services.bot import bot
 from sophie_bot.utils.i18n import gettext as _
 from sophie_bot.utils.i18n import lazy_gettext as l_
 from sophie_bot.utils.logger import log
+from stfu_tg import Bold, Doc, HList, PreformattedHTML, Section, Template, Title
 
 
 async def text_or_reply(message: Message | None, _data: dict):
@@ -43,7 +42,6 @@ class AiTranslate(MessageHandler):
 
     async def handle(self):
         is_autotranslate: bool = self.data.get("autotranslate", False)
-        await bot.send_chat_action(self.event.chat.id, "typing")
 
         language_name = self.data["i18n"].current_locale_display
 
