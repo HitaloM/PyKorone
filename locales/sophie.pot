@@ -91,13 +91,13 @@ msgstr ""
 msgid "✨ Sophie AI"
 msgstr ""
 
-#: sophie_bot/modules/ai/handlers/ai_cmd.py:19
+#: sophie_bot/modules/ai/handlers/ai_cmd.py:15
 #: sophie_bot/modules/ai/handlers/aisave.py:27
 #: sophie_bot/modules/ai/handlers/mode.py:14
 msgid "Prompt"
 msgstr ""
 
-#: sophie_bot/modules/ai/handlers/ai_cmd.py:21
+#: sophie_bot/modules/ai/handlers/ai_cmd.py:17
 msgid "Ask Sophie a question"
 msgstr ""
 
@@ -296,8 +296,24 @@ msgstr[1] ""
 msgid "By using AI features you agree to the our Privacy Policy (/privacy) and third party AI services used."
 msgstr ""
 
-#: sophie_bot/modules/ai/utils/ai_chatbot.py:33
-msgid "No text from AI"
+#: sophie_bot/modules/ai/utils/ai_chatbot_reply.py:30
+msgid "Memory updated 💾"
+msgstr ""
+
+#: sophie_bot/modules/ai/utils/ai_chatbot_reply.py:31
+msgid "DuckDuckGo Search 🔍"
+msgstr ""
+
+#: sophie_bot/modules/ai/utils/ai_chatbot_reply.py:32
+msgid "Scanned notes 🗒"
+msgstr ""
+
+#: sophie_bot/modules/ai/utils/ai_chatbot_reply.py:60
+msgid "You can use DuckDuckGo to search for information. Include information sources as links."
+msgstr ""
+
+#: sophie_bot/modules/ai/utils/ai_chatbot_reply.py:62
+msgid "You have the following information in memory"
 msgstr ""
 
 #: sophie_bot/modules/ai/utils/ai_moderator.py:10
@@ -352,33 +368,56 @@ msgstr ""
 msgid "Content that depicts death, violence, or physical injury in graphic detail."
 msgstr ""
 
-#: sophie_bot/modules/ai/utils/message_history.py:68
-msgid "You're a bot named Sophie."
+#: sophie_bot/modules/ai/utils/new_message_history.py:74
+msgid "You're a telegram bot named Sophie."
 msgstr ""
 
-#: sophie_bot/modules/ai/utils/message_history.py:69
-msgid "Respond concisely and stick to the current topic."
+#: sophie_bot/modules/ai/utils/new_message_history.py:75
+msgid "Be funny when the topic is casual."
 msgstr ""
 
-#: sophie_bot/modules/ai/utils/message_history.py:71
-msgid "Please use only the following markdown elements: ** for bold, ~~ for strikethrough, ` for code, and ``` for preformatted text."
+#: sophie_bot/modules/ai/utils/new_message_history.py:77
+msgid "Do not use tables, use only the following markdown elements: ** for bold, ~~ for strikethrough, ` for code, ``` for code blocks and []() for links."
 msgstr ""
 
-#: sophie_bot/modules/ai/utils/message_history.py:73
-msgid "Don't use Tables. You can use emojis."
+#: sophie_bot/modules/ai/utils/new_message_history.py:79
+msgid "Today is "
 msgstr ""
 
-#: sophie_bot/modules/ai/utils/message_history.py:104
-#: sophie_bot/modules/ai/utils/message_history.py:106
+#: sophie_bot/modules/ai/utils/new_message_history.py:124
+#: sophie_bot/modules/ai/utils/new_message_history.py:126
+#: sophie_bot/modules/ai/utils/old_message_history.py:104
+#: sophie_bot/modules/ai/utils/old_message_history.py:106
 msgid "<No text provided>"
 msgstr ""
 
-#: sophie_bot/modules/ai/utils/message_history.py:115
-msgid "REPLY TO"
+#: sophie_bot/modules/ai/utils/new_message_history.py:149
+#: sophie_bot/modules/ai/utils/old_message_history.py:126
+msgid "Photo is empty"
 msgstr ""
 
-#: sophie_bot/modules/ai/utils/message_history.py:126
-msgid "Photo is empty"
+#: sophie_bot/modules/ai/utils/old_ai_chatbot.py:33
+msgid "No text from AI"
+msgstr ""
+
+#: sophie_bot/modules/ai/utils/old_message_history.py:68
+msgid "You're a bot named Sophie."
+msgstr ""
+
+#: sophie_bot/modules/ai/utils/old_message_history.py:69
+msgid "Respond concisely and stick to the current topic."
+msgstr ""
+
+#: sophie_bot/modules/ai/utils/old_message_history.py:71
+msgid "Please use only the following markdown elements: ** for bold, ~~ for strikethrough, ` for code, and ``` for preformatted text."
+msgstr ""
+
+#: sophie_bot/modules/ai/utils/old_message_history.py:73
+msgid "Don't use Tables. You can use emojis."
+msgstr ""
+
+#: sophie_bot/modules/ai/utils/old_message_history.py:115
+msgid "REPLY TO"
 msgstr ""
 
 #: sophie_bot/modules/disabling/__init__.py:17

@@ -16,12 +16,7 @@ def get_message_cache_key(chat_id: int) -> str:
     return f"messages:{chat_id}"
 
 
-async def cache_message(
-        text: Optional[str],
-        chat_id: int,
-        user_id: int,
-        message_id: int
-) -> None:
+async def cache_message(text: Optional[str], chat_id: int, user_id: int, message_id: int) -> None:
     """Caches a message if text is provided."""
     if not text:
         return

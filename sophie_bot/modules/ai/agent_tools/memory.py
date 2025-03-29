@@ -11,8 +11,5 @@ class MemoryAgentTool:
 
     def __new__(cls):
         return Tool(
-            cls.tool_call,
-            name='write_memory',
-            description='Saves information to the long term memory',
-            takes_ctx=True
+            cls.tool_call, name="write_memory", description="Saves information to the long term memory", takes_ctx=True
         )

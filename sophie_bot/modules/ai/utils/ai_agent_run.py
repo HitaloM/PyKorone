@@ -13,16 +13,13 @@ class AIAgentResult(BaseModel):
     usage: Usage
 
 
-async def ai_agent_run(
-        agent: Agent,
-        **kwargs
-) -> AIAgentResult:
+async def ai_agent_run(agent: Agent, **kwargs) -> AIAgentResult:
     async with agent.iter(**kwargs) as result:
         async for _ in result:
             pass
 
     # Sanity checks
-    assert result and result.result is not None, 'The graph run did not finish properly'
+    assert result and result.result is not None, "The graph run did not finish properly"
 
     context: GraphRunContext = result.ctx
     state = context.state

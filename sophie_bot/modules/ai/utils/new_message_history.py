@@ -5,8 +5,16 @@ from typing import BinaryIO, Optional
 from aiogram.types import Message
 from attr import dataclass
 from normality import normalize
-from pydantic_ai.messages import ModelRequest, UserPromptPart, BinaryContent, \
-    UserContent, SystemPromptPart, ModelRequestPart, ModelResponse, TextPart
+from pydantic_ai.messages import (
+    BinaryContent,
+    ModelRequest,
+    ModelRequestPart,
+    ModelResponse,
+    SystemPromptPart,
+    TextPart,
+    UserContent,
+    UserPromptPart,
+)
 
 from sophie_bot.config import CONFIG
 from sophie_bot.db.models import ChatModel
@@ -38,17 +46,17 @@ class AIUserMessageFormatter:
 
     @classmethod
     def user_message(
-            cls,
-            text: str,
-            name: str,
-            reply_to_user: Optional[str] = None,
+        cls,
+        text: str,
+        name: str,
+        reply_to_user: Optional[str] = None,
     ):
         name = cls.sanitize_name(name)
         if reply_to_user:
             reply_to_user = cls.sanitize_name(reply_to_user)
             text = f"<From {name}, as reply to {reply_to_user}>:\n{text}"
 
-        return f'<From {name}>:\n{text}'
+        return f"<From {name}>:\n{text}"
 
 
 class NewAIMessageHistory:
@@ -74,9 +82,7 @@ class NewAIMessageHistory:
         self.message_history.append(ModelRequest(parts=[SystemPromptPart(content=system_message + additional)]))
 
     @staticmethod
-    async def _cache_transform_msg(
-            msg: MessageType
-    ) -> ModelRequestPart:
+    async def _cache_transform_msg(msg: MessageType) -> ModelRequestPart:
         """Transforms a message from the cache to a message that can be sent to the AI."""
         user = await ChatModel.get_by_chat_id(msg.user_id)
         first_name = user.first_name_or_title if user else "Unknown"
@@ -91,14 +97,15 @@ class NewAIMessageHistory:
     async def add_from_cache(self, chat_id: int):
         """Adds messages from the cache to the message history."""
         self.message_history.extend(
-            await gather(*[self._cache_transform_msg(msg) for msg in await get_cached_messages(chat_id)]))
+            await gather(*[self._cache_transform_msg(msg) for msg in await get_cached_messages(chat_id)])
+        )
 
     async def add_from_message(
-            self,
-            message: Message,
-            custom_text: Optional[str] = None,
-            normalize_texts: bool = False,
-            allow_reply_messages: bool = True,
+        self,
+        message: Message,
+        custom_text: Optional[str] = None,
+        normalize_texts: bool = False,
+        allow_reply_messages: bool = True,
     ):
         """Adds a user message to the context, returns a list of additional messages to cache for future use."""
 
@@ -122,14 +129,16 @@ class NewAIMessageHistory:
 
         # Cut the AI titlebar
         if is_sophie and is_ai_message(message_text):
-            text = cut_titlebar(message_text)
+            message_text = cut_titlebar(message_text)
 
         # Message's text
-        content.append(AIUserMessageFormatter.user_message(
-            text=message_text,
-            name=message.from_user.full_name,
-            reply_to_user=replied_user_name,
-        ))
+        content.append(
+            AIUserMessageFormatter.user_message(
+                text=message_text,
+                name=message.from_user.full_name,
+                reply_to_user=replied_user_name,
+            )
+        )
 
         # Photos
         if message.photo:
@@ -141,7 +150,7 @@ class NewAIMessageHistory:
 
             content.append(
                 BinaryContent(
-                    media_type='image/jpeg',
+                    media_type="image/jpeg",
                     data=downloaded_photo.read(),
                 )
             )

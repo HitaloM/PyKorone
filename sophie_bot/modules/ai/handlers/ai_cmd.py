@@ -2,8 +2,8 @@ from typing import Optional
 
 from aiogram import flags
 from aiogram.dispatcher.event.handler import CallbackType
-
 from ass_tg.types import OptionalArg, TextArg
+
 from sophie_bot.filters.cmd import CMDFilter
 from sophie_bot.modules.ai.filters.ai_enabled import AIEnabledFilter
 from sophie_bot.modules.ai.utils.ai_chatbot_reply import ai_chatbot_reply
