@@ -3,6 +3,8 @@ from typing import Iterable, Optional, Sequence, TypeVar
 from aiogram.types import Message, ReplyKeyboardMarkup
 from openai.types import ResponseFormatJSONSchema, ResponseFormatText
 from openai.types.chat import ChatCompletionMessageParam
+from stfu_tg import HList, Title
+from stfu_tg.doc import Doc, Element, PreformattedHTML
 
 from sophie_bot.modules.ai.fsm.pm import AI_GENERATED_TEXT
 from sophie_bot.modules.ai.utils.llms import OLD_DEFAULT_MODEL, OldAIModels
@@ -11,16 +13,14 @@ from sophie_bot.modules.notes.utils.unparse_legacy import legacy_markdown_to_htm
 from sophie_bot.services.ai import openai_client
 from sophie_bot.utils.i18n import gettext as _
 from sophie_bot.utils.logger import log
-from stfu_tg import HList, Title
-from stfu_tg.doc import Doc, Element, PreformattedHTML
 
 RESPONSE_TYPE = TypeVar("RESPONSE_TYPE")
 
 
 async def ai_generate(
-        messages: Iterable[ChatCompletionMessageParam],
-        model: OldAIModels = OLD_DEFAULT_MODEL,
-        json_schema: Optional[ResponseFormatJSONSchema] = None,
+    messages: Iterable[ChatCompletionMessageParam],
+    model: OldAIModels = OLD_DEFAULT_MODEL,
+    json_schema: Optional[ResponseFormatJSONSchema] = None,
 ) -> str:
     chat_completion = await openai_client.chat.completions.create(  # type: ignore
         messages=messages,
@@ -34,9 +34,9 @@ async def ai_generate(
 
 
 async def ai_generate_schema(
-        messages: Iterable[ChatCompletionMessageParam],
-        schema: type[RESPONSE_TYPE],
-        model: OldAIModels = OLD_DEFAULT_MODEL,
+    messages: Iterable[ChatCompletionMessageParam],
+    schema: type[RESPONSE_TYPE],
+    model: OldAIModels = OLD_DEFAULT_MODEL,
 ) -> RESPONSE_TYPE:
     chat_completion = await openai_client.beta.chat.completions.parse(  # type: ignore
         messages=messages,
@@ -50,12 +50,12 @@ async def ai_generate_schema(
 
 
 async def ai_reply(
-        message: Message,
-        messages: OldAIMessageHistory,
-        model: OldAIModels = OLD_DEFAULT_MODEL,
-        markup: Optional[ReplyKeyboardMarkup] = None,
-        header_items: Sequence[Element] = (),
-        doc_items: Sequence[Element] = (),
+    message: Message,
+    messages: OldAIMessageHistory,
+    model: OldAIModels = OLD_DEFAULT_MODEL,
+    markup: Optional[ReplyKeyboardMarkup] = None,
+    header_items: Sequence[Element] = (),
+    doc_items: Sequence[Element] = (),
 ) -> Message:
     response = await ai_generate(messages, model)
     response = PreformattedHTML(legacy_markdown_to_html(response))

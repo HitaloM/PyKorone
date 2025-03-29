@@ -210,12 +210,12 @@ msgstr ""
 msgid "The AI mode has been exited."
 msgstr ""
 
-#: sophie_bot/modules/ai/handlers/reset_context.py:17
-msgid "Reset the chat's AI context"
+#: sophie_bot/modules/ai/handlers/reset_context.py:18
+msgid "Reset the chat's AI context and AI memory"
 msgstr ""
 
-#: sophie_bot/modules/ai/handlers/reset_context.py:36
-msgid "🔄 AI context was successfully reset. AI will now operate in a clean state."
+#: sophie_bot/modules/ai/handlers/reset_context.py:39
+msgid "🔄 AI context and AI memory was successfully reset. AI will now operate in a clean state."
 msgstr ""
 
 #: sophie_bot/modules/ai/handlers/translate.py:25
@@ -296,23 +296,27 @@ msgstr[1] ""
 msgid "By using AI features you agree to the our Privacy Policy (/privacy) and third party AI services used."
 msgstr ""
 
-#: sophie_bot/modules/ai/utils/ai_chatbot_reply.py:31
+#: sophie_bot/modules/ai/utils/ai_chatbot_reply.py:33
 msgid "Memory updated 💾"
 msgstr ""
 
-#: sophie_bot/modules/ai/utils/ai_chatbot_reply.py:32
+#: sophie_bot/modules/ai/utils/ai_chatbot_reply.py:34
 msgid "DuckDuckGo Search 🔍"
 msgstr ""
 
-#: sophie_bot/modules/ai/utils/ai_chatbot_reply.py:33
+#: sophie_bot/modules/ai/utils/ai_chatbot_reply.py:35
 msgid "Scanned notes 🗒"
 msgstr ""
 
-#: sophie_bot/modules/ai/utils/ai_chatbot_reply.py:64
+#: sophie_bot/modules/ai/utils/ai_chatbot_reply.py:67
 msgid "You can use DuckDuckGo to search for information. Include information sources as links."
 msgstr ""
 
-#: sophie_bot/modules/ai/utils/ai_chatbot_reply.py:66
+#: sophie_bot/modules/ai/utils/ai_chatbot_reply.py:68
+msgid "You can also save important facts to memory."
+msgstr ""
+
+#: sophie_bot/modules/ai/utils/ai_chatbot_reply.py:71
 msgid "You have the following information in memory"
 msgstr ""
 
