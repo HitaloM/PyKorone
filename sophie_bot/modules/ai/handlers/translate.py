@@ -2,9 +2,8 @@ from aiogram import flags
 from aiogram.dispatcher.event.handler import CallbackType
 from aiogram.handlers import MessageHandler
 from aiogram.types import Message
-from ass_tg.types import TextArg
-from stfu_tg import Bold, Doc, HList, PreformattedHTML, Section, Template, Title
 
+from ass_tg.types import TextArg
 from sophie_bot.filters.cmd import CMDFilter
 from sophie_bot.modules.ai.filters.ai_enabled import AIEnabledFilter
 from sophie_bot.modules.ai.fsm.pm import AI_GENERATED_TEXT
@@ -16,6 +15,7 @@ from sophie_bot.modules.notes.utils.unparse_legacy import legacy_markdown_to_htm
 from sophie_bot.utils.i18n import gettext as _
 from sophie_bot.utils.i18n import lazy_gettext as l_
 from sophie_bot.utils.logger import log
+from stfu_tg import Bold, Doc, HList, PreformattedHTML, Section, Template, Title
 
 
 async def text_or_reply(message: Message | None, _data: dict):
@@ -75,7 +75,7 @@ class AiTranslate(MessageHandler):
         if is_autotranslate and not is_voice and not translated.needs_translation:
             log.debug("AiTranslate: AI do not think it needs translation, skipping.")
             return
-        elif to_translate.lower().strip() == translated.translated_text.lower().strip():
+        elif is_autotranslate and to_translate.lower().strip() == translated.translated_text.lower().strip():
             log.debug("AiTranslate: AI gave the exact same text, skipping.")
             return
 
