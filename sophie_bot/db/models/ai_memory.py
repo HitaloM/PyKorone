@@ -24,3 +24,9 @@ class AIMemoryModel(Document):
 
         model.lines = [*model.lines, new_line] if model else [new_line]
         await model.save()
+
+    @staticmethod
+    async def clear(chat_iid: int):
+        model = await AIMemoryModel.find_one(AIMemoryModel.chat.id == chat_iid)
+        if model:
+            await model.delete()

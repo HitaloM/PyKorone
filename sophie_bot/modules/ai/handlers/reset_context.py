@@ -3,6 +3,7 @@ from typing import Any
 from aiogram import F, flags
 from aiogram.dispatcher.event.handler import CallbackType
 
+from sophie_bot.db.models import AIMemoryModel
 from sophie_bot.filters.admin_rights import UserRestricting
 from sophie_bot.filters.cmd import CMDFilter
 from sophie_bot.modules.ai.callbacks import AIResetContext
@@ -14,7 +15,7 @@ from sophie_bot.utils.i18n import gettext as _
 from sophie_bot.utils.i18n import lazy_gettext as l_
 
 
-@flags.help(description=l_("Reset the chat's AI context"))
+@flags.help(description=l_("Reset the chat's AI context and AI memory"))
 class AIContextReset(SophieMessageHandler):
     @staticmethod
     def filters() -> tuple[CallbackType, ...]:
@@ -29,9 +30,9 @@ class AIContextReset(SophieMessageHandler):
         return AIResetContext.filter(), UserRestricting(admin=True), AIEnabledFilter()
 
     async def handle(self) -> Any:
-        connection = self.connection
-        await reset_messages(connection.id)
+        await reset_messages(self.connection.id)
+        await AIMemoryModel.clear(self.connection.db_model.id)
 
         return await self.event.reply(
-            _("🔄 AI context was successfully reset. AI will now operate in a clean " "state.")
+            _("🔄 AI context and AI memory was successfully reset. AI will now operate in a clean state.")
         )
