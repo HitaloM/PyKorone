@@ -783,14 +783,14 @@ wmi = ["wmi (>=1.5.1)"]
 
 [[package]]
 name = "duckduckgo-search"
-version = "7.5.4"
+version = "7.5.5"
 description = "Search for words, documents, images, news, maps and text translation using the DuckDuckGo.com search engine."
 optional = false
 python-versions = ">=3.9"
 groups = ["main"]
 files = [
-    {file = "duckduckgo_search-7.5.4-py3-none-any.whl", hash = "sha256:fe61e9b07cc3ef806e8af32085dae7e245c287a7c969d06e4a8291b04b4a74d8"},
-    {file = "duckduckgo_search-7.5.4.tar.gz", hash = "sha256:1149b9e5c79ecb21c3030fed798175031255156e9929a93c34da3325477beda9"},
+    {file = "duckduckgo_search-7.5.5-py3-none-any.whl", hash = "sha256:c71a0661aa436f215d9a05d653af424affb58825ab3e79f3b788053cbdee9ebc"},
+    {file = "duckduckgo_search-7.5.5.tar.gz", hash = "sha256:44ef03bfa5484bada786590f2d4c213251131765721383a177a0da6fa5c5e41a"},
 ]
 
 [package.dependencies]
@@ -851,14 +851,14 @@ tests = ["asttokens (>=2.1.0)", "coverage", "coverage-enable-subprocess", "ipyth
 
 [[package]]
 name = "fakeredis"
-version = "2.27.0"
+version = "2.28.0"
 description = "Python implementation of redis API, can be used for testing purposes."
 optional = false
 python-versions = "<4.0,>=3.7"
 groups = ["dev"]
 files = [
-    {file = "fakeredis-2.27.0-py3-none-any.whl", hash = "sha256:f4b6e0fa4193acbf00d81dac71ff5cc34fe7d7c12f1560b036f98578a103d5c3"},
-    {file = "fakeredis-2.27.0.tar.gz", hash = "sha256:7b7584ec104392592297f46864a82cb7339a23e254ee885bf5ae07cfc64fbce7"},
+    {file = "fakeredis-2.28.0-py3-none-any.whl", hash = "sha256:e19b2a72cb0d13edaae95637748cef569840866d0807d93f4d381571034d1388"},
+    {file = "fakeredis-2.28.0.tar.gz", hash = "sha256:4768a78240ca03af79f8922f0b6774efb52c6bf2d27d38a622da9a2a7e8abc8d"},
 ]
 
 [package.dependencies]
@@ -874,20 +874,20 @@ probabilistic = ["pyprobables (>=0.6,<0.7)"]
 
 [[package]]
 name = "flake8"
-version = "7.1.2"
+version = "7.2.0"
 description = "the modular source code checker: pep8 pyflakes and co"
 optional = false
-python-versions = ">=3.8.1"
+python-versions = ">=3.9"
 groups = ["dev"]
 files = [
-    {file = "flake8-7.1.2-py2.py3-none-any.whl", hash = "sha256:1cbc62e65536f65e6d754dfe6f1bada7f5cf392d6f5db3c2b85892466c3e7c1a"},
-    {file = "flake8-7.1.2.tar.gz", hash = "sha256:c586ffd0b41540951ae41af572e6790dbd49fc12b3aa2541685d253d9bd504bd"},
+    {file = "flake8-7.2.0-py2.py3-none-any.whl", hash = "sha256:93b92ba5bdb60754a6da14fa3b93a9361fd00a59632ada61fd7b130436c40343"},
+    {file = "flake8-7.2.0.tar.gz", hash = "sha256:fa558ae3f6f7dbf2b4f22663e5343b6b6023620461f8d4ff2019ef4b5ee70426"},
 ]
 
 [package.dependencies]
 mccabe = ">=0.7.0,<0.8.0"
-pycodestyle = ">=2.12.0,<2.13.0"
-pyflakes = ">=3.2.0,<3.3.0"
+pycodestyle = ">=2.13.0,<2.14.0"
+pyflakes = ">=3.3.0,<3.4.0"
 
 [[package]]
 name = "flake8-isort"
@@ -1037,14 +1037,14 @@ requests = ["requests (>=2.20.0,<3.0.0.dev0)"]
 
 [[package]]
 name = "griffe"
-version = "1.6.3"
+version = "1.7.1"
 description = "Signatures for entire Python programs. Extract the structure, the frame, the skeleton of your project, to generate API documentation or find breaking changes in your API."
 optional = false
 python-versions = ">=3.9"
 groups = ["main"]
 files = [
-    {file = "griffe-1.6.3-py3-none-any.whl", hash = "sha256:7a0c559f10d8a9016f4d0b4ceaacc087e31e2370cb1aa9a59006a30d5a279fb3"},
-    {file = "griffe-1.6.3.tar.gz", hash = "sha256:568cc9e50de04f6c76234bf46dd7f3a264ea3cbb1380fb54818e81e3675a83cf"},
+    {file = "griffe-1.7.1-py3-none-any.whl", hash = "sha256:37a7f15233937d723ddc969fa4117fdd03988885c16938dc43bccdfe8fa4d02d"},
+    {file = "griffe-1.7.1.tar.gz", hash = "sha256:464730d0e95d0afd038e699a5f7276d7438d0712db0c489a17e761f70e011507"},
 ]
 
 [package.dependencies]
@@ -1385,14 +1385,14 @@ test = ["pytest (==8.3.4)"]
 
 [[package]]
 name = "logfire-api"
-version = "3.10.0"
+version = "3.11.0"
 description = "Shim for the Logfire SDK which does nothing unless Logfire is installed"
 optional = false
 python-versions = ">=3.8"
 groups = ["main"]
 files = [
-    {file = "logfire_api-3.10.0-py3-none-any.whl", hash = "sha256:eb62d572eab349e3746978b3ccb8decbeefd24b35187a69779cb7519aa73df22"},
-    {file = "logfire_api-3.10.0.tar.gz", hash = "sha256:08ef320a1df24593332f78dafdb82f914af73c5b332bab207447f7fee8c0cc3a"},
+    {file = "logfire_api-3.11.0-py3-none-any.whl", hash = "sha256:a556d18a21086d53d51e8775b2ef58a987ebaa372257a5af6668852f44ba17cc"},
+    {file = "logfire_api-3.11.0.tar.gz", hash = "sha256:e242f10e1f90e34a52e8d62bb410d2b2c4ff0dde15ce0a93414ee96af503e584"},
 ]
 
 [[package]]
@@ -1841,13 +1841,13 @@ icu = ["pyicu (>=1.9.3)"]
 
 [[package]]
 name = "nuitka"
-version = "2.6.8"
+version = "2.6.9"
 description = "Python compiler with full language support and CPython compatibility"
 optional = false
 python-versions = "*"
 groups = ["dev"]
 files = [
-    {file = "Nuitka-2.6.8.tar.gz", hash = "sha256:da1197842258fa266d8188d2962913351539d8d2067cfd6d78dee2762808d516"},
+    {file = "Nuitka-2.6.9.tar.gz", hash = "sha256:50e1d2fae48c32b0103850df5ad2ccdde7f3c736545681c0896a5ce233597a5d"},
 ]
 
 [package.dependencies]
@@ -1921,14 +1921,14 @@ files = [
 
 [[package]]
 name = "openai"
-version = "1.68.2"
+version = "1.69.0"
 description = "The official Python library for the openai API"
 optional = false
 python-versions = ">=3.8"
 groups = ["main"]
 files = [
-    {file = "openai-1.68.2-py3-none-any.whl", hash = "sha256:24484cb5c9a33b58576fdc5acf0e5f92603024a4e39d0b99793dfa1eb14c2b36"},
-    {file = "openai-1.68.2.tar.gz", hash = "sha256:b720f0a95a1dbe1429c0d9bb62096a0d98057bcda82516f6e8af10284bdd5b19"},
+    {file = "openai-1.69.0-py3-none-any.whl", hash = "sha256:73c4b2ddfd050060f8d93c70367189bd891e70a5adb6d69c04c3571f4fea5627"},
+    {file = "openai-1.69.0.tar.gz", hash = "sha256:7b8a10a8ff77e1ae827e5e4c8480410af2070fb68bc973d6c994cf8218f1f98d"},
 ]
 
 [package.dependencies]
@@ -2282,18 +2282,18 @@ files = [
 
 [[package]]
 name = "pyasn1-modules"
-version = "0.4.1"
+version = "0.4.2"
 description = "A collection of ASN.1-based protocols modules"
 optional = false
 python-versions = ">=3.8"
 groups = ["main"]
 files = [
-    {file = "pyasn1_modules-0.4.1-py3-none-any.whl", hash = "sha256:49bfa96b45a292b711e986f222502c1c9a5e1f4e568fc30e2574a6c7d07838fd"},
-    {file = "pyasn1_modules-0.4.1.tar.gz", hash = "sha256:c28e2dbf9c06ad61c71a075c7e0f9fd0f1b0bb2d2ad4377f240d33ac2ab60a7c"},
+    {file = "pyasn1_modules-0.4.2-py3-none-any.whl", hash = "sha256:29253a9207ce32b64c3ac6600edc75368f98473906e8fd1043bd6b5b1de2c14a"},
+    {file = "pyasn1_modules-0.4.2.tar.gz", hash = "sha256:677091de870a80aae844b1ca6134f54652fa2c8c5a52aa396440ac3106e941e6"},
 ]
 
 [package.dependencies]
-pyasn1 = ">=0.4.6,<0.7.0"
+pyasn1 = ">=0.6.1,<0.7.0"
 
 [[package]]
 name = "pycln"
@@ -2316,14 +2316,14 @@ typer = ">=0.4.1"
 
 [[package]]
 name = "pycodestyle"
-version = "2.12.1"
+version = "2.13.0"
 description = "Python style guide checker"
 optional = false
-python-versions = ">=3.8"
+python-versions = ">=3.9"
 groups = ["dev"]
 files = [
-    {file = "pycodestyle-2.12.1-py2.py3-none-any.whl", hash = "sha256:46f0fb92069a7c28ab7bb558f05bfc0110dac69a0cd23c61ea0040283a9d78b3"},
-    {file = "pycodestyle-2.12.1.tar.gz", hash = "sha256:6838eae08bbce4f6accd5d5572075c63626a15ee3e6f842df996bf62f6d73521"},
+    {file = "pycodestyle-2.13.0-py2.py3-none-any.whl", hash = "sha256:35863c5974a271c7a726ed228a14a4f6daf49df369d8c50cd9a6f58a5e143ba9"},
+    {file = "pycodestyle-2.13.0.tar.gz", hash = "sha256:c8415bf09abe81d9c7f872502a6eee881fbe85d8763dd5b9924bb0a01d67efae"},
 ]
 
 [[package]]
@@ -2362,14 +2362,14 @@ timezone = ["tzdata ; python_version >= \"3.9\" and platform_system == \"Windows
 
 [[package]]
 name = "pydantic-ai-slim"
-version = "0.0.45"
+version = "0.0.46"
 description = "Agent Framework / shim to use Pydantic with LLMs, slim package"
 optional = false
 python-versions = ">=3.9"
 groups = ["main"]
 files = [
-    {file = "pydantic_ai_slim-0.0.45-py3-none-any.whl", hash = "sha256:6b57bd71ba5076b68ff0797b7c851092ce43cb7bc17141e2899ad5c7f2afeb28"},
-    {file = "pydantic_ai_slim-0.0.45.tar.gz", hash = "sha256:3c87d49ca8ba2662fb902c7e875be58dffe281499266a99897f462aec68bcb8f"},
+    {file = "pydantic_ai_slim-0.0.46-py3-none-any.whl", hash = "sha256:7318f93583ac36f03263c6093343c94506dad753a9b0ee19a0074d83e898dd49"},
+    {file = "pydantic_ai_slim-0.0.46.tar.gz", hash = "sha256:235486e5116fa22ccd7363fee9e30b0acc3735525991e4aa76b8647cb180d6b0"},
 ]
 
 [package.dependencies]
@@ -2381,7 +2381,7 @@ httpx = ">=0.27"
 openai = {version = ">=1.67.0", optional = true, markers = "extra == \"openai\""}
 opentelemetry-api = ">=1.28.0"
 pydantic = ">=2.10"
-pydantic-graph = "0.0.45"
+pydantic-graph = "0.0.46"
 requests = {version = ">=2.32.3", optional = true, markers = "extra == \"vertexai\""}
 typing-inspection = ">=0.4.0"
 
@@ -2514,14 +2514,14 @@ typing-extensions = ">=4.6.0,<4.7.0 || >4.7.0"
 
 [[package]]
 name = "pydantic-graph"
-version = "0.0.45"
+version = "0.0.46"
 description = "Graph and state machine library"
 optional = false
 python-versions = ">=3.9"
 groups = ["main"]
 files = [
-    {file = "pydantic_graph-0.0.45-py3-none-any.whl", hash = "sha256:1fd120668f9040a563b6882c5a85412af83ad3b62fdb80dda805a4c5010f01f1"},
-    {file = "pydantic_graph-0.0.45.tar.gz", hash = "sha256:62bf4553d39f14356d63dbf11fe2931c8d31a43e8d506b073b86e1f4f6852685"},
+    {file = "pydantic_graph-0.0.46-py3-none-any.whl", hash = "sha256:df74a593cea2597569b8f4f5adc4af713cf90d815f6e9cc1616e0be2dfa3e1f3"},
+    {file = "pydantic_graph-0.0.46.tar.gz", hash = "sha256:3a0afc4915102083b81879af3c41100b0baddb6cda0b51f919621a061622c4e4"},
 ]
 
 [package.dependencies]
@@ -2553,14 +2553,14 @@ yaml = ["pyyaml (>=6.0.1)"]
 
 [[package]]
 name = "pyflakes"
-version = "3.2.0"
+version = "3.3.0"
 description = "passive checker of Python programs"
 optional = false
-python-versions = ">=3.8"
+python-versions = ">=3.9"
 groups = ["dev"]
 files = [
-    {file = "pyflakes-3.2.0-py2.py3-none-any.whl", hash = "sha256:84b5be138a2dfbb40689ca07e2152deb896a65c3a3e24c251c5c62489568074a"},
-    {file = "pyflakes-3.2.0.tar.gz", hash = "sha256:1c61603ff154621fb2a9172037d84dca3500def8c8b630657d1701f026f8af3f"},
+    {file = "pyflakes-3.3.0-py2.py3-none-any.whl", hash = "sha256:9d9d58c528cc6a9963d4e7e33fe6ff6fc622c8ad82a11fc10926f0bf425dc648"},
+    {file = "pyflakes-3.3.0.tar.gz", hash = "sha256:1955be314ebe8e9bdd100d5877fe10f0fd47fb2497e4f365e981a1a87cc8d9d7"},
 ]
 
 [[package]]
@@ -3738,4 +3738,4 @@ fast = []
 [metadata]
 lock-version = "2.1"
 python-versions = "~3.12"
-content-hash = "5a5c2aa7a5d17e9318bad13cd242c13aba4379cfab337af6473754a0df3f581f"
+content-hash = "98862b4b65e3fadabf8846baa74982e209011aeb8b018d4d8af9c29c56a1fcb7"

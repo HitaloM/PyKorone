@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "sophie_bot"
-version = "3.9.5"
+version = "3.10.0"
 description = "Sophie is modern and fast Telegram chat manager bot"
 authors = ["Yacha <yacha@orangefox.tech>"]
 
@@ -31,7 +31,7 @@ pillow = "^11.1.0"
 mem-top = "^0.2.1"
 apscheduler = "^3.11.0"
 normality = "^2.6.1"
-pydantic-ai-slim = { extras = ["openai", "vertexai", "duckduckgo"], version = "^0.0.45" }
+pydantic-ai-slim = { extras = ["openai", "vertexai", "duckduckgo"], version = "^0.0.46" }
 
 [tool.poetry.group.dev.dependencies]
 Nuitka = "^2"
