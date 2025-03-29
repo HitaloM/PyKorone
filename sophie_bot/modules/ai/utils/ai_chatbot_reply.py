@@ -6,7 +6,6 @@ from pydantic_ai.messages import ModelRequest, ModelResponse, ToolCallPart, Tool
 from sophie_bot.db.models import AIMemoryModel
 from sophie_bot.middlewares.connections import ChatConnection
 from sophie_bot.modules.ai.agent_tools.memory import MemoryAgentTool
-from sophie_bot.modules.ai.agent_tools.notes import notes_list_ai_tool
 from sophie_bot.modules.ai.utils.ai_header import ai_header
 from sophie_bot.modules.ai.utils.ai_models import DEFAULT_PROVIDER
 from sophie_bot.modules.ai.utils.ai_tool_context import SophieAIToolContenxt
@@ -19,7 +18,9 @@ from stfu_tg import PreformattedHTML, Doc, Section, VList, HList
 from stfu_tg.doc import Element
 
 CHATBOT_TOOLS = [
-    MemoryAgentTool(), duckduckgo_search_tool(), notes_list_ai_tool()
+    MemoryAgentTool(),
+    duckduckgo_search_tool(),
+    # notes_list_ai_tool(),
 ]
 CHATBOT_TOOLS_DICT: dict[str, Tool] = {tool.name: tool for tool in CHATBOT_TOOLS}
 CHATBOT_TOOLS_TITLES = {
@@ -60,7 +61,8 @@ async def ai_chatbot_reply(
     memory_lines = await AIMemoryModel.get_lines(connection.db_model.id)
 
     system_prompt = Doc(
-        _("You can use DuckDuckGo to search for information. Include information sources as links.")
+        _("You can use DuckDuckGo to search for information. Include information sources as links."),
+        _("You can also save important facts to memory.")
     )
     if memory_lines:
         system_prompt += Section(
