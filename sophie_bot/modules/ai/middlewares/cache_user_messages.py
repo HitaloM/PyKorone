@@ -22,7 +22,12 @@ class CacheUserMessagesMiddleware(BaseMiddleware):
 
         result = await handler(event, data)
 
-        if isinstance(event, Message) and chat_db and data["ai_enabled"] and event.from_user:
+        if (
+            isinstance(event, Message)
+            and chat_db
+            and event.from_user
+            and (data["ai_enabled"] or event.chat.type == "private")
+        ):
             text = event.text or event.caption
 
             # TODO: extract command from handlers? or a flag?

@@ -32,7 +32,9 @@ class CacheBotMessagesMiddleware(BaseMiddleware):
         result = await handler(event, data)
         chat_db: Optional[ChatModel] = data.get("chat_db", None)
 
-        ai_enabled: bool = data.get("ai_enabled", False)
+        ai_enabled: bool = data.get("ai_enabled", False) or (
+            isinstance(event, Message) and event.chat.type == "private"
+        )
 
         sent_message_text = result.text if isinstance(result, Message) else None
         sent_message_id = result.message_id if isinstance(result, Message) else None

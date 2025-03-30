@@ -2,7 +2,6 @@ from typing import Any
 
 from aiogram import F, flags
 from aiogram.dispatcher.event.handler import CallbackType
-from aiogram.handlers import MessageHandler
 from aiogram.types import KeyboardButton, ReplyKeyboardMarkup, ReplyKeyboardRemove
 from stfu_tg import Bold, Doc, Template, Url
 
@@ -12,15 +11,15 @@ from sophie_bot.filters.cmd import CMDFilter
 from sophie_bot.modules.ai.filters.ai_enabled import AIEnabledFilter
 from sophie_bot.modules.ai.filters.throttle import AIThrottleFilter
 from sophie_bot.modules.ai.fsm.pm import AI_PM_RESET, AI_PM_STOP_TEXT, AiPMFSM
-from sophie_bot.modules.ai.utils.old_ai_chatbot import ai_reply
-from sophie_bot.modules.ai.utils.old_message_history import OldAIMessageHistory
+from sophie_bot.modules.ai.utils.ai_chatbot_reply import ai_chatbot_reply
+from sophie_bot.modules.utils_.base_handler import SophieMessageHandler
 from sophie_bot.services.bot import bot
 from sophie_bot.utils.i18n import gettext as _
 from sophie_bot.utils.i18n import lazy_gettext as l_
 
 
 @flags.help(description=l_("Start the AI ChatBot mode"))
-class AiPmInitialize(MessageHandler):
+class AiPmInitialize(SophieMessageHandler):
     @staticmethod
     def filters() -> tuple[CallbackType, ...]:
         return CMDFilter("ai"), ChatTypeFilter("private"), AIEnabledFilter()
@@ -54,7 +53,7 @@ class AiPmInitialize(MessageHandler):
         await self.event.answer(initial_fake_ai_response)
 
 
-class AiPmStop(MessageHandler):
+class AiPmStop(SophieMessageHandler):
     @staticmethod
     def filters() -> tuple[CallbackType, ...]:
         return F.text == AI_PM_STOP_TEXT, ChatTypeFilter("private")  # type: ignore
@@ -65,19 +64,17 @@ class AiPmStop(MessageHandler):
 
 
 @flags.ai_cache(cache_handler_result=True)
-class AiPmHandle(MessageHandler):
+class AiPmHandle(SophieMessageHandler):
     @staticmethod
     def filters() -> tuple[CallbackType, ...]:
         return AiPMFSM.in_ai, ChatTypeFilter("private"), AIThrottleFilter()
 
     async def handle(self) -> Any:
         await bot.send_chat_action(self.event.chat.id, "typing")
-        messages = await OldAIMessageHistory.chatbot(self.event)
-
         buttons = ReplyKeyboardMarkup(
             keyboard=[[KeyboardButton(text=str(AI_PM_STOP_TEXT)), KeyboardButton(text=str(AI_PM_RESET))]],
             resize_keyboard=True,
         )
 
         self.data["ai_msg_cache"] = True
-        return await ai_reply(self.event, messages, markup=buttons)
+        return await ai_chatbot_reply(self.event, self.connection, reply_markup=buttons)
