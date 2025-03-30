@@ -18,9 +18,12 @@ class EnableAI(StatusBoolHandlerABC):
         return CMDFilter(("enableai", "aienable")), UserRestricting(admin=True)
 
     async def get_status(self) -> bool:
-        chat_id = self.connection.id
+        if not self.connection.db_model:
+            return False
+
+        chat_id = self.connection.db_model.id
         db_model = await AIEnabledModel.get_state(chat_id)
         return bool(db_model)
 
     async def set_status(self, new_status: bool):
-        await AIEnabledModel.set_state(self.connection, new_status)
+        await AIEnabledModel.set_state(self.connection.db_model, new_status)
