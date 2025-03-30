@@ -10,7 +10,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Language-Team: Arabic, Egypt\n"
 "Language: ar_EG\n"
-"PO-Revision-Date: 2025-03-25 19:58\n"
+"PO-Revision-Date: 2025-03-30 00:26\n"
 
 #: sophie_bot/args/users.py:29
 msgid "Could not find the requested User ID in the database."
@@ -105,13 +105,13 @@ msgstr "🔄 إعادة تعيين سياق الذكاء الاصطناعي"
 msgid "✨ Sophie AI"
 msgstr "✨ صوفي AI"
 
-#: sophie_bot/modules/ai/handlers/ai_cmd.py:19
+#: sophie_bot/modules/ai/handlers/ai_cmd.py:15
 #: sophie_bot/modules/ai/handlers/aisave.py:27
 #: sophie_bot/modules/ai/handlers/mode.py:14
 msgid "Prompt"
 msgstr "سؤال"
 
-#: sophie_bot/modules/ai/handlers/ai_cmd.py:21
+#: sophie_bot/modules/ai/handlers/ai_cmd.py:17
 msgid "Ask Sophie a question"
 msgstr "اسأل صوفي سؤالاً"
 
@@ -224,44 +224,44 @@ msgstr "مرحبًا! كيف يمكنني مساعدتك؟"
 msgid "The AI mode has been exited."
 msgstr "تم الخروج من وضع AI."
 
-#: sophie_bot/modules/ai/handlers/reset_context.py:17
-msgid "Reset the chat's AI context"
-msgstr "إعادة تعيين سياق الذكاء الاصطناعي للدردشة"
+#: sophie_bot/modules/ai/handlers/reset_context.py:18
+msgid "Reset the chat's AI context and AI memory"
+msgstr "إعادة تعيين سياق الذكاء الاصطناعي للدردشة وذاكرة الذكاء الاصطناعي"
 
-#: sophie_bot/modules/ai/handlers/reset_context.py:36
-msgid "🔄 AI context was successfully reset. AI will now operate in a clean state."
-msgstr "🔄 تم إعادة تعيين سياق الذكاء الاصطناعي بنجاح. سيعمل الذكاء الاصطناعي الآن في حالة نظيفة."
+#: sophie_bot/modules/ai/handlers/reset_context.py:39
+msgid "🔄 AI context and AI memory was successfully reset. AI will now operate in a clean state."
+msgstr "🔄 تم إعادة تعيين سياق الذكاء الاصطناعي وذاكرة الذكاء الاصطناعي بنجاح. سيعمل الذكاء الاصطناعي الآن في حالة نظيفة."
 
-#: sophie_bot/modules/ai/handlers/translate.py:26
+#: sophie_bot/modules/ai/handlers/translate.py:25
 msgid "Text to translate"
 msgstr "نص للترجمة"
 
-#: sophie_bot/modules/ai/handlers/translate.py:33
+#: sophie_bot/modules/ai/handlers/translate.py:32
 msgid "Translates the given (or replied) text to the chat's selected language. Also transcribes the replied voice message to text"
 msgstr "يترجم النص المحدد (أو الرد عليه) إلى اللغة المختارة للدردشة. كما يقوم بتحويل الرسالة الصوتية المردود عليها إلى نص"
 
-#: sophie_bot/modules/ai/handlers/translate.py:68
+#: sophie_bot/modules/ai/handlers/translate.py:66
 msgid "You're the professional AI translator/transcriber."
 msgstr "أنت المترجم/النسّاخ الاحترافي للذكاء الاصطناعي."
 
-#: sophie_bot/modules/ai/handlers/translate.py:87
+#: sophie_bot/modules/ai/handlers/translate.py:85
 msgid "Auto Translator"
 msgstr "المترجم التلقائي"
 
-#: sophie_bot/modules/ai/handlers/translate.py:87
+#: sophie_bot/modules/ai/handlers/translate.py:85
 msgid "Translator"
 msgstr "المترجم"
 
-#: sophie_bot/modules/ai/handlers/translate.py:88
+#: sophie_bot/modules/ai/handlers/translate.py:86
 msgid "Voice"
 msgstr "صوت"
 
-#: sophie_bot/modules/ai/handlers/translate.py:93
+#: sophie_bot/modules/ai/handlers/translate.py:91
 #, python-brace-format
 msgid "From {from_lang} to {to_lang}"
 msgstr "من {from_lang} إلى {to_lang}"
 
-#: sophie_bot/modules/ai/handlers/translate.py:103
+#: sophie_bot/modules/ai/handlers/translate.py:101
 msgid "Translation Notes"
 msgstr "ملاحظات الترجمة"
 
@@ -314,9 +314,29 @@ msgstr[5] "أسباب"
 msgid "By using AI features you agree to the our Privacy Policy (/privacy) and third party AI services used."
 msgstr "باستخدام ميزات الذكاء الاصطناعي، أنت توافق على سياسة الخصوصية الخاصة بنا (/privacy) وخدمات الذكاء الاصطناعي من الأطراف الثالثة المستخدمة."
 
-#: sophie_bot/modules/ai/utils/ai_chatbot.py:33
-msgid "No text from AI"
-msgstr "لا يوجد نص من الذكاء الاصطناعي"
+#: sophie_bot/modules/ai/utils/ai_chatbot_reply.py:33
+msgid "Memory updated 💾"
+msgstr "تم تحديث الذاكرة 💾"
+
+#: sophie_bot/modules/ai/utils/ai_chatbot_reply.py:34
+msgid "DuckDuckGo Search 🔍"
+msgstr "بحث DuckDuckGo 🔍"
+
+#: sophie_bot/modules/ai/utils/ai_chatbot_reply.py:35
+msgid "Scanned notes 🗒"
+msgstr "ملاحظات مسحوبة 🗒"
+
+#: sophie_bot/modules/ai/utils/ai_chatbot_reply.py:67
+msgid "You can use DuckDuckGo to search for information. Include information sources as links."
+msgstr "يمكنك استخدام DuckDuckGo للبحث عن المعلومات. تشمل مصادر المعلومات كروابط."
+
+#: sophie_bot/modules/ai/utils/ai_chatbot_reply.py:68
+msgid "You can also save important facts to memory."
+msgstr "يمكنك أيضًا حفظ الحقائق المهمة في الذاكرة."
+
+#: sophie_bot/modules/ai/utils/ai_chatbot_reply.py:71
+msgid "You have the following information in memory"
+msgstr "لديك المعلومات التالية في الذاكرة"
 
 #: sophie_bot/modules/ai/utils/ai_moderator.py:10
 msgid "Content that expresses, incites, or promotes harassing language towards any target."
@@ -370,34 +390,57 @@ msgstr "المحتوى الذي يصور الموت، العنف، أو إصاب
 msgid "Content that depicts death, violence, or physical injury in graphic detail."
 msgstr "المحتوى الذي يصور الموت، العنف، أو الإصابة البدنية بالتفصيل الغرافي."
 
-#: sophie_bot/modules/ai/utils/message_history.py:68
-msgid "You're a bot named Sophie."
-msgstr "أنت بوت يُدعى صوفي."
+#: sophie_bot/modules/ai/utils/new_message_history.py:73
+msgid "You're a telegram bot named Sophie."
+msgstr "أنت بوت تيليجرام يُدعى صوفي."
 
-#: sophie_bot/modules/ai/utils/message_history.py:69
-msgid "Respond concisely and stick to the current topic."
-msgstr "استجب بإيجاز وركز على الموضوع الحالي."
+#: sophie_bot/modules/ai/utils/new_message_history.py:74
+msgid "Be funny when the topic is casual."
+msgstr "كن مرحاً عندما يكون الموضوع غير رسمي."
 
-#: sophie_bot/modules/ai/utils/message_history.py:71
-msgid "Please use only the following markdown elements: ** for bold, ~~ for strikethrough, ` for code, and ``` for preformatted text."
-msgstr "يرجى استخدام العناصر التالية فقط: ** للنص العريض، ~~ للشطب، ` للكود، و``` للنص المسبق التنسيق."
+#: sophie_bot/modules/ai/utils/new_message_history.py:76
+msgid "Do not use tables, use only the following markdown elements: ** for bold, ~~ for strikethrough, ` for code, ``` for code blocks and []() for links."
+msgstr "لا تستخدم الجداول، استخدم فقط العناصر التالية في الماركداون: ** للنص العريض، ~~ للشطب، ` للكود، ``` لكتل الكود و []() للروابط."
 
-#: sophie_bot/modules/ai/utils/message_history.py:73
-msgid "Don't use Tables. You can use emojis."
-msgstr "لا تستخدم الجداول. يمكنك استخدام الرموز التعبيرية."
+#: sophie_bot/modules/ai/utils/new_message_history.py:78
+msgid "Today is "
+msgstr "اليوم هو "
 
-#: sophie_bot/modules/ai/utils/message_history.py:104
-#: sophie_bot/modules/ai/utils/message_history.py:106
+#: sophie_bot/modules/ai/utils/new_message_history.py:123
+#: sophie_bot/modules/ai/utils/new_message_history.py:125
+#: sophie_bot/modules/ai/utils/old_message_history.py:104
+#: sophie_bot/modules/ai/utils/old_message_history.py:106
 msgid "<No text provided>"
 msgstr "<لا يوجد نص مقدم>"
 
-#: sophie_bot/modules/ai/utils/message_history.py:115
-msgid "REPLY TO"
-msgstr "رد على"
-
-#: sophie_bot/modules/ai/utils/message_history.py:126
+#: sophie_bot/modules/ai/utils/new_message_history.py:148
+#: sophie_bot/modules/ai/utils/old_message_history.py:126
 msgid "Photo is empty"
 msgstr "الصورة فارغة"
+
+#: sophie_bot/modules/ai/utils/old_ai_chatbot.py:33
+msgid "No text from AI"
+msgstr "لا يوجد نص من الذكاء الاصطناعي"
+
+#: sophie_bot/modules/ai/utils/old_message_history.py:68
+msgid "You're a bot named Sophie."
+msgstr "أنت بوت يُدعى صوفي."
+
+#: sophie_bot/modules/ai/utils/old_message_history.py:69
+msgid "Respond concisely and stick to the current topic."
+msgstr "استجب بإيجاز وركز على الموضوع الحالي."
+
+#: sophie_bot/modules/ai/utils/old_message_history.py:71
+msgid "Please use only the following markdown elements: ** for bold, ~~ for strikethrough, ` for code, and ``` for preformatted text."
+msgstr "يرجى استخدام العناصر التالية فقط: ** للنص العريض، ~~ للشطب، ` للكود، و``` للنص المسبق التنسيق."
+
+#: sophie_bot/modules/ai/utils/old_message_history.py:73
+msgid "Don't use Tables. You can use emojis."
+msgstr "لا تستخدم الجداول. يمكنك استخدام الرموز التعبيرية."
+
+#: sophie_bot/modules/ai/utils/old_message_history.py:115
+msgid "REPLY TO"
+msgstr "رد على"
 
 #: sophie_bot/modules/disabling/__init__.py:17
 msgid "Disabling"
