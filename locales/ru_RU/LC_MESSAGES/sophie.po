@@ -10,7 +10,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Language-Team: Russian\n"
 "Language: ru_RU\n"
-"PO-Revision-Date: 2025-03-25 19:58\n"
+"PO-Revision-Date: 2025-03-30 00:26\n"
 
 #: sophie_bot/args/users.py:29
 msgid "Could not find the requested User ID in the database."
@@ -105,13 +105,13 @@ msgstr "🔄 Сбросить контекст ИИ"
 msgid "✨ Sophie AI"
 msgstr "✨ Софи AI"
 
-#: sophie_bot/modules/ai/handlers/ai_cmd.py:19
+#: sophie_bot/modules/ai/handlers/ai_cmd.py:15
 #: sophie_bot/modules/ai/handlers/aisave.py:27
 #: sophie_bot/modules/ai/handlers/mode.py:14
 msgid "Prompt"
 msgstr "Запрос"
 
-#: sophie_bot/modules/ai/handlers/ai_cmd.py:21
+#: sophie_bot/modules/ai/handlers/ai_cmd.py:17
 msgid "Ask Sophie a question"
 msgstr "Спросите у Sophie вопрос"
 
@@ -224,44 +224,44 @@ msgstr "Здравствуйте! Как я могу вам помочь?"
 msgid "The AI mode has been exited."
 msgstr "Режим AI был завершён."
 
-#: sophie_bot/modules/ai/handlers/reset_context.py:17
-msgid "Reset the chat's AI context"
-msgstr "Сбросить контекст ИИ чата"
+#: sophie_bot/modules/ai/handlers/reset_context.py:18
+msgid "Reset the chat's AI context and AI memory"
+msgstr "Сбросить контекст ИИ чата и память ИИ"
 
-#: sophie_bot/modules/ai/handlers/reset_context.py:36
-msgid "🔄 AI context was successfully reset. AI will now operate in a clean state."
-msgstr "🔄 Контекст ИИ был успешно сброшен. ИИ теперь будет работать в чистом состоянии."
+#: sophie_bot/modules/ai/handlers/reset_context.py:39
+msgid "🔄 AI context and AI memory was successfully reset. AI will now operate in a clean state."
+msgstr "🔄 Контекст ИИ и память ИИ были успешно сброшены. ИИ теперь будет работать в чистом состоянии."
 
-#: sophie_bot/modules/ai/handlers/translate.py:26
+#: sophie_bot/modules/ai/handlers/translate.py:25
 msgid "Text to translate"
 msgstr "Текст для перевода"
 
-#: sophie_bot/modules/ai/handlers/translate.py:33
+#: sophie_bot/modules/ai/handlers/translate.py:32
 msgid "Translates the given (or replied) text to the chat's selected language. Also transcribes the replied voice message to text"
 msgstr "Переводит данный (или ответный) текст на выбранный язык чата. Также транскрибирует ответное голосовое сообщение в текст"
 
-#: sophie_bot/modules/ai/handlers/translate.py:68
+#: sophie_bot/modules/ai/handlers/translate.py:66
 msgid "You're the professional AI translator/transcriber."
 msgstr "Вы профессиональный AI переводчик/транскрибатор."
 
-#: sophie_bot/modules/ai/handlers/translate.py:87
+#: sophie_bot/modules/ai/handlers/translate.py:85
 msgid "Auto Translator"
 msgstr "Авто переводчик"
 
-#: sophie_bot/modules/ai/handlers/translate.py:87
+#: sophie_bot/modules/ai/handlers/translate.py:85
 msgid "Translator"
 msgstr "Переводчик"
 
-#: sophie_bot/modules/ai/handlers/translate.py:88
+#: sophie_bot/modules/ai/handlers/translate.py:86
 msgid "Voice"
 msgstr "Голос"
 
-#: sophie_bot/modules/ai/handlers/translate.py:93
+#: sophie_bot/modules/ai/handlers/translate.py:91
 #, python-brace-format
 msgid "From {from_lang} to {to_lang}"
 msgstr "From {from_lang} to {to_lang}"
 
-#: sophie_bot/modules/ai/handlers/translate.py:103
+#: sophie_bot/modules/ai/handlers/translate.py:101
 msgid "Translation Notes"
 msgstr "Translation Notes"
 
@@ -312,9 +312,29 @@ msgstr[3] "Причины"
 msgid "By using AI features you agree to the our Privacy Policy (/privacy) and third party AI services used."
 msgstr "Используя функции AI, вы соглашаетесь с нашей Политикой конфиденциальности (/privacy) и использованными сторонними AI-сервисами."
 
-#: sophie_bot/modules/ai/utils/ai_chatbot.py:33
-msgid "No text from AI"
-msgstr "Нет текста от ИИ"
+#: sophie_bot/modules/ai/utils/ai_chatbot_reply.py:33
+msgid "Memory updated 💾"
+msgstr "Память обновлена 💾"
+
+#: sophie_bot/modules/ai/utils/ai_chatbot_reply.py:34
+msgid "DuckDuckGo Search 🔍"
+msgstr "Поиск в DuckDuckGo 🔍"
+
+#: sophie_bot/modules/ai/utils/ai_chatbot_reply.py:35
+msgid "Scanned notes 🗒"
+msgstr "Сканированные заметки 🗒"
+
+#: sophie_bot/modules/ai/utils/ai_chatbot_reply.py:67
+msgid "You can use DuckDuckGo to search for information. Include information sources as links."
+msgstr "Вы можете использовать DuckDuckGo для поиска информации. Включите источники информации в виде ссылок."
+
+#: sophie_bot/modules/ai/utils/ai_chatbot_reply.py:68
+msgid "You can also save important facts to memory."
+msgstr "Вы также можете сохранить важные факты в память."
+
+#: sophie_bot/modules/ai/utils/ai_chatbot_reply.py:71
+msgid "You have the following information in memory"
+msgstr "У вас есть следующая информация в памяти"
 
 #: sophie_bot/modules/ai/utils/ai_moderator.py:10
 msgid "Content that expresses, incites, or promotes harassing language towards any target."
@@ -368,34 +388,57 @@ msgstr "Контент, который изображает смерть, нас
 msgid "Content that depicts death, violence, or physical injury in graphic detail."
 msgstr "Контент, который изображает смерть, насилие или физические травмы в графических деталях."
 
-#: sophie_bot/modules/ai/utils/message_history.py:68
-msgid "You're a bot named Sophie."
+#: sophie_bot/modules/ai/utils/new_message_history.py:73
+msgid "You're a telegram bot named Sophie."
 msgstr "Вы Телеграм-бот по имени Софи."
 
-#: sophie_bot/modules/ai/utils/message_history.py:69
-msgid "Respond concisely and stick to the current topic."
-msgstr "Ответьте кратко и придерживайтесь текущей темы."
+#: sophie_bot/modules/ai/utils/new_message_history.py:74
+msgid "Be funny when the topic is casual."
+msgstr "Будьте смешными, когда тема неформальная."
 
-#: sophie_bot/modules/ai/utils/message_history.py:71
-msgid "Please use only the following markdown elements: ** for bold, ~~ for strikethrough, ` for code, and ``` for preformatted text."
-msgstr "Пожалуйста, используйте только следующие элементы markdown: ** для жирного, ~~ для зачеркивания, ` для кода и ``` для предварительно отформатированного текста."
+#: sophie_bot/modules/ai/utils/new_message_history.py:76
+msgid "Do not use tables, use only the following markdown elements: ** for bold, ~~ for strikethrough, ` for code, ``` for code blocks and []() for links."
+msgstr "Не используйте таблицы, используйте только следующие элементы markdown: ** для жирного, ~~ для зачеркивания, ` для кода, ``` для блоков кода и []() для ссылок."
 
-#: sophie_bot/modules/ai/utils/message_history.py:73
-msgid "Don't use Tables. You can use emojis."
-msgstr "Не используйте таблицы. Вы можете использовать эмодзи."
+#: sophie_bot/modules/ai/utils/new_message_history.py:78
+msgid "Today is "
+msgstr "Сегодня "
 
-#: sophie_bot/modules/ai/utils/message_history.py:104
-#: sophie_bot/modules/ai/utils/message_history.py:106
+#: sophie_bot/modules/ai/utils/new_message_history.py:123
+#: sophie_bot/modules/ai/utils/new_message_history.py:125
+#: sophie_bot/modules/ai/utils/old_message_history.py:104
+#: sophie_bot/modules/ai/utils/old_message_history.py:106
 msgid "<No text provided>"
 msgstr "<No text provided>"
 
-#: sophie_bot/modules/ai/utils/message_history.py:115
-msgid "REPLY TO"
-msgstr "ОТВЕТИТЬ НА"
-
-#: sophie_bot/modules/ai/utils/message_history.py:126
+#: sophie_bot/modules/ai/utils/new_message_history.py:148
+#: sophie_bot/modules/ai/utils/old_message_history.py:126
 msgid "Photo is empty"
 msgstr "Фото пустое"
+
+#: sophie_bot/modules/ai/utils/old_ai_chatbot.py:33
+msgid "No text from AI"
+msgstr "Нет текста от ИИ"
+
+#: sophie_bot/modules/ai/utils/old_message_history.py:68
+msgid "You're a bot named Sophie."
+msgstr "Вы Телеграм-бот по имени Софи."
+
+#: sophie_bot/modules/ai/utils/old_message_history.py:69
+msgid "Respond concisely and stick to the current topic."
+msgstr "Ответьте кратко и придерживайтесь текущей темы."
+
+#: sophie_bot/modules/ai/utils/old_message_history.py:71
+msgid "Please use only the following markdown elements: ** for bold, ~~ for strikethrough, ` for code, and ``` for preformatted text."
+msgstr "Пожалуйста, используйте только следующие элементы markdown: ** для жирного, ~~ для зачеркивания, ` для кода и ``` для предварительно отформатированного текста."
+
+#: sophie_bot/modules/ai/utils/old_message_history.py:73
+msgid "Don't use Tables. You can use emojis."
+msgstr "Не используйте таблицы. Вы можете использовать эмодзи."
+
+#: sophie_bot/modules/ai/utils/old_message_history.py:115
+msgid "REPLY TO"
+msgstr "ОТВЕТИТЬ НА"
 
 #: sophie_bot/modules/disabling/__init__.py:17
 msgid "Disabling"

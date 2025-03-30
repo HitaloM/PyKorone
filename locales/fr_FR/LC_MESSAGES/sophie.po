@@ -10,7 +10,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Language-Team: French\n"
 "Language: fr_FR\n"
-"PO-Revision-Date: 2025-03-25 19:58\n"
+"PO-Revision-Date: 2025-03-30 00:25\n"
 
 #: sophie_bot/args/users.py:29
 msgid "Could not find the requested User ID in the database."
@@ -105,13 +105,13 @@ msgstr "🔄 Réinitialiser le contexte IA"
 msgid "✨ Sophie AI"
 msgstr "✨ Sophie AI"
 
-#: sophie_bot/modules/ai/handlers/ai_cmd.py:19
+#: sophie_bot/modules/ai/handlers/ai_cmd.py:15
 #: sophie_bot/modules/ai/handlers/aisave.py:27
 #: sophie_bot/modules/ai/handlers/mode.py:14
 msgid "Prompt"
 msgstr "Invite"
 
-#: sophie_bot/modules/ai/handlers/ai_cmd.py:21
+#: sophie_bot/modules/ai/handlers/ai_cmd.py:17
 msgid "Ask Sophie a question"
 msgstr "Posez une question à Sophie"
 
@@ -224,44 +224,44 @@ msgstr "Bonjour! Comment puis-je vous aider?"
 msgid "The AI mode has been exited."
 msgstr "Le mode IA a été quitté."
 
-#: sophie_bot/modules/ai/handlers/reset_context.py:17
-msgid "Reset the chat's AI context"
-msgstr "Réinitialiser le contexte IA du chat"
+#: sophie_bot/modules/ai/handlers/reset_context.py:18
+msgid "Reset the chat's AI context and AI memory"
+msgstr "Réinitialiser le contexte IA du chat et la mémoire de l'IA"
 
-#: sophie_bot/modules/ai/handlers/reset_context.py:36
-msgid "🔄 AI context was successfully reset. AI will now operate in a clean state."
-msgstr "🔄 Le contexte IA a été réinitialisé avec succès. L'IA fonctionnera désormais dans un état propre."
+#: sophie_bot/modules/ai/handlers/reset_context.py:39
+msgid "🔄 AI context and AI memory was successfully reset. AI will now operate in a clean state."
+msgstr "🔄 Le contexte IA et la mémoire de l'IA ont été réinitialisés avec succès. L'IA fonctionnera désormais dans un état propre."
 
-#: sophie_bot/modules/ai/handlers/translate.py:26
+#: sophie_bot/modules/ai/handlers/translate.py:25
 msgid "Text to translate"
 msgstr "Texte à traduire"
 
-#: sophie_bot/modules/ai/handlers/translate.py:33
+#: sophie_bot/modules/ai/handlers/translate.py:32
 msgid "Translates the given (or replied) text to the chat's selected language. Also transcribes the replied voice message to text"
 msgstr "Traduit le texte donné (ou répondu) dans la langue sélectionnée du chat. Transcrit également le message vocal répondu en texte"
 
-#: sophie_bot/modules/ai/handlers/translate.py:68
+#: sophie_bot/modules/ai/handlers/translate.py:66
 msgid "You're the professional AI translator/transcriber."
 msgstr "You're the professional AI translator/transcriber."
 
-#: sophie_bot/modules/ai/handlers/translate.py:87
+#: sophie_bot/modules/ai/handlers/translate.py:85
 msgid "Auto Translator"
 msgstr "Traducteur automatique"
 
-#: sophie_bot/modules/ai/handlers/translate.py:87
+#: sophie_bot/modules/ai/handlers/translate.py:85
 msgid "Translator"
 msgstr "Traductor"
 
-#: sophie_bot/modules/ai/handlers/translate.py:88
+#: sophie_bot/modules/ai/handlers/translate.py:86
 msgid "Voice"
 msgstr "Voix"
 
-#: sophie_bot/modules/ai/handlers/translate.py:93
+#: sophie_bot/modules/ai/handlers/translate.py:91
 #, python-brace-format
 msgid "From {from_lang} to {to_lang}"
 msgstr "From {from_lang} to {to_lang}"
 
-#: sophie_bot/modules/ai/handlers/translate.py:103
+#: sophie_bot/modules/ai/handlers/translate.py:101
 msgid "Translation Notes"
 msgstr "Translation Notes"
 
@@ -310,9 +310,29 @@ msgstr[1] "Raisons"
 msgid "By using AI features you agree to the our Privacy Policy (/privacy) and third party AI services used."
 msgstr "En utilisant les fonctionnalités d'IA, vous acceptez notre Politique de confidentialité (/privacy) et les services d'IA tiers utilisés."
 
-#: sophie_bot/modules/ai/utils/ai_chatbot.py:33
-msgid "No text from AI"
-msgstr "Aucun texte de l'IA"
+#: sophie_bot/modules/ai/utils/ai_chatbot_reply.py:33
+msgid "Memory updated 💾"
+msgstr "Mémoire mise à jour 💾"
+
+#: sophie_bot/modules/ai/utils/ai_chatbot_reply.py:34
+msgid "DuckDuckGo Search 🔍"
+msgstr "Recherche DuckDuckGo 🔍"
+
+#: sophie_bot/modules/ai/utils/ai_chatbot_reply.py:35
+msgid "Scanned notes 🗒"
+msgstr "Notes numérisées 🗒"
+
+#: sophie_bot/modules/ai/utils/ai_chatbot_reply.py:67
+msgid "You can use DuckDuckGo to search for information. Include information sources as links."
+msgstr "Vous pouvez utiliser DuckDuckGo pour rechercher des informations. Incluez les sources d'information en tant que liens."
+
+#: sophie_bot/modules/ai/utils/ai_chatbot_reply.py:68
+msgid "You can also save important facts to memory."
+msgstr "Vous pouvez également enregistrer des faits importants dans la mémoire."
+
+#: sophie_bot/modules/ai/utils/ai_chatbot_reply.py:71
+msgid "You have the following information in memory"
+msgstr "Vous avez les informations suivantes en mémoire"
 
 #: sophie_bot/modules/ai/utils/ai_moderator.py:10
 msgid "Content that expresses, incites, or promotes harassing language towards any target."
@@ -366,34 +386,57 @@ msgstr "Contenu qui dépeint la mort, la violence ou des blessures physiques."
 msgid "Content that depicts death, violence, or physical injury in graphic detail."
 msgstr "Contenu qui dépeint la mort, la violence ou des blessures physiques en détail graphique."
 
-#: sophie_bot/modules/ai/utils/message_history.py:68
-msgid "You're a bot named Sophie."
-msgstr "Vous êtes un bot nommé Sophie."
+#: sophie_bot/modules/ai/utils/new_message_history.py:73
+msgid "You're a telegram bot named Sophie."
+msgstr "Vous êtes un bot Telegram nommé Sophie."
 
-#: sophie_bot/modules/ai/utils/message_history.py:69
-msgid "Respond concisely and stick to the current topic."
-msgstr "Répondez de manière concise et restez sur le sujet actuel."
+#: sophie_bot/modules/ai/utils/new_message_history.py:74
+msgid "Be funny when the topic is casual."
+msgstr "Soyez drôle quand le sujet est décontracté."
 
-#: sophie_bot/modules/ai/utils/message_history.py:71
-msgid "Please use only the following markdown elements: ** for bold, ~~ for strikethrough, ` for code, and ``` for preformatted text."
-msgstr "Veuillez utiliser uniquement les éléments markdown suivants : ** pour le gras, ~~ pour barré, ` pour le code, et ``` pour le texte préformaté."
+#: sophie_bot/modules/ai/utils/new_message_history.py:76
+msgid "Do not use tables, use only the following markdown elements: ** for bold, ~~ for strikethrough, ` for code, ``` for code blocks and []() for links."
+msgstr "Ne pas utiliser de tables, utilisez uniquement les éléments markdown suivants : ** pour le gras, ~~ pour barré, ` pour le code, ``` pour les blocs de code et []() pour les liens."
 
-#: sophie_bot/modules/ai/utils/message_history.py:73
-msgid "Don't use Tables. You can use emojis."
-msgstr "Ne pas utiliser de tableaux. Vous pouvez utiliser des émojis."
+#: sophie_bot/modules/ai/utils/new_message_history.py:78
+msgid "Today is "
+msgstr "Aujourd'hui, c'est "
 
-#: sophie_bot/modules/ai/utils/message_history.py:104
-#: sophie_bot/modules/ai/utils/message_history.py:106
+#: sophie_bot/modules/ai/utils/new_message_history.py:123
+#: sophie_bot/modules/ai/utils/new_message_history.py:125
+#: sophie_bot/modules/ai/utils/old_message_history.py:104
+#: sophie_bot/modules/ai/utils/old_message_history.py:106
 msgid "<No text provided>"
 msgstr "<No text provided>"
 
-#: sophie_bot/modules/ai/utils/message_history.py:115
-msgid "REPLY TO"
-msgstr "RÉPONDRE À"
-
-#: sophie_bot/modules/ai/utils/message_history.py:126
+#: sophie_bot/modules/ai/utils/new_message_history.py:148
+#: sophie_bot/modules/ai/utils/old_message_history.py:126
 msgid "Photo is empty"
 msgstr "La photo est vide"
+
+#: sophie_bot/modules/ai/utils/old_ai_chatbot.py:33
+msgid "No text from AI"
+msgstr "Aucun texte de l'IA"
+
+#: sophie_bot/modules/ai/utils/old_message_history.py:68
+msgid "You're a bot named Sophie."
+msgstr "Vous êtes un bot nommé Sophie."
+
+#: sophie_bot/modules/ai/utils/old_message_history.py:69
+msgid "Respond concisely and stick to the current topic."
+msgstr "Répondez de manière concise et restez sur le sujet actuel."
+
+#: sophie_bot/modules/ai/utils/old_message_history.py:71
+msgid "Please use only the following markdown elements: ** for bold, ~~ for strikethrough, ` for code, and ``` for preformatted text."
+msgstr "Veuillez utiliser uniquement les éléments markdown suivants : ** pour le gras, ~~ pour barré, ` pour le code, et ``` pour le texte préformaté."
+
+#: sophie_bot/modules/ai/utils/old_message_history.py:73
+msgid "Don't use Tables. You can use emojis."
+msgstr "Ne pas utiliser de tableaux. Vous pouvez utiliser des émojis."
+
+#: sophie_bot/modules/ai/utils/old_message_history.py:115
+msgid "REPLY TO"
+msgstr "RÉPONDRE À"
 
 #: sophie_bot/modules/disabling/__init__.py:17
 msgid "Disabling"
