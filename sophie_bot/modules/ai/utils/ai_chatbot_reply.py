@@ -71,8 +71,14 @@ async def ai_chatbot_reply(message: Message, connection: ChatConnection, user_te
         system_prompt += Section(VList(*memory_lines), title=_("You have the following information in memory"))
 
     history = NewAIMessageHistory()
-    await history.chatbot_history(message.chat.id, additional_system_prompt=system_prompt.to_md())
+    await history.initialize_chat_history(message.chat.id, additional_system_prompt=system_prompt.to_md())
     await history.add_from_message(message, custom_text=user_text)
+
+    # History debug
+    if "^llm_history_debug" in (user_text or ""):
+        await message.reply(
+            Section(history.history_debug(), title="LLM History").to_html(), disable_web_page_preview=True
+        )
 
     model = DEFAULT_PROVIDER
     result = await new_ai_generate(
@@ -84,7 +90,7 @@ async def ai_chatbot_reply(message: Message, connection: ChatConnection, user_te
     doc = Doc(ai_header(model, *header_items), PreformattedHTML(legacy_markdown_to_html(result.output)))
 
     # if CONFIG.debug_mode:
-    #     doc += " "
+    #     doc += ' '
     #     doc += Section(
     #         KeyValue('LLM Requests', result.usage.requests),
     #         KeyValue('Retries', result.retires),
@@ -92,7 +98,7 @@ async def ai_chatbot_reply(message: Message, connection: ChatConnection, user_te
     #         KeyValue('Response tokens', result.usage.response_tokens),
     #         KeyValue('Total tokens', result.usage.total_tokens),
     #         KeyValue('Details', result.usage.details or '-'),
-    #         title='DEBUG'
-    #     )
+    #         title='Provider'
+    #     ),
 
     return await message.reply(doc.to_html(), disable_web_page_preview=True)

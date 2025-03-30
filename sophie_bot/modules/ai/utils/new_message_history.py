@@ -11,9 +11,12 @@ from pydantic_ai.messages import (
     ModelResponse,
     SystemPromptPart,
     TextPart,
+    ToolCallPart,
     UserContent,
     UserPromptPart,
 )
+from stfu_tg import HList, KeyValue, Section, VList
+from stfu_tg.doc import Element
 
 from sophie_bot.config import CONFIG
 from sophie_bot.db.models import ChatModel
@@ -63,8 +66,12 @@ class NewAIMessageHistory:
     This class is used to store and construct the messages that are sent to the AI.
     """
 
-    message_history: list[ModelRequest | ModelResponse] = []
+    message_history: list[ModelRequest | ModelResponse]
     prompt: list[UserContent]
+
+    def __init__(self):
+        self.message_history = []
+        self.prompt = []
 
     def add_chatbot_system_msg(self, additional: str = ""):
         today = datetime.datetime.now()
@@ -76,6 +83,7 @@ class NewAIMessageHistory:
                     "Do not use tables, use only the following markdown elements: ** for bold, ~~ for strikethrough, ` for code, ``` for code blocks and []() for links."
                 ),
                 _("Today is ") + today.strftime("%d %B %Y, %H:%M"),
+                " ",
             )
         )
         self.message_history.append(ModelRequest(parts=[SystemPromptPart(content=system_message + additional)]))
@@ -162,11 +170,36 @@ class NewAIMessageHistory:
 
         self.prompt = content
 
-    @staticmethod
-    async def chatbot_history(chat_id: int, additional_system_prompt: str = ""):
-        history = NewAIMessageHistory()
-        history.add_chatbot_system_msg(additional=additional_system_prompt)
-        await history.add_from_cache(chat_id)
+    async def initialize_chat_history(self, chat_id: int, additional_system_prompt: str = ""):
+        # Add system message
+        self.add_chatbot_system_msg(additional=additional_system_prompt)
 
-        log.debug("MessageHistory: message_history", history=history.message_history)
-        return history
+        # Add messages from cache
+        await self.add_from_cache(chat_id)
+
+        log.debug("MessageHistory: message_history", history=self.message_history)
+        return self
+
+    def history_debug(self) -> Element:
+        """Builds a debug message for the message history."""
+        items = VList(prefix="\n")
+
+        for item in self.message_history:
+            items.append(
+                HList(
+                    *(
+                        KeyValue(
+                            item.tool_name if isinstance(item, ToolCallPart) else item.part_kind,
+                            item.args if isinstance(item, ToolCallPart) else item.content,
+                        )
+                        for item in item.parts
+                    )
+                )
+            )
+
+        items += Section(
+            HList(*(item.kind if not isinstance(item, str) else item for item in self.prompt)),
+            title="Prompt",
+        )
+
+        return items
