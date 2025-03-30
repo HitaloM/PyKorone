@@ -132,14 +132,14 @@ class NewAIMessageHistory:
         if normalize_texts:
             message_text = normalize(message_text) or _("<No text provided>")
 
-        content: list[UserContent] = []
+        prompt: list[UserContent] = self.prompt or []
 
         # Cut the AI titlebar
         if is_sophie and is_ai_message(message_text):
             message_text = cut_titlebar(message_text)
 
         # Message's text
-        content.append(
+        prompt.append(
             AIUserMessageFormatter.user_message(
                 text=message_text,
                 name=message.from_user.full_name,
@@ -155,7 +155,7 @@ class NewAIMessageHistory:
             if not downloaded_photo:
                 raise SophieException(_("Photo is empty"))
 
-            content.append(
+            prompt.append(
                 BinaryContent(
                     media_type="image/jpeg",
                     data=downloaded_photo.read(),
@@ -165,10 +165,10 @@ class NewAIMessageHistory:
         # Voice
         if message.voice:
             voice_text = await transform_voice_to_text(message.voice)
-            content.append(voice_text)
+            prompt.append(voice_text)
             # TODO: Cache message somehow again?
 
-        self.prompt = content
+        self.prompt = prompt
 
     async def initialize_chat_history(self, chat_id: int, additional_system_prompt: str = ""):
         # Add system message

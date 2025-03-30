@@ -75,7 +75,7 @@ async def ai_chatbot_reply(message: Message, connection: ChatConnection, user_te
     await history.add_from_message(message, custom_text=user_text)
 
     # History debug
-    if "^llm_history_debug" in (user_text or ""):
+    if True or "^llm_history_debug" in (user_text or ""):
         await message.reply(
             Section(history.history_debug(), title="LLM History").to_html(), disable_web_page_preview=True
         )
