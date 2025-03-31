@@ -23,16 +23,16 @@ def match_exact_handler(message_text: str, text: str) -> bool:
     return message_text == text
 
 
-def match_contains_handler(message_text: str, handler: str) -> bool:
+def match_contains_handler(text: str, handler: str) -> bool:
     """Check if a message text contains the specified text."""
 
-    handler = normalize(handler)
-    message_text = normalize(message_text)
+    normalized_handler = normalize(handler)
+    normalized_text = normalize(text)
 
-    if not message_text or not handler:
+    if not normalized_handler or not normalized_text:
         return False
 
-    return handler in message_text
+    return normalized_handler in normalized_text
 
 
 def match_legacy_handler(message: Message, handler: str) -> bool:
