@@ -58,7 +58,7 @@ class AIUserMessageFormatter:
             reply_to_user = cls.sanitize_name(reply_to_user)
             text = f"<From {name}, as reply to {reply_to_user}>:\n{text}"
 
-        return f"<From {name}>:\n{text}"
+        return f"<{name}>:\n{text}"
 
 
 class NewAIMessageHistory:
