@@ -27,9 +27,9 @@ def match_contains_handler(message_text: str, handler: str) -> bool:
     """Check if a message text contains the specified text."""
 
     handler = normalize(handler)
-    normalized_text = normalize(message_text)
+    message_text = normalize(message_text)
 
-    if not normalized_text or not handler:
+    if not message_text or not handler:
         return False
 
     return handler in message_text
