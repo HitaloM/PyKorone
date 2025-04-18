@@ -1,11 +1,13 @@
 # SPDX-License-Identifier: BSD-3-Clause
 # Copyright (c) 2025 Hitalo M. <https://github.com/HitaloM>
 
+from __future__ import annotations
+
 import time
 from contextlib import suppress
 from dataclasses import dataclass
 from pathlib import Path
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Any
 
 import aiocron
 import hydrogram
@@ -30,6 +32,11 @@ if TYPE_CHECKING:
 
 @dataclass(frozen=True, slots=True)
 class AppParameters:
+    """Parameters required for initializing the bot client.
+
+    This dataclass holds all configuration parameters needed for the Hydrogram client.
+    """
+
     api_id: str
     api_hash: str
     bot_token: str
@@ -39,9 +46,19 @@ class AppParameters:
 
 
 class Korone(Client):
+    """The main bot client class extending Hydrogram Client.
+
+    Handles client initialization, starting and stopping processes.
+    """
+
     __slots__ = ("me", "parameters")
 
-    def __init__(self, parameters: AppParameters):
+    def __init__(self, parameters: AppParameters) -> None:
+        """Initialize the bot client.
+
+        Args:
+            parameters: Configuration parameters for the client
+        """
         super().__init__(
             name=parameters.name,
             api_id=parameters.api_id,
@@ -59,6 +76,7 @@ class Korone(Client):
         self.me: User | None = None
 
     async def start(self) -> None:
+        """Start the bot client and initialize all required components."""
         await super().start()
 
         await load_all_modules(self)
@@ -74,10 +92,12 @@ class Korone(Client):
             self.me.username,
         )
 
-        if backups_chat := ConfigManager.get("korone", "BACKUPS_CHAT"):
+        backups_chat = ConfigManager.get("korone", "BACKUPS_CHAT")
+        if backups_chat:
             aiocron.crontab("0 * * * *", do_backup, loop=self.loop, args=(self, backups_chat))
 
-        if reboot_data := await cache.get("korone-reboot"):
+        reboot_data: dict[str, Any] | None = await cache.get("korone-reboot")
+        if reboot_data:
             with suppress(MessageNotModified, MessageIdInvalid, KeyError):
                 chat_id = reboot_data["chat_id"]
                 message_id = reboot_data["message_id"]
@@ -87,5 +107,6 @@ class Korone(Client):
                 await self.edit_message_text(chat_id, message_id, text)
 
     async def stop(self) -> None:
+        """Stop the bot client and perform cleanup."""
         await super().stop()
         await logger.ainfo("Korone stopped.")

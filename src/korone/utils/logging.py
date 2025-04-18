@@ -6,7 +6,7 @@ import sys
 
 import structlog
 
-level = logging.DEBUG if "--debug" in sys.argv else logging.INFO
+LEVEL = logging.DEBUG if "--debug" in sys.argv else logging.INFO
 
 structlog.configure(
     cache_logger_on_first_use=True,
@@ -21,7 +21,7 @@ structlog.configure(
 logging.basicConfig(
     format="%(message)s",
     stream=sys.stdout,
-    level=level,
+    level=LEVEL,
 )
 
 logger = structlog.wrap_logger(logging.getLogger("korone"))

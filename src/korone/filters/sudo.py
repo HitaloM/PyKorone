@@ -2,7 +2,7 @@
 # Copyright (c) 2025 Hitalo M. <https://github.com/HitaloM>
 
 from collections.abc import Generator
-from typing import Any
+from typing import Any, Final
 
 from hydrogram import Client
 from hydrogram.filters import Filter
@@ -13,6 +13,15 @@ from korone.utils.logging import logger
 
 
 def load_sudoers() -> set[int]:
+    """Load the list of sudo users from configuration.
+
+    Returns:
+        set[int]: A set of user IDs with sudo privileges
+
+    Raises:
+        ValueError: If the SUDOERS list is empty or not properly configured
+        TypeError: If the SUDOERS list is not a list or contains non-integer values
+    """
     sudoers = ConfigManager.get("korone", "SUDOERS")
 
     if not sudoers:
@@ -33,17 +42,34 @@ def load_sudoers() -> set[int]:
     return set(sudoers)
 
 
-SUDOERS = load_sudoers()
+SUDOERS: Final[set[int]] = load_sudoers()
 
 
 class IsSudo(Filter):
+    """Filter that checks if a user has sudo privileges.
+
+    This filter verifies if the user who sent a message or callback query
+    is in the list of users with administrative privileges (sudoers).
+    """
+
     __slots__ = ("client", "update")
 
     def __init__(self, client: Client, update: Message | CallbackQuery) -> None:
+        """Initialize the sudo filter.
+
+        Args:
+            client: The client instance
+            update: The update to check (message or callback query)
+        """
         self.client = client
         self.update = update
 
     async def __call__(self) -> bool:
+        """Check if the user has sudo privileges.
+
+        Returns:
+            bool: True if the user is in the SUDOERS list, False otherwise
+        """
         update = self.update
         is_callback = isinstance(update, CallbackQuery)
         message = update.message if is_callback else update

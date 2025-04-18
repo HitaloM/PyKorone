@@ -4,7 +4,6 @@
 import asyncio
 import shutil
 import sys
-import tempfile
 from contextlib import suppress
 from pathlib import Path
 
@@ -23,6 +22,14 @@ from .utils.logging import logger
 
 
 async def pre_process() -> ConfigManager:
+    """Perform pre-startup tasks and configurations.
+
+    Returns:
+        The initialized ConfigManager instance
+
+    Raises:
+        SystemExit: If RedisDB connection fails
+    """
     try:
         await cache.ping()
     except (CacheBackendInteractionError, TimeoutError):
@@ -47,13 +54,16 @@ async def pre_process() -> ConfigManager:
 
 
 async def post_process() -> None:
+    """Perform cleanup tasks after bot shutdown."""
     await cache.clear()
 
-    with tempfile.TemporaryDirectory() as tmp_dir, suppress(FileNotFoundError):
-        shutil.move(Path(constants.BOT_ROOT_PATH / "downloads").as_posix(), tmp_dir)
+    downloads_path = Path(constants.BOT_ROOT_PATH / "downloads")
+    with suppress(FileNotFoundError):
+        shutil.rmtree(downloads_path, ignore_errors=True)
 
 
 async def main() -> None:
+    """Main function to start and manage the bot client."""
     config = await pre_process()
 
     params = AppParameters(

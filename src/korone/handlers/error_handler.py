@@ -18,6 +18,16 @@ if TYPE_CHECKING:
 
 class KoroneErrorHandler(ErrorHandler, BaseHandler):
     async def check(self, client: Client, update: Update, exception: Exception) -> bool:
+        """Check if exception should be handled and process it with proper locale.
+
+        Args:
+            client: The Hydrogram client.
+            update: The update that caused the exception.
+            exception: The exception that was raised.
+
+        Returns:
+            bool: True if exception was handled, False otherwise.
+        """
         if not isinstance(exception, self.exceptions):
             return False
 

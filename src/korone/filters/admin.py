@@ -14,6 +14,19 @@ from korone.utils.i18n import gettext as _
 
 
 class AdminFilter(Filter):
+    """Base filter for checking if a user or the bot is an administrator.
+
+    This filter verifies if a user or the bot has administrator privileges
+    in a group or supergroup chat. It can also check for specific permissions
+    when used with the BotIsAdmin subclass.
+
+    Attributes:
+        client: The client instance
+        update: The message or callback query to check
+        permissions: Optional specific permissions to check (for BotIsAdmin only)
+        show_alert: Whether to show alerts when permissions are missing
+    """
+
     __slots__ = ("client", "permissions", "show_alert", "update")
 
     def __init__(
@@ -23,12 +36,28 @@ class AdminFilter(Filter):
         permissions: ChatPrivileges | None = None,
         show_alert: bool = True,
     ) -> None:
+        """Initialize the admin filter.
+
+        Args:
+            client: The client instance
+            update: The update to check (message or callback query)
+            permissions: Optional permissions to check for (BotIsAdmin only)
+            show_alert: Whether to show alerts when permissions are missing
+        """
         self.client = client
         self.update = update
         self.show_alert = show_alert
         self.permissions = permissions
 
     async def check_admin(self, user_id: int) -> bool:
+        """Check if a user is an administrator in a chat.
+
+        Args:
+            user_id: The user ID to check
+
+        Returns:
+            bool: True if the user is an admin or owner, False otherwise
+        """
         try:
             chat = (
                 self.update.message.chat
@@ -41,6 +70,11 @@ class AdminFilter(Filter):
             return False
 
     async def __call__(self) -> bool:
+        """Check if the user/bot is an admin and has required permissions.
+
+        Returns:
+            bool: True if all conditions are met, False otherwise
+        """
         update = self.update
         is_callback = isinstance(update, CallbackQuery)
         message = update.message if is_callback else update
@@ -93,8 +127,20 @@ class AdminFilter(Filter):
 
 
 class UserIsAdmin(AdminFilter):
+    """Filter that checks if the user is an administrator.
+
+    This filter verifies if the user who sent a message or callback query
+    has administrator privileges in the current chat.
+    """
+
     pass
 
 
 class BotIsAdmin(AdminFilter):
+    """Filter that checks if the bot is an administrator.
+
+    This filter verifies if the bot has administrator privileges in the current chat.
+    It can also check for specific permissions if the permissions parameter is provided.
+    """
+
     pass

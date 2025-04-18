@@ -16,4 +16,13 @@ if TYPE_CHECKING:
 
 class KoroneMessageHandler(MessageHandler, BaseHandler):
     async def check(self, client: Client, message: Message) -> None:
+        """Check and handle message updates.
+
+        Args:
+            client: The Hydrogram client.
+            message: The message object to process.
+
+        Returns:
+            bool: True if message was handled, False otherwise.
+        """
         return await self._check_and_handle(client, message)

@@ -7,7 +7,7 @@ import re
 from collections.abc import Iterable, Sequence
 from contextlib import suppress
 from re import Pattern
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Final
 
 from hydrogram.filters import Filter
 
@@ -21,10 +21,24 @@ RegexPatternType = str | Pattern[str]
 
 
 class RegexError(Exception):
+    """Exception raised when there's an error with regex patterns in filters."""
+
     pass
 
 
 class Regex(Filter):
+    """Filter for matching messages against regex patterns.
+
+    This filter checks if a message's text or caption matches any of the provided
+    regex patterns. It supports both string patterns that will be compiled to regex,
+    and pre-compiled regex Pattern objects.
+
+    Attributes:
+        patterns: Compiled regex patterns to match against
+        ignore_case: Whether to ignore case when matching
+        friendly_name: Optional name for identifying the regex filter in logs and for disabling
+    """
+
     __slots__ = ("friendly_name", "ignore_case", "patterns")
 
     def __init__(
@@ -34,12 +48,25 @@ class Regex(Filter):
         ignore_case: bool = False,
         friendly_name: str | None = None,
     ) -> None:
+        """Initialize the regex filter.
+
+        Args:
+            *values: Variable length regex patterns
+            patterns: Additional regex patterns as a sequence or single pattern
+            ignore_case: Whether to ignore case when matching
+            friendly_name: Name for the regex filter (used for disabling)
+
+        Raises:
+            ValueError: If no patterns are provided
+            TypeError: If patterns are not of the supported types
+            RegexError: If a pattern string cannot be compiled to a valid regex
+        """
         prepared_patterns = self._prepare_patterns(values, patterns, ignore_case)
         if not prepared_patterns:
             msg = "Regex filter requires at least one pattern."
             raise ValueError(msg)
 
-        self.patterns: tuple[Pattern[str], ...] = tuple(prepared_patterns)
+        self.patterns: Final[tuple[Pattern[str], ...]] = tuple(prepared_patterns)
         self.ignore_case = ignore_case
         self.friendly_name = friendly_name
 
@@ -49,7 +76,20 @@ class Regex(Filter):
         patterns: Sequence[RegexPatternType] | RegexPatternType | None,
         ignore_case: bool,
     ) -> list[Pattern[str]]:
-        if isinstance(patterns, str | Pattern):
+        """Prepare and compile regex patterns.
+
+        Args:
+            values: Patterns passed as positional arguments
+            patterns: Patterns passed via the patterns parameter
+            ignore_case: Whether to ignore case when compiling patterns
+
+        Returns:
+            list[Pattern[str]]: List of compiled regex patterns
+
+        Raises:
+            TypeError: If patterns are not of supported types
+        """
+        if isinstance(patterns, (str, Pattern)):
             patterns = [patterns]
         elif patterns is None:
             patterns = []
@@ -62,6 +102,19 @@ class Regex(Filter):
 
     @staticmethod
     def _process_pattern(pattern: RegexPatternType, ignore_case: bool) -> Pattern[str]:
+        """Process and compile a single pattern.
+
+        Args:
+            pattern: The regex pattern as string or Pattern object
+            ignore_case: Whether to ignore case when compiling
+
+        Returns:
+            Pattern[str]: Compiled regex pattern
+
+        Raises:
+            RegexError: If the pattern string cannot be compiled
+            TypeError: If the pattern is not of a supported type
+        """
         if isinstance(pattern, str):
             flags = re.IGNORECASE if ignore_case else 0
             try:
@@ -75,6 +128,15 @@ class Regex(Filter):
         return pattern
 
     async def __call__(self, client: Client, message: Message) -> bool:
+        """Check if the message matches any of the regex patterns.
+
+        Args:
+            client: The client instance
+            message: The message to check
+
+        Returns:
+            bool: True if the message matches any pattern, False otherwise
+        """
         if not (message.text or message.caption):
             return False
 
@@ -83,6 +145,17 @@ class Regex(Filter):
         return False
 
     async def parse_regex(self, message: Message) -> bool:
+        """Parse message text against regex patterns.
+
+        Args:
+            message: The message to check
+
+        Returns:
+            bool: True if the message matches any pattern
+
+        Raises:
+            RegexError: If the regex is disabled in the current chat
+        """
         text = message.text or message.caption
         if not text:
             return False

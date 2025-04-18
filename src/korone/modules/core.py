@@ -27,6 +27,12 @@ COMMANDS: dict[str, dict[str, Any]] = {}
 
 
 def discover_modules() -> None:
+    """
+    Discovers all available modules by scanning the module directory.
+
+    This function looks for directories that contain a 'handlers' subdirectory
+    and registers them as modules along with their handler files.
+    """
     parent_path = Path(__file__).parent
     logger.debug("Discovering modules...")
 
@@ -45,6 +51,15 @@ def discover_modules() -> None:
 
 
 async def fetch_command_state(command: str) -> Documents | None:
+    """
+    Fetches the current state of a command from the database.
+
+    Args:
+        command: The command identifier to fetch the state for.
+
+    Returns:
+        Documents object containing the command state or None if not found.
+    """
     await logger.adebug("Fetching command state for: %s", command)
 
     if command in COMMANDS and "parent" in COMMANDS[command]:
@@ -59,6 +74,15 @@ async def fetch_command_state(command: str) -> Documents | None:
 
 
 def extract_commands(filters: Filter) -> list[str] | None:
+    """
+    Extracts command patterns from filter objects.
+
+    Args:
+        filters: The filter object to extract commands from.
+
+    Returns:
+        A list of command patterns or None if no commands found.
+    """
     try:
         if hasattr(filters, "commands"):
             return [cmd.pattern for cmd in filters.commands if filters.disableable]  # type: ignore
@@ -70,6 +94,12 @@ def extract_commands(filters: Filter) -> list[str] | None:
 
 
 async def update_command_structure(commands: list[str]) -> None:
+    """
+    Updates the command structure with parent-child relationships and chat states.
+
+    Args:
+        commands: List of commands to process and structure.
+    """
     await logger.adebug("Updating command structure for commands: %s", commands)
 
     filtered_commands = [cmd.replace("$", "") for cmd in commands if cmd]
@@ -99,11 +129,28 @@ async def update_command_structure(commands: list[str]) -> None:
 
 
 async def process_filters(filters: Filter) -> None:
+    """
+    Processes filter objects to extract and update command structures.
+
+    Args:
+        filters: The filter object to process.
+    """
     if commands := extract_commands(filters):
         await update_command_structure(commands)
 
 
 async def load_module(client: Client, module_name: str, handlers: list[str]) -> bool:
+    """
+    Loads a specific module with its handlers into the client.
+
+    Args:
+        client: The Hydrogram client instance.
+        module_name: Name of the module to load.
+        handlers: List of handler paths to import.
+
+    Returns:
+        Boolean indicating whether the module was loaded successfully.
+    """
     await logger.adebug("Loading module: %s", module_name)
 
     for handler in handlers:
@@ -133,6 +180,15 @@ async def load_module(client: Client, module_name: str, handlers: list[str]) -> 
 
 
 async def load_all_modules(client: Client) -> None:
+    """
+    Discovers and loads all available modules.
+
+    This function initializes the module discovery process and then
+    loads each discovered module into the provided client instance.
+
+    Args:
+        client: The Hydrogram client instance.
+    """
     await logger.adebug("Loading all modules...")
 
     discover_modules()

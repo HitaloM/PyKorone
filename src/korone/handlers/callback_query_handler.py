@@ -16,4 +16,13 @@ if TYPE_CHECKING:
 
 class KoroneCallbackQueryHandler(CallbackQueryHandler, BaseHandler):
     async def check(self, client: Client, callback: CallbackQuery) -> None:
+        """Check and handle callback query updates.
+
+        Args:
+            client: The Hydrogram client.
+            callback: The callback query to process.
+
+        Returns:
+            bool: True if callback was handled, False otherwise.
+        """
         return await self._check_and_handle(client, callback)

@@ -6,9 +6,10 @@ from __future__ import annotations
 import asyncio
 import inspect
 import time
-from dataclasses import dataclass
+from collections.abc import Callable, Sequence
+from dataclasses import dataclass, field
 from datetime import timedelta
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Any, Final
 
 from babel import Locale, UnknownLocaleError
 from hydrogram.enums import ChatType
@@ -22,28 +23,30 @@ from korone.utils.caching import cache
 from korone.utils.i18n import i18n
 
 if TYPE_CHECKING:
-    from collections.abc import Callable
-
     from hydrogram import Client
     from hydrogram.filters import Filter
 
-BOT_ID: int = ConfigManager.get("hydrogram", "BOT_TOKEN").split(":", 1)[0]
+BOT_ID: Final[int] = ConfigManager.get("hydrogram", "BOT_TOKEN").split(":", 1)[0]
+
+type UpdateType = Update | Message | CallbackQuery
+type ChatEntity = User | Chat
 
 
-@dataclass(slots=True)
+@dataclass(slots=True, frozen=False)
 class BaseHandler:
-    callback: Callable
+    callback: Callable[..., Any]
     filters: Filter | None = None
+    _background_tasks: set = field(default_factory=set, init=False, repr=False)
 
     @staticmethod
-    async def _extract_message_and_user(update: Update) -> tuple[Message | None, User | None]:
+    async def _extract_message_and_user(update: UpdateType) -> tuple[Message | None, User | None]:
         if isinstance(update, CallbackQuery):
             return update.message, update.from_user
         if isinstance(update, Message):
             return update, update.from_user
         return None, None
 
-    async def _fetch_locale(self, update: Update) -> str:
+    async def _fetch_locale(self, update: UpdateType) -> str:
         message, user = await self._extract_message_and_user(update)
         if not message or not user:
             return i18n.default_locale
@@ -59,7 +62,7 @@ class BaseHandler:
         return i18n.default_locale
 
     @cache(ttl=timedelta(days=1), key="fetch_locale:{chat.id}")
-    async def _fetch_locale_from_db(self, chat: User | Chat) -> str:
+    async def _fetch_locale_from_db(self, chat: ChatEntity) -> str:
         if not self._is_valid_chat(chat):
             return i18n.default_locale
 
@@ -81,21 +84,20 @@ class BaseHandler:
         return str(locale)
 
     @staticmethod
-    def _is_valid_chat(chat: User | Chat) -> bool:
+    def _is_valid_chat(chat: ChatEntity) -> bool:
         if isinstance(chat, User):
             return not chat.is_bot
         if isinstance(chat, Chat):
             return chat.type in {ChatType.GROUP, ChatType.SUPERGROUP}
         return False
 
-    async def _process_update(self, client: Client, update: Update) -> Callable | None:
+    async def _process_update(self, client: Client, update: UpdateType) -> Callable | None:
         message, user = await self._extract_message_and_user(update)
         if not message:
             return None
 
-        if isinstance(update, CallbackQuery):
-            if user:
-                await self._store_user_or_chat(user)
+        if isinstance(update, CallbackQuery) and user:
+            await self._store_user_or_chat(user)
         else:
             await self._process_message(message)
 
@@ -103,16 +105,22 @@ class BaseHandler:
             return await self.callback(client, update)
         return None
 
-    async def _validate(self, client: Client, update: Update) -> bool:
+    async def _validate(self, client: Client, update: UpdateType) -> bool:
         message, _ = await self._extract_message_and_user(update)
         if not message or not callable(self.filters):
             return False
 
         if inspect.iscoroutinefunction(self.filters.__call__):
             return await self.filters(client, update)
-        return await client.loop.run_in_executor(client.executor, self.filters, client, update)  # type: ignore
 
-    async def _get_document(self, chat: User | Chat) -> Documents | None:
+        # Use executor for non-coroutine filters
+        result = await client.loop.run_in_executor(client.executor, self.filters, client, update)
+        if inspect.iscoroutine(result):
+            result = await result
+
+        return result
+
+    async def _get_document(self, chat: ChatEntity) -> Documents | None:
         table_name = self._determine_table(chat)
         if not table_name:
             return None
@@ -122,7 +130,7 @@ class BaseHandler:
             return await table.query(Query().id == chat.id)
 
     @staticmethod
-    def _determine_table(chat: User | Chat) -> str | None:
+    def _determine_table(chat: ChatEntity) -> str | None:
         if isinstance(chat, User) or (isinstance(chat, Chat) and chat.type == ChatType.PRIVATE):
             return "Users"
         if isinstance(chat, Chat) and chat.type in {ChatType.GROUP, ChatType.SUPERGROUP}:
@@ -144,7 +152,7 @@ class BaseHandler:
             return True
 
     async def _store_user_or_chat(
-        self, user_or_chat: User | Chat, language: str | None = None
+        self, user_or_chat: ChatEntity, language: str | None = None
     ) -> None:
         table_name = self._determine_table(user_or_chat)
         if not table_name:
@@ -161,7 +169,7 @@ class BaseHandler:
                 await self._insert_document(user_or_chat, language, table)
 
     async def _update_document(
-        self, chat: User | Chat, language: str, table: Table, obj: Documents
+        self, chat: ChatEntity, language: str, table: Table, obj: Documents
     ) -> Documents:
         doc = self._create_document(chat, language)
         doc["registry_date"] = obj[0]["registry_date"]
@@ -170,21 +178,21 @@ class BaseHandler:
         await table.update(doc, Query().id == chat.id)
         return Documents([doc])
 
-    async def _insert_document(self, chat: User | Chat, language: str, table: Table) -> Documents:
+    async def _insert_document(self, chat: ChatEntity, language: str, table: Table) -> Documents:
         doc = self._create_document(chat, language)
         await table.insert(doc)
         return Documents([doc])
 
     @staticmethod
-    def _create_document(chat: User | Chat, language: str) -> Document:
-        username = (chat.username or "").lower()
+    def _create_document(chat: ChatEntity, language: str) -> Document:
+        username = (getattr(chat, "username", "") or "").lower()
         title = getattr(chat, "title", None)
         first_name = getattr(chat, "first_name", None)
-        chat_type = (
-            getattr(chat.type, "name", "").lower()
-            if isinstance(chat, Chat) and chat.type
-            else None
-        )
+
+        chat_type = None
+        if isinstance(chat, Chat) and chat.type:
+            chat_type = getattr(chat.type, "name", "").lower()
+
         last_name = getattr(chat, "last_name", "") if isinstance(chat, User) else None
 
         return Document(
@@ -221,42 +229,59 @@ class BaseHandler:
     async def _process_private_and_group_messages(self, message: Message) -> None:
         if message.from_user and not message.from_user.is_bot:
             await self._store_user_or_chat(message.from_user, message.from_user.language_code)
+
         if message.chat and message.chat.type in {ChatType.GROUP, ChatType.SUPERGROUP}:
             await self._store_user_or_chat(message.chat)
 
-    def _extract_chats_to_update(self, message: Message) -> list[Chat | User]:
+    def _extract_chats_to_update(self, message: Message) -> list[ChatEntity]:
         chats_to_update = []
-        reply_message = message.reply_to_message
-        if reply_message:
+
+        # Process reply messages
+        if reply_message := message.reply_to_message:
             chats_to_update.extend(self._extract_replied_message_chats(reply_message))
+
+        # Process forwarded content
         forward_from_chat = message.forward_from_chat
         forward_from = message.forward_from
 
         if forward_from_chat and (not message.chat or forward_from_chat.id != message.chat.id):
             chats_to_update.append(forward_from_chat)
+
         if forward_from:
             chats_to_update.append(forward_from)
 
         return chats_to_update
 
     async def _process_member_updates(self, message: Message) -> None:
-        if message.new_chat_members:
-            await asyncio.gather(*[
-                self._store_user_or_chat(member, member.language_code)
-                for member in message.new_chat_members
-                if not member.is_bot
-            ])
+        if not message.new_chat_members:
+            return
 
-    async def _update_chats(self, chats: list[Chat | User]) -> None:
-        await asyncio.gather(*[
+        tasks = [
+            self._store_user_or_chat(member, member.language_code)
+            for member in message.new_chat_members
+            if not member.is_bot
+        ]
+
+        if tasks:
+            await asyncio.gather(*tasks)
+
+    async def _update_chats(self, chats: Sequence[ChatEntity]) -> None:
+        if not chats:
+            return
+
+        tasks = [
             self._store_user_or_chat(chat, chat.language_code if isinstance(chat, User) else None)
             for chat in chats
-        ])
+        ]
+
+        if tasks:
+            await asyncio.gather(*tasks)
 
     @staticmethod
-    def _extract_replied_message_chats(message: Message) -> list[Chat | User]:
+    def _extract_replied_message_chats(message: Message) -> list[ChatEntity]:
         chats_to_update = []
 
+        # Process sender of replied message
         replied_message_user = message.sender_chat or message.from_user
         if (
             replied_message_user
@@ -265,6 +290,7 @@ class BaseHandler:
         ):
             chats_to_update.append(replied_message_user)
 
+        # Process forwarded content in replies
         reply_to_forwarded = message.forward_from_chat or message.forward_from
         if (
             reply_to_forwarded
@@ -275,7 +301,7 @@ class BaseHandler:
 
         return chats_to_update
 
-    async def _check_and_handle(self, client: Client, update: Update) -> None:
+    async def _check_and_handle(self, client: Client, update: UpdateType) -> None:
         locale = await self._fetch_locale(update)
         with i18n.context(), i18n.use_locale(locale):
             if await self._validate(client, update):

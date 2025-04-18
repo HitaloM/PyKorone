@@ -4,20 +4,27 @@
 from __future__ import annotations
 
 from collections.abc import Callable
-from typing import TYPE_CHECKING, ClassVar
+from typing import TYPE_CHECKING, Any, ClassVar, TypeVar
 
 from korone.handlers.callback_query_handler import KoroneCallbackQueryHandler
 from korone.handlers.error_handler import KoroneErrorHandler
 from korone.handlers.message_handler import KoroneMessageHandler
 
 if TYPE_CHECKING:
-    from collections.abc import Callable
-
     from hydrogram.filters import Filter
     from hydrogram.handlers.handler import Handler
 
+T = TypeVar("T", bound=Callable[..., Any])
+
 
 class Factory:
+    """Factory class for creating event handlers.
+
+    This class is responsible for creating handlers for different types of events.
+    It provides a decorator that can be used to register a function as a handler
+    for a specific event type.
+    """
+
     __slots__ = ("update_name",)
 
     updates_observed: ClassVar[dict[str, type[Handler]]] = {
@@ -27,10 +34,28 @@ class Factory:
     }
 
     def __init__(self, update_name: str) -> None:
+        """Initialize a new Factory instance.
+
+        Args:
+            update_name: The name of the update type to handle.
+        """
         self.update_name = update_name
 
-    def __call__(self, filters: Filter | None = None, group: int = 0) -> Callable:
-        def wrapper(func: Callable) -> Callable:
+    def __call__(self, filters: Filter | None = None, group: int = 0) -> Callable[[T], T]:
+        """Create a decorator for the specified update type.
+
+        Args:
+            filters: Optional filters to apply to the handler.
+            group: The group to add the handler to.
+
+        Returns:
+            A decorator function that registers the decorated function as a handler.
+
+        Raises:
+            ValueError: If no handler is found for the update type.
+        """
+
+        def wrapper(func: T) -> T:
             if not hasattr(func, "handlers"):
                 func.handlers = []
 
