@@ -38,12 +38,10 @@ class Pagination:
         items_per_page = lines * columns
         page = max(1, page)
         offset = (page - 1) * items_per_page
-        current_page_items = self.objects[offset : offset + items_per_page]
-
         total_items = len(self.objects)
         last_page = math.ceil(total_items / items_per_page)
-        pages_range = range(1, last_page + 1)
-        nav_buttons = self._generate_navigation_buttons(page, last_page, pages_range)
+
+        current_page_items = self.objects[offset : offset + items_per_page]
 
         buttons = [
             (self.item_title(item, page), self.item_data(item, page))
@@ -52,6 +50,8 @@ class Pagination:
         kb_lines = list(self.chunk_list(buttons, columns))
 
         if last_page > 1:
+            pages_range = range(1, last_page + 1)
+            nav_buttons = self._generate_navigation_buttons(page, last_page, pages_range)
             kb_lines.append(nav_buttons)
 
         return InlineKeyboardMarkup([
@@ -59,11 +59,15 @@ class Pagination:
             for line in kb_lines
         ])
 
+    @staticmethod
+    def _format_page_number(n: int, current_page: int) -> str:
+        return f"· {n} ·" if n == current_page else str(n)
+
     def _generate_navigation_buttons(
         self, page: int, last_page: int, pages_range: range
     ) -> list[tuple[str, str]]:
         if last_page <= 5:
-            return [(str(n) if n != page else f"· {n} ·", self.page_data(n)) for n in pages_range]
+            return [(self._format_page_number(n, page), self.page_data(n)) for n in pages_range]
         if page <= 3:
             return self._generate_first_section_navigation(page, last_page, pages_range)
         if page >= last_page - 2:
@@ -73,7 +77,7 @@ class Pagination:
     def _generate_first_section_navigation(
         self, page: int, last_page: int, pages_range: range
     ) -> list[tuple[str, str]]:
-        nav = [(str(n) if n != page else f"· {n} ·", self.page_data(n)) for n in pages_range[:3]]
+        nav = [(self._format_page_number(n, page), self.page_data(n)) for n in pages_range[:3]]
 
         if last_page >= 4:
             nav.append(("4 ›" if last_page > 5 else "4", self.page_data(4)))
@@ -94,7 +98,7 @@ class Pagination:
             nav.append((f"‹ {last_page - 3}", self.page_data(last_page - 3)))
 
         nav.extend(
-            (str(n) if n != page else f"· {n} ·", self.page_data(n)) for n in pages_range[-3:]
+            (self._format_page_number(n, page), self.page_data(n)) for n in pages_range[-3:]
         )
 
         return nav

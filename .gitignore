@@ -11,11 +11,6 @@ __pycache__
 .venv/
 venv/
 
-# rye
-requirements.lock
-requirements-dev.lock
-.python-version
-
 # Korone
 *.session*
 korone.toml

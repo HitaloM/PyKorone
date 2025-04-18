@@ -1,10 +1,14 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
 [project]
 name = "korone"
 dynamic = ["version"]
 description = "An all-in-one bot for Telegram"
 authors = [{ name = "Hitalo" }]
 dependencies = [
-    "hydrogram[fast] @ git+https://github.com/hydrogram/hydrogram@dev",
+    "hydrogram[fast]",
     "hairydogm>=0.4.1",
     "structlog>=25.1.0",
     "uvloop>=0.21.0",
@@ -30,18 +34,9 @@ readme = "README.md"
 license = { file = "LICENSE" }
 requires-python = ">= 3.13"
 
-[tool.hatch.version]
-path = "src/korone/__init__.py"
 
-[build-system]
-requires = ["hatchling"]
-build-backend = "hatchling.build"
-
-[tool.rye]
-managed = true
-dev-dependencies = ["pre-commit>=4.1.0", "ruff>=0.11.0"]
-
-[project.optional-dependencies]
+[dependency-groups]
+dev = ["pre-commit>=4.2.0", "ruff>=0.11.6"]
 docs = [
     "sphinx>=8.2.2",
     "furo>=2024.8.6",
@@ -52,8 +47,9 @@ docs = [
     "sphinxcontrib-towncrier>=0.5.0a0",
 ]
 
-[tool.hatch.metadata]
-allow-direct-references = true
+
+[tool.hatch.version]
+path = "src/korone/__init__.py"
 
 [tool.towncrier]
 package = "korone"
@@ -70,15 +66,8 @@ type = [
     { name = "Misc", directory = "misc", showcontent = false },
 ]
 
-[tool.rye.scripts]
-clean-docs = { cmd = "rm -rf docs/build" }
-build-docs = { cmd = "sphinx-build -b html docs/source docs/build" }
-live-docs = { cmd = "sphinx-autobuild  docs/source docs/build --watch src" }
+[tool.uv.sources]
+hydrogram = { git = "https://github.com/hydrogram/hydrogram" }
 
-extract-locales = { cmd = "pybabel extract --keywords='__ _' --input-dirs=. -o locales/bot.pot" }
-compile-locales = { cmd = "pybabel compile -d locales -D bot" }
-clean-locales = { cmd = "find . -name '*.mo' -type f -delete" }
-update-locales = { cmd = "pybabel update -i locales/bot.pot -d locales -D bot" }
-
-towncrier = { cmd = "towncrier build --yes" }
-towncrier-draft = { cmd = "towncrier build --draft" }
+[tool.uv]
+managed = true
