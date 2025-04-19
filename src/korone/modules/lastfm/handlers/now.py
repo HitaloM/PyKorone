@@ -1,23 +1,18 @@
 # SPDX-License-Identifier: BSD-3-Clause
 # Copyright (c) 2025 Hitalo M. <https://github.com/HitaloM>
 
-from contextlib import suppress
-
 from hydrogram import Client
 from hydrogram.types import Message
 
 from korone.decorators import router
 from korone.filters import Command
-from korone.modules.lastfm.utils.commons import (
-    build_response_text,
+from korone.modules.lastfm.utils import (
+    LastFMClient,
+    fetch_and_handle_recent_track,
+    get_entity_info,
     get_lastfm_user_or_reply,
-    handle_lastfm_error,
+    send_entity_response,
 )
-from korone.modules.lastfm.utils.errors import LastFMError
-from korone.modules.lastfm.utils.formatters import format_tags, name_with_link
-from korone.modules.lastfm.utils.image_filter import get_biggest_lastfm_image
-from korone.modules.lastfm.utils.lastfm_api import LastFMClient
-from korone.utils.i18n import gettext as _
 
 
 @router.message(Command(commands=["lfm", "lastfm", "lmu"]))
@@ -26,34 +21,20 @@ async def lfm_command(client: Client, message: Message) -> None:
     if not last_fm_user:
         return
 
+    track_data = await fetch_and_handle_recent_track(message, last_fm_user)
+    if not track_data:
+        return
+
+    last_played, user_link = track_data
     last_fm = LastFMClient()
-    try:
-        last_played = (await last_fm.get_recent_tracks(last_fm_user, limit=1))[0]
-    except LastFMError as e:
-        await handle_lastfm_error(message, e)
-        return
-    except IndexError:
-        await message.reply(_("No recent tracks found for your LastFM account."))
-        return
 
-    track_info = None
-    with suppress(LastFMError):
-        track_info = await last_fm.get_track_info(
-            last_played.artist.name, last_played.name, last_fm_user
-        )
+    track_info = await get_entity_info(last_fm, last_played, last_fm_user, "track")
 
-    user_link = name_with_link(name=str(message.from_user.first_name), username=last_fm_user)
-    text = build_response_text(
-        user_link=user_link,
-        now_playing=last_played.now_playing,
-        entity_name=f"{last_played.artist.name} — {last_played.name}",
-        entity_type="🎧",
-        playcount=track_info.playcount if track_info else 0,
-        tags=format_tags(track_info) if track_info and track_info.tags else "",
+    await send_entity_response(
+        message,
+        last_played,
+        user_link,
+        track_info,
+        "🎧",
+        f"{last_played.artist.name} — {last_played.name}",
     )
-
-    if image := await get_biggest_lastfm_image(last_played):
-        await message.reply_photo(photo=image, caption=text)
-        return
-
-    await message.reply(text, disable_web_page_preview=True)

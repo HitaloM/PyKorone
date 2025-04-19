@@ -1,6 +1,7 @@
 # SPDX-License-Identifier: BSD-3-Clause
 # Copyright (c) 2025 Hitalo M. <https://github.com/HitaloM>
 
+import re
 from datetime import UTC, datetime
 from html import escape
 from pathlib import Path
@@ -14,7 +15,7 @@ from .types import LastFMAlbum, LastFMArtist, LastFMTrack
 with Path(
     constants.BOT_ROOT_PATH / "resources/lastfm/everynoise_genres.txt",
 ).open(encoding="utf-8") as file:
-    ACCEPTABLE_TAGS = {line.strip().lower() for line in file}
+    ACCEPTABLE_TAGS: set[str] = {line.strip().lower() for line in file}
 
 
 def get_time_elapsed_str(track: LastFMTrack) -> str:
@@ -38,41 +39,35 @@ def get_time_elapsed_str(track: LastFMTrack) -> str:
     )
 
 
+def clean_tag_name(tag: str) -> str:
+    pattern = r"[(),.;\"\'-/ ]"
+    return "#" + re.sub(pattern, "_", tag.lower())
+
+
 def format_tags(item: LastFMTrack | LastFMAlbum | LastFMArtist) -> str:
-    tags_text = ""
-    if item:
-        tags_text = " ".join(
-            f"#{
-                t.replace('(', '_')
-                .replace(')', '_')
-                .replace(',', '_')
-                .replace('"', '_')
-                .replace('.', '_')
-                .replace(';', '_')
-                .replace(':', '_')
-                .replace("'", '_')
-                .replace('-', '_')
-                .replace(' ', '_')
-                .replace('/', '_')
-            }"
-            for t in (tag.lower() for tag in item.tags or [])
-            if any(x in ACCEPTABLE_TAGS for x in t.split(" "))
-        )
-    return tags_text
+    if not item or not hasattr(item, "tags") or not item.tags:
+        return ""
+
+    valid_tags = [
+        clean_tag_name(tag)
+        for tag in (t.lower() for t in item.tags)
+        if any(acceptable_tag in tag.split() for acceptable_tag in ACCEPTABLE_TAGS)
+    ]
+
+    return " ".join(valid_tags)
 
 
 def period_to_str(period: TimePeriod) -> str:
-    if period == TimePeriod.OneWeek:
-        return _("1 week")
-    if period == TimePeriod.OneMonth:
-        return _("1 month")
-    if period == TimePeriod.ThreeMonths:
-        return _("3 months")
-    if period == TimePeriod.SixMonths:
-        return _("6 months")
-    if period == TimePeriod.OneYear:
-        return _("1 year")
-    return _("All time")
+    period_map = {
+        TimePeriod.OneWeek: _("1 week"),
+        TimePeriod.OneMonth: _("1 month"),
+        TimePeriod.ThreeMonths: _("3 months"),
+        TimePeriod.SixMonths: _("6 months"),
+        TimePeriod.OneYear: _("1 year"),
+        TimePeriod.AllTime: _("All time"),
+    }
+
+    return period_map.get(period, _("All time"))
 
 
 def name_with_link(name: str, username: str) -> str:

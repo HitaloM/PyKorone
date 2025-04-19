@@ -10,12 +10,16 @@ from hydrogram.types import Message
 
 from korone.decorators import router
 from korone.filters import Command, CommandObject
-from korone.modules.lastfm.utils.collage_generator import create_album_collage
-from korone.modules.lastfm.utils.commons import get_lastfm_user_or_reply, handle_lastfm_error
-from korone.modules.lastfm.utils.errors import LastFMError
-from korone.modules.lastfm.utils.formatters import name_with_link, period_to_str
-from korone.modules.lastfm.utils.lastfm_api import LastFMClient, TimePeriod
-from korone.modules.lastfm.utils.parse_collage import parse_collage_arg
+from korone.modules.lastfm.utils import (
+    LastFMClient,
+    LastFMError,
+    create_album_collage,
+    get_lastfm_user_or_reply,
+    handle_lastfm_error,
+    name_with_link,
+    parse_collage_arg,
+    period_to_str,
+)
 from korone.utils.i18n import gettext as _
 
 
@@ -26,19 +30,13 @@ async def lfmcollage_command(client: Client, message: Message) -> None:
         return
 
     command = CommandObject(message).parse()
-    collage_size = 3
-    period = TimePeriod.AllTime
-    show_text = True
-
-    if args := command.args:
-        collage_size, period, _entry_type, no_text = parse_collage_arg(args)
-        show_text = not no_text
-
-    last_fm = LastFMClient()
+    collage_size, period, _entry_type, no_text = parse_collage_arg(command.args or "")
+    show_text = not no_text
 
     async with ChatActionSender(
         client=client, chat_id=message.chat.id, action=ChatAction.UPLOAD_PHOTO
     ):
+        last_fm = LastFMClient()
         try:
             top_items = await last_fm.get_top_albums(last_fm_user, period, limit=collage_size**2)
         except LastFMError as e:

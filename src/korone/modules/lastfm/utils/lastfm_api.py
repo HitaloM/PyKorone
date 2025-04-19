@@ -2,7 +2,7 @@
 # Copyright (c) 2025 Hitalo M.
 
 from enum import StrEnum
-from typing import Any
+from typing import Any, TypeVar, cast
 
 import httpx
 from pydantic import BaseModel
@@ -24,6 +24,9 @@ class TimePeriod(StrEnum):
     AllTime = "All time"
 
 
+T = TypeVar("T", bound=BaseModel)
+
+
 class LastFMClient:
     __slots__ = ("api_key", "base_url")
 
@@ -40,11 +43,11 @@ class LastFMClient:
         except httpx.HTTPStatusError as e:
             error_message = "API request failed"
             try:
-                error_json = response.json()
+                error_json = e.response.json()
                 error_message = f"API request failed: {error_json.get('message', 'Unknown error')}"
                 error_code = error_json.get("error")
                 error_class = ERROR_CODE_MAP.get(error_code, LastFMError)
-                raise error_class(error_message, error_code, response) from e
+                raise error_class(error_message, error_code, e.response) from e
             except ValueError:
                 raise LastFMError(error_message) from e
         except httpx.RequestError as e:
@@ -53,26 +56,27 @@ class LastFMClient:
 
     @staticmethod
     def _time_period_to_api_string(duration: TimePeriod) -> str:
-        return {
+        period_map = {
             TimePeriod.OneWeek: "7day",
             TimePeriod.OneMonth: "1month",
             TimePeriod.ThreeMonths: "3month",
             TimePeriod.SixMonths: "6month",
             TimePeriod.OneYear: "12month",
             TimePeriod.AllTime: "overall",
-        }[duration]
+        }
+        return period_map[duration]
 
-    @staticmethod
-    def _build_params(method: str, user: str, **kwargs: Any) -> dict[str, Any]:
+    def _build_params(self, method: str, user: str, **kwargs: Any) -> dict[str, Any]:
         return {
             "method": method,
             "user": user,
-            "api_key": API_KEY,
+            "api_key": self.api_key,
             "format": "json",
-        } | kwargs
+            **kwargs,
+        }
 
     @staticmethod
-    def _handle_key_error(data: dict[str, Any], key: str, model: type[BaseModel]) -> Any:
+    def _handle_key_error(data: dict[str, Any], key: str, model: type[T]) -> list[T] | T:
         try:
             value = data[key]
             if isinstance(value, list):
@@ -89,27 +93,29 @@ class LastFMClient:
             "user.getrecenttracks", username, limit=limit, extended=extended
         )
         data = await self._request(params)
-        return self._handle_key_error(data["recenttracks"], "track", LastFMTrack)
+        return cast(
+            list[LastFMTrack], self._handle_key_error(data["recenttracks"], "track", LastFMTrack)
+        )
 
     async def get_user_info(self, username: str) -> LastFMUser:
         params = self._build_params("user.getInfo", username)
         data = await self._request(params)
-        return self._handle_key_error(data, "user", LastFMUser)
+        return cast(LastFMUser, self._handle_key_error(data, "user", LastFMUser))
 
     async def get_track_info(self, artist: str, track: str, username: str) -> LastFMTrack:
         params = self._build_params("track.getInfo", username, artist=artist, track=track)
         data = await self._request(params)
-        return self._handle_key_error(data, "track", LastFMTrack)
+        return cast(LastFMTrack, self._handle_key_error(data, "track", LastFMTrack))
 
     async def get_album_info(self, artist: str, album: str, username: str) -> LastFMAlbum:
         params = self._build_params("album.getInfo", username, artist=artist, album=album)
         data = await self._request(params)
-        return self._handle_key_error(data, "album", LastFMAlbum)
+        return cast(LastFMAlbum, self._handle_key_error(data, "album", LastFMAlbum))
 
     async def get_artist_info(self, artist: str, username: str) -> LastFMArtist:
         params = self._build_params("artist.getInfo", username, artist=artist)
         data = await self._request(params)
-        return self._handle_key_error(data, "artist", LastFMArtist)
+        return cast(LastFMArtist, self._handle_key_error(data, "artist", LastFMArtist))
 
     async def get_top_albums(
         self, user: str, period: TimePeriod, limit: int = 9
@@ -117,7 +123,9 @@ class LastFMClient:
         duration_str = self._time_period_to_api_string(period)
         params = self._build_params("user.gettopalbums", user, period=duration_str, limit=limit)
         data = await self._request(params)
-        return self._handle_key_error(data["topalbums"], "album", LastFMAlbum)
+        return cast(
+            list[LastFMAlbum], self._handle_key_error(data["topalbums"], "album", LastFMAlbum)
+        )
 
     async def get_top_tracks(
         self, user: str, period: TimePeriod = TimePeriod.AllTime, limit: int = 9
@@ -125,7 +133,9 @@ class LastFMClient:
         duration_str = self._time_period_to_api_string(period)
         params = self._build_params("user.gettoptracks", user, period=duration_str, limit=limit)
         data = await self._request(params)
-        return self._handle_key_error(data["toptracks"], "track", LastFMTrack)
+        return cast(
+            list[LastFMTrack], self._handle_key_error(data["toptracks"], "track", LastFMTrack)
+        )
 
     async def get_top_artists(
         self, user: str, period: TimePeriod = TimePeriod.AllTime, limit: int = 9
@@ -133,4 +143,6 @@ class LastFMClient:
         duration_str = self._time_period_to_api_string(period)
         params = self._build_params("user.gettopartists", user, period=duration_str, limit=limit)
         data = await self._request(params)
-        return self._handle_key_error(data["topartists"], "artist", LastFMArtist)
+        return cast(
+            list[LastFMArtist], self._handle_key_error(data["topartists"], "artist", LastFMArtist)
+        )

@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: BSD-3-Clause
 # Copyright (c) 2025 Hitalo M. <https://github.com/HitaloM>
 
-from typing import Any
+from typing import Any, ClassVar
 
 from pydantic import BaseModel, Field, field_validator, model_validator
 
@@ -17,28 +17,26 @@ class LastFMArtist(BaseModel):
     images: list[LastFMImage] | None = Field(default=None, alias="image")
     tags: list[str] | str = ""
 
+    _alias_map: ClassVar[dict[str, list[str]]] = {
+        "playcount": ["userplaycount", "playcount", "stats"]
+    }
+
     @model_validator(mode="before")
     @classmethod
     def handle_aliases(cls, values: dict[str, Any]) -> dict[str, Any]:
-        aliases = {"playcount": ["userplaycount", "playcount", "stats"]}
-
-        for field, possible_aliases in aliases.items():
+        for field, possible_aliases in cls._alias_map.items():
             for alias in possible_aliases:
                 if alias in values:
                     values[field] = values.pop(alias)
                     break
-
         return values
 
     @field_validator("playcount", mode="before")
     @classmethod
     def validate_playcount(cls, v: Any) -> int:
         if isinstance(v, dict):
-            if "userplaycount" in v:
-                return int(v["userplaycount"])
-            if "playcount" in v:
-                return int(v["playcount"])
-        elif isinstance(v, str | int):
+            return int(v.get("userplaycount", v.get("playcount", 0)))
+        if isinstance(v, (str, int)):
             return int(v)
         return 0
 
@@ -60,20 +58,19 @@ class LastFMAlbum(BaseModel):
     images: list[LastFMImage] | None = Field(default=None, alias="image")
     tags: list[str] | str = ""
 
+    _alias_map: ClassVar[dict[str, list[str]]] = {
+        "name": ["title", "#text"],
+        "playcount": ["userplaycount", "playcount"],
+    }
+
     @model_validator(mode="before")
     @classmethod
     def handle_aliases(cls, values: dict[str, Any]) -> dict[str, Any]:
-        aliases = {
-            "name": ["title", "#text"],
-            "playcount": ["userplaycount", "playcount"],
-        }
-
-        for field, possible_aliases in aliases.items():
+        for field, possible_aliases in cls._alias_map.items():
             for alias in possible_aliases:
                 if alias in values:
                     values[field] = values.pop(alias)
                     break
-
         return values
 
     @field_validator("artist", mode="before")
@@ -103,28 +100,28 @@ class LastFMTrack(BaseModel):
     played_at: int | None = Field(default=None, alias="date")
     tags: list[str] | str = Field(default="", alias="toptags")
 
+    _alias_map: ClassVar[dict[str, list[str]]] = {"playcount": ["userplaycount", "playcount"]}
+
     @model_validator(mode="before")
     @classmethod
     def handle_aliases(cls, values: dict[str, Any]) -> dict[str, Any]:
-        aliases = {"playcount": ["userplaycount", "playcount"]}
-
-        for field, possible_aliases in aliases.items():
+        for field, possible_aliases in cls._alias_map.items():
             for alias in possible_aliases:
                 if alias in values:
                     values[field] = values.pop(alias)
                     break
-
         return values
 
     @field_validator("played_at", mode="before")
     @classmethod
     def validate_played_at(cls, v: Any) -> int | None:
-        return v.get("uts", None) if v else None
+        uts = v.get("uts") if v and isinstance(v, dict) else None
+        return int(uts) if uts is not None else None
 
     @field_validator("now_playing", mode="before")
     @classmethod
     def validate_now_playing(cls, v: Any) -> bool:
-        return v.get("nowplaying", False) if v else False
+        return bool(v.get("nowplaying")) if v and isinstance(v, dict) else False
 
     @field_validator("tags", mode="before")
     @classmethod
@@ -150,7 +147,12 @@ class LastFMUser(BaseModel):
     @field_validator("registered", mode="before")
     @classmethod
     def validate_registered(cls, v: Any) -> int:
-        return int(v["unixtime"]) if isinstance(v, dict) else int(v)
+        if isinstance(v, dict) and "unixtime" in v:
+            return int(v["unixtime"])
+        if isinstance(v, (str, int, float)):
+            return int(v)
+        msg = "Invalid type for registered field"
+        raise ValueError(msg)
 
 
 class DeezerData(BaseModel):

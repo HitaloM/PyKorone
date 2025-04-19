@@ -8,72 +8,115 @@ from datetime import timedelta
 from PIL import Image, ImageDraw, ImageFont
 
 from korone.utils.caching import cache
+from korone.utils.logging import logger
 
 from .image_filter import get_biggest_lastfm_image
 from .types import LastFMAlbum
 
+THUMB_SIZE = 300
+DEFAULT_IMAGE_PATH = "resources/lastfm/dummy_image.png"
+FONT_PATH = "resources/lastfm/DejaVuSans-Bold.ttf"
+FONT_SIZE = 24
+TEXT_POSITION_OFFSET = 10
 
-async def add_text_to_image(img: Image.Image, text: str, font: ImageFont.FreeTypeFont) -> None:
-    def blocking_add_text_to_image():
-        draw = ImageDraw.Draw(img)
-        lines = text.split("\n")
-        font_size = font.size
-        text_height = len(lines) * font_size
-        text_x, text_y = 10, img.height - text_height - 10
 
-        # Create gradient mask
-        mask = Image.linear_gradient("L").resize((img.width, int(text_height) + 20))
-        gradient = Image.new("RGB", (img.width, int(text_height) + 20), "black")
-        gradient.putalpha(mask)
-        img.paste(
-            gradient, (0, int(img.height - text_height - 20), img.width, img.height), gradient
-        )
+async def add_text_to_image(
+    img: Image.Image, text: str, font_path: str = FONT_PATH, font_size: int = FONT_SIZE
+) -> None:
+    try:
+        font = ImageFont.truetype(font_path, font_size)
 
-        # Draw text with border
-        for line in lines:
-            for dx, dy in [(-1, -1), (-1, 1), (1, -1), (1, 1)]:
-                draw.text((text_x + dx, text_y + dy), line, font=font, fill="black")
-            draw.text((text_x, text_y), line, font=font, fill="white")
-            text_y += font_size
+        def blocking_add_text_to_image() -> None:
+            draw = ImageDraw.Draw(img)
+            lines = text.split("\n")
+            text_height = len(lines) * font_size
+            text_x, text_y = TEXT_POSITION_OFFSET, img.height - text_height - TEXT_POSITION_OFFSET
 
-    await asyncio.to_thread(blocking_add_text_to_image)
+            # Create semi-transparent gradient for text background
+            mask = Image.linear_gradient("L").resize((img.width, int(text_height) + 20))
+            gradient = Image.new("RGB", (img.width, int(text_height) + 20), "black")
+            gradient.putalpha(mask)
+            img.paste(
+                gradient, (0, int(img.height - text_height - 20), img.width, img.height), gradient
+            )
+
+            # Draw text with border for better visibility
+            for line in lines:
+                # Draw text outline
+                for dx, dy in [(-1, -1), (-1, 1), (1, -1), (1, 1)]:
+                    draw.text((text_x + dx, text_y + dy), line, font=font, fill="black")
+                # Draw main text
+                draw.text((text_x, text_y), line, font=font, fill="white")
+                text_y += font_size
+
+        await asyncio.to_thread(blocking_add_text_to_image)
+
+    except Exception as e:
+        await logger.aexception(f"Failed to add text to image: {e}")
+
+
+async def fetch_album_art(album: LastFMAlbum) -> Image.Image:
+    try:
+        image_data = await get_biggest_lastfm_image(album)
+        if image_data:
+            return Image.open(image_data)
+    except Exception as e:
+        await logger.aexception(f"Failed to fetch album art: {e}")
+
+    return Image.open(DEFAULT_IMAGE_PATH)
 
 
 async def fetch_album_arts(albums: list[LastFMAlbum]) -> list[Image.Image]:
-    async def fetch_art(album: LastFMAlbum) -> Image.Image | None:
-        image = await get_biggest_lastfm_image(album)
-        return Image.open(image) if image else Image.open("resources/lastfm/dummy_image.png")
-
-    tasks = [asyncio.create_task(fetch_art(album)) for album in albums]
-    return [img for img in await asyncio.gather(*tasks) if img is not None]
+    tasks = [asyncio.create_task(fetch_album_art(album)) for album in albums]
+    return await asyncio.gather(*tasks)
 
 
-@cache(timedelta(days=1))
+async def process_single_image(
+    index: int,
+    item: LastFMAlbum,
+    img: Image.Image,
+    collage: Image.Image,
+    cols: int,
+    show_text: bool = True,
+) -> None:
+    try:
+        # Resize the image to thumbnail size
+        img = img.resize((THUMB_SIZE, THUMB_SIZE), Image.Resampling.LANCZOS)
+
+        # Add text if needed
+        if show_text:
+            artist_name = item.artist.name if item.artist is not None else ""
+            text = f"{artist_name}\n{item.name}\n{item.playcount} plays"
+            await add_text_to_image(img, text)
+
+        # Calculate position in the collage
+        x, y = (index % cols) * THUMB_SIZE, (index // cols) * THUMB_SIZE
+
+        # Paste image into collage
+        collage.paste(img, (x, y))
+
+    except Exception as e:
+        await logger.aexception(f"Failed to process image at index {index}: {e}")
+
+
+@cache(ttl=timedelta(days=1))
 async def create_album_collage(
     albums: list[LastFMAlbum], collage_size: tuple[int, int] = (3, 3), show_text: bool = True
 ) -> io.BytesIO:
     rows, cols = collage_size
-    thumb_size = 300
-    collage = Image.new("RGB", (thumb_size * cols, thumb_size * rows))
+    total_albums = min(len(albums), rows * cols)
 
-    font = ImageFont.truetype("resources/lastfm/DejaVuSans-Bold.ttf", 24) if show_text else None
+    # Create blank collage image
+    collage = Image.new("RGB", (THUMB_SIZE * cols, THUMB_SIZE * rows))
 
-    album_images = await fetch_album_arts(albums[: rows * cols])
+    album_images = await fetch_album_arts(albums[:total_albums])
 
-    async def process_image(index: int, item: LastFMAlbum, img: Image.Image) -> None:
-        img = img.resize((thumb_size, thumb_size), Image.Resampling.LANCZOS)
-        if font and show_text:
-            text = f"{item.artist.name}\n{item.name}\n{item.playcount} plays"  # type: ignore
-            await add_text_to_image(img, text, font)
-
-        x, y = (index % cols) * thumb_size, (index // cols) * thumb_size
-        collage.paste(img, (x, y))
-
-    tasks = [
-        asyncio.create_task(process_image(index, item, img))
-        for index, (item, img) in enumerate(zip(albums[: rows * cols], album_images, strict=False))
+    processing_tasks = [
+        asyncio.create_task(process_single_image(index, item, img, collage, cols, show_text))
+        for index, (item, img) in enumerate(zip(albums[:total_albums], album_images, strict=False))
     ]
-    await asyncio.gather(*tasks)
+
+    await asyncio.gather(*processing_tasks)
 
     collage_bytes = io.BytesIO()
     await asyncio.to_thread(collage.save, collage_bytes, format="PNG")

@@ -8,10 +8,14 @@ from hydrogram.types import Message
 
 from korone.decorators import router
 from korone.filters import Command
-from korone.modules.lastfm.utils.commons import get_lastfm_user_or_reply, handle_lastfm_error
-from korone.modules.lastfm.utils.errors import LastFMError
-from korone.modules.lastfm.utils.formatters import get_time_elapsed_str, name_with_link
-from korone.modules.lastfm.utils.lastfm_api import LastFMClient
+from korone.modules.lastfm.utils import (
+    LastFMClient,
+    LastFMError,
+    get_lastfm_user_or_reply,
+    get_time_elapsed_str,
+    handle_lastfm_error,
+    name_with_link,
+)
 from korone.utils.i18n import gettext as _
 
 
@@ -32,20 +36,25 @@ async def lfmrecent_command(client: Client, message: Message) -> None:
         await message.reply(_("No recent tracks found."))
         return
 
+    formatted_response = format_recent_tracks(recent_tracks, last_fm_user, message)
+    await message.reply(formatted_response, disable_web_page_preview=True)
+
+
+def format_recent_tracks(recent_tracks, lastfm_username, message):
     last_played = recent_tracks[0]
     played_tracks = recent_tracks[1:6] if last_played.now_playing else recent_tracks[:5]
     user_link = name_with_link(
-        name=html.escape(str(message.from_user.first_name)), username=last_fm_user
+        name=html.escape(str(message.from_user.first_name)), username=lastfm_username
     )
 
     formatted_tracks = []
     if last_played.now_playing:
-        formatted_tracks.extend((
+        formatted_tracks.extend([
             _("{user} is listening to:\n").format(user=user_link)
             + f"🎧 <i>{html.escape(last_played.artist.name)}</i> — "
             f"<b>{html.escape(last_played.name)}</b>",
             _("\nLast 5 plays:"),
-        ))
+        ])
     else:
         formatted_tracks.append(_("{user} was listening to:\n").format(user=user_link))
 
@@ -54,4 +63,5 @@ async def lfmrecent_command(client: Client, message: Message) -> None:
         f"<b>{html.escape(track.name)}</b>{get_time_elapsed_str(track)}"
         for track in played_tracks
     )
-    await message.reply("\n".join(formatted_tracks), disable_web_page_preview=True)
+
+    return "\n".join(formatted_tracks)
