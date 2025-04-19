@@ -22,6 +22,19 @@ from korone.utils.i18n import gettext as _
 async def handle_languages(client: Client, update: Message | CallbackQuery) -> None:
     i18n = get_i18n()
     chat_type = update.chat.type if isinstance(update, Message) else update.message.chat.type
+
+    keyboard = _build_language_selection_keyboard(i18n, chat_type)
+    text = _("Please select the language you want to use for the chat.")
+
+    if isinstance(update, Message):
+        await update.reply(text, reply_markup=keyboard.as_markup())
+        return
+
+    with suppress(MessageNotModified):
+        await update.edit_message_text(text, reply_markup=keyboard.as_markup())
+
+
+def _build_language_selection_keyboard(i18n, chat_type: ChatType) -> InlineKeyboardBuilder:
     keyboard = InlineKeyboardBuilder()
 
     for language in (*i18n.available_locales, i18n.default_locale):
@@ -46,11 +59,4 @@ async def handle_languages(client: Client, update: Message | CallbackQuery) -> N
             )
         )
 
-    text = _("Please select the language you want to use for the chat.")
-
-    if isinstance(update, Message):
-        await update.reply(text, reply_markup=keyboard.as_markup())
-        return
-
-    with suppress(MessageNotModified):
-        await update.edit_message_text(text, reply_markup=keyboard.as_markup())
+    return keyboard

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2025-04-19 19:11-0300\n"
+"POT-Creation-Date: 2025-04-19 19:18-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -156,7 +156,7 @@ msgid "✅ Confirm Deletion"
 msgstr ""
 
 #: src/korone/modules/filters/handlers/delall.py:24
-#: src/korone/modules/languages/handlers/select.py:38
+#: src/korone/modules/languages/handlers/select.py:51
 msgid "❌ Cancel"
 msgstr ""
 
@@ -340,48 +340,48 @@ msgstr ""
 msgid "Charging"
 msgstr ""
 
-#: src/korone/modules/languages/handlers/apply.py:22
+#: src/korone/modules/languages/handlers/apply.py:23
 msgid "Something went wrong."
 msgstr ""
 
-#: src/korone/modules/languages/handlers/apply.py:44
+#: src/korone/modules/languages/handlers/apply.py:46
 #, python-brace-format
 msgid "Language changed to {new_lang}."
 msgstr ""
 
-#: src/korone/modules/languages/handlers/apply.py:50
+#: src/korone/modules/languages/handlers/apply.py:52
 msgid ""
 "\n"
 "This is the bot's native language.\n"
 "If you find any errors, please file an issue in the GitHub Repository."
 msgstr ""
 
-#: src/korone/modules/languages/handlers/apply.py:57
+#: src/korone/modules/languages/handlers/apply.py:59
 #, python-brace-format
 msgid ""
 "\n"
 "The language is {percent}% translated."
 msgstr ""
 
-#: src/korone/modules/languages/handlers/apply.py:69
+#: src/korone/modules/languages/handlers/apply.py:71
 msgid ""
 "\n"
 "In case you find any errors, please file an issue in the GitHub "
 "Repository."
 msgstr ""
 
-#: src/korone/modules/languages/handlers/apply.py:73
+#: src/korone/modules/languages/handlers/apply.py:75
 msgid ""
 "\n"
 "Please help us translate this language by completing it on our "
 "translations platform."
 msgstr ""
 
-#: src/korone/modules/languages/handlers/apply.py:91
+#: src/korone/modules/languages/handlers/apply.py:93
 msgid "🐞 Open GitHub"
 msgstr ""
 
-#: src/korone/modules/languages/handlers/apply.py:92
+#: src/korone/modules/languages/handlers/apply.py:94
 msgid "🌍 Open Translations"
 msgstr ""
 
@@ -391,52 +391,52 @@ msgid ""
 "/language command."
 msgstr ""
 
-#: src/korone/modules/languages/handlers/info.py:41
+#: src/korone/modules/languages/handlers/info.py:40
 #, python-brace-format
 msgid "<b>Chat language:</b> {language}\n"
 msgstr ""
 
-#: src/korone/modules/languages/handlers/info.py:44
+#: src/korone/modules/languages/handlers/info.py:43
 msgid "This is the bot's native language. So it is 100% translated."
 msgstr ""
 
-#: src/korone/modules/languages/handlers/info.py:46
+#: src/korone/modules/languages/handlers/info.py:45
 msgid ""
 "\n"
 "<b>Language Information:</b>\n"
 msgstr ""
 
-#: src/korone/modules/languages/handlers/info.py:47
+#: src/korone/modules/languages/handlers/info.py:46
 #, python-brace-format
 msgid "Translated strings: <code>{translated}</code>\n"
 msgstr ""
 
-#: src/korone/modules/languages/handlers/info.py:50
+#: src/korone/modules/languages/handlers/info.py:49
 #, python-brace-format
 msgid "Untranslated strings: <code>{untranslated}</code>\n"
 msgstr ""
 
-#: src/korone/modules/languages/handlers/info.py:53
+#: src/korone/modules/languages/handlers/info.py:52
 #, python-brace-format
 msgid "Strings requiring review: <code>{fuzzy}</code>\n"
 msgstr ""
 
-#: src/korone/modules/languages/handlers/info.py:60
+#: src/korone/modules/languages/handlers/info.py:59
 msgid "👤 Change your language"
 msgstr ""
 
-#: src/korone/modules/languages/handlers/info.py:62
+#: src/korone/modules/languages/handlers/info.py:61
 msgid "🌍 Change group language"
 msgstr ""
 
-#: src/korone/modules/languages/handlers/info.py:74
-#: src/korone/modules/languages/handlers/select.py:45
+#: src/korone/modules/languages/handlers/info.py:70
+#: src/korone/modules/languages/handlers/select.py:58
 #: src/korone/modules/pm_menu/handlers/about.py:55
 #: src/korone/modules/pm_menu/handlers/help.py:34
 msgid "⬅️ Back"
 msgstr ""
 
-#: src/korone/modules/languages/handlers/select.py:49
+#: src/korone/modules/languages/handlers/select.py:27
 msgid "Please select the language you want to use for the chat."
 msgstr ""
 

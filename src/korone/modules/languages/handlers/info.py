@@ -25,9 +25,8 @@ async def handle_language(client: Client, update: Message | CallbackQuery) -> No
     chat_type = update.chat.type if is_message else update.message.chat.type
 
     i18n = get_i18n()
-    text = build_language_info_text(i18n)
-
-    keyboard = build_keyboard(chat_type)
+    text = _build_language_info_text(i18n)
+    keyboard = _build_keyboard(chat_type)
 
     if is_message:
         await update.reply(text, reply_markup=keyboard.as_markup())
@@ -37,7 +36,7 @@ async def handle_language(client: Client, update: Message | CallbackQuery) -> No
         await update.message.edit(text, reply_markup=keyboard.as_markup())
 
 
-def build_language_info_text(i18n: I18nNew) -> str:
+def _build_language_info_text(i18n: I18nNew) -> str:
     text = _("<b>Chat language:</b> {language}\n").format(language=i18n.current_locale_display)
 
     if i18n.current_locale == i18n.default_locale:
@@ -55,23 +54,21 @@ def build_language_info_text(i18n: I18nNew) -> str:
     return text
 
 
-def get_button_text(chat_type: ChatType) -> str:
-    return (
+def _build_keyboard(chat_type: ChatType) -> InlineKeyboardBuilder:
+    button_text = (
         _("👤 Change your language")
         if chat_type == ChatType.PRIVATE
         else _("🌍 Change group language")
     )
 
-
-def build_keyboard(chat_type: ChatType) -> InlineKeyboardBuilder:
-    button_text = get_button_text(chat_type)
-
     keyboard = InlineKeyboardBuilder()
     keyboard.button(text=button_text, callback_data=LangMenuCallback(menu=LangMenu.Languages))
+
     if chat_type == ChatType.PRIVATE:
         keyboard.row(
             InlineKeyboardButton(
                 text=_("⬅️ Back"), callback_data=PMMenuCallback(menu=PMMenu.Start).pack()
             )
         )
+
     return keyboard

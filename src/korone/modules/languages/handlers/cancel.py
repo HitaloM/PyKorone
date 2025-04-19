@@ -15,7 +15,7 @@ from korone.utils.i18n import gettext as _
 
 
 @router.callback_query(LangMenuCallback.filter(F.menu == LangMenu.Cancel))
-async def language_cancel_callback(client: Client, callback: CallbackQuery):
+async def language_cancel_callback(client: Client, callback: CallbackQuery) -> None:
     message = callback.message
 
     await message.edit(
@@ -26,6 +26,7 @@ async def language_cancel_callback(client: Client, callback: CallbackQuery):
     )
 
     await asyncio.sleep(5)
+
     with suppress(MessageDeleteForbidden, BadRequest):
         await message.reply_to_message.delete()
         await message.delete()
