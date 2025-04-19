@@ -3,17 +3,17 @@
 
 import urllib.parse
 from datetime import timedelta
-from typing import Any
 
 import httpx
 from lxml import html
+from lxml.html import HtmlElement
 
 from korone.config import ConfigManager
 from korone.utils.caching import cache
 from korone.utils.i18n import gettext as _
 from korone.utils.logging import logger
 
-from .types import PhoneSearchResult
+from .types import Phone, PhoneSearchResult
 
 CORS: str = ConfigManager.get("korone", "CORS_BYPASS")
 
@@ -37,71 +37,30 @@ HEADERS = {
 }
 
 
-def get_data_from_specs(specs_data: dict[str, Any], category: str, attributes: list[str]) -> str:
-    details = specs_data.get("specs", {}).get(category, {})
-    return "\n".join(details.get(attr, "") for attr in attributes)
-
-
-def get_camera_data(specs_data: dict[str, Any], category: str) -> str | None:
-    details = specs_data.get("specs", {}).get(category, {})
-    camera = next(iter(details.items()), (None, None))
-    return f"{camera[0]} {camera[1]}" if all(camera) else None
-
-
-def parse_specs(specs_data: dict[str, Any]) -> dict[str, str]:
-    categories = {
-        "status": ("Launch", ["Status"]),
-        "network": ("Network", ["Technology"]),
-        "weight": ("Body", ["Weight"]),
-        "jack": ("Sound", ["3.5mm jack"]),
-        "usb": ("Comms", ["USB"]),
-        "sensors": ("Features", ["Sensors"]),
-        "battery": ("Battery", ["Type"]),
-        "charging": ("Battery", ["Charging"]),
-        "display": ("Display", ["Type", "Size", "Resolution"]),
-        "chipset": ("Platform", ["Chipset", "CPU", "GPU"]),
-        "main_camera": ("Main Camera", []),
-        "selfie_camera": ("Selfie camera", []),
-        "memory": ("Memory", ["Internal"]),
-    }
-
-    data = {
-        key: get_data_from_specs(specs_data, cat, attrs)
-        for key, (cat, attrs) in categories.items()
-    }
-    data["main_camera"] = get_camera_data(specs_data, "Main Camera") or ""
-    data["selfie_camera"] = get_camera_data(specs_data, "Selfie camera") or ""
-    data["name"] = specs_data.get("name", "")
-    data["url"] = specs_data.get("url", "")
-
-    return data
-
-
-def format_phone(phone: dict[str, Any]) -> str:
-    phone = parse_specs(phone)
+def format_phone(phone: Phone) -> str:
     attributes_dict = {
-        _("Status"): "status",
-        _("Network"): "network",
-        _("Weight"): "weight",
-        _("Display"): "display",
-        _("Chipset"): "chipset",
-        _("Memory"): "memory",
-        _("Rear Camera"): "main_camera",
-        _("Front Camera"): "selfie_camera",
-        _("3.5mm jack"): "jack",
-        _("USB"): "usb",
-        _("Sensors"): "sensors",
-        _("Battery"): "battery",
-        _("Charging"): "charging",
+        _("Status"): phone.status,
+        _("Network"): phone.network,
+        _("Weight"): phone.weight,
+        _("Display"): phone.display,
+        _("Chipset"): phone.chipset,
+        _("Memory"): phone.memory,
+        _("Rear Camera"): phone.main_camera,
+        _("Front Camera"): phone.selfie_camera,
+        _("3.5mm jack"): phone.jack,
+        _("USB"): phone.usb,
+        _("Sensors"): phone.sensors,
+        _("Battery"): phone.battery,
+        _("Charging"): phone.charging,
     }
 
     attributes = [
-        f"<b>{key}:</b> {phone[value]}"
+        f"<b>{key}:</b> {value}"
         for key, value in attributes_dict.items()
-        if phone.get(value) and phone[value].strip() and phone[value].strip() != "-"
+        if value and value.strip() and value.strip() != "-"
     ]
 
-    return f"<a href='{phone['url']}'>{phone['name']}</a>\n\n{'\n\n'.join(attributes)}"
+    return f"<a href='{phone.url}'>{phone.name}</a>\n\n{'\n\n'.join(attributes)}"
 
 
 @cache(ttl=timedelta(days=1))
@@ -119,72 +78,92 @@ async def fetch_html(url: str) -> str:
         raise
 
 
-def extract_specs(specs_tables: list[Any]) -> dict[str, Any]:
-    return {
-        "specs": {
-            feature: {
-                (header if header != "\u00a0" else "info"): detail
-                for tr in table.xpath(".//tr")
-                for header in [td.text_content().strip() for td in tr.xpath(".//td[@class='ttl']")]
-                for detail in [td.text_content().strip() for td in tr.xpath(".//td[@class='nfo']")]
-            }
-            for table in specs_tables
-            for feature in [th.text_content().strip() for th in table.xpath(".//th")]
-        }
-    }
+def extract_specs_from_tables(specs_tables: list[HtmlElement]) -> dict[str, dict[str, str]]:
+    specs = {}
+
+    for table in specs_tables:
+        category_elements = table.xpath(".//th")
+        if not category_elements:
+            continue
+
+        category = category_elements[0].text_content().strip()
+        specs[category] = {}
+
+        for tr in table.xpath(".//tr"):
+            header_elements = tr.xpath(".//td[@class='ttl']")
+            value_elements = tr.xpath(".//td[@class='nfo']")
+
+            if not header_elements or not value_elements:
+                continue
+
+            header = header_elements[0].text_content().strip()
+            value = value_elements[0].text_content().strip()
+
+            if header == "\u00a0":
+                header = "info"
+
+            specs[category][header] = value
+
+    return specs
 
 
-async def search_phone(phone: str) -> list[PhoneSearchResult]:
+async def search_phone(query: str) -> list[PhoneSearchResult]:
     try:
-        phone_html_encoded = urllib.parse.quote_plus(phone)
-        search_url = (
-            f"https://m.gsmarena.com/results.php3?sQuickSearch=yes&sName={phone_html_encoded}"
-        )
+        encoded_query = urllib.parse.quote_plus(query)
+        search_url = f"https://m.gsmarena.com/results.php3?sQuickSearch=yes&sName={encoded_query}"
+
         html_content = await fetch_html(search_url)
         tree = html.fromstring(html_content)
         found_phones = tree.xpath("//div[@class='general-menu material-card']//ul//li")
 
-        return [
-            PhoneSearchResult(
-                name=phone_tag.xpath(".//img/@title")[0],
-                url=phone_tag.xpath(".//a/@href")[0],
-            )
-            for phone_tag in found_phones
-        ]
+        results = []
+        for phone_tag in found_phones:
+            try:
+                name = phone_tag.xpath(".//img/@title")[0]
+                url = phone_tag.xpath(".//a/@href")[0]
+                results.append(PhoneSearchResult(name=name, url=url))
+            except IndexError:
+                continue
+
+        return results
     except Exception as e:
         await logger.aerror("[GSM Arena] Error searching for phone: %s", e)
         return []
 
 
-async def check_phone_details(url: str) -> dict[str, str]:
+async def check_phone_details(url: str) -> Phone | None:
     try:
-        url = f"https://www.gsmarena.com/{url}"
-        html_content = await fetch_html(url)
+        complete_url = f"https://www.gsmarena.com/{url}"
+        html_content = await fetch_html(complete_url)
         tree = html.fromstring(html_content)
-        specs_tables = tree.xpath("//table[@cellspacing='0']")
 
-        phone_specs_temp = extract_specs(specs_tables)
+        specs_tables = tree.xpath("//table[@cellspacing='0']")
+        specs = extract_specs_from_tables(specs_tables)
 
         meta_scripts = tree.xpath("//script[@language='javascript']")
         if not meta_scripts:
-            msg = "No metadata scripts found on the page"
-            raise ValueError(msg)
+            await logger.aerror("[GSM Arena] No metadata scripts found on the page")
+            return None
 
-        meta = meta_scripts[0].text_content().splitlines()
-        name = extract_meta_data(meta, "ITEM_NAME")
-        picture = extract_meta_data(meta, "ITEM_IMAGE")
+        meta_content = meta_scripts[0].text_content().splitlines()
+        name = extract_meta_data(meta_content, "ITEM_NAME")
+        picture = extract_meta_data(meta_content, "ITEM_IMAGE")
 
-        phone_specs_temp.update({"name": name, "picture": picture, "url": url})
+        return Phone(name=name, url=complete_url, picture=picture, specs=specs)
 
-        return phone_specs_temp
     except Exception as e:
         await logger.aerror("[GSM Arena] Error checking phone details: %s", e)
-        return {}
+        return None
 
 
-def extract_meta_data(meta: list[str], key: str) -> str:
+def extract_meta_data(meta_lines: list[str], key: str) -> str:
     try:
-        return next((line.split('"')[1] for line in meta if key in line), "")
-    except StopIteration:
-        logger.warning("[GSM Arena] Metadata key '%s' not found.", key)
+        for line in meta_lines:
+            if key in line:
+                parts = line.split('"')
+                if len(parts) >= 2:
+                    return parts[1]
+        return ""
+    except Exception:
+        logger.warning("[GSM Arena] Metadata key '%s' not found or invalid format.", key)
         return ""

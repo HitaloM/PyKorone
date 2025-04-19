@@ -6,12 +6,20 @@ from hydrogram.types import InlineKeyboardMarkup
 from korone.modules.gsm_arena.callback_data import DevicePageCallback, GetDeviceCallback
 from korone.utils.pagination import Pagination
 
+from .types import PhoneSearchResult
 
-def create_pagination_layout(devices: list, query: str, page: int) -> InlineKeyboardMarkup:
-    layout = Pagination(
-        devices,
-        item_data=lambda i, _: GetDeviceCallback(device=i.url).pack(),
-        item_title=lambda i, _: i.name,
-        page_data=lambda pg: DevicePageCallback(device=query, page=pg).pack(),
+
+def create_pagination_layout(
+    devices: list[PhoneSearchResult],
+    query: str,
+    page: int,
+    items_per_page: int = 8,
+) -> InlineKeyboardMarkup:
+    pagination = Pagination(
+        objects=devices,
+        page_data=lambda page_num: DevicePageCallback(device=query, page=page_num).pack(),
+        item_data=lambda device, _: GetDeviceCallback(device=device.url).pack(),
+        item_title=lambda device, _: device.name,
     )
-    return layout.create(page, lines=8)
+
+    return pagination.create(page=page, lines=items_per_page, columns=1)
