@@ -15,6 +15,7 @@ We are building a Python project using Hydrogram (a Pyrogram fork) for Telegram 
    - snake_case for functions and variables
    - PascalCase for classes
    - UPPER_CASE for constants
+   - Use positional arguments for logging statements instead of f-strings
 
 3. Project architecture:
    - Keep functions small and focused on a single responsibility
