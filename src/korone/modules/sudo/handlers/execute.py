@@ -43,13 +43,12 @@ async def exec_command(client: Client, message: Message) -> None:
                 await message.reply(f"<pre language='bash'>{html.escape(traceback_string)}</pre>")
                 return
 
-        output = strio.getvalue()
-        if not output:
-            await message.reply("No output.")
-            return
+        output: str = strio.getvalue()
 
-        if len(output) > 4096:
-            await generate_document(output, message)
-            return
-
-        await message.reply(f"<pre language='bash'>{html.escape(str(output))}</pre>")
+        match output:
+            case "":
+                await message.reply("No output.")
+            case output if len(output) > 4096:
+                await generate_document(output, message)
+            case _:
+                await message.reply(f"<pre language='bash'>{html.escape(str(output))}</pre>")

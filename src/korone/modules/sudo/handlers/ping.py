@@ -19,11 +19,12 @@ async def ping_command(client: Client, update: Message | CallbackQuery) -> None:
         [InlineKeyboardButton(text="Retry", callback_data=PingCallbackData().pack())]
     ])
 
-    if isinstance(update, Message):
-        message = await update.reply("<b>Pong!</b>")
-    else:
-        message = update.message
-        await message.edit("<b>Pong!</b>")
+    match update:
+        case Message():
+            message = await update.reply("<b>Pong!</b>")
+        case CallbackQuery():
+            message = update.message
+            await message.edit("<b>Pong!</b>")
 
     second = datetime.now(UTC)
     await message.edit(

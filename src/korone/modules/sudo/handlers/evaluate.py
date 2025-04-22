@@ -3,6 +3,7 @@
 
 import html
 import traceback
+from typing import Any
 
 from hairydogm.chat_action import ChatActionSender
 from hydrogram import Client
@@ -24,7 +25,7 @@ async def eval_command(client: Client, message: Message) -> None:
 
     async with ChatActionSender(client=client, chat_id=message.chat.id, initial_sleep=3.0):
         try:
-            output = await meval(expression, globals(), **locals())
+            output: Any = await meval(expression, globals(), **locals())
         except Exception:
             traceback_string = traceback.format_exc()
             await message.reply(
@@ -33,12 +34,10 @@ async def eval_command(client: Client, message: Message) -> None:
             )
             return
 
-        if not output:
-            await message.reply("No output.")
-            return
-
-        if len(str(output)) > 4096:
-            await generate_document(output, message)
-            return
-
-        await message.reply(f"<pre language='bash'>{html.escape(str(output))}</pre>")
+        match output:
+            case None:
+                await message.reply("No output.")
+            case output if len(str(output)) > 4096:
+                await generate_document(output, message)
+            case _:
+                await message.reply(f"<pre language='bash'>{html.escape(str(output))}</pre>")

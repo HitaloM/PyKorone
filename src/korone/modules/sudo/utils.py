@@ -4,12 +4,16 @@
 import asyncio
 import html
 import io
-from typing import Any
+from typing import Any, TypedDict
 
 from hydrogram.types import Message
 
 
-async def generate_document(output: Any, message: Message):
+class CommitInfo(TypedDict):
+    title: str
+
+
+async def generate_document(output: Any, message: Message) -> None:
     with io.BytesIO(str.encode(str(output))) as file:
         file.name = "output.txt"
         caption = "Output is too large to be sent as a text message."
@@ -29,7 +33,7 @@ async def fetch_updates() -> str:
     return await run_command("git log HEAD..origin/main --oneline")
 
 
-def parse_commits(stdout: str) -> dict[str, dict[str, str]]:
+def parse_commits(stdout: str) -> dict[str, CommitInfo]:
     return {
         parts[0]: {"title": parts[1]}
         for line in stdout.split("\n")
@@ -38,7 +42,7 @@ def parse_commits(stdout: str) -> dict[str, dict[str, str]]:
     }
 
 
-def generate_changelog(commits: dict[str, dict[str, str]]) -> str:
+def generate_changelog(commits: dict[str, CommitInfo]) -> str:
     return (
         "<b>Changelog</b>:\n"
         + "\n".join(

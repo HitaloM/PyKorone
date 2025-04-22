@@ -4,6 +4,7 @@
 import os
 import sys
 import time
+from typing import TypedDict
 
 from hydrogram import Client
 from hydrogram.types import Message
@@ -11,6 +12,12 @@ from hydrogram.types import Message
 from korone.decorators import router
 from korone.filters import Command, IsSudo
 from korone.utils.caching import cache
+
+
+class RebootCache(TypedDict):
+    chat_id: int
+    message_id: int
+    time: float
 
 
 @router.message(Command("reboot", disableable=False) & IsSudo)
@@ -22,7 +29,7 @@ async def reboot_command(client: Client, message: Message) -> None:
 
     sent = await message.reply("Rebooting...")
 
-    value = {"chat_id": message.chat.id, "message_id": sent.id, "time": time.time()}
+    value: RebootCache = {"chat_id": message.chat.id, "message_id": sent.id, "time": time.time()}
     await cache.set(cache_key, value=value, expire=300)
 
     os.execv(sys.executable, [sys.executable, "-m", "korone"])
