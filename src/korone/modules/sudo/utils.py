@@ -53,6 +53,6 @@ async def perform_update() -> str:
     commands = [
         "git reset --hard origin/main",
         "pybabel compile -d locales -D bot",
-        "rye sync --update-all --all-features",
+        "uv sync --update-all",
     ]
     return "".join([await run_command(command) for command in commands])
