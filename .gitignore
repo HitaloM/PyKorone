@@ -19,3 +19,4 @@ docs/build/
 downloads/
 tmp/
 *.rdb
+src/logs/
