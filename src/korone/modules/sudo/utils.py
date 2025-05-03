@@ -54,9 +54,5 @@ def generate_changelog(commits: dict[str, CommitInfo]) -> str:
 
 
 async def perform_update() -> str:
-    commands = [
-        "git reset --hard origin/main",
-        "pybabel compile -d locales -D bot",
-        "uv sync --update-all",
-    ]
+    commands = ["git reset --hard origin/main", "pybabel compile -d locales -D bot", "uv sync"]
     return "".join([await run_command(command) for command in commands])
