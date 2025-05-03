@@ -10,6 +10,7 @@ from hydrogram import Client
 from hydrogram.types import Message
 from meval import meval
 
+from korone.constants import MESSAGE_LENGTH_LIMIT
 from korone.decorators import router
 from korone.filters import Command, CommandObject, IsSudo
 from korone.modules.sudo.utils import generate_document
@@ -37,7 +38,7 @@ async def eval_command(client: Client, message: Message) -> None:
         match output:
             case None:
                 await message.reply("No output.")
-            case output if len(str(output)) > 4096:
+            case output if len(str(output)) > MESSAGE_LENGTH_LIMIT:
                 await generate_document(output, message)
             case _:
                 await message.reply(f"<pre language='bash'>{html.escape(str(output))}</pre>")

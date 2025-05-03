@@ -6,6 +6,7 @@ import html
 from hydrogram import Client
 from hydrogram.types import CallbackQuery, InlineKeyboardButton, InlineKeyboardMarkup, Message
 
+from korone.constants import MESSAGE_LENGTH_LIMIT
 from korone.decorators import router
 from korone.filters import Command, IsSudo
 from korone.modules.sudo.callback_data import UpdateCallbackData
@@ -58,7 +59,7 @@ async def update_callback(client: Client, callback: CallbackQuery) -> None:
         await sent.edit(f"An error occurred:\n<code>{e}</code>")
         return
 
-    if len(stdout) > 4096:
+    if len(stdout) > MESSAGE_LENGTH_LIMIT:
         await sent.edit("Upgrade completed successfully. Reboot is required...")
         await generate_document(stdout, message)
         return

@@ -20,6 +20,7 @@ from hydrogram.types import (
 
 from korone.decorators import router
 from korone.filters import Regex
+from korone.modules.medias.handlers.base_media_handler import BaseMediaHandler
 from korone.modules.medias.utils.cache import MediaCache
 from korone.modules.medias.utils.downloader import download_media
 from korone.modules.medias.utils.files import resize_thumbnail
@@ -186,6 +187,9 @@ async def send_media(
 
     if not media_file:
         return None
+
+    # Truncate text to fit Telegram's character limit
+    text = BaseMediaHandler.truncate_caption(text)
 
     action = (
         ChatAction.UPLOAD_PHOTO

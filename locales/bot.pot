@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2025-04-19 19:41-0300\n"
+"POT-Creation-Date: 2025-05-03 09:34-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -671,7 +671,7 @@ msgid "All time"
 msgstr ""
 
 #: src/korone/modules/medias/handlers/base_media_handler.py:30
-#: src/korone/modules/medias/handlers/base_media_handler.py:42
+#: src/korone/modules/medias/handlers/base_media_handler.py:50
 msgid "Open in"
 msgstr ""
 
@@ -694,12 +694,12 @@ msgstr ""
 msgid "TikTok"
 msgstr ""
 
-#: src/korone/modules/medias/handlers/twitter.py:69
-#: src/korone/modules/medias/handlers/twitter.py:183
+#: src/korone/modules/medias/handlers/twitter.py:70
+#: src/korone/modules/medias/handlers/twitter.py:184
 msgid "Open in Twitter"
 msgstr ""
 
-#: src/korone/modules/medias/handlers/twitter.py:91
+#: src/korone/modules/medias/handlers/twitter.py:92
 #, python-brace-format
 msgid ""
 "\n"

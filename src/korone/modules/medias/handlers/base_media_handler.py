@@ -25,10 +25,18 @@ class BaseMediaHandler:
 
     @staticmethod
     def format_caption(media_list: Sequence[InputMedia], url: str, service_label: str) -> str:
-        caption = media_list[-1].caption
+        caption = media_list[-1].caption or ""
         if len(media_list) > 1:
             caption += f"\n<a href='{url}'>{_('Open in')} {service_label}</a>"
-        return caption
+
+        return BaseMediaHandler.truncate_caption(caption)
+
+    @staticmethod
+    def truncate_caption(caption: str, max_length: int = 1024) -> str:
+        if not caption or len(caption) <= max_length:
+            return caption
+
+        return caption[: max_length - 3] + "[...]"
 
     @staticmethod
     async def send_media(
@@ -41,6 +49,8 @@ class BaseMediaHandler:
         keyboard = InlineKeyboardMarkup([
             [InlineKeyboardButton(f"{_('Open in')} {service_label}", url=url)]
         ])
+
+        caption = BaseMediaHandler.truncate_caption(caption)
 
         if len(media_list) == 1:
             media = media_list[0]

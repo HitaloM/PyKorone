@@ -10,6 +10,7 @@ from hairydogm.chat_action import ChatActionSender
 from hydrogram import Client
 from hydrogram.types import Message
 
+from korone.constants import MESSAGE_LENGTH_LIMIT
 from korone.decorators import router
 from korone.filters import Command, CommandObject, IsSudo
 from korone.modules.sudo.utils import generate_document
@@ -48,7 +49,7 @@ async def exec_command(client: Client, message: Message) -> None:
         match output:
             case "":
                 await message.reply("No output.")
-            case output if len(output) > 4096:
+            case output if len(output) > MESSAGE_LENGTH_LIMIT:
                 await generate_document(output, message)
             case _:
                 await message.reply(f"<pre language='bash'>{html.escape(str(output))}</pre>")

@@ -22,7 +22,7 @@ INSTAGRAM_HOST = "instagram.com"
 INSTAFIX_HOST = "ddinstagram.com"
 USER_AGENT = "TelegramBot"
 TIMEOUT = 60
-MAX_REDIRECTS = 1
+MAX_REDIRECTS = 5
 
 
 async def fetch_instagram(post_url: str) -> Sequence[InputMedia] | None:
