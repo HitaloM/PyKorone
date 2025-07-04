@@ -296,28 +296,28 @@ msgstr[1] ""
 msgid "By using AI features you agree to the our Privacy Policy (/privacy) and third party AI services used."
 msgstr ""
 
-#: sophie_bot/modules/ai/utils/ai_chatbot_reply.py:33
+#: sophie_bot/modules/ai/utils/ai_chatbot_reply.py:34
 msgid "Memory updated 💾"
 msgstr ""
 
-#: sophie_bot/modules/ai/utils/ai_chatbot_reply.py:34
-msgid "DuckDuckGo Search 🔍"
+#: sophie_bot/modules/ai/utils/ai_chatbot_reply.py:35
+msgid "Internet Search 🔍"
 msgstr ""
 
-#: sophie_bot/modules/ai/utils/ai_chatbot_reply.py:35
+#: sophie_bot/modules/ai/utils/ai_chatbot_reply.py:36
 msgid "Scanned notes 🗒"
 msgstr ""
 
-#: sophie_bot/modules/ai/utils/ai_chatbot_reply.py:67
-msgid "You can use DuckDuckGo to search for information. Include information sources as links."
-msgstr ""
-
 #: sophie_bot/modules/ai/utils/ai_chatbot_reply.py:68
-msgid "You can also save important facts to memory."
+msgid "You can use Tavily to search for information. Include information sources as links."
 msgstr ""
 
-#: sophie_bot/modules/ai/utils/ai_chatbot_reply.py:71
-msgid "You have the following information in memory"
+#: sophie_bot/modules/ai/utils/ai_chatbot_reply.py:69
+msgid "You can also save important things to the memory."
+msgstr ""
+
+#: sophie_bot/modules/ai/utils/ai_chatbot_reply.py:72
+msgid "You have the following information in your memory"
 msgstr ""
 
 #: sophie_bot/modules/ai/utils/ai_moderator.py:10

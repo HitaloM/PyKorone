@@ -7,12 +7,14 @@ from pydantic_ai.messages import (
     ToolCallPart,
     ToolReturnPart,
 )
+from stfu_tg import Doc, HList, KeyValue, PreformattedHTML, Section, VList
+from stfu_tg.doc import Element
 
 from sophie_bot.config import CONFIG
 from sophie_bot.db.models import AIMemoryModel
 from sophie_bot.middlewares.connections import ChatConnection
 from sophie_bot.modules.ai.agent_tools.memory import MemoryAgentTool
-from sophie_bot.modules.ai.utils.ai_header import ai_header, ai_get_model_text
+from sophie_bot.modules.ai.utils.ai_header import ai_header
 from sophie_bot.modules.ai.utils.ai_models import DEFAULT_PROVIDER
 from sophie_bot.modules.ai.utils.ai_tool_context import SophieAIToolContenxt
 from sophie_bot.modules.ai.utils.new_ai_chatbot import new_ai_generate
@@ -21,8 +23,6 @@ from sophie_bot.modules.notes.utils.unparse_legacy import legacy_markdown_to_htm
 from sophie_bot.services.bot import bot
 from sophie_bot.utils.i18n import gettext as _
 from sophie_bot.utils.i18n import lazy_gettext as l_
-from stfu_tg import Doc, HList, PreformattedHTML, Section, VList, KeyValue
-from stfu_tg.doc import Element
 
 CHATBOT_TOOLS = [
     MemoryAgentTool(),
@@ -91,16 +91,16 @@ async def ai_chatbot_reply(message: Message, connection: ChatConnection, user_te
     doc = Doc(ai_header(model, *header_items), PreformattedHTML(legacy_markdown_to_html(result.output)))
 
     if CONFIG.debug_mode:
-        doc += ' '
+        doc += " "
         doc += Section(
-            KeyValue('Model', ai_get_model_text(model)),
-            KeyValue('LLM Requests', result.usage.requests),
-            KeyValue('Retries', result.retires),
-            KeyValue('Request tokens', result.usage.request_tokens),
-            KeyValue('Response tokens', result.usage.response_tokens),
-            KeyValue('Total tokens', result.usage.total_tokens),
-            KeyValue('Details', result.usage.details or '-'),
-            title='Provider'
+            # KeyValue("Model", ai_get_model_text(model)),
+            KeyValue("LLM Requests", result.usage.requests),
+            KeyValue("Retries", result.retires),
+            KeyValue("Request tokens", result.usage.request_tokens),
+            KeyValue("Response tokens", result.usage.response_tokens),
+            KeyValue("Total tokens", result.usage.total_tokens),
+            KeyValue("Details", result.usage.details or "-"),
+            title="Provider",
         )
 
     return await message.reply(doc.to_html(), disable_web_page_preview=True, **kwargs)
