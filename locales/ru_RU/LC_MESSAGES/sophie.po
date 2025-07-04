@@ -10,7 +10,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Language-Team: Russian\n"
 "Language: ru_RU\n"
-"PO-Revision-Date: 2025-03-30 00:26\n"
+"PO-Revision-Date: 2025-05-22 10:12\n"
 
 #: sophie_bot/args/users.py:29
 msgid "Could not find the requested User ID in the database."
@@ -194,33 +194,33 @@ msgstr "✨ Ответ AI"
 msgid "Generates a new AI mode"
 msgstr "Генерирует новый режим AI"
 
-#: sophie_bot/modules/ai/handlers/pm.py:22
+#: sophie_bot/modules/ai/handlers/pm.py:21
 msgid "Start the AI ChatBot mode"
 msgstr "Начать режим AI ChatBot"
 
-#: sophie_bot/modules/ai/handlers/pm.py:32
+#: sophie_bot/modules/ai/handlers/pm.py:31
 #, python-brace-format
 msgid "{ai_emoji} Entered to the AI Mode, in this mode you can directly interact with the AI."
 msgstr "{ai_emoji} Вошли в режим AI, в этом режиме вы можете напрямую взаимодействовать с AI."
 
-#: sophie_bot/modules/ai/handlers/pm.py:37
+#: sophie_bot/modules/ai/handlers/pm.py:36
 #, python-brace-format
 msgid "By using the AI, you agree to the {privacy_policy} of the bot and third party AI services used."
 msgstr "Используя AI, вы соглашаетесь с {privacy_policy} бота и сторонними AI услугами."
 
-#: sophie_bot/modules/ai/handlers/pm.py:38
+#: sophie_bot/modules/ai/handlers/pm.py:37
 msgid "privacy policy"
 msgstr "политика конфиденциальности"
 
-#: sophie_bot/modules/ai/handlers/pm.py:40
+#: sophie_bot/modules/ai/handlers/pm.py:39
 msgid "Click on the button below to exit."
 msgstr "Нажмите на кнопку ниже, чтобы выйти."
 
-#: sophie_bot/modules/ai/handlers/pm.py:53
+#: sophie_bot/modules/ai/handlers/pm.py:52
 msgid "Hello! How can I help you?"
 msgstr "Здравствуйте! Как я могу вам помочь?"
 
-#: sophie_bot/modules/ai/handlers/pm.py:64
+#: sophie_bot/modules/ai/handlers/pm.py:63
 msgid "The AI mode has been exited."
 msgstr "Режим AI был завершён."
 
@@ -388,30 +388,30 @@ msgstr "Контент, который изображает смерть, нас
 msgid "Content that depicts death, violence, or physical injury in graphic detail."
 msgstr "Контент, который изображает смерть, насилие или физические травмы в графических деталях."
 
-#: sophie_bot/modules/ai/utils/new_message_history.py:73
+#: sophie_bot/modules/ai/utils/new_message_history.py:80
 msgid "You're a telegram bot named Sophie."
 msgstr "Вы Телеграм-бот по имени Софи."
 
-#: sophie_bot/modules/ai/utils/new_message_history.py:74
+#: sophie_bot/modules/ai/utils/new_message_history.py:81
 msgid "Be funny when the topic is casual."
 msgstr "Будьте смешными, когда тема неформальная."
 
-#: sophie_bot/modules/ai/utils/new_message_history.py:76
+#: sophie_bot/modules/ai/utils/new_message_history.py:83
 msgid "Do not use tables, use only the following markdown elements: ** for bold, ~~ for strikethrough, ` for code, ``` for code blocks and []() for links."
 msgstr "Не используйте таблицы, используйте только следующие элементы markdown: ** для жирного, ~~ для зачеркивания, ` для кода, ``` для блоков кода и []() для ссылок."
 
-#: sophie_bot/modules/ai/utils/new_message_history.py:78
+#: sophie_bot/modules/ai/utils/new_message_history.py:85
 msgid "Today is "
 msgstr "Сегодня "
 
-#: sophie_bot/modules/ai/utils/new_message_history.py:123
-#: sophie_bot/modules/ai/utils/new_message_history.py:125
+#: sophie_bot/modules/ai/utils/new_message_history.py:131
+#: sophie_bot/modules/ai/utils/new_message_history.py:133
 #: sophie_bot/modules/ai/utils/old_message_history.py:104
 #: sophie_bot/modules/ai/utils/old_message_history.py:106
 msgid "<No text provided>"
 msgstr "<No text provided>"
 
-#: sophie_bot/modules/ai/utils/new_message_history.py:148
+#: sophie_bot/modules/ai/utils/new_message_history.py:156
 #: sophie_bot/modules/ai/utils/old_message_history.py:126
 msgid "Photo is empty"
 msgstr "Фото пустое"
@@ -2366,7 +2366,7 @@ msgstr "❌ Неправильное решение. Пожалуйста, по�
 
 #: sophie_bot/modules/welcomesecurity/handlers/captcha_get.py:78
 msgid "Confirm"
-msgstr "Confirm"
+msgstr "Подтвердить"
 
 #: sophie_bot/modules/welcomesecurity/handlers/enable_welcomemute.py:26
 msgid "Shows / changes the state of Welcome Restrict (Media restricting)."
@@ -2456,15 +2456,15 @@ msgstr "В соответствии с политикой безопасност
 
 #: sophie_bot/modules/welcomesecurity/utils_/captcha_done.py:43
 msgid "Back to the group"
-msgstr "Back to the group"
+msgstr "Вернуться в группу"
 
 #: sophie_bot/modules/welcomesecurity/utils_/captcha_rules.py:17
 msgid "Please read the chat rules"
-msgstr "Please read the chat rules"
+msgstr "Пожалуйста, прочтите правила группы"
 
 #: sophie_bot/modules/welcomesecurity/utils_/captcha_rules.py:21
 msgid "I agree"
-msgstr "I agree"
+msgstr "Принимаю"
 
 #: exceptions.py:33
 msgid "Examples"
@@ -2586,7 +2586,7 @@ msgstr "Integer (number)"
 
 #: types/oneword.py:33
 msgid "Integers (numbers)"
-msgstr "Integers (numbers)"
+msgstr "Integers (целые числа)"
 
 #: types/oneword.py:49
 msgid "Boolean (Yes / No value)"
