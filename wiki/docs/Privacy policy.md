@@ -72,8 +72,11 @@ However, deleting this information may prevent you from using Sophie.
 
 AI features are disabled by default and can only be activated with the user's explicit consent.
 When these features are activated,
-you agree to [OpenAI's](https://openai.com/enterprise-privacy/) and [Google's](https://ai.google.dev/gemini-api/terms)
-privacy.
+you agree to:
+
+* [OpenAI Privacy Policy](https://openai.com/enterprise-privacy/)
+* [Google Privacy Policy](https://ai.google.dev/gemini-api/terms)
+* [Tavily Privacy Policy](https://www.tavily.com/privacy)
 
 While using some AI-enabled features such as AI Chatbot, AI Translator or AI Moderator,
 we may share the context of the conversation, which can
