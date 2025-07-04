@@ -7,7 +7,7 @@ authors = ["Yacha <yacha@orangefox.tech>"]
 [tool.poetry.dependencies]
 python = "~3.12"
 aiogram = "^3.13"
-redis = "^5"
+redis = "^6"
 motor = "^3.6"
 dnspython = "^2.1.0"
 ujson = "^5.1.0"
@@ -31,7 +31,7 @@ pillow = "^11.1.0"
 mem-top = "^0.2.1"
 apscheduler = "^3.11.0"
 normality = "^2.6.1"
-pydantic-ai-slim = { extras = ["openai", "vertexai", "tavily"], version = "^0.0.46" }
+pydantic-ai-slim = { extras = ["openai", "vertexai", "tavily"], version = "^0.3" }
 
 [tool.poetry.group.dev.dependencies]
 Nuitka = "^2"
