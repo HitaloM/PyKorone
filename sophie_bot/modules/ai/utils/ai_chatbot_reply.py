@@ -1,19 +1,18 @@
 from aiogram.types import Message
 from pydantic_ai import Tool
-from pydantic_ai.common_tools.duckduckgo import duckduckgo_search_tool
+from pydantic_ai.common_tools.tavily import tavily_search_tool
 from pydantic_ai.messages import (
     ModelRequest,
     ModelResponse,
     ToolCallPart,
     ToolReturnPart,
 )
-from stfu_tg import Doc, HList, PreformattedHTML, Section, VList
-from stfu_tg.doc import Element
 
+from sophie_bot.config import CONFIG
 from sophie_bot.db.models import AIMemoryModel
 from sophie_bot.middlewares.connections import ChatConnection
 from sophie_bot.modules.ai.agent_tools.memory import MemoryAgentTool
-from sophie_bot.modules.ai.utils.ai_header import ai_header
+from sophie_bot.modules.ai.utils.ai_header import ai_header, ai_get_model_text
 from sophie_bot.modules.ai.utils.ai_models import DEFAULT_PROVIDER
 from sophie_bot.modules.ai.utils.ai_tool_context import SophieAIToolContenxt
 from sophie_bot.modules.ai.utils.new_ai_chatbot import new_ai_generate
@@ -22,16 +21,18 @@ from sophie_bot.modules.notes.utils.unparse_legacy import legacy_markdown_to_htm
 from sophie_bot.services.bot import bot
 from sophie_bot.utils.i18n import gettext as _
 from sophie_bot.utils.i18n import lazy_gettext as l_
+from stfu_tg import Doc, HList, PreformattedHTML, Section, VList, KeyValue
+from stfu_tg.doc import Element
 
 CHATBOT_TOOLS = [
     MemoryAgentTool(),
-    duckduckgo_search_tool(),
+    tavily_search_tool(api_key=CONFIG.tavily_api_key),
     # notes_list_ai_tool(),
 ]
 CHATBOT_TOOLS_DICT: dict[str, Tool] = {tool.name: tool for tool in CHATBOT_TOOLS}
 CHATBOT_TOOLS_TITLES = {
     "write_memory": l_("Memory updated 💾"),
-    "duckduckgo_search": l_("DuckDuckGo Search 🔍"),
+    "tavily_search": l_("Internet Search 🔍"),
     "get_notes": l_("Scanned notes 🗒"),
 }
 
@@ -64,11 +65,11 @@ async def ai_chatbot_reply(message: Message, connection: ChatConnection, user_te
     memory_lines = await AIMemoryModel.get_lines(connection.db_model.id)
 
     system_prompt = Doc(
-        _("You can use DuckDuckGo to search for information. Include information sources as links."),
-        _("You can also save important facts to memory."),
+        _("You can use Tavily to search for information. Include information sources as links."),
+        _("You can also save important things to the memory."),
     )
     if memory_lines:
-        system_prompt += Section(VList(*memory_lines), title=_("You have the following information in memory"))
+        system_prompt += Section(VList(*memory_lines), title=_("You have the following information in your memory"))
 
     history = NewAIMessageHistory()
     await history.initialize_chat_history(message.chat.id, additional_system_prompt=system_prompt.to_md())
@@ -89,16 +90,17 @@ async def ai_chatbot_reply(message: Message, connection: ChatConnection, user_te
 
     doc = Doc(ai_header(model, *header_items), PreformattedHTML(legacy_markdown_to_html(result.output)))
 
-    # if CONFIG.debug_mode:
-    #     doc += ' '
-    #     doc += Section(
-    #         KeyValue('LLM Requests', result.usage.requests),
-    #         KeyValue('Retries', result.retires),
-    #         KeyValue('Request tokens', result.usage.request_tokens),
-    #         KeyValue('Response tokens', result.usage.response_tokens),
-    #         KeyValue('Total tokens', result.usage.total_tokens),
-    #         KeyValue('Details', result.usage.details or '-'),
-    #         title='Provider'
-    #     ),
+    if CONFIG.debug_mode:
+        doc += ' '
+        doc += Section(
+            KeyValue('Model', ai_get_model_text(model)),
+            KeyValue('LLM Requests', result.usage.requests),
+            KeyValue('Retries', result.retires),
+            KeyValue('Request tokens', result.usage.request_tokens),
+            KeyValue('Response tokens', result.usage.response_tokens),
+            KeyValue('Total tokens', result.usage.total_tokens),
+            KeyValue('Details', result.usage.details or '-'),
+            title='Provider'
+        )
 
     return await message.reply(doc.to_html(), disable_web_page_preview=True, **kwargs)
