@@ -10,7 +10,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Language-Team: Spanish\n"
 "Language: es_ES\n"
-"PO-Revision-Date: 2025-03-30 00:25\n"
+"PO-Revision-Date: 2025-07-04 20:37\n"
 
 #: sophie_bot/args/users.py:29
 msgid "Could not find the requested User ID in the database."
@@ -194,33 +194,33 @@ msgstr "✨ Respuesta de IA"
 msgid "Generates a new AI mode"
 msgstr "Genera un nuevo modo de IA"
 
-#: sophie_bot/modules/ai/handlers/pm.py:22
+#: sophie_bot/modules/ai/handlers/pm.py:21
 msgid "Start the AI ChatBot mode"
 msgstr "Iniciar el modo AI ChatBot"
 
-#: sophie_bot/modules/ai/handlers/pm.py:32
+#: sophie_bot/modules/ai/handlers/pm.py:31
 #, python-brace-format
 msgid "{ai_emoji} Entered to the AI Mode, in this mode you can directly interact with the AI."
 msgstr "{ai_emoji} Entró en el modo IA, en este modo puedes interactuar directamente con la IA."
 
-#: sophie_bot/modules/ai/handlers/pm.py:37
+#: sophie_bot/modules/ai/handlers/pm.py:36
 #, python-brace-format
 msgid "By using the AI, you agree to the {privacy_policy} of the bot and third party AI services used."
 msgstr "Al usar la IA, aceptas la {privacy_policy} del bot y los servicios de IA de terceros utilizados."
 
-#: sophie_bot/modules/ai/handlers/pm.py:38
+#: sophie_bot/modules/ai/handlers/pm.py:37
 msgid "privacy policy"
 msgstr "política de privacidad"
 
-#: sophie_bot/modules/ai/handlers/pm.py:40
+#: sophie_bot/modules/ai/handlers/pm.py:39
 msgid "Click on the button below to exit."
 msgstr "Haga clic en el botón de abajo para salir."
 
-#: sophie_bot/modules/ai/handlers/pm.py:53
+#: sophie_bot/modules/ai/handlers/pm.py:52
 msgid "Hello! How can I help you?"
 msgstr "¡Hola! ¿Cómo puedo ayudarte?"
 
-#: sophie_bot/modules/ai/handlers/pm.py:64
+#: sophie_bot/modules/ai/handlers/pm.py:63
 msgid "The AI mode has been exited."
 msgstr "El modo IA ha sido cerrado."
 
@@ -310,29 +310,29 @@ msgstr[1] "Razones"
 msgid "By using AI features you agree to the our Privacy Policy (/privacy) and third party AI services used."
 msgstr "Al usar características de IA aceptas nuestra Política de Privacidad (/privacy) y los servicios de IA de terceros utilizados."
 
-#: sophie_bot/modules/ai/utils/ai_chatbot_reply.py:33
+#: sophie_bot/modules/ai/utils/ai_chatbot_reply.py:34
 msgid "Memory updated 💾"
 msgstr "Memoria actualizada 💾"
 
-#: sophie_bot/modules/ai/utils/ai_chatbot_reply.py:34
-msgid "DuckDuckGo Search 🔍"
-msgstr "Búsqueda en DuckDuckGo 🔍"
-
 #: sophie_bot/modules/ai/utils/ai_chatbot_reply.py:35
+msgid "Internet Search 🔍"
+msgstr "Búsqueda en Internet 🔍"
+
+#: sophie_bot/modules/ai/utils/ai_chatbot_reply.py:36
 msgid "Scanned notes 🗒"
 msgstr "Notas escaneadas 🗒"
 
-#: sophie_bot/modules/ai/utils/ai_chatbot_reply.py:67
-msgid "You can use DuckDuckGo to search for information. Include information sources as links."
-msgstr "Puedes usar DuckDuckGo para buscar información. Incluye fuentes de información como enlaces."
-
 #: sophie_bot/modules/ai/utils/ai_chatbot_reply.py:68
-msgid "You can also save important facts to memory."
-msgstr "También puedes guardar hechos importantes en la memoria."
+msgid "You can use Tavily to search for information. Include information sources as links."
+msgstr "Puedes usar Tavily para buscar información. Incluye fuentes de información como enlaces."
 
-#: sophie_bot/modules/ai/utils/ai_chatbot_reply.py:71
-msgid "You have the following information in memory"
-msgstr "Tienes la siguiente información en memoria"
+#: sophie_bot/modules/ai/utils/ai_chatbot_reply.py:69
+msgid "You can also save important things to the memory."
+msgstr "También puedes guardar cosas importantes en la memoria."
+
+#: sophie_bot/modules/ai/utils/ai_chatbot_reply.py:72
+msgid "You have the following information in your memory"
+msgstr "Tienes la siguiente información en tu memoria"
 
 #: sophie_bot/modules/ai/utils/ai_moderator.py:10
 msgid "Content that expresses, incites, or promotes harassing language towards any target."
@@ -386,30 +386,30 @@ msgstr "Contenido que representa muerte, violencia o lesiones físicas."
 msgid "Content that depicts death, violence, or physical injury in graphic detail."
 msgstr "Contenido que representa muerte, violencia o lesiones físicas en detalle gráfico."
 
-#: sophie_bot/modules/ai/utils/new_message_history.py:73
+#: sophie_bot/modules/ai/utils/new_message_history.py:80
 msgid "You're a telegram bot named Sophie."
 msgstr "Eres un bot de Telegram llamado Sophie."
 
-#: sophie_bot/modules/ai/utils/new_message_history.py:74
+#: sophie_bot/modules/ai/utils/new_message_history.py:81
 msgid "Be funny when the topic is casual."
 msgstr "Sé divertido cuando el tema es casual."
 
-#: sophie_bot/modules/ai/utils/new_message_history.py:76
+#: sophie_bot/modules/ai/utils/new_message_history.py:83
 msgid "Do not use tables, use only the following markdown elements: ** for bold, ~~ for strikethrough, ` for code, ``` for code blocks and []() for links."
 msgstr "No uses tablas, usa solo los siguientes elementos de markdown: ** para negrita, ~~ para tachado, ` para código, ``` para bloques de código y []() para enlaces."
 
-#: sophie_bot/modules/ai/utils/new_message_history.py:78
+#: sophie_bot/modules/ai/utils/new_message_history.py:85
 msgid "Today is "
 msgstr "Hoy es "
 
-#: sophie_bot/modules/ai/utils/new_message_history.py:123
-#: sophie_bot/modules/ai/utils/new_message_history.py:125
+#: sophie_bot/modules/ai/utils/new_message_history.py:131
+#: sophie_bot/modules/ai/utils/new_message_history.py:133
 #: sophie_bot/modules/ai/utils/old_message_history.py:104
 #: sophie_bot/modules/ai/utils/old_message_history.py:106
 msgid "<No text provided>"
 msgstr "<No text provided>"
 
-#: sophie_bot/modules/ai/utils/new_message_history.py:148
+#: sophie_bot/modules/ai/utils/new_message_history.py:156
 #: sophie_bot/modules/ai/utils/old_message_history.py:126
 msgid "Photo is empty"
 msgstr "La foto está vacía"

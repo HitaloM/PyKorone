@@ -10,7 +10,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Language-Team: Chinese Simplified\n"
 "Language: zh_CN\n"
-"PO-Revision-Date: 2025-03-30 00:26\n"
+"PO-Revision-Date: 2025-07-04 20:38\n"
 
 #: sophie_bot/args/users.py:29
 msgid "Could not find the requested User ID in the database."
@@ -194,33 +194,33 @@ msgstr "✨ AI 响应"
 msgid "Generates a new AI mode"
 msgstr "Generates a new AI mode"
 
-#: sophie_bot/modules/ai/handlers/pm.py:22
+#: sophie_bot/modules/ai/handlers/pm.py:21
 msgid "Start the AI ChatBot mode"
 msgstr "启动 AI 聊天机器人模式"
 
-#: sophie_bot/modules/ai/handlers/pm.py:32
+#: sophie_bot/modules/ai/handlers/pm.py:31
 #, python-brace-format
 msgid "{ai_emoji} Entered to the AI Mode, in this mode you can directly interact with the AI."
 msgstr "{ai_emoji} 进入 AI 模式，在此模式中，您可以直接与 AI 互动。"
 
-#: sophie_bot/modules/ai/handlers/pm.py:37
+#: sophie_bot/modules/ai/handlers/pm.py:36
 #, python-brace-format
 msgid "By using the AI, you agree to the {privacy_policy} of the bot and third party AI services used."
 msgstr "使用 AI 代表您同意机器人的 {privacy_policy} 和使用的第三方 AI 服务。"
 
-#: sophie_bot/modules/ai/handlers/pm.py:38
+#: sophie_bot/modules/ai/handlers/pm.py:37
 msgid "privacy policy"
 msgstr "隐私政策"
 
-#: sophie_bot/modules/ai/handlers/pm.py:40
+#: sophie_bot/modules/ai/handlers/pm.py:39
 msgid "Click on the button below to exit."
 msgstr "点击下方按钮退出。"
 
-#: sophie_bot/modules/ai/handlers/pm.py:53
+#: sophie_bot/modules/ai/handlers/pm.py:52
 msgid "Hello! How can I help you?"
 msgstr "你好！我能帮你什么？"
 
-#: sophie_bot/modules/ai/handlers/pm.py:64
+#: sophie_bot/modules/ai/handlers/pm.py:63
 msgid "The AI mode has been exited."
 msgstr "AI 模式已经退出。"
 
@@ -309,28 +309,28 @@ msgstr[0] "理由"
 msgid "By using AI features you agree to the our Privacy Policy (/privacy) and third party AI services used."
 msgstr "使用 AI 功能即表示您同意我们的隐私政策 (/privacy) 和使用的第三方 AI 服务。"
 
-#: sophie_bot/modules/ai/utils/ai_chatbot_reply.py:33
+#: sophie_bot/modules/ai/utils/ai_chatbot_reply.py:34
 msgid "Memory updated 💾"
 msgstr "记忆已更新 💾"
 
-#: sophie_bot/modules/ai/utils/ai_chatbot_reply.py:34
-msgid "DuckDuckGo Search 🔍"
-msgstr "DuckDuckGo搜索 🔍"
-
 #: sophie_bot/modules/ai/utils/ai_chatbot_reply.py:35
+msgid "Internet Search 🔍"
+msgstr "互联网搜索 🔍"
+
+#: sophie_bot/modules/ai/utils/ai_chatbot_reply.py:36
 msgid "Scanned notes 🗒"
 msgstr "扫描的备注 🗒"
 
-#: sophie_bot/modules/ai/utils/ai_chatbot_reply.py:67
-msgid "You can use DuckDuckGo to search for information. Include information sources as links."
-msgstr "您可以使用DuckDuckGo搜索信息。包括信息来源的链接。"
-
 #: sophie_bot/modules/ai/utils/ai_chatbot_reply.py:68
-msgid "You can also save important facts to memory."
-msgstr "你也可以将重要的事实保存到内存中。"
+msgid "You can use Tavily to search for information. Include information sources as links."
+msgstr "您可以使用Tavily搜索信息。包括信息来源的链接。"
 
-#: sophie_bot/modules/ai/utils/ai_chatbot_reply.py:71
-msgid "You have the following information in memory"
+#: sophie_bot/modules/ai/utils/ai_chatbot_reply.py:69
+msgid "You can also save important things to the memory."
+msgstr "你也可以将重要的事情保存到记忆中。"
+
+#: sophie_bot/modules/ai/utils/ai_chatbot_reply.py:72
+msgid "You have the following information in your memory"
 msgstr "您在记忆中拥有以下信息"
 
 #: sophie_bot/modules/ai/utils/ai_moderator.py:10
@@ -385,30 +385,30 @@ msgstr "描绘死亡、暴力或身体伤害的内容。"
 msgid "Content that depicts death, violence, or physical injury in graphic detail."
 msgstr "以生动细节描绘死亡、暴力或身体伤害的内容。"
 
-#: sophie_bot/modules/ai/utils/new_message_history.py:73
+#: sophie_bot/modules/ai/utils/new_message_history.py:80
 msgid "You're a telegram bot named Sophie."
 msgstr "您是一个名为Sophie的Telegram机器人。"
 
-#: sophie_bot/modules/ai/utils/new_message_history.py:74
+#: sophie_bot/modules/ai/utils/new_message_history.py:81
 msgid "Be funny when the topic is casual."
 msgstr "在轻松的主题上要幽默。"
 
-#: sophie_bot/modules/ai/utils/new_message_history.py:76
+#: sophie_bot/modules/ai/utils/new_message_history.py:83
 msgid "Do not use tables, use only the following markdown elements: ** for bold, ~~ for strikethrough, ` for code, ``` for code blocks and []() for links."
 msgstr "请不要使用表格，只使用以下markdown元素：**表示粗体，~~表示删除线，`表示代码，```表示代码块和[]()表示链接。"
 
-#: sophie_bot/modules/ai/utils/new_message_history.py:78
+#: sophie_bot/modules/ai/utils/new_message_history.py:85
 msgid "Today is "
 msgstr "今天是 "
 
-#: sophie_bot/modules/ai/utils/new_message_history.py:123
-#: sophie_bot/modules/ai/utils/new_message_history.py:125
+#: sophie_bot/modules/ai/utils/new_message_history.py:131
+#: sophie_bot/modules/ai/utils/new_message_history.py:133
 #: sophie_bot/modules/ai/utils/old_message_history.py:104
 #: sophie_bot/modules/ai/utils/old_message_history.py:106
 msgid "<No text provided>"
 msgstr "<未提供文本>"
 
-#: sophie_bot/modules/ai/utils/new_message_history.py:148
+#: sophie_bot/modules/ai/utils/new_message_history.py:156
 #: sophie_bot/modules/ai/utils/old_message_history.py:126
 msgid "Photo is empty"
 msgstr "照片为空"

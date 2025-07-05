@@ -10,7 +10,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Language-Team: Ukrainian\n"
 "Language: uk_UA\n"
-"PO-Revision-Date: 2025-03-30 00:26\n"
+"PO-Revision-Date: 2025-07-04 20:38\n"
 
 #: sophie_bot/args/users.py:29
 msgid "Could not find the requested User ID in the database."
@@ -194,33 +194,33 @@ msgstr "✨ Відповідь AI"
 msgid "Generates a new AI mode"
 msgstr "Генерує новий режим AI"
 
-#: sophie_bot/modules/ai/handlers/pm.py:22
+#: sophie_bot/modules/ai/handlers/pm.py:21
 msgid "Start the AI ChatBot mode"
 msgstr "Запустити режим чат-бота AI"
 
-#: sophie_bot/modules/ai/handlers/pm.py:32
+#: sophie_bot/modules/ai/handlers/pm.py:31
 #, python-brace-format
 msgid "{ai_emoji} Entered to the AI Mode, in this mode you can directly interact with the AI."
 msgstr "{ai_emoji} Увійшли в режим AI, в цьому режимі ви можете безпосередньо взаємодіяти з AI."
 
-#: sophie_bot/modules/ai/handlers/pm.py:37
+#: sophie_bot/modules/ai/handlers/pm.py:36
 #, python-brace-format
 msgid "By using the AI, you agree to the {privacy_policy} of the bot and third party AI services used."
 msgstr "Використовуючи AI, ви погоджуєтеся з {privacy_policy} бота та третьої сторони AI-сервісів."
 
-#: sophie_bot/modules/ai/handlers/pm.py:38
+#: sophie_bot/modules/ai/handlers/pm.py:37
 msgid "privacy policy"
 msgstr "політика конфіденційності"
 
-#: sophie_bot/modules/ai/handlers/pm.py:40
+#: sophie_bot/modules/ai/handlers/pm.py:39
 msgid "Click on the button below to exit."
 msgstr "Натисніть кнопку нижче, щоб вийти."
 
-#: sophie_bot/modules/ai/handlers/pm.py:53
+#: sophie_bot/modules/ai/handlers/pm.py:52
 msgid "Hello! How can I help you?"
 msgstr "Привіт! Як я можу допомогти вам?"
 
-#: sophie_bot/modules/ai/handlers/pm.py:64
+#: sophie_bot/modules/ai/handlers/pm.py:63
 msgid "The AI mode has been exited."
 msgstr "Режим AI був закритий."
 
@@ -312,28 +312,28 @@ msgstr[3] "Причини"
 msgid "By using AI features you agree to the our Privacy Policy (/privacy) and third party AI services used."
 msgstr "Використовуючи AI-функції, ви погоджуєтеся з нашою Політикою конфіденційності (/privacy) та використанням третіх особи AI-сервісів."
 
-#: sophie_bot/modules/ai/utils/ai_chatbot_reply.py:33
+#: sophie_bot/modules/ai/utils/ai_chatbot_reply.py:34
 msgid "Memory updated 💾"
 msgstr "Пам'ять оновлено 💾"
 
-#: sophie_bot/modules/ai/utils/ai_chatbot_reply.py:34
-msgid "DuckDuckGo Search 🔍"
-msgstr "Пошук DuckDuckGo 🔍"
-
 #: sophie_bot/modules/ai/utils/ai_chatbot_reply.py:35
+msgid "Internet Search 🔍"
+msgstr "Пошук в Інтернеті 🔍"
+
+#: sophie_bot/modules/ai/utils/ai_chatbot_reply.py:36
 msgid "Scanned notes 🗒"
 msgstr "Скановані примітки 🗒"
 
-#: sophie_bot/modules/ai/utils/ai_chatbot_reply.py:67
-msgid "You can use DuckDuckGo to search for information. Include information sources as links."
-msgstr "Ви можете використовувати DuckDuckGo для пошуку інформації. Додайте джерела інформації як посилання."
-
 #: sophie_bot/modules/ai/utils/ai_chatbot_reply.py:68
-msgid "You can also save important facts to memory."
-msgstr "Ви також можете зберігати важливі факти у пам'яті."
+msgid "You can use Tavily to search for information. Include information sources as links."
+msgstr "Ви можете використовувати Tavily для пошуку інформації. Додайте джерела інформації як посилання."
 
-#: sophie_bot/modules/ai/utils/ai_chatbot_reply.py:71
-msgid "You have the following information in memory"
+#: sophie_bot/modules/ai/utils/ai_chatbot_reply.py:69
+msgid "You can also save important things to the memory."
+msgstr "Ви також можете зберігати важливі речі у пам'яті."
+
+#: sophie_bot/modules/ai/utils/ai_chatbot_reply.py:72
+msgid "You have the following information in your memory"
 msgstr "У вас є наступна інформація в пам'яті"
 
 #: sophie_bot/modules/ai/utils/ai_moderator.py:10
@@ -388,30 +388,30 @@ msgstr "Контент, що зображує смерть, насильство
 msgid "Content that depicts death, violence, or physical injury in graphic detail."
 msgstr "Контент, що зображує смерть, насильство або фізичну травму в графічних деталях."
 
-#: sophie_bot/modules/ai/utils/new_message_history.py:73
+#: sophie_bot/modules/ai/utils/new_message_history.py:80
 msgid "You're a telegram bot named Sophie."
 msgstr "Ви — це бот Telegram на ім'я Софі."
 
-#: sophie_bot/modules/ai/utils/new_message_history.py:74
+#: sophie_bot/modules/ai/utils/new_message_history.py:81
 msgid "Be funny when the topic is casual."
 msgstr "Будьте веселими, коли тема невимушена."
 
-#: sophie_bot/modules/ai/utils/new_message_history.py:76
+#: sophie_bot/modules/ai/utils/new_message_history.py:83
 msgid "Do not use tables, use only the following markdown elements: ** for bold, ~~ for strikethrough, ` for code, ``` for code blocks and []() for links."
 msgstr "Не використовуйте таблиці, використовуйте лише наступні елементи markdown: ** для жирного, ~~ для закреслення, ` для коду, ``` для блоків коду та []() для посилань."
 
-#: sophie_bot/modules/ai/utils/new_message_history.py:78
+#: sophie_bot/modules/ai/utils/new_message_history.py:85
 msgid "Today is "
 msgstr "Сьогодні є "
 
-#: sophie_bot/modules/ai/utils/new_message_history.py:123
-#: sophie_bot/modules/ai/utils/new_message_history.py:125
+#: sophie_bot/modules/ai/utils/new_message_history.py:131
+#: sophie_bot/modules/ai/utils/new_message_history.py:133
 #: sophie_bot/modules/ai/utils/old_message_history.py:104
 #: sophie_bot/modules/ai/utils/old_message_history.py:106
 msgid "<No text provided>"
 msgstr "<No text provided>"
 
-#: sophie_bot/modules/ai/utils/new_message_history.py:148
+#: sophie_bot/modules/ai/utils/new_message_history.py:156
 #: sophie_bot/modules/ai/utils/old_message_history.py:126
 msgid "Photo is empty"
 msgstr "Фотографія порожня"
