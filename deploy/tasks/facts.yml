@@ -5,6 +5,7 @@
     sentry_url: "{{ lookup('env', 'STAGING_SENTRY') }}"
     openai_key: "{{ lookup('env', 'OPENAI_KEY') }}"
     gemini_key: "{{ lookup('env', 'GEMINI_API_KEY') }}"
+    tavily_key: "{{ lookup('env', 'TAVILY_KEY') }}"
     role: "staging"
   when: inventory_hostname == "sstaging"
 
@@ -15,5 +16,6 @@
     sentry_url: "{{ lookup('env', 'PROD_STABLE_SENTRY') }}"
     openai_key: "{{ lookup('env', 'OPENAI_KEY') }}"
     gemini_key: "{{ lookup('env', 'GEMINI_API_KEY') }}"
+    tavily_key: "{{ lookup('env', 'TAVILY_KEY') }}"
     role: "production"
   when: inventory_hostname == "white"
