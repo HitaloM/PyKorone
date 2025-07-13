@@ -4,9 +4,7 @@ from aiogram import flags
 from aiogram.dispatcher.event.handler import CallbackType
 from aiogram.types import InlineKeyboardButton
 from aiogram.utils.keyboard import InlineKeyboardBuilder
-from stfu_tg import Bold, Doc, Template
 
-from sophie_bot.filters.admin_rights import UserRestricting
 from sophie_bot.filters.chat_status import ChatTypeFilter
 from sophie_bot.filters.cmd import CMDFilter
 from sophie_bot.middlewares.connections import ConnectionsMiddleware
@@ -17,6 +15,7 @@ from sophie_bot.modules.notes.handlers.list import LIST_CMDS, NotesList
 from sophie_bot.modules.notes.handlers.search import SEARCH_CMD
 from sophie_bot.modules.utils_.base_handler import SophieMessageHandler
 from sophie_bot.utils.i18n import gettext as _
+from stfu_tg import Bold, Doc, Template
 
 
 @flags.help(exclude=True)
@@ -26,8 +25,7 @@ class PrivateNotesRedirectHandler(SophieMessageHandler):
         return (
             ~ChatTypeFilter("private"),
             CMDFilter((*LIST_CMDS, SEARCH_CMD)),
-            PMNotesFilter(),
-            ~UserRestricting(admin=True),
+            PMNotesFilter()
         )
 
     async def handle(self) -> Any:
