@@ -7,8 +7,6 @@ from pydantic_ai.messages import (
     ToolCallPart,
     ToolReturnPart,
 )
-from stfu_tg import Doc, HList, KeyValue, PreformattedHTML, Section, VList
-from stfu_tg.doc import Element
 
 from sophie_bot.config import CONFIG
 from sophie_bot.db.models import AIMemoryModel
@@ -23,6 +21,8 @@ from sophie_bot.modules.notes.utils.unparse_legacy import legacy_markdown_to_htm
 from sophie_bot.services.bot import bot
 from sophie_bot.utils.i18n import gettext as _
 from sophie_bot.utils.i18n import lazy_gettext as l_
+from stfu_tg import Doc, HList, KeyValue, PreformattedHTML, Section, VList
+from stfu_tg.doc import Element
 
 CHATBOT_TOOLS = [
     MemoryAgentTool(),
@@ -87,8 +87,14 @@ async def ai_chatbot_reply(message: Message, connection: ChatConnection, user_te
     )
 
     header_items = [*retrieve_tools_titles(result.message_history), HList(divider=", ")]
+    header = ai_header(model, *header_items)
 
-    doc = Doc(ai_header(model, *header_items), PreformattedHTML(legacy_markdown_to_html(result.output)))
+    # Split if too long
+    length = len(result.output) + len(header.to_html())
+    if length > 4000:
+        result.output = result.output[:4000] + "..."
+
+    doc = Doc(header, PreformattedHTML(legacy_markdown_to_html(result.output)))
 
     if CONFIG.debug_mode:
         doc += " "
