@@ -7,6 +7,8 @@ from pydantic_ai.messages import (
     ToolCallPart,
     ToolReturnPart,
 )
+from stfu_tg import Doc, HList, KeyValue, PreformattedHTML, Section, VList
+from stfu_tg.doc import Element
 
 from sophie_bot.config import CONFIG
 from sophie_bot.db.models import AIMemoryModel
@@ -21,8 +23,6 @@ from sophie_bot.modules.notes.utils.unparse_legacy import legacy_markdown_to_htm
 from sophie_bot.services.bot import bot
 from sophie_bot.utils.i18n import gettext as _
 from sophie_bot.utils.i18n import lazy_gettext as l_
-from stfu_tg import Doc, HList, KeyValue, PreformattedHTML, Section, VList
-from stfu_tg.doc import Element
 
 CHATBOT_TOOLS = [
     MemoryAgentTool(),

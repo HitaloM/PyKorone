@@ -1693,20 +1693,20 @@ msgstr ""
 msgid "#(Note name)"
 msgstr ""
 
-#: sophie_bot/modules/notes/handlers/pmnotes_handler.py:34
+#: sophie_bot/modules/notes/handlers/pmnotes_handler.py:28
 msgid "Please connect to the chat to interact with chat notes"
 msgstr ""
 
-#: sophie_bot/modules/notes/handlers/pmnotes_handler.py:40
+#: sophie_bot/modules/notes/handlers/pmnotes_handler.py:34
 msgid "🔌 Connect"
 msgstr ""
 
-#: sophie_bot/modules/notes/handlers/pmnotes_handler.py:65
+#: sophie_bot/modules/notes/handlers/pmnotes_handler.py:59
 #, python-brace-format
 msgid "Connected to chat {chat_name} successfully!"
 msgstr ""
 
-#: sophie_bot/modules/notes/handlers/pmnotes_handler.py:66
+#: sophie_bot/modules/notes/handlers/pmnotes_handler.py:60
 #, python-brace-format
 msgid "Use {command} to disconnect"
 msgstr ""
