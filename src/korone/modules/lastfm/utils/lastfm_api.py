@@ -8,6 +8,7 @@ import httpx
 from pydantic import BaseModel
 
 from korone.config import ConfigManager
+from korone.utils.logging import logger
 
 from .errors import ERROR_CODE_MAP, LastFMError
 from .types import LastFMAlbum, LastFMArtist, LastFMTrack, LastFMUser
@@ -39,19 +40,61 @@ class LastFMClient:
             async with httpx.AsyncClient(http2=True, timeout=20) as client:
                 response = await client.get(self.base_url, params=params)
                 response.raise_for_status()
-                return response.json()
+
+                if not response.content or response.content.strip() == b"":
+                    logger.warning(
+                        "Empty response from Last.fm API for method: %s",
+                        params.get("method", "unknown"),
+                    )
+                    msg = "Empty response from Last.fm API"
+                    raise LastFMError(msg)
+
+                try:
+                    return response.json()
+                except ValueError as json_error:
+                    logger.error(
+                        "Invalid JSON response from Last.fm API for method: %s, response: %s",
+                        params.get("method", "unknown"),
+                        response.text[:100],
+                    )
+                    msg = f"Invalid JSON response from Last.fm API: {response.text[:100]}"
+                    raise LastFMError(msg) from json_error
+
         except httpx.HTTPStatusError as e:
             error_message = "API request failed"
             try:
-                error_json = e.response.json()
-                error_message = f"API request failed: {error_json.get('message', 'Unknown error')}"
-                error_code = error_json.get("error")
-                error_class = ERROR_CODE_MAP.get(error_code, LastFMError)
-                raise error_class(error_message, error_code, e.response) from e
+                if e.response.content and e.response.content.strip():
+                    error_json = e.response.json()
+                    error_message = (
+                        f"API request failed: {error_json.get('message', 'Unknown error')}"
+                    )
+                    error_code = error_json.get("error")
+                    error_class = ERROR_CODE_MAP.get(error_code, LastFMError)
+                    raise error_class(error_message, error_code, e.response) from e
+                logger.warning(
+                    "API request failed with empty response (HTTP %s) for method: %s",
+                    e.response.status_code,
+                    params.get("method", "unknown"),
+                )
+                error_message = (
+                    f"API request failed with empty response (HTTP {e.response.status_code})"
+                )
+                raise LastFMError(error_message) from e
             except ValueError:
                 raise LastFMError(error_message) from e
         except httpx.RequestError as e:
-            msg = "Request error occurred"
+            if isinstance(e, httpx.TimeoutException):
+                logger.warning(
+                    "Request timeout for Last.fm API method: %s", params.get("method", "unknown")
+                )
+                msg = "Request timeout occurred"
+            else:
+                logger.error(
+                    "Request error occurred for Last.fm API method: %s, error: %s",
+                    params.get("method", "unknown"),
+                    str(e),
+                )
+                msg = "Request error occurred"
             raise LastFMError(msg) from e
 
     @staticmethod
