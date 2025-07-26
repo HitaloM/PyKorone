@@ -45,16 +45,22 @@ async def get_user_from_entity(
 ) -> User | None:
     if entity.type == MessageEntityType.MENTION:
         username = message.text[entity.offset : entity.offset + entity.length]
-        data = await get_user(username)
-        if not data:
-            return None
-
-        chat_id = data[0]["id"]
         try:
-            return await client.get_chat(chat_id)  # type: ignore
-        except PeerIdInvalid:
-            return None
-    return entity.user if entity.type == MessageEntityType.TEXT_MENTION else None
+            return await client.get_chat(username)  # type: ignore
+        except (PeerIdInvalid, BadRequest):
+            data = await get_user(username)
+            if not data:
+                return None
+
+            chat_id = data[0]["id"]
+            try:
+                return await client.get_chat(chat_id)  # type: ignore
+            except PeerIdInvalid:
+                return None
+    elif entity.type == MessageEntityType.TEXT_MENTION:
+        return entity.user
+
+    return None
 
 
 async def send_afk_message(user: User, message: Message) -> None:
