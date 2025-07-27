@@ -1,0 +1,1523 @@
+# Translations template for PROJECT.
+# Copyright (C) 2025 ORGANIZATION
+# This file is distributed under the same license as the PROJECT project.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2025.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"POT-Creation-Date: 2025-03-16 21:29-0300\n"
+"PO-Revision-Date: 2025-07-27 20:01+0000\n"
+"Last-Translator: Anonymous <noreply@weblate.org>\n"
+"Language-Team: Tamil <http://weblate.amanoteam.com/projects/korone/korone/ta/"
+">\n"
+"Language: ta\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 5.12.2\n"
+"Generated-By: Babel 2.17.0\n"
+
+#: src/korone/filters/admin.py:68
+#, python-brace-format
+msgid "I am missing the following permissions: {permissions}"
+msgstr "பின்வரும் அனுமதிகளை நான் காணவில்லை: {permissions}"
+
+#: src/korone/filters/admin.py:80
+msgid "You must be an administrator to use this."
+msgstr "இதைப் பயன்படுத்த நீங்கள் ஒரு நிர்வாகியாக இருக்க வேண்டும்."
+
+#: src/korone/filters/admin.py:82
+msgid "I need to be an administrator to perform this action."
+msgstr "இந்த செயலைச் செய்ய நான் ஒரு நிர்வாகியாக இருக்க வேண்டும்."
+
+#: src/korone/filters/chat.py:42
+msgid "This command is designed to be used in PM, not in groups!"
+msgstr "இந்த கட்டளை PM இல் பயன்படுத்த வடிவமைக்கப்பட்டுள்ளது, குழுக்களில் அல்ல!"
+
+#: src/korone/filters/chat.py:52
+msgid "This command is designed to be used in groups, not in PM!"
+msgstr "இந்த கட்டளை PM இல் அல்ல, குழுக்களாக பயன்படுத்த வடிவமைக்கப்பட்டுள்ளது!"
+
+#: src/korone/modules/afk/handlers/check.py:29
+msgid "Oh, you're back! I've removed your afk status."
+msgstr ""
+"ஓ, நீங்கள் திரும்பி வந்துவிட்டீர்கள்! உங்கள் AFK நிலையை நான் அகற்றியுள்ளேன்."
+
+#: src/korone/modules/afk/handlers/check.py:64
+#, python-brace-format
+msgid "{user} is afk!"
+msgstr "{user} என்பது AFK!"
+
+#: src/korone/modules/afk/handlers/check.py:67
+#, python-brace-format
+msgid ""
+"\n"
+"Reason: {reason}"
+msgstr ""
+"\n"
+"காரணம்: {reason}"
+
+#: src/korone/modules/afk/handlers/check.py:91
+#, python-brace-format
+msgid "🎧 Listening to: {track_artist} — {track_name}"
+msgstr "🎧 கேட்பது: {track_artist} - {track_name}"
+
+#: src/korone/modules/afk/handlers/set.py:20
+msgid "You are already AFK."
+msgstr "நீங்கள் ஏற்கனவே AFK."
+
+#: src/korone/modules/afk/handlers/set.py:24
+msgid "The maximum length of the AFK message is 64 characters."
+msgstr "AFK செய்தியின் அதிகபட்ச நீளம் 64 எழுத்துக்கள்."
+
+#: src/korone/modules/afk/handlers/set.py:30
+msgid "Your AFK status has been updated!"
+msgstr "உங்கள் AFK நிலை புதுப்பிக்கப்பட்டுள்ளது!"
+
+#: src/korone/modules/afk/handlers/set.py:33
+msgid "You are now AFK."
+msgstr "நீங்கள் இப்போது AFK."
+
+#: src/korone/modules/disabling/handlers/disableable.py:18
+msgid "No commands can be disabled."
+msgstr "எந்த கட்டளைகளையும் முடக்க முடியாது."
+
+#: src/korone/modules/disabling/handlers/disableable.py:21
+msgid "The following commands can be disabled:\n"
+msgstr "பின்வரும் கட்டளைகளை முடக்கலாம்:\n"
+
+#: src/korone/modules/disabling/handlers/disabled.py:19
+msgid "No commands are disabled in this chat."
+msgstr "இந்த அரட்டையில் எந்த கட்டளைகளும் முடக்கப்படவில்லை."
+
+#: src/korone/modules/disabling/handlers/disabled.py:24
+msgid "The following commands are disabled in this chat:\n"
+msgstr "இந்த அரட்டையில் பின்வரும் கட்டளைகள் முடக்கப்பட்டுள்ளன:\n"
+
+#: src/korone/modules/disabling/handlers/toggle.py:31
+#, python-brace-format
+msgid ""
+"You need to specify a command to {action}. Use <code>/{action} "
+"&lt;commandname&gt;</code>."
+msgstr ""
+"{action} க்கு ஒரு கட்டளையை நீங்கள் குறிப்பிட வேண்டும். <code>/{action} &lt; கட்டளைபெயர்"
+" &gt; </code> ஐப் பயன்படுத்து."
+
+#: src/korone/modules/disabling/handlers/toggle.py:33
+#: src/korone/modules/disabling/handlers/toggle.py:41
+msgid "enable"
+msgstr "இயக்கு"
+
+#: src/korone/modules/disabling/handlers/toggle.py:33
+#: src/korone/modules/disabling/handlers/toggle.py:41
+msgid "disable"
+msgstr "முடக்கு"
+
+#: src/korone/modules/disabling/handlers/toggle.py:40
+#, python-brace-format
+msgid ""
+"Unknown command to {action}:\n"
+"- <code>{command}</code>\n"
+"Check the /disableable!"
+msgstr ""
+"{action} க்கு தெரியாத கட்டளை:\n"
+" - <code> {command} </code>\n"
+" /முடக்கப்பட்டதை சரிபார்க்கவும்!"
+
+#: src/korone/modules/disabling/handlers/toggle.py:50
+#, python-brace-format
+msgid "This command is already {action}."
+msgstr "இந்த கட்டளை ஏற்கனவே {action}."
+
+#: src/korone/modules/disabling/handlers/toggle.py:51
+#: src/korone/modules/disabling/handlers/toggle.py:58
+msgid "enabled"
+msgstr "இயக்கப்பட்டது"
+
+#: src/korone/modules/disabling/handlers/toggle.py:51
+#: src/korone/modules/disabling/handlers/toggle.py:58
+msgid "disabled"
+msgstr "முடக்கப்பட்டது"
+
+#: src/korone/modules/disabling/handlers/toggle.py:58
+#, python-brace-format
+msgid "Command {action}."
+msgstr "கட்டளை {action}."
+
+#: src/korone/modules/errors/handlers/catcher.py:83
+msgid "An unexpected error occurred while processing this update! :/"
+msgstr "இந்த புதுப்பிப்பை செயலாக்கும்போது எதிர்பாராத பிழை ஏற்பட்டது! :/"
+
+#: src/korone/modules/errors/handlers/catcher.py:85
+#, python-brace-format
+msgid ""
+"\n"
+"Reference ID: {id}"
+msgstr ""
+"\n"
+"குறிப்பு ஐடி: {id}"
+
+#: src/korone/modules/errors/handlers/catcher.py:90
+msgid "🐞 Report This Error"
+msgstr "Frog இந்த பிழையைப் புகாரளிக்கவும்"
+
+#: src/korone/modules/filters/handlers/delall.py:20
+msgid "✅ Confirm Deletion"
+msgstr "நீக்குதலை உறுதிப்படுத்தவும்"
+
+#: src/korone/modules/filters/handlers/delall.py:24
+#: src/korone/modules/languages/handlers/select.py:38
+msgid "❌ Cancel"
+msgstr "❌ ரத்துசெய்"
+
+#: src/korone/modules/filters/handlers/delall.py:30
+msgid ""
+"⚠️ Are you sure you want to delete all filters? This action cannot be "
+"undone."
+msgstr ""
+"கோப்புறைகள் அனைத்து வடிப்பான்களையும் நீக்க விரும்புகிறீர்களா? இந்த செயலை செயல்தவிர்க்க "
+"முடியாது."
+
+#: src/korone/modules/filters/handlers/delall.py:53
+msgid "There are no filters to delete."
+msgstr "நீக்க வடிப்பான்கள் எதுவும் இல்லை."
+
+#: src/korone/modules/filters/handlers/delall.py:57
+msgid "All filters have been deleted."
+msgstr "அனைத்து வடிப்பான்களும் நீக்கப்பட்டுள்ளன."
+
+#: src/korone/modules/filters/handlers/delall.py:61
+msgid "Deletion of all filters has been canceled."
+msgstr "அனைத்து வடிப்பான்களையும் நீக்குவது ரத்து செய்யப்பட்டுள்ளது."
+
+#: src/korone/modules/filters/handlers/delete.py:20
+msgid ""
+"You need to provide the name of the filter to delete. Example: "
+"<code>/delfilter filtername</code>"
+msgstr ""
+"நீக்க நீங்கள் வடிகட்டியின் பெயரை வழங்க வேண்டும். எடுத்துக்காட்டு: <code>/delfilter "
+"Filtername </code>"
+
+#: src/korone/modules/filters/handlers/delete.py:33
+#, python-brace-format
+msgid "Filter '<code>{filter_name}</code>' has been deleted."
+msgstr "வடிகட்டி '<code> {filter_name} </code>' நீக்கப்பட்டது."
+
+#: src/korone/modules/filters/handlers/delete.py:40
+#, python-brace-format
+msgid "Filter '<code>{filter_name}</code>' does not exist."
+msgstr "வடிகட்டி '<code> {filter_name} </code>' இல்லை."
+
+#: src/korone/modules/filters/handlers/info.py:23
+msgid ""
+"You need to provide the name of the filter. Example: <code>/filterinfo "
+"filtername</code>"
+msgstr ""
+"நீங்கள் வடிகட்டியின் பெயரை வழங்க வேண்டும். எடுத்துக்காட்டு: <code>/filterInfo Filername "
+"</code>"
+
+#: src/korone/modules/filters/handlers/info.py:33
+#, python-brace-format
+msgid "Filter '{name}' not found."
+msgstr "வடிகட்டி '{name}' கிடைக்கவில்லை."
+
+#: src/korone/modules/filters/handlers/info.py:49
+#, python-brace-format
+msgid ""
+"<b>Filter Info</b>:\n"
+"<b>Names</b>: {names}\n"
+"<b>Content Type</b>: <code>{content_type}</code>\n"
+"<b>Created Date</b>: <i>{created_date}</i>\n"
+"<b>Creator</b>: {creator}\n"
+"<b>Edited Date</b>: <i>{edited_date}</i>\n"
+"<b>Editor</b>: {editor}"
+msgstr ""
+"<b> வடிகட்டி செய்தி </b>:\n"
+" <b> பெயர்கள் </b>: {names}\n"
+" <b> உள்ளடக்க வகை </b>: <code> {content_type} </code>\n"
+" <b> உருவாக்கப்பட்ட தேதி </b>: <i> {created_date} </i>\n"
+" <b> உருவாக்கியவர் </b>: {creator}\n"
+" <b> திருத்தப்பட்ட தேதி </b>: <i> {edited_date} </i>\n"
+" <b> ஆசிரியர் </b>: {editor}"
+
+#: src/korone/modules/filters/handlers/list.py:17
+msgid "No filters found for this chat."
+msgstr "இந்த அரட்டைக்கு வடிப்பான்கள் எதுவும் கிடைக்கவில்லை."
+
+#: src/korone/modules/filters/handlers/list.py:23
+#, python-brace-format
+msgid ""
+"List of filters in {chatname}:\n"
+"{filter_list}"
+msgstr ""
+"{chatname} இல் உள்ள வடிப்பான்களின் பட்டியல்:\n"
+" {filter_list}"
+
+#: src/korone/modules/filters/handlers/list.py:24
+#: src/korone/modules/filters/handlers/save.py:72
+#: src/korone/modules/filters/utils/text.py:41
+msgid "private chat"
+msgstr "தனிப்பட்ட அரட்டை"
+
+#: src/korone/modules/filters/handlers/save.py:22
+msgid ""
+"You need to provide arguments to save a filter. Example: <code>/filter "
+"filtername</code>"
+msgstr ""
+"வடிகட்டியைச் சேமிக்க நீங்கள் வாதங்களை வழங்க வேண்டும். எடுத்துக்காட்டு: <code>/வடிகட்டி "
+"ஃபில்டர்ன் பெயர் </code>"
+
+#: src/korone/modules/filters/handlers/save.py:31
+msgid "Invalid filter format. Check <code>/help</code> for more information."
+msgstr "தவறான வடிகட்டி வடிவம். மேலும் தகவலுக்கு <code>/உதவி </code> ஐ சரிபார்."
+
+#: src/korone/modules/filters/handlers/save.py:39
+msgid ""
+"You need to provide the filter content. Check <code>/help</code> for more"
+" information."
+msgstr ""
+"நீங்கள் வடிகட்டி உள்ளடக்கத்தை வழங்க வேண்டும். மேலும் தகவலுக்கு <code>/உதவி </code> ஐ "
+"சரிபார்."
+
+#: src/korone/modules/filters/handlers/save.py:70
+#, python-brace-format
+msgid ""
+"Saved {count} filters in {chat}:\n"
+"{filters}"
+msgstr ""
+"{count} இல் சேமிக்கப்பட்டது {chat} வடிப்பான்கள்:\n"
+" {filters}"
+
+#: src/korone/modules/filters/utils/parse_filter.py:54
+msgid ""
+"Please check the Filters documentation for the list of the allowed "
+"content types."
+msgstr ""
+"அனுமதிக்கப்பட்ட உள்ளடக்க வகைகளின் பட்டியலுக்கான வடிப்பான்களின் ஆவணங்களை சரிபார்க்கவும்."
+
+#: src/korone/modules/filters/utils/parse_filter.py:66
+msgid "The text of the replied message is empty."
+msgstr "பதிலளித்த செய்தியின் உரை காலியாக உள்ளது."
+
+#: src/korone/modules/filters/utils/parse_filter.py:104
+#, python-brace-format
+msgid "The maximum length of the filter is {length} characters."
+msgstr "வடிகட்டியின் அதிகபட்ச நீளம் {length} எழுத்துக்கள்."
+
+#: src/korone/modules/gsm_arena/handlers/search.py:21
+msgid ""
+"You should provide a device name to search. Example: <code>/device Galaxy"
+" S24</code>."
+msgstr ""
+"தேட நீங்கள் ஒரு சாதன பெயரை வழங்க வேண்டும். எடுத்துக்காட்டு: <code>/சாதன கேலக்சி S24 "
+"</code>."
+
+#: src/korone/modules/gsm_arena/handlers/search.py:31
+msgid "No devices found."
+msgstr "சாதனங்கள் எதுவும் கிடைக்கவில்லை."
+
+#: src/korone/modules/gsm_arena/handlers/search.py:40
+#: src/korone/modules/minecraft/handlers/modrinth.py:46
+#, python-brace-format
+msgid "Search results for: <b>{query}</b>"
+msgstr "இதற்கான தேடல் முடிவுகள்: <b> {query} </b>"
+
+#: src/korone/modules/gsm_arena/utils/scraper.py:83
+msgid "Status"
+msgstr "நிலை"
+
+#: src/korone/modules/gsm_arena/utils/scraper.py:84
+msgid "Network"
+msgstr "பிணையம்"
+
+#: src/korone/modules/gsm_arena/utils/scraper.py:85
+msgid "Weight"
+msgstr "எடை"
+
+#: src/korone/modules/gsm_arena/utils/scraper.py:86
+msgid "Display"
+msgstr "காட்சி"
+
+#: src/korone/modules/gsm_arena/utils/scraper.py:87
+msgid "Chipset"
+msgstr "சில்லுத்தொகுதி"
+
+#: src/korone/modules/gsm_arena/utils/scraper.py:88
+msgid "Memory"
+msgstr "நினைவகம்"
+
+#: src/korone/modules/gsm_arena/utils/scraper.py:89
+msgid "Rear Camera"
+msgstr "பின்புற கேமரா"
+
+#: src/korone/modules/gsm_arena/utils/scraper.py:90
+msgid "Front Camera"
+msgstr "முன் கேமரா"
+
+#: src/korone/modules/gsm_arena/utils/scraper.py:91
+msgid "3.5mm jack"
+msgstr "3.5 மிமீ சாக்"
+
+#: src/korone/modules/gsm_arena/utils/scraper.py:92
+msgid "USB"
+msgstr "யூ.எச்.பி"
+
+#: src/korone/modules/gsm_arena/utils/scraper.py:93
+msgid "Sensors"
+msgstr "சென்சார்கள்"
+
+#: src/korone/modules/gsm_arena/utils/scraper.py:94
+msgid "Battery"
+msgstr "மின்கலம்"
+
+#: src/korone/modules/gsm_arena/utils/scraper.py:95
+msgid "Charging"
+msgstr "சார்சிங்"
+
+#: src/korone/modules/languages/handlers/apply.py:22
+msgid "Something went wrong."
+msgstr "ஏதோ தவறு நடந்தது."
+
+#: src/korone/modules/languages/handlers/apply.py:44
+#, python-brace-format
+msgid "Language changed to {new_lang}."
+msgstr "மொழி {new_lang} ஆக மாற்றப்பட்டது."
+
+#: src/korone/modules/languages/handlers/apply.py:50
+msgid ""
+"\n"
+"This is the bot's native language.\n"
+"If you find any errors, please file an issue in the GitHub Repository."
+msgstr ""
+"\n"
+"இது போட் சொந்த மொழி.\n"
+" நீங்கள் ஏதேனும் பிழைகள் கண்டால், தயவுசெய்து அறிவிலிமையம் களஞ்சியத்தில் ஒரு சிக்கலை தாக்கல் "
+"செய்யுங்கள்."
+
+#: src/korone/modules/languages/handlers/apply.py:57
+#, fuzzy, python-brace-format
+msgid ""
+"\n"
+"The language is {percent}% translated."
+msgstr ""
+"\n"
+"மொழி {percent}% மொழிபெயர்க்கப்பட்டுள்ளது."
+
+#: src/korone/modules/languages/handlers/apply.py:69
+msgid ""
+"\n"
+"In case you find any errors, please file an issue in the GitHub "
+"Repository."
+msgstr ""
+"\n"
+"நீங்கள் ஏதேனும் பிழைகள் கண்டால், தயவுசெய்து அறிவிலிமையம் களஞ்சியத்தில் ஒரு சிக்கலை தாக்கல் "
+"செய்யுங்கள்."
+
+#: src/korone/modules/languages/handlers/apply.py:73
+msgid ""
+"\n"
+"Please help us translate this language by completing it on our "
+"translations platform."
+msgstr ""
+"\n"
+"இந்த மொழியை எங்கள் மொழிபெயர்ப்பு தளத்தில் முடிப்பதன் மூலம் மொழிபெயர்க்க எங்களுக்கு உதவுங்கள்."
+
+#: src/korone/modules/languages/handlers/apply.py:91
+msgid "🐞 Open GitHub"
+msgstr "Gith திறந்த அறிவிலிமையம்"
+
+#: src/korone/modules/languages/handlers/apply.py:92
+msgid "🌍 Open Translations"
+msgstr "🌍 திறந்த மொழிபெயர்ப்புகள்"
+
+#: src/korone/modules/languages/handlers/cancel.py:23
+msgid ""
+"Changing language was canceled, you can change language again by using "
+"/language command."
+msgstr ""
+"மொழியை மாற்றுவது ரத்து செய்யப்பட்டது, /மொழி கட்டளையைப் பயன்படுத்தி மீண்டும் மொழியை "
+"மாற்றலாம்."
+
+#: src/korone/modules/languages/handlers/info.py:41
+#, python-brace-format
+msgid "<b>Chat language:</b> {language}\n"
+msgstr "<b> அரட்டை மொழி: </b> {language}\n"
+
+#: src/korone/modules/languages/handlers/info.py:44
+#, fuzzy
+msgid "This is the bot's native language. So it is 100% translated."
+msgstr "இது போட் சொந்த மொழி. எனவே இது 100% மொழிபெயர்க்கப்பட்டுள்ளது."
+
+#: src/korone/modules/languages/handlers/info.py:46
+msgid ""
+"\n"
+"<b>Language Information:</b>\n"
+msgstr ""
+"\n"
+"<b> மொழி தகவல்: </b>\n"
+
+#: src/korone/modules/languages/handlers/info.py:47
+#, python-brace-format
+msgid "Translated strings: <code>{translated}</code>\n"
+msgstr "மொழிபெயர்க்கப்பட்ட சரங்கள்: <code> {translated} </code>\n"
+
+#: src/korone/modules/languages/handlers/info.py:50
+#, python-brace-format
+msgid "Untranslated strings: <code>{untranslated}</code>\n"
+msgstr "மொழிபெயர்க்கப்படாத சரங்கள்: <code> {untranslated} </code>\n"
+
+#: src/korone/modules/languages/handlers/info.py:53
+#, python-brace-format
+msgid "Strings requiring review: <code>{fuzzy}</code>\n"
+msgstr "மதிப்பாய்வு தேவைப்படும் சரங்கள்: <code> {fuzzy} </code>\n"
+
+#: src/korone/modules/languages/handlers/info.py:60
+msgid "👤 Change your language"
+msgstr "Your உங்கள் மொழியை மாற்றவும்"
+
+#: src/korone/modules/languages/handlers/info.py:62
+msgid "🌍 Change group language"
+msgstr "குழு மொழியை மாற்றவும்"
+
+#: src/korone/modules/languages/handlers/info.py:74
+#: src/korone/modules/languages/handlers/select.py:45
+#: src/korone/modules/pm_menu/handlers/about.py:55
+#: src/korone/modules/pm_menu/handlers/help.py:34
+msgid "⬅️ Back"
+msgstr ". பின்"
+
+#: src/korone/modules/languages/handlers/select.py:49
+msgid "Please select the language you want to use for the chat."
+msgstr "அரட்டைக்கு நீங்கள் பயன்படுத்த விரும்பும் மொழியைத் தேர்ந்தெடுக்கவும்."
+
+#: src/korone/modules/lastfm/handlers/album.py:36
+#: src/korone/modules/lastfm/handlers/artist.py:36
+#: src/korone/modules/lastfm/handlers/now.py:36
+msgid "No recent tracks found for your LastFM account."
+msgstr ""
+"உங்கள் லாச்ட்எஃப்எம் கணக்கிற்கு அண்மைக் கால தடங்கள் எதுவும் கிடைக்கவில்லை."
+
+#: src/korone/modules/lastfm/handlers/collage.py:49
+msgid "No top albums found for your LastFM account."
+msgstr "உங்கள் லாச்ட்எஃப்எம் கணக்கிற்கு சிறந்த ஆல்பங்கள் எதுவும் கிடைக்கவில்லை."
+
+#: src/korone/modules/lastfm/handlers/compat.py:23
+msgid "Reply to a message to get the compatibility!"
+msgstr "பொருந்தக்கூடிய தன்மையைப் பெற ஒரு செய்திக்கு பதிலளிக்கவும்!"
+
+#: src/korone/modules/lastfm/handlers/compat.py:49
+msgid "No top artists found for your LastFM account."
+msgstr "உங்கள் லாச்ட்எஃப்எம் கணக்கிற்கு சிறந்த கலைஞர்கள் எதுவும் கிடைக்கவில்லை."
+
+#: src/korone/modules/lastfm/handlers/compat.py:58
+msgid "You can't get the compatibility with yourself!"
+msgstr "உங்களுடன் பொருந்தக்கூடிய தன்மையை நீங்கள் பெற முடியாது!"
+
+#: src/korone/modules/lastfm/handlers/compat.py:62
+msgid "Bots won't have music taste!"
+msgstr "போட்ச் இசை சுவை இருக்காது!"
+
+#: src/korone/modules/lastfm/handlers/compat.py:77
+#: src/korone/modules/lastfm/utils/commons.py:18
+msgid ""
+"You need to set your LastFM username first! Example: <code>/setlfm "
+"username</code>."
+msgstr ""
+"உங்கள் லாச்ட்எஃப்எம் பயனர்பெயரை முதலில் அமைக்க வேண்டும்! எடுத்துக்காட்டு: <code>/setlfm "
+"பயனர்பெயர் </code>."
+
+#: src/korone/modules/lastfm/handlers/compat.py:85
+msgid ""
+"The user you replied to doesn't have a LastFM account linked! Hint them "
+"to set it using <code>/setlfm username</code>."
+msgstr ""
+"நீங்கள் பதிலளித்த பயனருக்கு லாச்ட்எஃப்எம் கணக்கு இணைக்கப்படவில்லை! <code>/setlfm பயனர்பெயர் "
+"</code> ஐப் பயன்படுத்தி அதை அமைக்க அவற்றைக் குறிக்கவும்."
+
+#: src/korone/modules/lastfm/handlers/compat.py:118
+#, python-brace-format
+msgid "No common artists in {period}"
+msgstr "{period}இல் பொதுவான கலைஞர்கள் இல்லை"
+
+#: src/korone/modules/lastfm/handlers/compat.py:120
+#, python-brace-format
+msgid ""
+"{user1} and {user2} listen to {mutual}...\n"
+"\n"
+"Compatibility score is {score}%, based on {period}"
+msgstr ""
+"{user1} மற்றும் {user2} {mutual} கேளுங்கள் ...\n"
+"\n"
+" பொருந்தக்கூடிய மதிப்பெண் {score}%ஆகும், இது {period}"
+
+#: src/korone/modules/lastfm/handlers/recent.py:32
+msgid "No recent tracks found."
+msgstr "அண்மைக் கால தடங்கள் எதுவும் கிடைக்கவில்லை."
+
+#: src/korone/modules/lastfm/handlers/recent.py:44
+#, python-brace-format
+msgid "{user} is listening to:\n"
+msgstr "{user} கேட்கிறார்:\n"
+
+#: src/korone/modules/lastfm/handlers/recent.py:47
+msgid ""
+"\n"
+"Last 5 plays:"
+msgstr ""
+"\n"
+"கடைசி 5 நாடகங்கள்:"
+
+#: src/korone/modules/lastfm/handlers/recent.py:50
+#, python-brace-format
+msgid "{user} was listening to:\n"
+msgstr "{user} கேட்டுக்கொண்டிருந்தார்:\n"
+
+#: src/korone/modules/lastfm/handlers/set.py:21
+msgid ""
+"You need to provide your LastFM username! Example: <code>/setlfm "
+"username</code>."
+msgstr ""
+"உங்கள் லாச்ட்எஃப்எம் பயனர்பெயரை நீங்கள் வழங்க வேண்டும்! எடுத்துக்காட்டு: <code>/setlfm "
+"பயனர்பெயர் </code>."
+
+#: src/korone/modules/lastfm/handlers/set.py:26
+msgid "LastFM username must not contain spaces or special characters!"
+msgstr ""
+"லாச்ட்எஃப்எம் பயனர்பெயரில் இடைவெளிகள் அல்லது சிறப்பு எழுத்துக்கள் இருக்கக்கூடாது!"
+
+#: src/korone/modules/lastfm/handlers/set.py:30
+msgid "LastFM username set successfully!"
+msgstr "லாச்ட்எஃப்எம் பயனர்பெயர் வெற்றிகரமாக அமைக்கப்பட்டுள்ளது!"
+
+#: src/korone/modules/lastfm/handlers/top.py:37
+msgid "Invalid entry type! Use one of the following: artist, track, album"
+msgstr ""
+"தவறான நுழைவு வகை! பின்வருவனவற்றில் ஒன்றைப் பயன்படுத்தவும்: கலைஞர், டிராக், ஆல்பம்"
+
+#: src/korone/modules/lastfm/handlers/top.py:55
+msgid "No top items found."
+msgstr "சிறந்த உருப்படிகள் எதுவும் கிடைக்கவில்லை."
+
+#: src/korone/modules/lastfm/handlers/top.py:61
+#, python-brace-format
+msgid ""
+"{user}'s top 5 {entry} for {period}:\n"
+"\n"
+msgstr ""
+"{user} க்கு {period}இல் சிறந்த 5 {entry}:\n"
+"\n"
+
+#: src/korone/modules/lastfm/handlers/top.py:63
+msgid "artists"
+msgstr "கலைஞர்கள்"
+
+#: src/korone/modules/lastfm/handlers/top.py:65
+msgid "tracks"
+msgstr "தடங்கள்"
+
+#: src/korone/modules/lastfm/handlers/top.py:67
+msgid "albums"
+msgstr "ஆல்பம்"
+
+#: src/korone/modules/lastfm/handlers/top.py:76
+#, python-brace-format
+msgid " -> {scrobbles} plays\n"
+msgstr " -> {scrobbles} நாடகங்கள்\n"
+
+#: src/korone/modules/lastfm/handlers/user.py:36
+#, python-brace-format
+msgid ""
+"User: <b>{user}</b>\n"
+"\n"
+"Total scrobbles: <code>{playcount}</code>\n"
+"Tracks scrobbled: <code>{track_count}</code>\n"
+"Artists scrobbled: <code>{artist_count}</code>\n"
+"Albums scrobbled: <code>{album_count}</code>\n"
+"\n"
+"Registered: <i>{registered}</i>"
+msgstr ""
+"பயனர்: <b> {user} </b>\n"
+"\n"
+" மொத்த ச்க்ரோபில்கள்: <code> {playcount} </code>\n"
+" டிராக்குகள் ச்கிராப் செய்யப்பட்டவை: <code> {track_count} </code>\n"
+" கலைஞர்கள் ச்கிராப் செய்யப்பட்டனர்: <code> {artist_count} </code>\n"
+" ஆல்பங்கள் துருவல்: <code> {album_count} </code>\n"
+"\n"
+" பதிவுசெய்யப்பட்டது: <i> {registered} </i>"
+
+#: src/korone/modules/lastfm/utils/commons.py:28
+msgid "Your LastFM username was not found! Try setting it again."
+msgstr ""
+"உங்கள் லாச்ட்எஃப்எம் பயனர்பெயர் காணப்படவில்லை! அதை மீண்டும் அமைக்க முயற்சிக்கவும்."
+
+#: src/korone/modules/lastfm/utils/commons.py:32
+#, python-brace-format
+msgid ""
+"An error occurred while fetching your LastFM data!\n"
+"<blockquote>{error}</blockquote>"
+msgstr ""
+"உங்கள் லாச்ட்எஃப்எம் தரவைப் பெறும்போது பிழை ஏற்பட்டது!\n"
+" <blockquote> {error} </blockquote>"
+
+#: src/korone/modules/lastfm/utils/commons.py:47
+#, python-brace-format
+msgid "{user}'s is listening to:\n"
+msgstr "{user} இதைக் கேட்கிறார்:\n"
+
+#: src/korone/modules/lastfm/utils/commons.py:49
+#, python-brace-format
+msgid "{user}'s was listening to:\n"
+msgstr "{user} இதைக் கேட்டுக்கொண்டிருந்தார்:\n"
+
+#: src/korone/modules/lastfm/utils/commons.py:53
+#, python-brace-format
+msgid " ∙ <code>{playcount} plays</code>"
+msgstr " ∙ <code> {playcount} நாடகங்கள் </code>"
+
+#: src/korone/modules/lastfm/utils/formatters.py:29
+#, python-brace-format
+msgid ", {days} day(s) ago"
+msgstr ", {days} நாள் (கள்) முன்பு"
+
+#: src/korone/modules/lastfm/utils/formatters.py:33
+#, python-brace-format
+msgid ", {hours} hour(s) ago"
+msgstr ", {hours} மணிநேரம்) முன்பு"
+
+#: src/korone/modules/lastfm/utils/formatters.py:37
+#, python-brace-format
+msgid ", {minutes} minute(s) ago"
+msgstr ", {minutes} மணித்துளி (கள்) முன்பு"
+
+#: src/korone/modules/lastfm/utils/formatters.py:37
+msgid ", Just now"
+msgstr ", இப்போது"
+
+#: src/korone/modules/lastfm/utils/formatters.py:66
+msgid "1 week"
+msgstr "1 வாரம்"
+
+#: src/korone/modules/lastfm/utils/formatters.py:68
+msgid "1 month"
+msgstr "1 மாதம்"
+
+#: src/korone/modules/lastfm/utils/formatters.py:70
+msgid "3 months"
+msgstr "3 மாதங்கள்"
+
+#: src/korone/modules/lastfm/utils/formatters.py:72
+msgid "6 months"
+msgstr "6 மாதங்கள்"
+
+#: src/korone/modules/lastfm/utils/formatters.py:74
+msgid "1 year"
+msgstr "1 வருடம்"
+
+#: src/korone/modules/lastfm/utils/formatters.py:75
+msgid "All time"
+msgstr "எல்லா நேரமும்"
+
+#: src/korone/modules/medias/handlers/base_media_handler.py:30
+#: src/korone/modules/medias/handlers/base_media_handler.py:42
+msgid "Open in"
+msgstr "திறந்த"
+
+#: src/korone/modules/medias/handlers/bluesky.py:48
+#: src/korone/modules/medias/handlers/bluesky.py:54
+msgid "BlueSky"
+msgstr "ப்ளூச்கி"
+
+#: src/korone/modules/medias/handlers/instagram.py:53
+#: src/korone/modules/medias/handlers/instagram.py:59
+msgid "Instagram"
+msgstr "இன்ச்டாகிராம்"
+
+#: src/korone/modules/medias/handlers/threads.py:49
+#: src/korone/modules/medias/handlers/threads.py:55
+msgid "Threads"
+msgstr "நூல்கள்"
+
+#: src/korone/modules/medias/handlers/tiktok.py:48
+msgid "TikTok"
+msgstr "டிக்டோக்"
+
+#: src/korone/modules/medias/handlers/twitter.py:69
+#: src/korone/modules/medias/handlers/twitter.py:183
+msgid "Open in Twitter"
+msgstr "ட்விட்டரில் திறக்கவும்"
+
+#: src/korone/modules/medias/handlers/twitter.py:91
+#, python-brace-format
+msgid ""
+"\n"
+"<b>Sent from:</b> <i>{source}</i>"
+msgstr ""
+"\n"
+"<b> அனுப்பப்பட்டது: </b> <i> {source} </i>"
+
+#: src/korone/modules/medias/handlers/youtube.py:52
+msgid "Invalid or missing YouTube URL!"
+msgstr "தவறான அல்லது காணாமல் போன YouTube URL!"
+
+#: src/korone/modules/medias/handlers/youtube.py:72
+msgid "No YouTube URL found in the replied message."
+msgstr "பதிலளித்த செய்தியில் YouTube முகவரி இல்லை."
+
+#: src/korone/modules/medias/handlers/youtube.py:74
+msgid "Provide a URL or reply with one."
+msgstr "ஒரு முகவரி ஐ வழங்கவும் அல்லது ஒன்றுடன் பதிலளிக்கவும்."
+
+#: src/korone/modules/medias/handlers/youtube.py:82
+msgid "Failed to extract video info!"
+msgstr "வீடியோ தகவலைப் பிரித்தெடுப்பதில் தோல்வி!"
+
+#: src/korone/modules/medias/handlers/youtube.py:90
+#, python-brace-format
+msgid "<b>Duration:</b> {hours}h {minutes}m {seconds}s\n"
+msgstr "<b> காலம்: </b> {hours} h {minutes} m {seconds} s\n"
+
+#: src/korone/modules/medias/handlers/youtube.py:94
+#, python-brace-format
+msgid "<b>Duration:</b> {minutes}m {seconds}s\n"
+msgstr "<b> காலம்: </b> {minutes} m {seconds} கள்\n"
+
+#: src/korone/modules/medias/handlers/youtube.py:97
+#, python-brace-format
+msgid "<b>Duration:</b> {seconds}s\n"
+msgstr "<b> காலம்: </b> {seconds} கள்\n"
+
+#: src/korone/modules/medias/handlers/youtube.py:103
+#, python-brace-format
+msgid "<b>Title:</b> {title}\n"
+msgstr "<b> தலைப்பு: </b> {title}\n"
+
+#: src/korone/modules/medias/handlers/youtube.py:104
+#, python-brace-format
+msgid "<b>Uploader:</b> {uploader}\n"
+msgstr "<b> பதிவேற்றியவர்: </b> {uploader}\n"
+
+#: src/korone/modules/medias/handlers/youtube.py:106
+#, python-brace-format
+msgid "<b>Views:</b> {views}\n"
+msgstr "<b> காட்சிகள்: </b> {views}\n"
+
+#: src/korone/modules/medias/handlers/youtube.py:110
+#, python-brace-format
+msgid "<b>Likes:</b> {likes}\n"
+msgstr "<b> விருப்பங்கள்: </b> {likes}\n"
+
+#: src/korone/modules/medias/handlers/youtube.py:114
+msgid "<b>Likes:</b> Unknown\n"
+msgstr "<b> விருப்பங்கள்: </b> தெரியவில்லை\n"
+
+#: src/korone/modules/medias/handlers/youtube.py:122
+msgid "Download video"
+msgstr "வீடியோவைப் பதிவிறக்கவும்"
+
+#: src/korone/modules/medias/handlers/youtube.py:126
+msgid "Download audio"
+msgstr "ஆடியோவைப் பதிவிறக்கவும்"
+
+#: src/korone/modules/medias/handlers/youtube.py:154
+msgid "Downloading..."
+msgstr "பதிவிறக்கம் ..."
+
+#: src/korone/modules/medias/handlers/youtube.py:159
+msgid "Uploading..."
+msgstr "பதிவேற்றுதல் ..."
+
+#: src/korone/modules/medias/handlers/youtube.py:173
+#: src/korone/modules/medias/handlers/youtube.py:189
+msgid "Failed to download the media."
+msgstr "ஊடகங்களைப் பதிவிறக்குவதில் தோல்வி."
+
+#: src/korone/modules/minecraft/handlers/modrinth.py:31
+msgid ""
+"You need to provide a search query. Example: <code>/modrinth "
+"sodium</code>."
+msgstr ""
+"நீங்கள் ஒரு தேடல் வினவலை வழங்க வேண்டும். எடுத்துக்காட்டு: <code>/modrinth சோடியம் "
+"</code>."
+
+#: src/korone/modules/minecraft/handlers/modrinth.py:37
+msgid "No projects found."
+msgstr "திட்டங்கள் எதுவும் கிடைக்கவில்லை."
+
+#: src/korone/modules/minecraft/handlers/modrinth.py:108
+msgid "Open in Modrinth"
+msgstr "மோட்ரின்ட்டில் திறந்திருக்கும்"
+
+#: src/korone/modules/minecraft/handlers/modrinth.py:109
+msgid "Details"
+msgstr "விவரங்கள்"
+
+#: src/korone/modules/minecraft/handlers/modrinth.py:122
+#, python-brace-format
+msgid "Downloads: {downloads}\n"
+msgstr "பதிவிறக்கங்கள்: {downloads}\n"
+
+#: src/korone/modules/minecraft/handlers/modrinth.py:123
+#, python-brace-format
+msgid "Followers: {followers}\n"
+msgstr "பின்தொடர்பவர்கள்: {followers}\n"
+
+#: src/korone/modules/minecraft/handlers/modrinth.py:124
+#, python-brace-format
+msgid "Published: {published}\n"
+msgstr "வெளியிடப்பட்டது: {published}\n"
+
+#: src/korone/modules/minecraft/handlers/modrinth.py:125
+#, python-brace-format
+msgid "Updated: {updated}\n"
+msgstr "புதுப்பிக்கப்பட்டது: {updated}\n"
+
+#: src/korone/modules/minecraft/handlers/modrinth.py:126
+#, python-brace-format
+msgid "Categories: {categories}\n"
+msgstr "வகைகள்: {categories}\n"
+
+#: src/korone/modules/minecraft/handlers/modrinth.py:141
+#, python-brace-format
+msgid "<b>Platforms</b>: {platforms}\n"
+msgstr "<b> தளங்கள் </b>: {platforms}\n"
+
+#: src/korone/modules/minecraft/handlers/modrinth.py:142
+#, python-brace-format
+msgid "<b>Supported environments</b>: {environments}\n"
+msgstr "<b> உதவி சூழல்கள் </b>: {environments}\n"
+
+#: src/korone/modules/minecraft/handlers/modrinth.py:147
+#, python-brace-format
+msgid "<b>Latest version</b>: {version}"
+msgstr "<b> அண்மைக் கால பதிப்பு </b>: {version}"
+
+#: src/korone/modules/minecraft/handlers/modrinth.py:163
+msgid "Mod"
+msgstr "மோட்"
+
+#: src/korone/modules/minecraft/handlers/modrinth.py:164
+msgid "Modpack"
+msgstr "மோட்பேக்"
+
+#: src/korone/modules/minecraft/handlers/modrinth.py:165
+msgid "Resource pack"
+msgstr "வள பேக்"
+
+#: src/korone/modules/minecraft/handlers/modrinth.py:166
+msgid "Shader pack"
+msgstr "சேடர் பேக்"
+
+#: src/korone/modules/minecraft/handlers/servers.py:28
+msgid ""
+"You need to provide a server address. Example: <code>/mcserver "
+"mc.hypixel.net</code>."
+msgstr ""
+"நீங்கள் ஒரு சேவையக முகவரியை வழங்க வேண்டும். எடுத்துக்காட்டு: <code>/mcserver "
+"mc.hypixel.net </code>."
+
+#: src/korone/modules/minecraft/handlers/servers.py:39
+msgid ""
+"Invalid server address. Please provide a valid IP address or hostname, "
+"optionally with a port. Example: <code>/mcserver mc.hypixel.net</code> or"
+" <code>/mcserver mc.hypixel.net:25565</code>."
+msgstr ""
+"தவறான சேவையக முகவரி. செல்லுபடியாகும் ஐபி முகவரி அல்லது ஓச்ட்பெயரை விருப்பமாக ஒரு "
+"துறைமுகத்துடன் வழங்கவும். எடுத்துக்காட்டு: <code>/mcserver mc.hypixel.net </code> "
+"அல்லது <code>/mcserver mc.hypixel.net:25565 </code>."
+
+#: src/korone/modules/minecraft/handlers/servers.py:51
+msgid ""
+"This Minecraft server is currently offline or is not a valid Minecraft "
+"server. Please check the address and try again."
+msgstr ""
+"இந்த Minecraft சேவையகம் தற்போது ஆஃப்லைனில் உள்ளது அல்லது செல்லுபடியாகும் Minecraft "
+"சேவையகம் அல்ல. முகவரியைச் சரிபார்த்து மீண்டும் முயற்சிக்கவும்."
+
+#: src/korone/modules/minecraft/handlers/servers.py:58
+#, python-brace-format
+msgid ""
+"<b>Server Status for {address}</b>:\n"
+"<b>Players</b>: {player_count}\n"
+"<b>Version:</b> {version}\n"
+"<b>MOTD</b>: <pre>{motd}</pre>\n"
+msgstr ""
+"<b> {address} </b> க்கான சேவையக நிலை:\n"
+" <b> வீரர்கள் </b>: {player_count}\n"
+" <b> பதிப்பு: </b> {version}\n"
+" <b> motd </b>: <pre> {motd} </pre>\n"
+
+#: src/korone/modules/piston/handlers/langs.py:17
+msgid "Failed to fetch the available languages."
+msgstr "கிடைக்கக்கூடிய மொழிகளைப் பெறத் தவறிவிட்டது."
+
+#: src/korone/modules/piston/handlers/langs.py:20
+msgid "<b>Supported languages</b>:\n"
+msgstr "<b> உதவி மொழிகள் </b>:\n"
+
+#: src/korone/modules/piston/handlers/run.py:25
+msgid ""
+"You need to provide a command to run. Example: <code>/piston python "
+"print('Hello, World!')</code>"
+msgstr ""
+"இயக்க நீங்கள் ஒரு கட்டளையை வழங்க வேண்டும். எடுத்துக்காட்டு: <code>/பிச்டன் பைதான் "
+"அச்சு('வணக்கம், உலகு!') </code>"
+
+#: src/korone/modules/piston/handlers/run.py:34
+msgid "Sorry, I couldn't fetch the available languages. Please try again later."
+msgstr ""
+"மன்னிக்கவும், கிடைக்கக்கூடிய மொழிகளை என்னால் பெற முடியவில்லை. தயவுசெய்து பின்னர் மீண்டும் "
+"முயற்சிக்கவும்."
+
+#: src/korone/modules/piston/handlers/run.py:42
+msgid ""
+"Invalid language. Use <code>/pistonlangs</code> to see the available "
+"languages. Then use it like this: <code>/piston python print('Hello, "
+"World!')</code>"
+msgstr ""
+"தவறான மொழி. கிடைக்கக்கூடிய மொழிகளைக் காண <code>/Pistonlangs </code> ஐப் "
+"பயன்படுத்தவும். பின்னர் இதைப் பயன்படுத்தவும்: <code>/பிச்டன் பைதான் அச்சு ('வணக்கம், உலகு!')"
+" </code>"
+
+#: src/korone/modules/piston/handlers/run.py:54
+msgid ""
+"You need to provide a valid language and code. Example: <code>/piston "
+"python print('Hello, World!')</code>"
+msgstr ""
+"நீங்கள் சரியான மொழியையும் குறியீட்டையும் வழங்க வேண்டும். எடுத்துக்காட்டு: <code>/பிச்டன் "
+"பைதான் அச்சு ('வணக்கம், உலகு!') </code>"
+
+#: src/korone/modules/piston/handlers/run.py:63
+msgid "An error occurred while running the code."
+msgstr "குறியீட்டை இயக்கும் போது பிழை ஏற்பட்டது."
+
+#: src/korone/modules/piston/handlers/run.py:66
+#, python-brace-format
+msgid ""
+"<b>Code</b>:\n"
+"<pre language='{lang}'>{code}</pre>\n"
+"\n"
+msgstr ""
+"<b> குறியீடு </b>:\n"
+"<pre language='{lang}'>{code}</pre>\n"
+"\n"
+
+#: src/korone/modules/piston/handlers/run.py:71
+#, python-brace-format
+msgid ""
+"<b>Output</b>:\n"
+"<pre language='bash'>{output}</pre>\n"
+msgstr ""
+"<b> வெளியீடு </b>:\n"
+"<pre language='bash'>{output}</pre>\n"
+
+#: src/korone/modules/piston/handlers/run.py:76
+#, python-brace-format
+msgid ""
+"<b>Compiler Output</b>:\n"
+"<pre language='bash'>{output}</pre>"
+msgstr ""
+"<b> கம்பைலர் வெளியீடு </b>:\n"
+" <pre language='bash'>{output}</pre>"
+
+#: src/korone/modules/piston/handlers/run.py:85
+msgid ""
+"The result exceeds the 4096 character limit of Telegram. Please refine "
+"your code."
+msgstr ""
+"இதன் விளைவாக தந்தியின் 4096 எழுத்து வரம்பை மீறுகிறது. உங்கள் குறியீட்டைச் "
+"செம்மைப்படுத்தவும்."
+
+#: src/korone/modules/pm_menu/handlers/about.py:29
+#, python-brace-format
+msgid ""
+"Korone is a comprehensive and cutting-edge Telegram bot that offers a "
+"wide range of features to enhance your Telegram experience. Designed to "
+"be versatile, adaptable, and highly efficient, it leverages the power of "
+"{python} and is built on the {hydrogram} framework, utilizing the "
+"{mtproto}.\n"
+"\n"
+"This open source project is licensed under the {license} license, with "
+"the source code available on GitHub.\n"
+"\n"
+"Version: <code>{version}</code>"
+msgstr ""
+"கோரோன் ஒரு விரிவான மற்றும் அதிநவீன தந்தி போட் ஆகும், இது உங்கள் தந்தி அனுபவத்தை "
+"மேம்படுத்தப் பரந்த அளவிலான அம்சங்களை வழங்குகிறது. பல்துறை, தகவமைப்பு மற்றும் மிகவும் "
+"திறமையானதாக வடிவமைக்கப்பட்டுள்ளது, இது {python} இன் சக்தியை மேம்படுத்துகிறது மற்றும் "
+"{hydrogram} கட்டமைப்பில் கட்டப்பட்டுள்ளது, இது {mtproto} ஐப் பயன்படுத்துகிறது.\n"
+"\n"
+" இந்தத் திறந்த மூல திட்டம் {license} உரிமத்தின் கீழ் உரிமம் பெற்றது, அறிவிலிகுவியத்தில் "
+"கிடைக்கும் மூலக் குறியீடு.\n"
+"\n"
+" பதிப்பு: <code> {version}</code>"
+
+#: src/korone/modules/pm_menu/handlers/about.py:46
+msgid "📦 GitHub"
+msgstr "📦 gitub"
+
+#: src/korone/modules/pm_menu/handlers/about.py:47
+msgid "📚 Channel"
+msgstr "சேனல்"
+
+#: src/korone/modules/pm_menu/handlers/about.py:48
+msgid "🔒 Privacy Policy"
+msgstr "🔒 தனியுரிமைக் கொள்கை"
+
+#: src/korone/modules/pm_menu/handlers/help.py:24
+msgid ""
+"You can get help by reading the documentation, where you'll get an "
+"overview of the bot and how to use it to its full potential. Click the "
+"button below to start reading."
+msgstr ""
+"ஆவணங்களைப் படிப்பதன் மூலம் நீங்கள் உதவியைப் பெறலாம், அங்கு நீங்கள் போட் பற்றிய கண்ணோட்டத்தையும் "
+"அதன் முழு திறனுக்கும் அதை எவ்வாறு பயன்படுத்துவது என்பதைப் பெறுவீர்கள். படிக்கத் தொடங்க கீழே "
+"உள்ள பொத்தானைக் சொடுக்கு செய்க."
+
+#: src/korone/modules/pm_menu/handlers/help.py:28
+msgid "Documentation"
+msgstr "ஆவணப்படுத்துதல்"
+
+#: src/korone/modules/pm_menu/handlers/privacy.py:16
+msgid ""
+"The privacy policy is available for review in the documentation. Click "
+"the button below to start reading."
+msgstr ""
+"தனியுரிமைக் கொள்கை ஆவணங்களில் மதிப்பாய்வு செய்யக் கிடைக்கிறது. படிக்கத் தொடங்க கீழே உள்ள "
+"பொத்தானைக் சொடுக்கு செய்க."
+
+#: src/korone/modules/pm_menu/handlers/privacy.py:21
+msgid "Privacy Policy"
+msgstr "தனியுரிமைக் கொள்கை"
+
+#: src/korone/modules/pm_menu/handlers/start.py:27
+msgid ""
+"Hi, I'm Korone! An all-in-one bot. I can help you with lots of things. "
+"Just click on the buttons below to get started."
+msgstr ""
+"ஆய், நான் கொரோன்! ஆல் இன் ஒன் போட். நான் உங்களுக்கு நிறைய விசயங்களுக்கு உதவ முடியும். தொடங்"
+"க கீழே உள்ள பொத்தான்களைக் சொடுக்கு செய்க."
+
+#: src/korone/modules/pm_menu/handlers/start.py:35
+msgid "ℹ️ About"
+msgstr "பற்றி"
+
+#: src/korone/modules/pm_menu/handlers/start.py:37
+#, python-brace-format
+msgid "{flag} Language"
+msgstr "{flag} மொழி"
+
+#: src/korone/modules/pm_menu/handlers/start.py:42
+msgid "👮‍♂️ Help"
+msgstr "உதவி"
+
+#: src/korone/modules/pm_menu/handlers/start.py:49
+msgid "Hi, I'm Korone!"
+msgstr "ஆய், நான் கியர்!"
+
+#: src/korone/modules/regex/utils.py:43
+#, python-brace-format
+msgid "Invalid command: {command}"
+msgstr "தவறான கட்டளை: {command}"
+
+#: src/korone/modules/regex/utils.py:49
+msgid "Pattern is too long. Please use shorter patterns."
+msgstr "முறை மிக நீளமானது. தயவுசெய்து குறுகிய வடிவங்களைப் பயன்படுத்தவும்."
+
+#: src/korone/modules/regex/utils.py:54
+#, python-brace-format
+msgid "Unknown flag: {flag}"
+msgstr "அறியப்படாத கொடி: {flag}"
+
+#: src/korone/modules/regex/handlers/sed.py:31
+msgid "Invalid command data."
+msgstr "தவறான கட்டளை தரவு."
+
+#: src/korone/modules/regex/handlers/sed.py:41
+#, python-brace-format
+msgid "Regex error: {e}"
+msgstr "ரீசெக்ச் பிழை: {e}"
+
+#: src/korone/modules/regex/handlers/sed.py:45
+msgid "No message to apply the substitution."
+msgstr "மாற்றீட்டைப் பயன்படுத்த எந்த செய்தியும் இல்லை."
+
+#: src/korone/modules/regex/handlers/sed.py:49
+msgid "Your regex didn't change anything from the original message."
+msgstr "உங்கள் ரீசெக்ச் அசல் செய்தியிலிருந்து எதையும் மாற்றவில்லை."
+
+#: src/korone/modules/stickers/handlers/kang.py:42
+msgid "You need to reply to an image, video, or sticker."
+msgstr "நீங்கள் ஒரு படம், வீடியோ அல்லது ச்டிக்கருக்கு பதிலளிக்க வேண்டும்."
+
+#: src/korone/modules/stickers/handlers/kang.py:45
+msgid "Processing..."
+msgstr "செயலாக்கம் ..."
+
+#: src/korone/modules/stickers/handlers/kang.py:50
+msgid "Invalid media type. Please reply to an image, video, or sticker."
+msgstr "தவறான ஊடக வகை. ஒரு படம், வீடியோ அல்லது ச்டிக்கருக்கு பதிலளிக்கவும்."
+
+#: src/korone/modules/stickers/handlers/kang.py:60
+msgid "Error downloading media."
+msgstr "மீடியாவைப் பதிவிறக்குவதில் பிழை."
+
+#: src/korone/modules/stickers/handlers/kang.py:71
+msgid "Error processing media."
+msgstr "பிழை செயலாக்க மீடியா."
+
+#: src/korone/modules/stickers/handlers/kang.py:100
+msgid "View pack"
+msgstr "பேக் காண்க"
+
+#: src/korone/modules/stickers/handlers/kang.py:103
+#, python-brace-format
+msgid ""
+"Sticker <b>successfully</b> added to pack\n"
+"Emoji: {sticker_emoji}"
+msgstr ""
+"ச்டிக்கர் <b> வெற்றிகரமாக </b> பேக் செய்யச் சேர்க்கப்பட்டது\n"
+" ஈமோசி: {sticker_emoji}"
+
+#: src/korone/modules/stickers/utils/medias.py:66
+msgid "Failed to get video information."
+msgstr "வீடியோ தகவல்களைப் பெறுவதில் தோல்வி."
+
+#: src/korone/modules/stickers/utils/medias.py:72
+#, python-brace-format
+msgid "Error parsing video information: {error}"
+msgstr "வீடியோ தகவலை பாகுபடுத்துவதில் பிழை: {error}"
+
+#: src/korone/modules/stickers/utils/medias.py:79
+#, python-brace-format
+msgid ""
+"The video is too long ({duration}s)!\n"
+"Max duration is 3 seconds."
+msgstr ""
+"வீடியோ மிக நீளமானது ({duration} கள்)!\n"
+" அதிகபட்ச காலம் 3 வினாடிகள்."
+
+#: src/korone/modules/stickers/utils/medias.py:87
+#, python-brace-format
+msgid ""
+"The video is too big ({size}KB)!\n"
+"Max size is 256KB"
+msgstr ""
+"காணொளி மிகப் பெரியது ({size}கிபை)!\n"
+" அதிகபட்ச அளவு 256 கிபை"
+
+#: src/korone/modules/stickers/utils/methods.py:78
+msgid "Adding the sticker to the pack..."
+msgstr "பேக்கில் ச்டிக்கரைச் சேர்ப்பது ..."
+
+#: src/korone/modules/stickers/utils/methods.py:93
+msgid "Creating the sticker pack..."
+msgstr "ச்டிக்கர் பேக்கை உருவாக்குதல் ..."
+
+#: src/korone/modules/stickers/utils/methods.py:115
+msgid "Start"
+msgstr "தொடங்கு"
+
+#: src/korone/modules/stickers/utils/methods.py:119
+msgid ""
+"Oops, looks like I do not have enough permissions to create a sticker "
+"pack for you!\n"
+"<b>Please start the bot first.</b>"
+msgstr ""
+"அச்சச்சோ, உங்களுக்காக ஒரு ச்டிக்கர் பேக்கை உருவாக்க எனக்கு போதுமான அனுமதிகள் இல்லை என்று "
+"தெரிகிறது!\n"
+" <b> முதலில் போட் தொடங்கவும். </b>"
+
+#: src/korone/modules/stickers/utils/methods.py:126
+#, python-brace-format
+msgid "An error occurred: {}"
+msgstr "பிழை ஏற்பட்டது: {}"
+
+#: src/korone/modules/translator/handlers/translate.py:40
+#, python-brace-format
+msgid "Unsupported source language: {source_lang}"
+msgstr "ஆதரிக்கப்படாத மூல மொழி: {source_lang}"
+
+#: src/korone/modules/translator/handlers/translate.py:46
+#, python-brace-format
+msgid "Unsupported target language: {target_lang}"
+msgstr "ஆதரிக்கப்படாத இலக்கு மொழி: {target_lang}"
+
+#: src/korone/modules/translator/handlers/translate.py:51
+msgid "The text to translate is empty. Please provide some text."
+msgstr "மொழிபெயர்ப்பதற்கான உரை காலியாக உள்ளது. சில உரையை வழங்கவும்."
+
+#: src/korone/modules/translator/handlers/translate.py:60
+msgid ""
+"Korone has reached the translation quota. The DeepL API has a limit of "
+"500,000 characters per month for the free plan, and we have exceeded this"
+" limit."
+msgstr ""
+"கொரோன் மொழிபெயர்ப்பு ஒதுக்கீட்டை அடைந்துவிட்டார். இலவச திட்டத்திற்காக ஆழம்எல் பநிஇ "
+"மாதத்திற்கு 500,000 எழுத்துக்களின் வரம்பைக் கொண்டுள்ளது, மேலும் இந்த வரம்பை நாங்கள் "
+"மீறிவிட்டோம்."
+
+#: src/korone/modules/translator/handlers/translate.py:67
+#, python-brace-format
+msgid "Failed to translate text. Error: {error}"
+msgstr "உரையை மொழிபெயர்க்கத் தவறிவிட்டது. பிழை: {error}"
+
+#: src/korone/modules/translator/handlers/translate.py:71
+#, python-brace-format
+msgid ""
+"<b>Language:</b> <code>{source_lang}</code> => <code>{target_lang}</code>"
+"\n"
+"<b>Translation:</b> <code>{translated_text}</code>"
+msgstr ""
+"<b> மொழி: </b> <code> {source_lang} </code> => <code> {target_lang} </code>\n"
+" <b> மொழிபெயர்ப்பு: </b> <code> {translated_text} </code>"
+
+#: src/korone/modules/users/handlers/cleanup.py:21
+msgid "Removing deleted accounts..."
+msgstr "நீக்கப்பட்ட கணக்குகளை நீக்குதல் ..."
+
+#: src/korone/modules/users/handlers/cleanup.py:27
+msgid "Failed to fetch members."
+msgstr "உறுப்பினர்களைப் பெறுவதில் தோல்வி."
+
+#: src/korone/modules/users/handlers/cleanup.py:31
+msgid "No members found."
+msgstr "உறுப்பினர்கள் எதுவும் கிடைக்கவில்லை."
+
+#: src/korone/modules/users/handlers/cleanup.py:45
+#, python-brace-format
+msgid "Removed {count} deleted accounts."
+msgstr "அகற்றப்பட்டது {count} நீக்கப்பட்ட கணக்குகள்."
+
+#: src/korone/modules/users/handlers/cleanup.py:48
+msgid "No deleted accounts found."
+msgstr "நீக்கப்பட்ட கணக்குகள் எதுவும் கிடைக்கவில்லை."
+
+#: src/korone/modules/users/handlers/id.py:15
+#, python-brace-format
+msgid "Your ID is <code>{id}</code>"
+msgstr "உங்கள் அடையாளம் <code> {id} </code>"
+
+#: src/korone/modules/users/handlers/id.py:22
+#, python-brace-format
+msgid ""
+"\n"
+"Chat ID: <code>{id}</code>"
+msgstr ""
+"\n"
+"அரட்டை ஐடி: <code> {id} </code>"
+
+#: src/korone/modules/users/handlers/id.py:27
+#, python-brace-format
+msgid ""
+"\n"
+"{user} ID: <code>{id}</code>"
+msgstr ""
+"\n"
+"{user} ஐடி: <code> {id} </code>"
+
+#: src/korone/modules/users/handlers/id.py:35
+#, python-brace-format
+msgid ""
+"\n"
+"Forwarded user ID: <code>{id}</code>"
+msgstr ""
+"\n"
+"முன்னோக்கி பயனர் ஐடி: <code> {id} </code>"
+
+#: src/korone/modules/users/handlers/users.py:25
+msgid "Invalid identifier provided."
+msgstr "தவறான அடையாளங்காட்டி வழங்கப்பட்டது."
+
+#: src/korone/modules/users/handlers/users.py:32
+msgid "No user found with the provided identifier"
+msgstr "வழங்கப்பட்ட அடையாளங்காட்டியுடன் எந்த பயனரும் கிடைக்கவில்லை"
+
+#: src/korone/modules/users/handlers/users.py:43
+msgid "The provided user ID is invalid."
+msgstr "வழங்கப்பட்ட பயனர் ஐடி தவறானது."
+
+#: src/korone/modules/users/handlers/users.py:44
+msgid "The provided username is invalid."
+msgstr "வழங்கப்பட்ட பயனர்பெயர் தவறானது."
+
+#: src/korone/modules/users/handlers/users.py:45
+msgid "The provided username does not exist."
+msgstr "வழங்கப்பட்ட பயனர்பெயர் இல்லை."
+
+#: src/korone/modules/users/handlers/users.py:46
+msgid "No entity found with the provided identifier."
+msgstr "வழங்கப்பட்ட அடையாளங்காட்டியுடன் எந்த நிறுவனமும் காணப்படவில்லை."
+
+#: src/korone/modules/users/handlers/users.py:47
+msgid "Error accessing data."
+msgstr "தரவை அணுகுவதில் பிழை."
+
+#: src/korone/modules/users/handlers/users.py:48
+msgid "The provided value is not valid."
+msgstr "வழங்கப்பட்ட மதிப்பு செல்லுபடியாகாது."
+
+#: src/korone/modules/users/handlers/users.py:55
+msgid "An unexpected error occurred."
+msgstr "எதிர்பாராத பிழை ஏற்பட்டது."
+
+#: src/korone/modules/users/handlers/users.py:62
+msgid "Identifier out of range for SQLite INTEGER"
+msgstr "SQLITE முழு எண் க்கான வரம்பிற்கு வெளியே அடையாளங்காட்டி"
+
+#: src/korone/modules/users/handlers/users.py:67
+msgid "Username must be at least 2 characters long"
+msgstr "பயனர்பெயர் குறைந்தது 2 எழுத்துக்கள் நீளமாக இருக்க வேண்டும்"
+
+#: src/korone/modules/users/handlers/users.py:70
+msgid "Identifier must be a number or a username starting with @"
+msgstr ""
+"அடையாளங்காட்டி ஒரு எண் அல்லது பயனர்பெயராக இருக்க வேண்டும் @ உடன் தொடங்குகிறது"
+
+#: src/korone/modules/users/handlers/users.py:80
+msgid "<b>User info</b>:\n"
+msgstr "<b> பயனர் செய்தி </b>:\n"
+
+#: src/korone/modules/users/handlers/users.py:81
+#, python-brace-format
+msgid "<b>ID</b>: <code>{id}</code>\n"
+msgstr "<b> ஐடி </b>: <code> {id} </code>\n"
+
+#: src/korone/modules/users/handlers/users.py:82
+#, python-brace-format
+msgid "<b>First Name</b>: {first_name}\n"
+msgstr "<b> முதல் பெயர் </b>: {first_name}\n"
+
+#: src/korone/modules/users/handlers/users.py:87
+#, python-brace-format
+msgid "<b>Last Name</b>: {last_name}\n"
+msgstr "<b> கடைசி பெயர் </b>: {last_name}\n"
+
+#: src/korone/modules/users/handlers/users.py:90
+#, python-brace-format
+msgid "<b>Username</b>: @{username}\n"
+msgstr "<b> பயனர்பெயர் </b>: @{username}\n"
+
+#: src/korone/modules/users/handlers/users.py:92
+#, python-brace-format
+msgid "<b>User link</b>: <a href='tg://user?id={id}'>link</a>\n"
+msgstr ""
+"<b> பயனர் இணைப்பு </b>: <a href = 'tg: // பயனர்? ஐடி = {id}'> இணைப்பு </a>\n"
+
+#: src/korone/modules/weather/handlers/get.py:31
+msgid "Temperature:"
+msgstr "வெப்பநிலை:"
+
+#: src/korone/modules/weather/handlers/get.py:32
+msgid "Temperature feels like:"
+msgstr "வெப்பநிலை உணர்கிறது:"
+
+#: src/korone/modules/weather/handlers/get.py:33
+msgid "Air humidity:"
+msgstr "காற்று ஈரப்பதம்:"
+
+#: src/korone/modules/weather/handlers/get.py:34
+msgid "Wind Speed:"
+msgstr "காற்றின் வேகம்:"
+
+#: src/korone/modules/weather/handlers/get.py:46
+msgid ""
+"No location provided. You should provide a location. Example: "
+"<code>/weather Rio de Janeiro</code>"
+msgstr ""
+"எந்த இடமும் வழங்கப்படவில்லை. நீங்கள் ஒரு இடத்தை வழங்க வேண்டும். எடுத்துக்காட்டு: "
+"<code>/வானிலை ரியோ டி செனிரோ </code>"
+
+#: src/korone/modules/weather/handlers/get.py:61
+#: src/korone/modules/weather/handlers/get.py:125
+msgid "Failed to fetch weather data."
+msgstr "வானிலை தரவைப் பெறுவதில் தோல்வி."
+
+#: src/korone/modules/weather/handlers/get.py:72
+msgid "No locations found for the provided query."
+msgstr "வழங்கப்பட்ட வினவலுக்கு இடங்கள் எதுவும் கிடைக்கவில்லை."
+
+#: src/korone/modules/weather/handlers/get.py:85
+msgid "Please select a location:"
+msgstr "இருப்பிடத்தைத் தேர்ந்தெடுக்கவும்:"
+
+#: src/korone/modules/weather/handlers/get.py:99
+msgid "Session expired. Please try again."
+msgstr "அமர்வு காலாவதியானது. மீண்டும் முயற்சிக்கவும்."
+
+#: src/korone/modules/weather/handlers/get.py:132
+msgid "Incomplete weather data received."
+msgstr "பெறப்பட்ட முழுமையற்ற வானிலை தரவு."
+
+#: src/korone/modules/web/handlers/ip.py:21
+msgid ""
+"You should provide an IP address or domain name to get "
+"information.Example: <code>/ip google.com</code>."
+msgstr ""
+"தகவலைப் பெற நீங்கள் ஒரு ஐபி முகவரி அல்லது டொமைன் பெயரை வழங்க வேண்டும். எடுத்துக்காட்டு: "
+"<code>/ip Google.com </code>."
+
+#: src/korone/modules/web/handlers/ip.py:30
+msgid "No valid IP addresses or domain names found in the provided input."
+msgstr ""
+"வழங்கப்பட்ட உள்ளீட்டில் செல்லுபடியாகும் ஐபி முகவரிகள் அல்லது டொமைன் பெயர்கள் இல்லை."
+
+#: src/korone/modules/web/handlers/ip.py:39
+#: src/korone/modules/web/handlers/ip.py:73
+#, python-brace-format
+msgid "No information found for {ip_or_domain}."
+msgstr "{ip_or_domain}க்கு எந்தத் தகவலும் கிடைக்கவில்லை."
+
+#: src/korone/modules/web/handlers/ip.py:46
+#: src/korone/modules/web/handlers/ip.py:80
+#, python-brace-format
+msgid ""
+"The provided IP address <code>{ip}</code> is a <i>bogon</i> IP address, "
+"meaning it is either not in use or is reserved for special use."
+msgstr ""
+"வழங்கப்பட்ட ஐபி முகவரி <code> {ip} </code> என்பது ஒரு <i> போகோன் </i> ஐபி முகவரி, "
+"அதாவது இது பயன்பாட்டில் இல்லை அல்லது சிறப்பு பயன்பாட்டிற்காக ஒதுக்கப்பட்டுள்ளது."
+
+#: src/korone/modules/web/handlers/ip.py:61
+msgid "Please select an IP address:"
+msgstr "ஐபி முகவரியைத் தேர்ந்தெடுக்கவும்:"
+
+#: src/korone/modules/web/handlers/whois.py:20
+msgid ""
+"You should provide a domain name to get whois information. Example: "
+"<code>/whois google.com</code>."
+msgstr ""
+"WHOIS தகவல்களைப் பெற நீங்கள் ஒரு டொமைன் பெயரை வழங்க வேண்டும். எடுத்துக்காட்டு: <code>/"
+"WHOIS Google.com </code>."
+
+#: src/korone/modules/web/handlers/whois.py:33
+#, python-brace-format
+msgid "An error occurred while fetching whois information: {error}"
+msgstr "WHOIS தகவலைப் பெறும்போது பிழை ஏற்பட்டது: {error}"
+
+#: src/korone/modules/web/handlers/whois.py:39
+#, python-brace-format
+msgid "No whois information found for <code>{domain}</code>."
+msgstr "<code> {domain} </code> க்கு WHOIS செய்தி இல்லை."
+
+#: src/korone/utils/commands_list.py:26
+msgid "Start the bot."
+msgstr "போட் தொடங்கவும்."
+
+#: src/korone/utils/commands_list.py:27
+msgid "Show help message."
+msgstr "உதவி செய்தியைக் காட்டு."
+
+#: src/korone/utils/commands_list.py:28
+msgid "About the bot."
+msgstr "போட் பற்றி."
+
+#: src/korone/utils/commands_list.py:29
+msgid "Show privacy policy."
+msgstr "தனியுரிமைக் கொள்கையைக் காட்டு."
+
+#: src/korone/utils/commands_list.py:30
+msgid "Change the bot language."
+msgstr "போட் மொழியை மாற்றவும்."
