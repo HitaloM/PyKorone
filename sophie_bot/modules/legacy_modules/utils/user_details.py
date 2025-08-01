@@ -17,6 +17,7 @@ from sophie_bot.modules.legacy_modules.utils.message import get_arg, get_args_st
 from sophie_bot.services.bot import bot
 from sophie_bot.services.db import db
 from sophie_bot.services.redis import bredis
+from sophie_bot.utils.i18n import gettext as _
 from sophie_bot.utils.logger import log
 from .language import get_string
 
@@ -331,30 +332,31 @@ def get_chat_dec(allow_self=False, fed=False):
             if arg.startswith("-") or arg.isdigit():
                 chat = await db.chat_list.find_one({"chat_id": int(arg)})
                 if not chat:
-                    # Here is a workaround for aiogram 3.0, which changed dictionaries to objects
-                    if chat_request := await bot.get_chat(arg):
-                        chat = {
-                            "chat_id": chat_request.id,
-                            "chat_type": chat_request.type,
-                            "chat_title": chat_request.title,
-                            "chat_nick": chat_request.username,
-                            "first_detected_date": datetime.datetime.now(),
-                            "type": chat_request.type,
-                        }
-                    # except ChatNotFound:
-                    #     return await message.reply("I couldn't find the chat/channel! Maybe I am not there!")
-                    # except Unauthorized:
-                    #     return await message.reply("I couldn't access chat/channel! Maybe I was kicked from there!")
+                    try:
+                        # Here is a workaround for aiogram 3.0, which changed dictionaries to objects
+                        if chat_request := await bot.get_chat(arg):
+                            chat = {
+                                "chat_id": chat_request.id,
+                                "chat_type": chat_request.type,
+                                "chat_title": chat_request.title,
+                                "chat_nick": chat_request.username,
+                                "first_detected_date": datetime.datetime.now(),
+                                "type": chat_request.type,
+                            }
+                    except TelegramBadRequest:
+                        await message.reply(
+                            _("I couldn't find the chat / channel! Please ensure that I am added as an admin there!"))
+                        return
             elif arg.startswith("@"):
                 chat = await db.chat_list.find_one({"chat_nick": re.compile(arg.strip("@"), re.IGNORECASE)})
             elif allow_self is True:
                 chat = await db.chat_list.find_one({"chat_id": message.chat.id})
             else:
-                await message.reply("Please give me valid chat ID/username")
+                await message.reply(_("Please give me valid chat ID/username"))
                 return
 
             if not chat:
-                await message.reply("I can't find any chats on given information!")
+                await message.reply(_("I can't find any chats on given information!"))
                 return
 
             return await func(*args, chat, **kwargs)
