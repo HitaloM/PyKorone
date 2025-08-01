@@ -1,3 +1,4 @@
+import html
 from re import findall, sub
 
 from aiogram.types import InlineKeyboardButton, InlineKeyboardMarkup
@@ -15,6 +16,10 @@ def legacy_button_parser(chat_id, texts, pm=False) -> tuple[str, InlineKeyboardM
     btn = None
     for raw_button in raw_buttons:
         name = raw_button[0]
+
+        # Restore escaped name
+        name = html.unescape(name)
+
         action = raw_button[1] if raw_button[1] not in ("button", "btn") else raw_button[2]
 
         if raw_button[3]:
