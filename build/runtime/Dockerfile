@@ -1,4 +1,4 @@
-FROM python:3.12-slim as builder
+FROM python:3.14-rc-slim as builder
 
 ENV PIP_DEFAULT_TIMEOUT=100 \
     PIP_DISABLE_PIP_VERSION_CHECK=1 \
@@ -32,7 +32,7 @@ RUN BRANCH_NAME=$(git rev-parse --abbrev-ref HEAD) && \
     echo "SOPHIE_BRANCH = \"$BRANCH_NAME\"" >> /build/sophie_bot/versions.py
 
 
-FROM python:3.12-slim as final
+FROM python:3.14-rc-slim as final
 
 ENV PYTHONFAULTHANDLER=1 \
     PYTHONHASHSEED=random \
