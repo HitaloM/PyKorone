@@ -5,7 +5,7 @@ description = "Sophie is modern and fast Telegram chat manager bot"
 authors = ["Yacha <yacha@orangefox.tech>"]
 
 [tool.poetry.dependencies]
-python = "~3.12"
+python = "^3.12"
 aiogram = "^3.21"
 redis = "^6"
 motor = "^3.6"
