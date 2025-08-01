@@ -1,5 +1,6 @@
 # Copyright (C) 2018 - 2020 MrYacha. All rights reserved. Source code available under the AGPL.
 # Copyright (C) 2019 Aiogram
+import datetime
 import html
 import pickle
 import re
@@ -17,7 +18,6 @@ from sophie_bot.services.bot import bot
 from sophie_bot.services.db import db
 from sophie_bot.services.redis import bredis
 from sophie_bot.utils.logger import log
-
 from .language import get_string
 
 
@@ -331,7 +331,16 @@ def get_chat_dec(allow_self=False, fed=False):
             if arg.startswith("-") or arg.isdigit():
                 chat = await db.chat_list.find_one({"chat_id": int(arg)})
                 if not chat:
-                    chat = await bot.get_chat(arg)
+                    # Here is a workaround for aiogram 3.0, which changed dictionaries to objects
+                    if chat_request := await bot.get_chat(arg):
+                        chat = {
+                            "chat_id": chat_request.id,
+                            "chat_type": chat_request.type,
+                            "chat_title": chat_request.title,
+                            "chat_nick": chat_request.username,
+                            "first_detected_date": datetime.datetime.now(),
+                            "type": chat_request.type,
+                        }
                     # except ChatNotFound:
                     #     return await message.reply("I couldn't find the chat/channel! Maybe I am not there!")
                     # except Unauthorized:
