@@ -33,7 +33,13 @@ class BaseMediaHandler:
 
     @staticmethod
     def truncate_caption(caption: str, max_length: int = 1024) -> str:
-        if not caption or len(caption) <= max_length:
+        if not caption:
+            return ""
+
+        if not isinstance(caption, str):
+            caption = str(caption)
+
+        if len(caption) <= max_length:
             return caption
 
         return caption[: max_length - 3] + "[...]"
