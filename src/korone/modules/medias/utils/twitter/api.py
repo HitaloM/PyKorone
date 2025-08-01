@@ -29,11 +29,28 @@ async def fetch_tweet(url: str) -> Tweet | None:
             response = await client.get(fx_url)
             response.raise_for_status()
 
-            if response.json()["code"] != 200:
-                raise TwitterError(response.json()["message"])
+            try:
+                response_data = response.json()
+            except Exception as e:
+                await logger.aexception("[Medias/Twitter] Error parsing JSON response: %s", e)
+                msg = "Invalid JSON response"
+                raise TwitterError(msg) from e
 
-            model = Response.model_validate_json(response.text)
-            return model.tweet
+            if not isinstance(response_data, dict):
+                msg = "Invalid response format"
+                raise TwitterError(msg)
+
+            if response_data.get("code") != 200:
+                error_message = response_data.get("message", "Unknown error")
+                raise TwitterError(str(error_message))
+
+            try:
+                model = Response.model_validate_json(response.text)
+                return model.tweet
+            except Exception as e:
+                await logger.aexception("[Medias/Twitter] Error validating response model: %s", e)
+                msg = "Invalid response model"
+                raise TwitterError(msg) from e
     except httpx.HTTPError as e:
         await logger.aexception("[Medias/Twitter] Error fetching tweet data: %s", e)
         raise TwitterError from e
