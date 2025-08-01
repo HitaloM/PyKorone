@@ -1576,6 +1576,18 @@ msgstr ""
 msgid "⚠️ Warn"
 msgstr ""
 
+#: sophie_bot/modules/legacy_modules/utils/user_details.py:349
+msgid "I couldn't find the chat / channel! Please ensure that I am added as an admin there!"
+msgstr ""
+
+#: sophie_bot/modules/legacy_modules/utils/user_details.py:357
+msgid "Please give me valid chat ID/username"
+msgstr ""
+
+#: sophie_bot/modules/legacy_modules/utils/user_details.py:361
+msgid "I can't find any chats on given information!"
+msgstr ""
+
 #: sophie_bot/modules/locks/__init__.py:6
 msgid "Locks"
 msgstr ""

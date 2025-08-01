@@ -19,6 +19,7 @@ from sophie_bot.services.db import db
 from sophie_bot.services.redis import bredis
 from sophie_bot.utils.i18n import gettext as _
 from sophie_bot.utils.logger import log
+
 from .language import get_string
 
 
@@ -345,7 +346,8 @@ def get_chat_dec(allow_self=False, fed=False):
                             }
                     except TelegramBadRequest:
                         await message.reply(
-                            _("I couldn't find the chat / channel! Please ensure that I am added as an admin there!"))
+                            _("I couldn't find the chat / channel! Please ensure that I am added as an admin there!")
+                        )
                         return
             elif arg.startswith("@"):
                 chat = await db.chat_list.find_one({"chat_nick": re.compile(arg.strip("@"), re.IGNORECASE)})
