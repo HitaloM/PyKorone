@@ -85,11 +85,21 @@ async def fetch_tweet_data(url: str) -> Tweet | None:
 
 
 def format_tweet_text(tweet: Tweet) -> str:
-    text = f"<b>{tweet.author.name} (<code>@{tweet.author.screen_name}</code>):</b>\n"
-    if tweet.text:
-        text += html.escape(f"\n{tweet.text[:900]}{'...' if len(tweet.text) > 900 else ''}\n")
-    if tweet.source:
-        text += _("\n<b>Sent from:</b> <i>{source}</i>").format(source=tweet.source)
+    if not tweet or not tweet.author:
+        return ""
+
+    name = getattr(tweet.author, "name", "") or ""
+    screen_name = getattr(tweet.author, "screen_name", "") or ""
+    text = f"<b>{html.escape(name)} (<code>@{html.escape(screen_name)}</code>):</b>\n"
+
+    if hasattr(tweet, "text") and tweet.text:
+        tweet_text = str(tweet.text)
+        text += html.escape(f"\n{tweet_text[:900]}{'...' if len(tweet_text) > 900 else ''}\n")
+
+    if hasattr(tweet, "source") and tweet.source:
+        source = str(tweet.source)
+        text += _("\n<b>Sent from:</b> <i>{source}</i>").format(source=html.escape(source))
+
     return text
 
 
@@ -109,6 +119,10 @@ async def process_multiple_media(
 
     if not media_list:
         return
+
+    # Ensure text is a string before setting as caption
+    if not isinstance(text, str):
+        text = str(text) if text else ""
 
     media_list[-1].caption = text
 
@@ -188,7 +202,9 @@ async def send_media(
     if not media_file:
         return None
 
-    # Truncate text to fit Telegram's character limit
+    # Ensure text is a string and truncate to fit Telegram's character limit
+    if not isinstance(text, str):
+        text = str(text) if text else ""
     text = BaseMediaHandler.truncate_caption(text)
 
     action = (
