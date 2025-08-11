@@ -14,6 +14,7 @@ from stfu_tg.doc import Element
 from sophie_bot.config import CONFIG
 from sophie_bot.db.models import AIMemoryModel
 from sophie_bot.middlewares.connections import ChatConnection
+from sophie_bot.modules.ai.agent_tools.cmds_help import CmdsHelpAgentTool
 from sophie_bot.modules.ai.agent_tools.memory import MemoryAgentTool
 from sophie_bot.modules.ai.utils.ai_get_provider import get_chat_default_model
 from sophie_bot.modules.ai.utils.ai_header import ai_header
@@ -28,12 +29,14 @@ from sophie_bot.utils.i18n import lazy_gettext as l_
 
 CHATBOT_TOOLS = [
     MemoryAgentTool(),
+    CmdsHelpAgentTool(),
     tavily_search_tool(api_key=CONFIG.tavily_api_key),
     # notes_list_ai_tool(),
 ]
 CHATBOT_TOOLS_DICT: dict[str, Tool] = {tool.name: tool for tool in CHATBOT_TOOLS}
 CHATBOT_TOOLS_TITLES = {
     "write_memory": l_("Memory updated 💾"),
+    "cmds_help": l_("Commands help 📋"),
     "tavily_search": l_("Internet Search 🔍"),
     "get_notes": l_("Scanned notes 🗒"),
 }
