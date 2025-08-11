@@ -1,11 +1,18 @@
 # SPDX-License-Identifier: BSD-3-Clause
 # Copyright (c) 2025 Hitalo M. <https://github.com/HitaloM>
 
-from hydrogram.errors import ChannelPrivate, ChatWriteForbidden, FloodWait, MessageIdInvalid
+from hydrogram.errors import (
+    ChannelPrivate,
+    ChatWriteForbidden,
+    FloodWait,
+    MessageIdInvalid,
+    TopicClosed,
+)
 
 IGNORED_EXCEPTIONS: tuple[type[Exception], ...] = (
     FloodWait,
     ChatWriteForbidden,
     ChannelPrivate,
     MessageIdInvalid,
+    TopicClosed,
 )
