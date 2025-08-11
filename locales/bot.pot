@@ -230,33 +230,33 @@ msgstr ""
 msgid "Generates a new AI mode"
 msgstr ""
 
-#: sophie_bot/modules/ai/handlers/pm.py:21
+#: sophie_bot/modules/ai/handlers/pm.py:23
 msgid "Start the AI ChatBot mode"
 msgstr ""
 
-#: sophie_bot/modules/ai/handlers/pm.py:31
+#: sophie_bot/modules/ai/handlers/pm.py:34
 #, python-brace-format
 msgid "{ai_emoji} Entered to the AI Mode, in this mode you can directly interact with the AI."
 msgstr ""
 
-#: sophie_bot/modules/ai/handlers/pm.py:36
+#: sophie_bot/modules/ai/handlers/pm.py:39
 #, python-brace-format
 msgid "By using the AI, you agree to the {privacy_policy} of the bot and third party AI services used."
 msgstr ""
 
-#: sophie_bot/modules/ai/handlers/pm.py:37
+#: sophie_bot/modules/ai/handlers/pm.py:40
 msgid "privacy policy"
 msgstr ""
 
-#: sophie_bot/modules/ai/handlers/pm.py:39
+#: sophie_bot/modules/ai/handlers/pm.py:42
 msgid "Click on the button below to exit."
 msgstr ""
 
-#: sophie_bot/modules/ai/handlers/pm.py:52
+#: sophie_bot/modules/ai/handlers/pm.py:50
 msgid "Hello! How can I help you?"
 msgstr ""
 
-#: sophie_bot/modules/ai/handlers/pm.py:63
+#: sophie_bot/modules/ai/handlers/pm.py:65
 msgid "The AI mode has been exited."
 msgstr ""
 
@@ -358,27 +358,31 @@ msgstr[1] ""
 msgid "By using AI features you agree to the our Privacy Policy (/privacy) and third party AI services used."
 msgstr ""
 
-#: sophie_bot/modules/ai/utils/ai_chatbot_reply.py:36
+#: sophie_bot/modules/ai/utils/ai_chatbot_reply.py:38
 msgid "Memory updated 💾"
 msgstr ""
 
-#: sophie_bot/modules/ai/utils/ai_chatbot_reply.py:37
+#: sophie_bot/modules/ai/utils/ai_chatbot_reply.py:39
+msgid "Commands help 📋"
+msgstr ""
+
+#: sophie_bot/modules/ai/utils/ai_chatbot_reply.py:40
 msgid "Internet Search 🔍"
 msgstr ""
 
-#: sophie_bot/modules/ai/utils/ai_chatbot_reply.py:38
+#: sophie_bot/modules/ai/utils/ai_chatbot_reply.py:41
 msgid "Scanned notes 🗒"
 msgstr ""
 
-#: sophie_bot/modules/ai/utils/ai_chatbot_reply.py:77
+#: sophie_bot/modules/ai/utils/ai_chatbot_reply.py:80
 msgid "You can use Tavily to search for information. Include information sources as links."
 msgstr ""
 
-#: sophie_bot/modules/ai/utils/ai_chatbot_reply.py:78
+#: sophie_bot/modules/ai/utils/ai_chatbot_reply.py:81
 msgid "You can also save important things to the memory."
 msgstr ""
 
-#: sophie_bot/modules/ai/utils/ai_chatbot_reply.py:81
+#: sophie_bot/modules/ai/utils/ai_chatbot_reply.py:84
 msgid "You have the following information in your memory"
 msgstr ""
 
@@ -1195,7 +1199,7 @@ msgstr ""
 
 #: sophie_bot/modules/help/__init__.py:23
 #: sophie_bot/modules/help/handlers/help_group.py:27
-#: sophie_bot/modules/help/handlers/pm_modules.py:60
+#: sophie_bot/modules/help/handlers/pm_modules.py:67
 #: sophie_bot/modules/help/handlers/start_group.py:34
 msgid "Help"
 msgstr ""
@@ -1212,38 +1216,46 @@ msgstr ""
 msgid "The help information available in the private messages with Sophie"
 msgstr ""
 
-#: sophie_bot/modules/help/handlers/pm_modules.py:25
+#: sophie_bot/modules/help/handlers/pm_modules.py:26
 msgid "Shows help overview for all modules"
 msgstr ""
 
-#: sophie_bot/modules/help/handlers/pm_modules.py:57
-#: sophie_bot/modules/help/handlers/pm_modules.py:113
+#: sophie_bot/modules/help/handlers/pm_modules.py:46
+msgid "💬✨ Chat with Sophie for help"
+msgstr ""
+
+#: sophie_bot/modules/help/handlers/pm_modules.py:64
+#: sophie_bot/modules/help/handlers/pm_modules.py:124
 #: sophie_bot/modules/privacy/handlers/privacy.py:30
 msgid "⬅️ Back"
 msgstr ""
 
-#: sophie_bot/modules/help/handlers/pm_modules.py:61
+#: sophie_bot/modules/help/handlers/pm_modules.py:68
 msgid "There are 2 help sources, you can read the detailed wiki or get a quick commands by modules overview."
 msgstr ""
 
-#: sophie_bot/modules/help/handlers/pm_modules.py:62
+#: sophie_bot/modules/help/handlers/pm_modules.py:69
 msgid "📖 Wiki (detailed information)"
 msgstr ""
 
-#: sophie_bot/modules/help/handlers/pm_modules.py:78
+#: sophie_bot/modules/help/handlers/pm_modules.py:71
+msgid "Alternatively you can now just chat with Sophie how to use herself!"
+msgstr ""
+
+#: sophie_bot/modules/help/handlers/pm_modules.py:89
 msgid "Module not found"
 msgstr ""
 
-#: sophie_bot/modules/help/handlers/pm_modules.py:101
+#: sophie_bot/modules/help/handlers/pm_modules.py:112
 #, python-brace-format
 msgid "Aliased commands from {module}"
 msgstr ""
 
-#: sophie_bot/modules/help/handlers/pm_modules.py:108
+#: sophie_bot/modules/help/handlers/pm_modules.py:119
 msgid "📖 Look the module's wiki page for more information"
 msgstr ""
 
-#: sophie_bot/modules/help/handlers/pm_modules.py:109
+#: sophie_bot/modules/help/handlers/pm_modules.py:120
 msgid "📖 Wiki page"
 msgstr ""
 
@@ -2333,8 +2345,9 @@ msgstr ""
 msgid "{user}'s ID: {id}"
 msgstr ""
 
-#: sophie_bot/modules/utils_/base_handler.py:86
-#: sophie_bot/modules/utils_/base_handler.py:101
+#: sophie_bot/modules/utils_/base_handler.py:84
+#: sophie_bot/modules/utils_/base_handler.py:99
+#: sophie_bot/modules/utils_/base_handler.py:108
 #: sophie_bot/modules/utils_/reply_or_edit.py:11
 msgid "The message is inaccessible. Please write the command again"
 msgstr ""

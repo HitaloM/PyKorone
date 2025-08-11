@@ -59,6 +59,7 @@ __handlers__ = (
     AIProviderSelectCallback,
     AIPlaygroundCmd,
     AIPlaygroundModelSelectCallback,
+    AiPmInitialize,
 )
 
 
@@ -86,7 +87,6 @@ async def __pre_setup__():
     # Trigger AI
     router.message.register(AiReplyHandler, *AiReplyHandler.filters())
 
-    router.message.register(AiPmInitialize, *AiPmInitialize.filters())
     router.message.register(AiPmStop, *AiPmStop.filters())
 
     router.message.register(AiPmHandle, *AiPmHandle.filters())

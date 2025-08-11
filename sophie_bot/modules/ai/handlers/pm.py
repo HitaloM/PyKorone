@@ -1,6 +1,6 @@
 from typing import Any
 
-from aiogram import F, flags
+from aiogram import F, Router, flags
 from aiogram.dispatcher.event.handler import CallbackType
 from aiogram.types import KeyboardButton, ReplyKeyboardMarkup, ReplyKeyboardRemove
 from stfu_tg import Bold, Doc, Template, Url
@@ -8,21 +8,24 @@ from stfu_tg import Bold, Doc, Template, Url
 from sophie_bot.config import CONFIG
 from sophie_bot.filters.chat_status import ChatTypeFilter
 from sophie_bot.filters.cmd import CMDFilter
-from sophie_bot.modules.ai.filters.ai_enabled import AIEnabledFilter
 from sophie_bot.modules.ai.filters.throttle import AIThrottleFilter
 from sophie_bot.modules.ai.fsm.pm import AI_PM_RESET, AI_PM_STOP_TEXT, AiPMFSM
 from sophie_bot.modules.ai.utils.ai_chatbot_reply import ai_chatbot_reply
-from sophie_bot.modules.utils_.base_handler import SophieMessageHandler
+from sophie_bot.modules.utils_.base_handler import (
+    SophieMessageCallbackQueryHandler,
+    SophieMessageHandler,
+)
 from sophie_bot.services.bot import bot
 from sophie_bot.utils.i18n import gettext as _
 from sophie_bot.utils.i18n import lazy_gettext as l_
 
 
 @flags.help(description=l_("Start the AI ChatBot mode"))
-class AiPmInitialize(SophieMessageHandler):
-    @staticmethod
-    def filters() -> tuple[CallbackType, ...]:
-        return CMDFilter("ai"), ChatTypeFilter("private"), AIEnabledFilter()
+class AiPmInitialize(SophieMessageCallbackQueryHandler):
+    @classmethod
+    def register(cls, router: Router):
+        router.message.register(cls, CMDFilter("ai"), ChatTypeFilter("private"))
+        router.callback_query.register(cls, ChatTypeFilter("private"))
 
     async def handle(self) -> Any:
         doc = Doc(
@@ -39,18 +42,17 @@ class AiPmInitialize(SophieMessageHandler):
             _("Click on the button below to exit."),
         )
 
+        state = self.data["state"]
+        await state.set_state(AiPMFSM.in_ai)
+
+        await self.answer(str(doc), disable_web_page_preview=True)
+
+        initial_fake_ai_response = _("Hello! How can I help you?")
         buttons = ReplyKeyboardMarkup(
             keyboard=[[KeyboardButton(text=str(AI_PM_STOP_TEXT)), KeyboardButton(text=str(AI_PM_RESET))]],
             resize_keyboard=True,
         )
-
-        state = self.data["state"]
-        await state.set_state(AiPMFSM.in_ai)
-
-        await self.event.reply(str(doc), reply_markup=buttons, disable_web_page_preview=True)
-
-        initial_fake_ai_response = _("Hello! How can I help you?")
-        await self.event.answer(initial_fake_ai_response)
+        await self.message.answer(initial_fake_ai_response, reply_markup=buttons)
 
 
 class AiPmStop(SophieMessageHandler):

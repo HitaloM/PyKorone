@@ -9,6 +9,7 @@ from stfu_tg import Doc, HList, Section, Title, Url
 from sophie_bot.config import CONFIG
 from sophie_bot.filters.chat_status import ChatTypeFilter
 from sophie_bot.filters.cmd import CMDFilter
+from sophie_bot.modules.ai.callbacks import AIChatCallback
 from sophie_bot.modules.help.callbacks import (
     PMHelpModule,
     PMHelpModules,
@@ -39,7 +40,13 @@ class PMModulesList(SophieMessageCallbackQueryHandler):
         if CONFIG.help_featured_module in HELP_MODULES:
             modules[CONFIG.help_featured_module] = HELP_MODULES[CONFIG.help_featured_module]
 
-        buttons = InlineKeyboardBuilder().row(
+        buttons = InlineKeyboardBuilder()
+
+        buttons.row(
+            InlineKeyboardButton(text=_("💬✨ Chat with Sophie for help"), callback_data=AIChatCallback().pack())
+        )
+
+        buttons.row(
             *(
                 InlineKeyboardButton(
                     text=f"{module.icon} {module.name}",
@@ -60,10 +67,14 @@ class PMModulesList(SophieMessageCallbackQueryHandler):
             Title(_("Help")),
             _("There are 2 help sources, you can read the detailed wiki or get a quick commands by modules overview."),
             Url(_("📖 Wiki (detailed information)"), CONFIG.wiki_link),
+            " ",
+            _("Alternatively you can now just chat with Sophie how to use herself!"),
         )
 
         if isinstance(self.event, CallbackQuery):
-            await self.event.message.edit_text(str(doc), reply_markup=buttons.as_markup(), disable_web_page_preview=True)  # type: ignore
+            await self.message.edit_text(
+                str(doc), reply_markup=buttons.as_markup(), disable_web_page_preview=True
+            )  # type: ignore
         else:
             await self.event.reply(str(doc), reply_markup=buttons.as_markup(), disable_web_page_preview=True)
 
@@ -117,4 +128,6 @@ class PMModuleHelp(CallbackQueryHandler):
         if not self.event.message:
             raise SophieException("Message not found")
 
-        await self.event.message.edit_text(str(doc), reply_markup=buttons.as_markup(), disable_web_page_preview=True)  # type: ignore
+        await self.event.message.edit_text(  # type: ignore
+            str(doc), reply_markup=buttons.as_markup(), disable_web_page_preview=True
+        )

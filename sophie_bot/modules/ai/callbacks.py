@@ -11,3 +11,7 @@ class AIProviderCallback(CallbackData, prefix="ai_provider"):
 
 class AIPlaygroundCallback(CallbackData, prefix="ai_playground"):
     model: str  # specific model name like 'gpt_4o', 'gemini_2_5_flash', etc.
+
+
+class AIChatCallback(CallbackData, prefix="ai_chat"):
+    pass

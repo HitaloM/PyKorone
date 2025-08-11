@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from typing import TYPE_CHECKING, Any, Optional, TypeVar
+from typing import Any, Optional, TypeVar
 
 from aiogram import Router
 from aiogram.dispatcher.event.handler import CallbackType
@@ -15,20 +15,18 @@ from aiogram.types import (
 from ass_tg.types.base_abc import ArgFabric
 from stfu_tg.doc import Element
 
+from sophie_bot.middlewares.connections import ChatConnection
 from sophie_bot.modules.utils_.reply_or_edit import reply_or_edit
 from sophie_bot.services.bot import bot
 from sophie_bot.utils.exception import SophieException
 from sophie_bot.utils.i18n import gettext as _
-
-if TYPE_CHECKING:
-    from sophie_bot.middlewares.connections import ChatConnection
 
 T = TypeVar("T")
 
 
 class SophieBaseHandler(BaseHandler[T], BaseHandlerMixin[T], ABC):
     @property
-    def connection(self) -> "ChatConnection":
+    def connection(self) -> ChatConnection:
         return self.data["connection"]
 
     @property
@@ -91,6 +89,15 @@ class SophieCallbackQueryHandler(SophieBaseHandler[CallbackQuery], ABC):
 
 
 class SophieMessageCallbackQueryHandler(SophieBaseHandler[Message | CallbackQuery], ABC):
+
+    @property
+    def message(self) -> Message:
+        message = self.message if isinstance(self.event, Message) else self.event.message
+        if not message:
+            raise SophieException("No message in the event")
+        if not isinstance(message, Message):
+            raise SophieException(_("The message is inaccessible. Please write the command again"))
+        return message
 
     @property
     def callback_data(self) -> Optional[Any]:
