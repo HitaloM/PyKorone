@@ -36,7 +36,7 @@ async def new_ai_generate_schema(
     """
     Generate AI response with structured schema output
     """
-    agent = Agent(model, result_type=schema)  # type: ignore
+    agent = Agent(model, output_type=schema)  # type: ignore
     result = await ai_agent_run(
         agent, user_prompt=history.prompt, message_history=history.message_history
     )
