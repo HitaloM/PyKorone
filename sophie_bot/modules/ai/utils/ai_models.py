@@ -35,6 +35,8 @@ class OpenAIModels(Enum):
     o3_mini = "o3-mini"
     gpt_4o = "gpt-4o"
     gpt_4o_mini = "gpt-4o-mini"
+    gpt_5 = 'gpt-5'
+    gpt_5_mini = 'gpt-5-mini'
 
 
 AI_MODEL_TO_PROVIDER = {
@@ -44,6 +46,8 @@ AI_MODEL_TO_PROVIDER = {
     OpenAIModels.o3_mini.name: "openai",
     OpenAIModels.gpt_4o.name: "openai",
     OpenAIModels.gpt_4o_mini.name: "openai",
+    OpenAIModels.gpt_5.name: "openai",
+    OpenAIModels.gpt_5_mini.name: "openai",
 }
 
 AI_MODEL_TO_SHORT_NAME = {
@@ -53,6 +57,8 @@ AI_MODEL_TO_SHORT_NAME = {
     OpenAIModels.o3_mini.value: "o3 mini",
     OpenAIModels.gpt_4o.value: "GPT-4o",
     OpenAIModels.gpt_4o_mini.value: "GTP-4o mini",
+    OpenAIModels.gpt_5.value: "GPT-5",
+    OpenAIModels.gpt_5_mini.value: "GPT-5 mini",
 }
 
 
@@ -75,4 +81,4 @@ AI_MODELS: dict[str, Provider] = {
     model_name: build_models(provider, model_name) for model_name, provider in AI_MODEL_TO_PROVIDER.items()
 }
 
-DEFAULT_PROVIDER: Provider = AI_MODELS[GoogleModels.gemini_2_5_flash.name]
+DEFAULT_PROVIDER: Provider = AI_MODELS[OpenAIModels.gpt_5_mini.name]
