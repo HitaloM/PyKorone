@@ -1,6 +1,7 @@
 from sophie_bot.db.models import AIEnabledModel, BetaModeModel, ChatModel, NoteModel
 from sophie_bot.db.models.beta import CurrentMode
 from sophie_bot.modules.ai.json_schemas.update_note_description import AIUpdateNoteData
+from sophie_bot.modules.ai.utils.ai_get_provider import get_chat_default_provider
 from sophie_bot.modules.ai.utils.new_ai_chatbot import new_ai_generate_schema
 from sophie_bot.modules.ai.utils.new_message_history import NewAIMessageHistory
 from sophie_bot.modules.utils_.scheduler.chat_language import UseChatLanguage
@@ -11,7 +12,7 @@ from sophie_bot.utils.logger import log
 
 class GenerateAITitles:
     @staticmethod
-    async def generate_data(note: NoteModel) -> AIUpdateNoteData:
+    async def generate_data(note: NoteModel, chat_id: int) -> AIUpdateNoteData:
         system_prompt = _(
             "You need to update the data of the chat notes. Generate the note data from the provided note text"
         )
@@ -20,7 +21,8 @@ class GenerateAITitles:
         messages.add_custom(note.text or "", name=None)
         messages.add_system(system_prompt)
 
-        return await new_ai_generate_schema(messages, AIUpdateNoteData)
+        provider = await get_chat_default_provider(chat_id)
+        return await new_ai_generate_schema(messages, AIUpdateNoteData, provider)
 
     @staticmethod
     async def update_note(note: NoteModel, generated_data: AIUpdateNoteData):
@@ -46,7 +48,7 @@ class GenerateAITitles:
             if not note.text:
                 log.debug("generate_ai_titles: note has no text, skipping...", note=note)
 
-            generated_data = await self.generate_data(note)
+            generated_data = await self.generate_data(note, chat.id)
             await self.update_note(note, generated_data)
 
     async def handle(self):

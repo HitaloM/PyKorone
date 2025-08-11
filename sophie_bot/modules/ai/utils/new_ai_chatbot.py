@@ -6,15 +6,12 @@ from pydantic_ai import Agent
 from pydantic_ai.providers import Provider
 
 from sophie_bot.modules.ai.utils.ai_agent_run import AIAgentResult, ai_agent_run
-from sophie_bot.modules.ai.utils.ai_models import DEFAULT_PROVIDER
 from sophie_bot.modules.ai.utils.new_message_history import NewAIMessageHistory
 
 RESPONSE_TYPE = TypeVar("RESPONSE_TYPE", bound=BaseModel)
 
 
-async def new_ai_generate(
-        history: NewAIMessageHistory, model: Provider = DEFAULT_PROVIDER, agent_kwargs=None, **kwargs
-) -> AIAgentResult:
+async def new_ai_generate(history: NewAIMessageHistory, model: Provider, agent_kwargs=None, **kwargs) -> AIAgentResult:
     """
     Used to generate the AI Chat-bot result text
     """
@@ -29,28 +26,34 @@ async def new_ai_generate(
 
 
 async def new_ai_generate_schema(
-        history: NewAIMessageHistory,
-        schema: type[RESPONSE_TYPE],
-        model: Provider = DEFAULT_PROVIDER
+    history: NewAIMessageHistory, schema: type[RESPONSE_TYPE], model: Provider
 ) -> RESPONSE_TYPE:
     """
     Generate AI response with structured schema output
     """
     agent = Agent(model, output_type=schema)  # type: ignore
-    result = await ai_agent_run(
-        agent, user_prompt=history.prompt, message_history=history.message_history
-    )
+    result = await ai_agent_run(agent, user_prompt=history.prompt, message_history=history.message_history)
     return result.output  # type: ignore
 
 
-async def new_ai_reply(
-        message: Message,
-        markup: Optional[ReplyKeyboardMarkup] = None
-) -> Message:
+async def new_ai_reply(message: Message, markup: Optional[ReplyKeyboardMarkup] = None) -> Message:
     """
     Generate AI reply and send it as a message
     """
+    from sophie_bot.db.models import ChatModel
+    from sophie_bot.middlewares.connections import ChatConnection
     from sophie_bot.modules.ai.utils.ai_chatbot_reply import ai_chatbot_reply
 
-    # Use the existing ai_chatbot_reply implementation but with new history
-    return await ai_chatbot_reply(message, None, user_text=None, reply_markup=markup)
+    chat_db = await ChatModel.get_by_chat_id(message.chat.id)
+    if not chat_db:
+        raise ValueError("Chat not found in database")
+
+    connection = ChatConnection(
+        type=chat_db.type,
+        is_connected=False,
+        id=chat_db.chat_id,
+        title=chat_db.first_name_or_title,
+        db_model=chat_db,
+    )
+
+    return await ai_chatbot_reply(message, connection, user_text=None, reply_markup=markup)

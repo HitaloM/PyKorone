@@ -8,6 +8,7 @@ from stfu_tg.doc import Doc, Element, PreformattedHTML
 from sophie_bot.db.models import ChatModel
 from sophie_bot.middlewares.connections import ChatConnection
 from sophie_bot.modules.ai.filters.throttle import AIThrottleFilter
+from sophie_bot.modules.ai.utils.ai_get_provider import get_chat_default_provider
 from sophie_bot.modules.ai.utils.new_ai_chatbot import new_ai_generate
 from sophie_bot.modules.ai.utils.new_message_history import NewAIMessageHistory
 from sophie_bot.modules.filters.types.modern_action_abc import (
@@ -83,6 +84,7 @@ class AIReplyAction(ModernActionABC[AIReplyActionDataModel]):
             return
 
         messages = await NewAIMessageHistory.chatbot(message, additional_system_prompt=filter_data.prompt)
+        provider = await get_chat_default_provider(connection.id)
 
-        result = await new_ai_generate(messages)
-        return Doc(Title(_("✨ AI Response")), PreformattedHTML(legacy_markdown_to_html(result.output)))
+        result = await new_ai_generate(messages, provider)
+        return Doc(Title(_("✨ AI Response")), PreformattedHTML(legacy_markdown_to_html(str(result.output))))

@@ -49,10 +49,10 @@ class AIUserMessageFormatter:
 
     @classmethod
     def user_message(
-            cls,
-            text: str,
-            name: str,
-            reply_to_user: Optional[str] = None,
+        cls,
+        text: str,
+        name: str,
+        reply_to_user: Optional[str] = None,
     ):
         name = cls.sanitize_name(name)
         if reply_to_user:
@@ -109,12 +109,12 @@ class NewAIMessageHistory:
         )
 
     async def add_from_message(
-            self,
-            message: Message,
-            custom_text: Optional[str] = None,
-            normalize_texts: bool = False,
-            allow_reply_messages: bool = True,
-            disable_name: bool = False,
+        self,
+        message: Message,
+        custom_text: Optional[str] = None,
+        normalize_texts: bool = False,
+        allow_reply_messages: bool = True,
+        disable_name: bool = False,
     ):
         """Adds a user message to the context, returns a list of additional messages to cache for future use."""
 
@@ -142,7 +142,9 @@ class NewAIMessageHistory:
 
         # Message's text
         prompt.append(
-            message_text if disable_name else AIUserMessageFormatter.user_message(
+            message_text
+            if disable_name
+            else AIUserMessageFormatter.user_message(
                 text=message_text,
                 name=message.from_user.full_name,
                 reply_to_user=replied_user_name,
@@ -193,7 +195,7 @@ class NewAIMessageHistory:
 
     @staticmethod
     async def chatbot(
-            message: Message, custom_user_text: Optional[str] = None, additional_system_prompt: str = ""
+        message: Message, custom_user_text: Optional[str] = None, additional_system_prompt: str = ""
     ) -> "NewAIMessageHistory":
         """A simple chat-bot case - static method for compatibility."""
         history = NewAIMessageHistory()
@@ -205,18 +207,16 @@ class NewAIMessageHistory:
         """Builds a debug message for the message history."""
         items = VList(prefix="\n")
 
-        for item in self.message_history:
-            items.append(
-                HList(
-                    *(
-                        KeyValue(
-                            item.tool_name if isinstance(item, ToolCallPart) else item.part_kind,
-                            item.args if isinstance(item, ToolCallPart) else item.content,
-                        )
-                        for item in item.parts
-                    )
-                )
-            )
+        for msg in self.message_history:
+            kv_parts: list[Element] = []
+            for part in msg.parts:
+                if isinstance(part, ToolCallPart):
+                    kv_parts.append(KeyValue(part.tool_name, part.args))
+                else:
+                    # not all parts have 'content' attribute; guard for mypy and runtime
+                    content_value = part.content if hasattr(part, "content") else str(part)
+                    kv_parts.append(KeyValue(part.part_kind, content_value))
+            items.append(HList(*kv_parts))
 
         items += Section(
             HList(*(item.kind if not isinstance(item, str) else item for item in self.prompt)),

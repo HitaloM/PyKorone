@@ -12,8 +12,4 @@ def ai_get_model_text(provider: Model) -> Element:
 
 
 def ai_header(provider: Provider, *additional_elements: Element) -> Element:
-    return HList(
-        Title(AI_GENERATED_TEXT),
-        # Title(ai_get_model_text(model), bold=False),
-        *additional_elements
-    )
+    return HList(Title(AI_GENERATED_TEXT), Title(ai_get_model_text(provider), bold=False), *additional_elements)

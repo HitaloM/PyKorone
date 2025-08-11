@@ -1,0 +1,28 @@
+from pydantic_ai.providers import Provider
+
+from sophie_bot.db.models.ai_provider import AIProviderModel
+from sophie_bot.modules.ai.utils.ai_models import (
+    AI_MODELS,
+    DEFAULT_MODELS,
+    TRANSLATE_DEFAULT_MODELS,
+    AIProviders,
+)
+from sophie_bot.utils.logger import log
+
+
+async def get_chat_default_provider(chat_id: int) -> Provider:
+    provider_name = await AIProviderModel.get_provider_name(chat_id)
+    default_model_name = DEFAULT_MODELS.get(provider_name, DEFAULT_MODELS[AIProviders.auto.name])
+
+    log.debug(f"Default model for chat {chat_id}: {default_model_name}", provider_name=provider_name)
+
+    return AI_MODELS[default_model_name]
+
+
+async def get_chat_translations_provider(chat_id: int) -> Provider:
+    provider_name = await AIProviderModel.get_provider_name(chat_id)
+    default_model_name = TRANSLATE_DEFAULT_MODELS.get(provider_name, TRANSLATE_DEFAULT_MODELS[AIProviders.auto.name])
+
+    log.debug(f"Default model for chat {chat_id}: {default_model_name}", provider_name=provider_name)
+
+    return AI_MODELS[default_model_name]

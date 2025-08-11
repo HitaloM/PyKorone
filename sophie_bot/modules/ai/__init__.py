@@ -3,6 +3,10 @@ from stfu_tg import Doc
 
 from sophie_bot.modules.ai.handlers.ai_cmd import AiCmd
 from sophie_bot.modules.ai.handlers.ai_moderator_setting import AIModerator
+from sophie_bot.modules.ai.handlers.aiprovider import (
+    AIProviderSelectCallback,
+    AIProviderSetting,
+)
 from sophie_bot.modules.ai.handlers.aisave import AISaveNote
 from sophie_bot.modules.ai.handlers.autotranslate_setting import (
     AIAutotrans,
@@ -43,7 +47,7 @@ __module_info__ = LazyProxy(
 
 __filters__ = get_filter()
 __modern_actions__ = (AIReplyAction,)
-__handlers__ = (EnableAI, AIModerator, AIAutotrans)
+__handlers__ = (EnableAI, AIModerator, AIAutotrans, AIProviderSetting, AIProviderSelectCallback)
 
 
 async def __pre_setup__():

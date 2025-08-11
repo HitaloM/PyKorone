@@ -14,8 +14,8 @@ from sophie_bot.config import CONFIG
 from sophie_bot.db.models import AIMemoryModel
 from sophie_bot.middlewares.connections import ChatConnection
 from sophie_bot.modules.ai.agent_tools.memory import MemoryAgentTool
+from sophie_bot.modules.ai.utils.ai_get_provider import get_chat_default_provider
 from sophie_bot.modules.ai.utils.ai_header import ai_header
-from sophie_bot.modules.ai.utils.ai_models import DEFAULT_PROVIDER
 from sophie_bot.modules.ai.utils.ai_tool_context import SophieAIToolContenxt
 from sophie_bot.modules.ai.utils.new_ai_chatbot import new_ai_generate
 from sophie_bot.modules.ai.utils.new_message_history import NewAIMessageHistory
@@ -81,7 +81,7 @@ async def ai_chatbot_reply(message: Message, connection: ChatConnection, user_te
             Section(history.history_debug(), title="LLM History").to_html(), disable_web_page_preview=True
         )
 
-    model = DEFAULT_PROVIDER
+    model = await get_chat_default_provider(connection.db_model.id)
     result = await new_ai_generate(
         history, tools=CHATBOT_TOOLS, model=model, agent_kwargs={"deps": SophieAIToolContenxt(connection=connection)}
     )
@@ -90,11 +90,12 @@ async def ai_chatbot_reply(message: Message, connection: ChatConnection, user_te
     header = ai_header(model, *header_items)
 
     # Split if too long
-    length = len(result.output) + len(header.to_html())
+    output_text = str(result.output)
+    length = len(output_text) + len(header.to_html())
     if length > 4000:
-        result.output = result.output[:4000] + "..."
+        output_text = output_text[:4000] + "..."
 
-    doc = Doc(header, PreformattedHTML(legacy_markdown_to_html(result.output)))
+    doc = Doc(header, PreformattedHTML(legacy_markdown_to_html(output_text)))
 
     if CONFIG.debug_mode:
         doc += " "

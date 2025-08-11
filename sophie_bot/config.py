@@ -89,6 +89,7 @@ class Config(BaseSettings):
     openai_key: str | None = None
     gemini_api_key: str | None = None
     tavily_api_key: str = ""
+    mistral_api_key: str | None = None
 
     deepseek_key: Optional[str] = None
     ai_emoji: str = "✨"

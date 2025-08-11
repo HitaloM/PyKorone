@@ -6,6 +6,7 @@ from sophie_bot.db.models.ai_autotranslate import AIAutotranslateModel
 from sophie_bot.db.models.ai_enabled import AIEnabledModel
 from sophie_bot.db.models.ai_memory import AIMemoryModel
 from sophie_bot.db.models.ai_moderator import AIModeratorModel
+from sophie_bot.db.models.ai_provider import AIProviderModel
 from sophie_bot.db.models.ai_usage import AIUsageModel
 from sophie_bot.db.models.beta import BetaModeModel
 from sophie_bot.db.models.chat import ChatModel, ChatTopicModel, UserInGroupModel
@@ -40,4 +41,5 @@ models: List[Type[Document]] = [
     GreetingsModel,
     WSUserModel,
     FiltersModel,
+    AIProviderModel,
 ]

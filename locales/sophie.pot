@@ -46,23 +46,23 @@ msgstr ""
 msgid "Connected chat not found in the database. Please try to disconnect and connect again."
 msgstr ""
 
-#: sophie_bot/modules/ai/__init__.py:31
+#: sophie_bot/modules/ai/__init__.py:35
 msgid "Sophie AI"
 msgstr ""
 
-#: sophie_bot/modules/ai/__init__.py:33
+#: sophie_bot/modules/ai/__init__.py:37
 msgid "Rainbow sparkles and shininess"
 msgstr ""
 
-#: sophie_bot/modules/ai/__init__.py:36
+#: sophie_bot/modules/ai/__init__.py:40
 msgid "Sophie supports quite a few ways to use AI features."
 msgstr ""
 
-#: sophie_bot/modules/ai/__init__.py:37
+#: sophie_bot/modules/ai/__init__.py:41
 msgid "From a simple chat-bot, to the automatic translator. Have fun."
 msgstr ""
 
-#: sophie_bot/modules/ai/__init__.py:40
+#: sophie_bot/modules/ai/__init__.py:44
 msgid "Please note that you can make a limited amount of AI requests per day."
 msgstr ""
 
@@ -93,7 +93,7 @@ msgstr ""
 
 #: sophie_bot/modules/ai/handlers/ai_cmd.py:15
 #: sophie_bot/modules/ai/handlers/aisave.py:27
-#: sophie_bot/modules/ai/handlers/mode.py:14
+#: sophie_bot/modules/ai/handlers/mode.py:15
 msgid "Prompt"
 msgstr ""
 
@@ -107,6 +107,36 @@ msgstr ""
 
 #: sophie_bot/modules/ai/handlers/ai_moderator_setting.py:13
 msgid "✨ AI Moderator"
+msgstr ""
+
+#: sophie_bot/modules/ai/handlers/aiprovider.py:38
+msgid "Select the AI Provider for this chat"
+msgstr ""
+
+#: sophie_bot/modules/ai/handlers/aiprovider.py:55
+#: sophie_bot/modules/ai/handlers/aiprovider.py:94
+msgid "Current provider"
+msgstr ""
+
+#: sophie_bot/modules/ai/handlers/aiprovider.py:56
+#: sophie_bot/modules/ai/handlers/aiprovider.py:95
+msgid "AI Provider"
+msgstr ""
+
+#: sophie_bot/modules/ai/handlers/aiprovider.py:76
+msgid "You are not allowed to change this setting"
+msgstr ""
+
+#: sophie_bot/modules/ai/handlers/aiprovider.py:81
+msgid "Unknown provider"
+msgstr ""
+
+#: sophie_bot/modules/ai/handlers/aiprovider.py:85
+msgid "Chat is not initialized yet"
+msgstr ""
+
+#: sophie_bot/modules/ai/handlers/aiprovider.py:99
+msgid "Provider updated"
 msgstr ""
 
 #: sophie_bot/modules/ai/handlers/aisave.py:29
@@ -149,19 +179,19 @@ msgstr ""
 
 #: sophie_bot/modules/ai/handlers/filter.py:21
 #: sophie_bot/modules/ai/magic_handlers/filter.py:21
-#: sophie_bot/modules/ai/magic_handlers/modern_action.py:43
+#: sophie_bot/modules/ai/magic_handlers/modern_action.py:44
 msgid "Please send me the AI instruction to proceed!"
 msgstr ""
 
 #: sophie_bot/modules/ai/handlers/filter.py:22
 #: sophie_bot/modules/ai/magic_handlers/filter.py:22
-#: sophie_bot/modules/ai/magic_handlers/modern_action.py:44
+#: sophie_bot/modules/ai/magic_handlers/modern_action.py:45
 msgid "The AI will try to remember the chat context and will respond accordingly!"
 msgstr ""
 
 #: sophie_bot/modules/ai/handlers/filter.py:24
 #: sophie_bot/modules/ai/magic_handlers/filter.py:24
-#: sophie_bot/modules/ai/magic_handlers/modern_action.py:45
+#: sophie_bot/modules/ai/magic_handlers/modern_action.py:46
 msgid "For example, you can combine it with the warn filter: 'Tell the user how bad it is to speak profanity'"
 msgstr ""
 
@@ -170,13 +200,13 @@ msgstr ""
 msgid "Should be AI prompt, please try again!"
 msgstr ""
 
-#: sophie_bot/modules/ai/handlers/filter.py:55
-#: sophie_bot/modules/ai/magic_handlers/filter.py:55
-#: sophie_bot/modules/ai/magic_handlers/modern_action.py:88
+#: sophie_bot/modules/ai/handlers/filter.py:69
+#: sophie_bot/modules/ai/magic_handlers/filter.py:69
+#: sophie_bot/modules/ai/magic_handlers/modern_action.py:90
 msgid "✨ AI Response"
 msgstr ""
 
-#: sophie_bot/modules/ai/handlers/mode.py:15
+#: sophie_bot/modules/ai/handlers/mode.py:16
 msgid "Generates a new AI mode"
 msgstr ""
 
@@ -218,59 +248,71 @@ msgstr ""
 msgid "🔄 AI context and AI memory was successfully reset. AI will now operate in a clean state."
 msgstr ""
 
-#: sophie_bot/modules/ai/handlers/translate.py:25
+#: sophie_bot/modules/ai/handlers/translate.py:26
 msgid "Text to translate"
 msgstr ""
 
-#: sophie_bot/modules/ai/handlers/translate.py:32
+#: sophie_bot/modules/ai/handlers/translate.py:33
 msgid "Translates the given (or replied) text to the chat's selected language. Also transcribes the replied voice message to text"
 msgstr ""
 
-#: sophie_bot/modules/ai/handlers/translate.py:66
-msgid "You're the professional AI translator/transcriber."
+#: sophie_bot/modules/ai/handlers/translate.py:65
+#, python-brace-format
+msgid "If applicable, translate the photo to {language_name}"
 msgstr ""
 
-#: sophie_bot/modules/ai/handlers/translate.py:85
+#: sophie_bot/modules/ai/handlers/translate.py:72
+msgid "You're the professional AI translator / transcriber."
+msgstr ""
+
+#: sophie_bot/modules/ai/handlers/translate.py:73
+#, python-brace-format
+msgid ""
+"Translate the following text to {language_name}:\n"
+"{to_translate}"
+msgstr ""
+
+#: sophie_bot/modules/ai/handlers/translate.py:96
 msgid "Auto Translator"
 msgstr ""
 
-#: sophie_bot/modules/ai/handlers/translate.py:85
+#: sophie_bot/modules/ai/handlers/translate.py:96
 msgid "Translator"
 msgstr ""
 
-#: sophie_bot/modules/ai/handlers/translate.py:86
+#: sophie_bot/modules/ai/handlers/translate.py:97
 msgid "Voice"
 msgstr ""
 
-#: sophie_bot/modules/ai/handlers/translate.py:91
+#: sophie_bot/modules/ai/handlers/translate.py:102
 #, python-brace-format
 msgid "From {from_lang} to {to_lang}"
 msgstr ""
 
-#: sophie_bot/modules/ai/handlers/translate.py:101
+#: sophie_bot/modules/ai/handlers/translate.py:112
 msgid "Translation Notes"
 msgstr ""
 
-#: sophie_bot/modules/ai/magic_handlers/modern_action.py:36
+#: sophie_bot/modules/ai/magic_handlers/modern_action.py:37
 msgid "Please enter AI prompt"
 msgstr ""
 
-#: sophie_bot/modules/ai/magic_handlers/modern_action.py:55
+#: sophie_bot/modules/ai/magic_handlers/modern_action.py:56
 msgid "AI Response"
 msgstr ""
 
-#: sophie_bot/modules/ai/magic_handlers/modern_action.py:58
+#: sophie_bot/modules/ai/magic_handlers/modern_action.py:59
 #: sophie_bot/modules/notes/magic_handlers/modern_filter.py:31
 #: sophie_bot/modules/notes/magic_handlers/reply_action.py:45
 #: sophie_bot/modules/notes/magic_handlers/reply_action.py:48
 msgid "Reply to message"
 msgstr ""
 
-#: sophie_bot/modules/ai/magic_handlers/modern_action.py:64
+#: sophie_bot/modules/ai/magic_handlers/modern_action.py:65
 msgid "Send an AI Respond with prompt"
 msgstr ""
 
-#: sophie_bot/modules/ai/magic_handlers/modern_action.py:69
+#: sophie_bot/modules/ai/magic_handlers/modern_action.py:70
 msgid "Change AI prompt"
 msgstr ""
 
@@ -372,56 +414,29 @@ msgstr ""
 msgid "Content that depicts death, violence, or physical injury in graphic detail."
 msgstr ""
 
-#: sophie_bot/modules/ai/utils/new_message_history.py:80
+#: sophie_bot/modules/ai/utils/new_message_history.py:81
 msgid "You're a telegram bot named Sophie."
 msgstr ""
 
-#: sophie_bot/modules/ai/utils/new_message_history.py:81
+#: sophie_bot/modules/ai/utils/new_message_history.py:82
 msgid "Be funny when the topic is casual."
 msgstr ""
 
-#: sophie_bot/modules/ai/utils/new_message_history.py:83
+#: sophie_bot/modules/ai/utils/new_message_history.py:84
 msgid "Do not use tables, use only the following markdown elements: ** for bold, ~~ for strikethrough, ` for code, ``` for code blocks and []() for links."
 msgstr ""
 
-#: sophie_bot/modules/ai/utils/new_message_history.py:85
+#: sophie_bot/modules/ai/utils/new_message_history.py:86
 msgid "Today is "
 msgstr ""
 
-#: sophie_bot/modules/ai/utils/new_message_history.py:131
 #: sophie_bot/modules/ai/utils/new_message_history.py:133
-#: sophie_bot/modules/ai/utils/old_message_history.py:104
-#: sophie_bot/modules/ai/utils/old_message_history.py:106
+#: sophie_bot/modules/ai/utils/new_message_history.py:135
 msgid "<No text provided>"
 msgstr ""
 
-#: sophie_bot/modules/ai/utils/new_message_history.py:156
-#: sophie_bot/modules/ai/utils/old_message_history.py:126
+#: sophie_bot/modules/ai/utils/new_message_history.py:160
 msgid "Photo is empty"
-msgstr ""
-
-#: sophie_bot/modules/ai/utils/old_ai_chatbot.py:33
-msgid "No text from AI"
-msgstr ""
-
-#: sophie_bot/modules/ai/utils/old_message_history.py:68
-msgid "You're a bot named Sophie."
-msgstr ""
-
-#: sophie_bot/modules/ai/utils/old_message_history.py:69
-msgid "Respond concisely and stick to the current topic."
-msgstr ""
-
-#: sophie_bot/modules/ai/utils/old_message_history.py:71
-msgid "Please use only the following markdown elements: ** for bold, ~~ for strikethrough, ` for code, and ``` for preformatted text."
-msgstr ""
-
-#: sophie_bot/modules/ai/utils/old_message_history.py:73
-msgid "Don't use Tables. You can use emojis."
-msgstr ""
-
-#: sophie_bot/modules/ai/utils/old_message_history.py:115
-msgid "REPLY TO"
 msgstr ""
 
 #: sophie_bot/modules/disabling/__init__.py:17
@@ -1805,8 +1820,8 @@ msgstr ""
 msgid "No notes found by the provided search pattern {pattern}."
 msgstr ""
 
-#: sophie_bot/modules/notes/magic_handlers/descriptions_scheduler.py:51
-#: sophie_bot/modules/notes/schedules/generate_ai_titles.py:16
+#: sophie_bot/modules/notes/magic_handlers/descriptions_scheduler.py:52
+#: sophie_bot/modules/notes/schedules/generate_ai_titles.py:17
 msgid "You need to update the data of the chat notes. Generate the note data from the provided note text"
 msgstr ""
 

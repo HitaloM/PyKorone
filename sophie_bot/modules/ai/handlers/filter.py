@@ -46,13 +46,20 @@ async def ai_filter_handle(message: Message, chat: dict, data: dict):
 
     if message.text or message.caption and await AIThrottleFilter().__call__(message, chat_db):
         from sophie_bot.middlewares.connections import ChatConnection
-        connection = ChatConnection(db_model=chat_db)
-        
+
+        connection = ChatConnection(
+            type=chat_db.type,
+            is_connected=False,
+            id=chat_db.chat_id,
+            title=chat_db.first_name_or_title,
+            db_model=chat_db,
+        )
+
         # Create history with custom system prompt
         history = NewAIMessageHistory()
         await history.initialize_chat_history(message.chat.id, additional_system_prompt=prompt)
         await history.add_from_message(message)
-        
+
         await ai_chatbot_reply(message, connection, user_text=None)
 
 
