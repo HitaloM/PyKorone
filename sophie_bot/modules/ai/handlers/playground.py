@@ -9,6 +9,7 @@ from stfu_tg import Doc, KeyValue, Section
 
 from sophie_bot.config import CONFIG
 from sophie_bot.filters.cmd import CMDFilter
+from sophie_bot.filters.user_status import IsOP
 from sophie_bot.modules.ai.callbacks import AIPlaygroundCallback
 from sophie_bot.modules.ai.fsm.playground import AIPlaygroundFSM
 from sophie_bot.modules.ai.utils.ai_chatbot_reply import ai_chatbot_reply
@@ -51,7 +52,7 @@ def build_playground_keyboard(selected_model: str | None = None) -> InlineKeyboa
 
         # Arrange model buttons in rows of 2
         for i in range(0, len(model_buttons), 2):
-            row = model_buttons[i : i + 2]  # Take up to 2 buttons per row
+            row = model_buttons[i: i + 2]  # Take up to 2 buttons per row
             rows.append(row)
 
     return InlineKeyboardMarkup(inline_keyboard=rows)
@@ -60,18 +61,13 @@ def build_playground_keyboard(selected_model: str | None = None) -> InlineKeyboa
 @flags.args(
     text=OptionalArg(TextArg("Prompt to send to AI")),
 )
-@flags.help(description="AI Playground - Test different AI models (operators only)")
+@flags.help(exclude=True)
 class AIPlaygroundCmd(SophieMessageHandler):
     @staticmethod
     def filters() -> tuple[CallbackType, ...]:
-        return (CMDFilter(("aiplayground", "aiplay")),)
+        return CMDFilter(("aiplayground", "aiplay")), IsOP(is_op=True)
 
     async def handle(self):
-        # Check if user is operator
-        if not self.event.from_user or self.event.from_user.id not in CONFIG.operators:
-            await self.event.reply("❌ This command is only available for operators.")
-            return
-
         user_text = self.data.get("text")
 
         # Get current selected model for user from FSM state
