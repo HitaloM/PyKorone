@@ -3,7 +3,7 @@ from typing import Optional, TypeVar
 from aiogram.types import Message, ReplyKeyboardMarkup
 from pydantic import BaseModel
 from pydantic_ai import Agent
-from pydantic_ai.providers import Provider
+from pydantic_ai.models import Model
 
 from sophie_bot.modules.ai.utils.ai_agent_run import AIAgentResult, ai_agent_run
 from sophie_bot.modules.ai.utils.new_message_history import NewAIMessageHistory
@@ -11,14 +11,14 @@ from sophie_bot.modules.ai.utils.new_message_history import NewAIMessageHistory
 RESPONSE_TYPE = TypeVar("RESPONSE_TYPE", bound=BaseModel)
 
 
-async def new_ai_generate(history: NewAIMessageHistory, model: Provider, agent_kwargs=None, **kwargs) -> AIAgentResult:
+async def new_ai_generate(history: NewAIMessageHistory, model: Model, agent_kwargs=None, **kwargs) -> AIAgentResult:
     """
     Used to generate the AI Chat-bot result text
     """
     if agent_kwargs is None:
         agent_kwargs = dict()
 
-    agent = Agent(model, **kwargs)  # type: ignore
+    agent = Agent(model, **kwargs)
     result = await ai_agent_run(
         agent, user_prompt=history.prompt, message_history=history.message_history, **agent_kwargs
     )
@@ -26,14 +26,16 @@ async def new_ai_generate(history: NewAIMessageHistory, model: Provider, agent_k
 
 
 async def new_ai_generate_schema(
-    history: NewAIMessageHistory, schema: type[RESPONSE_TYPE], model: Provider
+    history: NewAIMessageHistory, schema: type[RESPONSE_TYPE], model: Model
 ) -> RESPONSE_TYPE:
     """
     Generate AI response with structured schema output
     """
-    agent = Agent(model, output_type=schema)  # type: ignore
-    result = await ai_agent_run(agent, user_prompt=history.prompt, message_history=history.message_history)
-    return result.output  # type: ignore
+    agent = Agent(model, output_type=schema)
+    result: AIAgentResult[RESPONSE_TYPE] = await ai_agent_run(
+        agent, user_prompt=history.prompt, message_history=history.message_history
+    )
+    return result.output
 
 
 async def new_ai_reply(message: Message, markup: Optional[ReplyKeyboardMarkup] = None) -> Message:

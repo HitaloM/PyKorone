@@ -8,9 +8,9 @@ from stfu_tg import Bold, Doc, HList, PreformattedHTML, Section, Template, Title
 from sophie_bot.filters.cmd import CMDFilter
 from sophie_bot.middlewares.connections import ChatConnection
 from sophie_bot.modules.ai.filters.ai_enabled import AIEnabledFilter
-from sophie_bot.modules.ai.fsm.pm import AI_GENERATED_TEXT
+from sophie_bot.modules.ai.fsm.playground import AI_GENERATED_TEXT
 from sophie_bot.modules.ai.json_schemas.translate import AITranslateResponseSchema
-from sophie_bot.modules.ai.utils.ai_get_provider import get_chat_translations_provider
+from sophie_bot.modules.ai.utils.ai_get_provider import get_chat_translations_model
 from sophie_bot.modules.ai.utils.new_ai_chatbot import new_ai_generate_schema
 from sophie_bot.modules.ai.utils.new_message_history import NewAIMessageHistory
 from sophie_bot.modules.ai.utils.transform_audio import transform_voice_to_text
@@ -81,7 +81,7 @@ class AiTranslate(MessageHandler):
 
         log.debug("AiTranslate", ai_context=ai_context.history_debug())
 
-        model = await get_chat_translations_provider(connection.id)
+        model = await get_chat_translations_model(connection.id)
         translated = await new_ai_generate_schema(ai_context, AITranslateResponseSchema, model=model)
 
         # Prevent extra translating

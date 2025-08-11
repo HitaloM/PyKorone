@@ -14,7 +14,7 @@ from sophie_bot.modules.ai.filters.ai_enabled import AIEnabledFilter
 from sophie_bot.modules.ai.json_schemas.aisave import (
     AISaveResponseSchema,
 )
-from sophie_bot.modules.ai.utils.ai_get_provider import get_chat_default_provider
+from sophie_bot.modules.ai.utils.ai_get_provider import get_chat_default_model
 from sophie_bot.modules.ai.utils.new_ai_chatbot import new_ai_generate_schema
 from sophie_bot.modules.ai.utils.new_message_history import NewAIMessageHistory
 from sophie_bot.modules.notes.utils.names import format_notes_aliases
@@ -85,6 +85,6 @@ class AISaveNote(MessageHandler):
         )
 
         messages = await NewAIMessageHistory.chatbot(self.event, custom_user_text=prompt)
-        provider = await get_chat_default_provider(self.data["connection"].id)
+        provider = await get_chat_default_model(self.data["connection"].id)
 
         return await new_ai_generate_schema(messages, AISaveResponseSchema, provider)

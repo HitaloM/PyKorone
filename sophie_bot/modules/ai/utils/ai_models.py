@@ -2,10 +2,10 @@ from enum import Enum
 from typing import Mapping, Type
 
 from httpx import AsyncClient
+from pydantic_ai.models import Model
 from pydantic_ai.models.google import GoogleModel
 from pydantic_ai.models.mistral import MistralModel
 from pydantic_ai.models.openai import OpenAIModel
-from pydantic_ai.providers import Provider
 from pydantic_ai.providers.google import GoogleProvider
 from pydantic_ai.providers.mistral import MistralProvider
 from pydantic_ai.providers.openai import OpenAIProvider
@@ -27,7 +27,11 @@ AI_PROVIDERS = {
     AIProviders.mistral.name: MistralProvider(api_key=CONFIG.mistral_api_key or ""),
     AIProviders.openai.name: OpenAIProvider(api_key=CONFIG.openai_key or "", http_client=ai_http_client),
 }
-AI_MODEL_CLASSES = {AIProviders.google.name: GoogleProvider, AIProviders.mistral.name: MistralModel, AIProviders.openai.name: OpenAIModel}
+AI_MODEL_CLASSES = {
+    AIProviders.google.name: GoogleProvider,
+    AIProviders.mistral.name: MistralModel,
+    AIProviders.openai.name: OpenAIModel,
+}
 AI_PROVIDER_TO_NAME = {
     AIProviders.auto.name: "Auto",
     AIProviders.google.name: "Google Gemini",
@@ -45,7 +49,6 @@ AVAILABLE_PROVIDER_NAMES: tuple[str, ...] = (
 
 
 class GoogleModels(Enum):
-    gemini_2_0_flash = "gemini-2.0-flash"
     gemini_2_5_pro = "gemini-2.5-pro"
     gemini_2_5_flash = "gemini-2.5-flash"
 
@@ -58,8 +61,6 @@ class MistralModels(Enum):
 
 
 class OpenAIModels(Enum):
-    o3_mini = "o3-mini"
-    gpt_4o = "gpt-4o"
     gpt_4o_mini = "gpt-4o-mini"
     gpt_5 = "gpt-5"
     gpt_5_mini = "gpt-5-mini"
@@ -79,15 +80,12 @@ PROVIDER_TO_MODELS: Mapping[str, Type[Enum]] = {
 }
 
 AI_MODEL_TO_PROVIDER = {
-    GoogleModels.gemini_2_0_flash.name: "google",
     GoogleModels.gemini_2_5_flash.name: "google",
     GoogleModels.gemini_2_5_pro.name: "google",
     MistralModels.mistral_large.name: "mistral",
     MistralModels.mistral_small.name: "mistral",
     MistralModels.codestral.name: "mistral",
     MistralModels.pixtral.name: "mistral",
-    OpenAIModels.o3_mini.name: "openai",
-    OpenAIModels.gpt_4o.name: "openai",
     OpenAIModels.gpt_4o_mini.name: "openai",
     OpenAIModels.gpt_5.name: "openai",
     OpenAIModels.gpt_5_mini.name: "openai",
@@ -95,15 +93,12 @@ AI_MODEL_TO_PROVIDER = {
 }
 
 AI_MODEL_TO_SHORT_NAME = {
-    GoogleModels.gemini_2_0_flash.value: "Gemini 2.0 Flash",
     GoogleModels.gemini_2_5_flash.value: "Gemini 2.5 Flash",
     GoogleModels.gemini_2_5_pro.value: "Gemini 2.5 Pro",
     MistralModels.mistral_large.value: "Mistral Large",
     MistralModels.mistral_small.value: "Mistral Small",
     MistralModels.codestral.value: "Codestral",
     MistralModels.pixtral.value: "Pixtral 12B",
-    OpenAIModels.o3_mini.value: "o3 mini",
-    OpenAIModels.gpt_4o.value: "GPT-4o",
     OpenAIModels.gpt_4o_mini.value: "GPT-4o mini",
     OpenAIModels.gpt_5.value: "GPT-5",
     OpenAIModels.gpt_5_mini.value: "GPT-5 mini",
@@ -111,7 +106,7 @@ AI_MODEL_TO_SHORT_NAME = {
 }
 
 
-def build_models(provider: str, model: str) -> Provider:
+def build_models(provider: str, model: str) -> Model:
     # Validate provider → enum mapping
     try:
         model_enum = PROVIDER_TO_MODELS[provider]
@@ -135,7 +130,7 @@ def build_models(provider: str, model: str) -> Provider:
     return ModelClass(model_value, provider=provider_instance)
 
 
-AI_MODELS: dict[str, object] = {
+AI_MODELS: dict[str, Model] = {
     model_name: build_models(provider, model_name) for model_name, provider in AI_MODEL_TO_PROVIDER.items()
 }
 

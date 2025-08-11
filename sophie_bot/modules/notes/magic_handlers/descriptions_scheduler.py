@@ -4,7 +4,7 @@ from datetime import datetime, timedelta
 from sophie_bot.db.models import AIEnabledModel, ChatModel, NoteModel
 from sophie_bot.middlewares import i18n
 from sophie_bot.modules.ai.json_schemas.update_note_description import AIUpdateNoteData
-from sophie_bot.modules.ai.utils.ai_get_provider import get_chat_default_provider
+from sophie_bot.modules.ai.utils.ai_get_provider import get_chat_default_model
 from sophie_bot.modules.ai.utils.new_ai_chatbot import new_ai_generate_schema
 from sophie_bot.modules.ai.utils.new_message_history import NewAIMessageHistory
 from sophie_bot.utils.i18n import gettext as _
@@ -57,8 +57,8 @@ class NotesDescriptionsScheduler:
                         messages.add_system(system_prompt)
                         messages.add_custom(note.text, name=None)
 
-                        provider = await get_chat_default_provider(chat.id)
-                        generated_data = await new_ai_generate_schema(messages, AIUpdateNoteData, provider)
+                        model = await get_chat_default_model(chat.id)
+                        generated_data = await new_ai_generate_schema(messages, AIUpdateNoteData, model)
                         log.debug("- NotesDescriptionsScheduler: generated data", generated_data=generated_data)
 
                         note.description = generated_data.description

@@ -1,7 +1,7 @@
 from sophie_bot.db.models import AIEnabledModel, BetaModeModel, ChatModel, NoteModel
 from sophie_bot.db.models.beta import CurrentMode
 from sophie_bot.modules.ai.json_schemas.update_note_description import AIUpdateNoteData
-from sophie_bot.modules.ai.utils.ai_get_provider import get_chat_default_provider
+from sophie_bot.modules.ai.utils.ai_get_provider import get_chat_default_model
 from sophie_bot.modules.ai.utils.new_ai_chatbot import new_ai_generate_schema
 from sophie_bot.modules.ai.utils.new_message_history import NewAIMessageHistory
 from sophie_bot.modules.utils_.scheduler.chat_language import UseChatLanguage
@@ -21,8 +21,8 @@ class GenerateAITitles:
         messages.add_custom(note.text or "", name=None)
         messages.add_system(system_prompt)
 
-        provider = await get_chat_default_provider(chat_id)
-        return await new_ai_generate_schema(messages, AIUpdateNoteData, provider)
+        model = await get_chat_default_model(chat_id)
+        return await new_ai_generate_schema(messages, AIUpdateNoteData, model)
 
     @staticmethod
     async def update_note(note: NoteModel, generated_data: AIUpdateNoteData):
@@ -48,7 +48,7 @@ class GenerateAITitles:
             if not note.text:
                 log.debug("generate_ai_titles: note has no text, skipping...", note=note)
 
-            generated_data = await self.generate_data(note, chat.id)
+            generated_data = await self.generate_data(note, chat.chat_id)
             await self.update_note(note, generated_data)
 
     async def handle(self):

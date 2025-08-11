@@ -13,6 +13,10 @@ from sophie_bot.modules.ai.handlers.autotranslate_setting import (
 )
 from sophie_bot.modules.ai.handlers.enable_setting import EnableAI
 from sophie_bot.modules.ai.handlers.filter import get_filter
+from sophie_bot.modules.ai.handlers.playground import (
+    AIPlaygroundCmd,
+    AIPlaygroundModelSelectCallback,
+)
 from sophie_bot.modules.ai.handlers.pm import AiPmHandle, AiPmInitialize, AiPmStop
 from sophie_bot.modules.ai.handlers.reply import AiReplyHandler
 from sophie_bot.modules.ai.handlers.reset_context import AIContextReset
@@ -47,7 +51,15 @@ __module_info__ = LazyProxy(
 
 __filters__ = get_filter()
 __modern_actions__ = (AIReplyAction,)
-__handlers__ = (EnableAI, AIModerator, AIAutotrans, AIProviderSetting, AIProviderSelectCallback)
+__handlers__ = (
+    EnableAI,
+    AIModerator,
+    AIAutotrans,
+    AIProviderSetting,
+    AIProviderSelectCallback,
+    AIPlaygroundCmd,
+    AIPlaygroundModelSelectCallback,
+)
 
 
 async def __pre_setup__():

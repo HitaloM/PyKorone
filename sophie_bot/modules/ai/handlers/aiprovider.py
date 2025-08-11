@@ -1,8 +1,10 @@
 from __future__ import annotations
 
+from typing import Any
+
 from aiogram import flags
 from aiogram.dispatcher.event.handler import CallbackType
-from aiogram.types import InlineKeyboardButton, InlineKeyboardMarkup
+from aiogram.types import InlineKeyboardButton, InlineKeyboardMarkup, Message
 from stfu_tg import Doc, KeyValue, Section
 
 from sophie_bot.db.models.ai_provider import AIProviderModel
@@ -22,7 +24,7 @@ from sophie_bot.modules.utils_.base_handler import (
 from sophie_bot.utils.i18n import gettext as _
 from sophie_bot.utils.i18n import lazy_gettext as l_
 
-PROVIDERS_KEY_FACTS: dict[AIProviders, str] = {
+PROVIDERS_KEY_FACTS: dict[AIProviders, Any] = {
     AIProviders.auto: l_("🔃 Automatically choose the best provider"),
     AIProviders.google: l_("⚡️ The fastest"),
     AIProviders.mistral: l_("🔒 The most private"),
@@ -37,8 +39,12 @@ def build_keyboard(selected: str) -> InlineKeyboardMarkup:
         title = AI_PROVIDER_TO_NAME[name]
         mark = "✅ " if name == selected else ""
         rows.append(
-            [InlineKeyboardButton(text=f"{mark}{title} - {PROVIDERS_KEY_FACTS[name]}",
-                                  callback_data=AIProviderCallback(provider=name).pack())]
+            [
+                InlineKeyboardButton(
+                    text=f"{mark}{title} - {PROVIDERS_KEY_FACTS[AIProviders[name]]}",
+                    callback_data=AIProviderCallback(provider=name).pack(),
+                )
+            ]
         )
     return InlineKeyboardMarkup(inline_keyboard=rows)
 
@@ -76,7 +82,11 @@ class AIProviderSelectCallback(SophieCallbackQueryHandler):
         await self.check_for_message()
         data: AIProviderCallback = self.callback_data
 
-        chat_id = self.event.message.chat.id
+        if not isinstance(self.event.message, Message):
+            return await self.event.answer(_("Invalid message type"))
+
+        message = self.event.message
+        chat_id = message.chat.id
         user = self.event.from_user
 
         # ensure only admins can change
@@ -103,6 +113,6 @@ class AIProviderSelectCallback(SophieCallbackQueryHandler):
                 title=l_("AI Provider"),
             )
         )
-        await self.event.message.edit_text(str(doc), reply_markup=kb)
+        await message.edit_text(str(doc), reply_markup=kb)
         await self.event.answer(_("Provider updated"))
         return None

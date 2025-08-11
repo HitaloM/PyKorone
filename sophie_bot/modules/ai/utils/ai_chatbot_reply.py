@@ -7,15 +7,17 @@ from pydantic_ai.messages import (
     ToolCallPart,
     ToolReturnPart,
 )
-from stfu_tg import Doc, HList, KeyValue, PreformattedHTML, Section, VList
+from pydantic_ai.models import Model
+from stfu_tg import BlockQuote, Doc, HList, KeyValue, PreformattedHTML, Section, VList
 from stfu_tg.doc import Element
 
 from sophie_bot.config import CONFIG
 from sophie_bot.db.models import AIMemoryModel
 from sophie_bot.middlewares.connections import ChatConnection
 from sophie_bot.modules.ai.agent_tools.memory import MemoryAgentTool
-from sophie_bot.modules.ai.utils.ai_get_provider import get_chat_default_provider
+from sophie_bot.modules.ai.utils.ai_get_provider import get_chat_default_model
 from sophie_bot.modules.ai.utils.ai_header import ai_header
+from sophie_bot.modules.ai.utils.ai_models import AI_MODEL_TO_SHORT_NAME
 from sophie_bot.modules.ai.utils.ai_tool_context import SophieAIToolContenxt
 from sophie_bot.modules.ai.utils.new_ai_chatbot import new_ai_generate
 from sophie_bot.modules.ai.utils.new_message_history import NewAIMessageHistory
@@ -51,7 +53,14 @@ def retrieve_tools_titles(message_history: list[ModelRequest | ModelResponse]) -
     return [CHATBOT_TOOLS_TITLES[name] for name in unique_tool_names]
 
 
-async def ai_chatbot_reply(message: Message, connection: ChatConnection, user_text: str | None = None, **kwargs):
+async def ai_chatbot_reply(
+    message: Message,
+    connection: ChatConnection,
+    user_text: str | None = None,
+    debug_mode: bool = False,
+    model: Model | None = None,
+    **kwargs
+):
     """
     Sends a reply from AI based on user input and message history.
     """
@@ -76,12 +85,14 @@ async def ai_chatbot_reply(message: Message, connection: ChatConnection, user_te
     await history.add_from_message(message, custom_text=user_text)
 
     # History debug
-    if "^llm_history_debug" in (message.text or user_text or ""):
+    if debug_mode:
         await message.reply(
-            Section(history.history_debug(), title="LLM History").to_html(), disable_web_page_preview=True
+            Section(BlockQuote(history.history_debug(), expandable=True), title="LLM History").to_html(),
+            disable_web_page_preview=True,
         )
 
-    model = await get_chat_default_provider(connection.db_model.id)
+    if model is None:
+        model = await get_chat_default_model(message.chat.id)
     result = await new_ai_generate(
         history, tools=CHATBOT_TOOLS, model=model, agent_kwargs={"deps": SophieAIToolContenxt(connection=connection)}
     )
@@ -95,19 +106,23 @@ async def ai_chatbot_reply(message: Message, connection: ChatConnection, user_te
     if length > 4000:
         output_text = output_text[:4000] + "..."
 
-    doc = Doc(header, PreformattedHTML(legacy_markdown_to_html(output_text)))
-
-    if CONFIG.debug_mode:
+    doc = Doc(header, BlockQuote(PreformattedHTML(legacy_markdown_to_html(output_text))))
+    if debug_mode:
         doc += " "
         doc += Section(
-            # KeyValue("Model", ai_get_model_text(model)),
-            KeyValue("LLM Requests", result.usage.requests),
-            KeyValue("Retries", result.retires),
-            KeyValue("Request tokens", result.usage.request_tokens),
-            KeyValue("Response tokens", result.usage.response_tokens),
-            KeyValue("Total tokens", result.usage.total_tokens),
-            KeyValue("Details", result.usage.details or "-"),
-            title="Provider",
+            BlockQuote(
+                Doc(
+                    KeyValue("Model", AI_MODEL_TO_SHORT_NAME[model.model_name]),  # type: ignore[attr-defined]
+                    KeyValue("LLM Requests", result.usage.requests),
+                    KeyValue("Retries", result.retires),
+                    KeyValue("Request tokens", result.usage.request_tokens),
+                    KeyValue("Response tokens", result.usage.response_tokens),
+                    KeyValue("Total tokens", result.usage.total_tokens),
+                    KeyValue("Details", result.usage.details or "-"),
+                ),
+                expandable=True,
+            ),
+            title="Provider debug",
         )
 
     return await message.reply(doc.to_html(), disable_web_page_preview=True, **kwargs)
