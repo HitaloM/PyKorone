@@ -9,5 +9,5 @@ class AITranslateResponseSchema(BaseModel):
     origin_language_name: str = Field(description="Origin language of the text")
     origin_language_emoji: str = Field(description="Flag of the origin language")
     translation_explanations: Optional[str] = Field(
-        description="Briefly any explanations or clarifications for the translation (if needed)"
+        description="Briefly any explanations or clarifications for the translation (only if applicable)"
     )

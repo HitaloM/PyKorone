@@ -6,8 +6,8 @@ from stfu_tg import Doc
 
 from sophie_bot.db.models import ChatModel
 from sophie_bot.modules.ai.filters.throttle import AIThrottleFilter
-from sophie_bot.modules.ai.utils.old_ai_chatbot import ai_reply
-from sophie_bot.modules.ai.utils.old_message_history import OldAIMessageHistory
+from sophie_bot.modules.ai.utils.ai_chatbot_reply import ai_chatbot_reply
+from sophie_bot.modules.ai.utils.new_message_history import NewAIMessageHistory
 from sophie_bot.utils.exception import SophieException
 from sophie_bot.utils.i18n import gettext as _
 from sophie_bot.utils.i18n import lazy_gettext as l_
@@ -45,8 +45,15 @@ async def ai_filter_handle(message: Message, chat: dict, data: dict):
         raise SophieException("Chat not found in database")
 
     if message.text or message.caption and await AIThrottleFilter().__call__(message, chat_db):
-        messages = await OldAIMessageHistory.chatbot(message, additional_system_prompt=prompt)
-        await ai_reply(message, messages)
+        from sophie_bot.middlewares.connections import ChatConnection
+        connection = ChatConnection(db_model=chat_db)
+        
+        # Create history with custom system prompt
+        history = NewAIMessageHistory()
+        await history.initialize_chat_history(message.chat.id, additional_system_prompt=prompt)
+        await history.add_from_message(message)
+        
+        await ai_chatbot_reply(message, connection, user_text=None)
 
 
 def get_filter():

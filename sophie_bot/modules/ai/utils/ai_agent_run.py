@@ -5,7 +5,7 @@ from pydantic_ai.usage import Usage
 
 
 class AIAgentResult(BaseModel):
-    output: str
+    output: object
     steps: int
     retires: int
     message_history: list[ModelRequest | ModelResponse]

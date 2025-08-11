@@ -9,8 +9,9 @@ from sophie_bot.filters.cmd import CMDFilter
 from sophie_bot.modules.ai.filters.ai_enabled import AIEnabledFilter
 from sophie_bot.modules.ai.fsm.pm import AI_GENERATED_TEXT
 from sophie_bot.modules.ai.json_schemas.translate import AITranslateResponseSchema
-from sophie_bot.modules.ai.utils.old_ai_chatbot import ai_generate_schema
-from sophie_bot.modules.ai.utils.old_message_history import OldAIMessageHistory
+from sophie_bot.modules.ai.utils.ai_models import TRANSLATIONS_PROVIDER
+from sophie_bot.modules.ai.utils.new_ai_chatbot import new_ai_generate_schema
+from sophie_bot.modules.ai.utils.new_message_history import NewAIMessageHistory
 from sophie_bot.modules.ai.utils.transform_audio import transform_voice_to_text
 from sophie_bot.modules.notes.utils.unparse_legacy import legacy_markdown_to_html
 from sophie_bot.utils.i18n import gettext as _
@@ -58,18 +59,26 @@ class AiTranslate(MessageHandler):
             to_translate = self.data.get("text", "")
 
         # AI Context
-        ai_context = OldAIMessageHistory()
-        await ai_context.add_from_message_with_reply(self.event)
+        ai_context = NewAIMessageHistory()
+        if self.event.reply_to_message and self.event.reply_to_message.photo:
+            ai_context.add_system(
+                _("If applicable, translate the photo to {language_name}").format(language_name=language_name))
+            await ai_context.add_from_message(self.event.reply_to_message, disable_name=True)
+
         ai_context.add_system(
             "\n".join(
                 (
-                    _("You're the professional AI translator/transcriber."),
-                    _(f"Translate the following text to {language_name}:\n{to_translate}"),
+                    _("You're the professional AI translator / transcriber."),
+                    _("Translate the following text to {language_name}:\n{to_translate}").format(
+                        language_name=language_name, to_translate=to_translate
+                    ),
                 )
             )
         )
 
-        translated = await ai_generate_schema(ai_context, AITranslateResponseSchema)
+        log.debug("AiTranslate", ai_context=ai_context.history_debug())
+
+        translated = await new_ai_generate_schema(ai_context, AITranslateResponseSchema, model=TRANSLATIONS_PROVIDER)
 
         # Prevent extra translating
         if is_autotranslate and not is_voice and not translated.needs_translation:

@@ -5,8 +5,9 @@ from ass_tg.types import TextArg
 
 from sophie_bot.filters.cmd import CMDFilter
 from sophie_bot.modules.ai.filters.ai_enabled import AIEnabledFilter
-from sophie_bot.modules.ai.utils.old_ai_chatbot import ai_reply
-from sophie_bot.modules.ai.utils.old_message_history import OldAIMessageHistory
+from sophie_bot.modules.ai.utils.ai_chatbot_reply import ai_chatbot_reply
+from sophie_bot.middlewares.connections import ChatConnection
+from sophie_bot.db.models import ChatModel
 from sophie_bot.services.bot import bot
 from sophie_bot.utils.i18n import lazy_gettext as l_
 
@@ -23,6 +24,10 @@ class AiGenerateMode(MessageHandler):
 
         await bot.send_chat_action(self.event.chat.id, "typing")
 
-        messages = await OldAIMessageHistory.chatbot(self.event, custom_user_text=user_text)
-
-        await ai_reply(self.event, messages)
+        # Get chat from database and create connection
+        chat_db = await ChatModel.get_by_chat_id(self.event.chat.id)
+        if not chat_db:
+            return
+        
+        connection = ChatConnection(db_model=chat_db)
+        await ai_chatbot_reply(self.event, connection, user_text=user_text)

@@ -5,6 +5,7 @@ from typing import BinaryIO, Optional
 from aiogram.types import Message
 from attr import dataclass
 from normality import normalize
+from openai.types import ModerationMultiModalInputParam
 from pydantic_ai.messages import (
     BinaryContent,
     ModelRequest,
@@ -48,17 +49,17 @@ class AIUserMessageFormatter:
 
     @classmethod
     def user_message(
-        cls,
-        text: str,
-        name: str,
-        reply_to_user: Optional[str] = None,
+            cls,
+            text: str,
+            name: str,
+            reply_to_user: Optional[str] = None,
     ):
         name = cls.sanitize_name(name)
         if reply_to_user:
             reply_to_user = cls.sanitize_name(reply_to_user)
-            text = f"<From {name}, as reply to {reply_to_user}>:\n{text}"
+            text = f"From {name}, as reply to {reply_to_user}: {text}"
 
-        return f"<{name}>:\n{text}"
+        return f"{name}: {text}"
 
 
 class NewAIMessageHistory:
@@ -108,11 +109,12 @@ class NewAIMessageHistory:
         )
 
     async def add_from_message(
-        self,
-        message: Message,
-        custom_text: Optional[str] = None,
-        normalize_texts: bool = False,
-        allow_reply_messages: bool = True,
+            self,
+            message: Message,
+            custom_text: Optional[str] = None,
+            normalize_texts: bool = False,
+            allow_reply_messages: bool = True,
+            disable_name: bool = False,
     ):
         """Adds a user message to the context, returns a list of additional messages to cache for future use."""
 
@@ -140,7 +142,7 @@ class NewAIMessageHistory:
 
         # Message's text
         prompt.append(
-            AIUserMessageFormatter.user_message(
+            message_text if disable_name else AIUserMessageFormatter.user_message(
                 text=message_text,
                 name=message.from_user.full_name,
                 reply_to_user=replied_user_name,
@@ -180,6 +182,25 @@ class NewAIMessageHistory:
         log.debug("MessageHistory: message_history", history=self.message_history)
         return self
 
+    def add_system(self, content: str):
+        """Add a system message to the message history."""
+        self.message_history.append(ModelRequest(parts=[SystemPromptPart(content=content)]))
+
+    def add_custom(self, content: str, name: Optional[str]):
+        """Add a custom user message to the message history."""
+        user_content = AIUserMessageFormatter.user_message(content, name or "User")
+        self.message_history.append(ModelRequest(parts=[UserPromptPart(content=user_content)]))
+
+    @staticmethod
+    async def chatbot(
+            message: Message, custom_user_text: Optional[str] = None, additional_system_prompt: str = ""
+    ) -> "NewAIMessageHistory":
+        """A simple chat-bot case - static method for compatibility."""
+        history = NewAIMessageHistory()
+        await history.initialize_chat_history(message.chat.id, additional_system_prompt=additional_system_prompt)
+        await history.add_from_message(message, custom_text=custom_user_text, allow_reply_messages=True)
+        return history
+
     def history_debug(self) -> Element:
         """Builds a debug message for the message history."""
         items = VList(prefix="\n")
@@ -203,3 +224,27 @@ class NewAIMessageHistory:
         )
 
         return items
+
+    @property
+    def to_moderation(self) -> list[ModerationMultiModalInputParam]:
+        """Extract content for OpenAI moderation from message history and prompt."""
+        moderation_content = []
+
+        # Extract content from message history
+        for msg in self.message_history:
+            if isinstance(msg, ModelRequest) or isinstance(msg, ModelResponse):
+                for part in msg.parts:
+                    if isinstance(part, (TextPart, UserPromptPart, SystemPromptPart)):
+                        moderation_content.append(part.content)
+                    elif isinstance(part, BinaryContent):
+                        # For binary content, we'd need to handle it appropriately
+                        # For now, skip as the old implementation also focused on text
+                        pass
+
+        # Extract content from current prompt
+        if self.prompt:
+            for content in self.prompt:
+                if isinstance(content, str):
+                    moderation_content.append(content)
+
+        return moderation_content  # type: ignore

@@ -37,6 +37,7 @@ class OpenAIModels(Enum):
     gpt_4o_mini = "gpt-4o-mini"
     gpt_5 = "gpt-5"
     gpt_5_mini = "gpt-5-mini"
+    gpt_5_nano = "gpt-5-nano"
 
 
 AI_MODEL_TO_PROVIDER = {
@@ -48,6 +49,7 @@ AI_MODEL_TO_PROVIDER = {
     OpenAIModels.gpt_4o_mini.name: "openai",
     OpenAIModels.gpt_5.name: "openai",
     OpenAIModels.gpt_5_mini.name: "openai",
+    OpenAIModels.gpt_5_nano.name: "openai",
 }
 
 AI_MODEL_TO_SHORT_NAME = {
@@ -59,6 +61,7 @@ AI_MODEL_TO_SHORT_NAME = {
     OpenAIModels.gpt_4o_mini.value: "GTP-4o mini",
     OpenAIModels.gpt_5.value: "GPT-5",
     OpenAIModels.gpt_5_mini.value: "GPT-5 mini",
+    OpenAIModels.gpt_5_nano.value: "GPT-5 nano",
 }
 
 
@@ -82,3 +85,4 @@ AI_MODELS: dict[str, Provider] = {
 }
 
 DEFAULT_PROVIDER: Provider = AI_MODELS[OpenAIModels.gpt_5_mini.name]
+TRANSLATIONS_PROVIDER: Provider = AI_MODELS[OpenAIModels.gpt_5_nano.name]

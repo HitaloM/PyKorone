@@ -1,7 +1,7 @@
 from aiogram.types import Message
 from openai.types import Moderation
 
-from sophie_bot.modules.ai.utils.old_message_history import OldAIMessageHistory
+from sophie_bot.modules.ai.utils.new_message_history import NewAIMessageHistory
 from sophie_bot.services.ai import openai_client
 from sophie_bot.utils.i18n import lazy_gettext as l_
 from sophie_bot.utils.logger import log
@@ -40,7 +40,7 @@ MODERATION_CATEGORIES_TRANSLATES = {
 
 
 async def check_moderator(message: Message) -> Moderation:
-    history = OldAIMessageHistory()
+    history = NewAIMessageHistory()
     await history.add_from_message(message, normalize_texts=True)
 
     results = await openai_client.moderations.create(input=history.to_moderation, model="omni-moderation-latest")

@@ -15,8 +15,8 @@ from sophie_bot.modules.ai.json_schemas.aisave import (
     AISAVE_JSON_SCHEMA,
     AISaveResponseSchema,
 )
-from sophie_bot.modules.ai.utils.old_ai_chatbot import ai_generate
-from sophie_bot.modules.ai.utils.old_message_history import OldAIMessageHistory
+from sophie_bot.modules.ai.utils.new_ai_chatbot import new_ai_generate_schema
+from sophie_bot.modules.ai.utils.new_message_history import NewAIMessageHistory
 from sophie_bot.modules.notes.utils.names import format_notes_aliases
 from sophie_bot.modules.notes.utils.unparse_legacy import legacy_markdown_to_html
 from sophie_bot.utils.i18n import gettext as _
@@ -84,8 +84,6 @@ class AISaveNote(MessageHandler):
             f" {', '.join(all_notenames)}"
         )
 
-        messages = await OldAIMessageHistory.chatbot(self.event, custom_user_text=prompt)
+        messages = await NewAIMessageHistory.chatbot(self.event, custom_user_text=prompt)
 
-        return self.parse_data(
-            await ai_generate(messages, json_schema={"type": "json_schema", "json_schema": AISAVE_JSON_SCHEMA})  # type: ignore
-        )
+        return await new_ai_generate_schema(messages, AISaveResponseSchema)

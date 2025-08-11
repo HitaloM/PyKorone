@@ -8,8 +8,8 @@ from stfu_tg.doc import Doc, Element, PreformattedHTML
 from sophie_bot.db.models import ChatModel
 from sophie_bot.middlewares.connections import ChatConnection
 from sophie_bot.modules.ai.filters.throttle import AIThrottleFilter
-from sophie_bot.modules.ai.utils.old_ai_chatbot import ai_generate
-from sophie_bot.modules.ai.utils.old_message_history import OldAIMessageHistory
+from sophie_bot.modules.ai.utils.new_ai_chatbot import new_ai_generate
+from sophie_bot.modules.ai.utils.new_message_history import NewAIMessageHistory
 from sophie_bot.modules.filters.types.modern_action_abc import (
     ActionSetupMessage,
     ActionSetupTryAgainException,
@@ -82,7 +82,7 @@ class AIReplyAction(ModernActionABC[AIReplyActionDataModel]):
         if not (message.text or message.caption and await AIThrottleFilter().__call__(message, chat_db)):
             return
 
-        messages = await OldAIMessageHistory.chatbot(message, additional_system_prompt=filter_data.prompt)
+        messages = await NewAIMessageHistory.chatbot(message, additional_system_prompt=filter_data.prompt)
 
-        response = await ai_generate(messages)
-        return Doc(Title(_("✨ AI Response")), PreformattedHTML(legacy_markdown_to_html(response)))
+        result = await new_ai_generate(messages)
+        return Doc(Title(_("✨ AI Response")), PreformattedHTML(legacy_markdown_to_html(result.output)))

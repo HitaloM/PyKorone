@@ -1,8 +1,8 @@
 from sophie_bot.db.models import AIEnabledModel, BetaModeModel, ChatModel, NoteModel
 from sophie_bot.db.models.beta import CurrentMode
 from sophie_bot.modules.ai.json_schemas.update_note_description import AIUpdateNoteData
-from sophie_bot.modules.ai.utils.old_ai_chatbot import ai_generate_schema
-from sophie_bot.modules.ai.utils.old_message_history import OldAIMessageHistory
+from sophie_bot.modules.ai.utils.new_ai_chatbot import new_ai_generate_schema
+from sophie_bot.modules.ai.utils.new_message_history import NewAIMessageHistory
 from sophie_bot.modules.utils_.scheduler.chat_language import UseChatLanguage
 from sophie_bot.modules.utils_.scheduler.for_chats import ForChats
 from sophie_bot.utils.i18n import gettext as _
@@ -16,11 +16,11 @@ class GenerateAITitles:
             "You need to update the data of the chat notes. Generate the note data from the provided note text"
         )
 
-        messages = OldAIMessageHistory()
+        messages = NewAIMessageHistory()
         messages.add_custom(note.text or "", name=None)
         messages.add_system(system_prompt)
 
-        return await ai_generate_schema(messages, AIUpdateNoteData)
+        return await new_ai_generate_schema(messages, AIUpdateNoteData)
 
     @staticmethod
     async def update_note(note: NoteModel, generated_data: AIUpdateNoteData):
