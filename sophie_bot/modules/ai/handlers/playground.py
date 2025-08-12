@@ -52,7 +52,7 @@ def build_playground_keyboard(selected_model: str | None = None) -> InlineKeyboa
 
         # Arrange model buttons in rows of 2
         for i in range(0, len(model_buttons), 2):
-            row = model_buttons[i: i + 2]  # Take up to 2 buttons per row
+            row = model_buttons[i : i + 2]  # Take up to 2 buttons per row
             rows.append(row)
 
     return InlineKeyboardMarkup(inline_keyboard=rows)
