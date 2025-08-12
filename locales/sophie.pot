@@ -130,10 +130,12 @@ msgid "Select the AI Provider for this chat"
 msgstr ""
 
 #: sophie_bot/modules/ai/handlers/aiprovider.py:69
+#: sophie_bot/modules/ai/handlers/aiprovider.py:112
 msgid "Current provider"
 msgstr ""
 
 #: sophie_bot/modules/ai/handlers/aiprovider.py:70
+#: sophie_bot/modules/ai/handlers/aiprovider.py:113
 msgid "AI Provider"
 msgstr ""
 
@@ -149,27 +151,11 @@ msgstr ""
 msgid "Unknown provider"
 msgstr ""
 
-#: sophie_bot/modules/ai/handlers/aiprovider.py:105
-#: sophie_bot/modules/disabling/handlers/disable.py:49
-#: sophie_bot/modules/disabling/handlers/enable.py:52
-#: sophie_bot/modules/notes/handlers/delete.py:39
-#: sophie_bot/modules/notes/handlers/pmnotes_setting.py:36
-#: sophie_bot/modules/promotes/handlers/demote.py:66
-#: sophie_bot/modules/promotes/handlers/promote.py:84
-#: sophie_bot/modules/utils_/status_handler.py:47
-#: sophie_bot/modules/utils_/status_handler.py:70
-msgid "Chat"
+#: sophie_bot/modules/ai/handlers/aiprovider.py:103
+msgid "Chat is not initialized yet"
 msgstr ""
 
-#: sophie_bot/modules/ai/handlers/aiprovider.py:106
-msgid "New provider"
-msgstr ""
-
-#: sophie_bot/modules/ai/handlers/aiprovider.py:107
-msgid "AI Provider was updated"
-msgstr ""
-
-#: sophie_bot/modules/ai/handlers/aiprovider.py:111
+#: sophie_bot/modules/ai/handlers/aiprovider.py:117
 msgid "Provider updated"
 msgstr ""
 
@@ -503,6 +489,17 @@ msgstr ""
 #: sophie_bot/modules/disabling/handlers/enable.py:44
 #, python-brace-format
 msgid "Command {cmd} is already disabled."
+msgstr ""
+
+#: sophie_bot/modules/disabling/handlers/disable.py:49
+#: sophie_bot/modules/disabling/handlers/enable.py:52
+#: sophie_bot/modules/notes/handlers/delete.py:39
+#: sophie_bot/modules/notes/handlers/pmnotes_setting.py:36
+#: sophie_bot/modules/promotes/handlers/demote.py:66
+#: sophie_bot/modules/promotes/handlers/promote.py:84
+#: sophie_bot/modules/utils_/status_handler.py:47
+#: sophie_bot/modules/utils_/status_handler.py:70
+msgid "Chat"
 msgstr ""
 
 #: sophie_bot/modules/disabling/handlers/disable.py:52
