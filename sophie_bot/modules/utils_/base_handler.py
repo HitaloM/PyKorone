@@ -92,12 +92,18 @@ class SophieMessageCallbackQueryHandler(SophieBaseHandler[Message | CallbackQuer
 
     @property
     def message(self) -> Message:
-        message = self.message if isinstance(self.event, Message) else self.event.message
-        if not message:
+        if isinstance(self.event, Message):
+            msg = self.event
+        else:
+            msg = getattr(self.event, "message", None)
+
+        if not msg:
             raise SophieException("No message in the event")
-        if not isinstance(message, Message):
+        if isinstance(msg, InaccessibleMessage):
             raise SophieException(_("The message is inaccessible. Please write the command again"))
-        return message
+        if not isinstance(msg, Message):
+            raise SophieException(_("The message is inaccessible. Please write the command again"))
+        return msg
 
     @property
     def callback_data(self) -> Optional[Any]:
