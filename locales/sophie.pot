@@ -461,7 +461,7 @@ msgid "Be funny when the topic is casual."
 msgstr ""
 
 #: sophie_bot/modules/ai/utils/new_message_history.py:84
-msgid "Do not use tables or markdown headings, use only the following markdown elements: ** for bold, ~~ for strikethrough, ` for code, ``` for code blocks and []() for links."
+msgid "Do not use tables, use only the following markdown elements: ** for bold, ~~ for strikethrough, ` for code, ``` for code blocks and []() for links."
 msgstr ""
 
 #: sophie_bot/modules/ai/utils/new_message_history.py:86

@@ -81,7 +81,7 @@ class NewAIMessageHistory:
                 _("You're a telegram bot named Sophie."),
                 _("Be funny when the topic is casual."),
                 _(
-                    "Do not use tables or markdown headings, use only the following markdown elements: ** for bold, ~~ for strikethrough, ` for code, ``` for code blocks and []() for links."
+                    "Do not use tables, use only the following markdown elements: ** for bold, ~~ for strikethrough, ` for code, ``` for code blocks and []() for links."
                 ),
                 _("Focus primarily on answering the LATEST user message."),
                 _(
