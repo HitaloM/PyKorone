@@ -1,3 +1,17 @@
+msgid ""
+msgstr ""
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Crowdin-Project: sophiebot\n"
+"X-Crowdin-Project-ID: 356879\n"
+"X-Crowdin-Language: zh-CN\n"
+"X-Crowdin-File: /beta/locales/sophie.pot\n"
+"X-Crowdin-File-ID: 288\n"
+"Project-Id-Version: sophiebot\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language-Team: Chinese Simplified\n"
+"Language: zh_CN\n"
+"PO-Revision-Date: 2025-08-12 22:25\n"
+
 #: sophie_bot/args/users.py:29
 msgid "Could not find the requested User ID in the database."
 msgstr "未能在数据库中找到请求的用户 ID。"
@@ -6,23 +20,23 @@ msgstr "未能在数据库中找到请求的用户 ID。"
 msgid "Could not find the requested Username in the database."
 msgstr "未能在数据库中找到请求的用户名。"
 
-#: sophie_bot/args/users.py:72 types/user.py:120
+#: sophie_bot/args/users.py:72
 msgid "User: 'User ID (numeric) / Username (starts with @) / Mention (links to users)'"
 msgstr "用户：'用户 ID（数字）/用户名（以 @ 开头）/提及（链接到用户）'"
 
-#: sophie_bot/args/users.py:73 types/user.py:122
+#: sophie_bot/args/users.py:73
 msgid "Users: 'User IDs (numeric) / Usernames (starts with @) / Mentions (links to users)'"
 msgstr "用户：'用户 ID（数字）/用户名（以 @ 开头）/提及（链接到用户）'"
 
-#: sophie_bot/args/users.py:79 types/user.py:128
+#: sophie_bot/args/users.py:79
 msgid "User ID"
 msgstr "用户 ID"
 
-#: sophie_bot/args/users.py:80 types/user.py:129
+#: sophie_bot/args/users.py:80
 msgid "Username"
 msgstr "用户名"
 
-#: sophie_bot/args/users.py:82 types/user.py:134
+#: sophie_bot/args/users.py:82
 msgid "A link to user, usually creates by mentioning a user without username."
 msgstr "用户的链接，通常通过提及用户而不带用户名来创建。"
 
@@ -201,7 +215,7 @@ msgstr "控制 AI 自动翻译器"
 
 #: sophie_bot/modules/ai/handlers/autotranslate_setting.py:13
 msgid "✨ AI Auto translate"
-msgstr "✨ AI Auto translate"
+msgstr "✨ AI 自动翻译"
 
 #: sophie_bot/modules/ai/handlers/enable_setting.py:11
 msgid "Controls AI features"
@@ -242,7 +256,7 @@ msgstr "✨ AI 响应"
 
 #: sophie_bot/modules/ai/handlers/mode.py:16
 msgid "Generates a new AI mode"
-msgstr "Generates a new AI mode"
+msgstr "生成新的 AI 模式"
 
 #: sophie_bot/modules/ai/handlers/pm.py:23
 msgid "Start the AI ChatBot mode"
@@ -282,52 +296,50 @@ msgstr "重置聊天的 AI 上下文和 AI 内存"
 msgid "🔄 AI context and AI memory was successfully reset. AI will now operate in a clean state."
 msgstr "🔄 AI 上下文和 AI 内存已成功重置。AI 现在将以干净状态操作。"
 
-#: sophie_bot/modules/ai/handlers/translate.py:27
+#: sophie_bot/modules/ai/handlers/translate.py:36
 msgid "Text to translate"
-msgstr "Text to translate"
+msgstr "待翻译文本"
 
-#: sophie_bot/modules/ai/handlers/translate.py:34
+#: sophie_bot/modules/ai/handlers/translate.py:43
 msgid "Translates the given (or replied) text to the chat's selected language. Also transcribes the replied voice message to text"
 msgstr "将给定（或回复的）文本翻译为聊天选择的语言。还将回复的语音消息转录为文本"
 
-#: sophie_bot/modules/ai/handlers/translate.py:67
+#: sophie_bot/modules/ai/handlers/translate.py:76
 #, python-brace-format
 msgid "If applicable, translate the photo to {language_name}"
 msgstr "如果适用，将照片翻译成 {language_name}"
 
-#: sophie_bot/modules/ai/handlers/translate.py:74
+#: sophie_bot/modules/ai/handlers/translate.py:83
 msgid "You're the professional AI translator / transcriber."
 msgstr "你是专业的 AI 翻译/转录员。"
 
-#: sophie_bot/modules/ai/handlers/translate.py:75
+#: sophie_bot/modules/ai/handlers/translate.py:84
 #, python-brace-format
-msgid ""
-"Translate the following text to {language_name}:\n"
+msgid "Translate the following text to {language_name}:\n"
 "{to_translate}"
-msgstr ""
-"将以下文本翻译为 {language_name}：\n"
+msgstr "将以下文本翻译为 {language_name}：\n"
 "{to_translate}"
 
-#: sophie_bot/modules/ai/handlers/translate.py:98
+#: sophie_bot/modules/ai/handlers/translate.py:107
 msgid "Auto Translator"
-msgstr "Auto Translator"
+msgstr "自动翻译器"
 
-#: sophie_bot/modules/ai/handlers/translate.py:98
+#: sophie_bot/modules/ai/handlers/translate.py:107
 msgid "Translator"
-msgstr "Translator"
+msgstr "翻译器"
 
-#: sophie_bot/modules/ai/handlers/translate.py:99
+#: sophie_bot/modules/ai/handlers/translate.py:108
 msgid "Voice"
 msgstr "声音"
 
-#: sophie_bot/modules/ai/handlers/translate.py:104
+#: sophie_bot/modules/ai/handlers/translate.py:113
 #, python-brace-format
 msgid "From {from_lang} to {to_lang}"
-msgstr "From {from_lang} to {to_lang}"
+msgstr "从 {from_lang} 到 {to_lang}"
 
-#: sophie_bot/modules/ai/handlers/translate.py:114
+#: sophie_bot/modules/ai/handlers/translate.py:123
 msgid "Translation Notes"
-msgstr "Translation Notes"
+msgstr "翻译备注"
 
 #: sophie_bot/modules/ai/magic_handlers/modern_action.py:37
 msgid "Please enter AI prompt"
@@ -466,15 +478,23 @@ msgid "Do not use tables, use only the following markdown elements: ** for bold,
 msgstr "请不要使用表格，只使用以下markdown元素：**表示粗体，~~表示删除线，`表示代码，```表示代码块和[]()表示链接。"
 
 #: sophie_bot/modules/ai/utils/new_message_history.py:86
+msgid "Focus primarily on answering the LATEST user message."
+msgstr "主要专注于回答最新的用户消息。"
+
+#: sophie_bot/modules/ai/utils/new_message_history.py:88
+msgid "Use the conversation history only for context, but respond specifically to the most recent question."
+msgstr "仅将对话历史用作上下文，但要专门回答最近的问题。"
+
+#: sophie_bot/modules/ai/utils/new_message_history.py:90
 msgid "Today is "
 msgstr "今天是 "
 
-#: sophie_bot/modules/ai/utils/new_message_history.py:133
-#: sophie_bot/modules/ai/utils/new_message_history.py:135
+#: sophie_bot/modules/ai/utils/new_message_history.py:137
+#: sophie_bot/modules/ai/utils/new_message_history.py:139
 msgid "<No text provided>"
 msgstr "<未提供文本>"
 
-#: sophie_bot/modules/ai/utils/new_message_history.py:160
+#: sophie_bot/modules/ai/utils/new_message_history.py:164
 msgid "Photo is empty"
 msgstr "照片为空"
 
@@ -850,7 +870,7 @@ msgstr "⬅ 返回"
 #: sophie_bot/modules/filters/handlers/add.py:72
 #: sophie_bot/modules/filters/handlers/add.py:89
 msgid "❌ Cancel"
-msgstr "❌ Cancel"
+msgstr "❌ 取消"
 
 #: sophie_bot/modules/filters/handlers/actions_list.py:48
 #: sophie_bot/modules/filters/handlers/add.py:59
@@ -1010,7 +1030,7 @@ msgstr "这个聊天中没有过滤器！"
 #: sophie_bot/modules/filters/handlers/filters_list.py:34
 #, python-brace-format
 msgid "Filters in {chat_name}"
-msgstr "Filters in {chat_name}"
+msgstr "{chat_name} 中的筛选器"
 
 #: sophie_bot/modules/filters/handlers/filters_list.py:38
 msgid "Additionally rules from 'Antiflood' module can be enforced."
@@ -1040,11 +1060,9 @@ msgid "Greetings"
 msgstr "问候"
 
 #: sophie_bot/modules/greetings/__init__.py:23
-msgid ""
-"This module helps you to welcome new users automatically, while keeping the chat clean.\n"
+msgid "This module helps you to welcome new users automatically, while keeping the chat clean.\n"
 "If you want to enforce captcha / rules verification, please see 'Welcome Security' module instead."
-msgstr ""
-"此模块帮助您自动欢迎新用户，同时保持聊天清洁。\n"
+msgstr "此模块帮助您自动欢迎新用户，同时保持聊天清洁。\n"
 "如果您想强制执行验证码/规则验证，请查看“欢迎安全”模块。"
 
 #: sophie_bot/modules/greetings/default_welcome.py:9
@@ -1200,7 +1218,7 @@ msgstr "支持聊天"
 
 #: sophie_bot/modules/greetings/middlewares/new_user.py:82
 msgid "I am not a robot"
-msgstr "I am not a robot"
+msgstr "我不是机器人"
 
 #: sophie_bot/modules/help/__init__.py:23
 #: sophie_bot/modules/help/handlers/help_group.py:27
@@ -1314,7 +1332,7 @@ msgstr "加入我们的 {chat} 和 {channel}。"
 
 #: sophie_bot/modules/help/utils/format_help.py:28
 msgid "— Only in groups"
-msgstr "— Only in groups"
+msgstr "— 仅限群组中使用"
 
 #: sophie_bot/modules/help/utils/format_help.py:29
 msgid "Disable-able"
@@ -1557,23 +1575,23 @@ msgstr "取消对该用户的禁令。"
 
 #: sophie_bot/modules/legacy_modules/modules/restrictions.py:456
 msgid "🚪 Kick"
-msgstr "🚪 Kick"
+msgstr "🚪 移出"
 
 #: sophie_bot/modules/legacy_modules/modules/restrictions.py:460
 msgid "🚷 Ban"
-msgstr "🚷 Ban"
+msgstr "🚷 封禁"
 
 #: sophie_bot/modules/legacy_modules/modules/restrictions.py:465
 msgid "⏳🚷 Temporary ban"
-msgstr "⏳🚷 Temporary ban"
+msgstr "⏳🚷 临时封禁"
 
 #: sophie_bot/modules/legacy_modules/modules/restrictions.py:473
 msgid "🔕 Mute"
-msgstr "🔕 Mute"
+msgstr "🔕 静音"
 
 #: sophie_bot/modules/legacy_modules/modules/restrictions.py:478
 msgid "⏳🔕 Temporary mute"
-msgstr "⏳🔕 Temporary mute"
+msgstr "⏳🔕 暂时静音"
 
 #: sophie_bot/modules/legacy_modules/modules/users.py:17
 #: sophie_bot/modules/users/__init__.py:15
@@ -1626,7 +1644,7 @@ msgstr "新模式"
 
 #: sophie_bot/modules/legacy_modules/modules/warns.py:385
 msgid "⚠️ Warn"
-msgstr "⚠️ Warn"
+msgstr "⚠️ 警告"
 
 #: sophie_bot/modules/legacy_modules/utils/user_details.py:349
 msgid "I couldn't find the chat / channel! Please ensure that I am added as an admin there!"
@@ -1896,11 +1914,11 @@ msgstr "现在，请输入您想要自动发送的文本。它支持按钮和自
 
 #: sophie_bot/modules/notes/magic_handlers/filter.py:86
 msgid "💭 Reply to message"
-msgstr "💭 Reply to message"
+msgstr "💭 回复消息"
 
 #: sophie_bot/modules/notes/magic_handlers/filter.py:92
 msgid "🗒 Send a note"
-msgstr "🗒 Send a note"
+msgstr "🗒 发送笔记"
 
 #: sophie_bot/modules/notes/magic_handlers/modern_filter.py:37
 #: sophie_bot/modules/notes/magic_handlers/reply_action.py:62
@@ -1988,11 +2006,11 @@ msgstr "隐私"
 
 #: sophie_bot/modules/privacy/__init__.py:19
 msgid "Data protection"
-msgstr "Data protection"
+msgstr "数据保护"
 
 #: sophie_bot/modules/privacy/handlers/export.py:23
 msgid "Exports your data to a JSON file"
-msgstr "Exports your data to a JSON file"
+msgstr "将你的数据导出为 JSON 文件"
 
 #: sophie_bot/modules/privacy/handlers/export.py:38
 msgid "Export is started, this may take a while."
@@ -2108,7 +2126,7 @@ msgstr "清理完成。此消息将在 5 秒内被删除。"
 
 #: sophie_bot/modules/purges/magic_handlers/filter.py:21
 msgid "🗑 Delete message"
-msgstr "🗑 Delete message"
+msgstr "🗑 删除消息"
 
 #: sophie_bot/modules/purges/magic_handlers/modern_filter.py:19
 msgid "Delete the message"
@@ -2622,35 +2640,35 @@ msgstr "其中之一：{}"
 
 #: types/oneword.py:13
 msgid "Word (string with no spaces)"
-msgstr "Word (string with no spaces)"
+msgstr "单词（不含空格的字符串）"
 
 #: types/oneword.py:13
 msgid "Words (strings with no spaces)"
-msgstr "Words (strings with no spaces)"
+msgstr "单词（不含空格的字符串）"
 
 #: types/oneword.py:33
 msgid "Integer (number)"
-msgstr "Integer (number)"
+msgstr "整数（数字）"
 
 #: types/oneword.py:33
 msgid "Integers (numbers)"
-msgstr "Integers (numbers)"
+msgstr "整数（数字）"
 
 #: types/oneword.py:49
 msgid "Boolean (Yes / No value)"
-msgstr "Boolean (Yes / No value)"
+msgstr "布尔值（是 / 否）"
 
 #: types/oneword.py:49
 msgid "Booleans (Yes / No values)"
-msgstr "Booleans (Yes / No values)"
+msgstr "布尔值（是 / 否）"
 
 #: types/oneword.py:54
 msgid "True (can means Enabled or Yes)"
-msgstr "True (can means Enabled or Yes)"
+msgstr "True（可表示启用或是）"
 
 #: types/oneword.py:55
 msgid "False (can means Disabled or No)"
-msgstr "False (can means Disabled or No)"
+msgstr "False（可表示禁用或否）"
 
 #: types/text.py:18
 msgid "Text"
@@ -2769,4 +2787,24 @@ msgstr "尝试获取用户时出现意外错误！请在支持聊天中报告此
 #: types/user.py:108
 msgid "Could not find the user mention"
 msgstr "未找到用户提及"
+
+#: types/user.py:120
+msgid "User: 'User ID (numeric) / Username (starts with @) / Mention (links to users)'"
+msgstr "用户：用户 ID（数字）/ 用户名（以 @ 开头）/ 提及（链接到用户）"
+
+#: types/user.py:122
+msgid "Users: 'User IDs (numeric) / Usernames (starts with @) / Mentions (links to users)'"
+msgstr "用户：用户 ID（数字）/ 用户名（以 @ 开头）/ 提及（链接到用户）"
+
+#: types/user.py:128
+msgid "User ID"
+msgstr "用户 ID"
+
+#: types/user.py:129
+msgid "Username"
+msgstr "用户名"
+
+#: types/user.py:134
+msgid "A link to user, usually creates by mentioning a user without username."
+msgstr "用户的链接，通常通过提及用户而不带用户名来创建。"
 
