@@ -95,7 +95,7 @@ class SophieMessageCallbackQueryHandler(SophieBaseHandler[Message | CallbackQuer
         if isinstance(self.event, Message):
             msg = self.event
         else:
-            msg = getattr(self.event, "message", None)
+            msg = getattr(self.event, "message", None)  # type: ignore
 
         if not msg:
             raise SophieException("No message in the event")

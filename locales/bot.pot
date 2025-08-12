@@ -2349,8 +2349,9 @@ msgid "{user}'s ID: {id}"
 msgstr ""
 
 #: sophie_bot/modules/utils_/base_handler.py:84
-#: sophie_bot/modules/utils_/base_handler.py:99
-#: sophie_bot/modules/utils_/base_handler.py:108
+#: sophie_bot/modules/utils_/base_handler.py:103
+#: sophie_bot/modules/utils_/base_handler.py:105
+#: sophie_bot/modules/utils_/base_handler.py:114
 #: sophie_bot/modules/utils_/reply_or_edit.py:11
 msgid "The message is inaccessible. Please write the command again"
 msgstr ""
