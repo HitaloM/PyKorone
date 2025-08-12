@@ -1,3 +1,17 @@
+msgid ""
+msgstr ""
+"Plural-Forms: nplurals=4; plural=((n%10==1 && n%100!=11) ? 0 : ((n%10 >= 2 && n%10 <=4 && (n%100 < 12 || n%100 > 14)) ? 1 : ((n%10 == 0 || (n%10 >= 5 && n%10 <=9)) || (n%100 >= 11 && n%100 <= 14)) ? 2 : 3));\n"
+"X-Crowdin-Project: sophiebot\n"
+"X-Crowdin-Project-ID: 356879\n"
+"X-Crowdin-Language: uk\n"
+"X-Crowdin-File: /beta/locales/sophie.pot\n"
+"X-Crowdin-File-ID: 288\n"
+"Project-Id-Version: sophiebot\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language-Team: Ukrainian\n"
+"Language: uk_UA\n"
+"PO-Revision-Date: 2025-08-12 22:25\n"
+
 #: sophie_bot/args/users.py:29
 msgid "Could not find the requested User ID in the database."
 msgstr "Не вдалося знайти запитаний Ідентифікатор користувача в базі даних."
@@ -6,23 +20,23 @@ msgstr "Не вдалося знайти запитаний Ідентифіка
 msgid "Could not find the requested Username in the database."
 msgstr "Не вдалося знайти запитане Ім'я користувача в базі даних."
 
-#: sophie_bot/args/users.py:72 types/user.py:120
+#: sophie_bot/args/users.py:72
 msgid "User: 'User ID (numeric) / Username (starts with @) / Mention (links to users)'"
 msgstr "Користувач: 'Ідентифікатор користувача (числовий) / Ім'я користувача (починається з @) / Згадка (посилання на користувачів)'"
 
-#: sophie_bot/args/users.py:73 types/user.py:122
+#: sophie_bot/args/users.py:73
 msgid "Users: 'User IDs (numeric) / Usernames (starts with @) / Mentions (links to users)'"
 msgstr "Користувачі: 'Ідентифікатори користувачів (числові) / Імена користувачів (починаються з @) / Згадки (посилання на користувачів)'"
 
-#: sophie_bot/args/users.py:79 types/user.py:128
+#: sophie_bot/args/users.py:79
 msgid "User ID"
 msgstr "Ідентифікатор користувача"
 
-#: sophie_bot/args/users.py:80 types/user.py:129
+#: sophie_bot/args/users.py:80
 msgid "Username"
 msgstr "Ім'я користувача"
 
-#: sophie_bot/args/users.py:82 types/user.py:134
+#: sophie_bot/args/users.py:82
 msgid "A link to user, usually creates by mentioning a user without username."
 msgstr "Посилання на користувача, яке зазвичай створюється, коли згадують користувача без імені."
 
@@ -282,50 +296,48 @@ msgstr "Скинути контекст ШІ чату та пам'ять ШІ"
 msgid "🔄 AI context and AI memory was successfully reset. AI will now operate in a clean state."
 msgstr "🔄 Контекст ШІ та пам'ять ШІ були успішно скинуті. ШІ тепер працюватиме в чистому стані."
 
-#: sophie_bot/modules/ai/handlers/translate.py:27
+#: sophie_bot/modules/ai/handlers/translate.py:36
 msgid "Text to translate"
 msgstr "Текст для перекладу"
 
-#: sophie_bot/modules/ai/handlers/translate.py:34
+#: sophie_bot/modules/ai/handlers/translate.py:43
 msgid "Translates the given (or replied) text to the chat's selected language. Also transcribes the replied voice message to text"
 msgstr "Перекладає даний (або відповіданий) текст на вибрану мову чату. Також транскрибує відповідане голосове повідомлення в текст"
 
-#: sophie_bot/modules/ai/handlers/translate.py:67
+#: sophie_bot/modules/ai/handlers/translate.py:76
 #, python-brace-format
 msgid "If applicable, translate the photo to {language_name}"
 msgstr "Якщо можливо, перекладіть це фото на {language_name}"
 
-#: sophie_bot/modules/ai/handlers/translate.py:74
+#: sophie_bot/modules/ai/handlers/translate.py:83
 msgid "You're the professional AI translator / transcriber."
 msgstr "Ви професійний AI перекладач / транскрибатор."
 
-#: sophie_bot/modules/ai/handlers/translate.py:75
+#: sophie_bot/modules/ai/handlers/translate.py:84
 #, python-brace-format
-msgid ""
-"Translate the following text to {language_name}:\n"
+msgid "Translate the following text to {language_name}:\n"
 "{to_translate}"
-msgstr ""
-"Перекладіть наступний текст на {language_name}:\n"
+msgstr "Перекладіть наступний текст на {language_name}:\n"
 "{to_translate}"
 
-#: sophie_bot/modules/ai/handlers/translate.py:98
+#: sophie_bot/modules/ai/handlers/translate.py:107
 msgid "Auto Translator"
 msgstr "Авто Перекладач"
 
-#: sophie_bot/modules/ai/handlers/translate.py:98
+#: sophie_bot/modules/ai/handlers/translate.py:107
 msgid "Translator"
 msgstr "Перекладач"
 
-#: sophie_bot/modules/ai/handlers/translate.py:99
+#: sophie_bot/modules/ai/handlers/translate.py:108
 msgid "Voice"
 msgstr "Голос"
 
-#: sophie_bot/modules/ai/handlers/translate.py:104
+#: sophie_bot/modules/ai/handlers/translate.py:113
 #, python-brace-format
 msgid "From {from_lang} to {to_lang}"
 msgstr "From {from_lang} to {to_lang}"
 
-#: sophie_bot/modules/ai/handlers/translate.py:114
+#: sophie_bot/modules/ai/handlers/translate.py:123
 msgid "Translation Notes"
 msgstr "Translation Notes"
 
@@ -469,15 +481,23 @@ msgid "Do not use tables, use only the following markdown elements: ** for bold,
 msgstr "Не використовуйте таблиці, використовуйте лише наступні елементи markdown: ** для жирного, ~~ для закреслення, ` для коду, ``` для блоків коду та []() для посилань."
 
 #: sophie_bot/modules/ai/utils/new_message_history.py:86
+msgid "Focus primarily on answering the LATEST user message."
+msgstr "Насамперед відповідайте на останнє повідомлення користувача."
+
+#: sophie_bot/modules/ai/utils/new_message_history.py:88
+msgid "Use the conversation history only for context, but respond specifically to the most recent question."
+msgstr "Використовуйте історію розмови лише як контекст, але відповідайте саме на найновіще запитання."
+
+#: sophie_bot/modules/ai/utils/new_message_history.py:90
 msgid "Today is "
 msgstr "Сьогодні є "
 
-#: sophie_bot/modules/ai/utils/new_message_history.py:133
-#: sophie_bot/modules/ai/utils/new_message_history.py:135
+#: sophie_bot/modules/ai/utils/new_message_history.py:137
+#: sophie_bot/modules/ai/utils/new_message_history.py:139
 msgid "<No text provided>"
 msgstr "<No text provided>"
 
-#: sophie_bot/modules/ai/utils/new_message_history.py:160
+#: sophie_bot/modules/ai/utils/new_message_history.py:164
 msgid "Photo is empty"
 msgstr "Фотографія порожня"
 
@@ -1046,11 +1066,9 @@ msgid "Greetings"
 msgstr "Привітання"
 
 #: sophie_bot/modules/greetings/__init__.py:23
-msgid ""
-"This module helps you to welcome new users automatically, while keeping the chat clean.\n"
+msgid "This module helps you to welcome new users automatically, while keeping the chat clean.\n"
 "If you want to enforce captcha / rules verification, please see 'Welcome Security' module instead."
-msgstr ""
-"Цей модуль допомагає автоматично вітати нових користувачів, водночас підтримуючи чистоту чату.\n"
+msgstr "Цей модуль допомагає автоматично вітати нових користувачів, водночас підтримуючи чистоту чату.\n"
 "Якщо ви хочете реалізувати перевірку captcha / перевірку правил, будь ласка, перегляньте модуль 'Привітальна безпека'."
 
 #: sophie_bot/modules/greetings/default_welcome.py:9
@@ -2775,4 +2793,24 @@ msgstr "Unexpected error while trying to get the user! Please report this in the
 #: types/user.py:108
 msgid "Could not find the user mention"
 msgstr "Could not find the user mention"
+
+#: types/user.py:120
+msgid "User: 'User ID (numeric) / Username (starts with @) / Mention (links to users)'"
+msgstr "Користувач: 'Ідентифікатор користувача (числовий) / Ім'я користувача (починається з @) / Згадка (посилання на користувачів)'"
+
+#: types/user.py:122
+msgid "Users: 'User IDs (numeric) / Usernames (starts with @) / Mentions (links to users)'"
+msgstr "Користувачі: 'Ідентифікатори користувачів (числові) / Імена користувачів (починаються з @) / Згадки (посилання на користувачів)'"
+
+#: types/user.py:128
+msgid "User ID"
+msgstr "Ідентифікатор користувача"
+
+#: types/user.py:129
+msgid "Username"
+msgstr "Ім'я користувача"
+
+#: types/user.py:134
+msgid "A link to user, usually creates by mentioning a user without username."
+msgstr "Посилання на користувача, яке зазвичай створюється, коли згадують користувача без імені."
 

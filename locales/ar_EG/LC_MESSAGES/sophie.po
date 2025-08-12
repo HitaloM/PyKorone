@@ -1,3 +1,17 @@
+msgid ""
+msgstr ""
+"Plural-Forms: nplurals=6; plural=(n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5);\n"
+"X-Crowdin-Project: sophiebot\n"
+"X-Crowdin-Project-ID: 356879\n"
+"X-Crowdin-Language: ar-EG\n"
+"X-Crowdin-File: /beta/locales/sophie.pot\n"
+"X-Crowdin-File-ID: 288\n"
+"Project-Id-Version: sophiebot\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language-Team: Arabic, Egypt\n"
+"Language: ar_EG\n"
+"PO-Revision-Date: 2025-08-12 22:25\n"
+
 #: sophie_bot/args/users.py:29
 msgid "Could not find the requested User ID in the database."
 msgstr "لم يتم العثور على معرف المستخدم المطلوب في قاعدة البيانات."
@@ -6,23 +20,23 @@ msgstr "لم يتم العثور على معرف المستخدم المطلوب
 msgid "Could not find the requested Username in the database."
 msgstr "لم يتم العثور على اسم المستخدم المطلوب في قاعدة البيانات."
 
-#: sophie_bot/args/users.py:72 types/user.py:120
+#: sophie_bot/args/users.py:72
 msgid "User: 'User ID (numeric) / Username (starts with @) / Mention (links to users)'"
 msgstr "المستخدم: 'معرف المستخدم (رقمي) / اسم المستخدم (يبدأ بـ @) / إشارة (روابط إلى المستخدمين)'"
 
-#: sophie_bot/args/users.py:73 types/user.py:122
+#: sophie_bot/args/users.py:73
 msgid "Users: 'User IDs (numeric) / Usernames (starts with @) / Mentions (links to users)'"
 msgstr "المستخدمون: 'معرفات المستخدمين (رقمي) / أسماء المستخدمين (تبدأ بـ @) / إشارات (روابط إلى المستخدمين)'"
 
-#: sophie_bot/args/users.py:79 types/user.py:128
+#: sophie_bot/args/users.py:79
 msgid "User ID"
 msgstr "معرف المستخدم"
 
-#: sophie_bot/args/users.py:80 types/user.py:129
+#: sophie_bot/args/users.py:80
 msgid "Username"
 msgstr "اسم المستخدم"
 
-#: sophie_bot/args/users.py:82 types/user.py:134
+#: sophie_bot/args/users.py:82
 msgid "A link to user, usually creates by mentioning a user without username."
 msgstr "رابط إلى المستخدم، يتم إنشاؤه عادةً عن طريق الإشارة إلى مستخدم بدون اسم مستخدم."
 
@@ -282,50 +296,48 @@ msgstr "إعادة تعيين سياق الذكاء الاصطناعي للدر�
 msgid "🔄 AI context and AI memory was successfully reset. AI will now operate in a clean state."
 msgstr "🔄 تم إعادة تعيين سياق الذكاء الاصطناعي وذاكرة الذكاء الاصطناعي بنجاح. سيعمل الذكاء الاصطناعي الآن في حالة نظيفة."
 
-#: sophie_bot/modules/ai/handlers/translate.py:27
+#: sophie_bot/modules/ai/handlers/translate.py:36
 msgid "Text to translate"
 msgstr "نص للترجمة"
 
-#: sophie_bot/modules/ai/handlers/translate.py:34
+#: sophie_bot/modules/ai/handlers/translate.py:43
 msgid "Translates the given (or replied) text to the chat's selected language. Also transcribes the replied voice message to text"
 msgstr "يترجم النص المحدد (أو الرد عليه) إلى اللغة المختارة للدردشة. كما يقوم بتحويل الرسالة الصوتية المردود عليها إلى نص"
 
-#: sophie_bot/modules/ai/handlers/translate.py:67
+#: sophie_bot/modules/ai/handlers/translate.py:76
 #, python-brace-format
 msgid "If applicable, translate the photo to {language_name}"
 msgstr "إذا لزم الأمر، قم بترجمة الصورة إلى {language_name}"
 
-#: sophie_bot/modules/ai/handlers/translate.py:74
+#: sophie_bot/modules/ai/handlers/translate.py:83
 msgid "You're the professional AI translator / transcriber."
 msgstr "أنت المترجم/الناسخ الاحترافي للذكاء الاصطناعي."
 
-#: sophie_bot/modules/ai/handlers/translate.py:75
+#: sophie_bot/modules/ai/handlers/translate.py:84
 #, python-brace-format
-msgid ""
-"Translate the following text to {language_name}:\n"
+msgid "Translate the following text to {language_name}:\n"
 "{to_translate}"
-msgstr ""
-"ترجم النص التالي إلى {language_name}:\n"
+msgstr "ترجم النص التالي إلى {language_name}:\n"
 "{to_translate}"
 
-#: sophie_bot/modules/ai/handlers/translate.py:98
+#: sophie_bot/modules/ai/handlers/translate.py:107
 msgid "Auto Translator"
 msgstr "المترجم التلقائي"
 
-#: sophie_bot/modules/ai/handlers/translate.py:98
+#: sophie_bot/modules/ai/handlers/translate.py:107
 msgid "Translator"
 msgstr "المترجم"
 
-#: sophie_bot/modules/ai/handlers/translate.py:99
+#: sophie_bot/modules/ai/handlers/translate.py:108
 msgid "Voice"
 msgstr "صوت"
 
-#: sophie_bot/modules/ai/handlers/translate.py:104
+#: sophie_bot/modules/ai/handlers/translate.py:113
 #, python-brace-format
 msgid "From {from_lang} to {to_lang}"
 msgstr "من {from_lang} إلى {to_lang}"
 
-#: sophie_bot/modules/ai/handlers/translate.py:114
+#: sophie_bot/modules/ai/handlers/translate.py:123
 msgid "Translation Notes"
 msgstr "ملاحظات الترجمة"
 
@@ -471,15 +483,23 @@ msgid "Do not use tables, use only the following markdown elements: ** for bold,
 msgstr "لا تستخدم الجداول، استخدم فقط العناصر التالية في الماركداون: ** للنص العريض، ~~ للشطب، ` للكود، ``` لكتل الكود و []() للروابط."
 
 #: sophie_bot/modules/ai/utils/new_message_history.py:86
+msgid "Focus primarily on answering the LATEST user message."
+msgstr "ركز بشكل أساسي على الإجابة عن أَحدث رسالة من المستخدم."
+
+#: sophie_bot/modules/ai/utils/new_message_history.py:88
+msgid "Use the conversation history only for context, but respond specifically to the most recent question."
+msgstr "استخدم سجل المحادثة كمرجع فقط، لكن رد تحديدًا على آخر سؤال."
+
+#: sophie_bot/modules/ai/utils/new_message_history.py:90
 msgid "Today is "
 msgstr "اليوم هو "
 
-#: sophie_bot/modules/ai/utils/new_message_history.py:133
-#: sophie_bot/modules/ai/utils/new_message_history.py:135
+#: sophie_bot/modules/ai/utils/new_message_history.py:137
+#: sophie_bot/modules/ai/utils/new_message_history.py:139
 msgid "<No text provided>"
 msgstr "<لا يوجد نص مقدم>"
 
-#: sophie_bot/modules/ai/utils/new_message_history.py:160
+#: sophie_bot/modules/ai/utils/new_message_history.py:164
 msgid "Photo is empty"
 msgstr "الصورة فارغة"
 
@@ -1050,11 +1070,9 @@ msgid "Greetings"
 msgstr "تحيات"
 
 #: sophie_bot/modules/greetings/__init__.py:23
-msgid ""
-"This module helps you to welcome new users automatically, while keeping the chat clean.\n"
+msgid "This module helps you to welcome new users automatically, while keeping the chat clean.\n"
 "If you want to enforce captcha / rules verification, please see 'Welcome Security' module instead."
-msgstr ""
-"يساعد هذا الوحدة في الترحيب بالمستخدمين الجدد تلقائيًا، مع الحفاظ على نظافة الدردشة.\n"
+msgstr "يساعد هذا الوحدة في الترحيب بالمستخدمين الجدد تلقائيًا، مع الحفاظ على نظافة الدردشة.\n"
 "إذا كنت ترغب في فرض التحقق من captcha / القواعد، يرجى مراجعة وحدة 'أمان الترحيب' بدلاً من ذلك."
 
 #: sophie_bot/modules/greetings/default_welcome.py:9
@@ -2779,4 +2797,24 @@ msgstr "حدث خطأ غير متوقع أثناء محاولة الحصول ع�
 #: types/user.py:108
 msgid "Could not find the user mention"
 msgstr "لم يتم العثور على الإشارة إلى المستخدم"
+
+#: types/user.py:120
+msgid "User: 'User ID (numeric) / Username (starts with @) / Mention (links to users)'"
+msgstr "المستخدم: 'معرف المستخدم (رقمي) / اسم المستخدم (يبدأ بـ @) / إشارة (روابط إلى المستخدمين)'"
+
+#: types/user.py:122
+msgid "Users: 'User IDs (numeric) / Usernames (starts with @) / Mentions (links to users)'"
+msgstr "المستخدمون: 'معرفات المستخدمين (رقمي) / أسماء المستخدمين (تبدأ بـ @) / إشارات (روابط إلى المستخدمين)'"
+
+#: types/user.py:128
+msgid "User ID"
+msgstr "معرف المستخدم"
+
+#: types/user.py:129
+msgid "Username"
+msgstr "اسم المستخدم"
+
+#: types/user.py:134
+msgid "A link to user, usually creates by mentioning a user without username."
+msgstr "رابط إلى المستخدم، يتم إنشاؤه عادةً عن طريق الإشارة إلى مستخدم بدون اسم مستخدم."
 
