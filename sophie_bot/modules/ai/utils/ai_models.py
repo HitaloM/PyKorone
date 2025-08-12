@@ -55,6 +55,7 @@ class GoogleModels(Enum):
 
 class MistralModels(Enum):
     mistral_large = "mistral-large-latest"
+    mistral_medium = "mistral-medium-latest"
     mistral_small = "mistral-small-latest"
     codestral = "codestral-latest"
     pixtral = "pixtral-12b-2409"
@@ -83,6 +84,7 @@ AI_MODEL_TO_PROVIDER = {
     GoogleModels.gemini_2_5_flash.name: "google",
     GoogleModels.gemini_2_5_pro.name: "google",
     MistralModels.mistral_large.name: "mistral",
+    MistralModels.mistral_medium.name: "mistral",
     MistralModels.mistral_small.name: "mistral",
     MistralModels.codestral.name: "mistral",
     MistralModels.pixtral.name: "mistral",
@@ -96,6 +98,7 @@ AI_MODEL_TO_SHORT_NAME = {
     GoogleModels.gemini_2_5_flash.value: "Gemini 2.5 Flash",
     GoogleModels.gemini_2_5_pro.value: "Gemini 2.5 Pro",
     MistralModels.mistral_large.value: "Mistral Large",
+    MistralModels.mistral_medium.value: "Mistral Medium",
     MistralModels.mistral_small.value: "Mistral Small",
     MistralModels.codestral.value: "Codestral",
     MistralModels.pixtral.value: "Pixtral 12B",
@@ -135,14 +138,14 @@ AI_MODELS: dict[str, Model] = {
 }
 
 DEFAULT_MODELS: dict[str, str] = {
-    AIProviders.auto.name: OpenAIModels.gpt_5_mini.name,
+    AIProviders.auto.name: MistralModels.mistral_medium.name,
     AIProviders.google.name: GoogleModels.gemini_2_5_flash.name,
-    AIProviders.mistral.name: MistralModels.mistral_small.name,
+    AIProviders.mistral.name: MistralModels.mistral_medium.name,
     AIProviders.openai.name: OpenAIModels.gpt_5_mini.name,
 }
 
 TRANSLATE_DEFAULT_MODELS: dict[str, str] = {
-    AIProviders.auto.name: OpenAIModels.gpt_5_nano.name,
+    AIProviders.auto.name: MistralModels.mistral_small.name,
     AIProviders.google.name: GoogleModels.gemini_2_5_flash.name,
     AIProviders.mistral.name: MistralModels.mistral_small.name,
     AIProviders.openai.name: OpenAIModels.gpt_5_nano.name,
