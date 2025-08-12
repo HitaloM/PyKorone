@@ -95,7 +95,7 @@ async def ai_chatbot_reply(
         )
 
     if model is None:
-        model = await get_chat_default_model(message.chat.id)
+        model = await get_chat_default_model(connection.db_model.id)  # type: ignore
     result = await new_ai_generate(
         history, tools=CHATBOT_TOOLS, model=model, agent_kwargs={"deps": SophieAIToolContenxt(connection=connection)}
     )
@@ -115,7 +115,7 @@ async def ai_chatbot_reply(
         doc += Section(
             BlockQuote(
                 Doc(
-                    KeyValue("Model", AI_MODEL_TO_SHORT_NAME[model.model_name]),  # type: ignore[attr-defined]
+                    KeyValue("Model", AI_MODEL_TO_SHORT_NAME[model.model_name]),
                     KeyValue("LLM Requests", result.usage.requests),
                     KeyValue("Retries", result.retires),
                     KeyValue("Request tokens", result.usage.request_tokens),

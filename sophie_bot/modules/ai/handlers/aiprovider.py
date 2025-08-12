@@ -98,21 +98,15 @@ class AIProviderSelectCallback(SophieCallbackQueryHandler):
         if provider_name not in AVAILABLE_PROVIDER_NAMES:
             return await self.event.answer(_("Unknown provider"))
 
-        chat = self.connection.db_model
-        if not chat:
-            return await self.event.answer(_("Chat is not initialized yet"))
-
-        await AIProviderModel.set_provider(chat, provider_name)
-
-        # Rebuild keyboard to reflect new state
-        kb = build_keyboard(provider_name)
+        await AIProviderModel.set_provider(self.connection.db_model, provider_name)
 
         doc = Doc(
             Section(
-                KeyValue(_("Current provider"), AI_PROVIDER_TO_NAME[provider_name]),
-                title=l_("AI Provider"),
+                KeyValue(_("Chat"), self.connection.title),
+                KeyValue(_("New provider"), AI_PROVIDER_TO_NAME[provider_name]),
+                title=l_("AI Provider was updated"),
             )
         )
-        await message.edit_text(str(doc), reply_markup=kb)
+        await message.edit_text(str(doc))
         await self.event.answer(_("Provider updated"))
         return None
