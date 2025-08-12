@@ -114,7 +114,7 @@ async def ai_chatbot_reply(
     if length > 4000:
         output_text = output_text[:4000] + "..."
 
-    doc = Doc(header, BlockQuote(PreformattedHTML(legacy_markdown_to_html(output_text))))
+    doc = Doc(header, BlockQuote(PreformattedHTML(legacy_markdown_to_html(output_text, extract_headings=True))))
     if debug_mode:
         doc += " "
         doc += Section(

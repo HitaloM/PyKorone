@@ -110,7 +110,48 @@ def del_surrogate(text):
     return text.encode("utf-16", "surrogatepass").decode("utf-16")
 
 
-def extract_markdown_entities(text: str, delimiters=None, url_re=None) -> tuple[str, list[MessageEntity]]:
+def _process_headings_surrogate(text: str) -> tuple[str, list[MessageEntity]]:
+    """
+    Process ATX-style markdown headings in the surrogate text and return the
+    modified text along with bold entities spanning each heading's content.
+    Operates on surrogate text to keep offsets in UTF-16 code units.
+    """
+    out_parts: list[str] = []
+    entities: list[MessageEntity] = []
+    offset = 0
+
+    for line in text.splitlines(keepends=True):
+        # Preserve newline endings exactly
+        if line.endswith("\r\n"):
+            line_body = line[:-2]
+            newline = "\r\n"
+        elif line.endswith("\n") or line.endswith("\r"):
+            newline = line[-1]
+            line_body = line[:-1]
+        else:
+            newline = ""
+            line_body = line
+
+        m = re.match(r"^(#{1,6})[ \t]+(.+)$", line_body)
+        if m:
+            content = m.group(2)
+            # Remove optional closing hashes (CommonMark): trailing spaces, hashes, optional spaces
+            content = re.sub(r"[ \t]+#{1,}\s*$", "", content)
+            content = content.strip()
+            if content:
+                entities.append(MessageEntity(type="bold", offset=offset, length=len(content)))
+            out_parts.append(content + newline)
+            offset += len(content) + len(newline)
+        else:
+            out_parts.append(line)
+            offset += len(line)
+
+    return "".join(out_parts), entities
+
+
+def extract_markdown_entities(
+    text: str, delimiters=None, url_re=None, extract_headings: bool = False
+) -> tuple[str, list[MessageEntity]]:
     """
     Parses the given markdown message and returns its stripped representation
     plus a list of the MessageEntity's that were found.
@@ -144,6 +185,12 @@ def extract_markdown_entities(text: str, delimiters=None, url_re=None) -> tuple[
     # Work on byte level with the utf-16le encoding to get the offsets right.
     # The offset will just be half the index we're at.
     text = add_surrogate(text)
+
+    # Optionally process markdown headings and pre-populate entities.
+    if extract_headings:
+        text, heading_entities = _process_headings_surrogate(text)
+        result.extend(heading_entities)
+
     while i < len(text):
         m = delim_re.match(text, pos=i)
 
@@ -188,7 +235,8 @@ def extract_markdown_entities(text: str, delimiters=None, url_re=None) -> tuple[
                 # Replace the whole match with only the inline URL text.
                 text = "".join((text[: m.start()], m.group(1), text[m.end() :]))
 
-                delim_size = m.end() - m.start() - len(m.group())
+                # Number of characters removed when replacing the whole match with only its text.
+                delim_size = (m.end() - m.start()) - len(m.group(1))
                 for ent in result:
                     # If the end is after our start, it is affected
                     if ent.offset + ent.length > m.start():
