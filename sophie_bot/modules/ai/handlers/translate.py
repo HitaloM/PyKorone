@@ -3,7 +3,16 @@ from aiogram.dispatcher.event.handler import CallbackType
 from aiogram.handlers import MessageHandler
 from aiogram.types import Message
 from ass_tg.types import TextArg
-from stfu_tg import Bold, Doc, HList, PreformattedHTML, Section, Template, Title
+from stfu_tg import (
+    BlockQuote,
+    Bold,
+    Doc,
+    HList,
+    PreformattedHTML,
+    Section,
+    Template,
+    Title,
+)
 
 from sophie_bot.filters.cmd import CMDFilter
 from sophie_bot.middlewares.connections import ChatConnection
@@ -109,7 +118,7 @@ class AiTranslate(MessageHandler):
                 if not is_voice
                 else None
             ),
-            PreformattedHTML(legacy_markdown_to_html(translated.translated_text)),
+            BlockQuote(PreformattedHTML(legacy_markdown_to_html(translated.translated_text)), expandable=True),
             (
                 Section(translated.translation_explanations, title=_("Translation Notes"))
                 if translated.translation_explanations
