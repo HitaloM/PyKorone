@@ -83,6 +83,10 @@ class NewAIMessageHistory:
                 _(
                     "Do not use tables, use only the following markdown elements: ** for bold, ~~ for strikethrough, ` for code, ``` for code blocks and []() for links."
                 ),
+                _("Focus primarily on answering the LATEST user message."),
+                _(
+                    "Use the conversation history only for context, but respond specifically to the most recent question."
+                ),
                 _("Today is ") + today.strftime("%d %B %Y, %H:%M"),
                 " ",
             )
