@@ -465,15 +465,23 @@ msgid "Do not use tables, use only the following markdown elements: ** for bold,
 msgstr ""
 
 #: sophie_bot/modules/ai/utils/new_message_history.py:86
+msgid "Focus primarily on answering the LATEST user message."
+msgstr ""
+
+#: sophie_bot/modules/ai/utils/new_message_history.py:88
+msgid "Use the conversation history only for context, but respond specifically to the most recent question."
+msgstr ""
+
+#: sophie_bot/modules/ai/utils/new_message_history.py:90
 msgid "Today is "
 msgstr ""
 
-#: sophie_bot/modules/ai/utils/new_message_history.py:133
-#: sophie_bot/modules/ai/utils/new_message_history.py:135
+#: sophie_bot/modules/ai/utils/new_message_history.py:137
+#: sophie_bot/modules/ai/utils/new_message_history.py:139
 msgid "<No text provided>"
 msgstr ""
 
-#: sophie_bot/modules/ai/utils/new_message_history.py:160
+#: sophie_bot/modules/ai/utils/new_message_history.py:164
 msgid "Photo is empty"
 msgstr ""
 
