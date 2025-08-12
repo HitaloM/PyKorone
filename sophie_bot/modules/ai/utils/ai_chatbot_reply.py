@@ -57,12 +57,12 @@ def retrieve_tools_titles(message_history: list[ModelRequest | ModelResponse]) -
 
 
 async def ai_chatbot_reply(
-        message: Message,
-        connection: ChatConnection,
-        user_text: str | None = None,
-        debug_mode: bool = False,
-        model: Model | None = None,
-        **kwargs
+    message: Message,
+    connection: ChatConnection,
+    user_text: str | None = None,
+    debug_mode: bool = False,
+    model: Model | None = None,
+    **kwargs
 ):
     """
     Sends a reply from AI based on user input and message history.
@@ -89,7 +89,7 @@ async def ai_chatbot_reply(
 
     # Debug mode
     debug_mode = debug_mode or CONFIG.debug_mode
-    if '^llm_debug' in message.text or '^llm_debug' in user_text:
+    if "^llm_debug" in (user_text or message.text or ""):
         debug_mode = True
 
     # History debug
