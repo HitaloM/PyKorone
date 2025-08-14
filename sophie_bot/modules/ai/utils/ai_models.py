@@ -145,8 +145,8 @@ DEFAULT_MODELS: dict[str, str] = {
 }
 
 TRANSLATE_DEFAULT_MODELS: dict[str, str] = {
-    AIProviders.auto.name: MistralModels.mistral_small.name,
+    AIProviders.auto.name: MistralModels.mistral_medium.name,
     AIProviders.google.name: GoogleModels.gemini_2_5_flash.name,
-    AIProviders.mistral.name: MistralModels.mistral_small.name,
+    AIProviders.mistral.name: MistralModels.mistral_medium.name,
     AIProviders.openai.name: OpenAIModels.gpt_5_nano.name,
 }
