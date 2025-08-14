@@ -10,7 +10,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Language-Team: Chinese Simplified\n"
 "Language: zh_CN\n"
-"PO-Revision-Date: 2025-08-12 22:25\n"
+"PO-Revision-Date: 2025-08-12 23:32\n"
 
 #: sophie_bot/args/users.py:29
 msgid "Could not find the requested User ID in the database."
@@ -22,11 +22,11 @@ msgstr "未能在数据库中找到请求的用户名。"
 
 #: sophie_bot/args/users.py:72
 msgid "User: 'User ID (numeric) / Username (starts with @) / Mention (links to users)'"
-msgstr "用户：'用户 ID（数字）/用户名（以 @ 开头）/提及（链接到用户）'"
+msgstr "用户：用户 ID（数字）/ 用户名（以 @ 开头）/ 提及（链接到用户）"
 
 #: sophie_bot/args/users.py:73
 msgid "Users: 'User IDs (numeric) / Usernames (starts with @) / Mentions (links to users)'"
-msgstr "用户：'用户 ID（数字）/用户名（以 @ 开头）/提及（链接到用户）'"
+msgstr "用户：用户 ID（数字）/ 用户名（以 @ 开头）/ 提及（链接到用户）"
 
 #: sophie_bot/args/users.py:79
 msgid "User ID"
