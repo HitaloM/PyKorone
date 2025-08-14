@@ -33,5 +33,6 @@
 | `/enableai` `/aienable` | `<?New status>` | Controls AI features |  |
 | `/aimoderator` | `<?New status>` | Controls AI Moderator features |  |
 | `/aiautotranslate` `/autotranslate` | `<?New status>` | Controls AI Auto translator |  |
+| `/aiprovider` | - | Select the AI Provider for this chat |  |
 | `/aisave` | `<Prompt>` | Generate a new note using AI |  |
-| `/aireset` | - | Reset the chat's AI context |  |
+| `/aireset` | - | Reset the chat's AI context and AI memory |  |
