@@ -33,6 +33,7 @@ from sophie_bot.modules.notes.utils.parse import (
     PARSABLE_CONTENT_TYPES,
     SUPPORTS_CAPTION,
 )
+from sophie_bot.modules.notes.utils.random_parser import parse_random_text
 from sophie_bot.modules.notes.utils.unparse_legacy import legacy_markdown_to_html
 from sophie_bot.modules.utils_.common_try import common_try
 from sophie_bot.services.bot import bot
@@ -89,6 +90,10 @@ async def send_saveable(
 
     # Add title
     text = (str(title) + "\n" if title else "") + text
+
+    # Apply random choice sections (%%%...%%%)
+    if text:
+        text = parse_random_text(text)
 
     # inline_markup = unparse_buttons(saveable.buttons)
 

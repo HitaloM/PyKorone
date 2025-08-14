@@ -71,7 +71,7 @@ planet
         self.assertEqual(parse_random_text(text), expected)
         mock_choice.assert_called_once_with(['world\nplanet', 'universe\ngalaxy'])
 
-    @patch('random_parser.choice')
+    @patch("sophie_bot.modules.notes.utils.random_parser.choice")
     def test_multiline_with_multiple_sections(self, mock_choice):
         """Test multiple multiline sections."""
         mock_choice.side_effect = ["morning\n", "world"]
@@ -113,3 +113,37 @@ world"""
             "Hello options today!"
         ]
         self.assertIn(result, possible_results)
+
+    @patch("sophie_bot.modules.notes.utils.random_parser.choice")
+    def test_boundary_by_whitespace_between_sections(self, mock_choice):
+        # Two independent sections separated by whitespace-only should both be chosen
+        mock_choice.side_effect = ["y", "C"]
+        text = "A %%%x%%%y%%%  %%%B%%%C%%%"
+        result = parse_random_text(text)
+        self.assertEqual(result, "A y  C")
+
+    @patch("sophie_bot.modules.notes.utils.random_parser.choice")
+    def test_empty_option_at_start_of_section(self, mock_choice):
+        mock_choice.return_value = "middle"
+        text = "Start %%%%%%middle%%% end"
+        # Options are ["", "middle"] -> choose "middle"
+        self.assertEqual(parse_random_text(text), "Start middle end")
+        mock_choice.assert_called_once_with(["", "middle"])
+
+    @patch("sophie_bot.modules.notes.utils.random_parser.choice")
+    def test_avoid_triple_newlines_on_multiline_boundaries(self, mock_choice):
+        # When a section ends with a newline and the boundary whitespace starts with a newline,
+        # the parser normalizes to avoid an extra blank line.
+        mock_choice.side_effect = ["line1\n", "beta"]
+        text = (
+            "Title\n"  # preface
+            "%%%\n"  # start section 1
+            "line1\n"  # option A (ends with \n)
+            "%%%\n"  # delimiter + boundary starts with \n (whitespace-only)
+            "%%%beta%%%gamma%%%"  # section 2
+        )
+        result = parse_random_text(text)
+        # Expect exactly one blank line between chosen option and next section result,
+        # not two or three.
+        expected = "Title\nline1\nbeta"
+        self.assertEqual(result, expected)
