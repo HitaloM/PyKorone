@@ -10,7 +10,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Language-Team: Portuguese, Brazilian\n"
 "Language: pt_BR\n"
-"PO-Revision-Date: 2025-08-12 22:25\n"
+"PO-Revision-Date: 2025-08-15 22:07\n"
 
 #: sophie_bot/args/users.py:29
 msgid "Could not find the requested User ID in the database."
@@ -320,24 +320,28 @@ msgid "Translate the following text to {language_name}:\n"
 msgstr "Traduza o seguinte texto para {language_name}:\n"
 "{to_translate}"
 
-#: sophie_bot/modules/ai/handlers/translate.py:107
+#: sophie_bot/modules/ai/handlers/translate.py:88
+msgid "Set translation_explanations to null unless the source is ambiguous, self-contradictory, requires culturally/contextually essential explanation, contains untranslatable idiom/wordplay/polysemy affecting meaning, or needs disambiguation of a proper noun/technical term/abbreviation;if included, keep it concise (≤2 factual sentences)."
+msgstr "Defina translation_explanations como null, a menos que a fonte seja ambígua, autocontraditória, exija uma explicação cultural/contextual essencial, contenha uma expressão idiomática, jogo de palavras ou polissemia intraduzível que afete o significado, ou necessite de desambiguação de um nome próprio, termo técnico ou abreviação; caso seja incluído, mantenha-o conciso (≤2 frases factuais).}]}"
+
+#: sophie_bot/modules/ai/handlers/translate.py:114
 msgid "Auto Translator"
 msgstr "Autotradução"
 
-#: sophie_bot/modules/ai/handlers/translate.py:107
+#: sophie_bot/modules/ai/handlers/translate.py:114
 msgid "Translator"
 msgstr "Tradutor"
 
-#: sophie_bot/modules/ai/handlers/translate.py:108
+#: sophie_bot/modules/ai/handlers/translate.py:115
 msgid "Voice"
 msgstr "Voz"
 
-#: sophie_bot/modules/ai/handlers/translate.py:113
+#: sophie_bot/modules/ai/handlers/translate.py:120
 #, python-brace-format
 msgid "From {from_lang} to {to_lang}"
 msgstr "From {from_lang} to {to_lang}"
 
-#: sophie_bot/modules/ai/handlers/translate.py:123
+#: sophie_bot/modules/ai/handlers/translate.py:130
 msgid "Translation Notes"
 msgstr "Translation Notes"
 
@@ -1998,7 +2002,7 @@ msgstr "Por favor, tente reduzir o comprimento da nota."
 msgid "Note is too long."
 msgstr "Nota muito longa."
 
-#: sophie_bot/modules/notes/utils/send.py:96
+#: sophie_bot/modules/notes/utils/send.py:101
 msgid "The text is too long"
 msgstr "O texto é muito longo"
 
