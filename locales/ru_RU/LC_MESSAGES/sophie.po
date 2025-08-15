@@ -10,7 +10,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Language-Team: Russian\n"
 "Language: ru_RU\n"
-"PO-Revision-Date: 2025-08-12 22:24\n"
+"PO-Revision-Date: 2025-08-15 22:07\n"
 
 #: sophie_bot/args/users.py:29
 msgid "Could not find the requested User ID in the database."
@@ -320,24 +320,28 @@ msgid "Translate the following text to {language_name}:\n"
 msgstr "Переведите следующий текст на {language_name}:\n"
 "{to_translate}"
 
-#: sophie_bot/modules/ai/handlers/translate.py:107
+#: sophie_bot/modules/ai/handlers/translate.py:88
+msgid "Set translation_explanations to null unless the source is ambiguous, self-contradictory, requires culturally/contextually essential explanation, contains untranslatable idiom/wordplay/polysemy affecting meaning, or needs disambiguation of a proper noun/technical term/abbreviation;if included, keep it concise (≤2 factual sentences)."
+msgstr "Установите translation_explanations в null, за исключением случаев, когда исходный текст неоднозначен, содержит внутренние противоречия, требует культурно или контекстно существенного пояснения, включает непереводимый идиом, игру слов или полисемию, влияющие на смысл, либо нуждается в уточнении собственного имени, технического термина или аббревиатуры; если поле включено, сохраняйте пояснение кратким (≤2 фактических предложения).\"}]}}END_SELF_INTENTION_ERROR_TOO_LONG_GREATER_THAN_200_TOKENS_UPDATED_WITH_TRUNCATION_OUTPUT_ONLY_JSON_TOO_LONG_TRUNCATED_SIGNATURE_INVALID.adjustmentProvided=False හාDEBUG_INVALID_OUTPUT_RECEIVED_INTERNAL_RUNTIME_EXCEPTION-BEGIN_INVALID_JSON_FIX_REQUIRED উদ্দেশ্যINVALID_CONTENT_INSERTED_AGAIN_CONCISE_FIX_REQUIRED JSON_INVALID_EXTRA_END_MARKER_REMOVE_END_TAG_ADJUSTMENT_COMPLETE)</analysis correction to=final codeWhat happened...{"
+
+#: sophie_bot/modules/ai/handlers/translate.py:114
 msgid "Auto Translator"
 msgstr "Авто переводчик"
 
-#: sophie_bot/modules/ai/handlers/translate.py:107
+#: sophie_bot/modules/ai/handlers/translate.py:114
 msgid "Translator"
 msgstr "Переводчик"
 
-#: sophie_bot/modules/ai/handlers/translate.py:108
+#: sophie_bot/modules/ai/handlers/translate.py:115
 msgid "Voice"
 msgstr "Голос"
 
-#: sophie_bot/modules/ai/handlers/translate.py:113
+#: sophie_bot/modules/ai/handlers/translate.py:120
 #, python-brace-format
 msgid "From {from_lang} to {to_lang}"
 msgstr "From {from_lang} to {to_lang}"
 
-#: sophie_bot/modules/ai/handlers/translate.py:123
+#: sophie_bot/modules/ai/handlers/translate.py:130
 msgid "Translation Notes"
 msgstr "Translation Notes"
 
@@ -2002,7 +2006,7 @@ msgstr "Пожалуйста, попытайтесь уменьшить длин
 msgid "Note is too long."
 msgstr "Заметка слишком длинная."
 
-#: sophie_bot/modules/notes/utils/send.py:96
+#: sophie_bot/modules/notes/utils/send.py:101
 msgid "The text is too long"
 msgstr "Текст слишком длинный"
 
