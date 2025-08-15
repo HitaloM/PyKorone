@@ -7,9 +7,3 @@ class AIPlaygroundFSM(StatesGroup):
 
 class AiPMFSM(StatesGroup):
     conversation = State()
-
-
-# Constants for other modules
-AI_GENERATED_TEXT = "ai_generated_text"
-AI_PM_RESET = "ai_pm_reset"
-AI_PM_STOP_TEXT = "ai_pm_stop_text"

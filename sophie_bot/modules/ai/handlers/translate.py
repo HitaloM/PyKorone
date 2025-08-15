@@ -17,7 +17,7 @@ from stfu_tg import (
 from sophie_bot.filters.cmd import CMDFilter
 from sophie_bot.middlewares.connections import ChatConnection
 from sophie_bot.modules.ai.filters.ai_enabled import AIEnabledFilter
-from sophie_bot.modules.ai.fsm.playground import AI_GENERATED_TEXT
+from sophie_bot.modules.ai.fsm.pm import AI_GENERATED_TEXT
 from sophie_bot.modules.ai.json_schemas.translate import AITranslateResponseSchema
 from sophie_bot.modules.ai.utils.ai_get_provider import get_chat_translations_model
 from sophie_bot.modules.ai.utils.new_ai_chatbot import new_ai_generate_schema
@@ -84,11 +84,13 @@ class AiTranslate(MessageHandler):
                     _("Translate the following text to {language_name}:\n{to_translate}").format(
                         language_name=language_name, to_translate=to_translate
                     ),
-                    _("Set translation_explanations to null unless the source is ambiguous,"
-                      " self-contradictory, requires culturally/contextually essential explanation,"
-                      " contains untranslatable idiom/wordplay/polysemy affecting meaning,"
-                      " or needs disambiguation of a proper noun/technical term/abbreviation;"
-                      "if included, keep it concise (≤2 factual sentences).")
+                    _(
+                        "Set translation_explanations to null unless the source is ambiguous,"
+                        " self-contradictory, requires culturally/contextually essential explanation,"
+                        " contains untranslatable idiom/wordplay/polysemy affecting meaning,"
+                        " or needs disambiguation of a proper noun/technical term/abbreviation;"
+                        "if included, keep it concise (≤2 factual sentences)."
+                    ),
                 )
             )
         )
