@@ -84,6 +84,11 @@ class AiTranslate(MessageHandler):
                     _("Translate the following text to {language_name}:\n{to_translate}").format(
                         language_name=language_name, to_translate=to_translate
                     ),
+                    _("Set translation_explanations to null unless the source is ambiguous,"
+                      " self-contradictory, requires culturally/contextually essential explanation,"
+                      " contains untranslatable idiom/wordplay/polysemy affecting meaning,"
+                      " or needs disambiguation of a proper noun/technical term/abbreviation;"
+                      "if included, keep it concise (≤2 factual sentences).")
                 )
             )
         )
