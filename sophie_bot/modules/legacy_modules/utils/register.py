@@ -30,7 +30,7 @@ def register(router: Router, *reg_args, **reg_kwargs):
             REGISTRED_COMMANDS.append(cmd)
 
             if not idx == len(cmds_list) - 1:
-                if not cmds_list[0] in COMMANDS_ALIASES:
+                if cmds_list[0] not in COMMANDS_ALIASES:
                     COMMANDS_ALIASES[cmds_list[0]] = [cmds_list[idx + 1]]
                 else:
                     COMMANDS_ALIASES[cmds_list[0]].append(cmds_list[idx + 1])

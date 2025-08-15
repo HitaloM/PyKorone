@@ -11,7 +11,6 @@ from sophie_bot.db.models.filters import FilterHandlerType, FilterInSetupType
 from sophie_bot.filters.admin_rights import UserRestricting
 from sophie_bot.filters.cmd import CMDFilter
 from sophie_bot.filters.is_connected import GroupOrConnectedFilter
-from sophie_bot.modules.filters.handlers.actions_list import ActionsListHandler
 from sophie_bot.modules.filters.utils_.legacy_filter_handler import (
     check_legacy_filter_handler,
     text_legacy_handler_handles_on,
@@ -52,4 +51,7 @@ class FilterNewHandler(SophieMessageHandler):
             " ",
         )
         self.data["cancel_button"] = True
-        return await ActionsListHandler(self.event, **self.data)
+        # Open confirmation screen which now provides an ACW-based Configure button
+        from .filter_confirm import FilterConfirmHandler
+
+        return await FilterConfirmHandler(self.event, **self.data)

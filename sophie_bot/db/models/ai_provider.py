@@ -14,8 +14,14 @@ class AIProviderModel(Document):
         name = "ai_provider"
 
     @staticmethod
-    async def get_provider_name(chat_id: int) -> str | None:
-        model = await AIProviderModel.find_one(AIProviderModel.chat.id == chat_id)
+    async def get_provider_name(chat_tid: int) -> str | None:
+        from .chat import ChatModel
+
+        chat = await ChatModel.get_by_chat_id(chat_tid)
+        if not chat:
+            return None
+
+        model = await AIProviderModel.find_one(AIProviderModel.chat.id == chat.id)
         return model.provider if model else None
 
     @staticmethod

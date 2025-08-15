@@ -47,14 +47,13 @@ build_standalone:
 
 fix_code_style:
 	poetry run python -m pycln . -a
-	poetry run python -m isort .
-	poetry run python -m black --preview --color sophie_bot/
+	poetry run ruff check . --fix
+	poetry run ruff format sophie_bot/
 
 test_code_style:
 	poetry run python -m pycln . -a -c
-	poetry run python -m black --preview --check sophie_bot/
-	poetry run python -m isort . -c
-	poetry run python -m flake8
+	poetry run ruff format sophie_bot/ --check
+	poetry run ruff check .
 
 test_codeanalysis:
 	# poetry run python -m bandit sophie_bot/ -r

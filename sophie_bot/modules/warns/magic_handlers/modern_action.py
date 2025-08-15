@@ -46,7 +46,6 @@ class WarnModernAction(ModernActionABC[WarnActionDataModel]):
 
     @staticmethod
     def description(data: WarnActionDataModel) -> Element | str:
-
         if data.reason:
             # TODO: not en_US
             return Section(data.reason, title=_("Warn user with the reason"), title_underline=False)

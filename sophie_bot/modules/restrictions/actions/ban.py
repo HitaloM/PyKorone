@@ -71,7 +71,6 @@ class BanModernAction(ModernActionABC[BanActionDataModel]):
 
     @staticmethod
     def description(data: BanActionDataModel) -> Element | str:
-
         if data.ban_duration:
             # TODO: not en_US
             return Template(_("Bans user for {time}"), time=format_timedelta(data.ban_duration, locale="en_US"))

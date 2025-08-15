@@ -215,7 +215,6 @@ class SaveChatsMiddleware(BaseMiddleware):
         update: Update,  # type: ignore[override]
         data: dict[str, Any],
     ) -> Any:
-
         _continue = True
         if update.message:
             await self.handle_message(update.message, data)

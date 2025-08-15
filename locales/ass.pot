@@ -104,35 +104,35 @@ msgstr ""
 msgid "One of: {}"
 msgstr ""
 
-#: types/oneword.py:13
+#: types/oneword.py:14
 msgid "Word (string with no spaces)"
 msgstr ""
 
-#: types/oneword.py:13
+#: types/oneword.py:14
 msgid "Words (strings with no spaces)"
 msgstr ""
 
-#: types/oneword.py:33
+#: types/oneword.py:39
 msgid "Integer (number)"
 msgstr ""
 
-#: types/oneword.py:33
+#: types/oneword.py:39
 msgid "Integers (numbers)"
 msgstr ""
 
-#: types/oneword.py:49
+#: types/oneword.py:63
 msgid "Boolean (Yes / No value)"
 msgstr ""
 
-#: types/oneword.py:49
+#: types/oneword.py:63
 msgid "Booleans (Yes / No values)"
 msgstr ""
 
-#: types/oneword.py:54
+#: types/oneword.py:68
 msgid "True (can means Enabled or Yes)"
 msgstr ""
 
-#: types/oneword.py:55
+#: types/oneword.py:69
 msgid "False (can means Disabled or No)"
 msgstr ""
 

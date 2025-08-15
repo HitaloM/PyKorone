@@ -32,7 +32,6 @@ class TriggerExport(BaseHandler[Message]):
         )
 
     async def handle(self) -> Any:
-
         connection: ChatConnection = self.data["connection"]
 
         await self.event.reply(_("Export is started, this may take a while."))

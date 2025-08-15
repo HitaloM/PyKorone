@@ -12,6 +12,7 @@ carefully before starting work on any new features or modifications.
 - Use Black formatter with `--preview` flag for consistent code formatting
 - Use isort with Black profile for import sorting
 - Use pycln for removing unused imports
+- Place all imports at the top of the module; do not import inside functions or conditional blocks
 
 ### Type Safety
 
@@ -252,6 +253,149 @@ await message.reply(str(doc))
 5. **Testing**: Run `make commit` to validate all changes
 6. **Submission**: Ensure all tests pass before committing
 
+## Database and Chat ID Conventions
+
+### Chat ID Naming Convention
+
+The Sophie Bot project uses two distinct types of chat identifiers that **must not be confused**:
+
+#### chat_tid (Telegram Chat ID)
+- **Type**: `int`  
+- **Source**: Telegram's API (`message.chat.id`, `chat.id`)
+- **Usage**: External API calls, user-facing operations, handler parameters
+- **Example**: `-1001234567890` (supergroup), `123456789` (private chat)
+
+#### chat_iid (Internal Database ID)
+- **Type**: `PydanticObjectId` (Beanie/MongoDB ObjectId)
+- **Source**: Database document primary key (`chat_model.id`)  
+- **Usage**: Internal database relationships, Link<ChatModel> queries
+- **Example**: `ObjectId('507f1f77bcf86cd799439011')`
+
+### Database Model Patterns
+
+#### ChatModel Structure
+```python
+class ChatModel(Document):
+    chat_id: Annotated[int, Indexed(unique=True)]  # Telegram chat ID (chat_tid)
+    # ... other fields
+    # self.id is the PydanticObjectId (chat_iid)
+```
+
+#### Link Relationships (CRITICAL)
+When using `Link[ChatModel]` relationships, **always** use the database object ID (`chat_iid`):
+
+```python
+# ✅ CORRECT - Link relationship with database object ID
+class SomeModel(Document):
+    chat: Link[ChatModel]
+
+# Find by Link relationship
+model = await SomeModel.find_one(SomeModel.chat.id == chat_model.id)  # chat_iid
+```
+
+#### Method Parameter Naming
+```python
+# ✅ CORRECT - Clear parameter naming
+async def get_settings(chat_tid: int) -> SomeModel:
+    """Get settings using Telegram chat ID."""
+    chat = await ChatModel.get_by_chat_id(chat_tid)  # Convert to ChatModel
+    if not chat:
+        raise ValueError(f"Chat with ID {chat_tid} not found")
+    
+    return await SomeModel.find_one(SomeModel.chat.id == chat.id)  # Use chat_iid
+
+async def get_by_internal_id(chat_iid: PydanticObjectId) -> SomeModel:
+    """Get settings using database internal ID."""
+    return await SomeModel.find_one(SomeModel.chat.id == chat_iid)
+```
+
+### Common Mistakes to Avoid
+
+#### ❌ WRONG - Mixing ID types in Link queries
+```python
+# This will FAIL - using Telegram ID in Link query
+chat_tid = message.chat.id  # Telegram ID (int)
+model = await SomeModel.find_one(SomeModel.chat.id == chat_tid)  # WRONG!
+```
+
+#### ✅ CORRECT - Proper ID conversion
+```python
+# Convert Telegram ID to database model first
+chat_tid = message.chat.id  # Telegram ID (int)
+chat = await ChatModel.get_by_chat_id(chat_tid)  # Get ChatModel
+model = await SomeModel.find_one(SomeModel.chat.id == chat.id)  # Use chat_iid
+```
+
+### Handler Best Practices
+
+```python
+@flags.help(description=l_("Example handler"))
+class ExampleHandler(SophieMessageHandler):
+    async def handle(self) -> Any:
+        # Get Telegram chat ID from connection
+        chat_tid = self.connection.id  # This is Telegram's chat ID
+        
+        # For Link queries, get the ChatModel first
+        chat = await ChatModel.get_by_chat_id(chat_tid)
+        if not chat:
+            return await self.event.reply(_("Chat not found"))
+        
+        # Use chat.id (database object ID) for Link queries
+        model = await SomeModel.find_one(SomeModel.chat.id == chat.id)
+```
+
+### Variable Naming in Code
+
+- Use `chat_tid` for Telegram chat ID variables
+- Use `chat_iid` for database object ID variables  
+- Use `chat` for ChatModel instances
+- Be explicit in method parameter names
+
+## Exception Handling Best Practices
+
+### Avoid Broad Exception Handling
+
+- **DO NOT** use bare `except Exception as e:` handlers unless absolutely necessary
+- Prefer specific exception types (`ValueError`, `TypeError`, etc.) when possible  
+- Let exceptions bubble up to be handled by the framework's error handling system
+- This allows for better debugging, error tracking, and crashlytics reporting
+- The bot framework handles uncaught exceptions gracefully with user feedback
+
+### When to Use Exception Handling
+
+```python
+# ❌ AVOID - Too broad, hides real errors
+try:
+    result = some_complex_operation()
+except Exception as e:
+    await message.reply("Something went wrong")
+    return
+
+# ✅ PREFER - Specific exceptions only
+try:
+    user_id = int(user_input)
+except ValueError:
+    await message.reply(_("Please provide a valid number"))
+    return
+
+# ✅ ACCEPTABLE - When you need to catch multiple specific types
+try:
+    result = await api_call()
+except (ConnectionError, TimeoutError) as e:
+    await message.reply(_("Service temporarily unavailable"))
+    return
+```
+
+### Framework Error Handling
+
+The bot framework already provides comprehensive error handling that:
+- Logs errors with full stack traces
+- Reports errors to monitoring systems
+- Provides user-friendly error messages
+- Maintains bot stability
+
+Let the framework handle unexpected errors rather than masking them with broad exception handlers.
+
 ## Quality Assurance
 
 - All code must pass mypy type checking
@@ -261,6 +405,8 @@ await message.reply(str(doc))
 - All functions must have proper type annotations
 - Test coverage should be maintained
 - Documentation should be updated for new features
+- **Follow chat ID naming conventions strictly**
+- **Avoid broad exception handling - prefer specific exceptions**
 
 ## Additional Notes
 

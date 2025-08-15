@@ -17,7 +17,6 @@ from sophie_bot.utils.i18n import lazy_gettext as l_
 @flags.help(description=l_("Shows welcome settings"))
 @flags.disableable(name="welcome")
 class WelcomeSettingsShowHandler(SophieMessageHandler):
-
     bool_status: ClassVar[Dict[bool, LazyProxy]] = {True: l_("Yes"), False: l_("No")}
 
     @staticmethod

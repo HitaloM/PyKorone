@@ -22,7 +22,6 @@ class CmdStartFilter(Filter):
         *,
         cmd_start: Type["CmdStart"],
     ):
-
         self.start_filter = CMDFilter("start")
 
         self.cmd_start = cmd_start

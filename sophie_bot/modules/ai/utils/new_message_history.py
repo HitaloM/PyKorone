@@ -5,7 +5,6 @@ from typing import BinaryIO, Optional
 from aiogram.types import Message
 from attr import dataclass
 from normality import normalize
-from openai.types import ModerationMultiModalInputParam
 from pydantic_ai.messages import (
     BinaryContent,
     ModelRequest,
@@ -83,10 +82,10 @@ class NewAIMessageHistory:
                 _(
                     "Do not use tables, use only the following markdown elements: ** for bold, ~~ for strikethrough, ` for code, ``` for code blocks and []() for links."
                 ),
+                _("Send short messages unless longer explanations are needed."),
                 _("Focus primarily on answering the LATEST user message."),
-                _(
-                    "Use the conversation history only for context, but respond specifically to the most recent question."
-                ),
+                _("Use the conversation history only for context, but respond specifically to the latest prompt."),
+                _("Prefer to search information in the internet"),
                 _("Today is ") + today.strftime("%d %B %Y, %H:%M"),
                 " ",
             )
@@ -156,17 +155,24 @@ class NewAIMessageHistory:
         )
 
         # Photos
-        if message.photo:
-            photo = message.photo[-1]
-            downloaded_photo: Optional[BinaryIO] = await bot.download(photo)
+        if message.photo or message.sticker:
+            # Determine a file_id to download irrespective of underlying Telegram type
+            if message.photo:
+                image_file_id = message.photo[-1].file_id
+            elif message.sticker:
+                image_file_id = message.sticker.file_id
+            else:
+                raise SophieException(_("No photo or sticker found"))
 
-            if not downloaded_photo:
-                raise SophieException(_("Photo is empty"))
+            downloaded_image: Optional[BinaryIO] = await bot.download(image_file_id)
+
+            if not downloaded_image:
+                raise SophieException(_("Image is empty"))
 
             prompt.append(
                 BinaryContent(
                     media_type="image/jpeg",
-                    data=downloaded_photo.read(),
+                    data=downloaded_image.read(),
                 )
             )
 
@@ -230,25 +236,30 @@ class NewAIMessageHistory:
         return items
 
     @property
-    def to_moderation(self) -> list[ModerationMultiModalInputParam]:
-        """Extract content for OpenAI moderation from message history and prompt."""
-        moderation_content = []
+    def to_moderation(self) -> list[dict[str, str]]:
+        """Extract chat messages for moderation in {role, content} format."""
+        moderation_content: list[dict[str, str]] = []
 
         # Extract content from message history
         for msg in self.message_history:
-            if isinstance(msg, ModelRequest) or isinstance(msg, ModelResponse):
+            if isinstance(msg, (ModelRequest, ModelResponse)):
                 for part in msg.parts:
-                    if isinstance(part, (TextPart, UserPromptPart, SystemPromptPart)):
-                        moderation_content.append(part.content)
+                    if isinstance(part, SystemPromptPart):
+                        moderation_content.append({"role": "system", "content": part.content})
+                    elif isinstance(part, TextPart):
+                        # TextPart is from assistant responses
+                        moderation_content.append({"role": "assistant", "content": part.content})
+                    elif isinstance(part, UserPromptPart):
+                        content_str = part.content if isinstance(part.content, str) else str(part.content)
+                        moderation_content.append({"role": "user", "content": content_str})
                     elif isinstance(part, BinaryContent):
-                        # For binary content, we'd need to handle it appropriately
-                        # For now, skip as the old implementation also focused on text
+                        # Binary content (images/audio) is skipped for moderation input here
                         pass
 
-        # Extract content from current prompt
+        # Extract content from current prompt (treat as user content)
         if self.prompt:
             for content in self.prompt:
                 if isinstance(content, str):
-                    moderation_content.append(content)
+                    moderation_content.append({"role": "user", "content": content})
 
-        return moderation_content  # type: ignore
+        return moderation_content

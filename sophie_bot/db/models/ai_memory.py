@@ -11,8 +11,14 @@ class AIMemoryModel(Document):
         name = "ai_memory"
 
     @staticmethod
-    async def get_lines(chat_id: int) -> list[str]:
-        model = await AIMemoryModel.find_one(AIMemoryModel.chat.id == chat_id)
+    async def get_lines(chat_tid: int) -> list[str]:
+        from .chat import ChatModel
+
+        chat = await ChatModel.get_by_chat_id(chat_tid)
+        if not chat:
+            return []
+
+        model = await AIMemoryModel.find_one(AIMemoryModel.chat.id == chat.id)
 
         return model.lines if model else []
 
@@ -26,7 +32,13 @@ class AIMemoryModel(Document):
         await model.save()
 
     @staticmethod
-    async def clear(chat_iid: int):
-        model = await AIMemoryModel.find_one(AIMemoryModel.chat.id == chat_iid)
+    async def clear(chat_tid: int):
+        from .chat import ChatModel
+
+        chat = await ChatModel.get_by_chat_id(chat_tid)
+        if not chat:
+            return
+
+        model = await AIMemoryModel.find_one(AIMemoryModel.chat.id == chat.id)
         if model:
             await model.delete()

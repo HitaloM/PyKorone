@@ -3,7 +3,7 @@ from typing import BinaryIO, Optional
 
 from aiogram.types import Voice
 
-from sophie_bot.services.ai import openai_client
+from sophie_bot.services.ai import mistral_client
 from sophie_bot.services.bot import bot
 
 
@@ -12,9 +12,16 @@ async def transform_voice_to_text(voice: Voice) -> str:
 
     audio_bytes = BufferedReader(BytesIO(downloaded_audio.read()))  # type: ignore
 
-    respond: str = await openai_client.audio.transcriptions.create(
-        file=("test.ogg", audio_bytes), model="whisper-1", response_format="text"
+    resp = await mistral_client.audio.transcriptions.complete_async(
+        model="mistral-transcribe",
+        file={
+            "file_name": "audio.ogg",
+            "content": audio_bytes,
+            "content_type": "audio/ogg",
+        },
     )
+
+    respond: str = resp.text
 
     respond = respond.removesuffix("\n")
 

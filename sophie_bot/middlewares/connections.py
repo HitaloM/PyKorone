@@ -1,5 +1,5 @@
 from dataclasses import dataclass
-from typing import Any, Awaitable, Callable, Optional
+from typing import Any, Awaitable, Callable
 
 from aiogram import BaseMiddleware
 from aiogram.types import Chat, TelegramObject
@@ -17,7 +17,7 @@ class ChatConnection:
     is_connected: bool
     id: int
     title: str
-    db_model: Optional[ChatModel]
+    db_model: ChatModel
 
 
 class ConnectionsMiddleware(BaseMiddleware):

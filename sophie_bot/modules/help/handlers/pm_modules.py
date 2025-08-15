@@ -72,9 +72,7 @@ class PMModulesList(SophieMessageCallbackQueryHandler):
         )
 
         if isinstance(self.event, CallbackQuery):
-            await self.message.edit_text(
-                str(doc), reply_markup=buttons.as_markup(), disable_web_page_preview=True
-            )  # type: ignore
+            await self.message.edit_text(str(doc), reply_markup=buttons.as_markup(), disable_web_page_preview=True)  # type: ignore
         else:
             await self.event.reply(str(doc), reply_markup=buttons.as_markup(), disable_web_page_preview=True)
 

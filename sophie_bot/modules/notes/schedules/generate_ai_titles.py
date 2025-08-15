@@ -55,15 +55,15 @@ class GenerateAITitles:
         async for chat in ForChats():
             status = await BetaModeModel.get_by_chat_id(chat.chat_id)
             if not status:
-                log.debug("generate_ai_titles: no mode found, skipping...", chat=chat.id)
+                log.debug("generate_ai_titles: no mode found, skipping...", chat=chat.chat_id)
                 continue
 
             if status.mode != CurrentMode.beta:
-                log.debug("generate_ai_titles: not in beta mode, skipping...", chat=chat.id)
+                log.debug("generate_ai_titles: not in beta mode, skipping...", chat=chat.chat_id)
                 continue
 
-            if not await AIEnabledModel.get_state(chat.id):  # iID
-                log.debug("generate_ai_titles: AI features are not enabled, skipping...", chat=chat.id)
+            if not await AIEnabledModel.get_state(chat.chat_id):
+                log.debug("generate_ai_titles: AI features are not enabled, skipping...", chat=chat.chat_id)
 
-            async with UseChatLanguage(chat.id):
+            async with UseChatLanguage(chat.chat_id):
                 await self.process_chat(chat)

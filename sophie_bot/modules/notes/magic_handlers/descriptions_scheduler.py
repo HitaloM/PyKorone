@@ -24,7 +24,7 @@ class NotesDescriptionsScheduler:
                 async for chat in ChatModel.find(ChatModel.last_saw >= delta):
                     await sleep(5)
 
-                    if not await AIEnabledModel.get_state(chat.id):
+                    if not await AIEnabledModel.get_state(chat.chat_id):
                         log.debug("- NotesDescriptionsScheduler: AI features are not enabled, skipping...", chat=chat)
                         continue
 

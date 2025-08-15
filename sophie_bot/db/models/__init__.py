@@ -8,6 +8,7 @@ from sophie_bot.db.models.ai_memory import AIMemoryModel
 from sophie_bot.db.models.ai_moderator import AIModeratorModel
 from sophie_bot.db.models.ai_provider import AIProviderModel
 from sophie_bot.db.models.ai_usage import AIUsageModel
+from sophie_bot.db.models.antiflood import AntifloodModel
 from sophie_bot.db.models.beta import BetaModeModel
 from sophie_bot.db.models.chat import ChatModel, ChatTopicModel, UserInGroupModel
 from sophie_bot.db.models.chat_connections import ChatConnectionModel
@@ -42,4 +43,5 @@ models: List[Type[Document]] = [
     WSUserModel,
     FiltersModel,
     AIProviderModel,
+    AntifloodModel,
 ]

@@ -86,7 +86,8 @@ def get_filter():
             "title": l_("💭 Reply to message"),
             "handle": replymsg_filter_handler,
             "setup": {"start": replymsg_setup_start, "finish": replymsg_setup_finish},
-            "del_btn_name": lambda msg, data: f"Reply to {data['handler']}: {data['reply_text'].get('text', 'None')}\" ",
+            "del_btn_name": lambda msg,
+            data: f"Reply to {data['handler']}: {data['reply_text'].get('text', 'None')}\" ",
         },
         "get_note": {
             "title": l_("🗒 Send a note"),

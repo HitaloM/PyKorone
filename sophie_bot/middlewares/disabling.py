@@ -17,7 +17,6 @@ class DisablingMiddleware(BaseMiddleware):
         event: TelegramObject,
         data: Dict[str, Any],
     ) -> Any:
-
         if isinstance(event, Message):
             chat_id = event.chat.id
             disabled = await DisablingModel.get_disabled(chat_id)

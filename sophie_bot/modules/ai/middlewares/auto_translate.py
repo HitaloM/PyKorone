@@ -12,6 +12,7 @@ from sophie_bot.modules.ai.utils.detect_lang import (
 )
 from sophie_bot.utils.i18n import I18nNew
 from sophie_bot.utils.logger import log
+from sophie_bot.utils.feature_flags import is_enabled
 
 
 class AiAutoTranslateMiddleware(BaseMiddleware):
@@ -25,6 +26,9 @@ class AiAutoTranslateMiddleware(BaseMiddleware):
         i18n: I18nNew = data["i18n"]
 
         result = await handler(event, data)
+
+        if not await is_enabled("ai_translations"):
+            return result
 
         if (
             chat_db

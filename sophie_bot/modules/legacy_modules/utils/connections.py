@@ -96,7 +96,6 @@ async def get_connected_chat(message, admin=False, only_groups=False, from_id=No
 def chat_connection(**dec_kwargs):
     def wrapped(func):
         async def wrapped_1(*args, **kwargs):
-
             message = args[0]
             from_id = None
             if hasattr(message, "message"):

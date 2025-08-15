@@ -89,7 +89,6 @@ class SophieCallbackQueryHandler(SophieBaseHandler[CallbackQuery], ABC):
 
 
 class SophieMessageCallbackQueryHandler(SophieBaseHandler[Message | CallbackQuery], ABC):
-
     @property
     def message(self) -> Message:
         if isinstance(self.event, Message):
@@ -117,7 +116,7 @@ class SophieMessageCallbackQueryHandler(SophieBaseHandler[Message | CallbackQuer
                 media=InputMediaPhoto(media=f, caption=caption),
                 chat_id=self.event.message.chat.id,
                 message_id=self.event.message.message_id,
-                **kwargs
+                **kwargs,
             )
         elif isinstance(self.event, Message):
             return await bot.send_photo(chat_id=self.event.chat.id, photo=f, caption=caption, **kwargs)

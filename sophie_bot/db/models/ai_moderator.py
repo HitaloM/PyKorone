@@ -1,4 +1,4 @@
-from beanie import Document, Link
+from beanie import Document, Link, PydanticObjectId
 
 from .chat import ChatModel
 
@@ -10,8 +10,8 @@ class AIModeratorModel(Document):
         name = "ai_moderator"
 
     @staticmethod
-    async def get_state(chat_id: int) -> bool:
-        usage = await AIModeratorModel.find_one(AIModeratorModel.chat.id == chat_id)
+    async def get_state(chat_iid: PydanticObjectId) -> bool:
+        usage = await AIModeratorModel.find_one(AIModeratorModel.chat.id == chat_iid)
 
         if not usage:
             return False

@@ -78,7 +78,6 @@ class LegacySaveChats(BaseMiddleware):
         # Update chat
         new_chat = message.chat
         if not new_chat.type == "private":
-
             old_chat = await db.chat_list.find_one({"chat_id": chat_id})
 
             if not hasattr(new_chat, "username"):

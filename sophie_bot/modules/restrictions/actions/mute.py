@@ -71,7 +71,6 @@ class MuteModernAction(ModernActionABC[MuteActionDataModel]):
 
     @staticmethod
     def description(data: MuteActionDataModel) -> Element | str:
-
         if data.mute_duration:
             # TODO: not en_US
             return Template(_("Mutes user for {time}"), time=format_timedelta(data.mute_duration, locale="en_US"))

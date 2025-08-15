@@ -5,24 +5,18 @@ from aiogram.types import InlineKeyboardButton
 from aiogram.utils.keyboard import InlineKeyboardBuilder
 from stfu_tg import Code, Doc, HList, Section, Template, Title, VList
 
-from sophie_bot.config import CONFIG
 from sophie_bot.db.models.filters import FilterInSetupType
 from sophie_bot.filters.admin_rights import UserRestricting
 from sophie_bot.filters.is_connected import GroupOrConnectedFilter
 from sophie_bot.modules.filters.callbacks import (
     FilterConfirm,
-    FilterSettingCallback,
-    ListActionsToRemoveCallback,
-    NewFilterActionCallback,
     SaveFilterCallback,
 )
-from sophie_bot.modules.filters.types.modern_action_abc import ModernActionABC
 from sophie_bot.modules.filters.utils_.all_modern_actions import ALL_MODERN_ACTIONS
 from sophie_bot.modules.troubleshooters.callbacks import CancelCallback
 from sophie_bot.modules.utils_.base_handler import SophieMessageCallbackQueryHandler
 from sophie_bot.utils.exception import SophieException
 from sophie_bot.utils.i18n import gettext as _
-from sophie_bot.utils.i18n import ngettext as pl_
 
 
 class FilterConfirmHandler(SophieMessageCallbackQueryHandler):
@@ -38,9 +32,18 @@ class FilterConfirmHandler(SophieMessageCallbackQueryHandler):
     async def handle(self) -> Any:
         filter_item = await FilterInSetupType.get_filter(self.state, data=self.data)
 
-        filters: tuple[tuple[ModernActionABC, Any], ...] = tuple(
-            (ALL_MODERN_ACTIONS[filter_name], filter_data) for filter_name, filter_data in filter_item.actions.items()
-        )
+        # Build a simple summary of current action (single-action policy)
+        actions = tuple(filter_item.actions.items())
+        details = []
+        for name, data in actions:
+            action = ALL_MODERN_ACTIONS.get(name)
+            if not action:
+                continue
+            try:
+                desc = action.description(action.data_object(**data) if data else None)
+            except Exception:
+                desc = action.title
+            details.append(HList(action.icon, desc))
 
         doc = Doc(
             Title(_("New filter")),
@@ -48,46 +51,15 @@ class FilterConfirmHandler(SophieMessageCallbackQueryHandler):
                 Template(_("When {handler} in message"), handler=Code(filter_item.handler.keyword)), title=_("Handles")
             ),
             Section(
-                VList(
-                    *(
-                        HList(
-                            filter_action.icon,
-                            filter_action.description(
-                                filter_action.data_object(**filter_data) if filter_data else None
-                            ),
-                        )
-                        for filter_action, filter_data in filters
-                    )
-                ),
-                title=pl_("Action", "Actions", len(filters)),
+                VList(*details) if details else VList(_("No action configured yet")),
+                title=_("Action"),
             ),
         )
 
         buttons = InlineKeyboardBuilder()
 
-        for filter_action, filter_data in filters:
-            for setting_name, setting in filter_action.settings(filter_data).items():
-                buttons.row(
-                    InlineKeyboardButton(
-                        text=f"{setting.icon} {setting.title}",
-                        callback_data=FilterSettingCallback(name=filter_action.name, setting_name=setting_name).pack(),
-                    )
-                )
-
-        # Manage filter actions buttons group
-        manage_action_btn_row = []
-        if len(filters) <= CONFIG.filters_max_triggers:
-            manage_action_btn_row.append(
-                InlineKeyboardButton(
-                    text=_("➕ Add another action"), callback_data=NewFilterActionCallback(back_to_confirm=True).pack()
-                )
-            )
-        if len(filters) > 1:
-            manage_action_btn_row.append(
-                InlineKeyboardButton(text=_("➖ Remove actions"), callback_data=ListActionsToRemoveCallback().pack())
-            )
-        if manage_action_btn_row:
-            buttons.row(*manage_action_btn_row)
+        # Provide entry to ACW home page
+        buttons.row(InlineKeyboardButton(text=_("⚙ Configure action"), callback_data="filter_action:back"))
 
         if not self.event.from_user:
             raise SophieException("No user in event")

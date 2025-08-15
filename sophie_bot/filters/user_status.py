@@ -14,7 +14,6 @@ class IsAdmin(Filter):
         self.is_admin = is_admin
 
     async def __call__(self, event, *args, **kwargs):
-
         if hasattr(event, "message"):
             chat_id = event.message.chat.id
         else:

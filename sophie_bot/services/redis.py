@@ -26,7 +26,6 @@ if "pytest" in sys.modules or os.environ.get("TESTING") == "1":
         single_connection_client=True,
     )
 else:
-
     redis = StrictRedis(
         host=CONFIG.redis_host,
         port=CONFIG.redis_port,

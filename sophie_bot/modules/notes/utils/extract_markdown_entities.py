@@ -203,7 +203,6 @@ def extract_markdown_entities(
 
             # Did we find the earliest closing tag?
             if end != -1:
-
                 # Remove the delimiter from the string
                 text = "".join(
                     (

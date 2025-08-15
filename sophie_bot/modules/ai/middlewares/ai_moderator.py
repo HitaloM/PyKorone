@@ -3,9 +3,9 @@ from typing import Any, Awaitable, Callable, Dict, Optional
 from aiogram import BaseMiddleware
 from aiogram.dispatcher.event.bases import SkipHandler
 from aiogram.types import Message, TelegramObject
-from openai.types.moderation import Categories
 from stfu_tg import Doc, KeyValue, Section, Title, UserLink, VList
 
+from sophie_bot.config import CONFIG
 from sophie_bot.db.models import AIModeratorModel, ChatModel
 from sophie_bot.db.models.chat import ChatType
 from sophie_bot.modules.ai.utils.ai_moderator import (
@@ -16,14 +16,16 @@ from sophie_bot.modules.legacy_modules.utils.user_details import is_user_admin
 from sophie_bot.services.bot import bot
 from sophie_bot.utils.i18n import gettext as _
 from sophie_bot.utils.i18n import ngettext as pl_
+from sophie_bot.utils.logger import log
+from sophie_bot.utils.feature_flags import is_enabled
 
 
 class AiModeratorMiddleware(BaseMiddleware):
     @staticmethod
-    async def _triggered(message: Message, categories: Categories):
+    async def _triggered(message: Message, categories: dict):
         await message.delete()
 
-        triggered_categories: dict = {key: triggered for key, triggered in categories.to_dict().items() if triggered}
+        triggered_categories: dict = {key: triggered for key, triggered in categories.items() if triggered}
 
         doc = Doc(
             Title(_("✋ AI Moderator")),
@@ -35,7 +37,7 @@ class AiModeratorMiddleware(BaseMiddleware):
                         MODERATION_CATEGORIES_TRANSLATES[key] if key in MODERATION_CATEGORIES_TRANSLATES else key
                         for key in triggered_categories.keys()
                     ),
-                    prefix="- " if len(triggered_categories) > 1 else ""
+                    prefix="- " if len(triggered_categories) > 1 else "",
                 ),
                 title=pl_("Reason", "Reasons", len(triggered_categories)),
             ),
@@ -49,6 +51,11 @@ class AiModeratorMiddleware(BaseMiddleware):
         data: Dict[str, Any],
     ) -> Any:
         chat_db: Optional[ChatModel] = data.get("chat_db", None)
+        log.debug("AiModeratorMiddleware: checking moderator...")
+
+        # Global kill-switch: AI Moderation
+        if not await is_enabled("ai_moderation"):
+            return await handler(event, data)
 
         if (
             chat_db
@@ -63,12 +70,12 @@ class AiModeratorMiddleware(BaseMiddleware):
             if not event.from_user:
                 return await handler(event, data)
 
-            if await is_user_admin(chat_db.chat_id, event.from_user.id):
+            if not CONFIG.debug_mode and await is_user_admin(chat_db.chat_id, event.from_user.id):
                 return await handler(event, data)
 
             result = await check_moderator(event)
             if result.flagged:
-                await self._triggered(event, result.categories)
+                await self._triggered(event, result.categories.to_dict())
                 raise SkipHandler
 
         return await handler(event, data)

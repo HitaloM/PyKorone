@@ -26,6 +26,7 @@ from sophie_bot.modules.notes.utils.unparse_legacy import legacy_markdown_to_htm
 from sophie_bot.services.bot import bot
 from sophie_bot.utils.i18n import gettext as _
 from sophie_bot.utils.i18n import lazy_gettext as l_
+from sophie_bot.utils.feature_flags import is_enabled
 
 CHATBOT_TOOLS = [
     MemoryAgentTool(),
@@ -62,11 +63,15 @@ async def ai_chatbot_reply(
     user_text: str | None = None,
     debug_mode: bool = False,
     model: Model | None = None,
-    **kwargs
+    **kwargs,
 ):
     """
     Sends a reply from AI based on user input and message history.
     """
+
+    # Global kill-switch: AI Chatbot
+    if not await is_enabled("ai_chatbot"):
+        return
 
     if not connection.db_model:
         return

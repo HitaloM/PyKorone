@@ -42,7 +42,6 @@ class FedBanMiddleware(BaseMiddleware):
             feds_list.extend(fed["subscribed"])
 
         if ban := await db.fed_bans.find_one({"fed_id": {"$in": feds_list}, "user_id": user_id}):
-
             strings = await get_strings(chat_id, "feds")
 
             # check whether banned fed_id is chat's fed id else

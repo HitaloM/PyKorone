@@ -10,7 +10,6 @@ class UnknownMessageButtonTypeError(Exception):
 
 
 def parse_message_button(button: InlineKeyboardButton) -> Optional[Button]:
-
     if button.url:
         action = ButtonAction.url
         data = button.url

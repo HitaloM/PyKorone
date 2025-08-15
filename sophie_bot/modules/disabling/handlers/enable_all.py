@@ -21,7 +21,6 @@ class EnableAllHandler(SophieMessageHandler):
         return CMDFilter("enableall"), UserRestricting(admin=True)
 
     async def handle(self):
-
         connection = self.connection
 
         if not self.event.from_user:
