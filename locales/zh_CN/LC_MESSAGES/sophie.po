@@ -10,7 +10,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Language-Team: Chinese Simplified\n"
 "Language: zh_CN\n"
-"PO-Revision-Date: 2025-08-12 23:32\n"
+"PO-Revision-Date: 2025-08-15 22:07\n"
 
 #: sophie_bot/args/users.py:29
 msgid "Could not find the requested User ID in the database."
@@ -320,24 +320,28 @@ msgid "Translate the following text to {language_name}:\n"
 msgstr "将以下文本翻译为 {language_name}：\n"
 "{to_translate}"
 
-#: sophie_bot/modules/ai/handlers/translate.py:107
+#: sophie_bot/modules/ai/handlers/translate.py:88
+msgid "Set translation_explanations to null unless the source is ambiguous, self-contradictory, requires culturally/contextually essential explanation, contains untranslatable idiom/wordplay/polysemy affecting meaning, or needs disambiguation of a proper noun/technical term/abbreviation;if included, keep it concise (≤2 factual sentences)."
+msgstr "除非原文存在歧义、自相矛盾、需要在文化/语境上进行重要说明、包含影响意义的不可翻译成语/文字游戏/多义词，或需要对专有名词/技术术语/缩写进行释义，否则将 translation_explanations 设为 null；如包含说明，请保持简洁（≤2 句事实性陈述）。"
+
+#: sophie_bot/modules/ai/handlers/translate.py:114
 msgid "Auto Translator"
 msgstr "自动翻译器"
 
-#: sophie_bot/modules/ai/handlers/translate.py:107
+#: sophie_bot/modules/ai/handlers/translate.py:114
 msgid "Translator"
 msgstr "翻译器"
 
-#: sophie_bot/modules/ai/handlers/translate.py:108
+#: sophie_bot/modules/ai/handlers/translate.py:115
 msgid "Voice"
 msgstr "声音"
 
-#: sophie_bot/modules/ai/handlers/translate.py:113
+#: sophie_bot/modules/ai/handlers/translate.py:120
 #, python-brace-format
 msgid "From {from_lang} to {to_lang}"
 msgstr "从 {from_lang} 到 {to_lang}"
 
-#: sophie_bot/modules/ai/handlers/translate.py:123
+#: sophie_bot/modules/ai/handlers/translate.py:130
 msgid "Translation Notes"
 msgstr "翻译备注"
 
@@ -1996,7 +2000,7 @@ msgstr "请尝试减小笔记的长度。"
 msgid "Note is too long."
 msgstr "笔记过长。"
 
-#: sophie_bot/modules/notes/utils/send.py:96
+#: sophie_bot/modules/notes/utils/send.py:101
 msgid "The text is too long"
 msgstr "笔记过长。"
 
