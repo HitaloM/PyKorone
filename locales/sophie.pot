@@ -488,6 +488,7 @@ msgid "Image is empty"
 msgstr ""
 
 #: sophie_bot/modules/antiflood/__init__.py:20
+#: sophie_bot/modules/legacy_modules/modules/antiflood.py:69
 msgid "Antiflood"
 msgstr ""
 
@@ -629,7 +630,7 @@ msgstr ""
 
 #: sophie_bot/modules/disabling/handlers/enable_all.py:36
 #: sophie_bot/modules/filters/handlers/confirm.py:62
-#: sophie_bot/modules/filters/handlers/filter_confirm.py:69
+#: sophie_bot/modules/filters/handlers/filter_confirm.py:97
 #: sophie_bot/modules/notes/handlers/delete_all.py:41
 msgid "🚫 Cancel"
 msgstr ""
@@ -904,20 +905,20 @@ msgstr ""
 msgid "Softly whispering."
 msgstr ""
 
-#: sophie_bot/modules/filters/__init__.py:23
+#: sophie_bot/modules/filters/__init__.py:30
 #: sophie_bot/modules/filters/handlers/filter_del.py:50
 msgid "Filters"
 msgstr ""
 
-#: sophie_bot/modules/filters/__init__.py:27
+#: sophie_bot/modules/filters/__init__.py:34
 msgid "Filters allows to invoke different actions for different messages."
 msgstr ""
 
-#: sophie_bot/modules/filters/__init__.py:28
+#: sophie_bot/modules/filters/__init__.py:35
 msgid "For example muting the users when they mention crypto."
 msgstr ""
 
-#: sophie_bot/modules/filters/__init__.py:30
+#: sophie_bot/modules/filters/__init__.py:37
 msgid "Sophie supports many different actions you can configure to automatize chat moderation in many different ways."
 msgstr ""
 
@@ -963,55 +964,52 @@ msgstr ""
 #: sophie_bot/modules/filters/handlers/add.py:45
 #: sophie_bot/modules/filters/handlers/filter_del.py:23
 #: sophie_bot/modules/filters/handlers/filter_del.py:38
-#: sophie_bot/modules/filters/handlers/filter_new.py:37
+#: sophie_bot/modules/filters/handlers/filter_new.py:38
 msgid "Text to match"
 msgstr ""
 
 #: sophie_bot/modules/filters/handlers/add.py:55
 #: sophie_bot/modules/filters/handlers/confirm.py:38
-#: sophie_bot/modules/filters/handlers/filter_confirm.py:49
-#: sophie_bot/modules/filters/handlers/filter_new.py:49
+#: sophie_bot/modules/filters/handlers/filter_confirm.py:46
+#: sophie_bot/modules/filters/handlers/filter_new.py:50
 msgid "New filter"
 msgstr ""
 
 #: sophie_bot/modules/filters/handlers/add.py:57
 #: sophie_bot/modules/filters/handlers/confirm.py:39
-#: sophie_bot/modules/filters/handlers/filter_confirm.py:51
-#: sophie_bot/modules/filters/handlers/filter_new.py:50
+#: sophie_bot/modules/filters/handlers/filter_confirm.py:48
+#: sophie_bot/modules/filters/handlers/filter_new.py:51
 msgid "Handles"
 msgstr ""
 
 #: sophie_bot/modules/filters/handlers/add.py:57
 #: sophie_bot/modules/filters/handlers/confirm.py:39
-#: sophie_bot/modules/filters/handlers/filter_confirm.py:51
+#: sophie_bot/modules/filters/handlers/filter_confirm.py:48
 #: sophie_bot/modules/filters/utils_/legacy_filter_handler.py:48
 #, python-brace-format
 msgid "When {handler} in message"
 msgstr ""
 
 #: sophie_bot/modules/filters/handlers/confirm.py:47
-#: sophie_bot/modules/filters/handlers/filter_confirm.py:55
+#: sophie_bot/modules/filters/handlers/filter_confirm.py:62
 msgid "Action"
 msgid_plural "Actions"
 msgstr[0] ""
 msgstr[1] ""
 
 #: sophie_bot/modules/filters/handlers/confirm.py:58
+#: sophie_bot/modules/filters/handlers/filter_confirm.py:82
 #: sophie_bot/modules/utils_/action_config_wizard/renderer.py:81
 msgid "➕ Add another action"
 msgstr ""
 
 #: sophie_bot/modules/filters/handlers/confirm.py:63
-#: sophie_bot/modules/filters/handlers/filter_confirm.py:71
+#: sophie_bot/modules/filters/handlers/filter_confirm.py:99
 msgid "✅ Confirm"
 msgstr ""
 
-#: sophie_bot/modules/filters/handlers/filter_confirm.py:54
-msgid "No action configured yet"
-msgstr ""
-
-#: sophie_bot/modules/filters/handlers/filter_confirm.py:62
-msgid "⚙ Configure action"
+#: sophie_bot/modules/filters/handlers/filter_confirm.py:87
+msgid "➖ Remove actions"
 msgstr ""
 
 #: sophie_bot/modules/filters/handlers/filter_del.py:22
@@ -1082,7 +1080,7 @@ msgstr ""
 msgid "Alternatively you can delete this filter and create again."
 msgstr ""
 
-#: sophie_bot/modules/filters/handlers/filter_new.py:23
+#: sophie_bot/modules/filters/handlers/filter_new.py:24
 msgid "Adds a new filter"
 msgstr ""
 
@@ -1422,6 +1420,32 @@ msgstr ""
 msgid "Only admins"
 msgstr ""
 
+#: sophie_bot/modules/legacy_modules/modules/antiflood.py:191
+msgid "Set the antiflood limit for this chat."
+msgstr ""
+
+#: sophie_bot/modules/legacy_modules/modules/antiflood.py:191
+msgid "Number of messages"
+msgstr ""
+
+#: sophie_bot/modules/legacy_modules/modules/antiflood.py:250
+msgid "Controls the antiflood state."
+msgstr ""
+
+#: sophie_bot/modules/legacy_modules/modules/antiflood.py:250
+#: sophie_bot/modules/legacy_modules/modules/connection.py:184
+#: sophie_bot/modules/notes/handlers/pmnotes_setting.py:46
+msgid "New state"
+msgstr ""
+
+#: sophie_bot/modules/legacy_modules/modules/antiflood.py:279
+msgid "Sets the antiflood action."
+msgstr ""
+
+#: sophie_bot/modules/legacy_modules/modules/antiflood.py:279
+msgid "New action"
+msgstr ""
+
 #: sophie_bot/modules/legacy_modules/modules/connection.py:51
 msgid "Connections"
 msgstr ""
@@ -1448,11 +1472,6 @@ msgstr ""
 
 #: sophie_bot/modules/legacy_modules/modules/connection.py:183
 msgid "Sets whatever normal users (non admins) are allowed to connect"
-msgstr ""
-
-#: sophie_bot/modules/legacy_modules/modules/connection.py:184
-#: sophie_bot/modules/notes/handlers/pmnotes_setting.py:46
-msgid "New state"
 msgstr ""
 
 #: sophie_bot/modules/legacy_modules/modules/feds.py:86
@@ -2009,24 +2028,24 @@ msgstr ""
 msgid "Local chat"
 msgstr ""
 
-#: sophie_bot/modules/notes/utils/parse.py:74
+#: sophie_bot/modules/notes/utils/parse.py:70
 msgid "Please check the notes documentation for the list of the allowed content types."
 msgstr ""
 
-#: sophie_bot/modules/notes/utils/parse.py:75
+#: sophie_bot/modules/notes/utils/parse.py:71
 msgid "Reply message content is not parsable as the note."
 msgstr ""
 
-#: sophie_bot/modules/notes/utils/parse.py:127
+#: sophie_bot/modules/notes/utils/parse.py:104
 #, python-brace-format
 msgid "The maximum length of the note is {limit} characters."
 msgstr ""
 
-#: sophie_bot/modules/notes/utils/parse.py:128
+#: sophie_bot/modules/notes/utils/parse.py:105
 msgid "Please try to reduce the length of the note."
 msgstr ""
 
-#: sophie_bot/modules/notes/utils/parse.py:129
+#: sophie_bot/modules/notes/utils/parse.py:106
 msgid "Note is too long."
 msgstr ""
 

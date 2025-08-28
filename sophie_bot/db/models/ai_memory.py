@@ -1,4 +1,4 @@
-from beanie import Document, Link
+from beanie import Document, Link, PydanticObjectId
 
 from .chat import ChatModel
 
@@ -11,14 +11,8 @@ class AIMemoryModel(Document):
         name = "ai_memory"
 
     @staticmethod
-    async def get_lines(chat_tid: int) -> list[str]:
-        from .chat import ChatModel
-
-        chat = await ChatModel.get_by_chat_id(chat_tid)
-        if not chat:
-            return []
-
-        model = await AIMemoryModel.find_one(AIMemoryModel.chat.id == chat.id)
+    async def get_lines(chat_iid: PydanticObjectId) -> list[str]:
+        model = await AIMemoryModel.find_one(AIMemoryModel.chat.id == chat_iid)
 
         return model.lines if model else []
 

@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from beanie import Document, Link
+from beanie import Document, Link, PydanticObjectId
 from pydantic import Field
 
 from .chat import ChatModel
@@ -14,14 +14,8 @@ class AIProviderModel(Document):
         name = "ai_provider"
 
     @staticmethod
-    async def get_provider_name(chat_tid: int) -> str | None:
-        from .chat import ChatModel
-
-        chat = await ChatModel.get_by_chat_id(chat_tid)
-        if not chat:
-            return None
-
-        model = await AIProviderModel.find_one(AIProviderModel.chat.id == chat.id)
+    async def get_provider_name(chat_iid: PydanticObjectId) -> str | None:
+        model = await AIProviderModel.find_one(AIProviderModel.chat.id == chat_iid)
         return model.provider if model else None
 
     @staticmethod

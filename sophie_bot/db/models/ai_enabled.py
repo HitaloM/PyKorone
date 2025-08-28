@@ -1,4 +1,4 @@
-from beanie import Document, Link
+from beanie import Document, Link, PydanticObjectId
 
 from .chat import ChatModel
 
@@ -10,14 +10,8 @@ class AIEnabledModel(Document):
         name = "ai_enabled"
 
     @staticmethod
-    async def get_state(chat_tid: int) -> bool:
-        from .chat import ChatModel
-
-        chat = await ChatModel.get_by_chat_id(chat_tid)
-        if not chat:
-            return False
-
-        usage = await AIEnabledModel.find_one(AIEnabledModel.chat.id == chat.id)
+    async def get_state(chat_iid: PydanticObjectId) -> bool:
+        usage = await AIEnabledModel.find_one(AIEnabledModel.chat.id == chat_iid)
 
         if not usage:
             return False
