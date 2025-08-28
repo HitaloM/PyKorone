@@ -46,13 +46,10 @@ def match_word_handler(text: str, handler: str) -> bool:
     handler_tokens = normalized_handler.split()
     handler_length = len(handler_tokens)
 
-    return (
-            (handler_length == 1 and handler_tokens[0] in text_tokens)
-                or any(
-            text_tokens[i : i + handler_length] == handler_tokens
-            for i in range(len(text_tokens) - handler_length + 1)
-        )
+    return (handler_length == 1 and handler_tokens[0] in text_tokens) or any(
+        text_tokens[i : i + handler_length] == handler_tokens for i in range(len(text_tokens) - handler_length + 1)
     )
+
 
 def match_legacy_handler(message: Message, handler: str) -> bool:
     """Match a message against different types of handlers (regex, exact, contains)."""

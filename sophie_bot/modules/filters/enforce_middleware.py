@@ -26,7 +26,6 @@ from sophie_bot.utils.logger import log
 
 
 class EnforceFiltersMiddleware(BaseMiddleware):
-
     @staticmethod
     @lru_cache()
     def _get_all_cmds() -> tuple[str, ...]:
@@ -92,7 +91,6 @@ class EnforceFiltersMiddleware(BaseMiddleware):
         messages = []
 
         for action, action_data in filter_item.actions.items():
-
             if action in triggered_actions:
                 log.debug("EnforceFiltersMiddleware: already triggered action, dropping...")
                 continue

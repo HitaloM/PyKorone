@@ -42,7 +42,6 @@ async def check_legacy_filter_handler(event: Message | CallbackQuery, keyword: s
 
 
 def text_legacy_handler_handles_on(keyword: str) -> Element:
-
     if keyword.startswith("re:"):
         return Template(_("When messages matches the regex pattern {pattern}"), pattern=Code(keyword[3:]))
 
