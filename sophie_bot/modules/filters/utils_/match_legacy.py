@@ -35,6 +35,25 @@ def match_contains_handler(text: str, handler: str) -> bool:
     return normalized_handler in normalized_text
 
 
+def match_word_handler(text: str, handler: str) -> bool:
+    """Whole-word or phrase match, concise but readable variable names."""
+    normalized_text = normalize(text)
+    normalized_handler = normalize(handler)
+    if not normalized_text or not normalized_handler:
+        return False
+
+    text_tokens = normalized_text.split()
+    handler_tokens = normalized_handler.split()
+    handler_length = len(handler_tokens)
+
+    return (
+            (handler_length == 1 and handler_tokens[0] in text_tokens)
+                or any(
+            text_tokens[i : i + handler_length] == handler_tokens
+            for i in range(len(text_tokens) - handler_length + 1)
+        )
+    )
+
 def match_legacy_handler(message: Message, handler: str) -> bool:
     """Match a message against different types of handlers (regex, exact, contains)."""
     if not (message_text := message.caption or message.text or ""):
@@ -51,6 +70,12 @@ def match_legacy_handler(message: Message, handler: str) -> bool:
         log.debug(f"match_legacy_handler: exact: {handler}")
         text = handler[6:]
         return match_exact_handler(message_text, text)
+
+    # Whole word or phrase match (no regex)
+    if handler.startswith("word:"):
+        log.debug(f"match_legacy_handler: word: {handler}")
+        word_or_phrase = handler[5:]
+        return match_word_handler(message_text, word_or_phrase)
 
     # Contains text match (default behavior)
     log.debug(f"match_legacy_handler: contains: {handler}")
