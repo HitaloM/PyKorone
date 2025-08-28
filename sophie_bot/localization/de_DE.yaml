@@ -462,7 +462,7 @@ STRINGS:
     unpin_success: "Erfolgreich gelöst!"
   users:
     user_info: "<b>Benutzerinfo:</b>\n"
-    info_id: "ID: <code>{id}</code>"
+    info_id: "Deine ID: <code>{id}</code>"
     info_first: "\nVorname: {first_name}"
     info_last: "\nNachname: {last_name}"
     info_username: "\nBenutzername: {username}"
