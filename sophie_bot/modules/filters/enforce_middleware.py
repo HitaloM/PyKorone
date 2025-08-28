@@ -23,10 +23,10 @@ from sophie_bot.services.bot import bot
 from sophie_bot.utils.exception import SophieException
 from sophie_bot.utils.i18n import LazyProxy
 from sophie_bot.utils.logger import log
-from sophie_bot.utils.feature_flags import is_enabled
 
 
 class EnforceFiltersMiddleware(BaseMiddleware):
+
     @staticmethod
     @lru_cache()
     def _get_all_cmds() -> tuple[str, ...]:
@@ -92,6 +92,7 @@ class EnforceFiltersMiddleware(BaseMiddleware):
         messages = []
 
         for action, action_data in filter_item.actions.items():
+
             if action in triggered_actions:
                 log.debug("EnforceFiltersMiddleware: already triggered action, dropping...")
                 continue
@@ -164,10 +165,6 @@ class EnforceFiltersMiddleware(BaseMiddleware):
         data: Dict[str, Any],
     ) -> Any:
         log.debug("EnforceFiltersMiddleware: checking filters...")
-
-        # Global kill-switch: Filters
-        if not await is_enabled("filters"):
-            return await handler(event, data)
 
         if not isinstance(event, Message):
             raise SophieException("EnforceFiltersMiddleware: not a message")

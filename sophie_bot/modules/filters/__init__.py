@@ -10,6 +10,13 @@ from sophie_bot.utils.logger import log
 from .. import LOADED_MODULES
 from ..legacy_modules import LOADED_LEGACY_MODULES
 from .enforce_middleware import EnforceFiltersMiddleware
+from .handlers.action_change_setting_confirm import ActionChangeSettingConfirm
+from .handlers.action_remove import ActionRemoveHandler
+from .handlers.action_select import ActionSelectHandler
+from .handlers.action_setting_select import ActionSettingSelectHandler
+from .handlers.action_setup_confirm import ActionSetupConfirmHandler
+from .handlers.actions_list import ActionsListHandler
+from .handlers.actions_list_to_remove import ActionsListToRemoveHandler
 from .handlers.filter_confirm import FilterConfirmHandler
 from .handlers.filter_del import FilterDeleteHandler
 from .handlers.filter_edit import FilterEditHandler
@@ -35,11 +42,18 @@ __advertise_wiki_page__ = True
 
 __handlers__ = (
     FilterNewHandler,
+    ActionsListHandler,
+    ActionSetupConfirmHandler,
+    ActionSelectHandler,
     FilterConfirmHandler,
     FilterSaveHandler,
+    ActionSettingSelectHandler,
     FiltersListHandler,
     FilterDeleteHandler,
+    ActionsListToRemoveHandler,
+    ActionRemoveHandler,
     FilterEditHandler,
+    ActionChangeSettingConfirm,
 )
 
 
@@ -47,58 +61,6 @@ async def __pre_setup__():
     # Enforce filters middleware
     router.message.outer_middleware(EnforceFiltersMiddleware())
     router.edited_message.outer_middleware(EnforceFiltersMiddleware())
-
-    # Register standardized Action Config Wizard for Filters
-    from aiogram.fsm.context import FSMContext
-
-    from sophie_bot.db.models.filters import FilterActionType, FilterInSetupType
-    from sophie_bot.filters.admin_rights import UserRestricting
-    from sophie_bot.filters.cmd import CMDFilter
-    from sophie_bot.modules.utils_.action_config_wizard.factory import (
-        register_action_config_system,
-    )
-
-    async def get_filter_model(self, chat_tid: int) -> FilterInSetupType:
-        state: FSMContext | None = self.data.get("state")
-        if not isinstance(state, FSMContext):
-            raise ValueError("State not available for filter configuration")
-        return await FilterInSetupType.get_filter(state, data=self.data)
-
-    async def get_filter_actions(self, model: FilterInSetupType) -> list[FilterActionType]:
-        return [FilterActionType(name=k, data=v) for k, v in model.actions.items()]
-
-    async def add_filter_action(self, chat_tid: int, action_name: str, action_data: dict | None = None) -> None:
-        state: FSMContext | None = self.data.get("state")
-        if not isinstance(state, FSMContext):
-            raise ValueError("State not available for filter configuration")
-        filter_item = await FilterInSetupType.get_filter(state, data=self.data)
-        # Enforce single action per filter: overwrite
-        filter_item.actions = {action_name: action_data or {}}
-        await filter_item.set_filter_state(state)
-
-    async def remove_filter_action(self, chat_tid: int, action_id: str) -> None:
-        state: FSMContext | None = self.data.get("state")
-        if not isinstance(state, FSMContext):
-            raise ValueError("State not available for filter configuration")
-        filter_item = await FilterInSetupType.get_filter(state, data=self.data)
-        if action_id in filter_item.actions:
-            del filter_item.actions[action_id]
-        await filter_item.set_filter_state(state)
-
-    register_action_config_system(
-        router,
-        module_name="filters",
-        callback_prefix="filter_action",
-        wizard_title="Filter Action Configuration",
-        success_message="Filter action updated successfully!",
-        get_model_func=get_filter_model,
-        get_actions_func=get_filter_actions,
-        add_action_func=add_filter_action,
-        remove_action_func=remove_filter_action,
-        command_filter=CMDFilter("__filters_action_config"),  # command entry not used; callbacks drive the UI
-        admin_filter=UserRestricting(admin=True),
-        allow_multiple_actions=False,
-    )
 
 
 async def __post_setup__(modules: dict[str, ModuleType]):
