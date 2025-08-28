@@ -1,16 +1,12 @@
 from __future__ import annotations
 
 from typing import Optional
-import re
 
 from aiogram.enums import ContentType
-from aiogram.types import Message, BufferedInputFile
+from aiogram.types import Message
 from stfu_tg import Section
 
 from sophie_bot.db.models.notes import Button, NoteFile, Saveable
-from sophie_bot.modules.utils_.common_try import common_try
-from sophie_bot.services.bot import bot
-from sophie_bot.utils.emoji_banner import EmojiBanner
 from sophie_bot.utils.exception import SophieException
 from sophie_bot.utils.i18n import gettext as _
 
@@ -100,25 +96,6 @@ async def parse_saveable(message: Message, text: Optional[str], allow_reply_mess
 
     else:
         file_data = extract_file_info(message)
-
-    # Parse banner syntax: ^banner:emojis:text^
-    if note_text:
-        m = re.search(r"\^banner:([^:]+):([^\^]+)\^", note_text)
-        if m:
-            emojis_str = m.group(1).strip()
-            banner_text = m.group(2).strip()
-
-            # Generate and upload to obtain file_id
-            img = EmojiBanner.render(emojis_str, banner_text)
-            sent = await bot.send_photo(chat_id=message.chat.id, photo=BufferedInputFile(img, "banner.jpeg"))
-            if sent.photo:
-                file_id = sent.photo[-1].file_id
-                file_data = NoteFile(id=file_id, type=ContentType.PHOTO)
-                # Cleanup temp message
-                await common_try(bot.delete_message(chat_id=message.chat.id, message_id=sent.message_id))
-
-            # Remove directive from note text
-            note_text = (note_text[: m.start()] + note_text[m.end() :]).strip()
 
     # TODO: Length of the message with or without HTML entities??
     if len(note_text or "") > MESSAGE_LENGTH_LIMIT:
