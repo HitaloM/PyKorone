@@ -21,7 +21,6 @@
 | `/addfilter` `/newfilter` | `<Text to match>` | Adds a new filter |  |
 | `/delfilter` | `<Text to match>` | Deletes a filter |  |
 | `/editfilter` | `<Filter's keyword>` | Edits filter settings |  |
-| `/__filters_action_config` | - | - |  |
 ---
 ## Exact-match filters
 
