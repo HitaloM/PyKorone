@@ -26,13 +26,7 @@ class AIMemoryModel(Document):
         await model.save()
 
     @staticmethod
-    async def clear(chat_tid: int):
-        from .chat import ChatModel
-
-        chat = await ChatModel.get_by_chat_id(chat_tid)
-        if not chat:
-            return
-
-        model = await AIMemoryModel.find_one(AIMemoryModel.chat.id == chat.id)
+    async def clear(chat_iid: PydanticObjectId):
+        model = await AIMemoryModel.find_one(AIMemoryModel.chat.id == chat_iid)
         if model:
             await model.delete()
