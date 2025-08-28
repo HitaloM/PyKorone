@@ -3,7 +3,7 @@ from typing import Generic, TypeVar
 from pydantic import BaseModel
 from pydantic_ai import Agent
 from pydantic_ai.messages import ModelRequest, ModelResponse
-from pydantic_ai.usage import Usage
+from pydantic_ai.usage import RunUsage
 
 T = TypeVar("T")
 
@@ -13,7 +13,7 @@ class AIAgentResult(Generic[T], BaseModel):
     steps: int
     retires: int
     message_history: list[ModelRequest | ModelResponse]
-    usage: Usage
+    usage: RunUsage
 
 
 async def ai_agent_run(agent: Agent[None, T], **kwargs) -> AIAgentResult:
