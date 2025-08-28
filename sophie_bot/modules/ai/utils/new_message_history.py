@@ -159,6 +159,8 @@ class NewAIMessageHistory:
             # Determine a file_id to download irrespective of underlying Telegram type
             if message.photo:
                 image_file_id = message.photo[-1].file_id
+            elif message.sticker and message.sticker.is_animated or message.sticker.is_video:
+                image_file_id = message.sticker.thumbnail.file_id
             elif message.sticker:
                 image_file_id = message.sticker.file_id
             else:
