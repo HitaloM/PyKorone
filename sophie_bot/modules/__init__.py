@@ -28,7 +28,7 @@ MODULES = [
     "restrictions",
     "ai",
     "filters",
-    "antiflood",
+    #"antiflood",
     "legacy_modules",  # Legacy last
 ]
 
