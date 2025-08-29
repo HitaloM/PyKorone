@@ -10,7 +10,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Language-Team: Arabic, Egypt\n"
 "Language: ar_EG\n"
-"PO-Revision-Date: 2025-08-28 10:08\n"
+"PO-Revision-Date: 2025-08-28 13:53\n"
 
 #: sophie_bot/args/users.py:29
 msgid "Could not find the requested User ID in the database."
@@ -497,11 +497,11 @@ msgstr "اليوم هو "
 msgid "<No text provided>"
 msgstr "<لا يوجد نص مقدم>"
 
-#: sophie_bot/modules/ai/utils/new_message_history.py:165
+#: sophie_bot/modules/ai/utils/new_message_history.py:171
 msgid "No photo or sticker found"
 msgstr "لم يتم العثور على صورة أو ملصق."
 
-#: sophie_bot/modules/ai/utils/new_message_history.py:170
+#: sophie_bot/modules/ai/utils/new_message_history.py:176
 msgid "Image is empty"
 msgstr "الصورة فارغة"
 
