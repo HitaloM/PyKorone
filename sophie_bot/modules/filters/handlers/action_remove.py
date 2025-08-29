@@ -8,6 +8,7 @@ from sophie_bot.filters.is_connected import GroupOrConnectedFilter
 from sophie_bot.modules.filters.callbacks import RemoveFilterActionCallback
 from sophie_bot.modules.filters.handlers.filter_confirm import FilterConfirmHandler
 from sophie_bot.modules.utils_.base_handler import SophieCallbackQueryHandler
+from sophie_bot.utils.i18n import gettext as _
 
 
 class ActionRemoveHandler(SophieCallbackQueryHandler):
@@ -21,7 +22,10 @@ class ActionRemoveHandler(SophieCallbackQueryHandler):
 
     async def handle(self) -> Any:
         data: RemoveFilterActionCallback = self.data["callback_data"]
-        filter_item = await FilterInSetupType.get_filter(self.state, data=self.data)
+        try:
+            filter_item = await FilterInSetupType.get_filter(self.state, data=self.data)
+        except ValueError:
+            return await self.event.answer(_("Continuing setup is only possible by the same user who started it."))
 
         filter_item.actions.pop(data.name)
 

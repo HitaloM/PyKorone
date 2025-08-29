@@ -20,6 +20,7 @@ from sophie_bot.modules.filters.types.modern_action_data_types import (
 from sophie_bot.modules.filters.utils_.all_modern_actions import ALL_MODERN_ACTIONS
 from sophie_bot.modules.utils_.base_handler import SophieMessageCallbackQueryHandler
 from sophie_bot.utils.exception import SophieException
+from sophie_bot.utils.i18n import gettext as _
 
 
 class ActionSetupConfirmHandler(SophieMessageCallbackQueryHandler):
@@ -61,7 +62,10 @@ class ActionSetupConfirmHandler(SophieMessageCallbackQueryHandler):
         action_data: ACTION_DATA_DUMPED = action_data_model.model_dump(mode="json") if action_data_model else None  # type: ignore
 
         # Add action to the list
-        filter_item = await FilterInSetupType.get_filter(self.state, data=self.data)
+        try:
+            filter_item = await FilterInSetupType.get_filter(self.state, data=self.data)
+        except ValueError:
+            return await self.event.answer(_("Continuing setup is only possible by the same user who started it."))
         filter_item.actions[filter_action.name] = action_data
         await filter_item.set_filter_state(self.state)
 

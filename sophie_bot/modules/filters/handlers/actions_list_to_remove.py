@@ -29,7 +29,10 @@ class ActionsListToRemoveHandler(SophieCallbackQueryHandler):
         )
 
     async def handle(self) -> Any:
-        filter_item = await FilterInSetupType.get_filter(self.state, data=self.data)
+        try:
+            filter_item = await FilterInSetupType.get_filter(self.state, data=self.data)
+        except ValueError:
+            return await self.event.answer(_("Continuing setup is only possible by the same user who started it."))
 
         # Construct the message
         doc = Doc(

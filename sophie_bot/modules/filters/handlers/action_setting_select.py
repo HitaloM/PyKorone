@@ -11,6 +11,7 @@ from sophie_bot.modules.filters.handlers.action_select import ActionSelectHandle
 from sophie_bot.modules.filters.types.modern_action_abc import ModernActionSetting
 from sophie_bot.modules.filters.utils_.all_modern_actions import ALL_MODERN_ACTIONS
 from sophie_bot.utils.exception import SophieException
+from sophie_bot.utils.i18n import gettext as _
 
 
 class ActionSettingSelectHandler(ActionSelectHandler):
@@ -25,7 +26,10 @@ class ActionSettingSelectHandler(ActionSelectHandler):
     async def handle(self) -> Any:
         data: FilterSettingCallback = self.data["callback_data"]
         filter_action = ALL_MODERN_ACTIONS[data.name]
-        filters_item = await FilterInSetupType.get_filter(self.state, data=self.data)
+        try:
+            filters_item = await FilterInSetupType.get_filter(self.state, data=self.data)
+        except ValueError:
+            return await self.event.answer(_("Continuing setup is only possible by the same user who started it."))
         filter_action_data: Any = filters_item.actions[data.name]
 
         settings_item: ModernActionSetting = filter_action.settings(filter_action_data)[data.setting_name]

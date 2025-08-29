@@ -36,7 +36,10 @@ class FilterConfirmHandler(SophieMessageCallbackQueryHandler):
         )
 
     async def handle(self) -> Any:
-        filter_item = await FilterInSetupType.get_filter(self.state, data=self.data)
+        try:
+            filter_item = await FilterInSetupType.get_filter(self.state, data=self.data)
+        except ValueError:
+            return await self.event.answer(_("Continuing setup is only possible by the same user who started it."))
 
         filters: tuple[tuple[ModernActionABC, Any], ...] = tuple(
             (ALL_MODERN_ACTIONS[filter_name], filter_data) for filter_name, filter_data in filter_item.actions.items()

@@ -36,7 +36,10 @@ class FilterSaveHandler(SophieCallbackQueryHandler):
         await filter_model.save()
 
     async def handle(self) -> Any:
-        filter_item: FilterInSetupType = await FilterInSetupType.get_filter(self.state)
+        try:
+            filter_item: FilterInSetupType = await FilterInSetupType.get_filter(self.state)
+        except ValueError:
+            return await self.event.answer(_("Continuing setup is only possible by the same user who started it."))
 
         # Check
         await check_legacy_filter_handler(self.event, filter_item.handler.keyword, self.connection)
