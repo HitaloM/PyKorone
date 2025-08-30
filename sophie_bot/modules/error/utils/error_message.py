@@ -8,7 +8,7 @@ from stfu_tg.doc import Element
 from sophie_bot.config import CONFIG
 from sophie_bot.modules.error.utils.haikus import HAIKUS
 from sophie_bot.utils.exception import SophieException
-from sophie_bot.utils.i18n import gettext as _, LazyProxy
+from sophie_bot.utils.i18n import gettext as _, LazyProxy, lazy_gettext as l_
 
 
 def get_error_message(exception: Exception) -> tuple[str | Element, ...]:
@@ -26,7 +26,7 @@ def generic_error_message(
     exception: Exception,
     sentry_event_id: Optional[str],
     hide_contact: bool = False,
-    title: str | LazyProxy | Element = _("😞 I've got an error trying to process this update"),
+    title: str | LazyProxy | Element = l_("😞 I've got an error trying to process this update"),
 ) -> dict[str, Any]:
     return {
         "text": str(

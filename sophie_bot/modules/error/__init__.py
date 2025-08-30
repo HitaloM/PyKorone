@@ -16,7 +16,7 @@ __exclude_public__ = True
 
 
 async def __pre_setup__():
-    router.message.register(crash_handler, CMDFilter("test_crash"), IsOP(True))
+    router.message.register(crash_handler, CMDFilter("op_crash"), IsOP(True))
 
     router.error.middleware(try_localization_middleware)
     router.error.register(SophieErrorHandler)

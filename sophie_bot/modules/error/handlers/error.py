@@ -7,6 +7,7 @@ from aiogram.types import Chat, Update
 from sophie_bot.modules.error.utils.capture import capture_sentry
 from sophie_bot.modules.error.utils.ignored import QUIET_EXCEPTIONS
 from sophie_bot.modules.error.utils.error_message import generic_error_message
+from sophie_bot.modules.error.utils.backoff import compute_error_signature, should_notify
 from sophie_bot.utils.logger import log
 
 
@@ -47,6 +48,13 @@ class SophieErrorHandler(ErrorHandler):
             return  # Do not send messages after inline query
 
         chat: Chat = self.data["event_chat"]
+
+        # Global exponential backoff via Redis: suppress repeated crash notifications
+        signature = compute_error_signature(sys_exception)
+        notify = await should_notify(signature)
+        if not notify:
+            log.info("Suppressing error notification", signature=signature)
+            return
 
         # Pyright doesn't know that we are returning out of the function if there's no sys_exception
         await self.bot.send_message(chat.id, **generic_error_message(sys_exception, sentry_event_id))  # type: ignore
