@@ -3,6 +3,7 @@ from aiogram.dispatcher.event.handler import CallbackType
 from aiogram.handlers import MessageHandler
 from aiogram.types import Message
 from ass_tg.types import TextArg
+from pydantic_ai import ModelHTTPError
 from stfu_tg import (
     BlockQuote,
     Bold,
@@ -23,6 +24,8 @@ from sophie_bot.modules.ai.utils.ai_get_provider import get_chat_translations_mo
 from sophie_bot.modules.ai.utils.new_ai_chatbot import new_ai_generate_schema
 from sophie_bot.modules.ai.utils.new_message_history import NewAIMessageHistory
 from sophie_bot.modules.ai.utils.transform_audio import transform_voice_to_text
+from sophie_bot.modules.error.utils.capture import capture_sentry
+from sophie_bot.modules.error.utils.error_message import generic_error_message
 from sophie_bot.modules.notes.utils.unparse_legacy import legacy_markdown_to_html
 from sophie_bot.utils.i18n import gettext as _
 from sophie_bot.utils.i18n import lazy_gettext as l_
@@ -98,7 +101,17 @@ class AiTranslate(MessageHandler):
         log.debug("AiTranslate", ai_context=ai_context.history_debug())
 
         model = await get_chat_translations_model(connection.id)
-        translated = await new_ai_generate_schema(ai_context, AITranslateResponseSchema, model=model)
+
+        try:
+            translated = await new_ai_generate_schema(ai_context, AITranslateResponseSchema, model=model)
+        except ModelHTTPError as err:
+            event_id = capture_sentry(err)
+            if self.data.get("silent_error"):
+                pass
+            else:
+                return self.event.reply(
+                    **generic_error_message(err, sentry_event_id=event_id, title=_("Error generating translation"))
+                )
 
         # Prevent extra translating
         if is_autotranslate and not is_voice and not translated.needs_translation:

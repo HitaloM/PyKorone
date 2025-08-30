@@ -54,6 +54,8 @@ class AiAutoTranslateMiddleware(BaseMiddleware):
 
             text_to_detect = data["text"].lower()
 
+            data["silent_error"] = True
+
             if data.get("voice"):
                 log.debug("AiAutoTranslateMiddleware: Voice message - Translating anyway!")
                 await AiTranslate(event, **data)

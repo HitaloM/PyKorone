@@ -3,6 +3,7 @@ from typing import Any, Awaitable, Callable, Dict, Optional
 from aiogram import BaseMiddleware
 from aiogram.dispatcher.event.bases import SkipHandler
 from aiogram.types import Message, TelegramObject
+from mistralai import SDKError
 from stfu_tg import Doc, KeyValue, Section, Title, UserLink, VList
 
 from sophie_bot.config import CONFIG
@@ -12,6 +13,7 @@ from sophie_bot.modules.ai.utils.ai_moderator import (
     MODERATION_CATEGORIES_TRANSLATES,
     check_moderator,
 )
+from sophie_bot.modules.error.utils.capture import capture_sentry
 from sophie_bot.modules.legacy_modules.utils.user_details import is_user_admin
 from sophie_bot.services.bot import bot
 from sophie_bot.utils.i18n import gettext as _
@@ -73,9 +75,12 @@ class AiModeratorMiddleware(BaseMiddleware):
             if not CONFIG.debug_mode and await is_user_admin(chat_db.chat_id, event.from_user.id):
                 return await handler(event, data)
 
-            result = await check_moderator(event)
-            if result.flagged:
-                await self._triggered(event, result.categories.to_dict())
-                raise SkipHandler
+            try:
+                result = await check_moderator(event)
+                if result.flagged:
+                    await self._triggered(event, result.categories.to_dict())
+                    raise SkipHandler
+            except SDKError as err:
+                capture_sentry(err)
 
         return await handler(event, data)
