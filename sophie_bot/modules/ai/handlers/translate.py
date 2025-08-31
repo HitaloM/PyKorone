@@ -107,7 +107,7 @@ class AiTranslate(MessageHandler):
         except ModelHTTPError as err:
             event_id = capture_sentry(err)
             if self.data.get("silent_error"):
-                pass
+                return
             else:
                 return self.event.reply(
                     **generic_error_message(err, sentry_event_id=event_id, title=_("Error generating translation"))
