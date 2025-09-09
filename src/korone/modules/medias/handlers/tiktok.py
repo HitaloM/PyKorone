@@ -11,8 +11,8 @@ from hydrogram.types import InputMediaPhoto, InputMediaVideo, Message
 
 from korone.decorators import router
 from korone.filters import Regex
-from korone.modules.medias.handlers.base_media_handler import BaseMediaHandler
 from korone.modules.medias.utils.cache import MediaCache
+from korone.modules.medias.utils.common import extract_url, send_media
 from korone.modules.medias.utils.tiktok.scraper import URL_PATTERN, fetch_tiktok_media
 from korone.modules.medias.utils.tiktok.types import TikTokSlideshow, TikTokVideo
 from korone.utils.i18n import gettext as _
@@ -23,7 +23,7 @@ async def handle_tiktok(client, message: Message) -> None:
     if not message.text:
         return
 
-    tiktok_url = BaseMediaHandler.extract_url(message.text, URL_PATTERN)
+    tiktok_url = extract_url(message.text, URL_PATTERN)
     if not tiktok_url:
         return
 
@@ -44,9 +44,7 @@ async def handle_tiktok(client, message: Message) -> None:
     async with ChatActionSender(
         client=client, chat_id=message.chat.id, action=ChatAction.UPLOAD_DOCUMENT
     ):
-        sent_message = await BaseMediaHandler.send_media(
-            message, media_list, caption, tiktok_url, _("TikTok")
-        )
+        sent_message = await send_media(message, media_list, caption, tiktok_url, _("TikTok"))
 
     if sent_message:
         await cache.set(sent_message, int(timedelta(weeks=1).total_seconds()))

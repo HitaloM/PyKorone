@@ -19,7 +19,7 @@ from .types import InstaFixData
 
 POST_PATTERN = re.compile(r"(?:reel(?:s?)|p)/(?P<post_id>[A-Za-z0-9_-]+)")
 INSTAGRAM_HOST = "instagram.com"
-INSTAFIX_HOST = "ddinstagram.com"
+INSTAFIX_HOST = "uuinstagram.com"
 USER_AGENT = "TelegramBot"
 TIMEOUT = 60
 MAX_REDIRECTS = 5

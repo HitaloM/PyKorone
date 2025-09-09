@@ -20,8 +20,8 @@ from hydrogram.types import (
 
 from korone.decorators import router
 from korone.filters import Regex
-from korone.modules.medias.handlers.base_media_handler import BaseMediaHandler
 from korone.modules.medias.utils.cache import MediaCache
+from korone.modules.medias.utils.common import truncate_caption
 from korone.modules.medias.utils.downloader import download_media
 from korone.modules.medias.utils.files import resize_thumbnail
 from korone.modules.medias.utils.twitter.api import TwitterError, fetch_tweet
@@ -205,7 +205,7 @@ async def send_media(
     # Ensure text is a string and truncate to fit Telegram's character limit
     if not isinstance(text, str):
         text = str(text) if text else ""
-    text = BaseMediaHandler.truncate_caption(text)
+    text = truncate_caption(text)
 
     action = (
         ChatAction.UPLOAD_PHOTO
