@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2025-08-01 11:37-0300\n"
+"POT-Creation-Date: 2025-09-09 10:26-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -670,27 +670,22 @@ msgstr ""
 msgid "All time"
 msgstr ""
 
-#: src/korone/modules/medias/handlers/base_media_handler.py:30
-#: src/korone/modules/medias/handlers/base_media_handler.py:56
-msgid "Open in"
-msgstr ""
-
 #: src/korone/modules/medias/handlers/bluesky.py:48
-#: src/korone/modules/medias/handlers/bluesky.py:54
+#: src/korone/modules/medias/handlers/bluesky.py:53
 msgid "BlueSky"
 msgstr ""
 
 #: src/korone/modules/medias/handlers/instagram.py:53
-#: src/korone/modules/medias/handlers/instagram.py:59
+#: src/korone/modules/medias/handlers/instagram.py:58
 msgid "Instagram"
 msgstr ""
 
 #: src/korone/modules/medias/handlers/threads.py:49
-#: src/korone/modules/medias/handlers/threads.py:55
+#: src/korone/modules/medias/handlers/threads.py:54
 msgid "Threads"
 msgstr ""
 
-#: src/korone/modules/medias/handlers/tiktok.py:48
+#: src/korone/modules/medias/handlers/tiktok.py:47
 msgid "TikTok"
 msgstr ""
 
@@ -780,6 +775,11 @@ msgstr ""
 #: src/korone/modules/medias/handlers/youtube.py:173
 #: src/korone/modules/medias/handlers/youtube.py:189
 msgid "Failed to download the media."
+msgstr ""
+
+#: src/korone/modules/medias/utils/common.py:28
+#: src/korone/modules/medias/utils/common.py:54
+msgid "Open in"
 msgstr ""
 
 #: src/korone/modules/minecraft/handlers/modrinth.py:31

@@ -21,7 +21,7 @@ POST_PATTERN = re.compile(
     r"""
     (?:(?:https?)://)?
     (?:www\.)?
-    threads\.net/
+    threads\.(?:net|com)/
     .*?(?=\s|$)
     """,
     re.IGNORECASE | re.VERBOSE,

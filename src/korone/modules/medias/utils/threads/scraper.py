@@ -18,11 +18,12 @@ from pydantic import ValidationError
 from korone.modules.medias.utils.cache import MediaCache
 from korone.modules.medias.utils.downloader import download_media
 from korone.modules.medias.utils.files import resize_thumbnail
+from korone.modules.medias.utils.generic_headers import GENERIC_HEADER
 from korone.modules.medias.utils.instagram.scraper import fetch_instagram
 from korone.utils.caching import cache
 from korone.utils.logging import logger
 
-from .types import Post, ThreadsData
+from .types import CarouselMedia, Post, ThreadsData
 
 
 async def fetch_threads(text: str) -> Sequence[InputMedia] | None:
@@ -76,11 +77,10 @@ def get_shortcode(url: str) -> str | None:
 
 @cache(ttl=timedelta(weeks=1), condition=NOT_NONE)
 async def get_post_id(url: str) -> str:
-    headers = {
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
-        "AppleWebKit/537.36 (KHTML, like Gecko) Chrome/118.0.0.0 Safari/537.36",
+    headers = GENERIC_HEADER.copy()
+    headers.update({
         "Sec-Fetch-Mode": "navigate",
-    }
+    })
 
     async with httpx.AsyncClient(http2=True, timeout=20) as client:
         response = await client.get(url, headers=headers)
@@ -102,17 +102,16 @@ def random_string(n: int) -> str:
 
 @cache(ttl=timedelta(weeks=1), condition=NOT_NONE)
 async def get_gql_data(post_id: str) -> ThreadsData | None:
-    url = "https://www.threads.net/api/graphql"
+    url = "https://www.threads.com/api/graphql"
     lsd = random_string(10)
-    headers = {
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
-        "(KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36 Edg/128.0.0.0",
+    headers = GENERIC_HEADER.copy()
+    headers.update({
         "Content-Type": "application/x-www-form-urlencoded",
         "X-Fb-Lsd": lsd,
         "X-Ig-App-Id": "238260118697367",
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-origin",
-    }
+    })
     body = {
         "variables": orjson.dumps({
             "first": 1,
@@ -152,38 +151,41 @@ def get_caption(threads_data: ThreadsData) -> str:
 
 
 async def handle_carousel(post: Post) -> list[InputMedia]:
+    async def process_media(media: CarouselMedia) -> InputMedia | None:
+        if media.video_versions:
+            media_file = await download_media(media.video_versions[0].url)
+            if not media_file:
+                await logger.aerror("[Medias/Threads] Failed to download video media")
+                return None
+
+            thumbnail = None
+            if media.image_versions2 and media.image_versions2.candidates:
+                thumbnail_url = media.image_versions2.candidates[0].url
+                thumbnail = await download_media(thumbnail_url)
+                if thumbnail:
+                    await asyncio.to_thread(resize_thumbnail, thumbnail)
+
+            return InputMediaVideo(
+                media=media_file,
+                width=media.original_width,
+                height=media.original_height,
+                supports_streaming=True,
+                thumb=thumbnail,
+            )
+        if media.image_versions2 and media.image_versions2.candidates:
+            media_file = await download_media(media.image_versions2.candidates[0].url)
+            if not media_file:
+                await logger.aerror("[Medias/Threads] Failed to download image media")
+                return None
+
+            return InputMediaPhoto(media=media_file)
+        return None
+
     media_list = []
     if post.carousel_media:
-        for media in post.carousel_media:
-            if media.video_versions:
-                media_file = await download_media(media.video_versions[0].url)
-
-                if not media_file:
-                    continue
-
-                thumbnail = None
-                if media.image_versions2 and media.image_versions2.candidates:
-                    thumbnail_url = media.image_versions2.candidates[0].url
-                    thumbnail = await download_media(thumbnail_url)
-
-                    if thumbnail:
-                        await asyncio.to_thread(resize_thumbnail, thumbnail)
-
-                media_list.append(
-                    InputMediaVideo(
-                        media=media_file,
-                        width=media.original_width,
-                        height=media.original_height,
-                        supports_streaming=True,
-                        thumb=thumbnail,
-                    )
-                )
-            elif media.image_versions2 and media.image_versions2.candidates:
-                media_file = await download_media(media.image_versions2.candidates[0].url)
-                if not media_file:
-                    continue
-
-                media_list.append(InputMediaPhoto(media=media_file))
+        tasks = [process_media(media) for media in post.carousel_media]
+        results = await asyncio.gather(*tasks)
+        media_list = [r for r in results if r is not None]
 
     return media_list
 
@@ -192,13 +194,21 @@ async def handle_video(post: Post) -> list[InputMediaVideo] | None:
     if not post.video_versions:
         return None
 
-    file = await download_media(post.video_versions[0].url)
+    tasks = [download_media(post.video_versions[0].url)]
+    thumb_task = None
+    if post.image_versions2 and post.image_versions2.candidates:
+        thumb_task = download_media(post.image_versions2.candidates[0].url)
+        tasks.append(thumb_task)
+
+    results = await asyncio.gather(*tasks)
+    file = results[0]
     if not file:
+        await logger.aerror("[Medias/Threads] Failed to download video file")
         return None
 
     thumbnail = None
-    if post.image_versions2 and post.image_versions2.candidates:
-        thumbnail = await download_media(post.image_versions2.candidates[0].url)
+    if thumb_task:
+        thumbnail = results[1]
         if thumbnail:
             await asyncio.to_thread(resize_thumbnail, thumbnail)
 
@@ -222,6 +232,7 @@ async def handle_image(post: Post) -> list[InputMediaPhoto] | None:
 
     file = await download_media(post.image_versions2.candidates[0].url)
     if not file:
+        await logger.aerror("[Medias/Threads] Failed to download image file")
         return None
 
     return [InputMediaPhoto(media=file)]

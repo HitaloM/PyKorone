@@ -7,9 +7,7 @@ from datetime import timedelta
 from hairydogm.chat_action import ChatActionSender
 from hydrogram.client import Client
 from hydrogram.enums import ChatAction
-from hydrogram.types import (
-    Message,
-)
+from hydrogram.types import Message
 
 from korone.decorators import router
 from korone.filters import Regex
@@ -23,7 +21,8 @@ URL_PATTERN = re.compile(
     (?:www\.)?
     (?:
         instagram
-        | ddinstagram
+    | ddinstagram
+    | uuinstagram
     )
     \.com
     /\S+

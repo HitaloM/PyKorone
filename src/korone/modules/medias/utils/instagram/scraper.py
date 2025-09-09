@@ -20,7 +20,6 @@ from .types import InstaFixData
 POST_PATTERN = re.compile(r"(?:reel(?:s?)|p)/(?P<post_id>[A-Za-z0-9_-]+)")
 INSTAGRAM_HOST = "instagram.com"
 INSTAFIX_HOST = "uuinstagram.com"
-USER_AGENT = "TelegramBot"
 TIMEOUT = 60
 MAX_REDIRECTS = 5
 
@@ -76,10 +75,7 @@ async def get_instafix_data(post_url: str) -> InstaFixData | None:
         new_url = post_url.replace(INSTAGRAM_HOST, INSTAFIX_HOST)
 
     async with httpx.AsyncClient(
-        http2=True,
-        timeout=TIMEOUT,
-        headers={"User-Agent": USER_AGENT},
-        max_redirects=MAX_REDIRECTS,
+        http2=True, timeout=TIMEOUT, max_redirects=MAX_REDIRECTS
     ) as client:
         try:
             response = await client.get(new_url, follow_redirects=True)
