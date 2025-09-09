@@ -77,6 +77,11 @@ class YTDL:
         return await self.generate_videoinfo(info)
 
     async def generate_videoinfo(self, info: dict[str, Any]) -> VideoInfo:
+        if info.get("_type") == "playlist":
+            if not info.get("entries"):
+                msg = "No entries in playlist!"
+                raise InfoExtractionError(msg)
+            info = info["entries"][0]
         if self.download and self.file_path:
             thumbnail = Path(self.file_path).with_suffix(".jpeg").as_posix()
             await asyncio.to_thread(resize_thumbnail, thumbnail)
@@ -111,8 +116,9 @@ class YtdlpManager:
 
     @staticmethod
     async def get_video_info(url: str) -> VideoInfo:
+        options = {"noplaylist": "ytsearch" not in url}
         ytdl = YTDL(download=False)
-        return await ytdl.get_info(url, {})
+        return await ytdl.get_info(url, options)
 
     async def download(self, url: str, options: dict[str, Any]) -> VideoInfo:
         ytdl = YTDL(download=True)

@@ -48,10 +48,6 @@ async def ytdl_command(client: Client, message: Message) -> None:
     if args is None:
         return
 
-    if not YOUTUBE_REGEX.search(args):
-        await message.reply(_("Invalid or missing YouTube URL!"))
-        return
-
     ytdl = YtdlpManager()
     async with ChatActionSender(client=client, chat_id=message.chat.id):
         yt_info = await fetch_video_info(ytdl, args, message)
@@ -65,18 +61,15 @@ async def ytdl_command(client: Client, message: Message) -> None:
 async def get_args(command: CommandObject, message: Message) -> str | None:
     if command.args:
         return command.args
-    if message.reply_to_message and message.reply_to_message.text:
-        match = YOUTUBE_REGEX.search(message.reply_to_message.text)
-        if match:
-            return match.group()
-        await message.reply(_("No YouTube URL found in the replied message."))
-    else:
-        await message.reply(_("Provide a URL or reply with one."))
+    if (reply := message.reply_to_message) and reply.text:
+        return reply.text
+    await message.reply(_("Provide a search query or URL, or reply with one."))
     return None
 
 
-async def fetch_video_info(ytdl: YtdlpManager, url: str, message: Message) -> VideoInfo | None:
+async def fetch_video_info(ytdl: YtdlpManager, query: str, message: Message) -> VideoInfo | None:
     try:
+        url = query if YOUTUBE_REGEX.search(query) else f"ytsearch:{query}"
         return await ytdl.get_video_info(url)
     except InfoExtractionError:
         await message.reply(_("Failed to extract video info!"))
@@ -87,32 +80,25 @@ def format_duration(duration: int) -> str:
     hours, remainder = divmod(duration, 3600)
     minutes, seconds = divmod(remainder, 60)
     if hours:
-        return _("<b>Duration:</b> {hours}h {minutes}m {seconds}s\n").format(
-            hours=hours, minutes=minutes, seconds=seconds
-        )
+        return f"{_('<b>Duration:</b>')} {hours}h {minutes}m {seconds}s\n"
     if minutes:
-        return _("<b>Duration:</b> {minutes}m {seconds}s\n").format(
-            minutes=minutes, seconds=seconds
-        )
-    return _("<b>Duration:</b> {seconds}s\n").format(seconds=seconds)
+        return f"{_('<b>Duration:</b>')} {minutes}m {seconds}s\n"
+    return f"{_('<b>Duration:</b>')} {seconds}s\n"
 
 
 def build_video_info_text(yt_info: VideoInfo) -> str:
     locale = get_i18n().current_locale
+    likes_text = (
+        f"{_('<b>Likes:</b>')} {format_number(yt_info.like_count, locale=locale)}\n"
+        if yt_info.like_count is not None
+        else f"{_('<b>Likes:</b>')} {_('Unknown')}\n"
+    )
     return (
-        _("<b>Title:</b> {title}\n").format(title=html.escape(yt_info.title))
-        + _("<b>Uploader:</b> {uploader}\n").format(uploader=html.escape(yt_info.uploader))
-        + format_duration(yt_info.duration)
-        + _("<b>Views:</b> {views}\n").format(
-            views=format_number(yt_info.view_count, locale=locale)
-        )
-        + (
-            _("<b>Likes:</b> {likes}\n").format(
-                likes=format_number(yt_info.like_count, locale=locale)
-            )
-            if yt_info.like_count is not None
-            else _("<b>Likes:</b> Unknown\n")
-        )
+        f"{_('<b>Title:</b>')} {html.escape(yt_info.title)}\n"
+        f"{_('<b>Uploader:</b>')} {html.escape(yt_info.uploader)}\n"
+        f"{format_duration(yt_info.duration)}"
+        f"{_('<b>Views:</b>')} {format_number(yt_info.view_count, locale=locale)}\n"
+        f"{likes_text}"
     )
 
 
@@ -134,9 +120,10 @@ async def handle_ytdl_callback(client: Client, callback: CallbackQuery) -> None:
     if not callback.data:
         return
     query = YtGetCallback.unpack(callback.data)
-    if query.media_type in {YtMediaType.Video, YtMediaType.Audio}:
-        url = f"https://www.youtube.com/watch?v={query.media_id}"
-        await download_and_send_media(client, callback, url, query.media_type)
+    match query.media_type:
+        case YtMediaType.Video | YtMediaType.Audio:
+            url = f"https://www.youtube.com/watch?v={query.media_id}"
+            await download_and_send_media(client, callback, url, query.media_type)
 
 
 async def download_and_send_media(
@@ -144,12 +131,15 @@ async def download_and_send_media(
 ) -> None:
     ytdl = YtdlpManager()
     message = callback.message
-    action = (
-        ChatAction.UPLOAD_VIDEO if media_type == YtMediaType.Video else ChatAction.UPLOAD_AUDIO
-    )
-    download_method = (
-        ytdl.download_video if media_type == YtMediaType.Video else ytdl.download_audio
-    )
+    match media_type:
+        case YtMediaType.Video:
+            action = ChatAction.UPLOAD_VIDEO
+            download_method = ytdl.download_video
+        case YtMediaType.Audio:
+            action = ChatAction.UPLOAD_AUDIO
+            download_method = ytdl.download_audio
+        case _:
+            return
 
     await message.edit(_("Downloading..."))
     yt = await download_and_handle(download_method, url, message)
@@ -190,24 +180,25 @@ async def upload_media(
         return
     async with ChatActionSender(client=client, chat_id=message.chat.id, action=action):
         thumb = Path(str(yt.thumbnail)).as_posix() if yt.thumbnail else None
-        if media_type == YtMediaType.Video:
-            await client.send_video(
-                message.chat.id,
-                video=ytdl.file_path,
-                caption=caption,
-                no_sound=True,
-                duration=yt.duration,
-                thumb=thumb,
-                height=yt.height,
-                width=yt.width,
-            )
-        else:
-            await client.send_audio(
-                message.chat.id,
-                audio=ytdl.file_path,
-                caption=caption,
-                duration=yt.duration,
-                performer=yt.uploader,
-                title=yt.title,
-                thumb=thumb,
-            )
+        match media_type:
+            case YtMediaType.Video:
+                await client.send_video(
+                    message.chat.id,
+                    video=ytdl.file_path,
+                    caption=caption,
+                    no_sound=True,
+                    duration=yt.duration,
+                    thumb=thumb,
+                    height=yt.height,
+                    width=yt.width,
+                )
+            case YtMediaType.Audio:
+                await client.send_audio(
+                    message.chat.id,
+                    audio=ytdl.file_path,
+                    caption=caption,
+                    duration=yt.duration,
+                    performer=yt.uploader,
+                    title=yt.title,
+                    thumb=thumb,
+                )

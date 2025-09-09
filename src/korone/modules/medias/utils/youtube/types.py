@@ -15,12 +15,14 @@ class VideoInfo(BaseModel):
     view_count: int = 0
     like_count: int | None = None
     uploader: str
-    height: int
-    width: int
+    height: int = 0
+    width: int = 0
 
     @field_validator("height", "width", mode="before")
     @classmethod
     def validate_dimensions(cls, v: Any) -> int:
+        if v is None:
+            return 0
         try:
             return int(v)
         except (TypeError, ValueError):

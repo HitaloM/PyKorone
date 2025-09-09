@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2025-09-09 10:26-0300\n"
+"POT-Creation-Date: 2025-09-09 11:15-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -136,18 +136,18 @@ msgstr ""
 msgid "Command {action}."
 msgstr ""
 
-#: src/korone/modules/errors/handlers/catcher.py:83
+#: src/korone/modules/errors/handlers/catcher.py:81
 msgid "An unexpected error occurred while processing this update! :/"
 msgstr ""
 
-#: src/korone/modules/errors/handlers/catcher.py:85
+#: src/korone/modules/errors/handlers/catcher.py:83
 #, python-brace-format
 msgid ""
 "\n"
 "Reference ID: {id}"
 msgstr ""
 
-#: src/korone/modules/errors/handlers/catcher.py:90
+#: src/korone/modules/errors/handlers/catcher.py:88
 msgid "🐞 Report This Error"
 msgstr ""
 
@@ -675,8 +675,8 @@ msgstr ""
 msgid "BlueSky"
 msgstr ""
 
-#: src/korone/modules/medias/handlers/instagram.py:53
-#: src/korone/modules/medias/handlers/instagram.py:58
+#: src/korone/modules/medias/handlers/instagram.py:52
+#: src/korone/modules/medias/handlers/instagram.py:57
 msgid "Instagram"
 msgstr ""
 
@@ -701,79 +701,59 @@ msgid ""
 "<b>Sent from:</b> <i>{source}</i>"
 msgstr ""
 
-#: src/korone/modules/medias/handlers/youtube.py:52
-msgid "Invalid or missing YouTube URL!"
+#: src/korone/modules/medias/handlers/youtube.py:66
+msgid "Provide a search query or URL, or reply with one."
 msgstr ""
 
-#: src/korone/modules/medias/handlers/youtube.py:72
-msgid "No YouTube URL found in the replied message."
-msgstr ""
-
-#: src/korone/modules/medias/handlers/youtube.py:74
-msgid "Provide a URL or reply with one."
-msgstr ""
-
-#: src/korone/modules/medias/handlers/youtube.py:82
+#: src/korone/modules/medias/handlers/youtube.py:75
 msgid "Failed to extract video info!"
 msgstr ""
 
-#: src/korone/modules/medias/handlers/youtube.py:90
-#, python-brace-format
-msgid "<b>Duration:</b> {hours}h {minutes}m {seconds}s\n"
+#: src/korone/modules/medias/handlers/youtube.py:83
+#: src/korone/modules/medias/handlers/youtube.py:85
+#: src/korone/modules/medias/handlers/youtube.py:86
+msgid "<b>Duration:</b>"
+msgstr ""
+
+#: src/korone/modules/medias/handlers/youtube.py:92
+#: src/korone/modules/medias/handlers/youtube.py:94
+msgid "<b>Likes:</b>"
 msgstr ""
 
 #: src/korone/modules/medias/handlers/youtube.py:94
-#, python-brace-format
-msgid "<b>Duration:</b> {minutes}m {seconds}s\n"
+msgid "Unknown"
 msgstr ""
 
 #: src/korone/modules/medias/handlers/youtube.py:97
-#, python-brace-format
-msgid "<b>Duration:</b> {seconds}s\n"
+msgid "<b>Title:</b>"
 msgstr ""
 
-#: src/korone/modules/medias/handlers/youtube.py:103
-#, python-brace-format
-msgid "<b>Title:</b> {title}\n"
+#: src/korone/modules/medias/handlers/youtube.py:98
+msgid "<b>Uploader:</b>"
 msgstr ""
 
-#: src/korone/modules/medias/handlers/youtube.py:104
-#, python-brace-format
-msgid "<b>Uploader:</b> {uploader}\n"
+#: src/korone/modules/medias/handlers/youtube.py:100
+msgid "<b>Views:</b>"
 msgstr ""
 
-#: src/korone/modules/medias/handlers/youtube.py:106
-#, python-brace-format
-msgid "<b>Views:</b> {views}\n"
-msgstr ""
-
-#: src/korone/modules/medias/handlers/youtube.py:110
-#, python-brace-format
-msgid "<b>Likes:</b> {likes}\n"
-msgstr ""
-
-#: src/korone/modules/medias/handlers/youtube.py:114
-msgid "<b>Likes:</b> Unknown\n"
-msgstr ""
-
-#: src/korone/modules/medias/handlers/youtube.py:122
+#: src/korone/modules/medias/handlers/youtube.py:108
 msgid "Download video"
 msgstr ""
 
-#: src/korone/modules/medias/handlers/youtube.py:126
+#: src/korone/modules/medias/handlers/youtube.py:112
 msgid "Download audio"
 msgstr ""
 
-#: src/korone/modules/medias/handlers/youtube.py:154
+#: src/korone/modules/medias/handlers/youtube.py:144
 msgid "Downloading..."
 msgstr ""
 
-#: src/korone/modules/medias/handlers/youtube.py:159
+#: src/korone/modules/medias/handlers/youtube.py:149
 msgid "Uploading..."
 msgstr ""
 
-#: src/korone/modules/medias/handlers/youtube.py:173
-#: src/korone/modules/medias/handlers/youtube.py:189
+#: src/korone/modules/medias/handlers/youtube.py:163
+#: src/korone/modules/medias/handlers/youtube.py:179
 msgid "Failed to download the media."
 msgstr ""
 
