@@ -100,7 +100,7 @@ async def get_instafix_data(post_url: str) -> InstaFixData | None:
 
         except (httpx.HTTPStatusError, httpx.RequestError) as e:
             await logger.aerror(
-                "[Medias/Instagram] Failed to fetch InstaFix data. URL: %s, Error: %s",
+                "[Medias/Instagram] Fetch failed: %s, %s",
                 post_url,
                 str(e),
             )

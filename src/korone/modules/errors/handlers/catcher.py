@@ -35,9 +35,7 @@ async def handle_error(client: Client, update: Update, exception: Exception) -> 
 
     etype, value, tb = sys.exc_info()
     if not (etype and value and tb):
-        await logger.aerror(
-            "[ErrorHandler] Failed to retrieve exception information", exception=exception
-        )
+        await logger.aerror("[ErrorHandler] Missing exception info", exception=exception)
         return
 
     sentry_event_id = capture_exception(exception)
@@ -45,7 +43,7 @@ async def handle_error(client: Client, update: Update, exception: Exception) -> 
     await log_exception_details(formatted_exception, sentry_event_id)
 
     if not chat:
-        await logger.aerror("[ErrorHandler] Unhandled update type", update=update)
+        await logger.aerror("[ErrorHandler] No chat for update", update=update)
         return
 
     await send_error_message(client, chat, sentry_event_id)

@@ -70,7 +70,7 @@ async def get_bluesky_data(username: str | None, post_id: str) -> BlueskyData | 
             try:
                 return BlueskyData.model_validate(response.json())
             except ValidationError as e:
-                await logger.aexception("[Medias/BlueSky] Error validating response: %s", e)
+                await logger.aexception("[Medias/BlueSky] Validation failed: %s", e)
                 return None
         return None
 

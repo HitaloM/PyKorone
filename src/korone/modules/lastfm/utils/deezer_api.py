@@ -42,22 +42,22 @@ class DeezerClient:
 
         except httpx.TimeoutException as e:
             msg = "API request timed out"
-            await logger.aexception(f"[Deezer] {msg}: {e}")
+            await logger.aexception("[Deezer] Timeout: %s", e)
             raise DeezerError(msg) from e
 
         except httpx.RequestError as e:
-            msg = "API request failed due to network issues"
-            await logger.aexception(f"[Deezer] {msg}: {e}")
+            msg = "API request failed"
+            await logger.aexception("[Deezer] Request failed: %s", e)
             raise DeezerError(msg) from e
 
         except httpx.HTTPStatusError as e:
             msg = f"API request failed with status code {e.response.status_code}"
-            await logger.aexception(f"[Deezer] {msg}: {e}")
+            await logger.aexception("[Deezer] HTTP error %s: %s", e.response.status_code, e)
             raise DeezerError(msg, e.response) from e
 
         except ValueError as e:
             msg = "Failed to parse API response"
-            await logger.aexception(f"[Deezer] {msg}: {e}")
+            await logger.aexception("[Deezer] Parse error: %s", e)
             raise DeezerError(msg) from e
 
     async def get_artist(self, artist_name: str) -> DeezerData:

@@ -32,7 +32,7 @@ async def fetch_tweet(url: str) -> Tweet | None:
             try:
                 response_data = response.json()
             except Exception as e:
-                await logger.aexception("[Medias/Twitter] Error parsing JSON response: %s", e)
+                await logger.aexception("[Medias/Twitter] JSON parse failed: %s", e)
                 msg = "Invalid JSON response"
                 raise TwitterError(msg) from e
 
@@ -48,9 +48,9 @@ async def fetch_tweet(url: str) -> Tweet | None:
                 model = Response.model_validate_json(response.text)
                 return model.tweet
             except Exception as e:
-                await logger.aexception("[Medias/Twitter] Error validating response model: %s", e)
+                await logger.aexception("[Medias/Twitter] Model validation failed: %s", e)
                 msg = "Invalid response model"
                 raise TwitterError(msg) from e
     except httpx.HTTPError as e:
-        await logger.aexception("[Medias/Twitter] Error fetching tweet data: %s", e)
+        await logger.aexception("[Medias/Twitter] Fetch failed: %s", e)
         raise TwitterError from e

@@ -52,7 +52,7 @@ async def add_text_to_image(
         await asyncio.to_thread(blocking_add_text_to_image)
 
     except Exception as e:
-        await logger.aexception(f"Failed to add text to image: {e}")
+        await logger.aexception("Failed to add text to image: %s", e)
 
 
 async def fetch_album_art(album: LastFMAlbum) -> Image.Image:
@@ -61,7 +61,7 @@ async def fetch_album_art(album: LastFMAlbum) -> Image.Image:
         if image_data:
             return Image.open(image_data)
     except Exception as e:
-        await logger.aexception(f"Failed to fetch album art: {e}")
+        await logger.aexception("Failed to fetch album art: %s", e)
 
     return Image.open(DEFAULT_IMAGE_PATH)
 
@@ -96,7 +96,7 @@ async def process_single_image(
         collage.paste(img, (x, y))
 
     except Exception as e:
-        await logger.aexception(f"Failed to process image at index {index}: {e}")
+        await logger.aexception("Failed to process image at index %s: %s", index, e)
 
 
 @cache(ttl=timedelta(days=1))

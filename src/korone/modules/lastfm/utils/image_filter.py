@@ -56,10 +56,10 @@ async def get_biggest_lastfm_image(
                     return file
 
         except httpx.HTTPStatusError as e:
-            await logger.aexception(f"[LastFM] Failed to fetch image: {e}")
+            await logger.aexception("[LastFM] HTTP error fetching image: %s", e)
         except httpx.RequestError as e:
-            await logger.aexception(f"[LastFM] Request error while fetching image: {e}")
+            await logger.aexception("[LastFM] Request error fetching image: %s", e)
         except Exception as e:
-            await logger.aexception(f"[LastFM] Unexpected error when fetching image: {e}")
+            await logger.aexception("[LastFM] Unexpected error fetching image: %s", e)
 
     return None

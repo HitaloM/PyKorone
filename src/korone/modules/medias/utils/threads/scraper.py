@@ -133,7 +133,7 @@ async def get_gql_data(post_id: str) -> ThreadsData | None:
             try:
                 return ThreadsData.model_validate(response.json())
             except ValidationError as e:
-                await logger.aerror("[Medias/Threads] Error parsing GraphQL data: %s", e)
+                await logger.aerror("[Medias/Threads] GraphQL parse failed: %s", e)
                 return None
         return None
 
@@ -155,7 +155,7 @@ async def handle_carousel(post: Post) -> list[InputMedia]:
         if media.video_versions:
             media_file = await download_media(media.video_versions[0].url)
             if not media_file:
-                await logger.aerror("[Medias/Threads] Failed to download video media")
+                await logger.aerror("[Medias/Threads] Video download failed")
                 return None
 
             thumbnail = None
@@ -175,7 +175,7 @@ async def handle_carousel(post: Post) -> list[InputMedia]:
         if media.image_versions2 and media.image_versions2.candidates:
             media_file = await download_media(media.image_versions2.candidates[0].url)
             if not media_file:
-                await logger.aerror("[Medias/Threads] Failed to download image media")
+                await logger.aerror("[Medias/Threads] Image download failed")
                 return None
 
             return InputMediaPhoto(media=media_file)
@@ -203,7 +203,7 @@ async def handle_video(post: Post) -> list[InputMediaVideo] | None:
     results = await asyncio.gather(*tasks)
     file = results[0]
     if not file:
-        await logger.aerror("[Medias/Threads] Failed to download video file")
+        await logger.aerror("[Medias/Threads] Video download failed")
         return None
 
     thumbnail = None
@@ -232,7 +232,7 @@ async def handle_image(post: Post) -> list[InputMediaPhoto] | None:
 
     file = await download_media(post.image_versions2.candidates[0].url)
     if not file:
-        await logger.aerror("[Medias/Threads] Failed to download image file")
+        await logger.aerror("[Medias/Threads] Image download failed")
         return None
 
     return [InputMediaPhoto(media=file)]

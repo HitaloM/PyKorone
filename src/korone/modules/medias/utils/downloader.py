@@ -75,7 +75,7 @@ async def download_segment(
 
         return segment_path
     except Exception as error:
-        await logger.aerror("[Medias/Downloader] Failed to download segment: %s", error)
+        await logger.aerror("[Medias/Downloader] Segment download failed: %s", error)
         return None
 
 
@@ -105,13 +105,13 @@ async def merge_m3u8_segments(segment_files: list[Path], output_path: Path) -> b
             stdout=asyncio.subprocess.PIPE,
             stderr=asyncio.subprocess.PIPE,
         )
-        stdout, stderr = await process.communicate()
+
+        _, stderr = await process.communicate()
 
         if process.returncode != 0:
             await logger.aerror(
-                "[Medias/Downloader] ffmpeg failed with return code %s\nstdout: %s\nstderr: %s",
+                "[Medias/Downloader] ffmpeg failed: %s\nstderr: %s",
                 process.returncode,
-                stdout.decode(),
                 stderr.decode(),
             )
             return False
@@ -119,7 +119,7 @@ async def merge_m3u8_segments(segment_files: list[Path], output_path: Path) -> b
         return True
 
     except Exception as error:
-        await logger.aerror("[Medias/Downloader] Error merging segments: %s", error)
+        await logger.aerror("[Medias/Downloader] Merge failed: %s", error)
         return False
 
 
@@ -145,7 +145,7 @@ async def download_m3u8_playlist(media_url: str, content: bytes) -> BytesIO | No
             segment_files = [sf for sf in segment_files if sf is not None]
 
         if not segment_files:
-            await logger.aerror("[Medias/Downloader] No segments were downloaded.")
+            await logger.aerror("[Medias/Downloader] No segments downloaded")
             return None
 
         merged_output_path = temp_dir / "merged_video.mp4"
@@ -221,7 +221,7 @@ async def download_media(media_url: str) -> BytesIO | None:
         if not is_bsky_thumbnail(media_url, content_type) and not is_supported_mime_type(
             content_type
         ):
-            await logger.awarning("[Medias/Downloader] MIME type not supported: %s", content_type)
+            await logger.awarning("[Medias/Downloader] Unsupported MIME: %s", content_type)
             return None
 
         raw_data = response.content
@@ -252,5 +252,5 @@ async def download_media(media_url: str) -> BytesIO | None:
         await logger.aerror("[Medias/Downloader] HTTP error: %s", error)
         return None
     except Exception as error:
-        await logger.aerror("[Medias/Downloader] Error downloading media: %s", error)
+        await logger.aerror("[Medias/Downloader] Download failed: %s", error)
         return None

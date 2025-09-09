@@ -50,7 +50,7 @@ class YTDL:
                     self.file_path = Path(ydl.prepare_filename(info)).as_posix()
                 return info
         except yt_dlp.DownloadError as e:
-            await logger.aexception("[YouTube] Error downloading '%s'", url)
+            await logger.aexception("[Medias/YouTube] Download failed: %s", url)
             raise DownloadError(e.msg) from e
 
     async def get_info(self, url: str, options: dict[str, Any]) -> VideoInfo:
@@ -63,7 +63,7 @@ class YTDL:
         if not info:
             msg = "No info extracted!"
             raise InfoExtractionError(msg)
-        await logger.adebug("Info extracted for %s", url)
+        await logger.adebug("[Medias/YouTube] Info extracted: %s", url)
         return await self.generate_videoinfo(info)
 
     async def _download(self, url: str, options: dict[str, Any]) -> VideoInfo:
@@ -73,7 +73,7 @@ class YTDL:
         if not info or not self.file_path:
             msg = "Download failed!"
             raise DownloadError(msg)
-        await logger.adebug("Downloaded %s to %s", url, self.file_path)
+        await logger.adebug("[Medias/YouTube] Downloaded: %s -> %s", url, self.file_path)
         return await self.generate_videoinfo(info)
 
     async def generate_videoinfo(self, info: dict[str, Any]) -> VideoInfo:
@@ -133,4 +133,4 @@ class YtdlpManager:
         for path in [self.file_path, self.thumbnail_path]:
             if path and Path(path).exists():
                 Path(path).unlink(missing_ok=True)
-                logger.debug("Removed %s", path)
+                logger.debug("[Medias/YouTube] Removed %s", path)
