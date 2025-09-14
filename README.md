@@ -9,6 +9,10 @@ Modern, fast Telegram chat manager bot.
 - MongoDB
 - Redis
 
+### Additional requirements for openSUSE
+
+- libicu-devel
+
 ## Quick start (for development, not production)
 
 1. Install dependencies:

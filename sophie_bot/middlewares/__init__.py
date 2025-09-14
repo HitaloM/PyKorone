@@ -14,8 +14,18 @@ from sophie_bot.services.bot import dp
 from sophie_bot.services.i18n import i18n
 from sophie_bot.utils.logger import log
 
+# Global metrics instance - will be set during initialization
+_metrics_middleware = None
+
 localization_middleware = LocalizationMiddleware(i18n)
 try_localization_middleware = OrMiddleware(localization_middleware, ConstI18nMiddleware("en_US", i18n))
+
+
+def set_metrics_middleware(middleware) -> None:
+    """Set the metrics middleware instance"""
+    global _metrics_middleware
+    _metrics_middleware = middleware
+    log.info("Metrics middleware set")
 
 
 def enable_middlewares():
@@ -25,6 +35,11 @@ def enable_middlewares():
         dp.update.middleware(UpdateDebugMiddleware())
 
     dp.update.middleware(localization_middleware)
+
+    # Register metrics middleware if enabled
+    if CONFIG.metrics_enable and _metrics_middleware:
+        dp.update.middleware(_metrics_middleware)
+        log.info("Metrics middleware registered")
 
     if CONFIG.proxy_enable:
         log.info("Enabled Proxy!")

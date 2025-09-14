@@ -27,6 +27,7 @@ from sophie_bot.services.bot import bot
 from sophie_bot.utils.i18n import gettext as _
 from sophie_bot.utils.i18n import lazy_gettext as l_
 from sophie_bot.utils.feature_flags import is_enabled
+from sophie_bot.metrics import track_ai_conversation, track_ai_usage
 
 CHATBOT_TOOLS = [
     MemoryAgentTool(),
@@ -76,66 +77,75 @@ async def ai_chatbot_reply(
     if not connection.db_model:
         return
 
-    await bot.send_chat_action(message.chat.id, "typing")
+    # Track active AI conversation
+    async with track_ai_conversation():
+        await bot.send_chat_action(message.chat.id, "typing")
 
-    # Chat memory
-    memory_lines = await AIMemoryModel.get_lines(connection.db_model.id)
+        # Chat memory
+        memory_lines = await AIMemoryModel.get_lines(connection.db_model.id)
 
-    system_prompt = Doc(
-        _("You can use Tavily to search for information. Include information sources as links."),
-        _("You can also save important things to the memory."),
-    )
-    if memory_lines:
-        system_prompt += Section(VList(*memory_lines), title=_("You have the following information in your memory"))
+        system_prompt = Doc(
+            _("You can use Tavily to search for information. Include information sources as links."),
+            _("You can also save important things to the memory."),
+        )
+        if memory_lines:
+            system_prompt += Section(VList(*memory_lines), title=_("You have the following information in your memory"))
 
-    history = NewAIMessageHistory()
-    await history.initialize_chat_history(message.chat.id, additional_system_prompt=system_prompt.to_md())
-    await history.add_from_message(message, custom_text=user_text)
+        history = NewAIMessageHistory()
+        await history.initialize_chat_history(message.chat.id, additional_system_prompt=system_prompt.to_md())
+        await history.add_from_message(message, custom_text=user_text)
 
-    # Debug mode
-    debug_mode = debug_mode or CONFIG.debug_mode
-    if "^llm_debug" in (user_text or message.text or ""):
-        debug_mode = True
+        # Debug mode
+        debug_mode = debug_mode or CONFIG.debug_mode
+        if "^llm_debug" in (user_text or message.text or ""):
+            debug_mode = True
 
-    # History debug
-    if debug_mode:
-        await message.reply(
-            Section(BlockQuote(history.history_debug(), expandable=True), title="LLM History").to_html(),
-            disable_web_page_preview=True,
+        # History debug
+        if debug_mode:
+            await message.reply(
+                Section(BlockQuote(history.history_debug(), expandable=True), title="LLM History").to_html(),
+                disable_web_page_preview=True,
+            )
+
+        if model is None:
+            model = await get_chat_default_model(connection.db_model.id)  # type: ignore
+        result = await new_ai_generate(
+            history,
+            tools=CHATBOT_TOOLS,
+            model=model,
+            agent_kwargs={"deps": SophieAIToolContenxt(connection=connection)},
         )
 
-    if model is None:
-        model = await get_chat_default_model(connection.db_model.id)  # type: ignore
-    result = await new_ai_generate(
-        history, tools=CHATBOT_TOOLS, model=model, agent_kwargs={"deps": SophieAIToolContenxt(connection=connection)}
-    )
+        # Track AI usage metrics
+        if result.usage:
+            track_ai_usage(model, result.usage)
 
-    header_items = [*retrieve_tools_titles(result.message_history), HList(divider=", ")]
-    header = ai_header(model, *header_items)
+        header_items = [*retrieve_tools_titles(result.message_history), HList(divider=", ")]
+        header = ai_header(model, *header_items)
 
-    # Split if too long
-    output_text = str(result.output)
-    length = len(output_text) + len(header.to_html())
-    if length > 4000:
-        output_text = output_text[:4000] + "..."
+        # Split if too long
+        output_text = str(result.output)
+        length = len(output_text) + len(header.to_html())
+        if length > 4000:
+            output_text = output_text[:4000] + "..."
 
-    doc = Doc(header, BlockQuote(PreformattedHTML(legacy_markdown_to_html(output_text, extract_headings=True))))
-    if debug_mode:
-        doc += " "
-        doc += Section(
-            BlockQuote(
-                Doc(
-                    KeyValue("Model", AI_MODEL_TO_SHORT_NAME[model.model_name]),
-                    KeyValue("LLM Requests", result.usage.requests),
-                    KeyValue("Retries", result.retires),
-                    KeyValue("Request tokens", result.usage.request_tokens),
-                    KeyValue("Response tokens", result.usage.response_tokens),
-                    KeyValue("Total tokens", result.usage.total_tokens),
-                    KeyValue("Details", result.usage.details or "-"),
+        doc = Doc(header, BlockQuote(PreformattedHTML(legacy_markdown_to_html(output_text, extract_headings=True))))
+        if debug_mode:
+            doc += " "
+            doc += Section(
+                BlockQuote(
+                    Doc(
+                        KeyValue("Model", AI_MODEL_TO_SHORT_NAME[model.model_name]),
+                        KeyValue("LLM Requests", result.usage.requests),
+                        KeyValue("Retries", result.retires),
+                        KeyValue("Request tokens", result.usage.request_tokens),
+                        KeyValue("Response tokens", result.usage.response_tokens),
+                        KeyValue("Total tokens", result.usage.total_tokens),
+                        KeyValue("Details", result.usage.details or "-"),
+                    ),
+                    expandable=True,
                 ),
-                expandable=True,
-            ),
-            title="Provider debug",
-        )
+                title="Provider debug",
+            )
 
-    return await message.reply(doc.to_html(), disable_web_page_preview=True, **kwargs)
+        return await message.reply(doc.to_html(), disable_web_page_preview=True, **kwargs)
