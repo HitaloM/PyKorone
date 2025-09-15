@@ -8,15 +8,16 @@ msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2025-03-16 21:29-0300\n"
-"PO-Revision-Date: 2024-08-24 20:38+0000\n"
-"Last-Translator: Hitalo <hitalo331@outlook.com>\n"
+"PO-Revision-Date: 2025-09-15 17:10+0000\n"
+"Last-Translator: Anonymous <noreply@weblate.org>\n"
+"Language-Team: French <http://weblate.amanoteam.com/projects/korone/korone/"
+"fr/>\n"
 "Language: fr_FR\n"
-"Language-Team: French "
-"<http://weblate.amanoteam.com/projects/korone/korone/fr/>\n"
-"Plural-Forms: nplurals=2; plural=n > 1;\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n > 1;\n"
+"X-Generator: Weblate 5.12.2\n"
 "Generated-By: Babel 2.17.0\n"
 
 #: src/korone/filters/admin.py:68
@@ -399,7 +400,7 @@ msgstr ""
 "GitHub."
 
 #: src/korone/modules/languages/handlers/apply.py:57
-#, python-brace-format
+#, fuzzy, python-brace-format
 msgid ""
 "\n"
 "The language is {percent}% translated."
@@ -450,10 +451,10 @@ msgid "<b>Chat language:</b> {language}\n"
 msgstr "<b>Langue du chat :</b> {language}\n"
 
 #: src/korone/modules/languages/handlers/info.py:44
+#, fuzzy
 msgid "This is the bot's native language. So it is 100% translated."
 msgstr ""
-"Il s'agit de la langue maternelle du robot. Elle est donc traduite à 100 "
-"%."
+"Il s'agit de la langue maternelle du robot. Elle est donc traduite à 100 %."
 
 #: src/korone/modules/languages/handlers/info.py:46
 msgid ""
