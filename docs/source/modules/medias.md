@@ -14,4 +14,4 @@ Some websites, when their links are shared on Telegram, do not display a preview
 
 ## Commands
 
-- `/ytdl (?URL)`: Download a video or audio from YouTube. You can also reply to a message containing a YouTube link instead of providing the `URL` argument.
+- `/ytdl (?URL or TEXT)`: Download a video or audio from YouTube. You can also reply to a message instead of providing the `URL` or `TEXT` argument.
