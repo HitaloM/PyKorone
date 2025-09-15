@@ -10,6 +10,15 @@ repos:
       - id: check-toml
       - id: check-yaml
 
+  - repo: local
+    hooks:
+      - id: update-version
+        name: Update version to current date
+        entry: python3 scripts/update_version.py
+        language: system
+        files: ^(src/korone/__init__\.py|scripts/update_version\.py)$
+        pass_filenames: false
+
   - repo: https://github.com/astral-sh/ruff-pre-commit
     rev: v0.13.0
     hooks:
