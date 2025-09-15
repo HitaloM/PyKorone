@@ -35,6 +35,7 @@ pydantic-ai-slim = { extras = ["openai", "google", "tavily", "mistral"], version
 prometheus-client = "^0.22.1"
 
 [tool.poetry.group.dev.dependencies]
+PyICU = { git = "https://gitlab.pyicu.org/main/pyicu" } # Latest version (2.15.2) doesn't support gcc 15 with python 3
 Nuitka = "^2"
 pycln = "^2.1"
 bandit = "^1.7"
@@ -48,6 +49,7 @@ babel = "^2.16.0"
 allure-pytest = "^2.13.5"
 pytest = "^8.3.5"
 fakeredis = "^2.27.0"
+pyright = "^1.1.405"
 
 [tool.poetry.extras]
 fast = ["aiohttp", "cryptg", "cryptography"]
@@ -56,7 +58,7 @@ fast = ["aiohttp", "cryptg", "cryptography"]
 #poetry-plugin-export = ">1.8"
 
 [tool.pyright]
-exclude = ["**/legacy_modules/", '**/db/models/', '**/legacy_**.py']
+exclude = ["**/legacy_modules/", '**/legacy_**.py']
 
 [tool.mypy]
 ignore_missing_imports = true

@@ -8,7 +8,6 @@ from beanie import (
     DeleteRules,
     Document,
     Indexed,
-    Link,
     PydanticObjectId,
     UpdateResponse,
 )
@@ -19,6 +18,7 @@ from pydantic_core.core_schema import SerializerFunctionWrapHandler
 from pymongo import IndexModel
 
 from sophie_bot.db.db_exceptions import DBNotFoundException
+from sophie_bot.db.models._link_type import Link
 
 
 class ChatType(Enum):
@@ -115,6 +115,7 @@ def ser_wrap(v: Any, nxt: SerializerFunctionWrapHandler) -> str:
 
 
 class ChatModel(Document):
+    id: PydanticObjectId
     chat_id: Annotated[int, Indexed(unique=True)]
     type: ChatType = Field(..., description="Group type")
     first_name_or_title: str = Field(max_length=128)
