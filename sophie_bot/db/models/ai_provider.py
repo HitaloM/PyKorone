@@ -1,8 +1,9 @@
 from __future__ import annotations
 
-from beanie import Document, Link, PydanticObjectId
+from beanie import Document, PydanticObjectId
 from pydantic import Field
 
+from ._link_type import Link
 from .chat import ChatModel
 
 

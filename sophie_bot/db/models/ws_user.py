@@ -1,9 +1,10 @@
 from typing import Optional
 
-from beanie import Document, Link, PydanticObjectId, UpdateResponse
+from beanie import Document, PydanticObjectId, UpdateResponse
 from beanie.odm.operators.update.general import Set
 
 from sophie_bot.db.models import ChatModel
+from sophie_bot.db.models._link_type import Link
 
 
 class WSUserModel(Document):

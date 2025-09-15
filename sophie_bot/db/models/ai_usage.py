@@ -1,12 +1,13 @@
 from datetime import date
 
-from beanie import Document, Link
+from beanie import Document
 
+from ._link_type import Link
 from .chat import ChatModel
 
 
 class AIUsageModel(Document):
-    chat: Link["ChatModel"]
+    chat: Link[ChatModel]
     days: dict[date, int]
 
     class Settings:

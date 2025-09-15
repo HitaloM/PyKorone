@@ -2,9 +2,10 @@ from __future__ import annotations
 
 from typing import Optional, Literal
 
-from beanie import Document, Link, PydanticObjectId
+from beanie import Document, PydanticObjectId
 from pydantic import Field, model_validator
 
+from ._link_type import Link
 from .chat import ChatModel
 from .filters import FilterActionType
 

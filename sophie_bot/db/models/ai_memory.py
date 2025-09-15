@@ -1,5 +1,6 @@
-from beanie import Document, Link, PydanticObjectId
+from beanie import Document, PydanticObjectId
 
+from ._link_type import Link
 from .chat import ChatModel
 
 
