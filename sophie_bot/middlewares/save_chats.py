@@ -67,7 +67,8 @@ class SaveChatsMiddleware(BaseMiddleware):
         else:
             return
 
-        await ChatTopicModel.ensure_topic(group, message.message_thread_id, name)
+        if message.message_thread_id is not None:
+            await ChatTopicModel.ensure_topic(group, message.message_thread_id, name)
 
     @staticmethod
     async def close_topic(message: Message, group_id: int):

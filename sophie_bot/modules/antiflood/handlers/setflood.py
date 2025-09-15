@@ -36,7 +36,7 @@ class SetFloodHandler(StatusHandlerABC[int | Literal[False]]):
 
     async def get_status(self) -> int:
         """Get the current flood message threshold."""
-        antiflood_model = await AntifloodModel.get_by_chat_iid(self.connection.id)
+        antiflood_model = await AntifloodModel.get_by_chat_iid(self.connection.db_model.id)
         return antiflood_model.message_count
 
     async def set_status(self, new_status: Literal[False] | int):

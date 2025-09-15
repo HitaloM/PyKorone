@@ -133,6 +133,8 @@ class EnforceFiltersMiddleware(BaseMiddleware):
         chat_id: int = message.chat.id
 
         all_filters = await FiltersModel.get_filters(chat_id)
+        if not all_filters:
+            return
         matched_filters: list[FiltersModel] = [fil for fil in all_filters if match_legacy_handler(message, fil.handler)]
 
         all_messages = []

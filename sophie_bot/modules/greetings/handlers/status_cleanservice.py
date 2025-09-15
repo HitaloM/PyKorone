@@ -20,7 +20,7 @@ class CleanServiceHandlerABC(StatusBoolHandlerABC):
     async def get_status(self) -> bool:
         chat_id = self.connection.id
         db_model = await GreetingsModel.get_by_chat_id(chat_id)
-        return (db_model.clean_service and db_model.clean_service.enabled) if db_model else False
+        return bool((db_model.clean_service and db_model.clean_service.enabled) if db_model else False)
 
     async def set_status(self, new_status: bool):
         chat_id = self.connection.id

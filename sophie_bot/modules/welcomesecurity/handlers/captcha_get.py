@@ -42,6 +42,10 @@ class CaptchaGetHandler(SophieMessageCallbackQueryHandler):
             return
 
         chat_db = await ChatModel.get_by_iid(PydanticObjectId(chat_iid))
+        if not chat_db:
+            await self.answer(_("Chat not found in database"))
+            await self.state.clear()
+            return
 
         shuffle: bool = self.data.get("ws_shuffle", False)
 

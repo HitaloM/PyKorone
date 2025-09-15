@@ -40,7 +40,8 @@ class CaptchaConfirmHandler(SophieCallbackQueryHandler):
         # Cleanup
         if msg_to_clean := await aredis.get(f"chat_ws_message:{group.id}:{user.id}"):
             chat_db = await ChatModel.get_by_iid(PydanticObjectId(state_data["ws_chat_iid"]))
-            await common_try(bot.delete_message(chat_id=chat_db.chat_id, message_id=msg_to_clean))
+            if chat_db:
+                await common_try(bot.delete_message(chat_id=chat_db.chat_id, message_id=msg_to_clean))
         await self.state.clear()
 
         locale = self.current_locale

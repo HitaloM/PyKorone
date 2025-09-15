@@ -35,7 +35,7 @@ class LockMutedUsers(BaseMiddleware):
                 return await handler(event, data)
 
             model = await WSUserModel.is_user(user_db.id, chat_db.id)
-            if not model.passed:
+            if model and not model.passed:
                 await self._lock_user(event, chat_db, user_db)
 
                 # Skip handler

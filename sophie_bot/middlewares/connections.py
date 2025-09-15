@@ -26,6 +26,8 @@ class ConnectionsMiddleware(BaseMiddleware):
         title = chat.title if chat.type != "private" and chat.title else _("Private chat")
 
         db_model = await ChatModel.get_by_chat_id(chat.id)
+        if db_model is None:
+            raise SophieException(_("Chat not found in database"))
 
         return ChatConnection(is_connected=False, id=chat.id, type=ChatType[chat.type], title=title, db_model=db_model)
 

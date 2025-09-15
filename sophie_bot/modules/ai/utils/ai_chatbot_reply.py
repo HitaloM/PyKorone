@@ -137,7 +137,7 @@ async def ai_chatbot_reply(
                     Doc(
                         KeyValue("Model", AI_MODEL_TO_SHORT_NAME[model.model_name]),
                         KeyValue("LLM Requests", result.usage.requests),
-                        KeyValue("Retries", result.retires),
+                        KeyValue("Retries", result.retries),
                         KeyValue("Request tokens", result.usage.request_tokens),
                         KeyValue("Response tokens", result.usage.response_tokens),
                         KeyValue("Total tokens", result.usage.total_tokens),

@@ -61,6 +61,8 @@ class EnableWelcomeMute(StatusHandlerABC[timedelta | str | Literal[False]]):
         if not db_model or not db_model.welcome_mute or not db_model.welcome_mute.enabled:
             return False
 
+        if db_model.welcome_mute.time is None:
+            return False
         return convert_timedelta_or_str(db_model.welcome_mute.time)
 
     async def set_status(self, new_status: str | timedelta | Literal[False]):
@@ -76,4 +78,5 @@ class EnableWelcomeMute(StatusHandlerABC[timedelta | str | Literal[False]]):
 
         db_model = await GreetingsModel.get_by_chat_id(chat_id)
 
-        await db_model.set_status_welcomemute(is_enabled, time)
+        time_str = str(time) if time else None
+        await db_model.set_status_welcomemute(is_enabled, time_str)
