@@ -24,7 +24,6 @@ Content is organized into sections consisting of self-contained topics that can 
 ### Development
 
 - [Contributing](./contributing): Contribution guidelines.
-- [Changelog](./changelog): Release notes.
 - [License](./license): Licensing information.
 
 ```{toctree}
@@ -44,7 +43,6 @@ privacy
 :hidden:
 
 contributing
-changelog
 license
 ```
 

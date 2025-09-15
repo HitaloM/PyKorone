@@ -9,8 +9,6 @@ help:
 	@echo "  i18n-update - Update translation files"
 	@echo "  i18n-compile - Compile translation files"
 	@echo "  i18n-clean  - Remove compiled translation files"
-	@echo "  news        - Build changelog with towncrier"
-	@echo "  news-draft  - Preview changelog with towncrier"
 	@echo "  all         - Build docs and compile translations"
 	@echo "  clean       - Clean all build artifacts"
 
@@ -40,14 +38,6 @@ i18n-compile:
 
 i18n-clean:
 	find . -name '*.mo' -type f -delete
-
-# Changelog targets
-.PHONY: news news-draft
-news:
-	towncrier build --yes
-
-news-draft:
-	towncrier build --draft
 
 # Combined targets
 .PHONY: all clean

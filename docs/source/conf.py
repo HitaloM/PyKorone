@@ -17,7 +17,7 @@ date = date_time.date()
 copyright = f"{date.year}, {author}"
 release = korone.__version__.split(" ")[0]
 
-extensions = ["myst_parser", "sphinxcontrib.towncrier"]
+extensions = ["myst_parser"]
 
 html_use_modindex = False
 html_use_index = False
@@ -28,9 +28,6 @@ autodoc_member_order = "bysource"
 autodoc_typehints = "none"
 pygments_style = "sphinx"
 
-towncrier_draft_autoversion_mode = "draft"
-towncrier_draft_include_empty = True
-towncrier_draft_working_directory = Path(__file__).parent.parent.parent
 
 exclude_patterns = ["_build", "Thumbs.db", ".DS_Store"]
 

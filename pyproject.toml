@@ -34,37 +34,18 @@ readme = "README.md"
 license = { file = "LICENSE" }
 requires-python = ">= 3.13"
 
-
 [dependency-groups]
 dev = ["pre-commit>=4.2.0", "ruff>=0.11.7"]
 docs = [
-    "sphinx>=8.2.2",
-    "furo>=2024.8.6",
-    "sphinx-autobuild>=2024.10.3",
+    "sphinx>=8.2.3",
+    "furo>=2025.7.19",
+    "sphinx-autobuild>=2025.8.25",
     "sphinx-copybutton>=0.5.2",
     "myst-parser>=4.0.1",
-    "towncrier>=24.8.0",
-    "sphinxcontrib-towncrier>=0.5.0a0",
 ]
-
 
 [tool.hatch.version]
 path = "src/korone/__init__.py"
-
-[tool.towncrier]
-package = "korone"
-package_dir = "src"
-filename = "NEWS.rst"
-directory = "news/"
-template = "news/.template.rst.j2"
-issue_format = "`#{issue} <https://github.com/HitaloM/PyKorone/issues/{issue}>`_"
-type = [
-    { name = "Removals", directory = "removal", showcontent = true },
-    { name = "Features", directory = "feature", showcontent = true },
-    { name = "Bug Fixes", directory = "bugfix", showcontent = true },
-    { name = "Improved Documentation", directory = "doc", showcontent = true },
-    { name = "Misc", directory = "misc", showcontent = false },
-]
 
 [tool.uv.sources]
 hydrogram = { git = "https://github.com/hydrogram/hydrogram" }

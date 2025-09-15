@@ -11,17 +11,8 @@ repos:
       - id: check-yaml
 
   - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: v0.12.12
+    rev: v0.13.0
     hooks:
+      - id: ruff-check
+        args: [--fix]
       - id: ruff-format
-      - id: ruff
-        args: [--fix, --exit-non-zero-on-fix]
-
-  - repo: local
-    hooks:
-      - id: news-fragment-filenames
-        name: NEWS fragment
-        language: fail
-        entry: NEWS fragment files must be named *.(removal|feature|bugfix|doc|misc).rst
-        exclude: ^news/(.gitignore|.template.rst.j2|.*\.(removal|feature|bugfix|doc|misc).rst)
-        files: ^news/
