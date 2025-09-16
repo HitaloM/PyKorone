@@ -5,7 +5,7 @@ ENV PIP_DEFAULT_TIMEOUT=100 \
     PIP_NO_CACHE_DIR=1
 
 RUN apt update
-RUN apt install build-essential gcc git -y
+RUN apt install -y build-essential gcc git pkg-config libicu-dev
 RUN pip install poetry wheel
 RUN python -m venv /venv
 
@@ -37,6 +37,9 @@ FROM python:3.13-slim as final
 ENV PYTHONFAULTHANDLER=1 \
     PYTHONHASHSEED=random \
     PYTHONUNBUFFERED=1
+
+RUN apt update
+RUN apt install -y libicu-dev
 
 # RUN apk add --no-cache libffi libpq
 
