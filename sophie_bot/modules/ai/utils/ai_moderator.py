@@ -35,6 +35,20 @@ MODERATION_CATEGORIES_TRANSLATES = {
     ),
 }
 
+# Minimal score thresholds for triggering each moderation category.
+# Tune per your policy needs.
+CATEGORY_MIN_SCORES: dict[str, float] = {
+    "sexual": 0.5,
+    "hate_and_discrimination": 0.4,
+    "violence_and_threats": 0.4,
+    "dangerous_and_criminal_content": 0.4,
+    "selfharm": 0.3,
+    "health": 0.3,
+    "financial": 0.3,
+    "law": 0.3,
+    "pii": 0.3,
+}
+
 
 @dataclass(frozen=True)
 class CategoriesDict:
@@ -85,25 +99,35 @@ async def check_moderator(message: Message) -> ModerationResult:
     )
     result: ModerationObject = resp.results[0]
 
-    categories_raw: dict[str, bool] = result.categories or {}
-    flagged: bool = any(categories_raw.values())
+    if not result.category_scores:
+        return ModerationResult(flagged=False, categories=CategoriesDict())
+
+    category_scores: dict[str, float] = result.category_scores
+
+    # Use float scores and compare with thresholds to determine flags
+    categories_bool: dict[str, bool] = {
+        key: category_scores.get(key, 0.0) >= CATEGORY_MIN_SCORES.get(key, 0.5) for key in CATEGORY_MIN_SCORES.keys()
+    }
+    flagged: bool = any(categories_bool.values())
 
     log.debug(
         "AI moderation evaluated message",
         flagged=flagged,
-        categories=categories_raw,
+        categories=categories_bool,
+        category_scores=category_scores,
+        thresholds=CATEGORY_MIN_SCORES,
         input_count=len(history.to_moderation),
     )
 
     categories = CategoriesDict(
-        sexual=categories_raw.get("sexual", False),
-        hate_and_discrimination=categories_raw.get("hate_and_discrimination", False),
-        violence_and_threats=categories_raw.get("violence_and_threats", False),
-        dangerous_and_criminal_content=categories_raw.get("dangerous_and_criminal_content", False),
-        selfharm=categories_raw.get("selfharm", False),
-        health=categories_raw.get("health", False),
-        financial=categories_raw.get("financial", False),
-        law=categories_raw.get("law", False),
-        pii=categories_raw.get("pii", False),
+        sexual=categories_bool.get("sexual", False),
+        hate_and_discrimination=categories_bool.get("hate_and_discrimination", False),
+        violence_and_threats=categories_bool.get("violence_and_threats", False),
+        dangerous_and_criminal_content=categories_bool.get("dangerous_and_criminal_content", False),
+        selfharm=categories_bool.get("selfharm", False),
+        health=categories_bool.get("health", False),
+        financial=categories_bool.get("financial", False),
+        law=categories_bool.get("law", False),
+        pii=categories_bool.get("pii", False),
     )
     return ModerationResult(flagged=flagged, categories=categories)
