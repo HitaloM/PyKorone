@@ -11,6 +11,9 @@ __pycache__/
 data/bot_conf.yaml
 data/config.env
 
+# Ansible inv
+data/*.yaml
+
 # Logs
 logs/
 
