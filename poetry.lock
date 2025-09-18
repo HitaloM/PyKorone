@@ -2339,19 +2339,14 @@ windows-terminal = ["colorama (>=0.4.6)"]
 
 [[package]]
 name = "pyicu"
-version = "2.15.2"
+version = "2.15.3"
 description = "Python extension wrapping the ICU C++ API"
 optional = false
 python-versions = "*"
-groups = ["main", "dev"]
-files = []
-develop = false
-
-[package.source]
-type = "git"
-url = "https://gitlab.pyicu.org/main/pyicu"
-reference = "HEAD"
-resolved_reference = "49a592b6ef3865b21d6593fcfd1da340df05080d"
+groups = ["main"]
+files = [
+    {file = "pyicu-2.15.3.tar.gz", hash = "sha256:f32e78e1cb64d0aeb14f027e037a8944861d3114548818a6adf0081ef51aefc3"},
+]
 
 [[package]]
 name = "pymongo"
@@ -3636,4 +3631,4 @@ fast = []
 [metadata]
 lock-version = "2.1"
 python-versions = "^3.12"
-content-hash = "e8bbc5933180b7459c39a34e585031ff521ca86657c1f8f24c3098d0bb2404fc"
+content-hash = "f3486d1971c36ad435790913979e450f7f5ff736631f3114d941bd28f3922b95"

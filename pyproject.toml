@@ -36,7 +36,6 @@ prometheus-client = "^0.22.1"
 mypy = ">=1.11"
 
 [tool.poetry.group.dev.dependencies]
-PyICU = { git = "https://gitlab.pyicu.org/main/pyicu" } # Latest version (2.15.2) doesn't support gcc 15 with python 3
 Nuitka = "^2"
 pycln = "^2.1"
 bandit = "^1.7"
