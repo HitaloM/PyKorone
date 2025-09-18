@@ -9,4 +9,3 @@
     - include_tasks: tasks/start_stable.yml
 
     - include_tasks: tasks/deploy_scheduler.yml
-    - include_tasks: tasks/deploy_beta_wiki.yml

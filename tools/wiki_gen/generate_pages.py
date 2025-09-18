@@ -20,7 +20,7 @@ from sophie_bot.services.i18n import i18n
 from sophie_bot.utils.i18n import LazyProxy
 from sophie_bot.utils.logger import log
 
-wiki_modules = Path("./wiki/docs/modules")
+wiki_modules = Path("./wiki_docs/modules")
 human_pages = Path("./docs/modules")
 
 
@@ -57,10 +57,17 @@ class ModuleWikiPage:
             *(self._table_row(handler) for handler in handlers)
         )
 
+    def _generate_frontmatter(self) -> str:
+        with i18n.context(), i18n.use_locale('en_US'):
+            text = '---'
+            text += '\n' + f'title: {self.module.name}'
+            text += '\n' + f'icon: {self.module.icon}'
+            text += '\n' + '---'
+        return text
+
     def _generate_module_info(self) -> str:
         with i18n.context(), i18n.use_locale('en_US'):
             doc = Doc(
-                Title(f'{self.module.name} {self.module.icon}', level=1),
                 Title(self.module.description, level=3) if self.module.description else None,
                 BlockQuote(self.module.info) if self.module.info else None,
 
@@ -86,7 +93,8 @@ class ModuleWikiPage:
 
     @property
     def page(self) -> str:
-        text = self._generate_module_info()
+        text = self._generate_frontmatter()
+        text += self._generate_module_info()
         if (human := human_pages / f"{self.name}.md").exists():
             log.debug("- Appending human-maintained page")
             with human.open("r", encoding="utf-8") as f:

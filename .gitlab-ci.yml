@@ -6,6 +6,5 @@ stages:
 include:
   - '/build/bot-test.yml'
   - '/build/runtime/build.yml'
-  - '/build/swiki/container.yml'
   - '/deploy/ci_staging.yml'
   - '/deploy/ci_prod.yml'

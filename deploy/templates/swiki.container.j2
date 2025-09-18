@@ -6,9 +6,11 @@ Restart=always
 
 [Container]
 ContainerName=swiki
-Image={{ lookup('ansible.builtin.env','IMAGE_NAME') }}:{{ image_tag }}
+Image={{ image_name }}:{{ image_tag }}
 PublishPort=8079:3000
 PodmanArgs=--memory=512M
+Volume=/var/sophie/wiki_docs/:/docs:ro,z
+EnvironmentFile=/var/sophie/swiki.env
 
 [Install]
 WantedBy=multi-user.target default.target
