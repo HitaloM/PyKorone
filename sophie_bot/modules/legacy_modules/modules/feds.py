@@ -34,10 +34,7 @@ import babel
 import ujson
 from aiogram import F, Router, flags
 from aiogram.exceptions import (
-    TelegramBadRequest,
     TelegramForbiddenError,
-    TelegramNotFound,
-    TelegramUnauthorizedError,
 )
 from aiogram.filters.callback_data import CallbackData
 from aiogram.fsm.context import FSMContext
@@ -77,6 +74,7 @@ from sophie_bot.modules.legacy_modules.utils.user_details import (
     get_user_link,
     is_chat_creator,
 )
+from sophie_bot.modules.utils_.common_try import common_try
 from sophie_bot.services.bot import bot, dp
 from sophie_bot.services.db import db
 from sophie_bot.services.redis import redis
@@ -119,8 +117,7 @@ async def fed_post_log(fed, text):
     if "log_chat_id" not in fed:
         return
     chat_id = fed["log_chat_id"]
-    with suppress(TelegramUnauthorizedError, TelegramNotFound, TelegramForbiddenError, TelegramBadRequest):
-        await bot.send_message(chat_id, text)
+    await common_try(bot.send_message(chat_id, text))
 
 
 # decorators
