@@ -115,7 +115,7 @@ def ser_wrap(v: Any, nxt: SerializerFunctionWrapHandler) -> str:
 
 
 class ChatModel(Document):
-    id: PydanticObjectId
+    id: PydanticObjectId = Field(default_factory=PydanticObjectId, alias="_id")
     chat_id: Annotated[int, Indexed(unique=True)]
     type: ChatType = Field(..., description="Group type")
     first_name_or_title: str = Field(max_length=128)
