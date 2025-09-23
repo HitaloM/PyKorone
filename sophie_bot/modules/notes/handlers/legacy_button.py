@@ -42,4 +42,5 @@ class LegacyStartNoteButton(SophieMessageHandler):
             note,
             title=title,
             reply_to=message.message_id,
+            connection=self.connection,
         )

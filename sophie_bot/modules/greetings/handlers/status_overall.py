@@ -63,4 +63,5 @@ class WelcomeSettingsShowHandler(SophieMessageHandler):
             raw=False,
             reply_to=self.event.message_id,
             additional_fillings=additional_fillings,
+            connection=connection,
         )

@@ -39,4 +39,5 @@ class GetRulesHandler(SophieMessageHandler):
             rules,
             title=title,
             reply_to=self.event.message_id,
+            connection=connection,
         )

@@ -39,4 +39,5 @@ class LegacyRulesButton(SophieMessageHandler):
             rules,
             title=title,
             reply_to=self.event.message_id,
+            connection=self.connection,
         )

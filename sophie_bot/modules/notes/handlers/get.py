@@ -52,6 +52,7 @@ class GetNote(SophieMessageHandler):
             title=title,
             raw=raw,
             reply_to=reply_to,
+            connection=chat,
         )
 
         return message
@@ -98,4 +99,5 @@ class HashtagGetNote(SophieMessageHandler):
         else:
             reply_to = self.event.message_id
 
-        return await send_saveable(self.event, self.event.chat.id, saveable, reply_to=reply_to)
+        chat: ChatConnection = self.data["connection"]
+        return await send_saveable(self.event, self.event.chat.id, saveable, reply_to=reply_to, connection=chat)

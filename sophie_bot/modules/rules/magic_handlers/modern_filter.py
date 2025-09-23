@@ -42,6 +42,7 @@ class SendRulesAction(ModernActionABC[None]):
                     rules,
                     title=title,
                     reply_to=message.message_id,
+                    connection=connection,
                 )
             )
 

@@ -27,6 +27,7 @@ from aiogram.types import (
 from stfu_tg.doc import Element
 
 from sophie_bot.db.models.notes import Saveable, SaveableParseMode
+from sophie_bot.middlewares.connections import ChatConnection
 from sophie_bot.modules.notes.utils.buttons_processor.legacy import legacy_button_parser
 from sophie_bot.modules.notes.utils.fillings import process_fillings
 from sophie_bot.modules.notes.utils.parse import (
@@ -68,6 +69,7 @@ async def send_saveable(
     raw: Optional[bool] = False,
     additional_keyboard: InlineKeyboardMarkup = InlineKeyboardMarkup(inline_keyboard=[]),
     additional_fillings: Optional[dict[str, str]] = None,
+    connection: ChatConnection | None = None,
 ):
     text = saveable.text or ""
 
@@ -78,7 +80,7 @@ async def send_saveable(
     # Extract buttons
     inline_markup = InlineKeyboardMarkup(inline_keyboard=[])
     if not raw:
-        text, inline_markup = legacy_button_parser(message.chat.id, text)
+        text, inline_markup = legacy_button_parser(connection.db_model.chat_id if connection else message.chat.id, text)
         inline_markup.inline_keyboard.extend(additional_keyboard.inline_keyboard)
 
     # Convert legacy markdown to HTML
