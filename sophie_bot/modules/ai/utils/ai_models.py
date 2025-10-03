@@ -4,7 +4,6 @@ from typing import Mapping, Type
 from httpx import AsyncClient
 from pydantic_ai.models import Model
 from pydantic_ai.models.mistral import MistralModel
-from pydantic_ai.models.openai import OpenAIModel
 from pydantic_ai.providers.mistral import MistralProvider
 from pydantic_ai.providers.openai import OpenAIProvider
 
@@ -33,9 +32,9 @@ AI_PROVIDERS = {
     AIProviders.openai.name: _openrouter_provider,
 }
 AI_MODEL_CLASSES = {
-    AIProviders.google.name: OpenAIModel,
+    AIProviders.google.name: OpenAIProvider,
     AIProviders.mistral.name: MistralModel,
-    AIProviders.openai.name: OpenAIModel,
+    AIProviders.openai.name: OpenAIProvider,
 }
 AI_PROVIDER_TO_NAME = {
     AIProviders.auto.name: "Auto",
