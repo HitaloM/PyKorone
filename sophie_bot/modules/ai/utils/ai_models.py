@@ -3,10 +3,8 @@ from typing import Mapping, Type
 
 from httpx import AsyncClient
 from pydantic_ai.models import Model
-from pydantic_ai.models.google import GoogleModel
 from pydantic_ai.models.mistral import MistralModel
 from pydantic_ai.models.openai import OpenAIModel
-from pydantic_ai.providers.google import GoogleProvider
 from pydantic_ai.providers.mistral import MistralProvider
 from pydantic_ai.providers.openai import OpenAIProvider
 
@@ -22,13 +20,20 @@ class AIProviders(str, Enum):
     openai = "openai"
 
 
+# Configure OpenRouter (OpenAI-compatible) provider for non-Mistral models
+_openrouter_provider = OpenAIProvider(
+    api_key=CONFIG.openrouter_api_key or "",
+    base_url="https://openrouter.ai/api/v1",
+    http_client=ai_http_client,
+)
+
 AI_PROVIDERS = {
-    AIProviders.google.name: GoogleProvider(api_key=CONFIG.gemini_api_key or ""),
+    AIProviders.google.name: _openrouter_provider,
     AIProviders.mistral.name: MistralProvider(api_key=CONFIG.mistral_api_key or ""),
-    AIProviders.openai.name: OpenAIProvider(api_key=CONFIG.openai_key or "", http_client=ai_http_client),
+    AIProviders.openai.name: _openrouter_provider,
 }
 AI_MODEL_CLASSES = {
-    AIProviders.google.name: GoogleProvider,
+    AIProviders.google.name: OpenAIModel,
     AIProviders.mistral.name: MistralModel,
     AIProviders.openai.name: OpenAIModel,
 }
@@ -49,8 +54,9 @@ AVAILABLE_PROVIDER_NAMES: tuple[str, ...] = (
 
 
 class GoogleModels(Enum):
-    gemini_2_5_pro = "gemini-2.5-pro"
-    gemini_2_5_flash = "gemini-2.5-flash"
+    # OpenRouter slugs for Google models
+    gemini_2_5_pro = "google/gemini-2.5-pro"
+    gemini_2_5_flash = "google/gemini-2.5-flash"
 
 
 class MistralModels(Enum):
@@ -64,14 +70,15 @@ class MistralModels(Enum):
 
 
 class OpenAIModels(Enum):
-    gpt_4o_mini = "gpt-4o-mini"
-    gpt_5 = "gpt-5"
-    gpt_5_mini = "gpt-5-mini"
-    gpt_5_nano = "gpt-5-nano"
+    # OpenRouter slugs for OpenAI models
+    gpt_4o_mini = "openai/gpt-4o-mini"
+    gpt_5 = "openai/gpt-5"
+    gpt_5_mini = "openai/gpt-5-mini"
+    gpt_5_nano = "openai/gpt-5-nano"
 
 
 AI_PROVIDER_TO_MODEL_CLASS = {
-    AIProviders.google.name: GoogleModel,
+    AIProviders.google.name: OpenAIModel,
     AIProviders.mistral.name: MistralModel,
     AIProviders.openai.name: OpenAIModel,
 }

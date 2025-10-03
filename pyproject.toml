@@ -31,7 +31,7 @@ pillow = "^11.1.0"
 mem-top = "^0.2.1"
 apscheduler = "^3.11.0"
 normality = "^3"
-pydantic-ai-slim = { extras = ["openai", "google", "tavily", "mistral"], version = "^1.0" }
+pydantic-ai-slim = { extras = ["openai", "tavily", "mistral"], version = "^1.0" }
 prometheus-client = "^0.22.1"
 mypy = ">=1.11"
 
