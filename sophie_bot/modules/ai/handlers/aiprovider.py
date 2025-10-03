@@ -29,6 +29,7 @@ PROVIDERS_KEY_FACTS: dict[AIProviders, Any] = {
     AIProviders.google: l_("⚡️ The fastest"),
     AIProviders.mistral: l_("🔒 The most private"),
     AIProviders.openai: l_("🧠 The smartest"),
+    AIProviders.anthropic: l_("👨‍🏫 The most precise"),
 }
 
 

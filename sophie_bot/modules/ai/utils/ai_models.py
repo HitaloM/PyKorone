@@ -4,6 +4,7 @@ from typing import Mapping, Type
 from httpx import AsyncClient
 from pydantic_ai.models import Model
 from pydantic_ai.models.mistral import MistralModel
+from pydantic_ai.models.openai import OpenAIChatModel
 from pydantic_ai.providers.mistral import MistralProvider
 from pydantic_ai.providers.openai import OpenAIProvider
 
@@ -14,6 +15,7 @@ ai_http_client = AsyncClient(timeout=30)
 
 class AIProviders(str, Enum):
     auto = "auto"
+    anthropic = "anthropic"
     google = "google"
     mistral = "mistral"
     openai = "openai"
@@ -27,17 +29,20 @@ _openrouter_provider = OpenAIProvider(
 )
 
 AI_PROVIDERS = {
+    AIProviders.anthropic.name: _openrouter_provider,
     AIProviders.google.name: _openrouter_provider,
     AIProviders.mistral.name: MistralProvider(api_key=CONFIG.mistral_api_key or ""),
     AIProviders.openai.name: _openrouter_provider,
 }
 AI_MODEL_CLASSES = {
+    AIProviders.anthropic.name: OpenAIProvider,
     AIProviders.google.name: OpenAIProvider,
     AIProviders.mistral.name: MistralModel,
     AIProviders.openai.name: OpenAIProvider,
 }
 AI_PROVIDER_TO_NAME = {
     AIProviders.auto.name: "Auto",
+    AIProviders.anthropic.name: "Anthropic Claude",
     AIProviders.google.name: "Google Gemini",
     AIProviders.mistral.name: "Mistral AI",
     AIProviders.openai.name: "OpenAI ChatGPT",
@@ -46,6 +51,7 @@ AI_PROVIDER_TO_NAME = {
 # Global, ordered list of provider enum names for UI and validation
 AVAILABLE_PROVIDER_NAMES: tuple[str, ...] = (
     AIProviders.auto.name,
+    AIProviders.anthropic.name,
     AIProviders.openai.name,
     AIProviders.google.name,
     AIProviders.mistral.name,
@@ -56,6 +62,12 @@ class GoogleModels(Enum):
     # OpenRouter slugs for Google models
     gemini_2_5_pro = "google/gemini-2.5-pro"
     gemini_2_5_flash = "google/gemini-2.5-flash"
+
+
+class AnthropicModels(Enum):
+    # OpenRouter slugs for Anthropic models
+    sonnet_4_5 = "anthropic/claude-sonnet-4.5"
+    haiku_3_5 = "anthropic/claude-3.5-haiku"
 
 
 class MistralModels(Enum):
@@ -77,18 +89,22 @@ class OpenAIModels(Enum):
 
 
 AI_PROVIDER_TO_MODEL_CLASS = {
-    AIProviders.google.name: OpenAIModel,
+    AIProviders.anthropic.name: OpenAIChatModel,
+    AIProviders.google.name: OpenAIChatModel,
     AIProviders.mistral.name: MistralModel,
-    AIProviders.openai.name: OpenAIModel,
+    AIProviders.openai.name: OpenAIChatModel,
 }
 
 PROVIDER_TO_MODELS: Mapping[str, Type[Enum]] = {
+    "anthropic": AnthropicModels,
     "google": GoogleModels,
     "mistral": MistralModels,
     "openai": OpenAIModels,
 }
 
 AI_MODEL_TO_PROVIDER = {
+    AnthropicModels.sonnet_4_5.name: "anthropic",
+    AnthropicModels.haiku_3_5.name: "anthropic",
     GoogleModels.gemini_2_5_flash.name: "google",
     GoogleModels.gemini_2_5_pro.name: "google",
     MistralModels.mistral_large.name: "mistral",
@@ -105,6 +121,8 @@ AI_MODEL_TO_PROVIDER = {
 }
 
 AI_MODEL_TO_SHORT_NAME = {
+    AnthropicModels.sonnet_4_5.value: "Claude Sonnet 4.5",
+    AnthropicModels.haiku_3_5.value: "Claude Haiku 3.5",
     GoogleModels.gemini_2_5_flash.value: "Gemini 2.5 Flash",
     GoogleModels.gemini_2_5_pro.value: "Gemini 2.5 Pro",
     MistralModels.mistral_large.value: "Mistral Large",
@@ -151,6 +169,7 @@ AI_MODELS: dict[str, Model] = {
 
 DEFAULT_MODELS: dict[str, str] = {
     AIProviders.auto.name: MistralModels.mistral_medium.name,
+    AIProviders.anthropic.name: AnthropicModels.sonnet_4_5.name,
     AIProviders.google.name: GoogleModels.gemini_2_5_flash.name,
     AIProviders.mistral.name: MistralModels.mistral_medium.name,
     AIProviders.openai.name: OpenAIModels.gpt_5_mini.name,
@@ -158,6 +177,7 @@ DEFAULT_MODELS: dict[str, str] = {
 
 TRANSLATE_DEFAULT_MODELS: dict[str, str] = {
     AIProviders.auto.name: MistralModels.magistral_medium.name,
+    AIProviders.anthropic.name: AnthropicModels.haiku_3_5.name,
     AIProviders.google.name: GoogleModels.gemini_2_5_flash.name,
     AIProviders.mistral.name: MistralModels.magistral_medium.name,
     AIProviders.openai.name: OpenAIModels.gpt_5_nano.name,
