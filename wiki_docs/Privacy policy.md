@@ -71,19 +71,29 @@ However, deleting this information may prevent you from using Sophie.
 ### AI
 
 AI features are disabled by default and can only be activated with the user's explicit consent.
-When these features are activated,
-you agree to:
+When these features are activated, you agree to:
 
-* [OpenAI Privacy Policy](https://openai.com/enterprise-privacy/)
-* [Google Privacy Policy](https://ai.google.dev/gemini-api/terms)
+* [OpenRouter Privacy Policy](https://openrouter.ai/docs/features/privacy-and-logging)
+* [Mistral Privacy Policy](https://mistral.ai/terms#privacy-policy)
 * [Tavily Privacy Policy](https://www.tavily.com/privacy)
+* By using AI features with a specific AI provider (selected via /aiprovider command), you agree to that provider's
+  privacy policy. For example, when using OpenAI, you agree to their privacy policy: https://openai.com/privacy/. The
+  default provider is Mistral.
 
 While using some AI-enabled features such as AI Chatbot, AI Translator or AI Moderator,
 we may share the context of the conversation, which can
 include up to 40 of the most recent messages (including bot responses).
 
-Additionally, user-saved data like notes, filters, settings, etc.,
-may be shared with OpenAI and Google, but only while using some AI-assisted features.
+When using certain AI-assisted features, user-saved data (including notes, filters, and settings)
+may be shared with our AI service providers: OpenRouter, Tavily, and other selected AI Providers.
+
+### AI data routing
+
+When you use Sophie's AI features, your data is initially sent to OpenRouter, which acts as a routing service to direct
+requests to various AI providers based on your selected preferences and requirements. OpenRouter then forwards these
+requests to the appropriate AI provider (such as Mistral AI, OpenAI, or others). Additionally, if the AI model
+determines it needs to search the internet for up-to-date information, the relevant data may be sent to Tavily's search
+service to enhance response accuracy.
 
 ### Crashlytics (Sentry):
 
