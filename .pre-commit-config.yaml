@@ -20,8 +20,8 @@ repos:
         pass_filenames: false
 
   - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: v0.13.0
+    rev: v0.13.3
     hooks:
       - id: ruff-check
-        args: [--fix]
+        args: [--fix, --preview]
       - id: ruff-format

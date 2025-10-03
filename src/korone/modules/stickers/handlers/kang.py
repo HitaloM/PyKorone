@@ -3,6 +3,7 @@
 
 from pathlib import Path
 
+from anyio import Path as AsyncPath
 from hairydogm.keyboard import InlineKeyboardBuilder
 from hydrogram import Client
 from hydrogram.types import Message
@@ -61,7 +62,7 @@ async def kang_command(client: Client, message: Message) -> None:
         return
 
     if media_type == "video" and not await check_video(sent_message, file_path):  # type: ignore
-        Path(file_path).unlink(missing_ok=True)  # type: ignore
+        await AsyncPath(file_path).unlink(missing_ok=True)  # type: ignore
         return
 
     pack_num = await get_or_create_pack(user.id, media_type)
@@ -106,5 +107,5 @@ async def kang_command(client: Client, message: Message) -> None:
         reply_markup=keyboard.as_markup(),
     )
 
-    Path(file_path).unlink(missing_ok=True)  # type: ignore
-    Path(resized_file).unlink(missing_ok=True)
+    await AsyncPath(file_path).unlink(missing_ok=True)  # type: ignore
+    await AsyncPath(resized_file).unlink(missing_ok=True)

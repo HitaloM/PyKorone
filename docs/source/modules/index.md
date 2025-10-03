@@ -33,7 +33,6 @@ When you see a command in the documentation, it may have one or more arguments t
 
 - `()`: Required argument.
 - `(user)`: Required (user ID or username), but you can also reply to any user's message as an alternative.
-- `(group)`: Required (group ID or username).
 - `(? )`: Optional argument.
 ```
 

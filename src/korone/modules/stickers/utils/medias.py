@@ -2,8 +2,8 @@
 # Copyright (c) 2025 Hitalo M. <https://github.com/HitaloM>
 
 import asyncio
-from pathlib import Path
 
+from anyio import Path as AsyncPath
 from hydrogram.types import Message
 
 from korone.utils.i18n import gettext as _
@@ -72,7 +72,7 @@ async def check_video(message: Message, file_path: str) -> bool:
         await message.reply(_("Error parsing video information: {error}").format(error=str(e)))
         return False
 
-    size = Path(file_path).stat().st_size
+    size = (await AsyncPath(file_path).stat()).st_size
 
     if duration > 3:
         await message.edit(
