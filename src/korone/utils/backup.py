@@ -8,7 +8,9 @@ from hydrogram import Client
 from hydrogram.types import InputMediaDocument
 
 from korone import constants
-from korone.utils.logging import logger
+from korone.utils.logging import get_logger
+
+logger = get_logger(__name__)
 
 
 async def do_backup(client: Client, backups_chat: int) -> None:

@@ -11,7 +11,7 @@ import aiosqlite
 
 from korone import constants
 from korone.database.connection import Connection
-from korone.utils.logging import logger
+from korone.utils.logging import get_logger
 
 from .table import SQLite3Table
 
@@ -19,6 +19,8 @@ if TYPE_CHECKING:
     from types import TracebackType
 
     from korone.database.table import Table
+
+logger = get_logger(__name__)
 
 
 class SQLite3Connection(Connection):

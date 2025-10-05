@@ -5,9 +5,11 @@ from typing import Any
 
 import httpx
 
-from korone.utils.logging import logger
+from korone.utils.logging import get_logger
 
 from .types import DeezerData
+
+logger = get_logger(__name__)
 
 
 class DeezerError(Exception):

@@ -15,7 +15,9 @@ import m3u8
 from PIL import Image
 
 from korone.modules.medias.utils.generic_headers import GENERIC_HEADER
-from korone.utils.logging import logger
+from korone.utils.logging import get_logger
+
+logger = get_logger(__name__)
 
 MIME_TYPE_TO_EXTENSION = {
     "image/jpeg": "jpg",

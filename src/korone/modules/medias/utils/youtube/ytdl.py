@@ -10,9 +10,11 @@ import yt_dlp
 
 from korone.config import ConfigManager
 from korone.modules.medias.utils.files import resize_thumbnail
-from korone.utils.logging import logger
+from korone.utils.logging import get_logger
 
 from .types import VideoInfo
+
+logger = get_logger(__name__)
 
 PROXY = ConfigManager.get("korone", "PROXY_URL")
 

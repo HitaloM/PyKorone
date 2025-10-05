@@ -17,9 +17,11 @@ from korone.modules.medias.utils.cache import MediaCache
 from korone.modules.medias.utils.downloader import download_media
 from korone.modules.medias.utils.files import resize_thumbnail
 from korone.utils.caching import cache
-from korone.utils.logging import logger
+from korone.utils.logging import get_logger
 
 from .types import BlueskyData, Image
+
+logger = get_logger(__name__)
 
 
 async def fetch_bluesky(text: str) -> list[InputMediaPhoto] | list[InputMediaVideo] | None:

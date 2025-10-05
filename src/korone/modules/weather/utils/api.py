@@ -7,7 +7,9 @@ from typing import Any
 import httpx
 
 from korone.utils.caching import cache
-from korone.utils.logging import logger
+from korone.utils.logging import get_logger
+
+logger = get_logger(__name__)
 
 WEATHER_API_KEY = "8de2d8b3a93542c9a2d8b3a935a2c909"
 LOCATION_SEARCH_URL = "https://api.weather.com/v3/location/search"

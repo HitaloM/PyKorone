@@ -9,7 +9,9 @@ from hydrogram.filters import Filter
 from hydrogram.types import CallbackQuery, Message
 
 from korone.config import ConfigManager
-from korone.utils.logging import logger
+from korone.utils.logging import get_logger
+
+logger = get_logger(__name__)
 
 
 def load_sudoers() -> set[int]:

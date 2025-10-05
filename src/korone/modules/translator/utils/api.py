@@ -7,10 +7,12 @@ import random
 import httpx
 
 from korone.config import ConfigManager
-from korone.utils.logging import logger
+from korone.utils.logging import get_logger
 
 from .errors import QuotaExceededError, TranslationError
 from .types import Translation, TranslationResponse
+
+logger = get_logger(__name__)
 
 API_KEY: str = ConfigManager.get("korone", "DEEPL_KEY")
 

@@ -7,9 +7,11 @@ from datetime import timedelta
 import httpx
 
 from korone.utils.caching import cache
-from korone.utils.logging import logger
+from korone.utils.logging import get_logger
 
 from .types import Response, Tweet
+
+logger = get_logger(__name__)
 
 
 class TwitterError(Exception):

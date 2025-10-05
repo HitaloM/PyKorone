@@ -11,9 +11,11 @@ from lxml.html import HtmlElement
 from korone.config import ConfigManager
 from korone.utils.caching import cache
 from korone.utils.i18n import gettext as _
-from korone.utils.logging import logger
+from korone.utils.logging import get_logger
 
 from .types import Phone, PhoneSearchResult
+
+logger = get_logger(__name__)
 
 CORS: str = ConfigManager.get("korone", "CORS_BYPASS")
 

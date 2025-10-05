@@ -8,10 +8,12 @@ from datetime import timedelta
 from PIL import Image, ImageDraw, ImageFont
 
 from korone.utils.caching import cache
-from korone.utils.logging import logger
+from korone.utils.logging import get_logger
 
 from .image_filter import get_biggest_lastfm_image
 from .types import LastFMAlbum
+
+logger = get_logger(__name__)
 
 THUMB_SIZE = 300
 DEFAULT_IMAGE_PATH = "resources/lastfm/dummy_image.png"

@@ -7,7 +7,7 @@ import sys
 from contextlib import suppress
 from pathlib import Path
 
-import sentry_sdk
+import logfire
 import uvloop
 from cashews.exceptions import CacheBackendInteractionError
 from hydrogram import idle
@@ -16,7 +16,6 @@ from . import __version__, constants
 from .client import AppParameters, Korone
 from .config import ConfigManager
 from .database.sqlite.connection import SQLite3Connection
-from .modules.errors.utils import IGNORED_EXCEPTIONS
 from .utils.caching import cache
 from .utils.logging import logger
 
@@ -38,13 +37,20 @@ async def pre_process() -> ConfigManager:
 
     config = ConfigManager()
 
-    if sentry_dsn := config.get("korone", "SENTRY_DSN"):
-        await logger.ainfo("Initializing Sentry integration")
-        sentry_sdk.init(
-            dsn=sentry_dsn,
-            release=__version__,
-            ignore_errors=IGNORED_EXCEPTIONS,
-        )
+    await logger.ainfo("Configuring Logfire integration")
+    logfire_token = (config.get("korone", "LOGFIRE_TOKEN") or "").strip() or None
+    logfire_environment = (
+        config.get("korone", "LOGFIRE_ENVIRONMENT", "production") or "production"
+    ).strip()
+
+    logfire.configure(
+        service_name="korone-bot",
+        service_version=__version__,
+        token=logfire_token,
+        send_to_logfire="if-token-present",
+        environment=logfire_environment,
+    )
+    logfire.instrument_httpx()
 
     async with SQLite3Connection() as conn:
         await conn.execute(constants.SQLITE3_TABLES, script=True)

@@ -10,9 +10,11 @@ from typing import Protocol
 import httpx
 
 from korone.utils.caching import cache
-from korone.utils.logging import logger
+from korone.utils.logging import get_logger
 
 from .types import LastFMAlbum, LastFMTrack, LastFMUser
+
+logger = get_logger(__name__)
 
 
 class HasImages(Protocol):

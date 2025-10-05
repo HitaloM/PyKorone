@@ -12,7 +12,7 @@ from hydrogram.handlers.handler import Handler
 
 from korone.database.query import Query
 from korone.database.sqlite import SQLite3Connection
-from korone.utils.logging import logger
+from korone.utils.logging import get_logger
 
 if TYPE_CHECKING:
     from types import ModuleType
@@ -21,6 +21,8 @@ if TYPE_CHECKING:
     from hydrogram.filters import Filter
 
     from korone.database.table import Documents
+
+logger = get_logger(__name__)
 
 MODULES: dict[str, dict[str, list[str]]] = {}
 COMMANDS: dict[str, dict[str, Any]] = {}

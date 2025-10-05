@@ -4,6 +4,7 @@
 import sys
 from traceback import format_exception
 
+import logfire
 from hydrogram import Client
 from hydrogram.errors import ChatWriteForbidden
 from hydrogram.types import (
@@ -14,13 +15,15 @@ from hydrogram.types import (
     Message,
     Update,
 )
-from sentry_sdk import capture_exception
+from opentelemetry.trace import format_trace_id
 
 from korone import constants
 from korone.decorators import router
 from korone.modules.errors.utils import IGNORED_EXCEPTIONS
 from korone.utils.i18n import gettext as _
-from korone.utils.logging import logger
+from korone.utils.logging import get_logger
+
+logger = get_logger(__name__)
 
 
 @router.error()
@@ -38,15 +41,28 @@ async def handle_error(client: Client, update: Update, exception: Exception) -> 
         await logger.aerror("[ErrorHandler] Missing exception info", exception=exception)
         return
 
-    sentry_event_id = capture_exception(exception)
     formatted_exception = format_exception(etype, value, tb)
-    await log_exception_details(formatted_exception, sentry_event_id)
+    trace_reference: str | None = None
+
+    with logfire.span(
+        "Unhandled update exception",
+        update_type=type(update).__name__,
+        chat_id=chat.id if chat else None,
+    ) as span:
+        span.record_exception(exception)
+        if chat:
+            span.set_attribute("telegram.chat_type", chat.type)
+        span_context = span.get_span_context()
+        if span_context:
+            trace_reference = format_trace_id(span_context.trace_id)
+
+    await log_exception_details(formatted_exception, trace_reference)
 
     if not chat:
         await logger.aerror("[ErrorHandler] No chat for update", update=update)
         return
 
-    await send_error_message(client, chat, sentry_event_id)
+    await send_error_message(client, chat, trace_reference)
 
 
 def get_chat_from_update(update: Update) -> Chat | None:
@@ -71,16 +87,16 @@ async def handle_ignored_exceptions(
 
 
 async def log_exception_details(
-    formatted_exception: list[str], sentry_event_id: str | None
+    formatted_exception: list[str], trace_reference: str | None
 ) -> None:
     await logger.aerror("".join(formatted_exception))
-    await logger.aerror("[ErrorHandler] Additional error data", sentry_event_id=sentry_event_id)
+    await logger.aerror("[ErrorHandler] Additional error data", trace_reference=trace_reference)
 
 
-async def send_error_message(client: Client, chat: Chat, sentry_event_id: str | None) -> None:
+async def send_error_message(client: Client, chat: Chat, trace_reference: str | None) -> None:
     text = _("An unexpected error occurred while processing this update! :/")
-    if sentry_event_id:
-        text += _("\nReference ID: {id}").format(id=sentry_event_id)
+    if trace_reference:
+        text += _("\nTrace ID: {id}").format(id=trace_reference)
 
     keyboard = InlineKeyboardMarkup([
         [

@@ -4,21 +4,16 @@
 import logging
 import logging.config
 import sys
-from pathlib import Path
 from typing import Any
 
+import logfire
 import structlog
+from structlog.stdlib import BoundLogger
 from structlog.types import EventDict, Processor
 
-LOG_DIR = Path(__file__).parent.parent.parent / "logs"
-LOG_FILE = LOG_DIR / "korone.log"
-MAX_LOG_SIZE = 10 * 1024 * 1024  # 10MB
-BACKUP_COUNT = 5
-
-
-Path(LOG_DIR).mkdir(parents=True, exist_ok=True)
-
 LOG_LEVEL = logging.DEBUG if "--debug" in sys.argv else logging.INFO
+
+logfire.configure(send_to_logfire=False)
 
 
 def extract_context_info(_, __, event_dict: EventDict) -> EventDict:
@@ -54,69 +49,65 @@ def configure_logging() -> None:
     """
     Configures logging for the application using structlog and the standard logging module.
 
-    This function sets up a logging configuration that supports both colored console output and
-    JSON-formatted file output. It defines custom formatters, handlers, and logger settings for
-    the root logger and specific third-party libraries. The configuration includes log rotation
-    for file logs and enhanced log context processing using structlog processors.
+    This function sets up a logging configuration that supports colored console output paired with
+    structlog processors and Logfire integration. It defines custom formatters, handlers, and
+    logger settings for the root logger and specific third-party libraries.
 
     Raises:
         ValueError: If the logging configuration is invalid.
     """
+    timestamper = structlog.processors.TimeStamper(fmt="iso", utc=True)
+
     shared_processors: list[Processor] = [
         structlog.stdlib.add_log_level,
         structlog.stdlib.add_logger_name,
-        structlog.processors.TimeStamper(fmt="%Y-%m-%d %H:%M:%S"),
+        timestamper,
     ]
+
+    formatter_processors: dict[str, list[Processor]] = {
+        "console": [
+            extract_context_info,
+            structlog.stdlib.ProcessorFormatter.remove_processors_meta,
+            structlog.dev.ConsoleRenderer(colors=True, sort_keys=False),
+        ],
+        "json": [
+            extract_context_info,
+            structlog.stdlib.ProcessorFormatter.remove_processors_meta,
+            structlog.processors.dict_tracebacks,
+            structlog.processors.JSONRenderer(sort_keys=False),
+        ],
+    }
+
+    formatter_key = "console" if sys.stderr.isatty() else "json"
 
     logging_config: dict[str, Any] = {
         "version": 1,
         "disable_existing_loggers": False,
         "formatters": {
-            "plain": {
+            name: {
                 "()": structlog.stdlib.ProcessorFormatter,
-                "processors": [
-                    extract_context_info,
-                    structlog.stdlib.ProcessorFormatter.remove_processors_meta,
-                    structlog.processors.JSONRenderer(sort_keys=False),
-                ],
+                "processors": processors,
                 "foreign_pre_chain": shared_processors,
-            },
-            "colored": {
-                "()": structlog.stdlib.ProcessorFormatter,
-                "processors": [
-                    extract_context_info,
-                    structlog.stdlib.ProcessorFormatter.remove_processors_meta,
-                    structlog.dev.ConsoleRenderer(colors=True, sort_keys=False),
-                ],
-                "foreign_pre_chain": shared_processors,
-            },
+            }
+            for name, processors in formatter_processors.items()
         },
         "handlers": {
             "console": {
                 "level": LOG_LEVEL,
                 "class": "logging.StreamHandler",
-                "formatter": "colored",
-            },
-            "file": {
-                "level": LOG_LEVEL,
-                "class": "logging.handlers.RotatingFileHandler",
-                "formatter": "plain",
-                "filename": LOG_FILE,
-                "maxBytes": MAX_LOG_SIZE,
-                "backupCount": BACKUP_COUNT,
-                "encoding": "utf-8",
+                "formatter": formatter_key,
             },
         },
         "loggers": {
             "": {  # Root logger
-                "handlers": ["console", "file"],
+                "handlers": ["console"],
                 "level": LOG_LEVEL,
                 "propagate": True,
             },
             # Third-party library logging levels
             "hydrogram": {
                 "level": logging.INFO,
-                "handlers": ["console", "file"],
+                "handlers": ["console"],
                 "propagate": False,
             },
             "aiohttp": {
@@ -131,21 +122,37 @@ def configure_logging() -> None:
 
     structlog.configure(
         processors=[
-            structlog.stdlib.filter_by_level,
-            structlog.stdlib.add_log_level,
+            structlog.contextvars.merge_contextvars,
+            *shared_processors,
             structlog.stdlib.PositionalArgumentsFormatter(),
-            structlog.processors.TimeStamper(fmt="%Y-%m-%d %H:%M:%S"),
             structlog.processors.StackInfoRenderer(),
-            structlog.processors.format_exc_info,
-            structlog.stdlib.add_logger_name,
+            logfire.StructlogProcessor(),
             structlog.stdlib.ProcessorFormatter.wrap_for_formatter,
         ],
         logger_factory=structlog.stdlib.LoggerFactory(),
-        wrapper_class=structlog.stdlib.BoundLogger,
+        wrapper_class=structlog.make_filtering_bound_logger(LOG_LEVEL),
         cache_logger_on_first_use=True,
     )
 
 
 configure_logging()
 
-logger = structlog.get_logger()
+
+def get_logger(name: str | None = None, **initial_values: Any) -> BoundLogger:
+    """Return a configured structlog logger with optional contextual bindings.
+
+    Args:
+        name (str | None): Optional logger name, typically ``__name__`` of the caller.
+        **initial_values (Any): Optional key-value pairs to bind immediately.
+
+    Returns:
+        BoundLogger: The configured logger augmented with any provided context.
+    """
+
+    log = structlog.get_logger(name) if name else structlog.get_logger()
+    if initial_values:
+        log = log.bind(**initial_values)
+    return log
+
+
+logger = get_logger("korone")

@@ -10,9 +10,11 @@ import orjson
 from cashews import NOT_NONE
 
 from korone.utils.caching import cache
-from korone.utils.logging import logger
+from korone.utils.logging import get_logger
 
 from .types import RunRequest, RunResponse
+
+logger = get_logger(__name__)
 
 STDIN_PATTERN = re.compile(r"\s/stdin\b")
 

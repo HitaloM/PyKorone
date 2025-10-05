@@ -21,9 +21,11 @@ from korone.modules.medias.utils.files import resize_thumbnail
 from korone.modules.medias.utils.generic_headers import GENERIC_HEADER
 from korone.modules.medias.utils.instagram.scraper import fetch_instagram
 from korone.utils.caching import cache
-from korone.utils.logging import logger
+from korone.utils.logging import get_logger
 
 from .types import CarouselMedia, Post, ThreadsData
+
+logger = get_logger(__name__)
 
 
 async def fetch_threads(text: str) -> Sequence[InputMedia] | None:

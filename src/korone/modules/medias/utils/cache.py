@@ -8,7 +8,9 @@ from cashews.exceptions import CacheError
 from hydrogram.types import InputMediaPhoto, InputMediaVideo, Message
 
 from korone.utils.caching import cache
-from korone.utils.logging import logger
+from korone.utils.logging import get_logger
+
+logger = get_logger(__name__)
 
 
 class MediaCache:

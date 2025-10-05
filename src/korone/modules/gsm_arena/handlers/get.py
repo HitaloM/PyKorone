@@ -12,7 +12,9 @@ from korone.decorators import router
 from korone.modules.gsm_arena.callback_data import GetDeviceCallback
 from korone.modules.gsm_arena.utils.scraper import check_phone_details, format_phone
 from korone.utils.i18n import gettext as _
-from korone.utils.logging import logger
+from korone.utils.logging import get_logger
+
+logger = get_logger(__name__)
 
 
 @router.callback_query(GetDeviceCallback.filter())

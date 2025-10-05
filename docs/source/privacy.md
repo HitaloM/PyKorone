@@ -31,9 +31,9 @@ All collected data is made available by the Telegram API in a public way, note t
 - **Type**: The type of the group (`supergroup` or `group`).
 - **Registration Date**: The date when the _PyKorone_ bot saw the group for the first time.
 
-### Crashlytics
+### Observability
 
-_PyKorone_ uses [Sentry](https://sentry.io/) to collect crash reports and improve the stability of the software. Crashlytics collects the same data as _PyKorone_, plus extra details of the crash itself. By using _PyKorone_ you agree to the [Sentry's privacy policy](https://sentry.io/privacy) as well.
+_PyKorone_ uses [Pydantic Logfire](https://logfire.pydantic.dev/) to collect crash reports and improve the stability of the software. Logfire collects the same data as _PyKorone_, plus extra details of the crash itself to help diagnose issues. By using _PyKorone_ you agree to the [Logfire privacy policy](https://pydantic.dev/legal/privacy-policy) as well.
 
 #### Crash Data
 
@@ -41,3 +41,4 @@ The data displayed below is collected by crashlytics and is not stored permanent
 
 - Crash [traceback](https://en.wikipedia.org/wiki/Stack_trace).
 - [Telegram update](https://core.telegram.org/api/updates) that caused the crash.
+- Logfire trace identifier used to correlate the incident.

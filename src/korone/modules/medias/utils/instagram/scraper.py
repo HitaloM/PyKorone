@@ -13,9 +13,11 @@ from lxml import html
 from korone.modules.medias.utils.cache import MediaCache
 from korone.modules.medias.utils.downloader import download_media
 from korone.utils.caching import cache
-from korone.utils.logging import logger
+from korone.utils.logging import get_logger
 
 from .types import InstaFixData
+
+logger = get_logger(__name__)
 
 POST_PATTERN = re.compile(r"(?:reel(?:s?)|p)/(?P<post_id>[A-Za-z0-9_-]+)")
 INSTAGRAM_HOST = "instagram.com"

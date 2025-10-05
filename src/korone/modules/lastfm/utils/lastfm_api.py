@@ -8,10 +8,12 @@ import httpx
 from pydantic import BaseModel
 
 from korone.config import ConfigManager
-from korone.utils.logging import logger
+from korone.utils.logging import get_logger
 
 from .errors import ERROR_CODE_MAP, LastFMError
 from .types import LastFMAlbum, LastFMArtist, LastFMTrack, LastFMUser
+
+logger = get_logger(__name__)
 
 API_KEY: str = ConfigManager.get("korone", "LASTFM_KEY")
 
@@ -81,6 +83,11 @@ class LastFMClient:
                 )
                 raise LastFMError(error_message) from e
             except ValueError:
+                logger.error(
+                    "API request failed while parsing error response (HTTP %s): %s",
+                    e.response.status_code,
+                    e,
+                )
                 raise LastFMError(error_message) from e
         except httpx.RequestError as e:
             if isinstance(e, httpx.TimeoutException):
@@ -92,7 +99,7 @@ class LastFMClient:
                 logger.error(
                     "Request error occurred for Last.fm API method: %s, error: %s",
                     params.get("method", "unknown"),
-                    str(e),
+                    e,
                 )
                 msg = "Request error occurred"
             raise LastFMError(msg) from e
