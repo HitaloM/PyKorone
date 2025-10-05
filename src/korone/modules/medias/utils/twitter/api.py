@@ -6,6 +6,7 @@ from datetime import timedelta
 
 import httpx
 
+from korone.modules.medias.utils.generic_headers import GENERIC_HEADER
 from korone.utils.caching import cache
 from korone.utils.logging import get_logger
 
@@ -27,7 +28,7 @@ async def fetch_tweet(url: str) -> Tweet | None:
         flags=re.IGNORECASE,
     )
     try:
-        async with httpx.AsyncClient(http2=True, timeout=20) as client:
+        async with httpx.AsyncClient(http2=True, timeout=20, headers=GENERIC_HEADER) as client:
             response = await client.get(fx_url)
             response.raise_for_status()
 
