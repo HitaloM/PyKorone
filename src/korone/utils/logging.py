@@ -2,140 +2,68 @@
 # Copyright (c) 2025 Hitalo M. <https://github.com/HitaloM>
 
 import logging
-import logging.config
 import sys
+from dataclasses import dataclass
 from typing import Any
 
 import logfire
 import structlog
+from logfire import Logfire
 from structlog.stdlib import BoundLogger
-from structlog.types import EventDict, Processor
+from structlog.types import Processor
 
 LOG_LEVEL = logging.DEBUG if "--debug" in sys.argv else logging.INFO
 
-logfire.configure(send_to_logfire=False)
+
+@dataclass(slots=True)
+class _LoggingState:
+    logfire_instance: Logfire
 
 
-def extract_context_info(_, __, event_dict: EventDict) -> EventDict:
-    """
-    Extracts contextual information from a log event dictionary and enriches it with thread,
-    process, file, and line number details.
+_STATE = _LoggingState(logfire.configure(send_to_logfire=False))
+
+
+def configure_logging(*, logfire_instance: Logfire | None = None) -> None:
+    """Configure a lightweight structlog stack enriched with Logfire support.
+
+    The setup wires a single root handler, uses a console-friendly renderer when running in a
+    TTY, falls back to JSON otherwise, and keeps custom levels for noisy third-party libraries.
 
     Args:
-        _ (Any): Unused positional argument, typically required by the processor interface.
-        __ (Any): Unused positional argument, typically required by the processor interface.
-        event_dict (EventDict): The event dictionary containing log record information.
-
-    Returns:
-        EventDict: The updated event dictionary with additional context fields:
-            - "thread_name": Name of the thread where the log was emitted.
-            - "process_name": Name of the process where the log was emitted.
-            - "file": Pathname of the source file (if available).
-            - "line": Line number in the source file (if available).
+        logfire_instance: Optional Logfire instance to route structlog events through. When
+            omitted, falls back to the instance configured during module import.
     """
-    if "_record" in event_dict:
-        record = event_dict["_record"]
-        event_dict["thread_name"] = record.threadName
-        event_dict["process_name"] = record.processName
+    if logfire_instance is not None:
+        _STATE.logfire_instance = logfire_instance
 
-        if hasattr(record, "pathname") and hasattr(record, "lineno"):
-            event_dict["file"] = record.pathname
-            event_dict["line"] = record.lineno
+    logging.basicConfig(level=LOG_LEVEL, format="%(message)s", stream=sys.stderr, force=True)
 
-    return event_dict
-
-
-def configure_logging() -> None:
-    """
-    Configures logging for the application using structlog and the standard logging module.
-
-    This function sets up a logging configuration that supports colored console output paired with
-    structlog processors and Logfire integration. It defines custom formatters, handlers, and
-    logger settings for the root logger and specific third-party libraries.
-
-    Raises:
-        ValueError: If the logging configuration is invalid.
-    """
-    timestamper = structlog.processors.TimeStamper(fmt="iso", utc=True)
+    for name, level in {"hydrogram": logging.INFO, "aiohttp": logging.WARNING}.items():
+        third_party_logger = logging.getLogger(name)
+        third_party_logger.setLevel(level)
+        third_party_logger.propagate = False
 
     shared_processors: list[Processor] = [
-        structlog.stdlib.add_log_level,
+        structlog.contextvars.merge_contextvars,
         structlog.stdlib.add_logger_name,
-        timestamper,
+        structlog.stdlib.add_log_level,
+        structlog.processors.TimeStamper(fmt="iso", utc=True),
+        structlog.processors.format_exc_info,
+        logfire.StructlogProcessor(logfire_instance=_STATE.logfire_instance),
     ]
 
-    formatter_processors: dict[str, list[Processor]] = {
-        "console": [
-            extract_context_info,
-            structlog.stdlib.ProcessorFormatter.remove_processors_meta,
-            structlog.dev.ConsoleRenderer(colors=True, sort_keys=False),
-        ],
-        "json": [
-            extract_context_info,
-            structlog.stdlib.ProcessorFormatter.remove_processors_meta,
-            structlog.processors.dict_tracebacks,
-            structlog.processors.JSONRenderer(sort_keys=False),
-        ],
-    }
-
-    formatter_key = "console" if sys.stderr.isatty() else "json"
-
-    logging_config: dict[str, Any] = {
-        "version": 1,
-        "disable_existing_loggers": False,
-        "formatters": {
-            name: {
-                "()": structlog.stdlib.ProcessorFormatter,
-                "processors": processors,
-                "foreign_pre_chain": shared_processors,
-            }
-            for name, processors in formatter_processors.items()
-        },
-        "handlers": {
-            "console": {
-                "level": LOG_LEVEL,
-                "class": "logging.StreamHandler",
-                "formatter": formatter_key,
-            },
-        },
-        "loggers": {
-            "": {  # Root logger
-                "handlers": ["console"],
-                "level": LOG_LEVEL,
-                "propagate": True,
-            },
-            # Third-party library logging levels
-            "hydrogram": {
-                "level": logging.INFO,
-                "handlers": ["console"],
-                "propagate": False,
-            },
-            "aiohttp": {
-                "level": logging.WARNING,
-                "handlers": ["console"],
-                "propagate": False,
-            },
-        },
-    }
-
-    logging.config.dictConfig(logging_config)
+    renderer: Processor
+    if sys.stderr.isatty():
+        renderer = structlog.dev.ConsoleRenderer(colors=True, sort_keys=False)
+    else:
+        renderer = structlog.processors.JSONRenderer(sort_keys=False)
 
     structlog.configure(
-        processors=[
-            structlog.contextvars.merge_contextvars,
-            *shared_processors,
-            structlog.stdlib.PositionalArgumentsFormatter(),
-            structlog.processors.StackInfoRenderer(),
-            logfire.StructlogProcessor(),
-            structlog.stdlib.ProcessorFormatter.wrap_for_formatter,
-        ],
+        processors=[*shared_processors, renderer],
         logger_factory=structlog.stdlib.LoggerFactory(),
         wrapper_class=structlog.make_filtering_bound_logger(LOG_LEVEL),
         cache_logger_on_first_use=True,
     )
-
-
-configure_logging()
 
 
 def get_logger(name: str | None = None, **initial_values: Any) -> BoundLogger:

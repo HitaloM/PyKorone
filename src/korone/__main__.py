@@ -17,7 +17,7 @@ from .client import AppParameters, Korone
 from .config import ConfigManager
 from .database.sqlite.connection import SQLite3Connection
 from .utils.caching import cache
-from .utils.logging import logger
+from .utils.logging import configure_logging, logger
 
 
 async def pre_process() -> ConfigManager:
@@ -43,13 +43,14 @@ async def pre_process() -> ConfigManager:
         config.get("korone", "LOGFIRE_ENVIRONMENT", "production") or "production"
     ).strip()
 
-    logfire.configure(
+    logfire_instance = logfire.configure(
         service_name="korone-bot",
         service_version=__version__,
         token=logfire_token,
         send_to_logfire="if-token-present",
         environment=logfire_environment,
     )
+    configure_logging(logfire_instance=logfire_instance)
     logfire.instrument_httpx()
 
     async with SQLite3Connection() as conn:
