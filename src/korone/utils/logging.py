@@ -66,6 +66,9 @@ def configure_logging(*, logfire_instance: Logfire | None = None) -> None:
     )
 
 
+configure_logging()
+
+
 def get_logger(name: str | None = None, **initial_values: Any) -> BoundLogger:
     """Return a configured structlog logger with optional contextual bindings.
 

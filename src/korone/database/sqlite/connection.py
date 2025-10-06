@@ -4,10 +4,10 @@
 
 from __future__ import annotations
 
-from pathlib import Path
 from typing import TYPE_CHECKING, Any, Self
 
 import aiosqlite
+from anyio import Path
 
 from korone import constants
 from korone.database.connection import Connection
@@ -137,9 +137,10 @@ class SQLite3Connection(Connection):
             raise RuntimeError(msg)
 
         db_path = Path(self._path)
-        if not db_path.parent.exists():
+        parent = db_path.parent
+        if not await parent.exists():
             await logger.ainfo("Creating database directory")
-            db_path.parent.mkdir(parents=True, exist_ok=True)
+            await parent.mkdir(parents=True, exist_ok=True)
 
         self._conn = await aiosqlite.connect(self._path, *self._args, **self._kwargs)
 

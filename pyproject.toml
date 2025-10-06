@@ -29,6 +29,7 @@ dependencies = [
     "m3u8>=6.0.0",
     "aiofiles>=24.1.0",
     "logfire[httpx]>=4.11.0",
+    "anyio>=4.11.0",
 ]
 readme = "README.md"
 license = { file = "LICENSE" }

@@ -5,9 +5,9 @@ from __future__ import annotations
 
 import inspect
 from importlib import import_module
-from pathlib import Path
 from typing import TYPE_CHECKING, Any
 
+from anyio import Path
 from hydrogram.handlers.handler import Handler
 
 from korone.database.query import Query
@@ -28,7 +28,7 @@ MODULES: dict[str, dict[str, list[str]]] = {}
 COMMANDS: dict[str, dict[str, Any]] = {}
 
 
-def discover_modules() -> None:
+async def discover_modules() -> None:
     """
     Discovers all available modules by scanning the module directory.
 
@@ -38,16 +38,23 @@ def discover_modules() -> None:
     parent_path = Path(__file__).parent
     logger.debug("Discovering modules...")
 
-    for entry in parent_path.iterdir():
-        if entry.is_dir() and (entry / "handlers").exists():
-            module_name = entry.name
+    async for entry in parent_path.iterdir():
+        if not await entry.is_dir():
+            continue
 
-            handlers = [
-                f"{module_name}.handlers.{file.stem}"
-                for file in (entry / "handlers").glob("*.py")
-                if file.name != "__init__.py"
-            ]
+        handlers_path = entry / "handlers"
+        if not await handlers_path.exists():
+            continue
 
+        module_name = entry.name
+
+        handlers: list[str] = []
+        async for file in handlers_path.glob("*.py"):
+            if file.name == "__init__.py":
+                continue
+            handlers.append(f"{module_name}.handlers.{file.stem}")
+
+        if handlers:
             MODULES[module_name] = {"handlers": handlers}
             logger.debug("Discovered module: %s", module_name)
 
@@ -193,7 +200,7 @@ async def load_all_modules(client: Client) -> None:
     """
     await logger.adebug("Loading all modules...")
 
-    discover_modules()
+    await discover_modules()
 
     loaded_count = 0
     for module_name, module_info in MODULES.items():
