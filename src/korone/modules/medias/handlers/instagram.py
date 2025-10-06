@@ -23,6 +23,7 @@ URL_PATTERN = re.compile(
         instagram
     | ddinstagram
     | uuinstagram
+    | eeinstagram
     )
     \.com
     /\S+

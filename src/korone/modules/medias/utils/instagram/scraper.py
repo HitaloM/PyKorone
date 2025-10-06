@@ -21,7 +21,7 @@ logger = get_logger(__name__)
 
 POST_PATTERN = re.compile(r"(?:reel(?:s?)|p)/(?P<post_id>[A-Za-z0-9_-]+)")
 INSTAGRAM_HOST = "instagram.com"
-INSTAFIX_HOST = "uuinstagram.com"
+INSTAFIX_HOST = "eeinstagram.com"
 TIMEOUT = 60
 MAX_REDIRECTS = 5
 

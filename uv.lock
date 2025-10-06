@@ -163,11 +163,11 @@ wheels = [
 
 [[package]]
 name = "cashews"
-version = "7.4.1"
+version = "7.4.2"
 source = { registry = "https://pypi.org/simple" }
-sdist = { url = "https://files.pythonhosted.org/packages/9e/02/6c63550c84263219367e027038ccdac9bff900775262027ac35b6de91973/cashews-7.4.1.tar.gz", hash = "sha256:9d4ac7b0d0e20ec96680af60ae15dc26c19ccc267baa84a472c54bef86a93a8a", size = 91757, upload-time = "2025-07-14T22:39:48.137Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/48/44/587e82bb801a848042e1bf637bc34c8b52d1bf0df0a587bd2310e233df00/cashews-7.4.2.tar.gz", hash = "sha256:62ed01a3e290fbd7d2a131711e403dfc94b29364bc1113158bf2526b4517bd9e", size = 92110, upload-time = "2025-10-05T21:18:22.066Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/f8/e6/e77b27292b560725c35e478e90bdc9fe84c6ec849daac4360b4150083b4f/cashews-7.4.1-py3-none-any.whl", hash = "sha256:868019e9c8b0a75f345ea58b71197640b20dc2fe0892eb5ef6537f5652299ba4", size = 79356, upload-time = "2025-07-14T22:39:46.719Z" },
+    { url = "https://files.pythonhosted.org/packages/df/cb/bebe48823c7decb90320786de1f8ebbca2d1442812e735287a4d1c1e5857/cashews-7.4.2-py3-none-any.whl", hash = "sha256:a1dc9881bb418c1bd355d2bfaf4968378dc3c329c2cce756d320195e7080b528", size = 79700, upload-time = "2025-10-05T21:18:20.709Z" },
 ]
 
 [package.optional-dependencies]
@@ -182,11 +182,11 @@ speedup = [
 
 [[package]]
 name = "certifi"
-version = "2025.8.3"
+version = "2025.10.5"
 source = { registry = "https://pypi.org/simple" }
-sdist = { url = "https://files.pythonhosted.org/packages/dc/67/960ebe6bf230a96cda2e0abcf73af550ec4f090005363542f0765df162e0/certifi-2025.8.3.tar.gz", hash = "sha256:e564105f78ded564e3ae7c923924435e1daa7463faeab5bb932bc53ffae63407", size = 162386, upload-time = "2025-08-03T03:07:47.08Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/4c/5b/b6ce21586237c77ce67d01dc5507039d444b630dd76611bbca2d8e5dcd91/certifi-2025.10.5.tar.gz", hash = "sha256:47c09d31ccf2acf0be3f701ea53595ee7e0b8fa08801c6624be771df09ae7b43", size = 164519, upload-time = "2025-10-05T04:12:15.808Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/e5/48/1549795ba7742c948d2ad169c1c8cdbae65bc450d6cd753d124b17c8cd32/certifi-2025.8.3-py3-none-any.whl", hash = "sha256:f6c12493cfb1b06ba2ff328595af9350c65d6644968e5d3a2ffd78699af217a5", size = 161216, upload-time = "2025-08-03T03:07:45.777Z" },
+    { url = "https://files.pythonhosted.org/packages/e4/37/af0d2ef3967ac0d6113837b44a4f0bfe1328c2b9763bd5b1744520e5cfed/certifi-2025.10.5-py3-none-any.whl", hash = "sha256:0f212c2744a9bb6de0c56639a6f68afe01ecd92d91f14ae897c4fe7bbeeef0de", size = 163286, upload-time = "2025-10-05T04:12:14.03Z" },
 ]
 
 [[package]]
