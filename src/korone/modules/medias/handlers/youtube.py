@@ -3,8 +3,8 @@
 
 import html
 import re
-from pathlib import Path
 
+from anyio import Path
 from babel.numbers import format_number
 from hairydogm.chat_action import ChatActionSender
 from hairydogm.keyboard import InlineKeyboardBuilder
@@ -150,7 +150,7 @@ async def download_and_send_media(
     caption = f"<a href='{url}'>{yt.title}</a>"
     await upload_media(client, message, action, media_type, ytdl, yt, caption)
     await message.delete()
-    ytdl.clear()
+    await ytdl.clear()
 
 
 async def download_and_handle(download_method, url: str, message: Message) -> VideoInfo | None:

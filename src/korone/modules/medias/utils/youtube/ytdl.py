@@ -1,12 +1,12 @@
 # SPDX-License-Identifier: BSD-3-Clause
 # Copyright (c) 2025 Hitalo M. <https://github.com/HitaloM>
 
+from contextlib import suppress
 from datetime import UTC, datetime
-from pathlib import Path
 from typing import Any
 
 import yt_dlp
-from anyio import to_thread
+from anyio import Path, to_thread
 
 from korone.config import ConfigManager
 from korone.modules.medias.utils.files import resize_thumbnail
@@ -86,7 +86,7 @@ class YTDL:
             info = info["entries"][0]
         if self.download and self.file_path:
             thumbnail = Path(self.file_path).with_suffix(".jpeg").as_posix()
-            await to_thread.run_sync(resize_thumbnail, thumbnail)
+            await resize_thumbnail(thumbnail)
             info["thumbnail"] = thumbnail
         info["uploader"] = info.get("artist") or info.get("uploader", "")
         return VideoInfo.model_validate(info)
@@ -137,8 +137,12 @@ class YtdlpManager:
     async def download_audio(self, url: str) -> VideoInfo:
         return await self.download(url, self.audio_options)
 
-    def clear(self) -> None:
+    async def clear(self) -> None:
         for path in [self.file_path, self.thumbnail_path]:
-            if path and Path(path).exists():
-                Path(path).unlink(missing_ok=True)
+            if not path:
+                continue
+            path_obj = Path(path)
+            if await path_obj.exists():
+                with suppress(FileNotFoundError):
+                    await path_obj.unlink()
                 logger.debug("[Medias/YouTube] Removed %s", path)

@@ -2,8 +2,8 @@
 # Copyright (c) 2025 Hitalo M. <https://github.com/HitaloM>
 
 from datetime import UTC, datetime
-from pathlib import Path
 
+from anyio import Path
 from hydrogram import Client
 from hydrogram.types import InputMediaDocument
 

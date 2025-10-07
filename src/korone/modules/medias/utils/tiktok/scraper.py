@@ -6,7 +6,7 @@ from datetime import timedelta
 from typing import BinaryIO, cast
 
 import httpx
-from anyio import create_task_group, to_thread
+from anyio import create_task_group
 from hydrogram.types import InputMediaPhoto, InputMediaVideo
 
 from korone.modules.medias.utils.downloader import download_media
@@ -148,7 +148,7 @@ async def prepare_video_media(media: TikTokVideo) -> InputMediaVideo:
         msg = "[Medias/TikTok] - Failed to download video or thumbnail"
         raise TikTokError(msg)
 
-    await to_thread.run_sync(resize_thumbnail, thumb_file)
+    await resize_thumbnail(thumb_file)
     return InputMediaVideo(
         media=video_file,
         duration=media.duration,

@@ -11,7 +11,7 @@ from io import BytesIO
 
 import httpx
 import orjson
-from anyio import create_task_group, to_thread
+from anyio import create_task_group
 from cashews import NOT_NONE
 from hydrogram.types import InputMedia, InputMediaPhoto, InputMediaVideo
 from pydantic import ValidationError
@@ -165,7 +165,7 @@ async def _process_carousel_media(media: CarouselMedia) -> InputMedia | None:
             thumbnail_url = media.image_versions2.candidates[0].url
             thumbnail = await download_media(thumbnail_url)
             if thumbnail:
-                await to_thread.run_sync(resize_thumbnail, thumbnail)
+                await resize_thumbnail(thumbnail)
 
         return InputMediaVideo(
             media=media_file,
@@ -229,7 +229,7 @@ async def handle_video(post: Post) -> list[InputMediaVideo] | None:
         return None
 
     if thumbnail:
-        await to_thread.run_sync(resize_thumbnail, thumbnail)
+        await resize_thumbnail(thumbnail)
 
     if post.original_width is None or post.original_height is None:
         return None

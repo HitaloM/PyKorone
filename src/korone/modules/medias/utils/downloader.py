@@ -2,13 +2,12 @@
 # Copyright (c) 2025 Hitalo M. <https://github.com/HitaloM>
 
 from io import BytesIO
-from pathlib import Path
 from subprocess import PIPE
 from urllib.parse import urljoin, urlparse
 
 import httpx
 import m3u8
-from anyio import TemporaryDirectory, create_task_group, open_file, run_process
+from anyio import Path, TemporaryDirectory, create_task_group, open_file, run_process
 from PIL import Image
 
 from korone.modules.medias.utils.generic_headers import GENERIC_HEADER
@@ -83,7 +82,8 @@ async def merge_m3u8_segments(segment_files: list[Path], output_path: Path) -> b
         segments_list_path = output_path.parent / "segments.txt"
         async with await open_file(segments_list_path, mode="w") as f:
             for segment_file in segment_files:
-                await f.write(f"file '{segment_file.resolve()}'\n")
+                resolved_path = await segment_file.resolve()
+                await f.write(f"file '{resolved_path}'\n")
 
         ffmpeg_command = [
             "ffmpeg",

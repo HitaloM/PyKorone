@@ -9,7 +9,7 @@ from urllib.parse import urljoin
 
 import httpx
 import m3u8
-from anyio import create_task_group, to_thread
+from anyio import create_task_group
 from cashews import NOT_NONE
 from hydrogram.types import InputMediaPhoto, InputMediaVideo
 from pydantic import HttpUrl, ValidationError
@@ -144,7 +144,7 @@ async def handle_video(playlist_url: str, thumbnail_url: HttpUrl) -> list[InputM
         thumbnail = await download_media(str(thumbnail_url))
         resized_thumbnail = thumbnail
         if thumbnail:
-            await to_thread.run_sync(resize_thumbnail, thumbnail)
+            await resize_thumbnail(thumbnail)
 
         return [
             InputMediaVideo(

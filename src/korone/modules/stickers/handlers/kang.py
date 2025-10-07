@@ -1,14 +1,11 @@
 # SPDX-License-Identifier: BSD-3-Clause
 # Copyright (c) 2025 Hitalo M. <https://github.com/HitaloM>
 
-from pathlib import Path
-
-from anyio import Path as AsyncPath
+from anyio import Path
 from hairydogm.keyboard import InlineKeyboardBuilder
 from hydrogram import Client
 from hydrogram.types import Message
 
-from korone import constants
 from korone.decorators import router
 from korone.filters import Command, CommandObject
 from korone.modules.stickers.database import get_or_create_pack, update_user_pack
@@ -52,9 +49,7 @@ async def kang_command(client: Client, message: Message) -> None:
         )
         return
 
-    file_name = Path(
-        constants.BOT_ROOT_PATH / f"downloads/{generate_random_file_path('file', file_extension)}"
-    ).as_posix()
+    file_name = (await generate_random_file_path("file_", file_extension)).as_posix()
 
     file_path = await client.download_media(file_id, file_name=file_name)
     if not file_path:
@@ -62,7 +57,7 @@ async def kang_command(client: Client, message: Message) -> None:
         return
 
     if media_type == "video" and not await check_video(sent_message, file_path):  # type: ignore
-        await AsyncPath(file_path).unlink(missing_ok=True)  # type: ignore
+        await Path(file_path).unlink(missing_ok=True)  # type: ignore
         return
 
     pack_num = await get_or_create_pack(user.id, media_type)
@@ -107,5 +102,5 @@ async def kang_command(client: Client, message: Message) -> None:
         reply_markup=keyboard.as_markup(),
     )
 
-    await AsyncPath(file_path).unlink(missing_ok=True)  # type: ignore
-    await AsyncPath(resized_file).unlink(missing_ok=True)
+    await Path(file_path).unlink(missing_ok=True)  # type: ignore
+    await Path(resized_file).unlink(missing_ok=True)

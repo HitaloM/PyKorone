@@ -1,14 +1,20 @@
 # SPDX-License-Identifier: BSD-3-Clause
 # Copyright (c) 2025 Hitalo M. <https://github.com/HitaloM>
 
+from contextlib import suppress
 from io import BytesIO
 from pathlib import Path
 from typing import BinaryIO
 
+from anyio import to_thread
 from PIL import Image
 
 
-def resize_thumbnail(thumbnail_path: str | BytesIO | BinaryIO) -> None:
+async def resize_thumbnail(thumbnail_path: str | BytesIO | BinaryIO) -> None:
+    await to_thread.run_sync(_resize_thumbnail_sync, thumbnail_path)
+
+
+def _resize_thumbnail_sync(thumbnail_path: str | BytesIO | BinaryIO) -> None:
     with Image.open(thumbnail_path) as img:
         original_width, original_height = img.size
         aspect_ratio = original_width / original_height
@@ -26,16 +32,19 @@ def resize_thumbnail(thumbnail_path: str | BytesIO | BinaryIO) -> None:
         resized_img = img.resize((new_width, new_height), Image.Resampling.LANCZOS)
 
         if isinstance(thumbnail_path, str):
-            temp_path = f"{thumbnail_path}.temp.jpeg"
+            temp_path = Path(f"{thumbnail_path}.temp.jpeg")
             resized_img.save(temp_path, "JPEG", quality=95)
 
-            if Path(temp_path).stat().st_size < 200 * 1024:
-                Path(temp_path).rename(thumbnail_path)
+            if temp_path.stat().st_size < 200 * 1024:
+                temp_path.replace(thumbnail_path)
             else:
                 resized_img.save(thumbnail_path, "JPEG", quality=85)
-                Path(temp_path).unlink(missing_ok=True)
+                with suppress(FileNotFoundError):
+                    temp_path.unlink()
         else:
             thumbnail_path.seek(0)
             resized_img.save(thumbnail_path, "JPEG", quality=85)
             thumbnail_path.truncate()
             thumbnail_path.seek(0)
+
+        resized_img.close()

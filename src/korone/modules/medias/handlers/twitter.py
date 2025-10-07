@@ -6,7 +6,7 @@ import re
 from datetime import timedelta
 
 import httpx
-from anyio import create_task_group, to_thread
+from anyio import create_task_group
 from hairydogm.chat_action import ChatActionSender
 from hydrogram import Client
 from hydrogram.enums import ChatAction
@@ -168,7 +168,7 @@ async def prepare_media(media: TweetMedia) -> InputMediaPhoto | InputMediaVideo 
             await download_media(str(media.thumbnail_url)) if media.thumbnail_url else None
         )
         if thumb_file:
-            await to_thread.run_sync(resize_thumbnail, thumb_file)
+            await resize_thumbnail(thumb_file)
         return InputMediaVideo(
             media=media_file,
             duration=media.duration,

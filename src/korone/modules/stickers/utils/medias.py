@@ -1,13 +1,15 @@
 # SPDX-License-Identifier: BSD-3-Clause
 # Copyright (c) 2025 Hitalo M. <https://github.com/HitaloM>
 
-from anyio import Path as AsyncPath
-from anyio import to_thread
+from anyio import Path
 from hydrogram.types import Message
 
 from korone.utils.i18n import gettext as _
+from korone.utils.logging import get_logger
 
 from .ffmpeg import ffprobe, resize_image, resize_video
+
+logger = get_logger(__name__)
 
 
 def determine_mime_type_and_suffix(media_type: str) -> tuple[str, str]:
@@ -71,7 +73,7 @@ async def check_video(message: Message, file_path: str) -> bool:
         await message.reply(_("Error parsing video information: {error}").format(error=str(e)))
         return False
 
-    size = (await AsyncPath(file_path).stat()).st_size
+    size = (await Path(file_path).stat()).st_size
 
     if duration > 3:
         await message.edit(
@@ -91,7 +93,14 @@ async def check_video(message: Message, file_path: str) -> bool:
 
 
 async def resize_media(media_type: str, file_path: str) -> str | None:
-    if media_type in {"photo", "animated"}:
-        return await to_thread.run_sync(resize_image, file_path)
+    try:
+        if media_type in {"photo", "animated"}:
+            return await resize_image(file_path)
 
-    return await resize_video(file_path)
+        return await resize_video(file_path)
+    except RuntimeError:
+        await logger.aexception("Failed to resize media")
+    except OSError:
+        await logger.aexception("OS error while resizing media")
+
+    return None

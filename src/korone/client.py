@@ -6,11 +6,11 @@ from __future__ import annotations
 import time
 from contextlib import suppress
 from dataclasses import dataclass
-from pathlib import Path
 from typing import TYPE_CHECKING, Any
 
 import aiocron
 import hydrogram
+from anyio import Path
 from hydrogram import Client
 from hydrogram.enums import ParseMode
 from hydrogram.errors import MessageIdInvalid, MessageNotModified
