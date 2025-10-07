@@ -7,7 +7,7 @@ from urllib.parse import urljoin, urlparse
 
 import httpx
 import m3u8
-from anyio import Path, TemporaryDirectory, create_task_group, open_file, run_process
+from anyio import Path, TemporaryDirectory, create_task_group, open_file, run_process, to_thread
 from PIL import Image
 
 from korone.modules.medias.utils.generic_headers import GENERIC_HEADER
@@ -49,11 +49,19 @@ def get_file_extension(mime_type: str) -> str:
     return MIME_TYPE_TO_EXTENSION.get(mime_type, "")
 
 
-def convert_to_jpeg(image_data: BytesIO, file_path: Path) -> BytesIO:
-    image = Image.open(image_data)
-    jpeg_buffer = BytesIO()
-    image.convert("RGB").save(jpeg_buffer, format="JPEG")
+async def convert_to_jpeg(image_data: BytesIO, file_path: Path) -> BytesIO:
+    return await to_thread.run_sync(_convert_to_jpeg_sync, image_data, file_path)
+
+
+def _convert_to_jpeg_sync(image_data: BytesIO, file_path: Path) -> BytesIO:
+    image_data.seek(0)
+    with Image.open(image_data) as image:
+        image.load()
+        jpeg_buffer = BytesIO()
+        image.convert("RGB").save(jpeg_buffer, format="JPEG")
+
     jpeg_buffer.name = file_path.with_suffix(".jpeg").name
+    jpeg_buffer.seek(0)
     return jpeg_buffer
 
 
@@ -158,15 +166,23 @@ async def download_m3u8_playlist(media_url: str, content: bytes) -> BytesIO | No
         return merged_file
 
 
-def resize_image(image: Image.Image) -> BytesIO:
+async def process_image(buffer: BytesIO, file_path: Path) -> BytesIO:
+    processed = await to_thread.run_sync(_process_image_sync, buffer, file_path)
+    if processed is buffer:
+        buffer.seek(0)
+        return buffer
+    return processed
+
+
+def _resize_image_sync(image: Image.Image) -> BytesIO:
     width, height = image.size
-    ratio = width / height
+    ratio = width / height if height else 0
 
     if ratio > MAX_RATIO:
         if width > height:
-            width = MAX_RATIO * height
+            width = int(MAX_RATIO * height)
         else:
-            height = MAX_RATIO * width
+            height = int(MAX_RATIO * width)
 
     if width + height > MAX_DIMENSION:
         scale = MAX_DIMENSION / (width + height)
@@ -177,33 +193,47 @@ def resize_image(image: Image.Image) -> BytesIO:
     height = max(10, min(height, MAX_DIMENSION))
 
     resized_image = image.resize((width, height), Image.Resampling.LANCZOS)
-    buffer = BytesIO()
-    resized_image.save(buffer, format="JPEG")
-    buffer.seek(0)
 
-    if buffer.tell() > MAX_FILE_SIZE:
-        quality = 95
-        while buffer.tell() > MAX_FILE_SIZE and quality > 10:
-            buffer = BytesIO()
+    def _save_resized(quality: int | None = None) -> BytesIO:
+        buffer = BytesIO()
+        if quality is not None:
             resized_image.save(buffer, format="JPEG", quality=quality)
-            buffer.seek(0)
-            quality -= 5
+        else:
+            resized_image.save(buffer, format="JPEG")
+        buffer.seek(0)
+        return buffer
 
-    return buffer
+    try:
+        buffer = _save_resized()
+        if buffer.getbuffer().nbytes <= MAX_FILE_SIZE:
+            return buffer
+
+        for quality in range(95, 10, -5):
+            buffer = _save_resized(quality)
+            if buffer.getbuffer().nbytes <= MAX_FILE_SIZE:
+                break
+
+        return buffer
+    finally:
+        resized_image.close()
 
 
-def process_image(buffer: BytesIO, file_path: Path) -> BytesIO:
-    image = Image.open(buffer)
-    buffer.seek(0, 2)  # Move to the end of the buffer
+def _process_image_sync(buffer: BytesIO, file_path: Path) -> BytesIO:
+    buffer.seek(0)
+    with Image.open(buffer) as image:
+        image.load()
+        needs_resizing = (
+            buffer.getbuffer().nbytes > MAX_FILE_SIZE
+            or image.width + image.height > MAX_DIMENSION
+            or (image.height and image.width / image.height > MAX_RATIO)
+        )
 
-    if (
-        buffer.tell() > MAX_FILE_SIZE
-        or image.width + image.height > MAX_DIMENSION
-        or image.width / image.height > MAX_RATIO
-    ):
-        buffer = resize_image(image)
-        buffer.name = file_path.with_suffix(".jpeg").name
+        if needs_resizing:
+            resized = _resize_image_sync(image)
+            resized.name = file_path.with_suffix(".jpeg").name
+            return resized
 
+    buffer.seek(0)
     return buffer
 
 
@@ -238,10 +268,10 @@ async def download_media(media_url: str) -> BytesIO | None:
             return await download_m3u8_playlist(media_url, raw_data)
 
         if file_path.suffix.lower() in {".webp", ".heic"}:
-            return convert_to_jpeg(buffer, file_path)
+            return await convert_to_jpeg(buffer, file_path)
 
         if content_type.startswith("image/"):
-            return process_image(buffer, file_path)
+            return await process_image(buffer, file_path)
 
         return buffer
 

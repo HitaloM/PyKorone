@@ -3,6 +3,7 @@
 
 import io
 from datetime import timedelta
+from io import BytesIO
 
 from anyio import create_task_group, to_thread
 from PIL import Image, ImageDraw, ImageFont
@@ -26,34 +27,8 @@ async def add_text_to_image(
     img: Image.Image, text: str, font_path: str = FONT_PATH, font_size: int = FONT_SIZE
 ) -> None:
     try:
-        font = ImageFont.truetype(font_path, font_size)
-
-        def blocking_add_text_to_image() -> None:
-            draw = ImageDraw.Draw(img)
-            lines = text.split("\n")
-            text_height = len(lines) * font_size
-            text_x, text_y = TEXT_POSITION_OFFSET, img.height - text_height - TEXT_POSITION_OFFSET
-
-            # Create semi-transparent gradient for text background
-            mask = Image.linear_gradient("L").resize((img.width, int(text_height) + 20))
-            gradient = Image.new("RGB", (img.width, int(text_height) + 20), "black")
-            gradient.putalpha(mask)
-            img.paste(
-                gradient, (0, int(img.height - text_height - 20), img.width, img.height), gradient
-            )
-
-            # Draw text with border for better visibility
-            for line in lines:
-                # Draw text outline
-                for dx, dy in [(-1, -1), (-1, 1), (1, -1), (1, 1)]:
-                    draw.text((text_x + dx, text_y + dy), line, font=font, fill="black")
-                # Draw main text
-                draw.text((text_x, text_y), line, font=font, fill="white")
-                text_y += font_size
-
-        await to_thread.run_sync(blocking_add_text_to_image)
-
-    except Exception as e:
+        await to_thread.run_sync(_add_text_to_image_sync, img, text, font_path, font_size)
+    except Exception as e:  # pragma: no cover - logging path
         await logger.aexception("Failed to add text to image: %s", e)
 
 
@@ -61,11 +36,11 @@ async def fetch_album_art(album: LastFMAlbum) -> Image.Image:
     try:
         image_data = await get_biggest_lastfm_image(album)
         if image_data:
-            return Image.open(image_data)
-    except Exception as e:
+            return await open_image(image_data)
+    except Exception as e:  # pragma: no cover - logging path
         await logger.aexception("Failed to fetch album art: %s", e)
 
-    return Image.open(DEFAULT_IMAGE_PATH)
+    return await open_image(DEFAULT_IMAGE_PATH)
 
 
 async def fetch_album_arts(albums: list[LastFMAlbum]) -> list[Image.Image]:
@@ -85,28 +60,14 @@ async def process_single_image(
     index: int,
     item: LastFMAlbum,
     img: Image.Image,
-    collage: Image.Image,
-    cols: int,
+    results: list[Image.Image | None],
     show_text: bool = True,
 ) -> None:
     try:
-        # Resize the image to thumbnail size
-        img = img.resize((THUMB_SIZE, THUMB_SIZE), Image.Resampling.LANCZOS)
-
-        # Add text if needed
-        if show_text:
-            artist_name = item.artist.name if item.artist is not None else ""
-            text = f"{artist_name}\n{item.name}\n{item.playcount} plays"
-            await add_text_to_image(img, text)
-
-        # Calculate position in the collage
-        x, y = (index % cols) * THUMB_SIZE, (index // cols) * THUMB_SIZE
-
-        # Paste image into collage
-        collage.paste(img, (x, y))
-
-    except Exception as e:
+        results[index] = await to_thread.run_sync(_prepare_single_image_sync, item, img, show_text)
+    except Exception as e:  # pragma: no cover - logging path
         await logger.aexception("Failed to process image at index %s: %s", index, e)
+        results[index] = None
 
 
 @cache(ttl=timedelta(days=1))
@@ -120,15 +81,73 @@ async def create_album_collage(
     collage = Image.new("RGB", (THUMB_SIZE * cols, THUMB_SIZE * rows))
 
     album_images = await fetch_album_arts(albums[:total_albums])
+    processed_results: list[Image.Image | None] = [None] * total_albums
 
     async with create_task_group() as tg:
         for index, (item, img) in enumerate(
             zip(albums[:total_albums], album_images, strict=False)
         ):
-            tg.start_soon(process_single_image, index, item, img, collage, cols, show_text)
+            tg.start_soon(process_single_image, index, item, img, processed_results, show_text)
+
+    for index, processed_image in enumerate(processed_results):
+        if processed_image is None:
+            continue
+
+        x, y = (index % cols) * THUMB_SIZE, (index // cols) * THUMB_SIZE
+        await to_thread.run_sync(_paste_image_sync, collage, processed_image, x, y)
+        processed_image.close()
 
     collage_bytes = io.BytesIO()
     await to_thread.run_sync(collage.save, collage_bytes, "PNG")
     collage_bytes.seek(0)
 
     return collage_bytes
+
+
+async def open_image(source: str | BytesIO) -> Image.Image:
+    return await to_thread.run_sync(_open_image_sync, source)
+
+
+def _open_image_sync(source: str | BytesIO) -> Image.Image:
+    if isinstance(source, BytesIO):
+        source.seek(0)
+    image = Image.open(source)
+    image.load()
+    return image
+
+
+def _add_text_to_image_sync(img: Image.Image, text: str, font_path: str, font_size: int) -> None:
+    font = ImageFont.truetype(font_path, font_size)
+    draw = ImageDraw.Draw(img)
+    lines = text.split("\n")
+    text_height = len(lines) * font_size
+    text_x, text_y = TEXT_POSITION_OFFSET, img.height - text_height - TEXT_POSITION_OFFSET
+
+    mask = Image.linear_gradient("L").resize((img.width, int(text_height) + 20))
+    gradient = Image.new("RGB", (img.width, int(text_height) + 20), "black")
+    gradient.putalpha(mask)
+    img.paste(gradient, (0, int(img.height - text_height - 20), img.width, img.height), gradient)
+
+    for line in lines:
+        for dx, dy in [(-1, -1), (-1, 1), (1, -1), (1, 1)]:
+            draw.text((text_x + dx, text_y + dy), line, font=font, fill="black")
+        draw.text((text_x, text_y), line, font=font, fill="white")
+        text_y += font_size
+
+
+def _prepare_single_image_sync(
+    item: LastFMAlbum, img: Image.Image, show_text: bool
+) -> Image.Image | None:
+    try:
+        resized = img.resize((THUMB_SIZE, THUMB_SIZE), Image.Resampling.LANCZOS)
+        if show_text:
+            artist_name = item.artist.name if item.artist is not None else ""
+            text = f"{artist_name}\n{item.name}\n{item.playcount} plays"
+            _add_text_to_image_sync(resized, text, FONT_PATH, FONT_SIZE)
+        return resized
+    finally:
+        img.close()
+
+
+def _paste_image_sync(collage: Image.Image, processed_image: Image.Image, x: int, y: int) -> None:
+    collage.paste(processed_image, (x, y))
