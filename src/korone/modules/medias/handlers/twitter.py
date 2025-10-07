@@ -1,12 +1,12 @@
 # SPDX-License-Identifier: BSD-3-Clause
 # Copyright (c) 2025 Hitalo M. <https://github.com/HitaloM>
 
-import asyncio
 import html
 import re
 from datetime import timedelta
 
 import httpx
+from anyio import create_task_group, to_thread
 from hairydogm.chat_action import ChatActionSender
 from hydrogram import Client
 from hydrogram.enums import ChatAction
@@ -138,8 +138,16 @@ async def process_multiple_media(
 async def prepare_media_list(
     media_list: list[TweetMedia], text: str
 ) -> list[InputMediaPhoto | InputMediaVideo]:
-    media_tasks = [prepare_media(media) for media in media_list]
-    return [media for media in await asyncio.gather(*media_tasks) if media]
+    results: list[InputMediaPhoto | InputMediaVideo | None] = [None] * len(media_list)
+
+    async def fetch_media(index: int, media: TweetMedia) -> None:
+        results[index] = await prepare_media(media)
+
+    async with create_task_group() as tg:
+        for index, media in enumerate(media_list):
+            tg.start_soon(fetch_media, index, media)
+
+    return [media for media in results if media]
 
 
 async def prepare_media(media: TweetMedia) -> InputMediaPhoto | InputMediaVideo | None:
@@ -160,7 +168,7 @@ async def prepare_media(media: TweetMedia) -> InputMediaPhoto | InputMediaVideo 
             await download_media(str(media.thumbnail_url)) if media.thumbnail_url else None
         )
         if thumb_file:
-            await asyncio.to_thread(resize_thumbnail, thumb_file)
+            await to_thread.run_sync(resize_thumbnail, thumb_file)
         return InputMediaVideo(
             media=media_file,
             duration=media.duration,

@@ -1,10 +1,10 @@
 # SPDX-License-Identifier: BSD-3-Clause
 # Copyright (c) 2025 Hitalo M. <https://github.com/HitaloM>
 
-import asyncio
 import functools
 import re
 
+from anyio import fail_after, to_thread
 from cashews import suppress
 from hydrogram import Client, filters
 from hydrogram.enums import ParseMode
@@ -52,9 +52,8 @@ async def check_filters(client: Client, message: Message) -> None:
 
     for filter, pattern in compiled_patterns:
         try:
-            matched = await asyncio.wait_for(
-                asyncio.to_thread(functools.partial(re.search, pattern, text)), timeout=0.2
-            )
+            with fail_after(0.2):
+                matched = await to_thread.run_sync(functools.partial(re.search, pattern, text))
             if matched:
                 await send_filter(message, filter, noformat="noformat" in text)
                 return

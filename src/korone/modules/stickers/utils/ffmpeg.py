@@ -1,11 +1,12 @@
 # SPDX-License-Identifier: BSD-3-Clause
 # Copyright (c) 2025 Hitalo M. <https://github.com/HitaloM>
 
-import asyncio
 import random
 import string
 from pathlib import Path
+from subprocess import PIPE, STDOUT
 
+import anyio
 from PIL import Image
 
 from korone import constants
@@ -38,8 +39,7 @@ async def resize_video(video_path: str) -> str:
         "-an",
         new_path,
     ]
-    process = await asyncio.create_subprocess_exec(*command)
-    await process.wait()
+    await anyio.run_process(command, check=False)
     return new_path
 
 
@@ -52,7 +52,7 @@ def generate_random_file_path(prefix: str, extension: str) -> Path:
 
 
 async def run_ffprobe_command(file_path: str) -> str | None:
-    process = await asyncio.create_subprocess_exec(
+    command = [
         "ffprobe",
         "-v",
         "error",
@@ -63,13 +63,15 @@ async def run_ffprobe_command(file_path: str) -> str | None:
         "-of",
         "default=noprint_wrappers=1:nokey=1",
         file_path,
-        stdout=asyncio.subprocess.PIPE,
-        stderr=asyncio.subprocess.STDOUT,
+    ]
+    result = await anyio.run_process(
+        command,
+        stdout=PIPE,
+        stderr=STDOUT,
+        check=False,
     )
 
-    stdout, _ = await process.communicate()
-
-    return stdout.decode() if stdout else None
+    return result.stdout.decode() if result.stdout else None
 
 
 async def ffprobe(file_path: str) -> float | None:

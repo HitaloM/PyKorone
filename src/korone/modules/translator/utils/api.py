@@ -1,10 +1,10 @@
 # SPDX-License-Identifier: BSD-3-Clause
 # Copyright (c) 2025 Hitalo M. <https://github.com/HitaloM>
 
-import asyncio
 import random
 
 import httpx
+from anyio import sleep
 
 from korone.config import ConfigManager
 from korone.utils.logging import get_logger
@@ -80,7 +80,7 @@ class DeepL:
         backoff = 2**retries + random.uniform(0, 1)
         if status_code == 429:
             await logger.aerror("[DeepL] Rate limit exceeded, retrying in %s seconds...", backoff)
-            await asyncio.sleep(backoff)
+            await sleep(backoff)
             return True
         if status_code == 456:
             msg = "[DeepL] Quota exceeded."
@@ -90,7 +90,7 @@ class DeepL:
             await logger.adebug(
                 "[DeepL] Internal server error, retrying in %s seconds...", backoff
             )
-            await asyncio.sleep(backoff)
+            await sleep(backoff)
             return True
         msg = f"[DeepL] HTTP error occurred: {status_code}"
         raise TranslationError(msg) from e

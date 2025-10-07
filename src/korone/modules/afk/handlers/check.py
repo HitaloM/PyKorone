@@ -1,11 +1,11 @@
 # SPDX-License-Identifier: BSD-3-Clause
 # Copyright (c) 2025 Hitalo M. <https://github.com/HitaloM>
 
-import asyncio
 import html
 import re
 from contextlib import suppress
 
+from anyio import sleep
 from hydrogram import Client, filters
 from hydrogram.enums import MessageEntityType
 from hydrogram.errors import BadRequest, MessageDeleteForbidden, PeerIdInvalid
@@ -27,7 +27,7 @@ async def afk_checker(client: Client, message: Message) -> None:
     if await is_afk(message.from_user.id):
         await set_afk(message.from_user.id, state=False)
         sent = await message.reply(_("Oh, you're back! I've removed your afk status."))
-        await asyncio.sleep(5)
+        await sleep(5)
         with suppress(BadRequest, MessageDeleteForbidden):
             await sent.delete()
     else:
@@ -77,7 +77,7 @@ async def send_afk_message(user: User, message: Message) -> None:
         text += lastfm_text
 
     sent = await message.reply(text)
-    await asyncio.sleep(5)
+    await sleep(5)
     with suppress(BadRequest, MessageDeleteForbidden):
         await sent.delete()
 

@@ -1,16 +1,17 @@
 # SPDX-License-Identifier: BSD-3-Clause
 # Copyright (c) 2025 Hitalo M. <https://github.com/HitaloM>
 
-import asyncio
 import html
 import random
 import re
 import string
 from collections.abc import Sequence
 from datetime import timedelta
+from io import BytesIO
 
 import httpx
 import orjson
+from anyio import create_task_group, to_thread
 from cashews import NOT_NONE
 from hydrogram.types import InputMedia, InputMediaPhoto, InputMediaVideo
 from pydantic import ValidationError
@@ -152,42 +153,48 @@ def get_caption(threads_data: ThreadsData) -> str:
     return caption
 
 
-async def handle_carousel(post: Post) -> list[InputMedia]:
-    async def process_media(media: CarouselMedia) -> InputMedia | None:
-        if media.video_versions:
-            media_file = await download_media(media.video_versions[0].url)
-            if not media_file:
-                await logger.aerror("[Medias/Threads] Video download failed")
-                return None
+async def _process_carousel_media(media: CarouselMedia) -> InputMedia | None:
+    if media.video_versions:
+        media_file = await download_media(media.video_versions[0].url)
+        if not media_file:
+            await logger.aerror("[Medias/Threads] Video download failed")
+            return None
 
-            thumbnail = None
-            if media.image_versions2 and media.image_versions2.candidates:
-                thumbnail_url = media.image_versions2.candidates[0].url
-                thumbnail = await download_media(thumbnail_url)
-                if thumbnail:
-                    await asyncio.to_thread(resize_thumbnail, thumbnail)
-
-            return InputMediaVideo(
-                media=media_file,
-                width=media.original_width,
-                height=media.original_height,
-                supports_streaming=True,
-                thumb=thumbnail,
-            )
+        thumbnail = None
         if media.image_versions2 and media.image_versions2.candidates:
-            media_file = await download_media(media.image_versions2.candidates[0].url)
-            if not media_file:
-                await logger.aerror("[Medias/Threads] Image download failed")
-                return None
+            thumbnail_url = media.image_versions2.candidates[0].url
+            thumbnail = await download_media(thumbnail_url)
+            if thumbnail:
+                await to_thread.run_sync(resize_thumbnail, thumbnail)
 
-            return InputMediaPhoto(media=media_file)
-        return None
+        return InputMediaVideo(
+            media=media_file,
+            width=media.original_width,
+            height=media.original_height,
+            supports_streaming=True,
+            thumb=thumbnail,
+        )
 
-    media_list = []
-    if post.carousel_media:
-        tasks = [process_media(media) for media in post.carousel_media]
-        results = await asyncio.gather(*tasks)
-        media_list = [r for r in results if r is not None]
+    if media.image_versions2 and media.image_versions2.candidates:
+        media_file = await download_media(media.image_versions2.candidates[0].url)
+        if not media_file:
+            await logger.aerror("[Medias/Threads] Image download failed")
+            return None
+
+        return InputMediaPhoto(media=media_file)
+
+    return None
+
+
+async def handle_carousel(post: Post) -> list[InputMedia]:
+    if not post.carousel_media:
+        return []
+
+    media_list: list[InputMedia] = []
+    for media in post.carousel_media:
+        processed = await _process_carousel_media(media)
+        if processed:
+            media_list.append(processed)
 
     return media_list
 
@@ -196,30 +203,40 @@ async def handle_video(post: Post) -> list[InputMediaVideo] | None:
     if not post.video_versions:
         return None
 
-    tasks = [download_media(post.video_versions[0].url)]
-    thumb_task = None
-    if post.image_versions2 and post.image_versions2.candidates:
-        thumb_task = download_media(post.image_versions2.candidates[0].url)
-        tasks.append(thumb_task)
+    video: BytesIO | None = None
+    thumbnail: BytesIO | None = None
 
-    results = await asyncio.gather(*tasks)
-    file = results[0]
-    if not file:
+    async def fetch_video(url: str) -> None:
+        nonlocal video
+        video = await download_media(url)
+
+    async def fetch_thumbnail(url: str) -> None:
+        nonlocal thumbnail
+        thumbnail = await download_media(url)
+
+    video_url = post.video_versions[0].url
+    thumb_url = None
+    if post.image_versions2 and post.image_versions2.candidates:
+        thumb_url = post.image_versions2.candidates[0].url
+
+    async with create_task_group() as tg:
+        tg.start_soon(fetch_video, video_url)
+        if thumb_url:
+            tg.start_soon(fetch_thumbnail, thumb_url)
+
+    if not video:
         await logger.aerror("[Medias/Threads] Video download failed")
         return None
 
-    thumbnail = None
-    if thumb_task:
-        thumbnail = results[1]
-        if thumbnail:
-            await asyncio.to_thread(resize_thumbnail, thumbnail)
+    if thumbnail:
+        await to_thread.run_sync(resize_thumbnail, thumbnail)
 
     if post.original_width is None or post.original_height is None:
         return None
 
     return [
         InputMediaVideo(
-            media=file,
+            media=video,
             width=post.original_width,
             height=post.original_height,
             supports_streaming=True,

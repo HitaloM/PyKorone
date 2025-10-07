@@ -1,12 +1,12 @@
 # SPDX-License-Identifier: BSD-3-Clause
 # Copyright (c) 2025 Hitalo M. <https://github.com/HitaloM>
 
-import asyncio
 import re
 from datetime import timedelta
 from typing import BinaryIO, cast
 
 import httpx
+from anyio import create_task_group, to_thread
 from hydrogram.types import InputMediaPhoto, InputMediaVideo
 
 from korone.modules.medias.utils.downloader import download_media
@@ -129,10 +129,26 @@ async def safe_download(url: str) -> BinaryIO:
 
 
 async def prepare_video_media(media: TikTokVideo) -> InputMediaVideo:
-    video_file, thumb_file = await asyncio.gather(
-        safe_download(str(media.video_url)), safe_download(str(media.thumbnail_url))
-    )
-    await asyncio.to_thread(resize_thumbnail, thumb_file)
+    video_file: BinaryIO | None = None
+    thumb_file: BinaryIO | None = None
+
+    async def fetch_video() -> None:
+        nonlocal video_file
+        video_file = await safe_download(str(media.video_url))
+
+    async def fetch_thumbnail() -> None:
+        nonlocal thumb_file
+        thumb_file = await safe_download(str(media.thumbnail_url))
+
+    async with create_task_group() as tg:
+        tg.start_soon(fetch_video)
+        tg.start_soon(fetch_thumbnail)
+
+    if not video_file or not thumb_file:
+        msg = "[Medias/TikTok] - Failed to download video or thumbnail"
+        raise TikTokError(msg)
+
+    await to_thread.run_sync(resize_thumbnail, thumb_file)
     return InputMediaVideo(
         media=video_file,
         duration=media.duration,
@@ -143,9 +159,16 @@ async def prepare_video_media(media: TikTokVideo) -> InputMediaVideo:
 
 
 async def prepare_slideshow_media(media: TikTokSlideshow) -> list[InputMediaPhoto]:
-    img_tasks = [asyncio.create_task(safe_download(str(img))) for img in media.images]
-    results = await asyncio.gather(*img_tasks)
-    return [InputMediaPhoto(media=cast(BinaryIO, r)) for r in results]
+    results: list[BinaryIO | None] = [None] * len(media.images)
+
+    async def fetch_image(index: int, url: str) -> None:
+        results[index] = await safe_download(url)
+
+    async with create_task_group() as tg:
+        for index, url in enumerate(media.images):
+            tg.start_soon(fetch_image, index, str(url))
+
+    return [InputMediaPhoto(media=cast(BinaryIO, result)) for result in results if result]
 
 
 async def extract_media_id(url_match: re.Match[str]) -> int | None:

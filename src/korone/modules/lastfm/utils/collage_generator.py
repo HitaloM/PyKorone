@@ -1,10 +1,10 @@
 # SPDX-License-Identifier: BSD-3-Clause
 # Copyright (c) 2025 Hitalo M. <https://github.com/HitaloM>
 
-import asyncio
 import io
 from datetime import timedelta
 
+from anyio import create_task_group, to_thread
 from PIL import Image, ImageDraw, ImageFont
 
 from korone.utils.caching import cache
@@ -51,7 +51,7 @@ async def add_text_to_image(
                 draw.text((text_x, text_y), line, font=font, fill="white")
                 text_y += font_size
 
-        await asyncio.to_thread(blocking_add_text_to_image)
+        await to_thread.run_sync(blocking_add_text_to_image)
 
     except Exception as e:
         await logger.aexception("Failed to add text to image: %s", e)
@@ -69,8 +69,16 @@ async def fetch_album_art(album: LastFMAlbum) -> Image.Image:
 
 
 async def fetch_album_arts(albums: list[LastFMAlbum]) -> list[Image.Image]:
-    tasks = [asyncio.create_task(fetch_album_art(album)) for album in albums]
-    return await asyncio.gather(*tasks)
+    results: list[Image.Image | None] = [None] * len(albums)
+
+    async def fetch(index: int, album: LastFMAlbum) -> None:
+        results[index] = await fetch_album_art(album)
+
+    async with create_task_group() as tg:
+        for index, album in enumerate(albums):
+            tg.start_soon(fetch, index, album)
+
+    return [img for img in results if img is not None]
 
 
 async def process_single_image(
@@ -113,15 +121,14 @@ async def create_album_collage(
 
     album_images = await fetch_album_arts(albums[:total_albums])
 
-    processing_tasks = [
-        asyncio.create_task(process_single_image(index, item, img, collage, cols, show_text))
-        for index, (item, img) in enumerate(zip(albums[:total_albums], album_images, strict=False))
-    ]
-
-    await asyncio.gather(*processing_tasks)
+    async with create_task_group() as tg:
+        for index, (item, img) in enumerate(
+            zip(albums[:total_albums], album_images, strict=False)
+        ):
+            tg.start_soon(process_single_image, index, item, img, collage, cols, show_text)
 
     collage_bytes = io.BytesIO()
-    await asyncio.to_thread(collage.save, collage_bytes, format="PNG")
+    await to_thread.run_sync(collage.save, collage_bytes, "PNG")
     collage_bytes.seek(0)
 
     return collage_bytes

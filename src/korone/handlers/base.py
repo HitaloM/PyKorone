@@ -3,7 +3,6 @@
 
 from __future__ import annotations
 
-import asyncio
 import inspect
 import time
 from collections.abc import Callable, Sequence
@@ -11,6 +10,7 @@ from dataclasses import dataclass, field
 from datetime import timedelta
 from typing import TYPE_CHECKING, Any, Final
 
+from anyio import create_task_group
 from babel import Locale, UnknownLocaleError
 from hydrogram.enums import ChatType
 from hydrogram.types import CallbackQuery, Chat, Message, Update, User
@@ -111,14 +111,15 @@ class BaseHandler:
             return False
 
         if inspect.iscoroutinefunction(self.filters.__call__):
-            return await self.filters(client, update)
+            result = await self.filters(client, update)
+            return bool(result)
 
         # Use executor for non-coroutine filters
         result = await client.loop.run_in_executor(client.executor, self.filters, client, update)
         if inspect.iscoroutine(result):
             result = await result
 
-        return result
+        return bool(result)
 
     async def _get_document(self, chat: ChatEntity) -> Documents | None:
         table_name = self._determine_table(chat)
@@ -256,26 +257,20 @@ class BaseHandler:
         if not message.new_chat_members:
             return
 
-        tasks = [
-            self._store_user_or_chat(member, member.language_code)
-            for member in message.new_chat_members
-            if not member.is_bot
-        ]
-
-        if tasks:
-            await asyncio.gather(*tasks)
+        async with create_task_group() as tg:
+            for member in message.new_chat_members:
+                if member.is_bot:
+                    continue
+                tg.start_soon(self._store_user_or_chat, member, member.language_code)
 
     async def _update_chats(self, chats: Sequence[ChatEntity]) -> None:
         if not chats:
             return
 
-        tasks = [
-            self._store_user_or_chat(chat, chat.language_code if isinstance(chat, User) else None)
-            for chat in chats
-        ]
-
-        if tasks:
-            await asyncio.gather(*tasks)
+        async with create_task_group() as tg:
+            for chat in chats:
+                language_code = chat.language_code if isinstance(chat, User) else None
+                tg.start_soon(self._store_user_or_chat, chat, language_code)
 
     @staticmethod
     def _extract_replied_message_chats(message: Message) -> list[ChatEntity]:

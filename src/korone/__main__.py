@@ -1,10 +1,10 @@
 # SPDX-License-Identifier: BSD-3-Clause
 # Copyright (c) 2025 Hitalo M. <https://github.com/HitaloM>
 
-import asyncio
 import sys
 from contextlib import suppress
 
+import anyio
 import logfire
 import uvloop
 from anyio import Path
@@ -107,8 +107,11 @@ async def main() -> None:
 
 if __name__ == "__main__":
     try:
-        with asyncio.Runner(loop_factory=uvloop.new_event_loop) as runner:
-            runner.run(main())
+        anyio.run(
+            main,
+            backend="asyncio",
+            backend_options={"use_uvloop": True, "loop_factory": uvloop.new_event_loop},
+        )
     except KeyboardInterrupt:
         logger.warning("Forced stop... Bye!")
     except Exception as e:

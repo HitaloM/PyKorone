@@ -1,9 +1,9 @@
 # SPDX-License-Identifier: BSD-3-Clause
 # Copyright (c) 2025 Hitalo M. <https://github.com/HitaloM>
 
-import asyncio
 from contextlib import suppress
 
+from anyio import sleep
 from hydrogram import Client
 from hydrogram.errors import BadRequest, MessageDeleteForbidden
 from hydrogram.types import CallbackQuery
@@ -25,7 +25,7 @@ async def language_cancel_callback(client: Client, callback: CallbackQuery) -> N
         )
     )
 
-    await asyncio.sleep(5)
+    await sleep(5)
 
     with suppress(MessageDeleteForbidden, BadRequest):
         await message.reply_to_message.delete()

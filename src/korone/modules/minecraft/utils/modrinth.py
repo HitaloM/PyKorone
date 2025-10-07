@@ -1,11 +1,11 @@
 # SPDX-License-Identifier: BSD-3-Clause
 # Copyright (c) 2025 Hitalo M. <https://github.com/HitaloM>
 
-import asyncio
 from datetime import timedelta
 from enum import StrEnum
 
 import httpx
+from anyio import create_task_group
 from cashews import NOT_NONE
 
 from korone.utils.caching import cache
@@ -120,9 +120,16 @@ class ModrinthSearch:
             f"&offset={self.offset}&limit={self.limit}&filters={self.filters}{facets}"
         )
         data = await _fetch_json(url)
-        self.hits = await asyncio.gather(
-            *(ModrinthProject.from_id(hit["project_id"]) for hit in data["hits"])
-        )
+        hits: list[ModrinthProject | None] = [None] * len(data["hits"])
+
+        async def fetch_project(index: int, project_id: str) -> None:
+            hits[index] = await ModrinthProject.from_id(project_id)
+
+        async with create_task_group() as tg:
+            for index, hit in enumerate(data["hits"]):
+                tg.start_soon(fetch_project, index, hit["project_id"])
+
+        self.hits = [project for project in hits if project is not None]
         self.offset = data["offset"]
         self.limit = data["limit"]
         self.total = data["total_hits"]

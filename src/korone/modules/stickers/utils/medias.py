@@ -1,9 +1,8 @@
 # SPDX-License-Identifier: BSD-3-Clause
 # Copyright (c) 2025 Hitalo M. <https://github.com/HitaloM>
 
-import asyncio
-
 from anyio import Path as AsyncPath
+from anyio import to_thread
 from hydrogram.types import Message
 
 from korone.utils.i18n import gettext as _
@@ -93,6 +92,6 @@ async def check_video(message: Message, file_path: str) -> bool:
 
 async def resize_media(media_type: str, file_path: str) -> str | None:
     if media_type in {"photo", "animated"}:
-        return await asyncio.to_thread(resize_image, file_path)
+        return await to_thread.run_sync(resize_image, file_path)
 
     return await resize_video(file_path)

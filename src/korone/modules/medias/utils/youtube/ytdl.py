@@ -1,12 +1,12 @@
 # SPDX-License-Identifier: BSD-3-Clause
 # Copyright (c) 2025 Hitalo M. <https://github.com/HitaloM>
 
-import asyncio
 from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any
 
 import yt_dlp
+from anyio import to_thread
 
 from korone.config import ConfigManager
 from korone.modules.medias.utils.files import resize_thumbnail
@@ -47,7 +47,7 @@ class YTDL:
         try:
             self.file_path = None
             with yt_dlp.YoutubeDL(self.options) as ydl:
-                info = await asyncio.to_thread(ydl.extract_info, url, self.download)
+                info = await to_thread.run_sync(ydl.extract_info, url, self.download)
                 if self.download:
                     self.file_path = Path(ydl.prepare_filename(info)).as_posix()
                 return info
@@ -86,7 +86,7 @@ class YTDL:
             info = info["entries"][0]
         if self.download and self.file_path:
             thumbnail = Path(self.file_path).with_suffix(".jpeg").as_posix()
-            await asyncio.to_thread(resize_thumbnail, thumbnail)
+            await to_thread.run_sync(resize_thumbnail, thumbnail)
             info["thumbnail"] = thumbnail
         info["uploader"] = info.get("artist") or info.get("uploader", "")
         return VideoInfo.model_validate(info)

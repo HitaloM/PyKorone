@@ -1,14 +1,15 @@
 # SPDX-License-Identifier: BSD-3-Clause
 # Copyright (c) 2025 Hitalo M. <https://github.com/HitaloM>
 
-import asyncio
 import html
 import re
 from datetime import timedelta
+from io import BytesIO
 from urllib.parse import urljoin
 
 import httpx
 import m3u8
+from anyio import create_task_group, to_thread
 from cashews import NOT_NONE
 from hydrogram.types import InputMediaPhoto, InputMediaVideo
 from pydantic import HttpUrl, ValidationError
@@ -105,8 +106,15 @@ async def process_media(
 
 
 async def handle_image(images: list[Image]) -> list[InputMediaPhoto]:
-    tasks = [download_media(str(image.fullsize)) for image in images]
-    results = await asyncio.gather(*tasks)
+    results: list[BytesIO | None] = [None] * len(images)
+
+    async def fetch_image(index: int, image: Image) -> None:
+        results[index] = await download_media(str(image.fullsize))
+
+    async with create_task_group() as tg:
+        for index, image in enumerate(images):
+            tg.start_soon(fetch_image, index, image)
+
     return [InputMediaPhoto(media=result) for result in results if result]
 
 
@@ -134,8 +142,9 @@ async def handle_video(playlist_url: str, thumbnail_url: HttpUrl) -> list[InputM
             return None
 
         thumbnail = await download_media(str(thumbnail_url))
+        resized_thumbnail = thumbnail
         if thumbnail:
-            resized_thumbnail = await asyncio.to_thread(resize_thumbnail, thumbnail)
+            await to_thread.run_sync(resize_thumbnail, thumbnail)
 
         return [
             InputMediaVideo(

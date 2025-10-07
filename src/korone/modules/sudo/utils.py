@@ -1,11 +1,12 @@
 # SPDX-License-Identifier: BSD-3-Clause
 # Copyright (c) 2025 Hitalo M. <https://github.com/HitaloM>
 
-import asyncio
 import html
 import io
+from subprocess import PIPE
 from typing import Any, TypedDict
 
+from anyio import run_process
 from hydrogram.types import Message
 
 
@@ -21,10 +22,9 @@ async def generate_document(output: Any, message: Message) -> None:
 
 
 async def run_command(command: str) -> str:
-    process = await asyncio.create_subprocess_shell(
-        command, stdout=asyncio.subprocess.PIPE, stderr=asyncio.subprocess.PIPE
-    )
-    stdout, stderr = await process.communicate()
+    result = await run_process(command, stdout=PIPE, stderr=PIPE)
+    stdout = result.stdout or b""
+    stderr = result.stderr or b""
     return (stdout + stderr).decode()
 
 

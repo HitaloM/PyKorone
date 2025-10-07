@@ -1,17 +1,18 @@
 # SPDX-License-Identifier: BSD-3-Clause
 # Copyright (c) 2025 Hitalo M. <https://github.com/HitaloM>
 
-import asyncio
 import shutil
 import tempfile
 from contextlib import AsyncExitStack
 from io import BytesIO
 from pathlib import Path
+from subprocess import PIPE
 from urllib.parse import urljoin, urlparse
 
 import aiofiles
 import httpx
 import m3u8
+from anyio import create_task_group, run_process, to_thread
 from PIL import Image
 
 from korone.modules.medias.utils.generic_headers import GENERIC_HEADER
@@ -102,19 +103,13 @@ async def merge_m3u8_segments(segment_files: list[Path], output_path: Path) -> b
             str(output_path),
         ]
 
-        process = await asyncio.create_subprocess_exec(
-            *ffmpeg_command,
-            stdout=asyncio.subprocess.PIPE,
-            stderr=asyncio.subprocess.PIPE,
-        )
+        result = await run_process(ffmpeg_command, stdout=PIPE, stderr=PIPE)
 
-        _, stderr = await process.communicate()
-
-        if process.returncode != 0:
+        if result.returncode != 0:
             await logger.aerror(
                 "[Medias/Downloader] ffmpeg failed: %s\nstderr: %s",
-                process.returncode,
-                stderr.decode(),
+                result.returncode,
+                (result.stderr or b"").decode(),
             )
             return False
 
@@ -132,19 +127,25 @@ async def download_m3u8_playlist(media_url: str, content: bytes) -> BytesIO | No
     async with AsyncExitStack() as stack:
         temp_dir = Path(tempfile.mkdtemp())
 
-        stack.push_async_callback(
-            lambda: asyncio.to_thread(shutil.rmtree, temp_dir, ignore_errors=True)
-        )
+        stack.push_async_callback(lambda: to_thread.run_sync(shutil.rmtree, temp_dir, True))
 
         async with httpx.AsyncClient(
             headers=GENERIC_HEADER, http2=True, timeout=20, follow_redirects=True, max_redirects=5
         ) as session:
-            download_tasks = [
-                download_segment(session, urljoin(base_url + "/", segment.uri), temp_dir)
-                for segment in playlist.segments
-            ]
-            segment_files = await asyncio.gather(*download_tasks)
-            segment_files = [sf for sf in segment_files if sf is not None]
+            segment_results: list[Path | None] = [None] * len(playlist.segments)
+
+            async def fetch_segment(index: int, segment_uri: str) -> None:
+                segment_results[index] = await download_segment(
+                    session, urljoin(base_url + "/", segment_uri), temp_dir
+                )
+
+            async with create_task_group() as tg:
+                for index, segment in enumerate(playlist.segments):
+                    if segment.uri is None:
+                        continue
+                    tg.start_soon(fetch_segment, index, segment.uri)
+
+            segment_files = [sf for sf in segment_results if sf is not None]
 
         if not segment_files:
             await logger.aerror("[Medias/Downloader] No segments downloaded")

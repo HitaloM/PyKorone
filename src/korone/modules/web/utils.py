@@ -1,22 +1,20 @@
 # SPDX-License-Identifier: BSD-3-Clause
 # Copyright (c) 2025 Hitalo M. <https://github.com/HitaloM>
 
-import asyncio
 import ipaddress
 import re
-import subprocess
+from subprocess import PIPE
 from urllib.parse import urlparse
 
 import httpx
+from anyio import create_task_group, run_process
 
 
 async def run_whois(domain: str) -> str:
-    process = await asyncio.create_subprocess_exec(
-        "whois", domain, stdout=subprocess.PIPE, stderr=subprocess.PIPE
-    )
-    stdout, stderr = await process.communicate()
-
-    return stdout.decode() if process.returncode == 0 else stderr.decode()
+    result = await run_process(["whois", domain], stdout=PIPE, stderr=PIPE)
+    stdout = (result.stdout or b"").decode()
+    stderr = (result.stderr or b"").decode()
+    return stdout if result.returncode == 0 else stderr
 
 
 def parse_whois_output(output: str) -> dict[str, str] | None:
@@ -70,8 +68,16 @@ async def fetch_dns_info(hostname: str, record_type: str) -> list[str]:
 
 
 async def resolve_hostname(hostname: str) -> list[str]:
-    answers = await asyncio.gather(fetch_dns_info(hostname, "A"), fetch_dns_info(hostname, "AAAA"))
-    return [ip for sublist in answers for ip in sublist]
+    answers: dict[str, list[str]] = {"A": [], "AAAA": []}
+
+    async def fetch(record_type: str) -> None:
+        answers[record_type] = await fetch_dns_info(hostname, record_type)
+
+    async with create_task_group() as tg:
+        for record_type in ("A", "AAAA"):
+            tg.start_soon(fetch, record_type)
+
+    return answers["A"] + answers["AAAA"]
 
 
 async def get_ips_from_string(hostname: str) -> list[str]:

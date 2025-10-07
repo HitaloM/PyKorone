@@ -3,11 +3,11 @@
 
 from __future__ import annotations
 
-import asyncio
 from collections.abc import Sequence
 from contextlib import suppress
 from typing import TYPE_CHECKING
 
+from anyio import create_task_group
 from hydrogram.errors import FloodWait
 from hydrogram.types import (
     BotCommand,
@@ -42,14 +42,9 @@ async def set_ui_commands(client: Client, i18n: I18nNew) -> None:
             BotCommandScopeAllGroupChats(),
         ]
 
-        tasks = [
-            client.set_bot_commands(
-                list(create_bot_commands(locale, i18n)),
-                scope=scope,
-                language_code=locale.split("_")[0].lower() if "_" in locale else locale,
-            )
-            for locale in (*i18n.available_locales, i18n.default_locale)
-            for scope in scopes
-        ]
-
-        await asyncio.gather(*tasks)
+        async with create_task_group() as tg:
+            for locale in (*i18n.available_locales, i18n.default_locale):
+                language_code = locale.split("_")[0].lower() if "_" in locale else locale
+                commands = list(create_bot_commands(locale, i18n))
+                for scope in scopes:
+                    tg.start_soon(client.set_bot_commands, commands, scope, language_code)
