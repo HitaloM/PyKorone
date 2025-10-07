@@ -16,6 +16,7 @@ from hydrogram.enums import ParseMode
 from hydrogram.errors import MessageIdInvalid, MessageNotModified
 from hydrogram.raw.all import layer
 
+from korone import constants
 from korone.config import ConfigManager
 from korone.utils.backup import do_backup
 
@@ -96,7 +97,7 @@ class Korone(Client):
         if backups_chat:
             aiocron.crontab("0 * * * *", do_backup, loop=self.loop, args=(self, backups_chat))
 
-        reboot_data: dict[str, Any] | None = await cache.get("korone-reboot")
+        reboot_data: dict[str, Any] | None = await cache.get(constants.REBOOT_CACHE_KEY)
         if reboot_data:
             with suppress(MessageNotModified, MessageIdInvalid, KeyError):
                 chat_id = reboot_data["chat_id"]

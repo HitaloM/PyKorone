@@ -98,3 +98,6 @@ DOCS_URL: str = "https://pykorone.rtfd.io"
 PRIVACY_POLICY_URL: str = f"{DOCS_URL}/en/latest/privacy.html"
 
 MESSAGE_LENGTH_LIMIT: int = 4096
+
+REBOOT_CACHE_KEY: str = "korone-reboot"
+REBOOT_CACHE_TTL: int = 300

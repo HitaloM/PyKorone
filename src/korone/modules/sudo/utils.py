@@ -3,15 +3,27 @@
 
 import html
 import io
+import os
+import sys
+import time
 from subprocess import PIPE
-from typing import Any, TypedDict
+from typing import Any, Never, TypedDict
 
 from anyio import run_process
 from hydrogram.types import Message
 
+from korone import constants
+from korone.utils.caching import cache
+
 
 class CommitInfo(TypedDict):
     title: str
+
+
+class RebootCache(TypedDict):
+    chat_id: int
+    message_id: int
+    time: float
 
 
 async def generate_document(output: Any, message: Message) -> None:
@@ -56,3 +68,34 @@ def generate_changelog(commits: dict[str, CommitInfo]) -> str:
 async def perform_update() -> str:
     commands = ["git reset --hard origin/main", "pybabel compile -d locales -D bot", "uv sync"]
     return "".join([await run_command(command) for command in commands])
+
+
+async def restart_bot(message: Message, text: str) -> Never:
+    await cache.delete(constants.REBOOT_CACHE_KEY)
+    await message.edit_text(text)
+
+    value: RebootCache = {
+        "chat_id": message.chat.id,
+        "message_id": message.id,
+        "time": time.time(),
+    }
+    await cache.set(constants.REBOOT_CACHE_KEY, value=value, expire=constants.REBOOT_CACHE_TTL)
+
+    main_module = sys.modules.get("__main__")
+    module_name = None
+
+    if main_module is not None:
+        if package_name := getattr(main_module, "__package__", None):
+            module_name = package_name
+        elif (spec := getattr(main_module, "__spec__", None)) and (
+            spec_name := getattr(spec, "name", None)
+        ):
+            module_name = spec_name.removesuffix(".__main__")
+
+    if module_name:
+        args = [sys.executable, "-m", module_name, *sys.argv[1:]]
+    else:
+        script_candidate = sys.argv[0] or getattr(main_module, "__file__", "")
+        args = [sys.executable, script_candidate, *sys.argv[1:]]
+
+    os.execv(sys.executable, args)
