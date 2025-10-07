@@ -1,18 +1,14 @@
 # SPDX-License-Identifier: BSD-3-Clause
 # Copyright (c) 2025 Hitalo M. <https://github.com/HitaloM>
 
-import shutil
-import tempfile
-from contextlib import AsyncExitStack
 from io import BytesIO
 from pathlib import Path
 from subprocess import PIPE
 from urllib.parse import urljoin, urlparse
 
-import aiofiles
 import httpx
 import m3u8
-from anyio import create_task_group, run_process, to_thread
+from anyio import TemporaryDirectory, create_task_group, open_file, run_process
 from PIL import Image
 
 from korone.modules.medias.utils.generic_headers import GENERIC_HEADER
@@ -73,7 +69,7 @@ async def download_segment(
         segment_name = Path(urlparse(segment_url).path).name
         segment_path = temp_dir / segment_name
 
-        async with aiofiles.open(segment_path, mode="wb") as file:
+        async with await open_file(segment_path, mode="wb") as file:
             await file.write(content)
 
         return segment_path
@@ -85,7 +81,7 @@ async def download_segment(
 async def merge_m3u8_segments(segment_files: list[Path], output_path: Path) -> bool:
     try:
         segments_list_path = output_path.parent / "segments.txt"
-        async with aiofiles.open(segments_list_path, mode="w") as f:
+        async with await open_file(segments_list_path, mode="w") as f:
             for segment_file in segment_files:
                 await f.write(f"file '{segment_file.resolve()}'\n")
 
@@ -124,10 +120,8 @@ async def download_m3u8_playlist(media_url: str, content: bytes) -> BytesIO | No
     playlist = m3u8.loads(content.decode("utf-8"))
     base_url = media_url.rsplit("/", 1)[0]
 
-    async with AsyncExitStack() as stack:
-        temp_dir = Path(tempfile.mkdtemp())
-
-        stack.push_async_callback(lambda: to_thread.run_sync(shutil.rmtree, temp_dir, True))
+    async with TemporaryDirectory() as temp_dir_path:
+        temp_dir = Path(temp_dir_path)
 
         async with httpx.AsyncClient(
             headers=GENERIC_HEADER, http2=True, timeout=20, follow_redirects=True, max_redirects=5
@@ -157,11 +151,11 @@ async def download_m3u8_playlist(media_url: str, content: bytes) -> BytesIO | No
         if not merge_success:
             return None
 
-        async with aiofiles.open(merged_output_path, mode="rb") as f:
+        async with await open_file(merged_output_path, mode="rb") as f:
             merged_content = await f.read()
-            merged_file = BytesIO(merged_content)
-            merged_file.name = "downloaded_media.mp4"
-            return merged_file
+        merged_file = BytesIO(merged_content)
+        merged_file.name = "downloaded_media.mp4"
+        return merged_file
 
 
 def resize_image(image: Image.Image) -> BytesIO:
