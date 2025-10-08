@@ -11,6 +11,7 @@ from hydrogram.types import InputMedia, InputMediaPhoto, InputMediaVideo
 from lxml import html
 
 from korone.modules.medias.utils.cache import MediaCache
+from korone.modules.medias.utils.common import ensure_url_scheme
 from korone.modules.medias.utils.downloader import download_media
 from korone.utils.caching import cache
 from korone.utils.logging import get_logger
@@ -27,6 +28,7 @@ MAX_REDIRECTS = 5
 
 
 async def fetch_instagram(post_url: str) -> Sequence[InputMedia] | None:
+    post_url = ensure_url_scheme(post_url)
     match = POST_PATTERN.search(post_url, re.IGNORECASE)
     if not match:
         return None
@@ -71,10 +73,13 @@ def format_caption(username: str | None, description: str | None) -> str:
 
 @cache(ttl=timedelta(weeks=1), condition=NOT_NONE)
 async def get_instafix_data(post_url: str) -> InstaFixData | None:
-    if INSTAFIX_HOST in post_url:
-        new_url = post_url
+    normalized_url = ensure_url_scheme(post_url)
+    if INSTAFIX_HOST in normalized_url:
+        new_url = normalized_url
     else:
-        new_url = post_url.replace(INSTAGRAM_HOST, INSTAFIX_HOST)
+        new_url = normalized_url.replace(INSTAGRAM_HOST, INSTAFIX_HOST)
+
+    new_url = ensure_url_scheme(new_url)
 
     async with httpx.AsyncClient(
         http2=True, timeout=TIMEOUT, max_redirects=MAX_REDIRECTS
@@ -95,7 +100,8 @@ async def get_instafix_data(post_url: str) -> InstaFixData | None:
             if not scraped_data["media_url"]:
                 return None
 
-            video_response = await client.get(scraped_data["media_url"], follow_redirects=True)
+            media_url = ensure_url_scheme(scraped_data["media_url"])
+            video_response = await client.get(media_url, follow_redirects=True)
             scraped_data["media_url"] = str(video_response.url)
 
             return InstaFixData.model_validate(scraped_data)

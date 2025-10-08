@@ -6,6 +6,7 @@ from datetime import timedelta
 
 import httpx
 
+from korone.modules.medias.utils.common import ensure_url_scheme
 from korone.modules.medias.utils.generic_headers import GENERIC_HEADER
 from korone.utils.caching import cache
 from korone.utils.logging import get_logger
@@ -21,10 +22,11 @@ class TwitterError(Exception):
 
 @cache(ttl=timedelta(weeks=1))
 async def fetch_tweet(url: str) -> Tweet | None:
+    normalized_url = ensure_url_scheme(url)
     fx_url = re.sub(
         r"(https?://)(?:www\.)?(?:(?:twitter|x|fxtwitter|vxtwitter|fix(?:upx|vx))\.com)",
         r"\1api.fxtwitter.com",
-        url,
+        normalized_url,
         flags=re.IGNORECASE,
     )
     try:

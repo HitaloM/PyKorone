@@ -17,6 +17,7 @@ from hydrogram.types import InputMedia, InputMediaPhoto, InputMediaVideo
 from pydantic import ValidationError
 
 from korone.modules.medias.utils.cache import MediaCache
+from korone.modules.medias.utils.common import ensure_url_scheme
 from korone.modules.medias.utils.downloader import download_media
 from korone.modules.medias.utils.files import resize_thumbnail
 from korone.modules.medias.utils.generic_headers import GENERIC_HEADER
@@ -31,11 +32,12 @@ logger = get_logger(__name__)
 
 
 async def fetch_threads(text: str) -> Sequence[InputMedia] | None:
-    shortcode = get_shortcode(text)
+    url = ensure_url_scheme(text)
+    shortcode = get_shortcode(url)
     if not shortcode:
         return None
 
-    post_id = await get_post_id(text)
+    post_id = await get_post_id(url)
     graphql_data = await get_gql_data(post_id)
     if not graphql_data or not graphql_data.data.data.edges:
         return None
@@ -87,7 +89,7 @@ async def get_post_id(url: str) -> str:
     })
 
     async with httpx.AsyncClient(http2=True, timeout=20) as client:
-        response = await client.get(url, headers=headers)
+        response = await client.get(ensure_url_scheme(url), headers=headers)
         body = response.text
 
     id_location = body.find("post_id")

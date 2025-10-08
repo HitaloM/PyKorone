@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2025-10-08 12:20-0300\n"
+"POT-Creation-Date: 2025-10-08 12:38-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -764,8 +764,8 @@ msgstr ""
 msgid "Failed to download the media."
 msgstr ""
 
-#: src/korone/modules/medias/utils/common.py:28
-#: src/korone/modules/medias/utils/common.py:54
+#: src/korone/modules/medias/utils/common.py:44
+#: src/korone/modules/medias/utils/common.py:70
 msgid "Open in"
 msgstr ""
 

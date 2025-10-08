@@ -3,6 +3,7 @@
 
 import re
 from collections.abc import Sequence
+from urllib.parse import urlparse
 
 from hydrogram.types import (
     InlineKeyboardButton,
@@ -17,9 +18,24 @@ from korone.modules.medias.utils.cache import MediaCache
 from korone.utils.i18n import gettext as _
 
 
+def ensure_url_scheme(url: str, default_scheme: str = "https") -> str:
+    trimmed = url.strip()
+    if not trimmed:
+        return trimmed
+
+    parsed = urlparse(trimmed)
+    if parsed.scheme:
+        return trimmed
+
+    if trimmed.startswith("//"):
+        return f"{default_scheme}:{trimmed}"
+
+    return f"{default_scheme}://{trimmed}"
+
+
 def extract_url(text: str, pattern: re.Pattern) -> str | None:
-    m = pattern.search(text)
-    return m.group() if m else None
+    match = pattern.search(text)
+    return ensure_url_scheme(match.group()) if match else None
 
 
 def format_caption(media_list: Sequence[InputMedia], url: str, service_label: str) -> str:

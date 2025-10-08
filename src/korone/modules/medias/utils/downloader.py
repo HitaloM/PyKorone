@@ -10,6 +10,7 @@ import m3u8
 from anyio import Path, TemporaryDirectory, create_task_group, open_file, run_process
 from PIL import Image
 
+from korone.modules.medias.utils.common import ensure_url_scheme
 from korone.modules.medias.utils.generic_headers import GENERIC_HEADER
 from korone.utils.concurrency import run_blocking
 from korone.utils.logging import get_logger
@@ -226,6 +227,8 @@ def process_image(buffer: BytesIO, file_path: Path) -> BytesIO:
 
 
 async def download_media(media_url: str) -> BytesIO | None:
+    media_url = ensure_url_scheme(media_url)
+
     try:
         async with httpx.AsyncClient(
             headers=GENERIC_HEADER, http2=True, timeout=20, follow_redirects=True, max_redirects=5

@@ -9,6 +9,7 @@ import httpx
 from anyio import create_task_group
 from hydrogram.types import InputMediaPhoto, InputMediaVideo
 
+from korone.modules.medias.utils.common import ensure_url_scheme
 from korone.modules.medias.utils.downloader import download_media
 from korone.modules.medias.utils.files import resize_thumbnail
 from korone.modules.medias.utils.generic_headers import GENERIC_HEADER
@@ -203,7 +204,8 @@ async def resolve_redirect_url(url: str) -> str | None:
 
 
 async def fetch_tiktok_media(tiktok_url: str):
-    url_match = URL_PATTERN.search(tiktok_url)
+    normalized_url = ensure_url_scheme(tiktok_url)
+    url_match = URL_PATTERN.search(normalized_url)
     if not url_match:
         return None
 

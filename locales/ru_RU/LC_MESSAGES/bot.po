@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2025-10-08 12:20-0300\n"
+"POT-Creation-Date: 2025-10-08 12:38-0300\n"
 "PO-Revision-Date: 2025-09-15 17:10+0000\n"
 "Last-Translator: Anonymous <noreply@weblate.org>\n"
 "Language: ru_RU\n"
@@ -866,8 +866,8 @@ msgstr "Загрузка..."
 msgid "Failed to download the media."
 msgstr "Не удалось загрузить носитель."
 
-#: src/korone/modules/medias/utils/common.py:28
-#: src/korone/modules/medias/utils/common.py:54
+#: src/korone/modules/medias/utils/common.py:44
+#: src/korone/modules/medias/utils/common.py:70
 #, fuzzy
 msgid "Open in"
 msgstr "Открыть в TikTok"
