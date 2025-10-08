@@ -1,6 +1,13 @@
 # SPDX-License-Identifier: BSD-3-Clause
 # Copyright (c) 2025 Hitalo M. <https://github.com/HitaloM>
 
+from __future__ import annotations
+
+import hashlib
+import time
+import traceback
+from typing import Final
+
 from hydrogram.errors import (
     ChannelPrivate,
     ChatWriteForbidden,
@@ -16,3 +23,32 @@ IGNORED_EXCEPTIONS: tuple[type[Exception], ...] = (
     MessageIdInvalid,
     TopicClosed,
 )
+
+ERROR_NOTIFICATION_TTL: Final[float] = 300.0
+_error_notification_state: dict[str, float] = {}
+
+
+def compute_error_signature(exc: BaseException) -> str:
+    formatted_traceback = "".join(traceback.format_exception(type(exc), exc, exc.__traceback__))
+    digest_source = f"{type(exc).__qualname__}:{formatted_traceback}"
+    return hashlib.sha256(digest_source.encode("utf-8", "ignore")).hexdigest()
+
+
+def should_notify(signature: str, *, ttl: float = ERROR_NOTIFICATION_TTL) -> bool:
+    now = time.monotonic()
+
+    expiry = _error_notification_state.get(signature)
+    if expiry and expiry > now:
+        return False
+
+    _error_notification_state[signature] = now + ttl
+    _purge_expired_notifications(now)
+    return True
+
+
+def _purge_expired_notifications(now: float) -> None:
+    expired_signatures = [
+        key for key, expiry in _error_notification_state.items() if expiry <= now
+    ]
+    for signature in expired_signatures:
+        _error_notification_state.pop(signature, None)
