@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PyKorone 1.0\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2025-10-08 12:38-0300\n"
+"POT-Creation-Date: 2025-10-08 15:49-0300\n"
 "PO-Revision-Date: 2025-09-15 17:52+0000\n"
 "Last-Translator: DeepL <noreply-mt-deepl@weblate.org>\n"
 "Language: ja_JP\n"
@@ -44,12 +44,12 @@ msgstr "このコマンドはPMではなく、グループで使うように設�
 msgid "Oh, you're back! I've removed your afk status."
 msgstr "おかえりなさい！あなたのafkステータスを解除しました。"
 
-#: src/korone/modules/afk/handlers/check.py:70
+#: src/korone/modules/afk/handlers/check.py:79
 #, python-brace-format
 msgid "{user} is afk!"
 msgstr "{user} んは離席中です！"
 
-#: src/korone/modules/afk/handlers/check.py:73
+#: src/korone/modules/afk/handlers/check.py:82
 #, python-brace-format
 msgid ""
 "\n"
@@ -58,7 +58,7 @@ msgstr ""
 "\n"
 "理由: {reason}"
 
-#: src/korone/modules/afk/handlers/check.py:97
+#: src/korone/modules/afk/handlers/check.py:106
 #, python-brace-format
 msgid "🎧 Listening to: {track_artist} — {track_name}"
 msgstr "聴いてる: {track_artist} — {track_name}"
@@ -1463,23 +1463,23 @@ msgstr "Whois情報の取得中にエラーが発生しました：{error}"
 msgid "No whois information found for <code>{domain}</code>."
 msgstr "<code>{domain}</code> のwhois情報は見つからなかった。"
 
-#: src/korone/utils/commands_list.py:28
+#: src/korone/utils/commands_list.py:29
 msgid "Start the bot."
 msgstr "ボットを起動します。"
 
-#: src/korone/utils/commands_list.py:29
+#: src/korone/utils/commands_list.py:30
 msgid "Show help message."
 msgstr "ヘルプメッセージを表示する。"
 
-#: src/korone/utils/commands_list.py:30
+#: src/korone/utils/commands_list.py:31
 msgid "About the bot."
 msgstr "ボットについて"
 
-#: src/korone/utils/commands_list.py:31
+#: src/korone/utils/commands_list.py:32
 msgid "Show privacy policy."
 msgstr "プライバシーポリシーを表示する。"
 
-#: src/korone/utils/commands_list.py:32
+#: src/korone/utils/commands_list.py:33
 msgid "Change the bot language."
 msgstr "ボットの言語を変更する。"
 

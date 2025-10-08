@@ -45,16 +45,25 @@ async def get_user_from_entity(
 ) -> User | None:
     if entity.type == MessageEntityType.MENTION:
         username = message.text[entity.offset : entity.offset + entity.length]
+        normalized_username = username.lstrip("@")
+
         try:
-            return await client.get_chat(username)  # type: ignore
-        except (PeerIdInvalid, BadRequest):
+            return await client.get_chat(username)  # pyright: ignore[reportReturnType]
+        except (PeerIdInvalid, BadRequest, KeyError):
+            with suppress(PeerIdInvalid, BadRequest, KeyError):
+                user = await client.get_users(normalized_username)
+                if isinstance(user, list):
+                    user = next((item for item in user if isinstance(item, User)), None)
+                if isinstance(user, User):
+                    return user
+
             data = await get_user(username)
             if not data:
                 return None
 
             chat_id = data[0]["id"]
             try:
-                return await client.get_chat(chat_id)  # type: ignore
+                return await client.get_chat(chat_id)  # pyright: ignore[reportReturnType]
             except PeerIdInvalid:
                 return None
     elif entity.type == MessageEntityType.TEXT_MENTION:

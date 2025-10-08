@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2025-10-08 12:38-0300\n"
+"POT-Creation-Date: 2025-10-08 15:49-0300\n"
 "PO-Revision-Date: 2025-03-18 19:03+0000\n"
 "Last-Translator: \"Hitalo M.\" <hitalo331@outlook.com>\n"
 "Language: pt_BR\n"
@@ -44,12 +44,12 @@ msgstr "Esse comando foi projetado para ser usado em grupos, não no PV!"
 msgid "Oh, you're back! I've removed your afk status."
 msgstr "Oh, você voltou! Removi o seu status como AFK."
 
-#: src/korone/modules/afk/handlers/check.py:70
+#: src/korone/modules/afk/handlers/check.py:79
 #, python-brace-format
 msgid "{user} is afk!"
 msgstr "{user} está afk!"
 
-#: src/korone/modules/afk/handlers/check.py:73
+#: src/korone/modules/afk/handlers/check.py:82
 #, python-brace-format
 msgid ""
 "\n"
@@ -58,7 +58,7 @@ msgstr ""
 "\n"
 "Motivo: {reason}"
 
-#: src/korone/modules/afk/handlers/check.py:97
+#: src/korone/modules/afk/handlers/check.py:106
 #, python-brace-format
 msgid "🎧 Listening to: {track_artist} — {track_name}"
 msgstr "🎧 Ouvindo: {track_artist} — {track_name}"
@@ -1531,23 +1531,23 @@ msgstr "Ocorreu um erro ao buscar informações de whois: {error}"
 msgid "No whois information found for <code>{domain}</code>."
 msgstr "Não foram encontradas informações de whois para <code>{domain}</code> ."
 
-#: src/korone/utils/commands_list.py:28
+#: src/korone/utils/commands_list.py:29
 msgid "Start the bot."
 msgstr "Inicie o bot."
 
-#: src/korone/utils/commands_list.py:29
+#: src/korone/utils/commands_list.py:30
 msgid "Show help message."
 msgstr "Mostrar mensagem de ajuda."
 
-#: src/korone/utils/commands_list.py:30
+#: src/korone/utils/commands_list.py:31
 msgid "About the bot."
 msgstr "Sobre o bot."
 
-#: src/korone/utils/commands_list.py:31
+#: src/korone/utils/commands_list.py:32
 msgid "Show privacy policy."
 msgstr "Mostrar política de privacidade."
 
-#: src/korone/utils/commands_list.py:32
+#: src/korone/utils/commands_list.py:33
 msgid "Change the bot language."
 msgstr "Alterar o idioma do bot."
 

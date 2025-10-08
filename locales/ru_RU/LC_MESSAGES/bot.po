@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2025-10-08 12:38-0300\n"
+"POT-Creation-Date: 2025-10-08 15:49-0300\n"
 "PO-Revision-Date: 2025-09-15 17:10+0000\n"
 "Last-Translator: Anonymous <noreply@weblate.org>\n"
 "Language: ru_RU\n"
@@ -52,12 +52,12 @@ msgstr ""
 msgid "Oh, you're back! I've removed your afk status."
 msgstr "О, ты вернулся! Я убрал твой статус афк."
 
-#: src/korone/modules/afk/handlers/check.py:70
+#: src/korone/modules/afk/handlers/check.py:79
 #, python-brace-format
 msgid "{user} is afk!"
 msgstr "{user} в отключке!"
 
-#: src/korone/modules/afk/handlers/check.py:73
+#: src/korone/modules/afk/handlers/check.py:82
 #, python-brace-format
 msgid ""
 "\n"
@@ -66,7 +66,7 @@ msgstr ""
 "\n"
 "Причина: {reason}"
 
-#: src/korone/modules/afk/handlers/check.py:97
+#: src/korone/modules/afk/handlers/check.py:106
 #, python-brace-format
 msgid "🎧 Listening to: {track_artist} — {track_name}"
 msgstr "🎧 Слушать: {track_artist} - {track_name}"
@@ -1536,27 +1536,27 @@ msgstr "При получении информации whois произошла 
 msgid "No whois information found for <code>{domain}</code>."
 msgstr "Для сайта <code>{domain}</code> не найдено никакой информации."
 
-#: src/korone/utils/commands_list.py:28
+#: src/korone/utils/commands_list.py:29
 #, fuzzy
 msgid "Start the bot."
 msgstr "Запустите бота"
 
-#: src/korone/utils/commands_list.py:29
+#: src/korone/utils/commands_list.py:30
 #, fuzzy
 msgid "Show help message."
 msgstr "Показать сообщение о помощи"
 
-#: src/korone/utils/commands_list.py:30
+#: src/korone/utils/commands_list.py:31
 #, fuzzy
 msgid "About the bot."
 msgstr "Запустите бота"
 
-#: src/korone/utils/commands_list.py:31
+#: src/korone/utils/commands_list.py:32
 #, fuzzy
 msgid "Show privacy policy."
 msgstr "Показать политику конфиденциальности"
 
-#: src/korone/utils/commands_list.py:32
+#: src/korone/utils/commands_list.py:33
 #, fuzzy
 msgid "Change the bot language."
 msgstr "Измените язык бота"
