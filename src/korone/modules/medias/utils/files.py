@@ -6,15 +6,10 @@ from io import BytesIO
 from pathlib import Path
 from typing import BinaryIO
 
-from anyio import to_thread
 from PIL import Image
 
 
-async def resize_thumbnail(thumbnail_path: str | BytesIO | BinaryIO) -> None:
-    await to_thread.run_sync(_resize_thumbnail_sync, thumbnail_path)
-
-
-def _resize_thumbnail_sync(thumbnail_path: str | BytesIO | BinaryIO) -> None:
+def resize_thumbnail(thumbnail_path: str | BytesIO | BinaryIO) -> None:
     with Image.open(thumbnail_path) as img:
         original_width, original_height = img.size
         aspect_ratio = original_width / original_height

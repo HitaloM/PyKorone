@@ -13,6 +13,7 @@ from korone.modules.medias.utils.downloader import download_media
 from korone.modules.medias.utils.files import resize_thumbnail
 from korone.modules.medias.utils.generic_headers import GENERIC_HEADER
 from korone.utils.caching import cache
+from korone.utils.concurrency import run_blocking
 
 from .types import TikTokSlideshow, TikTokVideo
 
@@ -148,7 +149,7 @@ async def prepare_video_media(media: TikTokVideo) -> InputMediaVideo:
         msg = "[Medias/TikTok] - Failed to download video or thumbnail"
         raise TikTokError(msg)
 
-    await resize_thumbnail(thumb_file)
+    await run_blocking(resize_thumbnail, thumb_file)
     return InputMediaVideo(
         media=video_file,
         duration=media.duration,

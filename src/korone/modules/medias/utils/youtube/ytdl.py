@@ -6,10 +6,12 @@ from datetime import UTC, datetime
 from typing import Any
 
 import yt_dlp
-from anyio import Path, to_thread
+from anyio import Path
+from yt_dlp.utils import DownloadError as YTDLPDownloadError
 
 from korone.config import ConfigManager
 from korone.modules.medias.utils.files import resize_thumbnail
+from korone.utils.concurrency import run_blocking
 from korone.utils.logging import get_logger
 
 from .types import VideoInfo
@@ -37,7 +39,7 @@ class YTDL:
     def __init__(self, download: bool) -> None:
         self.download = download
         self.file_path = None
-        self.options = {
+        self.options: dict[str, Any] = {
             "quiet": True,
             "no_warnings": True,
             "proxy": PROXY,
@@ -46,12 +48,12 @@ class YTDL:
     async def process_url(self, url: str) -> dict[str, Any] | None:
         try:
             self.file_path = None
-            with yt_dlp.YoutubeDL(self.options) as ydl:
-                info = await to_thread.run_sync(ydl.extract_info, url, self.download)
+            with yt_dlp.YoutubeDL(self.options) as ydl:  # type: ignore[arg-type]
+                info = await run_blocking(ydl.extract_info, url, self.download)
                 if self.download:
                     self.file_path = Path(ydl.prepare_filename(info)).as_posix()
-                return info
-        except yt_dlp.DownloadError as e:
+                return dict(info)
+        except YTDLPDownloadError as e:
             await logger.aexception("[Medias/YouTube] Download failed: %s", url)
             raise DownloadError(e.msg) from e
 
@@ -86,7 +88,7 @@ class YTDL:
             info = info["entries"][0]
         if self.download and self.file_path:
             thumbnail = Path(self.file_path).with_suffix(".jpeg").as_posix()
-            await resize_thumbnail(thumbnail)
+            await run_blocking(resize_thumbnail, thumbnail)
             info["thumbnail"] = thumbnail
         info["uploader"] = info.get("artist") or info.get("uploader", "")
         return VideoInfo.model_validate(info)

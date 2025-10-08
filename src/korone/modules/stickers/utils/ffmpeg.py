@@ -5,10 +5,11 @@ import random
 import string
 from subprocess import PIPE, STDOUT
 
-from anyio import Path, run_process, to_thread
+from anyio import Path, run_process
 from PIL import Image
 
 from korone import constants
+from korone.utils.concurrency import run_blocking
 
 DOWNLOADS_PATH: Path = Path(constants.BOT_ROOT_PATH / "downloads")
 
@@ -22,7 +23,7 @@ async def resize_image(image_path: str) -> str:
             img.save(output_path, "WEBP")
         return output_path
 
-    return await to_thread.run_sync(_resize)
+    return await run_blocking(_resize)
 
 
 async def resize_video(video_path: str) -> str:

@@ -28,6 +28,7 @@ from korone.modules.medias.utils.twitter.api import TwitterError, fetch_tweet
 from korone.modules.medias.utils.twitter.types import Media as TweetMedia
 from korone.modules.medias.utils.twitter.types import MediaVariants as TweetMediaVariants
 from korone.modules.medias.utils.twitter.types import Tweet
+from korone.utils.concurrency import run_blocking
 from korone.utils.i18n import gettext as _
 
 URL_PATTERN = re.compile(
@@ -168,7 +169,7 @@ async def prepare_media(media: TweetMedia) -> InputMediaPhoto | InputMediaVideo 
             await download_media(str(media.thumbnail_url)) if media.thumbnail_url else None
         )
         if thumb_file:
-            await resize_thumbnail(thumb_file)
+            await run_blocking(resize_thumbnail, thumb_file)
         return InputMediaVideo(
             media=media_file,
             duration=media.duration,

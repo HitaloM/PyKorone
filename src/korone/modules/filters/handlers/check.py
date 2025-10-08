@@ -4,7 +4,7 @@
 import functools
 import re
 
-from anyio import fail_after, to_thread
+from anyio import fail_after
 from cashews import suppress
 from hydrogram import Client, filters
 from hydrogram.enums import ParseMode
@@ -17,6 +17,7 @@ from korone.modules.filters.database import get_filters_cache, update_filters_ca
 from korone.modules.filters.utils.buttons import unparse_buttons, unparse_buttons_to_text
 from korone.modules.filters.utils.text import vars_parser
 from korone.modules.filters.utils.types import FilterModel
+from korone.utils.concurrency import run_blocking
 
 
 @router.message(HasText() & ~filters.bot)
@@ -53,7 +54,7 @@ async def check_filters(client: Client, message: Message) -> None:
     for filter, pattern in compiled_patterns:
         try:
             with fail_after(0.2):
-                matched = await to_thread.run_sync(functools.partial(re.search, pattern, text))
+                matched = await run_blocking(functools.partial(re.search, pattern, text))
             if matched:
                 await send_filter(message, filter, noformat="noformat" in text)
                 return

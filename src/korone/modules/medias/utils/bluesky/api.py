@@ -18,6 +18,7 @@ from korone.modules.medias.utils.cache import MediaCache
 from korone.modules.medias.utils.downloader import download_media
 from korone.modules.medias.utils.files import resize_thumbnail
 from korone.utils.caching import cache
+from korone.utils.concurrency import run_blocking
 from korone.utils.logging import get_logger
 
 from .types import BlueskyData, Image
@@ -144,7 +145,7 @@ async def handle_video(playlist_url: str, thumbnail_url: HttpUrl) -> list[InputM
         thumbnail = await download_media(str(thumbnail_url))
         resized_thumbnail = thumbnail
         if thumbnail:
-            await resize_thumbnail(thumbnail)
+            await run_blocking(resize_thumbnail, thumbnail)
 
         return [
             InputMediaVideo(

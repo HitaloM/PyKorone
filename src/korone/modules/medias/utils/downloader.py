@@ -7,10 +7,11 @@ from urllib.parse import urljoin, urlparse
 
 import httpx
 import m3u8
-from anyio import Path, TemporaryDirectory, create_task_group, open_file, run_process, to_thread
+from anyio import Path, TemporaryDirectory, create_task_group, open_file, run_process
 from PIL import Image
 
 from korone.modules.medias.utils.generic_headers import GENERIC_HEADER
+from korone.utils.concurrency import run_blocking
 from korone.utils.logging import get_logger
 
 logger = get_logger(__name__)
@@ -49,11 +50,7 @@ def get_file_extension(mime_type: str) -> str:
     return MIME_TYPE_TO_EXTENSION.get(mime_type, "")
 
 
-async def convert_to_jpeg(image_data: BytesIO, file_path: Path) -> BytesIO:
-    return await to_thread.run_sync(_convert_to_jpeg_sync, image_data, file_path)
-
-
-def _convert_to_jpeg_sync(image_data: BytesIO, file_path: Path) -> BytesIO:
+def convert_to_jpeg(image_data: BytesIO, file_path: Path) -> BytesIO:
     image_data.seek(0)
     with Image.open(image_data) as image:
         image.load()
@@ -106,7 +103,6 @@ async def merge_m3u8_segments(segment_files: list[Path], output_path: Path) -> b
             "copy",
             str(output_path),
         ]
-
         result = await run_process(ffmpeg_command, stdout=PIPE, stderr=PIPE)
 
         if result.returncode != 0:
@@ -166,15 +162,7 @@ async def download_m3u8_playlist(media_url: str, content: bytes) -> BytesIO | No
         return merged_file
 
 
-async def process_image(buffer: BytesIO, file_path: Path) -> BytesIO:
-    processed = await to_thread.run_sync(_process_image_sync, buffer, file_path)
-    if processed is buffer:
-        buffer.seek(0)
-        return buffer
-    return processed
-
-
-def _resize_image_sync(image: Image.Image) -> BytesIO:
+def resize_image(image: Image.Image) -> BytesIO:
     width, height = image.size
     ratio = width / height if height else 0
 
@@ -218,7 +206,7 @@ def _resize_image_sync(image: Image.Image) -> BytesIO:
         resized_image.close()
 
 
-def _process_image_sync(buffer: BytesIO, file_path: Path) -> BytesIO:
+def process_image(buffer: BytesIO, file_path: Path) -> BytesIO:
     buffer.seek(0)
     with Image.open(buffer) as image:
         image.load()
@@ -229,7 +217,7 @@ def _process_image_sync(buffer: BytesIO, file_path: Path) -> BytesIO:
         )
 
         if needs_resizing:
-            resized = _resize_image_sync(image)
+            resized = resize_image(image)
             resized.name = file_path.with_suffix(".jpeg").name
             return resized
 
@@ -268,10 +256,14 @@ async def download_media(media_url: str) -> BytesIO | None:
             return await download_m3u8_playlist(media_url, raw_data)
 
         if file_path.suffix.lower() in {".webp", ".heic"}:
-            return await convert_to_jpeg(buffer, file_path)
+            return await run_blocking(convert_to_jpeg, buffer, file_path)
 
         if content_type.startswith("image/"):
-            return await process_image(buffer, file_path)
+            processed = await run_blocking(process_image, buffer, file_path)
+            if processed is buffer:
+                buffer.seek(0)
+                return buffer
+            return processed
 
         return buffer
 
