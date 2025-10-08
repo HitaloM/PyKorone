@@ -7,18 +7,23 @@ select = [
     "C4",    # flake8-comprehensions
     "C90",   # mccabe
     "CPY",   # flake8-copyright
+    "DOC",   # pydoclint
     "DTZ",   # flake8-datetimez
     "E",     # pycodestyle
     "EM",    # flake8-errmsg
     "F",     # pyflakes
+    "FA",    # flake8-future-annotationsp
     "FURB",  # refurb
     "G",     # flake8-logging-format
     "I",     # isort
+    "INT",   # flake8-gettext
     "N",     # pep8-naming
     "PERF",  # perflint
     "PL",    # pylint
     "PTH",   # flake8-use-pathlib
     "RET",   # flake8-return
+    "PYI",   # flake8-pyi
+    "TC",    # flake8-type-checking
     "RUF",   # ruff
     "SIM",   # flake8-simplify
     "TID",   # flake8-tidy-imports

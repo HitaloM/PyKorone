@@ -144,28 +144,28 @@ class LastFMClient:
         )
         data = await self._request(params)
         return cast(
-            list[LastFMTrack], self._handle_key_error(data["recenttracks"], "track", LastFMTrack)
+            "list[LastFMTrack]", self._handle_key_error(data["recenttracks"], "track", LastFMTrack)
         )
 
     async def get_user_info(self, username: str) -> LastFMUser:
         params = self._build_params("user.getInfo", username)
         data = await self._request(params)
-        return cast(LastFMUser, self._handle_key_error(data, "user", LastFMUser))
+        return cast("LastFMUser", self._handle_key_error(data, "user", LastFMUser))
 
     async def get_track_info(self, artist: str, track: str, username: str) -> LastFMTrack:
         params = self._build_params("track.getInfo", username, artist=artist, track=track)
         data = await self._request(params)
-        return cast(LastFMTrack, self._handle_key_error(data, "track", LastFMTrack))
+        return cast("LastFMTrack", self._handle_key_error(data, "track", LastFMTrack))
 
     async def get_album_info(self, artist: str, album: str, username: str) -> LastFMAlbum:
         params = self._build_params("album.getInfo", username, artist=artist, album=album)
         data = await self._request(params)
-        return cast(LastFMAlbum, self._handle_key_error(data, "album", LastFMAlbum))
+        return cast("LastFMAlbum", self._handle_key_error(data, "album", LastFMAlbum))
 
     async def get_artist_info(self, artist: str, username: str) -> LastFMArtist:
         params = self._build_params("artist.getInfo", username, artist=artist)
         data = await self._request(params)
-        return cast(LastFMArtist, self._handle_key_error(data, "artist", LastFMArtist))
+        return cast("LastFMArtist", self._handle_key_error(data, "artist", LastFMArtist))
 
     async def get_top_albums(
         self, user: str, period: TimePeriod, limit: int = 9
@@ -174,7 +174,7 @@ class LastFMClient:
         params = self._build_params("user.gettopalbums", user, period=duration_str, limit=limit)
         data = await self._request(params)
         return cast(
-            list[LastFMAlbum], self._handle_key_error(data["topalbums"], "album", LastFMAlbum)
+            "list[LastFMAlbum]", self._handle_key_error(data["topalbums"], "album", LastFMAlbum)
         )
 
     async def get_top_tracks(
@@ -184,7 +184,7 @@ class LastFMClient:
         params = self._build_params("user.gettoptracks", user, period=duration_str, limit=limit)
         data = await self._request(params)
         return cast(
-            list[LastFMTrack], self._handle_key_error(data["toptracks"], "track", LastFMTrack)
+            "list[LastFMTrack]", self._handle_key_error(data["toptracks"], "track", LastFMTrack)
         )
 
     async def get_top_artists(
@@ -194,5 +194,6 @@ class LastFMClient:
         params = self._build_params("user.gettopartists", user, period=duration_str, limit=limit)
         data = await self._request(params)
         return cast(
-            list[LastFMArtist], self._handle_key_error(data["topartists"], "artist", LastFMArtist)
+            "list[LastFMArtist]",
+            self._handle_key_error(data["topartists"], "artist", LastFMArtist),
         )

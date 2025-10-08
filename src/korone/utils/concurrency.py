@@ -39,9 +39,6 @@ async def run_blocking[R](
 
     Returns:
         The return value from ``func``.
-
-    Raises:
-        Exception: Propagates any exception raised by ``func``.
     """
 
     effective_limiter = limiter or BLOCKING_CALLS_LIMITER

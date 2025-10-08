@@ -61,7 +61,10 @@ class Regex(Filter):
             TypeError: If patterns are not of the supported types
             RegexError: If a pattern string cannot be compiled to a valid regex
         """
-        prepared_patterns = self._prepare_patterns(values, patterns, ignore_case)
+        try:
+            prepared_patterns = self._prepare_patterns(values, patterns, ignore_case)
+        except (TypeError, RegexError):
+            raise
         if not prepared_patterns:
             msg = "Regex filter requires at least one pattern."
             raise ValueError(msg)

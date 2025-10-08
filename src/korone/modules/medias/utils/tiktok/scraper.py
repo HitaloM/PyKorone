@@ -170,7 +170,7 @@ async def prepare_slideshow_media(media: TikTokSlideshow) -> list[InputMediaPhot
         for index, url in enumerate(media.images):
             tg.start_soon(fetch_image, index, str(url))
 
-    return [InputMediaPhoto(media=cast(BinaryIO, result)) for result in results if result]
+    return [InputMediaPhoto(media=cast("BinaryIO", result)) for result in results if result]
 
 
 async def extract_media_id(url_match: re.Match[str]) -> int | None:

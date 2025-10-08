@@ -7,7 +7,7 @@ import re
 import string
 from collections.abc import Sequence
 from datetime import timedelta
-from io import BytesIO
+from typing import TYPE_CHECKING
 
 import httpx
 import orjson
@@ -27,6 +27,9 @@ from korone.utils.concurrency import run_blocking
 from korone.utils.logging import get_logger
 
 from .types import CarouselMedia, Post, ThreadsData
+
+if TYPE_CHECKING:
+    from io import BytesIO
 
 logger = get_logger(__name__)
 

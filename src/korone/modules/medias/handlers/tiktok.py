@@ -34,9 +34,9 @@ async def handle_tiktok(client, message: Message) -> None:
     media, media_type, media_id, media_obj = result
 
     if media_type == "video":
-        media_list = [cast(InputMediaVideo, media)]
+        media_list = [cast("InputMediaVideo", media)]
     else:
-        media_list = cast(list[InputMediaPhoto], media)
+        media_list = cast("list[InputMediaPhoto]", media)
 
     caption = format_media_text(media_obj)
     cache = MediaCache(media_id)

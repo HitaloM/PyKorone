@@ -32,7 +32,7 @@ async def pre_process() -> ConfigManager:
         await cache.ping()
     except (CacheBackendInteractionError, TimeoutError):
         logger.critical("Can't connect to RedisDB! Exiting...")
-        sys.exit(1)
+        raise SystemExit(1) from None
 
     config = await ConfigManager.create()
 

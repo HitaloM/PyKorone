@@ -53,6 +53,9 @@ class Router:
         """Decorator for message handlers.
 
         This is a convenience method that delegates to the message factory.
+
+        Returns:
+            Any: The decorator produced by the message factory.
         """
         return self._factories["message"](*args, **kwargs)
 
@@ -60,6 +63,9 @@ class Router:
         """Decorator for callback query handlers.
 
         This is a convenience method that delegates to the callback_query factory.
+
+        Returns:
+            Any: The decorator produced by the callback_query factory.
         """
         return self._factories["callback_query"](*args, **kwargs)
 
@@ -67,5 +73,8 @@ class Router:
         """Decorator for error handlers.
 
         This is a convenience method that delegates to the error factory.
+
+        Returns:
+            Any: The decorator produced by the error factory.
         """
         return self._factories["error"](*args, **kwargs)

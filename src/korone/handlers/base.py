@@ -5,7 +5,6 @@ from __future__ import annotations
 
 import inspect
 import time
-from collections.abc import Callable, Sequence
 from dataclasses import dataclass, field
 from datetime import timedelta
 from typing import TYPE_CHECKING, Any, Final
@@ -23,6 +22,8 @@ from korone.utils.caching import cache
 from korone.utils.i18n import i18n
 
 if TYPE_CHECKING:
+    from collections.abc import Callable, Sequence
+
     from hydrogram import Client
     from hydrogram.filters import Filter
 

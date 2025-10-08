@@ -3,8 +3,10 @@
 # Copyright (c) 2022 Victor Cebarros <https://github.com/victorcebarros>
 
 from collections import deque
-from collections.abc import Iterable
-from typing import Any, TypeVar
+from typing import TYPE_CHECKING, Any, TypeVar
+
+if TYPE_CHECKING:
+    from collections.abc import Iterable
 
 T = TypeVar("T")
 

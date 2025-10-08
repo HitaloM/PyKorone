@@ -96,7 +96,7 @@ async def get_entity_info(
         if info_type == "album" and last_played.album:
             return await last_fm.get_album_info(
                 last_played.artist.name,
-                cast(str, last_played.album.name),
+                cast("str", last_played.album.name),
                 lastfm_username,
             )
         if info_type == "track":

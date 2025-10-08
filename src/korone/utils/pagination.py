@@ -56,8 +56,8 @@ class Pagination:
             lst: The sequence to be chunked.
             size: Maximum size of each chunk.
 
-        Returns:
-            Iterator yielding sequences of the specified size.
+        Yields:
+            Sequence[Any]: Subsequences containing up to ``size`` items.
         """
         it = iter(lst)
         for first in it:

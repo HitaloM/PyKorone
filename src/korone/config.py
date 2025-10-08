@@ -141,4 +141,4 @@ class ConfigManager:
             raise ConfigError(msg)
 
         value = cls._instance.config.get(section, {}).get(option, fallback)
-        return cast(T, value)
+        return cast("T", value)

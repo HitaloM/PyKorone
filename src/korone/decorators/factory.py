@@ -55,14 +55,14 @@ class Factory:
             ValueError: If no handler is found for the update type.
         """
 
+        handler_class = self.updates_observed.get(self.update_name)
+        if handler_class is None:
+            msg = f"No handler found for update: {self.update_name}"
+            raise ValueError(msg)
+
         def wrapper(func: T) -> T:
             if not hasattr(func, "handlers"):
                 func.handlers = []
-
-            handler_class = self.updates_observed.get(self.update_name)
-            if handler_class is None:
-                msg = f"No handler found for update: {self.update_name}"
-                raise ValueError(msg)
 
             func.handlers.append((handler_class(func, filters), group))  # type: ignore
 

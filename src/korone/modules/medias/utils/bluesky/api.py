@@ -4,7 +4,7 @@
 import html
 import re
 from datetime import timedelta
-from io import BytesIO
+from typing import TYPE_CHECKING
 from urllib.parse import urljoin
 
 import httpx
@@ -22,6 +22,9 @@ from korone.utils.concurrency import run_blocking
 from korone.utils.logging import get_logger
 
 from .types import BlueskyData, Image
+
+if TYPE_CHECKING:
+    from io import BytesIO
 
 logger = get_logger(__name__)
 

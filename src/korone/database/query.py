@@ -149,7 +149,7 @@ class Query:
         """
         return self._new_node(operator="NOT", rhs=self)
 
-    def __eq__(self, other: Any) -> Self:  # type: ignore
+    def __eq__(self, other: object) -> Self:
         """Create an equality comparison.
 
         Args:
@@ -163,7 +163,7 @@ class Query:
         """
         return self._new_node(lhs=self.lhs, operator="==", rhs=other)
 
-    def __ne__(self, other: Any) -> Self:  # type: ignore
+    def __ne__(self, other: object) -> Self:
         """Create an inequality comparison.
 
         Args:
@@ -336,7 +336,10 @@ class Query:
 
             return f"({lhs_str} {obj.operator} {rhs_str})", (*lhs_placeholders, *rhs_placeholders)
 
-        return visit(self)
+        try:
+            return visit(self)
+        except MalformedQueryError:
+            raise
 
     @classmethod
     def and_(cls, *queries: Self) -> Self:
@@ -347,6 +350,9 @@ class Query:
 
         Returns:
             A new Query representing the AND combination of all queries
+
+        Raises:
+            ValueError: If no queries are provided
 
         Examples:
             >>> Query.and_(Query().age >= 18, Query().age <= 65, Query().is_active == True)
@@ -370,6 +376,9 @@ class Query:
 
         Returns:
             A new Query representing the OR combination of all queries
+
+        Raises:
+            ValueError: If no queries are provided
 
         Examples:
             >>> Query.or_(Query().name == "John", Query().name == "Jane", Query().name == "Jack")

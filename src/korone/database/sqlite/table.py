@@ -100,7 +100,7 @@ class SQLite3Table(Table):
         ]
 
         # Cast to Documents to satisfy return type requirements
-        return cast(Documents, documents)
+        return cast("Documents", documents)
 
     async def query_all(self, limit: int = 100, offset: int = 0) -> Documents:
         """Query all records from the table with pagination.
@@ -124,7 +124,7 @@ class SQLite3Table(Table):
             for row in rows
         ]
 
-        return cast(Documents, documents)
+        return cast("Documents", documents)
 
     async def count(self, query: Query | None = None) -> int:
         """Count the number of records that match the query.

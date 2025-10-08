@@ -3,7 +3,6 @@
 
 from __future__ import annotations
 
-from collections.abc import Sequence
 from contextlib import suppress
 from typing import TYPE_CHECKING
 
@@ -17,6 +16,8 @@ from hydrogram.types import (
 )
 
 if TYPE_CHECKING:
+    from collections.abc import Sequence
+
     from hydrogram import Client
 
     from .i18n import I18nNew

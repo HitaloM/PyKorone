@@ -4,13 +4,15 @@
 import logging
 import sys
 from dataclasses import dataclass
-from typing import Any
+from typing import TYPE_CHECKING, Any
 
 import logfire
 import structlog
 from logfire import Logfire
 from structlog.stdlib import BoundLogger
-from structlog.types import Processor
+
+if TYPE_CHECKING:
+    from structlog.types import Processor
 
 LOG_LEVEL = logging.DEBUG if "--debug" in sys.argv else logging.INFO
 
