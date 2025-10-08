@@ -103,7 +103,7 @@ async def get_lastfm_status(user_id: int) -> str | None:
             track_info = await last_fm.get_track_info(
                 last_played.artist.name, last_played.name, last_fm_user
             )
-            return _("🎧 Listening to: {track_artist} — {track_name}").format(
+            return _("\n🎧 Listening to: {track_artist} — {track_name}").format(
                 track_artist=html.escape(track_info.artist.name),
                 track_name=html.escape(track_info.name),
             )

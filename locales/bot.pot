@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2025-10-08 15:49-0300\n"
+"POT-Creation-Date: 2025-10-08 15:54-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -56,7 +56,9 @@ msgstr ""
 
 #: src/korone/modules/afk/handlers/check.py:106
 #, python-brace-format
-msgid "🎧 Listening to: {track_artist} — {track_name}"
+msgid ""
+"\n"
+"🎧 Listening to: {track_artist} — {track_name}"
 msgstr ""
 
 #: src/korone/modules/afk/handlers/set.py:20
