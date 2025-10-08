@@ -3,24 +3,27 @@
 
 from __future__ import annotations
 
-import typing as t
 from functools import partial
 from os import cpu_count
+from typing import TYPE_CHECKING, Any, Final
 
 from anyio import CapacityLimiter, to_thread
 
-_DEFAULT_THREAD_TOKENS: t.Final[int] = max(16, min(64, (cpu_count() or 1) * 5))
-BLOCKING_CALLS_LIMITER: t.Final[CapacityLimiter] = CapacityLimiter(_DEFAULT_THREAD_TOKENS)
+if TYPE_CHECKING:
+    from collections.abc import Callable
+
+_DEFAULT_THREAD_TOKENS: Final[int] = max(16, min(64, (cpu_count() or 1) * 5))
+BLOCKING_CALLS_LIMITER: Final[CapacityLimiter] = CapacityLimiter(_DEFAULT_THREAD_TOKENS)
 
 
 async def run_blocking[R](
-    func: t.Callable[..., R],
+    func: Callable[..., R],
     /,
-    *args: t.Any,
+    *args: Any,
     limiter: CapacityLimiter | None = None,
     cancellable: bool = False,
     abandon_on_cancel: bool = False,
-    **kwargs: t.Any,
+    **kwargs: Any,
 ) -> R:
     """Run a blocking callable in a worker thread.
 

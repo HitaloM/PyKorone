@@ -82,7 +82,7 @@ async def fetch_command_state(command: str) -> Documents | None:
         return result
 
 
-def extract_commands(filters: Filter) -> list[str] | None:
+def extract_commands(filters: Filter) -> list[str | None] | None:
     """
     Extracts command patterns from filter objects.
 
@@ -92,17 +92,20 @@ def extract_commands(filters: Filter) -> list[str] | None:
     Returns:
         A list of command patterns or None if no commands found.
     """
+    # Import here to avoid circular import
+    from korone.filters import Command, Regex  # noqa: PLC0415
+
     try:
-        if hasattr(filters, "commands"):
-            return [cmd.pattern for cmd in filters.commands if filters.disableable]  # type: ignore
-        if hasattr(filters, "friendly_name"):
-            return [filters.friendly_name]  # type: ignore
+        if isinstance(filters, Command) and filters.disableable:
+            return [cmd.pattern for cmd in filters.command_patterns]
+        if isinstance(filters, Regex):
+            return [filters.friendly_name]
     except AttributeError:
         pass
     return None
 
 
-async def update_command_structure(commands: list[str]) -> None:
+async def update_command_structure(commands: list[str | None]) -> None:
     """
     Updates the command structure with parent-child relationships and chat states.
 

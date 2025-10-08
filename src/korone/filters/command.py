@@ -153,15 +153,22 @@ class Command(Filter):
     prefixes, case sensitivity, and mention requirements.
 
     Attributes:
-        commands: Compiled patterns of allowed commands
-        prefixes: Command prefixes to recognize
+        command_patterns: Compiled patterns of allowed commands
+        command_prefixes: Command prefixes to recognize
         ignore_case: Whether to ignore case when matching commands
         ignore_mention: Whether to ignore bot mentions after commands
         magic: Optional magic filter to further restrict command matches
         disableable: Whether this command can be disabled in specific chats
     """
 
-    __slots__ = ("commands", "disableable", "ignore_case", "ignore_mention", "magic", "prefixes")
+    __slots__ = (
+        "command_patterns",
+        "command_prefixes",
+        "disableable",
+        "ignore_case",
+        "ignore_mention",
+        "magic",
+    )
 
     def __init__(
         self,
@@ -187,14 +194,14 @@ class Command(Filter):
         Raises:
             ValueError: If no command patterns are provided
         """
-        self.prefixes = prefixes
+        self.command_prefixes = prefixes
         self.ignore_case = ignore_case
         self.ignore_mention = ignore_mention
         self.magic = magic
         self.disableable = disableable
-        self.commands = tuple(self._prepare_commands(values, commands))
+        self.command_patterns = tuple(self._prepare_commands(values, commands))
 
-        if not self.commands:
+        if not self.command_patterns:
             msg = "Command filter requires at least one command."
             raise ValueError(msg)
 
@@ -272,7 +279,11 @@ class Command(Filter):
             CommandError: If the prefix is not among the allowed prefixes
         """
         prefix = command.prefix.lower() if self.ignore_case and command.prefix else command.prefix
-        valid_prefixes = [p.lower() for p in self.prefixes] if self.ignore_case else self.prefixes
+        valid_prefixes = (
+            [p.lower() for p in self.command_prefixes]
+            if self.ignore_case
+            else self.command_prefixes
+        )
         if prefix not in valid_prefixes:
             msg = f"Invalid prefix: {command.prefix!r}."
             raise CommandError(msg)
@@ -306,7 +317,7 @@ class Command(Filter):
             CommandError: If the command doesn't match any allowed pattern
         """
         cmd_name = command.command.lower() if self.ignore_case else command.command
-        for allowed_cmd in self.commands:
+        for allowed_cmd in self.command_patterns:
             match = allowed_cmd.match(cmd_name)
             if match:
                 return replace(command, regexp_match=match)

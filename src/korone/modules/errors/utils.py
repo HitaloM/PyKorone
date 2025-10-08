@@ -25,7 +25,7 @@ IGNORED_EXCEPTIONS: tuple[type[Exception], ...] = (
 )
 
 ERROR_NOTIFICATION_TTL: Final[float] = 300.0
-_error_notification_state: dict[str, float] = {}
+_ERROR_NOTIFICATION_STATE: dict[str, float] = {}
 
 
 def compute_error_signature(exc: BaseException) -> str:
@@ -37,18 +37,18 @@ def compute_error_signature(exc: BaseException) -> str:
 def should_notify(signature: str, *, ttl: float = ERROR_NOTIFICATION_TTL) -> bool:
     now = time.monotonic()
 
-    expiry = _error_notification_state.get(signature)
+    expiry = _ERROR_NOTIFICATION_STATE.get(signature)
     if expiry and expiry > now:
         return False
 
-    _error_notification_state[signature] = now + ttl
+    _ERROR_NOTIFICATION_STATE[signature] = now + ttl
     _purge_expired_notifications(now)
     return True
 
 
 def _purge_expired_notifications(now: float) -> None:
     expired_signatures = [
-        key for key, expiry in _error_notification_state.items() if expiry <= now
+        key for key, expiry in _ERROR_NOTIFICATION_STATE.items() if expiry <= now
     ]
     for signature in expired_signatures:
-        _error_notification_state.pop(signature, None)
+        _ERROR_NOTIFICATION_STATE.pop(signature, None)
