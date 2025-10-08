@@ -92,7 +92,7 @@ class Tweet(BaseModel):
     views: int | None = None
     is_note_tweet: bool
     community_note: CommunityNote | None = None
-    lang: str
+    lang: str | None = None
     replying_to: str | None = None
     replying_to_status: str | None = None
     quote: Tweet | None = None
