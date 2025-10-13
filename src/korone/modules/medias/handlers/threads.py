@@ -41,11 +41,6 @@ async def handle_threads(client: Client, message: Message) -> None:
     if not media_list:
         return
 
-    if len(media_list) > 10:  # Telegram's limit
-        last_caption = media_list[-1].caption
-        media_list = media_list[:10]
-        media_list[-1].caption = last_caption
-
     caption = format_caption(media_list, url, _("Threads"))
 
     async with ChatActionSender(

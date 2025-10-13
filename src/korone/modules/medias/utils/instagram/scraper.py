@@ -1,22 +1,27 @@
 # SPDX-License-Identifier: BSD-3-Clause
 # Copyright (c) 2025 Hitalo M.
 
+from __future__ import annotations
+
 import re
-from collections.abc import Sequence
 from datetime import timedelta
+from typing import TYPE_CHECKING
 
 import httpx
 from cashews import NOT_NONE
-from hydrogram.types import InputMedia, InputMediaPhoto, InputMediaVideo
+from hydrogram.types import InputMediaPhoto, InputMediaVideo
 from lxml import html
 
 from korone.modules.medias.utils.cache import MediaCache
-from korone.modules.medias.utils.common import ensure_url_scheme
+from korone.modules.medias.utils.common import MediaGroupItem, ensure_url_scheme
 from korone.modules.medias.utils.downloader import download_media
 from korone.utils.caching import cache
 from korone.utils.logging import get_logger
 
 from .types import InstaFixData
+
+if TYPE_CHECKING:
+    from collections.abc import Sequence
 
 logger = get_logger(__name__)
 
@@ -27,7 +32,7 @@ TIMEOUT = 60
 MAX_REDIRECTS = 5
 
 
-async def fetch_instagram(post_url: str) -> Sequence[InputMedia] | None:
+async def fetch_instagram(post_url: str) -> Sequence[MediaGroupItem] | None:
     post_url = ensure_url_scheme(post_url)
     match = POST_PATTERN.search(post_url, re.IGNORECASE)
     if not match:
@@ -50,14 +55,14 @@ async def fetch_instagram(post_url: str) -> Sequence[InputMedia] | None:
     return media_list
 
 
-async def create_media_list(insta: InstaFixData) -> list[InputMedia]:
-    media_list = []
+async def create_media_list(insta: InstaFixData) -> list[MediaGroupItem]:
+    media_list: list[MediaGroupItem] = []
     if insta.media_type == "photo":
         media = await download_media(str(insta.media_url))
-        media_list.append(InputMediaPhoto(media=media))  # type: ignore
+        media_list.append(InputMediaPhoto(media=media))  # pyright: ignore[reportArgumentType]
     elif insta.media_type == "video":
         media = await download_media(str(insta.media_url))
-        media_list.append(InputMediaVideo(media=media))  # type: ignore
+        media_list.append(InputMediaVideo(media=media))  # pyright: ignore[reportArgumentType]
     return media_list
 
 

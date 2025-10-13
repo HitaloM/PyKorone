@@ -1,6 +1,8 @@
 # SPDX-License-Identifier: BSD-3-Clause
 # Copyright (c) 2025 Hitalo M. <https://github.com/HitaloM>
 
+from __future__ import annotations
+
 import html
 import re
 from datetime import timedelta
@@ -26,10 +28,12 @@ from .types import BlueskyData, Image
 if TYPE_CHECKING:
     from io import BytesIO
 
+    from korone.modules.medias.utils.common import MediaGroupItem
+
 logger = get_logger(__name__)
 
 
-async def fetch_bluesky(text: str) -> list[InputMediaPhoto] | list[InputMediaVideo] | None:
+async def fetch_bluesky(text: str) -> list[MediaGroupItem] | None:
     username, post_id = get_username_and_post_id(text)
     if not post_id:
         return None
@@ -43,7 +47,7 @@ async def fetch_bluesky(text: str) -> list[InputMediaPhoto] | list[InputMediaVid
     cache = MediaCache(post_id)
     if cached_data := await cache.get():
         cached_data[-1].caption = caption
-        return cached_data  # type: ignore
+        return cached_data
 
     media_list = await process_media(bluesky_data)
 
@@ -97,7 +101,7 @@ def get_caption(bluesky_data: BlueskyData) -> str:
 
 async def process_media(
     bluesky_data: BlueskyData,
-) -> list[InputMediaPhoto] | list[InputMediaVideo] | None:
+) -> list[MediaGroupItem] | None:
     embed = bluesky_data.thread.post.embed
 
     if embed and embed.embed_type:
@@ -109,7 +113,7 @@ async def process_media(
     return None
 
 
-async def handle_image(images: list[Image]) -> list[InputMediaPhoto]:
+async def handle_image(images: list[Image]) -> list[MediaGroupItem]:
     results: list[BytesIO | None] = [None] * len(images)
 
     async def fetch_image(index: int, image: Image) -> None:
@@ -119,10 +123,13 @@ async def handle_image(images: list[Image]) -> list[InputMediaPhoto]:
         for index, image in enumerate(images):
             tg.start_soon(fetch_image, index, image)
 
-    return [InputMediaPhoto(media=result) for result in results if result]
+    media_items: list[MediaGroupItem] = [
+        InputMediaPhoto(media=result) for result in results if result
+    ]
+    return media_items
 
 
-async def handle_video(playlist_url: str, thumbnail_url: HttpUrl) -> list[InputMediaVideo] | None:
+async def handle_video(playlist_url: str, thumbnail_url: HttpUrl) -> list[MediaGroupItem] | None:
     async with httpx.AsyncClient(http2=True, timeout=20) as client:
         response = await client.get(playlist_url)
         if response.status_code != 200:

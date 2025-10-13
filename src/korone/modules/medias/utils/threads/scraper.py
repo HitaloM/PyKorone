@@ -1,11 +1,12 @@
 # SPDX-License-Identifier: BSD-3-Clause
 # Copyright (c) 2025 Hitalo M. <https://github.com/HitaloM>
 
+from __future__ import annotations
+
 import html
 import random
 import re
 import string
-from collections.abc import Sequence
 from datetime import timedelta
 from typing import TYPE_CHECKING
 
@@ -13,11 +14,11 @@ import httpx
 import orjson
 from anyio import create_task_group
 from cashews import NOT_NONE
-from hydrogram.types import InputMedia, InputMediaPhoto, InputMediaVideo
+from hydrogram.types import InputMediaPhoto, InputMediaVideo
 from pydantic import ValidationError
 
 from korone.modules.medias.utils.cache import MediaCache
-from korone.modules.medias.utils.common import ensure_url_scheme
+from korone.modules.medias.utils.common import MediaGroupItem, ensure_url_scheme
 from korone.modules.medias.utils.downloader import download_media
 from korone.modules.medias.utils.files import resize_thumbnail
 from korone.modules.medias.utils.generic_headers import GENERIC_HEADER
@@ -29,12 +30,13 @@ from korone.utils.logging import get_logger
 from .types import CarouselMedia, Post, ThreadsData
 
 if TYPE_CHECKING:
+    from collections.abc import Sequence
     from io import BytesIO
 
 logger = get_logger(__name__)
 
 
-async def fetch_threads(text: str) -> Sequence[InputMedia] | None:
+async def fetch_threads(text: str) -> Sequence[MediaGroupItem] | None:
     url = ensure_url_scheme(text)
     shortcode = get_shortcode(url)
     if not shortcode:
@@ -47,16 +49,18 @@ async def fetch_threads(text: str) -> Sequence[InputMedia] | None:
 
     threads_post = graphql_data.data.data.edges[0].node.thread_items[0].post
 
-    media_list = []
+    media_sequence: Sequence[MediaGroupItem] | None = None
     if threads_post.carousel_media:
-        media_list = await handle_carousel(threads_post)
+        media_sequence = await handle_carousel(threads_post)
     elif threads_post.video_versions:
-        media_list = await handle_video(threads_post)
+        media_sequence = await handle_video(threads_post)
     elif threads_post.image_versions2 and threads_post.image_versions2.candidates:
-        media_list = await handle_image(threads_post)
+        media_sequence = await handle_image(threads_post)
 
-    if not media_list:
+    if not media_sequence:
         return None
+
+    media_list = list(media_sequence)
 
     if (
         threads_post.text_post_app_info
@@ -159,7 +163,7 @@ def get_caption(threads_data: ThreadsData) -> str:
     return caption
 
 
-async def _process_carousel_media(media: CarouselMedia) -> InputMedia | None:
+async def _process_carousel_media(media: CarouselMedia) -> MediaGroupItem | None:
     if media.video_versions:
         media_file = await download_media(media.video_versions[0].url)
         if not media_file:
@@ -192,11 +196,11 @@ async def _process_carousel_media(media: CarouselMedia) -> InputMedia | None:
     return None
 
 
-async def handle_carousel(post: Post) -> list[InputMedia]:
+async def handle_carousel(post: Post) -> list[MediaGroupItem]:
     if not post.carousel_media:
         return []
 
-    media_list: list[InputMedia] = []
+    media_list: list[MediaGroupItem] = []
     for media in post.carousel_media:
         processed = await _process_carousel_media(media)
         if processed:
