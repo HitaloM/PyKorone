@@ -143,9 +143,10 @@ class LastFMClient:
             "user.getrecenttracks", username, limit=limit, extended=extended
         )
         data = await self._request(params)
-        return cast(
-            "list[LastFMTrack]", self._handle_key_error(data["recenttracks"], "track", LastFMTrack)
-        )
+        raw_tracks = self._handle_key_error(data["recenttracks"], "track", LastFMTrack)
+        if isinstance(raw_tracks, LastFMTrack):
+            return [raw_tracks]
+        return cast("list[LastFMTrack]", raw_tracks)
 
     async def get_user_info(self, username: str) -> LastFMUser:
         params = self._build_params("user.getInfo", username)
