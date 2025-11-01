@@ -67,7 +67,7 @@ class GoogleModels(Enum):
 class AnthropicModels(Enum):
     # OpenRouter slugs for Anthropic models
     sonnet_4_5 = "anthropic/claude-sonnet-4.5"
-    haiku_4_5 = "anthropic/claude-4.5-haiku"
+    haiku_4_5 = "anthropic/claude-haiku-4.5"
     haiku_3_5 = "anthropic/claude-3.5-haiku"
 
 
