@@ -3,7 +3,8 @@ Description=Sophie Scheduler
 Requires=mongo.service valkey.service sophie-beta.service sophie-stable.service
 
 [Service]
-ExecStartPre=/bin/sleep 240
+ExecStartPre=/bin/sleep 100
+TimeoutSec=900
 Restart=always
 
 [Container]
