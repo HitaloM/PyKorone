@@ -67,6 +67,7 @@ class GoogleModels(Enum):
 class AnthropicModels(Enum):
     # OpenRouter slugs for Anthropic models
     sonnet_4_5 = "anthropic/claude-sonnet-4.5"
+    haiku_4_5 = "anthropic/claude-4.5-haiku"
     haiku_3_5 = "anthropic/claude-3.5-haiku"
 
 
@@ -104,6 +105,7 @@ PROVIDER_TO_MODELS: Mapping[str, Type[Enum]] = {
 
 AI_MODEL_TO_PROVIDER = {
     AnthropicModels.sonnet_4_5.name: "anthropic",
+    AnthropicModels.haiku_4_5.name: "anthropic",
     AnthropicModels.haiku_3_5.name: "anthropic",
     GoogleModels.gemini_2_5_flash.name: "google",
     GoogleModels.gemini_2_5_pro.name: "google",
@@ -122,6 +124,7 @@ AI_MODEL_TO_PROVIDER = {
 
 AI_MODEL_TO_SHORT_NAME = {
     AnthropicModels.sonnet_4_5.value: "Claude Sonnet 4.5",
+    AnthropicModels.haiku_4_5.value: "Claude Haiku 4.5",
     AnthropicModels.haiku_3_5.value: "Claude Haiku 3.5",
     GoogleModels.gemini_2_5_flash.value: "Gemini 2.5 Flash",
     GoogleModels.gemini_2_5_pro.value: "Gemini 2.5 Pro",
@@ -169,7 +172,7 @@ AI_MODELS: dict[str, Model] = {
 
 DEFAULT_MODELS: dict[str, str] = {
     AIProviders.auto.name: MistralModels.mistral_medium.name,
-    AIProviders.anthropic.name: AnthropicModels.sonnet_4_5.name,
+    AIProviders.anthropic.name: AnthropicModels.haiku_4_5.name,
     AIProviders.google.name: GoogleModels.gemini_2_5_flash.name,
     AIProviders.mistral.name: MistralModels.mistral_medium.name,
     AIProviders.openai.name: OpenAIModels.gpt_5_mini.name,
@@ -177,7 +180,7 @@ DEFAULT_MODELS: dict[str, str] = {
 
 TRANSLATE_DEFAULT_MODELS: dict[str, str] = {
     AIProviders.auto.name: MistralModels.magistral_medium.name,
-    AIProviders.anthropic.name: AnthropicModels.haiku_3_5.name,
+    AIProviders.anthropic.name: AnthropicModels.haiku_4_5.name,
     AIProviders.google.name: GoogleModels.gemini_2_5_flash.name,
     AIProviders.mistral.name: MistralModels.magistral_medium.name,
     AIProviders.openai.name: OpenAIModels.gpt_5_nano.name,
