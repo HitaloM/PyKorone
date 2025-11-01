@@ -24,6 +24,6 @@ class HelpGroupHandler(SophieMessageHandler):
         text = _("The help information available in the private messages with Sophie")
 
         buttons = InlineKeyboardBuilder()
-        buttons.add(InlineKeyboardButton(text=f'ℹ️ {_("Help")}', url=PMHelpStartUrlCallback().pack()))
+        buttons.add(InlineKeyboardButton(text=f"ℹ️ {_('Help')}", url=PMHelpStartUrlCallback().pack()))
 
         await self.event.reply(str(text), reply_markup=buttons.as_markup())

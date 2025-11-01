@@ -31,7 +31,7 @@ class LegacyRulesButton(SophieMessageHandler):
                 str(Section(_("No rules are set for this chat."), title=_("Rules button failed")))
             )
 
-        title = Bold(Title(f'🪧 {_("Rules")}'))
+        title = Bold(Title(f"🪧 {_('Rules')}"))
 
         await send_saveable(
             self.event,

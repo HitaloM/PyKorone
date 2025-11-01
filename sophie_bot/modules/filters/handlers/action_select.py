@@ -36,7 +36,7 @@ class ActionSelectHandler(SophieCallbackQueryHandler):
         reply_markup: Optional[InlineKeyboardMarkup],
         back_to_confirm: bool = False,
     ):
-        doc = Doc(Title(f'{filter_title} {_("setup")}'), text)
+        doc = Doc(Title(f"{filter_title} {_('setup')}"), text)
 
         if not reply_markup:
             reply_markup = InlineKeyboardMarkup(inline_keyboard=[])

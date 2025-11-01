@@ -31,7 +31,7 @@ class StartGroupHandler(SophieMessageHandler):
         await state.clear()
 
         buttons = InlineKeyboardBuilder()
-        buttons.add(InlineKeyboardButton(text=f'ℹ️ {_("Help")}', url=PMHelpStartUrlCallback().pack()))
+        buttons.add(InlineKeyboardButton(text=f"ℹ️ {_('Help')}", url=PMHelpStartUrlCallback().pack()))
 
         text = Doc(
             _("My name is Sophie, I help manage this group in an efficient way!"),

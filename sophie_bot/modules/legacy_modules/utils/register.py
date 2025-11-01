@@ -63,7 +63,7 @@ def register(router: Router, *reg_args, **reg_kwargs):
             # So legacy message handlers that require states can have priority over new modules.
             router = legacy_states_router
         else:
-            log.error(f'Legacy @register: Unknown f filter: {reg_kwargs["f"]}')
+            log.error(f"Legacy @register: Unknown f filter: {reg_kwargs['f']}")
 
     def wrapper(func):
         async def handler_func(message: Message, state: FSMContext):

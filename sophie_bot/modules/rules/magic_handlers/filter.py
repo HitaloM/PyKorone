@@ -13,7 +13,7 @@ async def send_chat_rules(message: Message, chat, data):
     if not rules:
         return await message.reply(str(Section(_("No rules are set for this chat."), title=_("Rules filter failed"))))
 
-    title = Bold(HList(Title(f'🪧 {_("Rules")}'), _("Filter action")))
+    title = Bold(HList(Title(f"🪧 {_('Rules')}"), _("Filter action")))
 
     await send_saveable(
         message,

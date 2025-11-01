@@ -31,7 +31,7 @@ class GetRulesHandler(SophieMessageHandler):
         if not rules:
             return await self.event.reply(_("No rules are set for this chat."))
 
-        title = Bold(Title(f'🪧 {_("Rules")}'))
+        title = Bold(Title(f"🪧 {_('Rules')}"))
 
         await send_saveable(
             self.event,

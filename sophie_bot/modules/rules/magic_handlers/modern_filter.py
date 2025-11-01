@@ -31,7 +31,7 @@ class SendRulesAction(ModernActionABC[None]):
                 Section(_("No rules are set for this chat."), title=_("Rules filter failed")).to_html()
             )
 
-        title = Bold(HList(Title(f'🪧 {_("Rules")}'), _("Filter action")))
+        title = Bold(HList(Title(f"🪧 {_('Rules')}"), _("Filter action")))
 
         if rules.buttons or rules.file:
             # We have to send the note separately

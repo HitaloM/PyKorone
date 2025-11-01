@@ -76,7 +76,7 @@ class CmdStart(BaseModel):
         if isinstance(value, (int, str, float, Decimal, Fraction)):
             return str(value)
         raise ValueError(
-            f"Attribute {key}={value!r} of type {type(value).__name__!r}" f" can not be packed to callback data"
+            f"Attribute {key}={value!r} of type {type(value).__name__!r} can not be packed to callback data"
         )
 
     def pack(self, link_type: str = "start") -> str:
@@ -84,9 +84,7 @@ class CmdStart(BaseModel):
         for key, value in self.model_dump(mode="json").items():
             encoded = self._encode_value(key, value)
             if self.__separator__ in encoded:
-                raise ValueError(
-                    f"Separator symbol {self.__separator__!r} can not be used " f"in value {key}={encoded!r}"
-                )
+                raise ValueError(f"Separator symbol {self.__separator__!r} can not be used in value {key}={encoded!r}")
             result.append(encoded)
         data = f"https://t.me/{CONFIG.username}?{link_type}=" + self.__separator__.join(result)
 
@@ -100,7 +98,7 @@ class CmdStart(BaseModel):
         prefix, *parts = value.split(cls.__separator__)
         names = cls.model_fields.keys()
         if len(parts) != len(names):
-            raise ValueError(f"CmdStart {cls.__name__!r} takes {len(names)} arguments " f"but {len(parts)} were given")
+            raise ValueError(f"CmdStart {cls.__name__!r} takes {len(names)} arguments but {len(parts)} were given")
         if prefix != cls.__prefix__:
             raise ValueError(f"Bad prefix ({prefix!r} != {cls.__prefix__!r})")
         payload = {}

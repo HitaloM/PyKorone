@@ -229,7 +229,7 @@ async def antiflood_expire_proc(message: Message, chat: dict, strings: dict, sta
     except (TypeError, ValueError):
         await message.reply(strings["invalid_time"])
     else:
-        if not (data := redis.get(f'antiflood_setup:{chat["chat_id"]}')):
+        if not (data := redis.get(f"antiflood_setup:{chat['chat_id']}")):
             await message.reply(strings["setup_corrupted"])
         else:
             await db.antiflood.update_one(

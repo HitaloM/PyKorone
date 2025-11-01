@@ -83,7 +83,7 @@ class FilterActionClickHandler(SophieCallbackQueryHandler):
         # Set FSM state
         await self.state.set_state(FilterEditFSM.action_setup)
 
-        doc = Doc(Title(f'{filter_title} {_("setup")}'), text)
+        doc = Doc(Title(f"{filter_title} {_('setup')}"), text)
         reply_markup.inline_keyboard.append(
             [
                 InlineKeyboardButton(text=_("❌ Cancel"), callback_data="cancel"),

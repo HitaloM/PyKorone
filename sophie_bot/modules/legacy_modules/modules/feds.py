@@ -577,7 +577,7 @@ async def fed_info(message: Message, fed, strings):
     text = text.format(
         name=html.escape(fed["fed_name"], False),
         fed_id=fed["fed_id"],
-        creator=f'{await get_user_link(fed["creator"])} ({fed["creator"]})',
+        creator=f"{await get_user_link(fed['creator'])} ({fed['creator']})",
         chats=len(fed["chats"] if "chats" in fed else []),
         fbanned=banned_num,
     )
@@ -1186,7 +1186,7 @@ async def fedban_check(message, fed, user, _, strings):
                     _fed = await get_fed_by_id(fban["fed_id"])
                     if _fed:
                         fed_name = html.escape(_fed["fed_name"], False)
-                        text += f'{count}: {fban["fed_id"]}: {fed_name}\n'
+                        text += f"{count}: {fban['fed_id']}: {fed_name}\n"
     else:
         if total_count > 0:
             text += strings["fbanned_data"].format(user=await get_user_link(user["user_id"]), count=total_count)
