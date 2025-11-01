@@ -1,9 +1,9 @@
 [Unit]
 Description=Sophie Scheduler
-Requires=mongo.service valkey.service
+Requires=mongo.service valkey.service sophie-beta.service sophie-stable.service
 
 [Service]
-ExecStartPre=/bin/sleep 5
+ExecStartPre=/bin/sleep 240
 Restart=always
 
 [Container]

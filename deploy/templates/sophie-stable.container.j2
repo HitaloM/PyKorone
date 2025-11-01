@@ -1,9 +1,9 @@
 [Unit]
 Description=Sophie Stable
-Requires=mongo.service valkey.service
+Requires=mongo.service valkey.service sophie-beta.service
 
 [Service]
-ExecStartPre=/bin/sleep 20
+ExecStartPre=/bin/sleep 40
 Restart=always
 
 [Container]
