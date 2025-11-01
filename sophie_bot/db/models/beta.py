@@ -2,7 +2,7 @@ from asyncio import Lock
 from enum import Enum
 from typing import Optional
 
-from beanie import Document, UpdateResponse
+from beanie import Document, UpdateResponse, Indexed
 from beanie.odm.operators.update.general import Set, Unset
 
 
@@ -18,7 +18,7 @@ class CurrentMode(Enum):
 
 
 class BetaModeModel(Document):
-    chat_id: int
+    chat_id: int = Indexed(unique=False)
     preferred_mode: PreferredMode = PreferredMode.auto
     mode: Optional[CurrentMode] = None
 
