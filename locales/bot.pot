@@ -51,23 +51,23 @@ msgstr ""
 msgid "Connected chat not found in the database. Please try to disconnect and connect again."
 msgstr ""
 
-#: sophie_bot/modules/ai/__init__.py:39
+#: sophie_bot/modules/ai/__init__.py:42
 msgid "Sophie AI"
 msgstr ""
 
-#: sophie_bot/modules/ai/__init__.py:41
+#: sophie_bot/modules/ai/__init__.py:44
 msgid "Rainbow sparkles and shininess"
 msgstr ""
 
-#: sophie_bot/modules/ai/__init__.py:44
+#: sophie_bot/modules/ai/__init__.py:47
 msgid "Sophie supports quite a few ways to use AI features."
 msgstr ""
 
-#: sophie_bot/modules/ai/__init__.py:45
+#: sophie_bot/modules/ai/__init__.py:48
 msgid "From a simple chat-bot, to the automatic translator. Have fun."
 msgstr ""
 
-#: sophie_bot/modules/ai/__init__.py:48
+#: sophie_bot/modules/ai/__init__.py:51
 msgid "Please note that you can make a limited amount of AI requests per day."
 msgstr ""
 
@@ -253,6 +253,50 @@ msgstr ""
 
 #: sophie_bot/modules/ai/handlers/mode.py:16
 msgid "Generates a new AI mode"
+msgstr ""
+
+#: sophie_bot/modules/ai/handlers/op_stats.py:79
+msgid "No data"
+msgstr ""
+
+#: sophie_bot/modules/ai/handlers/op_stats.py:186
+msgid "Today"
+msgstr ""
+
+#: sophie_bot/modules/ai/handlers/op_stats.py:187
+msgid "This week"
+msgstr ""
+
+#: sophie_bot/modules/ai/handlers/op_stats.py:188
+msgid "This month"
+msgstr ""
+
+#: sophie_bot/modules/ai/handlers/op_stats.py:189
+msgid "AI usage"
+msgstr ""
+
+#: sophie_bot/modules/ai/handlers/op_stats.py:191
+msgid "Top chats — today"
+msgstr ""
+
+#: sophie_bot/modules/ai/handlers/op_stats.py:192
+msgid "Top chats — this week"
+msgstr ""
+
+#: sophie_bot/modules/ai/handlers/op_stats.py:193
+msgid "Top chats — this month"
+msgstr ""
+
+#: sophie_bot/modules/ai/handlers/op_stats.py:194
+msgid "Top users — today"
+msgstr ""
+
+#: sophie_bot/modules/ai/handlers/op_stats.py:195
+msgid "Top users — this week"
+msgstr ""
+
+#: sophie_bot/modules/ai/handlers/op_stats.py:196
+msgid "Top users — this month"
 msgstr ""
 
 #: sophie_bot/modules/ai/handlers/pm.py:23
@@ -1993,7 +2037,7 @@ msgstr ""
 msgid "💭 Reply to message"
 msgstr ""
 
-#: sophie_bot/modules/notes/magic_handlers/filter.py:93
+#: sophie_bot/modules/notes/magic_handlers/filter.py:92
 msgid "🗒 Send a note"
 msgstr ""
 

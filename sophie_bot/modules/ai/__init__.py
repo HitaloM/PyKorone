@@ -33,6 +33,9 @@ from sophie_bot.modules.ai.middlewares.cache_user_messages import (
 from sophie_bot.modules.ai.texts import AI_POLICY
 from sophie_bot.utils.i18n import LazyProxy
 from sophie_bot.utils.i18n import lazy_gettext as l_
+from sophie_bot.filters.user_status import IsOP
+from sophie_bot.filters.cmd import CMDFilter
+from sophie_bot.modules.ai.handlers.op_stats import op_ai_stats_handler
 
 router = Router(name="ai")
 
@@ -92,3 +95,6 @@ async def __pre_setup__():
     router.message.register(AiPmHandle, *AiPmHandle.filters())
 
     router.message.register(AiCmd, *AiCmd.filters())
+
+    # Operator-only: overall AI usage stats
+    router.message.register(op_ai_stats_handler, CMDFilter("op_aistats"), IsOP(True))
