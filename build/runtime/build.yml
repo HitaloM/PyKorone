@@ -1,8 +1,7 @@
-image: jdrouet/docker-with-buildx:stable
+image: quay.io/podman/stable:latest
 
 variables:
-  DOCKER_HOST: tcp://docker:2375/
-  DOCKER_DRIVER: overlay2
+  CONTAINERS_STORAGE: /var/lib/containers/storage
 
 build_runtime_container:
   variables:
@@ -11,26 +10,24 @@ build_runtime_container:
   tags:
     - saas-linux-medium-amd64
   stage: build
-  services:
-    - docker:dind
   before_script:
-    - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" registry.gitlab.com
+    - podman login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" registry.gitlab.com
   script:
-    - docker buildx create --use
-    - |
-      docker buildx build \
-        --platform linux/arm64/v8,linux/amd64 \
-        --cache-from type=local,src=docker_cache --cache-to type=local,mode=max,dest=docker_cache \
-        --push \
-        --tag "$IMAGE_FULL" \
-        --tag "$IMAGE_NAME:latest" \
-        --file build/runtime/Dockerfile \
-        .
+    - CACHE_DIR=docker_cache
+    - mkdir -p $CACHE_DIR
+    - podman build \
+      --platform linux/arm64,linux/amd64 \
+      --cache-dir $CACHE_DIR \
+      --tag "$IMAGE_FULL" \
+      --tag "$IMAGE_NAME:latest" \
+      --file build/runtime/Dockerfile \
+      .
+    - podman push "$IMAGE_FULL"
+    - podman push "$IMAGE_NAME:latest"
   cache:
     key: bot_runtime_docker_cache
     paths:
       - docker_cache
-
   only:
     - beta
     - stable
