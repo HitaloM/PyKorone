@@ -1,8 +1,27 @@
+variables:
+  PIP_CACHE_DIR: "$CI_PROJECT_DIR/.cache/pip"
+  POETRY_CACHE_DIR: "$CI_PROJECT_DIR/.cache/poetry"
+
+cache:
+  key: ${CI_COMMIT_REF_SLUG}
+  paths:
+    - .cache/pip
+    - .cache/poetry
+    - .venv
+
 test-codestyle:
   stage: test
   image: d21d3q/python-poetry:3.13
+  cache:
+    key: ${CI_COMMIT_REF_SLUG}
+    paths:
+      - .cache/pip
+      - .cache/poetry
+      - .venv
+    policy: pull-push
   before_script:
-    - poetry install --with dev
+    - poetry config virtualenvs.in-project true
+    - poetry install --with dev --no-interaction
   script:
     - poetry run make test_code_style
 
@@ -10,8 +29,16 @@ test-codestyle:
 test-codeanal:
   stage: test
   image: d21d3q/python-poetry:3.13
+  cache:
+    key: ${CI_COMMIT_REF_SLUG}
+    paths:
+      - .cache/pip
+      - .cache/poetry
+      - .venv
+    policy: pull-push
   before_script:
-    - poetry install --with dev
+    - poetry config virtualenvs.in-project true
+    - poetry install --with dev --no-interaction
   script:
     - poetry run make test_codeanalysis
 
