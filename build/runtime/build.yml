@@ -7,27 +7,28 @@ build_runtime_container:
   variables:
     IMAGE_NAME: "$CI_REGISTRY_IMAGE"
     IMAGE_FULL: "$CI_REGISTRY_IMAGE:$CI_COMMIT_BRANCH-runtime"
-  tags:
-    - saas-linux-medium-amd64
   stage: build
   before_script:
     - podman login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" registry.gitlab.com
-  script:
-    - CACHE_DIR=docker_cache
-    - mkdir -p $CACHE_DIR
+  script: |
+    # build
     - podman build \
-      --platform linux/arm64,linux/amd64 \
-      --cache-dir $CACHE_DIR \
+      --platform linux/amd64,linux/arm64 \
       --tag "$IMAGE_FULL" \
-      --tag "$IMAGE_NAME:latest" \
       --file build/runtime/Dockerfile \
-      .
+      --layers \
+      build/runtime
+
+    # tag latest
+    - podman tag "$IMAGE_FULL" "$IMAGE_NAME:latest"
+
+    # push images
     - podman push "$IMAGE_FULL"
     - podman push "$IMAGE_NAME:latest"
   cache:
     key: bot_runtime_docker_cache
     paths:
-      - docker_cache
+      - $CONTAINERS_STORAGE
   only:
     - beta
     - stable
