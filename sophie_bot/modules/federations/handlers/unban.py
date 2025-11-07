@@ -96,7 +96,9 @@ class FederationUnbanHandler(SophieMessageHandler):
 
     async def _check_permissions(self, federation) -> bool:
         """Check if user has permission to unban in this federation."""
-        if not self.event.from_user or not FederationPermissionService.can_ban_in_federation(federation, self.event.from_user.id):
+        if not self.event.from_user or not FederationPermissionService.can_ban_in_federation(
+            federation, self.event.from_user.id
+        ):
             await self.event.reply(_("You don't have permission to unban users in this federation."))
             return False
         return True

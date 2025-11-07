@@ -1,5 +1,5 @@
 ---
-title: Federations
+title: Federations (new)
 icon: 🏛
 ---> Federations allow you to manage multiple chats as a group. You can ban users across all chats in a federation, subscribe to other federations, and manage permissions.
 

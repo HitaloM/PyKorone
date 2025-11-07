@@ -94,9 +94,7 @@ class FederationInfoHandler(SophieMessageHandler):
         # Show list of federations with guidance for multiple federations
         from stfu_tg import VList  # Add this import at the top of the file
 
-        federation_list = VList(
-            *(f"• {federation.fed_name} (ID: `{federation.fed_id}`)" for federation in federations)
-        )
+        federation_list = VList(*(f"• {federation.fed_name} (ID: `{federation.fed_id}`)" for federation in federations))
 
         doc = Doc(
             Title(_("🏛 Your Federations")),

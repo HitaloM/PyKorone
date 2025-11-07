@@ -62,7 +62,7 @@ test_codeanalysis:
 	poetry run mypy -p sophie_bot
 
 run_tests:
-	poetry run pytest tests/ -v --alluredir=allure_results
+	poetry run python -m pytest tests/ -v --alluredir=allure_results
 
 # Locale
 
