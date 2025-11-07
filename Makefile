@@ -10,10 +10,12 @@ PYTHON := "$(ENV)/scripts/python"
 
 ASS_PATH := $(shell poetry run python -c "import ass_tg as _; print(_.__path__[0])")
 
-ifneq ("$(wildcard $(ENV)/scripts)","")
+ifneq ("$(wildcard $(ENV)/scripts/pybabel)","")
 	PYBABEL := "$(ENV)/scripts/pybabel"
+else ifneq ("$(wildcard $(ENV)/bin/pybabel)","")
+	PYBABEL := "$(ENV)/bin/pybabel" 
 else
-	PYBABEL := "$(ENV)/bin/pybabel"
+	PYBABEL := "pybabel"
 endif
 
 NUITKA := "python" "-m" "nuitka"
