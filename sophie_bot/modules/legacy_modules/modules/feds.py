@@ -79,6 +79,7 @@ from sophie_bot.services.bot import bot, dp
 from sophie_bot.services.db import db
 from sophie_bot.services.redis import redis
 from sophie_bot.utils.cached import cached
+
 from sophie_bot.utils.i18n import lazy_gettext as l_
 
 __module_name__ = l_("Federations")
@@ -257,7 +258,7 @@ def is_fed_admin(func):
 # cmds
 
 
-@register(router, cmds=["newfed", "fnew"])
+@register(router, cmds=["newfed", "fnew"], feature_flag="new_feds_newfed", feature_enabled=False)
 @flags.help(description=l_("Creates a new Federation."), args={"name": TextArg(l_("Command"))})
 @need_args_dec()
 @get_strings_dec("feds")
@@ -292,7 +293,7 @@ async def new_fed(message: Message, strings):
     )
 
 
-@register(router, cmds=["joinfed", "fjoin"])
+@register(router, cmds=["joinfed", "fjoin"], feature_flag="new_feds_joinfed", feature_enabled=False)
 @flags.help(description=l_("Joins the current chat to the federation."), args={"name": TextArg(l_("Fed ID"))})
 @need_args_dec()
 @chat_connection(admin=True, only_groups=True)
@@ -332,7 +333,7 @@ async def join_fed(message: Message, chat, strings):
     )
 
 
-@register(router, cmds=["leavefed", "fleave"])
+@register(router, cmds=["leavefed", "fleave"], feature_flag="new_feds_leavefed", feature_enabled=False)
 @flags.help(description=l_("Leaves the current chat from the federation."))
 @chat_connection(admin=True, only_groups=True)
 @get_current_chat_fed
@@ -567,7 +568,7 @@ async def fed_admins_list(message: Message, fed, strings):
     await message.reply(text, disable_notification=True)
 
 
-@register(router, cmds=["finfo", "fedinfo"])
+@register(router, cmds=["finfo", "fedinfo"], feature_flag="new_feds_finfo", feature_enabled=False)
 @flags.help(description=l_("Shows the information about the Federation."))
 @get_fed_dec
 @get_strings_dec("feds")
@@ -603,7 +604,7 @@ async def get_all_subs_feds_r(fed_id, new):
     return new
 
 
-@register(router, cmds=["fban", "sfban"])
+@register(router, cmds=["fban", "sfban"], feature_flag="new_feds_fban", feature_enabled=False)
 @flags.help(description=l_("Bans the user in the whole Federation."), args={"user": TextArg(l_("User"))})
 @get_fed_user_text()
 @is_fed_admin
@@ -778,7 +779,7 @@ async def fed_ban_user(message: Message, fed, user, reason, strings):
         await bot.delete_messages(message.chat.id, to_del)
 
 
-@register(router, cmds=["unfban", "funban"])
+@register(router, cmds=["unfban", "funban"], feature_flag="new_feds_funban", feature_enabled=False)
 @flags.help(description=l_("Unbans the user from the Federation."), args={"user": TextArg(l_("User"))})
 @get_fed_user_text()
 @is_fed_admin

@@ -4,7 +4,7 @@ from dataclasses import dataclass
 from itertools import chain
 from mailbox import Message
 from types import ModuleType
-from typing import Any, Callable, Coroutine, Dict, Optional
+from typing import Any, Callable, Coroutine, Dict, Optional, cast
 
 from aiogram import Router
 from aiogram.filters.logic import _InvertFilter
@@ -19,7 +19,9 @@ from sophie_bot.filters.chat_status import (
     LegacyOnlyPM,
 )
 from sophie_bot.filters.cmd import CMDFilter
+from sophie_bot.filters.feature_flag import FeatureFlagFilter
 from sophie_bot.filters.user_status import IsAdmin, IsOP
+from sophie_bot.utils.feature_flags import FeatureType, is_enabled
 from sophie_bot.utils.logger import log
 
 ARGS_DICT = dict[str, ArgFabric]
@@ -99,6 +101,20 @@ async def gather_cmds_help(router: Router) -> list[HandlerHelp]:
         if not cmd_filters:
             continue
         cmds = cmd_filters[0].callback.cmd  # type: ignore
+
+        # Check feature flags
+        feature_flag_filters = list(filter(lambda x: isinstance(x.callback, FeatureFlagFilter), handler.filters))
+        if feature_flag_filters:
+            # Check if any feature flag filter would disable this handler
+            skip_handler = False
+            for f in feature_flag_filters:
+                ff_filter = cast(FeatureFlagFilter, f.callback)
+                feature_enabled = await is_enabled(cast(FeatureType, ff_filter.feature))
+                if feature_enabled != ff_filter.enabled:
+                    skip_handler = True
+                    break
+            if skip_handler:
+                continue
 
         # Is admin
         only_admin = any(

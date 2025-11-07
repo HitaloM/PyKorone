@@ -5,6 +5,7 @@ from aiogram.types import Message
 
 from sophie_bot.filters.chat_status import LegacyOnlyGroups, LegacyOnlyPM
 from sophie_bot.filters.cmd import CMDFilter
+from sophie_bot.filters.feature_flag import FeatureFlagFilter
 from sophie_bot.filters.message_status import HasArgs, NoArgs
 from sophie_bot.filters.user_status import IsAdmin
 from sophie_bot.utils.logger import log
@@ -51,6 +52,11 @@ def register(router: Router, *reg_args, **reg_kwargs):
 
     if "user_admin" in reg_kwargs or "is_admin" in reg_kwargs:
         reg_args = (*reg_args, IsAdmin(True))
+
+    if "feature_flag" in reg_kwargs:
+        feature_name = reg_kwargs["feature_flag"]
+        enabled = reg_kwargs.get("feature_enabled", True)
+        reg_args = (*reg_args, FeatureFlagFilter(feature_name, enabled))
 
     if "f" in reg_kwargs:
         if reg_kwargs["f"] == "welcome":

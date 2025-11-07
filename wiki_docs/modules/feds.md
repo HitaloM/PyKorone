@@ -20,7 +20,6 @@ icon: 🏙
 | `/funsetlog` `/unsetfedlog` | - | Removes the Federation logs channel. | *Only in groups* |
 | `/fchatlist` `/fchats` | - | Shows a list of chats in the Federation. |  |
 | `/fadminlist` `/fadmins` | - | Shows a list of admins in the Federation. |  |
-| `/finfo` `/fedinfo` | - | Shows the information about the Federation. |  |
 | `/fban` `/sfban` | `<User>` | Bans the user in the whole Federation. |  |
 | `/unfban` `/funban` | `<User>` | Unbans the user from the Federation. |  |
 | `/delfed` `/fdel` | - | Deletes the federation. |  |

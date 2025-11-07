@@ -9,19 +9,10 @@ from sophie_bot.filters.cmd import CMDFilter
 from sophie_bot.filters.user_status import IsOP
 from sophie_bot.modules.utils_.base_handler import SophieMessageHandler
 from sophie_bot.utils.feature_flags import (
-    KillFeature,
     is_enabled,
     list_all,
     set_enabled,
-)
-
-
-_ALLOWED: tuple[KillFeature, ...] = (
-    "ai_chatbot",
-    "ai_translations",
-    "ai_moderation",
-    "filters",
-    "antiflood",
+    FEATURE_FLAGS,
 )
 
 
@@ -49,11 +40,11 @@ class KillSwitchHandler(SophieMessageHandler):
             return await self.event.reply("\n".join(lines))
 
         if not feature or value is None:
-            allowed = ", ".join(_ALLOWED)
+            allowed = ", ".join(FEATURE_FLAGS)
             return await self.event.reply(f"Usage: /op_killswitch <feature> <true|false>\nAllowed features: {allowed}")
 
-        if feature not in _ALLOWED:
-            allowed = ", ".join(_ALLOWED)
+        if feature not in FEATURE_FLAGS:
+            allowed = ", ".join(FEATURE_FLAGS)
             return await self.event.reply(f"Unknown feature '{feature}'. Allowed: {allowed}")
 
         await set_enabled(feature, value)  # type: ignore[arg-type]

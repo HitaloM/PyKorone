@@ -13,6 +13,7 @@ from sophie_bot.db.models.beta import BetaModeModel
 from sophie_bot.db.models.chat import ChatModel, ChatTopicModel, UserInGroupModel
 from sophie_bot.db.models.chat_connections import ChatConnectionModel
 from sophie_bot.db.models.disabling import DisablingModel
+from sophie_bot.db.models.federations import Federation, FederationBan
 from sophie_bot.db.models.filters import FiltersModel
 from sophie_bot.db.models.greetings import GreetingsModel
 from sophie_bot.db.models.language import LanguageModel
@@ -44,4 +45,6 @@ models: List[Type[Document]] = [
     FiltersModel,
     AIProviderModel,
     AntifloodModel,
+    Federation,
+    FederationBan,
 ]

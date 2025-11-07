@@ -16,7 +16,7 @@ MODULES = [
     "users",
     "notes",
     "help",
-    "feds",
+    "federations",
     "privacy",
     "disabling",
     "rules",
