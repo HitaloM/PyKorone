@@ -1,17 +1,3 @@
-msgid ""
-msgstr ""
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Crowdin-Project: sophiebot\n"
-"X-Crowdin-Project-ID: 356879\n"
-"X-Crowdin-Language: fi\n"
-"X-Crowdin-File: /beta/locales/sophie.pot\n"
-"X-Crowdin-File-ID: 288\n"
-"Project-Id-Version: sophiebot\n"
-"Content-Type: text/plain; charset=UTF-8\n"
-"Language-Team: Finnish\n"
-"Language: fi_FI\n"
-"PO-Revision-Date: 2025-11-08 17:48\n"
-
 #: sophie_bot/args/users.py:29
 msgid "Could not find the requested User ID in the database."
 msgstr "Käyttäjän ID:tä ei löytynyt tietokannasta."
@@ -20,23 +6,23 @@ msgstr "Käyttäjän ID:tä ei löytynyt tietokannasta."
 msgid "Could not find the requested Username in the database."
 msgstr "Käyttäjänimeä ei löytynyt tietokannasta."
 
-#: sophie_bot/args/users.py:72
+#: sophie_bot/args/users.py:72 types/user.py:120
 msgid "User: 'User ID (numeric) / Username (starts with @) / Mention (links to users)'"
 msgstr "Käyttäjä: 'Käyttäjän ID (numeerinen) / Käyttäjänimi (alkaa @-merkillä) / Maininta (linkkejä käyttäjiin)'"
 
-#: sophie_bot/args/users.py:73
+#: sophie_bot/args/users.py:73 types/user.py:122
 msgid "Users: 'User IDs (numeric) / Usernames (starts with @) / Mentions (links to users)'"
 msgstr "Käyttäjät: 'Käyttäjän ID:t (numeerinen) / Käyttäjänimet (alkaa @-merkillä) / Maininnat (linkkejä käyttäjiin)'"
 
-#: sophie_bot/args/users.py:79
+#: sophie_bot/args/users.py:79 types/user.py:128
 msgid "User ID"
 msgstr "Käyttäjän ID"
 
-#: sophie_bot/args/users.py:80
+#: sophie_bot/args/users.py:80 types/user.py:129
 msgid "Username"
 msgstr "Käyttäjänimi"
 
-#: sophie_bot/args/users.py:82
+#: sophie_bot/args/users.py:82 types/user.py:134
 msgid "A link to user, usually creates by mentioning a user without username."
 msgstr "Linkki käyttäjään, yleensä luodaan mainitsemalla käyttäjä ilman käyttäjännimeä."
 
@@ -370,9 +356,11 @@ msgstr "Olet ammattimainen tekoälyn kääntäjä / transkriboija."
 
 #: sophie_bot/modules/ai/handlers/translate.py:87
 #, python-brace-format
-msgid "Translate the following text to {language_name}:\n"
+msgid ""
+"Translate the following text to {language_name}:\n"
 "{to_translate}"
-msgstr "Käännä seuraava teksti {language_name}:\n"
+msgstr ""
+"Käännä seuraava teksti {language_name}:\n"
 "{to_translate}"
 
 #: sophie_bot/modules/ai/handlers/translate.py:91
@@ -1852,9 +1840,11 @@ msgid "Greetings"
 msgstr "Tervehdykset"
 
 #: sophie_bot/modules/greetings/__init__.py:27
-msgid "This module helps you to welcome new users automatically, while keeping the chat clean.\n"
+msgid ""
+"This module helps you to welcome new users automatically, while keeping the chat clean.\n"
 "If you want to enforce captcha / rules verification, please see 'Welcome Security' module instead."
-msgstr "Tämä moduuli auttaa sinua tervetullemaan uusia käyttäjiä automaattisesti samalla kun pitää chat siistinä.\n"
+msgstr ""
+"Tämä moduuli auttaa sinua tervetullemaan uusia käyttäjiä automaattisesti samalla kun pitää chat siistinä.\n"
 "Jos haluat pakottaa captcha / sääntöjen tarkistuksen, katso 'Tervetuloa Turvallisuus' -moduuli."
 
 #: sophie_bot/modules/greetings/default_welcome.py:9
@@ -3712,24 +3702,4 @@ msgstr "Odottamaton virhe yritettäessä hakea käyttäjää! Ilmoita tästä tu
 #: types/user.py:108
 msgid "Could not find the user mention"
 msgstr "Käyttäjän mainintaa ei löytynyt"
-
-#: types/user.py:120
-msgid "User: 'User ID (numeric) / Username (starts with @) / Mention (links to users)'"
-msgstr "Käyttäjä: 'Käyttäjän ID (numero) / Käyttäjätunnus (alkaa @) / Maininta (linkit käyttäjiin)'"
-
-#: types/user.py:122
-msgid "Users: 'User IDs (numeric) / Usernames (starts with @) / Mentions (links to users)'"
-msgstr "Käyttäjät: 'Käyttäjän ID (numero) / Käyttäjätunnukset (alkaa @) / Maininnat (linkit käyttäjiin)'"
-
-#: types/user.py:128
-msgid "User ID"
-msgstr "Käyttäjän ID"
-
-#: types/user.py:129
-msgid "Username"
-msgstr "Käyttäjätunnus"
-
-#: types/user.py:134
-msgid "A link to user, usually creates by mentioning a user without username."
-msgstr "Linkki käyttäjään, yleensä luodaan mainitsemalla käyttäjä ilman käyttäjätunnusta."
 

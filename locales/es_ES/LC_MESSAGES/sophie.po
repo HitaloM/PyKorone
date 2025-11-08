@@ -1,17 +1,3 @@
-msgid ""
-msgstr ""
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Crowdin-Project: sophiebot\n"
-"X-Crowdin-Project-ID: 356879\n"
-"X-Crowdin-Language: es-ES\n"
-"X-Crowdin-File: /beta/locales/sophie.pot\n"
-"X-Crowdin-File-ID: 288\n"
-"Project-Id-Version: sophiebot\n"
-"Content-Type: text/plain; charset=UTF-8\n"
-"Language-Team: Spanish\n"
-"Language: es_ES\n"
-"PO-Revision-Date: 2025-11-08 17:47\n"
-
 #: sophie_bot/args/users.py:29
 msgid "Could not find the requested User ID in the database."
 msgstr "No se pudo encontrar el ID de usuario solicitado en la base de datos."
@@ -20,23 +6,23 @@ msgstr "No se pudo encontrar el ID de usuario solicitado en la base de datos."
 msgid "Could not find the requested Username in the database."
 msgstr "No se pudo encontrar el nombre de usuario solicitado en la base de datos."
 
-#: sophie_bot/args/users.py:72
+#: sophie_bot/args/users.py:72 types/user.py:120
 msgid "User: 'User ID (numeric) / Username (starts with @) / Mention (links to users)'"
 msgstr "Usuario: 'ID de usuario (numérico) / Nombre de usuario (comienza con @) / Mención (enlaces a usuarios)'"
 
-#: sophie_bot/args/users.py:73
+#: sophie_bot/args/users.py:73 types/user.py:122
 msgid "Users: 'User IDs (numeric) / Usernames (starts with @) / Mentions (links to users)'"
 msgstr "Usuarios: 'IDs de usuario (numéricos) / Nombres de usuario (comienzan con @) / Menciones (enlaces a usuarios)'"
 
-#: sophie_bot/args/users.py:79
+#: sophie_bot/args/users.py:79 types/user.py:128
 msgid "User ID"
 msgstr "ID de usuario"
 
-#: sophie_bot/args/users.py:80
+#: sophie_bot/args/users.py:80 types/user.py:129
 msgid "Username"
 msgstr "Nombre de usuario"
 
-#: sophie_bot/args/users.py:82
+#: sophie_bot/args/users.py:82 types/user.py:134
 msgid "A link to user, usually creates by mentioning a user without username."
 msgstr "Un enlace al usuario, generalmente se crea al mencionar a un usuario sin nombre de usuario."
 
@@ -370,9 +356,11 @@ msgstr "Eres el traductor / transcriptor profesional de IA."
 
 #: sophie_bot/modules/ai/handlers/translate.py:87
 #, python-brace-format
-msgid "Translate the following text to {language_name}:\n"
+msgid ""
+"Translate the following text to {language_name}:\n"
 "{to_translate}"
-msgstr "Traduce el siguiente texto a {language_name}:\n"
+msgstr ""
+"Traduce el siguiente texto a {language_name}:\n"
 "{to_translate}"
 
 #: sophie_bot/modules/ai/handlers/translate.py:91
@@ -1852,9 +1840,11 @@ msgid "Greetings"
 msgstr "Saludos"
 
 #: sophie_bot/modules/greetings/__init__.py:27
-msgid "This module helps you to welcome new users automatically, while keeping the chat clean.\n"
+msgid ""
+"This module helps you to welcome new users automatically, while keeping the chat clean.\n"
 "If you want to enforce captcha / rules verification, please see 'Welcome Security' module instead."
-msgstr "Este módulo te ayuda a dar la bienvenida a nuevos usuarios automáticamente, mientras mantiene el chat limpio.\n"
+msgstr ""
+"Este módulo te ayuda a dar la bienvenida a nuevos usuarios automáticamente, mientras mantiene el chat limpio.\n"
 "Si deseas hacer cumplir la verificación de captcha / reglas, consulta el módulo de 'Bienvenida Seguridad' en su lugar."
 
 #: sophie_bot/modules/greetings/default_welcome.py:9
@@ -3712,24 +3702,4 @@ msgstr "¡Error inesperado al intentar obtener al usuario! ¡Por favor, informe 
 #: types/user.py:108
 msgid "Could not find the user mention"
 msgstr "No se pudo encontrar la mención de usuario"
-
-#: types/user.py:120
-msgid "User: 'User ID (numeric) / Username (starts with @) / Mention (links to users)'"
-msgstr "Usuario: 'ID de usuario (numérico) / Nombre de usuario (comienza con @) / Mención (enlaces a usuarios)'"
-
-#: types/user.py:122
-msgid "Users: 'User IDs (numeric) / Usernames (starts with @) / Mentions (links to users)'"
-msgstr "Usuarios: 'IDs de usuario (numéricos) / Nombres de usuario (comienzan con @) / Menciones (enlaces a usuarios)'"
-
-#: types/user.py:128
-msgid "User ID"
-msgstr "ID de usuario"
-
-#: types/user.py:129
-msgid "Username"
-msgstr "Nombre de usuario"
-
-#: types/user.py:134
-msgid "A link to user, usually creates by mentioning a user without username."
-msgstr "Un enlace al usuario, generalmente se crea al mencionar a un usuario sin nombre de usuario."
 
