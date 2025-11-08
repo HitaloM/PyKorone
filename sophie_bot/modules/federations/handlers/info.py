@@ -8,6 +8,7 @@ from aiogram.types import Message
 from ass_tg.types import OptionalArg
 from stfu_tg import Doc, KeyValue, Title
 
+from sophie_bot.db.models.chat import ChatType
 from sophie_bot.db.models.federations import Federation
 from sophie_bot.filters.cmd import CMDFilter
 from sophie_bot.filters.feature_flag import FeatureFlagFilter
@@ -38,7 +39,7 @@ class FederationInfoHandler(SophieMessageHandler):
         if fed_id_arg:
             # Show info for specific federation
             await self._show_federation_info(fed_id_arg)
-        elif self.connection.type == "private":
+        elif self.connection.type == ChatType.private:
             # In private chat, show all user's federations
             await self._show_user_federations()
         else:
