@@ -11,11 +11,11 @@ from sophie_bot.utils.i18n import lazy_gettext as l_
 @flags.help(description=l_("Shows / changes the state of Welcome Captcha."))
 class EnableWelcomeCaptchaHandlerABC(StatusBoolHandlerABC):
     header_text = l_("Welcome Captcha")
-    change_command = "enablewelcomecaptcha"
+    change_command = "welcomecaptcha"
 
     @staticmethod
     def filters() -> tuple[CallbackType, ...]:
-        return CMDFilter("enablewelcomecaptcha"), UserRestricting(admin=True)
+        return CMDFilter(("welcomecaptcha", "enablewelcomecaptcha")), UserRestricting(admin=True)
 
     async def get_status(self) -> bool:
         chat_id = self.connection.id
