@@ -47,6 +47,9 @@ class Config(BaseSettings):
     modules_not_load: List[str] = []
     legacy_modules_not_load: List[str] = []
 
+    # Welcomesecurity
+    welcomesecurity_ban_timeout: int = 48  # Hours
+
     webhooks_enable: bool = False
     webhooks_listen: str = "127.0.0.1"
     webhooks_port: int = 8080

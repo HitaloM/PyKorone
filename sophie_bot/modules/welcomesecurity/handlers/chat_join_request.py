@@ -56,7 +56,7 @@ class ChatJoinRequestHandler(SophieBaseHandler[ChatJoinRequest]):
             return
 
         # Mute the user (similar to ws_on_new_user)
-        muted = await ws_on_new_user(user, chat)
+        muted = await ws_on_new_user(user, chat, is_join_request=True)
         if not muted:
             await self.event.approve()
             return

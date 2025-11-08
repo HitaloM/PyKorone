@@ -1,6 +1,8 @@
 from aiogram import Router
 
 from sophie_bot.modules.notes.utils.buttons_processor.legacy import BUTTONS
+from sophie_bot.modes import SOPHIE_MODE
+from sophie_bot.services.scheduler import scheduler
 from sophie_bot.modules.welcomesecurity.handlers.captcha_confirm import (
     CaptchaConfirmHandler,
 )
@@ -52,3 +54,10 @@ __handlers__ = (
 
 async def __pre_setup__():
     router.message.outer_middleware(LockMutedUsers())
+
+
+async def __post_setup__(_):
+    if SOPHIE_MODE == "scheduler":
+        from sophie_bot.modules.welcomesecurity.schedules.ban_unpassed_users import BanUnpassedUsers
+
+        scheduler.add_job(BanUnpassedUsers().handle, "interval", minutes=10, jobstore="ram")
