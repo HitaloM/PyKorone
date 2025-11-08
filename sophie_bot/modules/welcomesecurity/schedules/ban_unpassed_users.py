@@ -9,8 +9,10 @@ from sophie_bot.utils.logger import log
 
 class BanUnpassedUsers:
     async def process_user(self, ws_user: WSUserModel):
-        user = await ws_user.user.fetch()
-        group = await ws_user.group.fetch()
+        await ws_user.fetch_all_links()
+
+        user = ws_user.user
+        group = ws_user.group
         log.debug("ban_unpassed_users: processing user", user=user.id, group=group.id)
 
         # Check if ban_timeout hours have passed
