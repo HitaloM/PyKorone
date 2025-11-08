@@ -10,7 +10,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Language-Team: Russian\n"
 "Language: ru_RU\n"
-"PO-Revision-Date: 2025-08-28 10:07\n"
+"PO-Revision-Date: 2025-11-08 17:47\n"
 
 #: sophie_bot/args/users.py:29
 msgid "Could not find the requested User ID in the database."
@@ -56,27 +56,32 @@ msgstr "Необходимы права администратора!"
 msgid "Private chat"
 msgstr "Приватный чат"
 
-#: sophie_bot/middlewares/connections.py:38
+#: sophie_bot/middlewares/connections.py:30
+#: sophie_bot/modules/welcomesecurity/handlers/captcha_get.py:52
+msgid "Chat not found in database"
+msgstr "Чат не найден в базе данных"
+
+#: sophie_bot/middlewares/connections.py:40
 msgid "Connected chat not found in the database. Please try to disconnect and connect again."
 msgstr "Подключенный чат не найден в базе данных. Пожалуйста, отключите и подключитесь снова."
 
-#: sophie_bot/modules/ai/__init__.py:39
+#: sophie_bot/modules/ai/__init__.py:42
 msgid "Sophie AI"
 msgstr "Софи AI"
 
-#: sophie_bot/modules/ai/__init__.py:41
+#: sophie_bot/modules/ai/__init__.py:44
 msgid "Rainbow sparkles and shininess"
 msgstr "Радужные искры и блеск"
 
-#: sophie_bot/modules/ai/__init__.py:44
+#: sophie_bot/modules/ai/__init__.py:47
 msgid "Sophie supports quite a few ways to use AI features."
 msgstr "Софи поддерживает несколько способов использования AI-функций."
 
-#: sophie_bot/modules/ai/__init__.py:45
+#: sophie_bot/modules/ai/__init__.py:48
 msgid "From a simple chat-bot, to the automatic translator. Have fun."
 msgstr "От простого чат-бота до автоматического переводчика. Приятного времяпрепровождения."
 
-#: sophie_bot/modules/ai/__init__.py:48
+#: sophie_bot/modules/ai/__init__.py:51
 msgid "Please note that you can make a limited amount of AI requests per day."
 msgstr "Пожалуйста, обратите внимание, что вы можете делать ограниченное количество запросов AI в день."
 
@@ -139,31 +144,35 @@ msgstr "🔒 Самый приватный"
 msgid "🧠 The smartest"
 msgstr "🧠 Самый умный"
 
-#: sophie_bot/modules/ai/handlers/aiprovider.py:52
+#: sophie_bot/modules/ai/handlers/aiprovider.py:32
+msgid "👨‍🏫 The most precise"
+msgstr "👨‍🏫 Самый точный"
+
+#: sophie_bot/modules/ai/handlers/aiprovider.py:53
 msgid "Select the AI Provider for this chat"
 msgstr "Выберите поставщика ИИ для этого чата"
 
-#: sophie_bot/modules/ai/handlers/aiprovider.py:69
+#: sophie_bot/modules/ai/handlers/aiprovider.py:70
 msgid "Current provider"
 msgstr "Текущий провайдер"
 
-#: sophie_bot/modules/ai/handlers/aiprovider.py:70
+#: sophie_bot/modules/ai/handlers/aiprovider.py:71
 msgid "AI Provider"
 msgstr "Поставщик ИИ"
 
-#: sophie_bot/modules/ai/handlers/aiprovider.py:86
+#: sophie_bot/modules/ai/handlers/aiprovider.py:87
 msgid "Invalid message type"
 msgstr "Неверный тип сообщения"
 
-#: sophie_bot/modules/ai/handlers/aiprovider.py:94
+#: sophie_bot/modules/ai/handlers/aiprovider.py:95
 msgid "You are not allowed to change this setting"
 msgstr "Вам не разрешено менять эту настройку"
 
-#: sophie_bot/modules/ai/handlers/aiprovider.py:99
+#: sophie_bot/modules/ai/handlers/aiprovider.py:100
 msgid "Unknown provider"
 msgstr "Неизвестный провайдер"
 
-#: sophie_bot/modules/ai/handlers/aiprovider.py:105
+#: sophie_bot/modules/ai/handlers/aiprovider.py:106
 #: sophie_bot/modules/antiflood/handlers/status.py:54
 #: sophie_bot/modules/disabling/handlers/disable.py:49
 #: sophie_bot/modules/disabling/handlers/enable.py:51
@@ -177,15 +186,15 @@ msgstr "Неизвестный провайдер"
 msgid "Chat"
 msgstr "Чат"
 
-#: sophie_bot/modules/ai/handlers/aiprovider.py:106
+#: sophie_bot/modules/ai/handlers/aiprovider.py:107
 msgid "New provider"
 msgstr "Новый провайдер"
 
-#: sophie_bot/modules/ai/handlers/aiprovider.py:107
+#: sophie_bot/modules/ai/handlers/aiprovider.py:108
 msgid "AI Provider was updated"
 msgstr "Провайдер ИИ был обновлён"
 
-#: sophie_bot/modules/ai/handlers/aiprovider.py:111
+#: sophie_bot/modules/ai/handlers/aiprovider.py:112
 msgid "Provider updated"
 msgstr "Провайдер обновлен"
 
@@ -260,6 +269,50 @@ msgstr "✨ Ответ AI"
 msgid "Generates a new AI mode"
 msgstr "Генерирует новый режим AI"
 
+#: sophie_bot/modules/ai/handlers/op_stats.py:79
+msgid "No data"
+msgstr "Нет данных"
+
+#: sophie_bot/modules/ai/handlers/op_stats.py:186
+msgid "Today"
+msgstr "Сегодня"
+
+#: sophie_bot/modules/ai/handlers/op_stats.py:187
+msgid "This week"
+msgstr "На этой неделе"
+
+#: sophie_bot/modules/ai/handlers/op_stats.py:188
+msgid "This month"
+msgstr "В этом месяце"
+
+#: sophie_bot/modules/ai/handlers/op_stats.py:189
+msgid "AI usage"
+msgstr "Использование ИИ"
+
+#: sophie_bot/modules/ai/handlers/op_stats.py:191
+msgid "Top chats — today"
+msgstr "Топ чаты — сегодня"
+
+#: sophie_bot/modules/ai/handlers/op_stats.py:192
+msgid "Top chats — this week"
+msgstr "Топ чаты — на этой неделе"
+
+#: sophie_bot/modules/ai/handlers/op_stats.py:193
+msgid "Top chats — this month"
+msgstr "Топ чаты — в этом месяце"
+
+#: sophie_bot/modules/ai/handlers/op_stats.py:194
+msgid "Top users — today"
+msgstr "Топ пользователи — сегодня"
+
+#: sophie_bot/modules/ai/handlers/op_stats.py:195
+msgid "Top users — this week"
+msgstr "Топ пользователи — на этой неделе"
+
+#: sophie_bot/modules/ai/handlers/op_stats.py:196
+msgid "Top users — this month"
+msgstr "Топ пользователи — в этом месяце"
+
 #: sophie_bot/modules/ai/handlers/pm.py:23
 msgid "Start the AI ChatBot mode"
 msgstr "Начать режим AI ChatBot"
@@ -298,52 +351,56 @@ msgstr "Сбросить контекст ИИ чата и память ИИ"
 msgid "🔄 AI context and AI memory was successfully reset. AI will now operate in a clean state."
 msgstr "🔄 Контекст ИИ и память ИИ были успешно сброшены. ИИ теперь будет работать в чистом состоянии."
 
-#: sophie_bot/modules/ai/handlers/translate.py:36
+#: sophie_bot/modules/ai/handlers/translate.py:39
 msgid "Text to translate"
 msgstr "Текст для перевода"
 
-#: sophie_bot/modules/ai/handlers/translate.py:43
+#: sophie_bot/modules/ai/handlers/translate.py:46
 msgid "Translates the given (or replied) text to the chat's selected language. Also transcribes the replied voice message to text"
 msgstr "Переводит данный (или ответный) текст на выбранный язык чата. Также транскрибирует ответное голосовое сообщение в текст"
 
-#: sophie_bot/modules/ai/handlers/translate.py:76
+#: sophie_bot/modules/ai/handlers/translate.py:79
 #, python-brace-format
 msgid "If applicable, translate the photo to {language_name}"
 msgstr "Если применимо, переведите фото на {language_name}"
 
-#: sophie_bot/modules/ai/handlers/translate.py:83
+#: sophie_bot/modules/ai/handlers/translate.py:86
 msgid "You're the professional AI translator / transcriber."
 msgstr "Вы профессиональный AI переводчик / транскрибатор."
 
-#: sophie_bot/modules/ai/handlers/translate.py:84
+#: sophie_bot/modules/ai/handlers/translate.py:87
 #, python-brace-format
 msgid "Translate the following text to {language_name}:\n"
 "{to_translate}"
 msgstr "Переведите следующий текст на {language_name}:\n"
 "{to_translate}"
 
-#: sophie_bot/modules/ai/handlers/translate.py:88
+#: sophie_bot/modules/ai/handlers/translate.py:91
 msgid "Set translation_explanations to null unless the source is ambiguous, self-contradictory, requires culturally/contextually essential explanation, contains untranslatable idiom/wordplay/polysemy affecting meaning, or needs disambiguation of a proper noun/technical term/abbreviation;if included, keep it concise (≤2 factual sentences)."
 msgstr "Установите translation_explanations в null, за исключением случаев, когда исходный текст неоднозначен, содержит внутренние противоречия, требует культурно или контекстно существенного пояснения, включает непереводимый идиом, игру слов или полисемию, влияющие на смысл, либо нуждается в уточнении собственного имени, технического термина или аббревиатуры; если поле включено, сохраняйте пояснение кратким (≤2 фактических предложения).\"}]}}END_SELF_INTENTION_ERROR_TOO_LONG_GREATER_THAN_200_TOKENS_UPDATED_WITH_TRUNCATION_OUTPUT_ONLY_JSON_TOO_LONG_TRUNCATED_SIGNATURE_INVALID.adjustmentProvided=False හාDEBUG_INVALID_OUTPUT_RECEIVED_INTERNAL_RUNTIME_EXCEPTION-BEGIN_INVALID_JSON_FIX_REQUIRED উদ্দেশ্যINVALID_CONTENT_INSERTED_AGAIN_CONCISE_FIX_REQUIRED JSON_INVALID_EXTRA_END_MARKER_REMOVE_END_TAG_ADJUSTMENT_COMPLETE)</analysis correction to=final codeWhat happened...{"
 
-#: sophie_bot/modules/ai/handlers/translate.py:114
+#: sophie_bot/modules/ai/handlers/translate.py:113
+msgid "Error generating translation"
+msgstr "Ошибка при генерации перевода"
+
+#: sophie_bot/modules/ai/handlers/translate.py:127
 msgid "Auto Translator"
 msgstr "Авто переводчик"
 
-#: sophie_bot/modules/ai/handlers/translate.py:114
+#: sophie_bot/modules/ai/handlers/translate.py:127
 msgid "Translator"
 msgstr "Переводчик"
 
-#: sophie_bot/modules/ai/handlers/translate.py:115
+#: sophie_bot/modules/ai/handlers/translate.py:128
 msgid "Voice"
 msgstr "Голос"
 
-#: sophie_bot/modules/ai/handlers/translate.py:120
+#: sophie_bot/modules/ai/handlers/translate.py:133
 #, python-brace-format
 msgid "From {from_lang} to {to_lang}"
 msgstr "С {from_lang} на {to_lang}"
 
-#: sophie_bot/modules/ai/handlers/translate.py:130
+#: sophie_bot/modules/ai/handlers/translate.py:143
 msgid "Translation Notes"
 msgstr "Заметки о переводе"
 
@@ -370,19 +427,21 @@ msgstr "Отправить ответ AI с командой"
 msgid "Change AI prompt"
 msgstr "Изменить AI подсказку"
 
-#: sophie_bot/modules/ai/middlewares/ai_moderator.py:31
+#: sophie_bot/modules/ai/middlewares/ai_moderator.py:33
 msgid "✋ AI Moderator"
 msgstr "✋ AI Модератор"
 
-#: sophie_bot/modules/ai/middlewares/ai_moderator.py:32
+#: sophie_bot/modules/ai/middlewares/ai_moderator.py:34
 msgid "This message violates the AI moderator policy and therefore has been deleted."
 msgstr "Это сообщение нарушает политику модерации AI и поэтому было удалено."
 
-#: sophie_bot/modules/ai/middlewares/ai_moderator.py:33
+#: sophie_bot/modules/ai/middlewares/ai_moderator.py:35
 msgid "Message author"
 msgstr "Автор сообщения"
 
-#: sophie_bot/modules/ai/middlewares/ai_moderator.py:42
+#: sophie_bot/modules/ai/middlewares/ai_moderator.py:44
+#: sophie_bot/modules/federations/handlers/ban.py:108
+#: sophie_bot/modules/federations/handlers/banlist.py:97
 msgid "Reason"
 msgid_plural "Reasons"
 msgstr[0] "Причина"
@@ -394,31 +453,31 @@ msgstr[3] "Причины"
 msgid "By using AI features you agree to the our Privacy Policy (/privacy) and third party AI services used."
 msgstr "Используя функции AI, вы соглашаетесь с нашей Политикой конфиденциальности (/privacy) и использованными сторонними AI-сервисами."
 
-#: sophie_bot/modules/ai/utils/ai_chatbot_reply.py:39
+#: sophie_bot/modules/ai/utils/ai_chatbot_reply.py:40
 msgid "Memory updated 💾"
 msgstr "Память обновлена 💾"
 
-#: sophie_bot/modules/ai/utils/ai_chatbot_reply.py:40
+#: sophie_bot/modules/ai/utils/ai_chatbot_reply.py:41
 msgid "Commands help 📋"
 msgstr "Команды справка 📋"
 
-#: sophie_bot/modules/ai/utils/ai_chatbot_reply.py:41
+#: sophie_bot/modules/ai/utils/ai_chatbot_reply.py:42
 msgid "Internet Search 🔍"
 msgstr "Поиск в Интернете 🔍"
 
-#: sophie_bot/modules/ai/utils/ai_chatbot_reply.py:42
+#: sophie_bot/modules/ai/utils/ai_chatbot_reply.py:43
 msgid "Scanned notes 🗒"
 msgstr "Сканированные заметки 🗒"
 
-#: sophie_bot/modules/ai/utils/ai_chatbot_reply.py:85
+#: sophie_bot/modules/ai/utils/ai_chatbot_reply.py:88
 msgid "You can use Tavily to search for information. Include information sources as links."
 msgstr "Вы можете использовать Tavily для поиска информации. Включите источники информации в виде ссылок."
 
-#: sophie_bot/modules/ai/utils/ai_chatbot_reply.py:86
+#: sophie_bot/modules/ai/utils/ai_chatbot_reply.py:89
 msgid "You can also save important things to the memory."
 msgstr "Вы также можете сохранить важные вещи в память."
 
-#: sophie_bot/modules/ai/utils/ai_chatbot_reply.py:89
+#: sophie_bot/modules/ai/utils/ai_chatbot_reply.py:92
 msgid "You have the following information in your memory"
 msgstr "У вас есть следующая информация в вашей памяти"
 
@@ -495,11 +554,11 @@ msgstr "Сегодня "
 msgid "<No text provided>"
 msgstr "<Текст не предоставлен>"
 
-#: sophie_bot/modules/ai/utils/new_message_history.py:165
+#: sophie_bot/modules/ai/utils/new_message_history.py:171
 msgid "No photo or sticker found"
 msgstr "Фото или стикер не найдены"
 
-#: sophie_bot/modules/ai/utils/new_message_history.py:170
+#: sophie_bot/modules/ai/utils/new_message_history.py:176
 msgid "Image is empty"
 msgstr "Изображение пустое"
 
@@ -588,7 +647,7 @@ msgstr "Выключение"
 #: sophie_bot/modules/disabling/handlers/disable.py:50
 #: sophie_bot/modules/disabling/handlers/enable.py:21
 #: sophie_bot/modules/disabling/handlers/enable.py:52
-#: sophie_bot/modules/legacy_modules/modules/feds.py:264
+#: sophie_bot/modules/legacy_modules/modules/feds.py:262
 msgid "Command"
 msgstr "Команда"
 
@@ -646,7 +705,7 @@ msgstr "✅ Включить всё"
 
 #: sophie_bot/modules/disabling/handlers/enable_all.py:36
 #: sophie_bot/modules/filters/handlers/confirm.py:62
-#: sophie_bot/modules/filters/handlers/filter_confirm.py:97
+#: sophie_bot/modules/filters/handlers/filter_confirm.py:100
 #: sophie_bot/modules/notes/handlers/delete_all.py:41
 msgid "🚫 Cancel"
 msgstr "🚫 Отмена"
@@ -669,15 +728,15 @@ msgstr "✅ Все команды ({removed_count}) были включены в
 msgid "Error"
 msgstr "Ошибка"
 
-#: sophie_bot/modules/error/handlers/error.py:85
+#: sophie_bot/modules/error/utils/error_message.py:29
 msgid "😞 I've got an error trying to process this update"
 msgstr "😞 У меня возникла ошибка при обработке этого обновления"
 
-#: sophie_bot/modules/error/handlers/error.py:98
+#: sophie_bot/modules/error/utils/error_message.py:47
 msgid "Reference ID"
 msgstr "Идентификатор для поддержки"
 
-#: sophie_bot/modules/error/handlers/error.py:106
+#: sophie_bot/modules/error/utils/error_message.py:55
 msgid "💬 Contact Sophie support"
 msgstr "💬 Связаться с поддержкой Sophie"
 
@@ -921,6 +980,644 @@ msgstr "Ошибки колыбели инновацию,"
 msgid "Softly whispering."
 msgstr "Тихо шепча."
 
+#: sophie_bot/modules/federations/__init__.py:17
+msgid "Federations (new)"
+msgstr "Федерации (новые)"
+
+#: sophie_bot/modules/federations/__init__.py:20
+msgid "Federations allow you to manage multiple chats as a group. You can ban users across all chats in a federation, subscribe to other federations, and manage permissions."
+msgstr "Федерации позволяют управлять несколькими чатами как группой. Вы можете банить пользователей во всех чатах федерации, подписываться на другие федерации и управлять разрешениями."
+
+#: sophie_bot/modules/federations/args/ban.py:18
+msgid "Reason (optional)"
+msgstr "Причина (необязательно)"
+
+#: sophie_bot/modules/federations/args/fed_id.py:16
+msgid "Federation ID"
+msgstr "ID Федерации"
+
+#: sophie_bot/modules/federations/args/fed_id.py:22
+msgid "Invalid federation ID format. Federation IDs must contain exactly 4 hyphens."
+msgstr "Неверный формат ID федерации. ID федерации должен содержать ровно 4 дефиса."
+
+#: sophie_bot/modules/federations/args/fed_id.py:27
+#, python-brace-format
+msgid "Federation with ID {fed_id} not found."
+msgstr "Федерация с ID {fed_id} не найдена."
+
+#: sophie_bot/modules/federations/args/fed_id.py:32
+msgid "Federation ID (format: xxxx-xxxx-xxxx-xxxx)"
+msgstr "ID Федерации (формат: xxxx-xxxx-xxxx-xxxx)"
+
+#: sophie_bot/modules/federations/args/fed_id.py:32
+msgid "Federation IDs"
+msgstr "ID Федерации"
+
+#: sophie_bot/modules/federations/args/fed_id.py:36
+msgid "Federation ID example"
+msgstr "Пример ID Федерации"
+
+#: sophie_bot/modules/federations/handlers/accept_transfer.py:22
+msgid "Accept federation ownership transfer"
+msgstr "Принять передачу владения федерацией"
+
+#: sophie_bot/modules/federations/handlers/accept_transfer.py:35
+msgid "Federation ID to accept transfer for"
+msgstr "ID Федерации для принятия передачи"
+
+#: sophie_bot/modules/federations/handlers/accept_transfer.py:40
+#: sophie_bot/modules/federations/handlers/ban.py:46
+#: sophie_bot/modules/federations/handlers/banlist.py:41
+#: sophie_bot/modules/federations/handlers/create.py:42
+#: sophie_bot/modules/federations/handlers/info.py:80
+#: sophie_bot/modules/federations/handlers/join.py:41
+#: sophie_bot/modules/federations/handlers/leave.py:33
+#: sophie_bot/modules/federations/handlers/logs.py:34
+#: sophie_bot/modules/federations/handlers/logs.py:102
+#: sophie_bot/modules/federations/handlers/subscribe.py:42
+#: sophie_bot/modules/federations/handlers/subscribe.py:144
+#: sophie_bot/modules/federations/handlers/transfer.py:52
+#: sophie_bot/modules/federations/handlers/unban.py:46
+msgid "This command can only be used by users."
+msgstr "Эта команда может быть использована только пользователями."
+
+#: sophie_bot/modules/federations/handlers/accept_transfer.py:53
+msgid "No pending transfer request found for this federation."
+msgstr "Нет ожидающего запроса на передачу для этой федерации."
+
+#: sophie_bot/modules/federations/handlers/accept_transfer.py:61
+msgid "Invalid transfer request data."
+msgstr "Неверные данные запроса на передачу."
+
+#: sophie_bot/modules/federations/handlers/accept_transfer.py:66
+msgid "This transfer request is not for you."
+msgstr "Этот запрос на передачу не для вас."
+
+#: sophie_bot/modules/federations/handlers/accept_transfer.py:70
+msgid "Federation ID mismatch."
+msgstr "Несоответствие ID федерации."
+
+#: sophie_bot/modules/federations/handlers/accept_transfer.py:78
+#: sophie_bot/modules/federations/handlers/ban.py:57
+#: sophie_bot/modules/federations/handlers/banlist.py:50
+#: sophie_bot/modules/federations/handlers/subscribe.py:68
+#: sophie_bot/modules/federations/handlers/subscribe.py:84
+#: sophie_bot/modules/federations/handlers/subscribe.py:165
+#: sophie_bot/modules/federations/handlers/subscribe.py:181
+#: sophie_bot/modules/federations/handlers/unban.py:84
+msgid "Federation not found."
+msgstr "Федерация не найдена."
+
+#: sophie_bot/modules/federations/handlers/accept_transfer.py:83
+msgid "Transfer request is outdated. The federation owner has changed."
+msgstr "Запрос на передачу устарел. Владелец федерации изменился."
+
+#: sophie_bot/modules/federations/handlers/accept_transfer.py:100
+msgid "🏛 Ownership Transferred"
+msgstr "🏛 Владельчество передано"
+
+#: sophie_bot/modules/federations/handlers/accept_transfer.py:102
+#, python-brace-format
+msgid "You are now the owner of federation '{fed_name}'."
+msgstr "Теперь вы владелец федерации '{fed_name}'."
+
+#: sophie_bot/modules/federations/handlers/accept_transfer.py:103
+#: sophie_bot/modules/federations/handlers/create.py:78
+#: sophie_bot/modules/federations/handlers/join.py:78
+#: sophie_bot/modules/federations/handlers/leave.py:62
+#, python-brace-format
+msgid "Federation ID: {fed_id}"
+msgstr "ID Федерации: {fed_id}"
+
+#: sophie_bot/modules/federations/handlers/ban.py:24
+msgid "Ban a user from the federation"
+msgstr "Забанить пользователя в федерации"
+
+#: sophie_bot/modules/federations/handlers/ban.py:37
+#: sophie_bot/modules/federations/handlers/banlist.py:34
+#: sophie_bot/modules/federations/handlers/unban.py:38
+msgid "Federation ID (optional, uses current chat's federation if not specified)"
+msgstr "ID Федерации (необязательно, используется федерация текущего чата, если не указано)"
+
+#: sophie_bot/modules/federations/handlers/ban.py:39
+msgid "User to ban"
+msgstr "Пользователь для бана"
+
+#: sophie_bot/modules/federations/handlers/ban.py:65
+msgid "This chat is not in any federation. Use /fban <fed_id> <user> to specify federation."
+msgstr "Этот чат не в какой-либо федерации. Используйте /fban <fed_id> <user> для указания федерации."
+
+#: sophie_bot/modules/federations/handlers/ban.py:71
+msgid "You don't have permission to ban users in this federation."
+msgstr "У вас нет прав банить пользователей в этой федерации."
+
+#: sophie_bot/modules/federations/handlers/ban.py:76
+msgid "Cannot ban bot operators."
+msgstr "Нельзя банить операторов бота."
+
+#: sophie_bot/modules/federations/handlers/ban.py:80
+msgid "You cannot ban yourself."
+msgstr "Вы не можете забанить себя."
+
+#: sophie_bot/modules/federations/handlers/ban.py:84
+msgid "Cannot ban the bot."
+msgstr "Нельзя банить бота."
+
+#: sophie_bot/modules/federations/handlers/ban.py:88
+msgid "Cannot ban the federation owner."
+msgstr "Нельзя банить владельца федерации."
+
+#: sophie_bot/modules/federations/handlers/ban.py:93
+msgid "Cannot ban federation administrators."
+msgstr "Нельзя банить администраторов федерации."
+
+#: sophie_bot/modules/federations/handlers/ban.py:102
+msgid "🏛 User Banned from Federation"
+msgstr "🏛 Пользователь заблокирован в Федерации"
+
+#: sophie_bot/modules/federations/handlers/ban.py:103
+#: sophie_bot/modules/federations/handlers/banlist.py:73
+#: sophie_bot/modules/federations/handlers/banlist.py:103
+#: sophie_bot/modules/federations/handlers/subscribe.py:90
+#: sophie_bot/modules/federations/handlers/subscribe.py:187
+#: sophie_bot/modules/federations/handlers/unban.py:148
+msgid "Federation"
+msgstr "Федерация"
+
+#: sophie_bot/modules/federations/handlers/ban.py:104
+#: sophie_bot/modules/federations/handlers/banlist.py:92
+#: sophie_bot/modules/federations/handlers/unban.py:149
+#: sophie_bot/modules/legacy_modules/modules/feds.py:426
+#: sophie_bot/modules/legacy_modules/modules/feds.py:455
+#: sophie_bot/modules/legacy_modules/modules/feds.py:608
+#: sophie_bot/modules/legacy_modules/modules/feds.py:783
+#: sophie_bot/modules/legacy_modules/modules/restrictions.py:68
+#: sophie_bot/modules/legacy_modules/modules/restrictions.py:127
+#: sophie_bot/modules/legacy_modules/modules/restrictions.py:206
+#: sophie_bot/modules/legacy_modules/modules/restrictions.py:243
+#: sophie_bot/modules/legacy_modules/modules/restrictions.py:322
+#: sophie_bot/modules/legacy_modules/modules/warns.py:67
+#: sophie_bot/modules/legacy_modules/modules/warns.py:178
+#: sophie_bot/modules/legacy_modules/modules/warns.py:242
+#: sophie_bot/modules/promotes/handlers/demote.py:35
+#: sophie_bot/modules/promotes/handlers/demote.py:67
+#: sophie_bot/modules/promotes/handlers/promote.py:39
+#: sophie_bot/modules/promotes/handlers/promote.py:85
+#: sophie_bot/modules/users/handlers/id.py:22
+msgid "User"
+msgstr "Пользователь"
+
+#: sophie_bot/modules/federations/handlers/ban.py:105
+#: sophie_bot/modules/federations/handlers/banlist.py:93
+msgid "Banned by"
+msgstr "Забанил"
+
+#: sophie_bot/modules/federations/handlers/ban.py:113
+#, python-brace-format
+msgid "🏛 User {banned_user} has been banned from federation by {banner}."
+msgstr "🏛 Пользователь {banned_user} был забанен в федерации {banner}."
+
+#: sophie_bot/modules/federations/handlers/ban.py:118
+#, python-brace-format
+msgid " Reason: {reason}"
+msgstr " Причина: {reason}"
+
+#: sophie_bot/modules/federations/handlers/banlist.py:21
+msgid "Show list of banned users in federation"
+msgstr "Показать список забаненных пользователей в федерации"
+
+#: sophie_bot/modules/federations/handlers/banlist.py:58
+msgid "This chat is not in any federation. Use /fbanlist <fed_id> to specify federation."
+msgstr "Этот чат не в какой-либо федерации. Используйте /fbanlist <fed_id> для указания федерации."
+
+#: sophie_bot/modules/federations/handlers/banlist.py:64
+msgid "You don't have permission to view ban lists in this federation."
+msgstr "У вас нет прав просмотра списков бана в этой федерации."
+
+#: sophie_bot/modules/federations/handlers/banlist.py:72
+#: sophie_bot/modules/federations/handlers/banlist.py:102
+msgid "🏛 Federation Ban List"
+msgstr "🏛 Список бана Федерации"
+
+#: sophie_bot/modules/federations/handlers/banlist.py:74
+msgid "No users are currently banned in this federation."
+msgstr "В данный момент в этой федерации нет забаненных пользователей."
+
+#: sophie_bot/modules/federations/handlers/banlist.py:94
+msgid "Date"
+msgstr "Дата"
+
+#: sophie_bot/modules/federations/handlers/banlist.py:104
+msgid "Total bans"
+msgstr "Всего баны"
+
+#: sophie_bot/modules/federations/handlers/create.py:23
+msgid "Create a new federation"
+msgstr "Создать новую федерацию"
+
+#: sophie_bot/modules/federations/handlers/create.py:37
+msgid "Federation name"
+msgstr "Название федерации"
+
+#: sophie_bot/modules/federations/handlers/create.py:52
+#, python-brace-format
+msgid "Federation name too long. Maximum length is {max_length} characters."
+msgstr "Слишком длинное название федерации. Максимальная длина — {max_length} символов."
+
+#: sophie_bot/modules/federations/handlers/create.py:60
+msgid "You have reached the maximum number of federations you can create."
+msgstr "Вы достигли максимального количества федераций, которые можно создать."
+
+#: sophie_bot/modules/federations/handlers/create.py:65
+msgid "A federation with this name already exists."
+msgstr "Федерация с таким названием уже существует."
+
+#: sophie_bot/modules/federations/handlers/create.py:75
+msgid "🏛 Federation Created"
+msgstr "🏛 Федерация создана"
+
+#: sophie_bot/modules/federations/handlers/create.py:77
+#, python-brace-format
+msgid "Federation '{name}' has been created successfully!"
+msgstr "Федерация '{name}' успешно создана!"
+
+#: sophie_bot/modules/federations/handlers/create.py:79
+msgid "You are the owner of this federation."
+msgstr "Вы являетесь владельцем этой федерации."
+
+#: sophie_bot/modules/federations/handlers/create.py:85
+#, python-brace-format
+msgid "🏛 Federation '{name}' has been created by {user}."
+msgstr "🏛 Федерация '{name}' была создана {user}."
+
+#: sophie_bot/modules/federations/handlers/info.py:22
+msgid "Get information about a federation"
+msgstr "Получить информацию о федерации"
+
+#: sophie_bot/modules/federations/handlers/info.py:33
+msgid "Federation ID to get info about (optional)"
+msgstr "ID Федерации для получения информации (необязательно)"
+
+#: sophie_bot/modules/federations/handlers/info.py:55
+msgid "🏛 Federation Information"
+msgstr "🏛 Информация о Федерации"
+
+#: sophie_bot/modules/federations/handlers/info.py:56
+#: sophie_bot/modules/notes/handlers/delete.py:40
+msgid "Name"
+msgstr "Имя"
+
+#: sophie_bot/modules/federations/handlers/info.py:57
+msgid "ID"
+msgstr "ID"
+
+#: sophie_bot/modules/federations/handlers/info.py:58
+msgid "Owner"
+msgstr "Владелец"
+
+#: sophie_bot/modules/federations/handlers/info.py:59
+msgid "Chats"
+msgstr "Чаты"
+
+#: sophie_bot/modules/federations/handlers/info.py:60
+msgid "Banned users"
+msgstr "Забаненные пользователи"
+
+#: sophie_bot/modules/federations/handlers/info.py:73
+#: sophie_bot/modules/federations/handlers/subscribe.py:91
+msgid "Subscribed to"
+msgstr "Подписано на"
+
+#: sophie_bot/modules/federations/handlers/info.py:87
+msgid "You don't own any federations."
+msgstr "Вы не владеете никакими федерациями."
+
+#: sophie_bot/modules/federations/handlers/info.py:101
+msgid "🏛 Your Federations"
+msgstr "🏛 Ваши Федерации"
+
+#: sophie_bot/modules/federations/handlers/info.py:102
+#, python-brace-format
+msgid "You own {count} federations:"
+msgstr "У вас есть {count} федераций:"
+
+#: sophie_bot/modules/federations/handlers/info.py:105
+msgid "To get detailed information about a specific federation, use:"
+msgstr "Чтобы получить подробную информацию о конкретной федерации, используйте:"
+
+#: sophie_bot/modules/federations/handlers/info.py:106
+msgid "`/finfo <federation_id>`"
+msgstr "`/finfo <federation_id>`"
+
+#: sophie_bot/modules/federations/handlers/info.py:116
+#: sophie_bot/modules/federations/handlers/leave.py:50
+#: sophie_bot/modules/federations/handlers/logs.py:43
+#: sophie_bot/modules/federations/handlers/logs.py:111
+msgid "This chat is not in any federation."
+msgstr "Этот чат не в какой-либо федерации."
+
+#: sophie_bot/modules/federations/handlers/join.py:22
+msgid "Join a chat to a federation"
+msgstr "Присоединиться к чату к федерации"
+
+#: sophie_bot/modules/federations/handlers/join.py:36
+msgid "Federation ID to join"
+msgstr "ID Федерации для присоединения"
+
+#: sophie_bot/modules/federations/handlers/join.py:51
+msgid "Only the chat creator can join federations."
+msgstr "Только создатель чата может присоединяться к федерациям."
+
+#: sophie_bot/modules/federations/handlers/join.py:60
+msgid "This chat is already in the specified federation."
+msgstr "Этот чат уже находится в указанной федерации."
+
+#: sophie_bot/modules/federations/handlers/join.py:63
+msgid "This chat is already in another federation. Leave it first."
+msgstr "Этот чат уже находится в другой федерации. Покиньте её сначала."
+
+#: sophie_bot/modules/federations/handlers/join.py:74
+msgid "🏛 Chat Joined Federation"
+msgstr "🏛 Чат присоединился к Федерации"
+
+#: sophie_bot/modules/federations/handlers/join.py:75
+#, python-brace-format
+msgid "Chat '{chat_title}' has been added to federation '{fed_name}'."
+msgstr "Чат '{chat_title}' был добавлен в федерацию '{fed_name}'."
+
+#: sophie_bot/modules/federations/handlers/join.py:84
+#, python-brace-format
+msgid "🏛 Chat '{chat_title}' has been added to federation by {user}."
+msgstr "🏛 Чат '{chat_title}' был добавлен в федерацию пользователем {user}."
+
+#: sophie_bot/modules/federations/handlers/leave.py:18
+msgid "Leave a federation"
+msgstr "Покинуть федерацию"
+
+#: sophie_bot/modules/federations/handlers/leave.py:42
+msgid "Only the chat creator can leave federations."
+msgstr "Только создатель чата может покидать федерации."
+
+#: sophie_bot/modules/federations/handlers/leave.py:58
+msgid "🏛 Chat Left Federation"
+msgstr "🏛 Чат покинул Федерацию"
+
+#: sophie_bot/modules/federations/handlers/leave.py:59
+#, python-brace-format
+msgid "Chat '{chat_title}' has left federation '{fed_name}'."
+msgstr "Чат '{chat_title}' покинул федерацию '{fed_name}'."
+
+#: sophie_bot/modules/federations/handlers/leave.py:68
+#, python-brace-format
+msgid "🏛 Chat '{chat_title}' has left federation by {user}."
+msgstr "🏛 Чат '{chat_title}' покинул федерацию по инициативе {user}."
+
+#: sophie_bot/modules/federations/handlers/logs.py:18
+msgid "Sets the Federation logs channel"
+msgstr "Устанавливает канал логов Федерации"
+
+#: sophie_bot/modules/federations/handlers/logs.py:48
+msgid "Only the federation owner can set the log channel."
+msgstr "Только владелец федерации может установить канал логов."
+
+#: sophie_bot/modules/federations/handlers/logs.py:54
+msgid "This federation already has a log channel set. Use /funsetlog to remove it first."
+msgstr "У этой федерации уже есть установленный канал логов. Используйте /funsetlog, чтобы сначала удалить его."
+
+#: sophie_bot/modules/federations/handlers/logs.py:64
+msgid "I don't have permission to post messages in this channel."
+msgstr "У меня нет прав на публикацию сообщений в этом канале."
+
+#: sophie_bot/modules/federations/handlers/logs.py:67
+msgid "Unable to verify permissions in this channel."
+msgstr "Невозможно проверить разрешения в этом канале."
+
+#: sophie_bot/modules/federations/handlers/logs.py:75
+msgid "🏛 Federation Log Channel Set"
+msgstr "🏛 Канал логов Федерации установлен"
+
+#: sophie_bot/modules/federations/handlers/logs.py:76
+#, python-brace-format
+msgid "Log channel has been set for federation '{name}'."
+msgstr "Канал логов был установлен для федерации '{name}'."
+
+#: sophie_bot/modules/federations/handlers/logs.py:77
+msgid "All federation actions will now be logged here."
+msgstr "Все действия федерации теперь будут логироваться здесь."
+
+#: sophie_bot/modules/federations/handlers/logs.py:82
+#, python-brace-format
+msgid "🏛 Federation '{name}' log channel has been set to this chat."
+msgstr "🏛 Канал логов федерации '{name}' был установлен в этот чат."
+
+#: sophie_bot/modules/federations/handlers/logs.py:86
+msgid "Removes the Federation logs channel"
+msgstr "Удаляет канал логов Федерации"
+
+#: sophie_bot/modules/federations/handlers/logs.py:116
+msgid "Only the federation owner can remove the log channel."
+msgstr "Только владелец федерации может удалить канал логов."
+
+#: sophie_bot/modules/federations/handlers/logs.py:121
+msgid "This federation doesn't have a log channel set."
+msgstr "У этой федерации нет установленного канала логов."
+
+#: sophie_bot/modules/federations/handlers/logs.py:125
+#, python-brace-format
+msgid "🏛 Federation '{name}' log channel has been removed."
+msgstr "🏛 Канал логов федерации '{name}' был удален."
+
+#: sophie_bot/modules/federations/handlers/logs.py:133
+msgid "🏛 Federation Log Channel Removed"
+msgstr "🏛 Канал логов Федерации удален"
+
+#: sophie_bot/modules/federations/handlers/logs.py:134
+#, python-brace-format
+msgid "Log channel has been removed for federation '{name}'."
+msgstr "Канал логов был удален для федерации '{name}'."
+
+#: sophie_bot/modules/federations/handlers/subscribe.py:23
+msgid "Subscribe federation to another federation"
+msgstr "Подписать федерацию на другую федерацию"
+
+#: sophie_bot/modules/federations/handlers/subscribe.py:37
+msgid "Federation ID to subscribe to"
+msgstr "ID федерации для подписки"
+
+#: sophie_bot/modules/federations/handlers/subscribe.py:50
+#: sophie_bot/modules/federations/handlers/subscribe.py:152
+msgid "This chat is not in a federation."
+msgstr "Этот чат не находится в федерации."
+
+#: sophie_bot/modules/federations/handlers/subscribe.py:55
+#: sophie_bot/modules/federations/handlers/subscribe.py:157
+msgid "Only federation owners can manage subscriptions."
+msgstr "Только владельцы федераций могут управлять подписками."
+
+#: sophie_bot/modules/federations/handlers/subscribe.py:60
+msgid "Invalid federation ID format."
+msgstr "Неверный формат ID федерации."
+
+#: sophie_bot/modules/federations/handlers/subscribe.py:72
+msgid "🏛 Subscription Failed"
+msgstr "🏛 Ошибка подписки"
+
+#: sophie_bot/modules/federations/handlers/subscribe.py:73
+#, python-brace-format
+msgid "Federation '{name}' is already subscribed to '{name2}'."
+msgstr "Федерация '{name}' уже подписана на '{name2}'."
+
+#: sophie_bot/modules/federations/handlers/subscribe.py:89
+msgid "🏛 Federation Subscribed"
+msgstr "🏛 Федерация подписана"
+
+#: sophie_bot/modules/federations/handlers/subscribe.py:97
+#, python-brace-format
+msgid "🏛 Federation '{fed_name}' ({fed_id}) subscribed to '{target_fed_name}' ({target_fed_id})"
+msgstr "🏛 Федерация '{fed_name}' ({fed_id}) подписана на '{target_fed_name}' ({target_fed_id})"
+
+#: sophie_bot/modules/federations/handlers/subscribe.py:108
+#, python-brace-format
+msgid "Federation '{fed_name}' ({fed_id}) subscribed to '{target_fed_name}' ({target_fed_id})"
+msgstr "Федерация '{fed_name}' ({fed_id}) подписана на '{target_fed_name}' ({target_fed_id})"
+
+#: sophie_bot/modules/federations/handlers/subscribe.py:125
+msgid "Unsubscribe federation from another federation"
+msgstr "Отписать федерацию от другой федерации"
+
+#: sophie_bot/modules/federations/handlers/subscribe.py:139
+msgid "Federation ID to unsubscribe from"
+msgstr "ID федерации для отписки"
+
+#: sophie_bot/modules/federations/handlers/subscribe.py:169
+msgid "🏛 Unsubscription Failed"
+msgstr "🏛 Ошибка отписки"
+
+#: sophie_bot/modules/federations/handlers/subscribe.py:170
+#, python-brace-format
+msgid "Federation '{name}' is not subscribed to '{name2}'."
+msgstr "Федерация '{name}' не подписана на '{name2}'."
+
+#: sophie_bot/modules/federations/handlers/subscribe.py:186
+msgid "🏛 Federation Unsubscribed"
+msgstr "🏛 Федерация отписана"
+
+#: sophie_bot/modules/federations/handlers/subscribe.py:188
+msgid "Unsubscribed from"
+msgstr "Отписано от"
+
+#: sophie_bot/modules/federations/handlers/subscribe.py:195
+#, python-brace-format
+msgid "🏛 Federation '{fed_name}' ({fed_id}) unsubscribed from '{target_fed_name}' ({target_fed_id})"
+msgstr "🏛 Федерация '{fed_name}' ({fed_id}) отписана от '{target_fed_name}' ({target_fed_id})"
+
+#: sophie_bot/modules/federations/handlers/transfer.py:24
+msgid "Transfer federation ownership"
+msgstr "Передать владение федерацией"
+
+#: sophie_bot/modules/federations/handlers/transfer.py:45
+msgid "Federation ID to transfer"
+msgstr "ID федерации для передачи"
+
+#: sophie_bot/modules/federations/handlers/transfer.py:46
+msgid "New owner username or ID"
+msgstr "Новое имя пользователя или ID"
+
+#: sophie_bot/modules/federations/handlers/transfer.py:61
+msgid "Only the federation owner can transfer ownership."
+msgstr "Только владелец федерации может передать владение."
+
+#: sophie_bot/modules/federations/handlers/transfer.py:69
+msgid "Invalid user. Please provide a valid username or user ID."
+msgstr "Неверный пользователь. Пожалуйста, укажите правильное имя пользователя или ID пользователя."
+
+#: sophie_bot/modules/federations/handlers/transfer.py:74
+msgid "You cannot transfer ownership to yourself."
+msgstr "Вы не можете передать владение себе."
+
+#: sophie_bot/modules/federations/handlers/transfer.py:109
+msgid "🏛 Transfer Request Sent"
+msgstr "🏛 Запрос на передачу отправлен"
+
+#: sophie_bot/modules/federations/handlers/transfer.py:110
+#, python-brace-format
+msgid "Ownership transfer request sent to user {user_id}."
+msgstr "Запрос на передачу владения отправлен пользователю {user_id}."
+
+#: sophie_bot/modules/federations/handlers/transfer.py:111
+#, python-brace-format
+msgid "They have 5 minutes to accept with /accepttransfer {fed_id}"
+msgstr "У них есть 5 минут, чтобы принять с помощью /accepttransfer {fed_id}"
+
+#: sophie_bot/modules/federations/handlers/unban.py:25
+msgid "Unban a user from the federation"
+msgstr "Снять бан с пользователя в федерации"
+
+#: sophie_bot/modules/federations/handlers/unban.py:40
+msgid "User to unban"
+msgstr "Пользователь для снятия бана"
+
+#: sophie_bot/modules/federations/handlers/unban.py:73
+msgid "Failed to unban user."
+msgstr "Не удалось снять бан с пользователя."
+
+#: sophie_bot/modules/federations/handlers/unban.py:92
+msgid "This chat is not in any federation. Use /funban <fed_id> <user> to specify federation."
+msgstr "Этот чат не находится в какой-либо федерации. Используйте /funban <fed_id> <user> для указания федерации."
+
+#: sophie_bot/modules/federations/handlers/unban.py:102
+msgid "You don't have permission to unban users in this federation."
+msgstr "У вас нет прав на снятие бана с пользователей в этой федерации."
+
+#: sophie_bot/modules/federations/handlers/unban.py:108
+msgid "This user is not banned in this federation."
+msgstr "Этот пользователь не забанен в этой федерации."
+
+#: sophie_bot/modules/federations/handlers/unban.py:114
+msgid "Cannot unban this user because their ban originated from a subscription."
+msgstr "Невозможно снять бан с этого пользователя, так как его бан произошел из подписки."
+
+#: sophie_bot/modules/federations/handlers/unban.py:123
+msgid "🏛 Cannot Unban User"
+msgstr "🏛 Невозможно снять бан с пользователя"
+
+#: sophie_bot/modules/federations/handlers/unban.py:124
+msgid "This user cannot be unbanned because they are banned in a federation this federation subscribes to."
+msgstr "Этот пользователь не может быть разбанен, так как он забанен в федерации, на которую подписана эта федерация."
+
+#: sophie_bot/modules/federations/handlers/unban.py:126
+msgid "📅 Banned on"
+msgstr "📅 Забанен"
+
+#: sophie_bot/modules/federations/handlers/unban.py:127
+msgid "🏛 Federation"
+msgstr "🏛 Федерация"
+
+#: sophie_bot/modules/federations/handlers/unban.py:128
+msgid "👤 Banned by"
+msgstr "👤 Забанил"
+
+#: sophie_bot/modules/federations/handlers/unban.py:132
+msgid "📝 Reason"
+msgstr "📝 Причина"
+
+#: sophie_bot/modules/federations/handlers/unban.py:135
+msgid "To unban this user, you need to unsubscribe from the parent federation first:"
+msgstr "Чтобы снять бан с этого пользователя, сначала отпишитесь от родительской федерации:"
+
+#: sophie_bot/modules/federations/handlers/unban.py:147
+msgid "🏛 User Unbanned from Federation"
+msgstr "🏛 Пользователь разбанен в Федерации"
+
+#: sophie_bot/modules/federations/handlers/unban.py:150
+msgid "Unbanned by"
+msgstr "Разбанил"
+
+#: sophie_bot/modules/federations/handlers/unban.py:156
+#, python-brace-format
+msgid "🏛 User {unbanned_user} has been unbanned from federation by {unbanner}."
+msgstr "🏛 Пользователь {unbanned_user} был разбанен в федерации пользователем {unbanner}."
+
 #: sophie_bot/modules/filters/__init__.py:30
 #: sophie_bot/modules/filters/handlers/filter_del.py:50
 msgid "Filters"
@@ -938,6 +1635,17 @@ msgstr "Например, заглушать пользователей, ког�
 msgid "Sophie supports many different actions you can configure to automatize chat moderation in many different ways."
 msgstr "Софи поддерживает множество различных действий, которые вы можете настроить для автоматизации модерации чата разными способами."
 
+#: sophie_bot/modules/filters/handlers/action_change_setting_confirm.py:57
+#: sophie_bot/modules/filters/handlers/action_remove.py:28
+#: sophie_bot/modules/filters/handlers/action_setting_select.py:32
+#: sophie_bot/modules/filters/handlers/action_setup_confirm.py:68
+#: sophie_bot/modules/filters/handlers/actions_list.py:38
+#: sophie_bot/modules/filters/handlers/actions_list_to_remove.py:35
+#: sophie_bot/modules/filters/handlers/filter_confirm.py:42
+#: sophie_bot/modules/filters/handlers/filter_save.py:42
+msgid "Continuing setup is only possible by the same user who started it."
+msgstr "Продолжение настройки возможно только для того же пользователя, который начал её."
+
 #: sophie_bot/modules/filters/handlers/action_select.py:39
 #: sophie_bot/modules/filters/handlers/add.py:86
 msgid "setup"
@@ -948,7 +1656,7 @@ msgid "⬅ Back"
 msgstr "⬅ Дополнительно"
 
 #: sophie_bot/modules/filters/handlers/action_select.py:50
-#: sophie_bot/modules/filters/handlers/actions_list.py:66
+#: sophie_bot/modules/filters/handlers/actions_list.py:69
 #: sophie_bot/modules/filters/handlers/add.py:72
 #: sophie_bot/modules/filters/handlers/add.py:89
 #: sophie_bot/modules/utils_/action_config_wizard/renderer.py:172
@@ -956,24 +1664,24 @@ msgstr "⬅ Дополнительно"
 msgid "❌ Cancel"
 msgstr "❌ Отмена"
 
-#: sophie_bot/modules/filters/handlers/actions_list.py:48
+#: sophie_bot/modules/filters/handlers/actions_list.py:51
 #: sophie_bot/modules/filters/handlers/add.py:59
 msgid "Select a filter action:"
 msgstr "Выберите действие фильтра:"
 
-#: sophie_bot/modules/filters/handlers/actions_list.py:51
+#: sophie_bot/modules/filters/handlers/actions_list.py:54
 msgid "No additional actions available."
 msgstr "Дополнительные действия недоступны."
 
-#: sophie_bot/modules/filters/handlers/actions_list.py:69
+#: sophie_bot/modules/filters/handlers/actions_list.py:72
 msgid "⬅️ Do not add an action (Back)"
 msgstr "⬅️ Не добавляйте действие (Назад)"
 
-#: sophie_bot/modules/filters/handlers/actions_list_to_remove.py:37
+#: sophie_bot/modules/filters/handlers/actions_list_to_remove.py:40
 msgid "Select a filter action to remove:"
 msgstr "Выберите действие фильтра для удаления:"
 
-#: sophie_bot/modules/filters/handlers/actions_list_to_remove.py:52
+#: sophie_bot/modules/filters/handlers/actions_list_to_remove.py:55
 msgid "⬅️ Do not remove actions (Back)"
 msgstr "⬅️ Не удаляйте действия (Назад)"
 
@@ -986,28 +1694,28 @@ msgstr "Текст для поиска"
 
 #: sophie_bot/modules/filters/handlers/add.py:55
 #: sophie_bot/modules/filters/handlers/confirm.py:38
-#: sophie_bot/modules/filters/handlers/filter_confirm.py:46
+#: sophie_bot/modules/filters/handlers/filter_confirm.py:49
 #: sophie_bot/modules/filters/handlers/filter_new.py:50
 msgid "New filter"
 msgstr "Новый фильтр"
 
 #: sophie_bot/modules/filters/handlers/add.py:57
 #: sophie_bot/modules/filters/handlers/confirm.py:39
-#: sophie_bot/modules/filters/handlers/filter_confirm.py:48
+#: sophie_bot/modules/filters/handlers/filter_confirm.py:51
 #: sophie_bot/modules/filters/handlers/filter_new.py:51
 msgid "Handles"
 msgstr "Обрабатывает"
 
 #: sophie_bot/modules/filters/handlers/add.py:57
 #: sophie_bot/modules/filters/handlers/confirm.py:39
-#: sophie_bot/modules/filters/handlers/filter_confirm.py:48
+#: sophie_bot/modules/filters/handlers/filter_confirm.py:51
 #: sophie_bot/modules/filters/utils_/legacy_filter_handler.py:48
 #, python-brace-format
 msgid "When {handler} in message"
 msgstr "Когда {handler} в сообщении"
 
 #: sophie_bot/modules/filters/handlers/confirm.py:47
-#: sophie_bot/modules/filters/handlers/filter_confirm.py:62
+#: sophie_bot/modules/filters/handlers/filter_confirm.py:65
 msgid "Action"
 msgid_plural "Actions"
 msgstr[0] "Действие"
@@ -1016,17 +1724,17 @@ msgstr[2] "Действия"
 msgstr[3] "Действия"
 
 #: sophie_bot/modules/filters/handlers/confirm.py:58
-#: sophie_bot/modules/filters/handlers/filter_confirm.py:82
+#: sophie_bot/modules/filters/handlers/filter_confirm.py:85
 #: sophie_bot/modules/utils_/action_config_wizard/renderer.py:81
 msgid "➕ Add another action"
 msgstr "➕ Добавить ещё одно действие"
 
 #: sophie_bot/modules/filters/handlers/confirm.py:63
-#: sophie_bot/modules/filters/handlers/filter_confirm.py:99
+#: sophie_bot/modules/filters/handlers/filter_confirm.py:102
 msgid "✅ Confirm"
 msgstr "✅ Подтвердить"
 
-#: sophie_bot/modules/filters/handlers/filter_confirm.py:87
+#: sophie_bot/modules/filters/handlers/filter_confirm.py:90
 msgid "➖ Remove actions"
 msgstr "➖ Убрать действия"
 
@@ -1102,7 +1810,7 @@ msgstr "В качестве альтернативы вы можете удал�
 msgid "Adds a new filter"
 msgstr "Добавляет новый фильтр"
 
-#: sophie_bot/modules/filters/handlers/filter_save.py:46
+#: sophie_bot/modules/filters/handlers/filter_save.py:49
 #, python-brace-format
 msgid "Filter on {keyword} was saved."
 msgstr "Фильтр по {keyword} был сохранен."
@@ -1143,11 +1851,11 @@ msgstr "Предоставленный шаблон regex слишком мед�
 msgid "When messages matches the regex pattern {pattern}"
 msgstr "Когда сообщения соответствуют шаблону regex {pattern}"
 
-#: sophie_bot/modules/greetings/__init__.py:20
+#: sophie_bot/modules/greetings/__init__.py:24
 msgid "Greetings"
 msgstr "Приветствия"
 
-#: sophie_bot/modules/greetings/__init__.py:23
+#: sophie_bot/modules/greetings/__init__.py:27
 msgid "This module helps you to welcome new users automatically, while keeping the chat clean.\n"
 "If you want to enforce captcha / rules verification, please see 'Welcome Security' module instead."
 msgstr "Этот модуль помогает вам автоматически приветствовать новых пользователей, сохраняя чат в чистоте.\n"
@@ -1175,6 +1883,19 @@ msgstr "Привет {mention}! Добро пожаловать в {chatname}!"
 msgid "⬇️ Please click the button below to participate in the group."
 msgstr "⬇️ Пожалуйста, нажмите кнопку ниже, чтобы участвовать в группе."
 
+#: sophie_bot/modules/greetings/default_welcome.py:26
+#, python-brace-format
+msgid "Hi {mention}!"
+msgstr "Привет, {mention}!"
+
+#: sophie_bot/modules/greetings/default_welcome.py:27
+msgid "Please check your direct messages with me to complete verification and join the group."
+msgstr "Пожалуйста, проверьте свои личные сообщения со мной, чтобы завершить проверку и присоединиться к группе."
+
+#: sophie_bot/modules/greetings/default_welcome.py:28
+msgid "[Open DM with Sophie](btnsophieurl)"
+msgstr "[Open DM with Sophie](btnsophieurl)"
+
 #: sophie_bot/modules/greetings/handlers/enablewelcome.py:11
 msgid "Shows / changes the state of sending greetings"
 msgstr "Показывает / изменяет состояние отправки приветствий"
@@ -1182,6 +1903,36 @@ msgstr "Показывает / изменяет состояние отправ�
 #: sophie_bot/modules/greetings/handlers/enablewelcome.py:13
 msgid "Welcome messages"
 msgstr "Приветственные сообщения"
+
+#: sophie_bot/modules/greetings/handlers/set_join_request.py:17
+#: sophie_bot/modules/greetings/handlers/status_greetings.py:17
+#: sophie_bot/modules/notes/handlers/save.py:25
+#: sophie_bot/modules/rules/handlers/set.py:20
+msgid "Content"
+msgstr "Содержимое"
+
+#: sophie_bot/modules/greetings/handlers/set_join_request.py:18
+msgid "Sets join request message."
+msgstr "Устанавливает сообщение для запроса на вступление."
+
+#: sophie_bot/modules/greetings/handlers/set_join_request.py:32
+#, python-brace-format
+msgid "Join request message was saved in {chat_title}."
+msgstr "Сообщение для запроса на вступление было сохранено в {chat_title}."
+
+#: sophie_bot/modules/greetings/handlers/set_join_request.py:38
+msgid "Deletes the join request message"
+msgstr "Удаляет сообщение для запроса на вступление"
+
+#: sophie_bot/modules/greetings/handlers/set_join_request.py:50
+#, python-brace-format
+msgid "Join request message in {chat_title} has not been set before"
+msgstr "Сообщение для запроса на вступление в {chat_title} не было установлено ранее"
+
+#: sophie_bot/modules/greetings/handlers/set_join_request.py:59
+#, python-brace-format
+msgid "Join request message was reset to default in {chat_title}."
+msgstr "Сообщение для запроса на вступление было сброшено на значение по умолчанию в {chat_title}."
 
 #: sophie_bot/modules/greetings/handlers/status_cleanservice.py:11
 msgid "Shows / changes the state of automatic service messages cleanup."
@@ -1198,12 +1949,6 @@ msgstr "Показывает / изменяет состояние автома�
 #: sophie_bot/modules/greetings/handlers/status_cleanwelcome.py:13
 msgid "Automatic welcome messages cleanup"
 msgstr "Автоматическая очистка приветственных сообщений"
-
-#: sophie_bot/modules/greetings/handlers/status_greetings.py:17
-#: sophie_bot/modules/notes/handlers/save.py:25
-#: sophie_bot/modules/rules/handlers/set.py:20
-msgid "Content"
-msgstr "Содержимое"
 
 #: sophie_bot/modules/greetings/handlers/status_greetings.py:18
 msgid "Sets welcome message."
@@ -1283,28 +2028,29 @@ msgid "Welcome Message"
 msgstr "Сообщение приветствия"
 
 #: sophie_bot/modules/greetings/handlers/status_overall.py:54
-#: sophie_bot/modules/greetings/utils/send_welcome.py:18
+#: sophie_bot/modules/greetings/utils/send_welcome.py:22
+#: sophie_bot/modules/welcomesecurity/handlers/chat_join_request.py:68
 #: sophie_bot/modules/welcomesecurity/handlers/status_overall.py:81
 msgid "No chat rules, have fun!"
 msgstr "Нет правил чата, веселитесь!"
 
-#: sophie_bot/modules/greetings/middlewares/new_user.py:54
+#: sophie_bot/modules/greetings/middlewares/new_user.py:55
 msgid "Hi, Thank you for choosing Sophie for your group!"
 msgstr "Привет, спасибо, что выбрали Софию для вашей группы!"
 
-#: sophie_bot/modules/greetings/middlewares/new_user.py:55
+#: sophie_bot/modules/greetings/middlewares/new_user.py:56
 msgid "Please read the documentation to learn more about Sophie and do not hesitate to join the Support Chat"
 msgstr "Пожалуйста, прочтите документацию, чтобы узнать больше о Софии, и не стесняйтесь присоединиться к чату поддержки"
 
-#: sophie_bot/modules/greetings/middlewares/new_user.py:60
+#: sophie_bot/modules/greetings/middlewares/new_user.py:61
 msgid "Documentation"
 msgstr "Документация"
 
-#: sophie_bot/modules/greetings/middlewares/new_user.py:61
+#: sophie_bot/modules/greetings/middlewares/new_user.py:62
 msgid "Support Chat"
 msgstr "Чат поддержки"
 
-#: sophie_bot/modules/greetings/middlewares/new_user.py:82
+#: sophie_bot/modules/greetings/middlewares/new_user.py:95
 msgid "I am not a robot"
 msgstr "Я не робот"
 
@@ -1492,119 +2238,99 @@ msgstr "Отключает PM от подключенного чата."
 msgid "Sets whatever normal users (non admins) are allowed to connect"
 msgstr "Устанавливает, каким обычным пользователям (не администраторам) разрешено подключаться"
 
-#: sophie_bot/modules/legacy_modules/modules/feds.py:86
+#: sophie_bot/modules/legacy_modules/modules/feds.py:85
 msgid "Federations"
 msgstr "Федерации"
 
-#: sophie_bot/modules/legacy_modules/modules/feds.py:264
+#: sophie_bot/modules/legacy_modules/modules/feds.py:262
 msgid "Creates a new Federation."
 msgstr "Создает новую Федерацию."
 
-#: sophie_bot/modules/legacy_modules/modules/feds.py:299
+#: sophie_bot/modules/legacy_modules/modules/feds.py:297
 msgid "Joins the current chat to the federation."
 msgstr "Присоединяет текущий чат к федерации."
 
-#: sophie_bot/modules/legacy_modules/modules/feds.py:299
+#: sophie_bot/modules/legacy_modules/modules/feds.py:297
 msgid "Fed ID"
 msgstr "ID федерации"
 
-#: sophie_bot/modules/legacy_modules/modules/feds.py:339
+#: sophie_bot/modules/legacy_modules/modules/feds.py:337
 msgid "Leaves the current chat from the federation."
 msgstr "Покидает текущий чат из федерации."
 
-#: sophie_bot/modules/legacy_modules/modules/feds.py:367
+#: sophie_bot/modules/legacy_modules/modules/feds.py:365
 msgid "Subscribes federation to another."
 msgstr "Подписывает федерацию на другую."
 
-#: sophie_bot/modules/legacy_modules/modules/feds.py:367
+#: sophie_bot/modules/legacy_modules/modules/feds.py:365
 msgid "Fed ID to subscribe"
 msgstr "ID федерации для подписки"
 
-#: sophie_bot/modules/legacy_modules/modules/feds.py:401
+#: sophie_bot/modules/legacy_modules/modules/feds.py:399
 msgid "Unsubscribes the federation."
 msgstr "Отписывает федерацию."
 
-#: sophie_bot/modules/legacy_modules/modules/feds.py:401
+#: sophie_bot/modules/legacy_modules/modules/feds.py:399
 msgid "Subscribed Fed ID"
 msgstr "Подписанный ID федерации"
 
-#: sophie_bot/modules/legacy_modules/modules/feds.py:428
+#: sophie_bot/modules/legacy_modules/modules/feds.py:426
 msgid "Promotes the user to the Federation admins."
 msgstr "Поднимает пользователя до администраторов Федерации."
 
-#: sophie_bot/modules/legacy_modules/modules/feds.py:428
-#: sophie_bot/modules/legacy_modules/modules/feds.py:457
-#: sophie_bot/modules/legacy_modules/modules/feds.py:610
-#: sophie_bot/modules/legacy_modules/modules/feds.py:785
-#: sophie_bot/modules/legacy_modules/modules/restrictions.py:68
-#: sophie_bot/modules/legacy_modules/modules/restrictions.py:127
-#: sophie_bot/modules/legacy_modules/modules/restrictions.py:206
-#: sophie_bot/modules/legacy_modules/modules/restrictions.py:243
-#: sophie_bot/modules/legacy_modules/modules/restrictions.py:322
-#: sophie_bot/modules/legacy_modules/modules/warns.py:67
-#: sophie_bot/modules/legacy_modules/modules/warns.py:178
-#: sophie_bot/modules/legacy_modules/modules/warns.py:242
-#: sophie_bot/modules/promotes/handlers/demote.py:35
-#: sophie_bot/modules/promotes/handlers/demote.py:67
-#: sophie_bot/modules/promotes/handlers/promote.py:39
-#: sophie_bot/modules/promotes/handlers/promote.py:85
-#: sophie_bot/modules/users/handlers/id.py:22
-msgid "User"
-msgstr "Пользователь"
-
-#: sophie_bot/modules/legacy_modules/modules/feds.py:457
+#: sophie_bot/modules/legacy_modules/modules/feds.py:455
 msgid "Demotes the user from the Federation admins."
 msgstr "Понижает пользователя из администраторов Федерации."
 
-#: sophie_bot/modules/legacy_modules/modules/feds.py:484
+#: sophie_bot/modules/legacy_modules/modules/feds.py:482
 msgid "Sets the Federation logs channel."
 msgstr "Устанавливает канал для логов Федерации."
 
-#: sophie_bot/modules/legacy_modules/modules/feds.py:513
+#: sophie_bot/modules/legacy_modules/modules/feds.py:511
 msgid "Removes the Federation logs channel."
 msgstr "Удаляет канал для логов Федерации."
 
-#: sophie_bot/modules/legacy_modules/modules/feds.py:535
+#: sophie_bot/modules/legacy_modules/modules/feds.py:533
 msgid "Shows a list of chats in the Federation."
 msgstr "Показывает список чатов в Федерации."
 
-#: sophie_bot/modules/legacy_modules/modules/feds.py:560
+#: sophie_bot/modules/legacy_modules/modules/feds.py:558
 msgid "Shows a list of admins in the Federation."
 msgstr "Показывает список администраторов в Федерации."
 
-#: sophie_bot/modules/legacy_modules/modules/feds.py:574
+#: sophie_bot/modules/legacy_modules/modules/feds.py:572
 msgid "Shows the information about the Federation."
 msgstr "Показывает информацию о Федерации."
 
-#: sophie_bot/modules/legacy_modules/modules/feds.py:610
+#: sophie_bot/modules/legacy_modules/modules/feds.py:608
 msgid "Bans the user in the whole Federation."
 msgstr "Забанивает пользователя в всей Федерации."
 
-#: sophie_bot/modules/legacy_modules/modules/feds.py:785
+#: sophie_bot/modules/legacy_modules/modules/feds.py:783
 msgid "Unbans the user from the Federation."
 msgstr "Снимает бан с пользователя в Федерации."
 
-#: sophie_bot/modules/legacy_modules/modules/feds.py:879
+#: sophie_bot/modules/legacy_modules/modules/feds.py:877
 msgid "Deletes the federation."
 msgstr "Удаляет федерацию."
 
-#: sophie_bot/modules/legacy_modules/modules/feds.py:933
+#: sophie_bot/modules/legacy_modules/modules/feds.py:931
 msgid "Renames the federation."
 msgstr "Переименовывает федерацию."
 
-#: sophie_bot/modules/legacy_modules/modules/feds.py:933
+#: sophie_bot/modules/legacy_modules/modules/feds.py:931
 msgid "New name"
 msgstr "Новое название"
 
-#: sophie_bot/modules/legacy_modules/modules/feds.py:961
+#: sophie_bot/modules/legacy_modules/modules/feds.py:959
 msgid "Exports the list of bans."
 msgstr "Экспортирует список банов."
 
-#: sophie_bot/modules/legacy_modules/modules/feds.py:1010
+#: sophie_bot/modules/legacy_modules/modules/feds.py:1008
 msgid "Imports the list of bans."
 msgstr "Импортирует список банов."
 
-#: sophie_bot/modules/legacy_modules/modules/feds.py:1140
+#: sophie_bot/modules/legacy_modules/modules/feds.py:1138
 msgid "Checks the user ban status (can be used to check yourself)."
 msgstr "Проверяет статус бана пользователя (может быть использовано для проверки себя)."
 
@@ -1777,10 +2503,6 @@ msgid "No notes was found with {name} name."
 msgstr "Не найдено ни одной заметки с именем {name}."
 
 #: sophie_bot/modules/notes/handlers/delete.py:40
-msgid "Name"
-msgstr "Имя"
-
-#: sophie_bot/modules/notes/handlers/delete.py:40
 msgid "Names"
 msgstr "Имя"
 
@@ -1947,7 +2669,7 @@ msgid "No notes found by the provided search pattern {pattern}."
 msgstr "Не найдено заметок по указанному шаблону поиска {pattern}."
 
 #: sophie_bot/modules/notes/magic_handlers/descriptions_scheduler.py:52
-#: sophie_bot/modules/notes/schedules/generate_ai_titles.py:17
+#: sophie_bot/modules/notes/schedules/generate_ai_titles.py:19
 msgid "You need to update the data of the chat notes. Generate the note data from the provided note text"
 msgstr "Вам необходимо обновить данные заметок чата. Сгенерируйте данные заметки из предоставленного текста заметки"
 
@@ -1987,7 +2709,7 @@ msgstr "Теперь, пожалуйста, введите текст, кото�
 msgid "💭 Reply to message"
 msgstr "💭 Ответить на сообщение"
 
-#: sophie_bot/modules/notes/magic_handlers/filter.py:93
+#: sophie_bot/modules/notes/magic_handlers/filter.py:92
 msgid "🗒 Send a note"
 msgstr "🗒 Отправить заметку"
 
@@ -2042,7 +2764,7 @@ msgstr "Ответы на сообщение с заметкой с именем
 msgid "Change note name"
 msgstr "Изменить имя заметки"
 
-#: sophie_bot/modules/notes/utils/fillings.py:12
+#: sophie_bot/modules/notes/utils/fillings.py:14
 msgid "Local chat"
 msgstr "Локальный чат"
 
@@ -2067,7 +2789,7 @@ msgstr "Пожалуйста, попытайтесь уменьшить длин
 msgid "Note is too long."
 msgstr "Заметка слишком длинная."
 
-#: sophie_bot/modules/notes/utils/send.py:101
+#: sophie_bot/modules/notes/utils/send.py:106
 msgid "The text is too long"
 msgstr "Текст слишком длинный"
 
@@ -2617,24 +3339,26 @@ msgstr "Изменить причину предупреждения"
 msgid "No reason"
 msgstr "Нет причины"
 
-#: sophie_bot/modules/welcomesecurity/__init__.py:26
+#: sophie_bot/modules/welcomesecurity/__init__.py:29
 msgid "Welcome Security"
 msgstr "Безопасность приветствия"
 
-#: sophie_bot/modules/welcomesecurity/__init__.py:29
+#: sophie_bot/modules/welcomesecurity/__init__.py:32
 msgid "Welcome Security contains a bunch of tools that can help filter bots that tries to join your groups, as well as make sure the new users acknowledged the chat rules before being able to speak"
 msgstr "Безопасность приветствия включает в себя набор инструментов, которые могут помочь фильтровать ботов, пытающихся присоединиться к вашим группам, а также убедиться, что новые пользователи признали правила чата, прежде чем смогут разговаривать"
 
-#: sophie_bot/modules/welcomesecurity/handlers/captcha_get.py:63
+#: sophie_bot/modules/welcomesecurity/handlers/captcha_get.py:75
+#: sophie_bot/modules/welcomesecurity/utils_/initiate_captcha.py:32
 #, python-brace-format
 msgid "Complete the '{emoji_name}' emoji in order to complete the captcha and participate in the {group_name}."
 msgstr "Завершите эмодзи '{emoji_name}', чтобы завершить капчу и участвовать в {group_name}."
 
-#: sophie_bot/modules/welcomesecurity/handlers/captcha_get.py:71
+#: sophie_bot/modules/welcomesecurity/handlers/captcha_get.py:83
 msgid "❌ Incorrect solution. Please, try again."
 msgstr "❌ Неправильное решение. Пожалуйста, попробуйте еще раз."
 
-#: sophie_bot/modules/welcomesecurity/handlers/captcha_get.py:78
+#: sophie_bot/modules/welcomesecurity/handlers/captcha_get.py:96
+#: sophie_bot/modules/welcomesecurity/utils_/initiate_captcha.py:55
 msgid "Confirm"
 msgstr "Подтвердить"
 
@@ -2716,6 +3440,7 @@ msgid "Welcome Security message"
 msgstr "Сообщение безопасности приветствия"
 
 #: sophie_bot/modules/welcomesecurity/utils_/captcha_done.py:31
+#: sophie_bot/modules/welcomesecurity/utils_/complete_captcha.py:40
 msgid "You're all set, and can now participate in the conversation"
 msgstr "Вы все настроены и теперь можете участвовать в разговоре"
 
@@ -2842,35 +3567,35 @@ msgstr "Пример синтаксиса"
 msgid "One of: {}"
 msgstr "Один из: {}"
 
-#: types/oneword.py:14
+#: types/oneword.py:13
 msgid "Word (string with no spaces)"
 msgstr "Слово (строка без пробелов)"
 
-#: types/oneword.py:14
+#: types/oneword.py:13
 msgid "Words (strings with no spaces)"
 msgstr "Слова (строки без пробелов)"
 
-#: types/oneword.py:39
+#: types/oneword.py:33
 msgid "Integer (number)"
 msgstr "Integer (целое число)"
 
-#: types/oneword.py:39
+#: types/oneword.py:33
 msgid "Integers (numbers)"
 msgstr "Integers (целые числа)"
 
-#: types/oneword.py:63
+#: types/oneword.py:49
 msgid "Boolean (Yes / No value)"
 msgstr "Логическое значение (Да / Нет)"
 
-#: types/oneword.py:63
+#: types/oneword.py:49
 msgid "Booleans (Yes / No values)"
 msgstr "Логические значения (Да / Нет)"
 
-#: types/oneword.py:68
+#: types/oneword.py:54
 msgid "True (can means Enabled or Yes)"
 msgstr "Правда (может иметь в виду Включено или Да)"
 
-#: types/oneword.py:69
+#: types/oneword.py:55
 msgid "False (can means Disabled or No)"
 msgstr "Неправда (может иметь в виду Выключено или Нет)"
 
