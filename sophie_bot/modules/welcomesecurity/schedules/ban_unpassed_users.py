@@ -17,27 +17,31 @@ class BanUnpassedUsers:
         if datetime.now(timezone.utc) - ws_user.added_at < timedelta(hours=CONFIG.welcomesecurity_ban_timeout):
             return
 
-        if ws_user.is_join_request:
-            # Decline the join request
-            try:
-                await bot.decline_chat_join_request(chat_id=group.chat_id, user_id=user.chat_id)
-                log.info("ban_unpassed_users: declined join request", user=user.chat_id, group=group.chat_id)
-            except Exception as e:
-                log.error(
-                    "ban_unpassed_users: failed to decline join request",
-                    user=user.chat_id,
-                    group=group.chat_id,
-                    error=str(e),
-                )
-        else:
-            # Ban the user
-            try:
-                await ban_user(chat_id=group.chat_id, user_id=user.chat_id)
-                log.info("ban_unpassed_users: banned user", user=user.chat_id, group=group.chat_id)
-            except Exception as e:
-                log.error(
-                    "ban_unpassed_users: failed to ban user", user=user.chat_id, group=group.chat_id, error=str(e)
-                )
+        # Check if entry is older than 36 hours
+        is_old_entry = datetime.now(timezone.utc) - ws_user.added_at > timedelta(hours=36)
+
+        if ws_user.passed and not is_old_entry:
+            if ws_user.is_join_request:
+                # Decline the join request
+                try:
+                    await bot.decline_chat_join_request(chat_id=group.chat_id, user_id=user.chat_id)
+                    log.info("ban_unpassed_users: declined join request", user=user.chat_id, group=group.chat_id)
+                except Exception as e:
+                    log.error(
+                        "ban_unpassed_users: failed to decline join request",
+                        user=user.chat_id,
+                        group=group.chat_id,
+                        error=str(e),
+                    )
+            else:
+                # Ban the user
+                try:
+                    await ban_user(chat_id=group.chat_id, user_id=user.chat_id)
+                    log.info("ban_unpassed_users: banned user", user=user.chat_id, group=group.chat_id)
+                except Exception as e:
+                    log.error(
+                        "ban_unpassed_users: failed to ban user", user=user.chat_id, group=group.chat_id, error=str(e)
+                    )
 
         # Remove from database
         await ws_user.delete()
