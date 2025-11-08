@@ -48,4 +48,11 @@ async def captcha_done(query: CallbackQuery, user: ChatModel, group: ChatModel, 
     if not model.welcome_disabled:
         chat_rules = await RulesModel.get_rules(group.chat_id)
         saveable = model.note or get_default_welcome_message(bool(chat_rules))
-        return await send_welcome(query.message, saveable, False, chat_rules)
+        # If the message is in DM (user's chat), send welcome to group instead
+        if query.message.chat.id == user.chat_id:
+            # This is from join request, send to group
+            from sophie_bot.services.bot import bot
+
+            await bot.send_message(chat_id=group.chat_id, text=str(saveable.text or ""))
+        else:
+            return await send_welcome(query.message, saveable, False, chat_rules)

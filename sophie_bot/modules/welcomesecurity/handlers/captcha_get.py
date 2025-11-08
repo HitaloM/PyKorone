@@ -29,7 +29,13 @@ class CaptchaGetHandler(SophieMessageCallbackQueryHandler):
     async def handle(self) -> Any:
         state_data = await self.state.get_data()
 
-        if not (chat_iid := state_data.get("ws_chat_iid", self.data.get("ws_chat_iid"))):
+        # Try to get chat_iid from state, then from callback_data, then from data
+        chat_iid = state_data.get("ws_chat_iid") or self.data.get("ws_chat_iid")
+        if not chat_iid and hasattr(self, "callback_data") and self.callback_data:
+            if hasattr(self.callback_data, "chat_iid") and self.callback_data.chat_iid:
+                chat_iid = self.callback_data.chat_iid
+
+        if not chat_iid:
             await self.answer(
                 _(
                     (

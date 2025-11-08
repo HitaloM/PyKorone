@@ -43,7 +43,7 @@ msgid "Private chat"
 msgstr ""
 
 #: sophie_bot/middlewares/connections.py:30
-#: sophie_bot/modules/welcomesecurity/handlers/captcha_get.py:46
+#: sophie_bot/modules/welcomesecurity/handlers/captcha_get.py:52
 msgid "Chat not found in database"
 msgstr ""
 
@@ -1013,7 +1013,7 @@ msgstr ""
 #: sophie_bot/modules/federations/handlers/ban.py:46
 #: sophie_bot/modules/federations/handlers/banlist.py:41
 #: sophie_bot/modules/federations/handlers/create.py:42
-#: sophie_bot/modules/federations/handlers/info.py:79
+#: sophie_bot/modules/federations/handlers/info.py:80
 #: sophie_bot/modules/federations/handlers/join.py:41
 #: sophie_bot/modules/federations/handlers/leave.py:33
 #: sophie_bot/modules/federations/handlers/logs.py:34
@@ -1234,66 +1234,66 @@ msgstr ""
 msgid "🏛 Federation '{name}' has been created by {user}."
 msgstr ""
 
-#: sophie_bot/modules/federations/handlers/info.py:21
+#: sophie_bot/modules/federations/handlers/info.py:22
 msgid "Get information about a federation"
 msgstr ""
 
-#: sophie_bot/modules/federations/handlers/info.py:32
+#: sophie_bot/modules/federations/handlers/info.py:33
 msgid "Federation ID to get info about (optional)"
 msgstr ""
 
-#: sophie_bot/modules/federations/handlers/info.py:54
+#: sophie_bot/modules/federations/handlers/info.py:55
 msgid "🏛 Federation Information"
 msgstr ""
 
-#: sophie_bot/modules/federations/handlers/info.py:55
+#: sophie_bot/modules/federations/handlers/info.py:56
 #: sophie_bot/modules/notes/handlers/delete.py:40
 msgid "Name"
 msgstr ""
 
-#: sophie_bot/modules/federations/handlers/info.py:56
+#: sophie_bot/modules/federations/handlers/info.py:57
 msgid "ID"
 msgstr ""
 
-#: sophie_bot/modules/federations/handlers/info.py:57
+#: sophie_bot/modules/federations/handlers/info.py:58
 msgid "Owner"
 msgstr ""
 
-#: sophie_bot/modules/federations/handlers/info.py:58
+#: sophie_bot/modules/federations/handlers/info.py:59
 msgid "Chats"
 msgstr ""
 
-#: sophie_bot/modules/federations/handlers/info.py:59
+#: sophie_bot/modules/federations/handlers/info.py:60
 msgid "Banned users"
 msgstr ""
 
-#: sophie_bot/modules/federations/handlers/info.py:72
+#: sophie_bot/modules/federations/handlers/info.py:73
 #: sophie_bot/modules/federations/handlers/subscribe.py:91
 msgid "Subscribed to"
 msgstr ""
 
-#: sophie_bot/modules/federations/handlers/info.py:86
+#: sophie_bot/modules/federations/handlers/info.py:87
 msgid "You don't own any federations."
 msgstr ""
 
-#: sophie_bot/modules/federations/handlers/info.py:100
+#: sophie_bot/modules/federations/handlers/info.py:101
 msgid "🏛 Your Federations"
 msgstr ""
 
-#: sophie_bot/modules/federations/handlers/info.py:101
+#: sophie_bot/modules/federations/handlers/info.py:102
 #, python-brace-format
 msgid "You own {count} federations:"
 msgstr ""
 
-#: sophie_bot/modules/federations/handlers/info.py:104
+#: sophie_bot/modules/federations/handlers/info.py:105
 msgid "To get detailed information about a specific federation, use:"
 msgstr ""
 
-#: sophie_bot/modules/federations/handlers/info.py:105
+#: sophie_bot/modules/federations/handlers/info.py:106
 msgid "`/finfo <federation_id>`"
 msgstr ""
 
-#: sophie_bot/modules/federations/handlers/info.py:115
+#: sophie_bot/modules/federations/handlers/info.py:116
 #: sophie_bot/modules/federations/handlers/leave.py:50
 #: sophie_bot/modules/federations/handlers/logs.py:43
 #: sophie_bot/modules/federations/handlers/logs.py:111
@@ -1833,11 +1833,11 @@ msgstr ""
 msgid "When messages matches the regex pattern {pattern}"
 msgstr ""
 
-#: sophie_bot/modules/greetings/__init__.py:20
+#: sophie_bot/modules/greetings/__init__.py:24
 msgid "Greetings"
 msgstr ""
 
-#: sophie_bot/modules/greetings/__init__.py:23
+#: sophie_bot/modules/greetings/__init__.py:27
 msgid ""
 "This module helps you to welcome new users automatically, while keeping the chat clean.\n"
 "If you want to enforce captcha / rules verification, please see 'Welcome Security' module instead."
@@ -1865,12 +1865,51 @@ msgstr ""
 msgid "⬇️ Please click the button below to participate in the group."
 msgstr ""
 
+#: sophie_bot/modules/greetings/default_welcome.py:26
+#, python-brace-format
+msgid "Hi {mention}!"
+msgstr ""
+
+#: sophie_bot/modules/greetings/default_welcome.py:27
+msgid "Please check your direct messages with me to complete verification and join the group."
+msgstr ""
+
 #: sophie_bot/modules/greetings/handlers/enablewelcome.py:11
 msgid "Shows / changes the state of sending greetings"
 msgstr ""
 
 #: sophie_bot/modules/greetings/handlers/enablewelcome.py:13
 msgid "Welcome messages"
+msgstr ""
+
+#: sophie_bot/modules/greetings/handlers/set_join_request.py:17
+#: sophie_bot/modules/greetings/handlers/status_greetings.py:17
+#: sophie_bot/modules/notes/handlers/save.py:25
+#: sophie_bot/modules/rules/handlers/set.py:20
+msgid "Content"
+msgstr ""
+
+#: sophie_bot/modules/greetings/handlers/set_join_request.py:18
+msgid "Sets join request message."
+msgstr ""
+
+#: sophie_bot/modules/greetings/handlers/set_join_request.py:32
+#, python-brace-format
+msgid "Join request message was saved in {chat_title}."
+msgstr ""
+
+#: sophie_bot/modules/greetings/handlers/set_join_request.py:38
+msgid "Deletes the join request message"
+msgstr ""
+
+#: sophie_bot/modules/greetings/handlers/set_join_request.py:50
+#, python-brace-format
+msgid "Join request message in {chat_title} has not been set before"
+msgstr ""
+
+#: sophie_bot/modules/greetings/handlers/set_join_request.py:59
+#, python-brace-format
+msgid "Join request message was reset to default in {chat_title}."
 msgstr ""
 
 #: sophie_bot/modules/greetings/handlers/status_cleanservice.py:11
@@ -1887,12 +1926,6 @@ msgstr ""
 
 #: sophie_bot/modules/greetings/handlers/status_cleanwelcome.py:13
 msgid "Automatic welcome messages cleanup"
-msgstr ""
-
-#: sophie_bot/modules/greetings/handlers/status_greetings.py:17
-#: sophie_bot/modules/notes/handlers/save.py:25
-#: sophie_bot/modules/rules/handlers/set.py:20
-msgid "Content"
 msgstr ""
 
 #: sophie_bot/modules/greetings/handlers/status_greetings.py:18
@@ -3283,25 +3316,31 @@ msgstr ""
 msgid "No reason"
 msgstr ""
 
-#: sophie_bot/modules/welcomesecurity/__init__.py:26
+#: sophie_bot/modules/welcomesecurity/__init__.py:29
 msgid "Welcome Security"
 msgstr ""
 
-#: sophie_bot/modules/welcomesecurity/__init__.py:29
+#: sophie_bot/modules/welcomesecurity/__init__.py:32
 msgid "Welcome Security contains a bunch of tools that can help filter bots that tries to join your groups, as well as make sure the new users acknowledged the chat rules before being able to speak"
 msgstr ""
 
-#: sophie_bot/modules/welcomesecurity/handlers/captcha_get.py:67
+#: sophie_bot/modules/welcomesecurity/handlers/captcha_get.py:73
+#: sophie_bot/modules/welcomesecurity/utils_/captcha_flow.py:43
 #, python-brace-format
 msgid "Complete the '{emoji_name}' emoji in order to complete the captcha and participate in the {group_name}."
 msgstr ""
 
-#: sophie_bot/modules/welcomesecurity/handlers/captcha_get.py:75
+#: sophie_bot/modules/welcomesecurity/handlers/captcha_get.py:81
 msgid "❌ Incorrect solution. Please, try again."
 msgstr ""
 
-#: sophie_bot/modules/welcomesecurity/handlers/captcha_get.py:82
+#: sophie_bot/modules/welcomesecurity/handlers/captcha_get.py:88
+#: sophie_bot/modules/welcomesecurity/utils_/captcha_flow.py:62
 msgid "Confirm"
+msgstr ""
+
+#: sophie_bot/modules/welcomesecurity/handlers/chat_join_request.py:70
+msgid "Open DM with Sophie"
 msgstr ""
 
 #: sophie_bot/modules/welcomesecurity/handlers/enable_welcomemute.py:26
@@ -3382,6 +3421,7 @@ msgid "Welcome Security message"
 msgstr ""
 
 #: sophie_bot/modules/welcomesecurity/utils_/captcha_done.py:31
+#: sophie_bot/modules/welcomesecurity/utils_/captcha_flow.py:122
 msgid "You're all set, and can now participate in the conversation"
 msgstr ""
 

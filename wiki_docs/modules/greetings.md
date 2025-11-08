@@ -19,5 +19,7 @@ icon: 🙋‍♂️
 | --- | --- | --- | --- |
 | `/enablewelcome` | `<?New status>` | Shows / changes the state of sending greetings |  |
 | `/setwelcome` | `<Content>` | Sets welcome message. |  |
+| `/setjoinrequest` | `<Content>` | Sets join request message. |  |
+| `/deljoinrequest` | - | Deletes the join request message |  |
 | `/cleanservice` | `<?New status>` | Shows / changes the state of automatic service messages cleanup. |  |
 | `/cleanwelcome` | `<?New status>` | Shows / changes the state of automatic welcome messages cleanup. |  |

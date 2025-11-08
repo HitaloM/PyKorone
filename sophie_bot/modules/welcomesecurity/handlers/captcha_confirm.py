@@ -7,17 +7,13 @@ from beanie import PydanticObjectId
 
 from sophie_bot.db.models import ChatModel, GreetingsModel, RulesModel
 from sophie_bot.modules.utils_.base_handler import SophieCallbackQueryHandler
-from sophie_bot.modules.utils_.common_try import common_try
 from sophie_bot.modules.welcomesecurity.callbacks import (
     WelcomeSecurityConfirmCB,
     WelcomeSecurityRulesAgreeCB,
 )
 from sophie_bot.modules.welcomesecurity.handlers.captcha_get import CaptchaGetHandler
-from sophie_bot.modules.welcomesecurity.utils_.captcha_done import captcha_done
 from sophie_bot.modules.welcomesecurity.utils_.captcha_rules import captcha_send_rules
 from sophie_bot.modules.welcomesecurity.utils_.emoji_captcha import EmojiCaptcha
-from sophie_bot.services.bot import bot
-from sophie_bot.services.redis import aredis
 from sophie_bot.utils.exception import SophieException
 
 
@@ -37,22 +33,31 @@ class CaptchaConfirmHandler(SophieCallbackQueryHandler):
         ):
             return await captcha_send_rules(self.event.message, rules)
 
-        # Cleanup
-        if msg_to_clean := await aredis.get(f"chat_ws_message:{group.id}:{user.id}"):
-            chat_db = await ChatModel.get_by_iid(PydanticObjectId(state_data["ws_chat_iid"]))
-            if chat_db:
-                await common_try(bot.delete_message(chat_id=chat_db.chat_id, message_id=msg_to_clean))
+        # Determine if this is from join request (DM)
+        is_join_request = self.event.message.chat.id == user.chat_id
+
         await self.state.clear()
 
-        locale = self.current_locale
         greetings_db = await GreetingsModel.get_by_chat_id(group.chat_id)
 
-        return await captcha_done(self.event, user, group, greetings_db, locale)
+        # Use generic completion function
+        from sophie_bot.modules.welcomesecurity.utils_.captcha_flow import complete_captcha
+
+        await complete_captcha(user, group, greetings_db, self.event.message, is_join_request)
 
     async def handle(self) -> Any:
         data = await self.state.get_data()
 
-        chat_db = await ChatModel.get_by_iid(PydanticObjectId(data["ws_chat_iid"]))
+        # Try to get chat_iid from state, then from callback_data
+        chat_iid = data.get("ws_chat_iid")
+        if not chat_iid and hasattr(self, "callback_data") and self.callback_data:
+            if hasattr(self.callback_data, "chat_iid") and self.callback_data.chat_iid:
+                chat_iid = self.callback_data.chat_iid
+
+        if not chat_iid:
+            raise ValueError("No chat_iid found")
+
+        chat_db = await ChatModel.get_by_iid(PydanticObjectId(chat_iid))
         if not chat_db:
             raise ValueError("No chat found in database")
 

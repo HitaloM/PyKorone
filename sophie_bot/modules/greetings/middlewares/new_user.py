@@ -90,6 +90,11 @@ class NewUserMiddleware(BaseMiddleware):
         if len(muted_users) == 1:
             await aredis.set(f"chat_ws_message:{chat_db.id}:{new_users[0].id}", sent_message.message_id)
 
+            # Send captcha to the user
+            from sophie_bot.modules.welcomesecurity.utils_.captcha_flow import initiate_captcha
+
+            await initiate_captcha(new_users[0], chat_db, db_item, send_to_chat=True, chat_message=sent_message)
+
         return sent_message
 
     async def __call__(
@@ -106,7 +111,6 @@ class NewUserMiddleware(BaseMiddleware):
 
             user_id = event.from_user.id
             chat_id: int = event.chat.id
-            chat_db: ChatModel = data["chat_db"]
             new_users: list[ChatModel] = data["new_users"]
 
             # Bot was added to the chat
@@ -141,10 +145,11 @@ class NewUserMiddleware(BaseMiddleware):
                 if db_item.welcome_mute and db_item.welcome_mute.enabled and db_item.welcome_mute.time:
                     await on_welcomemute(chat_id, user_id, db_item.welcome_mute.time)
 
-            elif not is_admin and db_item.welcome_security and db_item.welcome_security.enabled:
-                sent_message = await self.on_captcha(
-                    event, db_item, chat_db, new_users, cleanservice_enabled, chat_rules
-                )
+            # Captcha is now handled in chat_join_request handler when welcome_security is enabled
+            # elif not is_admin and db_item.welcome_security and db_item.welcome_security.enabled:
+            #     sent_message = await self.on_captcha(
+            #         event, db_item, chat_db, new_users, cleanservice_enabled, chat_rules
+            #     )
 
             # Cleanup
             await self.cleanup(db_item, event, sent_message)

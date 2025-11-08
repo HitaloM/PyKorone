@@ -5,6 +5,9 @@ from sophie_bot.modules.welcomesecurity.handlers.captcha_confirm import (
     CaptchaConfirmHandler,
 )
 from sophie_bot.modules.welcomesecurity.handlers.captcha_get import CaptchaGetHandler
+from sophie_bot.modules.welcomesecurity.handlers.chat_join_request import (
+    ChatJoinRequestHandler,
+)
 from sophie_bot.modules.welcomesecurity.handlers.enable_welcomemute import (
     EnableWelcomeMute,
 )
@@ -39,6 +42,7 @@ __handlers__ = (
     CaptchaGetHandler,
     LegacyWSButtonHandler,
     CaptchaConfirmHandler,
+    ChatJoinRequestHandler,
     EnableWelcomeCaptchaHandlerABC,
     EnableWelcomeMute,
     WelcomeSecuritySettingsShowHandler,

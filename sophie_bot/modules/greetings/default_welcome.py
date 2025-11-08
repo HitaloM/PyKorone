@@ -19,3 +19,11 @@ def get_default_security_message() -> Saveable:
         "[I am not a bot!](btnwelcomesecurity)️",
     )
     return Saveable(text=str(doc))
+
+
+def get_default_join_request_message() -> Saveable:
+    doc = Doc(
+        _("Hi {mention}!"),
+        _("Please check your direct messages with me to complete verification and join the group."),
+    )
+    return Saveable(text=str(doc))

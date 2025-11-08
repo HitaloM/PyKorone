@@ -2,7 +2,6 @@ from datetime import timedelta
 from typing import Annotated, Optional
 
 from beanie import Document, Indexed
-from beanie.odm.operators.update.general import Set
 from pydantic import BaseModel
 
 from sophie_bot.db.models.notes import Saveable
@@ -39,6 +38,7 @@ class GreetingsModel(Document):
 
     note: Optional[Saveable] = None
     security_note: Optional[Saveable] = None
+    join_request_message: Optional[Saveable] = None
 
     clean_welcome: Optional[CleanWelcome] = CleanWelcome()
     clean_service: Optional[CleanService] = CleanService()
@@ -54,17 +54,22 @@ class GreetingsModel(Document):
         return await GreetingsModel.find_one(GreetingsModel.chat_id == chat_id) or GreetingsModel(chat_id=chat_id)
 
     @staticmethod
-    async def change_state_welcome(chat_id: int, new_state: bool) -> Optional["GreetingsModel"]:
-        return await GreetingsModel.find_one(GreetingsModel.chat_id == chat_id).upsert(
-            Set({GreetingsModel.welcome_disabled: not new_state}),
-            on_insert=GreetingsModel(chat_id=chat_id, welcome_disabled=not new_state),
-        )
+    async def change_state_welcome(chat_id: int, new_state: bool) -> "GreetingsModel":
+        model = await GreetingsModel.get_by_chat_id(chat_id)
+        model.welcome_disabled = not new_state
+        return await model.save()
 
     @staticmethod
-    async def change_welcome_message(chat_id: int, saveable: Saveable) -> Optional["GreetingsModel"]:
-        return await GreetingsModel.find_one(GreetingsModel.chat_id == chat_id).upsert(
-            Set({GreetingsModel.note: saveable}), on_insert=GreetingsModel(chat_id=chat_id, note=saveable)
-        )
+    async def change_welcome_message(chat_id: int, saveable: Saveable) -> "GreetingsModel":
+        model = await GreetingsModel.get_by_chat_id(chat_id)
+        model.note = saveable
+        return await model.save()
+
+    @staticmethod
+    async def change_join_request_message(chat_id: int, saveable: Saveable) -> "GreetingsModel":
+        model = await GreetingsModel.get_by_chat_id(chat_id)
+        model.join_request_message = saveable
+        return await model.save()
 
     async def set_clean_welcome_status(self, new_state: bool) -> "GreetingsModel":
         if not self.clean_welcome:

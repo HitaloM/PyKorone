@@ -7,6 +7,10 @@ from sophie_bot.modules.greetings.handlers.status_cleanservice import (
 from sophie_bot.modules.greetings.handlers.status_cleanwelcome import (
     CleanWelcomeHandlerABC,
 )
+from sophie_bot.modules.greetings.handlers.set_join_request import (
+    DelJoinRequestMessageHandler,
+    SetJoinRequestMessageHandler,
+)
 from sophie_bot.modules.greetings.handlers.status_greetings import (
     SetWelcomeMessageHandler,
 )
@@ -30,6 +34,8 @@ router = Router(name="greetings")
 __handlers__ = (
     EnableWelcomeHandlerABC,
     SetWelcomeMessageHandler,
+    SetJoinRequestMessageHandler,
+    DelJoinRequestMessageHandler,
     WelcomeSettingsShowHandler,
     CleanServiceHandlerABC,
     CleanWelcomeHandlerABC,
