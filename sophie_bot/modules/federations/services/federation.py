@@ -53,7 +53,7 @@ class FederationService:
     @staticmethod
     async def get_federation_for_chat(chat_id: int) -> Optional[Federation]:
         """Get federation that contains the chat."""
-        return await Federation.find_one(In(Federation.chats, chat_id))
+        return await Federation.find_one(In(Federation.chats, [chat_id]))
 
     @staticmethod
     async def update_federation(federation: Federation, updates: dict) -> Federation:
