@@ -25,5 +25,6 @@ def get_default_join_request_message() -> Saveable:
     doc = Doc(
         _("Hi {mention}!"),
         _("Please check your direct messages with me to complete verification and join the group."),
+        _("[Open DM with Sophie](btnsophieurl)"),
     )
     return Saveable(text=str(doc))

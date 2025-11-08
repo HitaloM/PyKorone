@@ -11,12 +11,13 @@ class WSUserModel(Document):
     user: Link["ChatModel"]
     group: Link["ChatModel"]
     passed: bool = False
+    is_join_request: bool = False
 
     class Settings:
         name = "ws_users"
 
     @staticmethod
-    async def ensure_user(user: "ChatModel", group: "ChatModel") -> "WSUserModel":
+    async def ensure_user(user: "ChatModel", group: "ChatModel", is_join_request: bool) -> "WSUserModel":
         return await WSUserModel.find_one(
             WSUserModel.user.id == user.id,
             WSUserModel.group.id == group.id,
@@ -25,6 +26,7 @@ class WSUserModel(Document):
             on_insert=WSUserModel(
                 user=user,
                 group=group,
+                is_join_request=is_join_request
             ),
             response_type=UpdateResponse.NEW_DOCUMENT,
         )

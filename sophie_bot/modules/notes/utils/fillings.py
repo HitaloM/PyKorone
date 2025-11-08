@@ -7,7 +7,9 @@ from stfu_tg import EscapedStr, HList, UserLink
 from sophie_bot.utils.i18n import gettext as _
 
 
-def chat_fillings(text: str, message: Message) -> str:
+def chat_fillings(text: str, message: Optional[Message]) -> str:
+    if not message:
+        return text
     chat_id = message.chat.id
     chat_name = html.escape(message.chat.title or _("Local chat"), quote=False)
 
@@ -18,11 +20,11 @@ def chat_fillings(text: str, message: Message) -> str:
     )
 
 
-def user_fillings(text: str, message: Message, user: Optional[User]) -> str:
+def user_fillings(text: str, message: Optional[Message], user: Optional[User]) -> str:
     if not user:
         return text
 
-    users: list[User] = message.new_chat_members or [user]
+    users: list[User] = (message.new_chat_members if message else None) or [user]
 
     return (
         text.replace("{first}", str(EscapedStr(user.first_name)))
@@ -48,7 +50,7 @@ def custom_fillings(text: str, additional_fillings: Optional[dict[str, str]]):
 
 
 def process_fillings(
-    text: str, message: Message, user: Optional[User], additional_fillings: Optional[dict[str, str]] = None
+    text: str, message: Optional[Message], user: Optional[User], additional_fillings: Optional[dict[str, str]] = None
 ) -> str:
     if not text:
         return text

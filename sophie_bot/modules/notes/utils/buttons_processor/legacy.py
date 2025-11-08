@@ -48,6 +48,8 @@ def legacy_button_parser(chat_id, texts, pm=False) -> tuple[str, InlineKeyboardM
                 btn = InlineKeyboardButton(text=name, url=argument)
             elif cb.endswith("rules"):
                 btn = start_btn
+        elif action == "sophieurl":
+            btn = InlineKeyboardButton(text=name, url=f"https://t.me/{CONFIG.username}")
         elif action == "url":
             argument = raw_button[3][1:].replace("`", "") if raw_button[3] else ""
             if argument[0] == "/" and argument[1] == "/":

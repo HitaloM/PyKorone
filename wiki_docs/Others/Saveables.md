@@ -30,13 +30,14 @@ That would make button render in the same row with previous button.
 
 ### Other button types
 
-| Example syntax                        | Description                                                                                                  |
-|---------------------------------------|--------------------------------------------------------------------------------------------------------------|
-| `[Note button](btnnote:note_name)`    | Redirects users to the DM with Sophie, where she sends the required note.                                    |
-| `[Rules button](btnrules)`            | Redirects users to the DM with Sophie, where she shows the rules of the chat.                                |
-| `[Delete message button](delmsg)`     | Deletes the message of the button after clicking                                                             |
-| `[Connect button](btnconnect)`        | Connects the DM with Group, see [Connection help](/docs/modules/connection) for more information.            |
-| `[Captcha button](btnwelcomesecurity` | Redirects users to the DM to start the captcha prcoess, use only when the captcha is activated for the chat. |
+| Example syntax                         | Description                                                                                                  |
+|----------------------------------------|--------------------------------------------------------------------------------------------------------------|
+| `[Note button](btnnote:note_name)`     | Redirects users to the DM with Sophie, where she sends the required note.                                    |
+| `[Rules button](btnrules)`             | Redirects users to the DM with Sophie, where she shows the rules of the chat.                                |
+| `[Delete message button](delmsg)`      | Deletes the message of the button after clicking                                                             |
+| `[Connect button](btnconnect)`         | Connects the DM with Group, see [Connection help](/docs/modules/connection) for more information.            |
+| `[Captcha button](btnwelcomesecurity)` | Redirects users to the DM to start the captcha process, use only when the captcha is activated for the chat. |
+| `[Sophie DM button](btnsophieurl)`     | Redirects users to the DM of Sophie, can be used for `/setjoinrequest`.                                      |
 
 ## Fillings
 

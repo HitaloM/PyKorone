@@ -10,13 +10,14 @@ from sophie_bot.config import CONFIG
 from sophie_bot.db.models import ChatModel, GreetingsModel, RulesModel
 from sophie_bot.db.models.notes import Saveable
 from sophie_bot.modules.greetings.default_welcome import (
-    get_default_security_message,
     get_default_welcome_message,
+    get_default_security_message,
 )
 from sophie_bot.modules.greetings.utils.send_welcome import send_welcome
 from sophie_bot.modules.legacy_modules.utils.user_details import is_user_admin
 from sophie_bot.modules.utils_.common_try import common_try
-from sophie_bot.modules.welcomesecurity.utils_.on_new_user import ws_on_new_users
+from sophie_bot.modules.welcomesecurity.utils_.initiate_captcha import initiate_captcha
+from sophie_bot.modules.welcomesecurity.utils_.on_new_user import ws_on_new_users_mute
 from sophie_bot.modules.welcomesecurity.utils_.welcomemute import on_welcomemute
 from sophie_bot.services.bot import bot
 from sophie_bot.services.redis import aredis
@@ -62,6 +63,14 @@ class NewUserMiddleware(BaseMiddleware):
         )
 
         return await message.reply(str(doc))
+    
+    @staticmethod
+    async def is_join_request(chat_id: int, user_id: int) -> bool:
+        key = f"chat_ws_message:{chat_id}:{user_id}"
+        join_request = await aredis.get(key)
+        if join_request:
+            await aredis.delete(key)
+        return bool(join_request)
 
     @staticmethod
     async def on_captcha(
@@ -72,7 +81,11 @@ class NewUserMiddleware(BaseMiddleware):
         cleanservice_enabled: bool,
         chat_rules: Optional[RulesModel],
     ) -> Optional[Message]:
-        muted_users = await ws_on_new_users(new_users, chat_db)
+        muted_users = await ws_on_new_users_mute(new_users, chat_db)
+
+        # If no users were welcomesecurity muted - just send a greetings message
+        if not any(muted_users):
+            return None
 
         # If no users were welcomesecurity muted - just send a greetings message
         ws_saveable: Saveable = db_item.security_note or get_default_security_message()
@@ -85,15 +98,12 @@ class NewUserMiddleware(BaseMiddleware):
             return None
 
         sent_message = await send_welcome(message, ws_saveable, cleanservice_enabled, chat_rules)
-
-        # Save sent message to cleanup it later. TODO: do not use redis
+        # Save sent message to cleanup it later
         if len(muted_users) == 1:
             await aredis.set(f"chat_ws_message:{chat_db.id}:{new_users[0].id}", sent_message.message_id)
 
-            # Send captcha to the user
-            from sophie_bot.modules.welcomesecurity.utils_.captcha_flow import initiate_captcha
-
-            await initiate_captcha(new_users[0], chat_db, db_item, send_to_chat=True, chat_message=sent_message)
+            # Send captcha to the user's DM
+            await initiate_captcha(new_users[0], chat_db, is_join_request=False)
 
         return sent_message
 
@@ -111,11 +121,15 @@ class NewUserMiddleware(BaseMiddleware):
 
             user_id = event.from_user.id
             chat_id: int = event.chat.id
+            chat_db: ChatModel = data["chat_db"]
             new_users: list[ChatModel] = data["new_users"]
 
             # Bot was added to the chat
             if any(user for user in event.new_chat_members if user.id == CONFIG.bot_id):
                 await self.self_welcome(event)
+                return await handler(event, data)
+
+            if await self.is_join_request(chat_id, user_id):
                 return await handler(event, data)
 
             # Sanity check
@@ -145,11 +159,13 @@ class NewUserMiddleware(BaseMiddleware):
                 if db_item.welcome_mute and db_item.welcome_mute.enabled and db_item.welcome_mute.time:
                     await on_welcomemute(chat_id, user_id, db_item.welcome_mute.time)
 
-            # Captcha is now handled in chat_join_request handler when welcome_security is enabled
-            # elif not is_admin and db_item.welcome_security and db_item.welcome_security.enabled:
-            #     sent_message = await self.on_captcha(
-            #         event, db_item, chat_db, new_users, cleanservice_enabled, chat_rules
-            #     )
+            elif not is_admin and db_item.welcome_security and db_item.welcome_security.enabled:
+                # If group has join_by_request enabled, captcha is handled by join request handler
+                # Otherwise, use normal captcha
+                if not event.chat.join_by_request:
+                    sent_message = await self.on_captcha(
+                        event, db_item, chat_db, new_users, cleanservice_enabled, chat_rules
+                    )
 
             # Cleanup
             await self.cleanup(db_item, event, sent_message)

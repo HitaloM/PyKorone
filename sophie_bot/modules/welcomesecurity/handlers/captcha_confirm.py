@@ -12,6 +12,7 @@ from sophie_bot.modules.welcomesecurity.callbacks import (
     WelcomeSecurityRulesAgreeCB,
 )
 from sophie_bot.modules.welcomesecurity.handlers.captcha_get import CaptchaGetHandler
+from sophie_bot.modules.welcomesecurity.utils_.complete_captcha import complete_captcha
 from sophie_bot.modules.welcomesecurity.utils_.captcha_rules import captcha_send_rules
 from sophie_bot.modules.welcomesecurity.utils_.emoji_captcha import EmojiCaptcha
 from sophie_bot.utils.exception import SophieException
@@ -33,17 +34,14 @@ class CaptchaConfirmHandler(SophieCallbackQueryHandler):
         ):
             return await captcha_send_rules(self.event.message, rules)
 
-        # Determine if this is from join request (DM)
-        is_join_request = self.event.message.chat.id == user.chat_id
+        # Get if this is from join request
+        is_join_request = self.callback_data.is_join_request if self.callback_data else False
 
         await self.state.clear()
 
         greetings_db = await GreetingsModel.get_by_chat_id(group.chat_id)
 
-        # Use generic completion function
-        from sophie_bot.modules.welcomesecurity.utils_.captcha_flow import complete_captcha
-
-        await complete_captcha(user, group, greetings_db, self.event.message, is_join_request)
+        return await complete_captcha(user, group, greetings_db, self.event.message, is_join_request)
 
     async def handle(self) -> Any:
         data = await self.state.get_data()

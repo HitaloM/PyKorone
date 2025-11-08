@@ -23,6 +23,7 @@ from aiogram.types import (
     LinkPreviewOptions,
     Message,
     ReplyParameters,
+    User,
 )
 from stfu_tg.doc import Element
 
@@ -61,7 +62,7 @@ SEND_METHOD: dict[ContentType, Type[TelegramMethod[Message]]] = {
 
 
 async def send_saveable(
-    message: Message,
+    message: Optional[Message],
     send_to: int,
     saveable: Saveable,
     reply_to: Optional[int] = None,
@@ -70,6 +71,7 @@ async def send_saveable(
     additional_keyboard: InlineKeyboardMarkup = InlineKeyboardMarkup(inline_keyboard=[]),
     additional_fillings: Optional[dict[str, str]] = None,
     connection: ChatConnection | None = None,
+    user: Optional[User] = None,
 ):
     text = saveable.text or ""
 
@@ -80,7 +82,8 @@ async def send_saveable(
     # Extract buttons
     inline_markup = InlineKeyboardMarkup(inline_keyboard=[])
     if not raw:
-        text, inline_markup = legacy_button_parser(connection.db_model.chat_id if connection else message.chat.id, text)
+        chat_id_for_buttons = connection.db_model.chat_id if connection else (message.chat.id if message else send_to)
+        text, inline_markup = legacy_button_parser(chat_id_for_buttons, text)
         inline_markup.inline_keyboard.extend(additional_keyboard.inline_keyboard)
 
     # Convert legacy markdown to HTML
@@ -88,7 +91,7 @@ async def send_saveable(
         text = legacy_markdown_to_html(text)
 
     # Process fillings
-    text = process_fillings(text, message, message.from_user, additional_fillings)
+    text = process_fillings(text, message, user or (message.from_user if message else None), additional_fillings)
 
     # Add title
     text = (str(title) + "\n" if title else "") + text

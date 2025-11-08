@@ -59,6 +59,8 @@ class CaptchaGetHandler(SophieMessageCallbackQueryHandler):
         captcha = EmojiCaptcha(data=state_data.get("captcha") if not shuffle else None)
 
         cb_data: Optional[WelcomeSecurityMoveCB] = self.data.get("callback_data")
+        is_join_request: bool = cb_data.is_join_request if cb_data else False
+
         if not cb_data or not isinstance(cb_data, WelcomeSecurityMoveCB):
             pass
         elif cb_data.direction == "left":
@@ -82,10 +84,10 @@ class CaptchaGetHandler(SophieMessageCallbackQueryHandler):
 
         buttons = InlineKeyboardBuilder()
         buttons.row(
-            InlineKeyboardButton(text="⬅️", callback_data=WelcomeSecurityMoveCB(direction="left").pack()),
-            InlineKeyboardButton(text="▶️", callback_data=WelcomeSecurityMoveCB(direction="right").pack()),
+            InlineKeyboardButton(text="⬅️", callback_data=WelcomeSecurityMoveCB(direction="left", is_join_request=is_join_request).pack()),
+            InlineKeyboardButton(text="▶️", callback_data=WelcomeSecurityMoveCB(direction="right", is_join_request=is_join_request).pack()),
         )
-        buttons.row(InlineKeyboardButton(text=f"☑️ {_('Confirm')}", callback_data=WelcomeSecurityConfirmCB().pack()))
+        buttons.row(InlineKeyboardButton(text=f"☑️ {_('Confirm')}", callback_data=WelcomeSecurityConfirmCB(is_join_request=is_join_request).pack()))
 
         await self.answer_media(
             BufferedInputFile(captcha.image, "captcha.jpeg"),

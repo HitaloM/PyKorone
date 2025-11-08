@@ -1,6 +1,6 @@
 from typing import Optional
 
-from aiogram.types import Message
+from aiogram.types import Message, User
 
 from sophie_bot.db.models import RulesModel
 from sophie_bot.db.models.notes import Saveable, SaveableParseMode
@@ -11,7 +11,11 @@ from sophie_bot.utils.i18n import gettext as _
 
 
 async def send_welcome(
-    message: Message, saveable: Optional[Saveable], cleanservice_enabled: bool, chat_rules: Optional[RulesModel]
+    message: Message,
+    saveable: Optional[Saveable],
+    cleanservice_enabled: bool,
+    chat_rules: Optional[RulesModel],
+    user: Optional[User] = None,
 ) -> Message:
     chat_id = message.chat.id
 
@@ -29,4 +33,5 @@ async def send_welcome(
         saveable,
         reply_to=message.message_id if not cleanservice_enabled else None,
         additional_fillings=additional_fillings,
+        user=user,
     )
