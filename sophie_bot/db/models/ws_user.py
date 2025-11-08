@@ -23,11 +23,7 @@ class WSUserModel(Document):
             WSUserModel.group.id == group.id,
         ).upsert(
             Set({}),
-            on_insert=WSUserModel(
-                user=user,
-                group=group,
-                is_join_request=is_join_request
-            ),
+            on_insert=WSUserModel(user=user, group=group, is_join_request=is_join_request),
             response_type=UpdateResponse.NEW_DOCUMENT,
         )
 

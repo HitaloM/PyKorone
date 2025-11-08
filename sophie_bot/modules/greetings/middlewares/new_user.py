@@ -63,7 +63,7 @@ class NewUserMiddleware(BaseMiddleware):
         )
 
         return await message.reply(str(doc))
-    
+
     @staticmethod
     async def is_join_request(chat_id: int, user_id: int) -> bool:
         key = f"chat_ws_message:{chat_id}:{user_id}"

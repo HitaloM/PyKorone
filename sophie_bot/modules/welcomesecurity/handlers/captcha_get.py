@@ -84,10 +84,18 @@ class CaptchaGetHandler(SophieMessageCallbackQueryHandler):
 
         buttons = InlineKeyboardBuilder()
         buttons.row(
-            InlineKeyboardButton(text="⬅️", callback_data=WelcomeSecurityMoveCB(direction="left", is_join_request=is_join_request).pack()),
-            InlineKeyboardButton(text="▶️", callback_data=WelcomeSecurityMoveCB(direction="right", is_join_request=is_join_request).pack()),
+            InlineKeyboardButton(
+                text="⬅️", callback_data=WelcomeSecurityMoveCB(direction="left", is_join_request=is_join_request).pack()
+            ),
+            InlineKeyboardButton(
+                text="▶️", callback_data=WelcomeSecurityMoveCB(direction="right", is_join_request=is_join_request).pack()
+            ),
         )
-        buttons.row(InlineKeyboardButton(text=f"☑️ {_('Confirm')}", callback_data=WelcomeSecurityConfirmCB(is_join_request=is_join_request).pack()))
+        buttons.row(
+            InlineKeyboardButton(
+                text=f"☑️ {_('Confirm')}", callback_data=WelcomeSecurityConfirmCB(is_join_request=is_join_request).pack()
+            )
+        )
 
         await self.answer_media(
             BufferedInputFile(captcha.image, "captcha.jpeg"),
