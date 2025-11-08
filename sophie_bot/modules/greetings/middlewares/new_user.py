@@ -16,7 +16,6 @@ from sophie_bot.modules.greetings.default_welcome import (
 from sophie_bot.modules.greetings.utils.send_welcome import send_welcome
 from sophie_bot.modules.legacy_modules.utils.user_details import is_user_admin
 from sophie_bot.modules.utils_.common_try import common_try
-from sophie_bot.modules.welcomesecurity.utils_.initiate_captcha import initiate_captcha
 from sophie_bot.modules.welcomesecurity.utils_.on_new_user import ws_on_new_users_mute
 from sophie_bot.modules.welcomesecurity.utils_.welcomemute import on_welcomemute
 from sophie_bot.services.bot import bot
@@ -101,9 +100,6 @@ class NewUserMiddleware(BaseMiddleware):
         # Save sent message to cleanup it later
         if len(muted_users) == 1:
             await aredis.set(f"chat_ws_message:{chat_db.id}:{new_users[0].id}", sent_message.message_id)
-
-            # Send captcha to the user's DM
-            await initiate_captcha(new_users[0], chat_db, is_join_request=False)
 
         return sent_message
 
