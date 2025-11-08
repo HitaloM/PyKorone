@@ -423,3 +423,147 @@ Let the framework handle unexpected errors rather than masking them with broad e
 ---
 
 **Remember**: After completing any development task, always run `make commit` to ensure code quality and consistency.
+
+## Feature Flags and Kill Switches
+
+All new medium/high‑risk features, external integrations, and large refactors must be shipped behind a feature flag (aka
+kill switch). This allows safe, instant rollbacks without redeploys and enables staged rollouts.
+
+### Implementation Overview
+
+- Storage: Redis hash under key `sophie:kill_switch`
+- Runtime API: `sophie_bot/utils/feature_flags.py`
+  - `is_enabled(feature: FeatureType) -> bool`
+  - `set_enabled(feature: FeatureType, enabled: bool) -> None`
+  - `list_all() -> FeatureStates`
+- Caching: in‑process cache with ~2s TTL, auto‑refreshed
+- Defaults: general features default to enabled; some federation features default to disabled for gradual rollout
+
+File reference:
+- `sophie_bot/utils/feature_flags.py` — single source of truth for:
+  - `FeatureType` literal union of all flag names
+  - `FeatureStates` typed map of flag -> bool
+  - `FEATURE_FLAGS` tuple enumeration (order and completeness)
+  - `_default_state_map()` default values
+
+### When You MUST Use a Flag
+
+- New user‑facing capabilities (commands, handlers, automations)
+- Rewrites/refactors that may affect stability or moderation behavior
+- New external services (APIs, storage, schedulers)
+- Anything that may need an instant "off" switch in production
+
+### Naming Conventions
+
+- Lower snake_case identifiers, domain‑scoped where useful
+- Reuse existing patterns, for example:
+  - `ai_chatbot`, `ai_translations`, `ai_moderation`
+  - `filters`, `antiflood`
+  - `new_feds_*` for federation rollout flags
+- Prefer descriptive, durable names. Avoid user or chat‑specific semantics in global flags.
+
+### Adding a New Feature Flag (Required Steps)
+
+1. Edit `sophie_bot/utils/feature_flags.py` and update all of the following:
+   - Add the new literal to `FeatureType`
+   - Add a `bool` field to `FeatureStates`
+   - Append to `FEATURE_FLAGS`
+   - Set its default in `_default_state_map()`
+2. Choose the default carefully:
+   - Kill‑switch for risky changes: default to `True` (enabled) so you can turn it off on incidents
+   - Gradual rollout (new area): default to `False` (disabled) until explicitly enabled
+3. Run `make commit` to format and type‑check (mypy must pass).
+
+### Using a Flag in Handlers/Services
+
+Handlers (commands, message/callback handlers) must not perform inline feature-flag checks or send "feature disabled" messages. Instead, completely disable handlers via `FeatureFlagFilter` so they never execute when the flag is off.
+
+```python
+from __future__ import annotations
+
+from aiogram.handlers import MessageHandler
+from aiogram.types import Message
+from aiogram import flags
+
+from sophie_bot.filters.feature_flag import FeatureFlagFilter
+from sophie_bot.utils.i18n import lazy_gettext as l_
+
+
+@flags.help(description=l_("AI Chatbot – talk with AI"))
+@flags.disableable(name="ai_chat")
+class AIChatHandler(MessageHandler):
+    @staticmethod
+    def filters():
+        # Handler will be completely disabled when the flag is off
+        return (FeatureFlagFilter("ai_chatbot"),)
+
+    async def handle(self) -> None:  # type: ignore[override]
+        message: Message = self.event
+        # ... normal handler logic here ...
+```
+
+For utility/services functions where a feature toggle selects between old/new behavior within the same API, using `is_enabled` is acceptable. Prefer a fast guard near the entrypoint and avoid user-facing "disabled" messages:
+
+```python
+from sophie_bot.utils.feature_flags import is_enabled
+
+async def generate_summary(text: str) -> str:
+    if not await is_enabled("ai_translations"):
+        return text  # noop when disabled
+    # proceed with AI call
+```
+
+### Operational Control (Toggling Flags)
+
+You can toggle flags at runtime with either the Python API or Redis CLI. Cache refresh occurs within ~2 seconds.
+
+- Python (admin shell/task):
+
+```python
+from sophie_bot.utils.feature_flags import set_enabled
+
+await set_enabled("ai_chatbot", False)
+```
+
+- Redis CLI (0/1 values):
+
+```bash
+redis-cli HSET sophie:kill_switch ai_chatbot 0
+redis-cli HGETALL sophie:kill_switch
+```
+
+Notes:
+- Treat flags as global to the deployment. They are not per‑chat permissions.
+- Do not rely on flags for security. They are operational controls, not auth.
+
+### Testing With Feature Flags
+
+- Prefer black‑box tests that assert behavior both when enabled and disabled.
+- Use the public API to flip flags inside tests and restore afterward.
+
+```python
+import asyncio
+import pytest
+
+from sophie_bot.utils.feature_flags import set_enabled
+
+
+@pytest.mark.asyncio
+async def test_ai_chat_disabled(shutdown_flag: None) -> None:
+    await set_enabled("ai_chatbot", False)
+    try:
+        # call the handler/service and assert the fallback
+        ...
+    finally:
+        await set_enabled("ai_chatbot", True)
+```
+
+Tip: when possible, structure your functions so flag checks are isolated and easy to test.
+
+### Common Pitfalls
+
+- Performing inline `is_enabled(...)` checks inside handlers and replying with "feature disabled". Use `FeatureFlagFilter` to disable handlers entirely. 
+- Forgetting to add the flag to ALL places in `feature_flags.py` (type union, typed dict, tuple, defaults)
+- Surfacing non‑translated user messages when a feature is disabled — always use i18n
+- Mixing flag semantics with chat permission logic — keep them separate
+- Broad exception handlers masking real failures — follow exception best practices in this guide
