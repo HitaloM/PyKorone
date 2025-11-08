@@ -12,19 +12,15 @@ build_runtime_container:
     - podman login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" registry.gitlab.com
   script: |
     # build
+    podman manifest create "$IMAGE_FULL"
     podman build \
       --platform linux/amd64,linux/arm64 \
-      --tag "$IMAGE_FULL" \
+      --manifest "$IMAGE_FULL" \
       --file build/runtime/Dockerfile \
       --layers \
       .
 
-    # tag latest
-    podman tag "$IMAGE_FULL" "$IMAGE_NAME:latest"
-
-    # push images
-    podman push "$IMAGE_FULL"
-    podman push "$IMAGE_NAME:latest"
+    podman manifest push "$IMAGE_FULL"
   cache:
     key: bot_runtime_docker_cache
     paths:
