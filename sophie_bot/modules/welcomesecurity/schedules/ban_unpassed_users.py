@@ -20,7 +20,7 @@ class BanUnpassedUsers:
         # Check if entry is older than 36 hours
         is_old_entry = datetime.now(timezone.utc) - ws_user.added_at > timedelta(hours=36)
 
-        if ws_user.passed and not is_old_entry:
+        if not ws_user.passed and not is_old_entry:
             if ws_user.is_join_request:
                 # Decline the join request
                 try:
