@@ -10,7 +10,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Language-Team: Chinese Simplified\n"
 "Language: zh_CN\n"
-"PO-Revision-Date: 2025-11-08 19:29\n"
+"PO-Revision-Date: 2025-11-08 21:20\n"
 
 #: sophie_bot/args/users.py:29
 msgid "Could not find the requested User ID in the database."
@@ -2028,23 +2028,23 @@ msgstr "欢迎消息"
 msgid "No chat rules, have fun!"
 msgstr "没有聊天规则，玩得开心！"
 
-#: sophie_bot/modules/greetings/middlewares/new_user.py:54
+#: sophie_bot/modules/greetings/middlewares/new_user.py:55
 msgid "Hi, Thank you for choosing Sophie for your group!"
 msgstr "嗨，感谢您选择Sophie为您的群组！"
 
-#: sophie_bot/modules/greetings/middlewares/new_user.py:55
+#: sophie_bot/modules/greetings/middlewares/new_user.py:56
 msgid "Please read the documentation to learn more about Sophie and do not hesitate to join the Support Chat"
 msgstr "请阅读文档以了解更多关于Sophie的信息，如有疑问，请随时加入支持聊天。"
 
-#: sophie_bot/modules/greetings/middlewares/new_user.py:60
+#: sophie_bot/modules/greetings/middlewares/new_user.py:61
 msgid "Documentation"
 msgstr "文档"
 
-#: sophie_bot/modules/greetings/middlewares/new_user.py:61
+#: sophie_bot/modules/greetings/middlewares/new_user.py:62
 msgid "Support Chat"
 msgstr "支持聊天"
 
-#: sophie_bot/modules/greetings/middlewares/new_user.py:94
+#: sophie_bot/modules/greetings/middlewares/new_user.py:95
 msgid "I am not a robot"
 msgstr "我不是机器人"
 
@@ -3333,11 +3333,11 @@ msgstr "更改警告原因"
 msgid "No reason"
 msgstr "没有原因"
 
-#: sophie_bot/modules/welcomesecurity/__init__.py:29
+#: sophie_bot/modules/welcomesecurity/__init__.py:31
 msgid "Welcome Security"
 msgstr "欢迎安全"
 
-#: sophie_bot/modules/welcomesecurity/__init__.py:32
+#: sophie_bot/modules/welcomesecurity/__init__.py:34
 msgid "Welcome Security contains a bunch of tools that can help filter bots that tries to join your groups, as well as make sure the new users acknowledged the chat rules before being able to speak"
 msgstr "欢迎安全包含一系列工具，可以帮助过滤试图加入您群组的机器人，并确保新用户在能够发言之前已确认聊天规则。"
 

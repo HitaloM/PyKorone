@@ -10,7 +10,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Language-Team: Portuguese, Brazilian\n"
 "Language: pt_BR\n"
-"PO-Revision-Date: 2025-11-08 19:29\n"
+"PO-Revision-Date: 2025-11-08 21:20\n"
 
 #: sophie_bot/args/users.py:29
 msgid "Could not find the requested User ID in the database."
@@ -2030,23 +2030,23 @@ msgstr "Mensagem de Boas-Vindas"
 msgid "No chat rules, have fun!"
 msgstr "Sem regras de chat, divirta-se!"
 
-#: sophie_bot/modules/greetings/middlewares/new_user.py:54
+#: sophie_bot/modules/greetings/middlewares/new_user.py:55
 msgid "Hi, Thank you for choosing Sophie for your group!"
 msgstr "Oi, obrigado por escolher a Sophie para o seu grupo!"
 
-#: sophie_bot/modules/greetings/middlewares/new_user.py:55
+#: sophie_bot/modules/greetings/middlewares/new_user.py:56
 msgid "Please read the documentation to learn more about Sophie and do not hesitate to join the Support Chat"
 msgstr "Por favor, leia a documentação para saber mais sobre a Sophie e não hesite em entrar no Chat de Suporte"
 
-#: sophie_bot/modules/greetings/middlewares/new_user.py:60
+#: sophie_bot/modules/greetings/middlewares/new_user.py:61
 msgid "Documentation"
 msgstr "Documentação"
 
-#: sophie_bot/modules/greetings/middlewares/new_user.py:61
+#: sophie_bot/modules/greetings/middlewares/new_user.py:62
 msgid "Support Chat"
 msgstr "Chat de Suporte"
 
-#: sophie_bot/modules/greetings/middlewares/new_user.py:94
+#: sophie_bot/modules/greetings/middlewares/new_user.py:95
 msgid "I am not a robot"
 msgstr "I am not a robot"
 
@@ -3335,11 +3335,11 @@ msgstr "Mudar o motivo do aviso"
 msgid "No reason"
 msgstr "Sem motivo"
 
-#: sophie_bot/modules/welcomesecurity/__init__.py:29
+#: sophie_bot/modules/welcomesecurity/__init__.py:31
 msgid "Welcome Security"
 msgstr "Segurança de Boas-Vindas"
 
-#: sophie_bot/modules/welcomesecurity/__init__.py:32
+#: sophie_bot/modules/welcomesecurity/__init__.py:34
 msgid "Welcome Security contains a bunch of tools that can help filter bots that tries to join your groups, as well as make sure the new users acknowledged the chat rules before being able to speak"
 msgstr "A Segurança de Boas-Vindas contém um conjunto de ferramentas que podem ajudar a filtrar bots que tentam se juntar aos seus grupos, bem como garantir que os novos usuários reconheçam as regras do chat antes de poderem falar"
 

@@ -10,7 +10,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Language-Team: Turkish\n"
 "Language: tr_TR\n"
-"PO-Revision-Date: 2025-11-08 19:29\n"
+"PO-Revision-Date: 2025-11-08 21:20\n"
 
 #: sophie_bot/args/users.py:29
 msgid "Could not find the requested User ID in the database."
@@ -2030,23 +2030,23 @@ msgstr "Karşılama Mesajı"
 msgid "No chat rules, have fun!"
 msgstr "Kural yok, eğlenin!"
 
-#: sophie_bot/modules/greetings/middlewares/new_user.py:54
+#: sophie_bot/modules/greetings/middlewares/new_user.py:55
 msgid "Hi, Thank you for choosing Sophie for your group!"
 msgstr "Merhaba, grubunuzu seçtiğiniz için teşekkürler!"
 
-#: sophie_bot/modules/greetings/middlewares/new_user.py:55
+#: sophie_bot/modules/greetings/middlewares/new_user.py:56
 msgid "Please read the documentation to learn more about Sophie and do not hesitate to join the Support Chat"
 msgstr "Lütfen Sophie hakkında daha fazla bilgi edinmek için belgeleri okuyun ve Destek Sohbeti'ne katılmaktan çekinmeyin"
 
-#: sophie_bot/modules/greetings/middlewares/new_user.py:60
+#: sophie_bot/modules/greetings/middlewares/new_user.py:61
 msgid "Documentation"
 msgstr "Dokümantasyon"
 
-#: sophie_bot/modules/greetings/middlewares/new_user.py:61
+#: sophie_bot/modules/greetings/middlewares/new_user.py:62
 msgid "Support Chat"
 msgstr "Destek Sohbeti"
 
-#: sophie_bot/modules/greetings/middlewares/new_user.py:94
+#: sophie_bot/modules/greetings/middlewares/new_user.py:95
 msgid "I am not a robot"
 msgstr "I am not a robot"
 
@@ -3335,11 +3335,11 @@ msgstr "Uyarı nedenini değiştir"
 msgid "No reason"
 msgstr "Neden yok"
 
-#: sophie_bot/modules/welcomesecurity/__init__.py:29
+#: sophie_bot/modules/welcomesecurity/__init__.py:31
 msgid "Welcome Security"
 msgstr "Karşılama Güvenliği"
 
-#: sophie_bot/modules/welcomesecurity/__init__.py:32
+#: sophie_bot/modules/welcomesecurity/__init__.py:34
 msgid "Welcome Security contains a bunch of tools that can help filter bots that tries to join your groups, as well as make sure the new users acknowledged the chat rules before being able to speak"
 msgstr "Karşılama Güvenliği, gruplarınıza katılmaya çalışan botları filtrelemenize yardımcı olabilecek bir dizi araç içerir. Ayrıca yeni kullanıcıların konuşmadan önce sohbet kurallarını kabul ettiklerinden emin olmanızı sağlar"
 
