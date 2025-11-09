@@ -10,8 +10,8 @@ from sophie_bot.utils.logger import log
 
 class BanUnpassedUsers:
     async def process_user(self, ws_user: WSUserModel):
-        user = await ChatModel.get_by_iid(ws_user.user)
-        group = await ChatModel.get_by_iid(ws_user.group)
+        user = await ChatModel.get_by_iid(ws_user.user.ref.id)
+        group = await ChatModel.get_by_iid(ws_user.group.ref.id)
 
         if user is None or group is None:
             log.warning(
