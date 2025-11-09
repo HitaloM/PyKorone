@@ -44,6 +44,9 @@ class BanUnpassedUsers:
         log.debug("ban_unpassed_users: processing user", user=user.id, group=group.id)
 
         added_at = ws_user.added_at or ws_user.id.generation_time
+        # Ensure added_at is timezone-aware
+        if added_at.tzinfo is None:
+            added_at = added_at.replace(tzinfo=timezone.utc)
         is_old_entry = datetime.now(timezone.utc) - added_at > timedelta(hours=CONFIG.welcomesecurity_ban_timeout)
         if not is_old_entry:
             log.debug("ban_unpassed_users: skipping ws_user, too young", ws_user_id=str(ws_user.id))
