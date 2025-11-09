@@ -109,6 +109,59 @@ async def translate_command():
 - `make new_lang LANG=xx_XX`: Create new language support
 - `make gen_wiki`: Generate project documentation
 
+## MCP Tools
+
+We use two MCP (Machine-assist / Content-Search) tools to speed up research and development:
+
+### tavily — internet search
+
+- Purpose: Use tavily for broad web searches when you need up-to-date information, examples, blog posts, or general
+  background from the public web.
+- When to use:
+    - Looking up recent articles, RFCs, blog posts, tutorials, or community discussions.
+    - Finding examples, comparisons, or quick clarifications not tied to a specific library's official docs.
+- How to query:
+    - Keep queries concise and include relevant keywords and expected formats, e.g. "python asyncio httpx timeout
+      example" or "pydantic v2 migration breaking changes".
+    - Prefer queries that include the year or version for freshness: "aiogram 3.21 breaking changes 2024".
+- Best practices:
+    - Verify information from tavily against official sources before acting on it; tavily is a search assistant, not an
+      authoritative source.
+    - Save links to sources in code reviews or task comments for traceability.
+    - Be mindful of rate limits and usage policies configured for tavily in our environment.
+
+### context7 — library & documentation search
+
+- Purpose: Use context7 when you need precise, authoritative information from official library documentation, API
+  references, or in-repo docs.
+- When to use:
+    - Looking for function signatures, configuration options, class reference docs, and exact examples from library
+      maintainers.
+    - Verifying the correct usage of internal or 3rd-party libraries (e.g., aiogram, pydantic, beanie).
+- How to query:
+    - Query with exact names and context, e.g. "aiogram MessageHandler filters method signature" or "pydantic BaseModel
+      Config extra ignore example".
+    - If available, scope the search to the library name to reduce noise: "context7: pydantic model validators".
+- Best practices:
+    - Prefer context7 results for implementation decisions, migrations, and when writing tests that depend on library
+      behavior.
+    - Cross-check context7 findings with library changelogs and the project's pinned dependency versions.
+    - Record the exact documentation page or section used as a reference in PR descriptions.
+
+### Security, privacy and credentials
+
+- Do not paste secrets, full config files with credentials, or private data in MCP queries.
+- If a query must reference private repo or internal docs, ensure the tool is configured to use authenticated access and
+  follow privacy guidelines.
+- Treat MCP results as aids; always verify critical or sensitive changes with source code, official docs, or internal
+  policies.
+
+### Caching and reproducibility
+
+- When research informs code changes, add the authoritative links (from tavily or context7) to the related issue or PR
+  so reviewers can reproduce and validate decisions.
+- Consider caching or pinning references to specific versions/URLs when the information is time‑sensitive.
+
 ## Project Structure
 
 ### Directory Organization
@@ -260,20 +313,23 @@ await message.reply(str(doc))
 The Sophie Bot project uses two distinct types of chat identifiers that **must not be confused**:
 
 #### chat_tid (Telegram Chat ID)
-- **Type**: `int`  
+
+- **Type**: `int`
 - **Source**: Telegram's API (`message.chat.id`, `chat.id`)
 - **Usage**: External API calls, user-facing operations, handler parameters
 - **Example**: `-1001234567890` (supergroup), `123456789` (private chat)
 
 #### chat_iid (Internal Database ID)
+
 - **Type**: `PydanticObjectId` (Beanie/MongoDB ObjectId)
-- **Source**: Database document primary key (`chat_model.id`)  
+- **Source**: Database document primary key (`chat_model.id`)
 - **Usage**: Internal database relationships, Link<ChatModel> queries
 - **Example**: `ObjectId('507f1f77bcf86cd799439011')`
 
 ### Database Model Patterns
 
 #### ChatModel Structure
+
 ```python
 class ChatModel(Document):
     chat_id: Annotated[int, Indexed(unique=True)]  # Telegram chat ID (chat_tid)
@@ -282,6 +338,7 @@ class ChatModel(Document):
 ```
 
 #### Link Relationships (CRITICAL)
+
 When using `Link[ChatModel]` relationships, **always** use the database object ID (`chat_iid`):
 
 ```python
@@ -289,11 +346,13 @@ When using `Link[ChatModel]` relationships, **always** use the database object I
 class SomeModel(Document):
     chat: Link[ChatModel]
 
+
 # Find by Link relationship
 model = await SomeModel.find_one(SomeModel.chat.id == chat_model.id)  # chat_iid
 ```
 
 #### Method Parameter Naming
+
 ```python
 # ✅ CORRECT - Clear parameter naming
 async def get_settings(chat_tid: int) -> SomeModel:
@@ -301,8 +360,9 @@ async def get_settings(chat_tid: int) -> SomeModel:
     chat = await ChatModel.get_by_chat_id(chat_tid)  # Convert to ChatModel
     if not chat:
         raise ValueError(f"Chat with ID {chat_tid} not found")
-    
+
     return await SomeModel.find_one(SomeModel.chat.id == chat.id)  # Use chat_iid
+
 
 async def get_by_internal_id(chat_iid: PydanticObjectId) -> SomeModel:
     """Get settings using database internal ID."""
@@ -312,6 +372,7 @@ async def get_by_internal_id(chat_iid: PydanticObjectId) -> SomeModel:
 ### Common Mistakes to Avoid
 
 #### ❌ WRONG - Mixing ID types in Link queries
+
 ```python
 # This will FAIL - using Telegram ID in Link query
 chat_tid = message.chat.id  # Telegram ID (int)
@@ -319,6 +380,7 @@ model = await SomeModel.find_one(SomeModel.chat.id == chat_tid)  # WRONG!
 ```
 
 #### ✅ CORRECT - Proper ID conversion
+
 ```python
 # Convert Telegram ID to database model first
 chat_tid = message.chat.id  # Telegram ID (int)
@@ -334,12 +396,12 @@ class ExampleHandler(SophieMessageHandler):
     async def handle(self) -> Any:
         # Get Telegram chat ID from connection
         chat_tid = self.connection.id  # This is Telegram's chat ID
-        
+
         # For Link queries, get the ChatModel first
         chat = await ChatModel.get_by_chat_id(chat_tid)
         if not chat:
             return await self.event.reply(_("Chat not found"))
-        
+
         # Use chat.id (database object ID) for Link queries
         model = await SomeModel.find_one(SomeModel.chat.id == chat.id)
 ```
@@ -347,7 +409,7 @@ class ExampleHandler(SophieMessageHandler):
 ### Variable Naming in Code
 
 - Use `chat_tid` for Telegram chat ID variables
-- Use `chat_iid` for database object ID variables  
+- Use `chat_iid` for database object ID variables
 - Use `chat` for ChatModel instances
 - Be explicit in method parameter names
 
@@ -356,7 +418,7 @@ class ExampleHandler(SophieMessageHandler):
 ### Avoid Broad Exception Handling
 
 - **DO NOT** use bare `except Exception as e:` handlers unless absolutely necessary
-- Prefer specific exception types (`ValueError`, `TypeError`, etc.) when possible  
+- Prefer specific exception types (`ValueError`, `TypeError`, etc.) when possible
 - Let exceptions bubble up to be handled by the framework's error handling system
 - This allows for better debugging, error tracking, and crashlytics reporting
 - The bot framework handles uncaught exceptions gracefully with user feedback
@@ -389,6 +451,7 @@ except (ConnectionError, TimeoutError) as e:
 ### Framework Error Handling
 
 The bot framework already provides comprehensive error handling that:
+
 - Logs errors with full stack traces
 - Reports errors to monitoring systems
 - Provides user-friendly error messages
@@ -433,18 +496,19 @@ kill switch). This allows safe, instant rollbacks without redeploys and enables 
 
 - Storage: Redis hash under key `sophie:kill_switch`
 - Runtime API: `sophie_bot/utils/feature_flags.py`
-  - `is_enabled(feature: FeatureType) -> bool`
-  - `set_enabled(feature: FeatureType, enabled: bool) -> None`
-  - `list_all() -> FeatureStates`
+    - `is_enabled(feature: FeatureType) -> bool`
+    - `set_enabled(feature: FeatureType, enabled: bool) -> None`
+    - `list_all() -> FeatureStates`
 - Caching: in‑process cache with ~2s TTL, auto‑refreshed
 - Defaults: general features default to enabled; some federation features default to disabled for gradual rollout
 
 File reference:
+
 - `sophie_bot/utils/feature_flags.py` — single source of truth for:
-  - `FeatureType` literal union of all flag names
-  - `FeatureStates` typed map of flag -> bool
-  - `FEATURE_FLAGS` tuple enumeration (order and completeness)
-  - `_default_state_map()` default values
+    - `FeatureType` literal union of all flag names
+    - `FeatureStates` typed map of flag -> bool
+    - `FEATURE_FLAGS` tuple enumeration (order and completeness)
+    - `_default_state_map()` default values
 
 ### When You MUST Use a Flag
 
@@ -457,26 +521,27 @@ File reference:
 
 - Lower snake_case identifiers, domain‑scoped where useful
 - Reuse existing patterns, for example:
-  - `ai_chatbot`, `ai_translations`, `ai_moderation`
-  - `filters`, `antiflood`
-  - `new_feds_*` for federation rollout flags
+    - `ai_chatbot`, `ai_translations`, `ai_moderation`
+    - `filters`, `antiflood`
+    - `new_feds_*` for federation rollout flags
 - Prefer descriptive, durable names. Avoid user or chat‑specific semantics in global flags.
 
 ### Adding a New Feature Flag (Required Steps)
 
 1. Edit `sophie_bot/utils/feature_flags.py` and update all of the following:
-   - Add the new literal to `FeatureType`
-   - Add a `bool` field to `FeatureStates`
-   - Append to `FEATURE_FLAGS`
-   - Set its default in `_default_state_map()`
+    - Add the new literal to `FeatureType`
+    - Add a `bool` field to `FeatureStates`
+    - Append to `FEATURE_FLAGS`
+    - Set its default in `_default_state_map()`
 2. Choose the default carefully:
-   - Kill‑switch for risky changes: default to `True` (enabled) so you can turn it off on incidents
-   - Gradual rollout (new area): default to `False` (disabled) until explicitly enabled
+    - Kill‑switch for risky changes: default to `True` (enabled) so you can turn it off on incidents
+    - Gradual rollout (new area): default to `False` (disabled) until explicitly enabled
 3. Run `make commit` to format and type‑check (mypy must pass).
 
 ### Using a Flag in Handlers/Services
 
-Handlers (commands, message/callback handlers) must not perform inline feature-flag checks or send "feature disabled" messages. Instead, completely disable handlers via `FeatureFlagFilter` so they never execute when the flag is off.
+Handlers (commands, message/callback handlers) must not perform inline feature-flag checks or send "feature disabled"
+messages. Instead, completely disable handlers via `FeatureFlagFilter` so they never execute when the flag is off.
 
 ```python
 from __future__ import annotations
@@ -502,10 +567,12 @@ class AIChatHandler(MessageHandler):
         # ... normal handler logic here ...
 ```
 
-For utility/services functions where a feature toggle selects between old/new behavior within the same API, using `is_enabled` is acceptable. Prefer a fast guard near the entrypoint and avoid user-facing "disabled" messages:
+For utility/services functions where a feature toggle selects between old/new behavior within the same API, using
+`is_enabled` is acceptable. Prefer a fast guard near the entrypoint and avoid user-facing "disabled" messages:
 
 ```python
 from sophie_bot.utils.feature_flags import is_enabled
+
 
 async def generate_summary(text: str) -> str:
     if not await is_enabled("ai_translations"):
@@ -533,6 +600,7 @@ redis-cli HGETALL sophie:kill_switch
 ```
 
 Notes:
+
 - Treat flags as global to the deployment. They are not per‑chat permissions.
 - Do not rely on flags for security. They are operational controls, not auth.
 
@@ -562,7 +630,8 @@ Tip: when possible, structure your functions so flag checks are isolated and eas
 
 ### Common Pitfalls
 
-- Performing inline `is_enabled(...)` checks inside handlers and replying with "feature disabled". Use `FeatureFlagFilter` to disable handlers entirely. 
+- Performing inline `is_enabled(...)` checks inside handlers and replying with "feature disabled". Use
+  `FeatureFlagFilter` to disable handlers entirely.
 - Forgetting to add the flag to ALL places in `feature_flags.py` (type union, typed dict, tuple, defaults)
 - Surfacing non‑translated user messages when a feature is disabled — always use i18n
 - Mixing flag semantics with chat permission logic — keep them separate

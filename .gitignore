@@ -36,3 +36,12 @@ output/
 wiki/node_modules
 wiki/.*
 # wiki/docs/modules/
+
+# AI
+data/ai_dev.json
+.junie/
+.aiassistant/
+.kilocode
+AGENTS.md
+/AI_GUIDELINES.md
+.github/AI_GUIDELINES.md

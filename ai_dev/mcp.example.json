@@ -1,0 +1,25 @@
+{
+  "$schema": "https://modelcontextprotocol.io/schemas/client-config.schema.json",
+  "mcpServers": {
+    "context7": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@upstash/context7-mcp"
+      ],
+      "env": {
+        "CONTEXT7_API_KEY": "__CONTEXT7_API_KEY__"
+      }
+    },
+    "tavily": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "tavily-mcp@0.2.3"
+      ],
+      "env": {
+        "TAVILY_API_KEY": "__TAVILY_API_KEY__"
+      }
+    }
+  }
+}
