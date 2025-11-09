@@ -1,6 +1,7 @@
 from datetime import datetime, timedelta, timezone
 
 from sophie_bot.config import CONFIG
+from sophie_bot.db.models.chat import ChatModel
 from sophie_bot.db.models.ws_user import WSUserModel
 from sophie_bot.modules.legacy_modules.utils.restrictions import ban_user
 from sophie_bot.services.bot import bot
@@ -9,10 +10,17 @@ from sophie_bot.utils.logger import log
 
 class BanUnpassedUsers:
     async def process_user(self, ws_user: WSUserModel):
-        await ws_user.fetch_all_links()
+        user = await ChatModel.get_by_iid(ws_user.user)
+        group = await ChatModel.get_by_iid(ws_user.group)
 
-        user = ws_user.user
-        group = ws_user.group
+        if user is None or group is None:
+            log.warning(
+                "ban_unpassed_users: skipping ws_user due to missing linked user/group",
+                ws_user_id=str(ws_user.id),
+            )
+            await ws_user.delete()
+            return
+
         log.debug("ban_unpassed_users: processing user", user=user.id, group=group.id)
 
         # Check if ban_timeout hours have passed
@@ -44,6 +52,8 @@ class BanUnpassedUsers:
                     log.error(
                         "ban_unpassed_users: failed to ban user", user=user.chat_id, group=group.chat_id, error=str(e)
                     )
+        else:
+            log.debug("ban_unpassed_users: skipping ws_user, too old", ws_user_id=str(ws_user.id))
 
         # Remove from database
         await ws_user.delete()
