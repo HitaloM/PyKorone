@@ -10,7 +10,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Language-Team: Finnish\n"
 "Language: fi_FI\n"
-"PO-Revision-Date: 2025-11-08 19:29\n"
+"PO-Revision-Date: 2025-11-08 21:20\n"
 
 #: sophie_bot/args/users.py:29
 msgid "Could not find the requested User ID in the database."
@@ -22,11 +22,11 @@ msgstr "Käyttäjänimeä ei löytynyt tietokannasta."
 
 #: sophie_bot/args/users.py:72
 msgid "User: 'User ID (numeric) / Username (starts with @) / Mention (links to users)'"
-msgstr "Käyttäjä: 'Käyttäjän ID (numeerinen) / Käyttäjänimi (alkaa @-merkillä) / Maininta (linkkejä käyttäjiin)'"
+msgstr "Käyttäjä: 'Käyttäjän ID (numero) / Käyttäjätunnus (alkaa @) / Maininta (linkit käyttäjiin)'"
 
 #: sophie_bot/args/users.py:73
 msgid "Users: 'User IDs (numeric) / Usernames (starts with @) / Mentions (links to users)'"
-msgstr "Käyttäjät: 'Käyttäjän ID:t (numeerinen) / Käyttäjänimet (alkaa @-merkillä) / Maininnat (linkkejä käyttäjiin)'"
+msgstr "Käyttäjät: 'Käyttäjän ID (numero) / Käyttäjätunnukset (alkaa @) / Maininnat (linkit käyttäjiin)'"
 
 #: sophie_bot/args/users.py:79
 msgid "User ID"
@@ -34,11 +34,11 @@ msgstr "Käyttäjän ID"
 
 #: sophie_bot/args/users.py:80
 msgid "Username"
-msgstr "Käyttäjänimi"
+msgstr "Käyttäjätunnus"
 
 #: sophie_bot/args/users.py:82
 msgid "A link to user, usually creates by mentioning a user without username."
-msgstr "Linkki käyttäjään, yleensä luodaan mainitsemalla käyttäjä ilman käyttäjännimeä."
+msgstr "Linkki käyttäjään, yleensä luodaan mainitsemalla käyttäjä ilman käyttäjätunnusta."
 
 #: sophie_bot/filters/is_connected.py:52
 msgid "This command can only be used in a group or while being connected to a group in PM."
@@ -2030,23 +2030,23 @@ msgstr "Tervetuloviesti"
 msgid "No chat rules, have fun!"
 msgstr "Ei ryhmän sääntöjä, nauti!"
 
-#: sophie_bot/modules/greetings/middlewares/new_user.py:54
+#: sophie_bot/modules/greetings/middlewares/new_user.py:55
 msgid "Hi, Thank you for choosing Sophie for your group!"
 msgstr "Hei, kiitos, että valitsit Sophien ryhmääsi!"
 
-#: sophie_bot/modules/greetings/middlewares/new_user.py:55
+#: sophie_bot/modules/greetings/middlewares/new_user.py:56
 msgid "Please read the documentation to learn more about Sophie and do not hesitate to join the Support Chat"
 msgstr "Lue dokumentaatio saadaksesi lisää tietoa Sophiesta ja älä epäröi liittyä tukichattiin"
 
-#: sophie_bot/modules/greetings/middlewares/new_user.py:60
+#: sophie_bot/modules/greetings/middlewares/new_user.py:61
 msgid "Documentation"
 msgstr "Dokumentaatio"
 
-#: sophie_bot/modules/greetings/middlewares/new_user.py:61
+#: sophie_bot/modules/greetings/middlewares/new_user.py:62
 msgid "Support Chat"
 msgstr "Tukichat"
 
-#: sophie_bot/modules/greetings/middlewares/new_user.py:94
+#: sophie_bot/modules/greetings/middlewares/new_user.py:95
 msgid "I am not a robot"
 msgstr "En ole robotti"
 
@@ -3335,11 +3335,11 @@ msgstr "Vaihda varoitus syy"
 msgid "No reason"
 msgstr "Ei syytä"
 
-#: sophie_bot/modules/welcomesecurity/__init__.py:29
+#: sophie_bot/modules/welcomesecurity/__init__.py:31
 msgid "Welcome Security"
 msgstr "Tervetuloa turvallisuus"
 
-#: sophie_bot/modules/welcomesecurity/__init__.py:32
+#: sophie_bot/modules/welcomesecurity/__init__.py:34
 msgid "Welcome Security contains a bunch of tools that can help filter bots that tries to join your groups, as well as make sure the new users acknowledged the chat rules before being able to speak"
 msgstr "Tervetuloa turvallisuus sisältää joukon työkaluja, jotka voivat auttaa suodattamaan botteja, jotka yrittävät liittyä ryhmiisi, sekä varmistamaan, että uudet käyttäjät ovat hyväksyneet chatin säännöt ennen kuin voivat puhua"
 
