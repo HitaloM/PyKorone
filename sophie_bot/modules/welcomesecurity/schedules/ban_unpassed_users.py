@@ -9,7 +9,13 @@ from sophie_bot.utils.logger import log
 
 
 class BanUnpassedUsers:
-    async def process_user(self, ws_user: WSUserModel):
+    @staticmethod
+    async def process_user(ws_user: WSUserModel):
+        if not ws_user.added_at:
+            log.warning("ban_unpassed_users: skipping ws_user due to missing added_at", ws_user_id=str(ws_user.id))
+            await ws_user.delete()
+            return
+
         user = await ChatModel.get_by_iid(ws_user.user.ref.id)
         group = await ChatModel.get_by_iid(ws_user.group.ref.id)
 
