@@ -185,3 +185,5 @@ TRANSLATE_DEFAULT_MODELS: dict[str, str] = {
     AIProviders.mistral.name: MistralModels.magistral_medium.name,
     AIProviders.openai.name: OpenAIModels.gpt_5_nano.name,
 }
+
+FILTER_HANDLER_MODEL = AI_MODELS[MistralModels.mistral_small.name]

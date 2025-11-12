@@ -26,6 +26,18 @@ async def check_legacy_filter_handler(event: Message | CallbackQuery, keyword: s
             ).to_html(),
         )
 
+    if keyword.startswith("ai:"):
+        prompt = keyword[3:].strip()
+        if not prompt:
+            log.info("check_legacy_filter_handler: empty AI prompt")
+            return await reply_or_edit(
+                event,
+                _(
+                    "AI filter prompt cannot be empty. Please provide a description of when to trigger the filter.\n"
+                    "Example: ai:Message contains crypto scam"
+                ),
+            )
+
     if keyword.startswith("re:"):
         pattern = keyword[3:]
         random_text_str = "".join(choice(printable) for _q in range(50))
@@ -42,6 +54,9 @@ async def check_legacy_filter_handler(event: Message | CallbackQuery, keyword: s
 
 
 def text_legacy_handler_handles_on(keyword: str) -> Element:
+    if keyword.startswith("ai:"):
+        return Template(_("When AI detects: {prompt}"), prompt=Code(keyword[3:]))
+
     if keyword.startswith("re:"):
         return Template(_("When messages matches the regex pattern {pattern}"), pattern=Code(keyword[3:]))
 

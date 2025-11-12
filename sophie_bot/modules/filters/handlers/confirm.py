@@ -3,13 +3,14 @@ from typing import Any
 from aiogram.dispatcher.event.handler import CallbackType
 from aiogram.types import InlineKeyboardButton
 from aiogram.utils.keyboard import InlineKeyboardBuilder
-from stfu_tg import Code, Doc, HList, Section, Template, Title, VList
+from stfu_tg import Doc, HList, Section, Title, VList
 from typing_extensions import Optional
 
 from sophie_bot.modules.filters.utils_.filter_abc import (
     ALL_FILTER_ACTIONS,
     FilterActionABC,
 )
+from sophie_bot.modules.filters.utils_.legacy_filter_handler import text_legacy_handler_handles_on
 from sophie_bot.modules.utils_.base_handler import SophieMessageHandler
 from sophie_bot.utils.i18n import gettext as _
 from sophie_bot.utils.i18n import ngettext as pl_
@@ -36,7 +37,7 @@ class ConfirmAddFilter(SophieMessageHandler):
 
         doc = Doc(
             Title(_("New filter")),
-            Section(Template(_("When {handler} in message"), handler=Code(filter_handler)), title=_("Handles")),
+            Section(text_legacy_handler_handles_on(filter_handler), title=_("Handles")),
             Section(
                 VList(
                     *(

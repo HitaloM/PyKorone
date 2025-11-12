@@ -6,7 +6,7 @@ from aiogram.types import InlineKeyboardButton, InlineKeyboardMarkup, Message
 from aiogram.utils.keyboard import InlineKeyboardBuilder
 from ass_tg.types import TextArg
 from ass_tg.types.base_abc import ArgFabric
-from stfu_tg import Code, Doc, Section, Template, Title
+from stfu_tg import Doc, Section, Title
 
 from sophie_bot.filters.admin_rights import UserRestricting
 from sophie_bot.filters.chat_status import ChatTypeFilter
@@ -18,6 +18,7 @@ from sophie_bot.modules.filters.utils_.filter_abc import (
     ALL_FILTER_ACTIONS,
     FilterActionABC,
 )
+from sophie_bot.modules.filters.utils_.legacy_filter_handler import text_legacy_handler_handles_on
 from sophie_bot.modules.utils_.base_handler import (
     SophieCallbackQueryHandler,
     SophieMessageHandler,
@@ -54,7 +55,7 @@ class AddFilterHandler(SophieMessageHandler):
         doc = Doc(
             Title(_("New filter")),
             # TODO: Filter handlers?
-            Section(Template(_("When {handler} in message"), handler=Code(filter_handler)), title=_("Handles")),
+            Section(text_legacy_handler_handles_on(filter_handler), title=_("Handles")),
             " ",
             _("Select a filter action:"),
         )

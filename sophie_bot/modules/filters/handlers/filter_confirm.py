@@ -3,7 +3,7 @@ from typing import Any
 from aiogram import Router
 from aiogram.types import InlineKeyboardButton
 from aiogram.utils.keyboard import InlineKeyboardBuilder
-from stfu_tg import Code, Doc, HList, Section, Template, Title, VList
+from stfu_tg import Doc, HList, Section, Title, VList
 
 from sophie_bot.config import CONFIG
 from sophie_bot.db.models.filters import FilterInSetupType
@@ -18,6 +18,7 @@ from sophie_bot.modules.filters.callbacks import (
 )
 from sophie_bot.modules.filters.types.modern_action_abc import ModernActionABC
 from sophie_bot.modules.filters.utils_.all_modern_actions import ALL_MODERN_ACTIONS
+from sophie_bot.modules.filters.utils_.legacy_filter_handler import text_legacy_handler_handles_on
 from sophie_bot.modules.troubleshooters.callbacks import CancelCallback
 from sophie_bot.modules.utils_.base_handler import SophieMessageCallbackQueryHandler
 from sophie_bot.utils.exception import SophieException
@@ -47,9 +48,7 @@ class FilterConfirmHandler(SophieMessageCallbackQueryHandler):
 
         doc = Doc(
             Title(_("New filter")),
-            Section(
-                Template(_("When {handler} in message"), handler=Code(filter_item.handler.keyword)), title=_("Handles")
-            ),
+            Section(text_legacy_handler_handles_on(filter_item.handler.keyword), title=_("Handles")),
             Section(
                 VList(
                     *(

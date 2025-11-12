@@ -1,8 +1,18 @@
+from __future__ import annotations
+
 from aiogram.types import Message
 from normality import normalize
+from pydantic_ai.messages import BinaryContent
 from regex import regex
 
+from sophie_bot.modules.ai.utils.ai_models import FILTER_HANDLER_MODEL
+from sophie_bot.modules.ai.utils.new_ai_chatbot import new_ai_generate_schema
+from sophie_bot.modules.ai.utils.new_message_history import NewAIMessageHistory
+from sophie_bot.modules.filters.utils_.ai_filter_schema import AIFilterResponseSchema
+from sophie_bot.modules.filters.utils_.extract_content import extract_message_content
 from sophie_bot.utils.exception import SophieException
+from sophie_bot.utils.feature_flags import is_enabled
+from sophie_bot.utils.i18n import gettext as _
 from sophie_bot.utils.logger import log
 
 
@@ -51,8 +61,76 @@ def match_word_handler(text: str, handler: str) -> bool:
     )
 
 
-def match_legacy_handler(message: Message, handler: str) -> bool:
-    """Match a message against different types of handlers (regex, exact, contains)."""
+async def match_ai_handler(message: Message, prompt: str) -> bool:
+    """
+    Match a message against AI-powered filter using Mistral Pixtral model.
+
+    Supports text, photos, videos (thumbnail), and stickers.
+
+    Args:
+        message: The Telegram message to evaluate
+        prompt: The user-provided prompt describing when to trigger the filter
+
+    Returns:
+        bool: True if the message matches the filter criteria
+    """
+    # Check if AI filters feature is enabled
+    if not await is_enabled("ai_filters"):
+        log.debug("match_ai_handler: ai_filters feature flag is disabled, skipping AI evaluation")
+        return False
+
+    try:
+        # Extract message content (text and optional image)
+        text_content, image_data = await extract_message_content(message)
+
+        # Build the AI message history
+        history = NewAIMessageHistory()
+
+        # Add system prompt
+        system_prompt = _(
+            "You are a content moderation assistant. Evaluate whether the provided message content "
+            "matches the filter criteria. Be precise and objective in your assessment."
+        )
+        history.add_system(system_prompt)
+
+        # Build user prompt with filter criteria
+        user_prompt_text = _("Filter criteria: {criteria}\n\nMessage content: {content}").format(
+            criteria=prompt, content=text_content or _("(no text content)")
+        )
+
+        # Add text to prompt
+        history.prompt = [user_prompt_text]
+
+        # Add image if present
+        if image_data:
+            history.prompt.append(
+                BinaryContent(
+                    media_type="image/jpeg",
+                    data=image_data,
+                )
+            )
+
+        # Run AI evaluation
+        result = await new_ai_generate_schema(history, AIFilterResponseSchema, FILTER_HANDLER_MODEL)
+
+        log.debug("match_ai_handler: AI evaluation", prompt=prompt, matches=result.matches, reasoning=result.reasoning)
+
+        return result.matches
+
+    except Exception as e:
+        log.error("match_ai_handler: AI filter evaluation failed", error=str(e))
+        # On error, don't trigger the filter to avoid false positives
+        return False
+
+
+async def match_legacy_handler(message: Message, handler: str) -> bool:
+    """Match a message against different types of handlers (regex, exact, contains, AI)."""
+    # AI-powered handler
+    if handler.startswith("ai:"):
+        log.debug(f"match_legacy_handler: ai: {handler}")
+        prompt = handler[3:]
+        return await match_ai_handler(message, prompt)
+
     if not (message_text := message.caption or message.text or ""):
         return False
 
