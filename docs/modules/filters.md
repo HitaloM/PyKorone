@@ -18,6 +18,41 @@ the [DoS practice](https://en.wikipedia.org/wiki/ReDoS) of invoking slow regex p
 therefore, Sophie will test the entered regex against the speed of execution.
 In the case the pattern is too slow, it'll be rejected from adding to filters.
 
+## AI Filter handlers
+
+Sophie introduces powerful AI-powered filter handlers that intelligently determine whether to trigger filter actions
+based on message content. Powered by Mistral AI, an industry-leading AI provider known for its commitment to data
+privacy, this feature allows you to create intelligent filters that understand context and meaning rather than just
+matching text patterns.
+
+### How to Use AI Filters
+
+Simply use the `ai:` prefix followed by your prompt when adding filters:
+
+```
+/addfilter ai:Your prompt describing when to trigger
+```
+
+### Examples
+
+```
+/addfilter ai:Has anything regarding money or cryptocurrency
+/addfilter ai:Message contains scam or phishing attempt
+/addfilter ai:Promotion or advertisement content
+/addfilter ai:Spam or unsolicited messages
+/addfilter ai:Political content
+```
+
+### Supported Content Types
+
+AI filters work with various message types:
+
+- **Text messages**: Analyzes the message text or caption
+- **Photos**: Analyzes both the caption and the image content
+- **Videos**: Analyzes the caption and video thumbnail
+- **GIFs/Animations**: Analyzes the caption and animation thumbnail
+- **Stickers**: Analyzes sticker images (static, animated, or video)
+
 ## Multiple filter actions and multiple filters
 
 Sophie supports having many filter actions for one filter handler.
