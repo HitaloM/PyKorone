@@ -11,10 +11,7 @@ from sophie_bot.utils.i18n import gettext as _
 
 
 def format_ass_arg_data(arg: ArgFabric):
-    return Section(
-        _("Can be empty") if arg.can_be_empty else None,
-        title=arg.description
-    )
+    return Section(_("Can be empty") if arg.can_be_empty else None, title=arg.description)
 
 
 class CmdsHelpAgentTool:
@@ -69,45 +66,46 @@ class CmdsHelpAgentTool:
                     module_info_parts.append(KeyValue(_("Description"), str(module_help.description)))
                 if module_help.info:
                     module_info_parts.append(KeyValue(_("Info"), str(module_help.info)))
-                module_info_parts.append(
-                    KeyValue(_("Wiki page"), CONFIG.wiki_modules_link + module_name)
-                )
+                module_info_parts.append(KeyValue(_("Wiki page"), CONFIG.wiki_modules_link + module_name))
 
                 # Build commands list for this module
                 commands_elements: list[Element] = []
                 if module_help.handlers:
                     for handler in module_help.handlers:
-                        commands_elements.append(Section(
-                            KeyValue(_("Description"), handler.description) if handler.description else None,
+                        commands_elements.append(
                             Section(
-                                VList(*(format_ass_arg_data(arg) for arg in handler.args.values())),
-                                title=_("Arguments"),
-                            ) if handler.args else _("This command has no arguments."),
-                            _("Can be used only in private chats (PM / DM)") if handler.only_pm else None,
-                            _("Can be used only in groups / supergroups") if handler.only_chats else None,
-                            _("Can be used in both private chats and groups") if not handler.only_pm and not handler.only_chats else None,
-                            _("Can be used only by admins") if handler.only_admin else None,
-                            _("Can be used only by OP") if handler.only_op else None,
-                            _("No special permissions required") if not handler.only_admin and not handler.only_op else None,
-                            KeyValue(_("Disableable"), handler.disableable) if handler.disableable else None,
-                            title=' / '.join(f'/{cmd}' for cmd in handler.cmds)
-                        ))
+                                KeyValue(_("Description"), handler.description) if handler.description else None,
+                                Section(
+                                    VList(*(format_ass_arg_data(arg) for arg in handler.args.values())),
+                                    title=_("Arguments"),
+                                )
+                                if handler.args
+                                else _("This command has no arguments."),
+                                _("Can be used only in private chats (PM / DM)") if handler.only_pm else None,
+                                _("Can be used only in groups / supergroups") if handler.only_chats else None,
+                                _("Can be used in both private chats and groups")
+                                if not handler.only_pm and not handler.only_chats
+                                else None,
+                                _("Can be used only by admins") if handler.only_admin else None,
+                                _("Can be used only by OP") if handler.only_op else None,
+                                _("No special permissions required")
+                                if not handler.only_admin and not handler.only_op
+                                else None,
+                                KeyValue(_("Disableable"), handler.disableable) if handler.disableable else None,
+                                title=" / ".join(f"/{cmd}" for cmd in handler.cmds),
+                            )
+                        )
 
                 # Combine module info and commands
                 module_section_parts = [
                     Section(*module_info_parts, title=_("Module Information")),
                 ]
                 if commands_elements:
-                    module_section_parts.append(
-                        Section(*commands_elements, title=_("Commands"))
-                    )
+                    module_section_parts.append(Section(*commands_elements, title=_("Commands")))
                 else:
                     module_section_parts.append(_("No commands in this module."))
 
-                modules_sections.append(Section(
-                    *module_section_parts,
-                    title=f"{module_help.icon} {module_name}"
-                ))
+                modules_sections.append(Section(*module_section_parts, title=f"{module_help.icon} {module_name}"))
 
             md_text = VList(doc, *modules_sections).to_md()
             print(md_text)

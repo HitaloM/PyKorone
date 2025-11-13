@@ -60,12 +60,12 @@ def retrieve_tools_titles(message_history: list[ModelRequest | ModelResponse]) -
 
 
 async def ai_chatbot_reply(
-        message: Message,
-        connection: ChatConnection,
-        user_text: str | None = None,
-        debug_mode: bool = False,
-        model: Model | None = None,
-        **kwargs,
+    message: Message,
+    connection: ChatConnection,
+    user_text: str | None = None,
+    debug_mode: bool = False,
+    model: Model | None = None,
+    **kwargs,
 ):
     """
     Sends a reply from AI based on user input and message history.
@@ -88,8 +88,10 @@ async def ai_chatbot_reply(
         system_prompt = Doc(
             _("You can use Tavily to search for information. Include information sources as links."),
             _("You can also save important things to the memory."),
-            _("If the user asks anything regarding using Sophie bot, make sure to execute `cmds_help` tool to obtain a help context, do not search internet for bot information."),
-            Template(_("Available Sophie modules: {modules}"), modules=HList(*HELP_MODULES.keys()))
+            _(
+                "If the user asks anything regarding using Sophie bot, make sure to execute `cmds_help` tool to obtain a help context, do not search internet for bot information."
+            ),
+            Template(_("Available Sophie modules: {modules}"), modules=HList(*HELP_MODULES.keys())),
         )
         if memory_lines:
             system_prompt += Section(VList(*memory_lines), title=_("You have the following information in your memory"))

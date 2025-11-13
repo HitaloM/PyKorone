@@ -71,6 +71,111 @@ msgstr ""
 msgid "Please note that you can make a limited amount of AI requests per day."
 msgstr ""
 
+#: sophie_bot/modules/ai/agent_tools/cmds_help.py:14
+msgid "Can be empty"
+msgstr ""
+
+#: sophie_bot/modules/ai/agent_tools/cmds_help.py:29
+msgid "No modules found."
+msgstr ""
+
+#: sophie_bot/modules/ai/agent_tools/cmds_help.py:33
+msgid ""
+"SOPHIE BOT HELP CONTEXT\n"
+"\n"
+"Commands are organized by module. Each module represents a feature area of the bot.\n"
+"\n"
+"Module fields:\n"
+"  - Name: the human-readable name of the module.\n"
+"  - Icon: emoji representing the module.\n"
+"  - Description: what the module does.\n"
+"  - Info: additional information about the module.\n"
+"  - Public: whether the module is shown in public listings.\n"
+"  - Wiki: whether the module has a wiki page.\n"
+"\n"
+"Command fields:\n"
+"  - Commands: slash commands that trigger the handler.\n"
+"  - Description: human‑readable summary of what the handler does.\n"
+"  - Arguments: expected arguments (order matters).\n"
+"  - Context: where the command can be used (PM / groups / both).\n"
+"  - Permissions: whether admin / OP rights are required.\n"
+"  - Disableable: name of the feature flag used to disable this command in a chat, if any.\n"
+"\n"
+msgstr ""
+
+#: sophie_bot/modules/ai/agent_tools/cmds_help.py:62
+#: sophie_bot/modules/federations/handlers/info.py:56
+#: sophie_bot/modules/notes/handlers/delete.py:40
+msgid "Name"
+msgstr ""
+
+#: sophie_bot/modules/ai/agent_tools/cmds_help.py:63
+msgid "Icon"
+msgstr ""
+
+#: sophie_bot/modules/ai/agent_tools/cmds_help.py:66
+#: sophie_bot/modules/ai/agent_tools/cmds_help.py:77
+#: sophie_bot/modules/utils_/action_config_wizard/renderer.py:138
+msgid "Description"
+msgstr ""
+
+#: sophie_bot/modules/ai/agent_tools/cmds_help.py:68
+msgid "Info"
+msgstr ""
+
+#: sophie_bot/modules/ai/agent_tools/cmds_help.py:69
+msgid "Wiki page"
+msgstr ""
+
+#: sophie_bot/modules/ai/agent_tools/cmds_help.py:80
+msgid "Arguments"
+msgstr ""
+
+#: sophie_bot/modules/ai/agent_tools/cmds_help.py:83
+msgid "This command has no arguments."
+msgstr ""
+
+#: sophie_bot/modules/ai/agent_tools/cmds_help.py:84
+msgid "Can be used only in private chats (PM / DM)"
+msgstr ""
+
+#: sophie_bot/modules/ai/agent_tools/cmds_help.py:85
+msgid "Can be used only in groups / supergroups"
+msgstr ""
+
+#: sophie_bot/modules/ai/agent_tools/cmds_help.py:86
+msgid "Can be used in both private chats and groups"
+msgstr ""
+
+#: sophie_bot/modules/ai/agent_tools/cmds_help.py:89
+msgid "Can be used only by admins"
+msgstr ""
+
+#: sophie_bot/modules/ai/agent_tools/cmds_help.py:90
+msgid "Can be used only by OP"
+msgstr ""
+
+#: sophie_bot/modules/ai/agent_tools/cmds_help.py:91
+msgid "No special permissions required"
+msgstr ""
+
+#: sophie_bot/modules/ai/agent_tools/cmds_help.py:94
+msgid "Disableable"
+msgstr ""
+
+#: sophie_bot/modules/ai/agent_tools/cmds_help.py:101
+msgid "Module Information"
+msgstr ""
+
+#: sophie_bot/modules/ai/agent_tools/cmds_help.py:104
+#: sophie_bot/modules/help/utils/format_help.py:69
+msgid "Commands"
+msgstr ""
+
+#: sophie_bot/modules/ai/agent_tools/cmds_help.py:106
+msgid "No commands in this module."
+msgstr ""
+
 #: sophie_bot/modules/ai/filters/ai_enabled.py:33
 msgid "The AI Features are currently deactivated for this chat."
 msgstr ""
@@ -437,31 +542,40 @@ msgstr[1] ""
 msgid "By using AI features you agree to the our Privacy Policy (/privacy) and third party AI services used."
 msgstr ""
 
-#: sophie_bot/modules/ai/utils/ai_chatbot_reply.py:40
+#: sophie_bot/modules/ai/utils/ai_chatbot_reply.py:41
 msgid "Memory updated 💾"
 msgstr ""
 
-#: sophie_bot/modules/ai/utils/ai_chatbot_reply.py:41
+#: sophie_bot/modules/ai/utils/ai_chatbot_reply.py:42
 msgid "Commands help 📋"
 msgstr ""
 
-#: sophie_bot/modules/ai/utils/ai_chatbot_reply.py:42
+#: sophie_bot/modules/ai/utils/ai_chatbot_reply.py:43
 msgid "Internet Search 🔍"
 msgstr ""
 
-#: sophie_bot/modules/ai/utils/ai_chatbot_reply.py:43
+#: sophie_bot/modules/ai/utils/ai_chatbot_reply.py:44
 msgid "Scanned notes 🗒"
 msgstr ""
 
-#: sophie_bot/modules/ai/utils/ai_chatbot_reply.py:88
+#: sophie_bot/modules/ai/utils/ai_chatbot_reply.py:89
 msgid "You can use Tavily to search for information. Include information sources as links."
 msgstr ""
 
-#: sophie_bot/modules/ai/utils/ai_chatbot_reply.py:89
+#: sophie_bot/modules/ai/utils/ai_chatbot_reply.py:90
 msgid "You can also save important things to the memory."
 msgstr ""
 
 #: sophie_bot/modules/ai/utils/ai_chatbot_reply.py:92
+msgid "If the user asks anything regarding using Sophie bot, make sure to execute `cmds_help` tool to obtain a help context, do not search internet for bot information."
+msgstr ""
+
+#: sophie_bot/modules/ai/utils/ai_chatbot_reply.py:94
+#, python-brace-format
+msgid "Available Sophie modules: {modules}"
+msgstr ""
+
+#: sophie_bot/modules/ai/utils/ai_chatbot_reply.py:97
 msgid "You have the following information in your memory"
 msgstr ""
 
@@ -1244,11 +1358,6 @@ msgstr ""
 
 #: sophie_bot/modules/federations/handlers/info.py:55
 msgid "🏛 Federation Information"
-msgstr ""
-
-#: sophie_bot/modules/federations/handlers/info.py:56
-#: sophie_bot/modules/notes/handlers/delete.py:40
-msgid "Name"
 msgstr ""
 
 #: sophie_bot/modules/federations/handlers/info.py:57
@@ -2176,10 +2285,6 @@ msgstr ""
 
 #: sophie_bot/modules/help/utils/format_help.py:29
 msgid "Disable-able"
-msgstr ""
-
-#: sophie_bot/modules/help/utils/format_help.py:69
-msgid "Commands"
 msgstr ""
 
 #: sophie_bot/modules/help/utils/format_help.py:71
@@ -3236,10 +3341,6 @@ msgstr ""
 
 #: sophie_bot/modules/utils_/action_config_wizard/renderer.py:137
 msgid "Action configured"
-msgstr ""
-
-#: sophie_bot/modules/utils_/action_config_wizard/renderer.py:138
-msgid "Description"
 msgstr ""
 
 #: sophie_bot/modules/utils_/action_config_wizard/renderer.py:139
