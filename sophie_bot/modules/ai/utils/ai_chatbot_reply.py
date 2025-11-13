@@ -8,11 +8,12 @@ from pydantic_ai.messages import (
     ToolReturnPart,
 )
 from pydantic_ai.models import Model
-from stfu_tg import BlockQuote, Doc, HList, KeyValue, PreformattedHTML, Section, VList
+from stfu_tg import BlockQuote, Doc, HList, KeyValue, PreformattedHTML, Section, VList, Template
 from stfu_tg.doc import Element
 
 from sophie_bot.config import CONFIG
 from sophie_bot.db.models import AIMemoryModel
+from sophie_bot.metrics import track_ai_conversation, track_ai_usage
 from sophie_bot.middlewares.connections import ChatConnection
 from sophie_bot.modules.ai.agent_tools.cmds_help import CmdsHelpAgentTool
 from sophie_bot.modules.ai.agent_tools.memory import MemoryAgentTool
@@ -22,12 +23,12 @@ from sophie_bot.modules.ai.utils.ai_models import AI_MODEL_TO_SHORT_NAME
 from sophie_bot.modules.ai.utils.ai_tool_context import SophieAIToolContenxt
 from sophie_bot.modules.ai.utils.new_ai_chatbot import new_ai_generate
 from sophie_bot.modules.ai.utils.new_message_history import NewAIMessageHistory
+from sophie_bot.modules.help.utils.extract_info import HELP_MODULES
 from sophie_bot.modules.notes.utils.unparse_legacy import legacy_markdown_to_html
 from sophie_bot.services.bot import bot
+from sophie_bot.utils.feature_flags import is_enabled
 from sophie_bot.utils.i18n import gettext as _
 from sophie_bot.utils.i18n import lazy_gettext as l_
-from sophie_bot.utils.feature_flags import is_enabled
-from sophie_bot.metrics import track_ai_conversation, track_ai_usage
 
 CHATBOT_TOOLS = [
     MemoryAgentTool(),
@@ -59,12 +60,12 @@ def retrieve_tools_titles(message_history: list[ModelRequest | ModelResponse]) -
 
 
 async def ai_chatbot_reply(
-    message: Message,
-    connection: ChatConnection,
-    user_text: str | None = None,
-    debug_mode: bool = False,
-    model: Model | None = None,
-    **kwargs,
+        message: Message,
+        connection: ChatConnection,
+        user_text: str | None = None,
+        debug_mode: bool = False,
+        model: Model | None = None,
+        **kwargs,
 ):
     """
     Sends a reply from AI based on user input and message history.
@@ -87,6 +88,8 @@ async def ai_chatbot_reply(
         system_prompt = Doc(
             _("You can use Tavily to search for information. Include information sources as links."),
             _("You can also save important things to the memory."),
+            _("If the user asks anything regarding using Sophie bot, make sure to execute `cmds_help` tool to obtain a help context, do not search internet for bot information."),
+            Template(_("Available Sophie modules: {modules}"), modules=HList(*HELP_MODULES.keys()))
         )
         if memory_lines:
             system_prompt += Section(VList(*memory_lines), title=_("You have the following information in your memory"))
