@@ -47,4 +47,5 @@ async def get_cached_messages(chat_id: int) -> Tuple[MessageType, ...]:
     """Retrieves and parses all the cached messages for a given chat."""
     key = get_message_cache_key(chat_id)
     raw_messages = await aredis.lrange(key, 0, -1)  # type: ignore[misc]
-    return tuple(MessageType.model_validate_json(raw_msg) for raw_msg in raw_messages)
+    messages = [MessageType.model_validate_json(raw_msg) for raw_msg in raw_messages]
+    return tuple(sorted(messages, key=lambda x: x.message_id))
