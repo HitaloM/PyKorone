@@ -171,7 +171,7 @@ AI_MODELS: dict[str, Model] = {
 }
 
 DEFAULT_MODELS: dict[str, str] = {
-    AIProviders.auto.name: MistralModels.mistral_small.name,
+    AIProviders.auto.name: GoogleModels.gemini_2_5_flash.name,
     AIProviders.anthropic.name: AnthropicModels.haiku_4_5.name,
     AIProviders.google.name: GoogleModels.gemini_2_5_flash.name,
     AIProviders.mistral.name: MistralModels.mistral_small.name,
