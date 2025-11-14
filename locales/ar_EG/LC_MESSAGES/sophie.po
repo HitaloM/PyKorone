@@ -10,7 +10,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Language-Team: Arabic, Egypt\n"
 "Language: ar_EG\n"
-"PO-Revision-Date: 2025-11-08 21:20\n"
+"PO-Revision-Date: 2025-11-09 13:40\n"
 
 #: sophie_bot/args/users.py:29
 msgid "Could not find the requested User ID in the database."
@@ -2038,23 +2038,23 @@ msgstr "رسالة الترحيب"
 msgid "No chat rules, have fun!"
 msgstr "لا توجد قواعد دردشة، استمتع!"
 
-#: sophie_bot/modules/greetings/middlewares/new_user.py:55
+#: sophie_bot/modules/greetings/middlewares/new_user.py:54
 msgid "Hi, Thank you for choosing Sophie for your group!"
 msgstr "مرحبًا، شكرًا لاختيارك صوفي لمجموعتك!"
 
-#: sophie_bot/modules/greetings/middlewares/new_user.py:56
+#: sophie_bot/modules/greetings/middlewares/new_user.py:55
 msgid "Please read the documentation to learn more about Sophie and do not hesitate to join the Support Chat"
 msgstr "يرجى قراءة الوثائق لمعرفة المزيد حول صوفي ولا تتردد في الانضمام إلى دردشة الدعم"
 
-#: sophie_bot/modules/greetings/middlewares/new_user.py:61
+#: sophie_bot/modules/greetings/middlewares/new_user.py:60
 msgid "Documentation"
 msgstr "وثائق"
 
-#: sophie_bot/modules/greetings/middlewares/new_user.py:62
+#: sophie_bot/modules/greetings/middlewares/new_user.py:61
 msgid "Support Chat"
 msgstr "دردشة الدعم"
 
-#: sophie_bot/modules/greetings/middlewares/new_user.py:95
+#: sophie_bot/modules/greetings/middlewares/new_user.py:94
 msgid "I am not a robot"
 msgstr "أنا لست روبوتًا"
 
