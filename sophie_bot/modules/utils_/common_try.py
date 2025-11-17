@@ -48,5 +48,5 @@ async def common_try(to_try: COROUTINE_TYPE, reply_not_found: Optional[CALLBACK_
         logging.error(f"common_try: Caught: {err}, ignoring")
         return None
     except TelegramAPIError as err:
-        logging.error("common_try: Other unhandled Telegram API error")
+        logging.error(f"common_try: Other unhandled Telegram API error ({err})")
         raise err
