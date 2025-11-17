@@ -87,6 +87,7 @@ class OpenAIModels(Enum):
     gpt_5 = "openai/gpt-5"
     gpt_5_mini = "openai/gpt-5-mini"
     gpt_5_nano = "openai/gpt-5-nano"
+    gpt_5_1 = "openai/gpt-5.1"
 
 
 AI_PROVIDER_TO_MODEL_CLASS = {
@@ -120,6 +121,7 @@ AI_MODEL_TO_PROVIDER = {
     OpenAIModels.gpt_5.name: "openai",
     OpenAIModels.gpt_5_mini.name: "openai",
     OpenAIModels.gpt_5_nano.name: "openai",
+    OpenAIModels.gpt_5_1.name: "openai",
 }
 
 AI_MODEL_TO_SHORT_NAME = {
@@ -139,6 +141,7 @@ AI_MODEL_TO_SHORT_NAME = {
     OpenAIModels.gpt_5.value: "GPT-5",
     OpenAIModels.gpt_5_mini.value: "GPT-5 mini",
     OpenAIModels.gpt_5_nano.value: "GPT-5 nano",
+    OpenAIModels.gpt_5_1.value: "GPT-5.1",
 }
 
 
@@ -175,7 +178,7 @@ DEFAULT_MODELS: dict[str, str] = {
     AIProviders.anthropic.name: AnthropicModels.haiku_4_5.name,
     AIProviders.google.name: GoogleModels.gemini_2_5_flash.name,
     AIProviders.mistral.name: MistralModels.mistral_small.name,
-    AIProviders.openai.name: OpenAIModels.gpt_5_mini.name,
+    AIProviders.openai.name: OpenAIModels.gpt_5_1.name,
 }
 
 TRANSLATE_DEFAULT_MODELS: dict[str, str] = {
