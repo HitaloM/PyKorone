@@ -42,7 +42,7 @@ async def common_try(to_try: COROUTINE_TYPE, reply_not_found: Optional[CALLBACK_
             logging.debug("common_try: Message to delete not found, ignoring")
             return None
         else:
-            logging.error("common_try: Unknown TelegramBadRequest exception, re-raising")
+            logging.error(f"common_try: Unknown TelegramBadRequest exception ({err}), re-raising")
             raise err
     except IGNORED_EXCEPTIONS as err:
         logging.error(f"common_try: Caught: {err}, ignoring")
