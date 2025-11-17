@@ -14,6 +14,7 @@ from sophie_bot.modules.utils_.telegram_exceptions import (
     CAN_NOT_BE_DELETED,
     MSG_TO_DEL_NOT_FOUND,
     REPLIED_NOT_FOUND,
+    USER_ALREADY_PARTICIPANT,
 )
 
 COROUTINE_TYPE = Coroutine[Any, Any, Any] | TelegramMethod
@@ -41,6 +42,8 @@ async def common_try(to_try: COROUTINE_TYPE, reply_not_found: Optional[CALLBACK_
         elif MSG_TO_DEL_NOT_FOUND in err.message:
             logging.debug("common_try: Message to delete not found, ignoring")
             return None
+        elif USER_ALREADY_PARTICIPANT in err.message:
+            logging.debug("common_try: User already participant, ignoring")
         else:
             logging.error(f"common_try: Unknown TelegramBadRequest exception ({err}), re-raising")
             raise err
