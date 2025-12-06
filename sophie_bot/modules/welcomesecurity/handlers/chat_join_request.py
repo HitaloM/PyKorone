@@ -30,10 +30,13 @@ class ChatJoinRequestHandler(SophieBaseHandler[ChatJoinRequest]):
         user_tid = self.event.from_user.id
         connection = self.connection
 
+        async def _approve_request() -> None:
+            await common_try(self.event.approve())
+
         # Check if user is admin
         if await is_user_admin(chat_tid, user_tid):
             # Approve immediately
-            await self.event.approve()
+            await _approve_request()
             return
 
         # Get chat model
@@ -47,7 +50,7 @@ class ChatJoinRequestHandler(SophieBaseHandler[ChatJoinRequest]):
         # Check if welcomesecurity is enabled
         if not (greetings.welcome_security and greetings.welcome_security.enabled):
             # Approve immediately if not enabled
-            await self.event.approve()
+            await _approve_request()
             return
 
         # Get user model
@@ -58,7 +61,7 @@ class ChatJoinRequestHandler(SophieBaseHandler[ChatJoinRequest]):
         # Mute the user (similar to ws_on_new_user)
         muted = await ws_on_new_user(user, chat, is_join_request=True)
         if not muted:
-            await self.event.approve()
+            await _approve_request()
             return
 
         # Send join request message in chat
