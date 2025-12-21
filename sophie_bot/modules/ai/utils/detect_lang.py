@@ -39,11 +39,7 @@ def build_language_detector(locales: Optional[Iterable[str]] = None) -> Language
     language_codes = tuple(locales) if locales is not None else i18n.locales_iso_639_1
     languages = _languages_from_locales(language_codes)
 
-    return (
-        LanguageDetectorBuilder.from_languages(*languages)
-        .with_preloaded_language_models()
-        .build()
-    )
+    return LanguageDetectorBuilder.from_languages(*languages).with_preloaded_language_models().build()
 
 
 def get_detector() -> LanguageDetector:
