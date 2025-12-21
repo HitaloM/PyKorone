@@ -180,9 +180,9 @@ AI_MODELS: dict[str, Model] = {
 }
 
 DEFAULT_MODELS: dict[str, str] = {
-    AIProviders.auto.name: GoogleModels.gemini_3_flash_preview.name,
+    AIProviders.auto.name: GoogleModels.mistral_medium.name,
     AIProviders.anthropic.name: AnthropicModels.haiku_4_5.name,
-    AIProviders.google.name: GoogleModels.gemini_3_flash_preview.name,
+    AIProviders.google.name: GoogleModels.gemini_2_5_flash.name,
     AIProviders.mistral.name: MistralModels.mistral_medium.name,
     AIProviders.openai.name: OpenAIModels.gpt_5_2_chat.name,
 }
