@@ -2,16 +2,18 @@ from typing import Generic, TypeVar
 
 from pydantic import BaseModel
 from pydantic_ai import Agent
+from pydantic_ai.exceptions import UnexpectedModelBehavior
 from pydantic_ai.messages import ModelRequest, ModelResponse
 from pydantic_ai.models import Model
 from pydantic_ai.usage import RunUsage
 
 from sophie_bot.metrics import track_ai_request, track_ai_usage
+from sophie_bot.utils.exception import SophieException
 
 T = TypeVar("T")
 
 
-class AIAgentResult(Generic[T], BaseModel):
+class AIAgentResult(BaseModel, Generic[T]):
     output: T
     steps: int
     retries: int
@@ -32,9 +34,12 @@ async def ai_agent_run(agent: Agent[None, T], **kwargs) -> AIAgentResult:
         raise ValueError(f"Agent model must be a Model instance, got {type(model)}")
 
     async with track_ai_request(model, "agent"):
-        async with agent.iter(**kwargs) as result:
-            async for _ in result:
-                pass
+        try:
+            async with agent.iter(**kwargs) as result:
+                async for _ in result:
+                    pass
+        except UnexpectedModelBehavior:
+            raise SophieException("AI provider returned an invalid response. Please try again later.")
 
         # Sanity checks
         assert result and result.result is not None, "The graph run did not finish properly"
