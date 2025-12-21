@@ -62,6 +62,7 @@ class GoogleModels(Enum):
     # OpenRouter slugs for Google models
     gemini_2_5_pro = "google/gemini-2.5-pro"
     gemini_2_5_flash = "google/gemini-2.5-flash"
+    gemini_3_flash_preview = "google/gemini-3-flash-preview"
 
 
 class AnthropicModels(Enum):
@@ -88,6 +89,7 @@ class OpenAIModels(Enum):
     gpt_5_mini = "openai/gpt-5-mini"
     gpt_5_nano = "openai/gpt-5-nano"
     gpt_5_1 = "openai/gpt-5.1"
+    gpt_5_2_chat = "openai/gpt-5.2-chat"
 
 
 AI_PROVIDER_TO_MODEL_CLASS = {
@@ -110,6 +112,7 @@ AI_MODEL_TO_PROVIDER = {
     AnthropicModels.haiku_3_5.name: "anthropic",
     GoogleModels.gemini_2_5_flash.name: "google",
     GoogleModels.gemini_2_5_pro.name: "google",
+    GoogleModels.gemini_3_flash_preview.name: "google",
     MistralModels.mistral_large.name: "mistral",
     MistralModels.mistral_medium.name: "mistral",
     MistralModels.mistral_small.name: "mistral",
@@ -122,6 +125,7 @@ AI_MODEL_TO_PROVIDER = {
     OpenAIModels.gpt_5_mini.name: "openai",
     OpenAIModels.gpt_5_nano.name: "openai",
     OpenAIModels.gpt_5_1.name: "openai",
+    OpenAIModels.gpt_5_2_chat.name: "openai",
 }
 
 AI_MODEL_TO_SHORT_NAME = {
@@ -130,6 +134,7 @@ AI_MODEL_TO_SHORT_NAME = {
     AnthropicModels.haiku_3_5.value: "Claude Haiku 3.5",
     GoogleModels.gemini_2_5_flash.value: "Gemini 2.5 Flash",
     GoogleModels.gemini_2_5_pro.value: "Gemini 2.5 Pro",
+    GoogleModels.gemini_3_flash_preview.value: "Gemini 3 Flash Preview",
     MistralModels.mistral_large.value: "Mistral Large",
     MistralModels.mistral_medium.value: "Mistral Medium",
     MistralModels.mistral_small.value: "Mistral Small",
@@ -142,6 +147,7 @@ AI_MODEL_TO_SHORT_NAME = {
     OpenAIModels.gpt_5_mini.value: "GPT-5 mini",
     OpenAIModels.gpt_5_nano.value: "GPT-5 nano",
     OpenAIModels.gpt_5_1.value: "GPT-5.1",
+    OpenAIModels.gpt_5_2_chat.value: "GPT-5.2 Chat",
 }
 
 
@@ -174,19 +180,19 @@ AI_MODELS: dict[str, Model] = {
 }
 
 DEFAULT_MODELS: dict[str, str] = {
-    AIProviders.auto.name: GoogleModels.gemini_2_5_flash.name,
+    AIProviders.auto.name: GoogleModels.gemini_3_flash_preview.name,
     AIProviders.anthropic.name: AnthropicModels.haiku_4_5.name,
-    AIProviders.google.name: GoogleModels.gemini_2_5_flash.name,
-    AIProviders.mistral.name: MistralModels.mistral_small.name,
-    AIProviders.openai.name: OpenAIModels.gpt_5_1.name,
+    AIProviders.google.name: GoogleModels.gemini_3_flash_preview.name,
+    AIProviders.mistral.name: MistralModels.mistral_medium.name,
+    AIProviders.openai.name: OpenAIModels.gpt_5_2_chat.name,
 }
 
 TRANSLATE_DEFAULT_MODELS: dict[str, str] = {
-    AIProviders.auto.name: MistralModels.magistral_medium.name,
+    AIProviders.auto.name: MistralModels.mistral_medium.name,
     AIProviders.anthropic.name: AnthropicModels.haiku_4_5.name,
     AIProviders.google.name: GoogleModels.gemini_2_5_flash.name,
-    AIProviders.mistral.name: MistralModels.magistral_medium.name,
-    AIProviders.openai.name: OpenAIModels.gpt_5_nano.name,
+    AIProviders.mistral.name: MistralModels.mistral_medium.name,
+    AIProviders.openai.name: OpenAIModels.gpt_5_2_chat.name,
 }
 
 FILTER_HANDLER_MODEL = AI_MODELS[MistralModels.mistral_small.name]
