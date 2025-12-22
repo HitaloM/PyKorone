@@ -4,9 +4,9 @@ from typing import Mapping, Type
 from httpx import AsyncClient
 from pydantic_ai.models import Model
 from pydantic_ai.models.mistral import MistralModel
-from pydantic_ai.models.openai import OpenAIChatModel
+from pydantic_ai.models.openrouter import OpenRouterModel
 from pydantic_ai.providers.mistral import MistralProvider
-from pydantic_ai.providers.openai import OpenAIProvider
+from pydantic_ai.providers.openrouter import OpenRouterProvider
 
 from sophie_bot.config import CONFIG
 
@@ -22,10 +22,8 @@ class AIProviders(str, Enum):
 
 
 # Configure OpenRouter (OpenAI-compatible) provider for non-Mistral models
-_openrouter_provider = OpenAIProvider(
+_openrouter_provider = OpenRouterProvider(
     api_key=CONFIG.openrouter_api_key or "",
-    base_url="https://openrouter.ai/api/v1",
-    http_client=ai_http_client,
 )
 
 AI_PROVIDERS = {
@@ -35,10 +33,10 @@ AI_PROVIDERS = {
     AIProviders.openai.name: _openrouter_provider,
 }
 AI_MODEL_CLASSES = {
-    AIProviders.anthropic.name: OpenAIProvider,
-    AIProviders.google.name: OpenAIProvider,
+    AIProviders.anthropic.name: OpenRouterProvider,
+    AIProviders.google.name: OpenRouterProvider,
     AIProviders.mistral.name: MistralModel,
-    AIProviders.openai.name: OpenAIProvider,
+    AIProviders.openai.name: OpenRouterProvider,
 }
 AI_PROVIDER_TO_NAME = {
     AIProviders.auto.name: "Auto",
@@ -93,10 +91,10 @@ class OpenAIModels(Enum):
 
 
 AI_PROVIDER_TO_MODEL_CLASS = {
-    AIProviders.anthropic.name: OpenAIChatModel,
-    AIProviders.google.name: OpenAIChatModel,
+    AIProviders.anthropic.name: OpenRouterModel,
+    AIProviders.google.name: OpenRouterModel,
     AIProviders.mistral.name: MistralModel,
-    AIProviders.openai.name: OpenAIChatModel,
+    AIProviders.openai.name: OpenRouterModel,
 }
 
 PROVIDER_TO_MODELS: Mapping[str, Type[Enum]] = {
@@ -182,7 +180,7 @@ AI_MODELS: dict[str, Model] = {
 DEFAULT_MODELS: dict[str, str] = {
     AIProviders.auto.name: MistralModels.mistral_medium.name,
     AIProviders.anthropic.name: AnthropicModels.haiku_4_5.name,
-    AIProviders.google.name: GoogleModels.gemini_2_5_flash.name,
+    AIProviders.google.name: GoogleModels.gemini_3_flash_preview.name,
     AIProviders.mistral.name: MistralModels.mistral_medium.name,
     AIProviders.openai.name: OpenAIModels.gpt_5_2_chat.name,
 }
