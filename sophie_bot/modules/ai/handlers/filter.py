@@ -39,7 +39,7 @@ async def ai_setup_finish(message: Message, _data: dict):
 async def ai_filter_handle(message: Message, chat: dict, data: dict):
     prompt = data["prompt"]
 
-    chat_db = await ChatModel.get_by_chat_id(chat["chat_id"])
+    chat_db = await ChatModel.get_by_tid(chat["chat_id"])
 
     if not chat_db:
         raise SophieException("Chat not found in database")

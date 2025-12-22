@@ -77,7 +77,7 @@ class AIReplyAction(ModernActionABC[AIReplyActionDataModel]):
     async def handle(self, message: Message, data: dict, filter_data: AIReplyActionDataModel) -> Element:
         connection: ChatConnection = data["connection"]
 
-        if not (chat_db := await ChatModel.get_by_chat_id(connection.id)):
+        if not (chat_db := await ChatModel.get_by_tid(connection.id)):
             raise SophieException("Chat not found in database")
 
         if not (message.text or message.caption and await AIThrottleFilter().__call__(message, chat_db)):

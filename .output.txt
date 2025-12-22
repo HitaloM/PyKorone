@@ -1,0 +1,1624 @@
+================================================================================== test session starts ===================================================================================
+platform linux -- Python 3.13.9, pytest-8.4.2, pluggy-1.6.0
+rootdir: /home/yacha/Projects/Otty/sophie
+configfile: pyproject.toml
+plugins: asyncio-0.24.0, devtools-0.12.2, anyio-4.12.0, allure-pytest-2.15.2
+asyncio: mode=Mode.STRICT, default_loop_scope=None
+collected 53 items
+tests/test_fillings.py EEEEEE                                                                                                                                                      [ 11%]
+tests/test_metrics/test_external.py EEEEEEEEEEEEEEE                                                                                                                                [ 39%]
+tests/test_metrics/test_middleware.py EEEEEEEEEE                                                                                                                                   [ 58%]
+tests/test_parse.py EEEEEEEE                                                                                                                                                       [ 73%]
+tests/test_random_parser_cases.py EEEEEEEEEEEEEE                                                                                                                                   [100%]
+========================================================================================= ERRORS =========================================================================================
+______________________________________________________________ ERROR at setup of TestProcessFillings.test_combined_fillings ______________________________________________________________
+    @pytest.fixture(scope="session", autouse=True)
+    def i18n_context():
+>       i18n = I18nNew(path='/')
+               ^^^^^^^^^^^^^^^^^
+tests/conftest.py:9:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+sophie_bot/utils/i18n.py:35: in __init__
+    super().__init__(*args, **kwargs)
+.venv/lib/python3.13/site-packages/aiogram/utils/i18n/core.py:28: in __init__
+    self.locales = self.find_locales()
+                   ^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.13/site-packages/aiogram/utils/i18n/core.py:73: in find_locales
+    if mo_path.exists():
+       ^^^^^^^^^^^^^^^^
+/usr/lib64/python3.13/pathlib/_abc.py:450: in exists
+    self.stat(follow_symlinks=follow_symlinks)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+self = PosixPath('/root/LC_MESSAGES/messages.mo')
+    def stat(self, *, follow_symlinks=True):
+        """
+        Return the result of the stat() system call on this path, like
+        os.stat() does.
+        """
+>       return os.stat(self, follow_symlinks=follow_symlinks)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       PermissionError: [Errno 13] Permission denied: '/root/LC_MESSAGES/messages.mo'
+/usr/lib64/python3.13/pathlib/_local.py:515: PermissionError
+_____________________________________________________________ ERROR at setup of TestProcessFillings.test_with_chat_fillings ______________________________________________________________
+    @pytest.fixture(scope="session", autouse=True)
+    def i18n_context():
+>       i18n = I18nNew(path='/')
+               ^^^^^^^^^^^^^^^^^
+tests/conftest.py:9:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+sophie_bot/utils/i18n.py:35: in __init__
+    super().__init__(*args, **kwargs)
+.venv/lib/python3.13/site-packages/aiogram/utils/i18n/core.py:28: in __init__
+    self.locales = self.find_locales()
+                   ^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.13/site-packages/aiogram/utils/i18n/core.py:73: in find_locales
+    if mo_path.exists():
+       ^^^^^^^^^^^^^^^^
+/usr/lib64/python3.13/pathlib/_abc.py:450: in exists
+    self.stat(follow_symlinks=follow_symlinks)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+self = PosixPath('/root/LC_MESSAGES/messages.mo')
+    def stat(self, *, follow_symlinks=True):
+        """
+        Return the result of the stat() system call on this path, like
+        os.stat() does.
+        """
+>       return os.stat(self, follow_symlinks=follow_symlinks)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       PermissionError: [Errno 13] Permission denied: '/root/LC_MESSAGES/messages.mo'
+/usr/lib64/python3.13/pathlib/_local.py:515: PermissionError
+____________________________________________________________ ERROR at setup of TestProcessFillings.test_with_custom_fillings _____________________________________________________________
+    @pytest.fixture(scope="session", autouse=True)
+    def i18n_context():
+>       i18n = I18nNew(path='/')
+               ^^^^^^^^^^^^^^^^^
+tests/conftest.py:9:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+sophie_bot/utils/i18n.py:35: in __init__
+    super().__init__(*args, **kwargs)
+.venv/lib/python3.13/site-packages/aiogram/utils/i18n/core.py:28: in __init__
+    self.locales = self.find_locales()
+                   ^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.13/site-packages/aiogram/utils/i18n/core.py:73: in find_locales
+    if mo_path.exists():
+       ^^^^^^^^^^^^^^^^
+/usr/lib64/python3.13/pathlib/_abc.py:450: in exists
+    self.stat(follow_symlinks=follow_symlinks)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+self = PosixPath('/root/LC_MESSAGES/messages.mo')
+    def stat(self, *, follow_symlinks=True):
+        """
+        Return the result of the stat() system call on this path, like
+        os.stat() does.
+        """
+>       return os.stat(self, follow_symlinks=follow_symlinks)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       PermissionError: [Errno 13] Permission denied: '/root/LC_MESSAGES/messages.mo'
+/usr/lib64/python3.13/pathlib/_local.py:515: PermissionError
+_______________________________________________________________ ERROR at setup of TestProcessFillings.test_with_empty_text _______________________________________________________________
+    @pytest.fixture(scope="session", autouse=True)
+    def i18n_context():
+>       i18n = I18nNew(path='/')
+               ^^^^^^^^^^^^^^^^^
+tests/conftest.py:9:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+sophie_bot/utils/i18n.py:35: in __init__
+    super().__init__(*args, **kwargs)
+.venv/lib/python3.13/site-packages/aiogram/utils/i18n/core.py:28: in __init__
+    self.locales = self.find_locales()
+                   ^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.13/site-packages/aiogram/utils/i18n/core.py:73: in find_locales
+    if mo_path.exists():
+       ^^^^^^^^^^^^^^^^
+/usr/lib64/python3.13/pathlib/_abc.py:450: in exists
+    self.stat(follow_symlinks=follow_symlinks)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+self = PosixPath('/root/LC_MESSAGES/messages.mo')
+    def stat(self, *, follow_symlinks=True):
+        """
+        Return the result of the stat() system call on this path, like
+        os.stat() does.
+        """
+>       return os.stat(self, follow_symlinks=follow_symlinks)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       PermissionError: [Errno 13] Permission denied: '/root/LC_MESSAGES/messages.mo'
+/usr/lib64/python3.13/pathlib/_local.py:515: PermissionError
+___________________________________________________________ ERROR at setup of TestProcessFillings.test_with_missing_custom_key ___________________________________________________________
+    @pytest.fixture(scope="session", autouse=True)
+    def i18n_context():
+>       i18n = I18nNew(path='/')
+               ^^^^^^^^^^^^^^^^^
+tests/conftest.py:9:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+sophie_bot/utils/i18n.py:35: in __init__
+    super().__init__(*args, **kwargs)
+.venv/lib/python3.13/site-packages/aiogram/utils/i18n/core.py:28: in __init__
+    self.locales = self.find_locales()
+                   ^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.13/site-packages/aiogram/utils/i18n/core.py:73: in find_locales
+    if mo_path.exists():
+       ^^^^^^^^^^^^^^^^
+/usr/lib64/python3.13/pathlib/_abc.py:450: in exists
+    self.stat(follow_symlinks=follow_symlinks)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+self = PosixPath('/root/LC_MESSAGES/messages.mo')
+    def stat(self, *, follow_symlinks=True):
+        """
+        Return the result of the stat() system call on this path, like
+        os.stat() does.
+        """
+>       return os.stat(self, follow_symlinks=follow_symlinks)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       PermissionError: [Errno 13] Permission denied: '/root/LC_MESSAGES/messages.mo'
+/usr/lib64/python3.13/pathlib/_local.py:515: PermissionError
+_____________________________________________________________ ERROR at setup of TestProcessFillings.test_with_user_fillings ______________________________________________________________
+    @pytest.fixture(scope="session", autouse=True)
+    def i18n_context():
+>       i18n = I18nNew(path='/')
+               ^^^^^^^^^^^^^^^^^
+tests/conftest.py:9:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+sophie_bot/utils/i18n.py:35: in __init__
+    super().__init__(*args, **kwargs)
+.venv/lib/python3.13/site-packages/aiogram/utils/i18n/core.py:28: in __init__
+    self.locales = self.find_locales()
+                   ^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.13/site-packages/aiogram/utils/i18n/core.py:73: in find_locales
+    if mo_path.exists():
+       ^^^^^^^^^^^^^^^^
+/usr/lib64/python3.13/pathlib/_abc.py:450: in exists
+    self.stat(follow_symlinks=follow_symlinks)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+self = PosixPath('/root/LC_MESSAGES/messages.mo')
+    def stat(self, *, follow_symlinks=True):
+        """
+        Return the result of the stat() system call on this path, like
+        os.stat() does.
+        """
+>       return os.stat(self, follow_symlinks=follow_symlinks)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       PermissionError: [Errno 13] Permission denied: '/root/LC_MESSAGES/messages.mo'
+/usr/lib64/python3.13/pathlib/_local.py:515: PermissionError
+________________________________________________ ERROR at setup of TestExternalServiceInstrumentation.test_time_external_service_success _________________________________________________
+    @pytest.fixture(scope="session", autouse=True)
+    def i18n_context():
+>       i18n = I18nNew(path='/')
+               ^^^^^^^^^^^^^^^^^
+tests/conftest.py:9:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+sophie_bot/utils/i18n.py:35: in __init__
+    super().__init__(*args, **kwargs)
+.venv/lib/python3.13/site-packages/aiogram/utils/i18n/core.py:28: in __init__
+    self.locales = self.find_locales()
+                   ^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.13/site-packages/aiogram/utils/i18n/core.py:73: in find_locales
+    if mo_path.exists():
+       ^^^^^^^^^^^^^^^^
+/usr/lib64/python3.13/pathlib/_abc.py:450: in exists
+    self.stat(follow_symlinks=follow_symlinks)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+self = PosixPath('/root/LC_MESSAGES/messages.mo')
+    def stat(self, *, follow_symlinks=True):
+        """
+        Return the result of the stat() system call on this path, like
+        os.stat() does.
+        """
+>       return os.stat(self, follow_symlinks=follow_symlinks)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       PermissionError: [Errno 13] Permission denied: '/root/LC_MESSAGES/messages.mo'
+/usr/lib64/python3.13/pathlib/_local.py:515: PermissionError
+_______________________________________________ ERROR at setup of TestExternalServiceInstrumentation.test_time_external_service_exception ________________________________________________
+    @pytest.fixture(scope="session", autouse=True)
+    def i18n_context():
+>       i18n = I18nNew(path='/')
+               ^^^^^^^^^^^^^^^^^
+tests/conftest.py:9:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+sophie_bot/utils/i18n.py:35: in __init__
+    super().__init__(*args, **kwargs)
+.venv/lib/python3.13/site-packages/aiogram/utils/i18n/core.py:28: in __init__
+    self.locales = self.find_locales()
+                   ^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.13/site-packages/aiogram/utils/i18n/core.py:73: in find_locales
+    if mo_path.exists():
+       ^^^^^^^^^^^^^^^^
+/usr/lib64/python3.13/pathlib/_abc.py:450: in exists
+    self.stat(follow_symlinks=follow_symlinks)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+self = PosixPath('/root/LC_MESSAGES/messages.mo')
+    def stat(self, *, follow_symlinks=True):
+        """
+        Return the result of the stat() system call on this path, like
+        os.stat() does.
+        """
+>       return os.stat(self, follow_symlinks=follow_symlinks)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       PermissionError: [Errno 13] Permission denied: '/root/LC_MESSAGES/messages.mo'
+/usr/lib64/python3.13/pathlib/_local.py:515: PermissionError
+________________________________________________ ERROR at setup of TestExternalServiceInstrumentation.test_time_external_service_disabled ________________________________________________
+    @pytest.fixture(scope="session", autouse=True)
+    def i18n_context():
+>       i18n = I18nNew(path='/')
+               ^^^^^^^^^^^^^^^^^
+tests/conftest.py:9:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+sophie_bot/utils/i18n.py:35: in __init__
+    super().__init__(*args, **kwargs)
+.venv/lib/python3.13/site-packages/aiogram/utils/i18n/core.py:28: in __init__
+    self.locales = self.find_locales()
+                   ^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.13/site-packages/aiogram/utils/i18n/core.py:73: in find_locales
+    if mo_path.exists():
+       ^^^^^^^^^^^^^^^^
+/usr/lib64/python3.13/pathlib/_abc.py:450: in exists
+    self.stat(follow_symlinks=follow_symlinks)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+self = PosixPath('/root/LC_MESSAGES/messages.mo')
+    def stat(self, *, follow_symlinks=True):
+        """
+        Return the result of the stat() system call on this path, like
+        os.stat() does.
+        """
+>       return os.stat(self, follow_symlinks=follow_symlinks)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       PermissionError: [Errno 13] Permission denied: '/root/LC_MESSAGES/messages.mo'
+/usr/lib64/python3.13/pathlib/_local.py:515: PermissionError
+______________________________________________ ERROR at setup of TestExternalServiceInstrumentation.test_instrument_external_service_async _______________________________________________
+    @pytest.fixture(scope="session", autouse=True)
+    def i18n_context():
+>       i18n = I18nNew(path='/')
+               ^^^^^^^^^^^^^^^^^
+tests/conftest.py:9:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+sophie_bot/utils/i18n.py:35: in __init__
+    super().__init__(*args, **kwargs)
+.venv/lib/python3.13/site-packages/aiogram/utils/i18n/core.py:28: in __init__
+    self.locales = self.find_locales()
+                   ^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.13/site-packages/aiogram/utils/i18n/core.py:73: in find_locales
+    if mo_path.exists():
+       ^^^^^^^^^^^^^^^^
+/usr/lib64/python3.13/pathlib/_abc.py:450: in exists
+    self.stat(follow_symlinks=follow_symlinks)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+self = PosixPath('/root/LC_MESSAGES/messages.mo')
+    def stat(self, *, follow_symlinks=True):
+        """
+        Return the result of the stat() system call on this path, like
+        os.stat() does.
+        """
+>       return os.stat(self, follow_symlinks=follow_symlinks)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       PermissionError: [Errno 13] Permission denied: '/root/LC_MESSAGES/messages.mo'
+/usr/lib64/python3.13/pathlib/_local.py:515: PermissionError
+_______________________________________________ ERROR at setup of TestExternalServiceInstrumentation.test_instrument_external_service_sync _______________________________________________
+    @pytest.fixture(scope="session", autouse=True)
+    def i18n_context():
+>       i18n = I18nNew(path='/')
+               ^^^^^^^^^^^^^^^^^
+tests/conftest.py:9:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+sophie_bot/utils/i18n.py:35: in __init__
+    super().__init__(*args, **kwargs)
+.venv/lib/python3.13/site-packages/aiogram/utils/i18n/core.py:28: in __init__
+    self.locales = self.find_locales()
+                   ^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.13/site-packages/aiogram/utils/i18n/core.py:73: in find_locales
+    if mo_path.exists():
+       ^^^^^^^^^^^^^^^^
+/usr/lib64/python3.13/pathlib/_abc.py:450: in exists
+    self.stat(follow_symlinks=follow_symlinks)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+self = PosixPath('/root/LC_MESSAGES/messages.mo')
+    def stat(self, *, follow_symlinks=True):
+        """
+        Return the result of the stat() system call on this path, like
+        os.stat() does.
+        """
+>       return os.stat(self, follow_symlinks=follow_symlinks)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       PermissionError: [Errno 13] Permission denied: '/root/LC_MESSAGES/messages.mo'
+/usr/lib64/python3.13/pathlib/_local.py:515: PermissionError
+_________________________________________ ERROR at setup of TestExternalServiceInstrumentation.test_instrument_external_service_async_exception __________________________________________
+    @pytest.fixture(scope="session", autouse=True)
+    def i18n_context():
+>       i18n = I18nNew(path='/')
+               ^^^^^^^^^^^^^^^^^
+tests/conftest.py:9:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+sophie_bot/utils/i18n.py:35: in __init__
+    super().__init__(*args, **kwargs)
+.venv/lib/python3.13/site-packages/aiogram/utils/i18n/core.py:28: in __init__
+    self.locales = self.find_locales()
+                   ^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.13/site-packages/aiogram/utils/i18n/core.py:73: in find_locales
+    if mo_path.exists():
+       ^^^^^^^^^^^^^^^^
+/usr/lib64/python3.13/pathlib/_abc.py:450: in exists
+    self.stat(follow_symlinks=follow_symlinks)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+self = PosixPath('/root/LC_MESSAGES/messages.mo')
+    def stat(self, *, follow_symlinks=True):
+        """
+        Return the result of the stat() system call on this path, like
+        os.stat() does.
+        """
+>       return os.stat(self, follow_symlinks=follow_symlinks)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       PermissionError: [Errno 13] Permission denied: '/root/LC_MESSAGES/messages.mo'
+/usr/lib64/python3.13/pathlib/_local.py:515: PermissionError
+__________________________________________ ERROR at setup of TestExternalServiceInstrumentation.test_instrument_external_service_sync_exception __________________________________________
+    @pytest.fixture(scope="session", autouse=True)
+    def i18n_context():
+>       i18n = I18nNew(path='/')
+               ^^^^^^^^^^^^^^^^^
+tests/conftest.py:9:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+sophie_bot/utils/i18n.py:35: in __init__
+    super().__init__(*args, **kwargs)
+.venv/lib/python3.13/site-packages/aiogram/utils/i18n/core.py:28: in __init__
+    self.locales = self.find_locales()
+                   ^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.13/site-packages/aiogram/utils/i18n/core.py:73: in find_locales
+    if mo_path.exists():
+       ^^^^^^^^^^^^^^^^
+/usr/lib64/python3.13/pathlib/_abc.py:450: in exists
+    self.stat(follow_symlinks=follow_symlinks)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+self = PosixPath('/root/LC_MESSAGES/messages.mo')
+    def stat(self, *, follow_symlinks=True):
+        """
+        Return the result of the stat() system call on this path, like
+        os.stat() does.
+        """
+>       return os.stat(self, follow_symlinks=follow_symlinks)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       PermissionError: [Errno 13] Permission denied: '/root/LC_MESSAGES/messages.mo'
+/usr/lib64/python3.13/pathlib/_local.py:515: PermissionError
+_________________________________________________ ERROR at setup of TestExternalServiceInstrumentation.test_specific_service_decorators __________________________________________________
+    @pytest.fixture(scope="session", autouse=True)
+    def i18n_context():
+>       i18n = I18nNew(path='/')
+               ^^^^^^^^^^^^^^^^^
+tests/conftest.py:9:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+sophie_bot/utils/i18n.py:35: in __init__
+    super().__init__(*args, **kwargs)
+.venv/lib/python3.13/site-packages/aiogram/utils/i18n/core.py:28: in __init__
+    self.locales = self.find_locales()
+                   ^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.13/site-packages/aiogram/utils/i18n/core.py:73: in find_locales
+    if mo_path.exists():
+       ^^^^^^^^^^^^^^^^
+/usr/lib64/python3.13/pathlib/_abc.py:450: in exists
+    self.stat(follow_symlinks=follow_symlinks)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+self = PosixPath('/root/LC_MESSAGES/messages.mo')
+    def stat(self, *, follow_symlinks=True):
+        """
+        Return the result of the stat() system call on this path, like
+        os.stat() does.
+        """
+>       return os.stat(self, follow_symlinks=follow_symlinks)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       PermissionError: [Errno 13] Permission denied: '/root/LC_MESSAGES/messages.mo'
+/usr/lib64/python3.13/pathlib/_local.py:515: PermissionError
+___________________________________________________________ ERROR at setup of TestExternalServiceTracker.test_tracker_success ____________________________________________________________
+    @pytest.fixture(scope="session", autouse=True)
+    def i18n_context():
+>       i18n = I18nNew(path='/')
+               ^^^^^^^^^^^^^^^^^
+tests/conftest.py:9:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+sophie_bot/utils/i18n.py:35: in __init__
+    super().__init__(*args, **kwargs)
+.venv/lib/python3.13/site-packages/aiogram/utils/i18n/core.py:28: in __init__
+    self.locales = self.find_locales()
+                   ^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.13/site-packages/aiogram/utils/i18n/core.py:73: in find_locales
+    if mo_path.exists():
+       ^^^^^^^^^^^^^^^^
+/usr/lib64/python3.13/pathlib/_abc.py:450: in exists
+    self.stat(follow_symlinks=follow_symlinks)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+self = PosixPath('/root/LC_MESSAGES/messages.mo')
+    def stat(self, *, follow_symlinks=True):
+        """
+        Return the result of the stat() system call on this path, like
+        os.stat() does.
+        """
+>       return os.stat(self, follow_symlinks=follow_symlinks)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       PermissionError: [Errno 13] Permission denied: '/root/LC_MESSAGES/messages.mo'
+/usr/lib64/python3.13/pathlib/_local.py:515: PermissionError
+________________________________________________________ ERROR at setup of TestExternalServiceTracker.test_tracker_with_exception ________________________________________________________
+    @pytest.fixture(scope="session", autouse=True)
+    def i18n_context():
+>       i18n = I18nNew(path='/')
+               ^^^^^^^^^^^^^^^^^
+tests/conftest.py:9:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+sophie_bot/utils/i18n.py:35: in __init__
+    super().__init__(*args, **kwargs)
+.venv/lib/python3.13/site-packages/aiogram/utils/i18n/core.py:28: in __init__
+    self.locales = self.find_locales()
+                   ^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.13/site-packages/aiogram/utils/i18n/core.py:73: in find_locales
+    if mo_path.exists():
+       ^^^^^^^^^^^^^^^^
+/usr/lib64/python3.13/pathlib/_abc.py:450: in exists
+    self.stat(follow_symlinks=follow_symlinks)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+self = PosixPath('/root/LC_MESSAGES/messages.mo')
+    def stat(self, *, follow_symlinks=True):
+        """
+        Return the result of the stat() system call on this path, like
+        os.stat() does.
+        """
+>       return os.stat(self, follow_symlinks=follow_symlinks)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       PermissionError: [Errno 13] Permission denied: '/root/LC_MESSAGES/messages.mo'
+/usr/lib64/python3.13/pathlib/_local.py:515: PermissionError
+________________________________________________________ ERROR at setup of TestExternalServiceTracker.test_tracker_without_start _________________________________________________________
+    @pytest.fixture(scope="session", autouse=True)
+    def i18n_context():
+>       i18n = I18nNew(path='/')
+               ^^^^^^^^^^^^^^^^^
+tests/conftest.py:9:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+sophie_bot/utils/i18n.py:35: in __init__
+    super().__init__(*args, **kwargs)
+.venv/lib/python3.13/site-packages/aiogram/utils/i18n/core.py:28: in __init__
+    self.locales = self.find_locales()
+                   ^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.13/site-packages/aiogram/utils/i18n/core.py:73: in find_locales
+    if mo_path.exists():
+       ^^^^^^^^^^^^^^^^
+/usr/lib64/python3.13/pathlib/_abc.py:450: in exists
+    self.stat(follow_symlinks=follow_symlinks)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+self = PosixPath('/root/LC_MESSAGES/messages.mo')
+    def stat(self, *, follow_symlinks=True):
+        """
+        Return the result of the stat() system call on this path, like
+        os.stat() does.
+        """
+>       return os.stat(self, follow_symlinks=follow_symlinks)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       PermissionError: [Errno 13] Permission denied: '/root/LC_MESSAGES/messages.mo'
+/usr/lib64/python3.13/pathlib/_local.py:515: PermissionError
+_______________________________________________________ ERROR at setup of TestExternalServiceTracker.test_tracker_disabled_metrics _______________________________________________________
+    @pytest.fixture(scope="session", autouse=True)
+    def i18n_context():
+>       i18n = I18nNew(path='/')
+               ^^^^^^^^^^^^^^^^^
+tests/conftest.py:9:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+sophie_bot/utils/i18n.py:35: in __init__
+    super().__init__(*args, **kwargs)
+.venv/lib/python3.13/site-packages/aiogram/utils/i18n/core.py:28: in __init__
+    self.locales = self.find_locales()
+                   ^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.13/site-packages/aiogram/utils/i18n/core.py:73: in find_locales
+    if mo_path.exists():
+       ^^^^^^^^^^^^^^^^
+/usr/lib64/python3.13/pathlib/_abc.py:450: in exists
+    self.stat(follow_symlinks=follow_symlinks)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+self = PosixPath('/root/LC_MESSAGES/messages.mo')
+    def stat(self, *, follow_symlinks=True):
+        """
+        Return the result of the stat() system call on this path, like
+        os.stat() does.
+        """
+>       return os.stat(self, follow_symlinks=follow_symlinks)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       PermissionError: [Errno 13] Permission denied: '/root/LC_MESSAGES/messages.mo'
+/usr/lib64/python3.13/pathlib/_local.py:515: PermissionError
+_________________________________________________________ ERROR at setup of TestServiceIntegration.test_service_context_managers _________________________________________________________
+    @pytest.fixture(scope="session", autouse=True)
+    def i18n_context():
+>       i18n = I18nNew(path='/')
+               ^^^^^^^^^^^^^^^^^
+tests/conftest.py:9:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+sophie_bot/utils/i18n.py:35: in __init__
+    super().__init__(*args, **kwargs)
+.venv/lib/python3.13/site-packages/aiogram/utils/i18n/core.py:28: in __init__
+    self.locales = self.find_locales()
+                   ^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.13/site-packages/aiogram/utils/i18n/core.py:73: in find_locales
+    if mo_path.exists():
+       ^^^^^^^^^^^^^^^^
+/usr/lib64/python3.13/pathlib/_abc.py:450: in exists
+    self.stat(follow_symlinks=follow_symlinks)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+self = PosixPath('/root/LC_MESSAGES/messages.mo')
+    def stat(self, *, follow_symlinks=True):
+        """
+        Return the result of the stat() system call on this path, like
+        os.stat() does.
+        """
+>       return os.stat(self, follow_symlinks=follow_symlinks)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       PermissionError: [Errno 13] Permission denied: '/root/LC_MESSAGES/messages.mo'
+/usr/lib64/python3.13/pathlib/_local.py:515: PermissionError
+___________________________________________________________ ERROR at setup of TestServiceIntegration.test_set_metrics_function ___________________________________________________________
+    @pytest.fixture(scope="session", autouse=True)
+    def i18n_context():
+>       i18n = I18nNew(path='/')
+               ^^^^^^^^^^^^^^^^^
+tests/conftest.py:9:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+sophie_bot/utils/i18n.py:35: in __init__
+    super().__init__(*args, **kwargs)
+.venv/lib/python3.13/site-packages/aiogram/utils/i18n/core.py:28: in __init__
+    self.locales = self.find_locales()
+                   ^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.13/site-packages/aiogram/utils/i18n/core.py:73: in find_locales
+    if mo_path.exists():
+       ^^^^^^^^^^^^^^^^
+/usr/lib64/python3.13/pathlib/_abc.py:450: in exists
+    self.stat(follow_symlinks=follow_symlinks)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+self = PosixPath('/root/LC_MESSAGES/messages.mo')
+    def stat(self, *, follow_symlinks=True):
+        """
+        Return the result of the stat() system call on this path, like
+        os.stat() does.
+        """
+>       return os.stat(self, follow_symlinks=follow_symlinks)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       PermissionError: [Errno 13] Permission denied: '/root/LC_MESSAGES/messages.mo'
+/usr/lib64/python3.13/pathlib/_local.py:515: PermissionError
+_______________________________________________________ ERROR at setup of TestServiceIntegration.test_create_service_tracker_type ________________________________________________________
+    @pytest.fixture(scope="session", autouse=True)
+    def i18n_context():
+>       i18n = I18nNew(path='/')
+               ^^^^^^^^^^^^^^^^^
+tests/conftest.py:9:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+sophie_bot/utils/i18n.py:35: in __init__
+    super().__init__(*args, **kwargs)
+.venv/lib/python3.13/site-packages/aiogram/utils/i18n/core.py:28: in __init__
+    self.locales = self.find_locales()
+                   ^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.13/site-packages/aiogram/utils/i18n/core.py:73: in find_locales
+    if mo_path.exists():
+       ^^^^^^^^^^^^^^^^
+/usr/lib64/python3.13/pathlib/_abc.py:450: in exists
+    self.stat(follow_symlinks=follow_symlinks)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+self = PosixPath('/root/LC_MESSAGES/messages.mo')
+    def stat(self, *, follow_symlinks=True):
+        """
+        Return the result of the stat() system call on this path, like
+        os.stat() does.
+        """
+>       return os.stat(self, follow_symlinks=follow_symlinks)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       PermissionError: [Errno 13] Permission denied: '/root/LC_MESSAGES/messages.mo'
+/usr/lib64/python3.13/pathlib/_local.py:515: PermissionError
+_______________________________________________________ ERROR at setup of TestMetricsMiddleware.test_successful_handler_execution ________________________________________________________
+    @pytest.fixture(scope="session", autouse=True)
+    def i18n_context():
+>       i18n = I18nNew(path='/')
+               ^^^^^^^^^^^^^^^^^
+tests/conftest.py:9:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+sophie_bot/utils/i18n.py:35: in __init__
+    super().__init__(*args, **kwargs)
+.venv/lib/python3.13/site-packages/aiogram/utils/i18n/core.py:28: in __init__
+    self.locales = self.find_locales()
+                   ^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.13/site-packages/aiogram/utils/i18n/core.py:73: in find_locales
+    if mo_path.exists():
+       ^^^^^^^^^^^^^^^^
+/usr/lib64/python3.13/pathlib/_abc.py:450: in exists
+    self.stat(follow_symlinks=follow_symlinks)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+self = PosixPath('/root/LC_MESSAGES/messages.mo')
+    def stat(self, *, follow_symlinks=True):
+        """
+        Return the result of the stat() system call on this path, like
+        os.stat() does.
+        """
+>       return os.stat(self, follow_symlinks=follow_symlinks)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       PermissionError: [Errno 13] Permission denied: '/root/LC_MESSAGES/messages.mo'
+/usr/lib64/python3.13/pathlib/_local.py:515: PermissionError
+_____________________________________________________________ ERROR at setup of TestMetricsMiddleware.test_handler_exception _____________________________________________________________
+    @pytest.fixture(scope="session", autouse=True)
+    def i18n_context():
+>       i18n = I18nNew(path='/')
+               ^^^^^^^^^^^^^^^^^
+tests/conftest.py:9:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+sophie_bot/utils/i18n.py:35: in __init__
+    super().__init__(*args, **kwargs)
+.venv/lib/python3.13/site-packages/aiogram/utils/i18n/core.py:28: in __init__
+    self.locales = self.find_locales()
+                   ^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.13/site-packages/aiogram/utils/i18n/core.py:73: in find_locales
+    if mo_path.exists():
+       ^^^^^^^^^^^^^^^^
+/usr/lib64/python3.13/pathlib/_abc.py:450: in exists
+    self.stat(follow_symlinks=follow_symlinks)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+self = PosixPath('/root/LC_MESSAGES/messages.mo')
+    def stat(self, *, follow_symlinks=True):
+        """
+        Return the result of the stat() system call on this path, like
+        os.stat() does.
+        """
+>       return os.stat(self, follow_symlinks=follow_symlinks)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       PermissionError: [Errno 13] Permission denied: '/root/LC_MESSAGES/messages.mo'
+/usr/lib64/python3.13/pathlib/_local.py:515: PermissionError
+_______________________________________________________________ ERROR at setup of TestMetricsMiddleware.test_sampling_skip _______________________________________________________________
+    @pytest.fixture(scope="session", autouse=True)
+    def i18n_context():
+>       i18n = I18nNew(path='/')
+               ^^^^^^^^^^^^^^^^^
+tests/conftest.py:9:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+sophie_bot/utils/i18n.py:35: in __init__
+    super().__init__(*args, **kwargs)
+.venv/lib/python3.13/site-packages/aiogram/utils/i18n/core.py:28: in __init__
+    self.locales = self.find_locales()
+                   ^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.13/site-packages/aiogram/utils/i18n/core.py:73: in find_locales
+    if mo_path.exists():
+       ^^^^^^^^^^^^^^^^
+/usr/lib64/python3.13/pathlib/_abc.py:450: in exists
+    self.stat(follow_symlinks=follow_symlinks)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+self = PosixPath('/root/LC_MESSAGES/messages.mo')
+    def stat(self, *, follow_symlinks=True):
+        """
+        Return the result of the stat() system call on this path, like
+        os.stat() does.
+        """
+>       return os.stat(self, follow_symlinks=follow_symlinks)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       PermissionError: [Errno 13] Permission denied: '/root/LC_MESSAGES/messages.mo'
+/usr/lib64/python3.13/pathlib/_local.py:515: PermissionError
+________________________________________________________ ERROR at setup of TestMetricsMiddleware.test_extract_update_info_message ________________________________________________________
+    @pytest.fixture(scope="session", autouse=True)
+    def i18n_context():
+>       i18n = I18nNew(path='/')
+               ^^^^^^^^^^^^^^^^^
+tests/conftest.py:9:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+sophie_bot/utils/i18n.py:35: in __init__
+    super().__init__(*args, **kwargs)
+.venv/lib/python3.13/site-packages/aiogram/utils/i18n/core.py:28: in __init__
+    self.locales = self.find_locales()
+                   ^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.13/site-packages/aiogram/utils/i18n/core.py:73: in find_locales
+    if mo_path.exists():
+       ^^^^^^^^^^^^^^^^
+/usr/lib64/python3.13/pathlib/_abc.py:450: in exists
+    self.stat(follow_symlinks=follow_symlinks)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+self = PosixPath('/root/LC_MESSAGES/messages.mo')
+    def stat(self, *, follow_symlinks=True):
+        """
+        Return the result of the stat() system call on this path, like
+        os.stat() does.
+        """
+>       return os.stat(self, follow_symlinks=follow_symlinks)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       PermissionError: [Errno 13] Permission denied: '/root/LC_MESSAGES/messages.mo'
+/usr/lib64/python3.13/pathlib/_local.py:515: PermissionError
+____________________________________________________ ERROR at setup of TestMetricsMiddleware.test_extract_update_info_callback_query _____________________________________________________
+    @pytest.fixture(scope="session", autouse=True)
+    def i18n_context():
+>       i18n = I18nNew(path='/')
+               ^^^^^^^^^^^^^^^^^
+tests/conftest.py:9:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+sophie_bot/utils/i18n.py:35: in __init__
+    super().__init__(*args, **kwargs)
+.venv/lib/python3.13/site-packages/aiogram/utils/i18n/core.py:28: in __init__
+    self.locales = self.find_locales()
+                   ^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.13/site-packages/aiogram/utils/i18n/core.py:73: in find_locales
+    if mo_path.exists():
+       ^^^^^^^^^^^^^^^^
+/usr/lib64/python3.13/pathlib/_abc.py:450: in exists
+    self.stat(follow_symlinks=follow_symlinks)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+self = PosixPath('/root/LC_MESSAGES/messages.mo')
+    def stat(self, *, follow_symlinks=True):
+        """
+        Return the result of the stat() system call on this path, like
+        os.stat() does.
+        """
+>       return os.stat(self, follow_symlinks=follow_symlinks)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       PermissionError: [Errno 13] Permission denied: '/root/LC_MESSAGES/messages.mo'
+/usr/lib64/python3.13/pathlib/_local.py:515: PermissionError
+___________________________________________________________ ERROR at setup of TestMetricsMiddleware.test_get_message_kind_text ___________________________________________________________
+    @pytest.fixture(scope="session", autouse=True)
+    def i18n_context():
+>       i18n = I18nNew(path='/')
+               ^^^^^^^^^^^^^^^^^
+tests/conftest.py:9:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+sophie_bot/utils/i18n.py:35: in __init__
+    super().__init__(*args, **kwargs)
+.venv/lib/python3.13/site-packages/aiogram/utils/i18n/core.py:28: in __init__
+    self.locales = self.find_locales()
+                   ^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.13/site-packages/aiogram/utils/i18n/core.py:73: in find_locales
+    if mo_path.exists():
+       ^^^^^^^^^^^^^^^^
+/usr/lib64/python3.13/pathlib/_abc.py:450: in exists
+    self.stat(follow_symlinks=follow_symlinks)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+self = PosixPath('/root/LC_MESSAGES/messages.mo')
+    def stat(self, *, follow_symlinks=True):
+        """
+        Return the result of the stat() system call on this path, like
+        os.stat() does.
+        """
+>       return os.stat(self, follow_symlinks=follow_symlinks)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       PermissionError: [Errno 13] Permission denied: '/root/LC_MESSAGES/messages.mo'
+/usr/lib64/python3.13/pathlib/_local.py:515: PermissionError
+__________________________________________________________ ERROR at setup of TestMetricsMiddleware.test_get_message_kind_photo ___________________________________________________________
+    @pytest.fixture(scope="session", autouse=True)
+    def i18n_context():
+>       i18n = I18nNew(path='/')
+               ^^^^^^^^^^^^^^^^^
+tests/conftest.py:9:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+sophie_bot/utils/i18n.py:35: in __init__
+    super().__init__(*args, **kwargs)
+.venv/lib/python3.13/site-packages/aiogram/utils/i18n/core.py:28: in __init__
+    self.locales = self.find_locales()
+                   ^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.13/site-packages/aiogram/utils/i18n/core.py:73: in find_locales
+    if mo_path.exists():
+       ^^^^^^^^^^^^^^^^
+/usr/lib64/python3.13/pathlib/_abc.py:450: in exists
+    self.stat(follow_symlinks=follow_symlinks)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+self = PosixPath('/root/LC_MESSAGES/messages.mo')
+    def stat(self, *, follow_symlinks=True):
+        """
+        Return the result of the stat() system call on this path, like
+        os.stat() does.
+        """
+>       return os.stat(self, follow_symlinks=follow_symlinks)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       PermissionError: [Errno 13] Permission denied: '/root/LC_MESSAGES/messages.mo'
+/usr/lib64/python3.13/pathlib/_local.py:515: PermissionError
+_____________________________________________________________ ERROR at setup of TestMetricsMiddleware.test_get_handler_name ______________________________________________________________
+    @pytest.fixture(scope="session", autouse=True)
+    def i18n_context():
+>       i18n = I18nNew(path='/')
+               ^^^^^^^^^^^^^^^^^
+tests/conftest.py:9:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+sophie_bot/utils/i18n.py:35: in __init__
+    super().__init__(*args, **kwargs)
+.venv/lib/python3.13/site-packages/aiogram/utils/i18n/core.py:28: in __init__
+    self.locales = self.find_locales()
+                   ^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.13/site-packages/aiogram/utils/i18n/core.py:73: in find_locales
+    if mo_path.exists():
+       ^^^^^^^^^^^^^^^^
+/usr/lib64/python3.13/pathlib/_abc.py:450: in exists
+    self.stat(follow_symlinks=follow_symlinks)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+self = PosixPath('/root/LC_MESSAGES/messages.mo')
+    def stat(self, *, follow_symlinks=True):
+        """
+        Return the result of the stat() system call on this path, like
+        os.stat() does.
+        """
+>       return os.stat(self, follow_symlinks=follow_symlinks)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       PermissionError: [Errno 13] Permission denied: '/root/LC_MESSAGES/messages.mo'
+/usr/lib64/python3.13/pathlib/_local.py:515: PermissionError
+________________________________________________________ ERROR at setup of TestMetricsMiddleware.test_webhook_transport_detection ________________________________________________________
+    @pytest.fixture(scope="session", autouse=True)
+    def i18n_context():
+>       i18n = I18nNew(path='/')
+               ^^^^^^^^^^^^^^^^^
+tests/conftest.py:9:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+sophie_bot/utils/i18n.py:35: in __init__
+    super().__init__(*args, **kwargs)
+.venv/lib/python3.13/site-packages/aiogram/utils/i18n/core.py:28: in __init__
+    self.locales = self.find_locales()
+                   ^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.13/site-packages/aiogram/utils/i18n/core.py:73: in find_locales
+    if mo_path.exists():
+       ^^^^^^^^^^^^^^^^
+/usr/lib64/python3.13/pathlib/_abc.py:450: in exists
+    self.stat(follow_symlinks=follow_symlinks)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+self = PosixPath('/root/LC_MESSAGES/messages.mo')
+    def stat(self, *, follow_symlinks=True):
+        """
+        Return the result of the stat() system call on this path, like
+        os.stat() does.
+        """
+>       return os.stat(self, follow_symlinks=follow_symlinks)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       PermissionError: [Errno 13] Permission denied: '/root/LC_MESSAGES/messages.mo'
+/usr/lib64/python3.13/pathlib/_local.py:515: PermissionError
+____________________________________________________________ ERROR at setup of TestMetricsMiddleware.test_concurrent_handlers ____________________________________________________________
+    @pytest.fixture(scope="session", autouse=True)
+    def i18n_context():
+>       i18n = I18nNew(path='/')
+               ^^^^^^^^^^^^^^^^^
+tests/conftest.py:9:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+sophie_bot/utils/i18n.py:35: in __init__
+    super().__init__(*args, **kwargs)
+.venv/lib/python3.13/site-packages/aiogram/utils/i18n/core.py:28: in __init__
+    self.locales = self.find_locales()
+                   ^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.13/site-packages/aiogram/utils/i18n/core.py:73: in find_locales
+    if mo_path.exists():
+       ^^^^^^^^^^^^^^^^
+/usr/lib64/python3.13/pathlib/_abc.py:450: in exists
+    self.stat(follow_symlinks=follow_symlinks)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+self = PosixPath('/root/LC_MESSAGES/messages.mo')
+    def stat(self, *, follow_symlinks=True):
+        """
+        Return the result of the stat() system call on this path, like
+        os.stat() does.
+        """
+>       return os.stat(self, follow_symlinks=follow_symlinks)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       PermissionError: [Errno 13] Permission denied: '/root/LC_MESSAGES/messages.mo'
+/usr/lib64/python3.13/pathlib/_local.py:515: PermissionError
+__________________________________________________________________ ERROR at setup of test_parse_saveable_with_text_only __________________________________________________________________
+    @pytest.fixture(scope="session", autouse=True)
+    def i18n_context():
+>       i18n = I18nNew(path='/')
+               ^^^^^^^^^^^^^^^^^
+tests/conftest.py:9:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+sophie_bot/utils/i18n.py:35: in __init__
+    super().__init__(*args, **kwargs)
+.venv/lib/python3.13/site-packages/aiogram/utils/i18n/core.py:28: in __init__
+    self.locales = self.find_locales()
+                   ^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.13/site-packages/aiogram/utils/i18n/core.py:73: in find_locales
+    if mo_path.exists():
+       ^^^^^^^^^^^^^^^^
+/usr/lib64/python3.13/pathlib/_abc.py:450: in exists
+    self.stat(follow_symlinks=follow_symlinks)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+self = PosixPath('/root/LC_MESSAGES/messages.mo')
+    def stat(self, *, follow_symlinks=True):
+        """
+        Return the result of the stat() system call on this path, like
+        os.stat() does.
+        """
+>       return os.stat(self, follow_symlinks=follow_symlinks)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       PermissionError: [Errno 13] Permission denied: '/root/LC_MESSAGES/messages.mo'
+/usr/lib64/python3.13/pathlib/_local.py:515: PermissionError
+________________________________________________________________ ERROR at setup of test_parse_saveable_with_reply_message ________________________________________________________________
+    @pytest.fixture(scope="session", autouse=True)
+    def i18n_context():
+>       i18n = I18nNew(path='/')
+               ^^^^^^^^^^^^^^^^^
+tests/conftest.py:9:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+sophie_bot/utils/i18n.py:35: in __init__
+    super().__init__(*args, **kwargs)
+.venv/lib/python3.13/site-packages/aiogram/utils/i18n/core.py:28: in __init__
+    self.locales = self.find_locales()
+                   ^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.13/site-packages/aiogram/utils/i18n/core.py:73: in find_locales
+    if mo_path.exists():
+       ^^^^^^^^^^^^^^^^
+/usr/lib64/python3.13/pathlib/_abc.py:450: in exists
+    self.stat(follow_symlinks=follow_symlinks)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+self = PosixPath('/root/LC_MESSAGES/messages.mo')
+    def stat(self, *, follow_symlinks=True):
+        """
+        Return the result of the stat() system call on this path, like
+        os.stat() does.
+        """
+>       return os.stat(self, follow_symlinks=follow_symlinks)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       PermissionError: [Errno 13] Permission denied: '/root/LC_MESSAGES/messages.mo'
+/usr/lib64/python3.13/pathlib/_local.py:515: PermissionError
+______________________________________________________________ ERROR at setup of test_parse_saveable_exceeding_length_limit ______________________________________________________________
+    @pytest.fixture(scope="session", autouse=True)
+    def i18n_context():
+>       i18n = I18nNew(path='/')
+               ^^^^^^^^^^^^^^^^^
+tests/conftest.py:9:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+sophie_bot/utils/i18n.py:35: in __init__
+    super().__init__(*args, **kwargs)
+.venv/lib/python3.13/site-packages/aiogram/utils/i18n/core.py:28: in __init__
+    self.locales = self.find_locales()
+                   ^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.13/site-packages/aiogram/utils/i18n/core.py:73: in find_locales
+    if mo_path.exists():
+       ^^^^^^^^^^^^^^^^
+/usr/lib64/python3.13/pathlib/_abc.py:450: in exists
+    self.stat(follow_symlinks=follow_symlinks)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+self = PosixPath('/root/LC_MESSAGES/messages.mo')
+    def stat(self, *, follow_symlinks=True):
+        """
+        Return the result of the stat() system call on this path, like
+        os.stat() does.
+        """
+>       return os.stat(self, follow_symlinks=follow_symlinks)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       PermissionError: [Errno 13] Permission denied: '/root/LC_MESSAGES/messages.mo'
+/usr/lib64/python3.13/pathlib/_local.py:515: PermissionError
+__________________________________________________________________ ERROR at setup of test_parse_saveable_with_file_data __________________________________________________________________
+    @pytest.fixture(scope="session", autouse=True)
+    def i18n_context():
+>       i18n = I18nNew(path='/')
+               ^^^^^^^^^^^^^^^^^
+tests/conftest.py:9:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+sophie_bot/utils/i18n.py:35: in __init__
+    super().__init__(*args, **kwargs)
+.venv/lib/python3.13/site-packages/aiogram/utils/i18n/core.py:28: in __init__
+    self.locales = self.find_locales()
+                   ^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.13/site-packages/aiogram/utils/i18n/core.py:73: in find_locales
+    if mo_path.exists():
+       ^^^^^^^^^^^^^^^^
+/usr/lib64/python3.13/pathlib/_abc.py:450: in exists
+    self.stat(follow_symlinks=follow_symlinks)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+self = PosixPath('/root/LC_MESSAGES/messages.mo')
+    def stat(self, *, follow_symlinks=True):
+        """
+        Return the result of the stat() system call on this path, like
+        os.stat() does.
+        """
+>       return os.stat(self, follow_symlinks=follow_symlinks)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       PermissionError: [Errno 13] Permission denied: '/root/LC_MESSAGES/messages.mo'
+/usr/lib64/python3.13/pathlib/_local.py:515: PermissionError
+__________________________________________________________________ ERROR at setup of test_parse_reply_message_with_text __________________________________________________________________
+    @pytest.fixture(scope="session", autouse=True)
+    def i18n_context():
+>       i18n = I18nNew(path='/')
+               ^^^^^^^^^^^^^^^^^
+tests/conftest.py:9:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+sophie_bot/utils/i18n.py:35: in __init__
+    super().__init__(*args, **kwargs)
+.venv/lib/python3.13/site-packages/aiogram/utils/i18n/core.py:28: in __init__
+    self.locales = self.find_locales()
+                   ^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.13/site-packages/aiogram/utils/i18n/core.py:73: in find_locales
+    if mo_path.exists():
+       ^^^^^^^^^^^^^^^^
+/usr/lib64/python3.13/pathlib/_abc.py:450: in exists
+    self.stat(follow_symlinks=follow_symlinks)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+self = PosixPath('/root/LC_MESSAGES/messages.mo')
+    def stat(self, *, follow_symlinks=True):
+        """
+        Return the result of the stat() system call on this path, like
+        os.stat() does.
+        """
+>       return os.stat(self, follow_symlinks=follow_symlinks)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       PermissionError: [Errno 13] Permission denied: '/root/LC_MESSAGES/messages.mo'
+/usr/lib64/python3.13/pathlib/_local.py:515: PermissionError
+________________________________________________________ ERROR at setup of test_parse_reply_message_with_unsupported_content_type ________________________________________________________
+    @pytest.fixture(scope="session", autouse=True)
+    def i18n_context():
+>       i18n = I18nNew(path='/')
+               ^^^^^^^^^^^^^^^^^
+tests/conftest.py:9:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+sophie_bot/utils/i18n.py:35: in __init__
+    super().__init__(*args, **kwargs)
+.venv/lib/python3.13/site-packages/aiogram/utils/i18n/core.py:28: in __init__
+    self.locales = self.find_locales()
+                   ^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.13/site-packages/aiogram/utils/i18n/core.py:73: in find_locales
+    if mo_path.exists():
+       ^^^^^^^^^^^^^^^^
+/usr/lib64/python3.13/pathlib/_abc.py:450: in exists
+    self.stat(follow_symlinks=follow_symlinks)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+self = PosixPath('/root/LC_MESSAGES/messages.mo')
+    def stat(self, *, follow_symlinks=True):
+        """
+        Return the result of the stat() system call on this path, like
+        os.stat() does.
+        """
+>       return os.stat(self, follow_symlinks=follow_symlinks)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       PermissionError: [Errno 13] Permission denied: '/root/LC_MESSAGES/messages.mo'
+/usr/lib64/python3.13/pathlib/_local.py:515: PermissionError
+__________________________________________________________________ ERROR at setup of test_extract_file_info_with_photo ___________________________________________________________________
+    @pytest.fixture(scope="session", autouse=True)
+    def i18n_context():
+>       i18n = I18nNew(path='/')
+               ^^^^^^^^^^^^^^^^^
+tests/conftest.py:9:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+sophie_bot/utils/i18n.py:35: in __init__
+    super().__init__(*args, **kwargs)
+.venv/lib/python3.13/site-packages/aiogram/utils/i18n/core.py:28: in __init__
+    self.locales = self.find_locales()
+                   ^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.13/site-packages/aiogram/utils/i18n/core.py:73: in find_locales
+    if mo_path.exists():
+       ^^^^^^^^^^^^^^^^
+/usr/lib64/python3.13/pathlib/_abc.py:450: in exists
+    self.stat(follow_symlinks=follow_symlinks)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+self = PosixPath('/root/LC_MESSAGES/messages.mo')
+    def stat(self, *, follow_symlinks=True):
+        """
+        Return the result of the stat() system call on this path, like
+        os.stat() does.
+        """
+>       return os.stat(self, follow_symlinks=follow_symlinks)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       PermissionError: [Errno 13] Permission denied: '/root/LC_MESSAGES/messages.mo'
+/usr/lib64/python3.13/pathlib/_local.py:515: PermissionError
+________________________________________________________ ERROR at setup of test_extract_file_info_with_non_parsable_content_type _________________________________________________________
+    @pytest.fixture(scope="session", autouse=True)
+    def i18n_context():
+>       i18n = I18nNew(path='/')
+               ^^^^^^^^^^^^^^^^^
+tests/conftest.py:9:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+sophie_bot/utils/i18n.py:35: in __init__
+    super().__init__(*args, **kwargs)
+.venv/lib/python3.13/site-packages/aiogram/utils/i18n/core.py:28: in __init__
+    self.locales = self.find_locales()
+                   ^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.13/site-packages/aiogram/utils/i18n/core.py:73: in find_locales
+    if mo_path.exists():
+       ^^^^^^^^^^^^^^^^
+/usr/lib64/python3.13/pathlib/_abc.py:450: in exists
+    self.stat(follow_symlinks=follow_symlinks)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+self = PosixPath('/root/LC_MESSAGES/messages.mo')
+    def stat(self, *, follow_symlinks=True):
+        """
+        Return the result of the stat() system call on this path, like
+        os.stat() does.
+        """
+>       return os.stat(self, follow_symlinks=follow_symlinks)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       PermissionError: [Errno 13] Permission denied: '/root/LC_MESSAGES/messages.mo'
+/usr/lib64/python3.13/pathlib/_local.py:515: PermissionError
+_________________________________________________ ERROR at setup of TestRandomParser.test_avoid_triple_newlines_on_multiline_boundaries __________________________________________________
+    @pytest.fixture(scope="session", autouse=True)
+    def i18n_context():
+>       i18n = I18nNew(path='/')
+               ^^^^^^^^^^^^^^^^^
+tests/conftest.py:9:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+sophie_bot/utils/i18n.py:35: in __init__
+    super().__init__(*args, **kwargs)
+.venv/lib/python3.13/site-packages/aiogram/utils/i18n/core.py:28: in __init__
+    self.locales = self.find_locales()
+                   ^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.13/site-packages/aiogram/utils/i18n/core.py:73: in find_locales
+    if mo_path.exists():
+       ^^^^^^^^^^^^^^^^
+/usr/lib64/python3.13/pathlib/_abc.py:450: in exists
+    self.stat(follow_symlinks=follow_symlinks)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+self = PosixPath('/root/LC_MESSAGES/messages.mo')
+    def stat(self, *, follow_symlinks=True):
+        """
+        Return the result of the stat() system call on this path, like
+        os.stat() does.
+        """
+>       return os.stat(self, follow_symlinks=follow_symlinks)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       PermissionError: [Errno 13] Permission denied: '/root/LC_MESSAGES/messages.mo'
+/usr/lib64/python3.13/pathlib/_local.py:515: PermissionError
+____________________________________________________ ERROR at setup of TestRandomParser.test_boundary_by_whitespace_between_sections _____________________________________________________
+    @pytest.fixture(scope="session", autouse=True)
+    def i18n_context():
+>       i18n = I18nNew(path='/')
+               ^^^^^^^^^^^^^^^^^
+tests/conftest.py:9:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+sophie_bot/utils/i18n.py:35: in __init__
+    super().__init__(*args, **kwargs)
+.venv/lib/python3.13/site-packages/aiogram/utils/i18n/core.py:28: in __init__
+    self.locales = self.find_locales()
+                   ^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.13/site-packages/aiogram/utils/i18n/core.py:73: in find_locales
+    if mo_path.exists():
+       ^^^^^^^^^^^^^^^^
+/usr/lib64/python3.13/pathlib/_abc.py:450: in exists
+    self.stat(follow_symlinks=follow_symlinks)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+self = PosixPath('/root/LC_MESSAGES/messages.mo')
+    def stat(self, *, follow_symlinks=True):
+        """
+        Return the result of the stat() system call on this path, like
+        os.stat() does.
+        """
+>       return os.stat(self, follow_symlinks=follow_symlinks)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       PermissionError: [Errno 13] Permission denied: '/root/LC_MESSAGES/messages.mo'
+/usr/lib64/python3.13/pathlib/_local.py:515: PermissionError
+________________________________________________________ ERROR at setup of TestRandomParser.test_empty_option_at_start_of_section ________________________________________________________
+    @pytest.fixture(scope="session", autouse=True)
+    def i18n_context():
+>       i18n = I18nNew(path='/')
+               ^^^^^^^^^^^^^^^^^
+tests/conftest.py:9:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+sophie_bot/utils/i18n.py:35: in __init__
+    super().__init__(*args, **kwargs)
+.venv/lib/python3.13/site-packages/aiogram/utils/i18n/core.py:28: in __init__
+    self.locales = self.find_locales()
+                   ^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.13/site-packages/aiogram/utils/i18n/core.py:73: in find_locales
+    if mo_path.exists():
+       ^^^^^^^^^^^^^^^^
+/usr/lib64/python3.13/pathlib/_abc.py:450: in exists
+    self.stat(follow_symlinks=follow_symlinks)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+self = PosixPath('/root/LC_MESSAGES/messages.mo')
+    def stat(self, *, follow_symlinks=True):
+        """
+        Return the result of the stat() system call on this path, like
+        os.stat() does.
+        """
+>       return os.stat(self, follow_symlinks=follow_symlinks)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       PermissionError: [Errno 13] Permission denied: '/root/LC_MESSAGES/messages.mo'
+/usr/lib64/python3.13/pathlib/_local.py:515: PermissionError
+_________________________________________________________________ ERROR at setup of TestRandomParser.test_empty_options __________________________________________________________________
+    @pytest.fixture(scope="session", autouse=True)
+    def i18n_context():
+>       i18n = I18nNew(path='/')
+               ^^^^^^^^^^^^^^^^^
+tests/conftest.py:9:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+sophie_bot/utils/i18n.py:35: in __init__
+    super().__init__(*args, **kwargs)
+.venv/lib/python3.13/site-packages/aiogram/utils/i18n/core.py:28: in __init__
+    self.locales = self.find_locales()
+                   ^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.13/site-packages/aiogram/utils/i18n/core.py:73: in find_locales
+    if mo_path.exists():
+       ^^^^^^^^^^^^^^^^
+/usr/lib64/python3.13/pathlib/_abc.py:450: in exists
+    self.stat(follow_symlinks=follow_symlinks)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+self = PosixPath('/root/LC_MESSAGES/messages.mo')
+    def stat(self, *, follow_symlinks=True):
+        """
+        Return the result of the stat() system call on this path, like
+        os.stat() does.
+        """
+>       return os.stat(self, follow_symlinks=follow_symlinks)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       PermissionError: [Errno 13] Permission denied: '/root/LC_MESSAGES/messages.mo'
+/usr/lib64/python3.13/pathlib/_local.py:515: PermissionError
+__________________________________________________________________ ERROR at setup of TestRandomParser.test_empty_string __________________________________________________________________
+    @pytest.fixture(scope="session", autouse=True)
+    def i18n_context():
+>       i18n = I18nNew(path='/')
+               ^^^^^^^^^^^^^^^^^
+tests/conftest.py:9:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+sophie_bot/utils/i18n.py:35: in __init__
+    super().__init__(*args, **kwargs)
+.venv/lib/python3.13/site-packages/aiogram/utils/i18n/core.py:28: in __init__
+    self.locales = self.find_locales()
+                   ^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.13/site-packages/aiogram/utils/i18n/core.py:73: in find_locales
+    if mo_path.exists():
+       ^^^^^^^^^^^^^^^^
+/usr/lib64/python3.13/pathlib/_abc.py:450: in exists
+    self.stat(follow_symlinks=follow_symlinks)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+self = PosixPath('/root/LC_MESSAGES/messages.mo')
+    def stat(self, *, follow_symlinks=True):
+        """
+        Return the result of the stat() system call on this path, like
+        os.stat() does.
+        """
+>       return os.stat(self, follow_symlinks=follow_symlinks)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       PermissionError: [Errno 13] Permission denied: '/root/LC_MESSAGES/messages.mo'
+/usr/lib64/python3.13/pathlib/_local.py:515: PermissionError
+_______________________________________________________________ ERROR at setup of TestRandomParser.test_leading_delimiter ________________________________________________________________
+    @pytest.fixture(scope="session", autouse=True)
+    def i18n_context():
+>       i18n = I18nNew(path='/')
+               ^^^^^^^^^^^^^^^^^
+tests/conftest.py:9:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+sophie_bot/utils/i18n.py:35: in __init__
+    super().__init__(*args, **kwargs)
+.venv/lib/python3.13/site-packages/aiogram/utils/i18n/core.py:28: in __init__
+    self.locales = self.find_locales()
+                   ^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.13/site-packages/aiogram/utils/i18n/core.py:73: in find_locales
+    if mo_path.exists():
+       ^^^^^^^^^^^^^^^^
+/usr/lib64/python3.13/pathlib/_abc.py:450: in exists
+    self.stat(follow_symlinks=follow_symlinks)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+self = PosixPath('/root/LC_MESSAGES/messages.mo')
+    def stat(self, *, follow_symlinks=True):
+        """
+        Return the result of the stat() system call on this path, like
+        os.stat() does.
+        """
+>       return os.stat(self, follow_symlinks=follow_symlinks)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       PermissionError: [Errno 13] Permission denied: '/root/LC_MESSAGES/messages.mo'
+/usr/lib64/python3.13/pathlib/_local.py:515: PermissionError
+_______________________________________________________________ ERROR at setup of TestRandomParser.test_multiline_options ________________________________________________________________
+    @pytest.fixture(scope="session", autouse=True)
+    def i18n_context():
+>       i18n = I18nNew(path='/')
+               ^^^^^^^^^^^^^^^^^
+tests/conftest.py:9:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+sophie_bot/utils/i18n.py:35: in __init__
+    super().__init__(*args, **kwargs)
+.venv/lib/python3.13/site-packages/aiogram/utils/i18n/core.py:28: in __init__
+    self.locales = self.find_locales()
+                   ^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.13/site-packages/aiogram/utils/i18n/core.py:73: in find_locales
+    if mo_path.exists():
+       ^^^^^^^^^^^^^^^^
+/usr/lib64/python3.13/pathlib/_abc.py:450: in exists
+    self.stat(follow_symlinks=follow_symlinks)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+self = PosixPath('/root/LC_MESSAGES/messages.mo')
+    def stat(self, *, follow_symlinks=True):
+        """
+        Return the result of the stat() system call on this path, like
+        os.stat() does.
+        """
+>       return os.stat(self, follow_symlinks=follow_symlinks)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       PermissionError: [Errno 13] Permission denied: '/root/LC_MESSAGES/messages.mo'
+/usr/lib64/python3.13/pathlib/_local.py:515: PermissionError
+________________________________________________________ ERROR at setup of TestRandomParser.test_multiline_with_multiple_sections ________________________________________________________
+    @pytest.fixture(scope="session", autouse=True)
+    def i18n_context():
+>       i18n = I18nNew(path='/')
+               ^^^^^^^^^^^^^^^^^
+tests/conftest.py:9:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+sophie_bot/utils/i18n.py:35: in __init__
+    super().__init__(*args, **kwargs)
+.venv/lib/python3.13/site-packages/aiogram/utils/i18n/core.py:28: in __init__
+    self.locales = self.find_locales()
+                   ^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.13/site-packages/aiogram/utils/i18n/core.py:73: in find_locales
+    if mo_path.exists():
+       ^^^^^^^^^^^^^^^^
+/usr/lib64/python3.13/pathlib/_abc.py:450: in exists
+    self.stat(follow_symlinks=follow_symlinks)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+self = PosixPath('/root/LC_MESSAGES/messages.mo')
+    def stat(self, *, follow_symlinks=True):
+        """
+        Return the result of the stat() system call on this path, like
+        os.stat() does.
+        """
+>       return os.stat(self, follow_symlinks=follow_symlinks)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       PermissionError: [Errno 13] Permission denied: '/root/LC_MESSAGES/messages.mo'
+/usr/lib64/python3.13/pathlib/_local.py:515: PermissionError
+____________________________________________________________ ERROR at setup of TestRandomParser.test_multiple_choice_sections ____________________________________________________________
+    @pytest.fixture(scope="session", autouse=True)
+    def i18n_context():
+>       i18n = I18nNew(path='/')
+               ^^^^^^^^^^^^^^^^^
+tests/conftest.py:9:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+sophie_bot/utils/i18n.py:35: in __init__
+    super().__init__(*args, **kwargs)
+.venv/lib/python3.13/site-packages/aiogram/utils/i18n/core.py:28: in __init__
+    self.locales = self.find_locales()
+                   ^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.13/site-packages/aiogram/utils/i18n/core.py:73: in find_locales
+    if mo_path.exists():
+       ^^^^^^^^^^^^^^^^
+/usr/lib64/python3.13/pathlib/_abc.py:450: in exists
+    self.stat(follow_symlinks=follow_symlinks)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+self = PosixPath('/root/LC_MESSAGES/messages.mo')
+    def stat(self, *, follow_symlinks=True):
+        """
+        Return the result of the stat() system call on this path, like
+        os.stat() does.
+        """
+>       return os.stat(self, follow_symlinks=follow_symlinks)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       PermissionError: [Errno 13] Permission denied: '/root/LC_MESSAGES/messages.mo'
+/usr/lib64/python3.13/pathlib/_local.py:515: PermissionError
+________________________________________________________ ERROR at setup of TestRandomParser.test_nested_delimiters_not_supported _________________________________________________________
+    @pytest.fixture(scope="session", autouse=True)
+    def i18n_context():
+>       i18n = I18nNew(path='/')
+               ^^^^^^^^^^^^^^^^^
+tests/conftest.py:9:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+sophie_bot/utils/i18n.py:35: in __init__
+    super().__init__(*args, **kwargs)
+.venv/lib/python3.13/site-packages/aiogram/utils/i18n/core.py:28: in __init__
+    self.locales = self.find_locales()
+                   ^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.13/site-packages/aiogram/utils/i18n/core.py:73: in find_locales
+    if mo_path.exists():
+       ^^^^^^^^^^^^^^^^
+/usr/lib64/python3.13/pathlib/_abc.py:450: in exists
+    self.stat(follow_symlinks=follow_symlinks)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+self = PosixPath('/root/LC_MESSAGES/messages.mo')
+    def stat(self, *, follow_symlinks=True):
+        """
+        Return the result of the stat() system call on this path, like
+        os.stat() does.
+        """
+>       return os.stat(self, follow_symlinks=follow_symlinks)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       PermissionError: [Errno 13] Permission denied: '/root/LC_MESSAGES/messages.mo'
+/usr/lib64/python3.13/pathlib/_local.py:515: PermissionError
+_________________________________________________________________ ERROR at setup of TestRandomParser.test_no_delimiters __________________________________________________________________
+    @pytest.fixture(scope="session", autouse=True)
+    def i18n_context():
+>       i18n = I18nNew(path='/')
+               ^^^^^^^^^^^^^^^^^
+tests/conftest.py:9:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+sophie_bot/utils/i18n.py:35: in __init__
+    super().__init__(*args, **kwargs)
+.venv/lib/python3.13/site-packages/aiogram/utils/i18n/core.py:28: in __init__
+    self.locales = self.find_locales()
+                   ^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.13/site-packages/aiogram/utils/i18n/core.py:73: in find_locales
+    if mo_path.exists():
+       ^^^^^^^^^^^^^^^^
+/usr/lib64/python3.13/pathlib/_abc.py:450: in exists
+    self.stat(follow_symlinks=follow_symlinks)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+self = PosixPath('/root/LC_MESSAGES/messages.mo')
+    def stat(self, *, follow_symlinks=True):
+        """
+        Return the result of the stat() system call on this path, like
+        os.stat() does.
+        """
+>       return os.stat(self, follow_symlinks=follow_symlinks)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       PermissionError: [Errno 13] Permission denied: '/root/LC_MESSAGES/messages.mo'
+/usr/lib64/python3.13/pathlib/_local.py:515: PermissionError
+_________________________________________________________________ ERROR at setup of TestRandomParser.test_single_choice __________________________________________________________________
+    @pytest.fixture(scope="session", autouse=True)
+    def i18n_context():
+>       i18n = I18nNew(path='/')
+               ^^^^^^^^^^^^^^^^^
+tests/conftest.py:9:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+sophie_bot/utils/i18n.py:35: in __init__
+    super().__init__(*args, **kwargs)
+.venv/lib/python3.13/site-packages/aiogram/utils/i18n/core.py:28: in __init__
+    self.locales = self.find_locales()
+                   ^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.13/site-packages/aiogram/utils/i18n/core.py:73: in find_locales
+    if mo_path.exists():
+       ^^^^^^^^^^^^^^^^
+/usr/lib64/python3.13/pathlib/_abc.py:450: in exists
+    self.stat(follow_symlinks=follow_symlinks)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+self = PosixPath('/root/LC_MESSAGES/messages.mo')
+    def stat(self, *, follow_symlinks=True):
+        """
+        Return the result of the stat() system call on this path, like
+        os.stat() does.
+        """
+>       return os.stat(self, follow_symlinks=follow_symlinks)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       PermissionError: [Errno 13] Permission denied: '/root/LC_MESSAGES/messages.mo'
+/usr/lib64/python3.13/pathlib/_local.py:515: PermissionError
+_______________________________________________________________ ERROR at setup of TestRandomParser.test_trailing_delimiter _______________________________________________________________
+    @pytest.fixture(scope="session", autouse=True)
+    def i18n_context():
+>       i18n = I18nNew(path='/')
+               ^^^^^^^^^^^^^^^^^
+tests/conftest.py:9:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+sophie_bot/utils/i18n.py:35: in __init__
+    super().__init__(*args, **kwargs)
+.venv/lib/python3.13/site-packages/aiogram/utils/i18n/core.py:28: in __init__
+    self.locales = self.find_locales()
+                   ^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.13/site-packages/aiogram/utils/i18n/core.py:73: in find_locales
+    if mo_path.exists():
+       ^^^^^^^^^^^^^^^^
+/usr/lib64/python3.13/pathlib/_abc.py:450: in exists
+    self.stat(follow_symlinks=follow_symlinks)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+self = PosixPath('/root/LC_MESSAGES/messages.mo')
+    def stat(self, *, follow_symlinks=True):
+        """
+        Return the result of the stat() system call on this path, like
+        os.stat() does.
+        """
+>       return os.stat(self, follow_symlinks=follow_symlinks)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       PermissionError: [Errno 13] Permission denied: '/root/LC_MESSAGES/messages.mo'
+/usr/lib64/python3.13/pathlib/_local.py:515: PermissionError
+______________________________________________________________ ERROR at setup of TestRandomParser.test_whitespace_handling _______________________________________________________________
+    @pytest.fixture(scope="session", autouse=True)
+    def i18n_context():
+>       i18n = I18nNew(path='/')
+               ^^^^^^^^^^^^^^^^^
+tests/conftest.py:9:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+sophie_bot/utils/i18n.py:35: in __init__
+    super().__init__(*args, **kwargs)
+.venv/lib/python3.13/site-packages/aiogram/utils/i18n/core.py:28: in __init__
+    self.locales = self.find_locales()
+                   ^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.13/site-packages/aiogram/utils/i18n/core.py:73: in find_locales
+    if mo_path.exists():
+       ^^^^^^^^^^^^^^^^
+/usr/lib64/python3.13/pathlib/_abc.py:450: in exists
+    self.stat(follow_symlinks=follow_symlinks)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+self = PosixPath('/root/LC_MESSAGES/messages.mo')
+    def stat(self, *, follow_symlinks=True):
+        """
+        Return the result of the stat() system call on this path, like
+        os.stat() does.
+        """
+>       return os.stat(self, follow_symlinks=follow_symlinks)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       PermissionError: [Errno 13] Permission denied: '/root/LC_MESSAGES/messages.mo'
+/usr/lib64/python3.13/pathlib/_local.py:515: PermissionError
+==================================================================================== warnings summary ====================================================================================
+sophie_bot/config.py:141
+  /home/yacha/Projects/Otty/sophie/sophie_bot/config.py:141: PydanticDeprecatedSince20: Pydantic V1 style `@validator` validators are deprecated. You should migrate to Pydantic V2 style `@field_validator` validators, see the migration guide for more details. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.12/migration/
+    @validator("operators")
+sophie_bot/config.py:17
+  /home/yacha/Projects/Otty/sophie/sophie_bot/config.py:17: PydanticDeprecatedSince20: Support for class-based `config` is deprecated, use ConfigDict instead. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.12/migration/
+    class Config(BaseSettings):
+sophie_bot/db/models/notes.py:16
+  /home/yacha/Projects/Otty/sophie/sophie_bot/db/models/notes.py:16: PydanticDeprecatedSince20: Support for class-based `config` is deprecated, use ConfigDict instead. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.12/migration/
+    class NoteFile(BaseModel):
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+================================================================================ short test summary info =================================================================================
+ERROR tests/test_fillings.py::TestProcessFillings::test_combined_fillings - PermissionError: [Errno 13] Permission denied: '/root/LC_MESSAGES/messages.mo'
+ERROR tests/test_fillings.py::TestProcessFillings::test_with_chat_fillings - PermissionError: [Errno 13] Permission denied: '/root/LC_MESSAGES/messages.mo'
+ERROR tests/test_fillings.py::TestProcessFillings::test_with_custom_fillings - PermissionError: [Errno 13] Permission denied: '/root/LC_MESSAGES/messages.mo'
+ERROR tests/test_fillings.py::TestProcessFillings::test_with_empty_text - PermissionError: [Errno 13] Permission denied: '/root/LC_MESSAGES/messages.mo'
+ERROR tests/test_fillings.py::TestProcessFillings::test_with_missing_custom_key - PermissionError: [Errno 13] Permission denied: '/root/LC_MESSAGES/messages.mo'
+ERROR tests/test_fillings.py::TestProcessFillings::test_with_user_fillings - PermissionError: [Errno 13] Permission denied: '/root/LC_MESSAGES/messages.mo'
+ERROR tests/test_metrics/test_external.py::TestExternalServiceInstrumentation::test_time_external_service_success - PermissionError: [Errno 13] Permission denied: '/root/LC_MESSAGES/messages.mo'
+ERROR tests/test_metrics/test_external.py::TestExternalServiceInstrumentation::test_time_external_service_exception - PermissionError: [Errno 13] Permission denied: '/root/LC_MESSAGES/messages.mo'
+ERROR tests/test_metrics/test_external.py::TestExternalServiceInstrumentation::test_time_external_service_disabled - PermissionError: [Errno 13] Permission denied: '/root/LC_MESSAGES/messages.mo'
+ERROR tests/test_metrics/test_external.py::TestExternalServiceInstrumentation::test_instrument_external_service_async - PermissionError: [Errno 13] Permission denied: '/root/LC_MESSAGES/messages.mo'
+ERROR tests/test_metrics/test_external.py::TestExternalServiceInstrumentation::test_instrument_external_service_sync - PermissionError: [Errno 13] Permission denied: '/root/LC_MESSAGES/messages.mo'
+ERROR tests/test_metrics/test_external.py::TestExternalServiceInstrumentation::test_instrument_external_service_async_exception - PermissionError: [Errno 13] Permission denied: '/root/LC_MESSAGES/messages.mo'
+ERROR tests/test_metrics/test_external.py::TestExternalServiceInstrumentation::test_instrument_external_service_sync_exception - PermissionError: [Errno 13] Permission denied: '/root/LC_MESSAGES/messages.mo'
+ERROR tests/test_metrics/test_external.py::TestExternalServiceInstrumentation::test_specific_service_decorators - PermissionError: [Errno 13] Permission denied: '/root/LC_MESSAGES/messages.mo'
+ERROR tests/test_metrics/test_external.py::TestExternalServiceTracker::test_tracker_success - PermissionError: [Errno 13] Permission denied: '/root/LC_MESSAGES/messages.mo'
+ERROR tests/test_metrics/test_external.py::TestExternalServiceTracker::test_tracker_with_exception - PermissionError: [Errno 13] Permission denied: '/root/LC_MESSAGES/messages.mo'
+ERROR tests/test_metrics/test_external.py::TestExternalServiceTracker::test_tracker_without_start - PermissionError: [Errno 13] Permission denied: '/root/LC_MESSAGES/messages.mo'
+ERROR tests/test_metrics/test_external.py::TestExternalServiceTracker::test_tracker_disabled_metrics - PermissionError: [Errno 13] Permission denied: '/root/LC_MESSAGES/messages.mo'
+ERROR tests/test_metrics/test_external.py::TestServiceIntegration::test_service_context_managers - PermissionError: [Errno 13] Permission denied: '/root/LC_MESSAGES/messages.mo'
+ERROR tests/test_metrics/test_external.py::TestServiceIntegration::test_set_metrics_function - PermissionError: [Errno 13] Permission denied: '/root/LC_MESSAGES/messages.mo'
+ERROR tests/test_metrics/test_external.py::TestServiceIntegration::test_create_service_tracker_type - PermissionError: [Errno 13] Permission denied: '/root/LC_MESSAGES/messages.mo'
+ERROR tests/test_metrics/test_middleware.py::TestMetricsMiddleware::test_successful_handler_execution - PermissionError: [Errno 13] Permission denied: '/root/LC_MESSAGES/messages.mo'
+ERROR tests/test_metrics/test_middleware.py::TestMetricsMiddleware::test_handler_exception - PermissionError: [Errno 13] Permission denied: '/root/LC_MESSAGES/messages.mo'
+ERROR tests/test_metrics/test_middleware.py::TestMetricsMiddleware::test_sampling_skip - PermissionError: [Errno 13] Permission denied: '/root/LC_MESSAGES/messages.mo'
+ERROR tests/test_metrics/test_middleware.py::TestMetricsMiddleware::test_extract_update_info_message - PermissionError: [Errno 13] Permission denied: '/root/LC_MESSAGES/messages.mo'
+ERROR tests/test_metrics/test_middleware.py::TestMetricsMiddleware::test_extract_update_info_callback_query - PermissionError: [Errno 13] Permission denied: '/root/LC_MESSAGES/messages.mo'
+ERROR tests/test_metrics/test_middleware.py::TestMetricsMiddleware::test_get_message_kind_text - PermissionError: [Errno 13] Permission denied: '/root/LC_MESSAGES/messages.mo'
+ERROR tests/test_metrics/test_middleware.py::TestMetricsMiddleware::test_get_message_kind_photo - PermissionError: [Errno 13] Permission denied: '/root/LC_MESSAGES/messages.mo'
+ERROR tests/test_metrics/test_middleware.py::TestMetricsMiddleware::test_get_handler_name - PermissionError: [Errno 13] Permission denied: '/root/LC_MESSAGES/messages.mo'
+ERROR tests/test_metrics/test_middleware.py::TestMetricsMiddleware::test_webhook_transport_detection - PermissionError: [Errno 13] Permission denied: '/root/LC_MESSAGES/messages.mo'
+ERROR tests/test_metrics/test_middleware.py::TestMetricsMiddleware::test_concurrent_handlers - PermissionError: [Errno 13] Permission denied: '/root/LC_MESSAGES/messages.mo'
+ERROR tests/test_parse.py::test_parse_saveable_with_text_only - PermissionError: [Errno 13] Permission denied: '/root/LC_MESSAGES/messages.mo'
+ERROR tests/test_parse.py::test_parse_saveable_with_reply_message - PermissionError: [Errno 13] Permission denied: '/root/LC_MESSAGES/messages.mo'
+ERROR tests/test_parse.py::test_parse_saveable_exceeding_length_limit - PermissionError: [Errno 13] Permission denied: '/root/LC_MESSAGES/messages.mo'
+ERROR tests/test_parse.py::test_parse_saveable_with_file_data - PermissionError: [Errno 13] Permission denied: '/root/LC_MESSAGES/messages.mo'
+ERROR tests/test_parse.py::test_parse_reply_message_with_text - PermissionError: [Errno 13] Permission denied: '/root/LC_MESSAGES/messages.mo'
+ERROR tests/test_parse.py::test_parse_reply_message_with_unsupported_content_type - PermissionError: [Errno 13] Permission denied: '/root/LC_MESSAGES/messages.mo'
+ERROR tests/test_parse.py::test_extract_file_info_with_photo - PermissionError: [Errno 13] Permission denied: '/root/LC_MESSAGES/messages.mo'
+ERROR tests/test_parse.py::test_extract_file_info_with_non_parsable_content_type - PermissionError: [Errno 13] Permission denied: '/root/LC_MESSAGES/messages.mo'
+ERROR tests/test_random_parser_cases.py::TestRandomParser::test_avoid_triple_newlines_on_multiline_boundaries - PermissionError: [Errno 13] Permission denied: '/root/LC_MESSAGES/messages.mo'
+ERROR tests/test_random_parser_cases.py::TestRandomParser::test_boundary_by_whitespace_between_sections - PermissionError: [Errno 13] Permission denied: '/root/LC_MESSAGES/messages.mo'
+ERROR tests/test_random_parser_cases.py::TestRandomParser::test_empty_option_at_start_of_section - PermissionError: [Errno 13] Permission denied: '/root/LC_MESSAGES/messages.mo'
+ERROR tests/test_random_parser_cases.py::TestRandomParser::test_empty_options - PermissionError: [Errno 13] Permission denied: '/root/LC_MESSAGES/messages.mo'
+ERROR tests/test_random_parser_cases.py::TestRandomParser::test_empty_string - PermissionError: [Errno 13] Permission denied: '/root/LC_MESSAGES/messages.mo'
+ERROR tests/test_random_parser_cases.py::TestRandomParser::test_leading_delimiter - PermissionError: [Errno 13] Permission denied: '/root/LC_MESSAGES/messages.mo'
+ERROR tests/test_random_parser_cases.py::TestRandomParser::test_multiline_options - PermissionError: [Errno 13] Permission denied: '/root/LC_MESSAGES/messages.mo'
+ERROR tests/test_random_parser_cases.py::TestRandomParser::test_multiline_with_multiple_sections - PermissionError: [Errno 13] Permission denied: '/root/LC_MESSAGES/messages.mo'
+ERROR tests/test_random_parser_cases.py::TestRandomParser::test_multiple_choice_sections - PermissionError: [Errno 13] Permission denied: '/root/LC_MESSAGES/messages.mo'
+ERROR tests/test_random_parser_cases.py::TestRandomParser::test_nested_delimiters_not_supported - PermissionError: [Errno 13] Permission denied: '/root/LC_MESSAGES/messages.mo'
+ERROR tests/test_random_parser_cases.py::TestRandomParser::test_no_delimiters - PermissionError: [Errno 13] Permission denied: '/root/LC_MESSAGES/messages.mo'
+ERROR tests/test_random_parser_cases.py::TestRandomParser::test_single_choice - PermissionError: [Errno 13] Permission denied: '/root/LC_MESSAGES/messages.mo'
+ERROR tests/test_random_parser_cases.py::TestRandomParser::test_trailing_delimiter - PermissionError: [Errno 13] Permission denied: '/root/LC_MESSAGES/messages.mo'
+ERROR tests/test_random_parser_cases.py::TestRandomParser::test_whitespace_handling - PermissionError: [Errno 13] Permission denied: '/root/LC_MESSAGES/messages.mo'
+============================================================================= 3 warnings, 53 errors in 3.25s =============================================================================
+--- Logging error ---
+Traceback (most recent call last):
+  File "/home/yacha/Projects/Otty/sophie/.venv/lib/python3.13/site-packages/mistralai/httpclient.py", line 119, in close_clients
+    loop = asyncio.get_running_loop()
+RuntimeError: no running event loop
+During handling of the above exception, another exception occurred:
+Traceback (most recent call last):
+  File "/usr/lib64/python3.13/logging/__init__.py", line 1154, in emit
+    stream.write(msg + self.terminator)
+    ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+ValueError: I/O operation on closed file.
+Call stack:
+  File "/usr/lib64/python3.13/weakref.py", line 666, in _exitfunc
+    f()
+  File "/usr/lib64/python3.13/weakref.py", line 590, in __call__
+    return info.func(*info.args, **(info.kwargs or {}))
+  File "/home/yacha/Projects/Otty/sophie/.venv/lib/python3.13/site-packages/mistralai/httpclient.py", line 123, in close_clients
+    asyncio.run(async_client.aclose())
+  File "/usr/lib64/python3.13/asyncio/runners.py", line 194, in run
+    with Runner(debug=debug, loop_factory=loop_factory) as runner:
+  File "/usr/lib64/python3.13/asyncio/runners.py", line 58, in __enter__
+    self._lazy_init()
+  File "/usr/lib64/python3.13/asyncio/runners.py", line 137, in _lazy_init
+    self._loop = events.new_event_loop()
+  File "/usr/lib64/python3.13/asyncio/events.py", line 837, in new_event_loop
+    return get_event_loop_policy().new_event_loop()
+  File "/usr/lib64/python3.13/asyncio/events.py", line 734, in new_event_loop
+    return self._loop_factory()
+  File "/usr/lib64/python3.13/asyncio/unix_events.py", line 65, in __init__
+    super().__init__(selector)
+  File "/usr/lib64/python3.13/asyncio/selector_events.py", line 64, in __init__
+    logger.debug('Using selector: %s', selector.__class__.__name__)
+Message: 'Using selector: %s'
+Arguments: ('EpollSelector',)
+--- Logging error ---
+pymongo.errors._OperationCancelled: operation cancelled
+During handling of the above exception, another exception occurred:
+Traceback (most recent call last):
+  File "/usr/lib64/python3.13/logging/__init__.py", line 1154, in emit
+    stream.write(msg + self.terminator)
+    ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+ValueError: I/O operation on closed file.
+Call stack:
+  File "/usr/lib64/python3.13/threading.py", line 1014, in _bootstrap
+    self._bootstrap_inner()
+  File "/usr/lib64/python3.13/threading.py", line 1043, in _bootstrap_inner
+    self.run()
+  File "/usr/lib64/python3.13/threading.py", line 994, in run
+    self._target(*self._args, **self._kwargs)
+  File "/home/yacha/Projects/Otty/sophie/.venv/lib64/python3.13/site-packages/pymongo/periodic_executor.py", line 236, in _run
+    if not self._target():
+  File "/home/yacha/Projects/Otty/sophie/.venv/lib64/python3.13/site-packages/pymongo/synchronous/monitor.py", line 80, in target
+    monitor._run()  # type:ignore[attr-defined]
+  File "/home/yacha/Projects/Otty/sophie/.venv/lib64/python3.13/site-packages/pymongo/synchronous/monitor.py", line 214, in _run
+    self._server_description = self._check_server()
+  File "/home/yacha/Projects/Otty/sophie/.venv/lib64/python3.13/site-packages/pymongo/synchronous/monitor.py", line 273, in _check_server
+    _debug_log(
+  File "/home/yacha/Projects/Otty/sophie/.venv/lib64/python3.13/site-packages/pymongo/logger.py", line 108, in _debug_log
+    logger.debug(LogMessage(**fields))
+Message: <pymongo.logger.LogMessage object at 0x7f0f7ee020b0>
+Arguments: ()

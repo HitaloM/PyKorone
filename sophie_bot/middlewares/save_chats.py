@@ -11,7 +11,7 @@ from sophie_bot.db.models.chat import ChatTopicModel, UserInGroupModel
 class SaveChatsMiddleware(BaseMiddleware):
     @staticmethod
     async def _delete_user_in_chat_by_user_id(user_id: int, group: ChatModel):
-        if not (user := await ChatModel.get_by_chat_id(user_id)):
+        if not (user := await ChatModel.get_by_tid(user_id)):
             # not found - already deleted or didn't exist in a first place
             return
 
@@ -200,7 +200,7 @@ class SaveChatsMiddleware(BaseMiddleware):
         status = event.new_chat_member.status
         if status == "kicked":
             # Remove user, no need to further call handler
-            if not (group := await ChatModel.get_by_chat_id(event.chat.id)):
+            if not (group := await ChatModel.get_by_tid(event.chat.id)):
                 return False
             await self._delete_user_in_chat_by_user_id(event.new_chat_member.user.id, group)
             return False

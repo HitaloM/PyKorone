@@ -40,7 +40,7 @@ class LegacyWSButtonHandler(SophieMessageHandler):
         _prefix, chat_id = self.event.text.split("_", 2)
         chat_id = int(chat_id)
 
-        if not (group_db := await ChatModel.get_by_chat_id(chat_id)):
+        if not (group_db := await ChatModel.get_by_tid(chat_id)):
             raise SophieException("Cannot find group")
 
         user_db: ChatModel = self.data["user_db"]

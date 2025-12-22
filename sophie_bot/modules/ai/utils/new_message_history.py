@@ -95,7 +95,7 @@ class NewAIMessageHistory:
     @staticmethod
     async def _cache_transform_msg(msg: MessageType) -> ModelResponse | ModelRequest:
         """Transforms a message from the cache to a message that can be sent to the AI."""
-        user = await ChatModel.get_by_chat_id(msg.user_id)
+        user = await ChatModel.get_by_tid(msg.user_id)
         first_name = user.first_name_or_title if user else "Unknown"
 
         if msg.user_id == CONFIG.bot_id:

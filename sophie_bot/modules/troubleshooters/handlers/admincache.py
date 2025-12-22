@@ -6,6 +6,7 @@ from aiogram.handlers import MessageHandler
 from sophie_bot.db.models.chat import ChatType
 from sophie_bot.middlewares.connections import ChatConnection
 from sophie_bot.modules.legacy_modules.utils.user_details import get_admins_rights
+from sophie_bot.modules.utils_.user_details import update_chat_members
 from sophie_bot.utils.i18n import gettext as _
 from sophie_bot.utils.i18n import lazy_gettext as l_
 
@@ -20,4 +21,5 @@ class ResetAdminCache(MessageHandler):
             return await self.event.reply(_("You can't use this command in private chats."))
 
         await get_admins_rights(chat.id, force_update=True)  # Reset a cache
+        await update_chat_members(chat.db_model)
         await self.event.reply(_("Admin rights cache has been reset."))

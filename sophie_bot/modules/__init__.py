@@ -1,15 +1,20 @@
 from asyncio import gather
 from importlib import import_module
 from types import ModuleType
-from typing import Sequence, Type, Union
+from typing import TYPE_CHECKING, Sequence, Type, Union
 
 from aiogram import Dispatcher, Router
 
 from sophie_bot.modules.utils_.base_handler import SophieBaseHandler
 from sophie_bot.utils.logger import log
 
+if TYPE_CHECKING:
+    from fastapi import APIRouter
+
 LOADED_MODULES: dict[str, ModuleType] = {}
+LOADED_API_ROUTERS: list["APIRouter"] = []
 MODULES = [
+    "rest",
     "op",
     "troubleshooters",  # troubleshooters always first!
     "error",
@@ -54,6 +59,9 @@ async def load_modules(
             dp.include_router(router)
         else:
             log.debug(f"! Module {module_name} has no router!")
+
+        if api_router := getattr(module, "api_router", None):
+            LOADED_API_ROUTERS.append(api_router)
 
         LOADED_MODULES[module.__name__.split(".", 3)[2]] = module
 

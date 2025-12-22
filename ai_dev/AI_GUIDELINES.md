@@ -357,7 +357,7 @@ model = await SomeModel.find_one(SomeModel.chat.id == chat_model.id)  # chat_iid
 # ✅ CORRECT - Clear parameter naming
 async def get_settings(chat_tid: int) -> SomeModel:
     """Get settings using Telegram chat ID."""
-    chat = await ChatModel.get_by_chat_id(chat_tid)  # Convert to ChatModel
+    chat = await ChatModel.get_by_tid(chat_tid)  # Convert to ChatModel
     if not chat:
         raise ValueError(f"Chat with ID {chat_tid} not found")
 
@@ -384,7 +384,7 @@ model = await SomeModel.find_one(SomeModel.chat.id == chat_tid)  # WRONG!
 ```python
 # Convert Telegram ID to database model first
 chat_tid = message.chat.id  # Telegram ID (int)
-chat = await ChatModel.get_by_chat_id(chat_tid)  # Get ChatModel
+chat = await ChatModel.get_by_tid(chat_tid)  # Get ChatModel
 model = await SomeModel.find_one(SomeModel.chat.id == chat.id)  # Use chat_iid
 ```
 
@@ -398,7 +398,7 @@ class ExampleHandler(SophieMessageHandler):
         chat_tid = self.connection.id  # This is Telegram's chat ID
 
         # For Link queries, get the ChatModel first
-        chat = await ChatModel.get_by_chat_id(chat_tid)
+        chat = await ChatModel.get_by_tid(chat_tid)
         if not chat:
             return await self.event.reply(_("Chat not found"))
 

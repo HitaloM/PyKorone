@@ -25,7 +25,7 @@ class ConnectionsMiddleware(BaseMiddleware):
     async def get_current_chat_info(chat: Chat) -> ChatConnection:
         title = chat.title if chat.type != "private" and chat.title else _("Private chat")
 
-        db_model = await ChatModel.get_by_chat_id(chat.id)
+        db_model = await ChatModel.get_by_tid(chat.id)
         if db_model is None:
             raise SophieException(_("Chat not found in database"))
 
@@ -33,7 +33,7 @@ class ConnectionsMiddleware(BaseMiddleware):
 
     @staticmethod
     async def get_chat_from_db(chat_id: int, is_connected: bool) -> ChatConnection:
-        chat = await ChatModel.get_by_chat_id(chat_id)
+        chat = await ChatModel.get_by_tid(chat_id)
 
         if not chat:
             raise SophieException(

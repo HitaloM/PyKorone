@@ -2576,15 +2576,15 @@ msgstr ""
 msgid "⚠️ Warn"
 msgstr ""
 
-#: sophie_bot/modules/legacy_modules/utils/user_details.py:349
+#: sophie_bot/modules/legacy_modules/utils/user_details.py:363
 msgid "I couldn't find the chat / channel! Please ensure that I am added as an admin there!"
 msgstr ""
 
-#: sophie_bot/modules/legacy_modules/utils/user_details.py:357
+#: sophie_bot/modules/legacy_modules/utils/user_details.py:371
 msgid "Please give me valid chat ID/username"
 msgstr ""
 
-#: sophie_bot/modules/legacy_modules/utils/user_details.py:361
+#: sophie_bot/modules/legacy_modules/utils/user_details.py:375
 msgid "I can't find any chats on given information!"
 msgstr ""
 
@@ -3197,15 +3197,15 @@ msgstr ""
 msgid "Small commands for fixing problems and issues"
 msgstr ""
 
-#: sophie_bot/modules/troubleshooters/handlers/admincache.py:13
+#: sophie_bot/modules/troubleshooters/handlers/admincache.py:14
 msgid "Reset admin rights cache, use if Sophie didn't get the recently added admin"
 msgstr ""
 
-#: sophie_bot/modules/troubleshooters/handlers/admincache.py:20
+#: sophie_bot/modules/troubleshooters/handlers/admincache.py:21
 msgid "You can't use this command in private chats."
 msgstr ""
 
-#: sophie_bot/modules/troubleshooters/handlers/admincache.py:23
+#: sophie_bot/modules/troubleshooters/handlers/admincache.py:25
 msgid "Admin rights cache has been reset."
 msgstr ""
 

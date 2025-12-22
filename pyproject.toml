@@ -36,6 +36,9 @@ prometheus-client = "^0.23"
 mypy = ">=1.11"
 uvloop = "^0.21"
 unidecode = "^1.4.0"
+pyjwt = "^2.10.1"
+cryptography = "^46.0.3"
+link = "^2.1.4"
 
 [tool.poetry.group.dev.dependencies]
 Nuitka = "^2"

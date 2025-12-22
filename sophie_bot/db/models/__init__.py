@@ -9,8 +9,10 @@ from sophie_bot.db.models.ai_moderator import AIModeratorModel
 from sophie_bot.db.models.ai_provider import AIProviderModel
 from sophie_bot.db.models.ai_usage import AIUsageModel
 from sophie_bot.db.models.antiflood import AntifloodModel
+from sophie_bot.db.models.api_token import ApiTokenModel
 from sophie_bot.db.models.beta import BetaModeModel
 from sophie_bot.db.models.chat import ChatModel, ChatTopicModel, UserInGroupModel
+from sophie_bot.db.models.chat_admin import ChatAdminModel
 from sophie_bot.db.models.chat_connections import ChatConnectionModel
 from sophie_bot.db.models.disabling import DisablingModel
 from sophie_bot.db.models.federations import Federation, FederationBan
@@ -27,6 +29,7 @@ models: List[Type[Document]] = [
     ChatModel,
     UserInGroupModel,
     ChatTopicModel,
+    ChatAdminModel,
     LanguageModel,
     ChatConnectionModel,
     NoteModel,
@@ -45,6 +48,7 @@ models: List[Type[Document]] = [
     FiltersModel,
     AIProviderModel,
     AntifloodModel,
+    ApiTokenModel,
     Federation,
     FederationBan,
 ]

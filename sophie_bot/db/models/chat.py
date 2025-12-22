@@ -221,7 +221,7 @@ class ChatModel(Document):
         await self.delete(link_rule=DeleteRules.DELETE_LINKS)
 
     @staticmethod
-    async def get_by_chat_id(chat_id: int) -> Optional["ChatModel"]:
+    async def get_by_tid(chat_id: int) -> Optional["ChatModel"]:
         return await ChatModel.find_one(ChatModel.chat_id == chat_id)
 
     @staticmethod

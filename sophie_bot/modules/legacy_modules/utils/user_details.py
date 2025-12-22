@@ -13,14 +13,15 @@ from aiogram.exceptions import TelegramBadRequest
 from aiogram.types import CallbackQuery, Message, MessageEntity
 
 from sophie_bot.config import CONFIG
+from sophie_bot.db.models import ChatModel
 from sophie_bot.modules.legacy_modules.utils.message import get_arg, get_args_str
 from sophie_bot.services.bot import bot
 from sophie_bot.services.db import db
 from sophie_bot.services.redis import bredis
 from sophie_bot.utils.i18n import gettext as _
 from sophie_bot.utils.logger import log
-
 from .language import get_string
+from ...utils_.user_details import save_chat_member
 
 
 async def get_user_by_id(user_id: int):
@@ -70,39 +71,52 @@ async def get_user_link(user_id, custom_name=None, md=False, escape_html=True):
 
 
 async def get_admins_rights(chat_id, force_update=False):
+    chat = await ChatModel.get_by_tid(chat_id)
+
     key = "admin_cache:" + str(chat_id)
     if (alist := bredis.get(key)) and not force_update:
         return pickle.loads(alist)
     else:
         alist = {}
-        admins = await bot.get_chat_administrators(chat_id)
-        for admin in admins:
-            if not admin:
+        chat_members = await bot.get_chat_administrators(chat_id)
+        for member in chat_members:
+            if not member:
                 continue
 
-            user_id = admin.user.id
+            user_id = member.user.id
             alist[user_id] = {
-                "status": admin.status,
+                "status": member.status,
                 "admin": True,
-                "title": admin.custom_title,
-                "anonymous": admin.is_anonymous,
-                "can_change_info": admin.can_change_info if admin.status != ChatMemberStatus.CREATOR else True,
-                "can_delete_messages": admin.can_delete_messages if admin.status != ChatMemberStatus.CREATOR else True,
-                "can_invite_users": admin.can_invite_users if admin.status != ChatMemberStatus.CREATOR else True,
+                "title": member.custom_title,
+                "anonymous": member.is_anonymous,
+                "can_change_info": member.can_change_info if member.status != ChatMemberStatus.CREATOR else True,
+                "can_delete_messages": member.can_delete_messages
+                if member.status != ChatMemberStatus.CREATOR
+                else True,
+                "can_invite_users": member.can_invite_users if member.status != ChatMemberStatus.CREATOR else True,
                 "can_restrict_members": (
-                    admin.can_restrict_members if admin.status != ChatMemberStatus.CREATOR else True
+                    member.can_restrict_members if member.status != ChatMemberStatus.CREATOR else True
                 ),
-                "can_pin_messages": admin.can_pin_messages if admin.status != ChatMemberStatus.CREATOR else True,
-                "can_promote_members": admin.can_promote_members if admin.status != ChatMemberStatus.CREATOR else True,
+                "can_pin_messages": member.can_pin_messages if member.status != ChatMemberStatus.CREATOR else True,
+                "can_promote_members": member.can_promote_members
+                if member.status != ChatMemberStatus.CREATOR
+                else True,
             }
 
             with suppress(KeyError):  # Optional permissions
                 alist[user_id]["can_post_messages"] = (
-                    admin.can_post_messages if admin.status != ChatMemberStatus.CREATOR else True
+                    member.can_post_messages if member.status != ChatMemberStatus.CREATOR else True
                 )
+
+            # Workaround for modern chat_admin db
+            user = await ChatModel.get_by_tid(chat_id)
+            if not user:
+                continue
+            await save_chat_member(chat.id, user.id, member)
 
         bredis.set(key, pickle.dumps(alist))
         bredis.expire(key, 900)
+
     return alist
 
 

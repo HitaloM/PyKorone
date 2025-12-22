@@ -40,7 +40,7 @@ class ChatJoinRequestHandler(SophieBaseHandler[ChatJoinRequest]):
             return
 
         # Get chat model
-        chat = await ChatModel.get_by_chat_id(chat_tid)
+        chat = await ChatModel.get_by_tid(chat_tid)
         if not chat:
             return
 
@@ -54,7 +54,7 @@ class ChatJoinRequestHandler(SophieBaseHandler[ChatJoinRequest]):
             return
 
         # Get user model
-        user = await ChatModel.get_by_chat_id(user_tid)
+        user = await ChatModel.get_by_tid(user_tid)
         if not user:
             return
 

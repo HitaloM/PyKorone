@@ -25,7 +25,7 @@ class AiGenerateMode(MessageHandler):
         await bot.send_chat_action(self.event.chat.id, "typing")
 
         # Get chat from database and create connection
-        chat_db = await ChatModel.get_by_chat_id(self.event.chat.id)
+        chat_db = await ChatModel.get_by_tid(self.event.chat.id)
         if not chat_db:
             return
 

@@ -5,7 +5,7 @@ from sophie_bot.utils.exception import SophieException
 
 
 async def privacy_export(chat_id: int) -> dict[str, Any]:
-    chat = await ChatModel.get_by_chat_id(chat_id)
+    chat = await ChatModel.get_by_tid(chat_id)
 
     if not chat:
         raise SophieException("Chat not found in the database.")
