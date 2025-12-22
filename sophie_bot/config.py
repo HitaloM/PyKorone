@@ -64,7 +64,7 @@ class Config(BaseSettings):
     api_listen: str = "127.0.0.1"
     api_port: int = 8000
     api_jwt_secret: str = "change_me_in_production"
-    api_operator_token: Optional[str] = None
+    api_operator_token: Optional[str] = "test"
     api_jwt_expire_minutes: int = 1440  # 24 hours
     api_cors_origins: List[str] = ["*"]
 

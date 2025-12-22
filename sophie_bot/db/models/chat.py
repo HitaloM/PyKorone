@@ -9,7 +9,7 @@ from beanie import (
     Document,
     Indexed,
     PydanticObjectId,
-    UpdateResponse,
+    UpdateResponse, BackLink,
 )
 from beanie.odm.operators.find.comparison import In
 from beanie.odm.operators.update.general import Set
@@ -19,6 +19,7 @@ from pymongo import IndexModel
 
 from sophie_bot.db.db_exceptions import DBNotFoundException
 from sophie_bot.db.models._link_type import Link
+from sophie_bot.db.models.chat_photo import ChatPhotoModel
 
 
 class ChatType(Enum):
@@ -68,7 +69,7 @@ class UserInGroupModel(Document):
     @staticmethod
     async def ensure_delete(user: "ChatModel", group: "ChatModel") -> Optional["UserInGroupModel"]:
         if user_in_chat := await UserInGroupModel.find_one(
-            UserInGroupModel.user.id == user.id, UserInGroupModel.group.id == group.id
+                UserInGroupModel.user.id == user.id, UserInGroupModel.group.id == group.id
         ):
             await user_in_chat.delete()
             return user_in_chat
@@ -76,7 +77,7 @@ class UserInGroupModel(Document):
 
     @staticmethod
     async def get_user_in_group(
-        user_iid: PydanticObjectId, group_iid: PydanticObjectId
+            user_iid: PydanticObjectId, group_iid: PydanticObjectId
     ) -> Optional["UserInGroupModel"]:
         return await UserInGroupModel.find_one(
             UserInGroupModel.user.id == user_iid, UserInGroupModel.group.id == group_iid
@@ -121,10 +122,13 @@ class ChatModel(Document):
     first_name_or_title: str = Field(max_length=128)
     last_name: Optional[str] = Field(max_length=64, default=None)
     username: Annotated[Optional[str], Indexed()]
+    language_code: Optional[str] = None
     is_bot: bool
 
     first_saw: datetime = Field(default_factory=datetime.utcnow)
     last_saw: datetime
+
+    photo: BackLink[ChatPhotoModel] = Field(original_field="chat")  # type: ignore[call-arg]
 
     # User in groups
     # user_in_groups: list[BackLink[UserInGroupModel]] = Field(original_field="user")  # type: ignore[call-arg]
@@ -150,6 +154,7 @@ class ChatModel(Document):
             "username": user.username,
             "is_bot": user.is_bot,
             "last_saw": datetime.now(timezone.utc),
+            "language_code": user.language_code,
         }
 
     @staticmethod

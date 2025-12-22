@@ -21,7 +21,7 @@ from sophie_bot.services.redis import bredis
 from sophie_bot.utils.i18n import gettext as _
 from sophie_bot.utils.logger import log
 from .language import get_string
-from ...utils_.user_details import save_chat_member
+from ...utils_.chat_member import save_chat_member
 
 
 async def get_user_by_id(user_id: int):

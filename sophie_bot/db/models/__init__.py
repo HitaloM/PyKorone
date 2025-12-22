@@ -14,6 +14,7 @@ from sophie_bot.db.models.beta import BetaModeModel
 from sophie_bot.db.models.chat import ChatModel, ChatTopicModel, UserInGroupModel
 from sophie_bot.db.models.chat_admin import ChatAdminModel
 from sophie_bot.db.models.chat_connections import ChatConnectionModel
+from sophie_bot.db.models.chat_photo import ChatPhotoModel
 from sophie_bot.db.models.disabling import DisablingModel
 from sophie_bot.db.models.federations import Federation, FederationBan
 from sophie_bot.db.models.filters import FiltersModel
@@ -27,6 +28,7 @@ from sophie_bot.db.models.ws_user import WSUserModel
 
 models: List[Type[Document]] = [
     ChatModel,
+    ChatPhotoModel,
     UserInGroupModel,
     ChatTopicModel,
     ChatAdminModel,

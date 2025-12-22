@@ -39,12 +39,13 @@ class OperatorLoginRequest(BaseModel):
 
 
 class DummyUser:
-    def __init__(self, id, first_name, last_name, username, is_bot):
+    def __init__(self, id, first_name, last_name, username, is_bot, photo_url=None):
         self.id = id
         self.first_name = first_name
         self.last_name = last_name
         self.username = username
         self.is_bot = is_bot
+        self.photo_url = photo_url
 
 
 @router.post("/login/tma", response_model=Token)
@@ -67,6 +68,7 @@ async def login_tma(data: TMALoginRequest):
         last_name=user_data.get("last_name"),
         username=user_data.get("username"),
         is_bot=False,
+        photo_url=user_data.get("photo_url"),
     )
 
     await ChatModel.upsert_user(dummy_user)  # type: ignore
@@ -89,6 +91,7 @@ async def login_widget(data: WidgetLoginRequest):
         last_name=data.last_name,
         username=data.username,
         is_bot=False,
+        photo_url=data.photo_url,
     )
 
     await ChatModel.upsert_user(dummy_user)  # type: ignore

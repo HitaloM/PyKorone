@@ -7,12 +7,15 @@ from urllib.parse import parse_qsl
 
 import jwt
 from fastapi import Depends, HTTPException, status
-from fastapi.security import OAuth2PasswordBearer
+from fastapi.security import (
+    HTTPAuthorizationCredentials,
+    HTTPBearer,
+)
 
 from sophie_bot.config import CONFIG
 from sophie_bot.db.models.chat import ChatModel
 
-oauth2_scheme = OAuth2PasswordBearer(tokenUrl="auth/login")
+oauth2_scheme = HTTPBearer()
 
 
 def create_access_token(data: dict, expires_delta: Optional[timedelta] = None) -> str:
@@ -73,7 +76,8 @@ def verify_telegram_login_widget(data: dict) -> dict:
     return data
 
 
-async def get_current_user(token: Annotated[str, Depends(oauth2_scheme)]) -> ChatModel:
+async def get_current_user(auth: Annotated[HTTPAuthorizationCredentials, Depends(oauth2_scheme)]) -> ChatModel:
+    token = auth.credentials
     credentials_exception = HTTPException(
         status_code=status.HTTP_401_UNAUTHORIZED,
         detail="Could not validate credentials",
@@ -102,8 +106,9 @@ async def get_current_user(token: Annotated[str, Depends(oauth2_scheme)]) -> Cha
 
 async def get_current_operator(
     user: Annotated[ChatModel, Depends(get_current_user)],
-    token: Annotated[str, Depends(oauth2_scheme)],
+    auth: Annotated[HTTPAuthorizationCredentials, Depends(oauth2_scheme)],
 ) -> ChatModel:
+    token = auth.credentials
     # Check if user is in operators list
     if user.chat_id in CONFIG.operators:
         return user
