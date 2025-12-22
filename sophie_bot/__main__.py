@@ -24,3 +24,9 @@ elif SOPHIE_MODE == SophieModes.scheduler:
 
     log.info("Starting the scheduler mode...")
     start_scheduler_mode()
+
+elif SOPHIE_MODE == SophieModes.rest:
+    from sophie_bot.modes.rest import start_rest_mode
+
+    log.info("Starting the REST mode...")
+    start_rest_mode()

@@ -30,6 +30,8 @@ pillow = "^12"
 mem-top = "^0.2.1"
 apscheduler = "^3.11.0"
 pydantic-ai-slim = { extras = ["openai", "tavily", "mistral", "openrouter"], version = "^1.37" }
+fastapi = "^0.115"
+uvicorn = "^0.34"
 prometheus-client = "^0.23"
 mypy = ">=1.11"
 uvloop = "^0.21"

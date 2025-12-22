@@ -24,7 +24,7 @@ class Config(BaseSettings):
     owner_id: int | None = None
     operators: List[int] = []
 
-    mode: Literal["bot", "scheduler", "nostart"] = "bot"
+    mode: Literal["bot", "scheduler", "nostart", "rest"] = "bot"
 
     mongo_host: str = "mongodb://localhost"
     mongo_port: int = 27017
@@ -60,6 +60,9 @@ class Config(BaseSettings):
     webhooks_allowed_networks: Annotated[List[IPv4Network], Field(validate_default=True)] = [IPv4Network("127.0.0.0/8")]
     webhooks_secret_token: Optional[str] = None
     webhooks_handle_in_background: bool = True
+
+    api_listen: str = "127.0.0.1"
+    api_port: int = 8000
 
     commands_prefix: str = "/!"
     commands_ignore_case: bool = True

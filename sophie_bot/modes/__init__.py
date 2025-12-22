@@ -6,6 +6,7 @@ from sophie_bot.config import CONFIG
 class SophieModes(str, Enum):
     bot = "bot"
     scheduler = "scheduler"
+    rest = "rest"
     nostart = "nostart"
 
 
