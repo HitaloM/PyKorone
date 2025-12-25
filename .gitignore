@@ -45,3 +45,6 @@ data/ai_dev.json
 AGENTS.md
 /AI_GUIDELINES.md
 .github/AI_GUIDELINES.md
+
+# OpenAPI
+openapi.json

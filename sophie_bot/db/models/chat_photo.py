@@ -19,7 +19,7 @@ class ChatPhotoModel(Document):
 
     @staticmethod
     async def upsert_photo(chat_iid: ObjectId, url: str):
-        photo = await ChatPhotoModel.find_one(ChatPhotoModel.chat.iid == chat_iid)
+        photo = await ChatPhotoModel.find_one({"chat": chat_iid})
         if photo:
             photo.url = url
             photo.last_updated = datetime.now(tz=UTC)

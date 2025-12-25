@@ -9,7 +9,8 @@ from beanie import (
     Document,
     Indexed,
     PydanticObjectId,
-    UpdateResponse, BackLink,
+    UpdateResponse,
+    BackLink,
 )
 from beanie.odm.operators.find.comparison import In
 from beanie.odm.operators.update.general import Set
@@ -69,7 +70,7 @@ class UserInGroupModel(Document):
     @staticmethod
     async def ensure_delete(user: "ChatModel", group: "ChatModel") -> Optional["UserInGroupModel"]:
         if user_in_chat := await UserInGroupModel.find_one(
-                UserInGroupModel.user.id == user.id, UserInGroupModel.group.id == group.id
+            UserInGroupModel.user.id == user.id, UserInGroupModel.group.id == group.id
         ):
             await user_in_chat.delete()
             return user_in_chat
@@ -77,7 +78,7 @@ class UserInGroupModel(Document):
 
     @staticmethod
     async def get_user_in_group(
-            user_iid: PydanticObjectId, group_iid: PydanticObjectId
+        user_iid: PydanticObjectId, group_iid: PydanticObjectId
     ) -> Optional["UserInGroupModel"]:
         return await UserInGroupModel.find_one(
             UserInGroupModel.user.id == user_iid, UserInGroupModel.group.id == group_iid
@@ -128,7 +129,7 @@ class ChatModel(Document):
     first_saw: datetime = Field(default_factory=datetime.utcnow)
     last_saw: datetime
 
-    photo: BackLink[ChatPhotoModel] = Field(original_field="chat")  # type: ignore[call-arg]
+    photo: BackLink[ChatPhotoModel] = Field(json_schema_extra={"original_field": "chat"})  # type: ignore[call-arg, arg-type]
 
     # User in groups
     # user_in_groups: list[BackLink[UserInGroupModel]] = Field(original_field="user")  # type: ignore[call-arg]
