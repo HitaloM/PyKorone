@@ -12,7 +12,7 @@ carefully before starting work on any new features or modifications.
 - Use Black formatter with `--preview` flag for consistent code formatting
 - Use isort with Black profile for import sorting
 - Use pycln for removing unused imports
-- Place all imports at the top of the module; do not import inside functions or conditional blocks
+- Place all imports at the top of the module; **NEVER EVER** import inside functions or conditional blocks
 
 ### Type Safety
 
@@ -98,6 +98,7 @@ async def translate_command():
     - `test_codeanalysis`: Runs mypy type checking
     - `run_tests`: Executes pytest test suite
     - `gen_wiki`: Generates project wiki
+    - `gen_openapi`: Generates OpenAPI documentation
 
 ### Individual Tools
 
@@ -108,6 +109,7 @@ async def translate_command():
 - `make locale`: Full translation workflow
 - `make new_lang LANG=xx_XX`: Create new language support
 - `make gen_wiki`: Generate project documentation
+- `make gen_openapi`: Generate OpenAPI documentation
 
 ## MCP Tools
 
@@ -459,6 +461,94 @@ The bot framework already provides comprehensive error handling that:
 
 Let the framework handle unexpected errors rather than masking them with broad exception handlers.
 
+## REST API Development
+
+The project uses FastAPI for its REST API. The API is modular, similar to the bot's handlers.
+
+### REST Router Registration
+
+To add a new REST route:
+
+1. Create an `api/` directory in your module: `sophie_bot/modules/{module_name}/api/`.
+2. Define your routes in files within that directory (e.g., `sophie_bot/modules/{module_name}/api/auth.py`).
+3. Create `sophie_bot/modules/{module_name}/api/__init__.py` and export routers there.
+4. Export the `api_router` in the module's `__init__.py` (which includes routers from the `api/` directory).
+
+Example directory structure:
+
+```
+sophie_bot/modules/{module_name}/
+├── __init__.py        # Exports api_router
+├── api/
+│   ├── __init__.py    # Exports individual routers
+│   ├── auth.py        # Router definition
+│   └── groups.py      # Router definition
+└── handlers/          # Bot handlers
+```
+
+Example `sophie_bot/modules/rest/api/groups.py`:
+
+```python
+from fastapi import APIRouter, Depends
+from pydantic import BaseModel
+from sophie_bot.utils.api.auth import get_current_user
+from sophie_bot.db.models.chat import ChatModel
+
+router = APIRouter(prefix="/groups", tags=["groups"])
+
+
+class GroupResponse(BaseModel):
+    chat_id: int
+    title: str
+
+
+@router.get("/", response_model=list[GroupResponse])
+async def get_user_groups(user: ChatModel = Depends(get_current_user)):
+    # Your logic here
+    return []
+```
+
+Example `sophie_bot/modules/rest/api/__init__.py`:
+
+```python
+from fastapi import APIRouter
+from .groups import router as groups_router
+
+api_router = APIRouter()
+api_router.include_router(groups_router)
+```
+
+### Authentication and Authorization
+
+The API supports several authentication methods (TMA, Login Widget, Operator Token) that all yield a JWT.
+
+Use the following dependencies for protected routes:
+
+- `get_current_user`: Returns the `ChatModel` of the authenticated user.
+- `get_current_operator`: Returns the `ChatModel` of the authenticated user, but only if they have operator permissions.
+
+```python
+from sophie_bot.utils.api.auth import get_current_user, get_current_operator
+
+
+@router.get("/me")
+async def read_users_me(current_user: ChatModel = Depends(get_current_user)):
+    return current_user
+
+
+@router.get("/admin-only")
+async def admin_route(operator: ChatModel = Depends(get_current_operator)):
+    return {"status": "ok"}
+```
+
+### Best Practices
+
+- Use Pydantic models for request and response validation.
+- Follow RESTful conventions for HTTP methods (GET, POST, PUT, DELETE).
+- Return appropriate HTTP status codes (e.g., 201 for Created, 404 for Not Found).
+- Use `HTTPException` for returning errors.
+- **ALWAYS** include `tags` in `APIRouter` for better Swagger UI organization.
+
 ## Quality Assurance
 
 - All code must pass mypy type checking
@@ -470,6 +560,7 @@ Let the framework handle unexpected errors rather than masking them with broad e
 - Documentation should be updated for new features
 - **Follow chat ID naming conventions strictly**
 - **Avoid broad exception handling - prefer specific exceptions**
+- **NEVER EVER** import things inside functions, **ONLY** at the top of the file
 
 ## Additional Notes
 
