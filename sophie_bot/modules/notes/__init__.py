@@ -1,11 +1,10 @@
 from aiogram import Router
+from fastapi import APIRouter
 from stfu_tg import Doc
 
 from sophie_bot.utils.i18n import LazyProxy
 from sophie_bot.utils.i18n import lazy_gettext as l_
-
-from ...modes import SOPHIE_MODE
-from ...services.scheduler import scheduler
+from .api import notes_router
 from .handlers.delete import DelNote
 from .handlers.get import GetNote, HashtagGetNote
 from .handlers.legacy_button import LegacyStartNoteButton
@@ -23,9 +22,13 @@ from .magic_handlers.reply_action import ReplyModernAction
 from .magic_handlers.send_note_action import SendNoteAction
 from .schedules.generate_ai_titles import GenerateAITitles
 from .utils.buttons_processor.legacy import BUTTONS
+from ...modes import SOPHIE_MODE
+from ...services.scheduler import scheduler
+
+api_router = APIRouter()
+api_router.include_router(notes_router)
 
 router = Router(name="notes")
-
 
 __module_name__ = l_("Notes")
 __module_emoji__ = "📗"
@@ -45,7 +48,6 @@ __filters__ = get_filter()
 __modern_actions__ = (ReplyModernAction, SendNoteAction)
 
 __export__ = export
-
 
 BUTTONS.update({"note": "btnnotesm", "#": "btnnotesm"})
 
