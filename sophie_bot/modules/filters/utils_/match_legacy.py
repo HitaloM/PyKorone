@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 from aiogram.types import Message
-from normality import normalize
 from pydantic_ai.messages import BinaryContent
 from regex import regex
 
@@ -14,6 +13,7 @@ from sophie_bot.utils.exception import SophieException
 from sophie_bot.utils.feature_flags import is_enabled
 from sophie_bot.utils.i18n import gettext as _
 from sophie_bot.utils.logger import log
+from sophie_bot.utils.normalize import normalize
 
 
 def match_regex_handler(message_text: str, pattern: str) -> bool:
