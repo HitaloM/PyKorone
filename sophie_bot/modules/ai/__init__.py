@@ -1,11 +1,14 @@
 from aiogram import Router
 from stfu_tg import Doc
 
+from sophie_bot.filters.cmd import CMDFilter
+from sophie_bot.filters.user_status import IsOP
 from sophie_bot.modules.ai.handlers.ai_cmd import AiCmd
 from sophie_bot.modules.ai.handlers.ai_moderator_setting import AIModerator
 from sophie_bot.modules.ai.handlers.aiprovider import (
     AIProviderSelectCallback,
     AIProviderSetting,
+    AIProviderSettingAlt,
 )
 from sophie_bot.modules.ai.handlers.aisave import AISaveNote
 from sophie_bot.modules.ai.handlers.autotranslate_setting import (
@@ -13,6 +16,7 @@ from sophie_bot.modules.ai.handlers.autotranslate_setting import (
 )
 from sophie_bot.modules.ai.handlers.enable_setting import EnableAI
 from sophie_bot.modules.ai.handlers.filter import get_filter
+from sophie_bot.modules.ai.handlers.op_stats import op_ai_stats_handler
 from sophie_bot.modules.ai.handlers.playground import (
     AIPlaygroundCmd,
     AIPlaygroundModelSelectCallback,
@@ -33,9 +37,6 @@ from sophie_bot.modules.ai.middlewares.cache_user_messages import (
 from sophie_bot.modules.ai.texts import AI_POLICY
 from sophie_bot.utils.i18n import LazyProxy
 from sophie_bot.utils.i18n import lazy_gettext as l_
-from sophie_bot.filters.user_status import IsOP
-from sophie_bot.filters.cmd import CMDFilter
-from sophie_bot.modules.ai.handlers.op_stats import op_ai_stats_handler
 
 router = Router(name="ai")
 
@@ -59,6 +60,7 @@ __handlers__ = (
     AIModerator,
     AIAutotrans,
     AIProviderSetting,
+    AIProviderSettingAlt,
     AIProviderSelectCallback,
     AIPlaygroundCmd,
     AIPlaygroundModelSelectCallback,

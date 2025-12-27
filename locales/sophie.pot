@@ -51,23 +51,23 @@ msgstr ""
 msgid "Connected chat not found in the database. Please try to disconnect and connect again."
 msgstr ""
 
-#: sophie_bot/modules/ai/__init__.py:42
+#: sophie_bot/modules/ai/__init__.py:43
 msgid "Sophie AI"
 msgstr ""
 
-#: sophie_bot/modules/ai/__init__.py:44
+#: sophie_bot/modules/ai/__init__.py:45
 msgid "Rainbow sparkles and shininess"
 msgstr ""
 
-#: sophie_bot/modules/ai/__init__.py:47
+#: sophie_bot/modules/ai/__init__.py:48
 msgid "Sophie supports quite a few ways to use AI features."
 msgstr ""
 
-#: sophie_bot/modules/ai/__init__.py:48
+#: sophie_bot/modules/ai/__init__.py:49
 msgid "From a simple chat-bot, to the automatic translator. Have fun."
 msgstr ""
 
-#: sophie_bot/modules/ai/__init__.py:51
+#: sophie_bot/modules/ai/__init__.py:52
 msgid "Please note that you can make a limited amount of AI requests per day."
 msgstr ""
 
@@ -197,6 +197,10 @@ msgstr ""
 msgid "🔄 Reset AI context"
 msgstr ""
 
+#: sophie_bot/modules/ai/fsm/pm.py:12
+msgid "⚙️ AI Provider"
+msgstr ""
+
 #: sophie_bot/modules/ai/fsm/pm.py:14
 msgid "✨ Sophie AI"
 msgstr ""
@@ -219,51 +223,56 @@ msgstr ""
 msgid "✨ AI Moderator"
 msgstr ""
 
-#: sophie_bot/modules/ai/handlers/aiprovider.py:28
+#: sophie_bot/modules/ai/handlers/aiprovider.py:30
 msgid "🔃 Automatically choose the best provider"
 msgstr ""
 
-#: sophie_bot/modules/ai/handlers/aiprovider.py:29
+#: sophie_bot/modules/ai/handlers/aiprovider.py:31
 msgid "⚡️ The fastest"
 msgstr ""
 
-#: sophie_bot/modules/ai/handlers/aiprovider.py:30
+#: sophie_bot/modules/ai/handlers/aiprovider.py:32
 msgid "🔒 The most private"
 msgstr ""
 
-#: sophie_bot/modules/ai/handlers/aiprovider.py:31
+#: sophie_bot/modules/ai/handlers/aiprovider.py:33
 msgid "🧠 The smartest"
 msgstr ""
 
-#: sophie_bot/modules/ai/handlers/aiprovider.py:32
+#: sophie_bot/modules/ai/handlers/aiprovider.py:34
 msgid "👨‍🏫 The most precise"
 msgstr ""
 
-#: sophie_bot/modules/ai/handlers/aiprovider.py:53
+#: sophie_bot/modules/ai/handlers/aiprovider.py:35
+msgid "🌐 Best for web-based queries"
+msgstr ""
+
+#: sophie_bot/modules/ai/handlers/aiprovider.py:56
+#: sophie_bot/modules/ai/handlers/aiprovider.py:119
 msgid "Select the AI Provider for this chat"
 msgstr ""
 
-#: sophie_bot/modules/ai/handlers/aiprovider.py:70
+#: sophie_bot/modules/ai/handlers/aiprovider.py:73
 msgid "Current provider"
 msgstr ""
 
-#: sophie_bot/modules/ai/handlers/aiprovider.py:71
+#: sophie_bot/modules/ai/handlers/aiprovider.py:74
 msgid "AI Provider"
 msgstr ""
 
-#: sophie_bot/modules/ai/handlers/aiprovider.py:87
+#: sophie_bot/modules/ai/handlers/aiprovider.py:90
 msgid "Invalid message type"
 msgstr ""
 
-#: sophie_bot/modules/ai/handlers/aiprovider.py:95
+#: sophie_bot/modules/ai/handlers/aiprovider.py:98
 msgid "You are not allowed to change this setting"
 msgstr ""
 
-#: sophie_bot/modules/ai/handlers/aiprovider.py:100
+#: sophie_bot/modules/ai/handlers/aiprovider.py:103
 msgid "Unknown provider"
 msgstr ""
 
-#: sophie_bot/modules/ai/handlers/aiprovider.py:106
+#: sophie_bot/modules/ai/handlers/aiprovider.py:109
 #: sophie_bot/modules/antiflood/handlers/status.py:54
 #: sophie_bot/modules/disabling/handlers/disable.py:49
 #: sophie_bot/modules/disabling/handlers/enable.py:51
@@ -277,15 +286,15 @@ msgstr ""
 msgid "Chat"
 msgstr ""
 
-#: sophie_bot/modules/ai/handlers/aiprovider.py:107
+#: sophie_bot/modules/ai/handlers/aiprovider.py:110
 msgid "New provider"
 msgstr ""
 
-#: sophie_bot/modules/ai/handlers/aiprovider.py:108
+#: sophie_bot/modules/ai/handlers/aiprovider.py:111
 msgid "AI Provider was updated"
 msgstr ""
 
-#: sophie_bot/modules/ai/handlers/aiprovider.py:112
+#: sophie_bot/modules/ai/handlers/aiprovider.py:115
 msgid "Provider updated"
 msgstr ""
 
@@ -430,7 +439,7 @@ msgstr ""
 msgid "Hello! How can I help you?"
 msgstr ""
 
-#: sophie_bot/modules/ai/handlers/pm.py:65
+#: sophie_bot/modules/ai/handlers/pm.py:68
 msgid "The AI mode has been exited."
 msgstr ""
 

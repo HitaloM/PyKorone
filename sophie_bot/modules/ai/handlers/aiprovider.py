@@ -2,15 +2,17 @@ from __future__ import annotations
 
 from typing import Any
 
-from aiogram import flags
+from aiogram import F, flags
 from aiogram.dispatcher.event.handler import CallbackType
 from aiogram.types import InlineKeyboardButton, InlineKeyboardMarkup, Message
 from stfu_tg import Doc, KeyValue, Section
 
 from sophie_bot.db.models.ai_provider import AIProviderModel
 from sophie_bot.filters.admin_rights import UserRestricting
+from sophie_bot.filters.chat_status import ChatTypeFilter
 from sophie_bot.filters.cmd import CMDFilter
 from sophie_bot.modules.ai.callbacks import AIProviderCallback
+from sophie_bot.modules.ai.fsm.pm import AI_PM_PROVIDER
 from sophie_bot.modules.ai.utils.ai_models import (
     AI_PROVIDER_TO_NAME,
     AVAILABLE_PROVIDER_NAMES,
@@ -30,6 +32,7 @@ PROVIDERS_KEY_FACTS: dict[AIProviders, Any] = {
     AIProviders.mistral: l_("🔒 The most private"),
     AIProviders.openai: l_("🧠 The smartest"),
     AIProviders.anthropic: l_("👨‍🏫 The most precise"),
+    AIProviders.perplexity: l_("🌐 Best for web-based queries"),
 }
 
 
@@ -111,3 +114,10 @@ class AIProviderSelectCallback(SophieCallbackQueryHandler):
         await message.edit_text(str(doc))
         await self.event.answer(_("Provider updated"))
         return None
+
+
+@flags.help(description=l_("Select the AI Provider for this chat"))
+class AIProviderSettingAlt(AIProviderSetting):
+    @staticmethod
+    def filters() -> tuple[CallbackType, ...]:
+        return F.text == AI_PM_PROVIDER, ChatTypeFilter("private")

@@ -9,7 +9,7 @@ from sophie_bot.config import CONFIG
 from sophie_bot.filters.chat_status import ChatTypeFilter
 from sophie_bot.filters.cmd import CMDFilter
 from sophie_bot.modules.ai.filters.throttle import AIThrottleFilter
-from sophie_bot.modules.ai.fsm.pm import AI_PM_RESET, AI_PM_STOP_TEXT, AiPMFSM
+from sophie_bot.modules.ai.fsm.pm import AI_PM_PROVIDER, AI_PM_RESET, AI_PM_STOP_TEXT, AiPMFSM
 from sophie_bot.modules.ai.utils.ai_chatbot_reply import ai_chatbot_reply
 from sophie_bot.modules.utils_.base_handler import (
     SophieMessageCallbackQueryHandler,
@@ -49,7 +49,10 @@ class AiPmInitialize(SophieMessageCallbackQueryHandler):
 
         initial_fake_ai_response = _("Hello! How can I help you?")
         buttons = ReplyKeyboardMarkup(
-            keyboard=[[KeyboardButton(text=str(AI_PM_STOP_TEXT)), KeyboardButton(text=str(AI_PM_RESET))]],
+            keyboard=[
+                [KeyboardButton(text=str(AI_PM_STOP_TEXT)), KeyboardButton(text=str(AI_PM_RESET))],
+                [KeyboardButton(text=str(AI_PM_PROVIDER))],
+            ],
             resize_keyboard=True,
         )
         await self.message.answer(initial_fake_ai_response, reply_markup=buttons)
@@ -74,7 +77,10 @@ class AiPmHandle(SophieMessageHandler):
     async def handle(self) -> Any:
         await bot.send_chat_action(self.event.chat.id, "typing")
         buttons = ReplyKeyboardMarkup(
-            keyboard=[[KeyboardButton(text=str(AI_PM_STOP_TEXT)), KeyboardButton(text=str(AI_PM_RESET))]],
+            keyboard=[
+                [KeyboardButton(text=str(AI_PM_STOP_TEXT)), KeyboardButton(text=str(AI_PM_RESET))],
+                [KeyboardButton(text=str(AI_PM_PROVIDER))],
+            ],
             resize_keyboard=True,
         )
 
