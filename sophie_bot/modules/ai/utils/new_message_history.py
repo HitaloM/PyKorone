@@ -4,7 +4,6 @@ from typing import BinaryIO, Optional
 
 from aiogram.types import Message
 from attr import dataclass
-from normality import normalize
 from pydantic_ai.messages import (
     BinaryContent,
     ModelRequest,
@@ -30,6 +29,7 @@ from sophie_bot.services.bot import bot
 from sophie_bot.utils.exception import SophieException
 from sophie_bot.utils.i18n import gettext as _
 from sophie_bot.utils.logger import log
+from sophie_bot.utils.normalize import normalize
 
 
 @dataclass
