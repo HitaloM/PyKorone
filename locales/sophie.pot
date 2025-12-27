@@ -243,36 +243,32 @@ msgstr ""
 msgid "👨‍🏫 The most precise"
 msgstr ""
 
-#: sophie_bot/modules/ai/handlers/aiprovider.py:35
-msgid "🌐 Best for web-based queries"
-msgstr ""
-
-#: sophie_bot/modules/ai/handlers/aiprovider.py:56
-#: sophie_bot/modules/ai/handlers/aiprovider.py:119
+#: sophie_bot/modules/ai/handlers/aiprovider.py:55
+#: sophie_bot/modules/ai/handlers/aiprovider.py:118
 msgid "Select the AI Provider for this chat"
 msgstr ""
 
-#: sophie_bot/modules/ai/handlers/aiprovider.py:73
+#: sophie_bot/modules/ai/handlers/aiprovider.py:72
 msgid "Current provider"
 msgstr ""
 
-#: sophie_bot/modules/ai/handlers/aiprovider.py:74
+#: sophie_bot/modules/ai/handlers/aiprovider.py:73
 msgid "AI Provider"
 msgstr ""
 
-#: sophie_bot/modules/ai/handlers/aiprovider.py:90
+#: sophie_bot/modules/ai/handlers/aiprovider.py:89
 msgid "Invalid message type"
 msgstr ""
 
-#: sophie_bot/modules/ai/handlers/aiprovider.py:98
+#: sophie_bot/modules/ai/handlers/aiprovider.py:97
 msgid "You are not allowed to change this setting"
 msgstr ""
 
-#: sophie_bot/modules/ai/handlers/aiprovider.py:103
+#: sophie_bot/modules/ai/handlers/aiprovider.py:102
 msgid "Unknown provider"
 msgstr ""
 
-#: sophie_bot/modules/ai/handlers/aiprovider.py:109
+#: sophie_bot/modules/ai/handlers/aiprovider.py:108
 #: sophie_bot/modules/antiflood/handlers/status.py:54
 #: sophie_bot/modules/disabling/handlers/disable.py:49
 #: sophie_bot/modules/disabling/handlers/enable.py:51
@@ -286,15 +282,15 @@ msgstr ""
 msgid "Chat"
 msgstr ""
 
-#: sophie_bot/modules/ai/handlers/aiprovider.py:110
+#: sophie_bot/modules/ai/handlers/aiprovider.py:109
 msgid "New provider"
 msgstr ""
 
-#: sophie_bot/modules/ai/handlers/aiprovider.py:111
+#: sophie_bot/modules/ai/handlers/aiprovider.py:110
 msgid "AI Provider was updated"
 msgstr ""
 
-#: sophie_bot/modules/ai/handlers/aiprovider.py:115
+#: sophie_bot/modules/ai/handlers/aiprovider.py:114
 msgid "Provider updated"
 msgstr ""
 
@@ -2596,15 +2592,15 @@ msgstr ""
 msgid "Shows all lockable entities"
 msgstr ""
 
-#: sophie_bot/modules/notes/__init__.py:30
+#: sophie_bot/modules/notes/__init__.py:33
 msgid "Notes"
 msgstr ""
 
-#: sophie_bot/modules/notes/__init__.py:35
+#: sophie_bot/modules/notes/__init__.py:38
 msgid "If you want to save some frequently-used content in your chat, such as a FAQ, response templates, your favourite stickers or the whole interactive menu, you can do that with notes."
 msgstr ""
 
-#: sophie_bot/modules/notes/__init__.py:38
+#: sophie_bot/modules/notes/__init__.py:41
 msgid "Notes allows saving different kind of content, from normal text messages to stickers and audio messages, notes also support adding inline message buttons."
 msgstr ""
 

@@ -24,7 +24,7 @@ class GroupResponse(BaseModel):
 
 @router.get("", response_model=list[GroupResponse])
 async def get_user_groups(
-        user: Annotated[ChatModel, Depends(get_current_user)],
+    user: Annotated[ChatModel, Depends(get_current_user)],
 ) -> list[GroupResponse]:
     admins = (
         await ChatAdminModel.find(
