@@ -1425,6 +1425,18 @@ files = [
 ]
 
 [[package]]
+name = "init-data-py"
+version = "0.2.7"
+description = "A Python library that provides tools for using and validating Telegram web app init data."
+optional = false
+python-versions = ">=3.8"
+groups = ["main"]
+files = [
+    {file = "init_data_py-0.2.7-py3-none-any.whl", hash = "sha256:48c652a929912645842db044eecfb81b049927f9ca202a7fbc3215edcf69956d"},
+    {file = "init_data_py-0.2.7.tar.gz", hash = "sha256:b83f51e4f5fa75e9cb5da718155b18330cb2a2b77ec9676d401185cb536e8bb7"},
+]
+
+[[package]]
 name = "invoke"
 version = "2.2.1"
 description = "Pythonic task execution"
@@ -4657,4 +4669,4 @@ fast = ["cryptography"]
 [metadata]
 lock-version = "2.1"
 python-versions = "^3.12"
-content-hash = "3818cb348316494723b35283bdfe6f1c97c223b370f5e840b3bd49a8939d04ef"
+content-hash = "f5c40f372567aae9cf8d1f9cb8c68eaba36d1bc2ccf4c2d758234d45e1503b76"

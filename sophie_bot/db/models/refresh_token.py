@@ -8,11 +8,11 @@ from sophie_bot.db.models._link_type import Link
 from sophie_bot.db.models.chat import ChatModel
 
 
-class ApiTokenModel(Document):
-    token_hash: Annotated[str, Indexed(unique=True)] = Field(..., description="Hashed token")
-    label: str
-    owner: Link[ChatModel]
+class RefreshTokenModel(Document):
+    token_hash: Annotated[str, Indexed(unique=True)]
+    user: Link[ChatModel]
+    expires_at: datetime
     created_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
 
     class Settings:
-        name = "api_tokens"
+        name = "refresh_tokens"

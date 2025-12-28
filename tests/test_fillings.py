@@ -7,7 +7,6 @@ from sophie_bot.modules.notes.utils.fillings import process_fillings
 
 
 class TestProcessFillings(unittest.TestCase):
-
     def setUp(self):
         self.chat = MagicMock(spec=Chat)
         self.chat.id = 123456
@@ -35,12 +34,8 @@ class TestProcessFillings(unittest.TestCase):
         self.assertEqual(result, expected)
 
     def test_with_user_fillings(self):
-        text = (
-            "User ID: {id}, First: {first}, Last: {last}, Full: {fullname}, Mention: {mention}"
-        )
-        expected_start = (
-            "User ID: 78910, First: Test, Last: User, Full: Test User, Mention: "
-        )
+        text = "User ID: {id}, First: {first}, Last: {last}, Full: {fullname}, Mention: {mention}"
+        expected_start = "User ID: 78910, First: Test, Last: User, Full: Test User, Mention: "
         result = process_fillings(text, self.message, self.user, None)
         self.assertTrue(result.startswith(expected_start))
         self.assertIn(self.user.first_name, result)
@@ -52,12 +47,8 @@ class TestProcessFillings(unittest.TestCase):
         self.assertEqual(result, expected)
 
     def test_combined_fillings(self):
-        text = (
-            "{chatname} - {first} {last}, {custom_key}. Chat ID: {chatid}, UserID: {id}"
-        )
-        expected = (
-            "Test Chat - Test User, custom_value. Chat ID: 123456, UserID: 78910"
-        )
+        text = "{chatname} - {first} {last}, {custom_key}. Chat ID: {chatid}, UserID: {id}"
+        expected = "Test Chat - Test User, custom_value. Chat ID: 123456, UserID: 78910"
         result = process_fillings(text, self.message, self.user, self.additional_fillings)
         self.assertEqual(result, expected)
 

@@ -1,11 +1,13 @@
 import hashlib
 import hmac
+import secrets
 import time
 from datetime import datetime, timedelta, timezone
 from typing import Annotated, Optional
-from urllib.parse import parse_qsl
 
 import jwt
+import structlog
+from beanie import PydanticObjectId
 from fastapi import Depends, HTTPException, status
 from fastapi.security import (
     HTTPAuthorizationCredentials,
@@ -16,6 +18,7 @@ from sophie_bot.config import CONFIG
 from sophie_bot.db.models.chat import ChatModel
 
 oauth2_scheme = HTTPBearer()
+logger = structlog.get_logger(__name__)
 
 
 def create_access_token(data: dict, expires_delta: Optional[timedelta] = None) -> str:
@@ -30,50 +33,39 @@ def create_access_token(data: dict, expires_delta: Optional[timedelta] = None) -
     return encoded_jwt
 
 
-def verify_tma_init_data(init_data: str) -> dict:
-    try:
-        parsed_data = dict(parse_qsl(init_data))
-    except ValueError:
-        raise HTTPException(status_code=400, detail="Invalid initData format")
+def generate_token(length: int = 32) -> str:
+    return secrets.token_urlsafe(length)
 
-    if "hash" not in parsed_data:
-        raise HTTPException(status_code=400, detail="Missing hash")
 
-    hash_value = parsed_data.pop("hash")
-    data_check_string = "\n".join(f"{k}={v}" for k, v in sorted(parsed_data.items()))
+def hash_token(token: str) -> str:
+    return hashlib.sha256(token.encode()).hexdigest()
 
-    secret_key = hmac.new(b"WebAppData", CONFIG.token.encode(), hashlib.sha256).digest()
+
+def _verify_telegram_data(data: dict, hash_value: str, secret_key: bytes) -> None:
+    data_check_string = "\n".join(f"{k}={v}" for k, v in sorted(data.items()) if v is not None)
     calculated_hash = hmac.new(secret_key, data_check_string.encode(), hashlib.sha256).hexdigest()
 
-    if calculated_hash != hash_value:
+    if not hmac.compare_digest(calculated_hash, hash_value):
         raise HTTPException(status_code=403, detail="Invalid hash")
 
     # Check auth_date
-    auth_date = int(parsed_data.get("auth_date", 0))
-    if time.time() - auth_date > 86400:  # 1 day expiration
+    auth_date = int(data.get("auth_date", 0))
+    now = time.time()
+    if auth_date > now + 60:  # Allow 1 minute clock drift
+        raise HTTPException(status_code=403, detail="Data is from the future")
+    if now - auth_date > 86400:  # 1 day expiration
         raise HTTPException(status_code=403, detail="Data is outdated")
 
-    return parsed_data
 
-
-def verify_telegram_login_widget(data: dict) -> dict:
+def verify_telegram_login_widget(data: dict) -> tuple[dict, str]:
     if "hash" not in data:
         raise HTTPException(status_code=400, detail="Missing hash")
 
     hash_value = data.pop("hash")
-    data_check_string = "\n".join(f"{k}={v}" for k, v in sorted(data.items()) if v is not None)
-
     secret_key = hashlib.sha256(CONFIG.token.encode()).digest()
-    calculated_hash = hmac.new(secret_key, data_check_string.encode(), hashlib.sha256).hexdigest()
+    _verify_telegram_data(data, hash_value, secret_key)
 
-    if calculated_hash != hash_value:
-        raise HTTPException(status_code=403, detail="Invalid hash")
-
-    auth_date = int(data.get("auth_date", 0))
-    if time.time() - auth_date > 86400:
-        raise HTTPException(status_code=403, detail="Data is outdated")
-
-    return data
+    return data, hash_value
 
 
 async def get_current_user(auth: Annotated[HTTPAuthorizationCredentials, Depends(oauth2_scheme)]) -> ChatModel:
@@ -87,26 +79,35 @@ async def get_current_user(auth: Annotated[HTTPAuthorizationCredentials, Depends
         payload = jwt.decode(token, CONFIG.api_jwt_secret, algorithms=["HS256"])
         user_id: str = payload.get("sub")
         if user_id is None:
+            logger.warning("JWT payload missing 'sub' claim")
             raise credentials_exception
+    except jwt.ExpiredSignatureError:
+        logger.warning("JWT token expired")
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Token expired",
+            headers={"WWW-Authenticate": "Bearer"},
+        )
     except jwt.InvalidTokenError:
+        logger.warning("Invalid JWT token")
         raise credentials_exception
 
     try:
-        # Assuming sub is chat_id (int)
-        tid = int(user_id)
-        user = await ChatModel.get_by_tid(tid)
-    except ValueError:
+        user = await ChatModel.get_by_iid(PydanticObjectId(user_id))
+    except (ValueError, Exception):
+        logger.error("Failed to fetch user by iid from JWT", user_id=user_id)
         raise credentials_exception
 
     if user is None:
+        logger.warning("User not found in database", user_id=user_id)
         raise credentials_exception
 
     return user
 
 
 async def get_current_operator(
-    user: Annotated[ChatModel, Depends(get_current_user)],
-    auth: Annotated[HTTPAuthorizationCredentials, Depends(oauth2_scheme)],
+        user: Annotated[ChatModel, Depends(get_current_user)],
+        auth: Annotated[HTTPAuthorizationCredentials, Depends(oauth2_scheme)],
 ) -> ChatModel:
     token = auth.credentials
     # Check if user is in operators list
@@ -122,6 +123,7 @@ async def get_current_operator(
     except jwt.InvalidTokenError:
         pass
 
+    logger.warning("Unauthorized operator access attempt", user_id=user.chat_id)
     raise HTTPException(
         status_code=status.HTTP_403_FORBIDDEN,
         detail="Not enough permissions",

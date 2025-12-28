@@ -1,10 +1,10 @@
 poetry run python -m pycln . -a
 Looks good! ✨ 🍰 ✨
-387 files left unchanged.
+391 files left unchanged.
 poetry run ruff check . --fix
 All checks passed!
 poetry run ruff format sophie_bot/
-378 files left unchanged
+381 files left unchanged
 "pybabel" extract -k "pl_:1,2" -k "p_:1,2" -k "l_:1" \
 --add-comments="NOTE: " -o "/home/yacha/Projects/Otty/sophie/locales/bot.pot" --omit-header --sort-by-file --no-wrap "sophie_bot"
 extracting messages from sophie_bot/__init__.py
@@ -37,6 +37,7 @@ extracting messages from sophie_bot/db/models/greetings.py
 extracting messages from sophie_bot/db/models/language.py
 extracting messages from sophie_bot/db/models/notes.py
 extracting messages from sophie_bot/db/models/privatenotes.py
+extracting messages from sophie_bot/db/models/refresh_token.py
 extracting messages from sophie_bot/db/models/rules.py
 extracting messages from sophie_bot/db/models/settings_keyvalue.py
 extracting messages from sophie_bot/db/models/ws_user.py
@@ -383,7 +384,9 @@ extracting messages from sophie_bot/utils/exception.py
 extracting messages from sophie_bot/utils/feature_flags.py
 extracting messages from sophie_bot/utils/i18n.py
 extracting messages from sophie_bot/utils/logger.py
+extracting messages from sophie_bot/utils/normalize.py
 extracting messages from sophie_bot/utils/api/auth.py
+extracting messages from sophie_bot/utils/api/rate_limiter.py
 writing PO template file to /home/yacha/Projects/Otty/sophie/locales/bot.pot
 cd "/home/yacha/Projects/Otty/sophie/.venv/lib/python3.13/site-packages/ass_tg" && \
 "pybabel" extract -k "pl_:1,2" -k "p_:1,2" -k "l_:1" \
@@ -415,82 +418,105 @@ cp "/home/yacha/Projects/Otty/sophie/locales/bot.pot" "/home/yacha/Projects/Otty
 cat "/home/yacha/Projects/Otty/sophie/locales/ass.pot" >> "/home/yacha/Projects/Otty/sophie/locales/sophie.pot"
 poetry run python -m pycln . -a -c
 Looks good! ✨ 🍰 ✨
-387 files would be left unchanged.
+391 files would be left unchanged.
 poetry run ruff format sophie_bot/ --check
-378 files already formatted
+381 files already formatted
 poetry run ruff check .
 All checks passed!
 # poetry run python -m bandit sophie_bot/ -r
 poetry run mypy -p sophie_bot
-Success: no issues found in 415 source files
+Success: no issues found in 418 source files
 poetry run python -m pytest tests/ -v --alluredir=allure_results
 ============================= test session starts ==============================
-platform linux -- Python 3.13.9, pytest-8.4.2, pluggy-1.6.0 -- /home/yacha/Projects/Otty/sophie/.venv/bin/python
+platform linux -- Python 3.13.9, pytest-9.0.2, pluggy-1.6.0 -- /home/yacha/Projects/Otty/sophie/.venv/bin/python
 cachedir: .pytest_cache
 rootdir: /home/yacha/Projects/Otty/sophie
 configfile: pyproject.toml
-plugins: asyncio-0.24.0, devtools-0.12.2, anyio-4.12.0, allure-pytest-2.15.2
-asyncio: mode=Mode.STRICT, default_loop_scope=None
-collected 53 items
+plugins: devtools-0.12.2, anyio-4.12.0, allure-pytest-2.15.2, asyncio-1.3.0
+asyncio: mode=Mode.STRICT, debug=False, asyncio_default_fixture_loop_scope=None, asyncio_default_test_loop_scope=function
+collected 76 items
 tests/test_fillings.py::TestProcessFillings::test_combined_fillings PASSED [  1%]
-tests/test_fillings.py::TestProcessFillings::test_with_chat_fillings PASSED [  3%]
-tests/test_fillings.py::TestProcessFillings::test_with_custom_fillings PASSED [  5%]
-tests/test_fillings.py::TestProcessFillings::test_with_empty_text PASSED [  7%]
-tests/test_fillings.py::TestProcessFillings::test_with_missing_custom_key PASSED [  9%]
-tests/test_fillings.py::TestProcessFillings::test_with_user_fillings PASSED [ 11%]
-tests/test_metrics/test_external.py::TestExternalServiceInstrumentation::test_time_external_service_success PASSED [ 13%]
-tests/test_metrics/test_external.py::TestExternalServiceInstrumentation::test_time_external_service_exception PASSED [ 15%]
-tests/test_metrics/test_external.py::TestExternalServiceInstrumentation::test_time_external_service_disabled PASSED [ 16%]
-tests/test_metrics/test_external.py::TestExternalServiceInstrumentation::test_instrument_external_service_async PASSED [ 18%]
-tests/test_metrics/test_external.py::TestExternalServiceInstrumentation::test_instrument_external_service_sync PASSED [ 20%]
-tests/test_metrics/test_external.py::TestExternalServiceInstrumentation::test_instrument_external_service_async_exception PASSED [ 22%]
-tests/test_metrics/test_external.py::TestExternalServiceInstrumentation::test_instrument_external_service_sync_exception PASSED [ 24%]
-tests/test_metrics/test_external.py::TestExternalServiceInstrumentation::test_specific_service_decorators PASSED [ 26%]
-tests/test_metrics/test_external.py::TestExternalServiceTracker::test_tracker_success PASSED [ 28%]
-tests/test_metrics/test_external.py::TestExternalServiceTracker::test_tracker_with_exception PASSED [ 30%]
-tests/test_metrics/test_external.py::TestExternalServiceTracker::test_tracker_without_start PASSED [ 32%]
-tests/test_metrics/test_external.py::TestExternalServiceTracker::test_tracker_disabled_metrics PASSED [ 33%]
-tests/test_metrics/test_external.py::TestServiceIntegration::test_service_context_managers PASSED [ 35%]
-tests/test_metrics/test_external.py::TestServiceIntegration::test_set_metrics_function PASSED [ 37%]
-tests/test_metrics/test_external.py::TestServiceIntegration::test_create_service_tracker_type PASSED [ 39%]
-tests/test_metrics/test_middleware.py::TestMetricsMiddleware::test_successful_handler_execution PASSED [ 41%]
-tests/test_metrics/test_middleware.py::TestMetricsMiddleware::test_handler_exception PASSED [ 43%]
-tests/test_metrics/test_middleware.py::TestMetricsMiddleware::test_sampling_skip PASSED [ 45%]
-tests/test_metrics/test_middleware.py::TestMetricsMiddleware::test_extract_update_info_message PASSED [ 47%]
-tests/test_metrics/test_middleware.py::TestMetricsMiddleware::test_extract_update_info_callback_query PASSED [ 49%]
-tests/test_metrics/test_middleware.py::TestMetricsMiddleware::test_get_message_kind_text PASSED [ 50%]
-tests/test_metrics/test_middleware.py::TestMetricsMiddleware::test_get_message_kind_photo PASSED [ 52%]
-tests/test_metrics/test_middleware.py::TestMetricsMiddleware::test_get_handler_name PASSED [ 54%]
-tests/test_metrics/test_middleware.py::TestMetricsMiddleware::test_webhook_transport_detection PASSED [ 56%]
-tests/test_metrics/test_middleware.py::TestMetricsMiddleware::test_concurrent_handlers PASSED [ 58%]
-tests/test_parse.py::test_parse_saveable_with_text_only PASSED           [ 60%]
-tests/test_parse.py::test_parse_saveable_with_reply_message PASSED       [ 62%]
-tests/test_parse.py::test_parse_saveable_exceeding_length_limit PASSED   [ 64%]
-tests/test_parse.py::test_parse_saveable_with_file_data PASSED           [ 66%]
-tests/test_parse.py::test_parse_reply_message_with_text PASSED           [ 67%]
-tests/test_parse.py::test_parse_reply_message_with_unsupported_content_type PASSED [ 69%]
-tests/test_parse.py::test_extract_file_info_with_photo PASSED            [ 71%]
-tests/test_parse.py::test_extract_file_info_with_non_parsable_content_type PASSED [ 73%]
-tests/test_random_parser_cases.py::TestRandomParser::test_avoid_triple_newlines_on_multiline_boundaries PASSED [ 75%]
-tests/test_random_parser_cases.py::TestRandomParser::test_boundary_by_whitespace_between_sections PASSED [ 77%]
-tests/test_random_parser_cases.py::TestRandomParser::test_empty_option_at_start_of_section PASSED [ 79%]
-tests/test_random_parser_cases.py::TestRandomParser::test_empty_options PASSED [ 81%]
-tests/test_random_parser_cases.py::TestRandomParser::test_empty_string PASSED [ 83%]
-tests/test_random_parser_cases.py::TestRandomParser::test_leading_delimiter PASSED [ 84%]
-tests/test_random_parser_cases.py::TestRandomParser::test_multiline_options PASSED [ 86%]
-tests/test_random_parser_cases.py::TestRandomParser::test_multiline_with_multiple_sections PASSED [ 88%]
-tests/test_random_parser_cases.py::TestRandomParser::test_multiple_choice_sections PASSED [ 90%]
-tests/test_random_parser_cases.py::TestRandomParser::test_nested_delimiters_not_supported PASSED [ 92%]
-tests/test_random_parser_cases.py::TestRandomParser::test_no_delimiters PASSED [ 94%]
-tests/test_random_parser_cases.py::TestRandomParser::test_single_choice PASSED [ 96%]
-tests/test_random_parser_cases.py::TestRandomParser::test_trailing_delimiter PASSED [ 98%]
-tests/test_random_parser_cases.py::TestRandomParser::test_whitespace_handling PASSED [100%]
+tests/test_fillings.py::TestProcessFillings::test_with_chat_fillings PASSED [  2%]
+tests/test_fillings.py::TestProcessFillings::test_with_custom_fillings PASSED [  3%]
+tests/test_fillings.py::TestProcessFillings::test_with_empty_text PASSED [  5%]
+tests/test_fillings.py::TestProcessFillings::test_with_missing_custom_key PASSED [  6%]
+tests/test_fillings.py::TestProcessFillings::test_with_user_fillings PASSED [  7%]
+tests/test_metrics/test_external.py::TestExternalServiceInstrumentation::test_time_external_service_success PASSED [  9%]
+tests/test_metrics/test_external.py::TestExternalServiceInstrumentation::test_time_external_service_exception PASSED [ 10%]
+tests/test_metrics/test_external.py::TestExternalServiceInstrumentation::test_time_external_service_disabled PASSED [ 11%]
+tests/test_metrics/test_external.py::TestExternalServiceInstrumentation::test_instrument_external_service_async PASSED [ 13%]
+tests/test_metrics/test_external.py::TestExternalServiceInstrumentation::test_instrument_external_service_sync PASSED [ 14%]
+tests/test_metrics/test_external.py::TestExternalServiceInstrumentation::test_instrument_external_service_async_exception PASSED [ 15%]
+tests/test_metrics/test_external.py::TestExternalServiceInstrumentation::test_instrument_external_service_sync_exception PASSED [ 17%]
+tests/test_metrics/test_external.py::TestExternalServiceInstrumentation::test_specific_service_decorators PASSED [ 18%]
+tests/test_metrics/test_external.py::TestExternalServiceTracker::test_tracker_success PASSED [ 19%]
+tests/test_metrics/test_external.py::TestExternalServiceTracker::test_tracker_with_exception PASSED [ 21%]
+tests/test_metrics/test_external.py::TestExternalServiceTracker::test_tracker_without_start PASSED [ 22%]
+tests/test_metrics/test_external.py::TestExternalServiceTracker::test_tracker_disabled_metrics PASSED [ 23%]
+tests/test_metrics/test_external.py::TestServiceIntegration::test_service_context_managers PASSED [ 25%]
+tests/test_metrics/test_external.py::TestServiceIntegration::test_set_metrics_function PASSED [ 26%]
+tests/test_metrics/test_external.py::TestServiceIntegration::test_create_service_tracker_type PASSED [ 27%]
+tests/test_metrics/test_middleware.py::TestMetricsMiddleware::test_successful_handler_execution PASSED [ 28%]
+tests/test_metrics/test_middleware.py::TestMetricsMiddleware::test_handler_exception PASSED [ 30%]
+tests/test_metrics/test_middleware.py::TestMetricsMiddleware::test_sampling_skip PASSED [ 31%]
+tests/test_metrics/test_middleware.py::TestMetricsMiddleware::test_extract_update_info_message PASSED [ 32%]
+tests/test_metrics/test_middleware.py::TestMetricsMiddleware::test_extract_update_info_callback_query PASSED [ 34%]
+tests/test_metrics/test_middleware.py::TestMetricsMiddleware::test_get_message_kind_text PASSED [ 35%]
+tests/test_metrics/test_middleware.py::TestMetricsMiddleware::test_get_message_kind_photo PASSED [ 36%]
+tests/test_metrics/test_middleware.py::TestMetricsMiddleware::test_get_handler_name PASSED [ 38%]
+tests/test_metrics/test_middleware.py::TestMetricsMiddleware::test_webhook_transport_detection PASSED [ 39%]
+tests/test_metrics/test_middleware.py::TestMetricsMiddleware::test_concurrent_handlers PASSED [ 40%]
+tests/test_parse.py::test_parse_saveable_with_text_only PASSED           [ 42%]
+tests/test_parse.py::test_parse_saveable_with_reply_message PASSED       [ 43%]
+tests/test_parse.py::test_parse_saveable_exceeding_length_limit PASSED   [ 44%]
+tests/test_parse.py::test_parse_saveable_with_file_data PASSED           [ 46%]
+tests/test_parse.py::test_parse_reply_message_with_text PASSED           [ 47%]
+tests/test_parse.py::test_parse_reply_message_with_unsupported_content_type PASSED [ 48%]
+tests/test_parse.py::test_extract_file_info_with_photo PASSED            [ 50%]
+tests/test_parse.py::test_extract_file_info_with_non_parsable_content_type PASSED [ 51%]
+tests/test_random_parser_cases.py::TestRandomParser::test_avoid_triple_newlines_on_multiline_boundaries PASSED [ 52%]
+tests/test_random_parser_cases.py::TestRandomParser::test_boundary_by_whitespace_between_sections PASSED [ 53%]
+tests/test_random_parser_cases.py::TestRandomParser::test_empty_option_at_start_of_section PASSED [ 55%]
+tests/test_random_parser_cases.py::TestRandomParser::test_empty_options PASSED [ 56%]
+tests/test_random_parser_cases.py::TestRandomParser::test_empty_string PASSED [ 57%]
+tests/test_random_parser_cases.py::TestRandomParser::test_leading_delimiter PASSED [ 59%]
+tests/test_random_parser_cases.py::TestRandomParser::test_multiline_options PASSED [ 60%]
+tests/test_random_parser_cases.py::TestRandomParser::test_multiline_with_multiple_sections PASSED [ 61%]
+tests/test_random_parser_cases.py::TestRandomParser::test_multiple_choice_sections PASSED [ 63%]
+tests/test_random_parser_cases.py::TestRandomParser::test_nested_delimiters_not_supported PASSED [ 64%]
+tests/test_random_parser_cases.py::TestRandomParser::test_no_delimiters PASSED [ 65%]
+tests/test_random_parser_cases.py::TestRandomParser::test_single_choice PASSED [ 67%]
+tests/test_random_parser_cases.py::TestRandomParser::test_trailing_delimiter PASSED [ 68%]
+tests/test_random_parser_cases.py::TestRandomParser::test_whitespace_handling PASSED [ 69%]
+tests/test_utils_api_auth.py::test_generate_token PASSED                 [ 71%]
+tests/test_utils_api_auth.py::test_hash_token PASSED                     [ 72%]
+tests/test_utils_api_auth.py::test_create_access_token PASSED            [ 73%]
+tests/test_utils_api_auth.py::test_create_access_token_with_delta PASSED [ 75%]
+tests/test_utils_api_auth.py::test_verify_tma_init_data_success PASSED   [ 76%]
+tests/test_utils_api_auth.py::test_verify_tma_init_data_invalid_hash PASSED [ 77%]
+tests/test_utils_api_auth.py::test_verify_tma_init_data_missing_hash PASSED [ 78%]
+tests/test_utils_api_auth.py::test_verify_tma_init_data_outdated PASSED  [ 80%]
+tests/test_utils_api_auth.py::test_verify_tma_init_data_future PASSED    [ 81%]
+tests/test_utils_api_auth.py::test_verify_telegram_login_widget_success PASSED [ 82%]
+tests/test_utils_api_auth.py::test_verify_telegram_login_widget_missing_hash PASSED [ 84%]
+tests/test_utils_api_auth.py::test_verify_telegram_login_widget_with_none_values PASSED [ 85%]
+tests/test_utils_api_auth.py::test_get_current_user_success PASSED       [ 86%]
+tests/test_utils_api_auth.py::test_get_current_user_expired PASSED       [ 88%]
+tests/test_utils_api_auth.py::test_get_current_user_invalid_token PASSED [ 89%]
+tests/test_utils_api_auth.py::test_get_current_user_not_found PASSED     [ 90%]
+tests/test_utils_api_auth.py::test_get_current_user_no_sub PASSED        [ 92%]
+tests/test_utils_api_auth.py::test_get_current_user_invalid_iid PASSED   [ 93%]
+tests/test_utils_api_auth.py::test_get_current_user_db_error PASSED      [ 94%]
+tests/test_utils_api_auth.py::test_get_current_operator_by_id PASSED     [ 96%]
+tests/test_utils_api_auth.py::test_get_current_operator_by_scope PASSED  [ 97%]
+tests/test_utils_api_auth.py::test_get_current_operator_forbidden PASSED [ 98%]
+tests/test_utils_api_auth.py::test_get_current_operator_invalid_token PASSED [100%]
 =============================== warnings summary ===============================
-sophie_bot/config.py:141
-  /home/yacha/Projects/Otty/sophie/sophie_bot/config.py:141: PydanticDeprecatedSince20: Pydantic V1 style `@validator` validators are deprecated. You should migrate to Pydantic V2 style `@field_validator` validators, see the migration guide for more details. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.12/migration/
+sophie_bot/config.py:142
+  /home/yacha/Projects/Otty/sophie/sophie_bot/config.py:142: PydanticDeprecatedSince20: Pydantic V1 style `@validator` validators are deprecated. You should migrate to Pydantic V2 style `@field_validator` validators, see the migration guide for more details. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.12/migration/
     @validator("operators")
-sophie_bot/config.py:17
-  /home/yacha/Projects/Otty/sophie/sophie_bot/config.py:17: PydanticDeprecatedSince20: Support for class-based `config` is deprecated, use ConfigDict instead. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.12/migration/
+sophie_bot/config.py:18
+  /home/yacha/Projects/Otty/sophie/sophie_bot/config.py:18: PydanticDeprecatedSince20: Support for class-based `config` is deprecated, use ConfigDict instead. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.12/migration/
     class Config(BaseSettings):
 sophie_bot/db/models/notes.py:16
   /home/yacha/Projects/Otty/sophie/sophie_bot/db/models/notes.py:16: PydanticDeprecatedSince20: Support for class-based `config` is deprecated, use ConfigDict instead. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.12/migration/
@@ -502,7 +528,7 @@ tests/test_metrics/test_middleware.py::TestMetricsMiddleware::test_handler_excep
   /home/yacha/Projects/Otty/sophie/.venv/lib/python3.13/site-packages/structlog/stdlib.py:1166: UserWarning: Remove `format_exc_info` from your processor chain if you want pretty exceptions.
     ed = p(logger, meth_name, ed)  # type: ignore[arg-type]
 -- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
-======================== 53 passed, 7 warnings in 2.86s ========================
+======================== 76 passed, 7 warnings in 3.10s ========================
 --- Logging error ---
 Traceback (most recent call last):
   File "/home/yacha/Projects/Otty/sophie/.venv/lib/python3.13/site-packages/mistralai/httpclient.py", line 119, in close_clients
@@ -562,275 +588,275 @@ Call stack:
     _debug_log(
   File "/home/yacha/Projects/Otty/sophie/.venv/lib64/python3.13/site-packages/pymongo/logger.py", line 108, in _debug_log
     logger.debug(LogMessage(**fields))
-Message: <pymongo.logger.LogMessage object at 0x7f8fdd4cf550>
+Message: <pymongo.logger.LogMessage object at 0x7f61e1a95ff0>
 Arguments: ()
 poetry run python tools/wiki_gen/start.py
-2025-12-26 11:53:36 [info     ] Using BotAPI server: TelegramAPIServer(base='https://api.telegram.org/bot{token}/{method}', file='https://api.telegram.org/file/bot{token}/{path}', is_local=False, wrap_local_file=<aiogram.client.telegram.BareFilesPathWrapper object at 0x7fab9d4ea510>) [sophie_bot.services.bot]
-2025-12-26 11:53:36 [debug    ] {"message": "Starting topology monitoring", "topologyId": {"$oid": "694e7740ab2fd797d1415ac8"}} [pymongo.topology]
-2025-12-26 11:53:36 [debug    ] {"message": "Topology description changed", "topologyId": {"$oid": "694e7740ab2fd797d1415ac8"}, "previousDescription": "<TopologyDescription id: 694e7740ab2fd797d1415ac8, topology_type: Unknown, servers: []>", "newDescription": "<TopologyDescription id: 694e7740ab2fd797d1415ac8, topology_type: Unknown, servers: [<ServerDescription ('127.0.0.1', 27017) server_type: Unknown, rtt: None>]>"} [pymongo.topology]
-2025-12-26 11:53:36 [debug    ] {"message": "Starting server monitoring", "topologyId": {"$oid": "694e7740ab2fd797d1415ac8"}, "serverHost": "127.0.0.1", "serverPort": 27017} [pymongo.topology]
-2025-12-26 11:53:36 [debug    ] Loading legacy localizations... [sophie_bot.services.bot]
-2025-12-26 11:53:36 [debug    ] Loading language file ar_EG.yaml [sophie_bot.services.bot]
-2025-12-26 11:53:36 [debug    ] Loading language file ar_SA.yaml [sophie_bot.services.bot]
-2025-12-26 11:53:36 [debug    ] Loading language file cs_CZ.yaml [sophie_bot.services.bot]
-2025-12-26 11:53:36 [debug    ] Loading language file es_ES.yaml [sophie_bot.services.bot]
-2025-12-26 11:53:36 [debug    ] Loading language file fr_FR.yaml [sophie_bot.services.bot]
-2025-12-26 11:53:36 [debug    ] Loading language file pl_PL.yaml [sophie_bot.services.bot]
-2025-12-26 11:53:36 [debug    ] Loading language file pt_BR.yaml [sophie_bot.services.bot]
-2025-12-26 11:53:36 [debug    ] Loading language file ru_RU.yaml [sophie_bot.services.bot]
-2025-12-26 11:53:36 [debug    ] Loading language file tr_TR.yaml [sophie_bot.services.bot]
-2025-12-26 11:53:36 [debug    ] Loading language file uk_UA.yaml [sophie_bot.services.bot]
-2025-12-26 11:53:36 [debug    ] Loading language file zh_CN.yaml [sophie_bot.services.bot]
-2025-12-26 11:53:36 [debug    ] Loading language file de_DE.yaml [sophie_bot.services.bot]
-2025-12-26 11:53:36 [debug    ] Loading language file en_GB.yaml [sophie_bot.services.bot]
-2025-12-26 11:53:36 [debug    ] Loading language file en.yaml  [sophie_bot.services.bot]
-2025-12-26 11:53:36 [debug    ] Loading language file fi_FI.yaml [sophie_bot.services.bot]
-2025-12-26 11:53:36 [info     ] Legacy languages loaded: ['ar_EG', 'ar_SA', 'cs_CZ', 'es_ES', 'fr_FR', 'pl_PL', 'pt_BR', 'ru_RU', 'tr_TR', 'uk_UA', 'zh_CN', 'de_DE', 'en_GB', 'en', 'fi_FI'] [sophie_bot.services.bot]
-2025-12-26 11:53:36 [debug    ] Loading locales additional data... [sophie_bot.services.bot]
-2025-12-26 11:53:36 [info     ] Starting wiki generation task... [sophie_bot.services.bot]
-2025-12-26 11:53:36 [debug    ] Using selector: EpollSelector  [asyncio]
-2025-12-26 11:53:36 [info     ] Importing modules...           [sophie_bot.services.bot]
-2025-12-26 11:53:36 [debug    ] Loading all modules...         [sophie_bot.services.bot] modules=['rest', 'op', 'troubleshooters', 'error', 'users', 'notes', 'help', 'federations', 'privacy', 'disabling', 'rules', 'promotes', 'greetings', 'welcomesecurity', 'purges', 'warns', 'restrictions', 'ai', 'filters', 'antiflood', 'legacy_modules']
-2025-12-26 11:53:36 [debug    ] ! Module rest has no router!   [sophie_bot.services.bot]
-2025-12-26 11:53:37 [debug    ] ! Legacy @register: Duplication of /lang command [sophie_bot.services.bot]
-2025-12-26 11:53:37 [debug    ] Using selector: EpollSelector  [asyncio]
-2025-12-26 11:53:37 [debug    ] {"message": "Starting topology monitoring", "topologyId": {"$oid": "694e7741ab2fd797d1415ac9"}} [pymongo.topology]
-2025-12-26 11:53:37 [debug    ] {"message": "Topology description changed", "topologyId": {"$oid": "694e7741ab2fd797d1415ac9"}, "previousDescription": "<TopologyDescription id: 694e7741ab2fd797d1415ac9, topology_type: Unknown, servers: []>", "newDescription": "<TopologyDescription id: 694e7741ab2fd797d1415ac9, topology_type: Unknown, servers: [<ServerDescription ('127.0.0.1', 27017) server_type: Unknown, rtt: None>]>"} [pymongo.topology]
-2025-12-26 11:53:37 [debug    ] {"message": "Starting server monitoring", "topologyId": {"$oid": "694e7741ab2fd797d1415ac9"}, "serverHost": "127.0.0.1", "serverPort": 27017} [pymongo.topology]
-2025-12-26 11:53:37 [debug    ] {"message": "Connection pool created", "clientId": {"$oid": "694e7741ab2fd797d1415ac9"}, "serverHost": "127.0.0.1", "serverPort": 27017} [pymongo.connection]
-2025-12-26 11:53:37 [debug    ] No explicit setting existed. Use localtime [tzlocal]
-2025-12-26 11:53:37 [debug    ] {"message": "Server heartbeat started", "topologyId": {"$oid": "694e7741ab2fd797d1415ac9"}, "driverConnectionId": 1, "serverHost": "127.0.0.1", "serverPort": 27017, "awaited": false} [pymongo.topology]
-2025-12-26 11:53:37 [debug    ] {"message": "Server heartbeat succeeded", "topologyId": {"$oid": "694e7741ab2fd797d1415ac9"}, "driverConnectionId": 1, "serverConnectionId": 8, "serverHost": "127.0.0.1", "serverPort": 27017, "awaited": false, "durationMS": 0.3650210001069354, "reply": "{\"helloOk\": true, \"ismaster\": true, \"topologyVersion\": {\"processId\": {\"$oid\": \"694e77270b63ca85ec9ff059\"}}, \"maxBsonObjectSize\": 16777216, \"maxMessageSizeBytes\": 48000000, \"maxWriteBatchSize\": 100000, \"localTime\": {\"$date\": \"2025-12-26T11:53:37.572Z\"}, \"logicalSessionTimeoutMinutes\": 30, \"connectionId\": 8, \"maxWireVersion\": 25, \"ok\": 1.0}"} [pymongo.topology]
-2025-12-26 11:53:37 [debug    ] {"message": "Connection pool ready", "clientId": {"$oid": "694e7741ab2fd797d1415ac9"}, "serverHost": "127.0.0.1", "serverPort": 27017} [pymongo.connection]
-2025-12-26 11:53:37 [debug    ] {"message": "Topology description changed", "topologyId": {"$oid": "694e7741ab2fd797d1415ac9"}, "previousDescription": "<TopologyDescription id: 694e7741ab2fd797d1415ac9, topology_type: Unknown, servers: [<ServerDescription ('127.0.0.1', 27017) server_type: Unknown, rtt: None>]>", "newDescription": "<TopologyDescription id: 694e7741ab2fd797d1415ac9, topology_type: Single, servers: [<ServerDescription ('127.0.0.1', 27017) server_type: Standalone, rtt: 0.0003650210001069354>]>"} [pymongo.topology]
-2025-12-26 11:53:37 [debug    ] {"message": "Server heartbeat started", "topologyId": {"$oid": "694e7741ab2fd797d1415ac9"}, "driverConnectionId": 1, "serverConnectionId": 8, "serverHost": "127.0.0.1", "serverPort": 27017, "awaited": true} [pymongo.topology]
-2025-12-26 11:53:37 [debug    ] ! Module warns has no router!  [sophie_bot.services.bot]
-2025-12-26 11:53:37 [debug    ] ! Module restrictions has no router! [sophie_bot.services.bot]
-2025-12-26 11:53:37 [debug    ] ! Module legacy_modules has no router! [sophie_bot.services.bot]
-2025-12-26 11:53:37 [info     ] Legacy modules                 [sophie_bot.services.bot] to_load=['antiflood', 'connection', 'feds', 'language', 'owner_stuff', 'pins', 'reports', 'restrictions', 'users', 'warns']
-2025-12-26 11:53:37 [debug    ] ! Legacy @register: Duplication of /connect command [sophie_bot.services.bot]
-2025-12-26 11:53:37 [debug    ] ! Legacy @register: Duplication of /connect command [sophie_bot.services.bot]
-2025-12-26 11:53:37 [debug    ] Legacy @disableable_dec: Adding report to the disableable commands... [sophie_bot.services.bot]
-2025-12-26 11:53:37 [debug    ] Legacy @disableable_dec: Adding info to the disableable commands... [sophie_bot.services.bot]
-2025-12-26 11:53:37 [debug    ] Legacy @disableable_dec: Adding id to the disableable commands... [sophie_bot.services.bot]
-2025-12-26 11:53:37 [debug    ] Legacy @disableable_dec: Adding adminlist to the disableable commands... [sophie_bot.services.bot]
-2025-12-26 11:53:37 [info     ] Legacy modules: Modules loaded! [sophie_bot.services.bot]
-2025-12-26 11:53:37 [debug    ] Before serving: sophie_bot.modules.legacy_modules.modules.antiflood [sophie_bot.services.bot]
-2025-12-26 11:53:37 [debug    ] Legacy modules: Pre setup      [sophie_bot.services.bot]
-2025-12-26 11:53:37 [debug    ] gather_module_help: sophie_bot.modules.op [sophie_bot.services.bot] name=op emoji=? advertise_wiki_page=False
-2025-12-26 11:53:37 [debug    ] gather_cmds_help: op           [sophie_bot.services.bot] cmds=['op_listjobs', 'op_stopjobs', 'op_killswitch', 'op_banner', 'op_captcha']
-2025-12-26 11:53:37 [debug    ] gather_module_help: sophie_bot.modules.troubleshooters [sophie_bot.services.bot] name=<sophie_bot.utils.i18n.LazyProxy object at 0x7fab94f89af0> emoji=🧰 advertise_wiki_page=False
-2025-12-26 11:53:37 [debug    ] gather_cmds_help: troubleshooters [sophie_bot.services.bot] cmds=['enablebeta', 'enablebeta', 'op_setbeta', 'op_resetbeta', 'cancel', 'admincache']
-2025-12-26 11:53:37 [debug    ] gather_module_help: sophie_bot.modules.error [sophie_bot.services.bot] name=<sophie_bot.utils.i18n.LazyProxy object at 0x7fab9502cb30> emoji=🚫 advertise_wiki_page=False
-2025-12-26 11:53:37 [debug    ] gather_cmds_help: error        [sophie_bot.services.bot] cmds=['op_crash']
-2025-12-26 11:53:37 [debug    ] gather_module_help: sophie_bot.modules.users [sophie_bot.services.bot] name=<sophie_bot.utils.i18n.LazyProxy object at 0x7fab8c168410> emoji=🫂 advertise_wiki_page=False
-2025-12-26 11:53:37 [debug    ] gather_cmds_help: users        [sophie_bot.services.bot] cmds=['id']
-2025-12-26 11:53:37 [debug    ] gather_cmds_help: users        [sophie_bot.services.bot] cmds=['id']
-2025-12-26 11:53:37 [debug    ] gather_module_help: sophie_bot.modules.notes [sophie_bot.services.bot] name=<sophie_bot.utils.i18n.LazyProxy object at 0x7fab8ee0db50> emoji=📗 advertise_wiki_page=True
-2025-12-26 11:53:37 [debug    ] gather_cmds_help: notes        [sophie_bot.services.bot] cmds=['pmnotes', 'privatenotes', 'pmnotes', 'privatenotes', 'notes', 'saved', 'notelist', 'get', 'search', 'delnote', 'clear', 'save', 'addnote']
-2025-12-26 11:53:37 [debug    ] gather_module_help: sophie_bot.modules.help [sophie_bot.services.bot] name=<sophie_bot.utils.i18n.LazyProxy object at 0x7fab961e92b0> emoji=ℹ️ advertise_wiki_page=False
-2025-12-26 11:53:37 [debug    ] gather_cmds_help: info         [sophie_bot.services.bot] cmds=['help', 'help', 'start', 'op_cmds']
-2025-12-26 11:53:37 [debug    ] gather_module_help: sophie_bot.modules.federations [sophie_bot.services.bot] name=<sophie_bot.utils.i18n.LazyProxy object at 0x7fab8c168b30> emoji=🏛 advertise_wiki_page=False
-2025-12-26 11:53:37 [debug    ] Modern filter actions: Adding new action... [sophie_bot.services.bot] name=reply module=notes
-2025-12-26 11:53:37 [debug    ] Modern filter actions: Adding new action... [sophie_bot.services.bot] name=send_note module=notes
-2025-12-26 11:53:37 [debug    ] Modern filter actions: Adding new action... [sophie_bot.services.bot] name=send_rules module=rules
-2025-12-26 11:53:37 [debug    ] Modern filter actions: Adding new action... [sophie_bot.services.bot] name=delmsg module=purges
-2025-12-26 11:53:37 [debug    ] Modern filter actions: Adding new action... [sophie_bot.services.bot] name=warn_user module=warns
-2025-12-26 11:53:37 [debug    ] Modern filter actions: Adding new action... [sophie_bot.services.bot] name=kick_user module=restrictions
-2025-12-26 11:53:37 [debug    ] Modern filter actions: Adding new action... [sophie_bot.services.bot] name=ban_user module=restrictions
-2025-12-26 11:53:37 [debug    ] Modern filter actions: Adding new action... [sophie_bot.services.bot] name=mute_user module=restrictions
-2025-12-26 11:53:37 [debug    ] Modern filter actions: Adding new action... [sophie_bot.services.bot] name=ai_text module=ai
-2025-12-26 11:53:37 [debug    ] Legacy filters: Adding filters actions [sophie_bot.services.bot]
-2025-12-26 11:53:37 [debug    ] Legacy filters: Adding filter action from restrictions module [sophie_bot.services.bot]
-2025-12-26 11:53:37 [debug    ] Legacy filters: Adding filter action from warns module [sophie_bot.services.bot]
-2025-12-26 11:53:37 [debug    ] Legacy filters: Adding filter action from notes module [sophie_bot.services.bot]
-2025-12-26 11:53:37 [debug    ] Legacy filters: Adding filter action from rules module [sophie_bot.services.bot]
-2025-12-26 11:53:37 [debug    ] Legacy filters: Adding filter action from purges module [sophie_bot.services.bot]
-2025-12-26 11:53:37 [debug    ] Legacy filters: Adding filter action from ai module [sophie_bot.services.bot]
-2025-12-26 11:53:37 [debug    ] Legacy filters: Filters actions [sophie_bot.services.bot] actions={'kick_user': {'title': <sophie_bot.utils.i18n.LazyProxy object at 0x7fab8472d490>, 'handle': <function get_strings_dec.<locals>.wrapped.<locals>.wrapped_1 at 0x7fab847596c0>}, 'ban_user': {'title': <sophie_bot.utils.i18n.LazyProxy object at 0x7fab8472d370>, 'setup': {'start': <function get_strings_dec.<locals>.wrapped.<locals>.wrapped_1 at 0x7fab8c006fc0>, 'finish': <function get_strings_dec.<locals>.wrapped.<locals>.wrapped_1 at 0x7fab8c007100>}, 'handle': <function get_strings_dec.<locals>.wrapped.<locals>.wrapped_1 at 0x7fab84758f40>}, 'tban_user': {'title': <sophie_bot.utils.i18n.LazyProxy object at 0x7fab8472d4f0>, 'handle': <function get_strings_dec.<locals>.wrapped.<locals>.wrapped_1 at 0x7fab84759300>, 'setup': [{'start': <function get_strings_dec.<locals>.wrapped.<locals>.wrapped_1 at 0x7fab84759440>, 'finish': <function get_strings_dec.<locals>.wrapped.<locals>.wrapped_1 at 0x7fab84759580>}, {'start': <function get_strings_dec.<locals>.wrapped.<locals>.wrapped_1 at 0x7fab8c006fc0>, 'finish': <function get_strings_dec.<locals>.wrapped.<locals>.wrapped_1 at 0x7fab8c007100>}]}, 'mute_user': {'title': <sophie_bot.utils.i18n.LazyProxy object at 0x7fab8472d550>, 'setup': {'start': <function get_strings_dec.<locals>.wrapped.<locals>.wrapped_1 at 0x7fab8c006fc0>, 'finish': <function get_strings_dec.<locals>.wrapped.<locals>.wrapped_1 at 0x7fab8c007100>}, 'handle': <function get_strings_dec.<locals>.wrapped.<locals>.wrapped_1 at 0x7fab84759080>}, 'tmute_user': {'title': <sophie_bot.utils.i18n.LazyProxy object at 0x7fab8472d5b0>, 'handle': <function get_strings_dec.<locals>.wrapped.<locals>.wrapped_1 at 0x7fab847591c0>, 'setup': [{'start': <function get_strings_dec.<locals>.wrapped.<locals>.wrapped_1 at 0x7fab84759440>, 'finish': <function get_strings_dec.<locals>.wrapped.<locals>.wrapped_1 at 0x7fab84759580>}, {'start': <function get_strings_dec.<locals>.wrapped.<locals>.wrapped_1 at 0x7fab8c006fc0>, 'finish': <function get_strings_dec.<locals>.wrapped.<locals>.wrapped_1 at 0x7fab8c007100>}]}, 'warn_user': {'title': <sophie_bot.utils.i18n.LazyProxy object at 0x7fab8c00c5f0>, 'setup': {'start': <function get_strings_dec.<locals>.wrapped.<locals>.wrapped_1 at 0x7fab8c006fc0>, 'finish': <function get_strings_dec.<locals>.wrapped.<locals>.wrapped_1 at 0x7fab8c007100>}, 'handle': <function get_strings_dec.<locals>.wrapped.<locals>.wrapped_1 at 0x7fab8c006e80>}, 'reply_message': {'title': <sophie_bot.utils.i18n.LazyProxy object at 0x7fab8ee0dc10>, 'handle': <function replymsg_filter_handler at 0x7fab999a47c0>, 'setup': {'start': <function replymsg_setup_start at 0x7fab999a4860>, 'finish': <function replymsg_setup_finish at 0x7fab999a4900>}, 'del_btn_name': <function get_filter.<locals>.<lambda> at 0x7fab8ee119e0>}, 'get_note': {'title': <sophie_bot.utils.i18n.LazyProxy object at 0x7fab8ee0dd30>, 'handle': <function filter_handle at 0x7fab999a45e0>, 'setup': {'start': <function setup_start at 0x7fab999a4680>, 'finish': <function setup_finish at 0x7fab999a4720>}, 'del_btn_name': <function get_filter.<locals>.<lambda> at 0x7fab8ee11a80>}, 'send_rules': {'title': <sophie_bot.utils.i18n.LazyProxy object at 0x7fab8c1b60f0>, 'handle': <function send_chat_rules at 0x7fab8c1cab60>}, 'delete_message': {'title': <sophie_bot.utils.i18n.LazyProxy object at 0x7fab8c1b7590>, 'handle': <function delmsg_filter_handle at 0x7fab8c1eaac0>, 'del_btn_name': <function get_filter.<locals>.<lambda> at 0x7fab8c1ea160>}, 'ai_text': {'title': <sophie_bot.utils.i18n.LazyProxy object at 0x7fab94f3f7d0>, 'setup': {'start': <function ai_setup_start at 0x7fab95020220>, 'finish': <function ai_setup_finish at 0x7fab95020360>}, 'handle': <function ai_filter_handle at 0x7fab95020400>}}
-2025-12-26 11:53:37 [debug    ] Legacy modules: Post setup     [sophie_bot.services.bot]
-2025-12-26 11:53:37 [debug    ] gather_module_help: sophie_bot.modules.legacy_modules.modules.antiflood [sophie_bot.services.bot] name=<sophie_bot.utils.i18n.LazyProxy object at 0x7fab8c065130> emoji=📈 advertise_wiki_page=False
-2025-12-26 11:53:37 [debug    ] gather_cmds_help: antiflood    [sophie_bot.services.bot] cmds=['setflood', 'antiflood', 'flood', 'setfloodaction']
-2025-12-26 11:53:37 [debug    ] gather_module_help: sophie_bot.modules.legacy_modules.modules.connection [sophie_bot.services.bot] name=<sophie_bot.utils.i18n.LazyProxy object at 0x7fab8c0658b0> emoji=🔐 advertise_wiki_page=False
-2025-12-26 11:53:37 [debug    ] gather_cmds_help: connection   [sophie_bot.services.bot] cmds=['connect', 'connect', 'connect', 'disconnect', 'allowusersconnect']
-2025-12-26 11:53:37 [debug    ] gather_module_help: sophie_bot.modules.legacy_modules.modules.feds [sophie_bot.services.bot] name=<sophie_bot.utils.i18n.LazyProxy object at 0x7fab8c066b70> emoji=🏙 advertise_wiki_page=False
-2025-12-26 11:53:37 [debug    ] gather_cmds_help: federations  [sophie_bot.services.bot] cmds=['fedinfo', 'finfo', 'transferfed', 'ftransfer']
-2025-12-26 11:53:37 [debug    ] gather_module_help: sophie_bot.modules.privacy [sophie_bot.services.bot] name=<sophie_bot.utils.i18n.LazyProxy object at 0x7fab960145d0> emoji=🕵️‍♂️️ advertise_wiki_page=False
-2025-12-26 11:53:37 [debug    ] gather_cmds_help: info         [sophie_bot.services.bot] cmds=['privacy', 'export']
-2025-12-26 11:53:37 [debug    ] gather_module_help: sophie_bot.modules.disabling [sophie_bot.services.bot] name=<sophie_bot.utils.i18n.LazyProxy object at 0x7fab8c1b4cb0> emoji=🚫 advertise_wiki_page=False
-2025-12-26 11:53:37 [debug    ] gather_cmds_help: Disable      [sophie_bot.services.bot] cmds=['disableable', 'disabled', 'disable', 'enable', 'enableall']
-2025-12-26 11:53:37 [debug    ] gather_module_help: sophie_bot.modules.rules [sophie_bot.services.bot] name=<sophie_bot.utils.i18n.LazyProxy object at 0x7fab8c1b5a30> emoji=🪧 advertise_wiki_page=False
-2025-12-26 11:53:37 [debug    ] gather_cmds_help: rules        [sophie_bot.services.bot] cmds=['setrules', 'rules', 'resetrules']
-2025-12-26 11:53:37 [debug    ] gather_module_help: sophie_bot.modules.promotes [sophie_bot.services.bot] name=<sophie_bot.utils.i18n.LazyProxy object at 0x7fab8c1b6450> emoji=⭐️ advertise_wiki_page=False
-2025-12-26 11:53:37 [debug    ] gather_cmds_help: promotes     [sophie_bot.services.bot] cmds=['promote', 'demote']
-2025-12-26 11:53:37 [debug    ] gather_module_help: sophie_bot.modules.greetings [sophie_bot.services.bot] name=<sophie_bot.utils.i18n.LazyProxy object at 0x7fab8c111610> emoji=🙋‍♂️ advertise_wiki_page=False
-2025-12-26 11:53:37 [debug    ] gather_cmds_help: greetings    [sophie_bot.services.bot] cmds=['enablewelcome', 'setwelcome', 'setjoinrequest', 'deljoinrequest', 'welcome', 'cleanservice', 'cleanwelcome']
-2025-12-26 11:53:37 [debug    ] gather_module_help: sophie_bot.modules.welcomesecurity [sophie_bot.services.bot] name=<sophie_bot.utils.i18n.LazyProxy object at 0x7fab9a4aadb0> emoji=🛡️ advertise_wiki_page=False
-2025-12-26 11:53:37 [debug    ] gather_cmds_help: welcomesecurity [sophie_bot.services.bot] cmds=['welcomecaptcha', 'enablewelcomecaptcha', 'welcomerestrict', 'welcomesecurity']
-2025-12-26 11:53:37 [debug    ] gather_module_help: sophie_bot.modules.purges [sophie_bot.services.bot] name=<sophie_bot.utils.i18n.LazyProxy object at 0x7fab8c1b6f90> emoji=🗑 advertise_wiki_page=False
-2025-12-26 11:53:37 [debug    ] gather_cmds_help: purges       [sophie_bot.services.bot] cmds=['delete', 'del', 'purge']
-2025-12-26 11:53:37 [debug    ] gather_module_help: sophie_bot.modules.ai [sophie_bot.services.bot] name=<sophie_bot.utils.i18n.LazyProxy object at 0x7fab96b45e50> emoji=✨ advertise_wiki_page=False
-2025-12-26 11:53:37 [debug    ] gather_cmds_help: ai           [sophie_bot.services.bot] cmds=['enableai', 'aienable', 'aimoderator', 'aiautotranslate', 'autotranslate', 'aiprovider', 'ai', 'aisave', 'aireset', 'aitranslate', 'translate', 'tr', 'ai', 'op_aistats']
-2025-12-26 11:53:37 [debug    ] gather_module_help: sophie_bot.modules.filters [sophie_bot.services.bot] name=<sophie_bot.utils.i18n.LazyProxy object at 0x7fab94f8ae10> emoji=🪄 advertise_wiki_page=True
-2025-12-26 11:53:37 [debug    ] gather_cmds_help: filters      [sophie_bot.services.bot] cmds=['addfilter', 'newfilter', 'filters', 'delfilter', 'editfilter']
-2025-12-26 11:53:37 [debug    ] gather_module_help: sophie_bot.modules.antiflood [sophie_bot.services.bot] name=<sophie_bot.utils.i18n.LazyProxy object at 0x7fab8c00d1f0> emoji=🚫 advertise_wiki_page=False
-2025-12-26 11:53:37 [debug    ] gather_cmds_help: antiflood    [sophie_bot.services.bot] cmds=['setflood', 'antiflood', 'setfloodaction']
-2025-12-26 11:53:37 [debug    ] Module antiflood already in help modules, merging [sophie_bot.services.bot]
-2025-12-26 11:53:37 [debug    ] gather_cmds_help: feds         [sophie_bot.services.bot] cmds=['newfed', 'fnew', 'joinfed', 'fjoin', 'leavefed', 'fleave', 'fsub', 'funsub', 'fpromote', 'fdemote', 'fsetlog', 'setfedlog', 'funsetlog', 'unsetfedlog', 'fchatlist', 'fchats', 'fadminlist', 'fadmins', 'fban', 'sfban', 'unfban', 'funban', 'delfed', 'fdel', 'frename', 'fbanlist', 'exportfbans', 'fexport', 'importfbans', 'fimport', 'fcheck', 'fbanstat']
-2025-12-26 11:53:37 [debug    ] gather_module_help: sophie_bot.modules.legacy_modules.modules.language [sophie_bot.services.bot] name=<sophie_bot.utils.i18n.LazyProxy object at 0x7fab96119b20> emoji=🌍 advertise_wiki_page=False
-2025-12-26 11:53:37 [debug    ] gather_cmds_help: language     [sophie_bot.services.bot] cmds=['lang']
-2025-12-26 11:53:37 [debug    ] gather_module_help: sophie_bot.modules.legacy_modules.modules.owner_stuff [sophie_bot.services.bot] name=owner_stuff emoji=? advertise_wiki_page=False
-2025-12-26 11:53:37 [debug    ] gather_cmds_help: owner_stuff  [sophie_bot.services.bot] cmds=['event', 'stats']
-2025-12-26 11:53:37 [debug    ] gather_module_help: sophie_bot.modules.legacy_modules.modules.pins [sophie_bot.services.bot] name=<sophie_bot.utils.i18n.LazyProxy object at 0x7fab8472c3b0> emoji=📌 advertise_wiki_page=False
-2025-12-26 11:53:37 [debug    ] gather_cmds_help: pins         [sophie_bot.services.bot] cmds=['unpin', 'pin']
-2025-12-26 11:53:37 [debug    ] gather_module_help: sophie_bot.modules.legacy_modules.modules.reports [sophie_bot.services.bot] name=<sophie_bot.utils.i18n.LazyProxy object at 0x7fab8472c6b0> emoji=🗳 advertise_wiki_page=False
-2025-12-26 11:53:37 [debug    ] gather_cmds_help: reports      [sophie_bot.services.bot] cmds=['report']
-2025-12-26 11:53:37 [debug    ] gather_module_help: sophie_bot.modules.legacy_modules.modules.restrictions [sophie_bot.services.bot] name=<sophie_bot.utils.i18n.LazyProxy object at 0x7fab8472cd10> emoji=🛑 advertise_wiki_page=False
-2025-12-26 11:53:37 [debug    ] gather_cmds_help: restrictions [sophie_bot.services.bot] cmds=['kick', 'skick', 'mute', 'smute', 'tmute', 'stmute', 'unmute', 'ban', 'sban', 'tban', 'stban', 'unban']
-2025-12-26 11:53:37 [debug    ] gather_module_help: sophie_bot.modules.legacy_modules.modules.users [sophie_bot.services.bot] name=<sophie_bot.utils.i18n.LazyProxy object at 0x7fab8472d850> emoji=🫂 advertise_wiki_page=False
-2025-12-26 11:53:37 [debug    ] gather_cmds_help: users        [sophie_bot.services.bot] cmds=['info', 'id', 'chatid', 'userid', 'adminlist', 'admins']
-2025-12-26 11:53:37 [debug    ] gather_module_help: sophie_bot.modules.legacy_modules.modules.warns [sophie_bot.services.bot] name=<sophie_bot.utils.i18n.LazyProxy object at 0x7fab8c1b7c50> emoji=⚠️ advertise_wiki_page=False
-2025-12-26 11:53:37 [debug    ] gather_cmds_help: warns        [sophie_bot.services.bot] cmds=['warn', 'warns', 'warnlimit', 'resetwarns', 'delwarns', 'warnmode', 'warnaction']
-2025-12-26 11:53:37 [info     ] Loaded modules - rest, op, troubleshooters, error, users, notes, help, federations, privacy, disabling, rules, promotes, greetings, welcomesecurity, purges, warns, restrictions, ai, filters, antiflood, legacy_modules [sophie_bot.services.bot]
-2025-12-26 11:53:37 [debug    ] Using selector: EpollSelector  [asyncio]
-2025-12-26 11:53:37 [warning  ] Generating wiki documentation... [sophie_bot.services.bot]
-2025-12-26 11:53:37 [debug    ] Module op is excluded from the help, skipping [sophie_bot.services.bot]
-2025-12-26 11:53:37 [debug    ] Module error is excluded from the help, skipping [sophie_bot.services.bot]
-2025-12-26 11:53:37 [debug    ] - Appending human-maintained page [sophie_bot.services.bot]
-2025-12-26 11:53:37 [debug    ] - Appending human-maintained page [sophie_bot.services.bot]
-2025-12-26 11:53:37 [debug    ] - Appending human-maintained page [sophie_bot.services.bot]
-2025-12-26 11:53:37 [debug    ] Module owner_stuff is excluded from the help, skipping [sophie_bot.services.bot]
-2025-12-26 11:53:37 [warning  ] Generating wiki documentation done! [sophie_bot.services.bot]
-2025-12-26 11:53:37 [debug    ] Using selector: EpollSelector  [asyncio]
-2025-12-26 11:53:38 [debug    ] {"message": "Server heartbeat failed", "topologyId": {"$oid": "694e7741ab2fd797d1415ac9"}, "serverHost": "127.0.0.1", "serverPort": 27017, "awaited": true, "durationMS": 500.82847100020444, "failure": "\"_OperationCancelled('operation cancelled')\"", "driverConnectionId": 1} [pymongo.topology]
+2025-12-28 15:05:02 [info     ] Using BotAPI server: TelegramAPIServer(base='https://api.telegram.org/bot{token}/{method}', file='https://api.telegram.org/file/bot{token}/{path}', is_local=False, wrap_local_file=<aiogram.client.telegram.BareFilesPathWrapper object at 0x7fa931aa6510>) [sophie_bot.services.bot]
+2025-12-28 15:05:02 [debug    ] {"message": "Starting topology monitoring", "topologyId": {"$oid": "6951471e4811a9eb2de9ec57"}} [pymongo.topology]
+2025-12-28 15:05:02 [debug    ] {"message": "Topology description changed", "topologyId": {"$oid": "6951471e4811a9eb2de9ec57"}, "previousDescription": "<TopologyDescription id: 6951471e4811a9eb2de9ec57, topology_type: Unknown, servers: []>", "newDescription": "<TopologyDescription id: 6951471e4811a9eb2de9ec57, topology_type: Unknown, servers: [<ServerDescription ('127.0.0.1', 27017) server_type: Unknown, rtt: None>]>"} [pymongo.topology]
+2025-12-28 15:05:02 [debug    ] {"message": "Starting server monitoring", "topologyId": {"$oid": "6951471e4811a9eb2de9ec57"}, "serverHost": "127.0.0.1", "serverPort": 27017} [pymongo.topology]
+2025-12-28 15:05:02 [debug    ] Loading legacy localizations... [sophie_bot.services.bot]
+2025-12-28 15:05:02 [debug    ] Loading language file ar_EG.yaml [sophie_bot.services.bot]
+2025-12-28 15:05:02 [debug    ] Loading language file ar_SA.yaml [sophie_bot.services.bot]
+2025-12-28 15:05:02 [debug    ] Loading language file cs_CZ.yaml [sophie_bot.services.bot]
+2025-12-28 15:05:02 [debug    ] Loading language file es_ES.yaml [sophie_bot.services.bot]
+2025-12-28 15:05:02 [debug    ] Loading language file fr_FR.yaml [sophie_bot.services.bot]
+2025-12-28 15:05:02 [debug    ] Loading language file pl_PL.yaml [sophie_bot.services.bot]
+2025-12-28 15:05:02 [debug    ] Loading language file pt_BR.yaml [sophie_bot.services.bot]
+2025-12-28 15:05:02 [debug    ] Loading language file ru_RU.yaml [sophie_bot.services.bot]
+2025-12-28 15:05:02 [debug    ] Loading language file tr_TR.yaml [sophie_bot.services.bot]
+2025-12-28 15:05:02 [debug    ] Loading language file uk_UA.yaml [sophie_bot.services.bot]
+2025-12-28 15:05:02 [debug    ] Loading language file zh_CN.yaml [sophie_bot.services.bot]
+2025-12-28 15:05:02 [debug    ] Loading language file de_DE.yaml [sophie_bot.services.bot]
+2025-12-28 15:05:02 [debug    ] Loading language file en_GB.yaml [sophie_bot.services.bot]
+2025-12-28 15:05:02 [debug    ] Loading language file en.yaml  [sophie_bot.services.bot]
+2025-12-28 15:05:02 [debug    ] Loading language file fi_FI.yaml [sophie_bot.services.bot]
+2025-12-28 15:05:02 [info     ] Legacy languages loaded: ['ar_EG', 'ar_SA', 'cs_CZ', 'es_ES', 'fr_FR', 'pl_PL', 'pt_BR', 'ru_RU', 'tr_TR', 'uk_UA', 'zh_CN', 'de_DE', 'en_GB', 'en', 'fi_FI'] [sophie_bot.services.bot]
+2025-12-28 15:05:02 [debug    ] Loading locales additional data... [sophie_bot.services.bot]
+2025-12-28 15:05:02 [info     ] Starting wiki generation task... [sophie_bot.services.bot]
+2025-12-28 15:05:02 [debug    ] Using selector: EpollSelector  [asyncio]
+2025-12-28 15:05:02 [info     ] Importing modules...           [sophie_bot.services.bot]
+2025-12-28 15:05:02 [debug    ] Loading all modules...         [sophie_bot.services.bot] modules=['rest', 'op', 'troubleshooters', 'error', 'users', 'notes', 'help', 'federations', 'privacy', 'disabling', 'rules', 'promotes', 'greetings', 'welcomesecurity', 'purges', 'warns', 'restrictions', 'ai', 'filters', 'antiflood', 'legacy_modules']
+2025-12-28 15:05:02 [debug    ] ! Module rest has no router!   [sophie_bot.services.bot]
+2025-12-28 15:05:02 [debug    ] ! Legacy @register: Duplication of /lang command [sophie_bot.services.bot]
+2025-12-28 15:05:03 [debug    ] Using selector: EpollSelector  [asyncio]
+2025-12-28 15:05:03 [debug    ] {"message": "Starting topology monitoring", "topologyId": {"$oid": "6951471f4811a9eb2de9ec58"}} [pymongo.topology]
+2025-12-28 15:05:03 [debug    ] {"message": "Topology description changed", "topologyId": {"$oid": "6951471f4811a9eb2de9ec58"}, "previousDescription": "<TopologyDescription id: 6951471f4811a9eb2de9ec58, topology_type: Unknown, servers: []>", "newDescription": "<TopologyDescription id: 6951471f4811a9eb2de9ec58, topology_type: Unknown, servers: [<ServerDescription ('127.0.0.1', 27017) server_type: Unknown, rtt: None>]>"} [pymongo.topology]
+2025-12-28 15:05:03 [debug    ] {"message": "Starting server monitoring", "topologyId": {"$oid": "6951471f4811a9eb2de9ec58"}, "serverHost": "127.0.0.1", "serverPort": 27017} [pymongo.topology]
+2025-12-28 15:05:03 [debug    ] {"message": "Connection pool created", "clientId": {"$oid": "6951471f4811a9eb2de9ec58"}, "serverHost": "127.0.0.1", "serverPort": 27017} [pymongo.connection]
+2025-12-28 15:05:03 [debug    ] {"message": "Server heartbeat started", "topologyId": {"$oid": "6951471f4811a9eb2de9ec58"}, "driverConnectionId": 1, "serverHost": "127.0.0.1", "serverPort": 27017, "awaited": false} [pymongo.topology]
+2025-12-28 15:05:03 [debug    ] No explicit setting existed. Use localtime [tzlocal]
+2025-12-28 15:05:03 [debug    ] {"message": "Server heartbeat succeeded", "topologyId": {"$oid": "6951471f4811a9eb2de9ec58"}, "driverConnectionId": 1, "serverConnectionId": 3, "serverHost": "127.0.0.1", "serverPort": 27017, "awaited": false, "durationMS": 4.500922001170693, "reply": "{\"helloOk\": true, \"ismaster\": true, \"topologyVersion\": {\"processId\": {\"$oid\": \"695146aeb151a0698e8f53c8\"}}, \"maxBsonObjectSize\": 16777216, \"maxMessageSizeBytes\": 48000000, \"maxWriteBatchSize\": 100000, \"localTime\": {\"$date\": \"2025-12-28T15:05:03.210Z\"}, \"logicalSessionTimeoutMinutes\": 30, \"connectionId\": 3, \"maxWireVersion\": 25, \"ok\": 1.0}"} [pymongo.topology]
+2025-12-28 15:05:03 [debug    ] {"message": "Connection pool ready", "clientId": {"$oid": "6951471f4811a9eb2de9ec58"}, "serverHost": "127.0.0.1", "serverPort": 27017} [pymongo.connection]
+2025-12-28 15:05:03 [debug    ] {"message": "Topology description changed", "topologyId": {"$oid": "6951471f4811a9eb2de9ec58"}, "previousDescription": "<TopologyDescription id: 6951471f4811a9eb2de9ec58, topology_type: Unknown, servers: [<ServerDescription ('127.0.0.1', 27017) server_type: Unknown, rtt: None>]>", "newDescription": "<TopologyDescription id: 6951471f4811a9eb2de9ec58, topology_type: Single, servers: [<ServerDescription ('127.0.0.1', 27017) server_type: Standalone, rtt: 0.004500922001170693>]>"} [pymongo.topology]
+2025-12-28 15:05:03 [debug    ] {"message": "Server heartbeat started", "topologyId": {"$oid": "6951471f4811a9eb2de9ec58"}, "driverConnectionId": 1, "serverConnectionId": 3, "serverHost": "127.0.0.1", "serverPort": 27017, "awaited": true} [pymongo.topology]
+2025-12-28 15:05:03 [debug    ] ! Module warns has no router!  [sophie_bot.services.bot]
+2025-12-28 15:05:03 [debug    ] ! Module restrictions has no router! [sophie_bot.services.bot]
+2025-12-28 15:05:03 [debug    ] ! Module legacy_modules has no router! [sophie_bot.services.bot]
+2025-12-28 15:05:03 [info     ] Legacy modules                 [sophie_bot.services.bot] to_load=['antiflood', 'connection', 'feds', 'language', 'owner_stuff', 'pins', 'reports', 'restrictions', 'users', 'warns']
+2025-12-28 15:05:03 [debug    ] ! Legacy @register: Duplication of /connect command [sophie_bot.services.bot]
+2025-12-28 15:05:03 [debug    ] ! Legacy @register: Duplication of /connect command [sophie_bot.services.bot]
+2025-12-28 15:05:03 [debug    ] Legacy @disableable_dec: Adding report to the disableable commands... [sophie_bot.services.bot]
+2025-12-28 15:05:03 [debug    ] Legacy @disableable_dec: Adding info to the disableable commands... [sophie_bot.services.bot]
+2025-12-28 15:05:03 [debug    ] Legacy @disableable_dec: Adding id to the disableable commands... [sophie_bot.services.bot]
+2025-12-28 15:05:03 [debug    ] Legacy @disableable_dec: Adding adminlist to the disableable commands... [sophie_bot.services.bot]
+2025-12-28 15:05:03 [info     ] Legacy modules: Modules loaded! [sophie_bot.services.bot]
+2025-12-28 15:05:03 [debug    ] Before serving: sophie_bot.modules.legacy_modules.modules.antiflood [sophie_bot.services.bot]
+2025-12-28 15:05:03 [debug    ] Legacy modules: Pre setup      [sophie_bot.services.bot]
+2025-12-28 15:05:03 [debug    ] gather_module_help: sophie_bot.modules.op [sophie_bot.services.bot] name=op emoji=? advertise_wiki_page=False
+2025-12-28 15:05:03 [debug    ] gather_cmds_help: op           [sophie_bot.services.bot] cmds=['op_listjobs', 'op_stopjobs', 'op_killswitch', 'op_banner', 'op_captcha']
+2025-12-28 15:05:03 [debug    ] gather_module_help: sophie_bot.modules.troubleshooters [sophie_bot.services.bot] name=<sophie_bot.utils.i18n.LazyProxy object at 0x7fa92b9bd010> emoji=🧰 advertise_wiki_page=False
+2025-12-28 15:05:03 [debug    ] gather_cmds_help: troubleshooters [sophie_bot.services.bot] cmds=['enablebeta', 'enablebeta', 'op_setbeta', 'op_resetbeta', 'cancel', 'admincache']
+2025-12-28 15:05:03 [debug    ] gather_module_help: sophie_bot.modules.error [sophie_bot.services.bot] name=<sophie_bot.utils.i18n.LazyProxy object at 0x7fa92ba605f0> emoji=🚫 advertise_wiki_page=False
+2025-12-28 15:05:03 [debug    ] gather_cmds_help: error        [sophie_bot.services.bot] cmds=['op_crash']
+2025-12-28 15:05:03 [debug    ] gather_module_help: sophie_bot.modules.users [sophie_bot.services.bot] name=<sophie_bot.utils.i18n.LazyProxy object at 0x7fa92405f950> emoji=🫂 advertise_wiki_page=False
+2025-12-28 15:05:03 [debug    ] gather_cmds_help: users        [sophie_bot.services.bot] cmds=['id']
+2025-12-28 15:05:03 [debug    ] gather_cmds_help: users        [sophie_bot.services.bot] cmds=['id']
+2025-12-28 15:05:03 [debug    ] gather_module_help: sophie_bot.modules.notes [sophie_bot.services.bot] name=<sophie_bot.utils.i18n.LazyProxy object at 0x7fa925845070> emoji=📗 advertise_wiki_page=True
+2025-12-28 15:05:03 [debug    ] gather_cmds_help: notes        [sophie_bot.services.bot] cmds=['pmnotes', 'privatenotes', 'pmnotes', 'privatenotes', 'notes', 'saved', 'notelist', 'get', 'search', 'delnote', 'clear', 'save', 'addnote']
+2025-12-28 15:05:03 [debug    ] gather_module_help: sophie_bot.modules.help [sophie_bot.services.bot] name=<sophie_bot.utils.i18n.LazyProxy object at 0x7fa92cbe0210> emoji=ℹ️ advertise_wiki_page=False
+2025-12-28 15:05:03 [debug    ] gather_cmds_help: info         [sophie_bot.services.bot] cmds=['help', 'help', 'start', 'op_cmds']
+2025-12-28 15:05:03 [debug    ] gather_module_help: sophie_bot.modules.federations [sophie_bot.services.bot] name=<sophie_bot.utils.i18n.LazyProxy object at 0x7fa92405ffb0> emoji=🏛 advertise_wiki_page=False
+2025-12-28 15:05:03 [debug    ] Modern filter actions: Adding new action... [sophie_bot.services.bot] name=reply module=notes
+2025-12-28 15:05:03 [debug    ] Modern filter actions: Adding new action... [sophie_bot.services.bot] name=send_note module=notes
+2025-12-28 15:05:03 [debug    ] Modern filter actions: Adding new action... [sophie_bot.services.bot] name=send_rules module=rules
+2025-12-28 15:05:03 [debug    ] Modern filter actions: Adding new action... [sophie_bot.services.bot] name=delmsg module=purges
+2025-12-28 15:05:03 [debug    ] Modern filter actions: Adding new action... [sophie_bot.services.bot] name=warn_user module=warns
+2025-12-28 15:05:03 [debug    ] Modern filter actions: Adding new action... [sophie_bot.services.bot] name=kick_user module=restrictions
+2025-12-28 15:05:03 [debug    ] Modern filter actions: Adding new action... [sophie_bot.services.bot] name=ban_user module=restrictions
+2025-12-28 15:05:03 [debug    ] Modern filter actions: Adding new action... [sophie_bot.services.bot] name=mute_user module=restrictions
+2025-12-28 15:05:03 [debug    ] Modern filter actions: Adding new action... [sophie_bot.services.bot] name=ai_text module=ai
+2025-12-28 15:05:03 [debug    ] Legacy filters: Adding filters actions [sophie_bot.services.bot]
+2025-12-28 15:05:03 [debug    ] Legacy filters: Adding filter action from restrictions module [sophie_bot.services.bot]
+2025-12-28 15:05:03 [debug    ] Legacy filters: Adding filter action from warns module [sophie_bot.services.bot]
+2025-12-28 15:05:03 [debug    ] Legacy filters: Adding filter action from notes module [sophie_bot.services.bot]
+2025-12-28 15:05:03 [debug    ] Legacy filters: Adding filter action from rules module [sophie_bot.services.bot]
+2025-12-28 15:05:03 [debug    ] Legacy filters: Adding filter action from purges module [sophie_bot.services.bot]
+2025-12-28 15:05:03 [debug    ] Legacy filters: Adding filter action from ai module [sophie_bot.services.bot]
+2025-12-28 15:05:03 [debug    ] Legacy filters: Filters actions [sophie_bot.services.bot] actions={'kick_user': {'title': <sophie_bot.utils.i18n.LazyProxy object at 0x7fa91c180770>, 'handle': <function get_strings_dec.<locals>.wrapped.<locals>.wrapped_1 at 0x7fa91c17ef20>}, 'ban_user': {'title': <sophie_bot.utils.i18n.LazyProxy object at 0x7fa91c180650>, 'setup': {'start': <function get_strings_dec.<locals>.wrapped.<locals>.wrapped_1 at 0x7fa91d554c20>, 'finish': <function get_strings_dec.<locals>.wrapped.<locals>.wrapped_1 at 0x7fa91d554d60>}, 'handle': <function get_strings_dec.<locals>.wrapped.<locals>.wrapped_1 at 0x7fa91c17e7a0>}, 'tban_user': {'title': <sophie_bot.utils.i18n.LazyProxy object at 0x7fa91c1807d0>, 'handle': <function get_strings_dec.<locals>.wrapped.<locals>.wrapped_1 at 0x7fa91c17eb60>, 'setup': [{'start': <function get_strings_dec.<locals>.wrapped.<locals>.wrapped_1 at 0x7fa91c17eca0>, 'finish': <function get_strings_dec.<locals>.wrapped.<locals>.wrapped_1 at 0x7fa91c17ede0>}, {'start': <function get_strings_dec.<locals>.wrapped.<locals>.wrapped_1 at 0x7fa91d554c20>, 'finish': <function get_strings_dec.<locals>.wrapped.<locals>.wrapped_1 at 0x7fa91d554d60>}]}, 'mute_user': {'title': <sophie_bot.utils.i18n.LazyProxy object at 0x7fa91c180830>, 'setup': {'start': <function get_strings_dec.<locals>.wrapped.<locals>.wrapped_1 at 0x7fa91d554c20>, 'finish': <function get_strings_dec.<locals>.wrapped.<locals>.wrapped_1 at 0x7fa91d554d60>}, 'handle': <function get_strings_dec.<locals>.wrapped.<locals>.wrapped_1 at 0x7fa91c17e8e0>}, 'tmute_user': {'title': <sophie_bot.utils.i18n.LazyProxy object at 0x7fa91c180890>, 'handle': <function get_strings_dec.<locals>.wrapped.<locals>.wrapped_1 at 0x7fa91c17ea20>, 'setup': [{'start': <function get_strings_dec.<locals>.wrapped.<locals>.wrapped_1 at 0x7fa91c17eca0>, 'finish': <function get_strings_dec.<locals>.wrapped.<locals>.wrapped_1 at 0x7fa91c17ede0>}, {'start': <function get_strings_dec.<locals>.wrapped.<locals>.wrapped_1 at 0x7fa91d554c20>, 'finish': <function get_strings_dec.<locals>.wrapped.<locals>.wrapped_1 at 0x7fa91d554d60>}]}, 'warn_user': {'title': <sophie_bot.utils.i18n.LazyProxy object at 0x7fa9240ffad0>, 'setup': {'start': <function get_strings_dec.<locals>.wrapped.<locals>.wrapped_1 at 0x7fa91d554c20>, 'finish': <function get_strings_dec.<locals>.wrapped.<locals>.wrapped_1 at 0x7fa91d554d60>}, 'handle': <function get_strings_dec.<locals>.wrapped.<locals>.wrapped_1 at 0x7fa91d554ae0>}, 'reply_message': {'title': <sophie_bot.utils.i18n.LazyProxy object at 0x7fa925845250>, 'handle': <function replymsg_filter_handler at 0x7fa92e869d00>, 'setup': {'start': <function replymsg_setup_start at 0x7fa92e869da0>, 'finish': <function replymsg_setup_finish at 0x7fa92e869e40>}, 'del_btn_name': <function get_filter.<locals>.<lambda> at 0x7fa9259b3880>}, 'get_note': {'title': <sophie_bot.utils.i18n.LazyProxy object at 0x7fa9258452b0>, 'handle': <function filter_handle at 0x7fa92e869b20>, 'setup': {'start': <function setup_start at 0x7fa92e869bc0>, 'finish': <function setup_finish at 0x7fa92e869c60>}, 'del_btn_name': <function get_filter.<locals>.<lambda> at 0x7fa9259b3920>}, 'send_rules': {'title': <sophie_bot.utils.i18n.LazyProxy object at 0x7fa9240fd5b0>, 'handle': <function send_chat_rules at 0x7fa91d5187c0>}, 'delete_message': {'title': <sophie_bot.utils.i18n.LazyProxy object at 0x7fa9240fea50>, 'handle': <function delmsg_filter_handle at 0x7fa91d538720>, 'del_btn_name': <function get_filter.<locals>.<lambda> at 0x7fa91d51bd80>}, 'ai_text': {'title': <sophie_bot.utils.i18n.LazyProxy object at 0x7fa92b976db0>, 'setup': {'start': <function ai_setup_start at 0x7fa92ba35ee0>, 'finish': <function ai_setup_finish at 0x7fa92ba36020>}, 'handle': <function ai_filter_handle at 0x7fa92ba360c0>}}
+2025-12-28 15:05:03 [debug    ] Legacy modules: Post setup     [sophie_bot.services.bot]
+2025-12-28 15:05:03 [debug    ] gather_module_help: sophie_bot.modules.legacy_modules.modules.antiflood [sophie_bot.services.bot] name=<sophie_bot.utils.i18n.LazyProxy object at 0x7fa91d5b0650> emoji=📈 advertise_wiki_page=False
+2025-12-28 15:05:03 [debug    ] gather_cmds_help: antiflood    [sophie_bot.services.bot] cmds=['setflood', 'antiflood', 'flood', 'setfloodaction']
+2025-12-28 15:05:03 [debug    ] gather_module_help: sophie_bot.modules.legacy_modules.modules.connection [sophie_bot.services.bot] name=<sophie_bot.utils.i18n.LazyProxy object at 0x7fa91d5b0dd0> emoji=🔐 advertise_wiki_page=False
+2025-12-28 15:05:03 [debug    ] gather_cmds_help: connection   [sophie_bot.services.bot] cmds=['connect', 'connect', 'connect', 'disconnect', 'allowusersconnect']
+2025-12-28 15:05:03 [debug    ] gather_module_help: sophie_bot.modules.legacy_modules.modules.feds [sophie_bot.services.bot] name=<sophie_bot.utils.i18n.LazyProxy object at 0x7fa91d5b2090> emoji=🏙 advertise_wiki_page=False
+2025-12-28 15:05:03 [debug    ] gather_cmds_help: federations  [sophie_bot.services.bot] cmds=['fedinfo', 'finfo', 'transferfed', 'ftransfer']
+2025-12-28 15:05:03 [debug    ] gather_module_help: sophie_bot.modules.privacy [sophie_bot.services.bot] name=<sophie_bot.utils.i18n.LazyProxy object at 0x7fa92cbeccd0> emoji=🕵️‍♂️️ advertise_wiki_page=False
+2025-12-28 15:05:03 [debug    ] gather_cmds_help: info         [sophie_bot.services.bot] cmds=['privacy', 'export']
+2025-12-28 15:05:03 [debug    ] gather_module_help: sophie_bot.modules.disabling [sophie_bot.services.bot] name=<sophie_bot.utils.i18n.LazyProxy object at 0x7fa9240fc170> emoji=🚫 advertise_wiki_page=False
+2025-12-28 15:05:03 [debug    ] gather_cmds_help: Disable      [sophie_bot.services.bot] cmds=['disableable', 'disabled', 'disable', 'enable', 'enableall']
+2025-12-28 15:05:03 [debug    ] gather_module_help: sophie_bot.modules.rules [sophie_bot.services.bot] name=<sophie_bot.utils.i18n.LazyProxy object at 0x7fa9240fcef0> emoji=🪧 advertise_wiki_page=False
+2025-12-28 15:05:03 [debug    ] gather_cmds_help: rules        [sophie_bot.services.bot] cmds=['setrules', 'rules', 'resetrules']
+2025-12-28 15:05:03 [debug    ] gather_module_help: sophie_bot.modules.promotes [sophie_bot.services.bot] name=<sophie_bot.utils.i18n.LazyProxy object at 0x7fa9240fd910> emoji=⭐️ advertise_wiki_page=False
+2025-12-28 15:05:03 [debug    ] gather_cmds_help: promotes     [sophie_bot.services.bot] cmds=['promote', 'demote']
+2025-12-28 15:05:03 [debug    ] gather_module_help: sophie_bot.modules.greetings [sophie_bot.services.bot] name=<sophie_bot.utils.i18n.LazyProxy object at 0x7fa92405cad0> emoji=🙋‍♂️ advertise_wiki_page=False
+2025-12-28 15:05:03 [debug    ] gather_cmds_help: greetings    [sophie_bot.services.bot] cmds=['enablewelcome', 'setwelcome', 'setjoinrequest', 'deljoinrequest', 'welcome', 'cleanservice', 'cleanwelcome']
+2025-12-28 15:05:03 [debug    ] gather_module_help: sophie_bot.modules.welcomesecurity [sophie_bot.services.bot] name=<sophie_bot.utils.i18n.LazyProxy object at 0x7fa92e7c8c50> emoji=🛡️ advertise_wiki_page=False
+2025-12-28 15:05:03 [debug    ] gather_cmds_help: welcomesecurity [sophie_bot.services.bot] cmds=['welcomecaptcha', 'enablewelcomecaptcha', 'welcomerestrict', 'welcomesecurity']
+2025-12-28 15:05:03 [debug    ] gather_module_help: sophie_bot.modules.purges [sophie_bot.services.bot] name=<sophie_bot.utils.i18n.LazyProxy object at 0x7fa9240fe450> emoji=🗑 advertise_wiki_page=False
+2025-12-28 15:05:03 [debug    ] gather_cmds_help: purges       [sophie_bot.services.bot] cmds=['delete', 'del', 'purge']
+2025-12-28 15:05:03 [debug    ] gather_module_help: sophie_bot.modules.ai [sophie_bot.services.bot] name=<sophie_bot.utils.i18n.LazyProxy object at 0x7fa92b976c30> emoji=✨ advertise_wiki_page=False
+2025-12-28 15:05:03 [debug    ] gather_cmds_help: ai           [sophie_bot.services.bot] cmds=['enableai', 'aienable', 'aimoderator', 'aiautotranslate', 'autotranslate', 'aiprovider', 'ai', 'aisave', 'aireset', 'aitranslate', 'translate', 'tr', 'ai', 'op_aistats']
+2025-12-28 15:05:03 [debug    ] gather_module_help: sophie_bot.modules.filters [sophie_bot.services.bot] name=<sophie_bot.utils.i18n.LazyProxy object at 0x7fa92b9be330> emoji=🪄 advertise_wiki_page=True
+2025-12-28 15:05:03 [debug    ] gather_cmds_help: filters      [sophie_bot.services.bot] cmds=['addfilter', 'newfilter', 'filters', 'delfilter', 'editfilter']
+2025-12-28 15:05:03 [debug    ] gather_module_help: sophie_bot.modules.antiflood [sophie_bot.services.bot] name=<sophie_bot.utils.i18n.LazyProxy object at 0x7fa91d564710> emoji=🚫 advertise_wiki_page=False
+2025-12-28 15:05:03 [debug    ] gather_cmds_help: antiflood    [sophie_bot.services.bot] cmds=['setflood', 'antiflood', 'setfloodaction']
+2025-12-28 15:05:03 [debug    ] Module antiflood already in help modules, merging [sophie_bot.services.bot]
+2025-12-28 15:05:03 [debug    ] gather_cmds_help: feds         [sophie_bot.services.bot] cmds=['newfed', 'fnew', 'joinfed', 'fjoin', 'leavefed', 'fleave', 'fsub', 'funsub', 'fpromote', 'fdemote', 'fsetlog', 'setfedlog', 'funsetlog', 'unsetfedlog', 'fchatlist', 'fchats', 'fadminlist', 'fadmins', 'fban', 'sfban', 'unfban', 'funban', 'delfed', 'fdel', 'frename', 'fbanlist', 'exportfbans', 'fexport', 'importfbans', 'fimport', 'fcheck', 'fbanstat']
+2025-12-28 15:05:03 [debug    ] gather_module_help: sophie_bot.modules.legacy_modules.modules.language [sophie_bot.services.bot] name=<sophie_bot.utils.i18n.LazyProxy object at 0x7fa9305f9de0> emoji=🌍 advertise_wiki_page=False
+2025-12-28 15:05:03 [debug    ] gather_cmds_help: language     [sophie_bot.services.bot] cmds=['lang']
+2025-12-28 15:05:03 [debug    ] gather_module_help: sophie_bot.modules.legacy_modules.modules.owner_stuff [sophie_bot.services.bot] name=owner_stuff emoji=? advertise_wiki_page=False
+2025-12-28 15:05:03 [debug    ] gather_cmds_help: owner_stuff  [sophie_bot.services.bot] cmds=['event', 'stats']
+2025-12-28 15:05:03 [debug    ] gather_module_help: sophie_bot.modules.legacy_modules.modules.pins [sophie_bot.services.bot] name=<sophie_bot.utils.i18n.LazyProxy object at 0x7fa91d5b3650> emoji=📌 advertise_wiki_page=False
+2025-12-28 15:05:03 [debug    ] gather_cmds_help: pins         [sophie_bot.services.bot] cmds=['unpin', 'pin']
+2025-12-28 15:05:03 [debug    ] gather_module_help: sophie_bot.modules.legacy_modules.modules.reports [sophie_bot.services.bot] name=<sophie_bot.utils.i18n.LazyProxy object at 0x7fa91d5b3950> emoji=🗳 advertise_wiki_page=False
+2025-12-28 15:05:03 [debug    ] gather_cmds_help: reports      [sophie_bot.services.bot] cmds=['report']
+2025-12-28 15:05:03 [debug    ] gather_module_help: sophie_bot.modules.legacy_modules.modules.restrictions [sophie_bot.services.bot] name=<sophie_bot.utils.i18n.LazyProxy object at 0x7fa91d5b3fb0> emoji=🛑 advertise_wiki_page=False
+2025-12-28 15:05:03 [debug    ] gather_cmds_help: restrictions [sophie_bot.services.bot] cmds=['kick', 'skick', 'mute', 'smute', 'tmute', 'stmute', 'unmute', 'ban', 'sban', 'tban', 'stban', 'unban']
+2025-12-28 15:05:03 [debug    ] gather_module_help: sophie_bot.modules.legacy_modules.modules.users [sophie_bot.services.bot] name=<sophie_bot.utils.i18n.LazyProxy object at 0x7fa91c180b30> emoji=🫂 advertise_wiki_page=False
+2025-12-28 15:05:03 [debug    ] gather_cmds_help: users        [sophie_bot.services.bot] cmds=['info', 'id', 'chatid', 'userid', 'adminlist', 'admins']
+2025-12-28 15:05:03 [debug    ] gather_module_help: sophie_bot.modules.legacy_modules.modules.warns [sophie_bot.services.bot] name=<sophie_bot.utils.i18n.LazyProxy object at 0x7fa9240ff110> emoji=⚠️ advertise_wiki_page=False
+2025-12-28 15:05:03 [debug    ] gather_cmds_help: warns        [sophie_bot.services.bot] cmds=['warn', 'warns', 'warnlimit', 'resetwarns', 'delwarns', 'warnmode', 'warnaction']
+2025-12-28 15:05:03 [info     ] Loaded modules - rest, op, troubleshooters, error, users, notes, help, federations, privacy, disabling, rules, promotes, greetings, welcomesecurity, purges, warns, restrictions, ai, filters, antiflood, legacy_modules [sophie_bot.services.bot]
+2025-12-28 15:05:03 [debug    ] Using selector: EpollSelector  [asyncio]
+2025-12-28 15:05:03 [warning  ] Generating wiki documentation... [sophie_bot.services.bot]
+2025-12-28 15:05:03 [debug    ] Module op is excluded from the help, skipping [sophie_bot.services.bot]
+2025-12-28 15:05:03 [debug    ] Module error is excluded from the help, skipping [sophie_bot.services.bot]
+2025-12-28 15:05:03 [debug    ] - Appending human-maintained page [sophie_bot.services.bot]
+2025-12-28 15:05:03 [debug    ] - Appending human-maintained page [sophie_bot.services.bot]
+2025-12-28 15:05:03 [debug    ] - Appending human-maintained page [sophie_bot.services.bot]
+2025-12-28 15:05:03 [debug    ] Module owner_stuff is excluded from the help, skipping [sophie_bot.services.bot]
+2025-12-28 15:05:03 [warning  ] Generating wiki documentation done! [sophie_bot.services.bot]
+2025-12-28 15:05:03 [debug    ] Using selector: EpollSelector  [asyncio]
+2025-12-28 15:05:03 [debug    ] {"message": "Server heartbeat failed", "topologyId": {"$oid": "6951471f4811a9eb2de9ec58"}, "serverHost": "127.0.0.1", "serverPort": 27017, "awaited": true, "durationMS": 500.7889750013419, "failure": "\"_OperationCancelled('operation cancelled')\"", "driverConnectionId": 1} [pymongo.topology]
 poetry run python tools/openapi_gen/generate.py
-2025-12-26 11:53:40 [info     ] Using BotAPI server: TelegramAPIServer(base='https://api.telegram.org/bot{token}/{method}', file='https://api.telegram.org/file/bot{token}/{path}', is_local=False, wrap_local_file=<aiogram.client.telegram.BareFilesPathWrapper object at 0x7fa702806510>) [sophie_bot.services.bot]
-2025-12-26 11:53:40 [debug    ] {"message": "Starting topology monitoring", "topologyId": {"$oid": "694e7744afda4431f416abc8"}} [pymongo.topology]
-2025-12-26 11:53:40 [debug    ] {"message": "Topology description changed", "topologyId": {"$oid": "694e7744afda4431f416abc8"}, "previousDescription": "<TopologyDescription id: 694e7744afda4431f416abc8, topology_type: Unknown, servers: []>", "newDescription": "<TopologyDescription id: 694e7744afda4431f416abc8, topology_type: Unknown, servers: [<ServerDescription ('127.0.0.1', 27017) server_type: Unknown, rtt: None>]>"} [pymongo.topology]
-2025-12-26 11:53:40 [debug    ] {"message": "Starting server monitoring", "topologyId": {"$oid": "694e7744afda4431f416abc8"}, "serverHost": "127.0.0.1", "serverPort": 27017} [pymongo.topology]
-2025-12-26 11:53:40 [debug    ] Loading legacy localizations... [sophie_bot.services.bot]
-2025-12-26 11:53:40 [debug    ] Loading language file ar_EG.yaml [sophie_bot.services.bot]
-2025-12-26 11:53:40 [debug    ] Loading language file ar_SA.yaml [sophie_bot.services.bot]
-2025-12-26 11:53:40 [debug    ] Loading language file cs_CZ.yaml [sophie_bot.services.bot]
-2025-12-26 11:53:40 [debug    ] Loading language file es_ES.yaml [sophie_bot.services.bot]
-2025-12-26 11:53:40 [debug    ] Loading language file fr_FR.yaml [sophie_bot.services.bot]
-2025-12-26 11:53:40 [debug    ] Loading language file pl_PL.yaml [sophie_bot.services.bot]
-2025-12-26 11:53:40 [debug    ] Loading language file pt_BR.yaml [sophie_bot.services.bot]
-2025-12-26 11:53:40 [debug    ] Loading language file ru_RU.yaml [sophie_bot.services.bot]
-2025-12-26 11:53:40 [debug    ] Loading language file tr_TR.yaml [sophie_bot.services.bot]
-2025-12-26 11:53:40 [debug    ] Loading language file uk_UA.yaml [sophie_bot.services.bot]
-2025-12-26 11:53:40 [debug    ] Loading language file zh_CN.yaml [sophie_bot.services.bot]
-2025-12-26 11:53:40 [debug    ] Loading language file de_DE.yaml [sophie_bot.services.bot]
-2025-12-26 11:53:40 [debug    ] Loading language file en_GB.yaml [sophie_bot.services.bot]
-2025-12-26 11:53:40 [debug    ] Loading language file en.yaml  [sophie_bot.services.bot]
-2025-12-26 11:53:40 [debug    ] Loading language file fi_FI.yaml [sophie_bot.services.bot]
-2025-12-26 11:53:40 [info     ] Legacy languages loaded: ['ar_EG', 'ar_SA', 'cs_CZ', 'es_ES', 'fr_FR', 'pl_PL', 'pt_BR', 'ru_RU', 'tr_TR', 'uk_UA', 'zh_CN', 'de_DE', 'en_GB', 'en', 'fi_FI'] [sophie_bot.services.bot]
-2025-12-26 11:53:40 [debug    ] Loading locales additional data... [sophie_bot.services.bot]
-2025-12-26 11:53:40 [info     ] Starting OpenAPI generation task... [sophie_bot.services.bot]
-2025-12-26 11:53:40 [debug    ] Using selector: EpollSelector  [asyncio]
-2025-12-26 11:53:40 [info     ] Importing modules...           [sophie_bot.services.bot]
-2025-12-26 11:53:40 [debug    ] Loading all modules...         [sophie_bot.services.bot] modules=['rest', 'op', 'troubleshooters', 'error', 'users', 'notes', 'help', 'federations', 'privacy', 'disabling', 'rules', 'promotes', 'greetings', 'welcomesecurity', 'purges', 'warns', 'restrictions', 'ai', 'filters', 'antiflood', 'legacy_modules']
-2025-12-26 11:53:40 [debug    ] ! Module rest has no router!   [sophie_bot.services.bot]
-2025-12-26 11:53:40 [debug    ] ! Legacy @register: Duplication of /lang command [sophie_bot.services.bot]
-2025-12-26 11:53:41 [debug    ] Using selector: EpollSelector  [asyncio]
-2025-12-26 11:53:41 [debug    ] {"message": "Starting topology monitoring", "topologyId": {"$oid": "694e7745afda4431f416abc9"}} [pymongo.topology]
-2025-12-26 11:53:41 [debug    ] {"message": "Topology description changed", "topologyId": {"$oid": "694e7745afda4431f416abc9"}, "previousDescription": "<TopologyDescription id: 694e7745afda4431f416abc9, topology_type: Unknown, servers: []>", "newDescription": "<TopologyDescription id: 694e7745afda4431f416abc9, topology_type: Unknown, servers: [<ServerDescription ('127.0.0.1', 27017) server_type: Unknown, rtt: None>]>"} [pymongo.topology]
-2025-12-26 11:53:41 [debug    ] {"message": "Starting server monitoring", "topologyId": {"$oid": "694e7745afda4431f416abc9"}, "serverHost": "127.0.0.1", "serverPort": 27017} [pymongo.topology]
-2025-12-26 11:53:41 [debug    ] {"message": "Connection pool created", "clientId": {"$oid": "694e7745afda4431f416abc9"}, "serverHost": "127.0.0.1", "serverPort": 27017} [pymongo.connection]
-2025-12-26 11:53:41 [debug    ] No explicit setting existed. Use localtime [tzlocal]
-2025-12-26 11:53:41 [debug    ] {"message": "Server heartbeat started", "topologyId": {"$oid": "694e7745afda4431f416abc9"}, "driverConnectionId": 1, "serverHost": "127.0.0.1", "serverPort": 27017, "awaited": false} [pymongo.topology]
-2025-12-26 11:53:41 [debug    ] {"message": "Server heartbeat succeeded", "topologyId": {"$oid": "694e7745afda4431f416abc9"}, "driverConnectionId": 1, "serverConnectionId": 10, "serverHost": "127.0.0.1", "serverPort": 27017, "awaited": false, "durationMS": 2.9583070008811774, "reply": "{\"helloOk\": true, \"ismaster\": true, \"topologyVersion\": {\"processId\": {\"$oid\": \"694e77270b63ca85ec9ff059\"}}, \"maxBsonObjectSize\": 16777216, \"maxMessageSizeBytes\": 48000000, \"maxWriteBatchSize\": 100000, \"localTime\": {\"$date\": \"2025-12-26T11:53:41.078Z\"}, \"logicalSessionTimeoutMinutes\": 30, \"connectionId\": 10, \"maxWireVersion\": 25, \"ok\": 1.0}"} [pymongo.topology]
-2025-12-26 11:53:41 [debug    ] {"message": "Connection pool ready", "clientId": {"$oid": "694e7745afda4431f416abc9"}, "serverHost": "127.0.0.1", "serverPort": 27017} [pymongo.connection]
-2025-12-26 11:53:41 [debug    ] {"message": "Topology description changed", "topologyId": {"$oid": "694e7745afda4431f416abc9"}, "previousDescription": "<TopologyDescription id: 694e7745afda4431f416abc9, topology_type: Unknown, servers: [<ServerDescription ('127.0.0.1', 27017) server_type: Unknown, rtt: None>]>", "newDescription": "<TopologyDescription id: 694e7745afda4431f416abc9, topology_type: Single, servers: [<ServerDescription ('127.0.0.1', 27017) server_type: Standalone, rtt: 0.0029583070008811774>]>"} [pymongo.topology]
-2025-12-26 11:53:41 [debug    ] {"message": "Server heartbeat started", "topologyId": {"$oid": "694e7745afda4431f416abc9"}, "driverConnectionId": 1, "serverConnectionId": 10, "serverHost": "127.0.0.1", "serverPort": 27017, "awaited": true} [pymongo.topology]
-2025-12-26 11:53:41 [debug    ] ! Module warns has no router!  [sophie_bot.services.bot]
-2025-12-26 11:53:41 [debug    ] ! Module restrictions has no router! [sophie_bot.services.bot]
-2025-12-26 11:53:41 [debug    ] ! Module legacy_modules has no router! [sophie_bot.services.bot]
-2025-12-26 11:53:41 [info     ] Legacy modules                 [sophie_bot.services.bot] to_load=['antiflood', 'connection', 'feds', 'language', 'owner_stuff', 'pins', 'reports', 'restrictions', 'users', 'warns']
-2025-12-26 11:53:41 [debug    ] ! Legacy @register: Duplication of /connect command [sophie_bot.services.bot]
-2025-12-26 11:53:41 [debug    ] ! Legacy @register: Duplication of /connect command [sophie_bot.services.bot]
-2025-12-26 11:53:41 [debug    ] Legacy @disableable_dec: Adding report to the disableable commands... [sophie_bot.services.bot]
-2025-12-26 11:53:41 [debug    ] Legacy @disableable_dec: Adding info to the disableable commands... [sophie_bot.services.bot]
-2025-12-26 11:53:41 [debug    ] Legacy @disableable_dec: Adding id to the disableable commands... [sophie_bot.services.bot]
-2025-12-26 11:53:41 [debug    ] Legacy @disableable_dec: Adding adminlist to the disableable commands... [sophie_bot.services.bot]
-2025-12-26 11:53:41 [info     ] Legacy modules: Modules loaded! [sophie_bot.services.bot]
-2025-12-26 11:53:41 [debug    ] Before serving: sophie_bot.modules.legacy_modules.modules.antiflood [sophie_bot.services.bot]
-2025-12-26 11:53:41 [debug    ] Legacy modules: Pre setup      [sophie_bot.services.bot]
-2025-12-26 11:53:41 [debug    ] gather_module_help: sophie_bot.modules.op [sophie_bot.services.bot] name=op emoji=? advertise_wiki_page=False
-2025-12-26 11:53:41 [debug    ] gather_cmds_help: op           [sophie_bot.services.bot] cmds=['op_listjobs', 'op_stopjobs', 'op_killswitch', 'op_banner', 'op_captcha']
-2025-12-26 11:53:41 [debug    ] gather_module_help: sophie_bot.modules.troubleshooters [sophie_bot.services.bot] name=<sophie_bot.utils.i18n.LazyProxy object at 0x7fa6fa269b50> emoji=🧰 advertise_wiki_page=False
-2025-12-26 11:53:41 [debug    ] gather_cmds_help: troubleshooters [sophie_bot.services.bot] cmds=['enablebeta', 'enablebeta', 'op_setbeta', 'op_resetbeta', 'cancel', 'admincache']
-2025-12-26 11:53:41 [debug    ] gather_module_help: sophie_bot.modules.error [sophie_bot.services.bot] name=<sophie_bot.utils.i18n.LazyProxy object at 0x7fa6fa310b90> emoji=🚫 advertise_wiki_page=False
-2025-12-26 11:53:41 [debug    ] gather_cmds_help: error        [sophie_bot.services.bot] cmds=['op_crash']
-2025-12-26 11:53:41 [debug    ] gather_module_help: sophie_bot.modules.users [sophie_bot.services.bot] name=<sophie_bot.utils.i18n.LazyProxy object at 0x7fa6f0154470> emoji=🫂 advertise_wiki_page=False
-2025-12-26 11:53:41 [debug    ] gather_cmds_help: users        [sophie_bot.services.bot] cmds=['id']
-2025-12-26 11:53:41 [debug    ] gather_cmds_help: users        [sophie_bot.services.bot] cmds=['id']
-2025-12-26 11:53:41 [debug    ] gather_module_help: sophie_bot.modules.notes [sophie_bot.services.bot] name=<sophie_bot.utils.i18n.LazyProxy object at 0x7fa6fa1f1bb0> emoji=📗 advertise_wiki_page=True
-2025-12-26 11:53:41 [debug    ] gather_cmds_help: notes        [sophie_bot.services.bot] cmds=['pmnotes', 'privatenotes', 'pmnotes', 'privatenotes', 'notes', 'saved', 'notelist', 'get', 'search', 'delnote', 'clear', 'save', 'addnote']
-2025-12-26 11:53:41 [debug    ] gather_module_help: sophie_bot.modules.help [sophie_bot.services.bot] name=<sophie_bot.utils.i18n.LazyProxy object at 0x7fa6fb781390> emoji=ℹ️ advertise_wiki_page=False
-2025-12-26 11:53:41 [debug    ] gather_cmds_help: info         [sophie_bot.services.bot] cmds=['help', 'help', 'start', 'op_cmds']
-2025-12-26 11:53:41 [debug    ] gather_module_help: sophie_bot.modules.federations [sophie_bot.services.bot] name=<sophie_bot.utils.i18n.LazyProxy object at 0x7fa6f0154b90> emoji=🏛 advertise_wiki_page=False
-2025-12-26 11:53:41 [debug    ] Modern filter actions: Adding new action... [sophie_bot.services.bot] name=reply module=notes
-2025-12-26 11:53:41 [debug    ] Modern filter actions: Adding new action... [sophie_bot.services.bot] name=send_note module=notes
-2025-12-26 11:53:41 [debug    ] Modern filter actions: Adding new action... [sophie_bot.services.bot] name=send_rules module=rules
-2025-12-26 11:53:41 [debug    ] Modern filter actions: Adding new action... [sophie_bot.services.bot] name=delmsg module=purges
-2025-12-26 11:53:41 [debug    ] Modern filter actions: Adding new action... [sophie_bot.services.bot] name=warn_user module=warns
-2025-12-26 11:53:41 [debug    ] Modern filter actions: Adding new action... [sophie_bot.services.bot] name=kick_user module=restrictions
-2025-12-26 11:53:41 [debug    ] Modern filter actions: Adding new action... [sophie_bot.services.bot] name=ban_user module=restrictions
-2025-12-26 11:53:41 [debug    ] Modern filter actions: Adding new action... [sophie_bot.services.bot] name=mute_user module=restrictions
-2025-12-26 11:53:41 [debug    ] Modern filter actions: Adding new action... [sophie_bot.services.bot] name=ai_text module=ai
-2025-12-26 11:53:41 [debug    ] Legacy filters: Adding filters actions [sophie_bot.services.bot]
-2025-12-26 11:53:41 [debug    ] Legacy filters: Adding filter action from restrictions module [sophie_bot.services.bot]
-2025-12-26 11:53:41 [debug    ] Legacy filters: Adding filter action from warns module [sophie_bot.services.bot]
-2025-12-26 11:53:41 [debug    ] Legacy filters: Adding filter action from notes module [sophie_bot.services.bot]
-2025-12-26 11:53:41 [debug    ] Legacy filters: Adding filter action from rules module [sophie_bot.services.bot]
-2025-12-26 11:53:41 [debug    ] Legacy filters: Adding filter action from purges module [sophie_bot.services.bot]
-2025-12-26 11:53:41 [debug    ] Legacy filters: Adding filter action from ai module [sophie_bot.services.bot]
-2025-12-26 11:53:41 [debug    ] Legacy filters: Filters actions [sophie_bot.services.bot] actions={'kick_user': {'title': <sophie_bot.utils.i18n.LazyProxy object at 0x7fa6ebf154f0>, 'handle': <function get_strings_dec.<locals>.wrapped.<locals>.wrapped_1 at 0x7fa6ebf416c0>}, 'ban_user': {'title': <sophie_bot.utils.i18n.LazyProxy object at 0x7fa6ebf153d0>, 'setup': {'start': <function get_strings_dec.<locals>.wrapped.<locals>.wrapped_1 at 0x7fa6f01f2fc0>, 'finish': <function get_strings_dec.<locals>.wrapped.<locals>.wrapped_1 at 0x7fa6f01f3100>}, 'handle': <function get_strings_dec.<locals>.wrapped.<locals>.wrapped_1 at 0x7fa6ebf40f40>}, 'tban_user': {'title': <sophie_bot.utils.i18n.LazyProxy object at 0x7fa6ebf15550>, 'handle': <function get_strings_dec.<locals>.wrapped.<locals>.wrapped_1 at 0x7fa6ebf41300>, 'setup': [{'start': <function get_strings_dec.<locals>.wrapped.<locals>.wrapped_1 at 0x7fa6ebf41440>, 'finish': <function get_strings_dec.<locals>.wrapped.<locals>.wrapped_1 at 0x7fa6ebf41580>}, {'start': <function get_strings_dec.<locals>.wrapped.<locals>.wrapped_1 at 0x7fa6f01f2fc0>, 'finish': <function get_strings_dec.<locals>.wrapped.<locals>.wrapped_1 at 0x7fa6f01f3100>}]}, 'mute_user': {'title': <sophie_bot.utils.i18n.LazyProxy object at 0x7fa6ebf155b0>, 'setup': {'start': <function get_strings_dec.<locals>.wrapped.<locals>.wrapped_1 at 0x7fa6f01f2fc0>, 'finish': <function get_strings_dec.<locals>.wrapped.<locals>.wrapped_1 at 0x7fa6f01f3100>}, 'handle': <function get_strings_dec.<locals>.wrapped.<locals>.wrapped_1 at 0x7fa6ebf41080>}, 'tmute_user': {'title': <sophie_bot.utils.i18n.LazyProxy object at 0x7fa6ebf15610>, 'handle': <function get_strings_dec.<locals>.wrapped.<locals>.wrapped_1 at 0x7fa6ebf411c0>, 'setup': [{'start': <function get_strings_dec.<locals>.wrapped.<locals>.wrapped_1 at 0x7fa6ebf41440>, 'finish': <function get_strings_dec.<locals>.wrapped.<locals>.wrapped_1 at 0x7fa6ebf41580>}, {'start': <function get_strings_dec.<locals>.wrapped.<locals>.wrapped_1 at 0x7fa6f01f2fc0>, 'finish': <function get_strings_dec.<locals>.wrapped.<locals>.wrapped_1 at 0x7fa6f01f3100>}]}, 'warn_user': {'title': <sophie_bot.utils.i18n.LazyProxy object at 0x7fa6f01f8650>, 'setup': {'start': <function get_strings_dec.<locals>.wrapped.<locals>.wrapped_1 at 0x7fa6f01f2fc0>, 'finish': <function get_strings_dec.<locals>.wrapped.<locals>.wrapped_1 at 0x7fa6f01f3100>}, 'handle': <function get_strings_dec.<locals>.wrapped.<locals>.wrapped_1 at 0x7fa6f01f2e80>}, 'reply_message': {'title': <sophie_bot.utils.i18n.LazyProxy object at 0x7fa6fa1f1c70>, 'handle': <function replymsg_filter_handler at 0x7fa6fec947c0>, 'setup': {'start': <function replymsg_setup_start at 0x7fa6fec94860>, 'finish': <function replymsg_setup_finish at 0x7fa6fec94900>}, 'del_btn_name': <function get_filter.<locals>.<lambda> at 0x7fa6fa1f99e0>}, 'get_note': {'title': <sophie_bot.utils.i18n.LazyProxy object at 0x7fa6fa1f1d90>, 'handle': <function filter_handle at 0x7fa6fec945e0>, 'setup': {'start': <function setup_start at 0x7fa6fec94680>, 'finish': <function setup_finish at 0x7fa6fec94720>}, 'del_btn_name': <function get_filter.<locals>.<lambda> at 0x7fa6fa1f9a80>}, 'send_rules': {'title': <sophie_bot.utils.i18n.LazyProxy object at 0x7fa6f01a2150>, 'handle': <function send_chat_rules at 0x7fa6f01b6b60>}, 'delete_message': {'title': <sophie_bot.utils.i18n.LazyProxy object at 0x7fa6f01a35f0>, 'handle': <function delmsg_filter_handle at 0x7fa6f01d6ac0>, 'del_btn_name': <function get_filter.<locals>.<lambda> at 0x7fa6f01d6160>}, 'ai_text': {'title': <sophie_bot.utils.i18n.LazyProxy object at 0x7fa6fa223830>, 'setup': {'start': <function ai_setup_start at 0x7fa6fa304220>, 'finish': <function ai_setup_finish at 0x7fa6fa304360>}, 'handle': <function ai_filter_handle at 0x7fa6fa304400>}}
-2025-12-26 11:53:41 [debug    ] Legacy modules: Post setup     [sophie_bot.services.bot]
-2025-12-26 11:53:41 [debug    ] gather_module_help: sophie_bot.modules.legacy_modules.modules.antiflood [sophie_bot.services.bot] name=<sophie_bot.utils.i18n.LazyProxy object at 0x7fa6f0051190> emoji=📈 advertise_wiki_page=False
-2025-12-26 11:53:41 [debug    ] gather_cmds_help: antiflood    [sophie_bot.services.bot] cmds=['setflood', 'antiflood', 'flood', 'setfloodaction']
-2025-12-26 11:53:41 [debug    ] gather_module_help: sophie_bot.modules.legacy_modules.modules.connection [sophie_bot.services.bot] name=<sophie_bot.utils.i18n.LazyProxy object at 0x7fa6f0051910> emoji=🔐 advertise_wiki_page=False
-2025-12-26 11:53:41 [debug    ] gather_cmds_help: connection   [sophie_bot.services.bot] cmds=['connect', 'connect', 'connect', 'disconnect', 'allowusersconnect']
-2025-12-26 11:53:41 [debug    ] gather_module_help: sophie_bot.modules.legacy_modules.modules.feds [sophie_bot.services.bot] name=<sophie_bot.utils.i18n.LazyProxy object at 0x7fa6f0052bd0> emoji=🏙 advertise_wiki_page=False
-2025-12-26 11:53:41 [debug    ] gather_cmds_help: federations  [sophie_bot.services.bot] cmds=['fedinfo', 'finfo', 'transferfed', 'ftransfer']
-2025-12-26 11:53:41 [debug    ] gather_module_help: sophie_bot.modules.privacy [sophie_bot.services.bot] name=<sophie_bot.utils.i18n.LazyProxy object at 0x7fa6fb7ac550> emoji=🕵️‍♂️️ advertise_wiki_page=False
-2025-12-26 11:53:41 [debug    ] gather_cmds_help: info         [sophie_bot.services.bot] cmds=['privacy', 'export']
-2025-12-26 11:53:41 [debug    ] gather_module_help: sophie_bot.modules.disabling [sophie_bot.services.bot] name=<sophie_bot.utils.i18n.LazyProxy object at 0x7fa6f01a0d10> emoji=🚫 advertise_wiki_page=False
-2025-12-26 11:53:41 [debug    ] gather_cmds_help: Disable      [sophie_bot.services.bot] cmds=['disableable', 'disabled', 'disable', 'enable', 'enableall']
-2025-12-26 11:53:41 [debug    ] gather_module_help: sophie_bot.modules.rules [sophie_bot.services.bot] name=<sophie_bot.utils.i18n.LazyProxy object at 0x7fa6f01a1a90> emoji=🪧 advertise_wiki_page=False
-2025-12-26 11:53:41 [debug    ] gather_cmds_help: rules        [sophie_bot.services.bot] cmds=['setrules', 'rules', 'resetrules']
-2025-12-26 11:53:41 [debug    ] gather_module_help: sophie_bot.modules.promotes [sophie_bot.services.bot] name=<sophie_bot.utils.i18n.LazyProxy object at 0x7fa6f01a24b0> emoji=⭐️ advertise_wiki_page=False
-2025-12-26 11:53:41 [debug    ] gather_cmds_help: promotes     [sophie_bot.services.bot] cmds=['promote', 'demote']
-2025-12-26 11:53:41 [debug    ] gather_module_help: sophie_bot.modules.greetings [sophie_bot.services.bot] name=<sophie_bot.utils.i18n.LazyProxy object at 0x7fa6f05fd670> emoji=🙋‍♂️ advertise_wiki_page=False
-2025-12-26 11:53:41 [debug    ] gather_cmds_help: greetings    [sophie_bot.services.bot] cmds=['enablewelcome', 'setwelcome', 'setjoinrequest', 'deljoinrequest', 'welcome', 'cleanservice', 'cleanwelcome']
-2025-12-26 11:53:41 [debug    ] gather_module_help: sophie_bot.modules.welcomesecurity [sophie_bot.services.bot] name=<sophie_bot.utils.i18n.LazyProxy object at 0x7fa6ff7aee10> emoji=🛡️ advertise_wiki_page=False
-2025-12-26 11:53:41 [debug    ] gather_cmds_help: welcomesecurity [sophie_bot.services.bot] cmds=['welcomecaptcha', 'enablewelcomecaptcha', 'welcomerestrict', 'welcomesecurity']
-2025-12-26 11:53:41 [debug    ] gather_module_help: sophie_bot.modules.purges [sophie_bot.services.bot] name=<sophie_bot.utils.i18n.LazyProxy object at 0x7fa6f01a2ff0> emoji=🗑 advertise_wiki_page=False
-2025-12-26 11:53:41 [debug    ] gather_cmds_help: purges       [sophie_bot.services.bot] cmds=['delete', 'del', 'purge']
-2025-12-26 11:53:41 [debug    ] gather_module_help: sophie_bot.modules.ai [sophie_bot.services.bot] name=<sophie_bot.utils.i18n.LazyProxy object at 0x7fa6fbe39eb0> emoji=✨ advertise_wiki_page=False
-2025-12-26 11:53:41 [debug    ] gather_cmds_help: ai           [sophie_bot.services.bot] cmds=['enableai', 'aienable', 'aimoderator', 'aiautotranslate', 'autotranslate', 'aiprovider', 'ai', 'aisave', 'aireset', 'aitranslate', 'translate', 'tr', 'ai', 'op_aistats']
-2025-12-26 11:53:41 [debug    ] gather_module_help: sophie_bot.modules.filters [sophie_bot.services.bot] name=<sophie_bot.utils.i18n.LazyProxy object at 0x7fa6fa26ae70> emoji=🪄 advertise_wiki_page=True
-2025-12-26 11:53:41 [debug    ] gather_cmds_help: filters      [sophie_bot.services.bot] cmds=['addfilter', 'newfilter', 'filters', 'delfilter', 'editfilter']
-2025-12-26 11:53:41 [debug    ] gather_module_help: sophie_bot.modules.antiflood [sophie_bot.services.bot] name=<sophie_bot.utils.i18n.LazyProxy object at 0x7fa6f01f9250> emoji=🚫 advertise_wiki_page=False
-2025-12-26 11:53:41 [debug    ] gather_cmds_help: antiflood    [sophie_bot.services.bot] cmds=['setflood', 'antiflood', 'setfloodaction']
-2025-12-26 11:53:41 [debug    ] Module antiflood already in help modules, merging [sophie_bot.services.bot]
-2025-12-26 11:53:41 [debug    ] gather_cmds_help: feds         [sophie_bot.services.bot] cmds=['newfed', 'fnew', 'joinfed', 'fjoin', 'leavefed', 'fleave', 'fsub', 'funsub', 'fpromote', 'fdemote', 'fsetlog', 'setfedlog', 'funsetlog', 'unsetfedlog', 'fchatlist', 'fchats', 'fadminlist', 'fadmins', 'fban', 'sfban', 'unfban', 'funban', 'delfed', 'fdel', 'frename', 'fbanlist', 'exportfbans', 'fexport', 'importfbans', 'fimport', 'fcheck', 'fbanstat']
-2025-12-26 11:53:41 [debug    ] gather_module_help: sophie_bot.modules.legacy_modules.modules.language [sophie_bot.services.bot] name=<sophie_bot.utils.i18n.LazyProxy object at 0x7fa7013f9c80> emoji=🌍 advertise_wiki_page=False
-2025-12-26 11:53:41 [debug    ] gather_cmds_help: language     [sophie_bot.services.bot] cmds=['lang']
-2025-12-26 11:53:41 [debug    ] gather_module_help: sophie_bot.modules.legacy_modules.modules.owner_stuff [sophie_bot.services.bot] name=owner_stuff emoji=? advertise_wiki_page=False
-2025-12-26 11:53:41 [debug    ] gather_cmds_help: owner_stuff  [sophie_bot.services.bot] cmds=['event', 'stats']
-2025-12-26 11:53:41 [debug    ] gather_module_help: sophie_bot.modules.legacy_modules.modules.pins [sophie_bot.services.bot] name=<sophie_bot.utils.i18n.LazyProxy object at 0x7fa6ebf14410> emoji=📌 advertise_wiki_page=False
-2025-12-26 11:53:41 [debug    ] gather_cmds_help: pins         [sophie_bot.services.bot] cmds=['unpin', 'pin']
-2025-12-26 11:53:41 [debug    ] gather_module_help: sophie_bot.modules.legacy_modules.modules.reports [sophie_bot.services.bot] name=<sophie_bot.utils.i18n.LazyProxy object at 0x7fa6ebf14710> emoji=🗳 advertise_wiki_page=False
-2025-12-26 11:53:41 [debug    ] gather_cmds_help: reports      [sophie_bot.services.bot] cmds=['report']
-2025-12-26 11:53:41 [debug    ] gather_module_help: sophie_bot.modules.legacy_modules.modules.restrictions [sophie_bot.services.bot] name=<sophie_bot.utils.i18n.LazyProxy object at 0x7fa6ebf14d70> emoji=🛑 advertise_wiki_page=False
-2025-12-26 11:53:41 [debug    ] gather_cmds_help: restrictions [sophie_bot.services.bot] cmds=['kick', 'skick', 'mute', 'smute', 'tmute', 'stmute', 'unmute', 'ban', 'sban', 'tban', 'stban', 'unban']
-2025-12-26 11:53:41 [debug    ] gather_module_help: sophie_bot.modules.legacy_modules.modules.users [sophie_bot.services.bot] name=<sophie_bot.utils.i18n.LazyProxy object at 0x7fa6ebf158b0> emoji=🫂 advertise_wiki_page=False
-2025-12-26 11:53:41 [debug    ] gather_cmds_help: users        [sophie_bot.services.bot] cmds=['info', 'id', 'chatid', 'userid', 'adminlist', 'admins']
-2025-12-26 11:53:41 [debug    ] gather_module_help: sophie_bot.modules.legacy_modules.modules.warns [sophie_bot.services.bot] name=<sophie_bot.utils.i18n.LazyProxy object at 0x7fa6f01a3cb0> emoji=⚠️ advertise_wiki_page=False
-2025-12-26 11:53:41 [debug    ] gather_cmds_help: warns        [sophie_bot.services.bot] cmds=['warn', 'warns', 'warnlimit', 'resetwarns', 'delwarns', 'warnmode', 'warnaction']
-2025-12-26 11:53:41 [info     ] Loaded modules - rest, op, troubleshooters, error, users, notes, help, federations, privacy, disabling, rules, promotes, greetings, welcomesecurity, purges, warns, restrictions, ai, filters, antiflood, legacy_modules [sophie_bot.services.bot]
-2025-12-26 11:53:41 [info     ] OpenAPI documentation generated to openapi.json [sophie_bot.services.bot]
-2025-12-26 11:53:41 [debug    ] Using selector: EpollSelector  [asyncio]
-2025-12-26 11:53:41 [debug    ] {"message": "Server heartbeat failed", "topologyId": {"$oid": "694e7745afda4431f416abc9"}, "serverHost": "127.0.0.1", "serverPort": 27017, "awaited": true, "durationMS": 500.71965499955695, "failure": "\"_OperationCancelled('operation cancelled')\"", "driverConnectionId": 1} [pymongo.topology]
+2025-12-28 15:05:05 [info     ] Using BotAPI server: TelegramAPIServer(base='https://api.telegram.org/bot{token}/{method}', file='https://api.telegram.org/file/bot{token}/{path}', is_local=False, wrap_local_file=<aiogram.client.telegram.BareFilesPathWrapper object at 0x7fc0122d2510>) [sophie_bot.services.bot]
+2025-12-28 15:05:05 [debug    ] {"message": "Starting topology monitoring", "topologyId": {"$oid": "6951472143dd49dfd273a900"}} [pymongo.topology]
+2025-12-28 15:05:05 [debug    ] {"message": "Topology description changed", "topologyId": {"$oid": "6951472143dd49dfd273a900"}, "previousDescription": "<TopologyDescription id: 6951472143dd49dfd273a900, topology_type: Unknown, servers: []>", "newDescription": "<TopologyDescription id: 6951472143dd49dfd273a900, topology_type: Unknown, servers: [<ServerDescription ('127.0.0.1', 27017) server_type: Unknown, rtt: None>]>"} [pymongo.topology]
+2025-12-28 15:05:05 [debug    ] {"message": "Starting server monitoring", "topologyId": {"$oid": "6951472143dd49dfd273a900"}, "serverHost": "127.0.0.1", "serverPort": 27017} [pymongo.topology]
+2025-12-28 15:05:05 [debug    ] Loading legacy localizations... [sophie_bot.services.bot]
+2025-12-28 15:05:05 [debug    ] Loading language file ar_EG.yaml [sophie_bot.services.bot]
+2025-12-28 15:05:05 [debug    ] Loading language file ar_SA.yaml [sophie_bot.services.bot]
+2025-12-28 15:05:05 [debug    ] Loading language file cs_CZ.yaml [sophie_bot.services.bot]
+2025-12-28 15:05:05 [debug    ] Loading language file es_ES.yaml [sophie_bot.services.bot]
+2025-12-28 15:05:05 [debug    ] Loading language file fr_FR.yaml [sophie_bot.services.bot]
+2025-12-28 15:05:05 [debug    ] Loading language file pl_PL.yaml [sophie_bot.services.bot]
+2025-12-28 15:05:05 [debug    ] Loading language file pt_BR.yaml [sophie_bot.services.bot]
+2025-12-28 15:05:05 [debug    ] Loading language file ru_RU.yaml [sophie_bot.services.bot]
+2025-12-28 15:05:05 [debug    ] Loading language file tr_TR.yaml [sophie_bot.services.bot]
+2025-12-28 15:05:05 [debug    ] Loading language file uk_UA.yaml [sophie_bot.services.bot]
+2025-12-28 15:05:05 [debug    ] Loading language file zh_CN.yaml [sophie_bot.services.bot]
+2025-12-28 15:05:05 [debug    ] Loading language file de_DE.yaml [sophie_bot.services.bot]
+2025-12-28 15:05:05 [debug    ] Loading language file en_GB.yaml [sophie_bot.services.bot]
+2025-12-28 15:05:05 [debug    ] Loading language file en.yaml  [sophie_bot.services.bot]
+2025-12-28 15:05:05 [debug    ] Loading language file fi_FI.yaml [sophie_bot.services.bot]
+2025-12-28 15:05:05 [info     ] Legacy languages loaded: ['ar_EG', 'ar_SA', 'cs_CZ', 'es_ES', 'fr_FR', 'pl_PL', 'pt_BR', 'ru_RU', 'tr_TR', 'uk_UA', 'zh_CN', 'de_DE', 'en_GB', 'en', 'fi_FI'] [sophie_bot.services.bot]
+2025-12-28 15:05:05 [debug    ] Loading locales additional data... [sophie_bot.services.bot]
+2025-12-28 15:05:05 [info     ] Starting OpenAPI generation task... [sophie_bot.services.bot]
+2025-12-28 15:05:05 [debug    ] Using selector: EpollSelector  [asyncio]
+2025-12-28 15:05:05 [info     ] Importing modules...           [sophie_bot.services.bot]
+2025-12-28 15:05:05 [debug    ] Loading all modules...         [sophie_bot.services.bot] modules=['rest', 'op', 'troubleshooters', 'error', 'users', 'notes', 'help', 'federations', 'privacy', 'disabling', 'rules', 'promotes', 'greetings', 'welcomesecurity', 'purges', 'warns', 'restrictions', 'ai', 'filters', 'antiflood', 'legacy_modules']
+2025-12-28 15:05:05 [debug    ] ! Module rest has no router!   [sophie_bot.services.bot]
+2025-12-28 15:05:06 [debug    ] ! Legacy @register: Duplication of /lang command [sophie_bot.services.bot]
+2025-12-28 15:05:06 [debug    ] Using selector: EpollSelector  [asyncio]
+2025-12-28 15:05:06 [debug    ] {"message": "Starting topology monitoring", "topologyId": {"$oid": "6951472243dd49dfd273a901"}} [pymongo.topology]
+2025-12-28 15:05:06 [debug    ] {"message": "Topology description changed", "topologyId": {"$oid": "6951472243dd49dfd273a901"}, "previousDescription": "<TopologyDescription id: 6951472243dd49dfd273a901, topology_type: Unknown, servers: []>", "newDescription": "<TopologyDescription id: 6951472243dd49dfd273a901, topology_type: Unknown, servers: [<ServerDescription ('127.0.0.1', 27017) server_type: Unknown, rtt: None>]>"} [pymongo.topology]
+2025-12-28 15:05:06 [debug    ] {"message": "Starting server monitoring", "topologyId": {"$oid": "6951472243dd49dfd273a901"}, "serverHost": "127.0.0.1", "serverPort": 27017} [pymongo.topology]
+2025-12-28 15:05:06 [debug    ] {"message": "Connection pool created", "clientId": {"$oid": "6951472243dd49dfd273a901"}, "serverHost": "127.0.0.1", "serverPort": 27017} [pymongo.connection]
+2025-12-28 15:05:06 [debug    ] {"message": "Server heartbeat started", "topologyId": {"$oid": "6951472243dd49dfd273a901"}, "driverConnectionId": 1, "serverHost": "127.0.0.1", "serverPort": 27017, "awaited": false} [pymongo.topology]
+2025-12-28 15:05:06 [debug    ] No explicit setting existed. Use localtime [tzlocal]
+2025-12-28 15:05:06 [debug    ] {"message": "Server heartbeat succeeded", "topologyId": {"$oid": "6951472243dd49dfd273a901"}, "driverConnectionId": 1, "serverConnectionId": 5, "serverHost": "127.0.0.1", "serverPort": 27017, "awaited": false, "durationMS": 3.7982820031174924, "reply": "{\"helloOk\": true, \"ismaster\": true, \"topologyVersion\": {\"processId\": {\"$oid\": \"695146aeb151a0698e8f53c8\"}}, \"maxBsonObjectSize\": 16777216, \"maxMessageSizeBytes\": 48000000, \"maxWriteBatchSize\": 100000, \"localTime\": {\"$date\": \"2025-12-28T15:05:06.573Z\"}, \"logicalSessionTimeoutMinutes\": 30, \"connectionId\": 5, \"maxWireVersion\": 25, \"ok\": 1.0}"} [pymongo.topology]
+2025-12-28 15:05:06 [debug    ] {"message": "Connection pool ready", "clientId": {"$oid": "6951472243dd49dfd273a901"}, "serverHost": "127.0.0.1", "serverPort": 27017} [pymongo.connection]
+2025-12-28 15:05:06 [debug    ] {"message": "Topology description changed", "topologyId": {"$oid": "6951472243dd49dfd273a901"}, "previousDescription": "<TopologyDescription id: 6951472243dd49dfd273a901, topology_type: Unknown, servers: [<ServerDescription ('127.0.0.1', 27017) server_type: Unknown, rtt: None>]>", "newDescription": "<TopologyDescription id: 6951472243dd49dfd273a901, topology_type: Single, servers: [<ServerDescription ('127.0.0.1', 27017) server_type: Standalone, rtt: 0.0037982820031174924>]>"} [pymongo.topology]
+2025-12-28 15:05:06 [debug    ] {"message": "Server heartbeat started", "topologyId": {"$oid": "6951472243dd49dfd273a901"}, "driverConnectionId": 1, "serverConnectionId": 5, "serverHost": "127.0.0.1", "serverPort": 27017, "awaited": true} [pymongo.topology]
+2025-12-28 15:05:06 [debug    ] ! Module warns has no router!  [sophie_bot.services.bot]
+2025-12-28 15:05:06 [debug    ] ! Module restrictions has no router! [sophie_bot.services.bot]
+2025-12-28 15:05:06 [debug    ] ! Module legacy_modules has no router! [sophie_bot.services.bot]
+2025-12-28 15:05:06 [info     ] Legacy modules                 [sophie_bot.services.bot] to_load=['antiflood', 'connection', 'feds', 'language', 'owner_stuff', 'pins', 'reports', 'restrictions', 'users', 'warns']
+2025-12-28 15:05:06 [debug    ] ! Legacy @register: Duplication of /connect command [sophie_bot.services.bot]
+2025-12-28 15:05:06 [debug    ] ! Legacy @register: Duplication of /connect command [sophie_bot.services.bot]
+2025-12-28 15:05:06 [debug    ] Legacy @disableable_dec: Adding report to the disableable commands... [sophie_bot.services.bot]
+2025-12-28 15:05:06 [debug    ] Legacy @disableable_dec: Adding info to the disableable commands... [sophie_bot.services.bot]
+2025-12-28 15:05:06 [debug    ] Legacy @disableable_dec: Adding id to the disableable commands... [sophie_bot.services.bot]
+2025-12-28 15:05:06 [debug    ] Legacy @disableable_dec: Adding adminlist to the disableable commands... [sophie_bot.services.bot]
+2025-12-28 15:05:06 [info     ] Legacy modules: Modules loaded! [sophie_bot.services.bot]
+2025-12-28 15:05:06 [debug    ] Before serving: sophie_bot.modules.legacy_modules.modules.antiflood [sophie_bot.services.bot]
+2025-12-28 15:05:06 [debug    ] Legacy modules: Pre setup      [sophie_bot.services.bot]
+2025-12-28 15:05:06 [debug    ] gather_module_help: sophie_bot.modules.op [sophie_bot.services.bot] name=op emoji=? advertise_wiki_page=False
+2025-12-28 15:05:06 [debug    ] gather_cmds_help: op           [sophie_bot.services.bot] cmds=['op_listjobs', 'op_stopjobs', 'op_killswitch', 'op_banner', 'op_captcha']
+2025-12-28 15:05:06 [debug    ] gather_module_help: sophie_bot.modules.troubleshooters [sophie_bot.services.bot] name=<sophie_bot.utils.i18n.LazyProxy object at 0x7fc006111070> emoji=🧰 advertise_wiki_page=False
+2025-12-28 15:05:06 [debug    ] gather_cmds_help: troubleshooters [sophie_bot.services.bot] cmds=['enablebeta', 'enablebeta', 'op_setbeta', 'op_resetbeta', 'cancel', 'admincache']
+2025-12-28 15:05:06 [debug    ] gather_module_help: sophie_bot.modules.error [sophie_bot.services.bot] name=<sophie_bot.utils.i18n.LazyProxy object at 0x7fc00c2ac650> emoji=🚫 advertise_wiki_page=False
+2025-12-28 15:05:06 [debug    ] gather_cmds_help: error        [sophie_bot.services.bot] cmds=['op_crash']
+2025-12-28 15:05:06 [debug    ] gather_module_help: sophie_bot.modules.users [sophie_bot.services.bot] name=<sophie_bot.utils.i18n.LazyProxy object at 0x7fc0040b79b0> emoji=🫂 advertise_wiki_page=False
+2025-12-28 15:05:06 [debug    ] gather_cmds_help: users        [sophie_bot.services.bot] cmds=['id']
+2025-12-28 15:05:06 [debug    ] gather_cmds_help: users        [sophie_bot.services.bot] cmds=['id']
+2025-12-28 15:05:06 [debug    ] gather_module_help: sophie_bot.modules.notes [sophie_bot.services.bot] name=<sophie_bot.utils.i18n.LazyProxy object at 0x7fc00609d0d0> emoji=📗 advertise_wiki_page=True
+2025-12-28 15:05:06 [debug    ] gather_cmds_help: notes        [sophie_bot.services.bot] cmds=['pmnotes', 'privatenotes', 'pmnotes', 'privatenotes', 'notes', 'saved', 'notelist', 'get', 'search', 'delnote', 'clear', 'save', 'addnote']
+2025-12-28 15:05:06 [debug    ] gather_module_help: sophie_bot.modules.help [sophie_bot.services.bot] name=<sophie_bot.utils.i18n.LazyProxy object at 0x7fc00d504360> emoji=ℹ️ advertise_wiki_page=False
+2025-12-28 15:05:06 [debug    ] gather_cmds_help: info         [sophie_bot.services.bot] cmds=['help', 'help', 'start', 'op_cmds']
+2025-12-28 15:05:06 [debug    ] gather_module_help: sophie_bot.modules.federations [sophie_bot.services.bot] name=<sophie_bot.utils.i18n.LazyProxy object at 0x7fbffdd0c050> emoji=🏛 advertise_wiki_page=False
+2025-12-28 15:05:06 [debug    ] Modern filter actions: Adding new action... [sophie_bot.services.bot] name=reply module=notes
+2025-12-28 15:05:06 [debug    ] Modern filter actions: Adding new action... [sophie_bot.services.bot] name=send_note module=notes
+2025-12-28 15:05:06 [debug    ] Modern filter actions: Adding new action... [sophie_bot.services.bot] name=send_rules module=rules
+2025-12-28 15:05:06 [debug    ] Modern filter actions: Adding new action... [sophie_bot.services.bot] name=delmsg module=purges
+2025-12-28 15:05:06 [debug    ] Modern filter actions: Adding new action... [sophie_bot.services.bot] name=warn_user module=warns
+2025-12-28 15:05:06 [debug    ] Modern filter actions: Adding new action... [sophie_bot.services.bot] name=kick_user module=restrictions
+2025-12-28 15:05:06 [debug    ] Modern filter actions: Adding new action... [sophie_bot.services.bot] name=ban_user module=restrictions
+2025-12-28 15:05:06 [debug    ] Modern filter actions: Adding new action... [sophie_bot.services.bot] name=mute_user module=restrictions
+2025-12-28 15:05:06 [debug    ] Modern filter actions: Adding new action... [sophie_bot.services.bot] name=ai_text module=ai
+2025-12-28 15:05:06 [debug    ] Legacy filters: Adding filters actions [sophie_bot.services.bot]
+2025-12-28 15:05:06 [debug    ] Legacy filters: Adding filter action from restrictions module [sophie_bot.services.bot]
+2025-12-28 15:05:06 [debug    ] Legacy filters: Adding filter action from warns module [sophie_bot.services.bot]
+2025-12-28 15:05:06 [debug    ] Legacy filters: Adding filter action from notes module [sophie_bot.services.bot]
+2025-12-28 15:05:06 [debug    ] Legacy filters: Adding filter action from rules module [sophie_bot.services.bot]
+2025-12-28 15:05:06 [debug    ] Legacy filters: Adding filter action from purges module [sophie_bot.services.bot]
+2025-12-28 15:05:06 [debug    ] Legacy filters: Adding filter action from ai module [sophie_bot.services.bot]
+2025-12-28 15:05:06 [debug    ] Legacy filters: Filters actions [sophie_bot.services.bot] actions={'kick_user': {'title': <sophie_bot.utils.i18n.LazyProxy object at 0x7fbffc1d4770>, 'handle': <function get_strings_dec.<locals>.wrapped.<locals>.wrapped_1 at 0x7fbffc1d2f20>}, 'ban_user': {'title': <sophie_bot.utils.i18n.LazyProxy object at 0x7fbffc1d4650>, 'setup': {'start': <function get_strings_dec.<locals>.wrapped.<locals>.wrapped_1 at 0x7fbffdda8c20>, 'finish': <function get_strings_dec.<locals>.wrapped.<locals>.wrapped_1 at 0x7fbffdda8d60>}, 'handle': <function get_strings_dec.<locals>.wrapped.<locals>.wrapped_1 at 0x7fbffc1d27a0>}, 'tban_user': {'title': <sophie_bot.utils.i18n.LazyProxy object at 0x7fbffc1d47d0>, 'handle': <function get_strings_dec.<locals>.wrapped.<locals>.wrapped_1 at 0x7fbffc1d2b60>, 'setup': [{'start': <function get_strings_dec.<locals>.wrapped.<locals>.wrapped_1 at 0x7fbffc1d2ca0>, 'finish': <function get_strings_dec.<locals>.wrapped.<locals>.wrapped_1 at 0x7fbffc1d2de0>}, {'start': <function get_strings_dec.<locals>.wrapped.<locals>.wrapped_1 at 0x7fbffdda8c20>, 'finish': <function get_strings_dec.<locals>.wrapped.<locals>.wrapped_1 at 0x7fbffdda8d60>}]}, 'mute_user': {'title': <sophie_bot.utils.i18n.LazyProxy object at 0x7fbffc1d4830>, 'setup': {'start': <function get_strings_dec.<locals>.wrapped.<locals>.wrapped_1 at 0x7fbffdda8c20>, 'finish': <function get_strings_dec.<locals>.wrapped.<locals>.wrapped_1 at 0x7fbffdda8d60>}, 'handle': <function get_strings_dec.<locals>.wrapped.<locals>.wrapped_1 at 0x7fbffc1d28e0>}, 'tmute_user': {'title': <sophie_bot.utils.i18n.LazyProxy object at 0x7fbffc1d4890>, 'handle': <function get_strings_dec.<locals>.wrapped.<locals>.wrapped_1 at 0x7fbffc1d2a20>, 'setup': [{'start': <function get_strings_dec.<locals>.wrapped.<locals>.wrapped_1 at 0x7fbffc1d2ca0>, 'finish': <function get_strings_dec.<locals>.wrapped.<locals>.wrapped_1 at 0x7fbffc1d2de0>}, {'start': <function get_strings_dec.<locals>.wrapped.<locals>.wrapped_1 at 0x7fbffdda8c20>, 'finish': <function get_strings_dec.<locals>.wrapped.<locals>.wrapped_1 at 0x7fbffdda8d60>}]}, 'warn_user': {'title': <sophie_bot.utils.i18n.LazyProxy object at 0x7fbffdd4fad0>, 'setup': {'start': <function get_strings_dec.<locals>.wrapped.<locals>.wrapped_1 at 0x7fbffdda8c20>, 'finish': <function get_strings_dec.<locals>.wrapped.<locals>.wrapped_1 at 0x7fbffdda8d60>}, 'handle': <function get_strings_dec.<locals>.wrapped.<locals>.wrapped_1 at 0x7fbffdda8ae0>}, 'reply_message': {'title': <sophie_bot.utils.i18n.LazyProxy object at 0x7fc00609d2b0>, 'handle': <function replymsg_filter_handler at 0x7fc00e4a1d00>, 'setup': {'start': <function replymsg_setup_start at 0x7fc00e4a1da0>, 'finish': <function replymsg_setup_finish at 0x7fc00e4a1e40>}, 'del_btn_name': <function get_filter.<locals>.<lambda> at 0x7fc0061fb880>}, 'get_note': {'title': <sophie_bot.utils.i18n.LazyProxy object at 0x7fc00609d310>, 'handle': <function filter_handle at 0x7fc00e4a1b20>, 'setup': {'start': <function setup_start at 0x7fc00e4a1bc0>, 'finish': <function setup_finish at 0x7fc00e4a1c60>}, 'del_btn_name': <function get_filter.<locals>.<lambda> at 0x7fc0061fb920>}, 'send_rules': {'title': <sophie_bot.utils.i18n.LazyProxy object at 0x7fbffdd4d610>, 'handle': <function send_chat_rules at 0x7fbffdd687c0>}, 'delete_message': {'title': <sophie_bot.utils.i18n.LazyProxy object at 0x7fbffdd4eab0>, 'handle': <function delmsg_filter_handle at 0x7fbffdd88720>, 'del_btn_name': <function get_filter.<locals>.<lambda> at 0x7fbffdd6bd80>}, 'ai_text': {'title': <sophie_bot.utils.i18n.LazyProxy object at 0x7fc00c1cae10>, 'setup': {'start': <function ai_setup_start at 0x7fc00c289ee0>, 'finish': <function ai_setup_finish at 0x7fc00c28a020>}, 'handle': <function ai_filter_handle at 0x7fc00c28a0c0>}}
+2025-12-28 15:05:06 [debug    ] Legacy modules: Post setup     [sophie_bot.services.bot]
+2025-12-28 15:05:06 [debug    ] gather_module_help: sophie_bot.modules.legacy_modules.modules.antiflood [sophie_bot.services.bot] name=<sophie_bot.utils.i18n.LazyProxy object at 0x7fbffc10c650> emoji=📈 advertise_wiki_page=False
+2025-12-28 15:05:06 [debug    ] gather_cmds_help: antiflood    [sophie_bot.services.bot] cmds=['setflood', 'antiflood', 'flood', 'setfloodaction']
+2025-12-28 15:05:06 [debug    ] gather_module_help: sophie_bot.modules.legacy_modules.modules.connection [sophie_bot.services.bot] name=<sophie_bot.utils.i18n.LazyProxy object at 0x7fbffc10cdd0> emoji=🔐 advertise_wiki_page=False
+2025-12-28 15:05:06 [debug    ] gather_cmds_help: connection   [sophie_bot.services.bot] cmds=['connect', 'connect', 'connect', 'disconnect', 'allowusersconnect']
+2025-12-28 15:05:06 [debug    ] gather_module_help: sophie_bot.modules.legacy_modules.modules.feds [sophie_bot.services.bot] name=<sophie_bot.utils.i18n.LazyProxy object at 0x7fbffc10e090> emoji=🏙 advertise_wiki_page=False
+2025-12-28 15:05:06 [debug    ] gather_cmds_help: federations  [sophie_bot.services.bot] cmds=['fedinfo', 'finfo', 'transferfed', 'ftransfer']
+2025-12-28 15:05:06 [debug    ] gather_module_help: sophie_bot.modules.privacy [sophie_bot.services.bot] name=<sophie_bot.utils.i18n.LazyProxy object at 0x7fc00d510bd0> emoji=🕵️‍♂️️ advertise_wiki_page=False
+2025-12-28 15:05:06 [debug    ] gather_cmds_help: info         [sophie_bot.services.bot] cmds=['privacy', 'export']
+2025-12-28 15:05:06 [debug    ] gather_module_help: sophie_bot.modules.disabling [sophie_bot.services.bot] name=<sophie_bot.utils.i18n.LazyProxy object at 0x7fbffdd4c1d0> emoji=🚫 advertise_wiki_page=False
+2025-12-28 15:05:06 [debug    ] gather_cmds_help: Disable      [sophie_bot.services.bot] cmds=['disableable', 'disabled', 'disable', 'enable', 'enableall']
+2025-12-28 15:05:06 [debug    ] gather_module_help: sophie_bot.modules.rules [sophie_bot.services.bot] name=<sophie_bot.utils.i18n.LazyProxy object at 0x7fbffdd4cf50> emoji=🪧 advertise_wiki_page=False
+2025-12-28 15:05:06 [debug    ] gather_cmds_help: rules        [sophie_bot.services.bot] cmds=['setrules', 'rules', 'resetrules']
+2025-12-28 15:05:06 [debug    ] gather_module_help: sophie_bot.modules.promotes [sophie_bot.services.bot] name=<sophie_bot.utils.i18n.LazyProxy object at 0x7fbffdd4d970> emoji=⭐️ advertise_wiki_page=False
+2025-12-28 15:05:06 [debug    ] gather_cmds_help: promotes     [sophie_bot.services.bot] cmds=['promote', 'demote']
+2025-12-28 15:05:06 [debug    ] gather_module_help: sophie_bot.modules.greetings [sophie_bot.services.bot] name=<sophie_bot.utils.i18n.LazyProxy object at 0x7fc0040b4b30> emoji=🙋‍♂️ advertise_wiki_page=False
+2025-12-28 15:05:06 [debug    ] gather_cmds_help: greetings    [sophie_bot.services.bot] cmds=['enablewelcome', 'setwelcome', 'setjoinrequest', 'deljoinrequest', 'welcome', 'cleanservice', 'cleanwelcome']
+2025-12-28 15:05:06 [debug    ] gather_module_help: sophie_bot.modules.welcomesecurity [sophie_bot.services.bot] name=<sophie_bot.utils.i18n.LazyProxy object at 0x7fc00efbccb0> emoji=🛡️ advertise_wiki_page=False
+2025-12-28 15:05:06 [debug    ] gather_cmds_help: welcomesecurity [sophie_bot.services.bot] cmds=['welcomecaptcha', 'enablewelcomecaptcha', 'welcomerestrict', 'welcomesecurity']
+2025-12-28 15:05:06 [debug    ] gather_module_help: sophie_bot.modules.purges [sophie_bot.services.bot] name=<sophie_bot.utils.i18n.LazyProxy object at 0x7fbffdd4e4b0> emoji=🗑 advertise_wiki_page=False
+2025-12-28 15:05:06 [debug    ] gather_cmds_help: purges       [sophie_bot.services.bot] cmds=['delete', 'del', 'purge']
+2025-12-28 15:05:06 [debug    ] gather_module_help: sophie_bot.modules.ai [sophie_bot.services.bot] name=<sophie_bot.utils.i18n.LazyProxy object at 0x7fc00c1cac90> emoji=✨ advertise_wiki_page=False
+2025-12-28 15:05:06 [debug    ] gather_cmds_help: ai           [sophie_bot.services.bot] cmds=['enableai', 'aienable', 'aimoderator', 'aiautotranslate', 'autotranslate', 'aiprovider', 'ai', 'aisave', 'aireset', 'aitranslate', 'translate', 'tr', 'ai', 'op_aistats']
+2025-12-28 15:05:06 [debug    ] gather_module_help: sophie_bot.modules.filters [sophie_bot.services.bot] name=<sophie_bot.utils.i18n.LazyProxy object at 0x7fc006112390> emoji=🪄 advertise_wiki_page=True
+2025-12-28 15:05:06 [debug    ] gather_cmds_help: filters      [sophie_bot.services.bot] cmds=['addfilter', 'newfilter', 'filters', 'delfilter', 'editfilter']
+2025-12-28 15:05:06 [debug    ] gather_module_help: sophie_bot.modules.antiflood [sophie_bot.services.bot] name=<sophie_bot.utils.i18n.LazyProxy object at 0x7fbffddb8710> emoji=🚫 advertise_wiki_page=False
+2025-12-28 15:05:06 [debug    ] gather_cmds_help: antiflood    [sophie_bot.services.bot] cmds=['setflood', 'antiflood', 'setfloodaction']
+2025-12-28 15:05:06 [debug    ] Module antiflood already in help modules, merging [sophie_bot.services.bot]
+2025-12-28 15:05:06 [debug    ] gather_cmds_help: feds         [sophie_bot.services.bot] cmds=['newfed', 'fnew', 'joinfed', 'fjoin', 'leavefed', 'fleave', 'fsub', 'funsub', 'fpromote', 'fdemote', 'fsetlog', 'setfedlog', 'funsetlog', 'unsetfedlog', 'fchatlist', 'fchats', 'fadminlist', 'fadmins', 'fban', 'sfban', 'unfban', 'funban', 'delfed', 'fdel', 'frename', 'fbanlist', 'exportfbans', 'fexport', 'importfbans', 'fimport', 'fcheck', 'fbanstat']
+2025-12-28 15:05:06 [debug    ] gather_module_help: sophie_bot.modules.legacy_modules.modules.language [sophie_bot.services.bot] name=<sophie_bot.utils.i18n.LazyProxy object at 0x7fc010d49f40> emoji=🌍 advertise_wiki_page=False
+2025-12-28 15:05:06 [debug    ] gather_cmds_help: language     [sophie_bot.services.bot] cmds=['lang']
+2025-12-28 15:05:06 [debug    ] gather_module_help: sophie_bot.modules.legacy_modules.modules.owner_stuff [sophie_bot.services.bot] name=owner_stuff emoji=? advertise_wiki_page=False
+2025-12-28 15:05:06 [debug    ] gather_cmds_help: owner_stuff  [sophie_bot.services.bot] cmds=['event', 'stats']
+2025-12-28 15:05:06 [debug    ] gather_module_help: sophie_bot.modules.legacy_modules.modules.pins [sophie_bot.services.bot] name=<sophie_bot.utils.i18n.LazyProxy object at 0x7fbffc10f650> emoji=📌 advertise_wiki_page=False
+2025-12-28 15:05:06 [debug    ] gather_cmds_help: pins         [sophie_bot.services.bot] cmds=['unpin', 'pin']
+2025-12-28 15:05:06 [debug    ] gather_module_help: sophie_bot.modules.legacy_modules.modules.reports [sophie_bot.services.bot] name=<sophie_bot.utils.i18n.LazyProxy object at 0x7fbffc10f950> emoji=🗳 advertise_wiki_page=False
+2025-12-28 15:05:06 [debug    ] gather_cmds_help: reports      [sophie_bot.services.bot] cmds=['report']
+2025-12-28 15:05:06 [debug    ] gather_module_help: sophie_bot.modules.legacy_modules.modules.restrictions [sophie_bot.services.bot] name=<sophie_bot.utils.i18n.LazyProxy object at 0x7fbffc10ffb0> emoji=🛑 advertise_wiki_page=False
+2025-12-28 15:05:06 [debug    ] gather_cmds_help: restrictions [sophie_bot.services.bot] cmds=['kick', 'skick', 'mute', 'smute', 'tmute', 'stmute', 'unmute', 'ban', 'sban', 'tban', 'stban', 'unban']
+2025-12-28 15:05:06 [debug    ] gather_module_help: sophie_bot.modules.legacy_modules.modules.users [sophie_bot.services.bot] name=<sophie_bot.utils.i18n.LazyProxy object at 0x7fbffc1d4b30> emoji=🫂 advertise_wiki_page=False
+2025-12-28 15:05:06 [debug    ] gather_cmds_help: users        [sophie_bot.services.bot] cmds=['info', 'id', 'chatid', 'userid', 'adminlist', 'admins']
+2025-12-28 15:05:06 [debug    ] gather_module_help: sophie_bot.modules.legacy_modules.modules.warns [sophie_bot.services.bot] name=<sophie_bot.utils.i18n.LazyProxy object at 0x7fbffdd4f170> emoji=⚠️ advertise_wiki_page=False
+2025-12-28 15:05:06 [debug    ] gather_cmds_help: warns        [sophie_bot.services.bot] cmds=['warn', 'warns', 'warnlimit', 'resetwarns', 'delwarns', 'warnmode', 'warnaction']
+2025-12-28 15:05:06 [info     ] Loaded modules - rest, op, troubleshooters, error, users, notes, help, federations, privacy, disabling, rules, promotes, greetings, welcomesecurity, purges, warns, restrictions, ai, filters, antiflood, legacy_modules [sophie_bot.services.bot]
+2025-12-28 15:05:06 [info     ] OpenAPI documentation generated to openapi.json [sophie_bot.services.bot]
+2025-12-28 15:05:06 [debug    ] Using selector: EpollSelector  [asyncio]
+2025-12-28 15:05:07 [debug    ] {"message": "Server heartbeat failed", "topologyId": {"$oid": "6951472243dd49dfd273a901"}, "serverHost": "127.0.0.1", "serverPort": 27017, "awaited": true, "durationMS": 500.74986099934904, "failure": "\"_OperationCancelled('operation cancelled')\"", "driverConnectionId": 1} [pymongo.topology]

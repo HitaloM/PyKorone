@@ -10,6 +10,7 @@ from pydantic import (
     computed_field,
     field_validator,
     validator,
+    ValidationInfo,
 )
 from pydantic_settings import BaseSettings
 
@@ -61,7 +62,7 @@ class Config(BaseSettings):
     webhooks_secret_token: Optional[str] = None
     webhooks_handle_in_background: bool = True
 
-    api_listen: str = "127.0.0.1"
+    api_listen: str = "0.0.0.0"
     api_port: int = 8000
     api_jwt_secret: str = "change_me_in_production"
     api_operator_token: Optional[str] = "test"
@@ -148,6 +149,20 @@ class Config(BaseSettings):
         if owner_id not in value:
             value.append(owner_id)
         return value
+
+    @field_validator("api_jwt_secret")
+    @classmethod
+    def validate_jwt_secret(cls, v: str, info: ValidationInfo) -> str:
+        if info.data.get("environment") == "production" and v == "change_me_in_production":
+            raise ValueError("api_jwt_secret must be changed in production")
+        return v
+
+    @field_validator("api_operator_token")
+    @classmethod
+    def validate_operator_token(cls, v: str | None, info: ValidationInfo) -> str | None:
+        if info.data.get("environment") == "production" and v == "test":
+            raise ValueError("api_operator_token must be changed in production")
+        return v
 
     @field_validator("webhooks_allowed_networks")
     @classmethod
