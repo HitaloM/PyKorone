@@ -106,8 +106,8 @@ async def get_current_user(auth: Annotated[HTTPAuthorizationCredentials, Depends
 
 
 async def get_current_operator(
-        user: Annotated[ChatModel, Depends(get_current_user)],
-        auth: Annotated[HTTPAuthorizationCredentials, Depends(oauth2_scheme)],
+    user: Annotated[ChatModel, Depends(get_current_user)],
+    auth: Annotated[HTTPAuthorizationCredentials, Depends(oauth2_scheme)],
 ) -> ChatModel:
     token = auth.credentials
     # Check if user is in operators list

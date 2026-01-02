@@ -48,6 +48,7 @@ async def create_note(
     await note.insert()
 
     return NoteResponse(
+        id=note.id,  # type: ignore[arg-type]
         names=note.names,
         text=note.text,
         file=note.file,

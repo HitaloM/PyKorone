@@ -2,12 +2,14 @@ from __future__ import annotations
 
 from datetime import datetime
 
+from beanie import PydanticObjectId
 from pydantic import BaseModel
 
 from sophie_bot.db.models.notes import NoteFile, SaveableParseMode, Button
 
 
 class NoteResponse(BaseModel):
+    id: PydanticObjectId
     names: tuple[str, ...]
     text: str | None
     file: NoteFile | None

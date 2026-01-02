@@ -2,6 +2,7 @@ from __future__ import annotations
 
 from typing import Annotated
 
+from beanie import PydanticObjectId
 from fastapi import APIRouter, Depends, HTTPException, Response, status
 
 from sophie_bot.db.models.chat import ChatModel
@@ -12,16 +13,16 @@ from .utils import get_chat_and_verify_admin
 router = APIRouter()
 
 
-@router.delete("/{chat_id}/{note_name}", status_code=status.HTTP_204_NO_CONTENT)
+@router.delete("/{chat_id}/{note_id}", status_code=status.HTTP_204_NO_CONTENT)
 async def delete_note(
     chat_id: int,
-    note_name: str,
+    note_id: PydanticObjectId,
     user: Annotated[ChatModel, Depends(get_current_user)],
 ) -> Response:
     await get_chat_and_verify_admin(chat_id, user)
 
-    note = await NoteModel.get_by_notenames(chat_id, [note_name])
-    if not note:
+    note = await NoteModel.get(note_id)
+    if not note or note.chat_id != chat_id:
         raise HTTPException(status_code=404, detail="Note not found")
 
     await note.delete()

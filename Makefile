@@ -27,7 +27,7 @@ LOCALES_DIR := $(CURDIR)/locales
 
 
 all: fix_code_style locale test_all clean build_onefile
-commit: fix_code_style extract_lang test_code_style test_codeanalysis run_tests gen_wiki gen_openapi
+commit: fix_code_style extract_lang test_code_style test_codeanalysis run_tests gen_wiki api
 test_all: test_code_style test_codeanalysis run_tests
 locale: extract_lang update_lang compile_lang
 
@@ -99,12 +99,18 @@ new_locale:
 	make compile_lang
 
 # Wiki
-
 gen_wiki:
 	poetry run python tools/wiki_gen/start.py
 
+
+# REST API
 gen_openapi:
 	poetry run python tools/openapi_gen/generate.py
+
+api:
+	make gen_openapi
+	cp openapi.json ../sdash
+	cd ../sdash && bun run gen:api
 
 
 dev_deps:

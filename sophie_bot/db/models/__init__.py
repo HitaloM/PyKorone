@@ -54,5 +54,5 @@ models: List[Type[Document]] = [
     ApiTokenModel,
     Federation,
     FederationBan,
-    RefreshTokenModel
+    RefreshTokenModel,
 ]

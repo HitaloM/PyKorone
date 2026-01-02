@@ -3,6 +3,7 @@ from __future__ import annotations
 from datetime import datetime, timezone
 from typing import Annotated
 
+from beanie import PydanticObjectId
 from fastapi import APIRouter, Depends, HTTPException
 
 from sophie_bot.db.models.chat import ChatModel
@@ -14,17 +15,17 @@ from .utils import get_chat_and_verify_admin
 router = APIRouter()
 
 
-@router.patch("/{chat_id}/{note_name}", response_model=NoteResponse)
+@router.patch("/{chat_id}/{note_id}", response_model=NoteResponse)
 async def update_note(
     chat_id: int,
-    note_name: str,
+    note_id: PydanticObjectId,
     note_data: NoteUpdate,
     user: Annotated[ChatModel, Depends(get_current_user)],
 ) -> NoteResponse:
     await get_chat_and_verify_admin(chat_id, user)
 
-    note = await NoteModel.get_by_notenames(chat_id, [note_name])
-    if not note:
+    note = await NoteModel.get(note_id)
+    if not note or note.chat_id != chat_id:
         raise HTTPException(status_code=404, detail="Note not found")
 
     update_dict = note_data.model_dump(exclude_unset=True)
@@ -46,6 +47,7 @@ async def update_note(
     await note.save()
 
     return NoteResponse(
+        id=note.id,  # type: ignore[arg-type]
         names=note.names,
         text=note.text,
         file=note.file,

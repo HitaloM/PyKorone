@@ -2,6 +2,7 @@ from __future__ import annotations
 
 from typing import Annotated
 
+from beanie import PydanticObjectId
 from fastapi import APIRouter, Depends, HTTPException
 
 from sophie_bot.db.models.chat import ChatModel
@@ -23,6 +24,7 @@ async def list_notes(
     notes = await NoteModel.get_chat_notes(chat_id)
     return [
         NoteResponse(
+            id=n.id,  # type: ignore[arg-type]
             names=n.names,
             text=n.text,
             file=n.file,
@@ -39,19 +41,20 @@ async def list_notes(
     ]
 
 
-@router.get("/{chat_id}/{note_name}", response_model=NoteResponse)
+@router.get("/{chat_id}/{note_id}", response_model=NoteResponse)
 async def get_note(
     chat_id: int,
-    note_name: str,
+    note_id: PydanticObjectId,
     user: Annotated[ChatModel, Depends(get_current_user)],
 ) -> NoteResponse:
     await get_chat_and_verify_admin(chat_id, user)
 
-    note = await NoteModel.get_by_notenames(chat_id, [note_name])
-    if not note:
+    note = await NoteModel.get(note_id)
+    if not note or note.chat_id != chat_id:
         raise HTTPException(status_code=404, detail="Note not found")
 
     return NoteResponse(
+        id=note.id,  # type: ignore[arg-type]
         names=note.names,
         text=note.text,
         file=note.file,
