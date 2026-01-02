@@ -16,3 +16,9 @@ class RefreshTokenModel(Document):
 
     class Settings:
         name = "refresh_tokens"
+
+    @staticmethod
+    async def get_by_hash(token_hash: str) -> "RefreshTokenModel":
+        token = await RefreshTokenModel.find_one(RefreshTokenModel.token_hash == token_hash)
+        await token.fetch_all_links()
+        return token

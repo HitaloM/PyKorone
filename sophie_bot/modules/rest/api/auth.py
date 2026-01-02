@@ -94,10 +94,10 @@ async def login_operator(data: OperatorLoginRequest):
             raise HTTPException(status_code=500, detail="Owner ID not configured")
 
     hashed = hash_token(data.token)
-    api_token = await ApiTokenModel.find_one(ApiTokenModel.token_hash == hashed, fetch_links=True)
+    api_token = await ApiTokenModel.get_by_hash(hashed)
     if api_token:
-        user = api_token.owner
-        logger.info("Operator logged in via API token", user_id=user.chat_id, label=api_token.label)
+        user = api_token.user
+        logger.info("Operator logged in via API token", user_id=user.chat_id, label=api_token.label)  # type: ignore
         return await create_tokens(user, scopes=["operator"])
 
     logger.warning("Failed operator login attempt")
@@ -107,22 +107,17 @@ async def login_operator(data: OperatorLoginRequest):
 @router.post("/refresh", response_model=Token)
 async def refresh_token(data: RefreshRequest):
     hashed_token = hash_token(data.refresh_token)
-    token_doc = await RefreshTokenModel.get_motor_collection().find_one_and_delete(
-        {
-            "token_hash": hashed_token,
-            "expires_at": {"$gt": datetime.now(timezone.utc)},
-        }
-    )
 
-    if not token_doc:
+    token = await RefreshTokenModel.get_by_hash(hashed_token)
+
+    if not token:
         logger.warning("Invalid or expired refresh token used")
         raise HTTPException(status_code=401, detail="Invalid or expired refresh token")
 
-    user_id = token_doc["user"]
-    user = await ChatModel.get_by_iid(user_id)
-    if not user:
-        logger.error("User not found for valid refresh token", user_id=user_id)
-        raise HTTPException(status_code=401, detail="User not found")
+    expires_at = token.expires_at.replace(tzinfo=timezone.utc)
+    if expires_at < datetime.now(timezone.utc):
+        logger.warning("Refresh token expired", token_id=token.id)
+        raise HTTPException(status_code=401, detail="Refresh token expired")
 
-    logger.info("Token refreshed", user_id=user.chat_id)
-    return await create_tokens(user)
+    logger.info("Token refreshed", user_iid=token.user.id, user_tid=token.user.chat_id)  # type: ignore
+    return await create_tokens(token.user)

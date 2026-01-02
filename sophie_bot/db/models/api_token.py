@@ -11,8 +11,12 @@ from sophie_bot.db.models.chat import ChatModel
 class ApiTokenModel(Document):
     token_hash: Annotated[str, Indexed(unique=True)] = Field(..., description="Hashed token")
     label: str
-    owner: Link[ChatModel]
+    user: Link[ChatModel]
     created_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
 
     class Settings:
         name = "api_tokens"
+
+    @staticmethod
+    async def get_by_hash(token_hash: str) -> "ApiTokenModel":
+        return await ApiTokenModel.find_one(ApiTokenModel.token_hash == token_hash, fetch_links=True)
