@@ -29,7 +29,7 @@ class PMNotesStatus(MessageHandler):
         if not connection.db_model:
             raise SophieException("Chat has no database model saved.")
 
-        state = await PrivateNotesModel.get_state(connection.id)
+        state = await PrivateNotesModel.get_state(connection.tid)
 
         doc = Doc(
             Section(
@@ -62,7 +62,7 @@ class PMNotesControl(MessageHandler):
         if not connection.db_model:
             raise SophieException("Chat has no database model saved.")
 
-        await PrivateNotesModel.set_state(connection.id, new_state)
+        await PrivateNotesModel.set_state(connection.tid, new_state)
 
         status_text = _("enabled") if new_state else _("disabled")
 

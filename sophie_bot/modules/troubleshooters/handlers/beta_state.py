@@ -64,7 +64,7 @@ async def set_preferred_mode(message: Message, new_state: str):
 
 @flags.help(description=l_("Get current strategy mode / current state"))
 async def show_beta_state(message):
-    beta_state = await BetaModeModel.get_by_chat_id(message.chat.id)
+    beta_state = await BetaModeModel.get_by_chat_id(message.chat.iid)
 
     preferred_mode = PreferredMode(beta_state.preferred_mode) if beta_state else PreferredMode.auto
 

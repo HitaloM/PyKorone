@@ -18,12 +18,12 @@ class CleanServiceHandlerABC(StatusBoolHandlerABC):
         return CMDFilter("cleanservice"), UserRestricting(admin=True)
 
     async def get_status(self) -> bool:
-        chat_id = self.connection.id
+        chat_id = self.connection.tid
         db_model = await GreetingsModel.get_by_chat_id(chat_id)
         return bool((db_model.clean_service and db_model.clean_service.enabled) if db_model else False)
 
     async def set_status(self, new_status: bool):
-        chat_id = self.connection.id
+        chat_id = self.connection.tid
 
         db_model = await GreetingsModel.get_by_chat_id(chat_id)
         await db_model.set_service_clean_status(new_status)

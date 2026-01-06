@@ -36,7 +36,7 @@ class GenerateAITitles:
     async def process_chat(self, chat: ChatModel):
         log.debug("generate_ai_titles: processing chat", chat=chat)
 
-        chat_notes = NoteModel.find(NoteModel.chat_id == chat.chat_id)
+        chat_notes = NoteModel.find(NoteModel.chat_tid == chat.tid)
 
         if await chat_notes.count() > 30:
             log.debug("generate_ai_titles: chat has too many notes, skipping...", chat=chat)
@@ -50,22 +50,22 @@ class GenerateAITitles:
             if not note.text:
                 log.debug("generate_ai_titles: note has no text, skipping...", note=note)
 
-            generated_data = await self.generate_data(note, chat.id)
+            generated_data = await self.generate_data(note, chat.iid)
             await self.update_note(note, generated_data)
 
     async def handle(self):
         async for chat in ForChats():
-            status = await BetaModeModel.get_by_chat_id(chat.chat_id)
+            status = await BetaModeModel.get_by_chat_id(chat.tid)
             if not status:
-                log.debug("generate_ai_titles: no mode found, skipping...", chat=chat.chat_id)
+                log.debug("generate_ai_titles: no mode found, skipping...", chat=chat.tid)
                 continue
 
             if status.mode != CurrentMode.beta:
-                log.debug("generate_ai_titles: not in beta mode, skipping...", chat=chat.chat_id)
+                log.debug("generate_ai_titles: not in beta mode, skipping...", chat=chat.tid)
                 continue
 
-            if not await AIEnabledModel.get_state(chat.chat_id):
-                log.debug("generate_ai_titles: AI features are not enabled, skipping...", chat=chat.chat_id)
+            if not await AIEnabledModel.get_state(chat.tid):
+                log.debug("generate_ai_titles: AI features are not enabled, skipping...", chat=chat.tid)
 
-            async with UseChatLanguage(chat.chat_id):
+            async with UseChatLanguage(chat.tid):
                 await self.process_chat(chat)

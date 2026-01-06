@@ -37,17 +37,17 @@ class AISaveNote(MessageHandler):
 
         message = await self.event.reply(_("✨ Generating..."))
 
-        all_notes = await NoteModel.get_chat_notes(connection.id)
+        all_notes = await NoteModel.get_chat_notes(connection.tid)
         all_notenames = list(itertools.chain.from_iterable(note.names for note in all_notes))
         all_groups = list(note.note_group for note in all_notes if note.note_group)
 
         data: AISaveResponseSchema = await self.make_request(all_notenames, all_groups)
 
         # Pre-saving checks
-        if await NoteModel.get_by_notenames(connection.id, data.notenames):
+        if await NoteModel.get_by_notenames(connection.tid, data.notenames):
             return await message.edit_text(_("AI Generation failed, note already exists! Please try again."))
 
-        await self.save(connection.id, data)
+        await self.save(connection.tid, data)
 
         await message.edit_text(
             str(
@@ -85,6 +85,6 @@ class AISaveNote(MessageHandler):
         )
 
         messages = await NewAIMessageHistory.chatbot(self.event, custom_user_text=prompt)
-        provider = await get_chat_default_model(self.data["connection"].id)
+        provider = await get_chat_default_model(self.data["connection"].iid)
 
         return await new_ai_generate_schema(messages, AISaveResponseSchema, provider)

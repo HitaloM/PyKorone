@@ -14,7 +14,7 @@ from sophie_bot.utils.logger import log
 
 
 async def check_legacy_filter_handler(event: Message | CallbackQuery, keyword: str, connection: ChatConnection) -> bool:
-    if await FiltersModel.get_by_keyword(connection.id, keyword):
+    if await FiltersModel.get_by_keyword(connection.tid, keyword):
         return await reply_or_edit(
             event,
             Doc(

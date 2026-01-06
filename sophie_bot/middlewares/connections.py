@@ -15,7 +15,7 @@ from sophie_bot.utils.logger import log
 class ChatConnection:
     type: ChatType
     is_connected: bool
-    id: int
+    tid: int
     title: str
     db_model: ChatModel
 
@@ -29,7 +29,7 @@ class ConnectionsMiddleware(BaseMiddleware):
         if db_model is None:
             raise SophieException(_("Chat not found in database"))
 
-        return ChatConnection(is_connected=False, id=chat.id, type=ChatType[chat.type], title=title, db_model=db_model)
+        return ChatConnection(is_connected=False, tid=chat.id, type=ChatType[chat.type], title=title, db_model=db_model)
 
     @staticmethod
     async def get_chat_from_db(chat_id: int, is_connected: bool) -> ChatConnection:
@@ -41,7 +41,7 @@ class ConnectionsMiddleware(BaseMiddleware):
             )
 
         return ChatConnection(
-            is_connected=is_connected, id=chat.chat_id, type=chat.type, title=chat.first_name_or_title, db_model=chat
+            is_connected=is_connected, tid=chat.tid, type=chat.type, title=chat.first_name_or_title, db_model=chat
         )
 
     async def __call__(

@@ -22,5 +22,5 @@ class AIChatNotesFunc:
         return AIChatNote(names=note.names, text=note.text)
 
     async def __call__(self, ctx: RunContext["SophieAIToolContenxt"]) -> list["AIChatNote"]:
-        notes = await NoteModel.get_chat_notes(ctx.deps.connection.id)
+        notes = await NoteModel.get_chat_notes(ctx.deps.connection.tid)
         return notes_ta.validate_python(note.model_dump() for note in notes)

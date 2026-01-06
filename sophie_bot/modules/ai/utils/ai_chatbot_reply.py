@@ -83,7 +83,7 @@ async def ai_chatbot_reply(
         await bot.send_chat_action(message.chat.id, "typing")
 
         # Chat memory
-        memory_lines = await AIMemoryModel.get_lines(connection.db_model.id)
+        memory_lines = await AIMemoryModel.get_lines(connection.db_model.iid)
 
         system_prompt = Doc(
             _("You can use Tavily to search for information. Include information sources as links."),
@@ -113,7 +113,7 @@ async def ai_chatbot_reply(
             )
 
         if model is None:
-            model = await get_chat_default_model(connection.db_model.id)  # type: ignore
+            model = await get_chat_default_model(connection.db_model.iid)  # type: ignore
         result = await new_ai_generate(
             history,
             tools=CHATBOT_TOOLS,

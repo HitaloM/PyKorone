@@ -60,7 +60,7 @@ class FilterDeleteHandler(SophieMessageHandler):
         keyword: str = self.data["handler"]
         index: int = (self.data["index"] or 1) - 1
 
-        if not (items := await FiltersModel.get_legacy_by_keyword(self.connection.id, keyword)):
+        if not (items := await FiltersModel.get_legacy_by_keyword(self.connection.tid, keyword)):
             return await self.event.reply(
                 Doc(
                     Template(_("The filter with keyword {keyword} does not exist!"), keyword=Code(keyword)),

@@ -17,7 +17,6 @@ from sophie_bot.utils.i18n import lazy_gettext as l_
 __module_name__ = l_("Users")
 __module_emoji__ = "🫂"
 
-
 router = Router(name="users")
 
 
@@ -66,7 +65,7 @@ async def get_id(message: Message, user, strings, chat):
 
     text = strings["your_id"].format(id=user_id)
     if message.chat.id != user_id:
-        text += strings["chat_id"].format(id=message.chat.id)
+        text += strings["chat_id"].format(id=message.chat.iid)
 
     if chat["status"] is True:
         text += strings["conn_chat_id"].format(id=chat["chat_id"])

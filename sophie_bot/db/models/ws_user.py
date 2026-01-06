@@ -21,8 +21,8 @@ class WSUserModel(Document):
     @staticmethod
     async def ensure_user(user: "ChatModel", group: "ChatModel", is_join_request: bool) -> "WSUserModel":
         return await WSUserModel.find_one(
-            WSUserModel.user.id == user.id,
-            WSUserModel.group.id == group.id,
+            WSUserModel.user.id == user.iid,
+            WSUserModel.group.id == group.iid,
         ).upsert(
             Set({}),
             on_insert=WSUserModel(user=user, group=group, is_join_request=is_join_request),

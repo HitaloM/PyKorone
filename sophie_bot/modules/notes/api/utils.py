@@ -6,14 +6,10 @@ from sophie_bot.db.models.chat import ChatModel
 from sophie_bot.db.models.chat_admin import ChatAdminModel
 
 
-async def get_chat_and_verify_admin(chat_id: int, user: ChatModel) -> ChatModel:
-    chat = await ChatModel.get_by_tid(chat_id)
-    if not chat:
-        raise HTTPException(status_code=404, detail="Chat not found")
-
+async def verify_admin(chat: ChatModel, user: ChatModel) -> ChatModel:
     admin = await ChatAdminModel.find_one(
-        ChatAdminModel.user.id == user.id,  # type: ignore[attr-defined]
-        ChatAdminModel.chat.id == chat.id,  # type: ignore[attr-defined]
+        ChatAdminModel.user.id == user.iid,  # type: ignore[attr-defined]
+        ChatAdminModel.chat.id == chat.iid,  # type: ignore[attr-defined]
     )
     if not admin:
         raise HTTPException(status_code=403, detail="You are not an admin in this chat")

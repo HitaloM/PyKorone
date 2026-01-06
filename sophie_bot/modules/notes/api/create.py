@@ -3,36 +3,40 @@ from __future__ import annotations
 from datetime import datetime, timezone
 from typing import Annotated
 
+from beanie import PydanticObjectId
 from fastapi import APIRouter, Depends, HTTPException, status
 
 from sophie_bot.db.models.chat import ChatModel
 from sophie_bot.db.models.notes import NoteModel
 from sophie_bot.utils.api.auth import get_current_user
 from .schemas import NoteCreate, NoteResponse
-from .utils import get_chat_and_verify_admin
+from .utils import verify_admin
 
 router = APIRouter()
 
 
-@router.post("/{chat_id}", response_model=NoteResponse, status_code=status.HTTP_201_CREATED)
+@router.post("/{chat_iid}", response_model=NoteResponse, status_code=status.HTTP_201_CREATED)
 async def create_note(
-    chat_id: int,
+    chat_iid: PydanticObjectId,
     note_data: NoteCreate,
     user: Annotated[ChatModel, Depends(get_current_user)],
 ) -> NoteResponse:
-    chat = await get_chat_and_verify_admin(chat_id, user)
+    chat = await ChatModel.get_by_iid(chat_iid)
+    if not chat:
+        raise HTTPException(status_code=404, detail="Chat not found")
+    await verify_admin(chat, user)
 
     if not note_data.names:
         raise HTTPException(status_code=400, detail="Note names cannot be empty")
 
     # Check if any of the names are already taken
-    existing = await NoteModel.get_by_notenames(chat_id, note_data.names)
+    existing = await NoteModel.get_by_notenames(chat.tid, note_data.names)
     if existing:
         raise HTTPException(status_code=400, detail=f"One of the names is already taken: {existing.names}")
 
     note = NoteModel(
-        chat_id=chat_id,
-        chat=chat.id,  # type: ignore[arg-type]
+        chat_id=chat.tid,
+        chat=chat.iid,  # type: ignore[arg-type]
         names=note_data.names,
         text=note_data.text,
         file=note_data.file,
@@ -43,12 +47,12 @@ async def create_note(
         ai_description=note_data.ai_description,
         note_group=note_data.note_group,
         created_date=datetime.now(timezone.utc),
-        created_user=user.chat_id,
+        created_user=user.tid,
     )
     await note.insert()
 
     return NoteResponse(
-        id=note.id,  # type: ignore[arg-type]
+        id=note.iid,  # type: ignore[arg-type]
         names=note.names,
         text=note.text,
         file=note.file,

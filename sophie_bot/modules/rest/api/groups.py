@@ -3,7 +3,7 @@ from __future__ import annotations
 from typing import Annotated
 
 from aiogram.types import ResultChatMemberUnion
-from beanie import Link
+from beanie import Link, PydanticObjectId
 from fastapi import APIRouter, Depends
 from pydantic import BaseModel
 
@@ -15,7 +15,8 @@ router = APIRouter(prefix="/groups", tags=["groups"])
 
 
 class GroupResponse(BaseModel):
-    chat_id: int
+    chat_tid: int
+    chat_iid: PydanticObjectId
     title: str
     username: str | None
     photo_url: str | None
@@ -28,7 +29,7 @@ async def get_user_groups(
 ) -> list[GroupResponse]:
     admins = (
         await ChatAdminModel.find(
-            ChatAdminModel.user.id == user.id,  # type: ignore[attr-defined]
+            ChatAdminModel.user.id == user.iid,  # type: ignore[attr-defined]
         )
         .find_many()
         .to_list()
@@ -42,7 +43,8 @@ async def get_user_groups(
 
         response.append(
             GroupResponse(
-                chat_id=chat.chat_id,
+                chat_iid=chat.iid,
+                chat_tid=chat.tid,
                 title=chat.first_name_or_title,
                 username=chat.username,
                 photo_url=None,

@@ -49,6 +49,6 @@ class CacheBotMessagesMiddleware(BaseMiddleware):
                 to_cache = cut_titlebar(to_cache)
 
             log.debug("CacheBotMessagesMiddleware: caching message", message=to_cache)
-            await cache_message(to_cache, chat_db.chat_id, CONFIG.bot_id, sent_message_id)
+            await cache_message(to_cache, chat_db.tid, CONFIG.bot_id, sent_message_id)
 
         return result

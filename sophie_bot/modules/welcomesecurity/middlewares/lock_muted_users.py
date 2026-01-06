@@ -29,12 +29,12 @@ class LockMutedUsers(BaseMiddleware):
             chat_db: ChatModel = data["chat_db"]
             user_db: ChatModel = data["user_db"]
 
-            log.debug("LockMutedUsers", chat=chat_db.chat_id, user=user_db.chat_id)
+            log.debug("LockMutedUsers", chat=chat_db.tid, user=user_db.tid)
 
-            if await is_user_admin(chat_db.chat_id, user_db.chat_id):
+            if await is_user_admin(chat_db.tid, user_db.tid):
                 return await handler(event, data)
 
-            model = await WSUserModel.is_user(user_db.id, chat_db.id)
+            model = await WSUserModel.is_user(user_db.iid, chat_db.iid)
             if model and not model.passed:
                 await self._lock_user(event, chat_db, user_db)
 

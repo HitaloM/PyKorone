@@ -15,11 +15,11 @@ class IsAdmin(Filter):
 
     async def __call__(self, event, *args, **kwargs):
         if hasattr(event, "message"):
-            chat_id = event.message.chat.id
+            chat_id = event.message.chat.iid
         else:
-            chat_id = event.chat.id
+            chat_id = event.chat.iid
 
-        if not await is_user_admin(chat_id, event.from_user.id):
+        if not await is_user_admin(chat_id, event.from_user.iid):
             task = event.answer if hasattr(event, "message") else event.reply
             await task(_("Admin permission required!"))
             raise SkipHandler

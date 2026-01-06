@@ -42,7 +42,7 @@ class JoinFederationHandler(SophieMessageHandler):
             return
 
         fed_id: Federation = self.data["fed_id"]
-        chat_id = self.connection.id
+        chat_id = self.connection.tid
         user_id = self.event.from_user.id
 
         # Check if user can join chats to federation

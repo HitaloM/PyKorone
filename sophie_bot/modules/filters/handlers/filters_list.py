@@ -20,7 +20,7 @@ class FiltersListHandler(SophieMessageHandler):
         return (CMDFilter("filters"),)
 
     async def handle(self) -> Any:
-        all_filters = await FiltersModel.get_filters(self.connection.id)
+        all_filters = await FiltersModel.get_filters(self.connection.tid)
 
         if not all_filters:
             return await self.event.reply(_("There are no filters in this chat!"))

@@ -10,9 +10,9 @@ from sophie_bot.modules.ai.utils.detect_lang import (
     is_text_language,
     lang_code_to_language,
 )
+from sophie_bot.utils.feature_flags import is_enabled
 from sophie_bot.utils.i18n import I18nNew
 from sophie_bot.utils.logger import log
-from sophie_bot.utils.feature_flags import is_enabled
 
 
 class AiAutoTranslateMiddleware(BaseMiddleware):
@@ -35,7 +35,7 @@ class AiAutoTranslateMiddleware(BaseMiddleware):
             and chat_db.type != ChatType.private
             and data.get("ai_enabled")
             and isinstance(event, Message)
-            and await AIAutotranslateModel.get_state(chat_db.id)
+            and await AIAutotranslateModel.get_state(chat_db.iid)
         ):
             data["autotranslate"] = True
             data["text"] = event.text or event.caption or ""

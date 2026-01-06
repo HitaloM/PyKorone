@@ -27,7 +27,7 @@ class GetNote(SophieMessageHandler):
         chat: ChatConnection = self.data["connection"]
 
         note_name: str = self.data["notename"].removeprefix("#")
-        note = await NoteModel.get_by_notenames(chat.id, (note_name,))
+        note = await NoteModel.get_by_notenames(chat.tid, (note_name,))
 
         if not note and self.data.get("get_error_on_404", True):
             return await self.event.reply(_("No note was found with {name} name.").format(name=Italic(note_name)))
@@ -67,7 +67,7 @@ class HashtagGetNote(SophieMessageHandler):
 
     async def _fine_note(self, note_name: str) -> Optional[NoteModel]:
         chat: ChatConnection = self.data["connection"]
-        return await NoteModel.get_by_notenames(chat.id, (note_name,))
+        return await NoteModel.get_by_notenames(chat.tid, (note_name,))
 
     @staticmethod
     def _get_note_title(note_model: NoteModel) -> str:

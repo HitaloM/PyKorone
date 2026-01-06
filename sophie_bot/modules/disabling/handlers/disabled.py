@@ -21,7 +21,7 @@ class ListDisabled(SophieMessageHandler):
     async def handle(self):
         connection: ChatConnection = self.data["connection"]
 
-        disabled = await get_disabled_handlers(connection.id)
+        disabled = await get_disabled_handlers(connection.tid)
 
         if not disabled:
             await self.event.reply(_("No disabled commands found."))

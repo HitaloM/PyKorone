@@ -4,7 +4,7 @@ from pymongo import AsyncMongoClient
 from sophie_bot.config import CONFIG
 from sophie_bot.db.models import models
 
-async_mongo = AsyncMongoClient(CONFIG.mongo_host, CONFIG.mongo_port)
+async_mongo: AsyncMongoClient = AsyncMongoClient(CONFIG.mongo_host, CONFIG.mongo_port)
 db = async_mongo[CONFIG.mongo_db]
 
 

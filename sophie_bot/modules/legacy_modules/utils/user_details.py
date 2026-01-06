@@ -83,7 +83,7 @@ async def get_admins_rights(chat_id, force_update=False):
             if not member:
                 continue
 
-            user_id = member.user.id
+            user_id = member.user.iid
             alist[user_id] = {
                 "status": member.status,
                 "admin": True,
@@ -112,7 +112,7 @@ async def get_admins_rights(chat_id, force_update=False):
             user = await ChatModel.get_by_tid(chat_id)
             if not user:
                 continue
-            await save_chat_member(chat.id, user.id, member)
+            await save_chat_member(chat.iid, user.iid, member)
 
         bredis.set(key, pickle.dumps(alist))
         bredis.expire(key, 900)
@@ -252,18 +252,18 @@ async def get_user(message, allow_self=False):
 
     # Only 1 way
     if len(args) < 2 and message.reply_to_message:
-        return await get_user_by_id(message.reply_to_message.from_user.id)
+        return await get_user_by_id(message.reply_to_message.from_user.iid)
 
     # Use default function to get user
     if len(args) > 1:
         user = await get_user_by_text(message, args[1])
 
     if not user and bool(message.reply_to_message):
-        user = await get_user_by_id(message.reply_to_message.from_user.id)
+        user = await get_user_by_id(message.reply_to_message.from_user.iid)
 
     if not user and allow_self:
         # TODO: Fetch user from message instead of db?! less overhead
-        return await get_user_by_id(message.from_user.id)
+        return await get_user_by_id(message.from_user.iid)
 
     # No args and no way to get user
     if not user and len(args) < 2:
@@ -351,7 +351,7 @@ def get_chat_dec(allow_self=False, fed=False):
                         # Here is a workaround for aiogram 3.0, which changed dictionaries to objects
                         if chat_request := await bot.get_chat(arg):
                             chat = {
-                                "chat_id": chat_request.id,
+                                "chat_id": chat_request.iid,
                                 "chat_type": chat_request.type,
                                 "chat_title": chat_request.title,
                                 "chat_nick": chat_request.username,
@@ -366,7 +366,7 @@ def get_chat_dec(allow_self=False, fed=False):
             elif arg.startswith("@"):
                 chat = await db.chat_list.find_one({"chat_nick": re.compile(arg.strip("@"), re.IGNORECASE)})
             elif allow_self is True:
-                chat = await db.chat_list.find_one({"chat_id": message.chat.id})
+                chat = await db.chat_list.find_one({"chat_id": message.chat.iid})
             else:
                 await message.reply(_("Please give me valid chat ID/username"))
                 return

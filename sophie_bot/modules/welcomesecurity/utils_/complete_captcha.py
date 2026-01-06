@@ -45,13 +45,13 @@ async def complete_captcha(
 
     # Approve join request if applicable
     if is_join_request:
-        await bot.approve_chat_join_request(chat_id=group.chat_id, user_id=user.chat_id)
+        await bot.approve_chat_join_request(chat_id=group.tid, user_id=user.tid)
 
     # Unmute user from welcomesecurity (and apply welcome_mute if enabled)
     await ws_on_user_passed(user, group, greetings.welcome_mute or WelcomeMute())
 
     # Send rules if available
-    rules = await RulesModel.get_rules(group.chat_id)
+    rules = await RulesModel.get_rules(group.tid)
     if rules:
         await send_welcome(captcha_message, rules.saveable, False, None, user)
 
@@ -61,10 +61,10 @@ async def complete_captcha(
         await send_welcome(captcha_message, welcome_saveable, False, rules)
 
     # Clean up
-    if msg_to_clean := await aredis.get(f"chat_ws_message:{group.id}:{user.id}"):
-        await common_try(bot.delete_message(chat_id=group.chat_id, message_id=int(msg_to_clean)))
-        await aredis.delete(f"chat_ws_message:{group.id}:{user.id}")
+    if msg_to_clean := await aredis.get(f"chat_ws_message:{group.iid}:{user.iid}"):
+        await common_try(bot.delete_message(chat_id=group.tid, message_id=int(msg_to_clean)))
+        await aredis.delete(f"chat_ws_message:{group.iid}:{user.iid}")
 
     if is_join_request:
-        if msg_id := await aredis.get(f"join_request_message:{group.id}:{user.id}"):
-            await common_try(bot.delete_message(chat_id=group.chat_id, message_id=int(msg_id)))
+        if msg_id := await aredis.get(f"join_request_message:{group.iid}:{user.iid}"):
+            await common_try(bot.delete_message(chat_id=group.tid, message_id=int(msg_id)))

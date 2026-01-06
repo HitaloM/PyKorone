@@ -38,7 +38,7 @@ def get_union_user(user: User | ChatModel) -> UnionUser:
         )
     elif isinstance(user, ChatModel):
         return UnionUser(
-            chat_id=user.chat_id, first_name=user.first_name_or_title, last_name=user.last_name, username=user.username
+            chat_id=user.tid, first_name=user.first_name_or_title, last_name=user.last_name, username=user.username
         )
     else:
         raise ValueError("Invalid user type to cast to UnionUser")

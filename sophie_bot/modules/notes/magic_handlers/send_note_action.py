@@ -32,7 +32,7 @@ async def setup_confirm(event: Message | CallbackQuery, data: dict[str, Any]) ->
     notename = (event.text or "").split(" ", 1)[0].lower().removeprefix("#")
 
     # Check whatever given notename exist
-    if not (await NoteModel.get_by_notenames(connection.id, (notename,))):
+    if not (await NoteModel.get_by_notenames(connection.tid, (notename,))):
         await event.reply(_("Note with this name does not exist. Please try again."))
         raise ActionSetupTryAgainException()
 
@@ -76,7 +76,7 @@ class SendNoteAction(ModernActionABC[SendNoteActionDataModel]):
         connection: ChatConnection = data["connection"]
         notename = filter_data.notename
 
-        note = await NoteModel.get_by_notenames(connection.id, (notename,))
+        note = await NoteModel.get_by_notenames(connection.tid, (notename,))
 
         if not note:
             await message.reply(_("#{name} note was not found.").format(name=Bold(notename)))

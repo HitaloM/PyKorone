@@ -15,16 +15,16 @@ async def ws_on_user_passed(user: ChatModel, group: ChatModel, welcomemute: Welc
     """
 
     # Check for admin permissions
-    if await is_user_admin(chat_id=group.chat_id, user_id=user.chat_id):
+    if await is_user_admin(chat_id=group.tid, user_id=user.tid):
         return False
 
     # Remove the user from the welcomesecurity database
-    await WSUserModel.remove_user(user.id, group.id)
+    await WSUserModel.remove_user(user.iid, group.iid)
 
     # Unmute / restrict user
     if welcomemute.enabled and welcomemute.time:
-        await on_welcomemute(group.chat_id, user.chat_id, on_time=convert_timedelta_or_str(welcomemute.time))
+        await on_welcomemute(group.tid, user.tid, on_time=convert_timedelta_or_str(welcomemute.time))
     else:
-        await unmute_user(chat_id=group.chat_id, user_id=user.chat_id)
+        await unmute_user(chat_id=group.tid, user_id=user.tid)
 
     return True

@@ -20,6 +20,6 @@ class ResetAdminCache(MessageHandler):
         if chat.type == ChatType.private:
             return await self.event.reply(_("You can't use this command in private chats."))
 
-        await get_admins_rights(chat.id, force_update=True)  # Reset a cache
+        await get_admins_rights(chat.tid, force_update=True)  # Reset a cache
         await update_chat_members(chat.db_model)
         await self.event.reply(_("Admin rights cache has been reset."))

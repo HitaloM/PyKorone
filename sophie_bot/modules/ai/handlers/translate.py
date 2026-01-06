@@ -100,7 +100,7 @@ class AiTranslate(MessageHandler):
 
         log.debug("AiTranslate", ai_context=ai_context.history_debug())
 
-        model = await get_chat_translations_model(connection.db_model.id)
+        model = await get_chat_translations_model(connection.db_model.iid)
 
         try:
             translated = await new_ai_generate_schema(ai_context, AITranslateResponseSchema, model=model)

@@ -62,7 +62,7 @@ class AIProviderSetting(SophieMessageHandler):
         if not self.connection.db_model:
             return
         chat = self.connection.db_model
-        current = await AIProviderModel.get_provider_name(chat.id)
+        current = await AIProviderModel.get_provider_name(chat.iid)
         current = current or AIProviders.auto.name
 
         kb = build_keyboard(current)

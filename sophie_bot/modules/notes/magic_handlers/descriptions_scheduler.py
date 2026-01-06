@@ -24,13 +24,13 @@ class NotesDescriptionsScheduler:
                 async for chat in ChatModel.find(ChatModel.last_saw >= delta):
                     await sleep(5)
 
-                    if not await AIEnabledModel.get_state(chat.chat_id):
+                    if not await AIEnabledModel.get_state(chat.tid):
                         log.debug("- NotesDescriptionsScheduler: AI features are not enabled, skipping...", chat=chat)
                         continue
 
                     log.debug("NotesDescriptionsScheduler: processing chat", chat=chat)
 
-                    async for note in NoteModel.find(NoteModel.chat_id == chat.chat_id):
+                    async for note in NoteModel.find(NoteModel.chat_tid == chat.tid):
                         notenames = note.names
 
                         if note.description:
@@ -57,7 +57,7 @@ class NotesDescriptionsScheduler:
                         messages.add_system(system_prompt)
                         messages.add_custom(note.text, name=None)
 
-                        model = await get_chat_default_model(chat.id)
+                        model = await get_chat_default_model(chat.iid)
                         generated_data = await new_ai_generate_schema(messages, AIUpdateNoteData, model)
                         log.debug("- NotesDescriptionsScheduler: generated data", generated_data=generated_data)
 

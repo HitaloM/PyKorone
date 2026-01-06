@@ -25,7 +25,7 @@ class AntifloodStatusHandler(SophieMessageHandler):
         return CMDFilter("antiflood"), UserRestricting(admin=True)
 
     async def handle(self) -> Any:
-        model = await AntifloodModel.get_by_chat_iid(self.connection.db_model.id)
+        model = await AntifloodModel.get_by_chat_iid(self.connection.db_model.iid)
 
         """Display current antiflood status."""
         status_text = _("Enabled") if model.enabled else _("Disabled")

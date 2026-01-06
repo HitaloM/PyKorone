@@ -39,11 +39,11 @@ class EnableHandler(SophieMessageHandler):
             await self.event.reply(str(Template(_("Command {cmd} not found."), cmd=Code("/" + cmd_name))))
             return
 
-        if handler not in await get_disabled_handlers(connection.id):
+        if handler not in await get_disabled_handlers(connection.tid):
             await self.event.reply(str(Template(_("Command {cmd} is already disabled."), cmd=Code("/" + cmd_name))))
             return
 
-        await self.enable_cmd(connection.id, handler.cmds[0])
+        await self.enable_cmd(connection.tid, handler.cmds[0])
 
         await self.event.reply(
             str(

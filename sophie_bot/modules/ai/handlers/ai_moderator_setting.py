@@ -21,7 +21,7 @@ class AIModerator(StatusBoolHandlerABC):
         if not self.connection.db_model:
             return False
 
-        db_model = await AIModeratorModel.get_state(self.connection.db_model.id)
+        db_model = await AIModeratorModel.get_state(self.connection.db_model.iid)
         return bool(db_model)
 
     async def set_status(self, new_status: bool):

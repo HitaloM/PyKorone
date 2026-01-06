@@ -35,7 +35,7 @@ class SetFederationLogHandler(SophieMessageHandler):
             return
 
         # Get the current chat
-        chat_id = self.connection.id
+        chat_id = self.connection.tid
 
         # Get federation for this chat
         federation = await FederationService.get_federation_for_chat(chat_id)
@@ -103,7 +103,7 @@ class UnsetFederationLogHandler(SophieMessageHandler):
             return
 
         # Get the current chat
-        chat_id = self.connection.id
+        chat_id = self.connection.tid
 
         # Get federation for this chat
         federation = await FederationService.get_federation_for_chat(chat_id)

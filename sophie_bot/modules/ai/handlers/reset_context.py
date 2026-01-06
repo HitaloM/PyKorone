@@ -30,10 +30,10 @@ class AIContextReset(SophieMessageHandler):
         return AIResetContext.filter(), UserRestricting(admin=True), AIEnabledFilter()
 
     async def handle(self) -> Any:
-        await reset_messages(self.connection.id)
+        await reset_messages(self.connection.tid)
 
         if self.connection.db_model:
-            await AIMemoryModel.clear(self.connection.db_model.id)
+            await AIMemoryModel.clear(self.connection.db_model.iid)
 
         return await self.event.reply(
             _("🔄 AI context and AI memory was successfully reset. AI will now operate in a clean state.")

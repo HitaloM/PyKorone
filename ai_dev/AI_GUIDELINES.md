@@ -350,7 +350,7 @@ class SomeModel(Document):
 
 
 # Find by Link relationship
-model = await SomeModel.find_one(SomeModel.chat.id == chat_model.id)  # chat_iid
+model = await SomeModel.find_one(SomeModel.chat.iid == chat_model.iid)  # chat_iid
 ```
 
 #### Method Parameter Naming
@@ -363,12 +363,12 @@ async def get_settings(chat_tid: int) -> SomeModel:
     if not chat:
         raise ValueError(f"Chat with ID {chat_tid} not found")
 
-    return await SomeModel.find_one(SomeModel.chat.id == chat.id)  # Use chat_iid
+    return await SomeModel.find_one(SomeModel.chat.iid == chat.iid)  # Use chat_iid
 
 
 async def get_by_internal_id(chat_iid: PydanticObjectId) -> SomeModel:
     """Get settings using database internal ID."""
-    return await SomeModel.find_one(SomeModel.chat.id == chat_iid)
+    return await SomeModel.find_one(SomeModel.chat.iid == chat_iid)
 ```
 
 ### Common Mistakes to Avoid
@@ -377,17 +377,17 @@ async def get_by_internal_id(chat_iid: PydanticObjectId) -> SomeModel:
 
 ```python
 # This will FAIL - using Telegram ID in Link query
-chat_tid = message.chat.id  # Telegram ID (int)
-model = await SomeModel.find_one(SomeModel.chat.id == chat_tid)  # WRONG!
+chat_tid = message.chat.iid  # Telegram ID (int)
+model = await SomeModel.find_one(SomeModel.chat.iid == chat_tid)  # WRONG!
 ```
 
 #### ✅ CORRECT - Proper ID conversion
 
 ```python
 # Convert Telegram ID to database model first
-chat_tid = message.chat.id  # Telegram ID (int)
+chat_tid = message.chat.iid  # Telegram ID (int)
 chat = await ChatModel.get_by_tid(chat_tid)  # Get ChatModel
-model = await SomeModel.find_one(SomeModel.chat.id == chat.id)  # Use chat_iid
+model = await SomeModel.find_one(SomeModel.chat.iid == chat.iid)  # Use chat_iid
 ```
 
 ### Handler Best Practices
@@ -397,7 +397,7 @@ model = await SomeModel.find_one(SomeModel.chat.id == chat.id)  # Use chat_iid
 class ExampleHandler(SophieMessageHandler):
     async def handle(self) -> Any:
         # Get Telegram chat ID from connection
-        chat_tid = self.connection.id  # This is Telegram's chat ID
+        chat_tid = self.connection.tid  # This is Telegram's chat ID
 
         # For Link queries, get the ChatModel first
         chat = await ChatModel.get_by_tid(chat_tid)
@@ -405,7 +405,7 @@ class ExampleHandler(SophieMessageHandler):
             return await self.event.reply(_("Chat not found"))
 
         # Use chat.id (database object ID) for Link queries
-        model = await SomeModel.find_one(SomeModel.chat.id == chat.id)
+        model = await SomeModel.find_one(SomeModel.chat.iid == chat.iid)
 ```
 
 ### Variable Naming in Code

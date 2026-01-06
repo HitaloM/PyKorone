@@ -67,7 +67,7 @@ class ChatJoinRequestHandler(SophieBaseHandler[ChatJoinRequest]):
         # Send join request message in chat
         join_request_saveable = greetings.join_request_message or get_default_join_request_message()
 
-        rules = await RulesModel.get_rules(chat_id=connection.id)
+        rules = await RulesModel.get_rules(chat_id=connection.tid)
         additional_fillings = {"rules": rules.text or "" if rules else _("No chat rules, have fun!")}
 
         # Send message in chat

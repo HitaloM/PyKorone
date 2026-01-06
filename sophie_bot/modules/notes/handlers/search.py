@@ -27,7 +27,7 @@ class NotesSearchHandler(SophieMessageHandler):
         connection = self.connection
 
         to_search: str = self.data["text"]
-        notes = await NoteModel.search_chat_notes(connection.id, to_search)
+        notes = await NoteModel.search_chat_notes(connection.tid, to_search)
 
         if not notes:
             return await self.event.reply(

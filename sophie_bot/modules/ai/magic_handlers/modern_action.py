@@ -77,14 +77,14 @@ class AIReplyAction(ModernActionABC[AIReplyActionDataModel]):
     async def handle(self, message: Message, data: dict, filter_data: AIReplyActionDataModel) -> Element:
         connection: ChatConnection = data["connection"]
 
-        if not (chat_db := await ChatModel.get_by_tid(connection.id)):
+        if not (chat_db := await ChatModel.get_by_tid(connection.tid)):
             raise SophieException("Chat not found in database")
 
         if not (message.text or message.caption and await AIThrottleFilter().__call__(message, chat_db)):
             return
 
         messages = await NewAIMessageHistory.chatbot(message, additional_system_prompt=filter_data.prompt)
-        provider = await get_chat_default_model(connection.db_model.id)
+        provider = await get_chat_default_model(connection.db_model.iid)
 
         result = await new_ai_generate(messages, provider)
         return Doc(Title(_("✨ AI Response")), PreformattedHTML(legacy_markdown_to_html(str(result.output))))

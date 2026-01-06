@@ -82,7 +82,7 @@ class SaveChatsMiddleware(BaseMiddleware):
         if not message.from_user:
             return None, None
 
-        if message.sender_chat and message.sender_chat.id == current_group.chat_id:
+        if message.sender_chat and message.sender_chat.id == current_group.tid:
             return None, None
 
         if message.sender_chat:  # Sent as channel/group
@@ -154,7 +154,7 @@ class SaveChatsMiddleware(BaseMiddleware):
             await self.save_topic(message.reply_to_message, group)
             chats_to_update.extend(await self.handle_replied_message(reply_message, chat_id))
 
-        elif message.forward_from or (message.forward_from_chat and message.forward_from_chat.id != group.chat_id):
+        elif message.forward_from or (message.forward_from_chat and message.forward_from_chat.id != group.tid):
             if message.forward_from_chat:
                 chats_to_update.append(message.forward_from_chat)
             elif message.forward_from:
@@ -170,7 +170,7 @@ class SaveChatsMiddleware(BaseMiddleware):
         new_users = []
         for member in message.new_chat_members:
             # Let's skip updating the user if it was already updated before in the _handle_message_update.
-            if member.id == user_db.id:
+            if member.id == user_db.iid:
                 continue
 
             new_user = await ChatModel.upsert_user(member)

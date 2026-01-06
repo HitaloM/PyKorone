@@ -10,22 +10,25 @@ from sophie_bot.db.models.chat import ChatModel
 from sophie_bot.db.models.notes import NoteModel
 from sophie_bot.utils.api.auth import get_current_user
 from .schemas import NoteResponse, NoteUpdate
-from .utils import get_chat_and_verify_admin
+from .utils import verify_admin
 
 router = APIRouter()
 
 
-@router.patch("/{chat_id}/{note_id}", response_model=NoteResponse)
+@router.patch("/{chat_iid}/{note_id}", response_model=NoteResponse)
 async def update_note(
-    chat_id: int,
-    note_id: PydanticObjectId,
-    note_data: NoteUpdate,
-    user: Annotated[ChatModel, Depends(get_current_user)],
+        chat_iid: PydanticObjectId,
+        note_id: PydanticObjectId,
+        note_data: NoteUpdate,
+        user: Annotated[ChatModel, Depends(get_current_user)],
 ) -> NoteResponse:
-    await get_chat_and_verify_admin(chat_id, user)
+    chat = await ChatModel.get_by_iid(chat_iid)
+    if not chat:
+        raise HTTPException(status_code=404, detail="Chat not found")
+    await verify_admin(chat, user)
 
     note = await NoteModel.get(note_id)
-    if not note or note.chat_id != chat_id:
+    if not note or note.chat_tid != chat.tid:
         raise HTTPException(status_code=404, detail="Note not found")
 
     update_dict = note_data.model_dump(exclude_unset=True)
@@ -35,7 +38,7 @@ async def update_note(
             raise HTTPException(status_code=400, detail="Note names cannot be empty")
 
         # Check if new names are taken by other notes
-        existing = await NoteModel.get_by_notenames(chat_id, update_dict["names"])
+        existing = await NoteModel.get_by_notenames(chat.tid, update_dict["names"])
         if existing and existing.id != note.id:
             raise HTTPException(status_code=400, detail=f"One of the names is already taken: {existing.names}")
 
@@ -43,11 +46,11 @@ async def update_note(
         setattr(note, key, value)
 
     note.edited_date = datetime.now(timezone.utc)
-    note.edited_user = user.chat_id
+    note.edited_user = user.tid
     await note.save()
 
     return NoteResponse(
-        id=note.id,  # type: ignore[arg-type]
+        id=note.id,
         names=note.names,
         text=note.text,
         file=note.file,

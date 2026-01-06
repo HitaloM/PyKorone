@@ -21,7 +21,7 @@ class AIProviderModel(Document):
 
     @staticmethod
     async def set_provider(chat: ChatModel, provider_name: str) -> AIProviderModel:
-        model = await AIProviderModel.find_one(AIProviderModel.chat.id == chat.id)
+        model = await AIProviderModel.find_one(AIProviderModel.chat.id == chat.iid)
         if model:
             model.provider = provider_name
             await model.save()

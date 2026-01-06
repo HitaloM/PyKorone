@@ -99,7 +99,7 @@ class NewUserMiddleware(BaseMiddleware):
         sent_message = await send_welcome(message, ws_saveable, cleanservice_enabled, chat_rules)
         # Save sent message to cleanup it later
         if len(muted_users) == 1:
-            await aredis.set(f"chat_ws_message:{chat_db.id}:{new_users[0].id}", sent_message.message_id)
+            await aredis.set(f"chat_ws_message:{chat_db.iid}:{new_users[0].iid}", sent_message.message_id)
 
         return sent_message
 
@@ -129,7 +129,7 @@ class NewUserMiddleware(BaseMiddleware):
                 return await handler(event, data)
 
             # Sanity check
-            if tuple(user.id for user in event.new_chat_members) != tuple(user.chat_id for user in new_users):
+            if tuple(user.id for user in event.new_chat_members) != tuple(user.tid for user in new_users):
                 raise ValueError("NewUserMiddleware: unexpected / incorrect 'new_users' data from SaveChatsMiddleware!")
 
             db_item: GreetingsModel = await GreetingsModel.get_by_chat_id(chat_id)

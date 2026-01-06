@@ -52,7 +52,7 @@ def _top_n(items: Mapping[str, int], n: int) -> List[Tuple[str, int]]:
 
 def _display_name(chat: ChatModel) -> str | Element:
     if chat.type == ChatType.private:
-        return UserLink(chat.chat_id, chat.first_name_or_title)
+        return UserLink(chat.tid, chat.first_name_or_title)
     # groups/supergroups/channels
     return chat.first_name_or_title
 
@@ -129,8 +129,8 @@ async def op_ai_stats_handler(message: Message) -> None:
     if iids_needed:
         # Convert back to ObjectIds via ChatModel.find(In(ChatModel.id, ...))
         ids = [PydanticObjectId(i) for i in iids_needed]
-        chat_models = await ChatModel.find(In(ChatModel.id, ids)).to_list()
-        chat_by_id = {str(c.id): c for c in chat_models}
+        chat_models = await ChatModel.find(In(ChatModel.iid, ids)).to_list()
+        chat_by_id = {str(c.iid): c for c in chat_models}
 
     # Split into groups vs users
     def filter_type(data: Mapping[str, int], type_: ChatType) -> Dict[str, int]:

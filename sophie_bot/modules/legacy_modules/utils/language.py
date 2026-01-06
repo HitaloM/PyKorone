@@ -114,9 +114,9 @@ def get_strings_dec(module, mas_name="STRINGS"):
         async def wrapped_1(*args, **kwargs):
             message = args[0]
             if hasattr(message, "chat"):
-                chat_id = message.chat.id
+                chat_id = message.chat.iid
             elif hasattr(message, "message"):
-                chat_id = message.message.chat.id
+                chat_id = message.message.chat.iid
             else:
                 chat_id = None
 

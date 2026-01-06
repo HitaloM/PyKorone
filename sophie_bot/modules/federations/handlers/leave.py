@@ -33,7 +33,7 @@ class LeaveFederationHandler(SophieMessageHandler):
             await self.event.reply(_("This command can only be used by users."))
             return
 
-        chat_id = self.connection.id
+        chat_id = self.connection.tid
         user_id = self.event.from_user.id
 
         # Check if user can leave chats from federation

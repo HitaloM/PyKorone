@@ -55,7 +55,7 @@ class EnableWelcomeMute(StatusHandlerABC[timedelta | str | Literal[False]]):
         return Template(_("Enabled, set to {time}"), time=Italic(format_timedelta(delta, locale=locale)))
 
     async def get_status(self) -> timedelta | Literal[False]:
-        chat_id = self.connection.id
+        chat_id = self.connection.tid
         db_model = await GreetingsModel.get_by_chat_id(chat_id)
 
         if not db_model or not db_model.welcome_mute or not db_model.welcome_mute.enabled:
@@ -66,7 +66,7 @@ class EnableWelcomeMute(StatusHandlerABC[timedelta | str | Literal[False]]):
         return convert_timedelta_or_str(db_model.welcome_mute.time)
 
     async def set_status(self, new_status: str | timedelta | Literal[False]):
-        chat_id = self.connection.id
+        chat_id = self.connection.tid
 
         time: Optional[timedelta] = None
 

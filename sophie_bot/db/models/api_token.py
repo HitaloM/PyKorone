@@ -4,6 +4,7 @@ from typing import Annotated
 from beanie import Document, Indexed
 from pydantic import Field
 
+from sophie_bot.db.db_exceptions import DBNotFoundException
 from sophie_bot.db.models._link_type import Link
 from sophie_bot.db.models.chat import ChatModel
 
@@ -19,4 +20,7 @@ class ApiTokenModel(Document):
 
     @staticmethod
     async def get_by_hash(token_hash: str) -> "ApiTokenModel":
-        return await ApiTokenModel.find_one(ApiTokenModel.token_hash == token_hash, fetch_links=True)
+        model = await ApiTokenModel.find_one(ApiTokenModel.token_hash == token_hash, fetch_links=True)
+        if not model:
+            raise DBNotFoundException()
+        return model

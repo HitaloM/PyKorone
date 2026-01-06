@@ -691,8 +691,8 @@ msgstr ""
 #: sophie_bot/modules/notes/handlers/pmnotes_setting.py:37
 #: sophie_bot/modules/utils_/status_handler.py:85
 #: sophie_bot/modules/welcomesecurity/handlers/enable_welcomemute.py:49
-#: sophie_bot/modules/welcomesecurity/handlers/status_overall.py:54
-#: sophie_bot/modules/welcomesecurity/handlers/status_overall.py:69
+#: sophie_bot/modules/welcomesecurity/handlers/status_overall.py:55
+#: sophie_bot/modules/welcomesecurity/handlers/status_overall.py:73
 msgid "Disabled"
 msgstr ""
 
@@ -733,11 +733,11 @@ msgstr ""
 msgid "Use '{enable_cmd}' to enable/disable or '{action_cmd}' to configure actions."
 msgstr ""
 
-#: sophie_bot/modules/antiflood/middlewares/antiflood.py:133
+#: sophie_bot/modules/antiflood/middlewares/antiflood.py:132
 msgid "Flooding detected! 🚫"
 msgstr ""
 
-#: sophie_bot/modules/antiflood/middlewares/antiflood.py:134
+#: sophie_bot/modules/antiflood/middlewares/antiflood.py:133
 #, python-brace-format
 msgid "Triggered by user {user} sending {count} messages in {window} seconds."
 msgstr ""
@@ -750,7 +750,7 @@ msgstr ""
 #: sophie_bot/modules/disabling/handlers/disable.py:50
 #: sophie_bot/modules/disabling/handlers/enable.py:21
 #: sophie_bot/modules/disabling/handlers/enable.py:52
-#: sophie_bot/modules/legacy_modules/modules/feds.py:262
+#: sophie_bot/modules/legacy_modules/modules/feds.py:260
 msgid "Command"
 msgstr ""
 
@@ -1250,15 +1250,15 @@ msgstr ""
 #: sophie_bot/modules/federations/handlers/ban.py:104
 #: sophie_bot/modules/federations/handlers/banlist.py:92
 #: sophie_bot/modules/federations/handlers/unban.py:149
-#: sophie_bot/modules/legacy_modules/modules/feds.py:426
-#: sophie_bot/modules/legacy_modules/modules/feds.py:455
-#: sophie_bot/modules/legacy_modules/modules/feds.py:608
-#: sophie_bot/modules/legacy_modules/modules/feds.py:783
-#: sophie_bot/modules/legacy_modules/modules/restrictions.py:68
-#: sophie_bot/modules/legacy_modules/modules/restrictions.py:127
-#: sophie_bot/modules/legacy_modules/modules/restrictions.py:206
-#: sophie_bot/modules/legacy_modules/modules/restrictions.py:243
-#: sophie_bot/modules/legacy_modules/modules/restrictions.py:322
+#: sophie_bot/modules/legacy_modules/modules/feds.py:424
+#: sophie_bot/modules/legacy_modules/modules/feds.py:453
+#: sophie_bot/modules/legacy_modules/modules/feds.py:606
+#: sophie_bot/modules/legacy_modules/modules/feds.py:781
+#: sophie_bot/modules/legacy_modules/modules/restrictions.py:66
+#: sophie_bot/modules/legacy_modules/modules/restrictions.py:125
+#: sophie_bot/modules/legacy_modules/modules/restrictions.py:204
+#: sophie_bot/modules/legacy_modules/modules/restrictions.py:241
+#: sophie_bot/modules/legacy_modules/modules/restrictions.py:320
 #: sophie_bot/modules/legacy_modules/modules/warns.py:67
 #: sophie_bot/modules/legacy_modules/modules/warns.py:178
 #: sophie_bot/modules/legacy_modules/modules/warns.py:242
@@ -1266,7 +1266,7 @@ msgstr ""
 #: sophie_bot/modules/promotes/handlers/demote.py:67
 #: sophie_bot/modules/promotes/handlers/promote.py:39
 #: sophie_bot/modules/promotes/handlers/promote.py:85
-#: sophie_bot/modules/users/handlers/id.py:22
+#: sophie_bot/modules/users/handlers/id.py:23
 msgid "User"
 msgstr ""
 
@@ -1758,7 +1758,7 @@ msgstr ""
 #: sophie_bot/modules/filters/handlers/add.py:73
 #: sophie_bot/modules/filters/handlers/add.py:90
 #: sophie_bot/modules/utils_/action_config_wizard/renderer.py:172
-#: sophie_bot/modules/utils_/action_config_wizard/settings.py:130
+#: sophie_bot/modules/utils_/action_config_wizard/settings.py:129
 msgid "❌ Cancel"
 msgstr ""
 
@@ -2138,7 +2138,7 @@ msgid "Use {cmd} to retrieve Welcome Security settings"
 msgstr ""
 
 #: sophie_bot/modules/greetings/handlers/status_overall.py:47
-#: sophie_bot/modules/welcomesecurity/handlers/status_overall.py:74
+#: sophie_bot/modules/welcomesecurity/handlers/status_overall.py:78
 #, python-brace-format
 msgid "Check out {cmd} to learn more about Welcome settings."
 msgstr ""
@@ -2150,7 +2150,7 @@ msgstr ""
 #: sophie_bot/modules/greetings/handlers/status_overall.py:54
 #: sophie_bot/modules/greetings/utils/send_welcome.py:22
 #: sophie_bot/modules/welcomesecurity/handlers/chat_join_request.py:71
-#: sophie_bot/modules/welcomesecurity/handlers/status_overall.py:81
+#: sophie_bot/modules/welcomesecurity/handlers/status_overall.py:85
 msgid "No chat rules, have fun!"
 msgstr ""
 
@@ -2354,99 +2354,99 @@ msgstr ""
 msgid "Sets whatever normal users (non admins) are allowed to connect"
 msgstr ""
 
-#: sophie_bot/modules/legacy_modules/modules/feds.py:85
+#: sophie_bot/modules/legacy_modules/modules/feds.py:84
 msgid "Federations"
 msgstr ""
 
-#: sophie_bot/modules/legacy_modules/modules/feds.py:262
+#: sophie_bot/modules/legacy_modules/modules/feds.py:260
 msgid "Creates a new Federation."
 msgstr ""
 
-#: sophie_bot/modules/legacy_modules/modules/feds.py:297
+#: sophie_bot/modules/legacy_modules/modules/feds.py:295
 msgid "Joins the current chat to the federation."
 msgstr ""
 
-#: sophie_bot/modules/legacy_modules/modules/feds.py:297
+#: sophie_bot/modules/legacy_modules/modules/feds.py:295
 msgid "Fed ID"
 msgstr ""
 
-#: sophie_bot/modules/legacy_modules/modules/feds.py:337
+#: sophie_bot/modules/legacy_modules/modules/feds.py:335
 msgid "Leaves the current chat from the federation."
 msgstr ""
 
-#: sophie_bot/modules/legacy_modules/modules/feds.py:365
+#: sophie_bot/modules/legacy_modules/modules/feds.py:363
 msgid "Subscribes federation to another."
 msgstr ""
 
-#: sophie_bot/modules/legacy_modules/modules/feds.py:365
+#: sophie_bot/modules/legacy_modules/modules/feds.py:363
 msgid "Fed ID to subscribe"
 msgstr ""
 
-#: sophie_bot/modules/legacy_modules/modules/feds.py:399
+#: sophie_bot/modules/legacy_modules/modules/feds.py:397
 msgid "Unsubscribes the federation."
 msgstr ""
 
-#: sophie_bot/modules/legacy_modules/modules/feds.py:399
+#: sophie_bot/modules/legacy_modules/modules/feds.py:397
 msgid "Subscribed Fed ID"
 msgstr ""
 
-#: sophie_bot/modules/legacy_modules/modules/feds.py:426
+#: sophie_bot/modules/legacy_modules/modules/feds.py:424
 msgid "Promotes the user to the Federation admins."
 msgstr ""
 
-#: sophie_bot/modules/legacy_modules/modules/feds.py:455
+#: sophie_bot/modules/legacy_modules/modules/feds.py:453
 msgid "Demotes the user from the Federation admins."
 msgstr ""
 
-#: sophie_bot/modules/legacy_modules/modules/feds.py:482
+#: sophie_bot/modules/legacy_modules/modules/feds.py:480
 msgid "Sets the Federation logs channel."
 msgstr ""
 
-#: sophie_bot/modules/legacy_modules/modules/feds.py:511
+#: sophie_bot/modules/legacy_modules/modules/feds.py:509
 msgid "Removes the Federation logs channel."
 msgstr ""
 
-#: sophie_bot/modules/legacy_modules/modules/feds.py:533
+#: sophie_bot/modules/legacy_modules/modules/feds.py:531
 msgid "Shows a list of chats in the Federation."
 msgstr ""
 
-#: sophie_bot/modules/legacy_modules/modules/feds.py:558
+#: sophie_bot/modules/legacy_modules/modules/feds.py:556
 msgid "Shows a list of admins in the Federation."
 msgstr ""
 
-#: sophie_bot/modules/legacy_modules/modules/feds.py:572
+#: sophie_bot/modules/legacy_modules/modules/feds.py:570
 msgid "Shows the information about the Federation."
 msgstr ""
 
-#: sophie_bot/modules/legacy_modules/modules/feds.py:608
+#: sophie_bot/modules/legacy_modules/modules/feds.py:606
 msgid "Bans the user in the whole Federation."
 msgstr ""
 
-#: sophie_bot/modules/legacy_modules/modules/feds.py:783
+#: sophie_bot/modules/legacy_modules/modules/feds.py:781
 msgid "Unbans the user from the Federation."
 msgstr ""
 
-#: sophie_bot/modules/legacy_modules/modules/feds.py:877
+#: sophie_bot/modules/legacy_modules/modules/feds.py:875
 msgid "Deletes the federation."
 msgstr ""
 
-#: sophie_bot/modules/legacy_modules/modules/feds.py:931
+#: sophie_bot/modules/legacy_modules/modules/feds.py:929
 msgid "Renames the federation."
 msgstr ""
 
-#: sophie_bot/modules/legacy_modules/modules/feds.py:931
+#: sophie_bot/modules/legacy_modules/modules/feds.py:929
 msgid "New name"
 msgstr ""
 
-#: sophie_bot/modules/legacy_modules/modules/feds.py:959
+#: sophie_bot/modules/legacy_modules/modules/feds.py:957
 msgid "Exports the list of bans."
 msgstr ""
 
-#: sophie_bot/modules/legacy_modules/modules/feds.py:1008
+#: sophie_bot/modules/legacy_modules/modules/feds.py:1006
 msgid "Imports the list of bans."
 msgstr ""
 
-#: sophie_bot/modules/legacy_modules/modules/feds.py:1138
+#: sophie_bot/modules/legacy_modules/modules/feds.py:1136
 msgid "Checks the user ban status (can be used to check yourself)."
 msgstr ""
 
@@ -2478,44 +2478,44 @@ msgstr ""
 msgid "Reports the replied message."
 msgstr ""
 
-#: sophie_bot/modules/legacy_modules/modules/restrictions.py:53
+#: sophie_bot/modules/legacy_modules/modules/restrictions.py:52
 msgid "Restrictions"
 msgstr ""
 
-#: sophie_bot/modules/legacy_modules/modules/restrictions.py:67
+#: sophie_bot/modules/legacy_modules/modules/restrictions.py:65
 msgid "Kicks the user from the chat. The user would be able to join back."
 msgstr ""
 
-#: sophie_bot/modules/legacy_modules/modules/restrictions.py:127
+#: sophie_bot/modules/legacy_modules/modules/restrictions.py:125
 msgid "Mutes the user."
 msgstr ""
 
-#: sophie_bot/modules/legacy_modules/modules/restrictions.py:206
-#: sophie_bot/modules/legacy_modules/modules/restrictions.py:243
+#: sophie_bot/modules/legacy_modules/modules/restrictions.py:204
+#: sophie_bot/modules/legacy_modules/modules/restrictions.py:241
 msgid "Unmutes the user (also lets the user send media)."
 msgstr ""
 
-#: sophie_bot/modules/legacy_modules/modules/restrictions.py:322
+#: sophie_bot/modules/legacy_modules/modules/restrictions.py:320
 msgid "Unbans the user."
 msgstr ""
 
-#: sophie_bot/modules/legacy_modules/modules/restrictions.py:456
+#: sophie_bot/modules/legacy_modules/modules/restrictions.py:454
 msgid "🚪 Kick"
 msgstr ""
 
-#: sophie_bot/modules/legacy_modules/modules/restrictions.py:460
+#: sophie_bot/modules/legacy_modules/modules/restrictions.py:458
 msgid "🚷 Ban"
 msgstr ""
 
-#: sophie_bot/modules/legacy_modules/modules/restrictions.py:465
+#: sophie_bot/modules/legacy_modules/modules/restrictions.py:463
 msgid "⏳🚷 Temporary ban"
 msgstr ""
 
-#: sophie_bot/modules/legacy_modules/modules/restrictions.py:473
+#: sophie_bot/modules/legacy_modules/modules/restrictions.py:471
 msgid "🔕 Mute"
 msgstr ""
 
-#: sophie_bot/modules/legacy_modules/modules/restrictions.py:478
+#: sophie_bot/modules/legacy_modules/modules/restrictions.py:476
 msgid "⏳🔕 Temporary mute"
 msgstr ""
 
@@ -2524,15 +2524,15 @@ msgstr ""
 msgid "Users"
 msgstr ""
 
-#: sophie_bot/modules/legacy_modules/modules/users.py:25
+#: sophie_bot/modules/legacy_modules/modules/users.py:24
 msgid "Shows the additional information about the user."
 msgstr ""
 
-#: sophie_bot/modules/legacy_modules/modules/users.py:59
+#: sophie_bot/modules/legacy_modules/modules/users.py:58
 msgid "Shows IDs."
 msgstr ""
 
-#: sophie_bot/modules/legacy_modules/modules/users.py:91
+#: sophie_bot/modules/legacy_modules/modules/users.py:90
 msgid "Lists all the chats admins."
 msgstr ""
 
@@ -2878,6 +2878,18 @@ msgstr ""
 
 #: sophie_bot/modules/notes/magic_handlers/send_note_action.py:68
 msgid "Change note name"
+msgstr ""
+
+#: sophie_bot/modules/notes/utils/buttons_processor/ass_types/MarkdownLinkArgument.py:46
+msgid "Invalid markdown link."
+msgstr ""
+
+#: sophie_bot/modules/notes/utils/buttons_processor/ass_types/MarkdownLinkArgument.py:52
+msgid "Markdown link name cannot contain entities."
+msgstr ""
+
+#: sophie_bot/modules/notes/utils/buttons_processor/ass_types/MarkdownLinkArgument.py:60
+msgid "Markdown link data cannot contain entities."
 msgstr ""
 
 #: sophie_bot/modules/notes/utils/fillings.py:14
@@ -3256,69 +3268,69 @@ msgstr ""
 msgid "❌ Cancelled."
 msgstr ""
 
-#: sophie_bot/modules/users/handlers/id.py:35
+#: sophie_bot/modules/users/handlers/id.py:36
 #, python-brace-format
 msgid "Your ID: {id}"
 msgstr ""
 
-#: sophie_bot/modules/users/handlers/id.py:38
+#: sophie_bot/modules/users/handlers/id.py:39
 #, python-brace-format
 msgid "Chat ID: {id}"
 msgstr ""
 
-#: sophie_bot/modules/users/handlers/id.py:41
+#: sophie_bot/modules/users/handlers/id.py:42
 #, python-brace-format
 msgid "Connected chat ID: {id}"
 msgstr ""
 
-#: sophie_bot/modules/users/handlers/id.py:47
+#: sophie_bot/modules/users/handlers/id.py:48
 #, python-brace-format
 msgid "Replied user ID: {id}"
 msgstr ""
 
-#: sophie_bot/modules/users/handlers/id.py:51
+#: sophie_bot/modules/users/handlers/id.py:52
 #, python-brace-format
 msgid "{user}'s ID: {id}"
 msgstr ""
 
-#: sophie_bot/modules/utils_/action_config_wizard/callback.py:51
+#: sophie_bot/modules/utils_/action_config_wizard/callback.py:50
 msgid "Invalid callback data"
 msgstr ""
 
-#: sophie_bot/modules/utils_/action_config_wizard/callback.py:63
-#: sophie_bot/modules/utils_/action_config_wizard/callback.py:99
+#: sophie_bot/modules/utils_/action_config_wizard/callback.py:62
+#: sophie_bot/modules/utils_/action_config_wizard/callback.py:98
 msgid "Only one action is allowed for this filter"
 msgstr ""
 
-#: sophie_bot/modules/utils_/action_config_wizard/callback.py:67
-#: sophie_bot/modules/utils_/action_config_wizard/callback.py:77
-#: sophie_bot/modules/utils_/action_config_wizard/callback.py:92
-#: sophie_bot/modules/utils_/action_config_wizard/callback.py:212
-#: sophie_bot/modules/utils_/action_config_wizard/callback.py:239
+#: sophie_bot/modules/utils_/action_config_wizard/callback.py:66
+#: sophie_bot/modules/utils_/action_config_wizard/callback.py:76
+#: sophie_bot/modules/utils_/action_config_wizard/callback.py:91
+#: sophie_bot/modules/utils_/action_config_wizard/callback.py:211
+#: sophie_bot/modules/utils_/action_config_wizard/callback.py:238
 msgid "Message not found."
 msgstr ""
 
-#: sophie_bot/modules/utils_/action_config_wizard/callback.py:81
+#: sophie_bot/modules/utils_/action_config_wizard/callback.py:80
 msgid "Action removed."
 msgstr ""
 
-#: sophie_bot/modules/utils_/action_config_wizard/callback.py:88
-#: sophie_bot/modules/utils_/action_config_wizard/callback.py:230
-#: sophie_bot/modules/utils_/action_config_wizard/settings.py:39
+#: sophie_bot/modules/utils_/action_config_wizard/callback.py:87
+#: sophie_bot/modules/utils_/action_config_wizard/callback.py:229
+#: sophie_bot/modules/utils_/action_config_wizard/settings.py:38
 msgid "Invalid action"
 msgstr ""
 
-#: sophie_bot/modules/utils_/action_config_wizard/callback.py:144
-#: sophie_bot/modules/utils_/action_config_wizard/settings.py:48
-#: sophie_bot/modules/utils_/action_config_wizard/settings.py:102
+#: sophie_bot/modules/utils_/action_config_wizard/callback.py:143
+#: sophie_bot/modules/utils_/action_config_wizard/settings.py:47
+#: sophie_bot/modules/utils_/action_config_wizard/settings.py:101
 msgid "State management not available"
 msgstr ""
 
-#: sophie_bot/modules/utils_/action_config_wizard/callback.py:156
+#: sophie_bot/modules/utils_/action_config_wizard/callback.py:155
 msgid "Action setup not properly configured"
 msgstr ""
 
-#: sophie_bot/modules/utils_/action_config_wizard/callback.py:170
+#: sophie_bot/modules/utils_/action_config_wizard/callback.py:169
 #: sophie_bot/modules/utils_/action_config_wizard/renderer.py:109
 #: sophie_bot/modules/utils_/action_config_wizard/renderer.py:162
 msgid "🔙 Back"
@@ -3332,7 +3344,7 @@ msgstr ""
 msgid "Cancelled"
 msgstr ""
 
-#: sophie_bot/modules/utils_/action_config_wizard/done.py:53
+#: sophie_bot/modules/utils_/action_config_wizard/done.py:52
 msgid "Saved"
 msgstr ""
 
@@ -3364,15 +3376,15 @@ msgstr ""
 msgid "Action configured successfully!"
 msgstr ""
 
-#: sophie_bot/modules/utils_/action_config_wizard/settings.py:70
+#: sophie_bot/modules/utils_/action_config_wizard/settings.py:69
 msgid "Invalid setting"
 msgstr ""
 
-#: sophie_bot/modules/utils_/action_config_wizard/settings.py:79
+#: sophie_bot/modules/utils_/action_config_wizard/settings.py:78
 msgid "Setting configuration not available"
 msgstr ""
 
-#: sophie_bot/modules/utils_/action_config_wizard/settings.py:115
+#: sophie_bot/modules/utils_/action_config_wizard/settings.py:114
 msgid "Setting setup not properly configured"
 msgstr ""
 
@@ -3528,26 +3540,26 @@ msgstr ""
 msgid "Enabled, expires in {time}"
 msgstr ""
 
-#: sophie_bot/modules/welcomesecurity/handlers/status_overall.py:59
+#: sophie_bot/modules/welcomesecurity/handlers/status_overall.py:60
 msgid "Media restriction"
 msgstr ""
 
-#: sophie_bot/modules/welcomesecurity/handlers/status_overall.py:62
+#: sophie_bot/modules/welcomesecurity/handlers/status_overall.py:63
 #, python-brace-format
 msgid "Enabled, on {time}"
 msgstr ""
 
-#: sophie_bot/modules/welcomesecurity/handlers/status_overall.py:72
+#: sophie_bot/modules/welcomesecurity/handlers/status_overall.py:76
 #, python-brace-format
 msgid "Use {cmd} to control Welcome Captcha"
 msgstr ""
 
-#: sophie_bot/modules/welcomesecurity/handlers/status_overall.py:73
+#: sophie_bot/modules/welcomesecurity/handlers/status_overall.py:77
 #, python-brace-format
 msgid "Use {cmd} to control Media restriction"
 msgstr ""
 
-#: sophie_bot/modules/welcomesecurity/handlers/status_overall.py:78
+#: sophie_bot/modules/welcomesecurity/handlers/status_overall.py:82
 msgid "Welcome Security message"
 msgstr ""
 

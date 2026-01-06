@@ -13,7 +13,7 @@ class ActionConfigWizardMixin(ActionConfigWizardABC):
 
     async def handle(self) -> Any:
         """Handle the main command to show action configuration (via renderer)."""
-        chat_tid: PydanticObjectId = self.connection.db_model.id  # type: ignore
+        chat_tid: PydanticObjectId = self.connection.db_model.iid  # type: ignore
         state = self.data.get("state")
         html, markup = await WizardRenderer.render_home_page(
             self,

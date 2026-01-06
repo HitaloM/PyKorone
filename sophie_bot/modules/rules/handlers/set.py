@@ -30,7 +30,7 @@ class SetRulesHandler(SophieMessageHandler):
 
         saveable = await parse_saveable(self.event, content)
 
-        await RulesModel.set_rules(connection.id, saveable)
+        await RulesModel.set_rules(connection.tid, saveable)
 
         await self.event.reply(
             str(

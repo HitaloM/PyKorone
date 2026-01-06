@@ -266,7 +266,7 @@ async def test_get_current_user_db_error(mock_config):
 @pytest.mark.asyncio
 async def test_get_current_operator_by_id(mock_config):
     user = MagicMock()
-    user.chat_id = 12345  # In mock_config.operators
+    user.tid = 12345  # In mock_config.operators
     auth_creds = MagicMock()
 
     operator = await get_current_operator(user, auth_creds)
@@ -276,7 +276,7 @@ async def test_get_current_operator_by_id(mock_config):
 @pytest.mark.asyncio
 async def test_get_current_operator_by_scope(mock_config):
     user = MagicMock()
-    user.chat_id = 99999  # NOT in mock_config.operators
+    user.tid = 99999  # NOT in mock_config.operators
     token = jwt.encode({"scopes": ["operator"]}, mock_config.api_jwt_secret)
     auth_creds = MagicMock()
     auth_creds.credentials = token
@@ -288,7 +288,7 @@ async def test_get_current_operator_by_scope(mock_config):
 @pytest.mark.asyncio
 async def test_get_current_operator_forbidden(mock_config):
     user = MagicMock()
-    user.chat_id = 99999  # NOT in mock_config.operators
+    user.tid = 99999  # NOT in mock_config.operators
     token = jwt.encode({"scopes": ["user"]}, mock_config.api_jwt_secret)
     auth_creds = MagicMock()
     auth_creds.credentials = token
@@ -302,7 +302,7 @@ async def test_get_current_operator_forbidden(mock_config):
 @pytest.mark.asyncio
 async def test_get_current_operator_invalid_token(mock_config):
     user = MagicMock()
-    user.chat_id = 99999  # NOT in mock_config.operators
+    user.tid = 99999  # NOT in mock_config.operators
     auth_creds = MagicMock()
     auth_creds.credentials = "invalid_token"
 

@@ -12,7 +12,7 @@ DAY_LIMIT = 150
 
 class AIThrottleFilter(Filter):
     async def __call__(self, message: Message, chat_db: ChatModel) -> Union[bool, Dict[str, Any]]:
-        usage = await AIUsageModel.get_today(chat_db.chat_id)
+        usage = await AIUsageModel.get_today(chat_db.tid)
 
         if usage >= DAY_LIMIT:
             await message.reply(_("❗️ You've reached the daily AI limit, please try again tomorrow."))

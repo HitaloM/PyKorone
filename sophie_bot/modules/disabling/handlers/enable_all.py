@@ -60,7 +60,7 @@ class DisableAllCbHandler(SophieCallbackQueryHandler):
         if user_id != data.user_id:
             return await self.event.answer(_("Only the initiator can confirm disabling all commands"))
 
-        model = await DisablingModel.enable_all(connection.id)
+        model = await DisablingModel.enable_all(connection.tid)
 
         removed_count: int = len(model.cmds) if model else 0
 

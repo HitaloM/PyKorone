@@ -45,14 +45,12 @@ from sophie_bot.modules.legacy_modules.utils.user_details import (
 from sophie_bot.services.bot import bot
 from sophie_bot.services.redis import redis
 from sophie_bot.utils.i18n import lazy_gettext as l_
-
+from .warns import customise_reason_finish, customise_reason_start
 from ..utils.connections import chat_connection
 from ..utils.restrictions import ban_user, kick_user, mute_user, unban_user, unmute_user
-from .warns import customise_reason_finish, customise_reason_start
 
 __module_name__ = l_("Restrictions")
 __module_emoji__ = "🛑"
-
 
 router = Router(name="restrictions")
 
@@ -352,10 +350,10 @@ async def unban_user_cmd(message: Message, chat, user, strings):
 
 @register(router, f="leave")
 async def leave_silent(message):
-    if not message.from_user.id == CONFIG.bot_id:
+    if not message.from_user.iid == CONFIG.bot_id:
         return
 
-    if redis.get("leave_silent:" + str(message.chat.id)) == message.left_chat_member.id:
+    if redis.get("leave_silent:" + str(message.chat.iid)) == message.left_chat_member.iid:
         await message.delete()
 
 

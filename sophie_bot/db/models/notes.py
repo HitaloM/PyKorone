@@ -49,7 +49,7 @@ class Saveable(BaseModel):
 
 class NoteModel(Saveable, Document):
     # Old ID
-    chat_id: Annotated[int, Indexed()]
+    chat_tid: Annotated[int, Indexed()] = Field(..., alias="chat_id")
 
     # New link
     chat: Annotated[Optional[Link[ChatModel]], Indexed()] = None
@@ -69,17 +69,17 @@ class NoteModel(Saveable, Document):
         name = "notes"
 
     @staticmethod
-    async def get_chat_notes(chat_id: int) -> list["NoteModel"]:
-        return await NoteModel.find(NoteModel.chat_id == chat_id).to_list()
+    async def get_chat_notes(chat_tid: int) -> list["NoteModel"]:
+        return await NoteModel.find(NoteModel.chat_tid == chat_tid).to_list()
 
     @staticmethod
-    async def search_chat_notes(chat_id: int, text: str) -> list["NoteModel"]:
-        return await NoteModel.find(NoteModel.chat_id == chat_id, Text(text)).to_list()
+    async def search_chat_notes(chat_tid: int, text: str) -> list["NoteModel"]:
+        return await NoteModel.find(NoteModel.chat_tid == chat_tid, Text(text)).to_list()
 
     @staticmethod
-    async def get_by_notenames(chat_id: int, notenames: Sequence[str]) -> Optional["NoteModel"]:
-        return await NoteModel.find_one(NoteModel.chat_id == chat_id, In(NoteModel.names, notenames))
+    async def get_by_notenames(chat_tid: int, notenames: Sequence[str]) -> Optional["NoteModel"]:
+        return await NoteModel.find_one(NoteModel.chat_tid == chat_tid, In(NoteModel.names, notenames))
 
     @staticmethod
-    async def delete_all_notes(chat_id: int) -> DeleteResult | None:
-        return await NoteModel.find(NoteModel.chat_id == chat_id).delete()
+    async def delete_all_notes(chat_tid: int) -> DeleteResult | None:
+        return await NoteModel.find(NoteModel.chat_tid == chat_tid).delete()

@@ -47,8 +47,8 @@ class UserInGroupModel(Document):
         current_timedate = datetime.now(timezone.utc)
 
         return await UserInGroupModel.find_one(
-            UserInGroupModel.user.id == user.id,
-            UserInGroupModel.group.id == group.id,
+            UserInGroupModel.user.id == user.iid,
+            UserInGroupModel.group.id == group.iid,
         ).upsert(
             Set({UserInGroupModel.last_saw: current_timedate}),
             on_insert=UserInGroupModel(
@@ -70,7 +70,7 @@ class UserInGroupModel(Document):
     @staticmethod
     async def ensure_delete(user: "ChatModel", group: "ChatModel") -> Optional["UserInGroupModel"]:
         if user_in_chat := await UserInGroupModel.find_one(
-            UserInGroupModel.user.id == user.id, UserInGroupModel.group.id == group.id
+            UserInGroupModel.user.id == user.iid, UserInGroupModel.group.id == group.iid
         ):
             await user_in_chat.delete()
             return user_in_chat
@@ -97,7 +97,7 @@ class ChatTopicModel(Document):
     @staticmethod
     async def ensure_topic(group: "ChatModel", thread_id: int, topic_name: Optional[str]):
         model: Optional[ChatTopicModel] = await ChatTopicModel.find_one(
-            ChatTopicModel.group.id == group.id, ChatTopicModel.thread_id == thread_id
+            ChatTopicModel.group.id == group.iid, ChatTopicModel.thread_id == thread_id
         )
 
         if not model:
@@ -117,8 +117,8 @@ def ser_wrap(v: Any, nxt: SerializerFunctionWrapHandler) -> str:
 
 
 class ChatModel(Document):
-    id: PydanticObjectId = Field(default_factory=PydanticObjectId, alias="_id")
-    chat_id: Annotated[int, Indexed(unique=True)]
+    iid: PydanticObjectId = Field(default_factory=PydanticObjectId, alias="_id")
+    tid: Annotated[int, Indexed(unique=True)] = Field(..., alias="chat_id")
     type: ChatType = Field(..., description="Group type")
     first_name_or_title: str = Field(max_length=128)
     last_name: Optional[str] = Field(max_length=64, default=None)
@@ -171,18 +171,18 @@ class ChatModel(Document):
 
     @staticmethod
     def get_user_model(user: User) -> "ChatModel":
-        return ChatModel(chat_id=user.id, **ChatModel._get_user_data(user))
+        return ChatModel(tid=user.id, **ChatModel._get_user_data(user))
 
     @staticmethod
     def get_group_model(chat: Chat) -> "ChatModel":
-        return ChatModel(chat_id=chat.id, **ChatModel._get_group_data(chat))
+        return ChatModel(tid=chat.id, **ChatModel._get_group_data(chat))
 
     @staticmethod
     async def upsert_user(user: User) -> "ChatModel":
         async with Lock():
             data = ChatModel._get_user_data(user)
-            return await ChatModel.find_one(ChatModel.chat_id == user.id).upsert(
-                Set(data), on_insert=ChatModel(chat_id=user.id, **data), response_type=UpdateResponse.NEW_DOCUMENT
+            return await ChatModel.find_one(ChatModel.tid == user.id).upsert(
+                Set(data), on_insert=ChatModel(tid=user.id, **data), response_type=UpdateResponse.NEW_DOCUMENT
             )
 
     @staticmethod
@@ -190,15 +190,15 @@ class ChatModel(Document):
         async with Lock():
             data = ChatModel._get_group_data(chat)
 
-            return await ChatModel.find_one(ChatModel.chat_id == chat.id).upsert(
-                Set(data), on_insert=ChatModel(chat_id=chat.id, **data), response_type=UpdateResponse.NEW_DOCUMENT
+            return await ChatModel.find_one(ChatModel.tid == chat.id).upsert(
+                Set(data), on_insert=ChatModel(tid=chat.id, **data), response_type=UpdateResponse.NEW_DOCUMENT
             )
 
     @staticmethod
     async def do_chat_migrate(old_id: int, new_chat: Chat) -> Optional["ChatModel"]:
-        chat = await ChatModel.find_one(ChatModel.chat_id == old_id)
+        chat = await ChatModel.find_one(ChatModel.tid == old_id)
         if chat:
-            chat.chat_id = new_chat.id
+            chat.tid = new_chat.id
             chat.type = ChatType[new_chat.type]
             await chat.save()
         return chat
@@ -228,15 +228,15 @@ class ChatModel(Document):
 
     @staticmethod
     async def get_by_tid(chat_id: int) -> Optional["ChatModel"]:
-        return await ChatModel.find_one(ChatModel.chat_id == chat_id)
+        return await ChatModel.find_one(ChatModel.tid == chat_id)
 
     @staticmethod
     async def get_by_iid(iid: PydanticObjectId) -> Optional["ChatModel"]:
-        return await ChatModel.find_one(ChatModel.id == iid)
+        return await ChatModel.find_one(ChatModel.iid == iid)
 
     @staticmethod
     async def find_user(user_iid: int) -> "ChatModel":
-        user = await ChatModel.find_one(ChatModel.chat_id == user_iid, ChatModel.type == ChatType.private)
+        user = await ChatModel.find_one(ChatModel.tid == user_iid, ChatModel.type == ChatType.private)
 
         if not user:
             raise DBNotFoundException()
@@ -254,7 +254,7 @@ class ChatModel(Document):
     @staticmethod
     def user_from_id(user_id: int) -> "ChatModel":
         return ChatModel(
-            chat_id=user_id,
+            tid=user_id,
             first_name_or_title="User",
             is_bot=False,  # We don't know, but we can assume
             username=None,

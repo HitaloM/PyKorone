@@ -14,7 +14,7 @@ from sophie_bot.utils.i18n import gettext as _
 class AIEnabledFilter(Filter):
     @staticmethod
     async def get_status(chat_db: ChatModel) -> bool:
-        return bool(await AIEnabledModel.get_state(chat_db.id))
+        return bool(await AIEnabledModel.get_state(chat_db.iid))
 
     async def __call__(self, message: Message, chat_db: Optional[ChatModel]) -> Union[bool, Dict[str, Any]]:
         if message.chat.type == "private":

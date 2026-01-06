@@ -24,7 +24,7 @@ class AIUsageModel(Document):
 
     @staticmethod
     async def increase_today(chat: "ChatModel") -> "AIUsageModel":
-        usage = await AIUsageModel.find_one(AIUsageModel.chat.id == chat.id)
+        usage = await AIUsageModel.find_one(AIUsageModel.chat.id == chat.iid)
 
         date_today = date.today()
         if not usage:

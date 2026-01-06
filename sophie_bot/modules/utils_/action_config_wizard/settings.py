@@ -11,10 +11,9 @@ from pymongo.errors import PyMongoError
 
 from sophie_bot.modules.filters.utils_.all_modern_actions import ALL_MODERN_ACTIONS
 from sophie_bot.utils.i18n import gettext as _
-
 from .base import ActionConfigSettingsHandlerABC
-from .fsm import ActionConfigFSM
 from .callbacks import ACWSettingCallback, ACWCoreCallback
+from .fsm import ActionConfigFSM
 from .helpers import _convert_action_data_to_model
 from .service import ensure_session, set_action
 
@@ -40,7 +39,7 @@ class ActionConfigSettingsHandlerMixin(ActionConfigSettingsHandlerABC):
             return
 
         # Get chat ID from the callback query
-        chat_tid: PydanticObjectId = self.connection.db_model.id  # type: ignore
+        chat_tid: PydanticObjectId = self.connection.db_model.iid  # type: ignore
 
         # Ensure/refresh session and set action name for staging
         state = self.data.get("state")

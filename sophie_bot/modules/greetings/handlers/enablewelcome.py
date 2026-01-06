@@ -18,10 +18,10 @@ class EnableWelcomeHandlerABC(StatusBoolHandlerABC):
         return CMDFilter("enablewelcome"), UserRestricting(admin=True)
 
     async def get_status(self) -> bool:
-        chat_id = self.connection.id
+        chat_id = self.connection.tid
         db_model = await GreetingsModel.get_by_chat_id(chat_id)
         return (not db_model.welcome_disabled) if db_model else False
 
     async def set_status(self, new_status: bool):
-        chat_id = self.connection.id
+        chat_id = self.connection.tid
         await GreetingsModel.change_state_welcome(chat_id, new_status)

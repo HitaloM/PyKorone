@@ -38,7 +38,7 @@ class FilterEditHandler(SophieMessageHandler):
         keyword: str = self.data["handler"]
 
         # Find an item
-        if not (filter_item := await FiltersModel.get_by_keyword(self.connection.id, keyword)):
+        if not (filter_item := await FiltersModel.get_by_keyword(self.connection.tid, keyword)):
             return await self.event.reply(
                 Template(
                     _("Filter with handler {handler} can not be found! Check all filters using {cmd} command"),

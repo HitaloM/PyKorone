@@ -51,7 +51,7 @@ class FederationBanListHandler(SophieMessageHandler):
                 return
         else:
             # Use current chat's federation
-            chat_id = self.connection.id
+            chat_id = self.connection.tid
             federation = await FederationService.get_federation_for_chat(chat_id)
             if not federation:
                 await self.event.reply(

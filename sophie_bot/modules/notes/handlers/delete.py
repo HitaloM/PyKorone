@@ -26,7 +26,7 @@ class DelNote(SophieMessageHandler):
         chat: ChatConnection = self.data["connection"]
 
         raw_name = self.data["notename"]
-        note = await NoteModel.get_by_notenames(chat.id, (raw_name,))
+        note = await NoteModel.get_by_notenames(chat.tid, (raw_name,))
 
         if not note:
             return await self.event.reply(_("No notes was found with {name} name.").format(name=Italic(raw_name)))

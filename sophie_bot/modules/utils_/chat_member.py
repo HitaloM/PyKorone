@@ -15,11 +15,11 @@ async def get_chat_members(chat_tid: int) -> list[ResultChatMemberUnion]:
 
 
 async def update_chat_members(chat: ChatModel):
-    chat_members = await get_chat_members(chat.chat_id)
+    chat_members = await get_chat_members(chat.tid)
     for member in chat_members:
         user = await ChatModel.get_by_tid(member.user.id)
         if not user:
             log.debug("user_details: user not found in database", user_id=member.user.id)
             continue
 
-        await save_chat_member(chat.id, user.id, member)
+        await save_chat_member(chat.iid, user.iid, member)

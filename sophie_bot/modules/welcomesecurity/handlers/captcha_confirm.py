@@ -30,7 +30,7 @@ class CaptchaConfirmHandler(SophieCallbackQueryHandler):
         user = self.data["user_db"]
 
         if not isinstance(self.data["callback_data"], WelcomeSecurityRulesAgreeCB) and (
-            rules := await RulesModel.get_rules(chat_id=group.chat_id)
+            rules := await RulesModel.get_rules(chat_id=group.tid)
         ):
             return await captcha_send_rules(self.event.message, rules)
 
@@ -39,7 +39,7 @@ class CaptchaConfirmHandler(SophieCallbackQueryHandler):
 
         await self.state.clear()
 
-        greetings_db = await GreetingsModel.get_by_chat_id(group.chat_id)
+        greetings_db = await GreetingsModel.get_by_chat_id(group.tid)
 
         return await complete_captcha(user, group, greetings_db, self.event.message, is_join_request)
 

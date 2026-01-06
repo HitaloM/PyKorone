@@ -52,7 +52,7 @@ class FiltersModel(Document):
 
     @staticmethod
     async def get_by_id(oid: ObjectId):
-        return await FiltersModel.find_one(FiltersModel.id == oid)
+        return await FiltersModel.find_one(FiltersModel.iid == oid)
 
     async def update_fields(self, filters_setup: "FilterInSetupType"):
         return await self.update(
@@ -97,7 +97,7 @@ class FilterInSetupType(BaseModel):
     @staticmethod
     def from_model(model: FiltersModel) -> "FilterInSetupType":
         return FilterInSetupType(
-            oid=str(model.id),
+            oid=str(model.iid),
             handler=FilterHandlerType(keyword=model.handler),
             actions=model.actions,
         )

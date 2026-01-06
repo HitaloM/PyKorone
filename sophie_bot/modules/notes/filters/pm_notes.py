@@ -12,6 +12,6 @@ class PMNotesFilter(Filter):
         if not connection:
             raise ValueError("Missing connection argument in PMNotesFilter.__call__ method")
 
-        private_notes_enabled: bool = await PrivateNotesModel.get_state(connection.id)
+        private_notes_enabled: bool = await PrivateNotesModel.get_state(connection.tid)
 
         return private_notes_enabled

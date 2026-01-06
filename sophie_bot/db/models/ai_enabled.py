@@ -21,7 +21,7 @@ class AIEnabledModel(Document):
 
     @staticmethod
     async def set_state(chat: "ChatModel", new_state: bool):
-        model = await AIEnabledModel.find_one(AIEnabledModel.chat.id == chat.id)
+        model = await AIEnabledModel.find_one(AIEnabledModel.chat.id == chat.iid)
         if model and not new_state:
             return await model.delete()
 

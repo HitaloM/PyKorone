@@ -9,7 +9,6 @@ from aiogram.types import CallbackQuery, Message
 from beanie import PydanticObjectId
 
 from sophie_bot.utils.i18n import gettext as _
-
 from .base import ActionConfigDoneHandlerABC
 from .callbacks import ACWCoreCallback
 from .renderer import WizardRenderer
@@ -57,7 +56,7 @@ class ActionConfigDoneHandlerMixin(ActionConfigDoneHandlerABC):
         msg = callback_query.message
         if not msg or not isinstance(msg, Message):
             return
-        chat_tid: PydanticObjectId = self.connection.db_model.id  # type: ignore
+        chat_tid: PydanticObjectId = self.connection.db_model.iid  # type: ignore
         state = self.data.get("state")
 
         html, markup = await WizardRenderer.render_home_page(

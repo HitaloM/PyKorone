@@ -43,7 +43,7 @@ class OperatorLoginRequest(BaseModel):
 
 async def create_tokens(user: ChatModel, scopes: list[str] | None = None) -> dict:
     access_token_expires = timedelta(minutes=CONFIG.api_jwt_expire_minutes)
-    data: dict[str, Any] = {"sub": str(user.id)}
+    data: dict[str, Any] = {"sub": str(user.iid)}
     if scopes:
         data["scopes"] = scopes
     access_token = create_access_token(data=data, expires_delta=access_token_expires)
@@ -88,7 +88,7 @@ async def login_operator(data: OperatorLoginRequest):
             user = await ChatModel.get_by_tid(CONFIG.owner_id)
             if not user:
                 raise HTTPException(status_code=500, detail="Owner not found in database")
-            logger.info("Operator logged in via static token", user_id=user.chat_id)
+            logger.info("Operator logged in via static token", user_id=user.tid)
             return await create_tokens(user, scopes=["operator"])
         else:
             raise HTTPException(status_code=500, detail="Owner ID not configured")
@@ -97,7 +97,7 @@ async def login_operator(data: OperatorLoginRequest):
     api_token = await ApiTokenModel.get_by_hash(hashed)
     if api_token:
         user = api_token.user
-        logger.info("Operator logged in via API token", user_id=user.chat_id, label=api_token.label)  # type: ignore
+        logger.info("Operator logged in via API token", user_id=user.tid, label=api_token.label)  # type: ignore
         return await create_tokens(user, scopes=["operator"])
 
     logger.warning("Failed operator login attempt")
@@ -116,8 +116,8 @@ async def refresh_token(data: RefreshRequest):
 
     expires_at = token.expires_at.replace(tzinfo=timezone.utc)
     if expires_at < datetime.now(timezone.utc):
-        logger.warning("Refresh token expired", token_id=token.id)
+        logger.warning("Refresh token expired", token_id=token.iid)
         raise HTTPException(status_code=401, detail="Refresh token expired")
 
-    logger.info("Token refreshed", user_iid=token.user.id, user_tid=token.user.chat_id)  # type: ignore
+    logger.info("Token refreshed", user_iid=token.user.id, user_tid=token.user.tid)  # type: ignore
     return await create_tokens(token.user)

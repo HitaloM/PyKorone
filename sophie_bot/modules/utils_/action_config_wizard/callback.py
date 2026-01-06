@@ -3,8 +3,8 @@ from __future__ import annotations
 from typing import Any, Optional
 
 from aiogram import F
-from aiogram.dispatcher.event.handler import CallbackType
 from aiogram.dispatcher.event.bases import SkipHandler
+from aiogram.dispatcher.event.handler import CallbackType
 from aiogram.fsm.context import FSMContext
 from aiogram.types import CallbackQuery, InlineKeyboardButton, Message
 from beanie import PydanticObjectId
@@ -12,10 +12,9 @@ from pymongo.errors import PyMongoError
 
 from sophie_bot.modules.filters.utils_.all_modern_actions import ALL_MODERN_ACTIONS
 from sophie_bot.utils.i18n import gettext as _
-
 from .base import ActionConfigCallbackABC
-from .fsm import ActionConfigFSM
 from .callbacks import ACWCoreCallback
+from .fsm import ActionConfigFSM
 from .renderer import WizardRenderer
 from .service import ensure_session
 
@@ -55,7 +54,7 @@ class ActionConfigCallbackMixin(ActionConfigCallbackABC):
         # Enforce single-action policy if configured
         allow_multiple = getattr(self, "allow_multiple_actions", True)
         if not allow_multiple and callback_query.message and isinstance(callback_query.message, Message):
-            chat_tid: PydanticObjectId = self.connection.db_model.id  # type: ignore
+            chat_tid: PydanticObjectId = self.connection.db_model.iid  # type: ignore
             model = await self.get_model(chat_tid)
             actions = await self.get_actions(model)
 
@@ -76,7 +75,7 @@ class ActionConfigCallbackMixin(ActionConfigCallbackABC):
         if not callback_query.message or not isinstance(callback_query.message, Message):
             await callback_query.answer(_("Message not found."))
             return
-        chat_tid: PydanticObjectId = self.connection.db_model.id  # type: ignore
+        chat_tid: PydanticObjectId = self.connection.db_model.iid  # type: ignore
         await self.remove_action(chat_tid, action_id)
         await callback_query.answer(_("Action removed."))
         # Refresh the wizard message to the home page
@@ -91,7 +90,7 @@ class ActionConfigCallbackMixin(ActionConfigCallbackABC):
         if not callback_query.message or not isinstance(callback_query.message, Message):
             await callback_query.answer(_("Message not found."))
             return
-        chat_tid: PydanticObjectId = self.connection.db_model.id  # type: ignore
+        chat_tid: PydanticObjectId = self.connection.db_model.iid  # type: ignore
 
         # Enforce single-action policy if configured and one already exists
         allow_multiple = getattr(self, "allow_multiple_actions", True)
@@ -212,7 +211,7 @@ class ActionConfigCallbackMixin(ActionConfigCallbackABC):
             await callback_query.answer(_("Message not found."))
             return
 
-        chat_tid: PydanticObjectId = self.connection.db_model.id  # type: ignore
+        chat_tid: PydanticObjectId = self.connection.db_model.iid  # type: ignore
 
         # Get the current action data
         try:
@@ -249,7 +248,7 @@ class ActionConfigCallbackMixin(ActionConfigCallbackABC):
             return
         state = self.data.get("state")
 
-        chat_iid: PydanticObjectId = self.connection.db_model.id  # type: ignore
+        chat_iid: PydanticObjectId = self.connection.db_model.iid  # type: ignore
 
         html, markup = await WizardRenderer.render_home_page(
             self,

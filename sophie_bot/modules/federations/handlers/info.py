@@ -109,7 +109,7 @@ class FederationInfoHandler(SophieMessageHandler):
 
     async def _show_chat_federation(self) -> None:
         """Show federation information for the current chat."""
-        chat_id = self.connection.id
+        chat_id = self.connection.tid
         federation = await FederationService.get_federation_for_chat(chat_id)
 
         if not federation:

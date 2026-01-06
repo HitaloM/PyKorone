@@ -22,8 +22,8 @@ class LocalizationMiddleware(I18nMiddleware):
             return CONFIG.default_locale
 
         # locale: str = await cache_get_locale_name(chat_in_db.id) or CONFIG.default_locale  # type: ignore
-        locale: str = await self.get_legacy_locale(chat_in_db.chat_id) or CONFIG.default_locale
+        locale: str = await self.get_legacy_locale(chat_in_db.tid) or CONFIG.default_locale
 
-        log.debug("LocalizationMiddleware", chat_id=chat_in_db.id, has_locale=locale)
+        log.debug("LocalizationMiddleware", chat_id=chat_in_db.iid, has_locale=locale)
 
         return locale

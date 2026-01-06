@@ -27,7 +27,7 @@ class NotesList(SophieMessageHandler):
         to_search: Optional[str] = self.data.get("search")
         connection = self.connection
 
-        notes = await NoteModel.get_chat_notes(connection.id)
+        notes = await NoteModel.get_chat_notes(connection.tid)
         if to_search:
             notes = [note for note in notes if any(to_search in name for name in note.names)]
 

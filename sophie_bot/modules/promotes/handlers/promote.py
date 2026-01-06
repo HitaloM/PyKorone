@@ -62,7 +62,7 @@ class PromoteUserHandler(SophieMessageHandler):
             return await self.event.reply(_("Admin title is too long."))
 
         await bot.promote_chat_member(
-            chat_id=connection.id,
+            chat_id=connection.tid,
             user_id=user.chat_id,
             can_invite_users=True,
             can_change_info=True,
@@ -74,11 +74,11 @@ class PromoteUserHandler(SophieMessageHandler):
 
         if admin_title:
             await bot.set_chat_administrator_custom_title(
-                chat_id=connection.id, user_id=user.chat_id, custom_title=admin_title
+                chat_id=connection.tid, user_id=user.chat_id, custom_title=admin_title
             )
 
         # Reset admin cache
-        await get_admins_rights(connection.id, force_update=True)
+        await get_admins_rights(connection.tid, force_update=True)
 
         doc = Section(
             KeyValue(_("Chat"), connection.title),

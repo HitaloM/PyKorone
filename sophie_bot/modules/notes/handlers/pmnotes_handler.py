@@ -32,7 +32,7 @@ class PrivateNotesRedirectHandler(SophieMessageHandler):
         buttons.add(
             InlineKeyboardButton(
                 text=_("🔌 Connect"),
-                url=PrivateNotesStartUrlCallback(chat_id=connection.id).pack(),
+                url=PrivateNotesStartUrlCallback(chat_id=connection.tid).pack(),
             )
         )
         await self.event.reply(text, reply_markup=buttons.as_markup())

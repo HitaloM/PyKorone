@@ -1,5 +1,6 @@
 # ... existing code ...
 from datetime import datetime, timedelta, timezone
+
 from sophie_bot.config import CONFIG
 from sophie_bot.db.models.chat import ChatModel
 from sophie_bot.db.models.ws_user import WSUserModel
@@ -13,12 +14,12 @@ class BanUnpassedUsers:
     async def process_user(ws_user: WSUserModel):
         # Early return if already passed
         if ws_user.passed:
-            log.debug("ban_unpassed_users: skipping ws_user, already passed", ws_user_id=str(ws_user.id))
+            log.debug("ban_unpassed_users: skipping ws_user, already passed", ws_user_id=str(ws_user.iid))
             return
 
         # Ensure we have a valid ID and added_at timestamp
-        if not ws_user.id:
-            log.error("ban_unpassed_users: skipping ws_user due to missing id", ws_user_id=str(ws_user.id))
+        if not ws_user.iid:
+            log.error("ban_unpassed_users: skipping ws_user due to missing id", ws_user_id=str(ws_user.iid))
             return
 
         # Validate linked references exist
@@ -28,7 +29,7 @@ class BanUnpassedUsers:
         except (AttributeError, Exception) as e:
             log.warning(
                 "ban_unpassed_users: skipping ws_user due to invalid link references",
-                ws_user_id=str(ws_user.id),
+                ws_user_id=str(ws_user.iid),
                 error=str(e),
             )
             await ws_user.delete()
@@ -37,23 +38,23 @@ class BanUnpassedUsers:
         if user is None or group is None:
             log.warning(
                 "ban_unpassed_users: skipping ws_user due to missing linked user/group",
-                ws_user_id=str(ws_user.id),
+                ws_user_id=str(ws_user.iid),
             )
             await ws_user.delete()
             return
-        log.debug("ban_unpassed_users: processing user", user=user.id, group=group.id)
+        log.debug("ban_unpassed_users: processing user", user=user.iid, group=group.iid)
 
-        added_at = ws_user.added_at or ws_user.id.generation_time
+        added_at = ws_user.added_at or ws_user.iid.generation_time
         # Ensure added_at is timezone-aware
         if added_at.tzinfo is None:
             added_at = added_at.replace(tzinfo=timezone.utc)
         is_old_entry = datetime.now(timezone.utc) - added_at > timedelta(hours=CONFIG.welcomesecurity_ban_timeout)
         if not is_old_entry:
-            log.debug("ban_unpassed_users: skipping ws_user, too young", ws_user_id=str(ws_user.id))
+            log.debug("ban_unpassed_users: skipping ws_user, too young", ws_user_id=str(ws_user.iid))
             return
         # Check for legacy entries - delete them if old
         if not ws_user.added_at:
-            log.warning("ban_unpassed_users: skipping ws_user due to missing added_at", ws_user_id=str(ws_user.id))
+            log.warning("ban_unpassed_users: skipping ws_user due to missing added_at", ws_user_id=str(ws_user.iid))
             await ws_user.delete()
             return
 
@@ -61,24 +62,22 @@ class BanUnpassedUsers:
         if ws_user.is_join_request:
             # Decline the join request
             try:
-                await bot.decline_chat_join_request(chat_id=group.chat_id, user_id=user.chat_id)
-                log.info("ban_unpassed_users: declined join request", user=user.chat_id, group=group.chat_id)
+                await bot.decline_chat_join_request(chat_id=group.tid, user_id=user.tid)
+                log.info("ban_unpassed_users: declined join request", user=user.tid, group=group.tid)
             except Exception as e:
                 log.error(
                     "ban_unpassed_users: failed to decline join request",
-                    user=user.chat_id,
-                    group=group.chat_id,
+                    user=user.tid,
+                    group=group.tid,
                     error=str(e),
                 )
         else:
             # Ban the user
             try:
-                await ban_user(chat_id=group.chat_id, user_id=user.chat_id)
-                log.info("ban_unpassed_users: banned user", user=user.chat_id, group=group.chat_id)
+                await ban_user(chat_id=group.tid, user_id=user.tid)
+                log.info("ban_unpassed_users: banned user", user=user.tid, group=group.tid)
             except Exception as e:
-                log.error(
-                    "ban_unpassed_users: failed to ban user", user=user.chat_id, group=group.chat_id, error=str(e)
-                )
+                log.error("ban_unpassed_users: failed to ban user", user=user.tid, group=group.tid, error=str(e))
 
         # Remove from database
         await ws_user.delete()

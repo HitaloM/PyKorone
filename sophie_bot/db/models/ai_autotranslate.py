@@ -21,7 +21,7 @@ class AIAutotranslateModel(Document):
 
     @staticmethod
     async def set_state(chat: "ChatModel", new_state: bool):
-        model = await AIAutotranslateModel.find_one(AIAutotranslateModel.chat.id == chat.id)
+        model = await AIAutotranslateModel.find_one(AIAutotranslateModel.chat.id == chat.iid)
         if model and not new_state:
             return await model.delete()
 

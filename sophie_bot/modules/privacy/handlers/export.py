@@ -37,7 +37,7 @@ class TriggerExport(BaseHandler[Message]):
         await self.event.reply(_("Export is started, this may take a while."))
 
         data = self.get_initial_data(connection)
-        modules_data = await self.get_data(connection.id)
+        modules_data = await self.get_data(connection.tid)
 
         for module_data in modules_data:
             data.update(module_data)
@@ -51,7 +51,7 @@ class TriggerExport(BaseHandler[Message]):
         return {
             "general": {
                 "chat_name": connection.title,
-                "chat_id": connection.id,
+                "chat_id": connection.tid,
                 "date": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
                 "version": VERSION,
             }

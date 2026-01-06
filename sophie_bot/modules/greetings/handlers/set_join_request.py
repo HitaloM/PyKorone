@@ -26,7 +26,7 @@ class SetJoinRequestMessageHandler(SophieMessageHandler):
         raw_text = self.data.get("raw_text")
 
         saveable = await parse_saveable(self.event, raw_text)
-        await GreetingsModel.change_join_request_message(connection.id, saveable)
+        await GreetingsModel.change_join_request_message(connection.tid, saveable)
 
         doc = Doc(
             Template(_("Join request message was saved in {chat_title}."), chat_title=Italic(connection.title)),
@@ -44,7 +44,7 @@ class DelJoinRequestMessageHandler(SophieMessageHandler):
     async def handle(self) -> Any:
         connection = self.connection
 
-        db_model = await GreetingsModel.get_by_chat_id(connection.id)
+        db_model = await GreetingsModel.get_by_chat_id(connection.tid)
         if not db_model or not db_model.join_request_message:
             return await self.event.reply(
                 _("Join request message in {chat_title} has not been set before").format(chat_title=connection.title)

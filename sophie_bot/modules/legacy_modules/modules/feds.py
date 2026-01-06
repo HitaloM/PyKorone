@@ -79,12 +79,10 @@ from sophie_bot.services.bot import bot, dp
 from sophie_bot.services.db import db
 from sophie_bot.services.redis import redis
 from sophie_bot.utils.cached import cached
-
 from sophie_bot.utils.i18n import lazy_gettext as l_
 
 __module_name__ = l_("Federations")
 __module_emoji__ = "🏙"
-
 
 router = Router(name="feds")
 
@@ -127,7 +125,7 @@ async def fed_post_log(fed, text):
 def get_current_chat_fed(func):
     async def wrapped_1(*args, **kwargs):
         message = args[0]
-        real_chat_id = message.chat.id
+        real_chat_id = message.chat.iid
         if not (fed := await get_fed_f(message)):
             await message.reply(await get_string(real_chat_id, "feds", "chat_not_in_fed"))
             return
@@ -142,7 +140,7 @@ def get_fed_user_text(skip_no_fed=False, check_self_user=False, disable_self_fed
         async def wrapped_1(*args, **kwargs):
             fed = None
             message = args[0]
-            real_chat_id = message.chat.id
+            real_chat_id = message.chat.iid
             user, text = await get_user_and_text(message)
             strings = await get_strings(real_chat_id, "feds")
 
@@ -153,7 +151,7 @@ def get_fed_user_text(skip_no_fed=False, check_self_user=False, disable_self_fed
                 text = " ".join(data[1:]) if len(data) > 1 else None
             elif not user:
                 if check_self_user is True:
-                    user = await db.user_list.find_one({"user_id": message.from_user.id})
+                    user = await db.user_list.find_one({"user_id": message.from_user.iid})
                 else:
                     await message.reply(strings["cant_get_user"])
                     # Passing 'None' user will throw err
@@ -190,7 +188,7 @@ def get_fed_dec(func):
     async def wrapped_1(*args, **kwargs):
         fed = None
         message = args[0]
-        real_chat_id = message.chat.id
+        real_chat_id = message.chat.iid
 
         if message.text:
             text_args = message.text.split(" ", 2)
@@ -215,14 +213,14 @@ def is_fed_owner(func):
     async def wrapped_1(*args, **kwargs):
         message = args[0]
         fed = args[1]
-        user_id = message.from_user.id
+        user_id = message.from_user.iid
 
         # check on anon
         if user_id in [1087968824, 777000]:
             return
 
         if not user_id == fed["creator"] and user_id != CONFIG.owner_id:
-            text = (await get_string(message.chat.id, "feds", "need_fed_admin")).format(
+            text = (await get_string(message.chat.iid, "feds", "need_fed_admin")).format(
                 name=html.escape(fed["fed_name"], False)
             )
             await message.reply(text)
@@ -237,7 +235,7 @@ def is_fed_admin(func):
     async def wrapped_1(*args, **kwargs):
         message = args[0]
         fed = args[1]
-        user_id = message.from_user.id
+        user_id = message.from_user.iid
 
         # check on anon
         if user_id in [1087968824, 777000]:
@@ -245,7 +243,7 @@ def is_fed_admin(func):
 
         if not user_id == fed["creator"] and user_id != CONFIG.owner_id:
             if "admins" not in fed or user_id not in fed["admins"]:
-                text = (await get_string(message.chat.id, "feds", "need_fed_admin")).format(
+                text = (await get_string(message.chat.iid, "feds", "need_fed_admin")).format(
                     name=html.escape(fed["fed_name"], False)
                 )
                 return await message.reply(text)
@@ -904,7 +902,7 @@ async def del_fed_func(event, strings, callback_data: DelFedCb, **kwargs):
     fed_id = callback_data.fed_id
     fed_owner = callback_data.creator_id
 
-    if event.from_user.id != int(fed_owner):
+    if event.from_user.iid != int(fed_owner):
         return
 
     await db.feds.delete_one({"fed_id": fed_id})
@@ -922,7 +920,7 @@ async def del_fed_func(event, strings, callback_data: DelFedCb, **kwargs):
 
 @dp.callback_query(F.data.regexp(r"cancel_(.*)"))
 async def cancel(event):
-    if event.from_user.id != int((re.search(r"cancel_(.*)", event.data)).group(1)):
+    if event.from_user.iid != int((re.search(r"cancel_(.*)", event.data)).group(1)):
         return
     await event.message.delete()
 
@@ -1158,7 +1156,7 @@ async def fedban_check(message, fed, user, _, strings):
 
     # create text
     text = strings["fcheck_header"]
-    if message.chat.type == "private" and message.from_user.id == user["user_id"]:
+    if message.chat.type == "private" and message.from_user.iid == user["user_id"]:
         if bool(fed):
             if bool(fban_data):
                 if "reason" not in fban_data:
@@ -1205,7 +1203,7 @@ async def fedban_check(message, fed, user, _, strings):
             text += strings["not_fbanned_in_fed"].format(fed_name=html.escape(fed["fed_name"], quote=False))
 
         if total_count > 0:
-            if message.from_user.id == user["user_id"]:
+            if message.from_user.iid == user["user_id"]:
                 text += strings["contact_in_pm"]
 
     if len(text) > 4096:

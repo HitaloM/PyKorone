@@ -82,7 +82,7 @@ async def send_saveable(
     # Extract buttons
     inline_markup = InlineKeyboardMarkup(inline_keyboard=[])
     if not raw:
-        chat_id_for_buttons = connection.db_model.chat_id if connection else (message.chat.id if message else send_to)
+        chat_id_for_buttons = connection.db_model.tid if connection else (message.chat.id if message else send_to)
         text, inline_markup = legacy_button_parser(chat_id_for_buttons, text)
         inline_markup.inline_keyboard.extend(additional_keyboard.inline_keyboard)
 

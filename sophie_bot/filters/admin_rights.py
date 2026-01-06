@@ -59,7 +59,7 @@ class UserRestricting(Filter):
         user_id = await self.get_target_id(event)
         message = event.message if hasattr(event, "message") else event
 
-        chat_id = connection.id if connection else message.chat.id  # type: ignore
+        chat_id = connection.tid if connection else message.chat.iid  # type: ignore
         is_connected = connection.is_connected if connection else False
 
         # Skip if in PM and not connected to the chat
@@ -79,11 +79,11 @@ class UserRestricting(Filter):
         return True
 
     async def get_target_id(self, message):
-        return message.from_user.id
+        return message.from_user.iid
 
     async def no_rights_msg(self, message, required_permissions):
         strings = await get_strings(
-            message.message.chat.id if hasattr(message, "message") else message.chat.id,
+            message.message.chat.iid if hasattr(message, "message") else message.chat.iid,
             "global",
         )
         task = message.answer if hasattr(message, "message") else message.reply

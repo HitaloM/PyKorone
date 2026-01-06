@@ -26,7 +26,7 @@ class GetRulesHandler(SophieMessageHandler):
         if not connection.is_connected and connection.type == ChatType.private:
             return await self.event.reply(_("Private chats can not have rules. Have fun."))
 
-        rules = await RulesModel.get_rules(connection.id)
+        rules = await RulesModel.get_rules(connection.tid)
 
         if not rules:
             return await self.event.reply(_("No rules are set for this chat."))

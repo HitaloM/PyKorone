@@ -21,7 +21,7 @@ class EnableAI(StatusBoolHandlerABC):
         if not self.connection.db_model:
             return False
 
-        chat_iid = self.connection.db_model.id
+        chat_iid = self.connection.db_model.iid
         db_model = await AIEnabledModel.get_state(chat_iid)
         return bool(db_model)
 

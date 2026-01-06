@@ -45,18 +45,18 @@ class LegacyWSButtonHandler(SophieMessageHandler):
 
         user_db: ChatModel = self.data["user_db"]
 
-        if not await UserInGroupModel.get_user_in_group(user_db.id, group_db.id):
+        if not await UserInGroupModel.get_user_in_group(user_db.iid, group_db.iid):
             return await self.event.reply(
                 _("It seems like you are not belong to the chat anymore. Are you sure you joined the group?")
             )
 
-        if await is_user_admin(chat_id, user_db.id):
+        if await is_user_admin(chat_id, user_db.iid):
             # TODO: Make it unmute the muted user instead
             return await self.event.reply(
                 _("You already an admin in the chat, therefore you don't need to pass the authentication!")
             )
 
-        if not await WSUserModel.is_user(user_db.id, group_db.id):
+        if not await WSUserModel.is_user(user_db.iid, group_db.iid):
             return await self.event.reply(
                 _("It seems like you do not have to pass the welcome security authentication")
             )
@@ -70,5 +70,5 @@ class LegacyWSButtonHandler(SophieMessageHandler):
             log.debug("LegacyWSButtonHandler: WS is disabled but we still allow users to complete")
 
         # Initialize captcha
-        self.data["ws_chat_iid"] = group_db.id
+        self.data["ws_chat_iid"] = group_db.iid
         return await CaptchaGetHandler(self.event, **self.data).handle()

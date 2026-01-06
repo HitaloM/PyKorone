@@ -17,6 +17,7 @@ from sophie_bot.services.db import db
 from sophie_bot.services.redis import redis
 from sophie_bot.utils.cached import cached
 
+
 # This program is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
@@ -26,8 +27,8 @@ from sophie_bot.utils.cached import cached
 async def get_connected_chat(message, admin=False, only_groups=False, from_id=None, command=None):
     # admin - Require admin rights in connected chat
     # only_in_groups - disable command when bot's pm not connected to any chat
-    real_chat_id = message.chat.id
-    user_id = from_id or message.from_user.id
+    real_chat_id = message.chat.iid
+    user_id = from_id or message.from_user.iid
     key = "connection_cache_" + str(user_id)
 
     if not message.chat.type == "private":
@@ -99,7 +100,7 @@ def chat_connection(**dec_kwargs):
             message = args[0]
             from_id = None
             if hasattr(message, "message"):
-                from_id = message.from_user.id
+                from_id = message.from_user.iid
                 message = message.message
 
             if (check := await get_connected_chat(message, from_id=from_id, **dec_kwargs))["status"] is None:

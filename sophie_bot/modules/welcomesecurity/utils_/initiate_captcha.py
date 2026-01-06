@@ -40,26 +40,26 @@ async def initiate_captcha(
         InlineKeyboardButton(
             text="⬅️",
             callback_data=WelcomeSecurityMoveCB(
-                direction="left", chat_iid=str(group.id), is_join_request=is_join_request
+                direction="left", chat_iid=str(group.iid), is_join_request=is_join_request
             ).pack(),
         ),
         InlineKeyboardButton(
             text="▶️",
             callback_data=WelcomeSecurityMoveCB(
-                direction="right", chat_iid=str(group.id), is_join_request=is_join_request
+                direction="right", chat_iid=str(group.iid), is_join_request=is_join_request
             ).pack(),
         ),
     )
     buttons.row(
         InlineKeyboardButton(
             text=f"☑️ {_('Confirm')}",
-            callback_data=WelcomeSecurityConfirmCB(chat_iid=str(group.id), is_join_request=is_join_request).pack(),
+            callback_data=WelcomeSecurityConfirmCB(chat_iid=str(group.iid), is_join_request=is_join_request).pack(),
         )
     )
 
     # DM mode: send to user's DM
     return await bot.send_photo(
-        chat_id=user.chat_id,
+        chat_id=user.tid,
         photo=BufferedInputFile(captcha.image, "captcha.jpeg"),
         caption=str(text),
         reply_markup=buttons.as_markup(),

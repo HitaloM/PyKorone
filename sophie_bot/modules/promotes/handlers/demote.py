@@ -49,7 +49,7 @@ class DemoteUserHandler(SophieMessageHandler):
             return await self.event.reply(_("You cannot demote yourself."))
 
         await bot.promote_chat_member(
-            chat_id=connection.id,
+            chat_id=connection.tid,
             user_id=user.chat_id,
             can_invite_users=False,
             can_change_info=False,
@@ -60,7 +60,7 @@ class DemoteUserHandler(SophieMessageHandler):
         )
 
         # Reset admin cache
-        await get_admins_rights(connection.id, force_update=True)
+        await get_admins_rights(connection.tid, force_update=True)
 
         doc = Section(
             KeyValue(_("Chat"), connection.title),

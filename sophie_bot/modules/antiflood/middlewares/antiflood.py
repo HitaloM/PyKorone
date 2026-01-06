@@ -6,18 +6,17 @@ from aiogram import BaseMiddleware
 from aiogram.dispatcher.event.bases import CancelHandler
 from aiogram.enums import ChatType, ContentType
 from aiogram.types import Message, TelegramObject
+from stfu_tg import Doc, Title
+from stfu_tg.doc import Element
 
 from sophie_bot.config import CONFIG
 from sophie_bot.db.models.antiflood import AntifloodModel
 from sophie_bot.db.models.filters import FilterActionType
-
 from sophie_bot.modules.antiflood.config import FLOOD_WINDOW_SECONDS
 from sophie_bot.modules.filters.utils_.all_modern_actions import ALL_MODERN_ACTIONS
 from sophie_bot.modules.legacy_modules.utils.user_details import is_user_admin
 from sophie_bot.services.redis import aredis
 from sophie_bot.utils.i18n import gettext as _
-from stfu_tg import Doc, Title
-from stfu_tg.doc import Element
 
 
 class AntifloodMiddleware(BaseMiddleware):
@@ -92,7 +91,7 @@ class AntifloodMiddleware(BaseMiddleware):
             return await handler(event, data)
 
         chat_id = event.chat.id
-        chat_iid = data["connection"].db_model.id
+        chat_iid = data["connection"].db_model.iid
         user_id = event.from_user.id
 
         # Check if message should be processed

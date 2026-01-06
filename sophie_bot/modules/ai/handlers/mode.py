@@ -32,7 +32,7 @@ class AiGenerateMode(MessageHandler):
         connection = ChatConnection(
             type=chat_db.type,
             is_connected=False,
-            id=chat_db.chat_id,
+            tid=chat_db.tid,
             title=chat_db.first_name_or_title,
             db_model=chat_db,
         )

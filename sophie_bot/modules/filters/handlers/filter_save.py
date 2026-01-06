@@ -32,7 +32,7 @@ class FilterSaveHandler(SophieCallbackQueryHandler):
             await filter_model.update_fields(filter_setup)
             return await filter_model.save()
 
-        filter_model = filter_setup.to_model(self.connection.id)
+        filter_model = filter_setup.to_model(self.connection.tid)
         await filter_model.save()
 
     async def handle(self) -> Any:

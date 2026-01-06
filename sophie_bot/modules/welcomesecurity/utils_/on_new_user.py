@@ -13,7 +13,7 @@ async def ws_on_new_user(new_user: ChatModel, chat: ChatModel, is_join_request: 
     """
 
     # Check for admin permissions
-    if await is_user_admin(chat_id=chat.chat_id, user_id=new_user.chat_id):
+    if await is_user_admin(chat_id=chat.tid, user_id=new_user.tid):
         return False
 
     # Add user to the welcomesecurity database
@@ -27,7 +27,7 @@ async def ws_on_new_user(new_user: ChatModel, chat: ChatModel, is_join_request: 
 
 async def ws_on_new_user_mute(new_user: ChatModel, chat: ChatModel):
     if await ws_on_new_user(new_user, chat):
-        return await mute_user(chat_id=chat.chat_id, user_id=new_user.chat_id)
+        return await mute_user(chat_id=chat.tid, user_id=new_user.tid)
     return None
 
 

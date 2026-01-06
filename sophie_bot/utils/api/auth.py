@@ -4,6 +4,7 @@ import secrets
 import time
 from datetime import datetime, timedelta, timezone
 from typing import Annotated, Optional
+from urllib.parse import parse_qsl
 
 import jwt
 import structlog
@@ -68,6 +69,18 @@ def verify_telegram_login_widget(data: dict) -> tuple[dict, str]:
     return data, hash_value
 
 
+def verify_tma_launch_params(init_data: str) -> tuple[dict, str]:
+    parsed_data = dict(parse_qsl(init_data))
+    if "hash" not in parsed_data:
+        raise HTTPException(status_code=400, detail="Missing hash")
+
+    hash_value = parsed_data.pop("hash")
+    secret_key = hmac.new(b"WebAppData", CONFIG.token.encode(), hashlib.sha256).digest()
+    _verify_telegram_data(parsed_data, hash_value, secret_key)
+
+    return parsed_data, hash_value
+
+
 async def get_current_user(auth: Annotated[HTTPAuthorizationCredentials, Depends(oauth2_scheme)]) -> ChatModel:
     token = auth.credentials
     credentials_exception = HTTPException(
@@ -111,7 +124,7 @@ async def get_current_operator(
 ) -> ChatModel:
     token = auth.credentials
     # Check if user is in operators list
-    if user.chat_id in CONFIG.operators:
+    if user.tid in CONFIG.operators:
         return user
 
     # Check if the token claims contain scope "operator"
@@ -123,7 +136,7 @@ async def get_current_operator(
     except jwt.InvalidTokenError:
         pass
 
-    logger.warning("Unauthorized operator access attempt", user_id=user.chat_id)
+    logger.warning("Unauthorized operator access attempt", user_id=user.tid)
     raise HTTPException(
         status_code=status.HTTP_403_FORBIDDEN,
         detail="Not enough permissions",

@@ -103,4 +103,4 @@ class CaptchaGetHandler(SophieMessageCallbackQueryHandler):
             reply_markup=buttons.as_markup(),
         )
 
-        await self.state.update_data({"captcha": captcha.data.model_dump(), "ws_chat_iid": str(chat_db.id)})
+        await self.state.update_data({"captcha": captcha.data.model_dump(), "ws_chat_iid": str(chat_db.iid)})

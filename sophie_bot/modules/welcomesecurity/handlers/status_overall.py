@@ -31,7 +31,7 @@ class WelcomeSecuritySettingsShowHandler(SophieMessageHandler):
     async def handle(self) -> Any:
         connection = self.connection
 
-        db_item: GreetingsModel = await GreetingsModel.get_by_chat_id(connection.id)
+        db_item: GreetingsModel = await GreetingsModel.get_by_chat_id(connection.tid)
 
         captcha_enabled = db_item.welcome_security and db_item.welcome_security.enabled
         mute_enabled = db_item.welcome_mute and db_item.welcome_mute.enabled
@@ -45,7 +45,8 @@ class WelcomeSecuritySettingsShowHandler(SophieMessageHandler):
                         l_("Enabled, expires in {time}"),
                         time=format_timedelta(
                             convert_timedelta_or_str(
-                                db_item.welcome_security.expire or WELCOMESECURITY_EXPIRE_DEFALT_VALUE  # type: ignore
+                                (db_item.welcome_security.expire if db_item.welcome_security else None)
+                                or WELCOMESECURITY_EXPIRE_DEFALT_VALUE
                             ),
                             locale=self.current_locale,
                         ),
@@ -61,7 +62,10 @@ class WelcomeSecuritySettingsShowHandler(SophieMessageHandler):
                     Template(
                         l_("Enabled, on {time}"),
                         time=format_timedelta(
-                            convert_timedelta_or_str(db_item.welcome_mute.time or WELCOMEMUTE_DEFALT_VALUE),  # type: ignore
+                            convert_timedelta_or_str(
+                                (db_item.welcome_mute.time if db_item.welcome_mute else None)
+                                or WELCOMEMUTE_DEFALT_VALUE
+                            ),
                             locale=self.current_locale,
                         ),
                     )
@@ -77,7 +81,7 @@ class WelcomeSecuritySettingsShowHandler(SophieMessageHandler):
 
         title = Bold(Title(_("Welcome Security message")))
 
-        rules = await RulesModel.get_rules(chat_id=connection.id)
+        rules = await RulesModel.get_rules(chat_id=connection.tid)
         additional_fillings = {"rules": rules.text or "" if rules else _("No chat rules, have fun!")}
 
         welcome = db_item.security_note or get_default_security_message()
