@@ -151,7 +151,7 @@ def get_fed_user_text(skip_no_fed=False, check_self_user=False, disable_self_fed
                 text = " ".join(data[1:]) if len(data) > 1 else None
             elif not user:
                 if check_self_user is True:
-                    user = await db.user_list.find_one({"user_id": message.from_user.iid})
+                    user = await db.user_list.find_one({"user_id": message.from_user.id})
                 else:
                     await message.reply(strings["cant_get_user"])
                     # Passing 'None' user will throw err
@@ -213,7 +213,7 @@ def is_fed_owner(func):
     async def wrapped_1(*args, **kwargs):
         message = args[0]
         fed = args[1]
-        user_id = message.from_user.iid
+        user_id = message.from_user.id
 
         # check on anon
         if user_id in [1087968824, 777000]:
@@ -235,7 +235,7 @@ def is_fed_admin(func):
     async def wrapped_1(*args, **kwargs):
         message = args[0]
         fed = args[1]
-        user_id = message.from_user.iid
+        user_id = message.from_user.id
 
         # check on anon
         if user_id in [1087968824, 777000]:
@@ -1156,7 +1156,7 @@ async def fedban_check(message, fed, user, _, strings):
 
     # create text
     text = strings["fcheck_header"]
-    if message.chat.type == "private" and message.from_user.iid == user["user_id"]:
+    if message.chat.type == "private" and message.from_user.id == user["user_id"]:
         if bool(fed):
             if bool(fban_data):
                 if "reason" not in fban_data:
@@ -1203,7 +1203,7 @@ async def fedban_check(message, fed, user, _, strings):
             text += strings["not_fbanned_in_fed"].format(fed_name=html.escape(fed["fed_name"], quote=False))
 
         if total_count > 0:
-            if message.from_user.iid == user["user_id"]:
+            if message.from_user.id == user["user_id"]:
                 text += strings["contact_in_pm"]
 
     if len(text) > 4096:

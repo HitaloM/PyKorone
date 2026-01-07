@@ -71,6 +71,8 @@ class ModernActionABC(ABC, Generic[ACTION_DATA]):
     as_filter: bool = True  # Can be used as a filter
     as_button: bool = False  # Can be used as a button
 
+    button_allowed_prefixes: Optional[tuple[str, ...]] = None  # Allowed prefixes for buttons
+
     def __init__(self):
         pass
 

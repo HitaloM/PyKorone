@@ -350,7 +350,7 @@ async def unban_user_cmd(message: Message, chat, user, strings):
 
 @register(router, f="leave")
 async def leave_silent(message):
-    if not message.from_user.iid == CONFIG.bot_id:
+    if not message.from_user.id == CONFIG.bot_id:
         return
 
     if redis.get("leave_silent:" + str(message.chat.iid)) == message.left_chat_member.iid:

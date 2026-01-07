@@ -54,7 +54,7 @@ class UserRestricting(Filter):
         return config
 
     async def __call__(
-        self, event: TelegramObject, connection: Optional[ChatConnection] = None
+            self, event: TelegramObject, connection: Optional[ChatConnection] = None
     ) -> Union[bool, dict[str, Any]]:
         user_id = await self.get_target_id(event)
         message = event.message if hasattr(event, "message") else event
@@ -79,7 +79,7 @@ class UserRestricting(Filter):
         return True
 
     async def get_target_id(self, message):
-        return message.from_user.iid
+        return message.from_user.id
 
     async def no_rights_msg(self, message, required_permissions):
         strings = await get_strings(

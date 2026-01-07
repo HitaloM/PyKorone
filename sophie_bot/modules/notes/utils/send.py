@@ -30,6 +30,7 @@ from stfu_tg.doc import Element
 from sophie_bot.db.models.notes import Saveable, SaveableParseMode
 from sophie_bot.middlewares.connections import ChatConnection
 from sophie_bot.modules.notes.utils.buttons_processor.legacy import legacy_button_parser
+from sophie_bot.modules.notes.utils.buttons_processor.unparse import unparse_buttons
 from sophie_bot.modules.notes.utils.fillings import process_fillings
 from sophie_bot.modules.notes.utils.parse import (
     PARSABLE_CONTENT_TYPES,
@@ -62,16 +63,16 @@ SEND_METHOD: dict[ContentType, Type[TelegramMethod[Message]]] = {
 
 
 async def send_saveable(
-    message: Optional[Message],
-    send_to: int,
-    saveable: Saveable,
-    reply_to: Optional[int] = None,
-    title: Optional[Element] = None,
-    raw: Optional[bool] = False,
-    additional_keyboard: InlineKeyboardMarkup = InlineKeyboardMarkup(inline_keyboard=[]),
-    additional_fillings: Optional[dict[str, str]] = None,
-    connection: ChatConnection | None = None,
-    user: Optional[User] = None,
+        message: Optional[Message],
+        send_to: int,
+        saveable: Saveable,
+        reply_to: Optional[int] = None,
+        title: Optional[Element] = None,
+        raw: Optional[bool] = False,
+        additional_keyboard: InlineKeyboardMarkup = InlineKeyboardMarkup(inline_keyboard=[]),
+        additional_fillings: Optional[dict[str, str]] = None,
+        connection: ChatConnection | None = None,
+        user: Optional[User] = None,
 ):
     text = saveable.text or ""
 
@@ -83,7 +84,12 @@ async def send_saveable(
     inline_markup = InlineKeyboardMarkup(inline_keyboard=[])
     if not raw:
         chat_id_for_buttons = connection.db_model.tid if connection else (message.chat.id if message else send_to)
-        text, inline_markup = legacy_button_parser(chat_id_for_buttons, text)
+
+        if saveable.version == 1:
+            text, inline_markup = legacy_button_parser(chat_id_for_buttons, text)
+        else:
+            inline_markup = unparse_buttons(saveable.buttons, chat_id_for_buttons)
+
         inline_markup.inline_keyboard.extend(additional_keyboard.inline_keyboard)
 
     # Convert legacy markdown to HTML
@@ -99,8 +105,6 @@ async def send_saveable(
     # Apply random choice sections (%%%...%%%)
     if text:
         text = parse_random_text(text)
-
-    # inline_markup = unparse_buttons(saveable.buttons)
 
     if len(text) > 4090:
         raise SophieException(_("The text is too long"))

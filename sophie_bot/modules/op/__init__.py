@@ -2,6 +2,7 @@ from aiogram import Router
 from fastapi import APIRouter
 
 from sophie_bot.modules.op.handlers.Banner import OpBannerHandler
+from sophie_bot.modules.op.handlers.ButtonsTest import ButtonsTestHandler
 from sophie_bot.modules.op.handlers.Captcha import OpCaptchaHandler
 from sophie_bot.modules.op.handlers.KillSwitch import KillSwitchHandler
 from sophie_bot.modules.op.handlers.ListJobs import ListJobsHandler
@@ -23,4 +24,5 @@ __handlers__ = (
     KillSwitchHandler,
     OpBannerHandler,
     OpCaptchaHandler,
+    ButtonsTestHandler,
 )

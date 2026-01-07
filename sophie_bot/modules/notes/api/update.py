@@ -17,10 +17,10 @@ router = APIRouter()
 
 @router.patch("/{chat_iid}/{note_id}", response_model=NoteResponse)
 async def update_note(
-        chat_iid: PydanticObjectId,
-        note_id: PydanticObjectId,
-        note_data: NoteUpdate,
-        user: Annotated[ChatModel, Depends(get_current_user)],
+    chat_iid: PydanticObjectId,
+    note_id: PydanticObjectId,
+    note_data: NoteUpdate,
+    user: Annotated[ChatModel, Depends(get_current_user)],
 ) -> NoteResponse:
     chat = await ChatModel.get_by_iid(chat_iid)
     if not chat:
@@ -48,6 +48,9 @@ async def update_note(
     note.edited_date = datetime.now(timezone.utc)
     note.edited_user = user.tid
     await note.save()
+
+    if note.id is None:
+        raise HTTPException(status_code=500, detail="Note ID is missing after save")
 
     return NoteResponse(
         id=note.id,

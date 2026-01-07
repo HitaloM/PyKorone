@@ -36,7 +36,9 @@ class SaveNote(SophieMessageHandler):
 
         notenames: tuple[str, ...] = tuple(name.lower() for name in self.data["notenames"])
 
-        saveable = await parse_saveable(self.event, raw_text)
+        text_offset = self.data['arg'].value['raw_text'].offset
+
+        saveable = await parse_saveable(self.event, raw_text, offset=text_offset)
         is_created = await self.save(saveable, notenames, connection.tid, self.data)
 
         await self.event.reply(

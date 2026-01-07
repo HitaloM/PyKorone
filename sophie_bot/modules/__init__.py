@@ -5,11 +5,12 @@ from typing import TYPE_CHECKING, Sequence, Type, Union
 
 from aiogram import Dispatcher, Router
 
-from sophie_bot.modules.utils_.base_handler import SophieBaseHandler
 from sophie_bot.utils.logger import log
 
 if TYPE_CHECKING:
     from fastapi import APIRouter
+
+    from sophie_bot.modules.utils_.base_handler import SophieBaseHandler
 
 LOADED_MODULES: dict[str, ModuleType] = {}
 LOADED_API_ROUTERS: list["APIRouter"] = []
@@ -70,7 +71,7 @@ async def load_modules(
         if not (router := getattr(module, "router", None)):
             continue
 
-        handlers: Sequence[Type[SophieBaseHandler]] = getattr(module, "__handlers__", [])
+        handlers: Sequence[Type["SophieBaseHandler"]] = getattr(module, "__handlers__", [])
         for handler in handlers:
             handler.register(router)
 

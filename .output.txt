@@ -1,902 +1,307 @@
-poetry run python -m pycln . -a
-Looks good! ✨ 🍰 ✨
-395 files left unchanged.
-poetry run ruff check . --fix
-All checks passed!
-poetry run ruff format sophie_bot/
-4 files reformatted, 379 files left unchanged
-"pybabel" extract -k "pl_:1,2" -k "p_:1,2" -k "l_:1" \
---add-comments="NOTE: " -o "/home/yacha/Projects/Otty/sophie/locales/bot.pot" --omit-header --sort-by-file --no-wrap "sophie_bot"
-extracting messages from sophie_bot/__init__.py
-extracting messages from sophie_bot/__main__.py
-extracting messages from sophie_bot/config.py
-extracting messages from sophie_bot/startup.py
-extracting messages from sophie_bot/versions.py
-extracting messages from sophie_bot/args/users.py
-extracting messages from sophie_bot/db/db_exceptions.py
-extracting messages from sophie_bot/db/cache/locale.py
-extracting messages from sophie_bot/db/models/__init__.py
-extracting messages from sophie_bot/db/models/_link_type.py
-extracting messages from sophie_bot/db/models/ai_autotranslate.py
-extracting messages from sophie_bot/db/models/ai_enabled.py
-extracting messages from sophie_bot/db/models/ai_memory.py
-extracting messages from sophie_bot/db/models/ai_moderator.py
-extracting messages from sophie_bot/db/models/ai_provider.py
-extracting messages from sophie_bot/db/models/ai_usage.py
-extracting messages from sophie_bot/db/models/antiflood.py
-extracting messages from sophie_bot/db/models/api_token.py
-extracting messages from sophie_bot/db/models/beta.py
-extracting messages from sophie_bot/db/models/chat.py
-extracting messages from sophie_bot/db/models/chat_admin.py
-extracting messages from sophie_bot/db/models/chat_connections.py
-extracting messages from sophie_bot/db/models/chat_photo.py
-extracting messages from sophie_bot/db/models/disabling.py
-extracting messages from sophie_bot/db/models/federations.py
-extracting messages from sophie_bot/db/models/filters.py
-extracting messages from sophie_bot/db/models/greetings.py
-extracting messages from sophie_bot/db/models/language.py
-extracting messages from sophie_bot/db/models/notes.py
-extracting messages from sophie_bot/db/models/privatenotes.py
-extracting messages from sophie_bot/db/models/refresh_token.py
-extracting messages from sophie_bot/db/models/rules.py
-extracting messages from sophie_bot/db/models/settings_keyvalue.py
-extracting messages from sophie_bot/db/models/ws_user.py
-extracting messages from sophie_bot/filters/admin_rights.py
-extracting messages from sophie_bot/filters/chat_status.py
-extracting messages from sophie_bot/filters/cmd.py
-extracting messages from sophie_bot/filters/command_start.py
-extracting messages from sophie_bot/filters/feature_flag.py
-extracting messages from sophie_bot/filters/is_connected.py
-extracting messages from sophie_bot/filters/message_status.py
-extracting messages from sophie_bot/filters/user_status.py
-extracting messages from sophie_bot/metrics/__init__.py
-extracting messages from sophie_bot/metrics/ai.py
-extracting messages from sophie_bot/metrics/background.py
-extracting messages from sophie_bot/metrics/external.py
-extracting messages from sophie_bot/metrics/middleware.py
-extracting messages from sophie_bot/metrics/prom.py
-extracting messages from sophie_bot/middlewares/__init__.py
-extracting messages from sophie_bot/middlewares/beta.py
-extracting messages from sophie_bot/middlewares/connections.py
-extracting messages from sophie_bot/middlewares/debug.py
-extracting messages from sophie_bot/middlewares/disabling.py
-extracting messages from sophie_bot/middlewares/legacy_save_chats.py
-extracting messages from sophie_bot/middlewares/localization.py
-extracting messages from sophie_bot/middlewares/logic.py
-extracting messages from sophie_bot/middlewares/memory_debug.py
-extracting messages from sophie_bot/middlewares/save_chats.py
-extracting messages from sophie_bot/modes/__init__.py
-extracting messages from sophie_bot/modes/bot.py
-extracting messages from sophie_bot/modes/rest.py
-extracting messages from sophie_bot/modes/scheduler.py
-extracting messages from sophie_bot/modules/__init__.py
-extracting messages from sophie_bot/modules/ai/__init__.py
-extracting messages from sophie_bot/modules/ai/callbacks.py
-extracting messages from sophie_bot/modules/ai/texts.py
-extracting messages from sophie_bot/modules/ai/agent_tools/cmds_help.py
-extracting messages from sophie_bot/modules/ai/agent_tools/memory.py
-extracting messages from sophie_bot/modules/ai/agent_tools/notes.py
-extracting messages from sophie_bot/modules/ai/filters/ai_enabled.py
-extracting messages from sophie_bot/modules/ai/filters/throttle.py
-extracting messages from sophie_bot/modules/ai/fsm/playground.py
-extracting messages from sophie_bot/modules/ai/fsm/pm.py
-extracting messages from sophie_bot/modules/ai/handlers/ai_cmd.py
-extracting messages from sophie_bot/modules/ai/handlers/ai_moderator_setting.py
-extracting messages from sophie_bot/modules/ai/handlers/aiprovider.py
-extracting messages from sophie_bot/modules/ai/handlers/aisave.py
-extracting messages from sophie_bot/modules/ai/handlers/autotranslate_setting.py
-extracting messages from sophie_bot/modules/ai/handlers/enable_setting.py
-extracting messages from sophie_bot/modules/ai/handlers/filter.py
-extracting messages from sophie_bot/modules/ai/handlers/mode.py
-extracting messages from sophie_bot/modules/ai/handlers/op_stats.py
-extracting messages from sophie_bot/modules/ai/handlers/playground.py
-extracting messages from sophie_bot/modules/ai/handlers/pm.py
-extracting messages from sophie_bot/modules/ai/handlers/reply.py
-extracting messages from sophie_bot/modules/ai/handlers/reset_context.py
-extracting messages from sophie_bot/modules/ai/handlers/translate.py
-extracting messages from sophie_bot/modules/ai/json_schemas/aisave.py
-extracting messages from sophie_bot/modules/ai/json_schemas/translate.py
-extracting messages from sophie_bot/modules/ai/json_schemas/update_note_description.py
-extracting messages from sophie_bot/modules/ai/magic_handlers/filter.py
-extracting messages from sophie_bot/modules/ai/magic_handlers/modern_action.py
-extracting messages from sophie_bot/modules/ai/middlewares/ai_moderator.py
-extracting messages from sophie_bot/modules/ai/middlewares/auto_translate.py
-extracting messages from sophie_bot/modules/ai/middlewares/cache_bot_messages.py
-extracting messages from sophie_bot/modules/ai/middlewares/cache_user_messages.py
-extracting messages from sophie_bot/modules/ai/utils/ai_agent_run.py
-extracting messages from sophie_bot/modules/ai/utils/ai_chatbot_reply.py
-extracting messages from sophie_bot/modules/ai/utils/ai_get_provider.py
-extracting messages from sophie_bot/modules/ai/utils/ai_header.py
-extracting messages from sophie_bot/modules/ai/utils/ai_models.py
-extracting messages from sophie_bot/modules/ai/utils/ai_moderator.py
-extracting messages from sophie_bot/modules/ai/utils/ai_tool_context.py
-extracting messages from sophie_bot/modules/ai/utils/cache_messages.py
-extracting messages from sophie_bot/modules/ai/utils/detect_lang.py
-extracting messages from sophie_bot/modules/ai/utils/new_ai_chatbot.py
-extracting messages from sophie_bot/modules/ai/utils/new_message_history.py
-extracting messages from sophie_bot/modules/ai/utils/self_reply.py
-extracting messages from sophie_bot/modules/ai/utils/transform_audio.py
-extracting messages from sophie_bot/modules/antiflood/__init__.py
-extracting messages from sophie_bot/modules/antiflood/config.py
-extracting messages from sophie_bot/modules/antiflood/handlers/action.py
-extracting messages from sophie_bot/modules/antiflood/handlers/setflood.py
-extracting messages from sophie_bot/modules/antiflood/handlers/status.py
-extracting messages from sophie_bot/modules/antiflood/middlewares/antiflood.py
-extracting messages from sophie_bot/modules/disabling/__init__.py
-extracting messages from sophie_bot/modules/disabling/callbacks.py
-extracting messages from sophie_bot/modules/disabling/export.py
-extracting messages from sophie_bot/modules/disabling/handlers/disable.py
-extracting messages from sophie_bot/modules/disabling/handlers/disable_able.py
-extracting messages from sophie_bot/modules/disabling/handlers/disabled.py
-extracting messages from sophie_bot/modules/disabling/handlers/enable.py
-extracting messages from sophie_bot/modules/disabling/handlers/enable_all.py
-extracting messages from sophie_bot/modules/disabling/utils/get_disabled.py
-extracting messages from sophie_bot/modules/error/__init__.py
-extracting messages from sophie_bot/modules/error/handlers/crash_handler.py
-extracting messages from sophie_bot/modules/error/handlers/error.py
-extracting messages from sophie_bot/modules/error/utils/backoff.py
-extracting messages from sophie_bot/modules/error/utils/capture.py
-extracting messages from sophie_bot/modules/error/utils/error_message.py
-extracting messages from sophie_bot/modules/error/utils/haikus.py
-extracting messages from sophie_bot/modules/error/utils/ignored.py
-extracting messages from sophie_bot/modules/federations/__init__.py
-extracting messages from sophie_bot/modules/federations/config.py
-extracting messages from sophie_bot/modules/federations/args/ban.py
-extracting messages from sophie_bot/modules/federations/args/fed_id.py
-extracting messages from sophie_bot/modules/federations/handlers/accept_transfer.py
-extracting messages from sophie_bot/modules/federations/handlers/ban.py
-extracting messages from sophie_bot/modules/federations/handlers/banlist.py
-extracting messages from sophie_bot/modules/federations/handlers/create.py
-extracting messages from sophie_bot/modules/federations/handlers/info.py
-extracting messages from sophie_bot/modules/federations/handlers/join.py
-extracting messages from sophie_bot/modules/federations/handlers/leave.py
-extracting messages from sophie_bot/modules/federations/handlers/logs.py
-extracting messages from sophie_bot/modules/federations/handlers/subscribe.py
-extracting messages from sophie_bot/modules/federations/handlers/transfer.py
-extracting messages from sophie_bot/modules/federations/handlers/unban.py
-extracting messages from sophie_bot/modules/federations/middlewares/check_fban.py
-extracting messages from sophie_bot/modules/federations/services/federation.py
-extracting messages from sophie_bot/modules/federations/services/permissions.py
-extracting messages from sophie_bot/modules/filters/__init__.py
-extracting messages from sophie_bot/modules/filters/callbacks.py
-extracting messages from sophie_bot/modules/filters/enforce_middleware.py
-extracting messages from sophie_bot/modules/filters/fsm.py
-extracting messages from sophie_bot/modules/filters/handlers/action_change_setting_confirm.py
-extracting messages from sophie_bot/modules/filters/handlers/action_remove.py
-extracting messages from sophie_bot/modules/filters/handlers/action_select.py
-extracting messages from sophie_bot/modules/filters/handlers/action_setting_select.py
-extracting messages from sophie_bot/modules/filters/handlers/action_setup_confirm.py
-extracting messages from sophie_bot/modules/filters/handlers/actions_list.py
-extracting messages from sophie_bot/modules/filters/handlers/actions_list_to_remove.py
-extracting messages from sophie_bot/modules/filters/handlers/add.py
-extracting messages from sophie_bot/modules/filters/handlers/confirm.py
-extracting messages from sophie_bot/modules/filters/handlers/filter_confirm.py
-extracting messages from sophie_bot/modules/filters/handlers/filter_del.py
-extracting messages from sophie_bot/modules/filters/handlers/filter_edit.py
-extracting messages from sophie_bot/modules/filters/handlers/filter_new.py
-extracting messages from sophie_bot/modules/filters/handlers/filter_save.py
-extracting messages from sophie_bot/modules/filters/handlers/filters_list.py
-extracting messages from sophie_bot/modules/filters/types/modern_action_abc.py
-extracting messages from sophie_bot/modules/filters/types/modern_action_data_types.py
-extracting messages from sophie_bot/modules/filters/utils_/ai_filter_schema.py
-extracting messages from sophie_bot/modules/filters/utils_/all_modern_actions.py
-extracting messages from sophie_bot/modules/filters/utils_/extract_content.py
-extracting messages from sophie_bot/modules/filters/utils_/filter_abc.py
-extracting messages from sophie_bot/modules/filters/utils_/filter_action_text.py
-extracting messages from sophie_bot/modules/filters/utils_/filter_actions_keyboard.py
-extracting messages from sophie_bot/modules/filters/utils_/handle_action.py
-extracting messages from sophie_bot/modules/filters/utils_/legacy_filter_actions.py
-extracting messages from sophie_bot/modules/filters/utils_/legacy_filter_handler.py
-extracting messages from sophie_bot/modules/filters/utils_/match_legacy.py
-extracting messages from sophie_bot/modules/greetings/__init__.py
-extracting messages from sophie_bot/modules/greetings/default_welcome.py
-extracting messages from sophie_bot/modules/greetings/handlers/enablewelcome.py
-extracting messages from sophie_bot/modules/greetings/handlers/set_join_request.py
-extracting messages from sophie_bot/modules/greetings/handlers/status_cleanservice.py
-extracting messages from sophie_bot/modules/greetings/handlers/status_cleanwelcome.py
-extracting messages from sophie_bot/modules/greetings/handlers/status_greetings.py
-extracting messages from sophie_bot/modules/greetings/handlers/status_overall.py
-extracting messages from sophie_bot/modules/greetings/middlewares/leave_user.py
-extracting messages from sophie_bot/modules/greetings/middlewares/new_user.py
-extracting messages from sophie_bot/modules/greetings/utils/send_welcome.py
-extracting messages from sophie_bot/modules/help/__init__.py
-extracting messages from sophie_bot/modules/help/callbacks.py
-extracting messages from sophie_bot/modules/help/stats.py
-extracting messages from sophie_bot/modules/help/handlers/help_group.py
-extracting messages from sophie_bot/modules/help/handlers/op.py
-extracting messages from sophie_bot/modules/help/handlers/pm_modules.py
-extracting messages from sophie_bot/modules/help/handlers/set_lang_legacy.py
-extracting messages from sophie_bot/modules/help/handlers/start_group.py
-extracting messages from sophie_bot/modules/help/handlers/start_pm.py
-extracting messages from sophie_bot/modules/help/utils/extract_info.py
-extracting messages from sophie_bot/modules/help/utils/format_help.py
-extracting messages from sophie_bot/modules/legacy_modules/__init__.py
-extracting messages from sophie_bot/modules/legacy_modules/modules/__init__.py
-extracting messages from sophie_bot/modules/legacy_modules/modules/antiflood.py
-extracting messages from sophie_bot/modules/legacy_modules/modules/connection.py
-extracting messages from sophie_bot/modules/legacy_modules/modules/feds.py
-extracting messages from sophie_bot/modules/legacy_modules/modules/language.py
-extracting messages from sophie_bot/modules/legacy_modules/modules/owner_stuff.py
-extracting messages from sophie_bot/modules/legacy_modules/modules/pins.py
-extracting messages from sophie_bot/modules/legacy_modules/modules/reports.py
-extracting messages from sophie_bot/modules/legacy_modules/modules/restrictions.py
-extracting messages from sophie_bot/modules/legacy_modules/modules/users.py
-extracting messages from sophie_bot/modules/legacy_modules/modules/warns.py
-extracting messages from sophie_bot/modules/legacy_modules/utils/__init__.py
-extracting messages from sophie_bot/modules/legacy_modules/utils/connections.py
-extracting messages from sophie_bot/modules/legacy_modules/utils/deep_linking.py
-extracting messages from sophie_bot/modules/legacy_modules/utils/disable.py
-extracting messages from sophie_bot/modules/legacy_modules/utils/language.py
-extracting messages from sophie_bot/modules/legacy_modules/utils/message.py
-extracting messages from sophie_bot/modules/legacy_modules/utils/register.py
-extracting messages from sophie_bot/modules/legacy_modules/utils/restrictions.py
-extracting messages from sophie_bot/modules/legacy_modules/utils/user_details.py
-extracting messages from sophie_bot/modules/locks/__init__.py
-extracting messages from sophie_bot/modules/locks/handlers/lockable.py
-extracting messages from sophie_bot/modules/notes/__init__.py
-extracting messages from sophie_bot/modules/notes/callbacks.py
-extracting messages from sophie_bot/modules/notes/api/__init__.py
-extracting messages from sophie_bot/modules/notes/api/create.py
-extracting messages from sophie_bot/modules/notes/api/delete.py
-extracting messages from sophie_bot/modules/notes/api/get.py
-extracting messages from sophie_bot/modules/notes/api/schemas.py
-extracting messages from sophie_bot/modules/notes/api/update.py
-extracting messages from sophie_bot/modules/notes/api/utils.py
-extracting messages from sophie_bot/modules/notes/filters/pm_notes.py
-extracting messages from sophie_bot/modules/notes/handlers/delete.py
-extracting messages from sophie_bot/modules/notes/handlers/delete_all.py
-extracting messages from sophie_bot/modules/notes/handlers/get.py
-extracting messages from sophie_bot/modules/notes/handlers/legacy_button.py
-extracting messages from sophie_bot/modules/notes/handlers/list.py
-extracting messages from sophie_bot/modules/notes/handlers/pmnotes_handler.py
-extracting messages from sophie_bot/modules/notes/handlers/pmnotes_setting.py
-extracting messages from sophie_bot/modules/notes/handlers/save.py
-extracting messages from sophie_bot/modules/notes/handlers/search.py
-extracting messages from sophie_bot/modules/notes/magic_handlers/descriptions_scheduler.py
-extracting messages from sophie_bot/modules/notes/magic_handlers/export.py
-extracting messages from sophie_bot/modules/notes/magic_handlers/filter.py
-extracting messages from sophie_bot/modules/notes/magic_handlers/modern_filter.py
-extracting messages from sophie_bot/modules/notes/magic_handlers/reply_action.py
-extracting messages from sophie_bot/modules/notes/magic_handlers/send_note_action.py
-extracting messages from sophie_bot/modules/notes/schedules/generate_ai_titles.py
-extracting messages from sophie_bot/modules/notes/utils/combine.py
-extracting messages from sophie_bot/modules/notes/utils/extract_markdown_entities.py
-extracting messages from sophie_bot/modules/notes/utils/fillings.py
-extracting messages from sophie_bot/modules/notes/utils/list.py
-extracting messages from sophie_bot/modules/notes/utils/names.py
-extracting messages from sophie_bot/modules/notes/utils/parse.py
-extracting messages from sophie_bot/modules/notes/utils/random_parser.py
-extracting messages from sophie_bot/modules/notes/utils/send.py
-extracting messages from sophie_bot/modules/notes/utils/unparse_legacy.py
-extracting messages from sophie_bot/modules/notes/utils/buttons_processor/legacy.py
-extracting messages from sophie_bot/modules/notes/utils/buttons_processor/parse_arg.py
-extracting messages from sophie_bot/modules/notes/utils/buttons_processor/parse_message_buttons.py
-extracting messages from sophie_bot/modules/notes/utils/buttons_processor/unparse.py
-extracting messages from sophie_bot/modules/notes/utils/buttons_processor/ass_types/MarkdownLinkArgument.py
-extracting messages from sophie_bot/modules/notes/utils/buttons_processor/ass_types/SophieButtonABC.py
-extracting messages from sophie_bot/modules/op/__init__.py
-extracting messages from sophie_bot/modules/op/api/__init__.py
-extracting messages from sophie_bot/modules/op/api/health.py
-extracting messages from sophie_bot/modules/op/handlers/Banner.py
-extracting messages from sophie_bot/modules/op/handlers/Captcha.py
-extracting messages from sophie_bot/modules/op/handlers/KillSwitch.py
-extracting messages from sophie_bot/modules/op/handlers/ListJobs.py
-extracting messages from sophie_bot/modules/op/handlers/StopJobs.py
-extracting messages from sophie_bot/modules/privacy/__init__.py
-extracting messages from sophie_bot/modules/privacy/callbacks.py
-extracting messages from sophie_bot/modules/privacy/handlers/export.py
-extracting messages from sophie_bot/modules/privacy/handlers/privacy.py
-extracting messages from sophie_bot/modules/promotes/__init__.py
-extracting messages from sophie_bot/modules/promotes/handlers/demote.py
-extracting messages from sophie_bot/modules/promotes/handlers/promote.py
-extracting messages from sophie_bot/modules/purges/__init__.py
-extracting messages from sophie_bot/modules/purges/handlers/button.py
-extracting messages from sophie_bot/modules/purges/handlers/delete.py
-extracting messages from sophie_bot/modules/purges/handlers/purge.py
-extracting messages from sophie_bot/modules/purges/magic_handlers/filter.py
-extracting messages from sophie_bot/modules/purges/magic_handlers/modern_filter.py
-extracting messages from sophie_bot/modules/rest/__init__.py
-extracting messages from sophie_bot/modules/rest/api/__init__.py
-extracting messages from sophie_bot/modules/rest/api/auth.py
-extracting messages from sophie_bot/modules/rest/api/groups.py
-extracting messages from sophie_bot/modules/restrictions/__init__.py
-extracting messages from sophie_bot/modules/restrictions/actions/ban.py
-extracting messages from sophie_bot/modules/restrictions/actions/kick.py
-extracting messages from sophie_bot/modules/restrictions/actions/mute.py
-extracting messages from sophie_bot/modules/rules/__init__.py
-extracting messages from sophie_bot/modules/rules/handlers/get.py
-extracting messages from sophie_bot/modules/rules/handlers/legacy_button.py
-extracting messages from sophie_bot/modules/rules/handlers/reset.py
-extracting messages from sophie_bot/modules/rules/handlers/set.py
-extracting messages from sophie_bot/modules/rules/magic_handlers/filter.py
-extracting messages from sophie_bot/modules/rules/magic_handlers/modern_filter.py
-extracting messages from sophie_bot/modules/troubleshooters/__init__.py
-extracting messages from sophie_bot/modules/troubleshooters/callbacks.py
-extracting messages from sophie_bot/modules/troubleshooters/stats.py
-extracting messages from sophie_bot/modules/troubleshooters/handlers/admincache.py
-extracting messages from sophie_bot/modules/troubleshooters/handlers/beta_state.py
-extracting messages from sophie_bot/modules/troubleshooters/handlers/cancel.py
-extracting messages from sophie_bot/modules/troubleshooters/handlers/cancel_callback.py
-extracting messages from sophie_bot/modules/troubleshooters/handlers/op_settings.py
-extracting messages from sophie_bot/modules/users/__init__.py
-extracting messages from sophie_bot/modules/users/export.py
-extracting messages from sophie_bot/modules/users/stats.py
-extracting messages from sophie_bot/modules/users/handlers/id.py
-extracting messages from sophie_bot/modules/utils_/base_handler.py
-extracting messages from sophie_bot/modules/utils_/chat_member.py
-extracting messages from sophie_bot/modules/utils_/common_try.py
-extracting messages from sophie_bot/modules/utils_/get_user.py
-extracting messages from sophie_bot/modules/utils_/message.py
-extracting messages from sophie_bot/modules/utils_/reply_or_edit.py
-extracting messages from sophie_bot/modules/utils_/status_handler.py
-extracting messages from sophie_bot/modules/utils_/telegram_exceptions.py
-extracting messages from sophie_bot/modules/utils_/action_config_wizard/__init__.py
-extracting messages from sophie_bot/modules/utils_/action_config_wizard/base.py
-extracting messages from sophie_bot/modules/utils_/action_config_wizard/callback.py
-extracting messages from sophie_bot/modules/utils_/action_config_wizard/callbacks.py
-extracting messages from sophie_bot/modules/utils_/action_config_wizard/cancel.py
-extracting messages from sophie_bot/modules/utils_/action_config_wizard/controller.py
-extracting messages from sophie_bot/modules/utils_/action_config_wizard/done.py
-extracting messages from sophie_bot/modules/utils_/action_config_wizard/factory.py
-extracting messages from sophie_bot/modules/utils_/action_config_wizard/fsm.py
-extracting messages from sophie_bot/modules/utils_/action_config_wizard/helpers.py
-extracting messages from sophie_bot/modules/utils_/action_config_wizard/renderer.py
-extracting messages from sophie_bot/modules/utils_/action_config_wizard/service.py
-extracting messages from sophie_bot/modules/utils_/action_config_wizard/settings.py
-extracting messages from sophie_bot/modules/utils_/action_config_wizard/setup.py
-extracting messages from sophie_bot/modules/utils_/action_config_wizard/wizard.py
-extracting messages from sophie_bot/modules/utils_/scheduler/chat_language.py
-extracting messages from sophie_bot/modules/utils_/scheduler/for_chats.py
-extracting messages from sophie_bot/modules/warns/__init__.py
-extracting messages from sophie_bot/modules/warns/magic_handlers/modern_action.py
-extracting messages from sophie_bot/modules/welcomesecurity/__init__.py
-extracting messages from sophie_bot/modules/welcomesecurity/callbacks.py
-extracting messages from sophie_bot/modules/welcomesecurity/fsm.py
-extracting messages from sophie_bot/modules/welcomesecurity/handlers/captcha_confirm.py
-extracting messages from sophie_bot/modules/welcomesecurity/handlers/captcha_get.py
-extracting messages from sophie_bot/modules/welcomesecurity/handlers/chat_join_request.py
-extracting messages from sophie_bot/modules/welcomesecurity/handlers/enable_welcomemute.py
-extracting messages from sophie_bot/modules/welcomesecurity/handlers/enable_ws.py
-extracting messages from sophie_bot/modules/welcomesecurity/handlers/legacy_button.py
-extracting messages from sophie_bot/modules/welcomesecurity/handlers/status_overall.py
-extracting messages from sophie_bot/modules/welcomesecurity/middlewares/lock_muted_users.py
-extracting messages from sophie_bot/modules/welcomesecurity/schedules/ban_unpassed_users.py
-extracting messages from sophie_bot/modules/welcomesecurity/utils_/captcha_done.py
-extracting messages from sophie_bot/modules/welcomesecurity/utils_/captcha_rules.py
-extracting messages from sophie_bot/modules/welcomesecurity/utils_/complete_captcha.py
-extracting messages from sophie_bot/modules/welcomesecurity/utils_/db_time_convert.py
-extracting messages from sophie_bot/modules/welcomesecurity/utils_/emoji_captcha.py
-extracting messages from sophie_bot/modules/welcomesecurity/utils_/initiate_captcha.py
-extracting messages from sophie_bot/modules/welcomesecurity/utils_/on_new_user.py
-extracting messages from sophie_bot/modules/welcomesecurity/utils_/on_user_passed.py
-extracting messages from sophie_bot/modules/welcomesecurity/utils_/send_captcha.py
-extracting messages from sophie_bot/modules/welcomesecurity/utils_/welcomemute.py
-extracting messages from sophie_bot/services/__init__.py
-extracting messages from sophie_bot/services/ai.py
-extracting messages from sophie_bot/services/bot.py
-extracting messages from sophie_bot/services/db.py
-extracting messages from sophie_bot/services/i18n.py
-extracting messages from sophie_bot/services/redis.py
-extracting messages from sophie_bot/services/rest.py
-extracting messages from sophie_bot/services/scheduler.py
-extracting messages from sophie_bot/services/sentry.py
-extracting messages from sophie_bot/utils/cached.py
-extracting messages from sophie_bot/utils/emoji_banner.py
-extracting messages from sophie_bot/utils/exception.py
-extracting messages from sophie_bot/utils/feature_flags.py
-extracting messages from sophie_bot/utils/i18n.py
-extracting messages from sophie_bot/utils/logger.py
-extracting messages from sophie_bot/utils/normalize.py
-extracting messages from sophie_bot/utils/api/auth.py
-extracting messages from sophie_bot/utils/api/rate_limiter.py
-writing PO template file to /home/yacha/Projects/Otty/sophie/locales/bot.pot
-cd "/home/yacha/Projects/Otty/sophie/.venv/lib/python3.13/site-packages/ass_tg" && \
-"pybabel" extract -k "pl_:1,2" -k "p_:1,2" -k "l_:1" \
---add-comments="NOTE: " -o "/home/yacha/Projects/Otty/sophie/locales/ass.pot" --omit-header --sort-by-file --no-wrap .
-extracting messages from __init__.py
-extracting messages from entities.py
-extracting messages from exceptions.py
-extracting messages from i18n.py
-extracting messages from middleware.py
-extracting messages from types/__init__.py
-extracting messages from types/aliases.py
-extracting messages from types/base_abc.py
-extracting messages from types/entities.py
-extracting messages from types/keyvalue.py
-extracting messages from types/lists.py
-extracting messages from types/logic.py
-extracting messages from types/one_of.py
-extracting messages from types/oneword.py
-extracting messages from types/reverse.py
-extracting messages from types/text.py
-extracting messages from types/text_eq.py
-extracting messages from types/text_rules.py
-extracting messages from types/time_arg.py
-extracting messages from types/user.py
-extracting messages from types/wrapped.py
-writing PO template file to /home/yacha/Projects/Otty/sophie/locales/ass.pot
-# Merge
-cp "/home/yacha/Projects/Otty/sophie/locales/bot.pot" "/home/yacha/Projects/Otty/sophie/locales/sophie.pot"
-cat "/home/yacha/Projects/Otty/sophie/locales/ass.pot" >> "/home/yacha/Projects/Otty/sophie/locales/sophie.pot"
-poetry run python -m pycln . -a -c
-Looks good! ✨ 🍰 ✨
-395 files would be left unchanged.
-poetry run ruff format sophie_bot/ --check
-383 files already formatted
-poetry run ruff check .
-All checks passed!
-# poetry run python -m bandit sophie_bot/ -r
-poetry run mypy -p sophie_bot
-Success: no issues found in 420 source files
-poetry run python -m pytest tests/ -v --alluredir=allure_results
-=================================================== test session starts ====================================================
-platform linux -- Python 3.13.9, pytest-9.0.2, pluggy-1.6.0 -- /home/yacha/Projects/Otty/sophie/.venv/bin/python
-cachedir: .pytest_cache
+=================================================================================================== test session starts ===================================================================================================
+platform linux -- Python 3.13.9, pytest-9.0.2, pluggy-1.6.0
 rootdir: /home/yacha/Projects/Otty/sophie
 configfile: pyproject.toml
 plugins: devtools-0.12.2, anyio-4.12.0, asyncio-1.3.0, allure-pytest-2.15.3
 asyncio: mode=Mode.STRICT, debug=False, asyncio_default_fixture_loop_scope=None, asyncio_default_test_loop_scope=function
-collected 76 items
-tests/test_fillings.py::TestProcessFillings::test_combined_fillings PASSED                                           [  1%]
-tests/test_fillings.py::TestProcessFillings::test_with_chat_fillings PASSED                                          [  2%]
-tests/test_fillings.py::TestProcessFillings::test_with_custom_fillings PASSED                                        [  3%]
-tests/test_fillings.py::TestProcessFillings::test_with_empty_text PASSED                                             [  5%]
-tests/test_fillings.py::TestProcessFillings::test_with_missing_custom_key PASSED                                     [  6%]
-tests/test_fillings.py::TestProcessFillings::test_with_user_fillings PASSED                                          [  7%]
-tests/test_metrics/test_external.py::TestExternalServiceInstrumentation::test_time_external_service_success PASSED   [  9%]
-tests/test_metrics/test_external.py::TestExternalServiceInstrumentation::test_time_external_service_exception PASSED [ 10%]
-tests/test_metrics/test_external.py::TestExternalServiceInstrumentation::test_time_external_service_disabled PASSED  [ 11%]
-tests/test_metrics/test_external.py::TestExternalServiceInstrumentation::test_instrument_external_service_async PASSED [ 13%]
-tests/test_metrics/test_external.py::TestExternalServiceInstrumentation::test_instrument_external_service_sync PASSED [ 14%]
-tests/test_metrics/test_external.py::TestExternalServiceInstrumentation::test_instrument_external_service_async_exception PASSED [ 15%]
-tests/test_metrics/test_external.py::TestExternalServiceInstrumentation::test_instrument_external_service_sync_exception PASSED [ 17%]
-tests/test_metrics/test_external.py::TestExternalServiceInstrumentation::test_specific_service_decorators PASSED     [ 18%]
-tests/test_metrics/test_external.py::TestExternalServiceTracker::test_tracker_success PASSED                         [ 19%]
-tests/test_metrics/test_external.py::TestExternalServiceTracker::test_tracker_with_exception PASSED                  [ 21%]
-tests/test_metrics/test_external.py::TestExternalServiceTracker::test_tracker_without_start PASSED                   [ 22%]
-tests/test_metrics/test_external.py::TestExternalServiceTracker::test_tracker_disabled_metrics PASSED                [ 23%]
-tests/test_metrics/test_external.py::TestServiceIntegration::test_service_context_managers PASSED                    [ 25%]
-tests/test_metrics/test_external.py::TestServiceIntegration::test_set_metrics_function PASSED                        [ 26%]
-tests/test_metrics/test_external.py::TestServiceIntegration::test_create_service_tracker_type PASSED                 [ 27%]
-tests/test_metrics/test_middleware.py::TestMetricsMiddleware::test_successful_handler_execution PASSED               [ 28%]
-tests/test_metrics/test_middleware.py::TestMetricsMiddleware::test_handler_exception PASSED                          [ 30%]
-tests/test_metrics/test_middleware.py::TestMetricsMiddleware::test_sampling_skip PASSED                              [ 31%]
-tests/test_metrics/test_middleware.py::TestMetricsMiddleware::test_extract_update_info_message PASSED                [ 32%]
-tests/test_metrics/test_middleware.py::TestMetricsMiddleware::test_extract_update_info_callback_query PASSED         [ 34%]
-tests/test_metrics/test_middleware.py::TestMetricsMiddleware::test_get_message_kind_text PASSED                      [ 35%]
-tests/test_metrics/test_middleware.py::TestMetricsMiddleware::test_get_message_kind_photo PASSED                     [ 36%]
-tests/test_metrics/test_middleware.py::TestMetricsMiddleware::test_get_handler_name PASSED                           [ 38%]
-tests/test_metrics/test_middleware.py::TestMetricsMiddleware::test_webhook_transport_detection PASSED                [ 39%]
-tests/test_metrics/test_middleware.py::TestMetricsMiddleware::test_concurrent_handlers PASSED                        [ 40%]
-tests/test_parse.py::test_parse_saveable_with_text_only PASSED                                                       [ 42%]
-tests/test_parse.py::test_parse_saveable_with_reply_message PASSED                                                   [ 43%]
-tests/test_parse.py::test_parse_saveable_exceeding_length_limit PASSED                                               [ 44%]
-tests/test_parse.py::test_parse_saveable_with_file_data PASSED                                                       [ 46%]
-tests/test_parse.py::test_parse_reply_message_with_text PASSED                                                       [ 47%]
-tests/test_parse.py::test_parse_reply_message_with_unsupported_content_type PASSED                                   [ 48%]
-tests/test_parse.py::test_extract_file_info_with_photo PASSED                                                        [ 50%]
-tests/test_parse.py::test_extract_file_info_with_non_parsable_content_type PASSED                                    [ 51%]
-tests/test_random_parser_cases.py::TestRandomParser::test_avoid_triple_newlines_on_multiline_boundaries PASSED       [ 52%]
-tests/test_random_parser_cases.py::TestRandomParser::test_boundary_by_whitespace_between_sections PASSED             [ 53%]
-tests/test_random_parser_cases.py::TestRandomParser::test_empty_option_at_start_of_section PASSED                    [ 55%]
-tests/test_random_parser_cases.py::TestRandomParser::test_empty_options PASSED                                       [ 56%]
-tests/test_random_parser_cases.py::TestRandomParser::test_empty_string PASSED                                        [ 57%]
-tests/test_random_parser_cases.py::TestRandomParser::test_leading_delimiter PASSED                                   [ 59%]
-tests/test_random_parser_cases.py::TestRandomParser::test_multiline_options PASSED                                   [ 60%]
-tests/test_random_parser_cases.py::TestRandomParser::test_multiline_with_multiple_sections PASSED                    [ 61%]
-tests/test_random_parser_cases.py::TestRandomParser::test_multiple_choice_sections PASSED                            [ 63%]
-tests/test_random_parser_cases.py::TestRandomParser::test_nested_delimiters_not_supported PASSED                     [ 64%]
-tests/test_random_parser_cases.py::TestRandomParser::test_no_delimiters PASSED                                       [ 65%]
-tests/test_random_parser_cases.py::TestRandomParser::test_single_choice PASSED                                       [ 67%]
-tests/test_random_parser_cases.py::TestRandomParser::test_trailing_delimiter PASSED                                  [ 68%]
-tests/test_random_parser_cases.py::TestRandomParser::test_whitespace_handling PASSED                                 [ 69%]
-tests/test_utils_api_auth.py::test_generate_token PASSED                                                             [ 71%]
-tests/test_utils_api_auth.py::test_hash_token PASSED                                                                 [ 72%]
-tests/test_utils_api_auth.py::test_create_access_token PASSED                                                        [ 73%]
-tests/test_utils_api_auth.py::test_create_access_token_with_delta PASSED                                             [ 75%]
-tests/test_utils_api_auth.py::test_verify_tma_init_data_success PASSED                                               [ 76%]
-tests/test_utils_api_auth.py::test_verify_tma_init_data_invalid_hash PASSED                                          [ 77%]
-tests/test_utils_api_auth.py::test_verify_tma_init_data_missing_hash PASSED                                          [ 78%]
-tests/test_utils_api_auth.py::test_verify_tma_init_data_outdated PASSED                                              [ 80%]
-tests/test_utils_api_auth.py::test_verify_tma_init_data_future PASSED                                                [ 81%]
-tests/test_utils_api_auth.py::test_verify_telegram_login_widget_success PASSED                                       [ 82%]
-tests/test_utils_api_auth.py::test_verify_telegram_login_widget_missing_hash PASSED                                  [ 84%]
-tests/test_utils_api_auth.py::test_verify_telegram_login_widget_with_none_values PASSED                              [ 85%]
-tests/test_utils_api_auth.py::test_get_current_user_success PASSED                                                   [ 86%]
-tests/test_utils_api_auth.py::test_get_current_user_expired PASSED                                                   [ 88%]
-tests/test_utils_api_auth.py::test_get_current_user_invalid_token PASSED                                             [ 89%]
-tests/test_utils_api_auth.py::test_get_current_user_not_found PASSED                                                 [ 90%]
-tests/test_utils_api_auth.py::test_get_current_user_no_sub PASSED                                                    [ 92%]
-tests/test_utils_api_auth.py::test_get_current_user_invalid_iid PASSED                                               [ 93%]
-tests/test_utils_api_auth.py::test_get_current_user_db_error PASSED                                                  [ 94%]
-tests/test_utils_api_auth.py::test_get_current_operator_by_id PASSED                                                 [ 96%]
-tests/test_utils_api_auth.py::test_get_current_operator_by_scope PASSED                                              [ 97%]
-tests/test_utils_api_auth.py::test_get_current_operator_forbidden PASSED                                             [ 98%]
-tests/test_utils_api_auth.py::test_get_current_operator_invalid_token PASSED                                         [100%]
-===================================================== warnings summary =====================================================
+collecting ... 2026-01-08 10:30:50 [info     ] Using BotAPI server: TelegramAPIServer(base='https://api.telegram.org/bot{token}/{method}', file='https://api.telegram.org/file/bot{token}/{path}', is_local=False, wrap_local_file=<aiogram.client.telegram.BareFilesPathWrapper object at 0x7f3aa6204590>) [sophie_bot.services.bot]
+2026-01-08 10:30:50 [debug    ] {"message": "Starting topology monitoring", "topologyId": {"$oid": "695f875a29d04f4a8e972be6"}} [pymongo.topology]
+2026-01-08 10:30:50 [debug    ] {"message": "Topology description changed", "topologyId": {"$oid": "695f875a29d04f4a8e972be6"}, "previousDescription": "<TopologyDescription id: 695f875a29d04f4a8e972be6, topology_type: Unknown, servers: []>", "newDescription": "<TopologyDescription id: 695f875a29d04f4a8e972be6, topology_type: Unknown, servers: [<ServerDescription ('127.0.0.1', 27017) server_type: Unknown, rtt: None>]>"} [pymongo.topology]
+2026-01-08 10:30:50 [debug    ] {"message": "Starting server monitoring", "topologyId": {"$oid": "695f875a29d04f4a8e972be6"}, "serverHost": "127.0.0.1", "serverPort": 27017} [pymongo.topology]
+2026-01-08 10:30:50 [debug    ] >>> None: [b'CLIENT', b'SETINFO', b'LIB-NAME', b'redis-py'] [fakeredis]
+2026-01-08 10:30:50 [debug    ] >>> None: [b'CLIENT', b'SETINFO', b'LIB-VER', b'7.1.0'] [fakeredis]
+2026-01-08 10:30:50 [debug    ] >>> None: [b'CLIENT', b'SETINFO', b'LIB-NAME', b'redis-py'] [fakeredis]
+2026-01-08 10:30:50 [debug    ] >>> None: [b'CLIENT', b'SETINFO', b'LIB-VER', b'7.1.0'] [fakeredis]
+2026-01-08 10:30:50 [debug    ] Loading legacy localizations... [sophie_bot.services.bot]
+2026-01-08 10:30:50 [debug    ] Loading language file ar_EG.yaml [sophie_bot.services.bot]
+2026-01-08 10:30:50 [debug    ] Loading language file ar_SA.yaml [sophie_bot.services.bot]
+2026-01-08 10:30:50 [debug    ] Loading language file cs_CZ.yaml [sophie_bot.services.bot]
+2026-01-08 10:30:50 [debug    ] Loading language file es_ES.yaml [sophie_bot.services.bot]
+2026-01-08 10:30:50 [debug    ] Loading language file fr_FR.yaml [sophie_bot.services.bot]
+2026-01-08 10:30:50 [debug    ] Loading language file pl_PL.yaml [sophie_bot.services.bot]
+2026-01-08 10:30:50 [debug    ] Loading language file pt_BR.yaml [sophie_bot.services.bot]
+2026-01-08 10:30:50 [debug    ] Loading language file ru_RU.yaml [sophie_bot.services.bot]
+2026-01-08 10:30:50 [debug    ] Loading language file tr_TR.yaml [sophie_bot.services.bot]
+2026-01-08 10:30:50 [debug    ] Loading language file uk_UA.yaml [sophie_bot.services.bot]
+2026-01-08 10:30:50 [debug    ] Loading language file zh_CN.yaml [sophie_bot.services.bot]
+2026-01-08 10:30:50 [debug    ] Loading language file de_DE.yaml [sophie_bot.services.bot]
+2026-01-08 10:30:50 [debug    ] Loading language file en_GB.yaml [sophie_bot.services.bot]
+2026-01-08 10:30:50 [debug    ] Loading language file en.yaml  [sophie_bot.services.bot]
+2026-01-08 10:30:50 [debug    ] Loading language file fi_FI.yaml [sophie_bot.services.bot]
+2026-01-08 10:30:50 [info     ] Legacy languages loaded: ['ar_EG', 'ar_SA', 'cs_CZ', 'es_ES', 'fr_FR', 'pl_PL', 'pt_BR', 'ru_RU', 'tr_TR', 'uk_UA', 'zh_CN', 'de_DE', 'en_GB', 'en', 'fi_FI'] [sophie_bot.services.bot]
+2026-01-08 10:30:50 [debug    ] Loading locales additional data... [sophie_bot.services.bot]
+2026-01-08 10:30:50 [debug    ] ! Can't parse stats for locale ar_EG! [sophie_bot.services.bot]
+2026-01-08 10:30:50 [debug    ] ! Can't parse stats for locale ar_SA! [sophie_bot.services.bot]
+2026-01-08 10:30:50 [debug    ] ! Can't parse stats for locale cs_CZ! [sophie_bot.services.bot]
+2026-01-08 10:30:50 [debug    ] ! Can't parse stats for locale de_DE! [sophie_bot.services.bot]
+2026-01-08 10:30:50 [debug    ] ! Can't parse stats for locale en_US! [sophie_bot.services.bot]
+2026-01-08 10:30:50 [debug    ] ! Can't parse stats for locale es_ES! [sophie_bot.services.bot]
+2026-01-08 10:30:50 [debug    ] ! Can't parse stats for locale fr_FR! [sophie_bot.services.bot]
+2026-01-08 10:30:50 [debug    ] ! Can't parse stats for locale pl_PL! [sophie_bot.services.bot]
+2026-01-08 10:30:50 [debug    ] ! Can't parse stats for locale pt_BR! [sophie_bot.services.bot]
+2026-01-08 10:30:50 [debug    ] ! Can't parse stats for locale ru_RU! [sophie_bot.services.bot]
+2026-01-08 10:30:50 [debug    ] ! Can't parse stats for locale tr_TR! [sophie_bot.services.bot]
+2026-01-08 10:30:50 [debug    ] ! Can't parse stats for locale uk_UA! [sophie_bot.services.bot]
+2026-01-08 10:30:50 [debug    ] ! Can't parse stats for locale zh_CN! [sophie_bot.services.bot]
+2026-01-08 10:30:50 [debug    ] ! Can't parse stats for locale en_GB! [sophie_bot.services.bot]
+2026-01-08 10:30:50 [debug    ] ! Can't parse stats for locale fi_FI! [sophie_bot.services.bot]
+2026-01-08 10:30:50 [debug    ] ! Legacy @register: Duplication of /lang command [sophie_bot.services.bot]
+2026-01-08 10:30:51 [debug    ] Using selector: EpollSelector  [asyncio]
+2026-01-08 10:30:51 [debug    ] {"message": "Starting topology monitoring", "topologyId": {"$oid": "695f875b29d04f4a8e972be7"}} [pymongo.topology]
+2026-01-08 10:30:51 [debug    ] {"message": "Topology description changed", "topologyId": {"$oid": "695f875b29d04f4a8e972be7"}, "previousDescription": "<TopologyDescription id: 695f875b29d04f4a8e972be7, topology_type: Unknown, servers: []>", "newDescription": "<TopologyDescription id: 695f875b29d04f4a8e972be7, topology_type: Unknown, servers: [<ServerDescription ('127.0.0.1', 27017) server_type: Unknown, rtt: None>]>"} [pymongo.topology]
+2026-01-08 10:30:51 [debug    ] {"message": "Starting server monitoring", "topologyId": {"$oid": "695f875b29d04f4a8e972be7"}, "serverHost": "127.0.0.1", "serverPort": 27017} [pymongo.topology]
+2026-01-08 10:30:51 [debug    ] {"message": "Connection pool created", "clientId": {"$oid": "695f875b29d04f4a8e972be7"}, "serverHost": "127.0.0.1", "serverPort": 27017} [pymongo.connection]
+2026-01-08 10:30:51 [debug    ] No explicit setting existed. Use localtime [tzlocal]
+2026-01-08 10:30:51 [debug    ] {"message": "Server heartbeat started", "topologyId": {"$oid": "695f875b29d04f4a8e972be7"}, "driverConnectionId": 1, "serverHost": "127.0.0.1", "serverPort": 27017, "awaited": false} [pymongo.topology]
+collected 4 items
+2026-01-08 10:30:51 [debug    ] {"message": "Server heartbeat succeeded", "topologyId": {"$oid": "695f875b29d04f4a8e972be7"}, "driverConnectionId": 1, "serverConnectionId": 71, "serverHost": "127.0.0.1", "serverPort": 27017, "awaited": false, "durationMS": 6.022664000738587, "reply": "{\"helloOk\": true, \"ismaster\": true, \"topologyVersion\": {\"processId\": {\"$oid\": \"695f7ebcc2cf0ed701a71632\"}}, \"maxBsonObjectSize\": 16777216, \"maxMessageSizeBytes\": 48000000, \"maxWriteBatchSize\": 100000, \"localTime\": {\"$date\": \"2026-01-08T10:30:51.212Z\"}, \"logicalSessionTimeoutMinutes\": 30, \"connectionId\": 71, \"maxWireVersion\": 25, \"ok\": 1.0}"} [pymongo.topology]
+2026-01-08 10:30:51 [debug    ] {"message": "Connection pool ready", "clientId": {"$oid": "695f875b29d04f4a8e972be7"}, "serverHost": "127.0.0.1", "serverPort": 27017} [pymongo.connection]
+tests/test_buttons_reverse_arg.py 2026-01-08 10:30:51 [debug    ] {"message": "Topology description changed", "topologyId": {"$oid": "695f875b29d04f4a8e972be7"}, "previousDescription": "<TopologyDescription id: 695f875b29d04f4a8e972be7, topology_type: Unknown, servers: [<ServerDescription ('127.0.0.1', 27017) server_type: Unknown, rtt: None>]>", "newDescription": "<TopologyDescription id: 695f875b29d04f4a8e972be7, topology_type: Single, servers: [<ServerDescription ('127.0.0.1', 27017) server_type: Standalone, rtt: 0.006022664000738587>]>"} [pymongo.topology]
+2026-01-08 10:30:51 [debug    ] {"message": "Server heartbeat started", "topologyId": {"$oid": "695f875b29d04f4a8e972be7"}, "driverConnectionId": 1, "serverConnectionId": 71, "serverHost": "127.0.0.1", "serverPort": 27017, "awaited": true} [pymongo.topology]
+2026-01-08 10:30:51 [debug    ] Loading locales additional data... [sophie_bot.services.bot]
+2026-01-08 10:30:51 [debug    ] Using selector: EpollSelector  [asyncio]
+2026-01-08 10:30:51 [debug    ] Using selector: EpollSelector  [asyncio]
+DEBUG: ButtonsArg.check input='This is a note.
+[Button](btnurl:https://google.com)' res=True
+DEBUG: ButtonsArg.parse input='This is a note.
+[Button](btnurl:https://google.com)'
+F2026-01-08 10:30:51 [debug    ] Using selector: EpollSelector  [asyncio]
+DEBUG: ButtonsArg.check input='Text
+[Btn1](btnurl:https://1.com) [Btn2](btnurl:https://2.com)' res=True
+DEBUG: ButtonsArg.parse input='Text
+[Btn1](btnurl:https://1.com) [Btn2](btnurl:https://2.com)'
+F2026-01-08 10:30:51 [debug    ] Using selector: EpollSelector  [asyncio]
+F2026-01-08 10:30:51 [debug    ] Using selector: EpollSelector  [asyncio]
+DEBUG: ButtonsArg.check input='Text
+[Btn](btnurl:https://google.com)' res=True
+DEBUG: ButtonsArg.parse input='Text
+[Btn](btnurl:https://google.com)'
+F
+======================================================================================================== FAILURES =========================================================================================================
+____________________________________________________________________________________________ test_reverse_arg_text_and_buttons ____________________________________________________________________________________________
+    @pytest.mark.asyncio
+    async def test_reverse_arg_text_and_buttons():
+        # Use kwargs for ReverseArg
+        arg = ReverseArg(text=TextArg(), buttons=ButtonsArg())
+        # Note: URLButton requires 'btn' or 'button' prefix and valid protocol
+        text = "This is a note.\n[Button](btnurl:https://google.com)"
+        entities = ArgEntities([])
+
+        assert arg.check(text, entities)
+
+>       length, result = await arg.parse(text, 0, entities)
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests/test_buttons_reverse_arg.py:39:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+.venv/lib/python3.13/site-packages/ass_tg/types/reverse.py:52: in parse
+    arg = await arg_fabric(post_offset_text, arg_offset, arg_entities)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.13/site-packages/ass_tg/types/base_abc.py:117: in _call
+    length, value = await self.pre_parse(text, offset, entities, **kwargs)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.13/site-packages/ass_tg/types/base_abc.py:89: in pre_parse
+    return await self.parse(text, offset, entities)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+self = <ButtonsArg>, text = 'This is a note.\n[Button](btnurl:https://google.com)', offset = 0, entities = []
+    async def parse(self, text: str, offset: int, entities: ArgEntities) -> tuple[int, list[AssButtonData]]:
+        print(f"DEBUG: ButtonsArg.parse input='{text}'")
+        results = []
+        total_length = 0
+        while text.lstrip():
+            stripped_text = text.lstrip()
+            lstrip_len = len(text) - len(stripped_text)
+
+            total_length += lstrip_len
+            offset += lstrip_len
+            text = stripped_text
+
+            if not self.child.check(text, entities.cut_before(total_length)):
+                break
+
+            try:
+                arg = await self.child(text, offset, entities.cut_before(total_length))
+                results.append(arg.value)
+                total_length += arg.length
+                offset += arg.length
+                text = text[arg.length:]
+            except ArgTypeError:
+                break
+
+        if not results:
+>           raise ArgTypeError(
+                needed_type=self.needed_type(),
+                description=self.description,
+                offset=offset,
+                length=len(text),
+            )
+E           ass_tg.exceptions.ArgTypeError
+sophie_bot/modules/notes/utils/buttons_processor/ass_types/parse_arg.py:63: ArgTypeError
+--------------------------------------------------------------------------------------------------- Captured log setup ----------------------------------------------------------------------------------------------------
+DEBUG    pymongo.connection:logger.py:108 {"message": "Connection pool ready", "clientId": {"$oid": "695f875b29d04f4a8e972be7"}, "serverHost": "127.0.0.1", "serverPort": 27017}
+DEBUG    pymongo.topology:logger.py:108 {"message": "Topology description changed", "topologyId": {"$oid": "695f875b29d04f4a8e972be7"}, "previousDescription": "<TopologyDescription id: 695f875b29d04f4a8e972be7, topology_type: Unknown, servers: [<ServerDescription ('127.0.0.1', 27017) server_type: Unknown, rtt: None>]>", "newDescription": "<TopologyDescription id: 695f875b29d04f4a8e972be7, topology_type: Single, servers: [<ServerDescription ('127.0.0.1', 27017) server_type: Standalone, rtt: 0.006022664000738587>]>"}
+DEBUG    pymongo.topology:logger.py:108 {"message": "Server heartbeat started", "topologyId": {"$oid": "695f875b29d04f4a8e972be7"}, "driverConnectionId": 1, "serverConnectionId": 71, "serverHost": "127.0.0.1", "serverPort": 27017, "awaited": true}
+DEBUG    sophie_bot.services.bot:i18n.py:37 {'event': 'Loading locales additional data...', 'level': 'debug', 'timestamp': '2026-01-08 10:30:51', 'logger': 'sophie_bot.services.bot'}
+DEBUG    asyncio:selector_events.py:64 Using selector: EpollSelector
+DEBUG    asyncio:selector_events.py:64 Using selector: EpollSelector
+____________________________________________________________________________________________ test_reverse_arg_multiple_buttons ____________________________________________________________________________________________
+    @pytest.mark.asyncio
+    async def test_reverse_arg_multiple_buttons():
+        arg = ReverseArg(text=TextArg(), buttons=ButtonsArg())
+        # Note: URLButton requires 'btn' or 'button' prefix and valid protocol
+        text = "Text\n[Btn1](btnurl:https://1.com) [Btn2](btnurl:https://2.com)"
+        entities = ArgEntities([])
+
+        assert arg.check(text, entities)
+>       length, result = await arg.parse(text, 0, entities)
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests/test_buttons_reverse_arg.py:62:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+.venv/lib/python3.13/site-packages/ass_tg/types/reverse.py:52: in parse
+    arg = await arg_fabric(post_offset_text, arg_offset, arg_entities)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.13/site-packages/ass_tg/types/base_abc.py:117: in _call
+    length, value = await self.pre_parse(text, offset, entities, **kwargs)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.13/site-packages/ass_tg/types/base_abc.py:89: in pre_parse
+    return await self.parse(text, offset, entities)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+self = <ButtonsArg>, text = 'Text\n[Btn1](btnurl:https://1.com) [Btn2](btnurl:https://2.com)', offset = 0, entities = []
+    async def parse(self, text: str, offset: int, entities: ArgEntities) -> tuple[int, list[AssButtonData]]:
+        print(f"DEBUG: ButtonsArg.parse input='{text}'")
+        results = []
+        total_length = 0
+        while text.lstrip():
+            stripped_text = text.lstrip()
+            lstrip_len = len(text) - len(stripped_text)
+
+            total_length += lstrip_len
+            offset += lstrip_len
+            text = stripped_text
+
+            if not self.child.check(text, entities.cut_before(total_length)):
+                break
+
+            try:
+                arg = await self.child(text, offset, entities.cut_before(total_length))
+                results.append(arg.value)
+                total_length += arg.length
+                offset += arg.length
+                text = text[arg.length:]
+            except ArgTypeError:
+                break
+
+        if not results:
+>           raise ArgTypeError(
+                needed_type=self.needed_type(),
+                description=self.description,
+                offset=offset,
+                length=len(text),
+            )
+E           ass_tg.exceptions.ArgTypeError
+sophie_bot/modules/notes/utils/buttons_processor/ass_types/parse_arg.py:63: ArgTypeError
+--------------------------------------------------------------------------------------------------- Captured log setup ----------------------------------------------------------------------------------------------------
+DEBUG    asyncio:selector_events.py:64 Using selector: EpollSelector
+_______________________________________________________________________________________________ test_reverse_arg_only_text ________________________________________________________________________________________________
+    @pytest.mark.asyncio
+    async def test_reverse_arg_only_text():
+        # This should fail if ButtonsArg is mandatory (which it is)
+        arg = ReverseArg(text=TextArg(), buttons=ButtonsArg())
+        text = "Just text"
+        entities = ArgEntities([])
+
+        # ReverseArg checks: can I find a split where RIGHT part matches ButtonsArg?
+        # ButtonsArg requires valid buttons. "Just text" has no buttons.
+        # So it should return False for check.
+
+        # However, TextArg matches everything.
+        # ReverseArg iterates splits.
+        # If ButtonsArg never matches, check returns False.
+
+>       assert not arg.check(text, entities)
+E       AssertionError: assert not True
+E        +  where True = check('Just text', [])
+E        +    where check = <ReverseArg>.check
+tests/test_buttons_reverse_arg.py:87: AssertionError
+--------------------------------------------------------------------------------------------------- Captured log setup ----------------------------------------------------------------------------------------------------
+DEBUG    asyncio:selector_events.py:64 Using selector: EpollSelector
+_________________________________________________________________________________________ test_reverse_arg_buttons_with_newlines __________________________________________________________________________________________
+    @pytest.mark.asyncio
+    async def test_reverse_arg_buttons_with_newlines():
+        # Buttons usually at the end, can have newlines before them?
+        # ReverseArg splits string.
+        arg = ReverseArg(text=TextArg(), buttons=ButtonsArg())
+        text = "Text\n\n[Btn](btnurl:https://google.com)"
+        entities = ArgEntities([])
+
+        assert arg.check(text, entities)
+>       length, result = await arg.parse(text, 0, entities)
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests/test_buttons_reverse_arg.py:103:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+.venv/lib/python3.13/site-packages/ass_tg/types/reverse.py:52: in parse
+    arg = await arg_fabric(post_offset_text, arg_offset, arg_entities)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.13/site-packages/ass_tg/types/base_abc.py:117: in _call
+    length, value = await self.pre_parse(text, offset, entities, **kwargs)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.13/site-packages/ass_tg/types/base_abc.py:89: in pre_parse
+    return await self.parse(text, offset, entities)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+self = <ButtonsArg>, text = 'Text\n\n[Btn](btnurl:https://google.com)', offset = 0, entities = []
+    async def parse(self, text: str, offset: int, entities: ArgEntities) -> tuple[int, list[AssButtonData]]:
+        print(f"DEBUG: ButtonsArg.parse input='{text}'")
+        results = []
+        total_length = 0
+        while text.lstrip():
+            stripped_text = text.lstrip()
+            lstrip_len = len(text) - len(stripped_text)
+
+            total_length += lstrip_len
+            offset += lstrip_len
+            text = stripped_text
+
+            if not self.child.check(text, entities.cut_before(total_length)):
+                break
+
+            try:
+                arg = await self.child(text, offset, entities.cut_before(total_length))
+                results.append(arg.value)
+                total_length += arg.length
+                offset += arg.length
+                text = text[arg.length:]
+            except ArgTypeError:
+                break
+
+        if not results:
+>           raise ArgTypeError(
+                needed_type=self.needed_type(),
+                description=self.description,
+                offset=offset,
+                length=len(text),
+            )
+E           ass_tg.exceptions.ArgTypeError
+sophie_bot/modules/notes/utils/buttons_processor/ass_types/parse_arg.py:63: ArgTypeError
+--------------------------------------------------------------------------------------------------- Captured log setup ----------------------------------------------------------------------------------------------------
+DEBUG    asyncio:selector_events.py:64 Using selector: EpollSelector
+==================================================================================================== warnings summary =====================================================================================================
 sophie_bot/config.py:142
   /home/yacha/Projects/Otty/sophie/sophie_bot/config.py:142: PydanticDeprecatedSince20: Pydantic V1 style `@validator` validators are deprecated. You should migrate to Pydantic V2 style `@field_validator` validators, see the migration guide for more details. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.12/migration/
     @validator("operators")
 sophie_bot/config.py:18
   /home/yacha/Projects/Otty/sophie/sophie_bot/config.py:18: PydanticDeprecatedSince20: Support for class-based `config` is deprecated, use ConfigDict instead. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.12/migration/
     class Config(BaseSettings):
-sophie_bot/db/models/notes.py:16
-  /home/yacha/Projects/Otty/sophie/sophie_bot/db/models/notes.py:16: PydanticDeprecatedSince20: Support for class-based `config` is deprecated, use ConfigDict instead. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.12/migration/
+sophie_bot/db/models/notes.py:17
+  /home/yacha/Projects/Otty/sophie/sophie_bot/db/models/notes.py:17: PydanticDeprecatedSince20: Support for class-based `config` is deprecated, use ConfigDict instead. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.12/migration/
     class NoteFile(BaseModel):
-tests/test_metrics/test_external.py::TestExternalServiceInstrumentation::test_time_external_service_exception
-tests/test_metrics/test_external.py::TestExternalServiceInstrumentation::test_instrument_external_service_async_exception
-tests/test_metrics/test_external.py::TestExternalServiceTracker::test_tracker_with_exception
-tests/test_metrics/test_middleware.py::TestMetricsMiddleware::test_handler_exception
-  /home/yacha/Projects/Otty/sophie/.venv/lib/python3.13/site-packages/structlog/stdlib.py:1166: UserWarning: Remove `format_exc_info` from your processor chain if you want pretty exceptions.
-    ed = p(logger, meth_name, ed)  # type: ignore[arg-type]
 -- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
-============================================== 76 passed, 7 warnings in 3.33s ==============================================
---- Logging error ---
-Traceback (most recent call last):
-  File "/home/yacha/Projects/Otty/sophie/.venv/lib/python3.13/site-packages/mistralai/httpclient.py", line 119, in close_clients
-    loop = asyncio.get_running_loop()
-RuntimeError: no running event loop
-During handling of the above exception, another exception occurred:
-Traceback (most recent call last):
-  File "/usr/lib64/python3.13/logging/__init__.py", line 1154, in emit
-    stream.write(msg + self.terminator)
-    ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
-ValueError: I/O operation on closed file.
-Call stack:
-  File "/usr/lib64/python3.13/weakref.py", line 666, in _exitfunc
-    f()
-  File "/usr/lib64/python3.13/weakref.py", line 590, in __call__
-    return info.func(*info.args, **(info.kwargs or {}))
-  File "/home/yacha/Projects/Otty/sophie/.venv/lib/python3.13/site-packages/mistralai/httpclient.py", line 123, in close_clients
-    asyncio.run(async_client.aclose())
-  File "/usr/lib64/python3.13/asyncio/runners.py", line 194, in run
-    with Runner(debug=debug, loop_factory=loop_factory) as runner:
-  File "/usr/lib64/python3.13/asyncio/runners.py", line 58, in __enter__
-    self._lazy_init()
-  File "/usr/lib64/python3.13/asyncio/runners.py", line 137, in _lazy_init
-    self._loop = events.new_event_loop()
-  File "/usr/lib64/python3.13/asyncio/events.py", line 837, in new_event_loop
-    return get_event_loop_policy().new_event_loop()
-  File "/usr/lib64/python3.13/asyncio/events.py", line 734, in new_event_loop
-    return self._loop_factory()
-  File "/usr/lib64/python3.13/asyncio/unix_events.py", line 65, in __init__
-    super().__init__(selector)
-  File "/usr/lib64/python3.13/asyncio/selector_events.py", line 64, in __init__
-    logger.debug('Using selector: %s', selector.__class__.__name__)
-Message: 'Using selector: %s'
-Arguments: ('EpollSelector',)
---- Logging error ---
-pymongo.errors._OperationCancelled: operation cancelled
-During handling of the above exception, another exception occurred:
-Traceback (most recent call last):
-  File "/usr/lib64/python3.13/logging/__init__.py", line 1154, in emit
-    stream.write(msg + self.terminator)
-    ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
-ValueError: I/O operation on closed file.
-Call stack:
-  File "/usr/lib64/python3.13/threading.py", line 1014, in _bootstrap
-    self._bootstrap_inner()
-  File "/usr/lib64/python3.13/threading.py", line 1043, in _bootstrap_inner
-    self.run()
-  File "/usr/lib64/python3.13/threading.py", line 994, in run
-    self._target(*self._args, **self._kwargs)
-  File "/home/yacha/Projects/Otty/sophie/.venv/lib64/python3.13/site-packages/pymongo/periodic_executor.py", line 236, in _run
-    if not self._target():
-  File "/home/yacha/Projects/Otty/sophie/.venv/lib64/python3.13/site-packages/pymongo/synchronous/monitor.py", line 80, in target
-    monitor._run()  # type:ignore[attr-defined]
-  File "/home/yacha/Projects/Otty/sophie/.venv/lib64/python3.13/site-packages/pymongo/synchronous/monitor.py", line 214, in _run
-    self._server_description = self._check_server()
-  File "/home/yacha/Projects/Otty/sophie/.venv/lib64/python3.13/site-packages/pymongo/synchronous/monitor.py", line 273, in _check_server
-    _debug_log(
-  File "/home/yacha/Projects/Otty/sophie/.venv/lib64/python3.13/site-packages/pymongo/logger.py", line 108, in _debug_log
-    logger.debug(LogMessage(**fields))
-Message: <pymongo.logger.LogMessage object at 0x7ffa19d28370>
-Arguments: ()
-poetry run python tools/wiki_gen/start.py
-2026-01-03 14:18:37 [info     ] Using BotAPI server: TelegramAPIServer(base='https://api.telegram.org/bot{token}/{method}', file='https://api.telegram.org/file/bot{token}/{path}', is_local=False, wrap_local_file=<aiogram.client.telegram.BareFilesPathWrapper object at 0x7f411543a120>) [sophie_bot.services.bot]
-2026-01-03 14:18:37 [debug    ] {"message": "Starting topology monitoring", "topologyId": {"$oid": "6959253d04b3f2a98e804705"}} [pymongo.topology]
-2026-01-03 14:18:37 [debug    ] {"message": "Topology description changed", "topologyId": {"$oid": "6959253d04b3f2a98e804705"}, "previousDescription": "<TopologyDescription id: 6959253d04b3f2a98e804705, topology_type: Unknown, servers: []>", "newDescription": "<TopologyDescription id: 6959253d04b3f2a98e804705, topology_type: Unknown, servers: [<ServerDescription ('127.0.0.1', 27017) server_type: Unknown, rtt: None>]>"} [pymongo.topology]
-2026-01-03 14:18:37 [debug    ] {"message": "Starting server monitoring", "topologyId": {"$oid": "6959253d04b3f2a98e804705"}, "serverHost": "127.0.0.1", "serverPort": 27017} [pymongo.topology]
-2026-01-03 14:18:37 [debug    ] Loading legacy localizations... [sophie_bot.services.bot]
-2026-01-03 14:18:37 [debug    ] Loading language file ar_EG.yaml [sophie_bot.services.bot]
-2026-01-03 14:18:37 [debug    ] Loading language file ar_SA.yaml [sophie_bot.services.bot]
-2026-01-03 14:18:37 [debug    ] Loading language file cs_CZ.yaml [sophie_bot.services.bot]
-2026-01-03 14:18:37 [debug    ] Loading language file es_ES.yaml [sophie_bot.services.bot]
-2026-01-03 14:18:37 [debug    ] Loading language file fr_FR.yaml [sophie_bot.services.bot]
-2026-01-03 14:18:37 [debug    ] Loading language file pl_PL.yaml [sophie_bot.services.bot]
-2026-01-03 14:18:37 [debug    ] Loading language file pt_BR.yaml [sophie_bot.services.bot]
-2026-01-03 14:18:37 [debug    ] Loading language file ru_RU.yaml [sophie_bot.services.bot]
-2026-01-03 14:18:37 [debug    ] Loading language file tr_TR.yaml [sophie_bot.services.bot]
-2026-01-03 14:18:37 [debug    ] Loading language file uk_UA.yaml [sophie_bot.services.bot]
-2026-01-03 14:18:37 [debug    ] Loading language file zh_CN.yaml [sophie_bot.services.bot]
-2026-01-03 14:18:37 [debug    ] Loading language file de_DE.yaml [sophie_bot.services.bot]
-2026-01-03 14:18:37 [debug    ] Loading language file en_GB.yaml [sophie_bot.services.bot]
-2026-01-03 14:18:37 [debug    ] Loading language file en.yaml  [sophie_bot.services.bot]
-2026-01-03 14:18:37 [debug    ] Loading language file fi_FI.yaml [sophie_bot.services.bot]
-2026-01-03 14:18:37 [info     ] Legacy languages loaded: ['ar_EG', 'ar_SA', 'cs_CZ', 'es_ES', 'fr_FR', 'pl_PL', 'pt_BR', 'ru_RU', 'tr_TR', 'uk_UA', 'zh_CN', 'de_DE', 'en_GB', 'en', 'fi_FI'] [sophie_bot.services.bot]
-2026-01-03 14:18:37 [debug    ] Loading locales additional data... [sophie_bot.services.bot]
-2026-01-03 14:18:37 [debug    ] ! Can't parse stats for locale ar_EG! [sophie_bot.services.bot]
-2026-01-03 14:18:37 [debug    ] ! Can't parse stats for locale ar_SA! [sophie_bot.services.bot]
-2026-01-03 14:18:37 [debug    ] ! Can't parse stats for locale cs_CZ! [sophie_bot.services.bot]
-2026-01-03 14:18:37 [debug    ] ! Can't parse stats for locale de_DE! [sophie_bot.services.bot]
-2026-01-03 14:18:37 [debug    ] ! Can't parse stats for locale en_US! [sophie_bot.services.bot]
-2026-01-03 14:18:37 [debug    ] ! Can't parse stats for locale es_ES! [sophie_bot.services.bot]
-2026-01-03 14:18:37 [debug    ] ! Can't parse stats for locale fr_FR! [sophie_bot.services.bot]
-2026-01-03 14:18:37 [debug    ] ! Can't parse stats for locale pl_PL! [sophie_bot.services.bot]
-2026-01-03 14:18:37 [debug    ] ! Can't parse stats for locale pt_BR! [sophie_bot.services.bot]
-2026-01-03 14:18:37 [debug    ] ! Can't parse stats for locale ru_RU! [sophie_bot.services.bot]
-2026-01-03 14:18:37 [debug    ] ! Can't parse stats for locale tr_TR! [sophie_bot.services.bot]
-2026-01-03 14:18:37 [debug    ] ! Can't parse stats for locale uk_UA! [sophie_bot.services.bot]
-2026-01-03 14:18:37 [debug    ] ! Can't parse stats for locale zh_CN! [sophie_bot.services.bot]
-2026-01-03 14:18:37 [debug    ] ! Can't parse stats for locale en_GB! [sophie_bot.services.bot]
-2026-01-03 14:18:37 [debug    ] ! Can't parse stats for locale fi_FI! [sophie_bot.services.bot]
-2026-01-03 14:18:37 [info     ] Starting wiki generation task... [sophie_bot.services.bot]
-2026-01-03 14:18:37 [debug    ] Using selector: EpollSelector  [asyncio]
-2026-01-03 14:18:37 [info     ] Importing modules...           [sophie_bot.services.bot]
-2026-01-03 14:18:37 [debug    ] Loading all modules...         [sophie_bot.services.bot] modules=['rest', 'op', 'troubleshooters', 'error', 'users', 'notes', 'help', 'federations', 'privacy', 'disabling', 'rules', 'promotes', 'greetings', 'welcomesecurity', 'purges', 'warns', 'restrictions', 'ai', 'filters', 'antiflood', 'legacy_modules']
-2026-01-03 14:18:37 [debug    ] ! Module rest has no router!   [sophie_bot.services.bot]
-2026-01-03 14:18:38 [debug    ] ! Legacy @register: Duplication of /lang command [sophie_bot.services.bot]
-2026-01-03 14:18:38 [debug    ] Using selector: EpollSelector  [asyncio]
-2026-01-03 14:18:38 [debug    ] {"message": "Starting topology monitoring", "topologyId": {"$oid": "6959253e04b3f2a98e804706"}} [pymongo.topology]
-2026-01-03 14:18:38 [debug    ] {"message": "Topology description changed", "topologyId": {"$oid": "6959253e04b3f2a98e804706"}, "previousDescription": "<TopologyDescription id: 6959253e04b3f2a98e804706, topology_type: Unknown, servers: []>", "newDescription": "<TopologyDescription id: 6959253e04b3f2a98e804706, topology_type: Unknown, servers: [<ServerDescription ('127.0.0.1', 27017) server_type: Unknown, rtt: None>]>"} [pymongo.topology]
-2026-01-03 14:18:38 [debug    ] {"message": "Starting server monitoring", "topologyId": {"$oid": "6959253e04b3f2a98e804706"}, "serverHost": "127.0.0.1", "serverPort": 27017} [pymongo.topology]
-2026-01-03 14:18:38 [debug    ] {"message": "Connection pool created", "clientId": {"$oid": "6959253e04b3f2a98e804706"}, "serverHost": "127.0.0.1", "serverPort": 27017} [pymongo.connection]
-2026-01-03 14:18:38 [debug    ] {"message": "Server heartbeat started", "topologyId": {"$oid": "6959253e04b3f2a98e804706"}, "driverConnectionId": 1, "serverHost": "127.0.0.1", "serverPort": 27017, "awaited": false} [pymongo.topology]
-2026-01-03 14:18:38 [debug    ] No explicit setting existed. Use localtime [tzlocal]
-2026-01-03 14:18:38 [debug    ] {"message": "Server heartbeat succeeded", "topologyId": {"$oid": "6959253e04b3f2a98e804706"}, "driverConnectionId": 1, "serverConnectionId": 30, "serverHost": "127.0.0.1", "serverPort": 27017, "awaited": false, "durationMS": 0.3616089998104144, "reply": "{\"helloOk\": true, \"ismaster\": true, \"topologyVersion\": {\"processId\": {\"$oid\": \"69591815afbada9e3bdb8314\"}}, \"maxBsonObjectSize\": 16777216, \"maxMessageSizeBytes\": 48000000, \"maxWriteBatchSize\": 100000, \"localTime\": {\"$date\": \"2026-01-03T14:18:38.594Z\"}, \"logicalSessionTimeoutMinutes\": 30, \"connectionId\": 30, \"maxWireVersion\": 25, \"ok\": 1.0}"} [pymongo.topology]
-2026-01-03 14:18:38 [debug    ] {"message": "Connection pool ready", "clientId": {"$oid": "6959253e04b3f2a98e804706"}, "serverHost": "127.0.0.1", "serverPort": 27017} [pymongo.connection]
-2026-01-03 14:18:38 [debug    ] {"message": "Topology description changed", "topologyId": {"$oid": "6959253e04b3f2a98e804706"}, "previousDescription": "<TopologyDescription id: 6959253e04b3f2a98e804706, topology_type: Unknown, servers: [<ServerDescription ('127.0.0.1', 27017) server_type: Unknown, rtt: None>]>", "newDescription": "<TopologyDescription id: 6959253e04b3f2a98e804706, topology_type: Single, servers: [<ServerDescription ('127.0.0.1', 27017) server_type: Standalone, rtt: 0.0003616089998104144>]>"} [pymongo.topology]
-2026-01-03 14:18:38 [debug    ] {"message": "Server heartbeat started", "topologyId": {"$oid": "6959253e04b3f2a98e804706"}, "driverConnectionId": 1, "serverConnectionId": 30, "serverHost": "127.0.0.1", "serverPort": 27017, "awaited": true} [pymongo.topology]
-2026-01-03 14:18:38 [debug    ] ! Module warns has no router!  [sophie_bot.services.bot]
-2026-01-03 14:18:38 [debug    ] ! Module restrictions has no router! [sophie_bot.services.bot]
-2026-01-03 14:18:38 [debug    ] ! Module legacy_modules has no router! [sophie_bot.services.bot]
-2026-01-03 14:18:38 [info     ] Legacy modules                 [sophie_bot.services.bot] to_load=['antiflood', 'connection', 'feds', 'language', 'owner_stuff', 'pins', 'reports', 'restrictions', 'users', 'warns']
-2026-01-03 14:18:38 [debug    ] ! Legacy @register: Duplication of /connect command [sophie_bot.services.bot]
-2026-01-03 14:18:38 [debug    ] ! Legacy @register: Duplication of /connect command [sophie_bot.services.bot]
-2026-01-03 14:18:38 [debug    ] Legacy @disableable_dec: Adding report to the disableable commands... [sophie_bot.services.bot]
-2026-01-03 14:18:38 [debug    ] Legacy @disableable_dec: Adding info to the disableable commands... [sophie_bot.services.bot]
-2026-01-03 14:18:38 [debug    ] Legacy @disableable_dec: Adding id to the disableable commands... [sophie_bot.services.bot]
-2026-01-03 14:18:38 [debug    ] Legacy @disableable_dec: Adding adminlist to the disableable commands... [sophie_bot.services.bot]
-2026-01-03 14:18:38 [info     ] Legacy modules: Modules loaded! [sophie_bot.services.bot]
-2026-01-03 14:18:38 [debug    ] Before serving: sophie_bot.modules.legacy_modules.modules.antiflood [sophie_bot.services.bot]
-2026-01-03 14:18:38 [debug    ] Legacy modules: Pre setup      [sophie_bot.services.bot]
-2026-01-03 14:18:38 [debug    ] gather_module_help: sophie_bot.modules.op [sophie_bot.services.bot] name=op emoji=? advertise_wiki_page=False
-2026-01-03 14:18:38 [debug    ] gather_cmds_help: op           [sophie_bot.services.bot] cmds=['op_listjobs', 'op_stopjobs', 'op_killswitch', 'op_banner', 'op_captcha']
-2026-01-03 14:18:38 [debug    ] gather_module_help: sophie_bot.modules.troubleshooters [sophie_bot.services.bot] name=<sophie_bot.utils.i18n.LazyProxy object at 0x7f410ee47b30> emoji=🧰 advertise_wiki_page=False
-2026-01-03 14:18:38 [debug    ] gather_cmds_help: troubleshooters [sophie_bot.services.bot] cmds=['enablebeta', 'enablebeta', 'op_setbeta', 'op_resetbeta', 'cancel', 'admincache']
-2026-01-03 14:18:38 [debug    ] gather_module_help: sophie_bot.modules.error [sophie_bot.services.bot] name=<sophie_bot.utils.i18n.LazyProxy object at 0x7f410f0fb410> emoji=🚫 advertise_wiki_page=False
-2026-01-03 14:18:38 [debug    ] gather_cmds_help: error        [sophie_bot.services.bot] cmds=['op_crash']
-2026-01-03 14:18:38 [debug    ] gather_module_help: sophie_bot.modules.users [sophie_bot.services.bot] name=<sophie_bot.utils.i18n.LazyProxy object at 0x7f4100d6fa10> emoji=🫂 advertise_wiki_page=False
-2026-01-03 14:18:38 [debug    ] gather_cmds_help: users        [sophie_bot.services.bot] cmds=['id']
-2026-01-03 14:18:38 [debug    ] gather_cmds_help: users        [sophie_bot.services.bot] cmds=['id']
-2026-01-03 14:18:38 [debug    ] gather_module_help: sophie_bot.modules.notes [sophie_bot.services.bot] name=<sophie_bot.utils.i18n.LazyProxy object at 0x7f410ed368d0> emoji=📗 advertise_wiki_page=True
-2026-01-03 14:18:38 [debug    ] gather_cmds_help: notes        [sophie_bot.services.bot] cmds=['pmnotes', 'privatenotes', 'pmnotes', 'privatenotes', 'notes', 'saved', 'notelist', 'get', 'search', 'delnote', 'clear', 'save', 'addnote']
-2026-01-03 14:18:38 [debug    ] gather_module_help: sophie_bot.modules.help [sophie_bot.services.bot] name=<sophie_bot.utils.i18n.LazyProxy object at 0x7f41103fe200> emoji=ℹ️ advertise_wiki_page=False
-2026-01-03 14:18:38 [debug    ] gather_cmds_help: info         [sophie_bot.services.bot] cmds=['help', 'help', 'start', 'op_cmds']
-2026-01-03 14:18:38 [debug    ] gather_module_help: sophie_bot.modules.federations [sophie_bot.services.bot] name=<sophie_bot.utils.i18n.LazyProxy object at 0x7f4100dd8170> emoji=🏛 advertise_wiki_page=False
-2026-01-03 14:18:38 [debug    ] Modern filter actions: Adding new action... [sophie_bot.services.bot] name=reply module=notes
-2026-01-03 14:18:38 [debug    ] Modern filter actions: Adding new action... [sophie_bot.services.bot] name=send_note module=notes
-2026-01-03 14:18:38 [debug    ] Modern filter actions: Adding new action... [sophie_bot.services.bot] name=send_rules module=rules
-2026-01-03 14:18:38 [debug    ] Modern filter actions: Adding new action... [sophie_bot.services.bot] name=delmsg module=purges
-2026-01-03 14:18:38 [debug    ] Modern filter actions: Adding new action... [sophie_bot.services.bot] name=warn_user module=warns
-2026-01-03 14:18:38 [debug    ] Modern filter actions: Adding new action... [sophie_bot.services.bot] name=kick_user module=restrictions
-2026-01-03 14:18:38 [debug    ] Modern filter actions: Adding new action... [sophie_bot.services.bot] name=ban_user module=restrictions
-2026-01-03 14:18:38 [debug    ] Modern filter actions: Adding new action... [sophie_bot.services.bot] name=mute_user module=restrictions
-2026-01-03 14:18:38 [debug    ] Modern filter actions: Adding new action... [sophie_bot.services.bot] name=ai_text module=ai
-2026-01-03 14:18:38 [debug    ] Legacy filters: Adding filters actions [sophie_bot.services.bot]
-2026-01-03 14:18:38 [debug    ] Legacy filters: Adding filter action from restrictions module [sophie_bot.services.bot]
-2026-01-03 14:18:38 [debug    ] Legacy filters: Adding filter action from warns module [sophie_bot.services.bot]
-2026-01-03 14:18:38 [debug    ] Legacy filters: Adding filter action from notes module [sophie_bot.services.bot]
-2026-01-03 14:18:38 [debug    ] Legacy filters: Adding filter action from rules module [sophie_bot.services.bot]
-2026-01-03 14:18:38 [debug    ] Legacy filters: Adding filter action from purges module [sophie_bot.services.bot]
-2026-01-03 14:18:38 [debug    ] Legacy filters: Adding filter action from ai module [sophie_bot.services.bot]
-2026-01-03 14:18:38 [debug    ] Legacy filters: Filters actions [sophie_bot.services.bot] actions={'kick_user': {'title': <sophie_bot.utils.i18n.LazyProxy object at 0x7f41006887d0>, 'handle': <function get_strings_dec.<locals>.wrapped.<locals>.wrapped_1 at 0x7f410068e200>}, 'ban_user': {'title': <sophie_bot.utils.i18n.LazyProxy object at 0x7f41006886b0>, 'setup': {'start': <function get_strings_dec.<locals>.wrapped.<locals>.wrapped_1 at 0x7f4100753ec0>, 'finish': <function get_strings_dec.<locals>.wrapped.<locals>.wrapped_1 at 0x7f4100774040>}, 'handle': <function get_strings_dec.<locals>.wrapped.<locals>.wrapped_1 at 0x7f410068da80>}, 'tban_user': {'title': <sophie_bot.utils.i18n.LazyProxy object at 0x7f4100688830>, 'handle': <function get_strings_dec.<locals>.wrapped.<locals>.wrapped_1 at 0x7f410068de40>, 'setup': [{'start': <function get_strings_dec.<locals>.wrapped.<locals>.wrapped_1 at 0x7f410068df80>, 'finish': <function get_strings_dec.<locals>.wrapped.<locals>.wrapped_1 at 0x7f410068e0c0>}, {'start': <function get_strings_dec.<locals>.wrapped.<locals>.wrapped_1 at 0x7f4100753ec0>, 'finish': <function get_strings_dec.<locals>.wrapped.<locals>.wrapped_1 at 0x7f4100774040>}]}, 'mute_user': {'title': <sophie_bot.utils.i18n.LazyProxy object at 0x7f4100688890>, 'setup': {'start': <function get_strings_dec.<locals>.wrapped.<locals>.wrapped_1 at 0x7f4100753ec0>, 'finish': <function get_strings_dec.<locals>.wrapped.<locals>.wrapped_1 at 0x7f4100774040>}, 'handle': <function get_strings_dec.<locals>.wrapped.<locals>.wrapped_1 at 0x7f410068dbc0>}, 'tmute_user': {'title': <sophie_bot.utils.i18n.LazyProxy object at 0x7f41006888f0>, 'handle': <function get_strings_dec.<locals>.wrapped.<locals>.wrapped_1 at 0x7f410068dd00>, 'setup': [{'start': <function get_strings_dec.<locals>.wrapped.<locals>.wrapped_1 at 0x7f410068df80>, 'finish': <function get_strings_dec.<locals>.wrapped.<locals>.wrapped_1 at 0x7f410068e0c0>}, {'start': <function get_strings_dec.<locals>.wrapped.<locals>.wrapped_1 at 0x7f4100753ec0>, 'finish': <function get_strings_dec.<locals>.wrapped.<locals>.wrapped_1 at 0x7f4100774040>}]}, 'warn_user': {'title': <sophie_bot.utils.i18n.LazyProxy object at 0x7f4100717b30>, 'setup': {'start': <function get_strings_dec.<locals>.wrapped.<locals>.wrapped_1 at 0x7f4100753ec0>, 'finish': <function get_strings_dec.<locals>.wrapped.<locals>.wrapped_1 at 0x7f4100774040>}, 'handle': <function get_strings_dec.<locals>.wrapped.<locals>.wrapped_1 at 0x7f4100753d80>}, 'reply_message': {'title': <sophie_bot.utils.i18n.LazyProxy object at 0x7f410eef7590>, 'handle': <function replymsg_filter_handler at 0x7f41113d40e0>, 'setup': {'start': <function replymsg_setup_start at 0x7f41113d4180>, 'finish': <function replymsg_setup_finish at 0x7f41113d4220>}, 'del_btn_name': <function get_filter.<locals>.<lambda> at 0x7f410ed9e700>}, 'get_note': {'title': <sophie_bot.utils.i18n.LazyProxy object at 0x7f410eef46b0>, 'handle': <function filter_handle at 0x7f41113c7ec0>, 'setup': {'start': <function setup_start at 0x7f41113c7f60>, 'finish': <function setup_finish at 0x7f41113d4040>}, 'del_btn_name': <function get_filter.<locals>.<lambda> at 0x7f410ed9e8e0>}, 'send_rules': {'title': <sophie_bot.utils.i18n.LazyProxy object at 0x7f4100715730>, 'handle': <function send_chat_rules at 0x7f4100707a60>}, 'delete_message': {'title': <sophie_bot.utils.i18n.LazyProxy object at 0x7f4100716b70>, 'handle': <function delmsg_filter_handle at 0x7f41007379c0>, 'del_btn_name': <function get_filter.<locals>.<lambda> at 0x7f4100735580>}, 'ai_text': {'title': <sophie_bot.utils.i18n.LazyProxy object at 0x7f410ee45df0>, 'setup': {'start': <function ai_setup_start at 0x7f410ef18360>, 'finish': <function ai_setup_finish at 0x7f410ef184a0>}, 'handle': <function ai_filter_handle at 0x7f410ef18540>}}
-2026-01-03 14:18:38 [debug    ] Legacy modules: Post setup     [sophie_bot.services.bot]
-2026-01-03 14:18:38 [debug    ] gather_module_help: sophie_bot.modules.legacy_modules.modules.antiflood [sophie_bot.services.bot] name=<sophie_bot.utils.i18n.LazyProxy object at 0x7f41007b0770> emoji=📈 advertise_wiki_page=False
-2026-01-03 14:18:38 [debug    ] gather_cmds_help: antiflood    [sophie_bot.services.bot] cmds=['setflood', 'antiflood', 'flood', 'setfloodaction']
-2026-01-03 14:18:38 [debug    ] gather_module_help: sophie_bot.modules.legacy_modules.modules.connection [sophie_bot.services.bot] name=<sophie_bot.utils.i18n.LazyProxy object at 0x7f41007b0e90> emoji=🔐 advertise_wiki_page=False
-2026-01-03 14:18:38 [debug    ] gather_cmds_help: connection   [sophie_bot.services.bot] cmds=['connect', 'connect', 'connect', 'disconnect', 'allowusersconnect']
-2026-01-03 14:18:38 [debug    ] gather_module_help: sophie_bot.modules.legacy_modules.modules.feds [sophie_bot.services.bot] name=<sophie_bot.utils.i18n.LazyProxy object at 0x7f41007b21b0> emoji=🏙 advertise_wiki_page=False
-2026-01-03 14:18:38 [debug    ] gather_cmds_help: federations  [sophie_bot.services.bot] cmds=['fedinfo', 'finfo', 'transferfed', 'ftransfer']
-2026-01-03 14:18:38 [debug    ] gather_module_help: sophie_bot.modules.privacy [sophie_bot.services.bot] name=<sophie_bot.utils.i18n.LazyProxy object at 0x7f4110441ed0> emoji=🕵️‍♂️️ advertise_wiki_page=False
-2026-01-03 14:18:38 [debug    ] gather_cmds_help: info         [sophie_bot.services.bot] cmds=['privacy', 'export']
-2026-01-03 14:18:38 [debug    ] gather_module_help: sophie_bot.modules.disabling [sophie_bot.services.bot] name=<sophie_bot.utils.i18n.LazyProxy object at 0x7f4100714230> emoji=🚫 advertise_wiki_page=False
-2026-01-03 14:18:38 [debug    ] gather_cmds_help: Disable      [sophie_bot.services.bot] cmds=['disableable', 'disabled', 'disable', 'enable', 'enableall']
-2026-01-03 14:18:38 [debug    ] gather_module_help: sophie_bot.modules.rules [sophie_bot.services.bot] name=<sophie_bot.utils.i18n.LazyProxy object at 0x7f4100715070> emoji=🪧 advertise_wiki_page=False
-2026-01-03 14:18:38 [debug    ] gather_cmds_help: rules        [sophie_bot.services.bot] cmds=['setrules', 'rules', 'resetrules']
-2026-01-03 14:18:38 [debug    ] gather_module_help: sophie_bot.modules.promotes [sophie_bot.services.bot] name=<sophie_bot.utils.i18n.LazyProxy object at 0x7f41007159d0> emoji=⭐️ advertise_wiki_page=False
-2026-01-03 14:18:38 [debug    ] gather_cmds_help: promotes     [sophie_bot.services.bot] cmds=['promote', 'demote']
-2026-01-03 14:18:38 [debug    ] gather_module_help: sophie_bot.modules.greetings [sophie_bot.services.bot] name=<sophie_bot.utils.i18n.LazyProxy object at 0x7f4100d6cc50> emoji=🙋‍♂️ advertise_wiki_page=False
-2026-01-03 14:18:38 [debug    ] gather_cmds_help: greetings    [sophie_bot.services.bot] cmds=['enablewelcome', 'setwelcome', 'setjoinrequest', 'deljoinrequest', 'welcome', 'cleanservice', 'cleanwelcome']
-2026-01-03 14:18:38 [debug    ] gather_module_help: sophie_bot.modules.welcomesecurity [sophie_bot.services.bot] name=<sophie_bot.utils.i18n.LazyProxy object at 0x7f4111ea3c50> emoji=🛡️ advertise_wiki_page=False
-2026-01-03 14:18:38 [debug    ] gather_cmds_help: welcomesecurity [sophie_bot.services.bot] cmds=['welcomecaptcha', 'enablewelcomecaptcha', 'welcomerestrict', 'welcomesecurity']
-2026-01-03 14:18:38 [debug    ] gather_module_help: sophie_bot.modules.purges [sophie_bot.services.bot] name=<sophie_bot.utils.i18n.LazyProxy object at 0x7f4100716510> emoji=🗑 advertise_wiki_page=False
-2026-01-03 14:18:38 [debug    ] gather_cmds_help: purges       [sophie_bot.services.bot] cmds=['delete', 'del', 'purge']
-2026-01-03 14:18:38 [debug    ] gather_module_help: sophie_bot.modules.ai [sophie_bot.services.bot] name=<sophie_bot.utils.i18n.LazyProxy object at 0x7f4110b1f0b0> emoji=✨ advertise_wiki_page=False
-2026-01-03 14:18:38 [debug    ] gather_cmds_help: ai           [sophie_bot.services.bot] cmds=['enableai', 'aienable', 'aimoderator', 'aiautotranslate', 'autotranslate', 'aiprovider', 'ai', 'aisave', 'aireset', 'aitranslate', 'translate', 'tr', 'ai', 'op_aistats']
-2026-01-03 14:18:38 [debug    ] gather_module_help: sophie_bot.modules.filters [sophie_bot.services.bot] name=<sophie_bot.utils.i18n.LazyProxy object at 0x7f410ee8d130> emoji=🪄 advertise_wiki_page=True
-2026-01-03 14:18:38 [debug    ] gather_cmds_help: filters      [sophie_bot.services.bot] cmds=['addfilter', 'newfilter', 'filters', 'delfilter', 'editfilter']
-2026-01-03 14:18:38 [debug    ] gather_module_help: sophie_bot.modules.antiflood [sophie_bot.services.bot] name=<sophie_bot.utils.i18n.LazyProxy object at 0x7f410077c830> emoji=🚫 advertise_wiki_page=False
-2026-01-03 14:18:38 [debug    ] gather_cmds_help: antiflood    [sophie_bot.services.bot] cmds=['setflood', 'antiflood', 'setfloodaction']
-2026-01-03 14:18:38 [debug    ] Module antiflood already in help modules, merging [sophie_bot.services.bot]
-2026-01-03 14:18:38 [debug    ] gather_cmds_help: feds         [sophie_bot.services.bot] cmds=['newfed', 'fnew', 'joinfed', 'fjoin', 'leavefed', 'fleave', 'fsub', 'funsub', 'fpromote', 'fdemote', 'fsetlog', 'setfedlog', 'funsetlog', 'unsetfedlog', 'fchatlist', 'fchats', 'fadminlist', 'fadmins', 'fban', 'sfban', 'unfban', 'funban', 'delfed', 'fdel', 'frename', 'fbanlist', 'exportfbans', 'fexport', 'importfbans', 'fimport', 'fcheck', 'fbanstat']
-2026-01-03 14:18:38 [debug    ] gather_module_help: sophie_bot.modules.legacy_modules.modules.language [sophie_bot.services.bot] name=<sophie_bot.utils.i18n.LazyProxy object at 0x7f4113dcdff0> emoji=🌍 advertise_wiki_page=False
-2026-01-03 14:18:38 [debug    ] gather_cmds_help: language     [sophie_bot.services.bot] cmds=['lang']
-2026-01-03 14:18:38 [debug    ] gather_module_help: sophie_bot.modules.legacy_modules.modules.owner_stuff [sophie_bot.services.bot] name=owner_stuff emoji=? advertise_wiki_page=False
-2026-01-03 14:18:38 [debug    ] gather_cmds_help: owner_stuff  [sophie_bot.services.bot] cmds=['event', 'stats']
-2026-01-03 14:18:38 [debug    ] gather_module_help: sophie_bot.modules.legacy_modules.modules.pins [sophie_bot.services.bot] name=<sophie_bot.utils.i18n.LazyProxy object at 0x7f41007b3cb0> emoji=📌 advertise_wiki_page=False
-2026-01-03 14:18:38 [debug    ] gather_cmds_help: pins         [sophie_bot.services.bot] cmds=['unpin', 'pin']
-2026-01-03 14:18:38 [debug    ] gather_module_help: sophie_bot.modules.legacy_modules.modules.reports [sophie_bot.services.bot] name=<sophie_bot.utils.i18n.LazyProxy object at 0x7f41007b39b0> emoji=🗳 advertise_wiki_page=False
-2026-01-03 14:18:38 [debug    ] gather_cmds_help: reports      [sophie_bot.services.bot] cmds=['report']
-2026-01-03 14:18:38 [debug    ] gather_module_help: sophie_bot.modules.legacy_modules.modules.restrictions [sophie_bot.services.bot] name=<sophie_bot.utils.i18n.LazyProxy object at 0x7f4100688110> emoji=🛑 advertise_wiki_page=False
-2026-01-03 14:18:38 [debug    ] gather_cmds_help: restrictions [sophie_bot.services.bot] cmds=['kick', 'skick', 'mute', 'smute', 'tmute', 'stmute', 'unmute', 'ban', 'sban', 'tban', 'stban', 'unban']
-2026-01-03 14:18:38 [debug    ] gather_module_help: sophie_bot.modules.legacy_modules.modules.users [sophie_bot.services.bot] name=<sophie_bot.utils.i18n.LazyProxy object at 0x7f4100688c50> emoji=🫂 advertise_wiki_page=False
-2026-01-03 14:18:38 [debug    ] gather_cmds_help: users        [sophie_bot.services.bot] cmds=['info', 'id', 'chatid', 'userid', 'adminlist', 'admins']
-2026-01-03 14:18:38 [debug    ] gather_module_help: sophie_bot.modules.legacy_modules.modules.warns [sophie_bot.services.bot] name=<sophie_bot.utils.i18n.LazyProxy object at 0x7f41007171d0> emoji=⚠️ advertise_wiki_page=False
-2026-01-03 14:18:38 [debug    ] gather_cmds_help: warns        [sophie_bot.services.bot] cmds=['warn', 'warns', 'warnlimit', 'resetwarns', 'delwarns', 'warnmode', 'warnaction']
-2026-01-03 14:18:38 [info     ] Loaded modules - rest, op, troubleshooters, error, users, notes, help, federations, privacy, disabling, rules, promotes, greetings, welcomesecurity, purges, warns, restrictions, ai, filters, antiflood, legacy_modules [sophie_bot.services.bot]
-2026-01-03 14:18:38 [debug    ] Using selector: EpollSelector  [asyncio]
-2026-01-03 14:18:38 [warning  ] Generating wiki documentation... [sophie_bot.services.bot]
-2026-01-03 14:18:38 [debug    ] Module op is excluded from the help, skipping [sophie_bot.services.bot]
-2026-01-03 14:18:38 [debug    ] Module error is excluded from the help, skipping [sophie_bot.services.bot]
-2026-01-03 14:18:38 [debug    ] - Appending human-maintained page [sophie_bot.services.bot]
-2026-01-03 14:18:38 [debug    ] - Appending human-maintained page [sophie_bot.services.bot]
-2026-01-03 14:18:38 [debug    ] - Appending human-maintained page [sophie_bot.services.bot]
-2026-01-03 14:18:38 [debug    ] Module owner_stuff is excluded from the help, skipping [sophie_bot.services.bot]
-2026-01-03 14:18:38 [warning  ] Generating wiki documentation done! [sophie_bot.services.bot]
-2026-01-03 14:18:38 [debug    ] Using selector: EpollSelector  [asyncio]
-2026-01-03 14:18:39 [debug    ] {"message": "Server heartbeat failed", "topologyId": {"$oid": "6959253e04b3f2a98e804706"}, "serverHost": "127.0.0.1", "serverPort": 27017, "awaited": true, "durationMS": 500.432405000538, "failure": "\"_OperationCancelled('operation cancelled')\"", "driverConnectionId": 1} [pymongo.topology]
-make gen_openapi
-make[1]: Entering directory '/home/yacha/Projects/Otty/sophie'
-poetry run python tools/openapi_gen/generate.py
-2026-01-03 14:18:42 [info     ] Using BotAPI server: TelegramAPIServer(base='https://api.telegram.org/bot{token}/{method}', file='https://api.telegram.org/file/bot{token}/{path}', is_local=False, wrap_local_file=<aiogram.client.telegram.BareFilesPathWrapper object at 0x7f4cef6d6120>) [sophie_bot.services.bot]
-2026-01-03 14:18:42 [debug    ] {"message": "Starting topology monitoring", "topologyId": {"$oid": "695925425126db09e55431d9"}} [pymongo.topology]
-2026-01-03 14:18:42 [debug    ] {"message": "Topology description changed", "topologyId": {"$oid": "695925425126db09e55431d9"}, "previousDescription": "<TopologyDescription id: 695925425126db09e55431d9, topology_type: Unknown, servers: []>", "newDescription": "<TopologyDescription id: 695925425126db09e55431d9, topology_type: Unknown, servers: [<ServerDescription ('127.0.0.1', 27017) server_type: Unknown, rtt: None>]>"} [pymongo.topology]
-2026-01-03 14:18:42 [debug    ] {"message": "Starting server monitoring", "topologyId": {"$oid": "695925425126db09e55431d9"}, "serverHost": "127.0.0.1", "serverPort": 27017} [pymongo.topology]
-2026-01-03 14:18:42 [debug    ] Loading legacy localizations... [sophie_bot.services.bot]
-2026-01-03 14:18:42 [debug    ] Loading language file ar_EG.yaml [sophie_bot.services.bot]
-2026-01-03 14:18:42 [debug    ] Loading language file ar_SA.yaml [sophie_bot.services.bot]
-2026-01-03 14:18:42 [debug    ] Loading language file cs_CZ.yaml [sophie_bot.services.bot]
-2026-01-03 14:18:42 [debug    ] Loading language file es_ES.yaml [sophie_bot.services.bot]
-2026-01-03 14:18:42 [debug    ] Loading language file fr_FR.yaml [sophie_bot.services.bot]
-2026-01-03 14:18:42 [debug    ] Loading language file pl_PL.yaml [sophie_bot.services.bot]
-2026-01-03 14:18:42 [debug    ] Loading language file pt_BR.yaml [sophie_bot.services.bot]
-2026-01-03 14:18:42 [debug    ] Loading language file ru_RU.yaml [sophie_bot.services.bot]
-2026-01-03 14:18:42 [debug    ] Loading language file tr_TR.yaml [sophie_bot.services.bot]
-2026-01-03 14:18:42 [debug    ] Loading language file uk_UA.yaml [sophie_bot.services.bot]
-2026-01-03 14:18:42 [debug    ] Loading language file zh_CN.yaml [sophie_bot.services.bot]
-2026-01-03 14:18:42 [debug    ] Loading language file de_DE.yaml [sophie_bot.services.bot]
-2026-01-03 14:18:43 [debug    ] Loading language file en_GB.yaml [sophie_bot.services.bot]
-2026-01-03 14:18:43 [debug    ] Loading language file en.yaml  [sophie_bot.services.bot]
-2026-01-03 14:18:43 [debug    ] Loading language file fi_FI.yaml [sophie_bot.services.bot]
-2026-01-03 14:18:43 [info     ] Legacy languages loaded: ['ar_EG', 'ar_SA', 'cs_CZ', 'es_ES', 'fr_FR', 'pl_PL', 'pt_BR', 'ru_RU', 'tr_TR', 'uk_UA', 'zh_CN', 'de_DE', 'en_GB', 'en', 'fi_FI'] [sophie_bot.services.bot]
-2026-01-03 14:18:43 [debug    ] Loading locales additional data... [sophie_bot.services.bot]
-2026-01-03 14:18:43 [debug    ] ! Can't parse stats for locale ar_EG! [sophie_bot.services.bot]
-2026-01-03 14:18:43 [debug    ] ! Can't parse stats for locale ar_SA! [sophie_bot.services.bot]
-2026-01-03 14:18:43 [debug    ] ! Can't parse stats for locale cs_CZ! [sophie_bot.services.bot]
-2026-01-03 14:18:43 [debug    ] ! Can't parse stats for locale de_DE! [sophie_bot.services.bot]
-2026-01-03 14:18:43 [debug    ] ! Can't parse stats for locale en_US! [sophie_bot.services.bot]
-2026-01-03 14:18:43 [debug    ] ! Can't parse stats for locale es_ES! [sophie_bot.services.bot]
-2026-01-03 14:18:43 [debug    ] ! Can't parse stats for locale fr_FR! [sophie_bot.services.bot]
-2026-01-03 14:18:43 [debug    ] ! Can't parse stats for locale pl_PL! [sophie_bot.services.bot]
-2026-01-03 14:18:43 [debug    ] ! Can't parse stats for locale pt_BR! [sophie_bot.services.bot]
-2026-01-03 14:18:43 [debug    ] ! Can't parse stats for locale ru_RU! [sophie_bot.services.bot]
-2026-01-03 14:18:43 [debug    ] ! Can't parse stats for locale tr_TR! [sophie_bot.services.bot]
-2026-01-03 14:18:43 [debug    ] ! Can't parse stats for locale uk_UA! [sophie_bot.services.bot]
-2026-01-03 14:18:43 [debug    ] ! Can't parse stats for locale zh_CN! [sophie_bot.services.bot]
-2026-01-03 14:18:43 [debug    ] ! Can't parse stats for locale en_GB! [sophie_bot.services.bot]
-2026-01-03 14:18:43 [debug    ] ! Can't parse stats for locale fi_FI! [sophie_bot.services.bot]
-2026-01-03 14:18:43 [info     ] Starting OpenAPI generation task... [sophie_bot.services.bot]
-2026-01-03 14:18:43 [debug    ] Using selector: EpollSelector  [asyncio]
-2026-01-03 14:18:43 [info     ] Importing modules...           [sophie_bot.services.bot]
-2026-01-03 14:18:43 [debug    ] Loading all modules...         [sophie_bot.services.bot] modules=['rest', 'op', 'troubleshooters', 'error', 'users', 'notes', 'help', 'federations', 'privacy', 'disabling', 'rules', 'promotes', 'greetings', 'welcomesecurity', 'purges', 'warns', 'restrictions', 'ai', 'filters', 'antiflood', 'legacy_modules']
-2026-01-03 14:18:43 [debug    ] ! Module rest has no router!   [sophie_bot.services.bot]
-2026-01-03 14:18:43 [debug    ] ! Legacy @register: Duplication of /lang command [sophie_bot.services.bot]
-2026-01-03 14:18:43 [debug    ] Using selector: EpollSelector  [asyncio]
-2026-01-03 14:18:43 [debug    ] {"message": "Starting topology monitoring", "topologyId": {"$oid": "695925435126db09e55431da"}} [pymongo.topology]
-2026-01-03 14:18:43 [debug    ] {"message": "Topology description changed", "topologyId": {"$oid": "695925435126db09e55431da"}, "previousDescription": "<TopologyDescription id: 695925435126db09e55431da, topology_type: Unknown, servers: []>", "newDescription": "<TopologyDescription id: 695925435126db09e55431da, topology_type: Unknown, servers: [<ServerDescription ('127.0.0.1', 27017) server_type: Unknown, rtt: None>]>"} [pymongo.topology]
-2026-01-03 14:18:43 [debug    ] {"message": "Starting server monitoring", "topologyId": {"$oid": "695925435126db09e55431da"}, "serverHost": "127.0.0.1", "serverPort": 27017} [pymongo.topology]
-2026-01-03 14:18:43 [debug    ] {"message": "Connection pool created", "clientId": {"$oid": "695925435126db09e55431da"}, "serverHost": "127.0.0.1", "serverPort": 27017} [pymongo.connection]
-2026-01-03 14:18:43 [debug    ] {"message": "Server heartbeat started", "topologyId": {"$oid": "695925435126db09e55431da"}, "driverConnectionId": 1, "serverHost": "127.0.0.1", "serverPort": 27017, "awaited": false} [pymongo.topology]
-2026-01-03 14:18:43 [debug    ] No explicit setting existed. Use localtime [tzlocal]
-2026-01-03 14:18:43 [debug    ] {"message": "Server heartbeat succeeded", "topologyId": {"$oid": "695925435126db09e55431da"}, "driverConnectionId": 1, "serverConnectionId": 32, "serverHost": "127.0.0.1", "serverPort": 27017, "awaited": false, "durationMS": 5.976852999992843, "reply": "{\"helloOk\": true, \"ismaster\": true, \"topologyVersion\": {\"processId\": {\"$oid\": \"69591815afbada9e3bdb8314\"}}, \"maxBsonObjectSize\": 16777216, \"maxMessageSizeBytes\": 48000000, \"maxWriteBatchSize\": 100000, \"localTime\": {\"$date\": \"2026-01-03T14:18:43.835Z\"}, \"logicalSessionTimeoutMinutes\": 30, \"connectionId\": 32, \"maxWireVersion\": 25, \"ok\": 1.0}"} [pymongo.topology]
-2026-01-03 14:18:43 [debug    ] {"message": "Connection pool ready", "clientId": {"$oid": "695925435126db09e55431da"}, "serverHost": "127.0.0.1", "serverPort": 27017} [pymongo.connection]
-2026-01-03 14:18:43 [debug    ] {"message": "Topology description changed", "topologyId": {"$oid": "695925435126db09e55431da"}, "previousDescription": "<TopologyDescription id: 695925435126db09e55431da, topology_type: Unknown, servers: [<ServerDescription ('127.0.0.1', 27017) server_type: Unknown, rtt: None>]>", "newDescription": "<TopologyDescription id: 695925435126db09e55431da, topology_type: Single, servers: [<ServerDescription ('127.0.0.1', 27017) server_type: Standalone, rtt: 0.005976852999992843>]>"} [pymongo.topology]
-2026-01-03 14:18:43 [debug    ] {"message": "Server heartbeat started", "topologyId": {"$oid": "695925435126db09e55431da"}, "driverConnectionId": 1, "serverConnectionId": 32, "serverHost": "127.0.0.1", "serverPort": 27017, "awaited": true} [pymongo.topology]
-2026-01-03 14:18:43 [debug    ] ! Module warns has no router!  [sophie_bot.services.bot]
-2026-01-03 14:18:43 [debug    ] ! Module restrictions has no router! [sophie_bot.services.bot]
-2026-01-03 14:18:43 [debug    ] ! Module legacy_modules has no router! [sophie_bot.services.bot]
-2026-01-03 14:18:43 [info     ] Legacy modules                 [sophie_bot.services.bot] to_load=['antiflood', 'connection', 'feds', 'language', 'owner_stuff', 'pins', 'reports', 'restrictions', 'users', 'warns']
-2026-01-03 14:18:43 [debug    ] ! Legacy @register: Duplication of /connect command [sophie_bot.services.bot]
-2026-01-03 14:18:43 [debug    ] ! Legacy @register: Duplication of /connect command [sophie_bot.services.bot]
-2026-01-03 14:18:44 [debug    ] Legacy @disableable_dec: Adding report to the disableable commands... [sophie_bot.services.bot]
-2026-01-03 14:18:44 [debug    ] Legacy @disableable_dec: Adding info to the disableable commands... [sophie_bot.services.bot]
-2026-01-03 14:18:44 [debug    ] Legacy @disableable_dec: Adding id to the disableable commands... [sophie_bot.services.bot]
-2026-01-03 14:18:44 [debug    ] Legacy @disableable_dec: Adding adminlist to the disableable commands... [sophie_bot.services.bot]
-2026-01-03 14:18:44 [info     ] Legacy modules: Modules loaded! [sophie_bot.services.bot]
-2026-01-03 14:18:44 [debug    ] Before serving: sophie_bot.modules.legacy_modules.modules.antiflood [sophie_bot.services.bot]
-2026-01-03 14:18:44 [debug    ] Legacy modules: Pre setup      [sophie_bot.services.bot]
-2026-01-03 14:18:44 [debug    ] gather_module_help: sophie_bot.modules.op [sophie_bot.services.bot] name=op emoji=? advertise_wiki_page=False
-2026-01-03 14:18:44 [debug    ] gather_cmds_help: op           [sophie_bot.services.bot] cmds=['op_listjobs', 'op_stopjobs', 'op_killswitch', 'op_banner', 'op_captcha']
-2026-01-03 14:18:44 [debug    ] gather_module_help: sophie_bot.modules.troubleshooters [sophie_bot.services.bot] name=<sophie_bot.utils.i18n.LazyProxy object at 0x7f4ce9123b30> emoji=🧰 advertise_wiki_page=False
-2026-01-03 14:18:44 [debug    ] gather_cmds_help: troubleshooters [sophie_bot.services.bot] cmds=['enablebeta', 'enablebeta', 'op_setbeta', 'op_resetbeta', 'cancel', 'admincache']
-2026-01-03 14:18:44 [debug    ] gather_module_help: sophie_bot.modules.error [sophie_bot.services.bot] name=<sophie_bot.utils.i18n.LazyProxy object at 0x7f4ce93d7470> emoji=🚫 advertise_wiki_page=False
-2026-01-03 14:18:44 [debug    ] gather_cmds_help: error        [sophie_bot.services.bot] cmds=['op_crash']
-2026-01-03 14:18:44 [debug    ] gather_module_help: sophie_bot.modules.users [sophie_bot.services.bot] name=<sophie_bot.utils.i18n.LazyProxy object at 0x7f4ce034b9b0> emoji=🫂 advertise_wiki_page=False
-2026-01-03 14:18:44 [debug    ] gather_cmds_help: users        [sophie_bot.services.bot] cmds=['id']
-2026-01-03 14:18:44 [debug    ] gather_cmds_help: users        [sophie_bot.services.bot] cmds=['id']
-2026-01-03 14:18:44 [debug    ] gather_module_help: sophie_bot.modules.notes [sophie_bot.services.bot] name=<sophie_bot.utils.i18n.LazyProxy object at 0x7f4ce31128d0> emoji=📗 advertise_wiki_page=True
-2026-01-03 14:18:44 [debug    ] gather_cmds_help: notes        [sophie_bot.services.bot] cmds=['pmnotes', 'privatenotes', 'pmnotes', 'privatenotes', 'notes', 'saved', 'notelist', 'get', 'search', 'delnote', 'clear', 'save', 'addnote']
-2026-01-03 14:18:44 [debug    ] gather_module_help: sophie_bot.modules.help [sophie_bot.services.bot] name=<sophie_bot.utils.i18n.LazyProxy object at 0x7f4cea3462e0> emoji=ℹ️ advertise_wiki_page=False
-2026-01-03 14:18:44 [debug    ] gather_cmds_help: info         [sophie_bot.services.bot] cmds=['help', 'help', 'start', 'op_cmds']
-2026-01-03 14:18:44 [debug    ] gather_module_help: sophie_bot.modules.federations [sophie_bot.services.bot] name=<sophie_bot.utils.i18n.LazyProxy object at 0x7f4ce03b4110> emoji=🏛 advertise_wiki_page=False
-2026-01-03 14:18:44 [debug    ] Modern filter actions: Adding new action... [sophie_bot.services.bot] name=reply module=notes
-2026-01-03 14:18:44 [debug    ] Modern filter actions: Adding new action... [sophie_bot.services.bot] name=send_note module=notes
-2026-01-03 14:18:44 [debug    ] Modern filter actions: Adding new action... [sophie_bot.services.bot] name=send_rules module=rules
-2026-01-03 14:18:44 [debug    ] Modern filter actions: Adding new action... [sophie_bot.services.bot] name=delmsg module=purges
-2026-01-03 14:18:44 [debug    ] Modern filter actions: Adding new action... [sophie_bot.services.bot] name=warn_user module=warns
-2026-01-03 14:18:44 [debug    ] Modern filter actions: Adding new action... [sophie_bot.services.bot] name=kick_user module=restrictions
-2026-01-03 14:18:44 [debug    ] Modern filter actions: Adding new action... [sophie_bot.services.bot] name=ban_user module=restrictions
-2026-01-03 14:18:44 [debug    ] Modern filter actions: Adding new action... [sophie_bot.services.bot] name=mute_user module=restrictions
-2026-01-03 14:18:44 [debug    ] Modern filter actions: Adding new action... [sophie_bot.services.bot] name=ai_text module=ai
-2026-01-03 14:18:44 [debug    ] Legacy filters: Adding filters actions [sophie_bot.services.bot]
-2026-01-03 14:18:44 [debug    ] Legacy filters: Adding filter action from restrictions module [sophie_bot.services.bot]
-2026-01-03 14:18:44 [debug    ] Legacy filters: Adding filter action from warns module [sophie_bot.services.bot]
-2026-01-03 14:18:44 [debug    ] Legacy filters: Adding filter action from notes module [sophie_bot.services.bot]
-2026-01-03 14:18:44 [debug    ] Legacy filters: Adding filter action from rules module [sophie_bot.services.bot]
-2026-01-03 14:18:44 [debug    ] Legacy filters: Adding filter action from purges module [sophie_bot.services.bot]
-2026-01-03 14:18:44 [debug    ] Legacy filters: Adding filter action from ai module [sophie_bot.services.bot]
-2026-01-03 14:18:44 [debug    ] Legacy filters: Filters actions [sophie_bot.services.bot] actions={'kick_user': {'title': <sophie_bot.utils.i18n.LazyProxy object at 0x7f4ce0164770>, 'handle': <function get_strings_dec.<locals>.wrapped.<locals>.wrapped_1 at 0x7f4ce016a200>}, 'ban_user': {'title': <sophie_bot.utils.i18n.LazyProxy object at 0x7f4ce0164650>, 'setup': {'start': <function get_strings_dec.<locals>.wrapped.<locals>.wrapped_1 at 0x7f4ce0233ec0>, 'finish': <function get_strings_dec.<locals>.wrapped.<locals>.wrapped_1 at 0x7f4ce0250040>}, 'handle': <function get_strings_dec.<locals>.wrapped.<locals>.wrapped_1 at 0x7f4ce0169a80>}, 'tban_user': {'title': <sophie_bot.utils.i18n.LazyProxy object at 0x7f4ce01647d0>, 'handle': <function get_strings_dec.<locals>.wrapped.<locals>.wrapped_1 at 0x7f4ce0169e40>, 'setup': [{'start': <function get_strings_dec.<locals>.wrapped.<locals>.wrapped_1 at 0x7f4ce0169f80>, 'finish': <function get_strings_dec.<locals>.wrapped.<locals>.wrapped_1 at 0x7f4ce016a0c0>}, {'start': <function get_strings_dec.<locals>.wrapped.<locals>.wrapped_1 at 0x7f4ce0233ec0>, 'finish': <function get_strings_dec.<locals>.wrapped.<locals>.wrapped_1 at 0x7f4ce0250040>}]}, 'mute_user': {'title': <sophie_bot.utils.i18n.LazyProxy object at 0x7f4ce0164830>, 'setup': {'start': <function get_strings_dec.<locals>.wrapped.<locals>.wrapped_1 at 0x7f4ce0233ec0>, 'finish': <function get_strings_dec.<locals>.wrapped.<locals>.wrapped_1 at 0x7f4ce0250040>}, 'handle': <function get_strings_dec.<locals>.wrapped.<locals>.wrapped_1 at 0x7f4ce0169bc0>}, 'tmute_user': {'title': <sophie_bot.utils.i18n.LazyProxy object at 0x7f4ce0164890>, 'handle': <function get_strings_dec.<locals>.wrapped.<locals>.wrapped_1 at 0x7f4ce0169d00>, 'setup': [{'start': <function get_strings_dec.<locals>.wrapped.<locals>.wrapped_1 at 0x7f4ce0169f80>, 'finish': <function get_strings_dec.<locals>.wrapped.<locals>.wrapped_1 at 0x7f4ce016a0c0>}, {'start': <function get_strings_dec.<locals>.wrapped.<locals>.wrapped_1 at 0x7f4ce0233ec0>, 'finish': <function get_strings_dec.<locals>.wrapped.<locals>.wrapped_1 at 0x7f4ce0250040>}]}, 'warn_user': {'title': <sophie_bot.utils.i18n.LazyProxy object at 0x7f4ce03fbad0>, 'setup': {'start': <function get_strings_dec.<locals>.wrapped.<locals>.wrapped_1 at 0x7f4ce0233ec0>, 'finish': <function get_strings_dec.<locals>.wrapped.<locals>.wrapped_1 at 0x7f4ce0250040>}, 'handle': <function get_strings_dec.<locals>.wrapped.<locals>.wrapped_1 at 0x7f4ce0233d80>}, 'reply_message': {'title': <sophie_bot.utils.i18n.LazyProxy object at 0x7f4ce91d1490>, 'handle': <function replymsg_filter_handler at 0x7f4ceb6600e0>, 'setup': {'start': <function replymsg_setup_start at 0x7f4ceb660180>, 'finish': <function replymsg_setup_finish at 0x7f4ceb660220>}, 'del_btn_name': <function get_filter.<locals>.<lambda> at 0x7f4ce318dc60>}, 'get_note': {'title': <sophie_bot.utils.i18n.LazyProxy object at 0x7f4ce91d06b0>, 'handle': <function filter_handle at 0x7f4ceb64fec0>, 'setup': {'start': <function setup_start at 0x7f4ceb64ff60>, 'finish': <function setup_finish at 0x7f4ceb660040>}, 'del_btn_name': <function get_filter.<locals>.<lambda> at 0x7f4ce318e840>}, 'send_rules': {'title': <sophie_bot.utils.i18n.LazyProxy object at 0x7f4ce03f96d0>, 'handle': <function send_chat_rules at 0x7f4ce03eba60>}, 'delete_message': {'title': <sophie_bot.utils.i18n.LazyProxy object at 0x7f4ce03fab10>, 'handle': <function delmsg_filter_handle at 0x7f4ce02139c0>, 'del_btn_name': <function get_filter.<locals>.<lambda> at 0x7f4ce0211580>}, 'ai_text': {'title': <sophie_bot.utils.i18n.LazyProxy object at 0x7f4ce9121df0>, 'setup': {'start': <function ai_setup_start at 0x7f4ce93f4360>, 'finish': <function ai_setup_finish at 0x7f4ce93f44a0>}, 'handle': <function ai_filter_handle at 0x7f4ce93f4540>}}
-2026-01-03 14:18:44 [debug    ] Legacy modules: Post setup     [sophie_bot.services.bot]
-2026-01-03 14:18:44 [debug    ] gather_module_help: sophie_bot.modules.legacy_modules.modules.antiflood [sophie_bot.services.bot] name=<sophie_bot.utils.i18n.LazyProxy object at 0x7f4ce0290710> emoji=📈 advertise_wiki_page=False
-2026-01-03 14:18:44 [debug    ] gather_cmds_help: antiflood    [sophie_bot.services.bot] cmds=['setflood', 'antiflood', 'flood', 'setfloodaction']
-2026-01-03 14:18:44 [debug    ] gather_module_help: sophie_bot.modules.legacy_modules.modules.connection [sophie_bot.services.bot] name=<sophie_bot.utils.i18n.LazyProxy object at 0x7f4ce0290e30> emoji=🔐 advertise_wiki_page=False
-2026-01-03 14:18:44 [debug    ] gather_cmds_help: connection   [sophie_bot.services.bot] cmds=['connect', 'connect', 'connect', 'disconnect', 'allowusersconnect']
-2026-01-03 14:18:44 [debug    ] gather_module_help: sophie_bot.modules.legacy_modules.modules.feds [sophie_bot.services.bot] name=<sophie_bot.utils.i18n.LazyProxy object at 0x7f4ce0292150> emoji=🏙 advertise_wiki_page=False
-2026-01-03 14:18:44 [debug    ] gather_cmds_help: federations  [sophie_bot.services.bot] cmds=['fedinfo', 'finfo', 'transferfed', 'ftransfer']
-2026-01-03 14:18:44 [debug    ] gather_module_help: sophie_bot.modules.privacy [sophie_bot.services.bot] name=<sophie_bot.utils.i18n.LazyProxy object at 0x7f4cea38de50> emoji=🕵️‍♂️️ advertise_wiki_page=False
-2026-01-03 14:18:44 [debug    ] gather_cmds_help: info         [sophie_bot.services.bot] cmds=['privacy', 'export']
-2026-01-03 14:18:44 [debug    ] gather_module_help: sophie_bot.modules.disabling [sophie_bot.services.bot] name=<sophie_bot.utils.i18n.LazyProxy object at 0x7f4ce03f81d0> emoji=🚫 advertise_wiki_page=False
-2026-01-03 14:18:44 [debug    ] gather_cmds_help: Disable      [sophie_bot.services.bot] cmds=['disableable', 'disabled', 'disable', 'enable', 'enableall']
-2026-01-03 14:18:44 [debug    ] gather_module_help: sophie_bot.modules.rules [sophie_bot.services.bot] name=<sophie_bot.utils.i18n.LazyProxy object at 0x7f4ce03f9010> emoji=🪧 advertise_wiki_page=False
-2026-01-03 14:18:44 [debug    ] gather_cmds_help: rules        [sophie_bot.services.bot] cmds=['setrules', 'rules', 'resetrules']
-2026-01-03 14:18:44 [debug    ] gather_module_help: sophie_bot.modules.promotes [sophie_bot.services.bot] name=<sophie_bot.utils.i18n.LazyProxy object at 0x7f4ce03f9970> emoji=⭐️ advertise_wiki_page=False
-2026-01-03 14:18:44 [debug    ] gather_cmds_help: promotes     [sophie_bot.services.bot] cmds=['promote', 'demote']
-2026-01-03 14:18:44 [debug    ] gather_module_help: sophie_bot.modules.greetings [sophie_bot.services.bot] name=<sophie_bot.utils.i18n.LazyProxy object at 0x7f4ce0348bf0> emoji=🙋‍♂️ advertise_wiki_page=False
-2026-01-03 14:18:44 [debug    ] gather_cmds_help: greetings    [sophie_bot.services.bot] cmds=['enablewelcome', 'setwelcome', 'setjoinrequest', 'deljoinrequest', 'welcome', 'cleanservice', 'cleanwelcome']
-2026-01-03 14:18:44 [debug    ] gather_module_help: sophie_bot.modules.welcomesecurity [sophie_bot.services.bot] name=<sophie_bot.utils.i18n.LazyProxy object at 0x7f4cec133cb0> emoji=🛡️ advertise_wiki_page=False
-2026-01-03 14:18:44 [debug    ] gather_cmds_help: welcomesecurity [sophie_bot.services.bot] cmds=['welcomecaptcha', 'enablewelcomecaptcha', 'welcomerestrict', 'welcomesecurity']
-2026-01-03 14:18:44 [debug    ] gather_module_help: sophie_bot.modules.purges [sophie_bot.services.bot] name=<sophie_bot.utils.i18n.LazyProxy object at 0x7f4ce03fa4b0> emoji=🗑 advertise_wiki_page=False
-2026-01-03 14:18:44 [debug    ] gather_cmds_help: purges       [sophie_bot.services.bot] cmds=['delete', 'del', 'purge']
-2026-01-03 14:18:44 [debug    ] gather_module_help: sophie_bot.modules.ai [sophie_bot.services.bot] name=<sophie_bot.utils.i18n.LazyProxy object at 0x7f4cead93110> emoji=✨ advertise_wiki_page=False
-2026-01-03 14:18:44 [debug    ] gather_cmds_help: ai           [sophie_bot.services.bot] cmds=['enableai', 'aienable', 'aimoderator', 'aiautotranslate', 'autotranslate', 'aiprovider', 'ai', 'aisave', 'aireset', 'aitranslate', 'translate', 'tr', 'ai', 'op_aistats']
-2026-01-03 14:18:44 [debug    ] gather_module_help: sophie_bot.modules.filters [sophie_bot.services.bot] name=<sophie_bot.utils.i18n.LazyProxy object at 0x7f4ce9169130> emoji=🪄 advertise_wiki_page=True
-2026-01-03 14:18:44 [debug    ] gather_cmds_help: filters      [sophie_bot.services.bot] cmds=['addfilter', 'newfilter', 'filters', 'delfilter', 'editfilter']
-2026-01-03 14:18:44 [debug    ] gather_module_help: sophie_bot.modules.antiflood [sophie_bot.services.bot] name=<sophie_bot.utils.i18n.LazyProxy object at 0x7f4ce02587d0> emoji=🚫 advertise_wiki_page=False
-2026-01-03 14:18:44 [debug    ] gather_cmds_help: antiflood    [sophie_bot.services.bot] cmds=['setflood', 'antiflood', 'setfloodaction']
-2026-01-03 14:18:44 [debug    ] Module antiflood already in help modules, merging [sophie_bot.services.bot]
-2026-01-03 14:18:44 [debug    ] gather_cmds_help: feds         [sophie_bot.services.bot] cmds=['newfed', 'fnew', 'joinfed', 'fjoin', 'leavefed', 'fleave', 'fsub', 'funsub', 'fpromote', 'fdemote', 'fsetlog', 'setfedlog', 'funsetlog', 'unsetfedlog', 'fchatlist', 'fchats', 'fadminlist', 'fadmins', 'fban', 'sfban', 'unfban', 'funban', 'delfed', 'fdel', 'frename', 'fbanlist', 'exportfbans', 'fexport', 'importfbans', 'fimport', 'fcheck', 'fbanstat']
-2026-01-03 14:18:44 [debug    ] gather_module_help: sophie_bot.modules.legacy_modules.modules.language [sophie_bot.services.bot] name=<sophie_bot.utils.i18n.LazyProxy object at 0x7f4cee1aa150> emoji=🌍 advertise_wiki_page=False
-2026-01-03 14:18:44 [debug    ] gather_cmds_help: language     [sophie_bot.services.bot] cmds=['lang']
-2026-01-03 14:18:44 [debug    ] gather_module_help: sophie_bot.modules.legacy_modules.modules.owner_stuff [sophie_bot.services.bot] name=owner_stuff emoji=? advertise_wiki_page=False
-2026-01-03 14:18:44 [debug    ] gather_cmds_help: owner_stuff  [sophie_bot.services.bot] cmds=['event', 'stats']
-2026-01-03 14:18:44 [debug    ] gather_module_help: sophie_bot.modules.legacy_modules.modules.pins [sophie_bot.services.bot] name=<sophie_bot.utils.i18n.LazyProxy object at 0x7f4ce0293c50> emoji=📌 advertise_wiki_page=False
-2026-01-03 14:18:44 [debug    ] gather_cmds_help: pins         [sophie_bot.services.bot] cmds=['unpin', 'pin']
-2026-01-03 14:18:44 [debug    ] gather_module_help: sophie_bot.modules.legacy_modules.modules.reports [sophie_bot.services.bot] name=<sophie_bot.utils.i18n.LazyProxy object at 0x7f4ce0293950> emoji=🗳 advertise_wiki_page=False
-2026-01-03 14:18:44 [debug    ] gather_cmds_help: reports      [sophie_bot.services.bot] cmds=['report']
-2026-01-03 14:18:44 [debug    ] gather_module_help: sophie_bot.modules.legacy_modules.modules.restrictions [sophie_bot.services.bot] name=<sophie_bot.utils.i18n.LazyProxy object at 0x7f4ce01640b0> emoji=🛑 advertise_wiki_page=False
-2026-01-03 14:18:44 [debug    ] gather_cmds_help: restrictions [sophie_bot.services.bot] cmds=['kick', 'skick', 'mute', 'smute', 'tmute', 'stmute', 'unmute', 'ban', 'sban', 'tban', 'stban', 'unban']
-2026-01-03 14:18:44 [debug    ] gather_module_help: sophie_bot.modules.legacy_modules.modules.users [sophie_bot.services.bot] name=<sophie_bot.utils.i18n.LazyProxy object at 0x7f4ce0164bf0> emoji=🫂 advertise_wiki_page=False
-2026-01-03 14:18:44 [debug    ] gather_cmds_help: users        [sophie_bot.services.bot] cmds=['info', 'id', 'chatid', 'userid', 'adminlist', 'admins']
-2026-01-03 14:18:44 [debug    ] gather_module_help: sophie_bot.modules.legacy_modules.modules.warns [sophie_bot.services.bot] name=<sophie_bot.utils.i18n.LazyProxy object at 0x7f4ce03fb170> emoji=⚠️ advertise_wiki_page=False
-2026-01-03 14:18:44 [debug    ] gather_cmds_help: warns        [sophie_bot.services.bot] cmds=['warn', 'warns', 'warnlimit', 'resetwarns', 'delwarns', 'warnmode', 'warnaction']
-2026-01-03 14:18:44 [info     ] Loaded modules - rest, op, troubleshooters, error, users, notes, help, federations, privacy, disabling, rules, promotes, greetings, welcomesecurity, purges, warns, restrictions, ai, filters, antiflood, legacy_modules [sophie_bot.services.bot]
-2026-01-03 14:18:44 [info     ] OpenAPI documentation generated to openapi.json [sophie_bot.services.bot]
-2026-01-03 14:18:44 [debug    ] Using selector: EpollSelector  [asyncio]
-2026-01-03 14:18:44 [debug    ] {"message": "Server heartbeat failed", "topologyId": {"$oid": "695925435126db09e55431da"}, "serverHost": "127.0.0.1", "serverPort": 27017, "awaited": true, "durationMS": 500.43887899937545, "failure": "\"_OperationCancelled('operation cancelled')\"", "driverConnectionId": 1} [pymongo.topology]
-make[1]: Leaving directory '/home/yacha/Projects/Otty/sophie'
-cp openapi.json ../sdash
-cd ../sdash && bun run gen:api
-$ openapi-typescript openapi.json -o src/lib/api-schema.d.ts
-✨ openapi-typescript 7.10.1
-🚀 openapi.json → src/lib/api-schema.d.ts [45ms]
+================================================================================================= short test summary info =================================================================================================
+FAILED tests/test_buttons_reverse_arg.py::test_reverse_arg_text_and_buttons - ass_tg.exceptions.ArgTypeError
+FAILED tests/test_buttons_reverse_arg.py::test_reverse_arg_multiple_buttons - ass_tg.exceptions.ArgTypeError
+FAILED tests/test_buttons_reverse_arg.py::test_reverse_arg_only_text - AssertionError: assert not True
+FAILED tests/test_buttons_reverse_arg.py::test_reverse_arg_buttons_with_newlines - ass_tg.exceptions.ArgTypeError
+============================================================================================== 4 failed, 3 warnings in 1.66s ==============================================================================================
+2026-01-08 10:30:51 [debug    ] Using selector: EpollSelector  [asyncio]
+2026-01-08 10:30:52 [debug    ] {"message": "Server heartbeat failed", "topologyId": {"$oid": "695f875b29d04f4a8e972be7"}, "serverHost": "127.0.0.1", "serverPort": 27017, "awaited": true, "durationMS": 1044.1111569998611, "failure": "\"_OperationCancelled('operation cancelled')\"", "driverConnectionId": 1} [pymongo.topology]

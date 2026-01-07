@@ -40,6 +40,7 @@ pyjwt = "^2.10.1"
 cryptography = "^46.0.3"
 link = "^2.1.4"
 init-data-py = "^0.2.7"
+basemodel = "^20190604.1625"
 
 [tool.poetry.group.dev.dependencies]
 Nuitka = "^2"

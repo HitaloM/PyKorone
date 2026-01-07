@@ -1,6 +1,6 @@
 from datetime import datetime
 from enum import Enum
-from typing import Annotated, Any, Optional, Sequence
+from typing import Annotated, Optional, Sequence
 
 from aiogram.enums import ContentType
 from beanie import Document, Indexed, Link
@@ -10,7 +10,8 @@ from pydantic import BaseModel, Field
 from pymongo import TEXT
 from pymongo.results import DeleteResult
 
-from sophie_bot.db.models import ChatModel
+from .chat import ChatModel
+from .notes_buttons import Button
 
 
 class NoteFile(BaseModel):
@@ -26,15 +27,7 @@ class SaveableParseMode(Enum):
     html = "html"
 
 
-class ButtonAction(Enum):
-    url = "url"
-    delmsg = "delmsg"
-
-
-class Button(BaseModel):
-    text: str
-    action: ButtonAction
-    data: Any
+CURRENT_SAVEABLE_VERSION = 2
 
 
 class Saveable(BaseModel):
@@ -45,6 +38,8 @@ class Saveable(BaseModel):
 
     parse_mode: Optional[SaveableParseMode] = SaveableParseMode.html
     preview: Optional[bool] = False
+
+    version: Optional[int] = 1
 
 
 class NoteModel(Saveable, Document):

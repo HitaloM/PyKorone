@@ -2880,40 +2880,104 @@ msgstr ""
 msgid "Change note name"
 msgstr ""
 
-#: sophie_bot/modules/notes/utils/buttons_processor/ass_types/MarkdownLinkArgument.py:46
+#: sophie_bot/modules/notes/utils/buttons_processor/ass_types/CaptchaButton.py:13
+msgid "Captcha Button"
+msgstr ""
+
+#: sophie_bot/modules/notes/utils/buttons_processor/ass_types/CaptchaButton.py:13
+msgid "Captcha Buttons"
+msgstr ""
+
+#: sophie_bot/modules/notes/utils/buttons_processor/ass_types/ConnectButton.py:13
+msgid "Connect Button"
+msgstr ""
+
+#: sophie_bot/modules/notes/utils/buttons_processor/ass_types/ConnectButton.py:13
+msgid "Connect Buttons"
+msgstr ""
+
+#: sophie_bot/modules/notes/utils/buttons_processor/ass_types/DeleteButton.py:14
+msgid "Delete Button"
+msgstr ""
+
+#: sophie_bot/modules/notes/utils/buttons_processor/ass_types/DeleteButton.py:14
+msgid "Delete Buttons"
+msgstr ""
+
+#: sophie_bot/modules/notes/utils/buttons_processor/ass_types/MarkdownLinkArgument.py:47
 msgid "Invalid markdown link."
 msgstr ""
 
-#: sophie_bot/modules/notes/utils/buttons_processor/ass_types/MarkdownLinkArgument.py:52
+#: sophie_bot/modules/notes/utils/buttons_processor/ass_types/MarkdownLinkArgument.py:56
 msgid "Markdown link name cannot contain entities."
 msgstr ""
 
-#: sophie_bot/modules/notes/utils/buttons_processor/ass_types/MarkdownLinkArgument.py:60
+#: sophie_bot/modules/notes/utils/buttons_processor/ass_types/MarkdownLinkArgument.py:67
 msgid "Markdown link data cannot contain entities."
+msgstr ""
+
+#: sophie_bot/modules/notes/utils/buttons_processor/ass_types/NoteButton.py:15
+msgid "Note Button"
+msgstr ""
+
+#: sophie_bot/modules/notes/utils/buttons_processor/ass_types/NoteButton.py:15
+msgid "Note Buttons"
+msgstr ""
+
+#: sophie_bot/modules/notes/utils/buttons_processor/ass_types/RulesButton.py:13
+msgid "Rules Button"
+msgstr ""
+
+#: sophie_bot/modules/notes/utils/buttons_processor/ass_types/RulesButton.py:13
+msgid "Rules Buttons"
+msgstr ""
+
+#: sophie_bot/modules/notes/utils/buttons_processor/ass_types/SophieDMButton.py:13
+msgid "Sophie DM Button"
+msgstr ""
+
+#: sophie_bot/modules/notes/utils/buttons_processor/ass_types/SophieDMButton.py:13
+msgid "Sophie DM Buttons"
+msgstr ""
+
+#: sophie_bot/modules/notes/utils/buttons_processor/ass_types/URLButton.py:18
+msgid "URL Button"
+msgstr ""
+
+#: sophie_bot/modules/notes/utils/buttons_processor/ass_types/URLButton.py:18
+msgid "URL Buttons"
+msgstr ""
+
+#: sophie_bot/modules/notes/utils/buttons_processor/ass_types/URLButton.py:32
+msgid "URL must start with http or https"
+msgstr ""
+
+#: sophie_bot/modules/notes/utils/buttons_processor/ass_types/parse_arg.py:31
+msgid "Buttons"
 msgstr ""
 
 #: sophie_bot/modules/notes/utils/fillings.py:14
 msgid "Local chat"
 msgstr ""
 
-#: sophie_bot/modules/notes/utils/parse.py:70
+#: sophie_bot/modules/notes/utils/parse.py:72
 msgid "Please check the notes documentation for the list of the allowed content types."
 msgstr ""
 
-#: sophie_bot/modules/notes/utils/parse.py:71
+#: sophie_bot/modules/notes/utils/parse.py:73
 msgid "Reply message content is not parsable as the note."
 msgstr ""
 
-#: sophie_bot/modules/notes/utils/parse.py:104
+#: sophie_bot/modules/notes/utils/parse.py:105
 #, python-brace-format
 msgid "The maximum length of the note is {limit} characters."
 msgstr ""
 
-#: sophie_bot/modules/notes/utils/parse.py:105
+#: sophie_bot/modules/notes/utils/parse.py:106
 msgid "Please try to reduce the length of the note."
 msgstr ""
 
-#: sophie_bot/modules/notes/utils/parse.py:106
+#: sophie_bot/modules/notes/utils/parse.py:107
 msgid "Note is too long."
 msgstr ""
 

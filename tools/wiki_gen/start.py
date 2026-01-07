@@ -1,5 +1,5 @@
 import asyncio
-from unittest.mock import patch
+from unittest.mock import AsyncMock, patch
 
 from aiogram import Dispatcher
 
@@ -12,7 +12,10 @@ from sophie_bot.utils.logger import log
 @patch('motor.motor_asyncio.AsyncIOMotorClient')
 @patch('redis.asyncio.Redis')
 @patch('redis.StrictRedis')
-def generate_wiki(*_):
+def generate_wiki(mock_redis, mock_aredis, mock_motor):
+    mock_aredis.return_value = AsyncMock()
+    mock_motor.return_value = AsyncMock()
+
     log.info("Starting wiki generation task...")
     dp = Dispatcher()
 

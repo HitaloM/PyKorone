@@ -5,7 +5,8 @@ from datetime import datetime
 from beanie import PydanticObjectId
 from pydantic import BaseModel
 
-from sophie_bot.db.models.notes import NoteFile, SaveableParseMode, Button
+from sophie_bot.db.models.notes import NoteFile, SaveableParseMode
+from sophie_bot.db.models.notes_buttons import Button
 
 
 class NoteResponse(BaseModel):
@@ -39,7 +40,7 @@ class NoteUpdate(BaseModel):
     names: tuple[str, ...] | None = None
     text: str | None = None
     file: NoteFile | None = None
-    buttons: list[list[Button]] | None = None
+    buttons: list[list[Button]] = None
     parse_mode: SaveableParseMode | None = None
     preview: bool | None = None
     description: str | None = None

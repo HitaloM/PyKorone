@@ -10,7 +10,7 @@ from sophie_bot.utils.logger import log
 
 
 async def update_user(chat_id, new_user):
-    old_user = await db.user_list.find_one({"user_id": new_user.iid})
+    old_user = await db.user_list.find_one({"user_id": new_user.id})
 
     new_chat = [chat_id]
 
@@ -38,7 +38,7 @@ async def update_user(chat_id, new_user):
     first_name = html.escape(new_user.first_name, quote=False)
 
     user_new = {
-        "user_id": new_user.iid,
+        "user_id": new_user.id,
         "first_name": first_name,
         "last_name": last_name,
         "username": username,
@@ -58,9 +58,9 @@ async def update_user(chat_id, new_user):
             f"Found user ({check['user_id']}) with same username as ({user_new['user_id']}), old user was deleted."
         )
 
-    await db.user_list.update_one({"user_id": new_user.iid}, {"$set": user_new}, upsert=True)
+    await db.user_list.update_one({"user_id": new_user.id}, {"$set": user_new}, upsert=True)
 
-    log.debug(f"Users: User {new_user.iid} updated")
+    log.debug(f"Users: User {new_user.id} updated")
 
     return user_new
 
