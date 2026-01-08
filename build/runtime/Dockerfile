@@ -10,19 +10,24 @@ RUN pip install uv
 RUN python -m venv /venv
 
 WORKDIR /build
-COPY ../../pyproject.toml uv.lock ./
+COPY pyproject.toml uv.lock ./
 
-RUN uv export requirements.txt --format requirements-txt | /venv/bin/pip install -r /dev/stdin
+RUN uv export --format requirements.txt | /venv/bin/pip install -r /dev/stdin
 
-COPY ../../sophie_bot sophie_bot
-COPY ../../locales locales
-COPY ../../Makefile Makefile
+COPY sophie_bot sophie_bot
+COPY locales locales
+COPY Makefile Makefile
 
-RUN bash -c "source /venv/bin/activate; make new_lang=en_US; make compile_lang"
+# Install dependencies and setup locale
+RUN bash -c "source /venv/bin/activate && \
+    /venv/bin/pip install Babel && \
+    export PATH=/venv/bin:\$PATH && \
+    make new_lang=en_US && \
+    make compile_lang"
 
 RUN uv build --wheel && /venv/bin/pip install dist/*.whl
 
-COPY ../../.git .git
+COPY .git .git
 RUN BRANCH_NAME=$(git rev-parse --abbrev-ref HEAD) && \
     COMMIT_HASH=$(git rev-parse --short HEAD) && \
     echo "Branch: $BRANCH_NAME, Commit: $COMMIT_HASH" && \
