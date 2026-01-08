@@ -9,10 +9,11 @@ carefully before starting work on any new features or modifications.
 
 - Follow PEP8 standards strictly
 - Use 120 character line length (configured in pyproject.toml)
-- Use Black formatter with `--preview` flag for consistent code formatting
-- Use isort with Black profile for import sorting
+- Use Ruff formatter for consistent code formatting
+- Use Ruff for import sorting
 - Use pycln for removing unused imports
 - Place all imports at the top of the module; **NEVER EVER** import inside functions or conditional blocks
+- **Never** use single-char variable names (e.g., `i`). Even for one-line generators.
 
 ### Type Safety
 
@@ -58,7 +59,7 @@ The project uses a dual translation system:
 - Main translation management through Crowdin platform
 - Configuration in `crowdin.yml`
 - Two translation formats supported:
-    1. **YAML files**: `sophie_bot/localization/en.yaml` → `sophie_bot/localization/{locale}.yaml`
+    1. **YAML files (legacy / outdated)**: `sophie_bot/localization/en.yaml` → `sophie_bot/localization/{locale}.yaml`
     2. **Gettext POT/PO**: `locales/sophie.pot` → `locales/{locale}/LC_MESSAGES/sophie.po`
 
 ### Making Text Translatable
@@ -179,6 +180,7 @@ sophie_bot/
 ├── middlewares/       # Aiogram middlewares
 ├── modules/           # Feature modules
 │   └── {module_name}/
+│       ├── api/           # REST API routes
 │       ├── handlers/      # Command handlers
 │       ├── utils/         # Utility functions
 │       ├── filters/       # Module-specific filters
@@ -272,17 +274,13 @@ await message.reply(str(doc))
 - **beanie 2+**: MongoDB ODM built on Pydantic
 - **pydantic 2+**: Data validation and settings management
 - **pydantic-ai-slim**: AI integration framework
-- **motor 3.6+**: Async MongoDB driver
 - **redis 6+**: Redis client for caching
 
 ### Development Dependencies
 
 - **ty 0.0.10+**: Static type checker
-- **black 24+**: Code formatter
-- **isort**: Import sorter
-- **flake8 7+**: Linting
+- **ruff**: Code formatter and linter
 - **pytest 8.3+**: Testing framework
-- **pycln 2.1+**: Unused import remover
 
 ### AI and ML Libraries
 

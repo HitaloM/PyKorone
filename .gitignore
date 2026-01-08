@@ -3,23 +3,16 @@ __pycache__/
 *.py[cod]
 *.pyc
 
-# Telethon session cache
-*.session
-*.session-journal
-
 # Config
-data/bot_conf.yaml
 data/config.env
 
 # Ansible inv
 data/*.yaml
 
-# Logs
-logs/
-
 # Virtual envirment
 .venv/
 
+# IDEs
 .vscode/
 .idea/
 
@@ -31,20 +24,6 @@ allure_results/
 
 # Build
 output/
-
-# Wiki
-wiki/node_modules
-wiki/.*
-# wiki/docs/modules/
-
-# AI
-data/ai_dev.json
-.junie/
-.aiassistant/
-.kilocode
-AGENTS.md
-/AI_GUIDELINES.md
-.github/AI_GUIDELINES.md
 
 # OpenAPI
 openapi.json
