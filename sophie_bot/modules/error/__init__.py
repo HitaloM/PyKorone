@@ -2,11 +2,10 @@ from aiogram import Router
 
 from sophie_bot.filters.user_status import IsOP
 from sophie_bot.utils.i18n import lazy_gettext as l_
-
-from ...filters.cmd import CMDFilter
-from ...middlewares import try_localization_middleware
 from .handlers.crash_handler import crash_handler
 from .handlers.error import SophieErrorHandler
+from ...filters.cmd import CMDFilter
+from ...middlewares import try_localization_middleware
 
 router = Router(name="error")
 

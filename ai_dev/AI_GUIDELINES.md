@@ -17,7 +17,7 @@ carefully before starting work on any new features or modifications.
 ### Type Safety
 
 - **ALWAYS** use type annotations for all function parameters and return values
-- The project is tested against mypy - all code must pass mypy type checking
+- The project is tested against ty - all code must pass ty type checking
 - Use `from __future__ import annotations` for forward references when needed
 - Prefer strict typing with `Union` types over `Any`
 - Example:
@@ -95,7 +95,7 @@ async def translate_command():
     - `fix_code_style`: Auto-fixes code formatting
     - `extract_lang`: Extracts translatable strings
     - `test_code_style`: Checks code style compliance
-    - `test_codeanalysis`: Runs mypy type checking
+    - `test_codeanalysis`: Runs ty type checking
     - `run_tests`: Executes pytest test suite
     - `gen_wiki`: Generates project wiki
     - `gen_openapi`: Generates OpenAPI documentation
@@ -104,7 +104,7 @@ async def translate_command():
 
 - `make fix_code_style`: Auto-format code (pycln + isort + black)
 - `make test_code_style`: Check code style without fixing
-- `make test_codeanalysis`: Run mypy type checker
+- `make test_codeanalysis`: Run ty type checker
 - `make run_tests`: Run pytest with Allure reporting
 - `make locale`: Full translation workflow
 - `make new_lang LANG=xx_XX`: Create new language support
@@ -277,7 +277,7 @@ await message.reply(str(doc))
 
 ### Development Dependencies
 
-- **mypy 1.11+**: Static type checker
+- **ty 0.0.10+**: Static type checker
 - **black 24+**: Code formatter
 - **isort**: Import sorter
 - **flake8 7+**: Linting
@@ -551,7 +551,7 @@ async def admin_route(operator: ChatModel = Depends(get_current_operator)):
 
 ## Quality Assurance
 
-- All code must pass mypy type checking
+- All code must pass ty type checking
 - All code must pass flake8 linting
 - All code must be formatted with Black
 - All user-facing text must be translatable
@@ -627,7 +627,7 @@ File reference:
 2. Choose the default carefully:
     - Kill‑switch for risky changes: default to `True` (enabled) so you can turn it off on incidents
     - Gradual rollout (new area): default to `False` (disabled) until explicitly enabled
-3. Run `make commit` to format and type‑check (mypy must pass).
+3. Run `make commit` to format and type‑check (ty must pass).
 
 ### Using a Flag in Handlers/Services
 

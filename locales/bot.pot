@@ -311,7 +311,7 @@ msgid "✨ Note was successfully generated"
 msgstr ""
 
 #: sophie_bot/modules/ai/handlers/aisave.py:60
-#: sophie_bot/modules/notes/handlers/save.py:51
+#: sophie_bot/modules/notes/handlers/save.py:53
 #, python-brace-format
 msgid "Use {cmd} to retrieve this note."
 msgstr ""
@@ -827,7 +827,7 @@ msgstr ""
 msgid "✅ All the commands ({removed_count}) have been enabled in the {chat_name}"
 msgstr ""
 
-#: sophie_bot/modules/error/__init__.py:13
+#: sophie_bot/modules/error/__init__.py:12
 msgid "Error"
 msgstr ""
 
@@ -2763,11 +2763,11 @@ msgstr ""
 msgid "Save the note."
 msgstr ""
 
-#: sophie_bot/modules/notes/handlers/save.py:48
+#: sophie_bot/modules/notes/handlers/save.py:50
 msgid "Note was successfully created"
 msgstr ""
 
-#: sophie_bot/modules/notes/handlers/save.py:48
+#: sophie_bot/modules/notes/handlers/save.py:50
 msgid "Note was successfully updated"
 msgstr ""
 
@@ -2960,28 +2960,40 @@ msgstr ""
 msgid "Local chat"
 msgstr ""
 
-#: sophie_bot/modules/notes/utils/parse.py:72
+#: sophie_bot/modules/notes/utils/parse.py:75
 msgid "Please check the notes documentation for the list of the allowed content types."
 msgstr ""
 
-#: sophie_bot/modules/notes/utils/parse.py:73
+#: sophie_bot/modules/notes/utils/parse.py:76
 msgid "Reply message content is not parsable as the note."
 msgstr ""
 
-#: sophie_bot/modules/notes/utils/parse.py:105
+#: sophie_bot/modules/notes/utils/parse.py:113
+msgid "The buttons are not valid."
+msgstr ""
+
+#: sophie_bot/modules/notes/utils/parse.py:114
+msgid "Please check the buttons documentation for the list of the allowed buttons."
+msgstr ""
+
+#: sophie_bot/modules/notes/utils/parse.py:116
+msgid "Buttons are not valid."
+msgstr ""
+
+#: sophie_bot/modules/notes/utils/parse.py:124
 #, python-brace-format
 msgid "The maximum length of the note is {limit} characters."
 msgstr ""
 
-#: sophie_bot/modules/notes/utils/parse.py:106
+#: sophie_bot/modules/notes/utils/parse.py:125
 msgid "Please try to reduce the length of the note."
 msgstr ""
 
-#: sophie_bot/modules/notes/utils/parse.py:107
+#: sophie_bot/modules/notes/utils/parse.py:126
 msgid "Note is too long."
 msgstr ""
 
-#: sophie_bot/modules/notes/utils/send.py:106
+#: sophie_bot/modules/notes/utils/send.py:110
 msgid "The text is too long"
 msgstr ""
 

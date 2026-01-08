@@ -26,10 +26,7 @@ class MarkdownLinkArgument(ArgFabric[ArgValueType], ABC):
     _link_name: str
     _link_data: str
 
-    ignored_entities: tuple[str, ...] = (
-        'url',
-        'text_link'
-    )
+    ignored_entities: tuple[str, ...] = ("url", "text_link")
 
     @cached_property
     def data_offset(self) -> int:

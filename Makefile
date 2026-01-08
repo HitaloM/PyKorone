@@ -40,29 +40,29 @@ clean:
 
 build_onefile:
 	@echo "Building onefile..."
-	poetry run python -m nuitka $(PROJECT_DIR) $(NUITKA_ARGS) --standalone --onefile --linux-onefile-icon=build/icon.png
+	uv run python -m nuitka $(PROJECT_DIR) $(NUITKA_ARGS) --standalone --onefile --linux-onefile-icon=build/icon.png
 
 build_standalone:
 	@echo "Building standalone..."
-	poetry run python -m nuitka $(PROJECT_DIR) $(NUITKA_ARGS) --standalone
+	uv run python -m nuitka $(PROJECT_DIR) $(NUITKA_ARGS) --standalone
 
 
 fix_code_style:
-	poetry run python -m pycln . -a
-	poetry run ruff check . --fix
-	poetry run ruff format sophie_bot/
+	uv run python -m pycln . -a
+	uv run ruff check . --fix
+	uv run ruff format sophie_bot/
 
 test_code_style:
-	poetry run python -m pycln . -a -c
-	poetry run ruff format sophie_bot/ --check
-	poetry run ruff check .
+	uv run python -m pycln . -a -c
+	uv run ruff format sophie_bot/ --check
+	uv run ruff check .
 
 test_codeanalysis:
-	# poetry run python -m bandit sophie_bot/ -r
-	poetry run mypy -p sophie_bot
+	# uv run python -m bandit sophie_bot/ -r
+	uv run ty check
 
 run_tests:
-	poetry run python -m pytest tests/ -v --alluredir=allure_results
+	uv run python -m pytest tests/ -v --alluredir=allure_results
 
 # Locale
 
@@ -100,12 +100,12 @@ new_locale:
 
 # Wiki
 gen_wiki:
-	poetry run python tools/wiki_gen/start.py
+	uv run python tools/wiki_gen/start.py
 
 
 # REST API
 gen_openapi:
-	poetry run python tools/openapi_gen/generate.py
+	uv run python tools/openapi_gen/generate.py
 
 api:
 	make gen_openapi
