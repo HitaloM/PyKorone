@@ -11,12 +11,10 @@ from sophie_bot.utils.logger import log
 
 
 # We need to patch the databases in order to be able to run this in CI without them.
-@patch('motor.motor_asyncio.AsyncIOMotorClient')
-@patch('redis.asyncio.Redis')
-@patch('redis.StrictRedis')
-def generate_openapi(mock_redis, mock_aredis, mock_motor):
+@patch("redis.asyncio.Redis")
+@patch("redis.StrictRedis")
+def generate_openapi(mock_redis, mock_aredis):
     mock_aredis.return_value = AsyncMock()
-    mock_motor.return_value = AsyncMock()
 
     log.info("Starting OpenAPI generation task...")
     dp = Dispatcher()
@@ -41,5 +39,5 @@ def generate_openapi(mock_redis, mock_aredis, mock_motor):
     log.info(f"OpenAPI documentation generated to {output_path}")
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     generate_openapi()
