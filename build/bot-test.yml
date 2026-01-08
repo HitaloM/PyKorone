@@ -21,7 +21,7 @@ test-codestyle:
     policy: pull-push
   before_script:
     - pip install uv
-    - uv sync --with dev
+    - uv sync --dev
   script:
     - uv run make test_code_style
 
@@ -38,7 +38,7 @@ test-codeanal:
     policy: pull-push
   before_script:
     - pip install uv
-    - uv sync --with dev
+    - uv sync --dev
   script:
     - uv run make test_codeanalysis
 
