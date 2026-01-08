@@ -1,5 +1,5 @@
 from aiogram import Router
-from modules.locks.handlers.lockable import ListLockableHandler
+from sophie_bot.modules.locks.handlers.lockable import ListLockableHandler
 
 from sophie_bot.utils.i18n import lazy_gettext as l_
 

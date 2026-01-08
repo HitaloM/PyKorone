@@ -1,12 +1,13 @@
 build_linux_onefile:
   stage: build
-  image: d21d3q/python-poetry
+  image: python:3.13-slim
   before_script:
     - apt update; apt install patchelf ccache -y
     - ccache -s
-    - poetry install --with dev
+    - pip install uv
+    - uv sync --with dev
   script:
-    - poetry run make build_onefile
+    - uv run make build_onefile
   artifacts:
     name: "$CI_JOB_STAGE-$CI_COMMIT_REF_NAME"
     paths:
@@ -26,11 +27,11 @@ build_linux_onefile:
 #    - choco feature enable -n allowGlobalConfirmation
 #    - choco install python
 #    - choco install make
-#    - (Invoke-WebRequest -Uri https://install.python-poetry.org -UseBasicParsing).Content | py -
+#    - (Invoke-WebRequest -Uri https://astral.sh/uv/install.ps1 -UseBasicParsing).Content | powershell -
 #    - $env:Path += ";C:\Users\gitlab_runner\AppData\Roaming\Python\Scripts"
 #  script:
-#    - poetry install --with dev
-#    - poetry run make build_onefile
+#    - uv sync --with dev
+#    - uv run make build_onefile
 #  artifacts:
 #    name: "$CI_JOB_STAGE-$CI_COMMIT_REF_NAME"
 #    paths:

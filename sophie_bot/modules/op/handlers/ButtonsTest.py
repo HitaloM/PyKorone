@@ -1,8 +1,10 @@
 from __future__ import annotations
 
-from typing import Any, Dict
+from typing import Any
 
 from aiogram.dispatcher.event.handler import CallbackType
+from aiogram.types import Message
+from ass_tg.types.base_abc import ArgFabric
 
 from sophie_bot.filters.cmd import CMDFilter
 from sophie_bot.filters.user_status import IsOP
@@ -16,7 +18,7 @@ class ButtonsTestHandler(SophieMessageHandler):
         return CMDFilter("op_buttons"), IsOP(True)
 
     @classmethod
-    async def handler_args(cls, message, data: Dict) -> Dict[str, object]:
+    async def handler_args(cls, message: Message | None, data: dict) -> dict[str, ArgFabric]:
         return {
             "buttons": ButtonsArgList(),
         }

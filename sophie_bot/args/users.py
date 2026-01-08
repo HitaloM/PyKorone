@@ -1,5 +1,3 @@
-from typing import Optional
-
 from aiogram.types import User
 from ass_tg.entities import ArgEntities
 from ass_tg.exceptions import ArgStrictError
@@ -46,7 +44,7 @@ class SophieUsernameArg(UsernameArg):
 class SophieUserMentionArg(UserMentionArg):
     async def parse(self, text: str, offset: int, entities: ArgEntities) -> tuple[int, ChatModel]:
         aiogram_user: User
-        len, aiogram_user = await super().parse(text, offset, entities)
+        length, aiogram_user = await super().parse(text, offset, entities)
 
         # Find user
         try:
@@ -55,7 +53,7 @@ class SophieUserMentionArg(UserMentionArg):
             # TODO: Insert user
             user = ChatModel.get_user_model(aiogram_user)
 
-        return len, user
+        return length, user
 
 
 class SophieUserArg(OrArg):
@@ -74,11 +72,11 @@ class SophieUserArg(OrArg):
         )
 
     @property
-    def examples(self) -> Optional[dict[str, Optional[LazyProxy]]]:
+    def examples(self) -> dict[str, LazyProxy | None] | None:
         return {
             "1111224224": l_("User ID"),
             "@ofoxr_bot": l_("Username"),
             UserLink(user_id=1111224224, name="OrangeFox BOT"): l_(
                 "A link to user, usually creates by mentioning a user without username."
             ),
-        }
+        }  # ty:ignore[invalid-return-type]

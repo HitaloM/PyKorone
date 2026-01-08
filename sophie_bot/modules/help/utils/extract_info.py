@@ -2,9 +2,10 @@ from asyncio import iscoroutinefunction
 from collections import OrderedDict
 from dataclasses import dataclass
 from itertools import chain
-from mailbox import Message
 from types import ModuleType
 from typing import Any, Callable, Coroutine, Dict, Optional, cast
+
+from aiogram.types import Message
 
 from aiogram import Router
 from aiogram.filters.logic import _InvertFilter
@@ -75,15 +76,15 @@ def get_all_cmds_raw() -> tuple[str, ...]:
     return tuple(cmd for cmds in get_all_cmds() for cmd in cmds.cmds)
 
 
-async def gather_cmd_args(args: ARGS_DICT | ARGS_COROUTINE | None) -> ARGS_DICT | None:
+async def gather_cmd_args(args: ARGS_DICT | ARGS_COROUTINE | None) -> Optional[ARGS_DICT]:
     if not args:
         return None
-    elif isinstance(args, dict):
-        return args
-    elif iscoroutinefunction(args):
-        return await args(None, {})
-    else:
-        raise ValueError
+    if isinstance(args, dict):
+        return cast(ARGS_DICT, args)
+    if iscoroutinefunction(args):
+        result = await args(None, {})
+        return cast(ARGS_DICT, result)
+    raise ValueError
 
 
 async def gather_cmds_help(router: Router) -> list[HandlerHelp]:
@@ -163,12 +164,12 @@ async def gather_cmds_help(router: Router) -> list[HandlerHelp]:
         cmd = HandlerHelp(
             cmds=cmds,
             args=args,
-            description=help_flags.get("description", None) if help_flags else None,
+            description=help_flags.get("description", "") if help_flags else "",
             only_admin=only_admin,
             only_op=only_op,
             only_pm=only_pm,
             only_chats=only_chats,
-            alias_to_modules=help_flags.get("alias_to_modules", None) if help_flags else [],
+            alias_to_modules=help_flags.get("alias_to_modules", []) if help_flags else [],
             disableable=disableable,
         )
         helps.append(cmd)
@@ -199,8 +200,8 @@ async def gather_module_help(module: ModuleType) -> Optional[ModuleHelp]:
             name=name,
             icon=emoji,
             exclude_public=exclude_public,
-            info=info,
-            description=description,
+            info=info or "",
+            description=description or "",
             advertise_wiki_page=advertise_wiki_page,
         )
     else:

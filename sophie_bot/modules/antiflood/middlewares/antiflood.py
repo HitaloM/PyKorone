@@ -6,6 +6,7 @@ from aiogram import BaseMiddleware
 from aiogram.dispatcher.event.bases import CancelHandler
 from aiogram.enums import ChatType, ContentType
 from aiogram.types import Message, TelegramObject
+from babel.support import LazyProxy
 from stfu_tg import Doc, Title
 from stfu_tg.doc import Element
 
@@ -63,7 +64,7 @@ class AntifloodMiddleware(BaseMiddleware):
     @staticmethod
     async def _apply_action(
         message: Message, data: dict[str, Any], action: FilterActionType
-    ) -> tuple[bool, Element | str | None]:
+    ) -> tuple[bool, Element | str | LazyProxy | None]:
         """Apply a single configured antiflood action using modern actions."""
         if not message.from_user:
             return False, ""
@@ -113,7 +114,7 @@ class AntifloodMiddleware(BaseMiddleware):
         # Check if a threshold exceeded
         if count >= antiflood_model.message_count:
             # Apply all configured actions sequentially
-            results: list[Element | str] = []
+            results: list[Element | str | LazyProxy] = []
             any_success = False
             for action in antiflood_model.actions:
                 success, text = await self._apply_action(event, data, action)

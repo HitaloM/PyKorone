@@ -1,6 +1,7 @@
 import datetime
 import html
 from typing import Any, Awaitable, Callable
+from typing_extensions import override
 
 from aiogram import BaseMiddleware
 from aiogram.types import Message, TelegramObject
@@ -66,13 +67,18 @@ async def update_user(chat_id, new_user):
 
 
 class LegacySaveChats(BaseMiddleware):
+    @override
     async def __call__(
         self,
         handler: Callable[[TelegramObject, dict[str, Any]], Awaitable[Any]],
-        message: Message,
+        event: TelegramObject,
         data: dict[str, Any],
     ) -> Any:
+        if not isinstance(event, Message):
+            return await handler(event, data)
+
         log.debug('Middleware "LegacySaveChats"')
+        message = event
         chat_id = message.chat.id
 
         # Update chat
@@ -128,4 +134,4 @@ class LegacySaveChats(BaseMiddleware):
             await update_user(chat_id, message.forward_from)
 
         log.debug('Middleware "LegacySaveChats" done')
-        return await handler(message, data)
+        return await handler(event, data)

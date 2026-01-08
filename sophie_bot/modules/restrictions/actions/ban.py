@@ -87,7 +87,7 @@ class BanModernAction(ModernActionABC[BanActionDataModel]):
             ),
         }
 
-    async def handle(self, message: Message, data: dict, filter_data: BanActionDataModel) -> Element:
+    async def handle(self, message: Message, data: dict, filter_data: BanActionDataModel) -> Optional[Element]:
         if not message.from_user:
             return
 

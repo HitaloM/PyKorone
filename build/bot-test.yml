@@ -1,58 +1,59 @@
 variables:
   PIP_CACHE_DIR: "$CI_PROJECT_DIR/.cache/pip"
-  POETRY_CACHE_DIR: "$CI_PROJECT_DIR/.cache/poetry"
+  UV_CACHE_DIR: "$CI_PROJECT_DIR/.cache/uv"
 
 cache:
   key: ${CI_COMMIT_REF_SLUG}
   paths:
     - .cache/pip
-    - .cache/poetry
+    - .cache/uv
     - .venv
 
 test-codestyle:
   stage: test
-  image: d21d3q/python-poetry:3.13
+  image: python:3.13-slim
   cache:
     key: ${CI_COMMIT_REF_SLUG}
     paths:
       - .cache/pip
-      - .cache/poetry
+      - .cache/uv
       - .venv
     policy: pull-push
   before_script:
-    - poetry config virtualenvs.in-project true
-    - poetry install --with dev --no-interaction
+    - pip install uv
+    - uv sync --with dev
   script:
-    - poetry run make test_code_style
+    - uv run make test_code_style
 
 
 test-codeanal:
   stage: test
-  image: d21d3q/python-poetry:3.13
+  image: python:3.13-slim
   cache:
     key: ${CI_COMMIT_REF_SLUG}
     paths:
       - .cache/pip
-      - .cache/poetry
+      - .cache/uv
       - .venv
     policy: pull-push
   before_script:
-    - poetry config virtualenvs.in-project true
-    - poetry install --with dev --no-interaction
+    - pip install uv
+    - uv sync --with dev
   script:
-    - poetry run make test_codeanalysis
+    - uv run make test_codeanalysis
 
 
 #test-code:
 #  variables:
 #    TOKEN: "123456:test"
 #  stage: test
-#  image: d21d3q/python-poetry
+#  image: python:3.13-slim
 #  before_script:
-#    - poetry install --with dev
-#    - poetry run make new_locale
+#    - pip install uv
+#    - uv sync --with dev
+#    - uv run make new_locale
 #  script:
-#    - poetry run make test_code
+#    - uv run make test_code
 #  artifacts:
 #    when: always
 #    paths:

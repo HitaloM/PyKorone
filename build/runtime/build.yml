@@ -14,7 +14,7 @@ build_runtime_container:
     # build
     podman manifest create "$IMAGE_FULL"
     podman build \
-      --platform linux/amd64,linux/arm64 \
+      --platform linux/amd64 \
       --manifest "$IMAGE_FULL" \
       --file build/runtime/Dockerfile \
       --layers \

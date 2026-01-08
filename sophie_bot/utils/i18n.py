@@ -5,6 +5,7 @@ from typing import Any, Callable, Optional
 
 from aiogram.utils.i18n import I18n
 from babel.core import Locale
+from babel.support import LazyProxy as BabelLazyProxy
 from flag import flag
 
 from sophie_bot.utils.logger import log
@@ -112,31 +113,21 @@ def gettext(*args: Any, **kwargs: Any) -> str:
     return get_i18n().gettext(*args, **kwargs)
 
 
-class LazyProxy:
+class LazyProxy(BabelLazyProxy):
     def __init__(self, *items: str | Callable, **kwargs):
-        self.items = items
-        self.kwargs = kwargs
-
-    def _i18n(self):
-        if callable(self.items[0]):
-            return str(self.items[0](**self.kwargs))
-        return gettext(*self.items, **self.kwargs)
-
-    def __str__(self):
-        return self._i18n()
+        if callable(items[0]):
+            func = items[0]
+            args = items[1:]
+        else:
+            func = gettext
+            args = items
+        super().__init__(func, *args, **kwargs)
 
     def __eq__(self, other):
-        text = self._i18n()
-        return text == other
+        return str(self) == other
 
-    def __contains__(self, item):
-        return self._i18n() in item
-
-    def __add__(self, other):
-        return self._i18n() + other
-
-    def __radd__(self, other):
-        return other + self._i18n()
+    def __contains__(self, key: object) -> bool:
+        return str(self) in str(key)
 
 
 def lazy_plural_gettext(*args: Any, **kwargs: Any):

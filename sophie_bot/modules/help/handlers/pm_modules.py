@@ -92,7 +92,7 @@ class PMModuleHelp(CallbackQueryHandler):
         doc = Doc(
             HList(
                 Title(f"{module.icon} {module.name}"),
-                ("- " + module.description) if module.description else None,
+                f"- {module.description}" if module.description else None,
             )
         )
         if module.info:

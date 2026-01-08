@@ -5,7 +5,7 @@ Modern, fast Telegram chat manager bot.
 ## Requirements
 
 - Python 3.12+
-- Poetry
+- uv (package manager)
 - MongoDB
 - Redis
 
@@ -19,12 +19,12 @@ Modern, fast Telegram chat manager bot.
 ## Quick start (for development, not production)
 
 1. Install dependencies:
-    - poetry install
+    - uv sync
 2. Configure:
     - cp data/config.example.env data/config.env
     - Edit data/config.env (TOKEN, APP_ID/APP_HASH, Mongo/Redis, OWNER_ID, etc.).
 3. Run:
-    - poetry run python -m sophie_bot
+    - uv run python -m sophie_bot
 
 Optional: set MODE in config.env to scheduler to run the scheduler mode.
 

@@ -49,14 +49,15 @@ dev = [
     "types-ujson>=5.10.0.20240515,<6",
     "types-pytz>=2025,<2026",
     "pytest-asyncio>=1.3.0,<2",
-    "babel>=2.16.0,<3",
     "allure-pytest>=2.13.5,<3",
     "pytest>=9.0.2,<10",
     "fakeredis>=2.27.0,<3",
     "ty>=0.0.10",
+    "babel>=2.17.0",
 ]
 
 [tool.ty.src]
+include = ["sophie_bot/**"]
 exclude = ["**/legacy_modules/**", "**/legacy_*.py"]
 
 [tool.ty.environment]

@@ -301,8 +301,8 @@ await message.reply(str(doc))
 
 ## Development Workflow
 
-1. **Setup**: Ensure Python 3.12+, Poetry, MongoDB, and Redis are installed
-2. **Dependencies**: `poetry install`
+1. **Setup**: Ensure Python 3.12+, uv, MongoDB, and Redis are installed
+2. **Dependencies**: `uv sync`
 3. **Configuration**: Copy and edit `data/config.example.env` to `data/config.env`
 4. **Development**: Write code following these guidelines
 5. **Testing**: Run `make commit` to validate all changes

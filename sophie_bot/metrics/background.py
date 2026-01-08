@@ -64,7 +64,7 @@ async def _get_version_from_pyproject() -> str:
 
         with open("pyproject.toml", "rb") as f:
             data = tomllib.load(f)
-            return data.get("tool", {}).get("poetry", {}).get("version", "unknown")
+            return data.get("project", {}).get("version", "unknown")
     except Exception:
         # Fallback to reading as text file
         try:

@@ -1,7 +1,7 @@
 from typing import Optional
-from xml.etree.ElementTree import Element
 
 from stfu_tg import Section, VList
+from stfu_tg.doc import Element as StfuElement
 
 from sophie_bot.modules.filters.types.modern_action_abc import ModernActionABC
 from sophie_bot.modules.filters.utils_.all_modern_actions import ALL_MODERN_ACTIONS
@@ -15,7 +15,7 @@ def get_modern_action_text(action: ModernActionABC):
     return f"{action.icon} {action.title}"
 
 
-def filter_action_text(action: Optional[str], actions: Optional[list[str]]) -> Element | LazyProxy:
+def filter_action_text(action: Optional[str], actions: Optional[list[str]]) -> StfuElement | LazyProxy:
     if not actions and not action:
         raise TypeError("No action provided for filter_action_text")
 

@@ -7,6 +7,7 @@ from aiogram.utils.keyboard import InlineKeyboardBuilder
 from ass_tg.types import TextArg
 from ass_tg.types.base_abc import ArgFabric
 from stfu_tg import Doc, Section, Title
+from stfu_tg.doc import Element
 
 from sophie_bot.filters.admin_rights import UserRestricting
 from sophie_bot.filters.chat_status import ChatTypeFilter
@@ -80,7 +81,7 @@ class FilterActionClickHandler(SophieCallbackQueryHandler):
     def filters() -> tuple[CallbackType, ...]:
         return FilterActionCallback.filter(), ~ChatTypeFilter("private"), UserRestricting(admin=True)
 
-    async def setup_message(self, filter_title: LazyProxy, text: LazyProxy | str, reply_markup: InlineKeyboardMarkup):
+    async def setup_message(self, filter_title: LazyProxy, text: Element | str, reply_markup: InlineKeyboardMarkup):
         # Set FSM state
         await self.state.set_state(FilterEditFSM.action_setup)
 

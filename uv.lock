@@ -1962,7 +1962,7 @@ requires-dist = [
 [package.metadata.requires-dev]
 dev = [
     { name = "allure-pytest", specifier = ">=2.13.5,<3" },
-    { name = "babel", specifier = ">=2.16.0,<3" },
+    { name = "babel", specifier = ">=2.17.0" },
     { name = "bandit", specifier = ">=1.7,<2" },
     { name = "devtools", extras = ["pygments"], specifier = ">=0.12,<0.13" },
     { name = "fakeredis", specifier = ">=2.27.0,<3" },

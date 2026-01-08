@@ -18,7 +18,7 @@ data/*.yaml
 logs/
 
 # Virtual envirment
-venv/
+.venv/
 
 .vscode/
 .idea/

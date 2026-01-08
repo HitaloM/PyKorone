@@ -39,7 +39,7 @@ class AISaveNote(MessageHandler):
 
         all_notes = await NoteModel.get_chat_notes(connection.tid)
         all_notenames = list(itertools.chain.from_iterable(note.names for note in all_notes))
-        all_groups = list(note.note_group for note in all_notes if note.note_group)
+        all_groups = [note.note_group for note in all_notes if note.note_group]  # type: ignore[list-item]
 
         data: AISaveResponseSchema = await self.make_request(all_notenames, all_groups)
 

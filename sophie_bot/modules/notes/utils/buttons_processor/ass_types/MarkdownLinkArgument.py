@@ -4,12 +4,12 @@ from functools import cached_property
 
 from ass_tg.entities import ArgEntities
 from ass_tg.exceptions import ArgCustomError
-from ass_tg.types.base_abc import ArgFabric, ArgValueType
+from ass_tg.types.base_abc import ArgFabric
 
 from sophie_bot.utils.i18n import gettext as _
 
 
-class MarkdownLinkArgument(ArgFabric[ArgValueType], ABC):
+class MarkdownLinkArgument(ArgFabric[tuple[str, str]], ABC):
     """
     Abstract Markdown link Argument.
     Example: [text](data)
@@ -27,6 +27,7 @@ class MarkdownLinkArgument(ArgFabric[ArgValueType], ABC):
     _link_data: str
 
     ignored_entities: tuple[str, ...] = ("url", "text_link")
+    separator = "]("
 
     @cached_property
     def data_offset(self) -> int:
@@ -41,7 +42,7 @@ class MarkdownLinkArgument(ArgFabric[ArgValueType], ABC):
 
         return True
 
-    async def parse(self, text: str, offset: int, entities: ArgEntities) -> tuple[int, ArgValueType]:
+    async def parse(self, text: str, offset: int, entities: ArgEntities) -> tuple[int, tuple[str, str]]:
         text_match = self._pattern.match(text)
         if not text_match:
             raise ArgCustomError(_("Invalid markdown link."), offset=offset)
@@ -50,8 +51,10 @@ class MarkdownLinkArgument(ArgFabric[ArgValueType], ABC):
 
         length = len("[")
 
+        ignored: tuple[str] = self.ignored_entities[0:1]  # type: ignore[literal-required]
+
         # Check if link name has entities
-        if entities.get_overlapping(1, len(link_name), self.ignored_entities):
+        if entities.get_overlapping(1, len(link_name), ignored):
             raise ArgCustomError(
                 _("Markdown link name cannot contain entities."),
                 offset=length + offset,
@@ -62,7 +65,7 @@ class MarkdownLinkArgument(ArgFabric[ArgValueType], ABC):
         length += len("](")
 
         # Check if link_data has entities
-        if entities := entities.get_overlapping(length, len(link_data) + 1, self.ignored_entities):
+        if entities := entities.get_overlapping(length, len(link_data) + 1, ignored):
             raise ArgCustomError(
                 _("Markdown link data cannot contain entities."),
                 offset=length + offset,

@@ -1,7 +1,8 @@
 from typing import Any, Awaitable, Callable, Iterable, List, Optional
+from typing_extensions import override
 
 from aiogram import BaseMiddleware
-from aiogram.types import Chat, ChatMemberUpdated, Message, Update, User
+from aiogram.types import Chat, ChatMemberUpdated, Message, TelegramObject, Update, User
 
 from sophie_bot.config import CONFIG
 from sophie_bot.db.models import ChatModel
@@ -151,7 +152,7 @@ class SaveChatsMiddleware(BaseMiddleware):
 
         if reply_message := message.reply_to_message:
             chat_id = reply_message.chat.id
-            await self.save_topic(message.reply_to_message, group)
+            await self.save_topic(reply_message, group)
             chats_to_update.extend(await self.handle_replied_message(reply_message, chat_id))
 
         elif message.forward_from or (message.forward_from_chat and message.forward_from_chat.id != group.tid):
@@ -210,21 +211,24 @@ class SaveChatsMiddleware(BaseMiddleware):
 
         return True
 
+    @override
     async def __call__(
         self,
-        handler: Callable[[Update, dict[str, Any]], Awaitable[Any]],
-        update: Update,  # type: ignore[override]
+        handler: Callable[[TelegramObject, dict[str, Any]], Awaitable[Any]],
+        event: TelegramObject,
         data: dict[str, Any],
     ) -> Any:
         _continue = True
-        if update.message:
-            await self.handle_message(update.message, data)
-        elif any([update.callback_query, update.inline_query, update.poll_answer]):
+        if not isinstance(event, Update):
+            return await handler(event, data)
+        if event.message:
+            await self.handle_message(event.message, data)
+        elif any([event.callback_query, event.inline_query, event.poll_answer]):
             await self.save_from_user(data)
-        elif update.my_chat_member:
-            _continue = await self.save_my_chat_member(update.my_chat_member)
+        elif event.my_chat_member:
+            _continue = await self.save_my_chat_member(event.my_chat_member)
 
-        return await handler(update, data) if _continue else None
+        return await handler(event, data) if _continue else None
 
 
 #

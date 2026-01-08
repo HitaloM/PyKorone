@@ -1,3 +1,5 @@
+from typing import Optional
+
 from aiogram.types import Message
 from stfu_tg import Template, Title, UserLink
 from stfu_tg.doc import Doc, Element
@@ -20,7 +22,7 @@ class KickModernAction(ModernActionABC[None]):
     def description(data: None) -> Element | str:
         return _("Kicks a user")
 
-    async def handle(self, message: Message, data: dict, filter_data: None) -> Element:
+    async def handle(self, message: Message, data: dict, filter_data: None) -> Optional[Element]:
         if not message.from_user:
             return
 

@@ -6,15 +6,13 @@ ENV PIP_DEFAULT_TIMEOUT=100 \
 
 RUN apt update
 RUN apt install -y build-essential gcc git pkg-config libicu-dev
-RUN pip install poetry wheel
+RUN pip install uv
 RUN python -m venv /venv
 
-RUN poetry self add poetry-plugin-export
-
 WORKDIR /build
-COPY ../../pyproject.toml poetry.lock ./
+COPY ../../pyproject.toml uv.lock ./
 
-RUN poetry export -f requirements.txt -E fast --without-hashes | /venv/bin/pip install -r /dev/stdin
+RUN uv export requirements.txt --format requirements-txt | /venv/bin/pip install -r /dev/stdin
 
 COPY ../../sophie_bot sophie_bot
 COPY ../../locales locales
@@ -22,7 +20,7 @@ COPY ../../Makefile Makefile
 
 RUN bash -c "source /venv/bin/activate; make new_lang=en_US; make compile_lang"
 
-RUN poetry build && /venv/bin/pip install dist/*.whl
+RUN uv build --wheel && /venv/bin/pip install dist/*.whl
 
 COPY ../../.git .git
 RUN BRANCH_NAME=$(git rev-parse --abbrev-ref HEAD) && \

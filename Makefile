@@ -1,22 +1,11 @@
 PROJECT_DIR := "sophie_bot"
 
-ENV := $(shell poetry env info --path)
+# Use uv for package management - no need for explicit environment path
+PYTHON := "uv"
+ASS_PATH := $(shell uv run python -c "import ass_tg as _; print(_.__path__[0])")
 
-# Replace \ with \\ for windows
-# ENV := $(shell cygpath "${ENV}")
-
-#PYTHON := $(subst \,/,$(PYTHON))
-PYTHON := "$(ENV)/scripts/python"
-
-ASS_PATH := $(shell poetry run python -c "import ass_tg as _; print(_.__path__[0])")
-
-ifneq ("$(wildcard $(ENV)/scripts/pybabel)","")
-	PYBABEL := "$(ENV)/scripts/pybabel"
-else ifneq ("$(wildcard $(ENV)/bin/pybabel)","")
-	PYBABEL := "$(ENV)/bin/pybabel" 
-else
-	PYBABEL := "pybabel"
-endif
+# Use uv run for pybabel
+PYBABEL := "pybabel"
 
 NUITKA := "python" "-m" "nuitka"
 NUITKA_ARGS := "--prefer-source-code" "--plugin-enable=pylint-warnings" "--follow-imports" \
@@ -114,11 +103,10 @@ api:
 
 
 dev_deps:
-	rm -rf "$(ENV)/lib/site-packages/ass_tg"
-	rm -rf "$(ENV)/lib/site-packages/stfu_tg"
-
-	ln -s "$(realpath ../ass/ass_tg)" "$(ENV)/lib/site-packages/"
-	ln -s "$(realpath ../stf/stfu_tg)" "$(ENV)/lib/site-packages/"
+	# For uv, we need to edit the packages directly in the environment
+	# This is a placeholder - uv doesn't have the same editable install pattern as poetry
+	@echo "dev_deps target needs to be updated for uv workflow"
+	@echo "Consider using 'uv add --editable ../ass' and 'uv add --editable ../stf' instead"
 
 # -----------------------------
 # AI-assisted development setup

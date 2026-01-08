@@ -22,7 +22,7 @@ class URLButton(SophieButtonABC):
             "[Button name](btnurl:https://google.com)": None,
         }
 
-    async def parse(self, text: str, offset: int, entities: ArgEntities) -> tuple[int, AssButtonData[str]]:
+    async def parse(self, text: str, offset: int, entities: ArgEntities) -> tuple[int, AssButtonData[str]]:  # type: ignore[override]
         length, data = await super().parse(text, offset, entities)
         raw_url: str = data.arguments[0]
 

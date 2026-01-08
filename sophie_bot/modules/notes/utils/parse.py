@@ -10,8 +10,9 @@ from ass_tg.types import ReverseArg, TextArg
 from stfu_tg import Section
 
 from sophie_bot.db.models.notes import NoteFile, Saveable, CURRENT_SAVEABLE_VERSION
+from sophie_bot.db.models.notes_buttons import Button
 from sophie_bot.modules.notes.utils.buttons_processor.ass_types.parse_arg import ButtonsArg
-from sophie_bot.modules.notes.utils.buttons_processor.buttons import parse_message_buttons, ButtonsList
+from sophie_bot.modules.notes.utils.buttons_processor.buttons import ButtonsList, parse_message_buttons
 from sophie_bot.utils.exception import SophieException
 from sophie_bot.utils.i18n import gettext as _
 
@@ -68,7 +69,7 @@ def extract_file_info(message: Message) -> Optional[NoteFile]:
     return NoteFile(id=file_id, type=ContentType(message.content_type)) if file_id else None
 
 
-def parse_reply_message(message: Message) -> tuple[Optional[str], Optional[NoteFile], ButtonsList]:
+def parse_reply_message(message: Message) -> tuple[str, Optional[NoteFile], list[list[Button]]]:
     if message.content_type not in (*PARSABLE_CONTENT_TYPES, ContentType.TEXT):
         raise SophieException(
             Section(
@@ -102,8 +103,8 @@ async def parse_saveable(message: Message, text: Optional[str], allow_reply_mess
     # Parse buttons
     try:
         arg = ReverseArg(text=TextArg(), buttons=ButtonsArg())
-        entities = ArgEntities(message.entities).cut_before(offset)
-        _length, result = await arg.parse(note_text, 0, entities)
+        entities = ArgEntities(message.entities or []).cut_before(offset)
+        _length, result = await arg.parse(note_text or "", 0, entities)
         note_text = result["text"].value
         buttons: ButtonsList = ButtonsList.from_ass(result["buttons"].value)
         buttons.extend(replied_buttons)

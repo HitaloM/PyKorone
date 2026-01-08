@@ -59,13 +59,20 @@ class SaveNote(SophieMessageHandler):
     async def save(self, saveable: Saveable, notenames: Sequence[str], chat_id: int, data: dict) -> bool:
         model = await NoteModel.get_by_notenames(chat_id, notenames)
 
-        saveable_data = {
+        # Explicitly type the saveable data to ensure type safety
+        saveable_dump = saveable.model_dump()
+        saveable_data: dict[str, Any] = {
             "chat_id": chat_id,
             "names": notenames,
             "note_group": data.get("note_group"),
             "description": data.get("description"),
             "ai_description": False,
-            **saveable.model_dump(),
+            "text": saveable_dump["text"],
+            "file": saveable_dump["file"],
+            "buttons": saveable_dump["buttons"],
+            "parse_mode": saveable_dump["parse_mode"],
+            "preview": saveable_dump["preview"],
+            "version": saveable_dump["version"],
         }
 
         if not model:

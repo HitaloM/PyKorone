@@ -1,4 +1,4 @@
-from typing import Any
+from typing import Any, Optional
 
 from aiogram.types import CallbackQuery, Message
 from pydantic import BaseModel
@@ -74,7 +74,7 @@ class AIReplyAction(ModernActionABC[AIReplyActionDataModel]):
             ),
         }
 
-    async def handle(self, message: Message, data: dict, filter_data: AIReplyActionDataModel) -> Element:
+    async def handle(self, message: Message, data: dict, filter_data: AIReplyActionDataModel) -> Optional[Element]:
         connection: ChatConnection = data["connection"]
 
         if not (chat_db := await ChatModel.get_by_tid(connection.tid)):

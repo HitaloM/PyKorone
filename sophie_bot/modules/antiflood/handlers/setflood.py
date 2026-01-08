@@ -54,4 +54,4 @@ class SetFloodHandler(StatusHandlerABC[int | Literal[False]]):
         """Override to provide custom status text formatting."""
         if status_data is False:
             return _("Disabled")
-        return Template(_("{status_data} messages in 30 seconds"), status_data=status_data)
+        return str(Template(_("{status_data} messages in 30 seconds"), status_data=status_data))

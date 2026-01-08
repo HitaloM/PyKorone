@@ -1,4 +1,5 @@
 from random import randint
+from typing_extensions import override
 
 from aiohttp import ClientError, ClientSession
 
@@ -28,21 +29,22 @@ class BetaMiddleware(BaseMiddleware):
             self.session = ClientSession()
         return self.session
 
+    @override
     async def __call__(
         self,
         handler: Callable[[TelegramObject, dict[str, Any]], Awaitable[Any]],
-        update: TelegramObject,
+        event: TelegramObject,
         data: dict[str, Any],
     ) -> Any:
         chat: Optional[Chat] = data.get("event_chat")
 
         if chat and await self.is_beta(chat.id):
-            json_request = self.get_data(update)
+            json_request = self.get_data(event)
             log.debug("Sending request to Beta Sophie...", json_request=json_request)
             return await self.send_request(json_request, CONFIG.proxy_beta_instance_url)
 
         log.debug("Leaving this request for Stable...")
-        return await handler(update, data)
+        return await handler(event, data)
 
     async def is_beta(self, chat_id: int) -> bool:
         model = await BetaModeModel.get_by_chat_id(chat_id)

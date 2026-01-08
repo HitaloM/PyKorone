@@ -1,9 +1,11 @@
 from __future__ import annotations
 
-from typing import Any, Dict
+from typing import Any
 
 from aiogram.dispatcher.event.handler import CallbackType
+from aiogram.types import Message
 from ass_tg.types import BooleanArg, OptionalArg, WordArg
+from ass_tg.types.base_abc import ArgFabric
 
 from sophie_bot.filters.cmd import CMDFilter
 from sophie_bot.filters.user_status import IsOP
@@ -22,7 +24,7 @@ class KillSwitchHandler(SophieMessageHandler):
         return CMDFilter("op_killswitch"), IsOP(True)
 
     @classmethod
-    async def handler_args(cls, message, data: Dict) -> Dict[str, object]:
+    async def handler_args(cls, message: Message | None, data: dict) -> dict[str, ArgFabric]:
         # feature and value are both optional to allow listing when none provided
         return {
             "feature": OptionalArg(WordArg("feature")),

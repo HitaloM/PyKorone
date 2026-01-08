@@ -5,6 +5,7 @@ from aiogram import F, flags
 from aiogram.dispatcher.event.handler import CallbackType
 from ass_tg.types import OneOf, OptionalArg, WordArg
 from stfu_tg import Bold, HList, Italic, Title
+from stfu_tg.doc import Element
 
 from sophie_bot.db.models import NoteModel
 from sophie_bot.filters.cmd import CMDFilter
@@ -70,7 +71,7 @@ class HashtagGetNote(SophieMessageHandler):
         return await NoteModel.get_by_notenames(chat.tid, (note_name,))
 
     @staticmethod
-    def _get_note_title(note_model: NoteModel) -> str:
+    def _get_note_title(note_model: NoteModel) -> Element:
         return Bold(HList(Title(f"📗 #{note_model.names[0]}", bold=False), note_model.description or ""))
 
     async def handle(self) -> Any:

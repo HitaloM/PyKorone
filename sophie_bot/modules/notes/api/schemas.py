@@ -40,7 +40,7 @@ class NoteUpdate(BaseModel):
     names: tuple[str, ...] | None = None
     text: str | None = None
     file: NoteFile | None = None
-    buttons: list[list[Button]] = None
+    buttons: list[list[Button]] | None = None
     parse_mode: SaveableParseMode | None = None
     preview: bool | None = None
     description: str | None = None

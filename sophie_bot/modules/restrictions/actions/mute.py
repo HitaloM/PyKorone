@@ -87,7 +87,7 @@ class MuteModernAction(ModernActionABC[MuteActionDataModel]):
             ),
         }
 
-    async def handle(self, message: Message, data: dict, filter_data: MuteActionDataModel) -> Element:
+    async def handle(self, message: Message, data: dict, filter_data: MuteActionDataModel) -> Optional[Element]:
         if not message.from_user:
             return
 

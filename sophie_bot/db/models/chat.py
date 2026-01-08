@@ -33,7 +33,7 @@ class ChatType(Enum):
 class UserInGroupModel(Document):
     user: Link["ChatModel"]
     group: Link["ChatModel"]
-    first_saw: datetime = Field(default_factory=datetime.utcnow)
+    first_saw: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
     last_saw: datetime
 
     class Settings:
@@ -89,7 +89,7 @@ class ChatTopicModel(Document):
     group: Link["ChatModel"]
     thread_id: int
     name: Optional[str] = None
-    last_active: datetime = Field(default_factory=datetime.utcnow)
+    last_active: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
 
     class Settings:
         name = "chat_topics"
@@ -126,7 +126,7 @@ class ChatModel(Document):
     language_code: Optional[str] = None
     is_bot: bool
 
-    first_saw: datetime = Field(default_factory=datetime.utcnow)
+    first_saw: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
     last_saw: datetime
 
     photo: BackLink[ChatPhotoModel] = Field(json_schema_extra={"original_field": "chat"})  # type: ignore[call-arg, arg-type]

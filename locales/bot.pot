@@ -1,28 +1,28 @@
-#: sophie_bot/args/users.py:29
+#: sophie_bot/args/users.py:27
 msgid "Could not find the requested User ID in the database."
 msgstr ""
 
-#: sophie_bot/args/users.py:43
+#: sophie_bot/args/users.py:41
 msgid "Could not find the requested Username in the database."
 msgstr ""
 
-#: sophie_bot/args/users.py:72
+#: sophie_bot/args/users.py:70
 msgid "User: 'User ID (numeric) / Username (starts with @) / Mention (links to users)'"
 msgstr ""
 
-#: sophie_bot/args/users.py:73
+#: sophie_bot/args/users.py:71
 msgid "Users: 'User IDs (numeric) / Usernames (starts with @) / Mentions (links to users)'"
 msgstr ""
 
-#: sophie_bot/args/users.py:79
+#: sophie_bot/args/users.py:77
 msgid "User ID"
 msgstr ""
 
-#: sophie_bot/args/users.py:80
+#: sophie_bot/args/users.py:78
 msgid "Username"
 msgstr ""
 
-#: sophie_bot/args/users.py:82
+#: sophie_bot/args/users.py:80
 msgid "A link to user, usually creates by mentioning a user without username."
 msgstr ""
 
@@ -547,40 +547,40 @@ msgstr[1] ""
 msgid "By using AI features you agree to the our Privacy Policy (/privacy) and third party AI services used."
 msgstr ""
 
-#: sophie_bot/modules/ai/utils/ai_chatbot_reply.py:41
+#: sophie_bot/modules/ai/utils/ai_chatbot_reply.py:42
 msgid "Memory updated 💾"
 msgstr ""
 
-#: sophie_bot/modules/ai/utils/ai_chatbot_reply.py:42
+#: sophie_bot/modules/ai/utils/ai_chatbot_reply.py:43
 msgid "Commands help 📋"
 msgstr ""
 
-#: sophie_bot/modules/ai/utils/ai_chatbot_reply.py:43
+#: sophie_bot/modules/ai/utils/ai_chatbot_reply.py:44
 msgid "Internet Search 🔍"
 msgstr ""
 
-#: sophie_bot/modules/ai/utils/ai_chatbot_reply.py:44
+#: sophie_bot/modules/ai/utils/ai_chatbot_reply.py:45
 msgid "Scanned notes 🗒"
 msgstr ""
 
-#: sophie_bot/modules/ai/utils/ai_chatbot_reply.py:89
+#: sophie_bot/modules/ai/utils/ai_chatbot_reply.py:90
 msgid "You can use Tavily to search for information. Include information sources as links."
 msgstr ""
 
-#: sophie_bot/modules/ai/utils/ai_chatbot_reply.py:90
+#: sophie_bot/modules/ai/utils/ai_chatbot_reply.py:91
 msgid "You can also save important things to the memory."
 msgstr ""
 
-#: sophie_bot/modules/ai/utils/ai_chatbot_reply.py:92
+#: sophie_bot/modules/ai/utils/ai_chatbot_reply.py:93
 msgid "If the user asks anything regarding using Sophie bot, make sure to execute `cmds_help` tool to obtain a help context, do not search internet for bot information."
 msgstr ""
 
-#: sophie_bot/modules/ai/utils/ai_chatbot_reply.py:94
+#: sophie_bot/modules/ai/utils/ai_chatbot_reply.py:95
 #, python-brace-format
 msgid "Available Sophie modules: {modules}"
 msgstr ""
 
-#: sophie_bot/modules/ai/utils/ai_chatbot_reply.py:97
+#: sophie_bot/modules/ai/utils/ai_chatbot_reply.py:98
 msgid "You have the following information in your memory"
 msgstr ""
 
@@ -733,11 +733,11 @@ msgstr ""
 msgid "Use '{enable_cmd}' to enable/disable or '{action_cmd}' to configure actions."
 msgstr ""
 
-#: sophie_bot/modules/antiflood/middlewares/antiflood.py:132
+#: sophie_bot/modules/antiflood/middlewares/antiflood.py:133
 msgid "Flooding detected! 🚫"
 msgstr ""
 
-#: sophie_bot/modules/antiflood/middlewares/antiflood.py:133
+#: sophie_bot/modules/antiflood/middlewares/antiflood.py:134
 #, python-brace-format
 msgid "Triggered by user {user} sending {count} messages in {window} seconds."
 msgstr ""
@@ -1136,7 +1136,7 @@ msgstr ""
 #: sophie_bot/modules/federations/handlers/join.py:41
 #: sophie_bot/modules/federations/handlers/leave.py:33
 #: sophie_bot/modules/federations/handlers/logs.py:34
-#: sophie_bot/modules/federations/handlers/logs.py:102
+#: sophie_bot/modules/federations/handlers/logs.py:107
 #: sophie_bot/modules/federations/handlers/subscribe.py:42
 #: sophie_bot/modules/federations/handlers/subscribe.py:144
 #: sophie_bot/modules/federations/handlers/transfer.py:52
@@ -1410,7 +1410,7 @@ msgstr ""
 #: sophie_bot/modules/federations/handlers/info.py:116
 #: sophie_bot/modules/federations/handlers/leave.py:50
 #: sophie_bot/modules/federations/handlers/logs.py:43
-#: sophie_bot/modules/federations/handlers/logs.py:111
+#: sophie_bot/modules/federations/handlers/logs.py:116
 msgid "This chat is not in any federation."
 msgstr ""
 
@@ -1482,54 +1482,55 @@ msgstr ""
 msgid "This federation already has a log channel set. Use /funsetlog to remove it first."
 msgstr ""
 
-#: sophie_bot/modules/federations/handlers/logs.py:64
-msgid "I don't have permission to post messages in this channel."
-msgstr ""
-
-#: sophie_bot/modules/federations/handlers/logs.py:67
+#: sophie_bot/modules/federations/handlers/logs.py:63
+#: sophie_bot/modules/federations/handlers/logs.py:72
 msgid "Unable to verify permissions in this channel."
 msgstr ""
 
-#: sophie_bot/modules/federations/handlers/logs.py:75
+#: sophie_bot/modules/federations/handlers/logs.py:69
+msgid "I don't have permission to post messages in this channel."
+msgstr ""
+
+#: sophie_bot/modules/federations/handlers/logs.py:80
 msgid "🏛 Federation Log Channel Set"
 msgstr ""
 
-#: sophie_bot/modules/federations/handlers/logs.py:76
+#: sophie_bot/modules/federations/handlers/logs.py:81
 #, python-brace-format
 msgid "Log channel has been set for federation '{name}'."
 msgstr ""
 
-#: sophie_bot/modules/federations/handlers/logs.py:77
+#: sophie_bot/modules/federations/handlers/logs.py:82
 msgid "All federation actions will now be logged here."
 msgstr ""
 
-#: sophie_bot/modules/federations/handlers/logs.py:82
+#: sophie_bot/modules/federations/handlers/logs.py:87
 #, python-brace-format
 msgid "🏛 Federation '{name}' log channel has been set to this chat."
 msgstr ""
 
-#: sophie_bot/modules/federations/handlers/logs.py:86
+#: sophie_bot/modules/federations/handlers/logs.py:91
 msgid "Removes the Federation logs channel"
 msgstr ""
 
-#: sophie_bot/modules/federations/handlers/logs.py:116
+#: sophie_bot/modules/federations/handlers/logs.py:121
 msgid "Only the federation owner can remove the log channel."
 msgstr ""
 
-#: sophie_bot/modules/federations/handlers/logs.py:121
+#: sophie_bot/modules/federations/handlers/logs.py:126
 msgid "This federation doesn't have a log channel set."
 msgstr ""
 
-#: sophie_bot/modules/federations/handlers/logs.py:125
+#: sophie_bot/modules/federations/handlers/logs.py:130
 #, python-brace-format
 msgid "🏛 Federation '{name}' log channel has been removed."
 msgstr ""
 
-#: sophie_bot/modules/federations/handlers/logs.py:133
+#: sophie_bot/modules/federations/handlers/logs.py:138
 msgid "🏛 Federation Log Channel Removed"
 msgstr ""
 
-#: sophie_bot/modules/federations/handlers/logs.py:134
+#: sophie_bot/modules/federations/handlers/logs.py:139
 #, python-brace-format
 msgid "Log channel has been removed for federation '{name}'."
 msgstr ""
@@ -1745,7 +1746,7 @@ msgid "Continuing setup is only possible by the same user who started it."
 msgstr ""
 
 #: sophie_bot/modules/filters/handlers/action_select.py:39
-#: sophie_bot/modules/filters/handlers/add.py:87
+#: sophie_bot/modules/filters/handlers/add.py:88
 msgid "setup"
 msgstr ""
 
@@ -1755,15 +1756,15 @@ msgstr ""
 
 #: sophie_bot/modules/filters/handlers/action_select.py:50
 #: sophie_bot/modules/filters/handlers/actions_list.py:69
-#: sophie_bot/modules/filters/handlers/add.py:73
-#: sophie_bot/modules/filters/handlers/add.py:90
+#: sophie_bot/modules/filters/handlers/add.py:74
+#: sophie_bot/modules/filters/handlers/add.py:91
 #: sophie_bot/modules/utils_/action_config_wizard/renderer.py:172
 #: sophie_bot/modules/utils_/action_config_wizard/settings.py:129
 msgid "❌ Cancel"
 msgstr ""
 
 #: sophie_bot/modules/filters/handlers/actions_list.py:51
-#: sophie_bot/modules/filters/handlers/add.py:60
+#: sophie_bot/modules/filters/handlers/add.py:61
 msgid "Select a filter action:"
 msgstr ""
 
@@ -1783,21 +1784,21 @@ msgstr ""
 msgid "⬅️ Do not remove actions (Back)"
 msgstr ""
 
-#: sophie_bot/modules/filters/handlers/add.py:46
+#: sophie_bot/modules/filters/handlers/add.py:47
 #: sophie_bot/modules/filters/handlers/filter_del.py:23
 #: sophie_bot/modules/filters/handlers/filter_del.py:38
 #: sophie_bot/modules/filters/handlers/filter_new.py:38
 msgid "Text to match"
 msgstr ""
 
-#: sophie_bot/modules/filters/handlers/add.py:56
+#: sophie_bot/modules/filters/handlers/add.py:57
 #: sophie_bot/modules/filters/handlers/confirm.py:39
 #: sophie_bot/modules/filters/handlers/filter_confirm.py:50
 #: sophie_bot/modules/filters/handlers/filter_new.py:50
 msgid "New filter"
 msgstr ""
 
-#: sophie_bot/modules/filters/handlers/add.py:58
+#: sophie_bot/modules/filters/handlers/add.py:59
 #: sophie_bot/modules/filters/handlers/confirm.py:40
 #: sophie_bot/modules/filters/handlers/filter_confirm.py:51
 #: sophie_bot/modules/filters/handlers/filter_new.py:51
@@ -1872,25 +1873,25 @@ msgstr ""
 msgid "Filter's keyword"
 msgstr ""
 
-#: sophie_bot/modules/filters/handlers/filter_edit.py:44
+#: sophie_bot/modules/filters/handlers/filter_edit.py:45
 #, python-brace-format
 msgid "Filter with handler {handler} can not be found! Check all filters using {cmd} command"
 msgstr ""
 
-#: sophie_bot/modules/filters/handlers/filter_edit.py:53
+#: sophie_bot/modules/filters/handlers/filter_edit.py:55
 #, python-brace-format
 msgid "Filter with handler {handler} can not be edited right now!"
 msgstr ""
 
-#: sophie_bot/modules/filters/handlers/filter_edit.py:54
+#: sophie_bot/modules/filters/handlers/filter_edit.py:56
 msgid "The given filter was created before the filters update, and considered 'legacy'"
 msgstr ""
 
-#: sophie_bot/modules/filters/handlers/filter_edit.py:55
+#: sophie_bot/modules/filters/handlers/filter_edit.py:57
 msgid "Stay tuned for an update of Sophie."
 msgstr ""
 
-#: sophie_bot/modules/filters/handlers/filter_edit.py:56
+#: sophie_bot/modules/filters/handlers/filter_edit.py:58
 msgid "Alternatively you can delete this filter and create again."
 msgstr ""
 
@@ -2605,7 +2606,7 @@ msgid "Notes allows saving different kind of content, from normal text messages 
 msgstr ""
 
 #: sophie_bot/modules/notes/handlers/delete.py:18
-#: sophie_bot/modules/notes/handlers/get.py:19
+#: sophie_bot/modules/notes/handlers/get.py:20
 msgid "Note name"
 msgstr ""
 
@@ -2648,11 +2649,11 @@ msgstr ""
 msgid "🗑 All the notes ({removed_count}) have been deleted in the {chat_name}"
 msgstr ""
 
-#: sophie_bot/modules/notes/handlers/get.py:20
+#: sophie_bot/modules/notes/handlers/get.py:21
 msgid "Retrieve the note."
 msgstr ""
 
-#: sophie_bot/modules/notes/handlers/get.py:33
+#: sophie_bot/modules/notes/handlers/get.py:34
 #, python-brace-format
 msgid "No note was found with {name} name."
 msgstr ""
@@ -2798,7 +2799,7 @@ msgstr ""
 #: sophie_bot/modules/notes/magic_handlers/filter.py:25
 #: sophie_bot/modules/notes/magic_handlers/send_note_action.py:85
 #: sophie_bot/modules/restrictions/actions/ban.py:103
-#: sophie_bot/modules/restrictions/actions/kick.py:35
+#: sophie_bot/modules/restrictions/actions/kick.py:37
 #: sophie_bot/modules/restrictions/actions/mute.py:103
 #: sophie_bot/modules/rules/magic_handlers/filter.py:16
 #: sophie_bot/modules/rules/magic_handlers/modern_filter.py:34
@@ -2904,15 +2905,15 @@ msgstr ""
 msgid "Delete Buttons"
 msgstr ""
 
-#: sophie_bot/modules/notes/utils/buttons_processor/ass_types/MarkdownLinkArgument.py:47
+#: sophie_bot/modules/notes/utils/buttons_processor/ass_types/MarkdownLinkArgument.py:48
 msgid "Invalid markdown link."
 msgstr ""
 
-#: sophie_bot/modules/notes/utils/buttons_processor/ass_types/MarkdownLinkArgument.py:56
+#: sophie_bot/modules/notes/utils/buttons_processor/ass_types/MarkdownLinkArgument.py:59
 msgid "Markdown link name cannot contain entities."
 msgstr ""
 
-#: sophie_bot/modules/notes/utils/buttons_processor/ass_types/MarkdownLinkArgument.py:67
+#: sophie_bot/modules/notes/utils/buttons_processor/ass_types/MarkdownLinkArgument.py:70
 msgid "Markdown link data cannot contain entities."
 msgstr ""
 
@@ -2960,36 +2961,36 @@ msgstr ""
 msgid "Local chat"
 msgstr ""
 
-#: sophie_bot/modules/notes/utils/parse.py:75
+#: sophie_bot/modules/notes/utils/parse.py:76
 msgid "Please check the notes documentation for the list of the allowed content types."
 msgstr ""
 
-#: sophie_bot/modules/notes/utils/parse.py:76
+#: sophie_bot/modules/notes/utils/parse.py:77
 msgid "Reply message content is not parsable as the note."
 msgstr ""
 
-#: sophie_bot/modules/notes/utils/parse.py:113
+#: sophie_bot/modules/notes/utils/parse.py:114
 msgid "The buttons are not valid."
 msgstr ""
 
-#: sophie_bot/modules/notes/utils/parse.py:114
+#: sophie_bot/modules/notes/utils/parse.py:115
 msgid "Please check the buttons documentation for the list of the allowed buttons."
 msgstr ""
 
-#: sophie_bot/modules/notes/utils/parse.py:116
+#: sophie_bot/modules/notes/utils/parse.py:117
 msgid "Buttons are not valid."
 msgstr ""
 
-#: sophie_bot/modules/notes/utils/parse.py:124
+#: sophie_bot/modules/notes/utils/parse.py:125
 #, python-brace-format
 msgid "The maximum length of the note is {limit} characters."
 msgstr ""
 
-#: sophie_bot/modules/notes/utils/parse.py:125
+#: sophie_bot/modules/notes/utils/parse.py:126
 msgid "Please try to reduce the length of the note."
 msgstr ""
 
-#: sophie_bot/modules/notes/utils/parse.py:126
+#: sophie_bot/modules/notes/utils/parse.py:127
 msgid "Note is too long."
 msgstr ""
 
@@ -3173,15 +3174,15 @@ msgstr ""
 msgid "For"
 msgstr ""
 
-#: sophie_bot/modules/restrictions/actions/kick.py:17
+#: sophie_bot/modules/restrictions/actions/kick.py:19
 msgid "Kick"
 msgstr ""
 
-#: sophie_bot/modules/restrictions/actions/kick.py:21
+#: sophie_bot/modules/restrictions/actions/kick.py:23
 msgid "Kicks a user"
 msgstr ""
 
-#: sophie_bot/modules/restrictions/actions/kick.py:37
+#: sophie_bot/modules/restrictions/actions/kick.py:39
 #, python-brace-format
 msgid "User {user} was automatically kicked based on a filter action"
 msgstr ""
@@ -3420,7 +3421,7 @@ msgstr ""
 msgid "Cancelled"
 msgstr ""
 
-#: sophie_bot/modules/utils_/action_config_wizard/done.py:52
+#: sophie_bot/modules/utils_/action_config_wizard/done.py:56
 msgid "Saved"
 msgstr ""
 

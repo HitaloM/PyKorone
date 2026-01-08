@@ -36,8 +36,12 @@ class ActionConfigDoneHandlerMixin(ActionConfigDoneHandlerABC):
             chat_tid, action_name, action_data = await get_staged(state)
             if chat_tid is not None and action_name:
                 # Ensure dict for storage
-                if action_data is not None and hasattr(action_data, "model_dump"):
-                    action_data = action_data.model_dump(mode="json")
+                if (
+                    action_data is not None
+                    and hasattr(action_data, "model_dump")
+                    and callable(getattr(action_data, "model_dump", None))
+                ):
+                    action_data = action_data.model_dump(mode="json")  # type: ignore[union-attr]
                 await self.add_action(chat_tid, action_name, action_data or {})
 
         if isinstance(state, FSMContext):

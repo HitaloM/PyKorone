@@ -9,7 +9,6 @@ from pydantic import (
     FilePath,
     computed_field,
     field_validator,
-    validator,
     ValidationInfo,
 )
 from pydantic_settings import BaseSettings
@@ -139,16 +138,17 @@ class Config(BaseSettings):
     def bot_id(self) -> int:
         return int(self.token.split(":")[0])
 
-    @validator("operators")
-    def validate_operators(cls, value: List[int] | None, values) -> List[int]:
-        owner_id = values["owner_id"]
+    @field_validator("operators", mode="before")
+    @classmethod
+    def validate_operators(cls, v: List[int] | None, info: ValidationInfo) -> List[int]:
+        owner_id = info.data.get("owner_id")
 
-        if not value:
-            return [owner_id]
+        if not v:
+            return [owner_id] if owner_id else []
 
-        if owner_id not in value:
-            value.append(owner_id)
-        return value
+        if owner_id and owner_id not in v:
+            v.append(owner_id)
+        return v
 
     @field_validator("api_jwt_secret")
     @classmethod

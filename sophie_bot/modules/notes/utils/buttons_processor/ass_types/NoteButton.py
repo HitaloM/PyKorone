@@ -28,7 +28,7 @@ class NoteButton(SophieButtonABC):
 
         return super().check(text, entities)
 
-    async def parse(self, text: str, offset: int, entities: ArgEntities) -> tuple[int, AssButtonData[str]]:
+    async def parse(self, text: str, offset: int, entities: ArgEntities) -> tuple[int, AssButtonData[str]]:  # type: ignore[override]
         if self._link_data.startswith("#"):
             length, (link_name, link_data) = await MarkdownLinkArgument.parse(self, text, offset, entities)
 

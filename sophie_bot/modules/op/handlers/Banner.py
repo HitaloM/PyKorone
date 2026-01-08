@@ -1,10 +1,11 @@
 from __future__ import annotations
 
-from typing import Any, Dict
+from typing import Any
 
 from aiogram.dispatcher.event.handler import CallbackType
-from aiogram.types import BufferedInputFile
+from aiogram.types import BufferedInputFile, Message
 from ass_tg.types import TextArg, WordArg, OptionalArg, OneOf
+from ass_tg.types.base_abc import ArgFabric
 
 from sophie_bot.filters.cmd import CMDFilter
 from sophie_bot.filters.user_status import IsOP
@@ -19,7 +20,7 @@ class OpBannerHandler(SophieMessageHandler):
         return CMDFilter("op_banner"), IsOP(True)
 
     @classmethod
-    async def handler_args(cls, message, data: Dict) -> Dict[str, object]:
+    async def handler_args(cls, message: Message | None, data: dict) -> dict[str, ArgFabric]:
         # emojis is a single token; text is freeform; color is optional and validated via ASS OneOf
         return {
             "emojis": WordArg("Emoji(s)"),

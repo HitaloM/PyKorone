@@ -176,7 +176,9 @@ def extract_markdown_entities(
     # Build a regex to efficiently test all delimiters at once.
     # Note that the largest delimiter should go first, we don't
     # want ``` to be interpreted as a single back-tick in a code block.
-    delim_re = re.compile("|".join("({})".format(re.escape(k)) for k in sorted(delimiters, key=len, reverse=True)))
+    delim_re = re.compile(
+        "|".join("({})".format(re.escape(k)) for k in sorted(delimiters, key=len, reverse=True))  # type: ignore[literal-required]
+    )
 
     # Cannot use a for loop because we need to skip some indices
     i = 0

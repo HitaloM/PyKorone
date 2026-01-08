@@ -6,7 +6,7 @@ from sophie_bot.modules.ai.fsm.pm import AI_GENERATED_TEXT
 from sophie_bot.modules.ai.utils.ai_models import AI_MODEL_TO_SHORT_NAME
 
 
-def ai_get_model_text(provider: Model) -> Element:
+def ai_get_model_text(provider: Model) -> str | Element:
     return AI_MODEL_TO_SHORT_NAME[provider.model_name]
 
 

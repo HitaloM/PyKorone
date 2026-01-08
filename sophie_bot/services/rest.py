@@ -10,7 +10,7 @@ def create_app() -> FastAPI:
     app = FastAPI(title="Sophie API")
 
     app.add_middleware(
-        CORSMiddleware,
+        CORSMiddleware,  # type: ignore[arg-type]
         allow_origins=CONFIG.api_cors_origins,
         allow_credentials=True,
         allow_methods=["*"],

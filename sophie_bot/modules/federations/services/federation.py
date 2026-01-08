@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import List, Optional
 import uuid
 
@@ -127,7 +127,7 @@ class FederationService:
         ban = FederationBan(
             fed_id=federation.fed_id,
             user_id=user_id,
-            time=datetime.utcnow(),
+            time=datetime.now(timezone.utc),
             by=by_user,
             reason=reason,
         )
@@ -146,7 +146,7 @@ class FederationService:
                 sub_ban = FederationBan(
                     fed_id=sub_fed_id,
                     user_id=user_id,
-                    time=datetime.utcnow(),
+                    time=datetime.now(timezone.utc),
                     by=by_user,
                     reason=reason,
                     origin_fed=federation.fed_id,  # Mark this as originating from subscription

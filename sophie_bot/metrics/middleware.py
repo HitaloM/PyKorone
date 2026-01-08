@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import random
 import time
-from typing import Any, Awaitable, Callable, Dict, Optional
+from typing import Any, Awaitable, Callable, Dict, Optional, cast
 
 from aiogram import BaseMiddleware
 from aiogram.types import (
@@ -234,25 +234,27 @@ class MetricsMiddleware(BaseMiddleware):
 
     def _get_handler_name(self, handler: Callable, event: TelegramObject) -> str:
         """Extract handler name for labeling"""
-        handler_name = "unknown"
+        handler_name: str = "unknown"
 
         # Handle functools.partial objects (common with aiogram class-based handlers)
         if hasattr(handler, "func"):
             # This is likely a functools.partial object
-            actual_func = handler.func
-            if hasattr(actual_func, "__self__") and hasattr(actual_func.__self__, "__class__"):
+            actual_func = getattr(handler, "func")
+            if hasattr(actual_func, "__self__") and hasattr(actual_func, "__class__"):
                 # This is a bound method, get the class name
                 handler_name = actual_func.__self__.__class__.__name__
             elif hasattr(actual_func, "__name__"):
-                handler_name = actual_func.__name__
+                handler_name = cast(str, getattr(actual_func, "__name__"))
             else:
                 handler_name = str(actual_func)
         # Handle bound methods directly
-        elif hasattr(handler, "__self__") and hasattr(handler.__self__, "__class__"):
-            handler_name = handler.__self__.__class__.__name__
+        elif hasattr(handler, "__self__"):
+            self_obj = getattr(handler, "__self__", None)
+            if self_obj is not None and hasattr(self_obj, "__class__"):
+                handler_name = self_obj.__class__.__name__
         # Handle regular functions
         elif hasattr(handler, "__name__"):
-            handler_name = handler.__name__
+            handler_name = cast(str, getattr(handler, "__name__"))
         # Check for problematic string representations first (before class check)
         elif callable(handler):
             handler_str = str(handler)

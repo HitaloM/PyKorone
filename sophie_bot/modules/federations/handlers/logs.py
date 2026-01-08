@@ -58,9 +58,14 @@ class SetFederationLogHandler(SophieMessageHandler):
         # For channels, we need to check if bot can post
         if self.connection.type == "channel":
             # Check if bot has permission to post in this channel
+            bot = self.event.bot
+            if not bot:
+                await self.event.reply(_("Unable to verify permissions in this channel."))
+                return
             try:
-                bot_member = await self.event.bot.get_chat_member(chat_id, self.event.bot.id)
-                if not bot_member.can_post_messages:
+                bot_member = await bot.get_chat_member(chat_id, bot.id)
+                # can_post_messages is only available on ChatMemberAdministrator and ChatMemberOwner
+                if not hasattr(bot_member, "can_post_messages") or not bot_member.can_post_messages:
                     await self.event.reply(_("I don't have permission to post messages in this channel."))
                     return
             except Exception:
