@@ -1,7 +1,7 @@
 from dataclasses import dataclass
 from pathlib import Path
 from re import compile
-from typing import Any, Callable, Optional
+from typing import Any, Callable, Optional, cast
 
 from aiogram.utils.i18n import I18n
 from babel.core import Locale
@@ -102,11 +102,11 @@ class I18nNew(I18n):
         return self.to_iso_639_1(self.current_locale)
 
 
-def get_i18n():
+def get_i18n() -> I18nNew:
     i18n = I18nNew.get_current(no_error=True)
     if i18n is None:
         raise LookupError("I18n context is not set")
-    return i18n
+    return cast(I18nNew, i18n)
 
 
 def gettext(*args: Any, **kwargs: Any) -> str:
@@ -114,6 +114,12 @@ def gettext(*args: Any, **kwargs: Any) -> str:
 
 
 class LazyProxy(BabelLazyProxy):
+    # `abc.ABCMeta` checks every class attribute for the `__isabstractmethod__` marker.
+    # `babel.support.LazyProxy` resolves missing attributes via `__getattr__`, which would
+    # evaluate the translation too early (during import / class creation), before an i18n
+    # context is installed. Providing the attribute avoids that eager evaluation.
+    __isabstractmethod__: bool = False
+
     def __init__(self, *items: str | Callable, **kwargs):
         if callable(items[0]):
             func = items[0]
@@ -130,8 +136,11 @@ class LazyProxy(BabelLazyProxy):
         return str(self) in str(key)
 
 
-def lazy_plural_gettext(*args: Any, **kwargs: Any):
-    return lambda n: get_i18n().gettext(*args, n=n, **kwargs)
+def lazy_plural_gettext(*args: Any, **kwargs: Any) -> Callable[[int], str]:
+    def _inner(n: int) -> str:
+        return get_i18n().gettext(*args, **(kwargs | {"n": n}))
+
+    return _inner
 
 
 lazy_gettext = LazyProxy

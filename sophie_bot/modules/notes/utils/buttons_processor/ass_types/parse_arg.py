@@ -91,12 +91,7 @@ class ButtonsArg(ArgFabric[list[AssButtonData]]):
                 break
 
         if not results:
-            raise ArgTypeError(
-                needed_type=self.needed_type(),
-                description=self.description,
-                offset=offset,
-                length=len(text),
-            )
+            return 0, []
 
         return total_length, results
 
