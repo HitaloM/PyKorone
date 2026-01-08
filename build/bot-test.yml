@@ -20,6 +20,7 @@ test-codestyle:
       - .venv
     policy: pull-push
   before_script:
+    - apt-get update && apt-get install -y make
     - pip install uv
     - uv sync --dev
   script:
@@ -37,6 +38,7 @@ test-codeanal:
       - .venv
     policy: pull-push
   before_script:
+    - apt-get update && apt-get install -y make
     - pip install uv
     - uv sync --dev
   script:
