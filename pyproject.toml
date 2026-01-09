@@ -19,7 +19,7 @@ dependencies = [
     "pydantic-settings>=2,<3",
     "structlog>=25,<26",
     "stfu-tg>=3.4,<4",
-    "ass-tg==2.4.3",
+    "ass-tg",
     "beanie>=2,<3",
     "openai>=2,<3",
     "lingua-language-detector>=2.0.2,<3",

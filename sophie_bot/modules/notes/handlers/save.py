@@ -1,4 +1,4 @@
-from typing import Any, Optional, Sequence
+from typing import Any, Sequence
 
 from aiogram import flags
 from aiogram.dispatcher.event.handler import CallbackType
@@ -6,11 +6,14 @@ from ass_tg.types import DividedArg, OptionalArg, SurroundedArg, TextArg, WordAr
 from bson import Code
 from stfu_tg import KeyValue, Section, Template
 
+from libs.ass.ass_tg.types.base_abc import ParsedArg
 from sophie_bot.db.models import NoteModel
 from sophie_bot.db.models.notes import Saveable
 from sophie_bot.filters.admin_rights import UserRestricting
 from sophie_bot.filters.cmd import CMDFilter
 from sophie_bot.middlewares.connections import ChatConnection
+from sophie_bot.modules.notes.utils.buttons_processor.ass_types.TextWithButtonsArg import TextWithButtonsArg
+from sophie_bot.modules.notes.utils.buttons_processor.buttons import ButtonsList
 from sophie_bot.modules.notes.utils.names import format_notes_aliases
 from sophie_bot.modules.notes.utils.parse import parse_saveable
 from sophie_bot.modules.utils_.base_handler import SophieMessageHandler
@@ -22,7 +25,7 @@ from sophie_bot.utils.i18n import lazy_gettext as l_
     notenames=DividedArg(WordArg(l_("Note names"))),
     # note_group=OptionalArg(StartsWithArg("$", WordArg(l_("Group")))),
     description=OptionalArg(SurroundedArg(TextArg(l_("?Description")))),
-    raw_text=OptionalArg(TextArg(l_("Content"), parse_entities=True)),
+    text_with_buttons=TextWithButtonsArg(),
 )
 @flags.help(description=l_("Save the note."))
 class SaveNote(SophieMessageHandler):
@@ -32,13 +35,18 @@ class SaveNote(SophieMessageHandler):
 
     async def handle(self) -> Any:
         connection: ChatConnection = self.data["connection"]
-        raw_text: Optional[str] = self.data.get("raw_text")
+
+        text_with_buttons: dict[str, Any] = self.data["text_with_buttons"]
+        raw_text_parsed: ParsedArg[str] = text_with_buttons.get("text")
+        raw_text = raw_text_parsed.value
+        text_offset = raw_text_parsed.offset
+
+        raw_buttons: ButtonsList = text_with_buttons.get("buttons").value
+        buttons = ButtonsList.from_ass(raw_buttons)
 
         notenames: tuple[str, ...] = tuple(name.lower() for name in self.data["notenames"])
 
-        text_offset = self.data["arg"].value["raw_text"].offset
-
-        saveable = await parse_saveable(self.event, raw_text, offset=text_offset)
+        saveable = await parse_saveable(self.event, raw_text, offset=text_offset, buttons=buttons)
         is_created = await self.save(saveable, notenames, connection.tid, self.data)
 
         await self.event.reply(

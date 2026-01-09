@@ -4,6 +4,7 @@ from ass_tg.entities import ArgEntities
 from ass_tg.exceptions import ArgTypeError
 from ass_tg.types import OrArg
 from ass_tg.types.base_abc import ArgFabric
+from babel.support import LazyProxy
 
 from sophie_bot.modules.notes.utils.buttons_processor.ass_types.SophieButtonABC import AssButtonData
 from sophie_bot.modules.notes.utils.buttons_processor.registry import ALL_BUTTONS
@@ -23,7 +24,7 @@ class ButtonsArg(ArgFabric[list[AssButtonData]]):
     know_the_end = True
     know_the_start = True
 
-    def __init__(self, description: Optional[str] = None, **kwargs: Any) -> None:
+    def __init__(self, description: Optional[str | LazyProxy] = None, **kwargs: Any) -> None:
         super().__init__(description=description)
         self.child = ButtonArg()
 
