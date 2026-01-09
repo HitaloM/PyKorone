@@ -1937,7 +1937,7 @@ requires-dist = [
     { name = "redis", specifier = ">=7,<8" },
     { name = "regex", specifier = ">=2025.7,<2026" },
     { name = "sentry-sdk", specifier = ">=2,<3" },
-    { name = "stfu-tg", specifier = ">=3.4,<4" },
+    { name = "stfu-tg", directory = "libs/stf" },
     { name = "structlog", specifier = ">=25,<26" },
     { name = "ujson", specifier = ">=5.1.0,<6" },
     { name = "unidecode", specifier = ">=1.4.0,<2" },
@@ -1996,10 +1996,10 @@ wheels = [
 [[package]]
 name = "stfu-tg"
 version = "3.4"
-source = { registry = "https://pypi.org/simple" }
-wheels = [
-    { url = "https://files.pythonhosted.org/packages/bb/6f/9092db0900b8e608e5c544d6a1d4f42a20d786f928f23308733badfc2016/stfu_tg-3.4-py3-none-any.whl", hash = "sha256:b6d2ae51f018cc74f839ac00a279f290aca6dc6ce5acba3a84495b075dea2ca9", size = 18968, upload-time = "2024-11-27T09:08:00.463Z" },
-]
+source = { directory = "libs/stf" }
+
+[package.metadata]
+provides-extras = ["entities"]
 
 [[package]]
 name = "structlog"

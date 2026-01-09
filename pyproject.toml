@@ -55,6 +55,10 @@ dev = [
     "babel>=2.17.0",
 ]
 
+[tool.uv.sources]
+stfu-tg = { path = "./libs/stf" }
+ass-tg = { path = "./libs/ass" }
+
 [tool.ty.src]
 include = ["sophie_bot/**"]
 exclude = ["**/legacy_modules/**", "**/legacy_*.py"]
