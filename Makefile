@@ -23,7 +23,21 @@ locale: extract_lang update_lang compile_lang
 
 # Build
 
-sync_libs:
+pull_libs:
+	@echo "Pulling latest libs..."
+	mkdir -p libs
+	if [ ! -d "libs/stf" ]; then \
+		git clone https://gitlab.com/SophieBot/stf.git libs/stf; \
+	else \
+		cd libs/stf && git pull; \
+	fi
+	if [ ! -d "libs/ass" ]; then \
+		git clone https://gitlab.com/SophieBot/ass.git libs/ass; \
+	else \
+		cd libs/ass && git pull; \
+	fi
+
+sync_libs: pull_libs
 	uv sync --reinstall-package ass-tg
 	uv sync --reinstall-package stf-tg
 
