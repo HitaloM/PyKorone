@@ -39,7 +39,7 @@ class ActionConfigSettingsHandlerMixin(ActionConfigSettingsHandlerABC):
             return
 
         # Get chat ID from the callback query
-        chat_tid: PydanticObjectId = self.connection.db_model.iid  # type: ignore
+        chat_tid: PydanticObjectId = self.connection.db_model.iid
 
         # Ensure/refresh session and set action name for staging
         state = self.data.get("state")

@@ -11,7 +11,7 @@ from sophie_bot.utils.logger import log
 try:
     import ujson as json
 except ImportError:
-    import json  # type: ignore
+    import json
 
 from datetime import datetime
 from typing import Any, Awaitable, Callable, Optional

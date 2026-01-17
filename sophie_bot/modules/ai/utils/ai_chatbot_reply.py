@@ -114,7 +114,7 @@ async def ai_chatbot_reply(
             )
 
         if model is None:
-            model = await get_chat_default_model(connection.db_model.iid)  # type: ignore
+            model = await get_chat_default_model(connection.db_model.iid)
         result = await new_ai_generate(
             history,
             tools=CHATBOT_TOOLS,

@@ -51,7 +51,7 @@ async def create_tokens(user: ChatModel, scopes: list[str] | None = None) -> dic
     refresh_token_str = generate_token(64)
     token = RefreshTokenModel(
         token_hash=hash_token(refresh_token_str),
-        user=user,  # type: ignore
+        user=user,
         expires_at=datetime.now(timezone.utc) + timedelta(days=7),
     )
     await token.insert()
@@ -97,7 +97,7 @@ async def login_operator(data: OperatorLoginRequest):
     api_token = await ApiTokenModel.get_by_hash(hashed)
     if api_token:
         user = api_token.user
-        logger.info("Operator logged in via API token", user_id=user.tid, label=api_token.label)  # type: ignore
+        logger.info("Operator logged in via API token", user_id=user.tid, label=api_token.label)
         return await create_tokens(user, scopes=["operator"])
 
     logger.warning("Failed operator login attempt")
@@ -119,5 +119,5 @@ async def refresh_token(data: RefreshRequest):
         logger.warning("Refresh token expired", token_id=token.iid)
         raise HTTPException(status_code=401, detail="Refresh token expired")
 
-    logger.info("Token refreshed", user_iid=token.user.id, user_tid=token.user.tid)  # type: ignore
+    logger.info("Token refreshed", user_iid=token.user.id, user_tid=token.user.tid)
     return await create_tokens(token.user)

@@ -72,7 +72,7 @@ class PMModulesList(SophieMessageCallbackQueryHandler):
         )
 
         if isinstance(self.event, CallbackQuery):
-            await self.message.edit_text(str(doc), reply_markup=buttons.as_markup(), disable_web_page_preview=True)  # type: ignore
+            await self.message.edit_text(str(doc), reply_markup=buttons.as_markup(), disable_web_page_preview=True)
         else:
             await self.event.reply(str(doc), reply_markup=buttons.as_markup(), disable_web_page_preview=True)
 
@@ -126,6 +126,4 @@ class PMModuleHelp(CallbackQueryHandler):
         if not self.event.message:
             raise SophieException("Message not found")
 
-        await self.event.message.edit_text(  # type: ignore
-            str(doc), reply_markup=buttons.as_markup(), disable_web_page_preview=True
-        )
+        await self.event.message.edit_text(str(doc), reply_markup=buttons.as_markup(), disable_web_page_preview=True)

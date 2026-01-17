@@ -60,7 +60,7 @@ async def get_note(
         raise HTTPException(status_code=404, detail="Note not found")
 
     return NoteResponse(
-        id=note.id,  # type: ignore[arg-type]
+        id=note.id,
         names=note.names,
         text=note.text,
         file=note.file,

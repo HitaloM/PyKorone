@@ -12,7 +12,7 @@ class NoteButton(SophieButtonABC):
     button_type_names = ("note", "#")
 
     def needed_type(self) -> tuple[LazyProxy, LazyProxy]:
-        return l_("Note Button"), l_("Note Buttons")  # type: ignore[return-value]
+        return l_("Note Button"), l_("Note Buttons")
 
     def examples(self) -> Optional[dict[str, Optional[LazyProxy]]]:
         return {
@@ -28,7 +28,7 @@ class NoteButton(SophieButtonABC):
 
         return super().check(text, entities)
 
-    async def parse(self, text: str, offset: int, entities: ArgEntities) -> tuple[int, AssButtonData[str]]:  # type: ignore[override]
+    async def parse(self, text: str, offset: int, entities: ArgEntities) -> tuple[int, AssButtonData[str]]:
         if self._link_data.startswith("#"):
             length, (link_name, link_data) = await MarkdownLinkArgument.parse(self, text, offset, entities)
 

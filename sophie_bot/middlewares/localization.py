@@ -21,7 +21,8 @@ class LocalizationMiddleware(I18nMiddleware):
             log.debug("LocalizationMiddleware: Chat cannot be found in this event, leaving locale to default")
             return CONFIG.default_locale
 
-        # locale: str = await cache_get_locale_name(chat_in_db.id) or CONFIG.default_locale  # type: ignore
+        # locale: str = await cache_get_locale_name(chat_in_db.id) or CONFIG.default_locale
+
         locale: str = await self.get_legacy_locale(chat_in_db.tid) or CONFIG.default_locale
 
         log.debug("LocalizationMiddleware", chat_id=chat_in_db.iid, has_locale=locale)

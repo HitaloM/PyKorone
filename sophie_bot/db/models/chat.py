@@ -129,18 +129,18 @@ class ChatModel(Document):
     first_saw: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
     last_saw: datetime
 
-    photo: BackLink[ChatPhotoModel] = Field(json_schema_extra={"original_field": "chat"})  # type: ignore[call-arg, arg-type]
+    photo: BackLink[ChatPhotoModel] = Field(json_schema_extra={"original_field": "chat"})
 
     # User in groups
-    # user_in_groups: list[BackLink[UserInGroupModel]] = Field(original_field="user")  # type: ignore[call-arg]
-    # groups_of_user: list[BackLink[UserInGroupModel]] = Field(original_field="group")  # type: ignore[call-arg]
+    # user_in_groups: list[BackLink[UserInGroupModel]] = Field(original_field="user")
+    # groups_of_user: list[BackLink[UserInGroupModel]] = Field(original_field="group")
 
     # Topics
-    # chat_topics: list[BackLink[ChatTopicModel]] = Field(original_field="group")  # type: ignore[call-arg]
+    # chat_topics: list[BackLink[ChatTopicModel]] = Field(original_field="group")
 
     # AI
-    # ai_enabled: list[BackLink[AIEnabledModel]] = Field(original_field="chat")  # type: ignore[call-arg]
-    # ai_usage: list[BackLink[AIUsageModel]] = Field(original_field="chat")  # type: ignore[call-arg]
+    # ai_enabled: list[BackLink[AIEnabledModel]] = Field(original_field="chat")
+    # ai_usage: list[BackLink[AIUsageModel]] = Field(original_field="chat")
 
     class Settings:
         name = "chats"

@@ -40,7 +40,7 @@ class ActionChangeSettingConfirm(SophieMessageCallbackQueryHandler):
             raise SophieException("No action name or setting in state/data")
 
         action_item = ALL_MODERN_ACTIONS[action_name]
-        action_setting: ModernActionSetting = action_item.settings(self.data)[action_setting]  # type: ignore
+        action_setting: ModernActionSetting = action_item.settings(self.data)[action_setting]
 
         # TODO: Deal with typing below
         try:
@@ -48,7 +48,7 @@ class ActionChangeSettingConfirm(SophieMessageCallbackQueryHandler):
         except ActionSetupTryAgainException:
             return
 
-        action_data: ACTION_DATA_DUMPED = action_data_model.model_dump(mode="json") if action_data_model else None  # type: ignore
+        action_data: ACTION_DATA_DUMPED = action_data_model.model_dump(mode="json") if action_data_model else None
 
         # Add action to the list
         try:

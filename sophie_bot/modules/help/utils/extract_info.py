@@ -101,7 +101,7 @@ async def gather_cmds_help(router: Router) -> list[HandlerHelp]:
 
         if not cmd_filters:
             continue
-        cmds = cmd_filters[0].callback.cmd  # type: ignore
+        cmds = cmd_filters[0].callback.cmd
 
         # Check feature flags
         feature_flag_filters = list(filter(lambda x: isinstance(x.callback, FeatureFlagFilter), handler.filters))

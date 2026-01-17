@@ -15,14 +15,14 @@ class URLButton(SophieButtonABC):
     allowed_protocols = ("http", "https")
 
     def needed_type(self) -> tuple[LazyProxy, LazyProxy]:
-        return l_("URL Button"), l_("URL Buttons")  # type: ignore[return-value]
+        return l_("URL Button"), l_("URL Buttons")
 
     def examples(self) -> Optional[dict[str, Optional[LazyProxy]]]:
         return {
             "[Button name](btnurl:https://google.com)": None,
         }
 
-    async def parse(self, text: str, offset: int, entities: ArgEntities) -> tuple[int, AssButtonData[str]]:  # type: ignore[override]
+    async def parse(self, text: str, offset: int, entities: ArgEntities) -> tuple[int, AssButtonData[str]]:
         length, data = await super().parse(text, offset, entities)
         raw_url: str = data.arguments[0]
 

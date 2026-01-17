@@ -32,7 +32,7 @@ async def cache_message(text: Optional[str], chat_id: int, user_id: int, message
     # Group commands in a pipeline to ensure atomic execution.
     async with aredis.pipeline(transaction=True) as pipe:
         await pipe.ltrim(key, -15, -1)  # type: ignore[misc]
-        await pipe.expire(key, 86400 * 2, lt=True)  # type: ignore[misc]
+        await pipe.expire(key, 86400 * 2, lt=True)
         await pipe.rpush(key, json_str)  # type: ignore[misc]
         await pipe.execute()
 

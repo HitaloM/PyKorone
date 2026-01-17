@@ -23,7 +23,7 @@ class AIContextReset(SophieMessageHandler):
 
     @staticmethod
     def filters_alt() -> tuple[CallbackType, ...]:
-        return F.text == AI_PM_RESET, UserRestricting(admin=True), AIEnabledFilter()  # type: ignore
+        return F.text == AI_PM_RESET, UserRestricting(admin=True), AIEnabledFilter()
 
     @staticmethod
     def filters_callback() -> tuple[CallbackType, ...]:

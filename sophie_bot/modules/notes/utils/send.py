@@ -142,7 +142,7 @@ async def send_saveable(
         kwargs["reply_parameters"] = ReplyParameters(message_id=reply_to)
 
     def to_try(**cb_kwargs):
-        return SEND_METHOD[content_type](**cb_kwargs).emit(bot)  # type: ignore
+        return SEND_METHOD[content_type](**cb_kwargs).emit(bot)
 
     async def reply_not_found():
         if "reply_parameters" in kwargs:

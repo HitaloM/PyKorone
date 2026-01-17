@@ -191,18 +191,18 @@ def register_action_config_system(router: Router, *args, **kwargs):
     # Register the main wizard (message handler). Prefer class-provided register.
     if hasattr(WizardHandler, "register"):
         # SophieMessageHandler provides register with proper flags
-        WizardHandler.register(router)  # type: ignore[attr-defined]
+        WizardHandler.register(router)
     else:  # pragma: no cover - defensive fallback
-        router.message.register(WizardHandler, *WizardHandler.filters())  # type: ignore[attr-defined]
+        router.message.register(WizardHandler, *WizardHandler.filters())
 
     # Message handler for interactive setup
-    router.message.register(SetupHandler, *SetupHandler.filters())  # type: ignore[attr-defined]
+    router.message.register(SetupHandler, *SetupHandler.filters())
 
     # Callback query handlers
-    router.callback_query.register(CallbackHandler, *CallbackHandler.filters())  # type: ignore[attr-defined]
-    router.callback_query.register(DoneHandler, *DoneHandler.filters())  # type: ignore[attr-defined]
-    router.callback_query.register(CancelHandler, *CancelHandler.filters())  # type: ignore[attr-defined]
-    router.callback_query.register(SettingsHandler, *SettingsHandler.filters())  # type: ignore[attr-defined]
+    router.callback_query.register(CallbackHandler, *CallbackHandler.filters())
+    router.callback_query.register(DoneHandler, *DoneHandler.filters())
+    router.callback_query.register(CancelHandler, *CancelHandler.filters())
+    router.callback_query.register(SettingsHandler, *SettingsHandler.filters())
 
     return (
         WizardHandler,

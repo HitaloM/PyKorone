@@ -10,7 +10,7 @@ class SophieDMButton(SophieButtonABC):
     button_type_names = ("sophieurl",)
 
     def needed_type(self) -> tuple[LazyProxy, LazyProxy]:
-        return l_("Sophie DM Button"), l_("Sophie DM Buttons")  # type: ignore[return-value]
+        return l_("Sophie DM Button"), l_("Sophie DM Buttons")
 
     def examples(self) -> Optional[dict[str, Optional[LazyProxy]]]:
         return {

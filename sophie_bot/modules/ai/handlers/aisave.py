@@ -39,7 +39,7 @@ class AISaveNote(MessageHandler):
 
         all_notes = await NoteModel.get_chat_notes(connection.tid)
         all_notenames = list(itertools.chain.from_iterable(note.names for note in all_notes))
-        all_groups = [note.note_group for note in all_notes if note.note_group]  # type: ignore[list-item]
+        all_groups = [note.note_group for note in all_notes if note.note_group]
 
         data: AISaveResponseSchema = await self.make_request(all_notenames, all_groups)
 
@@ -72,7 +72,7 @@ class AISaveNote(MessageHandler):
             description=data.description,
             text=legacy_markdown_to_html(data.text),
         )
-        return await model.save()  # type: ignore
+        return await model.save()
 
     @staticmethod
     def parse_data(data: str) -> AISaveResponseSchema:

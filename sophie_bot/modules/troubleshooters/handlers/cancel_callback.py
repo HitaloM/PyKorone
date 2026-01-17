@@ -26,7 +26,7 @@ class CancelCallbackHandler(SophieCallbackQueryHandler):
         user = self.event.from_user
 
         if not is_user_admin(self.event.message.chat.id, user.id):  # type: ignore[union-attr]
-            return await self.event.answer(_("You are not allowed to cancel this action!"))  # type: ignore[union-attr]
+            return await self.event.answer(_("You are not allowed to cancel this action!"))
 
         await self.state.clear()
         await self.event.message.edit_text(_("❌ Cancelled."))  # type: ignore[union-attr]
@@ -43,7 +43,7 @@ class TypedCancelCallbackHandler(SophieCallbackQueryHandler):
         user = self.event.from_user
 
         if user.id != data.user_id:
-            return await self.event.answer(_("You are not allowed to cancel this action!"))  # type: ignore[union-attr]
+            return await self.event.answer(_("You are not allowed to cancel this action!"))
 
         await self.state.clear()
         await self.event.message.edit_text(_("❌ Cancelled."))  # type: ignore[union-attr]

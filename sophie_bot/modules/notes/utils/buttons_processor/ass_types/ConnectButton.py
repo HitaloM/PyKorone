@@ -10,7 +10,7 @@ class ConnectButton(SophieButtonABC):
     button_type_names = ("connect",)
 
     def needed_type(self) -> tuple[LazyProxy, LazyProxy]:
-        return l_("Connect Button"), l_("Connect Buttons")  # type: ignore[return-value]
+        return l_("Connect Button"), l_("Connect Buttons")
 
     def examples(self) -> Optional[dict[str, Optional[LazyProxy]]]:
         return {

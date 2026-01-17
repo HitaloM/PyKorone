@@ -86,7 +86,7 @@ async def op_ai_stats_handler(message: Message) -> None:
     start_month = today.replace(day=1)
 
     # Fetch all AI usage documents
-    usages = await AIUsageModel.find_all().to_list()  # type: ignore[attr-defined]
+    usages = await AIUsageModel.find_all().to_list()
 
     # Totals
     total_today = 0

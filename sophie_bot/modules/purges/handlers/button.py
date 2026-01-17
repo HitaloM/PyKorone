@@ -18,4 +18,4 @@ class LegacyDelMsgButton(SophieCallbackQueryHandler):
         if not isinstance(message, AiogramMessage):
             return
 
-        await common_try(message.delete())  # type: ignore[union-attr]
+        await common_try(message.delete())

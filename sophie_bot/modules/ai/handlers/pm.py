@@ -61,7 +61,7 @@ class AiPmInitialize(SophieMessageCallbackQueryHandler):
 class AiPmStop(SophieMessageHandler):
     @staticmethod
     def filters() -> tuple[CallbackType, ...]:
-        return F.text == AI_PM_STOP_TEXT, ChatTypeFilter("private")  # type: ignore
+        return F.text == AI_PM_STOP_TEXT, ChatTypeFilter("private")
 
     async def handle(self) -> Any:
         await self.data["state"].clear()

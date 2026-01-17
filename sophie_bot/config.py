@@ -133,7 +133,7 @@ class Config(BaseSettings):
         env_file = "data/config.env"
         env_file_encoding = "utf-8"
 
-    @computed_field  # type: ignore[misc]
+    @computed_field
     @property
     def bot_id(self) -> int:
         return int(self.token.split(":")[0])
@@ -176,5 +176,5 @@ class CacheTTL(BaseModel):
     language_ttl: int = 86400  # 24 hours
 
 
-CONFIG = Config()  # type: ignore
-CACHE_TTL = CacheTTL()  # type: ignore
+CONFIG = Config()
+CACHE_TTL = CacheTTL()

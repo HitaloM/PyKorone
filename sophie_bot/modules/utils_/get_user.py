@@ -31,7 +31,7 @@ def get_arg_or_reply_user(message: Message, data: dict[str, Any]) -> User | Chat
 def get_union_user(user: User | ChatModel) -> UnionUser:
     if isinstance(user, User):
         return UnionUser(
-            chat_id=user.id,  # type: ignore
+            chat_id=user.id,
             first_name=user.first_name,
             last_name=user.last_name,
             username=user.username,

@@ -85,7 +85,7 @@ class SophieCallbackQueryHandler(SophieBaseHandler[CallbackQuery], ABC):
 
     async def edit_text(self, text: Element | str, **kwargs):
         await self.check_for_message()
-        await self.event.message.edit_text(str(text), **kwargs)  # type: ignore
+        await self.event.message.edit_text(str(text), **kwargs)
 
 
 class SophieMessageCallbackQueryHandler(SophieBaseHandler[Message | CallbackQuery], ABC):
@@ -94,7 +94,7 @@ class SophieMessageCallbackQueryHandler(SophieBaseHandler[Message | CallbackQuer
         if isinstance(self.event, Message):
             msg = self.event
         else:
-            msg = getattr(self.event, "message", None)  # type: ignore
+            msg = getattr(self.event, "message", None)
 
         if not msg:
             raise SophieException("No message in the event")

@@ -1,13 +1,15 @@
+from __future__ import annotations
+
 from aiogram.filters import BaseFilter
 from aiogram.types import Message
 
-from sophie_bot.utils.feature_flags import is_enabled
+from sophie_bot.utils.feature_flags import FeatureType, is_enabled
 
 
 class FeatureFlagFilter(BaseFilter):
     """Filter that checks if a feature flag is enabled."""
 
-    def __init__(self, feature: str, enabled: bool = True):
+    def __init__(self, feature: FeatureType, enabled: bool = True):
         """
         Initialize the feature flag filter.
 
@@ -16,10 +18,10 @@ class FeatureFlagFilter(BaseFilter):
             enabled: If True, handler is enabled when flag is True
                     If False, handler is enabled when flag is False (reverse logic)
         """
-        self.feature = feature  # type: ignore
+        self.feature = feature
         self.enabled = enabled
 
     async def __call__(self, message: Message) -> bool:
         """Check if the feature flag condition is met."""
-        flag_enabled = await is_enabled(self.feature)  # type: ignore
+        flag_enabled = await is_enabled(self.feature)
         return flag_enabled == self.enabled

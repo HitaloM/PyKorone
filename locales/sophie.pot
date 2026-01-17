@@ -51,23 +51,23 @@ msgstr ""
 msgid "Connected chat not found in the database. Please try to disconnect and connect again."
 msgstr ""
 
-#: sophie_bot/modules/ai/__init__.py:43
+#: sophie_bot/modules/ai/__init__.py:58
 msgid "Sophie AI"
 msgstr ""
 
-#: sophie_bot/modules/ai/__init__.py:45
+#: sophie_bot/modules/ai/__init__.py:60
 msgid "Rainbow sparkles and shininess"
 msgstr ""
 
-#: sophie_bot/modules/ai/__init__.py:48
+#: sophie_bot/modules/ai/__init__.py:63
 msgid "Sophie supports quite a few ways to use AI features."
 msgstr ""
 
-#: sophie_bot/modules/ai/__init__.py:49
+#: sophie_bot/modules/ai/__init__.py:64
 msgid "From a simple chat-bot, to the automatic translator. Have fun."
 msgstr ""
 
-#: sophie_bot/modules/ai/__init__.py:52
+#: sophie_bot/modules/ai/__init__.py:67
 msgid "Please note that you can make a limited amount of AI requests per day."
 msgstr ""
 
@@ -311,7 +311,7 @@ msgid "✨ Note was successfully generated"
 msgstr ""
 
 #: sophie_bot/modules/ai/handlers/aisave.py:60
-#: sophie_bot/modules/notes/handlers/save.py:57
+#: sophie_bot/modules/notes/handlers/save.py:61
 #, python-brace-format
 msgid "Use {cmd} to retrieve this note."
 msgstr ""
@@ -584,39 +584,39 @@ msgstr ""
 msgid "You have the following information in your memory"
 msgstr ""
 
-#: sophie_bot/modules/ai/utils/ai_moderator.py:16
+#: sophie_bot/modules/ai/utils/ai_moderator.py:17
 msgid "Content meant to arouse sexual excitement, such as the description of sexual activity, or that promotes sexual services (excluding sex education and wellness)."
 msgstr ""
 
-#: sophie_bot/modules/ai/utils/ai_moderator.py:19
+#: sophie_bot/modules/ai/utils/ai_moderator.py:20
 msgid "Content that expresses prejudice, hostility, or advocates discrimination against individuals or groups based on protected characteristics such as race, ethnicity, religion, gender, sexual orientation, or disability."
 msgstr ""
 
-#: sophie_bot/modules/ai/utils/ai_moderator.py:22
+#: sophie_bot/modules/ai/utils/ai_moderator.py:23
 msgid "Content that describes, glorifies, incites, or threatens physical violence against individuals or groups."
 msgstr ""
 
-#: sophie_bot/modules/ai/utils/ai_moderator.py:25
+#: sophie_bot/modules/ai/utils/ai_moderator.py:26
 msgid "Content that promotes or provides instructions for illegal activities or extremely hazardous behaviors that pose a significant risk of physical harm, death, or legal consequences."
 msgstr ""
 
-#: sophie_bot/modules/ai/utils/ai_moderator.py:28
+#: sophie_bot/modules/ai/utils/ai_moderator.py:29
 msgid "Content that promotes, instructs, plans, or encourages deliberate self-injury, suicide, eating disorders, or other self-destructive behaviors."
 msgstr ""
 
-#: sophie_bot/modules/ai/utils/ai_moderator.py:30
+#: sophie_bot/modules/ai/utils/ai_moderator.py:31
 msgid "Content that contains or tries to elicit detailed or tailored medical advice."
 msgstr ""
 
-#: sophie_bot/modules/ai/utils/ai_moderator.py:31
+#: sophie_bot/modules/ai/utils/ai_moderator.py:32
 msgid "Content that contains or tries to elicit detailed or tailored financial advice."
 msgstr ""
 
-#: sophie_bot/modules/ai/utils/ai_moderator.py:32
+#: sophie_bot/modules/ai/utils/ai_moderator.py:33
 msgid "Content that contains or tries to elicit detailed or tailored legal advice."
 msgstr ""
 
-#: sophie_bot/modules/ai/utils/ai_moderator.py:34
+#: sophie_bot/modules/ai/utils/ai_moderator.py:35
 msgid "Content that requests, shares, or attempts to elicit personal identifying information such as full names, addresses, phone numbers, social security numbers, or financial account details."
 msgstr ""
 
@@ -2752,23 +2752,23 @@ msgstr ""
 msgid "PrivateNotes have been {status} in {chat}."
 msgstr ""
 
-#: sophie_bot/modules/notes/handlers/save.py:24
+#: sophie_bot/modules/notes/handlers/save.py:25
 msgid "Note names"
 msgstr ""
 
-#: sophie_bot/modules/notes/handlers/save.py:26
+#: sophie_bot/modules/notes/handlers/save.py:27
 msgid "?Description"
 msgstr ""
 
-#: sophie_bot/modules/notes/handlers/save.py:29
+#: sophie_bot/modules/notes/handlers/save.py:30
 msgid "Save the note."
 msgstr ""
 
-#: sophie_bot/modules/notes/handlers/save.py:54
+#: sophie_bot/modules/notes/handlers/save.py:58
 msgid "Note was successfully created"
 msgstr ""
 
-#: sophie_bot/modules/notes/handlers/save.py:54
+#: sophie_bot/modules/notes/handlers/save.py:58
 msgid "Note was successfully updated"
 msgstr ""
 

@@ -49,7 +49,7 @@ class KillSwitchHandler(SophieMessageHandler):
             allowed = ", ".join(FEATURE_FLAGS)
             return await self.event.reply(f"Unknown feature '{feature}'. Allowed: {allowed}")
 
-        await set_enabled(feature, value)  # type: ignore[arg-type]
+        await set_enabled(feature, value)
         # Read back for confirmation (uses in-memory cache)
-        current = await is_enabled(feature)  # type: ignore[arg-type]
+        current = await is_enabled(feature)
         return await self.event.reply(f"{feature}: {str(current).lower()}")

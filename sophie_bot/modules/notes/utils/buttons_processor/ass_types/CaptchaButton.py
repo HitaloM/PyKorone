@@ -10,7 +10,7 @@ class CaptchaButton(SophieButtonABC):
     button_type_names = ("welcomesecurity",)
 
     def needed_type(self) -> tuple[LazyProxy, LazyProxy]:
-        return l_("Captcha Button"), l_("Captcha Buttons")  # type: ignore[return-value]
+        return l_("Captcha Button"), l_("Captcha Buttons")
 
     def examples(self) -> Optional[dict[str, Optional[LazyProxy]]]:
         return {

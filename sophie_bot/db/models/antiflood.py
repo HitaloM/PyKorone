@@ -28,7 +28,7 @@ class AntifloodModel(Document):
     def handle_legacy_actions(self) -> "AntifloodModel":
         """Convert legacy action names to FilterActionType objects."""
         if not self.actions and self.action in LEGACY_ACTIONS:
-            legacy_action = self.action  # type: ignore[assignment]
+            legacy_action = self.action
             modern_name = LEGACY_ACTIONS_TO_MODERN[str(legacy_action)]
             self.actions = [FilterActionType(name=modern_name, data={})]
         return self

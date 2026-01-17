@@ -60,7 +60,7 @@ class ActionConfigDoneHandlerMixin(ActionConfigDoneHandlerABC):
         msg = callback_query.message
         if not msg or not isinstance(msg, Message):
             return
-        chat_tid: PydanticObjectId = self.connection.db_model.iid  # type: ignore
+        chat_tid: PydanticObjectId = self.connection.db_model.iid
         state = self.data.get("state")
 
         html, markup = await WizardRenderer.render_home_page(

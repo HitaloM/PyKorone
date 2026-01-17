@@ -9,4 +9,4 @@ db = async_mongo[CONFIG.mongo_db]
 
 
 async def init_db():
-    await init_beanie(database=db, document_models=models, allow_index_dropping=CONFIG.mongo_allow_index_dropping)  # type: ignore
+    await init_beanie(database=db, document_models=models, allow_index_dropping=CONFIG.mongo_allow_index_dropping)
