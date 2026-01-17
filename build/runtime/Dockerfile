@@ -23,7 +23,6 @@ COPY Makefile Makefile
 RUN bash -c "source /venv/bin/activate && \
     /venv/bin/pip install Babel && \
     export PATH=/venv/bin:\$PATH && \
-    make new_lang=en_US && \
     make compile_lang"
 
 RUN uv build --wheel && /venv/bin/pip install dist/*.whl
