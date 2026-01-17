@@ -2,7 +2,7 @@ PROJECT_DIR := "sophie_bot"
 
 # Use uv for package management - no need for explicit environment path
 PYTHON := "uv"
-ASS_PATH := $(shell uv run python -c "import ass_tg as _; print(_.__path__[0])")
+ASS_PATH := $(shell uv run python -c "import ass_tg as _; print(_.__path__[0])" 2>/dev/null)
 
 # Use uv run for pybabel
 PYBABEL := "pybabel"
