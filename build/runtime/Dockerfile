@@ -11,6 +11,7 @@ RUN python -m venv /venv
 
 WORKDIR /build
 COPY pyproject.toml uv.lock ./
+COPY libs libs
 
 RUN uv export --format requirements.txt | /venv/bin/pip install -r /dev/stdin
 
