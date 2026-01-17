@@ -27,3 +27,6 @@ output/
 
 # OpenAPI
 openapi.json
+
+# Jetbrains Junie
+.output
