@@ -3,9 +3,10 @@ from __future__ import annotations
 from dataclasses import dataclass
 
 from aiogram.types import Message
-from typing import Any
+from typing import Any, Optional
 from mistralai import ModerationResponse, ModerationObject
 
+from sophie_bot.db.models.ai_moderator import AIModeratorModel, DetectionLevel
 from sophie_bot.modules.ai.utils.new_message_history import NewAIMessageHistory
 from sophie_bot.services.ai import mistral_client
 from sophie_bot.utils.i18n import lazy_gettext as l_
@@ -86,7 +87,7 @@ class ModerationResult:
     categories: CategoriesDict
 
 
-async def check_moderator(message: Message) -> ModerationResult:
+async def check_moderator(message: Message, settings: Optional[AIModeratorModel] = None) -> ModerationResult:
     history = NewAIMessageHistory()
     await history.add_from_message(message, normalize_texts=True)
 
@@ -104,9 +105,23 @@ async def check_moderator(message: Message) -> ModerationResult:
 
     category_scores: dict[str, float] = result.category_scores
 
+    # Calculate dynamic thresholds based on settings
+    thresholds = {}
+    for key, default_normal in CATEGORY_MIN_SCORES.items():
+        level = getattr(settings, key, DetectionLevel.NORMAL) if settings else DetectionLevel.NORMAL
+
+        if level == DetectionLevel.OFF:
+            thresholds[key] = 1.1
+        elif level == DetectionLevel.LOW:
+            thresholds[key] = min(1.0, default_normal + 0.3)
+        elif level == DetectionLevel.HIGH:
+            thresholds[key] = max(0.01, default_normal - 0.2)
+        else:  # NORMAL
+            thresholds[key] = default_normal
+
     # Use float scores and compare with thresholds to determine flags
     categories_bool: dict[str, bool] = {
-        key: category_scores.get(key, 0.0) >= CATEGORY_MIN_SCORES.get(key, 0.5) for key in CATEGORY_MIN_SCORES.keys()
+        key: category_scores.get(key, 0.0) >= thresholds.get(key, 0.5) for key in CATEGORY_MIN_SCORES.keys()
     }
     flagged: bool = any(categories_bool.values())
 
@@ -115,7 +130,7 @@ async def check_moderator(message: Message) -> ModerationResult:
         flagged=flagged,
         categories=categories_bool,
         category_scores=category_scores,
-        thresholds=CATEGORY_MIN_SCORES,
+        thresholds=thresholds,
         input_count=len(history.to_moderation),
     )
 

@@ -59,13 +59,11 @@ class AiModeratorMiddleware(BaseMiddleware):
         if not await is_enabled("ai_moderation"):
             return await handler(event, data)
 
-        if (
-            chat_db
-            and chat_db.type != ChatType.private
-            and data.get("ai_enabled")
-            and isinstance(event, Message)
-            and await AIModeratorModel.get_state(chat_db.iid)
-        ):
+        if chat_db and chat_db.type != ChatType.private and data.get("ai_enabled") and isinstance(event, Message):
+            settings = await AIModeratorModel.find_one(AIModeratorModel.chat.id == chat_db.iid)
+            if not settings or not settings.enabled:
+                return await handler(event, data)
+
             if not (event.text or event.caption or event.photo or event.audio):
                 return await handler(event, data)
 
@@ -76,7 +74,7 @@ class AiModeratorMiddleware(BaseMiddleware):
                 return await handler(event, data)
 
             try:
-                result = await check_moderator(event)
+                result = await check_moderator(event, settings=settings)
                 if result.flagged:
                     await self._triggered(event, result.categories.to_dict())
                     raise SkipHandler

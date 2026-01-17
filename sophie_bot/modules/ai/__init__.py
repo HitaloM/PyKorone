@@ -38,6 +38,21 @@ from sophie_bot.modules.ai.texts import AI_POLICY
 from sophie_bot.utils.i18n import LazyProxy
 from sophie_bot.utils.i18n import lazy_gettext as l_
 
+from .api import api_router as api_router
+
+__all__ = [
+    "router",
+    "api_router",
+    "__module_name__",
+    "__module_emoji__",
+    "__module_description__",
+    "__module_info__",
+    "__filters__",
+    "__modern_actions__",
+    "__handlers__",
+    "__pre_setup__",
+]
+
 router = Router(name="ai")
 
 __module_name__ = l_("Sophie AI")
