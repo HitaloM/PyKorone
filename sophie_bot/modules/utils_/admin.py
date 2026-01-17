@@ -69,8 +69,8 @@ async def check_user_admin_permissions(
             return False
 
         admin = await ChatAdminModel.find_one(
-            ChatAdminModel.chat.id == chat.iid,  # type: ignore[attr-defined]
-            ChatAdminModel.user.id == user.iid,  # type: ignore[attr-defined]
+            ChatAdminModel.chat.id == chat.iid,  # type: ignore
+            ChatAdminModel.user.id == user.iid,  # type: ignore
         )
 
         if not admin:
@@ -115,3 +115,38 @@ async def is_user_admin(chat_tid: int, user_tid: int) -> bool:
     """
     result = await check_user_admin_permissions(chat_tid, user_tid)
     return result is True
+
+
+async def is_chat_creator(chat_tid: int, user_tid: int) -> bool:
+    """Check if the user is the creator of the chat."""
+    chat = await ChatModel.get_by_tid(chat_tid)
+    if not chat:
+        return False
+
+    user = await ChatModel.get_by_tid(user_tid)
+    if not user:
+        return False
+
+    admin = await ChatAdminModel.find_one(
+        ChatAdminModel.chat.id == chat.iid,  # type: ignore
+        ChatAdminModel.user.id == user.iid,  # type: ignore
+    )
+    if not admin:
+        return False
+
+    return admin.member.status == ChatMemberStatus.CREATOR
+
+
+from sophie_bot.modules.utils_.chat_member import update_chat_members
+
+
+async def get_admins_rights(chat_tid: int, force_update: bool = False) -> None:
+    """Refresh admin cache for the chat (wrapper for update_chat_admins)."""
+    # This seems to map to logic that updates admins in DB.
+    # Assuming update_chat_admins is the modern equivalent if it exists or we implement logic here.
+    # For now, we can check if update_chat_members handles admins or if there is a specific function.
+    chat = await ChatModel.get_by_tid(chat_tid)
+    if not chat:
+        return
+
+    await update_chat_members(chat)

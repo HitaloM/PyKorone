@@ -18,12 +18,30 @@ msgstr ""
 msgid "User ID"
 msgstr ""
 
-#: sophie_bot/args/users.py:78
+#: sophie_bot/args/users.py:78 sophie_bot/modules/users/handlers/info.py:40
 msgid "Username"
 msgstr ""
 
 #: sophie_bot/args/users.py:80
 msgid "A link to user, usually creates by mentioning a user without username."
+msgstr ""
+
+#: sophie_bot/filters/admin_rights.py:103
+#, python-brace-format
+msgid "You don't have the permission {permission} to do this."
+msgstr ""
+
+#: sophie_bot/filters/admin_rights.py:110
+msgid "You must be an administrator to use this command."
+msgstr ""
+
+#: sophie_bot/filters/admin_rights.py:139
+#, python-brace-format
+msgid "I don't have the permission {permission} to do this."
+msgstr ""
+
+#: sophie_bot/filters/admin_rights.py:146
+msgid "I must be an administrator to use this command."
 msgstr ""
 
 #: sophie_bot/filters/is_connected.py:52
@@ -554,6 +572,8 @@ msgstr ""
 #: sophie_bot/modules/restrictions/handlers/mute.py:75
 #: sophie_bot/modules/restrictions/handlers/mute.py:100
 #: sophie_bot/modules/restrictions/handlers/mute.py:133
+#: sophie_bot/modules/warns/handlers/warn.py:36
+#: sophie_bot/modules/warns/handlers/warn.py:65
 msgid "Reason"
 msgid_plural "Reasons"
 msgstr[0] ""
@@ -725,13 +745,6 @@ msgstr ""
 #: sophie_bot/modules/federations/handlers/ban.py:104
 #: sophie_bot/modules/federations/handlers/banlist.py:92
 #: sophie_bot/modules/federations/handlers/unban.py:149
-#: sophie_bot/modules/legacy_modules/modules/feds.py:424
-#: sophie_bot/modules/legacy_modules/modules/feds.py:453
-#: sophie_bot/modules/legacy_modules/modules/feds.py:606
-#: sophie_bot/modules/legacy_modules/modules/feds.py:781
-#: sophie_bot/modules/legacy_modules/modules/warns.py:67
-#: sophie_bot/modules/legacy_modules/modules/warns.py:178
-#: sophie_bot/modules/legacy_modules/modules/warns.py:242
 #: sophie_bot/modules/promotes/handlers/demote.py:35
 #: sophie_bot/modules/promotes/handlers/demote.py:67
 #: sophie_bot/modules/promotes/handlers/promote.py:39
@@ -751,6 +764,8 @@ msgstr ""
 #: sophie_bot/modules/restrictions/handlers/unmute.py:39
 #: sophie_bot/modules/restrictions/handlers/unmute.py:62
 #: sophie_bot/modules/users/handlers/id.py:23
+#: sophie_bot/modules/users/handlers/info.py:20
+#: sophie_bot/modules/warns/handlers/warn.py:59
 msgid "User"
 msgstr ""
 
@@ -784,6 +799,7 @@ msgid "Select a chat to connect to:"
 msgstr ""
 
 #: sophie_bot/modules/connections/handlers/connection.py:89
+#: sophie_bot/modules/users/handlers/adminlist.py:29
 msgid "Chat not found."
 msgstr ""
 
@@ -831,6 +847,7 @@ msgstr ""
 
 #: sophie_bot/modules/connections/handlers/connection.py:147
 #: sophie_bot/modules/legacy_modules/utils/connections.py:39
+#: sophie_bot/modules/users/handlers/adminlist.py:25
 msgid "This command can only be used in groups."
 msgstr ""
 
@@ -861,7 +878,6 @@ msgstr ""
 #: sophie_bot/modules/disabling/handlers/disable.py:50
 #: sophie_bot/modules/disabling/handlers/enable.py:21
 #: sophie_bot/modules/disabling/handlers/enable.py:52
-#: sophie_bot/modules/legacy_modules/modules/feds.py:260
 msgid "Command"
 msgstr ""
 
@@ -1458,6 +1474,7 @@ msgid "🏛 Federation Information"
 msgstr ""
 
 #: sophie_bot/modules/federations/handlers/info.py:57
+#: sophie_bot/modules/users/handlers/info.py:33
 msgid "ID"
 msgstr ""
 
@@ -1808,6 +1825,21 @@ msgstr ""
 #: sophie_bot/modules/federations/handlers/unban.py:156
 #, python-brace-format
 msgid "🏛 User {unbanned_user} has been unbanned from federation by {unbanner}."
+msgstr ""
+
+#: sophie_bot/modules/federations/middlewares/check_fban.py:52
+#, python-brace-format
+msgid "{user} has been banned in the current federation <b>{fed_name}</b>."
+msgstr ""
+
+#: sophie_bot/modules/federations/middlewares/check_fban.py:59
+#, python-brace-format
+msgid "Banned via subscribed federation <b>{fed_name}</b>."
+msgstr ""
+
+#: sophie_bot/modules/federations/middlewares/check_fban.py:65
+#, python-brace-format
+msgid "Reason: {text}"
 msgstr ""
 
 #: sophie_bot/modules/filters/__init__.py:30
@@ -2387,157 +2419,31 @@ msgstr ""
 msgid "Only admins"
 msgstr ""
 
-#: sophie_bot/modules/legacy_modules/modules/feds.py:84
-msgid "Federations"
+#: sophie_bot/modules/language/handlers/language.py:19
+msgid "Change the language of the bot in the chat."
 msgstr ""
 
-#: sophie_bot/modules/legacy_modules/modules/feds.py:260
-msgid "Creates a new Federation."
+#: sophie_bot/modules/language/handlers/language.py:33
+msgid "Select the language you want to use in this chat."
 msgstr ""
 
-#: sophie_bot/modules/legacy_modules/modules/feds.py:295
-msgid "Joins the current chat to the federation."
+#: sophie_bot/modules/language/handlers/language.py:57
+#: sophie_bot/modules/language/handlers/language.py:121
+msgid "Help us translate!"
 msgstr ""
 
-#: sophie_bot/modules/legacy_modules/modules/feds.py:295
-msgid "Fed ID"
+#: sophie_bot/modules/language/handlers/language.py:76
+msgid "Language not found."
 msgstr ""
 
-#: sophie_bot/modules/legacy_modules/modules/feds.py:335
-msgid "Leaves the current chat from the federation."
+#: sophie_bot/modules/language/handlers/language.py:93
+#, python-brace-format
+msgid "Language changed to {lang}"
 msgstr ""
 
-#: sophie_bot/modules/legacy_modules/modules/feds.py:363
-msgid "Subscribes federation to another."
-msgstr ""
-
-#: sophie_bot/modules/legacy_modules/modules/feds.py:363
-msgid "Fed ID to subscribe"
-msgstr ""
-
-#: sophie_bot/modules/legacy_modules/modules/feds.py:397
-msgid "Unsubscribes the federation."
-msgstr ""
-
-#: sophie_bot/modules/legacy_modules/modules/feds.py:397
-msgid "Subscribed Fed ID"
-msgstr ""
-
-#: sophie_bot/modules/legacy_modules/modules/feds.py:424
-msgid "Promotes the user to the Federation admins."
-msgstr ""
-
-#: sophie_bot/modules/legacy_modules/modules/feds.py:453
-msgid "Demotes the user from the Federation admins."
-msgstr ""
-
-#: sophie_bot/modules/legacy_modules/modules/feds.py:480
-msgid "Sets the Federation logs channel."
-msgstr ""
-
-#: sophie_bot/modules/legacy_modules/modules/feds.py:509
-msgid "Removes the Federation logs channel."
-msgstr ""
-
-#: sophie_bot/modules/legacy_modules/modules/feds.py:531
-msgid "Shows a list of chats in the Federation."
-msgstr ""
-
-#: sophie_bot/modules/legacy_modules/modules/feds.py:556
-msgid "Shows a list of admins in the Federation."
-msgstr ""
-
-#: sophie_bot/modules/legacy_modules/modules/feds.py:570
-msgid "Shows the information about the Federation."
-msgstr ""
-
-#: sophie_bot/modules/legacy_modules/modules/feds.py:606
-msgid "Bans the user in the whole Federation."
-msgstr ""
-
-#: sophie_bot/modules/legacy_modules/modules/feds.py:781
-msgid "Unbans the user from the Federation."
-msgstr ""
-
-#: sophie_bot/modules/legacy_modules/modules/feds.py:875
-msgid "Deletes the federation."
-msgstr ""
-
-#: sophie_bot/modules/legacy_modules/modules/feds.py:929
-msgid "Renames the federation."
-msgstr ""
-
-#: sophie_bot/modules/legacy_modules/modules/feds.py:929
-msgid "New name"
-msgstr ""
-
-#: sophie_bot/modules/legacy_modules/modules/feds.py:957
-msgid "Exports the list of bans."
-msgstr ""
-
-#: sophie_bot/modules/legacy_modules/modules/feds.py:1006
-msgid "Imports the list of bans."
-msgstr ""
-
-#: sophie_bot/modules/legacy_modules/modules/feds.py:1136
-msgid "Checks the user ban status (can be used to check yourself)."
-msgstr ""
-
-#: sophie_bot/modules/legacy_modules/modules/language.py:22
-msgid "Language"
-msgstr ""
-
-#: sophie_bot/modules/legacy_modules/modules/language.py:39
-msgid "Asks for the new language for the chat."
-msgstr ""
-
-#: sophie_bot/modules/legacy_modules/modules/users.py:17
-#: sophie_bot/modules/users/__init__.py:15
-msgid "Users"
-msgstr ""
-
-#: sophie_bot/modules/legacy_modules/modules/users.py:24
-msgid "Shows the additional information about the user."
-msgstr ""
-
-#: sophie_bot/modules/legacy_modules/modules/users.py:58
-msgid "Lists all the chats admins."
-msgstr ""
-
-#: sophie_bot/modules/legacy_modules/modules/warns.py:57
-msgid "Warnings"
-msgstr ""
-
-#: sophie_bot/modules/legacy_modules/modules/warns.py:66
-msgid "Warns the user."
-msgstr ""
-
-#: sophie_bot/modules/legacy_modules/modules/warns.py:177
-msgid "Shows the warnings history."
-msgstr ""
-
-#: sophie_bot/modules/legacy_modules/modules/warns.py:208
-msgid "Sets the limit of warnings in the chat."
-msgstr ""
-
-#: sophie_bot/modules/legacy_modules/modules/warns.py:209
-msgid "New limit"
-msgstr ""
-
-#: sophie_bot/modules/legacy_modules/modules/warns.py:241
-msgid "Deletes all warnings"
-msgstr ""
-
-#: sophie_bot/modules/legacy_modules/modules/warns.py:270
-msgid "Changes the punishment action after hitting the warning limit."
-msgstr ""
-
-#: sophie_bot/modules/legacy_modules/modules/warns.py:271
-msgid "New mode"
-msgstr ""
-
-#: sophie_bot/modules/legacy_modules/modules/warns.py:385
-msgid "⚠️ Warn"
+#: sophie_bot/modules/language/handlers/language.py:124
+#, python-brace-format
+msgid "Language set to {lang}"
 msgstr ""
 
 #: sophie_bot/modules/legacy_modules/utils/connections.py:35
@@ -3537,6 +3443,23 @@ msgstr ""
 msgid "❌ Cancelled."
 msgstr ""
 
+#: sophie_bot/modules/users/__init__.py:15
+msgid "Users"
+msgstr ""
+
+#: sophie_bot/modules/users/handlers/adminlist.py:16
+msgid "Lists all the chats admins."
+msgstr ""
+
+#: sophie_bot/modules/users/handlers/adminlist.py:38
+#, python-brace-format
+msgid "Admins in {chat_name}"
+msgstr ""
+
+#: sophie_bot/modules/users/handlers/adminlist.py:71
+msgid "No visible admins found."
+msgstr ""
+
 #: sophie_bot/modules/users/handlers/id.py:36
 #, python-brace-format
 msgid "Your ID: {id}"
@@ -3560,6 +3483,34 @@ msgstr ""
 #: sophie_bot/modules/users/handlers/id.py:52
 #, python-brace-format
 msgid "{user}'s ID: {id}"
+msgstr ""
+
+#: sophie_bot/modules/users/handlers/info.py:18
+msgid "Shows the additional information about the user."
+msgstr ""
+
+#: sophie_bot/modules/users/handlers/info.py:31
+msgid "User Information"
+msgstr ""
+
+#: sophie_bot/modules/users/handlers/info.py:34
+msgid "First Name"
+msgstr ""
+
+#: sophie_bot/modules/users/handlers/info.py:37
+msgid "Last Name"
+msgstr ""
+
+#: sophie_bot/modules/users/handlers/info.py:43
+msgid "User Link"
+msgstr ""
+
+#: sophie_bot/modules/users/handlers/info.py:50
+msgid "This user is an admin in this chat."
+msgstr ""
+
+#: sophie_bot/modules/users/handlers/info.py:56
+msgid "Shared Chats"
 msgstr ""
 
 #: sophie_bot/modules/utils_/action_config_wizard/callback.py:50
@@ -3708,28 +3659,85 @@ msgstr ""
 msgid "The state was successfully changed"
 msgstr ""
 
-#: sophie_bot/modules/warns/magic_handlers/modern_action.py:35
+#: sophie_bot/modules/warns/__init__.py:16
+msgid "Warnings"
+msgstr ""
+
+#: sophie_bot/modules/warns/__init__.py:20
+msgid "Warns users in the chat to keep it safe."
+msgstr ""
+
+#: sophie_bot/modules/warns/__init__.py:21
+msgid "You can set a max warning limit and an action to take when the limit is reached."
+msgstr ""
+
+#: sophie_bot/modules/warns/handlers/warn.py:21
+msgid "Warns a user."
+msgstr ""
+
+#: sophie_bot/modules/warns/handlers/warn.py:35
+msgid "User to warn"
+msgstr ""
+
+#: sophie_bot/modules/warns/handlers/warn.py:45
+msgid "I cannot warn myself."
+msgstr ""
+
+#: sophie_bot/modules/warns/handlers/warn.py:49
+msgid "I cannot warn an admin."
+msgstr ""
+
+#: sophie_bot/modules/warns/handlers/warn.py:58
+msgid "User Warned"
+msgstr ""
+
+#: sophie_bot/modules/warns/handlers/warn.py:60
+msgid "Admin"
+msgstr ""
+
+#: sophie_bot/modules/warns/handlers/warn.py:61
+msgid "Count"
+msgstr ""
+
+#: sophie_bot/modules/warns/handlers/warn.py:68
+#, python-brace-format
+msgid "User has been {punishment} due to reaching max warns."
+msgstr ""
+
+#: sophie_bot/modules/warns/magic_handlers/modern_action.py:34
 msgid "Please write the warn reason."
 msgstr ""
 
-#: sophie_bot/modules/warns/magic_handlers/modern_action.py:43
+#: sophie_bot/modules/warns/magic_handlers/modern_action.py:42
 msgid "Warn"
 msgstr ""
 
-#: sophie_bot/modules/warns/magic_handlers/modern_action.py:51
+#: sophie_bot/modules/warns/magic_handlers/modern_action.py:50
 msgid "Warn user with the reason"
 msgstr ""
 
-#: sophie_bot/modules/warns/magic_handlers/modern_action.py:53
+#: sophie_bot/modules/warns/magic_handlers/modern_action.py:52
 msgid "Warns user with no reason"
 msgstr ""
 
-#: sophie_bot/modules/warns/magic_handlers/modern_action.py:58
+#: sophie_bot/modules/warns/magic_handlers/modern_action.py:57
 msgid "Change warn reason"
 msgstr ""
 
-#: sophie_bot/modules/warns/magic_handlers/modern_action.py:75
+#: sophie_bot/modules/warns/magic_handlers/modern_action.py:74
 msgid "No reason"
+msgstr ""
+
+#: sophie_bot/modules/warns/utils.py:46 sophie_bot/modules/warns/utils.py:53
+msgid "banned"
+msgstr ""
+
+#: sophie_bot/modules/warns/utils.py:56
+msgid "kicked"
+msgstr ""
+
+#: sophie_bot/modules/warns/utils.py:59 sophie_bot/modules/warns/utils.py:66
+msgid "muted"
 msgstr ""
 
 #: sophie_bot/modules/welcomesecurity/__init__.py:31

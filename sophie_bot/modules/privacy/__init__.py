@@ -6,7 +6,7 @@ from sophie_bot.utils.i18n import lazy_gettext as l_
 
 from ...filters.chat_status import ChatTypeFilter
 from ...filters.cmd import CMDFilter
-from ..legacy_modules import LOADED_LEGACY_MODULES
+from sophie_bot.modules import LOADED_MODULES
 from .callbacks import PrivacyMenuCallback
 from .handlers.export import EXPORTABLE_MODULES, TriggerExport
 from .handlers.privacy import PrivacyMenu
@@ -27,6 +27,7 @@ async def __pre_setup__():
 
 
 async def __post_setup__(modules: dict[str, ModuleType]):
-    for module in (*modules.values(), *LOADED_LEGACY_MODULES):
+    extra_modules = LOADED_MODULES.values() if isinstance(LOADED_MODULES, dict) else LOADED_MODULES
+    for module in (*modules.values(), *extra_modules):
         if hasattr(module, "__export__"):
             EXPORTABLE_MODULES.append(module)

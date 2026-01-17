@@ -17,7 +17,7 @@ from sophie_bot.modules.filters.utils_.handle_action import (
 )
 from sophie_bot.modules.filters.utils_.match_legacy import match_legacy_handler
 from sophie_bot.modules.help.utils.extract_info import get_all_cmds_raw
-from sophie_bot.modules.legacy_modules.utils.user_details import is_user_admin
+from sophie_bot.modules.utils_.admin import is_user_admin
 from sophie_bot.modules.utils_.common_try import common_try
 from sophie_bot.services.bot import bot
 from sophie_bot.utils.exception import SophieException

@@ -32,7 +32,7 @@ class AdminListHandler(SophieMessageHandler):
         # Note: ChatAdminModel stores admins. We need to fetch them.
         # This mirrors the legacy behavior but uses the new DB structure.
 
-        admins_cursor = ChatAdminModel.find(ChatAdminModel.chat.id == chat_model.iid)
+        admins_cursor = ChatAdminModel.find(ChatAdminModel.chat.id == chat_model.iid)  # type: ignore
         admins = await admins_cursor.to_list()
 
         doc = Doc(Title(_("Admins in {chat_name}").format(chat_name=self.event.chat.title)))

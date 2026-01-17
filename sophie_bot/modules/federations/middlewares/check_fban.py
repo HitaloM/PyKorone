@@ -6,10 +6,10 @@ from aiogram.types import Message, TelegramObject
 from stfu_tg import Template, UserLink
 
 from sophie_bot.modules.federations.services.federation import FederationService
-from sophie_bot.modules.legacy_modules.utils.language import get_strings
-from sophie_bot.modules.legacy_modules.utils.restrictions import ban_user
-from sophie_bot.modules.legacy_modules.utils.user_details import is_user_admin
+from sophie_bot.modules.restrictions.utils.restrictions import ban_user
+from sophie_bot.modules.utils_.admin import is_user_admin
 from sophie_bot.modules.utils_.common_try import common_try
+from sophie_bot.utils.i18n import gettext as _
 from sophie_bot.utils.logger import log
 
 
@@ -45,26 +45,24 @@ class FedBanMiddleware(BaseMiddleware):
 
         ban, banning_fed = ban_info
 
-        strings = await get_strings(chat_id, "feds")
-
         # Determine which federation actually banned the user
         if banning_fed.fed_id == federation.fed_id:
             # Banned in this federation
             doc = Template(
-                strings["automatic_ban"],
+                _("{user} has been banned in the current federation <b>{fed_name}</b>."),
                 user=UserLink(user_id, user_name),
                 fed_name=html.escape(federation.fed_name, False),
             )
         else:
             # Banned in a subscribed federation
             doc = Template(
-                strings["automatic_ban_sfed"],
+                _("Banned via subscribed federation <b>{fed_name}</b>."),
                 user=UserLink(user_id, user_name),
                 fed_name=html.escape(banning_fed.fed_name, False),
             )
 
         if ban.reason:
-            doc += Template(strings["automatic_ban_reason"], text=ban.reason)
+            doc += Template(_("Reason: {text}"), text=ban.reason)
 
         if not await ban_user(chat_id, user_id):
             return True

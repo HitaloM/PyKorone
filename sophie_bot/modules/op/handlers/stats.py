@@ -10,8 +10,8 @@ from sophie_bot.config import CONFIG
 from sophie_bot.filters.cmd import CMDFilter
 from sophie_bot.filters.user_status import IsOP
 from sophie_bot.modules import LOADED_MODULES
-from sophie_bot.modules.legacy_modules.modules import LOADED_LEGACY_MODULES
-from sophie_bot.modules.legacy_modules.utils.register import REGISTRED_COMMANDS
+from sophie_bot.modules import LOADED_MODULES
+from sophie_bot.modules.help.utils.extract_info import get_all_cmds_raw
 from sophie_bot.modules.utils_.base_handler import SophieMessageHandler
 from sophie_bot.services.db import db
 from sophie_bot.services.redis import redis
@@ -71,8 +71,8 @@ async def get_system_stats() -> Doc:
         "Legacy modules",
         Template(
             "{cmds} total commands registered, in {modules} modules",
-            cmds=Code(len(REGISTRED_COMMANDS)),
-            modules=Code(len(LOADED_LEGACY_MODULES)),
+            cmds=Code(len(get_all_cmds_raw())),
+            modules=Code(len(LOADED_MODULES)),
         ),
     )
 
@@ -90,7 +90,7 @@ class StatsHandler(SophieMessageHandler):
         sec = Doc()
 
         all_modules: list[Any] = list(LOADED_MODULES.values())
-        all_modules.extend(LOADED_LEGACY_MODULES)
+        all_modules.extend(LOADED_MODULES)
 
         for module in all_modules:
             if hasattr(module, "__stats__"):

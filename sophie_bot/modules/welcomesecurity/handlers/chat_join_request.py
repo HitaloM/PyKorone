@@ -5,7 +5,7 @@ from aiogram.types import ChatJoinRequest
 
 from sophie_bot.db.models import ChatModel, GreetingsModel, RulesModel
 from sophie_bot.modules.greetings.default_welcome import get_default_join_request_message
-from sophie_bot.modules.legacy_modules.utils.user_details import is_user_admin
+from sophie_bot.modules.utils_.admin import is_user_admin
 from sophie_bot.modules.notes.utils.send import send_saveable
 from sophie_bot.modules.utils_.base_handler import SophieBaseHandler
 from sophie_bot.modules.utils_.common_try import common_try

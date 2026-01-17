@@ -37,7 +37,7 @@ MODULES = [
     "ai",
     "filters",
     "antiflood",
-    "legacy_modules",  # Legacy last
+    "language",
 ]
 
 
@@ -69,12 +69,14 @@ async def load_modules(
         LOADED_MODULES[module.__name__.split(".", 3)[2]] = module
 
     for module_name, module in LOADED_MODULES.items():
+        log.debug(f"Loading module {module_name}...")
         # Load handlers
         if not (router := getattr(module, "router", None)):
             continue
 
         handlers: Sequence[Type["SophieBaseHandler"]] = getattr(module, "__handlers__", [])
         for handler in handlers:
+            log.debug(f"Registering handler {handler.__name__}...")
             handler.register(router)
 
     # Pre setup

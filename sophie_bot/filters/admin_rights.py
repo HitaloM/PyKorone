@@ -11,8 +11,8 @@ from aiogram.types.callback_query import CallbackQuery
 
 from sophie_bot.config import CONFIG
 from sophie_bot.middlewares.connections import ChatConnection
-from sophie_bot.modules.legacy_modules.utils.language import get_strings
 from sophie_bot.modules.utils_.admin import check_user_admin_permissions
+from sophie_bot.utils.i18n import gettext as _
 from sophie_bot.utils.logger import log
 
 
@@ -97,24 +97,22 @@ class UserRestricting(Filter):
         return message.from_user.id  # type: ignore[union-attr]
 
     async def no_rights_msg(self, message: TelegramObject, required_permissions: Union[bool, str]) -> None:
-        strings = await get_strings(
-            message.message.chat.id if hasattr(message, "message") else message.chat.id,  # type: ignore[union-attr]
-            "global",
-        )
         task = message.answer if hasattr(message, "message") else message.reply  # type: ignore[union-attr]
         if not isinstance(required_permissions, bool):  # Check if check_user_admin_permissions returned missing perm
             permission_display = " ".join(required_permissions.replace("can_", "").split("_"))
+            text = _("You don't have the permission {permission} to do this.").format(permission=permission_display)
             try:
-                await task(strings["user_no_right"].format(permission=permission_display))
+                await task(text)
             except TelegramBadRequest as error:
                 if error.args == "Reply message not found":
-                    await message.answer(strings["user_no_right"])  # type: ignore[union-attr]
+                    await message.answer(text)  # type: ignore[union-attr]
         else:
+            text = _("You must be an administrator to use this command.")
             try:
-                await task(strings["user_no_right:not_admin"])
+                await task(text)
             except TelegramBadRequest as error:
                 if error.args == "Reply message not found":
-                    await message.answer(strings["user_no_right:not_admin"])  # type: ignore[union-attr]
+                    await message.answer(text)  # type: ignore[union-attr]
 
 
 class BotHasPermissions(UserRestricting):
@@ -136,17 +134,18 @@ class BotHasPermissions(UserRestricting):
 
     async def no_rights_msg(self, message, required_permissions):
         message = message.message if isinstance(message, CallbackQuery) else message
-        strings = await get_strings(message.chat.id, "global")
         if not isinstance(required_permissions, bool):
             required_permissions = " ".join(required_permissions.strip("can_").split("_"))
+            text = _("I don't have the permission {permission} to do this.").format(permission=required_permissions)
             try:
-                await message.reply(strings["bot_no_right"].format(permission=required_permissions))
+                await message.reply(text)
             except TelegramBadRequest as error:
                 if error.args == "Reply message not found":
-                    return await message.answer(strings["bot_no_right"])
+                    return await message.answer(text)
         else:
+            text = _("I must be an administrator to use this command.")
             try:
-                await message.reply(strings["bot_no_right:not_admin"])
+                await message.reply(text)
             except TelegramBadRequest as error:
                 if error.args == "Reply message not found":
-                    return await message.answer(strings["bot_no_right:not_admin"])
+                    return await message.answer(text)

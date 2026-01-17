@@ -74,11 +74,10 @@ class LeaveFederationHandler(SophieMessageHandler):
         """Check if user can leave this chat from a federation."""
         # For now, require admin rights (can be extended to check creator status,)
         # This follows the pattern from legacy code
-        from sophie_bot.modules.legacy_modules.utils.user_details import is_chat_creator
+        from sophie_bot.modules.utils_.admin import is_chat_creator
 
         try:
             return await is_chat_creator(
-                self.event,
                 chat_id,
                 user_id,
             )

@@ -13,7 +13,7 @@ from stfu_tg.doc import Element
 from sophie_bot.db.models import GreetingsModel
 from sophie_bot.filters.admin_rights import UserRestricting
 from sophie_bot.filters.cmd import CMDFilter
-from sophie_bot.modules.legacy_modules.utils.message import convert_time
+from sophie_bot.modules.welcomesecurity.utils_.db_time_convert import convert_timedelta_or_str as convert_timedelta_or_str
 from sophie_bot.modules.utils_.status_handler import StatusHandlerABC
 from sophie_bot.modules.welcomesecurity.utils_.db_time_convert import (
     convert_timedelta_or_str,
@@ -44,7 +44,7 @@ class EnableWelcomeMute(StatusHandlerABC[timedelta | str | Literal[False]]):
 
         # From db
         if isinstance(status_data, str):
-            delta = convert_time(status_data)
+            delta = convert_timedelta_or_str(status_data)
         elif isinstance(status_data, bool) and not status_data:
             return _("Disabled")
         elif isinstance(status_data, timedelta):

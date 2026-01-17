@@ -6,7 +6,7 @@ from aiogram.dispatcher.flags import get_flag
 from aiogram.types import Message, TelegramObject
 
 from sophie_bot.db.models.disabling import DisablingModel
-from sophie_bot.modules.legacy_modules.utils.user_details import is_user_admin
+from sophie_bot.modules.utils_.admin import is_user_admin
 from sophie_bot.utils.logger import log
 
 

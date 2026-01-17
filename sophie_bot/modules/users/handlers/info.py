@@ -17,14 +17,25 @@ from sophie_bot.utils.i18n import lazy_gettext as l_
 
 @flags.help(description=l_("Shows the additional information about the user."))
 @flags.disableable(name="info")
-@flags.args(user=OptionalArg(SophieUserArg(l_("User"), allow_self=True)))
+@flags.args(user=OptionalArg(SophieUserArg(l_("User"))))
 class UserInfoHandler(SophieMessageHandler):
     @staticmethod
     def filters() -> tuple[CallbackType, ...]:
         return (CMDFilter("info"),)
 
     async def handle(self) -> Any:
-        target_user: ChatModel = self.data["user"]
+        # Fallback to self if no user provided
+        target_user: ChatModel | None = self.data.get("user")
+        if not target_user:
+            # If no user arg, try to get self from event
+            user = getattr(self.event, "from_user", None)
+            if user:
+                target_user = await ChatModel.get_or_create_user(user.id)
+
+        if not target_user:
+            await self.event.reply(_("Could not identify user."))
+            return
+
         chat_tid = self.connection.tid
         user_tid = target_user.tid
 
@@ -51,7 +62,7 @@ class UserInfoHandler(SophieMessageHandler):
 
         # Count shared groups
         # We search for UserInGroupModel entries where the user is the target user
-        shared_chats_count = await UserInGroupModel.find(UserInGroupModel.user.id == target_user.iid).count()
+        shared_chats_count = await UserInGroupModel.find(UserInGroupModel.user.iid == target_user.iid).count()
 
         doc += KeyValue(_("Shared Chats"), shared_chats_count)
 

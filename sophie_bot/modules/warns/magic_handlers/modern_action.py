@@ -10,9 +10,8 @@ from sophie_bot.modules.filters.types.modern_action_abc import (
     ModernActionABC,
     ModernActionSetting,
 )
-from sophie_bot.modules.legacy_modules.modules.warns import warn_func
-from sophie_bot.modules.legacy_modules.utils.connections import get_connected_chat
-from sophie_bot.modules.legacy_modules.utils.user_details import is_user_admin
+from sophie_bot.modules.utils_.admin import is_user_admin
+from sophie_bot.modules.warns.utils import warn_user
 from sophie_bot.utils.i18n import gettext as _
 from sophie_bot.utils.i18n import lazy_gettext as l_
 
@@ -75,6 +74,6 @@ class WarnModernAction(ModernActionABC[WarnActionDataModel]):
         text = filter_data.reason or _("No reason")
 
         # Legacy workaround
-        connected_chat = await get_connected_chat(message)
+        # connected_chat = await get_connected_chat(message)
 
-        await warn_func(message, connected_chat, target_user, text, filter_action=True)
+        await warn_user(message.chat, message.from_user, message.from_user, text)

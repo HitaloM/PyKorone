@@ -10,7 +10,7 @@ from sophie_bot.modules.filters.utils_.all_modern_actions import ALL_MODERN_ACTI
 from sophie_bot.modules.filters.utils_.legacy_filter_actions import (
     LEGACY_FILTERS_ACTIONS,
 )
-from sophie_bot.modules.legacy_modules.utils.connections import get_connected_chat
+from sophie_bot.middlewares.connections import ConnectionsMiddleware
 from sophie_bot.utils.exception import SophieException
 from sophie_bot.utils.i18n import LazyProxy
 from sophie_bot.utils.logger import log
@@ -27,7 +27,7 @@ async def handle_legacy_filter_action(matched_filter: FiltersModel, message: Mes
 
     log.debug("handle_legacy_filter", matched_filter=matched_filter)
 
-    connected_chat = await get_connected_chat(message)
+    connected_chat = await ConnectionsMiddleware.get_current_chat_info(message.chat)
     await action["handle"](message, connected_chat, matched_filter.model_dump())
 
 

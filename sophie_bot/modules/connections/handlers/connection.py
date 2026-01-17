@@ -127,6 +127,9 @@ class DisconnectCmd(SophieMessageHandler):
         return (CMDFilter("disconnect"),)
 
     async def handle(self):
+        if not self.event.from_user:
+            return
+
         user_id = self.event.from_user.id
         await set_connected_chat(user_id, None)
         await self.event.reply(_("Disconnected."), reply_markup=ReplyKeyboardRemove())
@@ -147,7 +150,8 @@ class AllowUsersConnectCmd(SophieMessageHandler):
             await self.event.reply(_("This command can only be used in groups."))
             return
 
-        if not await is_user_admin(self.event.chat.id, self.event.from_user.id):
+        user_id = self.event.from_user.id if self.event.from_user else 0
+        if not await is_user_admin(self.event.chat.id, user_id):
             await self.event.reply(_("You must be an admin to use this command."))
             return
 

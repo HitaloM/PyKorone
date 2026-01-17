@@ -5,7 +5,6 @@ from sophie_bot.config import CONFIG
 from sophie_bot.middlewares.beta import BetaMiddleware
 from sophie_bot.middlewares.connections import ConnectionsMiddleware
 from sophie_bot.middlewares.disabling import DisablingMiddleware
-from sophie_bot.middlewares.legacy_save_chats import LegacySaveChats
 from sophie_bot.middlewares.localization import LocalizationMiddleware
 from sophie_bot.middlewares.logic import OrMiddleware
 from sophie_bot.middlewares.memory_debug import TracemallocMiddleware
@@ -48,7 +47,6 @@ def enable_middlewares():
     dp.message.middleware(ArgsMiddleware(i18n=i18n))
 
     dp.update.outer_middleware(SaveChatsMiddleware())
-    dp.message.outer_middleware(LegacySaveChats())
 
     dp.update.middleware(ConnectionsMiddleware())
     dp.message.middleware(DisablingMiddleware())

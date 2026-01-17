@@ -10,7 +10,7 @@ from sophie_bot.db.models import (
     UserInGroupModel,
     WSUserModel,
 )
-from sophie_bot.modules.legacy_modules.utils.user_details import is_user_admin
+from sophie_bot.modules.utils_.admin import is_user_admin
 from sophie_bot.modules.utils_.base_handler import (
     SophieCallbackQueryHandler,
     SophieMessageHandler,

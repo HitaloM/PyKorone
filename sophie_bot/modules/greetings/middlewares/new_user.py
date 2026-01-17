@@ -14,7 +14,7 @@ from sophie_bot.modules.greetings.default_welcome import (
     get_default_security_message,
 )
 from sophie_bot.modules.greetings.utils.send_welcome import send_welcome
-from sophie_bot.modules.legacy_modules.utils.user_details import is_user_admin
+from sophie_bot.modules.utils_.admin import is_user_admin
 from sophie_bot.modules.utils_.common_try import common_try
 from sophie_bot.modules.welcomesecurity.utils_.on_new_user import ws_on_new_users_mute
 from sophie_bot.modules.welcomesecurity.utils_.welcomemute import on_welcomemute

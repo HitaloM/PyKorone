@@ -1,7 +1,7 @@
 from typing import Any, Optional
 
 from aiogram import Router
-from aiogram.handlers import MessageHandler
+from aiogram.dispatcher.event.handler import CallbackType
 from aiogram.types import Message
 from ass_tg.types import OptionalArg
 from stfu_tg import Code, Doc, Template, UserLink
@@ -10,6 +10,7 @@ from sophie_bot.args.users import SophieUserArg
 from sophie_bot.db.models import ChatModel
 from sophie_bot.filters.cmd import CMDFilter
 from sophie_bot.middlewares.connections import ChatConnection
+from sophie_bot.modules.utils_.base_handler import SophieMessageHandler
 from sophie_bot.utils.i18n import gettext as _
 from sophie_bot.utils.i18n import lazy_gettext as l_
 
@@ -24,7 +25,11 @@ async def optional_user(message: Message | None, _data: dict):
 
 
 @router.message(CMDFilter("id"), flags={"args": optional_user})
-class ShowIDs(MessageHandler):
+class ShowIDHandler(SophieMessageHandler):
+    @staticmethod
+    def filters() -> tuple[CallbackType, ...]:
+        return CMDFilter(("id")),
+
     async def handle(self) -> Any:
         chat: ChatConnection = self.data["connection"]
         user: Optional[ChatModel] = self.data.get("user", None)

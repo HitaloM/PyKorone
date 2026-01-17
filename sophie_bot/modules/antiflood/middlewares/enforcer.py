@@ -10,12 +10,12 @@ from stfu_tg import Doc, KeyValue, Title, UserLink
 
 from sophie_bot.db.models import ChatModel
 from sophie_bot.db.models.antiflood import AntifloodModel
-from sophie_bot.modules.legacy_modules.utils.restrictions import (
+from sophie_bot.modules.restrictions.utils.restrictions import (
     ban_user,
     kick_user,
     mute_user,
 )
-from sophie_bot.modules.legacy_modules.utils.user_details import is_user_admin
+from sophie_bot.modules.utils_.admin import is_user_admin
 from sophie_bot.services.redis import aredis
 from sophie_bot.utils.feature_flags import is_enabled
 from sophie_bot.utils.i18n import gettext as _

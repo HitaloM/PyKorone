@@ -2,8 +2,8 @@ import asyncio
 from typing import Sequence
 
 from sophie_bot.db.models import ChatModel, WSUserModel
-from sophie_bot.modules.legacy_modules.utils.restrictions import mute_user
-from sophie_bot.modules.legacy_modules.utils.user_details import is_user_admin
+from sophie_bot.modules.restrictions.utils.restrictions import mute_user
+from sophie_bot.modules.utils_.admin import is_user_admin
 
 
 async def ws_on_new_user(new_user: ChatModel, chat: ChatModel, is_join_request: bool = False):
@@ -13,7 +13,7 @@ async def ws_on_new_user(new_user: ChatModel, chat: ChatModel, is_join_request: 
     """
 
     # Check for admin permissions
-    if await is_user_admin(chat_id=chat.tid, user_id=new_user.tid):
+    if await is_user_admin(chat_tid=chat.tid, user_tid=new_user.tid):
         return False
 
     # Add user to the welcomesecurity database
@@ -27,7 +27,7 @@ async def ws_on_new_user(new_user: ChatModel, chat: ChatModel, is_join_request: 
 
 async def ws_on_new_user_mute(new_user: ChatModel, chat: ChatModel):
     if await ws_on_new_user(new_user, chat):
-        return await mute_user(chat_id=chat.tid, user_id=new_user.tid)
+        return await mute_user(chat_tid=chat.tid, user_tid=new_user.tid)
     return None
 
 

@@ -14,7 +14,7 @@ from sophie_bot.modules.ai.utils.ai_moderator import (
     check_moderator,
 )
 from sophie_bot.modules.error.utils.capture import capture_sentry
-from sophie_bot.modules.legacy_modules.utils.user_details import is_user_admin
+from sophie_bot.modules.utils_.admin import is_user_admin
 from sophie_bot.services.bot import bot
 from sophie_bot.utils.feature_flags import is_enabled
 from sophie_bot.utils.i18n import gettext as _

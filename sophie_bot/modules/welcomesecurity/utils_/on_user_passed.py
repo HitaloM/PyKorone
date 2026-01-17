@@ -1,7 +1,7 @@
 from sophie_bot.db.models import ChatModel, WSUserModel
 from sophie_bot.db.models.greetings import WelcomeMute
-from sophie_bot.modules.legacy_modules.utils.restrictions import unmute_user
-from sophie_bot.modules.legacy_modules.utils.user_details import is_user_admin
+from sophie_bot.modules.restrictions.utils.restrictions import unmute_user
+from sophie_bot.modules.utils_.admin import is_user_admin
 from sophie_bot.modules.welcomesecurity.utils_.db_time_convert import (
     convert_timedelta_or_str,
 )
@@ -15,7 +15,7 @@ async def ws_on_user_passed(user: ChatModel, group: ChatModel, welcomemute: Welc
     """
 
     # Check for admin permissions
-    if await is_user_admin(chat_id=group.tid, user_id=user.tid):
+    if await is_user_admin(chat_tid=group.tid, user_tid=user.tid):
         return False
 
     # Remove the user from the welcomesecurity database
@@ -25,6 +25,6 @@ async def ws_on_user_passed(user: ChatModel, group: ChatModel, welcomemute: Welc
     if welcomemute.enabled and welcomemute.time:
         await on_welcomemute(group.tid, user.tid, on_time=convert_timedelta_or_str(welcomemute.time))
     else:
-        await unmute_user(chat_id=group.tid, user_id=user.tid)
+        await unmute_user(chat_tid=group.tid, user_tid=user.tid)
 
     return True
