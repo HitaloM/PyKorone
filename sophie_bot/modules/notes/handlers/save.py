@@ -6,7 +6,7 @@ from ass_tg.types import DividedArg, OptionalArg, SurroundedArg, TextArg, WordAr
 from bson import Code
 from stfu_tg import KeyValue, Section, Template
 
-from libs.ass.ass_tg.types.base_abc import ParsedArg
+from ass_tg.types.base_abc import ParsedArg
 from sophie_bot.db.models import NoteModel
 from sophie_bot.db.models.notes import Saveable
 from sophie_bot.filters.admin_rights import UserRestricting

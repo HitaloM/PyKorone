@@ -1,6 +1,6 @@
-from libs.ass.ass_tg.types.logic import OptionalArg
-from libs.ass.ass_tg.types.reverse import ReverseArg
-from libs.ass.ass_tg.types.text import TextArg
+from ass_tg.types.logic import OptionalArg
+from ass_tg.types.reverse import ReverseArg
+from ass_tg.types.text import TextArg
 from sophie_bot.modules.notes.utils.buttons_processor.ass_types.parse_arg import ButtonsArg
 from sophie_bot.utils.i18n import lazy_gettext as l_
 

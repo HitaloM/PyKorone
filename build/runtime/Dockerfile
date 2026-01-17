@@ -13,7 +13,7 @@ WORKDIR /build
 COPY pyproject.toml uv.lock ./
 COPY libs libs
 
-RUN uv export --no-hashes --format requirements.txt | /venv/bin/pip install -r /dev/stdin
+RUN uv export --no-hashes --no-editable --format requirements.txt | /venv/bin/pip install -r /dev/stdin
 
 COPY sophie_bot sophie_bot
 COPY locales locales
