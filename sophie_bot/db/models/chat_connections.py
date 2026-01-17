@@ -1,4 +1,5 @@
 from typing import Optional
+from datetime import datetime
 
 from beanie import Document
 from pymongo import ASCENDING, IndexModel
@@ -8,6 +9,8 @@ class ChatConnectionModel(Document):
     # Old IDs
     user_id: int
     chat_id: Optional[int] = None
+    expires_at: Optional[datetime] = None
+    history: list[int] = []
 
     # New links
     # group: Optional[Link[ChatModel]] = None

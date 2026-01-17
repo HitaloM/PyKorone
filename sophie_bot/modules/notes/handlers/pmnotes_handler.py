@@ -2,14 +2,14 @@ from typing import Any
 
 from aiogram import flags
 from aiogram.dispatcher.event.handler import CallbackType
-from aiogram.types import InlineKeyboardButton
+from aiogram.types import InlineKeyboardButton, ReplyKeyboardMarkup, KeyboardButton
 from aiogram.utils.keyboard import InlineKeyboardBuilder
 from stfu_tg import Bold, Doc, Template
 
 from sophie_bot.filters.chat_status import ChatTypeFilter
 from sophie_bot.filters.cmd import CMDFilter
 from sophie_bot.middlewares.connections import ConnectionsMiddleware
-from sophie_bot.modules.legacy_modules.utils.connections import set_connected_chat
+from sophie_bot.modules.connections.utils.connection import set_connected_chat
 from sophie_bot.modules.notes.callbacks import PrivateNotesStartUrlCallback
 from sophie_bot.modules.notes.filters.pm_notes import PMNotesFilter
 from sophie_bot.modules.notes.handlers.list import LIST_CMDS, NotesList
@@ -58,9 +58,12 @@ class PrivateNotesConnectHandler(SophieMessageHandler):
         doc = Doc(
             Bold(Template(_("Connected to chat {chat_name} successfully!"), chat_name=connection.title)),
             Template(_("Use {command} to disconnect"), command="/disconnect"),
+            _("⏳ This connection will last for 48 hours."),
         )
 
-        await self.event.reply(str(doc))
+        markup = ReplyKeyboardMarkup(keyboard=[[KeyboardButton(text="/disconnect")]], resize_keyboard=True)
+
+        await self.event.reply(str(doc), reply_markup=markup)
 
         # List notes
         return await NotesList(self.event, **self.data)

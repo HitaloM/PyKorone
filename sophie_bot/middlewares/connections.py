@@ -1,5 +1,6 @@
 from dataclasses import dataclass
 from typing import Any, Awaitable, Callable
+from datetime import datetime, timezone
 
 from aiogram import BaseMiddleware
 from aiogram.types import Chat, TelegramObject
@@ -64,6 +65,17 @@ class ConnectionsMiddleware(BaseMiddleware):
             log.debug("ConnectionsMiddleware: Not connected!")
             data["connection"] = await self.get_current_chat_info(real_chat)
             return await handler(event, data)
+
+        # Check expiry
+        if connection.expires_at and connection.expires_at < datetime.now(timezone.utc):
+            log.debug("ConnectionsMiddleware: Connection expired!")
+            connection.chat_id = None
+            connection.expires_at = None
+            await connection.save()
+
+            data["connection"] = await self.get_current_chat_info(real_chat)
+            return await handler(event, data)
+
         elif not (connection_chat := await self.get_chat_from_db(connection.chat_id, True)):
             log.debug("ConnectionsMiddleware: connected, but chat were not found in database, skipping...")
             data["connection"] = await self.get_current_chat_info(real_chat)
