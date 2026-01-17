@@ -32,6 +32,8 @@ MODULES = [
     "purges",
     "warns",
     "restrictions",
+    "reports",
+    "pins",
     "ai",
     "filters",
     "antiflood",
