@@ -1,6 +1,6 @@
 ---
-title: Pins
-icon: 📌
+title: pins
+icon: ?
 ---
 ## Available commands
 
@@ -9,5 +9,5 @@ icon: 📌
 
 | Commands | Arguments | Description | Remarks |
 | --- | --- | --- | --- |
-| `/unpin` | - | Pins replied message |  |
-| `/pin` | - | Unpins the last pinned message |  |
+| `/pin` | `<None>` `<None>` | Pins replied message |  |
+| `/unpin` | `<None>` | Unpins message |  |

@@ -34,16 +34,16 @@ msgstr ""
 msgid "Refer to /help for more information about connections."
 msgstr ""
 
-#: sophie_bot/middlewares/connections.py:26
+#: sophie_bot/middlewares/connections.py:27
 msgid "Private chat"
 msgstr ""
 
-#: sophie_bot/middlewares/connections.py:30
+#: sophie_bot/middlewares/connections.py:31
 #: sophie_bot/modules/welcomesecurity/handlers/captcha_get.py:52
 msgid "Chat not found in database"
 msgstr ""
 
-#: sophie_bot/middlewares/connections.py:40
+#: sophie_bot/middlewares/connections.py:41
 msgid "Connected chat not found in the database. Please try to disconnect and connect again."
 msgstr ""
 
@@ -201,14 +201,18 @@ msgstr ""
 msgid "✨ Sophie AI"
 msgstr ""
 
-#: sophie_bot/modules/ai/handlers/ai_cmd.py:15
+#: sophie_bot/modules/ai/handlers/ai_cmd.py:17
 #: sophie_bot/modules/ai/handlers/aisave.py:27
 #: sophie_bot/modules/ai/handlers/mode.py:15
 msgid "Prompt"
 msgstr ""
 
-#: sophie_bot/modules/ai/handlers/ai_cmd.py:17
+#: sophie_bot/modules/ai/handlers/ai_cmd.py:19
 msgid "Ask Sophie a question"
+msgstr ""
+
+#: sophie_bot/modules/ai/handlers/ai_cmd.py:32
+msgid "You have been automatically disconnected from the chat to use AI."
 msgstr ""
 
 #: sophie_bot/modules/ai/handlers/ai_moderator_setting.py:11
@@ -757,6 +761,97 @@ msgid "Action"
 msgid_plural "Actions"
 msgstr[0] ""
 msgstr[1] ""
+
+#: sophie_bot/modules/connections/handlers/connection.py:30
+msgid "Connects to the chat by its ID."
+msgstr ""
+
+#: sophie_bot/modules/connections/handlers/connection.py:30
+msgid "Chat ID"
+msgstr ""
+
+#: sophie_bot/modules/connections/handlers/connection.py:44
+msgid "Connections"
+msgstr ""
+
+#: sophie_bot/modules/connections/handlers/connection.py:45
+#: sophie_bot/modules/connections/handlers/connection.py:108
+msgid "⚠️ The connection module is obsolete in favor of the web app."
+msgstr ""
+
+#: sophie_bot/modules/connections/handlers/connection.py:46
+msgid "Select a chat to connect to:"
+msgstr ""
+
+#: sophie_bot/modules/connections/handlers/connection.py:89
+msgid "Chat not found."
+msgstr ""
+
+#: sophie_bot/modules/connections/handlers/connection.py:98
+msgid "You are not allowed to connect to this chat."
+msgstr ""
+
+#: sophie_bot/modules/connections/handlers/connection.py:104
+msgid "Connected!"
+msgstr ""
+
+#: sophie_bot/modules/connections/handlers/connection.py:105
+#, python-brace-format
+msgid "Connected to {chat_name}."
+msgstr ""
+
+#: sophie_bot/modules/connections/handlers/connection.py:107
+msgid "Notices"
+msgstr ""
+
+#: sophie_bot/modules/connections/handlers/connection.py:109
+#: sophie_bot/modules/notes/handlers/pmnotes_handler.py:61
+msgid "⏳ This connection will last for 48 hours."
+msgstr ""
+
+#: sophie_bot/modules/connections/handlers/connection.py:120
+msgid "Keyboard updated."
+msgstr ""
+
+#: sophie_bot/modules/connections/handlers/connection.py:123
+msgid "Disconnects from the current chat."
+msgstr ""
+
+#: sophie_bot/modules/connections/handlers/connection.py:132
+msgid "Disconnected."
+msgstr ""
+
+#: sophie_bot/modules/connections/handlers/connection.py:136
+msgid "Sets whether normal users (non-admins) are allowed to connect."
+msgstr ""
+
+#: sophie_bot/modules/connections/handlers/connection.py:137
+msgid "Enable/Disable"
+msgstr ""
+
+#: sophie_bot/modules/connections/handlers/connection.py:147
+#: sophie_bot/modules/legacy_modules/utils/connections.py:39
+msgid "This command can only be used in groups."
+msgstr ""
+
+#: sophie_bot/modules/connections/handlers/connection.py:151
+msgid "You must be an admin to use this command."
+msgstr ""
+
+#: sophie_bot/modules/connections/handlers/connection.py:165
+#: sophie_bot/modules/notes/handlers/pmnotes_setting.py:67
+msgid "enabled"
+msgstr ""
+
+#: sophie_bot/modules/connections/handlers/connection.py:165
+#: sophie_bot/modules/notes/handlers/pmnotes_setting.py:67
+msgid "disabled"
+msgstr ""
+
+#: sophie_bot/modules/connections/handlers/connection.py:166
+#, python-brace-format
+msgid "Connection for users is now {status}."
+msgstr ""
 
 #: sophie_bot/modules/disabling/__init__.py:17
 msgid "Disabling"
@@ -2292,39 +2387,6 @@ msgstr ""
 msgid "Only admins"
 msgstr ""
 
-#: sophie_bot/modules/legacy_modules/modules/connection.py:51
-msgid "Connections"
-msgstr ""
-
-#: sophie_bot/modules/legacy_modules/modules/connection.py:74
-msgid "Connects PM with bot to the current chat."
-msgstr ""
-
-#: sophie_bot/modules/legacy_modules/modules/connection.py:103
-msgid "Connects to the latest chat."
-msgstr ""
-
-#: sophie_bot/modules/legacy_modules/modules/connection.py:152
-msgid "Connected to the chat by its ID."
-msgstr ""
-
-#: sophie_bot/modules/legacy_modules/modules/connection.py:152
-msgid "Chat ID"
-msgstr ""
-
-#: sophie_bot/modules/legacy_modules/modules/connection.py:171
-msgid "Disconnects the PM from connected chat."
-msgstr ""
-
-#: sophie_bot/modules/legacy_modules/modules/connection.py:183
-msgid "Sets whatever normal users (non admins) are allowed to connect"
-msgstr ""
-
-#: sophie_bot/modules/legacy_modules/modules/connection.py:184
-#: sophie_bot/modules/notes/handlers/pmnotes_setting.py:46
-msgid "New state"
-msgstr ""
-
 #: sophie_bot/modules/legacy_modules/modules/feds.py:84
 msgid "Federations"
 msgstr ""
@@ -2429,26 +2491,6 @@ msgstr ""
 msgid "Asks for the new language for the chat."
 msgstr ""
 
-#: sophie_bot/modules/legacy_modules/modules/pins.py:15
-msgid "Pins"
-msgstr ""
-
-#: sophie_bot/modules/legacy_modules/modules/pins.py:25
-msgid "Pins replied message"
-msgstr ""
-
-#: sophie_bot/modules/legacy_modules/modules/pins.py:46
-msgid "Unpins the last pinned message"
-msgstr ""
-
-#: sophie_bot/modules/legacy_modules/modules/reports.py:18
-msgid "Reports"
-msgstr ""
-
-#: sophie_bot/modules/legacy_modules/modules/reports.py:35
-msgid "Reports the replied message."
-msgstr ""
-
 #: sophie_bot/modules/legacy_modules/modules/users.py:17
 #: sophie_bot/modules/users/__init__.py:15
 msgid "Users"
@@ -2459,10 +2501,6 @@ msgid "Shows the additional information about the user."
 msgstr ""
 
 #: sophie_bot/modules/legacy_modules/modules/users.py:58
-msgid "Shows IDs."
-msgstr ""
-
-#: sophie_bot/modules/legacy_modules/modules/users.py:90
 msgid "Lists all the chats admins."
 msgstr ""
 
@@ -2500,6 +2538,10 @@ msgstr ""
 
 #: sophie_bot/modules/legacy_modules/modules/warns.py:385
 msgid "⚠️ Warn"
+msgstr ""
+
+#: sophie_bot/modules/legacy_modules/utils/connections.py:35
+msgid "You must be an admin to use this command in the connected chat."
 msgstr ""
 
 #: sophie_bot/modules/legacy_modules/utils/user_details.py:363
@@ -2677,16 +2719,12 @@ msgstr ""
 msgid "Use '{cmd}' to change it."
 msgstr ""
 
+#: sophie_bot/modules/notes/handlers/pmnotes_setting.py:46
+msgid "New state"
+msgstr ""
+
 #: sophie_bot/modules/notes/handlers/pmnotes_setting.py:47
 msgid "Control Private Notes"
-msgstr ""
-
-#: sophie_bot/modules/notes/handlers/pmnotes_setting.py:67
-msgid "enabled"
-msgstr ""
-
-#: sophie_bot/modules/notes/handlers/pmnotes_setting.py:67
-msgid "disabled"
 msgstr ""
 
 #: sophie_bot/modules/notes/handlers/pmnotes_setting.py:72
@@ -2945,6 +2983,30 @@ msgstr ""
 msgid "Generate a test emoji captcha"
 msgstr ""
 
+#: sophie_bot/modules/op/handlers/event.py:13
+msgid "Prints the message event as JSON."
+msgstr ""
+
+#: sophie_bot/modules/op/handlers/stats.py:83
+msgid "Show bot statistics."
+msgstr ""
+
+#: sophie_bot/modules/pins/handlers/pin.py:15
+msgid "Pins replied message"
+msgstr ""
+
+#: sophie_bot/modules/pins/handlers/pin.py:35
+msgid "You need to reply to a message to pin it."
+msgstr ""
+
+#: sophie_bot/modules/pins/handlers/unpin.py:16
+msgid "Unpins message"
+msgstr ""
+
+#: sophie_bot/modules/pins/handlers/unpin.py:50
+msgid "The message is not pinned."
+msgstr ""
+
 #: sophie_bot/modules/privacy/__init__.py:17
 msgid "Privacy"
 msgstr ""
@@ -3079,6 +3141,32 @@ msgstr ""
 
 #: sophie_bot/modules/purges/magic_handlers/modern_filter.py:25
 msgid "Deletes the message"
+msgstr ""
+
+#: sophie_bot/modules/reports/handlers/report.py:16
+msgid "Reports the replied message."
+msgstr ""
+
+#: sophie_bot/modules/reports/handlers/report.py:36
+msgid "You are an admin, you don't need to report."
+msgstr ""
+
+#: sophie_bot/modules/reports/handlers/report.py:40
+msgid "You need to reply to a message to report it."
+msgstr ""
+
+#: sophie_bot/modules/reports/handlers/report.py:45
+msgid "You cannot report an admin."
+msgstr ""
+
+#: sophie_bot/modules/reports/handlers/report.py:62
+#, python-brace-format
+msgid "User {user} has been reported!"
+msgstr ""
+
+#: sophie_bot/modules/reports/handlers/report.py:69
+#, python-brace-format
+msgid "Reason: {reason}"
 msgstr ""
 
 #: sophie_bot/modules/restrictions/__init__.py:17

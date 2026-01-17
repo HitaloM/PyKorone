@@ -7,6 +7,8 @@ from sophie_bot.modules.op.handlers.Captcha import OpCaptchaHandler
 from sophie_bot.modules.op.handlers.KillSwitch import KillSwitchHandler
 from sophie_bot.modules.op.handlers.ListJobs import ListJobsHandler
 from sophie_bot.modules.op.handlers.StopJobs import StopJobsHandler
+from sophie_bot.modules.op.handlers.event import EventHandler
+from sophie_bot.modules.op.handlers.stats import StatsHandler, get_system_stats
 from .api import health_router
 
 api_router = APIRouter()
@@ -25,4 +27,7 @@ __handlers__ = (
     OpBannerHandler,
     OpCaptchaHandler,
     ButtonsTestHandler,
+    EventHandler,
+    StatsHandler,
 )
+__stats__ = get_system_stats

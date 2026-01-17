@@ -54,38 +54,6 @@ async def user_info(message: Message, user, strings):
     await message.reply(text)
 
 
-@register(router, cmds=["id", "chatid", "userid"])
-@flags.help(description=l_("Shows IDs."))
-@disableable_dec("id")
-@get_user_dec(allow_self=True)
-@get_strings_dec("misc")
-@chat_connection()
-async def get_id(message: Message, user, strings, chat):
-    user_id = message.from_user.id
-
-    text = strings["your_id"].format(id=user_id)
-    if message.chat.id != user_id:
-        text += strings["chat_id"].format(id=message.chat.iid)
-
-    if chat["status"] is True:
-        text += strings["conn_chat_id"].format(id=chat["chat_id"])
-
-    if not user["user_id"] == user_id:
-        text += strings["user_id"].format(user=await get_user_link(user["user_id"]), id=user["user_id"])
-
-    if (
-        "reply_to_message" in message
-        and "forward_from" in message.reply_to_message
-        and not message.reply_to_message.forward_from.id == message.reply_to_message.from_user.id
-    ):
-        text += strings["user_id"].format(
-            user=await get_user_link(message.reply_to_message.forward_from.id),
-            id=message.reply_to_message.forward_from.id,
-        )
-
-    await message.reply(text)
-
-
 @register(router, cmds=["adminlist", "admins"])
 @flags.help(description=l_("Lists all the chats admins."))
 @disableable_dec("adminlist")
