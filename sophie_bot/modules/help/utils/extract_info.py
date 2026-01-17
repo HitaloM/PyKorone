@@ -21,7 +21,7 @@ from sophie_bot.filters.chat_status import (
 )
 from sophie_bot.filters.cmd import CMDFilter
 from sophie_bot.filters.feature_flag import FeatureFlagFilter
-from sophie_bot.filters.user_status import IsAdmin, IsOP
+from sophie_bot.filters.user_status import IsOP
 from sophie_bot.utils.feature_flags import FeatureType, is_enabled
 from sophie_bot.utils.logger import log
 
@@ -118,9 +118,7 @@ async def gather_cmds_help(router: Router) -> list[HandlerHelp]:
                 continue
 
         # Is admin
-        only_admin = any(
-            (isinstance(f.callback, IsAdmin) or (isinstance(f.callback, UserRestricting))) for f in handler.filters
-        )
+        only_admin = any(isinstance(f.callback, UserRestricting) for f in handler.filters)
 
         # Only PMs
         only_pm = any(

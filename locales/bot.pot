@@ -34,10 +34,6 @@ msgstr ""
 msgid "Refer to /help for more information about connections."
 msgstr ""
 
-#: sophie_bot/filters/user_status.py:24
-msgid "Admin permission required!"
-msgstr ""
-
 #: sophie_bot/middlewares/connections.py:26
 msgid "Private chat"
 msgstr ""

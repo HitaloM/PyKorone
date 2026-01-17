@@ -5,7 +5,7 @@ from aiogram.filters.callback_data import CallbackData
 from aiogram.types import InlineKeyboardButton, InlineKeyboardMarkup, Message
 from stfu_tg import Code, Template
 
-from sophie_bot.filters.user_status import IsAdmin
+from sophie_bot.filters.admin_rights import UserRestricting
 from sophie_bot.modules.legacy_modules.utils.language import (
     LANGUAGES,
     change_chat_lang,
@@ -126,7 +126,7 @@ async def select_lang_msg(message: Message, strings):
     await change_lang(message, lang)
 
 
-@dp.callback_query(SelectLangCb.filter(), IsAdmin(True))
+@dp.callback_query(SelectLangCb.filter(), UserRestricting(admin=True))
 async def select_lang_callback(query, callback_data: SelectLangCb, **kwargs):
     lang = callback_data.lang
     back_btn = callback_data.back_btn
