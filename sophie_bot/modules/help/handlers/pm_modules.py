@@ -2,7 +2,7 @@ from typing import Any, Optional
 
 from aiogram import Router, flags
 from aiogram.handlers import CallbackQueryHandler
-from aiogram.types import CallbackQuery, InlineKeyboardButton
+from aiogram.types import CallbackQuery, InlineKeyboardButton, Message
 from aiogram.utils.keyboard import InlineKeyboardBuilder
 from stfu_tg import Doc, HList, Section, Title, Url
 
@@ -123,7 +123,7 @@ class PMModuleHelp(CallbackQueryHandler):
             )
         )
 
-        if not self.event.message:
-            raise SophieException("Message not found")
+        if not self.event.message or not isinstance(self.event.message, Message):
+            raise SophieException("Message not found or inaccessible")
 
         await self.event.message.edit_text(str(doc), reply_markup=buttons.as_markup(), disable_web_page_preview=True)

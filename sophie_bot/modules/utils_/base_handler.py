@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from typing import Any, Optional, TypeVar
+from typing import Any, Optional, TypeVar, cast
 
 from aiogram import Router
 from aiogram.dispatcher.event.handler import CallbackType
@@ -85,7 +85,8 @@ class SophieCallbackQueryHandler(SophieBaseHandler[CallbackQuery], ABC):
 
     async def edit_text(self, text: Element | str, **kwargs):
         await self.check_for_message()
-        await self.event.message.edit_text(str(text), **kwargs)
+        message = cast(Message, self.event.message)
+        await message.edit_text(str(text), **kwargs)
 
 
 class SophieMessageCallbackQueryHandler(SophieBaseHandler[Message | CallbackQuery], ABC):
