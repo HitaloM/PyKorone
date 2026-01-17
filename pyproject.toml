@@ -86,3 +86,6 @@ pythonpath = "."
 quote-style = "double"
 indent-style = "space"
 line-ending = "auto"
+
+[tool.setuptools.packages.find]
+include = ["sophie_bot*"]
