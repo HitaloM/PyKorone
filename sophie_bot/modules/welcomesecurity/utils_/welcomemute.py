@@ -1,6 +1,8 @@
 from datetime import timedelta
 
-from sophie_bot.modules.welcomesecurity.utils_.db_time_convert import convert_timedelta_or_str as convert_timedelta_or_str
+from sophie_bot.modules.welcomesecurity.utils_.db_time_convert import (
+    convert_timedelta_or_str as convert_timedelta_or_str,
+)
 from sophie_bot.modules.restrictions.utils.restrictions import restrict_user
 
 

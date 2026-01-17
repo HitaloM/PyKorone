@@ -1,21 +1,14 @@
 ---
 title: Warnings
 icon: ⚠️
----
+---> Warns users in the chat to keep it safe. \
+> You can set a max warning limit and an action to take when the limit is reached.
+
 ## Available commands
 
-
-### Commands
-
-| Commands | Arguments | Description | Remarks |
-| --- | --- | --- | --- |
-| `/warns` | `<User>` | Shows the warnings history. |  |
 
 ### Only admins
 
 | Commands | Arguments | Description | Remarks |
 | --- | --- | --- | --- |
-| `/warn` | `<User>` | Warns the user. |  |
-| `/warnlimit` | `<New limit>` | Sets the limit of warnings in the chat. |  |
-| `/resetwarns` `/delwarns` | `<User>` | Deletes all warnings |  |
-| `/warnmode` `/warnaction` | `<New mode>` | Changes the punishment action after hitting the warning limit. |  |
+| `/warn` | - | Warns a user. | *Disable-able* |

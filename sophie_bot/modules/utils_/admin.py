@@ -8,6 +8,7 @@ from aiogram.exceptions import TelegramBadRequest
 from sophie_bot.config import CONFIG
 from sophie_bot.db.models.chat import ChatModel
 from sophie_bot.db.models.chat_admin import ChatAdminModel
+from sophie_bot.modules.utils_.chat_member import update_chat_members
 from sophie_bot.utils.logger import log
 
 # Telegram's anonymous admin bot ID
@@ -135,9 +136,6 @@ async def is_chat_creator(chat_tid: int, user_tid: int) -> bool:
         return False
 
     return admin.member.status == ChatMemberStatus.CREATOR
-
-
-from sophie_bot.modules.utils_.chat_member import update_chat_members
 
 
 async def get_admins_rights(chat_tid: int, force_update: bool = False) -> None:

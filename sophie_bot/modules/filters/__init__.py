@@ -7,7 +7,7 @@ from sophie_bot.utils.i18n import LazyProxy
 from sophie_bot.utils.i18n import lazy_gettext as l_
 from sophie_bot.utils.logger import log
 
-from .. import LOADED_MODULES
+from .. import LOADED_MODULES as LOADED_MODULES
 from .enforce_middleware import EnforceFiltersMiddleware
 from .handlers.action_change_setting_confirm import ActionChangeSettingConfirm
 from .handlers.action_remove import ActionRemoveHandler
@@ -24,6 +24,19 @@ from .handlers.filter_save import FilterSaveHandler
 from .handlers.filters_list import FiltersListHandler
 from .utils_.all_modern_actions import ALL_MODERN_ACTIONS
 from .utils_.legacy_filter_actions import LEGACY_FILTERS_ACTIONS
+
+__all__ = (
+    "router",
+    "__module_name__",
+    "__module_emoji__",
+    "__module_info__",
+    "__advertise_wiki_page__",
+    "__handlers__",
+    "__pre_setup__",
+    "__post_setup__",
+    "LOADED_MODULES",
+)
+
 
 router = Router(name="filters")
 __module_name__ = l_("Filters")

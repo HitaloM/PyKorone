@@ -18,7 +18,7 @@ msgstr ""
 msgid "User ID"
 msgstr ""
 
-#: sophie_bot/args/users.py:78 sophie_bot/modules/users/handlers/info.py:40
+#: sophie_bot/args/users.py:78 sophie_bot/modules/users/handlers/info.py:51
 msgid "Username"
 msgstr ""
 
@@ -229,7 +229,7 @@ msgstr ""
 msgid "Ask Sophie a question"
 msgstr ""
 
-#: sophie_bot/modules/ai/handlers/ai_cmd.py:32
+#: sophie_bot/modules/ai/handlers/ai_cmd.py:33
 msgid "You have been automatically disconnected from the chat to use AI."
 msgstr ""
 
@@ -573,7 +573,7 @@ msgstr ""
 #: sophie_bot/modules/restrictions/handlers/mute.py:100
 #: sophie_bot/modules/restrictions/handlers/mute.py:133
 #: sophie_bot/modules/warns/handlers/warn.py:36
-#: sophie_bot/modules/warns/handlers/warn.py:65
+#: sophie_bot/modules/warns/handlers/warn.py:68
 msgid "Reason"
 msgid_plural "Reasons"
 msgstr[0] ""
@@ -763,9 +763,9 @@ msgstr ""
 #: sophie_bot/modules/restrictions/handlers/unban.py:62
 #: sophie_bot/modules/restrictions/handlers/unmute.py:39
 #: sophie_bot/modules/restrictions/handlers/unmute.py:62
-#: sophie_bot/modules/users/handlers/id.py:23
+#: sophie_bot/modules/users/handlers/id.py:24
 #: sophie_bot/modules/users/handlers/info.py:20
-#: sophie_bot/modules/warns/handlers/warn.py:59
+#: sophie_bot/modules/warns/handlers/warn.py:62
 msgid "User"
 msgstr ""
 
@@ -833,39 +833,38 @@ msgstr ""
 msgid "Disconnects from the current chat."
 msgstr ""
 
-#: sophie_bot/modules/connections/handlers/connection.py:132
+#: sophie_bot/modules/connections/handlers/connection.py:135
 msgid "Disconnected."
 msgstr ""
 
-#: sophie_bot/modules/connections/handlers/connection.py:136
+#: sophie_bot/modules/connections/handlers/connection.py:139
 msgid "Sets whether normal users (non-admins) are allowed to connect."
 msgstr ""
 
-#: sophie_bot/modules/connections/handlers/connection.py:137
+#: sophie_bot/modules/connections/handlers/connection.py:140
 msgid "Enable/Disable"
 msgstr ""
 
-#: sophie_bot/modules/connections/handlers/connection.py:147
-#: sophie_bot/modules/legacy_modules/utils/connections.py:39
+#: sophie_bot/modules/connections/handlers/connection.py:150
 #: sophie_bot/modules/users/handlers/adminlist.py:25
 msgid "This command can only be used in groups."
 msgstr ""
 
-#: sophie_bot/modules/connections/handlers/connection.py:151
+#: sophie_bot/modules/connections/handlers/connection.py:155
 msgid "You must be an admin to use this command."
 msgstr ""
 
-#: sophie_bot/modules/connections/handlers/connection.py:165
+#: sophie_bot/modules/connections/handlers/connection.py:169
 #: sophie_bot/modules/notes/handlers/pmnotes_setting.py:67
 msgid "enabled"
 msgstr ""
 
-#: sophie_bot/modules/connections/handlers/connection.py:165
+#: sophie_bot/modules/connections/handlers/connection.py:169
 #: sophie_bot/modules/notes/handlers/pmnotes_setting.py:67
 msgid "disabled"
 msgstr ""
 
-#: sophie_bot/modules/connections/handlers/connection.py:166
+#: sophie_bot/modules/connections/handlers/connection.py:170
 #, python-brace-format
 msgid "Connection for users is now {status}."
 msgstr ""
@@ -1474,7 +1473,7 @@ msgid "🏛 Federation Information"
 msgstr ""
 
 #: sophie_bot/modules/federations/handlers/info.py:57
-#: sophie_bot/modules/users/handlers/info.py:33
+#: sophie_bot/modules/users/handlers/info.py:44
 msgid "ID"
 msgstr ""
 
@@ -1842,20 +1841,20 @@ msgstr ""
 msgid "Reason: {text}"
 msgstr ""
 
-#: sophie_bot/modules/filters/__init__.py:30
+#: sophie_bot/modules/filters/__init__.py:42
 #: sophie_bot/modules/filters/handlers/filter_del.py:50
 msgid "Filters"
 msgstr ""
 
-#: sophie_bot/modules/filters/__init__.py:34
+#: sophie_bot/modules/filters/__init__.py:46
 msgid "Filters allows to invoke different actions for different messages."
 msgstr ""
 
-#: sophie_bot/modules/filters/__init__.py:35
+#: sophie_bot/modules/filters/__init__.py:47
 msgid "For example muting the users when they mention crypto."
 msgstr ""
 
-#: sophie_bot/modules/filters/__init__.py:37
+#: sophie_bot/modules/filters/__init__.py:49
 msgid "Sophie supports many different actions you can configure to automatize chat moderation in many different ways."
 msgstr ""
 
@@ -2355,6 +2354,10 @@ msgstr ""
 msgid "📖 Wiki page"
 msgstr ""
 
+#: sophie_bot/modules/help/handlers/set_lang_legacy.py:21
+msgid "Select your language:"
+msgstr ""
+
 #: sophie_bot/modules/help/handlers/start_group.py:20
 msgid "Shows the start message"
 msgstr ""
@@ -2428,38 +2431,22 @@ msgid "Select the language you want to use in this chat."
 msgstr ""
 
 #: sophie_bot/modules/language/handlers/language.py:57
-#: sophie_bot/modules/language/handlers/language.py:121
+#: sophie_bot/modules/language/handlers/language.py:128
 msgid "Help us translate!"
 msgstr ""
 
-#: sophie_bot/modules/language/handlers/language.py:76
+#: sophie_bot/modules/language/handlers/language.py:79
 msgid "Language not found."
 msgstr ""
 
-#: sophie_bot/modules/language/handlers/language.py:93
+#: sophie_bot/modules/language/handlers/language.py:100
 #, python-brace-format
 msgid "Language changed to {lang}"
 msgstr ""
 
-#: sophie_bot/modules/language/handlers/language.py:124
+#: sophie_bot/modules/language/handlers/language.py:132
 #, python-brace-format
 msgid "Language set to {lang}"
-msgstr ""
-
-#: sophie_bot/modules/legacy_modules/utils/connections.py:35
-msgid "You must be an admin to use this command in the connected chat."
-msgstr ""
-
-#: sophie_bot/modules/legacy_modules/utils/user_details.py:363
-msgid "I couldn't find the chat / channel! Please ensure that I am added as an admin there!"
-msgstr ""
-
-#: sophie_bot/modules/legacy_modules/utils/user_details.py:371
-msgid "Please give me valid chat ID/username"
-msgstr ""
-
-#: sophie_bot/modules/legacy_modules/utils/user_details.py:375
-msgid "I can't find any chats on given information!"
 msgstr ""
 
 #: sophie_bot/modules/locks/__init__.py:6
@@ -2608,7 +2595,7 @@ msgstr ""
 
 #: sophie_bot/modules/notes/handlers/pmnotes_setting.py:37
 #: sophie_bot/modules/utils_/status_handler.py:85
-#: sophie_bot/modules/welcomesecurity/handlers/enable_welcomemute.py:49
+#: sophie_bot/modules/welcomesecurity/handlers/enable_welcomemute.py:48
 #: sophie_bot/modules/welcomesecurity/handlers/status_overall.py:55
 #: sophie_bot/modules/welcomesecurity/handlers/status_overall.py:73
 msgid "Disabled"
@@ -2893,7 +2880,7 @@ msgstr ""
 msgid "Prints the message event as JSON."
 msgstr ""
 
-#: sophie_bot/modules/op/handlers/stats.py:83
+#: sophie_bot/modules/op/handlers/stats.py:82
 msgid "Show bot statistics."
 msgstr ""
 
@@ -3443,7 +3430,7 @@ msgstr ""
 msgid "❌ Cancelled."
 msgstr ""
 
-#: sophie_bot/modules/users/__init__.py:15
+#: sophie_bot/modules/users/__init__.py:11
 msgid "Users"
 msgstr ""
 
@@ -3460,27 +3447,27 @@ msgstr ""
 msgid "No visible admins found."
 msgstr ""
 
-#: sophie_bot/modules/users/handlers/id.py:36
+#: sophie_bot/modules/users/handlers/id.py:41
 #, python-brace-format
 msgid "Your ID: {id}"
 msgstr ""
 
-#: sophie_bot/modules/users/handlers/id.py:39
+#: sophie_bot/modules/users/handlers/id.py:44
 #, python-brace-format
 msgid "Chat ID: {id}"
 msgstr ""
 
-#: sophie_bot/modules/users/handlers/id.py:42
+#: sophie_bot/modules/users/handlers/id.py:47
 #, python-brace-format
 msgid "Connected chat ID: {id}"
 msgstr ""
 
-#: sophie_bot/modules/users/handlers/id.py:48
+#: sophie_bot/modules/users/handlers/id.py:53
 #, python-brace-format
 msgid "Replied user ID: {id}"
 msgstr ""
 
-#: sophie_bot/modules/users/handlers/id.py:52
+#: sophie_bot/modules/users/handlers/id.py:57
 #, python-brace-format
 msgid "{user}'s ID: {id}"
 msgstr ""
@@ -3489,27 +3476,31 @@ msgstr ""
 msgid "Shows the additional information about the user."
 msgstr ""
 
-#: sophie_bot/modules/users/handlers/info.py:31
+#: sophie_bot/modules/users/handlers/info.py:36
+msgid "Could not identify user."
+msgstr ""
+
+#: sophie_bot/modules/users/handlers/info.py:42
 msgid "User Information"
 msgstr ""
 
-#: sophie_bot/modules/users/handlers/info.py:34
+#: sophie_bot/modules/users/handlers/info.py:45
 msgid "First Name"
 msgstr ""
 
-#: sophie_bot/modules/users/handlers/info.py:37
+#: sophie_bot/modules/users/handlers/info.py:48
 msgid "Last Name"
 msgstr ""
 
-#: sophie_bot/modules/users/handlers/info.py:43
+#: sophie_bot/modules/users/handlers/info.py:54
 msgid "User Link"
 msgstr ""
 
-#: sophie_bot/modules/users/handlers/info.py:50
+#: sophie_bot/modules/users/handlers/info.py:61
 msgid "This user is an admin in this chat."
 msgstr ""
 
-#: sophie_bot/modules/users/handlers/info.py:56
+#: sophie_bot/modules/users/handlers/info.py:67
 msgid "Shared Chats"
 msgstr ""
 
@@ -3687,19 +3678,19 @@ msgstr ""
 msgid "I cannot warn an admin."
 msgstr ""
 
-#: sophie_bot/modules/warns/handlers/warn.py:58
+#: sophie_bot/modules/warns/handlers/warn.py:61
 msgid "User Warned"
 msgstr ""
 
-#: sophie_bot/modules/warns/handlers/warn.py:60
+#: sophie_bot/modules/warns/handlers/warn.py:63
 msgid "Admin"
 msgstr ""
 
-#: sophie_bot/modules/warns/handlers/warn.py:61
+#: sophie_bot/modules/warns/handlers/warn.py:64
 msgid "Count"
 msgstr ""
 
-#: sophie_bot/modules/warns/handlers/warn.py:68
+#: sophie_bot/modules/warns/handlers/warn.py:71
 #, python-brace-format
 msgid "User has been {punishment} due to reaching max warns."
 msgstr ""
@@ -3763,23 +3754,23 @@ msgstr ""
 msgid "Confirm"
 msgstr ""
 
-#: sophie_bot/modules/welcomesecurity/handlers/enable_welcomemute.py:26
+#: sophie_bot/modules/welcomesecurity/handlers/enable_welcomemute.py:25
 msgid "Shows / changes the state of Welcome Restrict (Media restricting)."
 msgstr ""
 
-#: sophie_bot/modules/welcomesecurity/handlers/enable_welcomemute.py:27
+#: sophie_bot/modules/welcomesecurity/handlers/enable_welcomemute.py:26
 msgid "?New status or restrict time"
 msgstr ""
 
-#: sophie_bot/modules/welcomesecurity/handlers/enable_welcomemute.py:30
+#: sophie_bot/modules/welcomesecurity/handlers/enable_welcomemute.py:29
 msgid "Welcome Mute (Automatic new users media restricting)"
 msgstr ""
 
-#: sophie_bot/modules/welcomesecurity/handlers/enable_welcomemute.py:36
+#: sophie_bot/modules/welcomesecurity/handlers/enable_welcomemute.py:35
 msgid "? Action time"
 msgstr ""
 
-#: sophie_bot/modules/welcomesecurity/handlers/enable_welcomemute.py:55
+#: sophie_bot/modules/welcomesecurity/handlers/enable_welcomemute.py:54
 #, python-brace-format
 msgid "Enabled, set to {time}"
 msgstr ""

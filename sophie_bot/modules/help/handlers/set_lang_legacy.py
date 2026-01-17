@@ -8,7 +8,6 @@ async def set_lang_cb(event: CallbackQuery):
     buttons = []
 
     # Simple recreation of language selection keyboard
-    current_lang_code = i18n.default_locale
     # Note: we don't check DB here as simple fallback/helper
 
     for code in i18n.available_locales:

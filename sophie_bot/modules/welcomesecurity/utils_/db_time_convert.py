@@ -1,5 +1,4 @@
 from datetime import timedelta
-import re
 
 
 def convert_timedelta_or_str(value: str | timedelta) -> timedelta:

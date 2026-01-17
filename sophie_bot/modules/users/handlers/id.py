@@ -28,7 +28,7 @@ async def optional_user(message: Message | None, _data: dict):
 class ShowIDHandler(SophieMessageHandler):
     @staticmethod
     def filters() -> tuple[CallbackType, ...]:
-        return CMDFilter(("id")),
+        return (CMDFilter(("id")),)
 
     async def handle(self) -> Any:
         chat: ChatConnection = self.data["connection"]

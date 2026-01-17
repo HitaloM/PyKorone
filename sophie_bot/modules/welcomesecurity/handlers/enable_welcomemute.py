@@ -13,11 +13,10 @@ from stfu_tg.doc import Element
 from sophie_bot.db.models import GreetingsModel
 from sophie_bot.filters.admin_rights import UserRestricting
 from sophie_bot.filters.cmd import CMDFilter
-from sophie_bot.modules.welcomesecurity.utils_.db_time_convert import convert_timedelta_or_str as convert_timedelta_or_str
-from sophie_bot.modules.utils_.status_handler import StatusHandlerABC
 from sophie_bot.modules.welcomesecurity.utils_.db_time_convert import (
-    convert_timedelta_or_str,
+    convert_timedelta_or_str as convert_timedelta_or_str,
 )
+from sophie_bot.modules.utils_.status_handler import StatusHandlerABC
 from sophie_bot.utils.i18n import gettext as _
 from sophie_bot.utils.i18n import lazy_gettext as l_
 
