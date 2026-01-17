@@ -67,16 +67,21 @@ class ConnectionsMiddleware(BaseMiddleware):
             return await handler(event, data)
 
         # Check expiry
-        if connection.expires_at and connection.expires_at < datetime.now(timezone.utc):
-            log.debug("ConnectionsMiddleware: Connection expired!")
-            connection.chat_id = None
-            connection.expires_at = None
-            await connection.save()
+        if connection.expires_at:
+            expires_at = connection.expires_at
+            if expires_at.tzinfo is None:
+                expires_at = expires_at.replace(tzinfo=timezone.utc)
 
-            data["connection"] = await self.get_current_chat_info(real_chat)
-            return await handler(event, data)
+            if expires_at < datetime.now(timezone.utc):
+                log.debug("ConnectionsMiddleware: Connection expired!")
+                connection.chat_id = None
+                connection.expires_at = None
+                await connection.save()
 
-        elif not (connection_chat := await self.get_chat_from_db(connection.chat_id, True)):
+                data["connection"] = await self.get_current_chat_info(real_chat)
+                return await handler(event, data)
+
+        if not (connection_chat := await self.get_chat_from_db(connection.chat_id, True)):
             log.debug("ConnectionsMiddleware: connected, but chat were not found in database, skipping...")
             data["connection"] = await self.get_current_chat_info(real_chat)
             return await handler(event, data)

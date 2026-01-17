@@ -1,6 +1,21 @@
 from aiogram import Router
 
-from .handlers.connection import router as connection_router
+from .handlers import (
+    AllowUsersConnectCmd,
+    ConnectCallback,
+    ConnectDMCmd,
+    ConnectGroupCmd,
+    DisconnectCmd,
+    StartConnectHandler,
+)
 
-router = Router()
-router.include_router(connection_router)
+router = Router(name="connections")
+
+__handlers__ = (
+    ConnectDMCmd,
+    ConnectGroupCmd,
+    ConnectCallback,
+    StartConnectHandler,
+    DisconnectCmd,
+    AllowUsersConnectCmd,
+)

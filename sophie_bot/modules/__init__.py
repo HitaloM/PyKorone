@@ -38,6 +38,7 @@ MODULES = [
     "filters",
     "antiflood",
     "language",
+    "connections",
 ]
 
 
