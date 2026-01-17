@@ -18,8 +18,7 @@ from sophie_bot.modules.filters.types.modern_action_abc import (
     ModernActionABC,
     ModernActionSetting,
 )
-from sophie_bot.modules.legacy_modules.utils.restrictions import mute_user
-from sophie_bot.modules.legacy_modules.utils.user_details import is_user_admin
+from sophie_bot.modules.restrictions.utils import is_user_admin, mute_user
 from sophie_bot.utils.i18n import gettext as _
 from sophie_bot.utils.i18n import lazy_gettext as l_
 from sophie_bot.utils.logger import log
@@ -56,7 +55,7 @@ async def setup_confirm(event: Message | CallbackQuery, data: dict[str, Any]) ->
 async def setup_message(_event: Message | CallbackQuery, _data: dict[str, Any]) -> ActionSetupMessage:
     return ActionSetupMessage(
         text=_(
-            "Please write the ban duration, for example 2h for 2 hours, 7d for 7 days or 2w for 2 weeks. Or 0 for a permanent ban."
+            "Please write the mute duration, for example 2h for 2 hours, 7d for 7 days or 2w for 2 weeks. Or 0 for a permanent mute."
         ),
     )
 

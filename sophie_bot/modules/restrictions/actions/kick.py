@@ -5,8 +5,7 @@ from stfu_tg import Template, Title, UserLink
 from stfu_tg.doc import Doc, Element
 
 from sophie_bot.modules.filters.types.modern_action_abc import ModernActionABC
-from sophie_bot.modules.legacy_modules.utils.restrictions import kick_user
-from sophie_bot.modules.legacy_modules.utils.user_details import is_user_admin
+from sophie_bot.modules.restrictions.utils import is_user_admin, kick_user
 from sophie_bot.utils.i18n import gettext as _
 from sophie_bot.utils.i18n import lazy_gettext as l_
 from sophie_bot.utils.logger import log

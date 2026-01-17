@@ -1,7 +1,6 @@
-# typing: ignore
-# TODO: Rewrite this filter
+from __future__ import annotations
 
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from typing import Any, Optional, Union
 
 from aiogram.dispatcher.event.bases import SkipHandler
@@ -13,7 +12,7 @@ from aiogram.types.callback_query import CallbackQuery
 from sophie_bot.config import CONFIG
 from sophie_bot.middlewares.connections import ChatConnection
 from sophie_bot.modules.legacy_modules.utils.language import get_strings
-from sophie_bot.modules.legacy_modules.utils.user_details import check_admin_rights
+from sophie_bot.modules.utils_.admin import check_user_admin_permissions
 from sophie_bot.utils.logger import log
 
 
@@ -29,26 +28,42 @@ class UserRestricting(Filter):
     can_invite_users: bool = False
     can_pin_messages: bool = False
 
-    ARGUMENTS = {
-        "user_admin": "admin",
-        "user_can_post_messages": "can_post_messages",
-        "user_can_edit_messages": "can_edit_messages",
-        "user_can_delete_messages": "can_delete_messages",
-        "user_can_restrict_members": "can_restrict_members",
-        "user_can_promote_members": "can_promote_members",
-        "user_can_change_info": "can_change_info",
-        "user_can_invite_users": "can_invite_users",
-        "user_can_pin_messages": "can_pin_messages",
-    }
-    PAYLOAD_ARGUMENT_NAME = "user_member"
+    ARGUMENTS: dict[str, str] = field(
+        default_factory=lambda: {
+            "user_admin": "admin",
+            "user_can_post_messages": "can_post_messages",
+            "user_can_edit_messages": "can_edit_messages",
+            "user_can_delete_messages": "can_delete_messages",
+            "user_can_restrict_members": "can_restrict_members",
+            "user_can_promote_members": "can_promote_members",
+            "user_can_change_info": "can_change_info",
+            "user_can_invite_users": "can_invite_users",
+            "user_can_pin_messages": "can_pin_messages",
+        },
+        repr=False,
+    )
+    PAYLOAD_ARGUMENT_NAME: str = field(default="user_member", repr=False)
 
-    def __post_init__(self):
-        self.required_permissions = {arg: True for arg in self.ARGUMENTS.values() if getattr(self, arg)}
+    required_permissions: list[str] = field(default_factory=list, init=False, repr=False)
+
+    def __post_init__(self) -> None:
+        self.required_permissions = [arg for arg in self.ARGUMENTS.values() if arg != "admin" and getattr(self, arg)]
 
     @classmethod
-    def validate(cls, full_config):
-        config = {}
-        for alias, argument in cls.ARGUMENTS.items():
+    def validate(cls, full_config: dict[str, Any]) -> dict[str, Any]:
+        config: dict[str, Any] = {}
+        arguments = {
+            "user_admin": "admin",
+            "user_can_post_messages": "can_post_messages",
+            "user_can_edit_messages": "can_edit_messages",
+            "user_can_delete_messages": "can_delete_messages",
+            "user_can_restrict_members": "can_restrict_members",
+            "user_can_promote_members": "can_promote_members",
+            "user_can_change_info": "can_change_info",
+            "user_can_invite_users": "can_invite_users",
+            "user_can_pin_messages": "can_pin_messages",
+        }
+        for alias, argument in arguments.items():
             if alias in full_config:
                 config[argument] = full_config.pop(alias)
         return config
@@ -59,18 +74,18 @@ class UserRestricting(Filter):
         user_id = await self.get_target_id(event)
         message = event.message if hasattr(event, "message") else event
 
-        chat_id = connection.tid if connection else message.chat.iid  # type: ignore
+        chat_id = connection.tid if connection else message.chat.id  # type: ignore[union-attr]
         is_connected = connection.is_connected if connection else False
 
         # Skip if in PM and not connected to the chat
-        if not is_connected and message.chat.type == "private":  # type: ignore
+        if not is_connected and message.chat.type == "private":  # type: ignore[union-attr]
             log.debug("Admin rights: Private message without connection")
             return True
 
         elif is_connected:
             log.debug("Admin rights: Connection to the chat detected")
 
-        check = await check_admin_rights(message, chat_id, user_id, self.required_permissions.keys())  # type: ignore
+        check = await check_user_admin_permissions(chat_id, user_id, self.required_permissions or None)
         if check is not True:
             # check = missing permission in this scope
             await self.no_rights_msg(event, check)
@@ -78,28 +93,28 @@ class UserRestricting(Filter):
 
         return True
 
-    async def get_target_id(self, message):
-        return message.from_user.id
+    async def get_target_id(self, message: TelegramObject) -> int:
+        return message.from_user.id  # type: ignore[union-attr]
 
-    async def no_rights_msg(self, message, required_permissions):
+    async def no_rights_msg(self, message: TelegramObject, required_permissions: Union[bool, str]) -> None:
         strings = await get_strings(
-            message.message.chat.iid if hasattr(message, "message") else message.chat.iid,
+            message.message.chat.id if hasattr(message, "message") else message.chat.id,  # type: ignore[union-attr]
             "global",
         )
-        task = message.answer if hasattr(message, "message") else message.reply
-        if not isinstance(required_permissions, bool):  # Check if check_admin_rights func returned missing perm
-            required_permissions = " ".join(required_permissions.strip("can_").split("_"))
+        task = message.answer if hasattr(message, "message") else message.reply  # type: ignore[union-attr]
+        if not isinstance(required_permissions, bool):  # Check if check_user_admin_permissions returned missing perm
+            permission_display = " ".join(required_permissions.replace("can_", "").split("_"))
             try:
-                await task(strings["user_no_right"].format(permission=required_permissions))
+                await task(strings["user_no_right"].format(permission=permission_display))
             except TelegramBadRequest as error:
                 if error.args == "Reply message not found":
-                    return await message.answer(strings["user_no_right"])
+                    await message.answer(strings["user_no_right"])  # type: ignore[union-attr]
         else:
             try:
                 await task(strings["user_no_right:not_admin"])
             except TelegramBadRequest as error:
                 if error.args == "Reply message not found":
-                    return await message.answer(strings["user_no_right:not_admin"])
+                    await message.answer(strings["user_no_right:not_admin"])  # type: ignore[union-attr]
 
 
 class BotHasPermissions(UserRestricting):
