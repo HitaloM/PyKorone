@@ -21,3 +21,5 @@ __export__ = privacy_export
 
 async def __pre_setup__():
     router.include_router(importlib.import_module(".handlers.id", __package__).router)
+    router.include_router(importlib.import_module(".handlers.info", __package__).router)
+    router.include_router(importlib.import_module(".handlers.adminlist", __package__).router)
