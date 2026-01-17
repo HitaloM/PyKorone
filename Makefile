@@ -23,6 +23,10 @@ locale: extract_lang update_lang compile_lang
 
 # Build
 
+sync_libs:
+	uv sync --reinstall-package ass-tg
+	uv sync --reinstall-package stf-tg
+
 clean:
 	@echo "Cleaning build directories..."
 	rm -rf output/
