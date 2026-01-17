@@ -1,0 +1,215 @@
+total 16
+drwxr-xr-x. 1 yacha yacha  140 Jan 17 16:48 .
+drwxr-xr-x. 1 yacha yacha   82 Jan 17 16:52 ..
+drwxr-xr-x. 1 yacha yacha  222 Jan 17 16:48 __pycache__
+-rw-r--r--. 1 yacha yacha 1826 Jan 17 16:47 antiflood_setting.py
+-rw-r--r--. 1 yacha yacha  295 Jan 17 16:47 __init__.py
+-rw-r--r--. 1 yacha yacha 3969 Jan 17 16:48 setfloodaction.py
+-rw-r--r--. 1 yacha yacha 3054 Jan 17 16:48 setflood.py
+from __future__ import annotations
+from aiogram import flags
+from aiogram.dispatcher.event.handler import CallbackType
+from sophie_bot.db.models.antiflood import AntifloodModel
+from sophie_bot.filters.admin_rights import UserRestricting
+from sophie_bot.filters.cmd import CMDFilter
+from sophie_bot.filters.feature_flag import FeatureFlagFilter
+from sophie_bot.modules.utils_.status_handler import StatusBoolHandlerABC
+from sophie_bot.utils.i18n import lazy_gettext as l_
+@flags.help(alias_to_modules=["restrictions"], description=l_("Controls antiflood protection"))
+@flags.disableable(name="antiflood")
+class AntifloodSetting(StatusBoolHandlerABC):
+    """Handler for toggling antiflood protection on/off."""
+    header_text = l_("📈 Antiflood")
+    change_command = "antiflood"
+    @staticmethod
+    def filters() -> tuple[CallbackType, ...]:
+        return (
+            CMDFilter(("antiflood", "flood")),
+            UserRestricting(admin=True),
+            FeatureFlagFilter("antiflood"),
+        )
+    async def get_status(self) -> bool:
+        if not self.connection.db_model:
+            return False
+        settings = await AntifloodModel.find_one(AntifloodModel.chat.id == self.connection.db_model.iid)
+        return bool(settings and settings.enabled)
+    async def set_status(self, new_status: bool) -> None:
+        if not self.connection.db_model:
+            return
+        chat_iid = self.connection.db_model.iid
+        settings = await AntifloodModel.find_one(AntifloodModel.chat.id == chat_iid)
+        if settings:
+            settings.enabled = new_status
+            await settings.save()
+        elif new_status:
+            # Create new settings only if enabling
+            new_settings = AntifloodModel(chat=self.connection.db_model, enabled=True)
+            await new_settings.save()
+from sophie_bot.modules.antiflood.handlers.antiflood_setting import AntifloodSetting
+from sophie_bot.modules.antiflood.handlers.setflood import SetFlood
+from sophie_bot.modules.antiflood.handlers.setfloodaction import SetFloodAction
+__all__ = ["AntifloodSetting", "SetFlood", "SetFloodAction"]
+from __future__ import annotations
+from typing import Any
+from aiogram import flags
+from aiogram.dispatcher.event.handler import CallbackType
+from aiogram.types import Message
+from ass_tg.types import TextArg
+from ass_tg.types.base_abc import ArgFabric
+from stfu_tg import Doc, KeyValue, Section, Title
+from sophie_bot.db.models.antiflood import AntifloodModel
+from sophie_bot.db.models.filters import FilterActionType
+from sophie_bot.filters.admin_rights import UserRestricting
+from sophie_bot.filters.cmd import CMDFilter
+from sophie_bot.filters.feature_flag import FeatureFlagFilter
+from sophie_bot.modules.utils_.base_handler import SophieMessageHandler
+from sophie_bot.utils.i18n import gettext as _
+from sophie_bot.utils.i18n import lazy_gettext as l_
+# Supported actions mapping: user input -> internal action name
+SUPPORTED_ACTIONS = {
+    "ban": "ban_user",
+    "kick": "kick_user",
+    "mute": "mute_user",
+}
+ACTION_DISPLAY_NAMES = {
+    "ban_user": "Ban",
+    "kick_user": "Kick",
+    "mute_user": "Mute",
+}
+@flags.help(
+    description=l_("Set the action to take when antiflood is triggered."),
+    args={"action": TextArg(l_("Action (ban/kick/mute)"))},
+)
+@flags.disableable(name="setfloodaction")
+class SetFloodAction(SophieMessageHandler):
+    """Handler for setting the antiflood action."""
+    @staticmethod
+    def filters() -> tuple[CallbackType, ...]:
+        return (
+            CMDFilter("setfloodaction"),
+            UserRestricting(can_restrict_members=True),
+            FeatureFlagFilter("antiflood"),
+        )
+    @classmethod
+    async def handler_args(cls, message: Message | None, data: dict[str, Any]) -> dict[str, ArgFabric]:
+        return {"action": TextArg(l_("Action (ban/kick/mute)"))}
+    async def handle(self) -> Any:
+        message: Message = self.event
+        action_input: str | None = self.data.get("action")
+        if action_input is None:
+            return await message.reply(
+                str(
+                    Doc(
+                        Title(_("📈 Antiflood Action")),
+                        _("Please specify the action to take when antiflood is triggered."),
+                        _("Available actions: ban, kick, mute"),
+                        _("Usage: /setfloodaction <action>"),
+                        _("Example: /setfloodaction ban"),
+                    )
+                )
+            )
+        action_lower = action_input.lower().strip()
+        if action_lower not in SUPPORTED_ACTIONS:
+            return await message.reply(
+                str(
+                    Doc(
+                        Title(_("📈 Antiflood Action")),
+                        _("Invalid action. Available actions: ban, kick, mute"),
+                    )
+                )
+            )
+        if not self.connection.db_model:
+            return await message.reply(_("Chat not found in database."))
+        chat_iid = self.connection.db_model.iid
+        action_name = SUPPORTED_ACTIONS[action_lower]
+        # Get or create antiflood settings
+        settings = await AntifloodModel.find_one(AntifloodModel.chat.id == chat_iid)
+        if settings is None:
+            settings = AntifloodModel(chat=self.connection.db_model)
+        # Set the action (replace existing actions with the new one)
+        settings.actions = [FilterActionType(name=action_name, data={})]
+        settings.action = None  # Clear legacy action field
+        await settings.save()
+        display_name = ACTION_DISPLAY_NAMES.get(action_name, action_name)
+        doc = Doc(
+            Title(_("📈 Antiflood Action")),
+            _("Antiflood action has been updated."),
+            Section(
+                KeyValue(_("Action"), display_name),
+                KeyValue(_("Chat"), self.connection.title),
+                title=_("Settings"),
+            ),
+            _("Users who trigger antiflood will be: {action}").format(action=display_name.lower()),
+        )
+        await message.reply(str(doc))
+from __future__ import annotations
+from typing import Any
+from aiogram import flags
+from aiogram.dispatcher.event.handler import CallbackType
+from aiogram.types import Message
+from ass_tg.types import IntArg
+from ass_tg.types.base_abc import ArgFabric
+from stfu_tg import Doc, KeyValue, Section, Title
+from sophie_bot.db.models.antiflood import AntifloodModel
+from sophie_bot.filters.admin_rights import BotHasPermissions, UserRestricting
+from sophie_bot.filters.cmd import CMDFilter
+from sophie_bot.filters.feature_flag import FeatureFlagFilter
+from sophie_bot.modules.utils_.base_handler import SophieMessageHandler
+from sophie_bot.utils.i18n import gettext as _
+from sophie_bot.utils.i18n import lazy_gettext as l_
+@flags.help(
+    description=l_("Set the antiflood message limit for this chat."),
+    args={"count": IntArg(l_("Number of messages (1-100)"))},
+)
+@flags.disableable(name="setflood")
+class SetFlood(SophieMessageHandler):
+    """Handler for setting the antiflood message count threshold."""
+    @staticmethod
+    def filters() -> tuple[CallbackType, ...]:
+        return (
+            CMDFilter("setflood"),
+            UserRestricting(can_restrict_members=True),
+            BotHasPermissions(can_restrict_members=True),
+            FeatureFlagFilter("antiflood"),
+        )
+    @classmethod
+    async def handler_args(cls, message: Message | None, data: dict[str, Any]) -> dict[str, ArgFabric]:
+        return {"count": IntArg(l_("Number of messages (1-100)"))}
+    async def handle(self) -> Any:
+        message: Message = self.event
+        count: int | None = self.data.get("count")
+        if count is None:
+            return await message.reply(
+                str(
+                    Doc(
+                        Title(_("📈 Antiflood")),
+                        _("Please specify the number of messages allowed before triggering antiflood."),
+                        _("Usage: /setflood <number>"),
+                        _("Example: /setflood 5"),
+                    )
+                )
+            )
+        if count < 1 or count > 100:
+            return await message.reply(
+                str(
+                    Doc(
+                        Title(_("📈 Antiflood")),
+                        _("The message count must be between 1 and 100."),
+                    )
+                )
+            )
+        if not self.connection.db_model:
+            return await message.reply(_("Chat not found in database."))
+        chat_iid = self.connection.db_model.iid
+        await AntifloodModel.set_antiflood_count(chat_iid, count)
+        doc = Doc(
+            Title(_("📈 Antiflood")),
+            _("Antiflood settings have been updated."),
+            Section(
+                KeyValue(_("Message limit"), str(count)),
+                KeyValue(_("Chat"), self.connection.title),
+                title=_("Settings"),
+            ),
+            _("Users who send more than {count} messages in rapid succession will be restricted.").format(count=count),
+        )
+        await message.reply(str(doc))

@@ -63,11 +63,11 @@ async def setup_message(_event: Message | CallbackQuery, _data: dict[str, Any]) 
 
 class MuteModernAction(ModernActionABC[MuteActionDataModel]):
     name = "mute_user"
-
     icon = "🔕"
     title = l_("Mute")
     data_object = MuteActionDataModel
     default_data = MuteActionDataModel(mute_duration=None)
+    as_flood = True
 
     @staticmethod
     def description(data: MuteActionDataModel) -> Element | str:

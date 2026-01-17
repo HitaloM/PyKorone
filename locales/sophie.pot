@@ -269,7 +269,6 @@ msgid "Unknown provider"
 msgstr ""
 
 #: sophie_bot/modules/ai/handlers/aiprovider.py:108
-#: sophie_bot/modules/antiflood/handlers/status.py:54
 #: sophie_bot/modules/disabling/handlers/disable.py:49
 #: sophie_bot/modules/disabling/handlers/enable.py:51
 #: sophie_bot/modules/notes/handlers/delete.py:39
@@ -670,77 +669,73 @@ msgstr ""
 msgid "Antiflood"
 msgstr ""
 
-#: sophie_bot/modules/antiflood/__init__.py:23
-msgid "Antiflood protection automatically detects and punishes users who send too many messages in a short time period. "
+#: sophie_bot/modules/antiflood/__init__.py:22
+msgid "Protect your chat from message flooding"
 msgstr ""
 
-#: sophie_bot/modules/antiflood/handlers/setflood.py:19
-msgid "Set the antiflood message threshold"
+#: sophie_bot/modules/antiflood/handlers/antiflood_setting.py:14
+msgid "Controls antiflood protection"
 msgstr ""
 
-#: sophie_bot/modules/antiflood/handlers/setflood.py:22
-msgid "Antiflood Message Threshold"
+#: sophie_bot/modules/antiflood/handlers/antiflood_setting.py:19
+msgid "📈 Antiflood"
 msgstr ""
 
-#: sophie_bot/modules/antiflood/handlers/setflood.py:34
-msgid "Number of messages allowed in 30 seconds"
+#: sophie_bot/modules/antiflood/middlewares/enforcer.py:124
+msgid "Banned"
 msgstr ""
 
-#: sophie_bot/modules/antiflood/handlers/setflood.py:56
-#: sophie_bot/modules/antiflood/handlers/status.py:31
-#: sophie_bot/modules/notes/handlers/pmnotes_setting.py:37
-#: sophie_bot/modules/utils_/status_handler.py:85
-#: sophie_bot/modules/welcomesecurity/handlers/enable_welcomemute.py:49
-#: sophie_bot/modules/welcomesecurity/handlers/status_overall.py:55
-#: sophie_bot/modules/welcomesecurity/handlers/status_overall.py:73
-msgid "Disabled"
+#: sophie_bot/modules/antiflood/middlewares/enforcer.py:125
+msgid "Kicked"
 msgstr ""
 
-#: sophie_bot/modules/antiflood/handlers/setflood.py:57
-#, python-brace-format
-msgid "{status_data} messages in 30 seconds"
+#: sophie_bot/modules/antiflood/middlewares/enforcer.py:126
+msgid "Muted"
 msgstr ""
 
-#: sophie_bot/modules/antiflood/handlers/status.py:20
-msgid "Show antiflood settings"
+#: sophie_bot/modules/antiflood/middlewares/enforcer.py:128
+msgid "Restricted"
 msgstr ""
 
-#: sophie_bot/modules/antiflood/handlers/status.py:31
-#: sophie_bot/modules/notes/handlers/pmnotes_setting.py:37
-#: sophie_bot/modules/utils_/status_handler.py:85
-msgid "Enabled"
+#: sophie_bot/modules/antiflood/middlewares/enforcer.py:152
+msgid "⚠️ Antiflood"
 msgstr ""
 
-#: sophie_bot/modules/antiflood/handlers/status.py:34
-msgid "Status"
+#: sophie_bot/modules/antiflood/middlewares/enforcer.py:153
+msgid "User has been restricted for flooding."
 msgstr ""
 
-#: sophie_bot/modules/antiflood/handlers/status.py:36
-msgid "Message threshold"
+#: sophie_bot/modules/antiflood/middlewares/enforcer.py:154
+#: sophie_bot/modules/federations/handlers/ban.py:104
+#: sophie_bot/modules/federations/handlers/banlist.py:92
+#: sophie_bot/modules/federations/handlers/unban.py:149
+#: sophie_bot/modules/legacy_modules/modules/feds.py:424
+#: sophie_bot/modules/legacy_modules/modules/feds.py:453
+#: sophie_bot/modules/legacy_modules/modules/feds.py:606
+#: sophie_bot/modules/legacy_modules/modules/feds.py:781
+#: sophie_bot/modules/legacy_modules/modules/restrictions.py:66
+#: sophie_bot/modules/legacy_modules/modules/restrictions.py:125
+#: sophie_bot/modules/legacy_modules/modules/restrictions.py:204
+#: sophie_bot/modules/legacy_modules/modules/restrictions.py:241
+#: sophie_bot/modules/legacy_modules/modules/restrictions.py:320
+#: sophie_bot/modules/legacy_modules/modules/warns.py:67
+#: sophie_bot/modules/legacy_modules/modules/warns.py:178
+#: sophie_bot/modules/legacy_modules/modules/warns.py:242
+#: sophie_bot/modules/promotes/handlers/demote.py:35
+#: sophie_bot/modules/promotes/handlers/demote.py:67
+#: sophie_bot/modules/promotes/handlers/promote.py:39
+#: sophie_bot/modules/promotes/handlers/promote.py:85
+#: sophie_bot/modules/users/handlers/id.py:23
+msgid "User"
 msgstr ""
 
-#: sophie_bot/modules/antiflood/handlers/status.py:38
-#, python-brace-format
-msgid "{message_count} messages in {seconds} seconds"
-msgstr ""
-
-#: sophie_bot/modules/antiflood/handlers/status.py:58
-msgid "Antiflood Protection"
-msgstr ""
-
-#: sophie_bot/modules/antiflood/handlers/status.py:62
-#, python-brace-format
-msgid "Use '{enable_cmd}' to enable/disable or '{action_cmd}' to configure actions."
-msgstr ""
-
-#: sophie_bot/modules/antiflood/middlewares/antiflood.py:133
-msgid "Flooding detected! 🚫"
-msgstr ""
-
-#: sophie_bot/modules/antiflood/middlewares/antiflood.py:134
-#, python-brace-format
-msgid "Triggered by user {user} sending {count} messages in {window} seconds."
-msgstr ""
+#: sophie_bot/modules/antiflood/middlewares/enforcer.py:155
+#: sophie_bot/modules/filters/handlers/confirm.py:48
+#: sophie_bot/modules/filters/handlers/filter_confirm.py:64
+msgid "Action"
+msgid_plural "Actions"
+msgstr[0] ""
+msgstr[1] ""
 
 #: sophie_bot/modules/disabling/__init__.py:17
 msgid "Disabling"
@@ -1245,29 +1240,6 @@ msgstr ""
 #: sophie_bot/modules/federations/handlers/subscribe.py:187
 #: sophie_bot/modules/federations/handlers/unban.py:148
 msgid "Federation"
-msgstr ""
-
-#: sophie_bot/modules/federations/handlers/ban.py:104
-#: sophie_bot/modules/federations/handlers/banlist.py:92
-#: sophie_bot/modules/federations/handlers/unban.py:149
-#: sophie_bot/modules/legacy_modules/modules/feds.py:424
-#: sophie_bot/modules/legacy_modules/modules/feds.py:453
-#: sophie_bot/modules/legacy_modules/modules/feds.py:606
-#: sophie_bot/modules/legacy_modules/modules/feds.py:781
-#: sophie_bot/modules/legacy_modules/modules/restrictions.py:66
-#: sophie_bot/modules/legacy_modules/modules/restrictions.py:125
-#: sophie_bot/modules/legacy_modules/modules/restrictions.py:204
-#: sophie_bot/modules/legacy_modules/modules/restrictions.py:241
-#: sophie_bot/modules/legacy_modules/modules/restrictions.py:320
-#: sophie_bot/modules/legacy_modules/modules/warns.py:67
-#: sophie_bot/modules/legacy_modules/modules/warns.py:178
-#: sophie_bot/modules/legacy_modules/modules/warns.py:242
-#: sophie_bot/modules/promotes/handlers/demote.py:35
-#: sophie_bot/modules/promotes/handlers/demote.py:67
-#: sophie_bot/modules/promotes/handlers/promote.py:39
-#: sophie_bot/modules/promotes/handlers/promote.py:85
-#: sophie_bot/modules/users/handlers/id.py:23
-msgid "User"
 msgstr ""
 
 #: sophie_bot/modules/federations/handlers/ban.py:105
@@ -1804,13 +1776,6 @@ msgstr ""
 #: sophie_bot/modules/filters/handlers/filter_new.py:51
 msgid "Handles"
 msgstr ""
-
-#: sophie_bot/modules/filters/handlers/confirm.py:48
-#: sophie_bot/modules/filters/handlers/filter_confirm.py:64
-msgid "Action"
-msgid_plural "Actions"
-msgstr[0] ""
-msgstr[1] ""
 
 #: sophie_bot/modules/filters/handlers/confirm.py:59
 #: sophie_bot/modules/filters/handlers/filter_confirm.py:84
@@ -2724,6 +2689,19 @@ msgstr ""
 msgid "Current state"
 msgstr ""
 
+#: sophie_bot/modules/notes/handlers/pmnotes_setting.py:37
+#: sophie_bot/modules/utils_/status_handler.py:85
+msgid "Enabled"
+msgstr ""
+
+#: sophie_bot/modules/notes/handlers/pmnotes_setting.py:37
+#: sophie_bot/modules/utils_/status_handler.py:85
+#: sophie_bot/modules/welcomesecurity/handlers/enable_welcomemute.py:49
+#: sophie_bot/modules/welcomesecurity/handlers/status_overall.py:55
+#: sophie_bot/modules/welcomesecurity/handlers/status_overall.py:73
+msgid "Disabled"
+msgstr ""
+
 #: sophie_bot/modules/notes/handlers/pmnotes_setting.py:38
 msgid "Private Notes"
 msgstr ""
@@ -3148,7 +3126,7 @@ msgstr ""
 msgid "Please write the ban duration, for example 2h for 2 hours, 7d for 7 days or 2w for 2 weeks. Or 0 for a permanent ban."
 msgstr ""
 
-#: sophie_bot/modules/restrictions/actions/ban.py:68
+#: sophie_bot/modules/restrictions/actions/ban.py:67
 msgid "Ban"
 msgstr ""
 
@@ -3175,7 +3153,7 @@ msgstr ""
 msgid "For"
 msgstr ""
 
-#: sophie_bot/modules/restrictions/actions/kick.py:19
+#: sophie_bot/modules/restrictions/actions/kick.py:18
 msgid "Kick"
 msgstr ""
 
@@ -3192,7 +3170,7 @@ msgstr ""
 msgid "Invalid mute duration, please try again."
 msgstr ""
 
-#: sophie_bot/modules/restrictions/actions/mute.py:68
+#: sophie_bot/modules/restrictions/actions/mute.py:67
 msgid "Mute"
 msgstr ""
 

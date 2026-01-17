@@ -70,6 +70,7 @@ class ModernActionABC(ABC, Generic[ACTION_DATA]):
 
     as_filter: bool = True  # Can be used as a filter
     as_button: bool = False  # Can be used as a button
+    as_flood: bool = False  # Can be used as an antiflood action
 
     button_allowed_prefixes: Optional[tuple[str, ...]] = None  # Allowed prefixes for buttons
 

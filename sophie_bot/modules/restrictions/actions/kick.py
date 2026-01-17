@@ -14,9 +14,9 @@ from sophie_bot.utils.logger import log
 
 class KickModernAction(ModernActionABC[None]):
     name = "kick_user"
-
     icon = "🚪"
     title = l_("Kick")
+    as_flood = True
 
     @staticmethod
     def description(data: None) -> Element | str:

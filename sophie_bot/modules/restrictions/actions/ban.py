@@ -63,11 +63,11 @@ async def setup_message(_event: Message | CallbackQuery, _data: dict[str, Any]) 
 
 class BanModernAction(ModernActionABC[BanActionDataModel]):
     name = "ban_user"
-
     icon = "🚷"
     title = l_("Ban")
     data_object = BanActionDataModel
     default_data = BanActionDataModel(ban_duration=None)
+    as_flood = True
 
     @staticmethod
     def description(data: BanActionDataModel) -> Element | str:
