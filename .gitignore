@@ -16,6 +16,9 @@ data/*.yaml
 .vscode/
 .idea/
 
+# Jetbrains Junie
+*.txt
+
 # Localization
 sophie.mo
 
@@ -30,6 +33,3 @@ openapi.json
 
 # Libs
 libs/
-
-# Jetbrains Junie
-.output
