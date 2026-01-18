@@ -1,9 +1,30 @@
-#: sophie_bot/args/users.py:27
-msgid "Could not find the requested User ID in the database."
+#: sophie_bot/args/chats.py:22
+msgid "Could not find the requested Chat ID in the database."
 msgstr ""
 
-#: sophie_bot/args/users.py:41
+#: sophie_bot/args/chats.py:36 sophie_bot/args/users.py:41
 msgid "Could not find the requested Username in the database."
+msgstr ""
+
+#: sophie_bot/args/chats.py:49
+msgid "Chat: 'Chat ID (numeric) / Username (starts with @)'"
+msgstr ""
+
+#: sophie_bot/args/chats.py:50
+msgid "Chats: 'Chat IDs (numeric) / Usernames (starts with @)'"
+msgstr ""
+
+#: sophie_bot/args/chats.py:56
+msgid "Chat ID"
+msgstr ""
+
+#: sophie_bot/args/chats.py:57 sophie_bot/args/users.py:78
+#: sophie_bot/modules/users/handlers/info.py:51
+msgid "Username"
+msgstr ""
+
+#: sophie_bot/args/users.py:27
+msgid "Could not find the requested User ID in the database."
 msgstr ""
 
 #: sophie_bot/args/users.py:70
@@ -16,10 +37,6 @@ msgstr ""
 
 #: sophie_bot/args/users.py:77
 msgid "User ID"
-msgstr ""
-
-#: sophie_bot/args/users.py:78 sophie_bot/modules/users/handlers/info.py:51
-msgid "Username"
 msgstr ""
 
 #: sophie_bot/args/users.py:80
@@ -282,6 +299,7 @@ msgid "Unknown provider"
 msgstr ""
 
 #: sophie_bot/modules/ai/handlers/aiprovider.py:108
+#: sophie_bot/modules/connections/handlers/connect_dm.py:39
 #: sophie_bot/modules/disabling/handlers/disable.py:49
 #: sophie_bot/modules/disabling/handlers/enable.py:51
 #: sophie_bot/modules/notes/handlers/delete.py:39
@@ -428,33 +446,33 @@ msgstr ""
 msgid "Top users — this month"
 msgstr ""
 
-#: sophie_bot/modules/ai/handlers/pm.py:23
+#: sophie_bot/modules/ai/handlers/pm.py:24
 msgid "Start the AI ChatBot mode"
 msgstr ""
 
-#: sophie_bot/modules/ai/handlers/pm.py:34
+#: sophie_bot/modules/ai/handlers/pm.py:35
 #, python-brace-format
 msgid "{ai_emoji} Entered to the AI Mode, in this mode you can directly interact with the AI."
 msgstr ""
 
-#: sophie_bot/modules/ai/handlers/pm.py:39
+#: sophie_bot/modules/ai/handlers/pm.py:40
 #, python-brace-format
 msgid "By using the AI, you agree to the {privacy_policy} of the bot and third party AI services used."
 msgstr ""
 
-#: sophie_bot/modules/ai/handlers/pm.py:40
+#: sophie_bot/modules/ai/handlers/pm.py:41
 msgid "privacy policy"
 msgstr ""
 
-#: sophie_bot/modules/ai/handlers/pm.py:42
+#: sophie_bot/modules/ai/handlers/pm.py:43
 msgid "Click on the button below to exit."
 msgstr ""
 
-#: sophie_bot/modules/ai/handlers/pm.py:50
+#: sophie_bot/modules/ai/handlers/pm.py:51
 msgid "Hello! How can I help you?"
 msgstr ""
 
-#: sophie_bot/modules/ai/handlers/pm.py:68
+#: sophie_bot/modules/ai/handlers/pm.py:69
 msgid "The AI mode has been exited."
 msgstr ""
 
@@ -772,107 +790,54 @@ msgid_plural "Actions"
 msgstr[0] ""
 msgstr[1] ""
 
-#: sophie_bot/modules/connections/handlers/connect_dm.py:30
+#: sophie_bot/modules/connections/handlers/connect_dm.py:35
 msgid "Connects to the chat."
 msgstr ""
 
-#: sophie_bot/modules/connections/handlers/connect_dm.py:30
-msgid "Chat ID"
-msgstr ""
-
-#: sophie_bot/modules/connections/handlers/connect_dm.py:44
-#: sophie_bot/modules/connections/handlers/connect_dm.py:123
-#: sophie_bot/modules/connections/handlers/connect_group.py:39
-#: sophie_bot/modules/connections/handlers/start_connect.py:39
+#: sophie_bot/modules/connections/handlers/connect_dm.py:54
+#: sophie_bot/modules/connections/handlers/connect_dm.py:102
+#: sophie_bot/modules/connections/handlers/connect_group.py:37
+#: sophie_bot/modules/connections/handlers/start_connect.py:38
 msgid "You are not allowed to connect to this chat."
 msgstr ""
 
-#: sophie_bot/modules/connections/handlers/connect_dm.py:53
+#: sophie_bot/modules/connections/handlers/connect_dm.py:63
 msgid "Connections"
 msgstr ""
 
-#: sophie_bot/modules/connections/handlers/connect_dm.py:54
-#: sophie_bot/modules/connections/handlers/connect_dm.py:83
-#: sophie_bot/modules/connections/handlers/connect_dm.py:133
-#: sophie_bot/modules/connections/handlers/start_connect.py:49
-msgid "⚠️ The connection module is obsolete in favor of the web app."
-msgstr ""
-
-#: sophie_bot/modules/connections/handlers/connect_dm.py:55
+#: sophie_bot/modules/connections/handlers/connect_dm.py:65
 msgid "Select a chat to connect to:"
 msgstr ""
 
-#: sophie_bot/modules/connections/handlers/connect_dm.py:79
-#: sophie_bot/modules/connections/handlers/connect_dm.py:129
-#: sophie_bot/modules/connections/handlers/connect_group.py:46
-#: sophie_bot/modules/connections/handlers/start_connect.py:45
-msgid "Connected!"
-msgstr ""
-
-#: sophie_bot/modules/connections/handlers/connect_dm.py:80
-#: sophie_bot/modules/connections/handlers/connect_dm.py:130
-#: sophie_bot/modules/connections/handlers/connect_group.py:47
-#: sophie_bot/modules/connections/handlers/start_connect.py:46
-#, python-brace-format
-msgid "Connected to {chat_name}."
-msgstr ""
-
-#: sophie_bot/modules/connections/handlers/connect_dm.py:82
-#: sophie_bot/modules/connections/handlers/connect_dm.py:132
-#: sophie_bot/modules/connections/handlers/start_connect.py:48
-msgid "Notices"
-msgstr ""
-
-#: sophie_bot/modules/connections/handlers/connect_dm.py:84
-#: sophie_bot/modules/connections/handlers/connect_dm.py:134
-#: sophie_bot/modules/connections/handlers/connect_group.py:49
-#: sophie_bot/modules/connections/handlers/start_connect.py:50
-#: sophie_bot/modules/notes/handlers/pmnotes_handler.py:66
-msgid "⏳ This connection will last for 48 hours."
-msgstr ""
-
-#: sophie_bot/modules/connections/handlers/connect_dm.py:116
-#: sophie_bot/modules/users/handlers/adminlist.py:29
-msgid "Chat not found."
-msgstr ""
-
-#: sophie_bot/modules/connections/handlers/connect_dm.py:142
-msgid "Keyboard updated."
-msgstr ""
-
-#: sophie_bot/modules/connections/handlers/connect_group.py:25
+#: sophie_bot/modules/connections/handlers/connect_group.py:23
 msgid "Connects to the current chat."
 msgstr ""
 
-#: sophie_bot/modules/connections/handlers/connect_group.py:48
-msgid "⚠️ The connection feature is obsolete in favor of the web app."
-msgstr ""
-
-#: sophie_bot/modules/connections/handlers/connect_group.py:57
+#: sophie_bot/modules/connections/handlers/connect_group.py:47
 msgid "You are connected! Check your DM with Sophie."
 msgstr ""
 
-#: sophie_bot/modules/connections/handlers/connect_group.py:59
+#: sophie_bot/modules/connections/handlers/connect_group.py:49
 msgid "Open DM"
 msgstr ""
 
-#: sophie_bot/modules/connections/handlers/connect_group.py:65
+#: sophie_bot/modules/connections/handlers/connect_group.py:55
 msgid "You must start the bot in DM first to connect. Once you initialize connection with Sophie, you'll be connected."
 msgstr ""
 
-#: sophie_bot/modules/connections/handlers/connect_group.py:71
+#: sophie_bot/modules/connections/handlers/connect_group.py:61
 msgid "Start Sophie"
 msgstr ""
 
-#: sophie_bot/modules/connections/handlers/disconnect.py:12
+#: sophie_bot/modules/connections/handlers/disconnect.py:15
 msgid "Disconnects from the current chat."
 msgstr ""
 
-#: sophie_bot/modules/connections/handlers/disconnect.py:26
+#: sophie_bot/modules/connections/handlers/disconnect.py:35
 msgid "You are not currently connected to any chat."
 msgstr ""
 
-#: sophie_bot/modules/connections/handlers/disconnect.py:36
+#: sophie_bot/modules/connections/handlers/disconnect.py:45
 #, python-brace-format
 msgid "Successfully disconnected from the {chat_name} chat."
 msgstr ""
@@ -883,6 +848,32 @@ msgstr ""
 
 #: sophie_bot/modules/connections/handlers/settings.py:14
 msgid "Allow users connect"
+msgstr ""
+
+#: sophie_bot/modules/connections/utils/connection.py:69
+msgid "Connected!"
+msgstr ""
+
+#: sophie_bot/modules/connections/utils/connection.py:70
+#, python-brace-format
+msgid "Connected to {chat_name}."
+msgstr ""
+
+#: sophie_bot/modules/connections/utils/connection.py:72
+msgid "Notices"
+msgstr ""
+
+#: sophie_bot/modules/connections/utils/connection.py:74
+#: sophie_bot/modules/notes/handlers/pmnotes_handler.py:67
+msgid "⏳ This connection will last for 48 hours."
+msgstr ""
+
+#: sophie_bot/modules/connections/utils/constants.py:3
+msgid "🔌 Disconnect"
+msgstr ""
+
+#: sophie_bot/modules/connections/utils/texts.py:4
+msgid "⚠️ The connection module is obsolete in favor of the web app. Click on the 'Dashboard' button in the text field."
 msgstr ""
 
 #: sophie_bot/modules/disabling/__init__.py:17
@@ -2578,24 +2569,24 @@ msgstr ""
 msgid "#(Note name)"
 msgstr ""
 
-#: sophie_bot/modules/notes/handlers/pmnotes_handler.py:28
+#: sophie_bot/modules/notes/handlers/pmnotes_handler.py:29
 msgid "Please connect to the chat to interact with chat notes"
 msgstr ""
 
-#: sophie_bot/modules/notes/handlers/pmnotes_handler.py:34
+#: sophie_bot/modules/notes/handlers/pmnotes_handler.py:35
 msgid "🔌 Connect"
 msgstr ""
 
-#: sophie_bot/modules/notes/handlers/pmnotes_handler.py:58
+#: sophie_bot/modules/notes/handlers/pmnotes_handler.py:59
 msgid "Chat not found in the database. Please try to disconnect and connect again."
 msgstr ""
 
-#: sophie_bot/modules/notes/handlers/pmnotes_handler.py:64
+#: sophie_bot/modules/notes/handlers/pmnotes_handler.py:65
 #, python-brace-format
 msgid "Connected to chat {chat_name} successfully!"
 msgstr ""
 
-#: sophie_bot/modules/notes/handlers/pmnotes_handler.py:65
+#: sophie_bot/modules/notes/handlers/pmnotes_handler.py:66
 #, python-brace-format
 msgid "Use {command} to disconnect"
 msgstr ""
@@ -3468,6 +3459,10 @@ msgstr ""
 
 #: sophie_bot/modules/users/handlers/adminlist.py:25
 msgid "This command can only be used in groups."
+msgstr ""
+
+#: sophie_bot/modules/users/handlers/adminlist.py:29
+msgid "Chat not found."
 msgstr ""
 
 #: sophie_bot/modules/users/handlers/adminlist.py:38

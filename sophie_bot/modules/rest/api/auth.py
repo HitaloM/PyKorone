@@ -16,6 +16,7 @@ from sophie_bot.utils.api.auth import (
     generate_token,
     hash_token,
     logger,
+    verify_telegram_login_widget,
 )
 from sophie_bot.utils.api.rate_limiter import rate_limit
 from sophie_bot.utils.logger import log
@@ -35,6 +36,16 @@ class RefreshRequest(BaseModel):
 
 class TMALoginRequest(BaseModel):
     initData: str
+
+
+class TelegramLoginWidgetData(BaseModel):
+    id: int
+    first_name: str
+    last_name: str | None = None
+    username: str | None = None
+    photo_url: str | None = None
+    auth_date: int
+    hash: str
 
 
 class OperatorLoginRequest(BaseModel):
@@ -76,6 +87,16 @@ async def login_tma(data: TMALoginRequest):
         raise HTTPException(status_code=403, detail="Invalid init data")
 
     if not (user := await ChatModel.get_by_tid(init_data.user.id)):
+        raise HTTPException(status_code=403, detail="User not found in database")
+
+    return await create_tokens(user)
+
+
+@router.post("/login/widget", response_model=Token, dependencies=[Depends(rate_limit)])
+async def login_widget(data: TelegramLoginWidgetData):
+    verify_telegram_login_widget(data.model_dump())
+
+    if not (user := await ChatModel.get_by_tid(data.id)):
         raise HTTPException(status_code=403, detail="User not found in database")
 
     return await create_tokens(user)
