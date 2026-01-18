@@ -1,5 +1,3 @@
 files:
-  - source: sophie_bot/localization/en.yaml
-    translation: /**/sophie_bot/localization/%locale_with_underscore%.yaml
   - source: /locales/sophie.pot
     translation: /**/locales/%locale_with_underscore%/LC_MESSAGES/%file_name%.po
