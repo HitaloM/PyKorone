@@ -77,6 +77,14 @@ logging.config.dictConfig(
                 "level": level,
                 "propagate": True,
             },
+            "pymongo.topology": {
+                "level": logging.WARNING,
+                "propagate": True,
+            },
+            "watchfiles.main": {
+                "level": logging.WARNING,
+                "propagate": True,
+            },
         },
     }
 )
