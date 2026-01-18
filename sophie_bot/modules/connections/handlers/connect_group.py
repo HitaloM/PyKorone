@@ -13,6 +13,7 @@ from stfu_tg import Doc, Title, Template
 
 from sophie_bot.config import CONFIG
 from sophie_bot.modules.connections.utils.connection import set_connected_chat
+from sophie_bot.modules.connections.utils.constants import CONNECTION_DISCONNECT_TEXT
 from sophie_bot.db.models.chat import ChatModel
 from sophie_bot.db.models.chat_connection_settings import ChatConnectionSettingsModel
 from sophie_bot.modules.utils_.base_handler import SophieMessageHandler
@@ -49,7 +50,9 @@ class ConnectGroupCmd(SophieMessageHandler):
             _("⏳ This connection will last for 48 hours."),
         )
 
-        markup = ReplyKeyboardMarkup(keyboard=[[KeyboardButton(text="/disconnect")]], resize_keyboard=True)
+        markup = ReplyKeyboardMarkup(
+            keyboard=[[KeyboardButton(text=str(CONNECTION_DISCONNECT_TEXT))]], resize_keyboard=True
+        )
 
         try:
             await self.bot.send_message(user_id, str(text), reply_markup=markup)

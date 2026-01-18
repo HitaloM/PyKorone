@@ -1,18 +1,22 @@
 from __future__ import annotations
+from ass_tg.types import OptionalArg
 
 from aiogram import flags
 from aiogram.types import (
     InlineKeyboardButton,
     ReplyKeyboardMarkup,
     KeyboardButton,
+    Message,
 )
 from aiogram.filters.callback_data import CallbackData
 from aiogram.utils.keyboard import InlineKeyboardBuilder
 
-from ass_tg.types import IntArg
 from stfu_tg import Doc, Title, Template, Section
 
+
+from sophie_bot.args.chats import SophieChatArg
 from sophie_bot.modules.connections.utils.connection import set_connected_chat
+from sophie_bot.modules.connections.utils.constants import CONNECTION_DISCONNECT_TEXT
 from sophie_bot.db.models.chat import ChatModel
 from sophie_bot.db.models.chat_connections import ChatConnectionModel
 from sophie_bot.db.models.chat_connection_settings import ChatConnectionSettingsModel
@@ -27,19 +31,24 @@ class ConnectToChatCb(CallbackData, prefix="connect_to_chat_cb"):
     chat_id: int
 
 
-@flags.help(description=l_("Connects to the chat."), args={"chat_id": IntArg(l_("Chat ID"))})
+@flags.help(description=l_("Connects to the chat."))
 class ConnectDMCmd(SophieMessageHandler):
+    @classmethod
+    async def handler_args(cls, message: Message | None, data: dict) -> dict:
+        return {"chat": OptionalArg(SophieChatArg(l_("Chat")))}
+
     @staticmethod
     def filters():
-        return (CMDFilter("connect"), ChatTypeFilter("private"))
+        return CMDFilter("connect"), ChatTypeFilter("private")
 
     async def handle(self):
         if not self.event.from_user:
             return
         user_id = self.event.from_user.id
 
-        # If chat_id arg is provided
-        if chat_id := self.data.get("chat_id"):
+        # If chat arg is provided
+        if chat_arg := self.data.get("chat"):
+            chat_id = chat_arg.tid
             if not await self.check_permissions(chat_id, user_id):
                 await self.event.reply(_("You are not allowed to connect to this chat."))
                 return
@@ -85,11 +94,14 @@ class ConnectDMCmd(SophieMessageHandler):
             ),
         )
 
-        markup = ReplyKeyboardMarkup(keyboard=[[KeyboardButton(text="/disconnect")]], resize_keyboard=True)
+        markup = ReplyKeyboardMarkup(
+            keyboard=[[KeyboardButton(text=str(CONNECTION_DISCONNECT_TEXT))]], resize_keyboard=True
+        )
 
         await self.event.reply(str(text), reply_markup=markup)
 
-    async def check_permissions(self, chat_id, user_id):
+    @staticmethod
+    async def check_permissions(chat_id, user_id):
         # Admins always allowed
         if await is_user_admin(chat_id, user_id):
             return True
@@ -135,8 +147,9 @@ class ConnectCallback(SophieCallbackQueryHandler):
             ),
         )
 
-        markup = ReplyKeyboardMarkup(keyboard=[[KeyboardButton(text="/disconnect")]], resize_keyboard=True)
+        markup = ReplyKeyboardMarkup(
+            keyboard=[[KeyboardButton(text=str(CONNECTION_DISCONNECT_TEXT))]], resize_keyboard=True
+        )
 
-        await self.edit_text(str(text))
         if self.event.message:
-            await self.event.message.answer(_("Keyboard updated."), reply_markup=markup)
+            await self.event.message.answer(text.to_html(), reply_markup=markup)

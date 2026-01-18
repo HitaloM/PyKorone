@@ -8,6 +8,7 @@ from stfu_tg import Bold, Doc, Template, Url
 from sophie_bot.config import CONFIG
 from sophie_bot.filters.chat_status import ChatTypeFilter
 from sophie_bot.filters.cmd import CMDFilter
+from sophie_bot.modules.ai.callbacks import AIChatCallback
 from sophie_bot.modules.ai.filters.throttle import AIThrottleFilter
 from sophie_bot.modules.ai.fsm.pm import AI_PM_PROVIDER, AI_PM_RESET, AI_PM_STOP_TEXT, AiPMFSM
 from sophie_bot.modules.ai.utils.ai_chatbot_reply import ai_chatbot_reply
@@ -25,7 +26,7 @@ class AiPmInitialize(SophieMessageCallbackQueryHandler):
     @classmethod
     def register(cls, router: Router):
         router.message.register(cls, CMDFilter("ai"), ChatTypeFilter("private"))
-        router.callback_query.register(cls, ChatTypeFilter("private"))
+        router.callback_query.register(cls, AIChatCallback.filter(), ChatTypeFilter("private"))
 
     async def handle(self) -> Any:
         doc = Doc(

@@ -1,9 +1,12 @@
+from aiogram.dispatcher.event.handler import CallbackType
 from stfu_tg import Template, Bold
 
-from aiogram import flags
+from aiogram import F, flags, Router
 from aiogram.types import ReplyKeyboardRemove
 
+from sophie_bot.filters.chat_status import ChatTypeFilter
 from sophie_bot.modules.connections.utils.connection import set_connected_chat
+from sophie_bot.modules.connections.utils.constants import CONNECTION_DISCONNECT_TEXT
 from sophie_bot.modules.utils_.base_handler import SophieMessageHandler
 from sophie_bot.utils.i18n import lazy_gettext as l_, gettext as _
 from sophie_bot.filters.cmd import CMDFilter
@@ -12,8 +15,14 @@ from sophie_bot.filters.cmd import CMDFilter
 @flags.help(description=l_("Disconnects from the current chat."))
 class DisconnectCmd(SophieMessageHandler):
     @staticmethod
-    def filters():
-        return (CMDFilter("disconnect"),)
+    def filters() -> tuple[CallbackType, ...]:
+        # Defined in register
+        return ()
+
+    @classmethod
+    def register(cls, router: Router):
+        router.message.register(cls, CMDFilter("disconnect"), ChatTypeFilter('private'))
+        router.message.register(cls, F.text == CONNECTION_DISCONNECT_TEXT, ChatTypeFilter('private'))
 
     async def handle(self):
         if not self.event.from_user:

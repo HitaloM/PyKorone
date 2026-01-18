@@ -10,6 +10,7 @@ from sophie_bot.filters.chat_status import ChatTypeFilter
 from sophie_bot.filters.cmd import CMDFilter
 from sophie_bot.middlewares.connections import ConnectionsMiddleware
 from sophie_bot.modules.connections.utils.connection import set_connected_chat
+from sophie_bot.modules.connections.utils.constants import CONNECTION_DISCONNECT_TEXT
 from sophie_bot.modules.notes.callbacks import PrivateNotesStartUrlCallback
 from sophie_bot.modules.notes.filters.pm_notes import PMNotesFilter
 from sophie_bot.modules.notes.handlers.list import LIST_CMDS, NotesList
@@ -66,7 +67,9 @@ class PrivateNotesConnectHandler(SophieMessageHandler):
             _("⏳ This connection will last for 48 hours."),
         )
 
-        markup = ReplyKeyboardMarkup(keyboard=[[KeyboardButton(text="/disconnect")]], resize_keyboard=True)
+        markup = ReplyKeyboardMarkup(
+            keyboard=[[KeyboardButton(text=str(CONNECTION_DISCONNECT_TEXT))]], resize_keyboard=True
+        )
 
         await self.event.reply(str(doc), reply_markup=markup)
 
