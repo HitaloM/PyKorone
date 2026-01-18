@@ -4,6 +4,7 @@ from typing import Literal, Optional, Union
 
 from aiogram.enums import ChatMemberStatus
 from aiogram.exceptions import TelegramBadRequest
+from beanie import PydanticObjectId
 
 from sophie_bot.config import CONFIG
 from sophie_bot.db.models.chat import ChatModel
@@ -27,17 +28,23 @@ AdminPermission = Literal[
 ]
 
 
+async def _resolve_model(model_id: Union[int, PydanticObjectId]) -> Optional[ChatModel]:
+    if isinstance(model_id, int):
+        return await ChatModel.get_by_tid(model_id)
+    return await ChatModel.get_by_iid(model_id)
+
+
 async def check_user_admin_permissions(
-    chat_tid: int,
-    user_tid: int,
+    chat: Union[int, PydanticObjectId],
+    user: Union[int, PydanticObjectId],
     required_permissions: Optional[list[str]] = None,
 ) -> Union[bool, str]:
     """
     Check if a user is an admin in the specified chat and has the required permissions.
 
     Args:
-        chat_tid: Telegram chat ID
-        user_tid: Telegram user ID to check
+        chat: Telegram chat ID or Internal DB ID
+        user: Telegram user ID or Internal DB ID
         required_permissions: Optional list of permissions to check (e.g., ["can_restrict_members"])
 
     Returns:
@@ -45,33 +52,45 @@ async def check_user_admin_permissions(
         The missing permission name (str) if a specific permission is missing.
         False if the user is not an admin at all.
     """
-    log.debug("check_user_admin_permissions", chat_tid=chat_tid, user_tid=user_tid, permissions=required_permissions)
+    log.debug("check_user_admin_permissions", chat=chat, user=user, permissions=required_permissions)
 
-    # User's PM should have admin rights
-    if chat_tid == user_tid:
-        return True
+    # Fast path for TIDs (ints)
+    if isinstance(chat, int) and isinstance(user, int):
+        # User's PM should have admin rights
+        if chat == user:
+            return True
 
-    # Bot operators always have admin rights with all permissions
-    if user_tid in CONFIG.operators:
-        return True
+        # Bot operators always have admin rights with all permissions
+        if user in CONFIG.operators:
+            return True
 
-    # Workaround to support anonymous admins - they have all permissions
-    if user_tid == ANONYMOUS_ADMIN_BOT_ID:
-        return True
+        # Workaround to support anonymous admins - they have all permissions
+        if user == ANONYMOUS_ADMIN_BOT_ID:
+            return True
+
+    # Resolve models
+    chat_model = await _resolve_model(chat)
+    if not chat_model:
+        return False
+
+    user_model = await _resolve_model(user)
+    if not user_model:
+        return False
+
+    # Check if we missed the fast path checks (e.g. if one was IID)
+    if not (isinstance(chat, int) and isinstance(user, int)):
+        if chat_model.tid == user_model.tid:
+            return True
+        if user_model.tid in CONFIG.operators:
+            return True
+        if user_model.tid == ANONYMOUS_ADMIN_BOT_ID:
+            return True
 
     # Check database for admin status
     try:
-        chat = await ChatModel.get_by_tid(chat_tid)
-        if not chat:
-            return False
-
-        user = await ChatModel.get_by_tid(user_tid)
-        if not user:
-            return False
-
         admin = await ChatAdminModel.find_one(
-            ChatAdminModel.chat.id == chat.iid,  # type: ignore
-            ChatAdminModel.user.id == user.iid,  # type: ignore
+            ChatAdminModel.chat.iid == chat_model.iid,  # type: ignore
+            ChatAdminModel.user.iid == user_model.iid,  # type: ignore
         )
 
         if not admin:
@@ -100,7 +119,7 @@ async def check_user_admin_permissions(
         raise
 
 
-async def is_user_admin(chat_tid: int, user_tid: int) -> bool:
+async def is_user_admin(chat: Union[int, PydanticObjectId], user: Union[int, PydanticObjectId]) -> bool:
     """
     Check if a user is an admin in the specified chat.
 
@@ -108,29 +127,29 @@ async def is_user_admin(chat_tid: int, user_tid: int) -> bool:
     that only checks admin status without specific permissions.
 
     Args:
-        chat_tid: Telegram chat ID
-        user_tid: Telegram user ID to check
+        chat: Telegram chat ID or Internal DB ID
+        user: Telegram user ID or Internal DB ID
 
     Returns:
         True if the user is an admin, False otherwise
     """
-    result = await check_user_admin_permissions(chat_tid, user_tid)
+    result = await check_user_admin_permissions(chat, user)
     return result is True
 
 
-async def is_chat_creator(chat_tid: int, user_tid: int) -> bool:
+async def is_chat_creator(chat: Union[int, PydanticObjectId], user: Union[int, PydanticObjectId]) -> bool:
     """Check if the user is the creator of the chat."""
-    chat = await ChatModel.get_by_tid(chat_tid)
-    if not chat:
+    chat_model = await _resolve_model(chat)
+    if not chat_model:
         return False
 
-    user = await ChatModel.get_by_tid(user_tid)
-    if not user:
+    user_model = await _resolve_model(user)
+    if not user_model:
         return False
 
     admin = await ChatAdminModel.find_one(
-        ChatAdminModel.chat.id == chat.iid,  # type: ignore
-        ChatAdminModel.user.id == user.iid,  # type: ignore
+        ChatAdminModel.chat.iid == chat_model.iid,  # type: ignore
+        ChatAdminModel.user.iid == user_model.iid,  # type: ignore
     )
     if not admin:
         return False
@@ -138,13 +157,13 @@ async def is_chat_creator(chat_tid: int, user_tid: int) -> bool:
     return admin.member.status == ChatMemberStatus.CREATOR
 
 
-async def get_admins_rights(chat_tid: int, force_update: bool = False) -> None:
+async def get_admins_rights(chat: Union[int, PydanticObjectId], force_update: bool = False) -> None:
     """Refresh admin cache for the chat (wrapper for update_chat_admins)."""
     # This seems to map to logic that updates admins in DB.
     # Assuming update_chat_admins is the modern equivalent if it exists or we implement logic here.
     # For now, we can check if update_chat_members handles admins or if there is a specific function.
-    chat = await ChatModel.get_by_tid(chat_tid)
-    if not chat:
+    chat_model = await _resolve_model(chat)
+    if not chat_model:
         return
 
-    await update_chat_members(chat)
+    await update_chat_members(chat_model)

@@ -15,7 +15,7 @@ async def ws_on_user_passed(user: ChatModel, group: ChatModel, welcomemute: Welc
     """
 
     # Check for admin permissions
-    if await is_user_admin(chat_tid=group.tid, user_tid=user.tid):
+    if await is_user_admin(chat=group.tid, user=user.tid):
         return False
 
     # Remove the user from the welcomesecurity database
