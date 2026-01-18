@@ -21,8 +21,8 @@ class DisconnectCmd(SophieMessageHandler):
 
     @classmethod
     def register(cls, router: Router):
-        router.message.register(cls, CMDFilter("disconnect"), ChatTypeFilter('private'))
-        router.message.register(cls, F.text == CONNECTION_DISCONNECT_TEXT, ChatTypeFilter('private'))
+        router.message.register(cls, CMDFilter("disconnect"), ChatTypeFilter("private"))
+        router.message.register(cls, F.text == CONNECTION_DISCONNECT_TEXT, ChatTypeFilter("private"))
 
     async def handle(self):
         if not self.event.from_user:

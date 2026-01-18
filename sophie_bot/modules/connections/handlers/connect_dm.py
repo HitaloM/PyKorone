@@ -1,27 +1,28 @@
 from __future__ import annotations
+
 from ass_tg.types import OptionalArg
 
 from aiogram import flags
 from aiogram.types import (
     InlineKeyboardButton,
-    ReplyKeyboardMarkup,
-    KeyboardButton,
     Message,
 )
 from aiogram.filters.callback_data import CallbackData
 from aiogram.utils.keyboard import InlineKeyboardBuilder
 
-from stfu_tg import Doc, Title, Template, Section
-
+from stfu_tg import Doc, Title
 
 from sophie_bot.args.chats import SophieChatArg
-from sophie_bot.modules.connections.utils.connection import set_connected_chat
-from sophie_bot.modules.connections.utils.constants import CONNECTION_DISCONNECT_TEXT
+from sophie_bot.modules.connections.utils.connection import (
+    check_connection_permissions,
+    get_connection_text,
+    get_disconnect_markup,
+    set_connected_chat,
+)
+from sophie_bot.modules.connections.utils.texts import CONNECTION_OBSOLETE_NOTICE
 from sophie_bot.db.models.chat import ChatModel
 from sophie_bot.db.models.chat_connections import ChatConnectionModel
-from sophie_bot.db.models.chat_connection_settings import ChatConnectionSettingsModel
 from sophie_bot.modules.utils_.base_handler import SophieMessageHandler, SophieCallbackQueryHandler
-from sophie_bot.modules.utils_.admin import is_user_admin
 from sophie_bot.utils.i18n import lazy_gettext as l_, gettext as _
 from sophie_bot.filters.cmd import CMDFilter
 from sophie_bot.filters.chat_status import ChatTypeFilter
@@ -49,7 +50,7 @@ class ConnectDMCmd(SophieMessageHandler):
         # If chat arg is provided
         if chat_arg := self.data.get("chat"):
             chat_id = chat_arg.tid
-            if not await self.check_permissions(chat_id, user_id):
+            if not await check_connection_permissions(chat_id, user_id):
                 await self.event.reply(_("You are not allowed to connect to this chat."))
                 return
             await self.do_connect(user_id, chat_id)
@@ -60,7 +61,7 @@ class ConnectDMCmd(SophieMessageHandler):
 
         doc = Doc(
             Title(_("Connections")),
-            _("⚠️ The connection module is obsolete in favor of the web app."),
+            CONNECTION_OBSOLETE_NOTICE,
             _("Select a chat to connect to:"),
         )
 
@@ -82,36 +83,9 @@ class ConnectDMCmd(SophieMessageHandler):
 
     async def do_connect(self, user_id: int, chat_id: int):
         await set_connected_chat(user_id, chat_id)
-        chat = await ChatModel.get_by_tid(chat_id)
-
-        text = Doc(
-            Title(_("Connected!")),
-            Template(_("Connected to {chat_name}."), chat_name=chat.first_name_or_title if chat else str(chat_id)),
-            Section(
-                _("Notices"),
-                _("⚠️ The connection module is obsolete in favor of the web app."),
-                _("⏳ This connection will last for 48 hours."),
-            ),
-        )
-
-        markup = ReplyKeyboardMarkup(
-            keyboard=[[KeyboardButton(text=str(CONNECTION_DISCONNECT_TEXT))]], resize_keyboard=True
-        )
-
+        text = await get_connection_text(chat_id)
+        markup = get_disconnect_markup()
         await self.event.reply(str(text), reply_markup=markup)
-
-    @staticmethod
-    async def check_permissions(chat_id, user_id):
-        # Admins always allowed
-        if await is_user_admin(chat_id, user_id):
-            return True
-
-        # Check settings
-        settings = await ChatConnectionSettingsModel.get_by_chat_id(chat_id)
-        if settings and not settings.allow_users_connect:
-            return False
-
-        return True
 
 
 class ConnectCallback(SophieCallbackQueryHandler):
@@ -123,33 +97,14 @@ class ConnectCallback(SophieCallbackQueryHandler):
         user_id = self.event.from_user.id
         chat_id = self.data["callback_data"].chat_id
 
-        chat = await ChatModel.get_by_tid(chat_id)
-        if not chat:
-            await self.event.answer(_("Chat not found."), show_alert=True)
+        # Check permissions
+        if not await check_connection_permissions(chat_id, user_id):
+            await self.event.answer(_("You are not allowed to connect to this chat."), show_alert=True)
             return
 
-        # Check permissions
-        if not await is_user_admin(chat_id, user_id):
-            settings = await ChatConnectionSettingsModel.get_by_chat_id(chat_id)
-            if settings and not settings.allow_users_connect:
-                await self.event.answer(_("You are not allowed to connect to this chat."), show_alert=True)
-                return
-
         await set_connected_chat(user_id, chat_id)
-
-        text = Doc(
-            Title(_("Connected!")),
-            Template(_("Connected to {chat_name}."), chat_name=chat.first_name_or_title),
-            Section(
-                _("Notices"),
-                _("⚠️ The connection module is obsolete in favor of the web app."),
-                _("⏳ This connection will last for 48 hours."),
-            ),
-        )
-
-        markup = ReplyKeyboardMarkup(
-            keyboard=[[KeyboardButton(text=str(CONNECTION_DISCONNECT_TEXT))]], resize_keyboard=True
-        )
+        text = await get_connection_text(chat_id)
+        markup = get_disconnect_markup()
 
         if self.event.message:
             await self.event.message.answer(text.to_html(), reply_markup=markup)
