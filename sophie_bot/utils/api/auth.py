@@ -17,6 +17,7 @@ from fastapi.security import (
 
 from sophie_bot.config import CONFIG
 from sophie_bot.db.models.chat import ChatModel
+from sophie_bot.db.models.chat_admin import ChatAdminModel
 
 oauth2_scheme = HTTPBearer()
 logger = structlog.get_logger(__name__)
@@ -141,3 +142,27 @@ async def get_current_operator(
         status_code=status.HTTP_403_FORBIDDEN,
         detail="Not enough permissions",
     )
+
+
+def rest_require_admin(permission: str | None = None):
+    async def dependency(
+        chat_tid: int,
+        user: Annotated[ChatModel, Depends(get_current_user)],
+    ) -> ChatModel:
+        if user.tid in CONFIG.operators:
+            return user
+
+        admin = await ChatAdminModel.get_admin(chat_tid, user.tid)
+        if not admin:
+            raise HTTPException(
+                status_code=status.HTTP_403_FORBIDDEN,
+                detail="You are not an admin in this chat",
+            )
+        if permission and not getattr(admin, permission, False):
+            raise HTTPException(
+                status_code=status.HTTP_403_FORBIDDEN,
+                detail=f"You don't have the '{permission}' permission",
+            )
+        return user
+
+    return dependency

@@ -1,5 +1,6 @@
 from aiogram import Router
 
+from .api import api_router as api_router
 from sophie_bot.modules.disabling.export import export_disabled
 from sophie_bot.modules.disabling.handlers.disable import DisableHandler
 from sophie_bot.modules.disabling.handlers.disable_able import ListDisableable

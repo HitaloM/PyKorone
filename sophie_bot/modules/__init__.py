@@ -15,9 +15,9 @@ if TYPE_CHECKING:
 LOADED_MODULES: dict[str, ModuleType] = {}
 LOADED_API_ROUTERS: list["APIRouter"] = []
 MODULES = [
+    "troubleshooters",  # troubleshooters always first!
     "rest",
     "op",
-    "troubleshooters",  # troubleshooters always first!
     "error",
     "users",
     "notes",

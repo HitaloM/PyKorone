@@ -7,16 +7,14 @@ from pydantic import BaseModel
 
 from sophie_bot.db.models.notes import NoteFile, SaveableParseMode
 from sophie_bot.db.models.notes_buttons import Button
+from sophie_bot.utils.api.schemas import RestSaveable
 
 
-class NoteResponse(BaseModel):
+class NoteResponse(RestSaveable):
     id: PydanticObjectId
     names: tuple[str, ...]
-    text: str | None
     file: NoteFile | None
-    buttons: list[list[Button]]
     parse_mode: SaveableParseMode | None
-    preview: bool | None
     description: str | None
     ai_description: bool
     note_group: str | None
@@ -24,13 +22,10 @@ class NoteResponse(BaseModel):
     edited_date: datetime | None
 
 
-class NoteCreate(BaseModel):
+class NoteCreate(RestSaveable):
     names: tuple[str, ...]
-    text: str | None = ""
     file: NoteFile | None = None
-    buttons: list[list[Button]] = []
     parse_mode: SaveableParseMode = SaveableParseMode.html
-    preview: bool = False
     description: str | None = None
     ai_description: bool = False
     note_group: str | None = None

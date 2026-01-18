@@ -876,7 +876,7 @@ msgstr ""
 msgid "⚠️ The connection module is obsolete in favor of the web app. Click on the 'Dashboard' button in the text field."
 msgstr ""
 
-#: sophie_bot/modules/disabling/__init__.py:17
+#: sophie_bot/modules/disabling/__init__.py:18
 msgid "Disabling"
 msgstr ""
 
@@ -3317,7 +3317,7 @@ msgstr ""
 msgid "User unmuted"
 msgstr ""
 
-#: sophie_bot/modules/rules/__init__.py:12
+#: sophie_bot/modules/rules/__init__.py:13
 #: sophie_bot/modules/rules/handlers/get.py:34
 #: sophie_bot/modules/rules/handlers/legacy_button.py:34
 #: sophie_bot/modules/rules/magic_handlers/filter.py:16
