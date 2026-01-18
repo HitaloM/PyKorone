@@ -11,6 +11,7 @@ from aiogram.types import Chat, Message
 from pydantic import BaseModel
 
 from sophie_bot.config import CONFIG
+from sophie_bot.constants import TELEGRAM_CALLBACK_DATA_MAX_LENGTH
 from sophie_bot.filters.cmd import CMDFilter
 
 
@@ -49,7 +50,6 @@ class CmdStartFilter(Filter):
 
 
 T = TypeVar("T", bound="CmdStart")
-MAX_CALLBACK_LENGTH: int = 64
 
 
 class CmdStart(BaseModel):
@@ -88,7 +88,7 @@ class CmdStart(BaseModel):
             result.append(encoded)
         data = f"https://t.me/{CONFIG.username}?{link_type}=" + self.__separator__.join(result)
 
-        if len(data.encode()) > MAX_CALLBACK_LENGTH:
+        if len(data.encode()) > TELEGRAM_CALLBACK_DATA_MAX_LENGTH:
             raise ValueError("Too long")
 
         return data

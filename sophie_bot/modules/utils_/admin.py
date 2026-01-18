@@ -7,13 +7,11 @@ from aiogram.exceptions import TelegramBadRequest
 from beanie import PydanticObjectId
 
 from sophie_bot.config import CONFIG
+from sophie_bot.constants import TELEGRAM_ANONYMOUS_ADMIN_BOT_ID
 from sophie_bot.db.models.chat import ChatModel
 from sophie_bot.db.models.chat_admin import ChatAdminModel
 from sophie_bot.modules.utils_.chat_member import update_chat_members
 from sophie_bot.utils.logger import log
-
-# Telegram's anonymous admin bot ID
-ANONYMOUS_ADMIN_BOT_ID = 1087968824
 
 # Type alias for admin permissions
 AdminPermission = Literal[
@@ -65,7 +63,7 @@ async def check_user_admin_permissions(
             return True
 
         # Workaround to support anonymous admins - they have all permissions
-        if user == ANONYMOUS_ADMIN_BOT_ID:
+        if user == TELEGRAM_ANONYMOUS_ADMIN_BOT_ID:
             return True
 
     # Resolve models
@@ -83,7 +81,7 @@ async def check_user_admin_permissions(
             return True
         if user_model.tid in CONFIG.operators:
             return True
-        if user_model.tid == ANONYMOUS_ADMIN_BOT_ID:
+        if user_model.tid == TELEGRAM_ANONYMOUS_ADMIN_BOT_ID:
             return True
 
     # Check database for admin status

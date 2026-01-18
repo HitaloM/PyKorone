@@ -1,4 +1,3 @@
-import logging
 from typing import Any, Dict, Union
 
 from aiogram.dispatcher.event.bases import SkipHandler
@@ -9,6 +8,7 @@ from typing_extensions import Optional
 
 from sophie_bot.db.models import AIEnabledModel, ChatModel
 from sophie_bot.utils.i18n import gettext as _
+from sophie_bot.utils.logger import log
 
 
 class AIEnabledFilter(Filter):
@@ -21,7 +21,7 @@ class AIEnabledFilter(Filter):
             return True
 
         if not chat_db:
-            logging.error("AIEnabledFilter: Chat not found in database, skipping")
+            log.error("AIEnabledFilter: Chat not found in database, skipping")
             raise SkipHandler
 
         status = await self.get_status(chat_db)

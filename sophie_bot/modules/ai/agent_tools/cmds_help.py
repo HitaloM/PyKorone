@@ -1,6 +1,6 @@
 from ass_tg.types.base_abc import ArgFabric
 from pydantic_ai import RunContext, Tool
-from stfu_tg import Doc, Section, KeyValue, VList
+from stfu_tg import Doc, KeyValue, Section, VList
 from stfu_tg.doc import Element
 
 from sophie_bot.config import CONFIG
@@ -8,6 +8,7 @@ from sophie_bot.metrics import track_ai_tool
 from sophie_bot.modules.ai.utils.ai_tool_context import SophieAIToolContenxt
 from sophie_bot.modules.help.utils.extract_info import HELP_MODULES
 from sophie_bot.utils.i18n import gettext as _
+from sophie_bot.utils.logger import log
 
 
 def format_ass_arg_data(arg: ArgFabric):
@@ -108,7 +109,7 @@ class CmdsHelpAgentTool:
                 modules_sections.append(Section(*module_section_parts, title=f"{module_help.icon} {module_name}"))
 
             md_text = VList(doc, *modules_sections).to_md()
-            print(md_text)
+            log.debug("cmds_help: generated help text", text_length=len(md_text))
             return md_text
 
     def __new__(cls):

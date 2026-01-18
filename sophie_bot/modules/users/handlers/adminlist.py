@@ -4,13 +4,13 @@ from aiogram import flags
 from aiogram.dispatcher.event.handler import CallbackType
 from stfu_tg import Doc, Title, UserLink
 
+from sophie_bot.constants import TELEGRAM_ANONYMOUS_ADMIN_BOT_ID
+from sophie_bot.db.models.chat import ChatModel
+from sophie_bot.db.models.chat_admin import ChatAdminModel
 from sophie_bot.filters.cmd import CMDFilter
 from sophie_bot.utils.handlers import SophieMessageHandler
 from sophie_bot.utils.i18n import gettext as _
 from sophie_bot.utils.i18n import lazy_gettext as l_
-from sophie_bot.db.models.chat_admin import ChatAdminModel
-from sophie_bot.db.models.chat import ChatModel
-from sophie_bot.modules.utils_.admin import ANONYMOUS_ADMIN_BOT_ID
 
 
 @flags.help(description=l_("Lists all the chats admins."))
@@ -57,7 +57,7 @@ class AdminListHandler(SophieMessageHandler):
                 continue
 
             # Skip anonymous admin bot if desired, or keep it. Legacy skipped "anonymous" rights but here we check user ID.
-            if user.tid == ANONYMOUS_ADMIN_BOT_ID:
+            if user.tid == TELEGRAM_ANONYMOUS_ADMIN_BOT_ID:
                 continue
 
             # Check if anonymous admin

@@ -6,6 +6,7 @@ from aiogram.enums import ContentType
 from aiogram.types import Message
 from stfu_tg import Section
 
+from sophie_bot.constants import TELEGRAM_MESSAGE_LENGTH_LIMIT
 from sophie_bot.db.models.notes import CURRENT_SAVEABLE_VERSION, NoteFile, Saveable
 from sophie_bot.db.models.notes_buttons import Button
 from sophie_bot.modules.notes.utils.buttons_processor.buttons import ButtonsList, parse_message_buttons
@@ -44,8 +45,6 @@ SUPPORTS_CAPTION: tuple[ContentType, ...] = (
     ContentType.DOCUMENT,
     ContentType.PHOTO,
 )
-
-MESSAGE_LENGTH_LIMIT = 4096
 
 
 def extract_file_info(message: Message) -> Optional[NoteFile]:
@@ -111,10 +110,10 @@ async def parse_saveable(
     buttons.extend(replied_buttons)
 
     # TODO: Length of the message with or without HTML entities??
-    if len(note_text or "") > MESSAGE_LENGTH_LIMIT:
+    if len(note_text or "") > TELEGRAM_MESSAGE_LENGTH_LIMIT:
         raise SophieException(
             Section(
-                _("The maximum length of the note is {limit} characters.").format(limit=MESSAGE_LENGTH_LIMIT),
+                _("The maximum length of the note is {limit} characters.").format(limit=TELEGRAM_MESSAGE_LENGTH_LIMIT),
                 _("Please try to reduce the length of the note."),
                 title=_("Note is too long."),
             )

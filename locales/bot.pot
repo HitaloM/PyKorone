@@ -97,15 +97,15 @@ msgstr ""
 msgid "Please note that you can make a limited amount of AI requests per day."
 msgstr ""
 
-#: sophie_bot/modules/ai/agent_tools/cmds_help.py:14
+#: sophie_bot/modules/ai/agent_tools/cmds_help.py:15
 msgid "Can be empty"
 msgstr ""
 
-#: sophie_bot/modules/ai/agent_tools/cmds_help.py:29
+#: sophie_bot/modules/ai/agent_tools/cmds_help.py:30
 msgid "No modules found."
 msgstr ""
 
-#: sophie_bot/modules/ai/agent_tools/cmds_help.py:33
+#: sophie_bot/modules/ai/agent_tools/cmds_help.py:34
 msgid ""
 "SOPHIE BOT HELP CONTEXT\n"
 "\n"
@@ -129,76 +129,76 @@ msgid ""
 "\n"
 msgstr ""
 
-#: sophie_bot/modules/ai/agent_tools/cmds_help.py:62
+#: sophie_bot/modules/ai/agent_tools/cmds_help.py:63
 #: sophie_bot/modules/federations/handlers/info.py:56
 #: sophie_bot/modules/notes/handlers/delete.py:40
 msgid "Name"
 msgstr ""
 
-#: sophie_bot/modules/ai/agent_tools/cmds_help.py:63
+#: sophie_bot/modules/ai/agent_tools/cmds_help.py:64
 msgid "Icon"
 msgstr ""
 
-#: sophie_bot/modules/ai/agent_tools/cmds_help.py:66
-#: sophie_bot/modules/ai/agent_tools/cmds_help.py:77
+#: sophie_bot/modules/ai/agent_tools/cmds_help.py:67
+#: sophie_bot/modules/ai/agent_tools/cmds_help.py:78
 #: sophie_bot/modules/utils_/action_config_wizard/renderer.py:135
 msgid "Description"
 msgstr ""
 
-#: sophie_bot/modules/ai/agent_tools/cmds_help.py:68
+#: sophie_bot/modules/ai/agent_tools/cmds_help.py:69
 msgid "Info"
 msgstr ""
 
-#: sophie_bot/modules/ai/agent_tools/cmds_help.py:69
+#: sophie_bot/modules/ai/agent_tools/cmds_help.py:70
 msgid "Wiki page"
 msgstr ""
 
-#: sophie_bot/modules/ai/agent_tools/cmds_help.py:80
+#: sophie_bot/modules/ai/agent_tools/cmds_help.py:81
 msgid "Arguments"
 msgstr ""
 
-#: sophie_bot/modules/ai/agent_tools/cmds_help.py:83
+#: sophie_bot/modules/ai/agent_tools/cmds_help.py:84
 msgid "This command has no arguments."
 msgstr ""
 
-#: sophie_bot/modules/ai/agent_tools/cmds_help.py:84
+#: sophie_bot/modules/ai/agent_tools/cmds_help.py:85
 msgid "Can be used only in private chats (PM / DM)"
 msgstr ""
 
-#: sophie_bot/modules/ai/agent_tools/cmds_help.py:85
+#: sophie_bot/modules/ai/agent_tools/cmds_help.py:86
 msgid "Can be used only in groups / supergroups"
 msgstr ""
 
-#: sophie_bot/modules/ai/agent_tools/cmds_help.py:86
+#: sophie_bot/modules/ai/agent_tools/cmds_help.py:87
 msgid "Can be used in both private chats and groups"
 msgstr ""
 
-#: sophie_bot/modules/ai/agent_tools/cmds_help.py:89
+#: sophie_bot/modules/ai/agent_tools/cmds_help.py:90
 msgid "Can be used only by admins"
 msgstr ""
 
-#: sophie_bot/modules/ai/agent_tools/cmds_help.py:90
+#: sophie_bot/modules/ai/agent_tools/cmds_help.py:91
 msgid "Can be used only by OP"
 msgstr ""
 
-#: sophie_bot/modules/ai/agent_tools/cmds_help.py:91
+#: sophie_bot/modules/ai/agent_tools/cmds_help.py:92
 msgid "No special permissions required"
 msgstr ""
 
-#: sophie_bot/modules/ai/agent_tools/cmds_help.py:94
+#: sophie_bot/modules/ai/agent_tools/cmds_help.py:95
 msgid "Disableable"
 msgstr ""
 
-#: sophie_bot/modules/ai/agent_tools/cmds_help.py:101
+#: sophie_bot/modules/ai/agent_tools/cmds_help.py:102
 msgid "Module Information"
 msgstr ""
 
-#: sophie_bot/modules/ai/agent_tools/cmds_help.py:104
+#: sophie_bot/modules/ai/agent_tools/cmds_help.py:105
 #: sophie_bot/modules/help/utils/format_help.py:69
 msgid "Commands"
 msgstr ""
 
-#: sophie_bot/modules/ai/agent_tools/cmds_help.py:106
+#: sophie_bot/modules/ai/agent_tools/cmds_help.py:107
 msgid "No commands in this module."
 msgstr ""
 
@@ -211,7 +211,7 @@ msgstr ""
 msgid "Please use \"{cmd}\" to activate them."
 msgstr ""
 
-#: sophie_bot/modules/ai/filters/throttle.py:18
+#: sophie_bot/modules/ai/filters/throttle.py:17
 msgid "❗️ You've reached the daily AI limit, please try again tomorrow."
 msgstr ""
 
@@ -893,6 +893,7 @@ msgstr ""
 
 #: sophie_bot/modules/disabling/handlers/disable.py:37
 #: sophie_bot/modules/disabling/handlers/enable.py:39
+#: sophie_bot/utils/errors.py:36
 #, python-brace-format
 msgid "Command {cmd} not found."
 msgstr ""
@@ -2684,6 +2685,7 @@ msgstr ""
 
 #: sophie_bot/modules/notes/magic_handlers/filter.py:22
 #: sophie_bot/modules/notes/magic_handlers/send_note_action.py:82
+#: sophie_bot/utils/errors.py:93
 #, python-brace-format
 msgid "#{name} note was not found."
 msgstr ""
@@ -2866,24 +2868,24 @@ msgstr ""
 msgid "Local chat"
 msgstr ""
 
-#: sophie_bot/modules/notes/utils/parse.py:73
+#: sophie_bot/modules/notes/utils/parse.py:72
 msgid "Please check the notes documentation for the list of the allowed content types."
 msgstr ""
 
-#: sophie_bot/modules/notes/utils/parse.py:74
+#: sophie_bot/modules/notes/utils/parse.py:73
 msgid "Reply message content is not parsable as the note."
 msgstr ""
 
-#: sophie_bot/modules/notes/utils/parse.py:117
+#: sophie_bot/modules/notes/utils/parse.py:116
 #, python-brace-format
 msgid "The maximum length of the note is {limit} characters."
 msgstr ""
 
-#: sophie_bot/modules/notes/utils/parse.py:118
+#: sophie_bot/modules/notes/utils/parse.py:117
 msgid "Please try to reduce the length of the note."
 msgstr ""
 
-#: sophie_bot/modules/notes/utils/parse.py:119
+#: sophie_bot/modules/notes/utils/parse.py:118
 msgid "Note is too long."
 msgstr ""
 
@@ -3462,6 +3464,7 @@ msgid "This command can only be used in groups."
 msgstr ""
 
 #: sophie_bot/modules/users/handlers/adminlist.py:29
+#: sophie_bot/utils/errors.py:86
 msgid "Chat not found."
 msgstr ""
 
@@ -3627,32 +3630,39 @@ msgid "Setting setup not properly configured"
 msgstr ""
 
 #: sophie_bot/modules/utils_/action_config_wizard/setup.py:51
+#: sophie_bot/utils/errors.py:51
 msgid "Setup session expired. Please start again."
 msgstr ""
 
 #: sophie_bot/modules/utils_/action_config_wizard/setup.py:67
 #: sophie_bot/modules/utils_/action_config_wizard/setup.py:132
+#: sophie_bot/utils/errors.py:46
 msgid "Setup data not found. Please try again."
 msgstr ""
 
 #: sophie_bot/modules/utils_/action_config_wizard/setup.py:74
 #: sophie_bot/modules/utils_/action_config_wizard/setup.py:139
+#: sophie_bot/utils/errors.py:56
 msgid "Invalid chat context. Please restart the setup."
 msgstr ""
 
 #: sophie_bot/modules/utils_/action_config_wizard/setup.py:80
+#: sophie_bot/utils/errors.py:66
 msgid "Invalid action configuration."
 msgstr ""
 
 #: sophie_bot/modules/utils_/action_config_wizard/setup.py:145
+#: sophie_bot/utils/errors.py:61
 msgid "Invalid action."
 msgstr ""
 
 #: sophie_bot/modules/utils_/action_config_wizard/setup.py:160
+#: sophie_bot/utils/errors.py:71
 msgid "Invalid setting."
 msgstr ""
 
 #: sophie_bot/modules/utils_/action_config_wizard/setup.py:166
+#: sophie_bot/utils/errors.py:76
 msgid "Setting configuration not available."
 msgstr ""
 
@@ -3880,5 +3890,10 @@ msgstr ""
 
 #: sophie_bot/modules/welcomesecurity/utils_/captcha_rules.py:21
 msgid "I agree"
+msgstr ""
+
+#: sophie_bot/utils/errors.py:107
+#, python-brace-format
+msgid "Invalid {action} duration, please try again."
 msgstr ""
 

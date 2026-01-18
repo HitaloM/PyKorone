@@ -4,6 +4,7 @@ from re import findall, sub
 from aiogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 
 from sophie_bot.config import CONFIG
+from sophie_bot.utils.logger import log
 
 BUTTONS: dict[str, str] = {}
 
@@ -26,7 +27,7 @@ def legacy_button_parser(chat_id, texts, pm=False) -> tuple[str, InlineKeyboardM
             argument = raw_button[3][1:].lower().replace("`", "")
         elif action == "#":
             argument = raw_button[2]
-            print(raw_button[2])
+            log.debug("legacy_button_parser: hash action", argument=raw_button[2])
         else:
             argument = ""
 

@@ -48,8 +48,8 @@ async def test_parse_saveable_exceeding_length_limit():
     message.reply_to_message = None
     message.content_type = ContentType.TEXT
 
-    text = "A" * 1001  # Assuming MESSAGE_LENGTH_LIMIT is 1000
-    with patch("sophie_bot.modules.notes.utils.parse.MESSAGE_LENGTH_LIMIT", 1000):
+    text = "A" * 1001  # Assuming TELEGRAM_MESSAGE_LENGTH_LIMIT is patched to 1000
+    with patch("sophie_bot.modules.notes.utils.parse.TELEGRAM_MESSAGE_LENGTH_LIMIT", 1000):
         with pytest.raises(SophieException):
             await parse_saveable(message, text=text)
 
