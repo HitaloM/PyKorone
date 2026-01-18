@@ -125,7 +125,7 @@ async def login_operator(data: OperatorLoginRequest):
     raise HTTPException(status_code=401, detail="Invalid token")
 
 
-@router.post("/refresh", response_model=Token)
+@router.post("/refresh", response_model=Token, dependencies=[Depends(rate_limit)])
 async def refresh_token(data: RefreshRequest):
     hashed_token = hash_token(data.refresh_token)
 
@@ -138,7 +138,14 @@ async def refresh_token(data: RefreshRequest):
     expires_at = token.expires_at.replace(tzinfo=timezone.utc)
     if expires_at < datetime.now(timezone.utc):
         logger.warning("Refresh token expired", token_id=token.iid)
+        await token.delete()  # Clean up expired token
         raise HTTPException(status_code=401, detail="Refresh token expired")
 
-    logger.info("Token refreshed", user_iid=token.user.id, user_tid=token.user.tid)
-    return await create_tokens(token.user)
+    # Store user reference before deleting the token
+    user = token.user
+
+    # Invalidate old refresh token to prevent replay attacks
+    await token.delete()
+
+    logger.info("Token refreshed", user_iid=user.id, user_tid=user.tid)
+    return await create_tokens(user)

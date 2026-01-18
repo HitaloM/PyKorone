@@ -164,6 +164,13 @@ class Config(BaseSettings):
             raise ValueError("api_operator_token must be changed in production")
         return v
 
+    @field_validator("api_cors_origins")
+    @classmethod
+    def validate_cors_origins(cls, v: List[str], info: ValidationInfo) -> List[str]:
+        if info.data.get("environment") == "production" and "*" in v:
+            raise ValueError("api_cors_origins must not contain '*' in production")
+        return v
+
     @field_validator("webhooks_allowed_networks")
     @classmethod
     def add_telegram_networks(cls, v: List[IPv4Network]) -> List[IPv4Network]:
