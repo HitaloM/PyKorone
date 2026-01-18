@@ -1,6 +1,6 @@
 [project]
 name = "sophie_bot"
-version = "3.13"
+version = "4.0-alpha"
 description = "Sophie is modern and fast Telegram chat manager bot"
 authors = [{ name = "Yacha", email = "yacha@orangefox.tech" }]
 requires-python = ">=3.12,<4"
