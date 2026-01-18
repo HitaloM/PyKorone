@@ -13,7 +13,7 @@ from sophie_bot.modules import LOADED_MODULES
 from sophie_bot.modules.help.utils.extract_info import get_all_cmds_raw
 from sophie_bot.modules.utils_.base_handler import SophieMessageHandler
 from sophie_bot.services.db import db
-from sophie_bot.services.redis import redis
+from sophie_bot.services.redis import aredis
 from sophie_bot.utils.i18n import lazy_gettext as l_
 from sophie_bot.versions import SOPHIE_BRANCH, SOPHIE_COMMIT, SOPHIE_VERSION
 
@@ -63,7 +63,7 @@ async def get_system_stats() -> Doc:
             ),
         )
 
-    technical_section += KeyValue("Redis keys", Code(redis.dbsize()))
+    technical_section += KeyValue("Redis keys", Code(await aredis.dbsize()))
 
     technical_section += KeyValue("Modules", Template("{modules} loaded", modules=Code(len(LOADED_MODULES))))
     technical_section += KeyValue(

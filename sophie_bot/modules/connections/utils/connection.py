@@ -10,7 +10,7 @@ from sophie_bot.db.models.chat_connections import ChatConnectionModel
 from sophie_bot.modules.connections.utils.constants import CONNECTION_DISCONNECT_TEXT
 from sophie_bot.modules.connections.utils.texts import CONNECTION_OBSOLETE_NOTICE
 from sophie_bot.modules.utils_.admin import is_user_admin
-from sophie_bot.services.redis import redis
+from sophie_bot.services.redis import aredis
 from sophie_bot.utils.i18n import gettext as _
 
 
@@ -21,7 +21,7 @@ async def set_connected_chat(user_id: int, chat_id: Optional[int]):
     Sets expiry to 48 hours from now.
     """
     # Clear legacy redis cache just in case
-    redis.delete(f"connection_cache_{user_id}")
+    await aredis.delete(f"connection_cache_{user_id}")
 
     if chat_id is None:
         if conn := await ChatConnectionModel.find_one(ChatConnectionModel.user_id == user_id):

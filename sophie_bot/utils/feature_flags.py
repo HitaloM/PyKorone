@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 import time
-from typing import Final, Literal, TypedDict, Awaitable, cast
+from typing import Final, Literal, TypedDict, Awaitable, cast, Any
 
 from sophie_bot.services.redis import aredis
 
@@ -124,7 +124,14 @@ def _from_redis_map(raw: dict[str, str]) -> FeatureStates:
 
 async def _refresh_cache() -> None:
     global _cache, _cache_expiry
-    raw = await cast(Awaitable[dict[str, str]], aredis.hgetall(_REDIS_KEY))
+    raw_data = await cast(Awaitable[Any], aredis.hgetall(_REDIS_KEY))
+    raw = {}
+    if isinstance(raw_data, dict):
+        for k, v in raw_data.items():
+            key = k.decode() if isinstance(k, bytes) else k
+            val = v.decode() if isinstance(v, bytes) else v
+            raw[key] = val
+
     states = _from_redis_map(raw)
     # Build cache explicitly to preserve precise typing (bool values)
     _cache = {feature: states[feature] for feature in FEATURE_FLAGS}

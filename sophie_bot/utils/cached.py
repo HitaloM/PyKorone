@@ -21,15 +21,15 @@ import functools
 import pickle
 from typing import Optional, Union
 
-from sophie_bot.services.redis import bredis
+from sophie_bot.services.redis import aredis
 from sophie_bot.utils.logger import log
 
 
 async def set_value(key, value, ttl):
     value = pickle.dumps(value)
-    bredis.set(key, value)
+    await aredis.set(key, value)
     if ttl:
-        bredis.expire(key, ttl)
+        await aredis.expire(key, ttl)
 
 
 class cached:
@@ -55,9 +55,9 @@ class cached:
     async def _set(self, *args: dict, **kwargs: dict):
         key = self.__build_key(*args, **kwargs)
 
-        if bredis.exists(key):
+        if await aredis.exists(key):
             # TODO: Get tid of pickle
-            value = pickle.loads(bredis.get(key))  # type: ignore[arg-type]
+            value = pickle.loads(await aredis.get(key))
             return value if type(value) is not _NotSet else value.real_value
 
         result = await self.func(*args, **kwargs)
@@ -93,8 +93,8 @@ class cached:
 
         key = self.__build_key(*args, **kwargs)
         if new_value:
-            return set_value(key, new_value, ttl=self.ttl)
-        return bredis.delete(key)
+            return await set_value(key, new_value, ttl=self.ttl)
+        return await aredis.delete(key)
 
 
 class _NotSet:
