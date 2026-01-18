@@ -25,6 +25,7 @@ class Config(BaseSettings):
     operators: List[int] = []
 
     mode: Literal["bot", "scheduler", "nostart", "rest"] = "bot"
+    dev_reload: bool = False  # Enable hot-reload for development (watches file changes)
 
     mongo_host: str = "mongodb://localhost"
     mongo_port: int = 27017

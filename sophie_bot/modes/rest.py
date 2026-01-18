@@ -29,4 +29,15 @@ app.router.lifespan_context = lifespan
 
 
 def start_rest_mode() -> None:
-    uvicorn.run(app, host=CONFIG.api_listen, port=CONFIG.api_port)
+    if CONFIG.dev_reload:
+        log.info("Starting REST API with hot-reload enabled...")
+        # For reload to work, we must pass app as import string
+        uvicorn.run(
+            "sophie_bot.modes.rest:app",
+            host=CONFIG.api_listen,
+            port=CONFIG.api_port,
+            reload=True,
+            reload_dirs=["sophie_bot"],
+        )
+    else:
+        uvicorn.run(app, host=CONFIG.api_listen, port=CONFIG.api_port)

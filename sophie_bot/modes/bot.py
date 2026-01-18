@@ -89,7 +89,13 @@ def _add_metrics_to_webhook(app: Application) -> None:
         log.error("Failed to add metrics endpoint to webhook", error=str(e))
 
 
-def start_bot_mode():
+def start_bot_mode() -> None:
+    if CONFIG.dev_reload:
+        from sophie_bot.utils.dev_runner import run_with_reload
+
+        run_with_reload("bot")
+        return
+
     if not CONFIG.webhooks_enable:
         dp.run_polling(
             bot,

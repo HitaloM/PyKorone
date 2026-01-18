@@ -53,6 +53,18 @@ build_standalone:
 	@echo "Building standalone..."
 	uv run python -m nuitka $(PROJECT_DIR) $(NUITKA_ARGS) --standalone
 
+# Development with hot-reload
+dev_bot:
+	@echo "Starting bot with hot-reload..."
+	DEV_RELOAD=true MODE=bot uv run python -m sophie_bot
+
+dev_rest:
+	@echo "Starting REST API with hot-reload..."
+	DEV_RELOAD=true MODE=rest uv run python -m sophie_bot
+
+dev_scheduler:
+	@echo "Starting scheduler with hot-reload..."
+	DEV_RELOAD=true MODE=scheduler uv run python -m sophie_bot
 
 fix_code_style:
 	uv run python -m pycln . -a
