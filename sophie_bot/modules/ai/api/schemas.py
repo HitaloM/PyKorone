@@ -1,6 +1,6 @@
 from __future__ import annotations
 from pydantic import BaseModel
-from sophie_bot.db.models.ai_moderator import DetectionLevel
+from sophie_bot.db.models.ai.ai_moderator import DetectionLevel
 
 
 class ModeratorSettingsResponse(BaseModel):

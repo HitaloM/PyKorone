@@ -9,7 +9,7 @@ from sophie_bot.modules.ai.filters.ai_enabled import AIEnabledFilter
 from sophie_bot.modules.ai.utils.ai_chatbot_reply import ai_chatbot_reply
 from sophie_bot.modules.connections.utils.connection import set_connected_chat
 from sophie_bot.middlewares.connections import ConnectionsMiddleware
-from sophie_bot.modules.utils_.base_handler import SophieMessageHandler
+from sophie_bot.utils.handlers import SophieMessageHandler
 from sophie_bot.utils.i18n import lazy_gettext as l_, gettext as _
 
 

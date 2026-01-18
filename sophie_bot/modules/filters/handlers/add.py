@@ -20,7 +20,7 @@ from sophie_bot.modules.filters.utils_.filter_abc import (
     FilterActionABC,
 )
 from sophie_bot.modules.filters.utils_.legacy_filter_handler import text_legacy_handler_handles_on
-from sophie_bot.modules.utils_.base_handler import (
+from sophie_bot.utils.handlers import (
     SophieCallbackQueryHandler,
     SophieMessageHandler,
 )

@@ -11,7 +11,7 @@ from sophie_bot.db.models import (
     WSUserModel,
 )
 from sophie_bot.modules.utils_.admin import is_user_admin
-from sophie_bot.modules.utils_.base_handler import (
+from sophie_bot.utils.handlers import (
     SophieCallbackQueryHandler,
     SophieMessageHandler,
 )

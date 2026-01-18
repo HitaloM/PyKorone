@@ -5,7 +5,7 @@ from typing import Annotated
 from beanie import PydanticObjectId
 from fastapi import APIRouter, Depends, HTTPException
 
-from sophie_bot.db.models.ai_moderator import AIModeratorModel, DetectionLevel
+from sophie_bot.db.models.ai.ai_moderator import AIModeratorModel, DetectionLevel
 from sophie_bot.db.models.chat import ChatModel
 from sophie_bot.modules.notes.api.utils import verify_admin
 from sophie_bot.utils.api.auth import get_current_user

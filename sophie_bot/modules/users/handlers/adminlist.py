@@ -5,7 +5,7 @@ from aiogram.dispatcher.event.handler import CallbackType
 from stfu_tg import Doc, Title, UserLink
 
 from sophie_bot.filters.cmd import CMDFilter
-from sophie_bot.modules.utils_.base_handler import SophieMessageHandler
+from sophie_bot.utils.handlers import SophieMessageHandler
 from sophie_bot.utils.i18n import gettext as _
 from sophie_bot.utils.i18n import lazy_gettext as l_
 from sophie_bot.db.models.chat_admin import ChatAdminModel

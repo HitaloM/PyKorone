@@ -2,8 +2,8 @@ from datetime import date
 
 from beanie import Document
 
-from ._link_type import Link
-from .chat import ChatModel
+from sophie_bot.db.models._link_type import Link
+from sophie_bot.db.models.chat import ChatModel
 
 
 class AIUsageModel(Document):

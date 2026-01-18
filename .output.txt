@@ -1,10 +1,24 @@
 uv run python -m pycln . -a
-Looks good! ✨ 🍰 ✨
-434 files left unchanged.
+  sophie_bot/modules/disabling/__init__.py file has been skipped ⚠️:
+        Pycln can not decide whether the unused imported names
+        are useless or imported to be used somewhere else (exported).
+        Please consider adding an `__all__` dunder (then re-run Pycln).
+        For more info:
+        https://hadialqattan.github.io/pycln/#/?id=init-file-__init__py
+
+  sophie_bot/modules/rules/__init__.py file has been skipped ⚠️:
+        Pycln can not decide whether the unused imported names
+        are useless or imported to be used somewhere else (exported).
+        Please consider adding an `__all__` dunder (then re-run Pycln).
+        For more info:
+        https://hadialqattan.github.io/pycln/#/?id=init-file-__init__py
+
+Wait a minute, there were undecidable cases! 😳😅
+445 files left unchanged, 2 undecidable cases were skipped.
 uv run ruff check . --fix
 All checks passed!
 uv run ruff format sophie_bot/
-418 files left unchanged
+429 files left unchanged
 "pybabel" extract -k "pl_:1,2" -k "p_:1,2" -k "l_:1" \
 --add-comments="NOTE: " -o "/home/yacha/Projects/Otty/sophie/locales/bot.pot" --omit-header --sort-by-file --no-wrap "sophie_bot"
 extracting messages from sophie_bot/__init__.py
@@ -18,12 +32,6 @@ extracting messages from sophie_bot/db/db_exceptions.py
 extracting messages from sophie_bot/db/cache/locale.py
 extracting messages from sophie_bot/db/models/__init__.py
 extracting messages from sophie_bot/db/models/_link_type.py
-extracting messages from sophie_bot/db/models/ai_autotranslate.py
-extracting messages from sophie_bot/db/models/ai_enabled.py
-extracting messages from sophie_bot/db/models/ai_memory.py
-extracting messages from sophie_bot/db/models/ai_moderator.py
-extracting messages from sophie_bot/db/models/ai_provider.py
-extracting messages from sophie_bot/db/models/ai_usage.py
 extracting messages from sophie_bot/db/models/antiflood.py
 extracting messages from sophie_bot/db/models/api_token.py
 extracting messages from sophie_bot/db/models/beta.py
@@ -46,6 +54,13 @@ extracting messages from sophie_bot/db/models/rules.py
 extracting messages from sophie_bot/db/models/settings_keyvalue.py
 extracting messages from sophie_bot/db/models/warns.py
 extracting messages from sophie_bot/db/models/ws_user.py
+extracting messages from sophie_bot/db/models/ai/__init__.py
+extracting messages from sophie_bot/db/models/ai/ai_autotranslate.py
+extracting messages from sophie_bot/db/models/ai/ai_enabled.py
+extracting messages from sophie_bot/db/models/ai/ai_memory.py
+extracting messages from sophie_bot/db/models/ai/ai_moderator.py
+extracting messages from sophie_bot/db/models/ai/ai_provider.py
+extracting messages from sophie_bot/db/models/ai/ai_usage.py
 extracting messages from sophie_bot/filters/admin_rights.py
 extracting messages from sophie_bot/filters/chat_status.py
 extracting messages from sophie_bot/filters/cmd.py
@@ -144,6 +159,10 @@ extracting messages from sophie_bot/modules/connections/utils/texts.py
 extracting messages from sophie_bot/modules/disabling/__init__.py
 extracting messages from sophie_bot/modules/disabling/callbacks.py
 extracting messages from sophie_bot/modules/disabling/export.py
+extracting messages from sophie_bot/modules/disabling/api/__init__.py
+extracting messages from sophie_bot/modules/disabling/api/get.py
+extracting messages from sophie_bot/modules/disabling/api/put.py
+extracting messages from sophie_bot/modules/disabling/api/schemas.py
 extracting messages from sophie_bot/modules/disabling/handlers/disable.py
 extracting messages from sophie_bot/modules/disabling/handlers/disable_able.py
 extracting messages from sophie_bot/modules/disabling/handlers/disabled.py
@@ -333,6 +352,10 @@ extracting messages from sophie_bot/modules/restrictions/handlers/unmute.py
 extracting messages from sophie_bot/modules/restrictions/utils/__init__.py
 extracting messages from sophie_bot/modules/restrictions/utils/restrictions.py
 extracting messages from sophie_bot/modules/rules/__init__.py
+extracting messages from sophie_bot/modules/rules/api/__init__.py
+extracting messages from sophie_bot/modules/rules/api/get.py
+extracting messages from sophie_bot/modules/rules/api/put.py
+extracting messages from sophie_bot/modules/rules/api/schemas.py
 extracting messages from sophie_bot/modules/rules/handlers/get.py
 extracting messages from sophie_bot/modules/rules/handlers/legacy_button.py
 extracting messages from sophie_bot/modules/rules/handlers/reset.py
@@ -419,11 +442,13 @@ extracting messages from sophie_bot/utils/cached.py
 extracting messages from sophie_bot/utils/emoji_banner.py
 extracting messages from sophie_bot/utils/exception.py
 extracting messages from sophie_bot/utils/feature_flags.py
+extracting messages from sophie_bot/utils/handlers.py
 extracting messages from sophie_bot/utils/i18n.py
 extracting messages from sophie_bot/utils/logger.py
 extracting messages from sophie_bot/utils/normalize.py
 extracting messages from sophie_bot/utils/api/auth.py
 extracting messages from sophie_bot/utils/api/rate_limiter.py
+extracting messages from sophie_bot/utils/api/schemas.py
 writing PO template file to /home/yacha/Projects/Otty/sophie/locales/bot.pot
 cd "/home/yacha/Projects/Otty/sophie/.venv/lib/python3.13/site-packages/ass_tg" && \
 "pybabel" extract -k "pl_:1,2" -k "p_:1,2" -k "l_:1" \
@@ -454,10 +479,24 @@ writing PO template file to /home/yacha/Projects/Otty/sophie/locales/ass.pot
 cp "/home/yacha/Projects/Otty/sophie/locales/bot.pot" "/home/yacha/Projects/Otty/sophie/locales/sophie.pot"
 cat "/home/yacha/Projects/Otty/sophie/locales/ass.pot" >> "/home/yacha/Projects/Otty/sophie/locales/sophie.pot"
 uv run python -m pycln . -a -c
-Looks good! ✨ 🍰 ✨
-434 files would be left unchanged.
+  sophie_bot/modules/disabling/__init__.py file has been skipped ⚠️:
+        Pycln can not decide whether the unused imported names
+        are useless or imported to be used somewhere else (exported).
+        Please consider adding an `__all__` dunder (then re-run Pycln).
+        For more info:
+        https://hadialqattan.github.io/pycln/#/?id=init-file-__init__py
+
+  sophie_bot/modules/rules/__init__.py file has been skipped ⚠️:
+        Pycln can not decide whether the unused imported names
+        are useless or imported to be used somewhere else (exported).
+        Please consider adding an `__all__` dunder (then re-run Pycln).
+        For more info:
+        https://hadialqattan.github.io/pycln/#/?id=init-file-__init__py
+
+Wait a minute, there were undecidable cases! 😳😅
+445 files would be left unchanged, 2 undecidable cases would be skipped.
 uv run ruff format sophie_bot/ --check
-418 files already formatted
+429 files already formatted
 uv run ruff check .
 All checks passed!
 # uv run python -m bandit sophie_bot/ -r
@@ -613,7 +652,7 @@ tests/test_metrics/test_middleware.py::TestMetricsMiddleware::test_handler_excep
   /home/yacha/Projects/Otty/sophie/.venv/lib/python3.13/site-packages/structlog/stdlib.py:1166: UserWarning: Remove `format_exc_info` from your processor chain if you want pretty exceptions.
     ed = p(logger, meth_name, ed)  # type: ignore[arg-type]
 -- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
-======================= 127 passed, 6 warnings in 1.48s ========================
+======================= 127 passed, 6 warnings in 1.42s ========================
 --- Logging error ---
 Traceback (most recent call last):
   File "/home/yacha/Projects/Otty/sophie/.venv/lib/python3.13/site-packages/mistralai/httpclient.py", line 119, in close_clients
@@ -673,448 +712,449 @@ Call stack:
     _debug_log(
   File "/home/yacha/Projects/Otty/sophie/.venv/lib64/python3.13/site-packages/pymongo/logger.py", line 108, in _debug_log
     logger.debug(LogMessage(**fields))
-Message: <pymongo.logger.LogMessage object at 0x7fcafc12be50>
+Message: <pymongo.logger.LogMessage object at 0x7f53291f16f0>
 Arguments: ()
 uv run python tools/wiki_gen/start.py
-2026-01-18 17:32:04 [info     ] Starting wiki generation task... [__main__]
-2026-01-18 17:32:04 [debug    ] Using selector: EpollSelector  [asyncio]
-2026-01-18 17:32:04 [info     ] Importing modules...           [__main__]
-2026-01-18 17:32:04 [debug    ] Loading all modules...         [__main__] modules=['rest', 'op', 'troubleshooters', 'error', 'users', 'notes', 'help', 'federations', 'privacy', 'disabling', 'rules', 'promotes', 'greetings', 'welcomesecurity', 'purges', 'warns', 'restrictions', 'reports', 'pins', 'ai', 'filters', 'antiflood', 'language', 'connections']
-2026-01-18 17:32:04 [debug    ] ! Module rest has no router!   [__main__]
-2026-01-18 17:32:04 [info     ] Using BotAPI server: TelegramAPIServer(base='https://api.telegram.org/bot{token}/{method}', file='https://api.telegram.org/file/bot{token}/{path}', is_local=False, wrap_local_file=<aiogram.client.telegram.BareFilesPathWrapper object at 0x7f012600dfd0>) [__main__]
-2026-01-18 17:32:04 [debug    ] Loading locales additional data... [__main__]
-2026-01-18 17:32:04 [debug    ] ! Can't parse stats for locale ar_EG! [__main__]
-2026-01-18 17:32:04 [debug    ] ! Can't parse stats for locale ar_SA! [__main__]
-2026-01-18 17:32:04 [debug    ] ! Can't parse stats for locale cs_CZ! [__main__]
-2026-01-18 17:32:04 [debug    ] ! Can't parse stats for locale de_DE! [__main__]
-2026-01-18 17:32:04 [debug    ] ! Can't parse stats for locale en_US! [__main__]
-2026-01-18 17:32:04 [debug    ] ! Can't parse stats for locale es_ES! [__main__]
-2026-01-18 17:32:04 [debug    ] ! Can't parse stats for locale fr_FR! [__main__]
-2026-01-18 17:32:04 [debug    ] ! Can't parse stats for locale pl_PL! [__main__]
-2026-01-18 17:32:04 [debug    ] ! Can't parse stats for locale pt_BR! [__main__]
-2026-01-18 17:32:04 [debug    ] ! Can't parse stats for locale ru_RU! [__main__]
-2026-01-18 17:32:04 [debug    ] ! Can't parse stats for locale tr_TR! [__main__]
-2026-01-18 17:32:04 [debug    ] ! Can't parse stats for locale uk_UA! [__main__]
-2026-01-18 17:32:04 [debug    ] ! Can't parse stats for locale zh_CN! [__main__]
-2026-01-18 17:32:04 [debug    ] ! Can't parse stats for locale en_GB! [__main__]
-2026-01-18 17:32:04 [debug    ] ! Can't parse stats for locale fi_FI! [__main__]
-2026-01-18 17:32:05 [debug    ] Using selector: EpollSelector  [asyncio]
-2026-01-18 17:32:05 [debug    ] {"message": "Starting topology monitoring", "topologyId": {"$oid": "696d1915a03c64ba66e6d1fe"}} [pymongo.topology]
-2026-01-18 17:32:05 [debug    ] {"message": "Topology description changed", "topologyId": {"$oid": "696d1915a03c64ba66e6d1fe"}, "previousDescription": "<TopologyDescription id: 696d1915a03c64ba66e6d1fe, topology_type: Unknown, servers: []>", "newDescription": "<TopologyDescription id: 696d1915a03c64ba66e6d1fe, topology_type: Unknown, servers: [<ServerDescription ('127.0.0.1', 27017) server_type: Unknown, rtt: None>]>"} [pymongo.topology]
-2026-01-18 17:32:05 [debug    ] {"message": "Starting server monitoring", "topologyId": {"$oid": "696d1915a03c64ba66e6d1fe"}, "serverHost": "127.0.0.1", "serverPort": 27017} [pymongo.topology]
-2026-01-18 17:32:05 [debug    ] {"message": "Connection pool created", "clientId": {"$oid": "696d1915a03c64ba66e6d1fe"}, "serverHost": "127.0.0.1", "serverPort": 27017} [pymongo.connection]
-2026-01-18 17:32:05 [debug    ] {"message": "Server heartbeat started", "topologyId": {"$oid": "696d1915a03c64ba66e6d1fe"}, "driverConnectionId": 1, "serverHost": "127.0.0.1", "serverPort": 27017, "awaited": false} [pymongo.topology]
-2026-01-18 17:32:05 [debug    ] No explicit setting existed. Use localtime [tzlocal]
-2026-01-18 17:32:05 [debug    ] {"message": "Server heartbeat succeeded", "topologyId": {"$oid": "696d1915a03c64ba66e6d1fe"}, "driverConnectionId": 1, "serverConnectionId": 77, "serverHost": "127.0.0.1", "serverPort": 27017, "awaited": false, "durationMS": 5.087585999717703, "reply": "{\"helloOk\": true, \"ismaster\": true, \"topologyVersion\": {\"processId\": {\"$oid\": \"696d05cc12be6ff437705972\"}}, \"maxBsonObjectSize\": 16777216, \"maxMessageSizeBytes\": 48000000, \"maxWriteBatchSize\": 100000, \"localTime\": {\"$date\": \"2026-01-18T17:32:05.370Z\"}, \"logicalSessionTimeoutMinutes\": 30, \"connectionId\": 77, \"maxWireVersion\": 25, \"ok\": 1.0}"} [pymongo.topology]
-2026-01-18 17:32:05 [debug    ] {"message": "Connection pool ready", "clientId": {"$oid": "696d1915a03c64ba66e6d1fe"}, "serverHost": "127.0.0.1", "serverPort": 27017} [pymongo.connection]
-2026-01-18 17:32:05 [debug    ] {"message": "Topology description changed", "topologyId": {"$oid": "696d1915a03c64ba66e6d1fe"}, "previousDescription": "<TopologyDescription id: 696d1915a03c64ba66e6d1fe, topology_type: Unknown, servers: [<ServerDescription ('127.0.0.1', 27017) server_type: Unknown, rtt: None>]>", "newDescription": "<TopologyDescription id: 696d1915a03c64ba66e6d1fe, topology_type: Single, servers: [<ServerDescription ('127.0.0.1', 27017) server_type: Standalone, rtt: 0.005087585999717703>]>"} [pymongo.topology]
-2026-01-18 17:32:05 [debug    ] {"message": "Server heartbeat started", "topologyId": {"$oid": "696d1915a03c64ba66e6d1fe"}, "driverConnectionId": 1, "serverConnectionId": 77, "serverHost": "127.0.0.1", "serverPort": 27017, "awaited": true} [pymongo.topology]
-2026-01-18 17:32:05 [debug    ] {"message": "Starting topology monitoring", "topologyId": {"$oid": "696d1915a03c64ba66e6d1ff"}} [pymongo.topology]
-2026-01-18 17:32:05 [debug    ] {"message": "Topology description changed", "topologyId": {"$oid": "696d1915a03c64ba66e6d1ff"}, "previousDescription": "<TopologyDescription id: 696d1915a03c64ba66e6d1ff, topology_type: Unknown, servers: []>", "newDescription": "<TopologyDescription id: 696d1915a03c64ba66e6d1ff, topology_type: Unknown, servers: [<ServerDescription ('127.0.0.1', 27017) server_type: Unknown, rtt: None>]>"} [pymongo.topology]
-2026-01-18 17:32:05 [debug    ] {"message": "Starting server monitoring", "topologyId": {"$oid": "696d1915a03c64ba66e6d1ff"}, "serverHost": "127.0.0.1", "serverPort": 27017} [pymongo.topology]
-2026-01-18 17:32:05 [debug    ] Loading module rest...         [__main__]
-2026-01-18 17:32:05 [debug    ] Loading module op...           [__main__]
-2026-01-18 17:32:05 [debug    ] Registering handler ListJobsHandler... [__main__]
-2026-01-18 17:32:05 [debug    ] Registering handler StopJobsHandler... [__main__]
-2026-01-18 17:32:05 [debug    ] Registering handler KillSwitchHandler... [__main__]
-2026-01-18 17:32:05 [debug    ] Registering handler OpBannerHandler... [__main__]
-2026-01-18 17:32:05 [debug    ] Registering handler OpCaptchaHandler... [__main__]
-2026-01-18 17:32:05 [debug    ] Registering handler ButtonsTestHandler... [__main__]
-2026-01-18 17:32:05 [debug    ] Registering handler EventHandler... [__main__]
-2026-01-18 17:32:05 [debug    ] Registering handler StatsHandler... [__main__]
-2026-01-18 17:32:05 [debug    ] Loading module troubleshooters... [__main__]
-2026-01-18 17:32:05 [debug    ] Registering handler CancelCallbackHandler... [__main__]
-2026-01-18 17:32:05 [debug    ] Registering handler TypedCancelCallbackHandler... [__main__]
-2026-01-18 17:32:05 [debug    ] Loading module error...        [__main__]
-2026-01-18 17:32:05 [debug    ] Loading module users...        [__main__]
-2026-01-18 17:32:05 [debug    ] Registering handler ShowIDHandler... [__main__]
-2026-01-18 17:32:05 [debug    ] Registering handler AdminListHandler... [__main__]
-2026-01-18 17:32:05 [debug    ] Registering handler UserInfoHandler... [__main__]
-2026-01-18 17:32:05 [debug    ] Loading module notes...        [__main__]
-2026-01-18 17:32:05 [debug    ] Loading module help...         [__main__]
-2026-01-18 17:32:05 [debug    ] Registering handler StartPMHandler... [__main__]
-2026-01-18 17:32:05 [debug    ] Registering handler HelpGroupHandler... [__main__]
-2026-01-18 17:32:05 [debug    ] Registering handler PMModulesList... [__main__]
-2026-01-18 17:32:05 [debug    ] Registering handler StartGroupHandler... [__main__]
-2026-01-18 17:32:05 [debug    ] Loading module federations...  [__main__]
-2026-01-18 17:32:05 [debug    ] Registering handler CreateFederationHandler... [__main__]
-2026-01-18 17:32:05 [debug    ] Registering handler JoinFederationHandler... [__main__]
-2026-01-18 17:32:05 [debug    ] Registering handler LeaveFederationHandler... [__main__]
-2026-01-18 17:32:05 [debug    ] Registering handler FederationInfoHandler... [__main__]
-2026-01-18 17:32:05 [debug    ] Registering handler FederationBanHandler... [__main__]
-2026-01-18 17:32:05 [debug    ] Registering handler FederationUnbanHandler... [__main__]
-2026-01-18 17:32:05 [debug    ] Registering handler FederationBanListHandler... [__main__]
-2026-01-18 17:32:05 [debug    ] Registering handler TransferOwnershipHandler... [__main__]
-2026-01-18 17:32:05 [debug    ] Registering handler AcceptTransferHandler... [__main__]
-2026-01-18 17:32:05 [debug    ] Registering handler SetFederationLogHandler... [__main__]
-2026-01-18 17:32:05 [debug    ] Registering handler UnsetFederationLogHandler... [__main__]
-2026-01-18 17:32:05 [debug    ] Registering handler SubscribeFederationHandler... [__main__]
-2026-01-18 17:32:05 [debug    ] Registering handler UnsubscribeFederationHandler... [__main__]
-2026-01-18 17:32:05 [debug    ] Loading module privacy...      [__main__]
-2026-01-18 17:32:05 [debug    ] Loading module disabling...    [__main__]
-2026-01-18 17:32:05 [debug    ] Loading module rules...        [__main__]
-2026-01-18 17:32:05 [debug    ] Registering handler SetRulesHandler... [__main__]
-2026-01-18 17:32:05 [debug    ] Registering handler GetRulesHandler... [__main__]
-2026-01-18 17:32:05 [debug    ] Registering handler ResetRulesHandler... [__main__]
-2026-01-18 17:32:05 [debug    ] Registering handler LegacyRulesButton... [__main__]
-2026-01-18 17:32:05 [debug    ] Loading module promotes...     [__main__]
-2026-01-18 17:32:05 [debug    ] Registering handler PromoteUserHandler... [__main__]
-2026-01-18 17:32:05 [debug    ] Registering handler DemoteUserHandler... [__main__]
-2026-01-18 17:32:05 [debug    ] Loading module greetings...    [__main__]
-2026-01-18 17:32:05 [debug    ] Registering handler EnableWelcomeHandlerABC... [__main__]
-2026-01-18 17:32:05 [debug    ] Registering handler SetWelcomeMessageHandler... [__main__]
-2026-01-18 17:32:05 [debug    ] Registering handler SetJoinRequestMessageHandler... [__main__]
-2026-01-18 17:32:05 [debug    ] Registering handler DelJoinRequestMessageHandler... [__main__]
-2026-01-18 17:32:05 [debug    ] Registering handler WelcomeSettingsShowHandler... [__main__]
-2026-01-18 17:32:05 [debug    ] Registering handler CleanServiceHandlerABC... [__main__]
-2026-01-18 17:32:05 [debug    ] Registering handler CleanWelcomeHandlerABC... [__main__]
-2026-01-18 17:32:05 [debug    ] Loading module welcomesecurity... [__main__]
-2026-01-18 17:32:05 [debug    ] Registering handler CaptchaGetHandler... [__main__]
-2026-01-18 17:32:05 [debug    ] Registering handler LegacyWSButtonHandler... [__main__]
-2026-01-18 17:32:05 [debug    ] Registering handler CaptchaConfirmHandler... [__main__]
-2026-01-18 17:32:05 [debug    ] Registering handler ChatJoinRequestHandler... [__main__]
-2026-01-18 17:32:05 [debug    ] Registering handler EnableWelcomeCaptchaHandlerABC... [__main__]
-2026-01-18 17:32:05 [debug    ] Registering handler EnableWelcomeMute... [__main__]
-2026-01-18 17:32:05 [debug    ] Registering handler WelcomeSecuritySettingsShowHandler... [__main__]
-2026-01-18 17:32:05 [debug    ] Registering handler LegacyStableWSButtonRedirectHandler... [__main__]
-2026-01-18 17:32:05 [debug    ] Loading module purges...       [__main__]
-2026-01-18 17:32:05 [debug    ] Registering handler DelMsgCmdHandler... [__main__]
-2026-01-18 17:32:05 [debug    ] Registering handler PurgeMessagesHandler... [__main__]
-2026-01-18 17:32:05 [debug    ] Registering handler LegacyDelMsgButton... [__main__]
-2026-01-18 17:32:05 [debug    ] Loading module warns...        [__main__]
-2026-01-18 17:32:05 [debug    ] Loading module restrictions... [__main__]
-2026-01-18 17:32:05 [debug    ] Registering handler KickUserHandler... [__main__]
-2026-01-18 17:32:05 [debug    ] Registering handler BanUserHandler... [__main__]
-2026-01-18 17:32:05 [debug    ] Registering handler TempBanUserHandler... [__main__]
-2026-01-18 17:32:05 [debug    ] Registering handler MuteUserHandler... [__main__]
-2026-01-18 17:32:05 [debug    ] Registering handler TempMuteUserHandler... [__main__]
-2026-01-18 17:32:05 [debug    ] Registering handler UnmuteUserHandler... [__main__]
-2026-01-18 17:32:05 [debug    ] Registering handler UnbanUserHandler... [__main__]
-2026-01-18 17:32:05 [debug    ] Loading module reports...      [__main__]
-2026-01-18 17:32:05 [debug    ] Registering handler ReportHandler... [__main__]
-2026-01-18 17:32:05 [debug    ] Loading module pins...         [__main__]
-2026-01-18 17:32:05 [debug    ] Registering handler PinHandler... [__main__]
-2026-01-18 17:32:05 [debug    ] Registering handler UnpinHandler... [__main__]
-2026-01-18 17:32:05 [debug    ] Loading module ai...           [__main__]
-2026-01-18 17:32:05 [debug    ] Registering handler EnableAI... [__main__]
-2026-01-18 17:32:05 [debug    ] Registering handler AIModerator... [__main__]
-2026-01-18 17:32:05 [debug    ] Registering handler AIAutotrans... [__main__]
-2026-01-18 17:32:05 [debug    ] Registering handler AIProviderSetting... [__main__]
-2026-01-18 17:32:05 [debug    ] Registering handler AIProviderSettingAlt... [__main__]
-2026-01-18 17:32:05 [debug    ] Registering handler AIProviderSelectCallback... [__main__]
-2026-01-18 17:32:05 [debug    ] Registering handler AIPlaygroundCmd... [__main__]
-2026-01-18 17:32:05 [debug    ] Registering handler AIPlaygroundModelSelectCallback... [__main__]
-2026-01-18 17:32:05 [debug    ] Registering handler AiPmInitialize... [__main__]
-2026-01-18 17:32:05 [debug    ] Loading module filters...      [__main__]
-2026-01-18 17:32:05 [debug    ] Registering handler FilterNewHandler... [__main__]
-2026-01-18 17:32:05 [debug    ] Registering handler ActionsListHandler... [__main__]
-2026-01-18 17:32:05 [debug    ] Registering handler ActionSetupConfirmHandler... [__main__]
-2026-01-18 17:32:05 [debug    ] Registering handler ActionSelectHandler... [__main__]
-2026-01-18 17:32:05 [debug    ] Registering handler FilterConfirmHandler... [__main__]
-2026-01-18 17:32:05 [debug    ] Registering handler FilterSaveHandler... [__main__]
-2026-01-18 17:32:05 [debug    ] Registering handler ActionSettingSelectHandler... [__main__]
-2026-01-18 17:32:05 [debug    ] Registering handler FiltersListHandler... [__main__]
-2026-01-18 17:32:05 [debug    ] Registering handler FilterDeleteHandler... [__main__]
-2026-01-18 17:32:05 [debug    ] Registering handler ActionsListToRemoveHandler... [__main__]
-2026-01-18 17:32:05 [debug    ] Registering handler ActionRemoveHandler... [__main__]
-2026-01-18 17:32:05 [debug    ] Registering handler FilterEditHandler... [__main__]
-2026-01-18 17:32:05 [debug    ] Registering handler ActionChangeSettingConfirm... [__main__]
-2026-01-18 17:32:05 [debug    ] Loading module antiflood...    [__main__]
-2026-01-18 17:32:05 [debug    ] Registering handler AntifloodSetting... [__main__]
-2026-01-18 17:32:05 [debug    ] Loading module language...     [__main__]
-2026-01-18 17:32:05 [debug    ] Loading module connections...  [__main__]
-2026-01-18 17:32:05 [debug    ] Registering handler ConnectDMCmd... [__main__]
-2026-01-18 17:32:05 [debug    ] Registering handler ConnectGroupCmd... [__main__]
-2026-01-18 17:32:05 [debug    ] Registering handler ConnectCallback... [__main__]
-2026-01-18 17:32:05 [debug    ] Registering handler StartConnectHandler... [__main__]
-2026-01-18 17:32:05 [debug    ] Registering handler DisconnectCmd... [__main__]
-2026-01-18 17:32:05 [debug    ] Registering handler AllowUsersConnectCmd... [__main__]
-2026-01-18 17:32:05 [debug    ] gather_module_help: sophie_bot.modules.op [__main__] name=op emoji=? advertise_wiki_page=False
-2026-01-18 17:32:05 [debug    ] gather_cmds_help: op           [__main__] cmds=['op_listjobs', 'op_stopjobs', 'op_killswitch', 'op_banner', 'op_captcha', 'op_buttons', 'event', 'stats']
-2026-01-18 17:32:05 [debug    ] gather_module_help: sophie_bot.modules.troubleshooters [__main__] name=<sophie_bot.utils.i18n.LazyProxy object at 0x7f01208a3e30> emoji=🧰 advertise_wiki_page=False
-2026-01-18 17:32:05 [debug    ] gather_cmds_help: troubleshooters [__main__] cmds=['enablebeta', 'enablebeta', 'op_setbeta', 'op_resetbeta', 'cancel', 'admincache']
-2026-01-18 17:32:05 [debug    ] gather_module_help: sophie_bot.modules.error [__main__] name=<sophie_bot.utils.i18n.LazyProxy object at 0x7f012095ad50> emoji=🚫 advertise_wiki_page=False
-2026-01-18 17:32:05 [debug    ] gather_cmds_help: error        [__main__] cmds=['op_crash']
-2026-01-18 17:32:05 [debug    ] gather_module_help: sophie_bot.modules.users [__main__] name=<sophie_bot.utils.i18n.LazyProxy object at 0x7f011817a390> emoji=🫂 advertise_wiki_page=False
-2026-01-18 17:32:05 [debug    ] gather_cmds_help: users        [__main__] cmds=['id', 'adminlist', 'admins', 'info']
-2026-01-18 17:32:05 [debug    ] gather_module_help: sophie_bot.modules.notes [__main__] name=<sophie_bot.utils.i18n.LazyProxy object at 0x7f011a786810> emoji=📗 advertise_wiki_page=True
-2026-01-18 17:32:05 [debug    ] gather_cmds_help: notes        [__main__] cmds=['pmnotes', 'privatenotes', 'pmnotes', 'privatenotes', 'notes', 'saved', 'notelist', 'get', 'search', 'delnote', 'clear', 'save', 'addnote']
-2026-01-18 17:32:05 [debug    ] gather_module_help: sophie_bot.modules.help [__main__] name=<sophie_bot.utils.i18n.LazyProxy object at 0x7f0122006cf0> emoji=ℹ️ advertise_wiki_page=False
-2026-01-18 17:32:05 [debug    ] gather_cmds_help: info         [__main__] cmds=['help', 'help', 'start', 'op_cmds']
-2026-01-18 17:32:05 [debug    ] gather_module_help: sophie_bot.modules.federations [__main__] name=<sophie_bot.utils.i18n.LazyProxy object at 0x7f011817a810> emoji=🏛 advertise_wiki_page=False
-2026-01-18 17:32:05 [debug    ] gather_cmds_help: federations  [__main__] cmds=['newfed', 'fnew', 'joinfed', 'fjoin', 'leavefed', 'fleave', 'fedinfo', 'finfo', 'fban', 'sfban', 'unfban', 'funban', 'fbanlist', 'exportfbans', 'fexport', 'transferfed', 'ftransfer', 'accepttransfer', 'fsetlog', 'setfedlog', 'funsetlog', 'unsetfedlog', 'fsub', 'funsub']
-2026-01-18 17:32:05 [debug    ] gather_module_help: sophie_bot.modules.privacy [__main__] name=<sophie_bot.utils.i18n.LazyProxy object at 0x7f01220077d0> emoji=🕵️‍♂️️ advertise_wiki_page=False
-2026-01-18 17:32:05 [debug    ] gather_cmds_help: info         [__main__] cmds=['privacy', 'export']
-2026-01-18 17:32:05 [debug    ] gather_module_help: sophie_bot.modules.disabling [__main__] name=<sophie_bot.utils.i18n.LazyProxy object at 0x7f01181b24b0> emoji=🚫 advertise_wiki_page=False
-2026-01-18 17:32:05 [debug    ] gather_cmds_help: Disable      [__main__] cmds=['disableable', 'disabled', 'disable', 'enable', 'enableall']
-2026-01-18 17:32:05 [debug    ] gather_module_help: sophie_bot.modules.rules [__main__] name=<sophie_bot.utils.i18n.LazyProxy object at 0x7f01181b32f0> emoji=🪧 advertise_wiki_page=False
-2026-01-18 17:32:05 [debug    ] gather_cmds_help: rules        [__main__] cmds=['setrules', 'rules', 'resetrules']
-2026-01-18 17:32:05 [debug    ] gather_module_help: sophie_bot.modules.promotes [__main__] name=<sophie_bot.utils.i18n.LazyProxy object at 0x7f01181b3c50> emoji=⭐️ advertise_wiki_page=False
-2026-01-18 17:32:05 [debug    ] gather_cmds_help: promotes     [__main__] cmds=['promote', 'demote']
-2026-01-18 17:32:05 [debug    ] gather_module_help: sophie_bot.modules.greetings [__main__] name=<sophie_bot.utils.i18n.LazyProxy object at 0x7f011828e750> emoji=🙋‍♂️ advertise_wiki_page=False
-2026-01-18 17:32:05 [debug    ] gather_cmds_help: greetings    [__main__] cmds=['enablewelcome', 'setwelcome', 'setjoinrequest', 'deljoinrequest', 'welcome', 'cleanservice', 'cleanwelcome']
-2026-01-18 17:32:05 [debug    ] gather_module_help: sophie_bot.modules.welcomesecurity [__main__] name=<sophie_bot.utils.i18n.LazyProxy object at 0x7f011a786c30> emoji=🛡️ advertise_wiki_page=False
-2026-01-18 17:32:05 [debug    ] gather_cmds_help: welcomesecurity [__main__] cmds=['welcomecaptcha', 'enablewelcomecaptcha', 'welcomerestrict', 'welcomesecurity']
-2026-01-18 17:32:05 [debug    ] gather_module_help: sophie_bot.modules.purges [__main__] name=<sophie_bot.utils.i18n.LazyProxy object at 0x7f01180000b0> emoji=🗑 advertise_wiki_page=False
-2026-01-18 17:32:05 [debug    ] gather_cmds_help: purges       [__main__] cmds=['delete', 'del', 'purge']
-2026-01-18 17:32:05 [debug    ] gather_module_help: sophie_bot.modules.warns [__main__] name=<sophie_bot.utils.i18n.LazyProxy object at 0x7f0118000a10> emoji=⚠️ advertise_wiki_page=False
-2026-01-18 17:32:05 [debug    ] gather_cmds_help: warns        [__main__] cmds=['warn']
-2026-01-18 17:32:05 [debug    ] gather_module_help: sophie_bot.modules.restrictions [__main__] name=<sophie_bot.utils.i18n.LazyProxy object at 0x7f01182dc1d0> emoji=🛑 advertise_wiki_page=False
-2026-01-18 17:32:05 [debug    ] gather_cmds_help: restrictions [__main__] cmds=['kick', 'ban', 'tban', 'mute', 'tmute', 'unmute', 'unban']
-2026-01-18 17:32:05 [debug    ] gather_module_help: sophie_bot.modules.reports [__main__] name=reports emoji=? advertise_wiki_page=False
-2026-01-18 17:32:05 [debug    ] gather_cmds_help: reports      [__main__] cmds=[]
-2026-01-18 17:32:05 [debug    ] gather_module_help: sophie_bot.modules.pins [__main__] name=pins emoji=? advertise_wiki_page=False
-2026-01-18 17:32:05 [debug    ] gather_cmds_help: pins         [__main__] cmds=['pin', 'unpin']
-2026-01-18 17:32:05 [debug    ] gather_module_help: sophie_bot.modules.ai [__main__] name=<sophie_bot.utils.i18n.LazyProxy object at 0x7f0122301070> emoji=✨ advertise_wiki_page=False
-2026-01-18 17:32:05 [debug    ] gather_cmds_help: ai           [__main__] cmds=['enableai', 'aienable', 'aimoderator', 'aiautotranslate', 'autotranslate', 'aiprovider', 'ai', 'aisave', 'aireset', 'aitranslate', 'translate', 'tr', 'ai', 'op_aistats']
-2026-01-18 17:32:05 [debug    ] gather_module_help: sophie_bot.modules.filters [__main__] name=<sophie_bot.utils.i18n.LazyProxy object at 0x7f012090d430> emoji=🪄 advertise_wiki_page=True
-2026-01-18 17:32:05 [debug    ] gather_cmds_help: filters      [__main__] cmds=['addfilter', 'newfilter', 'filters', 'delfilter', 'editfilter']
-2026-01-18 17:32:05 [debug    ] gather_module_help: sophie_bot.modules.antiflood [__main__] name=<sophie_bot.utils.i18n.LazyProxy object at 0x7f0118002690> emoji=📈 advertise_wiki_page=False
-2026-01-18 17:32:05 [debug    ] gather_cmds_help: antiflood    [__main__] cmds=['antiflood', 'flood']
-2026-01-18 17:32:05 [debug    ] gather_module_help: sophie_bot.modules.language [__main__] name=language emoji=? advertise_wiki_page=False
-2026-01-18 17:32:05 [debug    ] gather_cmds_help: language     [__main__] cmds=[]
-2026-01-18 17:32:05 [debug    ] gather_module_help: sophie_bot.modules.connections [__main__] name=connections emoji=? advertise_wiki_page=False
-2026-01-18 17:32:05 [debug    ] gather_cmds_help: connections  [__main__] cmds=['connect', 'connect', 'disconnect', 'allowusersconnect']
-2026-01-18 17:32:05 [debug    ] Modern filter actions: Adding new action... [__main__] name=reply module=notes
-2026-01-18 17:32:05 [debug    ] Modern filter actions: Adding new action... [__main__] name=send_note module=notes
-2026-01-18 17:32:05 [debug    ] Modern filter actions: Adding new action... [__main__] name=send_rules module=rules
-2026-01-18 17:32:05 [debug    ] Modern filter actions: Adding new action... [__main__] name=delmsg module=purges
-2026-01-18 17:32:05 [debug    ] Modern filter actions: Adding new action... [__main__] name=warn_user module=warns
-2026-01-18 17:32:05 [debug    ] Modern filter actions: Adding new action... [__main__] name=kick_user module=restrictions
-2026-01-18 17:32:05 [debug    ] Modern filter actions: Adding new action... [__main__] name=ban_user module=restrictions
-2026-01-18 17:32:05 [debug    ] Modern filter actions: Adding new action... [__main__] name=mute_user module=restrictions
-2026-01-18 17:32:05 [debug    ] Modern filter actions: Adding new action... [__main__] name=ai_text module=ai
-2026-01-18 17:32:05 [debug    ] Legacy filters: Filters actions [__main__] actions={}
-2026-01-18 17:32:05 [info     ] Loaded modules - rest, op, troubleshooters, error, users, notes, help, federations, privacy, disabling, rules, promotes, greetings, welcomesecurity, purges, warns, restrictions, reports, pins, ai, filters, antiflood, language, connections [__main__]
-2026-01-18 17:32:05 [debug    ] Using selector: EpollSelector  [asyncio]
-2026-01-18 17:32:05 [warning  ] Generating wiki documentation... [__main__]
-2026-01-18 17:32:05 [debug    ] Module op is excluded from the help, skipping [__main__]
-2026-01-18 17:32:05 [debug    ] Module error is excluded from the help, skipping [__main__]
-2026-01-18 17:32:05 [debug    ] - Appending human-maintained page [__main__]
-2026-01-18 17:32:05 [debug    ] - Appending human-maintained page [__main__]
-2026-01-18 17:32:05 [debug    ] - Appending human-maintained page [__main__]
-2026-01-18 17:32:05 [warning  ] Generating wiki documentation done! [__main__]
-2026-01-18 17:32:05 [debug    ] Using selector: EpollSelector  [asyncio]
-2026-01-18 17:32:05 [debug    ] {"message": "Server heartbeat failed", "topologyId": {"$oid": "696d1915a03c64ba66e6d1fe"}, "serverHost": "127.0.0.1", "serverPort": 27017, "awaited": true, "durationMS": 500.7985890006239, "failure": "\"_OperationCancelled('operation cancelled')\"", "driverConnectionId": 1} [pymongo.topology]
+2026-01-18 20:45:05 [info     ] Starting wiki generation task... [__main__]
+2026-01-18 20:45:05 [debug    ] Using selector: EpollSelector  [asyncio]
+2026-01-18 20:45:05 [info     ] Importing modules...           [__main__]
+2026-01-18 20:45:05 [debug    ] Loading all modules...         [__main__] modules=['troubleshooters', 'rest', 'op', 'error', 'users', 'notes', 'help', 'federations', 'privacy', 'disabling', 'rules', 'promotes', 'greetings', 'welcomesecurity', 'purges', 'warns', 'restrictions', 'reports', 'pins', 'ai', 'filters', 'antiflood', 'language', 'connections']
+2026-01-18 20:45:06 [info     ] Using BotAPI server: TelegramAPIServer(base='https://api.telegram.org/bot{token}/{method}', file='https://api.telegram.org/file/bot{token}/{path}', is_local=False, wrap_local_file=<aiogram.client.telegram.BareFilesPathWrapper object at 0x7fcfdd765fd0>) [__main__]
+2026-01-18 20:45:06 [debug    ] Loading locales additional data... [__main__]
+2026-01-18 20:45:06 [debug    ] ! Can't parse stats for locale ar_EG! [__main__]
+2026-01-18 20:45:06 [debug    ] ! Can't parse stats for locale ar_SA! [__main__]
+2026-01-18 20:45:06 [debug    ] ! Can't parse stats for locale cs_CZ! [__main__]
+2026-01-18 20:45:06 [debug    ] ! Can't parse stats for locale de_DE! [__main__]
+2026-01-18 20:45:06 [debug    ] ! Can't parse stats for locale en_US! [__main__]
+2026-01-18 20:45:06 [debug    ] ! Can't parse stats for locale es_ES! [__main__]
+2026-01-18 20:45:06 [debug    ] ! Can't parse stats for locale fr_FR! [__main__]
+2026-01-18 20:45:06 [debug    ] ! Can't parse stats for locale pl_PL! [__main__]
+2026-01-18 20:45:06 [debug    ] ! Can't parse stats for locale pt_BR! [__main__]
+2026-01-18 20:45:06 [debug    ] ! Can't parse stats for locale ru_RU! [__main__]
+2026-01-18 20:45:06 [debug    ] ! Can't parse stats for locale tr_TR! [__main__]
+2026-01-18 20:45:06 [debug    ] ! Can't parse stats for locale uk_UA! [__main__]
+2026-01-18 20:45:06 [debug    ] ! Can't parse stats for locale zh_CN! [__main__]
+2026-01-18 20:45:06 [debug    ] ! Can't parse stats for locale en_GB! [__main__]
+2026-01-18 20:45:06 [debug    ] ! Can't parse stats for locale fi_FI! [__main__]
+2026-01-18 20:45:06 [debug    ] ! Module rest has no router!   [__main__]
+2026-01-18 20:45:06 [debug    ] Using selector: EpollSelector  [asyncio]
+2026-01-18 20:45:06 [debug    ] {"message": "Starting topology monitoring", "topologyId": {"$oid": "696d4652f6f86cc07afc7395"}} [pymongo.topology]
+2026-01-18 20:45:06 [debug    ] {"message": "Topology description changed", "topologyId": {"$oid": "696d4652f6f86cc07afc7395"}, "previousDescription": "<TopologyDescription id: 696d4652f6f86cc07afc7395, topology_type: Unknown, servers: []>", "newDescription": "<TopologyDescription id: 696d4652f6f86cc07afc7395, topology_type: Unknown, servers: [<ServerDescription ('127.0.0.1', 27017) server_type: Unknown, rtt: None>]>"} [pymongo.topology]
+2026-01-18 20:45:06 [debug    ] {"message": "Starting server monitoring", "topologyId": {"$oid": "696d4652f6f86cc07afc7395"}, "serverHost": "127.0.0.1", "serverPort": 27017} [pymongo.topology]
+2026-01-18 20:45:06 [debug    ] {"message": "Connection pool created", "clientId": {"$oid": "696d4652f6f86cc07afc7395"}, "serverHost": "127.0.0.1", "serverPort": 27017} [pymongo.connection]
+2026-01-18 20:45:06 [debug    ] No explicit setting existed. Use localtime [tzlocal]
+2026-01-18 20:45:06 [debug    ] {"message": "Server heartbeat started", "topologyId": {"$oid": "696d4652f6f86cc07afc7395"}, "driverConnectionId": 1, "serverHost": "127.0.0.1", "serverPort": 27017, "awaited": false} [pymongo.topology]
+2026-01-18 20:45:06 [debug    ] {"message": "Server heartbeat succeeded", "topologyId": {"$oid": "696d4652f6f86cc07afc7395"}, "driverConnectionId": 1, "serverConnectionId": 173, "serverHost": "127.0.0.1", "serverPort": 27017, "awaited": false, "durationMS": 3.901940999639919, "reply": "{\"helloOk\": true, \"ismaster\": true, \"topologyVersion\": {\"processId\": {\"$oid\": \"696d05cc12be6ff437705972\"}}, \"maxBsonObjectSize\": 16777216, \"maxMessageSizeBytes\": 48000000, \"maxWriteBatchSize\": 100000, \"localTime\": {\"$date\": \"2026-01-18T20:45:06.790Z\"}, \"logicalSessionTimeoutMinutes\": 30, \"connectionId\": 173, \"maxWireVersion\": 25, \"ok\": 1.0}"} [pymongo.topology]
+2026-01-18 20:45:06 [debug    ] {"message": "Connection pool ready", "clientId": {"$oid": "696d4652f6f86cc07afc7395"}, "serverHost": "127.0.0.1", "serverPort": 27017} [pymongo.connection]
+2026-01-18 20:45:06 [debug    ] {"message": "Topology description changed", "topologyId": {"$oid": "696d4652f6f86cc07afc7395"}, "previousDescription": "<TopologyDescription id: 696d4652f6f86cc07afc7395, topology_type: Unknown, servers: [<ServerDescription ('127.0.0.1', 27017) server_type: Unknown, rtt: None>]>", "newDescription": "<TopologyDescription id: 696d4652f6f86cc07afc7395, topology_type: Single, servers: [<ServerDescription ('127.0.0.1', 27017) server_type: Standalone, rtt: 0.003901940999639919>]>"} [pymongo.topology]
+2026-01-18 20:45:06 [debug    ] {"message": "Server heartbeat started", "topologyId": {"$oid": "696d4652f6f86cc07afc7395"}, "driverConnectionId": 1, "serverConnectionId": 173, "serverHost": "127.0.0.1", "serverPort": 27017, "awaited": true} [pymongo.topology]
+2026-01-18 20:45:06 [debug    ] {"message": "Starting topology monitoring", "topologyId": {"$oid": "696d4652f6f86cc07afc7396"}} [pymongo.topology]
+2026-01-18 20:45:06 [debug    ] {"message": "Topology description changed", "topologyId": {"$oid": "696d4652f6f86cc07afc7396"}, "previousDescription": "<TopologyDescription id: 696d4652f6f86cc07afc7396, topology_type: Unknown, servers: []>", "newDescription": "<TopologyDescription id: 696d4652f6f86cc07afc7396, topology_type: Unknown, servers: [<ServerDescription ('127.0.0.1', 27017) server_type: Unknown, rtt: None>]>"} [pymongo.topology]
+2026-01-18 20:45:06 [debug    ] {"message": "Starting server monitoring", "topologyId": {"$oid": "696d4652f6f86cc07afc7396"}, "serverHost": "127.0.0.1", "serverPort": 27017} [pymongo.topology]
+2026-01-18 20:45:06 [debug    ] Loading module troubleshooters... [__main__]
+2026-01-18 20:45:06 [debug    ] Registering handler CancelCallbackHandler... [__main__]
+2026-01-18 20:45:06 [debug    ] Registering handler TypedCancelCallbackHandler... [__main__]
+2026-01-18 20:45:06 [debug    ] Loading module rest...         [__main__]
+2026-01-18 20:45:06 [debug    ] Loading module op...           [__main__]
+2026-01-18 20:45:06 [debug    ] Registering handler ListJobsHandler... [__main__]
+2026-01-18 20:45:06 [debug    ] Registering handler StopJobsHandler... [__main__]
+2026-01-18 20:45:06 [debug    ] Registering handler KillSwitchHandler... [__main__]
+2026-01-18 20:45:06 [debug    ] Registering handler OpBannerHandler... [__main__]
+2026-01-18 20:45:06 [debug    ] Registering handler OpCaptchaHandler... [__main__]
+2026-01-18 20:45:06 [debug    ] Registering handler ButtonsTestHandler... [__main__]
+2026-01-18 20:45:06 [debug    ] Registering handler EventHandler... [__main__]
+2026-01-18 20:45:06 [debug    ] Registering handler StatsHandler... [__main__]
+2026-01-18 20:45:06 [debug    ] Loading module error...        [__main__]
+2026-01-18 20:45:06 [debug    ] Loading module users...        [__main__]
+2026-01-18 20:45:06 [debug    ] Registering handler ShowIDHandler... [__main__]
+2026-01-18 20:45:06 [debug    ] Registering handler AdminListHandler... [__main__]
+2026-01-18 20:45:06 [debug    ] Registering handler UserInfoHandler... [__main__]
+2026-01-18 20:45:06 [debug    ] Loading module notes...        [__main__]
+2026-01-18 20:45:06 [debug    ] Loading module help...         [__main__]
+2026-01-18 20:45:06 [debug    ] Registering handler StartPMHandler... [__main__]
+2026-01-18 20:45:06 [debug    ] Registering handler HelpGroupHandler... [__main__]
+2026-01-18 20:45:06 [debug    ] Registering handler PMModulesList... [__main__]
+2026-01-18 20:45:06 [debug    ] Registering handler StartGroupHandler... [__main__]
+2026-01-18 20:45:06 [debug    ] Loading module federations...  [__main__]
+2026-01-18 20:45:06 [debug    ] Registering handler CreateFederationHandler... [__main__]
+2026-01-18 20:45:06 [debug    ] Registering handler JoinFederationHandler... [__main__]
+2026-01-18 20:45:06 [debug    ] Registering handler LeaveFederationHandler... [__main__]
+2026-01-18 20:45:06 [debug    ] Registering handler FederationInfoHandler... [__main__]
+2026-01-18 20:45:06 [debug    ] Registering handler FederationBanHandler... [__main__]
+2026-01-18 20:45:06 [debug    ] Registering handler FederationUnbanHandler... [__main__]
+2026-01-18 20:45:06 [debug    ] Registering handler FederationBanListHandler... [__main__]
+2026-01-18 20:45:06 [debug    ] Registering handler TransferOwnershipHandler... [__main__]
+2026-01-18 20:45:06 [debug    ] Registering handler AcceptTransferHandler... [__main__]
+2026-01-18 20:45:06 [debug    ] Registering handler SetFederationLogHandler... [__main__]
+2026-01-18 20:45:06 [debug    ] Registering handler UnsetFederationLogHandler... [__main__]
+2026-01-18 20:45:06 [debug    ] Registering handler SubscribeFederationHandler... [__main__]
+2026-01-18 20:45:06 [debug    ] Registering handler UnsubscribeFederationHandler... [__main__]
+2026-01-18 20:45:06 [debug    ] Loading module privacy...      [__main__]
+2026-01-18 20:45:06 [debug    ] Loading module disabling...    [__main__]
+2026-01-18 20:45:06 [debug    ] Loading module rules...        [__main__]
+2026-01-18 20:45:06 [debug    ] Registering handler SetRulesHandler... [__main__]
+2026-01-18 20:45:06 [debug    ] Registering handler GetRulesHandler... [__main__]
+2026-01-18 20:45:06 [debug    ] Registering handler ResetRulesHandler... [__main__]
+2026-01-18 20:45:06 [debug    ] Registering handler LegacyRulesButton... [__main__]
+2026-01-18 20:45:06 [debug    ] Loading module promotes...     [__main__]
+2026-01-18 20:45:06 [debug    ] Registering handler PromoteUserHandler... [__main__]
+2026-01-18 20:45:06 [debug    ] Registering handler DemoteUserHandler... [__main__]
+2026-01-18 20:45:06 [debug    ] Loading module greetings...    [__main__]
+2026-01-18 20:45:06 [debug    ] Registering handler EnableWelcomeHandlerABC... [__main__]
+2026-01-18 20:45:06 [debug    ] Registering handler SetWelcomeMessageHandler... [__main__]
+2026-01-18 20:45:06 [debug    ] Registering handler SetJoinRequestMessageHandler... [__main__]
+2026-01-18 20:45:06 [debug    ] Registering handler DelJoinRequestMessageHandler... [__main__]
+2026-01-18 20:45:06 [debug    ] Registering handler WelcomeSettingsShowHandler... [__main__]
+2026-01-18 20:45:06 [debug    ] Registering handler CleanServiceHandlerABC... [__main__]
+2026-01-18 20:45:06 [debug    ] Registering handler CleanWelcomeHandlerABC... [__main__]
+2026-01-18 20:45:06 [debug    ] Loading module welcomesecurity... [__main__]
+2026-01-18 20:45:06 [debug    ] Registering handler CaptchaGetHandler... [__main__]
+2026-01-18 20:45:06 [debug    ] Registering handler LegacyWSButtonHandler... [__main__]
+2026-01-18 20:45:06 [debug    ] Registering handler CaptchaConfirmHandler... [__main__]
+2026-01-18 20:45:06 [debug    ] Registering handler ChatJoinRequestHandler... [__main__]
+2026-01-18 20:45:06 [debug    ] Registering handler EnableWelcomeCaptchaHandlerABC... [__main__]
+2026-01-18 20:45:06 [debug    ] Registering handler EnableWelcomeMute... [__main__]
+2026-01-18 20:45:06 [debug    ] Registering handler WelcomeSecuritySettingsShowHandler... [__main__]
+2026-01-18 20:45:06 [debug    ] Registering handler LegacyStableWSButtonRedirectHandler... [__main__]
+2026-01-18 20:45:06 [debug    ] Loading module purges...       [__main__]
+2026-01-18 20:45:06 [debug    ] Registering handler DelMsgCmdHandler... [__main__]
+2026-01-18 20:45:06 [debug    ] Registering handler PurgeMessagesHandler... [__main__]
+2026-01-18 20:45:06 [debug    ] Registering handler LegacyDelMsgButton... [__main__]
+2026-01-18 20:45:06 [debug    ] Loading module warns...        [__main__]
+2026-01-18 20:45:06 [debug    ] Loading module restrictions... [__main__]
+2026-01-18 20:45:06 [debug    ] Registering handler KickUserHandler... [__main__]
+2026-01-18 20:45:06 [debug    ] Registering handler BanUserHandler... [__main__]
+2026-01-18 20:45:06 [debug    ] Registering handler TempBanUserHandler... [__main__]
+2026-01-18 20:45:06 [debug    ] Registering handler MuteUserHandler... [__main__]
+2026-01-18 20:45:06 [debug    ] Registering handler TempMuteUserHandler... [__main__]
+2026-01-18 20:45:06 [debug    ] Registering handler UnmuteUserHandler... [__main__]
+2026-01-18 20:45:06 [debug    ] Registering handler UnbanUserHandler... [__main__]
+2026-01-18 20:45:06 [debug    ] Loading module reports...      [__main__]
+2026-01-18 20:45:06 [debug    ] Registering handler ReportHandler... [__main__]
+2026-01-18 20:45:06 [debug    ] Loading module pins...         [__main__]
+2026-01-18 20:45:06 [debug    ] Registering handler PinHandler... [__main__]
+2026-01-18 20:45:06 [debug    ] Registering handler UnpinHandler... [__main__]
+2026-01-18 20:45:06 [debug    ] Loading module ai...           [__main__]
+2026-01-18 20:45:06 [debug    ] Registering handler EnableAI... [__main__]
+2026-01-18 20:45:06 [debug    ] Registering handler AIModerator... [__main__]
+2026-01-18 20:45:06 [debug    ] Registering handler AIAutotrans... [__main__]
+2026-01-18 20:45:06 [debug    ] Registering handler AIProviderSetting... [__main__]
+2026-01-18 20:45:06 [debug    ] Registering handler AIProviderSettingAlt... [__main__]
+2026-01-18 20:45:06 [debug    ] Registering handler AIProviderSelectCallback... [__main__]
+2026-01-18 20:45:06 [debug    ] Registering handler AIPlaygroundCmd... [__main__]
+2026-01-18 20:45:06 [debug    ] Registering handler AIPlaygroundModelSelectCallback... [__main__]
+2026-01-18 20:45:06 [debug    ] Registering handler AiPmInitialize... [__main__]
+2026-01-18 20:45:06 [debug    ] Loading module filters...      [__main__]
+2026-01-18 20:45:06 [debug    ] Registering handler FilterNewHandler... [__main__]
+2026-01-18 20:45:06 [debug    ] Registering handler ActionsListHandler... [__main__]
+2026-01-18 20:45:06 [debug    ] Registering handler ActionSetupConfirmHandler... [__main__]
+2026-01-18 20:45:06 [debug    ] Registering handler ActionSelectHandler... [__main__]
+2026-01-18 20:45:06 [debug    ] Registering handler FilterConfirmHandler... [__main__]
+2026-01-18 20:45:06 [debug    ] Registering handler FilterSaveHandler... [__main__]
+2026-01-18 20:45:06 [debug    ] Registering handler ActionSettingSelectHandler... [__main__]
+2026-01-18 20:45:06 [debug    ] Registering handler FiltersListHandler... [__main__]
+2026-01-18 20:45:06 [debug    ] Registering handler FilterDeleteHandler... [__main__]
+2026-01-18 20:45:06 [debug    ] Registering handler ActionsListToRemoveHandler... [__main__]
+2026-01-18 20:45:06 [debug    ] Registering handler ActionRemoveHandler... [__main__]
+2026-01-18 20:45:06 [debug    ] Registering handler FilterEditHandler... [__main__]
+2026-01-18 20:45:06 [debug    ] Registering handler ActionChangeSettingConfirm... [__main__]
+2026-01-18 20:45:06 [debug    ] Loading module antiflood...    [__main__]
+2026-01-18 20:45:06 [debug    ] Registering handler AntifloodSetting... [__main__]
+2026-01-18 20:45:06 [debug    ] Loading module language...     [__main__]
+2026-01-18 20:45:06 [debug    ] Loading module connections...  [__main__]
+2026-01-18 20:45:06 [debug    ] Registering handler ConnectDMCmd... [__main__]
+2026-01-18 20:45:06 [debug    ] Registering handler ConnectGroupCmd... [__main__]
+2026-01-18 20:45:06 [debug    ] Registering handler ConnectCallback... [__main__]
+2026-01-18 20:45:06 [debug    ] Registering handler StartConnectHandler... [__main__]
+2026-01-18 20:45:06 [debug    ] Registering handler DisconnectCmd... [__main__]
+2026-01-18 20:45:06 [debug    ] Registering handler AllowUsersConnectCmd... [__main__]
+2026-01-18 20:45:06 [debug    ] gather_module_help: sophie_bot.modules.troubleshooters [__main__] name=<sophie_bot.utils.i18n.LazyProxy object at 0x7fcfdb284230> emoji=🧰 advertise_wiki_page=False
+2026-01-18 20:45:06 [debug    ] gather_cmds_help: troubleshooters [__main__] cmds=['enablebeta', 'enablebeta', 'op_setbeta', 'op_resetbeta', 'cancel', 'admincache']
+2026-01-18 20:45:06 [debug    ] gather_module_help: sophie_bot.modules.op [__main__] name=op emoji=? advertise_wiki_page=False
+2026-01-18 20:45:06 [debug    ] gather_cmds_help: op           [__main__] cmds=['op_listjobs', 'op_stopjobs', 'op_killswitch', 'op_banner', 'op_captcha', 'op_buttons', 'event', 'stats']
+2026-01-18 20:45:06 [debug    ] gather_module_help: sophie_bot.modules.error [__main__] name=<sophie_bot.utils.i18n.LazyProxy object at 0x7fcfd8072330> emoji=🚫 advertise_wiki_page=False
+2026-01-18 20:45:06 [debug    ] gather_cmds_help: error        [__main__] cmds=['op_crash']
+2026-01-18 20:45:06 [debug    ] gather_module_help: sophie_bot.modules.users [__main__] name=<sophie_bot.utils.i18n.LazyProxy object at 0x7fcfc9d7c4d0> emoji=🫂 advertise_wiki_page=False
+2026-01-18 20:45:06 [debug    ] gather_cmds_help: users        [__main__] cmds=['id', 'adminlist', 'admins', 'info']
+2026-01-18 20:45:06 [debug    ] gather_module_help: sophie_bot.modules.notes [__main__] name=<sophie_bot.utils.i18n.LazyProxy object at 0x7fcfd1e84a10> emoji=📗 advertise_wiki_page=True
+2026-01-18 20:45:06 [debug    ] gather_cmds_help: notes        [__main__] cmds=['pmnotes', 'privatenotes', 'pmnotes', 'privatenotes', 'notes', 'saved', 'notelist', 'get', 'search', 'delnote', 'clear', 'save', 'addnote']
+2026-01-18 20:45:06 [debug    ] gather_module_help: sophie_bot.modules.help [__main__] name=<sophie_bot.utils.i18n.LazyProxy object at 0x7fcfd93e2330> emoji=ℹ️ advertise_wiki_page=False
+2026-01-18 20:45:06 [debug    ] gather_cmds_help: info         [__main__] cmds=['help', 'help', 'start', 'op_cmds']
+2026-01-18 20:45:06 [debug    ] gather_module_help: sophie_bot.modules.federations [__main__] name=<sophie_bot.utils.i18n.LazyProxy object at 0x7fcfc9d7c950> emoji=🏛 advertise_wiki_page=False
+2026-01-18 20:45:06 [debug    ] gather_cmds_help: federations  [__main__] cmds=['newfed', 'fnew', 'joinfed', 'fjoin', 'leavefed', 'fleave', 'fedinfo', 'finfo', 'fban', 'sfban', 'unfban', 'funban', 'fbanlist', 'exportfbans', 'fexport', 'transferfed', 'ftransfer', 'accepttransfer', 'fsetlog', 'setfedlog', 'funsetlog', 'unsetfedlog', 'fsub', 'funsub']
+2026-01-18 20:45:06 [debug    ] gather_module_help: sophie_bot.modules.privacy [__main__] name=<sophie_bot.utils.i18n.LazyProxy object at 0x7fcfd93e2c90> emoji=🕵️‍♂️️ advertise_wiki_page=False
+2026-01-18 20:45:06 [debug    ] gather_cmds_help: info         [__main__] cmds=['privacy', 'export']
+2026-01-18 20:45:06 [debug    ] gather_module_help: sophie_bot.modules.disabling [__main__] name=<sophie_bot.utils.i18n.LazyProxy object at 0x7fcfc9db85f0> emoji=🚫 advertise_wiki_page=False
+2026-01-18 20:45:06 [debug    ] gather_cmds_help: Disable      [__main__] cmds=['disableable', 'disabled', 'disable', 'enable', 'enableall']
+2026-01-18 20:45:06 [debug    ] gather_module_help: sophie_bot.modules.rules [__main__] name=<sophie_bot.utils.i18n.LazyProxy object at 0x7fcfc9db9e50> emoji=🪧 advertise_wiki_page=False
+2026-01-18 20:45:06 [debug    ] gather_cmds_help: rules        [__main__] cmds=['setrules', 'rules', 'resetrules']
+2026-01-18 20:45:06 [debug    ] gather_module_help: sophie_bot.modules.promotes [__main__] name=<sophie_bot.utils.i18n.LazyProxy object at 0x7fcfc9dbac90> emoji=⭐️ advertise_wiki_page=False
+2026-01-18 20:45:06 [debug    ] gather_cmds_help: promotes     [__main__] cmds=['promote', 'demote']
+2026-01-18 20:45:06 [debug    ] gather_module_help: sophie_bot.modules.greetings [__main__] name=<sophie_bot.utils.i18n.LazyProxy object at 0x7fcfd00b4950> emoji=🙋‍♂️ advertise_wiki_page=False
+2026-01-18 20:45:06 [debug    ] gather_cmds_help: greetings    [__main__] cmds=['enablewelcome', 'setwelcome', 'setjoinrequest', 'deljoinrequest', 'welcome', 'cleanservice', 'cleanwelcome']
+2026-01-18 20:45:06 [debug    ] gather_module_help: sophie_bot.modules.welcomesecurity [__main__] name=<sophie_bot.utils.i18n.LazyProxy object at 0x7fcfd1e84e30> emoji=🛡️ advertise_wiki_page=False
+2026-01-18 20:45:06 [debug    ] gather_cmds_help: welcomesecurity [__main__] cmds=['welcomecaptcha', 'enablewelcomecaptcha', 'welcomerestrict', 'welcomesecurity']
+2026-01-18 20:45:06 [debug    ] gather_module_help: sophie_bot.modules.purges [__main__] name=<sophie_bot.utils.i18n.LazyProxy object at 0x7fcfc9dbb050> emoji=🗑 advertise_wiki_page=False
+2026-01-18 20:45:06 [debug    ] gather_cmds_help: purges       [__main__] cmds=['delete', 'del', 'purge']
+2026-01-18 20:45:06 [debug    ] gather_module_help: sophie_bot.modules.warns [__main__] name=<sophie_bot.utils.i18n.LazyProxy object at 0x7fcfc9dbb950> emoji=⚠️ advertise_wiki_page=False
+2026-01-18 20:45:06 [debug    ] gather_cmds_help: warns        [__main__] cmds=['warn']
+2026-01-18 20:45:06 [debug    ] gather_module_help: sophie_bot.modules.restrictions [__main__] name=<sophie_bot.utils.i18n.LazyProxy object at 0x7fcfd00b6330> emoji=🛑 advertise_wiki_page=False
+2026-01-18 20:45:06 [debug    ] gather_cmds_help: restrictions [__main__] cmds=['kick', 'ban', 'tban', 'mute', 'tmute', 'unmute', 'unban']
+2026-01-18 20:45:06 [debug    ] gather_module_help: sophie_bot.modules.reports [__main__] name=reports emoji=? advertise_wiki_page=False
+2026-01-18 20:45:06 [debug    ] gather_cmds_help: reports      [__main__] cmds=[]
+2026-01-18 20:45:06 [debug    ] gather_module_help: sophie_bot.modules.pins [__main__] name=pins emoji=? advertise_wiki_page=False
+2026-01-18 20:45:06 [debug    ] gather_cmds_help: pins         [__main__] cmds=['pin', 'unpin']
+2026-01-18 20:45:06 [debug    ] gather_module_help: sophie_bot.modules.ai [__main__] name=<sophie_bot.utils.i18n.LazyProxy object at 0x7fcfd81fbcb0> emoji=✨ advertise_wiki_page=False
+2026-01-18 20:45:06 [debug    ] gather_cmds_help: ai           [__main__] cmds=['enableai', 'aienable', 'aimoderator', 'aiautotranslate', 'autotranslate', 'aiprovider', 'ai', 'aisave', 'aireset', 'aitranslate', 'translate', 'tr', 'ai', 'op_aistats']
+2026-01-18 20:45:06 [debug    ] gather_module_help: sophie_bot.modules.filters [__main__] name=<sophie_bot.utils.i18n.LazyProxy object at 0x7fcfd7fcb5f0> emoji=🪄 advertise_wiki_page=True
+2026-01-18 20:45:06 [debug    ] gather_cmds_help: filters      [__main__] cmds=['addfilter', 'newfilter', 'filters', 'delfilter', 'editfilter']
+2026-01-18 20:45:06 [debug    ] gather_module_help: sophie_bot.modules.antiflood [__main__] name=<sophie_bot.utils.i18n.LazyProxy object at 0x7fcfc8749610> emoji=📈 advertise_wiki_page=False
+2026-01-18 20:45:06 [debug    ] gather_cmds_help: antiflood    [__main__] cmds=['antiflood', 'flood']
+2026-01-18 20:45:06 [debug    ] gather_module_help: sophie_bot.modules.language [__main__] name=language emoji=? advertise_wiki_page=False
+2026-01-18 20:45:06 [debug    ] gather_cmds_help: language     [__main__] cmds=[]
+2026-01-18 20:45:06 [debug    ] gather_module_help: sophie_bot.modules.connections [__main__] name=connections emoji=? advertise_wiki_page=False
+2026-01-18 20:45:06 [debug    ] gather_cmds_help: connections  [__main__] cmds=['connect', 'connect', 'disconnect', 'allowusersconnect']
+2026-01-18 20:45:06 [debug    ] Modern filter actions: Adding new action... [__main__] name=reply module=notes
+2026-01-18 20:45:06 [debug    ] Modern filter actions: Adding new action... [__main__] name=send_note module=notes
+2026-01-18 20:45:06 [debug    ] Modern filter actions: Adding new action... [__main__] name=send_rules module=rules
+2026-01-18 20:45:06 [debug    ] Modern filter actions: Adding new action... [__main__] name=delmsg module=purges
+2026-01-18 20:45:06 [debug    ] Modern filter actions: Adding new action... [__main__] name=warn_user module=warns
+2026-01-18 20:45:06 [debug    ] Modern filter actions: Adding new action... [__main__] name=kick_user module=restrictions
+2026-01-18 20:45:06 [debug    ] Modern filter actions: Adding new action... [__main__] name=ban_user module=restrictions
+2026-01-18 20:45:06 [debug    ] Modern filter actions: Adding new action... [__main__] name=mute_user module=restrictions
+2026-01-18 20:45:06 [debug    ] Modern filter actions: Adding new action... [__main__] name=ai_text module=ai
+2026-01-18 20:45:06 [debug    ] Legacy filters: Filters actions [__main__] actions={}
+2026-01-18 20:45:06 [info     ] Loaded modules - troubleshooters, rest, op, error, users, notes, help, federations, privacy, disabling, rules, promotes, greetings, welcomesecurity, purges, warns, restrictions, reports, pins, ai, filters, antiflood, language, connections [__main__]
+2026-01-18 20:45:06 [debug    ] Using selector: EpollSelector  [asyncio]
+2026-01-18 20:45:06 [warning  ] Generating wiki documentation... [__main__]
+2026-01-18 20:45:06 [debug    ] Module op is excluded from the help, skipping [__main__]
+2026-01-18 20:45:06 [debug    ] Module error is excluded from the help, skipping [__main__]
+2026-01-18 20:45:06 [debug    ] - Appending human-maintained page [__main__]
+2026-01-18 20:45:06 [debug    ] - Appending human-maintained page [__main__]
+2026-01-18 20:45:06 [debug    ] - Appending human-maintained page [__main__]
+2026-01-18 20:45:06 [warning  ] Generating wiki documentation done! [__main__]
+2026-01-18 20:45:06 [debug    ] Using selector: EpollSelector  [asyncio]
+2026-01-18 20:45:07 [debug    ] {"message": "Server heartbeat failed", "topologyId": {"$oid": "696d4652f6f86cc07afc7395"}, "serverHost": "127.0.0.1", "serverPort": 27017, "awaited": true, "durationMS": 500.8170339970093, "failure": "\"_OperationCancelled('operation cancelled')\"", "driverConnectionId": 1} [pymongo.topology]
 make gen_openapi
 make[1]: Entering directory '/home/yacha/Projects/Otty/sophie'
 uv run python tools/openapi_gen/generate.py
-2026-01-18 17:32:08 [info     ] Starting OpenAPI generation task... [__main__]
-2026-01-18 17:32:08 [debug    ] Using selector: EpollSelector  [asyncio]
-2026-01-18 17:32:08 [info     ] Importing modules...           [__main__]
-2026-01-18 17:32:08 [debug    ] Loading all modules...         [__main__] modules=['rest', 'op', 'troubleshooters', 'error', 'users', 'notes', 'help', 'federations', 'privacy', 'disabling', 'rules', 'promotes', 'greetings', 'welcomesecurity', 'purges', 'warns', 'restrictions', 'reports', 'pins', 'ai', 'filters', 'antiflood', 'language', 'connections']
-2026-01-18 17:32:08 [debug    ] ! Module rest has no router!   [__main__]
-2026-01-18 17:32:08 [info     ] Using BotAPI server: TelegramAPIServer(base='https://api.telegram.org/bot{token}/{method}', file='https://api.telegram.org/file/bot{token}/{path}', is_local=False, wrap_local_file=<aiogram.client.telegram.BareFilesPathWrapper object at 0x7f528902dfd0>) [__main__]
-2026-01-18 17:32:08 [debug    ] Loading locales additional data... [__main__]
-2026-01-18 17:32:08 [debug    ] ! Can't parse stats for locale ar_EG! [__main__]
-2026-01-18 17:32:08 [debug    ] ! Can't parse stats for locale ar_SA! [__main__]
-2026-01-18 17:32:08 [debug    ] ! Can't parse stats for locale cs_CZ! [__main__]
-2026-01-18 17:32:08 [debug    ] ! Can't parse stats for locale de_DE! [__main__]
-2026-01-18 17:32:08 [debug    ] ! Can't parse stats for locale en_US! [__main__]
-2026-01-18 17:32:08 [debug    ] ! Can't parse stats for locale es_ES! [__main__]
-2026-01-18 17:32:08 [debug    ] ! Can't parse stats for locale fr_FR! [__main__]
-2026-01-18 17:32:08 [debug    ] ! Can't parse stats for locale pl_PL! [__main__]
-2026-01-18 17:32:08 [debug    ] ! Can't parse stats for locale pt_BR! [__main__]
-2026-01-18 17:32:08 [debug    ] ! Can't parse stats for locale ru_RU! [__main__]
-2026-01-18 17:32:08 [debug    ] ! Can't parse stats for locale tr_TR! [__main__]
-2026-01-18 17:32:08 [debug    ] ! Can't parse stats for locale uk_UA! [__main__]
-2026-01-18 17:32:08 [debug    ] ! Can't parse stats for locale zh_CN! [__main__]
-2026-01-18 17:32:08 [debug    ] ! Can't parse stats for locale en_GB! [__main__]
-2026-01-18 17:32:08 [debug    ] ! Can't parse stats for locale fi_FI! [__main__]
-2026-01-18 17:32:09 [debug    ] Using selector: EpollSelector  [asyncio]
-2026-01-18 17:32:09 [debug    ] {"message": "Starting topology monitoring", "topologyId": {"$oid": "696d1919b43d3130d528d295"}} [pymongo.topology]
-2026-01-18 17:32:09 [debug    ] {"message": "Topology description changed", "topologyId": {"$oid": "696d1919b43d3130d528d295"}, "previousDescription": "<TopologyDescription id: 696d1919b43d3130d528d295, topology_type: Unknown, servers: []>", "newDescription": "<TopologyDescription id: 696d1919b43d3130d528d295, topology_type: Unknown, servers: [<ServerDescription ('127.0.0.1', 27017) server_type: Unknown, rtt: None>]>"} [pymongo.topology]
-2026-01-18 17:32:09 [debug    ] {"message": "Starting server monitoring", "topologyId": {"$oid": "696d1919b43d3130d528d295"}, "serverHost": "127.0.0.1", "serverPort": 27017} [pymongo.topology]
-2026-01-18 17:32:09 [debug    ] {"message": "Connection pool created", "clientId": {"$oid": "696d1919b43d3130d528d295"}, "serverHost": "127.0.0.1", "serverPort": 27017} [pymongo.connection]
-2026-01-18 17:32:09 [debug    ] {"message": "Server heartbeat started", "topologyId": {"$oid": "696d1919b43d3130d528d295"}, "driverConnectionId": 1, "serverHost": "127.0.0.1", "serverPort": 27017, "awaited": false} [pymongo.topology]
-2026-01-18 17:32:09 [debug    ] No explicit setting existed. Use localtime [tzlocal]
-2026-01-18 17:32:09 [debug    ] {"message": "Server heartbeat succeeded", "topologyId": {"$oid": "696d1919b43d3130d528d295"}, "driverConnectionId": 1, "serverConnectionId": 79, "serverHost": "127.0.0.1", "serverPort": 27017, "awaited": false, "durationMS": 3.9193880002130754, "reply": "{\"helloOk\": true, \"ismaster\": true, \"topologyVersion\": {\"processId\": {\"$oid\": \"696d05cc12be6ff437705972\"}}, \"maxBsonObjectSize\": 16777216, \"maxMessageSizeBytes\": 48000000, \"maxWriteBatchSize\": 100000, \"localTime\": {\"$date\": \"2026-01-18T17:32:09.369Z\"}, \"logicalSessionTimeoutMinutes\": 30, \"connectionId\": 79, \"maxWireVersion\": 25, \"ok\": 1.0}"} [pymongo.topology]
-2026-01-18 17:32:09 [debug    ] {"message": "Connection pool ready", "clientId": {"$oid": "696d1919b43d3130d528d295"}, "serverHost": "127.0.0.1", "serverPort": 27017} [pymongo.connection]
-2026-01-18 17:32:09 [debug    ] {"message": "Topology description changed", "topologyId": {"$oid": "696d1919b43d3130d528d295"}, "previousDescription": "<TopologyDescription id: 696d1919b43d3130d528d295, topology_type: Unknown, servers: [<ServerDescription ('127.0.0.1', 27017) server_type: Unknown, rtt: None>]>", "newDescription": "<TopologyDescription id: 696d1919b43d3130d528d295, topology_type: Single, servers: [<ServerDescription ('127.0.0.1', 27017) server_type: Standalone, rtt: 0.003919388000213075>]>"} [pymongo.topology]
-2026-01-18 17:32:09 [debug    ] {"message": "Server heartbeat started", "topologyId": {"$oid": "696d1919b43d3130d528d295"}, "driverConnectionId": 1, "serverConnectionId": 79, "serverHost": "127.0.0.1", "serverPort": 27017, "awaited": true} [pymongo.topology]
-2026-01-18 17:32:09 [debug    ] {"message": "Starting topology monitoring", "topologyId": {"$oid": "696d1919b43d3130d528d296"}} [pymongo.topology]
-2026-01-18 17:32:09 [debug    ] {"message": "Topology description changed", "topologyId": {"$oid": "696d1919b43d3130d528d296"}, "previousDescription": "<TopologyDescription id: 696d1919b43d3130d528d296, topology_type: Unknown, servers: []>", "newDescription": "<TopologyDescription id: 696d1919b43d3130d528d296, topology_type: Unknown, servers: [<ServerDescription ('127.0.0.1', 27017) server_type: Unknown, rtt: None>]>"} [pymongo.topology]
-2026-01-18 17:32:09 [debug    ] {"message": "Starting server monitoring", "topologyId": {"$oid": "696d1919b43d3130d528d296"}, "serverHost": "127.0.0.1", "serverPort": 27017} [pymongo.topology]
-2026-01-18 17:32:09 [debug    ] Loading module rest...         [__main__]
-2026-01-18 17:32:09 [debug    ] Loading module op...           [__main__]
-2026-01-18 17:32:09 [debug    ] Registering handler ListJobsHandler... [__main__]
-2026-01-18 17:32:09 [debug    ] Registering handler StopJobsHandler... [__main__]
-2026-01-18 17:32:09 [debug    ] Registering handler KillSwitchHandler... [__main__]
-2026-01-18 17:32:09 [debug    ] Registering handler OpBannerHandler... [__main__]
-2026-01-18 17:32:09 [debug    ] Registering handler OpCaptchaHandler... [__main__]
-2026-01-18 17:32:09 [debug    ] Registering handler ButtonsTestHandler... [__main__]
-2026-01-18 17:32:09 [debug    ] Registering handler EventHandler... [__main__]
-2026-01-18 17:32:09 [debug    ] Registering handler StatsHandler... [__main__]
-2026-01-18 17:32:09 [debug    ] Loading module troubleshooters... [__main__]
-2026-01-18 17:32:09 [debug    ] Registering handler CancelCallbackHandler... [__main__]
-2026-01-18 17:32:09 [debug    ] Registering handler TypedCancelCallbackHandler... [__main__]
-2026-01-18 17:32:09 [debug    ] Loading module error...        [__main__]
-2026-01-18 17:32:09 [debug    ] Loading module users...        [__main__]
-2026-01-18 17:32:09 [debug    ] Registering handler ShowIDHandler... [__main__]
-2026-01-18 17:32:09 [debug    ] Registering handler AdminListHandler... [__main__]
-2026-01-18 17:32:09 [debug    ] Registering handler UserInfoHandler... [__main__]
-2026-01-18 17:32:09 [debug    ] Loading module notes...        [__main__]
-2026-01-18 17:32:09 [debug    ] Loading module help...         [__main__]
-2026-01-18 17:32:09 [debug    ] Registering handler StartPMHandler... [__main__]
-2026-01-18 17:32:09 [debug    ] Registering handler HelpGroupHandler... [__main__]
-2026-01-18 17:32:09 [debug    ] Registering handler PMModulesList... [__main__]
-2026-01-18 17:32:09 [debug    ] Registering handler StartGroupHandler... [__main__]
-2026-01-18 17:32:09 [debug    ] Loading module federations...  [__main__]
-2026-01-18 17:32:09 [debug    ] Registering handler CreateFederationHandler... [__main__]
-2026-01-18 17:32:09 [debug    ] Registering handler JoinFederationHandler... [__main__]
-2026-01-18 17:32:09 [debug    ] Registering handler LeaveFederationHandler... [__main__]
-2026-01-18 17:32:09 [debug    ] Registering handler FederationInfoHandler... [__main__]
-2026-01-18 17:32:09 [debug    ] Registering handler FederationBanHandler... [__main__]
-2026-01-18 17:32:09 [debug    ] Registering handler FederationUnbanHandler... [__main__]
-2026-01-18 17:32:09 [debug    ] Registering handler FederationBanListHandler... [__main__]
-2026-01-18 17:32:09 [debug    ] Registering handler TransferOwnershipHandler... [__main__]
-2026-01-18 17:32:09 [debug    ] Registering handler AcceptTransferHandler... [__main__]
-2026-01-18 17:32:09 [debug    ] Registering handler SetFederationLogHandler... [__main__]
-2026-01-18 17:32:09 [debug    ] Registering handler UnsetFederationLogHandler... [__main__]
-2026-01-18 17:32:09 [debug    ] Registering handler SubscribeFederationHandler... [__main__]
-2026-01-18 17:32:09 [debug    ] Registering handler UnsubscribeFederationHandler... [__main__]
-2026-01-18 17:32:09 [debug    ] Loading module privacy...      [__main__]
-2026-01-18 17:32:09 [debug    ] Loading module disabling...    [__main__]
-2026-01-18 17:32:09 [debug    ] Loading module rules...        [__main__]
-2026-01-18 17:32:09 [debug    ] Registering handler SetRulesHandler... [__main__]
-2026-01-18 17:32:09 [debug    ] Registering handler GetRulesHandler... [__main__]
-2026-01-18 17:32:09 [debug    ] Registering handler ResetRulesHandler... [__main__]
-2026-01-18 17:32:09 [debug    ] Registering handler LegacyRulesButton... [__main__]
-2026-01-18 17:32:09 [debug    ] Loading module promotes...     [__main__]
-2026-01-18 17:32:09 [debug    ] Registering handler PromoteUserHandler... [__main__]
-2026-01-18 17:32:09 [debug    ] Registering handler DemoteUserHandler... [__main__]
-2026-01-18 17:32:09 [debug    ] Loading module greetings...    [__main__]
-2026-01-18 17:32:09 [debug    ] Registering handler EnableWelcomeHandlerABC... [__main__]
-2026-01-18 17:32:09 [debug    ] Registering handler SetWelcomeMessageHandler... [__main__]
-2026-01-18 17:32:09 [debug    ] Registering handler SetJoinRequestMessageHandler... [__main__]
-2026-01-18 17:32:09 [debug    ] Registering handler DelJoinRequestMessageHandler... [__main__]
-2026-01-18 17:32:09 [debug    ] Registering handler WelcomeSettingsShowHandler... [__main__]
-2026-01-18 17:32:09 [debug    ] Registering handler CleanServiceHandlerABC... [__main__]
-2026-01-18 17:32:09 [debug    ] Registering handler CleanWelcomeHandlerABC... [__main__]
-2026-01-18 17:32:09 [debug    ] Loading module welcomesecurity... [__main__]
-2026-01-18 17:32:09 [debug    ] Registering handler CaptchaGetHandler... [__main__]
-2026-01-18 17:32:09 [debug    ] Registering handler LegacyWSButtonHandler... [__main__]
-2026-01-18 17:32:09 [debug    ] Registering handler CaptchaConfirmHandler... [__main__]
-2026-01-18 17:32:09 [debug    ] Registering handler ChatJoinRequestHandler... [__main__]
-2026-01-18 17:32:09 [debug    ] Registering handler EnableWelcomeCaptchaHandlerABC... [__main__]
-2026-01-18 17:32:09 [debug    ] Registering handler EnableWelcomeMute... [__main__]
-2026-01-18 17:32:09 [debug    ] Registering handler WelcomeSecuritySettingsShowHandler... [__main__]
-2026-01-18 17:32:09 [debug    ] Registering handler LegacyStableWSButtonRedirectHandler... [__main__]
-2026-01-18 17:32:09 [debug    ] Loading module purges...       [__main__]
-2026-01-18 17:32:09 [debug    ] Registering handler DelMsgCmdHandler... [__main__]
-2026-01-18 17:32:09 [debug    ] Registering handler PurgeMessagesHandler... [__main__]
-2026-01-18 17:32:09 [debug    ] Registering handler LegacyDelMsgButton... [__main__]
-2026-01-18 17:32:09 [debug    ] Loading module warns...        [__main__]
-2026-01-18 17:32:09 [debug    ] Loading module restrictions... [__main__]
-2026-01-18 17:32:09 [debug    ] Registering handler KickUserHandler... [__main__]
-2026-01-18 17:32:09 [debug    ] Registering handler BanUserHandler... [__main__]
-2026-01-18 17:32:09 [debug    ] Registering handler TempBanUserHandler... [__main__]
-2026-01-18 17:32:09 [debug    ] Registering handler MuteUserHandler... [__main__]
-2026-01-18 17:32:09 [debug    ] Registering handler TempMuteUserHandler... [__main__]
-2026-01-18 17:32:09 [debug    ] Registering handler UnmuteUserHandler... [__main__]
-2026-01-18 17:32:09 [debug    ] Registering handler UnbanUserHandler... [__main__]
-2026-01-18 17:32:09 [debug    ] Loading module reports...      [__main__]
-2026-01-18 17:32:09 [debug    ] Registering handler ReportHandler... [__main__]
-2026-01-18 17:32:09 [debug    ] Loading module pins...         [__main__]
-2026-01-18 17:32:09 [debug    ] Registering handler PinHandler... [__main__]
-2026-01-18 17:32:09 [debug    ] Registering handler UnpinHandler... [__main__]
-2026-01-18 17:32:09 [debug    ] Loading module ai...           [__main__]
-2026-01-18 17:32:09 [debug    ] Registering handler EnableAI... [__main__]
-2026-01-18 17:32:09 [debug    ] Registering handler AIModerator... [__main__]
-2026-01-18 17:32:09 [debug    ] Registering handler AIAutotrans... [__main__]
-2026-01-18 17:32:09 [debug    ] Registering handler AIProviderSetting... [__main__]
-2026-01-18 17:32:09 [debug    ] Registering handler AIProviderSettingAlt... [__main__]
-2026-01-18 17:32:09 [debug    ] Registering handler AIProviderSelectCallback... [__main__]
-2026-01-18 17:32:09 [debug    ] Registering handler AIPlaygroundCmd... [__main__]
-2026-01-18 17:32:09 [debug    ] Registering handler AIPlaygroundModelSelectCallback... [__main__]
-2026-01-18 17:32:09 [debug    ] Registering handler AiPmInitialize... [__main__]
-2026-01-18 17:32:09 [debug    ] Loading module filters...      [__main__]
-2026-01-18 17:32:09 [debug    ] Registering handler FilterNewHandler... [__main__]
-2026-01-18 17:32:09 [debug    ] Registering handler ActionsListHandler... [__main__]
-2026-01-18 17:32:09 [debug    ] Registering handler ActionSetupConfirmHandler... [__main__]
-2026-01-18 17:32:09 [debug    ] Registering handler ActionSelectHandler... [__main__]
-2026-01-18 17:32:09 [debug    ] Registering handler FilterConfirmHandler... [__main__]
-2026-01-18 17:32:09 [debug    ] Registering handler FilterSaveHandler... [__main__]
-2026-01-18 17:32:09 [debug    ] Registering handler ActionSettingSelectHandler... [__main__]
-2026-01-18 17:32:09 [debug    ] Registering handler FiltersListHandler... [__main__]
-2026-01-18 17:32:09 [debug    ] Registering handler FilterDeleteHandler... [__main__]
-2026-01-18 17:32:09 [debug    ] Registering handler ActionsListToRemoveHandler... [__main__]
-2026-01-18 17:32:09 [debug    ] Registering handler ActionRemoveHandler... [__main__]
-2026-01-18 17:32:09 [debug    ] Registering handler FilterEditHandler... [__main__]
-2026-01-18 17:32:09 [debug    ] Registering handler ActionChangeSettingConfirm... [__main__]
-2026-01-18 17:32:09 [debug    ] Loading module antiflood...    [__main__]
-2026-01-18 17:32:09 [debug    ] Registering handler AntifloodSetting... [__main__]
-2026-01-18 17:32:09 [debug    ] Loading module language...     [__main__]
-2026-01-18 17:32:09 [debug    ] Loading module connections...  [__main__]
-2026-01-18 17:32:09 [debug    ] Registering handler ConnectDMCmd... [__main__]
-2026-01-18 17:32:09 [debug    ] Registering handler ConnectGroupCmd... [__main__]
-2026-01-18 17:32:09 [debug    ] Registering handler ConnectCallback... [__main__]
-2026-01-18 17:32:09 [debug    ] Registering handler StartConnectHandler... [__main__]
-2026-01-18 17:32:09 [debug    ] Registering handler DisconnectCmd... [__main__]
-2026-01-18 17:32:09 [debug    ] Registering handler AllowUsersConnectCmd... [__main__]
-2026-01-18 17:32:09 [debug    ] gather_module_help: sophie_bot.modules.op [__main__] name=op emoji=? advertise_wiki_page=False
-2026-01-18 17:32:09 [debug    ] gather_cmds_help: op           [__main__] cmds=['op_listjobs', 'op_stopjobs', 'op_killswitch', 'op_banner', 'op_captcha', 'op_buttons', 'event', 'stats']
-2026-01-18 17:32:09 [debug    ] gather_module_help: sophie_bot.modules.troubleshooters [__main__] name=<sophie_bot.utils.i18n.LazyProxy object at 0x7f5283b27dd0> emoji=🧰 advertise_wiki_page=False
-2026-01-18 17:32:09 [debug    ] gather_cmds_help: troubleshooters [__main__] cmds=['enablebeta', 'enablebeta', 'op_setbeta', 'op_resetbeta', 'cancel', 'admincache']
-2026-01-18 17:32:09 [debug    ] gather_module_help: sophie_bot.modules.error [__main__] name=<sophie_bot.utils.i18n.LazyProxy object at 0x7f5283bdacf0> emoji=🚫 advertise_wiki_page=False
-2026-01-18 17:32:09 [debug    ] gather_cmds_help: error        [__main__] cmds=['op_crash']
-2026-01-18 17:32:09 [debug    ] gather_module_help: sophie_bot.modules.users [__main__] name=<sophie_bot.utils.i18n.LazyProxy object at 0x7f527c0fa2d0> emoji=🫂 advertise_wiki_page=False
-2026-01-18 17:32:09 [debug    ] gather_cmds_help: users        [__main__] cmds=['id', 'adminlist', 'admins', 'info']
-2026-01-18 17:32:09 [debug    ] gather_module_help: sophie_bot.modules.notes [__main__] name=<sophie_bot.utils.i18n.LazyProxy object at 0x7f527d806810> emoji=📗 advertise_wiki_page=True
-2026-01-18 17:32:09 [debug    ] gather_cmds_help: notes        [__main__] cmds=['pmnotes', 'privatenotes', 'pmnotes', 'privatenotes', 'notes', 'saved', 'notelist', 'get', 'search', 'delnote', 'clear', 'save', 'addnote']
-2026-01-18 17:32:09 [debug    ] gather_module_help: sophie_bot.modules.help [__main__] name=<sophie_bot.utils.i18n.LazyProxy object at 0x7f5284d4ac90> emoji=ℹ️ advertise_wiki_page=False
-2026-01-18 17:32:09 [debug    ] gather_cmds_help: info         [__main__] cmds=['help', 'help', 'start', 'op_cmds']
-2026-01-18 17:32:09 [debug    ] gather_module_help: sophie_bot.modules.federations [__main__] name=<sophie_bot.utils.i18n.LazyProxy object at 0x7f527c0fa750> emoji=🏛 advertise_wiki_page=False
-2026-01-18 17:32:09 [debug    ] gather_cmds_help: federations  [__main__] cmds=['newfed', 'fnew', 'joinfed', 'fjoin', 'leavefed', 'fleave', 'fedinfo', 'finfo', 'fban', 'sfban', 'unfban', 'funban', 'fbanlist', 'exportfbans', 'fexport', 'transferfed', 'ftransfer', 'accepttransfer', 'fsetlog', 'setfedlog', 'funsetlog', 'unsetfedlog', 'fsub', 'funsub']
-2026-01-18 17:32:09 [debug    ] gather_module_help: sophie_bot.modules.privacy [__main__] name=<sophie_bot.utils.i18n.LazyProxy object at 0x7f5284d4b770> emoji=🕵️‍♂️️ advertise_wiki_page=False
-2026-01-18 17:32:09 [debug    ] gather_cmds_help: info         [__main__] cmds=['privacy', 'export']
-2026-01-18 17:32:09 [debug    ] gather_module_help: sophie_bot.modules.disabling [__main__] name=<sophie_bot.utils.i18n.LazyProxy object at 0x7f52755323f0> emoji=🚫 advertise_wiki_page=False
-2026-01-18 17:32:09 [debug    ] gather_cmds_help: Disable      [__main__] cmds=['disableable', 'disabled', 'disable', 'enable', 'enableall']
-2026-01-18 17:32:09 [debug    ] gather_module_help: sophie_bot.modules.rules [__main__] name=<sophie_bot.utils.i18n.LazyProxy object at 0x7f5275533230> emoji=🪧 advertise_wiki_page=False
-2026-01-18 17:32:09 [debug    ] gather_cmds_help: rules        [__main__] cmds=['setrules', 'rules', 'resetrules']
-2026-01-18 17:32:09 [debug    ] gather_module_help: sophie_bot.modules.promotes [__main__] name=<sophie_bot.utils.i18n.LazyProxy object at 0x7f5275533b90> emoji=⭐️ advertise_wiki_page=False
-2026-01-18 17:32:09 [debug    ] gather_cmds_help: promotes     [__main__] cmds=['promote', 'demote']
-2026-01-18 17:32:09 [debug    ] gather_module_help: sophie_bot.modules.greetings [__main__] name=<sophie_bot.utils.i18n.LazyProxy object at 0x7f527c00e750> emoji=🙋‍♂️ advertise_wiki_page=False
-2026-01-18 17:32:09 [debug    ] gather_cmds_help: greetings    [__main__] cmds=['enablewelcome', 'setwelcome', 'setjoinrequest', 'deljoinrequest', 'welcome', 'cleanservice', 'cleanwelcome']
-2026-01-18 17:32:09 [debug    ] gather_module_help: sophie_bot.modules.welcomesecurity [__main__] name=<sophie_bot.utils.i18n.LazyProxy object at 0x7f527d806c30> emoji=🛡️ advertise_wiki_page=False
-2026-01-18 17:32:09 [debug    ] gather_cmds_help: welcomesecurity [__main__] cmds=['welcomecaptcha', 'enablewelcomecaptcha', 'welcomerestrict', 'welcomesecurity']
-2026-01-18 17:32:09 [debug    ] gather_module_help: sophie_bot.modules.purges [__main__] name=<sophie_bot.utils.i18n.LazyProxy object at 0x7f5275533fb0> emoji=🗑 advertise_wiki_page=False
-2026-01-18 17:32:09 [debug    ] gather_cmds_help: purges       [__main__] cmds=['delete', 'del', 'purge']
-2026-01-18 17:32:09 [debug    ] gather_module_help: sophie_bot.modules.warns [__main__] name=<sophie_bot.utils.i18n.LazyProxy object at 0x7f5275580950> emoji=⚠️ advertise_wiki_page=False
-2026-01-18 17:32:09 [debug    ] gather_cmds_help: warns        [__main__] cmds=['warn']
-2026-01-18 17:32:09 [debug    ] gather_module_help: sophie_bot.modules.restrictions [__main__] name=<sophie_bot.utils.i18n.LazyProxy object at 0x7f527c05c170> emoji=🛑 advertise_wiki_page=False
-2026-01-18 17:32:09 [debug    ] gather_cmds_help: restrictions [__main__] cmds=['kick', 'ban', 'tban', 'mute', 'tmute', 'unmute', 'unban']
-2026-01-18 17:32:09 [debug    ] gather_module_help: sophie_bot.modules.reports [__main__] name=reports emoji=? advertise_wiki_page=False
-2026-01-18 17:32:09 [debug    ] gather_cmds_help: reports      [__main__] cmds=[]
-2026-01-18 17:32:09 [debug    ] gather_module_help: sophie_bot.modules.pins [__main__] name=pins emoji=? advertise_wiki_page=False
-2026-01-18 17:32:09 [debug    ] gather_cmds_help: pins         [__main__] cmds=['pin', 'unpin']
-2026-01-18 17:32:09 [debug    ] gather_module_help: sophie_bot.modules.ai [__main__] name=<sophie_bot.utils.i18n.LazyProxy object at 0x7f52852fd010> emoji=✨ advertise_wiki_page=False
-2026-01-18 17:32:09 [debug    ] gather_cmds_help: ai           [__main__] cmds=['enableai', 'aienable', 'aimoderator', 'aiautotranslate', 'autotranslate', 'aiprovider', 'ai', 'aisave', 'aireset', 'aitranslate', 'translate', 'tr', 'ai', 'op_aistats']
-2026-01-18 17:32:09 [debug    ] gather_module_help: sophie_bot.modules.filters [__main__] name=<sophie_bot.utils.i18n.LazyProxy object at 0x7f52839913d0> emoji=🪄 advertise_wiki_page=True
-2026-01-18 17:32:09 [debug    ] gather_cmds_help: filters      [__main__] cmds=['addfilter', 'newfilter', 'filters', 'delfilter', 'editfilter']
-2026-01-18 17:32:09 [debug    ] gather_module_help: sophie_bot.modules.antiflood [__main__] name=<sophie_bot.utils.i18n.LazyProxy object at 0x7f52755825d0> emoji=📈 advertise_wiki_page=False
-2026-01-18 17:32:09 [debug    ] gather_cmds_help: antiflood    [__main__] cmds=['antiflood', 'flood']
-2026-01-18 17:32:09 [debug    ] gather_module_help: sophie_bot.modules.language [__main__] name=language emoji=? advertise_wiki_page=False
-2026-01-18 17:32:09 [debug    ] gather_cmds_help: language     [__main__] cmds=[]
-2026-01-18 17:32:09 [debug    ] gather_module_help: sophie_bot.modules.connections [__main__] name=connections emoji=? advertise_wiki_page=False
-2026-01-18 17:32:09 [debug    ] gather_cmds_help: connections  [__main__] cmds=['connect', 'connect', 'disconnect', 'allowusersconnect']
-2026-01-18 17:32:09 [debug    ] Modern filter actions: Adding new action... [__main__] name=reply module=notes
-2026-01-18 17:32:09 [debug    ] Modern filter actions: Adding new action... [__main__] name=send_note module=notes
-2026-01-18 17:32:09 [debug    ] Modern filter actions: Adding new action... [__main__] name=send_rules module=rules
-2026-01-18 17:32:09 [debug    ] Modern filter actions: Adding new action... [__main__] name=delmsg module=purges
-2026-01-18 17:32:09 [debug    ] Modern filter actions: Adding new action... [__main__] name=warn_user module=warns
-2026-01-18 17:32:09 [debug    ] Modern filter actions: Adding new action... [__main__] name=kick_user module=restrictions
-2026-01-18 17:32:09 [debug    ] Modern filter actions: Adding new action... [__main__] name=ban_user module=restrictions
-2026-01-18 17:32:09 [debug    ] Modern filter actions: Adding new action... [__main__] name=mute_user module=restrictions
-2026-01-18 17:32:09 [debug    ] Modern filter actions: Adding new action... [__main__] name=ai_text module=ai
-2026-01-18 17:32:09 [debug    ] Legacy filters: Filters actions [__main__] actions={}
-2026-01-18 17:32:09 [info     ] Loaded modules - rest, op, troubleshooters, error, users, notes, help, federations, privacy, disabling, rules, promotes, greetings, welcomesecurity, purges, warns, restrictions, reports, pins, ai, filters, antiflood, language, connections [__main__]
-2026-01-18 17:32:09 [info     ] OpenAPI documentation generated to openapi.json [__main__]
-2026-01-18 17:32:09 [debug    ] Using selector: EpollSelector  [asyncio]
-2026-01-18 17:32:09 [debug    ] {"message": "Server heartbeat failed", "topologyId": {"$oid": "696d1919b43d3130d528d295"}, "serverHost": "127.0.0.1", "serverPort": 27017, "awaited": true, "durationMS": 500.85498000044026, "failure": "\"_OperationCancelled('operation cancelled')\"", "driverConnectionId": 1} [pymongo.topology]
+2026-01-18 20:45:09 [info     ] Starting OpenAPI generation task... [__main__]
+2026-01-18 20:45:09 [debug    ] Using selector: EpollSelector  [asyncio]
+2026-01-18 20:45:09 [info     ] Importing modules...           [__main__]
+2026-01-18 20:45:09 [debug    ] Loading all modules...         [__main__] modules=['troubleshooters', 'rest', 'op', 'error', 'users', 'notes', 'help', 'federations', 'privacy', 'disabling', 'rules', 'promotes', 'greetings', 'welcomesecurity', 'purges', 'warns', 'restrictions', 'reports', 'pins', 'ai', 'filters', 'antiflood', 'language', 'connections']
+2026-01-18 20:45:10 [info     ] Using BotAPI server: TelegramAPIServer(base='https://api.telegram.org/bot{token}/{method}', file='https://api.telegram.org/file/bot{token}/{path}', is_local=False, wrap_local_file=<aiogram.client.telegram.BareFilesPathWrapper object at 0x7ff376c1dfd0>) [__main__]
+2026-01-18 20:45:10 [debug    ] Loading locales additional data... [__main__]
+2026-01-18 20:45:10 [debug    ] ! Can't parse stats for locale ar_EG! [__main__]
+2026-01-18 20:45:10 [debug    ] ! Can't parse stats for locale ar_SA! [__main__]
+2026-01-18 20:45:10 [debug    ] ! Can't parse stats for locale cs_CZ! [__main__]
+2026-01-18 20:45:10 [debug    ] ! Can't parse stats for locale de_DE! [__main__]
+2026-01-18 20:45:10 [debug    ] ! Can't parse stats for locale en_US! [__main__]
+2026-01-18 20:45:10 [debug    ] ! Can't parse stats for locale es_ES! [__main__]
+2026-01-18 20:45:10 [debug    ] ! Can't parse stats for locale fr_FR! [__main__]
+2026-01-18 20:45:10 [debug    ] ! Can't parse stats for locale pl_PL! [__main__]
+2026-01-18 20:45:10 [debug    ] ! Can't parse stats for locale pt_BR! [__main__]
+2026-01-18 20:45:10 [debug    ] ! Can't parse stats for locale ru_RU! [__main__]
+2026-01-18 20:45:10 [debug    ] ! Can't parse stats for locale tr_TR! [__main__]
+2026-01-18 20:45:10 [debug    ] ! Can't parse stats for locale uk_UA! [__main__]
+2026-01-18 20:45:10 [debug    ] ! Can't parse stats for locale zh_CN! [__main__]
+2026-01-18 20:45:10 [debug    ] ! Can't parse stats for locale en_GB! [__main__]
+2026-01-18 20:45:10 [debug    ] ! Can't parse stats for locale fi_FI! [__main__]
+2026-01-18 20:45:10 [debug    ] ! Module rest has no router!   [__main__]
+2026-01-18 20:45:10 [debug    ] Using selector: EpollSelector  [asyncio]
+2026-01-18 20:45:10 [debug    ] {"message": "Starting topology monitoring", "topologyId": {"$oid": "696d4656eb9e7f1344c9a234"}} [pymongo.topology]
+2026-01-18 20:45:10 [debug    ] {"message": "Topology description changed", "topologyId": {"$oid": "696d4656eb9e7f1344c9a234"}, "previousDescription": "<TopologyDescription id: 696d4656eb9e7f1344c9a234, topology_type: Unknown, servers: []>", "newDescription": "<TopologyDescription id: 696d4656eb9e7f1344c9a234, topology_type: Unknown, servers: [<ServerDescription ('127.0.0.1', 27017) server_type: Unknown, rtt: None>]>"} [pymongo.topology]
+2026-01-18 20:45:10 [debug    ] {"message": "Starting server monitoring", "topologyId": {"$oid": "696d4656eb9e7f1344c9a234"}, "serverHost": "127.0.0.1", "serverPort": 27017} [pymongo.topology]
+2026-01-18 20:45:10 [debug    ] {"message": "Connection pool created", "clientId": {"$oid": "696d4656eb9e7f1344c9a234"}, "serverHost": "127.0.0.1", "serverPort": 27017} [pymongo.connection]
+2026-01-18 20:45:10 [debug    ] {"message": "Server heartbeat started", "topologyId": {"$oid": "696d4656eb9e7f1344c9a234"}, "driverConnectionId": 1, "serverHost": "127.0.0.1", "serverPort": 27017, "awaited": false} [pymongo.topology]
+2026-01-18 20:45:10 [debug    ] No explicit setting existed. Use localtime [tzlocal]
+2026-01-18 20:45:10 [debug    ] {"message": "Server heartbeat succeeded", "topologyId": {"$oid": "696d4656eb9e7f1344c9a234"}, "driverConnectionId": 1, "serverConnectionId": 175, "serverHost": "127.0.0.1", "serverPort": 27017, "awaited": false, "durationMS": 4.246906002663309, "reply": "{\"helloOk\": true, \"ismaster\": true, \"topologyVersion\": {\"processId\": {\"$oid\": \"696d05cc12be6ff437705972\"}}, \"maxBsonObjectSize\": 16777216, \"maxMessageSizeBytes\": 48000000, \"maxWriteBatchSize\": 100000, \"localTime\": {\"$date\": \"2026-01-18T20:45:10.861Z\"}, \"logicalSessionTimeoutMinutes\": 30, \"connectionId\": 175, \"maxWireVersion\": 25, \"ok\": 1.0}"} [pymongo.topology]
+2026-01-18 20:45:10 [debug    ] {"message": "Connection pool ready", "clientId": {"$oid": "696d4656eb9e7f1344c9a234"}, "serverHost": "127.0.0.1", "serverPort": 27017} [pymongo.connection]
+2026-01-18 20:45:10 [debug    ] {"message": "Topology description changed", "topologyId": {"$oid": "696d4656eb9e7f1344c9a234"}, "previousDescription": "<TopologyDescription id: 696d4656eb9e7f1344c9a234, topology_type: Unknown, servers: [<ServerDescription ('127.0.0.1', 27017) server_type: Unknown, rtt: None>]>", "newDescription": "<TopologyDescription id: 696d4656eb9e7f1344c9a234, topology_type: Single, servers: [<ServerDescription ('127.0.0.1', 27017) server_type: Standalone, rtt: 0.004246906002663309>]>"} [pymongo.topology]
+2026-01-18 20:45:10 [debug    ] {"message": "Server heartbeat started", "topologyId": {"$oid": "696d4656eb9e7f1344c9a234"}, "driverConnectionId": 1, "serverConnectionId": 175, "serverHost": "127.0.0.1", "serverPort": 27017, "awaited": true} [pymongo.topology]
+2026-01-18 20:45:10 [debug    ] {"message": "Starting topology monitoring", "topologyId": {"$oid": "696d4656eb9e7f1344c9a235"}} [pymongo.topology]
+2026-01-18 20:45:10 [debug    ] {"message": "Topology description changed", "topologyId": {"$oid": "696d4656eb9e7f1344c9a235"}, "previousDescription": "<TopologyDescription id: 696d4656eb9e7f1344c9a235, topology_type: Unknown, servers: []>", "newDescription": "<TopologyDescription id: 696d4656eb9e7f1344c9a235, topology_type: Unknown, servers: [<ServerDescription ('127.0.0.1', 27017) server_type: Unknown, rtt: None>]>"} [pymongo.topology]
+2026-01-18 20:45:10 [debug    ] {"message": "Starting server monitoring", "topologyId": {"$oid": "696d4656eb9e7f1344c9a235"}, "serverHost": "127.0.0.1", "serverPort": 27017} [pymongo.topology]
+2026-01-18 20:45:10 [debug    ] Loading module troubleshooters... [__main__]
+2026-01-18 20:45:10 [debug    ] Registering handler CancelCallbackHandler... [__main__]
+2026-01-18 20:45:10 [debug    ] Registering handler TypedCancelCallbackHandler... [__main__]
+2026-01-18 20:45:10 [debug    ] Loading module rest...         [__main__]
+2026-01-18 20:45:10 [debug    ] Loading module op...           [__main__]
+2026-01-18 20:45:10 [debug    ] Registering handler ListJobsHandler... [__main__]
+2026-01-18 20:45:10 [debug    ] Registering handler StopJobsHandler... [__main__]
+2026-01-18 20:45:10 [debug    ] Registering handler KillSwitchHandler... [__main__]
+2026-01-18 20:45:10 [debug    ] Registering handler OpBannerHandler... [__main__]
+2026-01-18 20:45:10 [debug    ] Registering handler OpCaptchaHandler... [__main__]
+2026-01-18 20:45:10 [debug    ] Registering handler ButtonsTestHandler... [__main__]
+2026-01-18 20:45:10 [debug    ] Registering handler EventHandler... [__main__]
+2026-01-18 20:45:10 [debug    ] Registering handler StatsHandler... [__main__]
+2026-01-18 20:45:10 [debug    ] Loading module error...        [__main__]
+2026-01-18 20:45:10 [debug    ] Loading module users...        [__main__]
+2026-01-18 20:45:10 [debug    ] Registering handler ShowIDHandler... [__main__]
+2026-01-18 20:45:10 [debug    ] Registering handler AdminListHandler... [__main__]
+2026-01-18 20:45:10 [debug    ] Registering handler UserInfoHandler... [__main__]
+2026-01-18 20:45:10 [debug    ] Loading module notes...        [__main__]
+2026-01-18 20:45:10 [debug    ] Loading module help...         [__main__]
+2026-01-18 20:45:10 [debug    ] Registering handler StartPMHandler... [__main__]
+2026-01-18 20:45:10 [debug    ] Registering handler HelpGroupHandler... [__main__]
+2026-01-18 20:45:10 [debug    ] Registering handler PMModulesList... [__main__]
+2026-01-18 20:45:10 [debug    ] Registering handler StartGroupHandler... [__main__]
+2026-01-18 20:45:10 [debug    ] Loading module federations...  [__main__]
+2026-01-18 20:45:10 [debug    ] Registering handler CreateFederationHandler... [__main__]
+2026-01-18 20:45:10 [debug    ] Registering handler JoinFederationHandler... [__main__]
+2026-01-18 20:45:10 [debug    ] Registering handler LeaveFederationHandler... [__main__]
+2026-01-18 20:45:10 [debug    ] Registering handler FederationInfoHandler... [__main__]
+2026-01-18 20:45:10 [debug    ] Registering handler FederationBanHandler... [__main__]
+2026-01-18 20:45:10 [debug    ] Registering handler FederationUnbanHandler... [__main__]
+2026-01-18 20:45:10 [debug    ] Registering handler FederationBanListHandler... [__main__]
+2026-01-18 20:45:10 [debug    ] Registering handler TransferOwnershipHandler... [__main__]
+2026-01-18 20:45:10 [debug    ] Registering handler AcceptTransferHandler... [__main__]
+2026-01-18 20:45:10 [debug    ] Registering handler SetFederationLogHandler... [__main__]
+2026-01-18 20:45:10 [debug    ] Registering handler UnsetFederationLogHandler... [__main__]
+2026-01-18 20:45:10 [debug    ] Registering handler SubscribeFederationHandler... [__main__]
+2026-01-18 20:45:10 [debug    ] Registering handler UnsubscribeFederationHandler... [__main__]
+2026-01-18 20:45:10 [debug    ] Loading module privacy...      [__main__]
+2026-01-18 20:45:10 [debug    ] Loading module disabling...    [__main__]
+2026-01-18 20:45:10 [debug    ] Loading module rules...        [__main__]
+2026-01-18 20:45:10 [debug    ] Registering handler SetRulesHandler... [__main__]
+2026-01-18 20:45:10 [debug    ] Registering handler GetRulesHandler... [__main__]
+2026-01-18 20:45:10 [debug    ] Registering handler ResetRulesHandler... [__main__]
+2026-01-18 20:45:10 [debug    ] Registering handler LegacyRulesButton... [__main__]
+2026-01-18 20:45:10 [debug    ] Loading module promotes...     [__main__]
+2026-01-18 20:45:10 [debug    ] Registering handler PromoteUserHandler... [__main__]
+2026-01-18 20:45:10 [debug    ] Registering handler DemoteUserHandler... [__main__]
+2026-01-18 20:45:10 [debug    ] Loading module greetings...    [__main__]
+2026-01-18 20:45:10 [debug    ] Registering handler EnableWelcomeHandlerABC... [__main__]
+2026-01-18 20:45:10 [debug    ] Registering handler SetWelcomeMessageHandler... [__main__]
+2026-01-18 20:45:10 [debug    ] Registering handler SetJoinRequestMessageHandler... [__main__]
+2026-01-18 20:45:10 [debug    ] Registering handler DelJoinRequestMessageHandler... [__main__]
+2026-01-18 20:45:10 [debug    ] Registering handler WelcomeSettingsShowHandler... [__main__]
+2026-01-18 20:45:10 [debug    ] Registering handler CleanServiceHandlerABC... [__main__]
+2026-01-18 20:45:10 [debug    ] Registering handler CleanWelcomeHandlerABC... [__main__]
+2026-01-18 20:45:10 [debug    ] Loading module welcomesecurity... [__main__]
+2026-01-18 20:45:10 [debug    ] Registering handler CaptchaGetHandler... [__main__]
+2026-01-18 20:45:10 [debug    ] Registering handler LegacyWSButtonHandler... [__main__]
+2026-01-18 20:45:10 [debug    ] Registering handler CaptchaConfirmHandler... [__main__]
+2026-01-18 20:45:10 [debug    ] Registering handler ChatJoinRequestHandler... [__main__]
+2026-01-18 20:45:10 [debug    ] Registering handler EnableWelcomeCaptchaHandlerABC... [__main__]
+2026-01-18 20:45:10 [debug    ] Registering handler EnableWelcomeMute... [__main__]
+2026-01-18 20:45:10 [debug    ] Registering handler WelcomeSecuritySettingsShowHandler... [__main__]
+2026-01-18 20:45:10 [debug    ] Registering handler LegacyStableWSButtonRedirectHandler... [__main__]
+2026-01-18 20:45:10 [debug    ] Loading module purges...       [__main__]
+2026-01-18 20:45:10 [debug    ] Registering handler DelMsgCmdHandler... [__main__]
+2026-01-18 20:45:10 [debug    ] Registering handler PurgeMessagesHandler... [__main__]
+2026-01-18 20:45:10 [debug    ] Registering handler LegacyDelMsgButton... [__main__]
+2026-01-18 20:45:10 [debug    ] Loading module warns...        [__main__]
+2026-01-18 20:45:10 [debug    ] Loading module restrictions... [__main__]
+2026-01-18 20:45:10 [debug    ] Registering handler KickUserHandler... [__main__]
+2026-01-18 20:45:10 [debug    ] Registering handler BanUserHandler... [__main__]
+2026-01-18 20:45:10 [debug    ] Registering handler TempBanUserHandler... [__main__]
+2026-01-18 20:45:10 [debug    ] Registering handler MuteUserHandler... [__main__]
+2026-01-18 20:45:10 [debug    ] Registering handler TempMuteUserHandler... [__main__]
+2026-01-18 20:45:10 [debug    ] Registering handler UnmuteUserHandler... [__main__]
+2026-01-18 20:45:10 [debug    ] Registering handler UnbanUserHandler... [__main__]
+2026-01-18 20:45:10 [debug    ] Loading module reports...      [__main__]
+2026-01-18 20:45:10 [debug    ] Registering handler ReportHandler... [__main__]
+2026-01-18 20:45:10 [debug    ] Loading module pins...         [__main__]
+2026-01-18 20:45:10 [debug    ] Registering handler PinHandler... [__main__]
+2026-01-18 20:45:10 [debug    ] Registering handler UnpinHandler... [__main__]
+2026-01-18 20:45:10 [debug    ] Loading module ai...           [__main__]
+2026-01-18 20:45:10 [debug    ] Registering handler EnableAI... [__main__]
+2026-01-18 20:45:10 [debug    ] Registering handler AIModerator... [__main__]
+2026-01-18 20:45:10 [debug    ] Registering handler AIAutotrans... [__main__]
+2026-01-18 20:45:10 [debug    ] Registering handler AIProviderSetting... [__main__]
+2026-01-18 20:45:10 [debug    ] Registering handler AIProviderSettingAlt... [__main__]
+2026-01-18 20:45:10 [debug    ] Registering handler AIProviderSelectCallback... [__main__]
+2026-01-18 20:45:10 [debug    ] Registering handler AIPlaygroundCmd... [__main__]
+2026-01-18 20:45:10 [debug    ] Registering handler AIPlaygroundModelSelectCallback... [__main__]
+2026-01-18 20:45:10 [debug    ] Registering handler AiPmInitialize... [__main__]
+2026-01-18 20:45:10 [debug    ] Loading module filters...      [__main__]
+2026-01-18 20:45:10 [debug    ] Registering handler FilterNewHandler... [__main__]
+2026-01-18 20:45:10 [debug    ] Registering handler ActionsListHandler... [__main__]
+2026-01-18 20:45:10 [debug    ] Registering handler ActionSetupConfirmHandler... [__main__]
+2026-01-18 20:45:10 [debug    ] Registering handler ActionSelectHandler... [__main__]
+2026-01-18 20:45:10 [debug    ] Registering handler FilterConfirmHandler... [__main__]
+2026-01-18 20:45:10 [debug    ] Registering handler FilterSaveHandler... [__main__]
+2026-01-18 20:45:10 [debug    ] Registering handler ActionSettingSelectHandler... [__main__]
+2026-01-18 20:45:10 [debug    ] Registering handler FiltersListHandler... [__main__]
+2026-01-18 20:45:10 [debug    ] Registering handler FilterDeleteHandler... [__main__]
+2026-01-18 20:45:10 [debug    ] Registering handler ActionsListToRemoveHandler... [__main__]
+2026-01-18 20:45:10 [debug    ] Registering handler ActionRemoveHandler... [__main__]
+2026-01-18 20:45:10 [debug    ] Registering handler FilterEditHandler... [__main__]
+2026-01-18 20:45:10 [debug    ] Registering handler ActionChangeSettingConfirm... [__main__]
+2026-01-18 20:45:10 [debug    ] Loading module antiflood...    [__main__]
+2026-01-18 20:45:10 [debug    ] Registering handler AntifloodSetting... [__main__]
+2026-01-18 20:45:10 [debug    ] Loading module language...     [__main__]
+2026-01-18 20:45:10 [debug    ] Loading module connections...  [__main__]
+2026-01-18 20:45:10 [debug    ] Registering handler ConnectDMCmd... [__main__]
+2026-01-18 20:45:10 [debug    ] Registering handler ConnectGroupCmd... [__main__]
+2026-01-18 20:45:10 [debug    ] Registering handler ConnectCallback... [__main__]
+2026-01-18 20:45:10 [debug    ] Registering handler StartConnectHandler... [__main__]
+2026-01-18 20:45:10 [debug    ] Registering handler DisconnectCmd... [__main__]
+2026-01-18 20:45:10 [debug    ] Registering handler AllowUsersConnectCmd... [__main__]
+2026-01-18 20:45:10 [debug    ] gather_module_help: sophie_bot.modules.troubleshooters [__main__] name=<sophie_bot.utils.i18n.LazyProxy object at 0x7ff3749441d0> emoji=🧰 advertise_wiki_page=False
+2026-01-18 20:45:10 [debug    ] gather_cmds_help: troubleshooters [__main__] cmds=['enablebeta', 'enablebeta', 'op_setbeta', 'op_resetbeta', 'cancel', 'admincache']
+2026-01-18 20:45:10 [debug    ] gather_module_help: sophie_bot.modules.op [__main__] name=op emoji=? advertise_wiki_page=False
+2026-01-18 20:45:10 [debug    ] gather_cmds_help: op           [__main__] cmds=['op_listjobs', 'op_stopjobs', 'op_killswitch', 'op_banner', 'op_captcha', 'op_buttons', 'event', 'stats']
+2026-01-18 20:45:10 [debug    ] gather_module_help: sophie_bot.modules.error [__main__] name=<sophie_bot.utils.i18n.LazyProxy object at 0x7ff3717e22d0> emoji=🚫 advertise_wiki_page=False
+2026-01-18 20:45:10 [debug    ] gather_cmds_help: error        [__main__] cmds=['op_crash']
+2026-01-18 20:45:10 [debug    ] gather_module_help: sophie_bot.modules.users [__main__] name=<sophie_bot.utils.i18n.LazyProxy object at 0x7ff3687e84d0> emoji=🫂 advertise_wiki_page=False
+2026-01-18 20:45:10 [debug    ] gather_cmds_help: users        [__main__] cmds=['id', 'adminlist', 'admins', 'info']
+2026-01-18 20:45:10 [debug    ] gather_module_help: sophie_bot.modules.notes [__main__] name=<sophie_bot.utils.i18n.LazyProxy object at 0x7ff36b5f4a10> emoji=📗 advertise_wiki_page=True
+2026-01-18 20:45:10 [debug    ] gather_cmds_help: notes        [__main__] cmds=['pmnotes', 'privatenotes', 'pmnotes', 'privatenotes', 'notes', 'saved', 'notelist', 'get', 'search', 'delnote', 'clear', 'save', 'addnote']
+2026-01-18 20:45:10 [debug    ] gather_module_help: sophie_bot.modules.help [__main__] name=<sophie_bot.utils.i18n.LazyProxy object at 0x7ff3729522d0> emoji=ℹ️ advertise_wiki_page=False
+2026-01-18 20:45:10 [debug    ] gather_cmds_help: info         [__main__] cmds=['help', 'help', 'start', 'op_cmds']
+2026-01-18 20:45:10 [debug    ] gather_module_help: sophie_bot.modules.federations [__main__] name=<sophie_bot.utils.i18n.LazyProxy object at 0x7ff3687e8950> emoji=🏛 advertise_wiki_page=False
+2026-01-18 20:45:10 [debug    ] gather_cmds_help: federations  [__main__] cmds=['newfed', 'fnew', 'joinfed', 'fjoin', 'leavefed', 'fleave', 'fedinfo', 'finfo', 'fban', 'sfban', 'unfban', 'funban', 'fbanlist', 'exportfbans', 'fexport', 'transferfed', 'ftransfer', 'accepttransfer', 'fsetlog', 'setfedlog', 'funsetlog', 'unsetfedlog', 'fsub', 'funsub']
+2026-01-18 20:45:10 [debug    ] gather_module_help: sophie_bot.modules.privacy [__main__] name=<sophie_bot.utils.i18n.LazyProxy object at 0x7ff372952c30> emoji=🕵️‍♂️️ advertise_wiki_page=False
+2026-01-18 20:45:10 [debug    ] gather_cmds_help: info         [__main__] cmds=['privacy', 'export']
+2026-01-18 20:45:10 [debug    ] gather_module_help: sophie_bot.modules.disabling [__main__] name=<sophie_bot.utils.i18n.LazyProxy object at 0x7ff3686205f0> emoji=🚫 advertise_wiki_page=False
+2026-01-18 20:45:10 [debug    ] gather_cmds_help: Disable      [__main__] cmds=['disableable', 'disabled', 'disable', 'enable', 'enableall']
+2026-01-18 20:45:10 [debug    ] gather_module_help: sophie_bot.modules.rules [__main__] name=<sophie_bot.utils.i18n.LazyProxy object at 0x7ff368621e50> emoji=🪧 advertise_wiki_page=False
+2026-01-18 20:45:10 [debug    ] gather_cmds_help: rules        [__main__] cmds=['setrules', 'rules', 'resetrules']
+2026-01-18 20:45:10 [debug    ] gather_module_help: sophie_bot.modules.promotes [__main__] name=<sophie_bot.utils.i18n.LazyProxy object at 0x7ff368622c90> emoji=⭐️ advertise_wiki_page=False
+2026-01-18 20:45:10 [debug    ] gather_cmds_help: promotes     [__main__] cmds=['promote', 'demote']
+2026-01-18 20:45:10 [debug    ] gather_module_help: sophie_bot.modules.greetings [__main__] name=<sophie_bot.utils.i18n.LazyProxy object at 0x7ff36871c950> emoji=🙋‍♂️ advertise_wiki_page=False
+2026-01-18 20:45:10 [debug    ] gather_cmds_help: greetings    [__main__] cmds=['enablewelcome', 'setwelcome', 'setjoinrequest', 'deljoinrequest', 'welcome', 'cleanservice', 'cleanwelcome']
+2026-01-18 20:45:10 [debug    ] gather_module_help: sophie_bot.modules.welcomesecurity [__main__] name=<sophie_bot.utils.i18n.LazyProxy object at 0x7ff36b5f4e30> emoji=🛡️ advertise_wiki_page=False
+2026-01-18 20:45:10 [debug    ] gather_cmds_help: welcomesecurity [__main__] cmds=['welcomecaptcha', 'enablewelcomecaptcha', 'welcomerestrict', 'welcomesecurity']
+2026-01-18 20:45:10 [debug    ] gather_module_help: sophie_bot.modules.purges [__main__] name=<sophie_bot.utils.i18n.LazyProxy object at 0x7ff368623050> emoji=🗑 advertise_wiki_page=False
+2026-01-18 20:45:10 [debug    ] gather_cmds_help: purges       [__main__] cmds=['delete', 'del', 'purge']
+2026-01-18 20:45:10 [debug    ] gather_module_help: sophie_bot.modules.warns [__main__] name=<sophie_bot.utils.i18n.LazyProxy object at 0x7ff368623950> emoji=⚠️ advertise_wiki_page=False
+2026-01-18 20:45:10 [debug    ] gather_cmds_help: warns        [__main__] cmds=['warn']
+2026-01-18 20:45:10 [debug    ] gather_module_help: sophie_bot.modules.restrictions [__main__] name=<sophie_bot.utils.i18n.LazyProxy object at 0x7ff36871e330> emoji=🛑 advertise_wiki_page=False
+2026-01-18 20:45:10 [debug    ] gather_cmds_help: restrictions [__main__] cmds=['kick', 'ban', 'tban', 'mute', 'tmute', 'unmute', 'unban']
+2026-01-18 20:45:10 [debug    ] gather_module_help: sophie_bot.modules.reports [__main__] name=reports emoji=? advertise_wiki_page=False
+2026-01-18 20:45:10 [debug    ] gather_cmds_help: reports      [__main__] cmds=[]
+2026-01-18 20:45:10 [debug    ] gather_module_help: sophie_bot.modules.pins [__main__] name=pins emoji=? advertise_wiki_page=False
+2026-01-18 20:45:10 [debug    ] gather_cmds_help: pins         [__main__] cmds=['pin', 'unpin']
+2026-01-18 20:45:10 [debug    ] gather_module_help: sophie_bot.modules.ai [__main__] name=<sophie_bot.utils.i18n.LazyProxy object at 0x7ff37176bc50> emoji=✨ advertise_wiki_page=False
+2026-01-18 20:45:10 [debug    ] gather_cmds_help: ai           [__main__] cmds=['enableai', 'aienable', 'aimoderator', 'aiautotranslate', 'autotranslate', 'aiprovider', 'ai', 'aisave', 'aireset', 'aitranslate', 'translate', 'tr', 'ai', 'op_aistats']
+2026-01-18 20:45:10 [debug    ] gather_module_help: sophie_bot.modules.filters [__main__] name=<sophie_bot.utils.i18n.LazyProxy object at 0x7ff371737590> emoji=🪄 advertise_wiki_page=True
+2026-01-18 20:45:10 [debug    ] gather_cmds_help: filters      [__main__] cmds=['addfilter', 'newfilter', 'filters', 'delfilter', 'editfilter']
+2026-01-18 20:45:10 [debug    ] gather_module_help: sophie_bot.modules.antiflood [__main__] name=<sophie_bot.utils.i18n.LazyProxy object at 0x7ff3686b5610> emoji=📈 advertise_wiki_page=False
+2026-01-18 20:45:10 [debug    ] gather_cmds_help: antiflood    [__main__] cmds=['antiflood', 'flood']
+2026-01-18 20:45:10 [debug    ] gather_module_help: sophie_bot.modules.language [__main__] name=language emoji=? advertise_wiki_page=False
+2026-01-18 20:45:10 [debug    ] gather_cmds_help: language     [__main__] cmds=[]
+2026-01-18 20:45:10 [debug    ] gather_module_help: sophie_bot.modules.connections [__main__] name=connections emoji=? advertise_wiki_page=False
+2026-01-18 20:45:10 [debug    ] gather_cmds_help: connections  [__main__] cmds=['connect', 'connect', 'disconnect', 'allowusersconnect']
+2026-01-18 20:45:10 [debug    ] Modern filter actions: Adding new action... [__main__] name=reply module=notes
+2026-01-18 20:45:10 [debug    ] Modern filter actions: Adding new action... [__main__] name=send_note module=notes
+2026-01-18 20:45:10 [debug    ] Modern filter actions: Adding new action... [__main__] name=send_rules module=rules
+2026-01-18 20:45:10 [debug    ] Modern filter actions: Adding new action... [__main__] name=delmsg module=purges
+2026-01-18 20:45:10 [debug    ] Modern filter actions: Adding new action... [__main__] name=warn_user module=warns
+2026-01-18 20:45:10 [debug    ] Modern filter actions: Adding new action... [__main__] name=kick_user module=restrictions
+2026-01-18 20:45:10 [debug    ] Modern filter actions: Adding new action... [__main__] name=ban_user module=restrictions
+2026-01-18 20:45:10 [debug    ] Modern filter actions: Adding new action... [__main__] name=mute_user module=restrictions
+2026-01-18 20:45:10 [debug    ] Modern filter actions: Adding new action... [__main__] name=ai_text module=ai
+2026-01-18 20:45:10 [debug    ] Legacy filters: Filters actions [__main__] actions={}
+2026-01-18 20:45:10 [info     ] Loaded modules - troubleshooters, rest, op, error, users, notes, help, federations, privacy, disabling, rules, promotes, greetings, welcomesecurity, purges, warns, restrictions, reports, pins, ai, filters, antiflood, language, connections [__main__]
+2026-01-18 20:45:11 [info     ] OpenAPI documentation generated to openapi.json [__main__]
+2026-01-18 20:45:11 [debug    ] Using selector: EpollSelector  [asyncio]
+2026-01-18 20:45:11 [debug    ] {"message": "Server heartbeat failed", "topologyId": {"$oid": "696d4656eb9e7f1344c9a234"}, "serverHost": "127.0.0.1", "serverPort": 27017, "awaited": true, "durationMS": 500.84518199946615, "failure": "\"_OperationCancelled('operation cancelled')\"", "driverConnectionId": 1} [pymongo.topology]
 make[1]: Leaving directory '/home/yacha/Projects/Otty/sophie'
 cp openapi.json ../sdash
 cd ../sdash && bun run gen:api
 $ openapi-typescript openapi.json -o src/lib/api-schema.d.ts
 ✨ openapi-typescript 7.10.1
-🚀 openapi.json → src/lib/api-schema.d.ts [68.1ms]
+🚀 openapi.json → src/lib/api-schema.d.ts [73.8ms]
+SUCCESS: make commit completed

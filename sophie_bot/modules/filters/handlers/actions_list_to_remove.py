@@ -15,7 +15,7 @@ from sophie_bot.modules.filters.callbacks import (
 )
 from sophie_bot.modules.filters.utils_.all_modern_actions import ALL_MODERN_ACTIONS
 from sophie_bot.modules.filters.utils_.filter_action_text import get_modern_action_text
-from sophie_bot.modules.utils_.base_handler import SophieCallbackQueryHandler
+from sophie_bot.utils.handlers import SophieCallbackQueryHandler
 from sophie_bot.utils.i18n import gettext as _
 
 

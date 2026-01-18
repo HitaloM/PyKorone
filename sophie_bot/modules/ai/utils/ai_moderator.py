@@ -6,7 +6,7 @@ from aiogram.types import Message
 from typing import Any, Optional
 from mistralai import ModerationResponse, ModerationObject
 
-from sophie_bot.db.models.ai_moderator import AIModeratorModel, DetectionLevel
+from sophie_bot.db.models.ai.ai_moderator import AIModeratorModel, DetectionLevel
 from sophie_bot.modules.ai.utils.new_message_history import NewAIMessageHistory
 from sophie_bot.services.ai import mistral_client
 from sophie_bot.utils.i18n import lazy_gettext as l_

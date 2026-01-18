@@ -7,7 +7,7 @@ from sophie_bot.db.models import DisablingModel
 from sophie_bot.filters.admin_rights import UserRestricting
 from sophie_bot.filters.cmd import CMDFilter
 from sophie_bot.modules.disabling.callbacks import EnableAllCallback
-from sophie_bot.modules.utils_.base_handler import (
+from sophie_bot.utils.handlers import (
     SophieCallbackQueryHandler,
     SophieMessageHandler,
 )

@@ -7,7 +7,7 @@ from aiogram.types import ReplyKeyboardRemove
 from sophie_bot.filters.chat_status import ChatTypeFilter
 from sophie_bot.modules.connections.utils.connection import set_connected_chat
 from sophie_bot.modules.connections.utils.constants import CONNECTION_DISCONNECT_TEXT
-from sophie_bot.modules.utils_.base_handler import SophieMessageHandler
+from sophie_bot.utils.handlers import SophieMessageHandler
 from sophie_bot.utils.i18n import lazy_gettext as l_, gettext as _
 from sophie_bot.filters.cmd import CMDFilter
 

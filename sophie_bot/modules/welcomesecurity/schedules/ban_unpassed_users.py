@@ -1,6 +1,8 @@
 # ... existing code ...
 from datetime import datetime, timedelta, timezone
 
+from aiogram.exceptions import TelegramAPIError
+
 from sophie_bot.config import CONFIG
 from sophie_bot.db.models.chat import ChatModel
 from sophie_bot.db.models.ws_user import WSUserModel
@@ -64,20 +66,20 @@ class BanUnpassedUsers:
             try:
                 await bot.decline_chat_join_request(chat_id=group.tid, user_id=user.tid)
                 log.info("ban_unpassed_users: declined join request", user=user.tid, group=group.tid)
-            except Exception as e:
+            except TelegramAPIError as err:
                 log.error(
                     "ban_unpassed_users: failed to decline join request",
                     user=user.tid,
                     group=group.tid,
-                    error=str(e),
+                    error=str(err),
                 )
         else:
             # Ban the user
             try:
                 await ban_user(chat_tid=group.tid, user_tid=user.tid)
                 log.info("ban_unpassed_users: banned user", user=user.tid, group=group.tid)
-            except Exception as e:
-                log.error("ban_unpassed_users: failed to ban user", user=user.tid, group=group.tid, error=str(e))
+            except TelegramAPIError as err:
+                log.error("ban_unpassed_users: failed to ban user", user=user.tid, group=group.tid, error=str(err))
 
         # Remove from database
         await ws_user.delete()

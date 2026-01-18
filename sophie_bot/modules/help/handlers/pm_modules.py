@@ -17,7 +17,7 @@ from sophie_bot.modules.help.callbacks import (
 )
 from sophie_bot.modules.help.utils.extract_info import HELP_MODULES, get_aliased_cmds
 from sophie_bot.modules.help.utils.format_help import format_handlers, group_handlers
-from sophie_bot.modules.utils_.base_handler import SophieMessageCallbackQueryHandler
+from sophie_bot.utils.handlers import SophieMessageCallbackQueryHandler
 from sophie_bot.utils.exception import SophieException
 from sophie_bot.utils.i18n import gettext as _
 from sophie_bot.utils.i18n import lazy_gettext as l_

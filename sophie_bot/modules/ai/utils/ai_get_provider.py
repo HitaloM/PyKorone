@@ -1,7 +1,7 @@
 from beanie import PydanticObjectId
 from pydantic_ai.models import Model
 
-from sophie_bot.db.models.ai_provider import AIProviderModel
+from sophie_bot.db.models.ai.ai_provider import AIProviderModel
 from sophie_bot.modules.ai.utils.ai_models import (
     AI_MODELS,
     DEFAULT_MODELS,

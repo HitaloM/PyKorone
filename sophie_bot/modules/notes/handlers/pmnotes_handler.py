@@ -15,7 +15,7 @@ from sophie_bot.modules.notes.callbacks import PrivateNotesStartUrlCallback
 from sophie_bot.modules.notes.filters.pm_notes import PMNotesFilter
 from sophie_bot.modules.notes.handlers.list import LIST_CMDS, NotesList
 from sophie_bot.modules.notes.handlers.search import SEARCH_CMD
-from sophie_bot.modules.utils_.base_handler import SophieMessageHandler
+from sophie_bot.utils.handlers import SophieMessageHandler
 from sophie_bot.utils.i18n import gettext as _
 
 

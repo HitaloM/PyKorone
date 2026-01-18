@@ -8,7 +8,7 @@ from sophie_bot.config import CONFIG
 from sophie_bot.modules.ai.filters.throttle import AIThrottleFilter
 from sophie_bot.modules.ai.utils.ai_chatbot_reply import ai_chatbot_reply
 from sophie_bot.modules.ai.utils.self_reply import is_ai_message
-from sophie_bot.modules.utils_.base_handler import SophieMessageHandler
+from sophie_bot.utils.handlers import SophieMessageHandler
 from sophie_bot.services.bot import bot
 
 

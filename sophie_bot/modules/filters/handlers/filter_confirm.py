@@ -20,7 +20,7 @@ from sophie_bot.modules.filters.types.modern_action_abc import ModernActionABC
 from sophie_bot.modules.filters.utils_.all_modern_actions import ALL_MODERN_ACTIONS
 from sophie_bot.modules.filters.utils_.legacy_filter_handler import text_legacy_handler_handles_on
 from sophie_bot.modules.troubleshooters.callbacks import CancelCallback
-from sophie_bot.modules.utils_.base_handler import SophieMessageCallbackQueryHandler
+from sophie_bot.utils.handlers import SophieMessageCallbackQueryHandler
 from sophie_bot.utils.exception import SophieException
 from sophie_bot.utils.i18n import gettext as _
 from sophie_bot.utils.i18n import ngettext as pl_

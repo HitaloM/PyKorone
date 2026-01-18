@@ -10,7 +10,7 @@ from sophie_bot.utils.logger import log
 if TYPE_CHECKING:
     from fastapi import APIRouter
 
-    from sophie_bot.modules.utils_.base_handler import SophieBaseHandler
+    from sophie_bot.utils.handlers import SophieBaseHandler
 
 LOADED_MODULES: dict[str, ModuleType] = {}
 LOADED_API_ROUTERS: list["APIRouter"] = []

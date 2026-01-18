@@ -3,8 +3,8 @@ from __future__ import annotations
 from beanie import Document, PydanticObjectId
 from pydantic import Field
 
-from ._link_type import Link
-from .chat import ChatModel
+from sophie_bot.db.models._link_type import Link
+from sophie_bot.db.models.chat import ChatModel
 
 
 class AIProviderModel(Document):

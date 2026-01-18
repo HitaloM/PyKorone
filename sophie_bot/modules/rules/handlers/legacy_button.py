@@ -8,7 +8,7 @@ from stfu_tg import Bold, Section, Title
 
 from sophie_bot.db.models import RulesModel
 from sophie_bot.modules.notes.utils.send import send_saveable
-from sophie_bot.modules.utils_.base_handler import SophieMessageHandler
+from sophie_bot.utils.handlers import SophieMessageHandler
 from sophie_bot.utils.i18n import gettext as _
 
 

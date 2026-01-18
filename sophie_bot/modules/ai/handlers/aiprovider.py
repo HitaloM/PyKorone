@@ -7,7 +7,7 @@ from aiogram.dispatcher.event.handler import CallbackType
 from aiogram.types import InlineKeyboardButton, InlineKeyboardMarkup, Message
 from stfu_tg import Doc, KeyValue, Section
 
-from sophie_bot.db.models.ai_provider import AIProviderModel
+from sophie_bot.db.models.ai.ai_provider import AIProviderModel
 from sophie_bot.filters.admin_rights import UserRestricting
 from sophie_bot.filters.chat_status import ChatTypeFilter
 from sophie_bot.filters.cmd import CMDFilter
@@ -19,7 +19,7 @@ from sophie_bot.modules.ai.utils.ai_models import (
     AIProviders,
 )
 from sophie_bot.modules.utils_.admin import is_user_admin
-from sophie_bot.modules.utils_.base_handler import (
+from sophie_bot.utils.handlers import (
     SophieCallbackQueryHandler,
     SophieMessageHandler,
 )

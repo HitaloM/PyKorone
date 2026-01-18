@@ -141,7 +141,7 @@ msgstr ""
 
 #: sophie_bot/modules/ai/agent_tools/cmds_help.py:66
 #: sophie_bot/modules/ai/agent_tools/cmds_help.py:77
-#: sophie_bot/modules/utils_/action_config_wizard/renderer.py:138
+#: sophie_bot/modules/utils_/action_config_wizard/renderer.py:135
 msgid "Description"
 msgstr ""
 
@@ -313,7 +313,7 @@ msgstr ""
 #: sophie_bot/modules/restrictions/handlers/mute.py:129
 #: sophie_bot/modules/restrictions/handlers/unban.py:61
 #: sophie_bot/modules/restrictions/handlers/unmute.py:61
-#: sophie_bot/modules/utils_/action_config_wizard/renderer.py:44
+#: sophie_bot/modules/utils_/action_config_wizard/renderer.py:41
 #: sophie_bot/modules/utils_/status_handler.py:47
 #: sophie_bot/modules/utils_/status_handler.py:70
 msgid "Chat"
@@ -484,11 +484,11 @@ msgstr ""
 msgid "🔄 AI context and AI memory was successfully reset. AI will now operate in a clean state."
 msgstr ""
 
-#: sophie_bot/modules/ai/handlers/translate.py:39
+#: sophie_bot/modules/ai/handlers/translate.py:40
 msgid "Text to translate"
 msgstr ""
 
-#: sophie_bot/modules/ai/handlers/translate.py:46
+#: sophie_bot/modules/ai/handlers/translate.py:47
 msgid "Translates the given (or replied) text to the chat's selected language. Also transcribes the replied voice message to text"
 msgstr ""
 
@@ -907,23 +907,23 @@ msgstr ""
 msgid "Command disabled"
 msgstr ""
 
-#: sophie_bot/modules/disabling/handlers/disable_able.py:13
+#: sophie_bot/modules/disabling/handlers/disable_able.py:15
 msgid "Lists all commands that can be disabled."
 msgstr ""
 
-#: sophie_bot/modules/disabling/handlers/disable_able.py:31
+#: sophie_bot/modules/disabling/handlers/disable_able.py:33
 msgid "Disable-able commands"
 msgstr ""
 
-#: sophie_bot/modules/disabling/handlers/disabled.py:14
+#: sophie_bot/modules/disabling/handlers/disabled.py:15
 msgid "Lists all disabled commands."
 msgstr ""
 
-#: sophie_bot/modules/disabling/handlers/disabled.py:27
+#: sophie_bot/modules/disabling/handlers/disabled.py:26
 msgid "No disabled commands found."
 msgstr ""
 
-#: sophie_bot/modules/disabling/handlers/disabled.py:30
+#: sophie_bot/modules/disabling/handlers/disabled.py:29
 msgid "Disabled commands"
 msgstr ""
 
@@ -1889,7 +1889,7 @@ msgstr ""
 #: sophie_bot/modules/filters/handlers/actions_list.py:69
 #: sophie_bot/modules/filters/handlers/add.py:74
 #: sophie_bot/modules/filters/handlers/add.py:91
-#: sophie_bot/modules/utils_/action_config_wizard/renderer.py:172
+#: sophie_bot/modules/utils_/action_config_wizard/renderer.py:169
 #: sophie_bot/modules/utils_/action_config_wizard/settings.py:129
 msgid "❌ Cancel"
 msgstr ""
@@ -1938,7 +1938,7 @@ msgstr ""
 
 #: sophie_bot/modules/filters/handlers/confirm.py:59
 #: sophie_bot/modules/filters/handlers/filter_confirm.py:84
-#: sophie_bot/modules/utils_/action_config_wizard/renderer.py:81
+#: sophie_bot/modules/utils_/action_config_wizard/renderer.py:78
 msgid "➕ Add another action"
 msgstr ""
 
@@ -2429,7 +2429,7 @@ msgstr ""
 msgid "Only admins"
 msgstr ""
 
-#: sophie_bot/modules/language/handlers/language.py:19
+#: sophie_bot/modules/language/handlers/language.py:20
 msgid "Change the language of the bot in the chat."
 msgstr ""
 
@@ -2438,20 +2438,20 @@ msgid "Select the language you want to use in this chat."
 msgstr ""
 
 #: sophie_bot/modules/language/handlers/language.py:57
-#: sophie_bot/modules/language/handlers/language.py:128
+#: sophie_bot/modules/language/handlers/language.py:107
 msgid "Help us translate!"
 msgstr ""
 
-#: sophie_bot/modules/language/handlers/language.py:79
+#: sophie_bot/modules/language/handlers/language.py:75
 msgid "Language not found."
 msgstr ""
 
-#: sophie_bot/modules/language/handlers/language.py:100
+#: sophie_bot/modules/language/handlers/language.py:87
 #, python-brace-format
 msgid "Language changed to {lang}"
 msgstr ""
 
-#: sophie_bot/modules/language/handlers/language.py:132
+#: sophie_bot/modules/language/handlers/language.py:112
 #, python-brace-format
 msgid "Language set to {lang}"
 msgstr ""
@@ -3386,15 +3386,15 @@ msgstr ""
 msgid "Small commands for fixing problems and issues"
 msgstr ""
 
-#: sophie_bot/modules/troubleshooters/handlers/admincache.py:14
+#: sophie_bot/modules/troubleshooters/handlers/admincache.py:13
 msgid "Reset admin rights cache, use if Sophie didn't get the recently added admin"
 msgstr ""
 
-#: sophie_bot/modules/troubleshooters/handlers/admincache.py:21
+#: sophie_bot/modules/troubleshooters/handlers/admincache.py:18
 msgid "You can't use this command in private chats."
 msgstr ""
 
-#: sophie_bot/modules/troubleshooters/handlers/admincache.py:25
+#: sophie_bot/modules/troubleshooters/handlers/admincache.py:22
 msgid "Admin rights cache has been reset."
 msgstr ""
 
@@ -3426,15 +3426,15 @@ msgstr ""
 msgid "Unknown"
 msgstr ""
 
-#: sophie_bot/modules/troubleshooters/handlers/cancel.py:13
+#: sophie_bot/modules/troubleshooters/handlers/cancel.py:12
 msgid "Cancel current state, use if Sophie is not responding on your message"
 msgstr ""
 
-#: sophie_bot/modules/troubleshooters/handlers/cancel.py:21
+#: sophie_bot/modules/troubleshooters/handlers/cancel.py:19
 msgid "The current state is already cleared, wiping its data anyway..."
 msgstr ""
 
-#: sophie_bot/modules/troubleshooters/handlers/cancel.py:29
+#: sophie_bot/modules/troubleshooters/handlers/cancel.py:27
 #, python-brace-format
 msgid "Current state {state} is cleared."
 msgstr ""
@@ -3569,8 +3569,8 @@ msgid "Action setup not properly configured"
 msgstr ""
 
 #: sophie_bot/modules/utils_/action_config_wizard/callback.py:169
-#: sophie_bot/modules/utils_/action_config_wizard/renderer.py:109
-#: sophie_bot/modules/utils_/action_config_wizard/renderer.py:162
+#: sophie_bot/modules/utils_/action_config_wizard/renderer.py:106
+#: sophie_bot/modules/utils_/action_config_wizard/renderer.py:159
 msgid "🔙 Back"
 msgstr ""
 
@@ -3586,31 +3586,31 @@ msgstr ""
 msgid "Saved"
 msgstr ""
 
-#: sophie_bot/modules/utils_/action_config_wizard/renderer.py:72
+#: sophie_bot/modules/utils_/action_config_wizard/renderer.py:69
 msgid "✅ Save"
 msgstr ""
 
-#: sophie_bot/modules/utils_/action_config_wizard/renderer.py:112
+#: sophie_bot/modules/utils_/action_config_wizard/renderer.py:109
 msgid "Select an action to add:"
 msgstr ""
 
-#: sophie_bot/modules/utils_/action_config_wizard/renderer.py:137
+#: sophie_bot/modules/utils_/action_config_wizard/renderer.py:134
 msgid "Action configured"
 msgstr ""
 
-#: sophie_bot/modules/utils_/action_config_wizard/renderer.py:139
+#: sophie_bot/modules/utils_/action_config_wizard/renderer.py:136
 msgid "Action Configuration Complete"
 msgstr ""
 
-#: sophie_bot/modules/utils_/action_config_wizard/renderer.py:156
+#: sophie_bot/modules/utils_/action_config_wizard/renderer.py:153
 msgid "🗑️ Delete this action"
 msgstr ""
 
-#: sophie_bot/modules/utils_/action_config_wizard/renderer.py:168
+#: sophie_bot/modules/utils_/action_config_wizard/renderer.py:165
 msgid "✅ Done"
 msgstr ""
 
-#: sophie_bot/modules/utils_/action_config_wizard/renderer.py:183
+#: sophie_bot/modules/utils_/action_config_wizard/renderer.py:180
 msgid "Action configured successfully!"
 msgstr ""
 
@@ -3626,41 +3626,39 @@ msgstr ""
 msgid "Setting setup not properly configured"
 msgstr ""
 
-#: sophie_bot/modules/utils_/action_config_wizard/setup.py:50
+#: sophie_bot/modules/utils_/action_config_wizard/setup.py:51
 msgid "Setup session expired. Please start again."
 msgstr ""
 
-#: sophie_bot/modules/utils_/action_config_wizard/setup.py:66
-#: sophie_bot/modules/utils_/action_config_wizard/setup.py:131
+#: sophie_bot/modules/utils_/action_config_wizard/setup.py:67
+#: sophie_bot/modules/utils_/action_config_wizard/setup.py:132
 msgid "Setup data not found. Please try again."
 msgstr ""
 
-#: sophie_bot/modules/utils_/action_config_wizard/setup.py:73
-#: sophie_bot/modules/utils_/action_config_wizard/setup.py:138
+#: sophie_bot/modules/utils_/action_config_wizard/setup.py:74
+#: sophie_bot/modules/utils_/action_config_wizard/setup.py:139
 msgid "Invalid chat context. Please restart the setup."
 msgstr ""
 
-#: sophie_bot/modules/utils_/action_config_wizard/setup.py:79
+#: sophie_bot/modules/utils_/action_config_wizard/setup.py:80
 msgid "Invalid action configuration."
 msgstr ""
 
-#: sophie_bot/modules/utils_/action_config_wizard/setup.py:144
+#: sophie_bot/modules/utils_/action_config_wizard/setup.py:145
 msgid "Invalid action."
 msgstr ""
 
-#: sophie_bot/modules/utils_/action_config_wizard/setup.py:159
+#: sophie_bot/modules/utils_/action_config_wizard/setup.py:160
 msgid "Invalid setting."
 msgstr ""
 
-#: sophie_bot/modules/utils_/action_config_wizard/setup.py:165
+#: sophie_bot/modules/utils_/action_config_wizard/setup.py:166
 msgid "Setting configuration not available."
 msgstr ""
 
-#: sophie_bot/modules/utils_/base_handler.py:84
-#: sophie_bot/modules/utils_/base_handler.py:103
-#: sophie_bot/modules/utils_/base_handler.py:105
-#: sophie_bot/modules/utils_/base_handler.py:114
 #: sophie_bot/modules/utils_/reply_or_edit.py:11
+#: sophie_bot/utils/handlers.py:84 sophie_bot/utils/handlers.py:103
+#: sophie_bot/utils/handlers.py:105 sophie_bot/utils/handlers.py:114
 msgid "The message is inaccessible. Please write the command again"
 msgstr ""
 

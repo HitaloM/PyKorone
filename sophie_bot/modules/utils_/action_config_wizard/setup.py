@@ -5,6 +5,7 @@ from typing import Any
 from aiogram.fsm.context import FSMContext
 from aiogram.types import Message
 from beanie import PydanticObjectId
+from bson.errors import InvalidId
 
 from sophie_bot.modules.filters.types.modern_action_abc import (
     ActionSetupTryAgainException,
@@ -42,7 +43,7 @@ class ActionConfigSetupHandlerMixin(ActionConfigSetupHandlerABC):
         if chat_tid_raw and module_name:
             try:
                 chat_iid = PydanticObjectId(chat_tid_raw)
-            except Exception:
+            except (InvalidId, TypeError):
                 chat_iid = None
             if chat_iid:
                 active = await is_active(state, module_name, chat_iid)
@@ -69,7 +70,7 @@ class ActionConfigSetupHandlerMixin(ActionConfigSetupHandlerABC):
 
         try:
             chat_iid = PydanticObjectId(chat_tid_raw)
-        except Exception:
+        except (InvalidId, TypeError):
             await message.reply(_("Invalid chat context. Please restart the setup."))
             await state.clear()
             return
@@ -134,7 +135,7 @@ class ActionConfigSetupHandlerMixin(ActionConfigSetupHandlerABC):
 
         try:
             chat_iid = PydanticObjectId(chat_tid_raw)
-        except Exception:
+        except (InvalidId, TypeError):
             await message.reply(_("Invalid chat context. Please restart the setup."))
             await state.clear()
             return

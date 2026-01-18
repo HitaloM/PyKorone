@@ -9,7 +9,7 @@ from stfu_tg import Doc, Title
 from sophie_bot.filters.cmd import CMDFilter
 from sophie_bot.modules.federations.services.federation import FederationService
 from sophie_bot.filters.feature_flag import FeatureFlagFilter
-from sophie_bot.modules.utils_.base_handler import SophieMessageHandler
+from sophie_bot.utils.handlers import SophieMessageHandler
 from sophie_bot.utils.i18n import gettext as _
 from sophie_bot.utils.i18n import lazy_gettext as l_
 

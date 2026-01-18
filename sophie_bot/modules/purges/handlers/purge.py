@@ -8,7 +8,7 @@ from aiogram.dispatcher.event.handler import CallbackType
 from sophie_bot.filters.admin_rights import BotHasPermissions, UserRestricting
 from sophie_bot.filters.chat_status import ChatTypeFilter
 from sophie_bot.filters.cmd import CMDFilter
-from sophie_bot.modules.utils_.base_handler import SophieMessageHandler
+from sophie_bot.utils.handlers import SophieMessageHandler
 from sophie_bot.modules.utils_.common_try import common_try
 from sophie_bot.services.bot import bot
 from sophie_bot.utils.i18n import gettext as _

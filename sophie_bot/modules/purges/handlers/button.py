@@ -4,7 +4,7 @@ from aiogram import F
 from aiogram.dispatcher.event.handler import CallbackType
 from aiogram.types import Message as AiogramMessage
 
-from sophie_bot.modules.utils_.base_handler import SophieCallbackQueryHandler
+from sophie_bot.utils.handlers import SophieCallbackQueryHandler
 from sophie_bot.modules.utils_.common_try import common_try
 
 

@@ -11,7 +11,7 @@ from sophie_bot.modules.disabling.utils.get_disabled import (
     get_disabled_handlers,
 )
 from sophie_bot.modules.help.utils.format_help import format_cmd
-from sophie_bot.modules.utils_.base_handler import SophieMessageHandler
+from sophie_bot.utils.handlers import SophieMessageHandler
 from sophie_bot.utils.i18n import gettext as _
 from sophie_bot.utils.i18n import lazy_gettext as l_
 

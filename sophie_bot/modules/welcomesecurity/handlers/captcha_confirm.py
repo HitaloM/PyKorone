@@ -6,7 +6,7 @@ from aiogram.types import Message
 from beanie import PydanticObjectId
 
 from sophie_bot.db.models import ChatModel, GreetingsModel, RulesModel
-from sophie_bot.modules.utils_.base_handler import SophieCallbackQueryHandler
+from sophie_bot.utils.handlers import SophieCallbackQueryHandler
 from sophie_bot.modules.welcomesecurity.callbacks import (
     WelcomeSecurityConfirmCB,
     WelcomeSecurityRulesAgreeCB,

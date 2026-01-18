@@ -1,12 +1,13 @@
-from aiogram import Router
-from aiogram.filters.callback_data import CallbackData
-from aiogram.types import CallbackQuery, InlineKeyboardButton, InlineKeyboardMarkup, Message
-from aiogram import flags
-from aiogram.handlers import MessageHandler, CallbackQueryHandler
+from typing import Any
 
-from sophie_bot.db.models.chat import ChatModel
+from aiogram import Router, flags
+from aiogram.dispatcher.event.handler import CallbackType
+from aiogram.filters.callback_data import CallbackData
+from aiogram.types import InlineKeyboardButton, InlineKeyboardMarkup, Message
+
 from sophie_bot.filters.admin_rights import UserRestricting
 from sophie_bot.filters.cmd import CMDFilter
+from sophie_bot.utils.handlers import SophieCallbackQueryHandler, SophieMessageHandler
 from sophie_bot.utils.i18n import get_i18n, gettext as _, lazy_gettext as l_
 
 router = Router(name="language")
@@ -17,18 +18,17 @@ class SelectLangCb(CallbackData, prefix="set_lang"):
 
 
 @flags.help(description=l_("Change the language of the bot in the chat."))
-class LanguageHandler(MessageHandler):
+class LanguageHandler(SophieMessageHandler):
     @staticmethod
-    def filters():
+    def filters() -> tuple[CallbackType, ...]:
         return (CMDFilter("lang"), UserRestricting(admin=True))
 
-    async def handle(self) -> None:
+    async def handle(self) -> Any:
         message: Message = self.event
         i18n = get_i18n()
 
-        # Get current chat language
-        chat = await ChatModel.get_by_tid(message.chat.id)
-        current_lang_code = chat.language_code if chat else i18n.default_locale
+        # Get current chat language from connection
+        current_lang_code = self.connection.db_model.language_code if self.connection.db_model else i18n.default_locale
 
         text = _("Select the language you want to use in this chat.")
         text += "\n\n"
@@ -60,54 +60,33 @@ class LanguageHandler(MessageHandler):
         await message.reply(text, reply_markup=keyboard)
 
 
-class LanguageCallbackHandler(CallbackQueryHandler):
+class LanguageCallbackHandler(SophieCallbackQueryHandler):
     @staticmethod
-    def filters():
+    def filters() -> tuple[CallbackType, ...]:
         return (SelectLangCb.filter(), UserRestricting(admin=True))
 
-    async def handle(self) -> None:
-        query: CallbackQuery = self.event
-        callback_data: SelectLangCb | None = self.data.get("callback_data")
-
-        if not callback_data:
-            return
+    async def handle(self) -> Any:
+        callback_data: SelectLangCb = self.callback_data
 
         lang_code = callback_data.code
         i18n = get_i18n()
 
         if lang_code not in i18n.available_locales:
-            await query.answer(_("Language not found."), show_alert=True)
+            await self.event.answer(_("Language not found."), show_alert=True)
             return
 
-        # Update ChatModel
-        if query.message and query.message.chat:
-            chat = await ChatModel.get_by_tid(query.message.chat.id)
-        else:
-            chat = None
-
+        # Update ChatModel using connection
+        chat = self.connection.db_model
         if chat:
             chat.language_code = lang_code
             await chat.save()
 
-            # Update connection for immediate effect if needed,
-            # but usually middleware handles it on next request.
-            # However, for the reply we might want to switch context?
-            # i18n middleware should handle `chat.language_code`
-
         locale = i18n.babels.get(lang_code)
         display_name = i18n.locale_display(locale) if locale else lang_code
 
-        await query.answer(_("Language changed to {lang}").format(lang=display_name))
+        await self.event.answer(_("Language changed to {lang}").format(lang=display_name))
 
-        # Edit the message to show new selection
-        # We need to manually switch locale for this response to match selected language immediately?
-        # Or just keep it in previous language? Usually it's better to confirm in the new language or keep context.
-        # Let's simple edit the text.
-
-        # To reply in new language immediately we would need to manually set context,
-        # but let's just confirm.
-
-        # We'll re-render the keyboard to show the new checkmark
+        # Re-render the keyboard to show the new checkmark
         buttons = []
         for code in i18n.available_locales:
             babel_locale = i18n.babels.get(code)
@@ -128,5 +107,7 @@ class LanguageCallbackHandler(CallbackQueryHandler):
             [InlineKeyboardButton(text=_("Help us translate!"), url="https://crowdin.com/project/sophiebot")]
         )
 
-        if query.message and isinstance(query.message, Message):
-            await query.message.edit_text(_("Language set to {lang}").format(lang=display_name), reply_markup=keyboard)
+        if self.event.message and isinstance(self.event.message, Message):
+            await self.event.message.edit_text(
+                _("Language set to {lang}").format(lang=display_name), reply_markup=keyboard
+            )

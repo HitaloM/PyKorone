@@ -7,7 +7,7 @@ from aiogram.dispatcher.event.handler import CallbackType
 from aiogram.types import InlineKeyboardMarkup, Message
 from stfu_tg.doc import Element
 
-from sophie_bot.modules.utils_.base_handler import SophieMessageHandler
+from sophie_bot.utils.handlers import SophieMessageHandler
 from sophie_bot.utils.i18n import LazyProxy
 
 T = TypeVar("T")

@@ -7,7 +7,7 @@ from beanie import PydanticObjectId
 from aiogram.handlers import CallbackQueryHandler
 
 from sophie_bot.db.models.filters import FilterActionType
-from sophie_bot.modules.utils_.base_handler import SophieMessageHandler, SophieCallbackQueryHandler
+from sophie_bot.utils.handlers import SophieMessageHandler, SophieCallbackQueryHandler
 
 # Type variable for the model type that stores action configuration
 ModelType = TypeVar("ModelType")

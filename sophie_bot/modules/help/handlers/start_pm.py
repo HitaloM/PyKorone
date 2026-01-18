@@ -11,7 +11,7 @@ from sophie_bot.filters.cmd import CMDFilter
 from sophie_bot.filters.message_status import NoArgs
 from sophie_bot.modules.help.callbacks import PMHelpModules
 from sophie_bot.modules.privacy import PrivacyMenuCallback
-from sophie_bot.modules.utils_.base_handler import SophieMessageCallbackQueryHandler
+from sophie_bot.utils.handlers import SophieMessageCallbackQueryHandler
 from sophie_bot.utils.i18n import gettext as _
 
 

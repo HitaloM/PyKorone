@@ -11,7 +11,7 @@ from sophie_bot.filters.cmd import CMDFilter
 from sophie_bot.filters.user_status import IsOP
 from sophie_bot.modules import LOADED_MODULES
 from sophie_bot.modules.help.utils.extract_info import get_all_cmds_raw
-from sophie_bot.modules.utils_.base_handler import SophieMessageHandler
+from sophie_bot.utils.handlers import SophieMessageHandler
 from sophie_bot.services.db import db
 from sophie_bot.services.redis import aredis
 from sophie_bot.utils.i18n import lazy_gettext as l_

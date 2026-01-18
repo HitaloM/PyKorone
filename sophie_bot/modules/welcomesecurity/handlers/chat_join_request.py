@@ -7,7 +7,7 @@ from sophie_bot.db.models import ChatModel, GreetingsModel, RulesModel
 from sophie_bot.modules.greetings.default_welcome import get_default_join_request_message
 from sophie_bot.modules.utils_.admin import is_user_admin
 from sophie_bot.modules.notes.utils.send import send_saveable
-from sophie_bot.modules.utils_.base_handler import SophieBaseHandler
+from sophie_bot.utils.handlers import SophieBaseHandler
 from sophie_bot.modules.utils_.common_try import common_try
 from sophie_bot.modules.welcomesecurity.utils_.initiate_captcha import initiate_captcha
 from sophie_bot.modules.welcomesecurity.utils_.on_new_user import ws_on_new_user

@@ -13,7 +13,7 @@ from sophie_bot.db.models.greetings import (
 from sophie_bot.filters.cmd import CMDFilter
 from sophie_bot.modules.greetings.default_welcome import get_default_security_message
 from sophie_bot.modules.notes.utils.send import send_saveable
-from sophie_bot.modules.utils_.base_handler import SophieMessageHandler
+from sophie_bot.utils.handlers import SophieMessageHandler
 from sophie_bot.modules.welcomesecurity.utils_.db_time_convert import (
     convert_timedelta_or_str,
 )

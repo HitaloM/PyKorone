@@ -7,7 +7,7 @@ from ass_tg.types.base_abc import ArgFabric
 from stfu_tg import Italic, KeyValue, Section, Template
 from stfu_tg.doc import Element
 
-from sophie_bot.modules.utils_.base_handler import SophieMessageHandler
+from sophie_bot.utils.handlers import SophieMessageHandler
 from sophie_bot.utils.i18n import LazyProxy
 from sophie_bot.utils.i18n import gettext as _
 from sophie_bot.utils.i18n import lazy_gettext as l_

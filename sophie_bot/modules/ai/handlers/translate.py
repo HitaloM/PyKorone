@@ -1,6 +1,7 @@
+from typing import Any
+
 from aiogram import flags
 from aiogram.dispatcher.event.handler import CallbackType
-from aiogram.handlers import MessageHandler
 from aiogram.types import Message
 from ass_tg.types import TextArg
 from pydantic_ai import ModelHTTPError
@@ -16,8 +17,8 @@ from stfu_tg import (
 )
 
 from sophie_bot.filters.cmd import CMDFilter
-from sophie_bot.middlewares.connections import ChatConnection
 from sophie_bot.modules.ai.filters.ai_enabled import AIEnabledFilter
+from sophie_bot.utils.handlers import SophieMessageHandler
 from sophie_bot.modules.ai.fsm.pm import AI_GENERATED_TEXT
 from sophie_bot.modules.ai.json_schemas.translate import AITranslateResponseSchema
 from sophie_bot.modules.ai.utils.ai_get_provider import get_chat_translations_model
@@ -49,13 +50,12 @@ async def text_or_reply(message: Message | None, _data: dict):
 )
 @flags.disableable(name="translate")
 @flags.ai_cache(cache_handler_result=True)
-class AiTranslate(MessageHandler):
+class AiTranslate(SophieMessageHandler):
     @staticmethod
     def filters() -> tuple[CallbackType, ...]:
         return CMDFilter(("aitranslate", "translate", "tr")), AIEnabledFilter()
 
-    async def handle(self):
-        connection: ChatConnection = self.data["connection"]
+    async def handle(self) -> Any:
         is_autotranslate: bool = self.data.get("autotranslate", False)
 
         language_name = self.data["i18n"].current_locale_display
@@ -100,7 +100,7 @@ class AiTranslate(MessageHandler):
 
         log.debug("AiTranslate", ai_context=ai_context.history_debug())
 
-        model = await get_chat_translations_model(connection.db_model.iid)
+        model = await get_chat_translations_model(self.connection.db_model.iid)
 
         try:
             translated = await new_ai_generate_schema(ai_context, AITranslateResponseSchema, model=model)

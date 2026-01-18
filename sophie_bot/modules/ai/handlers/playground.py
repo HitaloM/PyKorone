@@ -5,6 +5,7 @@ from aiogram.dispatcher.event.handler import CallbackType
 from aiogram.fsm.context import FSMContext
 from aiogram.types import InlineKeyboardButton, InlineKeyboardMarkup, Message
 from ass_tg.types import OptionalArg, TextArg
+from pydantic_ai import ModelHTTPError
 from stfu_tg import Doc, KeyValue, Section
 
 from sophie_bot.config import CONFIG
@@ -20,7 +21,7 @@ from sophie_bot.modules.ai.utils.ai_models import (
     AI_PROVIDER_TO_NAME,
     PROVIDER_TO_MODELS,
 )
-from sophie_bot.modules.utils_.base_handler import (
+from sophie_bot.utils.handlers import (
     SophieCallbackQueryHandler,
     SophieMessageHandler,
 )
@@ -93,8 +94,10 @@ class AIPlaygroundCmd(SophieMessageHandler):
                 # Use ai_chatbot_reply with debug mode and custom model
                 await ai_chatbot_reply(self.event, self.connection, user_text=user_text, debug_mode=True, model=model)
 
-            except Exception as e:
-                await self.event.reply(f"❌ Error processing request: {str(e)}")
+            except KeyError as err:
+                await self.event.reply(f"❌ Model configuration error: {err}")
+            except ModelHTTPError as err:
+                await self.event.reply(f"❌ AI API error: {err}")
         else:
             # No text provided, show model selection interface
             kb = build_playground_keyboard(selected_model)

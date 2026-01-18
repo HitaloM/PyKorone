@@ -2,12 +2,14 @@ from typing import List, Type
 
 from beanie import Document
 
-from sophie_bot.db.models.ai_autotranslate import AIAutotranslateModel
-from sophie_bot.db.models.ai_enabled import AIEnabledModel
-from sophie_bot.db.models.ai_memory import AIMemoryModel
-from sophie_bot.db.models.ai_moderator import AIModeratorModel
-from sophie_bot.db.models.ai_provider import AIProviderModel
-from sophie_bot.db.models.ai_usage import AIUsageModel
+from sophie_bot.db.models.ai import (
+    AIAutotranslateModel,
+    AIEnabledModel,
+    AIMemoryModel,
+    AIModeratorModel,
+    AIProviderModel,
+    AIUsageModel,
+)
 from sophie_bot.db.models.antiflood import AntifloodModel
 from sophie_bot.db.models.api_token import ApiTokenModel
 from sophie_bot.db.models.beta import BetaModeModel

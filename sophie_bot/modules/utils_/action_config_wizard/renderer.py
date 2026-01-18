@@ -35,11 +35,8 @@ class WizardRenderer:
 
         Returns (text_html, reply_markup)
         """
-        try:
-            model = await handler.get_model(chat_iid)
-            actions = await handler.get_actions(model)
-        except Exception:
-            actions = []
+        model = await handler.get_model(chat_iid)
+        actions = await handler.get_actions(model)
 
         items = [KeyValue(_("Chat"), chat_title or "Unknown")]
         builder = InlineKeyboardBuilder()

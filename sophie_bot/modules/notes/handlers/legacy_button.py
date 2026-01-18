@@ -8,7 +8,7 @@ from stfu_tg import Bold, HList, Title
 
 from sophie_bot.db.models import NoteModel
 from sophie_bot.modules.notes.utils.send import send_saveable
-from sophie_bot.modules.utils_.base_handler import SophieMessageHandler
+from sophie_bot.utils.handlers import SophieMessageHandler
 from sophie_bot.utils.exception import SophieException
 
 

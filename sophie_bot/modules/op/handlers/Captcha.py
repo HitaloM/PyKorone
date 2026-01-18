@@ -8,7 +8,7 @@ from aiogram.types import BufferedInputFile
 
 from sophie_bot.filters.cmd import CMDFilter
 from sophie_bot.filters.user_status import IsOP
-from sophie_bot.modules.utils_.base_handler import SophieMessageHandler
+from sophie_bot.utils.handlers import SophieMessageHandler
 from sophie_bot.modules.welcomesecurity.utils_.emoji_captcha import EmojiCaptcha
 from sophie_bot.services.bot import bot
 from sophie_bot.utils.i18n import lazy_gettext as l_

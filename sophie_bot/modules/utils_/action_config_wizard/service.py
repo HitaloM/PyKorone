@@ -9,6 +9,7 @@ from typing import Any, Optional, Tuple
 
 from aiogram.fsm.context import FSMContext
 from beanie import PydanticObjectId
+from bson.errors import InvalidId
 
 
 def _sanitize_for_json(obj: Any) -> Any:
@@ -23,17 +24,17 @@ def _sanitize_for_json(obj: Any) -> Any:
     if isinstance(obj, timedelta):
         try:
             return obj.total_seconds()
-        except Exception:
+        except (OverflowError, ValueError):
             return str(obj)
     if isinstance(obj, Enum):
         return obj.value
     if hasattr(obj, "model_dump"):
         try:
             return obj.model_dump(mode="json")
-        except Exception:
+        except (AttributeError, TypeError, ValueError):
             try:
                 return obj.dict()
-            except Exception:
+            except (AttributeError, TypeError):
                 return str(obj)
     if isinstance(obj, dict):
         return {str(k): _sanitize_for_json(v) for k, v in obj.items()}
@@ -114,7 +115,7 @@ async def get_staged(state: FSMContext) -> Tuple[Optional[PydanticObjectId], Opt
     chat_iid: Optional[PydanticObjectId]
     try:
         chat_iid = PydanticObjectId(chat_iid_raw) if chat_iid_raw else None
-    except Exception:
+    except (InvalidId, TypeError):
         chat_iid = None
     action_name = data.get(K_ACTION_NAME)
     action_data = data.get(K_ACTION_DATA)

@@ -1,7 +1,7 @@
 from aiogram import flags
 from aiogram.dispatcher.event.handler import CallbackType
 
-from sophie_bot.db.models.ai_enabled import AIEnabledModel
+from sophie_bot.db.models.ai.ai_enabled import AIEnabledModel
 from sophie_bot.filters.admin_rights import UserRestricting
 from sophie_bot.filters.cmd import CMDFilter
 from sophie_bot.modules.utils_.status_handler import StatusBoolHandlerABC

@@ -22,7 +22,7 @@ from sophie_bot.modules.connections.utils.connection import (
 from sophie_bot.modules.connections.utils.texts import CONNECTION_OBSOLETE_NOTICE
 from sophie_bot.db.models.chat import ChatModel
 from sophie_bot.db.models.chat_connections import ChatConnectionModel
-from sophie_bot.modules.utils_.base_handler import SophieMessageHandler, SophieCallbackQueryHandler
+from sophie_bot.utils.handlers import SophieMessageHandler, SophieCallbackQueryHandler
 from sophie_bot.utils.i18n import lazy_gettext as l_, gettext as _
 from sophie_bot.filters.cmd import CMDFilter
 from sophie_bot.filters.chat_status import ChatTypeFilter

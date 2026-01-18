@@ -10,7 +10,7 @@ from sophie_bot.modules.ai.callbacks import AIResetContext
 from sophie_bot.modules.ai.filters.ai_enabled import AIEnabledFilter
 from sophie_bot.modules.ai.fsm.pm import AI_PM_RESET
 from sophie_bot.modules.ai.utils.cache_messages import reset_messages
-from sophie_bot.modules.utils_.base_handler import SophieMessageHandler
+from sophie_bot.utils.handlers import SophieMessageHandler
 from sophie_bot.utils.i18n import gettext as _
 from sophie_bot.utils.i18n import lazy_gettext as l_
 

@@ -7,7 +7,7 @@ from sophie_bot.filters.admin_rights import UserRestricting
 from sophie_bot.filters.is_connected import GroupOrConnectedFilter
 from sophie_bot.modules.filters.callbacks import RemoveFilterActionCallback
 from sophie_bot.modules.filters.handlers.filter_confirm import FilterConfirmHandler
-from sophie_bot.modules.utils_.base_handler import SophieCallbackQueryHandler
+from sophie_bot.utils.handlers import SophieCallbackQueryHandler
 from sophie_bot.utils.i18n import gettext as _
 
 

@@ -12,7 +12,7 @@ from sophie_bot.modules.ai.callbacks import AIChatCallback
 from sophie_bot.modules.ai.filters.throttle import AIThrottleFilter
 from sophie_bot.modules.ai.fsm.pm import AI_PM_PROVIDER, AI_PM_RESET, AI_PM_STOP_TEXT, AiPMFSM
 from sophie_bot.modules.ai.utils.ai_chatbot_reply import ai_chatbot_reply
-from sophie_bot.modules.utils_.base_handler import (
+from sophie_bot.utils.handlers import (
     SophieMessageCallbackQueryHandler,
     SophieMessageHandler,
 )

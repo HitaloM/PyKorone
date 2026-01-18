@@ -8,7 +8,7 @@ from stfu_tg import Code, Doc, Italic, KeyValue, Section, Template
 from sophie_bot.db.models import NoteModel
 from sophie_bot.filters.cmd import CMDFilter
 from sophie_bot.modules.notes.utils.list import format_notes_list
-from sophie_bot.modules.utils_.base_handler import SophieMessageHandler
+from sophie_bot.utils.handlers import SophieMessageHandler
 from sophie_bot.utils.i18n import gettext as _
 from sophie_bot.utils.i18n import lazy_gettext as l_
 

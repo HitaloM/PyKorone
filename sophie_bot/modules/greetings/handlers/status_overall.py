@@ -8,7 +8,7 @@ from sophie_bot.db.models import GreetingsModel, RulesModel
 from sophie_bot.filters.cmd import CMDFilter
 from sophie_bot.modules.greetings.default_welcome import get_default_welcome_message
 from sophie_bot.modules.notes.utils.send import send_saveable
-from sophie_bot.modules.utils_.base_handler import SophieMessageHandler
+from sophie_bot.utils.handlers import SophieMessageHandler
 from sophie_bot.utils.i18n import LazyProxy
 from sophie_bot.utils.i18n import gettext as _
 from sophie_bot.utils.i18n import lazy_gettext as l_

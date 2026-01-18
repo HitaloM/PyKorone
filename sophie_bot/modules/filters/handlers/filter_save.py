@@ -12,7 +12,7 @@ from sophie_bot.modules.filters.callbacks import SaveFilterCallback
 from sophie_bot.modules.filters.utils_.legacy_filter_handler import (
     check_legacy_filter_handler,
 )
-from sophie_bot.modules.utils_.base_handler import SophieCallbackQueryHandler
+from sophie_bot.utils.handlers import SophieCallbackQueryHandler
 from sophie_bot.utils.i18n import gettext as _
 
 

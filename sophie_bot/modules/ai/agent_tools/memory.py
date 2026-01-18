@@ -1,6 +1,6 @@
 from pydantic_ai import RunContext, Tool
 
-from sophie_bot.db.models.ai_memory import AIMemoryModel
+from sophie_bot.db.models.ai.ai_memory import AIMemoryModel
 from sophie_bot.modules.ai.utils.ai_tool_context import SophieAIToolContenxt
 from sophie_bot.metrics import track_ai_tool
 

@@ -12,7 +12,7 @@ from sophie_bot.modules.connections.utils.connection import (
     get_disconnect_markup,
     set_connected_chat,
 )
-from sophie_bot.modules.utils_.base_handler import SophieMessageHandler
+from sophie_bot.utils.handlers import SophieMessageHandler
 from sophie_bot.utils.i18n import gettext as _
 
 
