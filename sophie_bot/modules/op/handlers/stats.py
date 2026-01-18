@@ -33,7 +33,7 @@ async def get_system_stats() -> Doc:
 
     doc += Section(
         Italic(CONFIG.environment),
-        Bold("Debug mode enabled!") if CONFIG.debug_mode else None,
+        Bold(f"Debug mode: {CONFIG.debug_mode}") if CONFIG.debug_mode != "off" else None,
         KeyValue("Version", Italic(SOPHIE_VERSION)),
         KeyValue("Commit", Code(SOPHIE_COMMIT)),
         KeyValue("Branch", Italic(SOPHIE_BRANCH)),

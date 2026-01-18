@@ -66,7 +66,7 @@ async def _init_metrics():
 
     except Exception as e:
         log.error("Failed to initialize metrics system", error=str(e))
-        if CONFIG.debug_mode:
+        if CONFIG.debug_mode != "off":
             raise
 
 

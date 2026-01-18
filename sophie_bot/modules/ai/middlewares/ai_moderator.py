@@ -70,7 +70,7 @@ class AiModeratorMiddleware(BaseMiddleware):
             if not event.from_user:
                 return await handler(event, data)
 
-            if not CONFIG.debug_mode and await is_user_admin(chat_db.tid, event.from_user.id):
+            if CONFIG.debug_mode == "off" and await is_user_admin(chat_db.tid, event.from_user.id):
                 return await handler(event, data)
 
             try:

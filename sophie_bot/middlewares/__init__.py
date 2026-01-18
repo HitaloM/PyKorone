@@ -28,7 +28,12 @@ def set_metrics_middleware(middleware) -> None:
 
 
 def enable_middlewares():
-    if CONFIG.debug_mode:
+    if CONFIG.debug_mode in ("normal", "high"):
+        from .debug import EventSeparatorMiddleware
+
+        dp.update.middleware(EventSeparatorMiddleware())
+
+    if CONFIG.debug_mode == "high":
         from .debug import UpdateDebugMiddleware
 
         dp.update.middleware(UpdateDebugMiddleware())
@@ -51,7 +56,7 @@ def enable_middlewares():
     dp.update.middleware(ConnectionsMiddleware())
     dp.message.middleware(DisablingMiddleware())
 
-    if CONFIG.debug_mode:
+    if CONFIG.debug_mode == "high":
         from .debug import DataDebugMiddleware, HandlerDebugMiddleware
 
         dp.update.middleware(DataDebugMiddleware())

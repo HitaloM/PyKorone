@@ -41,7 +41,8 @@ class Config(BaseSettings):
     botapi_server: Optional[AnyHttpUrl] = None
 
     # Debugging
-    debug_mode: bool = False  # Debug console output
+    # off = no debug, normal = debug logging, high = debug + mongo logs + debug middlewares
+    debug_mode: Literal["off", "normal", "high"] = "off"
     memory_debug: bool = False  # Memory leaks debugging
 
     modules_load: List[str] = ["*"]

@@ -102,7 +102,7 @@ async def ai_chatbot_reply(
         await history.add_from_message(message, custom_text=user_text)
 
         # Debug mode
-        debug_mode = debug_mode or CONFIG.debug_mode
+        debug_mode = debug_mode or CONFIG.debug_mode != "off"
         if "^llm_debug" in (user_text or message.text or ""):
             debug_mode = True
 

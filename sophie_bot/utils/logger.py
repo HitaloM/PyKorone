@@ -16,14 +16,31 @@ def silence_processor(logger: logging.Logger, method_name: str, event_dict: Even
     return event_dict
 
 
+def mongo_prefix_processor(logger: logging.Logger, method_name: str, event_dict: EventDict) -> EventDict:
+    """Add 'mongo: ' prefix to pymongo log messages and make them gray."""
+    logger_name = event_dict.get("logger", "")
+    if logger_name and logger_name.startswith("pymongo."):
+        event = event_dict.get("event", "")
+        if event and not event.startswith("mongo: "):
+            # Use ANSI escape codes for gray (dim) text
+            gray = "\033[90m"
+            reset = "\033[0m"
+            event_dict["event"] = f"mongo: {gray}{event}{reset}"
+    return event_dict
+
+
 pre_chain = [
     structlog.stdlib.add_log_level,
     structlog.stdlib.add_logger_name,
     timestamper,
     silence_processor,
+    mongo_prefix_processor,
 ]
 
-level = logging.DEBUG if CONFIG.debug_mode else logging.INFO
+# Debug levels: off = INFO, normal/high = DEBUG
+level = logging.DEBUG if CONFIG.debug_mode in ("normal", "high") else logging.INFO
+# Mongo log level: only DEBUG in "high" mode, otherwise WARNING
+mongo_level = logging.DEBUG if CONFIG.debug_mode == "high" else logging.WARNING
 
 
 def extract_from_record(_, __, event_dict):
@@ -78,7 +95,19 @@ logging.config.dictConfig(
                 "propagate": True,
             },
             "pymongo.topology": {
-                "level": logging.WARNING,
+                "level": mongo_level,
+                "propagate": True,
+            },
+            "pymongo.serverSelection": {
+                "level": mongo_level,
+                "propagate": True,
+            },
+            "pymongo.connection": {
+                "level": mongo_level,
+                "propagate": True,
+            },
+            "pymongo.command": {
+                "level": mongo_level,
                 "propagate": True,
             },
             "watchfiles.main": {
