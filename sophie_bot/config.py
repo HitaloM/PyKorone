@@ -17,8 +17,6 @@ from pydantic_settings import BaseSettings
 class Config(BaseSettings):
     token: str = "12345:ABCDEFG"
 
-    app_id: int | None = None
-    app_hash: str | None = None
     username: str | None = None
 
     owner_id: int | None = None

@@ -36,7 +36,6 @@ Copy `data/config.example.env` to `data/config.env` and fill in the required val
 - `TOKEN`: Your Telegram Bot API token.
 - `MONGO_HOST`: Connection string for MongoDB.
 - `REDIS_HOST`: Hostname for Redis.
-- `APP_ID` & `APP_HASH`: Obtained from [my.telegram.org](https://my.telegram.org).
 
 ### 2. Run the Playbook
 
