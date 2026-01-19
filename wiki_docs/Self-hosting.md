@@ -80,9 +80,12 @@ podman run -d \
 
 ### REST API
 
+The REST API is the same image but runs with `MODE=rest`.
+
 ```bash
 podman run -d \
   --name sophie-rest \
+  -e MODE=rest \
   --env-file /var/sophie/rest.env \
   -p 8075:8075 \
   registry.gitlab.com/sophiebot/sophie:stable-runtime
@@ -111,4 +114,4 @@ When enabled, the bot can route requests between instances based on configuratio
 
 ---
 > For advanced configuration, refer to the `deploy/templates/` directory in the repository.
-{.is-info}
+> {.is-info}
