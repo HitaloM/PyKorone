@@ -584,7 +584,7 @@ msgstr ""
 #: sophie_bot/modules/restrictions/handlers/mute.py:100
 #: sophie_bot/modules/restrictions/handlers/mute.py:133
 #: sophie_bot/modules/warns/handlers/warn.py:36
-#: sophie_bot/modules/warns/handlers/warn.py:68
+#: sophie_bot/modules/warns/handlers/warn.py:67
 msgid "Reason"
 msgid_plural "Reasons"
 msgstr[0] ""
@@ -776,7 +776,7 @@ msgstr ""
 #: sophie_bot/modules/restrictions/handlers/unmute.py:62
 #: sophie_bot/modules/users/handlers/id.py:24
 #: sophie_bot/modules/users/handlers/info.py:20
-#: sophie_bot/modules/warns/handlers/warn.py:62
+#: sophie_bot/modules/warns/handlers/warn.py:61
 msgid "User"
 msgstr ""
 
@@ -3703,64 +3703,64 @@ msgstr ""
 msgid "User to warn"
 msgstr ""
 
-#: sophie_bot/modules/warns/handlers/warn.py:45
+#: sophie_bot/modules/warns/handlers/warn.py:46
 msgid "I cannot warn myself."
 msgstr ""
 
-#: sophie_bot/modules/warns/handlers/warn.py:49
+#: sophie_bot/modules/warns/handlers/warn.py:50
 msgid "I cannot warn an admin."
 msgstr ""
 
-#: sophie_bot/modules/warns/handlers/warn.py:61
+#: sophie_bot/modules/warns/handlers/warn.py:60
 msgid "User Warned"
 msgstr ""
 
-#: sophie_bot/modules/warns/handlers/warn.py:63
+#: sophie_bot/modules/warns/handlers/warn.py:62
 msgid "Admin"
 msgstr ""
 
-#: sophie_bot/modules/warns/handlers/warn.py:64
+#: sophie_bot/modules/warns/handlers/warn.py:63
 msgid "Count"
 msgstr ""
 
-#: sophie_bot/modules/warns/handlers/warn.py:71
+#: sophie_bot/modules/warns/handlers/warn.py:70
 #, python-brace-format
 msgid "User has been {punishment} due to reaching max warns."
 msgstr ""
 
-#: sophie_bot/modules/warns/magic_handlers/modern_action.py:34
+#: sophie_bot/modules/warns/magic_handlers/modern_action.py:33
 msgid "Please write the warn reason."
 msgstr ""
 
-#: sophie_bot/modules/warns/magic_handlers/modern_action.py:42
+#: sophie_bot/modules/warns/magic_handlers/modern_action.py:41
 msgid "Warn"
 msgstr ""
 
-#: sophie_bot/modules/warns/magic_handlers/modern_action.py:50
+#: sophie_bot/modules/warns/magic_handlers/modern_action.py:49
 msgid "Warn user with the reason"
 msgstr ""
 
-#: sophie_bot/modules/warns/magic_handlers/modern_action.py:52
+#: sophie_bot/modules/warns/magic_handlers/modern_action.py:51
 msgid "Warns user with no reason"
 msgstr ""
 
-#: sophie_bot/modules/warns/magic_handlers/modern_action.py:57
+#: sophie_bot/modules/warns/magic_handlers/modern_action.py:56
 msgid "Change warn reason"
 msgstr ""
 
-#: sophie_bot/modules/warns/magic_handlers/modern_action.py:74
+#: sophie_bot/modules/warns/magic_handlers/modern_action.py:71
 msgid "No reason"
 msgstr ""
 
-#: sophie_bot/modules/warns/utils.py:46 sophie_bot/modules/warns/utils.py:53
+#: sophie_bot/modules/warns/utils.py:38 sophie_bot/modules/warns/utils.py:45
 msgid "banned"
 msgstr ""
 
-#: sophie_bot/modules/warns/utils.py:56
+#: sophie_bot/modules/warns/utils.py:48
 msgid "kicked"
 msgstr ""
 
-#: sophie_bot/modules/warns/utils.py:59 sophie_bot/modules/warns/utils.py:66
+#: sophie_bot/modules/warns/utils.py:51 sophie_bot/modules/warns/utils.py:58
 msgid "muted"
 msgstr ""
 

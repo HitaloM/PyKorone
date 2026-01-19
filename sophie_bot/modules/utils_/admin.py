@@ -87,8 +87,8 @@ async def check_user_admin_permissions(
     # Check database for admin status
     try:
         admin = await ChatAdminModel.find_one(
-            ChatAdminModel.chat.id == chat_model.id,  # type: ignore
-            ChatAdminModel.user.id == user_model.id,  # type: ignore
+            ChatAdminModel.chat.id == chat_model.iid,  # type: ignore
+            ChatAdminModel.user.id == user_model.iid,  # type: ignore
         )
 
         if not admin:

@@ -3,9 +3,9 @@ from sophie_bot.config import CONFIG
 from typing import Optional
 
 from aiogram import flags
-from aiogram.types import Message, User
+from aiogram.types import Message
 from ass_tg.types import TextArg, OptionalArg
-from stfu_tg import Doc, Title, Section, KeyValue
+from stfu_tg import Doc, Title, Section, KeyValue, UserLink
 
 from sophie_bot.args.users import SophieUserArg
 from sophie_bot.db.models import ChatModel
@@ -39,28 +39,27 @@ class WarnHandler(SophieMessageHandler):
     async def handle(self):
         message: Message = self.event
         target_user: ChatModel = self.data["user"]
+        admin_user: ChatModel = self.data["user_db"]
         reason: Optional[str] = self.data["reason"]
 
-        if target_user.chat_id == CONFIG.bot_id:
+        if target_user.tid == CONFIG.bot_id:
             await message.reply(_("I cannot warn myself."))
             return
 
-        if await is_user_admin(message.chat.id, target_user.chat_id):
+        if await is_user_admin(self.connection.db_model.iid, target_user.iid):
             await message.reply(_("I cannot warn an admin."))
             return
-
-        aiogram_user = User(id=target_user.chat_id, is_bot=False, first_name=target_user.first_name or "User")
 
         if not message.from_user:
             return
 
-        current, limit, punishment = await warn_user(message.chat, aiogram_user, message.from_user, reason)
+        current, limit, punishment = await warn_user(self.connection.db_model, target_user, admin_user, reason)
 
         # Construct response
         doc = Doc(
             Title(_("User Warned")),
-            KeyValue(_("User"), target_user.mention_html()),
-            KeyValue(_("Admin"), message.from_user.mention_html()),
+            KeyValue(_("User"), UserLink(target_user.tid, target_user.first_name_or_title)),
+            KeyValue(_("Admin"), UserLink(message.from_user.id, message.from_user.first_name)),
             KeyValue(_("Count"), f"{current}/{limit}"),
         )
 

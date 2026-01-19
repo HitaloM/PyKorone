@@ -10,7 +10,6 @@ from sophie_bot.modules.filters.types.modern_action_abc import (
     ModernActionABC,
     ModernActionSetting,
 )
-from sophie_bot.modules.utils_.admin import is_user_admin
 from sophie_bot.modules.warns.utils import warn_user
 from sophie_bot.utils.i18n import gettext as _
 from sophie_bot.utils.i18n import lazy_gettext as l_
@@ -65,15 +64,13 @@ class WarnModernAction(ModernActionABC[WarnActionDataModel]):
         if not message.from_user:
             return
 
-        chat_id = message.chat.id
-        target_user = message.from_user.id
-
-        if await is_user_admin(chat_id, target_user):
-            return
+        chat_db = data["chat_db"]
+        admin_db = data["user_db"]
+        target_db = data["user_db"]  # In filter/action context, usually the user who triggered it
 
         text = filter_data.reason or _("No reason")
 
         # Legacy workaround
         # connected_chat = await get_connected_chat(message)
 
-        await warn_user(message.chat, message.from_user, message.from_user, text)
+        await warn_user(chat_db, target_db, admin_db, text)

@@ -3,9 +3,10 @@ from __future__ import annotations
 from datetime import datetime, timezone
 from typing import Annotated, Optional
 
-from beanie import Document, Indexed, Link, PydanticObjectId
+from beanie import Document, Indexed, PydanticObjectId
 from pydantic import Field
 
+from sophie_bot.db.models._link_type import Link
 from .chat import ChatModel
 from .filters import FilterActionType
 
@@ -21,7 +22,7 @@ class WarnSettingsModel(Document):
     @staticmethod
     async def get_or_create(chat_iid: PydanticObjectId) -> WarnSettingsModel:
         # Cast to check if it helps, otherwise might need ignore
-        if settings := await WarnSettingsModel.find_one(WarnSettingsModel.chat.id == chat_iid):  # type: ignore
+        if settings := await WarnSettingsModel.find_one(WarnSettingsModel.chat.iid == chat_iid):  # type: ignore
             return settings
         return WarnSettingsModel(chat=chat_iid)
 
@@ -39,11 +40,11 @@ class WarnModel(Document):
     @staticmethod
     async def get_user_warns(chat_iid: PydanticObjectId, user_id: int) -> list[WarnModel]:
         return (
-            await WarnModel.find(WarnModel.chat.id == chat_iid, WarnModel.user_id == user_id)  # type: ignore
+            await WarnModel.find(WarnModel.chat.iid == chat_iid, WarnModel.user_id == user_id)  # type: ignore
             .sort(WarnModel.date)
             .to_list()
         )
 
     @staticmethod
     async def count_user_warns(chat_iid: PydanticObjectId, user_id: int) -> int:
-        return await WarnModel.find(WarnModel.chat.id == chat_iid, WarnModel.user_id == user_id).count()  # type: ignore
+        return await WarnModel.find(WarnModel.chat.iid == chat_iid, WarnModel.user_id == user_id).count()  # type: ignore
