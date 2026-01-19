@@ -16,6 +16,10 @@ Sophie is designed to run as a set of microservices to ensure scalability and hi
 
 All components are containerized and typically run using **Podman**.
 
+> **Note:** Prebuilt Docker containers are currently only available for x86_64 architecture. ARM-based systems will need
+> to build the images locally.
+> {.is-warning}
+
 ## Prerequisites
 
 Before starting, ensure you have the following installed on your host system:
