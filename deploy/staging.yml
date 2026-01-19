@@ -9,4 +9,5 @@
     - include_tasks: tasks/deploy_stable.yml
 
     - include_tasks: tasks/deploy_scheduler.yml
+    - include_tasks: tasks/deploy_rest.yml
     - include_tasks: tasks/deploy_swiki.yml
