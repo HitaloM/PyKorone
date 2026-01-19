@@ -64,7 +64,7 @@ class Config(BaseSettings):
     webhooks_handle_in_background: bool = True
 
     api_listen: str = "0.0.0.0"
-    api_port: int = 8000
+    api_port: int = 8075
     api_jwt_secret: str = "change_me_in_production"
     api_operator_token: Optional[str] = "test"
     api_jwt_expire_minutes: int = 1440  # 24 hours

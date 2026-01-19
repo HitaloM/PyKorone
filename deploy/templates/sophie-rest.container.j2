@@ -1,0 +1,17 @@
+[Unit]
+Description=Sophie REST API
+Requires=mongo.service valkey.service
+
+[Service]
+ExecStartPre=/bin/sleep 5
+Restart=always
+
+[Container]
+ContainerName=rest
+Image={{ lookup('ansible.builtin.env','IMAGE_NAME', default='registry.gitlab.com/sophiebot/sophie') }}:{{ image_tag }}
+PublishPort=8075:8075
+PodmanArgs=--memory=1000M
+EnvironmentFile=/var/sophie/rest.env
+
+[Install]
+WantedBy=multi-user.target default.target

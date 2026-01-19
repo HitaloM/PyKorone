@@ -1,0 +1,30 @@
+- name: Update podman image for REST API
+  containers.podman.podman_image:
+    name: "{{ lookup('ansible.builtin.env','IMAGE_NAME') }}"
+    tag: "beta-runtime"
+    force: true
+
+- name: Copy REST container quadlet file
+  vars:
+    image_tag: "beta-runtime"
+  ansible.builtin.template:
+    src: sophie-rest.container.j2
+    dest: /home/containers/.config/containers/systemd/sophie-rest.container
+    owner: containers
+    group: containers
+    mode: u=rw,g=r,o=r
+
+- name: Copy REST env file
+  ansible.builtin.template:
+    src: rest.env.j2
+    dest: /var/sophie/rest.env
+    owner: containers
+    group: containers
+    mode: u=rw,g=r,o=r
+
+- name: Restart REST container
+  ansible.builtin.systemd_service:
+    scope: user
+    state: restarted
+    daemon_reload: true
+    name: sophie-rest
