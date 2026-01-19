@@ -6,6 +6,8 @@ from structlog.typing import EventDict
 
 from sophie_bot.config import CONFIG
 
+SECURITY_LOG_FILE = "data/security.log.txt"
+
 timestamper = structlog.processors.TimeStamper(fmt="%Y-%m-%d %H:%M:%S")
 
 
@@ -26,6 +28,17 @@ def mongo_prefix_processor(logger: logging.Logger, method_name: str, event_dict:
             gray = "\033[90m"
             reset = "\033[0m"
             event_dict["event"] = f"mongo: {gray}{event}{reset}"
+    return event_dict
+
+
+def security_color_processor(logger: logging.Logger, method_name: str, event_dict: EventDict) -> EventDict:
+    logger_name = event_dict.get("logger", "")
+    if logger_name == "security":
+        event = event_dict.get("event", "")
+        if event:
+            orange = "\033[38;5;208m"
+            reset = "\033[0m"
+            event_dict["event"] = f"{orange}{event}{reset}"
     return event_dict
 
 
@@ -70,6 +83,7 @@ logging.config.dictConfig(
                 "()": structlog.stdlib.ProcessorFormatter,
                 "processors": [
                     structlog.stdlib.ProcessorFormatter.remove_processors_meta,
+                    security_color_processor,
                     structlog.dev.ConsoleRenderer(colors=True, sort_keys=False),
                 ],
                 "foreign_pre_chain": pre_chain,
@@ -80,6 +94,12 @@ logging.config.dictConfig(
                 "level": level,
                 "class": "logging.StreamHandler",
                 "formatter": "colored",
+            },
+            "security_file": {
+                "level": level,
+                "class": "logging.handlers.WatchedFileHandler",
+                "filename": SECURITY_LOG_FILE,
+                "formatter": "plain",
             },
             # "file": {
             #     "level": level,
@@ -93,6 +113,11 @@ logging.config.dictConfig(
                 "handlers": ["default"],
                 "level": level,
                 "propagate": True,
+            },
+            "security": {
+                "handlers": ["security_file", "default"],
+                "level": level,
+                "propagate": False,
             },
             "pymongo.topology": {
                 "level": mongo_level,
@@ -134,3 +159,4 @@ structlog.configure(
 
 event.setLevel(logging.DEBUG)
 log = structlog.get_logger()
+security_log = structlog.get_logger("security")

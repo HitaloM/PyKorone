@@ -15,11 +15,10 @@ from sophie_bot.utils.api.auth import (
     create_access_token,
     generate_token,
     hash_token,
-    logger,
     verify_telegram_login_widget,
 )
 from sophie_bot.utils.api.rate_limiter import rate_limit
-from sophie_bot.utils.logger import log
+from sophie_bot.utils.logger import security_log
 
 router = APIRouter(prefix="/auth", tags=["auth"])
 
@@ -79,16 +78,18 @@ async def login_tma(data: TMALoginRequest):
     try:
         init_data = InitData.parse(data.initData)
     except InitDataPyError:
-        log.error("Invalid init data", init_data=data.initData)
+        security_log.warning("auth.tma.invalid_init_data")
         raise HTTPException(status_code=400, detail="Invalid init data")
 
     if not (init_data.validate(CONFIG.token)):
-        log.error("Validation failed for init data", init_data=data.initData)
+        security_log.warning("auth.tma.validation_failed")
         raise HTTPException(status_code=403, detail="Invalid init data")
 
     if not (user := await ChatModel.get_by_tid(init_data.user.id)):
+        security_log.warning("auth.tma.user_not_found", user_tid=init_data.user.id)
         raise HTTPException(status_code=403, detail="User not found in database")
 
+    security_log.info("auth.tma.login_success", user_tid=user.tid)
     return await create_tokens(user)
 
 
@@ -97,8 +98,10 @@ async def login_widget(data: TelegramLoginWidgetData):
     verify_telegram_login_widget(data.model_dump())
 
     if not (user := await ChatModel.get_by_tid(data.id)):
+        security_log.warning("auth.widget.user_not_found", user_tid=data.id)
         raise HTTPException(status_code=403, detail="User not found in database")
 
+    security_log.info("auth.widget.login_success", user_tid=user.tid)
     return await create_tokens(user)
 
 
@@ -108,20 +111,22 @@ async def login_operator(data: OperatorLoginRequest):
         if CONFIG.owner_id:
             user = await ChatModel.get_by_tid(CONFIG.owner_id)
             if not user:
+                security_log.error("auth.operator.owner_not_found", owner_tid=CONFIG.owner_id)
                 raise HTTPException(status_code=500, detail="Owner not found in database")
-            logger.info("Operator logged in via static token", user_id=user.tid)
+            security_log.info("auth.operator.login_success", user_tid=user.tid, method="static_token")
             return await create_tokens(user, scopes=["operator"])
         else:
+            security_log.error("auth.operator.owner_id_not_configured")
             raise HTTPException(status_code=500, detail="Owner ID not configured")
 
     hashed = hash_token(data.token)
     api_token = await ApiTokenModel.get_by_hash(hashed)
     if api_token:
         user = api_token.user
-        logger.info("Operator logged in via API token", user_id=user.tid, label=api_token.label)
+        security_log.info("auth.operator.login_success", user_tid=user.tid, method="api_token", label=api_token.label)
         return await create_tokens(user, scopes=["operator"])
 
-    logger.warning("Failed operator login attempt")
+    security_log.warning("auth.operator.login_failed")
     raise HTTPException(status_code=401, detail="Invalid token")
 
 
@@ -132,12 +137,12 @@ async def refresh_token(data: RefreshRequest):
     token = await RefreshTokenModel.get_by_hash(hashed_token)
 
     if not token:
-        logger.warning("Invalid or expired refresh token used")
+        security_log.warning("auth.refresh.invalid_or_expired_token")
         raise HTTPException(status_code=401, detail="Invalid or expired refresh token")
 
     expires_at = token.expires_at.replace(tzinfo=timezone.utc)
     if expires_at < datetime.now(timezone.utc):
-        logger.warning("Refresh token expired", token_id=token.iid)
+        security_log.warning("auth.refresh.token_expired", token_iid=token.iid)
         await token.delete()  # Clean up expired token
         raise HTTPException(status_code=401, detail="Refresh token expired")
 
@@ -147,5 +152,5 @@ async def refresh_token(data: RefreshRequest):
     # Invalidate old refresh token to prevent replay attacks
     await token.delete()
 
-    logger.info("Token refreshed", user_iid=user.id, user_tid=user.tid)
+    security_log.info("auth.refresh.success", user_iid=user.id, user_tid=user.tid)
     return await create_tokens(user)
