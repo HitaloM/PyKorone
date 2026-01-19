@@ -65,7 +65,7 @@ class Config(BaseSettings):
     api_port: int = 8075
     api_jwt_secret: str = "change_me_in_production"
     api_operator_token: Optional[str] = "test"
-    api_jwt_expire_minutes: int = 1440  # 24 hours
+    api_jwt_expire_minutes: int = 720  # 12 hours
     api_cors_origins: List[str] = ["*"]
 
     commands_prefix: str = "/!"
@@ -101,14 +101,10 @@ class Config(BaseSettings):
     tavily_api_key: str = ""
     mistral_api_key: str | None = None
 
-    deepseek_key: Optional[str] = None
     ai_emoji: str = "✨"
     ai_autotrans_lowmem: bool = False
 
     filters_max_triggers: int = 2
-
-    # Features toggles
-    scheduler: bool = False
 
     # Metrics configuration
     metrics_enable: bool = True
