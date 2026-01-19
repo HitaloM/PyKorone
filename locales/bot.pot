@@ -43,22 +43,20 @@ msgstr ""
 msgid "A link to user, usually creates by mentioning a user without username."
 msgstr ""
 
-#: sophie_bot/filters/admin_rights.py:103
-#, python-brace-format
-msgid "You don't have the permission {permission} to do this."
+#: sophie_bot/filters/admin_rights.py:107
+msgid "I don't have the following permissions to do this:"
 msgstr ""
 
-#: sophie_bot/filters/admin_rights.py:110
-msgid "You must be an administrator to use this command."
+#: sophie_bot/filters/admin_rights.py:109
+msgid "You don't have the following permissions to do this:"
 msgstr ""
 
-#: sophie_bot/filters/admin_rights.py:139
-#, python-brace-format
-msgid "I don't have the permission {permission} to do this."
-msgstr ""
-
-#: sophie_bot/filters/admin_rights.py:146
+#: sophie_bot/filters/admin_rights.py:114
 msgid "I must be an administrator to use this command."
+msgstr ""
+
+#: sophie_bot/filters/admin_rights.py:116
+msgid "You must be an administrator to use this command."
 msgstr ""
 
 #: sophie_bot/filters/is_connected.py:52

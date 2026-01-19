@@ -36,7 +36,7 @@ async def check_user_admin_permissions(
     chat: Union[int, PydanticObjectId],
     user: Union[int, PydanticObjectId],
     required_permissions: Optional[list[str]] = None,
-) -> Union[bool, str]:
+) -> Union[bool, list[str]]:
     """
     Check if a user is an admin in the specified chat and has the required permissions.
 
@@ -47,7 +47,7 @@ async def check_user_admin_permissions(
 
     Returns:
         True if the user is an admin with all required permissions.
-        The missing permission name (str) if a specific permission is missing.
+        A list of missing permission names (list[str]) if any specific permissions are missing.
         False if the user is not an admin at all.
     """
     log.debug("check_user_admin_permissions", chat=chat, user=user, permissions=required_permissions)
@@ -87,8 +87,8 @@ async def check_user_admin_permissions(
     # Check database for admin status
     try:
         admin = await ChatAdminModel.find_one(
-            ChatAdminModel.chat.iid == chat_model.iid,  # type: ignore
-            ChatAdminModel.user.iid == user_model.iid,  # type: ignore
+            ChatAdminModel.chat.id == chat_model.id,  # type: ignore
+            ChatAdminModel.user.id == user_model.id,  # type: ignore
         )
 
         if not admin:
@@ -103,12 +103,13 @@ async def check_user_admin_permissions(
             return True
 
         # Check each required permission
+        missing_permissions = []
         for permission in required_permissions:
             permission_value = getattr(admin.member, permission, None)
             if permission_value is None or permission_value is False:
-                return permission
+                missing_permissions.append(permission)
 
-        return True
+        return missing_permissions or True
 
     except TelegramBadRequest as err:
         # Handle case when function is called outside of a group

@@ -23,5 +23,4 @@ __module_info__ = LazyProxy(
 )
 
 
-async def __pre_setup__():
-    router.message.register(WarnHandler, *WarnHandler.filters())
+__handlers__ = (WarnHandler,)

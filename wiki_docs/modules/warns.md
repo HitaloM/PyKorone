@@ -11,4 +11,4 @@ icon: ⚠️
 
 | Commands | Arguments | Description | Remarks |
 | --- | --- | --- | --- |
-| `/warn` | - | Warns a user. | *Disable-able* |
+| `/warn` | `<User to warn>` `<Reason>` | Warns a user. | *Disable-able* |

@@ -4,14 +4,15 @@ from dataclasses import dataclass, field
 from typing import Any, Optional, Union
 
 from aiogram.dispatcher.event.bases import SkipHandler
-from aiogram.exceptions import TelegramBadRequest
 from aiogram.filters import Filter
 from aiogram.types import TelegramObject
 from aiogram.types.callback_query import CallbackQuery
+from stfu_tg import Doc, Section, VList
 
 from sophie_bot.config import CONFIG
 from sophie_bot.middlewares.connections import ChatConnection
 from sophie_bot.modules.utils_.admin import check_user_admin_permissions
+from sophie_bot.modules.utils_.common_try import common_try
 from sophie_bot.utils.i18n import gettext as _
 from sophie_bot.utils.logger import log
 
@@ -71,10 +72,10 @@ class UserRestricting(Filter):
     async def __call__(
         self, event: TelegramObject, connection: Optional[ChatConnection] = None
     ) -> Union[bool, dict[str, Any]]:
-        user_id = await self.get_target_id(event)
+        user_tid = await self.get_target_id(event)
         message = event.message if hasattr(event, "message") else event
 
-        chat_id = connection.tid if connection else message.chat.id  # type: ignore[union-attr]
+        chat_tid = connection.tid if connection else message.chat.id  # type: ignore[union-attr]
         is_connected = connection.is_connected if connection else False
 
         # Skip if in PM and not connected to the chat
@@ -85,7 +86,7 @@ class UserRestricting(Filter):
         elif is_connected:
             log.debug("Admin rights: Connection to the chat detected")
 
-        check = await check_user_admin_permissions(chat_id, user_id, self.required_permissions or None)
+        check = await check_user_admin_permissions(chat_tid, user_tid, self.required_permissions or None)
         if check is not True:
             # check = missing permission in this scope
             await self.no_rights_msg(event, check)
@@ -96,23 +97,33 @@ class UserRestricting(Filter):
     async def get_target_id(self, message: TelegramObject) -> int:
         return message.from_user.id  # type: ignore[union-attr]
 
-    async def no_rights_msg(self, message: TelegramObject, required_permissions: Union[bool, str]) -> None:
-        task = message.answer if hasattr(message, "message") else message.reply  # type: ignore[union-attr]
+    async def no_rights_msg(self, event: TelegramObject, required_permissions: Union[bool, list[str]]) -> None:
+        actual_message: Any = event.message if isinstance(event, CallbackQuery) else event
+        is_bot = await self.get_target_id(event) == CONFIG.bot_id
+
         if not isinstance(required_permissions, bool):  # Check if check_user_admin_permissions returned missing perm
-            permission_display = " ".join(required_permissions.replace("can_", "").split("_"))
-            text = _("You don't have the permission {permission} to do this.").format(permission=permission_display)
-            try:
-                await task(text)
-            except TelegramBadRequest as error:
-                if error.args == "Reply message not found":
-                    await message.answer(text)  # type: ignore[union-attr]
+            missing_perms = [p.replace("can_", "").replace("_", " ") for p in required_permissions]
+            text = (
+                _("I don't have the following permissions to do this:")
+                if is_bot
+                else _("You don't have the following permissions to do this:")
+            )
+            doc = Doc(Section(text, VList(*missing_perms)))
         else:
-            text = _("You must be an administrator to use this command.")
-            try:
-                await task(text)
-            except TelegramBadRequest as error:
-                if error.args == "Reply message not found":
-                    await message.answer(text)  # type: ignore[union-attr]
+            text = (
+                _("I must be an administrator to use this command.")
+                if is_bot
+                else _("You must be an administrator to use this command.")
+            )
+            doc = Doc(text)
+
+        async def answer() -> Any:
+            return await getattr(actual_message, "answer")(str(doc))
+
+        if hasattr(actual_message, "reply"):
+            await common_try(getattr(actual_message, "reply")(str(doc)), reply_not_found=answer)
+        elif hasattr(actual_message, "answer"):
+            await answer()
 
 
 class BotHasPermissions(UserRestricting):
@@ -129,23 +140,5 @@ class BotHasPermissions(UserRestricting):
     }
     PAYLOAD_ARGUMENT_NAME = "bot_member"
 
-    async def get_target_id(self, message):
+    async def get_target_id(self, message: TelegramObject) -> int:
         return CONFIG.bot_id
-
-    async def no_rights_msg(self, message, required_permissions):
-        message = message.message if isinstance(message, CallbackQuery) else message
-        if not isinstance(required_permissions, bool):
-            required_permissions = " ".join(required_permissions.strip("can_").split("_"))
-            text = _("I don't have the permission {permission} to do this.").format(permission=required_permissions)
-            try:
-                await message.reply(text)
-            except TelegramBadRequest as error:
-                if error.args == "Reply message not found":
-                    return await message.answer(text)
-        else:
-            text = _("I must be an administrator to use this command.")
-            try:
-                await message.reply(text)
-            except TelegramBadRequest as error:
-                if error.args == "Reply message not found":
-                    return await message.answer(text)
