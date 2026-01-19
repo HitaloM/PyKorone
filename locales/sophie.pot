@@ -3388,15 +3388,15 @@ msgstr ""
 msgid "Small commands for fixing problems and issues"
 msgstr ""
 
-#: sophie_bot/modules/troubleshooters/handlers/admincache.py:13
+#: sophie_bot/modules/troubleshooters/handlers/admincache.py:15
 msgid "Reset admin rights cache, use if Sophie didn't get the recently added admin"
 msgstr ""
 
-#: sophie_bot/modules/troubleshooters/handlers/admincache.py:18
+#: sophie_bot/modules/troubleshooters/handlers/admincache.py:24
 msgid "You can't use this command in private chats."
 msgstr ""
 
-#: sophie_bot/modules/troubleshooters/handlers/admincache.py:22
+#: sophie_bot/modules/troubleshooters/handlers/admincache.py:28
 msgid "Admin rights cache has been reset."
 msgstr ""
 

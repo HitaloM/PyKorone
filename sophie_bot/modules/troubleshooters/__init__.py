@@ -22,7 +22,7 @@ __module_info__ = l_("Small commands for fixing problems and issues")
 
 __stats__ = beta_stats
 
-__handlers__ = (CancelCallbackHandler, TypedCancelCallbackHandler)
+__handlers__ = (CancelCallbackHandler, TypedCancelCallbackHandler, ResetAdminCache)
 
 
 async def __pre_setup__():
@@ -35,4 +35,3 @@ async def __pre_setup__():
 
     # Troubleshooting
     router.message.register(CancelState, CMDFilter("cancel"))
-    router.message.register(ResetAdminCache, CMDFilter("admincache"), UserRestricting(admin=True))
