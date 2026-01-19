@@ -9,7 +9,9 @@ build_runtime_container:
     IMAGE_FULL: "$CI_REGISTRY_IMAGE:$CI_COMMIT_BRANCH-runtime"
   stage: build
   before_script:
-    - dnf install -y make git
+    - if ! command -v make &> /dev/null || ! command -v git &> /dev/null; then
+        dnf install -y make git;
+      fi
     - podman login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" registry.gitlab.com
     - make pull_libs
   script: |
@@ -20,6 +22,7 @@ build_runtime_container:
       --manifest "$IMAGE_FULL" \
       --file build/runtime/Dockerfile \
       --layers \
+      --build-arg BUILDKIT_INLINE_CACHE=1 \
       .
 
     podman manifest push "$IMAGE_FULL"

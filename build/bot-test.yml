@@ -9,8 +9,7 @@ cache:
     - .cache/uv
     - .venv
 
-test-codestyle:
-  stage: test
+.test-base:
   image: python:3.13-slim
   cache:
     key: ${CI_COMMIT_REF_SLUG}
@@ -20,29 +19,24 @@ test-codestyle:
       - .venv
     policy: pull-push
   before_script:
-    - apt-get update && apt-get install -y make git
-    - pip install uv
+    - if ! command -v make &> /dev/null || ! command -v git &> /dev/null; then
+        apt-get update && apt-get install -y make git;
+      fi
+    - if ! command -v uv &> /dev/null; then
+        pip install uv;
+      fi
     - make pull_libs
     - uv sync --dev
+
+test-codestyle:
+  extends: .test-base
+  stage: test
   script:
     - uv run make test_code_style
 
-
 test-codeanal:
+  extends: .test-base
   stage: test
-  image: python:3.13-slim
-  cache:
-    key: ${CI_COMMIT_REF_SLUG}
-    paths:
-      - .cache/pip
-      - .cache/uv
-      - .venv
-    policy: pull-push
-  before_script:
-    - apt-get update && apt-get install -y make git
-    - pip install uv
-    - make pull_libs
-    - uv sync --dev
   script:
     - uv run make test_codeanalysis
 

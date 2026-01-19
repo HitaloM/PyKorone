@@ -4,8 +4,9 @@ ENV PIP_DEFAULT_TIMEOUT=100 \
     PIP_DISABLE_PIP_VERSION_CHECK=1 \
     PIP_NO_CACHE_DIR=1
 
-RUN apt update
-RUN apt install -y build-essential gcc git pkg-config libicu-dev
+RUN apt update && \
+    apt install -y --no-install-recommends build-essential gcc git pkg-config libicu-dev && \
+    rm -rf /var/lib/apt/lists/*
 RUN pip install uv
 RUN python -m venv /venv
 
@@ -13,19 +14,20 @@ WORKDIR /build
 COPY pyproject.toml uv.lock ./
 COPY libs libs
 
-RUN uv export --no-hashes --no-editable --format requirements.txt | /venv/bin/pip install -r /dev/stdin
+RUN --mount=type=cache,target=/root/.cache/uv \
+    uv export --no-hashes --no-editable --format requirements.txt | /venv/bin/pip install -r /dev/stdin
 
 COPY sophie_bot sophie_bot
 COPY locales locales
 COPY Makefile Makefile
 
 # Install dependencies and setup locale
-RUN bash -c "source /venv/bin/activate && \
-    /venv/bin/pip install Babel && \
-    export PATH=/venv/bin:\$PATH && \
-    make compile_lang"
+RUN . /venv/bin/activate && \
+    pip install Babel && \
+    make compile_lang
 
-RUN uv build --wheel && /venv/bin/pip install dist/*.whl
+RUN --mount=type=cache,target=/root/.cache/uv \
+    uv build --wheel && /venv/bin/pip install dist/*.whl
 
 COPY .git .git
 RUN BRANCH_NAME=$(git rev-parse --abbrev-ref HEAD) && \
@@ -41,8 +43,9 @@ ENV PYTHONFAULTHANDLER=1 \
     PYTHONHASHSEED=random \
     PYTHONUNBUFFERED=1
 
-RUN apt update
-RUN apt install -y libicu-dev
+RUN apt update && \
+    apt install -y --no-install-recommends libicu-dev && \
+    rm -rf /var/lib/apt/lists/*
 
 # RUN apk add --no-cache libffi libpq
 
