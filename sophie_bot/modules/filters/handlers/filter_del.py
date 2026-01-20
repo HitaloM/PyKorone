@@ -12,6 +12,8 @@ from sophie_bot.db.models import FiltersModel
 from sophie_bot.filters.admin_rights import UserRestricting
 from sophie_bot.filters.cmd import CMDFilter
 from sophie_bot.filters.is_connected import GroupOrConnectedFilter
+from sophie_bot.modules.logging.events import LogEvent
+from sophie_bot.modules.logging.utils import log_event
 from sophie_bot.modules.filters.utils_.filter_action_text import filter_action_text
 from sophie_bot.utils.handlers import SophieMessageHandler
 from sophie_bot.utils.i18n import gettext as _
@@ -57,6 +59,9 @@ class FilterDeleteHandler(SophieMessageHandler):
         )
 
     async def handle(self) -> Any:
+        if not self.event.from_user:
+            return
+
         keyword: str = self.data["handler"]
         index: int = (self.data["index"] or 1) - 1
 
@@ -72,6 +77,13 @@ class FilterDeleteHandler(SophieMessageHandler):
             return await self._many_filters_message(keyword, items)
 
         await items[index].delete()
+
+        await log_event(
+            self.connection.tid,
+            self.event.from_user.id,
+            LogEvent.FILTER_DELETED,
+            {"keyword": keyword},
+        )
 
         return await self.event.reply(
             Template(_("🗑 The filter with keyword {keyword} was deleted!"), keyword=Code(keyword)).to_html(),

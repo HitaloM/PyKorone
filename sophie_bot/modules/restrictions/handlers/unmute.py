@@ -12,6 +12,8 @@ from sophie_bot.args.users import SophieUserArg
 from sophie_bot.config import CONFIG
 from sophie_bot.filters.admin_rights import BotHasPermissions, UserRestricting
 from sophie_bot.filters.cmd import CMDFilter
+from sophie_bot.modules.logging.events import LogEvent
+from sophie_bot.modules.logging.utils import log_event
 from sophie_bot.modules.restrictions.utils.restrictions import unmute_user
 from sophie_bot.utils.handlers import SophieMessageHandler
 from sophie_bot.modules.utils_.get_user import get_arg_or_reply_user, get_union_user
@@ -56,6 +58,13 @@ class UnmuteUserHandler(SophieMessageHandler):
 
         if not await unmute_user(connection.tid, user.chat_id):
             return await self.event.reply(_("Failed to unmute the user. Make sure I have the right permissions."))
+
+        await log_event(
+            connection.tid,
+            self.event.from_user.id,
+            LogEvent.USER_UNMUTED,
+            {"target_user_id": user.chat_id},
+        )
 
         doc = Section(
             KeyValue(_("Chat"), connection.title),

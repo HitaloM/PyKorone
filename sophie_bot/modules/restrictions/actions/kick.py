@@ -4,7 +4,10 @@ from aiogram.types import Message
 from stfu_tg import Template, Title, UserLink
 from stfu_tg.doc import Doc, Element
 
+from sophie_bot.config import CONFIG
 from sophie_bot.modules.filters.types.modern_action_abc import ModernActionABC
+from sophie_bot.modules.logging.events import LogEvent
+from sophie_bot.modules.logging.utils import log_event
 from sophie_bot.modules.restrictions.utils import is_user_admin, kick_user
 from sophie_bot.utils.i18n import gettext as _
 from sophie_bot.utils.i18n import lazy_gettext as l_
@@ -42,5 +45,17 @@ class KickModernAction(ModernActionABC[None]):
 
         if not await kick_user(chat_id, message.from_user.id):
             return
+
+        if "filter_id" in data:
+            await log_event(
+                chat_id,
+                CONFIG.bot_id,
+                LogEvent.USER_KICKED,
+                {
+                    "target_user_id": message.from_user.id,
+                    "filter_id": data["filter_id"],
+                    "action": "kick_user",
+                },
+            )
 
         return doc

@@ -8,6 +8,8 @@ from sophie_bot.filters.admin_rights import BotHasPermissions, UserRestricting
 from sophie_bot.filters.chat_status import ChatTypeFilter
 from sophie_bot.filters.cmd import CMDFilter
 from sophie_bot.utils.handlers import SophieMessageHandler
+from sophie_bot.modules.logging.events import LogEvent
+from sophie_bot.modules.logging.utils import log_event
 from sophie_bot.modules.utils_.common_try import common_try
 from sophie_bot.services.bot import bot
 from sophie_bot.utils.i18n import gettext as _
@@ -26,6 +28,9 @@ class DelMsgCmdHandler(SophieMessageHandler):
         )
 
     async def handle(self) -> Any:
+        if not self.event.from_user:
+            return
+
         if not self.event.reply_to_message:
             return await self.event.reply(_("Reply to a message to delete it."))
 
@@ -38,4 +43,11 @@ class DelMsgCmdHandler(SophieMessageHandler):
 
         await common_try(
             bot.delete_messages(self.event.chat.id, [self.event.message_id, self.event.reply_to_message.message_id])
+        )
+
+        await log_event(
+            self.event.chat.id,
+            self.event.from_user.id,
+            LogEvent.MESSAGE_DELETED,
+            {"message_id": self.event.reply_to_message.message_id},
         )

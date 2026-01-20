@@ -10,6 +10,8 @@ from sophie_bot.db.models import NoteModel
 from sophie_bot.filters.admin_rights import UserRestricting
 from sophie_bot.filters.cmd import CMDFilter
 from sophie_bot.modules.notes.callbacks import DeleteAllNotesCallback
+from sophie_bot.modules.logging.events import LogEvent
+from sophie_bot.modules.logging.utils import log_event
 from sophie_bot.utils.handlers import (
     SophieCallbackQueryHandler,
     SophieMessageHandler,
@@ -68,7 +70,8 @@ class DelAllNotesCallbackHandler(SophieCallbackQueryHandler):
         if user_id != data.user_id:
             return await self.event.answer(_("Only the initiator can confirm deleting all notes"))
 
-        deleted = await NoteModel.delete_all()
+        deleted = await NoteModel.delete_all_notes(connection.tid)
+        await log_event(connection.tid, user_id, LogEvent.ALL_NOTES_DELETED)
 
         text = Template(
             _("🗑 All the notes ({removed_count}) have been deleted in the {chat_name}"),

@@ -39,6 +39,7 @@ MODULES = [
     "antiflood",
     "language",
     "connections",
+    "logging",
 ]
 
 

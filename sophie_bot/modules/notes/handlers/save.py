@@ -12,6 +12,8 @@ from sophie_bot.db.models.notes import Saveable
 from sophie_bot.filters.admin_rights import UserRestricting
 from sophie_bot.filters.cmd import CMDFilter
 from sophie_bot.middlewares.connections import ChatConnection
+from sophie_bot.modules.logging.events import LogEvent
+from sophie_bot.modules.logging.utils import log_event
 from sophie_bot.modules.notes.utils.buttons_processor.ass_types.TextWithButtonsArg import TextWithButtonsArg
 from sophie_bot.modules.notes.utils.buttons_processor.buttons import ButtonsList
 from sophie_bot.modules.notes.utils.names import format_notes_aliases
@@ -34,6 +36,9 @@ class SaveNote(SophieMessageHandler):
         return CMDFilter(("save", "addnote")), UserRestricting(admin=True)
 
     async def handle(self) -> Any:
+        if not self.event.from_user:
+            return
+
         connection: ChatConnection = self.data["connection"]
 
         text_with_buttons: dict[str, Any] = self.data["text_with_buttons"]
@@ -47,7 +52,7 @@ class SaveNote(SophieMessageHandler):
         notenames: tuple[str, ...] = tuple(name.lower() for name in self.data["notenames"])
 
         saveable = await parse_saveable(self.event, raw_text, offset=text_offset, buttons=buttons)
-        is_created = await self.save(saveable, notenames, connection.tid, self.data)
+        is_created = await self.save(saveable, notenames, connection.tid, self.event.from_user.id, self.data)
 
         await self.event.reply(
             str(
@@ -64,7 +69,7 @@ class SaveNote(SophieMessageHandler):
             )
         )
 
-    async def save(self, saveable: Saveable, notenames: Sequence[str], chat_id: int, data: dict) -> bool:
+    async def save(self, saveable: Saveable, notenames: Sequence[str], chat_id: int, user_id: int, data: dict) -> bool:
         model = await NoteModel.get_by_notenames(chat_id, notenames)
 
         # Explicitly type the saveable data to ensure type safety
@@ -86,7 +91,9 @@ class SaveNote(SophieMessageHandler):
         if not model:
             model = NoteModel(**saveable_data)
             await model.create()
+            await log_event(chat_id, user_id, LogEvent.NOTE_SAVED, {"note_names": notenames})
             return True
 
         await model.set(saveable_data)
+        await log_event(chat_id, user_id, LogEvent.NOTE_UPDATED, {"note_names": notenames})
         return False

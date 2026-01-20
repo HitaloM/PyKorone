@@ -5,11 +5,14 @@ from pydantic import BaseModel
 from stfu_tg import Section
 from stfu_tg.doc import Element
 
+from sophie_bot.config import CONFIG
 from sophie_bot.modules.filters.types.modern_action_abc import (
     ActionSetupMessage,
     ModernActionABC,
     ModernActionSetting,
 )
+from sophie_bot.modules.logging.events import LogEvent
+from sophie_bot.modules.logging.utils import log_event
 from sophie_bot.modules.warns.utils import warn_user
 from sophie_bot.utils.i18n import gettext as _
 from sophie_bot.utils.i18n import lazy_gettext as l_
@@ -73,4 +76,19 @@ class WarnModernAction(ModernActionABC[WarnActionDataModel]):
         # Legacy workaround
         # connected_chat = await get_connected_chat(message)
 
-        await warn_user(chat_db, target_db, admin_db, text)
+        current, limit, punishment, warn = await warn_user(chat_db, target_db, admin_db, text)
+
+        if "filter_id" in data:
+            await log_event(
+                chat_db.tid,
+                CONFIG.bot_id,
+                LogEvent.WARN_ADDED,
+                {
+                    "target_user_id": target_db.tid,
+                    "reason": text,
+                    "current": current,
+                    "limit": limit,
+                    "filter_id": data["filter_id"],
+                    "action": "warn_user",
+                },
+            )

@@ -15,6 +15,8 @@ from sophie_bot.args.users import SophieUserArg
 from sophie_bot.config import CONFIG
 from sophie_bot.filters.admin_rights import BotHasPermissions, UserRestricting
 from sophie_bot.filters.cmd import CMDFilter
+from sophie_bot.modules.logging.events import LogEvent
+from sophie_bot.modules.logging.utils import log_event
 from sophie_bot.modules.utils_.admin import is_user_admin
 from sophie_bot.modules.restrictions.utils.restrictions import ban_user
 from sophie_bot.utils.handlers import SophieMessageHandler
@@ -67,6 +69,12 @@ class BanUserHandler(SophieMessageHandler):
             return await self.event.reply(_("Failed to ban the user. Make sure I have the right permissions."))
 
         reason = self.data.get("reason")
+        await log_event(
+            connection.tid,
+            self.event.from_user.id,
+            LogEvent.USER_BANNED,
+            {"target_user_id": user.chat_id, "reason": reason},
+        )
 
         doc = Section(
             KeyValue(_("Chat"), connection.title),
@@ -124,6 +132,12 @@ class TempBanUserHandler(SophieMessageHandler):
             return await self.event.reply(_("Failed to ban the user. Make sure I have the right permissions."))
 
         reason = self.data.get("reason")
+        await log_event(
+            connection.tid,
+            self.event.from_user.id,
+            LogEvent.USER_BANNED,
+            {"target_user_id": user.chat_id, "reason": reason, "duration": until_date.total_seconds()},
+        )
 
         doc = Section(
             KeyValue(_("Chat"), connection.title),

@@ -17,6 +17,8 @@ from sophie_bot.utils.i18n import gettext as _
 from sophie_bot.utils.i18n import lazy_gettext as l_
 from sophie_bot.modules.utils_.admin import is_user_admin
 from sophie_bot.filters.admin_rights import BotHasPermissions, UserRestricting
+from sophie_bot.modules.logging.events import LogEvent
+from sophie_bot.modules.logging.utils import log_event
 from ..callbacks import DeleteWarnCallback
 
 
@@ -56,6 +58,13 @@ class WarnHandler(SophieMessageHandler):
             return
 
         current, limit, punishment, warn = await warn_user(self.connection.db_model, target_user, admin_user, reason)
+
+        await log_event(
+            self.connection.tid,
+            message.from_user.id,
+            LogEvent.WARN_ADDED,
+            {"target_user_id": target_user.tid, "reason": reason, "current": current, "limit": limit},
+        )
 
         # Construct response
         doc = Doc(

@@ -22,6 +22,7 @@ from sophie_bot.db.models.federations import Federation, FederationBan
 from sophie_bot.db.models.filters import FiltersModel
 from sophie_bot.db.models.greetings import GreetingsModel
 from sophie_bot.db.models.language import LanguageModel
+from sophie_bot.db.models.log import LogModel
 from sophie_bot.db.models.notes import NoteModel
 from sophie_bot.db.models.privatenotes import PrivateNotesModel
 from sophie_bot.db.models.refresh_token import RefreshTokenModel
@@ -37,6 +38,7 @@ models: List[Type[Document]] = [
     ChatTopicModel,
     ChatAdminModel,
     LanguageModel,
+    LogModel,
     ChatConnectionModel,
     NoteModel,
     BetaModeModel,

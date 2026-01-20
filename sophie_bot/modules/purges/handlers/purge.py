@@ -9,6 +9,8 @@ from sophie_bot.filters.admin_rights import BotHasPermissions, UserRestricting
 from sophie_bot.filters.chat_status import ChatTypeFilter
 from sophie_bot.filters.cmd import CMDFilter
 from sophie_bot.utils.handlers import SophieMessageHandler
+from sophie_bot.modules.logging.events import LogEvent
+from sophie_bot.modules.logging.utils import log_event
 from sophie_bot.modules.utils_.common_try import common_try
 from sophie_bot.services.bot import bot
 from sophie_bot.utils.i18n import gettext as _
@@ -27,6 +29,9 @@ class PurgeMessagesHandler(SophieMessageHandler):
         )
 
     async def handle(self) -> Any:
+        if not self.event.from_user:
+            return
+
         if not self.event.reply_to_message:
             return await self.event.reply(_("Reply to a message to start."))
 
@@ -51,6 +56,14 @@ class PurgeMessagesHandler(SophieMessageHandler):
                 messages = []
 
         await common_try(bot.delete_messages(chat_id, messages))
+
+        count = last - first + 1
+        await log_event(
+            chat_id,
+            self.event.from_user.id,
+            LogEvent.MESSAGES_PURGED,
+            {"count_approx": count},
+        )
 
         msg = await bot.send_message(chat_id, _("Purge completed. This message will be removed in 5 seconds."))
         await sleep(5)

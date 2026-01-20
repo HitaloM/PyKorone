@@ -3,6 +3,8 @@ from typing import Any
 from aiogram.types import CallbackQuery, Message
 from stfu_tg import Doc, Title, Section, UserLink
 
+from sophie_bot.modules.logging.events import LogEvent
+from sophie_bot.modules.logging.utils import log_event
 from sophie_bot.modules.utils_.admin import is_user_admin
 from sophie_bot.utils.handlers import SophieCallbackQueryHandler
 from sophie_bot.utils.i18n import gettext as _
@@ -29,6 +31,12 @@ class DeleteWarnCallbackHandler(SophieCallbackQueryHandler):
             return
 
         if await delete_warn(callback_data.warn_iid):
+            await log_event(
+                self.connection.tid,
+                self.event.from_user.id,
+                LogEvent.WARN_REMOVED,
+                {"warn_id": str(callback_data.warn_iid)},
+            )
             await callback.answer(_("Warning deleted!"))
             admin = self.data["user_db"]
             doc = Doc(
@@ -67,6 +75,13 @@ class ResetWarnsCallbackHandler(SophieCallbackQueryHandler):
 
         await WarnModel.find(WarnModel.chat.iid == chat_iid, WarnModel.user_id == target_user_tid).delete()
 
+        await log_event(
+            self.connection.tid,
+            self.event.from_user.id,
+            LogEvent.WARN_RESET,
+            {"target_user_id": target_user_tid},
+        )
+
         target_user = await ChatModel.get_by_tid(target_user_tid)
         target_user_name = target_user.first_name_or_title if target_user else _("User")
 
@@ -93,6 +108,7 @@ class ResetAllWarnsCallbackHandler(SophieCallbackQueryHandler):
 
         chat_iid = self.connection.db_model.iid
         await WarnModel.find(WarnModel.chat.iid == chat_iid).delete()
+        await log_event(self.connection.tid, self.event.from_user.id, LogEvent.ALL_WARNS_RESET)
 
         await callback.answer(_("All warnings reset!"))
         return await callback.message.edit_text(_("Reset all warnings in this chat."))

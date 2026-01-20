@@ -90,6 +90,9 @@ class EnforceFiltersMiddleware(BaseMiddleware):
         triggered: list[str] = []
         messages = []
 
+        # Inject filter ID into data for logging purposes
+        data["filter_id"] = str(filter_item.id)
+
         for action, action_data in filter_item.actions.items():
             if action in triggered_actions:
                 log.debug("EnforceFiltersMiddleware: already triggered action, dropping...")

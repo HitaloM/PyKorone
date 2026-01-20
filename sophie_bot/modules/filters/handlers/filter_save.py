@@ -8,6 +8,8 @@ from sophie_bot.db.models import FiltersModel
 from sophie_bot.db.models.filters import FilterInSetupType
 from sophie_bot.filters.admin_rights import UserRestricting
 from sophie_bot.filters.is_connected import GroupOrConnectedFilter
+from sophie_bot.modules.logging.events import LogEvent
+from sophie_bot.modules.logging.utils import log_event
 from sophie_bot.modules.filters.callbacks import SaveFilterCallback
 from sophie_bot.modules.filters.utils_.legacy_filter_handler import (
     check_legacy_filter_handler,
@@ -30,10 +32,17 @@ class FilterSaveHandler(SophieCallbackQueryHandler):
         if filter_setup.oid:
             filter_model = await FiltersModel.get_by_id(ObjectId(filter_setup.oid))
             await filter_model.update_fields(filter_setup)
-            return await filter_model.save()
+            await filter_model.save()
+        else:
+            filter_model = filter_setup.to_model(self.connection.tid)
+            await filter_model.save()
 
-        filter_model = filter_setup.to_model(self.connection.tid)
-        await filter_model.save()
+        await log_event(
+            self.connection.tid,
+            self.event.from_user.id,
+            LogEvent.FILTER_SAVED,
+            {"keyword": filter_setup.handler.keyword},
+        )
 
     async def handle(self) -> Any:
         try:
