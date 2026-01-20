@@ -16,6 +16,7 @@ from prometheus_client import (
     start_http_server,
 )
 
+from sophie_bot.constants import METRICS_HISTOGRAM_BUCKETS
 from sophie_bot.utils.logger import log
 
 
@@ -107,7 +108,7 @@ def make_metrics(registry: CollectorRegistry, config: Any) -> SophieMetrics:
     event_loop_lag_seconds = Gauge("sophie_event_loop_lag_seconds", "Event loop lag in seconds", registry=registry)
 
     # Create histogram buckets
-    buckets = config.metrics_histogram_buckets
+    buckets = METRICS_HISTOGRAM_BUCKETS
 
     handler_duration_seconds = Histogram(
         "sophie_handler_duration_seconds",

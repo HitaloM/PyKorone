@@ -444,33 +444,33 @@ msgstr ""
 msgid "Top users — this month"
 msgstr ""
 
-#: sophie_bot/modules/ai/handlers/pm.py:24
+#: sophie_bot/modules/ai/handlers/pm.py:25
 msgid "Start the AI ChatBot mode"
 msgstr ""
 
-#: sophie_bot/modules/ai/handlers/pm.py:35
+#: sophie_bot/modules/ai/handlers/pm.py:36
 #, python-brace-format
 msgid "{ai_emoji} Entered to the AI Mode, in this mode you can directly interact with the AI."
 msgstr ""
 
-#: sophie_bot/modules/ai/handlers/pm.py:40
+#: sophie_bot/modules/ai/handlers/pm.py:41
 #, python-brace-format
 msgid "By using the AI, you agree to the {privacy_policy} of the bot and third party AI services used."
 msgstr ""
 
-#: sophie_bot/modules/ai/handlers/pm.py:41
+#: sophie_bot/modules/ai/handlers/pm.py:42
 msgid "privacy policy"
 msgstr ""
 
-#: sophie_bot/modules/ai/handlers/pm.py:43
+#: sophie_bot/modules/ai/handlers/pm.py:44
 msgid "Click on the button below to exit."
 msgstr ""
 
-#: sophie_bot/modules/ai/handlers/pm.py:51
+#: sophie_bot/modules/ai/handlers/pm.py:52
 msgid "Hello! How can I help you?"
 msgstr ""
 
-#: sophie_bot/modules/ai/handlers/pm.py:69
+#: sophie_bot/modules/ai/handlers/pm.py:70
 msgid "The AI mode has been exited."
 msgstr ""
 

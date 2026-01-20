@@ -3,7 +3,7 @@ from datetime import datetime, timedelta, timezone
 
 from aiogram.exceptions import TelegramAPIError
 
-from sophie_bot.config import CONFIG
+from sophie_bot.constants import WELCOMESECURITY_BAN_TIMEOUT_HOURS
 from sophie_bot.db.models.chat import ChatModel
 from sophie_bot.db.models.ws_user import WSUserModel
 from sophie_bot.modules.restrictions.utils.restrictions import ban_user
@@ -50,7 +50,7 @@ class BanUnpassedUsers:
         # Ensure added_at is timezone-aware
         if added_at.tzinfo is None:
             added_at = added_at.replace(tzinfo=timezone.utc)
-        is_old_entry = datetime.now(timezone.utc) - added_at > timedelta(hours=CONFIG.welcomesecurity_ban_timeout)
+        is_old_entry = datetime.now(timezone.utc) - added_at > timedelta(hours=WELCOMESECURITY_BAN_TIMEOUT_HOURS)
         if not is_old_entry:
             log.debug("ban_unpassed_users: skipping ws_user, too young", ws_user_tid=str(ws_user.iid))
             return

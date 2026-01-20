@@ -9,6 +9,7 @@ from stfu_tg import Doc
 from stfu_tg.doc import Element
 
 from sophie_bot.config import CONFIG
+from sophie_bot.constants import FILTERS_MAX_TRIGGERS
 from sophie_bot.db.models import FiltersModel
 from sophie_bot.modules.filters.fsm import FilterEditFSM
 from sophie_bot.modules.filters.utils_.handle_action import (
@@ -149,7 +150,7 @@ class EnforceFiltersMiddleware(BaseMiddleware):
         triggered_groups: list[str] = []  # Handled action groups, to stop same actions from repeating
 
         for idx, matched_filter in enumerate(matched_filters):
-            if idx > CONFIG.filters_max_triggers:
+            if idx > FILTERS_MAX_TRIGGERS:
                 log.debug("EnforceFiltersMiddleware: triggered maximum number of filters, dropping...")
                 break
 

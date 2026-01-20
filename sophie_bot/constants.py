@@ -52,3 +52,36 @@ ACW_SESSION_TTL_SECONDS: Final[int] = 20 * 60  # 20 minutes
 
 # Federation transfer request timeout (in seconds)
 FEDERATION_TRANSFER_TTL_SECONDS: Final[int] = 300  # 5 minutes
+
+
+# =============================================================================
+# Module Constants
+# =============================================================================
+
+# Welcomesecurity ban timeout (in hours)
+WELCOMESECURITY_BAN_TIMEOUT_HOURS: Final[int] = 48
+
+# Maximum number of filter triggers per message
+FILTERS_MAX_TRIGGERS: Final[int] = 2
+
+# AI Emoji used in messages
+AI_EMOJI: Final[str] = "✨"
+
+
+# =============================================================================
+# Cache TTLs
+# =============================================================================
+
+# Default cache TTL (in seconds)
+CACHE_DEFAULT_TTL_SECONDS: Final[int] = 1800  # 30 minutes
+
+# Language cache TTL (in seconds)
+CACHE_LANGUAGE_TTL_SECONDS: Final[int] = 86400  # 24 hours
+
+
+# =============================================================================
+# Metrics
+# =============================================================================
+
+# Default histogram buckets for Prometheus metrics
+METRICS_HISTOGRAM_BUCKETS: Final[list[float]] = [0.005, 0.01, 0.025, 0.05, 0.1, 0.25, 0.5, 1, 2, 5, 10, 15, 30, 60]

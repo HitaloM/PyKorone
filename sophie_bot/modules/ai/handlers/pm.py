@@ -6,6 +6,7 @@ from aiogram.types import KeyboardButton, ReplyKeyboardMarkup, ReplyKeyboardRemo
 from stfu_tg import Bold, Doc, Template, Url
 
 from sophie_bot.config import CONFIG
+from sophie_bot.constants import AI_EMOJI
 from sophie_bot.filters.chat_status import ChatTypeFilter
 from sophie_bot.filters.cmd import CMDFilter
 from sophie_bot.modules.ai.callbacks import AIChatCallback
@@ -33,7 +34,7 @@ class AiPmInitialize(SophieMessageCallbackQueryHandler):
             Bold(
                 Template(
                     _("{ai_emoji} Entered to the AI Mode, in this mode you can directly interact with the AI."),
-                    ai_emoji=CONFIG.ai_emoji,
+                    ai_emoji=AI_EMOJI,
                 )
             ),
             Template(

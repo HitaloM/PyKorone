@@ -4,7 +4,6 @@ from typing import Annotated, List, Literal, Optional
 from aiogram.webhook.security import DEFAULT_TELEGRAM_NETWORKS
 from pydantic import (
     AnyHttpUrl,
-    BaseModel,
     Field,
     FilePath,
     computed_field,
@@ -46,9 +45,6 @@ class Config(BaseSettings):
     modules_load: List[str] = ["*"]
     modules_not_load: List[str] = []
     legacy_modules_not_load: List[str] = []
-
-    # Welcomesecurity
-    welcomesecurity_ban_timeout: int = 48  # Hours
 
     webhooks_enable: bool = False
     webhooks_listen: str = "127.0.0.1"
@@ -101,10 +97,7 @@ class Config(BaseSettings):
     tavily_api_key: str = ""
     mistral_api_key: str | None = None
 
-    ai_emoji: str = "✨"
     ai_autotrans_lowmem: bool = False
-
-    filters_max_triggers: int = 2
 
     # Metrics configuration
     metrics_enable: bool = True
@@ -114,7 +107,6 @@ class Config(BaseSettings):
     metrics_path: str = "/metrics"
     metrics_env: str = "dev"  # const label
     metrics_instance_id: Optional[str] = None  # default to hostname
-    metrics_histogram_buckets: List[float] = [0.005, 0.01, 0.025, 0.05, 0.1, 0.25, 0.5, 1, 2, 5, 10, 15, 30, 60]
     metrics_enable_default_collectors: bool = True
     metrics_light_mode: bool = True  # disable some histograms if True
     metrics_sample_ratio: float = 1.0
@@ -174,10 +166,4 @@ class Config(BaseSettings):
         return v
 
 
-class CacheTTL(BaseModel):
-    default_ttl: int = 1800  # 30 minutes
-    language_ttl: int = 86400  # 24 hours
-
-
 CONFIG = Config()
-CACHE_TTL = CacheTTL()
