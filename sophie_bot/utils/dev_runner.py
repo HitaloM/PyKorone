@@ -52,12 +52,15 @@ def run_with_reload(mode: Literal["bot", "scheduler"]) -> None:
             start_scheduler_mode()
 
     # Use subprocess approach for cleaner restarts
-    run_process(
-        *watch_dirs,
-        target=_run_mode_subprocess,
-        args=(mode,),
-        watch_filter=_python_filter,
-    )
+    try:
+        run_process(
+            *watch_dirs,
+            target=_run_mode_subprocess,
+            args=(mode,),
+            watch_filter=_python_filter,
+        )
+    except KeyboardInterrupt:
+        pass
 
 
 def _python_filter(change: "Change", path: str) -> bool:
@@ -73,8 +76,11 @@ def _run_mode_subprocess(mode: str) -> None:
     env["DEV_RELOAD"] = "false"
     env["MODE"] = mode
 
-    subprocess.run(
-        [sys.executable, "-m", "sophie_bot"],
-        env=env,
-        cwd=Path(__file__).parent.parent.parent,
-    )
+    try:
+        subprocess.run(
+            [sys.executable, "-m", "sophie_bot"],
+            env=env,
+            cwd=Path(__file__).parent.parent.parent,
+        )
+    except KeyboardInterrupt:
+        log.error("Process interrupted")
