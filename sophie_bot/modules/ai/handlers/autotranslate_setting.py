@@ -1,16 +1,18 @@
 from aiogram import flags
 from aiogram.dispatcher.event.handler import CallbackType
 
+from sophie_bot.constants import AI_EMOJI
 from sophie_bot.db.models.ai.ai_autotranslate import AIAutotranslateModel
 from sophie_bot.filters.admin_rights import UserRestricting
 from sophie_bot.filters.cmd import CMDFilter
 from sophie_bot.modules.utils_.status_handler import StatusBoolHandlerABC
+from sophie_bot.utils.i18n import gettext as _
 from sophie_bot.utils.i18n import lazy_gettext as l_
 
 
 @flags.help(alias_to_modules=["language"], description=l_("Controls AI Auto translator"))
 class AIAutotrans(StatusBoolHandlerABC):
-    header_text = l_("✨ AI Auto translate")
+    header_text = l_(lambda: _("{ai_emoji} AI Auto translate").format(ai_emoji=AI_EMOJI))
     change_command = "aiautotranslate"
 
     @staticmethod

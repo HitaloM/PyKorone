@@ -1,6 +1,7 @@
 from aiogram import Router
 from stfu_tg import Doc
 
+from sophie_bot.constants import AI_EMOJI
 from sophie_bot.filters.cmd import CMDFilter
 from sophie_bot.filters.user_status import IsOP
 from sophie_bot.modules.ai.handlers.ai_cmd import AiCmd
@@ -56,7 +57,7 @@ __all__ = [
 router = Router(name="ai")
 
 __module_name__ = l_("Sophie AI")
-__module_emoji__ = "✨"
+__module_emoji__ = AI_EMOJI
 __module_description__ = l_("Rainbow sparkles and shininess")
 __module_info__ = LazyProxy(
     lambda: Doc(

@@ -2,8 +2,9 @@ from contextlib import suppress
 
 from aiogram.exceptions import TelegramBadRequest
 from aiogram.types import Message
-from stfu_tg import Doc
+from stfu_tg import Doc, Template
 
+from sophie_bot.constants import AI_EMOJI
 from sophie_bot.db.models import ChatModel
 from sophie_bot.modules.ai.filters.throttle import AIThrottleFilter
 from sophie_bot.modules.ai.utils.ai_chatbot_reply import ai_chatbot_reply
@@ -66,7 +67,7 @@ async def ai_filter_handle(message: Message, chat: dict, data: dict):
 def get_filter():
     return {
         "ai_text": {
-            "title": l_("✨ AI Response"),
+            "title": Template(l_("{ai_emoji} AI Response"), ai_emoji=AI_EMOJI),
             "setup": {"start": ai_setup_start, "finish": ai_setup_finish},
             "handle": ai_filter_handle,
         }

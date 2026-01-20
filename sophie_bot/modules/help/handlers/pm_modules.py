@@ -4,9 +4,10 @@ from aiogram import Router, flags
 from aiogram.handlers import CallbackQueryHandler
 from aiogram.types import CallbackQuery, InlineKeyboardButton, Message
 from aiogram.utils.keyboard import InlineKeyboardBuilder
-from stfu_tg import Doc, HList, Section, Title, Url
+from stfu_tg import Doc, HList, Section, Template, Title, Url
 
 from sophie_bot.config import CONFIG
+from sophie_bot.constants import AI_EMOJI
 from sophie_bot.filters.chat_status import ChatTypeFilter
 from sophie_bot.filters.cmd import CMDFilter
 from sophie_bot.modules.ai.callbacks import AIChatCallback
@@ -43,7 +44,10 @@ class PMModulesList(SophieMessageCallbackQueryHandler):
         buttons = InlineKeyboardBuilder()
 
         buttons.row(
-            InlineKeyboardButton(text=_("💬✨ Chat with Sophie for help"), callback_data=AIChatCallback().pack())
+            InlineKeyboardButton(
+                text=str(Template(_("💬{ai_emoji} Chat with Sophie for help"), ai_emoji=AI_EMOJI)),
+                callback_data=AIChatCallback().pack(),
+            )
         )
 
         buttons.row(

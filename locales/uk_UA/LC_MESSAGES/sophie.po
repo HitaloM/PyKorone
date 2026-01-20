@@ -81,23 +81,23 @@ msgstr "Приватний чат"
 msgid "Connected chat not found in the database. You have been disconnected and will remain disconnected."
 msgstr "Підключений чат не знайдено в базі даних. Будь ласка, спробуйте відключитися і підключитися знову."
 
-#: sophie_bot/modules/ai/__init__.py:58
+#: sophie_bot/modules/ai/__init__.py:59
 msgid "Sophie AI"
 msgstr "Софі AI"
 
-#: sophie_bot/modules/ai/__init__.py:60
+#: sophie_bot/modules/ai/__init__.py:61
 msgid "Rainbow sparkles and shininess"
 msgstr "Райдужні блискітки та яскравість"
 
-#: sophie_bot/modules/ai/__init__.py:63
+#: sophie_bot/modules/ai/__init__.py:64
 msgid "Sophie supports quite a few ways to use AI features."
 msgstr "Не вдалося знайти запитуване ім'я користувача в базі даних."
 
-#: sophie_bot/modules/ai/__init__.py:64
+#: sophie_bot/modules/ai/__init__.py:65
 msgid "From a simple chat-bot, to the automatic translator. Have fun."
 msgstr "Користувач: 'Ідентифікатор користувача (числовий) / Ім'я користувача (починається з @) / Згадка (посилання на користувачів)'"
 
-#: sophie_bot/modules/ai/__init__.py:67
+#: sophie_bot/modules/ai/__init__.py:68
 msgid "Please note that you can make a limited amount of AI requests per day."
 msgstr "Будь ласка, зауважте, що ви можете зробити обмежену кількість запитів до AI на день."
 
@@ -137,7 +137,7 @@ msgstr ""
 
 #: sophie_bot/modules/ai/agent_tools/cmds_help.py:63
 #: sophie_bot/modules/federations/handlers/info.py:56
-#: sophie_bot/modules/notes/handlers/delete.py:40
+#: sophie_bot/modules/notes/handlers/delete.py:46
 msgid "Name"
 msgstr "Ім’я"
 
@@ -228,25 +228,26 @@ msgstr "Будь ласка, використайте \"{cmd}\", щоб акти
 msgid "❗️ You've reached the daily AI limit, please try again tomorrow."
 msgstr "❗️ Ви досягли добового ліміту AI, будь ласка, спробуйте ще раз завтра."
 
-#: sophie_bot/modules/ai/fsm/pm.py:10
+#: sophie_bot/modules/ai/fsm/pm.py:12
 msgid "🛑 Exit AI mode"
 msgstr "🛑 Вийти з режиму ШІ"
 
-#: sophie_bot/modules/ai/fsm/pm.py:11
+#: sophie_bot/modules/ai/fsm/pm.py:13
 msgid "🔄 Reset AI context"
 msgstr "🔄 Скинути контекст ШІ"
 
-#: sophie_bot/modules/ai/fsm/pm.py:12
+#: sophie_bot/modules/ai/fsm/pm.py:14
 #, fuzzy
 msgid "⚙️ AI Provider"
 msgstr "Провайдер AI"
 
-#: sophie_bot/modules/ai/fsm/pm.py:14
-msgid "✨ Sophie AI"
+#: sophie_bot/modules/ai/fsm/pm.py:16
+#, fuzzy, python-brace-format
+msgid "{ai_emoji} Sophie AI"
 msgstr "✨ Софі AI"
 
 #: sophie_bot/modules/ai/handlers/ai_cmd.py:17
-#: sophie_bot/modules/ai/handlers/aisave.py:27
+#: sophie_bot/modules/ai/handlers/aisave.py:28
 #: sophie_bot/modules/ai/handlers/mode.py:15
 msgid "Prompt"
 msgstr "Запит"
@@ -259,12 +260,13 @@ msgstr "Запитайте Софі питання"
 msgid "You have been automatically disconnected from the chat to use AI."
 msgstr ""
 
-#: sophie_bot/modules/ai/handlers/ai_moderator_setting.py:11
+#: sophie_bot/modules/ai/handlers/ai_moderator_setting.py:13
 msgid "Controls AI Moderator features"
 msgstr "Керує функціями модератора AI"
 
-#: sophie_bot/modules/ai/handlers/ai_moderator_setting.py:13
-msgid "✨ AI Moderator"
+#: sophie_bot/modules/ai/handlers/ai_moderator_setting.py:15
+#, fuzzy, python-brace-format
+msgid "{ai_emoji} AI Moderator"
 msgstr "✨ Модератор AI"
 
 #: sophie_bot/modules/ai/handlers/aiprovider.py:30
@@ -316,21 +318,20 @@ msgstr "Невідомий постачальник"
 #: sophie_bot/modules/connections/handlers/connect_dm.py:39
 #: sophie_bot/modules/disabling/handlers/disable.py:49
 #: sophie_bot/modules/disabling/handlers/enable.py:51
-#: sophie_bot/modules/notes/handlers/delete.py:39
+#: sophie_bot/modules/notes/handlers/delete.py:45
 #: sophie_bot/modules/notes/handlers/pmnotes_setting.py:36
 #: sophie_bot/modules/promotes/handlers/demote.py:66
 #: sophie_bot/modules/promotes/handlers/promote.py:84
-#: sophie_bot/modules/restrictions/handlers/ban.py:72
-#: sophie_bot/modules/restrictions/handlers/ban.py:129
-#: sophie_bot/modules/restrictions/handlers/kick.py:70
-#: sophie_bot/modules/restrictions/handlers/mute.py:72
-#: sophie_bot/modules/restrictions/handlers/mute.py:129
-#: sophie_bot/modules/restrictions/handlers/unban.py:61
-#: sophie_bot/modules/restrictions/handlers/unmute.py:61
+#: sophie_bot/modules/restrictions/handlers/ban.py:80
+#: sophie_bot/modules/restrictions/handlers/ban.py:143
+#: sophie_bot/modules/restrictions/handlers/kick.py:78
+#: sophie_bot/modules/restrictions/handlers/mute.py:80
+#: sophie_bot/modules/restrictions/handlers/mute.py:143
+#: sophie_bot/modules/restrictions/handlers/unban.py:70
+#: sophie_bot/modules/restrictions/handlers/unmute.py:70
 #: sophie_bot/modules/utils_/action_config_wizard/renderer.py:41
 #: sophie_bot/modules/utils_/status_handler.py:47
 #: sophie_bot/modules/utils_/status_handler.py:70
-#: sophie_bot/modules/warns/handlers/warns.py:97
 msgid "Chat"
 msgstr "Чат"
 
@@ -346,71 +347,76 @@ msgstr "Постачальник ШІ було оновлено"
 msgid "Provider updated"
 msgstr "Постачальник оновлений"
 
-#: sophie_bot/modules/ai/handlers/aisave.py:29
+#: sophie_bot/modules/ai/handlers/aisave.py:30
 msgid "Generate a new note using AI"
 msgstr "Генерує нову примітку за допомогою AI"
 
-#: sophie_bot/modules/ai/handlers/aisave.py:38
-msgid "✨ Generating..."
+#: sophie_bot/modules/ai/handlers/aisave.py:39
+#, fuzzy, python-brace-format
+msgid "{ai_emoji} Generating..."
 msgstr "✨ Генерація..."
 
-#: sophie_bot/modules/ai/handlers/aisave.py:48
+#: sophie_bot/modules/ai/handlers/aisave.py:49
 msgid "AI Generation failed, note already exists! Please try again."
 msgstr "Генерація AI не вдалася, примітка вже існує! Будь ласка, спробуйте ще раз."
 
-#: sophie_bot/modules/ai/handlers/aisave.py:57
-msgid "✨ Note was successfully generated"
+#: sophie_bot/modules/ai/handlers/aisave.py:58
+#, fuzzy, python-brace-format
+msgid "{ai_emoji} Note was successfully generated"
 msgstr "✨ Примітка була успішно згенерована"
 
-#: sophie_bot/modules/ai/handlers/aisave.py:60
-#: sophie_bot/modules/notes/handlers/save.py:61
+#: sophie_bot/modules/ai/handlers/aisave.py:61
+#: sophie_bot/modules/notes/handlers/save.py:66
 #, python-brace-format
 msgid "Use {cmd} to retrieve this note."
 msgstr "Використовуйте {cmd}, щоб отримати цю замітку."
 
-#: sophie_bot/modules/ai/handlers/autotranslate_setting.py:11
+#: sophie_bot/modules/ai/handlers/autotranslate_setting.py:13
 msgid "Controls AI Auto translator"
 msgstr "Керує AI Авто перекладом"
 
-#: sophie_bot/modules/ai/handlers/autotranslate_setting.py:13
-msgid "✨ AI Auto translate"
+#: sophie_bot/modules/ai/handlers/autotranslate_setting.py:15
+#, fuzzy, python-brace-format
+msgid "{ai_emoji} AI Auto translate"
 msgstr "✨ AI Авто переклад"
 
-#: sophie_bot/modules/ai/handlers/enable_setting.py:11
+#: sophie_bot/modules/ai/handlers/enable_setting.py:13
 msgid "Controls AI features"
 msgstr "Керує функціями AI"
 
-#: sophie_bot/modules/ai/handlers/enable_setting.py:13
-msgid "✨ AI Features"
+#: sophie_bot/modules/ai/handlers/enable_setting.py:15
+#, fuzzy, python-brace-format
+msgid "{ai_emoji} AI Features"
 msgstr "✨ AI-функції"
-
-#: sophie_bot/modules/ai/handlers/filter.py:21
-#: sophie_bot/modules/ai/magic_handlers/filter.py:21
-#: sophie_bot/modules/ai/magic_handlers/modern_action.py:44
-msgid "Please send me the AI instruction to proceed!"
-msgstr "Будь ласка, надішліть мені інструкцію AI, щоб продовжити!"
 
 #: sophie_bot/modules/ai/handlers/filter.py:22
 #: sophie_bot/modules/ai/magic_handlers/filter.py:22
 #: sophie_bot/modules/ai/magic_handlers/modern_action.py:45
+msgid "Please send me the AI instruction to proceed!"
+msgstr "Будь ласка, надішліть мені інструкцію AI, щоб продовжити!"
+
+#: sophie_bot/modules/ai/handlers/filter.py:23
+#: sophie_bot/modules/ai/magic_handlers/filter.py:23
+#: sophie_bot/modules/ai/magic_handlers/modern_action.py:46
 msgid "The AI will try to remember the chat context and will respond accordingly!"
 msgstr "AI спробує запам'ятати контекст чату і відповідно відповідати!"
 
-#: sophie_bot/modules/ai/handlers/filter.py:24
-#: sophie_bot/modules/ai/magic_handlers/filter.py:24
-#: sophie_bot/modules/ai/magic_handlers/modern_action.py:46
+#: sophie_bot/modules/ai/handlers/filter.py:25
+#: sophie_bot/modules/ai/magic_handlers/filter.py:25
+#: sophie_bot/modules/ai/magic_handlers/modern_action.py:47
 msgid "For example, you can combine it with the warn filter: 'Tell the user how bad it is to speak profanity'"
 msgstr "Наприклад, ви можете поєднати це з фільтром попередження: 'Скажіть користувачеві, як погано говорити ненормативною лексикою'"
 
-#: sophie_bot/modules/ai/handlers/filter.py:34
-#: sophie_bot/modules/ai/magic_handlers/filter.py:34
+#: sophie_bot/modules/ai/handlers/filter.py:35
+#: sophie_bot/modules/ai/magic_handlers/filter.py:35
 msgid "Should be AI prompt, please try again!"
 msgstr "Це має бути запитом AI, будь ласка, спробуйте ще раз!"
 
-#: sophie_bot/modules/ai/handlers/filter.py:69
-#: sophie_bot/modules/ai/magic_handlers/filter.py:69
-#: sophie_bot/modules/ai/magic_handlers/modern_action.py:90
-msgid "✨ AI Response"
+#: sophie_bot/modules/ai/handlers/filter.py:70
+#: sophie_bot/modules/ai/magic_handlers/filter.py:70
+#: sophie_bot/modules/ai/magic_handlers/modern_action.py:92
+#, fuzzy, python-brace-format
+msgid "{ai_emoji} AI Response"
 msgstr "✨ Відповідь AI"
 
 #: sophie_bot/modules/ai/handlers/mode.py:16
@@ -461,33 +467,33 @@ msgstr "Топ користувачів — цього тижня"
 msgid "Top users — this month"
 msgstr "Топ користувачів — цього місяця"
 
-#: sophie_bot/modules/ai/handlers/pm.py:24
+#: sophie_bot/modules/ai/handlers/pm.py:25
 msgid "Start the AI ChatBot mode"
 msgstr "Запустити режим чат-бота AI"
 
-#: sophie_bot/modules/ai/handlers/pm.py:35
+#: sophie_bot/modules/ai/handlers/pm.py:36
 #, python-brace-format
 msgid "{ai_emoji} Entered to the AI Mode, in this mode you can directly interact with the AI."
 msgstr "{ai_emoji} Увійшли в режим AI, в цьому режимі ви можете безпосередньо взаємодіяти з AI."
 
-#: sophie_bot/modules/ai/handlers/pm.py:40
+#: sophie_bot/modules/ai/handlers/pm.py:41
 #, python-brace-format
 msgid "By using the AI, you agree to the {privacy_policy} of the bot and third party AI services used."
 msgstr "Використовуючи AI, ви погоджуєтеся з {privacy_policy} бота та третьої сторони AI-сервісів."
 
-#: sophie_bot/modules/ai/handlers/pm.py:41
+#: sophie_bot/modules/ai/handlers/pm.py:42
 msgid "privacy policy"
 msgstr "політика конфіденційності"
 
-#: sophie_bot/modules/ai/handlers/pm.py:43
+#: sophie_bot/modules/ai/handlers/pm.py:44
 msgid "Click on the button below to exit."
 msgstr "Натисніть кнопку нижче, щоб вийти."
 
-#: sophie_bot/modules/ai/handlers/pm.py:51
+#: sophie_bot/modules/ai/handlers/pm.py:52
 msgid "Hello! How can I help you?"
 msgstr "Привіт! Як я можу допомогти вам?"
 
-#: sophie_bot/modules/ai/handlers/pm.py:69
+#: sophie_bot/modules/ai/handlers/pm.py:70
 msgid "The AI mode has been exited."
 msgstr "Режим AI був закритий."
 
@@ -554,26 +560,26 @@ msgstr "From {from_lang} to {to_lang}"
 msgid "Translation Notes"
 msgstr "Translation Notes"
 
-#: sophie_bot/modules/ai/magic_handlers/modern_action.py:37
+#: sophie_bot/modules/ai/magic_handlers/modern_action.py:38
 msgid "Please enter AI prompt"
 msgstr "Користувачі: 'Ідентифікатори користувачів (числові) / Імена користувачів (починаються з @) / Згадки (посилання на користувачів)'"
 
-#: sophie_bot/modules/ai/magic_handlers/modern_action.py:56
+#: sophie_bot/modules/ai/magic_handlers/modern_action.py:57
 msgid "AI Response"
 msgstr "Ідентифікатор користувача"
 
-#: sophie_bot/modules/ai/magic_handlers/modern_action.py:59
+#: sophie_bot/modules/ai/magic_handlers/modern_action.py:60
 #: sophie_bot/modules/notes/magic_handlers/modern_filter.py:31
 #: sophie_bot/modules/notes/magic_handlers/reply_action.py:45
 #: sophie_bot/modules/notes/magic_handlers/reply_action.py:48
 msgid "Reply to message"
 msgstr "Відповісти на повідомлення"
 
-#: sophie_bot/modules/ai/magic_handlers/modern_action.py:65
+#: sophie_bot/modules/ai/magic_handlers/modern_action.py:66
 msgid "Send an AI Respond with prompt"
 msgstr "Ім'я користувача"
 
-#: sophie_bot/modules/ai/magic_handlers/modern_action.py:70
+#: sophie_bot/modules/ai/magic_handlers/modern_action.py:71
 msgid "Change AI prompt"
 msgstr "Змінити підказку AI"
 
@@ -592,19 +598,18 @@ msgstr "Автор повідомлення"
 #: sophie_bot/modules/ai/middlewares/ai_moderator.py:44
 #: sophie_bot/modules/federations/handlers/ban.py:108
 #: sophie_bot/modules/federations/handlers/banlist.py:97
-#: sophie_bot/modules/restrictions/handlers/ban.py:45
-#: sophie_bot/modules/restrictions/handlers/ban.py:75
-#: sophie_bot/modules/restrictions/handlers/ban.py:100
-#: sophie_bot/modules/restrictions/handlers/ban.py:133
-#: sophie_bot/modules/restrictions/handlers/kick.py:43
-#: sophie_bot/modules/restrictions/handlers/kick.py:73
-#: sophie_bot/modules/restrictions/handlers/mute.py:45
-#: sophie_bot/modules/restrictions/handlers/mute.py:75
-#: sophie_bot/modules/restrictions/handlers/mute.py:100
-#: sophie_bot/modules/restrictions/handlers/mute.py:133
-#: sophie_bot/modules/warns/handlers/warn.py:38
-#: sophie_bot/modules/warns/handlers/warn.py:69
-#: sophie_bot/modules/warns/handlers/warns.py:98
+#: sophie_bot/modules/restrictions/handlers/ban.py:47
+#: sophie_bot/modules/restrictions/handlers/ban.py:83
+#: sophie_bot/modules/restrictions/handlers/ban.py:108
+#: sophie_bot/modules/restrictions/handlers/ban.py:147
+#: sophie_bot/modules/restrictions/handlers/kick.py:45
+#: sophie_bot/modules/restrictions/handlers/kick.py:81
+#: sophie_bot/modules/restrictions/handlers/mute.py:47
+#: sophie_bot/modules/restrictions/handlers/mute.py:83
+#: sophie_bot/modules/restrictions/handlers/mute.py:108
+#: sophie_bot/modules/restrictions/handlers/mute.py:147
+#: sophie_bot/modules/warns/handlers/warn.py:40
+#: sophie_bot/modules/warns/handlers/warn.py:78
 msgid "Reason"
 msgid_plural "Reasons"
 msgstr[0] "Причина"
@@ -788,24 +793,25 @@ msgstr ""
 #: sophie_bot/modules/promotes/handlers/demote.py:67
 #: sophie_bot/modules/promotes/handlers/promote.py:39
 #: sophie_bot/modules/promotes/handlers/promote.py:85
-#: sophie_bot/modules/restrictions/handlers/ban.py:43
-#: sophie_bot/modules/restrictions/handlers/ban.py:73
-#: sophie_bot/modules/restrictions/handlers/ban.py:97
-#: sophie_bot/modules/restrictions/handlers/ban.py:130
-#: sophie_bot/modules/restrictions/handlers/kick.py:41
-#: sophie_bot/modules/restrictions/handlers/kick.py:71
-#: sophie_bot/modules/restrictions/handlers/mute.py:43
-#: sophie_bot/modules/restrictions/handlers/mute.py:73
-#: sophie_bot/modules/restrictions/handlers/mute.py:97
-#: sophie_bot/modules/restrictions/handlers/mute.py:130
-#: sophie_bot/modules/restrictions/handlers/unban.py:39
-#: sophie_bot/modules/restrictions/handlers/unban.py:62
-#: sophie_bot/modules/restrictions/handlers/unmute.py:39
-#: sophie_bot/modules/restrictions/handlers/unmute.py:62
+#: sophie_bot/modules/restrictions/handlers/ban.py:45
+#: sophie_bot/modules/restrictions/handlers/ban.py:81
+#: sophie_bot/modules/restrictions/handlers/ban.py:105
+#: sophie_bot/modules/restrictions/handlers/ban.py:144
+#: sophie_bot/modules/restrictions/handlers/kick.py:43
+#: sophie_bot/modules/restrictions/handlers/kick.py:79
+#: sophie_bot/modules/restrictions/handlers/mute.py:45
+#: sophie_bot/modules/restrictions/handlers/mute.py:81
+#: sophie_bot/modules/restrictions/handlers/mute.py:105
+#: sophie_bot/modules/restrictions/handlers/mute.py:144
+#: sophie_bot/modules/restrictions/handlers/unban.py:41
+#: sophie_bot/modules/restrictions/handlers/unban.py:71
+#: sophie_bot/modules/restrictions/handlers/unmute.py:41
+#: sophie_bot/modules/restrictions/handlers/unmute.py:71
 #: sophie_bot/modules/users/handlers/id.py:24
 #: sophie_bot/modules/users/handlers/info.py:20
-#: sophie_bot/modules/warns/handlers/warn.py:63
-#: sophie_bot/modules/warns/handlers/warns.py:20
+#: sophie_bot/modules/warns/handlers/callback.py:86
+#: sophie_bot/modules/warns/handlers/warn.py:72
+#: sophie_bot/modules/warns/handlers/warns.py:11
 msgid "User"
 msgstr "Користувач"
 
@@ -982,7 +988,7 @@ msgstr "✅ Увімкнути все"
 #: sophie_bot/modules/disabling/handlers/enable_all.py:36
 #: sophie_bot/modules/filters/handlers/confirm.py:63
 #: sophie_bot/modules/filters/handlers/filter_confirm.py:99
-#: sophie_bot/modules/notes/handlers/delete_all.py:41
+#: sophie_bot/modules/notes/handlers/delete_all.py:43
 msgid "🚫 Cancel"
 msgstr "🚫 Скасувати"
 
@@ -1392,8 +1398,8 @@ msgid "Cannot ban bot operators."
 msgstr "Не можна заблокувати операторів бота."
 
 #: sophie_bot/modules/federations/handlers/ban.py:80
-#: sophie_bot/modules/restrictions/handlers/ban.py:61
-#: sophie_bot/modules/restrictions/handlers/ban.py:116
+#: sophie_bot/modules/restrictions/handlers/ban.py:63
+#: sophie_bot/modules/restrictions/handlers/ban.py:124
 msgid "You cannot ban yourself."
 msgstr "Ви не можете заблокувати себе."
 
@@ -1424,8 +1430,8 @@ msgstr "Федерація"
 
 #: sophie_bot/modules/federations/handlers/ban.py:105
 #: sophie_bot/modules/federations/handlers/banlist.py:93
-#: sophie_bot/modules/restrictions/handlers/ban.py:74
-#: sophie_bot/modules/restrictions/handlers/ban.py:131
+#: sophie_bot/modules/restrictions/handlers/ban.py:82
+#: sophie_bot/modules/restrictions/handlers/ban.py:145
 msgid "Banned by"
 msgstr "Заблокований"
 
@@ -1461,7 +1467,6 @@ msgid "No users are currently banned in this federation."
 msgstr "Наразі в цій федерації немає заблокованих користувачів."
 
 #: sophie_bot/modules/federations/handlers/banlist.py:94
-#: sophie_bot/modules/warns/handlers/warns.py:99
 msgid "Date"
 msgstr "Дата"
 
@@ -1865,7 +1870,7 @@ msgid "🏛 User Unbanned from Federation"
 msgstr "🏛 Користувача розблоковано з федерації"
 
 #: sophie_bot/modules/federations/handlers/unban.py:150
-#: sophie_bot/modules/restrictions/handlers/unban.py:63
+#: sophie_bot/modules/restrictions/handlers/unban.py:72
 msgid "Unbanned by"
 msgstr "Розблоковано"
 
@@ -1890,7 +1895,7 @@ msgid "Reason: {text}"
 msgstr " Причина: {reason}"
 
 #: sophie_bot/modules/filters/__init__.py:42
-#: sophie_bot/modules/filters/handlers/filter_del.py:50
+#: sophie_bot/modules/filters/handlers/filter_del.py:52
 msgid "Filters"
 msgstr "Фільтри"
 
@@ -1913,7 +1918,7 @@ msgstr "Цю команду можна використовувати лише �
 #: sophie_bot/modules/filters/handlers/actions_list.py:38
 #: sophie_bot/modules/filters/handlers/actions_list_to_remove.py:35
 #: sophie_bot/modules/filters/handlers/filter_confirm.py:43
-#: sophie_bot/modules/filters/handlers/filter_save.py:42
+#: sophie_bot/modules/filters/handlers/filter_save.py:51
 msgid "Continuing setup is only possible by the same user who started it."
 msgstr "Продовжити налаштування може тільки той самий користувач, який його розпочав."
 
@@ -1957,8 +1962,8 @@ msgid "⬅️ Do not remove actions (Back)"
 msgstr "Софі AI"
 
 #: sophie_bot/modules/filters/handlers/add.py:47
-#: sophie_bot/modules/filters/handlers/filter_del.py:23
-#: sophie_bot/modules/filters/handlers/filter_del.py:38
+#: sophie_bot/modules/filters/handlers/filter_del.py:25
+#: sophie_bot/modules/filters/handlers/filter_del.py:40
 #: sophie_bot/modules/filters/handlers/filter_new.py:38
 msgid "Text to match"
 msgstr "Текст для пошуку"
@@ -1992,40 +1997,40 @@ msgstr "✅ Підтвердити"
 msgid "➖ Remove actions"
 msgstr "Веселка і блискітки"
 
-#: sophie_bot/modules/filters/handlers/filter_del.py:22
+#: sophie_bot/modules/filters/handlers/filter_del.py:24
 msgid "Deletes a filter"
 msgstr "Софі підтримує досить багато способів використання AI функцій."
 
-#: sophie_bot/modules/filters/handlers/filter_del.py:37
+#: sophie_bot/modules/filters/handlers/filter_del.py:39
 msgid "?Filter index"
 msgstr "Від простого чат-бота до автоматичного перекладача. Гарного відпочинку."
 
-#: sophie_bot/modules/filters/handlers/filter_del.py:44
+#: sophie_bot/modules/filters/handlers/filter_del.py:46
 #, python-brace-format
 msgid "There are multiple filters with keyword {keyword}!"
 msgstr "Зверніть увагу, що ви можете робити обмежену кількість запитів AI на день."
 
-#: sophie_bot/modules/filters/handlers/filter_del.py:53
+#: sophie_bot/modules/filters/handlers/filter_del.py:55
 #, python-brace-format
 msgid "Please specify the filter index using {cmd} command."
 msgstr "AI функції в даний час вимкнені для цього чату."
 
-#: sophie_bot/modules/filters/handlers/filter_del.py:55
+#: sophie_bot/modules/filters/handlers/filter_del.py:57
 #, python-brace-format
 msgid "For example: {cmd}"
 msgstr "Будь ласка, використайте \"{cmd}\", щоб активувати їх."
 
-#: sophie_bot/modules/filters/handlers/filter_del.py:66
+#: sophie_bot/modules/filters/handlers/filter_del.py:71
 #, python-brace-format
 msgid "The filter with keyword {keyword} does not exist!"
 msgstr "❗️ Ви досягли щоденного ліміту AI, будь ласка, спробуйте ще раз завтра."
 
-#: sophie_bot/modules/filters/handlers/filter_del.py:67
+#: sophie_bot/modules/filters/handlers/filter_del.py:72
 #, python-brace-format
 msgid "Please check the available filters using {cmd} command."
 msgstr "🛑 Вийти з режиму AI"
 
-#: sophie_bot/modules/filters/handlers/filter_del.py:77
+#: sophie_bot/modules/filters/handlers/filter_del.py:89
 #, python-brace-format
 msgid "🗑 The filter with keyword {keyword} was deleted!"
 msgstr "🔄 Скинути контекст AI"
@@ -2064,7 +2069,7 @@ msgstr "AI Генерація не вдалася, примітка вже іс�
 msgid "Adds a new filter"
 msgstr "✨ Примітка була успішно згенерована"
 
-#: sophie_bot/modules/filters/handlers/filter_save.py:49
+#: sophie_bot/modules/filters/handlers/filter_save.py:58
 #, python-brace-format
 msgid "Filter on {keyword} was saved."
 msgstr "Використовуйте {cmd}, щоб отримати цю примітку."
@@ -2345,7 +2350,7 @@ msgstr "I am not a robot"
 
 #: sophie_bot/modules/help/__init__.py:23
 #: sophie_bot/modules/help/handlers/help_group.py:27
-#: sophie_bot/modules/help/handlers/pm_modules.py:67
+#: sophie_bot/modules/help/handlers/pm_modules.py:71
 #: sophie_bot/modules/help/handlers/start_group.py:34
 msgid "Help"
 msgstr "Допомога"
@@ -2362,46 +2367,47 @@ msgstr "Відображає повідомлення про допомогу"
 msgid "The help information available in the private messages with Sophie"
 msgstr "Інформація про допомогу доступна в особистих повідомленнях з Софі"
 
-#: sophie_bot/modules/help/handlers/pm_modules.py:26
+#: sophie_bot/modules/help/handlers/pm_modules.py:27
 msgid "Shows help overview for all modules"
 msgstr "Показує загальний огляд допомоги для всіх модулів"
 
-#: sophie_bot/modules/help/handlers/pm_modules.py:46
-msgid "💬✨ Chat with Sophie for help"
+#: sophie_bot/modules/help/handlers/pm_modules.py:48
+#, fuzzy, python-brace-format
+msgid "💬{ai_emoji} Chat with Sophie for help"
 msgstr "💬✨ Поспілкуйтесь із Sophie, щоб отримати допомогу"
 
-#: sophie_bot/modules/help/handlers/pm_modules.py:64
-#: sophie_bot/modules/help/handlers/pm_modules.py:122
+#: sophie_bot/modules/help/handlers/pm_modules.py:68
+#: sophie_bot/modules/help/handlers/pm_modules.py:126
 #: sophie_bot/modules/privacy/handlers/privacy.py:30
 msgid "⬅️ Back"
 msgstr "⬅️ Назад"
 
-#: sophie_bot/modules/help/handlers/pm_modules.py:68
+#: sophie_bot/modules/help/handlers/pm_modules.py:72
 msgid "There are 2 help sources, you can read the detailed wiki or get a quick commands by modules overview."
 msgstr "Існує 2 джерела допомоги, ви можете прочитати детальну вікі або отримати швидкий огляд команд за модулями."
 
-#: sophie_bot/modules/help/handlers/pm_modules.py:69
+#: sophie_bot/modules/help/handlers/pm_modules.py:73
 msgid "📖 Wiki (detailed information)"
 msgstr "📖 Вікі (докладна інформація)"
 
-#: sophie_bot/modules/help/handlers/pm_modules.py:71
+#: sophie_bot/modules/help/handlers/pm_modules.py:75
 msgid "Alternatively you can now just chat with Sophie how to use herself!"
 msgstr "Або тепер ви можете просто поговорити з Sophie, щоб дізнатися, як її використовувати!"
 
-#: sophie_bot/modules/help/handlers/pm_modules.py:87
+#: sophie_bot/modules/help/handlers/pm_modules.py:91
 msgid "Module not found"
 msgstr "Модуль не знайдено"
 
-#: sophie_bot/modules/help/handlers/pm_modules.py:110
+#: sophie_bot/modules/help/handlers/pm_modules.py:114
 #, python-brace-format
 msgid "Aliased commands from {module}"
 msgstr "Команди-аліаси з {module}"
 
-#: sophie_bot/modules/help/handlers/pm_modules.py:117
+#: sophie_bot/modules/help/handlers/pm_modules.py:121
 msgid "📖 Look the module's wiki page for more information"
 msgstr "Не вдалося знайти фільтр з ідентифікатором {handler}!"
 
-#: sophie_bot/modules/help/handlers/pm_modules.py:118
+#: sophie_bot/modules/help/handlers/pm_modules.py:122
 msgid "📖 Wiki page"
 msgstr "📖 Сторінка Вікі"
 
@@ -2512,6 +2518,106 @@ msgstr "Фільтр з обробником {handler} не може бути в
 msgid "Shows all lockable entities"
 msgstr "Цей фільтр було створено до оновлення фільтрів і вважається 'старим'"
 
+#: sophie_bot/modules/logging/events.py:37
+#, fuzzy
+msgid "Warning added"
+msgstr "Виявлено флуд! 🚫"
+
+#: sophie_bot/modules/logging/events.py:38
+#, fuzzy
+msgid "Warning removed"
+msgstr "Дію видалено."
+
+#: sophie_bot/modules/logging/events.py:39
+#, fuzzy
+msgid "Warning reset"
+msgstr "Попередження"
+
+#: sophie_bot/modules/logging/events.py:40
+#, fuzzy, python-brace-format
+msgid "All warnings reset"
+msgstr "Попереджає користувача."
+
+#: sophie_bot/modules/logging/events.py:41
+#, fuzzy
+msgid "Note saved"
+msgstr "Назва примітки"
+
+#: sophie_bot/modules/logging/events.py:42
+#, fuzzy
+msgid "Note deleted"
+msgstr "Виявлено флуд! 🚫"
+
+#: sophie_bot/modules/logging/events.py:43
+#, fuzzy
+msgid "Note updated"
+msgstr "Постачальник оновлений"
+
+#: sophie_bot/modules/logging/events.py:44
+#, fuzzy
+msgid "All notes deleted"
+msgstr "Виявлено флуд! 🚫"
+
+#: sophie_bot/modules/logging/events.py:45
+#, fuzzy
+msgid "User restricted"
+msgstr "Обмеження"
+
+#: sophie_bot/modules/logging/events.py:46
+#, fuzzy
+msgid "User unrestricted"
+msgstr "Обмеження"
+
+#: sophie_bot/modules/logging/events.py:47
+#: sophie_bot/modules/restrictions/handlers/ban.py:84
+#, fuzzy
+msgid "User banned"
+msgstr "Користувач для блокування"
+
+#: sophie_bot/modules/logging/events.py:48
+#: sophie_bot/modules/restrictions/handlers/unban.py:73
+#, fuzzy
+msgid "User unbanned"
+msgstr "Користувач для розблокування"
+
+#: sophie_bot/modules/logging/events.py:49
+#: sophie_bot/modules/restrictions/handlers/kick.py:82
+#, fuzzy
+msgid "User kicked"
+msgstr "Ідентифікатор користувача"
+
+#: sophie_bot/modules/logging/events.py:50
+#: sophie_bot/modules/restrictions/handlers/mute.py:84
+#, fuzzy
+msgid "User muted"
+msgstr "Ідентифікатор користувача"
+
+#: sophie_bot/modules/logging/events.py:51
+#: sophie_bot/modules/restrictions/handlers/unmute.py:73
+#, fuzzy
+msgid "User unmuted"
+msgstr "Ім'я користувача"
+
+#: sophie_bot/modules/logging/events.py:52
+#, fuzzy
+msgid "Filter saved"
+msgstr "Фільтри"
+
+#: sophie_bot/modules/logging/events.py:53
+#, fuzzy
+msgid "Filter deleted"
+msgstr "Від простого чат-бота до автоматичного перекладача. Гарного відпочинку."
+
+#: sophie_bot/modules/logging/events.py:54
+#, fuzzy
+msgid "Messages purged"
+msgstr "Автор повідомлення"
+
+#: sophie_bot/modules/logging/events.py:55
+#, fuzzy
+msgid "Message deleted"
+msgstr "Виявлено флуд! 🚫"
+
 #: sophie_bot/modules/notes/__init__.py:33
 msgid "Notes"
 msgstr "Замітки"
@@ -2524,46 +2630,46 @@ msgstr "Слідкуйте за оновленнями Софії."
 msgid "Notes allows saving different kind of content, from normal text messages to stickers and audio messages, notes also support adding inline message buttons."
 msgstr "Альтернативно, ви можете видалити цей фільтр і створити його знову."
 
-#: sophie_bot/modules/notes/handlers/delete.py:18
+#: sophie_bot/modules/notes/handlers/delete.py:20
 #: sophie_bot/modules/notes/handlers/get.py:20
 msgid "Note name"
 msgstr "Назва примітки"
 
-#: sophie_bot/modules/notes/handlers/delete.py:19
+#: sophie_bot/modules/notes/handlers/delete.py:21
 msgid "Deletes notes."
 msgstr "Видаляє примітки."
 
-#: sophie_bot/modules/notes/handlers/delete.py:32
+#: sophie_bot/modules/notes/handlers/delete.py:37
 #, python-brace-format
 msgid "No notes was found with {name} name."
 msgstr "Заміток не знайдено з іменем {name}."
 
-#: sophie_bot/modules/notes/handlers/delete.py:40
+#: sophie_bot/modules/notes/handlers/delete.py:46
 msgid "Names"
 msgstr "Назви"
 
-#: sophie_bot/modules/notes/handlers/delete.py:41
+#: sophie_bot/modules/notes/handlers/delete.py:47
 msgid "Note was successfully deleted"
 msgstr "Примітка була успішно видалена"
 
-#: sophie_bot/modules/notes/handlers/delete_all.py:22
+#: sophie_bot/modules/notes/handlers/delete_all.py:24
 msgid "Deletes all notes."
 msgstr " додає новий фільтр"
 
-#: sophie_bot/modules/notes/handlers/delete_all.py:37
+#: sophie_bot/modules/notes/handlers/delete_all.py:39
 msgid "🗑 Delete all"
 msgstr "🗑 Видалити все"
 
-#: sophie_bot/modules/notes/handlers/delete_all.py:47
+#: sophie_bot/modules/notes/handlers/delete_all.py:49
 #, python-brace-format
 msgid "Do you want to delete all the notes in the {chat_name}?"
 msgstr "Ви хочете видалити всі примітки в {chat_name}?"
 
-#: sophie_bot/modules/notes/handlers/delete_all.py:69
+#: sophie_bot/modules/notes/handlers/delete_all.py:71
 msgid "Only the initiator can confirm deleting all notes"
 msgstr "Тільки ініціатор може підтвердити видалення всіх приміток"
 
-#: sophie_bot/modules/notes/handlers/delete_all.py:74
+#: sophie_bot/modules/notes/handlers/delete_all.py:77
 #, python-brace-format
 msgid "🗑 All the notes ({removed_count}) have been deleted in the {chat_name}"
 msgstr "🗑 Усі примітки ({removed_count}) були видалені в {chat_name}"
@@ -2693,23 +2799,23 @@ msgstr "вимкнено"
 msgid "PrivateNotes have been {status} in {chat}."
 msgstr "Приватні Примітки були {status} в {chat}."
 
-#: sophie_bot/modules/notes/handlers/save.py:25
+#: sophie_bot/modules/notes/handlers/save.py:27
 msgid "Note names"
 msgstr "Назва примітки"
 
-#: sophie_bot/modules/notes/handlers/save.py:27
+#: sophie_bot/modules/notes/handlers/save.py:29
 msgid "?Description"
 msgstr "?Опис"
 
-#: sophie_bot/modules/notes/handlers/save.py:30
+#: sophie_bot/modules/notes/handlers/save.py:32
 msgid "Save the note."
 msgstr "Зберегти примітку."
 
-#: sophie_bot/modules/notes/handlers/save.py:58
+#: sophie_bot/modules/notes/handlers/save.py:63
 msgid "Note was successfully created"
 msgstr "Примітка була успішно створена"
 
-#: sophie_bot/modules/notes/handlers/save.py:58
+#: sophie_bot/modules/notes/handlers/save.py:63
 msgid "Note was successfully updated"
 msgstr "Примітка була успішно оновлена"
 
@@ -2740,9 +2846,9 @@ msgstr "#{name} примітку не знайдено."
 
 #: sophie_bot/modules/notes/magic_handlers/filter.py:25
 #: sophie_bot/modules/notes/magic_handlers/send_note_action.py:85
-#: sophie_bot/modules/restrictions/actions/ban.py:102
-#: sophie_bot/modules/restrictions/actions/kick.py:36
-#: sophie_bot/modules/restrictions/actions/mute.py:102
+#: sophie_bot/modules/restrictions/actions/ban.py:105
+#: sophie_bot/modules/restrictions/actions/kick.py:39
+#: sophie_bot/modules/restrictions/actions/mute.py:105
 #: sophie_bot/modules/rules/magic_handlers/filter.py:16
 #: sophie_bot/modules/rules/magic_handlers/modern_filter.py:34
 msgid "Filter action"
@@ -3085,31 +3191,31 @@ msgstr "Адміністратора успішно підвищено"
 msgid "Purges"
 msgstr "Очищення"
 
-#: sophie_bot/modules/purges/handlers/delete.py:17
+#: sophie_bot/modules/purges/handlers/delete.py:19
 msgid "Deletes the replied message"
 msgstr "Видаляє відповідь на повідомлення"
 
-#: sophie_bot/modules/purges/handlers/delete.py:30
+#: sophie_bot/modules/purges/handlers/delete.py:35
 msgid "Reply to a message to delete it."
 msgstr "Щоб видалити повідомлення, потрібно відповісти на нього."
 
-#: sophie_bot/modules/purges/handlers/delete.py:35
+#: sophie_bot/modules/purges/handlers/delete.py:40
 msgid "Couldn't delete the message older than 48 hours (2 days). You can delete it nevertheless using the Telegram's admin tools."
 msgstr "Не вдалося видалити повідомлення старше 48 годин (2 дні). Ви все ж можете видалити його за допомогою інструментів адміністратора Telegram."
 
-#: sophie_bot/modules/purges/handlers/purge.py:18
+#: sophie_bot/modules/purges/handlers/purge.py:20
 msgid "Purges all messages after replied message (including the replied message)"
 msgstr "Очищає всі повідомлення після відповіді на повідомлення (включно з відповіді на повідомлення)"
 
-#: sophie_bot/modules/purges/handlers/purge.py:31
+#: sophie_bot/modules/purges/handlers/purge.py:36
 msgid "Reply to a message to start."
 msgstr "Щоб почати, потрібно відповісти на повідомлення."
 
-#: sophie_bot/modules/purges/handlers/purge.py:36
+#: sophie_bot/modules/purges/handlers/purge.py:41
 msgid "Couldn't delete the messages older than 48 hours (2 days). You can delete it nevertheless using the Telegram's admin tools."
 msgstr "Не вдалося видалити повідомлення старше 48 годин (2 дні). Ви все ж можете видалити його за допомогою інструментів адміністратора Telegram."
 
-#: sophie_bot/modules/purges/handlers/purge.py:55
+#: sophie_bot/modules/purges/handlers/purge.py:68
 msgid "Purge completed. This message will be removed in 5 seconds."
 msgstr "Очищення завершено. Це повідомлення буде видалено через 5 секунд."
 
@@ -3117,11 +3223,11 @@ msgstr "Очищення завершено. Це повідомлення бу�
 msgid "🗑 Delete message"
 msgstr "🗑 Видалити повідомлення"
 
-#: sophie_bot/modules/purges/magic_handlers/modern_filter.py:19
+#: sophie_bot/modules/purges/magic_handlers/modern_filter.py:22
 msgid "Delete the message"
 msgstr "Поданий шаблон regex занадто повільно виконуються. Будь ласка, перегляньте шаблон і спробуйте додати фільтр ще раз."
 
-#: sophie_bot/modules/purges/magic_handlers/modern_filter.py:25
+#: sophie_bot/modules/purges/magic_handlers/modern_filter.py:28
 msgid "Deletes the message"
 msgstr "Видалити повідомлення"
 
@@ -3156,272 +3262,247 @@ msgstr " Причина: {reason}"
 msgid "Restrictions"
 msgstr "Обмеження"
 
-#: sophie_bot/modules/restrictions/actions/ban.py:49
+#: sophie_bot/modules/restrictions/actions/ban.py:52
 msgid "Invalid ban duration, please try again."
 msgstr "Неправильна тривалість бана, будь ласка, спробуйте ще раз."
 
-#: sophie_bot/modules/restrictions/actions/ban.py:58
+#: sophie_bot/modules/restrictions/actions/ban.py:61
 msgid "Please write the ban duration, for example 2h for 2 hours, 7d for 7 days or 2w for 2 weeks. Or 0 for a permanent ban."
 msgstr "Будь ласка, напишіть тривалість бана, наприклад 2h для 2 годин, 7d для 7 днів або 2w для 2 тижнів. Або 0 для постійного бана."
 
-#: sophie_bot/modules/restrictions/actions/ban.py:66
+#: sophie_bot/modules/restrictions/actions/ban.py:69
 msgid "Ban"
 msgstr "Заборонити"
 
-#: sophie_bot/modules/restrictions/actions/ban.py:75
+#: sophie_bot/modules/restrictions/actions/ban.py:78
 #, python-brace-format
 msgid "Bans user for {time}"
 msgstr "Забороняє користувача на {time}"
 
-#: sophie_bot/modules/restrictions/actions/ban.py:77
+#: sophie_bot/modules/restrictions/actions/ban.py:80
 msgid "Bans user indefinitely"
 msgstr "Забороняє користувача безстроково"
 
-#: sophie_bot/modules/restrictions/actions/ban.py:82
+#: sophie_bot/modules/restrictions/actions/ban.py:85
 msgid "Change ban duration"
 msgstr "Змінити тривалість бана"
 
-#: sophie_bot/modules/restrictions/actions/ban.py:104
+#: sophie_bot/modules/restrictions/actions/ban.py:107
 #, python-brace-format
 msgid "User {user} was automatically banned based on a filter action"
 msgstr "Користувача {user} було автоматично заборонено на основі дії фільтра"
 
-#: sophie_bot/modules/restrictions/actions/ban.py:110
-#: sophie_bot/modules/restrictions/actions/mute.py:110
+#: sophie_bot/modules/restrictions/actions/ban.py:113
+#: sophie_bot/modules/restrictions/actions/mute.py:113
 msgid "For"
 msgstr "Для"
 
-#: sophie_bot/modules/restrictions/actions/kick.py:17
+#: sophie_bot/modules/restrictions/actions/kick.py:20
 msgid "Kick"
 msgstr "Виключити"
 
-#: sophie_bot/modules/restrictions/actions/kick.py:22
+#: sophie_bot/modules/restrictions/actions/kick.py:25
 msgid "Kicks a user"
 msgstr "Викинути користувача"
 
-#: sophie_bot/modules/restrictions/actions/kick.py:38
+#: sophie_bot/modules/restrictions/actions/kick.py:41
 #, python-brace-format
 msgid "User {user} was automatically kicked based on a filter action"
 msgstr "Користувача {user} було автоматично виключено на основі дії фільтра"
 
-#: sophie_bot/modules/restrictions/actions/mute.py:49
+#: sophie_bot/modules/restrictions/actions/mute.py:52
 msgid "Invalid mute duration, please try again."
 msgstr "Неправильна тривалість заглушення, будь ласка, спробуйте ще раз."
 
-#: sophie_bot/modules/restrictions/actions/mute.py:58
+#: sophie_bot/modules/restrictions/actions/mute.py:61
 #, fuzzy
 msgid "Please write the mute duration, for example 2h for 2 hours, 7d for 7 days or 2w for 2 weeks. Or 0 for a permanent mute."
 msgstr "Будь ласка, напишіть тривалість бана, наприклад 2h для 2 годин, 7d для 7 днів або 2w для 2 тижнів. Або 0 для постійного бана."
 
-#: sophie_bot/modules/restrictions/actions/mute.py:66
+#: sophie_bot/modules/restrictions/actions/mute.py:69
 msgid "Mute"
 msgstr "Заглушити"
 
-#: sophie_bot/modules/restrictions/actions/mute.py:75
+#: sophie_bot/modules/restrictions/actions/mute.py:78
 #, python-brace-format
 msgid "Mutes user for {time}"
 msgstr "Заглушує користувача на {time}"
 
-#: sophie_bot/modules/restrictions/actions/mute.py:77
+#: sophie_bot/modules/restrictions/actions/mute.py:80
 msgid "Mutes user indefinitely"
 msgstr "Заглушує користувача безстроково"
 
-#: sophie_bot/modules/restrictions/actions/mute.py:82
+#: sophie_bot/modules/restrictions/actions/mute.py:85
 msgid "Change mute duration"
 msgstr "Змініть тривалість вимкнення звуку"
 
-#: sophie_bot/modules/restrictions/actions/mute.py:104
+#: sophie_bot/modules/restrictions/actions/mute.py:107
 #, python-brace-format
 msgid "User {user} was automatically muted based on a filter action"
 msgstr "Користувача {user} було автоматично заглушено на основі дії фільтра"
 
-#: sophie_bot/modules/restrictions/handlers/ban.py:28
+#: sophie_bot/modules/restrictions/handlers/ban.py:30
 #, fuzzy
 msgid "Bans the user from the chat."
 msgstr "Розблокує користувача з федерації."
 
-#: sophie_bot/modules/restrictions/handlers/ban.py:58
-#: sophie_bot/modules/restrictions/handlers/ban.py:113
+#: sophie_bot/modules/restrictions/handlers/ban.py:60
+#: sophie_bot/modules/restrictions/handlers/ban.py:121
 #, fuzzy
 msgid "I cannot ban myself."
 msgstr "Ви не можете заблокувати себе."
 
-#: sophie_bot/modules/restrictions/handlers/ban.py:64
-#: sophie_bot/modules/restrictions/handlers/ban.py:119
+#: sophie_bot/modules/restrictions/handlers/ban.py:66
+#: sophie_bot/modules/restrictions/handlers/ban.py:127
 #, fuzzy
 msgid "I cannot ban an admin."
 msgstr "Не можна заблокувати адміністраторів федерації."
 
-#: sophie_bot/modules/restrictions/handlers/ban.py:67
-#: sophie_bot/modules/restrictions/handlers/ban.py:124
+#: sophie_bot/modules/restrictions/handlers/ban.py:69
+#: sophie_bot/modules/restrictions/handlers/ban.py:132
 msgid "Failed to ban the user. Make sure I have the right permissions."
 msgstr ""
 
-#: sophie_bot/modules/restrictions/handlers/ban.py:76
-#, fuzzy
-msgid "User banned"
-msgstr "Користувач для блокування"
-
-#: sophie_bot/modules/restrictions/handlers/ban.py:82
+#: sophie_bot/modules/restrictions/handlers/ban.py:90
 #, fuzzy
 msgid "Temporarily bans the user from the chat."
 msgstr "Розблокує користувача з федерації."
 
-#: sophie_bot/modules/restrictions/handlers/ban.py:99
-#: sophie_bot/modules/restrictions/handlers/mute.py:99
+#: sophie_bot/modules/restrictions/handlers/ban.py:107
+#: sophie_bot/modules/restrictions/handlers/mute.py:107
 msgid "Time (e.g., 2h, 7d, 2w)"
 msgstr ""
 
-#: sophie_bot/modules/restrictions/handlers/ban.py:132
-#: sophie_bot/modules/restrictions/handlers/mute.py:132
+#: sophie_bot/modules/restrictions/handlers/ban.py:146
+#: sophie_bot/modules/restrictions/handlers/mute.py:146
 #, fuzzy
 msgid "Duration"
 msgstr "Федерація"
 
-#: sophie_bot/modules/restrictions/handlers/ban.py:134
+#: sophie_bot/modules/restrictions/handlers/ban.py:148
 #, fuzzy
 msgid "User temporarily banned"
 msgstr "⏳🚷 Тимчасова заборона"
 
-#: sophie_bot/modules/restrictions/handlers/kick.py:26
+#: sophie_bot/modules/restrictions/handlers/kick.py:28
 msgid "Kicks the user from the chat. The user would be able to join back."
 msgstr "Вигнало користувача з чату. Користувач зможе зайти знову."
 
-#: sophie_bot/modules/restrictions/handlers/kick.py:56
+#: sophie_bot/modules/restrictions/handlers/kick.py:58
 #, fuzzy
 msgid "I cannot kick myself."
 msgstr "Я не можу понизити себе."
 
-#: sophie_bot/modules/restrictions/handlers/kick.py:59
+#: sophie_bot/modules/restrictions/handlers/kick.py:61
 #, fuzzy
 msgid "You cannot kick yourself."
 msgstr "Ви не можете заблокувати себе."
 
-#: sophie_bot/modules/restrictions/handlers/kick.py:62
+#: sophie_bot/modules/restrictions/handlers/kick.py:64
 msgid "I cannot kick an admin."
 msgstr ""
 
-#: sophie_bot/modules/restrictions/handlers/kick.py:65
+#: sophie_bot/modules/restrictions/handlers/kick.py:67
 msgid "Failed to kick the user. Make sure I have the right permissions."
 msgstr ""
 
-#: sophie_bot/modules/restrictions/handlers/kick.py:72
+#: sophie_bot/modules/restrictions/handlers/kick.py:80
 #, fuzzy
 msgid "Kicked by"
 msgstr "Виключити"
 
-#: sophie_bot/modules/restrictions/handlers/kick.py:74
-#, fuzzy
-msgid "User kicked"
-msgstr "Ідентифікатор користувача"
-
-#: sophie_bot/modules/restrictions/handlers/mute.py:28
+#: sophie_bot/modules/restrictions/handlers/mute.py:30
 #, fuzzy
 msgid "Mutes the user in the chat."
 msgstr "Заглушити користувача."
 
-#: sophie_bot/modules/restrictions/handlers/mute.py:58
-#: sophie_bot/modules/restrictions/handlers/mute.py:113
+#: sophie_bot/modules/restrictions/handlers/mute.py:60
+#: sophie_bot/modules/restrictions/handlers/mute.py:121
 #, fuzzy
 msgid "I cannot mute myself."
 msgstr "Я не можу понизити себе."
 
-#: sophie_bot/modules/restrictions/handlers/mute.py:61
-#: sophie_bot/modules/restrictions/handlers/mute.py:116
+#: sophie_bot/modules/restrictions/handlers/mute.py:63
+#: sophie_bot/modules/restrictions/handlers/mute.py:124
 #, fuzzy
 msgid "You cannot mute yourself."
 msgstr "Ви не можете понизити себе."
 
-#: sophie_bot/modules/restrictions/handlers/mute.py:64
-#: sophie_bot/modules/restrictions/handlers/mute.py:119
+#: sophie_bot/modules/restrictions/handlers/mute.py:66
+#: sophie_bot/modules/restrictions/handlers/mute.py:127
 #, fuzzy
 msgid "I cannot mute an admin."
 msgstr "Я не можу понизити себе."
 
-#: sophie_bot/modules/restrictions/handlers/mute.py:67
-#: sophie_bot/modules/restrictions/handlers/mute.py:124
+#: sophie_bot/modules/restrictions/handlers/mute.py:69
+#: sophie_bot/modules/restrictions/handlers/mute.py:132
 msgid "Failed to mute the user. Make sure I have the right permissions."
 msgstr ""
 
-#: sophie_bot/modules/restrictions/handlers/mute.py:74
-#: sophie_bot/modules/restrictions/handlers/mute.py:131
+#: sophie_bot/modules/restrictions/handlers/mute.py:82
+#: sophie_bot/modules/restrictions/handlers/mute.py:145
 #, fuzzy
 msgid "Muted by"
 msgstr "Понижено в правах"
 
-#: sophie_bot/modules/restrictions/handlers/mute.py:76
-#, fuzzy
-msgid "User muted"
-msgstr "Ідентифікатор користувача"
-
-#: sophie_bot/modules/restrictions/handlers/mute.py:82
+#: sophie_bot/modules/restrictions/handlers/mute.py:90
 msgid "Temporarily mutes the user in the chat."
 msgstr ""
 
-#: sophie_bot/modules/restrictions/handlers/mute.py:134
+#: sophie_bot/modules/restrictions/handlers/mute.py:148
 #, fuzzy
 msgid "User temporarily muted"
 msgstr "⏳🔕 Тимчасова заглушка"
 
-#: sophie_bot/modules/restrictions/handlers/unban.py:24
+#: sophie_bot/modules/restrictions/handlers/unban.py:26
 #, fuzzy
 msgid "Unbans the user from the chat."
 msgstr "Розблокує користувача з федерації."
 
-#: sophie_bot/modules/restrictions/handlers/unban.py:52
+#: sophie_bot/modules/restrictions/handlers/unban.py:54
 #, fuzzy
 msgid "I cannot unban myself."
 msgstr "Ви не можете заблокувати себе."
 
-#: sophie_bot/modules/restrictions/handlers/unban.py:55
+#: sophie_bot/modules/restrictions/handlers/unban.py:57
 #, fuzzy
 msgid "You cannot unban yourself."
 msgstr "Ви не можете заблокувати себе."
 
-#: sophie_bot/modules/restrictions/handlers/unban.py:58
+#: sophie_bot/modules/restrictions/handlers/unban.py:60
 msgid "Failed to unban the user. Make sure I have the right permissions."
 msgstr ""
 
-#: sophie_bot/modules/restrictions/handlers/unban.py:64
-#, fuzzy
-msgid "User unbanned"
-msgstr "Користувач для розблокування"
-
-#: sophie_bot/modules/restrictions/handlers/unmute.py:24
+#: sophie_bot/modules/restrictions/handlers/unmute.py:26
 #, fuzzy
 msgid "Unmutes the user in the chat."
 msgstr "Блокує користувача у всій федерації."
 
-#: sophie_bot/modules/restrictions/handlers/unmute.py:52
+#: sophie_bot/modules/restrictions/handlers/unmute.py:54
 #, fuzzy
 msgid "I cannot unmute myself."
 msgstr "Я не можу понизити себе."
 
-#: sophie_bot/modules/restrictions/handlers/unmute.py:55
+#: sophie_bot/modules/restrictions/handlers/unmute.py:57
 #, fuzzy
 msgid "You cannot unmute yourself."
 msgstr "Ви не можете понизити себе."
 
-#: sophie_bot/modules/restrictions/handlers/unmute.py:58
+#: sophie_bot/modules/restrictions/handlers/unmute.py:60
 msgid "Failed to unmute the user. Make sure I have the right permissions."
 msgstr ""
 
-#: sophie_bot/modules/restrictions/handlers/unmute.py:63
+#: sophie_bot/modules/restrictions/handlers/unmute.py:72
 #, fuzzy
 msgid "Unmuted by"
 msgstr "Понижено в правах"
-
-#: sophie_bot/modules/restrictions/handlers/unmute.py:64
-#, fuzzy
-msgid "User unmuted"
-msgstr "Ім'я користувача"
 
 #: sophie_bot/modules/rules/__init__.py:13
 #: sophie_bot/modules/rules/handlers/get.py:34
 #: sophie_bot/modules/rules/handlers/legacy_button.py:34
 #: sophie_bot/modules/rules/magic_handlers/filter.py:16
 #: sophie_bot/modules/rules/magic_handlers/modern_filter.py:34
-#: sophie_bot/modules/warns/handlers/warn.py:82
+#: sophie_bot/modules/warns/handlers/warn.py:91
 msgid "Rules"
 msgstr "Правила"
 
@@ -3523,8 +3604,7 @@ msgid "Get current strategy mode / current state"
 msgstr "Отримати поточну стратегію / поточний стан"
 
 #: sophie_bot/modules/troubleshooters/handlers/beta_state.py:79
-#: sophie_bot/modules/warns/handlers/warns.py:46
-#: sophie_bot/modules/warns/handlers/warns.py:79
+#: sophie_bot/modules/warns/handlers/warns_group.py:39
 msgid "Unknown"
 msgstr "Невідомо"
 
@@ -3541,15 +3621,21 @@ msgstr "Теперішній стан вже очищено, нічого тут
 msgid "Current state {state} is cleared."
 msgstr "Поточний стан {state} очищено."
 
-#: sophie_bot/modules/troubleshooters/handlers/cancel_callback.py:29
-#: sophie_bot/modules/troubleshooters/handlers/cancel_callback.py:46
+#: sophie_bot/modules/troubleshooters/handlers/cancel_callback.py:30
+#: sophie_bot/modules/troubleshooters/handlers/cancel_callback.py:47
+#: sophie_bot/modules/troubleshooters/handlers/cancel_callback.py:65
 msgid "You are not allowed to cancel this action!"
 msgstr "Ви не можете скасувати цю дію!"
 
-#: sophie_bot/modules/troubleshooters/handlers/cancel_callback.py:32
-#: sophie_bot/modules/troubleshooters/handlers/cancel_callback.py:49
+#: sophie_bot/modules/troubleshooters/handlers/cancel_callback.py:33
+#: sophie_bot/modules/troubleshooters/handlers/cancel_callback.py:50
 msgid "❌ Cancelled."
 msgstr "❌ Скасовано."
+
+#: sophie_bot/modules/troubleshooters/handlers/cancel_callback.py:69
+#, python-brace-format
+msgid "The action was cancelled by {user}."
+msgstr ""
 
 #: sophie_bot/modules/users/__init__.py:11
 msgid "Users"
@@ -3794,157 +3880,221 @@ msgstr "Поточний статус вже {state}"
 msgid "The state was successfully changed"
 msgstr "Стан було успішно змінено"
 
-#: sophie_bot/modules/warns/__init__.py:17
+#: sophie_bot/modules/warns/__init__.py:25
 msgid "Warnings"
 msgstr "Попередження"
 
-#: sophie_bot/modules/warns/__init__.py:21
+#: sophie_bot/modules/warns/__init__.py:29
 msgid "Warns users in the chat to keep it safe."
 msgstr ""
 
-#: sophie_bot/modules/warns/__init__.py:22
+#: sophie_bot/modules/warns/__init__.py:30
 msgid "You can set a max warning limit and an action to take when the limit is reached."
 msgstr ""
 
-#: sophie_bot/modules/warns/handlers/callback.py:27
+#: sophie_bot/modules/warns/handlers/callback.py:30
 msgid "Only admins can delete warns!"
 msgstr ""
 
-#: sophie_bot/modules/warns/handlers/callback.py:31
+#: sophie_bot/modules/warns/handlers/callback.py:40
 #, fuzzy
 msgid "Warning deleted!"
 msgstr "Виявлено флуд! 🚫"
 
-#: sophie_bot/modules/warns/handlers/callback.py:34
+#: sophie_bot/modules/warns/handlers/callback.py:43
 msgid "✅ Warning deleted"
 msgstr ""
 
-#: sophie_bot/modules/warns/handlers/callback.py:36
+#: sophie_bot/modules/warns/handlers/callback.py:45
 #, python-brace-format
 msgid "The warning has been successfully removed by {admin}."
 msgstr ""
 
-#: sophie_bot/modules/warns/handlers/callback.py:43
+#: sophie_bot/modules/warns/handlers/callback.py:52
 msgid "Warning not found or already deleted!"
 msgstr ""
 
-#: sophie_bot/modules/warns/handlers/warn.py:23
+#: sophie_bot/modules/warns/handlers/callback.py:70
+msgid "Only admins can reset warns!"
+msgstr ""
+
+#: sophie_bot/modules/warns/handlers/callback.py:88
+#, fuzzy
+msgid "Warnings reset!"
+msgstr "Виявлено флуд! 🚫"
+
+#: sophie_bot/modules/warns/handlers/callback.py:90
+#, fuzzy, python-brace-format
+msgid "Reset warnings of {user}."
+msgstr "Попереджає користувача."
+
+#: sophie_bot/modules/warns/handlers/callback.py:106
+msgid "Only admins can reset all warns!"
+msgstr ""
+
+#: sophie_bot/modules/warns/handlers/callback.py:113
+#, fuzzy
+msgid "All warnings reset!"
+msgstr "Виявлено флуд! 🚫"
+
+#: sophie_bot/modules/warns/handlers/callback.py:114
+#, fuzzy
+msgid "Reset all warnings in this chat."
+msgstr "Жодних приміток не знайдено в {chat_name}."
+
+#: sophie_bot/modules/warns/handlers/reset_all_warns.py:17
+#, fuzzy
+msgid "Resets all warnings of all users in the current chat."
+msgstr "⚠️ Попередження"
+
+#: sophie_bot/modules/warns/handlers/reset_all_warns.py:32
+#: sophie_bot/modules/warns/handlers/reset_warns.py:48
+#: sophie_bot/modules/welcomesecurity/handlers/captcha_get.py:96
+#: sophie_bot/modules/welcomesecurity/utils_/initiate_captcha.py:55
+msgid "Confirm"
+msgstr "Confirm"
+
+#: sophie_bot/modules/warns/handlers/reset_all_warns.py:33
+#: sophie_bot/modules/warns/handlers/reset_warns.py:49
+#, fuzzy
+msgid "Cancel"
+msgstr "🚫 Скасувати"
+
+#: sophie_bot/modules/warns/handlers/reset_all_warns.py:37
+#, fuzzy, python-brace-format
+msgid "Are you sure you want to reset ALL warnings in this chat?"
+msgstr "Ви хочете увімкнути всі команди в {chat_name}?"
+
+#: sophie_bot/modules/warns/handlers/reset_warns.py:20
+#, fuzzy
+msgid "Resets all warnings of a user in the current chat."
+msgstr "⚠️ Попередження"
+
+#: sophie_bot/modules/warns/handlers/reset_warns.py:44
+#, fuzzy
+msgid "Please provide a user to reset warns for."
+msgstr "Будь ласка, напишіть причину попередження."
+
+#: sophie_bot/modules/warns/handlers/reset_warns.py:53
+#, python-brace-format
+msgid "Are you sure you want to reset warnings of {user}?"
+msgstr ""
+
+#: sophie_bot/modules/warns/handlers/warn.py:25
 #, fuzzy
 msgid "Warns a user."
 msgstr "Попереджає користувача."
 
-#: sophie_bot/modules/warns/handlers/warn.py:37
+#: sophie_bot/modules/warns/handlers/warn.py:39
 #, fuzzy
 msgid "User to warn"
 msgstr "Користувач для блокування"
 
-#: sophie_bot/modules/warns/handlers/warn.py:48
+#: sophie_bot/modules/warns/handlers/warn.py:50
 #, fuzzy
 msgid "I cannot warn myself."
 msgstr "Я не можу підвищити себе."
 
-#: sophie_bot/modules/warns/handlers/warn.py:52
+#: sophie_bot/modules/warns/handlers/warn.py:54
 #, fuzzy
 msgid "I cannot warn an admin."
 msgstr "Не можна заблокувати адміністраторів федерації."
 
-#: sophie_bot/modules/warns/handlers/warn.py:62
+#: sophie_bot/modules/warns/handlers/warn.py:71
 #, fuzzy
 msgid "⚠️ User warned"
 msgstr "⚠️ Попередження"
 
-#: sophie_bot/modules/warns/handlers/warn.py:64
+#: sophie_bot/modules/warns/handlers/warn.py:73
 #, fuzzy
 msgid "By admin"
 msgstr "Тільки адміністратори"
 
-#: sophie_bot/modules/warns/handlers/warn.py:65
+#: sophie_bot/modules/warns/handlers/warn.py:74
 #, fuzzy
 msgid "Warnings count"
 msgstr "Попередження"
 
-#: sophie_bot/modules/warns/handlers/warn.py:72
+#: sophie_bot/modules/warns/handlers/warn.py:81
 #, python-brace-format
 msgid "User has been {punishment} due to reaching max warns."
 msgstr ""
 
-#: sophie_bot/modules/warns/handlers/warn.py:91
+#: sophie_bot/modules/warns/handlers/warn.py:100
 #, fuzzy
 msgid "Delete warn"
 msgstr "Видаляє всі попередження"
 
-#: sophie_bot/modules/warns/handlers/warns.py:23
+#: sophie_bot/modules/warns/handlers/warns_group.py:16
 #, fuzzy
 msgid "Shows user's warns in the current chat."
 msgstr "⚠️ Попередження"
 
-#: sophie_bot/modules/warns/handlers/warns.py:57
-#: sophie_bot/modules/warns/handlers/warns.py:90
+#: sophie_bot/modules/warns/handlers/warns_group.py:49
 #, fuzzy, python-brace-format
 msgid "⚠️ Warnings for {user}"
 msgstr "Попереджає користувача."
 
-#: sophie_bot/modules/warns/handlers/warns.py:58
+#: sophie_bot/modules/warns/handlers/warns_group.py:52
 #, fuzzy
 msgid "Count"
 msgstr "Дія"
 
-#: sophie_bot/modules/warns/handlers/warns.py:62
-#: sophie_bot/modules/warns/handlers/warns.py:98
+#: sophie_bot/modules/warns/handlers/warns_group.py:53
+#: sophie_bot/modules/warns/handlers/warns_pm.py:40
 #, fuzzy
 msgid "No reason provided"
 msgstr "<No text provided>"
 
-#: sophie_bot/modules/warns/handlers/warns.py:63
+#: sophie_bot/modules/warns/handlers/warns_group.py:54
 #, fuzzy
 msgid "Reasons"
 msgstr "Причина"
 
-#: sophie_bot/modules/warns/handlers/warns.py:65
+#: sophie_bot/modules/warns/handlers/warns_group.py:57
 #, fuzzy
-msgid "No warnings found in this chat."
-msgstr "Жодних приміток не знайдено в {chat_name}."
+msgid "The user has no warnings currently."
+msgstr "⚠️ Попередження"
 
-#: sophie_bot/modules/warns/handlers/warns.py:70
+#: sophie_bot/modules/warns/handlers/warns_pm.py:15
 msgid "Shows all your warns across all chats."
 msgstr ""
 
-#: sophie_bot/modules/warns/handlers/warns.py:88
-#, fuzzy
-msgid "No warnings found for you."
-msgstr "Запит на передачу власності для цієї федерації не знайдено."
+#: sophie_bot/modules/warns/handlers/warns_pm.py:32
+msgid "You don't have warnings in any chat at the moment."
+msgstr ""
 
-#: sophie_bot/modules/warns/handlers/warns.py:94
+#: sophie_bot/modules/warns/handlers/warns_pm.py:34
+#, fuzzy
+msgid "⚠️ Your warnings"
+msgstr "⚠️ Попередження"
+
+#: sophie_bot/modules/warns/handlers/warns_pm.py:38
 #, fuzzy
 msgid "Unknown Chat"
 msgstr "Невідомо"
 
-#: sophie_bot/modules/warns/handlers/warns.py:100
-#, fuzzy
-msgid "Warning"
-msgstr "Попередження"
-
-#: sophie_bot/modules/warns/magic_handlers/modern_action.py:33
+#: sophie_bot/modules/warns/magic_handlers/modern_action.py:36
 msgid "Please write the warn reason."
 msgstr "Будь ласка, напишіть причину попередження."
 
-#: sophie_bot/modules/warns/magic_handlers/modern_action.py:41
+#: sophie_bot/modules/warns/magic_handlers/modern_action.py:44
 msgid "Warn"
 msgstr "Попередження"
 
-#: sophie_bot/modules/warns/magic_handlers/modern_action.py:49
+#: sophie_bot/modules/warns/magic_handlers/modern_action.py:52
 msgid "Warn user with the reason"
 msgstr "Попереджає користувача з причиною"
 
-#: sophie_bot/modules/warns/magic_handlers/modern_action.py:51
+#: sophie_bot/modules/warns/magic_handlers/modern_action.py:54
 msgid "Warns user with no reason"
 msgstr "Попереджає користувача без причини"
 
-#: sophie_bot/modules/warns/magic_handlers/modern_action.py:56
+#: sophie_bot/modules/warns/magic_handlers/modern_action.py:59
 msgid "Change warn reason"
 msgstr "Змінити причину попередження"
 
-#: sophie_bot/modules/warns/magic_handlers/modern_action.py:71
+#: sophie_bot/modules/warns/magic_handlers/modern_action.py:74
 msgid "No reason"
 msgstr "Без причини"
 
@@ -3984,11 +4134,6 @@ msgstr "Завершіть емодзі '{emoji_name}', щоб завершит�
 #: sophie_bot/modules/welcomesecurity/handlers/captcha_get.py:83
 msgid "❌ Incorrect solution. Please, try again."
 msgstr "❌ Неправильне рішення. Будь ласка, спробуйте ще раз."
-
-#: sophie_bot/modules/welcomesecurity/handlers/captcha_get.py:96
-#: sophie_bot/modules/welcomesecurity/utils_/initiate_captcha.py:55
-msgid "Confirm"
-msgstr "Confirm"
 
 #: sophie_bot/modules/welcomesecurity/handlers/enable_welcomemute.py:25
 msgid "Shows / changes the state of Welcome Restrict (Media restricting)."
@@ -4523,4 +4668,10 @@ msgstr "Could not find the user mention"
 
 #~ msgid "The warning has been successfully removed by an admin."
 #~ msgstr ""
+
+#~ msgid "No warnings found for you."
+#~ msgstr "Запит на передачу власності для цієї федерації не знайдено."
+
+#~ msgid "Warning"
+#~ msgstr "Попередження"
 

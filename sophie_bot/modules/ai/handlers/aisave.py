@@ -7,6 +7,7 @@ from aiogram.handlers import MessageHandler
 from ass_tg.types import TextArg
 from stfu_tg import Code, KeyValue, Section, Template
 
+from sophie_bot.constants import AI_EMOJI
 from sophie_bot.db.models.notes import NoteModel
 from sophie_bot.filters.admin_rights import UserRestricting
 from sophie_bot.filters.cmd import CMDFilter
@@ -35,7 +36,7 @@ class AISaveNote(MessageHandler):
     async def handle(self) -> Any:
         connection = self.data["connection"]
 
-        message = await self.event.reply(_("✨ Generating..."))
+        message = await self.event.reply(str(Template(_("{ai_emoji} Generating..."), ai_emoji=AI_EMOJI)))
 
         all_notes = await NoteModel.get_chat_notes(connection.tid)
         all_notenames = list(itertools.chain.from_iterable(note.names for note in all_notes))
@@ -54,7 +55,7 @@ class AISaveNote(MessageHandler):
                 Section(
                     KeyValue("Note names", format_notes_aliases(data.notenames)),
                     KeyValue("Description", data.description),
-                    title=_("✨ Note was successfully generated"),
+                    title=Template(_("{ai_emoji} Note was successfully generated"), ai_emoji=AI_EMOJI),
                 )
                 + Template(
                     _("Use {cmd} to retrieve this note."),

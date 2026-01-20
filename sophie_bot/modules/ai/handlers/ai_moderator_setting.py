@@ -1,16 +1,18 @@
 from aiogram import flags
 from aiogram.dispatcher.event.handler import CallbackType
 
+from sophie_bot.constants import AI_EMOJI
 from sophie_bot.db.models import AIModeratorModel
 from sophie_bot.filters.admin_rights import UserRestricting
 from sophie_bot.filters.cmd import CMDFilter
 from sophie_bot.modules.utils_.status_handler import StatusBoolHandlerABC
+from sophie_bot.utils.i18n import gettext as _
 from sophie_bot.utils.i18n import lazy_gettext as l_
 
 
 @flags.help(alias_to_modules=["restrictions"], description=l_("Controls AI Moderator features"))
 class AIModerator(StatusBoolHandlerABC):
-    header_text = l_("✨ AI Moderator")
+    header_text = l_(lambda: _("{ai_emoji} AI Moderator").format(ai_emoji=AI_EMOJI))
     change_command = "aimoderator"
 
     @staticmethod
