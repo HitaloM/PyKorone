@@ -29,10 +29,9 @@ RUN . /venv/bin/activate && \
 RUN --mount=type=cache,target=/root/.cache/uv \
     uv build --wheel && /venv/bin/pip install dist/*.whl
 
-COPY .git .git
-RUN BRANCH_NAME=$(git rev-parse --abbrev-ref HEAD) && \
-    COMMIT_HASH=$(git rev-parse --short HEAD) && \
-    echo "Branch: $BRANCH_NAME, Commit: $COMMIT_HASH" && \
+ARG BRANCH_NAME=Local
+ARG COMMIT_HASH=unknown
+RUN echo "Branch: $BRANCH_NAME, Commit: $COMMIT_HASH" && \
     echo "SOPHIE_COMMIT = \"$COMMIT_HASH\"" >> /build/sophie_bot/versions.py && \
     echo "SOPHIE_BRANCH = \"$BRANCH_NAME\"" >> /build/sophie_bot/versions.py
 
