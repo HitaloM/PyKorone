@@ -54,6 +54,23 @@ class FiltersModel(Document):
     async def get_by_id(oid: ObjectId):
         return await FiltersModel.find_one(FiltersModel.iid == oid)
 
+    @staticmethod
+    async def count_ai_filters(chat_id: int) -> int:
+        """Count the number of AI filter handlers for a specific chat.
+
+        AI filters are identified by handlers that start with 'ai:' prefix.
+
+        Args:
+            chat_id: The Telegram chat ID to count AI filters for.
+
+        Returns:
+            Number of AI filter handlers in the chat.
+        """
+        all_filters = await FiltersModel.get_filters(chat_id)
+        if not all_filters:
+            return 0
+        return sum(1 for filter_item in all_filters if filter_item.handler.startswith("ai:"))
+
     async def update_fields(self, filters_setup: "FilterInSetupType"):
         return await self.update(
             Set(

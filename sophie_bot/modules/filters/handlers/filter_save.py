@@ -51,7 +51,7 @@ class FilterSaveHandler(SophieCallbackQueryHandler):
             return await self.event.answer(_("Continuing setup is only possible by the same user who started it."))
 
         # Check
-        await check_legacy_filter_handler(self.event, filter_item.handler.keyword, self.connection)
+        await check_legacy_filter_handler(self.event, filter_item.handler.keyword, self.connection, filter_item.oid)
 
         await self.save_filter(filter_item)
 

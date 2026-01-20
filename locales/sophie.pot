@@ -2053,37 +2053,44 @@ msgstr ""
 msgid "Additionally rules from 'Antiflood' module can be enforced."
 msgstr ""
 
-#: sophie_bot/modules/filters/utils_/legacy_filter_handler.py:22
+#: sophie_bot/modules/filters/utils_/legacy_filter_handler.py:25
 #, python-brace-format
 msgid "Filter with the handler {handler} already exists!"
 msgstr ""
 
-#: sophie_bot/modules/filters/utils_/legacy_filter_handler.py:25
+#: sophie_bot/modules/filters/utils_/legacy_filter_handler.py:28
 #, python-brace-format
 msgid "You can edit the filter's actions with {cmd}."
 msgstr ""
 
-#: sophie_bot/modules/filters/utils_/legacy_filter_handler.py:36
+#: sophie_bot/modules/filters/utils_/legacy_filter_handler.py:39
 msgid ""
 "AI filter prompt cannot be empty. Please provide a description of when to trigger the filter.\n"
 "Example: ai:Message contains crypto scam"
 msgstr ""
 
-#: sophie_bot/modules/filters/utils_/legacy_filter_handler.py:51
+#: sophie_bot/modules/filters/utils_/legacy_filter_handler.py:63
+#, python-brace-format
+msgid ""
+"Maximum number of AI filter handlers reached ({limit} per chat).\n"
+"AI filters consume tokens and can overload the system. Please remove an existing AI filter before adding a new one."
+msgstr ""
+
+#: sophie_bot/modules/filters/utils_/legacy_filter_handler.py:81
 msgid "Provided regex pattern is too slow to execute. Please review the pattern and try adding the filter again."
 msgstr ""
 
-#: sophie_bot/modules/filters/utils_/legacy_filter_handler.py:58
+#: sophie_bot/modules/filters/utils_/legacy_filter_handler.py:88
 #, python-brace-format
 msgid "When AI detects: {prompt}"
 msgstr ""
 
-#: sophie_bot/modules/filters/utils_/legacy_filter_handler.py:61
+#: sophie_bot/modules/filters/utils_/legacy_filter_handler.py:91
 #, python-brace-format
 msgid "When messages matches the regex pattern {pattern}"
 msgstr ""
 
-#: sophie_bot/modules/filters/utils_/legacy_filter_handler.py:63
+#: sophie_bot/modules/filters/utils_/legacy_filter_handler.py:93
 #, python-brace-format
 msgid "When {handler} in message"
 msgstr ""

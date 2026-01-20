@@ -6,6 +6,7 @@ from regex import regex
 from stfu_tg import Code, Doc, Template
 from stfu_tg.doc import Element
 
+from sophie_bot.constants import AI_FILTER_LIMIT_PER_CHAT
 from sophie_bot.db.models import FiltersModel
 from sophie_bot.middlewares.connections import ChatConnection
 from sophie_bot.modules.utils_.reply_or_edit import reply_or_edit
@@ -13,7 +14,9 @@ from sophie_bot.utils.i18n import gettext as _
 from sophie_bot.utils.logger import log
 
 
-async def check_legacy_filter_handler(event: Message | CallbackQuery, keyword: str, connection: ChatConnection) -> bool:
+async def check_legacy_filter_handler(
+    event: Message | CallbackQuery, keyword: str, connection: ChatConnection, editing_oid: str | None = None
+) -> bool:
     if await FiltersModel.get_by_keyword(connection.tid, keyword):
         return await reply_or_edit(
             event,
@@ -37,6 +40,33 @@ async def check_legacy_filter_handler(event: Message | CallbackQuery, keyword: s
                     "Example: ai:Message contains crypto scam"
                 ),
             )
+
+        # Check AI filter limit per chat (only when adding a new AI filter)
+        # When editing, we need to check if the existing filter was already an AI filter
+        is_editing_ai_filter = False
+        if editing_oid:
+            from bson import ObjectId
+
+            existing_filter = await FiltersModel.get_by_id(ObjectId(editing_oid))
+            if existing_filter and existing_filter.handler.startswith("ai:"):
+                is_editing_ai_filter = True
+
+        # Only enforce limit if we're adding a new AI filter (not editing an existing one)
+        if not is_editing_ai_filter:
+            current_ai_filter_count = await FiltersModel.count_ai_filters(connection.tid)
+            if current_ai_filter_count >= AI_FILTER_LIMIT_PER_CHAT:
+                log.info(f"check_legacy_filter_handler: AI filter limit reached for chat {connection.tid}")
+                return await reply_or_edit(
+                    event,
+                    Template(
+                        _(
+                            "Maximum number of AI filter handlers reached ({limit} per chat).\n"
+                            "AI filters consume tokens and can overload the system. "
+                            "Please remove an existing AI filter before adding a new one."
+                        ),
+                        limit=AI_FILTER_LIMIT_PER_CHAT,
+                    ).to_html(),
+                )
 
     if keyword.startswith("re:"):
         pattern = keyword[3:]
