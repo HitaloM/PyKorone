@@ -1,3 +1,11 @@
+- name: Ensure /var/sophie/data exists
+  ansible.builtin.file:
+    path: /var/sophie/data
+    state: directory
+    owner: containers
+    group: containers
+    mode: '0755'
+
 - name: Update podman image for REST API
   containers.podman.podman_image:
     name: "{{ lookup('ansible.builtin.env','IMAGE_NAME') }}"

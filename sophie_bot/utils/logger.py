@@ -1,12 +1,11 @@
 import logging.config
+import os
 
 import structlog
 from aiogram.loggers import event
 from structlog.typing import EventDict
 
 from sophie_bot.config import CONFIG
-
-SECURITY_LOG_FILE = "data/security.log.txt"
 
 timestamper = structlog.processors.TimeStamper(fmt="%Y-%m-%d %H:%M:%S")
 
@@ -66,6 +65,9 @@ def extract_from_record(_, __, event_dict):
     return event_dict
 
 
+os.makedirs(os.path.dirname(CONFIG.security_log_file), exist_ok=True)
+
+
 logging.config.dictConfig(
     {
         "version": 1,
@@ -98,7 +100,7 @@ logging.config.dictConfig(
             "security_file": {
                 "level": level,
                 "class": "logging.handlers.WatchedFileHandler",
-                "filename": SECURITY_LOG_FILE,
+                "filename": CONFIG.security_log_file,
                 "formatter": "plain",
             },
             # "file": {

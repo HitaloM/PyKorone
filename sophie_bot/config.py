@@ -126,6 +126,11 @@ class Config(BaseSettings):
     def bot_id(self) -> int:
         return int(self.token.split(":")[0])
 
+    @computed_field
+    @property
+    def security_log_file(self) -> str:
+        return f"data/security.{self.mode}.{self.bot_id}.log.txt"
+
     @field_validator("operators", mode="before")
     @classmethod
     def validate_operators(cls, v: List[int] | None, info: ValidationInfo) -> List[int]:
