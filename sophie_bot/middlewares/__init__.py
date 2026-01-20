@@ -31,7 +31,7 @@ def enable_middlewares():
     if CONFIG.debug_mode in ("normal", "high"):
         from .debug import EventSeparatorMiddleware
 
-        dp.update.middleware(EventSeparatorMiddleware())
+        dp.update.outer_middleware(EventSeparatorMiddleware())
 
     if CONFIG.debug_mode == "high":
         from .debug import UpdateDebugMiddleware
