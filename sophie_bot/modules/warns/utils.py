@@ -2,6 +2,8 @@ from __future__ import annotations
 
 from typing import Optional
 
+from beanie import PydanticObjectId
+
 from sophie_bot.db.models.chat import ChatModel
 from sophie_bot.db.models.warns import WarnModel, WarnSettingsModel
 from sophie_bot.modules.restrictions.utils.restrictions import ban_user, kick_user, mute_user
@@ -10,10 +12,10 @@ from sophie_bot.utils.i18n import gettext as _
 
 async def warn_user(
     chat: ChatModel, user: ChatModel, admin: ChatModel, reason: Optional[str] = None
-) -> tuple[int, int, Optional[str]]:
+) -> tuple[int, int, Optional[str], Optional[WarnModel]]:
     """
     Warns a user in a chat.
-    Returns: (current_warns, max_warns, punishment_action_if_any)
+    Returns: (current_warns, max_warns, punishment_action_if_any, warn_model)
     """
     settings = await WarnSettingsModel.get_or_create(chat.iid)
 
@@ -29,7 +31,7 @@ async def warn_user(
 
     if current_warns >= max_warns:
         # Reset warns
-        await WarnModel.find(WarnModel.chat.iid == chat.iid, WarnModel.user_id == user.tid).delete()  # type: ignore
+        await WarnModel.find(WarnModel.chat.iid == chat.iid, WarnModel.user_id == user.tid).delete()
 
         # Execute punishment
         # Default is ban if no actions defined
@@ -61,4 +63,13 @@ async def warn_user(
                 if punishment:
                     break
 
-    return current_warns, max_warns, punishment
+    return current_warns, max_warns, punishment, warn
+
+
+async def delete_warn(warn_iid: PydanticObjectId) -> bool:
+    """Deletes a warn record by its internal ID."""
+    warn = await WarnModel.get(warn_iid)
+    if not warn:
+        return False
+    await warn.delete()
+    return True

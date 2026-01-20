@@ -583,8 +583,8 @@ msgstr ""
 #: sophie_bot/modules/restrictions/handlers/mute.py:75
 #: sophie_bot/modules/restrictions/handlers/mute.py:100
 #: sophie_bot/modules/restrictions/handlers/mute.py:133
-#: sophie_bot/modules/warns/handlers/warn.py:36
-#: sophie_bot/modules/warns/handlers/warn.py:67
+#: sophie_bot/modules/warns/handlers/warn.py:38
+#: sophie_bot/modules/warns/handlers/warn.py:69
 msgid "Reason"
 msgid_plural "Reasons"
 msgstr[0] ""
@@ -776,7 +776,9 @@ msgstr ""
 #: sophie_bot/modules/restrictions/handlers/unmute.py:62
 #: sophie_bot/modules/users/handlers/id.py:24
 #: sophie_bot/modules/users/handlers/info.py:20
-#: sophie_bot/modules/warns/handlers/warn.py:61
+#: sophie_bot/modules/warns/handlers/callback.py:71
+#: sophie_bot/modules/warns/handlers/warn.py:63
+#: sophie_bot/modules/warns/handlers/warns.py:11
 msgid "User"
 msgstr ""
 
@@ -3322,6 +3324,7 @@ msgstr ""
 #: sophie_bot/modules/rules/handlers/legacy_button.py:34
 #: sophie_bot/modules/rules/magic_handlers/filter.py:16
 #: sophie_bot/modules/rules/magic_handlers/modern_filter.py:34
+#: sophie_bot/modules/warns/handlers/warn.py:82
 msgid "Rules"
 msgstr ""
 
@@ -3423,6 +3426,7 @@ msgid "Get current strategy mode / current state"
 msgstr ""
 
 #: sophie_bot/modules/troubleshooters/handlers/beta_state.py:79
+#: sophie_bot/modules/warns/handlers/warns_group.py:39
 msgid "Unknown"
 msgstr ""
 
@@ -3439,14 +3443,20 @@ msgstr ""
 msgid "Current state {state} is cleared."
 msgstr ""
 
-#: sophie_bot/modules/troubleshooters/handlers/cancel_callback.py:29
-#: sophie_bot/modules/troubleshooters/handlers/cancel_callback.py:46
+#: sophie_bot/modules/troubleshooters/handlers/cancel_callback.py:30
+#: sophie_bot/modules/troubleshooters/handlers/cancel_callback.py:47
+#: sophie_bot/modules/troubleshooters/handlers/cancel_callback.py:65
 msgid "You are not allowed to cancel this action!"
 msgstr ""
 
-#: sophie_bot/modules/troubleshooters/handlers/cancel_callback.py:32
-#: sophie_bot/modules/troubleshooters/handlers/cancel_callback.py:49
+#: sophie_bot/modules/troubleshooters/handlers/cancel_callback.py:33
+#: sophie_bot/modules/troubleshooters/handlers/cancel_callback.py:50
 msgid "❌ Cancelled."
+msgstr ""
+
+#: sophie_bot/modules/troubleshooters/handlers/cancel_callback.py:69
+#, python-brace-format
+msgid "The action was cancelled by {user}."
 msgstr ""
 
 #: sophie_bot/modules/users/__init__.py:11
@@ -3683,49 +3693,174 @@ msgstr ""
 msgid "The state was successfully changed"
 msgstr ""
 
-#: sophie_bot/modules/warns/__init__.py:16
+#: sophie_bot/modules/warns/__init__.py:25
 msgid "Warnings"
 msgstr ""
 
-#: sophie_bot/modules/warns/__init__.py:20
+#: sophie_bot/modules/warns/__init__.py:29
 msgid "Warns users in the chat to keep it safe."
 msgstr ""
 
-#: sophie_bot/modules/warns/__init__.py:21
+#: sophie_bot/modules/warns/__init__.py:30
 msgid "You can set a max warning limit and an action to take when the limit is reached."
 msgstr ""
 
-#: sophie_bot/modules/warns/handlers/warn.py:21
+#: sophie_bot/modules/warns/handlers/callback.py:28
+msgid "Only admins can delete warns!"
+msgstr ""
+
+#: sophie_bot/modules/warns/handlers/callback.py:32
+msgid "Warning deleted!"
+msgstr ""
+
+#: sophie_bot/modules/warns/handlers/callback.py:35
+msgid "✅ Warning deleted"
+msgstr ""
+
+#: sophie_bot/modules/warns/handlers/callback.py:37
+#, python-brace-format
+msgid "The warning has been successfully removed by {admin}."
+msgstr ""
+
+#: sophie_bot/modules/warns/handlers/callback.py:44
+msgid "Warning not found or already deleted!"
+msgstr ""
+
+#: sophie_bot/modules/warns/handlers/callback.py:62
+msgid "Only admins can reset warns!"
+msgstr ""
+
+#: sophie_bot/modules/warns/handlers/callback.py:73
+msgid "Warnings reset!"
+msgstr ""
+
+#: sophie_bot/modules/warns/handlers/callback.py:75
+#, python-brace-format
+msgid "Reset warnings of {user}."
+msgstr ""
+
+#: sophie_bot/modules/warns/handlers/callback.py:91
+msgid "Only admins can reset all warns!"
+msgstr ""
+
+#: sophie_bot/modules/warns/handlers/callback.py:97
+msgid "All warnings reset!"
+msgstr ""
+
+#: sophie_bot/modules/warns/handlers/callback.py:98
+msgid "Reset all warnings in this chat."
+msgstr ""
+
+#: sophie_bot/modules/warns/handlers/reset_all_warns.py:17
+msgid "Resets all warnings of all users in the current chat."
+msgstr ""
+
+#: sophie_bot/modules/warns/handlers/reset_all_warns.py:32
+#: sophie_bot/modules/warns/handlers/reset_warns.py:48
+#: sophie_bot/modules/welcomesecurity/handlers/captcha_get.py:96
+#: sophie_bot/modules/welcomesecurity/utils_/initiate_captcha.py:55
+msgid "Confirm"
+msgstr ""
+
+#: sophie_bot/modules/warns/handlers/reset_all_warns.py:33
+#: sophie_bot/modules/warns/handlers/reset_warns.py:49
+msgid "Cancel"
+msgstr ""
+
+#: sophie_bot/modules/warns/handlers/reset_all_warns.py:37
+msgid "Are you sure you want to reset ALL warnings in this chat?"
+msgstr ""
+
+#: sophie_bot/modules/warns/handlers/reset_warns.py:20
+msgid "Resets all warnings of a user in the current chat."
+msgstr ""
+
+#: sophie_bot/modules/warns/handlers/reset_warns.py:44
+msgid "Please provide a user to reset warns for."
+msgstr ""
+
+#: sophie_bot/modules/warns/handlers/reset_warns.py:53
+#, python-brace-format
+msgid "Are you sure you want to reset warnings of {user}?"
+msgstr ""
+
+#: sophie_bot/modules/warns/handlers/warn.py:23
 msgid "Warns a user."
 msgstr ""
 
-#: sophie_bot/modules/warns/handlers/warn.py:35
+#: sophie_bot/modules/warns/handlers/warn.py:37
 msgid "User to warn"
 msgstr ""
 
-#: sophie_bot/modules/warns/handlers/warn.py:46
+#: sophie_bot/modules/warns/handlers/warn.py:48
 msgid "I cannot warn myself."
 msgstr ""
 
-#: sophie_bot/modules/warns/handlers/warn.py:50
+#: sophie_bot/modules/warns/handlers/warn.py:52
 msgid "I cannot warn an admin."
 msgstr ""
 
-#: sophie_bot/modules/warns/handlers/warn.py:60
-msgid "User Warned"
-msgstr ""
-
 #: sophie_bot/modules/warns/handlers/warn.py:62
-msgid "Admin"
+msgid "⚠️ User warned"
 msgstr ""
 
-#: sophie_bot/modules/warns/handlers/warn.py:63
+#: sophie_bot/modules/warns/handlers/warn.py:64
+msgid "By admin"
+msgstr ""
+
+#: sophie_bot/modules/warns/handlers/warn.py:65
+msgid "Warnings count"
+msgstr ""
+
+#: sophie_bot/modules/warns/handlers/warn.py:72
+#, python-brace-format
+msgid "User has been {punishment} due to reaching max warns."
+msgstr ""
+
+#: sophie_bot/modules/warns/handlers/warn.py:91
+msgid "Delete warn"
+msgstr ""
+
+#: sophie_bot/modules/warns/handlers/warns_group.py:16
+msgid "Shows user's warns in the current chat."
+msgstr ""
+
+#: sophie_bot/modules/warns/handlers/warns_group.py:49
+#, python-brace-format
+msgid "⚠️ Warnings for {user}"
+msgstr ""
+
+#: sophie_bot/modules/warns/handlers/warns_group.py:52
 msgid "Count"
 msgstr ""
 
-#: sophie_bot/modules/warns/handlers/warn.py:70
-#, python-brace-format
-msgid "User has been {punishment} due to reaching max warns."
+#: sophie_bot/modules/warns/handlers/warns_group.py:53
+#: sophie_bot/modules/warns/handlers/warns_pm.py:40
+msgid "No reason provided"
+msgstr ""
+
+#: sophie_bot/modules/warns/handlers/warns_group.py:54
+msgid "Reasons"
+msgstr ""
+
+#: sophie_bot/modules/warns/handlers/warns_group.py:57
+msgid "The user has no warnings currently."
+msgstr ""
+
+#: sophie_bot/modules/warns/handlers/warns_pm.py:15
+msgid "Shows all your warns across all chats."
+msgstr ""
+
+#: sophie_bot/modules/warns/handlers/warns_pm.py:32
+msgid "You don't have warnings in any chat at the moment."
+msgstr ""
+
+#: sophie_bot/modules/warns/handlers/warns_pm.py:34
+msgid "⚠️ Your warnings"
+msgstr ""
+
+#: sophie_bot/modules/warns/handlers/warns_pm.py:38
+msgid "Unknown Chat"
 msgstr ""
 
 #: sophie_bot/modules/warns/magic_handlers/modern_action.py:33
@@ -3752,15 +3887,15 @@ msgstr ""
 msgid "No reason"
 msgstr ""
 
-#: sophie_bot/modules/warns/utils.py:38 sophie_bot/modules/warns/utils.py:45
+#: sophie_bot/modules/warns/utils.py:40 sophie_bot/modules/warns/utils.py:47
 msgid "banned"
 msgstr ""
 
-#: sophie_bot/modules/warns/utils.py:48
+#: sophie_bot/modules/warns/utils.py:50
 msgid "kicked"
 msgstr ""
 
-#: sophie_bot/modules/warns/utils.py:51 sophie_bot/modules/warns/utils.py:58
+#: sophie_bot/modules/warns/utils.py:53 sophie_bot/modules/warns/utils.py:60
 msgid "muted"
 msgstr ""
 
@@ -3784,11 +3919,6 @@ msgstr ""
 
 #: sophie_bot/modules/welcomesecurity/handlers/captcha_get.py:83
 msgid "❌ Incorrect solution. Please, try again."
-msgstr ""
-
-#: sophie_bot/modules/welcomesecurity/handlers/captcha_get.py:96
-#: sophie_bot/modules/welcomesecurity/utils_/initiate_captcha.py:55
-msgid "Confirm"
 msgstr ""
 
 #: sophie_bot/modules/welcomesecurity/handlers/enable_welcomemute.py:25

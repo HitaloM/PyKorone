@@ -2,6 +2,15 @@ from aiogram import Router
 from stfu_tg import Doc
 
 from sophie_bot.modules.warns.api import api_router
+from sophie_bot.modules.warns.handlers import (
+    DeleteWarnCallbackHandler,
+    ResetAllWarnsCallbackHandler,
+    ResetAllWarnsHandler,
+    ResetWarnsCallbackHandler,
+    ResetWarnsHandler,
+    WarnsGroupHandler,
+    WarnsPMHandler,
+)
 from sophie_bot.modules.warns.handlers.warn import WarnHandler
 from sophie_bot.modules.warns.magic_handlers.modern_action import WarnModernAction
 from sophie_bot.utils.i18n import LazyProxy
@@ -23,4 +32,13 @@ __module_info__ = LazyProxy(
 )
 
 
-__handlers__ = (WarnHandler,)
+__handlers__ = (
+    WarnHandler,
+    WarnsGroupHandler,
+    WarnsPMHandler,
+    ResetWarnsHandler,
+    ResetAllWarnsHandler,
+    DeleteWarnCallbackHandler,
+    ResetWarnsCallbackHandler,
+    ResetAllWarnsCallbackHandler,
+)
