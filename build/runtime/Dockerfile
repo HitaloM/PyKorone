@@ -50,7 +50,6 @@ COPY --from=builder /usr/local/lib/python*/site-packages /usr/local/lib/python3.
 COPY --from=builder /usr/local/bin /usr/local/bin
 COPY --from=builder /build/sophie_bot /sophie_bot
 COPY --from=builder /build/locales /locales
-COPY --from=builder /build/migrations /migrations
 
 WORKDIR /
 
