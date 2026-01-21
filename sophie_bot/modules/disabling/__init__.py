@@ -12,6 +12,8 @@ from sophie_bot.modules.disabling.handlers.enable_all import (
 )
 from sophie_bot.utils.i18n import lazy_gettext as l_
 
+__all__ = ("api_router",)
+
 router = Router(name="Disable")
 
 

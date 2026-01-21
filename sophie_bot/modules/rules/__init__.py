@@ -10,6 +10,8 @@ from sophie_bot.modules.rules.magic_handlers.filter import get_filter
 from sophie_bot.modules.rules.magic_handlers.modern_filter import SendRulesAction
 from sophie_bot.utils.i18n import lazy_gettext as l_
 
+__all__ = ("api_router",)
+
 __module_name__ = l_("Rules")
 __module_emoji__ = "🪧"
 
