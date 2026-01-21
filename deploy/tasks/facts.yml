@@ -6,6 +6,7 @@
     tavily_key: "{{ lookup('env', 'TAVILY_KEY') }}"
     mistral_key: "{{ lookup('env', 'MISTRAL_API_KEY') }}"
     openrouter_api_key: "{{ lookup('env', 'OPENROUTER_API_KEY') }}"
+    api_jwt_secret: "{{ lookup('password', '/dev/null length=32 chars=ascii_letters,digits') }}"
     role: "staging"
   when: inventory_hostname == "sstaging"
 
@@ -17,5 +18,6 @@
     tavily_key: "{{ lookup('env', 'TAVILY_KEY') }}"
     mistral_key: "{{ lookup('env', 'MISTRAL_API_KEY') }}"
     openrouter_api_key: "{{ lookup('env', 'OPENROUTER_API_KEY') }}"
+    api_jwt_secret: "{{ lookup('password', '/dev/null length=32 chars=ascii_letters,digits') }}"
     role: "production"
   when: inventory_hostname == "white"
