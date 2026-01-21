@@ -49,7 +49,7 @@ async def time_external_service(service_name: str) -> AsyncGenerator[None, None]
             _metrics.external_errors_total.labels(service=service_name, exception=exception_name).inc()
 
             log.debug(
-                "External service error tracked", service=service_name, exception=exception_name, duration=duration
+                "External service error tracked", service=service_name, exception_type=exception_name, duration=duration
             )
 
 
@@ -181,7 +181,7 @@ class ExternalServiceTracker:
             log.debug(
                 "External service error tracked manually",
                 service=self.service_name,
-                exception=exception_name,
+                exception_type=exception_name,
                 duration=duration,
             )
 
