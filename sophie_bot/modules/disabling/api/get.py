@@ -2,7 +2,8 @@ from __future__ import annotations
 
 from typing import Annotated
 
-from fastapi import APIRouter, Depends
+from beanie import PydanticObjectId
+from fastapi import APIRouter, Depends, HTTPException
 
 from sophie_bot.db.models.chat import ChatModel
 from sophie_bot.db.models.disabling import DisablingModel
@@ -14,12 +15,16 @@ from .schemas import DisableableResponse, DisabledResponse
 router = APIRouter()
 
 
-@router.get("/disabled", response_model=DisabledResponse)
+@router.get("/disabled/{chat_iid}", response_model=DisabledResponse)
 async def get_disabled_commands(
-    chat_tid: int,
+    chat_iid: PydanticObjectId,
     user: Annotated[ChatModel, Depends(get_current_user)],
 ):
-    disabled = await DisablingModel.get_disabled(chat_tid)
+    chat = await ChatModel.get_by_iid(chat_iid)
+    if not chat:
+        raise HTTPException(status_code=404, detail="Chat not found")
+
+    disabled = await DisablingModel.get_disabled(chat.tid)
     return DisabledResponse(disabled=disabled)
 
 

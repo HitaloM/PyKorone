@@ -7,10 +7,12 @@ from .pmnotes import router as pmnotes_router
 from .update import router as update_router
 
 notes_router = APIRouter(prefix="/notes", tags=["notes"])
+
+notes_router.include_router(pmnotes_router)
+
 notes_router.include_router(get_router)
 notes_router.include_router(create_router)
 notes_router.include_router(update_router)
 notes_router.include_router(delete_router)
-notes_router.include_router(pmnotes_router)
 
 __all__ = ["notes_router"]

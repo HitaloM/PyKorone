@@ -2,7 +2,8 @@ from __future__ import annotations
 
 from typing import Annotated
 
-from fastapi import APIRouter, Depends
+from beanie import PydanticObjectId
+from fastapi import APIRouter, Depends, HTTPException
 
 from sophie_bot.db.models.chat import ChatModel
 from sophie_bot.db.models.rules import RulesModel
@@ -13,11 +14,15 @@ from .schemas import RulesResponse
 router = APIRouter()
 
 
-@router.get("/", response_model=RulesResponse)
+@router.get("/{chat_iid}", response_model=RulesResponse)
 async def get_rules(
-    chat_tid: int,
+    chat_iid: PydanticObjectId,
     user: Annotated[ChatModel, Depends(get_current_user)],
 ):
-    if rules := await RulesModel.get_rules(chat_tid):
+    chat = await ChatModel.get_by_iid(chat_iid)
+    if not chat:
+        raise HTTPException(status_code=404, detail="Chat not found")
+
+    if rules := await RulesModel.get_rules(chat.tid):
         return RulesResponse.model_validate(rules)
     return RulesResponse()

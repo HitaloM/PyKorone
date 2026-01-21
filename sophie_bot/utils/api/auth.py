@@ -146,19 +146,22 @@ async def get_current_operator(
 
 def rest_require_admin(permission: str | None = None):
     async def dependency(
-        chat_tid: int,
+        chat_iid: PydanticObjectId,
         user: Annotated[ChatModel, Depends(get_current_user)],
     ) -> ChatModel:
         if user.tid in CONFIG.operators:
             return user
 
-        admin = await ChatAdminModel.get_admin(chat_tid, user.tid)
+        admin = await ChatAdminModel.find_one(
+            ChatAdminModel.chat.id == chat_iid,  # type: ignore[attr-defined]
+            ChatAdminModel.user.id == user.iid,  # type: ignore[attr-defined]
+        )
         if not admin:
             raise HTTPException(
                 status_code=status.HTTP_403_FORBIDDEN,
                 detail="You are not an admin in this chat",
             )
-        if permission and not getattr(admin, permission, False):
+        if permission and not getattr(admin.member, permission, False):
             raise HTTPException(
                 status_code=status.HTTP_403_FORBIDDEN,
                 detail=f"You don't have the '{permission}' permission",

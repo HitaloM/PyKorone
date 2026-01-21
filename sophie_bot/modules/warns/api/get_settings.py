@@ -1,5 +1,6 @@
 from typing import Annotated
 
+from beanie import PydanticObjectId
 from fastapi import APIRouter, Depends, HTTPException
 
 from sophie_bot.db.models.chat import ChatModel
@@ -10,12 +11,12 @@ from .schemas import WarnSettingsResponse
 router = APIRouter(prefix="/warns", tags=["warns"])
 
 
-@router.get("/settings/{chat_tid}", response_model=WarnSettingsResponse)
+@router.get("/settings/{chat_iid}", response_model=WarnSettingsResponse)
 async def get_warn_settings(
-    chat_tid: int,
+    chat_iid: PydanticObjectId,
     current_user: Annotated[ChatModel, Depends(get_current_user)],
 ) -> WarnSettingsResponse:
-    chat = await ChatModel.get_by_tid(chat_tid)
+    chat = await ChatModel.get_by_iid(chat_iid)
     if not chat:
         raise HTTPException(status_code=404, detail="Chat not found")
 

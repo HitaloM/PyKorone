@@ -1,6 +1,9 @@
-from datetime import datetime
-from typing import List
+from __future__ import annotations
 
+from datetime import datetime
+from typing import Annotated, List
+
+from beanie import PydanticObjectId
 from fastapi import APIRouter, Depends, HTTPException, Query
 from pydantic import BaseModel
 
@@ -23,19 +26,19 @@ class LogResponse(BaseModel):
     details: dict
 
 
-@router.get("/{chat_id}", response_model=List[LogResponse])
+@router.get("/{chat_iid}", response_model=List[LogResponse])
 async def get_chat_logs(
-    chat_id: int,
-    user: ChatModel = Depends(get_current_user),
+    chat_iid: PydanticObjectId,
+    user: Annotated[ChatModel, Depends(get_current_user)],
     limit: int = Query(50, ge=1, le=100),
     offset: int = Query(0, ge=0),
 ):
-    target_chat = await ChatModel.get_by_tid(chat_id)
+    target_chat = await ChatModel.get_by_iid(chat_iid)
     if not target_chat:
         raise HTTPException(status_code=404, detail="Chat not found")
 
     is_allowed = False
-    if user.tid == chat_id:
+    if user.tid == target_chat.tid:
         is_allowed = True
     else:
         admin = await ChatAdminModel.find_one(
