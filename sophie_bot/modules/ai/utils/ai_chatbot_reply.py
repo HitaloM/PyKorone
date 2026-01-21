@@ -34,9 +34,12 @@ from sophie_bot.utils.i18n import lazy_gettext as l_
 CHATBOT_TOOLS: list[Any] = [
     MemoryAgentTool(),
     CmdsHelpAgentTool(),
-    tavily_search_tool(api_key=CONFIG.tavily_api_key),
     # notes_list_ai_tool(),
 ]
+
+if CONFIG.tavily_api_key:
+    CHATBOT_TOOLS.append(tavily_search_tool(api_key=CONFIG.tavily_api_key))
+
 CHATBOT_TOOLS_DICT: dict[str, Any] = {tool.name: tool for tool in CHATBOT_TOOLS}
 CHATBOT_TOOLS_TITLES: dict[str, Any] = {
     "write_memory": l_("Memory updated 💾"),
