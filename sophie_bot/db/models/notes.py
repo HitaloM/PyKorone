@@ -6,7 +6,7 @@ from aiogram.enums import ContentType
 from beanie import Document, Indexed, Link
 from beanie.odm.operators.find.comparison import In
 from beanie.odm.operators.find.evaluation import Text
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, ConfigDict, Field
 from pymongo import TEXT
 from pymongo.results import DeleteResult
 
@@ -18,8 +18,7 @@ class NoteFile(BaseModel):
     id: str
     type: ContentType
 
-    class Config:
-        arbitrary_types_allowed = True
+    model_config = ConfigDict(arbitrary_types_allowed=True)
 
 
 class SaveableParseMode(Enum):

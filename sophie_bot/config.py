@@ -10,7 +10,7 @@ from pydantic import (
     field_validator,
     ValidationInfo,
 )
-from pydantic_settings import BaseSettings
+from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
 class Config(BaseSettings):
@@ -119,9 +119,7 @@ class Config(BaseSettings):
     pushgateway_job: str = "sophie-bot"
     push_interval_seconds: int = 10
 
-    class Config:
-        env_file = "data/config.env"
-        env_file_encoding = "utf-8"
+    model_config = SettingsConfigDict(env_file="data/config.env", env_file_encoding="utf-8")
 
     @computed_field
     @property
