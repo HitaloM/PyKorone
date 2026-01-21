@@ -24,7 +24,7 @@ COPY Makefile Makefile
 RUN --mount=type=cache,target=/root/.cache/uv \
     uv sync --frozen --no-editable
 
-RUN uv run --no-sync python -c "from babel.messages import frontend; import sys; sys.exit(frontend.compile_catalog.main(argv=['--directory', 'locales', '--domain', 'sophie']))"
+RUN uv run --no-sync pybabel compile -d locales -D sophie --use-fuzzy --statistics
 
 RUN uv build --wheel
 
