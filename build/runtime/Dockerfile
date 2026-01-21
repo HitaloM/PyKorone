@@ -10,11 +10,6 @@ ENV UV_NO_DEV=1
 # Ensure installed tools are accessible
 ENV UV_TOOL_BIN_DIR=/usr/local/bin
 
-# Install build dependencies
-RUN apt-get update && \
-    apt-get install -y --no-install-recommends build-essential gcc git pkg-config libicu-dev && \
-    rm -rf /var/lib/apt/lists/*
-
 WORKDIR /app
 
 # Copy dependency files first for optimal layer caching
