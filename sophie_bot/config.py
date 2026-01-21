@@ -22,6 +22,7 @@ class Config(BaseSettings):
     operators: List[int] = []
 
     mode: Literal["bot", "scheduler", "nostart", "rest"] = "bot"
+    instance_name: str = "development"
     dev_reload: bool = False  # Enable hot-reload for development (watches file changes)
 
     mongo_host: str = "mongodb://localhost"
@@ -130,7 +131,7 @@ class Config(BaseSettings):
     @computed_field
     @property
     def security_log_file(self) -> str:
-        return f"data/security.{self.mode}.{self.bot_id}.log.txt"
+        return f"data/security.{self.instance_name}.{self.bot_id}.log.txt"
 
     @field_validator("operators", mode="before")
     @classmethod
