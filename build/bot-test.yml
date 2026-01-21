@@ -61,8 +61,8 @@ test-code:
   script:
     # Compile locales for tests
     - uv run pybabel compile -d locales -D sophie --use-fuzzy
-    # Run tests in parallel with pytest-xdist (if available) or standard
-    - uv run pytest tests/ -v --alluredir=allure_results -x
+    # Run tests in parallel using all available CPU cores
+    - uv run pytest tests/ -v --alluredir=allure_results -x -n auto
   artifacts:
     when: always
     paths:

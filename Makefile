@@ -81,7 +81,7 @@ test_codeanalysis:
 	uv run ty check
 
 run_tests:
-	uv run python -m pytest tests/ -v --alluredir=allure_results
+	uv run python -m pytest tests/ -v --alluredir=allure_results -n auto
 
 # Locale
 
