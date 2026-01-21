@@ -41,3 +41,11 @@ class NoteUpdate(BaseModel):
     description: str | None = None
     ai_description: bool | None = None
     note_group: str | None = None
+
+
+class PMNotesStateUpdate(BaseModel):
+    enabled: bool
+
+
+class PMNotesStateResponse(BaseModel):
+    enabled: bool
