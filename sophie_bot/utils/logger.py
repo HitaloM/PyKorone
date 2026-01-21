@@ -77,6 +77,7 @@ logging.config.dictConfig(
                 "()": structlog.stdlib.ProcessorFormatter,
                 "processors": [
                     structlog.stdlib.ProcessorFormatter.remove_processors_meta,
+                    structlog.processors.format_exc_info,
                     structlog.processors.JSONRenderer(sort_keys=False),
                 ],
                 "foreign_pre_chain": pre_chain,
