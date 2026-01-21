@@ -70,7 +70,7 @@ class MetricsMiddleware(BaseMiddleware):
             exception_name = type(e).__name__
             self.metrics.handler_errors_total.labels(handler=handler_name, exception=exception_name).inc()
 
-            log.debug("Handler error tracked", handler=handler_name, exception=exception_name, error=str(e))
+            log.debug("Handler error tracked", handler=handler_name, exception_type=exception_name, error=str(e))
 
             # Re-raise the exception
             raise
