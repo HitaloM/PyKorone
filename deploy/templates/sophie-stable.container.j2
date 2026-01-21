@@ -11,7 +11,7 @@ ContainerName=stable
 Image={{ lookup('ansible.builtin.env','IMAGE_NAME', default='registry.gitlab.com/sophiebot/sophie') }}:{{ image_tag }}
 PublishPort=8071:8071
 PublishPort=9101:9108
-Volume=/var/sophie/data:/data:rw
+Volume=/var/sophie/data:/data:rw,z
 PodmanArgs=--memory=1500M
 EnvironmentFile=/var/sophie/stable.env
 

@@ -10,7 +10,7 @@ ContainerName=beta
 Image={{ lookup('ansible.builtin.env','IMAGE_NAME', default='registry.gitlab.com/sophiebot/sophie') }}:{{ image_tag }}
 PublishPort=8072:8072
 PublishPort=9102:9108
-Volume=/var/sophie/data:/data:rw
+Volume=/var/sophie/data:/data:rw,z
 PodmanArgs=--memory=1500M
 EnvironmentFile=/var/sophie/beta.env
 

@@ -9,7 +9,7 @@ Restart=always
 ContainerName=rest
 Image={{ lookup('ansible.builtin.env','IMAGE_NAME', default='registry.gitlab.com/sophiebot/sophie') }}:{{ image_tag }}
 PublishPort=8075:8075
-Volume=/var/sophie/data:/data:rw
+Volume=/var/sophie/data:/data:rw,z
 PodmanArgs=--memory=1000M
 EnvironmentFile=/var/sophie/rest.env
 
