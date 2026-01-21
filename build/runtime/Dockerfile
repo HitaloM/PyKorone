@@ -13,11 +13,10 @@ COPY --from=ghcr.io/astral-sh/uv:0.9.26 /uv /uvx /bin/
 WORKDIR /build
 
 COPY pyproject.toml uv.lock ./
+COPY libs libs
 
 RUN --mount=type=cache,target=/root/.cache/uv \
     uv sync --frozen --no-install-project --no-editable
-
-COPY libs libs
 COPY sophie_bot sophie_bot
 COPY locales locales
 COPY Makefile Makefile
