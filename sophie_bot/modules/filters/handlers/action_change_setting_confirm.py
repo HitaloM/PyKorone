@@ -44,7 +44,7 @@ class ActionChangeSettingConfirm(SophieMessageCallbackQueryHandler):
 
         # TODO: Deal with typing below
         try:
-            action_data_model: ACTION_DATA | None = await action_setting.setup_confirm(self.event, self.data)  # type: ignore
+            action_data_model: ACTION_DATA | None = await action_setting.setup_confirm(self.event, self.data)
         except ActionSetupTryAgainException:
             return
 
