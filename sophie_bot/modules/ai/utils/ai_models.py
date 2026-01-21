@@ -19,6 +19,7 @@ class AIProviders(str, Enum):
     google = "google"
     mistral = "mistral"
     openai = "openai"
+    zai = "zai"
 
 
 # Configure OpenRouter (OpenAI-compatible) provider for non-Mistral models
@@ -31,12 +32,14 @@ AI_PROVIDERS = {
     AIProviders.google.name: _openrouter_provider,
     AIProviders.mistral.name: MistralProvider(api_key=CONFIG.mistral_api_key or ""),
     AIProviders.openai.name: _openrouter_provider,
+    AIProviders.zai.name: _openrouter_provider,
 }
 AI_MODEL_CLASSES = {
     AIProviders.anthropic.name: OpenRouterProvider,
     AIProviders.google.name: OpenRouterProvider,
     AIProviders.mistral.name: MistralModel,
     AIProviders.openai.name: OpenRouterProvider,
+    AIProviders.zai.name: OpenRouterProvider,
 }
 AI_PROVIDER_TO_NAME = {
     AIProviders.auto.name: "Auto",
@@ -44,6 +47,7 @@ AI_PROVIDER_TO_NAME = {
     AIProviders.google.name: "Google Gemini",
     AIProviders.mistral.name: "Mistral AI",
     AIProviders.openai.name: "OpenAI ChatGPT",
+    AIProviders.zai.name: "Z.AI",
 }
 
 # Global, ordered list of provider enum names for UI and validation
@@ -53,6 +57,7 @@ AVAILABLE_PROVIDER_NAMES: tuple[str, ...] = (
     AIProviders.openai.name,
     AIProviders.google.name,
     AIProviders.mistral.name,
+    AIProviders.zai.name,
 )
 
 
@@ -90,11 +95,19 @@ class OpenAIModels(Enum):
     gpt_5_2_chat = "openai/gpt-5.2-chat"
 
 
+class ZaiModels(Enum):
+    # OpenRouter slugs for Z.Ai models
+    glm_4_7 = "z-ai/glm-4.7"
+    glm_4_6v = "z-ai/glm-4.6v"
+    glm_4_5_air = "z-ai/glm-4.5-air"
+
+
 AI_PROVIDER_TO_MODEL_CLASS = {
     AIProviders.anthropic.name: OpenRouterModel,
     AIProviders.google.name: OpenRouterModel,
     AIProviders.mistral.name: MistralModel,
     AIProviders.openai.name: OpenRouterModel,
+    AIProviders.zai.name: OpenRouterModel,
 }
 
 PROVIDER_TO_MODELS: Mapping[str, Type[Enum]] = {
@@ -102,6 +115,7 @@ PROVIDER_TO_MODELS: Mapping[str, Type[Enum]] = {
     "google": GoogleModels,
     "mistral": MistralModels,
     "openai": OpenAIModels,
+    "zai": ZaiModels,
 }
 
 AI_MODEL_TO_PROVIDER = {
@@ -124,6 +138,9 @@ AI_MODEL_TO_PROVIDER = {
     OpenAIModels.gpt_5_nano.name: "openai",
     OpenAIModels.gpt_5_1.name: "openai",
     OpenAIModels.gpt_5_2_chat.name: "openai",
+    ZaiModels.glm_4_7.name: "zai",
+    ZaiModels.glm_4_6v.name: "zai",
+    ZaiModels.glm_4_5_air.name: "zai",
 }
 
 AI_MODEL_TO_SHORT_NAME = {
@@ -146,6 +163,9 @@ AI_MODEL_TO_SHORT_NAME = {
     OpenAIModels.gpt_5_nano.value: "GPT-5 nano",
     OpenAIModels.gpt_5_1.value: "GPT-5.1",
     OpenAIModels.gpt_5_2_chat.value: "GPT-5.2 Chat",
+    ZaiModels.glm_4_7.value: "GLM-4.7",
+    ZaiModels.glm_4_6v.value: "GLM-4.6V",
+    ZaiModels.glm_4_5_air.value: "GLM-4.5 Air",
 }
 
 
@@ -183,6 +203,7 @@ DEFAULT_MODELS: dict[str, str] = {
     AIProviders.google.name: GoogleModels.gemini_3_flash_preview.name,
     AIProviders.mistral.name: MistralModels.mistral_medium.name,
     AIProviders.openai.name: OpenAIModels.gpt_5_2_chat.name,
+    AIProviders.zai.name: ZaiModels.glm_4_7.name,
 }
 
 TRANSLATE_DEFAULT_MODELS: dict[str, str] = {
@@ -191,6 +212,7 @@ TRANSLATE_DEFAULT_MODELS: dict[str, str] = {
     AIProviders.google.name: GoogleModels.gemini_2_5_flash.name,
     AIProviders.mistral.name: MistralModels.mistral_medium.name,
     AIProviders.openai.name: OpenAIModels.gpt_5_2_chat.name,
+    AIProviders.zai.name: ZaiModels.glm_4_7.name,
 }
 
 FILTER_HANDLER_MODEL = AI_MODELS[MistralModels.mistral_small.name]
