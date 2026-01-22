@@ -8,7 +8,7 @@
 
 - name: Copy Beta's quadlet for scheduler
   vars:
-    image_tag: "beta-runtime"
+    image_tag: "{{ lookup('ansible.builtin.env','BRANCH') }}-runtime"
   ansible.builtin.template:
     src: sophie-scheduler.container.j2
     dest: /home/containers/.config/containers/systemd/sophie-scheduler.container
