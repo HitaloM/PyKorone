@@ -7,6 +7,8 @@
     mistral_key: "{{ lookup('env', 'MISTRAL_API_KEY') }}"
     openrouter_api_key: "{{ lookup('env', 'OPENROUTER_API_KEY') }}"
     api_jwt_secret: "{{ lookup('password', '/dev/null length=32 chars=ascii_letters,digits') }}"
+    api_operator_token: "{{ lookup('env', 'STAGING_API_OPERATOR_TOKEN') }}"
+    api_cors_origins: "{{ lookup('env', 'STAGING_API_CORS_ORIGINS') }}"
     role: "staging"
   when: inventory_hostname == "sstaging"
 
@@ -19,5 +21,7 @@
     mistral_key: "{{ lookup('env', 'MISTRAL_API_KEY') }}"
     openrouter_api_key: "{{ lookup('env', 'OPENROUTER_API_KEY') }}"
     api_jwt_secret: "{{ lookup('password', '/dev/null length=32 chars=ascii_letters,digits') }}"
+    api_operator_token: "{{ lookup('env', 'STABLE_API_OPERATOR_TOKEN') }}"
+    api_cors_origins: "{{ lookup('env', 'STABLE_API_CORS_ORIGINS') }}"
     role: "production"
   when: inventory_hostname == "white"
