@@ -1,5 +1,0 @@
-- name: Login to registry
-  containers.podman.podman_login:
-    username: "{{ lookup('ansible.builtin.env','CI_REGISTRY_USER') }}"
-    password: "{{ lookup('ansible.builtin.env','CI_REGISTRY_PASSWORD') }}"
-    registry: registry.gitlab.com

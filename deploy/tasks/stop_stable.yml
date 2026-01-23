@@ -1,5 +1,0 @@
-- name: Stop Stable container
-  ansible.builtin.systemd_service:
-    scope: user
-    state: stopped
-    name: sophie-stable

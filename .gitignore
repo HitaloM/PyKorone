@@ -20,16 +20,6 @@ data/*.yaml
 *.txt
 
 # Localization
-sophie.mo
+korone.mo
 
-# Test coverage results
-allure_results/
-
-# Build
-output/
-
-# OpenAPI
-openapi.json
-
-# Libs
-libs/
+data/korone.db*

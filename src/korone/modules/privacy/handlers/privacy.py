@@ -1,0 +1,34 @@
+from typing import Any, Optional
+
+from aiogram import Router, flags
+from aiogram.types import InlineKeyboardButton
+from aiogram.utils.keyboard import InlineKeyboardBuilder
+
+from korone.config import CONFIG
+from korone.filters.chat_status import ChatTypeFilter
+from korone.filters.cmd import CMDFilter
+from korone.modules.utils_.callbacks import GoToStartCallback
+from korone.utils.handlers import KoroneMessageCallbackQueryHandler
+from korone.utils.i18n import gettext as _
+from korone.utils.i18n import lazy_gettext as l_
+
+from ..callbacks import PrivacyMenuCallback
+
+
+@flags.help(description=l_("Shows the privacy policy of the bot"))
+class PrivacyMenu(KoroneMessageCallbackQueryHandler):
+    @classmethod
+    def register(cls, router: Router):
+        router.message.register(cls, CMDFilter("privacy"), ChatTypeFilter("private"))
+        router.callback_query.register(cls, PrivacyMenuCallback.filter())
+
+    async def handle(self) -> Any:
+        callback_data: Optional[PrivacyMenuCallback] = self.data.get("callback_data", None)
+
+        text = _("The privacy policy of the bot is available on our wiki page.")
+        buttons = InlineKeyboardBuilder().add(InlineKeyboardButton(text=_("Privacy Policy"), url=CONFIG.privacy_link))
+
+        if callback_data and callback_data.back_to_start:
+            buttons.row(InlineKeyboardButton(text=_("⬅️ Back"), callback_data=GoToStartCallback().pack()))
+
+        await self.answer(text, reply_markup=buttons.as_markup())

@@ -1,0 +1,31 @@
+fix = true
+line-length = 120
+preview = true
+show-fixes = true
+unsafe-fixes = true
+
+[format]
+docstring-code-format = true
+skip-magic-trailing-comma = true
+
+[lint]
+future-annotations = true
+ignore = [
+    "RUF001",
+    "RUF002",
+    "RUF003",
+    "PLR2004",
+    "PLR0917",
+    "PLR0913",
+    "PLR0914",
+    "PLR0911",
+    "PLR0915",
+]
+logger-objects = ["logging.get_logger"]
+
+[lint.isort]
+split-on-trailing-comma = false
+known-first-party = ["src"]
+
+[lint.flake8-tidy-imports]
+ban-relative-imports = "parents"

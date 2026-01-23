@@ -1,3 +1,0 @@
-files:
-  - source: /locales/sophie.pot
-    translation: /**/locales/%locale_with_underscore%/LC_MESSAGES/%file_name%.po

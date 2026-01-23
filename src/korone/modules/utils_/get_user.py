@@ -1,0 +1,39 @@
+from typing import Any, Optional
+
+from aiogram.types import Message, User
+from attr import dataclass
+
+from korone.db.models.chat import ChatModel
+from korone.modules.utils_.message import is_real_reply
+from korone.utils.exception import KoroneException
+
+
+@dataclass(frozen=True, slots=True)
+class UnionUser:
+    chat_id: int
+    first_name: str
+    last_name: Optional[str]
+    username: Optional[str]
+
+
+def get_arg_or_reply_user(message: Message, data: dict[str, Any]) -> User | ChatModel:
+    if not message.from_user:
+        raise KoroneException("No from_user")
+
+    if message.reply_to_message and is_real_reply(message) and message.reply_to_message.from_user:
+        return message.reply_to_message.from_user
+    elif db_user := data.get("user"):
+        return db_user
+    else:
+        raise KoroneException("No user found")
+
+
+def get_union_user(user: User | ChatModel) -> UnionUser:
+    if isinstance(user, User):
+        return UnionUser(chat_id=user.id, first_name=user.first_name, last_name=user.last_name, username=user.username)
+    elif isinstance(user, ChatModel):
+        return UnionUser(
+            chat_id=user.id, first_name=user.first_name_or_title, last_name=user.last_name, username=user.username
+        )
+    else:
+        raise ValueError("Invalid user type to cast to UnionUser")

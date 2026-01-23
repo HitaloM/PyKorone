@@ -1,0 +1,1155 @@
+#: /home/hitalo/sophie/src/korone/args/users.py:22
+msgid "User ID (Numeric)"
+msgstr ""
+
+#: /home/hitalo/sophie/src/korone/args/users.py:22
+msgid "User IDs (Numeric)"
+msgstr ""
+
+#: /home/hitalo/sophie/src/korone/args/users.py:36
+msgid "Could not find the requested User ID in the database."
+msgstr ""
+
+#: /home/hitalo/sophie/src/korone/args/users.py:45
+msgid "Username (starts with @)"
+msgstr ""
+
+#: /home/hitalo/sophie/src/korone/args/users.py:45
+msgid "Usernames (starts with @)"
+msgstr ""
+
+#: /home/hitalo/sophie/src/korone/args/users.py:58
+msgid "Could not find the requested Username in the database."
+msgstr ""
+
+#: /home/hitalo/sophie/src/korone/args/users.py:65
+msgid "User mention"
+msgstr ""
+
+#: /home/hitalo/sophie/src/korone/args/users.py:65
+msgid "User mentions"
+msgstr ""
+
+#: /home/hitalo/sophie/src/korone/args/users.py:73
+msgid "No mention entity found at offset."
+msgstr ""
+
+#: /home/hitalo/sophie/src/korone/args/users.py:87
+msgid "Could not find the mentioned user in the database."
+msgstr ""
+
+#: /home/hitalo/sophie/src/korone/args/users.py:108
+msgid "User: 'User ID (numeric) / Username (starts with @) / Mention (links to users)'"
+msgstr ""
+
+#: /home/hitalo/sophie/src/korone/args/users.py:109
+msgid "Users: 'User IDs (numeric) / Usernames (starts with @) / Mentions (links to users)'"
+msgstr ""
+
+#: /home/hitalo/sophie/src/korone/args/users.py:115
+msgid "User ID"
+msgstr ""
+
+#: /home/hitalo/sophie/src/korone/args/users.py:116
+#: /home/hitalo/sophie/src/korone/modules/users/handlers/info.py:48
+msgid "Username"
+msgstr ""
+
+#: /home/hitalo/sophie/src/korone/args/users.py:118
+msgid "A link to user, usually creates by mentioning a user without username."
+msgstr ""
+
+#: /home/hitalo/sophie/src/korone/filters/admin_rights.py:103
+msgid "I don't have the following permissions to do this:"
+msgstr ""
+
+#: /home/hitalo/sophie/src/korone/filters/admin_rights.py:105
+msgid "You don't have the following permissions to do this:"
+msgstr ""
+
+#: /home/hitalo/sophie/src/korone/filters/admin_rights.py:110
+msgid "I must be an administrator to use this command."
+msgstr ""
+
+#: /home/hitalo/sophie/src/korone/filters/admin_rights.py:112
+msgid "You must be an administrator to use this command."
+msgstr ""
+
+#: /home/hitalo/sophie/src/korone/middlewares/chat_context.py:23
+msgid "Private chat"
+msgstr ""
+
+#: /home/hitalo/sophie/src/korone/middlewares/chat_context.py:27
+msgid "Chat not found in database"
+msgstr ""
+
+#: /home/hitalo/sophie/src/korone/modules/disabling/__init__.py:14
+msgid "Disabling"
+msgstr ""
+
+#: /home/hitalo/sophie/src/korone/modules/disabling/__init__.py:16
+msgid "Disable some commonly used commands."
+msgstr ""
+
+#: /home/hitalo/sophie/src/korone/modules/disabling/__init__.py:20
+msgid "Not everyone wants every feature that Korone offers. Some commands are best left unused; to avoid spam and abuse."
+msgstr ""
+
+#: /home/hitalo/sophie/src/korone/modules/disabling/handlers/disable.py:16
+#: /home/hitalo/sophie/src/korone/modules/disabling/handlers/disable.py:47
+#: /home/hitalo/sophie/src/korone/modules/disabling/handlers/enable.py:18
+#: /home/hitalo/sophie/src/korone/modules/disabling/handlers/enable.py:49
+msgid "Command"
+msgstr ""
+
+#: /home/hitalo/sophie/src/korone/modules/disabling/handlers/disable.py:17
+msgid "Disables the command."
+msgstr ""
+
+#: /home/hitalo/sophie/src/korone/modules/disabling/handlers/disable.py:34
+#: /home/hitalo/sophie/src/korone/modules/disabling/handlers/enable.py:36
+#, python-brace-format
+msgid "Command {cmd} not found."
+msgstr ""
+
+#: /home/hitalo/sophie/src/korone/modules/disabling/handlers/disable.py:38
+#: /home/hitalo/sophie/src/korone/modules/disabling/handlers/enable.py:40
+#, python-brace-format
+msgid "Command {cmd} is already disabled."
+msgstr ""
+
+#: /home/hitalo/sophie/src/korone/modules/disabling/handlers/disable.py:46
+#: /home/hitalo/sophie/src/korone/modules/disabling/handlers/enable.py:48
+#: /home/hitalo/sophie/src/korone/modules/utils_/status_handler.py:45
+#: /home/hitalo/sophie/src/korone/modules/utils_/status_handler.py:68
+msgid "Chat"
+msgstr ""
+
+#: /home/hitalo/sophie/src/korone/modules/disabling/handlers/disable.py:49
+msgid "Command disabled"
+msgstr ""
+
+#: /home/hitalo/sophie/src/korone/modules/disabling/handlers/disable_able.py:15
+msgid "Lists all commands that can be disabled."
+msgstr ""
+
+#: /home/hitalo/sophie/src/korone/modules/disabling/handlers/disable_able.py:33
+msgid "Disable-able commands"
+msgstr ""
+
+#: /home/hitalo/sophie/src/korone/modules/disabling/handlers/disabled.py:15
+msgid "Lists all disabled commands."
+msgstr ""
+
+#: /home/hitalo/sophie/src/korone/modules/disabling/handlers/disabled.py:26
+msgid "No disabled commands found."
+msgstr ""
+
+#: /home/hitalo/sophie/src/korone/modules/disabling/handlers/disabled.py:29
+msgid "Disabled commands"
+msgstr ""
+
+#: /home/hitalo/sophie/src/korone/modules/disabling/handlers/enable.py:19
+msgid "Enables previously disabled command."
+msgstr ""
+
+#: /home/hitalo/sophie/src/korone/modules/disabling/handlers/enable.py:51
+msgid "Command enabled"
+msgstr ""
+
+#: /home/hitalo/sophie/src/korone/modules/disabling/handlers/enable_all.py:30
+msgid "✅ Enable all"
+msgstr ""
+
+#: /home/hitalo/sophie/src/korone/modules/disabling/handlers/enable_all.py:33
+msgid "🚫 Cancel"
+msgstr ""
+
+#: /home/hitalo/sophie/src/korone/modules/disabling/handlers/enable_all.py:38
+#, python-brace-format
+msgid "Do you want to enable all commands in the {chat_name}?"
+msgstr ""
+
+#: /home/hitalo/sophie/src/korone/modules/disabling/handlers/enable_all.py:57
+msgid "Only the initiator can confirm disabling all commands"
+msgstr ""
+
+#: /home/hitalo/sophie/src/korone/modules/disabling/handlers/enable_all.py:68
+#, python-brace-format
+msgid "✅ All the commands ({removed_count}) have been enabled in the {chat_name}"
+msgstr ""
+
+#: /home/hitalo/sophie/src/korone/modules/error/__init__.py:11
+msgid "Error"
+msgstr ""
+
+#: /home/hitalo/sophie/src/korone/modules/error/handlers/crash_handler.py:12
+msgid "Causes the bot to crash (for testing purposes)."
+msgstr ""
+
+#: /home/hitalo/sophie/src/korone/modules/error/utils/error_message.py:25
+msgid "😞 I've got an error trying to process this update"
+msgstr ""
+
+#: /home/hitalo/sophie/src/korone/modules/error/utils/haikus.py:4
+msgid "Code dances with bugs,"
+msgstr ""
+
+#: /home/hitalo/sophie/src/korone/modules/error/utils/haikus.py:4
+msgid "Exceptions arise, yet learn —"
+msgstr ""
+
+#: /home/hitalo/sophie/src/korone/modules/error/utils/haikus.py:4
+msgid "Errors guide our way."
+msgstr ""
+
+#: /home/hitalo/sophie/src/korone/modules/error/utils/haikus.py:5
+msgid "Silent lines disrupted,"
+msgstr ""
+
+#: /home/hitalo/sophie/src/korone/modules/error/utils/haikus.py:5
+msgid "Errors speak a language new,"
+msgstr ""
+
+#: /home/hitalo/sophie/src/korone/modules/error/utils/haikus.py:5
+msgid "In flaws, growth takes root."
+msgstr ""
+
+#: /home/hitalo/sophie/src/korone/modules/error/utils/haikus.py:6
+msgid "Through the mist of bugs,"
+msgstr ""
+
+#: /home/hitalo/sophie/src/korone/modules/error/utils/haikus.py:6
+msgid "Learning blooms in lines of code,"
+msgstr ""
+
+#: /home/hitalo/sophie/src/korone/modules/error/utils/haikus.py:6
+msgid "Exceptional growth."
+msgstr ""
+
+#: /home/hitalo/sophie/src/korone/modules/error/utils/haikus.py:7
+msgid "In errors we find,"
+msgstr ""
+
+#: /home/hitalo/sophie/src/korone/modules/error/utils/haikus.py:7
+msgid "Opportunities to learn,"
+msgstr ""
+
+#: /home/hitalo/sophie/src/korone/modules/error/utils/haikus.py:7
+msgid "Software's hidden gifts."
+msgstr ""
+
+#: /home/hitalo/sophie/src/korone/modules/error/utils/haikus.py:8
+msgid "Paths diverge, glitch calls,"
+msgstr ""
+
+#: /home/hitalo/sophie/src/korone/modules/error/utils/haikus.py:8
+msgid "Embrace the flaw, seek the fix,"
+msgstr ""
+
+#: /home/hitalo/sophie/src/korone/modules/error/utils/haikus.py:8
+msgid "Errors sculpt progress."
+msgstr ""
+
+#: /home/hitalo/sophie/src/korone/modules/error/utils/haikus.py:9
+msgid "A glitchy waltz starts,"
+msgstr ""
+
+#: /home/hitalo/sophie/src/korone/modules/error/utils/haikus.py:9
+msgid "Errors lead to graceful steps,"
+msgstr ""
+
+#: /home/hitalo/sophie/src/korone/modules/error/utils/haikus.py:9
+msgid "Software learns to dance."
+msgstr ""
+
+#: /home/hitalo/sophie/src/korone/modules/error/utils/haikus.py:10
+msgid "Beneath error's mask,"
+msgstr ""
+
+#: /home/hitalo/sophie/src/korone/modules/error/utils/haikus.py:10
+msgid "Lies chance to refine and mend,"
+msgstr ""
+
+#: /home/hitalo/sophie/src/korone/modules/error/utils/haikus.py:10
+msgid "Stronger code emerges."
+msgstr ""
+
+#: /home/hitalo/sophie/src/korone/modules/error/utils/haikus.py:11
+msgid "Flawed notes in the code,"
+msgstr ""
+
+#: /home/hitalo/sophie/src/korone/modules/error/utils/haikus.py:11
+msgid "Create the symphony of growth,"
+msgstr ""
+
+#: /home/hitalo/sophie/src/korone/modules/error/utils/haikus.py:11
+msgid "Exceptions compose."
+msgstr ""
+
+#: /home/hitalo/sophie/src/korone/modules/error/utils/haikus.py:12
+msgid "Bright stars in the code,"
+msgstr ""
+
+#: /home/hitalo/sophie/src/korone/modules/error/utils/haikus.py:12
+msgid "Errors guide us through the dark,"
+msgstr ""
+
+#: /home/hitalo/sophie/src/korone/modules/error/utils/haikus.py:12
+msgid "To a better dawn."
+msgstr ""
+
+#: /home/hitalo/sophie/src/korone/modules/error/utils/haikus.py:13
+msgid "Software's journey,"
+msgstr ""
+
+#: /home/hitalo/sophie/src/korone/modules/error/utils/haikus.py:13
+msgid "Marked by errors, yet they forge,"
+msgstr ""
+
+#: /home/hitalo/sophie/src/korone/modules/error/utils/haikus.py:13
+msgid "A path to brilliance."
+msgstr ""
+
+#: /home/hitalo/sophie/src/korone/modules/error/utils/haikus.py:14
+msgid "In lines of debug,"
+msgstr ""
+
+#: /home/hitalo/sophie/src/korone/modules/error/utils/haikus.py:14
+msgid "Lies the tale of perseverance,"
+msgstr ""
+
+#: /home/hitalo/sophie/src/korone/modules/error/utils/haikus.py:14
+msgid "Errors write our story."
+msgstr ""
+
+#: /home/hitalo/sophie/src/korone/modules/error/utils/haikus.py:15
+msgid "Bugs like stepping stones,"
+msgstr ""
+
+#: /home/hitalo/sophie/src/korone/modules/error/utils/haikus.py:15
+msgid "Lead us towards understanding,"
+msgstr ""
+
+#: /home/hitalo/sophie/src/korone/modules/error/utils/haikus.py:15
+msgid "Paths of enlightenment."
+msgstr ""
+
+#: /home/hitalo/sophie/src/korone/modules/error/utils/haikus.py:16
+msgid "Amidst lines of code,"
+msgstr ""
+
+#: /home/hitalo/sophie/src/korone/modules/error/utils/haikus.py:16
+msgid "Errors whisper secrets deep,"
+msgstr ""
+
+#: /home/hitalo/sophie/src/korone/modules/error/utils/haikus.py:16
+msgid "Knowledge blooms from flaws."
+msgstr ""
+
+#: /home/hitalo/sophie/src/korone/modules/error/utils/haikus.py:17
+msgid "A puzzle of bugs,"
+msgstr ""
+
+#: /home/hitalo/sophie/src/korone/modules/error/utils/haikus.py:17
+msgid "Each exception a clue to solve,"
+msgstr ""
+
+#: /home/hitalo/sophie/src/korone/modules/error/utils/haikus.py:17
+msgid "The software's riddle."
+msgstr ""
+
+#: /home/hitalo/sophie/src/korone/modules/error/utils/haikus.py:18
+msgid "In realm of errors,"
+msgstr ""
+
+#: /home/hitalo/sophie/src/korone/modules/error/utils/haikus.py:18
+msgid "Patience and insight converge,"
+msgstr ""
+
+#: /home/hitalo/sophie/src/korone/modules/error/utils/haikus.py:18
+msgid "Solutions are born."
+msgstr ""
+
+#: /home/hitalo/sophie/src/korone/modules/error/utils/haikus.py:19
+msgid "Through crashes and burns,"
+msgstr ""
+
+#: /home/hitalo/sophie/src/korone/modules/error/utils/haikus.py:19
+msgid "Rises phoenix of progress,"
+msgstr ""
+
+#: /home/hitalo/sophie/src/korone/modules/error/utils/haikus.py:19
+msgid "From ashes of bugs."
+msgstr ""
+
+#: /home/hitalo/sophie/src/korone/modules/error/utils/haikus.py:20
+msgid "Software's heartbeat,"
+msgstr ""
+
+#: /home/hitalo/sophie/src/korone/modules/error/utils/haikus.py:20
+msgid "Pulsing with each error found,"
+msgstr ""
+
+#: /home/hitalo/sophie/src/korone/modules/error/utils/haikus.py:20
+msgid "Lifeblood of growth flows."
+msgstr ""
+
+#: /home/hitalo/sophie/src/korone/modules/error/utils/haikus.py:21
+msgid "Errors like raindrops,"
+msgstr ""
+
+#: /home/hitalo/sophie/src/korone/modules/error/utils/haikus.py:21
+msgid "Quenching the thirst for knowledge,"
+msgstr ""
+
+#: /home/hitalo/sophie/src/korone/modules/error/utils/haikus.py:21
+msgid "Nourishing progress."
+msgstr ""
+
+#: /home/hitalo/sophie/src/korone/modules/error/utils/haikus.py:22
+msgid "Through the maze of bugs,"
+msgstr ""
+
+#: /home/hitalo/sophie/src/korone/modules/error/utils/haikus.py:22
+msgid "A labyrinth of learning,"
+msgstr ""
+
+#: /home/hitalo/sophie/src/korone/modules/error/utils/haikus.py:22
+msgid "Exceptional minds."
+msgstr ""
+
+#: /home/hitalo/sophie/src/korone/modules/error/utils/haikus.py:23
+msgid "In the code's embrace,"
+msgstr ""
+
+#: /home/hitalo/sophie/src/korone/modules/error/utils/haikus.py:23
+msgid "Errors cradle innovation,"
+msgstr ""
+
+#: /home/hitalo/sophie/src/korone/modules/error/utils/haikus.py:23
+msgid "Softly whispering."
+msgstr ""
+
+#: /home/hitalo/sophie/src/korone/modules/help/__init__.py:22
+#: /home/hitalo/sophie/src/korone/modules/help/handlers/help_group.py:27
+#: /home/hitalo/sophie/src/korone/modules/help/handlers/pm_modules.py:52
+#: /home/hitalo/sophie/src/korone/modules/help/handlers/start_group.py:32
+msgid "Help"
+msgstr ""
+
+#: /home/hitalo/sophie/src/korone/modules/help/__init__.py:24
+msgid "Provides helpful information"
+msgstr ""
+
+#: /home/hitalo/sophie/src/korone/modules/help/__init__.py:25
+msgid "Get information about available commands and modules in Korone."
+msgstr ""
+
+#: /home/hitalo/sophie/src/korone/modules/help/handlers/help_group.py:17
+msgid "Shows the help message"
+msgstr ""
+
+#: /home/hitalo/sophie/src/korone/modules/help/handlers/help_group.py:24
+msgid "The help information available in the private messages with Korone"
+msgstr ""
+
+#: /home/hitalo/sophie/src/korone/modules/help/handlers/op.py:15
+msgid "Shows a list of all OP-only commands"
+msgstr ""
+
+#: /home/hitalo/sophie/src/korone/modules/help/handlers/pm_modules.py:20
+msgid "Shows help overview for all modules"
+msgstr ""
+
+#: /home/hitalo/sophie/src/korone/modules/help/handlers/pm_modules.py:50
+#: /home/hitalo/sophie/src/korone/modules/help/handlers/pm_modules.py:98
+#: /home/hitalo/sophie/src/korone/modules/language/handlers/apply.py:61
+#: /home/hitalo/sophie/src/korone/modules/language/handlers/info.py:40
+#: /home/hitalo/sophie/src/korone/modules/language/handlers/select.py:46
+#: /home/hitalo/sophie/src/korone/modules/language/handlers/select.py:50
+#: /home/hitalo/sophie/src/korone/modules/privacy/handlers/privacy.py:32
+msgid "⬅️ Back"
+msgstr ""
+
+#: /home/hitalo/sophie/src/korone/modules/help/handlers/pm_modules.py:52
+msgid "Select a module to see its commands and information:"
+msgstr ""
+
+#: /home/hitalo/sophie/src/korone/modules/help/handlers/pm_modules.py:71
+msgid "Module not found"
+msgstr ""
+
+#: /home/hitalo/sophie/src/korone/modules/help/handlers/pm_modules.py:91
+#, python-brace-format
+msgid "Aliased commands from {module}"
+msgstr ""
+
+#: /home/hitalo/sophie/src/korone/modules/help/handlers/start_group.py:19
+msgid "Shows the start message"
+msgstr ""
+
+#: /home/hitalo/sophie/src/korone/modules/help/handlers/start_group.py:33
+msgid "📢 Channel"
+msgstr ""
+
+#: /home/hitalo/sophie/src/korone/modules/help/handlers/start_group.py:36
+msgid "Hi, I'm Korone! An all-in-one bot. I can help you with lots of things. Just click on the buttons below to get started."
+msgstr ""
+
+#: /home/hitalo/sophie/src/korone/modules/help/handlers/start_pm.py:33
+msgid "🕵️‍♂️ Privacy"
+msgstr ""
+
+#: /home/hitalo/sophie/src/korone/modules/help/handlers/start_pm.py:34
+msgid "🌍 Language"
+msgstr ""
+
+#: /home/hitalo/sophie/src/korone/modules/help/handlers/start_pm.py:36
+msgid "ℹ️ Help"
+msgstr ""
+
+#: /home/hitalo/sophie/src/korone/modules/help/handlers/start_pm.py:40
+#, python-brace-format
+msgid ""
+"Hi, I'm Korone! An all-in-one bot. I can help you with lots of things. Just click on the buttons below to get started.\n"
+"\n"
+"News: {updates_link}"
+msgstr ""
+
+#: /home/hitalo/sophie/src/korone/modules/help/utils/format_help.py:28
+msgid "— Only in groups"
+msgstr ""
+
+#: /home/hitalo/sophie/src/korone/modules/help/utils/format_help.py:29
+msgid "Disable-able"
+msgstr ""
+
+#: /home/hitalo/sophie/src/korone/modules/help/utils/format_help.py:67
+msgid "Commands"
+msgstr ""
+
+#: /home/hitalo/sophie/src/korone/modules/help/utils/format_help.py:69
+msgid "PM-only"
+msgstr ""
+
+#: /home/hitalo/sophie/src/korone/modules/help/utils/format_help.py:71
+msgid "Only admins"
+msgstr ""
+
+#: /home/hitalo/sophie/src/korone/modules/language/__init__.py:17
+#: /home/hitalo/sophie/src/korone/modules/language/stats.py:11
+msgid "Language"
+msgstr ""
+
+#: /home/hitalo/sophie/src/korone/modules/language/__init__.py:19
+msgid "Change the bot language"
+msgstr ""
+
+#: /home/hitalo/sophie/src/korone/modules/language/__init__.py:23
+msgid "Customize your experience by selecting your preferred language for interacting with the bot. Choose from a variety of supported languages to make your conversations more comfortable and enjoyable."
+msgstr ""
+
+#: /home/hitalo/sophie/src/korone/modules/language/handlers/apply.py:33
+#, python-brace-format
+msgid "Language changed to {new_lang}."
+msgstr ""
+
+#: /home/hitalo/sophie/src/korone/modules/language/handlers/apply.py:36
+msgid "This is the bot's native language."
+msgstr ""
+
+#: /home/hitalo/sophie/src/korone/modules/language/handlers/apply.py:37
+msgid "If you find any errors, please file an issue in the GitHub Repository."
+msgstr ""
+
+#: /home/hitalo/sophie/src/korone/modules/language/handlers/apply.py:40
+#, python-brace-format
+msgid "The language is {percent}% translated."
+msgstr ""
+
+#: /home/hitalo/sophie/src/korone/modules/language/handlers/apply.py:43
+msgid "In case you find any errors, please file an issue in the GitHub Repository."
+msgstr ""
+
+#: /home/hitalo/sophie/src/korone/modules/language/handlers/apply.py:45
+msgid "Please help us translate this language by completing it on our translations platform."
+msgstr ""
+
+#: /home/hitalo/sophie/src/korone/modules/language/handlers/apply.py:54
+#: /home/hitalo/sophie/src/korone/modules/language/handlers/apply.py:56
+msgid "🐞 Open GitHub Issues"
+msgstr ""
+
+#: /home/hitalo/sophie/src/korone/modules/language/handlers/apply.py:58
+msgid "🌍 Help Translate"
+msgstr ""
+
+#: /home/hitalo/sophie/src/korone/modules/language/handlers/apply.py:74
+msgid "Something went wrong."
+msgstr ""
+
+#: /home/hitalo/sophie/src/korone/modules/language/handlers/cancel.py:24
+msgid "Changing language was canceled. You can change language again by using /language command."
+msgstr ""
+
+#: /home/hitalo/sophie/src/korone/modules/language/handlers/info.py:19
+msgid "Current Language"
+msgstr ""
+
+#: /home/hitalo/sophie/src/korone/modules/language/handlers/info.py:19
+msgid "Language Settings"
+msgstr ""
+
+#: /home/hitalo/sophie/src/korone/modules/language/handlers/info.py:22
+msgid "This is the bot's native language, so it is 100% translated."
+msgstr ""
+
+#: /home/hitalo/sophie/src/korone/modules/language/handlers/info.py:24
+msgid "Translated strings"
+msgstr ""
+
+#: /home/hitalo/sophie/src/korone/modules/language/handlers/info.py:25
+msgid "Untranslated strings"
+msgstr ""
+
+#: /home/hitalo/sophie/src/korone/modules/language/handlers/info.py:26
+msgid "Strings requiring review"
+msgstr ""
+
+#: /home/hitalo/sophie/src/korone/modules/language/handlers/info.py:32
+msgid "👤 Change your language"
+msgstr ""
+
+#: /home/hitalo/sophie/src/korone/modules/language/handlers/info.py:32
+msgid "🌍 Change group language"
+msgstr ""
+
+#: /home/hitalo/sophie/src/korone/modules/language/handlers/info.py:45
+msgid "Shows the current language settings."
+msgstr ""
+
+#: /home/hitalo/sophie/src/korone/modules/language/handlers/select.py:40
+msgid "❌ Cancel"
+msgstr ""
+
+#: /home/hitalo/sophie/src/korone/modules/language/handlers/select.py:57
+msgid "Shows the available languages for selection."
+msgstr ""
+
+#: /home/hitalo/sophie/src/korone/modules/language/handlers/select.py:67
+#: /home/hitalo/sophie/src/korone/modules/language/handlers/select.py:90
+#: /home/hitalo/sophie/src/korone/modules/language/handlers/select.py:104
+msgid "Please select the language you want to use for the chat."
+msgstr ""
+
+#: /home/hitalo/sophie/src/korone/modules/language/stats.py:11
+#, python-brace-format
+msgid "{num} languages available."
+msgstr ""
+
+#: /home/hitalo/sophie/src/korone/modules/op/__init__.py:10
+msgid "Operator"
+msgstr ""
+
+#: /home/hitalo/sophie/src/korone/modules/op/handlers/event.py:14
+msgid "Prints the message event as JSON."
+msgstr ""
+
+#: /home/hitalo/sophie/src/korone/modules/op/handlers/stats.py:48
+msgid "Show bot statistics."
+msgstr ""
+
+#: /home/hitalo/sophie/src/korone/modules/privacy/__init__.py:11
+msgid "Privacy"
+msgstr ""
+
+#: /home/hitalo/sophie/src/korone/modules/privacy/__init__.py:13
+msgid "Data protection"
+msgstr ""
+
+#: /home/hitalo/sophie/src/korone/modules/privacy/__init__.py:14
+msgid "Manage your privacy settings and data protection options."
+msgstr ""
+
+#: /home/hitalo/sophie/src/korone/modules/privacy/handlers/privacy.py:18
+msgid "Shows the privacy policy of the bot"
+msgstr ""
+
+#: /home/hitalo/sophie/src/korone/modules/privacy/handlers/privacy.py:28
+msgid "The privacy policy of the bot is available on our wiki page."
+msgstr ""
+
+#: /home/hitalo/sophie/src/korone/modules/privacy/handlers/privacy.py:29
+msgid "Privacy Policy"
+msgstr ""
+
+#: /home/hitalo/sophie/src/korone/modules/troubleshooters/__init__.py:16
+msgid "Troubleshooters"
+msgstr ""
+
+#: /home/hitalo/sophie/src/korone/modules/troubleshooters/__init__.py:18
+msgid "Small commands for fixing problems and issues"
+msgstr ""
+
+#: /home/hitalo/sophie/src/korone/modules/troubleshooters/__init__.py:19
+msgid "Fix common problems and issues you might encounter while using the bot."
+msgstr ""
+
+#: /home/hitalo/sophie/src/korone/modules/troubleshooters/handlers/admincache.py:15
+msgid "Reset admin rights cache, use if Korone didn't get the recently added admin"
+msgstr ""
+
+#: /home/hitalo/sophie/src/korone/modules/troubleshooters/handlers/admincache.py:23
+msgid "You can't use this command in private chats."
+msgstr ""
+
+#: /home/hitalo/sophie/src/korone/modules/troubleshooters/handlers/admincache.py:27
+msgid "Admin rights cache has been reset."
+msgstr ""
+
+#: /home/hitalo/sophie/src/korone/modules/troubleshooters/handlers/cancel.py:14
+msgid "Cancel current state, use if Korone is not responding on your message"
+msgstr ""
+
+#: /home/hitalo/sophie/src/korone/modules/troubleshooters/handlers/cancel.py:24
+msgid "The current state is already cleared, wiping its data anyway..."
+msgstr ""
+
+#: /home/hitalo/sophie/src/korone/modules/troubleshooters/handlers/cancel.py:31
+#, python-brace-format
+msgid "Current state {state} is cleared."
+msgstr ""
+
+#: /home/hitalo/sophie/src/korone/modules/troubleshooters/handlers/cancel_callback.py:29
+#: /home/hitalo/sophie/src/korone/modules/troubleshooters/handlers/cancel_callback.py:47
+#: /home/hitalo/sophie/src/korone/modules/troubleshooters/handlers/cancel_callback.py:65
+msgid "You are not allowed to cancel this action!"
+msgstr ""
+
+#: /home/hitalo/sophie/src/korone/modules/troubleshooters/handlers/cancel_callback.py:32
+#: /home/hitalo/sophie/src/korone/modules/troubleshooters/handlers/cancel_callback.py:51
+msgid "❌ Cancelled."
+msgstr ""
+
+#: /home/hitalo/sophie/src/korone/modules/troubleshooters/handlers/cancel_callback.py:71
+#, python-brace-format
+msgid "The action was cancelled by {user}."
+msgstr ""
+
+#: /home/hitalo/sophie/src/korone/modules/users/__init__.py:13
+msgid "Users"
+msgstr ""
+
+#: /home/hitalo/sophie/src/korone/modules/users/__init__.py:15
+msgid "Get information about users."
+msgstr ""
+
+#: /home/hitalo/sophie/src/korone/modules/users/__init__.py:19
+msgid "Various commands to get information about users, such as their IDs and detailed info. It also includes a command to list all administrators in the chat."
+msgstr ""
+
+#: /home/hitalo/sophie/src/korone/modules/users/handlers/adminlist.py:18
+msgid "Lists all the chats admins."
+msgstr ""
+
+#: /home/hitalo/sophie/src/korone/modules/users/handlers/adminlist.py:27
+msgid "This command can only be used in groups."
+msgstr ""
+
+#: /home/hitalo/sophie/src/korone/modules/users/handlers/adminlist.py:31
+msgid "Chat not found."
+msgstr ""
+
+#: /home/hitalo/sophie/src/korone/modules/users/handlers/adminlist.py:39
+#, python-brace-format
+msgid "Admins in {chat_name}"
+msgstr ""
+
+#: /home/hitalo/sophie/src/korone/modules/users/handlers/adminlist.py:59
+#, python-brace-format
+msgid "{user}"
+msgstr ""
+
+#: /home/hitalo/sophie/src/korone/modules/users/handlers/adminlist.py:62
+msgid "No visible admins found."
+msgstr ""
+
+#: /home/hitalo/sophie/src/korone/modules/users/handlers/adminlist.py:64
+msgid "Admins"
+msgstr ""
+
+#: /home/hitalo/sophie/src/korone/modules/users/handlers/id.py:23
+#: /home/hitalo/sophie/src/korone/modules/users/handlers/info.py:19
+msgid "User"
+msgstr ""
+
+#: /home/hitalo/sophie/src/korone/modules/users/handlers/id.py:39
+#, python-brace-format
+msgid "Your ID: {id}"
+msgstr ""
+
+#: /home/hitalo/sophie/src/korone/modules/users/handlers/id.py:42
+#, python-brace-format
+msgid "Chat ID: {id}"
+msgstr ""
+
+#: /home/hitalo/sophie/src/korone/modules/users/handlers/id.py:46
+#, python-brace-format
+msgid "Replied user ID: {id}"
+msgstr ""
+
+#: /home/hitalo/sophie/src/korone/modules/users/handlers/id.py:50
+#, python-brace-format
+msgid "{user}'s ID: {id}"
+msgstr ""
+
+#: /home/hitalo/sophie/src/korone/modules/users/handlers/info.py:17
+msgid "Shows the additional information about the user."
+msgstr ""
+
+#: /home/hitalo/sophie/src/korone/modules/users/handlers/info.py:33
+msgid "Could not identify user."
+msgstr ""
+
+#: /home/hitalo/sophie/src/korone/modules/users/handlers/info.py:39
+msgid "User Information"
+msgstr ""
+
+#: /home/hitalo/sophie/src/korone/modules/users/handlers/info.py:41
+msgid "ID"
+msgstr ""
+
+#: /home/hitalo/sophie/src/korone/modules/users/handlers/info.py:42
+msgid "First Name"
+msgstr ""
+
+#: /home/hitalo/sophie/src/korone/modules/users/handlers/info.py:45
+msgid "Last Name"
+msgstr ""
+
+#: /home/hitalo/sophie/src/korone/modules/users/handlers/info.py:50
+msgid "User Link"
+msgstr ""
+
+#: /home/hitalo/sophie/src/korone/modules/users/handlers/info.py:55
+msgid "This user is the owner of this chat."
+msgstr ""
+
+#: /home/hitalo/sophie/src/korone/modules/users/handlers/info.py:57
+msgid "This user is an admin in this chat."
+msgstr ""
+
+#: /home/hitalo/sophie/src/korone/modules/users/handlers/info.py:61
+msgid "Shared Chats"
+msgstr ""
+
+#: /home/hitalo/sophie/src/korone/modules/utils_/reply_or_edit.py:11
+#: /home/hitalo/sophie/src/korone/utils/handlers.py:76
+#: /home/hitalo/sophie/src/korone/utils/handlers.py:95
+#: /home/hitalo/sophie/src/korone/utils/handlers.py:97
+#: /home/hitalo/sophie/src/korone/utils/handlers.py:106
+msgid "The message is inaccessible. Please write the command again"
+msgstr ""
+
+#: /home/hitalo/sophie/src/korone/modules/utils_/status_handler.py:26
+msgid "?New status"
+msgstr ""
+
+#: /home/hitalo/sophie/src/korone/modules/utils_/status_handler.py:49
+#, python-brace-format
+msgid "Use '{cmd}' to change it."
+msgstr ""
+
+#: /home/hitalo/sophie/src/korone/modules/utils_/status_handler.py:59
+#, python-brace-format
+msgid "The current status is already {state}"
+msgstr ""
+
+#: /home/hitalo/sophie/src/korone/modules/utils_/status_handler.py:66
+msgid "The state was successfully changed"
+msgstr ""
+
+#: /home/hitalo/sophie/src/korone/modules/utils_/status_handler.py:83
+msgid "Enabled"
+msgstr ""
+
+#: /home/hitalo/sophie/src/korone/modules/utils_/status_handler.py:83
+msgid "Disabled"
+msgstr ""
+
+#: exceptions.py:33
+msgid "Examples"
+msgstr ""
+
+#: exceptions.py:61
+#, python-brace-format
+msgid "The argument {description} has an invalid type"
+msgstr ""
+
+#: exceptions.py:65 exceptions.py:120
+msgid "Needed type"
+msgstr ""
+
+#: exceptions.py:116
+#, python-brace-format
+msgid "The required argument {description} wasn't provided!"
+msgstr ""
+
+#: exceptions.py:164
+#, python-brace-format
+msgid "The argument {description} has an invalid formatting!"
+msgstr ""
+
+#: types/keyvalue.py:31
+#, python-brace-format
+msgid "Key-value of {}"
+msgstr ""
+
+#: types/keyvalue.py:32
+#, python-brace-format
+msgid "Key-values of {}"
+msgstr ""
+
+#: types/keyvalue.py:65
+#, python-brace-format
+msgid "The optional argument {name} must contain a value!"
+msgstr ""
+
+#: types/keyvalue.py:90 types/keyvalue.py:91
+msgid "Key-values"
+msgstr ""
+
+#: types/lists.py:46 types/lists.py:59
+#, python-brace-format
+msgid "List of {}"
+msgstr ""
+
+#: types/lists.py:47
+#, python-brace-format
+msgid "Lists of {}"
+msgstr ""
+
+#: types/lists.py:65
+#, python-brace-format
+msgid "The starting character {} of list wasn't found!"
+msgstr ""
+
+#: types/lists.py:73
+#, python-brace-format
+msgid "The ending character {} of list wasn't found!"
+msgstr ""
+
+#: types/lists.py:77
+msgid "The list is empty!"
+msgstr ""
+
+#: types/lists.py:97
+msgid "➡️ The start prefix text of the lists cannot have the overlapping formatting"
+msgstr ""
+
+#: types/lists.py:153 types/lists.py:171
+#, python-brace-format
+msgid "Argument '{arg_text}' was parsed, but it has unknown text after it!"
+msgstr ""
+
+#: types/lists.py:157 types/lists.py:175
+msgid "Please ensure you correctly divided all of arguments."
+msgstr ""
+
+#: types/logic.py:20
+#, python-brace-format
+msgid "Optional {}"
+msgstr ""
+
+#: types/logic.py:21
+#, python-brace-format
+msgid "Optionals {}"
+msgstr ""
+
+#: types/logic.py:44 types/logic.py:45 types/one_of.py:25 types/one_of.py:28
+msgid " or "
+msgstr ""
+
+#: types/logic.py:105
+msgid ", and "
+msgstr ""
+
+#: types/logic.py:121
+msgid "Example syntax"
+msgstr ""
+
+#: types/one_of.py:24 types/one_of.py:27
+#, python-brace-format
+msgid "One of: {}"
+msgstr ""
+
+#: types/oneword.py:13
+msgid "Word (string with no spaces)"
+msgstr ""
+
+#: types/oneword.py:13
+msgid "Words (strings with no spaces)"
+msgstr ""
+
+#: types/oneword.py:33
+msgid "Integer (number)"
+msgstr ""
+
+#: types/oneword.py:33
+msgid "Integers (numbers)"
+msgstr ""
+
+#: types/oneword.py:49
+msgid "Boolean (Yes / No value)"
+msgstr ""
+
+#: types/oneword.py:49
+msgid "Booleans (Yes / No values)"
+msgstr ""
+
+#: types/oneword.py:54
+msgid "True (can means Enabled or Yes)"
+msgstr ""
+
+#: types/oneword.py:55
+msgid "False (can means Disabled or No)"
+msgstr ""
+
+#: types/text.py:18
+msgid "Text"
+msgstr ""
+
+#: types/text_rules.py:27
+#, python-brace-format
+msgid "➡️ The Argument should start with {}!"
+msgstr ""
+
+#: types/text_rules.py:31
+#, python-brace-format
+msgid "⬅️️ The Argument should end with {}!"
+msgstr ""
+
+#: types/text_rules.py:49
+msgid "➡️ The start text cannot have the overlapping formatting"
+msgstr ""
+
+#: types/text_rules.py:75
+#, python-brace-format
+msgid "➡️ Argument '{arg_text}' was parsed, but it has unknown text after it!"
+msgstr ""
+
+#: types/text_rules.py:91 types/text_rules.py:95
+#, python-brace-format
+msgid "{} surrounded by {} and {}"
+msgstr ""
+
+#: types/text_rules.py:107
+#, python-brace-format
+msgid "Surrounded by {} and {}"
+msgstr ""
+
+#: types/time_arg.py:24
+msgid "2 days"
+msgstr ""
+
+#: types/time_arg.py:25
+msgid "3 weeks and 2 days"
+msgstr ""
+
+#. NOTE: Please use the first letter of the "years" in your language
+#: types/time_arg.py:41
+msgid "y"
+msgstr ""
+
+#. NOTE: Please use the first letter of the "weeks" in your language
+#: types/time_arg.py:44
+msgid "w"
+msgstr ""
+
+#. NOTE: Please use the first letter of the "days" in your language
+#: types/time_arg.py:47
+msgid "d"
+msgstr ""
+
+#. NOTE: Please use the first letter of the "hours" in your language
+#: types/time_arg.py:50
+msgid "h"
+msgstr ""
+
+#. NOTE: Please use the first letter of the "minutes" in your language
+#: types/time_arg.py:53
+msgid "m"
+msgstr ""
+
+#: types/time_arg.py:61
+msgid "Action time"
+msgstr ""
+
+#: types/time_arg.py:61
+msgid "Action times"
+msgstr ""
+
+#: types/user.py:17
+msgid "User ID (Numeric)"
+msgstr ""
+
+#: types/user.py:17
+msgid "User IDs (Numeric)"
+msgstr ""
+
+#: types/user.py:37
+msgid "Username (starts with @)"
+msgstr ""
+
+#: types/user.py:47
+msgid "Should start with a prefix"
+msgstr ""
+
+#: types/user.py:49
+msgid "Username is too short"
+msgstr ""
+
+#: types/user.py:51
+msgid "Username is too long"
+msgstr ""
+
+#: types/user.py:67
+msgid "User mention (a link to user)"
+msgstr ""
+
+#: types/user.py:67
+msgid "User mentions (links to users)"
+msgstr ""
+
+#: types/user.py:99
+msgid "Should start with mention!"
+msgstr ""
+
+#: types/user.py:107
+msgid "Unexpected error while trying to get the user! Please report this in the support chat!"
+msgstr ""
+
+#: types/user.py:108
+msgid "Could not find the user mention"
+msgstr ""
+
+#: types/user.py:120
+msgid "User: 'User ID (numeric) / Username (starts with @) / Mention (links to users)'"
+msgstr ""
+
+#: types/user.py:122
+msgid "Users: 'User IDs (numeric) / Usernames (starts with @) / Mentions (links to users)'"
+msgstr ""
+
+#: types/user.py:128
+msgid "User ID"
+msgstr ""
+
+#: types/user.py:129
+msgid "Username"
+msgstr ""
+
+#: types/user.py:134
+msgid "A link to user, usually creates by mentioning a user without username."
+msgstr ""

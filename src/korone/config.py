@@ -1,0 +1,64 @@
+from typing import List, Optional
+
+from pydantic import AnyHttpUrl, ValidationInfo, computed_field, field_validator
+from pydantic_settings import BaseSettings
+
+
+class Config(BaseSettings):
+    token: str = "12345:ABCDEFG"
+
+    username: str | None = None
+
+    owner_id: int | None = None
+    operators: List[int] = []
+
+    db_url: str = "sqlite+aiosqlite:///data/korone.db"
+
+    redis_host: str = "localhost"
+    redis_port: int = 6379
+    redis_db_fsm: int = 1
+    redis_db_states: int = 2
+    redis_db_schedule: int = 3
+
+    botapi_server: Optional[AnyHttpUrl] = None
+
+    modules_load: List[str] = ["*"]
+    modules_not_load: List[str] = []
+
+    commands_prefix: str = "/!"
+    commands_ignore_case: bool = True
+    commands_ignore_mention: bool = False
+    commands_ignore_forwarded: bool = True
+    commands_ignore_code: bool = True
+
+    devs_managed_languages: List[str] = ["en_US"]
+    translation_url: str = "https://weblate.amanoteam.com/projects/korone/"
+    news_channel: str = "https://t.me/PyKorone"
+    privacy_link: str = "https://pykorone.rtfd.io/en/latest/privacy.html"
+    github_issues: str = "https://github.com/HitaloM/PyKorone/issues"
+
+    default_locale: str = "en_US"
+
+    class Config:
+        env_file = "data/config.env"
+        env_file_encoding = "utf-8"
+
+    @computed_field
+    @property
+    def bot_id(self) -> int:
+        return int(self.token.split(":")[0])
+
+    @field_validator("operators", mode="before")
+    @classmethod
+    def validate_operators(cls, v: List[int] | None, info: ValidationInfo) -> List[int]:
+        owner_id = info.data.get("owner_id")
+
+        if not v:
+            return [owner_id] if owner_id else []
+
+        if owner_id and owner_id not in v:
+            v.append(owner_id)
+        return v
+
+
+CONFIG = Config()

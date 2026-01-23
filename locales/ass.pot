@@ -273,4 +273,3 @@ msgstr ""
 #: types/user.py:134
 msgid "A link to user, usually creates by mentioning a user without username."
 msgstr ""
-

@@ -1,6 +1,0 @@
-- name: Restart Stable container
-  ansible.builtin.systemd_service:
-    scope: user
-    state: restarted
-    daemon_reload: true
-    name: sophie-stable
