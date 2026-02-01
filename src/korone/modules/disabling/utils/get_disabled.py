@@ -1,6 +1,6 @@
 from typing import TYPE_CHECKING
 
-from korone.db.models.disabling import DisablingModel
+from korone.db.repositories import disabling as disabling_repo
 from korone.modules.help.utils.extract_info import get_all_cmds
 
 if TYPE_CHECKING:
@@ -8,7 +8,7 @@ if TYPE_CHECKING:
 
 
 async def get_disabled_handlers(chat_id: int) -> tuple[HandlerHelp, ...]:
-    disabled_cmds: list[str] = await DisablingModel.get_disabled(chat_id)
+    disabled_cmds: list[str] = await disabling_repo.get_disabled(chat_id)
 
     help_cmds: list[HandlerHelp] = list(filter(lambda cmd: cmd.disableable, get_all_cmds()))
 

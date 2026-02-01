@@ -71,19 +71,19 @@ class UserRestricting(Filter):
         return config
 
     async def __call__(self, event: TelegramObject) -> bool | dict[str, bool | list[str]]:
-        user_tid = await self.get_target_id(event)
+        user_id = await self.get_target_id(event)
         message = event.message if hasattr(event, "message") else event
 
         chat = getattr(message, "chat", None)
         if chat is None:
             return True
 
-        chat_tid = chat.id
+        chat_id = chat.id
 
         if chat.type == "private":
             return True
 
-        check = await check_user_admin_permissions(chat_tid, user_tid, self.required_permissions or None)
+        check = await check_user_admin_permissions(chat_id, user_id, self.required_permissions or None)
         if check is not True:
             await self.no_rights_msg(event, required_permissions=check)
             raise SkipHandler

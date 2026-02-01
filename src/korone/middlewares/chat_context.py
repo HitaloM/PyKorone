@@ -5,9 +5,11 @@ from datetime import UTC, datetime
 from typing import TYPE_CHECKING, cast
 
 from aiogram import BaseMiddleware
+from aiogram.enums import ChatType
 from aiogram.types import TelegramObject
 
-from korone.db.models.chat import ChatModel, ChatType
+from korone.db.models.chat import ChatModel
+from korone.db.repositories import chat as chat_repo
 from korone.logging import get_logger
 from korone.utils.i18n import gettext as _
 
@@ -23,7 +25,7 @@ logger = get_logger(__name__)
 class ChatContext:
     type: ChatType
     is_connected: bool
-    tid: int
+    chat_id: int
     title: str
     db_model: ChatModel
 
@@ -48,12 +50,12 @@ class ChatContextMiddleware(BaseMiddleware):
     async def get_current_chat_info(chat: Chat) -> ChatContext:
         title = chat.title if chat.type != "private" and chat.title else _("Private chat")
 
-        db_model = await ChatModel.get_by_tid(chat.id)
+        db_model = await chat_repo.get_by_chat_id(chat.id)
         if not db_model:
             if chat.type == "private":
                 db_model = ChatModel(
-                    tid=chat.id,
-                    type=ChatType.private,
+                    chat_id=chat.id,
+                    type=ChatType.PRIVATE,
                     first_name_or_title=chat.first_name or "User",
                     last_name=chat.last_name,
                     username=chat.username,
@@ -62,14 +64,15 @@ class ChatContextMiddleware(BaseMiddleware):
                 )
             else:
                 db_model = ChatModel(
-                    tid=chat.id,
-                    type=ChatType[chat.type],
+                    chat_id=chat.id,
+                    type=ChatType[chat.type.upper()],
                     first_name_or_title=chat.title or "Group",
                     is_bot=False,
                     last_saw=datetime.now(UTC),
                 )
 
-        return ChatContext(is_connected=False, tid=chat.id, type=ChatType[chat.type], title=title, db_model=db_model)
+        chat_type = ChatType.PRIVATE if chat.type == "private" else ChatType[chat.type.upper()]
+        return ChatContext(is_connected=False, chat_id=chat.id, type=chat_type, title=title, db_model=db_model)
 
     async def __call__(
         self,

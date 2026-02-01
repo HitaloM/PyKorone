@@ -1,11 +1,12 @@
 from typing import TYPE_CHECKING
 
 from aiogram import flags
+from aiogram.enums import ChatType
 from ass_tg.types import OptionalArg
 from stfu_tg import Doc, KeyValue, Section, Title, UserLink
 
 from korone.args.users import KoroneUserArg
-from korone.db.models.chat import ChatModel, ChatType, UserInGroupModel
+from korone.db.repositories import chat as chat_repo
 from korone.filters.cmd import CMDFilter
 from korone.modules.utils_.admin import is_chat_creator, is_user_admin
 from korone.utils.handlers import KoroneMessageHandler
@@ -14,6 +15,8 @@ from korone.utils.i18n import lazy_gettext as l_
 
 if TYPE_CHECKING:
     from aiogram.dispatcher.event.handler import CallbackType
+
+    from korone.db.models.chat import ChatModel
 
 
 @flags.help(description=l_("Shows the additional information about the user."))
@@ -29,14 +32,14 @@ class UserInfoHandler(KoroneMessageHandler):
         if not target_user:
             user = getattr(self.event, "from_user", None)
             if user:
-                target_user = await ChatModel.get_by_tid(user.id)
+                target_user = await chat_repo.get_by_chat_id(user.id)
 
         if not target_user:
             await self.event.reply(_("Could not identify user."))
             return
 
-        chat_tid = self.chat.tid
-        user_tid = target_user.id
+        chat_id = self.chat.chat_id
+        user_id = target_user.id
 
         doc = Doc(Title(_("User Information")))
 
@@ -53,13 +56,13 @@ class UserInfoHandler(KoroneMessageHandler):
 
         doc += Section()
 
-        if not self.chat.type == ChatType.private:
-            if await is_chat_creator(chat_tid, user_tid):
+        if not self.chat.type == ChatType.PRIVATE:
+            if await is_chat_creator(chat_id, user_id):
                 doc += _("This user is the owner of this chat.") + "\n"
-            elif await is_user_admin(chat_tid, user_tid):
+            elif await is_user_admin(chat_id, user_id):
                 doc += _("This user is an admin in this chat.") + "\n"
 
-        shared_chats_count = await UserInGroupModel.count_user_groups(target_user.id)
+        shared_chats_count = await chat_repo.count_user_groups(target_user.id)
 
         doc += KeyValue(_("Shared Chats"), shared_chats_count)
 

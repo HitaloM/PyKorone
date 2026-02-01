@@ -6,7 +6,7 @@ from stfu_tg import Doc, Section, Template, Title, UserLink, VList
 
 from korone import aredis
 from korone.constants import TELEGRAM_ANONYMOUS_ADMIN_BOT_ID
-from korone.db.models.chat import ChatModel
+from korone.db.repositories import chat as chat_repo
 from korone.filters.cmd import CMDFilter
 from korone.modules.utils_.chat_member import update_chat_members
 from korone.utils.handlers import KoroneMessageHandler
@@ -30,12 +30,12 @@ class AdminListHandler(KoroneMessageHandler):
             await self.event.reply(_("This command can only be used in groups."))
             return
 
-        chat_model = await ChatModel.get_by_tid(self.chat.tid)
+        chat_model = await chat_repo.get_by_chat_id(self.chat.chat_id)
         if not chat_model:
             await self.event.reply(_("Chat not found."))
             return
 
-        cache_key = f"chat_admins:{chat_model.tid}"
+        cache_key = f"chat_admins:{chat_model.chat_id}"
         raw = await aredis.get(cache_key)
         if raw is None:
             await update_chat_members(chat_model)
@@ -50,8 +50,8 @@ class AdminListHandler(KoroneMessageHandler):
             except TypeError, ValueError, UnicodeDecodeError:
                 admins = {}
 
-            for user_tid, admin_data in admins.items():
-                user_model = await ChatModel.get_by_tid(int(user_tid))
+            for user_id, admin_data in admins.items():
+                user_model = await chat_repo.get_by_chat_id(int(user_id))
                 if not user_model:
                     continue
 

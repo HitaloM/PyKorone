@@ -7,7 +7,7 @@ from ass_tg.middleware import ArgsMiddleware
 from . import bot, dp
 from .config import CONFIG
 from .db.init import init_db
-from .db.models.chat import ChatModel
+from .db.repositories import chat as chat_repo
 from .db.session import dispose_engine
 from .logging import get_logger, setup_logging
 from .middlewares import localization_middleware
@@ -28,7 +28,7 @@ def parse_args() -> argparse.Namespace:
 
 async def ensure_bot_in_db() -> None:
     bot_user = await bot.get_me()
-    await ChatModel.upsert_user(bot_user)
+    await chat_repo.upsert_user(bot_user)
     await logger.ainfo("Bot user ensured in DB", bot_id=bot_user.id, username=bot_user.username)
 
 

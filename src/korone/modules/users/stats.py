@@ -1,6 +1,7 @@
+from aiogram.enums import ChatType
 from stfu_tg import Code, HList, KeyValue, Section
 
-from korone.db.models.chat import ChatModel, ChatType
+from korone.db.repositories import chat as chat_repo
 
 
 async def users_stats() -> Section:
@@ -8,19 +9,19 @@ async def users_stats() -> Section:
         KeyValue(
             "Total",
             HList(
-                KeyValue("users", Code(await ChatModel.total_count((ChatType.private,))), title_bold=False),
+                KeyValue("users", Code(await chat_repo.total_count((ChatType.PRIVATE,))), title_bold=False),
                 KeyValue(
-                    "groups", Code(await ChatModel.total_count((ChatType.supergroup, ChatType.group))), title_bold=False
+                    "groups", Code(await chat_repo.total_count((ChatType.SUPERGROUP, ChatType.GROUP))), title_bold=False
                 ),
             ),
         ),
         KeyValue(
             "New (48h)",
             HList(
-                KeyValue("users", Code(await ChatModel.new_count_last_48h((ChatType.private,))), title_bold=False),
+                KeyValue("users", Code(await chat_repo.new_count_last_48h((ChatType.PRIVATE,))), title_bold=False),
                 KeyValue(
                     "groups",
-                    Code(await ChatModel.new_count_last_48h((ChatType.supergroup, ChatType.group))),
+                    Code(await chat_repo.new_count_last_48h((ChatType.SUPERGROUP, ChatType.GROUP))),
                     title_bold=False,
                 ),
             ),
@@ -28,10 +29,10 @@ async def users_stats() -> Section:
         KeyValue(
             "Active (48h)",
             HList(
-                KeyValue("users", Code(await ChatModel.active_count_last_48h((ChatType.private,))), title_bold=False),
+                KeyValue("users", Code(await chat_repo.active_count_last_48h((ChatType.PRIVATE,))), title_bold=False),
                 KeyValue(
                     "groups",
-                    Code(await ChatModel.active_count_last_48h((ChatType.supergroup, ChatType.group))),
+                    Code(await chat_repo.active_count_last_48h((ChatType.SUPERGROUP, ChatType.GROUP))),
                     title_bold=False,
                 ),
             ),

@@ -65,7 +65,7 @@ class TriggerExport(KoroneMessageHandler):
         await self.event.reply(_("Export is started, this may take a while."))
 
         data = self.get_initial_data(self.chat)
-        modules_data = await self.get_data(self.chat.tid)
+        modules_data = await self.get_data(self.chat.chat_id)
 
         for module_data in modules_data:
             data.update(module_data)
@@ -79,7 +79,7 @@ class TriggerExport(KoroneMessageHandler):
         return {
             "general": {
                 "chat_name": chat.title,
-                "chat_id": chat.tid,
+                "chat_id": chat.chat_id,
                 "date": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
                 "version": VERSION,
             },

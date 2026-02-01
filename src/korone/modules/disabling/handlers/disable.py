@@ -4,7 +4,7 @@ from aiogram import flags
 from ass_tg.types import WordArg
 from stfu_tg import Code, Italic, KeyValue, Section, Template
 
-from korone.db.models.disabling import DisablingModel
+from korone.db.repositories import disabling as disabling_repo
 from korone.filters.admin_rights import UserRestricting
 from korone.filters.cmd import CMDFilter
 from korone.modules.disabling.utils.get_disabled import get_cmd_help_by_name, get_disabled_handlers
@@ -26,7 +26,7 @@ class DisableHandler(KoroneMessageHandler):
 
     @staticmethod
     async def disable_cmd(chat_id: int, cmd: str) -> None:
-        await DisablingModel.disable(chat_id, cmd)
+        await disabling_repo.disable(chat_id, cmd)
 
     async def handle(self) -> None:
         cmd_name: str = self.data["cmd"].lower().removeprefix("/").removeprefix("!")
@@ -37,11 +37,11 @@ class DisableHandler(KoroneMessageHandler):
             await self.event.reply(str(Template(_("Command {cmd} not found."), cmd=Code("/" + cmd_name))))
             return
 
-        if handler in await get_disabled_handlers(self.chat.tid):
+        if handler in await get_disabled_handlers(self.chat.chat_id):
             await self.event.reply(str(Template(_("Command {cmd} is already disabled."), cmd=Code("/" + cmd_name))))
             return
 
-        await self.disable_cmd(self.chat.tid, handler.cmds[0])
+        await self.disable_cmd(self.chat.chat_id, handler.cmds[0])
         await self.event.reply(
             str(
                 Section(

@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 import json
-from typing import Literal
+from typing import TYPE_CHECKING, Literal
 
 from aiogram.enums import ChatMemberStatus
 from aiogram.exceptions import TelegramBadRequest
@@ -9,9 +9,12 @@ from aiogram.exceptions import TelegramBadRequest
 from korone import aredis
 from korone.config import CONFIG
 from korone.constants import TELEGRAM_ANONYMOUS_ADMIN_BOT_ID
-from korone.db.models.chat import ChatModel
+from korone.db.repositories import chat as chat_repo
 from korone.logging import get_logger
 from korone.modules.utils_.chat_member import update_chat_members
+
+if TYPE_CHECKING:
+    from korone.db.models.chat import ChatModel
 
 logger = get_logger(__name__)
 
@@ -28,9 +31,9 @@ AdminPermission = Literal[
 
 
 async def _resolve_model(model_id: int) -> ChatModel | None:
-    if model := await ChatModel.get_by_id(model_id):
+    if model := await chat_repo.get_by_id(model_id):
         return model
-    return await ChatModel.get_by_tid(model_id)
+    return await chat_repo.get_by_chat_id(model_id)
 
 
 async def check_user_admin_permissions(
@@ -63,7 +66,7 @@ async def check_user_admin_permissions(
     if user_model.id == TELEGRAM_ANONYMOUS_ADMIN_BOT_ID:
         return True
     try:
-        cache_key = f"chat_admins:{chat_model.tid}"
+        cache_key = f"chat_admins:{chat_model.chat_id}"
         raw = await aredis.get(cache_key)
 
         if raw is None:
@@ -79,7 +82,7 @@ async def check_user_admin_permissions(
             await logger.adebug("check_user_admin_permissions: invalid admins cache", key=cache_key)
             return False
 
-        admin_data = admins.get(str(user_model.tid))
+        admin_data = admins.get(str(user_model.chat_id))
         if not admin_data:
             return False
 
@@ -118,7 +121,7 @@ async def is_chat_creator(chat: int, user: int) -> bool:
     if not user_model:
         return False
 
-    cache_key = f"chat_admins:{chat_model.tid}"
+    cache_key = f"chat_admins:{chat_model.chat_id}"
     raw = await aredis.get(cache_key)
     if raw is None:
         await update_chat_members(chat_model)
@@ -131,7 +134,7 @@ async def is_chat_creator(chat: int, user: int) -> bool:
         await logger.adebug("is_chat_creator: invalid admins cache", key=cache_key)
         return False
 
-    admin_data = admins.get(str(user_model.tid))
+    admin_data = admins.get(str(user_model.chat_id))
     if not admin_data:
         return False
 

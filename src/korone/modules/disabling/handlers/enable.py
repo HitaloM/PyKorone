@@ -4,7 +4,7 @@ from aiogram import flags
 from ass_tg.types import WordArg
 from stfu_tg import Code, Italic, KeyValue, Section, Template
 
-from korone.db.models.disabling import DisablingModel
+from korone.db.repositories import disabling as disabling_repo
 from korone.filters.admin_rights import UserRestricting
 from korone.filters.cmd import CMDFilter
 from korone.modules.disabling.utils.get_disabled import get_cmd_help_by_name, get_disabled_handlers
@@ -16,6 +16,8 @@ from korone.utils.i18n import lazy_gettext as l_
 if TYPE_CHECKING:
     from aiogram.dispatcher.event.handler import CallbackType
 
+    from korone.db.models.disabling import DisablingModel
+
 
 @flags.args(cmd=WordArg(l_("Command")))
 @flags.help(description=l_("Enables previously disabled command."))
@@ -26,7 +28,7 @@ class EnableHandler(KoroneMessageHandler):
 
     @staticmethod
     async def enable_cmd(chat_id: int, cmd: str) -> DisablingModel:
-        return await DisablingModel.enable(chat_id, cmd)
+        return await disabling_repo.enable(chat_id, cmd)
 
     async def handle(self) -> None:
         cmd_name: str = self.data["cmd"].lower().removeprefix("/").removeprefix("!")
@@ -37,11 +39,11 @@ class EnableHandler(KoroneMessageHandler):
             await self.event.reply(str(Template(_("Command {cmd} not found."), cmd=Code("/" + cmd_name))))
             return
 
-        if handler not in await get_disabled_handlers(self.chat.tid):
+        if handler not in await get_disabled_handlers(self.chat.chat_id):
             await self.event.reply(str(Template(_("Command {cmd} is already disabled."), cmd=Code("/" + cmd_name))))
             return
 
-        await self.enable_cmd(self.chat.tid, handler.cmds[0])
+        await self.enable_cmd(self.chat.chat_id, handler.cmds[0])
 
         await self.event.reply(
             str(

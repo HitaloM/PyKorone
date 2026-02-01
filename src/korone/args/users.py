@@ -5,8 +5,8 @@ from ass_tg.types import OrArg
 from ass_tg.types.base_abc import ArgFabric
 from stfu_tg import UserLink
 
-from korone.db.db_exceptions import DBNotFoundException
 from korone.db.models.chat import ChatModel
+from korone.db.repositories import chat as chat_repo
 from korone.utils.i18n import gettext as _
 from korone.utils.i18n import lazy_gettext as l_
 
@@ -34,9 +34,9 @@ class KoroneUserIDArg(ArgFabric):
         length = len(str(user_id))
 
         try:
-            user = await ChatModel.find_user(user_id)
+            user = await chat_repo.find_user(user_id)
             return length, user
-        except DBNotFoundException:
+        except LookupError:
             if not self.allow_unknown_id:
                 raise ArgStrictError(_("Could not find the requested User ID in the database."))
 
@@ -57,9 +57,9 @@ class KoroneUsernameArg(ArgFabric):
         length = len(username) + len(self.prefix)
 
         try:
-            user = await ChatModel.find_user_by_username(username)
+            user = await chat_repo.find_user_by_username(username)
             return length, user
-        except DBNotFoundException:
+        except LookupError:
             raise ArgStrictError(_("Could not find the requested Username in the database."))
 
 
@@ -86,15 +86,15 @@ class KoroneUserMentionArg(ArgFabric):
         else:
             username = mention_text.lstrip("@")
             try:
-                user = await ChatModel.find_user_by_username(username)
+                user = await chat_repo.find_user_by_username(username)
                 return length, user
-            except DBNotFoundException:
+            except LookupError:
                 raise ArgStrictError(_("Could not find the mentioned user in the database."))
 
         try:
-            user = await ChatModel.find_user(aiogram_user.id)
-        except DBNotFoundException:
-            user = await ChatModel.upsert_user(aiogram_user)
+            user = await chat_repo.find_user(aiogram_user.id)
+        except LookupError:
+            user = await chat_repo.upsert_user(aiogram_user)
 
         return length, user
 
