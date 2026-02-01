@@ -1,7 +1,6 @@
-from typing import Any
+from typing import TYPE_CHECKING
 
-from aiogram import Router, flags
-from aiogram.fsm.context import FSMContext
+from aiogram import flags
 from aiogram.types import InlineKeyboardButton
 from aiogram.utils.keyboard import InlineKeyboardBuilder
 from stfu_tg import Doc, Template, Url
@@ -15,15 +14,19 @@ from korone.modules.utils_.callbacks import GoToStartCallback, LanguageButtonCal
 from korone.utils.handlers import KoroneMessageCallbackQueryHandler
 from korone.utils.i18n import gettext as _
 
+if TYPE_CHECKING:
+    from aiogram import Router
+    from aiogram.fsm.context import FSMContext
+
 
 @flags.help(exclude=True)
 class StartPMHandler(KoroneMessageCallbackQueryHandler):
     @classmethod
-    def register(cls, router: Router):
+    def register(cls, router: Router) -> None:
         router.message.register(cls, CMDFilter("start"), ChatTypeFilter("private"))
         router.callback_query.register(cls, ChatTypeFilter("private"), GoToStartCallback.filter())
 
-    async def handle(self) -> Any:
+    async def handle(self) -> None:
         state: FSMContext = self.state
 
         await state.clear()
@@ -38,7 +41,8 @@ class StartPMHandler(KoroneMessageCallbackQueryHandler):
 
         text = Doc(
             _(
-                "Hi, I'm Korone! An all-in-one bot. I can help you with lots of things. Just click on the buttons below to get started."
+                "Hi, I'm Korone! An all-in-one bot. I can help you with lots of things. "
+                "Just click on the buttons below to get started."
             ),
             Template(
                 _("Join my {channel} to get information on all the latest updates."),

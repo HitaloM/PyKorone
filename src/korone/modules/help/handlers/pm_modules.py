@@ -1,7 +1,6 @@
-from typing import Any, Optional
+from typing import TYPE_CHECKING, cast
 
-from aiogram import Router, flags
-from aiogram.dispatcher.event.handler import CallbackType
+from aiogram import flags
 from aiogram.types import CallbackQuery, InlineKeyboardButton
 from aiogram.utils.keyboard import InlineKeyboardBuilder
 from stfu_tg import Doc, HList, Section, Title
@@ -16,17 +15,21 @@ from korone.utils.handlers import KoroneCallbackQueryHandler, KoroneMessageCallb
 from korone.utils.i18n import gettext as _
 from korone.utils.i18n import lazy_gettext as l_
 
+if TYPE_CHECKING:
+    from aiogram import Router
+    from aiogram.dispatcher.event.handler import CallbackType
+
 
 @flags.help(description=l_("Shows help overview for all modules"))
 class PMModulesList(KoroneMessageCallbackQueryHandler):
     @classmethod
-    def register(cls, router: Router):
+    def register(cls, router: Router) -> None:
         router.message.register(cls, PMHelpStartUrlCallback.filter(), ChatTypeFilter("private"))
         router.message.register(cls, CMDFilter("help"), ChatTypeFilter("private"))
         router.callback_query.register(cls, PMHelpModules.filter())
 
-    async def handle(self) -> Any:
-        callback_data: Optional[PMHelpModules] = self.data.get("callback_data", None)
+    async def handle(self) -> None:
+        callback_data: PMHelpModules | None = self.data.get("callback_data", None)
 
         modules = {k: v for k, v in sorted(HELP_MODULES.items(), key=lambda item: str(item[1].name))}
 
@@ -62,8 +65,8 @@ class PMModuleHelp(KoroneCallbackQueryHandler):
     def filters() -> tuple[CallbackType, ...]:
         return (PMHelpModule.filter(),)
 
-    async def handle(self) -> Any:
-        callback_data: PMHelpModule = self.callback_data
+    async def handle(self) -> None:
+        callback_data = cast("PMHelpModule", self.callback_data)
         module_name = callback_data.module_name
         module = HELP_MODULES[module_name]
 

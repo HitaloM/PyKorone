@@ -3,7 +3,7 @@ from stfu_tg import Code, HList, KeyValue, Section
 from korone.db.models.chat import ChatModel, ChatType
 
 
-async def users_stats():
+async def users_stats() -> Section:
     return Section(
         KeyValue(
             "Total",

@@ -1,12 +1,16 @@
 import json
+from typing import TYPE_CHECKING
 
 from aiogram.exceptions import TelegramBadRequest
-from aiogram.types import ResultChatMemberUnion
+from redis.exceptions import RedisError
 
 from korone import aredis, bot
 from korone.constants import CACHE_DEFAULT_TTL_SECONDS
 from korone.db.models.chat import ChatModel
 from korone.logging import get_logger
+
+if TYPE_CHECKING:
+    from aiogram.types import ResultChatMemberUnion
 
 logger = get_logger(__name__)
 
@@ -37,5 +41,5 @@ async def update_chat_members(chat: ChatModel) -> None:
     try:
         await aredis.set(key, json.dumps(admins_map), ex=CACHE_DEFAULT_TTL_SECONDS)
         await logger.adebug("update_chat_members: updated redis cache", key=key, count=len(admins_map))
-    except Exception:
+    except RedisError:
         await logger.adebug("update_chat_members: failed to set redis cache", key=key)

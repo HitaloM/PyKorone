@@ -16,7 +16,8 @@ __module_description__ = l_("Get information about users.")
 __module_info__ = LazyProxy(
     lambda: Doc(
         l_(
-            "Various commands to get information about users, such as their IDs and detailed info. It also includes a command to list all administrators in the chat."
+            "Various commands to get information about users, such as their IDs and detailed info. "
+            "It also includes a command to list all administrators in the chat."
         )
     )
 )

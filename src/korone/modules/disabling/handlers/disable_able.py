@@ -1,15 +1,19 @@
-from typing import Any
+from typing import TYPE_CHECKING
 
 from aiogram import flags
-from aiogram.dispatcher.event.handler import CallbackType
 from stfu_tg import Section
 
 from korone.filters.cmd import CMDFilter
-from korone.modules.help.utils.extract_info import DISABLEABLE_CMDS, HandlerHelp
+from korone.modules.help.utils.extract_info import DISABLEABLE_CMDS
 from korone.modules.help.utils.format_help import format_handlers
 from korone.utils.handlers import KoroneMessageHandler
 from korone.utils.i18n import gettext as _
 from korone.utils.i18n import lazy_gettext as l_
+
+if TYPE_CHECKING:
+    from aiogram.dispatcher.event.handler import CallbackType
+
+    from korone.modules.help.utils.extract_info import HandlerHelp
 
 
 @flags.help(description=l_("Lists all commands that can be disabled."))
@@ -23,7 +27,7 @@ class ListDisableable(KoroneMessageHandler):
     def get_disable_able_commands() -> list[HandlerHelp]:
         return list(x for x in DISABLEABLE_CMDS if x.disableable)
 
-    async def handle(self) -> Any:
+    async def handle(self) -> None:
         await self.event.reply(
             str(
                 Section(

@@ -1,7 +1,6 @@
-from typing import Any
+from typing import TYPE_CHECKING
 
 from aiogram import flags
-from aiogram.dispatcher.event.handler import CallbackType
 from aiogram.types import InlineKeyboardButton
 from aiogram.utils.keyboard import InlineKeyboardBuilder
 
@@ -12,6 +11,9 @@ from korone.utils.handlers import KoroneMessageHandler
 from korone.utils.i18n import gettext as _
 from korone.utils.i18n import lazy_gettext as l_
 
+if TYPE_CHECKING:
+    from aiogram.dispatcher.event.handler import CallbackType
+
 
 @flags.disableable(name="help")
 @flags.help(description=l_("Shows the help message"))
@@ -20,7 +22,7 @@ class HelpGroupHandler(KoroneMessageHandler):
     def filters() -> tuple[CallbackType, ...]:
         return CMDFilter("help"), ~ChatTypeFilter("private")
 
-    async def handle(self) -> Any:
+    async def handle(self) -> None:
         text = _("The help information available in the private messages with Korone")
 
         buttons = InlineKeyboardBuilder()

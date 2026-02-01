@@ -1,4 +1,4 @@
-from types import ModuleType
+from typing import TYPE_CHECKING
 
 from aiogram import Router
 from stfu_tg import Doc
@@ -15,6 +15,9 @@ from .handlers.start_pm import StartPMHandler
 from .stats import help_stats
 from .utils.extract_info import HELP_MODULES, gather_module_help
 
+if TYPE_CHECKING:
+    from types import ModuleType
+
 router = Router(name="info")
 
 logger = get_logger(__name__)
@@ -30,7 +33,7 @@ __handlers__ = (StartPMHandler, HelpGroupHandler, PMModulesList, StartGroupHandl
 __stats__ = help_stats
 
 
-async def __post_setup__(modules: dict[str, ModuleType]):
+async def __post_setup__(modules: dict[str, ModuleType]) -> None:
     for name, module in modules.items():
         if module_help := await gather_module_help(module):
             if name in HELP_MODULES:

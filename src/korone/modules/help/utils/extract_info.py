@@ -1,25 +1,30 @@
 from collections import OrderedDict
+from collections.abc import Callable, Coroutine
 from dataclasses import dataclass
 from inspect import iscoroutinefunction
 from itertools import chain
-from types import ModuleType
-from typing import Any, Callable, Coroutine, Dict, Optional, cast
+from typing import TYPE_CHECKING, cast
 
-from aiogram import Router
 from aiogram.filters.logic import _InvertFilter
 from aiogram.types import Message
 from ass_tg.types.base_abc import ArgFabric
-from babel.support import LazyProxy
-from stfu_tg import Doc
 
 from korone.filters.admin_rights import UserRestricting
 from korone.filters.chat_status import ChatTypeFilter
 from korone.filters.cmd import CMDFilter
 from korone.filters.user_status import IsOP
 from korone.logging import get_logger
+from korone.utils.handlers import HandlerData
+
+if TYPE_CHECKING:
+    from types import ModuleType
+
+    from aiogram import Router
+    from babel.support import LazyProxy
+    from stfu_tg import Doc
 
 ARGS_DICT = dict[str, ArgFabric]
-ARGS_COROUTINE = Callable[[Optional[Message], Dict[str, Any]], Coroutine[Any, Any, ARGS_DICT]]
+ARGS_COROUTINE = Callable[[Message | None, HandlerData], Coroutine[None, None, ARGS_DICT]]
 
 logger = get_logger(__name__)
 
@@ -27,14 +32,14 @@ logger = get_logger(__name__)
 @dataclass(frozen=True, slots=True)
 class HandlerHelp:
     cmds: tuple[str, ...]
-    args: Optional[ARGS_DICT]
-    description: Optional[LazyProxy | str]
+    args: ARGS_DICT | None
+    description: LazyProxy | str | None
     only_admin: bool
     only_op: bool
     only_pm: bool
     only_chats: bool
     alias_to_modules: list[str]
-    disableable: Optional[str]
+    disableable: str | None
 
 
 @dataclass(slots=True)
@@ -51,7 +56,7 @@ HELP_MODULES: OrderedDict[str, ModuleHelp] = OrderedDict()
 DISABLEABLE_CMDS: list[HandlerHelp] = []
 
 
-def get_aliased_cmds(module_name) -> dict[str, list[HandlerHelp]]:
+def get_aliased_cmds(module_name: str) -> dict[str, list[HandlerHelp]]:
     return {
         mod_name: [cmd for cmd in module.handlers if cmd.alias_to_modules and module_name in cmd.alias_to_modules]
         for mod_name, module in HELP_MODULES.items()
@@ -68,14 +73,14 @@ def get_all_cmds_raw() -> tuple[str, ...]:
     return tuple(cmd for cmds in get_all_cmds() for cmd in cmds.cmds)
 
 
-async def gather_cmd_args(args: ARGS_DICT | ARGS_COROUTINE | None) -> Optional[ARGS_DICT]:
+async def gather_cmd_args(args: ARGS_DICT | ARGS_COROUTINE | None) -> ARGS_DICT | None:
     if not args:
         return None
     if isinstance(args, dict):
-        return cast(ARGS_DICT, args)
+        return cast("ARGS_DICT", args)
     if iscoroutinefunction(args):
         result = await args(None, {})
-        return cast(ARGS_DICT, result)
+        return cast("ARGS_DICT", result)
     raise ValueError
 
 
@@ -151,7 +156,7 @@ async def gather_cmds_help(router: Router) -> list[HandlerHelp]:
     return helps
 
 
-async def gather_module_help(module: ModuleType) -> Optional[ModuleHelp]:
+async def gather_module_help(module: ModuleType) -> ModuleHelp | None:
     if not hasattr(module, "router"):
         return None
 

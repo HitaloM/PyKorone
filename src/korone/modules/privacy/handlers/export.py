@@ -1,21 +1,31 @@
+from __future__ import annotations
+
 from datetime import date as _date
 from datetime import datetime
 from enum import Enum
-from types import ModuleType
-from typing import Any
+from typing import TYPE_CHECKING, cast
 
 from aiogram import flags
-from aiogram.dispatcher.event.handler import CallbackType
 from aiogram.types import BufferedInputFile
 from ujson import dumps
 
 from korone.filters.cmd import CMDFilter
-from korone.middlewares.chat_context import ChatContext
 from korone.utils.handlers import KoroneMessageHandler
 from korone.utils.i18n import gettext as _
 from korone.utils.i18n import lazy_gettext as l_
 
+if TYPE_CHECKING:
+    from types import ModuleType
+
+    from aiogram.dispatcher.event.handler import CallbackType
+
+    from korone.middlewares.chat_context import ChatContext
+
 VERSION = 6
+
+type JsonPrimitive = str | int | float | bool | None
+type JsonValue = JsonPrimitive | list[JsonValue] | dict[str, JsonValue]
+type ExportValue = JsonValue
 
 EXPORTABLE_MODULES: list[ModuleType] = []
 
@@ -24,11 +34,11 @@ def text_to_buffered_file(text: str, filename: str = "data.txt") -> BufferedInpu
     return BufferedInputFile(text.encode(), filename=filename)
 
 
-def _make_serializable(obj: Any) -> Any:
+def _make_serializable(obj: ExportValue | Enum | datetime | _date) -> ExportValue:
     if isinstance(obj, dict):
-        return {k: _make_serializable(v) for k, v in obj.items()}
+        return {str(k): _make_serializable(cast("ExportValue | Enum | datetime | _date", v)) for k, v in obj.items()}
     if isinstance(obj, (list, tuple, set)):
-        return [_make_serializable(v) for v in obj]
+        return [_make_serializable(cast("ExportValue | Enum | datetime | _date", v)) for v in obj]
     if isinstance(obj, Enum):
         return obj.value
     if isinstance(obj, datetime) or isinstance(obj, _date):
@@ -43,7 +53,7 @@ class TriggerExport(KoroneMessageHandler):
         return (CMDFilter("export"),)
 
     @staticmethod
-    async def get_data(chat_id: int) -> list[dict[str, Any]]:
+    async def get_data(chat_id: int) -> list[dict[str, ExportValue]]:
         return list(
             filter(
                 None,
@@ -51,7 +61,7 @@ class TriggerExport(KoroneMessageHandler):
             )
         )
 
-    async def handle(self) -> Any:
+    async def handle(self) -> None:
         await self.event.reply(_("Export is started, this may take a while."))
 
         data = self.get_initial_data(self.chat)
@@ -65,7 +75,7 @@ class TriggerExport(KoroneMessageHandler):
         await self.event.reply_document(jfile, caption=text)
 
     @staticmethod
-    def get_initial_data(chat: ChatContext) -> dict[str, Any]:
+    def get_initial_data(chat: ChatContext) -> dict[str, ExportValue]:
         return {
             "general": {
                 "chat_name": chat.title,
@@ -73,5 +83,5 @@ class TriggerExport(KoroneMessageHandler):
                 "date": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
                 "version": VERSION,
             },
-            "chat_db": chat.db_model.to_dict(),
+            "chat_db": _make_serializable(cast("ExportValue | Enum | datetime | _date", chat.db_model.to_dict())),
         }

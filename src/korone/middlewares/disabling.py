@@ -1,4 +1,4 @@
-from typing import Any, Awaitable, Callable, Dict
+from typing import TYPE_CHECKING
 
 from aiogram import BaseMiddleware
 from aiogram.dispatcher.event.bases import SkipHandler
@@ -9,16 +9,25 @@ from korone.db.models.disabling import DisablingModel
 from korone.logging import get_logger
 from korone.modules.utils_.admin import is_user_admin
 
+if TYPE_CHECKING:
+    from collections.abc import Awaitable, Callable
+
 logger = get_logger(__name__)
+
+type HandlerResult = TelegramObject | bool | None
+type MiddlewareDataValue = (
+    str | int | float | bool | TelegramObject | list[str] | dict[str, str | int | float | bool | None] | None
+)
+type MiddlewareData = dict[str, MiddlewareDataValue]
 
 
 class DisablingMiddleware(BaseMiddleware):
     async def __call__(
         self,
-        handler: Callable[[TelegramObject, Dict[str, Any]], Awaitable[Any]],
+        handler: Callable[[TelegramObject, MiddlewareData], Awaitable[HandlerResult]],
         event: TelegramObject,
-        data: Dict[str, Any],
-    ) -> Any:
+        data: MiddlewareData,
+    ) -> HandlerResult:
         if isinstance(event, Message):
             chat_id = event.chat.id
             disabled = await DisablingModel.get_disabled(chat_id)

@@ -1,4 +1,4 @@
-from typing import Any, Callable, Coroutine, Optional
+from collections.abc import Awaitable, Callable
 
 from aiogram.exceptions import (
     TelegramAPIError,
@@ -7,7 +7,6 @@ from aiogram.exceptions import (
     TelegramMigrateToChat,
     TelegramNotFound,
 )
-from aiogram.methods import TelegramMethod
 
 from korone.logging import get_logger
 from korone.modules.utils_.telegram_exceptions import (
@@ -17,14 +16,16 @@ from korone.modules.utils_.telegram_exceptions import (
     USER_ALREADY_PARTICIPANT,
 )
 
-COROUTINE_TYPE = Coroutine[Any, Any, Any] | TelegramMethod
-CALLBACK_COROUTINE_TYPE = Callable[[], COROUTINE_TYPE]
+type COROUTINE_TYPE[T] = Awaitable[T]
+type CALLBACK_COROUTINE_TYPE[T] = Callable[[], COROUTINE_TYPE[T]]
 IGNORED_EXCEPTIONS = (TelegramNotFound, TelegramForbiddenError, TelegramMigrateToChat)
 
 logger = get_logger(__name__)
 
 
-async def common_try(to_try: COROUTINE_TYPE, reply_not_found: Optional[CALLBACK_COROUTINE_TYPE] = None) -> Any:
+async def common_try[T](
+    to_try: COROUTINE_TYPE[T], reply_not_found: CALLBACK_COROUTINE_TYPE[T] | None = None
+) -> T | None:
     try:
         await logger.adebug("common_try: Trying to execute callback")
         return await to_try

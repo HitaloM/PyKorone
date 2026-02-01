@@ -1,7 +1,6 @@
-from typing import Any
+from typing import TYPE_CHECKING
 
 from aiogram import flags
-from aiogram.dispatcher.event.handler import CallbackType
 from ass_tg.types import WordArg
 from stfu_tg import Code, Italic, KeyValue, Section, Template
 
@@ -14,6 +13,9 @@ from korone.utils.handlers import KoroneMessageHandler
 from korone.utils.i18n import gettext as _
 from korone.utils.i18n import lazy_gettext as l_
 
+if TYPE_CHECKING:
+    from aiogram.dispatcher.event.handler import CallbackType
+
 
 @flags.args(cmd=WordArg(l_("Command")))
 @flags.help(description=l_("Enables previously disabled command."))
@@ -23,10 +25,10 @@ class EnableHandler(KoroneMessageHandler):
         return CMDFilter("enable"), UserRestricting(admin=True)
 
     @staticmethod
-    async def enable_cmd(chat_id: int, cmd: str):
+    async def enable_cmd(chat_id: int, cmd: str) -> DisablingModel:
         return await DisablingModel.enable(chat_id, cmd)
 
-    async def handle(self) -> Any:
+    async def handle(self) -> None:
         cmd_name: str = self.data["cmd"].lower().removeprefix("/").removeprefix("!")
 
         handler = get_cmd_help_by_name(cmd_name)

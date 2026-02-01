@@ -1,4 +1,4 @@
-from typing import Any
+from typing import TYPE_CHECKING
 
 from aiogram import flags
 
@@ -11,16 +11,20 @@ from korone.utils.handlers import KoroneMessageHandler
 from korone.utils.i18n import gettext as _
 from korone.utils.i18n import lazy_gettext as l_
 
+if TYPE_CHECKING:
+    from aiogram.dispatcher.event.handler import CallbackType
+
 
 @flags.help(description=l_("Reset admin rights cache, use if Korone didn't get the recently added admin"))
 class ResetAdminCache(KoroneMessageHandler):
     @staticmethod
-    def filters():
+    def filters() -> tuple[CallbackType, ...]:
         return (CMDFilter("admincache"), UserRestricting(admin=True))
 
-    async def handle(self) -> Any:
+    async def handle(self) -> None:
         if self.chat.type == ChatType.private:
-            return await self.event.reply(_("You can't use this command in private chats."))
+            await self.event.reply(_("You can't use this command in private chats."))
+            return
 
         await get_admins_rights(self.chat.tid, force_update=True)
         await update_chat_members(self.chat.db_model)

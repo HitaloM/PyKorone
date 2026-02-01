@@ -1,5 +1,5 @@
 from sqlalchemy import Integer, String
-from sqlalchemy.orm import Mapped, mapped_column
+from sqlalchemy.orm import Mapped, mapped_column  # noqa: TC002
 
 from korone.config import CONFIG
 from korone.db.base import AsyncModelMixin, Base, get_one
@@ -24,7 +24,7 @@ class LanguageModel(Base, AsyncModelMixin):
         return item.lang if item else CONFIG.default_locale
 
     @staticmethod
-    async def set_locale(chat_id: int, lang: str) -> "LanguageModel":
+    async def set_locale(chat_id: int, lang: str) -> LanguageModel:
         async with session_scope() as session:
             item = await get_one(session, LanguageModel, LanguageModel.chat_id == chat_id)
             if item:

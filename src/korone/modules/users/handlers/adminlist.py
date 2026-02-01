@@ -1,8 +1,7 @@
-from typing import Any
+from typing import TYPE_CHECKING
 
 import ujson
 from aiogram import flags
-from aiogram.dispatcher.event.handler import CallbackType
 from stfu_tg import Doc, Section, Template, Title, UserLink, VList
 
 from korone import aredis
@@ -14,6 +13,10 @@ from korone.utils.handlers import KoroneMessageHandler
 from korone.utils.i18n import gettext as _
 from korone.utils.i18n import lazy_gettext as l_
 
+if TYPE_CHECKING:
+    from aiogram.dispatcher.event.handler import CallbackType
+    from stfu_tg.doc import Element
+
 
 @flags.help(description=l_("Lists all the chats admins."))
 @flags.disableable(name="adminlist")
@@ -22,13 +25,15 @@ class AdminListHandler(KoroneMessageHandler):
     def filters() -> tuple[CallbackType, ...]:
         return (CMDFilter(("adminlist", "admins")),)
 
-    async def handle(self) -> Any:
+    async def handle(self) -> None:
         if self.event.chat.type == "private":
-            return await self.event.reply(_("This command can only be used in groups."))
+            await self.event.reply(_("This command can only be used in groups."))
+            return
 
         chat_model = await ChatModel.get_by_tid(self.chat.tid)
         if not chat_model:
-            return await self.event.reply(_("Chat not found."))
+            await self.event.reply(_("Chat not found."))
+            return
 
         cache_key = f"chat_admins:{chat_model.tid}"
         raw = await aredis.get(cache_key)
@@ -38,11 +43,11 @@ class AdminListHandler(KoroneMessageHandler):
 
         doc = Doc(Title(Template(_("Admins in {chat_name}"), chat_name=self.event.chat.title)))
 
-        admin_items: list[Any] = []
+        admin_items: list[Element] = []
         if raw:
             try:
                 admins = ujson.loads(raw.decode() if isinstance(raw, (bytes, bytearray)) else raw)
-            except Exception:
+            except TypeError, ValueError, UnicodeDecodeError:
                 admins = {}
 
             for user_tid, admin_data in admins.items():

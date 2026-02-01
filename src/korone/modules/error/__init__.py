@@ -15,6 +15,6 @@ __exclude_public__ = True
 __handlers__ = (CrashHandler,)
 
 
-async def __pre_setup__():
+def __pre_setup__() -> None:
     router.error.middleware(try_localization_middleware)
     router.error.register(KoroneErrorHandler)

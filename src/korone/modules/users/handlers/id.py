@@ -1,16 +1,19 @@
-from typing import Any, Optional
+from typing import TYPE_CHECKING
 
 from aiogram import Router, flags
-from aiogram.dispatcher.event.handler import CallbackType
 from ass_tg.types import OptionalArg
 from stfu_tg import Code, Doc, Template, UserLink
 
 from korone.args.users import KoroneUserArg
-from korone.db.models.chat import ChatModel
 from korone.filters.cmd import CMDFilter
 from korone.utils.handlers import KoroneMessageHandler
 from korone.utils.i18n import gettext as _
 from korone.utils.i18n import lazy_gettext as l_
+
+if TYPE_CHECKING:
+    from aiogram.dispatcher.event.handler import CallbackType
+
+    from korone.db.models.chat import ChatModel
 
 router = Router(name="users")
 
@@ -22,10 +25,10 @@ router = Router(name="users")
 class ShowIDHandler(KoroneMessageHandler):
     @staticmethod
     def filters() -> tuple[CallbackType, ...]:
-        return (CMDFilter(("id")),)
+        return (CMDFilter("id"),)
 
-    async def handle(self) -> Any:
-        user: Optional[ChatModel] = self.data.get("user", None)
+    async def handle(self) -> None:
+        user: ChatModel | None = self.data.get("user", None)
 
         doc = Doc()
 
@@ -45,4 +48,5 @@ class ShowIDHandler(KoroneMessageHandler):
                 _("{user}'s ID: {id}"), user=UserLink(user_id=user.id, name=user.first_name_or_title), id=Code(user.id)
             )
 
-        return await self.event.reply(str(doc))
+        await self.event.reply(str(doc))
+        return

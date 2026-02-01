@@ -1,7 +1,5 @@
-from typing import Optional
-
 from sqlalchemy import JSON, Integer
-from sqlalchemy.orm import Mapped, mapped_column
+from sqlalchemy.orm import Mapped, mapped_column  # noqa: TC002
 
 from korone.db.base import AsyncModelMixin, Base, get_one
 from korone.db.db_exceptions import DBNotFoundException
@@ -26,7 +24,7 @@ class DisablingModel(Base, AsyncModelMixin):
         return disabled.cmds or []
 
     @staticmethod
-    async def disable(chat_id: int, cmd: str) -> "DisablingModel":
+    async def disable(chat_id: int, cmd: str) -> DisablingModel:
         async with session_scope() as session:
             model = await get_one(session, DisablingModel, DisablingModel.chat_id == chat_id)
             if not model:
@@ -41,7 +39,7 @@ class DisablingModel(Base, AsyncModelMixin):
             return model
 
     @staticmethod
-    async def enable(chat_id: int, cmd: str) -> "DisablingModel":
+    async def enable(chat_id: int, cmd: str) -> DisablingModel:
         async with session_scope() as session:
             model = await get_one(session, DisablingModel, DisablingModel.chat_id == chat_id)
             if not model or cmd not in (model.cmds or []):
@@ -52,7 +50,7 @@ class DisablingModel(Base, AsyncModelMixin):
             return model
 
     @staticmethod
-    async def enable_all(chat_id: int) -> Optional["DisablingModel"]:
+    async def enable_all(chat_id: int) -> DisablingModel | None:
         async with session_scope() as session:
             model = await get_one(session, DisablingModel, DisablingModel.chat_id == chat_id)
             if model:
@@ -60,7 +58,7 @@ class DisablingModel(Base, AsyncModelMixin):
             return model
 
     @staticmethod
-    async def set_disabled(chat_id: int, cmds: list[str]) -> "DisablingModel":
+    async def set_disabled(chat_id: int, cmds: list[str]) -> DisablingModel:
         async with session_scope() as session:
             model = await get_one(session, DisablingModel, DisablingModel.chat_id == chat_id)
             if not model:

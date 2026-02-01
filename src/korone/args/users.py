@@ -1,4 +1,5 @@
-from ass_tg.entities import ArgEntities
+from typing import TYPE_CHECKING
+
 from ass_tg.exceptions import ArgStrictError
 from ass_tg.types import OrArg
 from ass_tg.types.base_abc import ArgFabric
@@ -6,15 +7,19 @@ from stfu_tg import UserLink
 
 from korone.db.db_exceptions import DBNotFoundException
 from korone.db.models.chat import ChatModel
-from korone.utils.i18n import LazyProxy
 from korone.utils.i18n import gettext as _
 from korone.utils.i18n import lazy_gettext as l_
+
+if TYPE_CHECKING:
+    from ass_tg.entities import ArgEntities
+
+    from korone.utils.i18n import LazyProxy
 
 
 class KoroneUserIDArg(ArgFabric):
     __slots__ = ("allow_unknown_id",)
 
-    def __init__(self, *args, allow_unknown_id: bool = False):
+    def __init__(self, *args: str, allow_unknown_id: bool = False) -> None:
         super().__init__(*args)
         self.allow_unknown_id = allow_unknown_id
 
@@ -95,7 +100,7 @@ class KoroneUserMentionArg(ArgFabric):
 
 
 class KoroneUserArg(OrArg):
-    def __init__(self, *args, allow_unknown_id: bool = False):
+    def __init__(self, *args: str | LazyProxy, allow_unknown_id: bool = False) -> None:
         description = args[0] if args else None
         super().__init__(
             KoroneUserMentionArg(),

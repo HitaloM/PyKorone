@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 import json
-from typing import Literal, Optional, Union
+from typing import Literal
 
 from aiogram.enums import ChatMemberStatus
 from aiogram.exceptions import TelegramBadRequest
@@ -27,15 +27,15 @@ AdminPermission = Literal[
 ]
 
 
-async def _resolve_model(model_id: int) -> Optional[ChatModel]:
-    if model := await ChatModel.get_by_iid(model_id):
+async def _resolve_model(model_id: int) -> ChatModel | None:
+    if model := await ChatModel.get_by_id(model_id):
         return model
     return await ChatModel.get_by_tid(model_id)
 
 
 async def check_user_admin_permissions(
-    chat: int, user: int, required_permissions: Optional[list[str]] = None
-) -> Union[bool, list[str]]:
+    chat: int, user: int, required_permissions: list[str] | None = None
+) -> bool | list[str]:
     await logger.adebug("check_user_admin_permissions", chat=chat, user=user, permissions=required_permissions)
 
     if isinstance(chat, int) and isinstance(user, int):
@@ -75,7 +75,7 @@ async def check_user_admin_permissions(
 
         try:
             admins = json.loads(raw.decode() if isinstance(raw, (bytes, bytearray)) else raw)
-        except Exception:
+        except TypeError, UnicodeDecodeError, json.JSONDecodeError:
             await logger.adebug("check_user_admin_permissions: invalid admins cache", key=cache_key)
             return False
 
@@ -127,7 +127,7 @@ async def is_chat_creator(chat: int, user: int) -> bool:
         return False
     try:
         admins = json.loads(raw.decode() if isinstance(raw, (bytes, bytearray)) else raw)
-    except Exception:
+    except TypeError, UnicodeDecodeError, json.JSONDecodeError:
         await logger.adebug("is_chat_creator: invalid admins cache", key=cache_key)
         return False
 
@@ -139,7 +139,7 @@ async def is_chat_creator(chat: int, user: int) -> bool:
     return admin_status == ChatMemberStatus.CREATOR or admin_status == ChatMemberStatus.CREATOR.value
 
 
-async def get_admins_rights(chat: int, force_update: bool = False) -> None:
+async def get_admins_rights(chat: int, *, force_update: bool = False) -> None:
     chat_model = await _resolve_model(chat)
     if not chat_model:
         return

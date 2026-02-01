@@ -1,7 +1,8 @@
 from __future__ import annotations
 
 import math
-from typing import Any
+from types import ModuleType
+from typing import TYPE_CHECKING
 
 from aiogram import flags
 from stfu_tg import Code, Doc, Italic, KeyValue, Section, Template
@@ -15,12 +16,15 @@ from korone.utils.handlers import KoroneMessageHandler
 from korone.utils.i18n import lazy_gettext as l_
 from korone.versions import KORONE_VERSION
 
+if TYPE_CHECKING:
+    from aiogram.dispatcher.event.handler import CallbackType
+
 
 def convert_size(size_bytes: int) -> str:
     if size_bytes == 0:
         return "0B"
     size_name = ("B", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB")
-    i = int(math.floor(math.log(size_bytes, 1024)))
+    i = math.floor(math.log(size_bytes, 1024))
     p = math.pow(1024, i)
     s = round(size_bytes / p, 2)
     return f"{s} {size_name[i]}"
@@ -48,16 +52,18 @@ async def get_system_stats() -> Doc:
 @flags.help(description=l_("Show bot statistics."))
 class StatsHandler(KoroneMessageHandler):
     @staticmethod
-    def filters():
-        return (CMDFilter(("stats",)), IsOP(True))
+    def filters() -> tuple[CallbackType, ...]:
+        return (CMDFilter(("stats",)), IsOP(is_op=True))
 
-    async def handle(self):
+    async def handle(self) -> None:
         sec = Doc()
 
-        all_modules: list[Any] = list(LOADED_MODULES.values())
+        all_modules: list[ModuleType | str] = list(LOADED_MODULES.values())
         all_modules.extend(LOADED_MODULES)
 
         for module in all_modules:
+            if not isinstance(module, ModuleType):
+                continue
             if hasattr(module, "__stats__"):
                 res = module.__stats__()
                 if hasattr(res, "__await__"):

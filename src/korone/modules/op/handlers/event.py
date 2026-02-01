@@ -14,10 +14,10 @@ from korone.utils.i18n import lazy_gettext as l_
 @flags.help(description=l_("Prints the message event as JSON."))
 class EventHandler(KoroneMessageHandler):
     @staticmethod
-    def filters():
-        return (CMDFilter(("event",)), IsOP(True))
+    def filters() -> tuple:
+        return (CMDFilter(("event",)), IsOP(is_op=True))
 
-    async def handle(self):
+    async def handle(self) -> None:
         event_data = self.event.model_dump(mode="json")
         text = ujson.dumps(event_data, indent=2)
 

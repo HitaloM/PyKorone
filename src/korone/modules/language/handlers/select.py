@@ -1,5 +1,6 @@
+from typing import TYPE_CHECKING, cast
+
 from aiogram import flags
-from aiogram.dispatcher.event.handler import CallbackType
 from aiogram.types import InlineKeyboardButton, Message
 from aiogram.utils.keyboard import InlineKeyboardBuilder
 from magic_filter import F
@@ -14,8 +15,15 @@ from korone.utils.i18n import get_i18n
 from korone.utils.i18n import gettext as _
 from korone.utils.i18n import lazy_gettext as l_
 
+if TYPE_CHECKING:
+    from aiogram.dispatcher.event.handler import CallbackType
 
-def build_language_selection_keyboard(i18n, is_private: bool, back_to_start: bool = False) -> InlineKeyboardBuilder:
+    from korone.utils.i18n import I18nNew
+
+
+def build_language_selection_keyboard(
+    i18n: I18nNew, *, is_private: bool, back_to_start: bool = False
+) -> InlineKeyboardBuilder:
     keyboard = InlineKeyboardBuilder()
 
     all_locales = [i18n.default_locale, *sorted(i18n.available_locales)]
@@ -65,7 +73,7 @@ class LanguageSelectHandler(KoroneMessageHandler):
 
         i18n = get_i18n()
         text = _("Please select the language you want to use for the chat.")
-        keyboard = build_language_selection_keyboard(i18n, is_private, back_to_start=False)
+        keyboard = build_language_selection_keyboard(i18n, is_private=is_private, back_to_start=False)
 
         await self.event.reply(text, reply_markup=keyboard.as_markup())
 
@@ -83,12 +91,12 @@ class LanguageSelectCallbackHandler(KoroneCallbackQueryHandler):
 
         is_private = message.chat.type == "private"
 
-        callback_data: LangMenuCallback = self.callback_data
+        callback_data = cast("LangMenuCallback", self.callback_data)
         back_to_start = callback_data.back_to_start
 
         i18n = get_i18n()
         text = _("Please select the language you want to use for the chat.")
-        keyboard = build_language_selection_keyboard(i18n, is_private, back_to_start)
+        keyboard = build_language_selection_keyboard(i18n, is_private=is_private, back_to_start=back_to_start)
 
         await message.edit_text(text, reply_markup=keyboard.as_markup())
 

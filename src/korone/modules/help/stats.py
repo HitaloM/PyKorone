@@ -3,7 +3,7 @@ from stfu_tg import Code, KeyValue, Section, Template
 from korone.modules.help.utils.extract_info import HELP_MODULES
 
 
-async def help_stats():
+def help_stats() -> Section:
     modules = HELP_MODULES.values()
 
     return Section(

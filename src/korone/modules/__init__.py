@@ -1,13 +1,18 @@
 from importlib import import_module
-from types import ModuleType
-from typing import TYPE_CHECKING, Sequence, Type, Union
+from inspect import iscoroutinefunction
+from typing import TYPE_CHECKING
 
-import anyio
-from aiogram import Dispatcher, Router
+from anyio import create_task_group
+from anyio.to_thread import run_sync
 
 from korone.logging import get_logger as get_logger
 
 if TYPE_CHECKING:
+    from collections.abc import Sequence
+    from types import ModuleType
+
+    from aiogram import Dispatcher, Router
+
     from korone.utils.handlers import KoroneBaseHandler
 
 logger = get_logger(__name__)
@@ -16,7 +21,7 @@ LOADED_MODULES: dict[str, ModuleType] = {}
 MODULES = ["troubleshooters", "op", "error", "users", "help", "privacy", "disabling", "language"]
 
 
-async def load_modules(dp: Union[Dispatcher, Router], to_load: Sequence[str], to_not_load: Sequence[str] = ()):
+async def load_modules(dp: Dispatcher | Router, to_load: Sequence[str], to_not_load: Sequence[str] = ()) -> None:
     await logger.ainfo("Importing modules...")
     if "*" in to_load:
         await logger.adebug("Loading all modules...", modules=MODULES)
@@ -41,19 +46,25 @@ async def load_modules(dp: Union[Dispatcher, Router], to_load: Sequence[str], to
         if not (router := getattr(module, "router", None)):
             continue
 
-        handlers: Sequence[Type["KoroneBaseHandler"]] = getattr(module, "__handlers__", [])
+        handlers: Sequence[type[KoroneBaseHandler]] = getattr(module, "__handlers__", [])
         for handler in handlers:
             await logger.adebug(f"Registering handler {handler.__name__}...")
             handler.register(router)
 
-    async with anyio.create_task_group() as tg:
+    async with create_task_group() as tg:
         for module_name, module in LOADED_MODULES.items():
             if func := getattr(module, "__pre_setup__", None):
-                tg.start_soon(func)
+                if iscoroutinefunction(func):
+                    tg.start_soon(func)
+                else:
+                    tg.start_soon(run_sync, func)
 
-    async with anyio.create_task_group() as tg:
+    async with create_task_group() as tg:
         for module_name, module in LOADED_MODULES.items():
             if func := getattr(module, "__post_setup__", None):
-                tg.start_soon(func, LOADED_MODULES)
+                if iscoroutinefunction(func):
+                    tg.start_soon(func, LOADED_MODULES)
+                else:
+                    tg.start_soon(run_sync, func, LOADED_MODULES)
 
     await logger.ainfo(f"Loaded modules - {', '.join(LOADED_MODULES.keys())}")

@@ -1,5 +1,6 @@
+from typing import TYPE_CHECKING, cast
+
 from aiogram import flags
-from aiogram.dispatcher.event.handler import CallbackType
 from aiogram.types import InlineKeyboardButton, Message
 from aiogram.utils.keyboard import InlineKeyboardBuilder
 from magic_filter import F
@@ -10,9 +11,14 @@ from korone.filters.cmd import CMDFilter
 from korone.modules.language.callbacks import LangMenu, LangMenuCallback
 from korone.modules.utils_.callbacks import GoToStartCallback
 from korone.utils.handlers import KoroneCallbackQueryHandler, KoroneMessageHandler
-from korone.utils.i18n import I18nNew, get_i18n
+from korone.utils.i18n import get_i18n
 from korone.utils.i18n import gettext as _
 from korone.utils.i18n import lazy_gettext as l_
+
+if TYPE_CHECKING:
+    from aiogram.dispatcher.event.handler import CallbackType
+
+    from korone.utils.i18n import I18nNew
 
 
 def build_language_info_text(i18n: I18nNew) -> str:
@@ -28,7 +34,7 @@ def build_language_info_text(i18n: I18nNew) -> str:
     return str(section)
 
 
-def build_keyboard(is_private: bool, back_to_start: bool = False) -> InlineKeyboardBuilder:
+def build_keyboard(*, is_private: bool, back_to_start: bool = False) -> InlineKeyboardBuilder:
     button_text = _("👤 Change your language") if is_private else _("🌍 Change group language")
 
     keyboard = InlineKeyboardBuilder()
@@ -53,7 +59,7 @@ class LanguageInfoHandler(KoroneMessageHandler):
 
         i18n = get_i18n()
         text = build_language_info_text(i18n)
-        keyboard = build_keyboard(is_private, back_to_start=False)
+        keyboard = build_keyboard(is_private=is_private, back_to_start=False)
 
         await self.event.reply(text, reply_markup=keyboard.as_markup())
 
@@ -68,7 +74,7 @@ class LanguageInfoCallbackHandler(KoroneCallbackQueryHandler):
         i18n = get_i18n()
         text = build_language_info_text(i18n)
 
-        callback_data: LangMenuCallback = self.callback_data
+        callback_data = cast("LangMenuCallback", self.callback_data)
         back_to_start = callback_data.back_to_start
 
         keyboard = build_keyboard(is_private=True, back_to_start=back_to_start)

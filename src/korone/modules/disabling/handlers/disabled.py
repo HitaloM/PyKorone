@@ -1,7 +1,6 @@
-from typing import Any
+from typing import TYPE_CHECKING
 
 from aiogram import flags
-from aiogram.dispatcher.event.handler import CallbackType
 from stfu_tg import Section
 
 from korone.filters.cmd import CMDFilter
@@ -11,6 +10,9 @@ from korone.utils.handlers import KoroneMessageHandler
 from korone.utils.i18n import gettext as _
 from korone.utils.i18n import lazy_gettext as l_
 
+if TYPE_CHECKING:
+    from aiogram.dispatcher.event.handler import CallbackType
+
 
 @flags.help(description=l_("Lists all disabled commands."))
 @flags.disableable(name="disabled")
@@ -19,7 +21,7 @@ class ListDisabled(KoroneMessageHandler):
     def filters() -> tuple[CallbackType, ...]:
         return (CMDFilter("disabled"),)
 
-    async def handle(self) -> Any:
+    async def handle(self) -> None:
         disabled = await get_disabled_handlers(self.chat.tid)
 
         if not disabled:

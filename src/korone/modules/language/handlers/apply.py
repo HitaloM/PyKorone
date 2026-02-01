@@ -1,7 +1,6 @@
-from typing import Any
+from typing import TYPE_CHECKING, cast
 
 from aiogram import flags
-from aiogram.dispatcher.event.handler import CallbackType
 from aiogram.types import InlineKeyboardButton, Message
 from aiogram.utils.keyboard import InlineKeyboardBuilder
 from stfu_tg import Doc
@@ -13,8 +12,13 @@ from korone.filters.admin_rights import UserRestricting
 from korone.modules.language.callbacks import SetLangCallback
 from korone.modules.utils_.callbacks import GoToStartCallback
 from korone.utils.handlers import KoroneCallbackQueryHandler
-from korone.utils.i18n import I18nNew, get_i18n
+from korone.utils.i18n import get_i18n
 from korone.utils.i18n import gettext as _
+
+if TYPE_CHECKING:
+    from aiogram.dispatcher.event.handler import CallbackType
+
+    from korone.utils.i18n import I18nNew
 
 
 async def set_chat_language(chat_id: int, language: str) -> None:
@@ -47,7 +51,7 @@ def build_language_changed_message(language: str, i18n: I18nNew) -> str:
     return str(text)
 
 
-def build_keyboard(language: str, i18n: I18nNew, back_to_start: bool = False) -> InlineKeyboardBuilder:
+def build_keyboard(language: str, i18n: I18nNew, *, back_to_start: bool = False) -> InlineKeyboardBuilder:
     keyboard = InlineKeyboardBuilder()
 
     if language in CONFIG.devs_managed_languages:
@@ -69,12 +73,12 @@ class ApplyLanguageHandler(KoroneCallbackQueryHandler):
     def filters() -> tuple[CallbackType, ...]:
         return (SetLangCallback.filter(), UserRestricting(admin=True))
 
-    async def handle(self) -> Any:
+    async def handle(self) -> None:
         if not self.event.data:
             await self.event.answer(_("Something went wrong."))
             return
 
-        callback_data: SetLangCallback = self.callback_data
+        callback_data = cast("SetLangCallback", self.callback_data)
         language = callback_data.lang
         back_to_start = callback_data.back_to_start
 
@@ -88,6 +92,6 @@ class ApplyLanguageHandler(KoroneCallbackQueryHandler):
 
         i18n = get_i18n()
         text = build_language_changed_message(language, i18n)
-        keyboard = build_keyboard(language, i18n, back_to_start)
+        keyboard = build_keyboard(language, i18n, back_to_start=back_to_start)
 
         await message.edit_text(text, reply_markup=keyboard.as_markup(), disable_web_page_preview=True)

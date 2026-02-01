@@ -1,14 +1,19 @@
 from __future__ import annotations
 
 import functools
-from typing import Any, Awaitable, Callable, Generic, ParamSpec, TypeVar, Union, overload
+from typing import TYPE_CHECKING, ParamSpec, TypeVar, cast, overload
 
 import ujson
 
 from korone import aredis
 from korone.logging import get_logger
 
-T = TypeVar("T")
+if TYPE_CHECKING:
+    from collections.abc import Awaitable, Callable
+
+type JsonValue = str | int | float | bool | list[JsonValue] | dict[str, JsonValue] | None
+
+T = TypeVar("T", bound=JsonValue)
 P = ParamSpec("P")
 
 _NOT_SET_MARKER = "__korone_not_set__"
@@ -16,7 +21,7 @@ _NOT_SET_MARKER = "__korone_not_set__"
 logger = get_logger(__name__)
 
 
-async def set_value(key: str, value: Any, ttl: int | float | None) -> None:
+async def set_value(key: str, value: JsonValue, ttl: int | float | None) -> None:
     wrapped = {"v": value, "s": _NOT_SET_MARKER if value is None else None}
     serialized = ujson.dumps(wrapped)
     await aredis.set(key, serialized)
@@ -24,7 +29,7 @@ async def set_value(key: str, value: Any, ttl: int | float | None) -> None:
         await aredis.expire(key, int(ttl))
 
 
-def _deserialize(data: bytes | str) -> tuple[Any, bool]:
+def _deserialize(data: bytes | str) -> tuple[JsonValue | None, bool]:
     try:
         parsed = ujson.loads(data)
         if isinstance(parsed, dict) and "v" in parsed:
@@ -34,27 +39,28 @@ def _deserialize(data: bytes | str) -> tuple[Any, bool]:
         return None, False
 
 
-class cached(Generic[T]):
-    def __init__(self, ttl: int | float | None = None, key: str | None = None, no_self: bool = False) -> None:
+class cached[T]:
+    def __init__(self, ttl: int | float | None = None, key: str | None = None, *, no_self: bool = False) -> None:
         self.ttl = ttl
         self.key = key
         self.no_self = no_self
         self.func: Callable[..., Awaitable[T]] | None = None
 
     @overload
-    def __call__(self, func: Callable[P, Awaitable[T]]) -> "cached[T]": ...
+    def __call__(self, func: Callable[P, Awaitable[T]]) -> cached[T]: ...
 
     @overload
-    def __call__(self, *args: Any, **kwargs: Any) -> Awaitable[T]: ...
+    def __call__(self, *args: P.args, **kwargs: P.kwargs) -> Awaitable[T]: ...
 
-    def __call__(self, *args: Any, **kwargs: Any) -> Union["cached[T]", Awaitable[T]]:
+    def __call__(self, *args: P.args, **kwargs: P.kwargs) -> cached[T] | Awaitable[T]:
         if self.func is None:
-            self.func = args[0]
-            functools.update_wrapper(self, self.func)
+            func = cast("Callable[P, Awaitable[T]]", args[0])
+            self.func = func
+            functools.update_wrapper(self, func)
             return self
         return self._get_or_set(*args, **kwargs)
 
-    async def _get_or_set(self, *args: Any, **kwargs: Any) -> Any:
+    async def _get_or_set(self, *args: P.args, **kwargs: P.kwargs) -> T:
         if self.func is None:
             raise RuntimeError("cached decorator not properly initialized")
 
@@ -64,14 +70,14 @@ class cached(Generic[T]):
         if cached_data is not None:
             value, is_valid = _deserialize(cached_data)
             if is_valid:
-                return value
+                return cast("T", value)
 
         result = await self.func(*args, **kwargs)
-        await set_value(key, result, ttl=self.ttl)
+        await set_value(key, cast("JsonValue", result), ttl=self.ttl)
         await logger.adebug("Cached: writing new data", key=key)
         return result
 
-    def _build_key(self, *args: Any, **kwargs: Any) -> str:
+    def _build_key(self, *args: P.args, **kwargs: P.kwargs) -> str:
         if self.func is None:
             raise RuntimeError("cached decorator not properly initialized")
 
@@ -88,9 +94,9 @@ class cached(Generic[T]):
 
         return new_key
 
-    async def reset_cache(self, *args: Any, new_value: Any = None, **kwargs: Any) -> int | None:
+    async def reset_cache(self, *args: P.args, new_value: T | None = None, **kwargs: P.kwargs) -> int | None:
         key = self._build_key(*args, **kwargs)
         if new_value is not None:
-            await set_value(key, new_value, ttl=self.ttl)
+            await set_value(key, cast("JsonValue", new_value), ttl=self.ttl)
             return None
         return await aredis.delete(key)

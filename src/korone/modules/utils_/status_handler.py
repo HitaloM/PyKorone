@@ -1,28 +1,34 @@
-from abc import ABC, abstractmethod
-from typing import Any, Generic, Optional, TypeVar
+from __future__ import annotations
 
-from aiogram.types import Message
+from abc import ABC, abstractmethod
+from typing import TYPE_CHECKING, ClassVar, Never, TypeVar
+
 from ass_tg.types import BooleanArg, OptionalArg
-from ass_tg.types.base_abc import ArgFabric
 from stfu_tg import Italic, KeyValue, Section, Template
-from stfu_tg.doc import Element
 
 from korone.utils.handlers import KoroneMessageHandler
-from korone.utils.i18n import LazyProxy
 from korone.utils.i18n import gettext as _
 from korone.utils.i18n import lazy_gettext as l_
+
+if TYPE_CHECKING:
+    from aiogram.types import Message
+    from ass_tg.types.base_abc import ArgFabric
+    from stfu_tg.doc import Element
+
+    from korone.utils.handlers import HandlerData
+    from korone.utils.i18n import LazyProxy
 
 T = TypeVar("T")
 
 
-class StatusHandlerABC(KoroneMessageHandler, Generic[T], ABC):
+class StatusHandlerABC[T](KoroneMessageHandler):
     header_text: LazyProxy
     status_texts: dict[T, LazyProxy]
-    change_command: Optional[str] = None
+    change_command: str | None = None
     change_args: str | LazyProxy = "on / off"
 
     @classmethod
-    async def handler_args(cls, message: Message | None, data: dict) -> dict[str, ArgFabric]:
+    async def handler_args(cls, message: Message | None, data: HandlerData) -> dict[str, ArgFabric]:
         return {"new_status": OptionalArg(BooleanArg(l_("?New status")))}
 
     @abstractmethod
@@ -30,13 +36,13 @@ class StatusHandlerABC(KoroneMessageHandler, Generic[T], ABC):
         raise NotImplementedError
 
     @abstractmethod
-    async def set_status(self, new_status: T):
+    async def set_status(self, new_status: T) -> Never:
         raise NotImplementedError
 
-    def status_text(self, status_data: Any) -> Element | str | LazyProxy:
+    def status_text(self, status_data: T) -> Element | str | LazyProxy:
         return self.status_texts[status_data]
 
-    async def display_current_status(self):
+    async def display_current_status(self) -> None:
         status_data: T = await self.get_status()
 
         doc = Section(
@@ -49,15 +55,16 @@ class StatusHandlerABC(KoroneMessageHandler, Generic[T], ABC):
 
         await self.event.reply(str(doc))
 
-    async def change_status(self, new_status: Any):
+    async def change_status(self, new_status: T) -> None:
         current_status: T = await self.get_status()
 
         if current_status == new_status:
-            return await self.event.reply(
+            await self.event.reply(
                 str(
                     Template(_("The current status is already {state}"), state=Italic(self.status_text(current_status)))
                 )
             )
+            return
 
         await self.set_status(new_status)
 
@@ -69,8 +76,8 @@ class StatusHandlerABC(KoroneMessageHandler, Generic[T], ABC):
         )
         await self.event.reply(str(doc))
 
-    async def handle(self) -> Any:
-        new_status: Optional[bool] = self.data.get("new_status", None)
+    async def handle(self) -> None:
+        new_status: bool | None = self.data.get("new_status", None)
 
         if new_status is None:
             return await self.display_current_status()
@@ -79,4 +86,4 @@ class StatusHandlerABC(KoroneMessageHandler, Generic[T], ABC):
 
 
 class StatusBoolHandlerABC(StatusHandlerABC[bool], ABC):
-    status_texts: dict[bool, LazyProxy] = {True: l_("Enabled"), False: l_("Disabled")}
+    status_texts: ClassVar[dict[bool, LazyProxy]] = {True: l_("Enabled"), False: l_("Disabled")}

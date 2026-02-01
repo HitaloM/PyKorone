@@ -1,33 +1,40 @@
+from __future__ import annotations
+
 from decimal import Decimal
 from enum import Enum
 from fractions import Fraction
-from typing import Any, ClassVar, Optional, Type, TypeVar, Union
+from typing import TYPE_CHECKING, ClassVar, TypeVar
 from uuid import UUID
 
-from aiogram import Bot
-from aiogram.filters import CommandObject, Filter
+from aiogram.filters import Filter
 from aiogram.filters.callback_data import _check_field_is_nullable
-from aiogram.types import Chat, Message
 from pydantic import BaseModel
 
 from korone.config import CONFIG
 from korone.constants import TELEGRAM_CALLBACK_DATA_MAX_LENGTH
 from korone.filters.cmd import CMDFilter
 
+if TYPE_CHECKING:
+    from aiogram import Bot
+    from aiogram.filters import CommandObject
+    from aiogram.types import Chat, Message
+
 
 class CmdStartFilter(Filter):
-    __slots__ = ("start_filter", "cmd_start")
+    __slots__ = ("cmd_start", "start_filter")
 
-    def __init__(self, *, cmd_start: Type["CmdStart"]):
+    def __init__(self, *, cmd_start: type[CmdStart]) -> None:
         self.start_filter = CMDFilter("start")
 
         self.cmd_start = cmd_start
 
-    async def __call__(self, message: Message, bot: Bot, event_chat: Chat) -> Union[bool, dict[str, Any]]:
+    async def __call__(
+        self, message: Message, bot: Bot, event_chat: Chat
+    ) -> bool | dict[str, CommandObject | CmdStart]:
         command_data: dict[str, CommandObject] | bool = await self.start_filter(
             message=message, bot=bot, event_chat=event_chat
         )
-        command: Optional[CommandObject] = command_data.get("command") if isinstance(command_data, dict) else None
+        command: CommandObject | None = command_data.get("command") if isinstance(command_data, dict) else None
 
         if not command:
             return False
@@ -52,7 +59,7 @@ class CmdStart(BaseModel):
     __separator__: ClassVar[str] = "_"
     __prefix__: ClassVar[str]
 
-    def __init_subclass__(cls, **kwargs: Any) -> None:
+    def __init_subclass__(cls, **kwargs: str) -> None:
         if "prefix" not in kwargs:
             raise ValueError("prefix required")
 
@@ -60,7 +67,7 @@ class CmdStart(BaseModel):
 
         super().__init_subclass__(**kwargs)
 
-    def _encode_value(self, key: str, value: Any) -> str:
+    def _encode_value(self, key: str, *, value: str | Enum | UUID | bool | int | float | Decimal | Fraction) -> str:
         if value is None:
             return ""
         if isinstance(value, Enum):
@@ -78,7 +85,7 @@ class CmdStart(BaseModel):
     def pack(self, link_type: str = "start") -> str:
         result = [self.__prefix__]
         for key, value in self.model_dump(mode="json").items():
-            encoded = self._encode_value(key, value)
+            encoded = self._encode_value(key, value=value)
             if self.__separator__ in encoded:
                 raise ValueError(f"Separator symbol {self.__separator__!r} can not be used in value {key}={encoded!r}")
             result.append(encoded)
@@ -90,7 +97,7 @@ class CmdStart(BaseModel):
         return data
 
     @classmethod
-    def unpack(cls: Type[T], value: str) -> T:
+    def unpack(cls: type[T], value: str) -> T:
         prefix, *parts = value.split(cls.__separator__)
         names = cls.model_fields.keys()
         if len(parts) != len(names):
@@ -98,7 +105,7 @@ class CmdStart(BaseModel):
         if prefix != cls.__prefix__:
             raise ValueError(f"Bad prefix ({prefix!r} != {cls.__prefix__!r})")
         payload = {}
-        for k, v in zip(names, parts):  # type: str, Optional[str]
+        for k, v in zip(names, parts):
             if field := cls.model_fields.get(k):
                 if v == "" and _check_field_is_nullable(field):
                     v = None

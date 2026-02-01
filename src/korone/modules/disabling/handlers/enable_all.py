@@ -1,5 +1,6 @@
+from typing import TYPE_CHECKING
+
 from aiogram import flags
-from aiogram.dispatcher.event.handler import CallbackType
 from aiogram.types import InlineKeyboardButton, Message
 from aiogram.utils.keyboard import InlineKeyboardBuilder
 from stfu_tg import Italic, Template
@@ -14,6 +15,9 @@ from korone.utils.handlers import KoroneCallbackQueryHandler, KoroneMessageHandl
 from korone.utils.i18n import gettext as _
 from korone.utils.i18n import lazy_gettext as l_
 
+if TYPE_CHECKING:
+    from aiogram.dispatcher.event.handler import CallbackType
+
 
 @flags.help(description=l_("Enable all commands in the chat"))
 class EnableAllHandler(KoroneMessageHandler):
@@ -21,7 +25,7 @@ class EnableAllHandler(KoroneMessageHandler):
     def filters() -> tuple[CallbackType, ...]:
         return CMDFilter("enableall"), UserRestricting(admin=True)
 
-    async def handle(self):
+    async def handle(self) -> None:
         if not self.event.from_user:
             raise KoroneException("Not a user clicked a button")
 
@@ -33,12 +37,13 @@ class EnableAllHandler(KoroneMessageHandler):
         )
         buttons.add(InlineKeyboardButton(text=_("🚫 Cancel"), callback_data=CancelActionCallback().pack()))
 
-        return await self.event.reply(
+        await self.event.reply(
             text=str(
                 Template(_("Do you want to enable all commands in the {chat_name}?"), chat_name=Italic(self.chat.title))
             ),
             reply_markup=buttons.as_markup(),
         )
+        return
 
 
 class DisableAllCbHandler(KoroneCallbackQueryHandler):
@@ -46,12 +51,13 @@ class DisableAllCbHandler(KoroneCallbackQueryHandler):
     def filters() -> tuple[CallbackType, ...]:
         return EnableAllCallback.filter(), UserRestricting(admin=True)
 
-    async def handle(self):
+    async def handle(self) -> None:
         data: EnableAllCallback = self.data["callback_data"]
         user_id = self.event.from_user.id
 
         if user_id != data.user_id:
-            return await self.event.answer(_("Only the initiator can confirm disabling all commands"))
+            await self.event.answer(_("Only the initiator can confirm disabling all commands"))
+            return
 
         model = await DisablingModel.enable_all(self.chat.tid)
 
@@ -59,7 +65,7 @@ class DisableAllCbHandler(KoroneCallbackQueryHandler):
 
         message = self.event.message
         if isinstance(message, Message):
-            return await message.edit_text(
+            await message.edit_text(
                 str(
                     Template(
                         _("✅ All the commands ({removed_count}) have been enabled in the {chat_name}"),
@@ -68,3 +74,4 @@ class DisableAllCbHandler(KoroneCallbackQueryHandler):
                     )
                 )
             )
+            return

@@ -1,7 +1,6 @@
-from typing import Any
+from typing import TYPE_CHECKING
 
 from aiogram import flags
-from aiogram.dispatcher.event.handler import CallbackType
 from ass_tg.types import OptionalArg
 from stfu_tg import Doc, KeyValue, Section, Title, UserLink
 
@@ -13,6 +12,9 @@ from korone.utils.handlers import KoroneMessageHandler
 from korone.utils.i18n import gettext as _
 from korone.utils.i18n import lazy_gettext as l_
 
+if TYPE_CHECKING:
+    from aiogram.dispatcher.event.handler import CallbackType
+
 
 @flags.help(description=l_("Shows the additional information about the user."))
 @flags.disableable(name="info")
@@ -22,7 +24,7 @@ class UserInfoHandler(KoroneMessageHandler):
     def filters() -> tuple[CallbackType, ...]:
         return (CMDFilter("info"),)
 
-    async def handle(self) -> Any:
+    async def handle(self) -> None:
         target_user: ChatModel | None = self.data.get("user")
         if not target_user:
             user = getattr(self.event, "from_user", None)

@@ -1,7 +1,6 @@
-from typing import Any
+from typing import TYPE_CHECKING
 
 from aiogram import flags
-from aiogram.dispatcher.event.handler import CallbackType
 from aiogram.types import ReplyKeyboardRemove
 from stfu_tg import Italic, Template
 
@@ -10,6 +9,9 @@ from korone.utils.handlers import KoroneMessageHandler
 from korone.utils.i18n import gettext as _
 from korone.utils.i18n import lazy_gettext as l_
 
+if TYPE_CHECKING:
+    from aiogram.dispatcher.event.handler import CallbackType
+
 
 @flags.help(description=l_("Cancel current state, use if Korone is not responding on your message"))
 class CancelState(KoroneMessageHandler):
@@ -17,7 +19,7 @@ class CancelState(KoroneMessageHandler):
     def filters() -> tuple[CallbackType, ...]:
         return (CMDFilter("cancel"),)
 
-    async def handle(self) -> Any:
+    async def handle(self) -> None:
         current_state = await self.state.get_state()
 
         if current_state is None:

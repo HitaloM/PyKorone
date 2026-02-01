@@ -1,6 +1,4 @@
-from typing import List, Optional
-
-from pydantic import AnyHttpUrl, ValidationInfo, computed_field, field_validator
+from pydantic import AnyHttpUrl, ValidationInfo, computed_field, field_validator  # noqa: TC002
 from pydantic_settings import BaseSettings
 
 
@@ -10,7 +8,7 @@ class Config(BaseSettings):
     username: str | None = None
 
     owner_id: int | None = None
-    operators: List[int] = []
+    operators: list[int] = []
 
     db_url: str = "sqlite+aiosqlite:///data/korone.db"
 
@@ -20,10 +18,10 @@ class Config(BaseSettings):
     redis_db_states: int = 2
     redis_db_schedule: int = 3
 
-    botapi_server: Optional[AnyHttpUrl] = None
+    botapi_server: AnyHttpUrl | None = None
 
-    modules_load: List[str] = ["*"]
-    modules_not_load: List[str] = []
+    modules_load: list[str] = ["*"]
+    modules_not_load: list[str] = []
 
     commands_prefix: str = "/!"
     commands_ignore_case: bool = True
@@ -31,7 +29,7 @@ class Config(BaseSettings):
     commands_ignore_forwarded: bool = True
     commands_ignore_code: bool = True
 
-    devs_managed_languages: List[str] = ["en_US"]
+    devs_managed_languages: list[str] = ["en_US"]
     translation_url: str = "https://weblate.amanoteam.com/projects/korone/"
     news_channel: str = "https://t.me/PyKorone"
     privacy_link: str = "https://pykorone.rtfd.io/en/latest/privacy.html"
@@ -50,7 +48,7 @@ class Config(BaseSettings):
 
     @field_validator("operators", mode="before")
     @classmethod
-    def validate_operators(cls, v: List[int] | None, info: ValidationInfo) -> List[int]:
+    def validate_operators(cls, v: list[int] | None, info: ValidationInfo) -> list[int]:
         owner_id = info.data.get("owner_id")
 
         if not v:

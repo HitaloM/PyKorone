@@ -19,7 +19,8 @@ __module_description__ = l_("Disable some commonly used commands.")
 __module_info__ = LazyProxy(
     lambda: Doc(
         l_(
-            "Not everyone wants every feature that Korone offers. Some commands are best left unused; to avoid spam and abuse."
+            "Not everyone wants every feature that Korone offers. "
+            "Some commands are best left unused; to avoid spam and abuse."
         )
     )
 )

@@ -1,19 +1,42 @@
-from typing import Any, Awaitable, Callable, Iterable, List, Optional
+from __future__ import annotations
+
+from typing import TYPE_CHECKING, override
 
 from aiogram import BaseMiddleware
-from aiogram.types import Chat, ChatMemberUpdated, Message, TelegramObject, Update, User
-from typing_extensions import override
+from aiogram.types import TelegramObject, Update, User
 
 from korone.config import CONFIG
 from korone.db.models.chat import ChatModel, ChatTopicModel, UserInGroupModel
 from korone.logging import get_logger
 
+if TYPE_CHECKING:
+    from collections.abc import Awaitable, Callable, Iterable
+
+    from aiogram.types import Chat, ChatMemberUpdated, Message
+
 logger = get_logger(__name__)
+
+type HandlerResult = TelegramObject | bool | None
+type MiddlewareDataValue = (
+    str
+    | int
+    | float
+    | bool
+    | TelegramObject
+    | ChatModel
+    | UserInGroupModel
+    | list[TelegramObject]
+    | list[ChatModel]
+    | list[Chat | User]
+    | dict[str, str | int | float | bool | None]
+    | None
+)
+type MiddlewareData = dict[str, MiddlewareDataValue]
 
 
 class SaveChatsMiddleware(BaseMiddleware):
     @staticmethod
-    async def _delete_user_in_chat_by_user_id(user_id: int, group: ChatModel):
+    async def _delete_user_in_chat_by_user_id(user_id: int, group: ChatModel) -> None:
         logger.debug("SaveChatsMiddleware: Deleting user from chat", user_id=user_id, group=group)
         if not (user := await ChatModel.get_by_tid(user_id)):
             return
@@ -24,7 +47,7 @@ class SaveChatsMiddleware(BaseMiddleware):
         await user_in_chat.delete()
 
     @staticmethod
-    async def _chats_update(chats: Iterable[Chat | User]):
+    async def _chats_update(chats: Iterable[Chat | User]) -> None:
         for chat in chats:
             logger.debug("SaveChatsMiddleware: Updating chat", chat_id=chat.id)
             if isinstance(chat, User):
@@ -33,7 +56,7 @@ class SaveChatsMiddleware(BaseMiddleware):
                 await ChatModel.upsert_group(chat)
 
     @staticmethod
-    async def handle_replied_message(reply_message: Message, chat_id: int) -> List[Chat | User]:
+    async def handle_replied_message(reply_message: Message, chat_id: int) -> list[Chat | User]:
         if reply_message.sender_chat and reply_message.sender_chat.id == chat_id:
             return []
 
@@ -56,8 +79,8 @@ class SaveChatsMiddleware(BaseMiddleware):
         return chats_to_update
 
     @staticmethod
-    async def save_topic(message: Message, group: ChatModel):
-        name: Optional[str]
+    async def save_topic(message: Message, group: ChatModel) -> None:
+        name: str | None
         if message.forum_topic_created:
             name = message.forum_topic_created.name
         elif message.forum_topic_edited:
@@ -74,7 +97,7 @@ class SaveChatsMiddleware(BaseMiddleware):
             await ChatTopicModel.ensure_topic(group, message.message_thread_id, name)
 
     @staticmethod
-    async def close_topic(message: Message, group: ChatModel):
+    async def close_topic(message: Message, group: ChatModel) -> None:
         if message.forum_topic_closed:
             logger.debug("SaveChatsMiddleware: Closing topic", group=group, thread_id=message.message_thread_id)
             if message.message_thread_id is not None:
@@ -83,7 +106,7 @@ class SaveChatsMiddleware(BaseMiddleware):
     @staticmethod
     async def update_from_user(
         message: Message, current_group: ChatModel
-    ) -> tuple[Optional[ChatModel], Optional[UserInGroupModel]]:
+    ) -> tuple[ChatModel | None, UserInGroupModel | None]:
         if not message.from_user:
             return None, None
 
@@ -100,7 +123,7 @@ class SaveChatsMiddleware(BaseMiddleware):
         user_in_group = await UserInGroupModel.ensure_user_in_group(current_user, current_group)
         return current_user, user_in_group
 
-    async def handle_message(self, message: Message, data: dict[str, Any]):
+    async def handle_message(self, message: Message, data: MiddlewareData) -> None:
         logger.debug("SaveChatsMiddleware: Handling message", message_id=message.message_id, chat_id=message.chat.id)
         if await self._handle_migration(data, message):
             return
@@ -121,7 +144,7 @@ class SaveChatsMiddleware(BaseMiddleware):
         await self._handle_left_chat_member(message, chat)
 
     @staticmethod
-    async def _handle_migration(data: dict, message: Message):
+    async def _handle_migration(data: MiddlewareData, message: Message) -> bool:
         if message.migrate_from_chat_id:
             logger.debug(
                 "SaveChatsMiddleware: Handling migration from chat",
@@ -142,7 +165,9 @@ class SaveChatsMiddleware(BaseMiddleware):
         else:
             return False
 
-    async def _handle_private_and_group_message(self, data: dict, message: Message) -> tuple[ChatModel, ChatModel]:
+    async def _handle_private_and_group_message(
+        self, data: MiddlewareData, message: Message
+    ) -> tuple[ChatModel, ChatModel]:
         if message.chat.type == "private" and message.from_user:
             logger.debug("SaveChatsMiddleware: Handling private message", user_id=message.from_user.id)
             user = await ChatModel.upsert_user(message.from_user)
@@ -158,7 +183,7 @@ class SaveChatsMiddleware(BaseMiddleware):
 
             return current_group, current_user or current_group
 
-    async def _handle_message_update(self, message: Message, group: ChatModel):
+    async def _handle_message_update(self, message: Message, group: ChatModel) -> list[Chat | User]:
         chats_to_update: list[Chat | User] = []
 
         if reply_message := message.reply_to_message:
@@ -196,7 +221,7 @@ class SaveChatsMiddleware(BaseMiddleware):
 
         return new_users
 
-    async def _handle_left_chat_member(self, message: Message, group: ChatModel):
+    async def _handle_left_chat_member(self, message: Message, group: ChatModel) -> None:
         if not message.left_chat_member:
             return
 
@@ -208,8 +233,10 @@ class SaveChatsMiddleware(BaseMiddleware):
             await self._delete_user_in_chat_by_user_id(message.left_chat_member.id, group)
 
     @staticmethod
-    async def save_from_user(data: dict):
+    async def save_from_user(data: MiddlewareData) -> None:
         if not (from_user := data.get("event_from_user")):
+            return
+        if not isinstance(from_user, User):
             return
 
         logger.debug("SaveChatsMiddleware: Saving from user", user_id=from_user.id)
@@ -233,11 +260,11 @@ class SaveChatsMiddleware(BaseMiddleware):
     @override
     async def __call__(
         self,
-        handler: Callable[[TelegramObject, dict[str, Any]], Awaitable[Any]],
+        handler: Callable[[TelegramObject, MiddlewareData], Awaitable[HandlerResult]],
         event: TelegramObject,
-        data: dict[str, Any],
-    ) -> Any:
-        _continue = True
+        data: MiddlewareData,
+    ) -> HandlerResult:
+        continue_ = True
         if not isinstance(event, Update):
             return await handler(event, data)
 
@@ -247,6 +274,6 @@ class SaveChatsMiddleware(BaseMiddleware):
         elif any([event.callback_query, event.inline_query, event.poll_answer]):
             await self.save_from_user(data)
         elif event.my_chat_member:
-            _continue = await self.save_my_chat_member(event.my_chat_member)
+            continue_ = await self.save_my_chat_member(event.my_chat_member)
 
-        return await handler(event, data) if _continue else None
+        return await handler(event, data) if continue_ else None

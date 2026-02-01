@@ -1,27 +1,34 @@
-from typing import Sequence
+from typing import TYPE_CHECKING
 
-from ass_tg.types.base_abc import ArgFabric
 from stfu_tg import Code, HList, Italic, Section, VList
-from stfu_tg.doc import Element
 
-from korone.modules.help.utils.extract_info import HandlerHelp
-from korone.utils.i18n import LazyProxy
 from korone.utils.i18n import gettext as _
 from korone.utils.i18n import lazy_gettext as l_
+
+if TYPE_CHECKING:
+    from collections.abc import Sequence
+
+    from ass_tg.types.base_abc import ArgFabric
+    from stfu_tg.doc import Element
+
+    from korone.modules.help.utils.extract_info import HandlerHelp
+    from korone.utils.i18n import LazyProxy
 
 
 def format_cmd(cmd: str) -> Element:
     return Code(f"/{cmd}")
 
 
-def format_cmd_args(arguments: dict[str, ArgFabric], as_code: bool = False) -> HList:
+def format_cmd_args(arguments: dict[str, ArgFabric], *, as_code: bool = False) -> HList:
     formatted_descriptions = (
         Code(f"<{arg.description}>") if as_code else f"<{arg.description}>" for arg in arguments.values()
     )
     return HList(*formatted_descriptions)
 
 
-def format_handler(handler: HandlerHelp, show_only_in_groups: bool = True, show_disable_able: bool = True):
+def format_handler(
+    handler: HandlerHelp, *, show_only_in_groups: bool = True, show_disable_able: bool = True
+) -> Element:
     cmd_and_args = HList(
         HList(*(format_cmd(cmd) for cmd in handler.cmds)),
         format_cmd_args(handler.args) if handler.args else None,
@@ -41,7 +48,7 @@ def format_handler(handler: HandlerHelp, show_only_in_groups: bool = True, show_
     )
 
 
-def format_handlers(all_cmds: Sequence[HandlerHelp], **kwargs):
+def format_handlers(all_cmds: Sequence[HandlerHelp], **kwargs: bool) -> VList:
     return VList(*(format_handler(handler, **kwargs) for handler in all_cmds))
 
 

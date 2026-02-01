@@ -1,4 +1,4 @@
-from types import ModuleType
+from typing import TYPE_CHECKING
 
 from aiogram import Router
 
@@ -10,6 +10,9 @@ from .callbacks import PrivacyMenuCallback as PrivacyMenuCallback
 from .handlers.export import EXPORTABLE_MODULES, TriggerExport
 from .handlers.privacy import PrivacyMenu
 
+if TYPE_CHECKING:
+    from types import ModuleType
+
 router = Router(name="info")
 
 __module_name__ = l_("Privacy")
@@ -20,7 +23,7 @@ __module_info__ = l_("Manage your privacy settings and data protection options."
 __handlers__ = (PrivacyMenu, TriggerExport)
 
 
-async def __post_setup__(modules: dict[str, ModuleType]):
+def __post_setup__(modules: dict[str, ModuleType]) -> None:
     extra_modules = LOADED_MODULES.values() if isinstance(LOADED_MODULES, dict) else LOADED_MODULES
     for module in (*modules.values(), *extra_modules):
         if hasattr(module, "__export__"):

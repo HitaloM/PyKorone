@@ -4,12 +4,14 @@ import hashlib
 import time
 import traceback
 from collections.abc import Awaitable as AwaitableABC
-from typing import Any, Final, TypeVar, cast
+from typing import TYPE_CHECKING, Final, TypeVar, cast
 
-from redis.asyncio import Redis as AsyncRedis
 from redis.exceptions import RedisError
 
 from korone import aredis
+
+if TYPE_CHECKING:
+    from redis.asyncio import Redis as AsyncRedis
 
 _INITIAL_DELAY: Final[int] = 60
 _FACTOR: Final[int] = 2
@@ -23,7 +25,7 @@ T = TypeVar("T")
 
 async def _await_if_needed(value: AwaitableABC[T] | T) -> T:
     if isinstance(value, AwaitableABC):
-        return cast(T, await value)
+        return cast("T", await value)
     return value
 
 
@@ -50,7 +52,7 @@ async def should_notify(signature: str, now: float | None = None) -> bool:
         now = time.time()
 
     key = f"{_PREFIX}{signature}"
-    client: AsyncRedis[Any] = aredis
+    client: AsyncRedis[bytes] = aredis
 
     try:
         raw_data = await _await_if_needed(client.hgetall(key))

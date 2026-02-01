@@ -1,13 +1,15 @@
-from typing import Any
+from typing import TYPE_CHECKING
 
 from aiogram import flags
-from aiogram.dispatcher.event.handler import CallbackType
 from aiogram.types import Message
 from magic_filter import F
 
 from korone.modules.language.callbacks import LangMenu, LangMenuCallback
 from korone.utils.handlers import KoroneCallbackQueryHandler
 from korone.utils.i18n import gettext as _
+
+if TYPE_CHECKING:
+    from aiogram.dispatcher.event.handler import CallbackType
 
 
 @flags.help(exclude=True)
@@ -16,7 +18,7 @@ class LanguageCancelHandler(KoroneCallbackQueryHandler):
     def filters() -> tuple[CallbackType, ...]:
         return (LangMenuCallback.filter(F.menu == LangMenu.Cancel),)
 
-    async def handle(self) -> Any:
+    async def handle(self) -> None:
         message = self.event.message
 
         if isinstance(message, Message):

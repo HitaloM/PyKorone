@@ -10,10 +10,12 @@ skip-magic-trailing-comma = true
 
 [lint]
 future-annotations = true
+select = ["UP", "I", "E", "W", "F", "ASYNC", "RUF", "TC", "ANN", "BLE", "FBT"]
 ignore = [
     "RUF001",
     "RUF002",
     "RUF003",
+    "RUF067",
     "PLR2004",
     "PLR0917",
     "PLR0913",

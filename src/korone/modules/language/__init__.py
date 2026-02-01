@@ -21,7 +21,8 @@ __module_description__ = l_("Change the bot language")
 __module_info__ = LazyProxy(
     lambda: Doc(
         l_(
-            "Customize your experience by selecting your preferred language for interacting with the bot. Choose from a variety of supported languages to make your conversations more comfortable and enjoyable."
+            "Customize your experience by selecting your preferred language for interacting with the bot. "
+            "Choose from a variety of supported languages to make your conversations more comfortable and enjoyable."
         )
     )
 )
