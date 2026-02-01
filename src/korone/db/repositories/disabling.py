@@ -26,7 +26,8 @@ async def enable(chat_id: int, cmd: str) -> DisablingModel:
     async with session_scope() as session:
         model = await get_one(session, DisablingModel, DisablingModel.chat_id == chat_id)
         if not model or cmd not in (model.cmds or []):
-            raise LookupError("Disabled command not found")
+            msg = "Disabled command not found"
+            raise LookupError(msg)
 
         model.cmds = [c for c in model.cmds if c != cmd]
         return model

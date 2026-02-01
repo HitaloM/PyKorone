@@ -90,7 +90,8 @@ class UserRestricting(Filter):
 
         return True
 
-    async def get_target_id(self, message: TelegramObject) -> int:
+    @staticmethod
+    async def get_target_id(message: TelegramObject) -> int:
         from_user = getattr(message, "from_user", None)
         if from_user is None:
             raise SkipHandler
@@ -146,5 +147,6 @@ class BotHasPermissions(UserRestricting):
     }
     PAYLOAD_ARGUMENT_NAME = "bot_member"
 
-    async def get_target_id(self, message: TelegramObject) -> int:
+    @staticmethod
+    async def get_target_id(message: TelegramObject) -> int:
         return CONFIG.bot_id

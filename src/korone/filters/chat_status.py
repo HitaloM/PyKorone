@@ -19,7 +19,5 @@ class ChatTypeFilter(Filter):
             return chat_type.value
         return str(chat_type)
 
-    async def __call__(
-        self, event: TelegramObject, event_chat: Chat, **kwargs: str | int | float | bool | None
-    ) -> bool:
+    async def __call__(self, event: TelegramObject, event_chat: Chat, **kwargs: str | float | bool | None) -> bool:
         return self._normalize_chat_type(event_chat.type) in self.chat_types

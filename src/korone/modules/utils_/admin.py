@@ -90,7 +90,7 @@ async def check_user_admin_permissions(
             return True
 
         admin_status = admin_data.get("status")
-        if admin_status == ChatMemberStatus.CREATOR or admin_status == ChatMemberStatus.CREATOR.value:
+        if admin_status in {ChatMemberStatus.CREATOR, ChatMemberStatus.CREATOR.value}:
             return True
 
         missing_permissions = []
@@ -99,12 +99,12 @@ async def check_user_admin_permissions(
             if permission_value is None or permission_value is False:
                 missing_permissions.append(permission)
 
-        return missing_permissions or True
-
     except TelegramBadRequest as err:
         if "there are no administrators in the private chat" in str(err):
             return False
         raise
+    else:
+        return missing_permissions or True
 
 
 async def is_user_admin(chat: int, user: int) -> bool:
@@ -139,7 +139,7 @@ async def is_chat_creator(chat: int, user: int) -> bool:
         return False
 
     admin_status = admin_data.get("status")
-    return admin_status == ChatMemberStatus.CREATOR or admin_status == ChatMemberStatus.CREATOR.value
+    return admin_status in {ChatMemberStatus.CREATOR, ChatMemberStatus.CREATOR.value}
 
 
 async def get_admins_rights(chat: int, *, force_update: bool = False) -> None:

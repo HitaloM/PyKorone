@@ -188,11 +188,13 @@ async def find_user(user_id: int) -> ChatModel:
     async with session_scope() as session:
         if user := await get_one(session, ChatModel, ChatModel.chat_id == user_id, ChatModel.type == ChatType.PRIVATE):
             return user
-    raise LookupError("User not found")
+    msg = "User not found"
+    raise LookupError(msg)
 
 
 async def find_user_by_username(username: str) -> ChatModel:
     async with session_scope() as session:
         if user := await get_one(session, ChatModel, ChatModel.username == username):
             return user
-    raise LookupError("User not found")
+    msg = "User not found"
+    raise LookupError(msg)

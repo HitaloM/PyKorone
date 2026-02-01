@@ -55,23 +55,27 @@ class CMDFilter(BaseFilter):
         try:
             full_command, *args = text.split(" ", maxsplit=1)
         except ValueError:
-            raise CommandException("not enough values to unpack")
+            msg = "not enough values to unpack"
+            raise CommandException(msg)
 
         if not full_command:
-            raise CommandException("empty command")
+            msg = "empty command"
+            raise CommandException(msg)
 
         prefix, (command, _, mention) = full_command[0], full_command[1:].partition("@")
         return CommandObject(prefix=prefix, command=command, mention=mention, args=args[0] if args else None)
 
     def validate_prefix(self, command: CommandObject) -> None:
         if command.prefix not in self.prefix:
-            raise CommandException("Invalid command prefix")
+            msg = "Invalid command prefix"
+            raise CommandException(msg)
 
     async def validate_mention(self, bot: Bot, command: CommandObject) -> None:
         if command.mention and not self.ignore_mention:
             me = await bot.me()
             if me.username and command.mention.lower() != me.username.lower():
-                raise CommandException("Mention did not match")
+                msg = "Mention did not match"
+                raise CommandException(msg)
 
     def validate_command(self, command: CommandObject) -> CommandObject:
         for allowed_command in cast("Sequence[CMD_TYPE]", self.cmd):
@@ -80,13 +84,15 @@ class CMDFilter(BaseFilter):
                     return replace(command, regexp_match=result)
             elif command.command == allowed_command:
                 return command
-        raise CommandException("Command did not match pattern")
+        msg = "Command did not match pattern"
+        raise CommandException(msg)
 
     def do_magic(self, command: CommandObject) -> None:
         if not self.magic:
             return
         if not self.magic.resolve(command):
-            raise CommandException("Rejected via magic filter")
+            msg = "Rejected via magic filter"
+            raise CommandException(msg)
 
     async def parse_command(self, text: str, bot: Bot) -> CommandObject:
         command = self.extract_command(text)

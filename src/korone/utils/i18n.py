@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 from pathlib import Path
-from re import compile
+from re import compile as re_compile
 from typing import TYPE_CHECKING, ClassVar, cast
 
 from aiogram.utils.i18n import I18n
@@ -16,8 +16,8 @@ from korone.logging import get_logger
 if TYPE_CHECKING:
     from collections.abc import Callable
 
-LANG_STATS_REGEX = compile(
-    r"^(?:(\d+) translated message(?:s))(?:, )?(?:(\d+) fuzzy translation)?(?:," r" )?(?:(\d+) untranslated messages)?"
+LANG_STATS_REGEX = re_compile(
+    r"^(?:(\d+) translated message(?:s))(?:, )?(?:(\d+) fuzzy translation)?(?:, )?(?:(\d+) untranslated messages)?"
 )
 
 
@@ -44,12 +44,12 @@ class I18nNew(I18n):
         super().__init__(path=path, default_locale=default_locale, domain=domain)
 
         logger.debug("Loading locales additional data...")
-        for locale in self.locales.keys():
+        for locale in self.locales:
             babel = self.babel(locale)
             self.babels[locale] = babel
             self.stats[locale] = self.parse_stats(locale)
             if not self.stats[locale]:
-                logger.debug(f"! Can't parse stats for locale {locale}!")
+                logger.debug("! Can't parse stats for locale %s!", locale)
 
         self.babels["en"] = self.babel("en_US")
 
@@ -58,16 +58,15 @@ class I18nNew(I18n):
         if not path.exists():
             return None
 
-        with path.open() as file:
-            match = LANG_STATS_REGEX.match(file.read())
-            if match is None:
-                return None
+        match = LANG_STATS_REGEX.match(path.read_text(encoding="utf-8"))
+        if match is None:
+            return None
 
-            return LocaleStats(
-                translated=int(match.group(1)),
-                fuzzy=int(match.group(2)) if match.group(2) else 0,
-                untranslated=int(match.group(3)) if match.group(3) else 0,
-            )
+        return LocaleStats(
+            translated=int(match.group(1)),
+            fuzzy=int(match.group(2)) if match.group(2) else 0,
+            untranslated=int(match.group(3)) if match.group(3) else 0,
+        )
 
     @staticmethod
     def babel(locale_code: str) -> Locale:
@@ -77,7 +76,8 @@ class I18nNew(I18n):
     def current_locale_babel(self) -> Locale:
         return self.babels[self.ctx_locale.get()]
 
-    def locale_display(self, locale: Locale) -> str:
+    @staticmethod
+    def locale_display(locale: Locale) -> str:
         return f"{flag(locale.territory or '')} {locale.display_name}"
 
     @property
@@ -109,7 +109,8 @@ class I18nNew(I18n):
 def get_i18n() -> I18nNew:
     i18n = I18nNew.get_current(no_error=True)
     if i18n is None:
-        raise LookupError("I18n context is not set")
+        msg = "I18n context is not set"
+        raise LookupError(msg)
     return cast("I18nNew", i18n)
 
 
@@ -120,7 +121,7 @@ def gettext(message: str, plural: str | None = None, n: int = 1, locale: str | N
 class LazyProxy(BabelLazyProxy):
     __isabstractmethod__: bool = False
 
-    def __init__(self, *items: str | Callable, enable_cache: bool = True, **kwargs: str | int | float | bool) -> None:
+    def __init__(self, *items: str | Callable, enable_cache: bool = True, **kwargs: str | float | bool) -> None:
         if callable(items[0]):
             func = items[0]
             args = items[1:]

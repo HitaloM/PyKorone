@@ -21,7 +21,7 @@ _NOT_SET_MARKER = "__korone_not_set__"
 logger = get_logger(__name__)
 
 
-async def set_value(key: str, value: JsonValue, ttl: int | float | None) -> None:
+async def set_value(key: str, value: JsonValue, ttl: float | None) -> None:
     wrapped = {"v": value, "s": _NOT_SET_MARKER if value is None else None}
     serialized = ujson.dumps(wrapped)
     await aredis.set(key, serialized)
@@ -34,25 +34,25 @@ def _deserialize(data: bytes | str) -> tuple[JsonValue | None, bool]:
         parsed = ujson.loads(data)
         if isinstance(parsed, dict) and "v" in parsed:
             return parsed["v"], True
-        return None, False
     except ujson.JSONDecodeError, TypeError:
-        return None, False
+        pass
+    return None, False
 
 
-class cached[T]:
-    def __init__(self, ttl: int | float | None = None, key: str | None = None, *, no_self: bool = False) -> None:
+class Cached[T]:
+    def __init__(self, ttl: float | None = None, key: str | None = None, *, no_self: bool = False) -> None:
         self.ttl = ttl
         self.key = key
         self.no_self = no_self
         self.func: Callable[..., Awaitable[T]] | None = None
 
     @overload
-    def __call__(self, func: Callable[P, Awaitable[T]]) -> cached[T]: ...
+    def __call__(self, func: Callable[P, Awaitable[T]]) -> Cached[T]: ...
 
     @overload
     def __call__(self, *args: P.args, **kwargs: P.kwargs) -> Awaitable[T]: ...
 
-    def __call__(self, *args: P.args, **kwargs: P.kwargs) -> cached[T] | Awaitable[T]:
+    def __call__(self, *args: P.args, **kwargs: P.kwargs) -> Cached[T] | Awaitable[T]:
         if self.func is None:
             func = cast("Callable[P, Awaitable[T]]", args[0])
             self.func = func
@@ -62,7 +62,8 @@ class cached[T]:
 
     async def _get_or_set(self, *args: P.args, **kwargs: P.kwargs) -> T:
         if self.func is None:
-            raise RuntimeError("cached decorator not properly initialized")
+            msg = "Cached decorator not properly initialized"
+            raise RuntimeError(msg)
 
         key = self._build_key(*args, **kwargs)
 
@@ -79,13 +80,14 @@ class cached[T]:
 
     def _build_key(self, *args: P.args, **kwargs: P.kwargs) -> str:
         if self.func is None:
-            raise RuntimeError("cached decorator not properly initialized")
+            msg = "Cached decorator not properly initialized"
+            raise RuntimeError(msg)
 
         ordered_kwargs = sorted(kwargs.items())
 
         func_module = getattr(self.func, "__module__", "") or ""
         func_name = getattr(self.func, "__name__", "unknown")
-        base_key = self.key if self.key else func_module + func_name
+        base_key = self.key or func_module + func_name
         args_key = str(args[1:] if self.no_self else args)
 
         new_key = base_key + args_key

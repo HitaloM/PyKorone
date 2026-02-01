@@ -38,7 +38,7 @@ class KoroneErrorHandler(ErrorHandler):
             await logger.aerror("No sys exception", from_aiogram=exception, from_sys=sys_exception)
             return
 
-        elif exception != sys_exception:
+        if exception != sys_exception:
             await logger.aerror("Mismatched exception seeking", from_aiogram=exception, from_sys=sys_exception)
         try:
             await self.data["state"].clear()
@@ -65,7 +65,7 @@ class KoroneErrorHandler(ErrorHandler):
         etype: type[BaseException] | None,
         value: BaseException | None,
         tb: TracebackType | None,
-        **kwargs: str | int | float | bool | BaseException | None,
+        **kwargs: str | float | bool | BaseException | None,
     ) -> None:
         if etype is not None and value is not None and tb is not None:
             logger.error("Unhandled exception", exc_info=(etype, value, tb))

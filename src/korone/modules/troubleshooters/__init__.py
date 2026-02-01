@@ -1,11 +1,11 @@
 from aiogram import Router
 from stfu_tg import Doc
 
+from korone.filters.admin_rights import UserRestricting as UserRestricting
+from korone.filters.user_status import IsOP as IsOP
 from korone.utils.i18n import LazyProxy
 from korone.utils.i18n import lazy_gettext as l_
 
-from ...filters.admin_rights import UserRestricting as UserRestricting
-from ...filters.user_status import IsOP as IsOP
 from .handlers.admincache import ResetAdminCache
 from .handlers.cancel import CancelState
 from .handlers.cancel_callback import CallbackActionCancelHandler, CancelCallbackHandler, TypedCancelCallbackHandler

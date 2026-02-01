@@ -4,7 +4,7 @@ from typing import TYPE_CHECKING, NotRequired, TypedDict, Unpack, cast
 
 from aiogram.types import CallbackQuery, InaccessibleMessage, Message
 
-from korone.utils.exception import KoroneException
+from korone.utils.exception import KoroneError
 from korone.utils.i18n import gettext as _
 
 if TYPE_CHECKING:
@@ -51,12 +51,12 @@ async def reply_or_edit(
 ) -> Message | bool:
     if isinstance(event, CallbackQuery) and event.message:
         if isinstance(event.message, InaccessibleMessage):
-            raise KoroneException(_("The message is inaccessible. Please write the command again"))
+            raise KoroneError(_("The message is inaccessible. Please write the command again"))
 
         edit_kwargs = cast("EditTextKwargs", kwargs)
         return await event.message.edit_text(str(text), **edit_kwargs)
-    elif isinstance(event, Message):
+    if isinstance(event, Message):
         reply_kwargs = cast("ReplyKwargs", kwargs)
         return await event.reply(str(text), **reply_kwargs)
-    else:
-        raise ValueError("answer: Wrong event type")
+    msg = "answer: Wrong event type"
+    raise ValueError(msg)

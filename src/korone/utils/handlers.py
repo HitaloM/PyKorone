@@ -14,7 +14,7 @@ from korone import bot
 from korone.db.models.chat import ChatModel, UserInGroupModel
 from korone.middlewares.chat_context import ChatContext
 from korone.modules.utils_.reply_or_edit import reply_or_edit
-from korone.utils.exception import KoroneException
+from korone.utils.exception import KoroneError
 from korone.utils.i18n import gettext as _
 
 if TYPE_CHECKING:
@@ -151,10 +151,11 @@ class KoroneCallbackQueryHandler(KoroneBaseHandler[CallbackQuery], ABC):
 
     async def check_for_message(self) -> None:
         if not self.event.from_user:
-            raise KoroneException("Not a user clicked a button")
+            msg = "Not a user clicked a button"
+            raise KoroneError(msg)
 
         if not self.event.message or isinstance(self.event.message, InaccessibleMessage):
-            raise KoroneException(_("The message is inaccessible. Please write the command again"))
+            raise KoroneError(_("The message is inaccessible. Please write the command again"))
 
     async def edit_text(self, text: Element | str, **kwargs: Unpack[EditTextKwargs]) -> None:
         await self.check_for_message()
@@ -166,17 +167,15 @@ class KoroneCallbackQueryHandler(KoroneBaseHandler[CallbackQuery], ABC):
 class KoroneMessageCallbackQueryHandler(KoroneBaseHandler[Message | CallbackQuery], ABC):
     @property
     def message(self) -> Message:
-        if isinstance(self.event, Message):
-            msg = self.event
-        else:
-            msg = getattr(self.event, "message", None)
+        msg = self.event if isinstance(self.event, Message) else getattr(self.event, "message", None)
 
         if not msg:
-            raise KoroneException("No message in the event")
+            msg = "No message in the event"
+            raise KoroneError(msg)
         if isinstance(msg, InaccessibleMessage):
-            raise KoroneException(_("The message is inaccessible. Please write the command again"))
+            raise KoroneError(_("The message is inaccessible. Please write the command again"))
         if not isinstance(msg, Message):
-            raise KoroneException(_("The message is inaccessible. Please write the command again"))
+            raise KoroneError(_("The message is inaccessible. Please write the command again"))
         return msg
 
     @property
@@ -187,8 +186,8 @@ class KoroneMessageCallbackQueryHandler(KoroneBaseHandler[Message | CallbackQuer
         self, f: InputFile, caption: str | None = None, **kwargs: Unpack[AnswerMediaKwargs]
     ) -> Message | bool:
         if isinstance(self.event, InaccessibleMessage):
-            raise KoroneException(_("The message is inaccessible. Please write the command again"))
-        elif isinstance(self.event, CallbackQuery) and self.event.message:
+            raise KoroneError(_("The message is inaccessible. Please write the command again"))
+        if isinstance(self.event, CallbackQuery) and self.event.message:
             edit_kwargs = cast("EditMessageMediaKwargs", kwargs)
             return await bot.edit_message_media(
                 media=InputMediaPhoto(media=f, caption=caption),
@@ -196,11 +195,11 @@ class KoroneMessageCallbackQueryHandler(KoroneBaseHandler[Message | CallbackQuer
                 message_id=self.event.message.message_id,
                 **edit_kwargs,
             )
-        elif isinstance(self.event, Message):
+        if isinstance(self.event, Message):
             send_kwargs = cast("SendPhotoKwargs", kwargs)
             return await bot.send_photo(chat_id=self.event.chat.id, photo=f, caption=caption, **send_kwargs)
-        else:
-            raise ValueError("answer_media: Wrong event type")
+        msg = "answer_media: Wrong event type"
+        raise ValueError(msg)
 
     async def answer(self, text: Element | str, **kwargs: Unpack[EditTextKwargs]) -> Message | bool:
         return await reply_or_edit(self.event, text, **kwargs)

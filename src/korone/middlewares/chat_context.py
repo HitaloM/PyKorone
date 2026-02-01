@@ -20,16 +20,6 @@ if TYPE_CHECKING:
 
 logger = get_logger(__name__)
 
-
-@dataclass
-class ChatContext:
-    type: ChatType
-    is_connected: bool
-    chat_id: int
-    title: str
-    db_model: ChatModel
-
-
 type HandlerResult = TelegramObject | bool | None
 type MiddlewareDataValue = (
     str
@@ -43,6 +33,15 @@ type MiddlewareDataValue = (
     | None
 )
 type MiddlewareData = dict[str, MiddlewareDataValue]
+
+
+@dataclass
+class ChatContext:
+    type: ChatType
+    is_connected: bool
+    chat_id: int
+    title: str
+    db_model: ChatModel
 
 
 class ChatContextMiddleware(BaseMiddleware):

@@ -10,7 +10,7 @@ from korone.filters.admin_rights import UserRestricting
 from korone.filters.cmd import CMDFilter
 from korone.modules.disabling.callbacks import EnableAllCallback
 from korone.modules.utils_.callbacks import CancelActionCallback
-from korone.utils.exception import KoroneException
+from korone.utils.exception import KoroneError
 from korone.utils.handlers import KoroneCallbackQueryHandler, KoroneMessageHandler
 from korone.utils.i18n import gettext as _
 from korone.utils.i18n import lazy_gettext as l_
@@ -27,7 +27,8 @@ class EnableAllHandler(KoroneMessageHandler):
 
     async def handle(self) -> None:
         if not self.event.from_user:
-            raise KoroneException("Not a user clicked a button")
+            msg = "Not a user clicked a button"
+            raise KoroneError(msg)
 
         buttons = InlineKeyboardBuilder()
         buttons.add(
@@ -43,7 +44,6 @@ class EnableAllHandler(KoroneMessageHandler):
             ),
             reply_markup=buttons.as_markup(),
         )
-        return
 
 
 class DisableAllCbHandler(KoroneCallbackQueryHandler):

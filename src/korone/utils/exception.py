@@ -4,6 +4,6 @@ if TYPE_CHECKING:
     from stfu_tg.doc import Element
 
 
-class KoroneException(Exception):
+class KoroneError(Exception):
     def __init__(self, *docs: str | Element) -> None:
         self.docs = docs

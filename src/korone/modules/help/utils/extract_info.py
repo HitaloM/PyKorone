@@ -177,5 +177,4 @@ async def gather_module_help(module: ModuleType) -> ModuleHelp | None:
             info=info or "",
             description=description or "",
         )
-    else:
-        return None
+    return None

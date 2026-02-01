@@ -49,4 +49,3 @@ class ShowIDHandler(KoroneMessageHandler):
             )
 
         await self.event.reply(str(doc))
-        return

@@ -125,7 +125,7 @@ class SaveChatsMiddleware(BaseMiddleware):
 
         chat, user = await self._handle_private_and_group_message(data, message)
 
-        if message.chat.type not in ("group", "supergroup"):
+        if message.chat.type not in {"group", "supergroup"}:
             return
 
         chats_to_update = await self._handle_message_update(message, chat)
@@ -150,15 +150,14 @@ class SaveChatsMiddleware(BaseMiddleware):
                 old_id=message.migrate_from_chat_id, new_chat=message.chat
             )
             return True
-        elif message.migrate_to_chat_id:
+        if message.migrate_to_chat_id:
             logger.debug(
                 "SaveChatsMiddleware: Handling migration to chat",
                 old_id=message.chat.id,
                 new_id=message.migrate_to_chat_id,
             )
             return True
-        else:
-            return False
+        return False
 
     async def _handle_private_and_group_message(
         self, data: MiddlewareData, message: Message
@@ -168,15 +167,14 @@ class SaveChatsMiddleware(BaseMiddleware):
             user = await chat_repo.upsert_user(message.from_user)
             data["chat_db"] = data["user_db"] = user
             return user, user
-        else:
-            logger.debug("SaveChatsMiddleware: Handling group message", chat_id=message.chat.id)
-            current_group = await chat_repo.upsert_group(message.chat)
-            data["chat_db"] = data["group_db"] = current_group
+        logger.debug("SaveChatsMiddleware: Handling group message", chat_id=message.chat.id)
+        current_group = await chat_repo.upsert_group(message.chat)
+        data["chat_db"] = data["group_db"] = current_group
 
-            current_user, data["user_in_group"] = await self.update_from_user(message, current_group)
-            data["user_db"] = current_user
+        current_user, data["user_in_group"] = await self.update_from_user(message, current_group)
+        data["user_db"] = current_user
 
-            return current_group, current_user or current_group
+        return current_group, current_user or current_group
 
     async def _handle_message_update(self, message: Message, group: ChatModel) -> list[Chat | User]:
         chats_to_update: list[Chat | User] = []
@@ -247,10 +245,7 @@ class SaveChatsMiddleware(BaseMiddleware):
             logger.debug("SaveChatsMiddleware: Bot was kicked from chat", chat_id=event.chat.id)
             await self._delete_user_in_chat_by_user_id(event.new_chat_member.user.id, group)
             return False
-        elif status == "member":
-            return False
-
-        return True
+        return status != "member"
 
     @override
     async def __call__(

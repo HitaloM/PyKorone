@@ -3,7 +3,7 @@ from __future__ import annotations
 from decimal import Decimal
 from enum import Enum
 from fractions import Fraction
-from typing import TYPE_CHECKING, ClassVar, TypeVar
+from typing import TYPE_CHECKING, ClassVar, Self, TypeVar
 from uuid import UUID
 
 from aiogram.filters import Filter
@@ -61,13 +61,15 @@ class CmdStart(BaseModel):
 
     def __init_subclass__(cls, **kwargs: str) -> None:
         if "prefix" not in kwargs:
-            raise ValueError("prefix required")
+            msg = "prefix required"
+            raise ValueError(msg)
 
         cls.__prefix__ = kwargs.pop("prefix")
 
         super().__init_subclass__(**kwargs)
 
-    def _encode_value(self, key: str, *, value: str | Enum | UUID | bool | int | float | Decimal | Fraction) -> str:
+    @staticmethod
+    def _encode_value(key: str, *, value: str | Enum | UUID | bool | float | Decimal | Fraction) -> str:
         if value is None:
             return ""
         if isinstance(value, Enum):
@@ -78,38 +80,41 @@ class CmdStart(BaseModel):
             return str(int(value))
         if isinstance(value, (int, str, float, Decimal, Fraction)):
             return str(value)
-        raise ValueError(
-            f"Attribute {key}={value!r} of type {type(value).__name__!r} can not be packed to callback data"
-        )
+        msg = f"Attribute {key}={value!r} of type {type(value).__name__!r} can not be packed to callback data"
+        raise ValueError(msg)
 
     def pack(self, link_type: str = "start") -> str:
         result = [self.__prefix__]
         for key, value in self.model_dump(mode="json").items():
             encoded = self._encode_value(key, value=value)
             if self.__separator__ in encoded:
-                raise ValueError(f"Separator symbol {self.__separator__!r} can not be used in value {key}={encoded!r}")
+                msg = f"Separator symbol {self.__separator__!r} can not be used in value {key}={encoded!r}"
+                raise ValueError(msg)
             result.append(encoded)
         data = f"https://t.me/{CONFIG.username}?{link_type}=" + self.__separator__.join(result)
 
         if len(data.encode()) > TELEGRAM_CALLBACK_DATA_MAX_LENGTH:
-            raise ValueError("Too long")
+            msg = "Too long"
+            raise ValueError(msg)
 
         return data
 
     @classmethod
-    def unpack(cls: type[T], value: str) -> T:
+    def unpack(cls, value: str) -> Self:
         prefix, *parts = value.split(cls.__separator__)
         names = cls.model_fields.keys()
         if len(parts) != len(names):
-            raise ValueError(f"CmdStart {cls.__name__!r} takes {len(names)} arguments but {len(parts)} were given")
+            msg = f"CmdStart {cls.__name__!r} takes {len(names)} arguments but {len(parts)} were given"
+            raise ValueError(msg)
         if prefix != cls.__prefix__:
-            raise ValueError(f"Bad prefix ({prefix!r} != {cls.__prefix__!r})")
+            msg = f"Bad prefix ({prefix!r} != {cls.__prefix__!r})"
+            raise ValueError(msg)
         payload = {}
         for k, v in zip(names, parts):
-            if field := cls.model_fields.get(k):
-                if v == "" and _check_field_is_nullable(field):
-                    v = None
-            payload[k] = v
+            value: str | None = (
+                None if (field := cls.model_fields.get(k)) and not v and _check_field_is_nullable(field) else v
+            )
+            payload[k] = value
         return cls(**payload)
 
     @classmethod

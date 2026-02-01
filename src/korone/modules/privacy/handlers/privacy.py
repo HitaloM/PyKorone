@@ -7,12 +7,11 @@ from aiogram.utils.keyboard import InlineKeyboardBuilder
 from korone.config import CONFIG
 from korone.filters.chat_status import ChatTypeFilter
 from korone.filters.cmd import CMDFilter
+from korone.modules.privacy.callbacks import PrivacyMenuCallback
 from korone.modules.utils_.callbacks import GoToStartCallback
 from korone.utils.handlers import KoroneMessageCallbackQueryHandler
 from korone.utils.i18n import gettext as _
 from korone.utils.i18n import lazy_gettext as l_
-
-from ..callbacks import PrivacyMenuCallback
 
 if TYPE_CHECKING:
     from aiogram import Router

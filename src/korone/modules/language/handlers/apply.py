@@ -54,9 +54,9 @@ def build_language_changed_message(language: str, i18n: I18nNew) -> str:
 def build_keyboard(language: str, i18n: I18nNew, *, back_to_start: bool = False) -> InlineKeyboardBuilder:
     keyboard = InlineKeyboardBuilder()
 
-    if language in CONFIG.devs_managed_languages:
-        keyboard.button(text=_("🐞 Open GitHub Issues"), url=f"{CONFIG.github_issues}")
-    elif (stats := i18n.get_locale_stats(locale_code=language)) and stats.percent_translated() > 99:
+    if language in CONFIG.devs_managed_languages or (
+        (stats := i18n.get_locale_stats(locale_code=language)) and stats.percent_translated() > 99
+    ):
         keyboard.button(text=_("🐞 Open GitHub Issues"), url=f"{CONFIG.github_issues}")
     else:
         keyboard.button(text=_("🌍 Help Translate"), url=CONFIG.translation_url)

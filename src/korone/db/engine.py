@@ -1,4 +1,5 @@
 import sqlite3
+from contextlib import suppress
 from typing import TYPE_CHECKING
 
 from sqlalchemy import event
@@ -50,11 +51,9 @@ def _configure_sqlite(dbapi_connection: DBAPIConnection, _connection_record: _Co
     )
 
     for statement in pragmas:
-        try:
-            cursor.execute(statement)
-        except sqlite3.Error:
+        with suppress(sqlite3.Error):
             # SQLite/driver builds may not support all pragmas.
             # Best-effort: do not fail the whole connection for a tuning hint.
-            pass
+            cursor.execute(statement)
 
     cursor.close()

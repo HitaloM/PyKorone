@@ -99,7 +99,8 @@ async def should_notify(signature: str, now: float | None = None) -> bool:
             )
         )
         await _await_if_needed(client.expire(key, int(max(_QUIET_RESET, delay))))
-        return True
 
     except RedisError:
         return False
+    else:
+        return True

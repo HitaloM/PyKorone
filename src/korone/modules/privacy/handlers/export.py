@@ -1,7 +1,7 @@
 from __future__ import annotations
 
+from datetime import UTC, datetime
 from datetime import date as _date
-from datetime import datetime
 from enum import Enum
 from typing import TYPE_CHECKING, cast
 
@@ -41,7 +41,7 @@ def _make_serializable(obj: ExportValue | Enum | datetime | _date) -> ExportValu
         return [_make_serializable(cast("ExportValue | Enum | datetime | _date", v)) for v in obj]
     if isinstance(obj, Enum):
         return obj.value
-    if isinstance(obj, datetime) or isinstance(obj, _date):
+    if isinstance(obj, (datetime, _date)):
         return obj.isoformat()
     return obj
 
@@ -80,7 +80,7 @@ class TriggerExport(KoroneMessageHandler):
             "general": {
                 "chat_name": chat.title,
                 "chat_id": chat.chat_id,
-                "date": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+                "date": datetime.now(UTC).strftime("%Y-%m-%d %H:%M:%S"),
                 "version": VERSION,
             },
             "chat_db": _make_serializable(cast("ExportValue | Enum | datetime | _date", chat.db_model.to_dict())),

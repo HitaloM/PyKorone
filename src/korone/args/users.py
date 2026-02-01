@@ -1,4 +1,4 @@
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, override
 
 from ass_tg.exceptions import ArgStrictError
 from ass_tg.types import OrArg
@@ -23,49 +23,54 @@ class KoroneUserIDArg(ArgFabric):
         super().__init__(*args)
         self.allow_unknown_id = allow_unknown_id
 
+    @override
     def needed_type(self) -> tuple[LazyProxy, LazyProxy]:
         return l_("User ID (Numeric)"), l_("User IDs (Numeric)")
 
+    @override
     def check(self, text: str, entities: ArgEntities) -> bool:
-        return text.split()[0].lstrip("-").isdigit()
+        return text.split(maxsplit=1)[0].lstrip("-").isdigit()
 
     async def parse(self, text: str, offset: int, entities: ArgEntities) -> tuple[int, ChatModel]:
-        user_id = int(text.split()[0])
+        user_id = int(text.split(maxsplit=1)[0])
         length = len(str(user_id))
 
         try:
             user = await chat_repo.find_user(user_id)
-            return length, user
         except LookupError:
             if not self.allow_unknown_id:
                 raise ArgStrictError(_("Could not find the requested User ID in the database."))
-
-        return length, ChatModel.user_from_id(user_id)
+            return length, ChatModel.user_from_id(user_id)
+        else:
+            return length, user
 
 
 class KoroneUsernameArg(ArgFabric):
     prefix: str = "@"
 
+    @override
     def needed_type(self) -> tuple[LazyProxy, LazyProxy]:
         return l_("Username (starts with @)"), l_("Usernames (starts with @)")
 
     def check(self, text: str, entities: ArgEntities) -> bool:
-        return text.split()[0].startswith(self.prefix)
+        return text.split(maxsplit=1)[0].startswith(self.prefix)
 
     async def parse(self, text: str, offset: int, entities: ArgEntities) -> tuple[int, ChatModel]:
-        username = text.split()[0].removeprefix(self.prefix)
+        username = text.split(maxsplit=1)[0].removeprefix(self.prefix)
         length = len(username) + len(self.prefix)
 
         try:
             user = await chat_repo.find_user_by_username(username)
-            return length, user
         except LookupError:
             raise ArgStrictError(_("Could not find the requested Username in the database."))
+        else:
+            return length, user
 
 
 class KoroneUserMentionArg(ArgFabric):
     _allowed_entities = ("mention", "text_mention")
 
+    @override
     def needed_type(self) -> tuple[LazyProxy, LazyProxy]:
         return l_("User mention"), l_("User mentions")
 
@@ -87,9 +92,10 @@ class KoroneUserMentionArg(ArgFabric):
             username = mention_text.lstrip("@")
             try:
                 user = await chat_repo.find_user_by_username(username)
-                return length, user
             except LookupError:
                 raise ArgStrictError(_("Could not find the mentioned user in the database."))
+            else:
+                return length, user
 
         try:
             user = await chat_repo.find_user(aiogram_user.id)
@@ -109,6 +115,7 @@ class KoroneUserArg(OrArg):
             description=description,
         )
 
+    @override
     def needed_type(self) -> tuple[LazyProxy, LazyProxy]:
         return l_("User: 'User ID (numeric) / Username (starts with @) / Mention (links to users)'"), l_(
             "Users: 'User IDs (numeric) / Usernames (starts with @) / Mentions (links to users)'"

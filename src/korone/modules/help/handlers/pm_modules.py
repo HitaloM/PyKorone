@@ -31,7 +31,7 @@ class PMModulesList(KoroneMessageCallbackQueryHandler):
     async def handle(self) -> None:
         callback_data: PMHelpModules | None = self.data.get("callback_data", None)
 
-        modules = {k: v for k, v in sorted(HELP_MODULES.items(), key=lambda item: str(item[1].name))}
+        modules = dict(sorted(HELP_MODULES.items(), key=lambda item: str(item[1].name)))
 
         buttons = InlineKeyboardBuilder()
 

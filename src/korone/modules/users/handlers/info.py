@@ -56,7 +56,7 @@ class UserInfoHandler(KoroneMessageHandler):
 
         doc += Section()
 
-        if not self.chat.type == ChatType.PRIVATE:
+        if self.chat.type != ChatType.PRIVATE:
             if await is_chat_creator(chat_id, user_id):
                 doc += _("This user is the owner of this chat.") + "\n"
             elif await is_user_admin(chat_id, user_id):
