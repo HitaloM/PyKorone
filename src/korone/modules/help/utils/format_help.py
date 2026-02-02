@@ -15,8 +15,8 @@ if TYPE_CHECKING:
     from korone.utils.i18n import LazyProxy
 
 
-def format_cmd(cmd: str) -> Element:
-    return Code(f"/{cmd}")
+def format_cmd(cmd: str, *, raw: bool = False) -> Element:
+    return Code(cmd if raw else f"/{cmd}")
 
 
 def format_cmd_args(arguments: dict[str, ArgFabric], *, as_code: bool = False) -> HList:
@@ -30,7 +30,7 @@ def format_handler(
     handler: HandlerHelp, *, show_only_in_groups: bool = True, show_disable_able: bool = True
 ) -> Element:
     cmd_and_args = HList(
-        HList(*(format_cmd(cmd) for cmd in handler.cmds)),
+        HList(*(format_cmd(cmd, raw=handler.raw_cmds) for cmd in handler.cmds)),
         format_cmd_args(handler.args) if handler.args else None,
         Italic(_("— Only in groups")) if show_only_in_groups and handler.only_chats else None,
         Italic("({})".format(_("Disable-able"))) if show_disable_able and handler.disableable else None,

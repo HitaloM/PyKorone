@@ -40,6 +40,7 @@ class HandlerHelp:
     only_chats: bool
     alias_to_modules: list[str]
     disableable: str | None
+    raw_cmds: bool
 
 
 @dataclass(slots=True)
@@ -94,11 +95,21 @@ async def gather_cmds_help(router: Router) -> list[HandlerHelp]:
         if not handler.filters:
             continue
 
+        help_flags = handler.flags.get("help")
+
+        if help_flags and help_flags.get("exclude"):
+            continue
+
         cmd_filters = list(filter(lambda x: isinstance(x.callback, CMDFilter), handler.filters))
 
-        if not cmd_filters:
+        cmds = None
+        if cmd_filters:
+            cmds = cmd_filters[0].callback.cmd
+        elif help_flags and help_flags.get("cmds"):
+            cmds = help_flags.get("cmds")
+
+        if not cmds:
             continue
-        cmds = cmd_filters[0].callback.cmd
 
         only_admin = any(isinstance(f.callback, UserRestricting) for f in handler.filters)
 
@@ -120,11 +131,6 @@ async def gather_cmds_help(router: Router) -> list[HandlerHelp]:
 
         only_op = any(isinstance(f.callback, IsOP) for f in handler.filters)
 
-        help_flags = handler.flags.get("help")
-
-        if help_flags and help_flags.get("exclude"):
-            continue
-
         if help_flags and help_flags.get("args"):
             args = await gather_cmd_args(help_flags["args"])
         else:
@@ -134,8 +140,10 @@ async def gather_cmds_help(router: Router) -> list[HandlerHelp]:
         if disableable_flag := handler.flags.get("disableable"):
             disableable = disableable_flag.name
 
+        cmd_list = tuple(cmds) if isinstance(cmds, (list, tuple)) else (cmds,)
+
         cmd = HandlerHelp(
-            cmds=cmds,
+            cmds=cmd_list,
             args=args,
             description=help_flags.get("description", "") if help_flags else "",
             only_admin=only_admin,
@@ -144,6 +152,7 @@ async def gather_cmds_help(router: Router) -> list[HandlerHelp]:
             only_chats=only_chats,
             alias_to_modules=help_flags.get("alias_to_modules", []) if help_flags else [],
             disableable=disableable,
+            raw_cmds=bool(help_flags and help_flags.get("raw_cmds")),
         )
         helps.append(cmd)
 

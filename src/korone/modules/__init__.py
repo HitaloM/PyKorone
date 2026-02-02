@@ -18,7 +18,7 @@ if TYPE_CHECKING:
 logger = get_logger(__name__)
 
 LOADED_MODULES: dict[str, ModuleType] = {}
-MODULES = ["troubleshooters", "op", "error", "users", "help", "privacy", "disabling", "language", "gsm_arena"]
+MODULES = ["troubleshooters", "op", "error", "users", "help", "privacy", "disabling", "language", "gsm_arena", "regex"]
 
 
 async def load_modules(dp: Dispatcher | Router, to_load: Sequence[str], to_not_load: Sequence[str] = ()) -> None:
