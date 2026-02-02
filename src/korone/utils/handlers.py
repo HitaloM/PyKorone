@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from abc import ABC, abstractmethod
-from typing import TYPE_CHECKING, NotRequired, TypedDict, TypeVar, Unpack, cast
+from typing import TYPE_CHECKING, Any, TypeVar, cast
 
 from aiogram.filters.callback_data import CallbackData
 from aiogram.fsm.context import FSMContext
@@ -19,17 +19,8 @@ from korone.utils.i18n import gettext as _
 
 if TYPE_CHECKING:
     from aiogram import Router
-    from aiogram.client.default import Default
     from aiogram.dispatcher.event.handler import CallbackType
-    from aiogram.types import (
-        InlineKeyboardMarkup,
-        InputFile,
-        LinkPreviewOptions,
-        MessageEntity,
-        ReplyMarkupUnion,
-        ReplyParameters,
-        SuggestedPostParameters,
-    )
+    from aiogram.types import InputFile
     from stfu_tg.doc import Element
 
 T = TypeVar("T")
@@ -59,44 +50,6 @@ type HandlerDataValue = (
     | None
 )
 type HandlerData = dict[str, HandlerDataValue]
-
-
-class EditTextKwargs(TypedDict, total=False):
-    parse_mode: NotRequired[str | Default | None]
-    entities: NotRequired[list[MessageEntity] | None]
-    link_preview_options: NotRequired[LinkPreviewOptions | Default | None]
-    reply_markup: NotRequired[InlineKeyboardMarkup | None]
-    disable_web_page_preview: NotRequired[bool | Default | None]
-
-
-class EditMessageMediaKwargs(TypedDict, total=False):
-    business_connection_id: NotRequired[str | None]
-    reply_markup: NotRequired[InlineKeyboardMarkup | None]
-    request_timeout: NotRequired[int | None]
-
-
-class SendPhotoKwargs(TypedDict, total=False):
-    business_connection_id: NotRequired[str | None]
-    message_thread_id: NotRequired[int | None]
-    direct_messages_topic_id: NotRequired[int | None]
-    parse_mode: NotRequired[str | Default | None]
-    caption_entities: NotRequired[list[MessageEntity] | None]
-    show_caption_above_media: NotRequired[bool | Default | None]
-    has_spoiler: NotRequired[bool | None]
-    disable_notification: NotRequired[bool | None]
-    protect_content: NotRequired[bool | Default | None]
-    allow_paid_broadcast: NotRequired[bool | None]
-    message_effect_id: NotRequired[str | None]
-    suggested_post_parameters: NotRequired[SuggestedPostParameters | None]
-    reply_parameters: NotRequired[ReplyParameters | None]
-    reply_markup: NotRequired[ReplyMarkupUnion | None]
-    allow_sending_without_reply: NotRequired[bool | None]
-    reply_to_message_id: NotRequired[int | None]
-    request_timeout: NotRequired[int | None]
-
-
-class AnswerMediaKwargs(EditMessageMediaKwargs, SendPhotoKwargs, total=False):
-    pass
 
 
 class KoroneBaseHandler(BaseHandler[T], BaseHandlerMixin[T], ABC):
@@ -157,11 +110,10 @@ class KoroneCallbackQueryHandler(KoroneBaseHandler[CallbackQuery], ABC):
         if not self.event.message or isinstance(self.event.message, InaccessibleMessage):
             raise KoroneError(_("The message is inaccessible. Please write the command again"))
 
-    async def edit_text(self, text: Element | str, **kwargs: Unpack[EditTextKwargs]) -> None:
+    async def edit_text(self, text: Element | str, **kwargs: object) -> None:
         await self.check_for_message()
         message = cast("Message", self.event.message)
-        edit_kwargs = cast("EditTextKwargs", kwargs)
-        await message.edit_text(str(text), **edit_kwargs)
+        await message.edit_text(str(text), **cast("Any", kwargs))
 
 
 class KoroneMessageCallbackQueryHandler(KoroneBaseHandler[Message | CallbackQuery], ABC):
@@ -182,24 +134,20 @@ class KoroneMessageCallbackQueryHandler(KoroneBaseHandler[Message | CallbackQuer
     def callback_data(self) -> CallbackData | str | None:
         return self.data.get("callback_data")
 
-    async def answer_media(
-        self, f: InputFile, caption: str | None = None, **kwargs: Unpack[AnswerMediaKwargs]
-    ) -> Message | bool:
+    async def answer_media(self, f: InputFile, caption: str | None = None, **kwargs: object) -> Message | bool:
         if isinstance(self.event, InaccessibleMessage):
             raise KoroneError(_("The message is inaccessible. Please write the command again"))
         if isinstance(self.event, CallbackQuery) and self.event.message:
-            edit_kwargs = cast("EditMessageMediaKwargs", kwargs)
             return await bot.edit_message_media(
                 media=InputMediaPhoto(media=f, caption=caption),
                 chat_id=self.event.message.chat.id,
                 message_id=self.event.message.message_id,
-                **edit_kwargs,
+                **cast("Any", kwargs),
             )
         if isinstance(self.event, Message):
-            send_kwargs = cast("SendPhotoKwargs", kwargs)
-            return await bot.send_photo(chat_id=self.event.chat.id, photo=f, caption=caption, **send_kwargs)
+            return await bot.send_photo(chat_id=self.event.chat.id, photo=f, caption=caption, **cast("Any", kwargs))
         msg = "answer_media: Wrong event type"
         raise ValueError(msg)
 
-    async def answer(self, text: Element | str, **kwargs: Unpack[EditTextKwargs]) -> Message | bool:
+    async def answer(self, text: Element | str, **kwargs: object) -> Message | bool:
         return await reply_or_edit(self.event, text, **kwargs)
