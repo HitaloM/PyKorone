@@ -24,10 +24,6 @@ class SedPatternFilter(BaseFilter):
         return bool(text and self.pattern.match(text))
 
 
-class SendPatternFilter(SedPatternFilter):
-    """Alias for SedPatternFilter, kept for help/UX naming consistency."""
-
-
 def cleanup_pattern(match: re.Match[str]) -> tuple[str, str]:
     from_pattern = match.group(1)
     to_pattern = match.group(2).replace("\\/", "/")

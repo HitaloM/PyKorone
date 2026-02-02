@@ -5,7 +5,7 @@ from typing import TYPE_CHECKING
 
 from aiogram import flags
 
-from korone.modules.regex.utils import SED_PATTERN, SendPatternFilter, process_command
+from korone.modules.regex.utils import SED_PATTERN, SedPatternFilter, process_command
 from korone.utils.handlers import KoroneMessageHandler
 from korone.utils.i18n import gettext as _
 from korone.utils.i18n import lazy_gettext as l_
@@ -21,7 +21,7 @@ if TYPE_CHECKING:
 class SedHandler(KoroneMessageHandler):
     @staticmethod
     def filters() -> tuple[CallbackType, ...]:
-        return (SendPatternFilter(SED_PATTERN),)
+        return (SedPatternFilter(SED_PATTERN),)
 
     async def handle(self) -> None:
         message = self.event

@@ -20,10 +20,8 @@ def format_cmd(cmd: str, *, raw: bool = False) -> Element:
 
 
 def format_cmd_args(arguments: dict[str, ArgFabric], *, as_code: bool = False) -> HList:
-    formatted_descriptions = (
-        Code(f"<{arg.description}>") if as_code else f"<{arg.description}>" for arg in arguments.values()
-    )
-    return HList(*formatted_descriptions)
+    formatted = [Code(f"<{arg.description}>") if as_code else f"<{arg.description}>" for arg in arguments.values()]
+    return HList(*formatted)
 
 
 def format_handler(
@@ -53,9 +51,9 @@ def format_handlers(all_cmds: Sequence[HandlerHelp], **kwargs: bool) -> VList:
 
 
 def group_handlers(handlers: Sequence[HandlerHelp]) -> list[tuple[LazyProxy, list[HandlerHelp]]]:
-    cmds = []
-    pm_cmds = []
-    admin_only_cmds = []
+    cmds: list[HandlerHelp] = []
+    pm_cmds: list[HandlerHelp] = []
+    admin_only_cmds: list[HandlerHelp] = []
 
     for handler in handlers:
         if handler.only_op:
@@ -68,7 +66,7 @@ def group_handlers(handlers: Sequence[HandlerHelp]) -> list[tuple[LazyProxy, lis
         else:
             cmds.append(handler)
 
-    groups = []
+    groups: list[tuple[LazyProxy, list[HandlerHelp]]] = []
 
     if cmds:
         groups.append((l_("Commands"), cmds))

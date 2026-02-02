@@ -1,7 +1,7 @@
 from collections import OrderedDict
 from collections.abc import Callable, Coroutine
 from dataclasses import dataclass
-from inspect import iscoroutinefunction
+from inspect import isawaitable, iscoroutinefunction
 from itertools import chain
 from typing import TYPE_CHECKING, cast
 
@@ -58,12 +58,12 @@ DISABLEABLE_CMDS: list[HandlerHelp] = []
 
 
 def get_aliased_cmds(module_name: str) -> dict[str, list[HandlerHelp]]:
-    return {
-        mod_name: [cmd for cmd in module.handlers if cmd.alias_to_modules and module_name in cmd.alias_to_modules]
-        for mod_name, module in HELP_MODULES.items()
-        if any(cmd.alias_to_modules for cmd in module.handlers)
-        and any(cmd.alias_to_modules and module_name in cmd.alias_to_modules for cmd in module.handlers)
-    }
+    aliased: dict[str, list[HandlerHelp]] = {}
+    for mod_name, module in HELP_MODULES.items():
+        handlers = [cmd for cmd in module.handlers if cmd.alias_to_modules and module_name in cmd.alias_to_modules]
+        if handlers:
+            aliased[mod_name] = handlers
+    return aliased
 
 
 def get_all_cmds() -> list[HandlerHelp]:
@@ -71,7 +71,15 @@ def get_all_cmds() -> list[HandlerHelp]:
 
 
 def get_all_cmds_raw() -> tuple[str, ...]:
-    return tuple(cmd for cmds in get_all_cmds() for cmd in cmds.cmds)
+    return tuple(chain.from_iterable(cmds.cmds for cmds in get_all_cmds()))
+
+
+def normalize_cmds(cmds: object) -> tuple[str, ...] | None:
+    if isinstance(cmds, str):
+        return (cmds,)
+    if isinstance(cmds, (list, tuple)) and all(isinstance(cmd, str) for cmd in cmds):
+        return cast("tuple[str, ...]", tuple(cmds))
+    return None
 
 
 async def gather_cmd_args(args: ARGS_DICT | ARGS_COROUTINE | None) -> ARGS_DICT | None:
@@ -79,10 +87,13 @@ async def gather_cmd_args(args: ARGS_DICT | ARGS_COROUTINE | None) -> ARGS_DICT 
         return None
     if isinstance(args, dict):
         return cast("ARGS_DICT", args)
-    if iscoroutinefunction(args):
-        result = await args(None, {})
+    if callable(args):
+        result = args(None, {})
+        if iscoroutinefunction(args) or isawaitable(result):
+            result = await result
         return cast("ARGS_DICT", result)
-    raise ValueError
+    msg = "Unsupported args type"
+    raise TypeError(msg)
 
 
 async def gather_cmds_help(router: Router) -> list[HandlerHelp]:
@@ -96,15 +107,15 @@ async def gather_cmds_help(router: Router) -> list[HandlerHelp]:
             continue
 
         help_flags = handler.flags.get("help")
-
         if help_flags and help_flags.get("exclude"):
             continue
 
-        cmd_filters = list(filter(lambda x: isinstance(x.callback, CMDFilter), handler.filters))
-
+        cmd_filters = [f for f in handler.filters if isinstance(f.callback, CMDFilter)]
         cmds = None
         if cmd_filters:
-            cmds = cmd_filters[0].callback.cmd
+            cmd_callback = cmd_filters[0].callback
+            if hasattr(cmd_callback, "cmd"):
+                cmds = cmd_callback.cmd
         elif help_flags and help_flags.get("cmds"):
             cmds = help_flags.get("cmds")
 
@@ -112,11 +123,9 @@ async def gather_cmds_help(router: Router) -> list[HandlerHelp]:
             continue
 
         only_admin = any(isinstance(f.callback, UserRestricting) for f in handler.filters)
-
         only_pm = any(
-            (isinstance(f.callback, ChatTypeFilter) and f.callback.chat_types == ("private",)) for f in handler.filters
+            isinstance(f.callback, ChatTypeFilter) and f.callback.chat_types == ("private",) for f in handler.filters
         )
-
         only_chats = any(
             (
                 (isinstance(f.callback, ChatTypeFilter) and set(f.callback.chat_types) == {"group", "supergroup"})
@@ -128,7 +137,6 @@ async def gather_cmds_help(router: Router) -> list[HandlerHelp]:
             )
             for f in handler.filters
         )
-
         only_op = any(isinstance(f.callback, IsOP) for f in handler.filters)
 
         if help_flags and help_flags.get("args"):
@@ -136,12 +144,12 @@ async def gather_cmds_help(router: Router) -> list[HandlerHelp]:
         else:
             args = await gather_cmd_args(handler.flags.get("args"))
 
-        disableable = None
-        if disableable_flag := handler.flags.get("disableable"):
-            disableable = disableable_flag.name
+        disableable = handler.flags.get("disableable")
+        disableable_name = disableable.name if disableable else None
 
-        cmd_list = tuple(cmds) if isinstance(cmds, (list, tuple)) else (cmds,)
-
+        cmd_list = normalize_cmds(cmds)
+        if not cmd_list:
+            continue
         cmd = HandlerHelp(
             cmds=cmd_list,
             args=args,
@@ -151,12 +159,12 @@ async def gather_cmds_help(router: Router) -> list[HandlerHelp]:
             only_pm=only_pm,
             only_chats=only_chats,
             alias_to_modules=help_flags.get("alias_to_modules", []) if help_flags else [],
-            disableable=disableable,
+            disableable=disableable_name,
             raw_cmds=bool(help_flags and help_flags.get("raw_cmds")),
         )
         helps.append(cmd)
 
-        if disableable:
+        if disableable_name:
             DISABLEABLE_CMDS.append(cmd)
 
     await logger.adebug(
