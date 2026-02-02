@@ -22,6 +22,8 @@ dependencies = [
     "ass-tg>=2.4.3",
     "uvloop>=0.21",
     "anyio>=4.12.1",
+    "aiohttp[speedups]>=3.13.3",
+    "lxml>=6.0.2",
 ]
 
 [dependency-groups]

@@ -10,6 +10,8 @@ class Config(BaseSettings):
     owner_id: int | None = None
     operators: list[int] = []
 
+    cors_bypass_url: str = "localhost"
+
     db_url: str = "sqlite+aiosqlite:///data/korone.db"
 
     redis_host: str = "localhost"
