@@ -18,15 +18,19 @@ from .utils.extract_info import HELP_MODULES, gather_module_help
 if TYPE_CHECKING:
     from types import ModuleType
 
-router = Router(name="info")
-
 logger = get_logger(__name__)
+
+router = Router(name="info")
 
 __module_name__ = l_("Help")
 __module_emoji__ = "ℹ️"
 __module_description__ = l_("Provides helpful information")
-__module_info__ = LazyProxy(lambda: Doc(l_("Get information about available commands and modules in Korone.")))
-
+__module_info__ = LazyProxy(
+    lambda: Doc(
+        l_("Provides help and documentation for all bot commands and features."),
+        l_("Includes command lists, usage instructions, and feature explanations."),
+    )
+)
 
 __handlers__ = (StartPMHandler, HelpGroupHandler, PMModulesList, StartGroupHandler, PMModuleHelp, OpCMDSList)
 

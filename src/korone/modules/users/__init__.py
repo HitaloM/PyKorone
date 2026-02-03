@@ -12,13 +12,11 @@ from .stats import users_stats
 router = Router(name="users")
 __module_name__ = l_("Users")
 __module_emoji__ = "🫂"
-__module_description__ = l_("Get information about users.")
+__module_description__ = l_("User information and management")
 __module_info__ = LazyProxy(
     lambda: Doc(
-        l_(
-            "Various commands to get information about users, such as their IDs and detailed info. "
-            "It also includes a command to list all administrators in the chat."
-        )
+        l_("Provides commands to get information about users and chat members."),
+        l_("Includes admin list, user IDs, and detailed user information."),
     )
 )
 

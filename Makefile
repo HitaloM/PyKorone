@@ -1,4 +1,4 @@
-PROJECT_DIR := "$(CURDIR)/src/korone"
+PROJECT_DIR := src/korone
 
 PYTHON := uv run python
 PYBABEL := uv run pybabel

@@ -15,13 +15,11 @@ router = Router(name="Disable")
 
 __module_name__ = l_("Disabling")
 __module_emoji__ = "🚫"
-__module_description__ = l_("Disable some commonly used commands.")
+__module_description__ = l_("Disable commands in chats")
 __module_info__ = LazyProxy(
     lambda: Doc(
-        l_(
-            "Not everyone wants every feature that Korone offers. "
-            "Some commands are best left unused; to avoid spam and abuse."
-        )
+        l_("Allows administrators to disable specific commands in their chats."),
+        l_("Useful for restricting bot functionality to only necessary commands."),
     )
 )
 
