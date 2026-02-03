@@ -1,3 +1,4 @@
+from korone.db import models  # noqa: F401
 from korone.db.base import Base
 from korone.db.engine import engine
 

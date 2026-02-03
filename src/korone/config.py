@@ -10,8 +10,6 @@ class Config(BaseSettings):
     owner_id: int | None = None
     operators: list[int] = []
 
-    cors_bypass_url: str = "localhost"
-
     db_url: str = "sqlite+aiosqlite:///data/korone.db"
 
     redis_host: str = "localhost"
@@ -38,6 +36,10 @@ class Config(BaseSettings):
     github_issues: str = "https://github.com/HitaloM/PyKorone/issues"
 
     default_locale: str = "en_US"
+
+    cors_bypass_url: str = "localhost"
+
+    lastfm_key: str | None = None
 
     class Config:
         env_file = "data/config.env"

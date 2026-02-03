@@ -1,1104 +1,1376 @@
-#: /home/hitalo/sophie/src/korone/args/users.py:28 types/user.py:17
+#: src/korone/args/users.py:28 types/user.py:17
 msgid "User ID (Numeric)"
 msgstr ""
 
-#: /home/hitalo/sophie/src/korone/args/users.py:28 types/user.py:17
+#: src/korone/args/users.py:28 types/user.py:17
 msgid "User IDs (Numeric)"
 msgstr ""
 
-#: /home/hitalo/sophie/src/korone/args/users.py:42
+#: src/korone/args/users.py:42
 msgid "Could not find the requested User ID in the database."
 msgstr ""
 
-#: /home/hitalo/sophie/src/korone/args/users.py:53 types/user.py:37
+#: src/korone/args/users.py:53 types/user.py:37
 msgid "Username (starts with @)"
 msgstr ""
 
-#: /home/hitalo/sophie/src/korone/args/users.py:53
+#: src/korone/args/users.py:53
 msgid "Usernames (starts with @)"
 msgstr ""
 
-#: /home/hitalo/sophie/src/korone/args/users.py:65
+#: src/korone/args/users.py:65
 msgid "Could not find the requested Username in the database."
 msgstr ""
 
-#: /home/hitalo/sophie/src/korone/args/users.py:75
+#: src/korone/args/users.py:75
 msgid "User mention"
 msgstr ""
 
-#: /home/hitalo/sophie/src/korone/args/users.py:75
+#: src/korone/args/users.py:75
 msgid "User mentions"
 msgstr ""
 
-#: /home/hitalo/sophie/src/korone/args/users.py:83
+#: src/korone/args/users.py:83
 msgid "No mention entity found at offset."
 msgstr ""
 
-#: /home/hitalo/sophie/src/korone/args/users.py:96
+#: src/korone/args/users.py:96
 msgid "Could not find the mentioned user in the database."
 msgstr ""
 
-#: /home/hitalo/sophie/src/korone/args/users.py:120 types/user.py:120
+#: src/korone/args/users.py:120 types/user.py:120
 msgid "User: 'User ID (numeric) / Username (starts with @) / Mention (links to users)'"
 msgstr ""
 
-#: /home/hitalo/sophie/src/korone/args/users.py:121 types/user.py:122
+#: src/korone/args/users.py:121 types/user.py:122
 msgid "Users: 'User IDs (numeric) / Usernames (starts with @) / Mentions (links to users)'"
 msgstr ""
 
-#: /home/hitalo/sophie/src/korone/args/users.py:127 types/user.py:128
+#: src/korone/args/users.py:127 types/user.py:128
 msgid "User ID"
 msgstr ""
 
-#: /home/hitalo/sophie/src/korone/args/users.py:128
-#: /home/hitalo/sophie/src/korone/modules/users/handlers/info.py:61
-#: types/user.py:129
+#: src/korone/args/users.py:128 src/korone/modules/lastfm/handlers/set.py:61
+#: src/korone/modules/users/handlers/info.py:61 types/user.py:129
 msgid "Username"
 msgstr ""
 
-#: /home/hitalo/sophie/src/korone/args/users.py:130 types/user.py:134
+#: src/korone/args/users.py:130 types/user.py:134
 msgid "A link to user, usually creates by mentioning a user without username."
 msgstr ""
 
-#: /home/hitalo/sophie/src/korone/filters/admin_rights.py:114
+#: src/korone/filters/admin_rights.py:114
 msgid "I don't have the following permissions to do this:"
 msgstr ""
 
-#: /home/hitalo/sophie/src/korone/filters/admin_rights.py:116
+#: src/korone/filters/admin_rights.py:116
 msgid "You don't have the following permissions to do this:"
 msgstr ""
 
-#: /home/hitalo/sophie/src/korone/filters/admin_rights.py:121
+#: src/korone/filters/admin_rights.py:121
 msgid "I must be an administrator to use this command."
 msgstr ""
 
-#: /home/hitalo/sophie/src/korone/filters/admin_rights.py:123
+#: src/korone/filters/admin_rights.py:123
 msgid "You must be an administrator to use this command."
 msgstr ""
 
-#: /home/hitalo/sophie/src/korone/middlewares/chat_context.py:50
+#: src/korone/middlewares/chat_context.py:50
 msgid "Private chat"
 msgstr ""
 
-#: /home/hitalo/sophie/src/korone/modules/disabling/__init__.py:16
+#: src/korone/modules/disabling/__init__.py:16
 msgid "Disabling"
 msgstr ""
 
-#: /home/hitalo/sophie/src/korone/modules/disabling/__init__.py:18
+#: src/korone/modules/disabling/__init__.py:18
 msgid "Disable commands in chats"
 msgstr ""
 
-#: /home/hitalo/sophie/src/korone/modules/disabling/__init__.py:21
+#: src/korone/modules/disabling/__init__.py:21
 msgid "Allows administrators to disable specific commands in their chats."
 msgstr ""
 
-#: /home/hitalo/sophie/src/korone/modules/disabling/__init__.py:22
+#: src/korone/modules/disabling/__init__.py:22
 msgid "Useful for restricting bot functionality to only necessary commands."
 msgstr ""
 
-#: /home/hitalo/sophie/src/korone/modules/disabling/handlers/disable.py:26
+#: src/korone/modules/disabling/handlers/disable.py:26
 msgid "Disables the command."
 msgstr ""
 
-#: /home/hitalo/sophie/src/korone/modules/disabling/handlers/disable.py:30
-#: /home/hitalo/sophie/src/korone/modules/disabling/handlers/disable.py:58
-#: /home/hitalo/sophie/src/korone/modules/disabling/handlers/enable.py:31
-#: /home/hitalo/sophie/src/korone/modules/disabling/handlers/enable.py:60
+#: src/korone/modules/disabling/handlers/disable.py:30
+#: src/korone/modules/disabling/handlers/disable.py:58
+#: src/korone/modules/disabling/handlers/enable.py:31
+#: src/korone/modules/disabling/handlers/enable.py:60
 msgid "Command"
 msgstr ""
 
-#: /home/hitalo/sophie/src/korone/modules/disabling/handlers/disable.py:46
-#: /home/hitalo/sophie/src/korone/modules/disabling/handlers/enable.py:47
+#: src/korone/modules/disabling/handlers/disable.py:46
+#: src/korone/modules/disabling/handlers/enable.py:47
 #, python-brace-format
 msgid "Command {cmd} not found."
 msgstr ""
 
-#: /home/hitalo/sophie/src/korone/modules/disabling/handlers/disable.py:50
-#: /home/hitalo/sophie/src/korone/modules/disabling/handlers/enable.py:51
+#: src/korone/modules/disabling/handlers/disable.py:50
+#: src/korone/modules/disabling/handlers/enable.py:51
 #, python-brace-format
 msgid "Command {cmd} is already disabled."
 msgstr ""
 
-#: /home/hitalo/sophie/src/korone/modules/disabling/handlers/disable.py:57
-#: /home/hitalo/sophie/src/korone/modules/disabling/handlers/enable.py:59
-#: /home/hitalo/sophie/src/korone/modules/utils_/status_handler.py:50
-#: /home/hitalo/sophie/src/korone/modules/utils_/status_handler.py:74
+#: src/korone/modules/disabling/handlers/disable.py:57
+#: src/korone/modules/disabling/handlers/enable.py:59
+#: src/korone/modules/utils_/status_handler.py:50
+#: src/korone/modules/utils_/status_handler.py:74
 msgid "Chat"
 msgstr ""
 
-#: /home/hitalo/sophie/src/korone/modules/disabling/handlers/disable.py:60
+#: src/korone/modules/disabling/handlers/disable.py:60
 msgid "Command disabled"
 msgstr ""
 
-#: /home/hitalo/sophie/src/korone/modules/disabling/handlers/disable_able.py:19
+#: src/korone/modules/disabling/handlers/disable_able.py:19
 msgid "Lists all commands that can be disabled."
 msgstr ""
 
-#: /home/hitalo/sophie/src/korone/modules/disabling/handlers/disable_able.py:37
+#: src/korone/modules/disabling/handlers/disable_able.py:37
 msgid "Disable-able commands"
 msgstr ""
 
-#: /home/hitalo/sophie/src/korone/modules/disabling/handlers/disabled.py:17
+#: src/korone/modules/disabling/handlers/disabled.py:17
 msgid "Lists all disabled commands."
 msgstr ""
 
-#: /home/hitalo/sophie/src/korone/modules/disabling/handlers/disabled.py:28
+#: src/korone/modules/disabling/handlers/disabled.py:28
 msgid "No disabled commands found."
 msgstr ""
 
-#: /home/hitalo/sophie/src/korone/modules/disabling/handlers/disabled.py:31
+#: src/korone/modules/disabling/handlers/disabled.py:31
 msgid "Disabled commands"
 msgstr ""
 
-#: /home/hitalo/sophie/src/korone/modules/disabling/handlers/enable.py:27
+#: src/korone/modules/disabling/handlers/enable.py:27
 msgid "Enables previously disabled command."
 msgstr ""
 
-#: /home/hitalo/sophie/src/korone/modules/disabling/handlers/enable.py:62
+#: src/korone/modules/disabling/handlers/enable.py:62
 msgid "Command enabled"
 msgstr ""
 
-#: /home/hitalo/sophie/src/korone/modules/disabling/handlers/enable_all.py:22
+#: src/korone/modules/disabling/handlers/enable_all.py:22
 msgid "Enable all commands in the chat"
 msgstr ""
 
-#: /home/hitalo/sophie/src/korone/modules/disabling/handlers/enable_all.py:36
+#: src/korone/modules/disabling/handlers/enable_all.py:36
 msgid "✅ Enable all"
 msgstr ""
 
-#: /home/hitalo/sophie/src/korone/modules/disabling/handlers/enable_all.py:39
+#: src/korone/modules/disabling/handlers/enable_all.py:39
 msgid "🚫 Cancel"
 msgstr ""
 
-#: /home/hitalo/sophie/src/korone/modules/disabling/handlers/enable_all.py:43
+#: src/korone/modules/disabling/handlers/enable_all.py:43
 #, python-brace-format
 msgid "Do you want to enable all commands in the {chat_name}?"
 msgstr ""
 
-#: /home/hitalo/sophie/src/korone/modules/disabling/handlers/enable_all.py:59
+#: src/korone/modules/disabling/handlers/enable_all.py:59
 msgid "Only the initiator can confirm disabling all commands"
 msgstr ""
 
-#: /home/hitalo/sophie/src/korone/modules/disabling/handlers/enable_all.py:71
+#: src/korone/modules/disabling/handlers/enable_all.py:71
 #, python-brace-format
 msgid "✅ All the commands ({removed_count}) have been enabled in the {chat_name}"
 msgstr ""
 
-#: /home/hitalo/sophie/src/korone/modules/error/__init__.py:13
+#: src/korone/modules/error/__init__.py:13
 msgid "Error"
 msgstr ""
 
-#: /home/hitalo/sophie/src/korone/modules/error/__init__.py:15
+#: src/korone/modules/error/__init__.py:15
 msgid "Error handling and reporting"
 msgstr ""
 
-#: /home/hitalo/sophie/src/korone/modules/error/__init__.py:18
+#: src/korone/modules/error/__init__.py:18
 msgid "Handles errors and exceptions that occur during bot operation."
 msgstr ""
 
-#: /home/hitalo/sophie/src/korone/modules/error/__init__.py:19
+#: src/korone/modules/error/__init__.py:19
 msgid "Provides error reporting and recovery mechanisms."
 msgstr ""
 
-#: /home/hitalo/sophie/src/korone/modules/error/handlers/crash_handler.py:16
+#: src/korone/modules/error/handlers/crash_handler.py:16
 msgid "Causes the bot to crash (for testing purposes)."
 msgstr ""
 
-#: /home/hitalo/sophie/src/korone/modules/error/utils/error_message.py:26
+#: src/korone/modules/error/utils/error_message.py:26
 msgid "😞 I've got an error trying to process this update"
 msgstr ""
 
-#: /home/hitalo/sophie/src/korone/modules/error/utils/haikus.py:4
+#: src/korone/modules/error/utils/haikus.py:4
 msgid "Code dances with bugs,"
 msgstr ""
 
-#: /home/hitalo/sophie/src/korone/modules/error/utils/haikus.py:4
+#: src/korone/modules/error/utils/haikus.py:4
 msgid "Exceptions arise, yet learn —"
 msgstr ""
 
-#: /home/hitalo/sophie/src/korone/modules/error/utils/haikus.py:4
+#: src/korone/modules/error/utils/haikus.py:4
 msgid "Errors guide our way."
 msgstr ""
 
-#: /home/hitalo/sophie/src/korone/modules/error/utils/haikus.py:5
+#: src/korone/modules/error/utils/haikus.py:5
 msgid "Silent lines disrupted,"
 msgstr ""
 
-#: /home/hitalo/sophie/src/korone/modules/error/utils/haikus.py:5
+#: src/korone/modules/error/utils/haikus.py:5
 msgid "Errors speak a language new,"
 msgstr ""
 
-#: /home/hitalo/sophie/src/korone/modules/error/utils/haikus.py:5
+#: src/korone/modules/error/utils/haikus.py:5
 msgid "In flaws, growth takes root."
 msgstr ""
 
-#: /home/hitalo/sophie/src/korone/modules/error/utils/haikus.py:6
+#: src/korone/modules/error/utils/haikus.py:6
 msgid "Through the mist of bugs,"
 msgstr ""
 
-#: /home/hitalo/sophie/src/korone/modules/error/utils/haikus.py:6
+#: src/korone/modules/error/utils/haikus.py:6
 msgid "Learning blooms in lines of code,"
 msgstr ""
 
-#: /home/hitalo/sophie/src/korone/modules/error/utils/haikus.py:6
+#: src/korone/modules/error/utils/haikus.py:6
 msgid "Exceptional growth."
 msgstr ""
 
-#: /home/hitalo/sophie/src/korone/modules/error/utils/haikus.py:7
+#: src/korone/modules/error/utils/haikus.py:7
 msgid "In errors we find,"
 msgstr ""
 
-#: /home/hitalo/sophie/src/korone/modules/error/utils/haikus.py:7
+#: src/korone/modules/error/utils/haikus.py:7
 msgid "Opportunities to learn,"
 msgstr ""
 
-#: /home/hitalo/sophie/src/korone/modules/error/utils/haikus.py:7
+#: src/korone/modules/error/utils/haikus.py:7
 msgid "Software's hidden gifts."
 msgstr ""
 
-#: /home/hitalo/sophie/src/korone/modules/error/utils/haikus.py:8
+#: src/korone/modules/error/utils/haikus.py:8
 msgid "Paths diverge, glitch calls,"
 msgstr ""
 
-#: /home/hitalo/sophie/src/korone/modules/error/utils/haikus.py:8
+#: src/korone/modules/error/utils/haikus.py:8
 msgid "Embrace the flaw, seek the fix,"
 msgstr ""
 
-#: /home/hitalo/sophie/src/korone/modules/error/utils/haikus.py:8
+#: src/korone/modules/error/utils/haikus.py:8
 msgid "Errors sculpt progress."
 msgstr ""
 
-#: /home/hitalo/sophie/src/korone/modules/error/utils/haikus.py:9
+#: src/korone/modules/error/utils/haikus.py:9
 msgid "A glitchy waltz starts,"
 msgstr ""
 
-#: /home/hitalo/sophie/src/korone/modules/error/utils/haikus.py:9
+#: src/korone/modules/error/utils/haikus.py:9
 msgid "Errors lead to graceful steps,"
 msgstr ""
 
-#: /home/hitalo/sophie/src/korone/modules/error/utils/haikus.py:9
+#: src/korone/modules/error/utils/haikus.py:9
 msgid "Software learns to dance."
 msgstr ""
 
-#: /home/hitalo/sophie/src/korone/modules/error/utils/haikus.py:10
+#: src/korone/modules/error/utils/haikus.py:10
 msgid "Beneath error's mask,"
 msgstr ""
 
-#: /home/hitalo/sophie/src/korone/modules/error/utils/haikus.py:10
+#: src/korone/modules/error/utils/haikus.py:10
 msgid "Lies chance to refine and mend,"
 msgstr ""
 
-#: /home/hitalo/sophie/src/korone/modules/error/utils/haikus.py:10
+#: src/korone/modules/error/utils/haikus.py:10
 msgid "Stronger code emerges."
 msgstr ""
 
-#: /home/hitalo/sophie/src/korone/modules/error/utils/haikus.py:11
+#: src/korone/modules/error/utils/haikus.py:11
 msgid "Flawed notes in the code,"
 msgstr ""
 
-#: /home/hitalo/sophie/src/korone/modules/error/utils/haikus.py:11
+#: src/korone/modules/error/utils/haikus.py:11
 msgid "Create the symphony of growth,"
 msgstr ""
 
-#: /home/hitalo/sophie/src/korone/modules/error/utils/haikus.py:11
+#: src/korone/modules/error/utils/haikus.py:11
 msgid "Exceptions compose."
 msgstr ""
 
-#: /home/hitalo/sophie/src/korone/modules/error/utils/haikus.py:12
+#: src/korone/modules/error/utils/haikus.py:12
 msgid "Bright stars in the code,"
 msgstr ""
 
-#: /home/hitalo/sophie/src/korone/modules/error/utils/haikus.py:12
+#: src/korone/modules/error/utils/haikus.py:12
 msgid "Errors guide us through the dark,"
 msgstr ""
 
-#: /home/hitalo/sophie/src/korone/modules/error/utils/haikus.py:12
+#: src/korone/modules/error/utils/haikus.py:12
 msgid "To a better dawn."
 msgstr ""
 
-#: /home/hitalo/sophie/src/korone/modules/error/utils/haikus.py:13
+#: src/korone/modules/error/utils/haikus.py:13
 msgid "Software's journey,"
 msgstr ""
 
-#: /home/hitalo/sophie/src/korone/modules/error/utils/haikus.py:13
+#: src/korone/modules/error/utils/haikus.py:13
 msgid "Marked by errors, yet they forge,"
 msgstr ""
 
-#: /home/hitalo/sophie/src/korone/modules/error/utils/haikus.py:13
+#: src/korone/modules/error/utils/haikus.py:13
 msgid "A path to brilliance."
 msgstr ""
 
-#: /home/hitalo/sophie/src/korone/modules/error/utils/haikus.py:14
+#: src/korone/modules/error/utils/haikus.py:14
 msgid "In lines of debug,"
 msgstr ""
 
-#: /home/hitalo/sophie/src/korone/modules/error/utils/haikus.py:14
+#: src/korone/modules/error/utils/haikus.py:14
 msgid "Lies the tale of perseverance,"
 msgstr ""
 
-#: /home/hitalo/sophie/src/korone/modules/error/utils/haikus.py:14
+#: src/korone/modules/error/utils/haikus.py:14
 msgid "Errors write our story."
 msgstr ""
 
-#: /home/hitalo/sophie/src/korone/modules/error/utils/haikus.py:15
+#: src/korone/modules/error/utils/haikus.py:15
 msgid "Bugs like stepping stones,"
 msgstr ""
 
-#: /home/hitalo/sophie/src/korone/modules/error/utils/haikus.py:15
+#: src/korone/modules/error/utils/haikus.py:15
 msgid "Lead us towards understanding,"
 msgstr ""
 
-#: /home/hitalo/sophie/src/korone/modules/error/utils/haikus.py:15
+#: src/korone/modules/error/utils/haikus.py:15
 msgid "Paths of enlightenment."
 msgstr ""
 
-#: /home/hitalo/sophie/src/korone/modules/error/utils/haikus.py:16
+#: src/korone/modules/error/utils/haikus.py:16
 msgid "Amidst lines of code,"
 msgstr ""
 
-#: /home/hitalo/sophie/src/korone/modules/error/utils/haikus.py:16
+#: src/korone/modules/error/utils/haikus.py:16
 msgid "Errors whisper secrets deep,"
 msgstr ""
 
-#: /home/hitalo/sophie/src/korone/modules/error/utils/haikus.py:16
+#: src/korone/modules/error/utils/haikus.py:16
 msgid "Knowledge blooms from flaws."
 msgstr ""
 
-#: /home/hitalo/sophie/src/korone/modules/error/utils/haikus.py:17
+#: src/korone/modules/error/utils/haikus.py:17
 msgid "A puzzle of bugs,"
 msgstr ""
 
-#: /home/hitalo/sophie/src/korone/modules/error/utils/haikus.py:17
+#: src/korone/modules/error/utils/haikus.py:17
 msgid "Each exception a clue to solve,"
 msgstr ""
 
-#: /home/hitalo/sophie/src/korone/modules/error/utils/haikus.py:17
+#: src/korone/modules/error/utils/haikus.py:17
 msgid "The software's riddle."
 msgstr ""
 
-#: /home/hitalo/sophie/src/korone/modules/error/utils/haikus.py:18
+#: src/korone/modules/error/utils/haikus.py:18
 msgid "In realm of errors,"
 msgstr ""
 
-#: /home/hitalo/sophie/src/korone/modules/error/utils/haikus.py:18
+#: src/korone/modules/error/utils/haikus.py:18
 msgid "Patience and insight converge,"
 msgstr ""
 
-#: /home/hitalo/sophie/src/korone/modules/error/utils/haikus.py:18
+#: src/korone/modules/error/utils/haikus.py:18
 msgid "Solutions are born."
 msgstr ""
 
-#: /home/hitalo/sophie/src/korone/modules/error/utils/haikus.py:19
+#: src/korone/modules/error/utils/haikus.py:19
 msgid "Through crashes and burns,"
 msgstr ""
 
-#: /home/hitalo/sophie/src/korone/modules/error/utils/haikus.py:19
+#: src/korone/modules/error/utils/haikus.py:19
 msgid "Rises phoenix of progress,"
 msgstr ""
 
-#: /home/hitalo/sophie/src/korone/modules/error/utils/haikus.py:19
+#: src/korone/modules/error/utils/haikus.py:19
 msgid "From ashes of bugs."
 msgstr ""
 
-#: /home/hitalo/sophie/src/korone/modules/error/utils/haikus.py:20
+#: src/korone/modules/error/utils/haikus.py:20
 msgid "Software's heartbeat,"
 msgstr ""
 
-#: /home/hitalo/sophie/src/korone/modules/error/utils/haikus.py:20
+#: src/korone/modules/error/utils/haikus.py:20
 msgid "Pulsing with each error found,"
 msgstr ""
 
-#: /home/hitalo/sophie/src/korone/modules/error/utils/haikus.py:20
+#: src/korone/modules/error/utils/haikus.py:20
 msgid "Lifeblood of growth flows."
 msgstr ""
 
-#: /home/hitalo/sophie/src/korone/modules/error/utils/haikus.py:21
+#: src/korone/modules/error/utils/haikus.py:21
 msgid "Errors like raindrops,"
 msgstr ""
 
-#: /home/hitalo/sophie/src/korone/modules/error/utils/haikus.py:21
+#: src/korone/modules/error/utils/haikus.py:21
 msgid "Quenching the thirst for knowledge,"
 msgstr ""
 
-#: /home/hitalo/sophie/src/korone/modules/error/utils/haikus.py:21
+#: src/korone/modules/error/utils/haikus.py:21
 msgid "Nourishing progress."
 msgstr ""
 
-#: /home/hitalo/sophie/src/korone/modules/error/utils/haikus.py:22
+#: src/korone/modules/error/utils/haikus.py:22
 msgid "Through the maze of bugs,"
 msgstr ""
 
-#: /home/hitalo/sophie/src/korone/modules/error/utils/haikus.py:22
+#: src/korone/modules/error/utils/haikus.py:22
 msgid "A labyrinth of learning,"
 msgstr ""
 
-#: /home/hitalo/sophie/src/korone/modules/error/utils/haikus.py:22
+#: src/korone/modules/error/utils/haikus.py:22
 msgid "Exceptional minds."
 msgstr ""
 
-#: /home/hitalo/sophie/src/korone/modules/error/utils/haikus.py:23
+#: src/korone/modules/error/utils/haikus.py:23
 msgid "In the code's embrace,"
 msgstr ""
 
-#: /home/hitalo/sophie/src/korone/modules/error/utils/haikus.py:23
+#: src/korone/modules/error/utils/haikus.py:23
 msgid "Errors cradle innovation,"
 msgstr ""
 
-#: /home/hitalo/sophie/src/korone/modules/error/utils/haikus.py:23
+#: src/korone/modules/error/utils/haikus.py:23
 msgid "Softly whispering."
 msgstr ""
 
-#: /home/hitalo/sophie/src/korone/modules/gsm_arena/__init__.py:15
+#: src/korone/modules/gsm_arena/__init__.py:15
 msgid "GSM Arena"
 msgstr ""
 
-#: /home/hitalo/sophie/src/korone/modules/gsm_arena/__init__.py:17
+#: src/korone/modules/gsm_arena/__init__.py:17
 msgid "Search device specifications on GSMArena"
 msgstr ""
 
-#: /home/hitalo/sophie/src/korone/modules/gsm_arena/__init__.py:19
+#: src/korone/modules/gsm_arena/__init__.py:19
 msgid "Search for smartphones and get a quick overview of their specifications directly from GSMArena."
 msgstr ""
 
-#: /home/hitalo/sophie/src/korone/modules/gsm_arena/handlers/get.py:31
-#: /home/hitalo/sophie/src/korone/modules/gsm_arena/handlers/list.py:30
+#: src/korone/modules/gsm_arena/handlers/get.py:31
+#: src/korone/modules/gsm_arena/handlers/list.py:30
 msgid "Invalid callback data"
 msgstr ""
 
-#: /home/hitalo/sophie/src/korone/modules/gsm_arena/handlers/get.py:36
+#: src/korone/modules/gsm_arena/handlers/get.py:36
 msgid "Fetching device details..."
 msgstr ""
 
-#: /home/hitalo/sophie/src/korone/modules/gsm_arena/handlers/get.py:40
+#: src/korone/modules/gsm_arena/handlers/get.py:40
 msgid "Error fetching device details"
 msgstr ""
 
-#: /home/hitalo/sophie/src/korone/modules/gsm_arena/handlers/get.py:62
-#: /home/hitalo/sophie/src/korone/modules/gsm_arena/handlers/list.py:52
+#: src/korone/modules/gsm_arena/handlers/get.py:62
+#: src/korone/modules/gsm_arena/handlers/list.py:52
 msgid "An error occurred. Please try again."
 msgstr ""
 
-#: /home/hitalo/sophie/src/korone/modules/gsm_arena/handlers/list.py:37
+#: src/korone/modules/gsm_arena/handlers/list.py:37
 msgid "No devices found"
 msgstr ""
 
-#: /home/hitalo/sophie/src/korone/modules/gsm_arena/handlers/search.py:29
+#: src/korone/modules/gsm_arena/handlers/search.py:29
 msgid "Search device specifications on GSMArena."
 msgstr ""
 
-#: /home/hitalo/sophie/src/korone/modules/gsm_arena/handlers/search.py:34
+#: src/korone/modules/gsm_arena/handlers/search.py:34
 msgid "Device"
 msgstr ""
 
-#: /home/hitalo/sophie/src/korone/modules/gsm_arena/handlers/search.py:45
+#: src/korone/modules/gsm_arena/handlers/search.py:45
 msgid "You should provide a device name to search. Example: <code>/device Galaxy S24</code>."
 msgstr ""
 
-#: /home/hitalo/sophie/src/korone/modules/gsm_arena/handlers/search.py:56
+#: src/korone/modules/gsm_arena/handlers/search.py:56
 msgid "An error occurred while searching. Please try again later."
 msgstr ""
 
-#: /home/hitalo/sophie/src/korone/modules/gsm_arena/handlers/search.py:64
+#: src/korone/modules/gsm_arena/handlers/search.py:64
 msgid "No devices found."
 msgstr ""
 
-#: /home/hitalo/sophie/src/korone/modules/gsm_arena/handlers/search.py:72
+#: src/korone/modules/gsm_arena/handlers/search.py:72
 msgid "Error fetching device details. Please try again later."
 msgstr ""
 
-#: /home/hitalo/sophie/src/korone/modules/gsm_arena/handlers/search.py:76
+#: src/korone/modules/gsm_arena/handlers/search.py:76
 #, python-brace-format
 msgid "Search results for: <b>{query}</b>"
 msgstr ""
 
-#: /home/hitalo/sophie/src/korone/modules/gsm_arena/utils/scraper.py:64
+#: src/korone/modules/gsm_arena/utils/scraper.py:64
 msgid "Status"
 msgstr ""
 
-#: /home/hitalo/sophie/src/korone/modules/gsm_arena/utils/scraper.py:65
+#: src/korone/modules/gsm_arena/utils/scraper.py:65
 msgid "Network"
 msgstr ""
 
-#: /home/hitalo/sophie/src/korone/modules/gsm_arena/utils/scraper.py:66
+#: src/korone/modules/gsm_arena/utils/scraper.py:66
 msgid "Weight"
 msgstr ""
 
-#: /home/hitalo/sophie/src/korone/modules/gsm_arena/utils/scraper.py:67
+#: src/korone/modules/gsm_arena/utils/scraper.py:67
 msgid "Display"
 msgstr ""
 
-#: /home/hitalo/sophie/src/korone/modules/gsm_arena/utils/scraper.py:68
+#: src/korone/modules/gsm_arena/utils/scraper.py:68
 msgid "Chipset"
 msgstr ""
 
-#: /home/hitalo/sophie/src/korone/modules/gsm_arena/utils/scraper.py:69
+#: src/korone/modules/gsm_arena/utils/scraper.py:69
 msgid "Memory"
 msgstr ""
 
-#: /home/hitalo/sophie/src/korone/modules/gsm_arena/utils/scraper.py:70
+#: src/korone/modules/gsm_arena/utils/scraper.py:70
 msgid "Rear Camera"
 msgstr ""
 
-#: /home/hitalo/sophie/src/korone/modules/gsm_arena/utils/scraper.py:71
+#: src/korone/modules/gsm_arena/utils/scraper.py:71
 msgid "Front Camera"
 msgstr ""
 
-#: /home/hitalo/sophie/src/korone/modules/gsm_arena/utils/scraper.py:72
+#: src/korone/modules/gsm_arena/utils/scraper.py:72
 msgid "3.5mm jack"
 msgstr ""
 
-#: /home/hitalo/sophie/src/korone/modules/gsm_arena/utils/scraper.py:73
+#: src/korone/modules/gsm_arena/utils/scraper.py:73
 msgid "USB"
 msgstr ""
 
-#: /home/hitalo/sophie/src/korone/modules/gsm_arena/utils/scraper.py:74
+#: src/korone/modules/gsm_arena/utils/scraper.py:74
 msgid "Sensors"
 msgstr ""
 
-#: /home/hitalo/sophie/src/korone/modules/gsm_arena/utils/scraper.py:75
+#: src/korone/modules/gsm_arena/utils/scraper.py:75
 msgid "Battery"
 msgstr ""
 
-#: /home/hitalo/sophie/src/korone/modules/gsm_arena/utils/scraper.py:76
+#: src/korone/modules/gsm_arena/utils/scraper.py:76
 msgid "Charging"
 msgstr ""
 
-#: /home/hitalo/sophie/src/korone/modules/help/__init__.py:25
-#: /home/hitalo/sophie/src/korone/modules/help/handlers/help_group.py:29
-#: /home/hitalo/sophie/src/korone/modules/help/handlers/pm_modules.py:55
-#: /home/hitalo/sophie/src/korone/modules/help/handlers/start_group.py:33
+#: src/korone/modules/help/__init__.py:25
+#: src/korone/modules/help/handlers/help_group.py:29
+#: src/korone/modules/help/handlers/pm_modules.py:55
+#: src/korone/modules/help/handlers/start_group.py:33
 msgid "Help"
 msgstr ""
 
-#: /home/hitalo/sophie/src/korone/modules/help/__init__.py:27
+#: src/korone/modules/help/__init__.py:27
 msgid "Provides helpful information"
 msgstr ""
 
-#: /home/hitalo/sophie/src/korone/modules/help/__init__.py:30
+#: src/korone/modules/help/__init__.py:30
 msgid "Provides help and documentation for all bot commands and features."
 msgstr ""
 
-#: /home/hitalo/sophie/src/korone/modules/help/__init__.py:31
+#: src/korone/modules/help/__init__.py:31
 msgid "Includes command lists, usage instructions, and feature explanations."
 msgstr ""
 
-#: /home/hitalo/sophie/src/korone/modules/help/handlers/help_group.py:19
+#: src/korone/modules/help/handlers/help_group.py:19
 msgid "Shows the help message"
 msgstr ""
 
-#: /home/hitalo/sophie/src/korone/modules/help/handlers/help_group.py:26
+#: src/korone/modules/help/handlers/help_group.py:26
 msgid "The help information available in the private messages with Korone"
 msgstr ""
 
-#: /home/hitalo/sophie/src/korone/modules/help/handlers/op.py:19
+#: src/korone/modules/help/handlers/op.py:19
 msgid "Shows a list of all OP-only commands"
 msgstr ""
 
-#: /home/hitalo/sophie/src/korone/modules/help/handlers/pm_modules.py:23
+#: src/korone/modules/help/handlers/pm_modules.py:23
 msgid "Shows help overview for all modules"
 msgstr ""
 
-#: /home/hitalo/sophie/src/korone/modules/help/handlers/pm_modules.py:53
-#: /home/hitalo/sophie/src/korone/modules/help/handlers/pm_modules.py:101
-#: /home/hitalo/sophie/src/korone/modules/language/handlers/apply.py:65
-#: /home/hitalo/sophie/src/korone/modules/language/handlers/info.py:46
-#: /home/hitalo/sophie/src/korone/modules/language/handlers/select.py:54
-#: /home/hitalo/sophie/src/korone/modules/language/handlers/select.py:58
-#: /home/hitalo/sophie/src/korone/modules/privacy/handlers/privacy.py:34
+#: src/korone/modules/help/handlers/pm_modules.py:53
+#: src/korone/modules/help/handlers/pm_modules.py:101
+#: src/korone/modules/language/handlers/apply.py:65
+#: src/korone/modules/language/handlers/info.py:46
+#: src/korone/modules/language/handlers/select.py:54
+#: src/korone/modules/language/handlers/select.py:58
+#: src/korone/modules/privacy/handlers/privacy.py:34
 msgid "⬅️ Back"
 msgstr ""
 
-#: /home/hitalo/sophie/src/korone/modules/help/handlers/pm_modules.py:55
+#: src/korone/modules/help/handlers/pm_modules.py:55
 msgid "Select a module to see its commands and information:"
 msgstr ""
 
-#: /home/hitalo/sophie/src/korone/modules/help/handlers/pm_modules.py:74
+#: src/korone/modules/help/handlers/pm_modules.py:74
 msgid "Module not found"
 msgstr ""
 
-#: /home/hitalo/sophie/src/korone/modules/help/handlers/pm_modules.py:94
+#: src/korone/modules/help/handlers/pm_modules.py:94
 #, python-brace-format
 msgid "Aliased commands from {module}"
 msgstr ""
 
-#: /home/hitalo/sophie/src/korone/modules/help/handlers/start_group.py:20
+#: src/korone/modules/help/handlers/start_group.py:20
 msgid "Shows the start message"
 msgstr ""
 
-#: /home/hitalo/sophie/src/korone/modules/help/handlers/start_group.py:34
+#: src/korone/modules/help/handlers/start_group.py:34
 msgid "📢 Channel"
 msgstr ""
 
-#: /home/hitalo/sophie/src/korone/modules/help/handlers/start_group.py:37
-#: /home/hitalo/sophie/src/korone/modules/help/handlers/start_pm.py:44
+#: src/korone/modules/help/handlers/start_group.py:37
+#: src/korone/modules/help/handlers/start_pm.py:44
 msgid "Hi, I'm Korone! An all-in-one bot. I can help you with lots of things. Just click on the buttons below to get started."
 msgstr ""
 
-#: /home/hitalo/sophie/src/korone/modules/help/handlers/start_pm.py:36
+#: src/korone/modules/help/handlers/start_pm.py:36
 msgid "🕵️‍♂️ Privacy"
 msgstr ""
 
-#: /home/hitalo/sophie/src/korone/modules/help/handlers/start_pm.py:37
+#: src/korone/modules/help/handlers/start_pm.py:37
 msgid "🌍 Language"
 msgstr ""
 
-#: /home/hitalo/sophie/src/korone/modules/help/handlers/start_pm.py:39
+#: src/korone/modules/help/handlers/start_pm.py:39
 msgid "ℹ️ Help"
 msgstr ""
 
-#: /home/hitalo/sophie/src/korone/modules/help/handlers/start_pm.py:48
+#: src/korone/modules/help/handlers/start_pm.py:48
 #, python-brace-format
 msgid "Join my {channel} to get information on all the latest updates."
 msgstr ""
 
-#: /home/hitalo/sophie/src/korone/modules/help/handlers/start_pm.py:49
+#: src/korone/modules/help/handlers/start_pm.py:49
 msgid "news channel"
 msgstr ""
 
-#: /home/hitalo/sophie/src/korone/modules/help/utils/format_help.py:33
+#: src/korone/modules/help/utils/format_help.py:33
 msgid "— Only in groups"
 msgstr ""
 
-#: /home/hitalo/sophie/src/korone/modules/help/utils/format_help.py:34
+#: src/korone/modules/help/utils/format_help.py:34
 msgid "Disable-able"
 msgstr ""
 
-#: /home/hitalo/sophie/src/korone/modules/help/utils/format_help.py:72
+#: src/korone/modules/help/utils/format_help.py:72
 msgid "Commands"
 msgstr ""
 
-#: /home/hitalo/sophie/src/korone/modules/help/utils/format_help.py:74
+#: src/korone/modules/help/utils/format_help.py:74
 msgid "PM-only"
 msgstr ""
 
-#: /home/hitalo/sophie/src/korone/modules/help/utils/format_help.py:76
+#: src/korone/modules/help/utils/format_help.py:76
 msgid "Only admins"
 msgstr ""
 
-#: /home/hitalo/sophie/src/korone/modules/language/__init__.py:18
-#: /home/hitalo/sophie/src/korone/modules/language/stats.py:11
+#: src/korone/modules/language/__init__.py:18
+#: src/korone/modules/language/stats.py:11
 msgid "Language"
 msgstr ""
 
-#: /home/hitalo/sophie/src/korone/modules/language/__init__.py:20
+#: src/korone/modules/language/__init__.py:20
 msgid "Language and localization settings"
 msgstr ""
 
-#: /home/hitalo/sophie/src/korone/modules/language/__init__.py:21
+#: src/korone/modules/language/__init__.py:21
 msgid "Allows users to set their preferred language for bot interactions."
 msgstr ""
 
-#: /home/hitalo/sophie/src/korone/modules/language/handlers/apply.py:37
+#: src/korone/modules/language/handlers/apply.py:37
 #, python-brace-format
 msgid "Language changed to {new_lang}."
 msgstr ""
 
-#: /home/hitalo/sophie/src/korone/modules/language/handlers/apply.py:40
+#: src/korone/modules/language/handlers/apply.py:40
 msgid "This is the bot's native language."
 msgstr ""
 
-#: /home/hitalo/sophie/src/korone/modules/language/handlers/apply.py:41
+#: src/korone/modules/language/handlers/apply.py:41
 msgid "If you find any errors, please file an issue in the GitHub Repository."
 msgstr ""
 
-#: /home/hitalo/sophie/src/korone/modules/language/handlers/apply.py:44
+#: src/korone/modules/language/handlers/apply.py:44
 #, python-brace-format
 msgid "The language is {percent}% translated."
 msgstr ""
 
-#: /home/hitalo/sophie/src/korone/modules/language/handlers/apply.py:47
+#: src/korone/modules/language/handlers/apply.py:47
 msgid "In case you find any errors, please file an issue in the GitHub Repository."
 msgstr ""
 
-#: /home/hitalo/sophie/src/korone/modules/language/handlers/apply.py:49
+#: src/korone/modules/language/handlers/apply.py:49
 msgid "Please help us translate this language by completing it on our translations platform."
 msgstr ""
 
-#: /home/hitalo/sophie/src/korone/modules/language/handlers/apply.py:60
+#: src/korone/modules/language/handlers/apply.py:60
 msgid "🐞 Open GitHub Issues"
 msgstr ""
 
-#: /home/hitalo/sophie/src/korone/modules/language/handlers/apply.py:62
+#: src/korone/modules/language/handlers/apply.py:62
 msgid "🌍 Help Translate"
 msgstr ""
 
-#: /home/hitalo/sophie/src/korone/modules/language/handlers/apply.py:78
+#: src/korone/modules/language/handlers/apply.py:78
 msgid "Something went wrong."
 msgstr ""
 
-#: /home/hitalo/sophie/src/korone/modules/language/handlers/cancel.py:26
+#: src/korone/modules/language/handlers/cancel.py:26
 msgid "Changing language was canceled. You can change language again by using /language command."
 msgstr ""
 
-#: /home/hitalo/sophie/src/korone/modules/language/handlers/info.py:25
+#: src/korone/modules/language/handlers/info.py:25
 msgid "Current Language"
 msgstr ""
 
-#: /home/hitalo/sophie/src/korone/modules/language/handlers/info.py:25
+#: src/korone/modules/language/handlers/info.py:25
 msgid "Language Settings"
 msgstr ""
 
-#: /home/hitalo/sophie/src/korone/modules/language/handlers/info.py:28
+#: src/korone/modules/language/handlers/info.py:28
 msgid "This is the bot's native language, so it is 100% translated."
 msgstr ""
 
-#: /home/hitalo/sophie/src/korone/modules/language/handlers/info.py:30
+#: src/korone/modules/language/handlers/info.py:30
 msgid "Translated strings"
 msgstr ""
 
-#: /home/hitalo/sophie/src/korone/modules/language/handlers/info.py:31
+#: src/korone/modules/language/handlers/info.py:31
 msgid "Untranslated strings"
 msgstr ""
 
-#: /home/hitalo/sophie/src/korone/modules/language/handlers/info.py:32
+#: src/korone/modules/language/handlers/info.py:32
 msgid "Strings requiring review"
 msgstr ""
 
-#: /home/hitalo/sophie/src/korone/modules/language/handlers/info.py:38
+#: src/korone/modules/language/handlers/info.py:38
 msgid "👤 Change your language"
 msgstr ""
 
-#: /home/hitalo/sophie/src/korone/modules/language/handlers/info.py:38
+#: src/korone/modules/language/handlers/info.py:38
 msgid "🌍 Change group language"
 msgstr ""
 
-#: /home/hitalo/sophie/src/korone/modules/language/handlers/info.py:51
+#: src/korone/modules/language/handlers/info.py:51
 msgid "Shows the current language settings."
 msgstr ""
 
-#: /home/hitalo/sophie/src/korone/modules/language/handlers/select.py:48
+#: src/korone/modules/language/handlers/select.py:48
 msgid "❌ Cancel"
 msgstr ""
 
-#: /home/hitalo/sophie/src/korone/modules/language/handlers/select.py:65
+#: src/korone/modules/language/handlers/select.py:65
 msgid "Shows the available languages for selection."
 msgstr ""
 
-#: /home/hitalo/sophie/src/korone/modules/language/handlers/select.py:75
-#: /home/hitalo/sophie/src/korone/modules/language/handlers/select.py:98
-#: /home/hitalo/sophie/src/korone/modules/language/handlers/select.py:112
+#: src/korone/modules/language/handlers/select.py:75
+#: src/korone/modules/language/handlers/select.py:98
+#: src/korone/modules/language/handlers/select.py:112
 msgid "Please select the language you want to use for the chat."
 msgstr ""
 
-#: /home/hitalo/sophie/src/korone/modules/language/stats.py:11
+#: src/korone/modules/language/stats.py:11
 #, python-brace-format
 msgid "{num} languages available."
 msgstr ""
 
-#: /home/hitalo/sophie/src/korone/modules/op/__init__.py:13
+#: src/korone/modules/lastfm/__init__.py:19
+msgid "Last.fm"
+msgstr ""
+
+#: src/korone/modules/lastfm/__init__.py:21
+msgid "Last.fm scrobble statistics"
+msgstr ""
+
+#: src/korone/modules/lastfm/__init__.py:24
+msgid "Shows your Last.fm stats, now playing, and top music charts."
+msgstr ""
+
+#: src/korone/modules/lastfm/__init__.py:25
+msgid "Includes collage generation and compatibility checks."
+msgstr ""
+
+#: src/korone/modules/lastfm/handlers/album.py:23
+msgid "Shows the album info for your current track on Last.fm."
+msgstr ""
+
+#: src/korone/modules/lastfm/handlers/album.py:42
+msgid "No album information found for the current track."
+msgstr ""
+
+#: src/korone/modules/lastfm/handlers/artist.py:22
+msgid "Shows the artist info for your current track on Last.fm."
+msgstr ""
+
+#: src/korone/modules/lastfm/handlers/collage.py:37
+msgid "Generates a Last.fm collage of your top albums."
+msgstr ""
+
+#: src/korone/modules/lastfm/handlers/collage.py:42
+#: src/korone/modules/lastfm/handlers/top.py:39
+msgid "Args"
+msgstr ""
+
+#: src/korone/modules/lastfm/handlers/collage.py:65
+msgid "No top albums found for your Last.fm account."
+msgstr ""
+
+#: src/korone/modules/lastfm/handlers/collage.py:81
+msgid "Something went wrong while generating the collage."
+msgstr ""
+
+#: src/korone/modules/lastfm/handlers/compat.py:29
+msgid "Checks compatibility between two Last.fm users."
+msgstr ""
+
+#: src/korone/modules/lastfm/handlers/compat.py:38
+msgid "Reply to a message to get the compatibility!"
+msgstr ""
+
+#: src/korone/modules/lastfm/handlers/compat.py:45
+msgid "Could not identify both users."
+msgstr ""
+
+#: src/korone/modules/lastfm/handlers/compat.py:68
+msgid "No top artists found for your Last.fm account."
+msgstr ""
+
+#: src/korone/modules/lastfm/handlers/compat.py:92
+#, python-brace-format
+msgid "No common artists in {period}"
+msgstr ""
+
+#: src/korone/modules/lastfm/handlers/compat.py:94
+#, python-brace-format
+msgid ""
+"{user1} and {user2} listen to {mutual}...\n"
+"\n"
+"Compatibility score is {score}%, based on {period}"
+msgstr ""
+
+#: src/korone/modules/lastfm/handlers/now.py:22
+msgid "Shows your now playing track from Last.fm."
+msgstr ""
+
+#: src/korone/modules/lastfm/handlers/recent.py:27
+msgid "Shows your recent tracks from Last.fm."
+msgstr ""
+
+#: src/korone/modules/lastfm/handlers/recent.py:47
+msgid "No recent tracks found."
+msgstr ""
+
+#: src/korone/modules/lastfm/handlers/recent.py:62
+#, python-brace-format
+msgid "{user} is listening to:\n"
+msgstr ""
+
+#: src/korone/modules/lastfm/handlers/recent.py:65
+msgid ""
+"\n"
+"Last 5 plays:"
+msgstr ""
+
+#: src/korone/modules/lastfm/handlers/recent.py:68
+#, python-brace-format
+msgid "{user} was listening to:\n"
+msgstr ""
+
+#: src/korone/modules/lastfm/handlers/set.py:37
+msgid "Last.fm username must not contain spaces or special characters!"
+msgstr ""
+
+#: src/korone/modules/lastfm/handlers/set.py:41
+#: src/korone/modules/lastfm/utils/commons.py:30
+msgid "Could not identify your user."
+msgstr ""
+
+#: src/korone/modules/lastfm/handlers/set.py:52
+msgid "Last.fm username set successfully!"
+msgstr ""
+
+#: src/korone/modules/lastfm/handlers/set.py:56
+msgid "Set your Last.fm username."
+msgstr ""
+
+#: src/korone/modules/lastfm/handlers/set.py:73
+msgid "Reply with your Last.fm username."
+msgstr ""
+
+#: src/korone/modules/lastfm/handlers/set.py:91
+msgid "Please reply to the message asking for your Last.fm username."
+msgstr ""
+
+#: src/korone/modules/lastfm/handlers/top.py:34
+msgid "Shows your top artists, tracks, or albums from Last.fm."
+msgstr ""
+
+#: src/korone/modules/lastfm/handlers/top.py:58
+msgid "Invalid entry type! Use one of the following: artist, track, album"
+msgstr ""
+
+#: src/korone/modules/lastfm/handlers/top.py:69
+msgid "No top items found."
+msgstr ""
+
+#: src/korone/modules/lastfm/handlers/top.py:88
+msgid "artists"
+msgstr ""
+
+#: src/korone/modules/lastfm/handlers/top.py:88
+msgid "tracks"
+msgstr ""
+
+#: src/korone/modules/lastfm/handlers/top.py:88
+msgid "albums"
+msgstr ""
+
+#: src/korone/modules/lastfm/handlers/top.py:92
+#, python-brace-format
+msgid ""
+"{user}'s top 5 {entry} for {period}:\n"
+"\n"
+msgstr ""
+
+#: src/korone/modules/lastfm/handlers/top.py:101
+#, python-brace-format
+msgid " -> {scrobbles} plays\n"
+msgstr ""
+
+#: src/korone/modules/lastfm/handlers/user.py:25
+msgid "Shows your Last.fm profile statistics."
+msgstr ""
+
+#: src/korone/modules/lastfm/handlers/user.py:49
+#, python-brace-format
+msgid ""
+"User: <b>{user}</b>\n"
+"\n"
+"Total scrobbles: <code>{playcount}</code>\n"
+"Tracks scrobbled: <code>{track_count}</code>\n"
+"Artists scrobbled: <code>{artist_count}</code>\n"
+"Albums scrobbled: <code>{album_count}</code>\n"
+"\n"
+"Registered: <i>{registered}</i>"
+msgstr ""
+
+#: src/korone/modules/lastfm/utils/commons.py:26
+#: src/korone/modules/lastfm/utils/commons.py:44
+msgid "Last.fm API key is not configured. Please contact the bot owner."
+msgstr ""
+
+#: src/korone/modules/lastfm/utils/commons.py:35
+#: src/korone/modules/lastfm/utils/commons.py:156
+msgid "You need to set your Last.fm username first! Example: <code>/setlfm username</code>."
+msgstr ""
+
+#: src/korone/modules/lastfm/utils/commons.py:42
+msgid "Your Last.fm username was not found! Try setting it again."
+msgstr ""
+
+#: src/korone/modules/lastfm/utils/commons.py:47
+#, python-brace-format
+msgid ""
+"An error occurred while fetching your Last.fm data!\n"
+"<blockquote>{error}</blockquote>"
+msgstr ""
+
+#: src/korone/modules/lastfm/utils/commons.py:57
+#, python-brace-format
+msgid "{user}'s is listening to:\n"
+msgstr ""
+
+#: src/korone/modules/lastfm/utils/commons.py:59
+#, python-brace-format
+msgid "{user}'s was listening to:\n"
+msgstr ""
+
+#: src/korone/modules/lastfm/utils/commons.py:63
+#, python-brace-format
+msgid " ∙ <code>{playcount} plays</code>"
+msgstr ""
+
+#: src/korone/modules/lastfm/utils/commons.py:79
+msgid "No recent tracks found for your Last.fm account."
+msgstr ""
+
+#: src/korone/modules/lastfm/utils/commons.py:141
+msgid "You can't get the compatibility with yourself!"
+msgstr ""
+
+#: src/korone/modules/lastfm/utils/commons.py:145
+msgid "Bots won't have music taste!"
+msgstr ""
+
+#: src/korone/modules/lastfm/utils/commons.py:161
+msgid "The user you replied to doesn't have a Last.fm account linked! Hint them to set it using <code>/setlfm username</code>."
+msgstr ""
+
+#: src/korone/modules/lastfm/utils/formatters.py:18
+msgid "1 week"
+msgstr ""
+
+#: src/korone/modules/lastfm/utils/formatters.py:19
+msgid "1 month"
+msgstr ""
+
+#: src/korone/modules/lastfm/utils/formatters.py:20
+msgid "3 months"
+msgstr ""
+
+#: src/korone/modules/lastfm/utils/formatters.py:21
+msgid "6 months"
+msgstr ""
+
+#: src/korone/modules/lastfm/utils/formatters.py:22
+msgid "1 year"
+msgstr ""
+
+#: src/korone/modules/lastfm/utils/formatters.py:23
+msgid "All time"
+msgstr ""
+
+#: src/korone/modules/lastfm/utils/formatters.py:36
+#, python-brace-format
+msgid ", {days} day(s) ago"
+msgstr ""
+
+#: src/korone/modules/lastfm/utils/formatters.py:40
+#, python-brace-format
+msgid ", {hours} hour(s) ago"
+msgstr ""
+
+#: src/korone/modules/lastfm/utils/formatters.py:43
+#, python-brace-format
+msgid ", {minutes} minute(s) ago"
+msgstr ""
+
+#: src/korone/modules/lastfm/utils/formatters.py:43
+msgid ", Just now"
+msgstr ""
+
+#: src/korone/modules/op/__init__.py:13
 msgid "Operator"
 msgstr ""
 
-#: /home/hitalo/sophie/src/korone/modules/op/__init__.py:15
+#: src/korone/modules/op/__init__.py:15
 msgid "Operator-only commands and tools"
 msgstr ""
 
-#: /home/hitalo/sophie/src/korone/modules/op/__init__.py:18
+#: src/korone/modules/op/__init__.py:18
 msgid "Provides operator-only commands and tools for bot administration."
 msgstr ""
 
-#: /home/hitalo/sophie/src/korone/modules/op/__init__.py:19
+#: src/korone/modules/op/__init__.py:19
 msgid "Includes system stats, job management, and other administrative functions."
 msgstr ""
 
-#: /home/hitalo/sophie/src/korone/modules/op/handlers/event.py:14
+#: src/korone/modules/op/handlers/event.py:14
 msgid "Prints the message event as JSON."
 msgstr ""
 
-#: /home/hitalo/sophie/src/korone/modules/op/handlers/sqlite_info.py:18
+#: src/korone/modules/op/handlers/sqlite_info.py:18
 msgid "Show SQLite runtime info (WAL, synchronous, timeouts)."
 msgstr ""
 
-#: /home/hitalo/sophie/src/korone/modules/op/handlers/stats.py:52
+#: src/korone/modules/op/handlers/stats.py:52
 msgid "Show bot statistics."
 msgstr ""
 
-#: /home/hitalo/sophie/src/korone/modules/privacy/__init__.py:19
+#: src/korone/modules/privacy/__init__.py:19
 msgid "Privacy"
 msgstr ""
 
-#: /home/hitalo/sophie/src/korone/modules/privacy/__init__.py:21
+#: src/korone/modules/privacy/__init__.py:21
 msgid "Data protection"
 msgstr ""
 
-#: /home/hitalo/sophie/src/korone/modules/privacy/__init__.py:24
+#: src/korone/modules/privacy/__init__.py:24
 msgid "Manages user privacy and data protection settings."
 msgstr ""
 
-#: /home/hitalo/sophie/src/korone/modules/privacy/__init__.py:25
+#: src/korone/modules/privacy/__init__.py:25
 msgid "Allows users to export their data and control privacy preferences."
 msgstr ""
 
-#: /home/hitalo/sophie/src/korone/modules/privacy/handlers/export.py:49
+#: src/korone/modules/privacy/handlers/export.py:49
 msgid "Exports your data to a JSON file"
 msgstr ""
 
-#: /home/hitalo/sophie/src/korone/modules/privacy/handlers/export.py:65
+#: src/korone/modules/privacy/handlers/export.py:65
 msgid "Export is started, this may take a while."
 msgstr ""
 
-#: /home/hitalo/sophie/src/korone/modules/privacy/handlers/export.py:74
+#: src/korone/modules/privacy/handlers/export.py:74
 msgid "Export is done."
 msgstr ""
 
-#: /home/hitalo/sophie/src/korone/modules/privacy/handlers/privacy.py:20
+#: src/korone/modules/privacy/handlers/privacy.py:20
 msgid "Shows the privacy policy of the bot"
 msgstr ""
 
-#: /home/hitalo/sophie/src/korone/modules/privacy/handlers/privacy.py:30
+#: src/korone/modules/privacy/handlers/privacy.py:30
 msgid "The privacy policy of the bot is available on our wiki page."
 msgstr ""
 
-#: /home/hitalo/sophie/src/korone/modules/privacy/handlers/privacy.py:31
+#: src/korone/modules/privacy/handlers/privacy.py:31
 msgid "Privacy Policy"
 msgstr ""
 
-#: /home/hitalo/sophie/src/korone/modules/regex/__init__.py:11
+#: src/korone/modules/regex/__init__.py:11
 msgid "Regex"
 msgstr ""
 
-#: /home/hitalo/sophie/src/korone/modules/regex/__init__.py:13
+#: src/korone/modules/regex/__init__.py:13
 msgid "Apply regex substitutions to replied messages."
 msgstr ""
 
-#: /home/hitalo/sophie/src/korone/modules/regex/__init__.py:16
+#: src/korone/modules/regex/__init__.py:16
 msgid "Use sed-like syntax to replace text in a replied message. Example: s/old/new/g; escape slashes as \\/."
 msgstr ""
 
-#: /home/hitalo/sophie/src/korone/modules/regex/handlers/sed.py:18
+#: src/korone/modules/regex/handlers/sed.py:18
 msgid "Apply a regex substitution to a replied message."
 msgstr ""
 
-#: /home/hitalo/sophie/src/korone/modules/regex/handlers/sed.py:34
+#: src/korone/modules/regex/handlers/sed.py:34
 msgid "No message to apply the substitution."
 msgstr ""
 
-#: /home/hitalo/sophie/src/korone/modules/regex/handlers/sed.py:39
+#: src/korone/modules/regex/handlers/sed.py:39
 msgid "No text to apply the substitution."
 msgstr ""
 
-#: /home/hitalo/sophie/src/korone/modules/regex/handlers/sed.py:56
+#: src/korone/modules/regex/handlers/sed.py:56
 msgid "Invalid command data."
 msgstr ""
 
-#: /home/hitalo/sophie/src/korone/modules/regex/handlers/sed.py:64
+#: src/korone/modules/regex/handlers/sed.py:64
 #, python-brace-format
 msgid "Regex error: {e}"
 msgstr ""
 
-#: /home/hitalo/sophie/src/korone/modules/regex/handlers/sed.py:68
+#: src/korone/modules/regex/handlers/sed.py:68
 msgid "Your regex didn't change anything from the original message."
 msgstr ""
 
-#: /home/hitalo/sophie/src/korone/modules/regex/utils.py:57
+#: src/korone/modules/regex/utils.py:57
 #, python-brace-format
 msgid "Invalid command: {command}"
 msgstr ""
 
-#: /home/hitalo/sophie/src/korone/modules/regex/utils.py:63
+#: src/korone/modules/regex/utils.py:63
 msgid "Pattern is too long. Please use shorter patterns."
 msgstr ""
 
-#: /home/hitalo/sophie/src/korone/modules/regex/utils.py:68
+#: src/korone/modules/regex/utils.py:68
 #, python-brace-format
 msgid "Unknown flag: {flag}"
 msgstr ""
 
-#: /home/hitalo/sophie/src/korone/modules/troubleshooters/__init__.py:14
+#: src/korone/modules/troubleshooters/__init__.py:14
 msgid "Troubleshooters"
 msgstr ""
 
-#: /home/hitalo/sophie/src/korone/modules/troubleshooters/__init__.py:16
+#: src/korone/modules/troubleshooters/__init__.py:16
 msgid "Tools for fixing problems and issues"
 msgstr ""
 
-#: /home/hitalo/sophie/src/korone/modules/troubleshooters/handlers/admincache.py:18
+#: src/korone/modules/troubleshooters/handlers/admincache.py:18
 msgid "Reset admin rights cache, use if Korone didn't get the recently added admin"
 msgstr ""
 
-#: /home/hitalo/sophie/src/korone/modules/troubleshooters/handlers/admincache.py:26
+#: src/korone/modules/troubleshooters/handlers/admincache.py:26
 msgid "You can't use this command in private chats."
 msgstr ""
 
-#: /home/hitalo/sophie/src/korone/modules/troubleshooters/handlers/admincache.py:31
+#: src/korone/modules/troubleshooters/handlers/admincache.py:31
 msgid "Admin rights cache has been reset."
 msgstr ""
 
-#: /home/hitalo/sophie/src/korone/modules/troubleshooters/handlers/cancel.py:16
+#: src/korone/modules/troubleshooters/handlers/cancel.py:16
 msgid "Cancel current state, use if Korone is not responding on your message"
 msgstr ""
 
-#: /home/hitalo/sophie/src/korone/modules/troubleshooters/handlers/cancel.py:26
+#: src/korone/modules/troubleshooters/handlers/cancel.py:26
 msgid "The current state is already cleared, wiping its data anyway..."
 msgstr ""
 
-#: /home/hitalo/sophie/src/korone/modules/troubleshooters/handlers/cancel.py:33
+#: src/korone/modules/troubleshooters/handlers/cancel.py:33
 #, python-brace-format
 msgid "Current state {state} is cleared."
 msgstr ""
 
-#: /home/hitalo/sophie/src/korone/modules/troubleshooters/handlers/cancel_callback.py:31
-#: /home/hitalo/sophie/src/korone/modules/troubleshooters/handlers/cancel_callback.py:50
-#: /home/hitalo/sophie/src/korone/modules/troubleshooters/handlers/cancel_callback.py:69
+#: src/korone/modules/troubleshooters/handlers/cancel_callback.py:31
+#: src/korone/modules/troubleshooters/handlers/cancel_callback.py:50
+#: src/korone/modules/troubleshooters/handlers/cancel_callback.py:69
 msgid "You are not allowed to cancel this action!"
 msgstr ""
 
-#: /home/hitalo/sophie/src/korone/modules/troubleshooters/handlers/cancel_callback.py:35
-#: /home/hitalo/sophie/src/korone/modules/troubleshooters/handlers/cancel_callback.py:55
+#: src/korone/modules/troubleshooters/handlers/cancel_callback.py:35
+#: src/korone/modules/troubleshooters/handlers/cancel_callback.py:55
 msgid "❌ Cancelled."
 msgstr ""
 
-#: /home/hitalo/sophie/src/korone/modules/troubleshooters/handlers/cancel_callback.py:76
+#: src/korone/modules/troubleshooters/handlers/cancel_callback.py:76
 #, python-brace-format
 msgid "The action was cancelled by {user}."
 msgstr ""
 
-#: /home/hitalo/sophie/src/korone/modules/users/__init__.py:13
+#: src/korone/modules/users/__init__.py:13
 msgid "Users"
 msgstr ""
 
-#: /home/hitalo/sophie/src/korone/modules/users/__init__.py:15
+#: src/korone/modules/users/__init__.py:15
 msgid "User information and management"
 msgstr ""
 
-#: /home/hitalo/sophie/src/korone/modules/users/__init__.py:18
+#: src/korone/modules/users/__init__.py:18
 msgid "Provides commands to get information about users and chat members."
 msgstr ""
 
-#: /home/hitalo/sophie/src/korone/modules/users/__init__.py:19
+#: src/korone/modules/users/__init__.py:19
 msgid "Includes admin list, user IDs, and detailed user information."
 msgstr ""
 
-#: /home/hitalo/sophie/src/korone/modules/users/handlers/adminlist.py:21
+#: src/korone/modules/users/handlers/adminlist.py:21
 msgid "Lists all the chats admins."
 msgstr ""
 
-#: /home/hitalo/sophie/src/korone/modules/users/handlers/adminlist.py:30
+#: src/korone/modules/users/handlers/adminlist.py:30
 msgid "This command can only be used in groups."
 msgstr ""
 
-#: /home/hitalo/sophie/src/korone/modules/users/handlers/adminlist.py:35
+#: src/korone/modules/users/handlers/adminlist.py:35
 msgid "Chat not found."
 msgstr ""
 
-#: /home/hitalo/sophie/src/korone/modules/users/handlers/adminlist.py:44
+#: src/korone/modules/users/handlers/adminlist.py:44
 #, python-brace-format
 msgid "Admins in {chat_name}"
 msgstr ""
 
-#: /home/hitalo/sophie/src/korone/modules/users/handlers/adminlist.py:64
+#: src/korone/modules/users/handlers/adminlist.py:64
 #, python-brace-format
 msgid "{user}"
 msgstr ""
 
-#: /home/hitalo/sophie/src/korone/modules/users/handlers/adminlist.py:67
+#: src/korone/modules/users/handlers/adminlist.py:67
 msgid "No visible admins found."
 msgstr ""
 
-#: /home/hitalo/sophie/src/korone/modules/users/handlers/adminlist.py:69
+#: src/korone/modules/users/handlers/adminlist.py:69
 msgid "Admins"
 msgstr ""
 
-#: /home/hitalo/sophie/src/korone/modules/users/handlers/id.py:26
+#: src/korone/modules/users/handlers/id.py:26
 msgid "Show user and chat IDs"
 msgstr ""
 
-#: /home/hitalo/sophie/src/korone/modules/users/handlers/id.py:32
-#: /home/hitalo/sophie/src/korone/modules/users/handlers/info.py:32
+#: src/korone/modules/users/handlers/id.py:32
+#: src/korone/modules/users/handlers/info.py:32
 msgid "User"
 msgstr ""
 
-#: /home/hitalo/sophie/src/korone/modules/users/handlers/id.py:45
+#: src/korone/modules/users/handlers/id.py:45
 #, python-brace-format
 msgid "Your ID: {id}"
 msgstr ""
 
-#: /home/hitalo/sophie/src/korone/modules/users/handlers/id.py:48
+#: src/korone/modules/users/handlers/id.py:48
 #, python-brace-format
 msgid "Chat ID: {id}"
 msgstr ""
 
-#: /home/hitalo/sophie/src/korone/modules/users/handlers/id.py:52
+#: src/korone/modules/users/handlers/id.py:52
 #, python-brace-format
 msgid "Replied user ID: {id}"
 msgstr ""
 
-#: /home/hitalo/sophie/src/korone/modules/users/handlers/id.py:56
+#: src/korone/modules/users/handlers/id.py:56
 #, python-brace-format
 msgid "{user}'s ID: {id}"
 msgstr ""
 
-#: /home/hitalo/sophie/src/korone/modules/users/handlers/info.py:27
+#: src/korone/modules/users/handlers/info.py:27
 msgid "Shows the additional information about the user."
 msgstr ""
 
-#: /home/hitalo/sophie/src/korone/modules/users/handlers/info.py:46
+#: src/korone/modules/users/handlers/info.py:46
 msgid "Could not identify user."
 msgstr ""
 
-#: /home/hitalo/sophie/src/korone/modules/users/handlers/info.py:52
+#: src/korone/modules/users/handlers/info.py:52
 msgid "User Information"
 msgstr ""
 
-#: /home/hitalo/sophie/src/korone/modules/users/handlers/info.py:54
+#: src/korone/modules/users/handlers/info.py:54
 msgid "ID"
 msgstr ""
 
-#: /home/hitalo/sophie/src/korone/modules/users/handlers/info.py:55
+#: src/korone/modules/users/handlers/info.py:55
 msgid "First Name"
 msgstr ""
 
-#: /home/hitalo/sophie/src/korone/modules/users/handlers/info.py:58
+#: src/korone/modules/users/handlers/info.py:58
 msgid "Last Name"
 msgstr ""
 
-#: /home/hitalo/sophie/src/korone/modules/users/handlers/info.py:63
+#: src/korone/modules/users/handlers/info.py:63
 msgid "User Link"
 msgstr ""
 
-#: /home/hitalo/sophie/src/korone/modules/users/handlers/info.py:69
+#: src/korone/modules/users/handlers/info.py:69
 msgid "This user is the owner of this chat."
 msgstr ""
 
-#: /home/hitalo/sophie/src/korone/modules/users/handlers/info.py:71
+#: src/korone/modules/users/handlers/info.py:71
 msgid "This user is an admin in this chat."
 msgstr ""
 
-#: /home/hitalo/sophie/src/korone/modules/users/handlers/info.py:75
+#: src/korone/modules/users/handlers/info.py:75
 msgid "Shared Chats"
 msgstr ""
 
-#: /home/hitalo/sophie/src/korone/modules/utils_/reply_or_edit.py:17
-#: /home/hitalo/sophie/src/korone/utils/handlers.py:111
-#: /home/hitalo/sophie/src/korone/utils/handlers.py:128
-#: /home/hitalo/sophie/src/korone/utils/handlers.py:130
-#: /home/hitalo/sophie/src/korone/utils/handlers.py:139
+#: src/korone/modules/utils_/reply_or_edit.py:17
+#: src/korone/utils/handlers.py:111 src/korone/utils/handlers.py:128
+#: src/korone/utils/handlers.py:130 src/korone/utils/handlers.py:139
 msgid "The message is inaccessible. Please write the command again"
 msgstr ""
 
-#: /home/hitalo/sophie/src/korone/modules/utils_/status_handler.py:32
+#: src/korone/modules/utils_/status_handler.py:32
 msgid "?New status"
 msgstr ""
 
-#: /home/hitalo/sophie/src/korone/modules/utils_/status_handler.py:54
+#: src/korone/modules/utils_/status_handler.py:54
 #, python-brace-format
 msgid "Use '{cmd}' to change it."
 msgstr ""
 
-#: /home/hitalo/sophie/src/korone/modules/utils_/status_handler.py:64
+#: src/korone/modules/utils_/status_handler.py:64
 #, python-brace-format
 msgid "The current status is already {state}"
 msgstr ""
 
-#: /home/hitalo/sophie/src/korone/modules/utils_/status_handler.py:72
+#: src/korone/modules/utils_/status_handler.py:72
 msgid "The state was successfully changed"
 msgstr ""
 
-#: /home/hitalo/sophie/src/korone/modules/utils_/status_handler.py:89
+#: src/korone/modules/utils_/status_handler.py:89
 msgid "Enabled"
 msgstr ""
 
-#: /home/hitalo/sophie/src/korone/modules/utils_/status_handler.py:89
+#: src/korone/modules/utils_/status_handler.py:89
 msgid "Disabled"
 msgstr ""
 
