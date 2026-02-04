@@ -9,7 +9,7 @@ from aiogram.enums import ChatType
 from aiogram.types import TelegramObject
 
 from korone.db.models.chat import ChatModel
-from korone.db.repositories import chat as chat_repo
+from korone.db.repositories.chat import ChatRepository
 from korone.logging import get_logger
 from korone.utils.i18n import gettext as _
 
@@ -49,7 +49,7 @@ class ChatContextMiddleware(BaseMiddleware):
     async def get_current_chat_info(chat: Chat) -> ChatContext:
         title = chat.title if chat.type != "private" and chat.title else _("Private chat")
 
-        db_model = await chat_repo.get_by_chat_id(chat.id)
+        db_model = await ChatRepository.get_by_chat_id(chat.id)
         if not db_model:
             if chat.type == "private":
                 db_model = ChatModel(

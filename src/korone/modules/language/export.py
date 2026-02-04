@@ -1,5 +1,5 @@
-from korone.db.repositories import language as language_repo
+from korone.db.repositories.language import LanguageRepository
 
 
 async def export_chat_language(chat_id: int) -> dict[str, str]:
-    return {"language": await language_repo.get_locale(chat_id)}
+    return {"language": await LanguageRepository.get_locale(chat_id)}

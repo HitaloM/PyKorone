@@ -9,7 +9,7 @@ from aiogram.exceptions import TelegramBadRequest
 from korone import aredis
 from korone.config import CONFIG
 from korone.constants import TELEGRAM_ANONYMOUS_ADMIN_BOT_ID
-from korone.db.repositories import chat as chat_repo
+from korone.db.repositories.chat import ChatRepository
 from korone.logging import get_logger
 from korone.modules.utils_.chat_member import update_chat_members
 
@@ -31,9 +31,9 @@ AdminPermission = Literal[
 
 
 async def _resolve_model(model_id: int) -> ChatModel | None:
-    if model := await chat_repo.get_by_id(model_id):
+    if model := await ChatRepository.get_by_id(model_id):
         return model
-    return await chat_repo.get_by_chat_id(model_id)
+    return await ChatRepository.get_by_chat_id(model_id)
 
 
 async def check_user_admin_permissions(

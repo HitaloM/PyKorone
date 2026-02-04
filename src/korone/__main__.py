@@ -6,9 +6,8 @@ from ass_tg.middleware import ArgsMiddleware
 
 from . import bot, dp
 from .config import CONFIG
-from .db.init import init_db
-from .db.repositories import chat as chat_repo
-from .db.session import dispose_engine
+from .db.repositories.chat import ChatRepository
+from .db.utils import close_db, init_db
 from .logging import get_logger, setup_logging
 from .middlewares import localization_middleware
 from .middlewares.chat_context import ChatContextMiddleware
@@ -28,7 +27,7 @@ def parse_args() -> argparse.Namespace:
 
 async def ensure_bot_in_db() -> None:
     bot_user = await bot.get_me()
-    await chat_repo.upsert_user(bot_user)
+    await ChatRepository.upsert_user(bot_user)
     await logger.ainfo("Bot user ensured in DB", bot_id=bot_user.id, username=bot_user.username)
 
 
@@ -49,7 +48,7 @@ async def main() -> None:
         allowed_updates = dp.resolve_used_update_types()
         await dp.start_polling(bot, allowed_updates=allowed_updates)
     finally:
-        await dispose_engine()
+        await close_db()
 
 
 if __name__ == "__main__":

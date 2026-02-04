@@ -1,37 +1,25 @@
-from datetime import datetime
-from enum import Enum
-from typing import TYPE_CHECKING, Any
+from typing import TYPE_CHECKING, TypeVar
 
-from sqlalchemy import inspect, select
+from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncAttrs
 from sqlalchemy.orm import DeclarativeBase
 
 if TYPE_CHECKING:
-    from collections.abc import Sequence
-
     from sqlalchemy.ext.asyncio import AsyncSession
-    from sqlalchemy.orm import Mapped
-    from sqlalchemy.sql.elements import ColumnElement
+    from sqlalchemy.sql import ColumnElement
 
-type ColumnValue = int | str | float | bool | datetime | Enum | list[Any] | dict[str, Any] | None
+ModelT = TypeVar("ModelT", bound="Base")
 
 
 class Base(AsyncAttrs, DeclarativeBase):
     pass
 
 
-class ModelMixin:
-    id: Mapped[int]
-
-    def to_dict(self) -> dict[str, ColumnValue]:
-        return {col.key: val for col in inspect(self.__class__).columns if (val := getattr(self, col.key)) is not None}
-
-
-async def get_one[T: Base](session: AsyncSession, model: type[T], *where: ColumnElement[bool]) -> T | None:
-    stmt = select(model).where(*where) if where else select(model)
-    return (await session.execute(stmt.limit(1))).scalar_one_or_none()
-
-
-async def get_all[T: Base](session: AsyncSession, model: type[T], *where: ColumnElement[bool]) -> Sequence[T]:
-    stmt = select(model).where(*where) if where else select(model)
-    return (await session.execute(stmt)).scalars().all()
+async def get_one[ModelT: "Base"](
+    session: AsyncSession, model: type[ModelT], *filters: ColumnElement[bool]
+) -> ModelT | None:
+    stmt = select(model)
+    if filters:
+        stmt = stmt.where(*filters)
+    result = await session.execute(stmt.limit(1))
+    return result.scalars().first()

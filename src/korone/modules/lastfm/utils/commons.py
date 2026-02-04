@@ -7,7 +7,7 @@ from typing import TYPE_CHECKING
 from aiogram.types import BufferedInputFile
 
 from korone.config import CONFIG
-from korone.db.repositories import lastfm as lastfm_repo
+from korone.db.repositories.lastfm import LastFMRepository
 from korone.modules.lastfm.utils.errors import LastFMError
 from korone.modules.lastfm.utils.formatters import name_with_link
 from korone.modules.lastfm.utils.lastfm_api import LastFMClient
@@ -28,7 +28,7 @@ async def get_lastfm_user_or_reply(message: Message) -> str | None:
         await message.reply(_("Could not identify your user."))
         return None
 
-    last_fm_user = await lastfm_repo.get_username(message.from_user.id)
+    last_fm_user = await LastFMRepository.get_username(message.from_user.id)
     if not last_fm_user:
         await message.reply(_("You need to set your Last.fm username first! Example: <code>/setlfm username</code>."))
         return None

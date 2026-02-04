@@ -5,7 +5,7 @@ from aiogram.types import InlineKeyboardButton, Message
 from aiogram.utils.keyboard import InlineKeyboardBuilder
 from stfu_tg import Italic, Template
 
-from korone.db.repositories import disabling as disabling_repo
+from korone.db.repositories.disabling import DisablingRepository
 from korone.filters.admin_rights import UserRestricting
 from korone.filters.cmd import CMDFilter
 from korone.modules.disabling.callbacks import EnableAllCallback
@@ -59,7 +59,7 @@ class DisableAllCbHandler(KoroneCallbackQueryHandler):
             await self.event.answer(_("Only the initiator can confirm disabling all commands"))
             return
 
-        model = await disabling_repo.enable_all(self.chat.chat_id)
+        model = await DisablingRepository.enable_all(self.chat.chat_id)
 
         removed_count: int = len(model.cmds) if model else 0
 

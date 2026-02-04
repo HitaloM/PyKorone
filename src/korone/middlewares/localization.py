@@ -6,7 +6,7 @@ from aiogram.utils.i18n.middleware import I18nMiddleware
 from korone.config import CONFIG
 from korone.constants import CACHE_LANGUAGE_TTL_SECONDS
 from korone.db.models.chat import ChatModel
-from korone.db.repositories import language as language_repo
+from korone.db.repositories.language import LanguageRepository
 from korone.logging import get_logger
 from korone.utils.cached import Cached
 
@@ -23,7 +23,7 @@ type MiddlewareData = dict[str, MiddlewareDataValue]
 
 @Cached(ttl=CACHE_LANGUAGE_TTL_SECONDS)
 async def cache_get_locale_name(chat_id: int) -> str | None:
-    locale = await language_repo.get_locale(chat_id)
+    locale = await LanguageRepository.get_locale(chat_id)
 
     return locale or None
 

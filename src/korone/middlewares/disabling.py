@@ -5,7 +5,7 @@ from aiogram.dispatcher.event.bases import SkipHandler
 from aiogram.dispatcher.flags import get_flag
 from aiogram.types import Message, TelegramObject
 
-from korone.db.repositories import disabling as disabling_repo
+from korone.db.repositories.disabling import DisablingRepository
 from korone.logging import get_logger
 from korone.modules.utils_.admin import is_user_admin
 
@@ -30,7 +30,7 @@ class DisablingMiddleware(BaseMiddleware):
     ) -> HandlerResult:
         if isinstance(event, Message):
             chat_id = event.chat.id
-            disabled = await disabling_repo.get_disabled(chat_id)
+            disabled = await DisablingRepository.get_disabled(chat_id)
 
             data["disabled"] = disabled
             await logger.adebug("DisablingMiddleware", chat_id=chat_id, disabled=disabled)

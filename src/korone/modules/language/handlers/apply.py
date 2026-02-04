@@ -7,7 +7,7 @@ from stfu_tg import Doc
 
 from korone import aredis
 from korone.config import CONFIG
-from korone.db.repositories import language as language_repo
+from korone.db.repositories.language import LanguageRepository
 from korone.filters.admin_rights import UserRestricting
 from korone.modules.language.callbacks import SetLangCallback
 from korone.modules.utils_.callbacks import GoToStartCallback
@@ -22,7 +22,7 @@ if TYPE_CHECKING:
 
 
 async def set_chat_language(chat_id: int, language: str) -> None:
-    await language_repo.set_locale(chat_id, language)
+    await LanguageRepository.set_locale(chat_id, language)
 
     await aredis.delete(f"lang_cache_{chat_id}")
 

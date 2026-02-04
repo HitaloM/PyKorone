@@ -8,7 +8,7 @@ from ass_tg.types import OptionalArg
 from stfu_tg import Doc, KeyValue, Section, Title, UserLink
 
 from korone.args.users import KoroneUserArg
-from korone.db.repositories import chat as chat_repo
+from korone.db.repositories.chat import ChatRepository, UserInGroupRepository
 from korone.filters.cmd import CMDFilter
 from korone.modules.utils_.admin import is_chat_creator, is_user_admin
 from korone.utils.handlers import KoroneMessageHandler
@@ -40,7 +40,7 @@ class UserInfoHandler(KoroneMessageHandler):
         if not target_user:
             user = getattr(self.event, "from_user", None)
             if user:
-                target_user = await chat_repo.get_by_chat_id(user.id)
+                target_user = await ChatRepository.get_by_chat_id(user.id)
 
         if not target_user:
             await self.event.reply(_("Could not identify user."))
@@ -60,7 +60,8 @@ class UserInfoHandler(KoroneMessageHandler):
         if target_user.username:
             doc += KeyValue(_("Username"), f"@{target_user.username}")
 
-        doc += KeyValue(_("User Link"), UserLink(user_id=target_user.id, name=target_user.first_name_or_title))
+        display_name = target_user.first_name_or_title or "User"
+        doc += KeyValue(_("User Link"), UserLink(user_id=target_user.id, name=display_name))
 
         doc += Section()
 
@@ -70,7 +71,7 @@ class UserInfoHandler(KoroneMessageHandler):
             elif await is_user_admin(chat_id, user_id):
                 doc += _("This user is an admin in this chat.") + "\n"
 
-        shared_chats_count = await chat_repo.count_user_groups(target_user.id)
+        shared_chats_count = await UserInGroupRepository.count_user_groups(target_user.id)
 
         doc += KeyValue(_("Shared Chats"), shared_chats_count)
 

@@ -10,7 +10,7 @@ from aiogram.fsm.state import State, StatesGroup
 from aiogram.types import ForceReply
 from ass_tg.types import OptionalArg, WordArg
 
-from korone.db.repositories import lastfm as lastfm_repo
+from korone.db.repositories.lastfm import LastFMRepository
 from korone.filters.cmd import CMDFilter
 from korone.modules.lastfm.utils import LastFMClient, LastFMError, handle_lastfm_error
 from korone.utils.handlers import KoroneMessageHandler
@@ -48,7 +48,7 @@ async def set_lastfm_username(message: Message, username: str) -> bool:
         await handle_lastfm_error(message, exc)
         return False
 
-    await lastfm_repo.set_username(chat_id=message.from_user.id, username=username)
+    await LastFMRepository.set_username(chat_id=message.from_user.id, username=username)
     await message.reply(_("Last.fm username set successfully!"))
     return True
 

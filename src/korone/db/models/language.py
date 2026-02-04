@@ -1,16 +1,15 @@
-from sqlalchemy import Integer, String
+from sqlalchemy import String
 from sqlalchemy.orm import Mapped, mapped_column  # noqa: TC002
 
-from korone.db.base import Base, ModelMixin
+from korone.db.base import Base
 
 
-class LanguageModel(Base, ModelMixin):
+class LanguageModel(Base):
     __tablename__ = "lang"
 
-    id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
-    chat_id: Mapped[int] = mapped_column(Integer, unique=True, index=True)
+    id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
+    chat_id: Mapped[int] = mapped_column(unique=True, index=True)
     lang: Mapped[str] = mapped_column(String(16))
 
-    @property
-    def locale_name(self) -> str:
-        return self.lang
+    def __repr__(self) -> str:
+        return f"LanguageModel(id={self.id!r}, chat_id={self.chat_id!r}, lang={self.lang!r})"

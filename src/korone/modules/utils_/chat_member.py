@@ -6,13 +6,14 @@ from redis.exceptions import RedisError
 
 from korone import aredis, bot
 from korone.constants import CACHE_DEFAULT_TTL_SECONDS
-from korone.db.repositories import chat as chat_repo
+from korone.db.repositories.chat import ChatRepository
 from korone.logging import get_logger
 
 if TYPE_CHECKING:
     from aiogram.types import ResultChatMemberUnion
 
     from korone.db.models.chat import ChatModel
+
 
 logger = get_logger(__name__)
 
@@ -32,7 +33,7 @@ async def update_chat_members(chat: ChatModel) -> None:
     admins_map: dict[str, dict] = {}
 
     for member in chat_members:
-        user = await chat_repo.get_by_chat_id(member.user.id)
+        user = await ChatRepository.get_by_chat_id(member.user.id)
         if not user:
             await logger.adebug("user_details: user not found in database", user_id=member.user.id)
             continue

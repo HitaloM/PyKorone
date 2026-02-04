@@ -5,7 +5,6 @@ from korone.utils.i18n import LazyProxy
 from korone.utils.i18n import lazy_gettext as l_
 
 from .handlers.event import EventHandler
-from .handlers.sqlite_info import SQLiteInfoHandler
 from .handlers.stats import StatsHandler, get_system_stats
 
 router = Router(name="op")
@@ -23,5 +22,5 @@ __module_info__ = LazyProxy(
 
 __exclude_public__ = True
 
-__handlers__ = (EventHandler, StatsHandler, SQLiteInfoHandler)
+__handlers__ = (EventHandler, StatsHandler)
 __stats__ = get_system_stats

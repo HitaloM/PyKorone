@@ -4,7 +4,7 @@ from typing import TYPE_CHECKING
 
 from aiogram import flags
 
-from korone.db.repositories import lastfm as lastfm_repo
+from korone.db.repositories.lastfm import LastFMRepository
 from korone.filters.cmd import CMDFilter
 from korone.modules.lastfm.utils import (
     LastFMClient,
@@ -34,8 +34,8 @@ class LastFMCompatHandler(KoroneMessageHandler):
 
     @staticmethod
     async def fetch_lastfm_users(message: Message, user1_id: int, user2_id: int) -> tuple[str | None, str | None]:
-        user1_db = await lastfm_repo.get_username(user1_id)
-        user2_db = await lastfm_repo.get_username(user2_id)
+        user1_db = await LastFMRepository.get_username(user1_id)
+        user2_db = await LastFMRepository.get_username(user2_id)
 
         if not user1_db:
             await message.reply(

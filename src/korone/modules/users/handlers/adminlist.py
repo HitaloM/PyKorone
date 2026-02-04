@@ -6,7 +6,7 @@ from stfu_tg import Doc, Section, Template, Title, UserLink, VList
 
 from korone import aredis
 from korone.constants import TELEGRAM_ANONYMOUS_ADMIN_BOT_ID
-from korone.db.repositories import chat as chat_repo
+from korone.db.repositories.chat import ChatRepository
 from korone.filters.cmd import CMDFilter
 from korone.modules.utils_.chat_member import update_chat_members
 from korone.utils.handlers import KoroneMessageHandler
@@ -30,7 +30,7 @@ class AdminListHandler(KoroneMessageHandler):
             await self.event.reply(_("This command can only be used in groups."))
             return
 
-        chat_model = await chat_repo.get_by_chat_id(self.chat.chat_id)
+        chat_model = await ChatRepository.get_by_chat_id(self.chat.chat_id)
         if not chat_model:
             await self.event.reply(_("Chat not found."))
             return
@@ -51,7 +51,7 @@ class AdminListHandler(KoroneMessageHandler):
                 admins = {}
 
             for user_id, admin_data in admins.items():
-                user_model = await chat_repo.get_by_chat_id(int(user_id))
+                user_model = await ChatRepository.get_by_chat_id(int(user_id))
                 if not user_model:
                     continue
 
@@ -61,7 +61,8 @@ class AdminListHandler(KoroneMessageHandler):
                 if admin_data.get("is_anonymous"):
                     continue
 
-                admin_items.append(Template(_("{user}"), user=UserLink(user_model.id, user_model.first_name_or_title)))
+                display_name = user_model.first_name_or_title or "User"
+                admin_items.append(Template(_("{user}"), user=UserLink(user_model.id, display_name)))
 
         if not admin_items:
             doc += _("No visible admins found.")

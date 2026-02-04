@@ -6,7 +6,7 @@ from aiogram import flags
 from ass_tg.types import WordArg
 from stfu_tg import Code, Italic, KeyValue, Section, Template
 
-from korone.db.repositories import disabling as disabling_repo
+from korone.db.repositories.disabling import DisablingRepository
 from korone.filters.admin_rights import UserRestricting
 from korone.filters.cmd import CMDFilter
 from korone.modules.disabling.utils.get_disabled import get_cmd_help_by_name, get_disabled_handlers
@@ -35,7 +35,7 @@ class DisableHandler(KoroneMessageHandler):
 
     @staticmethod
     async def disable_cmd(chat_id: int, cmd: str) -> None:
-        await disabling_repo.disable(chat_id, cmd)
+        await DisablingRepository.disable(chat_id, cmd)
 
     async def handle(self) -> None:
         cmd_name: str = self.data["cmd"].lower().removeprefix("/").removeprefix("!")
