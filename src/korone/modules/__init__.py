@@ -30,6 +30,7 @@ MODULES = [
     "gsm_arena",
     "regex",
     "lastfm",
+    "web",
 ]
 
 

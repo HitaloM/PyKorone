@@ -1358,3 +1358,109 @@ msgstr ""
 #: src/korone/modules/utils_/status_handler.py:89
 msgid "Disabled"
 msgstr ""
+
+#: src/korone/modules/web/__init__.py:13
+msgid "Web"
+msgstr ""
+
+#: src/korone/modules/web/__init__.py:15
+msgid "Lookup IP and WHOIS information"
+msgstr ""
+
+#: src/korone/modules/web/__init__.py:16
+msgid "Get IP details and WHOIS information for domains."
+msgstr ""
+
+#: src/korone/modules/web/handlers/ip.py:26
+#: src/korone/modules/web/handlers/ip.py:133
+msgid "IP"
+msgstr ""
+
+#: src/korone/modules/web/handlers/ip.py:27
+msgid "Hostname"
+msgstr ""
+
+#: src/korone/modules/web/handlers/ip.py:28
+msgid "City"
+msgstr ""
+
+#: src/korone/modules/web/handlers/ip.py:29
+msgid "Region"
+msgstr ""
+
+#: src/korone/modules/web/handlers/ip.py:30
+msgid "Country"
+msgstr ""
+
+#: src/korone/modules/web/handlers/ip.py:31
+msgid "Location"
+msgstr ""
+
+#: src/korone/modules/web/handlers/ip.py:32
+msgid "Organization"
+msgstr ""
+
+#: src/korone/modules/web/handlers/ip.py:33
+msgid "Postal"
+msgstr ""
+
+#: src/korone/modules/web/handlers/ip.py:34
+msgid "Timezone"
+msgstr ""
+
+#: src/korone/modules/web/handlers/ip.py:38
+msgid "Shows information about an IP or domain."
+msgstr ""
+
+#: src/korone/modules/web/handlers/ip.py:43
+msgid "IP or domain"
+msgstr ""
+
+#: src/korone/modules/web/handlers/ip.py:54
+msgid "You should provide an IP address or domain. Example: <code>/ip google.com</code>."
+msgstr ""
+
+#: src/korone/modules/web/handlers/ip.py:60
+msgid "No valid IP addresses or domains found in the provided input."
+msgstr ""
+
+#: src/korone/modules/web/handlers/ip.py:71
+msgid "Please select an IP address:"
+msgstr ""
+
+#: src/korone/modules/web/handlers/ip.py:76
+#: src/korone/modules/web/handlers/ip.py:105
+#, python-brace-format
+msgid "No information found for {ip_or_domain}."
+msgstr ""
+
+#: src/korone/modules/web/handlers/ip.py:82
+#: src/korone/modules/web/handlers/ip.py:112
+#, python-brace-format
+msgid "The provided IP address <code>{ip}</code> is a <i>bogon</i> IP address, meaning it is either not in use or reserved for special use."
+msgstr ""
+
+#: src/korone/modules/web/handlers/ip.py:124
+msgid "IP Information"
+msgstr ""
+
+#: src/korone/modules/web/handlers/whois.py:26
+msgid "Shows WHOIS information about a domain."
+msgstr ""
+
+#: src/korone/modules/web/handlers/whois.py:31
+msgid "Domain"
+msgstr ""
+
+#: src/korone/modules/web/handlers/whois.py:42
+msgid "You should provide a domain name. Example: <code>/whois example.com</code>."
+msgstr ""
+
+#: src/korone/modules/web/handlers/whois.py:49
+#, python-brace-format
+msgid "No WHOIS information found for <code>{domain}</code>."
+msgstr ""
+
+#: src/korone/modules/web/handlers/whois.py:52
+msgid "WHOIS Information"
+msgstr ""

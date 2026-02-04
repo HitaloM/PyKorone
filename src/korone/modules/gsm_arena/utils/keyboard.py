@@ -1,10 +1,7 @@
-import math
 from typing import TYPE_CHECKING
 
-from aiogram.types import InlineKeyboardButton
-from aiogram.utils.keyboard import InlineKeyboardBuilder
-
 from korone.modules.gsm_arena.callbacks import DevicePageCallback, GetDeviceCallback
+from korone.modules.utils_.pagination import Pagination
 
 if TYPE_CHECKING:
     from aiogram.types import InlineKeyboardMarkup
@@ -13,33 +10,13 @@ if TYPE_CHECKING:
 
 
 def create_pagination_layout(
-    devices: list[PhoneSearchResult], query: str, page: int, *, items_per_page: int = 8, columns: int = 1
+    devices: list[PhoneSearchResult], query: str, page: int, items_per_page: int = 8
 ) -> InlineKeyboardMarkup:
-    total_pages = max(1, math.ceil(len(devices) / items_per_page))
-    current_page = max(1, min(page, total_pages))
+    pagination = Pagination(
+        objects=devices,
+        page_data=lambda page_num: DevicePageCallback(device=query, page=page_num).pack(),
+        item_data=lambda device, _: GetDeviceCallback(device=device.url).pack(),
+        item_title=lambda device, _: device.name,
+    )
 
-    start = (current_page - 1) * items_per_page
-    end = start + items_per_page
-
-    builder = InlineKeyboardBuilder()
-
-    for device in devices[start:end]:
-        builder.button(text=device.name, callback_data=GetDeviceCallback(device=device.url).pack())
-
-    if columns > 0:
-        builder.adjust(columns)
-
-    nav_buttons: list[InlineKeyboardButton] = []
-    if current_page > 1:
-        nav_buttons.append(
-            InlineKeyboardButton(text="⬅️", callback_data=DevicePageCallback(device=query, page=current_page - 1).pack())
-        )
-    if current_page < total_pages:
-        nav_buttons.append(
-            InlineKeyboardButton(text="➡️", callback_data=DevicePageCallback(device=query, page=current_page + 1).pack())
-        )
-
-    if nav_buttons:
-        builder.row(*nav_buttons)
-
-    return builder.as_markup()
+    return pagination.create(page=page, lines=items_per_page, columns=1)
