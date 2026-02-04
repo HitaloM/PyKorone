@@ -1,13 +1,11 @@
 from .collage_generator import create_album_collage
 from .commons import (
-    check_compatibility_users,
+    build_entity_response,
     fetch_and_handle_recent_track,
-    fetch_lastfm_users,
-    get_entity_info,
     get_lastfm_user_or_reply,
     get_user_link,
     handle_lastfm_error,
-    send_entity_response,
+    reply_with_optional_image,
 )
 from .deezer_api import DeezerClient, DeezerError
 from .errors import LastFMError
@@ -29,14 +27,12 @@ __all__ = (
     "LastFMTrack",
     "LastFMUser",
     "TimePeriod",
-    "check_compatibility_users",
+    "build_entity_response",
     "clean_tag_name",
     "create_album_collage",
     "fetch_and_handle_recent_track",
-    "fetch_lastfm_users",
     "format_tags",
     "get_biggest_lastfm_image",
-    "get_entity_info",
     "get_lastfm_user_or_reply",
     "get_time_elapsed_str",
     "get_user_link",
@@ -44,5 +40,5 @@ __all__ = (
     "name_with_link",
     "parse_collage_arg",
     "period_to_str",
-    "send_entity_response",
+    "reply_with_optional_image",
 )

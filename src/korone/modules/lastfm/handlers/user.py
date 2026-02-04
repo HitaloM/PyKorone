@@ -4,7 +4,6 @@ from datetime import UTC, datetime
 from typing import TYPE_CHECKING
 
 from aiogram import flags
-from aiogram.types import BufferedInputFile
 
 from korone.filters.cmd import CMDFilter
 from korone.modules.lastfm.utils import (
@@ -13,6 +12,7 @@ from korone.modules.lastfm.utils import (
     get_biggest_lastfm_image,
     get_lastfm_user_or_reply,
     handle_lastfm_error,
+    reply_with_optional_image,
 )
 from korone.utils.handlers import KoroneMessageHandler
 from korone.utils.i18n import gettext as _
@@ -61,9 +61,4 @@ class LastFMUserHandler(KoroneMessageHandler):
             registered=registered,
         )
 
-        if image:
-            file = BufferedInputFile(image.getvalue(), filename=getattr(image, "name", "lastfm.jpg"))
-            await self.event.reply_photo(photo=file, caption=text)
-            return
-
-        await self.event.reply(text, disable_web_page_preview=True)
+        await reply_with_optional_image(self.event, text, image)

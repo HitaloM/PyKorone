@@ -31,6 +31,31 @@ class LastFMRecentHandler(KoroneMessageHandler):
     def filters() -> tuple[CallbackType, ...]:
         return (CMDFilter("lfmrecent"),)
 
+    @staticmethod
+    def format_recent_tracks(recent_tracks: list[LastFMTrack], user_link: str) -> str:
+        last_played = recent_tracks[0]
+        played_tracks = recent_tracks[1:6] if last_played.now_playing else recent_tracks[:5]
+
+        formatted_tracks: list[str] = []
+        if last_played.now_playing:
+            formatted_tracks.extend([
+                _("{user} is listening to:\n").format(user=user_link)
+                + f"🎧 <i>{html.escape(last_played.artist.name)}</i> — "
+                f"<b>{html.escape(last_played.name)}</b>",
+                _("\nLast 5 plays:"),
+            ])
+        else:
+            formatted_tracks.append(_("{user} was listening to:\n").format(user=user_link))
+
+        formatted_tracks.extend(
+            f"🎧 <i>{html.escape(track.artist.name)}</i> — "
+            f"<b>{html.escape(track.name)}</b>"
+            f"{get_time_elapsed_str(track)}"
+            for track in played_tracks
+        )
+
+        return "\n".join(formatted_tracks)
+
     async def handle(self) -> None:
         last_fm_user = await get_lastfm_user_or_reply(self.event)
         if not last_fm_user:
@@ -48,28 +73,5 @@ class LastFMRecentHandler(KoroneMessageHandler):
             return
 
         user_link = get_user_link(self.event, last_fm_user)
-        formatted_response = format_recent_tracks(recent_tracks, user_link)
+        formatted_response = self.format_recent_tracks(recent_tracks, user_link)
         await self.event.reply(formatted_response, disable_web_page_preview=True)
-
-
-def format_recent_tracks(recent_tracks: list[LastFMTrack], user_link: str) -> str:
-    last_played = recent_tracks[0]
-    played_tracks = recent_tracks[1:6] if last_played.now_playing else recent_tracks[:5]
-
-    formatted_tracks: list[str] = []
-    if last_played.now_playing:
-        formatted_tracks.extend([
-            _("{user} is listening to:\n").format(user=user_link)
-            + f"🎧 <i>{html.escape(last_played.artist.name)}</i> — "
-            f"<b>{html.escape(last_played.name)}</b>",
-            _("\nLast 5 plays:"),
-        ])
-    else:
-        formatted_tracks.append(_("{user} was listening to:\n").format(user=user_link))
-
-    formatted_tracks.extend(
-        f"🎧 <i>{html.escape(track.artist.name)}</i> — <b>{html.escape(track.name)}</b>{get_time_elapsed_str(track)}"
-        for track in played_tracks
-    )
-
-    return "\n".join(formatted_tracks)

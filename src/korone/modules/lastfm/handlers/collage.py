@@ -1,6 +1,5 @@
 from __future__ import annotations
 
-from asyncio import create_task
 from typing import TYPE_CHECKING
 
 from aiogram import flags
@@ -76,9 +75,5 @@ class LastFMCollageHandler(KoroneMessageHandler):
                 await self.event.reply_photo(photo=file, caption=caption)
             except LastFMError as exc:
                 await handle_lastfm_error(self.event, exc)
-            except Exception as exc:  # noqa: BLE001
-                await logger.aexception("Failed to generate Last.fm collage: %s", exc)
-                await self.event.reply(_("Something went wrong while generating the collage."))
 
-        task = create_task(generate_and_send())
-        await task
+        await generate_and_send()

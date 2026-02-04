@@ -7,10 +7,12 @@ from aiogram import flags
 from korone.filters.cmd import CMDFilter
 from korone.modules.lastfm.utils import (
     LastFMClient,
+    build_entity_response,
     fetch_and_handle_recent_track,
-    get_entity_info,
+    format_tags,
+    get_biggest_lastfm_image,
     get_lastfm_user_or_reply,
-    send_entity_response,
+    reply_with_optional_image,
 )
 from korone.utils.handlers import KoroneMessageHandler
 from korone.utils.i18n import lazy_gettext as l_
@@ -27,18 +29,29 @@ class LastFMNowHandler(KoroneMessageHandler):
         return (CMDFilter(("lfm", "lastfm", "lmu")),)
 
     async def handle(self) -> None:
-        last_fm_user = await get_lastfm_user_or_reply(self.event)
-        if not last_fm_user:
+        lastfm_username = await get_lastfm_user_or_reply(self.event)
+        if not lastfm_username:
             return
 
-        track_data = await fetch_and_handle_recent_track(self.event, last_fm_user)
+        track_data = await fetch_and_handle_recent_track(self.event, lastfm_username)
         if not track_data:
             return
 
         last_played, user_link = track_data
         last_fm = LastFMClient()
-        track_info = await get_entity_info(last_fm, last_played, last_fm_user, "track")
+        track_info = await last_fm.get_track_info(last_played.artist.name, last_played.name, lastfm_username)
 
-        await send_entity_response(
-            self.event, last_played, user_link, track_info, "🎧", f"{last_played.artist.name} — {last_played.name}"
+        entity_name = f"{last_played.artist.name} — {last_played.name}"
+        playcount = getattr(track_info, "playcount", 0) if track_info else 0
+        tags = format_tags(track_info) if track_info and getattr(track_info, "tags", None) else ""
+        text = build_entity_response(
+            user_link=user_link,
+            now_playing=last_played.now_playing,
+            emoji="🎧",
+            entity_name=entity_name,
+            playcount=playcount,
+            tags=tags,
         )
+
+        image = await get_biggest_lastfm_image(last_played)
+        await reply_with_optional_image(self.event, text, image)

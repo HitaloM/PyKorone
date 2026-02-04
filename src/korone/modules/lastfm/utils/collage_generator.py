@@ -32,19 +32,16 @@ FONT_CANDIDATES: tuple[str, ...] = (
 )
 
 
-async def fetch_album_art(album: LastFMAlbum) -> Image.Image:
+async def fetch_album_art(album: LastFMAlbum) -> BytesIO | None:
     try:
-        image_data = await get_biggest_lastfm_image(album)
-        if image_data:
-            return await run_sync(open_image, image_data)
+        return await get_biggest_lastfm_image(album)
     except Exception as exc:  # noqa: BLE001
         await logger.aexception("Failed to fetch album art: %s", exc)
+    return None
 
-    return await run_sync(create_placeholder)
 
-
-async def fetch_album_arts(albums: list[LastFMAlbum]) -> list[Image.Image]:
-    results: list[Image.Image | None] = [None] * len(albums)
+async def fetch_album_arts(albums: list[LastFMAlbum]) -> list[BytesIO | None]:
+    results: list[BytesIO | None] = [None] * len(albums)
 
     async def fetch(index: int, album: LastFMAlbum) -> None:
         results[index] = await fetch_album_art(album)
@@ -53,7 +50,7 @@ async def fetch_album_arts(albums: list[LastFMAlbum]) -> list[Image.Image]:
         for index, album in enumerate(albums):
             tg.start_soon(fetch, index, album)
 
-    return [img for img in results if img is not None]
+    return results
 
 
 async def process_single_image(
@@ -70,28 +67,35 @@ async def create_album_collage(
     albums: list[LastFMAlbum], *, collage_size: tuple[int, int] = (3, 3), show_text: bool = True
 ) -> io.BytesIO:
     rows, cols = collage_size
-    total_albums = min(len(albums), rows * cols)
+    total_albums = rows * cols
+    albums_with_images = [album for album in albums if album.images]
+    selected_albums = albums_with_images[:total_albums]
 
-    collage = Image.new("RGB", (THUMB_SIZE * cols, THUMB_SIZE * rows))
+    collage = Image.new("RGBA", (THUMB_SIZE * cols, THUMB_SIZE * rows), (0, 0, 0, 255))
 
-    album_images = await fetch_album_arts(albums[:total_albums])
-    processed_results: list[Image.Image | None] = [None] * total_albums
+    tiles_bytes_vec = await fetch_album_arts(selected_albums)
 
-    async with create_task_group() as tg:
-        for index, (item, img) in enumerate(zip(albums[:total_albums], album_images, strict=False)):
-            runner = partial(process_single_image, show_text=show_text)
-            tg.start_soon(runner, index, item, img, processed_results)
+    for index, album in enumerate(selected_albums):
+        tile_bytes = tiles_bytes_vec[index]
+        row = index // cols
+        col = index % cols
+        tile_x = col * THUMB_SIZE
+        tile_y = row * THUMB_SIZE
 
-    for index, processed_image in enumerate(processed_results):
-        if processed_image is None:
-            continue
+        if tile_bytes is not None:
+            tile = await run_sync(load_tile_image, tile_bytes)
+            if tile is not None:
+                collage.paste(tile, (tile_x, tile_y), tile)
 
-        x, y = (index % cols) * THUMB_SIZE, (index // cols) * THUMB_SIZE
-        await run_sync(paste_image, collage, processed_image, x, y)
-        processed_image.close()
+        if show_text:
+            artist_name = album.artist.name if album.artist is not None else ""
+            text = f"{album.name}\n{artist_name}\n{album.playcount} plays"
+            text_image = Image.new("RGBA", (THUMB_SIZE, THUMB_SIZE), (0, 0, 0, 0))
+            add_text_to_image(text_image, text, FONT_SIZE)
+            collage.paste(text_image, (tile_x, tile_y), text_image)
 
     collage_bytes = io.BytesIO()
-    await run_sync(collage.save, collage_bytes, "PNG")
+    await run_sync(collage.convert("RGB").save, collage_bytes, "JPEG")
     collage_bytes.seek(0)
 
     return collage_bytes
@@ -166,21 +170,50 @@ def apply_bottom_gradient(img: Image.Image, start_y: int, *, max_alpha: int = 20
 def add_text_to_image(img: Image.Image, text: str, font_size: int) -> None:
     font = load_font(font_size)
     draw = ImageDraw.Draw(img)
-    max_width = img.width - (TEXT_POSITION_OFFSET * 2)
+    lines = text.split("\n")
+    base_y = img.height - 70
+    line_step = 20
+    text_x = 10
 
-    wrapped_lines: list[str] = []
-    for raw_line in text.split("\n"):
-        wrapped_lines.extend(wrap_text_to_width(draw, raw_line, font, max_width))
+    for idx, line in enumerate(lines):
+        text_y = base_y + (idx * line_step)
+        draw_text_with_outline(draw, text_x, text_y, line, font)
 
-    text_block = "\n".join(wrapped_lines)
-    bbox = draw.multiline_textbbox((0, 0), text_block, font=font, spacing=LINE_SPACING)
-    text_height = bbox[3] - bbox[1]
-    text_x = TEXT_POSITION_OFFSET
-    text_y = img.height - text_height - TEXT_POSITION_OFFSET
 
-    gradient_start = int(max(0, text_y - (TEXT_POSITION_OFFSET * 2)))
-    apply_bottom_gradient(img, gradient_start)
-    draw.multiline_text((text_x, text_y), text_block, font=font, fill="white", spacing=LINE_SPACING)
+def draw_text_with_outline(
+    draw: ImageDraw.ImageDraw,
+    x: int,
+    y: int,
+    text: str,
+    font: ImageFont.FreeTypeFont | ImageFont.ImageFont,
+    *,
+    outline_offset: int = 2,
+    text_color: tuple[int, int, int, int] = (255, 255, 255, 255),
+    outline_color: tuple[int, int, int, int] = (0, 0, 0, 255),
+) -> None:
+    offsets = (
+        (-outline_offset, -outline_offset),
+        (-outline_offset, 0),
+        (-outline_offset, outline_offset),
+        (0, -outline_offset),
+        (0, outline_offset),
+        (outline_offset, -outline_offset),
+        (outline_offset, 0),
+        (outline_offset, outline_offset),
+    )
+    for dx, dy in offsets:
+        draw.text((x + dx, y + dy), text, font=font, fill=outline_color)
+    draw.text((x, y), text, font=font, fill=text_color)
+
+
+def load_tile_image(source: BytesIO) -> Image.Image | None:
+    try:
+        tile = open_image(source).convert("RGBA")
+    except Exception:  # noqa: BLE001
+        return None
+    if tile.width > THUMB_SIZE:
+        tile.thumbnail((THUMB_SIZE, THUMB_SIZE), Image.Resampling.LANCZOS)
+    return tile
 
 
 def prepare_single_image(item: LastFMAlbum, img: Image.Image, *, show_text: bool) -> Image.Image:
