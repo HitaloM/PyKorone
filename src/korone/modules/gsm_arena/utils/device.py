@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from korone.modules.gsm_arena.utils.scraper import check_phone_details, format_phone
+from .scraper import check_phone_details, format_phone
 
 
 async def get_device_text(url: str) -> str | None:

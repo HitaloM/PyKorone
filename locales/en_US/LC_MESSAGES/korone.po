@@ -101,25 +101,25 @@ msgstr ""
 
 #: src/korone/modules/disabling/handlers/disable.py:30
 #: src/korone/modules/disabling/handlers/disable.py:58
-#: src/korone/modules/disabling/handlers/enable.py:31
-#: src/korone/modules/disabling/handlers/enable.py:60
+#: src/korone/modules/disabling/handlers/enable.py:30
+#: src/korone/modules/disabling/handlers/enable.py:59
 msgid "Command"
 msgstr ""
 
 #: src/korone/modules/disabling/handlers/disable.py:46
-#: src/korone/modules/disabling/handlers/enable.py:47
+#: src/korone/modules/disabling/handlers/enable.py:46
 #, python-brace-format
 msgid "Command {cmd} not found."
 msgstr ""
 
 #: src/korone/modules/disabling/handlers/disable.py:50
-#: src/korone/modules/disabling/handlers/enable.py:51
+#: src/korone/modules/disabling/handlers/enable.py:50
 #, python-brace-format
 msgid "Command {cmd} is already disabled."
 msgstr ""
 
 #: src/korone/modules/disabling/handlers/disable.py:57
-#: src/korone/modules/disabling/handlers/enable.py:59
+#: src/korone/modules/disabling/handlers/enable.py:58
 #: src/korone/modules/utils_/status_handler.py:50
 #: src/korone/modules/utils_/status_handler.py:74
 msgid "Chat"
@@ -149,11 +149,11 @@ msgstr ""
 msgid "Disabled commands"
 msgstr ""
 
-#: src/korone/modules/disabling/handlers/enable.py:27
+#: src/korone/modules/disabling/handlers/enable.py:26
 msgid "Enables previously disabled command."
 msgstr ""
 
-#: src/korone/modules/disabling/handlers/enable.py:62
+#: src/korone/modules/disabling/handlers/enable.py:61
 msgid "Command enabled"
 msgstr ""
 
@@ -800,57 +800,50 @@ msgstr ""
 msgid "Includes collage generation and compatibility checks."
 msgstr ""
 
-#: src/korone/modules/lastfm/handlers/album.py:23
+#: src/korone/modules/lastfm/handlers/album.py:25
 msgid "Shows the album info for your current track on Last.fm."
 msgstr ""
 
-#: src/korone/modules/lastfm/handlers/album.py:42
+#: src/korone/modules/lastfm/handlers/album.py:44
 msgid "No album information found for the current track."
 msgstr ""
 
-#: src/korone/modules/lastfm/handlers/artist.py:22
+#: src/korone/modules/lastfm/handlers/artist.py:27
 msgid "Shows the artist info for your current track on Last.fm."
 msgstr ""
 
-#: src/korone/modules/lastfm/handlers/collage.py:37
+#: src/korone/modules/lastfm/handlers/collage.py:36
 msgid "Generates a Last.fm collage of your top albums."
 msgstr ""
 
-#: src/korone/modules/lastfm/handlers/collage.py:42
+#: src/korone/modules/lastfm/handlers/collage.py:41
 #: src/korone/modules/lastfm/handlers/top.py:39
 msgid "Args"
 msgstr ""
 
-#: src/korone/modules/lastfm/handlers/collage.py:65
+#: src/korone/modules/lastfm/handlers/collage.py:64
 msgid "No top albums found for your Last.fm account."
 msgstr ""
 
-#: src/korone/modules/lastfm/handlers/collage.py:81
-msgid "Something went wrong while generating the collage."
-msgstr ""
-
-#: src/korone/modules/lastfm/handlers/compat.py:29
+#: src/korone/modules/lastfm/handlers/compat.py:28
 msgid "Checks compatibility between two Last.fm users."
 msgstr ""
 
-#: src/korone/modules/lastfm/handlers/compat.py:38
-msgid "Reply to a message to get the compatibility!"
+#: src/korone/modules/lastfm/handlers/compat.py:42
+#: src/korone/modules/lastfm/utils/commons.py:33
+msgid "You need to set your Last.fm username first! Example: <code>/setlfm username</code>."
 msgstr ""
 
-#: src/korone/modules/lastfm/handlers/compat.py:45
-msgid "Could not identify both users."
+#: src/korone/modules/lastfm/handlers/compat.py:48
+msgid "The user you replied to doesn't have a Last.fm account linked! Hint them to set it using <code>/setlfm username</code>."
 msgstr ""
 
-#: src/korone/modules/lastfm/handlers/compat.py:68
-msgid "No top artists found for your Last.fm account."
-msgstr ""
-
-#: src/korone/modules/lastfm/handlers/compat.py:92
+#: src/korone/modules/lastfm/handlers/compat.py:75
 #, python-brace-format
 msgid "No common artists in {period}"
 msgstr ""
 
-#: src/korone/modules/lastfm/handlers/compat.py:94
+#: src/korone/modules/lastfm/handlers/compat.py:78
 #, python-brace-format
 msgid ""
 "{user1} and {user2} listen to {mutual}...\n"
@@ -858,7 +851,27 @@ msgid ""
 "Compatibility score is {score}%, based on {period}"
 msgstr ""
 
-#: src/korone/modules/lastfm/handlers/now.py:22
+#: src/korone/modules/lastfm/handlers/compat.py:89
+msgid "Reply to a message to get the compatibility!"
+msgstr ""
+
+#: src/korone/modules/lastfm/handlers/compat.py:96
+msgid "Could not identify both users."
+msgstr ""
+
+#: src/korone/modules/lastfm/handlers/compat.py:100
+msgid "You can't get the compatibility with yourself!"
+msgstr ""
+
+#: src/korone/modules/lastfm/handlers/compat.py:104
+msgid "Bots won't have music taste!"
+msgstr ""
+
+#: src/korone/modules/lastfm/handlers/compat.py:124
+msgid "No top artists found for your Last.fm account."
+msgstr ""
+
+#: src/korone/modules/lastfm/handlers/now.py:24
 msgid "Shows your now playing track from Last.fm."
 msgstr ""
 
@@ -866,24 +879,24 @@ msgstr ""
 msgid "Shows your recent tracks from Last.fm."
 msgstr ""
 
-#: src/korone/modules/lastfm/handlers/recent.py:47
-msgid "No recent tracks found."
-msgstr ""
-
-#: src/korone/modules/lastfm/handlers/recent.py:62
+#: src/korone/modules/lastfm/handlers/recent.py:42
 #, python-brace-format
 msgid "{user} is listening to:\n"
 msgstr ""
 
-#: src/korone/modules/lastfm/handlers/recent.py:65
+#: src/korone/modules/lastfm/handlers/recent.py:45
 msgid ""
 "\n"
 "Last 5 plays:"
 msgstr ""
 
-#: src/korone/modules/lastfm/handlers/recent.py:68
+#: src/korone/modules/lastfm/handlers/recent.py:48
 #, python-brace-format
 msgid "{user} was listening to:\n"
+msgstr ""
+
+#: src/korone/modules/lastfm/handlers/recent.py:72
+msgid "No recent tracks found."
 msgstr ""
 
 #: src/korone/modules/lastfm/handlers/set.py:37
@@ -891,7 +904,7 @@ msgid "Last.fm username must not contain spaces or special characters!"
 msgstr ""
 
 #: src/korone/modules/lastfm/handlers/set.py:41
-#: src/korone/modules/lastfm/utils/commons.py:30
+#: src/korone/modules/lastfm/utils/commons.py:28
 msgid "Could not identify your user."
 msgstr ""
 
@@ -964,56 +977,32 @@ msgid ""
 "Registered: <i>{registered}</i>"
 msgstr ""
 
-#: src/korone/modules/lastfm/utils/commons.py:26
-#: src/korone/modules/lastfm/utils/commons.py:44
+#: src/korone/modules/lastfm/utils/commons.py:24
+#: src/korone/modules/lastfm/utils/commons.py:43
 msgid "Last.fm API key is not configured. Please contact the bot owner."
 msgstr ""
 
-#: src/korone/modules/lastfm/utils/commons.py:35
-#: src/korone/modules/lastfm/utils/commons.py:156
-msgid "You need to set your Last.fm username first! Example: <code>/setlfm username</code>."
-msgstr ""
-
-#: src/korone/modules/lastfm/utils/commons.py:42
+#: src/korone/modules/lastfm/utils/commons.py:41
 msgid "Your Last.fm username was not found! Try setting it again."
 msgstr ""
 
-#: src/korone/modules/lastfm/utils/commons.py:47
-#, python-brace-format
-msgid ""
-"An error occurred while fetching your Last.fm data!\n"
-"<blockquote>{error}</blockquote>"
+#: src/korone/modules/lastfm/utils/commons.py:58
+msgid "No recent tracks found for your Last.fm account."
 msgstr ""
 
-#: src/korone/modules/lastfm/utils/commons.py:57
+#: src/korone/modules/lastfm/utils/commons.py:72
 #, python-brace-format
 msgid "{user}'s is listening to:\n"
 msgstr ""
 
-#: src/korone/modules/lastfm/utils/commons.py:59
+#: src/korone/modules/lastfm/utils/commons.py:74
 #, python-brace-format
 msgid "{user}'s was listening to:\n"
 msgstr ""
 
-#: src/korone/modules/lastfm/utils/commons.py:63
+#: src/korone/modules/lastfm/utils/commons.py:79
 #, python-brace-format
 msgid " ∙ <code>{playcount} plays</code>"
-msgstr ""
-
-#: src/korone/modules/lastfm/utils/commons.py:79
-msgid "No recent tracks found for your Last.fm account."
-msgstr ""
-
-#: src/korone/modules/lastfm/utils/commons.py:141
-msgid "You can't get the compatibility with yourself!"
-msgstr ""
-
-#: src/korone/modules/lastfm/utils/commons.py:145
-msgid "Bots won't have music taste!"
-msgstr ""
-
-#: src/korone/modules/lastfm/utils/commons.py:161
-msgid "The user you replied to doesn't have a Last.fm account linked! Hint them to set it using <code>/setlfm username</code>."
 msgstr ""
 
 #: src/korone/modules/lastfm/utils/formatters.py:18
@@ -1059,28 +1048,24 @@ msgstr ""
 msgid ", Just now"
 msgstr ""
 
-#: src/korone/modules/op/__init__.py:13
+#: src/korone/modules/op/__init__.py:12
 msgid "Operator"
 msgstr ""
 
-#: src/korone/modules/op/__init__.py:15
+#: src/korone/modules/op/__init__.py:14
 msgid "Operator-only commands and tools"
 msgstr ""
 
-#: src/korone/modules/op/__init__.py:18
+#: src/korone/modules/op/__init__.py:17
 msgid "Provides operator-only commands and tools for bot administration."
 msgstr ""
 
-#: src/korone/modules/op/__init__.py:19
+#: src/korone/modules/op/__init__.py:18
 msgid "Includes system stats, job management, and other administrative functions."
 msgstr ""
 
 #: src/korone/modules/op/handlers/event.py:14
 msgid "Prints the message event as JSON."
-msgstr ""
-
-#: src/korone/modules/op/handlers/sqlite_info.py:18
-msgid "Show SQLite runtime info (WAL, synchronous, timeouts)."
 msgstr ""
 
 #: src/korone/modules/op/handlers/stats.py:52
@@ -1260,16 +1245,16 @@ msgstr ""
 msgid "Admins in {chat_name}"
 msgstr ""
 
-#: src/korone/modules/users/handlers/adminlist.py:64
+#: src/korone/modules/users/handlers/adminlist.py:65
 #, python-brace-format
 msgid "{user}"
 msgstr ""
 
-#: src/korone/modules/users/handlers/adminlist.py:67
+#: src/korone/modules/users/handlers/adminlist.py:68
 msgid "No visible admins found."
 msgstr ""
 
-#: src/korone/modules/users/handlers/adminlist.py:69
+#: src/korone/modules/users/handlers/adminlist.py:70
 msgid "Admins"
 msgstr ""
 
@@ -1326,19 +1311,19 @@ msgstr ""
 msgid "Last Name"
 msgstr ""
 
-#: src/korone/modules/users/handlers/info.py:63
+#: src/korone/modules/users/handlers/info.py:64
 msgid "User Link"
 msgstr ""
 
-#: src/korone/modules/users/handlers/info.py:69
+#: src/korone/modules/users/handlers/info.py:70
 msgid "This user is the owner of this chat."
 msgstr ""
 
-#: src/korone/modules/users/handlers/info.py:71
+#: src/korone/modules/users/handlers/info.py:72
 msgid "This user is an admin in this chat."
 msgstr ""
 
-#: src/korone/modules/users/handlers/info.py:75
+#: src/korone/modules/users/handlers/info.py:76
 msgid "Shared Chats"
 msgstr ""
 
