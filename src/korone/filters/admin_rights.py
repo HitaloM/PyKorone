@@ -98,14 +98,9 @@ class UserRestricting(Filter):
         return from_user.id
 
     async def no_rights_msg(self, event: TelegramObject, *, required_permissions: bool | list[str]) -> None:
-        if isinstance(event, CallbackQuery):
-            if not isinstance(event.message, Message):
-                return
-            actual_message: Message | CallbackQuery = event.message
-        elif isinstance(event, Message):
-            actual_message = event
-        else:
+        if not isinstance(event, (CallbackQuery, Message)):
             return
+
         is_bot = await self.get_target_id(event) == CONFIG.bot_id
 
         if not isinstance(required_permissions, bool):
@@ -124,12 +119,16 @@ class UserRestricting(Filter):
             )
             doc = Doc(text)
 
-        async def answer() -> Message:
-            return await getattr(actual_message, "answer")(str(doc))
+        if isinstance(event, CallbackQuery):
+            await event.answer(str(doc), show_alert=True)
+            return
 
-        if hasattr(actual_message, "reply"):
-            await common_try(getattr(actual_message, "reply")(str(doc)), reply_not_found=answer)
-        elif hasattr(actual_message, "answer"):
+        async def answer() -> Message:
+            return await event.answer(str(doc))
+
+        if hasattr(event, "reply"):
+            await common_try(event.reply(str(doc)), reply_not_found=answer)
+        elif hasattr(event, "answer"):
             await answer()
 
 
