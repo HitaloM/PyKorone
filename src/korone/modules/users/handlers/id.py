@@ -48,7 +48,7 @@ class ShowIDHandler(KoroneMessageHandler):
         if self.event.chat.type != "private":
             doc += Template(_("Chat ID: {id}"), id=Code(self.event.chat.id))
 
-        if getattr(self.event, "message_thread_id", None):
+        if getattr(self.event, "message_thread_id", None) and self.event.chat.is_forum:
             doc += Template(_("Topic ID: {id}"), id=Code(self.event.message_thread_id))
 
         if self.event.reply_to_message and is_real_reply(self.event) and self.event.reply_to_message.from_user:
