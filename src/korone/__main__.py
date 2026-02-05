@@ -38,6 +38,8 @@ async def main() -> None:
         dp.update.middleware(ChatContextMiddleware())
         dp.message.middleware(DisablingMiddleware())
 
+        await bot.delete_webhook(drop_pending_updates=True)
+
         allowed_updates = dp.resolve_used_update_types()
         await dp.start_polling(bot, allowed_updates=allowed_updates)
     finally:
