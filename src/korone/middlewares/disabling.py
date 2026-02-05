@@ -6,7 +6,7 @@ from aiogram.dispatcher.flags import get_flag
 from aiogram.types import Message, TelegramObject
 
 from korone.db.repositories.disabling import DisablingRepository
-from korone.logging import get_logger
+from korone.logger import get_logger
 from korone.modules.utils_.admin import is_user_admin
 
 if TYPE_CHECKING:

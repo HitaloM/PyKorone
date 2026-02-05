@@ -10,7 +10,7 @@ from aiogram.types import LinkPreviewOptions
 from redis.asyncio import Redis
 
 from .config import CONFIG
-from .logging import get_logger
+from .logger import get_logger
 
 logger = get_logger(__name__)
 

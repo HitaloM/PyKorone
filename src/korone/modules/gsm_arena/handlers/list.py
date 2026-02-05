@@ -3,7 +3,7 @@ from typing import TYPE_CHECKING, cast
 from aiogram import flags
 from aiogram.exceptions import TelegramBadRequest
 
-from korone.logging import get_logger
+from korone.logger import get_logger
 from korone.modules.gsm_arena.callbacks import DevicePageCallback
 from korone.modules.gsm_arena.utils.keyboard import create_pagination_layout
 from korone.modules.gsm_arena.utils.scraper import search_phone

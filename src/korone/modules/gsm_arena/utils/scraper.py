@@ -5,7 +5,7 @@ import aiohttp
 from lxml import html
 
 from korone.config import CONFIG
-from korone.logging import get_logger
+from korone.logger import get_logger
 from korone.utils.cached import Cached
 from korone.utils.i18n import gettext as _
 

@@ -8,7 +8,7 @@ from aiogram.exceptions import (
     TelegramNotFound,
 )
 
-from korone.logging import get_logger
+from korone.logger import get_logger
 from korone.modules.utils_.telegram_exceptions import (
     CAN_NOT_BE_DELETED,
     MSG_TO_DEL_NOT_FOUND,

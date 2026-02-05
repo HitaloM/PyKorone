@@ -3,7 +3,7 @@ from typing import TYPE_CHECKING
 from aiogram import BaseMiddleware
 from aiogram.types import TelegramObject
 
-from korone.logging import get_logger
+from korone.logger import get_logger
 
 if TYPE_CHECKING:
     from collections.abc import Awaitable, Callable

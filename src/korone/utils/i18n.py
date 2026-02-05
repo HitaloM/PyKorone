@@ -11,7 +11,7 @@ from babel.support import LazyProxy as BabelLazyProxy
 from flag import flag
 
 from korone.config import CONFIG
-from korone.logging import get_logger
+from korone.logger import get_logger
 
 if TYPE_CHECKING:
     from collections.abc import Callable

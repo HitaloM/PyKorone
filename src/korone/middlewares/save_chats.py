@@ -8,7 +8,7 @@ from aiogram.types import TelegramObject, Update, User
 from korone.config import CONFIG
 from korone.db.models.chat import ChatModel, UserInGroupModel
 from korone.db.repositories.chat import ChatRepository
-from korone.logging import get_logger
+from korone.logger import get_logger
 
 if TYPE_CHECKING:
     from collections.abc import Awaitable, Callable, Iterable

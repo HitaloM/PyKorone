@@ -460,24 +460,14 @@ msgid "Search for smartphones and get a quick overview of their specifications d
 msgstr ""
 
 #: src/korone/modules/gsm_arena/handlers/get.py:31
-#: src/korone/modules/gsm_arena/handlers/list.py:30
-msgid "Invalid callback data"
-msgstr ""
-
-#: src/korone/modules/gsm_arena/handlers/get.py:36
 msgid "Fetching device details..."
 msgstr ""
 
-#: src/korone/modules/gsm_arena/handlers/get.py:40
+#: src/korone/modules/gsm_arena/handlers/get.py:35
 msgid "Error fetching device details"
 msgstr ""
 
-#: src/korone/modules/gsm_arena/handlers/get.py:62
-#: src/korone/modules/gsm_arena/handlers/list.py:52
-msgid "An error occurred. Please try again."
-msgstr ""
-
-#: src/korone/modules/gsm_arena/handlers/list.py:37
+#: src/korone/modules/gsm_arena/handlers/list.py:32
 msgid "No devices found"
 msgstr ""
 
@@ -489,25 +479,21 @@ msgstr ""
 msgid "Device"
 msgstr ""
 
-#: src/korone/modules/gsm_arena/handlers/search.py:45
-msgid "You should provide a device name to search. Example: <code>/device Galaxy S24</code>."
-msgstr ""
-
-#: src/korone/modules/gsm_arena/handlers/search.py:56
-msgid "An error occurred while searching. Please try again later."
-msgstr ""
-
-#: src/korone/modules/gsm_arena/handlers/search.py:64
+#: src/korone/modules/gsm_arena/handlers/search.py:42
 msgid "No devices found."
 msgstr ""
 
-#: src/korone/modules/gsm_arena/handlers/search.py:72
+#: src/korone/modules/gsm_arena/handlers/search.py:50
 msgid "Error fetching device details. Please try again later."
 msgstr ""
 
-#: src/korone/modules/gsm_arena/handlers/search.py:76
+#: src/korone/modules/gsm_arena/handlers/search.py:54
 #, python-brace-format
 msgid "Search results for: <b>{query}</b>"
+msgstr ""
+
+#: src/korone/modules/gsm_arena/handlers/search.py:61
+msgid "You should provide a device name to search. Example: <code>/device Galaxy S24</code>."
 msgstr ""
 
 #: src/korone/modules/gsm_arena/utils/scraper.py:64
@@ -821,7 +807,7 @@ msgstr ""
 msgid "Args"
 msgstr ""
 
-#: src/korone/modules/lastfm/handlers/collage.py:64
+#: src/korone/modules/lastfm/handlers/collage.py:65
 msgid "No top albums found for your Last.fm account."
 msgstr ""
 
@@ -918,10 +904,6 @@ msgstr ""
 
 #: src/korone/modules/lastfm/handlers/set.py:73
 msgid "Reply with your Last.fm username."
-msgstr ""
-
-#: src/korone/modules/lastfm/handlers/set.py:91
-msgid "Please reply to the message asking for your Last.fm username."
 msgstr ""
 
 #: src/korone/modules/lastfm/handlers/top.py:34
@@ -1048,19 +1030,19 @@ msgstr ""
 msgid ", Just now"
 msgstr ""
 
-#: src/korone/modules/op/__init__.py:12
+#: src/korone/modules/op/__init__.py:14
 msgid "Operator"
 msgstr ""
 
-#: src/korone/modules/op/__init__.py:14
+#: src/korone/modules/op/__init__.py:16
 msgid "Operator-only commands and tools"
 msgstr ""
 
-#: src/korone/modules/op/__init__.py:17
+#: src/korone/modules/op/__init__.py:19
 msgid "Provides operator-only commands and tools for bot administration."
 msgstr ""
 
-#: src/korone/modules/op/__init__.py:18
+#: src/korone/modules/op/__init__.py:20
 msgid "Includes system stats, job management, and other administrative functions."
 msgstr ""
 
@@ -1068,8 +1050,107 @@ msgstr ""
 msgid "Prints the message event as JSON."
 msgstr ""
 
+#: src/korone/modules/op/handlers/restart.py:29
+msgid "Restart the bot without updating."
+msgstr ""
+
+#: src/korone/modules/op/handlers/restart.py:42
+msgid "Confirm restart"
+msgstr ""
+
+#: src/korone/modules/op/handlers/restart.py:47
+msgid "Are you sure you want to restart the bot?"
+msgstr ""
+
+#: src/korone/modules/op/handlers/restart.py:62
+#: src/korone/modules/op/handlers/updater.py:186
+msgid "Not allowed."
+msgstr ""
+
+#: src/korone/modules/op/handlers/restart.py:67
+msgid "Only the requester can confirm this restart."
+msgstr ""
+
+#: src/korone/modules/op/handlers/restart.py:70
+msgid "Restarting..."
+msgstr ""
+
+#: src/korone/modules/op/handlers/restart.py:74
+msgid "Restarting now..."
+msgstr ""
+
 #: src/korone/modules/op/handlers/stats.py:52
 msgid "Show bot statistics."
+msgstr ""
+
+#: src/korone/modules/op/handlers/updater.py:94
+#, python-brace-format
+msgid "{hash} {summary} - {author}, {date}"
+msgstr ""
+
+#: src/korone/modules/op/handlers/updater.py:107
+#, python-brace-format
+msgid "Upstream: {upstream}"
+msgstr ""
+
+#: src/korone/modules/op/handlers/updater.py:108
+#, python-brace-format
+msgid "New commits: {count}"
+msgstr ""
+
+#: src/korone/modules/op/handlers/updater.py:109
+msgid "Update status"
+msgstr ""
+
+#: src/korone/modules/op/handlers/updater.py:113
+msgid "No updates available."
+msgstr ""
+
+#: src/korone/modules/op/handlers/updater.py:113
+#: src/korone/modules/op/handlers/updater.py:123
+#: src/korone/modules/op/handlers/updater.py:125
+#: src/korone/modules/op/handlers/updater.py:135
+msgid "Commits"
+msgstr ""
+
+#: src/korone/modules/op/handlers/updater.py:140
+msgid "Fetch updates from git and restart the bot."
+msgstr ""
+
+#: src/korone/modules/op/handlers/updater.py:152
+#: src/korone/modules/op/handlers/updater.py:205
+msgid "Unknown git error"
+msgstr ""
+
+#: src/korone/modules/op/handlers/updater.py:153
+#: src/korone/modules/op/handlers/updater.py:206
+#, python-brace-format
+msgid "Update failed: {error}"
+msgstr ""
+
+#: src/korone/modules/op/handlers/updater.py:162
+msgid "Update and restart"
+msgstr ""
+
+#: src/korone/modules/op/handlers/updater.py:191
+msgid "Only the requester can confirm this update."
+msgstr ""
+
+#: src/korone/modules/op/handlers/updater.py:194
+msgid "Updating..."
+msgstr ""
+
+#: src/korone/modules/op/handlers/updater.py:198
+msgid "Applying updates and restarting..."
+msgstr ""
+
+#: src/korone/modules/op/handlers/updater.py:211
+msgid "Update complete. Restarting now..."
+msgstr ""
+
+#: src/korone/modules/op/utils.py:73
+#, python-brace-format
+msgid "Restart complete in {seconds}s."
 msgstr ""
 
 #: src/korone/modules/privacy/__init__.py:19

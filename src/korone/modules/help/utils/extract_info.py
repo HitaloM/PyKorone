@@ -13,7 +13,7 @@ from korone.filters.admin_rights import UserRestricting
 from korone.filters.chat_status import ChatTypeFilter
 from korone.filters.cmd import CMDFilter
 from korone.filters.user_status import IsOP
-from korone.logging import get_logger
+from korone.logger import get_logger
 from korone.utils.handlers import HandlerData
 
 if TYPE_CHECKING:

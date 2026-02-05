@@ -7,7 +7,7 @@ import aiohttp
 from pydantic import BaseModel
 
 from korone.config import CONFIG
-from korone.logging import get_logger
+from korone.logger import get_logger
 
 from .errors import ERROR_CODE_MAP, LastFMError
 from .types import LastFMAlbum, LastFMArtist, LastFMTrack, LastFMUser

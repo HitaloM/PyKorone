@@ -7,7 +7,7 @@ from korone.config import CONFIG
 from korone.constants import CACHE_LANGUAGE_TTL_SECONDS
 from korone.db.models.chat import ChatModel
 from korone.db.repositories.language import LanguageRepository
-from korone.logging import get_logger
+from korone.logger import get_logger
 from korone.utils.cached import Cached
 
 if TYPE_CHECKING:

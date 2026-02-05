@@ -4,7 +4,7 @@ from typing import Any
 
 import aiohttp
 
-from korone.logging import get_logger
+from korone.logger import get_logger
 
 from .types import DeezerData
 

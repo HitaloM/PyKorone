@@ -8,7 +8,7 @@ from aiogram.utils.chat_action import ChatActionSender
 from ass_tg.types import OptionalArg, TextArg
 
 from korone.filters.cmd import CMDFilter
-from korone.logging import get_logger
+from korone.logger import get_logger
 from korone.modules.lastfm.utils import (
     LastFMClient,
     LastFMError,

@@ -5,7 +5,9 @@ from korone.utils.i18n import LazyProxy
 from korone.utils.i18n import lazy_gettext as l_
 
 from .handlers.event import EventHandler
+from .handlers.restart import OpRestartCallbackHandler, OpRestartHandler
 from .handlers.stats import StatsHandler, get_system_stats
+from .handlers.updater import OpUpdateCallbackHandler, OpUpdateHandler
 
 router = Router(name="op")
 
@@ -22,5 +24,12 @@ __module_info__ = LazyProxy(
 
 __exclude_public__ = True
 
-__handlers__ = (EventHandler, StatsHandler)
+__handlers__ = (
+    EventHandler,
+    StatsHandler,
+    OpUpdateHandler,
+    OpUpdateCallbackHandler,
+    OpRestartHandler,
+    OpRestartCallbackHandler,
+)
 __stats__ = get_system_stats

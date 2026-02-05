@@ -5,7 +5,7 @@ from typing import TYPE_CHECKING
 from anyio import create_task_group
 from anyio.to_thread import run_sync
 
-from korone.logging import get_logger as get_logger
+from korone.logger import get_logger as get_logger
 
 if TYPE_CHECKING:
     from collections.abc import Sequence

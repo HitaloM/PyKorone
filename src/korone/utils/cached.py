@@ -6,7 +6,7 @@ from typing import TYPE_CHECKING, ParamSpec, TypeVar, cast, overload
 import ujson
 
 from korone import aredis
-from korone.logging import get_logger
+from korone.logger import get_logger
 
 if TYPE_CHECKING:
     from collections.abc import Awaitable, Callable

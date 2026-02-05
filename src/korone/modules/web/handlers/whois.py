@@ -7,7 +7,7 @@ from ass_tg.types import WordArg
 from stfu_tg import Doc, KeyValue, Title
 
 from korone.filters.cmd import CMDFilter
-from korone.logging import get_logger
+from korone.logger import get_logger
 from korone.modules.web.utils import normalize_domain, parse_whois_output, run_whois
 from korone.utils.handlers import KoroneMessageHandler
 from korone.utils.i18n import gettext as _

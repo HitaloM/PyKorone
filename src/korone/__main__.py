@@ -8,12 +8,13 @@ from . import bot, dp
 from .config import CONFIG
 from .db.repositories.chat import ChatRepository
 from .db.utils import close_db, init_db
-from .logging import get_logger, setup_logging
+from .logger import get_logger, setup_logging
 from .middlewares import localization_middleware
 from .middlewares.chat_context import ChatContextMiddleware
 from .middlewares.disabling import DisablingMiddleware
 from .middlewares.save_chats import SaveChatsMiddleware
 from .modules import load_modules
+from .modules.op.utils import notify_restart_complete
 from .utils.i18n import i18n
 
 logger = get_logger(__name__)
@@ -37,6 +38,7 @@ async def main() -> None:
     try:
         await init_db()
         await ensure_bot_in_db()
+        await notify_restart_complete()
         await load_modules(dp, ["*"], CONFIG.modules_not_load)
 
         dp.update.middleware(localization_middleware)

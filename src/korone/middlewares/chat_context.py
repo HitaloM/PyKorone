@@ -10,7 +10,7 @@ from aiogram.types import TelegramObject
 
 from korone.db.models.chat import ChatModel
 from korone.db.repositories.chat import ChatRepository
-from korone.logging import get_logger
+from korone.logger import get_logger
 from korone.utils.i18n import gettext as _
 
 if TYPE_CHECKING:

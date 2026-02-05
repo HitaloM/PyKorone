@@ -7,7 +7,7 @@ from redis.exceptions import RedisError
 from korone import aredis, bot
 from korone.constants import CACHE_DEFAULT_TTL_SECONDS
 from korone.db.repositories.chat import ChatRepository
-from korone.logging import get_logger
+from korone.logger import get_logger
 
 if TYPE_CHECKING:
     from aiogram.types import ResultChatMemberUnion

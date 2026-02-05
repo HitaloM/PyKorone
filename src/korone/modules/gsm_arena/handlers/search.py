@@ -7,7 +7,7 @@ from aiogram.utils.chat_action import ChatActionSender
 from ass_tg.types import TextArg
 
 from korone.filters.cmd import CMDFilter
-from korone.logging import get_logger
+from korone.logger import get_logger
 from korone.modules.gsm_arena.utils.device import get_device_text
 from korone.modules.gsm_arena.utils.keyboard import create_pagination_layout
 from korone.modules.gsm_arena.utils.scraper import search_phone

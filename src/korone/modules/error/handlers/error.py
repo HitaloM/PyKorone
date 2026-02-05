@@ -5,7 +5,7 @@ from typing import TYPE_CHECKING, cast
 
 from aiogram.handlers import ErrorHandler
 
-from korone.logging import get_logger
+from korone.logger import get_logger
 from korone.modules.error.utils.backoff import compute_error_signature, should_notify
 from korone.modules.error.utils.error_message import generic_error_message
 from korone.modules.error.utils.ignored import QUIET_EXCEPTIONS

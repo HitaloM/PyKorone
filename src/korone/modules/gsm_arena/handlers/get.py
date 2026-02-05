@@ -5,7 +5,7 @@ from aiogram.enums import ChatType
 from aiogram.exceptions import TelegramBadRequest
 from aiogram.types import LinkPreviewOptions
 
-from korone.logging import get_logger
+from korone.logger import get_logger
 from korone.modules.gsm_arena.callbacks import GetDeviceCallback
 from korone.modules.gsm_arena.utils.device import get_device_text
 from korone.utils.handlers import KoroneCallbackQueryHandler

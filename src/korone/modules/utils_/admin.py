@@ -10,7 +10,7 @@ from korone import aredis
 from korone.config import CONFIG
 from korone.constants import TELEGRAM_ANONYMOUS_ADMIN_BOT_ID
 from korone.db.repositories.chat import ChatRepository
-from korone.logging import get_logger
+from korone.logger import get_logger
 from korone.modules.utils_.chat_member import update_chat_members
 
 if TYPE_CHECKING:

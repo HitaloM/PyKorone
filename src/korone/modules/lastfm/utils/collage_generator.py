@@ -8,7 +8,7 @@ from anyio import create_task_group
 from anyio.to_thread import run_sync
 from PIL import Image, ImageDraw, ImageFont
 
-from korone.logging import get_logger
+from korone.logger import get_logger
 
 from .image_filter import get_biggest_lastfm_image
 

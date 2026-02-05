@@ -8,7 +8,7 @@ from typing import TYPE_CHECKING
 
 import aiohttp
 
-from korone.logging import get_logger
+from korone.logger import get_logger
 
 if TYPE_CHECKING:
     from .types import LastFMAlbum, LastFMTrack, LastFMUser
