@@ -59,11 +59,11 @@ async def check_user_admin_permissions(
     if not user_model:
         return False
 
-    if chat_model.id == user_model.id:
+    if chat_model.chat_id == user_model.chat_id:
         return True
-    if user_model.id in CONFIG.operators:
+    if user_model.chat_id in CONFIG.operators:
         return True
-    if user_model.id == TELEGRAM_ANONYMOUS_ADMIN_BOT_ID:
+    if user_model.chat_id == TELEGRAM_ANONYMOUS_ADMIN_BOT_ID:
         return True
     try:
         cache_key = f"chat_admins:{chat_model.chat_id}"

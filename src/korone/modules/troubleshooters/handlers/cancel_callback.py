@@ -65,7 +65,7 @@ class CallbackActionCancelHandler(KoroneCallbackQueryHandler):
         if not user:
             return
 
-        if not await is_user_admin(self.chat.db_model.id, self.data["user_db"].id):
+        if not await is_user_admin(self.chat.db_model.chat_id, self.data["user_db"].chat_id):
             await self.event.answer(_("You are not allowed to cancel this action!"))
             return
 

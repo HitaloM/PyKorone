@@ -55,14 +55,14 @@ class AdminListHandler(KoroneMessageHandler):
                 if not user_model:
                     continue
 
-                if user_model.id == TELEGRAM_ANONYMOUS_ADMIN_BOT_ID:
+                if user_model.chat_id == TELEGRAM_ANONYMOUS_ADMIN_BOT_ID:
                     continue
 
                 if admin_data.get("is_anonymous"):
                     continue
 
                 display_name = user_model.first_name_or_title or "User"
-                admin_items.append(Template(_("{user}"), user=UserLink(user_model.id, display_name)))
+                admin_items.append(Template(_("{user}"), user=UserLink(user_model.chat_id, display_name)))
 
         if not admin_items:
             doc += _("No visible admins found.")
