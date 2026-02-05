@@ -47,11 +47,12 @@ class ChatContext:
 class ChatContextMiddleware(BaseMiddleware):
     @staticmethod
     async def get_current_chat_info(chat: Chat) -> ChatContext:
-        title = chat.title if chat.type != "private" and chat.title else _("Private chat")
+        chat_type = ChatType(chat.type)
+        title = chat.title if chat_type != ChatType.PRIVATE and chat.title else _("Private chat")
 
         db_model = await ChatRepository.get_by_chat_id(chat.id)
         if not db_model:
-            if chat.type == "private":
+            if chat_type == ChatType.PRIVATE:
                 db_model = ChatModel(
                     chat_id=chat.id,
                     type=ChatType.PRIVATE,
@@ -64,13 +65,12 @@ class ChatContextMiddleware(BaseMiddleware):
             else:
                 db_model = ChatModel(
                     chat_id=chat.id,
-                    type=ChatType[chat.type.upper()],
+                    type=chat_type,
                     first_name_or_title=chat.title or "Group",
                     is_bot=False,
                     last_saw=datetime.now(UTC),
                 )
 
-        chat_type = ChatType.PRIVATE if chat.type == "private" else ChatType[chat.type.upper()]
         return ChatContext(is_connected=False, chat_id=chat.id, type=chat_type, title=title, db_model=db_model)
 
     async def __call__(

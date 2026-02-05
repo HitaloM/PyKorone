@@ -3,6 +3,7 @@ from __future__ import annotations
 from typing import TYPE_CHECKING, override
 
 from aiogram import BaseMiddleware
+from aiogram.enums import ChatType
 from aiogram.types import TelegramObject, Update, User
 
 from korone.config import CONFIG
@@ -125,7 +126,7 @@ class SaveChatsMiddleware(BaseMiddleware):
 
         chat, user = await self._handle_private_and_group_message(data, message)
 
-        if message.chat.type not in {"group", "supergroup"}:
+        if message.chat.type not in {ChatType.GROUP, ChatType.SUPERGROUP}:
             return
 
         chats_to_update = await self._handle_message_update(message, chat)
@@ -162,7 +163,7 @@ class SaveChatsMiddleware(BaseMiddleware):
     async def _handle_private_and_group_message(
         self, data: MiddlewareData, message: Message
     ) -> tuple[ChatModel, ChatModel]:
-        if message.chat.type == "private" and message.from_user:
+        if message.chat.type == ChatType.PRIVATE and message.from_user:
             logger.debug("SaveChatsMiddleware: Handling private message", user_id=message.from_user.id)
             user = await ChatRepository.upsert_user(message.from_user)
             data["chat_db"] = data["user_db"] = user

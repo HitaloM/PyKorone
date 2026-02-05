@@ -25,15 +25,20 @@ def format_cmd_args(arguments: dict[str, ArgFabric], *, as_code: bool = False) -
 
 
 def format_handler(
-    handler: HandlerHelp, *, show_only_in_groups: bool = True, show_disable_able: bool = True
+    handler: HandlerHelp,
+    *,
+    show_only_in_groups: bool = True,
+    show_disable_able: bool = True,
+    show_description: bool = True,
+    show_args: bool = True,
 ) -> Element:
     cmd_and_args = HList(
         HList(*(format_cmd(cmd, raw=handler.raw_cmds) for cmd in handler.cmds)),
-        format_cmd_args(handler.args) if handler.args else None,
+        format_cmd_args(handler.args) if handler.args and show_args else None,
         Italic(_("— Only in groups")) if show_only_in_groups and handler.only_chats else None,
         Italic("({})".format(_("Disable-able"))) if show_disable_able and handler.disableable else None,
     )
-    if not handler.description:
+    if not handler.description or not show_description:
         return cmd_and_args
 
     return Section(

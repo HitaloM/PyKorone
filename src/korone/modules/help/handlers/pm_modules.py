@@ -1,6 +1,7 @@
 from typing import TYPE_CHECKING, cast
 
 from aiogram import flags
+from aiogram.enums import ChatType
 from aiogram.types import CallbackQuery, InlineKeyboardButton
 from aiogram.utils.keyboard import InlineKeyboardBuilder
 from stfu_tg import Doc, HList, Section, Title
@@ -24,8 +25,8 @@ if TYPE_CHECKING:
 class PMModulesList(KoroneMessageCallbackQueryHandler):
     @classmethod
     def register(cls, router: Router) -> None:
-        router.message.register(cls, PMHelpStartUrlCallback.filter(), ChatTypeFilter("private"))
-        router.message.register(cls, CMDFilter("help"), ChatTypeFilter("private"))
+        router.message.register(cls, PMHelpStartUrlCallback.filter(), ChatTypeFilter(ChatType.PRIVATE))
+        router.message.register(cls, CMDFilter("help"), ChatTypeFilter(ChatType.PRIVATE))
         router.callback_query.register(cls, PMHelpModules.filter())
 
     async def handle(self) -> None:

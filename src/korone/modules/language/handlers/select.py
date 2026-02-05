@@ -1,6 +1,7 @@
 from typing import TYPE_CHECKING, cast
 
 from aiogram import flags
+from aiogram.enums import ChatType
 from aiogram.types import InlineKeyboardButton, Message
 from aiogram.utils.keyboard import InlineKeyboardBuilder
 from magic_filter import F
@@ -69,7 +70,7 @@ class LanguageSelectHandler(KoroneMessageHandler):
         return (CMDFilter("languages"), UserRestricting(admin=True))
 
     async def handle(self) -> None:
-        is_private = self.event.chat.type == "private"
+        is_private = self.event.chat.type == ChatType.PRIVATE
 
         i18n = get_i18n()
         text = _("Please select the language you want to use for the chat.")
@@ -89,7 +90,7 @@ class LanguageSelectCallbackHandler(KoroneCallbackQueryHandler):
         if not isinstance(message, Message) or not message.chat:
             return
 
-        is_private = message.chat.type == "private"
+        is_private = message.chat.type == ChatType.PRIVATE
 
         callback_data = cast("LangMenuCallback", self.callback_data)
         back_to_start = callback_data.back_to_start
@@ -105,7 +106,7 @@ class LanguageSelectCallbackHandler(KoroneCallbackQueryHandler):
 class LanguageSelectPMHandler(KoroneCallbackQueryHandler):
     @staticmethod
     def filters() -> tuple[CallbackType, ...]:
-        return (LanguageButtonCallback.filter(), ChatTypeFilter("private"))
+        return (LanguageButtonCallback.filter(), ChatTypeFilter(ChatType.PRIVATE))
 
     async def handle(self) -> None:
         i18n = get_i18n()

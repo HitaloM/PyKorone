@@ -90,7 +90,13 @@ async def check_user_admin_permissions(
             return True
 
         admin_status = admin_data.get("status")
-        if admin_status in {ChatMemberStatus.CREATOR, ChatMemberStatus.CREATOR.value}:
+        status_enum = None
+        if admin_status:
+            try:
+                status_enum = ChatMemberStatus(admin_status)
+            except ValueError:
+                status_enum = None
+        if status_enum == ChatMemberStatus.CREATOR:
             return True
 
         missing_permissions = []
@@ -139,7 +145,13 @@ async def is_chat_creator(chat: int, user: int) -> bool:
         return False
 
     admin_status = admin_data.get("status")
-    return admin_status in {ChatMemberStatus.CREATOR, ChatMemberStatus.CREATOR.value}
+    if not admin_status:
+        return False
+
+    try:
+        return ChatMemberStatus(admin_status) == ChatMemberStatus.CREATOR
+    except ValueError:
+        return False
 
 
 async def get_admins_rights(chat: int, *, force_update: bool = False) -> None:

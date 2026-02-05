@@ -1,5 +1,6 @@
 from typing import TYPE_CHECKING
 
+from aiogram.enums import ChatType
 from aiogram.types import TelegramObject
 from aiogram.utils.i18n.middleware import I18nMiddleware
 
@@ -46,7 +47,7 @@ class LocalizationMiddleware(I18nMiddleware):
             )
             locale = CONFIG.default_locale
 
-        if chat_in_db.type == "private":
+        if chat_in_db.type == ChatType.PRIVATE:
             user: User | None = getattr(event, "from_user", None)
             user_lang = user.language_code if user else None
             if user_lang and user_lang in self.i18n.available_locales:

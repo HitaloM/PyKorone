@@ -1,6 +1,7 @@
 from typing import TYPE_CHECKING, cast
 
 from aiogram import flags
+from aiogram.enums import ChatType
 from aiogram.types import InlineKeyboardButton, Message
 from aiogram.utils.keyboard import InlineKeyboardBuilder
 from magic_filter import F
@@ -55,7 +56,7 @@ class LanguageInfoHandler(KoroneMessageHandler):
         return (CMDFilter(["language"]),)
 
     async def handle(self) -> None:
-        is_private = self.event.chat.type == "private"
+        is_private = self.event.chat.type == ChatType.PRIVATE
 
         i18n = get_i18n()
         text = build_language_info_text(i18n)
@@ -68,7 +69,7 @@ class LanguageInfoHandler(KoroneMessageHandler):
 class LanguageInfoCallbackHandler(KoroneCallbackQueryHandler):
     @staticmethod
     def filters() -> tuple[CallbackType, ...]:
-        return (LangMenuCallback.filter(F.menu == LangMenu.Language), ChatTypeFilter("private"))
+        return (LangMenuCallback.filter(F.menu == LangMenu.Language), ChatTypeFilter(ChatType.PRIVATE))
 
     async def handle(self) -> None:
         i18n = get_i18n()

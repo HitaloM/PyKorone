@@ -110,7 +110,7 @@ class ChatRepository:
     @staticmethod
     def _group_data(chat: Chat) -> ChatData:
         return {
-            "type": ChatType[chat.type.upper()],
+            "type": ChatType(chat.type),
             "first_name_or_title": chat.title,
             "last_name": None,
             "username": chat.username,
@@ -156,7 +156,7 @@ class ChatRepository:
         async with session_scope() as session:
             if chat := await get_one(session, ChatModel, ChatModel.chat_id == old_id):
                 chat.chat_id = new_chat.id
-                chat.type = ChatType[new_chat.type.upper()]
+                chat.type = ChatType(new_chat.type)
                 return chat
         return None
 

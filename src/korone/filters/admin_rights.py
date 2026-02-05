@@ -4,6 +4,7 @@ from dataclasses import dataclass, field
 from typing import TYPE_CHECKING, ClassVar
 
 from aiogram.dispatcher.event.bases import SkipHandler
+from aiogram.enums import ChatType
 from aiogram.filters import Filter
 from aiogram.types import Message
 from aiogram.types.callback_query import CallbackQuery
@@ -80,7 +81,7 @@ class UserRestricting(Filter):
 
         chat_id = chat.id
 
-        if chat.type == "private":
+        if chat.type == ChatType.PRIVATE:
             return True
 
         check = await check_user_admin_permissions(chat_id, user_id, self.required_permissions or None)

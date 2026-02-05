@@ -1,6 +1,7 @@
 from typing import TYPE_CHECKING
 
 from aiogram import flags
+from aiogram.enums import ChatType
 from aiogram.types import InlineKeyboardButton
 from aiogram.utils.keyboard import InlineKeyboardBuilder
 
@@ -22,7 +23,7 @@ if TYPE_CHECKING:
 class StartGroupHandler(KoroneMessageHandler):
     @staticmethod
     def filters() -> tuple[CallbackType, ...]:
-        return CMDFilter("start"), ~ChatTypeFilter("private")
+        return CMDFilter("start"), ~ChatTypeFilter(ChatType.PRIVATE)
 
     async def handle(self) -> None:
         state: FSMContext = self.state

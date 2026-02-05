@@ -5,6 +5,7 @@ from inspect import isawaitable, iscoroutinefunction
 from itertools import chain
 from typing import TYPE_CHECKING, cast
 
+from aiogram.enums import ChatType
 from aiogram.filters.logic import _InvertFilter
 from aiogram.types import Message
 from ass_tg.types.base_abc import ArgFabric
@@ -124,15 +125,19 @@ async def gather_cmds_help(router: Router) -> list[HandlerHelp]:
 
         only_admin = any(isinstance(f.callback, UserRestricting) for f in handler.filters)
         only_pm = any(
-            isinstance(f.callback, ChatTypeFilter) and f.callback.chat_types == ("private",) for f in handler.filters
+            isinstance(f.callback, ChatTypeFilter) and f.callback.chat_types == (ChatType.PRIVATE.value,)
+            for f in handler.filters
         )
         only_chats = any(
             (
-                (isinstance(f.callback, ChatTypeFilter) and set(f.callback.chat_types) == {"group", "supergroup"})
+                (
+                    isinstance(f.callback, ChatTypeFilter)
+                    and set(f.callback.chat_types) == {ChatType.GROUP.value, ChatType.SUPERGROUP.value}
+                )
                 or (
                     isinstance(f.callback, _InvertFilter)
                     and isinstance(f.callback.target.callback, ChatTypeFilter)
-                    and f.callback.target.callback.chat_types == ("private",)
+                    and f.callback.target.callback.chat_types == (ChatType.PRIVATE.value,)
                 )
             )
             for f in handler.filters

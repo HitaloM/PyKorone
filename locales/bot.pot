@@ -59,23 +59,23 @@ msgstr ""
 msgid "A link to user, usually creates by mentioning a user without username."
 msgstr ""
 
-#: src/korone/filters/admin_rights.py:109
+#: src/korone/filters/admin_rights.py:110
 msgid "I don't have the following permissions to do this:"
 msgstr ""
 
-#: src/korone/filters/admin_rights.py:111
+#: src/korone/filters/admin_rights.py:112
 msgid "You don't have the following permissions to do this:"
 msgstr ""
 
-#: src/korone/filters/admin_rights.py:116
+#: src/korone/filters/admin_rights.py:117
 msgid "I must be an administrator to use this command."
 msgstr ""
 
-#: src/korone/filters/admin_rights.py:118
+#: src/korone/filters/admin_rights.py:119
 msgid "You must be an administrator to use this command."
 msgstr ""
 
-#: src/korone/middlewares/chat_context.py:50
+#: src/korone/middlewares/chat_context.py:51
 msgid "Private chat"
 msgstr ""
 
@@ -95,90 +95,99 @@ msgstr ""
 msgid "Useful for restricting bot functionality to only necessary commands."
 msgstr ""
 
-#: src/korone/modules/disabling/handlers/disable.py:26
+#: src/korone/modules/disabling/handlers/disable.py:28
 msgid "Disables the command."
 msgstr ""
 
-#: src/korone/modules/disabling/handlers/disable.py:30
-#: src/korone/modules/disabling/handlers/disable.py:58
-#: src/korone/modules/disabling/handlers/enable.py:30
-#: src/korone/modules/disabling/handlers/enable.py:59
+#: src/korone/modules/disabling/handlers/disable.py:32
+#: src/korone/modules/disabling/handlers/disable.py:69
+#: src/korone/modules/disabling/handlers/enable.py:32
+#: src/korone/modules/disabling/handlers/enable.py:70
 msgid "Command"
 msgstr ""
 
-#: src/korone/modules/disabling/handlers/disable.py:46
-#: src/korone/modules/disabling/handlers/enable.py:46
+#: src/korone/modules/disabling/handlers/disable.py:43
+#: src/korone/modules/disabling/handlers/disable_able.py:32
+#: src/korone/modules/disabling/handlers/disabled.py:30
+#: src/korone/modules/disabling/handlers/enable.py:43
+#: src/korone/modules/disabling/handlers/enable_all.py:35
+#: src/korone/modules/users/handlers/adminlist.py:34
+msgid "This command can only be used in groups."
+msgstr ""
+
+#: src/korone/modules/disabling/handlers/disable.py:57
+#: src/korone/modules/disabling/handlers/enable.py:57
 #, python-brace-format
 msgid "Command {cmd} not found."
 msgstr ""
 
-#: src/korone/modules/disabling/handlers/disable.py:50
-#: src/korone/modules/disabling/handlers/enable.py:50
+#: src/korone/modules/disabling/handlers/disable.py:61
+#: src/korone/modules/disabling/handlers/enable.py:61
 #, python-brace-format
 msgid "Command {cmd} is already disabled."
 msgstr ""
 
-#: src/korone/modules/disabling/handlers/disable.py:57
-#: src/korone/modules/disabling/handlers/enable.py:58
+#: src/korone/modules/disabling/handlers/disable.py:68
+#: src/korone/modules/disabling/handlers/enable.py:69
 #: src/korone/modules/utils_/status_handler.py:50
 #: src/korone/modules/utils_/status_handler.py:74
 msgid "Chat"
 msgstr ""
 
-#: src/korone/modules/disabling/handlers/disable.py:60
+#: src/korone/modules/disabling/handlers/disable.py:71
 msgid "Command disabled"
 msgstr ""
 
-#: src/korone/modules/disabling/handlers/disable_able.py:19
+#: src/korone/modules/disabling/handlers/disable_able.py:21
 msgid "Lists all commands that can be disabled."
 msgstr ""
 
-#: src/korone/modules/disabling/handlers/disable_able.py:37
+#: src/korone/modules/disabling/handlers/disable_able.py:51
 msgid "Disable-able commands"
 msgstr ""
 
-#: src/korone/modules/disabling/handlers/disabled.py:17
+#: src/korone/modules/disabling/handlers/disabled.py:19
 msgid "Lists all disabled commands."
 msgstr ""
 
-#: src/korone/modules/disabling/handlers/disabled.py:28
+#: src/korone/modules/disabling/handlers/disabled.py:38
 msgid "No disabled commands found."
 msgstr ""
 
-#: src/korone/modules/disabling/handlers/disabled.py:31
+#: src/korone/modules/disabling/handlers/disabled.py:41
 msgid "Disabled commands"
 msgstr ""
 
-#: src/korone/modules/disabling/handlers/enable.py:26
+#: src/korone/modules/disabling/handlers/enable.py:28
 msgid "Enables previously disabled command."
 msgstr ""
 
-#: src/korone/modules/disabling/handlers/enable.py:61
+#: src/korone/modules/disabling/handlers/enable.py:72
 msgid "Command enabled"
 msgstr ""
 
-#: src/korone/modules/disabling/handlers/enable_all.py:22
+#: src/korone/modules/disabling/handlers/enable_all.py:24
 msgid "Enable all commands in the chat"
 msgstr ""
 
-#: src/korone/modules/disabling/handlers/enable_all.py:36
+#: src/korone/modules/disabling/handlers/enable_all.py:47
 msgid "✅ Enable all"
 msgstr ""
 
-#: src/korone/modules/disabling/handlers/enable_all.py:39
+#: src/korone/modules/disabling/handlers/enable_all.py:50
 msgid "🚫 Cancel"
 msgstr ""
 
-#: src/korone/modules/disabling/handlers/enable_all.py:43
+#: src/korone/modules/disabling/handlers/enable_all.py:54
 #, python-brace-format
 msgid "Do you want to enable all commands in the {chat_name}?"
 msgstr ""
 
-#: src/korone/modules/disabling/handlers/enable_all.py:59
+#: src/korone/modules/disabling/handlers/enable_all.py:70
 msgid "Only the initiator can confirm disabling all commands"
 msgstr ""
 
-#: src/korone/modules/disabling/handlers/enable_all.py:71
+#: src/korone/modules/disabling/handlers/enable_all.py:82
 #, python-brace-format
 msgid "✅ All the commands ({removed_count}) have been enabled in the {chat_name}"
 msgstr ""
@@ -549,9 +558,9 @@ msgid "Charging"
 msgstr ""
 
 #: src/korone/modules/help/__init__.py:25
-#: src/korone/modules/help/handlers/help_group.py:29
-#: src/korone/modules/help/handlers/pm_modules.py:55
-#: src/korone/modules/help/handlers/start_group.py:33
+#: src/korone/modules/help/handlers/help_group.py:30
+#: src/korone/modules/help/handlers/pm_modules.py:56
+#: src/korone/modules/help/handlers/start_group.py:34
 msgid "Help"
 msgstr ""
 
@@ -567,11 +576,11 @@ msgstr ""
 msgid "Includes command lists, usage instructions, and feature explanations."
 msgstr ""
 
-#: src/korone/modules/help/handlers/help_group.py:19
+#: src/korone/modules/help/handlers/help_group.py:20
 msgid "Shows the help message"
 msgstr ""
 
-#: src/korone/modules/help/handlers/help_group.py:26
+#: src/korone/modules/help/handlers/help_group.py:27
 msgid "The help information available in the private messages with Korone"
 msgstr ""
 
@@ -579,84 +588,84 @@ msgstr ""
 msgid "Shows a list of all OP-only commands"
 msgstr ""
 
-#: src/korone/modules/help/handlers/pm_modules.py:23
+#: src/korone/modules/help/handlers/pm_modules.py:24
 msgid "Shows help overview for all modules"
 msgstr ""
 
-#: src/korone/modules/help/handlers/pm_modules.py:53
-#: src/korone/modules/help/handlers/pm_modules.py:101
+#: src/korone/modules/help/handlers/pm_modules.py:54
+#: src/korone/modules/help/handlers/pm_modules.py:102
 #: src/korone/modules/language/handlers/apply.py:65
-#: src/korone/modules/language/handlers/info.py:46
-#: src/korone/modules/language/handlers/select.py:54
-#: src/korone/modules/language/handlers/select.py:58
-#: src/korone/modules/privacy/handlers/privacy.py:34
+#: src/korone/modules/language/handlers/info.py:47
+#: src/korone/modules/language/handlers/select.py:55
+#: src/korone/modules/language/handlers/select.py:59
+#: src/korone/modules/privacy/handlers/privacy.py:35
 msgid "⬅️ Back"
 msgstr ""
 
-#: src/korone/modules/help/handlers/pm_modules.py:55
+#: src/korone/modules/help/handlers/pm_modules.py:56
 msgid "Select a module to see its commands and information:"
 msgstr ""
 
-#: src/korone/modules/help/handlers/pm_modules.py:74
+#: src/korone/modules/help/handlers/pm_modules.py:75
 msgid "Module not found"
 msgstr ""
 
-#: src/korone/modules/help/handlers/pm_modules.py:94
+#: src/korone/modules/help/handlers/pm_modules.py:95
 #, python-brace-format
 msgid "Aliased commands from {module}"
 msgstr ""
 
-#: src/korone/modules/help/handlers/start_group.py:20
+#: src/korone/modules/help/handlers/start_group.py:21
 msgid "Shows the start message"
 msgstr ""
 
-#: src/korone/modules/help/handlers/start_group.py:34
+#: src/korone/modules/help/handlers/start_group.py:35
 msgid "📢 Channel"
 msgstr ""
 
-#: src/korone/modules/help/handlers/start_group.py:37
-#: src/korone/modules/help/handlers/start_pm.py:44
+#: src/korone/modules/help/handlers/start_group.py:38
+#: src/korone/modules/help/handlers/start_pm.py:45
 msgid "Hi, I'm Korone! An all-in-one bot. I can help you with lots of things. Just click on the buttons below to get started."
 msgstr ""
 
-#: src/korone/modules/help/handlers/start_pm.py:36
+#: src/korone/modules/help/handlers/start_pm.py:37
 msgid "🕵️‍♂️ Privacy"
 msgstr ""
 
-#: src/korone/modules/help/handlers/start_pm.py:37
+#: src/korone/modules/help/handlers/start_pm.py:38
 msgid "🌍 Language"
 msgstr ""
 
-#: src/korone/modules/help/handlers/start_pm.py:39
+#: src/korone/modules/help/handlers/start_pm.py:40
 msgid "ℹ️ Help"
 msgstr ""
 
-#: src/korone/modules/help/handlers/start_pm.py:48
+#: src/korone/modules/help/handlers/start_pm.py:49
 #, python-brace-format
 msgid "Join my {channel} to get information on all the latest updates."
 msgstr ""
 
-#: src/korone/modules/help/handlers/start_pm.py:49
+#: src/korone/modules/help/handlers/start_pm.py:50
 msgid "news channel"
 msgstr ""
 
-#: src/korone/modules/help/utils/format_help.py:33
+#: src/korone/modules/help/utils/format_help.py:38
 msgid "— Only in groups"
 msgstr ""
 
-#: src/korone/modules/help/utils/format_help.py:34
+#: src/korone/modules/help/utils/format_help.py:39
 msgid "Disable-able"
 msgstr ""
 
-#: src/korone/modules/help/utils/format_help.py:72
+#: src/korone/modules/help/utils/format_help.py:77
 msgid "Commands"
 msgstr ""
 
-#: src/korone/modules/help/utils/format_help.py:74
+#: src/korone/modules/help/utils/format_help.py:79
 msgid "PM-only"
 msgstr ""
 
-#: src/korone/modules/help/utils/format_help.py:76
+#: src/korone/modules/help/utils/format_help.py:81
 msgid "Only admins"
 msgstr ""
 
@@ -715,53 +724,53 @@ msgstr ""
 msgid "Changing language was canceled. You can change language again by using /language command."
 msgstr ""
 
-#: src/korone/modules/language/handlers/info.py:25
+#: src/korone/modules/language/handlers/info.py:26
 msgid "Current Language"
 msgstr ""
 
-#: src/korone/modules/language/handlers/info.py:25
+#: src/korone/modules/language/handlers/info.py:26
 msgid "Language Settings"
 msgstr ""
 
-#: src/korone/modules/language/handlers/info.py:28
+#: src/korone/modules/language/handlers/info.py:29
 msgid "This is the bot's native language, so it is 100% translated."
 msgstr ""
 
-#: src/korone/modules/language/handlers/info.py:30
+#: src/korone/modules/language/handlers/info.py:31
 msgid "Translated strings"
 msgstr ""
 
-#: src/korone/modules/language/handlers/info.py:31
+#: src/korone/modules/language/handlers/info.py:32
 msgid "Untranslated strings"
 msgstr ""
 
-#: src/korone/modules/language/handlers/info.py:32
+#: src/korone/modules/language/handlers/info.py:33
 msgid "Strings requiring review"
 msgstr ""
 
-#: src/korone/modules/language/handlers/info.py:38
+#: src/korone/modules/language/handlers/info.py:39
 msgid "👤 Change your language"
 msgstr ""
 
-#: src/korone/modules/language/handlers/info.py:38
+#: src/korone/modules/language/handlers/info.py:39
 msgid "🌍 Change group language"
 msgstr ""
 
-#: src/korone/modules/language/handlers/info.py:51
+#: src/korone/modules/language/handlers/info.py:52
 msgid "Shows the current language settings."
 msgstr ""
 
-#: src/korone/modules/language/handlers/select.py:48
+#: src/korone/modules/language/handlers/select.py:49
 msgid "❌ Cancel"
 msgstr ""
 
-#: src/korone/modules/language/handlers/select.py:65
+#: src/korone/modules/language/handlers/select.py:66
 msgid "Shows the available languages for selection."
 msgstr ""
 
-#: src/korone/modules/language/handlers/select.py:75
-#: src/korone/modules/language/handlers/select.py:98
-#: src/korone/modules/language/handlers/select.py:112
+#: src/korone/modules/language/handlers/select.py:76
+#: src/korone/modules/language/handlers/select.py:99
+#: src/korone/modules/language/handlers/select.py:113
 msgid "Please select the language you want to use for the chat."
 msgstr ""
 
@@ -1181,15 +1190,15 @@ msgstr ""
 msgid "Export is done."
 msgstr ""
 
-#: src/korone/modules/privacy/handlers/privacy.py:20
+#: src/korone/modules/privacy/handlers/privacy.py:21
 msgid "Shows the privacy policy of the bot"
 msgstr ""
 
-#: src/korone/modules/privacy/handlers/privacy.py:30
+#: src/korone/modules/privacy/handlers/privacy.py:31
 msgid "The privacy policy of the bot is available on our wiki page."
 msgstr ""
 
-#: src/korone/modules/privacy/handlers/privacy.py:31
+#: src/korone/modules/privacy/handlers/privacy.py:32
 msgid "Privacy Policy"
 msgstr ""
 
@@ -1252,15 +1261,15 @@ msgstr ""
 msgid "Tools for fixing problems and issues"
 msgstr ""
 
-#: src/korone/modules/troubleshooters/handlers/admincache.py:18
+#: src/korone/modules/troubleshooters/handlers/admincache.py:19
 msgid "Reset admin rights cache, use if Korone didn't get the recently added admin"
 msgstr ""
 
-#: src/korone/modules/troubleshooters/handlers/admincache.py:26
+#: src/korone/modules/troubleshooters/handlers/admincache.py:30
 msgid "You can't use this command in private chats."
 msgstr ""
 
-#: src/korone/modules/troubleshooters/handlers/admincache.py:31
+#: src/korone/modules/troubleshooters/handlers/admincache.py:37
 msgid "Admin rights cache has been reset."
 msgstr ""
 
@@ -1309,66 +1318,62 @@ msgstr ""
 msgid "Includes admin list, user IDs, and detailed user information."
 msgstr ""
 
-#: src/korone/modules/users/handlers/adminlist.py:21
+#: src/korone/modules/users/handlers/adminlist.py:23
 msgid "Lists all the chats admins."
 msgstr ""
 
-#: src/korone/modules/users/handlers/adminlist.py:30
-msgid "This command can only be used in groups."
-msgstr ""
-
-#: src/korone/modules/users/handlers/adminlist.py:35
+#: src/korone/modules/users/handlers/adminlist.py:41
 msgid "Chat not found."
 msgstr ""
 
-#: src/korone/modules/users/handlers/adminlist.py:44
+#: src/korone/modules/users/handlers/adminlist.py:50
 #, python-brace-format
 msgid "Admins in {chat_name}"
 msgstr ""
 
-#: src/korone/modules/users/handlers/adminlist.py:65
+#: src/korone/modules/users/handlers/adminlist.py:71
 #, python-brace-format
 msgid "{user}"
 msgstr ""
 
-#: src/korone/modules/users/handlers/adminlist.py:68
+#: src/korone/modules/users/handlers/adminlist.py:74
 msgid "No visible admins found."
 msgstr ""
 
-#: src/korone/modules/users/handlers/adminlist.py:70
+#: src/korone/modules/users/handlers/adminlist.py:76
 msgid "Admins"
 msgstr ""
 
-#: src/korone/modules/users/handlers/id.py:27
+#: src/korone/modules/users/handlers/id.py:28
 msgid "Show user and chat IDs"
 msgstr ""
 
-#: src/korone/modules/users/handlers/id.py:33
+#: src/korone/modules/users/handlers/id.py:34
 #: src/korone/modules/users/handlers/info.py:32
 msgid "User"
 msgstr ""
 
-#: src/korone/modules/users/handlers/id.py:46
+#: src/korone/modules/users/handlers/id.py:47
 #, python-brace-format
 msgid "Your ID: {id}"
 msgstr ""
 
-#: src/korone/modules/users/handlers/id.py:49
+#: src/korone/modules/users/handlers/id.py:50
 #, python-brace-format
 msgid "Chat ID: {id}"
 msgstr ""
 
-#: src/korone/modules/users/handlers/id.py:52
+#: src/korone/modules/users/handlers/id.py:53
 #, python-brace-format
 msgid "Topic ID: {id}"
 msgstr ""
 
-#: src/korone/modules/users/handlers/id.py:56
+#: src/korone/modules/users/handlers/id.py:57
 #, python-brace-format
 msgid "Replied user ID: {id}"
 msgstr ""
 
-#: src/korone/modules/users/handlers/id.py:61
+#: src/korone/modules/users/handlers/id.py:62
 #, python-brace-format
 msgid "{user}'s ID: {id}"
 msgstr ""

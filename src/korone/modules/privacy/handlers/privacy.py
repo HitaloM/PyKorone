@@ -1,6 +1,7 @@
 from typing import TYPE_CHECKING
 
 from aiogram import flags
+from aiogram.enums import ChatType
 from aiogram.types import InlineKeyboardButton
 from aiogram.utils.keyboard import InlineKeyboardBuilder
 
@@ -21,7 +22,7 @@ if TYPE_CHECKING:
 class PrivacyMenu(KoroneMessageCallbackQueryHandler):
     @classmethod
     def register(cls, router: Router) -> None:
-        router.message.register(cls, CMDFilter("privacy"), ChatTypeFilter("private"))
+        router.message.register(cls, CMDFilter("privacy"), ChatTypeFilter(ChatType.PRIVATE))
         router.callback_query.register(cls, PrivacyMenuCallback.filter())
 
     async def handle(self) -> None:

@@ -1,6 +1,7 @@
 from typing import TYPE_CHECKING
 
 from aiogram import flags
+from aiogram.enums import ChatType
 from aiogram.types import InlineKeyboardButton
 from aiogram.utils.keyboard import InlineKeyboardBuilder
 from stfu_tg import Doc, Template, Url
@@ -23,8 +24,8 @@ if TYPE_CHECKING:
 class StartPMHandler(KoroneMessageCallbackQueryHandler):
     @classmethod
     def register(cls, router: Router) -> None:
-        router.message.register(cls, CMDFilter("start"), ChatTypeFilter("private"))
-        router.callback_query.register(cls, ChatTypeFilter("private"), GoToStartCallback.filter())
+        router.message.register(cls, CMDFilter("start"), ChatTypeFilter(ChatType.PRIVATE))
+        router.callback_query.register(cls, ChatTypeFilter(ChatType.PRIVATE), GoToStartCallback.filter())
 
     async def handle(self) -> None:
         state: FSMContext = self.state

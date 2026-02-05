@@ -1,6 +1,7 @@
 from typing import TYPE_CHECKING
 
 from aiogram import flags
+from aiogram.enums import ChatType
 from aiogram.types import InlineKeyboardButton
 from aiogram.utils.keyboard import InlineKeyboardBuilder
 
@@ -20,7 +21,7 @@ if TYPE_CHECKING:
 class HelpGroupHandler(KoroneMessageHandler):
     @staticmethod
     def filters() -> tuple[CallbackType, ...]:
-        return CMDFilter("help"), ~ChatTypeFilter("private")
+        return CMDFilter("help"), ~ChatTypeFilter(ChatType.PRIVATE)
 
     async def handle(self) -> None:
         text = _("The help information available in the private messages with Korone")

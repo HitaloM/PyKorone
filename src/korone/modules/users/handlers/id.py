@@ -3,6 +3,7 @@ from __future__ import annotations
 from typing import TYPE_CHECKING
 
 from aiogram import Router, flags
+from aiogram.enums import ChatType
 from ass_tg.types import OptionalArg
 from stfu_tg import Code, Doc, Template, UserLink
 
@@ -45,7 +46,7 @@ class ShowIDHandler(KoroneMessageHandler):
             user_id = self.event.from_user.id
             doc += Template(_("Your ID: {id}"), id=Code(user_id))
 
-        if self.event.chat.type != "private":
+        if self.event.chat.type != ChatType.PRIVATE:
             doc += Template(_("Chat ID: {id}"), id=Code(self.event.chat.id))
 
         if getattr(self.event, "message_thread_id", None) and self.event.chat.is_forum:

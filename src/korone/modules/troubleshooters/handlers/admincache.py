@@ -4,6 +4,7 @@ from aiogram import flags
 from aiogram.enums import ChatType
 
 from korone.filters.admin_rights import UserRestricting
+from korone.filters.chat_status import ChatTypeFilter
 from korone.filters.cmd import CMDFilter
 from korone.modules.utils_.admin import get_admins_rights
 from korone.modules.utils_.chat_member import update_chat_members
@@ -19,13 +20,18 @@ if TYPE_CHECKING:
 class ResetAdminCache(KoroneMessageHandler):
     @staticmethod
     def filters() -> tuple[CallbackType, ...]:
-        return (CMDFilter("admincache"), UserRestricting(admin=True))
+        return (
+            CMDFilter("admincache"),
+            UserRestricting(admin=True),
+            ChatTypeFilter(
+                ChatType.GROUP,
+                ChatType.SUPERGROUP,
+                notify_on_fail=True,
+                fail_message=_("You can't use this command in private chats."),
+            ),
+        )
 
     async def handle(self) -> None:
-        if self.chat.type == ChatType.PRIVATE:
-            await self.event.reply(_("You can't use this command in private chats."))
-            return
-
         await get_admins_rights(self.chat.chat_id, force_update=True)
         await update_chat_members(self.chat.db_model)
         await self.event.reply(_("Admin rights cache has been reset."))
