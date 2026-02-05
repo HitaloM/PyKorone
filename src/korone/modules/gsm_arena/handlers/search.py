@@ -3,7 +3,7 @@ from __future__ import annotations
 from typing import TYPE_CHECKING
 
 from aiogram import flags
-from aiogram.enums import ChatAction
+from aiogram.utils.chat_action import ChatActionSender
 from ass_tg.types import TextArg
 
 from korone.filters.cmd import CMDFilter
@@ -37,28 +37,6 @@ class DeviceSearchHandler(KoroneMessageHandler):
     def filters() -> tuple[CallbackType, ...]:
         return (CMDFilter(("device", "specs", "d")),)
 
-    async def handle(self) -> None:
-        query = (self.data.get("device") or "").strip()
-
-        if not query:
-            await self.event.reply(
-                _("You should provide a device name to search. Example: <code>/device Galaxy S24</code>.")
-            )
-            return
-
-        try:
-            await self._send_typing_indicator()
-
-            devices = await search_phone(query)
-            await self._handle_search_results(query, devices)
-        except Exception as exc:  # noqa: BLE001
-            await logger.aerror("[GSM Arena] Error in device command", error=str(exc))
-            await self.event.reply(_("An error occurred while searching. Please try again later."))
-
-    async def _send_typing_indicator(self) -> None:
-        if bot := self.event.bot:
-            await bot.send_chat_action(chat_id=self.event.chat.id, action=ChatAction.TYPING)
-
     async def _handle_search_results(self, query: str, devices: list[PhoneSearchResult]) -> None:
         if not devices:
             await self.event.reply(_("No devices found."))
@@ -74,3 +52,20 @@ class DeviceSearchHandler(KoroneMessageHandler):
 
         keyboard = create_pagination_layout(devices, query, 1)
         await self.event.reply(_("Search results for: <b>{query}</b>").format(query=query), reply_markup=keyboard)
+
+    async def handle(self) -> None:
+        query = (self.data.get("device") or "").strip()
+
+        if not query:
+            await self.event.reply(
+                _("You should provide a device name to search. Example: <code>/device Galaxy S24</code>.")
+            )
+            return
+
+        if not self.event.bot:
+            msg = "Bot instance is not available in the handler context."
+            raise RuntimeError(msg)
+
+        async with ChatActionSender.typing(chat_id=self.event.chat.id, bot=self.event.bot):
+            devices = await search_phone(query)
+            await self._handle_search_results(query, devices)

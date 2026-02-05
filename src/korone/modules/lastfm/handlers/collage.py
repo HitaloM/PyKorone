@@ -3,8 +3,8 @@ from __future__ import annotations
 from typing import TYPE_CHECKING
 
 from aiogram import flags
-from aiogram.enums import ChatAction
 from aiogram.types import BufferedInputFile
+from aiogram.utils.chat_action import ChatActionSender
 from ass_tg.types import OptionalArg, TextArg
 
 from korone.filters.cmd import CMDFilter
@@ -53,10 +53,11 @@ class LastFMCollageHandler(KoroneMessageHandler):
         collage_size, period, _entry_type, no_text = parse_collage_arg(args)
         show_text = not no_text
 
-        if self.event.bot:
-            await self.event.bot.send_chat_action(chat_id=self.event.chat.id, action=ChatAction.UPLOAD_PHOTO)
+        if not self.event.bot:
+            msg = "Bot instance is not available in the handler context."
+            raise RuntimeError(msg)
 
-        async def generate_and_send() -> None:
+        async with ChatActionSender.upload_photo(chat_id=self.event.chat.id, bot=self.event.bot):
             last_fm = LastFMClient()
             try:
                 top_items = await last_fm.get_top_albums(last_fm_user, period, limit=collage_size**2)
@@ -75,5 +76,3 @@ class LastFMCollageHandler(KoroneMessageHandler):
                 await self.event.reply_photo(photo=file, caption=caption)
             except LastFMError as exc:
                 await handle_lastfm_error(self.event, exc)
-
-        await generate_and_send()
