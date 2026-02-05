@@ -6,6 +6,6 @@ from korone.utils.i18n import gettext as _
 
 def language_stats() -> Section:
     i18n = get_i18n()
-    num_languages = len(i18n.available_locales) + 1
+    num_languages = len(i18n.available_locales)
 
     return Section(Template(_("{num} languages available."), num=Code(num_languages)), title=_("Language"))
