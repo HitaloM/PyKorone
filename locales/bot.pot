@@ -920,10 +920,6 @@ msgstr ""
 msgid "Reply with your Last.fm username."
 msgstr ""
 
-#: src/korone/modules/lastfm/handlers/set.py:91
-msgid "Please reply to the message asking for your Last.fm username."
-msgstr ""
-
 #: src/korone/modules/lastfm/handlers/top.py:34
 msgid "Shows your top artists, tracks, or albums from Last.fm."
 msgstr ""

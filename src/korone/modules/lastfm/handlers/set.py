@@ -70,9 +70,8 @@ class LastFMSetHandler(KoroneMessageHandler):
             await set_lastfm_username(self.event, username)
             return
 
-        sent = await self.event.reply(_("Reply with your Last.fm username."), reply_markup=ForceReply(selective=True))
+        await self.event.reply(_("Reply with your Last.fm username."), reply_markup=ForceReply(selective=True))
         await self.state.set_state(LastFMSetState.waiting_username)
-        await self.state.update_data(prompt_message_id=sent.message_id)
 
 
 class LastFMSetReplyHandler(KoroneMessageHandler):
@@ -83,13 +82,6 @@ class LastFMSetReplyHandler(KoroneMessageHandler):
     async def handle(self) -> None:
         if self.event.text and self.event.text.startswith(("/", "!")):
             raise SkipHandler
-
-        data = await self.state.get_data()
-        prompt_message_id = data.get("prompt_message_id")
-        if not self.event.reply_to_message or self.event.reply_to_message.message_id != prompt_message_id:
-            await self.state.clear()
-            await self.event.reply(_("Please reply to the message asking for your Last.fm username."))
-            return
 
         await self.state.clear()
         await set_lastfm_username(self.event, self.event.text or "")
