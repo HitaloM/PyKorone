@@ -68,7 +68,7 @@ class UserInfoHandler(KoroneMessageHandler):
             doc += KeyValue(_("Username"), f"@{target_user.username}")
 
         display_name = target_user.first_name_or_title or "User"
-        doc += KeyValue(_("User Link"), UserLink(user_id=target_user.id, name=display_name))
+        doc += KeyValue(_("User Link"), UserLink(user_id=target_user.chat_id, name=display_name))
 
         doc += Section()
 
