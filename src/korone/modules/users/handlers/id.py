@@ -8,6 +8,7 @@ from stfu_tg import Code, Doc, Template, UserLink
 
 from korone.args.users import KoroneUserArg
 from korone.filters.cmd import CMDFilter
+from korone.modules.utils_.message import is_real_reply
 from korone.utils.handlers import KoroneMessageHandler
 from korone.utils.i18n import gettext as _
 from korone.utils.i18n import lazy_gettext as l_
@@ -47,13 +48,17 @@ class ShowIDHandler(KoroneMessageHandler):
         if self.event.chat.type != "private":
             doc += Template(_("Chat ID: {id}"), id=Code(self.event.chat.id))
 
-        if self.event.reply_to_message and self.event.reply_to_message.from_user:
+        if getattr(self.event, "message_thread_id", None):
+            doc += Template(_("Topic ID: {id}"), id=Code(self.event.message_thread_id))
+
+        if self.event.reply_to_message and is_real_reply(self.event) and self.event.reply_to_message.from_user:
             user_id = self.event.reply_to_message.from_user.id
             doc += Template(_("Replied user ID: {id}"), id=Code(user_id))
 
         if user:
+            user_id = user.chat_id
             doc += Template(
-                _("{user}'s ID: {id}"), user=UserLink(user_id=user.id, name=user.first_name_or_title), id=Code(user.id)
+                _("{user}'s ID: {id}"), user=UserLink(user_id=user_id, name=user.first_name_or_title), id=Code(user_id)
             )
 
         await self.event.reply(str(doc))

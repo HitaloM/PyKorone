@@ -1258,31 +1258,36 @@ msgstr ""
 msgid "Admins"
 msgstr ""
 
-#: src/korone/modules/users/handlers/id.py:26
+#: src/korone/modules/users/handlers/id.py:27
 msgid "Show user and chat IDs"
 msgstr ""
 
-#: src/korone/modules/users/handlers/id.py:32
+#: src/korone/modules/users/handlers/id.py:33
 #: src/korone/modules/users/handlers/info.py:32
 msgid "User"
 msgstr ""
 
-#: src/korone/modules/users/handlers/id.py:45
+#: src/korone/modules/users/handlers/id.py:46
 #, python-brace-format
 msgid "Your ID: {id}"
 msgstr ""
 
-#: src/korone/modules/users/handlers/id.py:48
+#: src/korone/modules/users/handlers/id.py:49
 #, python-brace-format
 msgid "Chat ID: {id}"
 msgstr ""
 
 #: src/korone/modules/users/handlers/id.py:52
 #, python-brace-format
-msgid "Replied user ID: {id}"
+msgid "Topic ID: {id}"
 msgstr ""
 
 #: src/korone/modules/users/handlers/id.py:56
+#, python-brace-format
+msgid "Replied user ID: {id}"
+msgstr ""
+
+#: src/korone/modules/users/handlers/id.py:61
 #, python-brace-format
 msgid "{user}'s ID: {id}"
 msgstr ""
