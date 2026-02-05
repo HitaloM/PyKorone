@@ -1,6 +1,3 @@
-import argparse
-import logging
-
 import anyio
 from ass_tg.middleware import ArgsMiddleware
 
@@ -18,12 +15,6 @@ from .modules.op.utils import notify_restart_complete
 from .utils.i18n import i18n
 
 logger = get_logger(__name__)
-
-
-def parse_args() -> argparse.Namespace:
-    parser = argparse.ArgumentParser(description="Korone Bot")
-    parser.add_argument("--debug", action="store_true", help="Enable debug logging")
-    return parser.parse_args()
 
 
 async def ensure_bot_in_db() -> None:
@@ -54,7 +45,5 @@ async def main() -> None:
 
 
 if __name__ == "__main__":
-    args = parse_args()
-    log_level = logging.DEBUG if args.debug else logging.INFO
-    setup_logging(level=log_level)
+    setup_logging()
     anyio.run(main, backend="asyncio", backend_options={"use_uvloop": True})
