@@ -2,9 +2,9 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 from pathlib import Path
-from re import compile as re_compile
 from typing import TYPE_CHECKING, ClassVar, cast
 
+import polib
 from aiogram.utils.i18n import I18n
 from babel.core import Locale
 from babel.support import LazyProxy as BabelLazyProxy
@@ -15,11 +15,6 @@ from korone.logging import get_logger
 
 if TYPE_CHECKING:
     from collections.abc import Callable
-
-LANG_STATS_REGEX = re_compile(
-    r"^(?:(\d+) translated message(?:s))(?:, )?(?:(\d+) fuzzy translation)?(?:, )?(?:(\d+) untranslated messages)?"
-)
-
 
 logger = get_logger(__name__)
 
@@ -54,18 +49,20 @@ class I18nNew(I18n):
         self.babels["en"] = self.babel("en_US")
 
     def parse_stats(self, locale_code: str) -> LocaleStats | None:
-        path = Path(f"{self.path}/{locale_code}/stats.txt")
+        path = Path(self.path) / locale_code / "LC_MESSAGES" / f"{self.domain}.po"
         if not path.exists():
             return None
 
-        match = LANG_STATS_REGEX.match(path.read_text(encoding="utf-8"))
-        if match is None:
+        try:
+            po = polib.pofile(path)
+        except (OSError, UnicodeDecodeError, polib.errors.POFileError) as exc:  # type: ignore[attr-defined]
+            logger.debug("! Can't parse stats for locale %s: %s", locale_code, exc)
             return None
 
         return LocaleStats(
-            translated=int(match.group(1)),
-            fuzzy=int(match.group(2)) if match.group(2) else 0,
-            untranslated=int(match.group(3)) if match.group(3) else 0,
+            translated=len(po.translated_entries()),
+            fuzzy=len(po.fuzzy_entries()),
+            untranslated=len(po.untranslated_entries()),
         )
 
     @staticmethod

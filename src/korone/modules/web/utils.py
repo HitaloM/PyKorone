@@ -108,7 +108,7 @@ def _resolve_hostname_system(hostname: str) -> list[str]:
     resolved: list[str] = []
     for info in infos:
         sockaddr = info[4]
-        ip = sockaddr[0]
+        ip = str(sockaddr[0])
         if ip not in resolved:
             resolved.append(ip)
     return resolved

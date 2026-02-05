@@ -25,6 +25,7 @@ dependencies = [
     "aiohttp[speedups]>=3.13.3",
     "lxml>=6.0.2",
     "pillow>=10.0.0",
+    "polib>=1.2.0",
 ]
 
 [dependency-groups]
