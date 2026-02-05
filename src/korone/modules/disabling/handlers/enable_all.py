@@ -1,14 +1,13 @@
 from typing import TYPE_CHECKING
 
 from aiogram import flags
-from aiogram.enums import ChatType
 from aiogram.types import InlineKeyboardButton, Message
 from aiogram.utils.keyboard import InlineKeyboardBuilder
 from stfu_tg import Italic, Template
 
 from korone.db.repositories.disabling import DisablingRepository
 from korone.filters.admin_rights import UserRestricting
-from korone.filters.chat_status import ChatTypeFilter
+from korone.filters.chat_status import GroupChatFilter
 from korone.filters.cmd import CMDFilter
 from korone.modules.disabling.callbacks import EnableAllCallback
 from korone.modules.utils_.callbacks import CancelActionCallback
@@ -25,16 +24,7 @@ if TYPE_CHECKING:
 class EnableAllHandler(KoroneMessageHandler):
     @staticmethod
     def filters() -> tuple[CallbackType, ...]:
-        return (
-            CMDFilter("enableall"),
-            UserRestricting(admin=True),
-            ChatTypeFilter(
-                ChatType.GROUP,
-                ChatType.SUPERGROUP,
-                notify_on_fail=True,
-                fail_message=_("This command can only be used in groups."),
-            ),
-        )
+        return (CMDFilter("enableall"), UserRestricting(admin=True), GroupChatFilter(notify_on_fail=True))
 
     async def handle(self) -> None:
         if not self.event.from_user:

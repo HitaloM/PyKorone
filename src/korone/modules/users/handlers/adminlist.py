@@ -2,13 +2,12 @@ from typing import TYPE_CHECKING
 
 import ujson
 from aiogram import flags
-from aiogram.enums import ChatType
 from stfu_tg import Doc, Section, Template, Title, UserLink, VList
 
 from korone import aredis
 from korone.constants import TELEGRAM_ANONYMOUS_ADMIN_BOT_ID
 from korone.db.repositories.chat import ChatRepository
-from korone.filters.chat_status import ChatTypeFilter
+from korone.filters.chat_status import GroupChatFilter
 from korone.filters.cmd import CMDFilter
 from korone.modules.utils_.chat_member import update_chat_members
 from korone.utils.handlers import KoroneMessageHandler
@@ -25,15 +24,7 @@ if TYPE_CHECKING:
 class AdminListHandler(KoroneMessageHandler):
     @staticmethod
     def filters() -> tuple[CallbackType, ...]:
-        return (
-            CMDFilter(("adminlist", "admins")),
-            ChatTypeFilter(
-                ChatType.GROUP,
-                ChatType.SUPERGROUP,
-                notify_on_fail=True,
-                fail_message=_("This command can only be used in groups."),
-            ),
-        )
+        return (CMDFilter(("adminlist", "admins")), GroupChatFilter(notify_on_fail=True))
 
     async def handle(self) -> None:
         chat_model = await ChatRepository.get_by_chat_id(self.chat.chat_id)

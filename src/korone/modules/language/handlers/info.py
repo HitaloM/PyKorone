@@ -7,7 +7,7 @@ from aiogram.utils.keyboard import InlineKeyboardBuilder
 from magic_filter import F
 from stfu_tg import Code, KeyValue, Section
 
-from korone.filters.chat_status import ChatTypeFilter
+from korone.filters.chat_status import PrivateChatFilter
 from korone.filters.cmd import CMDFilter
 from korone.modules.language.callbacks import LangMenu, LangMenuCallback
 from korone.modules.utils_.callbacks import GoToStartCallback
@@ -69,7 +69,7 @@ class LanguageInfoHandler(KoroneMessageHandler):
 class LanguageInfoCallbackHandler(KoroneCallbackQueryHandler):
     @staticmethod
     def filters() -> tuple[CallbackType, ...]:
-        return (LangMenuCallback.filter(F.menu == LangMenu.Language), ChatTypeFilter(ChatType.PRIVATE))
+        return (LangMenuCallback.filter(F.menu == LangMenu.Language), PrivateChatFilter())
 
     async def handle(self) -> None:
         i18n = get_i18n()

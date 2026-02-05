@@ -1,10 +1,9 @@
 from typing import TYPE_CHECKING
 
 from aiogram import flags
-from aiogram.enums import ChatType
 
 from korone.filters.admin_rights import UserRestricting
-from korone.filters.chat_status import ChatTypeFilter
+from korone.filters.chat_status import GroupChatFilter
 from korone.filters.cmd import CMDFilter
 from korone.modules.utils_.admin import get_admins_rights
 from korone.modules.utils_.chat_member import update_chat_members
@@ -20,16 +19,7 @@ if TYPE_CHECKING:
 class ResetAdminCache(KoroneMessageHandler):
     @staticmethod
     def filters() -> tuple[CallbackType, ...]:
-        return (
-            CMDFilter("admincache"),
-            UserRestricting(admin=True),
-            ChatTypeFilter(
-                ChatType.GROUP,
-                ChatType.SUPERGROUP,
-                notify_on_fail=True,
-                fail_message=_("You can't use this command in private chats."),
-            ),
-        )
+        return (CMDFilter("admincache"), UserRestricting(admin=True), GroupChatFilter(notify_on_fail=True))
 
     async def handle(self) -> None:
         await get_admins_rights(self.chat.chat_id, force_update=True)

@@ -1,12 +1,11 @@
 from typing import TYPE_CHECKING
 
 from aiogram import flags
-from aiogram.enums import ChatType
 from aiogram.types import InlineKeyboardButton
 from aiogram.utils.keyboard import InlineKeyboardBuilder
 
 from korone.config import CONFIG
-from korone.filters.chat_status import ChatTypeFilter
+from korone.filters.chat_status import PrivateChatFilter
 from korone.filters.cmd import CMDFilter
 from korone.modules.privacy.callbacks import PrivacyMenuCallback
 from korone.modules.utils_.callbacks import GoToStartCallback
@@ -22,7 +21,7 @@ if TYPE_CHECKING:
 class PrivacyMenu(KoroneMessageCallbackQueryHandler):
     @classmethod
     def register(cls, router: Router) -> None:
-        router.message.register(cls, CMDFilter("privacy"), ChatTypeFilter(ChatType.PRIVATE))
+        router.message.register(cls, CMDFilter("privacy"), PrivateChatFilter())
         router.callback_query.register(cls, PrivacyMenuCallback.filter())
 
     async def handle(self) -> None:

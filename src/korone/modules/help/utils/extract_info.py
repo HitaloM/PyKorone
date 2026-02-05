@@ -5,13 +5,12 @@ from inspect import isawaitable, iscoroutinefunction
 from itertools import chain
 from typing import TYPE_CHECKING, cast
 
-from aiogram.enums import ChatType
 from aiogram.filters.logic import _InvertFilter
 from aiogram.types import Message
 from ass_tg.types.base_abc import ArgFabric
 
 from korone.filters.admin_rights import UserRestricting
-from korone.filters.chat_status import ChatTypeFilter
+from korone.filters.chat_status import GroupChatFilter, PrivateChatFilter
 from korone.filters.cmd import CMDFilter
 from korone.filters.user_status import IsOP
 from korone.logger import get_logger
@@ -124,21 +123,11 @@ async def gather_cmds_help(router: Router) -> list[HandlerHelp]:
             continue
 
         only_admin = any(isinstance(f.callback, UserRestricting) for f in handler.filters)
-        only_pm = any(
-            isinstance(f.callback, ChatTypeFilter) and f.callback.chat_types == (ChatType.PRIVATE.value,)
-            for f in handler.filters
-        )
+        only_pm = any(isinstance(f.callback, PrivateChatFilter) for f in handler.filters)
         only_chats = any(
             (
-                (
-                    isinstance(f.callback, ChatTypeFilter)
-                    and set(f.callback.chat_types) == {ChatType.GROUP.value, ChatType.SUPERGROUP.value}
-                )
-                or (
-                    isinstance(f.callback, _InvertFilter)
-                    and isinstance(f.callback.target.callback, ChatTypeFilter)
-                    and f.callback.target.callback.chat_types == (ChatType.PRIVATE.value,)
-                )
+                isinstance(f.callback, GroupChatFilter)
+                or (isinstance(f.callback, _InvertFilter) and isinstance(f.callback.target.callback, PrivateChatFilter))
             )
             for f in handler.filters
         )

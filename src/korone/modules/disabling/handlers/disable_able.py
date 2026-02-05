@@ -1,10 +1,9 @@
 from typing import TYPE_CHECKING
 
 from aiogram import flags
-from aiogram.enums import ChatType
 from stfu_tg import Section
 
-from korone.filters.chat_status import ChatTypeFilter
+from korone.filters.chat_status import GroupChatFilter
 from korone.filters.cmd import CMDFilter
 from korone.modules.help.utils.extract_info import DISABLEABLE_CMDS
 from korone.modules.help.utils.format_help import format_handlers
@@ -23,15 +22,7 @@ if TYPE_CHECKING:
 class ListDisableable(KoroneMessageHandler):
     @staticmethod
     def filters() -> tuple[CallbackType, ...]:
-        return (
-            CMDFilter("disableable"),
-            ChatTypeFilter(
-                ChatType.GROUP,
-                ChatType.SUPERGROUP,
-                notify_on_fail=True,
-                fail_message=_("This command can only be used in groups."),
-            ),
-        )
+        return (CMDFilter("disableable"), GroupChatFilter(notify_on_fail=True))
 
     @staticmethod
     def get_disable_able_commands() -> list[HandlerHelp]:
