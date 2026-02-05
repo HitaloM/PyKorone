@@ -32,7 +32,7 @@ __module_info__ = LazyProxy(
     )
 )
 
-__handlers__ = (StartPMHandler, HelpGroupHandler, PMModulesList, StartGroupHandler, PMModuleHelp, OpCMDSList)
+__handlers__ = (PMModulesList, StartPMHandler, HelpGroupHandler, StartGroupHandler, PMModuleHelp, OpCMDSList)
 
 __stats__ = help_stats
 
