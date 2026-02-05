@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Any
 
 from aiogram import Router, flags
 from aiogram.enums import ChatType
@@ -20,7 +20,6 @@ if TYPE_CHECKING:
     from ass_tg.types.base_abc import ArgFabric
 
     from korone.db.models.chat import ChatModel
-    from korone.utils.handlers import HandlerData
 
 router = Router(name="users")
 
@@ -30,7 +29,7 @@ router = Router(name="users")
 @router.message(CMDFilter("id"))
 class ShowIDHandler(KoroneMessageHandler):
     @classmethod
-    async def handler_args(cls, message: Message | None, data: HandlerData) -> dict[str, ArgFabric]:
+    async def handler_args(cls, message: Message | None, data: dict[str, Any]) -> dict[str, ArgFabric]:
         return {"user": OptionalArg(KoroneUserArg(l_("User")))}
 
     @staticmethod

@@ -3,7 +3,7 @@ from collections.abc import Callable, Coroutine
 from dataclasses import dataclass
 from inspect import isawaitable, iscoroutinefunction
 from itertools import chain
-from typing import TYPE_CHECKING, cast
+from typing import TYPE_CHECKING, Any, cast
 
 from aiogram.filters.logic import _InvertFilter
 from aiogram.types import Message
@@ -14,7 +14,6 @@ from korone.filters.chat_status import GroupChatFilter, PrivateChatFilter
 from korone.filters.cmd import CMDFilter
 from korone.filters.user_status import IsOP
 from korone.logger import get_logger
-from korone.utils.handlers import HandlerData
 
 if TYPE_CHECKING:
     from types import ModuleType
@@ -24,7 +23,7 @@ if TYPE_CHECKING:
     from stfu_tg import Doc
 
 ARGS_DICT = dict[str, ArgFabric]
-ARGS_COROUTINE = Callable[[Message | None, HandlerData], Coroutine[None, None, ARGS_DICT]]
+ARGS_COROUTINE = Callable[[Message | None, Any], Coroutine[None, None, ARGS_DICT]]
 
 logger = get_logger(__name__)
 
@@ -113,9 +112,8 @@ async def gather_cmds_help(router: Router) -> list[HandlerHelp]:
         cmd_filters = [f for f in handler.filters if isinstance(f.callback, CMDFilter)]
         cmds = None
         if cmd_filters:
-            cmd_callback = cmd_filters[0].callback
-            if hasattr(cmd_callback, "cmd"):
-                cmds = cmd_callback.cmd
+            cmd_callback = cast("CMDFilter", cmd_filters[0].callback)
+            cmds = cmd_callback.cmd
         elif help_flags and help_flags.get("cmds"):
             cmds = help_flags.get("cmds")
 

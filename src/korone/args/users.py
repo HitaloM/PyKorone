@@ -1,4 +1,4 @@
-from typing import TYPE_CHECKING, override
+from typing import TYPE_CHECKING, cast, override
 
 from ass_tg.exceptions import ArgStrictError
 from ass_tg.types import OrArg
@@ -12,6 +12,7 @@ from korone.utils.i18n import lazy_gettext as l_
 
 if TYPE_CHECKING:
     from ass_tg.entities import ArgEntities
+    from babel.support import LazyProxy as BabelLazyProxy
 
     from korone.utils.i18n import LazyProxy
 
@@ -122,11 +123,14 @@ class KoroneUserArg(OrArg):
         )
 
     @property
-    def examples(self) -> dict[str | UserLink, LazyProxy | None] | None:
-        return {
-            "1111224224": l_("User ID"),
-            "@ofoxr_bot": l_("Username"),
-            UserLink(user_id=1111224224, name="OrangeFox BOT"): l_(
-                "A link to user, usually creates by mentioning a user without username."
-            ),
-        }
+    def examples(self) -> dict[str, BabelLazyProxy | None] | None:
+        return cast(
+            "dict[str, BabelLazyProxy | None]",
+            {
+                "1111224224": l_("User ID"),
+                "@ofoxr_bot": l_("Username"),
+                str(UserLink(user_id=1111224224, name="OrangeFox BOT")): l_(
+                    "A link to user, usually creates by mentioning a user without username."
+                ),
+            },
+        )

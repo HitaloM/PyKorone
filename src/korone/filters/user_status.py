@@ -16,10 +16,8 @@ class IsOwner(Filter):
     def __init__(self, *, is_owner: bool) -> None:
         self.is_owner = is_owner
 
-    async def __call__(self, message: Message) -> bool | None:
-        if message.from_user and message.from_user.id == CONFIG.owner_id:
-            return True
-        return None
+    async def __call__(self, message: Message) -> bool:
+        return bool(message.from_user and message.from_user.id == CONFIG.owner_id)
 
 
 class IsOP(Filter):
@@ -30,7 +28,5 @@ class IsOP(Filter):
     def __init__(self, *, is_op: bool) -> None:
         self.is_owner = is_op
 
-    async def __call__(self, message: Message) -> bool | None:
-        if message.from_user and message.from_user.id in CONFIG.operators:
-            return True
-        return None
+    async def __call__(self, message: Message) -> bool:
+        return bool(message.from_user and message.from_user.id in CONFIG.operators)

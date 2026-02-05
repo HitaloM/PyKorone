@@ -2,11 +2,10 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 from datetime import UTC, datetime
-from typing import TYPE_CHECKING, cast
+from typing import TYPE_CHECKING, Any, cast
 
 from aiogram import BaseMiddleware
 from aiogram.enums import ChatType
-from aiogram.types import TelegramObject
 
 from korone.db.models.chat import ChatModel
 from korone.db.repositories.chat import ChatRepository
@@ -16,23 +15,9 @@ from korone.utils.i18n import gettext as _
 if TYPE_CHECKING:
     from collections.abc import Awaitable, Callable
 
-    from aiogram.types import Chat
+    from aiogram.types import Chat, TelegramObject
 
 logger = get_logger(__name__)
-
-type HandlerResult = TelegramObject | bool | None
-type MiddlewareDataValue = (
-    str
-    | int
-    | float
-    | bool
-    | TelegramObject
-    | ChatContext
-    | ChatModel
-    | dict[str, str | int | float | bool | None]
-    | None
-)
-type MiddlewareData = dict[str, MiddlewareDataValue]
 
 
 @dataclass
@@ -75,10 +60,10 @@ class ChatContextMiddleware(BaseMiddleware):
 
     async def __call__(
         self,
-        handler: Callable[[TelegramObject, MiddlewareData], Awaitable[HandlerResult]],
+        handler: Callable[[TelegramObject, dict[str, Any]], Awaitable[Any]],
         event: TelegramObject,
-        data: MiddlewareData,
-    ) -> HandlerResult:
+        data: dict[str, Any],
+    ) -> Any:
         real_chat = cast("Chat", data["event_chat"])
 
         await logger.adebug("ChatContextMiddleware: providing current chat info")

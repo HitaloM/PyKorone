@@ -1,4 +1,5 @@
 from datetime import UTC, datetime
+from typing import Any
 
 from aiogram.enums import ChatType
 from sqlalchemy import DateTime, ForeignKey, String, UniqueConstraint
@@ -74,7 +75,7 @@ class ChatModel(Base):
             last_saw=datetime.now(UTC),
         )
 
-    def to_dict(self) -> dict[str, object]:
+    def to_dict(self) -> dict[str, Any]:
         return {
             "id": self.id,
             "chat_id": self.chat_id,

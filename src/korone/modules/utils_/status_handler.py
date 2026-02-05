@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from abc import ABC, abstractmethod
-from typing import TYPE_CHECKING, ClassVar, Never, TypeVar
+from typing import TYPE_CHECKING, Any, ClassVar, Never, TypeVar, cast
 
 from ass_tg.types import BooleanArg, OptionalArg
 from stfu_tg import Italic, KeyValue, Section, Template
@@ -11,11 +11,12 @@ from korone.utils.i18n import gettext as _
 from korone.utils.i18n import lazy_gettext as l_
 
 if TYPE_CHECKING:
+    from collections.abc import Mapping
+
     from aiogram.types import Message
     from ass_tg.types.base_abc import ArgFabric
     from stfu_tg.doc import Element
 
-    from korone.utils.handlers import HandlerData
     from korone.utils.i18n import LazyProxy
 
 T = TypeVar("T")
@@ -23,12 +24,12 @@ T = TypeVar("T")
 
 class StatusHandlerABC[T](KoroneMessageHandler):
     header_text: LazyProxy
-    status_texts: dict[T, LazyProxy]
+    status_texts: ClassVar[Mapping[object, LazyProxy]]
     change_command: str | None = None
     change_args: str | LazyProxy = "on / off"
 
     @classmethod
-    async def handler_args(cls, message: Message | None, data: HandlerData) -> dict[str, ArgFabric]:
+    async def handler_args(cls, message: Message | None, data: dict[str, Any]) -> dict[str, ArgFabric]:
         return {"new_status": OptionalArg(BooleanArg(l_("?New status")))}
 
     @abstractmethod
@@ -82,8 +83,8 @@ class StatusHandlerABC[T](KoroneMessageHandler):
         if new_status is None:
             return await self.display_current_status()
 
-        return await self.change_status(new_status)
+        return await self.change_status(cast("T", new_status))
 
 
 class StatusBoolHandlerABC(StatusHandlerABC[bool], ABC):
-    status_texts: ClassVar[dict[bool, LazyProxy]] = {True: l_("Enabled"), False: l_("Disabled")}
+    status_texts: ClassVar[Mapping[object, LazyProxy]] = {True: l_("Enabled"), False: l_("Disabled")}

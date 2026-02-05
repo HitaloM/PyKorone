@@ -64,6 +64,11 @@ ignore = [
     "PLR0912",
     "PLR0915",
 ]
+per-file-ignores = { "src/korone/middlewares/*" = [
+    "ANN401",
+], "src/korone/utils/cached.py" = [
+    "ANN401",
+] }
 logger-objects = ["logging.get_logger"]
 
 [lint.isort]

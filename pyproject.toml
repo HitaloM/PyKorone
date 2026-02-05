@@ -29,7 +29,7 @@ dependencies = [
 ]
 
 [dependency-groups]
-dev = ["pre-commit>=4.5.1", "ruff>=0.14.14", "ty>=0.0.13"]
+dev = ["pre-commit>=4.5.1", "ruff>=0.14.14", "pyright>=1.1.408"]
 
 [build-system]
 requires = ["uv_build>=0.7,<0.8"]

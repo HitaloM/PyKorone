@@ -20,7 +20,6 @@ if TYPE_CHECKING:
     from aiogram.types import Message
     from ass_tg.types.base_abc import ArgFabric
 
-    from korone.utils.handlers import HandlerData
 
 IP_FIELDS = {
     "ip": l_("IP"),
@@ -39,7 +38,7 @@ IP_FIELDS = {
 @flags.disableable(name="ip")
 class IPInfoHandler(KoroneMessageHandler):
     @classmethod
-    async def handler_args(cls, message: Message | None, data: HandlerData) -> dict[str, ArgFabric]:
+    async def handler_args(cls, message: Message | None, data: dict[str, Any]) -> dict[str, ArgFabric]:
         return {"target": TextArg(l_("IP or domain"))}
 
     @staticmethod

@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Any
 
 from aiogram.types import User
 from attr import dataclass
@@ -12,8 +12,6 @@ from korone.utils.exception import KoroneError
 if TYPE_CHECKING:
     from aiogram.types import Message
 
-    from korone.utils.handlers import HandlerData
-
 
 @dataclass(frozen=True, slots=True)
 class UnionUser:
@@ -23,7 +21,7 @@ class UnionUser:
     username: str | None
 
 
-def get_arg_or_reply_user(message: Message, data: HandlerData) -> User | ChatModel:
+def get_arg_or_reply_user(message: Message, data: dict[str, Any]) -> User | ChatModel:
     if not message.from_user:
         msg = "No from_user"
         raise KoroneError(msg)

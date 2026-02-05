@@ -52,7 +52,7 @@ async def should_notify(signature: str, now: float | None = None) -> bool:
         now = time.time()
 
     key = f"{_PREFIX}{signature}"
-    client: AsyncRedis[bytes] = aredis
+    client: AsyncRedis = aredis
 
     try:
         raw_data = await _await_if_needed(client.hgetall(key))

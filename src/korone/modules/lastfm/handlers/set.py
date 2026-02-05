@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 import re
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Any
 
 from aiogram import flags
 from aiogram.dispatcher.event.bases import SkipHandler
@@ -21,8 +21,6 @@ if TYPE_CHECKING:
     from aiogram.dispatcher.event.handler import CallbackType
     from aiogram.types import Message
     from ass_tg.types.base_abc import ArgFabric
-
-    from korone.utils.handlers import HandlerData
 
 
 USERNAME_RE = re.compile(r"^[A-Za-z0-9_]+$")
@@ -57,7 +55,7 @@ async def set_lastfm_username(message: Message, username: str) -> bool:
 @flags.disableable(name="setlfm")
 class LastFMSetHandler(KoroneMessageHandler):
     @classmethod
-    async def handler_args(cls, message: Message | None, data: HandlerData) -> dict[str, ArgFabric]:
+    async def handler_args(cls, message: Message | None, data: dict[str, Any]) -> dict[str, ArgFabric]:
         return {"username": OptionalArg(WordArg(l_("Username")))}
 
     @staticmethod

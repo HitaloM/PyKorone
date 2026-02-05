@@ -1,7 +1,6 @@
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Any
 
 from aiogram.enums import ChatType
-from aiogram.types import TelegramObject
 from aiogram.utils.i18n.middleware import I18nMiddleware
 
 from korone.config import CONFIG
@@ -12,14 +11,9 @@ from korone.logger import get_logger
 from korone.utils.cached import Cached
 
 if TYPE_CHECKING:
-    from aiogram.types import User
+    from aiogram.types import TelegramObject, User
 
 logger = get_logger(__name__)
-
-type MiddlewareDataValue = (
-    str | int | float | bool | TelegramObject | ChatModel | dict[str, str | int | float | bool | None] | None
-)
-type MiddlewareData = dict[str, MiddlewareDataValue]
 
 
 @Cached(ttl=CACHE_LANGUAGE_TTL_SECONDS)
@@ -30,7 +24,7 @@ async def cache_get_locale_name(chat_id: int) -> str | None:
 
 
 class LocalizationMiddleware(I18nMiddleware):
-    async def get_locale(self, event: TelegramObject, data: MiddlewareData) -> str:
+    async def get_locale(self, event: TelegramObject, data: dict[str, Any]) -> str:
         chat_in_db = data.get("chat_db")
         if not isinstance(chat_in_db, ChatModel):
             await logger.adebug("LocalizationMiddleware: Chat cannot be found in this event, leaving locale to default")

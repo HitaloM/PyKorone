@@ -4,6 +4,7 @@ import json
 import os
 import sys
 import time
+from typing import Any
 
 from anyio import Path, sleep
 from stfu_tg import Code, Doc, Template
@@ -36,7 +37,7 @@ async def save_restart_marker(*, chat_id: int, message_id: int | None, action: s
     await aredis.set(RESTART_MARKER_KEY, json.dumps(payload))
 
 
-async def _pop_restart_marker() -> dict[str, object] | None:
+async def _pop_restart_marker() -> dict[str, Any] | None:
     raw = await aredis.get(RESTART_MARKER_KEY)
     if not raw:
         return None

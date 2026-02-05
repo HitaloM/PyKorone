@@ -1,39 +1,23 @@
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, override
+from typing import TYPE_CHECKING, Any, override
 
 from aiogram import BaseMiddleware
 from aiogram.enums import ChatType
-from aiogram.types import TelegramObject, Update, User
+from aiogram.types import Update, User
 
 from korone.config import CONFIG
-from korone.db.models.chat import ChatModel, UserInGroupModel
 from korone.db.repositories.chat import ChatRepository
 from korone.logger import get_logger
 
 if TYPE_CHECKING:
     from collections.abc import Awaitable, Callable, Iterable
 
-    from aiogram.types import Chat, ChatMemberUpdated, Message
+    from aiogram.types import Chat, ChatMemberUpdated, Message, TelegramObject
+
+    from korone.db.models.chat import ChatModel, UserInGroupModel
 
 logger = get_logger(__name__)
-
-type HandlerResult = TelegramObject | bool | None
-type MiddlewareDataValue = (
-    str
-    | int
-    | float
-    | bool
-    | TelegramObject
-    | ChatModel
-    | UserInGroupModel
-    | list[TelegramObject]
-    | list[ChatModel]
-    | list[Chat | User]
-    | dict[str, str | int | float | bool | None]
-    | None
-)
-type MiddlewareData = dict[str, MiddlewareDataValue]
 
 
 class SaveChatsMiddleware(BaseMiddleware):
@@ -119,7 +103,7 @@ class SaveChatsMiddleware(BaseMiddleware):
         user_in_group = await ChatRepository.ensure_user_in_group(current_user, current_group)
         return current_user, user_in_group
 
-    async def handle_message(self, message: Message, data: MiddlewareData) -> None:
+    async def handle_message(self, message: Message, data: dict[str, Any]) -> None:
         logger.debug("SaveChatsMiddleware: Handling message", message_id=message.message_id, chat_id=message.chat.id)
         if await self._handle_migration(data, message):
             return
@@ -140,7 +124,7 @@ class SaveChatsMiddleware(BaseMiddleware):
         await self._handle_left_chat_member(message, chat)
 
     @staticmethod
-    async def _handle_migration(data: MiddlewareData, message: Message) -> bool:
+    async def _handle_migration(data: dict[str, Any], message: Message) -> bool:
         if message.migrate_from_chat_id:
             logger.debug(
                 "SaveChatsMiddleware: Handling migration from chat",
@@ -161,7 +145,7 @@ class SaveChatsMiddleware(BaseMiddleware):
         return False
 
     async def _handle_private_and_group_message(
-        self, data: MiddlewareData, message: Message
+        self, data: dict[str, Any], message: Message
     ) -> tuple[ChatModel, ChatModel]:
         if message.chat.type == ChatType.PRIVATE and message.from_user:
             logger.debug("SaveChatsMiddleware: Handling private message", user_id=message.from_user.id)
@@ -227,7 +211,7 @@ class SaveChatsMiddleware(BaseMiddleware):
             await self._delete_user_in_chat_by_user_id(message.left_chat_member.id, group)
 
     @staticmethod
-    async def save_from_user(data: MiddlewareData) -> None:
+    async def save_from_user(data: dict[str, Any]) -> None:
         if not (from_user := data.get("event_from_user")):
             return
         if not isinstance(from_user, User):
@@ -251,10 +235,10 @@ class SaveChatsMiddleware(BaseMiddleware):
     @override
     async def __call__(
         self,
-        handler: Callable[[TelegramObject, MiddlewareData], Awaitable[HandlerResult]],
+        handler: Callable[[TelegramObject, dict[str, Any]], Awaitable[Any]],
         event: TelegramObject,
-        data: MiddlewareData,
-    ) -> HandlerResult:
+        data: dict[str, Any],
+    ) -> Any:
         continue_ = True
         if not isinstance(event, Update):
             return await handler(event, data)

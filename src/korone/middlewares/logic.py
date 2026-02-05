@@ -1,18 +1,15 @@
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Any
 
 from aiogram import BaseMiddleware
-from aiogram.types import TelegramObject
 
 from korone.logger import get_logger
 
 if TYPE_CHECKING:
     from collections.abc import Awaitable, Callable
 
-logger = get_logger(__name__)
+    from aiogram.types import TelegramObject
 
-type HandlerResult = TelegramObject | bool | None
-type MiddlewareDataValue = str | int | float | bool | TelegramObject | dict[str, str | int | float | bool | None] | None
-type MiddlewareData = dict[str, MiddlewareDataValue]
+logger = get_logger(__name__)
 
 
 class OrMiddleware(BaseMiddleware):
@@ -22,11 +19,8 @@ class OrMiddleware(BaseMiddleware):
         self.middlewares = middlewares
 
     async def __call__(
-        self,
-        handler: Callable[[TelegramObject, MiddlewareData], Awaitable[HandlerResult]],
-        event: TelegramObject,
-        data: MiddlewareData,
-    ) -> HandlerResult:
+        self, handler: Callable[[TelegramObject, Any], Awaitable[Any]], event: TelegramObject, data: Any
+    ) -> Any:
         last_exception: BaseException | None = None
 
         for middleware in self.middlewares:

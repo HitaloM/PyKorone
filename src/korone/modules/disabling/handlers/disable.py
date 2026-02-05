@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Any
 
 from aiogram import flags
 from ass_tg.types import WordArg
@@ -21,13 +21,11 @@ if TYPE_CHECKING:
     from aiogram.types import Message
     from ass_tg.types.base_abc import ArgFabric
 
-    from korone.utils.handlers import HandlerData
-
 
 @flags.help(description=l_("Disables the command."))
 class DisableHandler(KoroneMessageHandler):
     @classmethod
-    async def handler_args(cls, message: Message | None, data: HandlerData) -> dict[str, ArgFabric]:
+    async def handler_args(cls, message: Message | None, data: dict[str, Any]) -> dict[str, ArgFabric]:
         return {"cmd": WordArg(l_("Command"))}
 
     @staticmethod

@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Any
 
 from aiogram import flags
 from aiogram.enums import ChatType
@@ -21,14 +21,13 @@ if TYPE_CHECKING:
     from ass_tg.types.base_abc import ArgFabric
 
     from korone.db.models.chat import ChatModel
-    from korone.utils.handlers import HandlerData
 
 
 @flags.help(description=l_("Shows the additional information about the user."))
 @flags.disableable(name="info")
 class UserInfoHandler(KoroneMessageHandler):
     @classmethod
-    async def handler_args(cls, message: Message | None, data: HandlerData) -> dict[str, ArgFabric]:
+    async def handler_args(cls, message: Message | None, data: dict[str, Any]) -> dict[str, ArgFabric]:
         return {"user": OptionalArg(KoroneUserArg(l_("User")))}
 
     @staticmethod

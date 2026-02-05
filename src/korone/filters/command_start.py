@@ -3,7 +3,7 @@ from __future__ import annotations
 from decimal import Decimal
 from enum import Enum
 from fractions import Fraction
-from typing import TYPE_CHECKING, ClassVar, Self, TypeVar
+from typing import TYPE_CHECKING, Any, ClassVar, Self, TypeVar, cast
 from uuid import UUID
 
 from aiogram.filters import Filter
@@ -59,14 +59,19 @@ class CmdStart(BaseModel):
     __separator__: ClassVar[str] = "_"
     __prefix__: ClassVar[str]
 
-    def __init_subclass__(cls, **kwargs: str) -> None:
+    def __init_subclass__(cls, **kwargs: dict[str, Any]) -> None:
         if "prefix" not in kwargs:
             msg = "prefix required"
             raise ValueError(msg)
 
-        cls.__prefix__ = kwargs.pop("prefix")
+        prefix = kwargs.pop("prefix")
+        if not isinstance(prefix, str):
+            msg = "prefix must be a string"
+            raise TypeError(msg)
 
-        super().__init_subclass__(**kwargs)
+        cls.__prefix__ = prefix
+
+        super().__init_subclass__(**cast("dict[str, Any]", kwargs))
 
     @staticmethod
     def _encode_value(key: str, *, value: str | Enum | UUID | bool | float | Decimal | Fraction) -> str:
@@ -111,10 +116,10 @@ class CmdStart(BaseModel):
             raise ValueError(msg)
         payload = {}
         for k, v in zip(names, parts):
-            value: str | None = (
+            field_value: str | None = (
                 None if (field := cls.model_fields.get(k)) and not v and _check_field_is_nullable(field) else v
             )
-            payload[k] = value
+            payload[k] = field_value
         return cls(**payload)
 
     @classmethod

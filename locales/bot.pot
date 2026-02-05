@@ -1,77 +1,77 @@
-#: src/korone/args/users.py:28
+#: src/korone/args/users.py:29
 msgid "User ID (Numeric)"
 msgstr ""
 
-#: src/korone/args/users.py:28
+#: src/korone/args/users.py:29
 msgid "User IDs (Numeric)"
 msgstr ""
 
-#: src/korone/args/users.py:42
+#: src/korone/args/users.py:43
 msgid "Could not find the requested User ID in the database."
 msgstr ""
 
-#: src/korone/args/users.py:53
+#: src/korone/args/users.py:54
 msgid "Username (starts with @)"
 msgstr ""
 
-#: src/korone/args/users.py:53
+#: src/korone/args/users.py:54
 msgid "Usernames (starts with @)"
 msgstr ""
 
-#: src/korone/args/users.py:65
+#: src/korone/args/users.py:66
 msgid "Could not find the requested Username in the database."
 msgstr ""
 
-#: src/korone/args/users.py:75
+#: src/korone/args/users.py:76
 msgid "User mention"
 msgstr ""
 
-#: src/korone/args/users.py:75
+#: src/korone/args/users.py:76
 msgid "User mentions"
 msgstr ""
 
-#: src/korone/args/users.py:83
+#: src/korone/args/users.py:84
 msgid "No mention entity found at offset."
 msgstr ""
 
-#: src/korone/args/users.py:96
+#: src/korone/args/users.py:97
 msgid "Could not find the mentioned user in the database."
 msgstr ""
 
-#: src/korone/args/users.py:120
+#: src/korone/args/users.py:121
 msgid "User: 'User ID (numeric) / Username (starts with @) / Mention (links to users)'"
 msgstr ""
 
-#: src/korone/args/users.py:121
+#: src/korone/args/users.py:122
 msgid "Users: 'User IDs (numeric) / Usernames (starts with @) / Mentions (links to users)'"
 msgstr ""
 
-#: src/korone/args/users.py:127
+#: src/korone/args/users.py:130
 msgid "User ID"
 msgstr ""
 
-#: src/korone/args/users.py:128 src/korone/modules/lastfm/handlers/set.py:61
-#: src/korone/modules/users/handlers/info.py:68
+#: src/korone/args/users.py:131 src/korone/modules/lastfm/handlers/set.py:59
+#: src/korone/modules/users/handlers/info.py:67
 msgid "Username"
 msgstr ""
 
-#: src/korone/args/users.py:130
+#: src/korone/args/users.py:133
 msgid "A link to user, usually creates by mentioning a user without username."
 msgstr ""
 
-#: src/korone/filters/admin_rights.py:110
+#: src/korone/filters/admin_rights.py:116
 msgid "I don't have the following permissions to do this:"
 msgstr ""
 
-#: src/korone/filters/admin_rights.py:112
+#: src/korone/filters/admin_rights.py:118
 msgid "You don't have the following permissions to do this:"
 msgstr ""
 
-#: src/korone/filters/admin_rights.py:117
+#: src/korone/filters/admin_rights.py:123
 msgid "I must be an administrator to use this command."
 msgstr ""
 
-#: src/korone/filters/admin_rights.py:119
+#: src/korone/filters/admin_rights.py:125
 msgid "You must be an administrator to use this command."
 msgstr ""
 
@@ -83,7 +83,7 @@ msgstr ""
 msgid "This command can only be used in private chats."
 msgstr ""
 
-#: src/korone/middlewares/chat_context.py:51
+#: src/korone/middlewares/chat_context.py:36
 msgid "Private chat"
 msgstr ""
 
@@ -103,37 +103,37 @@ msgstr ""
 msgid "Useful for restricting bot functionality to only necessary commands."
 msgstr ""
 
-#: src/korone/modules/disabling/handlers/disable.py:27
+#: src/korone/modules/disabling/handlers/disable.py:25
 msgid "Disables the command."
 msgstr ""
 
-#: src/korone/modules/disabling/handlers/disable.py:31
-#: src/korone/modules/disabling/handlers/disable.py:59
-#: src/korone/modules/disabling/handlers/enable.py:31
-#: src/korone/modules/disabling/handlers/enable.py:60
+#: src/korone/modules/disabling/handlers/disable.py:29
+#: src/korone/modules/disabling/handlers/disable.py:57
+#: src/korone/modules/disabling/handlers/enable.py:29
+#: src/korone/modules/disabling/handlers/enable.py:58
 msgid "Command"
 msgstr ""
 
-#: src/korone/modules/disabling/handlers/disable.py:47
-#: src/korone/modules/disabling/handlers/enable.py:47
+#: src/korone/modules/disabling/handlers/disable.py:45
+#: src/korone/modules/disabling/handlers/enable.py:45
 #, python-brace-format
 msgid "Command {cmd} not found."
 msgstr ""
 
-#: src/korone/modules/disabling/handlers/disable.py:51
-#: src/korone/modules/disabling/handlers/enable.py:51
+#: src/korone/modules/disabling/handlers/disable.py:49
+#: src/korone/modules/disabling/handlers/enable.py:49
 #, python-brace-format
 msgid "Command {cmd} is already disabled."
 msgstr ""
 
-#: src/korone/modules/disabling/handlers/disable.py:58
-#: src/korone/modules/disabling/handlers/enable.py:59
-#: src/korone/modules/utils_/status_handler.py:50
-#: src/korone/modules/utils_/status_handler.py:74
+#: src/korone/modules/disabling/handlers/disable.py:56
+#: src/korone/modules/disabling/handlers/enable.py:57
+#: src/korone/modules/utils_/status_handler.py:51
+#: src/korone/modules/utils_/status_handler.py:75
 msgid "Chat"
 msgstr ""
 
-#: src/korone/modules/disabling/handlers/disable.py:61
+#: src/korone/modules/disabling/handlers/disable.py:59
 msgid "Command disabled"
 msgstr ""
 
@@ -157,11 +157,11 @@ msgstr ""
 msgid "Disabled commands"
 msgstr ""
 
-#: src/korone/modules/disabling/handlers/enable.py:27
+#: src/korone/modules/disabling/handlers/enable.py:25
 msgid "Enables previously disabled command."
 msgstr ""
 
-#: src/korone/modules/disabling/handlers/enable.py:62
+#: src/korone/modules/disabling/handlers/enable.py:60
 msgid "Command enabled"
 msgstr ""
 
@@ -479,28 +479,28 @@ msgstr ""
 msgid "No devices found"
 msgstr ""
 
-#: src/korone/modules/gsm_arena/handlers/search.py:29
+#: src/korone/modules/gsm_arena/handlers/search.py:28
 msgid "Search device specifications on GSMArena."
 msgstr ""
 
-#: src/korone/modules/gsm_arena/handlers/search.py:34
+#: src/korone/modules/gsm_arena/handlers/search.py:33
 msgid "Device"
 msgstr ""
 
-#: src/korone/modules/gsm_arena/handlers/search.py:42
+#: src/korone/modules/gsm_arena/handlers/search.py:41
 msgid "No devices found."
 msgstr ""
 
-#: src/korone/modules/gsm_arena/handlers/search.py:50
+#: src/korone/modules/gsm_arena/handlers/search.py:49
 msgid "Error fetching device details. Please try again later."
 msgstr ""
 
-#: src/korone/modules/gsm_arena/handlers/search.py:54
+#: src/korone/modules/gsm_arena/handlers/search.py:53
 #, python-brace-format
 msgid "Search results for: <b>{query}</b>"
 msgstr ""
 
-#: src/korone/modules/gsm_arena/handlers/search.py:61
+#: src/korone/modules/gsm_arena/handlers/search.py:60
 msgid "You should provide a device name to search. Example: <code>/device Galaxy S24</code>."
 msgstr ""
 
@@ -806,16 +806,16 @@ msgstr ""
 msgid "Shows the artist info for your current track on Last.fm."
 msgstr ""
 
-#: src/korone/modules/lastfm/handlers/collage.py:36
+#: src/korone/modules/lastfm/handlers/collage.py:35
 msgid "Generates a Last.fm collage of your top albums."
 msgstr ""
 
-#: src/korone/modules/lastfm/handlers/collage.py:41
-#: src/korone/modules/lastfm/handlers/top.py:39
+#: src/korone/modules/lastfm/handlers/collage.py:40
+#: src/korone/modules/lastfm/handlers/top.py:37
 msgid "Args"
 msgstr ""
 
-#: src/korone/modules/lastfm/handlers/collage.py:65
+#: src/korone/modules/lastfm/handlers/collage.py:64
 msgid "No top albums found for your Last.fm account."
 msgstr ""
 
@@ -893,59 +893,59 @@ msgstr ""
 msgid "No recent tracks found."
 msgstr ""
 
-#: src/korone/modules/lastfm/handlers/set.py:37
+#: src/korone/modules/lastfm/handlers/set.py:35
 msgid "Last.fm username must not contain spaces or special characters!"
 msgstr ""
 
-#: src/korone/modules/lastfm/handlers/set.py:41
+#: src/korone/modules/lastfm/handlers/set.py:39
 #: src/korone/modules/lastfm/utils/commons.py:28
 msgid "Could not identify your user."
 msgstr ""
 
-#: src/korone/modules/lastfm/handlers/set.py:52
+#: src/korone/modules/lastfm/handlers/set.py:50
 msgid "Last.fm username set successfully!"
 msgstr ""
 
-#: src/korone/modules/lastfm/handlers/set.py:56
+#: src/korone/modules/lastfm/handlers/set.py:54
 msgid "Set your Last.fm username."
 msgstr ""
 
-#: src/korone/modules/lastfm/handlers/set.py:73
+#: src/korone/modules/lastfm/handlers/set.py:71
 msgid "Reply with your Last.fm username."
 msgstr ""
 
-#: src/korone/modules/lastfm/handlers/top.py:34
+#: src/korone/modules/lastfm/handlers/top.py:32
 msgid "Shows your top artists, tracks, or albums from Last.fm."
 msgstr ""
 
-#: src/korone/modules/lastfm/handlers/top.py:58
+#: src/korone/modules/lastfm/handlers/top.py:56
 msgid "Invalid entry type! Use one of the following: artist, track, album"
 msgstr ""
 
-#: src/korone/modules/lastfm/handlers/top.py:69
+#: src/korone/modules/lastfm/handlers/top.py:67
 msgid "No top items found."
 msgstr ""
 
-#: src/korone/modules/lastfm/handlers/top.py:88
+#: src/korone/modules/lastfm/handlers/top.py:86
 msgid "artists"
 msgstr ""
 
-#: src/korone/modules/lastfm/handlers/top.py:88
+#: src/korone/modules/lastfm/handlers/top.py:86
 msgid "tracks"
 msgstr ""
 
-#: src/korone/modules/lastfm/handlers/top.py:88
+#: src/korone/modules/lastfm/handlers/top.py:86
 msgid "albums"
 msgstr ""
 
-#: src/korone/modules/lastfm/handlers/top.py:92
+#: src/korone/modules/lastfm/handlers/top.py:90
 #, python-brace-format
 msgid ""
 "{user}'s top 5 {entry} for {period}:\n"
 "\n"
 msgstr ""
 
-#: src/korone/modules/lastfm/handlers/top.py:101
+#: src/korone/modules/lastfm/handlers/top.py:99
 #, python-brace-format
 msgid " -> {scrobbles} plays\n"
 msgstr ""
@@ -1166,7 +1166,7 @@ msgstr ""
 msgid "Update complete. Restarting now..."
 msgstr ""
 
-#: src/korone/modules/op/utils.py:73
+#: src/korone/modules/op/utils.py:74
 #, python-brace-format
 msgid "Restart complete in {seconds}s."
 msgstr ""
@@ -1349,109 +1349,109 @@ msgstr ""
 msgid "Admins"
 msgstr ""
 
-#: src/korone/modules/users/handlers/id.py:28
+#: src/korone/modules/users/handlers/id.py:27
 msgid "Show user and chat IDs"
 msgstr ""
 
-#: src/korone/modules/users/handlers/id.py:34
-#: src/korone/modules/users/handlers/info.py:32
+#: src/korone/modules/users/handlers/id.py:33
+#: src/korone/modules/users/handlers/info.py:31
 msgid "User"
 msgstr ""
 
-#: src/korone/modules/users/handlers/id.py:47
+#: src/korone/modules/users/handlers/id.py:46
 #, python-brace-format
 msgid "Your ID: {id}"
 msgstr ""
 
-#: src/korone/modules/users/handlers/id.py:50
+#: src/korone/modules/users/handlers/id.py:49
 #, python-brace-format
 msgid "Chat ID: {id}"
 msgstr ""
 
-#: src/korone/modules/users/handlers/id.py:53
+#: src/korone/modules/users/handlers/id.py:52
 #, python-brace-format
 msgid "Topic ID: {id}"
 msgstr ""
 
-#: src/korone/modules/users/handlers/id.py:57
+#: src/korone/modules/users/handlers/id.py:56
 #, python-brace-format
 msgid "Replied user ID: {id}"
 msgstr ""
 
-#: src/korone/modules/users/handlers/id.py:62
+#: src/korone/modules/users/handlers/id.py:61
 #, python-brace-format
 msgid "{user}'s ID: {id}"
 msgstr ""
 
-#: src/korone/modules/users/handlers/info.py:27
+#: src/korone/modules/users/handlers/info.py:26
 msgid "Shows the additional information about the user."
 msgstr ""
 
-#: src/korone/modules/users/handlers/info.py:53
+#: src/korone/modules/users/handlers/info.py:52
 msgid "Could not identify user."
 msgstr ""
 
-#: src/korone/modules/users/handlers/info.py:59
+#: src/korone/modules/users/handlers/info.py:58
 msgid "User Information"
 msgstr ""
 
-#: src/korone/modules/users/handlers/info.py:61
+#: src/korone/modules/users/handlers/info.py:60
 msgid "ID"
 msgstr ""
 
-#: src/korone/modules/users/handlers/info.py:62
+#: src/korone/modules/users/handlers/info.py:61
 msgid "First Name"
 msgstr ""
 
-#: src/korone/modules/users/handlers/info.py:65
+#: src/korone/modules/users/handlers/info.py:64
 msgid "Last Name"
 msgstr ""
 
-#: src/korone/modules/users/handlers/info.py:71
+#: src/korone/modules/users/handlers/info.py:70
 msgid "User Link"
 msgstr ""
 
-#: src/korone/modules/users/handlers/info.py:77
+#: src/korone/modules/users/handlers/info.py:76
 msgid "This user is the owner of this chat."
 msgstr ""
 
-#: src/korone/modules/users/handlers/info.py:79
+#: src/korone/modules/users/handlers/info.py:78
 msgid "This user is an admin in this chat."
 msgstr ""
 
-#: src/korone/modules/users/handlers/info.py:83
+#: src/korone/modules/users/handlers/info.py:82
 msgid "Shared Chats"
 msgstr ""
 
-#: src/korone/modules/utils_/reply_or_edit.py:17
-#: src/korone/utils/handlers.py:111 src/korone/utils/handlers.py:128
-#: src/korone/utils/handlers.py:130 src/korone/utils/handlers.py:139
+#: src/korone/modules/utils_/reply_or_edit.py:22
+#: src/korone/utils/handlers.py:84 src/korone/utils/handlers.py:101
+#: src/korone/utils/handlers.py:103 src/korone/utils/handlers.py:112
 msgid "The message is inaccessible. Please write the command again"
 msgstr ""
 
-#: src/korone/modules/utils_/status_handler.py:32
+#: src/korone/modules/utils_/status_handler.py:33
 msgid "?New status"
 msgstr ""
 
-#: src/korone/modules/utils_/status_handler.py:54
+#: src/korone/modules/utils_/status_handler.py:55
 #, python-brace-format
 msgid "Use '{cmd}' to change it."
 msgstr ""
 
-#: src/korone/modules/utils_/status_handler.py:64
+#: src/korone/modules/utils_/status_handler.py:65
 #, python-brace-format
 msgid "The current status is already {state}"
 msgstr ""
 
-#: src/korone/modules/utils_/status_handler.py:72
+#: src/korone/modules/utils_/status_handler.py:73
 msgid "The state was successfully changed"
 msgstr ""
 
-#: src/korone/modules/utils_/status_handler.py:89
+#: src/korone/modules/utils_/status_handler.py:90
 msgid "Enabled"
 msgstr ""
 
-#: src/korone/modules/utils_/status_handler.py:89
+#: src/korone/modules/utils_/status_handler.py:90
 msgid "Disabled"
 msgstr ""
 
@@ -1467,96 +1467,96 @@ msgstr ""
 msgid "Get IP details and WHOIS information for domains."
 msgstr ""
 
-#: src/korone/modules/web/handlers/ip.py:26
-#: src/korone/modules/web/handlers/ip.py:133
+#: src/korone/modules/web/handlers/ip.py:25
+#: src/korone/modules/web/handlers/ip.py:132
 msgid "IP"
 msgstr ""
 
-#: src/korone/modules/web/handlers/ip.py:27
+#: src/korone/modules/web/handlers/ip.py:26
 msgid "Hostname"
 msgstr ""
 
-#: src/korone/modules/web/handlers/ip.py:28
+#: src/korone/modules/web/handlers/ip.py:27
 msgid "City"
 msgstr ""
 
-#: src/korone/modules/web/handlers/ip.py:29
+#: src/korone/modules/web/handlers/ip.py:28
 msgid "Region"
 msgstr ""
 
-#: src/korone/modules/web/handlers/ip.py:30
+#: src/korone/modules/web/handlers/ip.py:29
 msgid "Country"
 msgstr ""
 
-#: src/korone/modules/web/handlers/ip.py:31
+#: src/korone/modules/web/handlers/ip.py:30
 msgid "Location"
 msgstr ""
 
-#: src/korone/modules/web/handlers/ip.py:32
+#: src/korone/modules/web/handlers/ip.py:31
 msgid "Organization"
 msgstr ""
 
-#: src/korone/modules/web/handlers/ip.py:33
+#: src/korone/modules/web/handlers/ip.py:32
 msgid "Postal"
 msgstr ""
 
-#: src/korone/modules/web/handlers/ip.py:34
+#: src/korone/modules/web/handlers/ip.py:33
 msgid "Timezone"
 msgstr ""
 
-#: src/korone/modules/web/handlers/ip.py:38
+#: src/korone/modules/web/handlers/ip.py:37
 msgid "Shows information about an IP or domain."
 msgstr ""
 
-#: src/korone/modules/web/handlers/ip.py:43
+#: src/korone/modules/web/handlers/ip.py:42
 msgid "IP or domain"
 msgstr ""
 
-#: src/korone/modules/web/handlers/ip.py:54
+#: src/korone/modules/web/handlers/ip.py:53
 msgid "You should provide an IP address or domain. Example: <code>/ip google.com</code>."
 msgstr ""
 
-#: src/korone/modules/web/handlers/ip.py:60
+#: src/korone/modules/web/handlers/ip.py:59
 msgid "No valid IP addresses or domains found in the provided input."
 msgstr ""
 
-#: src/korone/modules/web/handlers/ip.py:71
+#: src/korone/modules/web/handlers/ip.py:70
 msgid "Please select an IP address:"
 msgstr ""
 
-#: src/korone/modules/web/handlers/ip.py:76
-#: src/korone/modules/web/handlers/ip.py:105
+#: src/korone/modules/web/handlers/ip.py:75
+#: src/korone/modules/web/handlers/ip.py:104
 #, python-brace-format
 msgid "No information found for {ip_or_domain}."
 msgstr ""
 
-#: src/korone/modules/web/handlers/ip.py:82
-#: src/korone/modules/web/handlers/ip.py:112
+#: src/korone/modules/web/handlers/ip.py:81
+#: src/korone/modules/web/handlers/ip.py:111
 #, python-brace-format
 msgid "The provided IP address <code>{ip}</code> is a <i>bogon</i> IP address, meaning it is either not in use or reserved for special use."
 msgstr ""
 
-#: src/korone/modules/web/handlers/ip.py:124
+#: src/korone/modules/web/handlers/ip.py:123
 msgid "IP Information"
 msgstr ""
 
-#: src/korone/modules/web/handlers/whois.py:26
+#: src/korone/modules/web/handlers/whois.py:25
 msgid "Shows WHOIS information about a domain."
 msgstr ""
 
-#: src/korone/modules/web/handlers/whois.py:31
+#: src/korone/modules/web/handlers/whois.py:30
 msgid "Domain"
 msgstr ""
 
-#: src/korone/modules/web/handlers/whois.py:42
+#: src/korone/modules/web/handlers/whois.py:41
 msgid "You should provide a domain name. Example: <code>/whois example.com</code>."
 msgstr ""
 
-#: src/korone/modules/web/handlers/whois.py:49
+#: src/korone/modules/web/handlers/whois.py:48
 #, python-brace-format
 msgid "No WHOIS information found for <code>{domain}</code>."
 msgstr ""
 
-#: src/korone/modules/web/handlers/whois.py:52
+#: src/korone/modules/web/handlers/whois.py:51
 msgid "WHOIS Information"
 msgstr ""

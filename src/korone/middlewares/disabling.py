@@ -1,9 +1,9 @@
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Any
 
 from aiogram import BaseMiddleware
 from aiogram.dispatcher.event.bases import SkipHandler
 from aiogram.dispatcher.flags import get_flag
-from aiogram.types import Message, TelegramObject
+from aiogram.types import Message
 
 from korone.db.repositories.disabling import DisablingRepository
 from korone.logger import get_logger
@@ -12,22 +12,18 @@ from korone.modules.utils_.admin import is_user_admin
 if TYPE_CHECKING:
     from collections.abc import Awaitable, Callable
 
-logger = get_logger(__name__)
+    from aiogram.types import TelegramObject
 
-type HandlerResult = TelegramObject | bool | None
-type MiddlewareDataValue = (
-    str | int | float | bool | TelegramObject | list[str] | dict[str, str | int | float | bool | None] | None
-)
-type MiddlewareData = dict[str, MiddlewareDataValue]
+logger = get_logger(__name__)
 
 
 class DisablingMiddleware(BaseMiddleware):
     async def __call__(
         self,
-        handler: Callable[[TelegramObject, MiddlewareData], Awaitable[HandlerResult]],
+        handler: Callable[[TelegramObject, dict[str, Any]], Awaitable[Any]],
         event: TelegramObject,
-        data: MiddlewareData,
-    ) -> HandlerResult:
+        data: dict[str, Any],
+    ) -> Any:
         if isinstance(event, Message):
             chat_id = event.chat.id
             disabled = await DisablingRepository.get_disabled(chat_id)

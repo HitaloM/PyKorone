@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Any
 
 from aiogram import flags
 from aiogram.utils.chat_action import ChatActionSender
@@ -21,7 +21,6 @@ if TYPE_CHECKING:
     from ass_tg.types.base_abc import ArgFabric
 
     from korone.modules.gsm_arena.utils.types import PhoneSearchResult
-    from korone.utils.handlers import HandlerData
 
 logger = get_logger(__name__)
 
@@ -30,7 +29,7 @@ logger = get_logger(__name__)
 @flags.disableable(name="device")
 class DeviceSearchHandler(KoroneMessageHandler):
     @classmethod
-    async def handler_args(cls, message: Message | None, data: HandlerData) -> dict[str, ArgFabric]:
+    async def handler_args(cls, message: Message | None, data: dict[str, Any]) -> dict[str, ArgFabric]:
         return {"device": TextArg(l_("Device"))}
 
     @staticmethod

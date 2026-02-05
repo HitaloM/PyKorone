@@ -3,16 +3,10 @@ from __future__ import annotations
 from abc import ABC, abstractmethod
 from typing import TYPE_CHECKING, Any, TypeVar, cast
 
-from aiogram.filters.callback_data import CallbackData
-from aiogram.fsm.context import FSMContext
 from aiogram.handlers import BaseHandler, BaseHandlerMixin
-from aiogram.types import CallbackQuery, InaccessibleMessage, InputMediaPhoto, Message, TelegramObject
-from aiogram.utils.i18n import I18n
-from ass_tg.types.base_abc import ArgFabric
+from aiogram.types import CallbackQuery, InaccessibleMessage, InputMediaPhoto, Message
 
 from korone import bot
-from korone.db.models.chat import ChatModel, UserInGroupModel
-from korone.middlewares.chat_context import ChatContext
 from korone.modules.utils_.reply_or_edit import reply_or_edit
 from korone.utils.exception import KoroneError
 from korone.utils.i18n import gettext as _
@@ -20,36 +14,15 @@ from korone.utils.i18n import gettext as _
 if TYPE_CHECKING:
     from aiogram import Router
     from aiogram.dispatcher.event.handler import CallbackType
-    from aiogram.types import InputFile
+    from aiogram.filters.callback_data import CallbackData
+    from aiogram.fsm.context import FSMContext
+    from aiogram.types import InlineKeyboardMarkup, InputFile, ReplyKeyboardMarkup
+    from ass_tg.types.base_abc import ArgFabric
     from stfu_tg.doc import Element
 
-T = TypeVar("T")
+    from korone.middlewares.chat_context import ChatContext
 
-type HandlerResult = TelegramObject | bool | None
-type JsonPrimitive = str | int | float | bool | None
-type JsonDict = dict[str, JsonPrimitive]
-type HandlerArgsMap = dict[str, ArgFabric]
-type HandlerDataValue = (
-    str
-    | int
-    | float
-    | bool
-    | TelegramObject
-    | list[TelegramObject]
-    | list[str]
-    | list[int]
-    | JsonDict
-    | ChatContext
-    | ChatModel
-    | UserInGroupModel
-    | FSMContext
-    | I18n
-    | CallbackData
-    | ArgFabric
-    | HandlerArgsMap
-    | None
-)
-type HandlerData = dict[str, HandlerDataValue]
+T = TypeVar("T")
 
 
 class KoroneBaseHandler(BaseHandler[T], BaseHandlerMixin[T], ABC):
@@ -73,7 +46,7 @@ class KoroneBaseHandler(BaseHandler[T], BaseHandlerMixin[T], ABC):
 
 class KoroneMessageHandler(KoroneBaseHandler[Message], ABC):
     @classmethod
-    async def handler_args(cls, message: Message | None, data: HandlerData) -> dict[str, ArgFabric]:
+    async def handler_args(cls, message: Message | None, data: dict[str, Any]) -> dict[str, ArgFabric]:
         return {}
 
     @staticmethod
@@ -110,7 +83,7 @@ class KoroneCallbackQueryHandler(KoroneBaseHandler[CallbackQuery], ABC):
         if not self.event.message or isinstance(self.event.message, InaccessibleMessage):
             raise KoroneError(_("The message is inaccessible. Please write the command again"))
 
-    async def edit_text(self, text: Element | str, **kwargs: object) -> None:
+    async def edit_text(self, text: Element | str, **kwargs: dict[str, Any] | bool | InlineKeyboardMarkup) -> None:
         await self.check_for_message()
         message = cast("Message", self.event.message)
         await message.edit_text(str(text), **cast("Any", kwargs))
@@ -134,7 +107,7 @@ class KoroneMessageCallbackQueryHandler(KoroneBaseHandler[Message | CallbackQuer
     def callback_data(self) -> CallbackData | str | None:
         return self.data.get("callback_data")
 
-    async def answer_media(self, f: InputFile, caption: str | None = None, **kwargs: object) -> Message | bool:
+    async def answer_media(self, f: InputFile, caption: str | None = None, **kwargs: dict[str, Any]) -> Message | bool:
         if isinstance(self.event, InaccessibleMessage):
             raise KoroneError(_("The message is inaccessible. Please write the command again"))
         if isinstance(self.event, CallbackQuery) and self.event.message:
@@ -149,5 +122,7 @@ class KoroneMessageCallbackQueryHandler(KoroneBaseHandler[Message | CallbackQuer
         msg = "answer_media: Wrong event type"
         raise ValueError(msg)
 
-    async def answer(self, text: Element | str, **kwargs: object) -> Message | bool:
+    async def answer(
+        self, text: Element | str, **kwargs: dict[str, Any] | InlineKeyboardMarkup | ReplyKeyboardMarkup
+    ) -> Message | bool:
         return await reply_or_edit(self.event, text, **kwargs)

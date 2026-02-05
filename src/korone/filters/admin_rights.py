@@ -31,21 +31,18 @@ class UserRestricting(Filter):
     can_invite_users: bool = False
     can_pin_messages: bool = False
 
-    ARGUMENTS: dict[str, str] = field(
-        default_factory=lambda: {
-            "user_admin": "admin",
-            "user_can_post_messages": "can_post_messages",
-            "user_can_edit_messages": "can_edit_messages",
-            "user_can_delete_messages": "can_delete_messages",
-            "user_can_restrict_members": "can_restrict_members",
-            "user_can_promote_members": "can_promote_members",
-            "user_can_change_info": "can_change_info",
-            "user_can_invite_users": "can_invite_users",
-            "user_can_pin_messages": "can_pin_messages",
-        },
-        repr=False,
-    )
-    PAYLOAD_ARGUMENT_NAME: str = field(default="user_member", repr=False)
+    ARGUMENTS: ClassVar[dict[str, str]] = {
+        "user_admin": "admin",
+        "user_can_post_messages": "can_post_messages",
+        "user_can_edit_messages": "can_edit_messages",
+        "user_can_delete_messages": "can_delete_messages",
+        "user_can_restrict_members": "can_restrict_members",
+        "user_can_promote_members": "can_promote_members",
+        "user_can_change_info": "can_change_info",
+        "user_can_invite_users": "can_invite_users",
+        "user_can_pin_messages": "can_pin_messages",
+    }
+    PAYLOAD_ARGUMENT_NAME: ClassVar[str] = "user_member"
 
     required_permissions: list[str] = field(default_factory=list, init=False, repr=False)
 
@@ -73,7 +70,16 @@ class UserRestricting(Filter):
 
     async def __call__(self, event: TelegramObject) -> bool | dict[str, bool | list[str]]:
         user_id = await self.get_target_id(event)
-        message = event.message if hasattr(event, "message") else event
+
+        if isinstance(event, CallbackQuery):
+            message = event.message
+        elif isinstance(event, Message):
+            message = event
+        else:
+            return True
+
+        if message is None:
+            return True
 
         chat = getattr(message, "chat", None)
         if chat is None:

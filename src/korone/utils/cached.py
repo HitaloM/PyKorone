@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 import functools
-from typing import TYPE_CHECKING, ParamSpec, TypeVar, cast, overload
+from typing import TYPE_CHECKING, Any, TypeVar, cast
 
 import ujson
 
@@ -14,7 +14,6 @@ if TYPE_CHECKING:
 type JsonValue = str | int | float | bool | list[JsonValue] | dict[str, JsonValue] | None
 
 T = TypeVar("T", bound=JsonValue)
-P = ParamSpec("P")
 
 _NOT_SET_MARKER = "__korone_not_set__"
 
@@ -39,28 +38,27 @@ def _deserialize(data: bytes | str) -> tuple[JsonValue | None, bool]:
     return None, False
 
 
-class Cached[T]:
+class Cached[T: JsonValue]:
     def __init__(self, ttl: float | None = None, key: str | None = None, *, no_self: bool = False) -> None:
         self.ttl = ttl
         self.key = key
         self.no_self = no_self
         self.func: Callable[..., Awaitable[T]] | None = None
 
-    @overload
-    def __call__(self, func: Callable[P, Awaitable[T]]) -> Cached[T]: ...
-
-    @overload
-    def __call__(self, *args: P.args, **kwargs: P.kwargs) -> Awaitable[T]: ...
-
-    def __call__(self, *args: P.args, **kwargs: P.kwargs) -> Cached[T] | Awaitable[T]:
+    def __call__(self, *args: Any, **kwargs: dict[str, Any]) -> Any:
         if self.func is None:
-            func = cast("Callable[P, Awaitable[T]]", args[0])
+            func = cast("Callable[..., Awaitable[T]]", args[0])
             self.func = func
             functools.update_wrapper(self, func)
-            return self
+
+            @functools.wraps(func)
+            async def wrapper(*w_args: Any, **w_kwargs: dict[str, Any]) -> T:
+                return await self._get_or_set(*w_args, **w_kwargs)
+
+            return cast("Callable[..., Awaitable[T]]", wrapper)
         return self._get_or_set(*args, **kwargs)
 
-    async def _get_or_set(self, *args: P.args, **kwargs: P.kwargs) -> T:
+    async def _get_or_set(self, *args: Any, **kwargs: dict[str, Any]) -> T:
         if self.func is None:
             msg = "Cached decorator not properly initialized"
             raise RuntimeError(msg)
@@ -78,7 +76,7 @@ class Cached[T]:
         await logger.adebug("Cached: writing new data", key=key)
         return result
 
-    def _build_key(self, *args: P.args, **kwargs: P.kwargs) -> str:
+    def _build_key(self, *args: Any, **kwargs: dict[str, Any]) -> str:
         if self.func is None:
             msg = "Cached decorator not properly initialized"
             raise RuntimeError(msg)
@@ -96,7 +94,7 @@ class Cached[T]:
 
         return new_key
 
-    async def reset_cache(self, *args: P.args, new_value: T | None = None, **kwargs: P.kwargs) -> int | None:
+    async def reset_cache(self, *args: Any, new_value: T | None = None, **kwargs: dict[str, Any]) -> int | None:
         key = self._build_key(*args, **kwargs)
         if new_value is not None:
             await set_value(key, cast("JsonValue", new_value), ttl=self.ttl)
