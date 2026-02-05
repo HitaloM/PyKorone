@@ -52,8 +52,18 @@ def format_tags(item: LastFMTrack | LastFMAlbum | LastFMArtist) -> str:
         return ""
 
     raw_tags = item.tags if isinstance(item.tags, list) else [item.tags]
+    seen: set[str] = set()
+    cleaned_tags: list[str] = []
+    for tag in raw_tags:
+        if not tag:
+            continue
+        cleaned = clean_tag_name(tag)
+        if cleaned in seen:
+            continue
+        seen.add(cleaned)
+        cleaned_tags.append(cleaned)
 
-    return " ".join(clean_tag_name(tag) for tag in raw_tags if tag)
+    return " ".join(cleaned_tags)
 
 
 def period_to_str(period: TimePeriod) -> str:
