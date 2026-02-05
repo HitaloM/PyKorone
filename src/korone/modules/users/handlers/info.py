@@ -38,9 +38,16 @@ class UserInfoHandler(KoroneMessageHandler):
     async def handle(self) -> None:
         target_user: ChatModel | None = self.data.get("user")
         if not target_user:
-            user = getattr(self.event, "from_user", None)
-            if user:
-                target_user = await ChatRepository.get_by_chat_id(user.id)
+            reply_user = None
+            if self.event.reply_to_message:
+                reply_user = self.event.reply_to_message.from_user
+
+            if reply_user:
+                target_user = await ChatRepository.upsert_user(reply_user)
+            else:
+                user = getattr(self.event, "from_user", None)
+                if user:
+                    target_user = await ChatRepository.get_by_chat_id(user.id) or await ChatRepository.upsert_user(user)
 
         if not target_user:
             await self.event.reply(_("Could not identify user."))
@@ -71,8 +78,8 @@ class UserInfoHandler(KoroneMessageHandler):
             elif await is_user_admin(chat_id, user_id):
                 doc += _("This user is an admin in this chat.") + "\n"
 
-        shared_chats_count = await UserInGroupRepository.count_user_groups(target_user.id)
-
-        doc += KeyValue(_("Shared Chats"), shared_chats_count)
+        if not (self.event.from_user and target_user.chat_id == self.event.from_user.id):
+            shared_chats_count = await UserInGroupRepository.count_user_groups(target_user.id)
+            doc += KeyValue(_("Shared Chats"), shared_chats_count)
 
         await self.event.reply(str(doc))

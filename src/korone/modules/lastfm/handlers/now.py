@@ -26,7 +26,7 @@ if TYPE_CHECKING:
 class LastFMNowHandler(KoroneMessageHandler):
     @staticmethod
     def filters() -> tuple[CallbackType, ...]:
-        return (CMDFilter(("lfm", "lastfm", "lmu")),)
+        return (CMDFilter(("lfm", "lastfm", "lmu", "np")),)
 
     async def handle(self) -> None:
         lastfm_username = await get_lastfm_user_or_reply(self.event)

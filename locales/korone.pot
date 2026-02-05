@@ -51,7 +51,7 @@ msgid "User ID"
 msgstr ""
 
 #: src/korone/args/users.py:128 src/korone/modules/lastfm/handlers/set.py:61
-#: src/korone/modules/users/handlers/info.py:61
+#: src/korone/modules/users/handlers/info.py:68
 msgid "Username"
 msgstr ""
 
@@ -59,19 +59,19 @@ msgstr ""
 msgid "A link to user, usually creates by mentioning a user without username."
 msgstr ""
 
-#: src/korone/filters/admin_rights.py:114
+#: src/korone/filters/admin_rights.py:109
 msgid "I don't have the following permissions to do this:"
 msgstr ""
 
-#: src/korone/filters/admin_rights.py:116
+#: src/korone/filters/admin_rights.py:111
 msgid "You don't have the following permissions to do this:"
 msgstr ""
 
-#: src/korone/filters/admin_rights.py:121
+#: src/korone/filters/admin_rights.py:116
 msgid "I must be an administrator to use this command."
 msgstr ""
 
-#: src/korone/filters/admin_rights.py:123
+#: src/korone/filters/admin_rights.py:118
 msgid "You must be an administrator to use this command."
 msgstr ""
 
@@ -1291,39 +1291,39 @@ msgstr ""
 msgid "Shows the additional information about the user."
 msgstr ""
 
-#: src/korone/modules/users/handlers/info.py:46
+#: src/korone/modules/users/handlers/info.py:53
 msgid "Could not identify user."
 msgstr ""
 
-#: src/korone/modules/users/handlers/info.py:52
+#: src/korone/modules/users/handlers/info.py:59
 msgid "User Information"
 msgstr ""
 
-#: src/korone/modules/users/handlers/info.py:54
+#: src/korone/modules/users/handlers/info.py:61
 msgid "ID"
 msgstr ""
 
-#: src/korone/modules/users/handlers/info.py:55
+#: src/korone/modules/users/handlers/info.py:62
 msgid "First Name"
 msgstr ""
 
-#: src/korone/modules/users/handlers/info.py:58
+#: src/korone/modules/users/handlers/info.py:65
 msgid "Last Name"
 msgstr ""
 
-#: src/korone/modules/users/handlers/info.py:64
+#: src/korone/modules/users/handlers/info.py:71
 msgid "User Link"
 msgstr ""
 
-#: src/korone/modules/users/handlers/info.py:70
+#: src/korone/modules/users/handlers/info.py:77
 msgid "This user is the owner of this chat."
 msgstr ""
 
-#: src/korone/modules/users/handlers/info.py:72
+#: src/korone/modules/users/handlers/info.py:79
 msgid "This user is an admin in this chat."
 msgstr ""
 
-#: src/korone/modules/users/handlers/info.py:76
+#: src/korone/modules/users/handlers/info.py:83
 msgid "Shared Chats"
 msgstr ""
 
