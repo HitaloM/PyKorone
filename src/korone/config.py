@@ -32,7 +32,7 @@ class Config(BaseSettings):
     devs_managed_languages: list[str] = ["en_US"]
     translation_url: str = "https://weblate.amanoteam.com/projects/korone/"
     news_channel: str = "https://t.me/PyKorone"
-    privacy_link: str = "https://pykorone.rtfd.io/en/latest/privacy.html"
+    privacy_link: str = "https://telegram.org/privacy-tpa"
     github_issues: str = "https://github.com/HitaloM/PyKorone/issues"
 
     default_locale: str = "en_US"
