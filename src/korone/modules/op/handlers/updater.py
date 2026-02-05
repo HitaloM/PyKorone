@@ -49,7 +49,7 @@ class GitCommandError(RuntimeError):
         self.stderr = stderr
 
 
-async def run_git(command: list[str], *, cwd: Path) -> tuple[int, str, str]:
+async def run_cmd(command: list[str], *, cwd: Path) -> tuple[int, str, str]:
     result = await run_process(command, stdout=PIPE, stderr=PIPE, cwd=cwd)
     stdout = (result.stdout or b"").decode().strip()
     stderr = (result.stderr or b"").decode().strip()
@@ -57,20 +57,20 @@ async def run_git(command: list[str], *, cwd: Path) -> tuple[int, str, str]:
 
 
 async def get_upstream(cwd: Path) -> str:
-    code, stdout, _stderr = await run_git(["git", "rev-parse", "--abbrev-ref", "--symbolic-full-name", "@{u}"], cwd=cwd)
+    code, stdout, _stderr = await run_cmd(["git", "rev-parse", "--abbrev-ref", "--symbolic-full-name", "@{u}"], cwd=cwd)
     if code != 0 or not stdout:
         return "origin/main"
     return stdout
 
 
 async def fetch_new_commits(cwd: Path) -> tuple[list[CommitInfo], str]:
-    code, stdout, stderr = await run_git(["git", "fetch", "--prune", "origin"], cwd=cwd)
+    code, stdout, stderr = await run_cmd(["git", "fetch", "--prune", "origin"], cwd=cwd)
     if code != 0:
         raise GitCommandError(["git", "fetch", "--prune", "origin"], stdout, stderr)
 
     upstream = await get_upstream(cwd)
     log_format = "%h\t%an\t%ad\t%s"
-    code, stdout, stderr = await run_git(
+    code, stdout, stderr = await run_cmd(
         ["git", "log", "--pretty=format:" + log_format, "--date=short", f"HEAD..{upstream}"], cwd=cwd
     )
     if code != 0:
@@ -200,7 +200,7 @@ class OpUpdateCallbackHandler(KoroneCallbackQueryHandler):
             await logger.ainfo("op_update: starting git pull", user_id=self.event.from_user.id)
 
             repo_root = await find_repo_root(await Path(__file__).resolve())
-            code, stdout, stderr = await run_git(["git", "pull"], cwd=repo_root)
+            code, stdout, stderr = await run_cmd(["git", "pull"], cwd=repo_root)
             if code != 0:
                 error_text = stderr or stdout or _("Unknown git error")
                 await self.edit_text(str(Doc(Section(Template(_("Update failed: {error}"), error=Code(error_text))))))
@@ -208,6 +208,26 @@ class OpUpdateCallbackHandler(KoroneCallbackQueryHandler):
                 return
 
             await logger.ainfo("op_update: git pull complete", output=stdout)
+
+            await logger.ainfo("op_update: running uv sync")
+            code, stdout, stderr = await run_cmd(["uv", "sync"], cwd=repo_root)
+            if code != 0:
+                error_text = stderr or stdout or _("Unknown uv error")
+                await self.edit_text(str(Doc(Section(Template(_("Update failed: {error}"), error=Code(error_text))))))
+                await logger.awarning("op_update: uv sync failed", error=error_text)
+                return
+
+            await logger.ainfo("op_update: compiling locales")
+            code, stdout, stderr = await run_cmd(
+                ["uv", "run", "pybabel", "compile", "-d", "locales", "-D", "korone", "--use-fuzzy", "--statistics"],
+                cwd=repo_root,
+            )
+            if code != 0:
+                error_text = stderr or stdout or _("Unknown pybabel error")
+                await self.edit_text(str(Doc(Section(Template(_("Update failed: {error}"), error=Code(error_text))))))
+                await logger.awarning("op_update: pybabel compile failed", error=error_text)
+                return
+
             await self.edit_text(_("Update complete. Restarting now..."))
             message = cast("Message", self.event.message)
             await save_restart_marker(chat_id=message.chat.id, message_id=message.message_id, action="update")
