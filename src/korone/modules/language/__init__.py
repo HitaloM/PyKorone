@@ -8,7 +8,6 @@ from .callbacks import LangMenuCallback as LangMenuCallback
 from .callbacks import SetLangCallback as SetLangCallback
 from .export import export_chat_language
 from .handlers.apply import ApplyLanguageHandler
-from .handlers.cancel import LanguageCancelHandler
 from .handlers.info import LanguageInfoCallbackHandler, LanguageInfoHandler
 from .handlers.select import LanguageSelectCallbackHandler, LanguageSelectHandler, LanguageSelectPMHandler
 from .stats import language_stats
@@ -29,7 +28,6 @@ __handlers__ = (
     LanguageSelectCallbackHandler,
     LanguageSelectPMHandler,
     ApplyLanguageHandler,
-    LanguageCancelHandler,
 )
 
 __stats__ = language_stats

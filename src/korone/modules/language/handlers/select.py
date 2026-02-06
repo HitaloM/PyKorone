@@ -10,7 +10,7 @@ from korone.filters.admin_rights import UserRestricting
 from korone.filters.chat_status import PrivateChatFilter
 from korone.filters.cmd import CMDFilter
 from korone.modules.language.callbacks import LangMenu, LangMenuCallback, SetLangCallback
-from korone.modules.utils_.callbacks import GoToStartCallback, LanguageButtonCallback
+from korone.modules.utils_.callbacks import CancelActionCallback, GoToStartCallback, LanguageButtonCallback
 from korone.utils.handlers import KoroneCallbackQueryHandler, KoroneMessageHandler
 from korone.utils.i18n import get_i18n
 from korone.utils.i18n import gettext as _
@@ -44,11 +44,7 @@ def build_language_selection_keyboard(
     keyboard.adjust(2)
 
     if not is_private:
-        keyboard.row(
-            InlineKeyboardButton(
-                text=_("❌ Cancel"), callback_data=LangMenuCallback(menu=LangMenu.Cancel, back_to_start=False).pack()
-            )
-        )
+        keyboard.row(InlineKeyboardButton(text=_("❌ Cancel"), callback_data=CancelActionCallback().pack()))
 
     if is_private:
         if back_to_start:

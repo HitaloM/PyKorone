@@ -6,7 +6,6 @@ from aiogram.filters.callback_data import CallbackData
 class LangMenu(StrEnum):
     Language = "language"
     Languages = "languages"
-    Cancel = "cancel"
 
 
 class LangMenuCallback(CallbackData, prefix="lang"):

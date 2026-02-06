@@ -600,8 +600,8 @@ msgstr ""
 #: src/korone/modules/help/handlers/pm_modules.py:101
 #: src/korone/modules/language/handlers/apply.py:65
 #: src/korone/modules/language/handlers/info.py:47
+#: src/korone/modules/language/handlers/select.py:51
 #: src/korone/modules/language/handlers/select.py:55
-#: src/korone/modules/language/handlers/select.py:59
 #: src/korone/modules/privacy/handlers/privacy.py:34
 msgid "⬅️ Back"
 msgstr ""
@@ -673,16 +673,16 @@ msgstr ""
 msgid "Only admins"
 msgstr ""
 
-#: src/korone/modules/language/__init__.py:18
+#: src/korone/modules/language/__init__.py:17
 #: src/korone/modules/language/stats.py:11
 msgid "Language"
 msgstr ""
 
-#: src/korone/modules/language/__init__.py:20
+#: src/korone/modules/language/__init__.py:19
 msgid "Language and localization settings"
 msgstr ""
 
-#: src/korone/modules/language/__init__.py:21
+#: src/korone/modules/language/__init__.py:20
 msgid "Allows users to set their preferred language for bot interactions."
 msgstr ""
 
@@ -724,10 +724,6 @@ msgstr ""
 msgid "Something went wrong."
 msgstr ""
 
-#: src/korone/modules/language/handlers/cancel.py:26
-msgid "Changing language was canceled. You can change language again by using /language command."
-msgstr ""
-
 #: src/korone/modules/language/handlers/info.py:26
 msgid "Current Language"
 msgstr ""
@@ -764,17 +760,17 @@ msgstr ""
 msgid "Shows the current language settings."
 msgstr ""
 
-#: src/korone/modules/language/handlers/select.py:49
+#: src/korone/modules/language/handlers/select.py:47
 msgid "❌ Cancel"
 msgstr ""
 
-#: src/korone/modules/language/handlers/select.py:66
+#: src/korone/modules/language/handlers/select.py:62
 msgid "Shows the available languages for selection."
 msgstr ""
 
-#: src/korone/modules/language/handlers/select.py:76
-#: src/korone/modules/language/handlers/select.py:99
-#: src/korone/modules/language/handlers/select.py:113
+#: src/korone/modules/language/handlers/select.py:72
+#: src/korone/modules/language/handlers/select.py:95
+#: src/korone/modules/language/handlers/select.py:109
 msgid "Please select the language you want to use for the chat."
 msgstr ""
 
@@ -865,7 +861,7 @@ msgstr ""
 msgid "No top artists found for your Last.fm account."
 msgstr ""
 
-#: src/korone/modules/lastfm/handlers/now.py:24
+#: src/korone/modules/lastfm/handlers/now.py:25
 msgid "Shows your now playing track from Last.fm."
 msgstr ""
 
