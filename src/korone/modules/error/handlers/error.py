@@ -4,6 +4,7 @@ import sys
 from typing import TYPE_CHECKING, cast
 
 from aiogram.handlers import ErrorHandler
+from aiogram.types import Message
 
 from korone.logger import get_logger
 from korone.modules.error.utils.backoff import compute_error_signature, should_notify
@@ -58,7 +59,18 @@ class KoroneErrorHandler(ErrorHandler):
 
         if isinstance(sys_exception, Exception):
             error_payload = generic_error_message(sys_exception, hide_contact=False)
-            await self.bot.send_message(chat.id, text=error_payload["text"])
+
+            message_thread_id = None
+            if update.message and update.message.message_thread_id:
+                message_thread_id = update.message.message_thread_id
+            elif (
+                update.callback_query
+                and isinstance(update.callback_query.message, Message)
+                and update.callback_query.message.message_thread_id
+            ):
+                message_thread_id = update.callback_query.message.message_thread_id
+
+            await self.bot.send_message(chat.id, text=error_payload["text"], message_thread_id=message_thread_id)
 
     @staticmethod
     def log_to_console(
