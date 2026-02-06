@@ -10,12 +10,12 @@ if TYPE_CHECKING:
 
 
 def create_pagination_layout(
-    devices: list[PhoneSearchResult], query: str, page: int, items_per_page: int = 8
+    devices: list[PhoneSearchResult], query: str, page: int, user_id: int, items_per_page: int = 8
 ) -> InlineKeyboardMarkup:
     pagination = Pagination(
         objects=devices,
-        page_data=lambda page_num: DevicePageCallback(device=query, page=page_num).pack(),
-        item_data=lambda device, _: GetDeviceCallback(device=device.url).pack(),
+        page_data=lambda page_num: DevicePageCallback(device=query, page=page_num, user_id=user_id).pack(),
+        item_data=lambda device, _: GetDeviceCallback(device=device.url, user_id=user_id).pack(),
         item_title=lambda device, _: device.name,
     )
 

@@ -467,15 +467,20 @@ msgstr ""
 msgid "Search for smartphones and get a quick overview of their specifications directly from GSMArena."
 msgstr ""
 
-#: src/korone/modules/gsm_arena/handlers/get.py:31
+#: src/korone/modules/gsm_arena/handlers/get.py:33
+#: src/korone/modules/gsm_arena/handlers/list.py:32
+msgid "You are not allowed to use this button."
+msgstr ""
+
+#: src/korone/modules/gsm_arena/handlers/get.py:36
 msgid "Fetching device details..."
 msgstr ""
 
-#: src/korone/modules/gsm_arena/handlers/get.py:35
+#: src/korone/modules/gsm_arena/handlers/get.py:40
 msgid "Error fetching device details"
 msgstr ""
 
-#: src/korone/modules/gsm_arena/handlers/list.py:32
+#: src/korone/modules/gsm_arena/handlers/list.py:37
 msgid "No devices found"
 msgstr ""
 
@@ -495,12 +500,12 @@ msgstr ""
 msgid "Error fetching device details. Please try again later."
 msgstr ""
 
-#: src/korone/modules/gsm_arena/handlers/search.py:53
+#: src/korone/modules/gsm_arena/handlers/search.py:57
 #, python-brace-format
 msgid "Search results for: <b>{query}</b>"
 msgstr ""
 
-#: src/korone/modules/gsm_arena/handlers/search.py:60
+#: src/korone/modules/gsm_arena/handlers/search.py:64
 msgid "You should provide a device name to search. Example: <code>/device Galaxy S24</code>."
 msgstr ""
 

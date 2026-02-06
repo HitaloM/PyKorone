@@ -27,12 +27,17 @@ class DeviceListCallbackHandler(KoroneCallbackQueryHandler):
         await self.check_for_message()
 
         callback_data = cast("DevicePageCallback", self.callback_data)
+
+        if self.event.from_user.id != callback_data.user_id:
+            await self.event.answer(_("You are not allowed to use this button."), show_alert=True)
+            return
+
         devices = await search_phone(callback_data.device)
         if not devices:
             await self.event.answer(_("No devices found"), show_alert=True)
             return
 
-        keyboard = create_pagination_layout(devices, callback_data.device, callback_data.page)
+        keyboard = create_pagination_layout(devices, callback_data.device, callback_data.page, callback_data.user_id)
         message = cast("Message", self.event.message)
 
         try:

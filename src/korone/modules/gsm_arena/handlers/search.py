@@ -49,7 +49,11 @@ class DeviceSearchHandler(KoroneMessageHandler):
                 await self.event.reply(_("Error fetching device details. Please try again later."))
             return
 
-        keyboard = create_pagination_layout(devices, query, 1)
+        if not self.event.from_user:
+            msg = "User information is not available in the handler context."
+            raise RuntimeError(msg)
+
+        keyboard = create_pagination_layout(devices, query, 1, self.event.from_user.id)
         await self.event.reply(_("Search results for: <b>{query}</b>").format(query=query), reply_markup=keyboard)
 
     async def handle(self) -> None:

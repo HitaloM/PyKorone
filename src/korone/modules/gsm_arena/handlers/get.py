@@ -28,6 +28,11 @@ class DeviceGetCallbackHandler(KoroneCallbackQueryHandler):
         await self.check_for_message()
 
         callback_data = cast("GetDeviceCallback", self.callback_data)
+
+        if self.event.from_user.id != callback_data.user_id:
+            await self.event.answer(_("You are not allowed to use this button."), show_alert=True)
+            return
+
         await self.event.answer(_("Fetching device details..."))
 
         text = await get_device_text(callback_data.device)
