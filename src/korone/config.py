@@ -20,6 +20,9 @@ class Config(BaseSettings):
 
     botapi_server: AnyHttpUrl | None = None
 
+    telegram_api_id: str | None = None
+    telegram_api_hash: str | None = None
+
     modules_load: list[str] = ["*"]
     modules_not_load: list[str] = []
 

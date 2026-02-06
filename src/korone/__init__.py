@@ -14,7 +14,7 @@ from .logger import get_logger
 
 logger = get_logger(__name__)
 
-bot_api = TelegramAPIServer.from_base(str(CONFIG.botapi_server)) if CONFIG.botapi_server else PRODUCTION
+bot_api = TelegramAPIServer.from_base(str(CONFIG.botapi_server), is_local=True) if CONFIG.botapi_server else PRODUCTION
 session = AiohttpSession(api=bot_api)
 logger.info("Using BotAPI server: %s", bot_api)
 

@@ -1,4 +1,14 @@
 services:
+  telegram-bot-api:
+    image: aiogram/telegram-bot-api:latest
+    env_file:
+      - data/config.env
+    environment:
+      TELEGRAM_LOCAL: "1"
+    volumes:
+      - telegram_bot_api_data:/var/lib/telegram-bot-api
+    restart: unless-stopped
+
   postgres:
     image: postgres:18
     environment:
@@ -21,7 +31,9 @@ services:
       DB_URL: postgresql+asyncpg://korone:korone@postgres:5432/korone
       REDIS_HOST: redis
       REDIS_PORT: 6379
+      BOTAPI_SERVER: http://telegram-bot-api:8081
     depends_on:
+      - telegram-bot-api
       - postgres
       - redis
     restart: unless-stopped
@@ -44,3 +56,4 @@ services:
 
 volumes:
   postgres_data:
+  telegram_bot_api_data:
