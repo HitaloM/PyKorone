@@ -2,6 +2,7 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING, Any, cast
 
+import aiohttp
 from aiogram import flags
 from aiogram.types import InlineKeyboardButton
 from aiogram.utils.keyboard import InlineKeyboardBuilder
@@ -10,7 +11,7 @@ from stfu_tg import Doc, KeyValue, Title
 
 from korone.filters.cmd import CMDFilter
 from korone.modules.web.callbacks import GetIPCallback, decode_ip, encode_ip
-from korone.modules.web.utils import fetch_ip_info, get_ips_from_string
+from korone.modules.web.utils.ip import fetch_ip_info, get_ips_from_string
 from korone.utils.handlers import KoroneCallbackQueryHandler, KoroneMessageHandler
 from korone.utils.i18n import gettext as _
 from korone.utils.i18n import lazy_gettext as l_
@@ -34,9 +35,27 @@ IP_FIELDS = {
 }
 
 
+def format_ip_info(ip: str, info: dict[str, Any]) -> Doc:
+    doc = Doc(Title(_("IP Information")))
+
+    for key, title in IP_FIELDS.items():
+        value = info.get(key)
+        if value is None:
+            continue
+        doc += KeyValue(str(title), str(value))
+
+    if "ip" not in info:
+        doc += KeyValue(_("IP"), ip)
+
+    return doc
+
+
 @flags.help(description=l_("Shows information about an IP or domain."))
 @flags.disableable(name="ip")
 class IPInfoHandler(KoroneMessageHandler):
+    IPINFO_URL = "https://ipinfo.io/{target}/json"
+    CF_DNS_URL = "https://cloudflare-dns.com/dns-query"
+
     @classmethod
     async def handler_args(cls, message: Message | None, data: dict[str, Any]) -> dict[str, ArgFabric]:
         return {"target": TextArg(l_("IP or domain"))}
@@ -44,6 +63,37 @@ class IPInfoHandler(KoroneMessageHandler):
     @staticmethod
     def filters() -> tuple[CallbackType, ...]:
         return (CMDFilter(("ip", "ipinfo")),)
+
+    async def fetch_ip_info(self, ip_or_domain: str) -> dict[str, Any] | None:
+        url = self.IPINFO_URL.format(target=ip_or_domain)
+        timeout = aiohttp.ClientTimeout(total=15)
+        async with aiohttp.ClientSession(timeout=timeout) as session:
+            try:
+                async with session.get(url) as response:
+                    if response.status != 200:
+                        return None
+                    data = await response.json()
+                    data.pop("readme", None)
+                    return data
+            except aiohttp.ClientError:
+                return None
+
+    async def _reply_with_ip_info(self, ip: str) -> None:
+        info = await self.fetch_ip_info(ip)
+        if not info:
+            await self.event.reply(_("No information found for {ip_or_domain}.").format(ip_or_domain=ip))
+            return
+
+        if info.get("bogon"):
+            await self.event.reply(
+                _(
+                    "The provided IP address <code>{ip}</code> is a <i>bogon</i> IP address, "
+                    "meaning it is either not in use or reserved for special use."
+                ).format(ip=ip)
+            )
+            return
+
+        await self.event.reply(str(format_ip_info(ip, info)))
 
     async def handle(self) -> None:
         target = (self.data.get("target") or "").strip()
@@ -68,23 +118,6 @@ class IPInfoHandler(KoroneMessageHandler):
             builder.row(InlineKeyboardButton(text=ip, callback_data=GetIPCallback(ip=encode_ip(ip)).pack()))
 
         await self.event.reply(_("Please select an IP address:"), reply_markup=builder.as_markup())
-
-    async def _reply_with_ip_info(self, ip: str) -> None:
-        info = await fetch_ip_info(ip)
-        if not info:
-            await self.event.reply(_("No information found for {ip_or_domain}.").format(ip_or_domain=ip))
-            return
-
-        if info.get("bogon"):
-            await self.event.reply(
-                _(
-                    "The provided IP address <code>{ip}</code> is a <i>bogon</i> IP address, "
-                    "meaning it is either not in use or reserved for special use."
-                ).format(ip=ip)
-            )
-            return
-
-        await self.event.reply(str(format_ip_info(ip, info)))
 
 
 @flags.help(exclude=True)
@@ -117,18 +150,3 @@ class IPInfoCallbackHandler(KoroneCallbackQueryHandler):
 
         await self.edit_text(str(format_ip_info(ip, info)))
         await self.event.answer()
-
-
-def format_ip_info(ip: str, info: dict[str, Any]) -> Doc:
-    doc = Doc(Title(_("IP Information")))
-
-    for key, title in IP_FIELDS.items():
-        value = info.get(key)
-        if value is None:
-            continue
-        doc += KeyValue(str(title), str(value))
-
-    if "ip" not in info:
-        doc += KeyValue(_("IP"), ip)
-
-    return doc

@@ -23,6 +23,7 @@ dependencies = [
     "uvloop>=0.21",
     "anyio>=4.12.1",
     "aiohttp[speedups]>=3.13.3",
+    "asyncwhois>=1.1.7",
     "lxml>=6.0.2",
     "pillow>=10.0.0",
     "polib>=1.2.0",

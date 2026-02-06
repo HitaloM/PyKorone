@@ -7,8 +7,7 @@ from ass_tg.types import WordArg
 from stfu_tg import Doc, KeyValue, Title
 
 from korone.filters.cmd import CMDFilter
-from korone.logger import get_logger
-from korone.modules.web.utils import normalize_domain, parse_whois_output, run_whois
+from korone.modules.web.utils.whois import normalize_domain, parse_whois_response, query_whois
 from korone.utils.handlers import KoroneMessageHandler
 from korone.utils.i18n import gettext as _
 from korone.utils.i18n import lazy_gettext as l_
@@ -17,9 +16,6 @@ if TYPE_CHECKING:
     from aiogram.dispatcher.event.handler import CallbackType
     from aiogram.types import Message
     from ass_tg.types.base_abc import ArgFabric
-
-
-logger = get_logger(__name__)
 
 
 @flags.help(description=l_("Shows WHOIS information about a domain."))
@@ -41,9 +37,12 @@ class WhoisHandler(KoroneMessageHandler):
             await self.event.reply(_("You should provide a domain name. Example: <code>/whois example.com</code>."))
             return
 
-        raw_output = await run_whois(domain)
-        parsed_info = parse_whois_output(raw_output)
+        whois_data = await query_whois(domain)
+        if not whois_data:
+            await self.event.reply(_("No WHOIS information found for <code>{domain}</code>.").format(domain=domain))
+            return
 
+        parsed_info = parse_whois_response(whois_data)
         if not parsed_info:
             await self.event.reply(_("No WHOIS information found for <code>{domain}</code>.").format(domain=domain))
             return
