@@ -10,7 +10,7 @@ class Config(BaseSettings):
     owner_id: int | None = None
     operators: list[int] = []
 
-    db_url: str = "sqlite+aiosqlite:///data/korone.db"
+    db_url: str = "postgresql+asyncpg://korone:korone@postgres:5432/korone"
 
     redis_host: str = "localhost"
     redis_port: int = 6379

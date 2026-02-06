@@ -31,9 +31,9 @@ AdminPermission = Literal[
 
 
 async def _resolve_model(model_id: int) -> ChatModel | None:
-    if model := await ChatRepository.get_by_id(model_id):
+    if model := await ChatRepository.get_by_chat_id(model_id):
         return model
-    return await ChatRepository.get_by_chat_id(model_id)
+    return await ChatRepository.get_by_id(model_id)
 
 
 async def check_user_admin_permissions(

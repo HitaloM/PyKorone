@@ -1,0 +1,46 @@
+services:
+  postgres:
+    image: postgres:18
+    environment:
+      POSTGRES_DB: korone
+      POSTGRES_USER: korone
+      POSTGRES_PASSWORD: korone
+    volumes:
+      - postgres_data:/var/lib/postgresql
+    restart: unless-stopped
+
+  redis:
+    image: redis:8
+    restart: unless-stopped
+
+  bot:
+    build: .
+    env_file:
+      - data/config.env
+    environment:
+      DB_URL: postgresql+asyncpg://korone:korone@postgres:5432/korone
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+    depends_on:
+      - postgres
+      - redis
+    restart: unless-stopped
+
+    develop:
+      watch:
+        - action: sync
+          path: ./src
+          target: /app/src
+
+        - action: sync
+          path: ./locales
+          target: /app/locales
+
+        - action: rebuild
+          path: ./pyproject.toml
+
+        - action: rebuild
+          path: ./uv.lock
+
+volumes:
+  postgres_data:

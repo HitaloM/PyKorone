@@ -2,7 +2,7 @@ from datetime import UTC, datetime
 from typing import Any
 
 from aiogram.enums import ChatType
-from sqlalchemy import DateTime, ForeignKey, String, UniqueConstraint
+from sqlalchemy import BigInteger, DateTime, ForeignKey, String, UniqueConstraint
 from sqlalchemy import Enum as SAEnum
 from sqlalchemy.orm import Mapped, mapped_column, relationship  # noqa: TC002
 
@@ -14,8 +14,8 @@ class UserInGroupModel(Base):
     __table_args__ = (UniqueConstraint("user_id", "group_id", name="ux_users_in_groups_user_group"),)
 
     id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
-    user_id: Mapped[int] = mapped_column(ForeignKey("chats.id", ondelete="CASCADE"), index=True)
-    group_id: Mapped[int] = mapped_column(ForeignKey("chats.id", ondelete="CASCADE"), index=True)
+    user_id: Mapped[int] = mapped_column(BigInteger, ForeignKey("chats.id", ondelete="CASCADE"), index=True)
+    group_id: Mapped[int] = mapped_column(BigInteger, ForeignKey("chats.id", ondelete="CASCADE"), index=True)
     first_saw: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=lambda: datetime.now(UTC))
     last_saw: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=lambda: datetime.now(UTC))
 
@@ -35,7 +35,7 @@ class ChatTopicModel(Base):
     __table_args__ = (UniqueConstraint("group_id", "thread_id", name="ux_chat_topics_group_thread"),)
 
     id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
-    group_id: Mapped[int] = mapped_column(ForeignKey("chats.id", ondelete="CASCADE"), index=True)
+    group_id: Mapped[int] = mapped_column(BigInteger, ForeignKey("chats.id", ondelete="CASCADE"), index=True)
     thread_id: Mapped[int] = mapped_column(index=True)
     name: Mapped[str | None] = mapped_column(String(128))
     last_active: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=lambda: datetime.now(UTC))
@@ -54,7 +54,7 @@ class ChatModel(Base):
     __tablename__ = "chats"
 
     id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
-    chat_id: Mapped[int] = mapped_column(unique=True, index=True)
+    chat_id: Mapped[int] = mapped_column(BigInteger, unique=True, index=True)
     type: Mapped[ChatType] = mapped_column(SAEnum(ChatType), index=True)
     first_name_or_title: Mapped[str] = mapped_column(String(256))
     last_name: Mapped[str | None] = mapped_column(String(64))
