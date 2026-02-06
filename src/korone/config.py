@@ -62,5 +62,13 @@ class Config(BaseSettings):
             v.append(owner_id)
         return v
 
+    @field_validator("db_url")
+    @classmethod
+    def validate_db_url(cls, v: str) -> str:
+        if not v.startswith("postgresql+asyncpg://") and not v.startswith("postgresql://"):
+            msg = "db_url must be a PostgreSQL URL"
+            raise ValueError(msg)
+        return v
+
 
 CONFIG = Config()

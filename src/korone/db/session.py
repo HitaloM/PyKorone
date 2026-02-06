@@ -1,4 +1,5 @@
 from contextlib import asynccontextmanager
+from functools import lru_cache
 from typing import TYPE_CHECKING
 
 from sqlalchemy import text
@@ -10,10 +11,14 @@ if TYPE_CHECKING:
     from collections.abc import AsyncGenerator
 
 
+@lru_cache(maxsize=1)
+def get_sessionmaker() -> async_sessionmaker[AsyncSession]:
+    return async_sessionmaker(bind=get_engine(), class_=AsyncSession, expire_on_commit=False)
+
+
 @asynccontextmanager
 async def session_scope() -> AsyncGenerator[AsyncSession]:
-    engine = get_engine()
-    async_session = async_sessionmaker(bind=engine, class_=AsyncSession, expire_on_commit=False)
+    async_session = get_sessionmaker()
 
     async with async_session() as session:
         try:
@@ -26,9 +31,7 @@ async def session_scope() -> AsyncGenerator[AsyncSession]:
             await session.close()
 
 
-async def get_sqlite_stats() -> dict[str, int]:
+async def get_postgres_stats() -> dict[str, int]:
     async with session_scope() as session:
-        page_count = (await session.execute(text("PRAGMA page_count"))).scalar_one_or_none() or 0
-        page_size = (await session.execute(text("PRAGMA page_size"))).scalar_one_or_none() or 0
-        db_size = int(page_count) * int(page_size)
-        return {"page_count": int(page_count), "page_size": int(page_size), "db_size": int(db_size)}
+        db_size = (await session.execute(text("SELECT pg_database_size(current_database())"))).scalar_one_or_none()
+        return {"db_size": int(db_size or 0)}

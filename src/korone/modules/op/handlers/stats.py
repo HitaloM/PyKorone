@@ -8,7 +8,7 @@ from aiogram import flags
 from stfu_tg import Code, Doc, Italic, KeyValue, Section, Template
 
 from korone import aredis
-from korone.db.session import get_sqlite_stats
+from korone.db.session import get_postgres_stats
 from korone.filters.cmd import CMDFilter
 from korone.filters.user_status import IsOP
 from korone.modules import LOADED_MODULES
@@ -37,7 +37,7 @@ async def get_system_stats() -> Doc:
 
     technical_section = Section(title="Technical info")
 
-    local_db = await get_sqlite_stats()
+    local_db = await get_postgres_stats()
     technical_section += KeyValue(
         "Database size", Template("{db_size}", db_size=Code(convert_size(local_db["db_size"])))
     )
