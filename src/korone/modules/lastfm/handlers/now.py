@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import contextlib
 from typing import TYPE_CHECKING
 
 from aiogram import flags
@@ -39,7 +40,10 @@ class LastFMNowHandler(KoroneMessageHandler):
 
         last_played, user_link = track_data
         last_fm = LastFMClient()
-        track_info = await last_fm.get_track_info(last_played.artist.name, last_played.name, lastfm_username)
+
+        track_info = None
+        with contextlib.suppress(Exception):
+            track_info = await last_fm.get_track_info(last_played.artist.name, last_played.name, lastfm_username)
 
         entity_name = f"{last_played.artist.name} — {last_played.name}"
         playcount = getattr(track_info, "playcount", 0) if track_info else 0

@@ -42,7 +42,10 @@ class LastFMArtistHandler(KoroneMessageHandler):
 
         last_played, user_link = track_data
         last_fm = LastFMClient()
-        artist_info = await last_fm.get_artist_info(last_played.artist.name, lastfm_username)
+
+        artist_info = None
+        with suppress(Exception):
+            artist_info = await last_fm.get_artist_info(last_played.artist.name, lastfm_username)
 
         entity_name = last_played.artist.name
         playcount = getattr(artist_info, "playcount", 0) if artist_info else 0

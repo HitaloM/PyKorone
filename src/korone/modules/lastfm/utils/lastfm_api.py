@@ -129,18 +129,36 @@ class LastFMClient:
         data = await self._request(params)
         return cast("LastFMUser", self._handle_key_error(data, "user", LastFMUser))
 
-    async def get_track_info(self, artist: str, track: str, username: str) -> LastFMTrack:
-        params = self._build_params("track.getInfo", username, artist=artist, track=track)
+    async def get_track_info(self, artist: str, track: str, username: str | None = None) -> LastFMTrack:
+        params = {
+            "method": "track.getInfo",
+            "api_key": self.api_key,
+            "format": "json",
+            "artist": artist,
+            "track": track,
+        }
+        if username:
+            params["username"] = username
         data = await self._request(params)
         return cast("LastFMTrack", self._handle_key_error(data, "track", LastFMTrack))
 
-    async def get_album_info(self, artist: str, album: str, username: str) -> LastFMAlbum:
-        params = self._build_params("album.getInfo", username, artist=artist, album=album)
+    async def get_album_info(self, artist: str, album: str, username: str | None = None) -> LastFMAlbum:
+        params = {
+            "method": "album.getInfo",
+            "api_key": self.api_key,
+            "format": "json",
+            "artist": artist,
+            "album": album,
+        }
+        if username:
+            params["username"] = username
         data = await self._request(params)
         return cast("LastFMAlbum", self._handle_key_error(data, "album", LastFMAlbum))
 
-    async def get_artist_info(self, artist: str, username: str) -> LastFMArtist:
-        params = self._build_params("artist.getInfo", username, artist=artist)
+    async def get_artist_info(self, artist: str, username: str | None = None) -> LastFMArtist:
+        params = {"method": "artist.getInfo", "api_key": self.api_key, "format": "json", "artist": artist}
+        if username:
+            params["username"] = username
         data = await self._request(params)
         return cast("LastFMArtist", self._handle_key_error(data, "artist", LastFMArtist))
 

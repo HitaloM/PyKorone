@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import contextlib
 from typing import TYPE_CHECKING
 
 from aiogram import flags
@@ -45,7 +46,10 @@ class LastFMAlbumHandler(KoroneMessageHandler):
             return
 
         last_fm = LastFMClient()
-        album_info = await last_fm.get_album_info(last_played.artist.name, last_played.album.name, lastfm_user)
+
+        album_info = None
+        with contextlib.suppress(Exception):
+            album_info = await last_fm.get_album_info(last_played.artist.name, last_played.album.name, lastfm_user)
 
         entity_name = f"{last_played.artist.name} — {last_played.album.name}"
         playcount = getattr(album_info, "playcount", 0) if album_info else 0
