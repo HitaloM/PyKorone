@@ -773,24 +773,19 @@ msgstr ""
 msgid "Please select the language you want to use for the chat."
 msgstr ""
 
-#: src/korone/modules/language/stats.py:11
-#, python-brace-format
-msgid "{num} languages available."
-msgstr ""
-
-#: src/korone/modules/lastfm/__init__.py:19
+#: src/korone/modules/lastfm/__init__.py:20
 msgid "Last.fm"
 msgstr ""
 
-#: src/korone/modules/lastfm/__init__.py:21
+#: src/korone/modules/lastfm/__init__.py:22
 msgid "Last.fm scrobble statistics"
 msgstr ""
 
-#: src/korone/modules/lastfm/__init__.py:24
+#: src/korone/modules/lastfm/__init__.py:25
 msgid "Shows your Last.fm stats, now playing, and top music charts."
 msgstr ""
 
-#: src/korone/modules/lastfm/__init__.py:25
+#: src/korone/modules/lastfm/__init__.py:26
 msgid "Includes collage generation and compatibility checks."
 msgstr ""
 
@@ -1705,3 +1700,6 @@ msgstr ""
 #: types/user.py:108
 msgid "Could not find the user mention"
 msgstr ""
+
+#~ msgid "{num} languages available."
+#~ msgstr ""

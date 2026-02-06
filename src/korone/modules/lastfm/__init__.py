@@ -13,6 +13,7 @@ from .handlers.recent import LastFMRecentHandler
 from .handlers.set import LastFMSetHandler, LastFMSetReplyHandler
 from .handlers.top import LastFMTopHandler
 from .handlers.user import LastFMUserHandler
+from .stats import lastfm_stats
 
 router = Router(name="lastfm")
 
@@ -38,3 +39,5 @@ __handlers__ = (
     LastFMCompatHandler,
     LastFMCollageHandler,
 )
+
+__stats__ = lastfm_stats

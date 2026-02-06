@@ -1,11 +1,19 @@
 from datetime import UTC, datetime
 
+from sqlalchemy import func, select
+
 from korone.db.base import get_one
 from korone.db.models.lastfm import LastFMUserModel
 from korone.db.session import session_scope
 
 
 class LastFMRepository:
+    @staticmethod
+    async def total_count() -> int:
+        async with session_scope() as session:
+            result = await session.execute(select(func.count()).select_from(LastFMUserModel))
+            return result.scalar_one() or 0
+
     @staticmethod
     async def get_username(chat_id: int) -> str | None:
         async with session_scope() as session:
