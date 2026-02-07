@@ -32,6 +32,10 @@ class MediaItem:
     kind: MediaKind
     file: InputFile
     filename: str
+    thumbnail: InputFile | None = None
+    duration: int | None = None
+    width: int | None = None
+    height: int | None = None
 
 
 @dataclass(frozen=True, slots=True)
@@ -48,6 +52,10 @@ class MediaPost:
 class MediaSource:
     kind: MediaKind
     url: str
+    thumbnail_url: str | None = None
+    duration: int | None = None
+    width: int | None = None
+    height: int | None = None
 
 
 class MediaProvider(ABC):
@@ -118,8 +126,37 @@ class MediaProvider(ABC):
             await logger.aerror(f"[{label}] Media download error", error=str(exc))
             return None
 
+        thumbnail = None
+        if source.thumbnail_url and source.kind == MediaKind.VIDEO:
+            thumbnail = await cls._download_thumbnail(source.thumbnail_url, session, label, index, filename_prefix)
+
         filename = cls._make_media_filename(source.url, source.kind, index, filename_prefix)
-        return MediaItem(kind=source.kind, file=BufferedInputFile(payload, filename), filename=filename)
+        return MediaItem(
+            kind=source.kind,
+            file=BufferedInputFile(payload, filename),
+            filename=filename,
+            thumbnail=thumbnail,
+            duration=source.duration,
+            width=source.width,
+            height=source.height,
+        )
+
+    @classmethod
+    async def _download_thumbnail(
+        cls, url: str, session: aiohttp.ClientSession, label: str, index: int, filename_prefix: str
+    ) -> InputFile | None:
+        try:
+            async with session.get(url) as response:
+                if response.status != 200:
+                    await logger.adebug(f"[{label}] Failed to download thumbnail", status=response.status, url=url)
+                    return None
+                payload = await response.read()
+        except aiohttp.ClientError as exc:
+            await logger.aerror(f"[{label}] Thumbnail download error", error=str(exc))
+            return None
+
+        filename = cls._make_thumbnail_filename(url, index, filename_prefix)
+        return BufferedInputFile(payload, filename)
 
     @staticmethod
     def _make_media_filename(url: str, kind: MediaKind, index: int, prefix: str) -> str:
@@ -128,3 +165,11 @@ class MediaProvider(ABC):
         if not suffix:
             suffix = ".mp4" if kind == MediaKind.VIDEO else ".jpg"
         return f"{prefix}_{index}{suffix}"
+
+    @staticmethod
+    def _make_thumbnail_filename(url: str, index: int, prefix: str) -> str:
+        parsed = urlparse(url)
+        suffix = Path(parsed.path).suffix
+        if not suffix:
+            suffix = ".jpg"
+        return f"{prefix}_{index}_thumb{suffix}"

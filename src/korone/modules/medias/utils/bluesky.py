@@ -190,11 +190,23 @@ class BlueskyProvider(MediaProvider):
         sources: list[MediaSource] = []
         seen: set[str] = set()
 
-        def _add(kind: MediaKind, url: str) -> None:
+        def _add(
+            kind: MediaKind,
+            url: str,
+            *,
+            thumbnail_url: str | None = None,
+            duration: int | None = None,
+            width: int | None = None,
+            height: int | None = None,
+        ) -> None:
             if not url or url in seen:
                 return
             seen.add(url)
-            sources.append(MediaSource(kind=kind, url=url))
+            sources.append(
+                MediaSource(
+                    kind=kind, url=url, thumbnail_url=thumbnail_url, duration=duration, width=width, height=height
+                )
+            )
 
         embed = post.get("embed") if isinstance(post.get("embed"), dict) else None
         if not isinstance(embed, dict):
@@ -217,12 +229,27 @@ class BlueskyProvider(MediaProvider):
             for image in images:
                 fullsize = image.get("fullsize") or image.get("thumb")
                 if isinstance(fullsize, str):
-                    _add(MediaKind.PHOTO, fullsize)
+                    width, height = cls._extract_aspect_ratio(image)
+                    _add(
+                        MediaKind.PHOTO,
+                        fullsize,
+                        thumbnail_url=str(image.get("thumb")) if isinstance(image.get("thumb"), str) else None,
+                        width=width,
+                        height=height,
+                    )
 
         if embed_type == "app.bsky.embed.video#view":
             video_url = cls._build_video_url(embed_view, author_did, pds_url)
             if video_url:
-                _add(MediaKind.VIDEO, video_url)
+                width, height = cls._extract_aspect_ratio(embed_view)
+                thumbnail_url = embed_view.get("thumbnail")
+                _add(
+                    MediaKind.VIDEO,
+                    video_url,
+                    thumbnail_url=str(thumbnail_url) if isinstance(thumbnail_url, str) else None,
+                    width=width,
+                    height=height,
+                )
 
         return sources
 
@@ -231,6 +258,28 @@ class BlueskyProvider(MediaProvider):
         cid = embed.get("cid")
         if isinstance(cid, str) and author_did and pds_url:
             return f"{pds_url}/xrpc/com.atproto.sync.getBlob?did={quote(author_did)}&cid={quote(cid)}"
+        return None
+
+    @classmethod
+    def _extract_aspect_ratio(cls, embed: dict[str, Any]) -> tuple[int | None, int | None]:
+        aspect = embed.get("aspectRatio")
+        if not isinstance(aspect, dict):
+            return None, None
+        return cls._coerce_int(aspect.get("width")), cls._coerce_int(aspect.get("height"))
+
+    @staticmethod
+    def _coerce_int(value: object) -> int | None:
+        if isinstance(value, bool):
+            return None
+        if isinstance(value, int):
+            return value
+        if isinstance(value, float):
+            return int(value)
+        if isinstance(value, str):
+            try:
+                return int(float(value))
+            except ValueError:
+                return None
         return None
 
     @classmethod

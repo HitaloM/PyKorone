@@ -40,7 +40,15 @@ class BaseMediaHandler(KoroneMessageHandler):
             await message.reply_photo(media.file, caption=caption, reply_markup=keyboard)
             return
 
-        await message.reply_video(media.file, caption=caption, reply_markup=keyboard)
+        await message.reply_video(
+            media.file,
+            caption=caption,
+            reply_markup=keyboard,
+            duration=media.duration,
+            width=media.width,
+            height=media.height,
+            thumbnail=media.thumbnail,
+        )
 
     @staticmethod
     async def _send_media_group(message: Message, media_items: list[MediaItem], caption: str) -> None:
@@ -54,7 +62,14 @@ class BaseMediaHandler(KoroneMessageHandler):
             if item.kind == MediaKind.PHOTO:
                 builder.add_photo(item.file, caption=item_caption)
             else:
-                builder.add_video(item.file, caption=item_caption)
+                builder.add_video(
+                    item.file,
+                    caption=item_caption,
+                    duration=item.duration,
+                    width=item.width,
+                    height=item.height,
+                    thumbnail=item.thumbnail,
+                )
 
         await message.bot.send_media_group(
             chat_id=message.chat.id,

@@ -146,28 +146,54 @@ class FXTwitterProvider(MediaProvider):
                 return [cast("dict[str, Any]", value)]
             return []
 
-        def _add(kind: MediaKind, url: str) -> None:
+        def _add(
+            kind: MediaKind,
+            url: str,
+            *,
+            thumbnail_url: str | None = None,
+            duration: int | None = None,
+            width: int | None = None,
+            height: int | None = None,
+        ) -> None:
             if not url or url in seen:
                 return
             seen.add(url)
-            sources.append(MediaSource(kind=kind, url=url))
+            sources.append(
+                MediaSource(
+                    kind=kind, url=url, thumbnail_url=thumbnail_url, duration=duration, width=width, height=height
+                )
+            )
+
+        def _extract_metadata(item: dict[str, Any]) -> tuple[str | None, int | None, int | None, int | None]:
+            thumbnail_url = item.get("thumbnail_url") or item.get("thumb") or item.get("preview_image_url")
+            return (
+                str(thumbnail_url) if isinstance(thumbnail_url, str) else None,
+                cls._coerce_int(item.get("duration")),
+                cls._coerce_int(item.get("width")),
+                cls._coerce_int(item.get("height")),
+            )
 
         for photo in _ensure_list(media.get("photos")) + _ensure_list(media.get("images")):
             url = photo.get("url") or photo.get("src") or photo.get("source")
             if isinstance(url, str):
-                _add(MediaKind.PHOTO, url)
+                thumbnail_url, duration, width, height = _extract_metadata(photo)
+                _add(MediaKind.PHOTO, url, thumbnail_url=thumbnail_url, duration=duration, width=width, height=height)
 
         for video in _ensure_list(media.get("videos")) + _ensure_list(media.get("video")):
             url = cls._pick_video_url(video)
             if url:
-                _add(MediaKind.VIDEO, url)
+                thumbnail_url, duration, width, height = _extract_metadata(video)
+                _add(MediaKind.VIDEO, url, thumbnail_url=thumbnail_url, duration=duration, width=width, height=height)
 
         for item in _ensure_list(media.get("all")):
-            url = item.get("url") or item.get("src") or item.get("source")
+            kind = MediaKind.VIDEO if item.get("type") in {"video", "gif"} else MediaKind.PHOTO
+            url = cls._pick_video_url(item) if kind == MediaKind.VIDEO else None
+            if not url:
+                url = item.get("url") or item.get("src") or item.get("source")
             if not isinstance(url, str):
                 continue
-            kind = MediaKind.VIDEO if item.get("type") in {"video", "gif"} else MediaKind.PHOTO
-            _add(kind, url)
+            thumbnail_url, duration, width, height = _extract_metadata(item)
+            _add(kind, url, thumbnail_url=thumbnail_url, duration=duration, width=width, height=height)
 
         if not sources:
             media_url = tweet.get("media_url") or tweet.get("media_url_https")
@@ -199,6 +225,21 @@ class FXTwitterProvider(MediaProvider):
             if best_url is None:
                 best_url = url
         return best_url
+
+    @staticmethod
+    def _coerce_int(value: object) -> int | None:
+        if isinstance(value, bool):
+            return None
+        if isinstance(value, int):
+            return value
+        if isinstance(value, float):
+            return int(value)
+        if isinstance(value, str):
+            try:
+                return int(float(value))
+            except ValueError:
+                return None
+        return None
 
     @classmethod
     async def _download_media(cls, sources: list[MediaSource]) -> list[MediaItem]:

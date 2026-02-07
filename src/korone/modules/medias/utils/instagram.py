@@ -22,12 +22,6 @@ INSTAGRAM_HOST = "instagram.com"
 INSTAFIX_HOST = "eeinstagram.com"
 HTTP_TIMEOUT = 60
 
-POST_PATTERN = re.compile(r"(?:reel(?:s?)|p|tv)/(?P<post_id>[A-Za-z0-9_-]+)", re.IGNORECASE)
-URL_PATTERN = re.compile(
-    r"https?://(?:www\.)?(?:instagram\.com|eeinstagram\.com)/(?:reel(?:s?)|p|tv)/[A-Za-z0-9_-]+(?:/[\w-]+)?(?:\?[^\s]+)?",
-    re.IGNORECASE,
-)
-
 
 @dataclass(frozen=True, slots=True)
 class _InstaData:
@@ -40,12 +34,16 @@ class _InstaData:
 class InstagramProvider(MediaProvider):
     name = "Instagram"
     website = "Instagram"
-    pattern = URL_PATTERN
+    pattern = re.compile(
+        r"https?://(?:www\.)?(?:instagram\.com|eeinstagram\.com)/(?:reel(?:s?)|p|tv)/[A-Za-z0-9_-]+(?:/[\w-]+)?(?:\?[^\s]+)?",
+        re.IGNORECASE,
+    )
+    post_pattern = re.compile(r"(?:reel(?:s?)|p|tv)/(?P<post_id>[A-Za-z0-9_-]+)", re.IGNORECASE)
 
     @classmethod
     async def fetch(cls, url: str) -> MediaPost | None:
         normalized_url = cls._ensure_url_scheme(url)
-        if not POST_PATTERN.search(normalized_url):
+        if not cls.post_pattern.search(normalized_url):
             return None
 
         instafix_url = cls._build_instafix_url(normalized_url)
