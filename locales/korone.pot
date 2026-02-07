@@ -103,90 +103,90 @@ msgstr ""
 msgid "Useful for restricting bot functionality to only necessary commands."
 msgstr ""
 
-#: src/korone/modules/disabling/handlers/disable.py:25
+#: src/korone/modules/disabling/handlers/disable.py:24
 msgid "Disables the command."
 msgstr ""
 
-#: src/korone/modules/disabling/handlers/disable.py:29
-#: src/korone/modules/disabling/handlers/disable.py:57
-#: src/korone/modules/disabling/handlers/enable.py:29
-#: src/korone/modules/disabling/handlers/enable.py:58
+#: src/korone/modules/disabling/handlers/disable.py:28
+#: src/korone/modules/disabling/handlers/disable.py:56
+#: src/korone/modules/disabling/handlers/enable.py:28
+#: src/korone/modules/disabling/handlers/enable.py:57
 msgid "Command"
 msgstr ""
 
-#: src/korone/modules/disabling/handlers/disable.py:45
-#: src/korone/modules/disabling/handlers/enable.py:45
+#: src/korone/modules/disabling/handlers/disable.py:44
+#: src/korone/modules/disabling/handlers/enable.py:44
 #, python-brace-format
 msgid "Command {cmd} not found."
 msgstr ""
 
-#: src/korone/modules/disabling/handlers/disable.py:49
-#: src/korone/modules/disabling/handlers/enable.py:49
+#: src/korone/modules/disabling/handlers/disable.py:48
+#: src/korone/modules/disabling/handlers/enable.py:48
 #, python-brace-format
 msgid "Command {cmd} is already disabled."
 msgstr ""
 
-#: src/korone/modules/disabling/handlers/disable.py:56
-#: src/korone/modules/disabling/handlers/enable.py:57
+#: src/korone/modules/disabling/handlers/disable.py:55
+#: src/korone/modules/disabling/handlers/enable.py:56
 #: src/korone/modules/utils_/status_handler.py:51
 #: src/korone/modules/utils_/status_handler.py:75
 msgid "Chat"
 msgstr ""
 
-#: src/korone/modules/disabling/handlers/disable.py:59
+#: src/korone/modules/disabling/handlers/disable.py:58
 msgid "Command disabled"
 msgstr ""
 
-#: src/korone/modules/disabling/handlers/disable_able.py:20
+#: src/korone/modules/disabling/handlers/disable_able.py:19
 msgid "Lists all commands that can be disabled."
 msgstr ""
 
-#: src/korone/modules/disabling/handlers/disable_able.py:42
+#: src/korone/modules/disabling/handlers/disable_able.py:41
 msgid "Disable-able commands"
 msgstr ""
 
-#: src/korone/modules/disabling/handlers/disabled.py:18
+#: src/korone/modules/disabling/handlers/disabled.py:17
 msgid "Lists all disabled commands."
 msgstr ""
 
-#: src/korone/modules/disabling/handlers/disabled.py:29
+#: src/korone/modules/disabling/handlers/disabled.py:28
 msgid "No disabled commands found."
 msgstr ""
 
-#: src/korone/modules/disabling/handlers/disabled.py:32
+#: src/korone/modules/disabling/handlers/disabled.py:31
 msgid "Disabled commands"
 msgstr ""
 
-#: src/korone/modules/disabling/handlers/enable.py:25
+#: src/korone/modules/disabling/handlers/enable.py:24
 msgid "Enables previously disabled command."
 msgstr ""
 
-#: src/korone/modules/disabling/handlers/enable.py:60
+#: src/korone/modules/disabling/handlers/enable.py:59
 msgid "Command enabled"
 msgstr ""
 
-#: src/korone/modules/disabling/handlers/enable_all.py:23
+#: src/korone/modules/disabling/handlers/enable_all.py:22
 msgid "Enable all commands in the chat"
 msgstr ""
 
-#: src/korone/modules/disabling/handlers/enable_all.py:37
+#: src/korone/modules/disabling/handlers/enable_all.py:36
 msgid "✅ Enable all"
 msgstr ""
 
-#: src/korone/modules/disabling/handlers/enable_all.py:40
+#: src/korone/modules/disabling/handlers/enable_all.py:39
 msgid "🚫 Cancel"
 msgstr ""
 
-#: src/korone/modules/disabling/handlers/enable_all.py:44
+#: src/korone/modules/disabling/handlers/enable_all.py:43
 #, python-brace-format
 msgid "Do you want to enable all commands in the {chat_name}?"
 msgstr ""
 
-#: src/korone/modules/disabling/handlers/enable_all.py:60
+#: src/korone/modules/disabling/handlers/enable_all.py:59
 msgid "Only the initiator can confirm disabling all commands"
 msgstr ""
 
-#: src/korone/modules/disabling/handlers/enable_all.py:72
+#: src/korone/modules/disabling/handlers/enable_all.py:71
 #, python-brace-format
 msgid "✅ All the commands ({removed_count}) have been enabled in the {chat_name}"
 msgstr ""
@@ -1049,8 +1049,8 @@ msgid ""
 "Currently supports: Twitter, Bluesky, Instagram."
 msgstr ""
 
-#: src/korone/modules/medias/handlers/base.py:81
-#: src/korone/modules/medias/handlers/base.py:122
+#: src/korone/modules/medias/handlers/base.py:96
+#: src/korone/modules/medias/handlers/base.py:137
 #, python-brace-format
 msgid "Open in {website}"
 msgstr ""
@@ -1359,7 +1359,7 @@ msgid "The message is inaccessible. Please write the command again"
 msgstr ""
 
 #: src/korone/modules/utils_/status_handler.py:33
-msgid "?New status"
+msgid "New status"
 msgstr ""
 
 #: src/korone/modules/utils_/status_handler.py:55

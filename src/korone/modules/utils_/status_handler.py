@@ -30,7 +30,7 @@ class StatusHandlerABC[T](KoroneMessageHandler):
 
     @classmethod
     async def handler_args(cls, message: Message | None, data: dict[str, Any]) -> dict[str, ArgFabric]:
-        return {"new_status": OptionalArg(BooleanArg(l_("?New status")))}
+        return {"new_status": OptionalArg(BooleanArg(l_("New status")))}
 
     @abstractmethod
     async def get_status(self) -> T:

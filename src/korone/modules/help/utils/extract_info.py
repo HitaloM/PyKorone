@@ -8,12 +8,14 @@ from typing import TYPE_CHECKING, Any, cast
 from aiogram.filters.logic import _InvertFilter
 from aiogram.types import Message
 from ass_tg.types.base_abc import ArgFabric
+from ass_tg.types.logic import OptionalArg
 
 from korone.filters.admin_rights import UserRestricting
 from korone.filters.chat_status import GroupChatFilter, PrivateChatFilter
 from korone.filters.cmd import CMDFilter
 from korone.filters.user_status import IsOP
 from korone.logger import get_logger
+from korone.utils.i18n import LazyProxy as KoroneLazyProxy
 
 if TYPE_CHECKING:
     from types import ModuleType
@@ -85,12 +87,34 @@ async def gather_cmd_args(args: ARGS_DICT | ARGS_COROUTINE | None) -> ARGS_DICT 
     if not args:
         return None
     if isinstance(args, dict):
-        return cast("ARGS_DICT", args)
+        result = cast("ARGS_DICT", args)
+        for fabric in result.values():
+            try:
+                if (
+                    isinstance(fabric, OptionalArg)
+                    and fabric.description
+                    and not str(fabric.description).startswith("?")
+                ):
+                    fabric.description = KoroneLazyProxy(lambda d=fabric.description: f"?{d}")
+            except TypeError:
+                continue
+        return result
     if callable(args):
         result = args(None, {})
         if iscoroutinefunction(args) or isawaitable(result):
             result = await result
-        return cast("ARGS_DICT", result)
+        result = cast("ARGS_DICT", result)
+        for fabric in result.values():
+            try:
+                if (
+                    isinstance(fabric, OptionalArg)
+                    and fabric.description
+                    and not str(fabric.description).startswith("?")
+                ):
+                    fabric.description = KoroneLazyProxy(lambda d=fabric.description: f"?{d}")
+            except TypeError:
+                continue
+        return result
     msg = "Unsupported args type"
     raise TypeError(msg)
 
