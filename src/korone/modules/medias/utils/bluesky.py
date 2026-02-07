@@ -1,23 +1,21 @@
 from __future__ import annotations
 
 import re
-from dataclasses import dataclass
-from pathlib import Path
 from typing import TYPE_CHECKING, Any, cast
-from urllib.parse import quote, urlparse
+from urllib.parse import quote
 
 import aiohttp
-from aiogram.types import BufferedInputFile
-from anyio import create_task_group
 
 from korone.constants import CACHE_MEDIA_TTL_SECONDS
 from korone.logger import get_logger
 from korone.utils.cached import Cached
 
-from .base import MediaItem, MediaKind, MediaPost, MediaProvider
+from .base import MediaKind, MediaPost, MediaProvider, MediaSource
 
 if TYPE_CHECKING:
     from korone.utils.cached import JsonValue
+
+    from .base import MediaItem
 
 logger = get_logger(__name__)
 
@@ -28,12 +26,6 @@ BSKY_PLC_DIRECTORY = "https://plc.directory"
 HTTP_TIMEOUT = 25
 HTTP_DOWNLOAD_TIMEOUT = 60
 TELEGRAM_MAX_FILE_SIZE = 50 * 1024 * 1024  # 50 MB
-
-
-@dataclass(frozen=True, slots=True)
-class _MediaSource:
-    kind: MediaKind
-    url: str
 
 
 class BlueskyProvider(MediaProvider):
@@ -194,15 +186,15 @@ class BlueskyProvider(MediaProvider):
         return f"https://bsky.app/profile/{quote(handle)}/post/{quote(rkey)}"
 
     @classmethod
-    def _extract_media_sources(cls, post: dict[str, Any], author_did: str, pds_url: str | None) -> list[_MediaSource]:
-        sources: list[_MediaSource] = []
+    def _extract_media_sources(cls, post: dict[str, Any], author_did: str, pds_url: str | None) -> list[MediaSource]:
+        sources: list[MediaSource] = []
         seen: set[str] = set()
 
         def _add(kind: MediaKind, url: str) -> None:
             if not url or url in seen:
                 return
             seen.add(url)
-            sources.append(_MediaSource(kind=kind, url=url))
+            sources.append(MediaSource(kind=kind, url=url))
 
         embed = post.get("embed") if isinstance(post.get("embed"), dict) else None
         if not isinstance(embed, dict):
@@ -242,51 +234,11 @@ class BlueskyProvider(MediaProvider):
         return None
 
     @classmethod
-    async def _download_media(cls, sources: list[_MediaSource]) -> list[MediaItem]:
-        if not sources:
-            return []
-
-        timeout = aiohttp.ClientTimeout(total=HTTP_DOWNLOAD_TIMEOUT)
-        headers = {"user-agent": "KoroneBot/1.0"}
-        results: list[MediaItem | None] = [None] * len(sources)
-
-        async def _download_one(index: int, source: _MediaSource, session: aiohttp.ClientSession) -> None:
-            item = await cls._download_source(source, index, session)
-            results[index] = item
-
-        async with aiohttp.ClientSession(timeout=timeout, headers=headers) as session, create_task_group() as tg:
-            for index, source in enumerate(sources, start=1):
-                tg.start_soon(_download_one, index - 1, source, session)
-
-        return [item for item in results if item]
-
-    @classmethod
-    async def _download_source(
-        cls, source: _MediaSource, index: int, session: aiohttp.ClientSession
-    ) -> MediaItem | None:
-        try:
-            async with session.get(source.url) as response:
-                if response.status != 200:
-                    await logger.adebug("[Bluesky] Failed to download media", status=response.status, url=source.url)
-                    return None
-
-                content_length = response.content_length
-                if content_length and content_length > TELEGRAM_MAX_FILE_SIZE:
-                    await logger.adebug("[Bluesky] Media too large for Telegram", size=content_length, url=source.url)
-                    return None
-
-                payload = await response.read()
-        except aiohttp.ClientError as exc:
-            await logger.aerror("[Bluesky] Media download error", error=str(exc))
-            return None
-
-        filename = cls._make_filename(source.url, source.kind, index)
-        return MediaItem(kind=source.kind, file=BufferedInputFile(payload, filename), filename=filename)
-
-    @staticmethod
-    def _make_filename(url: str, kind: MediaKind, index: int) -> str:
-        parsed = urlparse(url)
-        suffix = Path(parsed.path).suffix
-        if not suffix:
-            suffix = ".mp4" if kind == MediaKind.VIDEO else ".jpg"
-        return f"bsky_media_{index}{suffix}"
+    async def _download_media(cls, sources: list[MediaSource]) -> list[MediaItem]:
+        return await cls._download_media_sources(
+            sources,
+            timeout=HTTP_DOWNLOAD_TIMEOUT,
+            filename_prefix="bsky_media",
+            max_size=TELEGRAM_MAX_FILE_SIZE,
+            log_label="Bluesky",
+        )

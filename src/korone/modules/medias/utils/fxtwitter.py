@@ -1,34 +1,25 @@
 from __future__ import annotations
 
 import re
-from dataclasses import dataclass
-from pathlib import Path
 from typing import TYPE_CHECKING, Any, cast
-from urllib.parse import urlparse
 
 import aiohttp
-from aiogram.types import BufferedInputFile
-from anyio import create_task_group
 
 from korone.constants import CACHE_MEDIA_TTL_SECONDS
 from korone.logger import get_logger
 from korone.utils.cached import Cached
 
-from .base import MediaItem, MediaKind, MediaPost, MediaProvider
+from .base import MediaKind, MediaPost, MediaProvider, MediaSource
 
 if TYPE_CHECKING:
     from korone.utils.cached import JsonValue
+
+    from .base import MediaItem
 
 logger = get_logger(__name__)
 
 FXTWITTER_API = "https://api.fxtwitter.com/status/{status_id}"
 HTTP_TIMEOUT = 25
-
-
-@dataclass(frozen=True, slots=True)
-class _MediaSource:
-    kind: MediaKind
-    url: str
 
 
 class FXTwitterProvider(MediaProvider):
@@ -143,9 +134,9 @@ class FXTwitterProvider(MediaProvider):
         return fallback
 
     @classmethod
-    def _extract_media_sources(cls, tweet: dict[str, Any]) -> list[_MediaSource]:
+    def _extract_media_sources(cls, tweet: dict[str, Any]) -> list[MediaSource]:
         media = tweet.get("media") or {}
-        sources: list[_MediaSource] = []
+        sources: list[MediaSource] = []
         seen: set[str] = set()
 
         def _ensure_list(value: object) -> list[dict[str, Any]]:
@@ -159,7 +150,7 @@ class FXTwitterProvider(MediaProvider):
             if not url or url in seen:
                 return
             seen.add(url)
-            sources.append(_MediaSource(kind=kind, url=url))
+            sources.append(MediaSource(kind=kind, url=url))
 
         for photo in _ensure_list(media.get("photos")) + _ensure_list(media.get("images")):
             url = photo.get("url") or photo.get("src") or photo.get("source")
@@ -210,45 +201,7 @@ class FXTwitterProvider(MediaProvider):
         return best_url
 
     @classmethod
-    async def _download_media(cls, sources: list[_MediaSource]) -> list[MediaItem]:
-        if not sources:
-            return []
-
-        timeout = aiohttp.ClientTimeout(total=HTTP_TIMEOUT)
-        headers = {"user-agent": "KoroneBot/1.0"}
-        results: list[MediaItem | None] = [None] * len(sources)
-
-        async def _download_one(index: int, source: _MediaSource, session: aiohttp.ClientSession) -> None:
-            item = await cls._download_source(source, index, session)
-            results[index] = item
-
-        async with aiohttp.ClientSession(timeout=timeout, headers=headers) as session, create_task_group() as tg:
-            for index, source in enumerate(sources, start=1):
-                tg.start_soon(_download_one, index - 1, source, session)
-
-        return [item for item in results if item]
-
-    @classmethod
-    async def _download_source(
-        cls, source: _MediaSource, index: int, session: aiohttp.ClientSession
-    ) -> MediaItem | None:
-        try:
-            async with session.get(source.url) as response:
-                if response.status != 200:
-                    await logger.adebug("[FXTwitter] Failed to download media", status=response.status, url=source.url)
-                    return None
-                payload = await response.read()
-        except aiohttp.ClientError as exc:
-            await logger.aerror("[FXTwitter] Media download error", error=str(exc))
-            return None
-
-        filename = cls._make_filename(source.url, source.kind, index)
-        return MediaItem(kind=source.kind, file=BufferedInputFile(payload, filename), filename=filename)
-
-    @staticmethod
-    def _make_filename(url: str, kind: MediaKind, index: int) -> str:
-        parsed = urlparse(url)
-        suffix = Path(parsed.path).suffix
-        if not suffix:
-            suffix = ".mp4" if kind == MediaKind.VIDEO else ".jpg"
-        return f"x_media_{index}{suffix}"
+    async def _download_media(cls, sources: list[MediaSource]) -> list[MediaItem]:
+        return await cls._download_media_sources(
+            sources, timeout=HTTP_TIMEOUT, filename_prefix="x_media", log_label="FXTwitter"
+        )
