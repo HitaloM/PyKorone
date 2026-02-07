@@ -5,7 +5,7 @@ from types import ModuleType
 from typing import TYPE_CHECKING
 
 from aiogram import flags
-from stfu_tg import Code, Doc, Italic, KeyValue, Section, Template
+from stfu_tg import Code, Doc, KeyValue, Section, Template
 
 from korone import aredis
 from korone.db.session import get_postgres_stats
@@ -14,7 +14,6 @@ from korone.filters.user_status import IsOP
 from korone.modules import LOADED_MODULES
 from korone.utils.handlers import KoroneMessageHandler
 from korone.utils.i18n import lazy_gettext as l_
-from korone.versions import KORONE_VERSION
 
 if TYPE_CHECKING:
     from aiogram.dispatcher.event.handler import CallbackType
@@ -32,8 +31,6 @@ def convert_size(size_bytes: int) -> str:
 
 async def get_system_stats() -> Doc:
     doc = Doc()
-
-    doc += Section(KeyValue("Version", Italic(KORONE_VERSION)))
 
     technical_section = Section(title="Technical info")
 
