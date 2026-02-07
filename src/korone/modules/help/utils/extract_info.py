@@ -90,11 +90,7 @@ async def gather_cmd_args(args: ARGS_DICT | ARGS_COROUTINE | None) -> ARGS_DICT 
         result = cast("ARGS_DICT", args)
         for fabric in result.values():
             try:
-                if (
-                    isinstance(fabric, OptionalArg)
-                    and fabric.description
-                    and not str(fabric.description).startswith("?")
-                ):
+                if isinstance(fabric, OptionalArg) and fabric.description:
                     fabric.description = KoroneLazyProxy(lambda d=fabric.description: f"?{d}")
             except TypeError:
                 continue
@@ -106,11 +102,7 @@ async def gather_cmd_args(args: ARGS_DICT | ARGS_COROUTINE | None) -> ARGS_DICT 
         result = cast("ARGS_DICT", result)
         for fabric in result.values():
             try:
-                if (
-                    isinstance(fabric, OptionalArg)
-                    and fabric.description
-                    and not str(fabric.description).startswith("?")
-                ):
+                if isinstance(fabric, OptionalArg) and fabric.description:
                     fabric.description = KoroneLazyProxy(lambda d=fabric.description: f"?{d}")
             except TypeError:
                 continue
