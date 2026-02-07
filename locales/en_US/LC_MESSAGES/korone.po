@@ -1034,6 +1034,39 @@ msgstr ""
 msgid ", Just now"
 msgstr ""
 
+#: src/korone/modules/medias/__init__.py:14
+msgid "Medias"
+msgstr ""
+
+#: src/korone/modules/medias/__init__.py:16
+msgid "Download media from supported websites in group chats"
+msgstr ""
+
+#: src/korone/modules/medias/__init__.py:20
+msgid ""
+"Automatically fetches photos and videos from supported links posted in the group.\n"
+"\n"
+"Currently supports: Twitter, Bluesky, Instagram."
+msgstr ""
+
+#: src/korone/modules/medias/handlers/base.py:81
+#: src/korone/modules/medias/handlers/base.py:122
+#, python-brace-format
+msgid "Open in {website}"
+msgstr ""
+
+#: src/korone/modules/medias/handlers/status.py:18
+msgid "Enable or disable automatic media downloads in this chat."
+msgstr ""
+
+#: src/korone/modules/medias/handlers/status.py:21
+msgid "Media auto-download"
+msgstr ""
+
+#: src/korone/modules/medias/handlers/status.py:23
+msgid "on / off"
+msgstr ""
+
 #: src/korone/modules/op/__init__.py:13
 msgid "Operator"
 msgstr ""

@@ -27,6 +27,7 @@ MODULES = [
     "privacy",
     "disabling",
     "language",
+    "medias",
     "gsm_arena",
     "regex",
     "lastfm",

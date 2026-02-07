@@ -38,22 +38,6 @@ services:
       - redis
     restart: unless-stopped
 
-    develop:
-      watch:
-        - action: sync
-          path: ./src
-          target: /app/src
-
-        - action: sync
-          path: ./locales
-          target: /app/locales
-
-        - action: rebuild
-          path: ./pyproject.toml
-
-        - action: rebuild
-          path: ./uv.lock
-
 volumes:
   postgres_data:
   telegram_bot_api_data:

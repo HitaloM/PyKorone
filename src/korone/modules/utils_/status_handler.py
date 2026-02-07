@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from abc import ABC, abstractmethod
-from typing import TYPE_CHECKING, Any, ClassVar, Never, TypeVar, cast
+from typing import TYPE_CHECKING, Any, ClassVar, TypeVar, cast
 
 from ass_tg.types import BooleanArg, OptionalArg
 from stfu_tg import Italic, KeyValue, Section, Template
@@ -37,7 +37,7 @@ class StatusHandlerABC[T](KoroneMessageHandler):
         raise NotImplementedError
 
     @abstractmethod
-    async def set_status(self, new_status: T) -> Never:
+    async def set_status(self, *, new_status: T) -> None:
         raise NotImplementedError
 
     def status_text(self, status_data: T) -> Element | str | LazyProxy:
@@ -56,7 +56,7 @@ class StatusHandlerABC[T](KoroneMessageHandler):
 
         await self.event.reply(str(doc))
 
-    async def change_status(self, new_status: T) -> None:
+    async def change_status(self, *, new_status: T) -> None:
         current_status: T = await self.get_status()
 
         if current_status == new_status:
@@ -67,7 +67,7 @@ class StatusHandlerABC[T](KoroneMessageHandler):
             )
             return
 
-        await self.set_status(new_status)
+        await self.set_status(new_status=new_status)
 
         doc = Section(
             _("The state was successfully changed"),
@@ -78,12 +78,12 @@ class StatusHandlerABC[T](KoroneMessageHandler):
         await self.event.reply(str(doc))
 
     async def handle(self) -> None:
-        new_status: bool | None = self.data.get("new_status", None)
+        new_status: T | None = self.data.get("new_status", None)
 
         if new_status is None:
             return await self.display_current_status()
 
-        return await self.change_status(cast("T", new_status))
+        return await self.change_status(new_status=cast("T", new_status))
 
 
 class StatusBoolHandlerABC(StatusHandlerABC[bool], ABC):
