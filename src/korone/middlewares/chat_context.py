@@ -23,7 +23,6 @@ logger = get_logger(__name__)
 @dataclass
 class ChatContext:
     type: ChatType
-    is_connected: bool
     chat_id: int
     title: str
     db_model: ChatModel
@@ -56,7 +55,7 @@ class ChatContextMiddleware(BaseMiddleware):
                     last_saw=datetime.now(UTC),
                 )
 
-        return ChatContext(is_connected=False, chat_id=chat.id, type=chat_type, title=title, db_model=db_model)
+        return ChatContext(type=chat_type, chat_id=chat.id, title=title, db_model=db_model)
 
     async def __call__(
         self,
