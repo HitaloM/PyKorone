@@ -3,7 +3,6 @@ from typing import TYPE_CHECKING
 from aiogram import flags
 from stfu_tg import Section
 
-from korone.filters.chat_status import GroupChatFilter
 from korone.filters.cmd import CMDFilter
 from korone.modules.help.utils.extract_info import DISABLEABLE_CMDS
 from korone.modules.help.utils.format_help import format_handlers
@@ -22,7 +21,7 @@ if TYPE_CHECKING:
 class ListDisableable(KoroneMessageHandler):
     @staticmethod
     def filters() -> tuple[CallbackType, ...]:
-        return (CMDFilter("disableable"), GroupChatFilter(notify_on_fail=True))
+        return (CMDFilter("disableable"),)
 
     @staticmethod
     def get_disable_able_commands() -> list[HandlerHelp]:

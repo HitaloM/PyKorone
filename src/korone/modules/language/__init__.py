@@ -15,7 +15,7 @@ from .stats import language_stats
 router = Router(name="language")
 
 __module_name__ = l_("Language")
-__module_emoji__ = "🌐"
+__module_emoji__ = "🌎"
 __module_description__ = l_("Language and localization settings")
 __module_info__ = LazyProxy(lambda: Doc(l_("Allows users to set their preferred language for bot interactions.")))
 
