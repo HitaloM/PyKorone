@@ -46,8 +46,6 @@ class BlueskyProvider(MediaProvider):
         if not did:
             return None
 
-        pds_url = await cls._resolve_pds_url(did)
-
         uri = f"at://{did}/app.bsky.feed.post/{rkey}"
         thread = await cls._get_post_thread(uri)
         if not thread:
@@ -62,7 +60,17 @@ class BlueskyProvider(MediaProvider):
         post_url = cls._build_post_url(author_handle or handle, rkey)
 
         effective_did = author_did or did
-        media_sources = cls._extract_media_sources(post, effective_did, pds_url)
+        embed_view, embed_type = cls._extract_embed_view(post)
+        if not embed_view or not embed_type:
+            return None
+
+        pds_url = None
+        if embed_type == "app.bsky.embed.video#view":
+            pds_url = await cls._resolve_pds_url(effective_did)
+            if not pds_url:
+                return None
+
+        media_sources = cls._extract_media_sources(embed_view, embed_type, effective_did, pds_url)
         media = await cls._download_media(media_sources)
         if not media:
             return None
@@ -76,11 +84,9 @@ class BlueskyProvider(MediaProvider):
             media=media,
         )
 
-    @staticmethod
-    def _extract_handle_and_rkey(url: str) -> tuple[str | None, str | None]:
-        match = re.search(
-            r"https?://(?:www\.)?bsky\.app/profile/(?P<handle>[^/]+)/post/(?P<rkey>[A-Za-z0-9]+)", url, re.IGNORECASE
-        )
+    @classmethod
+    def _extract_handle_and_rkey(cls, url: str) -> tuple[str | None, str | None]:
+        match = cls.pattern.search(url)
         if not match:
             return None, None
         return match.group("handle"), match.group("rkey")
@@ -185,8 +191,31 @@ class BlueskyProvider(MediaProvider):
     def _build_post_url(handle: str, rkey: str) -> str:
         return f"https://bsky.app/profile/{quote(handle)}/post/{quote(rkey)}"
 
+    @staticmethod
+    def _extract_embed_view(post: dict[str, Any]) -> tuple[dict[str, Any] | None, str]:
+        embed = post.get("embed") if isinstance(post.get("embed"), dict) else None
+        if not isinstance(embed, dict):
+            return None, ""
+
+        embed_view: dict[str, Any] = embed
+        embed_type: str = ""
+        embed_type_raw = embed_view.get("$type")
+        if isinstance(embed_type_raw, str):
+            embed_type = embed_type_raw
+        if embed_type == "app.bsky.embed.recordWithMedia#view":
+            media = embed_view.get("media") if isinstance(embed_view.get("media"), dict) else None
+            if not isinstance(media, dict):
+                return None, ""
+            embed_view = media
+            embed_type_raw = embed_view.get("$type")
+            embed_type = embed_type_raw if isinstance(embed_type_raw, str) else ""
+
+        return embed_view, embed_type
+
     @classmethod
-    def _extract_media_sources(cls, post: dict[str, Any], author_did: str, pds_url: str | None) -> list[MediaSource]:
+    def _extract_media_sources(
+        cls, embed_view: dict[str, Any], embed_type: str, author_did: str, pds_url: str | None
+    ) -> list[MediaSource]:
         sources: list[MediaSource] = []
         seen: set[str] = set()
 
@@ -207,19 +236,6 @@ class BlueskyProvider(MediaProvider):
                     kind=kind, url=url, thumbnail_url=thumbnail_url, duration=duration, width=width, height=height
                 )
             )
-
-        embed = post.get("embed") if isinstance(post.get("embed"), dict) else None
-        if not isinstance(embed, dict):
-            return sources
-
-        embed_view: dict[str, Any] = embed
-        embed_type = embed_view.get("$type") if isinstance(embed_view.get("$type"), str) else ""
-        if embed_type == "app.bsky.embed.recordWithMedia#view":
-            media = embed_view.get("media") if isinstance(embed_view.get("media"), dict) else None
-            if not isinstance(media, dict):
-                return sources
-            embed_view = media
-            embed_type = embed_view.get("$type") if isinstance(embed_view.get("$type"), str) else embed_type
 
         if embed_type == "app.bsky.embed.images#view":
             images_raw = embed_view.get("images")

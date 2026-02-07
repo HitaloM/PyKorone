@@ -29,7 +29,7 @@ class BaseMediaHandler(KoroneMessageHandler):
     DEFAULT_AUTHOR_HANDLE: ClassVar[str]
 
     @classmethod
-    def filters(cls) -> tuple[CallbackType, ...]:
+    def filters(cls) -> tuple[CallbackType, ...]:  # pyright: ignore[reportIncompatibleMethodOverride]
         return (GroupChatFilter(), MediaUrlFilter(cls.PROVIDER.pattern))
 
     @staticmethod
