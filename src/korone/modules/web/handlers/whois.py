@@ -7,7 +7,7 @@ from ass_tg.types import WordArg
 from stfu_tg import Doc, KeyValue, Title
 
 from korone.filters.cmd import CMDFilter
-from korone.modules.web.utils.whois import normalize_domain, parse_whois_response, query_whois
+from korone.modules.web.utils.whois import normalize_domain, parse_whois_output, query_whois
 from korone.utils.handlers import KoroneMessageHandler
 from korone.utils.i18n import gettext as _
 from korone.utils.i18n import lazy_gettext as l_
@@ -42,7 +42,7 @@ class WhoisHandler(KoroneMessageHandler):
             await self.event.reply(_("No WHOIS information found for <code>{domain}</code>.").format(domain=domain))
             return
 
-        parsed_info = parse_whois_response(whois_data)
+        parsed_info = parse_whois_output(whois_data)
         if not parsed_info:
             await self.event.reply(_("No WHOIS information found for <code>{domain}</code>.").format(domain=domain))
             return
