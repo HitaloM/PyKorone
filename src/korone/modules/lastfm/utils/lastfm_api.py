@@ -8,6 +8,7 @@ from pydantic import BaseModel
 
 from korone.config import CONFIG
 from korone.logger import get_logger
+from korone.utils.aiohttp_session import HTTPClient
 
 from .errors import ERROR_CODE_MAP, LastFMError
 from .types import LastFMAlbum, LastFMArtist, LastFMTrack, LastFMUser
@@ -50,10 +51,8 @@ class LastFMClient:
 
     async def _request(self, params: dict[str, Any]) -> dict[str, Any]:
         try:
-            async with (
-                aiohttp.ClientSession(timeout=self._timeout) as session,
-                session.get(self.base_url, params=params) as response,
-            ):
+            session = await HTTPClient.get_session()
+            async with session.get(self.base_url, params=params, timeout=self._timeout) as response:
                 if response.status >= 400:
                     await LastFMClient._raise_http_error(response, params)
 

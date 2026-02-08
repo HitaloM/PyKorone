@@ -1,4 +1,5 @@
 import asyncio
+from typing import TYPE_CHECKING
 
 import uvloop
 from ass_tg.middleware import ArgsMiddleware
@@ -13,7 +14,11 @@ from .middlewares.chat_context import ChatContextMiddleware
 from .middlewares.disabling import DisablingMiddleware
 from .middlewares.save_chats import SaveChatsMiddleware
 from .modules import load_modules
+from .utils.aiohttp_session import HTTPClient
 from .utils.i18n import i18n
+
+if TYPE_CHECKING:
+    from aiogram import Bot, Dispatcher
 
 logger = get_logger(__name__)
 
@@ -24,8 +29,8 @@ async def ensure_bot_in_db() -> None:
     await logger.ainfo("Bot user ensured in DB", bot_id=bot_user.id, username=bot_user.username)
 
 
-async def main() -> None:
-    await logger.ainfo("Starting the bot...")
+async def on_startup() -> None:
+    await logger.ainfo("Starting up the bot...")
 
     await init_db()
     await ensure_bot_in_db()
@@ -39,7 +44,18 @@ async def main() -> None:
 
     await bot.delete_webhook(drop_pending_updates=True)
 
-    dp.shutdown.register(close_db)
+
+async def on_shutdown(dp: Dispatcher, bot: Bot) -> None:
+    await logger.ainfo("Shutting down the bot...")
+    await close_db()
+    await HTTPClient.close()
+    await bot.session.close()
+    await dp.storage.close()
+
+
+async def main() -> None:
+    dp.startup.register(on_startup)
+    dp.shutdown.register(on_shutdown)
 
     allowed_updates = dp.resolve_used_update_types()
     await dp.start_polling(bot, allowed_updates=allowed_updates)

@@ -12,6 +12,7 @@ from stfu_tg import Doc, KeyValue, Title
 from korone.filters.cmd import CMDFilter
 from korone.modules.web.callbacks import GetIPCallback, decode_ip, encode_ip
 from korone.modules.web.utils.ip import fetch_ip_info, get_ips_from_string
+from korone.utils.aiohttp_session import HTTPClient
 from korone.utils.handlers import KoroneCallbackQueryHandler, KoroneMessageHandler
 from korone.utils.i18n import gettext as _
 from korone.utils.i18n import lazy_gettext as l_
@@ -67,16 +68,16 @@ class IPInfoHandler(KoroneMessageHandler):
     async def fetch_ip_info(self, ip_or_domain: str) -> dict[str, Any] | None:
         url = self.IPINFO_URL.format(target=ip_or_domain)
         timeout = aiohttp.ClientTimeout(total=15)
-        async with aiohttp.ClientSession(timeout=timeout) as session:
-            try:
-                async with session.get(url) as response:
-                    if response.status != 200:
-                        return None
-                    data = await response.json()
-                    data.pop("readme", None)
-                    return data
-            except aiohttp.ClientError:
-                return None
+        session = await HTTPClient.get_session()
+        try:
+            async with session.get(url, timeout=timeout) as response:
+                if response.status != 200:
+                    return None
+                data = await response.json()
+                data.pop("readme", None)
+                return data
+        except aiohttp.ClientError:
+            return None
 
     async def _reply_with_ip_info(self, ip: str) -> None:
         info = await self.fetch_ip_info(ip)

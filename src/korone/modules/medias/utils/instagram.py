@@ -12,6 +12,7 @@ from lxml import html as lxml_html
 
 from korone.constants import CACHE_MEDIA_TTL_SECONDS
 from korone.logger import get_logger
+from korone.utils.aiohttp_session import HTTPClient
 from korone.utils.cached import Cached
 
 from .base import MediaItem, MediaKind, MediaPost, MediaProvider
@@ -20,7 +21,6 @@ logger = get_logger(__name__)
 
 INSTAGRAM_HOST = "instagram.com"
 INSTAFIX_HOST = "eeinstagram.com"
-HTTP_TIMEOUT = 60
 
 
 @dataclass(frozen=True, slots=True)
@@ -97,16 +97,16 @@ class InstagramProvider(MediaProvider):
     @classmethod
     @Cached(ttl=CACHE_MEDIA_TTL_SECONDS, key="instafix:html")
     async def _get_instafix_data(cls, instafix_url: str) -> dict[str, str] | None:
-        timeout = aiohttp.ClientTimeout(total=HTTP_TIMEOUT)
-        headers = {"accept": "text/html", "user-agent": "KoroneBot/1.0"}
         try:
-            async with aiohttp.ClientSession(timeout=timeout, headers=headers) as session:
-                async with session.get(instafix_url, allow_redirects=True) as response:
-                    if response.status != 200:
-                        await logger.adebug("[Instagram] Non-200 response", status=response.status, url=instafix_url)
-                        return None
-                    text = await response.text()
+            session = await HTTPClient.get_session()
+            async with session.get(
+                instafix_url, timeout=cls._DEFAULT_TIMEOUT, headers=cls._DEFAULT_HEADERS, allow_redirects=True
+            ) as response:
+                if response.status != 200:
+                    await logger.adebug("[Instagram] Non-200 response", status=response.status, url=instafix_url)
+                    return None
 
+                text = await response.text()
                 scraped = cls._scrape_instafix_data(text)
                 if not scraped.get("media_url"):
                     return None
@@ -164,10 +164,9 @@ class InstagramProvider(MediaProvider):
 
     @classmethod
     async def _download_media(cls, url: str, kind: MediaKind) -> MediaItem | None:
-        timeout = aiohttp.ClientTimeout(total=HTTP_TIMEOUT)
-        headers = {"user-agent": "KoroneBot/1.0"}
         try:
-            async with aiohttp.ClientSession(timeout=timeout, headers=headers) as session, session.get(url) as response:
+            session = await HTTPClient.get_session()
+            async with session.get(url, timeout=cls._DEFAULT_TIMEOUT, headers=cls._DEFAULT_HEADERS) as response:
                 if response.status != 200:
                     await logger.adebug("[Instagram] Failed to download media", status=response.status, url=url)
                     return None

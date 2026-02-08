@@ -7,6 +7,8 @@ from typing import Any
 
 import aiohttp
 
+from korone.utils.aiohttp_session import HTTPClient
+
 from .misc import _extract_hostname
 
 IPINFO_URL = "https://ipinfo.io/{target}/json"
@@ -16,16 +18,16 @@ CF_DNS_URL = "https://cloudflare-dns.com/dns-query"
 async def fetch_ip_info(ip_or_domain: str) -> dict[str, Any] | None:
     url = IPINFO_URL.format(target=ip_or_domain)
     timeout = aiohttp.ClientTimeout(total=15)
-    async with aiohttp.ClientSession(timeout=timeout) as session:
-        try:
-            async with session.get(url) as response:
-                if response.status != 200:
-                    return None
-                data = await response.json()
-                data.pop("readme", None)
-                return data
-        except aiohttp.ClientError:
-            return None
+    session = await HTTPClient.get_session()
+    try:
+        async with session.get(url, timeout=timeout) as response:
+            if response.status != 200:
+                return None
+            data = await response.json()
+            data.pop("readme", None)
+            return data
+    except aiohttp.ClientError:
+        return None
 
 
 async def fetch_dns_info(hostname: str, record_type: str) -> list[str]:
@@ -33,17 +35,17 @@ async def fetch_dns_info(hostname: str, record_type: str) -> list[str]:
     headers = {"accept": "application/dns-json"}
     timeout = aiohttp.ClientTimeout(total=10)
 
-    async with aiohttp.ClientSession(timeout=timeout) as session:
-        try:
-            async with session.get(CF_DNS_URL, params=params, headers=headers) as response:
-                if response.status != 200:
-                    return []
-                data = await response.json()
-                answers = data.get("Answer", [])
-                expected_type = 1 if record_type == "A" else 28
-                return [answer["data"] for answer in answers if answer.get("type") == expected_type]
-        except aiohttp.ClientError:
-            return []
+    session = await HTTPClient.get_session()
+    try:
+        async with session.get(CF_DNS_URL, timeout=timeout, params=params, headers=headers) as response:
+            if response.status != 200:
+                return []
+            data = await response.json()
+            answers = data.get("Answer", [])
+            expected_type = 1 if record_type == "A" else 28
+            return [answer["data"] for answer in answers if answer.get("type") == expected_type]
+    except aiohttp.ClientError:
+        return []
 
 
 async def resolve_hostname(hostname: str) -> list[str]:

@@ -26,3 +26,5 @@ bot = Bot(
 aredis = Redis(host=CONFIG.redis_host, port=CONFIG.redis_port, db=CONFIG.redis_db_states, single_connection_client=True)
 storage = RedisStorage(redis=aredis, key_builder=DefaultKeyBuilder(prefix=str(CONFIG.redis_db_fsm)))
 dp = Dispatcher(storage=storage, events_isolation=SimpleEventIsolation())
+
+__all__ = ("aredis", "bot", "dp")

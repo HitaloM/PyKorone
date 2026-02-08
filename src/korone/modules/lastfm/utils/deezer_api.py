@@ -5,6 +5,7 @@ from typing import Any
 import aiohttp
 
 from korone.logger import get_logger
+from korone.utils.aiohttp_session import HTTPClient
 
 from .types import DeezerData
 
@@ -30,7 +31,8 @@ class DeezerClient:
         timeout = aiohttp.ClientTimeout(total=self.timeout)
 
         try:
-            async with aiohttp.ClientSession(timeout=timeout) as session, session.get(url, params=params) as response:
+            session = await HTTPClient.get_session()
+            async with session.get(url, params=params, timeout=timeout) as response:
                 response.raise_for_status()
                 data = await response.json()
 

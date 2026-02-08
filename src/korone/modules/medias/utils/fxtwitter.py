@@ -7,6 +7,7 @@ import aiohttp
 
 from korone.constants import CACHE_MEDIA_TTL_SECONDS
 from korone.logger import get_logger
+from korone.utils.aiohttp_session import HTTPClient
 from korone.utils.cached import Cached
 
 from .base import MediaKind, MediaPost, MediaProvider, MediaSource
@@ -79,20 +80,20 @@ class FXTwitterProvider(MediaProvider):
         handle = match.group("handle")
         return status_id, handle
 
-    @staticmethod
+    @classmethod
     @Cached(ttl=CACHE_MEDIA_TTL_SECONDS, key="fxtwitter:json")
-    async def _fetch_json(url: str) -> dict[str, JsonValue] | None:
-        timeout = aiohttp.ClientTimeout(total=HTTP_TIMEOUT)
-        headers = {"accept": "application/json", "user-agent": "KoroneBot/1.0"}
+    async def _fetch_json(cls, url: str) -> dict[str, JsonValue] | None:
+        timeout = cls._DEFAULT_TIMEOUT
         try:
-            async with aiohttp.ClientSession(timeout=timeout, headers=headers) as session, session.get(url) as response:
+            session = await HTTPClient.get_session()
+            async with session.get(url, timeout=timeout, headers=cls._DEFAULT_HEADERS) as response:
                 if response.status != 200:
                     await logger.adebug("[FXTwitter] Non-200 response", status=response.status, url=url)
                     return None
                 data = await response.json()
                 return cast("dict[str, JsonValue]", data)
         except (aiohttp.ClientError, aiohttp.ContentTypeError) as exc:
-            await logger.aerror("[FXTwitter] Request error", error=str(exc))
+            await logger.aerror("[FXTwitter] Request error", error=str(exc), url=url)
             return None
 
     @staticmethod
@@ -243,6 +244,4 @@ class FXTwitterProvider(MediaProvider):
 
     @classmethod
     async def _download_media(cls, sources: list[MediaSource]) -> list[MediaItem]:
-        return await cls._download_media_sources(
-            sources, timeout=HTTP_TIMEOUT, filename_prefix="x_media", log_label="FXTwitter"
-        )
+        return await cls.download_media(sources, filename_prefix="x_media", log_label="FXTwitter")

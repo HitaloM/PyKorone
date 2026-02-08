@@ -6,6 +6,7 @@ from lxml import html
 
 from korone.config import CONFIG
 from korone.logger import get_logger
+from korone.utils.aiohttp_session import HTTPClient
 from korone.utils.cached import Cached
 from korone.utils.i18n import gettext as _
 
@@ -45,10 +46,8 @@ async def fetch_html(url: str) -> str:
     try:
         proxy_url = f"{CONFIG.cors_bypass_url.rstrip('/')}/{url}"
         timeout = aiohttp.ClientTimeout(total=20)
-        async with (
-            aiohttp.ClientSession(headers=HEADERS, timeout=timeout) as session,
-            session.get(proxy_url) as response,
-        ):
+        session = await HTTPClient.get_session()
+        async with session.get(proxy_url, headers=HEADERS, timeout=timeout) as response:
             response.raise_for_status()
             return await response.text()
     except aiohttp.ClientResponseError as err:

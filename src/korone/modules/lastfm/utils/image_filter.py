@@ -9,6 +9,7 @@ from typing import TYPE_CHECKING
 import aiohttp
 
 from korone.logger import get_logger
+from korone.utils.aiohttp_session import HTTPClient
 
 if TYPE_CHECKING:
     from .types import LastFMAlbum, LastFMTrack, LastFMUser
@@ -58,7 +59,8 @@ async def get_biggest_lastfm_image(lfm_obj: LastFMAlbum | LastFMTrack | LastFMUs
 
         try:
             timeout = aiohttp.ClientTimeout(total=HTTP_TIMEOUT)
-            async with aiohttp.ClientSession(timeout=timeout) as session, session.get(image.url) as response:
+            session = await HTTPClient.get_session()
+            async with session.get(image.url, timeout=timeout) as response:
                 response.raise_for_status()
                 if response.status == 200:
                     content = await response.read()

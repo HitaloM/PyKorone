@@ -509,55 +509,55 @@ msgstr ""
 msgid "You should provide a device name to search. Example: <code>/device Galaxy S24</code>."
 msgstr ""
 
-#: src/korone/modules/gsm_arena/utils/scraper.py:64
+#: src/korone/modules/gsm_arena/utils/scraper.py:63
 msgid "Status"
 msgstr ""
 
-#: src/korone/modules/gsm_arena/utils/scraper.py:65
+#: src/korone/modules/gsm_arena/utils/scraper.py:64
 msgid "Network"
 msgstr ""
 
-#: src/korone/modules/gsm_arena/utils/scraper.py:66
+#: src/korone/modules/gsm_arena/utils/scraper.py:65
 msgid "Weight"
 msgstr ""
 
-#: src/korone/modules/gsm_arena/utils/scraper.py:67
+#: src/korone/modules/gsm_arena/utils/scraper.py:66
 msgid "Display"
 msgstr ""
 
-#: src/korone/modules/gsm_arena/utils/scraper.py:68
+#: src/korone/modules/gsm_arena/utils/scraper.py:67
 msgid "Chipset"
 msgstr ""
 
-#: src/korone/modules/gsm_arena/utils/scraper.py:69
+#: src/korone/modules/gsm_arena/utils/scraper.py:68
 msgid "Memory"
 msgstr ""
 
-#: src/korone/modules/gsm_arena/utils/scraper.py:70
+#: src/korone/modules/gsm_arena/utils/scraper.py:69
 msgid "Rear Camera"
 msgstr ""
 
-#: src/korone/modules/gsm_arena/utils/scraper.py:71
+#: src/korone/modules/gsm_arena/utils/scraper.py:70
 msgid "Front Camera"
 msgstr ""
 
-#: src/korone/modules/gsm_arena/utils/scraper.py:72
+#: src/korone/modules/gsm_arena/utils/scraper.py:71
 msgid "3.5mm jack"
 msgstr ""
 
-#: src/korone/modules/gsm_arena/utils/scraper.py:73
+#: src/korone/modules/gsm_arena/utils/scraper.py:72
 msgid "USB"
 msgstr ""
 
-#: src/korone/modules/gsm_arena/utils/scraper.py:74
+#: src/korone/modules/gsm_arena/utils/scraper.py:73
 msgid "Sensors"
 msgstr ""
 
-#: src/korone/modules/gsm_arena/utils/scraper.py:75
+#: src/korone/modules/gsm_arena/utils/scraper.py:74
 msgid "Battery"
 msgstr ""
 
-#: src/korone/modules/gsm_arena/utils/scraper.py:76
+#: src/korone/modules/gsm_arena/utils/scraper.py:75
 msgid "Charging"
 msgstr ""
 
@@ -1396,76 +1396,76 @@ msgstr ""
 msgid "Get IP details and WHOIS information for domains."
 msgstr ""
 
-#: src/korone/modules/web/handlers/ip.py:26
-#: src/korone/modules/web/handlers/ip.py:48
+#: src/korone/modules/web/handlers/ip.py:27
+#: src/korone/modules/web/handlers/ip.py:49
 msgid "IP"
 msgstr ""
 
-#: src/korone/modules/web/handlers/ip.py:27
+#: src/korone/modules/web/handlers/ip.py:28
 msgid "Hostname"
 msgstr ""
 
-#: src/korone/modules/web/handlers/ip.py:28
+#: src/korone/modules/web/handlers/ip.py:29
 msgid "City"
 msgstr ""
 
-#: src/korone/modules/web/handlers/ip.py:29
+#: src/korone/modules/web/handlers/ip.py:30
 msgid "Region"
 msgstr ""
 
-#: src/korone/modules/web/handlers/ip.py:30
+#: src/korone/modules/web/handlers/ip.py:31
 msgid "Country"
 msgstr ""
 
-#: src/korone/modules/web/handlers/ip.py:31
+#: src/korone/modules/web/handlers/ip.py:32
 msgid "Location"
 msgstr ""
 
-#: src/korone/modules/web/handlers/ip.py:32
+#: src/korone/modules/web/handlers/ip.py:33
 msgid "Organization"
 msgstr ""
 
-#: src/korone/modules/web/handlers/ip.py:33
+#: src/korone/modules/web/handlers/ip.py:34
 msgid "Postal"
 msgstr ""
 
-#: src/korone/modules/web/handlers/ip.py:34
+#: src/korone/modules/web/handlers/ip.py:35
 msgid "Timezone"
 msgstr ""
 
-#: src/korone/modules/web/handlers/ip.py:39
+#: src/korone/modules/web/handlers/ip.py:40
 msgid "IP Information"
 msgstr ""
 
-#: src/korone/modules/web/handlers/ip.py:53
+#: src/korone/modules/web/handlers/ip.py:54
 msgid "Shows information about an IP or domain."
 msgstr ""
 
-#: src/korone/modules/web/handlers/ip.py:61
+#: src/korone/modules/web/handlers/ip.py:62
 msgid "IP or domain"
 msgstr ""
 
-#: src/korone/modules/web/handlers/ip.py:84
-#: src/korone/modules/web/handlers/ip.py:137
+#: src/korone/modules/web/handlers/ip.py:85
+#: src/korone/modules/web/handlers/ip.py:138
 #, python-brace-format
 msgid "No information found for {ip_or_domain}."
 msgstr ""
 
-#: src/korone/modules/web/handlers/ip.py:90
-#: src/korone/modules/web/handlers/ip.py:144
+#: src/korone/modules/web/handlers/ip.py:91
+#: src/korone/modules/web/handlers/ip.py:145
 #, python-brace-format
 msgid "The provided IP address <code>{ip}</code> is a <i>bogon</i> IP address, meaning it is either not in use or reserved for special use."
 msgstr ""
 
-#: src/korone/modules/web/handlers/ip.py:103
+#: src/korone/modules/web/handlers/ip.py:104
 msgid "You should provide an IP address or domain. Example: <code>/ip google.com</code>."
 msgstr ""
 
-#: src/korone/modules/web/handlers/ip.py:109
+#: src/korone/modules/web/handlers/ip.py:110
 msgid "No valid IP addresses or domains found in the provided input."
 msgstr ""
 
-#: src/korone/modules/web/handlers/ip.py:120
+#: src/korone/modules/web/handlers/ip.py:121
 msgid "Please select an IP address:"
 msgstr ""
 

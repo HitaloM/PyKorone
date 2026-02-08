@@ -8,6 +8,7 @@ import aiohttp
 
 from korone.constants import CACHE_MEDIA_TTL_SECONDS
 from korone.logger import get_logger
+from korone.utils.aiohttp_session import HTTPClient
 from korone.utils.cached import Cached
 
 from .base import MediaKind, MediaPost, MediaProvider, MediaSource
@@ -96,12 +97,9 @@ class BlueskyProvider(MediaProvider):
     async def _resolve_handle(handle: str) -> str | None:
         timeout = aiohttp.ClientTimeout(total=HTTP_TIMEOUT)
         params = {"handle": handle}
-        headers = {"accept": "application/json", "user-agent": "KoroneBot/1.0"}
         try:
-            async with (
-                aiohttp.ClientSession(timeout=timeout, headers=headers) as session,
-                session.get(BSKY_RESOLVE_HANDLE, params=params) as response,
-            ):
+            session = await HTTPClient.get_session()
+            async with session.get(BSKY_RESOLVE_HANDLE, timeout=timeout, params=params) as response:
                 if response.status != 200:
                     await logger.adebug("[Bluesky] Resolve handle failed", status=response.status, handle=handle)
                     return None
@@ -115,7 +113,6 @@ class BlueskyProvider(MediaProvider):
     @Cached(ttl=CACHE_MEDIA_TTL_SECONDS, key="bsky:pds")
     async def _resolve_pds_url(did: str) -> str | None:
         timeout = aiohttp.ClientTimeout(total=HTTP_TIMEOUT)
-        headers = {"accept": "application/json", "user-agent": "KoroneBot/1.0"}
         if did.startswith("did:plc:"):
             url = f"{BSKY_PLC_DIRECTORY}/{did}"
         elif did.startswith("did:web:"):
@@ -124,7 +121,8 @@ class BlueskyProvider(MediaProvider):
         else:
             return None
         try:
-            async with aiohttp.ClientSession(timeout=timeout, headers=headers) as session, session.get(url) as response:
+            session = await HTTPClient.get_session()
+            async with session.get(url, timeout=timeout) as response:
                 if response.status != 200:
                     await logger.adebug("[Bluesky] PLC directory lookup failed", status=response.status, did=did)
                     return None
@@ -148,12 +146,9 @@ class BlueskyProvider(MediaProvider):
     async def _get_post_thread(uri: str) -> dict[str, JsonValue] | None:
         timeout = aiohttp.ClientTimeout(total=HTTP_TIMEOUT)
         params = {"uri": uri, "depth": 0}
-        headers = {"accept": "application/json", "user-agent": "KoroneBot/1.0"}
         try:
-            async with (
-                aiohttp.ClientSession(timeout=timeout, headers=headers) as session,
-                session.get(BSKY_POST_THREAD, params=params) as response,
-            ):
+            session = await HTTPClient.get_session()
+            async with session.get(BSKY_POST_THREAD, timeout=timeout, params=params) as response:
                 if response.status != 200:
                     await logger.adebug("[Bluesky] Post thread failed", status=response.status, uri=uri)
                     return None
@@ -300,10 +295,6 @@ class BlueskyProvider(MediaProvider):
 
     @classmethod
     async def _download_media(cls, sources: list[MediaSource]) -> list[MediaItem]:
-        return await cls._download_media_sources(
-            sources,
-            timeout=HTTP_DOWNLOAD_TIMEOUT,
-            filename_prefix="bsky_media",
-            max_size=TELEGRAM_MAX_FILE_SIZE,
-            log_label="Bluesky",
+        return await cls.download_media(
+            sources, filename_prefix="bsky_media", max_size=TELEGRAM_MAX_FILE_SIZE, log_label="Bluesky"
         )

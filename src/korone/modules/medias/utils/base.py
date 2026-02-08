@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import asyncio
+import mimetypes
 from abc import ABC, abstractmethod
 from dataclasses import dataclass
 from enum import StrEnum
@@ -12,12 +13,13 @@ import aiohttp
 from aiogram.types import BufferedInputFile
 
 from korone.logger import get_logger
+from korone.utils.aiohttp_session import HTTPClient
 
 if TYPE_CHECKING:
     import re
+    from collections.abc import Sequence
 
     from aiogram.types import InputFile
-
 
 logger = get_logger(__name__)
 
@@ -63,6 +65,9 @@ class MediaProvider(ABC):
     website: ClassVar[str]
     pattern: ClassVar[re.Pattern[str]]
 
+    _DEFAULT_HEADERS: ClassVar[dict[str, str]] = {"User-Agent": "KoroneBot/1.0", "Accept-Encoding": "gzip, deflate, br"}
+    _DEFAULT_TIMEOUT: ClassVar[aiohttp.ClientTimeout] = aiohttp.ClientTimeout(total=60)
+
     @classmethod
     def extract_urls(cls, text: str) -> list[str]:
         return [match.group(0) for match in cls.pattern.finditer(text)]
@@ -73,11 +78,10 @@ class MediaProvider(ABC):
         raise NotImplementedError
 
     @classmethod
-    async def _download_media_sources(
+    async def download_media(
         cls,
-        sources: list[MediaSource],
+        sources: Sequence[MediaSource],
         *,
-        timeout: int,  # noqa: ASYNC109
         filename_prefix: str,
         max_size: int | None = None,
         log_label: str | None = None,
@@ -85,52 +89,70 @@ class MediaProvider(ABC):
         if not sources:
             return []
 
-        headers = {"user-agent": "KoroneBot/1.0"}
+        label = log_label or cls.name
+        return await cls._process_downloads(sources, filename_prefix, max_size, label)
+
+    @classmethod
+    async def _process_downloads(
+        cls, sources: Sequence[MediaSource], prefix: str, max_size: int | None, label: str
+    ) -> list[MediaItem]:
         results: list[MediaItem | None] = [None] * len(sources)
 
-        async def _download_one(index: int, source: MediaSource, session: aiohttp.ClientSession) -> None:
-            item = await cls._download_source(source, index, session, filename_prefix, max_size, log_label)
-            results[index] = item
+        async with asyncio.TaskGroup() as tg:
+            for i, source in enumerate(sources):
+                tg.create_task(cls._download_worker(i, source, prefix, max_size, label, results))
 
-        client_timeout = aiohttp.ClientTimeout(total=timeout)
-        async with aiohttp.ClientSession(timeout=client_timeout, headers=headers) as session, asyncio.TaskGroup() as tg:
-            for index, source in enumerate(sources, start=1):
-                tg.create_task(_download_one(index - 1, source, session))
+        return [item for item in results if item is not None]
 
-        return [item for item in results if item]
+    @classmethod
+    async def _download_worker(
+        cls,
+        index: int,
+        source: MediaSource,
+        prefix: str,
+        max_size: int | None,
+        label: str,
+        results_list: list[MediaItem | None],
+    ) -> None:
+        try:
+            item = await cls._download_source(source, index + 1, prefix, max_size, label)
+            results_list[index] = item
+        except Exception as e:  # noqa: BLE001
+            await logger.aerror(f"[{label}] Unexpected worker error", error=str(e), url=source.url)
 
     @classmethod
     async def _download_source(
-        cls,
-        source: MediaSource,
-        index: int,
-        session: aiohttp.ClientSession,
-        filename_prefix: str,
-        max_size: int | None,
-        log_label: str | None,
+        cls, source: MediaSource, index: int, prefix: str, max_size: int | None, label: str
     ) -> MediaItem | None:
-        label = log_label or cls.name
         try:
-            async with session.get(source.url) as response:
+            session = await HTTPClient.get_session()
+            async with session.get(source.url, timeout=cls._DEFAULT_TIMEOUT) as response:
                 if response.status != 200:
-                    await logger.adebug(f"[{label}] Failed to download media", status=response.status, url=source.url)
+                    await logger.adebug(f"[{label}] HTTP {response.status}", url=source.url)
                     return None
 
-                content_length = response.content_length
-                if max_size and content_length and content_length > max_size:
-                    await logger.adebug(f"[{label}] Media too large for Telegram", size=content_length, url=source.url)
+                if max_size and (content_len := response.content_length) and content_len > max_size:
+                    await logger.adebug(f"[{label}] Media too large", size=content_len)
                     return None
 
                 payload = await response.read()
+
+                if max_size and len(payload) > max_size:
+                    return None
+
+                content_type = response.headers.get("Content-Type", "")
+                extension = cls._guess_extension(source.url, content_type, source.kind)
+
         except aiohttp.ClientError as exc:
-            await logger.aerror(f"[{label}] Media download error", error=str(exc))
+            await logger.aerror(f"[{label}] Network error", error=str(exc))
             return None
 
-        thumbnail = None
+        thumbnail: InputFile | None = None
         if source.thumbnail_url and source.kind == MediaKind.VIDEO:
-            thumbnail = await cls._download_thumbnail(source.thumbnail_url, session, label, index, filename_prefix)
+            thumbnail = await cls._download_thumbnail(source.thumbnail_url, label, index, prefix)
 
-        filename = cls._make_media_filename(source.url, source.kind, index, filename_prefix)
+        filename = f"{prefix}_{index}{extension}"
+
         return MediaItem(
             kind=source.kind,
             file=BufferedInputFile(payload, filename),
@@ -142,34 +164,29 @@ class MediaProvider(ABC):
         )
 
     @classmethod
-    async def _download_thumbnail(
-        cls, url: str, session: aiohttp.ClientSession, label: str, index: int, filename_prefix: str
-    ) -> InputFile | None:
+    async def _download_thumbnail(cls, url: str, label: str, index: int, prefix: str) -> InputFile | None:
         try:
-            async with session.get(url) as response:
+            session = await HTTPClient.get_session()
+            async with session.get(url, timeout=cls._DEFAULT_TIMEOUT) as response:
                 if response.status != 200:
-                    await logger.adebug(f"[{label}] Failed to download thumbnail", status=response.status, url=url)
                     return None
                 payload = await response.read()
-        except aiohttp.ClientError as exc:
-            await logger.aerror(f"[{label}] Thumbnail download error", error=str(exc))
+
+                ext = cls._guess_extension(url, response.headers.get("Content-Type", ""), MediaKind.PHOTO)
+                filename = f"{prefix}_{index}_thumb{ext}"
+                return BufferedInputFile(payload, filename)
+        except aiohttp.ClientError:
             return None
 
-        filename = cls._make_thumbnail_filename(url, index, filename_prefix)
-        return BufferedInputFile(payload, filename)
-
     @staticmethod
-    def _make_media_filename(url: str, kind: MediaKind, index: int, prefix: str) -> str:
-        parsed = urlparse(url)
-        suffix = Path(parsed.path).suffix
-        if not suffix:
-            suffix = ".mp4" if kind == MediaKind.VIDEO else ".jpg"
-        return f"{prefix}_{index}{suffix}"
+    def _guess_extension(url: str, content_type: str, kind: MediaKind) -> str:
+        path = Path(urlparse(url).path)
+        if path.suffix:
+            return path.suffix
 
-    @staticmethod
-    def _make_thumbnail_filename(url: str, index: int, prefix: str) -> str:
-        parsed = urlparse(url)
-        suffix = Path(parsed.path).suffix
-        if not suffix:
-            suffix = ".jpg"
-        return f"{prefix}_{index}_thumb{suffix}"
+        if content_type:
+            ext = mimetypes.guess_extension(content_type.split(";", maxsplit=1)[0].strip())
+            if ext:
+                return ".jpg" if ext == ".jpe" else ext
+
+        return ".mp4" if kind == MediaKind.VIDEO else ".jpg"
