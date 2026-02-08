@@ -25,23 +25,22 @@ async def ensure_bot_in_db() -> None:
 async def main() -> None:
     await logger.ainfo("Starting the bot...")
 
-    try:
-        await init_db()
-        await ensure_bot_in_db()
-        await load_modules(dp, ["*"], CONFIG.modules_not_load)
+    await init_db()
+    await ensure_bot_in_db()
+    await load_modules(dp, ["*"], CONFIG.modules_not_load)
 
-        dp.update.middleware(localization_middleware)
-        dp.message.middleware(ArgsMiddleware(i18n=i18n))
-        dp.update.outer_middleware(SaveChatsMiddleware())
-        dp.update.middleware(ChatContextMiddleware())
-        dp.message.middleware(DisablingMiddleware())
+    dp.update.middleware(localization_middleware)
+    dp.message.middleware(ArgsMiddleware(i18n=i18n))
+    dp.update.outer_middleware(SaveChatsMiddleware())
+    dp.update.middleware(ChatContextMiddleware())
+    dp.message.middleware(DisablingMiddleware())
 
-        await bot.delete_webhook(drop_pending_updates=True)
+    await bot.delete_webhook(drop_pending_updates=True)
 
-        allowed_updates = dp.resolve_used_update_types()
-        await dp.start_polling(bot, allowed_updates=allowed_updates)
-    finally:
-        await close_db()
+    dp.shutdown.register(close_db)
+
+    allowed_updates = dp.resolve_used_update_types()
+    await dp.start_polling(bot, allowed_updates=allowed_updates)
 
 
 if __name__ == "__main__":
