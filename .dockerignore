@@ -11,3 +11,12 @@ __pycache__
 .pytest_cache
 .coverage
 .mypy_cache
+.env
+.env.*
+build
+dist
+*.egg-info
+htmlcov
+.cache
+.idea
+.vscode

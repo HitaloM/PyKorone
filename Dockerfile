@@ -1,34 +1,23 @@
-FROM python:3.14-rc-slim AS builder
+FROM ghcr.io/astral-sh/uv:python3.14-trixie-slim AS builder
 
-COPY --from=ghcr.io/astral-sh/uv:latest /uv /uvx /bin/
+ENV UV_COMPILE_BYTECODE=1 UV_LINK_MODE=copy UV_NO_DEV=1 UV_PYTHON_DOWNLOADS=0
 
 WORKDIR /app
-
-ENV UV_COMPILE_BYTECODE=1
-
-ENV UV_LINK_MODE=copy
-
-RUN apt-get update \
-    && apt-get install -y --no-install-recommends \
-        build-essential \
-        libjpeg62-turbo-dev \
-        libpq-dev \
-        libxml2-dev \
-        libxslt1-dev \
-        zlib1g-dev \
-    && rm -rf /var/lib/apt/lists/*
 
 RUN --mount=type=cache,target=/root/.cache/uv \
     --mount=type=bind,source=uv.lock,target=uv.lock \
     --mount=type=bind,source=pyproject.toml,target=pyproject.toml \
-    uv sync --frozen --no-install-project --no-dev
+    uv sync --locked --no-install-project
 
 COPY . /app
 
 RUN --mount=type=cache,target=/root/.cache/uv \
-    uv sync --frozen --no-dev --no-editable
+    uv sync --locked --no-editable
 
-FROM python:3.14-rc-slim
+FROM python:3.14-slim-trixie AS runtime
+
+RUN groupadd --system --gid 999 nonroot \
+ && useradd --system --uid 999 --gid 999 --create-home nonroot
 
 WORKDIR /app
 
@@ -36,13 +25,14 @@ RUN apt-get update \
     && apt-get install -y --no-install-recommends whois \
     && rm -rf /var/lib/apt/lists/*
 
-COPY --from=builder /app/.venv /app/.venv
+COPY --from=builder --chown=nonroot:nonroot /app/.venv /app/.venv
+COPY --from=builder --chown=nonroot:nonroot /app/locales /app/locales
+COPY --from=builder --chown=nonroot:nonroot /app/data /app/data
 
-COPY --from=builder /app/locales /app/locales
-COPY --from=builder /app/data /app/data
+ENV PATH="/app/.venv/bin:$PATH" PYTHONDONTWRITEBYTECODE=1 PYTHONUNBUFFERED=1
 
-ENV PYTHONDONTWRITEBYTECODE=1 \
-    PYTHONUNBUFFERED=1 \
-    PATH="/app/.venv/bin:$PATH"
+USER nonroot
+
+WORKDIR /app
 
 CMD ["python", "-m", "korone"]
