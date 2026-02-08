@@ -1,6 +1,6 @@
 from typing import TYPE_CHECKING
 
-import ujson
+import orjson
 from aiogram import flags
 from stfu_tg import Doc, Section, Template, Title, UserLink, VList
 
@@ -43,7 +43,7 @@ class AdminListHandler(KoroneMessageHandler):
         admin_items: list[Element] = []
         if raw:
             try:
-                admins = ujson.loads(raw.decode() if isinstance(raw, (bytes, bytearray)) else raw)
+                admins = orjson.loads(raw.decode() if isinstance(raw, (bytes, bytearray)) else raw)
             except TypeError, ValueError, UnicodeDecodeError:
                 admins = {}
 

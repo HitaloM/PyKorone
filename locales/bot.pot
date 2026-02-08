@@ -83,7 +83,7 @@ msgstr ""
 msgid "This command can only be used in private chats."
 msgstr ""
 
-#: src/korone/middlewares/chat_context.py:36
+#: src/korone/middlewares/chat_context.py:35
 msgid "Private chat"
 msgstr ""
 
@@ -1096,7 +1096,7 @@ msgstr ""
 msgid "Redis cleared. {removed} keys removed."
 msgstr ""
 
-#: src/korone/modules/op/handlers/stats.py:52
+#: src/korone/modules/op/handlers/stats.py:49
 msgid "Show bot statistics."
 msgstr ""
 

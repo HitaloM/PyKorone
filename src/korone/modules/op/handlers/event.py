@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-import ujson
+import orjson
 from aiogram import flags
 from stfu_tg import Code
 
@@ -19,7 +19,7 @@ class EventHandler(KoroneMessageHandler):
 
     async def handle(self) -> None:
         event_data = self.event.model_dump(mode="json")
-        text = ujson.dumps(event_data, indent=2)
+        text = orjson.dumps(event_data, option=orjson.OPT_INDENT_2).decode()
 
         # Split message if it exceeds Telegram's limit
         if len(text) <= TELEGRAM_MESSAGE_LENGTH_LIMIT:

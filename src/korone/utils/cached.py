@@ -3,7 +3,7 @@ from __future__ import annotations
 import functools
 from typing import TYPE_CHECKING, Any, TypeVar, cast
 
-import ujson
+import orjson
 
 from korone import aredis
 from korone.logger import get_logger
@@ -22,7 +22,7 @@ logger = get_logger(__name__)
 
 async def set_value(key: str, value: JsonValue, ttl: float | None) -> None:
     wrapped = {"v": value, "s": _NOT_SET_MARKER if value is None else None}
-    serialized = ujson.dumps(wrapped)
+    serialized = orjson.dumps(wrapped)
     await aredis.set(key, serialized)
     if ttl:
         await aredis.expire(key, int(ttl))
@@ -30,10 +30,10 @@ async def set_value(key: str, value: JsonValue, ttl: float | None) -> None:
 
 def _deserialize(data: bytes | str) -> tuple[JsonValue | None, bool]:
     try:
-        parsed = ujson.loads(data)
+        parsed = orjson.loads(data)
         if isinstance(parsed, dict) and "v" in parsed:
             return parsed["v"], True
-    except ujson.JSONDecodeError, TypeError:
+    except orjson.JSONDecodeError, TypeError:
         pass
     return None, False
 

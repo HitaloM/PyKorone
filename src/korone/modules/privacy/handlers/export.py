@@ -5,9 +5,9 @@ from datetime import date as _date
 from enum import Enum
 from typing import TYPE_CHECKING, cast
 
+import orjson
 from aiogram import flags
 from aiogram.types import BufferedInputFile
-from ujson import dumps
 
 from korone.filters.cmd import CMDFilter
 from korone.utils.handlers import KoroneMessageHandler
@@ -70,7 +70,7 @@ class TriggerExport(KoroneMessageHandler):
         for module_data in modules_data:
             data.update(module_data)
 
-        jfile = text_to_buffered_file(dumps(_make_serializable(data), indent=2))
+        jfile = text_to_buffered_file(orjson.dumps(_make_serializable(data), option=orjson.OPT_INDENT_2).decode())
         text = _("Export is done.")
         await self.event.reply_document(jfile, caption=text)
 

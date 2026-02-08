@@ -11,9 +11,7 @@ dependencies = [
     "redis>=7",
     "sqlalchemy[asyncio]>=2.0.0",
     "asyncpg>=0.30",
-    "ujson>=5.1.0",
     "Babel>=2.9.1",
-    "regex>=2025.7",
     "pydantic>=2",
     "emoji-country-flag>=2,<3",
     "pydantic-settings>=2,<3",
@@ -27,11 +25,12 @@ dependencies = [
     "lxml>=6.0.2",
     "pillow>=10.0.0",
     "polib>=1.2.0",
+    "orjson>=3.11.7",
 ]
 
 [dependency-groups]
 dev = ["pre-commit>=4.5.1", "ruff>=0.14.14", "pyright>=1.1.408"]
 
 [build-system]
-requires = ["uv_build>=0.7,<0.8"]
+requires = ["uv_build>=0.10"]
 build-backend = "uv_build"
