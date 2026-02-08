@@ -23,7 +23,7 @@ services:
     image: redis:8
     restart: unless-stopped
 
-  bot:
+  korone-bot:
     build: .
     env_file:
       - data/config.env
@@ -32,11 +32,23 @@ services:
       REDIS_HOST: redis
       REDIS_PORT: 6379
       BOTAPI_SERVER: http://telegram-bot-api:8081
+      WEB_SERVER_PORT: 9669
+    ports:
+      - "9669:9669"
     depends_on:
       - telegram-bot-api
       - postgres
       - redis
     restart: unless-stopped
+
+  tunnel:
+    image: cloudflare/cloudflared:latest
+    restart: unless-stopped
+    env_file:
+      - data/config.env
+    command: tunnel run
+    depends_on:
+      - korone-bot
 
 volumes:
   postgres_data:

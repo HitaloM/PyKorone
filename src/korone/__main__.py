@@ -1,7 +1,6 @@
-import asyncio
-from typing import TYPE_CHECKING
-
 import uvloop
+from aiogram.webhook.aiohttp_server import SimpleRequestHandler, setup_application
+from aiohttp import web
 from ass_tg.middleware import ArgsMiddleware
 
 from . import bot, dp
@@ -17,10 +16,11 @@ from .modules import load_modules
 from .utils.aiohttp_session import HTTPClient
 from .utils.i18n import i18n
 
-if TYPE_CHECKING:
-    from aiogram import Bot, Dispatcher
+uvloop.install()
 
 logger = get_logger(__name__)
+
+WEBHOOK_URL = f"{CONFIG.webhook_domain}{CONFIG.webhook_path}"
 
 
 async def ensure_bot_in_db() -> None:
@@ -30,7 +30,7 @@ async def ensure_bot_in_db() -> None:
 
 
 async def on_startup() -> None:
-    await logger.ainfo("Starting up the bot...")
+    await logger.ainfo("Starting up the bot via Webhook...")
 
     await init_db()
     await ensure_bot_in_db()
@@ -42,26 +42,32 @@ async def on_startup() -> None:
     dp.update.middleware(ChatContextMiddleware())
     dp.message.middleware(DisablingMiddleware())
 
-    await bot.delete_webhook(drop_pending_updates=True)
+    await bot.set_webhook(url=WEBHOOK_URL, allowed_updates=dp.resolve_used_update_types(), drop_pending_updates=True)
+    await logger.ainfo(f"Webhook set to: {WEBHOOK_URL}")
 
 
-async def on_shutdown(dp: Dispatcher, bot: Bot) -> None:
+async def on_shutdown() -> None:
     await logger.ainfo("Shutting down the bot...")
+    await bot.delete_webhook()
     await close_db()
     await HTTPClient.close()
     await bot.session.close()
     await dp.storage.close()
 
 
-async def main() -> None:
+def main() -> None:
     dp.startup.register(on_startup)
     dp.shutdown.register(on_shutdown)
 
-    allowed_updates = dp.resolve_used_update_types()
-    await dp.start_polling(bot, allowed_updates=allowed_updates)
+    app = web.Application()
+
+    webhook_requests_handler = SimpleRequestHandler(dispatcher=dp, bot=bot)
+    webhook_requests_handler.register(app, path=CONFIG.webhook_path)
+
+    setup_application(app, dp, bot=bot)
+    web.run_app(app, host="0.0.0.0", port=CONFIG.web_server_port)
 
 
 if __name__ == "__main__":
     setup_logging()
-    with asyncio.Runner(loop_factory=uvloop.new_event_loop) as runner:
-        runner.run(main())
+    main()
