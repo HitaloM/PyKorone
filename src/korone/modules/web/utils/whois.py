@@ -29,7 +29,17 @@ FIELDS_MAP = {
         r"^\s*(?:Updated Date|Last Updated|Domain Last Updated Date):\s*(?P<val>.+)", re.IGNORECASE | re.MULTILINE
     ),
     "expires": re.compile(
-        r"^\s*(?:Registry Expiry Date|Expiration Date|Expires|o expire):\s*(?P<val>.+)", re.IGNORECASE | re.MULTILINE
+        r"""^\s*(?:
+        Registry\s+Expiry\s+Date |
+        Registrar\s+Registration\s+Expiration\s+Date |
+        Domain\s+Expiration\s+Date |
+        Expiration\s+Date |
+        Expiry\s*Date |
+        Expires |
+        Expires\s+On |
+        Paid[-\s]?Till |
+    )\s*:\s*(?P<val>.+)""",
+        re.IGNORECASE | re.MULTILINE | re.VERBOSE,
     ),
     "name_servers": re.compile(r"^\s*(?:Name Server|nserver):\s*(?P<val>.+)", re.IGNORECASE | re.MULTILINE),
 }
@@ -37,7 +47,10 @@ FIELDS_MAP = {
 
 async def _send_whois_query(server: str, query: str) -> str:
     server = server.replace("http://", "").replace("https://", "").replace("whois://", "").split("/")[0]
-    server = server.split("]")[0] + "]" if server.startswith("[") and "]" in server else server.split(":")[0]
+    if "]" in server:
+        server = server.split("]")[0] + "]"
+    elif ":" in server:
+        server = server.split(":")[0]
 
     try:
         reader, writer = await asyncio.wait_for(asyncio.open_connection(server, WHOIS_PORT), timeout=TIMEOUT)
@@ -111,7 +124,7 @@ async def _recursive_lookup(domain: str) -> tuple[str, dict[str, Any]]:
         for pattern in REFERRAL_PATTERNS:
             if match := pattern.search(response_text):
                 candidate = match.group("server").strip().lower()
-                if candidate and candidate not in seen_servers:
+                if candidate and candidate not in seen_servers and "://" not in candidate:
                     next_server = candidate
                     break
 
@@ -150,9 +163,14 @@ def parse_whois_response(data: dict[str, Any]) -> dict[str, str] | None:
             return str(val[0])
         return str(val) if val else ""
 
-    def clean_date(val: str | list[str] | None) -> str:
+    def format_date(val: str | list[str] | None) -> str:
         raw = get_first(val)
-        return raw.split(" ")[0].split("T")[0]
+        if not raw:
+            return ""
+
+        raw = raw.strip()
+
+        return raw.replace("T", " ").replace("Z", "+00:00")
 
     if domain_name := data.get("domain_name"):
         info["Domain Name"] = get_first(domain_name).lower()
@@ -161,13 +179,13 @@ def parse_whois_response(data: dict[str, Any]) -> dict[str, str] | None:
         info["Registrar"] = get_first(registrar)
 
     if created := data.get("created"):
-        info["Creation Date"] = clean_date(created)
+        info["Creation Date"] = format_date(created)
 
     if updated := data.get("updated"):
-        info["Updated Date"] = clean_date(updated)
+        info["Updated Date"] = format_date(updated)
 
     if expires := data.get("expires"):
-        info["Expiration Date"] = clean_date(expires)
+        info["Expiration Date"] = format_date(expires)
 
     if name_servers := data.get("name_servers"):
         if isinstance(name_servers, list):
