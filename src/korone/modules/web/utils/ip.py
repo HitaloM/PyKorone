@@ -1,12 +1,11 @@
 from __future__ import annotations
 
+import asyncio
 import ipaddress
 import socket
 from typing import Any
 
 import aiohttp
-from anyio import create_task_group
-from anyio.to_thread import run_sync
 
 from .misc import _extract_hostname
 
@@ -53,15 +52,15 @@ async def resolve_hostname(hostname: str) -> list[str]:
     async def fetch(record_type: str) -> None:
         answers[record_type] = await fetch_dns_info(hostname, record_type)
 
-    async with create_task_group() as tg:
+    async with asyncio.TaskGroup() as tg:
         for record_type in ("A", "AAAA"):
-            tg.start_soon(fetch, record_type)
+            tg.create_task(fetch(record_type))
 
     resolved = answers["A"] + answers["AAAA"]
     if resolved:
         return resolved
 
-    return await run_sync(_resolve_hostname_system, hostname)
+    return await asyncio.to_thread(_resolve_hostname_system, hostname)
 
 
 def _resolve_hostname_system(hostname: str) -> list[str]:

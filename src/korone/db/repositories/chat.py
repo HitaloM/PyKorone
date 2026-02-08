@@ -1,10 +1,10 @@
 from __future__ import annotations
 
+import asyncio
 from datetime import UTC, datetime, timedelta
 from typing import TYPE_CHECKING
 
 from aiogram.enums import ChatType
-from anyio import Lock
 from sqlalchemy import func, select
 
 from korone.db.base import get_one
@@ -94,7 +94,7 @@ class ChatTopicRepository:
 
 
 class ChatRepository:
-    _upsert_lock: Lock = Lock()
+    _upsert_lock: asyncio.Lock = asyncio.Lock()
 
     @staticmethod
     def _user_data(user: User) -> ChatData:

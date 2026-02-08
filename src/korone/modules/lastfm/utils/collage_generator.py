@@ -1,11 +1,10 @@
 from __future__ import annotations
 
+import asyncio
 import io
 from functools import cache
 from typing import TYPE_CHECKING
 
-from anyio import create_task_group
-from anyio.to_thread import run_sync
 from PIL import Image, ImageDraw, ImageFont
 
 from korone.logger import get_logger
@@ -128,9 +127,9 @@ async def create_album_collage(
     async def _fetch_and_store(index: int, album: LastFMAlbum) -> None:
         images_data[index] = await fetch_album_art(album)
 
-    async with create_task_group() as tg:
+    async with asyncio.TaskGroup() as tg:
         for idx, album_obj in enumerate(target_albums):
-            tg.start_soon(_fetch_and_store, idx, album_obj)
+            tg.create_task(_fetch_and_store(idx, album_obj))
 
     def assemble_collage() -> io.BytesIO:
         collage = Image.new("RGBA", (cols * THUMB_SIZE, rows * THUMB_SIZE), (0, 0, 0, 255))
@@ -146,4 +145,4 @@ async def create_album_collage(
         out.seek(0)
         return out
 
-    return await run_sync(assemble_collage)
+    return await asyncio.to_thread(assemble_collage)

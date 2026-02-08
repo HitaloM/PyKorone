@@ -1,4 +1,6 @@
-import anyio
+import asyncio
+
+import uvloop
 from ass_tg.middleware import ArgsMiddleware
 
 from . import bot, dp
@@ -45,4 +47,5 @@ async def main() -> None:
 
 if __name__ == "__main__":
     setup_logging()
-    anyio.run(main, backend="asyncio", backend_options={"use_uvloop": True})
+    with asyncio.Runner(loop_factory=uvloop.new_event_loop) as runner:
+        runner.run(main())

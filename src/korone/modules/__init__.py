@@ -1,9 +1,7 @@
+import asyncio
 from importlib import import_module
 from inspect import iscoroutinefunction
 from typing import TYPE_CHECKING
-
-from anyio import create_task_group
-from anyio.to_thread import run_sync
 
 from korone.logger import get_logger as get_logger
 
@@ -65,20 +63,20 @@ async def load_modules(dp: Dispatcher | Router, to_load: Sequence[str], to_not_l
             await logger.adebug(f"Registering handler {handler.__name__}...")
             handler.register(router)
 
-    async with create_task_group() as tg:
+    async with asyncio.TaskGroup() as tg:
         for module_name, module in LOADED_MODULES.items():
             if func := getattr(module, "__pre_setup__", None):
                 if iscoroutinefunction(func):
-                    tg.start_soon(func)
+                    tg.create_task(func())
                 else:
-                    tg.start_soon(run_sync, func)
+                    tg.create_task(asyncio.to_thread(func))
 
-    async with create_task_group() as tg:
+    async with asyncio.TaskGroup() as tg:
         for module_name, module in LOADED_MODULES.items():
             if func := getattr(module, "__post_setup__", None):
                 if iscoroutinefunction(func):
-                    tg.start_soon(func, LOADED_MODULES)
+                    tg.create_task(func(LOADED_MODULES))
                 else:
-                    tg.start_soon(run_sync, func, LOADED_MODULES)
+                    tg.create_task(asyncio.to_thread(func, LOADED_MODULES))
 
     await logger.ainfo(f"Loaded modules - {', '.join(LOADED_MODULES.keys())}")

@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import asyncio
 from abc import ABC, abstractmethod
 from dataclasses import dataclass
 from enum import StrEnum
@@ -9,7 +10,6 @@ from urllib.parse import urlparse
 
 import aiohttp
 from aiogram.types import BufferedInputFile
-from anyio import create_task_group
 
 from korone.logger import get_logger
 
@@ -93,9 +93,9 @@ class MediaProvider(ABC):
             results[index] = item
 
         client_timeout = aiohttp.ClientTimeout(total=timeout)
-        async with aiohttp.ClientSession(timeout=client_timeout, headers=headers) as session, create_task_group() as tg:
+        async with aiohttp.ClientSession(timeout=client_timeout, headers=headers) as session, asyncio.TaskGroup() as tg:
             for index, source in enumerate(sources, start=1):
-                tg.start_soon(_download_one, index - 1, source, session)
+                tg.create_task(_download_one(index - 1, source, session))
 
         return [item for item in results if item]
 
