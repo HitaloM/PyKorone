@@ -1049,8 +1049,8 @@ msgid ""
 "Currently supports: Twitter, Bluesky, Instagram."
 msgstr ""
 
-#: src/korone/modules/medias/handlers/base.py:96
-#: src/korone/modules/medias/handlers/base.py:137
+#: src/korone/modules/medias/handlers/base.py:92
+#: src/korone/modules/medias/handlers/base.py:133
 #, python-brace-format
 msgid "Open in {website}"
 msgstr ""

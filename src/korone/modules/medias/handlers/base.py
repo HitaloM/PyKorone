@@ -4,6 +4,7 @@ from html import escape
 from typing import TYPE_CHECKING, ClassVar, cast
 
 from aiogram.types import InlineKeyboardButton
+from aiogram.utils.chat_action import ChatActionSender
 from aiogram.utils.keyboard import InlineKeyboardBuilder
 from aiogram.utils.media_group import MediaGroupBuilder
 
@@ -32,29 +33,24 @@ class BaseMediaHandler(KoroneMessageHandler):
     def filters(cls) -> tuple[CallbackType, ...]:  # pyright: ignore[reportIncompatibleMethodOverride]
         return (GroupChatFilter(), MediaUrlFilter(cls.PROVIDER.pattern))
 
-    @staticmethod
-    async def _send_single_media(
-        message: Message, media: MediaItem, caption: str, keyboard: InlineKeyboardMarkup | None
-    ) -> None:
+    async def _send_single_media(self, media: MediaItem, caption: str, keyboard: InlineKeyboardMarkup | None) -> None:
         if media.kind == MediaKind.PHOTO:
-            await message.reply_photo(media.file, caption=caption, reply_markup=keyboard)
-            return
+            async with ChatActionSender.upload_photo(chat_id=self.event.chat.id, bot=self.bot):
+                await self.event.reply_photo(media.file, caption=caption, reply_markup=keyboard)
+                return
 
-        await message.reply_video(
-            media.file,
-            caption=caption,
-            reply_markup=keyboard,
-            duration=media.duration,
-            width=media.width,
-            height=media.height,
-            thumbnail=media.thumbnail,
-        )
+        async with ChatActionSender.upload_video(chat_id=self.event.chat.id, bot=self.bot):
+            await self.event.reply_video(
+                media.file,
+                caption=caption,
+                reply_markup=keyboard,
+                duration=media.duration,
+                width=media.width,
+                height=media.height,
+                thumbnail=media.thumbnail,
+            )
 
-    @staticmethod
-    async def _send_media_group(message: Message, media_items: list[MediaItem], caption: str) -> None:
-        if not message.bot:
-            return
-
+    async def _send_media_group(self, media_items: list[MediaItem], caption: str) -> None:
         builder = MediaGroupBuilder()
         last_index = len(media_items) - 1
         for index, item in enumerate(media_items):
@@ -71,11 +67,11 @@ class BaseMediaHandler(KoroneMessageHandler):
                     thumbnail=item.thumbnail,
                 )
 
-        await message.bot.send_media_group(
-            chat_id=message.chat.id,
+        await self.bot.send_media_group(
+            chat_id=self.event.chat.id,
             media=builder.build(),
-            reply_to_message_id=message.message_id,
-            message_thread_id=message.message_thread_id,
+            reply_to_message_id=self.event.message_id,
+            message_thread_id=self.event.message_thread_id,
         )
 
     @classmethod
@@ -138,6 +134,9 @@ class BaseMediaHandler(KoroneMessageHandler):
         return builder.as_markup()
 
     async def handle(self) -> None:
+        if not self.bot:
+            return
+
         message: Message = self.event
         urls = cast("list[str]", self.data.get("media_urls") or [])
         if not urls:
@@ -153,8 +152,9 @@ class BaseMediaHandler(KoroneMessageHandler):
         keyboard = self._build_keyboard(post)
 
         if len(media_items) == 1:
-            await self._send_single_media(message, media_items[0], caption, keyboard)
+            await self._send_single_media(media_items[0], caption, keyboard)
             return
 
         group_caption = self._format_caption_with_link(post)
-        await self._send_media_group(message, media_items, group_caption)
+        async with ChatActionSender.upload_document(chat_id=message.chat.id, bot=self.bot):
+            await self._send_media_group(media_items, group_caption)
