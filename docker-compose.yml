@@ -10,7 +10,7 @@ services:
     restart: unless-stopped
 
   postgres:
-    image: postgres:18-alpine
+    image: postgres:18
     environment:
       POSTGRES_DB: korone
       POSTGRES_USER: korone
@@ -20,7 +20,7 @@ services:
     restart: unless-stopped
 
   redis:
-    image: redis:8-alpine
+    image: redis:8
     restart: unless-stopped
 
   korone-bot:
