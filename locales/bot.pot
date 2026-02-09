@@ -562,16 +562,16 @@ msgstr ""
 msgid "Shows the artist info for your current track on Last.fm."
 msgstr ""
 
-#: src/korone/modules/lastfm/handlers/collage.py:35
+#: src/korone/modules/lastfm/handlers/collage.py:39
 msgid "Generates a Last.fm collage of your top albums."
 msgstr ""
 
-#: src/korone/modules/lastfm/handlers/collage.py:40
+#: src/korone/modules/lastfm/handlers/collage.py:46
 #: src/korone/modules/lastfm/handlers/top.py:37
 msgid "Args"
 msgstr ""
 
-#: src/korone/modules/lastfm/handlers/collage.py:64
+#: src/korone/modules/lastfm/handlers/collage.py:60
 msgid "No top albums found for your Last.fm account."
 msgstr ""
 

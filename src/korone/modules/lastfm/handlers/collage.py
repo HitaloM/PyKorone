@@ -1,6 +1,8 @@
+# handlers/lastfm_collage.py
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, Any
+import asyncio
+from typing import TYPE_CHECKING, Any, ClassVar
 
 from aiogram import flags
 from aiogram.types import BufferedInputFile
@@ -28,6 +30,8 @@ if TYPE_CHECKING:
     from aiogram.types import Message
     from ass_tg.types.base_abc import ArgFabric
 
+    from korone.modules.lastfm.utils.lastfm_api import TimePeriod
+
 
 logger = get_logger(__name__)
 
@@ -35,6 +39,8 @@ logger = get_logger(__name__)
 @flags.help(description=l_("Generates a Last.fm collage of your top albums."))
 @flags.disableable(name="lfmcollage")
 class LastFMCollageHandler(KoroneMessageHandler):
+    _background_tasks: ClassVar[set] = set()
+
     @classmethod
     async def handler_args(cls, message: Message | None, data: dict[str, Any]) -> dict[str, ArgFabric]:
         return {"args": OptionalArg(TextArg(l_("Args")))}
@@ -43,20 +49,10 @@ class LastFMCollageHandler(KoroneMessageHandler):
     def filters() -> tuple[CallbackType, ...]:
         return (CMDFilter("lfmcollage"),)
 
-    async def handle(self) -> None:
-        last_fm_user = await get_lastfm_user_or_reply(self.event)
-        if not last_fm_user:
-            return
-
-        args = (self.data.get("args") or "").strip()
-        collage_size, period, _entry_type, no_text = parse_collage_arg(args)
-        show_text = not no_text
-
-        if not self.event.bot:
-            msg = "Bot instance is not available in the handler context."
-            raise RuntimeError(msg)
-
-        async with ChatActionSender.upload_photo(chat_id=self.event.chat.id, bot=self.event.bot):
+    async def _generate_and_send(
+        self, last_fm_user: str, collage_size: int, period: TimePeriod, *, show_text: bool
+    ) -> None:
+        async with ChatActionSender.upload_photo(chat_id=self.event.chat.id, bot=self.bot):
             last_fm = LastFMClient()
             try:
                 top_items = await last_fm.get_top_albums(last_fm_user, period, limit=collage_size**2)
@@ -75,3 +71,20 @@ class LastFMCollageHandler(KoroneMessageHandler):
                 await self.event.reply_photo(photo=file, caption=caption)
             except LastFMError as exc:
                 await handle_lastfm_error(self.event, exc)
+
+    async def handle(self) -> None:
+        last_fm_user = await get_lastfm_user_or_reply(self.event)
+        if not last_fm_user:
+            return
+
+        args = (self.data.get("args") or "").strip()
+        collage_size, period, _entry_type, no_text = parse_collage_arg(args)
+        show_text = not no_text
+
+        if not self.event.bot:
+            msg = "Bot instance is not available in the handler context."
+            raise RuntimeError(msg)
+
+        task = asyncio.create_task(self._generate_and_send(last_fm_user, collage_size, period, show_text=show_text))
+        self._background_tasks.add(task)
+        task.add_done_callback(self._background_tasks.discard)
