@@ -52,14 +52,13 @@ async def on_startup() -> None:
             secret_token=CONFIG.webhook_secret,
         )
         await logger.ainfo(f"Webhook set to: {WEBHOOK_URL}")
-    else:
-        await bot.delete_webhook(drop_pending_updates=True)
 
 
 async def on_shutdown() -> None:
     await logger.ainfo("Shutting down the bot...")
     await close_db()
     await HTTPClient.close()
+    await bot.delete_webhook()
     await bot.session.close()
     await dp.storage.close()
 
@@ -68,15 +67,15 @@ def main() -> None:
     dp.startup.register(on_startup)
     dp.shutdown.register(on_shutdown)
 
-    app = web.Application()
-
-    webhook_requests_handler = SimpleRequestHandler(dispatcher=dp, bot=bot, secret_token=CONFIG.webhook_secret)
-    webhook_requests_handler.register(app, path=CONFIG.webhook_path)
-
     if not CONFIG.webhook_domain:
         logger.warning("No webhook domain configured, running in long polling mode")
         asyncio.run(dp.start_polling(bot, allowed_updates=dp.resolve_used_update_types()))
         return
+
+    app = web.Application()
+
+    webhook_requests_handler = SimpleRequestHandler(dispatcher=dp, bot=bot, secret_token=CONFIG.webhook_secret)
+    webhook_requests_handler.register(app, path=CONFIG.webhook_path)
 
     setup_application(app, dp, bot=bot)
     web.run_app(app, host="0.0.0.0", port=CONFIG.web_server_port)

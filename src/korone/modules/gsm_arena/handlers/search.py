@@ -65,10 +65,6 @@ class DeviceSearchHandler(KoroneMessageHandler):
             )
             return
 
-        if not self.event.bot:
-            msg = "Bot instance is not available in the handler context."
-            raise RuntimeError(msg)
-
-        async with ChatActionSender.typing(chat_id=self.event.chat.id, bot=self.event.bot):
+        async with ChatActionSender.typing(chat_id=self.event.chat.id, bot=self.bot):
             devices = await search_phone(query)
             await self._handle_search_results(query, devices)

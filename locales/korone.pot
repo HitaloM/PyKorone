@@ -562,16 +562,16 @@ msgstr ""
 msgid "Shows the artist info for your current track on Last.fm."
 msgstr ""
 
-#: src/korone/modules/lastfm/handlers/collage.py:39
+#: src/korone/modules/lastfm/handlers/collage.py:34
 msgid "Generates a Last.fm collage of your top albums."
 msgstr ""
 
-#: src/korone/modules/lastfm/handlers/collage.py:46
+#: src/korone/modules/lastfm/handlers/collage.py:41
 #: src/korone/modules/lastfm/handlers/top.py:37
 msgid "Args"
 msgstr ""
 
-#: src/korone/modules/lastfm/handlers/collage.py:60
+#: src/korone/modules/lastfm/handlers/collage.py:55
 msgid "No top albums found for your Last.fm account."
 msgstr ""
 
@@ -916,24 +916,24 @@ msgstr ""
 msgid "Apply a regex substitution to a replied message."
 msgstr ""
 
-#: src/korone/modules/regex/handlers/sed.py:34
+#: src/korone/modules/regex/handlers/sed.py:33
 msgid "No message to apply the substitution."
 msgstr ""
 
-#: src/korone/modules/regex/handlers/sed.py:39
+#: src/korone/modules/regex/handlers/sed.py:38
 msgid "No text to apply the substitution."
 msgstr ""
 
-#: src/korone/modules/regex/handlers/sed.py:56
+#: src/korone/modules/regex/handlers/sed.py:55
 msgid "Invalid command data."
 msgstr ""
 
-#: src/korone/modules/regex/handlers/sed.py:64
+#: src/korone/modules/regex/handlers/sed.py:63
 #, python-brace-format
 msgid "Regex error: {e}"
 msgstr ""
 
-#: src/korone/modules/regex/handlers/sed.py:68
+#: src/korone/modules/regex/handlers/sed.py:67
 msgid "Your regex didn't change anything from the original message."
 msgstr ""
 

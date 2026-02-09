@@ -1,4 +1,3 @@
-# handlers/lastfm_collage.py
 from __future__ import annotations
 
 import asyncio
@@ -10,7 +9,6 @@ from aiogram.utils.chat_action import ChatActionSender
 from ass_tg.types import OptionalArg, TextArg
 
 from korone.filters.cmd import CMDFilter
-from korone.logger import get_logger
 from korone.modules.lastfm.utils import (
     LastFMClient,
     LastFMError,
@@ -31,9 +29,6 @@ if TYPE_CHECKING:
     from ass_tg.types.base_abc import ArgFabric
 
     from korone.modules.lastfm.utils.lastfm_api import TimePeriod
-
-
-logger = get_logger(__name__)
 
 
 @flags.help(description=l_("Generates a Last.fm collage of your top albums."))
@@ -80,10 +75,6 @@ class LastFMCollageHandler(KoroneMessageHandler):
         args = (self.data.get("args") or "").strip()
         collage_size, period, _entry_type, no_text = parse_collage_arg(args)
         show_text = not no_text
-
-        if not self.event.bot:
-            msg = "Bot instance is not available in the handler context."
-            raise RuntimeError(msg)
 
         task = asyncio.create_task(self._generate_and_send(last_fm_user, collage_size, period, show_text=show_text))
         self._background_tasks.add(task)

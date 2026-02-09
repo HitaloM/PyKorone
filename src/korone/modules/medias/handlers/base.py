@@ -16,7 +16,7 @@ from korone.utils.i18n import gettext as _
 
 if TYPE_CHECKING:
     from aiogram.dispatcher.event.handler import CallbackType
-    from aiogram.types import InlineKeyboardMarkup, Message
+    from aiogram.types import InlineKeyboardMarkup
 
     from korone.modules.medias.utils.base import MediaItem, MediaPost, MediaProvider
 
@@ -137,7 +137,6 @@ class BaseMediaHandler(KoroneMessageHandler):
         if not self.bot:
             return
 
-        message: Message = self.event
         urls = cast("list[str]", self.data.get("media_urls") or [])
         if not urls:
             return
@@ -156,5 +155,5 @@ class BaseMediaHandler(KoroneMessageHandler):
             return
 
         group_caption = self._format_caption_with_link(post)
-        async with ChatActionSender.upload_document(chat_id=message.chat.id, bot=self.bot):
+        async with ChatActionSender.upload_document(chat_id=self.event.chat.id, bot=self.bot):
             await self._send_media_group(media_items, group_caption)

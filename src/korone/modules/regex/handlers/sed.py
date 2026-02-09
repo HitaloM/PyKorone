@@ -24,19 +24,18 @@ class SedHandler(KoroneMessageHandler):
         return (SedPatternFilter(SED_PATTERN),)
 
     async def handle(self) -> None:
-        message = self.event
-        text = message.text
+        text = self.event.text
         if not text:
             return
 
-        reply_message = message.reply_to_message
+        reply_message = self.event.reply_to_message
         if not reply_message:
-            await message.reply(_("No message to apply the substitution."))
+            await self.event.reply(_("No message to apply the substitution."))
             return
 
         original_text = reply_message.text or reply_message.caption or ""
         if not original_text:
-            await message.reply(_("No text to apply the substitution."))
+            await self.event.reply(_("No text to apply the substitution."))
             return
 
         match = re.match(SED_PATTERN, text)
@@ -49,11 +48,11 @@ class SedHandler(KoroneMessageHandler):
         for command in substitution_commands:
             command_data, error_message = process_command(command)
             if error_message:
-                await message.reply(error_message)
+                await self.event.reply(error_message)
                 return
 
             if command_data is None:
-                await message.reply(_("Invalid command data."))
+                await self.event.reply(_("Invalid command data."))
                 return
 
             from_pattern, to_pattern, flags, count = command_data
@@ -61,15 +60,15 @@ class SedHandler(KoroneMessageHandler):
             try:
                 modified_text = re.sub(from_pattern, to_pattern, modified_text, count=count, flags=flags)
             except re.error as e:
-                await message.reply(_("Regex error: {e}").format(e=str(e)))
+                await self.event.reply(_("Regex error: {e}").format(e=str(e)))
                 return
 
         if modified_text == original_text:
-            await message.reply(_("Your regex didn't change anything from the original message."))
+            await self.event.reply(_("Your regex didn't change anything from the original message."))
             return
 
-        bot = message.bot
+        bot = self.event.bot
         if not bot:
             return
 
-        await bot.send_message(message.chat.id, modified_text, reply_to_message_id=reply_message.message_id)
+        await bot.send_message(self.chat.chat_id, modified_text, reply_to_message_id=reply_message.message_id)
