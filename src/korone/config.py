@@ -21,6 +21,7 @@ class Config(BaseSettings):
     botapi_server: AnyHttpUrl | None = None
 
     webhook_domain: str | None = None
+    webhook_secret: str | None = None
     webhook_path: str = "/"
     web_server_port: int = 8080
 

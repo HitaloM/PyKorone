@@ -46,7 +46,10 @@ async def on_startup() -> None:
 
     if CONFIG.webhook_domain:
         await bot.set_webhook(
-            url=WEBHOOK_URL, allowed_updates=dp.resolve_used_update_types(), drop_pending_updates=True
+            url=WEBHOOK_URL,
+            allowed_updates=dp.resolve_used_update_types(),
+            drop_pending_updates=True,
+            secret_token=CONFIG.webhook_secret,
         )
         await logger.ainfo(f"Webhook set to: {WEBHOOK_URL}")
     else:
@@ -67,7 +70,7 @@ def main() -> None:
 
     app = web.Application()
 
-    webhook_requests_handler = SimpleRequestHandler(dispatcher=dp, bot=bot)
+    webhook_requests_handler = SimpleRequestHandler(dispatcher=dp, bot=bot, secret_token=CONFIG.webhook_secret)
     webhook_requests_handler.register(app, path=CONFIG.webhook_path)
 
     if not CONFIG.webhook_domain:
