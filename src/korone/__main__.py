@@ -1,3 +1,5 @@
+import asyncio
+
 import uvloop
 from aiogram.webhook.aiohttp_server import SimpleRequestHandler, setup_application
 from aiohttp import web
@@ -30,7 +32,7 @@ async def ensure_bot_in_db() -> None:
 
 
 async def on_startup() -> None:
-    await logger.ainfo("Starting up the bot via Webhook...")
+    await logger.ainfo("Starting up the bot...")
 
     await init_db()
     await ensure_bot_in_db()
@@ -42,13 +44,17 @@ async def on_startup() -> None:
     dp.update.middleware(ChatContextMiddleware())
     dp.message.middleware(DisablingMiddleware())
 
-    await bot.set_webhook(url=WEBHOOK_URL, allowed_updates=dp.resolve_used_update_types(), drop_pending_updates=True)
-    await logger.ainfo(f"Webhook set to: {WEBHOOK_URL}")
+    if CONFIG.webhook_domain:
+        await bot.set_webhook(
+            url=WEBHOOK_URL, allowed_updates=dp.resolve_used_update_types(), drop_pending_updates=True
+        )
+        await logger.ainfo(f"Webhook set to: {WEBHOOK_URL}")
+    else:
+        await bot.delete_webhook(drop_pending_updates=True)
 
 
 async def on_shutdown() -> None:
     await logger.ainfo("Shutting down the bot...")
-    await bot.delete_webhook()
     await close_db()
     await HTTPClient.close()
     await bot.session.close()
@@ -63,6 +69,11 @@ def main() -> None:
 
     webhook_requests_handler = SimpleRequestHandler(dispatcher=dp, bot=bot)
     webhook_requests_handler.register(app, path=CONFIG.webhook_path)
+
+    if not CONFIG.webhook_domain:
+        logger.warning("No webhook domain configured, running in long polling mode")
+        asyncio.run(dp.start_polling(bot, allowed_updates=dp.resolve_used_update_types()))
+        return
 
     setup_application(app, dp, bot=bot)
     web.run_app(app, host="0.0.0.0", port=CONFIG.web_server_port)

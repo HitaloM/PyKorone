@@ -5,6 +5,7 @@ __pycache__/
 
 # Config
 data/config.env
+data/docker.env
 
 # Ansible inv
 data/*.yaml

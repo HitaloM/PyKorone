@@ -20,12 +20,8 @@ class Config(BaseSettings):
 
     botapi_server: AnyHttpUrl | None = None
 
-    telegram_api_id: str | None = None
-    telegram_api_hash: str | None = None
-
-    webhook_domain: str = "https://example.com"
+    webhook_domain: str | None = None
     webhook_path: str = "/"
-    tunnel_token: str | None = None
     web_server_port: int = 8080
 
     modules_load: list[str] = ["*"]
