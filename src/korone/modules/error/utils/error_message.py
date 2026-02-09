@@ -1,10 +1,8 @@
-import random
 from typing import TYPE_CHECKING
 
-from stfu_tg import BlockQuote, Doc, Italic, Title
+from stfu_tg import Doc, Italic, Title
 from stfu_tg.doc import Element
 
-from korone.modules.error.utils.haikus import HAIKUS
 from korone.utils.exception import KoroneError
 from korone.utils.i18n import lazy_gettext as l_
 
@@ -20,17 +18,6 @@ def get_error_message(exception: Exception) -> tuple[str | Element, ...]:
 
 
 def generic_error_message(
-    exception: Exception,
-    *,
-    hide_contact: bool = False,
-    title: str | LazyProxy | Element = l_("😞 I've got an error trying to process this update"),
+    exception: Exception, *, title: str | LazyProxy | Element = l_("😞 I've got an error trying to process this update")
 ) -> dict[str, str]:
-    return {
-        "text": str(
-            Doc(
-                Title(title),
-                *get_error_message(exception),
-                *(() if isinstance(exception, KoroneError) else (" ", BlockQuote(Doc(*random.choice(HAIKUS))))),
-            )
-        )
-    }
+    return {"text": str(Doc(Title(title), *get_error_message(exception)))}

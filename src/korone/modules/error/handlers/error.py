@@ -36,15 +36,15 @@ class KoroneErrorHandler(ErrorHandler):
         self.log_to_console(etype, value, tb)
 
         if not sys_exception:
-            await logger.aerror("No sys exception", from_aiogram=exception, from_sys=sys_exception)
+            await logger.awarning("No sys exception", from_aiogram=exception, from_sys=sys_exception)
             return
 
         if exception != sys_exception:
-            await logger.aerror("Mismatched exception seeking", from_aiogram=exception, from_sys=sys_exception)
+            await logger.awarning("Mismatched exception seeking", from_aiogram=exception, from_sys=sys_exception)
         try:
             await self.data["state"].clear()
         except Exception as err:  # noqa: BLE001
-            await logger.aerror("Failed to clear state", err=err)
+            await logger.awarning("Failed to clear state", err=err)
 
         if update.inline_query:
             return
@@ -58,7 +58,7 @@ class KoroneErrorHandler(ErrorHandler):
             return
 
         if isinstance(sys_exception, Exception):
-            error_payload = generic_error_message(sys_exception, hide_contact=False)
+            error_payload = generic_error_message(sys_exception)
 
             message_thread_id = None
             if update.message and update.message.message_thread_id:
