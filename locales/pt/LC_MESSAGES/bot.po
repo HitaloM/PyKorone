@@ -1,0 +1,1507 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-02-07 11:54+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: Automatically generated\n"
+"Language-Team: none\n"
+"Language: pt\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n > 1;\n"
+"X-Generator: Translate Toolkit 3.15.6\n"
+
+#: src/korone/args/users.py:29
+msgid "User ID (Numeric)"
+msgstr ""
+
+#: src/korone/args/users.py:29
+msgid "User IDs (Numeric)"
+msgstr ""
+
+#: src/korone/args/users.py:43
+msgid "Could not find the requested User ID in the database."
+msgstr ""
+
+#: src/korone/args/users.py:54
+msgid "Username (starts with @)"
+msgstr ""
+
+#: src/korone/args/users.py:54
+msgid "Usernames (starts with @)"
+msgstr ""
+
+#: src/korone/args/users.py:66
+msgid "Could not find the requested Username in the database."
+msgstr ""
+
+#: src/korone/args/users.py:76
+msgid "User mention"
+msgstr ""
+
+#: src/korone/args/users.py:76
+msgid "User mentions"
+msgstr ""
+
+#: src/korone/args/users.py:84
+msgid "No mention entity found at offset."
+msgstr ""
+
+#: src/korone/args/users.py:97
+msgid "Could not find the mentioned user in the database."
+msgstr ""
+
+#: src/korone/args/users.py:121
+msgid "User: 'User ID (numeric) / Username (starts with @) / Mention (links to users)'"
+msgstr ""
+
+#: src/korone/args/users.py:122
+msgid "Users: 'User IDs (numeric) / Usernames (starts with @) / Mentions (links to users)'"
+msgstr ""
+
+#: src/korone/args/users.py:130
+msgid "User ID"
+msgstr ""
+
+#: src/korone/args/users.py:131 src/korone/modules/lastfm/handlers/set.py:59
+#: src/korone/modules/users/handlers/info.py:67
+msgid "Username"
+msgstr ""
+
+#: src/korone/args/users.py:133
+msgid "A link to user, usually creates by mentioning a user without username."
+msgstr ""
+
+#: src/korone/filters/admin_rights.py:116
+msgid "I don't have the following permissions to do this:"
+msgstr ""
+
+#: src/korone/filters/admin_rights.py:118
+msgid "You don't have the following permissions to do this:"
+msgstr ""
+
+#: src/korone/filters/admin_rights.py:123
+msgid "I must be an administrator to use this command."
+msgstr ""
+
+#: src/korone/filters/admin_rights.py:125
+msgid "You must be an administrator to use this command."
+msgstr ""
+
+#: src/korone/filters/chat_status.py:47
+msgid "This command can only be used in groups."
+msgstr ""
+
+#: src/korone/filters/chat_status.py:52
+msgid "This command can only be used in private chats."
+msgstr ""
+
+#: src/korone/middlewares/chat_context.py:36
+msgid "Private chat"
+msgstr ""
+
+#: src/korone/modules/disabling/__init__.py:16
+msgid "Disabling"
+msgstr ""
+
+#: src/korone/modules/disabling/__init__.py:18
+msgid "Disable commands in chats"
+msgstr ""
+
+#: src/korone/modules/disabling/__init__.py:21
+msgid "Allows administrators to disable specific commands in their chats."
+msgstr ""
+
+#: src/korone/modules/disabling/__init__.py:22
+msgid "Useful for restricting bot functionality to only necessary commands."
+msgstr ""
+
+#: src/korone/modules/disabling/handlers/disable.py:25
+msgid "Disables the command."
+msgstr ""
+
+#: src/korone/modules/disabling/handlers/disable.py:29
+#: src/korone/modules/disabling/handlers/disable.py:57
+#: src/korone/modules/disabling/handlers/enable.py:29
+#: src/korone/modules/disabling/handlers/enable.py:58
+msgid "Command"
+msgstr ""
+
+#: src/korone/modules/disabling/handlers/disable.py:45
+#: src/korone/modules/disabling/handlers/enable.py:45
+#, python-brace-format
+msgid "Command {cmd} not found."
+msgstr ""
+
+#: src/korone/modules/disabling/handlers/disable.py:49
+#: src/korone/modules/disabling/handlers/enable.py:49
+#, python-brace-format
+msgid "Command {cmd} is already disabled."
+msgstr ""
+
+#: src/korone/modules/disabling/handlers/disable.py:56
+#: src/korone/modules/disabling/handlers/enable.py:57
+#: src/korone/modules/utils_/status_handler.py:51
+#: src/korone/modules/utils_/status_handler.py:75
+msgid "Chat"
+msgstr ""
+
+#: src/korone/modules/disabling/handlers/disable.py:59
+msgid "Command disabled"
+msgstr ""
+
+#: src/korone/modules/disabling/handlers/disable_able.py:20
+msgid "Lists all commands that can be disabled."
+msgstr ""
+
+#: src/korone/modules/disabling/handlers/disable_able.py:42
+msgid "Disable-able commands"
+msgstr ""
+
+#: src/korone/modules/disabling/handlers/disabled.py:18
+msgid "Lists all disabled commands."
+msgstr ""
+
+#: src/korone/modules/disabling/handlers/disabled.py:29
+msgid "No disabled commands found."
+msgstr ""
+
+#: src/korone/modules/disabling/handlers/disabled.py:32
+msgid "Disabled commands"
+msgstr ""
+
+#: src/korone/modules/disabling/handlers/enable.py:25
+msgid "Enables previously disabled command."
+msgstr ""
+
+#: src/korone/modules/disabling/handlers/enable.py:60
+msgid "Command enabled"
+msgstr ""
+
+#: src/korone/modules/disabling/handlers/enable_all.py:23
+msgid "Enable all commands in the chat"
+msgstr ""
+
+#: src/korone/modules/disabling/handlers/enable_all.py:37
+msgid "✅ Enable all"
+msgstr ""
+
+#: src/korone/modules/disabling/handlers/enable_all.py:40
+msgid "🚫 Cancel"
+msgstr ""
+
+#: src/korone/modules/disabling/handlers/enable_all.py:44
+#, python-brace-format
+msgid "Do you want to enable all commands in the {chat_name}?"
+msgstr ""
+
+#: src/korone/modules/disabling/handlers/enable_all.py:60
+msgid "Only the initiator can confirm disabling all commands"
+msgstr ""
+
+#: src/korone/modules/disabling/handlers/enable_all.py:72
+#, python-brace-format
+msgid "✅ All the commands ({removed_count}) have been enabled in the {chat_name}"
+msgstr ""
+
+#: src/korone/modules/error/__init__.py:13
+msgid "Error"
+msgstr ""
+
+#: src/korone/modules/error/__init__.py:15
+msgid "Error handling and reporting"
+msgstr ""
+
+#: src/korone/modules/error/__init__.py:18
+msgid "Handles errors and exceptions that occur during bot operation."
+msgstr ""
+
+#: src/korone/modules/error/__init__.py:19
+msgid "Provides error reporting and recovery mechanisms."
+msgstr ""
+
+#: src/korone/modules/error/handlers/crash_handler.py:16
+msgid "Causes the bot to crash (for testing purposes)."
+msgstr ""
+
+#: src/korone/modules/error/utils/error_message.py:26
+msgid "😞 I've got an error trying to process this update"
+msgstr ""
+
+#: src/korone/modules/error/utils/haikus.py:4
+msgid "Code dances with bugs,"
+msgstr ""
+
+#: src/korone/modules/error/utils/haikus.py:4
+msgid "Exceptions arise, yet learn —"
+msgstr ""
+
+#: src/korone/modules/error/utils/haikus.py:4
+msgid "Errors guide our way."
+msgstr ""
+
+#: src/korone/modules/error/utils/haikus.py:5
+msgid "Silent lines disrupted,"
+msgstr ""
+
+#: src/korone/modules/error/utils/haikus.py:5
+msgid "Errors speak a language new,"
+msgstr ""
+
+#: src/korone/modules/error/utils/haikus.py:5
+msgid "In flaws, growth takes root."
+msgstr ""
+
+#: src/korone/modules/error/utils/haikus.py:6
+msgid "Through the mist of bugs,"
+msgstr ""
+
+#: src/korone/modules/error/utils/haikus.py:6
+msgid "Learning blooms in lines of code,"
+msgstr ""
+
+#: src/korone/modules/error/utils/haikus.py:6
+msgid "Exceptional growth."
+msgstr ""
+
+#: src/korone/modules/error/utils/haikus.py:7
+msgid "In errors we find,"
+msgstr ""
+
+#: src/korone/modules/error/utils/haikus.py:7
+msgid "Opportunities to learn,"
+msgstr ""
+
+#: src/korone/modules/error/utils/haikus.py:7
+msgid "Software's hidden gifts."
+msgstr ""
+
+#: src/korone/modules/error/utils/haikus.py:8
+msgid "Paths diverge, glitch calls,"
+msgstr ""
+
+#: src/korone/modules/error/utils/haikus.py:8
+msgid "Embrace the flaw, seek the fix,"
+msgstr ""
+
+#: src/korone/modules/error/utils/haikus.py:8
+msgid "Errors sculpt progress."
+msgstr ""
+
+#: src/korone/modules/error/utils/haikus.py:9
+msgid "A glitchy waltz starts,"
+msgstr ""
+
+#: src/korone/modules/error/utils/haikus.py:9
+msgid "Errors lead to graceful steps,"
+msgstr ""
+
+#: src/korone/modules/error/utils/haikus.py:9
+msgid "Software learns to dance."
+msgstr ""
+
+#: src/korone/modules/error/utils/haikus.py:10
+msgid "Beneath error's mask,"
+msgstr ""
+
+#: src/korone/modules/error/utils/haikus.py:10
+msgid "Lies chance to refine and mend,"
+msgstr ""
+
+#: src/korone/modules/error/utils/haikus.py:10
+msgid "Stronger code emerges."
+msgstr ""
+
+#: src/korone/modules/error/utils/haikus.py:11
+msgid "Flawed notes in the code,"
+msgstr ""
+
+#: src/korone/modules/error/utils/haikus.py:11
+msgid "Create the symphony of growth,"
+msgstr ""
+
+#: src/korone/modules/error/utils/haikus.py:11
+msgid "Exceptions compose."
+msgstr ""
+
+#: src/korone/modules/error/utils/haikus.py:12
+msgid "Bright stars in the code,"
+msgstr ""
+
+#: src/korone/modules/error/utils/haikus.py:12
+msgid "Errors guide us through the dark,"
+msgstr ""
+
+#: src/korone/modules/error/utils/haikus.py:12
+msgid "To a better dawn."
+msgstr ""
+
+#: src/korone/modules/error/utils/haikus.py:13
+msgid "Software's journey,"
+msgstr ""
+
+#: src/korone/modules/error/utils/haikus.py:13
+msgid "Marked by errors, yet they forge,"
+msgstr ""
+
+#: src/korone/modules/error/utils/haikus.py:13
+msgid "A path to brilliance."
+msgstr ""
+
+#: src/korone/modules/error/utils/haikus.py:14
+msgid "In lines of debug,"
+msgstr ""
+
+#: src/korone/modules/error/utils/haikus.py:14
+msgid "Lies the tale of perseverance,"
+msgstr ""
+
+#: src/korone/modules/error/utils/haikus.py:14
+msgid "Errors write our story."
+msgstr ""
+
+#: src/korone/modules/error/utils/haikus.py:15
+msgid "Bugs like stepping stones,"
+msgstr ""
+
+#: src/korone/modules/error/utils/haikus.py:15
+msgid "Lead us towards understanding,"
+msgstr ""
+
+#: src/korone/modules/error/utils/haikus.py:15
+msgid "Paths of enlightenment."
+msgstr ""
+
+#: src/korone/modules/error/utils/haikus.py:16
+msgid "Amidst lines of code,"
+msgstr ""
+
+#: src/korone/modules/error/utils/haikus.py:16
+msgid "Errors whisper secrets deep,"
+msgstr ""
+
+#: src/korone/modules/error/utils/haikus.py:16
+msgid "Knowledge blooms from flaws."
+msgstr ""
+
+#: src/korone/modules/error/utils/haikus.py:17
+msgid "A puzzle of bugs,"
+msgstr ""
+
+#: src/korone/modules/error/utils/haikus.py:17
+msgid "Each exception a clue to solve,"
+msgstr ""
+
+#: src/korone/modules/error/utils/haikus.py:17
+msgid "The software's riddle."
+msgstr ""
+
+#: src/korone/modules/error/utils/haikus.py:18
+msgid "In realm of errors,"
+msgstr ""
+
+#: src/korone/modules/error/utils/haikus.py:18
+msgid "Patience and insight converge,"
+msgstr ""
+
+#: src/korone/modules/error/utils/haikus.py:18
+msgid "Solutions are born."
+msgstr ""
+
+#: src/korone/modules/error/utils/haikus.py:19
+msgid "Through crashes and burns,"
+msgstr ""
+
+#: src/korone/modules/error/utils/haikus.py:19
+msgid "Rises phoenix of progress,"
+msgstr ""
+
+#: src/korone/modules/error/utils/haikus.py:19
+msgid "From ashes of bugs."
+msgstr ""
+
+#: src/korone/modules/error/utils/haikus.py:20
+msgid "Software's heartbeat,"
+msgstr ""
+
+#: src/korone/modules/error/utils/haikus.py:20
+msgid "Pulsing with each error found,"
+msgstr ""
+
+#: src/korone/modules/error/utils/haikus.py:20
+msgid "Lifeblood of growth flows."
+msgstr ""
+
+#: src/korone/modules/error/utils/haikus.py:21
+msgid "Errors like raindrops,"
+msgstr ""
+
+#: src/korone/modules/error/utils/haikus.py:21
+msgid "Quenching the thirst for knowledge,"
+msgstr ""
+
+#: src/korone/modules/error/utils/haikus.py:21
+msgid "Nourishing progress."
+msgstr ""
+
+#: src/korone/modules/error/utils/haikus.py:22
+msgid "Through the maze of bugs,"
+msgstr ""
+
+#: src/korone/modules/error/utils/haikus.py:22
+msgid "A labyrinth of learning,"
+msgstr ""
+
+#: src/korone/modules/error/utils/haikus.py:22
+msgid "Exceptional minds."
+msgstr ""
+
+#: src/korone/modules/error/utils/haikus.py:23
+msgid "In the code's embrace,"
+msgstr ""
+
+#: src/korone/modules/error/utils/haikus.py:23
+msgid "Errors cradle innovation,"
+msgstr ""
+
+#: src/korone/modules/error/utils/haikus.py:23
+msgid "Softly whispering."
+msgstr ""
+
+#: src/korone/modules/gsm_arena/__init__.py:15
+msgid "GSM Arena"
+msgstr ""
+
+#: src/korone/modules/gsm_arena/__init__.py:17
+msgid "Search device specifications on GSMArena"
+msgstr ""
+
+#: src/korone/modules/gsm_arena/__init__.py:19
+msgid "Search for smartphones and get a quick overview of their specifications directly from GSMArena."
+msgstr ""
+
+#: src/korone/modules/gsm_arena/handlers/get.py:33
+#: src/korone/modules/gsm_arena/handlers/list.py:32
+msgid "You are not allowed to use this button."
+msgstr ""
+
+#: src/korone/modules/gsm_arena/handlers/get.py:36
+msgid "Fetching device details..."
+msgstr ""
+
+#: src/korone/modules/gsm_arena/handlers/get.py:40
+msgid "Error fetching device details"
+msgstr ""
+
+#: src/korone/modules/gsm_arena/handlers/list.py:37
+msgid "No devices found"
+msgstr ""
+
+#: src/korone/modules/gsm_arena/handlers/search.py:28
+msgid "Search device specifications on GSMArena."
+msgstr ""
+
+#: src/korone/modules/gsm_arena/handlers/search.py:33
+msgid "Device"
+msgstr ""
+
+#: src/korone/modules/gsm_arena/handlers/search.py:41
+msgid "No devices found."
+msgstr ""
+
+#: src/korone/modules/gsm_arena/handlers/search.py:49
+msgid "Error fetching device details. Please try again later."
+msgstr ""
+
+#: src/korone/modules/gsm_arena/handlers/search.py:57
+#, python-brace-format
+msgid "Search results for: <b>{query}</b>"
+msgstr ""
+
+#: src/korone/modules/gsm_arena/handlers/search.py:64
+msgid "You should provide a device name to search. Example: <code>/device Galaxy S24</code>."
+msgstr ""
+
+#: src/korone/modules/gsm_arena/utils/scraper.py:64
+msgid "Status"
+msgstr ""
+
+#: src/korone/modules/gsm_arena/utils/scraper.py:65
+msgid "Network"
+msgstr ""
+
+#: src/korone/modules/gsm_arena/utils/scraper.py:66
+msgid "Weight"
+msgstr ""
+
+#: src/korone/modules/gsm_arena/utils/scraper.py:67
+msgid "Display"
+msgstr ""
+
+#: src/korone/modules/gsm_arena/utils/scraper.py:68
+msgid "Chipset"
+msgstr ""
+
+#: src/korone/modules/gsm_arena/utils/scraper.py:69
+msgid "Memory"
+msgstr ""
+
+#: src/korone/modules/gsm_arena/utils/scraper.py:70
+msgid "Rear Camera"
+msgstr ""
+
+#: src/korone/modules/gsm_arena/utils/scraper.py:71
+msgid "Front Camera"
+msgstr ""
+
+#: src/korone/modules/gsm_arena/utils/scraper.py:72
+msgid "3.5mm jack"
+msgstr ""
+
+#: src/korone/modules/gsm_arena/utils/scraper.py:73
+msgid "USB"
+msgstr ""
+
+#: src/korone/modules/gsm_arena/utils/scraper.py:74
+msgid "Sensors"
+msgstr ""
+
+#: src/korone/modules/gsm_arena/utils/scraper.py:75
+msgid "Battery"
+msgstr ""
+
+#: src/korone/modules/gsm_arena/utils/scraper.py:76
+msgid "Charging"
+msgstr ""
+
+#: src/korone/modules/help/__init__.py:25
+#: src/korone/modules/help/handlers/help_group.py:29
+#: src/korone/modules/help/handlers/pm_modules.py:55
+#: src/korone/modules/help/handlers/start_group.py:33
+msgid "Help"
+msgstr ""
+
+#: src/korone/modules/help/__init__.py:27
+msgid "Provides helpful information"
+msgstr ""
+
+#: src/korone/modules/help/__init__.py:30
+msgid "Provides help and documentation for all bot commands and features."
+msgstr ""
+
+#: src/korone/modules/help/__init__.py:31
+msgid "Includes command lists, usage instructions, and feature explanations."
+msgstr ""
+
+#: src/korone/modules/help/handlers/help_group.py:19
+msgid "Shows the help message"
+msgstr ""
+
+#: src/korone/modules/help/handlers/help_group.py:26
+msgid "The help information available in the private messages with Korone"
+msgstr ""
+
+#: src/korone/modules/help/handlers/op.py:19
+msgid "Shows a list of all OP-only commands"
+msgstr ""
+
+#: src/korone/modules/help/handlers/pm_modules.py:23
+msgid "Shows help overview for all modules"
+msgstr ""
+
+#: src/korone/modules/help/handlers/pm_modules.py:53
+#: src/korone/modules/help/handlers/pm_modules.py:101
+#: src/korone/modules/language/handlers/apply.py:65
+#: src/korone/modules/language/handlers/info.py:47
+#: src/korone/modules/language/handlers/select.py:51
+#: src/korone/modules/language/handlers/select.py:55
+#: src/korone/modules/privacy/handlers/privacy.py:34
+msgid "⬅️ Back"
+msgstr ""
+
+#: src/korone/modules/help/handlers/pm_modules.py:55
+msgid "Select a module to see its commands and information:"
+msgstr ""
+
+#: src/korone/modules/help/handlers/pm_modules.py:74
+msgid "Module not found"
+msgstr ""
+
+#: src/korone/modules/help/handlers/pm_modules.py:94
+#, python-brace-format
+msgid "Aliased commands from {module}"
+msgstr ""
+
+#: src/korone/modules/help/handlers/start_group.py:20
+msgid "Shows the start message"
+msgstr ""
+
+#: src/korone/modules/help/handlers/start_group.py:34
+msgid "📢 Channel"
+msgstr ""
+
+#: src/korone/modules/help/handlers/start_group.py:37
+#: src/korone/modules/help/handlers/start_pm.py:44
+msgid "Hi, I'm Korone! An all-in-one bot. I can help you with lots of things. Just click on the buttons below to get started."
+msgstr ""
+
+#: src/korone/modules/help/handlers/start_pm.py:36
+msgid "🕵️‍♂️ Privacy"
+msgstr ""
+
+#: src/korone/modules/help/handlers/start_pm.py:37
+msgid "🌍 Language"
+msgstr ""
+
+#: src/korone/modules/help/handlers/start_pm.py:39
+msgid "ℹ️ Help"
+msgstr ""
+
+#: src/korone/modules/help/handlers/start_pm.py:48
+#, python-brace-format
+msgid "Join my {channel} to get information on all the latest updates."
+msgstr ""
+
+#: src/korone/modules/help/handlers/start_pm.py:49
+msgid "news channel"
+msgstr ""
+
+#: src/korone/modules/help/utils/format_help.py:38
+msgid "— Only in groups"
+msgstr ""
+
+#: src/korone/modules/help/utils/format_help.py:39
+msgid "Disable-able"
+msgstr ""
+
+#: src/korone/modules/help/utils/format_help.py:77
+msgid "Commands"
+msgstr ""
+
+#: src/korone/modules/help/utils/format_help.py:79
+msgid "PM-only"
+msgstr ""
+
+#: src/korone/modules/help/utils/format_help.py:81
+msgid "Only admins"
+msgstr ""
+
+#: src/korone/modules/language/__init__.py:17
+#: src/korone/modules/language/stats.py:11
+msgid "Language"
+msgstr ""
+
+#: src/korone/modules/language/__init__.py:19
+msgid "Language and localization settings"
+msgstr ""
+
+#: src/korone/modules/language/__init__.py:20
+msgid "Allows users to set their preferred language for bot interactions."
+msgstr ""
+
+#: src/korone/modules/language/handlers/apply.py:37
+#, python-brace-format
+msgid "Language changed to {new_lang}."
+msgstr ""
+
+#: src/korone/modules/language/handlers/apply.py:40
+msgid "This is the bot's native language."
+msgstr ""
+
+#: src/korone/modules/language/handlers/apply.py:41
+msgid "If you find any errors, please file an issue in the GitHub Repository."
+msgstr ""
+
+#: src/korone/modules/language/handlers/apply.py:44
+#, python-brace-format
+msgid "The language is {percent}% translated."
+msgstr ""
+
+#: src/korone/modules/language/handlers/apply.py:47
+msgid "In case you find any errors, please file an issue in the GitHub Repository."
+msgstr ""
+
+#: src/korone/modules/language/handlers/apply.py:49
+msgid "Please help us translate this language by completing it on our translations platform."
+msgstr ""
+
+#: src/korone/modules/language/handlers/apply.py:60
+msgid "🐞 Open GitHub Issues"
+msgstr ""
+
+#: src/korone/modules/language/handlers/apply.py:62
+msgid "🌍 Help Translate"
+msgstr ""
+
+#: src/korone/modules/language/handlers/apply.py:78
+msgid "Something went wrong."
+msgstr ""
+
+#: src/korone/modules/language/handlers/info.py:26
+msgid "Current Language"
+msgstr ""
+
+#: src/korone/modules/language/handlers/info.py:26
+msgid "Language Settings"
+msgstr ""
+
+#: src/korone/modules/language/handlers/info.py:29
+msgid "This is the bot's native language, so it is 100% translated."
+msgstr ""
+
+#: src/korone/modules/language/handlers/info.py:31
+msgid "Translated strings"
+msgstr ""
+
+#: src/korone/modules/language/handlers/info.py:32
+msgid "Untranslated strings"
+msgstr ""
+
+#: src/korone/modules/language/handlers/info.py:33
+msgid "Strings requiring review"
+msgstr ""
+
+#: src/korone/modules/language/handlers/info.py:39
+msgid "👤 Change your language"
+msgstr ""
+
+#: src/korone/modules/language/handlers/info.py:39
+msgid "🌍 Change group language"
+msgstr ""
+
+#: src/korone/modules/language/handlers/info.py:52
+msgid "Shows the current language settings."
+msgstr ""
+
+#: src/korone/modules/language/handlers/select.py:47
+msgid "❌ Cancel"
+msgstr ""
+
+#: src/korone/modules/language/handlers/select.py:62
+msgid "Shows the available languages for selection."
+msgstr ""
+
+#: src/korone/modules/language/handlers/select.py:72
+#: src/korone/modules/language/handlers/select.py:95
+#: src/korone/modules/language/handlers/select.py:109
+msgid "Please select the language you want to use for the chat."
+msgstr ""
+
+#: src/korone/modules/lastfm/__init__.py:20
+msgid "Last.fm"
+msgstr ""
+
+#: src/korone/modules/lastfm/__init__.py:22
+msgid "Last.fm scrobble statistics"
+msgstr ""
+
+#: src/korone/modules/lastfm/__init__.py:25
+msgid "Shows your Last.fm stats, now playing, and top music charts."
+msgstr ""
+
+#: src/korone/modules/lastfm/__init__.py:26
+msgid "Includes collage generation and compatibility checks."
+msgstr ""
+
+#: src/korone/modules/lastfm/handlers/album.py:26
+msgid "Shows the album info for your current track on Last.fm."
+msgstr ""
+
+#: src/korone/modules/lastfm/handlers/album.py:45
+msgid "No album information found for the current track."
+msgstr ""
+
+#: src/korone/modules/lastfm/handlers/artist.py:27
+msgid "Shows the artist info for your current track on Last.fm."
+msgstr ""
+
+#: src/korone/modules/lastfm/handlers/collage.py:35
+msgid "Generates a Last.fm collage of your top albums."
+msgstr ""
+
+#: src/korone/modules/lastfm/handlers/collage.py:40
+#: src/korone/modules/lastfm/handlers/top.py:37
+msgid "Args"
+msgstr ""
+
+#: src/korone/modules/lastfm/handlers/collage.py:64
+msgid "No top albums found for your Last.fm account."
+msgstr ""
+
+#: src/korone/modules/lastfm/handlers/compat.py:28
+msgid "Checks compatibility between two Last.fm users."
+msgstr ""
+
+#: src/korone/modules/lastfm/handlers/compat.py:42
+#: src/korone/modules/lastfm/utils/commons.py:33
+msgid "You need to set your Last.fm username first! Example: <code>/setlfm username</code>."
+msgstr ""
+
+#: src/korone/modules/lastfm/handlers/compat.py:48
+msgid "The user you replied to doesn't have a Last.fm account linked! Hint them to set it using <code>/setlfm username</code>."
+msgstr ""
+
+#: src/korone/modules/lastfm/handlers/compat.py:75
+#, python-brace-format
+msgid "No common artists in {period}"
+msgstr ""
+
+#: src/korone/modules/lastfm/handlers/compat.py:78
+#, python-brace-format
+msgid ""
+"{user1} and {user2} listen to {mutual}...\n"
+"\n"
+"Compatibility score is {score}%, based on {period}"
+msgstr ""
+
+#: src/korone/modules/lastfm/handlers/compat.py:89
+msgid "Reply to a message to get the compatibility!"
+msgstr ""
+
+#: src/korone/modules/lastfm/handlers/compat.py:96
+msgid "Could not identify both users."
+msgstr ""
+
+#: src/korone/modules/lastfm/handlers/compat.py:100
+msgid "You can't get the compatibility with yourself!"
+msgstr ""
+
+#: src/korone/modules/lastfm/handlers/compat.py:104
+msgid "Bots won't have music taste!"
+msgstr ""
+
+#: src/korone/modules/lastfm/handlers/compat.py:124
+msgid "No top artists found for your Last.fm account."
+msgstr ""
+
+#: src/korone/modules/lastfm/handlers/now.py:25
+msgid "Shows your now playing track from Last.fm."
+msgstr ""
+
+#: src/korone/modules/lastfm/handlers/recent.py:27
+msgid "Shows your recent tracks from Last.fm."
+msgstr ""
+
+#: src/korone/modules/lastfm/handlers/recent.py:42
+#, python-brace-format
+msgid "{user} is listening to:\n"
+msgstr ""
+
+#: src/korone/modules/lastfm/handlers/recent.py:45
+msgid ""
+"\n"
+"Last 5 plays:"
+msgstr ""
+
+#: src/korone/modules/lastfm/handlers/recent.py:48
+#, python-brace-format
+msgid "{user} was listening to:\n"
+msgstr ""
+
+#: src/korone/modules/lastfm/handlers/recent.py:72
+msgid "No recent tracks found."
+msgstr ""
+
+#: src/korone/modules/lastfm/handlers/set.py:35
+msgid "Last.fm username must not contain spaces or special characters!"
+msgstr ""
+
+#: src/korone/modules/lastfm/handlers/set.py:39
+#: src/korone/modules/lastfm/utils/commons.py:28
+msgid "Could not identify your user."
+msgstr ""
+
+#: src/korone/modules/lastfm/handlers/set.py:50
+msgid "Last.fm username set successfully!"
+msgstr ""
+
+#: src/korone/modules/lastfm/handlers/set.py:54
+msgid "Set your Last.fm username."
+msgstr ""
+
+#: src/korone/modules/lastfm/handlers/set.py:71
+msgid "Reply with your Last.fm username."
+msgstr ""
+
+#: src/korone/modules/lastfm/handlers/top.py:32
+msgid "Shows your top artists, tracks, or albums from Last.fm."
+msgstr ""
+
+#: src/korone/modules/lastfm/handlers/top.py:56
+msgid "Invalid entry type! Use one of the following: artist, track, album"
+msgstr ""
+
+#: src/korone/modules/lastfm/handlers/top.py:67
+msgid "No top items found."
+msgstr ""
+
+#: src/korone/modules/lastfm/handlers/top.py:86
+msgid "artists"
+msgstr ""
+
+#: src/korone/modules/lastfm/handlers/top.py:86
+msgid "tracks"
+msgstr ""
+
+#: src/korone/modules/lastfm/handlers/top.py:86
+msgid "albums"
+msgstr ""
+
+#: src/korone/modules/lastfm/handlers/top.py:90
+#, python-brace-format
+msgid ""
+"{user}'s top 5 {entry} for {period}:\n"
+"\n"
+msgstr ""
+
+#: src/korone/modules/lastfm/handlers/top.py:99
+#, python-brace-format
+msgid " -> {scrobbles} plays\n"
+msgstr ""
+
+#: src/korone/modules/lastfm/handlers/user.py:25
+msgid "Shows your Last.fm profile statistics."
+msgstr ""
+
+#: src/korone/modules/lastfm/handlers/user.py:49
+#, python-brace-format
+msgid ""
+"User: <b>{user}</b>\n"
+"\n"
+"Total scrobbles: <code>{playcount}</code>\n"
+"Tracks scrobbled: <code>{track_count}</code>\n"
+"Artists scrobbled: <code>{artist_count}</code>\n"
+"Albums scrobbled: <code>{album_count}</code>\n"
+"\n"
+"Registered: <i>{registered}</i>"
+msgstr ""
+
+#: src/korone/modules/lastfm/utils/commons.py:24
+#: src/korone/modules/lastfm/utils/commons.py:43
+msgid "Last.fm API key is not configured. Please contact the bot owner."
+msgstr ""
+
+#: src/korone/modules/lastfm/utils/commons.py:41
+msgid "Your Last.fm username was not found! Try setting it again."
+msgstr ""
+
+#: src/korone/modules/lastfm/utils/commons.py:58
+msgid "No recent tracks found for your Last.fm account."
+msgstr ""
+
+#: src/korone/modules/lastfm/utils/commons.py:72
+#, python-brace-format
+msgid "{user}'s is listening to:\n"
+msgstr ""
+
+#: src/korone/modules/lastfm/utils/commons.py:74
+#, python-brace-format
+msgid "{user}'s was listening to:\n"
+msgstr ""
+
+#: src/korone/modules/lastfm/utils/commons.py:79
+#, python-brace-format
+msgid " ∙ <code>{playcount} plays</code>"
+msgstr ""
+
+#: src/korone/modules/lastfm/utils/formatters.py:18
+msgid "1 week"
+msgstr ""
+
+#: src/korone/modules/lastfm/utils/formatters.py:19
+msgid "1 month"
+msgstr ""
+
+#: src/korone/modules/lastfm/utils/formatters.py:20
+msgid "3 months"
+msgstr ""
+
+#: src/korone/modules/lastfm/utils/formatters.py:21
+msgid "6 months"
+msgstr ""
+
+#: src/korone/modules/lastfm/utils/formatters.py:22
+msgid "1 year"
+msgstr ""
+
+#: src/korone/modules/lastfm/utils/formatters.py:23
+msgid "All time"
+msgstr ""
+
+#: src/korone/modules/lastfm/utils/formatters.py:36
+#, python-brace-format
+msgid ", {days} day(s) ago"
+msgstr ""
+
+#: src/korone/modules/lastfm/utils/formatters.py:40
+#, python-brace-format
+msgid ", {hours} hour(s) ago"
+msgstr ""
+
+#: src/korone/modules/lastfm/utils/formatters.py:43
+#, python-brace-format
+msgid ", {minutes} minute(s) ago"
+msgstr ""
+
+#: src/korone/modules/lastfm/utils/formatters.py:43
+msgid ", Just now"
+msgstr ""
+
+#: src/korone/modules/medias/__init__.py:14
+msgid "Medias"
+msgstr ""
+
+#: src/korone/modules/medias/__init__.py:16
+msgid "Download media from supported websites in group chats"
+msgstr ""
+
+#: src/korone/modules/medias/__init__.py:20
+msgid ""
+"Automatically fetches photos and videos from supported links posted in the group.\n"
+"\n"
+"Currently supports: Twitter, Bluesky, Instagram."
+msgstr ""
+
+#: src/korone/modules/medias/handlers/base.py:81
+#: src/korone/modules/medias/handlers/base.py:122
+#, python-brace-format
+msgid "Open in {website}"
+msgstr ""
+
+#: src/korone/modules/medias/handlers/status.py:18
+msgid "Enable or disable automatic media downloads in this chat."
+msgstr ""
+
+#: src/korone/modules/medias/handlers/status.py:21
+msgid "Media auto-download"
+msgstr ""
+
+#: src/korone/modules/medias/handlers/status.py:23
+msgid "on / off"
+msgstr ""
+
+#: src/korone/modules/op/__init__.py:13
+msgid "Operator"
+msgstr ""
+
+#: src/korone/modules/op/__init__.py:15
+msgid "Operator-only commands and tools"
+msgstr ""
+
+#: src/korone/modules/op/__init__.py:18
+msgid "Provides operator-only commands and tools for bot administration."
+msgstr ""
+
+#: src/korone/modules/op/__init__.py:19
+msgid "Includes system stats, job management, and other administrative functions."
+msgstr ""
+
+#: src/korone/modules/op/handlers/event.py:14
+msgid "Prints the message event as JSON."
+msgstr ""
+
+#: src/korone/modules/op/handlers/redis_clear.py:13
+msgid "Clear Redis cache for the bot."
+msgstr ""
+
+#: src/korone/modules/op/handlers/redis_clear.py:25
+#, python-brace-format
+msgid "Redis cleared. {removed} keys removed."
+msgstr ""
+
+#: src/korone/modules/op/handlers/stats.py:52
+msgid "Show bot statistics."
+msgstr ""
+
+#: src/korone/modules/privacy/__init__.py:19
+msgid "Privacy"
+msgstr ""
+
+#: src/korone/modules/privacy/__init__.py:21
+msgid "Data protection"
+msgstr ""
+
+#: src/korone/modules/privacy/__init__.py:24
+msgid "Manages user privacy and data protection settings."
+msgstr ""
+
+#: src/korone/modules/privacy/__init__.py:25
+msgid "Allows users to export their data and control privacy preferences."
+msgstr ""
+
+#: src/korone/modules/privacy/handlers/export.py:49
+msgid "Exports your data to a JSON file"
+msgstr ""
+
+#: src/korone/modules/privacy/handlers/export.py:65
+msgid "Export is started, this may take a while."
+msgstr ""
+
+#: src/korone/modules/privacy/handlers/export.py:74
+msgid "Export is done."
+msgstr ""
+
+#: src/korone/modules/privacy/handlers/privacy.py:20
+msgid "Shows the privacy policy of the bot"
+msgstr ""
+
+#: src/korone/modules/privacy/handlers/privacy.py:30
+msgid "The privacy policy of the bot is available on our wiki page."
+msgstr ""
+
+#: src/korone/modules/privacy/handlers/privacy.py:31
+msgid "Privacy Policy"
+msgstr ""
+
+#: src/korone/modules/regex/__init__.py:11
+msgid "Regex"
+msgstr ""
+
+#: src/korone/modules/regex/__init__.py:13
+msgid "Apply regex substitutions to replied messages."
+msgstr ""
+
+#: src/korone/modules/regex/__init__.py:16
+msgid "Use sed-like syntax to replace text in a replied message. Example: s/old/new/g; escape slashes as \\/."
+msgstr ""
+
+#: src/korone/modules/regex/handlers/sed.py:18
+msgid "Apply a regex substitution to a replied message."
+msgstr ""
+
+#: src/korone/modules/regex/handlers/sed.py:34
+msgid "No message to apply the substitution."
+msgstr ""
+
+#: src/korone/modules/regex/handlers/sed.py:39
+msgid "No text to apply the substitution."
+msgstr ""
+
+#: src/korone/modules/regex/handlers/sed.py:56
+msgid "Invalid command data."
+msgstr ""
+
+#: src/korone/modules/regex/handlers/sed.py:64
+#, python-brace-format
+msgid "Regex error: {e}"
+msgstr ""
+
+#: src/korone/modules/regex/handlers/sed.py:68
+msgid "Your regex didn't change anything from the original message."
+msgstr ""
+
+#: src/korone/modules/regex/utils.py:57
+#, python-brace-format
+msgid "Invalid command: {command}"
+msgstr ""
+
+#: src/korone/modules/regex/utils.py:63
+msgid "Pattern is too long. Please use shorter patterns."
+msgstr ""
+
+#: src/korone/modules/regex/utils.py:68
+#, python-brace-format
+msgid "Unknown flag: {flag}"
+msgstr ""
+
+#: src/korone/modules/troubleshooters/__init__.py:14
+msgid "Troubleshooters"
+msgstr ""
+
+#: src/korone/modules/troubleshooters/__init__.py:16
+msgid "Tools for fixing problems and issues"
+msgstr ""
+
+#: src/korone/modules/troubleshooters/handlers/admincache.py:18
+msgid "Reset admin rights cache, use if Korone didn't get the recently added admin"
+msgstr ""
+
+#: src/korone/modules/troubleshooters/handlers/admincache.py:27
+msgid "Admin rights cache has been reset."
+msgstr ""
+
+#: src/korone/modules/troubleshooters/handlers/cancel.py:16
+msgid "Cancel current state, use if Korone is not responding on your message"
+msgstr ""
+
+#: src/korone/modules/troubleshooters/handlers/cancel.py:26
+msgid "The current state is already cleared, wiping its data anyway..."
+msgstr ""
+
+#: src/korone/modules/troubleshooters/handlers/cancel.py:33
+#, python-brace-format
+msgid "Current state {state} is cleared."
+msgstr ""
+
+#: src/korone/modules/troubleshooters/handlers/cancel_callback.py:31
+#: src/korone/modules/troubleshooters/handlers/cancel_callback.py:50
+#: src/korone/modules/troubleshooters/handlers/cancel_callback.py:69
+msgid "You are not allowed to cancel this action!"
+msgstr ""
+
+#: src/korone/modules/troubleshooters/handlers/cancel_callback.py:35
+#: src/korone/modules/troubleshooters/handlers/cancel_callback.py:55
+msgid "❌ Cancelled."
+msgstr ""
+
+#: src/korone/modules/troubleshooters/handlers/cancel_callback.py:76
+#, python-brace-format
+msgid "The action was cancelled by {user}."
+msgstr ""
+
+#: src/korone/modules/users/__init__.py:13
+msgid "Users"
+msgstr ""
+
+#: src/korone/modules/users/__init__.py:15
+msgid "User information and management"
+msgstr ""
+
+#: src/korone/modules/users/__init__.py:18
+msgid "Provides commands to get information about users and chat members."
+msgstr ""
+
+#: src/korone/modules/users/__init__.py:19
+msgid "Includes admin list, user IDs, and detailed user information."
+msgstr ""
+
+#: src/korone/modules/users/handlers/adminlist.py:22
+msgid "Lists all the chats admins."
+msgstr ""
+
+#: src/korone/modules/users/handlers/adminlist.py:32
+msgid "Chat not found."
+msgstr ""
+
+#: src/korone/modules/users/handlers/adminlist.py:41
+#, python-brace-format
+msgid "Admins in {chat_name}"
+msgstr ""
+
+#: src/korone/modules/users/handlers/adminlist.py:62
+#, python-brace-format
+msgid "{user}"
+msgstr ""
+
+#: src/korone/modules/users/handlers/adminlist.py:65
+msgid "No visible admins found."
+msgstr ""
+
+#: src/korone/modules/users/handlers/adminlist.py:67
+msgid "Admins"
+msgstr ""
+
+#: src/korone/modules/users/handlers/id.py:27
+msgid "Show user and chat IDs"
+msgstr ""
+
+#: src/korone/modules/users/handlers/id.py:33
+#: src/korone/modules/users/handlers/info.py:31
+msgid "User"
+msgstr ""
+
+#: src/korone/modules/users/handlers/id.py:46
+#, python-brace-format
+msgid "Your ID: {id}"
+msgstr ""
+
+#: src/korone/modules/users/handlers/id.py:49
+#, python-brace-format
+msgid "Chat ID: {id}"
+msgstr ""
+
+#: src/korone/modules/users/handlers/id.py:52
+#, python-brace-format
+msgid "Topic ID: {id}"
+msgstr ""
+
+#: src/korone/modules/users/handlers/id.py:56
+#, python-brace-format
+msgid "Replied user ID: {id}"
+msgstr ""
+
+#: src/korone/modules/users/handlers/id.py:61
+#, python-brace-format
+msgid "{user}'s ID: {id}"
+msgstr ""
+
+#: src/korone/modules/users/handlers/info.py:26
+msgid "Shows the additional information about the user."
+msgstr ""
+
+#: src/korone/modules/users/handlers/info.py:52
+msgid "Could not identify user."
+msgstr ""
+
+#: src/korone/modules/users/handlers/info.py:58
+msgid "User Information"
+msgstr ""
+
+#: src/korone/modules/users/handlers/info.py:60
+msgid "ID"
+msgstr ""
+
+#: src/korone/modules/users/handlers/info.py:61
+msgid "First Name"
+msgstr ""
+
+#: src/korone/modules/users/handlers/info.py:64
+msgid "Last Name"
+msgstr ""
+
+#: src/korone/modules/users/handlers/info.py:70
+msgid "User Link"
+msgstr ""
+
+#: src/korone/modules/users/handlers/info.py:76
+msgid "This user is the owner of this chat."
+msgstr ""
+
+#: src/korone/modules/users/handlers/info.py:78
+msgid "This user is an admin in this chat."
+msgstr ""
+
+#: src/korone/modules/users/handlers/info.py:82
+msgid "Shared Chats"
+msgstr ""
+
+#: src/korone/modules/utils_/reply_or_edit.py:22
+#: src/korone/utils/handlers.py:84 src/korone/utils/handlers.py:101
+#: src/korone/utils/handlers.py:103 src/korone/utils/handlers.py:112
+msgid "The message is inaccessible. Please write the command again"
+msgstr ""
+
+#: src/korone/modules/utils_/status_handler.py:33
+msgid "?New status"
+msgstr ""
+
+#: src/korone/modules/utils_/status_handler.py:55
+#, python-brace-format
+msgid "Use '{cmd}' to change it."
+msgstr ""
+
+#: src/korone/modules/utils_/status_handler.py:65
+#, python-brace-format
+msgid "The current status is already {state}"
+msgstr ""
+
+#: src/korone/modules/utils_/status_handler.py:73
+msgid "The state was successfully changed"
+msgstr ""
+
+#: src/korone/modules/utils_/status_handler.py:90
+msgid "Enabled"
+msgstr ""
+
+#: src/korone/modules/utils_/status_handler.py:90
+msgid "Disabled"
+msgstr ""
+
+#: src/korone/modules/web/__init__.py:13
+msgid "Web"
+msgstr ""
+
+#: src/korone/modules/web/__init__.py:15
+msgid "Lookup IP and WHOIS information"
+msgstr ""
+
+#: src/korone/modules/web/__init__.py:16
+msgid "Get IP details and WHOIS information for domains."
+msgstr ""
+
+#: src/korone/modules/web/handlers/ip.py:26
+#: src/korone/modules/web/handlers/ip.py:48
+msgid "IP"
+msgstr ""
+
+#: src/korone/modules/web/handlers/ip.py:27
+msgid "Hostname"
+msgstr ""
+
+#: src/korone/modules/web/handlers/ip.py:28
+msgid "City"
+msgstr ""
+
+#: src/korone/modules/web/handlers/ip.py:29
+msgid "Region"
+msgstr ""
+
+#: src/korone/modules/web/handlers/ip.py:30
+msgid "Country"
+msgstr ""
+
+#: src/korone/modules/web/handlers/ip.py:31
+msgid "Location"
+msgstr ""
+
+#: src/korone/modules/web/handlers/ip.py:32
+msgid "Organization"
+msgstr ""
+
+#: src/korone/modules/web/handlers/ip.py:33
+msgid "Postal"
+msgstr ""
+
+#: src/korone/modules/web/handlers/ip.py:34
+msgid "Timezone"
+msgstr ""
+
+#: src/korone/modules/web/handlers/ip.py:39
+msgid "IP Information"
+msgstr ""
+
+#: src/korone/modules/web/handlers/ip.py:53
+msgid "Shows information about an IP or domain."
+msgstr ""
+
+#: src/korone/modules/web/handlers/ip.py:61
+msgid "IP or domain"
+msgstr ""
+
+#: src/korone/modules/web/handlers/ip.py:84
+#: src/korone/modules/web/handlers/ip.py:137
+#, python-brace-format
+msgid "No information found for {ip_or_domain}."
+msgstr ""
+
+#: src/korone/modules/web/handlers/ip.py:90
+#: src/korone/modules/web/handlers/ip.py:144
+#, python-brace-format
+msgid "The provided IP address <code>{ip}</code> is a <i>bogon</i> IP address, meaning it is either not in use or reserved for special use."
+msgstr ""
+
+#: src/korone/modules/web/handlers/ip.py:103
+msgid "You should provide an IP address or domain. Example: <code>/ip google.com</code>."
+msgstr ""
+
+#: src/korone/modules/web/handlers/ip.py:109
+msgid "No valid IP addresses or domains found in the provided input."
+msgstr ""
+
+#: src/korone/modules/web/handlers/ip.py:120
+msgid "Please select an IP address:"
+msgstr ""
+
+#: src/korone/modules/web/handlers/whois.py:21
+msgid "Shows WHOIS information about a domain."
+msgstr ""
+
+#: src/korone/modules/web/handlers/whois.py:26
+msgid "Domain"
+msgstr ""
+
+#: src/korone/modules/web/handlers/whois.py:37
+msgid "You should provide a domain name. Example: <code>/whois example.com</code>."
+msgstr ""
+
+#: src/korone/modules/web/handlers/whois.py:42
+#: src/korone/modules/web/handlers/whois.py:47
+#, python-brace-format
+msgid "No WHOIS information found for <code>{domain}</code>."
+msgstr ""
+
+#: src/korone/modules/web/handlers/whois.py:50
+msgid "WHOIS Information"
+msgstr ""
