@@ -23,7 +23,7 @@ _PREFIX: Final[str] = "korone:err:sig:"
 T = TypeVar("T")
 
 
-async def _await_if_needed(value: AwaitableABC[T] | T) -> T:
+async def _await_if_needed[T](value: AwaitableABC[T] | T) -> T:
     if isinstance(value, AwaitableABC):
         return cast("T", await value)
     return value
