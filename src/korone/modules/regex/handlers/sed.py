@@ -4,6 +4,7 @@ import re
 from typing import TYPE_CHECKING
 
 from aiogram import flags
+from stfu_tg import Template
 
 from korone.modules.regex.utils import SED_PATTERN, SedPatternFilter, process_command
 from korone.utils.handlers import KoroneMessageHandler
@@ -60,7 +61,7 @@ class SedHandler(KoroneMessageHandler):
             try:
                 modified_text = re.sub(from_pattern, to_pattern, modified_text, count=count, flags=flags)
             except re.error as e:
-                await self.event.reply(_("Regex error: {e}").format(e=str(e)))
+                await self.event.reply(Template(_("Regex error: {e}"), e=str(e)).to_html())
                 return
 
         if modified_text == original_text:

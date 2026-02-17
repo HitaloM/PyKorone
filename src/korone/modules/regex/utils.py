@@ -4,6 +4,7 @@ import re
 from typing import TYPE_CHECKING
 
 from aiogram.filters import BaseFilter
+from stfu_tg import Template
 
 if TYPE_CHECKING:
     from aiogram.types import Message
@@ -54,7 +55,7 @@ def build_flags_and_count(flags_str: str) -> tuple[int, int]:
 
 def process_command(command: str) -> tuple[None, str] | tuple[tuple[str, str, int, int], None]:
     if not (command_match := re.match(SED_PATTERN, command)):
-        return None, _("Invalid command: {command}").format(command=command)
+        return None, Template(_("Invalid command: {command}"), command=command).to_html()
 
     from_pattern, to_pattern = cleanup_pattern(command_match)
     flags_str = (command_match.group(3) or "")[1:]
@@ -65,6 +66,6 @@ def process_command(command: str) -> tuple[None, str] | tuple[tuple[str, str, in
     try:
         flags, count = build_flags_and_count(flags_str)
     except ValueError as e:
-        return None, _("Unknown flag: {flag}").format(flag=e.args[1])
+        return None, Template(_("Unknown flag: {flag}"), flag=e.args[1]).to_html()
 
     return (from_pattern, to_pattern, flags, count), None

@@ -3,6 +3,7 @@ from __future__ import annotations
 from typing import TYPE_CHECKING
 
 from aiogram import flags
+from stfu_tg import Code, Template, UserLink
 
 from korone.db.repositories.lastfm import LastFMRepository
 from korone.filters.cmd import CMDFilter
@@ -39,15 +40,21 @@ class LastFMCompatHandler(KoroneMessageHandler):
 
         if not user1_db:
             await message.reply(
-                _("You need to set your Last.fm username first! Example: <code>/setlfm username</code>.")
+                Template(
+                    _("You need to set your Last.fm username first! Example: {example}."),
+                    example=Code("/setlfm username"),
+                ).to_html()
             )
 
         if not user2_db:
             await message.reply(
-                _(
-                    "The user you replied to doesn't have a Last.fm account linked! "
-                    "Hint them to set it using <code>/setlfm username</code>."
-                )
+                Template(
+                    _(
+                        "The user you replied to doesn't have a Last.fm account linked! "
+                        "Hint them to set it using {example}."
+                    ),
+                    example=Code("/setlfm username"),
+                ).to_html()
             )
 
         return user1_db, user2_db
@@ -72,17 +79,16 @@ class LastFMCompatHandler(KoroneMessageHandler):
         user1: User, user2: User, mutual: list[str], score: int, period: TimePeriod
     ) -> str:
         if not mutual or score == 0:
-            return _("No common artists in {period}").format(period=period_to_str(period))
+            return Template(_("No common artists in {period}"), period=period_to_str(period)).to_html()
 
-        return _(
-            "{user1} and {user2} listen to {mutual}...\n\nCompatibility score is {score}%, based on {period}"
-        ).format(
-            user1=user1.mention_html(),
-            user2=user2.mention_html(),
+        return Template(
+            _("{user1} and {user2} listen to {mutual}...\n\nCompatibility score is {score}%, based on {period}"),
+            user1=UserLink(user1.id, user1.first_name),
+            user2=UserLink(user2.id, user2.first_name),
             mutual=", ".join(mutual),
             score=score,
             period=period_to_str(period),
-        )
+        ).to_html()
 
     async def handle(self) -> None:
         if not self.event.reply_to_message:

@@ -3,7 +3,7 @@ from typing import TYPE_CHECKING, cast
 from aiogram import flags
 from aiogram.types import InlineKeyboardButton, Message
 from aiogram.utils.keyboard import InlineKeyboardBuilder
-from stfu_tg import Doc
+from stfu_tg import Doc, Template
 
 from korone.config import CONFIG
 from korone.db.repositories.language import LanguageRepository
@@ -28,14 +28,14 @@ def build_language_changed_message(language: str, i18n: I18nNew) -> str:
     locale = i18n.babels.get(language) or i18n.babel(language)
     locale_display = i18n.locale_display(locale)
 
-    text = Doc(_("Language changed to {new_lang}.").format(new_lang=locale_display))
+    text = Doc(Template(_("Language changed to {new_lang}."), new_lang=locale_display))
 
     if language in CONFIG.devs_managed_languages:
         text += _("This is the bot's native language.")
         text += _("If you find any errors, please file an issue in the GitHub Repository.")
     elif stats := i18n.get_locale_stats(locale_code=language):
         percent = stats.percent_translated()
-        text += _("The language is {percent}% translated.").format(percent=percent)
+        text += Template(_("The language is {percent}% translated."), percent=percent)
 
         if percent > 99:
             text += _("In case you find any errors, please file an issue in the GitHub Repository.")

@@ -4,6 +4,7 @@ from datetime import UTC, datetime
 from typing import TYPE_CHECKING
 
 from aiogram import flags
+from stfu_tg import Bold, Code, Italic, Template, UserLink
 
 from korone.filters.cmd import CMDFilter
 from korone.modules.lastfm.utils import (
@@ -42,23 +43,27 @@ class LastFMUserHandler(KoroneMessageHandler):
             return
 
         registered = datetime.fromtimestamp(user_info.registered, tz=UTC).strftime("%d-%m-%Y")
-        user_mention = self.event.from_user.mention_html() if self.event.from_user else last_fm_user
+        if self.event.from_user:
+            user = UserLink(self.event.from_user.id, self.event.from_user.first_name)
+        else:
+            user = last_fm_user
         image = await get_biggest_lastfm_image(user_info)
 
-        text = _(
-            "User: <b>{user}</b>\n\n"
-            "Total scrobbles: <code>{playcount}</code>\n"
-            "Tracks scrobbled: <code>{track_count}</code>\n"
-            "Artists scrobbled: <code>{artist_count}</code>\n"
-            "Albums scrobbled: <code>{album_count}</code>\n"
-            "\nRegistered: <i>{registered}</i>"
-        ).format(
-            user=user_mention,
-            playcount=user_info.playcount,
-            track_count=user_info.track_count,
-            artist_count=user_info.artist_count,
-            album_count=user_info.album_count,
-            registered=registered,
-        )
+        text = Template(
+            _(
+                "User: {user}\n\n"
+                "Total scrobbles: {playcount}\n"
+                "Tracks scrobbled: {track_count}\n"
+                "Artists scrobbled: {artist_count}\n"
+                "Albums scrobbled: {album_count}\n"
+                "\nRegistered: {registered}"
+            ),
+            user=Bold(user),
+            playcount=Code(user_info.playcount),
+            track_count=Code(user_info.track_count),
+            artist_count=Code(user_info.artist_count),
+            album_count=Code(user_info.album_count),
+            registered=Italic(registered),
+        ).to_html()
 
         await reply_with_optional_image(self.event, text, image)

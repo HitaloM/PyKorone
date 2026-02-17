@@ -244,80 +244,81 @@ msgstr ""
 msgid "No devices found"
 msgstr ""
 
-#: src/korone/modules/gsm_arena/handlers/search.py:28
+#: src/korone/modules/gsm_arena/handlers/search.py:29
 msgid "Search device specifications on GSMArena."
 msgstr ""
 
-#: src/korone/modules/gsm_arena/handlers/search.py:33
+#: src/korone/modules/gsm_arena/handlers/search.py:34
 msgid "Device"
 msgstr ""
 
-#: src/korone/modules/gsm_arena/handlers/search.py:41
+#: src/korone/modules/gsm_arena/handlers/search.py:42
 msgid "No devices found."
 msgstr ""
 
-#: src/korone/modules/gsm_arena/handlers/search.py:49
+#: src/korone/modules/gsm_arena/handlers/search.py:50
 msgid "Error fetching device details. Please try again later."
 msgstr ""
 
-#: src/korone/modules/gsm_arena/handlers/search.py:57
+#: src/korone/modules/gsm_arena/handlers/search.py:59
 #, python-brace-format
-msgid "Search results for: <b>{query}</b>"
+msgid "Search results for: {query}"
 msgstr ""
 
-#: src/korone/modules/gsm_arena/handlers/search.py:64
-msgid "You should provide a device name to search. Example: <code>/device Galaxy S24</code>."
-msgstr ""
-
-#: src/korone/modules/gsm_arena/utils/scraper.py:63
-msgid "Status"
+#: src/korone/modules/gsm_arena/handlers/search.py:68
+#, python-brace-format
+msgid "You should provide a device name to search. Example: {example}."
 msgstr ""
 
 #: src/korone/modules/gsm_arena/utils/scraper.py:64
-msgid "Network"
+msgid "Status"
 msgstr ""
 
 #: src/korone/modules/gsm_arena/utils/scraper.py:65
-msgid "Weight"
+msgid "Network"
 msgstr ""
 
 #: src/korone/modules/gsm_arena/utils/scraper.py:66
-msgid "Display"
+msgid "Weight"
 msgstr ""
 
 #: src/korone/modules/gsm_arena/utils/scraper.py:67
-msgid "Chipset"
+msgid "Display"
 msgstr ""
 
 #: src/korone/modules/gsm_arena/utils/scraper.py:68
-msgid "Memory"
+msgid "Chipset"
 msgstr ""
 
 #: src/korone/modules/gsm_arena/utils/scraper.py:69
-msgid "Rear Camera"
+msgid "Memory"
 msgstr ""
 
 #: src/korone/modules/gsm_arena/utils/scraper.py:70
-msgid "Front Camera"
+msgid "Rear Camera"
 msgstr ""
 
 #: src/korone/modules/gsm_arena/utils/scraper.py:71
-msgid "3.5mm jack"
+msgid "Front Camera"
 msgstr ""
 
 #: src/korone/modules/gsm_arena/utils/scraper.py:72
-msgid "USB"
+msgid "3.5mm jack"
 msgstr ""
 
 #: src/korone/modules/gsm_arena/utils/scraper.py:73
-msgid "Sensors"
+msgid "USB"
 msgstr ""
 
 #: src/korone/modules/gsm_arena/utils/scraper.py:74
-msgid "Battery"
+msgid "Sensors"
 msgstr ""
 
 #: src/korone/modules/gsm_arena/utils/scraper.py:75
+msgid "Battery"
+msgstr ""
+
+#: src/korone/modules/gsm_arena/utils/scraper.py:76
 msgid "Charging"
 msgstr ""
 
@@ -562,38 +563,40 @@ msgstr ""
 msgid "Shows the artist info for your current track on Last.fm."
 msgstr ""
 
-#: src/korone/modules/lastfm/handlers/collage.py:34
+#: src/korone/modules/lastfm/handlers/collage.py:35
 msgid "Generates a Last.fm collage of your top albums."
 msgstr ""
 
-#: src/korone/modules/lastfm/handlers/collage.py:41
+#: src/korone/modules/lastfm/handlers/collage.py:42
 #: src/korone/modules/lastfm/handlers/top.py:37
 msgid "Args"
 msgstr ""
 
-#: src/korone/modules/lastfm/handlers/collage.py:55
+#: src/korone/modules/lastfm/handlers/collage.py:56
 msgid "No top albums found for your Last.fm account."
 msgstr ""
 
-#: src/korone/modules/lastfm/handlers/compat.py:28
+#: src/korone/modules/lastfm/handlers/compat.py:29
 msgid "Checks compatibility between two Last.fm users."
 msgstr ""
 
-#: src/korone/modules/lastfm/handlers/compat.py:42
-#: src/korone/modules/lastfm/utils/commons.py:33
-msgid "You need to set your Last.fm username first! Example: <code>/setlfm username</code>."
+#: src/korone/modules/lastfm/handlers/compat.py:44
+#: src/korone/modules/lastfm/utils/commons.py:35
+#, python-brace-format
+msgid "You need to set your Last.fm username first! Example: {example}."
 msgstr ""
 
-#: src/korone/modules/lastfm/handlers/compat.py:48
-msgid "The user you replied to doesn't have a Last.fm account linked! Hint them to set it using <code>/setlfm username</code>."
+#: src/korone/modules/lastfm/handlers/compat.py:53
+#, python-brace-format
+msgid "The user you replied to doesn't have a Last.fm account linked! Hint them to set it using {example}."
 msgstr ""
 
-#: src/korone/modules/lastfm/handlers/compat.py:75
+#: src/korone/modules/lastfm/handlers/compat.py:82
 #, python-brace-format
 msgid "No common artists in {period}"
 msgstr ""
 
-#: src/korone/modules/lastfm/handlers/compat.py:78
+#: src/korone/modules/lastfm/handlers/compat.py:85
 #, python-brace-format
 msgid ""
 "{user1} and {user2} listen to {mutual}...\n"
@@ -601,23 +604,23 @@ msgid ""
 "Compatibility score is {score}%, based on {period}"
 msgstr ""
 
-#: src/korone/modules/lastfm/handlers/compat.py:89
+#: src/korone/modules/lastfm/handlers/compat.py:95
 msgid "Reply to a message to get the compatibility!"
 msgstr ""
 
-#: src/korone/modules/lastfm/handlers/compat.py:96
+#: src/korone/modules/lastfm/handlers/compat.py:102
 msgid "Could not identify both users."
 msgstr ""
 
-#: src/korone/modules/lastfm/handlers/compat.py:100
+#: src/korone/modules/lastfm/handlers/compat.py:106
 msgid "You can't get the compatibility with yourself!"
 msgstr ""
 
-#: src/korone/modules/lastfm/handlers/compat.py:104
+#: src/korone/modules/lastfm/handlers/compat.py:110
 msgid "Bots won't have music taste!"
 msgstr ""
 
-#: src/korone/modules/lastfm/handlers/compat.py:124
+#: src/korone/modules/lastfm/handlers/compat.py:130
 msgid "No top artists found for your Last.fm account."
 msgstr ""
 
@@ -629,23 +632,23 @@ msgstr ""
 msgid "Shows your recent tracks from Last.fm."
 msgstr ""
 
-#: src/korone/modules/lastfm/handlers/recent.py:42
+#: src/korone/modules/lastfm/handlers/recent.py:44
 #, python-brace-format
 msgid "{user} is listening to:\n"
 msgstr ""
 
-#: src/korone/modules/lastfm/handlers/recent.py:45
+#: src/korone/modules/lastfm/handlers/recent.py:48
 msgid ""
 "\n"
 "Last 5 plays:"
 msgstr ""
 
-#: src/korone/modules/lastfm/handlers/recent.py:48
+#: src/korone/modules/lastfm/handlers/recent.py:52
 #, python-brace-format
 msgid "{user} was listening to:\n"
 msgstr ""
 
-#: src/korone/modules/lastfm/handlers/recent.py:72
+#: src/korone/modules/lastfm/handlers/recent.py:80
 msgid "No recent tracks found."
 msgstr ""
 
@@ -694,103 +697,103 @@ msgstr ""
 msgid "albums"
 msgstr ""
 
-#: src/korone/modules/lastfm/handlers/top.py:90
+#: src/korone/modules/lastfm/handlers/top.py:91
 #, python-brace-format
 msgid ""
 "{user}'s top 5 {entry} for {period}:\n"
 "\n"
 msgstr ""
 
-#: src/korone/modules/lastfm/handlers/top.py:99
+#: src/korone/modules/lastfm/handlers/top.py:104
 #, python-brace-format
-msgid " -> {scrobbles} plays\n"
+msgid "{entry_text} -> {scrobbles} plays\n"
 msgstr ""
 
-#: src/korone/modules/lastfm/handlers/user.py:25
+#: src/korone/modules/lastfm/handlers/user.py:26
 msgid "Shows your Last.fm profile statistics."
 msgstr ""
 
-#: src/korone/modules/lastfm/handlers/user.py:49
+#: src/korone/modules/lastfm/handlers/user.py:54
 #, python-brace-format
 msgid ""
-"User: <b>{user}</b>\n"
+"User: {user}\n"
 "\n"
-"Total scrobbles: <code>{playcount}</code>\n"
-"Tracks scrobbled: <code>{track_count}</code>\n"
-"Artists scrobbled: <code>{artist_count}</code>\n"
-"Albums scrobbled: <code>{album_count}</code>\n"
+"Total scrobbles: {playcount}\n"
+"Tracks scrobbled: {track_count}\n"
+"Artists scrobbled: {artist_count}\n"
+"Albums scrobbled: {album_count}\n"
 "\n"
-"Registered: <i>{registered}</i>"
+"Registered: {registered}"
 msgstr ""
 
 #: src/korone/modules/lastfm/utils/commons.py:24
-#: src/korone/modules/lastfm/utils/commons.py:43
+#: src/korone/modules/lastfm/utils/commons.py:47
 msgid "Last.fm API key is not configured. Please contact the bot owner."
 msgstr ""
 
-#: src/korone/modules/lastfm/utils/commons.py:41
+#: src/korone/modules/lastfm/utils/commons.py:45
 msgid "Your Last.fm username was not found! Try setting it again."
 msgstr ""
 
-#: src/korone/modules/lastfm/utils/commons.py:58
+#: src/korone/modules/lastfm/utils/commons.py:62
 msgid "No recent tracks found for your Last.fm account."
 msgstr ""
 
-#: src/korone/modules/lastfm/utils/commons.py:72
+#: src/korone/modules/lastfm/utils/commons.py:76
 #, python-brace-format
 msgid "{user}'s is listening to:\n"
 msgstr ""
 
-#: src/korone/modules/lastfm/utils/commons.py:74
+#: src/korone/modules/lastfm/utils/commons.py:78
 #, python-brace-format
 msgid "{user}'s was listening to:\n"
 msgstr ""
 
-#: src/korone/modules/lastfm/utils/commons.py:79
+#: src/korone/modules/lastfm/utils/commons.py:83
 #, python-brace-format
-msgid " ∙ <code>{playcount} plays</code>"
-msgstr ""
-
-#: src/korone/modules/lastfm/utils/formatters.py:18
-msgid "1 week"
+msgid " ∙ {playcount} plays"
 msgstr ""
 
 #: src/korone/modules/lastfm/utils/formatters.py:19
-msgid "1 month"
+msgid "1 week"
 msgstr ""
 
 #: src/korone/modules/lastfm/utils/formatters.py:20
-msgid "3 months"
+msgid "1 month"
 msgstr ""
 
 #: src/korone/modules/lastfm/utils/formatters.py:21
-msgid "6 months"
+msgid "3 months"
 msgstr ""
 
 #: src/korone/modules/lastfm/utils/formatters.py:22
-msgid "1 year"
+msgid "6 months"
 msgstr ""
 
 #: src/korone/modules/lastfm/utils/formatters.py:23
+msgid "1 year"
+msgstr ""
+
+#: src/korone/modules/lastfm/utils/formatters.py:24
 msgid "All time"
 msgstr ""
 
-#: src/korone/modules/lastfm/utils/formatters.py:36
+#: src/korone/modules/lastfm/utils/formatters.py:37
 #, python-brace-format
 msgid ", {days} day(s) ago"
 msgstr ""
 
-#: src/korone/modules/lastfm/utils/formatters.py:40
+#: src/korone/modules/lastfm/utils/formatters.py:41
 #, python-brace-format
 msgid ", {hours} hour(s) ago"
 msgstr ""
 
-#: src/korone/modules/lastfm/utils/formatters.py:43
+#: src/korone/modules/lastfm/utils/formatters.py:44
 #, python-brace-format
 msgid ", {minutes} minute(s) ago"
 msgstr ""
 
-#: src/korone/modules/lastfm/utils/formatters.py:43
+#: src/korone/modules/lastfm/utils/formatters.py:44
 msgid ", Just now"
 msgstr ""
 
@@ -809,8 +812,8 @@ msgid ""
 "Currently supports: Twitter, Bluesky, Instagram."
 msgstr ""
 
-#: src/korone/modules/medias/handlers/base.py:92
-#: src/korone/modules/medias/handlers/base.py:133
+#: src/korone/modules/medias/handlers/base.py:95
+#: src/korone/modules/medias/handlers/base.py:151
 #, python-brace-format
 msgid "Open in {website}"
 msgstr ""
@@ -912,41 +915,41 @@ msgstr ""
 msgid "Use sed-like syntax to replace text in a replied message. Example: s/old/new/g; escape slashes as \\/."
 msgstr ""
 
-#: src/korone/modules/regex/handlers/sed.py:18
+#: src/korone/modules/regex/handlers/sed.py:19
 msgid "Apply a regex substitution to a replied message."
 msgstr ""
 
-#: src/korone/modules/regex/handlers/sed.py:33
+#: src/korone/modules/regex/handlers/sed.py:34
 msgid "No message to apply the substitution."
 msgstr ""
 
-#: src/korone/modules/regex/handlers/sed.py:38
+#: src/korone/modules/regex/handlers/sed.py:39
 msgid "No text to apply the substitution."
 msgstr ""
 
-#: src/korone/modules/regex/handlers/sed.py:55
+#: src/korone/modules/regex/handlers/sed.py:56
 msgid "Invalid command data."
 msgstr ""
 
-#: src/korone/modules/regex/handlers/sed.py:63
+#: src/korone/modules/regex/handlers/sed.py:64
 #, python-brace-format
 msgid "Regex error: {e}"
 msgstr ""
 
-#: src/korone/modules/regex/handlers/sed.py:67
+#: src/korone/modules/regex/handlers/sed.py:68
 msgid "Your regex didn't change anything from the original message."
 msgstr ""
 
-#: src/korone/modules/regex/utils.py:57
+#: src/korone/modules/regex/utils.py:58
 #, python-brace-format
 msgid "Invalid command: {command}"
 msgstr ""
 
-#: src/korone/modules/regex/utils.py:63
+#: src/korone/modules/regex/utils.py:64
 msgid "Pattern is too long. Please use shorter patterns."
 msgstr ""
 
-#: src/korone/modules/regex/utils.py:68
+#: src/korone/modules/regex/utils.py:69
 #, python-brace-format
 msgid "Unknown flag: {flag}"
 msgstr ""
@@ -1206,26 +1209,27 @@ msgid "IP or domain"
 msgstr ""
 
 #: src/korone/modules/web/handlers/ip.py:85
-#: src/korone/modules/web/handlers/ip.py:138
+#: src/korone/modules/web/handlers/ip.py:144
 #, python-brace-format
 msgid "No information found for {ip_or_domain}."
 msgstr ""
 
-#: src/korone/modules/web/handlers/ip.py:91
-#: src/korone/modules/web/handlers/ip.py:145
+#: src/korone/modules/web/handlers/ip.py:92
+#: src/korone/modules/web/handlers/ip.py:152
 #, python-brace-format
-msgid "The provided IP address <code>{ip}</code> is a <i>bogon</i> IP address, meaning it is either not in use or reserved for special use."
+msgid "The provided IP address {ip} is a {bogon} IP address, meaning it is either not in use or reserved for special use."
 msgstr ""
 
-#: src/korone/modules/web/handlers/ip.py:104
-msgid "You should provide an IP address or domain. Example: <code>/ip google.com</code>."
+#: src/korone/modules/web/handlers/ip.py:109
+#, python-brace-format
+msgid "You should provide an IP address or domain. Example: {example}."
 msgstr ""
 
-#: src/korone/modules/web/handlers/ip.py:110
+#: src/korone/modules/web/handlers/ip.py:116
 msgid "No valid IP addresses or domains found in the provided input."
 msgstr ""
 
-#: src/korone/modules/web/handlers/ip.py:121
+#: src/korone/modules/web/handlers/ip.py:127
 msgid "Please select an IP address:"
 msgstr ""
 
@@ -1237,16 +1241,17 @@ msgstr ""
 msgid "Domain"
 msgstr ""
 
-#: src/korone/modules/web/handlers/whois.py:37
-msgid "You should provide a domain name. Example: <code>/whois example.com</code>."
-msgstr ""
-
-#: src/korone/modules/web/handlers/whois.py:42
-#: src/korone/modules/web/handlers/whois.py:47
+#: src/korone/modules/web/handlers/whois.py:39
 #, python-brace-format
-msgid "No WHOIS information found for <code>{domain}</code>."
+msgid "You should provide a domain name. Example: {example}."
 msgstr ""
 
-#: src/korone/modules/web/handlers/whois.py:50
+#: src/korone/modules/web/handlers/whois.py:47
+#: src/korone/modules/web/handlers/whois.py:54
+#, python-brace-format
+msgid "No WHOIS information found for {domain}."
+msgstr ""
+
+#: src/korone/modules/web/handlers/whois.py:58
 msgid "WHOIS Information"
 msgstr ""

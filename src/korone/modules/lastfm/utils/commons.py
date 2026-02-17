@@ -1,10 +1,10 @@
 from __future__ import annotations
 
-from html import escape
 from io import BytesIO
 from typing import TYPE_CHECKING
 
 from aiogram.types import BufferedInputFile
+from stfu_tg import Bold, Code, PreformattedHTML, Template
 
 from korone.config import CONFIG
 from korone.db.repositories.lastfm import LastFMRepository
@@ -30,7 +30,11 @@ async def get_lastfm_user_or_reply(message: Message) -> str | None:
 
     last_fm_user = await LastFMRepository.get_username(message.from_user.id)
     if not last_fm_user:
-        await message.reply(_("You need to set your Last.fm username first! Example: <code>/setlfm username</code>."))
+        await message.reply(
+            Template(
+                _("You need to set your Last.fm username first! Example: {example}."), example=Code("/setlfm username")
+            ).to_html()
+        )
         return None
 
     return last_fm_user
@@ -69,17 +73,17 @@ def build_entity_response(
     *, user_link: str, now_playing: bool, emoji: str, entity_name: str, playcount: int = 0, tags: str = ""
 ) -> str:
     if now_playing:
-        text = _("{user}'s is listening to:\n").format(user=user_link)
+        text = Template(_("{user}'s is listening to:\n"), user=PreformattedHTML(user_link)).to_html()
     else:
-        text = _("{user}'s was listening to:\n").format(user=user_link)
+        text = Template(_("{user}'s was listening to:\n"), user=PreformattedHTML(user_link)).to_html()
 
-    text += f"{emoji} <b>{escape(entity_name)}</b>"
+    text += Template("{emoji} {entity_name}", emoji=emoji, entity_name=Bold(entity_name)).to_html()
 
     if playcount > 0:
-        text += _(" ∙ <code>{playcount} plays</code>").format(playcount=playcount)
+        text += Template(_(" ∙ {playcount} plays"), playcount=Code(playcount)).to_html()
 
     if tags:
-        text += f"\n\n{tags}"
+        text += Template("\n\n{tags}", tags=tags).to_html()
 
     return text
 

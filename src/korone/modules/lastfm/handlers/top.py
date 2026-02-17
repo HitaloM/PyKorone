@@ -1,10 +1,10 @@
 from __future__ import annotations
 
-import html
 from typing import TYPE_CHECKING, Any
 
 from aiogram import flags
 from ass_tg.types import OptionalArg, TextArg
+from stfu_tg import PreformattedHTML, Template
 
 from korone.filters.cmd import CMDFilter
 from korone.modules.lastfm.utils import (
@@ -87,15 +87,21 @@ def format_top_items_response(user_link: str, top_items: list, entry_type: Entry
         entry_type
     ]
 
-    text = _("{user}'s top 5 {entry} for {period}:\n\n").format(
-        user=user_link, entry=entry_name, period=period_to_str(period)
-    )
+    text = Template(
+        _("{user}'s top 5 {entry} for {period}:\n\n"),
+        user=PreformattedHTML(user_link),
+        entry=entry_name,
+        period=period_to_str(period),
+    ).to_html()
 
     for item in top_items:
         if isinstance(item, LastFMTrack):
-            text += f"{html.escape(item.artist.name)} — {html.escape(item.name)}"
+            item_name: str | Template = Template("{artist} — {track}", artist=item.artist.name, track=item.name)
         else:
-            text += html.escape(item.name)
-        text += _(" -> {scrobbles} plays\n").format(scrobbles=item.playcount)
+            item_name = str(item.name)
+
+        text += Template(
+            _("{entry_text} -> {scrobbles} plays\n"), entry_text=item_name, scrobbles=item.playcount
+        ).to_html()
 
     return text

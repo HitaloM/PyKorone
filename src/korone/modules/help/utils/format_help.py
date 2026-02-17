@@ -1,6 +1,6 @@
 from typing import TYPE_CHECKING
 
-from stfu_tg import Code, HList, Italic, Section, VList
+from stfu_tg import Code, HList, Italic, Section, Template, VList
 
 from korone.utils.i18n import gettext as _
 from korone.utils.i18n import lazy_gettext as l_
@@ -36,7 +36,7 @@ def format_handler(
         HList(*(format_cmd(cmd, raw=handler.raw_cmds) for cmd in handler.cmds)),
         format_cmd_args(handler.args) if handler.args and show_args else None,
         Italic(_("— Only in groups")) if show_only_in_groups and handler.only_chats else None,
-        Italic("({})".format(_("Disable-able"))) if show_disable_able and handler.disableable else None,
+        Italic(Template("({label})", label=_("Disable-able"))) if show_disable_able and handler.disableable else None,
     )
     if not handler.description or not show_description:
         return cmd_and_args

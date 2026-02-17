@@ -1,9 +1,9 @@
 from __future__ import annotations
 
-import html
 from typing import TYPE_CHECKING
 
 from aiogram import flags
+from stfu_tg import Bold, Italic, PreformattedHTML, Template
 
 from korone.filters.cmd import CMDFilter
 from korone.modules.lastfm.utils import (
@@ -39,18 +39,26 @@ class LastFMRecentHandler(KoroneMessageHandler):
         formatted_tracks: list[str] = []
         if last_played.now_playing:
             formatted_tracks.extend([
-                _("{user} is listening to:\n").format(user=user_link)
-                + f"🎧 <i>{html.escape(last_played.artist.name)}</i> — "
-                f"<b>{html.escape(last_played.name)}</b>",
+                Template(
+                    "{header}🎧 {artist} — {track}",
+                    header=Template(_("{user} is listening to:\n"), user=PreformattedHTML(user_link)),
+                    artist=Italic(last_played.artist.name),
+                    track=Bold(last_played.name),
+                ).to_html(),
                 _("\nLast 5 plays:"),
             ])
         else:
-            formatted_tracks.append(_("{user} was listening to:\n").format(user=user_link))
+            formatted_tracks.append(
+                Template(_("{user} was listening to:\n"), user=PreformattedHTML(user_link)).to_html()
+            )
 
         formatted_tracks.extend(
-            f"🎧 <i>{html.escape(track.artist.name)}</i> — "
-            f"<b>{html.escape(track.name)}</b>"
-            f"{get_time_elapsed_str(track)}"
+            Template(
+                "🎧 {artist} — {track}{elapsed}",
+                artist=Italic(track.artist.name),
+                track=Bold(track.name),
+                elapsed=get_time_elapsed_str(track),
+            ).to_html()
             for track in played_tracks
         )
 

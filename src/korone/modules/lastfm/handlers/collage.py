@@ -7,6 +7,7 @@ from aiogram import flags
 from aiogram.types import BufferedInputFile
 from aiogram.utils.chat_action import ChatActionSender
 from ass_tg.types import OptionalArg, TextArg
+from stfu_tg import PreformattedHTML, Template
 
 from korone.filters.cmd import CMDFilter
 from korone.modules.lastfm.utils import (
@@ -60,7 +61,12 @@ class LastFMCollageHandler(KoroneMessageHandler):
                 )
 
                 user_link = get_user_link(self.event, last_fm_user)
-                caption = f"{user_link}\n{collage_size}x{collage_size}, albums, {period_to_str(period)}"
+                caption = Template(
+                    "{user}\n{size}x{size}, albums, {period}",
+                    user=PreformattedHTML(user_link),
+                    size=collage_size,
+                    period=period_to_str(period),
+                ).to_html()
 
                 file = BufferedInputFile(collage_bytes.getvalue(), filename="lastfm-collage.png")
                 await self.event.reply_photo(photo=file, caption=caption)

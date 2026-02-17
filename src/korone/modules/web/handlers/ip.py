@@ -7,7 +7,7 @@ from aiogram import flags
 from aiogram.types import InlineKeyboardButton
 from aiogram.utils.keyboard import InlineKeyboardBuilder
 from ass_tg.types import TextArg
-from stfu_tg import Doc, KeyValue, Title
+from stfu_tg import Code, Doc, Italic, KeyValue, Template, Title
 
 from korone.filters.cmd import CMDFilter
 from korone.modules.web.callbacks import GetIPCallback, decode_ip, encode_ip
@@ -82,15 +82,19 @@ class IPInfoHandler(KoroneMessageHandler):
     async def _reply_with_ip_info(self, ip: str) -> None:
         info = await self.fetch_ip_info(ip)
         if not info:
-            await self.event.reply(_("No information found for {ip_or_domain}.").format(ip_or_domain=ip))
+            await self.event.reply(Template(_("No information found for {ip_or_domain}."), ip_or_domain=ip).to_html())
             return
 
         if info.get("bogon"):
             await self.event.reply(
-                _(
-                    "The provided IP address <code>{ip}</code> is a <i>bogon</i> IP address, "
-                    "meaning it is either not in use or reserved for special use."
-                ).format(ip=ip)
+                Template(
+                    _(
+                        "The provided IP address {ip} is a {bogon} IP address, "
+                        "meaning it is either not in use or reserved for special use."
+                    ),
+                    ip=Code(ip),
+                    bogon=Italic("bogon"),
+                ).to_html()
             )
             return
 
@@ -101,7 +105,9 @@ class IPInfoHandler(KoroneMessageHandler):
 
         if not target:
             await self.event.reply(
-                _("You should provide an IP address or domain. Example: <code>/ip google.com</code>.")
+                Template(
+                    _("You should provide an IP address or domain. Example: {example}."), example=Code("/ip google.com")
+                ).to_html()
             )
             return
 
@@ -135,16 +141,20 @@ class IPInfoCallbackHandler(KoroneCallbackQueryHandler):
         info = await fetch_ip_info(ip)
 
         if not info:
-            await self.edit_text(_("No information found for {ip_or_domain}.").format(ip_or_domain=ip))
+            await self.edit_text(Template(_("No information found for {ip_or_domain}."), ip_or_domain=ip).to_html())
             await self.event.answer()
             return
 
         if info.get("bogon"):
             await self.edit_text(
-                _(
-                    "The provided IP address <code>{ip}</code> is a <i>bogon</i> IP address, "
-                    "meaning it is either not in use or reserved for special use."
-                ).format(ip=ip)
+                Template(
+                    _(
+                        "The provided IP address {ip} is a {bogon} IP address, "
+                        "meaning it is either not in use or reserved for special use."
+                    ),
+                    ip=Code(ip),
+                    bogon=Italic("bogon"),
+                ).to_html()
             )
             await self.event.answer()
             return

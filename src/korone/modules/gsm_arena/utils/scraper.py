@@ -3,6 +3,7 @@ from typing import TYPE_CHECKING
 
 import aiohttp
 from lxml import html
+from stfu_tg import Doc, KeyValue, Url
 
 from korone.config import CONFIG
 from korone.logger import get_logger
@@ -75,14 +76,13 @@ def format_phone(phone: Phone) -> str:
         _("Charging"): phone.charging,
     }
 
-    attributes = [
-        f"<b>{key}:</b> {value}"
-        for key, value in attributes_dict.items()
-        if value and value.strip() and value.strip() != "-"
-    ]
+    doc = Doc(Url(phone.name, phone.url))
 
-    details = "\n\n".join(attributes)
-    return f"<a href='{phone.url}'>{phone.name}</a>\n\n{details}"
+    for key, value in attributes_dict.items():
+        if value and value.strip() and value.strip() != "-":
+            doc += KeyValue(key, value)
+
+    return str(doc)
 
 
 def extract_specs_from_tables(specs_tables: list[HtmlElement]) -> dict[str, dict[str, str]]:

@@ -2,8 +2,9 @@ from __future__ import annotations
 
 import re
 from datetime import UTC, datetime
-from html import escape
 from typing import TYPE_CHECKING
+
+from stfu_tg import Template, Url
 
 from korone.utils.i18n import gettext as _
 
@@ -33,14 +34,14 @@ def get_time_elapsed_str(track: LastFMTrack) -> str:
     time_elapsed = current_datetime - played_at_datetime
 
     if time_elapsed.days > 0:
-        return _(", {days} day(s) ago").format(days=time_elapsed.days)
+        return Template(_(", {days} day(s) ago"), days=time_elapsed.days).to_html()
 
     hours, remainder = divmod(time_elapsed.seconds, 3600)
     if hours > 0:
-        return _(", {hours} hour(s) ago").format(hours=hours)
+        return Template(_(", {hours} hour(s) ago"), hours=hours).to_html()
 
     minutes, __ = divmod(remainder, 60)
-    return _(", {minutes} minute(s) ago").format(minutes=minutes) if minutes > 0 else _(", Just now")
+    return Template(_(", {minutes} minute(s) ago"), minutes=minutes).to_html() if minutes > 0 else _(", Just now")
 
 
 def clean_tag_name(tag: str) -> str:
@@ -71,5 +72,4 @@ def period_to_str(period: TimePeriod) -> str:
 
 
 def name_with_link(name: str, username: str) -> str:
-    name = escape(name)
-    return f'<a href="https://www.last.fm/user/{username}">{name}</a>'
+    return Url(name, f"https://www.last.fm/user/{username}").to_html()

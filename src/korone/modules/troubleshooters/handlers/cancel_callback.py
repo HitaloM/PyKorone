@@ -1,7 +1,7 @@
 from typing import TYPE_CHECKING, cast
 
 from aiogram.types import Message
-from stfu_tg import UserLink
+from stfu_tg import Template, UserLink
 
 from korone.modules.troubleshooters.callbacks import CallbackActionCancel, CancelCallback
 from korone.modules.utils_.admin import is_user_admin
@@ -73,5 +73,5 @@ class CallbackActionCancelHandler(KoroneCallbackQueryHandler):
         message = self.event.message
         if isinstance(message, Message):
             await message.edit_text(
-                _("The action was cancelled by {user}.").format(user=UserLink(user.id, user.first_name))
+                Template(_("The action was cancelled by {user}."), user=UserLink(user.id, user.first_name)).to_html()
             )

@@ -4,7 +4,7 @@ from typing import TYPE_CHECKING, Any
 
 from aiogram import flags
 from ass_tg.types import WordArg
-from stfu_tg import Doc, KeyValue, Title
+from stfu_tg import Code, Doc, KeyValue, Template, Title
 
 from korone.filters.cmd import CMDFilter
 from korone.modules.web.utils.whois import normalize_domain, parse_whois_output, query_whois
@@ -34,17 +34,25 @@ class WhoisHandler(KoroneMessageHandler):
         domain = normalize_domain(raw_domain)
 
         if not domain:
-            await self.event.reply(_("You should provide a domain name. Example: <code>/whois example.com</code>."))
+            await self.event.reply(
+                Template(
+                    _("You should provide a domain name. Example: {example}."), example=Code("/whois example.com")
+                ).to_html()
+            )
             return
 
         whois_data = await query_whois(domain)
         if not whois_data:
-            await self.event.reply(_("No WHOIS information found for <code>{domain}</code>.").format(domain=domain))
+            await self.event.reply(
+                Template(_("No WHOIS information found for {domain}."), domain=Code(domain)).to_html()
+            )
             return
 
         parsed_info = parse_whois_output(whois_data)
         if not parsed_info:
-            await self.event.reply(_("No WHOIS information found for <code>{domain}</code>.").format(domain=domain))
+            await self.event.reply(
+                Template(_("No WHOIS information found for {domain}."), domain=Code(domain)).to_html()
+            )
             return
 
         doc = Doc(Title(_("WHOIS Information")))

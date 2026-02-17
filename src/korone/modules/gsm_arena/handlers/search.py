@@ -5,6 +5,7 @@ from typing import TYPE_CHECKING, Any
 from aiogram import flags
 from aiogram.utils.chat_action import ChatActionSender
 from ass_tg.types import TextArg
+from stfu_tg import Bold, Code, Template
 
 from korone.filters.cmd import CMDFilter
 from korone.logger import get_logger
@@ -54,14 +55,19 @@ class DeviceSearchHandler(KoroneMessageHandler):
             raise RuntimeError(msg)
 
         keyboard = create_pagination_layout(devices, query, 1, self.event.from_user.id)
-        await self.event.reply(_("Search results for: <b>{query}</b>").format(query=query), reply_markup=keyboard)
+        await self.event.reply(
+            Template(_("Search results for: {query}"), query=Bold(query)).to_html(), reply_markup=keyboard
+        )
 
     async def handle(self) -> None:
         query = (self.data.get("device") or "").strip()
 
         if not query:
             await self.event.reply(
-                _("You should provide a device name to search. Example: <code>/device Galaxy S24</code>.")
+                Template(
+                    _("You should provide a device name to search. Example: {example}."),
+                    example=Code("/device Galaxy S24"),
+                ).to_html()
             )
             return
 

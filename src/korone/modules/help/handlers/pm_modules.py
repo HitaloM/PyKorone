@@ -3,7 +3,7 @@ from typing import TYPE_CHECKING, cast
 from aiogram import flags
 from aiogram.types import CallbackQuery, InlineKeyboardButton
 from aiogram.utils.keyboard import InlineKeyboardBuilder
-from stfu_tg import Doc, HList, Section, Title
+from stfu_tg import Doc, HList, Section, Template, Title
 
 from korone.filters.chat_status import PrivateChatFilter
 from korone.filters.cmd import CMDFilter
@@ -91,7 +91,7 @@ class PMModuleHelp(KoroneCallbackQueryHandler):
             a_module = HELP_MODULES[a_mod_name]
             doc += Section(
                 format_handlers(a_cmds),
-                title=_("Aliased commands from {module}").format(module=f"{a_module.icon} {a_module.name}"),
+                title=Template(_("Aliased commands from {module}"), module=f"{a_module.icon} {a_module.name}"),
             )
 
         buttons = InlineKeyboardBuilder()
