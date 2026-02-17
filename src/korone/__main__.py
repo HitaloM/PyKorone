@@ -19,11 +19,7 @@ from .modules import load_modules
 from .utils.aiohttp_session import HTTPClient
 from .utils.i18n import i18n
 
-uvloop.install()
-
 logger = get_logger(__name__)
-
-WEBHOOK_URL = f"{CONFIG.webhook_domain}{CONFIG.webhook_path}"
 
 
 async def ensure_bot_in_db() -> None:
@@ -32,14 +28,7 @@ async def ensure_bot_in_db() -> None:
     await logger.ainfo("Bot user ensured in DB", bot_id=bot_user.id, username=bot_user.username)
 
 
-async def on_startup() -> None:
-    await logger.ainfo("Starting up the bot...")
-
-    await init_db()
-    await migrate_db_if_needed()
-    await ensure_bot_in_db()
-    await load_modules(dp, ["*"], CONFIG.modules_not_load)
-
+def configure_dispatcher() -> None:
     dp.update.middleware(localization_middleware)
     dp.message.middleware(ArgsMiddleware(i18n=i18n))
     dp.update.outer_middleware(SaveChatsMiddleware())
@@ -47,17 +36,25 @@ async def on_startup() -> None:
     dp.update.middleware(ChatContextMiddleware())
     dp.message.middleware(DisablingMiddleware())
 
-    if CONFIG.webhook_domain:
-        await bot.set_webhook(
-            url=WEBHOOK_URL,
-            allowed_updates=dp.resolve_used_update_types(),
-            drop_pending_updates=True,
-            secret_token=CONFIG.webhook_secret,
-        )
-        await logger.ainfo(f"Webhook set to: {WEBHOOK_URL}")
+
+def get_allowed_updates() -> list[str]:
+    return dp.resolve_used_update_types()
 
 
-async def on_shutdown() -> None:
+def get_webhook_url() -> str:
+    return f"{CONFIG.webhook_domain}{CONFIG.webhook_path}"
+
+
+async def bootstrap() -> None:
+    await logger.ainfo("Starting up the bot...")
+
+    await init_db()
+    await migrate_db_if_needed()
+    await ensure_bot_in_db()
+    await load_modules(dp, CONFIG.modules_load, CONFIG.modules_not_load)
+
+
+async def shutdown() -> None:
     await logger.ainfo("Shutting down the bot...")
     await close_db()
     await HTTPClient.close()
@@ -66,24 +63,55 @@ async def on_shutdown() -> None:
     await dp.storage.close()
 
 
-def main() -> None:
-    dp.startup.register(on_startup)
-    dp.shutdown.register(on_shutdown)
+async def run_polling() -> None:
+    try:
+        await bootstrap()
+        await bot.delete_webhook(drop_pending_updates=True)
+        await dp.start_polling(bot, allowed_updates=get_allowed_updates(), close_bot_session=False)
+    finally:
+        await shutdown()
 
-    if not CONFIG.webhook_domain:
-        logger.warning("No webhook domain configured, running in long polling mode")
-        asyncio.run(dp.start_polling(bot, allowed_updates=dp.resolve_used_update_types()))
-        return
 
+def create_webhook_app() -> web.Application:
     app = web.Application()
 
-    webhook_requests_handler = SimpleRequestHandler(dispatcher=dp, bot=bot, secret_token=CONFIG.webhook_secret)
-    webhook_requests_handler.register(app, path=CONFIG.webhook_path)
+    async def on_startup(_: web.Application) -> None:
+        await bootstrap()
+        webhook_url = get_webhook_url()
+        await bot.set_webhook(
+            url=webhook_url,
+            allowed_updates=get_allowed_updates(),
+            drop_pending_updates=True,
+            secret_token=CONFIG.webhook_secret,
+        )
+        await logger.ainfo("Webhook set", webhook_url=webhook_url)
 
+    async def on_shutdown(_: web.Application) -> None:
+        await shutdown()
+
+    app.on_startup.append(on_startup)
     setup_application(app, dp, bot=bot)
-    web.run_app(app, host="0.0.0.0", port=CONFIG.web_server_port)
+    app.on_shutdown.append(on_shutdown)
+
+    webhook_handler = SimpleRequestHandler(dispatcher=dp, bot=bot, secret_token=CONFIG.webhook_secret)
+    webhook_handler.register(app, path=CONFIG.webhook_path)
+
+    return app
+
+
+def main() -> None:
+    configure_dispatcher()
+
+    if CONFIG.webhook_domain:
+        app = create_webhook_app()
+        web.run_app(app, host="0.0.0.0", port=CONFIG.web_server_port)
+        return
+
+    logger.warning("No webhook domain configured, running in long polling mode")
+    asyncio.run(run_polling())
 
 
 if __name__ == "__main__":
     setup_logging()
+    uvloop.install()
     main()
