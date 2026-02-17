@@ -1,0 +1,2 @@
+class StickerPrepareError(ValueError):
+    pass

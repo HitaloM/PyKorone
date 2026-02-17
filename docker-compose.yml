@@ -25,6 +25,7 @@ services:
 
   korone-bot:
     build: .
+    user: "101:101"
     env_file:
       - data/config.env
     environment:
@@ -38,6 +39,8 @@ services:
       - telegram-bot-api
       - postgres
       - redis
+    volumes:
+      - telegram_bot_api_data:/var/lib/telegram-bot-api:ro
     restart: unless-stopped
 
   tunnel:

@@ -1,0 +1,5 @@
+DEFAULT_EMOJI = "🤔"
+MAX_STICKER_SIDE = 512
+MAX_VIDEO_SECONDS = 3.0
+MAX_VIDEO_SIZE_BYTES = 256_000
+VIDEO_EXTENSIONS = {".mp4", ".mov", ".m4v", ".avi", ".mkv", ".gif"}

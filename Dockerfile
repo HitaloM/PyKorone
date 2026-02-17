@@ -29,7 +29,9 @@ RUN groupadd --system --gid 999 korone && \
 WORKDIR /app
 
 RUN apt-get update && \
-    apt-get install -y --no-install-recommends whois && \
+    apt-get install -y --no-install-recommends \
+        ffmpeg \
+        whois && \
     rm -rf /var/lib/apt/lists/*
 
 COPY --from=builder --chown=korone:korone /app/.venv /app/.venv

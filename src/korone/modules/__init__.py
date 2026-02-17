@@ -26,6 +26,7 @@ MODULES = [
     "disabling",
     "language",
     "medias",
+    "stickers",
     "gsm_arena",
     "regex",
     "lastfm",

@@ -658,6 +658,11 @@ msgstr ""
 
 #: src/korone/modules/lastfm/handlers/set.py:39
 #: src/korone/modules/lastfm/utils/commons.py:28
+#: src/korone/modules/stickers/handlers/delsticker.py:29
+#: src/korone/modules/stickers/handlers/mypacks.py:27
+#: src/korone/modules/stickers/handlers/steal.py:51
+#: src/korone/modules/stickers/handlers/stealpack.py:84
+#: src/korone/modules/stickers/handlers/switch.py:37
 msgid "Could not identify your user."
 msgstr ""
 
@@ -954,6 +959,338 @@ msgstr ""
 msgid "Unknown flag: {flag}"
 msgstr ""
 
+#: src/korone/modules/stickers/__init__.py:18
+#: src/korone/modules/stickers/stats.py:11
+msgid "Stickers"
+msgstr ""
+
+#: src/korone/modules/stickers/__init__.py:20
+msgid "Steal and manage personal sticker packs"
+msgstr ""
+
+#: src/korone/modules/stickers/__init__.py:23
+msgid "Clone stickers and media into your own sticker packs."
+msgstr ""
+
+#: src/korone/modules/stickers/__init__.py:24
+msgid "Includes pack listing, default pack switching, and sticker management commands."
+msgstr ""
+
+#: src/korone/modules/stickers/handlers/delpack.py:17
+msgid "Explain how to delete sticker packs."
+msgstr ""
+
+#: src/korone/modules/stickers/handlers/delpack.py:26
+msgid "Telegram bots cannot delete entire sticker packs directly."
+msgstr ""
+
+#: src/korone/modules/stickers/handlers/delpack.py:28
+#, python-brace-format
+msgid "Delete packs manually via {bot}, then run {command} to refresh your list."
+msgstr ""
+
+#: src/korone/modules/stickers/handlers/delpack.py:32
+#, python-brace-format
+msgid "Tip: use {command} to switch your default pack."
+msgstr ""
+
+#: src/korone/modules/stickers/handlers/delsticker.py:20
+msgid "Delete a sticker from one of your tracked packs."
+msgstr ""
+
+#: src/korone/modules/stickers/handlers/delsticker.py:36
+msgid "Reply to a sticker from your own pack first."
+msgstr ""
+
+#: src/korone/modules/stickers/handlers/delsticker.py:37
+#: src/korone/modules/stickers/handlers/steal.py:59
+#: src/korone/modules/stickers/handlers/stealpack.py:103
+#, python-brace-format
+msgid "Then use {command}."
+msgstr ""
+
+#: src/korone/modules/stickers/handlers/delsticker.py:45
+msgid "That reply is not a sticker from a sticker set."
+msgstr ""
+
+#: src/korone/modules/stickers/handlers/delsticker.py:50
+msgid "This sticker is not from one of your tracked packs."
+msgstr ""
+
+#: src/korone/modules/stickers/handlers/delsticker.py:56
+msgid "Could not delete this sticker from the pack."
+msgstr ""
+
+#: src/korone/modules/stickers/handlers/delsticker.py:60
+#, python-brace-format
+msgid "Sticker deleted successfully from {pack}."
+msgstr ""
+
+#: src/korone/modules/stickers/handlers/getsticker.py:24
+msgid "Send a replied sticker as a document with basic sticker information."
+msgstr ""
+
+#: src/korone/modules/stickers/handlers/getsticker.py:34
+#, python-brace-format
+msgid "Reply to a sticker first, then use {command}."
+msgstr ""
+
+#: src/korone/modules/stickers/handlers/getsticker.py:40
+msgid "That reply is not a sticker."
+msgstr ""
+
+#: src/korone/modules/stickers/handlers/getsticker.py:44
+msgid "Animated stickers are not supported by this command."
+msgstr ""
+
+#: src/korone/modules/stickers/handlers/getsticker.py:63
+msgid "Could not fetch this sticker file."
+msgstr ""
+
+#: src/korone/modules/stickers/handlers/getsticker.py:67
+msgid "video"
+msgstr ""
+
+#: src/korone/modules/stickers/handlers/getsticker.py:67
+msgid "animated"
+msgstr ""
+
+#: src/korone/modules/stickers/handlers/getsticker.py:67
+msgid "static"
+msgstr ""
+
+#: src/korone/modules/stickers/handlers/getsticker.py:68
+msgid "Emoji"
+msgstr ""
+
+#: src/korone/modules/stickers/handlers/getsticker.py:68
+msgid "none"
+msgstr ""
+
+#: src/korone/modules/stickers/handlers/getsticker.py:68
+#: src/korone/modules/users/handlers/info.py:60
+msgid "ID"
+msgstr ""
+
+#: src/korone/modules/stickers/handlers/getsticker.py:72
+msgid "Pack"
+msgstr ""
+
+#: src/korone/modules/stickers/handlers/mypacks.py:18
+msgid "List your tracked sticker packs."
+msgstr ""
+
+#: src/korone/modules/stickers/handlers/mypacks.py:32
+#: src/korone/modules/stickers/handlers/switch.py:50
+msgid "You don't have any tracked sticker packs yet."
+msgstr ""
+
+#: src/korone/modules/stickers/handlers/mypacks.py:42
+#, python-brace-format
+msgid "{index}. {pack}{default_mark}"
+msgstr ""
+
+#: src/korone/modules/stickers/handlers/mypacks.py:51
+#, python-brace-format
+msgid "{name}'s sticker packs"
+msgstr ""
+
+#: src/korone/modules/stickers/handlers/steal.py:38
+msgid "Steal a sticker or media from a reply into your sticker pack."
+msgstr ""
+
+#: src/korone/modules/stickers/handlers/steal.py:43
+msgid "Pack name and optional emoji"
+msgstr ""
+
+#: src/korone/modules/stickers/handlers/steal.py:58
+msgid "Reply to a sticker, photo, animation, video, or document first."
+msgstr ""
+
+#: src/korone/modules/stickers/handlers/steal.py:65
+msgid "Stealing sticker..."
+msgstr ""
+
+#: src/korone/modules/stickers/handlers/steal.py:72
+msgid "That reply does not contain supported media."
+msgstr ""
+
+#: src/korone/modules/stickers/handlers/steal.py:119
+msgid "Created new sticker pack."
+msgstr ""
+
+#: src/korone/modules/stickers/handlers/steal.py:119
+#: src/korone/modules/stickers/handlers/steal.py:122
+#: src/korone/modules/stickers/handlers/stealpack.py:178
+#: src/korone/modules/stickers/handlers/stealpack.py:191
+#: src/korone/modules/stickers/handlers/stealpack.py:200
+#, python-brace-format
+msgid "Pack: {pack}"
+msgstr ""
+
+#: src/korone/modules/stickers/handlers/steal.py:122
+msgid "Sticker saved successfully."
+msgstr ""
+
+#: src/korone/modules/stickers/handlers/stealpack.py:38
+msgid "Steal an entire sticker set into your own pack."
+msgstr ""
+
+#: src/korone/modules/stickers/handlers/stealpack.py:43
+msgid "Target pack name"
+msgstr ""
+
+#: src/korone/modules/stickers/handlers/stealpack.py:92
+#, python-brace-format
+msgid "Usage: {command} {pack_name}"
+msgstr ""
+
+#: src/korone/modules/stickers/handlers/stealpack.py:102
+msgid "Reply to a sticker from the source pack first."
+msgstr ""
+
+#: src/korone/modules/stickers/handlers/stealpack.py:111
+msgid "Reply to a sticker that belongs to a sticker set."
+msgstr ""
+
+#: src/korone/modules/stickers/handlers/stealpack.py:114
+msgid "Stealing sticker pack..."
+msgstr ""
+
+#: src/korone/modules/stickers/handlers/stealpack.py:121
+msgid "The source sticker pack does not exist anymore."
+msgstr ""
+
+#: src/korone/modules/stickers/handlers/stealpack.py:161
+#, python-brace-format
+msgid "Stealing sticker pack... {current}/{total}"
+msgstr ""
+
+#: src/korone/modules/stickers/handlers/stealpack.py:167
+msgid "Could not add any sticker from that pack."
+msgstr ""
+
+#: src/korone/modules/stickers/handlers/stealpack.py:177
+#, python-brace-format
+msgid "Target pack got full after {added} stickers."
+msgstr ""
+
+#: src/korone/modules/stickers/handlers/stealpack.py:189
+#, python-brace-format
+msgid "Added {added}/{total} stickers."
+msgstr ""
+
+#: src/korone/modules/stickers/handlers/stealpack.py:190
+#, python-brace-format
+msgid "Skipped: {skipped}"
+msgstr ""
+
+#: src/korone/modules/stickers/handlers/stealpack.py:200
+msgid "Sticker pack copied successfully."
+msgstr ""
+
+#: src/korone/modules/stickers/handlers/switch.py:24
+msgid "Switch your default sticker pack by index or name."
+msgstr ""
+
+#: src/korone/modules/stickers/handlers/switch.py:29
+msgid "Pack index or name"
+msgstr ""
+
+#: src/korone/modules/stickers/handlers/switch.py:43
+#, python-brace-format
+msgid "Usage: {command} {target}"
+msgstr ""
+
+#: src/korone/modules/stickers/handlers/switch.py:56
+#, python-brace-format
+msgid "Could not find a pack with index or name: {value}"
+msgstr ""
+
+#: src/korone/modules/stickers/handlers/switch.py:61
+#, python-brace-format
+msgid "{pack} is already your default pack."
+msgstr ""
+
+#: src/korone/modules/stickers/handlers/switch.py:65
+#, python-brace-format
+msgid "Default sticker pack changed to {pack}."
+msgstr ""
+
+#: src/korone/modules/stickers/stats.py:11
+msgid "Users with packs"
+msgstr ""
+
+#: src/korone/modules/stickers/stats.py:11
+msgid "Tracked packs"
+msgstr ""
+
+#: src/korone/modules/stickers/utils/media.py:111
+msgid "Could not process this file as an image sticker."
+msgstr ""
+
+#: src/korone/modules/stickers/utils/media.py:137
+msgid "Video conversion is unavailable because ffmpeg/ffprobe are not installed."
+msgstr ""
+
+#: src/korone/modules/stickers/utils/media.py:142
+#, python-brace-format
+msgid "Video is too long ({duration:.2f}s). Maximum allowed duration is 3 seconds."
+msgstr ""
+
+#: src/korone/modules/stickers/utils/media.py:173
+msgid "Could not convert this video to a valid sticker."
+msgstr ""
+
+#: src/korone/modules/stickers/utils/media.py:178
+#, python-brace-format
+msgid "Converted video is too large ({size_kb:.1f} KB). Maximum allowed size is 256 KB."
+msgstr ""
+
+#: src/korone/modules/stickers/utils/media.py:203
+msgid "Could not inspect video metadata."
+msgstr ""
+
+#: src/korone/modules/stickers/utils/media.py:213
+msgid "Could not parse video metadata."
+msgstr ""
+
+#: src/korone/modules/stickers/utils/media.py:216
+msgid "Video metadata is invalid."
+msgstr ""
+
+#: src/korone/modules/stickers/utils/telegram.py:30
+msgid "Invalid emoji provided."
+msgstr ""
+
+#: src/korone/modules/stickers/utils/telegram.py:32
+msgid "Invalid pack name."
+msgstr ""
+
+#: src/korone/modules/stickers/utils/telegram.py:34
+msgid "That pack ID already exists and cannot be reused."
+msgstr ""
+
+#: src/korone/modules/stickers/utils/telegram.py:36
+msgid "Animated sticker cannot be added to a non-animated pack."
+msgstr ""
+
+#: src/korone/modules/stickers/utils/telegram.py:38
+msgid "Static sticker cannot be added to an animated pack."
+msgstr ""
+
+#: src/korone/modules/stickers/utils/telegram.py:40
+msgid "Sticker pack limit exceeded."
+msgstr ""
+
+#: src/korone/modules/stickers/utils/telegram.py:42
+msgid "I cannot create a sticker pack for you yet. Start the bot in private first."
+msgstr ""
+
+#: src/korone/modules/stickers/utils/telegram.py:43
+msgid "Could not save the sticker due to a Telegram API error."
+msgstr ""
+
 #: src/korone/modules/troubleshooters/__init__.py:14
 msgid "Troubleshooters"
 msgstr ""
@@ -1085,10 +1422,6 @@ msgstr ""
 
 #: src/korone/modules/users/handlers/info.py:58
 msgid "User Information"
-msgstr ""
-
-#: src/korone/modules/users/handlers/info.py:60
-msgid "ID"
 msgstr ""
 
 #: src/korone/modules/users/handlers/info.py:61
