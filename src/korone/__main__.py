@@ -11,6 +11,7 @@ from .db.repositories.chat import ChatRepository
 from .db.utils import close_db, init_db, migrate_db_if_needed
 from .logger import get_logger, setup_logging
 from .middlewares import localization_middleware
+from .middlewares.admin_cache import AdminCacheMiddleware
 from .middlewares.chat_context import ChatContextMiddleware
 from .middlewares.disabling import DisablingMiddleware
 from .middlewares.save_chats import SaveChatsMiddleware
@@ -42,6 +43,7 @@ async def on_startup() -> None:
     dp.update.middleware(localization_middleware)
     dp.message.middleware(ArgsMiddleware(i18n=i18n))
     dp.update.outer_middleware(SaveChatsMiddleware())
+    dp.update.middleware(AdminCacheMiddleware())
     dp.update.middleware(ChatContextMiddleware())
     dp.message.middleware(DisablingMiddleware())
 

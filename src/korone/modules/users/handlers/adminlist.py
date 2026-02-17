@@ -1,15 +1,14 @@
 from typing import TYPE_CHECKING
 
-import orjson
 from aiogram import flags
 from stfu_tg import Doc, Section, Template, Title, UserLink, VList
 
-from korone import aredis
 from korone.constants import TELEGRAM_ANONYMOUS_ADMIN_BOT_ID
 from korone.db.repositories.chat import ChatRepository
+from korone.db.repositories.chat_admin import ChatAdminRepository
 from korone.filters.chat_status import GroupChatFilter
 from korone.filters.cmd import CMDFilter
-from korone.modules.utils_.chat_member import update_chat_members
+from korone.modules.utils_.admin import get_admins_rights
 from korone.utils.handlers import KoroneMessageHandler
 from korone.utils.i18n import gettext as _
 from korone.utils.i18n import lazy_gettext as l_
@@ -32,34 +31,26 @@ class AdminListHandler(KoroneMessageHandler):
             await self.event.reply(_("Chat not found."))
             return
 
-        cache_key = f"chat_admins:{chat_model.chat_id}"
-        raw = await aredis.get(cache_key)
-        if raw is None:
-            await update_chat_members(chat_model)
-            raw = await aredis.get(cache_key)
+        await get_admins_rights(chat_model.chat_id)
+        admins = await ChatAdminRepository.get_chat_admins(chat_model)
 
         doc = Doc(Title(Template(_("Admins in {chat_name}"), chat_name=self.event.chat.title)))
 
         admin_items: list[Element] = []
-        if raw:
-            try:
-                admins = orjson.loads(raw.decode() if isinstance(raw, (bytes, bytearray)) else raw)
-            except TypeError, ValueError, UnicodeDecodeError:
-                admins = {}
+        for admin in admins:
+            user_model = await ChatRepository.get_by_id(admin.user_id)
+            if not user_model:
+                continue
 
-            for user_id, admin_data in admins.items():
-                user_model = await ChatRepository.get_by_chat_id(int(user_id))
-                if not user_model:
-                    continue
+            if user_model.chat_id == TELEGRAM_ANONYMOUS_ADMIN_BOT_ID:
+                continue
 
-                if user_model.chat_id == TELEGRAM_ANONYMOUS_ADMIN_BOT_ID:
-                    continue
+            admin_data = admin.data
+            if admin_data.get("is_anonymous"):
+                continue
 
-                if admin_data.get("is_anonymous"):
-                    continue
-
-                display_name = user_model.first_name_or_title or "User"
-                admin_items.append(Template(_("{user}"), user=UserLink(user_model.chat_id, display_name)))
+            display_name = user_model.first_name_or_title or "User"
+            admin_items.append(Template(_("{user}"), user=UserLink(user_model.chat_id, display_name)))
 
         if not admin_items:
             doc += _("No visible admins found.")

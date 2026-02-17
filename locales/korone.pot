@@ -433,16 +433,16 @@ msgstr ""
 msgid "Only admins"
 msgstr ""
 
-#: src/korone/modules/language/__init__.py:17
+#: src/korone/modules/language/__init__.py:16
 #: src/korone/modules/language/stats.py:11
 msgid "Language"
 msgstr ""
 
-#: src/korone/modules/language/__init__.py:19
+#: src/korone/modules/language/__init__.py:18
 msgid "Language and localization settings"
 msgstr ""
 
-#: src/korone/modules/language/__init__.py:20
+#: src/korone/modules/language/__init__.py:19
 msgid "Allows users to set their preferred language for bot interactions."
 msgstr ""
 
@@ -959,11 +959,11 @@ msgstr ""
 msgid "Tools for fixing problems and issues"
 msgstr ""
 
-#: src/korone/modules/troubleshooters/handlers/admincache.py:18
+#: src/korone/modules/troubleshooters/handlers/admincache.py:17
 msgid "Reset admin rights cache, use if Korone didn't get the recently added admin"
 msgstr ""
 
-#: src/korone/modules/troubleshooters/handlers/admincache.py:27
+#: src/korone/modules/troubleshooters/handlers/admincache.py:25
 msgid "Admin rights cache has been reset."
 msgstr ""
 
@@ -1012,29 +1012,29 @@ msgstr ""
 msgid "Includes admin list, user IDs, and detailed user information."
 msgstr ""
 
-#: src/korone/modules/users/handlers/adminlist.py:22
+#: src/korone/modules/users/handlers/adminlist.py:21
 msgid "Lists all the chats admins."
 msgstr ""
 
-#: src/korone/modules/users/handlers/adminlist.py:32
+#: src/korone/modules/users/handlers/adminlist.py:31
 msgid "Chat not found."
 msgstr ""
 
-#: src/korone/modules/users/handlers/adminlist.py:41
+#: src/korone/modules/users/handlers/adminlist.py:37
 #, python-brace-format
 msgid "Admins in {chat_name}"
 msgstr ""
 
-#: src/korone/modules/users/handlers/adminlist.py:62
+#: src/korone/modules/users/handlers/adminlist.py:53
 #, python-brace-format
 msgid "{user}"
 msgstr ""
 
-#: src/korone/modules/users/handlers/adminlist.py:65
+#: src/korone/modules/users/handlers/adminlist.py:56
 msgid "No visible admins found."
 msgstr ""
 
-#: src/korone/modules/users/handlers/adminlist.py:67
+#: src/korone/modules/users/handlers/adminlist.py:58
 msgid "Admins"
 msgstr ""
 

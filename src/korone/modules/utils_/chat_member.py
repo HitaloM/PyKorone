@@ -1,12 +1,10 @@
-import json
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Any
 
 from aiogram.exceptions import TelegramBadRequest
-from redis.exceptions import RedisError
 
-from korone import aredis, bot
-from korone.constants import CACHE_DEFAULT_TTL_SECONDS
+from korone import bot
 from korone.db.repositories.chat import ChatRepository
+from korone.db.repositories.chat_admin import ChatAdminRepository
 from korone.logger import get_logger
 
 if TYPE_CHECKING:
@@ -30,19 +28,16 @@ async def get_chat_members(chat_id: int) -> list[ResultChatMemberUnion]:
 
 async def update_chat_members(chat: ChatModel) -> None:
     chat_members = await get_chat_members(chat.chat_id)
-    admins_map: dict[str, dict] = {}
+    admins_map: dict[int, dict[str, Any]] = {}
 
     for member in chat_members:
         user = await ChatRepository.get_by_chat_id(member.user.id)
         if not user:
-            await logger.adebug("user_details: user not found in database", user_id=member.user.id)
-            continue
+            user = await ChatRepository.upsert_user(member.user)
 
-        admins_map[str(member.user.id)] = member.model_dump()
+        admins_map[user.id] = member.model_dump(mode="json")
 
-    key = f"chat_admins:{chat.chat_id}"
-    try:
-        await aredis.set(key, json.dumps(admins_map), ex=CACHE_DEFAULT_TTL_SECONDS)
-        await logger.adebug("update_chat_members: updated redis cache", key=key, count=len(admins_map))
-    except RedisError:
-        await logger.adebug("update_chat_members: failed to set redis cache", key=key)
+    await ChatAdminRepository.replace_chat_admins(chat, admins_map)
+    await logger.adebug(
+        "update_chat_members: updated admin cache in database", chat_id=chat.chat_id, count=len(admins_map)
+    )
