@@ -358,7 +358,7 @@ msgstr ""
 
 #: src/korone/modules/help/handlers/pm_modules.py:53
 #: src/korone/modules/help/handlers/pm_modules.py:101
-#: src/korone/modules/language/handlers/apply.py:65
+#: src/korone/modules/language/handlers/apply.py:59
 #: src/korone/modules/language/handlers/info.py:47
 #: src/korone/modules/language/handlers/select.py:51
 #: src/korone/modules/language/handlers/select.py:55
@@ -446,41 +446,41 @@ msgstr ""
 msgid "Allows users to set their preferred language for bot interactions."
 msgstr ""
 
-#: src/korone/modules/language/handlers/apply.py:37
+#: src/korone/modules/language/handlers/apply.py:31
 #, python-brace-format
 msgid "Language changed to {new_lang}."
 msgstr ""
 
-#: src/korone/modules/language/handlers/apply.py:40
+#: src/korone/modules/language/handlers/apply.py:34
 msgid "This is the bot's native language."
 msgstr ""
 
-#: src/korone/modules/language/handlers/apply.py:41
+#: src/korone/modules/language/handlers/apply.py:35
 msgid "If you find any errors, please file an issue in the GitHub Repository."
 msgstr ""
 
-#: src/korone/modules/language/handlers/apply.py:44
+#: src/korone/modules/language/handlers/apply.py:38
 #, python-brace-format
 msgid "The language is {percent}% translated."
 msgstr ""
 
-#: src/korone/modules/language/handlers/apply.py:47
+#: src/korone/modules/language/handlers/apply.py:41
 msgid "In case you find any errors, please file an issue in the GitHub Repository."
 msgstr ""
 
-#: src/korone/modules/language/handlers/apply.py:49
+#: src/korone/modules/language/handlers/apply.py:43
 msgid "Please help us translate this language by completing it on our translations platform."
 msgstr ""
 
-#: src/korone/modules/language/handlers/apply.py:60
+#: src/korone/modules/language/handlers/apply.py:54
 msgid "🐞 Open GitHub Issues"
 msgstr ""
 
-#: src/korone/modules/language/handlers/apply.py:62
+#: src/korone/modules/language/handlers/apply.py:56
 msgid "🌍 Help Translate"
 msgstr ""
 
-#: src/korone/modules/language/handlers/apply.py:78
+#: src/korone/modules/language/handlers/apply.py:72
 msgid "Something went wrong."
 msgstr ""
 
@@ -1494,192 +1494,3 @@ msgstr ""
 #: types/user.py:108
 msgid "Could not find the user mention"
 msgstr ""
-
-#~ msgid "{num} languages available."
-#~ msgstr ""
-
-#~ msgid "Changing language was canceled. You can change language again by using /language command."
-#~ msgstr ""
-
-#~ msgid "?New status"
-#~ msgstr ""
-
-#~ msgid "Code dances with bugs,"
-#~ msgstr ""
-
-#~ msgid "Exceptions arise, yet learn —"
-#~ msgstr ""
-
-#~ msgid "Errors guide our way."
-#~ msgstr ""
-
-#~ msgid "Silent lines disrupted,"
-#~ msgstr ""
-
-#~ msgid "Errors speak a language new,"
-#~ msgstr ""
-
-#~ msgid "In flaws, growth takes root."
-#~ msgstr ""
-
-#~ msgid "Through the mist of bugs,"
-#~ msgstr ""
-
-#~ msgid "Learning blooms in lines of code,"
-#~ msgstr ""
-
-#~ msgid "Exceptional growth."
-#~ msgstr ""
-
-#~ msgid "In errors we find,"
-#~ msgstr ""
-
-#~ msgid "Opportunities to learn,"
-#~ msgstr ""
-
-#~ msgid "Software's hidden gifts."
-#~ msgstr ""
-
-#~ msgid "Paths diverge, glitch calls,"
-#~ msgstr ""
-
-#~ msgid "Embrace the flaw, seek the fix,"
-#~ msgstr ""
-
-#~ msgid "Errors sculpt progress."
-#~ msgstr ""
-
-#~ msgid "A glitchy waltz starts,"
-#~ msgstr ""
-
-#~ msgid "Errors lead to graceful steps,"
-#~ msgstr ""
-
-#~ msgid "Software learns to dance."
-#~ msgstr ""
-
-#~ msgid "Beneath error's mask,"
-#~ msgstr ""
-
-#~ msgid "Lies chance to refine and mend,"
-#~ msgstr ""
-
-#~ msgid "Stronger code emerges."
-#~ msgstr ""
-
-#~ msgid "Flawed notes in the code,"
-#~ msgstr ""
-
-#~ msgid "Create the symphony of growth,"
-#~ msgstr ""
-
-#~ msgid "Exceptions compose."
-#~ msgstr ""
-
-#~ msgid "Bright stars in the code,"
-#~ msgstr ""
-
-#~ msgid "Errors guide us through the dark,"
-#~ msgstr ""
-
-#~ msgid "To a better dawn."
-#~ msgstr ""
-
-#~ msgid "Software's journey,"
-#~ msgstr ""
-
-#~ msgid "Marked by errors, yet they forge,"
-#~ msgstr ""
-
-#~ msgid "A path to brilliance."
-#~ msgstr ""
-
-#~ msgid "In lines of debug,"
-#~ msgstr ""
-
-#~ msgid "Lies the tale of perseverance,"
-#~ msgstr ""
-
-#~ msgid "Errors write our story."
-#~ msgstr ""
-
-#~ msgid "Bugs like stepping stones,"
-#~ msgstr ""
-
-#~ msgid "Lead us towards understanding,"
-#~ msgstr ""
-
-#~ msgid "Paths of enlightenment."
-#~ msgstr ""
-
-#~ msgid "Amidst lines of code,"
-#~ msgstr ""
-
-#~ msgid "Errors whisper secrets deep,"
-#~ msgstr ""
-
-#~ msgid "Knowledge blooms from flaws."
-#~ msgstr ""
-
-#~ msgid "A puzzle of bugs,"
-#~ msgstr ""
-
-#~ msgid "Each exception a clue to solve,"
-#~ msgstr ""
-
-#~ msgid "The software's riddle."
-#~ msgstr ""
-
-#~ msgid "In realm of errors,"
-#~ msgstr ""
-
-#~ msgid "Patience and insight converge,"
-#~ msgstr ""
-
-#~ msgid "Solutions are born."
-#~ msgstr ""
-
-#~ msgid "Through crashes and burns,"
-#~ msgstr ""
-
-#~ msgid "Rises phoenix of progress,"
-#~ msgstr ""
-
-#~ msgid "From ashes of bugs."
-#~ msgstr ""
-
-#~ msgid "Software's heartbeat,"
-#~ msgstr ""
-
-#~ msgid "Pulsing with each error found,"
-#~ msgstr ""
-
-#~ msgid "Lifeblood of growth flows."
-#~ msgstr ""
-
-#~ msgid "Errors like raindrops,"
-#~ msgstr ""
-
-#~ msgid "Quenching the thirst for knowledge,"
-#~ msgstr ""
-
-#~ msgid "Nourishing progress."
-#~ msgstr ""
-
-#~ msgid "Through the maze of bugs,"
-#~ msgstr ""
-
-#~ msgid "A labyrinth of learning,"
-#~ msgstr ""
-
-#~ msgid "Exceptional minds."
-#~ msgstr ""
-
-#~ msgid "In the code's embrace,"
-#~ msgstr ""
-
-#~ msgid "Errors cradle innovation,"
-#~ msgstr ""
-
-#~ msgid "Softly whispering."
-#~ msgstr ""

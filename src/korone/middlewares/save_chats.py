@@ -4,7 +4,7 @@ from typing import TYPE_CHECKING, Any, override
 
 from aiogram import BaseMiddleware
 from aiogram.enums import ChatType
-from aiogram.types import Update, User
+from aiogram.types import Chat, Update, User
 
 from korone.config import CONFIG
 from korone.db.repositories.chat import ChatRepository
@@ -13,7 +13,7 @@ from korone.logger import get_logger
 if TYPE_CHECKING:
     from collections.abc import Awaitable, Callable, Iterable
 
-    from aiogram.types import Chat, ChatMemberUpdated, Message, TelegramObject
+    from aiogram.types import ChatMemberUpdated, Message, TelegramObject
 
     from korone.db.models.chat import ChatModel, UserInGroupModel
 
@@ -212,13 +212,24 @@ class SaveChatsMiddleware(BaseMiddleware):
 
     @staticmethod
     async def save_from_user(data: dict[str, Any]) -> None:
-        if not (from_user := data.get("event_from_user")):
-            return
+        from_user = data.get("event_from_user")
         if not isinstance(from_user, User):
             return
 
         logger.debug("SaveChatsMiddleware: Saving from user", user_id=from_user.id)
         user = await ChatRepository.upsert_user(from_user)
+        data["user_db"] = user
+
+        event_chat = data.get("event_chat")
+        if isinstance(event_chat, Chat):
+            chat_type = ChatType(event_chat.type)
+            if chat_type in {ChatType.GROUP, ChatType.SUPERGROUP}:
+                logger.debug("SaveChatsMiddleware: Saving callback event chat", chat_id=event_chat.id)
+                group = await ChatRepository.upsert_group(event_chat)
+                data["chat_db"] = data["group_db"] = group
+                data["user_in_group"] = await ChatRepository.ensure_user_in_group(user, group)
+                return
+
         data["chat_db"] = data["user_db"] = user
 
     async def save_my_chat_member(self, event: ChatMemberUpdated) -> bool:

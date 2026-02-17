@@ -59,6 +59,7 @@ class ChatModel(Base):
     first_name_or_title: Mapped[str] = mapped_column(String(256))
     last_name: Mapped[str | None] = mapped_column(String(64))
     username: Mapped[str | None] = mapped_column(String(64), index=True)
+    language_code: Mapped[str | None] = mapped_column(String(16))
     is_bot: Mapped[bool] = mapped_column(default=False)
     first_saw: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=lambda: datetime.now(UTC))
     last_saw: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=lambda: datetime.now(UTC))
@@ -83,6 +84,7 @@ class ChatModel(Base):
             "first_name_or_title": self.first_name_or_title,
             "last_name": self.last_name,
             "username": self.username,
+            "language_code": self.language_code,
             "is_bot": self.is_bot,
             "first_saw": self.first_saw,
             "last_saw": self.last_saw,
@@ -92,6 +94,6 @@ class ChatModel(Base):
         return (
             f"ChatModel(id={self.id!r}, chat_id={self.chat_id!r}, type={self.type!r}, "
             f"first_name_or_title={self.first_name_or_title!r}, last_name={self.last_name!r}, "
-            f"username={self.username!r}, is_bot={self.is_bot!r}, "
+            f"username={self.username!r}, language_code={self.language_code!r}, is_bot={self.is_bot!r}, "
             f"first_saw={self.first_saw!r}, last_saw={self.last_saw!r})"
         )

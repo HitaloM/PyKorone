@@ -5,7 +5,6 @@ from aiogram.types import InlineKeyboardButton, Message
 from aiogram.utils.keyboard import InlineKeyboardBuilder
 from stfu_tg import Doc
 
-from korone import aredis
 from korone.config import CONFIG
 from korone.db.repositories.language import LanguageRepository
 from korone.filters.admin_rights import UserRestricting
@@ -23,11 +22,6 @@ if TYPE_CHECKING:
 
 async def set_chat_language(chat_id: int, language: str) -> None:
     await LanguageRepository.set_locale(chat_id, language)
-
-    await aredis.delete(f"lang_cache_{chat_id}")
-
-    cache_key = f"cache_get_locale_name:{chat_id}"
-    await aredis.delete(cache_key)
 
 
 def build_language_changed_message(language: str, i18n: I18nNew) -> str:

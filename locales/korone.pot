@@ -358,7 +358,7 @@ msgstr ""
 
 #: src/korone/modules/help/handlers/pm_modules.py:53
 #: src/korone/modules/help/handlers/pm_modules.py:101
-#: src/korone/modules/language/handlers/apply.py:65
+#: src/korone/modules/language/handlers/apply.py:59
 #: src/korone/modules/language/handlers/info.py:47
 #: src/korone/modules/language/handlers/select.py:51
 #: src/korone/modules/language/handlers/select.py:55
@@ -446,41 +446,41 @@ msgstr ""
 msgid "Allows users to set their preferred language for bot interactions."
 msgstr ""
 
-#: src/korone/modules/language/handlers/apply.py:37
+#: src/korone/modules/language/handlers/apply.py:31
 #, python-brace-format
 msgid "Language changed to {new_lang}."
 msgstr ""
 
-#: src/korone/modules/language/handlers/apply.py:40
+#: src/korone/modules/language/handlers/apply.py:34
 msgid "This is the bot's native language."
 msgstr ""
 
-#: src/korone/modules/language/handlers/apply.py:41
+#: src/korone/modules/language/handlers/apply.py:35
 msgid "If you find any errors, please file an issue in the GitHub Repository."
 msgstr ""
 
-#: src/korone/modules/language/handlers/apply.py:44
+#: src/korone/modules/language/handlers/apply.py:38
 #, python-brace-format
 msgid "The language is {percent}% translated."
 msgstr ""
 
-#: src/korone/modules/language/handlers/apply.py:47
+#: src/korone/modules/language/handlers/apply.py:41
 msgid "In case you find any errors, please file an issue in the GitHub Repository."
 msgstr ""
 
-#: src/korone/modules/language/handlers/apply.py:49
+#: src/korone/modules/language/handlers/apply.py:43
 msgid "Please help us translate this language by completing it on our translations platform."
 msgstr ""
 
-#: src/korone/modules/language/handlers/apply.py:60
+#: src/korone/modules/language/handlers/apply.py:54
 msgid "🐞 Open GitHub Issues"
 msgstr ""
 
-#: src/korone/modules/language/handlers/apply.py:62
+#: src/korone/modules/language/handlers/apply.py:56
 msgid "🌍 Help Translate"
 msgstr ""
 
-#: src/korone/modules/language/handlers/apply.py:78
+#: src/korone/modules/language/handlers/apply.py:72
 msgid "Something went wrong."
 msgstr ""
 

@@ -8,7 +8,7 @@ from typing import TYPE_CHECKING
 from alembic.config import Config as AlembicConfig
 from alembic.runtime.migration import MigrationContext
 from alembic.script import ScriptDirectory
-from sqlalchemy import inspect, text
+from sqlalchemy import text
 
 from alembic import command
 from korone.config import CONFIG
@@ -19,9 +19,6 @@ if TYPE_CHECKING:
     from sqlalchemy import Connection
 
 logger = get_logger(__name__)
-
-LEGACY_BASELINE_REVISION = "1fc8a372560c"
-BASELINE_TABLES = frozenset({"chats", "chat_topics", "disabled", "lang", "lastfm_users", "users_in_groups"})
 
 
 def _project_root() -> Path:
@@ -71,14 +68,6 @@ def _get_revision_state(connection: Connection, script: ScriptDirectory) -> tupl
     return current_heads, target_heads
 
 
-def _get_existing_tables(connection: Connection) -> set[str]:
-    return set(inspect(connection).get_table_names())
-
-
-def _is_legacy_schema_without_alembic(current_heads: set[str], existing_tables: set[str]) -> bool:
-    return not current_heads and "alembic_version" not in existing_tables and BASELINE_TABLES.issubset(existing_tables)
-
-
 async def init_db() -> None:
     """Ensure database connectivity; schema changes are managed by Alembic."""
     engine = get_engine()
@@ -95,18 +84,6 @@ async def migrate_db_if_needed() -> bool:
 
     async with engine.connect() as conn:
         current_heads, target_heads = await conn.run_sync(_get_revision_state, script)
-        existing_tables = await conn.run_sync(_get_existing_tables)
-
-    if _is_legacy_schema_without_alembic(current_heads, existing_tables):
-        await logger.awarning(
-            "Legacy schema detected without Alembic version; stamping baseline revision",
-            baseline_revision=LEGACY_BASELINE_REVISION,
-        )
-        await asyncio.to_thread(command.stamp, alembic_config, LEGACY_BASELINE_REVISION)
-        has_changed = True
-
-        async with engine.connect() as conn:
-            current_heads, target_heads = await conn.run_sync(_get_revision_state, script)
 
     if current_heads == target_heads:
         await logger.ainfo("Database schema already up to date", revision=sorted(target_heads))

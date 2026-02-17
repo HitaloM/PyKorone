@@ -4,23 +4,13 @@ from aiogram.enums import ChatType
 from aiogram.utils.i18n.middleware import I18nMiddleware
 
 from korone.config import CONFIG
-from korone.constants import CACHE_LANGUAGE_TTL_SECONDS
 from korone.db.models.chat import ChatModel
-from korone.db.repositories.language import LanguageRepository
 from korone.logger import get_logger
-from korone.utils.cached import Cached
 
 if TYPE_CHECKING:
     from aiogram.types import TelegramObject, User
 
 logger = get_logger(__name__)
-
-
-@Cached(ttl=CACHE_LANGUAGE_TTL_SECONDS)
-async def cache_get_locale_name(chat_id: int) -> str | None:
-    locale = await LanguageRepository.get_locale(chat_id)
-
-    return locale or None
 
 
 class LocalizationMiddleware(I18nMiddleware):
@@ -30,16 +20,14 @@ class LocalizationMiddleware(I18nMiddleware):
             await logger.adebug("LocalizationMiddleware: Chat cannot be found in this event, leaving locale to default")
             return CONFIG.default_locale
 
-        cached_locale = await cache_get_locale_name(chat_in_db.chat_id)
-        locale: str = cached_locale or CONFIG.default_locale
-
-        if locale not in self.i18n.available_locales:
+        if chat_in_db.language_code:
+            if chat_in_db.language_code in self.i18n.available_locales:
+                return chat_in_db.language_code
             await logger.adebug(
                 "LocalizationMiddleware: Locale not available, falling back to default",
-                locale=locale,
+                locale=chat_in_db.language_code,
                 available=self.i18n.available_locales,
             )
-            locale = CONFIG.default_locale
 
         if chat_in_db.type == ChatType.PRIVATE:
             user: User | None = getattr(event, "from_user", None)
