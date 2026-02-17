@@ -33,6 +33,8 @@ RUN apt-get update && \
     rm -rf /var/lib/apt/lists/*
 
 COPY --from=builder --chown=korone:korone /app/.venv /app/.venv
+COPY --from=builder --chown=korone:korone /app/alembic.ini /app/alembic.ini
+COPY --from=builder --chown=korone:korone /app/alembic /app/alembic
 COPY --from=builder --chown=korone:korone /app/locales /app/locales
 COPY --from=builder --chown=korone:korone /app/src/korone /app/src/korone
 COPY --from=builder --chown=korone:korone /app/data /app/data

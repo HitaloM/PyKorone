@@ -64,7 +64,11 @@ ignore = [
     "PLR0912",
     "PLR0915",
 ]
-per-file-ignores = { "src/korone/middlewares/*" = [
+per-file-ignores = { "alembic/env.py" = [
+    "INP001",
+], "alembic/versions/*.py" = [
+    "INP001",
+], "src/korone/middlewares/*" = [
     "ANN401",
 ], "src/korone/utils/cached.py" = [
     "ANN401",

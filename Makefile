@@ -2,6 +2,7 @@ PROJECT_DIR := src/korone
 
 PYTHON := uv run python
 PYBABEL := uv run pybabel
+ALEMBIC := uv run alembic
 
 ASS_PATH := $(shell $(PYTHON) -c "import ass_tg as _; print(_.__path__[0])")
 
@@ -42,3 +43,16 @@ new_locale:
 	make new_lang LANG=en_US
 	make update_lang
 	make compile_lang
+
+
+db_upgrade:
+	$(ALEMBIC) upgrade head
+
+db_downgrade:
+	$(ALEMBIC) downgrade -1
+
+db_revision:
+	$(ALEMBIC) revision --autogenerate -m "$(m)"
+
+db_stamp:
+	$(ALEMBIC) stamp "$(rev)"

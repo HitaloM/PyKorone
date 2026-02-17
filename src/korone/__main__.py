@@ -8,7 +8,7 @@ from ass_tg.middleware import ArgsMiddleware
 from . import bot, dp
 from .config import CONFIG
 from .db.repositories.chat import ChatRepository
-from .db.utils import close_db, init_db
+from .db.utils import close_db, init_db, migrate_db_if_needed
 from .logger import get_logger, setup_logging
 from .middlewares import localization_middleware
 from .middlewares.chat_context import ChatContextMiddleware
@@ -35,6 +35,7 @@ async def on_startup() -> None:
     await logger.ainfo("Starting up the bot...")
 
     await init_db()
+    await migrate_db_if_needed()
     await ensure_bot_in_db()
     await load_modules(dp, ["*"], CONFIG.modules_not_load)
 

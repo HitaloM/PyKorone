@@ -29,6 +29,7 @@ services:
       - data/config.env
     environment:
       DB_URL: postgresql+asyncpg://korone:korone@postgres:5432/korone
+      KORONE_PROJECT_ROOT: /app
       REDIS_HOST: redis
       REDIS_PORT: 6379
       BOTAPI_SERVER: http://telegram-bot-api:8081
