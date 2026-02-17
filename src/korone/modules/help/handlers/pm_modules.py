@@ -3,7 +3,7 @@ from typing import TYPE_CHECKING, cast
 from aiogram import flags
 from aiogram.types import CallbackQuery, InlineKeyboardButton
 from aiogram.utils.keyboard import InlineKeyboardBuilder
-from stfu_tg import Doc, HList, Section, Template, Title
+from stfu_tg import Code, Doc, HList, Italic, Section, Template, Title, VList
 
 from korone.filters.chat_status import PrivateChatFilter
 from korone.filters.cmd import CMDFilter
@@ -52,7 +52,31 @@ class PMModulesList(KoroneMessageCallbackQueryHandler):
         if callback_data and callback_data.back_to_start:
             buttons.row(InlineKeyboardButton(text=_("⬅️ Back"), callback_data=GoToStartCallback().pack()))
 
-        doc = Doc(Title(_("Help")), _("Select a module to see its commands and information:"))
+        doc = Doc(
+            Title(_("Help")),
+            _("Select a module to see its commands and information!"),
+            Section(
+                VList(
+                    Template(
+                        _("Arguments: {required} is required and {optional} is optional."),
+                        required=Code("<arg>"),
+                        optional=Code("<?arg>"),
+                    ),
+                    HList(Italic(_("— Only in groups")), _("means it works only in group chats.")),
+                    HList(Italic(_("PM-only")), _("lists commands that only work in private chat.")),
+                    HList(Italic(_("Only admins")), _("lists commands that require admin rights.")),
+                    HList(
+                        Italic(Template("({label})", label=_("Disable-able"))),
+                        Template(
+                            _("means the command can be toggled with {disable} and {enable}."),
+                            disable=Code("/disable"),
+                            enable=Code("/enable"),
+                        ),
+                    ),
+                ),
+                title=_("How to read /help"),
+            ),
+        )
 
         if isinstance(self.event, CallbackQuery):
             await self.message.edit_text(str(doc), reply_markup=buttons.as_markup(), disable_web_page_preview=True)

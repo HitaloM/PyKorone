@@ -324,7 +324,7 @@ msgstr ""
 
 #: src/korone/modules/help/__init__.py:25
 #: src/korone/modules/help/handlers/help_group.py:29
-#: src/korone/modules/help/handlers/pm_modules.py:55
+#: src/korone/modules/help/handlers/pm_modules.py:56
 #: src/korone/modules/help/handlers/start_group.py:33
 msgid "Help"
 msgstr ""
@@ -358,7 +358,7 @@ msgid "Shows help overview for all modules"
 msgstr ""
 
 #: src/korone/modules/help/handlers/pm_modules.py:53
-#: src/korone/modules/help/handlers/pm_modules.py:101
+#: src/korone/modules/help/handlers/pm_modules.py:125
 #: src/korone/modules/language/handlers/apply.py:59
 #: src/korone/modules/language/handlers/info.py:47
 #: src/korone/modules/language/handlers/select.py:51
@@ -367,15 +367,61 @@ msgstr ""
 msgid "⬅️ Back"
 msgstr ""
 
-#: src/korone/modules/help/handlers/pm_modules.py:55
+#: src/korone/modules/help/handlers/pm_modules.py:57
 msgid "Select a module to see its commands and information:"
 msgstr ""
 
-#: src/korone/modules/help/handlers/pm_modules.py:74
+#: src/korone/modules/help/handlers/pm_modules.py:61
+#, python-brace-format
+msgid "Arguments: {required} is required and {optional} is optional."
+msgstr ""
+
+#: src/korone/modules/help/handlers/pm_modules.py:65
+msgid "means it works only in group chats."
+msgstr ""
+
+#: src/korone/modules/help/handlers/pm_modules.py:65
+#: src/korone/modules/help/utils/format_help.py:38
+msgid "— Only in groups"
+msgstr ""
+
+#: src/korone/modules/help/handlers/pm_modules.py:66
+msgid "lists commands that only work in private chat."
+msgstr ""
+
+#: src/korone/modules/help/handlers/pm_modules.py:66
+#: src/korone/modules/help/utils/format_help.py:79
+msgid "PM-only"
+msgstr ""
+
+#: src/korone/modules/help/handlers/pm_modules.py:67
+msgid "lists commands that require admin rights."
+msgstr ""
+
+#: src/korone/modules/help/handlers/pm_modules.py:67
+#: src/korone/modules/help/utils/format_help.py:81
+msgid "Only admins"
+msgstr ""
+
+#: src/korone/modules/help/handlers/pm_modules.py:69
+#: src/korone/modules/help/utils/format_help.py:39
+msgid "Disable-able"
+msgstr ""
+
+#: src/korone/modules/help/handlers/pm_modules.py:71
+#, python-brace-format
+msgid "means the command can be toggled with {disable} and {enable}."
+msgstr ""
+
+#: src/korone/modules/help/handlers/pm_modules.py:77
+msgid "How to read /help"
+msgstr ""
+
+#: src/korone/modules/help/handlers/pm_modules.py:98
 msgid "Module not found"
 msgstr ""
 
-#: src/korone/modules/help/handlers/pm_modules.py:94
+#: src/korone/modules/help/handlers/pm_modules.py:118
 #, python-brace-format
 msgid "Aliased commands from {module}"
 msgstr ""
@@ -414,24 +460,8 @@ msgstr ""
 msgid "news channel"
 msgstr ""
 
-#: src/korone/modules/help/utils/format_help.py:38
-msgid "— Only in groups"
-msgstr ""
-
-#: src/korone/modules/help/utils/format_help.py:39
-msgid "Disable-able"
-msgstr ""
-
 #: src/korone/modules/help/utils/format_help.py:77
 msgid "Commands"
-msgstr ""
-
-#: src/korone/modules/help/utils/format_help.py:79
-msgid "PM-only"
-msgstr ""
-
-#: src/korone/modules/help/utils/format_help.py:81
-msgid "Only admins"
 msgstr ""
 
 #: src/korone/modules/language/__init__.py:16
