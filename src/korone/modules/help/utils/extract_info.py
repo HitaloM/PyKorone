@@ -199,7 +199,7 @@ async def gather_module_help(module: ModuleType) -> ModuleHelp | None:
             name=name,
             icon=emoji,
             exclude_public=exclude_public,
-            info=info or "",
-            description=description or "",
+            info=info if info is not None else "",
+            description=description if description is not None else "",
         )
     return None
