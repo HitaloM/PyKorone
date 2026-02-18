@@ -131,7 +131,7 @@ msgstr "O comando {cmd} já está desativado."
 #: src/korone/modules/utils_/status_handler.py:51
 #: src/korone/modules/utils_/status_handler.py:75
 msgid "Chat"
-msgstr "Bate-papo"
+msgstr "Chat"
 
 #: src/korone/modules/disabling/handlers/disable.py:58
 msgid "Command disabled"
@@ -454,7 +454,7 @@ msgstr "ℹ️ Ajuda"
 #: src/korone/modules/help/handlers/start_pm.py:48
 #, python-brace-format
 msgid "Join my {channel} to get information on all the latest updates."
-msgstr "Inscreva-se na minha lista de e-mails {channel} para receber informações sobre as últimas atualizações."
+msgstr "Entre no meu {channel} para receber as últimas atualizações."
 
 #: src/korone/modules/help/handlers/start_pm.py:49
 msgid "news channel"
@@ -488,16 +488,16 @@ msgstr "Esta é a língua nativa do bot."
 
 #: src/korone/modules/language/handlers/apply.py:35
 msgid "If you find any errors, please file an issue in the GitHub Repository."
-msgstr "Se você encontrar algum erro, por favor, registre uma questão no Repositório GitHub."
+msgstr "Se você encontrar algum erro, abra uma issue no repositório do GitHub."
 
 #: src/korone/modules/language/handlers/apply.py:38
 #, python-brace-format
 msgid "The language is {percent}% translated."
-msgstr "O idioma é {percent} % t ranslated."
+msgstr "Este idioma está {percent}% traduzido."
 
 #: src/korone/modules/language/handlers/apply.py:41
 msgid "In case you find any errors, please file an issue in the GitHub Repository."
-msgstr "Caso encontre algum erro, por favor, registre uma questão no Repositório GitHub."
+msgstr "Se encontrar algum erro, abra uma issue no repositório do GitHub."
 
 #: src/korone/modules/language/handlers/apply.py:43
 msgid "Please help us translate this language by completing it on our translations platform."
@@ -525,7 +525,7 @@ msgstr "Configurações de idioma"
 
 #: src/korone/modules/language/handlers/info.py:29
 msgid "This is the bot's native language, so it is 100% translated."
-msgstr "Esta é a língua nativa do bot, por isso é traduzida com 100% t."
+msgstr "Este é o idioma nativo do bot, então ele está 100% traduzido."
 
 #: src/korone/modules/language/handlers/info.py:31
 msgid "Translated strings"
@@ -633,7 +633,7 @@ msgid ""
 "\n"
 "Compatibility score is {score}%, based on {period}"
 msgstr ""
-"{user1} e {user2} ouvir {mutual}...\n"
+"{user1} e {user2} ouvem {mutual}...\n"
 "\n"
 "A pontuação de compatibilidade é {score} % , com base em {period}"
 
@@ -676,7 +676,7 @@ msgid ""
 "Last 5 plays:"
 msgstr ""
 "\n"
-"Últimas 5 jogadas:"
+"Últimas 5 reproduções:"
 
 #: src/korone/modules/lastfm/handlers/recent.py:52
 #, python-brace-format
@@ -731,7 +731,7 @@ msgstr "artistas"
 
 #: src/korone/modules/lastfm/handlers/top.py:86
 msgid "tracks"
-msgstr "pistas"
+msgstr "faixas"
 
 #: src/korone/modules/lastfm/handlers/top.py:86
 msgid "albums"
@@ -802,7 +802,7 @@ msgstr "{user} estava ouvindo:\n"
 #: src/korone/modules/lastfm/utils/commons.py:83
 #, python-brace-format
 msgid " ∙ {playcount} plays"
-msgstr " ∙ Peças de{playcount}"
+msgstr " ∙ {playcount} reproduções"
 
 #: src/korone/modules/lastfm/utils/formatters.py:19
 msgid "1 week"
@@ -831,17 +831,17 @@ msgstr "Todo o tempo"
 #: src/korone/modules/lastfm/utils/formatters.py:37
 #, python-brace-format
 msgid ", {days} day(s) ago"
-msgstr "{days} dia(s) atrás"
+msgstr ", há {days} dia(s)"
 
 #: src/korone/modules/lastfm/utils/formatters.py:41
 #, python-brace-format
 msgid ", {hours} hour(s) ago"
-msgstr "{hours}hora(s) atrás"
+msgstr ", há {hours} hora(s)"
 
 #: src/korone/modules/lastfm/utils/formatters.py:44
 #, python-brace-format
 msgid ", {minutes} minute(s) ago"
-msgstr "{minutes} minuto(s) atrás"
+msgstr ", há {minutes} minuto(s)"
 
 #: src/korone/modules/lastfm/utils/formatters.py:44
 msgid ", Just now"
@@ -1044,7 +1044,7 @@ msgstr "Dica: use {command} para alterar seu pacote padrão."
 
 #: src/korone/modules/stickers/handlers/delsticker.py:20
 msgid "Delete a sticker from one of your tracked packs."
-msgstr "Exclua um autocolante de um dos seus pacotes rastreados."
+msgstr "Exclua um adesivo de um dos seus pacotes rastreados."
 
 #: src/korone/modules/stickers/handlers/delsticker.py:36
 msgid "Reply to a sticker from your own pack first."
@@ -1063,7 +1063,7 @@ msgstr "Essa resposta não é um adesivo de um conjunto de adesivos."
 
 #: src/korone/modules/stickers/handlers/delsticker.py:50
 msgid "This sticker is not from one of your tracked packs."
-msgstr "Este autocolante não pertence a nenhuma das suas encomendas rastreadas."
+msgstr "Este adesivo não pertence a nenhum dos seus pacotes rastreados."
 
 #: src/korone/modules/stickers/handlers/delsticker.py:56
 msgid "Could not delete this sticker from the pack."
@@ -1122,7 +1122,7 @@ msgstr "ID"
 
 #: src/korone/modules/stickers/handlers/getsticker.py:72
 msgid "Pack"
-msgstr "Embalar"
+msgstr "Pacote"
 
 #: src/korone/modules/stickers/handlers/mypacks.py:18
 msgid "List your tracked sticker packs."
@@ -1174,7 +1174,7 @@ msgstr "Criei um novo pacote de adesivos."
 #: src/korone/modules/stickers/handlers/stealpack.py:200
 #, python-brace-format
 msgid "Pack: {pack}"
-msgstr "Embalagem: {pack}"
+msgstr "Pacote: {pack}"
 
 #: src/korone/modules/stickers/handlers/steal.py:122
 msgid "Sticker saved successfully."
@@ -1191,7 +1191,7 @@ msgstr "Nome do pacote de destino"
 #: src/korone/modules/stickers/handlers/stealpack.py:92
 #, python-brace-format
 msgid "Usage: {command} {pack_name}"
-msgstr "Utilização: {command} {pack_name}"
+msgstr "Uso: {command} {pack_name}"
 
 #: src/korone/modules/stickers/handlers/stealpack.py:102
 msgid "Reply to a sticker from the source pack first."
@@ -1248,7 +1248,7 @@ msgstr "Índice ou nome do pacote"
 #: src/korone/modules/stickers/handlers/switch.py:43
 #, python-brace-format
 msgid "Usage: {command} {target}"
-msgstr "Utilização: {command} {target}"
+msgstr "Uso: {command} {target}"
 
 #: src/korone/modules/stickers/handlers/switch.py:56
 #, python-brace-format
@@ -1406,7 +1406,7 @@ msgstr "Lista todos os administradores dos chats."
 
 #: src/korone/modules/users/handlers/adminlist.py:31
 msgid "Chat not found."
-msgstr "Bate-papo não encontrado."
+msgstr "Chat não encontrado."
 
 #: src/korone/modules/users/handlers/adminlist.py:37
 #, python-brace-format
@@ -1428,7 +1428,7 @@ msgstr "Administradores"
 
 #: src/korone/modules/users/handlers/id.py:27
 msgid "Show user and chat IDs"
-msgstr "Mostrar IDs de usuário e bate-papo"
+msgstr "Mostrar IDs de usuário e chat"
 
 #: src/korone/modules/users/handlers/id.py:33
 #: src/korone/modules/users/handlers/info.py:31
@@ -1438,7 +1438,7 @@ msgstr "Usuário"
 #: src/korone/modules/users/handlers/id.py:46
 #, python-brace-format
 msgid "Your ID: {id}"
-msgstr "Sua identificação: {id}"
+msgstr "Seu ID: {id}"
 
 #: src/korone/modules/users/handlers/id.py:49
 #, python-brace-format
@@ -1453,7 +1453,7 @@ msgstr "ID do tópico: {id}"
 #: src/korone/modules/users/handlers/id.py:56
 #, python-brace-format
 msgid "Replied user ID: {id}"
-msgstr "ID do usuário que respondeu: {id}"
+msgstr "ID do usuário respondido: {id}"
 
 #: src/korone/modules/users/handlers/id.py:61
 #, python-brace-format
