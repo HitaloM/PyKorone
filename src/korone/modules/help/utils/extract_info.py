@@ -83,6 +83,21 @@ def normalize_cmds(cmds: object) -> tuple[str, ...] | None:
     return None
 
 
+def _clone_without_cache(description: object) -> object:
+    if not isinstance(description, KoroneLazyProxy):
+        return description
+    return KoroneLazyProxy(description._func, *description._args, enable_cache=False, **description._kwargs)
+
+
+def _normalize_arg_description(fabric: ArgFabric) -> None:
+    description = _clone_without_cache(fabric.description)
+    if isinstance(fabric, OptionalArg):
+        if description is not None:
+            fabric.description = KoroneLazyProxy(lambda d=description: f"?{d}", enable_cache=False)
+        return
+    fabric.description = cast("Any", description)
+
+
 async def gather_cmd_args(args: ARGS_DICT | ARGS_COROUTINE | None) -> ARGS_DICT | None:
     if not args:
         return None
@@ -90,8 +105,7 @@ async def gather_cmd_args(args: ARGS_DICT | ARGS_COROUTINE | None) -> ARGS_DICT 
         result = cast("ARGS_DICT", args)
         for fabric in result.values():
             try:
-                if isinstance(fabric, OptionalArg) and fabric.description:
-                    fabric.description = KoroneLazyProxy(lambda d=fabric.description: f"?{d}")
+                _normalize_arg_description(fabric)
             except TypeError:
                 continue
         return result
@@ -102,8 +116,7 @@ async def gather_cmd_args(args: ARGS_DICT | ARGS_COROUTINE | None) -> ARGS_DICT 
         result = cast("ARGS_DICT", result)
         for fabric in result.values():
             try:
-                if isinstance(fabric, OptionalArg) and fabric.description:
-                    fabric.description = KoroneLazyProxy(lambda d=fabric.description: f"?{d}")
+                _normalize_arg_description(fabric)
             except TypeError:
                 continue
         return result
