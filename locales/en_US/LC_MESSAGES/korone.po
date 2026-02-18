@@ -368,7 +368,7 @@ msgid "⬅️ Back"
 msgstr ""
 
 #: src/korone/modules/help/handlers/pm_modules.py:57
-msgid "Select a module to see its commands and information:"
+msgid "Select a module to see its commands and information!"
 msgstr ""
 
 #: src/korone/modules/help/handlers/pm_modules.py:61
@@ -1862,3 +1862,7 @@ msgstr ""
 #: types/user.py:108
 msgid "Could not find the user mention"
 msgstr ""
+
+#~ msgid "Select a module to see its commands and information:"
+#~ msgstr ""
+

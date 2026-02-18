@@ -27,7 +27,7 @@ extract_lang:
 	cp "$(LOCALES_DIR)/bot.pot" "$(LOCALES_DIR)/korone.pot"
 	cat "$(LOCALES_DIR)/ass.pot" >> "$(LOCALES_DIR)/korone.pot"
 
-update_lang:
+update_lang: extract_lang
 	$(PYBABEL) update -d "$(LOCALES_DIR)" -D "korone" -i "$(LOCALES_DIR)/korone.pot" \
 	--ignore-pot-creation-date --omit-header --no-wrap
 
