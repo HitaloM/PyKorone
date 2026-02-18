@@ -82,7 +82,8 @@ def format_phone(phone: Phone) -> str:
         if value and value.strip() and value.strip() != "-":
             doc += KeyValue(key, value)
 
-    return str(doc)
+    lines = [line for line in str(doc).splitlines() if line.strip()]
+    return "\n\n".join(lines)
 
 
 def extract_specs_from_tables(specs_tables: list[HtmlElement]) -> dict[str, dict[str, str]]:
