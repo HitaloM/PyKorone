@@ -1,6 +1,7 @@
 from typing import TYPE_CHECKING
 
 from aiogram import flags
+from aiogram.enums import ButtonStyle
 from aiogram.types import InlineKeyboardButton, Message
 from aiogram.utils.keyboard import InlineKeyboardBuilder
 from stfu_tg import Italic, Template
@@ -33,10 +34,16 @@ class EnableAllHandler(KoroneMessageHandler):
         buttons = InlineKeyboardBuilder()
         buttons.add(
             InlineKeyboardButton(
-                text=_("✅ Enable all"), callback_data=EnableAllCallback(user_id=self.event.from_user.id).pack()
+                text=_("✅ Enable all"),
+                style=ButtonStyle.SUCCESS,
+                callback_data=EnableAllCallback(user_id=self.event.from_user.id).pack(),
             )
         )
-        buttons.add(InlineKeyboardButton(text=_("🚫 Cancel"), callback_data=CancelActionCallback().pack()))
+        buttons.add(
+            InlineKeyboardButton(
+                text=_("❌ Cancel"), style=ButtonStyle.DANGER, callback_data=CancelActionCallback().pack()
+            )
+        )
 
         await self.event.reply(
             text=str(

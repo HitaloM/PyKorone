@@ -165,28 +165,29 @@ msgstr "Ativa um comando desativado anteriormente."
 msgid "Command enabled"
 msgstr "Comando ativado"
 
-#: src/korone/modules/disabling/handlers/enable_all.py:22
+#: src/korone/modules/disabling/handlers/enable_all.py:23
 msgid "Enable all commands in the chat"
 msgstr "Ativar todos os comandos no chat"
 
-#: src/korone/modules/disabling/handlers/enable_all.py:36
+#: src/korone/modules/disabling/handlers/enable_all.py:37
 msgid "✅ Enable all"
 msgstr "✅ Ativar todos"
 
-#: src/korone/modules/disabling/handlers/enable_all.py:39
-msgid "🚫 Cancel"
-msgstr "🚫 Cancelar"
+#: src/korone/modules/disabling/handlers/enable_all.py:44
+#: src/korone/modules/language/handlers/select.py:57
+msgid "❌ Cancel"
+msgstr "❌ Cancelar"
 
-#: src/korone/modules/disabling/handlers/enable_all.py:43
+#: src/korone/modules/disabling/handlers/enable_all.py:50
 #, python-brace-format
 msgid "Do you want to enable all commands in the {chat_name}?"
 msgstr "Você deseja ativar todos os comandos em {chat_name}?"
 
-#: src/korone/modules/disabling/handlers/enable_all.py:59
+#: src/korone/modules/disabling/handlers/enable_all.py:66
 msgid "Only the initiator can confirm disabling all commands"
 msgstr "Somente quem iniciou pode confirmar a desativação de todos os comandos"
 
-#: src/korone/modules/disabling/handlers/enable_all.py:71
+#: src/korone/modules/disabling/handlers/enable_all.py:78
 #, python-brace-format
 msgid "✅ All the commands ({removed_count}) have been enabled in the {chat_name}"
 msgstr "✅ Todos os comandos ({removed_count}) foram ativados em {chat_name}"
@@ -350,7 +351,7 @@ msgstr "Conectividade e Energia"
 
 #: src/korone/modules/help/__init__.py:25
 #: src/korone/modules/help/handlers/help_group.py:29
-#: src/korone/modules/help/handlers/pm_modules.py:56
+#: src/korone/modules/help/handlers/pm_modules.py:61
 #: src/korone/modules/help/handlers/start_group.py:33
 msgid "Help"
 msgstr "Ajuda"
@@ -379,75 +380,75 @@ msgstr "As informações de ajuda estão disponíveis nas mensagens privadas com
 msgid "Shows a list of all OP-only commands"
 msgstr "Mostra uma lista de todos os comandos exclusivos de OP"
 
-#: src/korone/modules/help/handlers/pm_modules.py:23
+#: src/korone/modules/help/handlers/pm_modules.py:24
 msgid "Shows help overview for all modules"
 msgstr "Mostra a visão geral de ajuda de todos os módulos"
 
-#: src/korone/modules/help/handlers/pm_modules.py:53
-#: src/korone/modules/help/handlers/pm_modules.py:125
-#: src/korone/modules/language/handlers/apply.py:59
-#: src/korone/modules/language/handlers/info.py:47
-#: src/korone/modules/language/handlers/select.py:54
-#: src/korone/modules/language/handlers/select.py:58
-#: src/korone/modules/privacy/handlers/privacy.py:34
+#: src/korone/modules/help/handlers/pm_modules.py:56
+#: src/korone/modules/help/handlers/pm_modules.py:130
+#: src/korone/modules/language/handlers/apply.py:61
+#: src/korone/modules/language/handlers/info.py:48
+#: src/korone/modules/language/handlers/select.py:65
+#: src/korone/modules/language/handlers/select.py:71
+#: src/korone/modules/privacy/handlers/privacy.py:37
 msgid "⬅️ Back"
 msgstr "⬅️ Voltar"
 
-#: src/korone/modules/help/handlers/pm_modules.py:57
+#: src/korone/modules/help/handlers/pm_modules.py:62
 msgid "Select a module to see its commands and information!"
 msgstr "Selecione um módulo para ver seus comandos e informações!"
 
-#: src/korone/modules/help/handlers/pm_modules.py:61
+#: src/korone/modules/help/handlers/pm_modules.py:66
 #, python-brace-format
 msgid "Arguments: {required} is required and {optional} is optional."
 msgstr "Argumentos: {required} é obrigatório e {optional} é opcional."
 
-#: src/korone/modules/help/handlers/pm_modules.py:65
+#: src/korone/modules/help/handlers/pm_modules.py:70
 msgid "means it works only in group chats."
 msgstr "indica que funciona apenas em chats de grupo."
 
-#: src/korone/modules/help/handlers/pm_modules.py:65
+#: src/korone/modules/help/handlers/pm_modules.py:70
 #: src/korone/modules/help/utils/format_help.py:38
 msgid "— Only in groups"
 msgstr "— Somente em grupos"
 
-#: src/korone/modules/help/handlers/pm_modules.py:66
+#: src/korone/modules/help/handlers/pm_modules.py:71
 msgid "lists commands that only work in private chat."
 msgstr "lista comandos que funcionam apenas em chat privado."
 
-#: src/korone/modules/help/handlers/pm_modules.py:66
+#: src/korone/modules/help/handlers/pm_modules.py:71
 #: src/korone/modules/help/utils/format_help.py:79
 msgid "PM-only"
 msgstr "Somente PM"
 
-#: src/korone/modules/help/handlers/pm_modules.py:67
+#: src/korone/modules/help/handlers/pm_modules.py:72
 msgid "lists commands that require admin rights."
 msgstr "lista comandos que exigem permissões de administrador."
 
-#: src/korone/modules/help/handlers/pm_modules.py:67
+#: src/korone/modules/help/handlers/pm_modules.py:72
 #: src/korone/modules/help/utils/format_help.py:81
 msgid "Only admins"
 msgstr "Somente administradores"
 
-#: src/korone/modules/help/handlers/pm_modules.py:69
+#: src/korone/modules/help/handlers/pm_modules.py:74
 #: src/korone/modules/help/utils/format_help.py:39
 msgid "Disable-able"
 msgstr "Desativável"
 
-#: src/korone/modules/help/handlers/pm_modules.py:71
+#: src/korone/modules/help/handlers/pm_modules.py:76
 #, python-brace-format
 msgid "means the command can be toggled with {disable} and {enable}."
 msgstr "indica que o comando pode ser alternado com {disable} e {enable}."
 
-#: src/korone/modules/help/handlers/pm_modules.py:77
+#: src/korone/modules/help/handlers/pm_modules.py:82
 msgid "How to read /help"
 msgstr "Como ler o /help"
 
-#: src/korone/modules/help/handlers/pm_modules.py:98
+#: src/korone/modules/help/handlers/pm_modules.py:103
 msgid "Module not found"
 msgstr "Módulo não encontrado"
 
-#: src/korone/modules/help/handlers/pm_modules.py:118
+#: src/korone/modules/help/handlers/pm_modules.py:123
 #, python-brace-format
 msgid "Aliased commands from {module}"
 msgstr "Comandos com alias de {module}"
@@ -461,30 +462,30 @@ msgid "📢 Channel"
 msgstr "📢 Canal"
 
 #: src/korone/modules/help/handlers/start_group.py:37
-#: src/korone/modules/help/handlers/start_pm.py:50
+#: src/korone/modules/help/handlers/start_pm.py:55
 msgid "Hi, I'm Korone! An all-in-one bot. I can help you with lots of things. Just click on the buttons below to get started."
 msgstr "Oi, eu sou a Korone! Um bot tudo-em-um. Posso te ajudar com muitas coisas. Basta clicar nos botões abaixo para começar."
 
-#: src/korone/modules/help/handlers/start_pm.py:40
+#: src/korone/modules/help/handlers/start_pm.py:41
 msgid "🕵️‍♂️ Privacy"
 msgstr "🕵️‍♂️ Privacidade"
 
-#: src/korone/modules/help/handlers/start_pm.py:42
+#: src/korone/modules/help/handlers/start_pm.py:43
 #: src/korone/modules/language/__init__.py:16
 #: src/korone/modules/language/stats.py:11
 msgid "Language"
 msgstr "Idioma"
 
-#: src/korone/modules/help/handlers/start_pm.py:45
+#: src/korone/modules/help/handlers/start_pm.py:48
 msgid "ℹ️ Help"
 msgstr "ℹ️ Ajuda"
 
-#: src/korone/modules/help/handlers/start_pm.py:54
+#: src/korone/modules/help/handlers/start_pm.py:59
 #, python-brace-format
 msgid "Join my {channel} to get information on all the latest updates."
 msgstr "Entre no meu {channel} para receber informações sobre todas as atualizações mais recentes."
 
-#: src/korone/modules/help/handlers/start_pm.py:55
+#: src/korone/modules/help/handlers/start_pm.py:60
 msgid "news channel"
 msgstr "canal de notícias"
 
@@ -500,41 +501,41 @@ msgstr "Configurações de idioma e localização"
 msgid "Allows users to set their preferred language for bot interactions."
 msgstr "Permite que os usuários definam seu idioma preferido para as interações com o bot."
 
-#: src/korone/modules/language/handlers/apply.py:31
+#: src/korone/modules/language/handlers/apply.py:32
 #, python-brace-format
 msgid "Language changed to {new_lang}."
 msgstr "Idioma alterado para {new_lang}."
 
-#: src/korone/modules/language/handlers/apply.py:34
+#: src/korone/modules/language/handlers/apply.py:35
 msgid "This is the bot's native language."
 msgstr "Este é o idioma nativo do bot."
 
-#: src/korone/modules/language/handlers/apply.py:35
+#: src/korone/modules/language/handlers/apply.py:36
 msgid "If you find any errors, please file an issue in the GitHub Repository."
 msgstr "Se encontrar algum erro, por favor abra uma issue no repositório do GitHub."
 
-#: src/korone/modules/language/handlers/apply.py:38
+#: src/korone/modules/language/handlers/apply.py:39
 #, python-brace-format
 msgid "The language is {percent}% translated."
 msgstr "Este idioma está {percent}% traduzido."
 
-#: src/korone/modules/language/handlers/apply.py:41
+#: src/korone/modules/language/handlers/apply.py:42
 msgid "In case you find any errors, please file an issue in the GitHub Repository."
 msgstr "Caso encontre algum erro, por favor abra uma issue no repositório do GitHub."
 
-#: src/korone/modules/language/handlers/apply.py:43
+#: src/korone/modules/language/handlers/apply.py:44
 msgid "Please help us translate this language by completing it on our translations platform."
 msgstr "Ajude-nos a traduzir este idioma completando-o em nossa plataforma de traduções."
 
-#: src/korone/modules/language/handlers/apply.py:54
+#: src/korone/modules/language/handlers/apply.py:55
 msgid "🐞 Open GitHub Issues"
 msgstr "🐞 Abrir issues no GitHub"
 
-#: src/korone/modules/language/handlers/apply.py:56
+#: src/korone/modules/language/handlers/apply.py:57
 msgid "🌍 Help Translate"
 msgstr "🌍 Ajudar a traduzir"
 
-#: src/korone/modules/language/handlers/apply.py:72
+#: src/korone/modules/language/handlers/apply.py:75
 msgid "Something went wrong."
 msgstr "Algo deu errado."
 
@@ -570,21 +571,17 @@ msgstr "👤 Alterar seu idioma"
 msgid "🌍 Change group language"
 msgstr "🌍 Alterar idioma do grupo"
 
-#: src/korone/modules/language/handlers/info.py:52
+#: src/korone/modules/language/handlers/info.py:54
 msgid "Shows the current language settings."
 msgstr "Mostra as configurações atuais de idioma."
 
-#: src/korone/modules/language/handlers/select.py:50
-msgid "❌ Cancel"
-msgstr "❌ Cancelar"
-
-#: src/korone/modules/language/handlers/select.py:65
+#: src/korone/modules/language/handlers/select.py:80
 msgid "Shows the available languages for selection."
 msgstr "Mostra os idiomas disponíveis para seleção."
 
-#: src/korone/modules/language/handlers/select.py:75
-#: src/korone/modules/language/handlers/select.py:98
-#: src/korone/modules/language/handlers/select.py:112
+#: src/korone/modules/language/handlers/select.py:90
+#: src/korone/modules/language/handlers/select.py:113
+#: src/korone/modules/language/handlers/select.py:127
 msgid "Please select the language you want to use for the chat."
 msgstr "Selecione o idioma que você quer usar para o chat."
 
@@ -963,15 +960,15 @@ msgstr "A exportação foi iniciada, isso pode levar um tempo."
 msgid "Export is done."
 msgstr "A exportação foi concluída."
 
-#: src/korone/modules/privacy/handlers/privacy.py:20
+#: src/korone/modules/privacy/handlers/privacy.py:21
 msgid "Shows the privacy policy of the bot"
 msgstr "Mostra a política de privacidade do bot"
 
-#: src/korone/modules/privacy/handlers/privacy.py:30
+#: src/korone/modules/privacy/handlers/privacy.py:31
 msgid "The privacy policy of the bot is available on our wiki page."
 msgstr "A política de privacidade do bot está disponível em nossa página wiki."
 
-#: src/korone/modules/privacy/handlers/privacy.py:31
+#: src/korone/modules/privacy/handlers/privacy.py:32
 msgid "Privacy Policy"
 msgstr "Política de Privacidade"
 
@@ -1910,3 +1907,6 @@ msgstr "Não foi possível encontrar a menção de usuário"
 
 #~ msgid "🌍 Language"
 #~ msgstr "🌍 Idioma"
+
+#~ msgid "🚫 Cancel"
+#~ msgstr "🚫 Cancelar"

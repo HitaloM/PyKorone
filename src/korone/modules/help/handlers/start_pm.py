@@ -1,6 +1,7 @@
 from typing import TYPE_CHECKING
 
 from aiogram import flags
+from aiogram.enums import ButtonStyle
 from aiogram.types import InlineKeyboardButton
 from aiogram.utils.keyboard import InlineKeyboardBuilder
 from stfu_tg import Doc, Template, Url
@@ -42,7 +43,11 @@ class StartPMHandler(KoroneMessageCallbackQueryHandler):
                 text=f"{current_locale_flag} {_('Language')}", callback_data=LanguageButtonCallback().pack()
             ),
         )
-        builder.row(InlineKeyboardButton(text=_("ℹ️ Help"), callback_data=PMHelpModules(back_to_start=True).pack()))
+        builder.row(
+            InlineKeyboardButton(
+                text=_("ℹ️ Help"), style=ButtonStyle.PRIMARY, callback_data=PMHelpModules(back_to_start=True).pack()
+            )
+        )
         buttons = builder.as_markup()
 
         text = Doc(

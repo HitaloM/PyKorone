@@ -1,7 +1,7 @@
 from typing import TYPE_CHECKING, cast
 
 from aiogram import flags
-from aiogram.enums import ChatType
+from aiogram.enums import ButtonStyle, ChatType
 from aiogram.types import InlineKeyboardButton, Message
 from aiogram.utils.keyboard import InlineKeyboardBuilder
 from magic_filter import F
@@ -40,22 +40,37 @@ def build_language_selection_keyboard(
     for language in unique_locales:
         locale = i18n.babels.get(language) or i18n.babel(language)
         button_text = i18n.locale_display(locale)
+        style = None
+
         if language == selected_locale:
-            button_text = f"✅ {button_text}"
-        keyboard.button(text=button_text, callback_data=SetLangCallback(lang=language, back_to_start=back_to_start))
+            style = ButtonStyle.SUCCESS
+
+        keyboard.button(
+            text=button_text, style=style, callback_data=SetLangCallback(lang=language, back_to_start=back_to_start)
+        )
 
     keyboard.adjust(2)
 
     if not is_private:
-        keyboard.row(InlineKeyboardButton(text=_("❌ Cancel"), callback_data=CancelActionCallback().pack()))
+        keyboard.row(
+            InlineKeyboardButton(
+                text=_("❌ Cancel"), style=ButtonStyle.DANGER, callback_data=CancelActionCallback().pack()
+            )
+        )
 
     if is_private:
         if back_to_start:
-            keyboard.row(InlineKeyboardButton(text=_("⬅️ Back"), callback_data=GoToStartCallback().pack()))
+            keyboard.row(
+                InlineKeyboardButton(
+                    text=_("⬅️ Back"), style=ButtonStyle.PRIMARY, callback_data=GoToStartCallback().pack()
+                )
+            )
         else:
             keyboard.row(
                 InlineKeyboardButton(
-                    text=_("⬅️ Back"), callback_data=LangMenuCallback(menu=LangMenu.Language, back_to_start=False).pack()
+                    text=_("⬅️ Back"),
+                    style=ButtonStyle.PRIMARY,
+                    callback_data=LangMenuCallback(menu=LangMenu.Language, back_to_start=False).pack(),
                 )
             )
 

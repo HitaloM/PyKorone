@@ -1,6 +1,7 @@
 from typing import TYPE_CHECKING, cast
 
 from aiogram import flags
+from aiogram.enums import ButtonStyle
 from aiogram.types import CallbackQuery, InlineKeyboardButton
 from aiogram.utils.keyboard import InlineKeyboardBuilder
 from stfu_tg import Code, Doc, HList, Italic, Section, Template, Title, VList
@@ -50,7 +51,11 @@ class PMModulesList(KoroneMessageCallbackQueryHandler):
         )
 
         if callback_data and callback_data.back_to_start:
-            buttons.row(InlineKeyboardButton(text=_("⬅️ Back"), callback_data=GoToStartCallback().pack()))
+            buttons.row(
+                InlineKeyboardButton(
+                    text=_("⬅️ Back"), style=ButtonStyle.PRIMARY, callback_data=GoToStartCallback().pack()
+                )
+            )
 
         doc = Doc(
             Title(_("Help")),
@@ -122,7 +127,9 @@ class PMModuleHelp(KoroneCallbackQueryHandler):
 
         buttons.row(
             InlineKeyboardButton(
-                text=_("⬅️ Back"), callback_data=PMHelpModules(back_to_start=callback_data.back_to_start).pack()
+                text=_("⬅️ Back"),
+                style=ButtonStyle.PRIMARY,
+                callback_data=PMHelpModules(back_to_start=callback_data.back_to_start).pack(),
             )
         )
 

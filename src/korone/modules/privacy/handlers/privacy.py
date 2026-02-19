@@ -1,6 +1,7 @@
 from typing import TYPE_CHECKING
 
 from aiogram import flags
+from aiogram.enums import ButtonStyle
 from aiogram.types import InlineKeyboardButton
 from aiogram.utils.keyboard import InlineKeyboardBuilder
 
@@ -31,6 +32,10 @@ class PrivacyMenu(KoroneMessageCallbackQueryHandler):
         buttons = InlineKeyboardBuilder().add(InlineKeyboardButton(text=_("Privacy Policy"), url=CONFIG.privacy_link))
 
         if callback_data and callback_data.back_to_start:
-            buttons.row(InlineKeyboardButton(text=_("⬅️ Back"), callback_data=GoToStartCallback().pack()))
+            buttons.row(
+                InlineKeyboardButton(
+                    text=_("⬅️ Back"), style=ButtonStyle.PRIMARY, callback_data=GoToStartCallback().pack()
+                )
+            )
 
         await self.answer(text, reply_markup=buttons.as_markup())
