@@ -28,13 +28,13 @@ class HifiTrackPreviewCallbackHandler(KoroneCallbackQueryHandler):
 
         callback_data = cast("HifiTrackSendCallback", self.callback_data)
 
-        if self.event.from_user.id != callback_data.user_id:
-            await self.event.answer(_("You are not allowed to use this button."), show_alert=True)
-            return
-
         search_session = await get_search_session(callback_data.token)
         if search_session is None:
             await self.event.answer(_("Search session expired. Please run /song again."), show_alert=True)
+            return
+
+        if self.event.from_user.id != search_session.user_id:
+            await self.event.answer(_("You are not allowed to use this button."), show_alert=True)
             return
 
         if callback_data.index < 0 or callback_data.index >= len(search_session.tracks):
@@ -49,7 +49,7 @@ class HifiTrackPreviewCallbackHandler(KoroneCallbackQueryHandler):
                     InlineKeyboardButton(
                         text=_("⬇️ Download"),
                         callback_data=HifiTrackDownloadCallback(
-                            token=callback_data.token, index=callback_data.index, user_id=callback_data.user_id
+                            token=callback_data.token, index=callback_data.index, user_id=search_session.user_id
                         ).pack(),
                     )
                 ],
@@ -57,7 +57,7 @@ class HifiTrackPreviewCallbackHandler(KoroneCallbackQueryHandler):
                     InlineKeyboardButton(
                         text=_("⬅️ Back"),
                         callback_data=HifiTracksPageCallback(
-                            token=callback_data.token, page=callback_data.page, user_id=callback_data.user_id
+                            token=callback_data.token, page=callback_data.page, user_id=search_session.user_id
                         ).pack(),
                     )
                 ],

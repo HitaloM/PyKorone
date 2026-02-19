@@ -60,9 +60,10 @@ def _parse_track(item: object) -> HifiTrack | None:
     )
 
 
-async def create_search_session(query: str, tracks: list[HifiTrack]) -> str:
+async def create_search_session(user_id: int, query: str, tracks: list[HifiTrack]) -> str:
     token = secrets.token_hex(6)
     payload = {
+        "u": user_id,
         "q": query,
         "t": [
             {
@@ -95,8 +96,11 @@ async def get_search_session(token: str) -> HifiSearchSession | None:
     if not isinstance(payload, dict):
         return None
 
+    user_id = payload.get("u")
     query = payload.get("q")
     raw_tracks = payload.get("t")
+    if isinstance(user_id, bool) or not isinstance(user_id, int):
+        return None
     if not isinstance(query, str) or not isinstance(raw_tracks, list):
         return None
 
@@ -107,4 +111,4 @@ async def get_search_session(token: str) -> HifiSearchSession | None:
             return None
         tracks.append(track)
 
-    return HifiSearchSession(query=query, tracks=tracks)
+    return HifiSearchSession(user_id=user_id, query=query, tracks=tracks)
