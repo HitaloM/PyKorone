@@ -8,6 +8,7 @@ from aiogram.types import LinkPreviewOptions
 from korone.logger import get_logger
 from korone.modules.gsm_arena.callbacks import GetDeviceCallback
 from korone.modules.gsm_arena.utils.device import get_device_text
+from korone.modules.gsm_arena.utils.session import get_search_session
 from korone.utils.handlers import KoroneCallbackQueryHandler
 from korone.utils.i18n import gettext as _
 
@@ -33,9 +34,18 @@ class DeviceGetCallbackHandler(KoroneCallbackQueryHandler):
             await self.event.answer(_("You are not allowed to use this button."), show_alert=True)
             return
 
+        devices = await get_search_session(callback_data.token)
+        if devices is None:
+            await self.event.answer(_("Search session expired. Please run /device again."), show_alert=True)
+            return
+
+        if callback_data.index < 0 or callback_data.index >= len(devices):
+            await self.event.answer(_("Invalid device selected."), show_alert=True)
+            return
+
         await self.event.answer(_("Fetching device details..."))
 
-        text = await get_device_text(callback_data.device)
+        text = await get_device_text(devices[callback_data.index].url)
         if not text:
             await self.event.answer(_("Error fetching device details"), show_alert=True)
             return

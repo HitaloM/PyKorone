@@ -227,45 +227,54 @@ msgstr "Pesquisar especificações de dispositivos no GSMArena"
 msgid "Search for smartphones and get a quick overview of their specifications directly from GSMArena."
 msgstr "Pesquise smartphones e obtenha uma visão geral rápida das especificações diretamente do GSMArena."
 
-#: src/korone/modules/gsm_arena/handlers/get.py:33
+#: src/korone/modules/gsm_arena/handlers/get.py:34
 #: src/korone/modules/gsm_arena/handlers/list.py:32
 msgid "You are not allowed to use this button."
 msgstr "Você não tem permissão para usar este botão."
 
-#: src/korone/modules/gsm_arena/handlers/get.py:36
+#: src/korone/modules/gsm_arena/handlers/get.py:39
+#: src/korone/modules/gsm_arena/handlers/list.py:37
+msgid "Search session expired. Please run /device again."
+msgstr "Sessão de pesquisa expirada. Por favor, execute /device novamente."
+
+#: src/korone/modules/gsm_arena/handlers/get.py:43
+msgid "Invalid device selected."
+msgstr "Dispositivo selecionado inválido."
+
+#: src/korone/modules/gsm_arena/handlers/get.py:46
 msgid "Fetching device details..."
 msgstr "Buscando detalhes do dispositivo..."
 
-#: src/korone/modules/gsm_arena/handlers/get.py:40
+#: src/korone/modules/gsm_arena/handlers/get.py:50
 msgid "Error fetching device details"
 msgstr "Erro ao buscar detalhes do dispositivo"
 
-#: src/korone/modules/gsm_arena/handlers/list.py:37
+#: src/korone/modules/gsm_arena/handlers/list.py:41
 msgid "No devices found"
 msgstr "Nenhum dispositivo encontrado"
 
-#: src/korone/modules/gsm_arena/handlers/search.py:29
+#: src/korone/modules/gsm_arena/handlers/search.py:30
 msgid "Search device specifications on GSMArena."
 msgstr "Pesquise especificações de dispositivos no GSMArena."
 
-#: src/korone/modules/gsm_arena/handlers/search.py:34
+#: src/korone/modules/gsm_arena/handlers/search.py:35
 msgid "Device"
 msgstr "Dispositivo"
 
-#: src/korone/modules/gsm_arena/handlers/search.py:42
+#: src/korone/modules/gsm_arena/handlers/search.py:43
 msgid "No devices found."
 msgstr "Nenhum dispositivo encontrado."
 
-#: src/korone/modules/gsm_arena/handlers/search.py:50
+#: src/korone/modules/gsm_arena/handlers/search.py:51
 msgid "Error fetching device details. Please try again later."
 msgstr "Erro ao buscar detalhes do dispositivo. Tente novamente mais tarde."
 
-#: src/korone/modules/gsm_arena/handlers/search.py:59
+#: src/korone/modules/gsm_arena/handlers/search.py:61
 #, python-brace-format
 msgid "Search results for: {query}"
 msgstr "Resultados da pesquisa para: {query}"
 
-#: src/korone/modules/gsm_arena/handlers/search.py:68
+#: src/korone/modules/gsm_arena/handlers/search.py:70
 #, python-brace-format
 msgid "You should provide a device name to search. Example: {example}."
 msgstr "Você deve fornecer o nome de um dispositivo para pesquisar. Exemplo: {example}."

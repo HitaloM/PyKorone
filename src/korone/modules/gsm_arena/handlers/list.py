@@ -6,7 +6,7 @@ from aiogram.exceptions import TelegramBadRequest
 from korone.logger import get_logger
 from korone.modules.gsm_arena.callbacks import DevicePageCallback
 from korone.modules.gsm_arena.utils.keyboard import create_pagination_layout
-from korone.modules.gsm_arena.utils.scraper import search_phone
+from korone.modules.gsm_arena.utils.session import get_search_session
 from korone.utils.handlers import KoroneCallbackQueryHandler
 from korone.utils.i18n import gettext as _
 
@@ -32,12 +32,16 @@ class DeviceListCallbackHandler(KoroneCallbackQueryHandler):
             await self.event.answer(_("You are not allowed to use this button."), show_alert=True)
             return
 
-        devices = await search_phone(callback_data.device)
+        devices = await get_search_session(callback_data.token)
+        if devices is None:
+            await self.event.answer(_("Search session expired. Please run /device again."), show_alert=True)
+            return
+
         if not devices:
             await self.event.answer(_("No devices found"), show_alert=True)
             return
 
-        keyboard = create_pagination_layout(devices, callback_data.device, callback_data.page, callback_data.user_id)
+        keyboard = create_pagination_layout(devices, callback_data.token, callback_data.page, callback_data.user_id)
         message = cast("Message", self.event.message)
 
         try:

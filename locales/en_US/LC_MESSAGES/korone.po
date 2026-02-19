@@ -227,45 +227,54 @@ msgstr ""
 msgid "Search for smartphones and get a quick overview of their specifications directly from GSMArena."
 msgstr ""
 
-#: src/korone/modules/gsm_arena/handlers/get.py:33
+#: src/korone/modules/gsm_arena/handlers/get.py:34
 #: src/korone/modules/gsm_arena/handlers/list.py:32
 msgid "You are not allowed to use this button."
 msgstr ""
 
-#: src/korone/modules/gsm_arena/handlers/get.py:36
+#: src/korone/modules/gsm_arena/handlers/get.py:39
+#: src/korone/modules/gsm_arena/handlers/list.py:37
+msgid "Search session expired. Please run /device again."
+msgstr ""
+
+#: src/korone/modules/gsm_arena/handlers/get.py:43
+msgid "Invalid device selected."
+msgstr ""
+
+#: src/korone/modules/gsm_arena/handlers/get.py:46
 msgid "Fetching device details..."
 msgstr ""
 
-#: src/korone/modules/gsm_arena/handlers/get.py:40
+#: src/korone/modules/gsm_arena/handlers/get.py:50
 msgid "Error fetching device details"
 msgstr ""
 
-#: src/korone/modules/gsm_arena/handlers/list.py:37
+#: src/korone/modules/gsm_arena/handlers/list.py:41
 msgid "No devices found"
 msgstr ""
 
-#: src/korone/modules/gsm_arena/handlers/search.py:29
+#: src/korone/modules/gsm_arena/handlers/search.py:30
 msgid "Search device specifications on GSMArena."
 msgstr ""
 
-#: src/korone/modules/gsm_arena/handlers/search.py:34
+#: src/korone/modules/gsm_arena/handlers/search.py:35
 msgid "Device"
 msgstr ""
 
-#: src/korone/modules/gsm_arena/handlers/search.py:42
+#: src/korone/modules/gsm_arena/handlers/search.py:43
 msgid "No devices found."
 msgstr ""
 
-#: src/korone/modules/gsm_arena/handlers/search.py:50
+#: src/korone/modules/gsm_arena/handlers/search.py:51
 msgid "Error fetching device details. Please try again later."
 msgstr ""
 
-#: src/korone/modules/gsm_arena/handlers/search.py:59
+#: src/korone/modules/gsm_arena/handlers/search.py:61
 #, python-brace-format
 msgid "Search results for: {query}"
 msgstr ""
 
-#: src/korone/modules/gsm_arena/handlers/search.py:68
+#: src/korone/modules/gsm_arena/handlers/search.py:70
 #, python-brace-format
 msgid "You should provide a device name to search. Example: {example}."
 msgstr ""
