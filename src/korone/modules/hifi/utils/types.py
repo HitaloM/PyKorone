@@ -17,6 +17,7 @@ class HifiTrack:
 
 @dataclass(frozen=True, slots=True)
 class HifiSearchSession:
+    user_id: int
     query: str
     tracks: list[HifiTrack]
 

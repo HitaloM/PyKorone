@@ -51,8 +51,10 @@ class HifiSearchHandler(KoroneMessageHandler):
             await self.event.reply(_("No tracks found."))
             return
 
-        search_session = HifiSearchSession(query=query, tracks=tracks)
-        session_token = await create_search_session(search_session.query, search_session.tracks)
+        search_session = HifiSearchSession(user_id=self.event.from_user.id, query=query, tracks=tracks)
+        session_token = await create_search_session(
+            search_session.user_id, search_session.query, search_session.tracks
+        )
 
         text = build_search_results_text(query=search_session.query, total_count=len(search_session.tracks), page=1)
         keyboard = create_tracks_keyboard(

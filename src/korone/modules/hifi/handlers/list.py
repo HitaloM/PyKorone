@@ -29,13 +29,13 @@ class HifiTrackListCallbackHandler(KoroneCallbackQueryHandler):
 
         callback_data = cast("HifiTracksPageCallback", self.callback_data)
 
-        if self.event.from_user.id != callback_data.user_id:
-            await self.event.answer(_("You are not allowed to use this button."), show_alert=True)
-            return
-
         search_session = await get_search_session(callback_data.token)
         if search_session is None:
             await self.event.answer(_("Search session expired. Please run /song again."), show_alert=True)
+            return
+
+        if self.event.from_user.id != search_session.user_id:
+            await self.event.answer(_("You are not allowed to use this button."), show_alert=True)
             return
 
         if not search_session.tracks:
@@ -45,7 +45,7 @@ class HifiTrackListCallbackHandler(KoroneCallbackQueryHandler):
         page = clamp_page(callback_data.page, len(search_session.tracks))
         text = build_search_results_text(query=search_session.query, total_count=len(search_session.tracks), page=page)
         keyboard = create_tracks_keyboard(
-            session=search_session, token=callback_data.token, page=page, user_id=callback_data.user_id
+            session=search_session, token=callback_data.token, page=page, user_id=search_session.user_id
         )
 
         message = cast("Message", self.event.message)
