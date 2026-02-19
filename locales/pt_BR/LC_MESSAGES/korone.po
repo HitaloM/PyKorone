@@ -253,10 +253,6 @@ msgstr "Ative ou desative os recursos de IA neste chat."
 msgid "AI features"
 msgstr "Recursos de IA"
 
-#: src/korone/modules/ai/handlers/enable_settings.py:22
-msgid "yes / no"
-msgstr "sim / não"
-
 #: src/korone/modules/ai/handlers/pm.py:42
 msgid "🤖 Entered AI mode. You can now chat directly with Korone AI."
 msgstr "🤖 Você entrou no modo IA. Agora pode conversar diretamente com Korone IA."
@@ -1160,10 +1156,6 @@ msgstr "Ative ou desative downloads automáticos de mídia neste chat."
 msgid "Media auto-download"
 msgstr "Download automático de mídia"
 
-#: src/korone/modules/medias/handlers/status.py:23
-msgid "on / off"
-msgstr "ligado/desligado"
-
 #: src/korone/modules/op/__init__.py:13
 msgid "Operator"
 msgstr "Operador"
@@ -1787,6 +1779,10 @@ msgstr "A mensagem está inacessível. Por favor, escreva o comando novamente."
 msgid "New status"
 msgstr "Novo status"
 
+#: src/korone/modules/utils_/status_handler.py:50
+msgid "Current state"
+msgstr "Estado atual"
+
 #: src/korone/modules/utils_/status_handler.py:55
 #, python-brace-format
 msgid "Use '{cmd}' to change it."
@@ -1800,6 +1796,10 @@ msgstr "O status atual já é {state}"
 #: src/korone/modules/utils_/status_handler.py:73
 msgid "The state was successfully changed"
 msgstr "O estado foi alterado com sucesso."
+
+#: src/korone/modules/utils_/status_handler.py:74
+msgid "New state"
+msgstr "Novo estado"
 
 #: src/korone/modules/utils_/status_handler.py:90
 msgid "Enabled"
@@ -2164,3 +2164,10 @@ msgstr "Não foi possível encontrar a menção de usuário"
 
 #~ msgid "Wiki page"
 #~ msgstr ""
+
+#~ msgid "yes / no"
+#~ msgstr "sim / não"
+
+#~ msgid "on / off"
+#~ msgstr "ligado/desligado"
+

@@ -20,7 +20,7 @@ if TYPE_CHECKING:
 class MediaAutoDownloadStatus(StatusBoolHandlerABC):
     header_text = l_("Media auto-download")
     change_command = "mediaauto"
-    change_args = l_("on / off")
+    change_args = "on / off"
 
     @staticmethod
     def filters() -> tuple[CallbackType, ...]:
