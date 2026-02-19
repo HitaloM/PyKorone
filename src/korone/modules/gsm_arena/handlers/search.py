@@ -5,7 +5,7 @@ from typing import TYPE_CHECKING, Any
 from aiogram import flags
 from aiogram.utils.chat_action import ChatActionSender
 from ass_tg.types import TextArg
-from stfu_tg import Bold, Code, Template
+from stfu_tg import Bold, Code, Doc, Template
 
 from korone.filters.cmd import CMDFilter
 from korone.logger import get_logger
@@ -57,9 +57,11 @@ class DeviceSearchHandler(KoroneMessageHandler):
 
         session_token = await create_search_session(devices)
         keyboard = create_pagination_layout(devices, session_token, 1, self.event.from_user.id)
-        await self.event.reply(
-            Template(_("Search results for: {query}"), query=Bold(query)).to_html(), reply_markup=keyboard
+        text = Doc(
+            Template(_("Search results for: {query}"), query=Bold(query)),
+            Template(_("Found {count} devices. Select one from the list below."), count=Code(str(len(devices)))),
         )
+        await self.event.reply(str(text), reply_markup=keyboard)
 
     async def handle(self) -> None:
         query = (self.data.get("device") or "").strip()

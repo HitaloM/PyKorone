@@ -274,61 +274,78 @@ msgstr ""
 msgid "Search results for: {query}"
 msgstr ""
 
-#: src/korone/modules/gsm_arena/handlers/search.py:70
+#: src/korone/modules/gsm_arena/handlers/search.py:62
+#, python-brace-format
+msgid "Found {count} devices. Select one from the list below."
+msgstr ""
+
+#: src/korone/modules/gsm_arena/handlers/search.py:72
 #, python-brace-format
 msgid "You should provide a device name to search. Example: {example}."
 msgstr ""
 
-#: src/korone/modules/gsm_arena/utils/scraper.py:64
+#: src/korone/modules/gsm_arena/utils/scraper.py:80
 msgid "Status"
 msgstr ""
 
-#: src/korone/modules/gsm_arena/utils/scraper.py:65
+#: src/korone/modules/gsm_arena/utils/scraper.py:81
 msgid "Network"
 msgstr ""
 
-#: src/korone/modules/gsm_arena/utils/scraper.py:66
+#: src/korone/modules/gsm_arena/utils/scraper.py:82
 msgid "Weight"
 msgstr ""
 
-#: src/korone/modules/gsm_arena/utils/scraper.py:67
+#: src/korone/modules/gsm_arena/utils/scraper.py:83
 msgid "Display"
 msgstr ""
 
-#: src/korone/modules/gsm_arena/utils/scraper.py:68
+#: src/korone/modules/gsm_arena/utils/scraper.py:84
 msgid "Chipset"
 msgstr ""
 
-#: src/korone/modules/gsm_arena/utils/scraper.py:69
+#: src/korone/modules/gsm_arena/utils/scraper.py:85
 msgid "Memory"
 msgstr ""
 
-#: src/korone/modules/gsm_arena/utils/scraper.py:70
+#: src/korone/modules/gsm_arena/utils/scraper.py:87
 msgid "Rear Camera"
 msgstr ""
 
-#: src/korone/modules/gsm_arena/utils/scraper.py:71
+#: src/korone/modules/gsm_arena/utils/scraper.py:87
 msgid "Front Camera"
 msgstr ""
 
-#: src/korone/modules/gsm_arena/utils/scraper.py:72
+#: src/korone/modules/gsm_arena/utils/scraper.py:89
 msgid "3.5mm jack"
 msgstr ""
 
-#: src/korone/modules/gsm_arena/utils/scraper.py:73
+#: src/korone/modules/gsm_arena/utils/scraper.py:90
 msgid "USB"
 msgstr ""
 
-#: src/korone/modules/gsm_arena/utils/scraper.py:74
+#: src/korone/modules/gsm_arena/utils/scraper.py:91
 msgid "Sensors"
 msgstr ""
 
-#: src/korone/modules/gsm_arena/utils/scraper.py:75
+#: src/korone/modules/gsm_arena/utils/scraper.py:92
 msgid "Battery"
 msgstr ""
 
-#: src/korone/modules/gsm_arena/utils/scraper.py:76
+#: src/korone/modules/gsm_arena/utils/scraper.py:93
 msgid "Charging"
+msgstr ""
+
+#: src/korone/modules/gsm_arena/utils/scraper.py:97
+msgid "Overview"
+msgstr ""
+
+#: src/korone/modules/gsm_arena/utils/scraper.py:97
+msgid "Cameras"
+msgstr ""
+
+#: src/korone/modules/gsm_arena/utils/scraper.py:97
+msgid "Connectivity and Power"
 msgstr ""
 
 #: src/korone/modules/help/__init__.py:25

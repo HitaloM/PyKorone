@@ -3,7 +3,7 @@ from typing import TYPE_CHECKING
 
 import aiohttp
 from lxml import html
-from stfu_tg import Doc, KeyValue, Url
+from stfu_tg import Doc, KeyValue, Section, Url
 
 from korone.config import CONFIG
 from korone.logger import get_logger
@@ -59,31 +59,57 @@ async def fetch_html(url: str) -> str:
         raise
 
 
+def _normalize_spec_value(value: str) -> str:
+    parts = [part.strip() for part in value.splitlines() if part.strip() and part.strip() != "-"]
+    return "; ".join(parts)
+
+
+def _build_section_items(attributes: tuple[tuple[str, str], ...]) -> list[KeyValue]:
+    values: list[KeyValue] = []
+
+    for key, raw_value in attributes:
+        normalized = _normalize_spec_value(raw_value)
+        if normalized:
+            values.append(KeyValue(key, normalized))
+
+    return values
+
+
 def format_phone(phone: Phone) -> str:
-    attributes_dict = {
-        _("Status"): phone.status,
-        _("Network"): phone.network,
-        _("Weight"): phone.weight,
-        _("Display"): phone.display,
-        _("Chipset"): phone.chipset,
-        _("Memory"): phone.memory,
-        _("Rear Camera"): phone.main_camera,
-        _("Front Camera"): phone.selfie_camera,
-        _("3.5mm jack"): phone.jack,
-        _("USB"): phone.usb,
-        _("Sensors"): phone.sensors,
-        _("Battery"): phone.battery,
-        _("Charging"): phone.charging,
-    }
+    overview = _build_section_items((
+        (_("Status"), phone.status),
+        (_("Network"), phone.network),
+        (_("Weight"), phone.weight),
+        (_("Display"), phone.display),
+        (_("Chipset"), phone.chipset),
+        (_("Memory"), phone.memory),
+    ))
+    cameras = _build_section_items(((_("Rear Camera"), phone.main_camera), (_("Front Camera"), phone.selfie_camera)))
+    connectivity_power = _build_section_items((
+        (_("3.5mm jack"), phone.jack),
+        (_("USB"), phone.usb),
+        (_("Sensors"), phone.sensors),
+        (_("Battery"), phone.battery),
+        (_("Charging"), phone.charging),
+    ))
 
     doc = Doc(Url(phone.name, phone.url))
+    sections = ((_("Overview"), overview), (_("Cameras"), cameras), (_("Connectivity and Power"), connectivity_power))
 
-    for key, value in attributes_dict.items():
-        if value and value.strip() and value.strip() != "-":
-            doc += KeyValue(key, value)
+    for title, items in sections:
+        if not items:
+            continue
 
-    lines = [line for line in str(doc).splitlines() if line.strip()]
-    return "\n\n".join(lines)
+        doc += ""
+        doc += Section(title=title)
+        doc += ""
+
+        for index, item in enumerate(items):
+            doc += item
+            if index < len(items) - 1:
+                doc += ""
+
+    return str(doc)
 
 
 def extract_specs_from_tables(specs_tables: list[HtmlElement]) -> dict[str, dict[str, str]]:
