@@ -8,6 +8,7 @@ from korone.modules.ai.utils.ai_models import MODEL_SHORT_NAME
 
 _HTML_TAG_RE = re.compile(r"<[^>]+>")
 _FALLBACK_AI_HINT = "korone ai"
+_TITLEBAR_TRIM_CHARS = " .:-|[]()"
 
 
 def _plain_text(value: str) -> str:
@@ -42,10 +43,10 @@ def cut_titlebar(text: str) -> str:
     result = plain
     if _AI_HEADER_HINT in lowered:
         index = lowered.find(_AI_HEADER_HINT)
-        result = result[index + len(_AI_HEADER_HINT) :].strip(" .:-|")
+        result = result[index + len(_AI_HEADER_HINT) :].strip(_TITLEBAR_TRIM_CHARS)
         lowered = result.lower()
 
     if lowered.startswith(_MODEL_SHORT_HINT):
-        result = result[len(MODEL_SHORT_NAME) :].strip(" .:-|")
+        result = result[len(MODEL_SHORT_NAME) :].strip(_TITLEBAR_TRIM_CHARS)
 
     return result or plain
