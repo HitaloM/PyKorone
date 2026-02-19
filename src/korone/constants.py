@@ -13,3 +13,5 @@ CACHE_ADMIN_TTL_SECONDS: Final[int] = CACHE_DEFAULT_TTL_SECONDS
 CACHE_LANGUAGE_TTL_SECONDS: Final[int] = 86400  # 24 hours
 
 CACHE_MEDIA_TTL_SECONDS: Final[int] = 86400  # 24 hours
+
+AI_EMOJI: Final[str] = "✨"

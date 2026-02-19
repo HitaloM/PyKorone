@@ -87,6 +87,286 @@ msgstr "Este comando só pode ser usado em conversas privadas."
 msgid "Private chat"
 msgstr "Conversa privada"
 
+#: src/korone/modules/ai/__init__.py:18
+msgid "Korone AI"
+msgstr "Korone IA"
+
+#: src/korone/modules/ai/__init__.py:20
+msgid "Rainbow sparkles and shininess"
+msgstr "Brilhos coloridos e cintilância"
+
+#: src/korone/modules/ai/__init__.py:21
+msgid "This module allows you to talk with AI models in groups or in PM mode."
+msgstr "Este módulo permite conversar com modelos de IA em grupos ou no modo PM."
+
+#: src/korone/modules/ai/agent_tools/cmds_help.py:21
+msgid "Can be empty"
+msgstr "Pode estar vazio"
+
+#: src/korone/modules/ai/agent_tools/cmds_help.py:29
+msgid "No modules found."
+msgstr "Nenhum módulo encontrado."
+
+#: src/korone/modules/ai/agent_tools/cmds_help.py:33
+msgid ""
+"KORONE BOT HELP CONTEXT\n"
+"\n"
+"Commands are organized by module. Each module represents a feature area of the bot.\n"
+"\n"
+"Module fields:\n"
+"  - Name: the human-readable name of the module.\n"
+"  - Icon: emoji representing the module.\n"
+"  - Description: what the module does.\n"
+"  - Info: additional information about the module.\n"
+"  - Public: whether the module is shown in public listings.\n"
+"\n"
+"Command fields:\n"
+"  - Commands: slash commands that trigger the handler.\n"
+"  - Description: human-readable summary of what the handler does.\n"
+"  - Arguments: expected arguments (order matters).\n"
+"  - Context: where the command can be used (PM / groups / both).\n"
+"  - Permissions: whether admin / OP rights are required.\n"
+"  - Disableable: name of the feature flag used to disable this command in a chat, if any.\n"
+"\n"
+msgstr ""
+"CONTEXTO DE AJUDA DO BOT KORONE\n"
+"\n"
+"Os comandos são organizados por módulo. Cada módulo representa uma área de funcionalidade do bot.\n"
+"\n"
+"Campos do módulo:\n"
+"  - Nome: nome legível do módulo.\n"
+"  - Ícone: emoji que representa o módulo.\n"
+"  - Descrição: o que o módulo faz.\n"
+"  - Info: informações adicionais sobre o módulo.\n"
+"  - Público: se o módulo é exibido em listagens públicas.\n"
+"\n"
+"Campos do comando:\n"
+"  - Comandos: comandos com barra que acionam o handler.\n"
+"  - Descrição: resumo legível do que o handler faz.\n"
+"  - Argumentos: argumentos esperados (a ordem importa).\n"
+"  - Contexto: onde o comando pode ser usado (PM / grupos / ambos).\n"
+"  - Permissões: se direitos de admin / OP são exigidos.\n"
+"  - Desativável: nome do sinalizador usado para desativar este comando em um chat, se houver.\n"
+"\n"
+
+#: src/korone/modules/ai/agent_tools/cmds_help.py:58
+msgid "Name"
+msgstr "Nome"
+
+#: src/korone/modules/ai/agent_tools/cmds_help.py:59
+msgid "Icon"
+msgstr "Ícone"
+
+#: src/korone/modules/ai/agent_tools/cmds_help.py:62
+#: src/korone/modules/ai/agent_tools/cmds_help.py:68
+msgid "Description"
+msgstr "Descrição"
+
+#: src/korone/modules/ai/agent_tools/cmds_help.py:64
+msgid "Info"
+msgstr "Informações"
+
+#: src/korone/modules/ai/agent_tools/cmds_help.py:69
+msgid "Arguments"
+msgstr "Argumentos"
+
+#: src/korone/modules/ai/agent_tools/cmds_help.py:71
+msgid "This command has no arguments."
+msgstr "Este comando não tem argumentos."
+
+#: src/korone/modules/ai/agent_tools/cmds_help.py:72
+msgid "Can be used only in private chats (PM / DM)"
+msgstr "Pode ser usado apenas em chats privados (PM / DM)"
+
+#: src/korone/modules/ai/agent_tools/cmds_help.py:73
+msgid "Can be used only in groups / supergroups"
+msgstr "Pode ser usado apenas em grupos / supergrupos"
+
+#: src/korone/modules/ai/agent_tools/cmds_help.py:74
+msgid "Can be used in both private chats and groups"
+msgstr "Pode ser usado tanto em chats privados quanto em grupos"
+
+#: src/korone/modules/ai/agent_tools/cmds_help.py:77
+msgid "Can be used only by admins"
+msgstr "Pode ser usado apenas por administradores"
+
+#: src/korone/modules/ai/agent_tools/cmds_help.py:78
+msgid "Can be used only by OP"
+msgstr "Pode ser usado apenas pelo OP"
+
+#: src/korone/modules/ai/agent_tools/cmds_help.py:79
+msgid "No special permissions required"
+msgstr "Nenhuma permissão especial é necessária"
+
+#: src/korone/modules/ai/agent_tools/cmds_help.py:80
+msgid "Disableable"
+msgstr "Desativável"
+
+#: src/korone/modules/ai/agent_tools/cmds_help.py:86
+msgid "Module Information"
+msgstr "Informações do módulo"
+
+#: src/korone/modules/ai/agent_tools/cmds_help.py:88
+#: src/korone/modules/ai/agent_tools/cmds_help.py:90
+#: src/korone/modules/help/utils/format_help.py:77
+msgid "Commands"
+msgstr "Comandos"
+
+#: src/korone/modules/ai/agent_tools/cmds_help.py:90
+msgid "No commands in this module."
+msgstr "Não há comandos neste módulo."
+
+#: src/korone/modules/ai/filters/ai_enabled.py:41
+msgid "The AI features are currently disabled for this chat."
+msgstr "Os recursos de IA estão desativados neste chat."
+
+#: src/korone/modules/ai/filters/ai_enabled.py:42
+#, python-brace-format
+msgid "Please use \"{cmd}\" to activate them."
+msgstr "Use \"{cmd}\" para ativá-los."
+
+#: src/korone/modules/ai/fsm/pm.py:13
+msgid "🛑 Exit AI mode"
+msgstr "🛑 Sair do modo IA"
+
+#: src/korone/modules/ai/fsm/pm.py:14
+msgid "🔄 Reset AI context"
+msgstr "🔄 Redefinir contexto da IA"
+
+#: src/korone/modules/ai/handlers/ai_cmd.py:22
+msgid "Ask Korone AI in the current chat"
+msgstr "Pergunte à Korone IA neste chat"
+
+#: src/korone/modules/ai/handlers/ai_cmd.py:27
+msgid "Prompt"
+msgstr "Prompt"
+
+#: src/korone/modules/ai/handlers/ai_cmd.py:36
+msgid "Please provide a prompt after /ai."
+msgstr "Forneça um prompt após /ai."
+
+#: src/korone/modules/ai/handlers/enable_settings.py:18
+msgid "Enable or disable AI features in this chat."
+msgstr "Ative ou desative os recursos de IA neste chat."
+
+#: src/korone/modules/ai/handlers/enable_settings.py:20
+msgid "AI features"
+msgstr "Recursos de IA"
+
+#: src/korone/modules/ai/handlers/enable_settings.py:22
+msgid "yes / no"
+msgstr "sim / não"
+
+#: src/korone/modules/ai/handlers/pm.py:42
+msgid "🤖 Entered AI mode. You can now chat directly with Korone AI."
+msgstr "🤖 Você entrou no modo IA. Agora pode conversar diretamente com Korone IA."
+
+#: src/korone/modules/ai/handlers/pm.py:44
+#, python-brace-format
+msgid "By using AI, you agree to the bot and provider {privacy_policy}."
+msgstr "Ao usar IA, você concorda com a {privacy_policy} do bot e do provedor."
+
+#: src/korone/modules/ai/handlers/pm.py:45
+msgid "privacy policy"
+msgstr "política de privacidade"
+
+#: src/korone/modules/ai/handlers/pm.py:47
+msgid "Use the keyboard button below to exit or reset context."
+msgstr "Use o botão abaixo no teclado para sair ou redefinir o contexto."
+
+#: src/korone/modules/ai/handlers/pm.py:54
+msgid "Hello! How can I help you?"
+msgstr "Olá! Como posso ajudar?"
+
+#: src/korone/modules/ai/handlers/pm.py:65
+msgid "The AI mode has been exited."
+msgstr "O modo IA foi encerrado."
+
+#: src/korone/modules/ai/handlers/pm.py:68
+msgid "Reply directly in PM while AI mode is active"
+msgstr "Responda diretamente no PM enquanto o modo IA estiver ativo"
+
+#: src/korone/modules/ai/handlers/reset_context.py:22
+msgid "Reset the chat AI context"
+msgstr "Redefinir o contexto de IA do chat"
+
+#: src/korone/modules/ai/handlers/reset_context.py:34
+msgid "🔄 AI context and AI memory were successfully reset."
+msgstr "🔄 O contexto e a memória da IA foram redefinidos com sucesso."
+
+#: src/korone/modules/ai/utils/ai_chatbot_reply.py:36
+msgid "Memory updated 💾"
+msgstr "Memória atualizada 💾"
+
+#: src/korone/modules/ai/utils/ai_chatbot_reply.py:37
+msgid "Commands help 📋"
+msgstr "Ajuda de comandos 📋"
+
+#: src/korone/modules/ai/utils/ai_chatbot_reply.py:38
+msgid "Internet Search 🔍"
+msgstr "Pesquisa na internet 🔍"
+
+#: src/korone/modules/ai/utils/ai_chatbot_reply.py:60
+msgid "Could not identify the user for this request."
+msgstr "Não foi possível identificar o usuário para esta solicitação."
+
+#: src/korone/modules/ai/utils/ai_chatbot_reply.py:93
+msgid "You have the following information in your memory"
+msgstr "Você tem as seguintes informações na sua memória"
+
+#: src/korone/modules/ai/utils/ai_chatbot_reply.py:103
+msgid "I could not generate a response right now. Please try again in a moment."
+msgstr "Não consegui gerar uma resposta agora. Tente novamente em instantes."
+
+#: src/korone/modules/ai/utils/new_message_history.py:62
+msgid "You're a telegram bot named Korone."
+msgstr "Você é um bot do Telegram chamado Korone."
+
+#: src/korone/modules/ai/utils/new_message_history.py:63
+msgid "Be funny when the topic is casual."
+msgstr "Seja engraçado quando o assunto for casual."
+
+#: src/korone/modules/ai/utils/new_message_history.py:65
+msgid "Do not use tables, use only the following markdown elements: ** for bold, ~~ for strikethrough, ` for code, ``` for code blocks and []() for links."
+msgstr "Não use tabelas, use apenas os seguintes elementos de markdown: ** para negrito, ~~ para tachado, ` para código, ``` para blocos de código e []() para links."
+
+#: src/korone/modules/ai/utils/new_message_history.py:68
+msgid "Send short messages unless longer explanations are needed."
+msgstr "Envie mensagens curtas, a menos que explicações mais longas sejam necessárias."
+
+#: src/korone/modules/ai/utils/new_message_history.py:69
+msgid "Focus primarily on answering the latest user message."
+msgstr "Concentre-se principalmente em responder à mensagem mais recente do usuário."
+
+#: src/korone/modules/ai/utils/new_message_history.py:70
+msgid "Use the conversation history only for context, but respond specifically to the latest prompt."
+msgstr "Use o histórico da conversa apenas como contexto, mas responda especificamente ao prompt mais recente."
+
+#: src/korone/modules/ai/utils/new_message_history.py:71
+msgid "Prefer to search information in the internet."
+msgstr "Prefira buscar informações na internet."
+
+#: src/korone/modules/ai/utils/new_message_history.py:72
+msgid "Today is "
+msgstr "Hoje é "
+
+#: src/korone/modules/ai/utils/new_message_history.py:113
+#: src/korone/modules/ai/utils/new_message_history.py:115
+msgid "<No text provided>"
+msgstr "<Nenhum texto fornecido>"
+
+#: src/korone/modules/ai/utils/new_message_history.py:132
+msgid "[User sent a photo]"
+msgstr "[Usuário enviou uma foto]"
+
+#: src/korone/modules/ai/utils/new_message_history.py:134
+msgid "[User sent a sticker]"
+msgstr "[Usuário enviou uma figurinha]"
+
+#: src/korone/modules/ai/utils/new_message_history.py:136
+msgid "[User sent a voice message]"
+msgstr "[Usuário enviou uma mensagem de voz]"
+
 #: src/korone/modules/disabling/__init__.py:16
 msgid "Disabling"
 msgstr "Desativar"
@@ -324,7 +604,7 @@ msgstr "Carregamento"
 
 #: src/korone/modules/help/__init__.py:25
 #: src/korone/modules/help/handlers/help_group.py:29
-#: src/korone/modules/help/handlers/pm_modules.py:56
+#: src/korone/modules/help/handlers/pm_modules.py:65
 #: src/korone/modules/help/handlers/start_group.py:33
 msgid "Help"
 msgstr "Ajuda"
@@ -353,12 +633,17 @@ msgstr "As informações de ajuda disponíveis nas mensagens privadas com Korone
 msgid "Shows a list of all OP-only commands"
 msgstr "Mostra uma lista de todos os comandos exclusivos do OP."
 
-#: src/korone/modules/help/handlers/pm_modules.py:23
+#: src/korone/modules/help/handlers/pm_modules.py:25
 msgid "Shows help overview for all modules"
 msgstr "Mostra a visão geral da ajuda para todos os módulos"
 
-#: src/korone/modules/help/handlers/pm_modules.py:53
-#: src/korone/modules/help/handlers/pm_modules.py:125
+#: src/korone/modules/help/handlers/pm_modules.py:42
+#, python-brace-format
+msgid "💬{ai_emoji} Chat with Korone for help"
+msgstr "💬{ai_emoji} Converse com Korone para obter ajuda"
+
+#: src/korone/modules/help/handlers/pm_modules.py:62
+#: src/korone/modules/help/handlers/pm_modules.py:134
 #: src/korone/modules/language/handlers/apply.py:59
 #: src/korone/modules/language/handlers/info.py:47
 #: src/korone/modules/language/handlers/select.py:51
@@ -367,61 +652,61 @@ msgstr "Mostra a visão geral da ajuda para todos os módulos"
 msgid "⬅️ Back"
 msgstr "⬅️ Voltar"
 
-#: src/korone/modules/help/handlers/pm_modules.py:57
+#: src/korone/modules/help/handlers/pm_modules.py:66
 msgid "Select a module to see its commands and information!"
 msgstr "Selecione um módulo para ver seus comandos e informações!"
 
-#: src/korone/modules/help/handlers/pm_modules.py:61
+#: src/korone/modules/help/handlers/pm_modules.py:70
 #, python-brace-format
 msgid "Arguments: {required} is required and {optional} is optional."
 msgstr "Argumentos: {required} é obrigatório e {optional} é opcional."
 
-#: src/korone/modules/help/handlers/pm_modules.py:65
+#: src/korone/modules/help/handlers/pm_modules.py:74
 msgid "means it works only in group chats."
 msgstr "significa que funciona apenas em conversas em grupo."
 
-#: src/korone/modules/help/handlers/pm_modules.py:65
+#: src/korone/modules/help/handlers/pm_modules.py:74
 #: src/korone/modules/help/utils/format_help.py:38
 msgid "— Only in groups"
 msgstr "— Apenas em grupos"
 
-#: src/korone/modules/help/handlers/pm_modules.py:66
+#: src/korone/modules/help/handlers/pm_modules.py:75
 msgid "lists commands that only work in private chat."
 msgstr "lista os comandos que só funcionam no chat privado."
 
-#: src/korone/modules/help/handlers/pm_modules.py:66
+#: src/korone/modules/help/handlers/pm_modules.py:75
 #: src/korone/modules/help/utils/format_help.py:79
 msgid "PM-only"
 msgstr "Apenas PM"
 
-#: src/korone/modules/help/handlers/pm_modules.py:67
+#: src/korone/modules/help/handlers/pm_modules.py:76
 msgid "lists commands that require admin rights."
 msgstr "lista os comandos que exigem direitos de administrador."
 
-#: src/korone/modules/help/handlers/pm_modules.py:67
+#: src/korone/modules/help/handlers/pm_modules.py:76
 #: src/korone/modules/help/utils/format_help.py:81
 msgid "Only admins"
 msgstr "Apenas administradores"
 
-#: src/korone/modules/help/handlers/pm_modules.py:69
+#: src/korone/modules/help/handlers/pm_modules.py:78
 #: src/korone/modules/help/utils/format_help.py:39
 msgid "Disable-able"
 msgstr "Desativável"
 
-#: src/korone/modules/help/handlers/pm_modules.py:71
+#: src/korone/modules/help/handlers/pm_modules.py:80
 #, python-brace-format
 msgid "means the command can be toggled with {disable} and {enable}."
 msgstr "significa que o comando pode ser alternado com {disable} e {enable}."
 
-#: src/korone/modules/help/handlers/pm_modules.py:77
+#: src/korone/modules/help/handlers/pm_modules.py:86
 msgid "How to read /help"
 msgstr "Como ler /ajuda"
 
-#: src/korone/modules/help/handlers/pm_modules.py:98
+#: src/korone/modules/help/handlers/pm_modules.py:107
 msgid "Module not found"
 msgstr "Módulo não encontrado"
 
-#: src/korone/modules/help/handlers/pm_modules.py:118
+#: src/korone/modules/help/handlers/pm_modules.py:127
 #, python-brace-format
 msgid "Aliased commands from {module}"
 msgstr "Comandos com alias de {module}"
@@ -459,10 +744,6 @@ msgstr "Entre no meu {channel} para receber as últimas atualizações."
 #: src/korone/modules/help/handlers/start_pm.py:49
 msgid "news channel"
 msgstr "canal de notícias"
-
-#: src/korone/modules/help/utils/format_help.py:77
-msgid "Commands"
-msgstr "Comandos"
 
 #: src/korone/modules/language/__init__.py:16
 #: src/korone/modules/language/stats.py:11
@@ -1880,3 +2161,6 @@ msgstr "Erro inesperado ao tentar obter o usuário! Informe isso no chat de supo
 #: types/user.py:108
 msgid "Could not find the user mention"
 msgstr "Não foi possível encontrar a menção de usuário"
+
+#~ msgid "Wiki page"
+#~ msgstr ""
