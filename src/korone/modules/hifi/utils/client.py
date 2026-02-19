@@ -13,7 +13,13 @@ from .types import HifiTrack, HifiTrackStream
 
 logger = get_logger(__name__)
 
-HIFI_API_BASE_URL = "https://triton.squid.wtf"
+HIFI_API_BASE_URLS = (
+    "https://wolf.qqdl.site",
+    "https://maus.qqdl.site",
+    "https://vogel.qqdl.site",
+    "https://katze.qqdl.site",
+    "https://hund.qqdl.site",
+)
 HIFI_API_TIMEOUT_SECONDS = 20
 HIFI_DOWNLOAD_TIMEOUT_SECONDS = 120
 TELEGRAM_MAX_AUDIO_SIZE_BYTES = 2 * 1024 * 1024 * 1024  # 2GB
@@ -44,8 +50,8 @@ class HifiTrackTooLargeError(HifiAPIError):
     pass
 
 
-def _build_url(path: str) -> str:
-    return f"{HIFI_API_BASE_URL.rstrip('/')}/{path.lstrip('/')}"
+def _build_url(base_url: str, path: str) -> str:
+    return f"{base_url.rstrip('/')}/{path.lstrip('/')}"
 
 
 def _as_int(value: object) -> int | None:
@@ -181,29 +187,43 @@ def _quality_order(preferred_quality: str) -> list[str]:
 
 
 async def _request_json(path: str, *, params: dict[str, str | int]) -> dict[str, object]:
-    url = _build_url(path)
     timeout = aiohttp.ClientTimeout(total=HIFI_API_TIMEOUT_SECONDS)
     session = await HTTPClient.get_session()
+    last_error: HifiAPIError | None = None
 
-    try:
-        async with session.get(url, params=params, timeout=timeout) as response:
-            if response.status != 200:
-                await logger.adebug("[HiFi] Unexpected status", status=response.status, url=url)
-                raise HifiRequestFailedError(response.status)
+    for base_url in HIFI_API_BASE_URLS:
+        url = _build_url(base_url, path)
 
-            try:
-                payload = await response.json(content_type=None)
-            except (aiohttp.ContentTypeError, ValueError) as exc:
-                raise HifiPayloadError from exc
+        try:
+            async with session.get(url, params=params, timeout=timeout) as response:
+                if response.status != 200:
+                    await logger.adebug("[HiFi] Unexpected status", status=response.status, url=url)
+                    last_error = HifiRequestFailedError(response.status)
+                    continue
 
-    except aiohttp.ClientError as exc:
-        await logger.aerror("[HiFi] Request failed", error=str(exc), url=url)
-        raise HifiAPIError from exc
+                try:
+                    payload = await response.json(content_type=None)
+                except (aiohttp.ContentTypeError, ValueError) as exc:
+                    last_error = HifiPayloadError()
+                    await logger.adebug("[HiFi] Invalid payload", error=str(exc), url=url)
+                    continue
 
-    if not isinstance(payload, dict):
-        raise HifiPayloadError
+        except aiohttp.ClientError as exc:
+            last_error = HifiAPIError()
+            await logger.aerror("[HiFi] Request failed", error=str(exc), url=url)
+            continue
 
-    return payload
+        if not isinstance(payload, dict):
+            last_error = HifiPayloadError()
+            await logger.adebug("[HiFi] Invalid payload shape", url=url)
+            continue
+
+        return payload
+
+    if last_error is not None:
+        raise last_error
+
+    raise HifiAPIError
 
 
 async def search_tracks(query: str) -> list[HifiTrack]:
