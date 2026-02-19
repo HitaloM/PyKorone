@@ -361,8 +361,8 @@ msgstr ""
 #: src/korone/modules/help/handlers/pm_modules.py:125
 #: src/korone/modules/language/handlers/apply.py:59
 #: src/korone/modules/language/handlers/info.py:47
-#: src/korone/modules/language/handlers/select.py:51
-#: src/korone/modules/language/handlers/select.py:55
+#: src/korone/modules/language/handlers/select.py:54
+#: src/korone/modules/language/handlers/select.py:58
 #: src/korone/modules/privacy/handlers/privacy.py:34
 msgid "⬅️ Back"
 msgstr ""
@@ -435,38 +435,35 @@ msgid "📢 Channel"
 msgstr ""
 
 #: src/korone/modules/help/handlers/start_group.py:37
-#: src/korone/modules/help/handlers/start_pm.py:44
+#: src/korone/modules/help/handlers/start_pm.py:50
 msgid "Hi, I'm Korone! An all-in-one bot. I can help you with lots of things. Just click on the buttons below to get started."
 msgstr ""
 
-#: src/korone/modules/help/handlers/start_pm.py:36
+#: src/korone/modules/help/handlers/start_pm.py:40
 msgid "🕵️‍♂️ Privacy"
 msgstr ""
 
-#: src/korone/modules/help/handlers/start_pm.py:37
-msgid "🌍 Language"
+#: src/korone/modules/help/handlers/start_pm.py:42
+#: src/korone/modules/language/__init__.py:16
+#: src/korone/modules/language/stats.py:11
+msgid "Language"
 msgstr ""
 
-#: src/korone/modules/help/handlers/start_pm.py:39
+#: src/korone/modules/help/handlers/start_pm.py:45
 msgid "ℹ️ Help"
 msgstr ""
 
-#: src/korone/modules/help/handlers/start_pm.py:48
+#: src/korone/modules/help/handlers/start_pm.py:54
 #, python-brace-format
 msgid "Join my {channel} to get information on all the latest updates."
 msgstr ""
 
-#: src/korone/modules/help/handlers/start_pm.py:49
+#: src/korone/modules/help/handlers/start_pm.py:55
 msgid "news channel"
 msgstr ""
 
 #: src/korone/modules/help/utils/format_help.py:77
 msgid "Commands"
-msgstr ""
-
-#: src/korone/modules/language/__init__.py:16
-#: src/korone/modules/language/stats.py:11
-msgid "Language"
 msgstr ""
 
 #: src/korone/modules/language/__init__.py:18
@@ -551,17 +548,17 @@ msgstr ""
 msgid "Shows the current language settings."
 msgstr ""
 
-#: src/korone/modules/language/handlers/select.py:47
+#: src/korone/modules/language/handlers/select.py:50
 msgid "❌ Cancel"
 msgstr ""
 
-#: src/korone/modules/language/handlers/select.py:62
+#: src/korone/modules/language/handlers/select.py:65
 msgid "Shows the available languages for selection."
 msgstr ""
 
-#: src/korone/modules/language/handlers/select.py:72
-#: src/korone/modules/language/handlers/select.py:95
-#: src/korone/modules/language/handlers/select.py:109
+#: src/korone/modules/language/handlers/select.py:75
+#: src/korone/modules/language/handlers/select.py:98
+#: src/korone/modules/language/handlers/select.py:112
 msgid "Please select the language you want to use for the chat."
 msgstr ""
 
@@ -1623,289 +1620,278 @@ msgstr ""
 msgid "WHOIS Information"
 msgstr ""
 
-#: /workspace/PyKorone/.venv/lib/python3.14/site-packages/ass_tg/exceptions.py:33
+#: exceptions.py:33
 msgid "Examples"
 msgstr ""
 
-#: /workspace/PyKorone/.venv/lib/python3.14/site-packages/ass_tg/exceptions.py:61
+#: exceptions.py:61
 #, python-brace-format
 msgid "The argument {description} has an invalid type"
 msgstr ""
 
-#: /workspace/PyKorone/.venv/lib/python3.14/site-packages/ass_tg/exceptions.py:65
-#: /workspace/PyKorone/.venv/lib/python3.14/site-packages/ass_tg/exceptions.py:120
+#: exceptions.py:65 exceptions.py:120
 msgid "Needed type"
 msgstr ""
 
-#: /workspace/PyKorone/.venv/lib/python3.14/site-packages/ass_tg/exceptions.py:116
+#: exceptions.py:116
 #, python-brace-format
 msgid "The required argument {description} wasn't provided!"
 msgstr ""
 
-#: /workspace/PyKorone/.venv/lib/python3.14/site-packages/ass_tg/exceptions.py:164
+#: exceptions.py:164
 #, python-brace-format
 msgid "The argument {description} has an invalid formatting!"
 msgstr ""
 
-#: /workspace/PyKorone/.venv/lib/python3.14/site-packages/ass_tg/types/keyvalue.py:31
+#: types/keyvalue.py:31
 #, python-brace-format
 msgid "Key-value of {}"
 msgstr ""
 
-#: /workspace/PyKorone/.venv/lib/python3.14/site-packages/ass_tg/types/keyvalue.py:32
+#: types/keyvalue.py:32
 #, python-brace-format
 msgid "Key-values of {}"
 msgstr ""
 
-#: /workspace/PyKorone/.venv/lib/python3.14/site-packages/ass_tg/types/keyvalue.py:65
+#: types/keyvalue.py:65
 #, python-brace-format
 msgid "The optional argument {name} must contain a value!"
 msgstr ""
 
-#: /workspace/PyKorone/.venv/lib/python3.14/site-packages/ass_tg/types/keyvalue.py:90
-#: /workspace/PyKorone/.venv/lib/python3.14/site-packages/ass_tg/types/keyvalue.py:91
+#: types/keyvalue.py:90 types/keyvalue.py:91
 msgid "Key-values"
 msgstr ""
 
-#: /workspace/PyKorone/.venv/lib/python3.14/site-packages/ass_tg/types/lists.py:46
-#: /workspace/PyKorone/.venv/lib/python3.14/site-packages/ass_tg/types/lists.py:59
+#: types/lists.py:46 types/lists.py:59
 #, python-brace-format
 msgid "List of {}"
 msgstr ""
 
-#: /workspace/PyKorone/.venv/lib/python3.14/site-packages/ass_tg/types/lists.py:47
+#: types/lists.py:47
 #, python-brace-format
 msgid "Lists of {}"
 msgstr ""
 
-#: /workspace/PyKorone/.venv/lib/python3.14/site-packages/ass_tg/types/lists.py:65
+#: types/lists.py:65
 #, python-brace-format
 msgid "The starting character {} of list wasn't found!"
 msgstr ""
 
-#: /workspace/PyKorone/.venv/lib/python3.14/site-packages/ass_tg/types/lists.py:73
+#: types/lists.py:73
 #, python-brace-format
 msgid "The ending character {} of list wasn't found!"
 msgstr ""
 
-#: /workspace/PyKorone/.venv/lib/python3.14/site-packages/ass_tg/types/lists.py:77
+#: types/lists.py:77
 msgid "The list is empty!"
 msgstr ""
 
-#: /workspace/PyKorone/.venv/lib/python3.14/site-packages/ass_tg/types/lists.py:97
+#: types/lists.py:97
 msgid "➡️ The start prefix text of the lists cannot have the overlapping formatting"
 msgstr ""
 
-#: /workspace/PyKorone/.venv/lib/python3.14/site-packages/ass_tg/types/lists.py:153
-#: /workspace/PyKorone/.venv/lib/python3.14/site-packages/ass_tg/types/lists.py:171
+#: types/lists.py:153 types/lists.py:171
 #, python-brace-format
 msgid "Argument '{arg_text}' was parsed, but it has unknown text after it!"
 msgstr ""
 
-#: /workspace/PyKorone/.venv/lib/python3.14/site-packages/ass_tg/types/lists.py:157
-#: /workspace/PyKorone/.venv/lib/python3.14/site-packages/ass_tg/types/lists.py:175
+#: types/lists.py:157 types/lists.py:175
 msgid "Please ensure you correctly divided all of arguments."
 msgstr ""
 
-#: /workspace/PyKorone/.venv/lib/python3.14/site-packages/ass_tg/types/logic.py:20
+#: types/logic.py:20
 #, python-brace-format
 msgid "Optional {}"
 msgstr ""
 
-#: /workspace/PyKorone/.venv/lib/python3.14/site-packages/ass_tg/types/logic.py:21
+#: types/logic.py:21
 #, python-brace-format
 msgid "Optionals {}"
 msgstr ""
 
-#: /workspace/PyKorone/.venv/lib/python3.14/site-packages/ass_tg/types/logic.py:44
-#: /workspace/PyKorone/.venv/lib/python3.14/site-packages/ass_tg/types/logic.py:45
-#: /workspace/PyKorone/.venv/lib/python3.14/site-packages/ass_tg/types/one_of.py:25
-#: /workspace/PyKorone/.venv/lib/python3.14/site-packages/ass_tg/types/one_of.py:28
+#: types/logic.py:44 types/logic.py:45 types/one_of.py:25 types/one_of.py:28
 msgid " or "
 msgstr ""
 
-#: /workspace/PyKorone/.venv/lib/python3.14/site-packages/ass_tg/types/logic.py:105
+#: types/logic.py:105
 msgid ", and "
 msgstr ""
 
-#: /workspace/PyKorone/.venv/lib/python3.14/site-packages/ass_tg/types/logic.py:121
+#: types/logic.py:121
 msgid "Example syntax"
 msgstr ""
 
-#: /workspace/PyKorone/.venv/lib/python3.14/site-packages/ass_tg/types/one_of.py:24
-#: /workspace/PyKorone/.venv/lib/python3.14/site-packages/ass_tg/types/one_of.py:27
+#: types/one_of.py:24 types/one_of.py:27
 #, python-brace-format
 msgid "One of: {}"
 msgstr ""
 
-#: /workspace/PyKorone/.venv/lib/python3.14/site-packages/ass_tg/types/oneword.py:13
+#: types/oneword.py:13
 msgid "Word (string with no spaces)"
 msgstr ""
 
-#: /workspace/PyKorone/.venv/lib/python3.14/site-packages/ass_tg/types/oneword.py:13
+#: types/oneword.py:13
 msgid "Words (strings with no spaces)"
 msgstr ""
 
-#: /workspace/PyKorone/.venv/lib/python3.14/site-packages/ass_tg/types/oneword.py:33
+#: types/oneword.py:33
 msgid "Integer (number)"
 msgstr ""
 
-#: /workspace/PyKorone/.venv/lib/python3.14/site-packages/ass_tg/types/oneword.py:33
+#: types/oneword.py:33
 msgid "Integers (numbers)"
 msgstr ""
 
-#: /workspace/PyKorone/.venv/lib/python3.14/site-packages/ass_tg/types/oneword.py:49
+#: types/oneword.py:49
 msgid "Boolean (Yes / No value)"
 msgstr ""
 
-#: /workspace/PyKorone/.venv/lib/python3.14/site-packages/ass_tg/types/oneword.py:49
+#: types/oneword.py:49
 msgid "Booleans (Yes / No values)"
 msgstr ""
 
-#: /workspace/PyKorone/.venv/lib/python3.14/site-packages/ass_tg/types/oneword.py:54
+#: types/oneword.py:54
 msgid "True (can means Enabled or Yes)"
 msgstr ""
 
-#: /workspace/PyKorone/.venv/lib/python3.14/site-packages/ass_tg/types/oneword.py:55
+#: types/oneword.py:55
 msgid "False (can means Disabled or No)"
 msgstr ""
 
-#: /workspace/PyKorone/.venv/lib/python3.14/site-packages/ass_tg/types/text.py:18
+#: types/text.py:18
 msgid "Text"
 msgstr ""
 
-#: /workspace/PyKorone/.venv/lib/python3.14/site-packages/ass_tg/types/text_rules.py:27
+#: types/text_rules.py:27
 #, python-brace-format
 msgid "➡️ The Argument should start with {}!"
 msgstr ""
 
-#: /workspace/PyKorone/.venv/lib/python3.14/site-packages/ass_tg/types/text_rules.py:31
+#: types/text_rules.py:31
 #, python-brace-format
 msgid "⬅️️ The Argument should end with {}!"
 msgstr ""
 
-#: /workspace/PyKorone/.venv/lib/python3.14/site-packages/ass_tg/types/text_rules.py:49
+#: types/text_rules.py:49
 msgid "➡️ The start text cannot have the overlapping formatting"
 msgstr ""
 
-#: /workspace/PyKorone/.venv/lib/python3.14/site-packages/ass_tg/types/text_rules.py:75
+#: types/text_rules.py:75
 #, python-brace-format
 msgid "➡️ Argument '{arg_text}' was parsed, but it has unknown text after it!"
 msgstr ""
 
-#: /workspace/PyKorone/.venv/lib/python3.14/site-packages/ass_tg/types/text_rules.py:91
-#: /workspace/PyKorone/.venv/lib/python3.14/site-packages/ass_tg/types/text_rules.py:95
+#: types/text_rules.py:91 types/text_rules.py:95
 #, python-brace-format
 msgid "{} surrounded by {} and {}"
 msgstr ""
 
-#: /workspace/PyKorone/.venv/lib/python3.14/site-packages/ass_tg/types/text_rules.py:107
+#: types/text_rules.py:107
 #, python-brace-format
 msgid "Surrounded by {} and {}"
 msgstr ""
 
-#: /workspace/PyKorone/.venv/lib/python3.14/site-packages/ass_tg/types/time_arg.py:24
+#: types/time_arg.py:24
 msgid "2 days"
 msgstr ""
 
-#: /workspace/PyKorone/.venv/lib/python3.14/site-packages/ass_tg/types/time_arg.py:25
+#: types/time_arg.py:25
 msgid "3 weeks and 2 days"
 msgstr ""
 
 #. NOTE: Please use the first letter of the "years" in your language
-#: /workspace/PyKorone/.venv/lib/python3.14/site-packages/ass_tg/types/time_arg.py:41
+#: types/time_arg.py:41
 msgid "y"
 msgstr ""
 
 #. NOTE: Please use the first letter of the "weeks" in your language
-#: /workspace/PyKorone/.venv/lib/python3.14/site-packages/ass_tg/types/time_arg.py:44
+#: types/time_arg.py:44
 msgid "w"
 msgstr ""
 
 #. NOTE: Please use the first letter of the "days" in your language
-#: /workspace/PyKorone/.venv/lib/python3.14/site-packages/ass_tg/types/time_arg.py:47
+#: types/time_arg.py:47
 msgid "d"
 msgstr ""
 
 #. NOTE: Please use the first letter of the "hours" in your language
-#: /workspace/PyKorone/.venv/lib/python3.14/site-packages/ass_tg/types/time_arg.py:50
+#: types/time_arg.py:50
 msgid "h"
 msgstr ""
 
 #. NOTE: Please use the first letter of the "minutes" in your language
-#: /workspace/PyKorone/.venv/lib/python3.14/site-packages/ass_tg/types/time_arg.py:53
+#: types/time_arg.py:53
 msgid "m"
 msgstr ""
 
-#: /workspace/PyKorone/.venv/lib/python3.14/site-packages/ass_tg/types/time_arg.py:61
+#: types/time_arg.py:61
 msgid "Action time"
 msgstr ""
 
-#: /workspace/PyKorone/.venv/lib/python3.14/site-packages/ass_tg/types/time_arg.py:61
+#: types/time_arg.py:61
 msgid "Action times"
 msgstr ""
 
-#: /workspace/PyKorone/.venv/lib/python3.14/site-packages/ass_tg/types/user.py:17
+#: types/user.py:17
 msgid "User ID (Numeric)"
 msgstr ""
 
-#: /workspace/PyKorone/.venv/lib/python3.14/site-packages/ass_tg/types/user.py:17
+#: types/user.py:17
 msgid "User IDs (Numeric)"
 msgstr ""
 
-#: /workspace/PyKorone/.venv/lib/python3.14/site-packages/ass_tg/types/user.py:37
+#: types/user.py:37
 msgid "Username (starts with @)"
 msgstr ""
 
-#: /workspace/PyKorone/.venv/lib/python3.14/site-packages/ass_tg/types/user.py:47
+#: types/user.py:47
 msgid "Should start with a prefix"
 msgstr ""
 
-#: /workspace/PyKorone/.venv/lib/python3.14/site-packages/ass_tg/types/user.py:49
+#: types/user.py:49
 msgid "Username is too short"
 msgstr ""
 
-#: /workspace/PyKorone/.venv/lib/python3.14/site-packages/ass_tg/types/user.py:51
+#: types/user.py:51
 msgid "Username is too long"
 msgstr ""
 
-#: /workspace/PyKorone/.venv/lib/python3.14/site-packages/ass_tg/types/user.py:67
+#: types/user.py:67
 msgid "User mention (a link to user)"
 msgstr ""
 
-#: /workspace/PyKorone/.venv/lib/python3.14/site-packages/ass_tg/types/user.py:67
+#: types/user.py:67
 msgid "User mentions (links to users)"
 msgstr ""
 
-#: /workspace/PyKorone/.venv/lib/python3.14/site-packages/ass_tg/types/user.py:99
+#: types/user.py:99
 msgid "Should start with mention!"
 msgstr ""
 
-#: /workspace/PyKorone/.venv/lib/python3.14/site-packages/ass_tg/types/user.py:107
+#: types/user.py:107
 msgid "Unexpected error while trying to get the user! Please report this in the support chat!"
 msgstr ""
 
-#: /workspace/PyKorone/.venv/lib/python3.14/site-packages/ass_tg/types/user.py:108
+#: types/user.py:108
 msgid "Could not find the user mention"
 msgstr ""
 
-#: /workspace/PyKorone/.venv/lib/python3.14/site-packages/ass_tg/types/user.py:120
+#: types/user.py:120
 msgid "User: 'User ID (numeric) / Username (starts with @) / Mention (links to users)'"
 msgstr ""
 
-#: /workspace/PyKorone/.venv/lib/python3.14/site-packages/ass_tg/types/user.py:122
+#: types/user.py:122
 msgid "Users: 'User IDs (numeric) / Usernames (starts with @) / Mentions (links to users)'"
 msgstr ""
 
-#: /workspace/PyKorone/.venv/lib/python3.14/site-packages/ass_tg/types/user.py:128
+#: types/user.py:128
 msgid "User ID"
 msgstr ""
 
-#: /workspace/PyKorone/.venv/lib/python3.14/site-packages/ass_tg/types/user.py:129
+#: types/user.py:129
 msgid "Username"
 msgstr ""
 
-#: /workspace/PyKorone/.venv/lib/python3.14/site-packages/ass_tg/types/user.py:134
+#: types/user.py:134
 msgid "A link to user, usually creates by mentioning a user without username."
 msgstr ""
-

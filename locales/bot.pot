@@ -361,8 +361,8 @@ msgstr ""
 #: src/korone/modules/help/handlers/pm_modules.py:125
 #: src/korone/modules/language/handlers/apply.py:59
 #: src/korone/modules/language/handlers/info.py:47
-#: src/korone/modules/language/handlers/select.py:51
-#: src/korone/modules/language/handlers/select.py:55
+#: src/korone/modules/language/handlers/select.py:54
+#: src/korone/modules/language/handlers/select.py:58
 #: src/korone/modules/privacy/handlers/privacy.py:34
 msgid "⬅️ Back"
 msgstr ""
@@ -435,38 +435,35 @@ msgid "📢 Channel"
 msgstr ""
 
 #: src/korone/modules/help/handlers/start_group.py:37
-#: src/korone/modules/help/handlers/start_pm.py:44
+#: src/korone/modules/help/handlers/start_pm.py:50
 msgid "Hi, I'm Korone! An all-in-one bot. I can help you with lots of things. Just click on the buttons below to get started."
 msgstr ""
 
-#: src/korone/modules/help/handlers/start_pm.py:36
+#: src/korone/modules/help/handlers/start_pm.py:40
 msgid "🕵️‍♂️ Privacy"
 msgstr ""
 
-#: src/korone/modules/help/handlers/start_pm.py:37
-msgid "🌍 Language"
+#: src/korone/modules/help/handlers/start_pm.py:42
+#: src/korone/modules/language/__init__.py:16
+#: src/korone/modules/language/stats.py:11
+msgid "Language"
 msgstr ""
 
-#: src/korone/modules/help/handlers/start_pm.py:39
+#: src/korone/modules/help/handlers/start_pm.py:45
 msgid "ℹ️ Help"
 msgstr ""
 
-#: src/korone/modules/help/handlers/start_pm.py:48
+#: src/korone/modules/help/handlers/start_pm.py:54
 #, python-brace-format
 msgid "Join my {channel} to get information on all the latest updates."
 msgstr ""
 
-#: src/korone/modules/help/handlers/start_pm.py:49
+#: src/korone/modules/help/handlers/start_pm.py:55
 msgid "news channel"
 msgstr ""
 
 #: src/korone/modules/help/utils/format_help.py:77
 msgid "Commands"
-msgstr ""
-
-#: src/korone/modules/language/__init__.py:16
-#: src/korone/modules/language/stats.py:11
-msgid "Language"
 msgstr ""
 
 #: src/korone/modules/language/__init__.py:18
@@ -551,17 +548,17 @@ msgstr ""
 msgid "Shows the current language settings."
 msgstr ""
 
-#: src/korone/modules/language/handlers/select.py:47
+#: src/korone/modules/language/handlers/select.py:50
 msgid "❌ Cancel"
 msgstr ""
 
-#: src/korone/modules/language/handlers/select.py:62
+#: src/korone/modules/language/handlers/select.py:65
 msgid "Shows the available languages for selection."
 msgstr ""
 
-#: src/korone/modules/language/handlers/select.py:72
-#: src/korone/modules/language/handlers/select.py:95
-#: src/korone/modules/language/handlers/select.py:109
+#: src/korone/modules/language/handlers/select.py:75
+#: src/korone/modules/language/handlers/select.py:98
+#: src/korone/modules/language/handlers/select.py:112
 msgid "Please select the language you want to use for the chat."
 msgstr ""
 
@@ -1622,4 +1619,3 @@ msgstr ""
 #: src/korone/modules/web/handlers/whois.py:58
 msgid "WHOIS Information"
 msgstr ""
-
