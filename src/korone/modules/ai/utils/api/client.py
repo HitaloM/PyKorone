@@ -16,6 +16,10 @@ _OPENAI_PROVIDER: OpenAIProvider | None = None
 def _get_openai_provider() -> OpenAIProvider:
     global _OPENAI_PROVIDER  # noqa: PLW0603
     if _OPENAI_PROVIDER is None:
+        # NOTE: AsyncOpenAI/OpenAIProvider is built on top of httpx and expects an
+        # httpx-compatible client. We keep httpx only at this boundary layer.
+        # Actual upstream HTTP calls to Vulcan are executed via the global aiohttp
+        # session inside VulcanOpenAITransport/TokenManager.
         transport = VulcanOpenAITransport(_VULCAN_API_SETTINGS)
         http_client = httpx.AsyncClient(
             transport=transport, timeout=httpx.Timeout(60.0), base_url=_OPENAI_PROXY_BASE_URL
