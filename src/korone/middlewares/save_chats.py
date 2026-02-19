@@ -141,6 +141,8 @@ class SaveChatsMiddleware(BaseMiddleware):
                 old_id=message.chat.id,
                 new_id=message.migrate_to_chat_id,
             )
+            current_group = await ChatRepository.upsert_group(message.chat)
+            data["chat_db"] = data["group_db"] = current_group
             return True
         return False
 
