@@ -1,15 +1,16 @@
 from __future__ import annotations
 
 import asyncio
+import json
 import time
 from datetime import UTC, datetime
 from typing import TYPE_CHECKING
 
+from korone.utils.aiohttp_session import HTTPClient
+
 from .helpers import request_id
 
 if TYPE_CHECKING:
-    import httpx
-
     from .settings import VulcanAPISettings
 
 
@@ -33,9 +34,8 @@ def _parse_token_expiration(raw_value: object) -> float:
 
 
 class VulcanTokenManager:
-    def __init__(self, settings: VulcanAPISettings, http_client: httpx.AsyncClient) -> None:
+    def __init__(self, settings: VulcanAPISettings) -> None:
         self._settings = settings
-        self._http_client = http_client
         self._access_token: str | None = None
         self._expires_at_unix: float = 0.0
         self._lock = asyncio.Lock()
@@ -75,9 +75,17 @@ class VulcanTokenManager:
             "purchase_token": "",
             "subscription_id": "",
         }
-        response = await self._http_client.post(self._settings.auth_url, json=payload, headers=headers)
-        response.raise_for_status()
-        body_obj: object = response.json()
+        session = await HTTPClient.get_session()
+        async with session.post(self._settings.auth_url, json=payload, headers=headers) as response:
+            response.raise_for_status()
+            raw_body = await response.text()
+
+        try:
+            body_obj: object = json.loads(raw_body)
+        except json.JSONDecodeError as exc:
+            msg = "Vulcan token response must be valid JSON"
+            raise TypeError(msg) from exc
+
         if not isinstance(body_obj, dict):
             msg = "Vulcan token response must be a JSON object"
             raise TypeError(msg)
