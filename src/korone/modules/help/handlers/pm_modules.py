@@ -5,10 +5,8 @@ from aiogram.types import CallbackQuery, InlineKeyboardButton
 from aiogram.utils.keyboard import InlineKeyboardBuilder
 from stfu_tg import Code, Doc, HList, Italic, Section, Template, Title, VList
 
-from korone.constants import AI_EMOJI
 from korone.filters.chat_status import PrivateChatFilter
 from korone.filters.cmd import CMDFilter
-from korone.modules.ai.callbacks import AIChatCallback
 from korone.modules.help.callbacks import PMHelpModule, PMHelpModules, PMHelpStartUrlCallback
 from korone.modules.help.utils.extract_info import HELP_MODULES, get_aliased_cmds
 from korone.modules.help.utils.format_help import format_handlers, group_handlers
@@ -36,13 +34,6 @@ class PMModulesList(KoroneMessageCallbackQueryHandler):
         modules = dict(sorted(HELP_MODULES.items(), key=lambda item: str(item[1].name)))
 
         buttons = InlineKeyboardBuilder()
-
-        buttons.row(
-            InlineKeyboardButton(
-                text=str(Template(_("💬{ai_emoji} Chat with Korone for help"), ai_emoji=AI_EMOJI)),
-                callback_data=AIChatCallback().pack(),
-            )
-        )
 
         buttons.row(
             *(

@@ -22,7 +22,6 @@ MODULES = [
     "error",
     "users",
     "help",
-    "ai",
     "privacy",
     "disabling",
     "language",
