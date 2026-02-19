@@ -1,0 +1,32 @@
+from aiogram import Router
+from stfu_tg import Doc
+
+from korone.utils.i18n import LazyProxy
+from korone.utils.i18n import lazy_gettext as l_
+
+from .callbacks import HifiTrackDownloadCallback as HifiTrackDownloadCallback
+from .callbacks import HifiTrackSendCallback as HifiTrackSendCallback
+from .callbacks import HifiTracksPageCallback as HifiTracksPageCallback
+from .handlers.list import HifiTrackListCallbackHandler
+from .handlers.preview import HifiTrackPreviewCallbackHandler
+from .handlers.search import HifiSearchHandler
+from .handlers.send import HifiTrackDownloadCallbackHandler
+
+router = Router(name="tidal")
+
+__module_name__ = l_("Tidal")
+__module_emoji__ = "🎧"
+__module_description__ = l_("Search, download, and send tracks from Tidal")
+__module_info__ = LazyProxy(
+    lambda: Doc(
+        l_("Download and send tracks from Tidal HiFi."),
+        l_("Search for tracks, preview them, and get high-quality audio files."),
+    )
+)
+
+__handlers__ = (
+    HifiSearchHandler,
+    HifiTrackListCallbackHandler,
+    HifiTrackPreviewCallbackHandler,
+    HifiTrackDownloadCallbackHandler,
+)

@@ -28,6 +28,7 @@ MODULES = [
     "medias",
     "stickers",
     "gsm_arena",
+    "hifi",
     "regex",
     "lastfm",
     "web",
