@@ -35,11 +35,14 @@ def build_language_selection_keyboard(
             seen.add(loc)
             unique_locales.append(loc)
 
+    selected_locale = i18n.current_locale
+
     for language in unique_locales:
         locale = i18n.babels.get(language) or i18n.babel(language)
-        keyboard.button(
-            text=i18n.locale_display(locale), callback_data=SetLangCallback(lang=language, back_to_start=back_to_start)
-        )
+        button_text = i18n.locale_display(locale)
+        if language == selected_locale:
+            button_text = f"✅ {button_text}"
+        keyboard.button(text=button_text, callback_data=SetLangCallback(lang=language, back_to_start=back_to_start))
 
     keyboard.adjust(2)
 

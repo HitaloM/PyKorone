@@ -12,6 +12,7 @@ from korone.modules.help.callbacks import PMHelpModules
 from korone.modules.privacy import PrivacyMenuCallback
 from korone.modules.utils_.callbacks import GoToStartCallback, LanguageButtonCallback
 from korone.utils.handlers import KoroneMessageCallbackQueryHandler
+from korone.utils.i18n import get_i18n
 from korone.utils.i18n import gettext as _
 
 if TYPE_CHECKING:
@@ -31,10 +32,15 @@ class StartPMHandler(KoroneMessageCallbackQueryHandler):
 
         await state.clear()
 
+        i18n = get_i18n()
+        current_locale_flag = i18n.current_locale_display.split(" ", 1)[0]
+
         builder = InlineKeyboardBuilder()
         builder.row(
             InlineKeyboardButton(text=_("🕵️‍♂️ Privacy"), callback_data=PrivacyMenuCallback(back_to_start=True).pack()),
-            InlineKeyboardButton(text=_("🌍 Language"), callback_data=LanguageButtonCallback().pack()),
+            InlineKeyboardButton(
+                text=f"{current_locale_flag} {_('Language')}", callback_data=LanguageButtonCallback().pack()
+            ),
         )
         builder.row(InlineKeyboardButton(text=_("ℹ️ Help"), callback_data=PMHelpModules(back_to_start=True).pack()))
         buttons = builder.as_markup()
