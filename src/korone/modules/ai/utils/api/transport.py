@@ -1,11 +1,13 @@
 from __future__ import annotations
 
 import json
-from typing import TYPE_CHECKING, cast
+from typing import TYPE_CHECKING, Any, cast, override
 
 import httpx
+from aiohttp import ClientResponseError
 
 from korone.logger import get_logger
+from korone.utils.aiohttp_session import HTTPClient
 
 from .helpers import now_unix, request_id, to_rounded_int
 from .openai_compat import (
@@ -24,13 +26,20 @@ logger = get_logger(__name__)
 
 
 class VulcanOpenAITransport(httpx.AsyncBaseTransport):
+    """Compatibility boundary for OpenAI SDK.
+
+    This transport must speak in httpx request/response objects because
+    AsyncOpenAI depends on httpx transports. The real upstream I/O to Vulcan
+    is performed through the shared aiohttp HTTPClient session.
+    """
     def __init__(self, settings: VulcanAPISettings, *, timeout: float = 60.0) -> None:
         self._settings = settings
-        self._upstream_client = httpx.AsyncClient(timeout=httpx.Timeout(timeout), follow_redirects=True)
-        self._token_manager = VulcanTokenManager(settings, self._upstream_client)
+        self._timeout = timeout
+        self._token_manager = VulcanTokenManager(settings)
 
+    @override
     async def aclose(self) -> None:
-        await self._upstream_client.aclose()
+        return None
 
     async def handle_async_request(self, request: httpx.Request) -> httpx.Response:
         normalized_path = request.url.path.rstrip("/")
@@ -89,12 +98,17 @@ class VulcanOpenAITransport(httpx.AsyncBaseTransport):
 
         try:
             upstream_response = await self._request_chat_completion(request_payload)
-        except httpx.HTTPStatusError as exc:
-            logger.warning("Vulcan token request failed with status %s", exc.response.status_code)
+        except ClientResponseError as exc:
+            logger.warning("Vulcan token/chat request failed with status %s", exc.status)
             return openai_error_response(
                 request, status_code=502, message="Could not obtain a valid AI provider token."
             )
-        except httpx.HTTPError:
+        except TimeoutError:
+            logger.exception("Vulcan request timed out")
+            return openai_error_response(
+                request, status_code=504, message="The AI provider took too long to respond."
+            )
+        except OSError:
             logger.exception("Vulcan request failed")
             return openai_error_response(
                 request, status_code=502, message="Could not reach the configured AI provider."
@@ -140,18 +154,32 @@ class VulcanOpenAITransport(httpx.AsyncBaseTransport):
 
     async def _request_chat_completion(self, payload: dict[str, object]) -> httpx.Response:
         token = await self._token_manager.get_valid_token()
-        response = await self._upstream_client.post(
-            self._settings.chat_url, json=payload, headers=self._build_chat_headers(token)
-        )
+        response = await self._post_chat_completion(payload, token)
 
         if response.status_code in {401, 403}:
             self._token_manager.invalidate()
             token = await self._token_manager.get_valid_token()
-            response = await self._upstream_client.post(
-                self._settings.chat_url, json=payload, headers=self._build_chat_headers(token)
-            )
+            response = await self._post_chat_completion(payload, token)
 
         return response
+
+    async def _post_chat_completion(self, payload: dict[str, object], token: str) -> httpx.Response:
+        session = await HTTPClient.get_session()
+        async with session.post(
+            self._settings.chat_url,
+            json=payload,
+            headers=self._build_chat_headers(token),
+            allow_redirects=True,
+            timeout=self._timeout,
+        ) as response:
+            response_body: Any = await response.read()
+            response_headers = dict(response.headers)
+            return httpx.Response(
+                status_code=response.status,
+                content=response_body,
+                headers=response_headers,
+                request=httpx.Request("POST", self._settings.chat_url),
+            )
 
     def _build_chat_headers(self, token: str) -> dict[str, str]:
         return {
