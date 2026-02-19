@@ -46,9 +46,6 @@ class Config(BaseSettings):
 
     lastfm_key: str | None = None
 
-    ai_max_context_messages: int = 20
-    ai_max_memory_lines: int = 20
-
     class Config:
         env_file = "data/config.env"
         env_file_encoding = "utf-8"
