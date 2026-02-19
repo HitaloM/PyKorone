@@ -5,6 +5,8 @@ import time
 from datetime import UTC, datetime
 from typing import TYPE_CHECKING
 
+import orjson
+
 from korone.utils.aiohttp_session import HTTPClient
 
 from .helpers import request_id
@@ -77,7 +79,14 @@ class VulcanTokenManager:
         session = await HTTPClient.get_session()
         async with session.post(self._settings.auth_url, json=payload, headers=headers) as response:
             response.raise_for_status()
-            body_obj: object = await response.json()
+            response_body = await response.read()
+
+        try:
+            body_obj: object = orjson.loads(response_body)
+        except orjson.JSONDecodeError as error:
+            msg = "Vulcan token response must be valid JSON"
+            raise TypeError(msg) from error
+
         if not isinstance(body_obj, dict):
             msg = "Vulcan token response must be a JSON object"
             raise TypeError(msg)
