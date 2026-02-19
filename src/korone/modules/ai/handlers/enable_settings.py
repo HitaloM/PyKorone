@@ -19,7 +19,7 @@ if TYPE_CHECKING:
 class AIEnableSettingsHandler(StatusBoolHandlerABC):
     header_text = l_("AI features")
     change_command = "enableai"
-    change_args = l_("yes / no")
+    change_args = "yes / no"
 
     @staticmethod
     def filters() -> tuple[CallbackType, ...]:

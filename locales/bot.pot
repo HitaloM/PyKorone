@@ -234,10 +234,6 @@ msgstr ""
 msgid "AI features"
 msgstr ""
 
-#: src/korone/modules/ai/handlers/enable_settings.py:22
-msgid "yes / no"
-msgstr ""
-
 #: src/korone/modules/ai/handlers/pm.py:42
 msgid "🤖 Entered AI mode. You can now chat directly with Korone AI."
 msgstr ""
@@ -1123,10 +1119,6 @@ msgstr ""
 msgid "Media auto-download"
 msgstr ""
 
-#: src/korone/modules/medias/handlers/status.py:23
-msgid "on / off"
-msgstr ""
-
 #: src/korone/modules/op/__init__.py:13
 msgid "Operator"
 msgstr ""
@@ -1750,6 +1742,10 @@ msgstr ""
 msgid "New status"
 msgstr ""
 
+#: src/korone/modules/utils_/status_handler.py:50
+msgid "Current state"
+msgstr ""
+
 #: src/korone/modules/utils_/status_handler.py:55
 #, python-brace-format
 msgid "Use '{cmd}' to change it."
@@ -1762,6 +1758,10 @@ msgstr ""
 
 #: src/korone/modules/utils_/status_handler.py:73
 msgid "The state was successfully changed"
+msgstr ""
+
+#: src/korone/modules/utils_/status_handler.py:74
+msgid "New state"
 msgstr ""
 
 #: src/korone/modules/utils_/status_handler.py:90
@@ -1880,3 +1880,4 @@ msgstr ""
 #: src/korone/modules/web/handlers/whois.py:58
 msgid "WHOIS Information"
 msgstr ""
+

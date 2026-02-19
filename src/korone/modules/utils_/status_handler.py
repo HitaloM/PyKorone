@@ -26,7 +26,7 @@ class StatusHandlerABC[T](KoroneMessageHandler):
     header_text: LazyProxy
     status_texts: ClassVar[Mapping[object, LazyProxy]]
     change_command: str | None = None
-    change_args: str | LazyProxy = "on / off"
+    change_args: str = "on / off"
 
     @classmethod
     async def handler_args(cls, message: Message | None, data: dict[str, Any]) -> dict[str, ArgFabric]:
@@ -47,7 +47,7 @@ class StatusHandlerABC[T](KoroneMessageHandler):
         status_data: T = await self.get_status()
 
         doc = Section(
-            KeyValue("Current state", self.status_text(status_data)),
+            KeyValue(_("Current state"), self.status_text(status_data)),
             KeyValue(_("Chat"), self.chat.title),
             title=self.header_text,
         )
@@ -71,7 +71,7 @@ class StatusHandlerABC[T](KoroneMessageHandler):
 
         doc = Section(
             _("The state was successfully changed"),
-            KeyValue("New state", self.status_text(new_status)),
+            KeyValue(_("New state"), self.status_text(new_status)),
             KeyValue(_("Chat"), self.chat.title),
             title=self.header_text,
         )
