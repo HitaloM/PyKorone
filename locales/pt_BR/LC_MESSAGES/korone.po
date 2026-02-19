@@ -230,6 +230,8 @@ msgstr "Pesquise smartphones e obtenha uma visão geral rápida das especificaç
 
 #: src/korone/modules/gsm_arena/handlers/get.py:34
 #: src/korone/modules/gsm_arena/handlers/list.py:32
+#: src/korone/modules/users/handlers/profile_audios.py:244
+#: src/korone/modules/users/handlers/profile_audios.py:298
 msgid "You are not allowed to use this button."
 msgstr "Você não tem permissão para usar este botão."
 
@@ -1400,19 +1402,19 @@ msgstr "❌ Cancelado."
 msgid "The action was cancelled by {user}."
 msgstr "A ação foi cancelada por {user}."
 
-#: src/korone/modules/users/__init__.py:13
+#: src/korone/modules/users/__init__.py:14
 msgid "Users"
 msgstr "Usuários"
 
-#: src/korone/modules/users/__init__.py:15
+#: src/korone/modules/users/__init__.py:16
 msgid "User information and management"
 msgstr "Informações e gerenciamento de usuários"
 
-#: src/korone/modules/users/__init__.py:18
+#: src/korone/modules/users/__init__.py:19
 msgid "Provides commands to get information about users and chat members."
 msgstr "Fornece comandos para obter informações sobre usuários e membros do chat."
 
-#: src/korone/modules/users/__init__.py:19
+#: src/korone/modules/users/__init__.py:20
 msgid "Includes admin list, user IDs, and detailed user information."
 msgstr "Inclui lista de admins, IDs de usuários e informações detalhadas do usuário."
 
@@ -1448,6 +1450,8 @@ msgstr "Mostrar IDs de usuário e chat"
 
 #: src/korone/modules/users/handlers/id.py:33
 #: src/korone/modules/users/handlers/info.py:31
+#: src/korone/modules/users/handlers/profile_audios.py:35
+#: src/korone/modules/users/handlers/profile_audios.py:183
 msgid "User"
 msgstr "Usuário"
 
@@ -1481,6 +1485,7 @@ msgid "Shows the additional information about the user."
 msgstr "Mostra informações adicionais sobre o usuário."
 
 #: src/korone/modules/users/handlers/info.py:52
+#: src/korone/modules/users/handlers/profile_audios.py:192
 msgid "Could not identify user."
 msgstr "Não foi possível identificar o usuário."
 
@@ -1511,6 +1516,93 @@ msgstr "Este usuário é um admin neste chat."
 #: src/korone/modules/users/handlers/info.py:82
 msgid "Shared Chats"
 msgstr "Chats em comum"
+
+#: src/korone/modules/users/handlers/profile_audios.py:49
+#: src/korone/modules/users/handlers/profile_audios.py:110
+#, python-brace-format
+msgid "Audio #{index}"
+msgstr "Áudio #{index}"
+
+#: src/korone/modules/users/handlers/profile_audios.py:51
+msgid "Unknown audio"
+msgstr "Áudio desconhecido"
+
+#: src/korone/modules/users/handlers/profile_audios.py:73
+msgid "No featured audio"
+msgstr "Sem áudio em destaque"
+
+#: src/korone/modules/users/handlers/profile_audios.py:75
+#, python-brace-format
+msgid "{title} ({duration})"
+msgstr "{title} ({duration})"
+
+#: src/korone/modules/users/handlers/profile_audios.py:95
+msgid "Profile audios"
+msgstr "Áudios de perfil"
+
+#: src/korone/modules/users/handlers/profile_audios.py:96
+#, python-brace-format
+msgid "User: {user}"
+msgstr "Usuário: {user}"
+
+#: src/korone/modules/users/handlers/profile_audios.py:97
+#, python-brace-format
+msgid "Total audios: {count}"
+msgstr "Total de áudios: {count}"
+
+#: src/korone/modules/users/handlers/profile_audios.py:98
+#, python-brace-format
+msgid "Featured: {featured}"
+msgstr "Em destaque: {featured}"
+
+#: src/korone/modules/users/handlers/profile_audios.py:101
+#, python-brace-format
+msgid "Page: {current}/{last}"
+msgstr "Página: {current}/{last}"
+
+#: src/korone/modules/users/handlers/profile_audios.py:102
+msgid "Select an audio below to send it."
+msgstr "Selecione um áudio abaixo para enviá-lo."
+
+#: src/korone/modules/users/handlers/profile_audios.py:178
+msgid "Shows a user's profile audios."
+msgstr "Mostra os áudios de perfil de um usuário."
+
+#: src/korone/modules/users/handlers/profile_audios.py:196
+msgid "The selected target is not a user."
+msgstr "O alvo selecionado não é um usuário."
+
+#: src/korone/modules/users/handlers/profile_audios.py:200
+msgid "Bots do not have profile audios."
+msgstr "Bots não têm áudios de perfil."
+
+#: src/korone/modules/users/handlers/profile_audios.py:212
+#: src/korone/modules/users/handlers/profile_audios.py:258
+#: src/korone/modules/users/handlers/profile_audios.py:310
+msgid "Could not fetch profile audios for this user."
+msgstr "Não foi possível obter os áudios de perfil deste usuário."
+
+#: src/korone/modules/users/handlers/profile_audios.py:218
+#: src/korone/modules/users/handlers/profile_audios.py:265
+msgid "This user has no profile audios."
+msgstr "Este usuário não tem áudios de perfil."
+
+#: src/korone/modules/users/handlers/profile_audios.py:314
+msgid "This audio is no longer available."
+msgstr "Este áudio não está mais disponível."
+
+#: src/korone/modules/users/handlers/profile_audios.py:319
+#, python-brace-format
+msgid "From {user}'s profile: {audio}"
+msgstr "Do perfil de {user}: {audio}"
+
+#: src/korone/modules/users/handlers/profile_audios.py:329
+msgid "Could not send this audio right now."
+msgstr "Não foi possível enviar este áudio agora."
+
+#: src/korone/modules/users/handlers/profile_audios.py:332
+msgid "Audio sent."
+msgstr "Áudio enviado."
 
 #: src/korone/modules/utils_/reply_or_edit.py:22
 #: src/korone/utils/handlers.py:84 src/korone/utils/handlers.py:101
