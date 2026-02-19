@@ -30,11 +30,11 @@ async def ensure_bot_in_db() -> None:
 
 def configure_dispatcher() -> None:
     dp.update.middleware(localization_middleware)
+    dp.message.middleware(DisablingMiddleware())
     dp.message.middleware(ArgsMiddleware(i18n=i18n))
     dp.update.outer_middleware(SaveChatsMiddleware())
     dp.update.middleware(AdminCacheMiddleware())
     dp.update.middleware(ChatContextMiddleware())
-    dp.message.middleware(DisablingMiddleware())
 
 
 def get_allowed_updates() -> list[str]:
