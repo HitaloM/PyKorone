@@ -174,7 +174,7 @@ async def gather_cmds_help(router: Router) -> list[HandlerHelp]:
         cmd = HandlerHelp(
             cmds=cmd_list,
             args=args,
-            description=help_flags.get("description", "") if help_flags else "",
+            description=_clone_without_cache(help_flags.get("description", "") if help_flags else ""),
             only_admin=only_admin,
             only_op=only_op,
             only_pm=only_pm,
@@ -198,11 +198,11 @@ async def gather_module_help(module: ModuleType) -> ModuleHelp | None:
     if not hasattr(module, "router"):
         return None
 
-    name: LazyProxy | str = getattr(module, "__module_name__", module.__name__.split(".")[-1])
+    name: LazyProxy | str = _clone_without_cache(getattr(module, "__module_name__", module.__name__.split(".")[-1]))
     emoji = getattr(module, "__module_emoji__", "?")
     exclude_public = getattr(module, "__exclude_public__", False)
-    info = getattr(module, "__module_info__", None)
-    description = getattr(module, "__module_description__", None)
+    info = _clone_without_cache(getattr(module, "__module_info__", None))
+    description = _clone_without_cache(getattr(module, "__module_description__", None))
 
     await logger.adebug(f"gather_module_help: {module.__name__}", name=name, emoji=emoji)
 
