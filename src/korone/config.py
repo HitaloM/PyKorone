@@ -19,6 +19,7 @@ class Config(BaseSettings):
     redis_db_schedule: int = 3
 
     botapi_server: AnyHttpUrl | None = None
+    botapi_local_storage_root: str = "/var/lib/telegram-bot-api"
 
     webhook_domain: str | None = None
     webhook_secret: str | None = None
