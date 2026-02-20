@@ -230,11 +230,9 @@ msgstr ""
 
 #: src/korone/modules/gsm_arena/handlers/get.py:34
 #: src/korone/modules/gsm_arena/handlers/list.py:32
-#: src/korone/modules/hifi/handlers/list.py:33
-#: src/korone/modules/hifi/handlers/preview.py:32
-#: src/korone/modules/hifi/handlers/send.py:40
-#: src/korone/modules/users/handlers/profile_audios.py:244
-#: src/korone/modules/users/handlers/profile_audios.py:298
+#: src/korone/modules/hifi/handlers/list.py:38
+#: src/korone/modules/hifi/handlers/preview.py:37
+#: src/korone/modules/hifi/handlers/send.py:59
 msgid "You are not allowed to use this button."
 msgstr ""
 
@@ -515,9 +513,9 @@ msgstr ""
 msgid "Search for tracks, preview them, and get high-quality audio files."
 msgstr ""
 
-#: src/korone/modules/hifi/handlers/list.py:38
-#: src/korone/modules/hifi/handlers/preview.py:37
-#: src/korone/modules/hifi/handlers/send.py:45
+#: src/korone/modules/hifi/handlers/list.py:34
+#: src/korone/modules/hifi/handlers/preview.py:33
+#: src/korone/modules/hifi/handlers/send.py:55
 msgid "Search session expired. Please run /song again."
 msgstr ""
 
@@ -527,7 +525,7 @@ msgid "No tracks found."
 msgstr ""
 
 #: src/korone/modules/hifi/handlers/preview.py:41
-#: src/korone/modules/hifi/handlers/send.py:49
+#: src/korone/modules/hifi/handlers/send.py:63
 msgid "Invalid track selected."
 msgstr ""
 
@@ -548,23 +546,23 @@ msgstr ""
 msgid "Could not fetch tracks right now. Please try again later."
 msgstr ""
 
-#: src/korone/modules/hifi/handlers/send.py:60
+#: src/korone/modules/hifi/handlers/send.py:74
 msgid "Could not get an audio stream for this track."
 msgstr ""
 
-#: src/korone/modules/hifi/handlers/send.py:63
+#: src/korone/modules/hifi/handlers/send.py:77
 msgid "Could not fetch track information right now."
 msgstr ""
 
-#: src/korone/modules/hifi/handlers/send.py:74
+#: src/korone/modules/hifi/handlers/send.py:95
 msgid "This track is too large to send on Telegram."
 msgstr ""
 
-#: src/korone/modules/hifi/handlers/send.py:77
+#: src/korone/modules/hifi/handlers/send.py:98
 msgid "Could not download this track right now."
 msgstr ""
 
-#: src/korone/modules/hifi/handlers/send.py:80
+#: src/korone/modules/hifi/handlers/send.py:101
 msgid "Could not send this track right now."
 msgstr ""
 
@@ -1519,19 +1517,19 @@ msgstr ""
 msgid "The action was cancelled by {user}."
 msgstr ""
 
-#: src/korone/modules/users/__init__.py:14
+#: src/korone/modules/users/__init__.py:13
 msgid "Users"
 msgstr ""
 
-#: src/korone/modules/users/__init__.py:16
+#: src/korone/modules/users/__init__.py:15
 msgid "User information and management"
 msgstr ""
 
-#: src/korone/modules/users/__init__.py:19
+#: src/korone/modules/users/__init__.py:18
 msgid "Provides commands to get information about users and chat members."
 msgstr ""
 
-#: src/korone/modules/users/__init__.py:20
+#: src/korone/modules/users/__init__.py:19
 msgid "Includes admin list, user IDs, and detailed user information."
 msgstr ""
 
@@ -1567,8 +1565,6 @@ msgstr ""
 
 #: src/korone/modules/users/handlers/id.py:33
 #: src/korone/modules/users/handlers/info.py:31
-#: src/korone/modules/users/handlers/profile_audios.py:35
-#: src/korone/modules/users/handlers/profile_audios.py:183
 msgid "User"
 msgstr ""
 
@@ -1602,7 +1598,6 @@ msgid "Shows the additional information about the user."
 msgstr ""
 
 #: src/korone/modules/users/handlers/info.py:52
-#: src/korone/modules/users/handlers/profile_audios.py:192
 msgid "Could not identify user."
 msgstr ""
 
@@ -1632,93 +1627,6 @@ msgstr ""
 
 #: src/korone/modules/users/handlers/info.py:82
 msgid "Shared Chats"
-msgstr ""
-
-#: src/korone/modules/users/handlers/profile_audios.py:49
-#: src/korone/modules/users/handlers/profile_audios.py:110
-#, python-brace-format
-msgid "Audio #{index}"
-msgstr ""
-
-#: src/korone/modules/users/handlers/profile_audios.py:51
-msgid "Unknown audio"
-msgstr ""
-
-#: src/korone/modules/users/handlers/profile_audios.py:73
-msgid "No featured audio"
-msgstr ""
-
-#: src/korone/modules/users/handlers/profile_audios.py:75
-#, python-brace-format
-msgid "{title} ({duration})"
-msgstr ""
-
-#: src/korone/modules/users/handlers/profile_audios.py:95
-msgid "Profile audios"
-msgstr ""
-
-#: src/korone/modules/users/handlers/profile_audios.py:96
-#, python-brace-format
-msgid "User: {user}"
-msgstr ""
-
-#: src/korone/modules/users/handlers/profile_audios.py:97
-#, python-brace-format
-msgid "Total audios: {count}"
-msgstr ""
-
-#: src/korone/modules/users/handlers/profile_audios.py:98
-#, python-brace-format
-msgid "Featured: {featured}"
-msgstr ""
-
-#: src/korone/modules/users/handlers/profile_audios.py:101
-#, python-brace-format
-msgid "Page: {current}/{last}"
-msgstr ""
-
-#: src/korone/modules/users/handlers/profile_audios.py:102
-msgid "Select an audio below to send it."
-msgstr ""
-
-#: src/korone/modules/users/handlers/profile_audios.py:178
-msgid "Shows a user's profile audios."
-msgstr ""
-
-#: src/korone/modules/users/handlers/profile_audios.py:196
-msgid "The selected target is not a user."
-msgstr ""
-
-#: src/korone/modules/users/handlers/profile_audios.py:200
-msgid "Bots do not have profile audios."
-msgstr ""
-
-#: src/korone/modules/users/handlers/profile_audios.py:212
-#: src/korone/modules/users/handlers/profile_audios.py:258
-#: src/korone/modules/users/handlers/profile_audios.py:310
-msgid "Could not fetch profile audios for this user."
-msgstr ""
-
-#: src/korone/modules/users/handlers/profile_audios.py:218
-#: src/korone/modules/users/handlers/profile_audios.py:265
-msgid "This user has no profile audios."
-msgstr ""
-
-#: src/korone/modules/users/handlers/profile_audios.py:314
-msgid "This audio is no longer available."
-msgstr ""
-
-#: src/korone/modules/users/handlers/profile_audios.py:319
-#, python-brace-format
-msgid "From {user}'s profile: {audio}"
-msgstr ""
-
-#: src/korone/modules/users/handlers/profile_audios.py:329
-msgid "Could not send this audio right now."
-msgstr ""
-
-#: src/korone/modules/users/handlers/profile_audios.py:332
-msgid "Audio sent."
 msgstr ""
 
 #: src/korone/modules/utils_/reply_or_edit.py:22
@@ -2145,3 +2053,4 @@ msgstr ""
 #: types/user.py:134
 msgid "A link to user, usually creates by mentioning a user without username."
 msgstr ""
+
