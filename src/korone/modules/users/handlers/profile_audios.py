@@ -15,6 +15,7 @@ from korone.db.models.chat import ChatModel
 from korone.db.repositories.chat import ChatRepository
 from korone.filters.cmd import CMDFilter
 from korone.modules.users.callbacks import ProfileAudioSendCallback, ProfileAudiosPageCallback
+from korone.modules.utils_.message import is_real_reply
 from korone.modules.utils_.pagination import Pagination
 from korone.utils.handlers import KoroneCallbackQueryHandler, KoroneMessageHandler
 from korone.utils.i18n import gettext as _
@@ -137,7 +138,7 @@ async def _resolve_target_user(message: Message, parsed_target: ChatModel | None
     if parsed_target:
         return parsed_target
 
-    if message.reply_to_message and message.reply_to_message.from_user:
+    if message.reply_to_message and is_real_reply(message) and message.reply_to_message.from_user:
         return await ChatRepository.upsert_user(message.reply_to_message.from_user)
 
     if message.from_user:
