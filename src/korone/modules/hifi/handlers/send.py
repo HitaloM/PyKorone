@@ -77,10 +77,12 @@ class HifiTrackDownloadCallbackHandler(KoroneCallbackQueryHandler):
 
         cached_payload = await get_cached_file_payload(cache_key)
         cached_file_id = cached_payload.get("audio_file_id") if cached_payload else None
+        cached_caption = cached_payload.get("caption") if cached_payload else None
         if isinstance(cached_file_id, str) and cached_file_id:
             try:
                 await message.reply_audio(
                     audio=cached_file_id,
+                    caption=cached_caption if isinstance(cached_caption, str) else None,
                     title=track.title,
                     performer=track.artist,
                     duration=track.duration,
@@ -107,9 +109,10 @@ class HifiTrackDownloadCallbackHandler(KoroneCallbackQueryHandler):
                 audio = BufferedInputFile(payload, filename=build_track_filename(track, stream, content_type))
                 thumbnail = await self._download_thumbnail(track)
 
+                caption = build_track_caption(track, stream)
                 sent_message = await message.reply_audio(
                     audio=audio,
-                    caption=build_track_caption(track, stream),
+                    caption=caption,
                     title=track.title,
                     performer=track.artist,
                     duration=track.duration,
@@ -117,7 +120,13 @@ class HifiTrackDownloadCallbackHandler(KoroneCallbackQueryHandler):
                 )
 
                 if sent_message.audio:
-                    await set_cached_file_payload(cache_key, {"audio_file_id": sent_message.audio.file_id})
+                    await set_cached_file_payload(
+                        cache_key,
+                        {
+                            "audio_file_id": sent_message.audio.file_id,
+                            "caption": caption,
+                        },
+                    )
         except HifiTrackTooLargeError:
             await message.reply(_("This track is too large to send on Telegram."))
             return
