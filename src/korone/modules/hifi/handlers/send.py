@@ -12,10 +12,11 @@ from korone.modules.hifi.utils.client import (
     HifiAPIError,
     HifiStreamUnavailableError,
     HifiTrackTooLargeError,
+    download_cover_image,
     download_stream_audio,
     get_track_stream,
 )
-from korone.modules.hifi.utils.formatters import build_track_caption, build_track_filename
+from korone.modules.hifi.utils.formatters import build_album_cover_url, build_track_caption, build_track_filename
 from korone.modules.hifi.utils.session import get_search_session
 from korone.utils.handlers import KoroneCallbackQueryHandler
 from korone.utils.i18n import gettext as _
@@ -24,12 +25,25 @@ if TYPE_CHECKING:
     from aiogram.dispatcher.event.handler import CallbackType
     from aiogram.types import Message
 
+    from korone.modules.hifi.utils.types import HifiTrack
+
 
 @flags.help(exclude=True)
 class HifiTrackDownloadCallbackHandler(KoroneCallbackQueryHandler):
     @staticmethod
     def filters() -> tuple[CallbackType, ...]:
         return (HifiTrackDownloadCallback.filter(),)
+
+    @staticmethod
+    async def _download_thumbnail(track: HifiTrack) -> BufferedInputFile | None:
+        if not (cover_url := build_album_cover_url(track)):
+            return None
+
+        payload = await download_cover_image(cover_url)
+        if payload is None:
+            return None
+
+        return BufferedInputFile(payload, filename=f"tidal-cover-{track.id}.jpg")
 
     async def handle(self) -> None:
         await self.check_for_message()
@@ -67,8 +81,15 @@ class HifiTrackDownloadCallbackHandler(KoroneCallbackQueryHandler):
             async with ChatActionSender.upload_document(chat_id=message.chat.id, bot=self.bot):
                 payload, content_type = await download_stream_audio(stream)
                 audio = BufferedInputFile(payload, filename=build_track_filename(track, stream, content_type))
+                thumbnail = await self._download_thumbnail(track)
+
                 await message.reply_audio(
-                    audio=audio, caption=build_track_caption(track, stream), title=track.title, performer=track.artist
+                    audio=audio,
+                    caption=build_track_caption(track, stream),
+                    title=track.title,
+                    performer=track.artist,
+                    duration=track.duration,
+                    thumbnail=thumbnail,
                 )
         except HifiTrackTooLargeError:
             await message.reply(_("This track is too large to send on Telegram."))

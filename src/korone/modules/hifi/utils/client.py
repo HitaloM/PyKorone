@@ -279,6 +279,21 @@ async def get_track_stream(track_id: int, *, preferred_quality: str = "LOSSLESS"
     raise HifiStreamUnavailableError
 
 
+async def download_cover_image(cover_url: str) -> bytes | None:
+    timeout = aiohttp.ClientTimeout(total=HIFI_API_TIMEOUT_SECONDS)
+    session = await HTTPClient.get_session()
+
+    try:
+        async with session.get(cover_url, timeout=timeout) as response:
+            if response.status != 200:
+                return None
+
+            return await response.read()
+    except aiohttp.ClientError as exc:
+        await logger.adebug("[HiFi] Cover download failed", error=str(exc), url=cover_url)
+        return None
+
+
 async def download_stream_audio(
     stream: HifiTrackStream, *, max_size_bytes: int = TELEGRAM_MAX_AUDIO_SIZE_BYTES
 ) -> tuple[bytes, str | None]:
