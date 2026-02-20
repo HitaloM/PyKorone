@@ -18,6 +18,12 @@ from korone.modules.hifi.utils.client import (
 )
 from korone.modules.hifi.utils.formatters import build_album_cover_url, build_track_caption, build_track_filename
 from korone.modules.hifi.utils.session import get_search_session
+from korone.modules.utils_.file_id_cache import (
+    delete_cached_file_payload,
+    get_cached_file_payload,
+    make_file_id_cache_key,
+    set_cached_file_payload,
+)
 from korone.utils.handlers import KoroneCallbackQueryHandler
 from korone.utils.i18n import gettext as _
 
@@ -65,8 +71,24 @@ class HifiTrackDownloadCallbackHandler(KoroneCallbackQueryHandler):
 
         message = cast("Message", self.event.message)
         track = search_session.tracks[callback_data.index]
+        cache_key = make_file_id_cache_key("hifi-track", f"{track.id}:LOSSLESS")
 
         await self.event.answer()
+
+        cached_payload = await get_cached_file_payload(cache_key)
+        cached_file_id = cached_payload.get("audio_file_id") if cached_payload else None
+        if isinstance(cached_file_id, str) and cached_file_id:
+            try:
+                await message.reply_audio(
+                    audio=cached_file_id,
+                    title=track.title,
+                    performer=track.artist,
+                    duration=track.duration,
+                )
+            except TelegramBadRequest:
+                await delete_cached_file_payload(cache_key)
+            else:
+                return
 
         try:
             stream = await get_track_stream(track.id, preferred_quality="LOSSLESS")
@@ -85,7 +107,7 @@ class HifiTrackDownloadCallbackHandler(KoroneCallbackQueryHandler):
                 audio = BufferedInputFile(payload, filename=build_track_filename(track, stream, content_type))
                 thumbnail = await self._download_thumbnail(track)
 
-                await message.reply_audio(
+                sent_message = await message.reply_audio(
                     audio=audio,
                     caption=build_track_caption(track, stream),
                     title=track.title,
@@ -93,6 +115,9 @@ class HifiTrackDownloadCallbackHandler(KoroneCallbackQueryHandler):
                     duration=track.duration,
                     thumbnail=thumbnail,
                 )
+
+                if sent_message.audio:
+                    await set_cached_file_payload(cache_key, {"audio_file_id": sent_message.audio.file_id})
         except HifiTrackTooLargeError:
             await message.reply(_("This track is too large to send on Telegram."))
             return

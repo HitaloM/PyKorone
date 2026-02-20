@@ -176,7 +176,7 @@ class InstagramProvider(MediaProvider):
             return None
 
         filename = cls._make_filename(url, kind)
-        return MediaItem(kind=kind, file=BufferedInputFile(payload, filename), filename=filename)
+        return MediaItem(kind=kind, file=BufferedInputFile(payload, filename), filename=filename, source_url=url)
 
     @staticmethod
     def _make_filename(url: str, kind: MediaKind) -> str:

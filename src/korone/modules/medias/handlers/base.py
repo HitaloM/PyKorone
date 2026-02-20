@@ -11,6 +11,7 @@ from stfu_tg import Bold, Code, Italic, Template, Url
 from korone.filters.chat_status import GroupChatFilter
 from korone.modules.medias.filters import MediaUrlFilter
 from korone.modules.medias.utils.base import MediaKind
+from korone.modules.utils_.file_id_cache import make_file_id_cache_key, set_cached_file_payload
 from korone.utils.handlers import KoroneMessageHandler
 from korone.utils.i18n import gettext as _
 
@@ -35,25 +36,38 @@ class BaseMediaHandler(KoroneMessageHandler):
         return (GroupChatFilter(), MediaUrlFilter(cls.PROVIDER.pattern))
 
     async def _send_single_media(self, media: MediaItem, caption: str, keyboard: InlineKeyboardMarkup | None) -> None:
+        sent_message = None
         if media.kind == MediaKind.PHOTO:
             async with ChatActionSender.upload_photo(
                 chat_id=self.event.chat.id, bot=self.bot, message_thread_id=self.event.message_thread_id
             ):
-                await self.event.reply_photo(media.file, caption=caption, reply_markup=keyboard)
-                return
+                sent_message = await self.event.reply_photo(media.file, caption=caption, reply_markup=keyboard)
+        else:
+            async with ChatActionSender.upload_video(
+                chat_id=self.event.chat.id, bot=self.bot, message_thread_id=self.event.message_thread_id
+            ):
+                sent_message = await self.event.reply_video(
+                    media.file,
+                    caption=caption,
+                    reply_markup=keyboard,
+                    duration=media.duration,
+                    width=media.width,
+                    height=media.height,
+                    thumbnail=media.thumbnail,
+                )
 
-        async with ChatActionSender.upload_video(
-            chat_id=self.event.chat.id, bot=self.bot, message_thread_id=self.event.message_thread_id
-        ):
-            await self.event.reply_video(
-                media.file,
-                caption=caption,
-                reply_markup=keyboard,
-                duration=media.duration,
-                width=media.width,
-                height=media.height,
-                thumbnail=media.thumbnail,
-            )
+        if not sent_message:
+            return
+
+        file_id: str | None = None
+        if media.kind == MediaKind.PHOTO and sent_message.photo:
+            file_id = sent_message.photo[-1].file_id
+        elif media.kind == MediaKind.VIDEO and sent_message.video:
+            file_id = sent_message.video.file_id
+
+        if file_id:
+            cache_key = make_file_id_cache_key("media-source", media.source_url)
+            await set_cached_file_payload(cache_key, {"file_id": file_id})
 
     async def _send_media_group(self, media_items: list[MediaItem], caption: str) -> None:
         builder = MediaGroupBuilder()
@@ -72,12 +86,25 @@ class BaseMediaHandler(KoroneMessageHandler):
                     thumbnail=item.thumbnail,
                 )
 
-        await self.bot.send_media_group(
+        sent_messages = await self.bot.send_media_group(
             chat_id=self.event.chat.id,
             media=builder.build(),
             reply_to_message_id=self.event.message_id,
             message_thread_id=self.event.message_thread_id,
         )
+
+        for item, sent in zip(media_items, sent_messages, strict=False):
+            file_id: str | None = None
+            if item.kind == MediaKind.PHOTO and sent.photo:
+                file_id = sent.photo[-1].file_id
+            elif item.kind == MediaKind.VIDEO and sent.video:
+                file_id = sent.video.file_id
+
+            if not file_id:
+                continue
+
+            cache_key = make_file_id_cache_key("media-source", item.source_url)
+            await set_cached_file_payload(cache_key, {"file_id": file_id})
 
     @classmethod
     def _format_caption(cls, post: MediaPost) -> str:
