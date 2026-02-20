@@ -11,6 +11,7 @@ from typing import TYPE_CHECKING
 from aiogram.types import FSInputFile, InputSticker
 from PIL import Image
 
+from korone.modules.utils_.telegram_file import download_telegram_file
 from korone.utils.i18n import gettext as _
 
 from .constants import MAX_STICKER_SIDE, MAX_VIDEO_SECONDS, MAX_VIDEO_SIZE_BYTES, VIDEO_EXTENSIONS
@@ -78,7 +79,7 @@ def extract_reply_media(message: Message) -> tuple[str, str, str | None]:
 
 
 async def download_file(bot: Bot, file_id: str, destination: Path) -> None:
-    await bot.download(file=file_id, destination=destination)
+    await download_telegram_file(bot=bot, file_id=file_id, destination=destination)
 
 
 async def prepare_sticker_file(source_path: Path) -> tuple[Path, str]:
