@@ -7,7 +7,6 @@ from korone.utils.i18n import lazy_gettext as l_
 from .handlers.adminlist import AdminListHandler
 from .handlers.id import ShowIDHandler
 from .handlers.info import UserInfoHandler
-from .handlers.profile_audios import UserProfileAudioSendHandler, UserProfileAudiosHandler, UserProfileAudiosPageHandler
 from .stats import users_stats
 
 router = Router(name="users")
@@ -27,7 +26,4 @@ __handlers__ = (
     ShowIDHandler,
     AdminListHandler,
     UserInfoHandler,
-    UserProfileAudiosHandler,
-    UserProfileAudiosPageHandler,
-    UserProfileAudioSendHandler,
 )
