@@ -48,7 +48,9 @@ class LastFMCollageHandler(KoroneMessageHandler):
     async def _generate_and_send(
         self, last_fm_user: str, collage_size: int, period: TimePeriod, *, show_text: bool
     ) -> None:
-        async with ChatActionSender.upload_photo(chat_id=self.event.chat.id, bot=self.bot):
+        async with ChatActionSender.upload_photo(
+            chat_id=self.event.chat.id, bot=self.bot, message_thread_id=self.event.message_thread_id
+        ):
             last_fm = LastFMClient()
             try:
                 top_items = await last_fm.get_top_albums(last_fm_user, period, limit=collage_size**2)

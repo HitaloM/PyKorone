@@ -520,7 +520,7 @@ msgid "Search session expired. Please run /song again."
 msgstr "A sessão de pesquisa expirou. Execute /song novamente."
 
 #: src/korone/modules/hifi/handlers/list.py:42
-#: src/korone/modules/hifi/handlers/search.py:51
+#: src/korone/modules/hifi/handlers/search.py:53
 msgid "No tracks found."
 msgstr "Nenhuma faixa encontrada."
 
@@ -542,7 +542,7 @@ msgstr "Pesquisa músicas com a API HiFi."
 msgid "Query"
 msgstr "Consulta"
 
-#: src/korone/modules/hifi/handlers/search.py:47
+#: src/korone/modules/hifi/handlers/search.py:49
 msgid "Could not fetch tracks right now. Please try again later."
 msgstr "Não foi possível buscar faixas agora. Tente novamente mais tarde."
 
@@ -554,15 +554,15 @@ msgstr "Não foi possível obter o stream de áudio desta faixa."
 msgid "Could not fetch track information right now."
 msgstr "Não foi possível buscar as informações da faixa agora."
 
-#: src/korone/modules/hifi/handlers/send.py:95
+#: src/korone/modules/hifi/handlers/send.py:97
 msgid "This track is too large to send on Telegram."
 msgstr "Esta faixa é grande demais para enviar no Telegram."
 
-#: src/korone/modules/hifi/handlers/send.py:98
+#: src/korone/modules/hifi/handlers/send.py:100
 msgid "Could not download this track right now."
 msgstr "Não foi possível baixar esta faixa agora."
 
-#: src/korone/modules/hifi/handlers/send.py:101
+#: src/korone/modules/hifi/handlers/send.py:103
 msgid "Could not send this track right now."
 msgstr "Não foi possível enviar esta faixa agora."
 
@@ -757,7 +757,7 @@ msgstr "Gera uma colagem do Last.fm com seus álbuns mais ouvidos."
 msgid "Args"
 msgstr "Argumentos"
 
-#: src/korone/modules/lastfm/handlers/collage.py:56
+#: src/korone/modules/lastfm/handlers/collage.py:58
 msgid "No top albums found for your Last.fm account."
 msgstr "Nenhum álbum mais ouvido encontrado para sua conta do Last.fm."
 
@@ -1020,8 +1020,8 @@ msgstr ""
 "\n"
 "Atualmente compatível com: Twitter, Bluesky e Instagram."
 
-#: src/korone/modules/medias/handlers/base.py:95
-#: src/korone/modules/medias/handlers/base.py:151
+#: src/korone/modules/medias/handlers/base.py:99
+#: src/korone/modules/medias/handlers/base.py:155
 #, python-brace-format
 msgid "Open in {website}"
 msgstr "Abrir em {website}"
@@ -2069,3 +2069,4 @@ msgstr "Não foi possível encontrar a menção de usuário"
 
 #~ msgid "Audio sent."
 #~ msgstr "Áudio enviado."
+
