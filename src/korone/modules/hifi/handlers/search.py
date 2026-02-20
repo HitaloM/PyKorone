@@ -41,7 +41,9 @@ class HifiSearchHandler(KoroneMessageHandler):
             raise RuntimeError(msg)
 
         try:
-            async with ChatActionSender.typing(chat_id=self.event.chat.id, bot=self.bot):
+            async with ChatActionSender.typing(
+                chat_id=self.event.chat.id, bot=self.bot, message_thread_id=self.event.message_thread_id
+            ):
                 tracks = await search_tracks(query)
         except HifiAPIError:
             await self.event.reply(_("Could not fetch tracks right now. Please try again later."))
@@ -52,9 +54,7 @@ class HifiSearchHandler(KoroneMessageHandler):
             return
 
         search_session = HifiSearchSession(user_id=self.event.from_user.id, query=query, tracks=tracks)
-        session_token = await create_search_session(
-            search_session.user_id, search_session.query, search_session.tracks
-        )
+        session_token = await create_search_session(search_session.user_id, search_session.query, search_session.tracks)
 
         text = build_search_results_text(query=search_session.query, total_count=len(search_session.tracks), page=1)
         keyboard = create_tracks_keyboard(

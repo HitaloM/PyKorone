@@ -36,11 +36,15 @@ class BaseMediaHandler(KoroneMessageHandler):
 
     async def _send_single_media(self, media: MediaItem, caption: str, keyboard: InlineKeyboardMarkup | None) -> None:
         if media.kind == MediaKind.PHOTO:
-            async with ChatActionSender.upload_photo(chat_id=self.event.chat.id, bot=self.bot):
+            async with ChatActionSender.upload_photo(
+                chat_id=self.event.chat.id, bot=self.bot, message_thread_id=self.event.message_thread_id
+            ):
                 await self.event.reply_photo(media.file, caption=caption, reply_markup=keyboard)
                 return
 
-        async with ChatActionSender.upload_video(chat_id=self.event.chat.id, bot=self.bot):
+        async with ChatActionSender.upload_video(
+            chat_id=self.event.chat.id, bot=self.bot, message_thread_id=self.event.message_thread_id
+        ):
             await self.event.reply_video(
                 media.file,
                 caption=caption,
@@ -174,5 +178,7 @@ class BaseMediaHandler(KoroneMessageHandler):
             return
 
         group_caption = self._format_caption_with_link(post)
-        async with ChatActionSender.upload_document(chat_id=self.event.chat.id, bot=self.bot):
+        async with ChatActionSender.upload_document(
+            chat_id=self.event.chat.id, bot=self.bot, message_thread_id=self.event.message_thread_id
+        ):
             await self._send_media_group(media_items, group_caption)

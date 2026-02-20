@@ -75,6 +75,8 @@ class DeviceSearchHandler(KoroneMessageHandler):
             )
             return
 
-        async with ChatActionSender.typing(chat_id=self.event.chat.id, bot=self.bot):
+        async with ChatActionSender.typing(
+            chat_id=self.event.chat.id, bot=self.bot, message_thread_id=self.event.message_thread_id
+        ):
             devices = await search_phone(query)
             await self._handle_search_results(query, devices)

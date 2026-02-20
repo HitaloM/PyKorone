@@ -78,7 +78,9 @@ class HifiTrackDownloadCallbackHandler(KoroneCallbackQueryHandler):
             return
 
         try:
-            async with ChatActionSender.upload_document(chat_id=message.chat.id, bot=self.bot):
+            async with ChatActionSender.upload_document(
+                chat_id=message.chat.id, bot=self.bot, message_thread_id=message.message_thread_id
+            ):
                 payload, content_type = await download_stream_audio(stream)
                 audio = BufferedInputFile(payload, filename=build_track_filename(track, stream, content_type))
                 thumbnail = await self._download_thumbnail(track)
