@@ -11,3 +11,5 @@ CACHE_DEFAULT_TTL_SECONDS: Final[int] = 1800  # 30 minutes
 CACHE_ADMIN_TTL_SECONDS: Final[int] = 7200  # 2 hours
 
 CACHE_MEDIA_TTL_SECONDS: Final[int] = 86400  # 24 hours
+
+CACHE_FILE_ID_TTL_SECONDS: Final[int] = 2678400  # 31 days

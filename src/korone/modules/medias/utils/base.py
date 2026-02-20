@@ -13,6 +13,7 @@ import aiohttp
 from aiogram.types import BufferedInputFile
 
 from korone.logger import get_logger
+from korone.modules.utils_.file_id_cache import get_cached_file_payload, make_file_id_cache_key
 from korone.utils.aiohttp_session import HTTPClient
 
 if TYPE_CHECKING:
@@ -32,8 +33,9 @@ class MediaKind(StrEnum):
 @dataclass(frozen=True, slots=True)
 class MediaItem:
     kind: MediaKind
-    file: InputFile
+    file: InputFile | str
     filename: str
+    source_url: str
     thumbnail: InputFile | None = None
     duration: int | None = None
     width: int | None = None
@@ -124,6 +126,21 @@ class MediaProvider(ABC):
     async def _download_source(
         cls, source: MediaSource, index: int, prefix: str, max_size: int | None, label: str
     ) -> MediaItem | None:
+        cache_key = make_file_id_cache_key("media-source", source.url)
+        cached_payload = await get_cached_file_payload(cache_key)
+        if cached_payload:
+            cached_file_id = cached_payload.get("file_id")
+            if isinstance(cached_file_id, str) and cached_file_id:
+                return MediaItem(
+                    kind=source.kind,
+                    file=cached_file_id,
+                    filename=f"{prefix}_{index}",
+                    source_url=source.url,
+                    duration=source.duration,
+                    width=source.width,
+                    height=source.height,
+                )
+
         try:
             session = await HTTPClient.get_session()
             async with session.get(source.url, timeout=cls._DEFAULT_TIMEOUT) as response:
@@ -157,6 +174,7 @@ class MediaProvider(ABC):
             kind=source.kind,
             file=BufferedInputFile(payload, filename),
             filename=filename,
+            source_url=source.url,
             thumbnail=thumbnail,
             duration=source.duration,
             width=source.width,
