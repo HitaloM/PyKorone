@@ -14,6 +14,9 @@ def get_error_message(exception: Exception) -> tuple[str | Element, ...]:
     if isinstance(exception, KoroneError):
         return exception.docs
 
+    if not exception.args:
+        return (Italic(exception.__class__.__name__),)
+
     return tuple(x if isinstance(x, Element) else Italic(str(x)) for x in exception.args)
 
 
