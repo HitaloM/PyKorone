@@ -32,22 +32,18 @@ class StickerMyPacksHandler(KoroneMessageHandler):
             await self.event.reply(_("You don't have any tracked sticker packs yet."))
             return
 
-        lines: list[str] = []
+        lines: list[Template] = []
         for index, pack in enumerate(packs, start=1):
             pack_url = f"https://t.me/addstickers/{pack.pack_id}"
             default_mark = " ✓" if pack.is_default else ""
             lines.append(
-                str(
-                    Template(
-                        _("{index}. {pack}{default_mark}"),
-                        index=Code(index),
-                        pack=Url(pack.title, pack_url),
-                        default_mark=default_mark,
-                    ).to_html()
+                Template(
+                    _("{index}. {pack}{default_mark}"),
+                    index=Code(index),
+                    pack=Url(pack.title, pack_url),
+                    default_mark=default_mark,
                 )
             )
 
-        text = str(
-            Section("\n".join(lines), title=Template(_("{name}'s sticker packs"), name=self.event.from_user.first_name))
-        )
+        text = str(Section(*lines, title=Template(_("{name}'s sticker packs"), name=self.event.from_user.first_name)))
         await self.event.reply(text, disable_web_page_preview=True)

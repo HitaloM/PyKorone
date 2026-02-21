@@ -212,7 +212,7 @@ msgstr "Fornece mecanismos de relatório e recuperação de erros."
 msgid "Causes the bot to crash (for testing purposes)."
 msgstr "Faz o bot travar (para fins de teste)."
 
-#: src/korone/modules/error/utils/error_message.py:21
+#: src/korone/modules/error/utils/error_message.py:24
 msgid "😞 I've got an error trying to process this update"
 msgstr "😞 Ocorreu um erro ao tentar processar esta atualização"
 
@@ -1288,12 +1288,12 @@ msgstr "Lista seus pacotes de figurinhas rastreados."
 msgid "You don't have any tracked sticker packs yet."
 msgstr "Você ainda não tem pacotes de figurinhas rastreados."
 
-#: src/korone/modules/stickers/handlers/mypacks.py:42
+#: src/korone/modules/stickers/handlers/mypacks.py:41
 #, python-brace-format
 msgid "{index}. {pack}{default_mark}"
 msgstr "{index}. {pack}{default_mark}"
 
-#: src/korone/modules/stickers/handlers/mypacks.py:51
+#: src/korone/modules/stickers/handlers/mypacks.py:48
 #, python-brace-format
 msgid "{name}'s sticker packs"
 msgstr "Pacotes de figurinhas de {name}"
