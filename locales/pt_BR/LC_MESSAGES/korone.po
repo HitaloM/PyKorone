@@ -232,7 +232,7 @@ msgstr "Pesquise smartphones e obtenha uma visão geral rápida das especificaç
 #: src/korone/modules/gsm_arena/handlers/list.py:32
 #: src/korone/modules/hifi/handlers/list.py:38
 #: src/korone/modules/hifi/handlers/preview.py:37
-#: src/korone/modules/hifi/handlers/send.py:59
+#: src/korone/modules/hifi/handlers/send.py:65
 msgid "You are not allowed to use this button."
 msgstr "Você não tem permissão para usar este botão."
 
@@ -515,7 +515,7 @@ msgstr "Pesquise faixas, visualize uma prévia e obtenha arquivos de áudio em a
 
 #: src/korone/modules/hifi/handlers/list.py:34
 #: src/korone/modules/hifi/handlers/preview.py:33
-#: src/korone/modules/hifi/handlers/send.py:55
+#: src/korone/modules/hifi/handlers/send.py:61
 msgid "Search session expired. Please run /song again."
 msgstr "A sessão de pesquisa expirou. Execute /song novamente."
 
@@ -525,7 +525,7 @@ msgid "No tracks found."
 msgstr "Nenhuma faixa encontrada."
 
 #: src/korone/modules/hifi/handlers/preview.py:41
-#: src/korone/modules/hifi/handlers/send.py:63
+#: src/korone/modules/hifi/handlers/send.py:69
 msgid "Invalid track selected."
 msgstr "Faixa selecionada inválida."
 
@@ -546,23 +546,27 @@ msgstr "Consulta"
 msgid "Could not fetch tracks right now. Please try again later."
 msgstr "Não foi possível buscar faixas agora. Tente novamente mais tarde."
 
-#: src/korone/modules/hifi/handlers/send.py:74
+#: src/korone/modules/hifi/handlers/send.py:76
+msgid "This track has been requested recently in this chat."
+msgstr "Esta faixa foi solicitada recentemente neste chat."
+
+#: src/korone/modules/hifi/handlers/send.py:102
 msgid "Could not get an audio stream for this track."
 msgstr "Não foi possível obter o stream de áudio desta faixa."
 
-#: src/korone/modules/hifi/handlers/send.py:77
+#: src/korone/modules/hifi/handlers/send.py:105
 msgid "Could not fetch track information right now."
 msgstr "Não foi possível buscar as informações da faixa agora."
 
-#: src/korone/modules/hifi/handlers/send.py:97
+#: src/korone/modules/hifi/handlers/send.py:131
 msgid "This track is too large to send on Telegram."
 msgstr "Esta faixa é grande demais para enviar no Telegram."
 
-#: src/korone/modules/hifi/handlers/send.py:100
+#: src/korone/modules/hifi/handlers/send.py:134
 msgid "Could not download this track right now."
 msgstr "Não foi possível baixar esta faixa agora."
 
-#: src/korone/modules/hifi/handlers/send.py:103
+#: src/korone/modules/hifi/handlers/send.py:137
 msgid "Could not send this track right now."
 msgstr "Não foi possível enviar esta faixa agora."
 
@@ -1020,8 +1024,8 @@ msgstr ""
 "\n"
 "Atualmente compatível com: Twitter, Bluesky e Instagram."
 
-#: src/korone/modules/medias/handlers/base.py:99
-#: src/korone/modules/medias/handlers/base.py:155
+#: src/korone/modules/medias/handlers/base.py:126
+#: src/korone/modules/medias/handlers/base.py:182
 #, python-brace-format
 msgid "Open in {website}"
 msgstr "Abrir em {website}"
@@ -1424,37 +1428,37 @@ msgstr "Usuários com pacotes"
 msgid "Tracked packs"
 msgstr "Pacotes rastreados"
 
-#: src/korone/modules/stickers/utils/media.py:111
+#: src/korone/modules/stickers/utils/media.py:112
 msgid "Could not process this file as an image sticker."
 msgstr "Não foi possível processar este arquivo como uma figurinha de imagem."
 
-#: src/korone/modules/stickers/utils/media.py:137
+#: src/korone/modules/stickers/utils/media.py:138
 msgid "Video conversion is unavailable because ffmpeg/ffprobe are not installed."
 msgstr "A conversão de vídeo não está disponível porque ffmpeg/ffprobe não estão instalados."
 
-#: src/korone/modules/stickers/utils/media.py:142
+#: src/korone/modules/stickers/utils/media.py:143
 #, python-brace-format
 msgid "Video is too long ({duration:.2f}s). Maximum allowed duration is 3 seconds."
 msgstr "O vídeo é muito longo ({duration:.2f}s). A duração máxima permitida é de 3 segundos."
 
-#: src/korone/modules/stickers/utils/media.py:173
+#: src/korone/modules/stickers/utils/media.py:174
 msgid "Could not convert this video to a valid sticker."
 msgstr "Não foi possível converter este vídeo para uma figurinha válida."
 
-#: src/korone/modules/stickers/utils/media.py:178
+#: src/korone/modules/stickers/utils/media.py:179
 #, python-brace-format
 msgid "Converted video is too large ({size_kb:.1f} KB). Maximum allowed size is 256 KB."
 msgstr "O vídeo convertido é muito grande ({size_kb:.1f} KB). O tamanho máximo permitido é 256 KB."
 
-#: src/korone/modules/stickers/utils/media.py:203
+#: src/korone/modules/stickers/utils/media.py:204
 msgid "Could not inspect video metadata."
 msgstr "Não foi possível inspecionar os metadados do vídeo."
 
-#: src/korone/modules/stickers/utils/media.py:213
+#: src/korone/modules/stickers/utils/media.py:214
 msgid "Could not parse video metadata."
 msgstr "Não foi possível analisar os metadados do vídeo."
 
-#: src/korone/modules/stickers/utils/media.py:216
+#: src/korone/modules/stickers/utils/media.py:217
 msgid "Video metadata is invalid."
 msgstr "Os metadados do vídeo são inválidos."
 
@@ -2069,4 +2073,3 @@ msgstr "Não foi possível encontrar a menção de usuário"
 
 #~ msgid "Audio sent."
 #~ msgstr "Áudio enviado."
-

@@ -125,11 +125,7 @@ class HifiTrackDownloadCallbackHandler(KoroneCallbackQueryHandler):
 
                 if sent_message.audio:
                     await set_cached_file_payload(
-                        cache_key,
-                        {
-                            "audio_file_id": sent_message.audio.file_id,
-                            "caption": caption,
-                        },
+                        cache_key, {"audio_file_id": sent_message.audio.file_id, "caption": caption}
                     )
         except HifiTrackTooLargeError:
             await message.reply(_("This track is too large to send on Telegram."))

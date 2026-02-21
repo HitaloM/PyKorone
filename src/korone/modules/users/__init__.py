@@ -22,8 +22,4 @@ __module_info__ = LazyProxy(
 
 __stats__ = users_stats
 
-__handlers__ = (
-    ShowIDHandler,
-    AdminListHandler,
-    UserInfoHandler,
-)
+__handlers__ = (ShowIDHandler, AdminListHandler, UserInfoHandler)

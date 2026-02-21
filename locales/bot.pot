@@ -232,7 +232,7 @@ msgstr ""
 #: src/korone/modules/gsm_arena/handlers/list.py:32
 #: src/korone/modules/hifi/handlers/list.py:38
 #: src/korone/modules/hifi/handlers/preview.py:37
-#: src/korone/modules/hifi/handlers/send.py:59
+#: src/korone/modules/hifi/handlers/send.py:65
 msgid "You are not allowed to use this button."
 msgstr ""
 
@@ -515,7 +515,7 @@ msgstr ""
 
 #: src/korone/modules/hifi/handlers/list.py:34
 #: src/korone/modules/hifi/handlers/preview.py:33
-#: src/korone/modules/hifi/handlers/send.py:55
+#: src/korone/modules/hifi/handlers/send.py:61
 msgid "Search session expired. Please run /song again."
 msgstr ""
 
@@ -525,7 +525,7 @@ msgid "No tracks found."
 msgstr ""
 
 #: src/korone/modules/hifi/handlers/preview.py:41
-#: src/korone/modules/hifi/handlers/send.py:63
+#: src/korone/modules/hifi/handlers/send.py:69
 msgid "Invalid track selected."
 msgstr ""
 
@@ -546,23 +546,27 @@ msgstr ""
 msgid "Could not fetch tracks right now. Please try again later."
 msgstr ""
 
-#: src/korone/modules/hifi/handlers/send.py:74
+#: src/korone/modules/hifi/handlers/send.py:76
+msgid "This track has been requested recently in this chat."
+msgstr ""
+
+#: src/korone/modules/hifi/handlers/send.py:102
 msgid "Could not get an audio stream for this track."
 msgstr ""
 
-#: src/korone/modules/hifi/handlers/send.py:77
+#: src/korone/modules/hifi/handlers/send.py:105
 msgid "Could not fetch track information right now."
 msgstr ""
 
-#: src/korone/modules/hifi/handlers/send.py:97
+#: src/korone/modules/hifi/handlers/send.py:131
 msgid "This track is too large to send on Telegram."
 msgstr ""
 
-#: src/korone/modules/hifi/handlers/send.py:100
+#: src/korone/modules/hifi/handlers/send.py:134
 msgid "Could not download this track right now."
 msgstr ""
 
-#: src/korone/modules/hifi/handlers/send.py:103
+#: src/korone/modules/hifi/handlers/send.py:137
 msgid "Could not send this track right now."
 msgstr ""
 
@@ -1002,8 +1006,8 @@ msgid ""
 "Currently supports: Twitter, Bluesky, Instagram."
 msgstr ""
 
-#: src/korone/modules/medias/handlers/base.py:99
-#: src/korone/modules/medias/handlers/base.py:155
+#: src/korone/modules/medias/handlers/base.py:126
+#: src/korone/modules/medias/handlers/base.py:182
 #, python-brace-format
 msgid "Open in {website}"
 msgstr ""
@@ -1406,37 +1410,37 @@ msgstr ""
 msgid "Tracked packs"
 msgstr ""
 
-#: src/korone/modules/stickers/utils/media.py:111
+#: src/korone/modules/stickers/utils/media.py:112
 msgid "Could not process this file as an image sticker."
 msgstr ""
 
-#: src/korone/modules/stickers/utils/media.py:137
+#: src/korone/modules/stickers/utils/media.py:138
 msgid "Video conversion is unavailable because ffmpeg/ffprobe are not installed."
 msgstr ""
 
-#: src/korone/modules/stickers/utils/media.py:142
+#: src/korone/modules/stickers/utils/media.py:143
 #, python-brace-format
 msgid "Video is too long ({duration:.2f}s). Maximum allowed duration is 3 seconds."
 msgstr ""
 
-#: src/korone/modules/stickers/utils/media.py:173
+#: src/korone/modules/stickers/utils/media.py:174
 msgid "Could not convert this video to a valid sticker."
 msgstr ""
 
-#: src/korone/modules/stickers/utils/media.py:178
+#: src/korone/modules/stickers/utils/media.py:179
 #, python-brace-format
 msgid "Converted video is too large ({size_kb:.1f} KB). Maximum allowed size is 256 KB."
 msgstr ""
 
-#: src/korone/modules/stickers/utils/media.py:203
+#: src/korone/modules/stickers/utils/media.py:204
 msgid "Could not inspect video metadata."
 msgstr ""
 
-#: src/korone/modules/stickers/utils/media.py:213
+#: src/korone/modules/stickers/utils/media.py:214
 msgid "Could not parse video metadata."
 msgstr ""
 
-#: src/korone/modules/stickers/utils/media.py:216
+#: src/korone/modules/stickers/utils/media.py:217
 msgid "Video metadata is invalid."
 msgstr ""
 
@@ -1777,4 +1781,3 @@ msgstr ""
 #: src/korone/modules/web/handlers/whois.py:58
 msgid "WHOIS Information"
 msgstr ""
-
