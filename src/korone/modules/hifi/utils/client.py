@@ -27,7 +27,8 @@ QUALITY_FALLBACK_ORDER = ("LOSSLESS", "HIGH", "LOW")
 
 
 class HifiAPIError(Exception):
-    pass
+    def __init__(self, message: str = "HiFi API error") -> None:
+        super().__init__(message)
 
 
 class HifiRequestFailedError(HifiAPIError):
@@ -39,15 +40,18 @@ class HifiRequestFailedError(HifiAPIError):
 
 
 class HifiPayloadError(HifiAPIError):
-    pass
+    def __init__(self, message: str = "HiFi API returned an invalid payload") -> None:
+        super().__init__(message)
 
 
 class HifiStreamUnavailableError(HifiAPIError):
-    pass
+    def __init__(self, message: str = "HiFi audio stream is unavailable") -> None:
+        super().__init__(message)
 
 
 class HifiTrackTooLargeError(HifiAPIError):
-    pass
+    def __init__(self, message: str = "HiFi track is too large for Telegram") -> None:
+        super().__init__(message)
 
 
 def _build_url(base_url: str, path: str) -> str:
@@ -204,17 +208,21 @@ async def _request_json(path: str, *, params: dict[str, str | int]) -> dict[str,
                 try:
                     payload = await response.json(content_type=None)
                 except (aiohttp.ContentTypeError, ValueError) as exc:
-                    last_error = HifiPayloadError()
+                    last_error = HifiPayloadError("HiFi API returned invalid JSON")
                     await logger.adebug("[HiFi] Invalid payload", error=str(exc), url=url)
                     continue
 
+        except TimeoutError as exc:
+            last_error = HifiAPIError("HiFi API request timed out")
+            await logger.aerror("[HiFi] Request timed out", error=str(exc), url=url)
+            continue
         except aiohttp.ClientError as exc:
-            last_error = HifiAPIError()
+            last_error = HifiAPIError("HiFi API request failed")
             await logger.aerror("[HiFi] Request failed", error=str(exc), url=url)
             continue
 
         if not isinstance(payload, dict):
-            last_error = HifiPayloadError()
+            last_error = HifiPayloadError("HiFi API returned an unexpected payload shape")
             await logger.adebug("[HiFi] Invalid payload shape", url=url)
             continue
 
@@ -223,7 +231,8 @@ async def _request_json(path: str, *, params: dict[str, str | int]) -> dict[str,
     if last_error is not None:
         raise last_error
 
-    raise HifiAPIError
+    msg = "HiFi API request failed on all upstreams"
+    raise HifiAPIError(msg)
 
 
 async def search_tracks(query: str) -> list[HifiTrack]:
@@ -274,9 +283,11 @@ async def get_track_stream(track_id: int, *, preferred_quality: str = "LOSSLESS"
         )
 
     if last_error is not None:
-        raise HifiStreamUnavailableError from last_error
+        msg = f"No stream available for track id {track_id}"
+        raise HifiStreamUnavailableError(msg) from last_error
 
-    raise HifiStreamUnavailableError
+    msg = f"No stream available for track id {track_id}"
+    raise HifiStreamUnavailableError(msg)
 
 
 async def download_cover_image(cover_url: str) -> bytes | None:
@@ -289,6 +300,9 @@ async def download_cover_image(cover_url: str) -> bytes | None:
                 return None
 
             return await response.read()
+    except TimeoutError as exc:
+        await logger.adebug("[HiFi] Cover download timed out", error=str(exc), url=cover_url)
+        return None
     except aiohttp.ClientError as exc:
         await logger.adebug("[HiFi] Cover download failed", error=str(exc), url=cover_url)
         return None
@@ -315,6 +329,11 @@ async def download_stream_audio(
             content_type = response.headers.get("Content-Type")
             return payload, content_type
 
+    except TimeoutError as exc:
+        await logger.aerror("[HiFi] Download timed out", error=str(exc), url=stream.url)
+        msg = "HiFi audio download timed out"
+        raise HifiAPIError(msg) from exc
     except aiohttp.ClientError as exc:
         await logger.aerror("[HiFi] Download failed", error=str(exc), url=stream.url)
-        raise HifiAPIError from exc
+        msg = "HiFi audio download failed"
+        raise HifiAPIError(msg) from exc
