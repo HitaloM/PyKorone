@@ -10,10 +10,17 @@ from .types import HifiSearchSession, HifiTrack
 
 SESSION_TTL_SECONDS = 60 * 60
 SESSION_KEY_PREFIX = "hifi:session:"
+TRACK_REQUEST_GUARD_PREFIX = "hifi:track-request:"
+TRACK_REQUEST_COOLDOWN_SECONDS = 10 * 60
 
 
 def _session_key(token: str) -> str:
     return f"{SESSION_KEY_PREFIX}{token}"
+
+
+def _track_request_guard_key(chat_id: int, message_thread_id: int | None, track_id: int) -> str:
+    thread_id = message_thread_id if message_thread_id is not None else 0
+    return f"{TRACK_REQUEST_GUARD_PREFIX}{chat_id}:{thread_id}:{track_id}"
 
 
 def _parse_track(item: object) -> HifiTrack | None:
@@ -112,3 +119,9 @@ async def get_search_session(token: str) -> HifiSearchSession | None:
         tracks.append(track)
 
     return HifiSearchSession(user_id=user_id, query=query, tracks=tracks)
+
+
+async def can_request_track_in_chat(chat_id: int, message_thread_id: int | None, track_id: int) -> bool:
+    cache_key = _track_request_guard_key(chat_id, message_thread_id, track_id)
+    is_new = await aredis.set(cache_key, "1", ex=TRACK_REQUEST_COOLDOWN_SECONDS, nx=True)
+    return bool(is_new)

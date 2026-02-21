@@ -17,7 +17,7 @@ from korone.modules.hifi.utils.client import (
     get_track_stream,
 )
 from korone.modules.hifi.utils.formatters import build_album_cover_url, build_track_caption, build_track_filename
-from korone.modules.hifi.utils.session import get_search_session
+from korone.modules.hifi.utils.session import can_request_track_in_chat, get_search_session
 from korone.modules.utils_.file_id_cache import (
     delete_cached_file_payload,
     get_cached_file_payload,
@@ -71,6 +71,10 @@ class HifiTrackDownloadCallbackHandler(KoroneCallbackQueryHandler):
 
         message = cast("Message", self.event.message)
         track = search_session.tracks[callback_data.index]
+        can_request = await can_request_track_in_chat(message.chat.id, message.message_thread_id, track.id)
+        if not can_request:
+            await self.event.answer(_("This track has been requested recently in this chat."), show_alert=True)
+            return
         cache_key = make_file_id_cache_key("hifi-track", f"{track.id}:LOSSLESS")
 
         await self.event.answer()
