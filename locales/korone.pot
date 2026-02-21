@@ -498,15 +498,15 @@ msgid "Commands"
 msgstr ""
 
 #: src/korone/modules/hifi/__init__.py:17
-msgid "Tidal"
+msgid "HiFi"
 msgstr ""
 
 #: src/korone/modules/hifi/__init__.py:19
-msgid "Search, download, and send tracks from Tidal"
+msgid "Search, download, and send tracks with HiFi"
 msgstr ""
 
 #: src/korone/modules/hifi/__init__.py:22
-msgid "Download and send tracks from Tidal HiFi."
+msgid "Download and send tracks with HiFi."
 msgstr ""
 
 #: src/korone/modules/hifi/__init__.py:23

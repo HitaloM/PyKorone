@@ -49,7 +49,7 @@ class HifiTrackDownloadCallbackHandler(KoroneCallbackQueryHandler):
         if payload is None:
             return None
 
-        return BufferedInputFile(payload, filename=f"tidal-cover-{track.id}.jpg")
+        return BufferedInputFile(payload, filename=f"hifi-cover-{track.id}.jpg")
 
     async def handle(self) -> None:
         await self.check_for_message()

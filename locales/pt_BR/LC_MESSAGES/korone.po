@@ -498,16 +498,16 @@ msgid "Commands"
 msgstr "Comandos"
 
 #: src/korone/modules/hifi/__init__.py:17
-msgid "Tidal"
-msgstr "Tidal"
+msgid "HiFi"
+msgstr "HiFi"
 
 #: src/korone/modules/hifi/__init__.py:19
-msgid "Search, download, and send tracks from Tidal"
-msgstr "Pesquise, baixe e envie faixas do Tidal"
+msgid "Search, download, and send tracks with HiFi"
+msgstr "Pesquise, baixe e envie faixas com HiFi"
 
 #: src/korone/modules/hifi/__init__.py:22
-msgid "Download and send tracks from Tidal HiFi."
-msgstr "Baixe e envie faixas do Tidal HiFi."
+msgid "Download and send tracks with HiFi."
+msgstr "Baixe e envie faixas com HiFi."
 
 #: src/korone/modules/hifi/__init__.py:23
 msgid "Search for tracks, preview them, and get high-quality audio files."

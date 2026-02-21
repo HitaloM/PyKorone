@@ -12,14 +12,14 @@ from .handlers.preview import HifiTrackPreviewCallbackHandler
 from .handlers.search import HifiSearchHandler
 from .handlers.send import HifiTrackDownloadCallbackHandler
 
-router = Router(name="tidal")
+router = Router(name="hifi")
 
-__module_name__ = l_("Tidal")
+__module_name__ = l_("HiFi")
 __module_emoji__ = "🎧"
-__module_description__ = l_("Search, download, and send tracks from Tidal")
+__module_description__ = l_("Search, download, and send tracks with HiFi")
 __module_info__ = LazyProxy(
     lambda: Doc(
-        l_("Download and send tracks from Tidal HiFi."),
+        l_("Download and send tracks with HiFi."),
         l_("Search for tracks, preview them, and get high-quality audio files."),
     )
 )
