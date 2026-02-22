@@ -1003,7 +1003,7 @@ msgstr ""
 msgid ""
 "Automatically fetches photos and videos from supported links posted in the group.\n"
 "\n"
-"Currently supports: Twitter, Bluesky, Instagram, Reddit."
+"Currently supports: Twitter, Bluesky, Instagram, Reddit, TikTok."
 msgstr ""
 
 #: src/korone/modules/medias/handlers/base.py:126

@@ -8,6 +8,7 @@ from .handlers.bluesky import BlueskyMediaHandler
 from .handlers.instagram import InstagramMediaHandler
 from .handlers.reddit import RedditMediaHandler
 from .handlers.status import MediaAutoDownloadStatus
+from .handlers.tiktok import TikTokMediaHandler
 from .handlers.twitter import TwitterMediaHandler
 
 router = Router(name="medias")
@@ -19,7 +20,7 @@ __module_info__ = LazyProxy(
     lambda: Doc(
         l_(
             "Automatically fetches photos and videos from supported links posted in the group.\n\n"
-            "Currently supports: Twitter, Bluesky, Instagram, Reddit."
+            "Currently supports: Twitter, Bluesky, Instagram, Reddit, TikTok."
         )
     )
 )
@@ -30,4 +31,5 @@ __handlers__ = (
     BlueskyMediaHandler,
     InstagramMediaHandler,
     RedditMediaHandler,
+    TikTokMediaHandler,
 )
