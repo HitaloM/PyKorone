@@ -991,19 +991,19 @@ msgstr ""
 msgid ", Just now"
 msgstr ""
 
-#: src/korone/modules/medias/__init__.py:14
+#: src/korone/modules/medias/__init__.py:15
 msgid "Medias"
 msgstr ""
 
-#: src/korone/modules/medias/__init__.py:16
+#: src/korone/modules/medias/__init__.py:17
 msgid "Download media from supported websites in group chats"
 msgstr ""
 
-#: src/korone/modules/medias/__init__.py:20
+#: src/korone/modules/medias/__init__.py:21
 msgid ""
 "Automatically fetches photos and videos from supported links posted in the group.\n"
 "\n"
-"Currently supports: Twitter, Bluesky, Instagram."
+"Currently supports: Twitter, Bluesky, Instagram, Reddit."
 msgstr ""
 
 #: src/korone/modules/medias/handlers/base.py:126
@@ -2117,4 +2117,10 @@ msgstr ""
 #~ msgstr ""
 
 #~ msgid "Audio sent."
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Automatically fetches photos and videos from supported links posted in the group.\n"
+#~ "\n"
+#~ "Currently supports: Twitter, Bluesky, Instagram."
 #~ msgstr ""

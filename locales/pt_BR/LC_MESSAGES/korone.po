@@ -1006,19 +1006,20 @@ msgstr ", há {minutes} minuto(s)"
 msgid ", Just now"
 msgstr ", agora mesmo"
 
-#: src/korone/modules/medias/__init__.py:14
+#: src/korone/modules/medias/__init__.py:15
 msgid "Medias"
 msgstr "Mídias"
 
-#: src/korone/modules/medias/__init__.py:16
+#: src/korone/modules/medias/__init__.py:17
 msgid "Download media from supported websites in group chats"
 msgstr "Baixar mídia de sites compatíveis em chats de grupo"
 
-#: src/korone/modules/medias/__init__.py:20
+#: src/korone/modules/medias/__init__.py:21
+#, fuzzy
 msgid ""
 "Automatically fetches photos and videos from supported links posted in the group.\n"
 "\n"
-"Currently supports: Twitter, Bluesky, Instagram."
+"Currently supports: Twitter, Bluesky, Instagram, Reddit."
 msgstr ""
 "Busca automaticamente fotos e vídeos de links compatíveis enviados no grupo.\n"
 "\n"

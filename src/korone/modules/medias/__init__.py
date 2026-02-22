@@ -6,6 +6,7 @@ from korone.utils.i18n import lazy_gettext as l_
 
 from .handlers.bluesky import BlueskyMediaHandler
 from .handlers.instagram import InstagramMediaHandler
+from .handlers.reddit import RedditMediaHandler
 from .handlers.status import MediaAutoDownloadStatus
 from .handlers.twitter import TwitterMediaHandler
 
@@ -18,9 +19,15 @@ __module_info__ = LazyProxy(
     lambda: Doc(
         l_(
             "Automatically fetches photos and videos from supported links posted in the group.\n\n"
-            "Currently supports: Twitter, Bluesky, Instagram."
+            "Currently supports: Twitter, Bluesky, Instagram, Reddit."
         )
     )
 )
 
-__handlers__ = (MediaAutoDownloadStatus, TwitterMediaHandler, BlueskyMediaHandler, InstagramMediaHandler)
+__handlers__ = (
+    MediaAutoDownloadStatus,
+    TwitterMediaHandler,
+    BlueskyMediaHandler,
+    InstagramMediaHandler,
+    RedditMediaHandler,
+)
