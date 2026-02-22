@@ -1015,7 +1015,6 @@ msgid "Download media from supported websites in group chats"
 msgstr "Baixar mídia de sites compatíveis em chats de grupo"
 
 #: src/korone/modules/medias/__init__.py:21
-#, fuzzy
 msgid ""
 "Automatically fetches photos and videos from supported links posted in the group.\n"
 "\n"
@@ -1023,7 +1022,7 @@ msgid ""
 msgstr ""
 "Busca automaticamente fotos e vídeos de links compatíveis enviados no grupo.\n"
 "\n"
-"Atualmente compatível com: Twitter, Bluesky e Instagram."
+"Atualmente compatível com: Twitter, Bluesky, Instagram, Reddit."
 
 #: src/korone/modules/medias/handlers/base.py:126
 #: src/korone/modules/medias/handlers/base.py:182
