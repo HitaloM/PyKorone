@@ -10,13 +10,12 @@ from korone.filters.user_status import IsOP
 from korone.modules.help.utils.extract_info import HELP_MODULES
 from korone.modules.help.utils.format_help import format_handlers
 from korone.utils.handlers import KoroneMessageHandler
-from korone.utils.i18n import lazy_gettext as l_
 
 if TYPE_CHECKING:
     from aiogram.dispatcher.event.handler import CallbackType
 
 
-@flags.help(description=l_("Shows a list of all OP-only commands"))
+@flags.help(description="Shows a list of all OP-only commands")
 class OpCMDSList(KoroneMessageHandler):
     @staticmethod
     def filters() -> tuple[CallbackType, ...]:

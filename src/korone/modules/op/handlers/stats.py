@@ -13,7 +13,6 @@ from korone.filters.cmd import CMDFilter
 from korone.filters.user_status import IsOP
 from korone.modules import LOADED_MODULES
 from korone.utils.handlers import KoroneMessageHandler
-from korone.utils.i18n import lazy_gettext as l_
 
 if TYPE_CHECKING:
     from aiogram.dispatcher.event.handler import CallbackType
@@ -46,7 +45,7 @@ async def get_system_stats() -> Doc:
     return doc
 
 
-@flags.help(description=l_("Show bot statistics."))
+@flags.help(description="Show bot statistics.")
 class StatsHandler(KoroneMessageHandler):
     @staticmethod
     def filters() -> tuple[CallbackType, ...]:

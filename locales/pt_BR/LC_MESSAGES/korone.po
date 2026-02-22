@@ -192,26 +192,6 @@ msgstr "Somente quem iniciou pode confirmar a desativação de todos os comandos
 msgid "✅ All the commands ({removed_count}) have been enabled in the {chat_name}"
 msgstr "✅ Todos os comandos ({removed_count}) foram ativados em {chat_name}"
 
-#: src/korone/modules/error/__init__.py:15
-msgid "Error"
-msgstr "Erro"
-
-#: src/korone/modules/error/__init__.py:17
-msgid "Error handling and reporting"
-msgstr "Tratamento e relatório de erros"
-
-#: src/korone/modules/error/__init__.py:20
-msgid "Handles errors and exceptions that occur during bot operation."
-msgstr "Lida com erros e exceções que ocorrem durante a operação do bot."
-
-#: src/korone/modules/error/__init__.py:21
-msgid "Provides error reporting and recovery mechanisms."
-msgstr "Fornece mecanismos de relatório e recuperação de erros."
-
-#: src/korone/modules/error/handlers/crash_handler.py:16
-msgid "Causes the bot to crash (for testing purposes)."
-msgstr "Faz o bot travar (para fins de teste)."
-
 #: src/korone/modules/error/utils/error_message.py:33
 msgid "😞 I've got an error trying to process this update"
 msgstr "😞 Ocorreu um erro ao tentar processar esta atualização"
@@ -388,10 +368,6 @@ msgstr "Mostra a mensagem de ajuda"
 msgid "The help information available in the private messages with Korone"
 msgstr "As informações de ajuda estão disponíveis nas mensagens privadas com a Korone"
 
-#: src/korone/modules/help/handlers/op.py:19
-msgid "Shows a list of all OP-only commands"
-msgstr "Mostra uma lista de todos os comandos exclusivos de OP"
-
 #: src/korone/modules/help/handlers/pm_modules.py:24
 msgid "Shows help overview for all modules"
 msgstr "Mostra a visão geral de ajuda de todos os módulos"
@@ -485,7 +461,6 @@ msgstr "🕵️‍♂️ Privacidade"
 
 #: src/korone/modules/help/handlers/start_pm.py:43
 #: src/korone/modules/language/__init__.py:16
-#: src/korone/modules/language/stats.py:11
 msgid "Language"
 msgstr "Idioma"
 
@@ -1043,39 +1018,6 @@ msgstr "Ativar ou desativar downloads automáticos de mídia neste chat."
 msgid "Media auto-download"
 msgstr "Download automático de mídia"
 
-#: src/korone/modules/op/__init__.py:13
-msgid "Operator"
-msgstr "Operador"
-
-#: src/korone/modules/op/__init__.py:15
-msgid "Operator-only commands and tools"
-msgstr "Comandos e ferramentas exclusivos de operador"
-
-#: src/korone/modules/op/__init__.py:18
-msgid "Provides operator-only commands and tools for bot administration."
-msgstr "Fornece comandos e ferramentas exclusivos de operador para administração do bot."
-
-#: src/korone/modules/op/__init__.py:19
-msgid "Includes system stats, job management, and other administrative functions."
-msgstr "Inclui estatísticas do sistema, gerenciamento de tarefas e outras funções administrativas."
-
-#: src/korone/modules/op/handlers/event.py:14
-msgid "Prints the message event as JSON."
-msgstr "Imprime o evento da mensagem como JSON."
-
-#: src/korone/modules/op/handlers/redis_clear.py:13
-msgid "Clear Redis cache for the bot."
-msgstr "Limpar o cache Redis do bot."
-
-#: src/korone/modules/op/handlers/redis_clear.py:25
-#, python-brace-format
-msgid "Redis cleared. {removed} keys removed."
-msgstr "Redis limpo. {removed} chaves removidas."
-
-#: src/korone/modules/op/handlers/stats.py:49
-msgid "Show bot statistics."
-msgstr "Mostrar estatísticas do bot."
-
 #: src/korone/modules/privacy/__init__.py:19
 msgid "Privacy"
 msgstr "Privacidade"
@@ -1168,7 +1110,6 @@ msgid "Unknown flag: {flag}"
 msgstr "Flag desconhecida: {flag}"
 
 #: src/korone/modules/stickers/__init__.py:18
-#: src/korone/modules/stickers/stats.py:11
 msgid "Stickers"
 msgstr "Figurinhas"
 
@@ -1424,14 +1365,6 @@ msgstr "{pack} já é seu pacote padrão."
 #, python-brace-format
 msgid "Default sticker pack changed to {pack}."
 msgstr "Pacote de figurinhas padrão alterado para {pack}."
-
-#: src/korone/modules/stickers/stats.py:11
-msgid "Users with packs"
-msgstr "Usuários com pacotes"
-
-#: src/korone/modules/stickers/stats.py:11
-msgid "Tracked packs"
-msgstr "Pacotes rastreados"
 
 #: src/korone/modules/stickers/utils/media.py:112
 msgid "Could not process this file as an image sticker."
@@ -2078,3 +2011,51 @@ msgstr "Não foi possível encontrar a menção de usuário"
 
 #~ msgid "Audio sent."
 #~ msgstr "Áudio enviado."
+
+#~ msgid "Error"
+#~ msgstr "Erro"
+
+#~ msgid "Error handling and reporting"
+#~ msgstr "Tratamento e relatório de erros"
+
+#~ msgid "Handles errors and exceptions that occur during bot operation."
+#~ msgstr "Lida com erros e exceções que ocorrem durante a operação do bot."
+
+#~ msgid "Provides error reporting and recovery mechanisms."
+#~ msgstr "Fornece mecanismos de relatório e recuperação de erros."
+
+#~ msgid "Causes the bot to crash (for testing purposes)."
+#~ msgstr "Faz o bot travar (para fins de teste)."
+
+#~ msgid "Shows a list of all OP-only commands"
+#~ msgstr "Mostra uma lista de todos os comandos exclusivos de OP"
+
+#~ msgid "Operator"
+#~ msgstr "Operador"
+
+#~ msgid "Operator-only commands and tools"
+#~ msgstr "Comandos e ferramentas exclusivos de operador"
+
+#~ msgid "Provides operator-only commands and tools for bot administration."
+#~ msgstr "Fornece comandos e ferramentas exclusivos de operador para administração do bot."
+
+#~ msgid "Includes system stats, job management, and other administrative functions."
+#~ msgstr "Inclui estatísticas do sistema, gerenciamento de tarefas e outras funções administrativas."
+
+#~ msgid "Prints the message event as JSON."
+#~ msgstr "Imprime o evento da mensagem como JSON."
+
+#~ msgid "Clear Redis cache for the bot."
+#~ msgstr "Limpar o cache Redis do bot."
+
+#~ msgid "Redis cleared. {removed} keys removed."
+#~ msgstr "Redis limpo. {removed} chaves removidas."
+
+#~ msgid "Show bot statistics."
+#~ msgstr "Mostrar estatísticas do bot."
+
+#~ msgid "Users with packs"
+#~ msgstr "Usuários com pacotes"
+
+#~ msgid "Tracked packs"
+#~ msgstr "Pacotes rastreados"

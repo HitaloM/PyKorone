@@ -8,10 +8,9 @@ from korone.constants import TELEGRAM_MESSAGE_LENGTH_LIMIT
 from korone.filters.cmd import CMDFilter
 from korone.filters.user_status import IsOP
 from korone.utils.handlers import KoroneMessageHandler
-from korone.utils.i18n import lazy_gettext as l_
 
 
-@flags.help(description=l_("Prints the message event as JSON."))
+@flags.help(description="Prints the message event as JSON.")
 class EventHandler(KoroneMessageHandler):
     @staticmethod
     def filters() -> tuple:

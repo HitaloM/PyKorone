@@ -192,26 +192,6 @@ msgstr ""
 msgid "✅ All the commands ({removed_count}) have been enabled in the {chat_name}"
 msgstr ""
 
-#: src/korone/modules/error/__init__.py:15
-msgid "Error"
-msgstr ""
-
-#: src/korone/modules/error/__init__.py:17
-msgid "Error handling and reporting"
-msgstr ""
-
-#: src/korone/modules/error/__init__.py:20
-msgid "Handles errors and exceptions that occur during bot operation."
-msgstr ""
-
-#: src/korone/modules/error/__init__.py:21
-msgid "Provides error reporting and recovery mechanisms."
-msgstr ""
-
-#: src/korone/modules/error/handlers/crash_handler.py:16
-msgid "Causes the bot to crash (for testing purposes)."
-msgstr ""
-
 #: src/korone/modules/error/utils/error_message.py:33
 msgid "😞 I've got an error trying to process this update"
 msgstr ""
@@ -388,10 +368,6 @@ msgstr ""
 msgid "The help information available in the private messages with Korone"
 msgstr ""
 
-#: src/korone/modules/help/handlers/op.py:19
-msgid "Shows a list of all OP-only commands"
-msgstr ""
-
 #: src/korone/modules/help/handlers/pm_modules.py:24
 msgid "Shows help overview for all modules"
 msgstr ""
@@ -485,7 +461,6 @@ msgstr ""
 
 #: src/korone/modules/help/handlers/start_pm.py:43
 #: src/korone/modules/language/__init__.py:16
-#: src/korone/modules/language/stats.py:11
 msgid "Language"
 msgstr ""
 
@@ -1025,39 +1000,6 @@ msgstr ""
 msgid "Media auto-download"
 msgstr ""
 
-#: src/korone/modules/op/__init__.py:13
-msgid "Operator"
-msgstr ""
-
-#: src/korone/modules/op/__init__.py:15
-msgid "Operator-only commands and tools"
-msgstr ""
-
-#: src/korone/modules/op/__init__.py:18
-msgid "Provides operator-only commands and tools for bot administration."
-msgstr ""
-
-#: src/korone/modules/op/__init__.py:19
-msgid "Includes system stats, job management, and other administrative functions."
-msgstr ""
-
-#: src/korone/modules/op/handlers/event.py:14
-msgid "Prints the message event as JSON."
-msgstr ""
-
-#: src/korone/modules/op/handlers/redis_clear.py:13
-msgid "Clear Redis cache for the bot."
-msgstr ""
-
-#: src/korone/modules/op/handlers/redis_clear.py:25
-#, python-brace-format
-msgid "Redis cleared. {removed} keys removed."
-msgstr ""
-
-#: src/korone/modules/op/handlers/stats.py:49
-msgid "Show bot statistics."
-msgstr ""
-
 #: src/korone/modules/privacy/__init__.py:19
 msgid "Privacy"
 msgstr ""
@@ -1150,7 +1092,6 @@ msgid "Unknown flag: {flag}"
 msgstr ""
 
 #: src/korone/modules/stickers/__init__.py:18
-#: src/korone/modules/stickers/stats.py:11
 msgid "Stickers"
 msgstr ""
 
@@ -1405,14 +1346,6 @@ msgstr ""
 #: src/korone/modules/stickers/handlers/switch.py:65
 #, python-brace-format
 msgid "Default sticker pack changed to {pack}."
-msgstr ""
-
-#: src/korone/modules/stickers/stats.py:11
-msgid "Users with packs"
-msgstr ""
-
-#: src/korone/modules/stickers/stats.py:11
-msgid "Tracked packs"
 msgstr ""
 
 #: src/korone/modules/stickers/utils/media.py:112
