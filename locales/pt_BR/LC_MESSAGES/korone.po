@@ -192,19 +192,19 @@ msgstr "Somente quem iniciou pode confirmar a desativação de todos os comandos
 msgid "✅ All the commands ({removed_count}) have been enabled in the {chat_name}"
 msgstr "✅ Todos os comandos ({removed_count}) foram ativados em {chat_name}"
 
-#: src/korone/modules/error/__init__.py:13
+#: src/korone/modules/error/__init__.py:15
 msgid "Error"
 msgstr "Erro"
 
-#: src/korone/modules/error/__init__.py:15
+#: src/korone/modules/error/__init__.py:17
 msgid "Error handling and reporting"
 msgstr "Tratamento e relatório de erros"
 
-#: src/korone/modules/error/__init__.py:18
+#: src/korone/modules/error/__init__.py:20
 msgid "Handles errors and exceptions that occur during bot operation."
 msgstr "Lida com erros e exceções que ocorrem durante a operação do bot."
 
-#: src/korone/modules/error/__init__.py:19
+#: src/korone/modules/error/__init__.py:21
 msgid "Provides error reporting and recovery mechanisms."
 msgstr "Fornece mecanismos de relatório e recuperação de erros."
 
@@ -212,9 +212,18 @@ msgstr "Fornece mecanismos de relatório e recuperação de erros."
 msgid "Causes the bot to crash (for testing purposes)."
 msgstr "Faz o bot travar (para fins de teste)."
 
-#: src/korone/modules/error/utils/error_message.py:24
+#: src/korone/modules/error/utils/error_message.py:33
 msgid "😞 I've got an error trying to process this update"
 msgstr "😞 Ocorreu um erro ao tentar processar esta atualização"
+
+#: src/korone/modules/error/utils/error_message.py:40
+msgid "Reference ID"
+msgstr "ID de referência"
+
+#: src/korone/modules/error/utils/error_message.py:44
+#: src/korone/modules/language/handlers/apply.py:55
+msgid "🐞 Open GitHub Issues"
+msgstr "🐞 Abrir issues no GitHub"
 
 #: src/korone/modules/gsm_arena/__init__.py:15
 msgid "GSM Arena"
@@ -666,10 +675,6 @@ msgstr "Caso encontre algum erro, por favor abra uma issue no repositório do Gi
 msgid "Please help us translate this language by completing it on our translations platform."
 msgstr "Ajude-nos a traduzir este idioma completando-o em nossa plataforma de traduções."
 
-#: src/korone/modules/language/handlers/apply.py:55
-msgid "🐞 Open GitHub Issues"
-msgstr "🐞 Abrir issues no GitHub"
-
 #: src/korone/modules/language/handlers/apply.py:57
 msgid "🌍 Help Translate"
 msgstr "🌍 Ajudar a traduzir"
@@ -1006,15 +1011,15 @@ msgstr ", há {minutes} minuto(s)"
 msgid ", Just now"
 msgstr ", agora mesmo"
 
-#: src/korone/modules/medias/__init__.py:15
+#: src/korone/modules/medias/__init__.py:16
 msgid "Medias"
 msgstr "Mídias"
 
-#: src/korone/modules/medias/__init__.py:17
+#: src/korone/modules/medias/__init__.py:18
 msgid "Download media from supported websites in group chats"
 msgstr "Baixar mídia de sites compatíveis em chats de grupo"
 
-#: src/korone/modules/medias/__init__.py:21
+#: src/korone/modules/medias/__init__.py:22
 msgid ""
 "Automatically fetches photos and videos from supported links posted in the group.\n"
 "\n"

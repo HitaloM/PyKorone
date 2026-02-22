@@ -1,9 +1,14 @@
-from typing import TYPE_CHECKING
+from __future__ import annotations
 
-from stfu_tg import Doc, Italic, Title
+from typing import TYPE_CHECKING, Any
+
+from aiogram.types import InlineKeyboardButton, InlineKeyboardMarkup
+from stfu_tg import Code, Doc, Italic, KeyValue, Title
 from stfu_tg.doc import Element
 
+from korone.config import CONFIG
 from korone.utils.exception import KoroneError
+from korone.utils.i18n import gettext as _
 from korone.utils.i18n import lazy_gettext as l_
 
 if TYPE_CHECKING:
@@ -21,6 +26,23 @@ def get_error_message(exception: Exception) -> tuple[str | Element, ...]:
 
 
 def generic_error_message(
-    exception: Exception, *, title: str | LazyProxy | Element = l_("😞 I've got an error trying to process this update")
-) -> dict[str, str]:
-    return {"text": str(Doc(Title(title), *get_error_message(exception)))}
+    exception: Exception,
+    sentry_event_id: str | None,
+    *,
+    hide_contact: bool = False,
+    title: str | LazyProxy | Element = l_("😞 I've got an error trying to process this update"),
+) -> dict[str, Any]:
+    return {
+        "text": str(
+            Doc(
+                Title(title),
+                *get_error_message(exception),
+                *((" ", KeyValue(_("Reference ID"), Code(sentry_event_id))) if sentry_event_id else ()),
+            )
+        ),
+        "reply_markup": InlineKeyboardMarkup(
+            inline_keyboard=[[InlineKeyboardButton(text=_("🐞 Open GitHub Issues"), url=CONFIG.github_issues)]]
+        )
+        if not hide_contact
+        else None,
+    }

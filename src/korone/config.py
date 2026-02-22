@@ -35,6 +35,8 @@ class Config(BaseSettings):
     commands_ignore_forwarded: bool = True
     commands_ignore_code: bool = True
 
+    sentry_url: AnyHttpUrl | None = None
+
     devs_managed_languages: list[str] = ["en_US"]
     translation_url: str = "https://weblate.amanoteam.com/projects/korone/"
     news_channel: str = "https://t.me/PyKorone"

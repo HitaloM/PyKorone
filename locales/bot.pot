@@ -192,19 +192,19 @@ msgstr ""
 msgid "✅ All the commands ({removed_count}) have been enabled in the {chat_name}"
 msgstr ""
 
-#: src/korone/modules/error/__init__.py:13
+#: src/korone/modules/error/__init__.py:15
 msgid "Error"
 msgstr ""
 
-#: src/korone/modules/error/__init__.py:15
+#: src/korone/modules/error/__init__.py:17
 msgid "Error handling and reporting"
 msgstr ""
 
-#: src/korone/modules/error/__init__.py:18
+#: src/korone/modules/error/__init__.py:20
 msgid "Handles errors and exceptions that occur during bot operation."
 msgstr ""
 
-#: src/korone/modules/error/__init__.py:19
+#: src/korone/modules/error/__init__.py:21
 msgid "Provides error reporting and recovery mechanisms."
 msgstr ""
 
@@ -212,8 +212,17 @@ msgstr ""
 msgid "Causes the bot to crash (for testing purposes)."
 msgstr ""
 
-#: src/korone/modules/error/utils/error_message.py:24
+#: src/korone/modules/error/utils/error_message.py:33
 msgid "😞 I've got an error trying to process this update"
+msgstr ""
+
+#: src/korone/modules/error/utils/error_message.py:40
+msgid "Reference ID"
+msgstr ""
+
+#: src/korone/modules/error/utils/error_message.py:44
+#: src/korone/modules/language/handlers/apply.py:55
+msgid "🐞 Open GitHub Issues"
 msgstr ""
 
 #: src/korone/modules/gsm_arena/__init__.py:15
@@ -666,10 +675,6 @@ msgstr ""
 msgid "Please help us translate this language by completing it on our translations platform."
 msgstr ""
 
-#: src/korone/modules/language/handlers/apply.py:55
-msgid "🐞 Open GitHub Issues"
-msgstr ""
-
 #: src/korone/modules/language/handlers/apply.py:57
 msgid "🌍 Help Translate"
 msgstr ""
@@ -991,15 +996,15 @@ msgstr ""
 msgid ", Just now"
 msgstr ""
 
-#: src/korone/modules/medias/__init__.py:15
+#: src/korone/modules/medias/__init__.py:16
 msgid "Medias"
 msgstr ""
 
-#: src/korone/modules/medias/__init__.py:17
+#: src/korone/modules/medias/__init__.py:18
 msgid "Download media from supported websites in group chats"
 msgstr ""
 
-#: src/korone/modules/medias/__init__.py:21
+#: src/korone/modules/medias/__init__.py:22
 msgid ""
 "Automatically fetches photos and videos from supported links posted in the group.\n"
 "\n"

@@ -1,9 +1,15 @@
 import asyncio
 
+import sentry_sdk
 import uvloop
 from aiogram.webhook.aiohttp_server import SimpleRequestHandler, setup_application
 from aiohttp import web
 from ass_tg.middleware import ArgsMiddleware
+from sentry_sdk.integrations.aiohttp import AioHttpIntegration
+from sentry_sdk.integrations.redis import RedisIntegration
+from sentry_sdk.integrations.sqlalchemy import SqlalchemyIntegration
+
+from korone.modules.error.utils.ignored import IGNORED_EXCEPTIONS
 
 from . import bot, dp
 from .config import CONFIG
@@ -47,6 +53,15 @@ def get_webhook_url() -> str:
 
 async def bootstrap() -> None:
     await logger.ainfo("Starting up the bot...")
+
+    if CONFIG.sentry_url:
+        await logger.ainfo("Starting sentry.io integration...")
+
+        sentry_sdk.init(
+            str(CONFIG.sentry_url),
+            integrations=[RedisIntegration(), AioHttpIntegration(), SqlalchemyIntegration()],
+            ignore_errors=IGNORED_EXCEPTIONS,
+        )
 
     await init_db()
     await migrate_db_if_needed()
