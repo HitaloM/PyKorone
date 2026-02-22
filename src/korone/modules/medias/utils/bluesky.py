@@ -6,7 +6,7 @@ from urllib.parse import quote
 
 import aiohttp
 
-from korone.constants import CACHE_MEDIA_TTL_SECONDS
+from korone.constants import CACHE_MEDIA_TTL_SECONDS, TELEGRAM_MEDIA_MAX_FILE_SIZE_BYTES
 from korone.logger import get_logger
 from korone.utils.aiohttp_session import HTTPClient
 from korone.utils.cached import Cached
@@ -26,7 +26,6 @@ BSKY_POST_THREAD = f"{BSKY_PUBLIC_API}/app.bsky.feed.getPostThread"
 BSKY_PLC_DIRECTORY = "https://plc.directory"
 HTTP_TIMEOUT = 25
 HTTP_DOWNLOAD_TIMEOUT = 60
-TELEGRAM_MAX_FILE_SIZE = 50 * 1024 * 1024  # 50 MB
 
 
 class BlueskyProvider(MediaProvider):
@@ -296,5 +295,5 @@ class BlueskyProvider(MediaProvider):
     @classmethod
     async def _download_media(cls, sources: list[MediaSource]) -> list[MediaItem]:
         return await cls.download_media(
-            sources, filename_prefix="bsky_media", max_size=TELEGRAM_MAX_FILE_SIZE, log_label="Bluesky"
+            sources, filename_prefix="bsky_media", max_size=TELEGRAM_MEDIA_MAX_FILE_SIZE_BYTES, log_label="Bluesky"
         )

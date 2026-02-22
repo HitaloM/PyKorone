@@ -6,6 +6,7 @@ import json
 
 import aiohttp
 
+from korone.constants import TELEGRAM_MEDIA_MAX_FILE_SIZE_BYTES
 from korone.logger import get_logger
 from korone.utils.aiohttp_session import HTTPClient
 
@@ -22,7 +23,6 @@ HIFI_API_BASE_URLS = (
 )
 HIFI_API_TIMEOUT_SECONDS = 20
 HIFI_DOWNLOAD_TIMEOUT_SECONDS = 120
-TELEGRAM_MAX_AUDIO_SIZE_BYTES = 2 * 1024 * 1024 * 1024  # 2GB
 QUALITY_FALLBACK_ORDER = ("LOSSLESS", "HIGH", "LOW")
 
 
@@ -309,7 +309,7 @@ async def download_cover_image(cover_url: str) -> bytes | None:
 
 
 async def download_stream_audio(
-    stream: HifiTrackStream, *, max_size_bytes: int = TELEGRAM_MAX_AUDIO_SIZE_BYTES
+    stream: HifiTrackStream, *, max_size_bytes: int = TELEGRAM_MEDIA_MAX_FILE_SIZE_BYTES
 ) -> tuple[bytes, str | None]:
     timeout = aiohttp.ClientTimeout(total=HIFI_DOWNLOAD_TIMEOUT_SECONDS)
     session = await HTTPClient.get_session()

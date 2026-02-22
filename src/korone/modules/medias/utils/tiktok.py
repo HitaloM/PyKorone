@@ -6,7 +6,7 @@ from urllib.parse import quote
 
 import aiohttp
 
-from korone.constants import CACHE_MEDIA_TTL_SECONDS
+from korone.constants import CACHE_MEDIA_TTL_SECONDS, TELEGRAM_MEDIA_MAX_FILE_SIZE_BYTES
 from korone.logger import get_logger
 from korone.utils.aiohttp_session import HTTPClient
 from korone.utils.cached import Cached
@@ -21,7 +21,6 @@ if TYPE_CHECKING:
 logger = get_logger(__name__)
 
 TIKTOK_FEED_API = "https://api16-normal-c-useast1a.tiktokv.com/aweme/v1/feed/"
-TELEGRAM_MAX_FILE_SIZE = 50 * 1024 * 1024  # 50 MB
 TIKTOK_IMAGE_AWEME_TYPES = {2, 68, 150}
 
 TIKTOK_QUERY_PARAMS = {
@@ -319,5 +318,5 @@ class TikTokProvider(MediaProvider):
     @classmethod
     async def _download_media(cls, sources: list[MediaSource]) -> list[MediaItem]:
         return await cls.download_media(
-            sources, filename_prefix="tiktok_media", max_size=TELEGRAM_MAX_FILE_SIZE, log_label="TikTok"
+            sources, filename_prefix="tiktok_media", max_size=TELEGRAM_MEDIA_MAX_FILE_SIZE_BYTES, log_label="TikTok"
         )

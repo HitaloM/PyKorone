@@ -9,7 +9,7 @@ from urllib.parse import quote, urldefrag, urljoin, urlparse, urlunparse
 import aiohttp
 from lxml import html as lxml_html
 
-from korone.constants import CACHE_MEDIA_TTL_SECONDS
+from korone.constants import CACHE_MEDIA_TTL_SECONDS, TELEGRAM_MEDIA_MAX_FILE_SIZE_BYTES
 from korone.logger import get_logger
 from korone.utils.aiohttp_session import HTTPClient
 from korone.utils.cached import Cached
@@ -22,7 +22,6 @@ if TYPE_CHECKING:
 logger = get_logger(__name__)
 
 REDLIB_INSTANCES = ("https://l.opnxng.com", "https://redlib.orangenet.cc", "https://redlib.4o1x5.dev")
-TELEGRAM_MAX_FILE_SIZE = 50 * 1024 * 1024  # 50 MB
 REDDIT_PATTERN_HOSTS = tuple(urlparse(instance).netloc for instance in REDLIB_INSTANCES)
 REDDIT_PATTERN_HOSTS_REGEX = "|".join(re.escape(host) for host in REDDIT_PATTERN_HOSTS)
 
@@ -547,5 +546,5 @@ class RedditProvider(MediaProvider):
     @classmethod
     async def _download_media(cls, sources: list[MediaSource]) -> list[MediaItem]:
         return await cls.download_media(
-            sources, filename_prefix="reddit_media", max_size=TELEGRAM_MAX_FILE_SIZE, log_label="Reddit"
+            sources, filename_prefix="reddit_media", max_size=TELEGRAM_MEDIA_MAX_FILE_SIZE_BYTES, log_label="Reddit"
         )
