@@ -4,6 +4,7 @@ from stfu_tg import Doc
 from korone.utils.i18n import LazyProxy
 from korone.utils.i18n import lazy_gettext as l_
 
+from .export import export_stickers
 from .handlers.delpack import StickerDeletePackHandler
 from .handlers.delsticker import StickerDeleteStickerHandler
 from .handlers.getsticker import StickerGetStickerHandler
@@ -24,6 +25,9 @@ __module_info__ = LazyProxy(
         l_("Includes pack listing, default pack switching, and sticker management commands."),
     )
 )
+
+__export_private_only__ = True
+__export__ = export_stickers
 
 __handlers__ = (
     StickerStealHandler,
