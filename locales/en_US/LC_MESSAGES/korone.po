@@ -397,7 +397,7 @@ msgid "means it works only in group chats."
 msgstr ""
 
 #: src/korone/modules/help/handlers/pm_modules.py:70
-#: src/korone/modules/help/utils/format_help.py:38
+#: src/korone/modules/help/utils/format_help.py:47
 msgid "— Only in groups"
 msgstr ""
 
@@ -406,7 +406,7 @@ msgid "lists commands that only work in private chat."
 msgstr ""
 
 #: src/korone/modules/help/handlers/pm_modules.py:71
-#: src/korone/modules/help/utils/format_help.py:79
+#: src/korone/modules/help/utils/format_help.py:83
 msgid "PM-only"
 msgstr ""
 
@@ -415,12 +415,12 @@ msgid "lists commands that require admin rights."
 msgstr ""
 
 #: src/korone/modules/help/handlers/pm_modules.py:72
-#: src/korone/modules/help/utils/format_help.py:81
+#: src/korone/modules/help/utils/format_help.py:85
 msgid "Only admins"
 msgstr ""
 
 #: src/korone/modules/help/handlers/pm_modules.py:74
-#: src/korone/modules/help/utils/format_help.py:39
+#: src/korone/modules/help/utils/format_help.py:48
 msgid "Disable-able"
 msgstr ""
 
@@ -477,7 +477,7 @@ msgstr ""
 msgid "news channel"
 msgstr ""
 
-#: src/korone/modules/help/utils/format_help.py:77
+#: src/korone/modules/help/utils/format_help.py:81
 msgid "Commands"
 msgstr ""
 

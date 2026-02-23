@@ -1,7 +1,9 @@
+from __future__ import annotations
+
 from collections import OrderedDict
-from collections.abc import Callable, Coroutine
+from collections.abc import Awaitable, Callable, Mapping, Sequence
 from dataclasses import dataclass
-from inspect import isawaitable, iscoroutinefunction
+from inspect import isawaitable
 from itertools import chain
 from typing import TYPE_CHECKING, Any, cast
 
@@ -18,16 +20,16 @@ from korone.logger import get_logger
 from korone.utils.i18n import LazyProxy as KoroneLazyProxy
 
 if TYPE_CHECKING:
-    from collections.abc import Sequence
     from types import ModuleType
 
     from aiogram import Router
     from babel.support import LazyProxy
     from stfu_tg import Doc
 
-
-ARGS_DICT = dict[str, ArgFabric]
-ARGS_COROUTINE = Callable[[Message | None, Any], Coroutine[None, None, ARGS_DICT]]
+type ArgsMap = dict[str, ArgFabric]
+type ArgsProvider = Callable[[Message | None, dict[str, Any]], ArgsMap | Awaitable[ArgsMap]]
+type ArgsSource = ArgsMap | ArgsProvider | None
+type HelpFlags = Mapping[str, object]
 
 logger = get_logger(__name__)
 
@@ -35,13 +37,13 @@ logger = get_logger(__name__)
 @dataclass(frozen=True, slots=True)
 class HandlerHelp:
     cmds: tuple[str, ...]
-    args: ARGS_DICT | None
+    args: ArgsMap | None
     description: LazyProxy | str | None
     only_admin: bool
     only_op: bool
     only_pm: bool
     only_chats: bool
-    alias_to_modules: list[str]
+    alias_to_modules: tuple[str, ...]
     disableable: str | None
     raw_cmds: bool
 
@@ -61,28 +63,37 @@ DISABLEABLE_CMDS: list[HandlerHelp] = []
 
 
 def get_aliased_cmds(module_name: str) -> dict[str, list[HandlerHelp]]:
-    aliased: dict[str, list[HandlerHelp]] = {}
-    for mod_name, module in HELP_MODULES.items():
-        handlers = [cmd for cmd in module.handlers if cmd.alias_to_modules and module_name in cmd.alias_to_modules]
-        if handlers:
-            aliased[mod_name] = handlers
-    return aliased
+    return {
+        mod_name: handlers
+        for mod_name, module in HELP_MODULES.items()
+        if (
+            handlers := [cmd for cmd in module.handlers if cmd.alias_to_modules and module_name in cmd.alias_to_modules]
+        )
+    }
 
 
 def get_all_cmds() -> list[HandlerHelp]:
-    return [cmd for module in HELP_MODULES.values() for cmd in module.handlers]
+    return list(chain.from_iterable(module.handlers for module in HELP_MODULES.values()))
 
 
 def get_all_cmds_raw() -> tuple[str, ...]:
     return tuple(chain.from_iterable(cmds.cmds for cmds in get_all_cmds()))
 
 
-def normalize_cmds(cmds: str | tuple[str] | Sequence[str]) -> tuple[str, ...] | None:
-    if isinstance(cmds, str):
-        return (cmds,)
-    if isinstance(cmds, (list, tuple)) and all(isinstance(cmd, str) for cmd in cmds):
-        return tuple(cmds)
+def _normalize_str_sequence(values: object) -> tuple[str, ...] | None:
+    if isinstance(values, str):
+        return (values,)
+    if (
+        isinstance(values, Sequence)
+        and not isinstance(values, (str, bytes))
+        and all(isinstance(v, str) for v in values)
+    ):
+        return tuple(values)
     return None
+
+
+def normalize_cmds(cmds: object) -> tuple[str, ...] | None:
+    return _normalize_str_sequence(cmds)
 
 
 def _clone_without_cache(description: LazyProxy | str | None) -> LazyProxy | str | None:
@@ -91,38 +102,96 @@ def _clone_without_cache(description: LazyProxy | str | None) -> LazyProxy | str
     return KoroneLazyProxy(description._func, *description._args, enable_cache=False, **description._kwargs)
 
 
-def _normalize_arg_description(fabric: ArgFabric) -> None:
+def _normalize_arg_description(fabric: ArgFabric) -> ArgFabric:
     description = _clone_without_cache(fabric.description)
     if isinstance(fabric, OptionalArg):
         if description is not None:
             fabric.description = KoroneLazyProxy(lambda d=description: f"?{d}", enable_cache=False)
-        return
+        return fabric
     fabric.description = description
+    return fabric
 
 
-async def gather_cmd_args(args: ARGS_DICT | ARGS_COROUTINE | None) -> ARGS_DICT | None:
-    if not args:
+def _prepare_args(args: Mapping[str, ArgFabric]) -> ArgsMap:
+    normalized: ArgsMap = {}
+    for arg_name, fabric in args.items():
+        try:
+            normalized[arg_name] = _normalize_arg_description(fabric)
+        except TypeError:
+            normalized[arg_name] = fabric
+    return normalized
+
+
+async def gather_cmd_args(args: ArgsSource) -> ArgsMap | None:
+    if args is None:
         return None
-    if isinstance(args, dict):
-        result = args.copy()
-        for fabric in result.values():
-            try:
-                _normalize_arg_description(fabric)
-            except TypeError:
-                continue
-        return result
+
+    if isinstance(args, Mapping):
+        return _prepare_args(args)
+
     if callable(args):
         result = args(None, {})
-        if iscoroutinefunction(args) or isawaitable(result):
-            result = await result
-        for fabric in result.values():
-            try:
-                _normalize_arg_description(fabric)
-            except TypeError:
-                continue
-        return result
+        if isawaitable(result):
+            result = await cast("Awaitable[ArgsMap]", result)
+        if isinstance(result, Mapping):
+            return _prepare_args(result)
+
+        msg = f"Unsupported args provider return type: {type(result)!r}"
+        raise TypeError(msg)
+
     msg = "Unsupported args type"
     raise TypeError(msg)
+
+
+def _get_help_flags(flags: Mapping[str, object]) -> HelpFlags:
+    help_flags = flags.get("help")
+    if isinstance(help_flags, Mapping):
+        return cast("HelpFlags", help_flags)
+    return {}
+
+
+def _extract_cmds(filters: Sequence[Any], help_flags: HelpFlags) -> tuple[str, ...] | None:
+    for handler_filter in filters:
+        callback = getattr(handler_filter, "callback", None)
+        if isinstance(callback, CMDFilter):
+            return normalize_cmds(callback.cmd)
+
+    if "cmds" in help_flags:
+        return normalize_cmds(help_flags["cmds"])
+
+    return None
+
+
+def _extract_visibility_flags(filters: Sequence[Any]) -> tuple[bool, bool, bool, bool]:
+    only_admin = False
+    only_op = False
+    only_pm = False
+    only_chats = False
+
+    for handler_filter in filters:
+        callback = getattr(handler_filter, "callback", None)
+
+        if isinstance(callback, UserRestricting):
+            only_admin = True
+        if isinstance(callback, IsOP):
+            only_op = True
+        if isinstance(callback, PrivateChatFilter):
+            only_pm = True
+        if isinstance(callback, GroupChatFilter):
+            only_chats = True
+        if isinstance(callback, _InvertFilter):
+            target_callback = getattr(getattr(callback, "target", None), "callback", None)
+            if isinstance(target_callback, PrivateChatFilter):
+                only_chats = True
+            if isinstance(target_callback, GroupChatFilter):
+                only_pm = True
+
+    return only_admin, only_op, only_pm, only_chats
+
+
+async def _extract_args(flags: Mapping[str, object], help_flags: HelpFlags) -> ArgsMap | None:
+    args_source = help_flags["args"] if "args" in help_flags else flags.get("args")
+    return await gather_cmd_args(cast("ArgsSource", args_source))
 
 
 async def gather_cmds_help(router: Router) -> list[HandlerHelp]:
@@ -135,68 +204,48 @@ async def gather_cmds_help(router: Router) -> list[HandlerHelp]:
         if not handler.filters:
             continue
 
-        help_flags = handler.flags.get("help")
-        if help_flags and help_flags.get("exclude"):
+        help_flags = _get_help_flags(handler.flags)
+        if bool(help_flags.get("exclude")):
             continue
 
-        cmd_filters = [f for f in handler.filters if isinstance(f.callback, CMDFilter)]
-        cmds = None
-        if cmd_filters:
-            cmd_callback = cast("CMDFilter", cmd_filters[0].callback)
-            cmds = cmd_callback.cmd
-        elif help_flags and help_flags.get("cmds"):
-            cmds = help_flags.get("cmds")
-
-        if not cmds:
-            continue
-
-        only_admin = any(isinstance(f.callback, UserRestricting) for f in handler.filters)
-        only_pm = any(isinstance(f.callback, PrivateChatFilter) for f in handler.filters)
-        only_chats = any(
-            (
-                isinstance(f.callback, GroupChatFilter)
-                or (isinstance(f.callback, _InvertFilter) and isinstance(f.callback.target.callback, PrivateChatFilter))
-            )
-            for f in handler.filters
-        )
-        only_op = any(isinstance(f.callback, IsOP) for f in handler.filters)
-
-        if help_flags and help_flags.get("args"):
-            args = await gather_cmd_args(help_flags["args"])
-        else:
-            args = await gather_cmd_args(handler.flags.get("args"))
-
-        disableable = handler.flags.get("disableable")
-        disableable_name = disableable.name if disableable else None
-
-        cmd_list = normalize_cmds(cast("str", cmds))
+        cmd_list = _extract_cmds(handler.filters, help_flags)
         if not cmd_list:
             continue
-        cmd = HandlerHelp(
+
+        only_admin, only_op, only_pm, only_chats = _extract_visibility_flags(handler.filters)
+        args = await _extract_args(handler.flags, help_flags)
+
+        disableable = handler.flags.get("disableable")
+        disableable_name = disableable.name if disableable is not None else None
+        description = _clone_without_cache(cast("LazyProxy | str | None", help_flags.get("description")))
+        alias_to_modules = _normalize_str_sequence(help_flags.get("alias_to_modules")) or ()
+
+        handler_help = HandlerHelp(
             cmds=cmd_list,
             args=args,
-            description=_clone_without_cache(help_flags.get("description", "") if help_flags else ""),
+            description=description,
             only_admin=only_admin,
             only_op=only_op,
             only_pm=only_pm,
             only_chats=only_chats,
-            alias_to_modules=help_flags.get("alias_to_modules", []) if help_flags else [],
+            alias_to_modules=alias_to_modules,
             disableable=disableable_name,
-            raw_cmds=bool(help_flags and help_flags.get("raw_cmds")),
+            raw_cmds=bool(help_flags.get("raw_cmds")),
         )
-        helps.append(cmd)
+        helps.append(handler_help)
 
         if disableable_name:
-            DISABLEABLE_CMDS.append(cmd)
+            DISABLEABLE_CMDS.append(handler_help)
 
     await logger.adebug(
-        f"gather_cmds_help: {router.name}", cmds=list(chain.from_iterable(mhelp.cmds for mhelp in helps))
+        "gather_cmds_help", router=router.name, cmds=list(chain.from_iterable(handler.cmds for handler in helps))
     )
     return helps
 
 
 async def gather_module_help(module: ModuleType) -> ModuleHelp | None:
-    if not hasattr(module, "router"):
+    router = getattr(module, "router", None)
+    if router is None:
         return None
 
     name = _clone_without_cache(getattr(module, "__module_name__", module.__name__.split(".")[-1]))
@@ -205,9 +254,9 @@ async def gather_module_help(module: ModuleType) -> ModuleHelp | None:
     info = _clone_without_cache(getattr(module, "__module_info__", None))
     description = _clone_without_cache(getattr(module, "__module_description__", None))
 
-    await logger.adebug(f"gather_module_help: {module.__name__}", name=name, emoji=emoji)
+    await logger.adebug("gather_module_help", module=module.__name__, name=name, emoji=emoji)
 
-    if cmds := await gather_cmds_help(module.router):
+    if cmds := await gather_cmds_help(router):
         return ModuleHelp(
             handlers=cmds,
             name=name or "N/A",

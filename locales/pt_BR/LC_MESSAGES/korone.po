@@ -366,7 +366,7 @@ msgstr "Mostra a mensagem de ajuda"
 
 #: src/korone/modules/help/handlers/help_group.py:26
 msgid "The help information available in the private messages with Korone"
-msgstr "As informações de ajuda estão disponíveis nas mensagens privadas com a Korone"
+msgstr "As informações de ajuda estão disponíveis nas mensagens privadas com o Korone"
 
 #: src/korone/modules/help/handlers/pm_modules.py:24
 msgid "Shows help overview for all modules"
@@ -397,7 +397,7 @@ msgid "means it works only in group chats."
 msgstr "indica que funciona apenas em chats de grupo."
 
 #: src/korone/modules/help/handlers/pm_modules.py:70
-#: src/korone/modules/help/utils/format_help.py:38
+#: src/korone/modules/help/utils/format_help.py:47
 msgid "— Only in groups"
 msgstr "— Somente em grupos"
 
@@ -406,7 +406,7 @@ msgid "lists commands that only work in private chat."
 msgstr "lista comandos que funcionam apenas em chat privado."
 
 #: src/korone/modules/help/handlers/pm_modules.py:71
-#: src/korone/modules/help/utils/format_help.py:79
+#: src/korone/modules/help/utils/format_help.py:83
 msgid "PM-only"
 msgstr "Somente PM"
 
@@ -415,12 +415,12 @@ msgid "lists commands that require admin rights."
 msgstr "lista comandos que exigem permissões de administrador."
 
 #: src/korone/modules/help/handlers/pm_modules.py:72
-#: src/korone/modules/help/utils/format_help.py:81
+#: src/korone/modules/help/utils/format_help.py:85
 msgid "Only admins"
 msgstr "Somente administradores"
 
 #: src/korone/modules/help/handlers/pm_modules.py:74
-#: src/korone/modules/help/utils/format_help.py:39
+#: src/korone/modules/help/utils/format_help.py:48
 msgid "Disable-able"
 msgstr "Desativável"
 
@@ -453,7 +453,7 @@ msgstr "📢 Canal"
 #: src/korone/modules/help/handlers/start_group.py:37
 #: src/korone/modules/help/handlers/start_pm.py:55
 msgid "Hi, I'm Korone! An all-in-one bot. I can help you with lots of things. Just click on the buttons below to get started."
-msgstr "Oi, eu sou a Korone! Um bot tudo-em-um. Posso te ajudar com muitas coisas. Basta clicar nos botões abaixo para começar."
+msgstr "Oi, eu sou o Korone! Um bot tudo-em-um. Posso te ajudar com muitas coisas. Basta clicar nos botões abaixo para começar."
 
 #: src/korone/modules/help/handlers/start_pm.py:41
 msgid "🕵️‍♂️ Privacy"
@@ -477,7 +477,7 @@ msgstr "Entre no meu {channel} para receber informações sobre todas as atualiz
 msgid "news channel"
 msgstr "canal de notícias"
 
-#: src/korone/modules/help/utils/format_help.py:77
+#: src/korone/modules/help/utils/format_help.py:81
 msgid "Commands"
 msgstr "Comandos"
 
@@ -1442,7 +1442,7 @@ msgstr "Ferramentas para corrigir problemas e falhas"
 
 #: src/korone/modules/troubleshooters/handlers/admincache.py:17
 msgid "Reset admin rights cache, use if Korone didn't get the recently added admin"
-msgstr "Redefine o cache de permissões de admin, use se a Korone não reconheceu o admin adicionado recentemente"
+msgstr "Redefine o cache de permissões de admin, use se o Korone não reconheceu o admin adicionado recentemente"
 
 #: src/korone/modules/troubleshooters/handlers/admincache.py:25
 msgid "Admin rights cache has been reset."
@@ -1450,7 +1450,7 @@ msgstr "O cache de permissões de admin foi redefinido."
 
 #: src/korone/modules/troubleshooters/handlers/cancel.py:16
 msgid "Cancel current state, use if Korone is not responding on your message"
-msgstr "Cancela o estado atual, use se a Korone não estiver respondendo à sua mensagem"
+msgstr "Cancela o estado atual, use se o Korone não estiver respondendo à sua mensagem"
 
 #: src/korone/modules/troubleshooters/handlers/cancel.py:26
 msgid "The current state is already cleared, wiping its data anyway..."
