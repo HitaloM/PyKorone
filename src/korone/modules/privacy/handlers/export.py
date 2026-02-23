@@ -7,6 +7,7 @@ from typing import TYPE_CHECKING, cast
 
 import orjson
 from aiogram import flags
+from aiogram.enums import ChatType
 from aiogram.types import BufferedInputFile
 
 from korone.filters.cmd import CMDFilter
@@ -28,10 +29,18 @@ type JsonValue = JsonPrimitive | list[JsonValue] | dict[str, JsonValue]
 type ExportValue = JsonValue
 
 EXPORTABLE_MODULES: list[ModuleType] = []
+PRIVATE_ONLY_EXPORT_MODULES = frozenset({"lastfm", "stickers"})
 
 
 def text_to_buffered_file(text: str, filename: str = "data.txt") -> BufferedInputFile:
     return BufferedInputFile(text.encode(), filename=filename)
+
+
+def _is_private_only_export(module: ModuleType) -> bool:
+    if hasattr(module, "__export_private_only__"):
+        return bool(getattr(module, "__export_private_only__"))
+
+    return False
 
 
 def _make_serializable(obj: ExportValue | Enum | datetime | _date) -> ExportValue:
@@ -53,19 +62,25 @@ class TriggerExport(KoroneMessageHandler):
         return (CMDFilter("export"),)
 
     @staticmethod
-    async def get_data(chat_id: int) -> list[dict[str, ExportValue]]:
-        return list(
-            filter(
-                None,
-                [await module.__export__(chat_id) for module in EXPORTABLE_MODULES if hasattr(module, "__export__")],
-            )
-        )
+    async def get_data(chat: ChatContext) -> list[dict[str, ExportValue]]:
+        exports: list[dict[str, ExportValue]] = []
+        for module in EXPORTABLE_MODULES:
+            if not hasattr(module, "__export__"):
+                continue
+
+            if chat.type != ChatType.PRIVATE and _is_private_only_export(module):
+                continue
+
+            if data := await module.__export__(chat.chat_id):
+                exports.append(data)
+
+        return exports
 
     async def handle(self) -> None:
         await self.event.reply(_("Export is started, this may take a while."))
 
         data = self.get_initial_data(self.chat)
-        modules_data = await self.get_data(self.chat.chat_id)
+        modules_data = await self.get_data(self.chat)
 
         for module_data in modules_data:
             data.update(module_data)

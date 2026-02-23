@@ -704,19 +704,19 @@ msgstr ""
 msgid "Please select the language you want to use for the chat."
 msgstr ""
 
-#: src/korone/modules/lastfm/__init__.py:20
+#: src/korone/modules/lastfm/__init__.py:21
 msgid "Last.fm"
 msgstr ""
 
-#: src/korone/modules/lastfm/__init__.py:22
+#: src/korone/modules/lastfm/__init__.py:23
 msgid "Last.fm scrobble statistics"
 msgstr ""
 
-#: src/korone/modules/lastfm/__init__.py:25
+#: src/korone/modules/lastfm/__init__.py:26
 msgid "Shows your Last.fm stats, now playing, and top music charts."
 msgstr ""
 
-#: src/korone/modules/lastfm/__init__.py:26
+#: src/korone/modules/lastfm/__init__.py:27
 msgid "Includes collage generation and compatibility checks."
 msgstr ""
 
@@ -1016,15 +1016,15 @@ msgstr ""
 msgid "Allows users to export their data and control privacy preferences."
 msgstr ""
 
-#: src/korone/modules/privacy/handlers/export.py:49
+#: src/korone/modules/privacy/handlers/export.py:58
 msgid "Exports your data to a JSON file"
 msgstr ""
 
-#: src/korone/modules/privacy/handlers/export.py:65
+#: src/korone/modules/privacy/handlers/export.py:80
 msgid "Export is started, this may take a while."
 msgstr ""
 
-#: src/korone/modules/privacy/handlers/export.py:74
+#: src/korone/modules/privacy/handlers/export.py:89
 msgid "Export is done."
 msgstr ""
 
@@ -1091,19 +1091,19 @@ msgstr ""
 msgid "Unknown flag: {flag}"
 msgstr ""
 
-#: src/korone/modules/stickers/__init__.py:18
+#: src/korone/modules/stickers/__init__.py:19
 msgid "Stickers"
 msgstr ""
 
-#: src/korone/modules/stickers/__init__.py:20
+#: src/korone/modules/stickers/__init__.py:21
 msgid "Steal and manage personal sticker packs"
 msgstr ""
 
-#: src/korone/modules/stickers/__init__.py:23
+#: src/korone/modules/stickers/__init__.py:24
 msgid "Clone stickers and media into your own sticker packs."
 msgstr ""
 
-#: src/korone/modules/stickers/__init__.py:24
+#: src/korone/modules/stickers/__init__.py:25
 msgid "Includes pack listing, default pack switching, and sticker management commands."
 msgstr ""
 
