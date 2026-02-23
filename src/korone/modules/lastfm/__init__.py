@@ -4,6 +4,7 @@ from stfu_tg import Doc
 from korone.utils.i18n import LazyProxy
 from korone.utils.i18n import lazy_gettext as l_
 
+from .export import export_lastfm
 from .handlers.album import LastFMAlbumHandler
 from .handlers.artist import LastFMArtistHandler
 from .handlers.collage import LastFMCollageHandler
@@ -26,6 +27,9 @@ __module_info__ = LazyProxy(
         l_("Includes collage generation and compatibility checks."),
     )
 )
+
+__export_private_only__ = True
+__export__ = export_lastfm
 
 __handlers__ = (
     LastFMSetHandler,
