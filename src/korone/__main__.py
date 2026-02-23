@@ -81,6 +81,7 @@ async def shutdown() -> None:
 
 async def run_polling() -> None:
     try:
+        await logger.awarning("No webhook domain configured, running in long polling mode")
         await bootstrap()
         await bot.delete_webhook(drop_pending_updates=True)
         await dp.start_polling(bot, allowed_updates=get_allowed_updates(), close_bot_session=False)
@@ -123,7 +124,6 @@ def main() -> None:
         web.run_app(app, host="0.0.0.0", port=CONFIG.web_server_port)
         return
 
-    logger.warning("No webhook domain configured, running in long polling mode")
     asyncio.run(run_polling())
 
 

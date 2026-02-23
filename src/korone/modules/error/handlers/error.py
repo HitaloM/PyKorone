@@ -40,7 +40,7 @@ class KoroneErrorHandler(ErrorHandler):
 
         active_exception = sys_exception if isinstance(sys_exception, Exception) else exception
         sentry_event_id = self.capture_sentry(active_exception)
-        self.log_to_console(etype, value, tb, sentry_event_id=sentry_event_id)
+        await self.log_to_console(etype, value, tb, sentry_event_id=sentry_event_id)
 
         if not isinstance(sys_exception, Exception):
             await logger.awarning("No sys exception", from_aiogram=exception, from_sys=sys_exception)
@@ -67,18 +67,18 @@ class KoroneErrorHandler(ErrorHandler):
         await self.bot.send_message(chat.id, **generic_error_message(active_exception, sentry_event_id))
 
     @staticmethod
-    def log_to_console(
+    async def log_to_console(
         etype: type[BaseException] | None,
         value: BaseException | None,
         tb: TracebackType | None,
         **kwargs: str | float | bool | BaseException | None,
     ) -> None:
         if etype and value and tb:
-            logger.warning("Unhandled exception", exc_info=(etype, value, tb))
+            await logger.awarning("Unhandled exception", exc_info=(etype, value, tb))
         else:
-            logger.warning("Unhandled exception (no sys exc_info available)")
+            await logger.awarning("Unhandled exception (no sys exc_info available)")
         if kwargs:
-            logger.warning("Additional error data", **kwargs)
+            await logger.awarning("Additional error data", **kwargs)
 
     @staticmethod
     def capture_sentry(exception: Exception) -> str | None:

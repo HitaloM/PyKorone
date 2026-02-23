@@ -89,10 +89,8 @@ class LastFMClient:
             msg = f"API request failed: {error_message}"
             raise error_class(msg, error_code, response)
         except ValueError:
-            logger.warning(
-                "API request failed with empty response (HTTP %s) for method: %s",
-                response.status,
-                params.get("method", "unknown"),
+            await logger.awarning(
+                "API request failed with empty response", status=response.status, method=params.get("method", "unknown")
             )
             msg = f"API request failed with empty response (HTTP {response.status})"
             raise LastFMError(msg) from None

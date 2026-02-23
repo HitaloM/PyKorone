@@ -44,7 +44,7 @@ class I18nNew(I18n):
             self.babels[locale] = babel
             self.stats[locale] = self.parse_stats(locale)
             if not self.stats[locale]:
-                logger.debug("! Can't parse stats for locale %s!", locale)
+                logger.debug("Can't parse stats for locale", locale=locale)
 
         self.babels["en"] = self.babel("en_US")
 
@@ -56,7 +56,7 @@ class I18nNew(I18n):
         try:
             po = polib.pofile(path)
         except (OSError, UnicodeDecodeError, polib.errors.POFileError) as exc:  # type: ignore[attr-defined]
-            logger.debug("! Can't parse stats for locale %s: %s", locale_code, exc)
+            logger.debug("Can't parse stats for locale", locale=locale_code, error=str(exc))
             return None
 
         return LocaleStats(

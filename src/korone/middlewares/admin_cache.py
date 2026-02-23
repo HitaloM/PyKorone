@@ -38,24 +38,24 @@ class AdminCacheMiddleware(BaseMiddleware):
     async def _refresh_cache_if_needed(self, data: dict[str, Any]) -> None:
         chat_db = data.get("group_db") or data.get("chat_db")
         if chat_db is None:
-            logger.debug("AdminCacheMiddleware: no chat model available, skipping")
+            await logger.adebug("AdminCacheMiddleware: no chat model available, skipping")
             return
 
         chat_tid = getattr(chat_db, "chat_id", None)
         if not isinstance(chat_tid, int) or chat_tid > 0:
-            logger.debug("AdminCacheMiddleware: not a group chat, skipping", chat_id=chat_tid)
+            await logger.adebug("AdminCacheMiddleware: not a group chat, skipping", chat_id=chat_tid)
             return
 
         if await self._is_cache_stale(chat_db):
-            logger.debug("AdminCacheMiddleware: refreshing admin cache", chat_id=chat_tid)
+            await logger.adebug("AdminCacheMiddleware: refreshing admin cache", chat_id=chat_tid)
             try:
                 await update_chat_members(chat_db)
             except Exception as error:  # noqa: BLE001
-                logger.warning(
+                await logger.awarning(
                     "AdminCacheMiddleware: failed to refresh admin cache", chat_id=chat_tid, error=str(error)
                 )
         else:
-            logger.debug("AdminCacheMiddleware: admin cache is up to date", chat_id=chat_tid)
+            await logger.adebug("AdminCacheMiddleware: admin cache is up to date", chat_id=chat_tid)
 
     async def _is_cache_stale(self, chat: ChatModel) -> bool:
         oldest_admin = await self._get_oldest_admin(chat)

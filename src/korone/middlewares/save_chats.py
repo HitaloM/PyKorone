@@ -23,13 +23,13 @@ logger = get_logger(__name__)
 class SaveChatsMiddleware(BaseMiddleware):
     @staticmethod
     async def _delete_user_in_chat_by_user_id(user_id: int, group: ChatModel) -> None:
-        logger.debug("SaveChatsMiddleware: Deleting user from chat", user_id=user_id, group=group)
+        await logger.adebug("SaveChatsMiddleware: Deleting user from chat", user_id=user_id, group=group)
         await ChatRepository.delete_user_in_group(user_id, group)
 
     @staticmethod
     async def _chats_update(chats: Iterable[Chat | User]) -> None:
         for chat in chats:
-            logger.debug("SaveChatsMiddleware: Updating chat", chat_id=chat.id)
+            await logger.adebug("SaveChatsMiddleware: Updating chat", chat_id=chat.id)
             if isinstance(chat, User):
                 await ChatRepository.upsert_user(chat)
             else:
@@ -71,7 +71,7 @@ class SaveChatsMiddleware(BaseMiddleware):
             return
 
         if message.message_thread_id is not None:
-            logger.debug(
+            await logger.adebug(
                 "SaveChatsMiddleware: Saving topic", group=group, thread_id=message.message_thread_id, name=name
             )
             await ChatRepository.ensure_topic(group, message.message_thread_id, name)
@@ -79,7 +79,7 @@ class SaveChatsMiddleware(BaseMiddleware):
     @staticmethod
     async def close_topic(message: Message, group: ChatModel) -> None:
         if message.forum_topic_closed:
-            logger.debug("SaveChatsMiddleware: Closing topic", group=group, thread_id=message.message_thread_id)
+            await logger.adebug("SaveChatsMiddleware: Closing topic", group=group, thread_id=message.message_thread_id)
             if message.message_thread_id is not None:
                 await ChatRepository.ensure_topic(group, message.message_thread_id, None)
 
@@ -94,17 +94,19 @@ class SaveChatsMiddleware(BaseMiddleware):
             return None, None
 
         if message.sender_chat:
-            logger.debug("SaveChatsMiddleware: Updating from sender_chat", sender_chat=message.sender_chat.id)
+            await logger.adebug("SaveChatsMiddleware: Updating from sender_chat", sender_chat=message.sender_chat.id)
             current_user = await ChatRepository.upsert_group(message.sender_chat)
         else:
-            logger.debug("SaveChatsMiddleware: Updating from from_user", from_user=message.from_user.id)
+            await logger.adebug("SaveChatsMiddleware: Updating from from_user", from_user=message.from_user.id)
             current_user = await ChatRepository.upsert_user(message.from_user)
 
         user_in_group = await ChatRepository.ensure_user_in_group(current_user, current_group)
         return current_user, user_in_group
 
     async def handle_message(self, message: Message, data: dict[str, Any]) -> None:
-        logger.debug("SaveChatsMiddleware: Handling message", message_id=message.message_id, chat_id=message.chat.id)
+        await logger.adebug(
+            "SaveChatsMiddleware: Handling message", message_id=message.message_id, chat_id=message.chat.id
+        )
         if await self._handle_migration(data, message):
             return
 
@@ -126,7 +128,7 @@ class SaveChatsMiddleware(BaseMiddleware):
     @staticmethod
     async def _handle_migration(data: dict[str, Any], message: Message) -> bool:
         if message.migrate_from_chat_id:
-            logger.debug(
+            await logger.adebug(
                 "SaveChatsMiddleware: Handling migration from chat",
                 old_id=message.migrate_from_chat_id,
                 new_id=message.chat.id,
@@ -136,7 +138,7 @@ class SaveChatsMiddleware(BaseMiddleware):
             )
             return True
         if message.migrate_to_chat_id:
-            logger.debug(
+            await logger.adebug(
                 "SaveChatsMiddleware: Handling migration to chat",
                 old_id=message.chat.id,
                 new_id=message.migrate_to_chat_id,
@@ -150,11 +152,11 @@ class SaveChatsMiddleware(BaseMiddleware):
         self, data: dict[str, Any], message: Message
     ) -> tuple[ChatModel, ChatModel]:
         if message.chat.type == ChatType.PRIVATE and message.from_user:
-            logger.debug("SaveChatsMiddleware: Handling private message", user_id=message.from_user.id)
+            await logger.adebug("SaveChatsMiddleware: Handling private message", user_id=message.from_user.id)
             user = await ChatRepository.upsert_user(message.from_user)
             data["chat_db"] = data["user_db"] = user
             return user, user
-        logger.debug("SaveChatsMiddleware: Handling group message", chat_id=message.chat.id)
+        await logger.adebug("SaveChatsMiddleware: Handling group message", chat_id=message.chat.id)
         current_group = await ChatRepository.upsert_group(message.chat)
         data["chat_db"] = data["group_db"] = current_group
 
@@ -167,7 +169,7 @@ class SaveChatsMiddleware(BaseMiddleware):
         chats_to_update: list[Chat | User] = []
 
         if reply_message := message.reply_to_message:
-            logger.debug(
+            await logger.adebug(
                 "SaveChatsMiddleware: Handling reply message update", reply_message_id=reply_message.message_id
             )
             chat_id = reply_message.chat.id
@@ -175,7 +177,7 @@ class SaveChatsMiddleware(BaseMiddleware):
             chats_to_update.extend(await self.handle_replied_message(reply_message, chat_id))
 
         elif message.forward_from or (message.forward_from_chat and message.forward_from_chat.id != group.chat_id):
-            logger.debug("SaveChatsMiddleware: Handling forwarded message update")
+            await logger.adebug("SaveChatsMiddleware: Handling forwarded message update")
             if message.forward_from_chat:
                 chats_to_update.append(message.forward_from_chat)
             elif message.forward_from:
@@ -188,13 +190,15 @@ class SaveChatsMiddleware(BaseMiddleware):
         if not message.new_chat_members:
             return []
 
-        logger.debug("SaveChatsMiddleware: Handling new chat members", members_count=len(message.new_chat_members))
+        await logger.adebug(
+            "SaveChatsMiddleware: Handling new chat members", members_count=len(message.new_chat_members)
+        )
         new_users = []
         for member in message.new_chat_members:
             if member.id == user_db.chat_id:
                 continue
 
-            logger.debug("SaveChatsMiddleware: Saving new chat member", user_id=member.id)
+            await logger.adebug("SaveChatsMiddleware: Saving new chat member", user_id=member.id)
             new_user = await ChatRepository.upsert_user(member)
             await ChatRepository.ensure_user_in_group(new_user, group)
             new_users.append(new_user)
@@ -205,9 +209,9 @@ class SaveChatsMiddleware(BaseMiddleware):
         if not message.left_chat_member:
             return
 
-        logger.debug("SaveChatsMiddleware: Handling left chat member", user_id=message.left_chat_member.id)
+        await logger.adebug("SaveChatsMiddleware: Handling left chat member", user_id=message.left_chat_member.id)
         if CONFIG.bot_id == message.left_chat_member.id:
-            logger.debug("SaveChatsMiddleware: Bot left the chat", chat_id=group.chat_id)
+            await logger.adebug("SaveChatsMiddleware: Bot left the chat", chat_id=group.chat_id)
             await ChatRepository.delete_chat(group)
         else:
             await self._delete_user_in_chat_by_user_id(message.left_chat_member.id, group)
@@ -218,7 +222,7 @@ class SaveChatsMiddleware(BaseMiddleware):
         if not isinstance(from_user, User):
             return
 
-        logger.debug("SaveChatsMiddleware: Saving from user", user_id=from_user.id)
+        await logger.adebug("SaveChatsMiddleware: Saving from user", user_id=from_user.id)
         user = await ChatRepository.upsert_user(from_user)
         data["user_db"] = user
 
@@ -226,7 +230,7 @@ class SaveChatsMiddleware(BaseMiddleware):
         if isinstance(event_chat, Chat):
             chat_type = ChatType(event_chat.type)
             if chat_type in {ChatType.GROUP, ChatType.SUPERGROUP}:
-                logger.debug("SaveChatsMiddleware: Saving callback event chat", chat_id=event_chat.id)
+                await logger.adebug("SaveChatsMiddleware: Saving callback event chat", chat_id=event_chat.id)
                 group = await ChatRepository.upsert_group(event_chat)
                 data["chat_db"] = data["group_db"] = group
                 data["user_in_group"] = await ChatRepository.ensure_user_in_group(user, group)
@@ -237,11 +241,11 @@ class SaveChatsMiddleware(BaseMiddleware):
     @staticmethod
     async def save_my_chat_member(event: ChatMemberUpdated) -> bool:
         status = event.new_chat_member.status
-        logger.debug("SaveChatsMiddleware: Handling my_chat_member update", status=status, chat_id=event.chat.id)
+        await logger.adebug("SaveChatsMiddleware: Handling my_chat_member update", status=status, chat_id=event.chat.id)
         if status in {"kicked", "left"}:
             if not (group := await ChatRepository.get_by_chat_id(event.chat.id)):
                 return False
-            logger.debug("SaveChatsMiddleware: Bot left chat", chat_id=event.chat.id, status=status)
+            await logger.adebug("SaveChatsMiddleware: Bot left chat", chat_id=event.chat.id, status=status)
             await ChatRepository.delete_chat(group)
             return False
         return status != "member"
@@ -257,7 +261,7 @@ class SaveChatsMiddleware(BaseMiddleware):
         if not isinstance(event, Update):
             return await handler(event, data)
 
-        logger.debug("SaveChatsMiddleware: Incoming update", update_id=event.update_id)
+        await logger.adebug("SaveChatsMiddleware: Incoming update", update_id=event.update_id)
         if event.message:
             await self.handle_message(event.message, data)
         elif any([event.callback_query, event.inline_query, event.poll_answer]):

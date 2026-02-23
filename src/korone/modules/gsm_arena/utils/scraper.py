@@ -172,19 +172,19 @@ async def check_phone_details(url: str) -> Phone | None:
 
     meta_content = meta_scripts[0].text_content().splitlines()
     return Phone(
-        name=extract_meta_data(meta_content, "ITEM_NAME"),
+        name=await extract_meta_data(meta_content, "ITEM_NAME"),
         url=complete_url,
-        picture=extract_meta_data(meta_content, "ITEM_IMAGE"),
+        picture=await extract_meta_data(meta_content, "ITEM_IMAGE"),
         specs=specs,
     )
 
 
-def extract_meta_data(meta_lines: list[str], key: str) -> str:
+async def extract_meta_data(meta_lines: list[str], key: str) -> str:
     for line in meta_lines:
         if key not in line:
             continue
         parts = line.split('"')
         if len(parts) >= 2:
             return parts[1]
-    logger.warning("[GSM Arena] Metadata key '%s' not found or invalid format.", key)
+    await logger.awarning("[GSM Arena] Metadata key not found or invalid format", key=key)
     return ""
